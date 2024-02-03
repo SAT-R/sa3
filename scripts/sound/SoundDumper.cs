@@ -1,5 +1,4 @@
-// Adapted from https://gist.github.com/Normmatt/e00ea0c5da509568959bde52754f213e
-// Key split table is supported in https://gist.github.com/Normmatt/f4e768f0e1c30dea3835098db744297a, but I don't need it here :)
+// Adapted from https://gist.github.com/Normmatt/e00ea0c5da509568959bde52754f213e and https://gist.github.com/Normmatt/f4e768f0e1c30dea3835098db744297a
 
 using System;
 using System.Collections.Generic;
@@ -13,13 +12,13 @@ namespace dump_sound
 {
     class SoundDumper
     {
-        static int MPlayTableAdr = 0x086DD760;
+        static int MPlayTableAdr = 0x080EB77C;
         static int NumMPlayers = 4;
-        static int SongTableAdr = 0x086DD790;
-        static int NumSongs = 308;
+        static int SongTableAdr = 0x080EB7AC;
+        static int NumSongs = 829;
 
-        static int VoiceGroupEndAdr = 0x086DD664;
-        static int KeySplitEndAdr = 0x086DD6D0;
+        static int VoiceGroupEndAdr = 0x080EB5D8;
+        static int KeySplitEndAdr = 0x080EB6EC;
 
         static SortedDictionary<int, string> soundInfo = new SortedDictionary<int, string>();
         static byte[] rom;
@@ -1134,8 +1133,8 @@ namespace dump_sound
 
             }
 
-            keysplits.Add(keySplitEndAdr);
-            //keysplits.Add(KeySplitEndAdr);
+            // keysplits.Add(keySplitEndAdr);
+            keysplits.Add(KeySplitEndAdr);
             keysplits.Sort();
             for (int i = 0; i < keysplits.Count - 1; i++)
             {

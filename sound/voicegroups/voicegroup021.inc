@@ -1,0 +1,120 @@
+	.align 2
+	@********************** Voicegroup **********************@
+
+	.global voicegroup021
+voicegroup021:	@ 0x080E9310
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9310
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E931C
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9328
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9334
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9340
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E934C
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9358
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9364
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9370
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E937C
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9388
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9394
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E93A0
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E93AC
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E93B8
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E93C4
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E93D0
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E93DC
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E93E8
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E93F4
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9400
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E940C
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9418
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9424
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9430
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E943C
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9448
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9454
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9460
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E946C
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9478
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9484
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9490
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E949C
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E94A8
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E94B4
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E94C0
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E94CC
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E94D8
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E94E4
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E94F0
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E94FC
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9508
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9514
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9520
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E952C
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9538
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9544
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9550
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E955C
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9568
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9574
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9580
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E958C
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9598
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E95A4
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E95B0
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E95BC
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E95C8
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E95D4
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E95E0
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E95EC
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E95F8
+	voice_directsound 60, 0, gUnknown_08241D54, 255, 0, 255, 0	@080E9604
+	voice_directsound 60, 0, gUnknown_081F2164, 255, 0, 255, 0	@080E9610
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E961C
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9628
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9634
+	voice_directsound 60, 0, gUnknown_08241D54, 255, 250, 18, 250	@080E9640
+	voice_directsound 60, 0, gUnknown_081F2164, 255, 250, 18, 250	@080E964C
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9658
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9664
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9670
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E967C
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9688
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9694
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E96A0
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E96AC
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E96B8
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E96C4
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E96D0
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E96DC
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E96E8
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E96F4
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9700
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E970C
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9718
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9724
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9730
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E973C
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9748
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9754
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9760
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E976C
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9778
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9784
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9790
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E979C
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E97A8
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E97B4
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E97C0
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E97CC
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E97D8
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E97E4
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E97F0
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E97FC
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9808
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9814
+	voice_square_2_alt 2, 0, 4, 0, 4	@080E9820
+	voice_square_1_alt 0, 2, 0, 4, 0, 4	@080E982C
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9838
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9844
+	voice_square_1 0, 2, 0, 0, 15, 0	@080E9850
+	voice_square_2_alt 2, 1, 3, 3, 5	@080E985C
+	voice_square_1_alt 0, 2, 1, 3, 3, 5	@080E9868

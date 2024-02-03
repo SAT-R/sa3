@@ -173,7 +173,6 @@ compare: rom
 	$(SHA1) $(BUILD_NAME).sha1
 
 clean: tidy clean-tools
-	@$(MAKE) clean -C chao_garden
 	@$(MAKE) clean -C multi_boot/subgame_bootstrap
 	@$(MAKE) clean -C multi_boot/programs/subgame_loader
 	@$(MAKE) clean -C multi_boot/collect_rings
