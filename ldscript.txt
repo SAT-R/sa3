@@ -2,6 +2,8 @@ SECTIONS {
     . = 0x8000000;
     .text :
     ALIGN(4) {
+        build/sa3/asm/rom_header.o(.text);
+        build/sa3/asm/crt0.o(.text);
         build/sa3/asm/code.o(.text);
     }
 
@@ -320,6 +322,8 @@ SECTIONS {
         build/sa3/sound/songs/song828.o(.rodata);
 
         build/sa3/data/data1.o(.rodata);
+        build/sa3/asm/rom_footer.o(.rodata);
+        build/sa3/data/data_z.o(.rodata);
     }
 
     . = 0x2000000;

@@ -97,7 +97,7 @@
 . = 0x00001E98; gUnknown_03001E98 = .;
 . = 0x00001E9C; gUnknown_03001E9C = .;
 . = 0x00001EA0; gUnknown_03001EA0 = .;
-. = 0x00001EB0; gUnknown_03001EB0 = .;
+. = 0x00001EB0; gIntrTable = .;
 . = 0x00001EC4; gUnknown_03001EC4 = .;
 . = 0x00001EF0; gUnknown_03001EF0 = .;
 . = 0x000020F0; gUnknown_030020F0 = .;
