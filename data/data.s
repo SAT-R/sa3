@@ -177,18 +177,51 @@ gUnknown_080CEF50:
 
     .global gUnknown_080CEF58
 gUnknown_080CEF58:
-    .incbin "baserom.gba", 0x000CEF58, 0x124
+    .incbin "baserom.gba", 0x000CEF58, 73*4 @ size = number of maps * 4
 
-    .global gUnknown_080CF07C
-gUnknown_080CF07C:
-    .incbin "baserom.gba", 0x000CF07C, 0x88
+    .global gSpriteInits_Enemies
+gSpriteInits_Enemies: @ 0x080CF07C
+    .4byte CreateEntity_Spinner
+    .4byte CreateEntity_Akatento
+    .4byte CreateEntity_Aotento
+    .4byte CreateEntity_Condor
+    .4byte CreateEntity_GekoGeko
+    .4byte CreateEntity_Buzzer
+    .4byte CreateEntity_Minimole
+    .4byte CreateEntity_Ape_0
+    .4byte CreateEntity_Ape_1
+    .4byte CreateEntity_Takkon
+    .4byte CreateEntity_Jousun_0
+    .4byte CreateEntity_Jousun_1
+    .4byte CreateEntity_Uutsubo_0
+    .4byte CreateEntity_Uutsubo_1
+    .4byte CreateEntity_Uutsubo_2
+    .4byte CreateEntity_Uutsubo_3
+    .4byte CreateEntity_Guard
+    .4byte CreateEntity_Juggling
+    .4byte CreateEntity_GaoGao
+    .4byte CreateEntity_BuBu
+    .4byte CreateEntity_Ginpe
+    .4byte CreateEntity_Yadokk
+    .4byte CreateEntity_Yukigasen_Right
+    .4byte CreateEntity_Yukigasen_Left
+    .4byte CreateEntity_Yukigasen_Right_HighCooldown
+    .4byte CreateEntity_Yukigasen_Left_HighCooldown
+    .4byte CreateEntity_Hariisen
+    .4byte CreateEntity_Clam
+    .4byte CreateEntity_Kyacchaa
+    .4byte CreateEntity_Kamaki
+    .4byte CreateEntity_GuruGuru
+    .4byte CreateEntity_Marun
+    .4byte CreateEntity_Muukaden_0
+    .4byte CreateEntity_Muukaden_1
 
     .global gUnknown_080CF104
 gUnknown_080CF104:
-    .incbin "baserom.gba", 0x000CF104, 0xC
+    .byte 3, 5, 9, 17, 26, 30, 31, 255, 255, 0, 0, 0
 
-    .global gUnknown_080CF110
-gUnknown_080CF110:
+    .global gSpriteInits_Interactables
+gSpriteInits_Interactables:
     .incbin "baserom.gba", 0x000CF110, 0x244
 
     .global gUnknown_080CF354
