@@ -225,18 +225,18 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable000
     .4byte CreateEntity_Interactable001
     .4byte CreateEntity_Interactable002
-    .4byte CreateEntity_Interactable003
-    .4byte CreateEntity_Interactable004
-    .4byte CreateEntity_Interactable005
-    .4byte CreateEntity_Interactable006
-    .4byte CreateEntity_Interactable007
-    .4byte CreateEntity_Interactable008
-    .4byte CreateEntity_Interactable009
-    .4byte CreateEntity_Interactable010
-    .4byte CreateEntity_Interactable011
-    .4byte CreateEntity_Interactable012
-    .4byte CreateEntity_Interactable013
-    .4byte CreateEntity_Interactable014
+    .4byte CreateEntity_ZoneWarp        @ 003 - ActRing and ZoneWarp are 2 IAs
+    .4byte CreateEntity_Warp            @ 004
+    .4byte CreateEntity_Spring_Up
+    .4byte CreateEntity_Spring_Down
+    .4byte CreateEntity_Spring_Left
+    .4byte CreateEntity_Spring_Right
+    .4byte CreateEntity_Spring_UpLeft
+    .4byte CreateEntity_Spring_DownLeft
+    .4byte CreateEntity_Spring_UpRight
+    .4byte CreateEntity_Spring_DownRight
+    .4byte CreateEntity_Spring_Small_UpRight
+    .4byte CreateEntity_Spring_Small_UpLeft
     .4byte CreateEntity_Interactable015
     .4byte CreateEntity_Interactable016
     .4byte CreateEntity_Interactable017
@@ -251,12 +251,12 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable026
     .4byte CreateEntity_Interactable027
     .4byte CreateEntity_Interactable028
-    .4byte CreateEntity_Interactable029
-    .4byte CreateEntity_Interactable030
-    .4byte CreateEntity_Interactable031
-    .4byte CreateEntity_Interactable032
-    .4byte CreateEntity_Interactable033
-    .4byte CreateEntity_Interactable034
+    .4byte CreateEntity_Spikes_Up
+    .4byte CreateEntity_Spikes_Down
+    .4byte CreateEntity_Spikes_Left
+    .4byte CreateEntity_Spikes_Right
+    .4byte CreateEntity_Spikes_HidingUp
+    .4byte CreateEntity_Spikes_HidingDown
     .4byte CreateEntity_Interactable035
     .4byte CreateEntity_Interactable036
     .4byte CreateEntity_Interactable037
@@ -318,10 +318,10 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable093
     .4byte CreateEntity_Interactable094
     .4byte CreateEntity_Interactable095 
-    .4byte CreateEntity_Interactable096
-    .4byte CreateEntity_Interactable097
-    .4byte CreateEntity_Interactable098
-    .4byte CreateEntity_Interactable099
+    .4byte CreateEntity_ActRing         @ 096 - ActRing and ZoneWarp are 2 IAs
+    .4byte CreateEntity_SpecialSpring
+    .4byte CreateEntity_FactoryRing
+    .4byte CreateEntity_BonusUfo
     .4byte CreateEntity_Interactable100
     .4byte CreateEntity_Interactable101
     .4byte CreateEntity_Interactable102
@@ -370,31 +370,31 @@ gSpriteInits_Interactables:
 
     .global gSpriteInits_InteractablesMultiplayer
 gSpriteInits_InteractablesMultiplayer: @ 0x080CF354
-    .4byte CreateEntity_Interactable000
-    .4byte CreateEntity_Interactable001
-    .4byte CreateEntity_Interactable002
-    .4byte CreateEntity_Interactable015
-    .4byte CreateEntity_Interactable005
-    .4byte CreateEntity_Interactable007
-    .4byte CreateEntity_Interactable008
-    .4byte CreateEntity_Interactable013
-    .4byte CreateEntity_Interactable016
-    .4byte CreateEntity_Interactable019
-    .4byte CreateEntity_Interactable020
-    .4byte CreateEntity_Interactable023
-    .4byte CreateEntity_Interactable043
-    .4byte CreateEntity_Interactable029
-    .4byte CreateEntity_Interactable035
-    .4byte CreateEntity_Interactable072
-    .4byte CreateEntity_Interactable073
-    .4byte CreateEntity_Interactable074
-    .4byte CreateEntity_Interactable073
-    .4byte CreateEntity_Interactable077
-    .4byte CreateEntity_Interactable078
-    .4byte CreateEntity_Interactable079
-    .4byte CreateEntity_Interactable080
-    .4byte sub_804E9CC
-    .4byte sub_804F130
+    .4byte CreateEntity_Interactable000 @ 000
+    .4byte CreateEntity_Interactable001 @ 001
+    .4byte CreateEntity_Interactable002 @ 002
+    .4byte CreateEntity_Interactable015 @ 003
+    .4byte CreateEntity_Spring_Up @ 004
+    .4byte CreateEntity_Spring_Left @ 005
+    .4byte CreateEntity_Spring_Right @ 006
+    .4byte CreateEntity_Spring_Small_UpRight @ 007
+    .4byte CreateEntity_Interactable016 @ 008
+    .4byte CreateEntity_Interactable019 @ 009
+    .4byte CreateEntity_Interactable020 @ 010
+    .4byte CreateEntity_Interactable023 @ 011
+    .4byte CreateEntity_Interactable043 @ 012
+    .4byte CreateEntity_Spikes_Up @ 013
+    .4byte CreateEntity_Interactable035 @ 014
+    .4byte CreateEntity_Interactable072 @ 015
+    .4byte CreateEntity_Interactable073 @ 016
+    .4byte CreateEntity_Interactable074 @ 017
+    .4byte CreateEntity_Interactable073 @ 018
+    .4byte CreateEntity_Interactable077 @ 019
+    .4byte CreateEntity_Interactable078 @ 020
+    .4byte CreateEntity_Interactable079 @ 021
+    .4byte CreateEntity_Interactable080 @ 022
+    .4byte CreateEntity_InteractableMP023 @ 023
+    .4byte CreateEntity_InteractableMP024 @ 024
 
     .global gUnknown_080CF3B8
 gUnknown_080CF3B8:
