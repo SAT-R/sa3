@@ -13,7 +13,7 @@ Task_802E92C: @ 0x0802E92C
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #4
-	ldr r5, _0802E984 @ =gUnknown_03003B60
+	ldr r5, _0802E984 @ =gCurTask
 	ldr r0, [r5]
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
@@ -47,10 +47,10 @@ Task_802E92C: @ 0x0802E92C
 	ldr r3, [sp]
 	strb r0, [r3]
 	ldr r0, [r5]
-	bl sub_80BCF8C
+	bl TaskDestroy
 	b _0802EA70
 	.align 2, 0
-_0802E984: .4byte gUnknown_03003B60
+_0802E984: .4byte gCurTask
 _0802E988:
 	movs r1, #0
 	ldr r7, _0802E9B4 @ =gUnknown_030008A0
@@ -207,7 +207,7 @@ CreateEntity_Interactable015: @ 0x0802EA84
 	str r1, [sp]
 	movs r1, #0x10
 	movs r3, #0
-	bl sub_80BCEF4
+	bl TaskCreate
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12

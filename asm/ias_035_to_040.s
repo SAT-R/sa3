@@ -40,7 +40,7 @@ CreateEntity_Interactables_035_040: @ 0x0803117C
 	str r1, [sp]
 	movs r1, #0x38
 	movs r3, #0
-	bl sub_80BCEF4
+	bl TaskCreate
 	ldrh r2, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
@@ -114,7 +114,7 @@ sub_803124C: @ 0x0803124C
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0xc
-	ldr r0, _080312BC @ =gUnknown_03003B60
+	ldr r0, _080312BC @ =gCurTask
 	ldr r0, [r0]
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
@@ -166,7 +166,7 @@ _080312A2:
 	adds r5, r1, r0
 	b _080312E0
 	.align 2, 0
-_080312BC: .4byte gUnknown_03003B60
+_080312BC: .4byte gCurTask
 _080312C0: .4byte gUnknown_030008A0
 _080312C4: .4byte gUnknown_030015C0
 _080312C8:
@@ -435,7 +435,7 @@ _08031486:
 	thumb_func_start sub_80314B0
 sub_80314B0: @ 0x080314B0
 	push {r4, r5, r6, r7, lr}
-	ldr r7, _08031504 @ =gUnknown_03003B60
+	ldr r7, _08031504 @ =gCurTask
 	ldr r0, [r7]
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
@@ -471,10 +471,10 @@ sub_80314B0: @ 0x080314B0
 	ldrb r0, [r4, #0xa]
 	strb r0, [r6]
 	ldr r0, [r7]
-	bl sub_80BCF8C
+	bl TaskDestroy
 	b _08031518
 	.align 2, 0
-_08031504: .4byte gUnknown_03003B60
+_08031504: .4byte gCurTask
 _08031508: .4byte gUnknown_03001D10
 _0803150C:
 	adds r0, r5, #0

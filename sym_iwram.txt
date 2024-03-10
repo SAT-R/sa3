@@ -119,7 +119,7 @@
 . = 0x00002BF4; gUnknown_03002BF4 = .;
 . = 0x00002BF8; gUnknown_03002BF8 = .;
 . = 0x00002C00; gUnknown_03002C00 = .;
-. = 0x00002C10; gUnknown_03002C10 = .;
+. = 0x00002C10; gEmptyTask = .;
 . = 0x00002C24; gUnknown_03002C24 = .;
 . = 0x00002C30; gUnknown_03002C30 = .;
 . = 0x00002C40; gUnknown_03002C40 = .;
@@ -130,7 +130,7 @@
 . = 0x00002C60; gUnknown_03002C60 = .;
 . = 0x00002C64; gUnknown_03002C64 = .;
 . = 0x00002C68; gUnknown_03002C68 = .;
-. = 0x00002C70; gUnknown_03002C70 = .;
+. = 0x00002C70; gTaskPtrs = .;
 . = 0x00002E70; gUnknown_03002E70 = .;
 . = 0x00003370; gUnknown_03003370 = .;
 . = 0x00003410; gUnknown_03003410 = .;
@@ -144,7 +144,7 @@
 . = 0x00003574; gUnknown_03003574 = .;
 . = 0x00003580; gUnknown_03003580 = .;
 . = 0x00003582; gUnknown_03003582 = .;
-. = 0x0000358C; gUnknown_0300358C = .;
+. = 0x0000358C; gNumTasks = .;
 . = 0x00003590; gUnknown_03003590 = .;
 . = 0x00003592; gUnknown_03003592 = .;
 . = 0x00003593; gUnknown_03003593 = .;
@@ -155,12 +155,12 @@
 . = 0x000035BC; gUnknown_030035BC = .;
 . = 0x000035C0; gUnknown_030035C0 = .;
 . = 0x000035C8; gUnknown_030035C8 = .;
-. = 0x000035CC; gUnknown_030035CC = .;
+. = 0x000035CC; gNextTask = .;
 . = 0x000035D0; gUnknown_030035D0 = .;
 . = 0x00003748; gUnknown_03003748 = .;
 . = 0x00003750; gUnknown_03003750 = .;
 . = 0x00003B50; gUnknown_03003B50 = .;
-. = 0x00003B60; gUnknown_03003B60 = .;
+. = 0x00003B60; gCurTask = .;
 . = 0x00003B64; gUnknown_03003B64 = .;
 . = 0x00003B70; gUnknown_03003B70 = .;
 . = 0x00003B7C; gUnknown_03003B7C = .;
@@ -193,7 +193,7 @@
 . = 0x00003F90; gUnknown_03003F90 = .;
 . = 0x00003F94; gUnknown_03003F94 = .;
 . = 0x00003FA0; gUnknown_03003FA0 = .;
-. = 0x00003FB0; gUnknown_03003FB0 = .;
+. = 0x00003FB0; gIwramHeap = .;
 . = 0x000061C0; gUnknown_030061C0 = .;
 . = 0x00006200; gUnknown_03006200 = .;
 . = 0x00006204; gUnknown_03006204 = .;
@@ -228,7 +228,7 @@
 . = 0x00006C40; gUnknown_03006C40 = .;
 . = 0x00006C44; gUnknown_03006C44 = .;
 . = 0x00006C48; gUnknown_03006C48 = .;
-. = 0x00006C4C; gUnknown_03006C4C = .;
+. = 0x00006C4C; iwram_end = .;
 . = 0x00007F00; gUnknown_03007F00 = .;
 . = 0x00007FA0; gUnknown_03007FA0 = .;
 . = 0x00007FF0; gUnknown_03007FF0 = .;

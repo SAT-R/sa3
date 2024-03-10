@@ -33,7 +33,7 @@ CreateEntity_Spring: @ 0x0802DC64
 	str r1, [sp]
 	movs r1, #0x3c
 	movs r3, #0
-	bl sub_80BCEF4
+	bl TaskCreate
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
@@ -130,7 +130,7 @@ Task_SpringMain: @ 0x0802DD4C
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0x10
-	ldr r0, _0802DDA8 @ =gUnknown_03003B60
+	ldr r0, _0802DDA8 @ =gCurTask
 	ldr r0, [r0]
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
@@ -173,7 +173,7 @@ _0802DD8A:
 	adds r5, r0, r1
 	b _0802DDC8
 	.align 2, 0
-_0802DDA8: .4byte gUnknown_03003B60
+_0802DDA8: .4byte gCurTask
 _0802DDAC: .4byte 0x0300000C
 _0802DDB0: .4byte gUnknown_030008A0
 _0802DDB4: .4byte gUnknown_030015C0
@@ -593,7 +593,7 @@ sub_802E0D8: @ 0x0802E0D8
 	mov r7, sb
 	mov r6, r8
 	push {r6, r7}
-	ldr r0, _0802E11C @ =gUnknown_03003B60
+	ldr r0, _0802E11C @ =gCurTask
 	mov sb, r0
 	ldr r0, [r0]
 	ldrh r1, [r0, #6]
@@ -618,10 +618,10 @@ sub_802E0D8: @ 0x0802E0D8
 	strb r0, [r1]
 	mov r1, sb
 	ldr r0, [r1]
-	bl sub_80BCF8C
+	bl TaskDestroy
 	b _0802E14C
 	.align 2, 0
-_0802E11C: .4byte gUnknown_03003B60
+_0802E11C: .4byte gCurTask
 _0802E120:
 	ldr r1, _0802E158 @ =gUnknown_03001D10
 	ldr r0, [r1]

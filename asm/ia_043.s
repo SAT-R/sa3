@@ -26,7 +26,7 @@ CreateEntity_Interactable043: @ 0x08031AD8
 	str r1, [sp]
 	movs r1, #0x3c
 	movs r3, #0
-	bl sub_80BCEF4
+	bl TaskCreate
 	ldrh r2, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
@@ -177,7 +177,7 @@ sub_8031C10: @ 0x08031C10
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	mov sb, r0
-	ldr r0, _08031C78 @ =gUnknown_03003B60
+	ldr r0, _08031C78 @ =gCurTask
 	ldr r0, [r0]
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
@@ -223,7 +223,7 @@ _08031C58:
 	adds r5, r0, r1
 	b _08031C96
 	.align 2, 0
-_08031C78: .4byte gUnknown_03003B60
+_08031C78: .4byte gCurTask
 _08031C7C: .4byte gUnknown_030008A0
 _08031C80: .4byte gUnknown_030015C0
 _08031C84:
@@ -947,7 +947,7 @@ sub_80321D8: @ 0x080321D8
 	mov r7, sb
 	mov r6, r8
 	push {r6, r7}
-	ldr r0, _08032228 @ =gUnknown_03003B60
+	ldr r0, _08032228 @ =gCurTask
 	ldr r0, [r0]
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
@@ -983,7 +983,7 @@ _08032212:
 	lsrs r1, r1, #0x1e
 	b _08032238
 	.align 2, 0
-_08032228: .4byte gUnknown_03003B60
+_08032228: .4byte gCurTask
 _0803222C: .4byte 0x0300000C
 _08032230: .4byte gUnknown_030015C0
 _08032234:
@@ -1010,13 +1010,13 @@ _08032238:
 	ldrb r0, [r1, #0xa]
 	mov r1, sb
 	strb r0, [r1]
-	ldr r0, _08032270 @ =gUnknown_03003B60
+	ldr r0, _08032270 @ =gCurTask
 	ldr r0, [r0]
-	bl sub_80BCF8C
+	bl TaskDestroy
 	b _08032290
 	.align 2, 0
 _0803226C: .4byte gUnknown_030008A0
-_08032270: .4byte gUnknown_03003B60
+_08032270: .4byte gCurTask
 _08032274:
 	ldr r0, _0803229C @ =gUnknown_03001D10
 	ldr r1, [r0]
@@ -1055,7 +1055,7 @@ TaskDestructor_Interactable043: @ 0x080322A0
 	thumb_func_start Task_Interactable043
 Task_Interactable043: @ 0x080322B4
 	push {lr}
-	ldr r0, _080322D0 @ =gUnknown_03003B60
+	ldr r0, _080322D0 @ =gCurTask
 	ldr r0, [r0]
 	ldrh r0, [r0, #6]
 	ldr r1, _080322D4 @ =0x03000039
@@ -1066,7 +1066,7 @@ Task_Interactable043: @ 0x080322B4
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080322D0: .4byte gUnknown_03003B60
+_080322D0: .4byte gCurTask
 _080322D4: .4byte 0x03000039
 
 	thumb_func_start sub_80322D8

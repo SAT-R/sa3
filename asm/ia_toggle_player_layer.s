@@ -12,7 +12,7 @@ Task_Toggle_PlayerLayer: @ 0x0802E328
 	mov r6, sb
 	mov r5, r8
 	push {r5, r6, r7}
-	ldr r0, _0802E374 @ =gUnknown_03003B60
+	ldr r0, _0802E374 @ =gCurTask
 	mov sl, r0
 	ldr r0, [r0]
 	ldrh r1, [r0, #6]
@@ -40,10 +40,10 @@ Task_Toggle_PlayerLayer: @ 0x0802E328
 	strb r5, [r7]
 	mov r1, sl
 	ldr r0, [r1]
-	bl sub_80BCF8C
+	bl TaskDestroy
 	b _0802E436
 	.align 2, 0
-_0802E374: .4byte gUnknown_03003B60
+_0802E374: .4byte gCurTask
 _0802E378:
 	movs r3, #0
 	ldr r0, _0802E39C @ =gUnknown_030008A0
@@ -251,7 +251,7 @@ sub_802E4C8: @ 0x0802E4C8
 	str r1, [sp]
 	movs r1, #0xc
 	movs r3, #0
-	bl sub_80BCEF4
+	bl TaskCreate
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
 	lsls r1, r1, #0x12
