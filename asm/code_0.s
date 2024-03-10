@@ -7687,6 +7687,7 @@ _08003D80: .4byte gCurTask
 sub_8003D84: @ 0x08003D84
 	bx lr
 	.align 2, 0
+
 	thumb_func_start sub_8003D88
 sub_8003D88: @ 0x08003D88
 	bx lr
