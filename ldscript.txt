@@ -4,6 +4,18 @@ SECTIONS {
     ALIGN(4) {
         build/sa3/asm/rom_header.o(.text);
         build/sa3/asm/crt0.o(.text);
+        build/sa3/asm/code_0.o(.text);
+        build/sa3/asm/ia_zone_warp.o(.text);
+        build/sa3/asm/ia_spring.o(.text);
+        build/sa3/asm/ia_toggle_player_layer.o(.text);
+        build/sa3/asm/ia_warp.o(.text);
+        build/sa3/asm/ia_015.o(.text);
+        build/sa3/asm/ias_016_to_027.o(.text);
+        build/sa3/asm/ias_028_and_071.o(.text);
+        build/sa3/asm/ia_spikes.o(.text);
+        build/sa3/asm/ias_035_to_040.o(.text);
+        build/sa3/asm/ias_041_to_042.o(.text);
+        build/sa3/asm/ia_043.o(.text);
         build/sa3/asm/code.o(.text);
     }
 

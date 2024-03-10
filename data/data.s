@@ -250,7 +250,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable025
     .4byte CreateEntity_Interactable026
     .4byte CreateEntity_Interactable027
-    .4byte CreateEntity_Interactable028
+    .4byte CreateEntity_Interactable028 @ 028 - Same code as 071
     .4byte CreateEntity_Spikes_Up
     .4byte CreateEntity_Spikes_Down
     .4byte CreateEntity_Spikes_Left
@@ -293,7 +293,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable068
     .4byte CreateEntity_Interactable069
     .4byte CreateEntity_Interactable070
-    .4byte CreateEntity_Interactable071
+    .4byte CreateEntity_Interactable071 @ 071 - Same code as 028
     .4byte CreateEntity_Interactable072
     .4byte CreateEntity_Interactable073
     .4byte CreateEntity_Interactable074
