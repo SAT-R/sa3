@@ -203,7 +203,7 @@ sub_806611C: @ 0x0806611C
 	ldr r0, _08066184 @ =sub_8065FAC
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _08066188 @ =0x0806619D
+	ldr r1, _08066188 @ =sub_806619C
 	str r1, [sp]
 	movs r1, #0x54
 	movs r3, #0
@@ -240,13 +240,16 @@ sub_806611C: @ 0x0806611C
 	.align 2, 0
 _08066180: .4byte gUnknown_030008A0
 _08066184: .4byte sub_8065FAC
-_08066188: .4byte 0x0806619D
+_08066188: .4byte sub_806619C
 _0806618C: .4byte 0x03000014
 _08066190: .4byte 0x01000020
 _08066194: .4byte 0x03000002
 _08066198: .4byte 0x01000008
-_0806619C:
-	.byte 0x70, 0x47, 0x00, 0x00
+
+    thumb_func_start sub_806619C
+sub_806619C:
+    bx lr
+    .align 2 , 0
 
 	thumb_func_start sub_80661A0
 sub_80661A0: @ 0x080661A0

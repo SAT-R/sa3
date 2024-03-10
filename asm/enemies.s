@@ -8356,7 +8356,7 @@ sub_805C198: @ 0x0805C198
 	cmp r5, #0
 	beq _0805C256
 	ldr r0, _0805C228 @ =sub_805C03C
-	ldr r1, _0805C22C @ =0x0805CF8D
+	ldr r1, _0805C22C @ =sub_805CF8C
 	str r1, [sp]
 	movs r1, #0x14
 	ldr r2, _0805C230 @ =0x00004040
@@ -8380,7 +8380,7 @@ sub_805C198: @ 0x0805C198
 _0805C220: .4byte gCurTask
 _0805C224: .4byte gUnknown_030008A0
 _0805C228: .4byte sub_805C03C
-_0805C22C: .4byte 0x0805CF8D
+_0805C22C: .4byte sub_805CF8C
 _0805C230: .4byte 0x00004040
 _0805C234:
 	ldrb r0, [r0, #0xa]
@@ -8637,7 +8637,7 @@ _0805C3D0:
 	cmp r4, #0
 	beq _0805C4FA
 	ldr r0, _0805C47C @ =sub_805C03C
-	ldr r1, _0805C480 @ =0x0805CF8D
+	ldr r1, _0805C480 @ =sub_805CF8C
 	str r1, [sp]
 	movs r1, #0x14
 	ldr r2, _0805C474 @ =0x00004040
@@ -8664,7 +8664,7 @@ _0805C470: .4byte sub_805D09C
 _0805C474: .4byte 0x00004040
 _0805C478: .4byte gUnknown_03001DA0
 _0805C47C: .4byte sub_805C03C
-_0805C480: .4byte 0x0805CF8D
+_0805C480: .4byte sub_805CF8C
 _0805C484:
 	ldrh r4, [r7, #0xc]
 	ldrh r5, [r7, #0xe]
@@ -10103,7 +10103,7 @@ sub_805CF38: @ 0x0805CF38
 	beq _0805CF76
 	ldr r0, _0805CF80 @ =sub_805C03C
 	ldr r2, _0805CF84 @ =0x00004040
-	ldr r1, _0805CF88 @ =0x0805CF8D
+	ldr r1, _0805CF88 @ =sub_805CF8C
 	str r1, [sp]
 	movs r1, #0x14
 	movs r3, #0
@@ -10128,9 +10128,12 @@ _0805CF76:
 	.align 2, 0
 _0805CF80: .4byte sub_805C03C
 _0805CF84: .4byte 0x00004040
-_0805CF88: .4byte 0x0805CF8D
-_0805CF8C:
-	.byte 0x70, 0x47, 0x00, 0x00
+_0805CF88: .4byte sub_805CF8C
+
+    thumb_func_start sub_805CF8C
+sub_805CF8C:
+    bx lr
+    .align 2 , 0
 
 	thumb_func_start sub_805CF90
 sub_805CF90: @ 0x0805CF90
@@ -13657,7 +13660,7 @@ sub_805EA24: @ 0x0805EA24
 	lsrs r5, r5, #0x18
 	ldr r0, _0805EAB4 @ =sub_805EAC8
 	ldr r2, _0805EAB8 @ =0x00004040
-	ldr r1, _0805EABC @ =0x0805EBF9
+	ldr r1, _0805EABC @ =sub_805EBF8
 	str r1, [sp]
 	movs r1, #0x58
 	movs r3, #0
@@ -13707,7 +13710,7 @@ sub_805EA24: @ 0x0805EA24
 	.align 2, 0
 _0805EAB4: .4byte sub_805EAC8
 _0805EAB8: .4byte 0x00004040
-_0805EABC: .4byte 0x0805EBF9
+_0805EABC: .4byte sub_805EBF8
 _0805EAC0: .4byte 0x03000054
 _0805EAC4: .4byte 0x01000002
 
@@ -13866,8 +13869,11 @@ sub_805EBB4: @ 0x0805EBB4
 	bx r1
 	.align 2, 0
 _0805EBF4: .4byte gUnknown_03001D10
-_0805EBF8:
-	.byte 0x70, 0x47, 0x00, 0x00
+    
+    thumb_func_start sub_805EBF8
+sub_805EBF8:
+    bx lr
+    .align 2 , 0
 
 	thumb_func_start CreateEntity_BuBu
 CreateEntity_BuBu: @ 0x0805EBFC
@@ -15844,7 +15850,7 @@ CreateEntity_Guard: @ 0x0805FAD8
 	ldr r0, _0805FB50 @ =sub_805FB8C
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _0805FB54 @ =0x0805FC05
+	ldr r1, _0805FB54 @ =sub_805FC04
 	str r1, [sp]
 	movs r1, #0x14
 	movs r3, #0
@@ -15885,7 +15891,7 @@ CreateEntity_Guard: @ 0x0805FAD8
 	bx r0
 	.align 2, 0
 _0805FB50: .4byte sub_805FB8C
-_0805FB54: .4byte 0x0805FC05
+_0805FB54: .4byte sub_805FC04
 
 	thumb_func_start sub_805FB58
 sub_805FB58: @ 0x0805FB58
@@ -15977,8 +15983,11 @@ _0805FBEA:
 _0805FBF8: .4byte gCurTask
 _0805FBFC: .4byte 0x03000004
 _0805FC00: .4byte sub_805FB58
-_0805FC04:
-	.byte 0x70, 0x47, 0x00, 0x00
+    
+    thumb_func_start sub_805FC04
+sub_805FC04:
+    bx lr
+    .align 2 , 0
 
 	thumb_func_start CreateEntity_Yadokk
 CreateEntity_Yadokk: @ 0x0805FC08

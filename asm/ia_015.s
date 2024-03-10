@@ -244,7 +244,7 @@ CreateEntity_Interactable015: @ 0x0802EA84
 	bx r0
 	.align 2, 0
 _0802EAF8: .4byte Task_802E92C
-_0802EAFC: .4byte 0x0802EB01
+_0802EAFC: .4byte TaskDestructor_Interactable015
 
 	thumb_func_start TaskDestructor_Interactable015
 TaskDestructor_Interactable015:

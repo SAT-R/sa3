@@ -13443,7 +13443,7 @@ _080568A8:
 	cmp r0, #0
 	bne _080568BA
 	ldr r1, [r5]
-	ldr r0, _080568C4 @ =0x080568C9
+	ldr r0, _080568C4 @ =sub_80568C8
 	str r0, [r1, #8]
 _080568BA:
 	pop {r4, r5}
@@ -13451,9 +13451,12 @@ _080568BA:
 	bx r0
 	.align 2, 0
 _080568C0: .4byte gCurTask
-_080568C4: .4byte 0x080568C9
-_080568C8:
-	.byte 0x70, 0x47, 0x00, 0x00
+_080568C4: .4byte sub_80568C8
+    
+    thumb_func_start sub_80568C8
+sub_80568C8:
+    bx lr
+    .align 2 , 0
 
 	thumb_func_start sub_80568CC
 sub_80568CC: @ 0x080568CC

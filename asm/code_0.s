@@ -24160,7 +24160,7 @@ _0800BF08:
 	str r0, [r4, #4]
 	adds r0, r4, #0
 	bl sub_8012FA0
-	ldr r1, _0800BF74 @ =0x0800EAA9
+	ldr r1, _0800BF74 @ =sub_800EAA8
 	str r1, [r4]
 	adds r0, r4, #0
 	bl _call_via_r1
@@ -24171,7 +24171,7 @@ _0800BF08:
 _0800BF68: .4byte gUnknown_030008A0
 _0800BF6C: .4byte 0x00000119
 _0800BF70: .4byte 0xDC510BA1
-_0800BF74: .4byte 0x0800EAA9
+_0800BF74: .4byte sub_800EAA8
 
 	thumb_func_start sub_800BF78
 sub_800BF78: @ 0x0800BF78
@@ -29669,8 +29669,11 @@ sub_800EA74: @ 0x0800EA74
 	bx r0
 	.align 2, 0
 _0800EAA4: .4byte sub_8006C70
-_0800EAA8:
-	.byte 0x70, 0x47, 0x00, 0x00
+
+    thumb_func_start sub_800EAA8
+sub_800EAA8:
+    bx lr
+    .align 2 , 0
 
 	thumb_func_start sub_800EAAC
 sub_800EAAC: @ 0x0800EAAC

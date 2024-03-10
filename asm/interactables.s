@@ -4334,7 +4334,7 @@ sub_8034508: @ 0x08034508
 	ldr r4, [r5, #0x38]
 	bl sub_80345EC
 	ldr r1, [r4]
-	ldr r0, _08034558 @ =0x0800EAA9
+	ldr r0, _08034558 @ =sub_800EAA8
 	cmp r1, r0
 	bne _08034542
 	adds r0, r4, #0
@@ -4351,7 +4351,7 @@ _08034542:
 	.align 2, 0
 _08034550: .4byte gUnknown_080CF584
 _08034554: .4byte gCurTask
-_08034558: .4byte 0x0800EAA9
+_08034558: .4byte sub_800EAA8
 _0803455C: .4byte 0x03000035
 _08034560:
 	ldrb r1, [r5, #0xa]
@@ -54394,7 +54394,7 @@ CreateEntity_Interactable135: @ 0x0804CB2C
 	ldr r0, _0804CB9C @ =sub_804C9A0
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _0804CBA0 @ =0x0804CBA5
+	ldr r1, _0804CBA0 @ =sub_804CBA4
 	str r1, [sp]
 	movs r1, #0x10
 	movs r3, #0
@@ -54433,9 +54433,12 @@ CreateEntity_Interactable135: @ 0x0804CB2C
 	bx r0
 	.align 2, 0
 _0804CB9C: .4byte sub_804C9A0
-_0804CBA0: .4byte 0x0804CBA5
-_0804CBA4:
-	.byte 0x70, 0x47, 0x00, 0x00
+_0804CBA0: .4byte sub_804CBA4
+
+    thumb_func_start sub_804CBA4
+sub_804CBA4:
+    bx lr
+    .align 2 , 0
 
 	thumb_func_start CreateEntity_Interactable136
 CreateEntity_Interactable136: @ 0x0804CBA8
