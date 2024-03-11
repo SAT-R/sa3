@@ -18,6 +18,18 @@ SECTIONS {
         build/sa3/asm/ia_043.o(.text);
         build/sa3/asm/interactables.o(.text);
         build/sa3/asm/code_1.o(.text);
+        build/sa3/asm/enemy_akatento.o(.text);
+        build/sa3/asm/enemy_aotento.o(.text);
+        build/sa3/asm/enemy_spinner.o(.text);
+        build/sa3/asm/enemy_condor.o(.text);
+        build/sa3/asm/enemy_gekogeko.o(.text);
+        build/sa3/asm/enemy_buzzer.o(.text);
+        build/sa3/asm/enemy_ape.o(.text);
+        build/sa3/asm/enemy_minimole.o(.text);
+        build/sa3/asm/enemy_takkon.o(.text);
+        build/sa3/asm/enemy_jousun.o(.text);
+        build/sa3/asm/enemy_unknown_code.o(.text);
+        build/sa3/asm/enemy_uutsubo.o(.text);
         build/sa3/asm/enemies.o(.text);
         build/sa3/asm/code.o(.text);
     }
