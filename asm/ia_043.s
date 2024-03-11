@@ -886,7 +886,7 @@ sub_803213C: @ 0x0803213C
 	cmp r2, #0
 	beq _08032180
 	movs r0, #0x14
-	bl sub_80C3224
+	bl VramMalloc
 	str r0, [r4]
 	movs r1, #0
 	ldr r0, _0803217C @ =0x00000366
@@ -898,7 +898,7 @@ _08032178: .4byte gUnknown_030008A0
 _0803217C: .4byte 0x00000366
 _08032180:
 	movs r0, #0xf
-	bl sub_80C3224
+	bl VramMalloc
 	str r0, [r4]
 	ldr r0, _08032190 @ =0x00000366
 	strh r0, [r4, #0xc]
@@ -908,7 +908,7 @@ _08032180:
 _08032190: .4byte 0x00000366
 _08032194:
 	movs r0, #0xf
-	bl sub_80C3224
+	bl VramMalloc
 	str r0, [r4]
 	ldr r0, _080321D4 @ =0x00000366
 	strh r0, [r4, #0xc]
@@ -1048,7 +1048,7 @@ TaskDestructor_Interactable043: @ 0x080322A0
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0xc]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 

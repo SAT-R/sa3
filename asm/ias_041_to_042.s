@@ -552,7 +552,7 @@ sub_8031A6C: @ 0x08031A6C
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x2c]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -573,7 +573,7 @@ sub_8031A94: @ 0x08031A94
 	push {r4, lr}
 	adds r4, r0, #0
 	movs r0, #0x18
-	bl sub_80C3224
+	bl VramMalloc
 	str r0, [r4]
 	movs r2, #0
 	movs r1, #0

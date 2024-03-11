@@ -2073,7 +2073,7 @@ _0802FAA4:
 	lsls r1, r1, #2
 	mov sb, r1
 _0802FAB0:
-	bl sub_80C3224
+	bl VramMalloc
 	str r0, [r5]
 	movs r2, #0
 	movs r1, #0
@@ -2402,6 +2402,6 @@ TaskDestruction_Interactables016_027: @ 0x0802FD04
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x2c]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0

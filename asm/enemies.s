@@ -105,7 +105,7 @@ sub_80582B0: @ 0x080582B0
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0xc
-	bl sub_80C3224
+	bl VramMalloc
 	adds r6, r4, #0
 	adds r6, #0x24
 	str r0, [r4, #0x24]
@@ -449,7 +449,7 @@ sub_8058554: @ 0x08058554
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x24]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -557,7 +557,7 @@ sub_8058630: @ 0x08058630
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0x10
-	bl sub_80C3224
+	bl VramMalloc
 	adds r6, r4, #0
 	adds r6, #0x2c
 	str r0, [r4, #0x2c]
@@ -1362,7 +1362,7 @@ sub_8058C60: @ 0x08058C60
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x2c]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -1371,7 +1371,7 @@ sub_8058C74: @ 0x08058C74
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0x18
-	bl sub_80C3224
+	bl VramMalloc
 	adds r1, r0, #0
 	adds r0, r4, #0
 	adds r0, #0x1c
@@ -1620,7 +1620,7 @@ sub_8058E5C: @ 0x08058E5C
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x1c]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -1723,7 +1723,7 @@ sub_8058F2C: @ 0x08058F2C
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0x1e
-	bl sub_80C3224
+	bl VramMalloc
 	adds r6, r4, #0
 	adds r6, #0x38
 	str r0, [r4, #0x38]
@@ -2386,7 +2386,7 @@ sub_805944C: @ 0x0805944C
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0x10
-	bl sub_80C3224
+	bl VramMalloc
 	adds r1, r0, #0
 	adds r0, r4, #0
 	adds r0, #0xc
@@ -2736,7 +2736,7 @@ sub_80596EC: @ 0x080596EC
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x38]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -2872,7 +2872,7 @@ sub_80597F8: @ 0x080597F8
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0xc]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -2987,7 +2987,7 @@ sub_80598E0: @ 0x080598E0
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0x18
-	bl sub_80C3224
+	bl VramMalloc
 	adds r6, r4, #0
 	adds r6, #0x2c
 	str r0, [r4, #0x2c]
@@ -3519,7 +3519,7 @@ sub_8059CEC: @ 0x08059CEC
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x2c]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -3623,7 +3623,7 @@ sub_8059DC0: @ 0x08059DC0
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0x18
-	bl sub_80C3224
+	bl VramMalloc
 	adds r6, r4, #0
 	adds r6, #0x28
 	str r0, [r4, #0x28]
@@ -4068,7 +4068,7 @@ sub_805A12C: @ 0x0805A12C
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #4
-	bl sub_80C3224
+	bl VramMalloc
 	adds r1, r0, #0
 	adds r0, r4, #0
 	adds r0, #0x18
@@ -4338,7 +4338,7 @@ sub_805A328: @ 0x0805A328
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x28]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -4538,7 +4538,7 @@ sub_805A4A8: @ 0x0805A4A8
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x18]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -4756,7 +4756,7 @@ sub_805A674: @ 0x0805A674
 	sub sp, #4
 	adds r7, r0, #0
 	movs r0, #0x18
-	bl sub_80C3224
+	bl VramMalloc
 	adds r5, r0, #0
 	adds r3, r7, #0
 	adds r3, #0x24
@@ -5306,7 +5306,7 @@ sub_805AAB0: @ 0x0805AAB0
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0x14
-	bl sub_80C3224
+	bl VramMalloc
 	adds r1, r0, #0
 	adds r0, r4, #0
 	adds r0, #0x18
@@ -5602,7 +5602,7 @@ sub_805ACF0: @ 0x0805ACF0
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x24]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -5796,7 +5796,7 @@ sub_805AE74: @ 0x0805AE74
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x18]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -5894,7 +5894,7 @@ sub_805AF38: @ 0x0805AF38
 	sub sp, #4
 	adds r7, r0, #0
 	movs r0, #0x16
-	bl sub_80C3224
+	bl VramMalloc
 	adds r5, r0, #0
 	adds r3, r7, #0
 	adds r3, #0x28
@@ -6369,7 +6369,7 @@ sub_805B2E0: @ 0x0805B2E0
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x28]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -6469,7 +6469,7 @@ sub_805B3AC: @ 0x0805B3AC
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0x18
-	bl sub_80C3224
+	bl VramMalloc
 	adds r6, r4, #0
 	adds r6, #0x24
 	str r0, [r4, #0x24]
@@ -6689,7 +6689,7 @@ sub_805B568: @ 0x0805B568
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0xc
-	bl sub_80C3224
+	bl VramMalloc
 	adds r1, r0, #0
 	adds r0, r4, #0
 	adds r0, #0xc
@@ -7108,7 +7108,7 @@ sub_805B880: @ 0x0805B880
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x24]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -7230,7 +7230,7 @@ sub_805B96C: @ 0x0805B96C
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0xc]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -7239,7 +7239,7 @@ sub_805B980: @ 0x0805B980
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0x14
-	bl sub_80C3224
+	bl VramMalloc
 	adds r1, r0, #0
 	adds r0, r4, #0
 	adds r0, #0x30
@@ -8126,7 +8126,7 @@ sub_805C028: @ 0x0805C028
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x30]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -8270,7 +8270,7 @@ sub_805C138: @ 0x0805C138
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0x10
-	bl sub_80C3224
+	bl VramMalloc
 	adds r1, r0, #0
 	adds r0, r4, #0
 	adds r0, #0x18
@@ -10297,7 +10297,7 @@ sub_805D09C: @ 0x0805D09C
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x18]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -10427,7 +10427,7 @@ sub_805D188: @ 0x0805D188
 	str r0, [sp]
 	movs r0, #0x20
 	str r3, [sp, #4]
-	bl sub_80C3224
+	bl VramMalloc
 	adds r5, r0, #0
 	ldr r3, [sp, #4]
 	adds r7, r3, #0
@@ -12148,7 +12148,7 @@ sub_805DEC4: @ 0x0805DEC4
 	ldr r1, _0805DED8 @ =0x030000A4
 	adds r0, r0, r1
 	ldr r0, [r0]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 	.align 2, 0
@@ -12250,7 +12250,7 @@ sub_805DF94: @ 0x0805DF94
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0x10
-	bl sub_80C3224
+	bl VramMalloc
 	adds r6, r4, #0
 	adds r6, #0x24
 	str r0, [r4, #0x24]
@@ -12592,7 +12592,7 @@ sub_805E22C: @ 0x0805E22C
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x24]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -12732,7 +12732,7 @@ sub_805E344: @ 0x0805E344
 	sub sp, #8
 	adds r7, r0, #0
 	movs r0, #0x30
-	bl sub_80C3224
+	bl VramMalloc
 	adds r3, r0, #0
 	adds r2, r7, #0
 	adds r2, #0x44
@@ -13637,7 +13637,7 @@ sub_805EA10: @ 0x0805EA10
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x44]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -13983,7 +13983,7 @@ sub_805ECC4: @ 0x0805ECC4
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0xc
-	bl sub_80C3224
+	bl VramMalloc
 	adds r6, r4, #0
 	adds r6, #0x2c
 	str r0, [r4, #0x2c]
@@ -14773,7 +14773,7 @@ sub_805F2AC: @ 0x0805F2AC
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x2c]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -14889,7 +14889,7 @@ sub_805F398: @ 0x0805F398
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0x10
-	bl sub_80C3224
+	bl VramMalloc
 	adds r6, r4, #0
 	adds r6, #0x30
 	str r0, [r4, #0x30]
@@ -15239,7 +15239,7 @@ sub_805F654: @ 0x0805F654
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0x10
-	bl sub_80C3224
+	bl VramMalloc
 	adds r1, r0, #0
 	adds r0, r4, #0
 	adds r0, #0x18
@@ -15687,7 +15687,7 @@ sub_805F9A4: @ 0x0805F9A4
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x30]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -15829,7 +15829,7 @@ sub_805FAC4: @ 0x0805FAC4
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x18]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -16091,7 +16091,7 @@ sub_805FCC4: @ 0x0805FCC4
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0x10
-	bl sub_80C3224
+	bl VramMalloc
 	adds r6, r4, #0
 	adds r6, #0x28
 	str r0, [r4, #0x28]
@@ -16356,7 +16356,7 @@ sub_805FEE0: @ 0x0805FEE0
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0x10
-	bl sub_80C3224
+	bl VramMalloc
 	adds r1, r0, #0
 	adds r0, r4, #0
 	adds r0, #0x14
@@ -16679,7 +16679,7 @@ sub_8060134: @ 0x08060134
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x28]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -16870,7 +16870,7 @@ sub_80602B4: @ 0x080602B4
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x14]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -16972,7 +16972,7 @@ sub_8060384: @ 0x08060384
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0xc
-	bl sub_80C3224
+	bl VramMalloc
 	adds r6, r4, #0
 	adds r6, #0x28
 	str r0, [r4, #0x28]
@@ -17151,7 +17151,7 @@ sub_80604F0: @ 0x080604F0
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0x10
-	bl sub_80C3224
+	bl VramMalloc
 	adds r1, r0, #0
 	adds r0, r4, #0
 	adds r0, #0x18
@@ -17526,7 +17526,7 @@ sub_80607B0: @ 0x080607B0
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x28]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -17751,7 +17751,7 @@ sub_8060978: @ 0x08060978
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x18]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -17762,7 +17762,7 @@ sub_806098C: @ 0x0806098C
 	lsls r5, r1, #0x18
 	lsrs r5, r5, #0x18
 	movs r0, #0x10
-	bl sub_80C3224
+	bl VramMalloc
 	adds r7, r4, #0
 	adds r7, #0x20
 	str r0, [r4, #0x20]
@@ -17987,7 +17987,7 @@ sub_8060B60: @ 0x08060B60
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0x10
-	bl sub_80C3224
+	bl VramMalloc
 	adds r1, r0, #0
 	adds r0, r4, #0
 	adds r0, #0x18
@@ -18671,7 +18671,7 @@ sub_80610BC: @ 0x080610BC
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x20]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -18818,7 +18818,7 @@ sub_80611E4: @ 0x080611E4
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x18]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -18981,7 +18981,7 @@ sub_806132C: @ 0x0806132C
 	push {r5, r6, r7}
 	adds r7, r0, #0
 	movs r0, #0x12
-	bl sub_80C3224
+	bl VramMalloc
 	adds r5, r0, #0
 	adds r2, r7, #0
 	adds r2, #0x5c
@@ -20425,7 +20425,7 @@ sub_8061E5C: @ 0x08061E5C
 	sub sp, #4
 	adds r7, r0, #0
 	movs r0, #2
-	bl sub_80C3224
+	bl VramMalloc
 	adds r5, r0, #0
 	adds r3, r7, #0
 	adds r3, #0x5c
@@ -21430,7 +21430,7 @@ sub_80625E8: @ 0x080625E8
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x5c]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -21470,7 +21470,7 @@ sub_8062638: @ 0x08062638
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x5c]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -21707,7 +21707,7 @@ sub_8062800: @ 0x08062800
 	movs r0, #7
 	ands r4, r0
 	movs r0, #0x40
-	bl sub_80C3224
+	bl VramMalloc
 	adds r6, r0, #0
 	mov r7, sl
 	adds r7, #0xa8
@@ -23528,7 +23528,7 @@ sub_80635E0: @ 0x080635E0
 	ldr r1, _080635F4 @ =0x030000A8
 	adds r0, r0, r1
 	ldr r0, [r0]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 	.align 2, 0
@@ -23633,7 +23633,7 @@ sub_80636B4: @ 0x080636B4
 	push {r4, r5, r6, r7, lr}
 	adds r5, r0, #0
 	movs r0, #0x11
-	bl sub_80C3224
+	bl VramMalloc
 	adds r4, r5, #0
 	adds r4, #0x38
 	adds r6, r5, #0
@@ -24678,7 +24678,7 @@ sub_8063F08: @ 0x08063F08
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x38]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -24785,7 +24785,7 @@ sub_8063FE0: @ 0x08063FE0
 	push {r4, r5, r6, lr}
 	adds r6, r0, #0
 	movs r0, #0x10
-	bl sub_80C3224
+	bl VramMalloc
 	adds r5, r6, #0
 	adds r5, #0x20
 	str r0, [r6, #0x20]
@@ -25178,7 +25178,7 @@ sub_8064304: @ 0x08064304
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #1
-	bl sub_80C3224
+	bl VramMalloc
 	adds r1, r0, #0
 	adds r0, r4, #0
 	adds r0, #0x1c
@@ -25713,7 +25713,7 @@ sub_80646DC: @ 0x080646DC
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x20]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -25855,7 +25855,7 @@ sub_8064804: @ 0x08064804
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x1c]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -25971,7 +25971,7 @@ sub_80648EC: @ 0x080648EC
 	push {r4, r5, r6, lr}
 	adds r6, r0, #0
 	movs r0, #0x10
-	bl sub_80C3224
+	bl VramMalloc
 	adds r5, r6, #0
 	adds r5, #0x2c
 	str r0, [r6, #0x2c]
@@ -26474,7 +26474,7 @@ sub_8064D04: @ 0x08064D04
 	adds r3, r0, #0
 	movs r0, #0x10
 	str r3, [sp]
-	bl sub_80C3224
+	bl VramMalloc
 	mov r8, r0
 	ldr r3, [sp]
 	adds r1, r3, #0
@@ -27033,7 +27033,7 @@ sub_8065150: @ 0x08065150
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x2c]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -27095,7 +27095,7 @@ sub_80651BC: @ 0x080651BC
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x38]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -27261,7 +27261,7 @@ sub_8065300: @ 0x08065300
 	sub sp, #4
 	adds r4, r0, #0
 	movs r0, #0x16
-	bl sub_80C3224
+	bl VramMalloc
 	adds r5, r0, #0
 	adds r2, r4, #0
 	adds r2, #0xb0
@@ -28016,7 +28016,7 @@ sub_80658C0: @ 0x080658C0
 	ldr r1, _080658D4 @ =0x030000B0
 	adds r0, r0, r1
 	ldr r0, [r0]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 	.align 2, 0
@@ -28129,7 +28129,7 @@ sub_806599C: @ 0x0806599C
 	sub sp, #4
 	adds r7, r0, #0
 	movs r0, #0x15
-	bl sub_80C3224
+	bl VramMalloc
 	adds r5, r0, #0
 	adds r3, r7, #0
 	adds r3, #0x5c
@@ -28918,6 +28918,6 @@ TaskDestructor_Kyacchaa: @ 0x08065F98
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0x5c]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0

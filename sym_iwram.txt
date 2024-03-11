@@ -109,7 +109,7 @@
 . = 0x00002B70; gUnknown_03002B70 = .;
 . = 0x00002B80; gUnknown_03002B80 = .;
 . = 0x00002B84; gUnknown_03002B84 = .;
-. = 0x00002B88; gUnknown_03002B88 = .;
+. = 0x00002B88; gVramHeapMaxTileSlots = .;
 . = 0x00002B8C; gUnknown_03002B8C = .;
 . = 0x00002B90; gUnknown_03002B90 = .;
 . = 0x00002BA8; gUnknown_03002BA8 = .;
@@ -203,7 +203,7 @@
 . = 0x00006230; gUnknown_03006230 = .;
 . = 0x00006240; gUnknown_03006240 = .;
 . = 0x00006246; gUnknown_03006246 = .;
-. = 0x00006640; gUnknown_03006640 = .;
+. = 0x00006640; gVramHeapState = .;
 . = 0x00006840; gUnknown_03006840 = .;
 . = 0x00006844; gUnknown_03006844 = .;
 . = 0x00006848; gUnknown_03006848 = .;

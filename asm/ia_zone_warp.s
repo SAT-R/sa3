@@ -632,7 +632,7 @@ sub_802DC0C: @ 0x0802DC0C
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0xc]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
 
@@ -644,7 +644,7 @@ sub_802DC20: @ 0x0802DC20
 	lsls r4, r4, #0x10
 	lsrs r4, r4, #0x10
 	movs r0, #0x18
-	bl sub_80C3224
+	bl VramMalloc
 	str r0, [r5]
 	movs r2, #0
 	movs r1, #0

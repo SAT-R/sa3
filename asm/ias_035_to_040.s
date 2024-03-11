@@ -390,7 +390,7 @@ _0803145C:
 	orrs r5, r0
 _0803145E:
 	movs r0, #0x14
-	bl sub_80C3224
+	bl VramMalloc
 	str r0, [r4]
 	movs r0, #0xd9
 	lsls r0, r0, #2
@@ -639,7 +639,7 @@ TaskDestructor_8031628: @ 0x08031628
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0xc]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0
     

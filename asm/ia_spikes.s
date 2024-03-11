@@ -934,7 +934,7 @@ sub_8030D30: @ 0x08030D30
 	lsrs r5, r0, #0x10
 	movs r6, #0
 	movs r0, #0x10
-	bl sub_80C3224
+	bl VramMalloc
 	str r0, [r4]
 	movs r3, #0
 	movs r0, #0xc0
@@ -1150,7 +1150,7 @@ sub_8030EC8: @ 0x08030EC8
 	ands r6, r0
 	adds r7, r6, #0
 	movs r0, #0x10
-	bl sub_80C3224
+	bl VramMalloc
 	str r0, [r5]
 	movs r2, #0
 	movs r1, #0
@@ -1501,6 +1501,6 @@ sub_8031168: @ 0x08031168
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0xc]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0

@@ -524,7 +524,7 @@ _0802E03A:
 	cmp r0, #5
 	bne _0802E068
 	movs r0, #0xf
-	bl sub_80C3224
+	bl VramMalloc
 	str r0, [r4]
 	movs r0, #0xea
 	lsls r0, r0, #2
@@ -536,7 +536,7 @@ _0802E068:
 	cmp r0, #3
 	bne _0802E080
 	movs r0, #0x14
-	bl sub_80C3224
+	bl VramMalloc
 	str r0, [r4]
 	ldr r0, _0802E07C @ =0x000003DB
 	strh r0, [r4, #0xc]
@@ -545,7 +545,7 @@ _0802E068:
 _0802E07C: .4byte 0x000003DB
 _0802E080:
 	movs r0, #0x14
-	bl sub_80C3224
+	bl VramMalloc
 	str r0, [r4]
 	ldr r0, _0802E090 @ =0x00000362
 	strh r0, [r4, #0xc]
@@ -554,7 +554,7 @@ _0802E080:
 _0802E090: .4byte 0x00000362
 _0802E094:
 	movs r0, #0x14
-	bl sub_80C3224
+	bl VramMalloc
 	str r0, [r4]
 	ldr r0, _0802E0D4 @ =0x00000362
 	strh r0, [r4, #0xc]
@@ -902,6 +902,6 @@ TaskDestructor_Spring: @ 0x0802E314
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0xc]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0

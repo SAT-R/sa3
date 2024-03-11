@@ -765,7 +765,7 @@ _080302EC:
 	str r0, [r4, #8]
 _080302F0:
 	movs r0, #9
-	bl sub_80C3224
+	bl VramMalloc
 	str r0, [r4]
 	ldr r0, _08030320 @ =0x0000036F
 	strh r0, [r4, #0xc]
@@ -822,7 +822,7 @@ _08030356:
 	str r0, [r4, #8]
 _0803035A:
 	movs r0, #9
-	bl sub_80C3224
+	bl VramMalloc
 	str r0, [r4]
 	movs r0, #0xdc
 	lsls r0, r0, #2
@@ -1205,6 +1205,6 @@ TaskDestructor_Interactables028_and_071: @ 0x0803062C
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
 	ldr r0, [r0, #0xc]
-	bl sub_80C3304
+	bl VramFree
 	pop {r0}
 	bx r0

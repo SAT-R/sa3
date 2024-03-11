@@ -11,7 +11,7 @@
 . = 0x00002610; gUnknown_02002610 = .;
 . = 0x00002650; gUnknown_02002650 = .;
 . = 0x00022000; gUnknown_02022000 = .;
-. = 0x000226D0; gUnknown_020226D0 = .;
+. = 0x000226D0; ewram_end = .;
 . = 0x00035000; gUnknown_02035000 = .;
 . = 0x0003F000; gUnknown_0203F000 = .;
 . = 0x000EFFFF; gUnknown_020EFFFF = .;
