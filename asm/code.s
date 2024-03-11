@@ -26840,7 +26840,7 @@ _08072D14:
 	cmp r1, #0
 	bne _08072D76
 	adds r0, r4, #0
-	bl sub_80C850C
+	bl _call_via_r7
 _08072D76:
 	adds r0, r5, #1
 	lsls r0, r0, #0x18
@@ -53964,7 +53964,7 @@ _0807FDE2:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r6, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	b _0807FE36
 	.align 2, 0
 _0807FDF8: .4byte sub_808183C
@@ -57523,7 +57523,7 @@ sub_8081810: @ 0x08081810
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -57551,7 +57551,7 @@ sub_8081840: @ 0x08081840
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -57572,7 +57572,7 @@ sub_808186C: @ 0x0808186C
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -57780,7 +57780,7 @@ sub_8081A10: @ 0x08081A10
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -80289,7 +80289,7 @@ _0808C85E:
 	adds r2, r5, r2
 	adds r3, r5, #6
 	ldr r4, [r4]
-	bl sub_80C8500
+	bl _call_via_r4
 	movs r0, #1
 	strb r0, [r5, #6]
 	b _0808C8D6
@@ -167930,7 +167930,7 @@ sub_80B7968: @ 0x080B7968
 	adds r0, r5, #0
 	adds r1, r6, #0
 	mov r2, r8
-	bl sub_80C84FC
+	bl _call_via_r3
 	mov r0, sb
 	adds r1, r6, #0
 	mov r2, r8
@@ -170454,7 +170454,7 @@ sub_80B8C70: @ 0x080B8C70
 	adds r0, r4, r3
 	ldr r3, [r0]
 	adds r0, r4, #0
-	bl sub_80C84FC
+	bl _call_via_r3
 	adds r1, r0, #0
 	lsls r1, r1, #0x10
 	lsrs r1, r1, #0x10
@@ -170499,7 +170499,7 @@ _080B8CD0:
 	adds r0, r6, #0
 	adds r1, r4, #0
 	adds r2, r5, #0
-	bl sub_80C84FC
+	bl _call_via_r3
 _080B8CDA:
 	pop {r4, r5, r6}
 	pop {r1}
@@ -170589,7 +170589,7 @@ sub_80B8D60: @ 0x080B8D60
 	adds r0, r6, #0
 	adds r1, r2, #0
 	adds r2, r5, #0
-	bl sub_80C84FC
+	bl _call_via_r3
 	b _080B8D8E
 	.align 2, 0
 _080B8D88: .4byte gUnknown_080E3254
@@ -171254,7 +171254,7 @@ sub_80B91EC: @ 0x080B91EC
 	str r3, [r0]
 	mov r0, ip
 	adds r1, r4, #0
-	bl sub_80C84FC
+	bl _call_via_r3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	b _080B922E
@@ -195007,7 +195007,7 @@ _080C45D2:
 	ldr r0, _080C4600 @ =gUnknown_03003370
 	mov r1, r8
 	adds r2, r7, #0
-	bl sub_80C84FC
+	bl _call_via_r3
 _080C45E4:
 	ldr r0, _080C4608 @ =gUnknown_03002B40
 	ldr r1, [r0]
@@ -195093,7 +195093,7 @@ _080C467A:
 	ldr r0, _080C46A8 @ =gUnknown_03003D30
 	mov r1, r8
 	adds r2, r7, #0
-	bl sub_80C84FC
+	bl _call_via_r3
 _080C468C:
 	ldr r0, _080C46B0 @ =gUnknown_03002B40
 	ldr r1, [r0]
@@ -199981,12 +199981,12 @@ _080C6C04:
 	cmp r0, #0
 	bne _080C6C00
 	ldr r0, _080C6C40 @ =0x0E000001
-	bl sub_80C8504
+	bl _call_via_r5
 	lsls r0, r0, #0x18
 	lsrs r4, r0, #0x10
 	movs r0, #0xe0
 	lsls r0, r0, #0x14
-	bl sub_80C8504
+	bl _call_via_r5
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	orrs r4, r0
@@ -200320,7 +200320,7 @@ _080C6E8C:
 	adds r0, r0, r1
 	adds r1, r6, #0
 	adds r2, r7, #0
-	bl sub_80C84FC
+	bl _call_via_r3
 	add sp, #0x80
 	pop {r4, r5, r6, r7}
 	pop {r0}
@@ -200425,7 +200425,7 @@ _080C6F54:
 	adds r1, r1, r2
 	ldrh r2, [r0, #4]
 	adds r0, r5, #0
-	bl sub_80C84FC
+	bl _call_via_r3
 	add sp, #0x100
 	pop {r4, r5}
 	pop {r1}
@@ -200500,7 +200500,7 @@ _080C6FEC:
 	adds r1, r1, r0
 	adds r0, r5, #0
 	adds r2, r6, #0
-	bl sub_80C84FC
+	bl _call_via_r3
 	add sp, #0x100
 	pop {r4, r5, r6}
 	pop {r1}
@@ -200758,7 +200758,7 @@ sub_80C71C4: @ 0x080C71C4
 	ldr r3, [r0]
 	movs r0, #3
 	movs r2, #0xff
-	bl sub_80C84FC
+	bl _call_via_r3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	ldrh r1, [r5]
@@ -200823,7 +200823,7 @@ sub_80C7238: @ 0x080C7238
 	movs r0, #2
 	adds r1, r4, #0
 	movs r2, #0xff
-	bl sub_80C84FC
+	bl _call_via_r3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	ldrh r1, [r6]
@@ -200869,7 +200869,7 @@ sub_80C72D4: @ 0x080C72D4
 	ldrb r2, [r0]
 	ldr r3, [r3]
 	movs r0, #1
-	bl sub_80C84FC
+	bl _call_via_r3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	pop {r4}
@@ -203065,59 +203065,65 @@ _call_via_r2: @ 0x080C84F8
 	bx r2
 	nop
 
-	thumb_func_start sub_80C84FC
-sub_80C84FC: @ 0x080C84FC
+	thumb_func_start _call_via_r3
+_call_via_r3: @ 0x080C84FC
 	bx r3
 	nop
 
-	thumb_func_start sub_80C8500
-sub_80C8500: @ 0x080C8500
+	thumb_func_start _call_via_r4
+_call_via_r4: @ 0x080C8500
 	bx r4
 	nop
 
-	thumb_func_start sub_80C8504
-sub_80C8504: @ 0x080C8504
+	thumb_func_start _call_via_r5
+_call_via_r5: @ 0x080C8504
 	bx r5
 	nop
-_080C8508:
-	.byte 0x30, 0x47, 0xC0, 0x46
 
-	thumb_func_start sub_80C850C
-sub_80C850C: @ 0x080C850C
+	thumb_func_start _call_via_r6
+_call_via_r6: @ 0x080C8508
+	bx r6
+	nop
+
+	thumb_func_start _call_via_r7
+_call_via_r7: @ 0x080C850C
 	bx r7
 	nop
 
-	thumb_func_start sub_80C8510
-sub_80C8510: @ 0x080C8510
+	thumb_func_start _call_via_r8
+_call_via_r8: @ 0x080C8510
 	bx r8
 	nop
 
-	thumb_func_start sub_80C8514
-sub_80C8514: @ 0x080C8514
+	thumb_func_start _call_via_r9
+_call_via_r9: @ 0x080C8514
 	bx sb
 	nop
 
-	thumb_func_start sub_80C8518
-sub_80C8518: @ 0x080C8518
+	thumb_func_start _call_via_sl
+_call_via_sl: @ 0x080C8518
 	bx sl
 	nop
 
-	thumb_func_start sub_80C851C
-sub_80C851C: @ 0x080C851C
+	thumb_func_start _call_via_fp
+_call_via_fp: @ 0x080C851C
 	bx fp
 	nop
 
-	thumb_func_start sub_80C8520
-sub_80C8520: @ 0x080C8520
+	thumb_func_start _call_via_ip
+_call_via_ip: @ 0x080C8520
 	bx ip
 	nop
 
-	thumb_func_start sub_80C8524
-sub_80C8524: @ 0x080C8524
+	thumb_func_start _call_via_sp
+_call_via_sp: @ 0x080C8524
 	bx sp
 	nop
-_080C8528:
-	.byte 0x70, 0x47, 0xC0, 0x46
+
+	thumb_func_start _call_via_lr
+_call_via_lr: @ 0x080C8528
+	bx lr
+	nop
 
 	thumb_func_start sub_80C852C
 sub_80C852C: @ 0x080C852C
@@ -211919,7 +211925,7 @@ _080CC5C2:
 	ldr r3, [r4, #0x24]
 	adds r1, r6, #0
 	adds r2, r5, #0
-	bl sub_80C84FC
+	bl _call_via_r3
 	adds r1, r0, #0
 	cmp r1, #0
 	ble _080CC5AC
@@ -212510,7 +212516,7 @@ _080CCA18:
 	adds r2, r1, #0
 _080CCA24:
 	adds r1, r7, #0
-	bl sub_80C84FC
+	bl _call_via_r3
 	adds r4, r0, #0
 	cmp r4, #0
 	bgt _080CCA32
@@ -212596,7 +212602,7 @@ _080CCABA:
 	ldr r3, [r5, #0x24]
 	adds r1, r7, #0
 	adds r2, r4, #0
-	bl sub_80C84FC
+	bl _call_via_r3
 	adds r4, r0, #0
 	cmp r4, #0
 	ble _080CCBCE
@@ -212694,7 +212700,7 @@ _080CCB72:
 	ldr r3, [r5, #0x24]
 	adds r1, r7, #0
 	adds r2, r4, #0
-	bl sub_80C84FC
+	bl _call_via_r3
 	adds r4, r0, #0
 	cmp r4, #0
 	ble _080CCBCE
@@ -212773,7 +212779,7 @@ _080CCC02:
 	cmp r0, #0
 	beq _080CCC12
 	adds r0, r5, #0
-	bl sub_80C8510
+	bl _call_via_r8
 	orrs r7, r0
 _080CCC12:
 	adds r5, #0x58

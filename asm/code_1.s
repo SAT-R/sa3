@@ -3304,7 +3304,7 @@ _08051818:
 	mov r2, sl
 	adds r3, r4, #0
 	ldr r5, [sp, #0x2c]
-	bl sub_80C8504
+	bl _call_via_r5
 	adds r1, r0, #0
 	cmp r1, #0
 	bne _080518F2
@@ -3313,7 +3313,7 @@ _08051818:
 	mov r1, sb
 	mov r2, sl
 	adds r3, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	adds r1, r0, #0
 	cmp r1, #0
 	bne _080518B4
@@ -3324,7 +3324,7 @@ _08051818:
 	mov r2, sl
 	adds r3, r4, #0
 	ldr r5, [sp, #0x2c]
-	bl sub_80C8504
+	bl _call_via_r5
 	adds r1, r0, #0
 	cmp r1, #0
 	bne _08051874
@@ -3425,7 +3425,7 @@ _080518F2:
 	mov r2, sl
 	adds r3, r4, #0
 	ldr r5, [sp, #0x2c]
-	bl sub_80C8504
+	bl _call_via_r5
 	adds r1, r0, #0
 	cmp r1, #8
 	bne _0805198A
@@ -3438,7 +3438,7 @@ _080518F2:
 	mov r1, sb
 	mov r2, sl
 	adds r3, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	adds r1, r0, #0
 	cmp r1, #8
 	bne _0805194C
@@ -3574,7 +3574,7 @@ _08051A0A:
 	mov r2, sl
 	adds r3, r5, #0
 	ldr r4, [sp, #0x28]
-	bl sub_80C8500
+	bl _call_via_r4
 	adds r1, r0, #0
 	cmp r1, #0
 	beq _08051A24
@@ -3585,7 +3585,7 @@ _08051A24:
 	mov r1, sb
 	mov r2, sl
 	adds r3, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	adds r1, r0, #0
 	cmp r1, #0
 	beq _08051A3A
@@ -3597,7 +3597,7 @@ _08051A3A:
 	mov r2, sl
 	adds r3, r5, #0
 	ldr r7, [sp, #0x28]
-	bl sub_80C850C
+	bl _call_via_r7
 	adds r1, r0, #0
 	cmp r1, #0
 	beq _08051A52
@@ -3608,7 +3608,7 @@ _08051A52:
 	mov r1, sb
 	mov r2, sl
 	adds r3, r5, #0
-	bl sub_80C850C
+	bl _call_via_r7
 	adds r1, r0, #0
 	cmp r1, #0
 	bne _08051B2E
@@ -3617,7 +3617,7 @@ _08051A52:
 	mov r1, sb
 	mov r2, sl
 	adds r3, r5, #0
-	bl sub_80C850C
+	bl _call_via_r7
 	adds r1, r0, #0
 	cmp r1, #0
 	bne _08051AEA
@@ -3626,7 +3626,7 @@ _08051A52:
 	mov r1, sb
 	mov r2, sl
 	adds r3, r5, #0
-	bl sub_80C850C
+	bl _call_via_r7
 	adds r1, r0, #0
 	cmp r1, #0
 	bne _08051AA6
@@ -3847,7 +3847,7 @@ _08051BFE:
 	mov r2, sl
 	adds r3, r5, #0
 	ldr r7, [sp, #0x28]
-	bl sub_80C850C
+	bl _call_via_r7
 	adds r1, r0, #0
 	cmp r1, #8
 	beq _08051C1E
@@ -3862,7 +3862,7 @@ _08051C1E:
 	mov r1, sb
 	mov r2, sl
 	adds r3, r5, #0
-	bl sub_80C850C
+	bl _call_via_r7
 	adds r1, r0, #0
 	cmp r1, #8
 	beq _08051C3C
@@ -3878,7 +3878,7 @@ _08051C3C:
 	mov r2, sl
 	adds r3, r5, #0
 	ldr r7, [sp, #0x28]
-	bl sub_80C850C
+	bl _call_via_r7
 	adds r1, r0, #0
 	cmp r1, #8
 	beq _08051C5C
@@ -3893,7 +3893,7 @@ _08051C5C:
 	mov r1, sb
 	mov r2, sl
 	adds r3, r5, #0
-	bl sub_80C850C
+	bl _call_via_r7
 	adds r1, r0, #0
 	cmp r1, #8
 	bne _08051D50
@@ -3907,7 +3907,7 @@ _08051C5C:
 	mov r2, sl
 	adds r3, r5, #0
 	ldr r7, [sp, #0x28]
-	bl sub_80C850C
+	bl _call_via_r7
 	adds r1, r0, #0
 	cmp r1, #8
 	bne _08051D10
@@ -3920,7 +3920,7 @@ _08051C5C:
 	mov r1, sb
 	mov r2, sl
 	adds r3, r5, #0
-	bl sub_80C850C
+	bl _call_via_r7
 	adds r1, r0, #0
 	cmp r1, #8
 	bne _08051CD0
@@ -4901,7 +4901,7 @@ _080523A8:
 	adds r0, r5, #0
 	adds r3, r4, #0
 	ldr r7, [sp, #0x20]
-	bl sub_80C850C
+	bl _call_via_r7
 	adds r1, r0, #0
 	cmp r1, #0
 	bne _080523D4
@@ -4964,7 +4964,7 @@ sub_8052418: @ 0x08052418
 	adds r4, r0, #0
 	adds r5, r3, #0
 	ldr r3, [sp, #0xc]
-	bl sub_80C84FC
+	bl _call_via_r3
 	adds r1, r0, #0
 	cmp r1, #0
 	bne _08052440

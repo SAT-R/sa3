@@ -3975,7 +3975,7 @@ sub_8001FB0: @ 0x08001FB0
 	adds r1, r1, r2
 	ldr r4, [r1]
 	bl TaskDestroy
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4}
 	pop {r0}
 	bx r0
@@ -30738,7 +30738,7 @@ sub_800F22C: @ 0x0800F22C
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -30833,7 +30833,7 @@ _0800F356:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 _0800F368:
 	pop {r4, r5}
 	pop {r0}
@@ -30886,7 +30886,7 @@ sub_800F378: @ 0x0800F378
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -31324,7 +31324,7 @@ _0800F706:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -31458,7 +31458,7 @@ sub_800F7C0: @ 0x0800F7C0
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -31697,7 +31697,7 @@ _0800F9EC:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -33391,7 +33391,7 @@ _0801062C:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	b _080106CA
 	.align 2, 0
 _08010664: .4byte 0xFFFFFB20
@@ -33440,7 +33440,7 @@ _080106AA:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 _080106CA:
 	ldr r0, _080106DC @ =gUnknown_030008A0
 	adds r0, #0xac
@@ -33751,7 +33751,7 @@ sub_80108FC: @ 0x080108FC
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	b _08010954
 	.align 2, 0
 _0801093C: .4byte gUnknown_030008A0
@@ -33762,7 +33762,7 @@ _08010944:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 _08010954:
 	pop {r4, r5}
 	pop {r0}
@@ -33808,7 +33808,7 @@ sub_801098C: @ 0x0801098C
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -33837,7 +33837,7 @@ sub_80109C0: @ 0x080109C0
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -33869,7 +33869,7 @@ sub_80109FC: @ 0x080109FC
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -33951,7 +33951,7 @@ sub_8010AA0: @ 0x08010AA0
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -34028,7 +34028,7 @@ sub_8010B3C: @ 0x08010B3C
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -34091,7 +34091,7 @@ sub_8010BBC: @ 0x08010BBC
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -34132,7 +34132,7 @@ sub_8010C04: @ 0x08010C04
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -34197,7 +34197,7 @@ sub_8010C98: @ 0x08010C98
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -34274,7 +34274,7 @@ sub_8010D28: @ 0x08010D28
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -34346,7 +34346,7 @@ sub_8010DC4: @ 0x08010DC4
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -46393,7 +46393,7 @@ _08016862:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	b _08016CF4
 	.align 2, 0
 _08016884: .4byte gUnknown_030015C0
@@ -46407,7 +46407,7 @@ _08016898:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	b _08016CF4
 	.align 2, 0
 _080168AC: .4byte sub_8019B4C
@@ -46749,7 +46749,7 @@ _08016B40:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	b _08016CF4
 	.align 2, 0
 _08016B60: .4byte sub_8007620
@@ -46759,7 +46759,7 @@ _08016B64:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	b _08016CF4
 	.align 2, 0
 _08016B78: .4byte sub_801BEA0
@@ -53145,7 +53145,7 @@ _08019BF2:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -53248,7 +53248,7 @@ _08019CD6:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -53669,7 +53669,7 @@ _0801A038:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -53720,7 +53720,7 @@ _0801A09C:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -53761,7 +53761,7 @@ sub_801A0C0: @ 0x0801A0C0
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -53803,7 +53803,7 @@ sub_801A120: @ 0x0801A120
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -53842,7 +53842,7 @@ sub_801A17C: @ 0x0801A17C
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -54152,7 +54152,7 @@ _0801A41E:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -54228,7 +54228,7 @@ _0801A4CA:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -54304,7 +54304,7 @@ _0801A554:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	add sp, #4
 	pop {r4, r5}
 	pop {r0}
@@ -54812,7 +54812,7 @@ _0801A94A:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	adds r0, r5, #0
 	adds r0, #0x9e
 	strh r6, [r0]
@@ -54907,7 +54907,7 @@ sub_801A9EC: @ 0x0801A9EC
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -55127,7 +55127,7 @@ _0801ABC0:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -55219,7 +55219,7 @@ _0801AC9E:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -55261,7 +55261,7 @@ _0801ACF2:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -55373,7 +55373,7 @@ sub_801ADC0: @ 0x0801ADC0
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -55431,7 +55431,7 @@ _0801AE3E:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -55544,7 +55544,7 @@ _0801AEE2:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5, r6}
 	pop {r0}
 	bx r0
@@ -57382,7 +57382,7 @@ sub_801BCCC: @ 0x0801BCCC
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -57430,7 +57430,7 @@ sub_801BD1C: @ 0x0801BD1C
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -57466,7 +57466,7 @@ sub_801BD84: @ 0x0801BD84
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -57518,7 +57518,7 @@ _0801BDF4:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -57616,7 +57616,7 @@ _0801BEC0:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -57663,7 +57663,7 @@ _0801BF28:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -57713,7 +57713,7 @@ _0801BF8C:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -58112,7 +58112,7 @@ _0801C27E:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	add sp, #4
 	pop {r4, r5}
 	pop {r0}
@@ -58166,7 +58166,7 @@ sub_801C2D8: @ 0x0801C2D8
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -58270,7 +58270,7 @@ _0801C3EE:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -58739,7 +58739,7 @@ _0801C788:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	b _0801C86A
 	.align 2, 0
 _0801C7A0: .4byte 0x0000023B
@@ -58835,7 +58835,7 @@ _0801C83C:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 _0801C86A:
 	add sp, #8
 	pop {r3, r4}
@@ -59027,7 +59027,7 @@ _0801C9A2:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	b _0801C9FA
 	.align 2, 0
 _0801C9DC: .4byte 0xFFFFFB00
@@ -59076,7 +59076,7 @@ sub_801CA00: @ 0x0801CA00
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	b _0801CB5C
 	.align 2, 0
 _0801CA44: .4byte 0xFFFFFB00
@@ -59350,7 +59350,7 @@ _0801CC2E:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	adds r0, r5, #0
 	adds r0, #0x9e
 	strh r6, [r0]
@@ -60878,7 +60878,7 @@ sub_801D7B0: @ 0x0801D7B0
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -60912,7 +60912,7 @@ sub_801D804: @ 0x0801D804
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -60952,7 +60952,7 @@ sub_801D84C: @ 0x0801D84C
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -60985,7 +60985,7 @@ _0801D8C8:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -61035,7 +61035,7 @@ sub_801D8E8: @ 0x0801D8E8
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -61055,7 +61055,7 @@ sub_801D950: @ 0x0801D950
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -61094,7 +61094,7 @@ sub_801D978: @ 0x0801D978
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -61604,7 +61604,7 @@ _0801DDA6:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 _0801DDDE:
 	add sp, #4
 	pop {r4, r5}
@@ -61687,7 +61687,7 @@ _0801DE5A:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -61725,7 +61725,7 @@ sub_801DE94: @ 0x0801DE94
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -61752,7 +61752,7 @@ sub_801DEE4: @ 0x0801DEE4
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -61831,7 +61831,7 @@ sub_801DF80: @ 0x0801DF80
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -61888,7 +61888,7 @@ _0801E004:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -61946,7 +61946,7 @@ _0801E078:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -62002,7 +62002,7 @@ _0801E0DE:
 	adds r1, r4, #0
 	bl sub_800D87C
 	adds r0, r5, #0
-	bl sub_80C8500
+	bl _call_via_r4
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -62686,7 +62686,7 @@ sub_801E65C: @ 0x0801E65C
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -62728,7 +62728,7 @@ sub_801E69C: @ 0x0801E69C
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -62771,7 +62771,7 @@ sub_801E6F4: @ 0x0801E6F4
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -62817,7 +62817,7 @@ sub_801E758: @ 0x0801E758
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -62867,7 +62867,7 @@ sub_801E7BC: @ 0x0801E7BC
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -62912,7 +62912,7 @@ sub_801E828: @ 0x0801E828
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -62953,7 +62953,7 @@ sub_801E888: @ 0x0801E888
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -62987,7 +62987,7 @@ sub_801E8E0: @ 0x0801E8E0
 	adds r1, r5, #0
 	bl sub_800D87C
 	adds r0, r4, #0
-	bl sub_80C8504
+	bl _call_via_r5
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -90289,7 +90289,7 @@ _0802BD68:
 	adds r0, r2, #0
 	adds r1, r6, #0
 	adds r2, r7, #0
-	bl sub_80C8504
+	bl _call_via_r5
 _0802BDB8:
 	ldr r0, [r4, #0xc]
 _0802BDBA:
@@ -90428,7 +90428,7 @@ _0802BEA8:
 	ldr r4, [r1]
 	adds r1, r7, #0
 	mov r2, ip
-	bl sub_80C8500
+	bl _call_via_r4
 _0802BEBE:
 	ldr r0, [r5, #0x10]
 _0802BEC0:
@@ -90648,7 +90648,7 @@ _0802C008:
 	adds r0, r2, #0
 	adds r1, r6, #0
 	adds r2, r7, #0
-	bl sub_80C8500
+	bl _call_via_r4
 _0802C054:
 	ldr r0, [r5, #0xc]
 _0802C056:

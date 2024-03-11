@@ -16778,7 +16778,7 @@ _0803A62C:
 	adds r0, r5, #0
 	bl sub_803B070
 	strb r0, [r5, #0xe]
-	bl sub_80C8510
+	bl _call_via_r8
 	ldr r0, _0803A67C @ =gUnknown_030008A0
 	movs r1, #3
 	strb r1, [r0, #4]
@@ -21306,7 +21306,7 @@ _0803C97C:
 	ldr r0, [r1]
 	mov r2, r8
 	str r2, [r0, #8]
-	bl sub_80C8510
+	bl _call_via_r8
 	ldr r0, _0803C9D4 @ =gUnknown_030008A0
 	movs r1, #3
 	strb r1, [r0, #4]
@@ -24828,7 +24828,7 @@ sub_803E544: @ 0x0803E544
 	asrs r1, r1, #8
 	ldr r2, [r6, #0x10]
 	asrs r2, r2, #8
-	bl sub_80C8504
+	bl _call_via_r5
 	str r0, [r6, #0x30]
 _0803E58E:
 	ldr r2, [r4, #0x10]
@@ -36789,7 +36789,7 @@ _0804425E:
 	str r5, [r0, #8]
 	mov r0, r8
 	bl sub_80443B0
-	bl sub_80C8504
+	bl _call_via_r5
 	movs r0, #0
 	mov sb, r0
 _080442AC:
