@@ -3476,6 +3476,7 @@ sub_8059C80: @ 0x08059C80
     
 	thumb_func_start sub_8059CAC
 sub_8059CAC: @ 0x08059CAC
+    movs r0, #0
 	bx lr
 	.align 2, 0
 
