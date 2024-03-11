@@ -30,6 +30,10 @@ SECTIONS {
         build/sa3/asm/enemy_jousun.o(.text);
         build/sa3/asm/enemy_unknown_code.o(.text);
         build/sa3/asm/enemy_uutsubo.o(.text);
+        build/sa3/asm/enemy_gaogao.o(.text);
+        build/sa3/asm/enemy_juggling.o(.text);
+        build/sa3/asm/enemy_bu_bu.o(.text);
+        build/sa3/asm/enemy_guard.o(.text);
         build/sa3/asm/enemies.o(.text);
         build/sa3/asm/code.o(.text);
     }
