@@ -25168,7 +25168,7 @@ _08072090:
 	ldr r0, _080720DC @ =sub_800913C
 	cmp r2, r0
 	beq _080720B2
-	ldr r0, _080720E0 @ =0x0800DF9D
+	ldr r0, _080720E0 @ =sub_800DF9C
 	cmp r2, r0
 	beq _080720B2
 	adds r0, r5, #0
@@ -25196,7 +25196,7 @@ _080720CA:
 	.align 2, 0
 _080720D8: .4byte sub_8008E38
 _080720DC: .4byte sub_800913C
-_080720E0: .4byte 0x0800DF9D
+_080720E0: .4byte sub_800DF9C
 
 	thumb_func_start sub_80720E4
 sub_80720E4: @ 0x080720E4
@@ -45308,7 +45308,7 @@ _0807BC98:
 	ldr r0, _0807BCC4 @ =sub_800913C
 	cmp r1, r0
 	beq _0807BCBA
-	ldr r0, _0807BCC8 @ =0x0800DF9D
+	ldr r0, _0807BCC8 @ =sub_800DF9C
 	cmp r1, r0
 	beq _0807BCBA
 	movs r0, #0xa0
@@ -45323,7 +45323,7 @@ _0807BCBA:
 	.align 2, 0
 _0807BCC0: .4byte sub_8008E38
 _0807BCC4: .4byte sub_800913C
-_0807BCC8: .4byte 0x0800DF9D
+_0807BCC8: .4byte sub_800DF9C
 
 	thumb_func_start sub_807BCCC
 sub_807BCCC: @ 0x0807BCCC

@@ -23323,8 +23323,11 @@ CreateEntity_Interactable082: @ 0x0803D9C0
 	pop {r4, r5, r6}
 	pop {r0}
 	bx r0
-_0803D9EC:
-	.byte 0x70, 0x47, 0x00, 0x00
+
+	thumb_func_start sub_803D9EC
+sub_803D9EC: @ 0x0803D9EC
+	bx lr
+	.align 2, 0
 
 	thumb_func_start sub_803D9F0
 sub_803D9F0: @ 0x0803D9F0
@@ -23350,7 +23353,7 @@ sub_803D9F0: @ 0x0803D9F0
 	ldr r0, _0803DA60 @ =sub_803D7D0
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _0803DA64 @ =0x0803D9ED
+	ldr r1, _0803DA64 @ =sub_803D9EC
 	str r1, [sp]
 	movs r1, #0x10
 	movs r3, #0
@@ -23385,7 +23388,7 @@ sub_803D9F0: @ 0x0803D9F0
 	bx r0
 	.align 2, 0
 _0803DA60: .4byte sub_803D7D0
-_0803DA64: .4byte 0x0803D9ED
+_0803DA64: .4byte sub_803D9EC
 
 	thumb_func_start CreateEntity_Interactable085
 CreateEntity_Interactable085: @ 0x0803DA68
@@ -23409,7 +23412,7 @@ CreateEntity_Interactable085: @ 0x0803DA68
 	ldr r0, _0803DB18 @ =sub_803DB20
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _0803DB1C @ =0x0803DCC9
+	ldr r1, _0803DB1C @ =sub_803DCC8
 	str r1, [sp]
 	movs r1, #0x18
 	movs r3, #0
@@ -23478,7 +23481,7 @@ CreateEntity_Interactable085: @ 0x0803DA68
 	bx r0
 	.align 2, 0
 _0803DB18: .4byte sub_803DB20
-_0803DB1C: .4byte 0x0803DCC9
+_0803DB1C: .4byte sub_803DCC8
 
 	thumb_func_start sub_803DB20
 sub_803DB20: @ 0x0803DB20
@@ -23701,8 +23704,11 @@ _0803DCB0:
 	.align 2, 0
 _0803DCC0: .4byte sub_800BCE0
 _0803DCC4: .4byte gCurTask
-_0803DCC8:
-	.byte 0x70, 0x47, 0x00, 0x00
+
+	thumb_func_start sub_803DCC8
+sub_803DCC8: @ 0x0803DCC8
+	bx lr
+	.align 2, 0
 
 	thumb_func_start CreateEntity_Interactable084
 CreateEntity_Interactable084: @ 0x0803DCCC
@@ -40648,7 +40654,7 @@ _0804607A:
 	ldr r0, _080460AC @ =sub_800D944
 	cmp r1, r0
 	beq _08046088
-	ldr r0, _080460B0 @ =0x0800EB59
+	ldr r0, _080460B0 @ =sub_800EB58
 	cmp r1, r0
 	beq _080460B8
 _08046088:
@@ -40671,7 +40677,7 @@ _08046088:
 	.align 2, 0
 _080460A8: .4byte 0xFFFFFA00
 _080460AC: .4byte sub_800D944
-_080460B0: .4byte 0x0800EB59
+_080460B0: .4byte sub_800EB58
 _080460B4: .4byte 0xEFFFFFDF
 _080460B8:
 	ldr r0, _08046104 @ =gUnknown_030008A0
@@ -42183,7 +42189,7 @@ _08046C92:
 	bne _08046C9A
 	b _08046DEE
 _08046C9A:
-	ldr r0, _08046D14 @ =0x0800E5CD
+	ldr r0, _08046D14 @ =sub_800E5CC
 	cmp r1, r0
 	bne _08046D76
 	mov r0, r8
@@ -42239,7 +42245,7 @@ _08046CF4:
 	.align 2, 0
 _08046D0C: .4byte sub_8008A8C
 _08046D10: .4byte sub_800ED80
-_08046D14: .4byte 0x0800E5CD
+_08046D14: .4byte sub_800E5CC
 _08046D18: .4byte gUnknown_030008A0
 _08046D1C: .4byte 0xEFFFFFFF
 _08046D20: .4byte sub_800DB30
@@ -42318,7 +42324,7 @@ _08046D8E:
 	ldr r0, [r3]
 	adds r3, r0, r1
 	ldr r1, [r5]
-	ldr r0, _08046E1C @ =0x0800E5CD
+	ldr r0, _08046E1C @ =sub_800E5CC
 	adds r4, r2, #0
 	cmp r1, r0
 	beq _08046DE0
@@ -42369,7 +42375,7 @@ _08046E00:
 	.align 2, 0
 _08046E14: .4byte 0x00000387
 _08046E18: .4byte 0x000003FF
-_08046E1C: .4byte 0x0800E5CD
+_08046E1C: .4byte sub_800E5CC
 
 	thumb_func_start sub_8046E20
 sub_8046E20: @ 0x08046E20
@@ -46809,7 +46815,7 @@ CreateEntity_Interactable116: @ 0x0804903C
 	ldr r0, _080490D8 @ =sub_80490E0
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _080490DC @ =0x0804936D
+	ldr r1, _080490DC @ =sub_804936C
 	str r1, [sp]
 	movs r1, #0x1c
 	movs r3, #0
@@ -46869,7 +46875,7 @@ CreateEntity_Interactable116: @ 0x0804903C
 	bx r0
 	.align 2, 0
 _080490D8: .4byte sub_80490E0
-_080490DC: .4byte 0x0804936D
+_080490DC: .4byte sub_804936C
 
 	thumb_func_start sub_80490E0
 sub_80490E0: @ 0x080490E0
@@ -47203,8 +47209,11 @@ _08049354:
 	.align 2, 0
 _08049364: .4byte sub_800B1B8
 _08049368: .4byte gCurTask
-_0804936C:
-	.byte 0x70, 0x47, 0x00, 0x00
+
+	thumb_func_start sub_804936C
+sub_804936C: @ 0x0804936C
+	bx lr
+	.align 2, 0
 
 	thumb_func_start sub_8049370
 sub_8049370: @ 0x08049370
@@ -47233,7 +47242,7 @@ sub_8049370: @ 0x08049370
 	ldr r0, _08049424 @ =sub_804942C
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _08049428 @ =0x08049601
+	ldr r1, _08049428 @ =sub_8049600
 	str r1, [sp]
 	movs r1, #0x1c
 	movs r3, #0
@@ -47299,7 +47308,7 @@ sub_8049370: @ 0x08049370
 	bx r0
 	.align 2, 0
 _08049424: .4byte sub_804942C
-_08049428: .4byte 0x08049601
+_08049428: .4byte sub_8049600
 
 	thumb_func_start sub_804942C
 sub_804942C: @ 0x0804942C
@@ -47550,8 +47559,11 @@ CreateEntity_Interactable119: @ 0x080495D4
 	pop {r4, r5, r6}
 	pop {r0}
 	bx r0
-_08049600:
-	.byte 0x70, 0x47, 0x00, 0x00
+    
+	thumb_func_start sub_8049600
+sub_8049600: @ 0x08049600
+	bx lr
+	.align 2, 0
 
 	thumb_func_start CreateEntity_Interactable120
 CreateEntity_Interactable120: @ 0x08049604
@@ -51437,8 +51449,11 @@ CreateEntity_Interactable126: @ 0x0804B420
 	pop {r4, r5, r6}
 	pop {r0}
 	bx r0
-_0804B44C:
-	.byte 0x70, 0x47, 0x00, 0x00
+
+	thumb_func_start sub_804B44C
+sub_804B44C: @ 0x0804B44C
+	bx lr
+	.align 2, 0
 
 	thumb_func_start sub_804B450
 sub_804B450: @ 0x0804B450
@@ -51456,10 +51471,10 @@ sub_804B450: @ 0x0804B450
 	lsrs r5, r5, #0x10
 	lsls r6, r6, #0x18
 	lsrs r6, r6, #0x18
-	ldr r0, _0804B4D0 @ =0x0804B4DD
+	ldr r0, _0804B4D0 @ =sub_804B4DC
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _0804B4D4 @ =0x0804B44D
+	ldr r1, _0804B4D4 @ =sub_804B44C
 	str r1, [sp]
 	movs r1, #0x48
 	movs r3, #0
@@ -51506,11 +51521,14 @@ sub_804B450: @ 0x0804B450
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804B4D0: .4byte 0x0804B4DD
-_0804B4D4: .4byte 0x0804B44D
+_0804B4D0: .4byte sub_804B4DC
+_0804B4D4: .4byte sub_804B44C
 _0804B4D8: .4byte 0x0300000C
-_0804B4DC:
-	.byte 0x70, 0x47, 0x00, 0x00
+
+	thumb_func_start sub_804B4DC
+sub_804B4DC: @ 0x0804B4DC
+	bx lr
+	.align 2, 0
 
 	thumb_func_start sub_804B4E0
 sub_804B4E0: @ 0x0804B4E0
@@ -51799,7 +51817,7 @@ CreateEntity_Interactable127: @ 0x0804B6F4
 	ldr r0, _0804B774 @ =sub_804B4E0
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _0804B778 @ =0x0804B7F9
+	ldr r1, _0804B778 @ =sub_804B7F8
 	str r1, [sp]
 	movs r1, #0x18
 	movs r3, #0
@@ -51846,7 +51864,7 @@ CreateEntity_Interactable127: @ 0x0804B6F4
 	bx r0
 	.align 2, 0
 _0804B774: .4byte sub_804B4E0
-_0804B778: .4byte 0x0804B7F9
+_0804B778: .4byte sub_804B7F8
 
 	thumb_func_start CreateEntity_Interactable128
 CreateEntity_Interactable128: @ 0x0804B77C
@@ -51909,9 +51927,17 @@ CreateEntity_Interactable128: @ 0x0804B77C
 	bx r0
 	.align 2, 0
 _0804B7F0: .4byte sub_804B5FC
-_0804B7F4: .4byte 0x0804B7FD
-_0804B7F8:
-	.byte 0x70, 0x47, 0x00, 0x00, 0x70, 0x47, 0x00, 0x00
+_0804B7F4: .4byte sub_804B7FC
+
+	thumb_func_start sub_804B7F8
+sub_804B7F8: @ 0x0804B7F8
+	bx lr
+	.align 2, 0
+
+	thumb_func_start sub_804B7FC
+sub_804B7FC: @ 0x0804B7FC
+	bx lr
+	.align 2, 0
 
 	thumb_func_start sub_804B800
 sub_804B800: @ 0x0804B800
@@ -53840,7 +53866,7 @@ CreateEntity_Interactable134: @ 0x0804C6E8
 	ldr r0, _0804C768 @ =sub_804C770
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _0804C76C @ =0x0804C99D
+	ldr r1, _0804C76C @ =sub_804C99C
 	str r1, [sp]
 	movs r1, #0x14
 	movs r3, #0
@@ -53887,7 +53913,7 @@ CreateEntity_Interactable134: @ 0x0804C6E8
 	bx r0
 	.align 2, 0
 _0804C768: .4byte sub_804C770
-_0804C76C: .4byte 0x0804C99D
+_0804C76C: .4byte sub_804C99C
 
 	thumb_func_start sub_804C770
 sub_804C770: @ 0x0804C770
@@ -54170,8 +54196,11 @@ _0804C98C:
 	pop {r4, r5, r6, r7}
 	pop {r0}
 	bx r0
-_0804C99C:
-	.byte 0x70, 0x47, 0x00, 0x00
+
+	thumb_func_start sub_804C99C
+sub_804C99C: @ 0x0804C99C
+	bx lr
+	.align 2, 0
 
 	thumb_func_start sub_804C9A0
 sub_804C9A0: @ 0x0804C9A0
