@@ -34,7 +34,16 @@ SECTIONS {
         build/sa3/asm/enemy_juggling.o(.text);
         build/sa3/asm/enemy_bu_bu.o(.text);
         build/sa3/asm/enemy_guard.o(.text);
-        build/sa3/asm/enemies.o(.text);
+        build/sa3/asm/enemy_yadokk.o(.text);
+        build/sa3/asm/enemy_ginpe.o(.text);
+        build/sa3/asm/enemy_yukigasen.o(.text);
+        build/sa3/asm/enemy_hariisen.o(.text);
+        build/sa3/asm/enemy_muukaden.o(.text);
+        build/sa3/asm/enemy_marun.o(.text);
+        build/sa3/asm/enemy_clam.o(.text);
+        build/sa3/asm/enemy_kamaki.o(.text);
+        build/sa3/asm/enemy_guruguru.o(.text);
+        build/sa3/asm/enemy_kyacchaa.o(.text);
         build/sa3/asm/code.o(.text);
     }
 
