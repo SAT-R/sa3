@@ -3473,8 +3473,11 @@ sub_8059C80: @ 0x08059C80
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08059CAC:
-	.byte 0x00, 0x20, 0x70, 0x47
+    
+	thumb_func_start sub_8059CAC
+sub_8059CAC: @ 0x08059CAC
+	bx lr
+	.align 2, 0
 
 	thumb_func_start sub_8059CB0
 sub_8059CB0: @ 0x08059CB0
