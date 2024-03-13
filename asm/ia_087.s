@@ -5,6 +5,9 @@
 .syntax unified
 .arm
 
+@ NOTE(Jace): Trigger for Bosses (Gmerl and main each) as well as the
+@             Trigger for the Stage Goal Ring (different from main Stage Goal Ring IA apparently?)
+
 	thumb_func_start CreateEntity_Interactable087
 CreateEntity_Interactable087: @ 0x0803E424
 	push {r4, r5, r6, r7, lr}
