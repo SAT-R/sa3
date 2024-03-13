@@ -615,9 +615,9 @@ _0802DBF0: .4byte gCurTask
 _0802DBF4: .4byte gUnknown_03001D10
 _0802DBF8:
 	adds r0, r5, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	adds r0, r5, #0
-	bl sub_80C033C
+	bl DisplaySprite
 _0802DC04:
 	pop {r4, r5, r6, r7}
 	pop {r0}

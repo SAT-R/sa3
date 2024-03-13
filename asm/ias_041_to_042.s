@@ -466,14 +466,14 @@ _080319CC: .4byte 0x0300002C
 _080319D0: .4byte gUnknown_03001D10
 _080319D4:
 	adds r0, r5, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	cmp r0, #0
 	bne _08031A04
 	ldrb r0, [r5, #0x1a]
 	cmp r0, #0
 	beq _08031A04
 	adds r0, r5, #0
-	bl sub_80C033C
+	bl DisplaySprite
 	ldr r0, _080319FC @ =0x0000036E
 	strh r0, [r5, #0xc]
 	movs r0, #0
@@ -488,7 +488,7 @@ _080319FC: .4byte 0x0000036E
 _08031A00: .4byte 0x0000FFFF
 _08031A04:
 	adds r0, r5, #0
-	bl sub_80C033C
+	bl DisplaySprite
 _08031A0A:
 	pop {r3}
 	mov r8, r3
@@ -596,7 +596,7 @@ sub_8031A94: @ 0x08031A94
 	lsls r0, r0, #5
 	str r0, [r4, #8]
 	adds r0, r4, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	pop {r4}
 	pop {r0}
 	bx r0

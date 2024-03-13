@@ -631,7 +631,7 @@ _0802E120:
 	subs r0, r7, r0
 	strh r0, [r5, #0x12]
 	adds r0, r5, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	cmp r0, #0
 	bne _0802E146
 	ldrb r1, [r5, #0x1a]
@@ -643,7 +643,7 @@ _0802E120:
 	strb r0, [r5, #0x1a]
 _0802E146:
 	adds r0, r5, #0
-	bl sub_80C033C
+	bl DisplaySprite
 _0802E14C:
 	pop {r3, r4}
 	mov r8, r3

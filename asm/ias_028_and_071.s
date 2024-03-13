@@ -862,7 +862,7 @@ _080303A2:
 _080303A4:
 	strb r0, [r4, #0x1a]
 	adds r0, r4, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	pop {r4, r5, r6}
 	pop {r0}
 	bx r0
@@ -975,7 +975,7 @@ _0803047C:
 	subs r0, r7, r0
 	strh r0, [r4, #0x12]
 	adds r0, r4, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x10
 	ldr r0, _080304BC @ =0x03000034
@@ -1138,7 +1138,7 @@ _080305BC:
 	strb r0, [r4, #0x1a]
 _080305BE:
 	adds r0, r4, #0
-	bl sub_80C033C
+	bl DisplaySprite
 _080305C4:
 	add sp, #4
 	pop {r3, r4, r5}

@@ -294,7 +294,7 @@ sub_8062800: @ 0x08062800
 	adds r3, r4, #0
 	bl sub_8063514
 	adds r0, r7, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	subs r7, #0x30
 	mov r2, sl
 	str r6, [r2, #0x78]
@@ -345,7 +345,7 @@ sub_8062800: @ 0x08062800
 	adds r3, r4, #0
 	bl sub_8063514
 	adds r0, r7, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	adds r7, #0x60
 	str r6, [r7]
 	ldr r0, [r5, #0x14]
@@ -396,7 +396,7 @@ sub_8062800: @ 0x08062800
 	adds r3, r4, #0
 	bl sub_8063514
 	adds r0, r7, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	movs r7, #0x84
 	lsls r7, r7, #1
 	add r7, sl
@@ -463,7 +463,7 @@ _080629A4:
 	lsls r0, r0, #5
 	str r0, [r7, #8]
 	adds r0, r7, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	movs r7, #0x9c
 	lsls r7, r7, #1
 	add r7, sl
@@ -526,7 +526,7 @@ _08062A24:
 	lsls r0, r0, #5
 	str r0, [r7, #8]
 	adds r0, r7, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	add sp, #8
 	pop {r3, r4, r5}
 	mov r8, r3
@@ -1572,9 +1572,9 @@ sub_80631F8: @ 0x080631F8
 	bl sub_80BF8F4
 _08063248:
 	adds r0, r4, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	adds r0, r4, #0
-	bl sub_80C033C
+	bl DisplaySprite
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -1658,7 +1658,7 @@ _0806329C:
 	bl sub_80BF8F4
 _080632F0:
 	adds r0, r4, #0
-	bl sub_80C033C
+	bl DisplaySprite
 	adds r0, r7, #1
 	lsls r0, r0, #0x18
 	lsrs r7, r0, #0x18
@@ -1666,10 +1666,10 @@ _080632F0:
 	bls _08063276
 	mov r4, r8
 	adds r0, r4, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	mov r4, sb
 	adds r0, r4, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	movs r0, #1
 	pop {r3, r4, r5}
 	mov r8, r3
@@ -1698,7 +1698,7 @@ sub_8063324: @ 0x08063324
 	movs r1, #0x84
 	lsls r1, r1, #1
 	adds r0, r6, r1
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	cmp r0, #0
 	bne _0806334E
 	movs r0, #1
@@ -1707,7 +1707,7 @@ _0806334E:
 	movs r1, #0x9c
 	lsls r1, r1, #1
 	adds r0, r6, r1
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	cmp r0, #0
 	bne _08063366
 	mov r0, sb
@@ -1749,7 +1749,7 @@ _08063374:
 	subs r1, r1, r0
 	strh r1, [r2, #0x12]
 	adds r0, r2, #0
-	bl sub_80C033C
+	bl DisplaySprite
 	movs r1, #0x9c
 	lsls r1, r1, #1
 	adds r2, r6, r1
@@ -1793,7 +1793,7 @@ _080633EC:
 	strh r0, [r2, #0x12]
 _080633FA:
 	adds r0, r2, #0
-	bl sub_80C033C
+	bl DisplaySprite
 	mov r0, r8
 	adds r0, #3
 	lsls r0, r0, #0x18

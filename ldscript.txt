@@ -16,6 +16,15 @@ SECTIONS {
         build/sa3/asm/ias_035_to_040.o(.text);
         build/sa3/asm/ias_041_to_042.o(.text);
         build/sa3/asm/ia_043.o(.text);
+        build/sa3/asm/ia_044.o(.text);
+        build/sa3/asm/ia_045.o(.text);
+        build/sa3/asm/ias_046_to_053.o(.text);
+        build/sa3/asm/ia_054.o(.text);
+        build/sa3/asm/ia_055.o(.text);
+        build/sa3/asm/ia_056.o(.text);
+        build/sa3/asm/ia_057.o(.text);
+        build/sa3/asm/ias_058_and_059.o(.text);
+        build/sa3/asm/ia_060.o(.text);
         build/sa3/asm/interactables.o(.text);
         build/sa3/asm/code_1.o(.text);
         build/sa3/asm/enemy_akatento.o(.text);

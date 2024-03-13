@@ -1020,7 +1020,7 @@ _08030DCE:
 	str r0, [r4, #8]
 _08030DDC:
 	adds r0, r4, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	pop {r4, r5, r6}
 	pop {r0}
 	bx r0
@@ -1122,9 +1122,9 @@ _08030E9C:
 	subs r0, r6, r0
 	strh r0, [r7, #0x12]
 	adds r0, r7, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	adds r0, r7, #0
-	bl sub_80C033C
+	bl DisplaySprite
 _08030EB6:
 	pop {r3, r4}
 	mov r8, r3
@@ -1219,7 +1219,7 @@ _08030F44:
 	str r0, [r5, #8]
 _08030F60:
 	adds r0, r5, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	pop {r3}
 	mov r8, r3
 	pop {r4, r5, r6, r7}
@@ -1300,7 +1300,7 @@ _08030FD8:
 	subs r0, #2
 	str r0, [r4, #0x20]
 	adds r0, r4, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	b _08031052
 	.align 2, 0
 _0803100C: .4byte gUnknown_03001D10
@@ -1337,9 +1337,9 @@ _08031044:
 	str r0, [r4, #0x20]
 _08031046:
 	adds r0, r4, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	adds r0, r4, #0
-	bl sub_80C033C
+	bl DisplaySprite
 _08031052:
 	pop {r3, r4, r5}
 	mov r8, r3

@@ -1027,9 +1027,9 @@ _08032274:
 	subs r0, #2
 	strh r0, [r7, #0x12]
 	adds r0, r7, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	adds r0, r7, #0
-	bl sub_80C033C
+	bl DisplaySprite
 _08032290:
 	pop {r3, r4}
 	mov r8, r3

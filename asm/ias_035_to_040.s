@@ -478,9 +478,9 @@ _08031504: .4byte gCurTask
 _08031508: .4byte gUnknown_03001D10
 _0803150C:
 	adds r0, r5, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	adds r0, r5, #0
-	bl sub_80C033C
+	bl DisplaySprite
 _08031518:
 	pop {r4, r5, r6, r7}
 	pop {r0}

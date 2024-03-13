@@ -186,7 +186,7 @@ sub_805D188: @ 0x0805D188
 	str r3, [sp, #4]
 	bl sub_805D298
 	adds r0, r7, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	ldr r3, [sp, #4]
 	adds r7, r3, #0
 	adds r7, #0x74
@@ -231,7 +231,7 @@ sub_805D188: @ 0x0805D188
 	mov r2, sb
 	bl sub_805D298
 	adds r0, r7, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	add sp, #8
 	pop {r3, r4, r5}
 	mov r8, r3
@@ -1402,10 +1402,10 @@ sub_805DADC: @ 0x0805DADC
 	bl sub_80BF8F4
 _0805DB38:
 	adds r0, r4, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	str r0, [sp, #4]
 	adds r0, r4, #0
-	bl sub_80C033C
+	bl DisplaySprite
 	movs r7, #1
 	adds r0, r5, #0
 	adds r0, #0xa4
@@ -1451,7 +1451,7 @@ _0805DB5E:
 	bl sub_80BF8F4
 _0805DB9C:
 	adds r0, r4, #0
-	bl sub_80C033C
+	bl DisplaySprite
 	adds r0, r7, #1
 	lsls r0, r0, #0x18
 	lsrs r7, r0, #0x18
@@ -1484,7 +1484,7 @@ _0805DB9C:
 	bl sub_80BF8F4
 _0805DBE0:
 	adds r0, r4, #0
-	bl sub_80C033C
+	bl DisplaySprite
 	ldr r0, [sp, #4]
 	add sp, #0x10
 	pop {r3, r4, r5}

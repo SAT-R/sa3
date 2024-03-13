@@ -232,7 +232,7 @@ sub_8065300: @ 0x08065300
 	str r0, [r2, #8]
 _08065390:
 	adds r0, r2, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	adds r2, r4, #0
 	adds r2, #0x50
 	str r5, [r4, #0x50]
@@ -287,7 +287,7 @@ _08065390:
 	str r0, [r2, #8]
 _080653FE:
 	adds r0, r2, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	adds r2, r4, #0
 	adds r2, #0x80
 	str r5, [r2]
@@ -339,7 +339,7 @@ _080653FE:
 	str r0, [r2, #8]
 _08065466:
 	adds r0, r2, #0
-	bl sub_80BF44C
+	bl UpdateSpriteAnimation
 	add sp, #4
 	pop {r3, r4, r5}
 	mov r8, r3
@@ -720,7 +720,7 @@ _0806572C:
 	str r0, [r3, #8]
 _0806573E:
 	adds r0, r3, #0
-	bl sub_80C033C
+	bl DisplaySprite
 	movs r5, #0
 	movs r0, #0x80
 	adds r0, r0, r4
@@ -813,7 +813,7 @@ _080657E0:
 	str r0, [r3, #8]
 _080657F2:
 	adds r0, r3, #0
-	bl sub_80C033C
+	bl DisplaySprite
 	adds r0, r5, #1
 	lsls r0, r0, #0x18
 	lsrs r5, r0, #0x18
