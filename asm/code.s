@@ -176651,8 +176651,8 @@ sub_80BB9E8: @ 0x080BB9E8
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_80BB9EC
-sub_80BB9EC: @ 0x080BB9EC
+	thumb_func_start GameInit
+GameInit: @ 0x080BB9EC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -177484,8 +177484,8 @@ _080BC0D0: .4byte gUnknown_0300620C
 _080BC0D4: .4byte gUnknown_03002BF0
 _080BC0D8: .4byte gUnknown_03002C60
 
-	thumb_func_start sub_80BC0DC
-sub_80BC0DC: @ 0x080BC0DC
+	thumb_func_start GameLoop
+GameLoop: @ 0x080BC0DC
 	push {r4, r5, r6, lr}
 	ldr r5, _080BC120 @ =gUnknown_03002B40
 	movs r6, #0x80
@@ -179090,9 +179090,9 @@ _080BCDF4: .4byte gUnknown_03006200
 	thumb_func_start AgbMain
 AgbMain: @ 0x080BCDF8
 	push {lr}
-	bl sub_80BB9EC
-	bl sub_80001CC
-	bl sub_80BC0DC
+	bl GameInit
+	bl GameStart
+	bl GameLoop
 	pop {r0}
 	bx r0
 	.align 2, 0

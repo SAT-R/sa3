@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_80001CC
-sub_80001CC: @ 0x080001CC
+	thumb_func_start GameStart
+GameStart: @ 0x080001CC
 	push {lr}
 	ldr r0, _080001E4 @ =gUnknown_03003570
 	movs r1, #0x80
