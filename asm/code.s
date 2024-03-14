@@ -251,6 +251,7 @@ sub_806619C:
     bx lr
     .align 2 , 0
 
+    @ Called on init of Gmerl (in Boss 1 and Extra Boss)
 	thumb_func_start sub_80661A0
 sub_80661A0: @ 0x080661A0
 	push {r4, r5, r6, r7, lr}
@@ -5623,6 +5624,7 @@ sub_08068B10: @ 0x08068B10
 _08068B34: .4byte 0x00000514
 _08068B38: .4byte 0x0000FFFF
 
+    @ Called on init of Boss 1
 	thumb_func_start sub_8068B3C
 sub_8068B3C: @ 0x08068B3C
 	push {r4, r5, r6, r7, lr}
@@ -9498,7 +9500,8 @@ sub_806A908: @ 0x0806A908
     movs r0, #0
 	bx lr
 	.align 2, 0
-
+    
+    @ Called on init of Boss 2
 	thumb_func_start sub_806A90C
 sub_806A90C: @ 0x0806A90C
 	push {r4, r5, r6, r7, lr}
@@ -14849,6 +14852,7 @@ _0806D198:
 	.align 2, 0
 _0806D19C: .4byte 0xFFFFFF00
 
+    @ Called on init of Boss 3
 	thumb_func_start sub_806D1A0
 sub_806D1A0: @ 0x0806D1A0
 	push {r4, r5, r6, r7, lr}
@@ -18178,6 +18182,7 @@ _0806EAB8:
 	bx r0
 	.align 2, 0
 
+    @ Called on init of Boss 4
 	thumb_func_start sub_806EADC
 sub_806EADC: @ 0x0806EADC
 	push {r4, r5, r6, r7, lr}
@@ -24361,6 +24366,7 @@ sub_80719C8: @ 0x080719C8
 _08071A00:
 	.byte 0x70, 0x47, 0x00, 0x00, 0x70, 0x47, 0x00, 0x00
 
+    @ Called on init of Boss 5
 	thumb_func_start sub_8071A08
 sub_8071A08: @ 0x08071A08
 	push {r4, r5, r6, r7, lr}
@@ -27983,6 +27989,7 @@ _0807362E:
 	.align 2, 0
 _0807363C: .4byte gUnknown_03001D10
 
+    @ Called on init of Boss 6
 	thumb_func_start sub_8073640
 sub_8073640: @ 0x08073640
 	push {r4, r5, r6, r7, lr}
@@ -31079,7 +31086,8 @@ sub_8074E4C: @ 0x08074E4C
 	str r0, [r1, #4]
 	bx lr
 	.align 2, 0
-
+    
+    @ Called on init of Boss 7
 	thumb_func_start sub_8074E88
 sub_8074E88: @ 0x08074E88
 	push {r4, r5, r6, r7, lr}
