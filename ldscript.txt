@@ -15,7 +15,7 @@ SECTIONS {
         build/sa3/asm/ia_spikes.o(.text);
         build/sa3/asm/ia_035_to_040.o(.text);
         build/sa3/asm/ia_041_to_042.o(.text);
-        build/sa3/asm/ia_043.o(.text);
+        build/sa3/asm/ia_ramp.o(.text);
         build/sa3/asm/ia_044.o(.text);
         build/sa3/asm/ia_045.o(.text);
         build/sa3/asm/ia_046_to_053.o(.text);
@@ -30,10 +30,10 @@ SECTIONS {
         build/sa3/asm/ia_063.o(.text);
         build/sa3/asm/ia_064.o(.text);
         build/sa3/asm/ia_065.o(.text);
-        build/sa3/asm/ia_066.o(.text);
+        build/sa3/asm/ia_omochao.o(.text);
         build/sa3/asm/ia_067_and_068.o(.text);
         build/sa3/asm/ia_069_and_070.o(.text);
-        build/sa3/asm/ia_072_and_077_to_080.o(.text);
+        build/sa3/asm/ia_grind_rail.o(.text);
         build/sa3/asm/ia_083.o(.text);
         build/sa3/asm/ia_081_and_082.o(.text);
         build/sa3/asm/ia_085.o(.text);
@@ -83,13 +83,13 @@ SECTIONS {
         build/sa3/asm/ia_135.o(.text);
         build/sa3/asm/ia_136_to_138.o(.text);
         build/sa3/asm/ia_139.o(.text);
-        build/sa3/asm/ia_140.o(.text);
-        build/sa3/asm/ia_143.o(.text);
+        build/sa3/asm/ia_chao_in_stage.o(.text);
+        build/sa3/asm/ia_chao_in_playground.o(.text);
         build/sa3/asm/ia_141.o(.text);
         build/sa3/asm/ia_mp_023.o(.text);
         build/sa3/asm/ia_mp_024.o(.text);
         build/sa3/asm/ia_142.o(.text);
-        build/sa3/asm/ia_144.o(.text);
+        build/sa3/asm/ia_emerald_in_playground.o(.text);
         build/sa3/asm/code_1.o(.text);
         build/sa3/asm/extra_boss_init.o(.text);
         build/sa3/asm/enemy_akatento.o(.text);
