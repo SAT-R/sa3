@@ -159,7 +159,7 @@ sub_805C138: @ 0x0805C138
 	strb r1, [r0, #0x1b]
 	ldr r1, [r4, #0xc]
 	asrs r1, r1, #8
-	ldr r3, _0805C194 @ =gUnknown_03001D10
+	ldr r3, _0805C194 @ =gCamera
 	ldr r2, [r3]
 	subs r1, r1, r2
 	strh r1, [r0, #0x10]
@@ -185,7 +185,7 @@ sub_805C138: @ 0x0805C138
 	bx r0
 	.align 2, 0
 _0805C190: .4byte 0x0000053A
-_0805C194: .4byte gUnknown_03001D10
+_0805C194: .4byte gCamera
 
 	thumb_func_start sub_805C198
 sub_805C198: @ 0x0805C198
@@ -333,7 +333,7 @@ sub_805C280: @ 0x0805C280
 	lsls r2, r2, #0x10
 	lsrs r2, r2, #0x10
 	ldr r3, [r7, #0x1c]
-	ldr r1, _0805C328 @ =gUnknown_03001D10
+	ldr r1, _0805C328 @ =gCamera
 	ldr r6, [r1]
 	ldrh r0, [r3, #0x10]
 	adds r0, r0, r6
@@ -385,7 +385,7 @@ sub_805C280: @ 0x0805C280
 	bl sub_80BA57C
 	b _0805C38A
 	.align 2, 0
-_0805C328: .4byte gUnknown_03001D10
+_0805C328: .4byte gCamera
 _0805C32C: .4byte gUnknown_030008A0
 _0805C330: .4byte sub_805C198
 _0805C334: .4byte sub_805D09C
@@ -2019,7 +2019,7 @@ sub_805CF90: @ 0x0805CF90
 	push {r4, r5, lr}
 	adds r4, r1, #0
 	adds r5, r2, #0
-	ldr r2, _0805CFDC @ =gUnknown_03001D10
+	ldr r2, _0805CFDC @ =gCamera
 	ldr r1, [r2]
 	subs r0, r0, r1
 	ldr r1, [r2, #4]
@@ -2056,7 +2056,7 @@ _0805CFD6:
 	movs r0, #0
 	b _0805CFE2
 	.align 2, 0
-_0805CFDC: .4byte gUnknown_03001D10
+_0805CFDC: .4byte gCamera
 _0805CFE0:
 	movs r0, #1
 _0805CFE2:
@@ -2140,7 +2140,7 @@ sub_805D058: @ 0x0805D058
 	ldrh r1, [r0, #6]
 	lsls r1, r1, #8
 	adds r2, r2, r1
-	ldr r3, _0805D098 @ =gUnknown_03001D10
+	ldr r3, _0805D098 @ =gCamera
 	ldr r1, [r3]
 	subs r2, r2, r1
 	strh r2, [r5, #0x10]
@@ -2162,7 +2162,7 @@ sub_805D058: @ 0x0805D058
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0805D098: .4byte gUnknown_03001D10
+_0805D098: .4byte gCamera
 
 	thumb_func_start sub_805D09C
 sub_805D09C: @ 0x0805D09C

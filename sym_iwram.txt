@@ -86,7 +86,7 @@
 . = 0x00001CF0; gUnknown_03001CF0 = .;
 . = 0x00001CFC; gUnknown_03001CFC = .;
 . = 0x00001D00; gUnknown_03001D00 = .;
-. = 0x00001D10; gUnknown_03001D10 = .;
+. = 0x00001D10; gCamera = .;
 . = 0x00001D76; gUnknown_03001D76 = .;
 . = 0x00001D80; gUnknown_03001D80 = .;
 . = 0x00001DA0; gUnknown_03001DA0 = .;

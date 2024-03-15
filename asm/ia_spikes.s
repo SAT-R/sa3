@@ -774,7 +774,7 @@ _08030BEC:
 	ldr r0, [sp, #4]
 	str r0, [r6, #0x6c]
 _08030C16:
-	ldr r0, _08030C3C @ =gUnknown_03001D10
+	ldr r0, _08030C3C @ =gCamera
 	ldr r2, [sp, #4]
 	movs r4, #0x12
 	ldrsh r1, [r2, r4]
@@ -794,9 +794,9 @@ _08030C16:
 	subs r0, r0, r1
 	b _08030C64
 	.align 2, 0
-_08030C3C: .4byte gUnknown_03001D10
+_08030C3C: .4byte gCamera
 _08030C40:
-	ldr r0, _08030C6C @ =gUnknown_03001D10
+	ldr r0, _08030C6C @ =gCamera
 	ldr r2, [sp, #4]
 	movs r4, #0x12
 	ldrsh r1, [r2, r4]
@@ -820,7 +820,7 @@ _08030C64:
 	strh r3, [r6, #0x1a]
 	b _08030D0E
 	.align 2, 0
-_08030C6C: .4byte gUnknown_03001D10
+_08030C6C: .4byte gCamera
 _08030C70:
 	movs r0, #0xc0
 	lsls r0, r0, #0xc
@@ -1114,7 +1114,7 @@ _08030E60:
 _08030E94: .4byte gUnknown_030008A0
 _08030E98: .4byte gCurTask
 _08030E9C:
-	ldr r0, _08030EC4 @ =gUnknown_03001D10
+	ldr r0, _08030EC4 @ =gCamera
 	ldr r1, [r0]
 	subs r1, r5, r1
 	strh r1, [r7, #0x10]
@@ -1133,7 +1133,7 @@ _08030EB6:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08030EC4: .4byte gUnknown_03001D10
+_08030EC4: .4byte gCamera
 
 	thumb_func_start sub_8030EC8
 sub_8030EC8: @ 0x08030EC8
@@ -1277,7 +1277,7 @@ sub_8030F70: @ 0x08030F70
 _08030FD0: .4byte gCurTask
 _08030FD4: .4byte 0x0300000C
 _08030FD8:
-	ldr r1, _0803100C @ =gUnknown_03001D10
+	ldr r1, _0803100C @ =gCamera
 	ldr r0, [r1]
 	subs r0, r6, r0
 	strh r0, [r4, #0x10]
@@ -1303,7 +1303,7 @@ _08030FD8:
 	bl UpdateSpriteAnimation
 	b _08031052
 	.align 2, 0
-_0803100C: .4byte gUnknown_03001D10
+_0803100C: .4byte gCamera
 _08031010: .4byte 0x03000034
 _08031014: .4byte gUnknown_030008A0
 _08031018:

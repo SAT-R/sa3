@@ -123,7 +123,7 @@ sub_8059DC0: @ 0x08059DC0
 	ldrh r0, [r4, #0xa]
 	lsls r0, r0, #8
 	adds r1, r1, r0
-	ldr r2, _08059E40 @ =gUnknown_03001D10
+	ldr r2, _08059E40 @ =gCamera
 	ldr r0, [r2]
 	subs r1, r1, r0
 	strh r1, [r6, #0x10]
@@ -165,7 +165,7 @@ _08059E2A:
 	bx r0
 	.align 2, 0
 _08059E3C: .4byte gUnknown_080D1EAC
-_08059E40: .4byte gUnknown_03001D10
+_08059E40: .4byte gCamera
 
 	thumb_func_start Task_BuzzerMain
 Task_BuzzerMain: @ 0x08059E44
@@ -566,7 +566,7 @@ sub_805A12C: @ 0x0805A12C
 	strb r1, [r0, #0x1b]
 	ldr r1, [r4, #0x10]
 	asrs r1, r1, #8
-	ldr r3, _0805A190 @ =gUnknown_03001D10
+	ldr r3, _0805A190 @ =gCamera
 	ldr r2, [r3]
 	subs r1, r1, r2
 	strh r1, [r0, #0x10]
@@ -595,7 +595,7 @@ sub_805A12C: @ 0x0805A12C
 	bx r0
 	.align 2, 0
 _0805A18C: .4byte gUnknown_080D1EC4
-_0805A190: .4byte gUnknown_03001D10
+_0805A190: .4byte gCamera
 
 	thumb_func_start sub_805A194
 sub_805A194: @ 0x0805A194
@@ -733,7 +733,7 @@ sub_805A27C: @ 0x0805A27C
 	ldrh r1, [r0, #0xa]
 	lsls r1, r1, #8
 	adds r2, r2, r1
-	ldr r3, _0805A2BC @ =gUnknown_03001D10
+	ldr r3, _0805A2BC @ =gCamera
 	ldr r1, [r3]
 	subs r2, r2, r1
 	strh r2, [r5, #0x10]
@@ -755,7 +755,7 @@ sub_805A27C: @ 0x0805A27C
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0805A2BC: .4byte gUnknown_03001D10
+_0805A2BC: .4byte gCamera
 
 	thumb_func_start sub_805A2C0
 sub_805A2C0: @ 0x0805A2C0
@@ -948,7 +948,7 @@ sub_805A424: @ 0x0805A424
 	ldrh r1, [r0]
 	lsls r1, r1, #8
 	adds r2, r2, r1
-	ldr r3, _0805A458 @ =gUnknown_03001D10
+	ldr r3, _0805A458 @ =gCamera
 	ldr r1, [r3]
 	subs r2, r2, r1
 	ldr r1, [r0, #0x14]
@@ -970,7 +970,7 @@ _0805A454:
 	movs r0, #1
 	b _0805A45E
 	.align 2, 0
-_0805A458: .4byte gUnknown_03001D10
+_0805A458: .4byte gCamera
 _0805A45C:
 	movs r0, #0
 _0805A45E:
@@ -988,7 +988,7 @@ sub_805A464: @ 0x0805A464
 	ldrh r1, [r0]
 	lsls r1, r1, #8
 	adds r2, r2, r1
-	ldr r3, _0805A4A4 @ =gUnknown_03001D10
+	ldr r3, _0805A4A4 @ =gCamera
 	ldr r1, [r3]
 	subs r2, r2, r1
 	strh r2, [r5, #0x10]
@@ -1010,7 +1010,7 @@ sub_805A464: @ 0x0805A464
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0805A4A4: .4byte gUnknown_03001D10
+_0805A4A4: .4byte gCamera
 
 	thumb_func_start sub_805A4A8
 sub_805A4A8: @ 0x0805A4A8

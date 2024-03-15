@@ -123,7 +123,7 @@ sub_80582B0: @ 0x080582B0
 	ldrh r0, [r4, #8]
 	lsls r0, r0, #8
 	adds r1, r1, r0
-	ldr r2, _08058330 @ =gUnknown_03001D10
+	ldr r2, _08058330 @ =gCamera
 	ldr r0, [r2]
 	subs r1, r1, r0
 	strh r1, [r6, #0x10]
@@ -165,7 +165,7 @@ _0805831A:
 	bx r0
 	.align 2, 0
 _0805832C: .4byte gUnknown_080D1E20
-_08058330: .4byte gUnknown_03001D10
+_08058330: .4byte gCamera
 
 	thumb_func_start Task_Akatento
 Task_Akatento: @ 0x08058334
@@ -362,7 +362,7 @@ sub_80584A8: @ 0x080584A8
 	ldrh r1, [r0, #8]
 	lsls r1, r1, #8
 	adds r2, r2, r1
-	ldr r3, _080584E8 @ =gUnknown_03001D10
+	ldr r3, _080584E8 @ =gCamera
 	ldr r1, [r3]
 	subs r2, r2, r1
 	strh r2, [r5, #0x10]
@@ -384,7 +384,7 @@ sub_80584A8: @ 0x080584A8
 	pop {r1}
 	bx r1
 	.align 2, 0
-_080584E8: .4byte gUnknown_03001D10
+_080584E8: .4byte gCamera
 
 	thumb_func_start sub_80584EC
 sub_80584EC: @ 0x080584EC

@@ -124,7 +124,7 @@ sub_80636B4: @ 0x080636B4
 	ldrh r0, [r5, #0xc]
 	lsls r0, r0, #8
 	adds r1, r1, r0
-	ldr r2, _08063754 @ =gUnknown_03001D10
+	ldr r2, _08063754 @ =gCamera
 	ldr r0, [r2]
 	subs r1, r1, r0
 	strh r1, [r4, #0x10]
@@ -178,7 +178,7 @@ _08063722:
 	bx r0
 	.align 2, 0
 _08063750: .4byte gUnknown_080D210C
-_08063754: .4byte gUnknown_03001D10
+_08063754: .4byte gCamera
 
 	thumb_func_start sub_8063758
 sub_8063758: @ 0x08063758
@@ -1066,7 +1066,7 @@ sub_8063E5C: @ 0x08063E5C
 	ldrh r0, [r3, #0xc]
 	lsls r0, r0, #8
 	adds r1, r1, r0
-	ldr r2, _08063EA4 @ =gUnknown_03001D10
+	ldr r2, _08063EA4 @ =gCamera
 	ldr r0, [r2]
 	subs r1, r1, r0
 	strh r1, [r5, #0x10]
@@ -1091,7 +1091,7 @@ sub_8063E5C: @ 0x08063E5C
 	subs r0, #0xb
 	b _08063EB0
 	.align 2, 0
-_08063EA4: .4byte gUnknown_03001D10
+_08063EA4: .4byte gCamera
 _08063EA8: .4byte gUnknown_080D210C
 _08063EAC:
 	ldrh r0, [r5, #0x12]

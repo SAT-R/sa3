@@ -91,7 +91,7 @@ _0802DCEA:
 	lsls r2, r4, #8
 	adds r0, r0, r2
 	strh r0, [r3, #0x36]
-	ldr r2, _0802DD48 @ =gUnknown_03001D10
+	ldr r2, _0802DD48 @ =gCamera
 	ldr r0, [r2]
 	subs r1, r1, r0
 	strh r1, [r6, #0x10]
@@ -120,7 +120,7 @@ _0802DD38: .4byte Task_SpringMain
 _0802DD3C: .4byte TaskDestructor_Spring
 _0802DD40: .4byte 0x03000038
 _0802DD44: .4byte 0x0300003A
-_0802DD48: .4byte gUnknown_03001D10
+_0802DD48: .4byte gCamera
 
 	thumb_func_start Task_SpringMain
 Task_SpringMain: @ 0x0802DD4C
@@ -623,7 +623,7 @@ sub_802E0D8: @ 0x0802E0D8
 	.align 2, 0
 _0802E11C: .4byte gCurTask
 _0802E120:
-	ldr r1, _0802E158 @ =gUnknown_03001D10
+	ldr r1, _0802E158 @ =gCamera
 	ldr r0, [r1]
 	subs r0, r6, r0
 	strh r0, [r5, #0x10]
@@ -652,7 +652,7 @@ _0802E14C:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0802E158: .4byte gUnknown_03001D10
+_0802E158: .4byte gCamera
 
 	thumb_func_start CreateEntity_Spring_Up
 CreateEntity_Spring_Up: @ 0x0802E15C

@@ -591,7 +591,7 @@ sub_802DB9C: @ 0x0802DB9C
 	ldrh r2, [r4, #6]
 	lsls r2, r2, #8
 	adds r1, r1, r2
-	ldr r3, _0802DBF4 @ =gUnknown_03001D10
+	ldr r3, _0802DBF4 @ =gCamera
 	ldr r2, [r3]
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
@@ -612,7 +612,7 @@ sub_802DB9C: @ 0x0802DB9C
 	b _0802DC04
 	.align 2, 0
 _0802DBF0: .4byte gCurTask
-_0802DBF4: .4byte gUnknown_03001D10
+_0802DBF4: .4byte gCamera
 _0802DBF8:
 	adds r0, r5, #0
 	bl UpdateSpriteAnimation

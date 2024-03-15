@@ -152,7 +152,7 @@ sub_805D188: @ 0x0805D188
 	ldrh r0, [r3, #0x12]
 	lsls r0, r0, #8
 	adds r1, r1, r0
-	ldr r6, _0805D294 @ =gUnknown_03001D10
+	ldr r6, _0805D294 @ =gCamera
 	ldr r0, [r6]
 	subs r1, r1, r0
 	strh r1, [r7, #0x10]
@@ -242,7 +242,7 @@ sub_805D188: @ 0x0805D188
 	bx r0
 	.align 2, 0
 _0805D290: .4byte gUnknown_080D1F4C
-_0805D294: .4byte gUnknown_03001D10
+_0805D294: .4byte gCamera
 
 	thumb_func_start sub_805D298
 sub_805D298: @ 0x0805D298
@@ -1273,7 +1273,7 @@ _0805DA1A:
 	str r5, [sp, #0x1c]
 	movs r4, #0x10
 	ldrsh r0, [r5, r4]
-	ldr r2, _0805DA84 @ =gUnknown_03001D10
+	ldr r2, _0805DA84 @ =gCamera
 	ldr r1, [r2]
 	adds r0, r0, r1
 	lsls r0, r0, #8
@@ -1308,7 +1308,7 @@ _0805DA1A:
 	strh r0, [r2, #2]
 	b _0805DA9A
 	.align 2, 0
-_0805DA84: .4byte gUnknown_03001D10
+_0805DA84: .4byte gCamera
 _0805DA88:
 	movs r0, #0xc0
 	lsls r0, r0, #2
@@ -1365,7 +1365,7 @@ sub_805DADC: @ 0x0805DADC
 	mov r3, sp
 	ldrh r0, [r5, #0x12]
 	lsls r0, r0, #8
-	ldr r2, _0805DBF8 @ =gUnknown_03001D10
+	ldr r2, _0805DBF8 @ =gCamera
 	ldr r1, [r2]
 	subs r0, r0, r1
 	strh r0, [r3]
@@ -1495,7 +1495,7 @@ _0805DBE0:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0805DBF8: .4byte gUnknown_03001D10
+_0805DBF8: .4byte gCamera
 
 	thumb_func_start CreateEntity_Uutsubo_1
 CreateEntity_Uutsubo_1: @ 0x0805DBFC

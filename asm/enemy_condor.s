@@ -122,7 +122,7 @@ sub_8058F2C: @ 0x08058F2C
 	ldrh r0, [r4, #0xa]
 	lsls r0, r0, #8
 	adds r1, r1, r0
-	ldr r2, _08058FAC @ =gUnknown_03001D10
+	ldr r2, _08058FAC @ =gCamera
 	ldr r0, [r2]
 	subs r1, r1, r0
 	strh r1, [r6, #0x10]
@@ -164,7 +164,7 @@ _08058F96:
 	bx r0
 	.align 2, 0
 _08058FA8: .4byte gUnknown_080D1E54
-_08058FAC: .4byte gUnknown_03001D10
+_08058FAC: .4byte gCamera
 
 	thumb_func_start Task_Condor
 Task_Condor: @ 0x08058FB0
@@ -783,7 +783,7 @@ sub_805944C: @ 0x0805944C
 	strb r1, [r0, #0x1b]
 	ldr r1, [r4, #4]
 	asrs r1, r1, #8
-	ldr r3, _080594B0 @ =gUnknown_03001D10
+	ldr r3, _080594B0 @ =gCamera
 	ldr r2, [r3]
 	subs r1, r1, r2
 	strh r1, [r0, #0x10]
@@ -812,7 +812,7 @@ sub_805944C: @ 0x0805944C
 	bx r0
 	.align 2, 0
 _080594AC: .4byte gUnknown_080D1E84
-_080594B0: .4byte gUnknown_03001D10
+_080594B0: .4byte gCamera
 
 	thumb_func_start Task_CondorProjectile
 Task_CondorProjectile: @ 0x080594B4
@@ -1030,7 +1030,7 @@ sub_8059640: @ 0x08059640
 	ldrh r1, [r0, #0xa]
 	lsls r1, r1, #8
 	adds r2, r2, r1
-	ldr r3, _08059680 @ =gUnknown_03001D10
+	ldr r3, _08059680 @ =gCamera
 	ldr r1, [r3]
 	subs r2, r2, r1
 	strh r2, [r5, #0x10]
@@ -1052,7 +1052,7 @@ sub_8059640: @ 0x08059640
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08059680: .4byte gUnknown_03001D10
+_08059680: .4byte gCamera
 
 	thumb_func_start sub_8059684
 sub_8059684: @ 0x08059684
@@ -1221,7 +1221,7 @@ sub_80597B4: @ 0x080597B4
 	ldrh r1, [r0]
 	lsls r1, r1, #8
 	adds r2, r2, r1
-	ldr r3, _080597F4 @ =gUnknown_03001D10
+	ldr r3, _080597F4 @ =gCamera
 	ldr r1, [r3]
 	subs r2, r2, r1
 	strh r2, [r5, #0x10]
@@ -1243,7 +1243,7 @@ sub_80597B4: @ 0x080597B4
 	pop {r1}
 	bx r1
 	.align 2, 0
-_080597F4: .4byte gUnknown_03001D10
+_080597F4: .4byte gCamera
 
 	thumb_func_start TaskDestructor_CondorProjectile
 TaskDestructor_CondorProjectile: @ 0x080597F8

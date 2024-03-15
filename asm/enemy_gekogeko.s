@@ -134,7 +134,7 @@ sub_80598E0: @ 0x080598E0
 	ldrh r0, [r4, #0xc]
 	lsls r0, r0, #8
 	adds r1, r1, r0
-	ldr r2, _08059960 @ =gUnknown_03001D10
+	ldr r2, _08059960 @ =gCamera
 	ldr r0, [r2]
 	subs r1, r1, r0
 	strh r1, [r6, #0x10]
@@ -176,7 +176,7 @@ _0805994A:
 	bx r0
 	.align 2, 0
 _0805995C: .4byte gUnknown_080D1E94
-_08059960: .4byte gUnknown_03001D10
+_08059960: .4byte gCamera
 
 	thumb_func_start Task_GekoGekoMain
 Task_GekoGekoMain: @ 0x08059964
@@ -555,7 +555,7 @@ sub_8059C3C: @ 0x08059C3C
 	ldrh r1, [r0, #0xc]
 	lsls r1, r1, #8
 	adds r2, r2, r1
-	ldr r3, _08059C7C @ =gUnknown_03001D10
+	ldr r3, _08059C7C @ =gCamera
 	ldr r1, [r3]
 	subs r2, r2, r1
 	strh r2, [r5, #0x10]
@@ -577,7 +577,7 @@ sub_8059C3C: @ 0x08059C3C
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08059C7C: .4byte gUnknown_03001D10
+_08059C7C: .4byte gCamera
 
 	thumb_func_start sub_8059C80
 sub_8059C80: @ 0x08059C80
