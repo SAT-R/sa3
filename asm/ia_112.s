@@ -596,7 +596,7 @@ sub_8046EC0: @ 0x08046EC0
 	ldr r2, _08046F98 @ =0x030000C4
 	adds r0, r3, r2
 	ldr r2, [r0]
-	ldr r4, _08046F9C @ =gUnknown_03001D10
+	ldr r4, _08046F9C @ =gCamera
 	ldr r0, [r4]
 	subs r2, r2, r0
 	ldr r1, _08046FA0 @ =0x030000C8
@@ -684,7 +684,7 @@ _08046F84:
 	.align 2, 0
 _08046F94: .4byte gCurTask
 _08046F98: .4byte 0x030000C4
-_08046F9C: .4byte gUnknown_03001D10
+_08046F9C: .4byte gCamera
 _08046FA0: .4byte 0x030000C8
 _08046FA4: .4byte 0x0300000C
 _08046FA8: .4byte 0x0000FFFF

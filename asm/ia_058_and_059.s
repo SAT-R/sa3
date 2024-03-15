@@ -1152,7 +1152,7 @@ _08035B28: .4byte 0x03000044
 _08035B2C:
 	ldr r2, [r4, #0x7c]
 	asrs r2, r2, #8
-	ldr r1, _08035B64 @ =gUnknown_03001D10
+	ldr r1, _08035B64 @ =gCamera
 	ldr r0, [r1]
 	subs r2, r2, r0
 	strh r2, [r6, #0x10]
@@ -1178,7 +1178,7 @@ _08035B58:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08035B64: .4byte gUnknown_03001D10
+_08035B64: .4byte gCamera
 _08035B68: .4byte 0x03000080
 
 	thumb_func_start CreateEntity_Interactable058

@@ -538,7 +538,7 @@ sub_8042F10: @ 0x08042F10
 	orrs r1, r0
 	lsrs r1, r1, #0x1f
 	mov sb, r1
-	ldr r1, _08042FDC @ =gUnknown_03001D10
+	ldr r1, _08042FDC @ =gCamera
 	ldr r0, [r1]
 	subs r5, r5, r0
 	lsls r5, r5, #0x10
@@ -600,7 +600,7 @@ _08042FC6:
 	b _08042FE6
 	.align 2, 0
 _08042FD8: .4byte gCurTask
-_08042FDC: .4byte gUnknown_03001D10
+_08042FDC: .4byte gCamera
 _08042FE0:
 	ldr r0, [r5, #8]
 	ldr r1, _0804302C @ =0xFFFFFBFF

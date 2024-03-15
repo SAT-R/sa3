@@ -99,7 +99,7 @@ _080408F4:
 	strb r1, [r0]
 	mov r3, ip
 	adds r3, #0xc
-	ldr r2, _08040980 @ =gUnknown_03001D10
+	ldr r2, _08040980 @ =gCamera
 	ldr r1, [r2]
 	ldrh r0, [r4]
 	subs r0, r0, r1
@@ -123,7 +123,7 @@ _08040970: .4byte Task_ActRingMain
 _08040974: .4byte TaskDestructor_ActRing
 _08040978: .4byte gUnknown_03000530
 _0804097C: .4byte gUnknown_030008A0
-_08040980: .4byte gUnknown_03001D10
+_08040980: .4byte gCamera
 
 	thumb_func_start Task_ActRingMain
 Task_ActRingMain: @ 0x08040984
@@ -471,7 +471,7 @@ _08040C38: .4byte gCurTask
 _08040C3C: .4byte 0x0300000C
 _08040C40: .4byte 0x0300005E
 _08040C44:
-	ldr r2, _08040C98 @ =gUnknown_03001D10
+	ldr r2, _08040C98 @ =gCamera
 	mov r8, r2
 	ldr r0, [r2]
 	subs r0, r6, r0
@@ -512,7 +512,7 @@ _08040C8A:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08040C98: .4byte gUnknown_03001D10
+_08040C98: .4byte gCamera
 _08040C9C: .4byte 0x03000063
 _08040CA0: .4byte 0x03000034
 

@@ -768,7 +768,7 @@ sub_8033158: @ 0x08033158
 	adds r4, r2, r0
 	adds r1, #0x7c
 	adds r0, r2, r1
-	ldr r3, _080331EC @ =gUnknown_03001D10
+	ldr r3, _080331EC @ =gCamera
 	ldr r1, [r3, #4]
 	movs r7, #0
 	ldrsh r5, [r0, r7]
@@ -816,7 +816,7 @@ sub_8033158: @ 0x08033158
 _080331E0: .4byte gCurTask
 _080331E4: .4byte 0x0300000C
 _080331E8: .4byte 0x03000084
-_080331EC: .4byte gUnknown_03001D10
+_080331EC: .4byte gCamera
 _080331F0: .4byte 0x0300008C
 _080331F4: .4byte 0x0300008E
 _080331F8:

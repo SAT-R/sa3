@@ -438,7 +438,7 @@ sub_8031974: @ 0x08031974
 	ldr r1, [r6, #0x20]
 	ldr r2, [r6, #0xc]
 	asrs r2, r2, #8
-	ldr r4, _080319D0 @ =gUnknown_03001D10
+	ldr r4, _080319D0 @ =gCamera
 	ldr r3, [r4]
 	subs r2, r2, r3
 	strh r2, [r5, #0x10]
@@ -463,7 +463,7 @@ sub_8031974: @ 0x08031974
 	.align 2, 0
 _080319C8: .4byte gCurTask
 _080319CC: .4byte 0x0300002C
-_080319D0: .4byte gUnknown_03001D10
+_080319D0: .4byte gCamera
 _080319D4:
 	adds r0, r5, #0
 	bl UpdateSpriteAnimation

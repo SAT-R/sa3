@@ -357,7 +357,7 @@ sub_8040814: @ 0x08040814
 	adds r0, r4, #0
 	bl UpdateSpriteAnimation
 	movs r5, #0
-	ldr r7, _08040878 @ =gUnknown_03001D10
+	ldr r7, _08040878 @ =gCamera
 _08040830:
 	lsls r1, r5, #2
 	adds r0, r6, #0
@@ -395,7 +395,7 @@ _08040864:
 	bx r0
 	.align 2, 0
 _08040874: .4byte gCurTask
-_08040878: .4byte gUnknown_03001D10
+_08040878: .4byte gCamera
 
 	thumb_func_start sub_804087C
 sub_804087C: @ 0x0804087C

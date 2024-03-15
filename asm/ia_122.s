@@ -546,7 +546,7 @@ sub_804A800: @ 0x0804A800
 	lsls r0, r0, #8
 	ldr r1, [r7, #0x3c]
 	lsls r1, r1, #8
-	ldr r4, _0804A874 @ =gUnknown_03001D10
+	ldr r4, _0804A874 @ =gCamera
 	ldr r2, [r4]
 	asrs r0, r0, #0x10
 	subs r0, r0, r2
@@ -585,7 +585,7 @@ _0804A85A:
 	b _0804A888
 	.align 2, 0
 _0804A870: .4byte gCurTask
-_0804A874: .4byte gUnknown_03001D10
+_0804A874: .4byte gCamera
 _0804A878: .4byte 0x03000044
 _0804A87C: .4byte 0x03000046
 _0804A880: .4byte gUnknown_030015C0

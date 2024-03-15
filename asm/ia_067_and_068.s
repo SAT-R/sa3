@@ -483,7 +483,7 @@ sub_8038988: @ 0x08038988
 	ldr r2, [r7, #0x34]
 	asrs r2, r2, #8
 	mov ip, r2
-	ldr r3, _08038A1C @ =gUnknown_03001D10
+	ldr r3, _08038A1C @ =gCamera
 	mov sb, r3
 	ldr r2, [r3]
 	mov r3, ip
@@ -527,7 +527,7 @@ _08038A04:
 	b _08038A28
 	.align 2, 0
 _08038A18: .4byte gCurTask
-_08038A1C: .4byte gUnknown_03001D10
+_08038A1C: .4byte gCamera
 _08038A20: .4byte gUnknown_030015C0
 _08038A24:
 	ldr r0, _08038A60 @ =gUnknown_030008A0

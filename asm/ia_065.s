@@ -402,7 +402,7 @@ sub_8037D04: @ 0x08037D04
 _08037D64: .4byte gCurTask
 _08037D68: .4byte 0x0300000C
 _08037D6C:
-	ldr r1, _08037DA8 @ =gUnknown_03001D10
+	ldr r1, _08037DA8 @ =gCamera
 	ldr r0, [r1]
 	subs r0, r6, r0
 	strh r0, [r5, #0x10]
@@ -430,7 +430,7 @@ _08037D6C:
 	movs r0, #2
 	b _08037DD2
 	.align 2, 0
-_08037DA8: .4byte gUnknown_03001D10
+_08037DA8: .4byte gCamera
 _08037DAC: .4byte 0x03000035
 _08037DB0:
 	cmp r0, #5

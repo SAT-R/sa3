@@ -967,7 +967,7 @@ _08030440:
 _08030474: .4byte gUnknown_030008A0
 _08030478: .4byte gCurTask
 _0803047C:
-	ldr r1, _080304B8 @ =gUnknown_03001D10
+	ldr r1, _080304B8 @ =gCamera
 	ldr r0, [r1]
 	subs r0, r5, r0
 	strh r0, [r4, #0x10]
@@ -996,7 +996,7 @@ _0803047C:
 	movs r0, #9
 	b _080305BC
 	.align 2, 0
-_080304B8: .4byte gUnknown_03001D10
+_080304B8: .4byte gCamera
 _080304BC: .4byte 0x03000034
 _080304C0:
 	ldr r0, _080304E0 @ =gUnknown_030008A0

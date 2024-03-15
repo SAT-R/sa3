@@ -599,7 +599,7 @@ _0804ADC6:
 	adds r0, #0xc
 	mov r4, r8
 	adds r5, r4, r0
-	ldr r0, _0804ADF4 @ =gUnknown_03001D10
+	ldr r0, _0804ADF4 @ =gCamera
 	ldr r1, [r0]
 	mov r4, sl
 	asrs r0, r4, #0x10
@@ -613,13 +613,13 @@ _0804ADC6:
 	b _0804ADFC
 	.align 2, 0
 _0804ADF0: .4byte 0x0300005E
-_0804ADF4: .4byte gUnknown_03001D10
+_0804ADF4: .4byte gCamera
 _0804ADF8:
 	ldrh r0, [r7]
 	adds r0, r1, r0
 _0804ADFC:
 	strh r0, [r5, #0x10]
-	ldr r0, _0804AE20 @ =gUnknown_03001D10
+	ldr r0, _0804AE20 @ =gCamera
 	ldr r1, [r0, #4]
 	mov r2, sb
 	asrs r0, r2, #0x10
@@ -637,7 +637,7 @@ _0804AE0C:
 	orrs r0, r1
 	b _0804AE2A
 	.align 2, 0
-_0804AE20: .4byte gUnknown_03001D10
+_0804AE20: .4byte gCamera
 _0804AE24:
 	ldr r0, [r5, #8]
 	ldr r1, _0804AE60 @ =0xFFFFF7FF

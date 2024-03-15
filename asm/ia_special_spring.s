@@ -62,7 +62,7 @@ CreateEntity_SpecialSpring: @ 0x08040CDC
 	strb r2, [r1]
 	subs r7, #0xa2
 	adds r3, r3, r7
-	ldr r4, _08040D88 @ =gUnknown_03001D10
+	ldr r4, _08040D88 @ =gCamera
 	ldr r2, [r4]
 	ldrh r1, [r6]
 	subs r1, r1, r2
@@ -88,7 +88,7 @@ _08040D78: .4byte Task_SpecialSpringMain
 _08040D7C: .4byte TaskDestructor_SpecialSpring
 _08040D80: .4byte 0x030000AC
 _08040D84: .4byte 0x030000B0
-_08040D88: .4byte gUnknown_03001D10
+_08040D88: .4byte gCamera
 
 	thumb_func_start Task_SpecialSpringMain
 Task_SpecialSpringMain: @ 0x08040D8C
@@ -425,7 +425,7 @@ _08041028: .4byte gCurTask
 _0804102C: .4byte 0x0300000C
 _08041030: .4byte 0x030000AE
 _08041034:
-	ldr r2, _08041088 @ =gUnknown_03001D10
+	ldr r2, _08041088 @ =gCamera
 	mov r8, r2
 	ldr r0, [r2]
 	subs r0, r6, r0
@@ -465,7 +465,7 @@ _0804107A:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08041088: .4byte gUnknown_03001D10
+_08041088: .4byte gCamera
 _0804108C: .4byte 0x030000B0
 _08041090: .4byte 0x03000034
 

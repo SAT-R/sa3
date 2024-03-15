@@ -79,7 +79,7 @@ _08031B60:
 	adds r4, r3, #0
 	adds r4, #0x39
 	strb r0, [r4]
-	ldr r2, _08031BA8 @ =gUnknown_03001D10
+	ldr r2, _08031BA8 @ =gCamera
 	ldr r1, [r2]
 	ldrh r0, [r3, #0x34]
 	subs r0, r0, r1
@@ -106,7 +106,7 @@ _08031B60:
 	bx r0
 	.align 2, 0
 _08031BA4: .4byte 0x03000038
-_08031BA8: .4byte gUnknown_03001D10
+_08031BA8: .4byte gCamera
 
 	thumb_func_start sub_8031BAC
 sub_8031BAC: @ 0x08031BAC
@@ -1018,7 +1018,7 @@ _08032238:
 _0803226C: .4byte gUnknown_030008A0
 _08032270: .4byte gCurTask
 _08032274:
-	ldr r0, _0803229C @ =gUnknown_03001D10
+	ldr r0, _0803229C @ =gCamera
 	ldr r1, [r0]
 	subs r1, r5, r1
 	strh r1, [r7, #0x10]
@@ -1038,7 +1038,7 @@ _08032290:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0803229C: .4byte gUnknown_03001D10
+_0803229C: .4byte gCamera
 
 	thumb_func_start TaskDestructor_Interactable043
 TaskDestructor_Interactable043: @ 0x080322A0

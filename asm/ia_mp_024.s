@@ -64,7 +64,7 @@ CreateEntity_InteractableMP024: @ 0x0804F130
 	strb r4, [r1]
 	ldr r1, _0804F1E4 @ =0x0300000C
 	adds r0, r0, r1
-	ldr r4, _0804F1E8 @ =gUnknown_03001D10
+	ldr r4, _0804F1E8 @ =gCamera
 	ldr r2, [r4]
 	ldrh r1, [r3, #0x34]
 	subs r1, r1, r2
@@ -92,7 +92,7 @@ _0804F1D8: .4byte sub_804F1EC
 _0804F1DC: .4byte sub_804F300
 _0804F1E0: .4byte 0x03000038
 _0804F1E4: .4byte 0x0300000C
-_0804F1E8: .4byte gUnknown_03001D10
+_0804F1E8: .4byte gCamera
 
 	thumb_func_start sub_804F1EC
 sub_804F1EC: @ 0x0804F1EC
@@ -208,7 +208,7 @@ sub_804F28C: @ 0x0804F28C
 	.align 2, 0
 _0804F2D0: .4byte gCurTask
 _0804F2D4:
-	ldr r0, _0804F2FC @ =gUnknown_03001D10
+	ldr r0, _0804F2FC @ =gCamera
 	ldr r1, [r0]
 	subs r1, r6, r1
 	strh r1, [r5, #0x10]
@@ -227,7 +227,7 @@ _0804F2EE:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804F2FC: .4byte gUnknown_03001D10
+_0804F2FC: .4byte gCamera
 
 	thumb_func_start sub_804F300
 sub_804F300: @ 0x0804F300

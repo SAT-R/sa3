@@ -699,7 +699,7 @@ sub_803FA5C: @ 0x0803FA5C
 _0803FAA4: .4byte gCurTask
 _0803FAA8: .4byte 0x03000014
 _0803FAAC:
-	ldr r1, _0803FAEC @ =gUnknown_03001D10
+	ldr r1, _0803FAEC @ =gCamera
 	ldr r0, [r1]
 	subs r0, r6, r0
 	strh r0, [r5, #0x10]
@@ -732,7 +732,7 @@ _0803FAE0:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0803FAEC: .4byte gUnknown_03001D10
+_0803FAEC: .4byte gCamera
 _0803FAF0: .4byte 0x010F0000
 
 	thumb_func_start sub_803FAF4

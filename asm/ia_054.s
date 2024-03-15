@@ -328,7 +328,7 @@ sub_8033C64: @ 0x08033C64
 	.align 2, 0
 _08033CC0: .4byte gCurTask
 _08033CC4:
-	ldr r1, _08033CF0 @ =gUnknown_03001D10
+	ldr r1, _08033CF0 @ =gCamera
 	ldr r0, [r1]
 	subs r0, r6, r0
 	strh r0, [r4, #0x10]
@@ -350,7 +350,7 @@ _08033CC4:
 	orrs r0, r1
 	b _08033D00
 	.align 2, 0
-_08033CF0: .4byte gUnknown_03001D10
+_08033CF0: .4byte gCamera
 _08033CF4: .4byte gUnknown_030008A0
 _08033CF8:
 	ldr r0, [r4, #8]

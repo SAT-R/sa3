@@ -77,7 +77,7 @@ CreateEntity_Interactable084: @ 0x0803DCCC
 	strh r2, [r3]
 	ldr r1, [r0, #0x5c]
 	asrs r1, r1, #8
-	ldr r3, _0803DDAC @ =gUnknown_03001D10
+	ldr r3, _0803DDAC @ =gCamera
 	ldr r2, [r3]
 	subs r1, r1, r2
 	mov r2, sl
@@ -110,7 +110,7 @@ _0803DD9C: .4byte 0x03000064
 _0803DDA0: .4byte 0x03000066
 _0803DDA4: .4byte 0x03000068
 _0803DDA8: .4byte 0x0300006A
-_0803DDAC: .4byte gUnknown_03001D10
+_0803DDAC: .4byte gCamera
 
 	thumb_func_start sub_803DDB0
 sub_803DDB0: @ 0x0803DDB0
@@ -845,7 +845,7 @@ sub_803E32C: @ 0x0803E32C
 	mov r1, sb
 	ldr r0, [r1, #0x5c]
 	asrs r0, r0, #8
-	ldr r2, _0803E388 @ =gUnknown_03001D10
+	ldr r2, _0803E388 @ =gCamera
 	ldr r1, [r2]
 	subs r7, r0, r1
 	mov r1, sb
@@ -873,7 +873,7 @@ _0803E370:
 	b _0803E394
 	.align 2, 0
 _0803E384: .4byte gCurTask
-_0803E388: .4byte gUnknown_03001D10
+_0803E388: .4byte gCamera
 _0803E38C: .4byte gUnknown_030015C0
 _0803E390:
 	ldr r0, _0803E3C8 @ =gUnknown_030008A0

@@ -96,7 +96,7 @@ _0804DE82:
 	str r6, [r0, #0x74]
 	ldr r1, _0804DF24 @ =0x0300000C
 	adds r3, r3, r1
-	ldr r4, _0804DF28 @ =gUnknown_03001D10
+	ldr r4, _0804DF28 @ =gCamera
 	ldr r2, [r4]
 	mov r6, ip
 	ldrh r1, [r6]
@@ -126,4 +126,4 @@ _0804DF18: .4byte 0x0300006C
 _0804DF1C: .4byte 0x0300006E
 _0804DF20: .4byte 0x03000071
 _0804DF24: .4byte 0x0300000C
-_0804DF28: .4byte gUnknown_03001D10
+_0804DF28: .4byte gCamera

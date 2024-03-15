@@ -260,7 +260,7 @@ _0804B9EE:
 	.align 2, 0
 _0804B9FC: .4byte gCurTask
 _0804BA00:
-	ldr r2, _0804BA34 @ =gUnknown_03001D10
+	ldr r2, _0804BA34 @ =gCamera
 	ldr r1, [r2]
 	mov r3, r8
 	lsls r0, r3, #0x10
@@ -285,7 +285,7 @@ _0804BA26:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804BA34: .4byte gUnknown_03001D10
+_0804BA34: .4byte gCamera
 
 	thumb_func_start CreateEntity_Interactable129
 CreateEntity_Interactable129: @ 0x0804BA38

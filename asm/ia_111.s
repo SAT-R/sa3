@@ -347,7 +347,7 @@ _08045EA4:
 	ldr r1, [sp, #0x10]
 	asrs r0, r1, #0x10
 	ldr r1, [sp, #0x14]
-	ldr r3, _08045F28 @ =gUnknown_03001D10
+	ldr r3, _08045F28 @ =gCamera
 	ldr r2, [r3]
 	subs r2, r0, r2
 	ldr r3, [r3, #4]
@@ -402,7 +402,7 @@ _08045F18: .4byte 0x01000100
 _08045F1C: .4byte sub_801D73C
 _08045F20: .4byte 0x00000256
 _08045F24: .4byte sub_8045F48
-_08045F28: .4byte gUnknown_03001D10
+_08045F28: .4byte gCamera
 _08045F2C: .4byte 0xEFFFFFFF
 _08045F30:
 	adds r0, r6, #0
@@ -760,7 +760,7 @@ _080461C0:
 _080461E8:
 	asrs r0, r7, #0x10
 	ldr r1, [sp, #0x18]
-	ldr r3, _0804627C @ =gUnknown_03001D10
+	ldr r3, _0804627C @ =gCamera
 	ldr r2, [r3]
 	mov r4, sl
 	subs r2, r4, r2
@@ -826,7 +826,7 @@ _0804626C: .4byte gCurTask
 _08046270: .4byte sub_8046298
 _08046274: .4byte 0x00000256
 _08046278: .4byte 0x00000299
-_0804627C: .4byte gUnknown_03001D10
+_0804627C: .4byte gCamera
 _08046280:
 	mov r0, r8
 	bl sub_8046438
@@ -893,7 +893,7 @@ _080462E8:
 	movs r5, #0
 	ldr r0, _08046350 @ =0x03000060
 	adds r4, r4, r0
-	ldr r7, _08046354 @ =gUnknown_03001D10
+	ldr r7, _08046354 @ =gCamera
 _08046308:
 	mov r1, sp
 	adds r0, r1, r5
@@ -930,7 +930,7 @@ _08046344: .4byte 0x03000110
 _08046348: .4byte 0x03000138
 _0804634C: .4byte 0x03000160
 _08046350: .4byte 0x03000060
-_08046354: .4byte gUnknown_03001D10
+_08046354: .4byte gCamera
 
 	thumb_func_start sub_8046358
 sub_8046358: @ 0x08046358
@@ -1058,7 +1058,7 @@ sub_8046438: @ 0x08046438
 	adds r4, #0xe8
 	ldr r1, [r0, #0x10]
 	asrs r1, r1, #8
-	ldr r3, _08046468 @ =gUnknown_03001D10
+	ldr r3, _08046468 @ =gCamera
 	ldr r2, [r3]
 	subs r1, r1, r2
 	strh r1, [r4, #0x10]
@@ -1075,7 +1075,7 @@ sub_8046438: @ 0x08046438
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08046468: .4byte gUnknown_03001D10
+_08046468: .4byte gCamera
 
 	thumb_func_start sub_804646C
 sub_804646C: @ 0x0804646C
@@ -1536,7 +1536,7 @@ sub_80467F0: @ 0x080467F0
 _0804681C: .4byte gCurTask
 _08046820:
 	ldr r0, [r5, #0x64]
-	ldr r2, _08046860 @ =gUnknown_03001D10
+	ldr r2, _08046860 @ =gCamera
 	ldr r1, [r2]
 	subs r0, r0, r1
 	lsls r0, r0, #0x10
@@ -1568,7 +1568,7 @@ _0804685A:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08046860: .4byte gUnknown_03001D10
+_08046860: .4byte gCamera
 
 	thumb_func_start sub_8046864
 sub_8046864: @ 0x08046864

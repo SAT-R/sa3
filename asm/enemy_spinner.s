@@ -27,7 +27,7 @@ sub_8058C74: @ 0x08058C74
 	ldrh r1, [r4, #6]
 	lsls r1, r1, #8
 	adds r2, r2, r1
-	ldr r3, _08058CE0 @ =gUnknown_03001D10
+	ldr r3, _08058CE0 @ =gCamera
 	ldr r1, [r3]
 	subs r2, r2, r1
 	strh r2, [r0, #0x10]
@@ -59,7 +59,7 @@ sub_8058C74: @ 0x08058C74
 	bx r0
 	.align 2, 0
 _08058CDC: .4byte 0x0000048E
-_08058CE0: .4byte gUnknown_03001D10
+_08058CE0: .4byte gCamera
 
 	thumb_func_start CreateEntity_Spinner
 CreateEntity_Spinner: @ 0x08058CE4
@@ -172,7 +172,7 @@ sub_8058DB0: @ 0x08058DB0
 	ldrh r1, [r0, #6]
 	lsls r1, r1, #8
 	adds r2, r2, r1
-	ldr r3, _08058DF0 @ =gUnknown_03001D10
+	ldr r3, _08058DF0 @ =gCamera
 	ldr r1, [r3]
 	subs r2, r2, r1
 	strh r2, [r5, #0x10]
@@ -194,7 +194,7 @@ sub_8058DB0: @ 0x08058DB0
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08058DF0: .4byte gUnknown_03001D10
+_08058DF0: .4byte gCamera
 
 	thumb_func_start sub_8058DF4
 sub_8058DF4: @ 0x08058DF4

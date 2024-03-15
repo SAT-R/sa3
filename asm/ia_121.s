@@ -82,7 +82,7 @@ CreateEntity_Interactable121: @ 0x080499FC
 	str r2, [r0, #0x74]
 	ldr r1, _08049ADC @ =0x0300000C
 	adds r3, r3, r1
-	ldr r4, _08049AE0 @ =gUnknown_03001D10
+	ldr r4, _08049AE0 @ =gCamera
 	ldr r2, [r4]
 	ldrh r1, [r6]
 	subs r1, r1, r2
@@ -112,7 +112,7 @@ _08049AD0: .4byte 0x0300005E
 _08049AD4: .4byte 0x03000078
 _08049AD8: .4byte 0x0300007A
 _08049ADC: .4byte 0x0300000C
-_08049AE0: .4byte gUnknown_03001D10
+_08049AE0: .4byte gCamera
 
 	thumb_func_start sub_8049AE4
 sub_8049AE4: @ 0x08049AE4
@@ -1152,7 +1152,7 @@ _0804A2B4:
 	asrs r0, r0, #0x10
 	cmp r0, #1
 	ble _0804A2B4
-	ldr r2, _0804A388 @ =gUnknown_03001D10
+	ldr r2, _0804A388 @ =gCamera
 	ldr r1, [r2]
 	mov r3, ip
 	asrs r5, r3, #0x10
@@ -1166,7 +1166,7 @@ _0804A2B4:
 	asrs r0, r0, #0x19
 	adds r0, r0, r1
 	strh r0, [r7, #0x10]
-	ldr r6, _0804A388 @ =gUnknown_03001D10
+	ldr r6, _0804A388 @ =gCamera
 	ldr r1, [r6, #4]
 	ldr r0, [sp, #8]
 	asrs r4, r0, #0x10
@@ -1184,7 +1184,7 @@ _0804A2B4:
 	bl UpdateSpriteAnimation
 	adds r0, r7, #0
 	bl DisplaySprite
-	ldr r1, _0804A388 @ =gUnknown_03001D10
+	ldr r1, _0804A388 @ =gCamera
 	ldr r0, [r1]
 	subs r5, r5, r0
 	mov r1, sl
@@ -1198,7 +1198,7 @@ _0804A2B4:
 	adds r0, r0, r5
 	mov r3, sb
 	strh r0, [r3, #0x10]
-	ldr r2, _0804A388 @ =gUnknown_03001D10
+	ldr r2, _0804A388 @ =gCamera
 	ldr r0, [r2, #4]
 	subs r4, r4, r0
 	ldr r3, [sp, #0xc]
@@ -1221,11 +1221,11 @@ _0804A378: .4byte 0x0300007C
 _0804A37C: .4byte 0x0300007F
 _0804A380: .4byte 0x0300007E
 _0804A384: .4byte 0x03000080
-_0804A388: .4byte gUnknown_03001D10
+_0804A388: .4byte gCamera
 _0804A38C:
 	cmp r0, #5
 	beq _0804A3C4
-	ldr r1, _0804A3D4 @ =gUnknown_03001D10
+	ldr r1, _0804A3D4 @ =gCamera
 	ldr r0, [r1]
 	subs r0, r5, r0
 	strh r0, [r7, #0x10]
@@ -1261,7 +1261,7 @@ _0804A3C4:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804A3D4: .4byte gUnknown_03001D10
+_0804A3D4: .4byte gCamera
 
 	thumb_func_start sub_804A3D8
 sub_804A3D8: @ 0x0804A3D8

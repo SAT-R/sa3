@@ -117,7 +117,7 @@ _080496E6:
 	strh r0, [r4]
 	adds r0, r7, #0
 	adds r0, #0xc
-	ldr r3, _08049718 @ =gUnknown_03001D10
+	ldr r3, _08049718 @ =gCamera
 	ldr r2, [r3]
 	ldrh r1, [r7, #0x38]
 	subs r1, r1, r2
@@ -139,7 +139,7 @@ _080496E6:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08049718: .4byte gUnknown_03001D10
+_08049718: .4byte gCamera
 
 	thumb_func_start sub_804971C
 sub_804971C: @ 0x0804971C
@@ -369,7 +369,7 @@ sub_80498B4: @ 0x080498B4
 	lsls r0, r0, #8
 	ldr r1, [r7, #0x40]
 	lsls r1, r1, #8
-	ldr r3, _08049918 @ =gUnknown_03001D10
+	ldr r3, _08049918 @ =gCamera
 	ldr r2, [r3]
 	asrs r0, r0, #0x10
 	subs r2, r0, r2
@@ -399,7 +399,7 @@ _080498FC:
 	.align 2, 0
 _08049910: .4byte gCurTask
 _08049914: .4byte 0x0300000C
-_08049918: .4byte gUnknown_03001D10
+_08049918: .4byte gCamera
 _0804991C: .4byte 0x00000261
 _08049920: .4byte gUnknown_030015C0
 _08049924:

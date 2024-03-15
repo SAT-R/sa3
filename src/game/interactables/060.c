@@ -10,7 +10,7 @@ typedef struct {
 
 extern bool32 sub_802C198(s32, s32);
 static void DestroyInteractable060(struct Task *t);
-static void Task_8035CA0(void);
+static void Task_Interactable060(void);
 
 void CreateEntity_Interactable060(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {

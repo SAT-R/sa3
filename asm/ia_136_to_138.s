@@ -86,7 +86,7 @@ _0804CC12:
 	strh r0, [r1]
 	adds r0, r3, #0
 	adds r0, #0xc
-	ldr r3, _0804CC7C @ =gUnknown_03001D10
+	ldr r3, _0804CC7C @ =gCamera
 	ldr r2, [r3]
 	ldrh r1, [r4]
 	subs r1, r1, r2
@@ -112,7 +112,7 @@ _0804CC12:
 	.align 2, 0
 _0804CC74: .4byte Task_Interactable136Main
 _0804CC78: .4byte TaskDestructor_Interactable136
-_0804CC7C: .4byte gUnknown_03001D10
+_0804CC7C: .4byte gCamera
 
 	thumb_func_start CreateEntity_Interactable137
 CreateEntity_Interactable137: @ 0x0804CC80
@@ -228,7 +228,7 @@ _0804CD40:
 	add r0, sl
 	mov r1, ip
 	strh r0, [r1]
-	ldr r2, _0804CD9C @ =gUnknown_03001D10
+	ldr r2, _0804CD9C @ =gCamera
 	ldr r1, [r2]
 	ldrh r0, [r7]
 	subs r0, r0, r1
@@ -259,7 +259,7 @@ _0804CD40:
 	.align 2, 0
 _0804CD94: .4byte Task_Interactable137Main
 _0804CD98: .4byte TaskDestructor_Interactable137
-_0804CD9C: .4byte gUnknown_03001D10
+_0804CD9C: .4byte gCamera
 
 	thumb_func_start CreateEntity_Interactable138
 CreateEntity_Interactable138: @ 0x0804CDA0
@@ -340,7 +340,7 @@ _0804CE0A:
 	strh r0, [r1]
 	adds r0, r3, #0
 	adds r0, #0xc
-	ldr r3, _0804CE70 @ =gUnknown_03001D10
+	ldr r3, _0804CE70 @ =gCamera
 	ldr r2, [r3]
 	ldrh r1, [r4]
 	subs r1, r1, r2
@@ -366,7 +366,7 @@ _0804CE0A:
 	.align 2, 0
 _0804CE68: .4byte Task_Interactable138Main
 _0804CE6C: .4byte TaskDestructor_Interactable138
-_0804CE70: .4byte gUnknown_03001D10
+_0804CE70: .4byte gCamera
 
 	thumb_func_start Task_Interactable136Main
 Task_Interactable136Main: @ 0x0804CE74
@@ -813,7 +813,7 @@ _0804D1C8:
 _0804D1D8:
 	strb r0, [r5, #0x1a]
 _0804D1DA:
-	ldr r2, _0804D214 @ =gUnknown_03001D10
+	ldr r2, _0804D214 @ =gCamera
 	ldr r1, [r2]
 	mov r3, sb
 	lsls r0, r3, #0x10
@@ -840,7 +840,7 @@ _0804D200:
 	bx r0
 	.align 2, 0
 _0804D210: .4byte 0x0300003C
-_0804D214: .4byte gUnknown_03001D10
+_0804D214: .4byte gCamera
 
 	thumb_func_start Task_Interactable137Main
 Task_Interactable137Main: @ 0x0804D218
@@ -1143,7 +1143,7 @@ sub_804D3FC: @ 0x0804D3FC
 	.align 2, 0
 _0804D454: .4byte gCurTask
 _0804D458:
-	ldr r0, _0804D480 @ =gUnknown_03001D10
+	ldr r0, _0804D480 @ =gCamera
 	ldr r1, [r0]
 	subs r1, r6, r1
 	strh r1, [r5, #0x10]
@@ -1162,7 +1162,7 @@ _0804D472:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804D480: .4byte gUnknown_03001D10
+_0804D480: .4byte gCamera
 
 	thumb_func_start Task_Interactable138Main
 Task_Interactable138Main: @ 0x0804D484
@@ -1554,7 +1554,7 @@ _0804D74C:
 _0804D780: .4byte gUnknown_030008A0
 _0804D784: .4byte gCurTask
 _0804D788:
-	ldr r0, _0804D7B0 @ =gUnknown_03001D10
+	ldr r0, _0804D7B0 @ =gCamera
 	ldr r1, [r0]
 	subs r1, r5, r1
 	strh r1, [r7, #0x10]
@@ -1573,7 +1573,7 @@ _0804D7A2:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804D7B0: .4byte gUnknown_03001D10
+_0804D7B0: .4byte gCamera
 
 	thumb_func_start TaskDestructor_Interactable136
 TaskDestructor_Interactable136: @ 0x0804D7B4

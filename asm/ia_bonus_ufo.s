@@ -805,7 +805,7 @@ sub_8041988: @ 0x08041988
 	bl sub_802C198
 	cmp r0, #0
 	beq _08041A10
-	ldr r0, _08041A0C @ =gUnknown_03001D10
+	ldr r0, _08041A0C @ =gCamera
 	ldr r1, [r0]
 	subs r1, r5, r1
 	strh r1, [r6, #0x10]
@@ -827,7 +827,7 @@ sub_8041988: @ 0x08041988
 	b _08041A20
 	.align 2, 0
 _08041A08: .4byte gCurTask
-_08041A0C: .4byte gUnknown_03001D10
+_08041A0C: .4byte gCamera
 _08041A10:
 	ldrb r0, [r4, #0xa]
 	mov r1, sb

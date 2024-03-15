@@ -454,7 +454,7 @@ sub_80314B0: @ 0x080314B0
 	ldrh r2, [r4, #6]
 	lsls r2, r2, #8
 	adds r1, r1, r2
-	ldr r3, _08031508 @ =gUnknown_03001D10
+	ldr r3, _08031508 @ =gCamera
 	ldr r2, [r3]
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
@@ -475,7 +475,7 @@ sub_80314B0: @ 0x080314B0
 	b _08031518
 	.align 2, 0
 _08031504: .4byte gCurTask
-_08031508: .4byte gUnknown_03001D10
+_08031508: .4byte gCamera
 _0803150C:
 	adds r0, r5, #0
 	bl UpdateSpriteAnimation

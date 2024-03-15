@@ -550,7 +550,7 @@ sub_803414C: @ 0x0803414C
 _080341AC: .4byte gCurTask
 _080341B0: .4byte 0x0300000C
 _080341B4:
-	ldr r0, _080341F8 @ =gUnknown_03001D10
+	ldr r0, _080341F8 @ =gCamera
 	ldr r1, [r0]
 	subs r1, r6, r1
 	lsls r1, r1, #0x10
@@ -582,7 +582,7 @@ _080341EA:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080341F8: .4byte gUnknown_03001D10
+_080341F8: .4byte gCamera
 _080341FC: .4byte 0x03000034
 
 	thumb_func_start sub_8034200

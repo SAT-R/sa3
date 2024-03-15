@@ -920,7 +920,7 @@ sub_802F1B8: @ 0x0802F1B8
 	mov r8, r0
 	movs r1, #0
 	mov ip, r1
-	ldr r7, _0802F204 @ =gUnknown_03001D10
+	ldr r7, _0802F204 @ =gCamera
 _0802F1D8:
 	lsls r0, r1, #0x10
 	adds r4, r0, #0
@@ -944,7 +944,7 @@ _0802F1D8:
 	b _0802F218
 	.align 2, 0
 _0802F200: .4byte gCurTask
-_0802F204: .4byte gUnknown_03001D10
+_0802F204: .4byte gCamera
 _0802F208:
 	ldr r0, [r5, #0xc]
 	asrs r0, r0, #8

@@ -1658,7 +1658,7 @@ _080370C6:
 	movs r1, #1
 _080370D4:
 	strb r1, [r5, #0x1a]
-	ldr r4, _0803712C @ =gUnknown_03001D10
+	ldr r4, _0803712C @ =gCamera
 	ldr r1, [r4]
 	mov r2, sl
 	lsls r0, r2, #0x10
@@ -1699,7 +1699,7 @@ _0803711A:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0803712C: .4byte gUnknown_03001D10
+_0803712C: .4byte gCamera
 
 	thumb_func_start sub_8037130
 sub_8037130: @ 0x08037130

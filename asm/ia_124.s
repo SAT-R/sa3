@@ -63,7 +63,7 @@ CreateEntity_Interactable124: @ 0x0804AE78
 	strb r1, [r6]
 	subs r7, #0x34
 	adds r0, r0, r7
-	ldr r4, _0804AF28 @ =gUnknown_03001D10
+	ldr r4, _0804AF28 @ =gCamera
 	ldr r3, [r4]
 	ldrh r1, [r2, #0x3e]
 	subs r1, r1, r3
@@ -90,7 +90,7 @@ _0804AF18: .4byte sub_804AF2C
 _0804AF1C: .4byte sub_804B3CC
 _0804AF20: .4byte 0x03000040
 _0804AF24: .4byte 0x03000042
-_0804AF28: .4byte gUnknown_03001D10
+_0804AF28: .4byte gCamera
 
 	thumb_func_start sub_804AF2C
 sub_804AF2C: @ 0x0804AF2C
@@ -448,7 +448,7 @@ _0804B1DC:
 	movs r0, #2
 _0804B1E8:
 	strb r0, [r4, #0x1a]
-	ldr r2, _0804B244 @ =gUnknown_03001D10
+	ldr r2, _0804B244 @ =gCamera
 	ldr r1, [r2]
 	mov r3, sb
 	lsls r0, r3, #0x10
@@ -492,7 +492,7 @@ _0804B232:
 	bx r0
 	.align 2, 0
 _0804B240: .4byte 0x03000042
-_0804B244: .4byte gUnknown_03001D10
+_0804B244: .4byte gCamera
 _0804B248: .4byte 0xFFFFFBFF
 
 	thumb_func_start sub_804B24C
@@ -533,7 +533,7 @@ _0804B278:
 	adds r0, r0, r2
 	str r0, [r3, #4]
 	asrs r1, r1, #8
-	ldr r2, _0804B2C0 @ =gUnknown_03001D10
+	ldr r2, _0804B2C0 @ =gCamera
 	ldr r0, [r2]
 	subs r1, r1, r0
 	strh r1, [r4, #0x10]
@@ -554,7 +554,7 @@ _0804B2B8:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804B2C0: .4byte gUnknown_03001D10
+_0804B2C0: .4byte gCamera
 
 	thumb_func_start sub_804B2C4
 sub_804B2C4: @ 0x0804B2C4

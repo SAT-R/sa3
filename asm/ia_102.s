@@ -527,7 +527,7 @@ sub_80429D0: @ 0x080429D0
 	adds r1, r1, r2
 	ldr r2, [r7, #0x3c]
 	asrs r2, r2, #8
-	ldr r4, _08042A4C @ =gUnknown_03001D10
+	ldr r4, _08042A4C @ =gCamera
 	ldr r3, [r4]
 	subs r2, r2, r3
 	strh r2, [r5, #0x10]
@@ -562,7 +562,7 @@ _08042A34:
 	b _08042A58
 	.align 2, 0
 _08042A48: .4byte gCurTask
-_08042A4C: .4byte gUnknown_03001D10
+_08042A4C: .4byte gCamera
 _08042A50: .4byte gUnknown_030015C0
 _08042A54:
 	ldr r0, _08042A90 @ =gUnknown_030008A0

@@ -73,7 +73,7 @@ CreateEntity_Interactable089: @ 0x0803EED8
 	strb r1, [r2]
 	ldr r2, _0803EFBC @ =0x0300000C
 	adds r5, r6, r2
-	ldr r3, _0803EFC0 @ =gUnknown_03001D10
+	ldr r3, _0803EFC0 @ =gCamera
 	ldr r2, [r3]
 	mov r7, r8
 	ldrh r1, [r7]
@@ -114,7 +114,7 @@ _0803EFB0: .4byte 0x03000072
 _0803EFB4: .4byte 0x03000074
 _0803EFB8: .4byte 0x03000075
 _0803EFBC: .4byte 0x0300000C
-_0803EFC0: .4byte gUnknown_03001D10
+_0803EFC0: .4byte gCamera
 _0803EFC4: .4byte 0x03000044
 
 	thumb_func_start sub_803EFC8
@@ -411,7 +411,7 @@ sub_803F1D4: @ 0x0803F1D4
 	lsls r2, r2, #8
 	adds r1, r1, r2
 	lsls r1, r1, #0x10
-	ldr r3, _0803F248 @ =gUnknown_03001D10
+	ldr r3, _0803F248 @ =gCamera
 	ldr r2, [r3]
 	mov sb, r2
 	lsrs r2, r0, #0x10
@@ -438,7 +438,7 @@ sub_803F1D4: @ 0x0803F1D4
 	.align 2, 0
 _0803F240: .4byte gCurTask
 _0803F244: .4byte 0x0300000C
-_0803F248: .4byte gUnknown_03001D10
+_0803F248: .4byte gCamera
 _0803F24C:
 	adds r0, r4, #0
 	bl UpdateSpriteAnimation
@@ -533,7 +533,7 @@ _0803F2F8:
 	bne _0803F362
 	adds r4, r6, #0
 	adds r4, #0x44
-	ldr r2, _0803F358 @ =gUnknown_03001D10
+	ldr r2, _0803F358 @ =gCamera
 	ldr r1, [r2]
 	mov r3, sl
 	lsls r0, r3, #0x10
@@ -570,7 +570,7 @@ _0803F2F8:
 _0803F34C: .4byte 0xFFFFFBFF
 _0803F350: .4byte 0x00000255
 _0803F354: .4byte 0x000003A6
-_0803F358: .4byte gUnknown_03001D10
+_0803F358: .4byte gCamera
 _0803F35C:
 	movs r0, #0xff
 	mov r3, r8

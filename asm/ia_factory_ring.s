@@ -242,7 +242,7 @@ sub_8041248: @ 0x08041248
 	.align 2, 0
 _080412A0: .4byte gCurTask
 _080412A4:
-	ldr r0, _080412CC @ =gUnknown_03001D10
+	ldr r0, _080412CC @ =gCamera
 	ldr r1, [r0]
 	subs r1, r6, r1
 	strh r1, [r5, #0x10]
@@ -261,7 +261,7 @@ _080412BE:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080412CC: .4byte gUnknown_03001D10
+_080412CC: .4byte gCamera
 
 	thumb_func_start CreateEntity_FactoryRing
 CreateEntity_FactoryRing: @ 0x080412D0

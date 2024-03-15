@@ -739,7 +739,7 @@ _08033830:
 	bhi _08033844
 	movs r4, #5
 _08033844:
-	ldr r2, _0803389C @ =gUnknown_03001D10
+	ldr r2, _0803389C @ =gCamera
 	ldr r1, [r2]
 	mov r3, sb
 	lsls r0, r3, #0x10
@@ -782,7 +782,7 @@ _08033890:
 	b _080338B8
 	.align 2, 0
 _08033898: .4byte 0x03000034
-_0803389C: .4byte gUnknown_03001D10
+_0803389C: .4byte gCamera
 _080338A0: .4byte gUnknown_030008A0
 _080338A4:
 	strb r4, [r6, #0x1a]

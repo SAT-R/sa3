@@ -60,7 +60,7 @@ CreateEntity_Interactable144: @ 0x0804F5B0
 	strh r1, [r0, #0x36]
 	ldr r2, _0804F654 @ =0x0300000C
 	adds r4, r4, r2
-	ldr r2, _0804F658 @ =gUnknown_03001D10
+	ldr r2, _0804F658 @ =gCamera
 	ldr r1, [r2]
 	subs r3, r3, r1
 	strh r3, [r4, #0x10]
@@ -86,7 +86,7 @@ _0804F648: .4byte gUnknown_030008A0
 _0804F64C: .4byte Task_Interactable144
 _0804F650: .4byte TaskDestructor_Interactable144
 _0804F654: .4byte 0x0300000C
-_0804F658: .4byte gUnknown_03001D10
+_0804F658: .4byte gCamera
 
 	thumb_func_start sub_804F65C
 sub_804F65C: @ 0x0804F65C
@@ -124,7 +124,7 @@ sub_804F65C: @ 0x0804F65C
 	.align 2, 0
 _0804F6A0: .4byte gCurTask
 _0804F6A4:
-	ldr r0, _0804F6CC @ =gUnknown_03001D10
+	ldr r0, _0804F6CC @ =gCamera
 	ldr r1, [r0]
 	subs r1, r6, r1
 	strh r1, [r5, #0x10]
@@ -143,7 +143,7 @@ _0804F6BE:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804F6CC: .4byte gUnknown_03001D10
+_0804F6CC: .4byte gCamera
 
 	thumb_func_start TaskDestructor_Interactable144
 TaskDestructor_Interactable144: @ 0x0804F6D0

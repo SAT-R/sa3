@@ -224,7 +224,7 @@ sub_803FC80: @ 0x0803FC80
 	lsrs r0, r0, #0x10
 	mov ip, r0
 	movs r2, #0
-	ldr r7, _0803FD30 @ =gUnknown_03001D10
+	ldr r7, _0803FD30 @ =gCamera
 	adds r3, r7, #0
 _0803FCBA:
 	ldr r1, [r3]
@@ -284,7 +284,7 @@ _0803FD0E:
 	.align 2, 0
 _0803FD28: .4byte gCurTask
 _0803FD2C: .4byte 0x0300000C
-_0803FD30: .4byte gUnknown_03001D10
+_0803FD30: .4byte gCamera
 _0803FD34:
 	adds r0, r6, #0
 	bl UpdateSpriteAnimation

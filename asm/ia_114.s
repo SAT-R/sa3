@@ -106,7 +106,7 @@ CreateEntity_Interactable114: @ 0x08047AF8
 	str r2, [r1]
 	ldr r1, _08047C10 @ =0x03000034
 	adds r3, r3, r1
-	ldr r4, _08047C14 @ =gUnknown_03001D10
+	ldr r4, _08047C14 @ =gCamera
 	ldr r2, [r4]
 	ldrh r1, [r6]
 	subs r1, r1, r2
@@ -139,7 +139,7 @@ _08047C04: .4byte 0x03000080
 _08047C08: .4byte 0x03000084
 _08047C0C: .4byte 0x0300008C
 _08047C10: .4byte 0x03000034
-_08047C14: .4byte gUnknown_03001D10
+_08047C14: .4byte gCamera
 
 	thumb_func_start sub_8047C18
 sub_8047C18: @ 0x08047C18
@@ -1264,7 +1264,7 @@ _080484C4:
 	ldrb r0, [r0]
 	lsls r0, r0, #2
 	strh r0, [r4]
-	ldr r1, _08048524 @ =gUnknown_03001D10
+	ldr r1, _08048524 @ =gCamera
 	ldr r0, [r1]
 	mov r3, r8
 	subs r0, r3, r0
@@ -1294,7 +1294,7 @@ _080484C4:
 _08048518: .4byte 0x0300000C
 _0804851C: .4byte 0x03000034
 _08048520: .4byte 0x03000070
-_08048524: .4byte gUnknown_03001D10
+_08048524: .4byte gCamera
 _08048528: .4byte gUnknown_03002C24
 _0804852C:
 	ldr r2, _08048554 @ =0x03000073
@@ -1306,7 +1306,7 @@ _0804852C:
 	str r3, [sp, #0xc]
 	ldr r0, _08048558 @ =0x0300000C
 	adds r7, r6, r0
-	ldr r0, _0804855C @ =gUnknown_03001D10
+	ldr r0, _0804855C @ =gCamera
 	ldr r0, [r0]
 	mov r1, r8
 	subs r2, r1, r0
@@ -1320,12 +1320,12 @@ _0804852C:
 	.align 2, 0
 _08048554: .4byte 0x03000073
 _08048558: .4byte 0x0300000C
-_0804855C: .4byte gUnknown_03001D10
+_0804855C: .4byte gCamera
 _08048560:
 	adds r0, r2, r1
 _08048562:
 	strh r0, [r7, #0x10]
-	ldr r4, _080485A8 @ =gUnknown_03001D10
+	ldr r4, _080485A8 @ =gCamera
 	ldr r0, [r4, #4]
 	ldr r2, [sp, #8]
 	lsls r6, r2, #0x10
@@ -1358,14 +1358,14 @@ _08048562:
 	lsrs r0, r1, #1
 	b _080485B0
 	.align 2, 0
-_080485A8: .4byte gUnknown_03001D10
+_080485A8: .4byte gCamera
 _080485AC:
 	rsbs r0, r2, #0
 	asrs r0, r0, #1
 _080485B0:
 	adds r0, r3, r0
 	strh r0, [r7, #0x10]
-	ldr r0, _08048614 @ =gUnknown_03001D10
+	ldr r0, _08048614 @ =gCamera
 	ldr r0, [r0, #4]
 	asrs r1, r6, #0x10
 	subs r1, r1, r0
@@ -1412,7 +1412,7 @@ _08048602:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08048614: .4byte gUnknown_03001D10
+_08048614: .4byte gCamera
 
 	thumb_func_start sub_8048618
 sub_8048618: @ 0x08048618

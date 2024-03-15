@@ -95,7 +95,7 @@ _08035D5A:
 	mov r0, ip
 	adds r0, #0x45
 	strb r3, [r0]
-	ldr r2, _08035DD0 @ =gUnknown_03001D10
+	ldr r2, _08035DD0 @ =gCamera
 	ldr r1, [r2]
 	mov r3, ip
 	ldrh r0, [r3, #0x3c]
@@ -121,7 +121,7 @@ _08035D5A:
 _08035DC4: .4byte sub_8035DD4
 _08035DC8: .4byte sub_8036054
 _08035DCC: .4byte 0x0300000C
-_08035DD0: .4byte gUnknown_03001D10
+_08035DD0: .4byte gCamera
 
 	thumb_func_start sub_8035DD4
 sub_8035DD4: @ 0x08035DD4
@@ -425,7 +425,7 @@ _08035FEC:
 _08036020: .4byte gUnknown_030008A0
 _08036024: .4byte gCurTask
 _08036028:
-	ldr r0, _08036050 @ =gUnknown_03001D10
+	ldr r0, _08036050 @ =gCamera
 	ldr r1, [r0]
 	subs r1, r5, r1
 	strh r1, [r7, #0x10]
@@ -444,7 +444,7 @@ _08036042:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08036050: .4byte gUnknown_03001D10
+_08036050: .4byte gCamera
 
 	thumb_func_start sub_8036054
 sub_8036054: @ 0x08036054

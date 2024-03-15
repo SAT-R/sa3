@@ -105,7 +105,7 @@ _0804E6DC:
 	strb r4, [r1]
 	ldr r6, _0804E7A4 @ =0x0300000C
 	adds r0, r0, r6
-	ldr r4, _0804E7A8 @ =gUnknown_03001D10
+	ldr r4, _0804E7A8 @ =gCamera
 	ldr r2, [r4]
 	ldrh r1, [r3, #0x34]
 	subs r1, r1, r2
@@ -135,7 +135,7 @@ _0804E798: .4byte sub_804E7AC
 _0804E79C: .4byte sub_804E920
 _0804E7A0: .4byte 0x03000038
 _0804E7A4: .4byte 0x0300000C
-_0804E7A8: .4byte gUnknown_03001D10
+_0804E7A8: .4byte gCamera
 
 	thumb_func_start sub_804E7AC
 sub_804E7AC: @ 0x0804E7AC
@@ -298,7 +298,7 @@ sub_804E8AC: @ 0x0804E8AC
 	.align 2, 0
 _0804E8F0: .4byte gCurTask
 _0804E8F4:
-	ldr r0, _0804E91C @ =gUnknown_03001D10
+	ldr r0, _0804E91C @ =gCamera
 	ldr r1, [r0]
 	subs r1, r6, r1
 	strh r1, [r5, #0x10]
@@ -317,7 +317,7 @@ _0804E90E:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804E91C: .4byte gUnknown_03001D10
+_0804E91C: .4byte gCamera
 
 	thumb_func_start sub_804E920
 sub_804E920: @ 0x0804E920
@@ -343,7 +343,7 @@ sub_804E934: @ 0x0804E934
 	ldr r2, _0804E974 @ =0x0300000C
 	adds r4, r1, r2
 	ldrh r1, [r0, #0x36]
-	ldr r3, _0804E978 @ =gUnknown_03001D10
+	ldr r3, _0804E978 @ =gCamera
 	ldr r2, [r3]
 	movs r6, #0x34
 	ldrsh r0, [r0, r6]
@@ -364,7 +364,7 @@ sub_804E934: @ 0x0804E934
 	.align 2, 0
 _0804E970: .4byte gCurTask
 _0804E974: .4byte 0x0300000C
-_0804E978: .4byte gUnknown_03001D10
+_0804E978: .4byte gCamera
 _0804E97C:
 	adds r0, r4, #0
 	bl DisplaySprite
