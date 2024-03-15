@@ -1,5 +1,7 @@
+/* Task Module based on ./src/task.c from
+   https://github.com/jiangzhengwenjz/katam/ */
+
 #include "global.h"
-//#include "core.h"
 #include "task.h"
 #include "flags.h"
 #include "lib/m4a.h"
