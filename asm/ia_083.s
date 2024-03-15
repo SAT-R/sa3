@@ -573,7 +573,7 @@ _0803C656:
 	ands r0, r1
 	mov r1, ip
 	strh r0, [r1]
-	ldr r2, _0803C6B8 @ =gUnknown_03002B40
+	ldr r2, _0803C6B8 @ =gFlags
 	ldr r0, [r2]
 	movs r1, #5
 	rsbs r1, r1, #0
@@ -588,7 +588,7 @@ _0803C656:
 	b _0803C6E6
 	.align 2, 0
 _0803C6B4: .4byte 0x0000FEFF
-_0803C6B8: .4byte gUnknown_03002B40
+_0803C6B8: .4byte gFlags
 _0803C6BC: .4byte sub_803C898
 _0803C6C0:
 	movs r0, #0x12
@@ -660,7 +660,7 @@ _0803C72A:
 	lsrs r0, r0, #0x10
 	mov sl, r0
 _0803C73A:
-	ldr r2, _0803C840 @ =gUnknown_03002B40
+	ldr r2, _0803C840 @ =gFlags
 	ldr r0, [r2]
 	movs r1, #4
 	orrs r0, r1
@@ -797,7 +797,7 @@ _0803C82A:
 	b _0803C886
 	.align 2, 0
 _0803C83C: .4byte 0xFFC00000
-_0803C840: .4byte gUnknown_03002B40
+_0803C840: .4byte gFlags
 _0803C844: .4byte gUnknown_03003C5C
 _0803C848: .4byte 0x04000012
 _0803C84C: .4byte gUnknown_03003F30

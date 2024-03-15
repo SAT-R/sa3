@@ -100,11 +100,11 @@
 . = 0x00001EB0; gIntrTable = .;
 . = 0x00001EC4; gUnknown_03001EC4 = .;
 . = 0x00001EF0; gUnknown_03001EF0 = .;
-. = 0x000020F0; gUnknown_030020F0 = .;
+. = 0x000020F0; gTasks = .;
 . = 0x00002AF0; gUnknown_03002AF0 = .;
 . = 0x00002AF4; gUnknown_03002AF4 = .;
 . = 0x00002B00; gUnknown_03002B00 = .;
-. = 0x00002B40; gUnknown_03002B40 = .;
+. = 0x00002B40; gFlags = .;
 . = 0x00002B50; gUnknown_03002B50 = .;
 . = 0x00002B70; gUnknown_03002B70 = .;
 . = 0x00002B80; gUnknown_03002B80 = .;
@@ -150,7 +150,7 @@
 . = 0x00003593; gUnknown_03003593 = .;
 . = 0x000035A0; gUnknown_030035A0 = .;
 . = 0x000035A4; gUnknown_030035A4 = .;
-. = 0x000035A8; gUnknown_030035A8 = .;
+. = 0x000035A8; gNextTaskToCheckForDestruction = .;
 . = 0x000035B0; gUnknown_030035B0 = .;
 . = 0x000035BC; gUnknown_030035BC = .;
 . = 0x000035C0; gUnknown_030035C0 = .;
@@ -209,7 +209,7 @@
 . = 0x00006848; gUnknown_03006848 = .;
 . = 0x00006850; gUnknown_03006850 = .;
 . = 0x00006860; gUnknown_03006860 = .;
-. = 0x00006864; gUnknown_03006864 = .;
+. = 0x00006864; gExecSoundMain = .;
 . = 0x00006868; gUnknown_03006868 = .;
 . = 0x00006870; gUnknown_03006870 = .;
 . = 0x00006990; gUnknown_03006990 = .;

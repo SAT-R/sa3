@@ -2135,7 +2135,7 @@ _0803A1F6:
 	ldr r0, _0803A260 @ =0x0000FEFF
 	ands r1, r0
 	strh r1, [r4]
-	ldr r2, _0803A264 @ =gUnknown_03002B40
+	ldr r2, _0803A264 @ =gFlags
 	ldr r0, [r2]
 	movs r1, #5
 	rsbs r1, r1, #0
@@ -2153,7 +2153,7 @@ _0803A1F6:
 _0803A258: .4byte gUnknown_030008A0
 _0803A25C: .4byte gUnknown_03003C20
 _0803A260: .4byte 0x0000FEFF
-_0803A264: .4byte gUnknown_03002B40
+_0803A264: .4byte gFlags
 _0803A268: .4byte gCurTask
 _0803A26C: .4byte Task_803A5D4
 _0803A270:
@@ -2382,7 +2382,7 @@ _0803A402:
 	lsrs r1, r1, #0x10
 	mov sl, r1
 _0803A422:
-	ldr r2, _0803A5C0 @ =gUnknown_03002B40
+	ldr r2, _0803A5C0 @ =gFlags
 	ldr r0, [r2]
 	movs r1, #4
 	orrs r0, r1
@@ -2603,7 +2603,7 @@ _0803A5B2:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0803A5C0: .4byte gUnknown_03002B40
+_0803A5C0: .4byte gFlags
 _0803A5C4: .4byte gUnknown_03003C5C
 _0803A5C8: .4byte 0x04000012
 _0803A5CC: .4byte gUnknown_03003F30

@@ -1049,7 +1049,7 @@ sub_80619EC: @ 0x080619EC
 	ldrh r6, [r5, #0x10]
 	cmp r0, r6
 	bne _08061A80
-	ldr r5, _08061A44 @ =gUnknown_03002B40
+	ldr r5, _08061A44 @ =gFlags
 	ldr r2, [r5]
 	movs r0, #0x80
 	lsls r0, r0, #0xa
@@ -1065,7 +1065,7 @@ sub_80619EC: @ 0x080619EC
 _08061A38: .4byte gUnknown_080D20B8
 _08061A3C: .4byte gUnknown_03003370
 _08061A40: .4byte gUnknown_080D206C
-_08061A44: .4byte gUnknown_03002B40
+_08061A44: .4byte gFlags
 _08061A48: .4byte gUnknown_080D208C
 _08061A4C:
 	ldr r1, _08061A74 @ =0x040000D4
@@ -1093,7 +1093,7 @@ _08061A74: .4byte 0x040000D4
 _08061A78: .4byte gUnknown_080D208C
 _08061A7C: .4byte 0x80000010
 _08061A80:
-	ldr r4, _08061A9C @ =gUnknown_03002B40
+	ldr r4, _08061A9C @ =gFlags
 	ldr r2, [r4]
 	movs r0, #0x80
 	lsls r0, r0, #0xa
@@ -1106,7 +1106,7 @@ _08061A80:
 	bl sub_80C4564
 	b _08061AB8
 	.align 2, 0
-_08061A9C: .4byte gUnknown_03002B40
+_08061A9C: .4byte gFlags
 _08061AA0:
 	ldr r1, _08061AC0 @ =0x040000D4
 	str r5, [r1]

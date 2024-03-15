@@ -39,6 +39,8 @@ typedef void *IwramData;
 #define TASK_x0004            0x0004
 #define TASK_USE_EWRAM        0x0010
 
+#define USE_OLD_TASK_SYSTEM   FALSE
+
 struct Task {
     /* 0x00 */ TaskPtr parent;
     /* 0x02 */ TaskPtr prev;
@@ -50,10 +52,12 @@ struct Task {
     /* 0x12 */ u16 flags; // 0x1  = active
                           // 0x2  = ???
                           // 0x10 = use ewram for struct
+#if USE_OLD_TASK_SYSTEM
     /* 0x14 */ u8 unk14;
     /* 0x15 */ u8 unk15;
     /* 0x16 */ u16 unk16;
     /* 0x18 */ u16 unk18;
+#endif
 };
 
 #ifndef PORTABLE
@@ -83,6 +87,9 @@ extern struct Task gTasks[MAX_TASK_NUM];
 extern struct Task gEmptyTask;
 extern struct Task *gTaskPtrs[MAX_TASK_NUM];
 extern s32 gNumTasks;
+#if !USE_OLD_TASK_SYSTEM
+extern struct Task* gNextTaskToCheckForDestruction;
+#endif
 extern struct Task *gNextTask;
 extern struct Task *gCurTask;
 extern u8 gIwramHeap[0x2204];
@@ -93,6 +100,7 @@ struct Task *TaskCreate(TaskMain taskMain, u16 structSize, u16 priority, u16 fla
                         TaskDestructor taskDestructor);
 void TaskDestroy(struct Task *);
 void *IwramMalloc(u16);
+void IwramFree(void *p);
 void TasksDestroyInPriorityRange(u16, u16);
 
 #endif
