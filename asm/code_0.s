@@ -1930,7 +1930,7 @@ sub_8001040: @ 0x08001040
 	ldr r2, _08001104 @ =0x050000DB
 	mov r0, sp
 	adds r1, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	ldr r0, _08001108 @ =0x47544E4C
 	str r0, [r5]
 	str r4, [r5, #8]
@@ -2111,7 +2111,7 @@ sub_8001120: @ 0x08001120
 	lsls r2, r2, #2
 	adds r0, r5, #0
 	ldr r1, [sp]
-	bl sub_80C7060
+	bl ProgramFlashSectorAndVerifyNBytes
 	adds r4, r0, #0
 	mov r1, sp
 	ldrh r2, [r1, #4]
@@ -2226,7 +2226,7 @@ sub_8001224: @ 0x08001224
 	ands r3, r1
 	strh r3, [r0, #0xa]
 	ldrh r0, [r0, #0xa]
-	ldr r0, _08001324 @ =gUnknown_03006C40
+	ldr r0, _08001324 @ =EraseFlashSector
 	ldr r1, [r0]
 	adds r0, r5, #0
 	bl _call_via_r1
@@ -2265,7 +2265,7 @@ _08001314: .4byte 0x040000B0
 _08001318: .4byte 0x0000C5FF
 _0800131C: .4byte 0x00007FFF
 _08001320: .4byte 0x040000D4
-_08001324: .4byte gUnknown_03006C40
+_08001324: .4byte EraseFlashSector
 _08001328: .4byte 0xFFFF7FFF
 
 	thumb_func_start sub_800132C
@@ -3303,7 +3303,7 @@ _08001AC6:
 	movs r1, #0
 	adds r2, r4, #0
 	movs r3, #8
-	bl sub_80C6E20
+	bl ReadFlash
 	ldr r1, [r4]
 	ldr r0, _08001B10 @ =0x47544E4C
 	cmp r1, r0
@@ -3417,7 +3417,7 @@ _08001B9A:
 	movs r1, #0
 	adds r2, r5, #0
 	movs r3, #8
-	bl sub_80C6E20
+	bl ReadFlash
 	ldr r1, [r5]
 	ldr r0, _08001C28 @ =0x47544E4C
 	cmp r1, r0
@@ -3835,7 +3835,7 @@ _08001EB2:
 	movs r1, #0
 	adds r2, r4, #0
 	movs r3, #8
-	bl sub_80C6E20
+	bl ReadFlash
 	ldr r1, [r4]
 	ldr r0, _08001EE8 @ =0x47544E4C
 	cmp r1, r0
@@ -3993,7 +3993,7 @@ sub_8001FD4: @ 0x08001FD4
 	ldr r2, _08002014 @ =0x040000DA
 	adds r0, r4, #0
 	adds r1, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r6, #0
 	adds r1, r5, #0
 	bl sub_800132C
@@ -4055,7 +4055,7 @@ _08002060:
 	ldr r2, _08002080 @ =0x040000DA
 	adds r0, r5, #0
 	adds r1, r6, #0
-	bl sub_80C7520
+	bl CpuSet
 	movs r0, #0
 _0800207A:
 	pop {r4, r5, r6}
@@ -4080,7 +4080,7 @@ _08002094:
 	adds r2, r5, #0
 	movs r3, #0xdb
 	lsls r3, r3, #2
-	bl sub_80C6E20
+	bl ReadFlash
 	ldr r1, [r5]
 	ldr r0, _080020BC @ =0x47544E4C
 	cmp r1, r0
@@ -4758,11 +4758,11 @@ sub_80025A8: @ 0x080025A8
 	beq _080025E6
 	ldrh r0, [r1]
 	movs r1, #0x64
-	bl sub_80C7524
+	bl Div
 	adds r4, r0, #0
 	adds r0, r5, #0
 	movs r1, #0x64
-	bl sub_80C7524
+	bl Div
 	cmp r4, r0
 	beq _080025E6
 	ldrb r0, [r6, #3]
@@ -7975,7 +7975,7 @@ sub_8003FC8: @ 0x08003FC8
 	ldr r1, _08003FE4 @ =gCamera
 	ldr r2, _08003FE8 @ =0x0500001B
 	mov r0, sp
-	bl sub_80C7520
+	bl CpuSet
 	bl sub_80026BC
 	add sp, #4
 	pop {r0}
@@ -8131,7 +8131,7 @@ sub_80040D8: @ 0x080040D8
 	ldr r2, _08004174 @ =0x05000054
 	mov r0, sp
 	str r3, [sp, #4]
-	bl sub_80C7520
+	bl CpuSet
 	ldrb r1, [r7]
 	movs r0, #4
 	rsbs r0, r0, #0
@@ -9998,10 +9998,10 @@ sub_8004F48: @ 0x08004F48
 	ldr r2, _08004F98 @ =0x01000800
 	mov r0, sp
 	adds r1, r4, #0
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r5, #0
 	adds r1, r4, #0
-	bl sub_80C7530
+	bl LZ77UnCompWram
 	movs r0, #0xa0
 	lsls r0, r0, #1
 	adds r1, r6, r0
@@ -37664,7 +37664,7 @@ _08012662:
 	asrs r0, r0, #0x10
 	lsls r1, r5, #0x10
 	asrs r1, r1, #0x10
-	bl sub_80C7518
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x18
 	adds r0, r2, #0
@@ -40641,7 +40641,7 @@ _08013C4E:
 	cmp r1, #0
 	beq _08013C6E
 _08013C5E:
-	bl sub_80C7518
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x18
 	adds r0, #0x40
@@ -42443,7 +42443,7 @@ sub_80149E4: @ 0x080149E4
 _08014A08:
 	lsls r1, r3, #0x10
 	asrs r1, r1, #0x10
-	bl sub_80C7518
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r1, r0, #0x18
 _08014A14:
@@ -69496,10 +69496,10 @@ _08021AA8:
 	ldrh r4, [r7]
 	adds r0, r4, #0
 	movs r1, #0x3c
-	bl sub_80C7524
+	bl Div
 	mov r8, r0
 	movs r1, #0x3c
-	bl sub_80C7524
+	bl Div
 	str r0, [sp]
 	ldr r2, _08021D38 @ =gUnknown_080CF9AE
 	lsls r1, r0, #1
@@ -69706,7 +69706,7 @@ _08021B16:
 	ldrsh r4, [r5, r3]
 	adds r0, r4, #0
 	movs r1, #0x64
-	bl sub_80C7524
+	bl Div
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	adds r6, r0, #0
@@ -69717,7 +69717,7 @@ _08021B16:
 	asrs r4, r4, #0x10
 	adds r0, r4, #0
 	movs r1, #0xa
-	bl sub_80C7524
+	bl Div
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	lsls r1, r0, #2
@@ -70424,10 +70424,10 @@ sub_8022234: @ 0x08022234
 	ldrh r4, [r6]
 	adds r0, r4, #0
 	movs r1, #0x3c
-	bl sub_80C7524
+	bl Div
 	str r0, [sp, #4]
 	movs r1, #0x3c
-	bl sub_80C7524
+	bl Div
 	str r0, [sp]
 	ldr r2, _08022538 @ =gUnknown_080CF9AE
 	lsls r1, r0, #1
@@ -70615,7 +70615,7 @@ _080222B6:
 	ldrsh r4, [r5, r1]
 	adds r0, r4, #0
 	movs r1, #0x64
-	bl sub_80C7524
+	bl Div
 	lsls r0, r0, #0x18
 	asrs r6, r0, #0x18
 	movs r0, #0x64
@@ -70625,7 +70625,7 @@ _080222B6:
 	asrs r4, r4, #0x10
 	adds r0, r4, #0
 	movs r1, #0xa
-	bl sub_80C7524
+	bl Div
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
 	lsls r1, r0, #2
@@ -70787,7 +70787,7 @@ _08022568:
 	subs r0, r0, r1
 	lsls r0, r0, #5
 	mov r1, r8
-	bl sub_80C7524
+	bl Div
 	cmp r0, #0
 	blt _08022580
 	cmp r0, #0xe0
@@ -71308,7 +71308,7 @@ sub_8022978: @ 0x08022978
 	adds r5, #0xae
 	ldrh r0, [r5]
 	movs r1, #0x3c
-	bl sub_80C7524
+	bl Div
 	adds r4, r0, #0
 	lsls r0, r4, #4
 	subs r0, r0, r4
@@ -71335,7 +71335,7 @@ sub_8022978: @ 0x08022978
 	strb r0, [r3, #0x1a]
 	adds r0, r4, #0
 	movs r1, #0x3c
-	bl sub_80C7524
+	bl Div
 	lsls r1, r0, #4
 	subs r1, r1, r0
 	lsls r1, r1, #2
@@ -71521,7 +71521,7 @@ sub_8022B30: @ 0x08022B30
 	add r0, sp, #0x28
 	ldr r2, _08022D14 @ =0x0500000A
 	mov r1, sp
-	bl sub_80C7520
+	bl CpuSet
 	mov r1, sp
 	ldr r0, _08022D18 @ =0x0000FFFF
 	strh r0, [r1, #0x18]
@@ -71537,7 +71537,7 @@ _08022B60:
 	mov r0, sp
 	adds r1, r7, #0
 	ldr r2, _08022D1C @ =0x0400000A
-	bl sub_80C7520
+	bl CpuSet
 	lsls r0, r4, #0x10
 	movs r1, #0x80
 	lsls r1, r1, #9
@@ -79718,11 +79718,11 @@ _08026A32:
 	beq _08026AA0
 	ldrh r0, [r4]
 	movs r1, #0x64
-	bl sub_80C7524
+	bl Div
 	adds r4, r0, #0
 	adds r0, r6, #0
 	movs r1, #0x64
-	bl sub_80C7524
+	bl Div
 	cmp r4, r0
 	beq _08026AA0
 	mov r1, r8
@@ -83193,13 +83193,13 @@ sub_8028688: @ 0x08028688
 	ldr r1, _080286EC @ =gUnknown_03000970
 	ldr r2, _080286F0 @ =0x05000004
 	mov r0, sp
-	bl sub_80C7520
+	bl CpuSet
 	str r5, [sp, #4]
 	add r0, sp, #4
 	ldr r4, _080286F4 @ =gUnknown_030008A0
 	ldr r2, _080286F8 @ =0x05000032
 	adds r1, r4, #0
-	bl sub_80C7520
+	bl CpuSet
 	movs r0, #7
 	strb r0, [r4, #3]
 	strb r5, [r4, #1]
@@ -83213,7 +83213,7 @@ sub_8028688: @ 0x08028688
 	ldr r4, _08028700 @ =gUnknown_03001060
 	ldr r2, _08028704 @ =0x05000016
 	adds r1, r4, #0
-	bl sub_80C7520
+	bl CpuSet
 	movs r1, #0
 	adds r2, r4, #0
 	adds r2, #0xc
@@ -84110,7 +84110,7 @@ sub_8028DEC: @ 0x08028DEC
 	mov sl, r1
 	mov r1, sb
 	mov r2, sl
-	bl sub_80C7520
+	bl CpuSet
 	ldr r0, _08029114 @ =0x0600C000
 	mov r2, sb
 	str r0, [r2, #4]
@@ -84130,7 +84130,7 @@ sub_8028DEC: @ 0x08028DEC
 	add r0, sp, #0x34
 	adds r1, r6, #0
 	mov r2, sl
-	bl sub_80C7520
+	bl CpuSet
 	ldr r0, _0802911C @ =0x06008000
 	str r0, [r6, #4]
 	ldr r0, _08029120 @ =0x0600F000
@@ -84248,7 +84248,7 @@ _08028EF6:
 	ldr r2, _0802913C @ =0x0500000A
 	add r0, sp, #0x38
 	mov r1, sp
-	bl sub_80C7520
+	bl CpuSet
 	mov r2, r8
 	str r2, [sp, #8]
 	mov r3, sl
@@ -84272,7 +84272,7 @@ _08028EF6:
 	add r7, sb
 	ldr r2, _08029140 @ =0x0400000A
 	adds r1, r7, #0
-	bl sub_80C7520
+	bl CpuSet
 	movs r7, #0xb4
 	lsls r7, r7, #1
 	add r7, sb
@@ -84287,7 +84287,7 @@ _08028FC2:
 	adds r1, r7, #0
 	ldr r2, _08029140 @ =0x0400000A
 	str r3, [sp, #0x48]
-	bl sub_80C7520
+	bl CpuSet
 	ldr r3, [sp, #0x48]
 	lsls r0, r3, #0x10
 	movs r1, #0x80
@@ -84315,7 +84315,7 @@ _08028FF0:
 	adds r0, r4, #0
 	movs r1, #0xa
 	str r3, [sp, #0x48]
-	bl sub_80C7524
+	bl Div
 	lsls r1, r0, #2
 	adds r1, r1, r0
 	lsls r1, r1, #1
@@ -85743,7 +85743,7 @@ _08029B06:
 	adds r5, r0, #0
 	ldr r0, [r4]
 	adds r1, r5, #0
-	bl sub_80C753C
+	bl RLUnCompWram
 _08029B32:
 	ldrh r0, [r6, #6]
 	movs r1, #0xc0
@@ -87301,7 +87301,7 @@ sub_802A6C4: @ 0x0802A6C4
 	adds r1, r1, r0
 	ldr r0, [r1]
 	ldr r1, [sp, #8]
-	bl sub_80C753C
+	bl RLUnCompWram
 _0802A706:
 	ldrb r0, [r4, #9]
 	cmp r0, #8
@@ -89503,7 +89503,7 @@ sub_802B788: @ 0x0802B788
 	adds r6, r0, #0
 	ldr r0, [r4]
 	adds r1, r6, #0
-	bl sub_80C753C
+	bl RLUnCompWram
 	str r6, [r7]
 	ldr r4, _0802B820 @ =gUnknown_080D1348
 	adds r4, r5, r4
@@ -89514,7 +89514,7 @@ sub_802B788: @ 0x0802B788
 	adds r6, r0, #0
 	ldr r0, [r4]
 	adds r1, r6, #0
-	bl sub_80C753C
+	bl RLUnCompWram
 	str r6, [r7, #4]
 	ldr r0, _0802B824 @ =gUnknown_080D146C
 	adds r5, r5, r0
@@ -89525,7 +89525,7 @@ sub_802B788: @ 0x0802B788
 	adds r6, r0, #0
 	ldr r0, [r5]
 	adds r1, r6, #0
-	bl sub_80C753C
+	bl RLUnCompWram
 	str r6, [r7, #8]
 	mov r1, sb
 	str r1, [r7, #0x18]
@@ -89540,7 +89540,7 @@ _0802B828:
 	ldr r6, _0802B858 @ =gUnknown_0203F000
 	ldr r0, _0802B85C @ =gUnknown_082DA130
 	adds r1, r6, #0
-	bl sub_80C753C
+	bl RLUnCompWram
 	str r6, [r7]
 _0802B834:
 	ldr r1, _0802B860 @ =gCamera
@@ -91157,7 +91157,7 @@ _0802C400:
 	lsrs r5, r0, #0x10
 	adds r0, r5, #0
 	movs r1, #6
-	bl sub_80C7524
+	bl Div
 	lsls r0, r0, #0x10
 	lsrs r3, r0, #0x10
 	lsls r0, r3, #1
@@ -91470,7 +91470,7 @@ _0802C652:
 	adds r1, r6, #0
 	adds r1, #0x40
 	ldr r2, _0802C740 @ =0x01000002
-	bl sub_80C7520
+	bl CpuSet
 	ldr r1, [r6, #0x14]
 	ldr r2, [r6, #0x18]
 	movs r0, #0

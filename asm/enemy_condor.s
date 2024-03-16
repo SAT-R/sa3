@@ -82,7 +82,7 @@ _08058EF6:
 	adds r1, #0x64
 	ldr r2, _08058F28 @ =0x01000002
 	add r0, sp, #4
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r7, #0
 	bl sub_8058F2C
 	movs r1, #2
@@ -1160,7 +1160,7 @@ CreateCondorProjectile: @ 0x08059700
 	adds r1, r1, r0
 	ldr r2, _08059774 @ =0x01000002
 	add r0, sp, #4
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r4, #0
 	bl sub_805944C
 	add sp, #8

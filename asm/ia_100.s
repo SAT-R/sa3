@@ -771,7 +771,7 @@ _08042070:
 	adds r1, r5, #0
 	adds r1, #0x2c
 	ldr r2, _080420B0 @ =0x01000002
-	bl sub_80C7520
+	bl CpuSet
 	ldr r0, _080420B4 @ =0x00000389
 	strh r0, [r5, #0xc]
 	strb r4, [r5, #0x1a]

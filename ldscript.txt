@@ -119,6 +119,14 @@ SECTIONS {
         build/sa3/asm/enemy_guruguru.o(.text);
         build/sa3/asm/enemy_kyacchaa.o(.text);
         build/sa3/asm/code.o(.text);
+        build/sa3/src/main.o(.text);
+        build/sa3/src/task.o(.text);
+        build/sa3/asm/code_z.o(.text);
+        build/sa3/src/lib/agb_flash/agb_flash.o(.text);
+        build/sa3/src/lib/agb_flash/agb_flash_1m.o(.text);
+        build/sa3/src/lib/agb_flash/agb_flash_mx.o(.text);
+        build/sa3/src/lib/agb_flash/agb_flash_sst.o(.text);
+        build/sa3/asm/_agb_flash.o(.text);
     }
 
     .rodata :
@@ -434,8 +442,15 @@ SECTIONS {
         build/sa3/sound/songs/song826.o(.rodata);
         build/sa3/sound/songs/song827.o(.rodata);
         build/sa3/sound/songs/song828.o(.rodata);
-
+        
         build/sa3/data/data1.o(.rodata);
+
+        build/sa3/src/lib/agb_flash/agb_flash.o(.rodata)
+        build/sa3/src/lib/agb_flash/agb_flash_1m.o(.rodata)
+        build/sa3/src/lib/agb_flash/agb_flash_mx.o(.rodata)
+        build/sa3/src/lib/agb_flash/agb_flash_sst.o(.rodata)
+
+        build/sa3/data/data2.o(.rodata);
         build/sa3/asm/rom_footer.o(.rodata);
         build/sa3/data/data_z.o(.rodata);
     }

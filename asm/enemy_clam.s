@@ -86,7 +86,7 @@ _08063FAA:
 	adds r1, #0x4c
 	ldr r2, _08063FDC @ =0x01000002
 	add r0, sp, #4
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r7, #0
 	bl sub_8063FE0
 	movs r1, #2
@@ -1102,7 +1102,7 @@ sub_80646F0: @ 0x080646F0
 	add r0, sp, #4
 	adds r2, r6, #0
 	str r3, [sp, #0xc]
-	bl sub_80C7520
+	bl CpuSet
 	mov r0, sp
 	adds r0, #6
 	strh r5, [r0]
@@ -1111,7 +1111,7 @@ sub_80646F0: @ 0x080646F0
 	adds r3, r3, r1
 	adds r1, r3, #0
 	adds r2, r6, #0
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r4, #0
 	bl sub_8064304
 	add sp, #0x10

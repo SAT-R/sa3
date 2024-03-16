@@ -4509,10 +4509,10 @@ sub_803B498: @ 0x0803B498
 	ldrsh r5, [r0, r1]
 	adds r0, r5, #0
 	movs r1, #0x3c
-	bl sub_80C7524
+	bl Div
 	adds r4, r0, #0
 	movs r1, #0x3c
-	bl sub_80C7524
+	bl Div
 	ldr r2, _0803B600 @ =gUnknown_080CF9AE
 	lsls r0, r0, #1
 	adds r1, r0, r2

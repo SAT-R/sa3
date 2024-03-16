@@ -79,7 +79,7 @@ _0805DF5E:
 	adds r1, r7, #0
 	adds r1, #0x50
 	ldr r2, _0805DF90 @ =0x01000002
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r7, #0
 	bl sub_805DF94
 	movs r1, #2

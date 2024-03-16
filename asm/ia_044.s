@@ -851,7 +851,7 @@ _080329DE:
 	ldrsh r0, [r0, r1]
 	lsls r0, r0, #1
 	movs r1, #0x11
-	bl sub_80C7524
+	bl Div
 	strh r0, [r5, #0x18]
 	lsls r4, r4, #1
 	ldr r2, _08032A1C @ =gUnknown_082B48B4
@@ -860,7 +860,7 @@ _080329DE:
 	ldrsh r0, [r4, r1]
 	lsls r0, r0, #1
 	movs r1, #0x11
-	bl sub_80C7524
+	bl Div
 	strh r0, [r5, #0x1a]
 	adds r2, r5, #0
 	adds r2, #0x2b
@@ -876,7 +876,7 @@ _08032A20:
 	ldrsh r0, [r5, r2]
 	adds r0, r6, #0
 	movs r1, #0x56
-	bl sub_80C7524
+	bl Div
 	lsls r0, r0, #0x18
 	lsrs r1, r0, #0x18
 	cmp r1, #0xb
@@ -958,7 +958,7 @@ _08032AB0:
 	strh r0, [r4, #0x38]
 	lsrs r0, r0, #4
 	movs r1, #0x55
-	bl sub_80C7524
+	bl Div
 	lsls r0, r0, #0x18
 	lsrs r1, r0, #0x18
 	cmp r1, #0xb

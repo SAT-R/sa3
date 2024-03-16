@@ -222,7 +222,7 @@ sub_806611C: @ 0x0806611C
 	adds r1, r5, r0
 	ldr r2, _08066190 @ =0x01000020
 	add r0, sp, #4
-	bl sub_80C7520
+	bl CpuSet
 	mov r0, sp
 	adds r0, #6
 	strh r6, [r0]
@@ -230,7 +230,7 @@ sub_806611C: @ 0x0806611C
 	adds r5, r5, r1
 	ldr r2, _08066198 @ =0x01000008
 	adds r1, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	add sp, #8
 	pop {r3}
 	mov r8, r3
@@ -9677,7 +9677,7 @@ sub_806AA40: @ 0x0806AA40
 	adds r1, #0xc0
 	ldr r5, _0806AAA0 @ =0x01000002
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	mov r0, sp
 	adds r0, #2
 	strh r4, [r0]
@@ -9685,7 +9685,7 @@ sub_806AA40: @ 0x0806AA40
 	lsls r2, r2, #1
 	adds r1, r6, r2
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
@@ -23369,7 +23369,7 @@ _08071250:
 	muls r0, r5, r0
 	adds r2, r1, r0
 	adds r0, r2, #0
-	bl sub_80C7568
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r6, r0, #0x10
 	adds r0, r6, #0
@@ -47586,7 +47586,7 @@ _0807CD82:
 	muls r2, r1, r2
 	adds r1, r2, #0
 	adds r0, r0, r1
-	bl sub_80C7568
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	cmp r0, r6
@@ -48478,7 +48478,7 @@ _0807D47E:
 	adds r1, r6, #0
 	muls r1, r6, r1
 	adds r0, r0, r1
-	bl sub_80C7568
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x18
 	cmp r0, #0x13
@@ -49295,7 +49295,7 @@ sub_807DA34: @ 0x0807DA34
 	muls r2, r1, r2
 	adds r1, r2, #0
 	adds r0, r0, r1
-	bl sub_80C7568
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	str r0, [r6, #0x24]
@@ -62139,7 +62139,7 @@ _08083AF4:
 	adds r1, r6, #0
 	muls r1, r6, r1
 	adds r0, r0, r1
-	bl sub_80C7568
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	adds r1, r7, #0
@@ -67608,7 +67608,7 @@ _08086434:
 	muls r0, r4, r0
 	adds r1, r1, r0
 	adds r0, r1, #0
-	bl sub_80C7568
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	movs r1, #0xc
@@ -84802,14 +84802,14 @@ sub_808EBBC: @ 0x0808EBBC
 	ldrsh r4, [r0, r1]
 	adds r0, r4, #0
 	movs r1, #0xa
-	bl sub_80C7524
+	bl Div
 	adds r5, r0, #0
 	adds r5, #1
 	lsls r5, r5, #0x10
 	lsrs r5, r5, #0x10
 	adds r0, r4, #0
 	movs r1, #0xa
-	bl sub_80C7528
+	bl DivMod
 	adds r4, r0, #0
 	subs r4, #1
 	lsls r4, r4, #0x10
@@ -86952,7 +86952,7 @@ _0808FC1C:
 	ldr r0, _0808FCE8 @ =gUnknown_080D6C1C
 	ldr r1, _0808FCEC @ =gUnknown_03003370
 	movs r2, #0x80
-	bl sub_80C751C
+	bl CpuFastSet
 	ldr r2, _0808FCF0 @ =gFlags
 	ldr r0, [r2]
 	movs r1, #2
@@ -96887,19 +96887,19 @@ _08094968:
 	ldrh r4, [r0]
 	adds r0, r4, #0
 	movs r1, #0x3c
-	bl sub_80C7528
+	bl DivMod
 	adds r5, r0, #0
 	lsls r5, r5, #0x18
 	lsrs r5, r5, #0x18
 	adds r0, r4, #0
 	movs r1, #0x3c
-	bl sub_80C7524
+	bl Div
 	adds r4, r0, #0
 	lsls r4, r4, #0x10
 	lsrs r4, r4, #0x10
 	adds r0, r4, #0
 	movs r1, #0x3c
-	bl sub_80C7524
+	bl Div
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	lsls r1, r0, #4
@@ -112341,7 +112341,7 @@ sub_809C274: @ 0x0809C274
 	ldr r1, _0809C34C @ =0x0600C7FC
 	ldr r2, _0809C350 @ =0x01000002
 	mov r0, sp
-	bl sub_80C7520
+	bl CpuSet
 	add sp, #8
 	pop {r3, r4, r5}
 	mov r8, r3
@@ -114723,17 +114723,17 @@ sub_809D5B8: @ 0x0809D5B8
 	ldr r1, _0809D694 @ =0x05000200
 	adds r0, r6, #0
 	movs r2, #0x28
-	bl sub_80C751C
+	bl CpuFastSet
 	ldr r0, _0809D698 @ =gUnknown_080D9898
 	ldr r4, _0809D69C @ =gUnknown_03003450
 	adds r1, r4, #0
 	movs r2, #8
-	bl sub_80C751C
+	bl CpuFastSet
 	subs r4, #0xe0
 	adds r0, r6, #0
 	adds r1, r4, #0
 	movs r2, #0x28
-	bl sub_80C751C
+	bl CpuFastSet
 	ldr r0, [r5]
 	movs r1, #2
 	orrs r0, r1
@@ -123517,7 +123517,7 @@ sub_80A1B68: @ 0x080A1B68
 	orrs r2, r0
 	mov r0, sp
 	mov r1, r8
-	bl sub_80C751C
+	bl CpuFastSet
 	adds r0, r4, #0
 	adds r0, #0x94
 	mov r1, r8
@@ -124756,7 +124756,7 @@ _080A257C:
 	mov r0, sp
 	adds r1, r4, #0
 	movs r2, #8
-	bl sub_80C7520
+	bl CpuSet
 	lsls r0, r5, #0x10
 	movs r2, #0x80
 	lsls r2, r2, #9
@@ -138817,11 +138817,11 @@ sub_80A93C8: @ 0x080A93C8
 	ldr r0, _080A9408 @ =gUnknown_08712E34
 	mov r1, sp
 	movs r2, #0x80
-	bl sub_80C751C
+	bl CpuFastSet
 	ldr r0, _080A940C @ =gUnknown_0871A7D8
 	add r1, sp, #0x200
 	movs r2, #0x80
-	bl sub_80C751C
+	bl CpuFastSet
 	b _080A9424
 	.align 2, 0
 _080A9400: .4byte 0xFFFFFBF8
@@ -138832,11 +138832,11 @@ _080A9410:
 	ldr r0, _080A94D8 @ =gUnknown_0872217C
 	mov r1, sp
 	movs r2, #0x80
-	bl sub_80C751C
+	bl CpuFastSet
 	ldr r0, _080A94DC @ =gUnknown_0872A018
 	add r1, sp, #0x200
 	movs r2, #0x80
-	bl sub_80C751C
+	bl CpuFastSet
 _080A9424:
 	movs r7, #0
 	movs r0, #0x81
@@ -138957,11 +138957,11 @@ sub_80A94EC: @ 0x080A94EC
 	ldr r0, _080A952C @ =gUnknown_08712E34
 	mov r1, sp
 	movs r2, #0x80
-	bl sub_80C751C
+	bl CpuFastSet
 	ldr r0, _080A9530 @ =gUnknown_0871A7D8
 	add r1, sp, #0x200
 	movs r2, #0x80
-	bl sub_80C751C
+	bl CpuFastSet
 	b _080A9548
 	.align 2, 0
 _080A9524: .4byte 0xFFFFFBFC
@@ -138972,11 +138972,11 @@ _080A9534:
 	ldr r0, _080A9584 @ =gUnknown_0872217C
 	mov r1, sp
 	movs r2, #0x80
-	bl sub_80C751C
+	bl CpuFastSet
 	ldr r0, _080A9588 @ =gUnknown_0872A018
 	add r1, sp, #0x200
 	movs r2, #0x80
-	bl sub_80C751C
+	bl CpuFastSet
 _080A9548:
 	ldrh r0, [r7, #2]
 	adds r0, #1
@@ -139432,7 +139432,7 @@ sub_80A98B0: @ 0x080A98B0
 	ldr r3, _080A9900 @ =0x03000004
 	adds r1, r2, r3
 	movs r2, #0x80
-	bl sub_80C751C
+	bl CpuFastSet
 	b _080A9910
 	.align 2, 0
 _080A98F0: .4byte sub_80A93C8
@@ -139445,7 +139445,7 @@ _080A9904:
 	ldr r3, _080A991C @ =0x03000004
 	adds r1, r2, r3
 	movs r2, #0x80
-	bl sub_80C751C
+	bl CpuFastSet
 _080A9910:
 	add sp, #4
 	pop {r4}
@@ -146024,7 +146024,7 @@ sub_80ACC40: @ 0x080ACC40
 	ldr r1, [r0, #0x28]
 	ldr r2, _080ACD0C @ =0x010003C0
 	add r0, sp, #4
-	bl sub_80C751C
+	bl CpuFastSet
 	ldr r1, [r5]
 	ldr r0, [r1, #0x28]
 	str r0, [r1, #0x24]
@@ -147494,7 +147494,7 @@ sub_80AD824: @ 0x080AD824
 	str r6, [sp, #4]
 	ldr r2, _080AD938 @ =0x010003C0
 	add r0, sp, #4
-	bl sub_80C751C
+	bl CpuFastSet
 	ldr r1, [r4, #0x10]
 	ldr r0, [r1, #0x28]
 	str r0, [r1, #0x24]
@@ -147699,7 +147699,7 @@ sub_80AD9E4: @ 0x080AD9E4
 	str r6, [sp, #4]
 	ldr r2, _080ADAF0 @ =0x010003C0
 	add r0, sp, #4
-	bl sub_80C751C
+	bl CpuFastSet
 	ldr r1, [r4, #0x10]
 	ldr r0, [r1, #0x28]
 	str r0, [r1, #0x24]
@@ -148875,7 +148875,7 @@ sub_80AE300: @ 0x080AE300
 	ldr r1, [r0, #0x28]
 	ldr r2, _080AE3D0 @ =0x010003C0
 	add r0, sp, #4
-	bl sub_80C751C
+	bl CpuFastSet
 	ldr r1, [r4]
 	ldr r0, [r1, #0x28]
 	str r0, [r1, #0x24]
@@ -150794,7 +150794,7 @@ sub_80AF270: @ 0x080AF270
 	lsls r0, r0, #0xd
 	movs r2, #2
 	ldrsh r1, [r7, r2]
-	bl sub_80C7524
+	bl Div
 	strh r0, [r7, #2]
 	movs r0, #2
 	ldrsh r1, [r7, r0]
@@ -150811,7 +150811,7 @@ _080AF29A:
 	lsls r0, r0, #0xd
 	movs r2, #4
 	ldrsh r1, [r7, r2]
-	bl sub_80C7524
+	bl Div
 	strh r0, [r7, #4]
 	movs r0, #4
 	ldrsh r1, [r7, r0]
@@ -150906,7 +150906,7 @@ sub_80AF330: @ 0x080AF330
 	muls r2, r1, r2
 	adds r1, r2, #0
 	adds r0, r0, r1
-	bl sub_80C7568
+	bl Sqrt
 	adds r1, r0, #0
 	lsls r1, r1, #0x10
 	lsrs r1, r1, #0x10
@@ -151264,7 +151264,7 @@ sub_80AF5E8: @ 0x080AF5E8
 	muls r2, r1, r2
 	adds r1, r2, #0
 	adds r0, r0, r1
-	bl sub_80C7568
+	bl Sqrt
 	adds r1, r0, #0
 	lsls r1, r1, #0x10
 	lsrs r1, r1, #0x10
@@ -153474,7 +153474,7 @@ _080B0788:
 	muls r2, r1, r2
 	adds r1, r2, #0
 	adds r0, r0, r1
-	bl sub_80C7568
+	bl Sqrt
 	adds r1, r0, #0
 	lsls r1, r1, #0x10
 	lsrs r1, r1, #0x10
@@ -153577,7 +153577,7 @@ _080B0854:
 	muls r2, r1, r2
 	adds r1, r2, #0
 	adds r0, r0, r1
-	bl sub_80C7568
+	bl Sqrt
 	adds r1, r0, #0
 	lsls r1, r1, #0x10
 	lsrs r1, r1, #0x10
@@ -153681,7 +153681,7 @@ _080B0922:
 	muls r2, r1, r2
 	adds r1, r2, #0
 	adds r0, r0, r1
-	bl sub_80C7568
+	bl Sqrt
 	adds r1, r0, #0
 	lsls r1, r1, #0x10
 	lsrs r1, r1, #0x10
@@ -155378,7 +155378,7 @@ sub_80B1608: @ 0x080B1608
 	muls r2, r1, r2
 	adds r1, r2, #0
 	adds r0, r0, r1
-	bl sub_80C7568
+	bl Sqrt
 	adds r1, r0, #0
 	lsls r1, r1, #0x10
 	lsrs r1, r1, #0x10
@@ -156224,14 +156224,14 @@ _080B1BBC:
 	movs r3, #0
 	ldrsh r0, [r6, r3]
 	movs r1, #0x64
-	bl sub_80C7524
+	bl Div
 	ldr r1, _080B1D0C @ =0x000008D1
 	adds r5, r7, r1
 	strb r0, [r5]
 	movs r2, #0
 	ldrsh r0, [r6, r2]
 	movs r1, #0xa
-	bl sub_80C7524
+	bl Div
 	movs r2, #0
 	ldrsb r2, [r5, r2]
 	lsls r1, r2, #2
@@ -156244,7 +156244,7 @@ _080B1BBC:
 	movs r1, #0
 	ldrsh r0, [r6, r1]
 	movs r1, #0xa
-	bl sub_80C7528
+	bl DivMod
 	ldr r2, _080B1D14 @ =0x000008D3
 	adds r1, r7, r2
 	strb r0, [r1]
@@ -157863,12 +157863,12 @@ sub_80B29B4: @ 0x080B29B4
 	asrs r4, r4, #0x10
 	adds r0, r4, #0
 	movs r1, #0x64
-	bl sub_80C7524
+	bl Div
 	add r1, sp, #0x18
 	strh r0, [r1, #2]
 	adds r0, r4, #0
 	movs r1, #0xa
-	bl sub_80C7524
+	bl Div
 	add r3, sp, #0x18
 	adds r1, r3, #0
 	movs r5, #2
@@ -157880,7 +157880,7 @@ sub_80B29B4: @ 0x080B29B4
 	strh r0, [r3, #4]
 	adds r0, r4, #0
 	movs r1, #0xa
-	bl sub_80C7528
+	bl DivMod
 	add r1, sp, #0x18
 	strh r0, [r1, #6]
 	adds r0, r1, #0
@@ -158686,7 +158686,7 @@ _080B303C:
 	mov r0, sp
 	adds r1, r5, #0
 	movs r2, #8
-	bl sub_80C7520
+	bl CpuSet
 	lsls r0, r4, #0x10
 	asrs r0, r0, #0x10
 	lsls r1, r0, #8
@@ -158825,7 +158825,7 @@ _080B315C:
 	mov r0, sp
 	adds r1, r7, #0
 	movs r2, #8
-	bl sub_80C7520
+	bl CpuSet
 	lsls r0, r4, #0x10
 	asrs r0, r0, #0x10
 	lsls r1, r0, #8
@@ -160208,13 +160208,13 @@ sub_80B3C28: @ 0x080B3C28
 	asrs r4, r4, #0x10
 	adds r0, r4, #0
 	movs r1, #0x64
-	bl sub_80C7524
+	bl Div
 	ldr r1, _080B3D40 @ =0x000008D1
 	adds r5, r6, r1
 	strb r0, [r5]
 	adds r0, r4, #0
 	movs r1, #0xa
-	bl sub_80C7524
+	bl Div
 	movs r2, #0
 	ldrsb r2, [r5, r2]
 	lsls r1, r2, #2
@@ -160226,7 +160226,7 @@ sub_80B3C28: @ 0x080B3C28
 	strb r0, [r1]
 	adds r0, r4, #0
 	movs r1, #0xa
-	bl sub_80C7528
+	bl DivMod
 	ldr r3, _080B3D48 @ =0x000008D3
 	adds r1, r6, r3
 	strb r0, [r1]
@@ -160252,13 +160252,13 @@ _080B3CBC:
 	asrs r4, r4, #0x10
 	adds r0, r4, #0
 	movs r1, #0x64
-	bl sub_80C7524
+	bl Div
 	ldr r1, _080B3D40 @ =0x000008D1
 	adds r5, r6, r1
 	strb r0, [r5]
 	adds r0, r4, #0
 	movs r1, #0xa
-	bl sub_80C7524
+	bl Div
 	movs r2, #0
 	ldrsb r2, [r5, r2]
 	lsls r1, r2, #2
@@ -160270,7 +160270,7 @@ _080B3CBC:
 	strb r0, [r1]
 	adds r0, r4, #0
 	movs r1, #0xa
-	bl sub_80C7528
+	bl DivMod
 	ldr r3, _080B3D48 @ =0x000008D3
 	adds r1, r6, r3
 	strb r0, [r1]
@@ -164228,7 +164228,7 @@ _080B5B9A:
 	adds r0, r6, #0
 	adds r1, r4, #0
 	ldr r2, _080B5C28 @ =0x04000005
-	bl sub_80C7520
+	bl CpuSet
 	movs r3, #0
 	ldrsh r1, [r5, r3]
 	ldr r2, [sp, #0x30]
@@ -164409,7 +164409,7 @@ _080B5D62:
 	ldr r2, _080B5DE8 @ =0x0400000A
 	adds r0, r3, #0
 	adds r1, r7, #0
-	bl sub_80C7520
+	bl CpuSet
 	movs r3, #0x83
 	lsls r3, r3, #5
 	adds r1, r3, #0
@@ -164511,7 +164511,7 @@ sub_80B5DF4: @ 0x080B5DF4
 	lsrs r4, r4, #0x10
 	ldr r2, _080B5EB0 @ =0x0400000A
 	adds r1, r7, #0
-	bl sub_80C7520
+	bl CpuSet
 	movs r1, #0x83
 	lsls r1, r1, #5
 	adds r0, r1, #0
@@ -164636,7 +164636,7 @@ sub_80B5EBC: @ 0x080B5EBC
 	adds r0, r0, r1
 	ldr r2, _080B5FE0 @ =0x0400000A
 	adds r1, r7, #0
-	bl sub_80C7520
+	bl CpuSet
 	movs r2, #0x83
 	lsls r2, r2, #5
 	adds r0, r2, #0
@@ -164869,7 +164869,7 @@ sub_80B60E0: @ 0x080B60E0
 	adds r0, r0, r1
 	ldr r2, _080B618C @ =0x0400000A
 	adds r1, r6, #0
-	bl sub_80C7520
+	bl CpuSet
 	movs r0, #0x83
 	lsls r0, r0, #5
 	adds r1, r0, #0
@@ -165236,7 +165236,7 @@ sub_80B6370: @ 0x080B6370
 	add r0, sl
 	ldr r2, _080B6454 @ =0x0400000A
 	mov r1, r8
-	bl sub_80C7520
+	bl CpuSet
 	mov r4, sb
 	adds r4, #0x18
 	ldr r0, _080B6458 @ =0x000C0060
@@ -165344,7 +165344,7 @@ sub_80B6464: @ 0x080B6464
 	ldr r2, _080B652C @ =0x0400000A
 	adds r0, r6, #0
 	adds r1, r6, #0
-	bl sub_80C7520
+	bl CpuSet
 	mov r0, sb
 	lsls r4, r0, #0x10
 	asrs r4, r4, #0x10
@@ -165645,7 +165645,7 @@ _080B6724:
 	adds r0, r6, #0
 	adds r1, r5, #0
 	ldr r2, _080B6770 @ =0x04000005
-	bl sub_80C7520
+	bl CpuSet
 	movs r0, #6
 	strh r0, [r5]
 	adds r4, #1
@@ -173811,7 +173811,7 @@ sub_80BA4F8: @ 0x080BA4F8
 	ands r0, r1
 	ldr r1, _080BA550 @ =0x03000000
 	ldr r2, _080BA554 @ =0x04000100
-	bl sub_80C7520
+	bl CpuSet
 	ldr r0, _080BA558 @ =gSoundInfo
 	bl sub_80BA8F8
 	ldr r0, _080BA55C @ =gCgbChans
@@ -174246,7 +174246,7 @@ sub_80BA7B4: @ 0x080BA7B4
 	ldr r2, _080BA8C8 @ =0x05000040
 	mov r0, sp
 	adds r1, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	movs r0, #1
 	strb r0, [r5, #1]
 	movs r0, #0x11
@@ -174389,7 +174389,7 @@ _080BA922:
 	ldr r2, _080BA9DC @ =0x050003EC
 	mov r0, sp
 	adds r1, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	movs r0, #8
 	strb r0, [r5, #6]
 	movs r0, #0xf
@@ -174680,7 +174680,7 @@ _080BABB8:
 	adds r1, r2, r0
 	ldr r2, _080BABF8 @ =0x05000318
 	mov r0, sp
-	bl sub_80C7520
+	bl CpuSet
 _080BABD8:
 	add sp, #4
 	pop {r0}
@@ -177341,7 +177341,7 @@ _080BBF64:
 	ldr r0, _080BBFD0 @ =0x06012200
 	str r0, [r1]
 	bl VramResetHeapState
-	bl sub_80C70A8
+	bl IdentifyFlash
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	beq _080BBFD8
@@ -177368,7 +177368,7 @@ _080BBFD4: .4byte gFlags
 _080BBFD8:
 	ldr r1, _080BC094 @ =gUnknown_03001EC4
 	movs r0, #1
-	bl sub_80C6C90
+	bl SetFlashTimerIntr
 _080BBFE0:
 	ldr r1, _080BC098 @ =0x040000D4
 	ldr r0, _080BC09C @ =IntrMain
@@ -177543,7 +177543,7 @@ _080BC154:
 	ldr r4, _080BC188 @ =gFlags
 	ldr r0, [r4]
 	str r0, [r1]
-	bl sub_80C756C
+	bl VBlankIntrWait
 	ldr r1, _080BC18C @ =gUnknown_03002C24
 	movs r0, #0
 	strb r0, [r1]
@@ -178073,7 +178073,7 @@ sub_80BC5B0: @ 0x080BC5B0
 	ldr r7, _080BC670 @ =0x04000008
 	ldr r2, _080BC674 @ =0x04000002
 	adds r1, r7, #0
-	bl sub_80C7520
+	bl CpuSet
 	ldr r5, _080BC678 @ =gFlags
 	ldr r0, [r5]
 	movs r6, #1
@@ -178084,7 +178084,7 @@ sub_80BC5B0: @ 0x080BC5B0
 	movs r1, #0xa0
 	lsls r1, r1, #0x13
 	movs r2, #0x80
-	bl sub_80C751C
+	bl CpuFastSet
 	ldr r0, [r5]
 	eors r0, r6
 	str r0, [r5]
@@ -178097,7 +178097,7 @@ _080BC5EA:
 	ldr r0, _080BC680 @ =gUnknown_03003370
 	ldr r1, _080BC684 @ =0x05000200
 	movs r2, #0x80
-	bl sub_80C751C
+	bl CpuFastSet
 	ldr r0, [r5]
 	eors r0, r6
 	str r0, [r5]
@@ -178105,19 +178105,19 @@ _080BC604:
 	ldr r0, _080BC688 @ =gUnknown_03003580
 	ldr r1, _080BC68C @ =0x04000040
 	ldr r2, _080BC690 @ =0x04000003
-	bl sub_80C7520
+	bl CpuSet
 	ldr r0, _080BC694 @ =gUnknown_03002BF8
 	ldr r1, _080BC698 @ =0x04000050
 	movs r2, #3
-	bl sub_80C7520
+	bl CpuSet
 	ldr r0, _080BC69C @ =gUnknown_03003C10
 	ldr r1, _080BC6A0 @ =0x04000010
 	movs r2, #8
-	bl sub_80C7520
+	bl CpuSet
 	ldr r0, _080BC6A4 @ =gUnknown_03002C30
 	ldr r1, _080BC6A8 @ =0x04000020
 	adds r2, r7, #0
-	bl sub_80C7520
+	bl CpuSet
 	ldr r0, [r5]
 	movs r1, #8
 	ands r0, r1
@@ -178133,7 +178133,7 @@ _080BC604:
 	ldr r2, _080BC6B4 @ =0x01000004
 	mov r0, sp
 	adds r1, r5, #0
-	bl sub_80C751C
+	bl CpuFastSet
 	ldr r4, _080BC6B8 @ =gUnknown_03002B8C
 	ldrb r0, [r4]
 	cmp r0, #0
@@ -178141,7 +178141,7 @@ _080BC604:
 	ldr r0, _080BC6BC @ =gUnknown_03003B50
 	ldrb r2, [r4]
 	adds r1, r5, #0
-	bl sub_80C751C
+	bl CpuFastSet
 _080BC660:
 	ldr r1, _080BC6C0 @ =gUnknown_03002BF4
 	ldrb r0, [r4]
@@ -178190,7 +178190,7 @@ _080BC6D2:
 	lsls r1, r1, #0x13
 	movs r2, #0x80
 	lsls r2, r2, #1
-	bl sub_80C751C
+	bl CpuFastSet
 _080BC6EC:
 	movs r4, #0
 	ldr r0, _080BC75C @ =gUnknown_03002C58
@@ -178223,7 +178223,7 @@ _080BC710:
 	ldr r5, _080BC760 @ =gUnknown_03006850
 	ldr r2, _080BC768 @ =0x01000004
 	adds r1, r5, #0
-	bl sub_80C751C
+	bl CpuFastSet
 	ldr r4, _080BC76C @ =gUnknown_03006200
 	ldrb r0, [r4]
 	cmp r0, #0
@@ -178231,7 +178231,7 @@ _080BC710:
 	ldr r0, _080BC770 @ =gUnknown_03002B70
 	ldrb r2, [r4]
 	adds r1, r5, #0
-	bl sub_80C751C
+	bl CpuFastSet
 _080BC73E:
 	ldr r1, _080BC75C @ =gUnknown_03002C58
 	ldrb r0, [r4]
@@ -178815,9 +178815,9 @@ sub_80BCB84: @ 0x080BCB84
 	movs r0, #1
 	mov r8, r0
 	strh r0, [r5]
-	bl sub_80C7558
+	bl SetBIASLevel_000
 	svc #3
-	bl sub_80C7560
+	bl SetBIASLevel_200
 	strh r6, [r5]
 	ldrh r0, [r7]
 	strh r0, [r4]
@@ -178827,7 +178827,7 @@ sub_80BCB84: @ 0x080BCB84
 	ldrh r0, [r2]
 	mov r1, sb
 	strh r0, [r1]
-	bl sub_80C756C
+	bl VBlankIntrWait
 	mov r0, sp
 	ldrh r0, [r0]
 	movs r2, #0x80
@@ -179068,7 +179068,7 @@ _080BCDB4:
 	ldr r1, _080BCDEC @ =gUnknown_03006240
 	ldr r2, _080BCDF0 @ =0x01000100
 	mov r0, sp
-	bl sub_80C751C
+	bl CpuFastSet
 	ldr r1, _080BCDF4 @ =gUnknown_03006200
 	movs r0, #0
 	strb r0, [r1]

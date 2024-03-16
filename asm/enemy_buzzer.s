@@ -83,7 +83,7 @@ _08059D8A:
 	adds r1, #0x54
 	ldr r2, _08059DBC @ =0x01000002
 	add r0, sp, #4
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r7, #0
 	bl sub_8059DC0
 	movs r1, #2

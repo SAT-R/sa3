@@ -2387,7 +2387,7 @@ sub_803D4C8: @ 0x0803D4C8
 	ldrsh r4, [r0, r1]
 	adds r0, r4, #0
 	movs r1, #0x3c
-	bl sub_80C7524
+	bl Div
 	ldr r1, _0803D5E8 @ =gUnknown_080CF9AE
 	lsls r0, r0, #1
 	mov sb, r0

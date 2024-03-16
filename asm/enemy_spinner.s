@@ -116,7 +116,7 @@ CreateEntity_Spinner: @ 0x08058CE4
 	adds r1, r1, r0
 	ldr r2, _08058D7C @ =0x01000002
 	add r0, sp, #4
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r4, #0
 	bl sub_8058C74
 	movs r1, #2

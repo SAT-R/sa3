@@ -121,19 +121,19 @@ _080612A6:
 	ldr r5, _08061328 @ =0x01000002
 	mov r1, ip
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	mov r2, sl
 	strh r4, [r2]
 	mov r0, sl
 	mov r1, sb
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	ldr r0, [sp, #0xc]
 	strh r4, [r0]
 	ldr r0, [sp, #0xc]
 	ldr r1, [sp, #0x10]
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r7, #0
 	bl sub_806132C
 	movs r1, #2
@@ -1572,13 +1572,13 @@ _08061DCE:
 	ldr r4, _08061E58 @ =0x01000002
 	mov r1, sb
 	adds r2, r4, #0
-	bl sub_80C7520
+	bl CpuSet
 	ldr r0, [sp, #8]
 	strh r5, [r0]
 	ldr r0, [sp, #8]
 	mov r1, sl
 	adds r2, r4, #0
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r6, #0
 	bl sub_8061E5C
 	add sp, #0xc

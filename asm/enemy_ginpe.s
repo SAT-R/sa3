@@ -81,7 +81,7 @@ _0806034E:
 	adds r1, r7, #0
 	adds r1, #0x54
 	ldr r2, _08060380 @ =0x01000002
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r7, #0
 	bl sub_8060384
 	movs r1, #2
@@ -714,7 +714,7 @@ CreateGinpeProjtile: @ 0x080607C4
 	adds r1, r1, r0
 	ldr r2, _08060858 @ =0x01000002
 	add r0, sp, #4
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r4, #0
 	bl sub_80604F0
 	add sp, #8

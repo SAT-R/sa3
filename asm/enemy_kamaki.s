@@ -95,7 +95,7 @@ _080648B6:
 	adds r1, #0x58
 	ldr r2, _080648E8 @ =0x01000002
 	add r0, sp, #4
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r7, #0
 	bl sub_80648EC
 	movs r1, #2
@@ -587,14 +587,14 @@ _08064CBE:
 	adds r1, #0x64
 	ldr r5, _08064D00 @ =0x01000002
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	mov r0, sp
 	adds r0, #6
 	strh r4, [r0]
 	adds r1, r7, #0
 	adds r1, #0x94
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r7, #0
 	bl sub_8064D04
 	add sp, #8

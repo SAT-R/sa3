@@ -175,7 +175,7 @@ _0805BAA4:
 	adds r1, r5, r0
 	ldr r2, _0805BB00 @ =0x01000002
 	mov r0, sp
-	bl sub_80C7520
+	bl CpuSet
 	ldr r1, [r6]
 	ldr r0, _0805BB04 @ =sub_805BB08
 	str r0, [r1, #8]
@@ -792,7 +792,7 @@ sub_805BF38: @ 0x0805BF38
 	adds r4, #0x5c
 	ldr r2, _0805BF78 @ =0x01000002
 	adds r1, r4, #0
-	bl sub_80C7520
+	bl CpuSet
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}

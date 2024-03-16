@@ -101,20 +101,20 @@ _0805E2F2:
 	adds r1, #0x70
 	ldr r5, _0805E340 @ =0x01000002
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	mov r0, sp
 	adds r0, #6
 	strh r4, [r0]
 	adds r1, r7, #0
 	adds r1, #0xa0
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	add r0, sp, #8
 	strh r4, [r0]
 	adds r1, r7, #0
 	adds r1, #0xd0
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r7, #0
 	bl sub_805E344
 	movs r1, #2
@@ -1108,7 +1108,7 @@ sub_805EA24: @ 0x0805EA24
 	adds r1, r1, r0
 	ldr r2, _0805EAC4 @ =0x01000002
 	add r0, sp, #4
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r4, #0
 	bl sub_805E7A4
 	mov r0, sb

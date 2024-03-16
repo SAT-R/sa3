@@ -68,7 +68,7 @@ CreateEntity_Ape_0: @ 0x0805A4BC
 	add r1, sb
 	ldr r5, _0805A58C @ =0x01000002
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	mov r0, sp
 	adds r0, #6
 	mov r1, sl
@@ -76,7 +76,7 @@ CreateEntity_Ape_0: @ 0x0805A4BC
 	ldr r1, _0805A590 @ =0x03000070
 	add r1, sb
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	add r0, sp, #8
 	mov r1, sl
 	strh r1, [r0]
@@ -84,7 +84,7 @@ CreateEntity_Ape_0: @ 0x0805A4BC
 	add sb, r1
 	mov r1, sb
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r4, #0
 	bl sub_805A674
 	movs r1, #2
@@ -170,7 +170,7 @@ CreateEntity_Ape_1: @ 0x0805A598
 	add r1, sb
 	ldr r5, _0805A668 @ =0x01000002
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	mov r0, sp
 	adds r0, #6
 	mov r1, sl
@@ -178,7 +178,7 @@ CreateEntity_Ape_1: @ 0x0805A598
 	ldr r1, _0805A66C @ =0x03000070
 	add r1, sb
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	add r0, sp, #8
 	mov r1, sl
 	strh r1, [r0]
@@ -186,7 +186,7 @@ CreateEntity_Ape_1: @ 0x0805A598
 	add sb, r1
 	mov r1, sb
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r4, #0
 	bl sub_805A674
 	movs r1, #2
@@ -1133,7 +1133,7 @@ sub_805AD04: @ 0x0805AD04
 	add r0, sp, #4
 	adds r2, r6, #0
 	str r3, [sp, #8]
-	bl sub_80C7520
+	bl CpuSet
 	mov r0, sp
 	adds r0, #6
 	strh r5, [r0]
@@ -1142,7 +1142,7 @@ sub_805AD04: @ 0x0805AD04
 	adds r3, r3, r1
 	adds r1, r3, #0
 	adds r2, r6, #0
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r4, #0
 	bl sub_805AAB0
 	add sp, #0xc

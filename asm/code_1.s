@@ -5651,7 +5651,7 @@ _080522C8: .4byte 0x03000400
 _080522CC:
 	adds r0, r4, #0
 	movs r1, #0xc
-	bl sub_80C7524
+	bl Div
 	lsls r1, r0, #1
 	adds r1, r1, r0
 	lsls r1, r1, #2
@@ -5675,7 +5675,7 @@ _080522F8: .4byte 0x03000410
 _080522FC:
 	adds r0, r4, #0
 	movs r1, #0xc
-	bl sub_80C7524
+	bl Div
 	lsls r1, r0, #1
 	adds r1, r1, r0
 	lsls r1, r1, #2
@@ -8135,7 +8135,7 @@ _0805368A:
 	mov r0, sp
 	adds r1, r4, #0
 	movs r2, #8
-	bl sub_80C7520
+	bl CpuSet
 	lsls r0, r5, #0x10
 	movs r1, #0x80
 	lsls r1, r1, #9
@@ -10709,19 +10709,19 @@ _08054962:
 	str r2, [r7, #0x20]
 	ldr r0, [sp, #8]
 	movs r1, #0x3c
-	bl sub_80C7528
+	bl DivMod
 	adds r5, r0, #0
 	lsls r5, r5, #0x18
 	lsrs r5, r5, #0x18
 	ldr r0, [sp, #8]
 	movs r1, #0x3c
-	bl sub_80C7524
+	bl Div
 	adds r4, r0, #0
 	lsls r4, r4, #0x10
 	lsrs r4, r4, #0x10
 	adds r0, r4, #0
 	movs r1, #0x3c
-	bl sub_80C7524
+	bl Div
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	lsls r1, r0, #4
@@ -12375,19 +12375,19 @@ _0805586E:
 	str r0, [r7, #0x20]
 	ldr r0, [sp, #0xc]
 	movs r1, #0x3c
-	bl sub_80C7528
+	bl DivMod
 	adds r5, r0, #0
 	lsls r5, r5, #0x18
 	lsrs r5, r5, #0x18
 	ldr r0, [sp, #0xc]
 	movs r1, #0x3c
-	bl sub_80C7524
+	bl Div
 	adds r4, r0, #0
 	lsls r4, r4, #0x10
 	lsrs r4, r4, #0x10
 	adds r0, r4, #0
 	movs r1, #0x3c
-	bl sub_80C7524
+	bl Div
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	lsls r1, r0, #4

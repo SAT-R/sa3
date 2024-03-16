@@ -82,7 +82,7 @@ _0806367E:
 	adds r1, #0x64
 	ldr r2, _080636B0 @ =0x01000002
 	add r0, sp, #4
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r7, #0
 	bl sub_80636B4
 	movs r1, #2
@@ -238,14 +238,14 @@ sub_8063758: @ 0x08063758
 	adds r1, r6, r2
 	ldr r5, _0806381C @ =0x01000002
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	mov r0, sp
 	adds r0, #2
 	strh r7, [r0]
 	ldr r3, _08063820 @ =0x0300005C
 	adds r1, r6, r3
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r4, #0
 	bl UpdateSpriteAnimation
 	mov r0, sb
@@ -353,14 +353,14 @@ sub_8063858: @ 0x08063858
 	adds r1, r6, r2
 	ldr r5, _0806391C @ =0x01000002
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	mov r0, sp
 	adds r0, #2
 	strh r7, [r0]
 	ldr r3, _08063920 @ =0x0300005C
 	adds r1, r6, r3
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r4, #0
 	bl UpdateSpriteAnimation
 	mov r4, r8
@@ -514,14 +514,14 @@ _08063A10:
 	adds r1, #0x64
 	ldr r4, _08063A78 @ =0x01000002
 	adds r2, r4, #0
-	bl sub_80C7520
+	bl CpuSet
 	mov r0, sp
 	adds r0, #0xa
 	strh r7, [r0]
 	adds r1, r5, #0
 	adds r1, #0x5c
 	adds r2, r4, #0
-	bl sub_80C7520
+	bl CpuSet
 	movs r1, #0x80
 	lsls r1, r1, #5
 	str r1, [r6, #8]
@@ -645,14 +645,14 @@ _08063B0E:
 	ldr r3, _08063B8C @ =0x01000002
 	mov r8, r3
 	mov r2, r8
-	bl sub_80C7520
+	bl CpuSet
 	mov r0, sp
 	adds r0, #2
 	strh r5, [r0]
 	ldr r2, _08063B90 @ =0x0300005C
 	adds r1, r6, r2
 	mov r2, r8
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r4, #0
 	bl UpdateSpriteAnimation
 	strh r5, [r7, #0x10]

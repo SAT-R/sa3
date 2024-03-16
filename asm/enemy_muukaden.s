@@ -144,12 +144,12 @@ _08062726:
 	ldr r5, _080627FC @ =0x01000002
 	ldr r1, [sp, #0x18]
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	mov r0, sb
 	strh r4, [r0]
 	ldr r1, [sp, #0x40]
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	mov r1, sl
 	strh r4, [r1]
 	movs r0, #0x82
@@ -157,7 +157,7 @@ _08062726:
 	adds r1, r6, r0
 	mov r0, sl
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	ldr r1, [sp, #0x1c]
 	strh r4, [r1]
 	movs r0, #0x9a
@@ -165,7 +165,7 @@ _08062726:
 	adds r1, r6, r0
 	ldr r0, [sp, #0x1c]
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	ldr r1, [sp, #0x24]
 	strh r4, [r1]
 	movs r0, #0xb2
@@ -173,25 +173,25 @@ _08062726:
 	adds r1, r6, r0
 	ldr r0, [sp, #0x24]
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	ldr r1, [sp, #0x28]
 	strh r4, [r1]
 	ldr r0, [sp, #0x28]
 	ldr r1, [sp, #0x14]
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	ldr r0, [sp, #0x2c]
 	strh r4, [r0]
 	ldr r0, [sp, #0x2c]
 	ldr r1, [sp, #0x3c]
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	ldr r1, [sp, #0x30]
 	strh r4, [r1]
 	ldr r0, [sp, #0x30]
 	ldr r1, [sp, #0x20]
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	ldr r0, [sp, #0x34]
 	strh r4, [r0]
 	movs r0, #0x96
@@ -199,7 +199,7 @@ _08062726:
 	adds r1, r6, r0
 	ldr r0, [sp, #0x34]
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	ldr r1, [sp, #0x38]
 	strh r4, [r1]
 	movs r0, #0xae
@@ -207,7 +207,7 @@ _08062726:
 	adds r1, r6, r0
 	ldr r0, [sp, #0x38]
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	add sp, #0x44
 	pop {r3, r4, r5}
 	mov r8, r3
@@ -976,7 +976,7 @@ _08062DD4:
 	lsls r3, r3, #1
 	adds r1, r7, r3
 	ldr r2, _08062DFC @ =0x01000002
-	bl sub_80C7520
+	bl CpuSet
 	b _08062E12
 	.align 2, 0
 _08062DF8: .4byte gUnknown_080D2106
@@ -989,7 +989,7 @@ _08062E00:
 	lsls r2, r2, #1
 	adds r1, r7, r2
 	ldr r2, _08062E18 @ =0x01000002
-	bl sub_80C7520
+	bl CpuSet
 _08062E12:
 	movs r0, #0
 	strh r0, [r7, #0x1a]

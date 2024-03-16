@@ -1,3 +1,9 @@
+
+. = 0x00000440;
+build/sa3/src/lib/agb_flash/agb_flash.o(.bss);
+
+
+
 . = 0x000004C8; gUnknown_030004C8 = .;
 . = 0x000004F0; gUnknown_030004F0 = .;
 . = 0x00000518; gUnknown_03000518 = .;
@@ -218,15 +224,18 @@
 . = 0x00006C10; gUnknown_03006C10 = .;
 . = 0x00006C1C; gUnknown_03006C1C = .;
 . = 0x00006C20; gUnknown_03006C20 = .;
-. = 0x00006C24; gUnknown_03006C24 = .;
-. = 0x00006C28; gUnknown_03006C28 = .;
-. = 0x00006C2C; gUnknown_03006C2C = .;
-. = 0x00006C30; gUnknown_03006C30 = .;
-. = 0x00006C34; gUnknown_03006C34 = .;
-. = 0x00006C38; gUnknown_03006C38 = .;
-. = 0x00006C3C; gUnknown_03006C3C = .;
-. = 0x00006C40; gUnknown_03006C40 = .;
-. = 0x00006C44; gUnknown_03006C44 = .;
+
+. = 0x00006C24; build/sa3/src/lib/agb_flash/agb_flash.o(.data);
+
+/*. = 0x00006C24; gFlashTimeoutFlag = .;
+. = 0x00006C28; PollFlashStatus = .;
+. = 0x00006C2C; WaitForFlashWrite = .;
+. = 0x00006C30; ProgramFlashSector = .;
+. = 0x00006C34; gFlash = .;
+. = 0x00006C3C; EraseFlashChip = .;
+. = 0x00006C40; EraseFlashSector = .;
+. = 0x00006C44; gFlashMaxTime = .;*/
+
 . = 0x00006C48; gUnknown_03006C48 = .;
 . = 0x00006C4C; iwram_end = .;
 . = 0x00007F00; gUnknown_03007F00 = .;

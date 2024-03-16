@@ -94,7 +94,7 @@ _080598AE:
 	adds r1, #0x58
 	ldr r2, _080598DC @ =0x01000002
 	add r0, sp, #4
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r7, #0
 	bl sub_80598E0
 	movs r4, #2
@@ -348,7 +348,7 @@ _08059A98:
 	adds r1, r5, r0
 	ldr r2, _08059AE0 @ =0x01000002
 	mov r0, sp
-	bl sub_80C7520
+	bl CpuSet
 	ldr r1, [r6]
 	ldr r0, _08059AE4 @ =Task_GekoGekoMain
 	str r0, [r1, #8]

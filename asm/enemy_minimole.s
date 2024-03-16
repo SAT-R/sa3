@@ -69,7 +69,7 @@ CreateEntity_Minimole: @ 0x0805AE88
 	adds r1, r1, r0
 	ldr r2, _0805AF34 @ =0x01000002
 	add r0, sp, #4
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r4, #0
 	bl sub_805AF38
 	movs r1, #2

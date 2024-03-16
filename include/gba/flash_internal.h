@@ -9,6 +9,13 @@
 
 #define SECTORS_PER_BANK 16
 
+/* Manufacturers */
+#define FLASH_MAKER__SST             0xBF
+#define FLASH_MAKER__MX              0xC2
+
+/* Chips */
+#define FLASH_CHIP__SST_39VF512      0xD4
+
 struct FlashSector
 {
     u32 size;
@@ -85,6 +92,8 @@ u16 EraseFlashChip_LE(void);
 u16 EraseFlashSector_LE(u16 sectorNum);
 u16 ProgramFlashSector_LE(u16 sectorNum, void *src);
 u16 ProgramFlashSector_MX(u16 sectorNum, void *src);
+u16 EraseFlashChip_MX(void);
+u16 EraseFlashSector_MX(u16 sectorNum);
 
 // agb_flash_1m
 u16 IdentifyFlash(void);

@@ -81,26 +81,26 @@ _0805D110:
 	adds r1, #0xa0
 	ldr r5, _0805D184 @ =0x01000002
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	mov r0, sb
 	strh r4, [r0]
 	adds r1, r6, #0
 	adds r1, #0xd0
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	mov r0, sl
 	strh r4, [r0]
 	adds r1, r6, #0
 	adds r1, #0x98
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	ldr r0, [sp, #8]
 	strh r4, [r0]
 	adds r1, r6, #0
 	adds r1, #0xc8
 	ldr r0, [sp, #8]
 	adds r2, r5, #0
-	bl sub_80C7520
+	bl CpuSet
 	add sp, #0xc
 	pop {r3, r4, r5}
 	mov r8, r3
@@ -447,7 +447,7 @@ sub_805D3EC: @ 0x0805D3EC
 	adds r1, r5, r0
 	ldr r2, _0805D448 @ =0x01000005
 	mov r0, sp
-	bl sub_80C7520
+	bl CpuSet
 	ldr r1, [r6]
 	ldr r0, _0805D44C @ =sub_805DDCC
 	str r0, [r1, #8]

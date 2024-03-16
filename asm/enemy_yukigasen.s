@@ -561,7 +561,7 @@ CreateEntity_Yukigasen_Right: @ 0x08060D80
 	ldr r2, _08060E14 @ =0x01000002
 	adds r0, r1, #0
 	adds r1, r4, #0
-	bl sub_80C7520
+	bl CpuSet
 	mov r0, r8
 	movs r1, #2
 	bl sub_806098C
@@ -632,7 +632,7 @@ CreateEntity_Yukigasen_Left: @ 0x08060E18
 	ldr r2, _08060EAC @ =0x01000002
 	adds r0, r1, #0
 	adds r1, r4, #0
-	bl sub_80C7520
+	bl CpuSet
 	mov r0, r8
 	movs r1, #3
 	bl sub_806098C
@@ -703,7 +703,7 @@ CreateEntity_Yukigasen_Right_HighCooldown: @ 0x08060EB0
 	ldr r2, _08060F44 @ =0x01000002
 	adds r0, r1, #0
 	adds r1, r4, #0
-	bl sub_80C7520
+	bl CpuSet
 	mov r0, r8
 	movs r1, #2
 	bl sub_806098C
@@ -774,7 +774,7 @@ CreateEntity_Yukigasen_Left_HighCooldown: @ 0x08060F48
 	ldr r2, _08060FDC @ =0x01000002
 	adds r0, r1, #0
 	adds r1, r4, #0
-	bl sub_80C7520
+	bl CpuSet
 	mov r0, r8
 	movs r1, #3
 	bl sub_806098C
@@ -983,7 +983,7 @@ sub_80610D0: @ 0x080610D0
 	adds r1, r1, r0
 	ldr r2, _0806116C @ =0x01000002
 	add r0, sp, #4
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r4, #0
 	bl sub_8060B60
 	add sp, #8

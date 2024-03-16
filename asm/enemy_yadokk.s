@@ -81,7 +81,7 @@ _0805FC8A:
 	adds r1, #0x54
 	ldr r2, _0805FCC0 @ =0x01000002
 	add r0, sp, #4
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r7, #0
 	bl sub_805FCC4
 	movs r1, #2
@@ -269,7 +269,7 @@ _0805FDF4:
 	adds r1, r5, #0
 	adds r1, #0x54
 	ldr r2, _0805FE38 @ =0x01000002
-	bl sub_80C7520
+	bl CpuSet
 	ldr r1, _0805FE3C @ =gUnknown_080D1FD0
 	ldrh r0, [r1, #0x10]
 	strh r0, [r4, #0xc]
@@ -737,7 +737,7 @@ sub_8060148: @ 0x08060148
 	adds r1, r1, r0
 	ldr r2, _080601C4 @ =0x01000002
 	add r0, sp, #4
-	bl sub_80C7520
+	bl CpuSet
 	adds r0, r4, #0
 	bl sub_805FEE0
 	add sp, #8
