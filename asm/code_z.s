@@ -15455,29 +15455,29 @@ _080C47D6:
 	movs r1, #0
 	ldrsh r4, [r7, r1]
 	adds r0, r4, #0
-	bl sub_80CA240
+	bl __floatsisf
 	adds r6, r0, #0
 	mov r8, r5
 	cmp r4, #0
 	bge _080C47F8
 	ldr r1, _080C4830 @ =0x47800000
-	bl sub_80C9CD4
+	bl __addsf3
 	adds r6, r0, #0
 _080C47F8:
 	mov r2, sl
 	movs r0, #0
 	ldrsb r0, [r2, r0]
-	bl sub_80CA240
+	bl __floatsisf
 	adds r4, r0, #0
 	ldr r1, _080C4834 @ =0x41800000
-	bl sub_80C9CD4
+	bl __addsf3
 	ldr r1, _080C4838 @ =0x3D800000
-	bl sub_80C9D34
+	bl __mulsf3
 	adds r1, r0, #0
 	adds r0, r6, #0
-	bl sub_80C9D34
+	bl __mulsf3
 	adds r1, r4, #0
-	bl sub_80C9D00
+	bl __subsf3
 	bl sub_80CA2A0
 	cmp r0, #0
 	bge _080C483C
@@ -15500,22 +15500,22 @@ _080C4842:
 	adds r6, r1, r0
 	ldrh r0, [r6]
 	lsrs r0, r0, #5
-	bl sub_80CA240
+	bl __floatsisf
 	adds r5, r0, #0
 	mov r2, sl
 	movs r0, #1
 	ldrsb r0, [r2, r0]
-	bl sub_80CA240
+	bl __floatsisf
 	adds r4, r0, #0
 	ldr r1, _080C4888 @ =0x41800000
-	bl sub_80C9CD4
+	bl __addsf3
 	ldr r1, _080C488C @ =0x3D800000
-	bl sub_80C9D34
+	bl __mulsf3
 	adds r1, r0, #0
 	adds r0, r5, #0
-	bl sub_80C9D34
+	bl __mulsf3
 	adds r1, r4, #0
-	bl sub_80C9D00
+	bl __subsf3
 	bl sub_80CA2A0
 	cmp r0, #0
 	bge _080C4890
@@ -15544,22 +15544,22 @@ _080C48A4:
 	adds r6, r1, r0
 	ldrh r0, [r6]
 	lsrs r0, r0, #0xa
-	bl sub_80CA240
+	bl __floatsisf
 	adds r5, r0, #0
 	mov r2, sl
 	movs r0, #2
 	ldrsb r0, [r2, r0]
-	bl sub_80CA240
+	bl __floatsisf
 	adds r4, r0, #0
 	ldr r1, _080C48EC @ =0x41800000
-	bl sub_80C9CD4
+	bl __addsf3
 	ldr r1, _080C48F0 @ =0x3D800000
-	bl sub_80C9D34
+	bl __mulsf3
 	adds r1, r0, #0
 	adds r0, r5, #0
-	bl sub_80C9D34
+	bl __mulsf3
 	adds r1, r4, #0
-	bl sub_80C9D00
+	bl __subsf3
 	bl sub_80CA2A0
 	cmp r0, #0
 	bge _080C48F4
@@ -15622,19 +15622,19 @@ _080C4942:
 	movs r0, #0
 	ldrsh r4, [r6, r0]
 	adds r0, r4, #0
-	bl sub_80CA240
+	bl __floatsisf
 	cmp r4, #0
 	bge _080C495E
 	ldr r1, _080C4988 @ =0x47800000
-	bl sub_80C9CD4
+	bl __addsf3
 _080C495E:
 	adds r1, r7, #0
-	bl sub_80C9E98
+	bl __divsf3
 	mov r2, r8
 	ldr r1, [r2]
 	bl sub_80C7574
 	adds r1, r7, #0
-	bl sub_80C9D34
+	bl __mulsf3
 	bl sub_80CA2A0
 	cmp r0, #0
 	bge _080C498C
@@ -15654,14 +15654,14 @@ _080C4992:
 	adds r4, r5, r0
 	ldrh r0, [r4]
 	lsrs r0, r0, #5
-	bl sub_80CA240
+	bl __floatsisf
 	adds r1, r7, #0
-	bl sub_80C9E98
+	bl __divsf3
 	mov r2, r8
 	ldr r1, [r2, #4]
 	bl sub_80C7574
 	adds r1, r7, #0
-	bl sub_80C9D34
+	bl __mulsf3
 	bl sub_80CA2A0
 	cmp r0, #0
 	bge _080C49C4
@@ -15683,14 +15683,14 @@ _080C49D0:
 	adds r5, r5, r0
 	ldrh r0, [r5]
 	lsrs r0, r0, #0xa
-	bl sub_80CA240
+	bl __floatsisf
 	adds r1, r7, #0
-	bl sub_80C9E98
+	bl __divsf3
 	mov r2, r8
 	ldr r1, [r2, #8]
 	bl sub_80C7574
 	adds r1, r7, #0
-	bl sub_80C9D34
+	bl __mulsf3
 	bl sub_80CA2A0
 	cmp r0, #0
 	bge _080C4A04
