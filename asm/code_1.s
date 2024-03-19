@@ -10709,7 +10709,7 @@ _08054962:
 	str r2, [r7, #0x20]
 	ldr r0, [sp, #8]
 	movs r1, #0x3c
-	bl DivMod
+	bl Mod
 	adds r5, r0, #0
 	lsls r5, r5, #0x18
 	lsrs r5, r5, #0x18
@@ -12375,7 +12375,7 @@ _0805586E:
 	str r0, [r7, #0x20]
 	ldr r0, [sp, #0xc]
 	movs r1, #0x3c
-	bl DivMod
+	bl Mod
 	adds r5, r0, #0
 	lsls r5, r5, #0x18
 	lsrs r5, r5, #0x18

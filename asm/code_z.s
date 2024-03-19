@@ -1995,7 +1995,7 @@ _080BE248:
 	adds r0, r6, #0
 	mov r1, sb
 	str r3, [sp]
-	bl DivMod
+	bl Mod
 	adds r6, r0, #0
 	ldr r3, [sp]
 	b _080BE27C
@@ -2340,7 +2340,7 @@ _080BE4F2:
 	ldrsh r1, [r6, r2]
 	subs r0, r0, r1
 	movs r1, #0x10
-	bl DivMod
+	bl Mod
 	ldr r4, _080BE58C @ =gUnknown_03003C10
 	lsls r5, r7, #2
 	adds r1, r5, r4
@@ -2352,7 +2352,7 @@ _080BE4F2:
 	ldrsh r1, [r6, r2]
 	subs r0, r0, r1
 	movs r1, #8
-	bl DivMod
+	bl Mod
 	adds r4, #2
 	adds r5, r5, r4
 	strh r0, [r5]
@@ -4621,7 +4621,7 @@ _080BF5F8:
 	adds r0, r6, #0
 	mov r1, sb
 	str r3, [sp]
-	bl DivMod
+	bl Mod
 	adds r6, r0, #0
 	ldr r3, [sp]
 	b _080BF62C
@@ -13843,7 +13843,7 @@ _080C3BA0:
 	cmp r5, #0
 	bne _080C3B8A
 	adds r0, r7, #0
-	bl MultiBoot_4Players
+	bl MultiBoot
 	adds r5, r0, #0
 	cmp r5, #0
 	bne _080C3BC4

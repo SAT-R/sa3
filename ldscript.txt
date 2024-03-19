@@ -126,6 +126,7 @@ SECTIONS {
         build/sa3/src/lib/agb_flash/agb_flash_1m.o(.text);
         build/sa3/src/lib/agb_flash/agb_flash_mx.o(.text);
         build/sa3/src/lib/agb_flash/agb_flash_sst.o(.text);
+        build/sa3/asm/libagbsyscall.o(.text);
         build/sa3/asm/libraries.o(.text);
     }
 

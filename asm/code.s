@@ -84809,7 +84809,7 @@ sub_808EBBC: @ 0x0808EBBC
 	lsrs r5, r5, #0x10
 	adds r0, r4, #0
 	movs r1, #0xa
-	bl DivMod
+	bl Mod
 	adds r4, r0, #0
 	subs r4, #1
 	lsls r4, r4, #0x10
@@ -96887,7 +96887,7 @@ _08094968:
 	ldrh r4, [r0]
 	adds r0, r4, #0
 	movs r1, #0x3c
-	bl DivMod
+	bl Mod
 	adds r5, r0, #0
 	lsls r5, r5, #0x18
 	lsrs r5, r5, #0x18
@@ -156244,7 +156244,7 @@ _080B1BBC:
 	movs r1, #0
 	ldrsh r0, [r6, r1]
 	movs r1, #0xa
-	bl DivMod
+	bl Mod
 	ldr r2, _080B1D14 @ =0x000008D3
 	adds r1, r7, r2
 	strb r0, [r1]
@@ -157880,7 +157880,7 @@ sub_80B29B4: @ 0x080B29B4
 	strh r0, [r3, #4]
 	adds r0, r4, #0
 	movs r1, #0xa
-	bl DivMod
+	bl Mod
 	add r1, sp, #0x18
 	strh r0, [r1, #6]
 	adds r0, r1, #0
@@ -160226,7 +160226,7 @@ sub_80B3C28: @ 0x080B3C28
 	strb r0, [r1]
 	adds r0, r4, #0
 	movs r1, #0xa
-	bl DivMod
+	bl Mod
 	ldr r3, _080B3D48 @ =0x000008D3
 	adds r1, r6, r3
 	strb r0, [r1]
@@ -160270,7 +160270,7 @@ _080B3CBC:
 	strb r0, [r1]
 	adds r0, r4, #0
 	movs r1, #0xa
-	bl DivMod
+	bl Mod
 	ldr r3, _080B3D48 @ =0x000008D3
 	adds r1, r6, r3
 	strb r0, [r1]
@@ -178513,7 +178513,7 @@ _080BC904:
 	ldr r0, _080BC9D0 @ =gUnknown_030035A0
 	strh r5, [r0]
 	movs r0, #0x20
-	bl sub_80C7540
+	bl SoftReset
 _080BC992:
 	ldr r1, _080BC9D4 @ =gUnknown_03003574
 	ldr r0, [r1]
