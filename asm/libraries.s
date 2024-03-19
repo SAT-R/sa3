@@ -1405,7 +1405,7 @@ _080C81C4:
 	ldr r4, _080C81F4 @ =0x3F800000
 	adds r0, r4, #0
 	adds r1, r4, #0
-	bl sub_80CA168
+	bl __gesf2
 	cmp r0, #0
 	blt _080C81FE
 	adds r0, r4, #0
@@ -1504,10 +1504,10 @@ sub_80C8224: @ 0x080C8224
 	adds r0, r4, #0
 	adds r3, r7, #0
 	adds r2, r6, #0
-	bl sub_80C9114
+	bl __adddf3
 	adds r3, r5, #0
 	adds r2, r4, #0
-	bl sub_80C9144
+	bl __subdf3
 	adds r4, r1, #0
 	adds r3, r0, #0
 	mov r2, r8
@@ -1568,7 +1568,7 @@ _080C8304:
 	adds r0, r6, #0
 	adds r3, r7, #0
 	adds r2, r6, #0
-	bl sub_80C9114
+	bl __adddf3
 	b _080C8378
 _080C831E:
 	ldr r3, _080C8338 @ =0xFFFFFBED
@@ -1612,10 +1612,10 @@ _080C8350:
 	adds r0, r4, #0
 	adds r3, r7, #0
 	adds r2, r6, #0
-	bl sub_80C9114
+	bl __adddf3
 	adds r3, r5, #0
 	adds r2, r4, #0
-	bl sub_80C9144
+	bl __subdf3
 _080C8378:
 	pop {r3, r4}
 	mov r8, r3
@@ -3551,8 +3551,8 @@ _080C9104:
 	.align 2, 0
 _080C9110: .4byte 0x1FFFFFFF
 
-	thumb_func_start sub_80C9114
-sub_80C9114: @ 0x080C9114
+	thumb_func_start __adddf3
+__adddf3: @ 0x080C9114
 	push {r4, lr}
 	sub sp, #0x4c
 	str r0, [sp, #0x3c]
@@ -3574,8 +3574,8 @@ sub_80C9114: @ 0x080C9114
 	add sp, #0x4c
 	pop {r4, pc}
 
-	thumb_func_start sub_80C9144
-sub_80C9144: @ 0x080C9144
+	thumb_func_start __subdf3
+__subdf3: @ 0x080C9144
 	push {r4, lr}
 	sub sp, #0x4c
 	str r0, [sp, #0x3c]
@@ -5901,8 +5901,8 @@ _080CA164:
 	add sp, #0x28
 	pop {r4, pc}
 
-	thumb_func_start sub_80CA168
-sub_80CA168: @ 0x080CA168
+	thumb_func_start __gesf2
+__gesf2: @ 0x080CA168
 	push {r4, lr}
 	sub sp, #0x28
 	str r0, [sp, #0x20]
@@ -9175,7 +9175,7 @@ _080CB9C2:
 	bge _080CB9D4
 	ldr r3, _080CBA98 @ =0x00000000
 	ldr r2, _080CBA94 @ =0x41F00000
-	bl sub_80C9114
+	bl __adddf3
 _080CB9D4:
 	str r0, [sp, #0x48]
 	str r1, [sp, #0x4c]
@@ -9192,13 +9192,13 @@ _080CB9E8:
 	ldr r3, _080CBAA8 @ =0x00000000
 	ldr r0, [sp, #0x48]
 	ldr r1, [sp, #0x4c]
-	bl sub_80C9144
+	bl __subdf3
 	ldr r2, _080CBAAC @ =0x3FD287A7
 	ldr r3, _080CBAB0 @ =0x636F4361
 	bl __muldf3
 	ldr r2, _080CBAB4 @ =0x3FC68A28
 	ldr r3, _080CBAB8 @ =0x8B60C8B3
-	bl sub_80C9114
+	bl __adddf3
 	adds r5, r1, #0
 	adds r4, r0, #0
 	mov r0, r8
@@ -9210,7 +9210,7 @@ _080CB9E8:
 	adds r2, r0, #0
 	adds r1, r5, #0
 	adds r0, r4, #0
-	bl sub_80C9114
+	bl __adddf3
 	str r0, [sp, #0x6c]
 	str r1, [sp, #0x70]
 	bl sub_80C991C
@@ -9568,7 +9568,7 @@ _080CBCE6:
 	bl __muldf3
 	ldr r2, _080CBD68 @ =0x401C0000
 	ldr r3, _080CBD6C @ =0x00000000
-	bl sub_80C9114
+	bl __adddf3
 	str r0, [sp, #0x50]
 	str r1, [sp, #0x54]
 	ldr r0, _080CBD70 @ =0xFCC00000
@@ -9586,7 +9586,7 @@ _080CBCE6:
 	ldr r3, _080CBD78 @ =0x00000000
 	ldr r0, [sp, #0x40]
 	ldr r1, [sp, #0x44]
-	bl sub_80C9144
+	bl __subdf3
 	adds r5, r1, #0
 	adds r4, r0, #0
 	ldr r2, [sp, #0x50]
@@ -9637,7 +9637,7 @@ _080CBD7C:
 	bl sub_80C9424
 	ldr r2, [sp, #0x50]
 	ldr r3, [sp, #0x54]
-	bl sub_80C9144
+	bl __subdf3
 	str r0, [sp, #0x50]
 	str r1, [sp, #0x54]
 	movs r1, #0
@@ -9672,7 +9672,7 @@ _080CBDD8:
 	adds r2, r0, #0
 	ldr r0, [sp, #0x40]
 	ldr r1, [sp, #0x44]
-	bl sub_80C9144
+	bl __subdf3
 	adds r5, r1, #0
 	adds r4, r0, #0
 	adds r0, r6, #0
@@ -9694,7 +9694,7 @@ _080CBE14:
 	ldr r1, _080CBE48 @ =0x00000000
 	adds r3, r5, #0
 	adds r2, r4, #0
-	bl sub_80C9144
+	bl __subdf3
 	ldr r2, [sp, #0x50]
 	ldr r3, [sp, #0x54]
 	bl __ltdf2
@@ -9751,7 +9751,7 @@ _080CBE84:
 	adds r2, r0, #0
 	ldr r0, [sp, #0x40]
 	ldr r1, [sp, #0x44]
-	bl sub_80C9144
+	bl __subdf3
 	adds r5, r1, #0
 	adds r4, r0, #0
 	adds r0, r6, #0
@@ -9769,7 +9769,7 @@ _080CBE84:
 	adds r0, r6, #0
 	ldr r2, [sp, #0x50]
 	ldr r3, [sp, #0x54]
-	bl sub_80C9114
+	bl __adddf3
 	adds r3, r1, #0
 	adds r2, r0, #0
 	adds r1, r5, #0
@@ -9783,7 +9783,7 @@ _080CBED6:
 	adds r0, r6, #0
 	ldr r2, [sp, #0x50]
 	ldr r3, [sp, #0x54]
-	bl sub_80C9144
+	bl __subdf3
 	adds r3, r1, #0
 	adds r2, r0, #0
 	adds r1, r5, #0
@@ -9911,7 +9911,7 @@ _080CBFC4:
 	adds r2, r0, #0
 	ldr r0, [sp, #0x40]
 	ldr r1, [sp, #0x44]
-	bl sub_80C9144
+	bl __subdf3
 	adds r3, r1, #0
 	adds r2, r0, #0
 	adds r0, r6, #0
@@ -9925,7 +9925,7 @@ _080CBFC4:
 	bne _080CBFA6
 	adds r1, r3, #0
 	adds r0, r2, #0
-	bl sub_80C9114
+	bl __adddf3
 	adds r5, r1, #0
 	adds r4, r0, #0
 	ldr r2, [sp, #0x6c]
