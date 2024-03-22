@@ -133,6 +133,10 @@ SECTIONS {
     ALIGN(4)
     {
         build/sa3/asm/libgcc_0.o(.text);
+        tools/agbcc/lib/libc.a:sf_finite.o(.text);
+        tools/agbcc/lib/libc.a:sf_isnan.o(.text);
+        tools/agbcc/lib/libc.a:sf_scalbn.o(.text);
+        tools/agbcc/lib/libc.a:sf_copysign.o(.text);
         tools/agbcc/lib/libgcc.a:_ashrdi3.o(.text);
         tools/agbcc/lib/libgcc.a:_call_via_rX.o(.text);
         tools/agbcc/lib/libgcc.a:_divdi3.o(.text);
@@ -154,24 +158,7 @@ SECTIONS {
 
             *libc.a:strcpy.o(.text);
             *libc.a:vsprintf.o(.text);
-            tools/agbcc/lib/libc.a:sf_finite.o(.text);
-            tools/agbcc/lib/libc.a:sf_isnan.o(.text);
-            tools/agbcc/lib/libc.a:sf_scalbn.o(.text);
-            tools/agbcc/lib/libc.a:sf_copysign.o(.text);
         
-            tools/agbcc/lib/libgcc.a:_divdi3.o(.text);
-            tools/agbcc/lib/libgcc.a:_divsi3.o(.text);
-            tools/agbcc/lib/libgcc.a:_dvmd_tls.o(.text);
-            tools/agbcc/lib/libgcc.a:_modsi3.o(.text);
-            tools/agbcc/lib/libgcc.a:_muldi3.o(.text);
-            tools/agbcc/lib/libgcc.a:_negdi2.o(.text);
-            tools/agbcc/lib/libgcc.a:_udivsi3.o(.text);
-            tools/agbcc/lib/libgcc.a:_umodsi3.o(.text);
-            tools/agbcc/lib/libgcc.a:dp-bit.o(.text);
-            tools/agbcc/lib/libgcc.a:fp-bit.o(.text);
-            tools/agbcc/lib/libgcc.a:_lshrdi3.o(.text);
-        
-            tools/agbcc/lib/libgcc.a(.text) /* @TODO, @FIXME: Why do I have to add this here for the linker to work? */
         */
 
         tools/agbcc/lib/libc.a:errno.o(.text);
@@ -208,9 +195,6 @@ SECTIONS {
         tools/agbcc/lib/libc.a:libcfunc.o(.text);
         tools/agbcc/lib/libc.a:lseekr.o(.text);
         tools/agbcc/lib/libc.a:readr.o(.text);
-        
-        tools/agbcc/lib/libc.a(.text) /* @TODO, @FIXME: Why do I have to add this here for the linker to work? */
-
     } =0
 
     .rodata :
@@ -552,11 +536,11 @@ SECTIONS {
         *tools/agbcc/lib/libc.a:dtoa.o(.data);
         *tools/agbcc/lib/libc.a:locale.o(.data);
         *tools/agbcc/lib/libc.a:mprec.o(.data);
+
         *tools/agbcc/lib/libc.a:locale.o(.rodata);
         *tools/agbcc/lib/libc.a:mallocr.o(.rodata);
         *tools/agbcc/lib/libc.a:mallocr.o(.data);
 
-        *libc.a:(.rodata);        
     }
 
     . = 0x2000000;
