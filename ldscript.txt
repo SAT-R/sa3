@@ -141,7 +141,11 @@ SECTIONS {
         tools/agbcc/lib/libgcc.a:_modsi3.o(.text);
         tools/agbcc/lib/libgcc.a:_muldi3.o(.text);
         tools/agbcc/lib/libgcc.a:_negdi2.o(.text);
-        build/sa3/asm/libgcc.o(.text);
+        tools/agbcc/lib/libgcc.a:_udivsi3.o(.text);
+        tools/agbcc/lib/libgcc.a:_umodsi3.o(.text);
+        tools/agbcc/lib/libgcc.a:dp-bit.o(.text);
+        tools/agbcc/lib/libgcc.a:fp-bit.o(.text);
+        tools/agbcc/lib/libgcc.a:_lshrdi3.o(.text);
     
         /* 
 
@@ -552,7 +556,7 @@ SECTIONS {
         *tools/agbcc/lib/libc.a:mallocr.o(.rodata);
         *tools/agbcc/lib/libc.a:mallocr.o(.data);
 
-        *libc.a:(.rodata);
+        *libc.a:(.rodata);        
     }
 
     . = 0x2000000;

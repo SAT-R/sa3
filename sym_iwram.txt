@@ -1,7 +1,11 @@
 
 . = 0x00000440;
 build/sa3/src/lib/agb_flash/agb_flash.o(.bss);
+
 *libgcc.a(.bss);
+tools/agbcc/lib/libgcc.a:dp-bit.o(.bss);
+tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
+
 *libc.a(.bss);
 
 . = 0x00000478;
