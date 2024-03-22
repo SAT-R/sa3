@@ -1,12 +1,13 @@
 
 . = 0x00000440;
 build/sa3/src/lib/agb_flash/agb_flash.o(.bss);
+*libgcc.a(.bss);
+*libc.a(.bss);
+
+. = 0x00000478;
+*tools/agbcc/lib/libc.a:syscalls.o(.bss);
 
 
-
-. = 0x000004C8; gUnknown_030004C8 = .;
-. = 0x000004F0; gUnknown_030004F0 = .;
-. = 0x00000518; gUnknown_03000518 = .;
 . = 0x00000530; gUnknown_03000530 = .;
 . = 0x00000534; gUnknown_03000534 = .;
 . = 0x00000538; gUnknown_03000538 = .;
@@ -236,8 +237,11 @@ build/sa3/src/lib/agb_flash/agb_flash.o(.bss);
 . = 0x00006C40; EraseFlashSector = .;
 . = 0x00006C44; gFlashMaxTime = .;*/
 
+/* *libc.a:sbrkr.o(COMMON); */
 . = 0x00006C48; errno = .;
-. = 0x00006C4C; iwram_end = .;
+
+/* 'end' referenced in tools/agbcc/lib/libc.a(syscalls.o) */
+. = 0x00006C4C; iwram_end = .; end = .;
 . = 0x00007F00; gUnknown_03007F00 = .;
 . = 0x00007FA0; gUnknown_03007FA0 = .;
 . = 0x00007FF0; gUnknown_03007FF0 = .;

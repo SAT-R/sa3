@@ -4529,7 +4529,7 @@ sub_803B498: @ 0x0803B498
 	adds r0, r0, r1
 	ldrh r0, [r0]
 	subs r5, r5, r0
-	ldr r7, _0803B608 @ =gUnknown_03000538
+	ldr r7, _0803B608 @ =0x03000538
 	add r7, sl
 	movs r0, #0x80
 	strh r0, [r7, #0x10]
@@ -4662,7 +4662,7 @@ _0803B5EE:
 _0803B5FC: .4byte gCurTask
 _0803B600: .4byte gUnknown_080CF9AE
 _0803B604: .4byte gUnknown_080CFA28
-_0803B608: .4byte gUnknown_03000538
+_0803B608: .4byte 0x03000538
 _0803B60C: .4byte gUnknown_080CF936
 _0803B610: .4byte gUnknown_080CF8BC
 _0803B614: .4byte gUnknown_03000560

@@ -57,7 +57,7 @@ CreateEntity_Interactable083: @ 0x0803C214
 	strh r0, [r7, #0x10]
 	movs r0, #0x3c
 	strb r0, [r7, #0x17]
-	ldr r0, _0803C398 @ =gUnknown_030004C8
+	ldr r0, _0803C398 @ =0x030004C8
 	adds r1, r1, r0
 	str r3, [r1]
 	strb r2, [r7, #0x14]
@@ -194,7 +194,7 @@ _0803C388: .4byte sub_803C600
 _0803C38C: .4byte 0x0000059C
 _0803C390: .4byte sub_803D6D4
 _0803C394: .4byte gUnknown_03000590
-_0803C398: .4byte gUnknown_030004C8
+_0803C398: .4byte 0x030004C8
 _0803C39C: .4byte gUnknown_030015C0
 _0803C3A0: .4byte 0x0000048C
 _0803C3A4: .4byte gUnknown_030008A0
@@ -2533,31 +2533,31 @@ sub_803D614: @ 0x0803D614
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r6, r4, r0
-	ldr r0, _0803D6A8 @ =gUnknown_030004C8
+	ldr r0, _0803D6A8 @ =0x030004C8
 	adds r5, r4, r0
 	adds r0, r5, #0
 	bl UpdateSpriteAnimation
 	adds r0, r5, #0
 	bl DisplaySprite
-	ldr r0, _0803D6AC @ =gUnknown_030004F0
+	ldr r0, _0803D6AC @ =0x030004F0
 	adds r5, r4, r0
 	adds r0, r5, #0
 	bl UpdateSpriteAnimation
 	adds r0, r5, #0
 	bl DisplaySprite
-	ldr r0, _0803D6B0 @ =gUnknown_03000518
+	ldr r0, _0803D6B0 @ =0x03000518
 	adds r5, r4, r0
 	adds r0, r5, #0
 	bl UpdateSpriteAnimation
 	adds r0, r5, #0
 	bl DisplaySprite
-	ldr r0, _0803D6B4 @ =gUnknown_03000540
+	ldr r0, _0803D6B4 @ =0x03000540
 	adds r5, r4, r0
 	adds r0, r5, #0
 	bl UpdateSpriteAnimation
 	adds r0, r5, #0
 	bl DisplaySprite
-	ldr r0, _0803D6B8 @ =gUnknown_03000568
+	ldr r0, _0803D6B8 @ =0x03000568
 	adds r5, r4, r0
 	ldrb r0, [r6, #0x14]
 	cmp r0, #0
@@ -2589,11 +2589,11 @@ _0803D690:
 	bx r0
 	.align 2, 0
 _0803D6A4: .4byte gCurTask
-_0803D6A8: .4byte gUnknown_030004C8
-_0803D6AC: .4byte gUnknown_030004F0
-_0803D6B0: .4byte gUnknown_03000518
-_0803D6B4: .4byte gUnknown_03000540
-_0803D6B8: .4byte gUnknown_03000568
+_0803D6A8: .4byte 0x030004C8
+_0803D6AC: .4byte 0x030004F0
+_0803D6B0: .4byte 0x03000518
+_0803D6B4: .4byte 0x03000540
+_0803D6B8: .4byte 0x03000568
 _0803D6BC: .4byte 0x0000020D
 
 	thumb_func_start sub_803D6C0
@@ -2625,25 +2625,25 @@ sub_803D6D4: @ 0x0803D6D4
 	adds r0, r4, r1
 	ldr r0, [r0]
 	bl VramFree
-	ldr r1, _0803D73C @ =gUnknown_030004C8
+	ldr r1, _0803D73C @ =0x030004C8
 	adds r0, r4, r1
 	ldr r0, [r0]
 	cmp r0, #0
 	beq _0803D72E
 	bl VramFree
-	ldr r1, _0803D740 @ =gUnknown_030004F0
+	ldr r1, _0803D740 @ =0x030004F0
 	adds r0, r4, r1
 	ldr r0, [r0]
 	bl VramFree
-	ldr r1, _0803D744 @ =gUnknown_03000518
+	ldr r1, _0803D744 @ =0x03000518
 	adds r0, r4, r1
 	ldr r0, [r0]
 	bl VramFree
-	ldr r1, _0803D748 @ =gUnknown_03000540
+	ldr r1, _0803D748 @ =0x03000540
 	adds r0, r4, r1
 	ldr r0, [r0]
 	bl VramFree
-	ldr r1, _0803D74C @ =gUnknown_03000568
+	ldr r1, _0803D74C @ =0x03000568
 	adds r0, r4, r1
 	ldr r0, [r0]
 	bl VramFree
@@ -2654,11 +2654,11 @@ _0803D72E:
 	.align 2, 0
 _0803D734: .4byte 0x03000388
 _0803D738: .4byte 0x03000360
-_0803D73C: .4byte gUnknown_030004C8
-_0803D740: .4byte gUnknown_030004F0
-_0803D744: .4byte gUnknown_03000518
-_0803D748: .4byte gUnknown_03000540
-_0803D74C: .4byte gUnknown_03000568
+_0803D73C: .4byte 0x030004C8
+_0803D740: .4byte 0x030004F0
+_0803D744: .4byte 0x03000518
+_0803D748: .4byte 0x03000540
+_0803D74C: .4byte 0x03000568
 
 	thumb_func_start sub_803D750
 sub_803D750: @ 0x0803D750

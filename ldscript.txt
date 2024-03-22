@@ -127,8 +127,87 @@ SECTIONS {
         build/sa3/src/lib/agb_flash/agb_flash_mx.o(.text);
         build/sa3/src/lib/agb_flash/agb_flash_sst.o(.text);
         build/sa3/asm/libagbsyscall.o(.text);
-        build/sa3/asm/libraries.o(.text);
     }
+
+    lib_text :
+    ALIGN(4)
+    {
+        build/sa3/asm/libgcc_0.o(.text);
+        tools/agbcc/lib/libgcc.a:_ashrdi3.o(.text);
+        tools/agbcc/lib/libgcc.a:_call_via_rX.o(.text);
+        tools/agbcc/lib/libgcc.a:_divdi3.o(.text);
+        tools/agbcc/lib/libgcc.a:_divsi3.o(.text);
+        tools/agbcc/lib/libgcc.a:_dvmd_tls.o(.text);
+        tools/agbcc/lib/libgcc.a:_modsi3.o(.text);
+        tools/agbcc/lib/libgcc.a:_muldi3.o(.text);
+        tools/agbcc/lib/libgcc.a:_negdi2.o(.text);
+        build/sa3/asm/libgcc.o(.text);
+    
+        /* 
+
+            *libgcc.a:_udivdi3.o(.text);
+
+
+            *libc.a:strcpy.o(.text);
+            *libc.a:vsprintf.o(.text);
+            tools/agbcc/lib/libc.a:sf_finite.o(.text);
+            tools/agbcc/lib/libc.a:sf_isnan.o(.text);
+            tools/agbcc/lib/libc.a:sf_scalbn.o(.text);
+            tools/agbcc/lib/libc.a:sf_copysign.o(.text);
+        
+            tools/agbcc/lib/libgcc.a:_divdi3.o(.text);
+            tools/agbcc/lib/libgcc.a:_divsi3.o(.text);
+            tools/agbcc/lib/libgcc.a:_dvmd_tls.o(.text);
+            tools/agbcc/lib/libgcc.a:_modsi3.o(.text);
+            tools/agbcc/lib/libgcc.a:_muldi3.o(.text);
+            tools/agbcc/lib/libgcc.a:_negdi2.o(.text);
+            tools/agbcc/lib/libgcc.a:_udivsi3.o(.text);
+            tools/agbcc/lib/libgcc.a:_umodsi3.o(.text);
+            tools/agbcc/lib/libgcc.a:dp-bit.o(.text);
+            tools/agbcc/lib/libgcc.a:fp-bit.o(.text);
+            tools/agbcc/lib/libgcc.a:_lshrdi3.o(.text);
+        
+            tools/agbcc/lib/libgcc.a(.text) /* @TODO, @FIXME: Why do I have to add this here for the linker to work? */
+        */
+
+        tools/agbcc/lib/libc.a:errno.o(.text);
+        tools/agbcc/lib/libc.a:memcpy.o(.text);
+        tools/agbcc/lib/libc.a:memset.o(.text);
+        tools/agbcc/lib/libc.a:sprintf.o(.text);
+        tools/agbcc/lib/libc.a:vfprintf.o(.text);
+        tools/agbcc/lib/libc.a:wsetup.o(.text);
+        tools/agbcc/lib/libc.a:dtoa.o(.text);
+        tools/agbcc/lib/libc.a:fflush.o(.text);
+        tools/agbcc/lib/libc.a:findfp.o(.text);
+        tools/agbcc/lib/libc.a:freer.o(.text);
+        tools/agbcc/lib/libc.a:fvwrite.o(.text);
+        tools/agbcc/lib/libc.a:fwalk.o(.text);
+        tools/agbcc/lib/libc.a:locale.o(.text);
+        tools/agbcc/lib/libc.a:makebuf.o(.text);
+        tools/agbcc/lib/libc.a:mallocr.o(.text);
+        tools/agbcc/lib/libc.a:mbtowc_r.o(.text);
+        tools/agbcc/lib/libc.a:memchr.o(.text);
+        tools/agbcc/lib/libc.a:memmove.o(.text);
+        tools/agbcc/lib/libc.a:mlock.o(.text);
+        tools/agbcc/lib/libc.a:mprec.o(.text);
+        tools/agbcc/lib/libc.a:s_isinf.o(.text);
+        tools/agbcc/lib/libc.a:s_isnan.o(.text);
+        tools/agbcc/lib/libc.a:sbrkr.o(.text);
+        tools/agbcc/lib/libc.a:stdio.o(.text);
+        tools/agbcc/lib/libc.a:strcmp.o(.text);
+        tools/agbcc/lib/libc.a:strlen.o(.text);
+        tools/agbcc/lib/libc.a:syscalls.o(.text);
+        tools/agbcc/lib/libc.a:writer.o(.text);
+        tools/agbcc/lib/libc.a:callocr.o(.text);
+        tools/agbcc/lib/libc.a:closer.o(.text);
+        tools/agbcc/lib/libc.a:fstatr.o(.text);
+        tools/agbcc/lib/libc.a:libcfunc.o(.text);
+        tools/agbcc/lib/libc.a:lseekr.o(.text);
+        tools/agbcc/lib/libc.a:readr.o(.text);
+        
+        tools/agbcc/lib/libc.a(.text) /* @TODO, @FIXME: Why do I have to add this here for the linker to work? */
+
+    } =0
 
     .rodata :
     ALIGN(4) {
@@ -452,8 +531,28 @@ SECTIONS {
         build/sa3/src/lib/agb_flash/agb_flash_sst.o(.rodata)
 
         build/sa3/data/data2.o(.rodata);
+        *tools/agbcc/lib/libgcc.a:_divdi3.o(.rodata);
+        *tools/agbcc/lib/libgcc.a:_divsi3.o(.rodata);
+
+        *tools/agbcc/lib/libc.a:impure.o(.rodata);
+        *tools/agbcc/lib/libc.a:vfprintf.o(.rodata);
+        *tools/agbcc/lib/libc.a:dtoa.o(.rodata);
+        *tools/agbcc/lib/libc.a:locale.o(.rodata);
+        *tools/agbcc/lib/libc.a:mprec.o(.rodata);
+        *tools/agbcc/lib/libc.a:syscalls.o(.rodata);
+        build/sa3/data/data3.o(.rodata);
         build/sa3/asm/rom_footer.o(.rodata);
-        build/sa3/data/data_z.o(.rodata);
+
+        *tools/agbcc/lib/libc.a:impure.o(.data);
+        *tools/agbcc/lib/libc.a:vfprintf.o(.data);
+        *tools/agbcc/lib/libc.a:dtoa.o(.data);
+        *tools/agbcc/lib/libc.a:locale.o(.data);
+        *tools/agbcc/lib/libc.a:mprec.o(.data);
+        *tools/agbcc/lib/libc.a:locale.o(.rodata);
+        *tools/agbcc/lib/libc.a:mallocr.o(.rodata);
+        *tools/agbcc/lib/libc.a:mallocr.o(.data);
+
+        *libc.a:(.rodata);
     }
 
     . = 0x2000000;
