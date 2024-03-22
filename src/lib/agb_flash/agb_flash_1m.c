@@ -8,8 +8,7 @@ extern const struct FlashSetupInfo UnkFlashChipInfo_0;
 extern const struct FlashSetupInfo UnkFlashChipInfo_3;
 extern const struct FlashSetupInfo UnkFlashChipInfo_4;
 
-const struct FlashSetupInfo* const sSetupInfos[] =
-{
+const struct FlashSetupInfo *const sSetupInfos[] = {
     &SST39VF512,
     &UnkFlashChipInfo_4,
     &UnkFlashChipInfo_3,
@@ -20,7 +19,7 @@ u16 IdentifyFlash(void)
 {
     u16 result;
     u16 flashId;
-    const struct FlashSetupInfo * const *setupInfo;
+    const struct FlashSetupInfo *const *setupInfo;
 
     REG_WAITCNT = (REG_WAITCNT & ~WAITCNT_SRAM_MASK) | WAITCNT_SRAM_8;
 
@@ -29,13 +28,11 @@ u16 IdentifyFlash(void)
     setupInfo = sSetupInfos;
     result = 1;
 
-    for (;;)
-    {
+    for (;;) {
         if ((*setupInfo)->type.ids.separate.makerId == 0)
             break;
 
-        if (flashId == (*setupInfo)->type.ids.joined)
-        {
+        if (flashId == (*setupInfo)->type.ids.joined) {
             result = 0;
             break;
         }
@@ -60,16 +57,14 @@ u16 WaitForFlashWrite_Common(u8 phase, u8 *addr, u8 lastData)
 
     StartFlashTimer(phase);
 
-    while ((status = PollFlashStatus(addr)) != lastData)
-    {
-        if (gFlashTimeoutFlag)
-        {
+    while ((status = PollFlashStatus(addr)) != lastData) {
+        if (gFlashTimeoutFlag) {
             if (PollFlashStatus(addr) == lastData)
                 break;
 
             if (gFlash->ids.separate.makerId == 0xC2)
                 FLASH_WRITE(0x5555, 0xF0);
-            
+
             result = phase | 0xC000u;
             break;
         }

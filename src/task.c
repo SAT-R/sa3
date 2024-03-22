@@ -141,10 +141,12 @@ void TaskDestroy(struct Task *task)
                 if (task == gNextTask) {
                     gNextTask = TASK_NEXT(task);
                 }
-                
-                // can only happen in (implicitly) recursive TaskDestroy calls (from task->dtor) in TasksDestroyInPriorityRange
+
+                // can only happen in (implicitly) recursive TaskDestroy calls (from
+                // task->dtor) in TasksDestroyInPriorityRange
                 if (task == gNextTaskToCheckForDestruction) {
-                    gNextTaskToCheckForDestruction = (struct Task*)(task->next + IWRAM_START);
+                    gNextTaskToCheckForDestruction
+                        = (struct Task *)(task->next + IWRAM_START);
                 }
 
                 prev = TASK_PTR(task->prev);
@@ -389,48 +391,52 @@ void TasksDestroyInPriorityRange(u16 lbound, u16 rbound)
     }
 }
 #else
-void TasksDestroyInPriorityRange(u16 lbound, u16 rbound) {
-    struct Task* cur = gTaskPtrs[0];
+void TasksDestroyInPriorityRange(u16 lbound, u16 rbound)
+{
+    struct Task *cur = gTaskPtrs[0];
     TaskPtr curOffset = (TaskPtr)(TaskPtr32)cur;
 #ifndef NONMATCHING
-    asm("":::"r5");
+    asm("" ::: "r5");
 #endif
     while (curOffset != 0) {
         if (cur->priority >= lbound) {
             lbound = 0;
             while (cur->priority < rbound) {
-                gNextTaskToCheckForDestruction = (struct Task*)(cur->next + (IWRAM_START));
+                gNextTaskToCheckForDestruction
+                    = (struct Task *)(cur->next + (IWRAM_START));
                 if (cur != gTaskPtrs[0] && cur != gTaskPtrs[1]) {
                     TaskDestroy(cur);
                 }
                 cur = gNextTaskToCheckForDestruction;
-                
+
                 if (TASK_IS_NULL(cur)) {
                     break;
                 }
-                ++cur; --cur;
+                ++cur;
+                --cur;
                 gNextTaskToCheckForDestruction += 0;
             }
-            gNextTaskToCheckForDestruction = (void*)(TaskPtr32)lbound; // NULL
+            gNextTaskToCheckForDestruction = (void *)(TaskPtr32)lbound; // NULL
             return;
         }
         curOffset = cur->next;
-        cur = (struct Task*)(curOffset + IWRAM_START);
+        cur = (struct Task *)(curOffset + IWRAM_START);
     }
     gNextTaskToCheckForDestruction = NULL;
 }
 #endif
 
-static s32 IwramActiveNodeTotalSize(void) {
+static s32 IwramActiveNodeTotalSize(void)
+{
     s32 activeSize = 0;
-    struct IwramNode* cur = (void*)gIwramHeap;
-    struct IwramNode* next;
+    struct IwramNode *cur = (void *)gIwramHeap;
+    struct IwramNode *next;
     while (1) {
         if (cur->state < 0) {
             activeSize -= cur->state;
         }
-        next = (void*)(cur->next + IWRAM_START);
-        if (next == (void*)IWRAM_START) {
+        next = (void *)(cur->next + IWRAM_START);
+        if (next == (void *)IWRAM_START) {
             break;
         }
         cur = next;

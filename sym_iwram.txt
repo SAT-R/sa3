@@ -2,6 +2,7 @@
 . = 0x00000440;
 build/sa3/src/lib/agb_flash/agb_flash.o(.bss);
 
+/* TODO: Remove the indivisual includes for 'dp-bit.o' or 'fp-bit.o' */
 *libgcc.a(.bss);
 tools/agbcc/lib/libgcc.a:dp-bit.o(.bss);
 tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);

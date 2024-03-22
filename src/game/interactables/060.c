@@ -14,8 +14,8 @@ static void Task_Interactable060(void);
 
 void CreateEntity_Interactable060(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t
-        = TaskCreate(Task_Interactable060, sizeof(IA_060), 0x2100, 0, DestroyInteractable060);
+    struct Task *t = TaskCreate(Task_Interactable060, sizeof(IA_060), 0x2100, 0,
+                                DestroyInteractable060);
     IA_060 *ia = TASK_DATA(t);
 
     ia->base.regionX = regionX;

@@ -39,7 +39,7 @@ typedef void *IwramData;
 #define TASK_x0004            0x0004
 #define TASK_USE_EWRAM        0x0010
 
-#define USE_OLD_TASK_SYSTEM   FALSE
+#define USE_OLD_TASK_SYSTEM FALSE
 
 struct Task {
     /* 0x00 */ TaskPtr parent;
@@ -88,7 +88,7 @@ extern struct Task gEmptyTask;
 extern struct Task *gTaskPtrs[MAX_TASK_NUM];
 extern s32 gNumTasks;
 #if !USE_OLD_TASK_SYSTEM
-extern struct Task* gNextTaskToCheckForDestruction;
+extern struct Task *gNextTaskToCheckForDestruction;
 #endif
 extern struct Task *gNextTask;
 extern struct Task *gCurTask;
