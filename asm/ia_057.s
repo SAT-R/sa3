@@ -720,7 +720,7 @@ sub_8034D0C: @ 0x08034D0C
 	ldr r1, _08034D2C @ =gUnknown_080CF590
 	mov r0, sp
 	movs r2, #0x48
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r1, _08034D30 @ =gUnknown_030008A0
 	ldrb r0, [r1, #0xa]
 	cmp r0, #9
@@ -1057,7 +1057,7 @@ sub_8034F88: @ 0x08034F88
 	ldr r1, _08035028 @ =gUnknown_080CF638
 	add r0, sp, #4
 	movs r2, #0x48
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, _0803502C @ =sub_80350EC
 	movs r2, #0x84
 	lsls r2, r2, #6
@@ -1315,7 +1315,7 @@ sub_80351A8: @ 0x080351A8
 	ldr r1, _080351CC @ =gUnknown_080CF5D8
 	mov r0, sp
 	movs r2, #0x60
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r1, _080351D0 @ =gUnknown_030008A0
 	ldrb r0, [r1, #0xa]
 	cmp r0, #9

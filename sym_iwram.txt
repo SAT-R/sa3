@@ -236,7 +236,7 @@ build/sa3/src/lib/agb_flash/agb_flash.o(.bss);
 . = 0x00006C40; EraseFlashSector = .;
 . = 0x00006C44; gFlashMaxTime = .;*/
 
-. = 0x00006C48; gUnknown_03006C48 = .;
+. = 0x00006C48; errno = .;
 . = 0x00006C4C; iwram_end = .;
 . = 0x00007F00; gUnknown_03007F00 = .;
 . = 0x00007FA0; gUnknown_03007FA0 = .;

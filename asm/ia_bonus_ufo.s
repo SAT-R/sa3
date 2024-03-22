@@ -19,7 +19,7 @@ CreateEntity_BonusUfo: @ 0x080413AC
 	ldr r1, _080414A4 @ =gUnknown_080CFBC0
 	add r0, sp, #4
 	movs r2, #6
-	bl sub_80CA3B0
+	bl memcpy
 	movs r3, #0
 	ldrb r0, [r4, #7]
 	movs r1, #1

@@ -589,7 +589,7 @@ sub_804B2C4: @ 0x0804B2C4
 	ldr r1, _0804B3B4 @ =gUnknown_080D03D8
 	add r0, sp, #4
 	movs r2, #6
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, _0804B3B8 @ =sub_804B24C
 	movs r2, #0x84
 	lsls r2, r2, #6

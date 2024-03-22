@@ -527,7 +527,7 @@ sub_8043BC4: @ 0x08043BC4
 	strb r2, [r0]
 	add r0, sp, #0xc
 	movs r2, #4
-	bl sub_80CA3B0
+	bl memcpy
 	adds r0, r5, #0
 	bl sub_802C080
 	cmp r0, #0

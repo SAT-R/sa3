@@ -766,11 +766,11 @@ _08000788:
 	subs r4, r0, #1
 	adds r0, r4, #0
 	movs r1, #0xa
-	bl sub_80C8960
+	bl __divsi3
 	strb r0, [r6]
 	adds r0, r4, #0
 	movs r1, #0xa
-	bl sub_80C89F8
+	bl __modsi3
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	cmp r0, #9
@@ -4299,7 +4299,7 @@ sub_8002210: @ 0x08002210
 	bgt _08002260
 	subs r0, r5, #1
 	movs r1, #0xa
-	bl sub_80C8960
+	bl __divsi3
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x10
 	asrs r0, r0, #0x10
@@ -4420,7 +4420,7 @@ _08002314: .4byte gUnknown_030008A0
 _08002318:
 	subs r0, r5, #1
 	movs r1, #0xa
-	bl sub_80C8960
+	bl __divsi3
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x10
 	asrs r0, r0, #0x10
@@ -4809,7 +4809,7 @@ sub_8002618: @ 0x08002618
 	ldr r1, _08002638 @ =gUnknown_080CE52C
 	mov r0, sp
 	movs r2, #0x1c
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, _0800263C @ =gUnknown_030008A0
 	ldrb r1, [r0, #0xa]
 	ldrb r2, [r0, #9]
@@ -5211,7 +5211,7 @@ sub_8002988: @ 0x08002988
 	ldr r1, _080029F4 @ =gUnknown_080CE548
 	mov r0, sp
 	movs r2, #4
-	bl sub_80CA3B0
+	bl memcpy
 	bl sub_805235C
 	bl sub_802B788
 	ldrb r0, [r5, #3]
@@ -11939,7 +11939,7 @@ sub_8005E80: @ 0x08005E80
 	ldr r1, _08005F90 @ =gUnknown_080CE5CA
 	mov r0, sp
 	movs r2, #0x14
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, _08005F94 @ =gUnknown_030008A0
 	ldrb r0, [r0, #3]
 	cmp r0, #7
@@ -15610,7 +15610,7 @@ _08007BC4:
 	ldrsh r2, [r7, r1]
 	movs r1, #0x1e
 	subs r1, r1, r2
-	bl sub_80C8960
+	bl __divsi3
 	adds r4, r4, r0
 	str r4, [r5, #0x10]
 	b _08007C18
@@ -17998,7 +17998,7 @@ sub_8008E38: @ 0x08008E38
 	ldr r1, _08008F04 @ =gUnknown_080CE5DE
 	mov r0, sp
 	movs r2, #0xa
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, _08008F08 @ =gUnknown_030008A0
 	ldrb r0, [r0, #3]
 	cmp r0, #7
@@ -18201,7 +18201,7 @@ sub_8008FE4: @ 0x08008FE4
 	ldr r1, _08009118 @ =gUnknown_080CE5DE
 	mov r0, sp
 	movs r2, #0xa
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, _0800911C @ =gUnknown_030008A0
 	ldrb r0, [r0, #3]
 	cmp r0, #7
@@ -19127,7 +19127,7 @@ sub_8009780: @ 0x08009780
 	ldr r1, _08009838 @ =gUnknown_080CE5E8
 	mov r0, sp
 	movs r2, #0xa
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, _0800983C @ =gUnknown_030008A0
 	ldrb r0, [r0, #3]
 	cmp r0, #7
@@ -20548,7 +20548,7 @@ _0800A30C:
 	adds r0, r0, r2
 	movs r1, #0x90
 	lsls r1, r1, #1
-	bl sub_80C8960
+	bl __divsi3
 	adds r3, r0, #0
 	ldr r1, _0800A39C @ =gUnknown_082B48B4
 	ands r3, r6
@@ -21060,7 +21060,7 @@ sub_800A724: @ 0x0800A724
 	strb r0, [r5]
 	ldrb r0, [r5]
 	movs r1, #0x1a
-	bl sub_80C8B50
+	bl __udivsi3
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	movs r1, #0
@@ -21218,7 +21218,7 @@ sub_800A860: @ 0x0800A860
 	strb r0, [r5]
 	ldrb r0, [r5]
 	movs r1, #0x1a
-	bl sub_80C8B50
+	bl __udivsi3
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	movs r1, #9
@@ -21377,13 +21377,13 @@ sub_800A98C: @ 0x0800A98C
 	ldrb r0, [r2]
 	subs r0, #0x80
 	movs r1, #0x1a
-	bl sub_80C8960
+	bl __divsi3
 	adds r1, r0, #5
 	b _0800A9C8
 _0800A9BC:
 	ldrb r0, [r2]
 	movs r1, #0x1a
-	bl sub_80C8B50
+	bl __udivsi3
 	lsls r0, r0, #0x18
 	lsrs r1, r0, #0x18
 _0800A9C8:
@@ -24723,7 +24723,7 @@ sub_800C3AC: @ 0x0800C3AC
 	ldr r1, _0800C408 @ =gUnknown_080CE5F2
 	mov r0, sp
 	movs r2, #0xa
-	bl sub_80CA3B0
+	bl memcpy
 	adds r0, r5, #0
 	adds r0, #0x2a
 	ldrb r2, [r0]
@@ -31591,7 +31591,7 @@ sub_800F920: @ 0x0800F920
 	ldr r1, _0800F964 @ =gUnknown_080CE63C
 	mov r0, sp
 	movs r2, #8
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, _0800F968 @ =gUnknown_030015C0
 	movs r1, #0xa4
 	lsls r1, r1, #1
@@ -40842,7 +40842,7 @@ _08013DE0:
 	ldr r1, _08013E30 @ =gUnknown_080CE6A8
 	mov r0, sp
 	movs r2, #0x10
-	bl sub_80CA3B0
+	bl memcpy
 	ldrb r0, [r5, #6]
 	cmp r0, r6
 	bne _08013E04
@@ -41339,7 +41339,7 @@ sub_80141EC: @ 0x080141EC
 	ldr r1, _0801421C @ =gUnknown_080CE644
 	mov r0, sp
 	movs r2, #0x64
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, _08014220 @ =gUnknown_030008A0
 	ldrb r0, [r0, #3]
 	cmp r0, #7
@@ -45070,7 +45070,7 @@ _08015DCC:
 	ldr r1, _08015E08 @ =gUnknown_080CE6CC
 	mov r0, sp
 	movs r2, #0xd8
-	bl sub_80CA3B0
+	bl memcpy
 	movs r1, #0
 	ldr r0, [sp]
 	cmp r0, #0
@@ -50101,7 +50101,7 @@ sub_8018550: @ 0x08018550
 	ldr r1, _08018590 @ =gUnknown_080CE7A4
 	mov r0, sp
 	movs r2, #4
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r2, _08018594 @ =gCurTask
 	ldr r0, [r2]
 	ldrh r3, [r0, #6]
@@ -51819,7 +51819,7 @@ sub_8019240: @ 0x08019240
 	ldr r1, _08019280 @ =gUnknown_080CE7C8
 	mov r0, sp
 	movs r2, #0x10
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r4, _08019284 @ =gCurTask
 	ldr r0, [r4]
 	ldrh r1, [r0, #6]
@@ -59487,12 +59487,12 @@ sub_801CD50: @ 0x0801CD50
 	ldr r1, _0801CDF4 @ =gUnknown_080CECD0
 	mov r0, sp
 	movs r2, #0x14
-	bl sub_80CA3B0
+	bl memcpy
 	add r6, sp, #0x14
 	ldr r1, _0801CDF8 @ =gUnknown_080CECE4
 	adds r0, r6, #0
 	movs r2, #0x14
-	bl sub_80CA3B0
+	bl memcpy
 	adds r0, r4, #0
 	bl sub_801D1D0
 	adds r0, r4, #0
@@ -65314,7 +65314,7 @@ _0801FB2A:
 	ldrsh r0, [r0, r1]
 	lsls r0, r0, #1
 	movs r1, #5
-	bl sub_80C8960
+	bl __divsi3
 	asrs r6, r0, #2
 	str r6, [r5, #8]
 	ldrb r0, [r5, #0x1d]
@@ -65324,7 +65324,7 @@ _0801FB2A:
 	ldrsh r0, [r0, r1]
 	lsls r0, r0, #1
 	movs r1, #5
-	bl sub_80C8960
+	bl __divsi3
 	asrs r1, r0, #2
 	str r1, [r5, #0xc]
 	ldrb r0, [r5, #0x1c]
@@ -67202,7 +67202,7 @@ sub_8020950: @ 0x08020950
 	strb r3, [r0]
 	add r0, sp, #0xc
 	movs r2, #4
-	bl sub_80CA3B0
+	bl memcpy
 	movs r4, #0
 	ldr r1, [r6, #0x20]
 	movs r0, #1
@@ -67699,7 +67699,7 @@ sub_8020CE0: @ 0x08020CE0
 	strb r3, [r0]
 	mov r0, sp
 	movs r2, #4
-	bl sub_80CA3B0
+	bl memcpy
 	adds r0, r6, #0
 	bl sub_802C080
 	cmp r0, #0
@@ -68869,12 +68869,12 @@ sub_80215A0: @ 0x080215A0
 	ldr r1, _080215D4 @ =gUnknown_080CEE20
 	add r0, sp, #4
 	movs r2, #5
-	bl sub_80CA3B0
+	bl memcpy
 	add r4, sp, #0xc
 	ldr r1, _080215D8 @ =gUnknown_080CEE25
 	adds r0, r4, #0
 	movs r2, #0x19
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r1, _080215DC @ =gUnknown_030008A0
 	ldrb r0, [r1, #0xa]
 	subs r0, #8
@@ -70000,12 +70000,12 @@ sub_8021EE8: @ 0x08021EE8
 	ldr r1, _08022168 @ =gUnknown_080CEE20
 	add r0, sp, #4
 	movs r2, #5
-	bl sub_80CA3B0
+	bl memcpy
 	add r4, sp, #0xc
 	ldr r1, _0802216C @ =gUnknown_080CEE25
 	adds r0, r4, #0
 	movs r2, #0x19
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, _08022170 @ =sub_8022898
 	movs r1, #0xd6
 	lsls r1, r1, #2
@@ -72152,7 +72152,7 @@ sub_802304C: @ 0x0802304C
 	ldr r1, _08023158 @ =gUnknown_080CEEC0
 	mov r0, sp
 	movs r2, #0xc
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r1, _0802315C @ =gUnknown_03003C20
 	movs r2, #0xba
 	lsls r2, r2, #5
@@ -72303,7 +72303,7 @@ sub_802318C: @ 0x0802318C
 	ldr r1, _0802322C @ =gUnknown_080CEECC
 	mov r0, sp
 	movs r2, #0xa
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, [sp, #0xc]
 	adds r0, #0xc8
 	movs r6, #0
@@ -82379,7 +82379,7 @@ sub_8027FD4: @ 0x08027FD4
 	ldr r1, _0802809C @ =gUnknown_080CEF2C
 	mov r0, sp
 	movs r2, #0x24
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, _080280A0 @ =gUnknown_03000530
 	ldr r1, _080280A4 @ =0x00000366
 	adds r0, r0, r1
@@ -83157,7 +83157,7 @@ sub_8028644: @ 0x08028644
 	muls r0, r1, r0
 	movs r1, #0x90
 	lsls r1, r1, #9
-	bl sub_80C8B50
+	bl __udivsi3
 	lsls r0, r0, #0x18
 	lsrs r3, r0, #0x18
 	cmp r3, #0x90
@@ -84068,7 +84068,7 @@ sub_8028DEC: @ 0x08028DEC
 	str r0, [sp, #0x3c]
 	ldr r1, _080290E8 @ =gUnknown_080CEF50
 	movs r2, #8
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r1, _080290EC @ =gUnknown_03003C20
 	movs r2, #0x82
 	lsls r2, r2, #5

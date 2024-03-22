@@ -1086,7 +1086,7 @@ sub_80322D8: @ 0x080322D8
 	ldr r1, _08032324 @ =gUnknown_080CF56C
 	mov r0, sp
 	movs r2, #0x18
-	bl sub_80CA3B0
+	bl memcpy
 	lsls r1, r4, #1
 	adds r1, r1, r4
 	adds r1, r1, r5

@@ -517,7 +517,7 @@ sub_8039538: @ 0x08039538
 	bge _0803957C
 	lsls r0, r5, #4
 	adds r1, r6, #0
-	bl sub_80C8960
+	bl __divsi3
 	adds r4, r0, #0
 	mov r0, r8
 	muls r0, r4, r0
@@ -531,7 +531,7 @@ _08039578:
 _0803957C:
 	lsls r0, r6, #4
 	adds r1, r5, #0
-	bl sub_80C8960
+	bl __divsi3
 	adds r4, r0, #0
 	adds r0, r4, #0
 	muls r0, r7, r0
@@ -547,7 +547,7 @@ _08039594:
 	bge _080395B2
 	lsls r0, r5, #8
 	adds r1, r6, #0
-	bl sub_80C8960
+	bl __divsi3
 	adds r4, r0, #0
 	mov r0, r8
 	cmp r0, #0
@@ -558,7 +558,7 @@ _08039594:
 _080395B2:
 	lsls r0, r6, #8
 	adds r1, r5, #0
-	bl sub_80C8960
+	bl __divsi3
 	adds r4, r0, #0
 	cmp r7, #0
 	beq _08039578
@@ -573,7 +573,7 @@ _080395C8:
 	bge _080395F4
 	lsls r0, r5, #8
 	adds r1, r6, #0
-	bl sub_80C8960
+	bl __divsi3
 	adds r4, r0, #0
 	mov r0, r8
 	cmp r0, #0
@@ -585,14 +585,14 @@ _080395E6:
 	lsls r0, r7, #8
 	mov r1, r8
 _080395EA:
-	bl sub_80C8960
+	bl __divsi3
 	cmp r4, r0
 	blt _0803964A
 	b _08039578
 _080395F4:
 	lsls r0, r6, #8
 	adds r1, r5, #0
-	bl sub_80C8960
+	bl __divsi3
 	adds r4, r0, #0
 	cmp r7, #0
 	beq _08039578
@@ -600,7 +600,7 @@ _080395F4:
 	lsls r0, r1, #8
 	adds r1, r7, #0
 _08039608:
-	bl sub_80C8960
+	bl __divsi3
 	cmp r4, r0
 	bgt _0803964A
 	b _08039578
@@ -612,7 +612,7 @@ _08039612:
 	bge _08039634
 	lsls r0, r5, #4
 	adds r1, r6, #0
-	bl sub_80C8960
+	bl __divsi3
 	adds r4, r0, #0
 	mov r0, r8
 	muls r0, r4, r0
@@ -624,7 +624,7 @@ _08039612:
 _08039634:
 	lsls r0, r6, #4
 	adds r1, r5, #0
-	bl sub_80C8960
+	bl __divsi3
 	adds r4, r0, #0
 	adds r0, r4, #0
 	muls r0, r7, r0
@@ -1611,7 +1611,7 @@ sub_8039DC0: @ 0x08039DC0
 	ldr r1, _08039E20 @ =gUnknown_080CF86B
 	mov r0, sp
 	movs r2, #5
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, _08039E24 @ =gCurTask
 	ldr r0, [r0]
 	ldrh r7, [r0, #6]
@@ -2056,7 +2056,7 @@ Task_Interactable075Main: @ 0x0803A188
 	ldr r1, _0803A1D4 @ =gUnknown_080CF870
 	mov r0, sp
 	movs r2, #0x30
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, _0803A1D8 @ =gCurTask
 	ldr r0, [r0]
 	ldrh r1, [r0, #6]
@@ -2198,7 +2198,7 @@ _0803A2A0:
 _0803A2B4:
 	adds r0, r5, #0
 	movs r1, #0xa
-	bl sub_80C8B50
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x10
 	lsls r0, r2, #2
@@ -4344,7 +4344,7 @@ sub_803B354: @ 0x0803B354
 	ldr r1, _0803B420 @ =gUnknown_080CF8A0
 	add r0, sp, #4
 	movs r2, #4
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, _0803B424 @ =gCurTask
 	ldr r0, [r0]
 	ldrh r1, [r0, #6]
@@ -4692,7 +4692,7 @@ _0803B63C:
 	mov sb, r0
 	adds r0, r4, #0
 	movs r1, #0xa
-	bl sub_80C8960
+	bl __divsi3
 	adds r5, r0, #0
 	lsls r0, r5, #2
 	adds r1, r0, r5
@@ -5076,7 +5076,7 @@ sub_803B910: @ 0x0803B910
 	ldr r1, _0803B9CC @ =gUnknown_080CFA4E
 	mov r0, sp
 	movs r2, #2
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, _0803B9D0 @ =gCurTask
 	ldr r0, [r0]
 	ldrh r1, [r0, #6]
@@ -5973,7 +5973,7 @@ sub_803C010: @ 0x0803C010
 	mov r0, sp
 	movs r1, #0
 	movs r2, #0x14
-	bl sub_80CA410
+	bl memset
 	ldr r0, _0803C044 @ =gCurTask
 	ldr r0, [r0]
 	ldrh r1, [r0, #6]
@@ -6064,7 +6064,7 @@ sub_803C094: @ 0x0803C094
 	strb r3, [r0]
 	add r0, sp, #0xc
 	movs r2, #4
-	bl sub_80CA3B0
+	bl memcpy
 	lsls r1, r6, #3
 	adds r0, r7, #0
 	adds r0, #0x20

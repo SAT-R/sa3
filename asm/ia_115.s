@@ -990,7 +990,7 @@ sub_8048D98: @ 0x08048D98
 	ldr r1, _08048E68 @ =gUnknown_080D03C0
 	mov r0, sp
 	movs r2, #8
-	bl sub_80CA3B0
+	bl memcpy
 	movs r6, #0
 	movs r0, #1
 	add r0, sp

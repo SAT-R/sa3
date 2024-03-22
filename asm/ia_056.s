@@ -316,7 +316,7 @@ sub_8034508: @ 0x08034508
 	ldr r1, _08034550 @ =gUnknown_080CF584
 	mov r0, sp
 	movs r2, #0xb
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, _08034554 @ =gCurTask
 	mov r8, r0
 	ldr r0, [r0]

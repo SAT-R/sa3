@@ -22,7 +22,7 @@ CreateEntity_Interactable100: @ 0x08041A94
 	ldr r1, _08041B24 @ =gUnknown_080CFBC8
 	add r0, sp, #4
 	movs r2, #0xc
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, _08041B28 @ =sub_8041B9C
 	movs r2, #0x84
 	lsls r2, r2, #6

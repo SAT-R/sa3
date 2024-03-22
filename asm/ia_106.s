@@ -26,7 +26,7 @@ CreateEntity_Interactable106: @ 0x08043DF4
 	ldr r1, _08043F4C @ =gUnknown_080D0144
 	add r0, sp, #4
 	movs r2, #6
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, _08043F50 @ =sub_8043F68
 	movs r1, #0xba
 	lsls r1, r1, #1
@@ -750,7 +750,7 @@ sub_80443B0: @ 0x080443B0
 	movs r2, #0xe0
 	lsls r2, r2, #1
 	mov r0, sp
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, _080443E8 @ =gUnknown_030008A0
 	ldr r0, [r0, #0x1c]
 	lsls r0, r0, #0x14
@@ -834,7 +834,7 @@ sub_8044450: @ 0x08044450
 	movs r2, #0xe0
 	lsls r2, r2, #1
 	mov r0, sp
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, _080444CC @ =gUnknown_030008A0
 	ldr r0, [r0, #0x1c]
 	lsls r0, r0, #0x14
@@ -1090,7 +1090,7 @@ sub_804464C: @ 0x0804464C
 	ldr r1, _080446D8 @ =gUnknown_080D030C
 	mov r0, sp
 	movs r2, #0x1c
-	bl sub_80CA3B0
+	bl memcpy
 	movs r0, #0
 	mov r8, r0
 	ldrb r0, [r5, #0x18]

@@ -365,7 +365,7 @@ sub_804E210: @ 0x0804E210
 	ldr r1, _0804E294 @ =gUnknown_080D049C
 	mov r0, sp
 	movs r2, #0xa
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r0, _0804E298 @ =gCurTask
 	ldr r0, [r0]
 	ldrh r5, [r0, #6]

@@ -4210,7 +4210,7 @@ sub_80BF30C: @ 0x080BF30C
 	ldr r1, _080BF33C @ =gUnknown_082B52B4
 	mov r0, sp
 	movs r2, #8
-	bl sub_80CA3B0
+	bl memcpy
 	lsls r0, r4, #0x10
 	asrs r1, r0, #0x10
 	lsls r0, r5, #0x10
@@ -4272,7 +4272,7 @@ _080BF38E:
 	lsls r0, r4, #0x10
 	asrs r0, r0, #0x10
 _080BF392:
-	bl sub_80C8960
+	bl __divsi3
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x10
 _080BF39A:
@@ -8719,7 +8719,7 @@ _080C1548:
 	lsls r0, r3, #0x10
 	ldr r5, [sp, #0x20]
 	asrs r1, r5, #0x10
-	bl sub_80C8960
+	bl __divsi3
 	asrs r2, r0, #8
 	ldr r7, [sp, #0x24]
 	asrs r1, r7, #0x18
@@ -8836,7 +8836,7 @@ _080C1654:
 	movs r0, #0x80
 	lsls r0, r0, #9
 	adds r1, r7, #0
-	bl sub_80C8B50
+	bl __udivsi3
 	lsrs r0, r0, #8
 	movs r1, #0xff
 	ands r0, r1
@@ -10870,17 +10870,17 @@ sub_80C2518: @ 0x080C2518
 	ldr r1, _080C2574 @ =gUnknown_082B5304
 	adds r0, r6, #0
 	movs r2, #4
-	bl sub_80CA3B0
+	bl memcpy
 	add r5, sp, #0xc
 	adds r0, r5, #0
 	movs r1, #0
 	movs r2, #4
-	bl sub_80CA410
+	bl memset
 	add r4, sp, #0x10
 	adds r0, r4, #0
 	movs r1, #0
 	movs r2, #4
-	bl sub_80CA410
+	bl memset
 	ldr r1, _080C2578 @ =gFlags
 	ldr r0, [r1]
 	movs r2, #4
@@ -11505,17 +11505,17 @@ sub_80C29B0: @ 0x080C29B0
 	ldr r1, _080C2A0C @ =gUnknown_082B5304
 	adds r0, r6, #0
 	movs r2, #4
-	bl sub_80CA3B0
+	bl memcpy
 	add r5, sp, #0xc
 	adds r0, r5, #0
 	movs r1, #0
 	movs r2, #4
-	bl sub_80CA410
+	bl memset
 	add r4, sp, #0x10
 	adds r0, r4, #0
 	movs r1, #0
 	movs r2, #4
-	bl sub_80CA410
+	bl memset
 	ldr r1, _080C2A10 @ =gFlags
 	ldr r0, [r1]
 	movs r2, #4
@@ -15478,7 +15478,7 @@ _080C47F8:
 	bl __mulsf3
 	adds r1, r4, #0
 	bl __subsf3
-	bl sub_80CA2A0
+	bl __fixsfsi
 	cmp r0, #0
 	bge _080C483C
 	movs r0, #0
@@ -15516,7 +15516,7 @@ _080C4842:
 	bl __mulsf3
 	adds r1, r4, #0
 	bl __subsf3
-	bl sub_80CA2A0
+	bl __fixsfsi
 	cmp r0, #0
 	bge _080C4890
 	movs r0, #0
@@ -15560,7 +15560,7 @@ _080C48A4:
 	bl __mulsf3
 	adds r1, r4, #0
 	bl __subsf3
-	bl sub_80CA2A0
+	bl __fixsfsi
 	cmp r0, #0
 	bge _080C48F4
 	movs r0, #0
@@ -15635,7 +15635,7 @@ _080C495E:
 	bl sub_80C7574
 	adds r1, r7, #0
 	bl __mulsf3
-	bl sub_80CA2A0
+	bl __fixsfsi
 	cmp r0, #0
 	bge _080C498C
 	movs r0, #0
@@ -15662,7 +15662,7 @@ _080C4992:
 	bl sub_80C7574
 	adds r1, r7, #0
 	bl __mulsf3
-	bl sub_80CA2A0
+	bl __fixsfsi
 	cmp r0, #0
 	bge _080C49C4
 	movs r0, #0
@@ -15691,7 +15691,7 @@ _080C49D0:
 	bl sub_80C7574
 	adds r1, r7, #0
 	bl __mulsf3
-	bl sub_80CA2A0
+	bl __fixsfsi
 	cmp r0, #0
 	bge _080C4A04
 	movs r0, #0
@@ -15857,7 +15857,7 @@ _080C4B20:
 	movs r0, #0x6d
 	muls r0, r4, r0
 	movs r1, #0xff
-	bl sub_80C8960
+	bl __divsi3
 	lsls r0, r0, #5
 	orrs r4, r0
 	strh r4, [r5]

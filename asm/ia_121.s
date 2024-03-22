@@ -919,7 +919,7 @@ sub_804A104: @ 0x0804A104
 	ldr r1, _0804A1D8 @ =gUnknown_080D03C8
 	mov r0, sp
 	movs r2, #0x10
-	bl sub_80CA3B0
+	bl memcpy
 	adds r1, r7, #0
 	adds r1, #0xc
 	ldr r0, [r7, #0x74]

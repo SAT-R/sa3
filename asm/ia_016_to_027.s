@@ -1971,17 +1971,17 @@ sub_802F9C4: @ 0x0802F9C4
 	ldr r1, _0802FA1C @ =gUnknown_080CF498
 	mov r0, sp
 	movs r2, #0x30
-	bl sub_80CA3B0
+	bl memcpy
 	add r6, sp, #0x30
 	ldr r1, _0802FA20 @ =gUnknown_080CF4C8
 	adds r0, r6, #0
 	movs r2, #0x2a
-	bl sub_80CA3B0
+	bl memcpy
 	add r4, sp, #0x5c
 	ldr r1, _0802FA24 @ =gUnknown_080CF4F2
 	adds r0, r4, #0
 	movs r2, #0x2a
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r1, _0802FA28 @ =gUnknown_030008A0
 	ldrb r0, [r1, #3]
 	cmp r0, #7

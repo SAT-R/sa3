@@ -506,7 +506,7 @@ _0804DC7C:
 	subs r0, r1, r0
 	lsls r0, r0, #0xe
 	adds r1, r2, #0
-	bl sub_80C8960
+	bl __divsi3
 	lsls r0, r0, #0x10
 	asrs r2, r0, #0x10
 	cmp r2, #0

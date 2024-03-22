@@ -1244,7 +1244,7 @@ _0803CB74:
 	ldr r1, _0803CD0C @ =gUnknown_080CFA50
 	mov r0, sp
 	movs r2, #5
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r6, _0803CD10 @ =0x06012800
 	ldr r0, _0803CD08 @ =gUnknown_030008A0
 	ldrb r0, [r0, #6]
@@ -1797,7 +1797,7 @@ _0803D006:
 	ldr r1, _0803D180 @ =gUnknown_080CFA50
 	mov r0, sp
 	movs r2, #5
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r1, _0803D184 @ =0x06012800
 	mov sl, r1
 	mov r1, r8

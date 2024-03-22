@@ -108,7 +108,7 @@ CreateEntity_Interactable108: @ 0x08044C48
 	ldrb r0, [r4, #5]
 	lsls r0, r0, #3
 	movs r1, #0x18
-	bl sub_80C8960
+	bl __divsi3
 	ldr r2, _08044D70 @ =0x03000068
 	add r2, r8
 	strh r0, [r2]
@@ -141,7 +141,7 @@ _08044D2A:
 	subs r1, #1
 	movs r0, #0x80
 	lsls r0, r0, #2
-	bl sub_80C8960
+	bl __divsi3
 	b _08044D78
 	.align 2, 0
 _08044D5C: .4byte sub_8044DD4
@@ -445,7 +445,7 @@ _08044FB2:
 	movs r0, #0x20
 	ldrsh r1, [r5, r0]
 	adds r0, r4, #0
-	bl sub_80C8960
+	bl __divsi3
 	adds r4, r0, #0
 	movs r0, #0x80
 	lsls r0, r0, #1
@@ -624,7 +624,7 @@ sub_80450D8: @ 0x080450D8
 _080450F4:
 	lsls r0, r0, #9
 	adds r1, r2, #0
-	bl sub_80C8960
+	bl __divsi3
 	ldr r1, _08045130 @ =gUnknown_082B48B4
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0xf

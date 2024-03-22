@@ -399,7 +399,7 @@ sub_8038910: @ 0x08038910
 	ldr r1, _08038980 @ =gUnknown_080CF69C
 	mov r0, sp
 	movs r2, #0x2a
-	bl sub_80CA3B0
+	bl memcpy
 	ldr r2, _08038984 @ =gUnknown_030008A0
 	ldrb r0, [r2, #0xa]
 	movs r1, #0
