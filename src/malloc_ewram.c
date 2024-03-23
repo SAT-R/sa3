@@ -1,5 +1,4 @@
 #include "global.h"
-//#include "core.h"
 #include "malloc_ewram.h"
 
 EWRAM_DATA u8 gEwramHeap[] = {};
