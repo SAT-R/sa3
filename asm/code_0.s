@@ -83300,7 +83300,7 @@ sub_8028770: @ 0x08028770
 	ldr r0, [r0]
 	str r0, [r1]
 	ldr r1, _080287B0 @ =gUnknown_03003C04
-	ldr r0, _080287B4 @ =gUnknown_02022000
+	ldr r0, _080287B4 @ =0x02022000
 	str r0, [r1]
 	bl sub_8025D58
 	bl sub_80287B8
@@ -83313,7 +83313,7 @@ _080287A4: .4byte 0xFFFFBFFF
 _080287A8: .4byte gUnknown_03003570
 _080287AC: .4byte gUnknown_02035000
 _080287B0: .4byte gUnknown_03003C04
-_080287B4: .4byte gUnknown_02022000
+_080287B4: .4byte 0x02022000
 
 	thumb_func_start sub_80287B8
 sub_80287B8: @ 0x080287B8

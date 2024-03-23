@@ -122,6 +122,12 @@ SECTIONS {
         build/sa3/src/main.o(.text);
         build/sa3/src/task.o(.text);
         build/sa3/asm/code_z.o(.text);
+        build/sa3/src/malloc_ewram.o(.text);
+    }
+
+    agb_lib_text :
+    ALIGN(4)
+    {
         build/sa3/src/lib/agb_flash/agb_flash.o(.text);
         build/sa3/src/lib/agb_flash/agb_flash_1m.o(.text);
         build/sa3/src/lib/agb_flash/agb_flash_mx.o(.text);
