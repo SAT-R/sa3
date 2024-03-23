@@ -7278,7 +7278,7 @@ _08052F62:
 	ldrb r0, [r0]
 	strb r0, [r1]
 	bl sub_80BA6B0
-	bl sub_8000300
+	bl LaunchGameIntro
 	b _0805301E
 	.align 2, 0
 _08052F94: .4byte gCurTask
@@ -7300,7 +7300,7 @@ _08052FB4:
 	beq _08052FD8
 	bl sub_8003D2C
 	bl sub_80BA6B0
-	bl sub_800031C
+	bl LaunchTitleScreen
 	b _0805301E
 	.align 2, 0
 _08052FD4: .4byte gUnknown_03003F8C

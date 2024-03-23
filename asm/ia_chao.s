@@ -37,7 +37,7 @@ _0804DE60:
 	ands r4, r0
 	ldrb r0, [r1, #9]
 	adds r1, r4, #0
-	bl sub_8001F4C
+	bl GetChaoFlag
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	mov r8, r0
@@ -49,7 +49,7 @@ _0804DE60:
 	strb r0, [r7]
 	b _0804DF02
 _0804DE82:
-	ldr r0, _0804DF10 @ =sub_804E06C
+	ldr r0, _0804DF10 @ =Task_ChaoMain
 	movs r2, #0x84
 	lsls r2, r2, #6
 	ldr r1, _0804DF14 @ =sub_804E64C
@@ -120,7 +120,7 @@ _0804DF02:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804DF10: .4byte sub_804E06C
+_0804DF10: .4byte Task_ChaoMain
 _0804DF14: .4byte sub_804E64C
 _0804DF18: .4byte 0x0300006C
 _0804DF1C: .4byte 0x0300006E
@@ -166,7 +166,7 @@ _0804DF68:
 	mov r2, sl
 	ldrb r0, [r2, #9]
 	adds r1, r4, #0
-	bl sub_8001F4C
+	bl GetChaoFlag
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bne _0804DF88
@@ -176,7 +176,7 @@ _0804DF68:
 	strb r0, [r7]
 	b _0804E038
 _0804DF88:
-	ldr r0, _0804E048 @ =sub_804E06C
+	ldr r0, _0804E048 @ =Task_ChaoMain
 	movs r2, #0x84
 	lsls r2, r2, #6
 	ldr r1, _0804E04C @ =sub_804E64C
@@ -272,7 +272,7 @@ _0804E038:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804E048: .4byte sub_804E06C
+_0804E048: .4byte Task_ChaoMain
 _0804E04C: .4byte sub_804E64C
 _0804E050: .4byte 0x0300006C
 _0804E054: .4byte gUnknown_080D0410
@@ -282,8 +282,8 @@ _0804E060: .4byte 0x03000071
 _0804E064: .4byte 0x0300000C
 _0804E068: .4byte gCamera
 
-	thumb_func_start sub_804E06C
-sub_804E06C: @ 0x0804E06C
+	thumb_func_start Task_ChaoMain
+Task_ChaoMain: @ 0x0804E06C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -338,7 +338,7 @@ _0804E08C:
 	beq _0804E198
 	mov r1, sl
 	ldrb r0, [r1]
-	bl sub_8001F28
+	bl SetChaoFlag
 	adds r0, r5, #0
 	adds r0, #0x9e
 	strh r6, [r0]
@@ -497,7 +497,7 @@ sub_804E210: @ 0x0804E210
 	adds r4, r5, r4
 	ldr r6, _0804E29C @ =gUnknown_030008A0
 	ldrb r0, [r6, #9]
-	bl sub_8001F6C
+	bl GetChaoCount
 	subs r0, #1
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18

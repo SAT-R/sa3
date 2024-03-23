@@ -143,8 +143,8 @@ _080002F4: .4byte gUnknown_03003C10
 _080002F8: .4byte gUnknown_030008A0
 _080002FC: .4byte gCurTask
 
-	thumb_func_start sub_8000300
-sub_8000300: @ 0x08000300
+	thumb_func_start LaunchGameIntro
+LaunchGameIntro: @ 0x08000300
 	push {lr}
 	bl sub_80003B8
 	movs r0, #1
@@ -152,16 +152,16 @@ sub_8000300: @ 0x08000300
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8000310
-sub_8000310: @ 0x08000310
+	thumb_func_start LaunchDemoPlay
+LaunchDemoPlay: @ 0x08000310
 	push {lr}
 	bl sub_8052D8C
 	pop {r0}
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_800031C
-sub_800031C: @ 0x0800031C
+	thumb_func_start LaunchTitleScreen
+LaunchTitleScreen: @ 0x0800031C
 	push {lr}
 	bl sub_80003B8
 	movs r0, #1
@@ -169,8 +169,8 @@ sub_800031C: @ 0x0800031C
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_800032C
-sub_800032C: @ 0x0800032C
+	thumb_func_start LaunchChaoMenu
+LaunchChaoMenu: @ 0x0800032C
 	push {lr}
 	lsls r1, r1, #0x18
 	lsrs r1, r1, #0x18
@@ -196,8 +196,8 @@ sub_8000340: @ 0x08000340
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_800035C
-sub_800035C: @ 0x0800035C
+	thumb_func_start LaunchOptionsMenu
+LaunchOptionsMenu: @ 0x0800035C
 	push {r4, lr}
 	adds r4, r0, #0
 	lsls r4, r4, #0x10
@@ -303,7 +303,7 @@ sub_8000414: @ 0x08000414
 	adds r4, #1
 	mov r1, sp
 	adds r2, r4, #0
-	bl sub_8000768
+	bl GetZoneAndActTypeFromStageID
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	beq _0800052C
@@ -470,7 +470,7 @@ sub_8000538: @ 0x08000538
 	adds r4, #1
 	mov r1, sp
 	adds r2, r4, #0
-	bl sub_8000768
+	bl GetZoneAndActTypeFromStageID
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bne _08000566
@@ -743,8 +743,9 @@ _08000752:
 	.align 2, 0
 _08000764: .4byte gUnknown_030008A0
 
-	thumb_func_start sub_8000768
-sub_8000768: @ 0x08000768
+@ TODO(Jace): Find better name?
+	thumb_func_start GetZoneAndActTypeFromStageID
+GetZoneAndActTypeFromStageID: @ 0x08000768
 	push {r4, r5, r6, lr}
 	adds r6, r1, #0
 	adds r5, r2, #0
@@ -3887,8 +3888,8 @@ _08001F1C:
 _08001F20: .4byte gUnknown_03000530
 _08001F24: .4byte gUnknown_030008A0
 
-	thumb_func_start sub_8001F28
-sub_8001F28: @ 0x08001F28
+	thumb_func_start SetChaoFlag
+SetChaoFlag: @ 0x08001F28
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	ldr r3, _08001F44 @ =gUnknown_03000530
@@ -3907,8 +3908,8 @@ sub_8001F28: @ 0x08001F28
 _08001F44: .4byte gUnknown_03000530
 _08001F48: .4byte gUnknown_030008A0
 
-	thumb_func_start sub_8001F4C
-sub_8001F4C: @ 0x08001F4C
+	thumb_func_start GetChaoFlag
+GetChaoFlag: @ 0x08001F4C
 	adds r2, r0, #0
 	lsls r2, r2, #0x10
 	lsls r1, r1, #0x10
@@ -3925,8 +3926,8 @@ sub_8001F4C: @ 0x08001F4C
 	.align 2, 0
 _08001F68: .4byte gUnknown_03000530
 
-	thumb_func_start sub_8001F6C
-sub_8001F6C: @ 0x08001F6C
+	thumb_func_start GetChaoCount
+GetChaoCount: @ 0x08001F6C
 	push {r4, r5, lr}
 	lsls r0, r0, #0x10
 	movs r3, #0
@@ -6644,7 +6645,7 @@ _080034D4:
 	adds r5, #5
 	add r1, sp, #4
 	adds r2, r5, #0
-	bl sub_8000768
+	bl GetZoneAndActTypeFromStageID
 	ldrb r0, [r4, #3]
 	subs r0, #3
 	lsls r0, r0, #0x18
@@ -8063,7 +8064,7 @@ sub_8004058: @ 0x08004058
 	strb r0, [r1]
 	bl sub_8001E84
 	bl sub_80260F0
-	bl sub_8000300
+	bl LaunchGameIntro
 _08004098:
 	pop {r0}
 	bx r0
@@ -69261,7 +69262,7 @@ _080218D0:
 	ldrb r6, [r0, #9]
 	lsls r6, r6, #0x10
 	lsrs r0, r6, #0x10
-	bl sub_8001F6C
+	bl GetChaoCount
 	adds r5, r0, #0
 	lsls r5, r5, #0x10
 	lsrs r5, r5, #0x10
@@ -72399,7 +72400,7 @@ _08023256:
 	mov r2, sp
 	adds r1, r2, r7
 	ldrb r1, [r1]
-	bl sub_8001F4C
+	bl GetChaoFlag
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x10
 	cmp r2, #0
@@ -78560,7 +78561,7 @@ sub_802618C: @ 0x0802618C
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _080261A8
-	bl sub_800031C
+	bl LaunchTitleScreen
 _080261A8:
 	pop {r0}
 	bx r0
@@ -82880,7 +82881,7 @@ sub_8028418: @ 0x08028418
 	beq _0802843E
 	movs r0, #1
 	movs r1, #4
-	bl sub_800032C
+	bl LaunchChaoMenu
 	ldr r0, [r4]
 	bl TaskDestroy
 _0802843E:

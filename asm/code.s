@@ -70919,7 +70919,7 @@ _08087E68: .4byte gUnknown_03000530
 _08087E6C: .4byte 0x0000035E
 _08087E70:
 	movs r0, #0
-	bl sub_800035C
+	bl LaunchOptionsMenu
 	b _08087EFE
 _08087E78:
 	movs r0, #1
@@ -76160,7 +76160,7 @@ _0808A7D8: .4byte 0x00003FFF
 _0808A7DC:
 	movs r0, #0
 	movs r1, #1
-	bl sub_800032C
+	bl LaunchChaoMenu
 	ldr r0, [r6]
 	bl TaskDestroy
 _0808A7EA:
@@ -76701,7 +76701,7 @@ _0808AC38:
 	ldr r0, _0808AC48 @ =0x00000257
 	cmp r1, r0
 	bls _0808AC4C
-	bl sub_8000310
+	bl LaunchDemoPlay
 	b _0808ACB2
 	.align 2, 0
 _0808AC48: .4byte 0x00000257
@@ -77779,7 +77779,7 @@ _0808B4A2:
 	strb r0, [r1]
 	movs r0, #3
 	movs r1, #1
-	bl sub_800032C
+	bl LaunchChaoMenu
 _0808B4CC:
 	pop {r4, r5, r6}
 	pop {r0}
@@ -84972,7 +84972,7 @@ _0808ED3A:
 _0808ED40:
 	movs r0, #0
 	movs r1, #0
-	bl sub_800032C
+	bl LaunchChaoMenu
 _0808ED48:
 	ldr r0, _0808ED58 @ =gCurTask
 	ldr r0, [r0]
@@ -85015,7 +85015,7 @@ _0808ED84:
 	bl sub_80260F0
 	movs r0, #0
 	movs r1, #4
-	bl sub_800032C
+	bl LaunchChaoMenu
 	ldr r0, [r5]
 	bl TaskDestroy
 _0808ED9C:
@@ -92182,10 +92182,10 @@ _080925E0:
 	cmp r0, #1
 	bne _080925EC
 	movs r0, #8
-	bl sub_800035C
+	bl LaunchOptionsMenu
 	b _080925F0
 _080925EC:
-	bl sub_8000300
+	bl LaunchGameIntro
 _080925F0:
 	ldr r0, _08092600 @ =gCurTask
 	ldr r0, [r0]
@@ -98448,7 +98448,7 @@ _08095648:
 _08095658: .4byte gUnknown_030008A0
 _0809565C:
 	movs r0, #9
-	bl sub_800035C
+	bl LaunchOptionsMenu
 _08095662:
 	ldr r0, _08095670 @ =gCurTask
 	ldr r0, [r0]
@@ -102198,7 +102198,7 @@ _08097374:
 	movs r0, #0x10
 	strh r0, [r1, #4]
 	movs r0, #0xa
-	bl sub_800035C
+	bl LaunchOptionsMenu
 	ldr r0, [r5]
 	bl TaskDestroy
 _08097384:
@@ -141012,7 +141012,7 @@ _080AA4F8:
 	cmp r0, #1
 	bne _080AA510
 _080AA502:
-	bl sub_8000300
+	bl LaunchGameIntro
 	b _080AA52E
 	.align 2, 0
 _080AA508: .4byte gUnknown_03000530
@@ -141042,7 +141042,7 @@ _080AA52E:
 	.align 2, 0
 _080AA538: .4byte gCurTask
 _080AA53C:
-	bl sub_8000300
+	bl LaunchGameIntro
 	ldr r0, _080AA550 @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy
@@ -143681,7 +143681,7 @@ sub_80ABA20: @ 0x080ABA20
 	ldr r0, _080ABA7C @ =gUnknown_03003F34
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_8000300
+	bl LaunchGameIntro
 _080ABA5E:
 	pop {r0}
 	bx r0
@@ -143735,7 +143735,7 @@ sub_80ABA94: @ 0x080ABA94
 	ldr r0, _080ABAF0 @ =gUnknown_03003F34
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_8000300
+	bl LaunchGameIntro
 _080ABAD2:
 	pop {r0}
 	bx r0
@@ -143816,7 +143816,7 @@ sub_80ABB38: @ 0x080ABB38
 	ldr r0, _080ABB94 @ =gUnknown_03003F34
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_8000300
+	bl LaunchGameIntro
 _080ABB76:
 	pop {r0}
 	bx r0
@@ -143943,7 +143943,7 @@ sub_80ABC20: @ 0x080ABC20
 	ldr r0, _080ABC7C @ =gUnknown_03003F34
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_8000300
+	bl LaunchGameIntro
 _080ABC5E:
 	pop {r0}
 	bx r0
