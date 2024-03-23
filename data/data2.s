@@ -47,8 +47,9 @@ gSpriteTables: @ 0x0833186C
     .4byte gSpritePalettes
     .4byte gObjTiles_4bpp
     .4byte gObjTiles_8bpp
-    .4byte gUnknown_08358528 @ NOTE: gUnknown_08358528 is SA3 only
+    .4byte gUnknown_08358528 @ NOTE: Ref. to gUnknown_08358528 is SA3-only
 
+@ OAM-Data referenced by gSpriteOamData
     .global gUnknown_08331888
 gUnknown_08331888:
     .incbin "baserom.gba", 0x00331888, 0x20FF0
