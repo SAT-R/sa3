@@ -6996,7 +6996,7 @@ sub_8052D30: @ 0x08052D30
 	lsls r1, r1, #0x10
 	lsls r2, r2, #0x10
 	lsrs r3, r2, #0x10
-	ldr r0, _08052D7C @ =gUnknown_0833009C
+	ldr r0, _08052D7C @ =gAnimations
 	lsrs r1, r1, #0xe
 	adds r1, r1, r0
 	ldr r0, [r1]
@@ -7008,7 +7008,7 @@ sub_8052D30: @ 0x08052D30
 	bne _08052D76
 	ldr r1, [r2]
 	ldr r2, _08052D80 @ =0x040000D4
-	ldr r0, _08052D84 @ =gUnknown_03003C04
+	ldr r0, _08052D84 @ =gSpriteTablesRef
 	ldr r0, [r0]
 	lsls r1, r1, #5
 	ldr r0, [r0, #0xc]
@@ -7031,9 +7031,9 @@ _08052D76:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08052D7C: .4byte gUnknown_0833009C
+_08052D7C: .4byte gAnimations
 _08052D80: .4byte 0x040000D4
-_08052D84: .4byte gUnknown_03003C04
+_08052D84: .4byte gSpriteTablesRef
 _08052D88: .4byte gFlags
 
 	thumb_func_start sub_8052D8C

@@ -8,18 +8,18 @@
 	thumb_func_start GameStart
 GameStart: @ 0x080001CC
 	push {lr}
-	ldr r0, _080001E4 @ =gUnknown_03003570
+	ldr r0, _080001E4 @ =gTilemapsRef
 	movs r1, #0x80
 	lsls r1, r1, #0x18
 	str r1, [r0]
-	ldr r0, _080001E8 @ =gUnknown_03003C04
+	ldr r0, _080001E8 @ =gSpriteTablesRef
 	str r1, [r0]
 	bl sub_80001EC
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080001E4: .4byte gUnknown_03003570
-_080001E8: .4byte gUnknown_03003C04
+_080001E4: .4byte gTilemapsRef
+_080001E8: .4byte gSpriteTablesRef
 
 	thumb_func_start sub_80001EC
 sub_80001EC: @ 0x080001EC
@@ -259,11 +259,11 @@ sub_80003B8: @ 0x080003B8
 	ldr r1, _080003F0 @ =gUnknown_030035C0
 	ldr r0, _080003F4 @ =0x00001E01
 	strh r0, [r1, #4]
-	ldr r1, _080003F8 @ =gUnknown_03003570
+	ldr r1, _080003F8 @ =gTilemapsRef
 	ldr r0, _080003FC @ =gUnknown_080D09AC
 	str r0, [r1]
-	ldr r1, _08000400 @ =gUnknown_03003C04
-	ldr r0, _08000404 @ =gUnknown_0833186C
+	ldr r1, _08000400 @ =gSpriteTablesRef
+	ldr r0, _08000404 @ =gSpriteTables
 	str r0, [r1]
 	ldr r1, _08000408 @ =gUnknown_03003D30
 	ldr r0, _0800040C @ =0x00007FFF
@@ -281,10 +281,10 @@ sub_80003B8: @ 0x080003B8
 _080003EC: .4byte gUnknown_03003C20
 _080003F0: .4byte gUnknown_030035C0
 _080003F4: .4byte 0x00001E01
-_080003F8: .4byte gUnknown_03003570
+_080003F8: .4byte gTilemapsRef
 _080003FC: .4byte gUnknown_080D09AC
-_08000400: .4byte gUnknown_03003C04
-_08000404: .4byte gUnknown_0833186C
+_08000400: .4byte gSpriteTablesRef
+_08000404: .4byte gSpriteTables
 _08000408: .4byte gUnknown_03003D30
 _0800040C: .4byte 0x00007FFF
 _08000410: .4byte gFlags
@@ -42608,7 +42608,7 @@ sub_8014AF8: @ 0x08014AF8
 	cmp r0, #0
 	bne _08014BB2
 	ldr r0, [r2, #4]
-	ldr r1, _08014B74 @ =gUnknown_08820046
+	ldr r1, _08014B74 @ =0x08820046
 	ands r0, r1
 	cmp r0, #0
 	bne _08014BB2
@@ -42625,7 +42625,7 @@ sub_8014AF8: @ 0x08014AF8
 _08014B68: .4byte gCurTask
 _08014B6C: .4byte gUnknown_030015C0
 _08014B70: .4byte gUnknown_030008A0
-_08014B74: .4byte gUnknown_08820046
+_08014B74: .4byte 0x08820046
 _08014B78:
 	movs r1, #4
 	ldrsh r0, [r5, r1]
@@ -52977,7 +52977,7 @@ sub_8019AB4: @ 0x08019AB4
 	lsls r0, r0, #0x10
 	lsls r1, r1, #0x10
 	lsrs r3, r1, #0x10
-	ldr r1, _08019B04 @ =gUnknown_0833009C
+	ldr r1, _08019B04 @ =gAnimations
 	lsrs r0, r0, #0xe
 	adds r0, r0, r1
 	ldr r0, [r0]
@@ -53002,7 +53002,7 @@ sub_8019AB4: @ 0x08019AB4
 	ands r0, r3
 	cmp r0, #0
 	beq _08019B10
-	ldr r0, _08019B0C @ =gUnknown_03003C04
+	ldr r0, _08019B0C @ =gSpriteTablesRef
 	ldr r0, [r0]
 	lsls r1, r1, #5
 	ldr r0, [r0, #0xc]
@@ -53013,12 +53013,12 @@ sub_8019AB4: @ 0x08019AB4
 	bl sub_80C4564
 	b _08019B3A
 	.align 2, 0
-_08019B04: .4byte gUnknown_0833009C
+_08019B04: .4byte gAnimations
 _08019B08: .4byte gFlags
-_08019B0C: .4byte gUnknown_03003C04
+_08019B0C: .4byte gSpriteTablesRef
 _08019B10:
 	ldr r2, _08019B40 @ =0x040000D4
-	ldr r0, _08019B44 @ =gUnknown_03003C04
+	ldr r0, _08019B44 @ =gSpriteTablesRef
 	ldr r0, [r0]
 	lsls r1, r1, #5
 	ldr r0, [r0, #0xc]
@@ -53044,7 +53044,7 @@ _08019B3A:
 	bx r0
 	.align 2, 0
 _08019B40: .4byte 0x040000D4
-_08019B44: .4byte gUnknown_03003C04
+_08019B44: .4byte gSpriteTablesRef
 _08019B48: .4byte gUnknown_03003370
 
 	thumb_func_start sub_8019B4C
@@ -78247,7 +78247,7 @@ sub_8025EEC: @ 0x08025EEC
 	mov r5, r8
 	push {r5, r6}
 	sub sp, #4
-	ldr r1, _0802601C @ =gUnknown_03003570
+	ldr r1, _0802601C @ =gTilemapsRef
 	ldr r0, _08026020 @ =gUnknown_080D09AC
 	str r0, [r1]
 	ldr r0, _08026024 @ =gUnknown_030008A0
@@ -78384,7 +78384,7 @@ sub_8025EEC: @ 0x08025EEC
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0802601C: .4byte gUnknown_03003570
+_0802601C: .4byte gTilemapsRef
 _08026020: .4byte gUnknown_080D09AC
 _08026024: .4byte gUnknown_030008A0
 _08026028: .4byte gUnknown_03000530
@@ -83246,11 +83246,11 @@ _08028704: .4byte 0x05000016
 	thumb_func_start sub_8028708
 sub_8028708: @ 0x08028708
 	push {lr}
-	ldr r1, _08028748 @ =gUnknown_03003570
+	ldr r1, _08028748 @ =gTilemapsRef
 	ldr r0, _0802874C @ =gUnknown_080D1C0C
 	str r0, [r1]
-	ldr r1, _08028750 @ =gUnknown_03003C04
-	ldr r0, _08028754 @ =gUnknown_0833186C
+	ldr r1, _08028750 @ =gSpriteTablesRef
+	ldr r0, _08028754 @ =gSpriteTables
 	str r0, [r1]
 	ldr r1, _08028758 @ =gUnknown_03002C68
 	movs r0, #1
@@ -83274,10 +83274,10 @@ sub_8028708: @ 0x08028708
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08028748: .4byte gUnknown_03003570
+_08028748: .4byte gTilemapsRef
 _0802874C: .4byte gUnknown_080D1C0C
-_08028750: .4byte gUnknown_03003C04
-_08028754: .4byte gUnknown_0833186C
+_08028750: .4byte gSpriteTablesRef
+_08028754: .4byte gSpriteTables
 _08028758: .4byte gUnknown_03002C68
 _0802875C: .4byte gFlags
 _08028760: .4byte 0xFFFFBFFF
@@ -83296,11 +83296,11 @@ sub_8028770: @ 0x08028770
 	ldr r1, _080287A4 @ =0xFFFFBFFF
 	ands r0, r1
 	str r0, [r2]
-	ldr r1, _080287A8 @ =gUnknown_03003570
+	ldr r1, _080287A8 @ =gTilemapsRef
 	ldr r0, _080287AC @ =gUnknown_02035000
 	ldr r0, [r0]
 	str r0, [r1]
-	ldr r1, _080287B0 @ =gUnknown_03003C04
+	ldr r1, _080287B0 @ =gSpriteTablesRef
 	ldr r0, _080287B4 @ =0x02022000
 	str r0, [r1]
 	bl sub_8025D58
@@ -83311,9 +83311,9 @@ sub_8028770: @ 0x08028770
 _0802879C: .4byte gUnknown_03002C68
 _080287A0: .4byte gFlags
 _080287A4: .4byte 0xFFFFBFFF
-_080287A8: .4byte gUnknown_03003570
+_080287A8: .4byte gTilemapsRef
 _080287AC: .4byte gUnknown_02035000
-_080287B0: .4byte gUnknown_03003C04
+_080287B0: .4byte gSpriteTablesRef
 _080287B4: .4byte 0x02022000
 
 	thumb_func_start sub_80287B8
@@ -86096,7 +86096,7 @@ sub_8029DE0: @ 0x08029DE0
 	lsrs r0, r2, #0x1c
 	cmp r0, #0
 	bne _08029E34
-	ldr r0, _08029E30 @ =gUnknown_03003C04
+	ldr r0, _08029E30 @ =gSpriteTablesRef
 	ldr r0, [r0]
 	ldrh r1, [r3, #0xc]
 	ldr r0, [r0, #4]
@@ -86111,9 +86111,9 @@ sub_8029DE0: @ 0x08029DE0
 	b _08029E4A
 	.align 2, 0
 _08029E2C: .4byte gCurTask
-_08029E30: .4byte gUnknown_03003C04
+_08029E30: .4byte gSpriteTablesRef
 _08029E34:
-	ldr r0, _08029E80 @ =gUnknown_03003C04
+	ldr r0, _08029E80 @ =gSpriteTablesRef
 	ldr r1, [r0]
 	ldr r4, [sp, #4]
 	ldrh r0, [r4, #0xc]
@@ -86154,7 +86154,7 @@ _08029E72:
 	ldrb r1, [r0, #6]
 	b _08029E92
 	.align 2, 0
-_08029E80: .4byte gUnknown_03003C04
+_08029E80: .4byte gSpriteTablesRef
 _08029E84: .4byte gUnknown_030008A0
 _08029E88:
 	mov r0, sb
@@ -87326,7 +87326,7 @@ _0802A714:
 	lsrs r0, r2, #0x1c
 	cmp r0, #0
 	bne _0802A760
-	ldr r0, _0802A75C @ =gUnknown_03003C04
+	ldr r0, _0802A75C @ =gSpriteTablesRef
 	ldr r0, [r0]
 	ldrh r1, [r4, #0xc]
 	ldr r0, [r0, #4]
@@ -87344,9 +87344,9 @@ _0802A74C: .4byte gCurTask
 _0802A750: .4byte gUnknown_030008A0
 _0802A754: .4byte gCamera
 _0802A758: .4byte gUnknown_080CEF58
-_0802A75C: .4byte gUnknown_03003C04
+_0802A75C: .4byte gSpriteTablesRef
 _0802A760:
-	ldr r0, _0802A79C @ =gUnknown_03003C04
+	ldr r0, _0802A79C @ =gSpriteTablesRef
 	ldr r1, [r0]
 	ldr r6, [sp, #4]
 	ldrh r0, [r6, #0xc]
@@ -87378,7 +87378,7 @@ _0802A790:
 	ldrb r1, [r0, #6]
 	b _0802A7AE
 	.align 2, 0
-_0802A79C: .4byte gUnknown_03003C04
+_0802A79C: .4byte gSpriteTablesRef
 _0802A7A0: .4byte gUnknown_030008A0
 _0802A7A4:
 	mov r0, sl

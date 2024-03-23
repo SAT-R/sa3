@@ -35,13 +35,35 @@ gUnknown_082B9CC4:
 gUnknown_082DA130:
     .incbin "baserom.gba", 0x002DA130, 0x55F6C
 
-    .global gUnknown_0833009C
-gUnknown_0833009C:
+    .global gAnimations
+gAnimations: @ 0x0833009C
     .incbin "baserom.gba", 0x0033009C, 0x17D0
 
-    .global gUnknown_0833186C
-gUnknown_0833186C:
-    .incbin "baserom.gba", 0x0033186C, 0x2A73F8
+    .global gSpriteTables
+gSpriteTables: @ 0x0833186C
+    .4byte gAnimations
+    .4byte gSpriteDimensions
+    .4byte gSpriteOamData
+    .4byte gSpritePalettes
+    .4byte gObjTiles_4bpp
+    .4byte gObjTiles_8bpp
+    .4byte gUnknown_08358528 @ NOTE: gUnknown_08358528 is SA3 only
+
+    .global gUnknown_08331888
+gUnknown_08331888:
+    .incbin "baserom.gba", 0x00331888, 0x20FF0
+
+    .global gSpriteOamData
+gSpriteOamData: @ 0x08352878
+    .incbin "baserom.gba", 0x00352878, 0x17D0
+
+    .global gSpritePalettes
+gSpritePalettes:
+    .incbin "baserom.gba", 0x00354048, 0x44E0
+
+    .global gUnknown_08358528
+gUnknown_08358528:
+    .incbin "baserom.gba", 0x00358528, 0x28073C
 
     .global gUnknown_085D8C64
 gUnknown_085D8C64:
@@ -73,11 +95,19 @@ gUnknown_0872217C:
 
     .global gUnknown_0872A018
 gUnknown_0872A018:
-    .incbin "baserom.gba", 0x0072A018, 0xF602E
+    .incbin "baserom.gba", 0x0072A018, 0x42E80
 
-    .global gUnknown_08820046
-gUnknown_08820046:
-    .incbin "baserom.gba", 0x00820046, 0x60DEAE
+    .global gObjTiles_4bpp
+gObjTiles_4bpp: @ 0x0876CE98
+    .incbin "baserom.gba", 0x0076CE98, 0x691860
+
+    .global gObjTiles_8bpp
+gObjTiles_8bpp:
+    .incbin "baserom.gba", 0x00DFE6F8, 0x2E02C
+    
+    .global gSpriteDimensions
+gSpriteDimensions:
+    .incbin "baserom.gba", 0x00E2C724, 0x17D0
 
     .global gUnknown_08E2DEF4
 gUnknown_08E2DEF4:
