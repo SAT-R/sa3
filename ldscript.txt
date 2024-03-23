@@ -83,8 +83,7 @@ SECTIONS {
         build/sa3/asm/ia_135.o(.text);
         build/sa3/asm/ia_136_to_138.o(.text);
         build/sa3/asm/ia_139.o(.text);
-        build/sa3/asm/ia_chao_in_stage.o(.text);
-        build/sa3/asm/ia_chao_in_playground.o(.text);
+        build/sa3/asm/ia_chao.o(.text);
         build/sa3/asm/ia_141.o(.text);
         build/sa3/asm/ia_mp_023.o(.text);
         build/sa3/asm/ia_mp_024.o(.text);
