@@ -37,7 +37,7 @@ gUnknown_082DA130:
 
     .global gAnimations
 gAnimations: @ 0x0833009C
-    .incbin "baserom.gba", 0x0033009C, 0x17D0
+    .incbin "baserom.gba", 0x0033009C, 1524 * 0x4
 
     .global gSpriteTables
 gSpriteTables: @ 0x0833186C
@@ -56,7 +56,7 @@ gUnknown_08331888:
 
     .global gSpriteOamData
 gSpriteOamData: @ 0x08352878
-    .incbin "baserom.gba", 0x00352878, 0x17D0
+    .incbin "baserom.gba", 0x00352878, 1524 * 0x4
 
     .global gSpritePalettes
 gSpritePalettes:
@@ -108,26 +108,4 @@ gObjTiles_8bpp:
     
     .global gSpriteDimensions
 gSpriteDimensions:
-    .incbin "baserom.gba", 0x00E2C724, 0x17D0
-
-    .global gUnknown_08E2DEF4
-gUnknown_08E2DEF4:
-    .incbin "baserom.gba", 0x00E2DEF4, 0x240
-
-    .global gUnknown_08E2E134
-gUnknown_08E2E134:
-    .incbin "baserom.gba", 0x00E2E134, 0x14C
-
-    .global gUnknown_08E2E280
-gUnknown_08E2E280:
-    .incbin "baserom.gba", 0x00E2E280, 0x2D0
-
-    .global gUnknown_08E2E550
-gUnknown_08E2E550:
-    .incbin "baserom.gba", 0x00E2E550, 0x14C
-
-.if 0
-    .global gUnknown_08E2E69C
-gUnknown_08E2E69C:
-    .incbin "baserom.gba", 0x00E2E69C, 0x100
-.endif
+    .incbin "baserom.gba", 0x00E2C724, 1524 * 0x4
