@@ -13,14 +13,14 @@
 
 #define ACT_1      0
 #define ACT_2      1
-#define ACT_BOSS   2
-#define ACT_UNUSED 3
+#define ACT_3      2
+#define ACT_BOSS   3
 
 #define ACT_XX_FINAL_ZONE ACT_1
 #define ACT_TRUE_AREA_53  ACT_2
 
 #define NUM_COURSE_ZONES   7
-#define ACTS_PER_ZONE      3
+#define ACTS_PER_ZONE      4
 #define ACT_SLOTS_PER_ZONE (ACTS_PER_ZONE + 1)
 
 #define LEVEL_INDEX(zone, act) ((zone)*ACT_SLOTS_PER_ZONE) + (act)
