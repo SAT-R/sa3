@@ -1,4 +1,18 @@
 SECTIONS {
+
+    . = 0x2000000;
+    EWRAM (NOLOAD) :
+    ALIGN(4) {
+        INCLUDE "sym_ewram.txt"
+    }
+
+    . = 0x03000000;
+    IWRAM (NOLOAD) :
+    ALIGN(4)
+    {
+        INCLUDE "sym_iwram.txt"
+    }
+
     . = 0x8000000;
     .text :
     ALIGN(4) {
@@ -93,6 +107,7 @@ SECTIONS {
         build/sa3/asm/extra_boss_init.o(.text);
         build/sa3/asm/enemy_akatento.o(.text);
         build/sa3/asm/enemy_aotento.o(.text);
+        build/sa3/src/game/enemies/spinner.o(.text);
         build/sa3/asm/enemy_spinner.o(.text);
         build/sa3/asm/enemy_condor.o(.text);
         build/sa3/asm/enemy_gekogeko.o(.text);
@@ -137,6 +152,14 @@ SECTIONS {
     lib_text :
     ALIGN(4)
     {
+        /* 
+            *libgcc.a:_udivdi3.o(.text);
+
+
+            *libc.a:strcpy.o(.text);
+            *libc.a:vsprintf.o(.text);        
+        */
+
         build/sa3/asm/libgcc_0.o(.text);
         tools/agbcc/lib/libc.a:sf_finite.o(.text);
         tools/agbcc/lib/libc.a:sf_isnan.o(.text);
@@ -156,16 +179,6 @@ SECTIONS {
         tools/agbcc/lib/libgcc.a:fp-bit.o(.text);
         tools/agbcc/lib/libgcc.a:_lshrdi3.o(.text);
     
-        /* 
-
-            *libgcc.a:_udivdi3.o(.text);
-
-
-            *libc.a:strcpy.o(.text);
-            *libc.a:vsprintf.o(.text);
-        
-        */
-
         tools/agbcc/lib/libc.a:errno.o(.text);
         tools/agbcc/lib/libc.a:memcpy.o(.text);
         tools/agbcc/lib/libc.a:memset.o(.text);
@@ -524,6 +537,7 @@ SECTIONS {
         build/sa3/src/lib/agb_flash/agb_flash_sst.o(.rodata)
 
         build/sa3/data/data2.o(.rodata);
+        build/sa3/asm/ia_grind_rail.o(.rodata);
         *tools/agbcc/lib/libgcc.a:_divdi3.o(.rodata);
         *tools/agbcc/lib/libgcc.a:_divsi3.o(.rodata);
 
@@ -547,20 +561,6 @@ SECTIONS {
         *tools/agbcc/lib/libc.a:mallocr.o(.data);
 
     }
-
-    . = 0x2000000;
-    EWRAM (NOLOAD) :
-    ALIGN(4) {
-        INCLUDE "sym_ewram.txt"
-    }
-
-    . = 0x03000000;
-    IWRAM (NOLOAD) :
-    ALIGN(4)
-    {
-        INCLUDE "sym_iwram.txt"
-    }
-
 
     /* DWARF debug sections.
        Symbols in the DWARF debugging sections are relative to the beginning

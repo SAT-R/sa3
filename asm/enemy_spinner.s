@@ -5,15 +5,16 @@
 .syntax unified
 .arm
 
+.if 0
 	thumb_func_start sub_8058C74
 sub_8058C74: @ 0x08058C74
 	push {r4, r5, r6, lr}
-	adds r4, r0, #0
+	adds r4, r0, #0         @ r4 = spinner
 	movs r0, #0x18
 	bl VramMalloc
 	adds r1, r0, #0
 	adds r0, r4, #0
-	adds r0, #0x1c
+	adds r0, #0x1c          @ r0 = s = &spinner->s
 	str r1, [r4, #0x1c]
 	movs r6, #0
 	movs r5, #0
@@ -60,6 +61,7 @@ sub_8058C74: @ 0x08058C74
 	.align 2, 0
 _08058CDC: .4byte 0x0000048E
 _08058CE0: .4byte gCamera
+.endif
 
 	thumb_func_start CreateEntity_Spinner
 CreateEntity_Spinner: @ 0x08058CE4
