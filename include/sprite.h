@@ -2,8 +2,9 @@
 #define GUARD_SPRITE_H
 
 #include "global.h"
+#include "rect.h"
 
-// Version: January 10th, 2024
+// Version: March 25th, 2024
 
 typedef u16 AnimId;
 
@@ -125,6 +126,12 @@ typedef struct {
     /* 0x05 */ s8 top;
     /* 0x06 */ s8 right;
     /* 0x07 */ s8 bottom;
+} HitboxOld;
+
+typedef struct {
+    // index: -1 on init; lower 4 bits = index (in anim-cmds)
+    /* 0x00 */ s32 index;
+    /* 0x04 */ Rect8 b;
 } Hitbox;
 
 #define SPRITE_ANIM_SPEED(speed) ((int)((float)(speed)*0x10))

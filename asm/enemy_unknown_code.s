@@ -302,6 +302,10 @@ _0805C26C:
 	.align 2, 0
 _0805C27C: .4byte gCurTask
 
+@ Input:
+    @ R0 = EnemyUnknownStruc0*
+@ Output:
+    @ R0 = bool32
 	thumb_func_start sub_805C280
 sub_805C280: @ 0x0805C280
 	push {r4, r5, r6, r7, lr}
@@ -332,7 +336,7 @@ sub_805C280: @ 0x0805C280
 	adds r2, r2, r0
 	lsls r2, r2, #0x10
 	lsrs r2, r2, #0x10
-	ldr r3, [r7, #0x1c]
+	ldr r3, [r7, #0x1c]     @ r3 = Sprite *
 	ldr r1, _0805C328 @ =gCamera
 	ldr r6, [r1]
 	ldrh r0, [r3, #0x10]
@@ -777,6 +781,10 @@ _0805C62E:
 	pop {r1}
 	bx r1
 
+@ Input:
+    @ R0 = EnemyUnknownStruc0*
+@ Output:
+    @ R0 = bool32
 	thumb_func_start sub_805C63C
 sub_805C63C: @ 0x0805C63C
 	push {r4, r5, r6, r7, lr}
