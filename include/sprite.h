@@ -14,15 +14,6 @@ struct GraphicsData {
     /* 0x0A */ AnimId anim;
 };
 
-// TODO: Check whether the regular 'GraphicsData'
-//       struct is still used or was changed in SA3.
-struct GraphicsDataSA3 {
-    /* 0x00 */ void *dest;
-    /* 0x?? */ const void *src;
-    /* 0x?? */ u16 size;
-    /* 0x?? */ AnimId anim;
-};
-
 // TODO: Put this somewhere else! (or is this already somewhere?)
 #define TileMask_Index   (0x3FF)
 #define TileMask_FlipX   (1 << 10)
