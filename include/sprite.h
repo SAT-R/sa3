@@ -14,6 +14,15 @@ struct GraphicsData {
     /* 0x0A */ AnimId anim;
 };
 
+// TODO: Check whether the regular 'GraphicsData'
+//       struct is still used or was changed in SA3.
+struct GraphicsDataSA3 {
+    /* 0x00 */ void *dest;
+    /* 0x?? */ const void *src;
+    /* 0x?? */ u16 size;
+    /* 0x?? */ AnimId anim;
+};
+
 // TODO: Put this somewhere else! (or is this already somewhere?)
 #define TileMask_Index   (0x3FF)
 #define TileMask_FlipX   (1 << 10)
@@ -127,50 +136,50 @@ typedef struct {
 #define SPRITE_OAM_ORDER(index)  ((index) << 6)
 #define GET_SPRITE_OAM_ORDER(s)  ((((s)->unk1A) & 0x7C0) >> 6)
 
-// TODO: work out what makes this struct different from the above
+// NOTE(Jace): The layout of this struct is different
+//             to SA1 and SA2, with missing GraphicsData
+//             and some layout changes,
+//             but overall they are mostly similar.
 typedef struct {
-    /* 0x00 */ struct GraphicsData graphics;
-    /* 0x0C */ SpriteOffset *dimensions;
+    /* 0x00 */ u8 *tiles; // in VRAM
+    /* 0x04 */ s32 frameNum;
 
     // Bitfield description from KATAM decomp
-    /* 0x10 */ u32 unk10; // bit 0-4: affine-index / rotscale param selection
-                          // bit 5: rotscale enable
-                          // bit 6: rotscale double-size
-                          // bit 7-8: obj mode
-                          // bit 9
-                          // bit 10 X-Flip
-                          // bit 11 Y-Flip
-                          // bit 12-13: priority
-                          // bit 14
-                          // bit 15-16: Background ID
-                          // bit 17
-                          // bit 18
-                          // bit 19-25(?)
-                          // bit 26
-                          // bit 27-29(?)
-                          // bit 30
-                          // bit 31
-
-    /* 0x14 */ u16 animCursor;
-
-    /* 0x16 */ s16 x;
-    /* 0x18 */ s16 y;
-
-    /* 0x1A */ u16 unk1A; // bit 6-10: OAM order index
-
-    /* 0x1C */ s16 timeUntilNextFrame; // Q_8_8, in frames
-    /* 0x1E */ u16 prevAnim;
-    /* 0x20 */ u8 variant;
-    /* 0x21 */ u8 prevVariant;
+    /* 0x08 */ u32 frameFlags; // bit 0-4: affine-index / rotscale param selection
+                               // bit 5: rotscale enable
+                               // bit 6: rotscale double-size
+                               // bit 7-8: obj mode
+                               // bit 9
+                               // bit 10 X-Flip
+                               // bit 11 Y-Flip
+                               // bit 12-13: priority
+                               // bit 14
+                               // bit 15-16: Background ID
+                               // bit 17
+                               // bit 18
+                               // bit 19-25(?)
+                               // bit 26
+                               // bit 27-29(?)
+                               // bit 30
+                               // bit 31
+    /* 0x0C */ u16 anim;
+    /* 0x0E */ u16 animCursor;
+    /* 0x10 */ s16 x;
+    /* 0x12 */ s16 y;
+    /* 0x14 */ s16 oamFlags; // bit 6-10: OAM order index
+    /* 0x16 */ s16 timeUntilNextFrame; // Q_8_8, in frames
+    /* 0x18 */ u16 prevAnim;
+    /* 0x1A */ s8 variant;
+    /* 0x1B */ s8 prevVariant;
 
     // 0x08 = 0.5x, 0x10 = 1.0x, 0x20 = 2.0x ...
-    /* 0x22 */ u8 animSpeed;
+    /* 0x1C */ s8 animSpeed;
 
-    /* 0x23 */ u8 oamBaseIndex;
-    /* 0x24 */ u8 numSubFrames;
-    /* 0x25 */ u8 palId;
-    /* 0x28 */ Hitbox hitboxes[1];
-} Sprite /* size = 0x30 */;
+    /* 0x1D */ s8 oamBaseIndex;
+    /* 0x1E */ s8 numSubFrames;
+    /* 0x1F */ s8 palId; // (0 - 15)
+    /* 0x20 */ Hitbox hitboxes[1];
+} Sprite; /* size: 0x28 (more with multiple Hitboxes) */
 
 typedef struct {
     /* 0x00 */ u16 rotation;
