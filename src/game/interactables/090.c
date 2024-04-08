@@ -30,7 +30,6 @@ void Task_Interactable090Main(void)
         if (i != 0) {
             p = &gPlayers[p->charFlags.partnerIndex];
         } else {
-            // _0803F3F4
             p = &gPlayers[gStageData.charId];
         }
 
@@ -39,14 +38,12 @@ void Task_Interactable090Main(void)
             if (!sub_802C0D4(p)) {
                 if ((ia->left < p->qWorldX) && (ia->right > p->qWorldX)
                     && (ia->top < p->qWorldY) && (ia->bottom > p->qWorldY)) {
-                    // __mid
-                    p->speedGround = (p->speedGround * 31) >> 5;
-                    p->speedAirX = (p->speedAirX * 31) >> 5;
-                    p->speedAirY = (p->speedAirY * 31) >> 5;
+                    p->speedGround = Q_24_8_MULTIPLY(p->speedGround, 0.96875);
+                    p->speedAirX = Q_24_8_MULTIPLY(p->speedAirX, 0.96875);
+                    p->speedAirY = Q_24_8_MULTIPLY(p->speedAirY, 0.96875);
                     r7 |= (i + 1);
                 }
             }
-            // _0803F470
         }
     }
 

@@ -128,8 +128,8 @@ _0804DF20: .4byte 0x03000071
 _0804DF24: .4byte 0x0300000C
 _0804DF28: .4byte gCamera
 
-	thumb_func_start CreateEntity_ChaoInChaoMap
-CreateEntity_ChaoInChaoMap: @ 0x0804DF2C
+	thumb_func_start CreateEntity_ChaoInPlayground
+CreateEntity_ChaoInPlayground: @ 0x0804DF2C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
