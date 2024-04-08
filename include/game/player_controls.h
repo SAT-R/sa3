@@ -1,8 +1,6 @@
 #ifndef GUARD_PLAYER_CONTROLS_H
 #define GUARD_PLAYER_CONTROLS_H
 
-#include "global.h"
-
 struct ButtonConfig {
     u16 jump;
     u16 attack;

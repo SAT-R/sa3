@@ -40,11 +40,11 @@ struct Player {
     u8 v26; // maybe a bitfield (upper 2 bits is 1 value)
     u8 v27;
 
-    // if the compiler can't find "charIndex" it's because it was moved into 'charFlags'
+    // if the compiler can't find "charId" it's because it was moved into 'charFlags'
     // due to new information when decompiling
     struct {
         u16 padding0; // 0x28
-        u8 charIndex : 4; // 0x2A /* Index of the player character (I think?) */
+        u8 charId : 4; // 0x2A /* Index of the player character (I think?) */
         u8 padding1 : 4; // 0x2A
 
         u8 partnerIndex : 2; // Defines at which of the 0-3 "Player" the partner is
@@ -96,7 +96,7 @@ struct Player {
 
     /* Not sure whether this is of type charFlags or not, but between @ _80006AE and
        _8000718 sub_8000538() takes the lower nybble of the v4E, containing the partner's
-       charIndex
+       charId
         --- UPDATE: This seems to be a frame counter of some sort?
                     If it's > 0 input is ignored if the character is on the ground and
                     tries to move left or right.
@@ -121,7 +121,7 @@ struct Player {
 
     u8 Padding_62[0x8 + 2];
 
-    SpriteDataRAM *v6C; // set when interacting with some interactables
+    Sprite *v6C; // set when interacting with some interactables
 
     u8 Padding_70[0x1C];
 
@@ -154,9 +154,8 @@ struct Player {
     u16 vC0;
     u16 vC2;
 
-    // I think these should be Task pointers?
-    struc_30020F0 *vC4[0x03];
-    struc_30020F0 *vD0; // Points to something while the "Tag-Action" is toggled (not
+    struct Task *vC4[0x03];
+    struct Task *vD0; // Points to something while the "Tag-Action" is toggled (not
                         // anymore once released)
     u32 vD4;
     u32 vD8;
@@ -179,6 +178,6 @@ struct Player {
     u8 Padding8[0x8];
 };
 
-extern Player gPlayers[4]
+extern Player gPlayers[4];
 
 #endif // GUARD_SA3_PLAYER_H

@@ -13,12 +13,12 @@ typedef struct {
                         // x7: multiplayer?)
     /* 0x04 */ u8 unk4;
     /* 0x05 */ u8 unk5;
-    /* 0x06 */ u8 unk6; // Character index number 0-3 ???
+    /* 0x06 */ u8 charId; // 0-3
     /* 0x07 */ u8 unk7;
     /* 0x08 */ u8 unk8;
-    /* 0x09 */ u8 Zone; // Currently visited Zone
-    /* 0x0A */ u8 Act; // Currently visited Act
-    /* 0x0B */ u8 EntryIndex; // Map entrance number index
+    /* 0x09 */ u8 zone; // Currently visited Zone
+    /* 0x0A */ u8 act; // Currently visited Act
+    /* 0x0B */ u8 entryIndex; // Map entrance number index
     /* 0x0C */ u8 unkC;
     /* 0x0D */ u8 unkD;
     /* 0x0E */ u16 currMapIndex; // Map player's currently on
