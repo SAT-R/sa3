@@ -91,13 +91,7 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 /* Player struct for all 4 MP players.
    Also used in Single Player
 */ 
-. = 0x000015C0; gPlayers = .; /* size: 0x150 * 4 */
-. = 0x000015EB; gPlayers+0x2B = .;
-. = 0x00001710; gPlayers+0x150*1 = .;
-. = 0x0000173A; gPlayers+0x150*1+0x2A = .;
-. = 0x00001860; gPlayers+0x150*2 = .;
-. = 0x000019B0; gPlayers+0x150*3 = .;
-. = 0x000019DB; gPlayers+0x150*3+0x2B = .;
+. = 0x000015C0; gPlayers = .; . += 0x150*4;
 
 
 . = 0x00001B00; gUnknown_03001B00 = .;
