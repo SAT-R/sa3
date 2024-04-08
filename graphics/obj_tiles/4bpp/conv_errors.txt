@@ -3,30 +3,18 @@ Will be removed once they are fixed.
 
 libpng error: Wrote palette index exceeding num_palette
 Error ending write of:
-a0859_f000.png
-a0859_f001.png
-a0859_f002.png
-a0859_f003.png
-a0859_f004.png
 
-a1015_f000.png
-a1015_f001.png
-a1015_f002.png
-a1015_f003.png
-
-a1206_f000.png
-
-a1212_f000.png
-a1212_f001.png
-a1212_f002.png
-a1212_f003.png
-
+pal_384
 a1350_f000.png
 
+pal_400
 a1351_f000.png
 
+pal_416
 a1352_f000.png
 
+pal_432
 a1353_f000.png
 
+pal_448
 a1354_f000.png
