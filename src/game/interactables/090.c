@@ -58,6 +58,7 @@ void Task_Interactable090Main(void)
         if (!IsPointInScreenRect(x, y)) {
             me->x = ia->base.unk8;
             TaskDestroy(gCurTask);
+            return;
         }
     }
 }

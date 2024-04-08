@@ -366,7 +366,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable141
     .4byte CreateEntity_Interactable142
     .4byte CreateEntity_ChaoInPlayground
-    .4byte CreateEntity_Interactable144
+    .4byte CreateEntity_EmeraldInPlayground
 
     .global gSpriteInits_InteractablesMultiplayer
 gSpriteInits_InteractablesMultiplayer: @ 0x080CF354
