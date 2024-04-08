@@ -65,7 +65,7 @@ CreateEntity_Interactable108: @ 0x08044C48
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r4, _08044D6C @ =gUnknown_030015C0
+	ldr r4, _08044D6C @ =gPlayers
 	adds r0, r0, r4
 	str r0, [r7, #0x74]
 	adds r0, #0x2b
@@ -148,7 +148,7 @@ _08044D5C: .4byte sub_8044DD4
 _08044D60: .4byte sub_8045134
 _08044D64: .4byte 0x03000080
 _08044D68: .4byte gUnknown_030008A0
-_08044D6C: .4byte gUnknown_030015C0
+_08044D6C: .4byte gPlayers
 _08044D70: .4byte 0x03000068
 _08044D74:
 	movs r0, #0x80
@@ -348,7 +348,7 @@ _08044ED8:
 	cmp r0, #0
 	bne _08044F5C
 	movs r1, #0
-	ldr r5, _08044F18 @ =gUnknown_030015C0
+	ldr r5, _08044F18 @ =gPlayers
 _08044F00:
 	lsls r0, r1, #0x10
 	adds r4, r0, #0
@@ -362,7 +362,7 @@ _08044F00:
 	b _08044F20
 	.align 2, 0
 _08044F14: .4byte gCamera
-_08044F18: .4byte gUnknown_030015C0
+_08044F18: .4byte gPlayers
 _08044F1C:
 	ldr r0, _08044F54 @ =gUnknown_030008A0
 	ldrb r1, [r0, #6]

@@ -249,7 +249,7 @@ _08033466:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _08033574 @ =gUnknown_030015C0
+	ldr r1, _08033574 @ =gPlayers
 	adds r5, r0, r1
 	adds r0, r5, #0
 	adds r0, #0x2b
@@ -383,7 +383,7 @@ _0803355C:
 	ldr r0, [r0]
 	mov pc, r0
 	.align 2, 0
-_08033574: .4byte gUnknown_030015C0
+_08033574: .4byte gPlayers
 _08033578: .4byte _0803357C
 _0803357C: @ jump table
 	.4byte _0803359C @ case 0
@@ -679,7 +679,7 @@ sub_8033778: @ 0x08033778
 	cmp r0, #0
 	bne _08033830
 	movs r1, #0
-	ldr r2, _080337E8 @ =gUnknown_030015C0
+	ldr r2, _080337E8 @ =gPlayers
 _080337CA:
 	lsls r0, r1, #0x10
 	adds r5, r0, #0
@@ -694,7 +694,7 @@ _080337CA:
 	.align 2, 0
 _080337E0: .4byte gCurTask
 _080337E4: .4byte 0x0300000C
-_080337E8: .4byte gUnknown_030015C0
+_080337E8: .4byte gPlayers
 _080337EC:
 	ldr r0, _08033828 @ =gUnknown_030008A0
 	ldrb r1, [r0, #6]

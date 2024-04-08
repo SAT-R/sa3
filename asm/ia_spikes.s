@@ -185,7 +185,7 @@ _0803079E:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _080307E0 @ =gUnknown_030015C0
+	ldr r1, _080307E0 @ =gPlayers
 	adds r5, r0, r1
 	adds r0, r5, #0
 	adds r0, #0x2b
@@ -215,7 +215,7 @@ _080307D0:
 	beq _080307F0
 	b _08030826
 	.align 2, 0
-_080307E0: .4byte gUnknown_030015C0
+_080307E0: .4byte gPlayers
 _080307E4:
 	ldr r0, [sp, #0x14]
 	cmp r0, #2
@@ -511,7 +511,7 @@ sub_80309B4: @ 0x080309B4
 	cmp r0, #0x3b
 	bls _08030A86
 	movs r1, #0
-	ldr r2, _08030A38 @ =gUnknown_030015C0
+	ldr r2, _08030A38 @ =gPlayers
 _08030A18:
 	lsls r0, r1, #0x10
 	str r0, [sp, #0x18]
@@ -525,7 +525,7 @@ _08030A28: .4byte gCurTask
 _08030A2C: .4byte 0x0300000C
 _08030A30: .4byte 0x03000034
 _08030A34: .4byte gUnknown_030008A0
-_08030A38: .4byte gUnknown_030015C0
+_08030A38: .4byte gPlayers
 _08030A3C:
 	adds r0, r6, #0
 	adds r0, #0x2b
@@ -609,12 +609,12 @@ _08030ABE:
 	lsls r1, r1, #2
 	adds r1, r1, r0
 	lsls r1, r1, #4
-	ldr r0, _08030ADC @ =gUnknown_030015C0
+	ldr r0, _08030ADC @ =gPlayers
 	adds r6, r1, r0
 	b _08030AF8
 	.align 2, 0
 _08030AD8: .4byte gUnknown_030008A0
-_08030ADC: .4byte gUnknown_030015C0
+_08030ADC: .4byte gPlayers
 _08030AE0:
 	adds r0, r6, #0
 	adds r0, #0x2b
@@ -626,7 +626,7 @@ _08030AE0:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _08030BCC @ =gUnknown_030015C0
+	ldr r1, _08030BCC @ =gPlayers
 	adds r6, r0, r1
 _08030AF8:
 	adds r0, r6, #0
@@ -735,7 +735,7 @@ _08030B9A:
 	bl sub_8004E98
 	b _08030BDE
 	.align 2, 0
-_08030BCC: .4byte gUnknown_030015C0
+_08030BCC: .4byte gPlayers
 _08030BD0:
 	lsls r0, r7, #0x18
 	asrs r0, r0, #0x10
@@ -1066,7 +1066,7 @@ sub_8030DEC: @ 0x08030DEC
 	cmp r0, #0
 	bne _08030E9C
 	movs r1, #0
-	ldr r6, _08030E58 @ =gUnknown_030015C0
+	ldr r6, _08030E58 @ =gPlayers
 _08030E3A:
 	lsls r0, r1, #0x10
 	adds r5, r0, #0
@@ -1081,7 +1081,7 @@ _08030E3A:
 	.align 2, 0
 _08030E50: .4byte gCurTask
 _08030E54: .4byte 0x0300000C
-_08030E58: .4byte gUnknown_030015C0
+_08030E58: .4byte gPlayers
 _08030E5C:
 	ldr r0, _08030E94 @ =gUnknown_030008A0
 	ldrb r1, [r0, #6]

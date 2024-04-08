@@ -189,7 +189,7 @@ Task_BonusUfoMain: @ 0x080414B0
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _080415F8 @ =gUnknown_030015C0
+	ldr r1, _080415F8 @ =gPlayers
 	adds r5, r0, r1
 	mov r1, r8
 	cmp r1, #6
@@ -304,7 +304,7 @@ _08041592:
 	.align 2, 0
 _080415F0: .4byte gUnknown_030008A0
 _080415F4: .4byte gCurTask
-_080415F8: .4byte gUnknown_030015C0
+_080415F8: .4byte gPlayers
 _080415FC: .4byte 0x030000B1
 _08041600: .4byte gUnknown_03000530
 _08041604: .4byte 0x01000304
@@ -387,7 +387,7 @@ sub_804165C: @ 0x0804165C
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _080416B8 @ =gUnknown_030015C0
+	ldr r1, _080416B8 @ =gPlayers
 	adds r1, r0, r1
 	ldr r0, [r1, #0x10]
 	cmp r0, r2
@@ -398,7 +398,7 @@ sub_804165C: @ 0x0804165C
 	.align 2, 0
 _080416B0: .4byte gCurTask
 _080416B4: .4byte gUnknown_030008A0
-_080416B8: .4byte gUnknown_030015C0
+_080416B8: .4byte gPlayers
 _080416BC:
 	cmp r0, r2
 	ble _080416C6
@@ -518,7 +518,7 @@ _0804176C:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _080417E8 @ =gUnknown_030015C0
+	ldr r1, _080417E8 @ =gPlayers
 	adds r0, r0, r1
 	adds r1, r5, #0
 	adds r1, #0xb1
@@ -551,7 +551,7 @@ _080417DE:
 	bx r0
 	.align 2, 0
 _080417E4: .4byte gUnknown_030008A0
-_080417E8: .4byte gUnknown_030015C0
+_080417E8: .4byte gPlayers
 _080417EC: .4byte sub_800AEF4
 
 	thumb_func_start sub_80417F0

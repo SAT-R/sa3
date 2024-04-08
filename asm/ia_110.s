@@ -66,7 +66,7 @@ CreateEntity_Interactable110: @ 0x08045660
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r3, _08045760 @ =gUnknown_030015C0
+	ldr r3, _08045760 @ =gPlayers
 	adds r0, r0, r3
 	str r0, [r2, #0x14]
 	adds r0, #0x2b
@@ -129,7 +129,7 @@ CreateEntity_Interactable110: @ 0x08045660
 _08045754: .4byte sub_804576C
 _08045758: .4byte sub_8045BE4
 _0804575C: .4byte gUnknown_030008A0
-_08045760: .4byte gUnknown_030015C0
+_08045760: .4byte gPlayers
 _08045764: .4byte 0x0300001C
 _08045768: .4byte 0x00000396
 
@@ -449,7 +449,7 @@ _080459CA:
 	cmp r0, #0
 	bne _08045A44
 	movs r1, #0
-	ldr r6, _08045A00 @ =gUnknown_030015C0
+	ldr r6, _08045A00 @ =gPlayers
 _080459E2:
 	lsls r0, r1, #0x10
 	adds r4, r0, #0
@@ -464,7 +464,7 @@ _080459E2:
 	.align 2, 0
 _080459F8: .4byte gCurTask
 _080459FC: .4byte sub_804576C
-_08045A00: .4byte gUnknown_030015C0
+_08045A00: .4byte gPlayers
 _08045A04:
 	ldr r0, _08045A3C @ =gUnknown_030008A0
 	ldrb r1, [r0, #6]

@@ -79,7 +79,7 @@ _0804B562:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _0804B5C8 @ =gUnknown_030015C0
+	ldr r1, _0804B5C8 @ =gPlayers
 	adds r4, r0, r1
 	adds r0, r4, #0
 	adds r0, #0x2b
@@ -125,7 +125,7 @@ _0804B586:
 	bl sub_800D87C
 	b _0804B5DC
 	.align 2, 0
-_0804B5C8: .4byte gUnknown_030015C0
+_0804B5C8: .4byte gPlayers
 _0804B5CC: .4byte sub_800E604
 _0804B5D0: .4byte sub_800E5EC
 _0804B5D4:
@@ -225,7 +225,7 @@ _0804B682:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _0804B6E8 @ =gUnknown_030015C0
+	ldr r1, _0804B6E8 @ =gPlayers
 	adds r4, r0, r1
 	adds r0, r4, #0
 	bl sub_802C0D4
@@ -269,7 +269,7 @@ _0804B6D8:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804B6E8: .4byte gUnknown_030015C0
+_0804B6E8: .4byte gPlayers
 _0804B6EC: .4byte sub_800E604
 _0804B6F0: .4byte 0x00000257
 

@@ -78,7 +78,7 @@ _0803FB8A:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _0803FC1C @ =gUnknown_030015C0
+	ldr r1, _0803FC1C @ =gPlayers
 	adds r4, r0, r1
 	adds r0, r4, #0
 	adds r0, #0x2b
@@ -145,7 +145,7 @@ _0803FBFA:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0803FC1C: .4byte gUnknown_030015C0
+_0803FC1C: .4byte gPlayers
 _0803FC20: .4byte sub_800A3C0
 
 	thumb_func_start sub_803FC24

@@ -170,7 +170,7 @@ sub_804E7AC: @ 0x0804E7AC
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _0804E844 @ =gUnknown_030015C0
+	ldr r1, _0804E844 @ =gPlayers
 	adds r7, r0, r1
 	ldrh r1, [r6, #0x16]
 	movs r0, #4
@@ -213,7 +213,7 @@ _0804E804:
 	.align 2, 0
 _0804E83C: .4byte gCurTask
 _0804E840: .4byte gUnknown_030008A0
-_0804E844: .4byte gUnknown_030015C0
+_0804E844: .4byte gPlayers
 _0804E848: .4byte 0x00000536
 _0804E84C: .4byte sub_804E934
 _0804E850:

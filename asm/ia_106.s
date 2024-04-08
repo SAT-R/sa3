@@ -72,7 +72,7 @@ CreateEntity_Interactable106: @ 0x08043DF4
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r2, _08043F5C @ =gUnknown_030015C0
+	ldr r2, _08043F5C @ =gPlayers
 	adds r0, r0, r2
 	str r0, [r7, #0x1c]
 	adds r0, #0x2b
@@ -180,7 +180,7 @@ _08043F4C: .4byte gUnknown_080D0144
 _08043F50: .4byte sub_8043F68
 _08043F54: .4byte sub_8044718
 _08043F58: .4byte gUnknown_030008A0
-_08043F5C: .4byte gUnknown_030015C0
+_08043F5C: .4byte gPlayers
 _08043F60: .4byte 0x03000024
 _08043F64: .4byte 0x0000039A
 

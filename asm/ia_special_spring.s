@@ -128,7 +128,7 @@ Task_SpecialSpringMain: @ 0x08040D8C
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _08040E78 @ =gUnknown_030015C0
+	ldr r1, _08040E78 @ =gPlayers
 	mov sb, r1
 	adds r4, r0, r1
 	adds r0, r4, #0
@@ -205,7 +205,7 @@ _08040E58:
 _08040E6C: .4byte gCurTask
 _08040E70: .4byte 0x0300000C
 _08040E74: .4byte gUnknown_030008A0
-_08040E78: .4byte gUnknown_030015C0
+_08040E78: .4byte gPlayers
 _08040E7C: .4byte gUnknown_03000530
 _08040E80: .4byte sub_800ABD4
 _08040E84: .4byte sub_800AD24

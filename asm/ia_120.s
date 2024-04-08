@@ -180,7 +180,7 @@ _0804975A:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _080497F8 @ =gUnknown_030015C0
+	ldr r1, _080497F8 @ =gPlayers
 	adds r4, r0, r1
 	ldr r0, [r4, #4]
 	movs r1, #0x20
@@ -253,7 +253,7 @@ _080497D6:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080497F8: .4byte gUnknown_030015C0
+_080497F8: .4byte gPlayers
 
 	thumb_func_start sub_80497FC
 sub_80497FC: @ 0x080497FC
@@ -384,7 +384,7 @@ sub_80498B4: @ 0x080498B4
 	ldr r0, _0804991C @ =0x00000261
 	bl sub_8003E28
 	movs r1, #0
-	ldr r2, _08049920 @ =gUnknown_030015C0
+	ldr r2, _08049920 @ =gPlayers
 _080498FC:
 	lsls r0, r1, #0x10
 	adds r4, r0, #0
@@ -401,7 +401,7 @@ _08049910: .4byte gCurTask
 _08049914: .4byte 0x0300000C
 _08049918: .4byte gCamera
 _0804991C: .4byte 0x00000261
-_08049920: .4byte gUnknown_030015C0
+_08049920: .4byte gPlayers
 _08049924:
 	ldr r0, _08049960 @ =gUnknown_030008A0
 	ldrb r1, [r0, #6]

@@ -632,7 +632,7 @@ _0805F79A:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _0805F7E4 @ =gUnknown_030015C0
+	ldr r1, _0805F7E4 @ =gPlayers
 	adds r4, r0, r1
 	adds r0, r4, #0
 	bl sub_802C080
@@ -663,7 +663,7 @@ _0805F7E0:
 	movs r0, #1
 	b _0805F7F4
 	.align 2, 0
-_0805F7E4: .4byte gUnknown_030015C0
+_0805F7E4: .4byte gPlayers
 _0805F7E8:
 	adds r0, r5, #1
 	lsls r0, r0, #0x18

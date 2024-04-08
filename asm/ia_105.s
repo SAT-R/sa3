@@ -66,7 +66,7 @@ CreateEntity_Interactable105: @ 0x0804381C
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r3, _08043910 @ =gUnknown_030015C0
+	ldr r3, _08043910 @ =gPlayers
 	adds r0, r0, r3
 	str r0, [r2, #0x10]
 	adds r0, #0x2b
@@ -123,7 +123,7 @@ CreateEntity_Interactable105: @ 0x0804381C
 _08043904: .4byte sub_8043918
 _08043908: .4byte sub_8043D84
 _0804390C: .4byte gUnknown_030008A0
-_08043910: .4byte gUnknown_030015C0
+_08043910: .4byte gPlayers
 _08043914: .4byte 0x03000018
 
 	thumb_func_start sub_8043918
@@ -406,7 +406,7 @@ sub_8043AF8: @ 0x08043AF8
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r3, _08043BBC @ =gUnknown_030015C0
+	ldr r3, _08043BBC @ =gPlayers
 	adds r0, r0, r3
 	str r0, [r2, #0xc]
 	adds r0, #0x2b
@@ -458,7 +458,7 @@ sub_8043AF8: @ 0x08043AF8
 _08043BB0: .4byte sub_8043BC4
 _08043BB4: .4byte sub_8043DE0
 _08043BB8: .4byte gUnknown_030008A0
-_08043BBC: .4byte gUnknown_030015C0
+_08043BBC: .4byte gPlayers
 _08043BC0: .4byte 0x03000014
 
 	thumb_func_start sub_8043BC4

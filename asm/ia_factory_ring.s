@@ -41,7 +41,7 @@ Task_FactoryRingMain: @ 0x080410C0
 	lsls r0, r0, #2
 	adds r0, r0, r3
 	lsls r0, r0, #4
-	ldr r1, _080411B4 @ =gUnknown_030015C0
+	ldr r1, _080411B4 @ =gPlayers
 	mov r8, r1
 	adds r4, r0, r1
 	ldr r1, [r4]
@@ -123,7 +123,7 @@ _080411A0:
 _080411A8: .4byte gCurTask
 _080411AC: .4byte 0x0300000C
 _080411B0: .4byte gUnknown_030008A0
-_080411B4: .4byte gUnknown_030015C0
+_080411B4: .4byte gPlayers
 _080411B8: .4byte sub_80052C8
 _080411BC: .4byte sub_800522C
 _080411C0: .4byte 0x01000300
@@ -132,7 +132,7 @@ _080411C8: .4byte sub_800AE14
 _080411CC:
 	movs r1, #0
 	ldr r5, _080411E0 @ =gUnknown_030008A0
-	ldr r3, _080411E4 @ =gUnknown_030015C0
+	ldr r3, _080411E4 @ =gPlayers
 _080411D2:
 	lsls r0, r1, #0x10
 	adds r2, r0, #0
@@ -142,7 +142,7 @@ _080411D2:
 	b _080411F2
 	.align 2, 0
 _080411E0: .4byte gUnknown_030008A0
-_080411E4: .4byte gUnknown_030015C0
+_080411E4: .4byte gPlayers
 _080411E8:
 	adds r0, r4, #0
 	adds r0, #0x2b

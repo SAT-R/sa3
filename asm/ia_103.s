@@ -341,7 +341,7 @@ _08042DD6:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _08042EA4 @ =gUnknown_030015C0
+	ldr r1, _08042EA4 @ =gPlayers
 	adds r5, r0, r1
 	adds r0, r5, #0
 	adds r0, #0x2b
@@ -441,7 +441,7 @@ _08042E90:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08042EA4: .4byte gUnknown_030015C0
+_08042EA4: .4byte gPlayers
 
 	thumb_func_start sub_8042EA8
 sub_8042EA8: @ 0x08042EA8
@@ -652,7 +652,7 @@ _08043034:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _08043098 @ =gUnknown_030015C0
+	ldr r1, _08043098 @ =gPlayers
 	adds r0, r0, r1
 	mov r8, r0
 	movs r0, #0
@@ -696,7 +696,7 @@ _08043082:
 	bx r0
 	.align 2, 0
 _08043094: .4byte gUnknown_030008A0
-_08043098: .4byte gUnknown_030015C0
+_08043098: .4byte gPlayers
 _0804309C: .4byte gCurTask
 
 	thumb_func_start sub_80430A0

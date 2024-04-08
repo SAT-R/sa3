@@ -227,7 +227,7 @@ _0804DA56:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _0804DAA4 @ =gUnknown_030015C0
+	ldr r1, _0804DAA4 @ =gPlayers
 	adds r6, r0, r1
 	adds r0, r6, #0
 	bl sub_802C0D4
@@ -259,7 +259,7 @@ _0804DA56:
 	str r1, [r6, #0x14]
 	b _0804DAB0
 	.align 2, 0
-_0804DAA4: .4byte gUnknown_030015C0
+_0804DAA4: .4byte gPlayers
 _0804DAA8:
 	lsls r1, r0, #8
 	ldr r0, [r6, #0x14]
@@ -340,7 +340,7 @@ sub_804DB08: @ 0x0804DB08
 	cmp r0, #0
 	bne _0804DBA4
 	movs r1, #0
-	ldr r7, _0804DB60 @ =gUnknown_030015C0
+	ldr r7, _0804DB60 @ =gPlayers
 _0804DB44:
 	lsls r0, r1, #0x10
 	adds r5, r0, #0
@@ -355,7 +355,7 @@ _0804DB44:
 	.align 2, 0
 _0804DB58: .4byte gCurTask
 _0804DB5C: .4byte 0x0300000C
-_0804DB60: .4byte gUnknown_030015C0
+_0804DB60: .4byte gPlayers
 _0804DB64:
 	ldr r0, _0804DB9C @ =gUnknown_030008A0
 	ldrb r1, [r0, #6]

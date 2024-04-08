@@ -138,7 +138,7 @@ Task_ActRingMain: @ 0x08040984
 	lsls r0, r0, #2
 	adds r0, r0, r2
 	lsls r0, r0, #4
-	ldr r1, _08040A70 @ =gUnknown_030015C0
+	ldr r1, _08040A70 @ =gPlayers
 	mov r8, r1
 	adds r4, r0, r1
 	ldr r0, _08040A74 @ =gCurTask
@@ -243,7 +243,7 @@ _08040A66:
 	b _08040B24
 	.align 2, 0
 _08040A6C: .4byte gUnknown_030008A0
-_08040A70: .4byte gUnknown_030015C0
+_08040A70: .4byte gPlayers
 _08040A74: .4byte gCurTask
 _08040A78: .4byte sub_80052C8
 _08040A7C: .4byte sub_800522C
@@ -256,7 +256,7 @@ _08040A94: .4byte sub_800AD24
 _08040A98:
 	movs r1, #0
 	ldr r6, _08040AAC @ =gUnknown_030008A0
-	ldr r5, _08040AB0 @ =gUnknown_030015C0
+	ldr r5, _08040AB0 @ =gPlayers
 _08040A9E:
 	lsls r0, r1, #0x10
 	adds r2, r0, #0
@@ -266,7 +266,7 @@ _08040A9E:
 	b _08040ABE
 	.align 2, 0
 _08040AAC: .4byte gUnknown_030008A0
-_08040AB0: .4byte gUnknown_030015C0
+_08040AB0: .4byte gPlayers
 _08040AB4:
 	adds r0, r4, #0
 	adds r0, #0x2b

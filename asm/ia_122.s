@@ -162,7 +162,7 @@ _0804A52E:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _0804A59C @ =gUnknown_030015C0
+	ldr r1, _0804A59C @ =gPlayers
 	adds r4, r0, r1
 	ldr r2, [r4]
 	ldr r0, _0804A5A0 @ =sub_8008CD0
@@ -215,7 +215,7 @@ _0804A574:
 	lsrs r7, r0, #0x10
 	b _0804A690
 	.align 2, 0
-_0804A59C: .4byte gUnknown_030015C0
+_0804A59C: .4byte gPlayers
 _0804A5A0: .4byte sub_8008CD0
 _0804A5A4: .4byte sub_800E1E4
 _0804A5A8: .4byte sub_800B81C
@@ -571,7 +571,7 @@ sub_804A800: @ 0x0804A800
 	cmp r0, #0
 	bne _0804A8C8
 	movs r1, #0
-	ldr r2, _0804A880 @ =gUnknown_030015C0
+	ldr r2, _0804A880 @ =gPlayers
 _0804A85A:
 	lsls r0, r1, #0x10
 	adds r4, r0, #0
@@ -588,7 +588,7 @@ _0804A870: .4byte gCurTask
 _0804A874: .4byte gCamera
 _0804A878: .4byte 0x03000044
 _0804A87C: .4byte 0x03000046
-_0804A880: .4byte gUnknown_030015C0
+_0804A880: .4byte gPlayers
 _0804A884:
 	ldr r0, _0804A8C0 @ =gUnknown_030008A0
 	ldrb r1, [r0, #6]

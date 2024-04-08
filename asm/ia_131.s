@@ -371,7 +371,7 @@ _0804BDE6:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _0804BEE0 @ =gUnknown_030015C0
+	ldr r1, _0804BEE0 @ =gPlayers
 	adds r0, r0, r1
 	mov sl, r0
 	mov r0, sl
@@ -494,7 +494,7 @@ _0804BECA:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804BEE0: .4byte gUnknown_030015C0
+_0804BEE0: .4byte gPlayers
 
 	thumb_func_start sub_804BEE4
 sub_804BEE4: @ 0x0804BEE4
@@ -753,7 +753,7 @@ _0804C0D4:
 	cmp r5, #0
 	bne _0804C17C
 	movs r2, #0
-	ldr r3, _0804C128 @ =gUnknown_030015C0
+	ldr r3, _0804C128 @ =gPlayers
 _0804C0E2:
 	lsls r2, r2, #0x10
 	asrs r1, r2, #0x10
@@ -784,7 +784,7 @@ _0804C118: .4byte 0x03000010
 _0804C11C: .4byte gCamera
 _0804C120: .4byte 0x03000038
 _0804C124: .4byte 0x0300003C
-_0804C128: .4byte gUnknown_030015C0
+_0804C128: .4byte gPlayers
 _0804C12C:
 	ldr r0, _0804C174 @ =gUnknown_030008A0
 	ldrb r1, [r0, #6]

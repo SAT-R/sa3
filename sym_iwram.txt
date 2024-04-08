@@ -49,6 +49,8 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 . = 0x00000814; gUnknown_03000814 = .;
 . = 0x0000088C; gUnknown_0300088C = .;
 . = 0x0000088E; gUnknown_0300088E = .;
+
+/* In game/stage.h's StageData */
 . = 0x000008A0; gUnknown_030008A0 = .;
 . = 0x000008B0; gUnknown_030008B0 = .;
 . = 0x000008B4; gUnknown_030008B4 = .;
@@ -72,6 +74,7 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 . = 0x000008FE; gUnknown_030008FE = .;
 . = 0x0000092E; gUnknown_0300092E = .;
 . = 0x00000938; gUnknown_03000938 = .;
+
 . = 0x00000970; gUnknown_03000970 = .;
 . = 0x00000980; gUnknown_03000980 = .;
 . = 0x00000CF0; gUnknown_03000CF0 = .;
@@ -84,14 +87,19 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 . = 0x000010D0; gUnknown_030010D0 = .;
 . = 0x0000110C; gUnknown_0300110C = .;
 . = 0x00001150; gUnknown_03001150 = .;
-. = 0x000015C0; gUnknown_030015C0 = .;
-. = 0x000015EA; gUnknown_030015EA = .;
-. = 0x000015EB; gUnknown_030015EB = .;
-. = 0x00001710; gUnknown_03001710 = .;
-. = 0x0000173A; gUnknown_0300173A = .;
-. = 0x00001860; gUnknown_03001860 = .;
-. = 0x000019B0; gUnknown_030019B0 = .;
-. = 0x000019DB; gUnknown_030019DB = .;
+
+/* Player struct for all 4 MP players.
+   Also used in Single Player
+*/ 
+. = 0x000015C0; gPlayers = .; /* size: 0x150 * 4 */
+. = 0x000015EB; gPlayers+0x2B = .;
+. = 0x00001710; gPlayers+0x150*1 = .;
+. = 0x0000173A; gPlayers+0x150*1+0x2A = .;
+. = 0x00001860; gPlayers+0x150*2 = .;
+. = 0x000019B0; gPlayers+0x150*3 = .;
+. = 0x000019DB; gPlayers+0x150*3+0x2B = .;
+
+
 . = 0x00001B00; gUnknown_03001B00 = .;
 . = 0x00001BF0; gUnknown_03001BF0 = .;
 . = 0x00001CC0; gUnknown_03001CC0 = .;

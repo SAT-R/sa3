@@ -155,7 +155,7 @@ _08033B5E:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _08033C04 @ =gUnknown_030015C0
+	ldr r1, _08033C04 @ =gPlayers
 	adds r4, r0, r1
 	adds r5, r4, #0
 	adds r5, #0x2b
@@ -230,7 +230,7 @@ _08033BEE:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08033C04: .4byte gUnknown_030015C0
+_08033C04: .4byte gPlayers
 _08033C08: .4byte gUnknown_030008A0
 
 	thumb_func_start sub_8033C0C

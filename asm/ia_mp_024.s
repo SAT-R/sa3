@@ -119,7 +119,7 @@ sub_804F1EC: @ 0x0804F1EC
 	lsls r1, r1, #2
 	adds r1, r1, r2
 	lsls r1, r1, #4
-	ldr r2, _0804F274 @ =gUnknown_030015C0
+	ldr r2, _0804F274 @ =gPlayers
 	adds r6, r1, r2
 	movs r1, #0x34
 	ldrsh r5, [r3, r1]
@@ -159,7 +159,7 @@ _0804F258:
 _0804F268: .4byte gCurTask
 _0804F26C: .4byte 0x0300000C
 _0804F270: .4byte gUnknown_030008A0
-_0804F274: .4byte gUnknown_030015C0
+_0804F274: .4byte gPlayers
 _0804F278:
 	bl sub_804F28C
 _0804F27C:

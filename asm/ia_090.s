@@ -16,9 +16,9 @@ Task_Interactable090Main: @ 0x0803F3C4
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r5, r1, r0
+	adds r5, r1, r0     @ r5 = ia
 	ldr r0, [r5]
-	mov r8, r0
+	mov r8, r0          @ r8 = me
 	movs r6, #0
 _0803F3DE:
 	cmp r6, #0
@@ -40,7 +40,7 @@ _0803F3F8:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _0803F4AC @ =gUnknown_030015C0
+	ldr r1, _0803F4AC @ =gPlayers
 	adds r4, r0, r1
 	adds r0, r4, #0
 	adds r0, #0x2b
@@ -125,7 +125,7 @@ _0803F49E:
 	bx r0
 	.align 2, 0
 _0803F4A8: .4byte gUnknown_030008A0
-_0803F4AC: .4byte gUnknown_030015C0
+_0803F4AC: .4byte gPlayers
 _0803F4B0: .4byte gCurTask
 
 .if 0

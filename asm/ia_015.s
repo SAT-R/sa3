@@ -73,12 +73,12 @@ _0802E99C:
 	lsls r1, r1, #2
 	adds r1, r1, r0
 	lsls r1, r1, #4
-	ldr r0, _0802E9B8 @ =gUnknown_030015C0
+	ldr r0, _0802E9B8 @ =gPlayers
 	adds r4, r1, r0
 	b _0802E9D4
 	.align 2, 0
 _0802E9B4: .4byte gUnknown_030008A0
-_0802E9B8: .4byte gUnknown_030015C0
+_0802E9B8: .4byte gPlayers
 _0802E9BC:
 	adds r0, r4, #0
 	adds r0, #0x2b
@@ -90,7 +90,7 @@ _0802E9BC:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _0802EA80 @ =gUnknown_030015C0
+	ldr r1, _0802EA80 @ =gPlayers
 	adds r4, r0, r1
 _0802E9D4:
 	adds r0, r4, #0
@@ -182,7 +182,7 @@ _0802EA70:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0802EA80: .4byte gUnknown_030015C0
+_0802EA80: .4byte gPlayers
 
 	thumb_func_start CreateEntity_Interactable015
 CreateEntity_Interactable015: @ 0x0802EA84

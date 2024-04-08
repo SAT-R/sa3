@@ -202,7 +202,7 @@ _0804C3AA:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _0804C460 @ =gUnknown_030015C0
+	ldr r1, _0804C460 @ =gPlayers
 	adds r4, r0, r1
 	adds r0, r4, #0
 	bl sub_802C0D4
@@ -290,7 +290,7 @@ _0804C450:
 	bl sub_800D87C
 	b _0804C474
 	.align 2, 0
-_0804C460: .4byte gUnknown_030015C0
+_0804C460: .4byte gPlayers
 _0804C464: .4byte 0xFFFFBFFF
 _0804C468: .4byte sub_800EA74
 _0804C46C:

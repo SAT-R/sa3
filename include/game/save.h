@@ -49,7 +49,7 @@ struct TimeRecords {
 //       Maybe struc_3000CF0 is the equivalent of struct SaveSectorData ?
 
 // 0x03000530
-struct SaveGame {
+typedef struct {
     /* 0x00 */ u32 id;
     /* 0x04 */ u16 playerName[MAX_PLAYER_NAME_LENGTH];
     /* 0x10 */ u8
@@ -90,7 +90,58 @@ struct SaveGame {
     /* 0x365 */ u8 unk365;
     /* 0x366 */ u8 unk366;
     /* 0x367 */ u8 unk367;
-};
+} SaveGame;
+
+/*        0x03000CF0 | Check out types and sizes for accuracy */
+// It seems like this is like STRUCT_3000530, but prepared to be stored in savefile.
+// They might've done it for security reasons, but strangely it's not excrypted, even in
+// .sav file...
+typedef struct {
+    u32 magicNumber; // default: 0x47544E4C ("LNTG")
+    u32 v4;
+
+    // @NOTE This contains mostly the same information as struc_3000530, but
+    // some values are missing or in a different order.
+    u32 id; // | 0x08
+    u16 playerName[MAX_PLAYER_NAME_LENGTH];
+    u8 v18; // Don't know why this byte is here, but it's correct
+
+    u8 unlockedCharacters; // 0x19 |
+    u8 unlockedZones; // 0x1A |
+    u8 continueZone; // 0x1B | Zone the player continues at on startup after character
+                     // select (0 to 6)
+    u8 v1C;
+
+    u16 chaoCount[7]; // | v1D - 0x2B
+    u8 specialKeys[7]; // Each counter counts for 1 Act | 0x2C - 0x32
+    u8 zoneBits[9]; // | 0x33-0x3B
+    u8 collectedEmeralds; // Stored bitwise: x7654321b | 0x3C
+
+    // NOTE: These are different from
+    //       struct struc_3000530, why?
+    u8 v3D; // v33: struc_3000530
+    u8 collectedMedals[9][4]; // 0x3E | v37: struc_3000530
+    u16 v62; // v34?: struc_3000530
+    u8 vsWins; // v60?: struc_3000530
+
+    u8 vsLosses;
+    u8 vsDraws;
+    u8 v67;
+
+    VsRecords2 vsRecords[10]; // 0x68
+
+    TimeRecords timeRecords[7][4][5]; // 0x130
+
+    u8 buttonConfig[3];
+    u8 v363;
+    u8 v364;
+    u8 v365;
+    u8 v366;
+    u8 v367; // INVESTIGATE: v367 might be unused.
+
+    u32 v368; // v368 | Checksum? In sub_800212C() this value is calculated and show that
+              // it HAS to be the last member of the struct
+} SaveGameInternal;
 
 #define MULTIPLAYER_RESULT_WIN  0
 #define MULTIPLAYER_RESULT_LOSS 1

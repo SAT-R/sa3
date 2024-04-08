@@ -50,7 +50,7 @@ _0802E378:
 	mov sl, r0
 	ldr r1, _0802E3A0 @ =sub_800DDD0
 	mov ip, r1
-	ldr r5, _0802E3A4 @ =gUnknown_030015C0
+	ldr r5, _0802E3A4 @ =gPlayers
 _0802E384:
 	mov r1, sl
 	ldrb r0, [r1, #3]
@@ -67,7 +67,7 @@ _0802E390:
 	.align 2, 0
 _0802E39C: .4byte gUnknown_030008A0
 _0802E3A0: .4byte sub_800DDD0
-_0802E3A4: .4byte gUnknown_030015C0
+_0802E3A4: .4byte gPlayers
 _0802E3A8:
 	adds r0, r4, #0
 	adds r0, #0x2b

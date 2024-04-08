@@ -409,7 +409,7 @@ sub_805BC80: @ 0x0805BC80
 	lsls r0, r0, #8
 	adds r6, r6, r0
 	movs r5, #0
-	ldr r7, _0805BCA0 @ =gUnknown_030015C0
+	ldr r7, _0805BCA0 @ =gPlayers
 _0805BC96:
 	cmp r5, #0
 	bne _0805BCA8
@@ -417,7 +417,7 @@ _0805BC96:
 	ldrb r1, [r0, #6]
 	b _0805BCB2
 	.align 2, 0
-_0805BCA0: .4byte gUnknown_030015C0
+_0805BCA0: .4byte gPlayers
 _0805BCA4: .4byte gUnknown_030008A0
 _0805BCA8:
 	adds r0, r4, #0

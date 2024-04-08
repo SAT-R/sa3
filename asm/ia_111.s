@@ -82,7 +82,7 @@ CreateEntity_Interactable111: @ 0x08045BF8
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r4, _08045DA4 @ =gUnknown_030015C0
+	ldr r4, _08045DA4 @ =gPlayers
 	adds r0, r0, r4
 	str r0, [r5]
 	ldr r1, _08045DA8 @ =0x030000E4
@@ -214,7 +214,7 @@ _08045D94: .4byte sub_8045DE4
 _08045D98: .4byte sub_804646C
 _08045D9C: .4byte 0x030000E0
 _08045DA0: .4byte gUnknown_030008A0
-_08045DA4: .4byte gUnknown_030015C0
+_08045DA4: .4byte gPlayers
 _08045DA8: .4byte 0x030000E4
 _08045DAC: .4byte 0x00000393
 _08045DB0:
@@ -1124,7 +1124,7 @@ sub_8046484: @ 0x08046484
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r2, _08046568 @ =gUnknown_030015C0
+	ldr r2, _08046568 @ =gPlayers
 	adds r5, r0, r2
 	adds r0, r5, #0
 	adds r0, #0x2b
@@ -1199,7 +1199,7 @@ _08046538:
 _0804655C: .4byte gCurTask
 _08046560: .4byte 0x0300000C
 _08046564: .4byte gUnknown_030008A0
-_08046568: .4byte gUnknown_030015C0
+_08046568: .4byte gPlayers
 _0804656C: .4byte 0x00000207
 _08046570: .4byte sub_800613C
 _08046574:
@@ -1286,7 +1286,7 @@ _08046614:
 	cmp r0, #4
 	bne _08046680
 	movs r5, #0
-	ldr r6, _0804663C @ =gUnknown_030015C0
+	ldr r6, _0804663C @ =gPlayers
 _08046620:
 	lsls r0, r5, #0x10
 	adds r5, r0, #0
@@ -1299,7 +1299,7 @@ _08046620:
 _08046630: .4byte gCurTask
 _08046634: .4byte 0x0300000C
 _08046638: .4byte gUnknown_030008A0
-_0804663C: .4byte gUnknown_030015C0
+_0804663C: .4byte gPlayers
 _08046640:
 	adds r0, r4, #0
 	adds r0, #0x2b
@@ -1337,7 +1337,7 @@ _08046680:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r2, _080466F4 @ =gUnknown_030015C0
+	ldr r2, _080466F4 @ =gPlayers
 	adds r4, r0, r2
 	adds r0, r4, #0
 	adds r0, #0x2a
@@ -1388,7 +1388,7 @@ _080466EA:
 	bl sub_8053128
 	b _08046754
 	.align 2, 0
-_080466F4: .4byte gUnknown_030015C0
+_080466F4: .4byte gPlayers
 _080466F8: .4byte 0x0000FFFF
 _080466FC: .4byte gUnknown_03003F94
 _08046700: .4byte gUnknown_03003D20

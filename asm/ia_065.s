@@ -153,7 +153,7 @@ _08037B88:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _08037BE0 @ =gUnknown_030015C0
+	ldr r1, _08037BE0 @ =gPlayers
 	adds r4, r0, r1
 	adds r0, r4, #0
 	bl sub_802C0D4
@@ -189,7 +189,7 @@ _08037B88:
 	b _08037C84
 	.align 2, 0
 _08037BDC: .4byte gUnknown_030008A0
-_08037BE0: .4byte gUnknown_030015C0
+_08037BE0: .4byte gPlayers
 _08037BE4:
 	cmp r0, #2
 	beq _08037C38

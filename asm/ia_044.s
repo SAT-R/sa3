@@ -239,7 +239,7 @@ _08032528:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _080325FC @ =gUnknown_030015C0
+	ldr r1, _080325FC @ =gPlayers
 	adds r4, r0, r1
 	adds r1, r4, #0
 	adds r1, #0x2b
@@ -347,7 +347,7 @@ _080325CA:
 	b _08032658
 	.align 2, 0
 _080325F8: .4byte gUnknown_030008A0
-_080325FC: .4byte gUnknown_030015C0
+_080325FC: .4byte gPlayers
 _08032600:
 	ldr r0, [r7, #8]
 	ldr r1, _08032618 @ =0xFFFFFBFF
@@ -526,7 +526,7 @@ _08032740:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _08032774 @ =gUnknown_030015C0
+	ldr r1, _08032774 @ =gPlayers
 	adds r5, r0, r1
 	ldr r3, _08032778 @ =gUnknown_030008A0
 	b _08032790
@@ -535,7 +535,7 @@ _08032764: .4byte gCurTask
 _08032768: .4byte 0x00003FF0
 _0803276C: .4byte gCamera
 _08032770: .4byte gUnknown_082B48B4
-_08032774: .4byte gUnknown_030015C0
+_08032774: .4byte gPlayers
 _08032778: .4byte gUnknown_030008A0
 _0803277C:
 	ldr r2, _0803280C @ =gUnknown_030008A0
@@ -545,7 +545,7 @@ _0803277C:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _08032810 @ =gUnknown_030015C0
+	ldr r1, _08032810 @ =gPlayers
 	adds r5, r0, r1
 	adds r3, r2, #0
 _08032790:
@@ -614,7 +614,7 @@ _080327D6:
 	b _08032A60
 	.align 2, 0
 _0803280C: .4byte gUnknown_030008A0
-_08032810: .4byte gUnknown_030015C0
+_08032810: .4byte gPlayers
 _08032814: .4byte 0x01000100
 _08032818: .4byte gCurTask
 _0803281C: .4byte sub_8032A8C

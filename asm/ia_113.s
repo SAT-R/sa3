@@ -232,7 +232,7 @@ _08047182:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _08047210 @ =gUnknown_030015C0
+	ldr r1, _08047210 @ =gPlayers
 	adds r6, r0, r1
 	adds r0, r6, #0
 	bl sub_802C0D4
@@ -300,7 +300,7 @@ _080471E6:
 	bne _0804723A
 	b _08047244
 	.align 2, 0
-_08047210: .4byte gUnknown_030015C0
+_08047210: .4byte gPlayers
 _08047214: .4byte gUnknown_030008A0
 _08047218:
 	ldr r1, _080472C4 @ =gUnknown_080CE7D8
@@ -1370,7 +1370,7 @@ sub_80479B0: @ 0x080479B0
 	ldr r0, _08047A50 @ =0x0000025D
 	bl sub_8003E28
 	movs r1, #0
-	ldr r7, _08047A54 @ =gUnknown_030015C0
+	ldr r7, _08047A54 @ =gPlayers
 _08047A22:
 	lsls r0, r1, #0x10
 	adds r4, r0, #0
@@ -1390,7 +1390,7 @@ _08047A44: .4byte gCamera
 _08047A48: .4byte 0x0300006A
 _08047A4C: .4byte 0x0300005C
 _08047A50: .4byte 0x0000025D
-_08047A54: .4byte gUnknown_030015C0
+_08047A54: .4byte gPlayers
 _08047A58:
 	ldr r0, _08047A90 @ =gUnknown_030008A0
 	ldrb r1, [r0, #6]

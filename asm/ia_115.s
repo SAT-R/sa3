@@ -162,7 +162,7 @@ _08048762:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _08048840 @ =gUnknown_030015C0
+	ldr r1, _08048840 @ =gPlayers
 	adds r4, r0, r1
 	adds r0, r4, #0
 	bl sub_802C0D4
@@ -223,7 +223,7 @@ _080487D8:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _08048840 @ =gUnknown_030015C0
+	ldr r1, _08048840 @ =gPlayers
 	adds r1, r0, r1
 	cmp r1, r4
 	beq _0804880A
@@ -271,7 +271,7 @@ _08048828:
 	str r0, [r1, #8]
 	b _08048906
 	.align 2, 0
-_08048840: .4byte gUnknown_030015C0
+_08048840: .4byte gPlayers
 _08048844: .4byte sub_8008A8C
 _08048848: .4byte sub_800ED80
 _0804884C: .4byte sub_800DCB4

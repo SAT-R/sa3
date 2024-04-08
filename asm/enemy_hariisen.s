@@ -1213,7 +1213,7 @@ _08061B56:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _08061BA0 @ =gUnknown_030015C0
+	ldr r1, _08061BA0 @ =gPlayers
 	adds r7, r0, r1
 	adds r0, r7, #0
 	bl sub_802C080
@@ -1244,7 +1244,7 @@ _08061B9C:
 	movs r0, #1
 	b _08061BC2
 	.align 2, 0
-_08061BA0: .4byte gUnknown_030015C0
+_08061BA0: .4byte gPlayers
 _08061BA4:
 	mov r0, r8
 	adds r0, #1
@@ -2219,7 +2219,7 @@ _080622F6:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _08062340 @ =gUnknown_030015C0
+	ldr r1, _08062340 @ =gPlayers
 	adds r6, r0, r1
 	adds r0, r6, #0
 	bl sub_802C080
@@ -2250,7 +2250,7 @@ _0806233C:
 	movs r0, #1
 	b _08062364
 	.align 2, 0
-_08062340: .4byte gUnknown_030015C0
+_08062340: .4byte gPlayers
 _08062344:
 	mov r0, r8
 	adds r0, #1

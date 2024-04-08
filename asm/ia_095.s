@@ -93,7 +93,7 @@ CreateEntity_Interactable095: @ 0x08040564
 	lsls r1, r1, #2
 	adds r1, r1, r2
 	lsls r1, r1, #4
-	ldr r3, _08040660 @ =gUnknown_030015C0
+	ldr r3, _08040660 @ =gPlayers
 	adds r1, r1, r3
 	str r1, [r4, #0x28]
 	adds r1, #0x2b
@@ -127,7 +127,7 @@ _08040650: .4byte sub_804087C
 _08040654: .4byte 0x03000030
 _08040658: .4byte 0x03000024
 _0804065C: .4byte gUnknown_030008A0
-_08040660: .4byte gUnknown_030015C0
+_08040660: .4byte gPlayers
 
 	thumb_func_start sub_8040664
 sub_8040664: @ 0x08040664

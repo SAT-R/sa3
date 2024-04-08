@@ -98,7 +98,7 @@ _0804CA4E:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	ldr r1, _0804CAC0 @ =gUnknown_030015C0
+	ldr r1, _0804CAC0 @ =gPlayers
 	adds r4, r0, r1
 	ldr r1, [r4]
 	ldr r0, _0804CAC4 @ =sub_8008A8C
@@ -150,7 +150,7 @@ _0804CA4E:
 	blt _0804CB0E
 	b _0804CAD4
 	.align 2, 0
-_0804CAC0: .4byte gUnknown_030015C0
+_0804CAC0: .4byte gPlayers
 _0804CAC4: .4byte sub_8008A8C
 _0804CAC8: .4byte sub_800ED80
 _0804CACC:
