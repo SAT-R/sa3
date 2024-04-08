@@ -11,7 +11,7 @@
 
 typedef struct {
     // TODO: This resembles struct SpriteBase,
-    //       but it is not the same (unk4, unk5 inserted here).
+    //       but it is not the same (id / spriteX).
     //       SpriteBase gets used by IA 060 with the SA1/SA2 layout,
     //       so it might be specifically for enemies?
     /* 0x00 */ MapEntity *me;
