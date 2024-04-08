@@ -426,7 +426,7 @@ sub_803F1D4: @ 0x0803F1D4
 	asrs r1, r1, #0x10
 	subs r2, r1, r2
 	strh r2, [r4, #0x12]
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0803F24C
 	ldrb r0, [r6, #0xa]

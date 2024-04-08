@@ -687,7 +687,7 @@ Task_Interactable073Main: @ 0x08039658
 	adds r7, r1, r0
 	mov r0, r8
 	adds r1, r7, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _080396A8
 	ldrb r0, [r5, #0xa]
@@ -841,7 +841,7 @@ Task_Interactable074Main: @ 0x08039784
 	adds r7, r1, r0
 	mov r0, r8
 	adds r1, r7, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _080397D4
 	ldrb r0, [r5, #0xa]

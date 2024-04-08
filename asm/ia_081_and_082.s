@@ -34,7 +34,7 @@ sub_803D7D0: @ 0x0803D7D0
 	adds r6, r1, r0
 	mov r0, r8
 	adds r1, r6, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0803D820
 	ldrb r0, [r7, #0xa]

@@ -1,6 +1,10 @@
 #ifndef GUARD_SA3_PLAYER_H
 #define GUARD_SA3_PLAYER_H
 
+#include "sprite.h"
+
+#define MAX_PLAYER_NAME_LENGTH 6
+
 typedef struct Player Player;
 struct Player {
     // Code (Character Movement) to be executed
@@ -17,18 +21,17 @@ struct Player {
 
     u8 Padding[0x04];
 
-    // Character's position on the map
-    s32 X_Pos; // 0x10
-    s32 Y_Pos; // 0x14
+    /* 0x10 */ s32 qWorldX;
+    /* 0x14 */ s32 qWorldY;
 
     // Speed values.
     // Horizontal Speed has 2 values [Air/Ground]
     // (used for speeding up after hitting the ground)
     // Vertical speed only has one
     // (Since no acceleration happens after touching the ground or a platform)
-    s16 H_Speed_Air; // 0x18
-    s16 V_Speed; // 0x1A
-    s16 H_Speed_Ground; // 0x1C
+    s16 speedAirX; // 0x18
+    s16 speedAirY; // 0x1A
+    s16 speedGround; // 0x1C
 
     u16 keyInput; // 0x1E
     u16 keyInput2; // 0x20
@@ -156,7 +159,7 @@ struct Player {
 
     struct Task *vC4[0x03];
     struct Task *vD0; // Points to something while the "Tag-Action" is toggled (not
-                        // anymore once released)
+                      // anymore once released)
     u32 vD4;
     u32 vD8;
     u32 vDC;
@@ -179,5 +182,7 @@ struct Player {
 };
 
 extern Player gPlayers[4];
+
+bool32 sub_802C0D4(Player *p);
 
 #endif // GUARD_SA3_PLAYER_H

@@ -1,13 +1,15 @@
 #ifndef GUARD_PLAYER_CONTROLS_H
 #define GUARD_PLAYER_CONTROLS_H
 
-struct ButtonConfig {
+#include "game/entity.h"
+
+typedef struct {
     u16 jump;
     u16 attack;
     u16 trick;
-};
+} ButtonConfig;
 
-extern struct ButtonConfig gPlayerControls;
+extern ButtonConfig gPlayerControls;
 
 void SetPlayerControls(u16 jump, u16 attack, u16 trick);
 

@@ -142,7 +142,7 @@ sub_804EAB8: @ 0x0804EAB8
 	mov r8, r3
 	mov r0, sb
 	mov r1, r8
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0804EB08
 	ldr r0, [r7]

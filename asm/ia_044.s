@@ -132,7 +132,7 @@ sub_8032410: @ 0x08032410
 	asrs r0, r0, #0x10
 	lsls r1, r6, #0x10
 	asrs r1, r1, #0x10
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _08032478
 	ldrb r0, [r4, #0xe]
@@ -679,7 +679,7 @@ _08032888:
 	cmp r0, #0
 	bne _0803289A
 	ldr r1, [r5]
-	ldr r0, _080328B0 @ =sub_800D944
+	ldr r0, _080328B0 @ =PlayerCB_800D944
 	cmp r1, r0
 	bne _080328C0
 _0803289A:
@@ -693,7 +693,7 @@ _0803289A:
 	b _08032A60
 	.align 2, 0
 _080328AC: .4byte 0x01000100
-_080328B0: .4byte sub_800D944
+_080328B0: .4byte PlayerCB_800D944
 _080328B4: .4byte 0xEFFFFFFF
 _080328B8: .4byte gCurTask
 _080328BC: .4byte sub_8032A8C

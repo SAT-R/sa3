@@ -5,6 +5,7 @@
 .syntax unified
 .arm
 
+.if 0
 	thumb_func_start Task_Interactable090Main
 Task_Interactable090Main: @ 0x0803F3C4
 	push {r4, r5, r6, r7, lr}
@@ -19,7 +20,7 @@ Task_Interactable090Main: @ 0x0803F3C4
 	adds r5, r1, r0     @ r5 = ia
 	ldr r0, [r5]
 	mov r8, r0          @ r8 = me
-	movs r6, #0
+	movs r6, #0         @ r6 = i
 _0803F3DE:
 	cmp r6, #0
 	beq _0803F3F4
@@ -41,7 +42,7 @@ _0803F3F8:
 	adds r0, r0, r1
 	lsls r0, r0, #4
 	ldr r1, _0803F4AC @ =gPlayers
-	adds r4, r0, r1
+	adds r4, r0, r1     @ r4 = p
 	adds r0, r4, #0
 	adds r0, #0x2b
 	ldrb r0, [r0]
@@ -108,7 +109,7 @@ _0803F470:
 	lsls r1, r1, #8
 	asrs r0, r0, #0x10
 	asrs r1, r1, #0x10
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0803F49E
 	ldrb r0, [r5, #8]
@@ -128,5 +129,4 @@ _0803F4A8: .4byte gStageData
 _0803F4AC: .4byte gPlayers
 _0803F4B0: .4byte gCurTask
 
-.if 0
 .endif

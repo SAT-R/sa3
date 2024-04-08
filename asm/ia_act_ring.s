@@ -454,7 +454,7 @@ sub_8040BE4: @ 0x08040BE4
 	ldrsh r7, [r1, r0]
 	adds r0, r6, #0
 	adds r1, r7, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _08040C44
 	mov r1, r8

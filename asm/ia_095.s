@@ -269,7 +269,7 @@ _08040762:
 	lsls r1, r1, #8
 	asrs r0, r0, #0x10
 	asrs r1, r1, #0x10
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _080407A0
 	ldrb r0, [r5, #8]

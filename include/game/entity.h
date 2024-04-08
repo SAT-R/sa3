@@ -1,5 +1,5 @@
-#ifndef GUARD_INTERACTABLE_H
-#define GUARD_INTERACTABLE_H
+#ifndef GUARD_SA3_ENTITY_H
+#define GUARD_SA3_ENTITY_H
 
 #include "gba/defines.h"
 #include "gba/types.h"
@@ -238,4 +238,4 @@ typedef struct {
                                    Q_24_8_TO_INT(_enemy->spawnX),                       \
                                    Q_24_8_TO_INT(_enemy->spawnY))
 
-#endif // GUARD_INTERACTABLE_H
+#endif // GUARD_SA3_ENTITY_H

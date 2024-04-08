@@ -802,7 +802,7 @@ sub_8041988: @ 0x08041988
 	asrs r1, r1, #0x10
 	mov r8, r1
 	adds r0, r5, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	beq _08041A10
 	ldr r0, _08041A0C @ =gCamera

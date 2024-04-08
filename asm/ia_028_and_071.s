@@ -914,7 +914,7 @@ sub_80303B4: @ 0x080303B4
 	asrs r7, r1, #0x10
 	adds r0, r5, #0
 	adds r1, r7, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0803047C
 	movs r1, #0

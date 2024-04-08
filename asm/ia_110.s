@@ -445,7 +445,7 @@ _080459CA:
 	mov r2, sl
 	lsls r1, r2, #0x10
 	asrs r1, r1, #0x10
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _08045A44
 	movs r1, #0

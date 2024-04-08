@@ -1,6 +1,8 @@
 #ifndef GUARD_SA3_ENEMY_UNKNOWN_CODE_H
 #define GUARD_SA3_ENEMY_UNKNOWN_CODE_H
 
+#include "game/entity.h"
+
 typedef struct {
     /* 0x00 */ MapEntity *me;
     /* 0x04 */ s32 unk4;

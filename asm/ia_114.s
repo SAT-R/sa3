@@ -1213,7 +1213,7 @@ sub_8048420: @ 0x08048420
 	asrs r1, r1, #0x10
 	mov sl, r1
 	mov r0, r8
-	bl sub_802C198
+	bl IsPointInScreenRect
 	adds r5, r0, #0
 	cmp r5, #0
 	bne _080484C4

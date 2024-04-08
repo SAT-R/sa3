@@ -27,7 +27,7 @@ typedef struct {
     /* 0x12 */ u16 nextMapIndex; // Map targeted by teleport (apparently only works with
                                  // level warps?)
 
-    /* 0x14 */ struct ButtonConfig buttonConfig;
+    /* 0x14 */ ButtonConfig buttonConfig;
 
     /* 0x1C */ u32 timer;
 

@@ -512,7 +512,7 @@ sub_804ACF0: @ 0x0804ACF0
 	asrs r0, r7, #0x10
 	lsls r5, r2, #0x10
 	asrs r1, r5, #0x10
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0804ADBC
 	movs r2, #0

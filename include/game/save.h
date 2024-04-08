@@ -5,6 +5,7 @@
 
 //#include "sakit/globals.h"
 
+#include "game/player.h"
 #include "game/player_controls.h"
 #include "constants/zones.h"
 #include "constants/characters.h"
@@ -17,7 +18,7 @@
 #define TIME_RECORDS_PER_COURSE 3
 
 // Used in struc_30008A0
-struct VsRecords {
+typedef struct {
     u32 playerId;
     u16 playerName[MAX_PLAYER_NAME_LENGTH];
 
@@ -26,21 +27,21 @@ struct VsRecords {
     u8 wins;
     u8 losses;
     u8 draws;
-};
+} VsRecords;
 
 // Used in struc_3000CF0
-struct VsRecords2 {
+typedef struct {
     u8 unk0;
     u8 wins;
     u8 draws;
     u8 losses;
     u32 unk4;
     u16 playerName[MAX_PLAYER_NAME_LENGTH];
-};
+} VsRecords2;
 
-struct TimeRecords {
+typedef struct {
     u16 table[NUM_COURSE_ZONES][ACTS_PER_ZONE][TIME_RECORDS_PER_COURSE];
-};
+} TimeRecords;
 
 #define NUM_TIME_RECORD_ROWS                                                            \
     (NUM_COURSE_ZONES * ACTS_PER_ZONE * NUM_CHARACTERS * TIME_RECORDS_PER_COURSE)
@@ -83,8 +84,8 @@ typedef struct {
 
     /* 0x64 */ VsRecords vsRecords[10]; // 0x64 | Records in Multiplayer Matches
 
-    /* 0x12C */ struct TimeRecords timeRecords;
-    /* 0x35C */ struct ButtonConfig buttonConfig;
+    /* 0x12C */ TimeRecords timeRecords;
+    /* 0x35C */ ButtonConfig buttonConfig;
 
     /* 0x364 */ u8 unk364;
     /* 0x365 */ u8 unk365;

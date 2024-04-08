@@ -73,7 +73,7 @@ Task_Interactable094Main: @ 0x080402AC
 	lsls r2, r2, #0x10
 	lsrs r2, r2, #0x10
 	mov sl, r2
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _08040378
 	ldr r0, _08040370 @ =gStageData

@@ -950,7 +950,7 @@ sub_804E5CC: @ 0x0804E5CC
 	ldrsh r6, [r1, r0]
 	adds r0, r5, #0
 	adds r1, r6, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0804E620
 	ldrb r0, [r7, #0xa]

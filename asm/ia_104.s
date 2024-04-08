@@ -611,7 +611,7 @@ sub_8043530: @ 0x08043530
 	ldrsh r7, [r1, r0]
 	mov r0, r8
 	adds r1, r7, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _080435E8
 	movs r1, #0

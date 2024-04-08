@@ -709,7 +709,7 @@ sub_804C008: @ 0x0804C008
 	ldr r3, [r5, #4]
 	subs r2, r2, r3
 	strh r2, [r4, #0x12]
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #1
 	bne _0804C094
 	movs r0, #1

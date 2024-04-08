@@ -315,7 +315,7 @@ sub_8033C64: @ 0x08033C64
 	asrs r7, r1, #0x10
 	adds r0, r6, #0
 	adds r1, r7, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _08033CC4
 	ldrb r0, [r5, #0xa]

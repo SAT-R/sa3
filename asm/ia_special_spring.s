@@ -409,7 +409,7 @@ sub_8040FD8: @ 0x08040FD8
 	ldrsh r7, [r1, r0]
 	adds r0, r6, #0
 	adds r1, r7, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _08041034
 	mov r1, r8

@@ -25,7 +25,7 @@ sub_804B4E0: @ 0x0804B4E0
 	ldr r6, [r1, #0x10]
 	adds r0, r7, #0
 	adds r1, r6, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0804B520
 	mov r1, r8
@@ -171,7 +171,7 @@ sub_804B5FC: @ 0x0804B5FC
 	ldr r7, [r5, #0x10]
 	mov r0, r8
 	adds r1, r7, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0804B63C
 	ldrb r0, [r5, #0xa]

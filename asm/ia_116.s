@@ -399,7 +399,7 @@ _08049334:
 	ldrsh r0, [r5, r1]
 	movs r2, #0xe
 	ldrsh r1, [r5, r2]
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _08049354
 	ldrb r0, [r5, #0xa]

@@ -336,7 +336,7 @@ sub_804DB08: @ 0x0804DB08
 	asrs r7, r0, #0x10
 	adds r0, r5, #0
 	adds r1, r7, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0804DBA4
 	movs r1, #0

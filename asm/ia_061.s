@@ -373,7 +373,7 @@ sub_8035F8C: @ 0x08035F8C
 	ldrsh r6, [r0, r1]
 	adds r0, r5, #0
 	adds r1, r6, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _08036028
 	movs r1, #0

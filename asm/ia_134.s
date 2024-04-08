@@ -132,7 +132,7 @@ sub_804C770: @ 0x0804C770
 	lsls r3, r3, #0x10
 	lsrs r3, r3, #0x10
 	str r3, [sp, #0x10]
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0804C800
 	mov r1, sb

@@ -299,7 +299,7 @@ _0803DC86:
 _0803DC96:
 	ldrh r0, [r6, #0x10]
 	ldrh r1, [r6, #0x12]
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0803DCB0
 	ldrb r0, [r6, #8]

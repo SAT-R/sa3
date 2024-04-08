@@ -28,7 +28,7 @@ sub_804C9A0: @ 0x0804C9A0
 	ldrsh r7, [r5, r3]
 	mov r0, r8
 	adds r1, r7, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0804C9F0
 	ldr r0, _0804C9EC @ =0x00000262

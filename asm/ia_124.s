@@ -408,7 +408,7 @@ sub_804B168: @ 0x0804B168
 	mov sl, r3
 	movs r2, #0
 	ldrsh r1, [r1, r2]
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0804B1BC
 	ldrb r0, [r6, #0xa]

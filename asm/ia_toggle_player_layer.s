@@ -34,7 +34,7 @@ Task_Toggle_PlayerLayer: @ 0x0802E328
 	mov r8, r0
 	mov r0, sb
 	mov r1, r8
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0802E378
 	strb r5, [r7]

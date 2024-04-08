@@ -721,7 +721,7 @@ _08049F9E:
 	asrs r0, r0, #8
 	ldr r1, [r6, #0x64]
 	asrs r1, r1, #8
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _08049FBA
 	movs r0, #5
@@ -1045,7 +1045,7 @@ sub_804A1E0: @ 0x0804A1E0
 	adds r1, r6, r3
 	movs r2, #0
 	ldrsh r1, [r1, r2]
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #1
 	bne _0804A220
 	movs r3, #1
@@ -1065,7 +1065,7 @@ _0804A220:
 	asrs r1, r1, #0x10
 	mov r8, r1
 	adds r0, r5, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #1
 	bne _0804A248
 	movs r0, #1

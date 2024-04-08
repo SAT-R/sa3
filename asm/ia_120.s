@@ -378,7 +378,7 @@ sub_80498B4: @ 0x080498B4
 	asrs r1, r1, #0x10
 	subs r2, r1, r2
 	strh r2, [r6, #0x12]
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _08049968
 	ldr r0, _0804991C @ =0x00000261

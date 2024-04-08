@@ -229,7 +229,7 @@ sub_8041248: @ 0x08041248
 	asrs r7, r1, #0x10
 	adds r0, r6, #0
 	adds r1, r7, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _080412A4
 	ldrb r0, [r4, #0xa]

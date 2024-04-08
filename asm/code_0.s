@@ -12165,14 +12165,14 @@ _08006054:
 	adds r1, #0x52
 	movs r0, #0x1e
 	strh r0, [r1]
-	ldr r1, _08006074 @ =sub_800D944
+	ldr r1, _08006074 @ =PlayerCB_800D944
 	str r1, [r7]
 	adds r0, r7, #0
 	bl _call_via_r1
 	b _08006128
 	.align 2, 0
 _08006070: .4byte gStageData
-_08006074: .4byte sub_800D944
+_08006074: .4byte PlayerCB_800D944
 _08006078:
 	bl sub_80299FC
 	ldrb r0, [r4, #3]
@@ -12256,7 +12256,7 @@ _08006116:
 	adds r1, #0x52
 	movs r0, #0x1e
 	strh r0, [r1]
-	ldr r1, _08006138 @ =sub_800D944
+	ldr r1, _08006138 @ =PlayerCB_800D944
 	str r1, [r7]
 	adds r0, r7, #0
 	bl _call_via_r1
@@ -12270,7 +12270,7 @@ _08006128:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08006138: .4byte sub_800D944
+_08006138: .4byte PlayerCB_800D944
 
 	thumb_func_start sub_800613C
 sub_800613C: @ 0x0800613C
@@ -27493,8 +27493,8 @@ _0800D93E:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_800D944
-sub_800D944: @ 0x0800D944
+	thumb_func_start PlayerCB_800D944
+PlayerCB_800D944: @ 0x0800D944
 	push {lr}
 	adds r2, r0, #0
 	adds r2, #0x52
@@ -90704,7 +90704,7 @@ sub_802C080: @ 0x0802C080
 	bne _0802C0CC
 _0802C0B2:
 	ldr r1, [r2]
-	ldr r0, _0802C0C8 @ =sub_800D944
+	ldr r0, _0802C0C8 @ =PlayerCB_800D944
 	cmp r1, r0
 	beq _0802C0CC
 	movs r0, #0
@@ -90712,7 +90712,7 @@ _0802C0B2:
 	.align 2, 0
 _0802C0C0: .4byte 0x11000300
 _0802C0C4: .4byte gStageData
-_0802C0C8: .4byte sub_800D944
+_0802C0C8: .4byte PlayerCB_800D944
 _0802C0CC:
 	movs r0, #1
 _0802C0CE:
@@ -90730,14 +90730,14 @@ sub_802C0D4: @ 0x0802C0D4
 	cmp r0, #0
 	bne _0802C0F8
 	ldr r1, [r2]
-	ldr r0, _0802C0F4 @ =sub_800D944
+	ldr r0, _0802C0F4 @ =PlayerCB_800D944
 	cmp r1, r0
 	beq _0802C0F8
 	movs r0, #0
 	b _0802C0FA
 	.align 2, 0
 _0802C0F0: .4byte 0x11000100
-_0802C0F4: .4byte sub_800D944
+_0802C0F4: .4byte PlayerCB_800D944
 _0802C0F8:
 	movs r0, #1
 _0802C0FA:
@@ -90829,8 +90829,8 @@ _0802C192:
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_802C198
-sub_802C198: @ 0x0802C198
+	thumb_func_start IsPointInScreenRect
+IsPointInScreenRect: @ 0x0802C198
 	push {lr}
 	adds r3, r1, #0
 	ldr r2, _0802C1C4 @ =gCamera

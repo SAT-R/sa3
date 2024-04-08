@@ -675,7 +675,7 @@ sub_8033778: @ 0x08033778
 	lsrs r3, r1, #0x10
 	mov r8, r3
 	asrs r1, r1, #0x10
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _08033830
 	movs r1, #0

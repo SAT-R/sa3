@@ -531,7 +531,7 @@ sub_8042F10: @ 0x08042F10
 	asrs r4, r4, #0x10
 	adds r0, r5, #0
 	adds r1, r4, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	mov r2, sb
 	eors r0, r2
 	rsbs r1, r0, #0

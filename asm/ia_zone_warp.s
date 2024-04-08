@@ -602,7 +602,7 @@ sub_802DB9C: @ 0x0802DB9C
 	asrs r1, r1, #0x10
 	subs r2, r1, r2
 	strh r2, [r5, #0x12]
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0802DBF8
 	ldrb r0, [r4, #0xa]

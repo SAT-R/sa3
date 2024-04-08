@@ -741,7 +741,7 @@ sub_804D114: @ 0x0804D114
 	mov sl, r2
 	movs r3, #0
 	ldrsh r1, [r1, r3]
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0804D170
 	ldrb r0, [r6, #0xa]
@@ -1130,7 +1130,7 @@ sub_804D3FC: @ 0x0804D3FC
 	asrs r7, r1, #0x10
 	adds r0, r6, #0
 	adds r1, r7, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0804D458
 	ldrb r0, [r4, #0xa]
@@ -1502,7 +1502,7 @@ sub_804D6D8: @ 0x0804D6D8
 	asrs r6, r1, #0x10
 	adds r0, r5, #0
 	adds r1, r6, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0804D788
 	movs r1, #0

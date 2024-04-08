@@ -215,7 +215,7 @@ sub_804F4E4: @ 0x0804F4E4
 	ldrsh r7, [r4, r1]
 	adds r0, r6, #0
 	adds r1, r7, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0804F52C
 	ldrb r0, [r4, #0xa]

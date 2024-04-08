@@ -238,7 +238,7 @@ sub_804B9A8: @ 0x0804B9A8
 	mov sb, r3
 	movs r2, #0x3c
 	ldrsh r1, [r4, r2]
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	beq _0804B9EE
 	ldrh r1, [r4, #0x34]

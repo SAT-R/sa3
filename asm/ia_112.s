@@ -270,7 +270,7 @@ _08046C44:
 	cmp r0, #0
 	bne _08046C5C
 	ldr r1, [r5]
-	ldr r0, _08046C74 @ =sub_800D944
+	ldr r0, _08046C74 @ =PlayerCB_800D944
 	cmp r1, r0
 	bne _08046C7C
 _08046C5C:
@@ -286,7 +286,7 @@ _08046C5C:
 	b _08046DEE
 	.align 2, 0
 _08046C70: .4byte gPlayers
-_08046C74: .4byte sub_800D944
+_08046C74: .4byte PlayerCB_800D944
 _08046C78: .4byte 0xCFFFFFFF
 _08046C7C:
 	adds r0, r5, #0

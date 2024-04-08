@@ -374,7 +374,7 @@ _080449F0:
 	asrs r0, r0, #0x10
 	lsls r1, r7, #0x10
 	asrs r1, r1, #0x10
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _08044A8C
 	movs r1, #0

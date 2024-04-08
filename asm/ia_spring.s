@@ -610,7 +610,7 @@ sub_802E0D8: @ 0x0802E0D8
 	ldrsh r7, [r4, r1]
 	adds r0, r6, #0
 	adds r1, r7, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0802E120
 	ldrb r0, [r4, #0xa]

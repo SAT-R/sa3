@@ -40,7 +40,7 @@ Task_802E92C: @ 0x0802E92C
 	lsrs r2, r1, #0x10
 	mov sb, r2
 	asrs r1, r1, #0x10
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0802E988
 	ldrb r0, [r6, #0xa]

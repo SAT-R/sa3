@@ -52,7 +52,7 @@ sub_802E528: @ 0x0802E528
 	asrs r6, r0, #0x10
 	adds r0, r4, #0
 	adds r1, r6, #0
-	bl sub_802C198
+	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _0802E5A8
 	mov r1, sb
