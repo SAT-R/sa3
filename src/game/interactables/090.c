@@ -6,8 +6,6 @@
 #include "game/player.h"
 #include "game/stage.h"
 
-extern Player gPlayers[4];
-
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ s32 qWorldX;
@@ -20,24 +18,49 @@ typedef struct {
 
 void Task_Interactable090Main(void);
 
-#if 0
 void Task_Interactable090Main(void)
 {
-    u8 mask = 0;
+    u8 r7 = 0;
     IA_090 *ia = TASK_DATA(gCurTask);
     MapEntity *me = ia->base.me;
     Player *p;
     u8 i;
 
-    for(i = 0; i < 2; i++) {
-        if(i != 0) {
-            p = &gPlayers[p->charFlags.charId];
+    for (i = 0; i < 2; i++) {
+        if (i != 0) {
+            p = &gPlayers[p->charFlags.partnerIndex];
         } else {
+            // _0803F3F4
             p = &gPlayers[gStageData.charId];
+        }
+
+        if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2
+            || p->charFlags.someIndex == 4) {
+            if (!sub_802C0D4(p)) {
+                if ((ia->left < p->qWorldX) && (ia->right > p->qWorldX)
+                    && (ia->top < p->qWorldY) && (ia->bottom > p->qWorldY)) {
+                    // __mid
+                    p->speedGround = (p->speedGround * 31) >> 5;
+                    p->speedAirX = (p->speedAirX * 31) >> 5;
+                    p->speedAirY = (p->speedAirY * 31) >> 5;
+                    r7 |= (i + 1);
+                }
+            }
+            // _0803F470
+        }
+    }
+
+    if (r7 == 0) {
+        s16 x, y;
+        x = I(ia->qWorldX);
+        y = I(ia->qWorldY);
+
+        if (!IsPointInScreenRect(x, y)) {
+            me->x = ia->base.unk8;
+            TaskDestroy(gCurTask);
         }
     }
 }
-#endif
 
 void CreateEntity_Interactable090(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
