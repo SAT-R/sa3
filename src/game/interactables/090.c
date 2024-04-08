@@ -2,6 +2,7 @@
 #include "task.h"
 #include "game/camera.h"
 #include "game/entity.h"
+#include "game/stage.h"
 
 typedef struct {
     /* 0x00 */ SpriteBase base;
@@ -14,6 +15,23 @@ typedef struct {
 } IA_090; /* size: 0x24 */
 
 void Task_Interactable090Main(void);
+
+#if 0
+void Task_Interactable090Main(void)
+{
+    u8 mask = 0;
+    IA_090 *ia = TASK_DATA(gCurTask);
+    MapEntity *me = ia->base.me;
+    u8 i;
+
+    for(i = 0; i < 2; i++) {
+        if(i != 0) {
+
+        } else {
+        }
+    }
+}
+#endif
 
 void CreateEntity_Interactable090(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
