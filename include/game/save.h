@@ -3,7 +3,7 @@
 
 #include "global.h"
 
-#include "sakit/globals.h"
+//#include "sakit/globals.h"
 
 #include "game/player_controls.h"
 #include "constants/zones.h"
