@@ -1,13 +1,17 @@
+#include "global.h"
 #include "sprite.h"
 #include "task.h"
 #include "game/camera.h"
 #include "game/entity.h"
+#include "game/player.h"
 #include "game/stage.h"
+
+extern Player gPlayers[4];
 
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ s32 qWorldX;
-    /* 0x10 */ s32 worldY;
+    /* 0x10 */ s32 qWorldY;
     /* 0x14 */ s32 top;
     /* 0x18 */ s32 bottom;
     /* 0x1C */ s32 left;
@@ -22,12 +26,14 @@ void Task_Interactable090Main(void)
     u8 mask = 0;
     IA_090 *ia = TASK_DATA(gCurTask);
     MapEntity *me = ia->base.me;
+    Player *p;
     u8 i;
 
     for(i = 0; i < 2; i++) {
         if(i != 0) {
-
+            p = &gPlayers[p->charFlags.charId];
         } else {
+            p = &gPlayers[gStageData.charId];
         }
     }
 }
@@ -39,7 +45,7 @@ void CreateEntity_Interactable090(MapEntity *me, u16 regionX, u16 regionY, u8 id
     struct Task *t
         = TaskCreate(Task_Interactable090Main, sizeof(IA_090), 0x2100, 0, NULL);
     s32 qWorldX;
-    s32 worldY;
+    s32 qWorldY;
     ia = TASK_DATA(t);
 
     ia->base.regionX = regionX;
@@ -50,13 +56,13 @@ void CreateEntity_Interactable090(MapEntity *me, u16 regionX, u16 regionY, u8 id
 
     qWorldX = Q(TO_WORLD_POS(me->x, regionX));
     ia->qWorldX = qWorldX;
-    worldY = Q(TO_WORLD_POS(me->y, regionY));
-    ia->worldY = worldY;
+    qWorldY = Q(TO_WORLD_POS(me->y, regionY));
+    ia->qWorldY = qWorldY;
 
     ia->left = qWorldX + Q(me->d.sData[0]) * TILE_WIDTH;
     ia->right = ia->left + Q(me->d.uData[2]) * TILE_WIDTH;
 
-    ia->top = worldY + (Q(me->d.sData[1]) * TILE_WIDTH);
+    ia->top = qWorldY + (Q(me->d.sData[1]) * TILE_WIDTH);
     ia->bottom = ia->top + (Q(me->d.uData[3]) * TILE_WIDTH);
 
     SET_MAP_ENTITY_INITIALIZED(me);
