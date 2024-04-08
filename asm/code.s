@@ -44591,6 +44591,7 @@ _0807B6B4:
 _0807B6C0: .4byte sub_805217C
 _0807B6C4: .4byte 0xFFFFFF00
 
+@ void* unk
 	thumb_func_start sub_807B6C8
 sub_807B6C8: @ 0x0807B6C8
 	push {r4, r5, r6, r7, lr}
