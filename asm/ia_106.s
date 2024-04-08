@@ -65,7 +65,7 @@ CreateEntity_Interactable106: @ 0x08043DF4
 	lsls r0, r0, #8
 	str r0, [r7, #8]
 	strh r3, [r7, #0x12]
-	ldr r0, _08043F58 @ =gUnknown_030008A0
+	ldr r0, _08043F58 @ =gStageData
 	ldrb r1, [r0, #6]
 	lsls r0, r1, #2
 	adds r0, r0, r1
@@ -179,7 +179,7 @@ _08043EEE:
 _08043F4C: .4byte gUnknown_080D0144
 _08043F50: .4byte sub_8043F68
 _08043F54: .4byte sub_8044718
-_08043F58: .4byte gUnknown_030008A0
+_08043F58: .4byte gStageData
 _08043F5C: .4byte gPlayers
 _08043F60: .4byte 0x03000024
 _08043F64: .4byte 0x0000039A
@@ -751,7 +751,7 @@ sub_80443B0: @ 0x080443B0
 	lsls r2, r2, #1
 	mov r0, sp
 	bl memcpy
-	ldr r0, _080443E8 @ =gUnknown_030008A0
+	ldr r0, _080443E8 @ =gStageData
 	ldr r0, [r0, #0x1c]
 	lsls r0, r0, #0x14
 	lsrs r6, r0, #0x10
@@ -759,7 +759,7 @@ sub_80443B0: @ 0x080443B0
 	b _0804442E
 	.align 2, 0
 _080443E4: .4byte gUnknown_080D014C
-_080443E8: .4byte gUnknown_030008A0
+_080443E8: .4byte gStageData
 _080443EC:
 	lsls r1, r3, #4
 	mov r2, sp
@@ -835,7 +835,7 @@ sub_8044450: @ 0x08044450
 	lsls r2, r2, #1
 	mov r0, sp
 	bl memcpy
-	ldr r0, _080444CC @ =gUnknown_030008A0
+	ldr r0, _080444CC @ =gStageData
 	ldr r0, [r0, #0x1c]
 	lsls r0, r0, #0x14
 	lsrs r1, r0, #0x10
@@ -875,7 +875,7 @@ _0804448E:
 	b _08044526
 	.align 2, 0
 _080444C8: .4byte gUnknown_080D014C
-_080444CC: .4byte gUnknown_030008A0
+_080444CC: .4byte gStageData
 _080444D0:
 	mov r2, sb
 	adds r2, #4

@@ -184,12 +184,12 @@ _0804C388:
 	mov r8, r0
 	cmp r0, #0
 	bne _0804C3A0
-	ldr r0, _0804C39C @ =gUnknown_030008A0
+	ldr r0, _0804C39C @ =gStageData
 	ldrb r1, [r0, #6]
 	b _0804C3AA
 	.align 2, 0
 _0804C398: .4byte gCurTask
-_0804C39C: .4byte gUnknown_030008A0
+_0804C39C: .4byte gStageData
 _0804C3A0:
 	adds r0, r4, #0
 	adds r0, #0x2b
@@ -503,7 +503,7 @@ sub_804C608: @ 0x0804C608
 	adds r4, r0, #0
 	lsls r1, r1, #0x10
 	lsrs r5, r1, #0x10
-	ldr r0, _0804C628 @ =gUnknown_030008A0
+	ldr r0, _0804C628 @ =gStageData
 	ldrb r0, [r0, #9]
 	cmp r0, #3
 	bne _0804C62C
@@ -515,7 +515,7 @@ sub_804C608: @ 0x0804C608
 	lsls r0, r0, #2
 	b _0804C638
 	.align 2, 0
-_0804C628: .4byte gUnknown_030008A0
+_0804C628: .4byte gStageData
 _0804C62C:
 	movs r0, #0x18
 	bl VramMalloc

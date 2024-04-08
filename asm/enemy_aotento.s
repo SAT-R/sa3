@@ -188,7 +188,7 @@ sub_80586B4: @ 0x080586B4
 	subs r5, #2
 	adds r3, r3, r5
 	bl sub_805CD70
-	ldr r0, _08058714 @ =gUnknown_030008A0
+	ldr r0, _08058714 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -213,7 +213,7 @@ _08058704: .4byte gCurTask
 _08058708: .4byte 0x0300001C
 _0805870C: .4byte 0x03000014
 _08058710: .4byte 0x0300000A
-_08058714: .4byte gUnknown_030008A0
+_08058714: .4byte gStageData
 _08058718:
 	adds r0, r4, #0
 	bl sub_8058C1C
@@ -292,7 +292,7 @@ sub_805878C: @ 0x0805878C
 	.align 2, 0
 _080587B4: .4byte gCurTask
 _080587B8:
-	ldr r2, _0805881C @ =gUnknown_030008A0
+	ldr r2, _0805881C @ =gStageData
 	ldrb r1, [r2, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -344,7 +344,7 @@ _08058804:
 	ldr r0, _0805882C @ =sub_805892C
 	b _08058844
 	.align 2, 0
-_0805881C: .4byte gUnknown_030008A0
+_0805881C: .4byte gStageData
 _08058820: .4byte gPlayers
 _08058824: .4byte gUnknown_080D1E30
 _08058828: .4byte gCurTask
@@ -390,7 +390,7 @@ sub_8058854: @ 0x08058854
 	.align 2, 0
 _0805887C: .4byte gCurTask
 _08058880:
-	ldr r2, _080588E4 @ =gUnknown_030008A0
+	ldr r2, _080588E4 @ =gStageData
 	ldrb r1, [r2, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -442,7 +442,7 @@ _080588CC:
 	ldr r0, _080588F4 @ =sub_805892C
 	b _08058916
 	.align 2, 0
-_080588E4: .4byte gUnknown_030008A0
+_080588E4: .4byte gStageData
 _080588E8: .4byte gPlayers
 _080588EC: .4byte gUnknown_080D1E30
 _080588F0: .4byte gCurTask
@@ -495,7 +495,7 @@ _08058950:
 	adds r0, r4, #0
 	bl sub_8058C1C
 	adds r2, r0, #0
-	ldr r0, _08058988 @ =gUnknown_030008A0
+	ldr r0, _08058988 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -519,7 +519,7 @@ _08058950:
 	ands r1, r0
 	b _08058996
 	.align 2, 0
-_08058988: .4byte gUnknown_030008A0
+_08058988: .4byte gStageData
 _0805898C: .4byte 0x0300002C
 _08058990: .4byte 0xFFFFFBFF
 _08058994:

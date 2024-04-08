@@ -245,7 +245,7 @@ _080649F8:
 	adds r0, r4, #0
 	bl sub_8065084
 	adds r2, r0, #0
-	ldr r0, _08064A50 @ =gUnknown_030008A0
+	ldr r0, _08064A50 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -287,7 +287,7 @@ _08064A48:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08064A50: .4byte gUnknown_030008A0
+_08064A50: .4byte gStageData
 _08064A54: .4byte gUnknown_080D215C
 _08064A58: .4byte gCurTask
 _08064A5C: .4byte sub_8064A60
@@ -348,7 +348,7 @@ _08064AD4:
 	adds r0, r5, #0
 	bl sub_8065084
 	adds r6, r0, #0
-	ldr r0, _08064B44 @ =gUnknown_030008A0
+	ldr r0, _08064B44 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -401,7 +401,7 @@ _08064B3A:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08064B44: .4byte gUnknown_030008A0
+_08064B44: .4byte gStageData
 _08064B48: .4byte gUnknown_080D215C
 _08064B4C: .4byte gCurTask
 _08064B50: .4byte sub_8064B54
@@ -461,7 +461,7 @@ _08064BC8:
 	adds r0, r4, #0
 	bl sub_8065084
 	adds r3, r0, #0
-	ldr r0, _08064C08 @ =gUnknown_030008A0
+	ldr r0, _08064C08 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -491,7 +491,7 @@ _08064C02:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08064C08: .4byte gUnknown_030008A0
+_08064C08: .4byte gStageData
 _08064C0C: .4byte gUnknown_080D215C
 _08064C10: .4byte gCurTask
 _08064C14: .4byte Task_Kamaki
@@ -750,7 +750,7 @@ sub_8064E10: @ 0x08064E10
 	lsls r0, r0, #0x12
 	adds r4, r1, r0
 	movs r5, #0
-	ldr r0, _08064E64 @ =gUnknown_030008A0
+	ldr r0, _08064E64 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -781,7 +781,7 @@ _08064E44:
 	b _08064E6E
 	.align 2, 0
 _08064E60: .4byte gCurTask
-_08064E64: .4byte gUnknown_030008A0
+_08064E64: .4byte gStageData
 _08064E68:
 	adds r0, r4, #0
 	bl sub_8064FCC
@@ -855,11 +855,11 @@ _08064EE8:
 	mov r1, sb
 	cmp r1, #0
 	bne _08064EF8
-	ldr r0, _08064EF4 @ =gUnknown_030008A0
+	ldr r0, _08064EF4 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _08064F02
 	.align 2, 0
-_08064EF4: .4byte gUnknown_030008A0
+_08064EF4: .4byte gStageData
 _08064EF8:
 	adds r0, r4, #0
 	adds r0, #0x2b

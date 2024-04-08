@@ -180,7 +180,7 @@ sub_805E018: @ 0x0805E018
 	adds r3, r3, r1
 	movs r1, #0
 	bl sub_805CD70
-	ldr r0, _0805E06C @ =gUnknown_030008A0
+	ldr r0, _0805E06C @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -203,7 +203,7 @@ _0805E050:
 	.align 2, 0
 _0805E064: .4byte gCurTask
 _0805E068: .4byte 0x03000014
-_0805E06C: .4byte gUnknown_030008A0
+_0805E06C: .4byte gStageData
 _0805E070:
 	adds r0, r4, #0
 	bl sub_805E17C
@@ -257,7 +257,7 @@ sub_805E0AC: @ 0x0805E0AC
 	.align 2, 0
 _0805E0D4: .4byte gCurTask
 _0805E0D8:
-	ldr r0, _0805E10C @ =gUnknown_030008A0
+	ldr r0, _0805E10C @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -283,7 +283,7 @@ _0805E0D8:
 	movs r0, #1
 	b _0805E11E
 	.align 2, 0
-_0805E10C: .4byte gUnknown_030008A0
+_0805E10C: .4byte gStageData
 _0805E110: .4byte 0x03000024
 _0805E114: .4byte 0xFFFFFBFF
 _0805E118:

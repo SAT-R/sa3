@@ -58,7 +58,7 @@ CreateEntity_Interactable108: @ 0x08044C48
 	lsls r5, r5, #8
 	adds r2, r2, r5
 	str r2, [r7, #0x10]
-	ldr r0, _08044D68 @ =gUnknown_030008A0
+	ldr r0, _08044D68 @ =gStageData
 	ldrb r1, [r0, #6]
 	lsls r0, r1, #2
 	adds r0, r0, r1
@@ -147,7 +147,7 @@ _08044D2A:
 _08044D5C: .4byte sub_8044DD4
 _08044D60: .4byte sub_8045134
 _08044D64: .4byte 0x03000080
-_08044D68: .4byte gUnknown_030008A0
+_08044D68: .4byte gStageData
 _08044D6C: .4byte gPlayers
 _08044D70: .4byte 0x03000068
 _08044D74:
@@ -364,7 +364,7 @@ _08044F00:
 _08044F14: .4byte gCamera
 _08044F18: .4byte gPlayers
 _08044F1C:
-	ldr r0, _08044F54 @ =gUnknown_030008A0
+	ldr r0, _08044F54 @ =gStageData
 	ldrb r1, [r0, #6]
 _08044F20:
 	lsls r0, r1, #2
@@ -392,7 +392,7 @@ _08044F20:
 	bl TaskDestroy
 	b _08044F62
 	.align 2, 0
-_08044F54: .4byte gUnknown_030008A0
+_08044F54: .4byte gStageData
 _08044F58: .4byte gCurTask
 _08044F5C:
 	adds r0, r6, #0

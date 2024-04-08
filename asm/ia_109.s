@@ -78,7 +78,7 @@ CreateEntity_Interactable109: @ 0x0804514C
 	str r0, [r7, #0x2c]
 	adds r4, r4, r5
 	str r4, [r7, #0x30]
-	ldr r0, _08045234 @ =gUnknown_030008A0
+	ldr r0, _08045234 @ =gStageData
 	ldrb r3, [r0, #6]
 	lsls r0, r3, #2
 	adds r0, r0, r3
@@ -119,7 +119,7 @@ CreateEntity_Interactable109: @ 0x0804514C
 	.align 2, 0
 _0804522C: .4byte sub_80452AC
 _08045230: .4byte sub_804564C
-_08045234: .4byte gUnknown_030008A0
+_08045234: .4byte gStageData
 _08045238: .4byte gPlayers
 _0804523C:
 	adds r0, r2, #1
@@ -204,7 +204,7 @@ sub_80452AC: @ 0x080452AC
 	ldrb r0, [r5, #0x18]
 	cmp r0, #0
 	beq _08045300
-	ldr r0, _080452F8 @ =gUnknown_030008A0
+	ldr r0, _080452F8 @ =gStageData
 	ldrb r1, [r5, #0x18]
 	ldr r0, [r0, #0x1c]
 	muls r0, r1, r0
@@ -218,10 +218,10 @@ sub_80452AC: @ 0x080452AC
 	.align 2, 0
 _080452F0: .4byte gCurTask
 _080452F4: .4byte 0x03000040
-_080452F8: .4byte gUnknown_030008A0
+_080452F8: .4byte gStageData
 _080452FC: .4byte 0x000003FF
 _08045300:
-	ldr r0, _08045448 @ =gUnknown_030008A0
+	ldr r0, _08045448 @ =gStageData
 	ldr r1, [r0, #0x1c]
 	ldrh r0, [r5, #0x16]
 	lsrs r0, r0, #2
@@ -387,7 +387,7 @@ _08045400:
 	adds r0, r1, r2
 	b _0804545A
 	.align 2, 0
-_08045448: .4byte gUnknown_030008A0
+_08045448: .4byte gStageData
 _0804544C: .4byte gUnknown_082B48B4
 _08045450: .4byte 0xFFFFE000
 _08045454:
@@ -562,7 +562,7 @@ _08045598: .4byte 0xFFFFEF00
 _0804559C: .4byte gCamera
 _080455A0: .4byte gPlayers
 _080455A4:
-	ldr r0, _080455DC @ =gUnknown_030008A0
+	ldr r0, _080455DC @ =gStageData
 	ldrb r1, [r0, #6]
 _080455A8:
 	lsls r0, r1, #2
@@ -589,7 +589,7 @@ _080455A8:
 	bl TaskDestroy
 	b _080455EA
 	.align 2, 0
-_080455DC: .4byte gUnknown_030008A0
+_080455DC: .4byte gStageData
 _080455E0: .4byte gCurTask
 _080455E4:
 	adds r0, r5, #0

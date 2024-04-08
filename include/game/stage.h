@@ -80,6 +80,6 @@ typedef struct {
     /* 0xBE */ u8 unkBE[7];
 } StageData;
 
-extern StageData gUnknown_030008A0;
+extern StageData gStageData;
 
 #endif // GUARD_SA3_GAME_STAGE_H

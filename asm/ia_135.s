@@ -81,11 +81,11 @@ _0804CA32:
 	adds r6, r0, #0
 	cmp r6, #0
 	bne _0804CA44
-	ldr r0, _0804CA40 @ =gUnknown_030008A0
+	ldr r0, _0804CA40 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _0804CA4E
 	.align 2, 0
-_0804CA40: .4byte gUnknown_030008A0
+_0804CA40: .4byte gStageData
 _0804CA44:
 	adds r0, r4, #0
 	adds r0, #0x2b

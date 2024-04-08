@@ -228,7 +228,7 @@ _080640D0: .4byte 0x03000018
 _080640D4: .4byte 0x0300000A
 _080640D8: .4byte gCurTask
 _080640DC:
-	ldr r0, _0806411C @ =gUnknown_030008A0
+	ldr r0, _0806411C @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -260,7 +260,7 @@ _080640DC:
 	str r0, [r1, #8]
 	b _0806413A
 	.align 2, 0
-_0806411C: .4byte gUnknown_030008A0
+_0806411C: .4byte gStageData
 _08064120: .4byte gUnknown_080D212C
 _08064124: .4byte gCurTask
 _08064128: .4byte sub_8064140
@@ -315,7 +315,7 @@ _08064186:
 	adds r0, r5, #0
 	bl sub_80645D8
 	adds r2, r0, #0
-	ldr r0, _080641DC @ =gUnknown_030008A0
+	ldr r0, _080641DC @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -354,7 +354,7 @@ _08064186:
 	b _08064222
 	.align 2, 0
 _080641D8: .4byte 0x03000018
-_080641DC: .4byte gUnknown_030008A0
+_080641DC: .4byte gStageData
 _080641E0: .4byte gUnknown_080D212C
 _080641E4: .4byte gCurTask
 _080641E8: .4byte sub_8064230
@@ -429,7 +429,7 @@ _08064272:
 	adds r0, r4, #0
 	bl sub_80645D8
 	adds r2, r0, #0
-	ldr r0, _080642D4 @ =gUnknown_030008A0
+	ldr r0, _080642D4 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -474,7 +474,7 @@ _08064272:
 	b _080642FA
 	.align 2, 0
 _080642D0: .4byte 0x03000018
-_080642D4: .4byte gUnknown_030008A0
+_080642D4: .4byte gStageData
 _080642D8: .4byte gUnknown_080D212C
 _080642DC: .4byte gCurTask
 _080642E0: .4byte sub_8064074
@@ -766,11 +766,11 @@ _080644F0:
 _080644F2:
 	cmp r6, #0
 	bne _08064500
-	ldr r0, _080644FC @ =gUnknown_030008A0
+	ldr r0, _080644FC @ =gStageData
 	ldrb r1, [r0, #6]
 	b _0806450A
 	.align 2, 0
-_080644FC: .4byte gUnknown_030008A0
+_080644FC: .4byte gStageData
 _08064500:
 	adds r0, r7, #0
 	adds r0, #0x2b
@@ -1139,7 +1139,7 @@ sub_80647B0: @ 0x080647B0
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r4, r1, r0
-	ldr r0, _08064800 @ =gUnknown_030008A0
+	ldr r0, _08064800 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -1168,7 +1168,7 @@ _080647F4:
 	bx r0
 	.align 2, 0
 _080647FC: .4byte gCurTask
-_08064800: .4byte gUnknown_030008A0
+_08064800: .4byte gStageData
 
 	thumb_func_start sub_8064804
 sub_8064804: @ 0x08064804

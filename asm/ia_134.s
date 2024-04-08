@@ -151,11 +151,11 @@ _0804C802:
 	mov r8, r0
 	cmp r0, #0
 	bne _0804C814
-	ldr r0, _0804C810 @ =gUnknown_030008A0
+	ldr r0, _0804C810 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _0804C81E
 	.align 2, 0
-_0804C810: .4byte gUnknown_030008A0
+_0804C810: .4byte gStageData
 _0804C814:
 	adds r0, r6, #0
 	adds r0, #0x2b

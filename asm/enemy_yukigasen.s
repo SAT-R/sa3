@@ -111,7 +111,7 @@ _08060A5C:
 	adds r0, r4, #0
 	bl sub_8061010
 	adds r2, r0, #0
-	ldr r0, _08060AB8 @ =gUnknown_030008A0
+	ldr r0, _08060AB8 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -155,7 +155,7 @@ _08060AB0:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08060AB8: .4byte gUnknown_030008A0
+_08060AB8: .4byte gStageData
 _08060ABC: .4byte gUnknown_080D2024
 _08060AC0: .4byte 0xFFFFE800
 _08060AC4: .4byte sub_8060AC8
@@ -191,7 +191,7 @@ _08060B04:
 	adds r0, r4, #0
 	bl sub_8061010
 	adds r2, r0, #0
-	ldr r0, _08060B50 @ =gUnknown_030008A0
+	ldr r0, _08060B50 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -227,7 +227,7 @@ _08060B48:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08060B50: .4byte gUnknown_030008A0
+_08060B50: .4byte gStageData
 _08060B54: .4byte 0x03000020
 _08060B58: .4byte gUnknown_080D2024
 _08060B5C: .4byte Task_YukigasenMain
@@ -297,7 +297,7 @@ sub_8060BC8: @ 0x08060BC8
 	movs r5, #0
 	adds r0, r4, #0
 	bl sub_80611A0
-	ldr r0, _08060C54 @ =gUnknown_030008A0
+	ldr r0, _08060C54 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -355,7 +355,7 @@ _08060C48:
 	bx r0
 	.align 2, 0
 _08060C50: .4byte gCurTask
-_08060C54: .4byte gUnknown_030008A0
+_08060C54: .4byte gStageData
 _08060C58: .4byte sub_805217C
 _08060C5C: .4byte 0x03000018
 _08060C60: .4byte gUnknown_080D2034
@@ -384,11 +384,11 @@ sub_8060C68: @ 0x08060C68
 _08060C8C:
 	cmp r5, #0
 	bne _08060C9C
-	ldr r0, _08060C98 @ =gUnknown_030008A0
+	ldr r0, _08060C98 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _08060CA6
 	.align 2, 0
-_08060C98: .4byte gUnknown_030008A0
+_08060C98: .4byte gStageData
 _08060C9C:
 	adds r0, r4, #0
 	adds r0, #0x2b

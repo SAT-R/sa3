@@ -48,13 +48,13 @@ _08040000:
 	mov sl, r0
 	cmp r0, #0
 	bne _0804001C
-	ldr r0, _08040018 @ =gUnknown_030008A0
+	ldr r0, _08040018 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _08040026
 	.align 2, 0
 _08040010: .4byte gCurTask
 _08040014: .4byte 0x0300000C
-_08040018: .4byte gUnknown_030008A0
+_08040018: .4byte gStageData
 _0804001C:
 	adds r0, r6, #0
 	adds r0, #0x2b

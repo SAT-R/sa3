@@ -92,6 +92,11 @@ typedef struct {
     /* 0x367 */ u8 unk367;
 } SaveGame;
 
+extern SaveGame gSaveGame;
+
+// TODO: From SA2. Find out whether the pointer exists in SA3
+extern SaveGame *gLoadedSaveGame;
+
 /*        0x03000CF0 | Check out types and sizes for accuracy */
 // It seems like this is like STRUCT_3000530, but prepared to be stored in savefile.
 // They might've done it for security reasons, but strangely it's not excrypted, even in
@@ -141,7 +146,9 @@ typedef struct {
 
     u32 v368; // v368 | Checksum? In sub_800212C() this value is calculated and show that
               // it HAS to be the last member of the struct
-} SaveGameInternal;
+} SaveSectorData;
+
+extern SaveSectorData gSaveSectorData;
 
 #define MULTIPLAYER_RESULT_WIN  0
 #define MULTIPLAYER_RESULT_LOSS 1

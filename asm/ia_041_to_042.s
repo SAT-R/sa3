@@ -187,7 +187,7 @@ _0803179C: .4byte gCurTask
 _080317A0: .4byte 0x0300002C
 _080317A4: .4byte 0x000002FF
 _080317A8:
-	ldr r0, _08031848 @ =gUnknown_030008A0
+	ldr r0, _08031848 @ =gStageData
 	ldrb r1, [r0, #6]
 _080317AC:
 	lsls r0, r1, #2
@@ -270,7 +270,7 @@ _08031836:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08031848: .4byte gUnknown_030008A0
+_08031848: .4byte gStageData
 _0803184C: .4byte gPlayers
 _08031850: .4byte sub_800BC38
 _08031854: .4byte 0x0000036E
@@ -322,7 +322,7 @@ _0803189C:
 	.align 2, 0
 _080318B0: .4byte gCurTask
 _080318B4:
-	ldr r0, _0803196C @ =gUnknown_030008A0
+	ldr r0, _0803196C @ =gStageData
 	ldrb r1, [r0, #6]
 _080318B8:
 	lsls r0, r1, #2
@@ -416,7 +416,7 @@ _0803194A:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0803196C: .4byte gUnknown_030008A0
+_0803196C: .4byte gStageData
 _08031970: .4byte gPlayers
 
 	thumb_func_start sub_8031974

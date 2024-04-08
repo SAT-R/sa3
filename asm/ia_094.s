@@ -76,7 +76,7 @@ Task_Interactable094Main: @ 0x080402AC
 	bl sub_802C198
 	cmp r0, #0
 	bne _08040378
-	ldr r0, _08040370 @ =gUnknown_030008A0
+	ldr r0, _08040370 @ =gStageData
 	ldrb r1, [r0, #6]
 	lsls r0, r1, #2
 	adds r0, r0, r1
@@ -102,7 +102,7 @@ _0804035A:
 	b _080404E8
 	.align 2, 0
 _0804036C: .4byte gCurTask
-_08040370: .4byte gUnknown_030008A0
+_08040370: .4byte gStageData
 _08040374: .4byte gPlayers
 _08040378:
 	movs r1, #0
@@ -115,12 +115,12 @@ _08040382:
 	adds r7, r0, #0
 	cmp r7, #0
 	bne _08040398
-	ldr r0, _08040394 @ =gUnknown_030008A0
+	ldr r0, _08040394 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _080403A2
 	.align 2, 0
 _08040390: .4byte 0x0300000D
-_08040394: .4byte gUnknown_030008A0
+_08040394: .4byte gStageData
 _08040398:
 	adds r0, r5, #0
 	adds r0, #0x2b

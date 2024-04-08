@@ -59,7 +59,7 @@ CreateEntity_Interactable110: @ 0x08045660
 	lsls r6, r6, #8
 	adds r0, r0, r6
 	strh r0, [r2, #0xc]
-	ldr r0, _0804575C @ =gUnknown_030008A0
+	ldr r0, _0804575C @ =gStageData
 	ldrb r1, [r0, #6]
 	lsls r0, r1, #2
 	adds r0, r0, r1
@@ -128,7 +128,7 @@ CreateEntity_Interactable110: @ 0x08045660
 	.align 2, 0
 _08045754: .4byte sub_804576C
 _08045758: .4byte sub_8045BE4
-_0804575C: .4byte gUnknown_030008A0
+_0804575C: .4byte gStageData
 _08045760: .4byte gPlayers
 _08045764: .4byte 0x0300001C
 _08045768: .4byte 0x00000396
@@ -194,7 +194,7 @@ _080457D2:
 	ldrb r0, [r6, #0xe]
 	cmp r0, #0
 	bne _08045802
-	ldr r0, _0804585C @ =gUnknown_030008A0
+	ldr r0, _0804585C @ =gStageData
 	ldr r1, [r0, #0x1c]
 	movs r0, #0x3f
 	ands r0, r1
@@ -257,7 +257,7 @@ _08045826:
 _08045850: .4byte gCurTask
 _08045854: .4byte 0x0300001C
 _08045858: .4byte 0x03000014
-_0804585C: .4byte gUnknown_030008A0
+_0804585C: .4byte gStageData
 _08045860:
 	movs r0, #3
 	mov r1, sb
@@ -414,7 +414,7 @@ _08045984:
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	bne _080459CA
-	ldr r0, _080459B4 @ =gUnknown_030008A0
+	ldr r0, _080459B4 @ =gStageData
 	ldr r1, [r0, #0x1c]
 	movs r0, #0x40
 	ands r1, r0
@@ -426,7 +426,7 @@ _08045984:
 	b _080459BC
 	.align 2, 0
 _080459B0: .4byte 0xFFFFFA00
-_080459B4: .4byte gUnknown_030008A0
+_080459B4: .4byte gStageData
 _080459B8:
 	mov r2, r8
 	strb r1, [r2, #0x1a]
@@ -466,7 +466,7 @@ _080459F8: .4byte gCurTask
 _080459FC: .4byte sub_804576C
 _08045A00: .4byte gPlayers
 _08045A04:
-	ldr r0, _08045A3C @ =gUnknown_030008A0
+	ldr r0, _08045A3C @ =gStageData
 	ldrb r1, [r0, #6]
 _08045A08:
 	lsls r0, r1, #2
@@ -493,7 +493,7 @@ _08045A08:
 	bl TaskDestroy
 	b _08045A4A
 	.align 2, 0
-_08045A3C: .4byte gUnknown_030008A0
+_08045A3C: .4byte gStageData
 _08045A40: .4byte gCurTask
 _08045A44:
 	adds r0, r5, #0
@@ -641,7 +641,7 @@ sub_8045B40: @ 0x08045B40
 	ldrb r0, [r3, #0xe]
 	cmp r0, #0
 	beq _08045B78
-	ldr r0, _08045B70 @ =gUnknown_030008A0
+	ldr r0, _08045B70 @ =gStageData
 	ldr r2, [r0, #0x1c]
 	movs r0, #2
 	ands r0, r2
@@ -660,7 +660,7 @@ _08045B6A:
 	adds r5, r0, #0
 	b _08045B7C
 	.align 2, 0
-_08045B70: .4byte gUnknown_030008A0
+_08045B70: .4byte gStageData
 _08045B74: .4byte 0x0000FFFF
 _08045B78:
 	movs r1, #0

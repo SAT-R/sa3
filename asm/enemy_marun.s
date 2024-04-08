@@ -205,7 +205,7 @@ sub_8063758: @ 0x08063758
 	ldr r4, _08063808 @ =0x03000009
 	adds r3, r6, r4
 	bl sub_805CD70
-	ldr r0, _0806380C @ =gUnknown_030008A0
+	ldr r0, _0806380C @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -262,7 +262,7 @@ _080637FC: .4byte 0x03000024
 _08063800: .4byte 0x0300001C
 _08063804: .4byte 0x0300000C
 _08063808: .4byte 0x03000009
-_0806380C: .4byte gUnknown_030008A0
+_0806380C: .4byte gStageData
 _08063810: .4byte 0x03000038
 _08063814: .4byte gUnknown_080D210C
 _08063818: .4byte 0x03000064
@@ -316,7 +316,7 @@ sub_8063858: @ 0x08063858
 	ldr r4, _08063904 @ =0x03000009
 	adds r3, r6, r4
 	bl sub_805CD70
-	ldr r0, _08063908 @ =gUnknown_030008A0
+	ldr r0, _08063908 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -374,7 +374,7 @@ _080638F8: .4byte 0x03000024
 _080638FC: .4byte 0x0300001C
 _08063900: .4byte 0x0300000C
 _08063904: .4byte 0x03000009
-_08063908: .4byte gUnknown_030008A0
+_08063908: .4byte gStageData
 _0806390C: .4byte 0x03000038
 _08063910: .4byte gUnknown_080D210C
 _08063914: .4byte 0xFFFFF000
@@ -477,7 +477,7 @@ _080639DA:
 	movs r0, #0
 	str r0, [r5, #0x14]
 _080639E6:
-	ldr r0, _08063A70 @ =gUnknown_030008A0
+	ldr r0, _08063A70 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -545,7 +545,7 @@ _08063A58:
 	.align 2, 0
 _08063A68: .4byte sub_805203C
 _08063A6C: .4byte 0xFFFFF800
-_08063A70: .4byte gUnknown_030008A0
+_08063A70: .4byte gStageData
 _08063A74: .4byte gUnknown_080D210C
 _08063A78: .4byte 0x01000002
 _08063A7C:

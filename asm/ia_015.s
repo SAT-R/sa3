@@ -53,7 +53,7 @@ Task_802E92C: @ 0x0802E92C
 _0802E984: .4byte gCurTask
 _0802E988:
 	movs r1, #0
-	ldr r7, _0802E9B4 @ =gUnknown_030008A0
+	ldr r7, _0802E9B4 @ =gStageData
 	mov r8, r7
 _0802E98E:
 	mov r2, r8
@@ -77,7 +77,7 @@ _0802E99C:
 	adds r4, r1, r0
 	b _0802E9D4
 	.align 2, 0
-_0802E9B4: .4byte gUnknown_030008A0
+_0802E9B4: .4byte gStageData
 _0802E9B8: .4byte gPlayers
 _0802E9BC:
 	adds r0, r4, #0

@@ -19,10 +19,10 @@ CreateEntity_Interactable144: @ 0x0804F5B0
 	lsls r3, r3, #0x18
 	lsrs r3, r3, #0x18
 	mov r8, r3
-	ldr r0, _0804F644 @ =gUnknown_03000530
+	ldr r0, _0804F644 @ =gSaveGame
 	adds r0, #0x32
 	ldrb r0, [r0]
-	ldr r1, _0804F648 @ =gUnknown_030008A0
+	ldr r1, _0804F648 @ =gStageData
 	ldrb r1, [r1, #9]
 	asrs r0, r1
 	movs r1, #1
@@ -81,8 +81,8 @@ _0804F638:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804F644: .4byte gUnknown_03000530
-_0804F648: .4byte gUnknown_030008A0
+_0804F644: .4byte gSaveGame
+_0804F648: .4byte gStageData
 _0804F64C: .4byte Task_Interactable144
 _0804F650: .4byte TaskDestructor_Interactable144
 _0804F654: .4byte 0x0300000C
@@ -178,7 +178,7 @@ sub_804F6F0: @ 0x0804F6F0
 	movs r1, #0
 	ldr r0, _0804F738 @ =0x0000035A
 	strh r0, [r4, #0xc]
-	ldr r0, _0804F73C @ =gUnknown_030008A0
+	ldr r0, _0804F73C @ =gStageData
 	ldrb r0, [r0, #9]
 	strb r0, [r4, #0x1a]
 	movs r0, #0xc0
@@ -203,4 +203,4 @@ sub_804F6F0: @ 0x0804F6F0
 	bx r0
 	.align 2, 0
 _0804F738: .4byte 0x0000035A
-_0804F73C: .4byte gUnknown_030008A0
+_0804F73C: .4byte gStageData

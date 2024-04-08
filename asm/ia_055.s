@@ -16,7 +16,7 @@ CreateEntity_Interactable055: @ 0x08033D64
 	lsrs r5, r2, #0x10
 	lsls r3, r3, #0x18
 	lsrs r7, r3, #0x18
-	ldr r0, _08033DE8 @ =gUnknown_030008A0
+	ldr r0, _08033DE8 @ =gStageData
 	ldrb r0, [r0, #4]
 	cmp r0, #3
 	bne _08033DE0
@@ -74,7 +74,7 @@ _08033DE0:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08033DE8: .4byte gUnknown_030008A0
+_08033DE8: .4byte gStageData
 _08033DEC: .4byte sub_8033DF4
 _08033DF0: .4byte sub_8034200
 
@@ -113,7 +113,7 @@ sub_8033DF4: @ 0x08033DF4
 	lsrs r6, r0, #0x10
 	mov sb, r6
 	bl sub_803414C
-	ldr r0, _08033EE0 @ =gUnknown_030008A0
+	ldr r0, _08033EE0 @ =gStageData
 	mov sl, r0
 	ldrb r1, [r0, #6]
 	lsls r0, r1, #2
@@ -185,7 +185,7 @@ _08033EBA:
 	ldr r1, _08033EEC @ =sub_8005BD4
 	adds r0, r5, #0
 	bl sub_800D87C
-	ldr r1, _08033EE0 @ =gUnknown_030008A0
+	ldr r1, _08033EE0 @ =gStageData
 	movs r0, #5
 	strb r0, [r1, #4]
 	bl sub_803421C
@@ -193,7 +193,7 @@ _08033EBA:
 	.align 2, 0
 _08033ED8: .4byte gCurTask
 _08033EDC: .4byte 0x0300000C
-_08033EE0: .4byte gUnknown_030008A0
+_08033EE0: .4byte gStageData
 _08033EE4: .4byte gPlayers
 _08033EE8: .4byte 0x00000207
 _08033EEC: .4byte sub_8005BD4
@@ -223,7 +223,7 @@ _08033F16:
 	bne _08033FAC
 _08033F1E:
 	movs r7, #0
-	ldr r4, _08033FC0 @ =gUnknown_030008A0
+	ldr r4, _08033FC0 @ =gStageData
 	ldrb r0, [r4, #4]
 	cmp r0, #5
 	bne _08033F2A
@@ -262,7 +262,7 @@ _08033F2A:
 	adds r1, r6, #0
 	bl sub_800D87C
 _08033F70:
-	ldr r4, _08033FC0 @ =gUnknown_030008A0
+	ldr r4, _08033FC0 @ =gStageData
 	movs r0, #5
 	strb r0, [r4, #4]
 	ldrb r0, [r4, #3]
@@ -303,7 +303,7 @@ _08033FAC:
 	bx r0
 	.align 2, 0
 _08033FBC: .4byte 0x01000100
-_08033FC0: .4byte gUnknown_030008A0
+_08033FC0: .4byte gStageData
 _08033FC4: .4byte 0x00000207
 _08033FC8: .4byte sub_8005BD4
 _08033FCC: .4byte gPlayers
@@ -338,14 +338,14 @@ _08034000:
 	adds r5, r0, #0
 	cmp r5, #0
 	bne _08034020
-	ldr r0, _0803401C @ =gUnknown_030008A0
+	ldr r0, _0803401C @ =gStageData
 	ldrb r1, [r0, #6]
 	b _0803402A
 	.align 2, 0
 _08034010: .4byte gCurTask
 _08034014: .4byte 0x0300005C
 _08034018: .4byte gPlayers
-_0803401C: .4byte gUnknown_030008A0
+_0803401C: .4byte gStageData
 _08034020:
 	adds r0, r4, #0
 	adds r0, #0x2b

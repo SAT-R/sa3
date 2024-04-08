@@ -148,7 +148,7 @@ Task_SpringMain: @ 0x0802DD4C
 	str r0, [sp, #0xc]
 	movs r1, #0
 _0802DD7A:
-	ldr r2, _0802DDB0 @ =gUnknown_030008A0
+	ldr r2, _0802DDB0 @ =gStageData
 	ldrb r0, [r2, #3]
 	lsls r7, r1, #0x10
 	cmp r0, #7
@@ -175,7 +175,7 @@ _0802DD8A:
 	.align 2, 0
 _0802DDA8: .4byte gCurTask
 _0802DDAC: .4byte 0x0300000C
-_0802DDB0: .4byte gUnknown_030008A0
+_0802DDB0: .4byte gStageData
 _0802DDB4: .4byte gPlayers
 _0802DDB8:
 	ldrb r0, [r2, #6]
@@ -510,7 +510,7 @@ _0802E02C:
 	movs r5, #0x80
 	lsls r5, r5, #4
 _0802E03A:
-	ldr r1, _0802E064 @ =gUnknown_030008A0
+	ldr r1, _0802E064 @ =gStageData
 	ldrb r0, [r1, #3]
 	cmp r0, #7
 	beq _0802E094
@@ -531,7 +531,7 @@ _0802E03A:
 	strh r0, [r4, #0xc]
 	b _0802E0A6
 	.align 2, 0
-_0802E064: .4byte gUnknown_030008A0
+_0802E064: .4byte gStageData
 _0802E068:
 	cmp r0, #3
 	bne _0802E080

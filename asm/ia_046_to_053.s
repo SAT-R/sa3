@@ -164,7 +164,7 @@ _080333AE:
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	str r0, [sp, #0x10]
-	ldr r2, _08033410 @ =gUnknown_030008A0
+	ldr r2, _08033410 @ =gStageData
 	adds r0, r2, #0
 	adds r0, #0x2d
 	ldrb r0, [r0]
@@ -195,7 +195,7 @@ _080333AE:
 	.align 2, 0
 _08033408: .4byte gCurTask
 _0803340C: .4byte 0x03000034
-_08033410: .4byte gUnknown_030008A0
+_08033410: .4byte gStageData
 _08033414:
 	adds r0, r2, #0
 	adds r0, #0x2d
@@ -232,11 +232,11 @@ _0803344A:
 	mov r8, r0
 	cmp r0, #0
 	bne _0803345C
-	ldr r0, _08033458 @ =gUnknown_030008A0
+	ldr r0, _08033458 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _08033466
 	.align 2, 0
-_08033458: .4byte gUnknown_030008A0
+_08033458: .4byte gStageData
 _0803345C:
 	adds r0, r5, #0
 	adds r0, #0x2b
@@ -596,7 +596,7 @@ _08033718:
 	movs r6, #0x80
 	lsls r6, r6, #3
 _08033724:
-	ldr r1, _08033738 @ =gUnknown_030008A0
+	ldr r1, _08033738 @ =gStageData
 	ldrb r0, [r1, #9]
 	cmp r0, #5
 	bne _08033740
@@ -606,7 +606,7 @@ _08033724:
 	ldr r0, _0803373C @ =0x000003E3
 	b _08033744
 	.align 2, 0
-_08033738: .4byte gUnknown_030008A0
+_08033738: .4byte gStageData
 _0803373C: .4byte 0x000003E3
 _08033740:
 	movs r0, #0xdc
@@ -696,7 +696,7 @@ _080337E0: .4byte gCurTask
 _080337E4: .4byte 0x0300000C
 _080337E8: .4byte gPlayers
 _080337EC:
-	ldr r0, _08033828 @ =gUnknown_030008A0
+	ldr r0, _08033828 @ =gStageData
 	ldrb r1, [r0, #6]
 _080337F0:
 	lsls r0, r1, #2
@@ -725,7 +725,7 @@ _080337F0:
 	bl TaskDestroy
 	b _080338BE
 	.align 2, 0
-_08033828: .4byte gUnknown_030008A0
+_08033828: .4byte gStageData
 _0803382C: .4byte gCurTask
 _08033830:
 	ldr r3, _08033898 @ =0x03000034
@@ -765,7 +765,7 @@ _08033844:
 	adds r0, r1, #3
 	cmp r2, r0
 	bne _080338B0
-	ldr r0, _080338A0 @ =gUnknown_030008A0
+	ldr r0, _080338A0 @ =gStageData
 	adds r0, #0x2d
 	ldrb r0, [r0]
 	adds r1, r7, #0
@@ -783,7 +783,7 @@ _08033890:
 	.align 2, 0
 _08033898: .4byte 0x03000034
 _0803389C: .4byte gCamera
-_080338A0: .4byte gUnknown_030008A0
+_080338A0: .4byte gStageData
 _080338A4:
 	strb r4, [r6, #0x1a]
 	adds r1, r7, #0

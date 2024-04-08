@@ -20,7 +20,7 @@ CreateEntity_InteractableMP024: @ 0x0804F130
 	lsrs r3, r3, #0x18
 	mov r8, r3
 	ldrb r1, [r5, #7]
-	ldr r0, _0804F1D0 @ =gUnknown_030008A0
+	ldr r0, _0804F1D0 @ =gStageData
 	adds r0, #0x98
 	ldr r0, [r0]
 	cmp r0, #0
@@ -86,7 +86,7 @@ _0804F1BA:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804F1D0: .4byte gUnknown_030008A0
+_0804F1D0: .4byte gStageData
 _0804F1D4: .4byte gUnknown_03001060
 _0804F1D8: .4byte sub_804F1EC
 _0804F1DC: .4byte sub_804F300
@@ -111,7 +111,7 @@ sub_804F1EC: @ 0x0804F1EC
 	adds r3, r0, r3
 	ldr r1, _0804F26C @ =0x0300000C
 	adds r0, r0, r1
-	ldr r1, _0804F270 @ =gUnknown_030008A0
+	ldr r1, _0804F270 @ =gStageData
 	mov r8, r1
 	ldrb r2, [r1, #6]
 	lsls r1, r2, #2
@@ -158,7 +158,7 @@ _0804F258:
 	.align 2, 0
 _0804F268: .4byte gCurTask
 _0804F26C: .4byte 0x0300000C
-_0804F270: .4byte gUnknown_030008A0
+_0804F270: .4byte gStageData
 _0804F274: .4byte gPlayers
 _0804F278:
 	bl sub_804F28C

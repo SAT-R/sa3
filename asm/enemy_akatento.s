@@ -185,7 +185,7 @@ Task_Akatento: @ 0x08058334
 	subs r5, #2
 	adds r3, r3, r5
 	bl sub_805CD70
-	ldr r0, _08058394 @ =gUnknown_030008A0
+	ldr r0, _08058394 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -210,7 +210,7 @@ _08058384: .4byte gCurTask
 _08058388: .4byte 0x03000014
 _0805838C: .4byte 0x0300000C
 _08058390: .4byte 0x03000008
-_08058394: .4byte gUnknown_030008A0
+_08058394: .4byte gStageData
 _08058398:
 	adds r0, r4, #0
 	bl sub_80584A8
@@ -264,7 +264,7 @@ sub_80583D4: @ 0x080583D4
 	.align 2, 0
 _080583FC: .4byte gCurTask
 _08058400:
-	ldr r0, _08058430 @ =gUnknown_030008A0
+	ldr r0, _08058430 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -288,7 +288,7 @@ _08058400:
 	ands r1, r0
 	b _0805843E
 	.align 2, 0
-_08058430: .4byte gUnknown_030008A0
+_08058430: .4byte gStageData
 _08058434: .4byte 0x03000024
 _08058438: .4byte 0xFFFFFBFF
 _0805843C:

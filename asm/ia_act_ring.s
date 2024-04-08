@@ -83,8 +83,8 @@ _080408F4:
 	mov r1, ip
 	adds r1, #0x62
 	strb r0, [r1]
-	ldr r0, _08040978 @ =gUnknown_03000530
-	ldr r1, _0804097C @ =gUnknown_030008A0
+	ldr r0, _08040978 @ =gSaveGame
+	ldr r1, _0804097C @ =gStageData
 	adds r0, #0x29
 	ldrb r1, [r1, #9]
 	adds r0, r0, r1
@@ -121,8 +121,8 @@ _080408F4:
 	.align 2, 0
 _08040970: .4byte Task_ActRingMain
 _08040974: .4byte TaskDestructor_ActRing
-_08040978: .4byte gUnknown_03000530
-_0804097C: .4byte gUnknown_030008A0
+_08040978: .4byte gSaveGame
+_0804097C: .4byte gStageData
 _08040980: .4byte gCamera
 
 	thumb_func_start Task_ActRingMain
@@ -131,7 +131,7 @@ Task_ActRingMain: @ 0x08040984
 	mov r7, r8
 	push {r7}
 	sub sp, #8
-	ldr r6, _08040A6C @ =gUnknown_030008A0
+	ldr r6, _08040A6C @ =gStageData
 	ldrb r2, [r6, #6]
 	lsls r0, r2, #2
 	adds r0, r0, r2
@@ -242,7 +242,7 @@ _08040A66:
 	strb r0, [r6, #4]
 	b _08040B24
 	.align 2, 0
-_08040A6C: .4byte gUnknown_030008A0
+_08040A6C: .4byte gStageData
 _08040A70: .4byte gPlayers
 _08040A74: .4byte gCurTask
 _08040A78: .4byte sub_80052C8
@@ -255,7 +255,7 @@ _08040A90: .4byte 0x03000061
 _08040A94: .4byte sub_800AD24
 _08040A98:
 	movs r1, #0
-	ldr r6, _08040AAC @ =gUnknown_030008A0
+	ldr r6, _08040AAC @ =gStageData
 	ldr r5, _08040AB0 @ =gPlayers
 _08040A9E:
 	lsls r0, r1, #0x10
@@ -265,7 +265,7 @@ _08040A9E:
 	ldrb r1, [r6, #6]
 	b _08040ABE
 	.align 2, 0
-_08040AAC: .4byte gUnknown_030008A0
+_08040AAC: .4byte gStageData
 _08040AB0: .4byte gPlayers
 _08040AB4:
 	adds r0, r4, #0

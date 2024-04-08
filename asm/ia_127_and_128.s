@@ -62,11 +62,11 @@ _0804B546:
 	adds r5, r0, #0
 	cmp r5, #0
 	bne _0804B558
-	ldr r0, _0804B554 @ =gUnknown_030008A0
+	ldr r0, _0804B554 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _0804B562
 	.align 2, 0
-_0804B554: .4byte gUnknown_030008A0
+_0804B554: .4byte gStageData
 _0804B558:
 	adds r0, r4, #0
 	adds r0, #0x2b
@@ -208,11 +208,11 @@ _0804B664:
 	adds r5, r0, #0
 	cmp r5, #0
 	bne _0804B678
-	ldr r0, _0804B674 @ =gUnknown_030008A0
+	ldr r0, _0804B674 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _0804B682
 	.align 2, 0
-_0804B674: .4byte gUnknown_030008A0
+_0804B674: .4byte gStageData
 _0804B678:
 	adds r0, r4, #0
 	adds r0, #0x2b

@@ -231,7 +231,7 @@ sub_8065A8C: @ 0x08065A8C
 	lsls r0, r0, #0x12
 	adds r4, r1, r0
 	movs r5, #0
-	ldr r0, _08065AD4 @ =gUnknown_030008A0
+	ldr r0, _08065AD4 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -256,7 +256,7 @@ _08065AB6:
 	b _08065AFA
 	.align 2, 0
 _08065AD0: .4byte gCurTask
-_08065AD4: .4byte gUnknown_030008A0
+_08065AD4: .4byte gStageData
 _08065AD8:
 	cmp r5, #1
 	bne _08065AFA
@@ -305,7 +305,7 @@ sub_8065B0C: @ 0x08065B0C
 	.align 2, 0
 _08065B34: .4byte gCurTask
 _08065B38:
-	ldr r0, _08065B80 @ =gUnknown_030008A0
+	ldr r0, _08065B80 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -342,7 +342,7 @@ _08065B7A:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08065B80: .4byte gUnknown_030008A0
+_08065B80: .4byte gStageData
 _08065B84: .4byte 0x0300005C
 _08065B88: .4byte gUnknown_080D2198
 _08065B8C: .4byte sub_8065E48
@@ -685,7 +685,7 @@ Task_Kyacchaa: @ 0x08065DE0
 _08065E08: .4byte gCurTask
 _08065E0C: .4byte sub_8065A8C
 _08065E10:
-	ldr r0, _08065E40 @ =gUnknown_030008A0
+	ldr r0, _08065E40 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -709,7 +709,7 @@ _08065E3A:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08065E40: .4byte gUnknown_030008A0
+_08065E40: .4byte gStageData
 _08065E44: .4byte gCurTask
 
 	thumb_func_start sub_8065E48
@@ -722,7 +722,7 @@ sub_8065E48: @ 0x08065E48
 	lsls r0, r0, #0x12
 	adds r4, r1, r0
 	movs r5, #0
-	ldr r0, _08065E90 @ =gUnknown_030008A0
+	ldr r0, _08065E90 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -747,7 +747,7 @@ _08065E72:
 	b _08065EA0
 	.align 2, 0
 _08065E8C: .4byte gCurTask
-_08065E90: .4byte gUnknown_030008A0
+_08065E90: .4byte gStageData
 _08065E94:
 	cmp r5, #1
 	bne _08065EA0

@@ -27,8 +27,8 @@ CreateEntity_ZoneWarp: @ 0x0802D718
 	ldrb r1, [r4, #7]
 	movs r0, #1
 	ands r1, r0
-	ldr r3, _0802D7E4 @ =gUnknown_030008A0
-	ldr r6, _0802D7E8 @ =gUnknown_03000530
+	ldr r3, _0802D7E4 @ =gStageData
+	ldr r6, _0802D7E8 @ =gSaveGame
 	cmp r1, #0
 	bne _0802D760
 	movs r2, #1
@@ -113,8 +113,8 @@ _0802D7D4:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0802D7E4: .4byte gUnknown_030008A0
-_0802D7E8: .4byte gUnknown_03000530
+_0802D7E4: .4byte gStageData
+_0802D7E8: .4byte gSaveGame
 _0802D7EC: .4byte sub_802D7FC
 _0802D7F0: .4byte sub_802DC0C
 _0802D7F4: .4byte 0x0300000C
@@ -138,7 +138,7 @@ sub_802D7FC: @ 0x0802D7FC
 	adds r1, r1, r0
 	mov r8, r1
 	ldr r3, [r2]
-	ldr r5, _0802D8B8 @ =gUnknown_030008A0
+	ldr r5, _0802D8B8 @ =gStageData
 	ldrb r1, [r5, #6]
 	lsls r0, r1, #2
 	adds r0, r0, r1
@@ -210,7 +210,7 @@ _0802D89E:
 	.align 2, 0
 _0802D8B0: .4byte gCurTask
 _0802D8B4: .4byte 0x0300000C
-_0802D8B8: .4byte gUnknown_030008A0
+_0802D8B8: .4byte gStageData
 _0802D8BC: .4byte gPlayers
 _0802D8C0: .4byte 0x30000002
 _0802D8C4: .4byte sub_802D8C8
@@ -218,7 +218,7 @@ _0802D8C4: .4byte sub_802D8C8
 	thumb_func_start sub_802D8C8
 sub_802D8C8: @ 0x0802D8C8
 	push {r4, r5, r6, lr}
-	ldr r0, _0802D91C @ =gUnknown_030008A0
+	ldr r0, _0802D91C @ =gStageData
 	ldrb r1, [r0, #6]
 	lsls r0, r1, #2
 	adds r0, r0, r1
@@ -260,7 +260,7 @@ sub_802D8C8: @ 0x0802D8C8
 	bgt _0802D93A
 	b _0802D938
 	.align 2, 0
-_0802D91C: .4byte gUnknown_030008A0
+_0802D91C: .4byte gStageData
 _0802D920: .4byte gPlayers
 _0802D924: .4byte gCurTask
 _0802D928: .4byte 0xFFFFFE00
@@ -334,7 +334,7 @@ _0802D9A4: .4byte sub_802DADC
 	thumb_func_start sub_802D9A8
 sub_802D9A8: @ 0x0802D9A8
 	push {r4, r5, r6, lr}
-	ldr r0, _0802DA04 @ =gUnknown_030008A0
+	ldr r0, _0802DA04 @ =gStageData
 	ldrb r1, [r0, #6]
 	lsls r0, r1, #2
 	adds r0, r0, r1
@@ -379,7 +379,7 @@ _0802D9F4:
 	str r0, [r1, #8]
 	b _0802DA2C
 	.align 2, 0
-_0802DA04: .4byte gUnknown_030008A0
+_0802DA04: .4byte gStageData
 _0802DA08: .4byte gPlayers
 _0802DA0C: .4byte gCurTask
 _0802DA10: .4byte sub_800DB30
@@ -412,7 +412,7 @@ sub_802DA3C: @ 0x0802DA3C
 	ldr r0, _0802DAB8 @ =gCurTask
 	ldr r0, [r0]
 	ldrh r2, [r0, #6]
-	ldr r4, _0802DABC @ =gUnknown_030008A0
+	ldr r4, _0802DABC @ =gStageData
 	ldr r0, _0802DAC0 @ =0x03000034
 	adds r2, r2, r0
 	ldrb r0, [r2]
@@ -468,7 +468,7 @@ _0802DA86:
 	bx r0
 	.align 2, 0
 _0802DAB8: .4byte gCurTask
-_0802DABC: .4byte gUnknown_030008A0
+_0802DABC: .4byte gStageData
 _0802DAC0: .4byte 0x03000034
 _0802DAC4: .4byte 0x0000FFFF
 _0802DAC8: .4byte gUnknown_03003F94
@@ -484,7 +484,7 @@ sub_802DADC: @ 0x0802DADC
 	mov r6, r8
 	push {r6, r7}
 	sub sp, #8
-	ldr r0, _0802DB84 @ =gUnknown_030008A0
+	ldr r0, _0802DB84 @ =gStageData
 	ldrb r1, [r0, #6]
 	lsls r0, r1, #2
 	adds r0, r0, r1
@@ -562,7 +562,7 @@ _0802DB74:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0802DB84: .4byte gUnknown_030008A0
+_0802DB84: .4byte gStageData
 _0802DB88: .4byte gPlayers
 _0802DB8C: .4byte gCurTask
 _0802DB90: .4byte 0x0300000C

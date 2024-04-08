@@ -411,7 +411,7 @@ _0804CEBC:
 	mov sb, r0
 	cmp r0, #0
 	bne _0804CEE4
-	ldr r0, _0804CEE0 @ =gUnknown_030008A0
+	ldr r0, _0804CEE0 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _0804CEEE
 	.align 2, 0
@@ -420,7 +420,7 @@ _0804CED0: .4byte 0x0300000C
 _0804CED4: .4byte 0x03000040
 _0804CED8: .4byte 0x03000042
 _0804CEDC: .4byte 0x0300003D
-_0804CEE0: .4byte gUnknown_030008A0
+_0804CEE0: .4byte gStageData
 _0804CEE4:
 	adds r0, r4, #0
 	adds r0, #0x2b
@@ -874,7 +874,7 @@ _0804D24A:
 	adds r7, r0, #0
 	cmp r7, #0
 	bne _0804D26C
-	ldr r0, _0804D268 @ =gUnknown_030008A0
+	ldr r0, _0804D268 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _0804D276
 	.align 2, 0
@@ -882,7 +882,7 @@ _0804D258: .4byte gCurTask
 _0804D25C: .4byte 0x0300000C
 _0804D260: .4byte 0x03000040
 _0804D264: .4byte 0x03000042
-_0804D268: .4byte gUnknown_030008A0
+_0804D268: .4byte gStageData
 _0804D26C:
 	adds r0, r5, #0
 	adds r0, #0x2b
@@ -1205,7 +1205,7 @@ _0804D4C8:
 	mov r8, r0
 	cmp r0, #0
 	bne _0804D4EC
-	ldr r0, _0804D4E8 @ =gUnknown_030008A0
+	ldr r0, _0804D4E8 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _0804D4F6
 	.align 2, 0
@@ -1213,7 +1213,7 @@ _0804D4D8: .4byte gCurTask
 _0804D4DC: .4byte 0x0300000C
 _0804D4E0: .4byte 0x03000040
 _0804D4E4: .4byte 0x0300003D
-_0804D4E8: .4byte gUnknown_030008A0
+_0804D4E8: .4byte gStageData
 _0804D4EC:
 	adds r0, r4, #0
 	adds r0, #0x2b
@@ -1523,7 +1523,7 @@ _0804D73C: .4byte gCurTask
 _0804D740: .4byte 0x0300000C
 _0804D744: .4byte gPlayers
 _0804D748:
-	ldr r0, _0804D780 @ =gUnknown_030008A0
+	ldr r0, _0804D780 @ =gStageData
 	ldrb r1, [r0, #6]
 _0804D74C:
 	lsls r0, r1, #2
@@ -1551,7 +1551,7 @@ _0804D74C:
 	bl TaskDestroy
 	b _0804D7A2
 	.align 2, 0
-_0804D780: .4byte gUnknown_030008A0
+_0804D780: .4byte gStageData
 _0804D784: .4byte gCurTask
 _0804D788:
 	ldr r0, _0804D7B0 @ =gCamera

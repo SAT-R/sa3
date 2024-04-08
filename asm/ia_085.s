@@ -129,7 +129,7 @@ _0803DB40:
 	.align 2, 0
 _0803DB54: .4byte gCurTask
 _0803DB58:
-	ldr r0, _0803DC28 @ =gUnknown_030008A0
+	ldr r0, _0803DC28 @ =gStageData
 	ldrb r1, [r0, #6]
 _0803DB5C:
 	lsls r0, r1, #2
@@ -243,7 +243,7 @@ _0803DC1C:
 	ldr r3, _0803DC3C @ =sub_800BD88
 	b _0803DC4E
 	.align 2, 0
-_0803DC28: .4byte gUnknown_030008A0
+_0803DC28: .4byte gStageData
 _0803DC2C: .4byte gPlayers
 _0803DC30: .4byte sub_800A438
 _0803DC34: .4byte sub_8008A8C

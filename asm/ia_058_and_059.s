@@ -185,7 +185,7 @@ sub_8035374: @ 0x08035374
 	mov r7, r8
 	push {r7}
 	sub sp, #8
-	ldr r0, _080353A8 @ =gUnknown_030008A0
+	ldr r0, _080353A8 @ =gStageData
 	ldrb r0, [r0, #6]
 	mov r8, r0
 	mov r7, r8
@@ -208,7 +208,7 @@ _08035398:
 	adds r0, r0, r7
 	b _080353BA
 	.align 2, 0
-_080353A8: .4byte gUnknown_030008A0
+_080353A8: .4byte gStageData
 _080353AC: .4byte gCurTask
 _080353B0:
 	mov r1, r8
@@ -862,7 +862,7 @@ sub_80358A0: @ 0x080358A0
 	lsls r0, r0, #8
 	adds r2, r2, r0
 	lsls r2, r2, #8
-	ldr r1, _08035934 @ =gUnknown_030008A0
+	ldr r1, _08035934 @ =gStageData
 	ldr r4, _08035938 @ =0x03000072
 	adds r0, r5, r4
 	ldrb r4, [r0]
@@ -912,7 +912,7 @@ sub_80358A0: @ 0x080358A0
 	b _0803594E
 	.align 2, 0
 _08035930: .4byte gCurTask
-_08035934: .4byte gUnknown_030008A0
+_08035934: .4byte gStageData
 _08035938: .4byte 0x03000072
 _0803593C: .4byte 0x0300006E
 _08035940: .4byte 0x000003FF
@@ -1233,7 +1233,7 @@ CreateEntity_Interactable059: @ 0x08035B98
 sub_8035BC4: @ 0x08035BC4
 	push {r4, r5, r6, r7, lr}
 	adds r7, r0, #0
-	ldr r0, _08035C18 @ =gUnknown_030008A0
+	ldr r0, _08035C18 @ =gStageData
 	ldrb r2, [r0, #6]
 	adds r1, r2, #1
 	movs r0, #1
@@ -1275,7 +1275,7 @@ _08035BF4:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08035C18: .4byte gUnknown_030008A0
+_08035C18: .4byte gStageData
 _08035C1C: .4byte gPlayers
 _08035C20: .4byte 0xF7FBFFFF
 

@@ -121,7 +121,7 @@ Task_SpecialSpringMain: @ 0x08040D8C
 	adds r0, r0, r1
 	lsls r0, r0, #0x10
 	lsrs r5, r0, #0x10
-	ldr r7, _08040E74 @ =gUnknown_030008A0
+	ldr r7, _08040E74 @ =gStageData
 	ldrb r1, [r7, #6]
 	lsls r0, r1, #2
 	adds r0, r0, r1
@@ -155,7 +155,7 @@ _08040E00:
 	ands r1, r2
 	cmp r1, #0
 	beq _08040E8C
-	ldr r0, _08040E7C @ =gUnknown_03000530
+	ldr r0, _08040E7C @ =gSaveGame
 	adds r0, #0x22
 	ldrb r1, [r7, #9]
 	adds r3, r0, r1
@@ -204,9 +204,9 @@ _08040E58:
 	.align 2, 0
 _08040E6C: .4byte gCurTask
 _08040E70: .4byte 0x0300000C
-_08040E74: .4byte gUnknown_030008A0
+_08040E74: .4byte gStageData
 _08040E78: .4byte gPlayers
-_08040E7C: .4byte gUnknown_03000530
+_08040E7C: .4byte gSaveGame
 _08040E80: .4byte sub_800ABD4
 _08040E84: .4byte sub_800AD24
 _08040E88: .4byte 0x00000206
@@ -320,10 +320,10 @@ sub_8040F10: @ 0x08040F10
 	str r1, [r4, #8]
 	adds r0, r4, #0
 	bl UpdateSpriteAnimation
-	ldr r0, _08040FB8 @ =gUnknown_03000530
+	ldr r0, _08040FB8 @ =gSaveGame
 	adds r0, #0x32
 	ldrb r0, [r0]
-	ldr r1, _08040FBC @ =gUnknown_030008A0
+	ldr r1, _08040FBC @ =gStageData
 	ldrb r1, [r1, #9]
 	asrs r0, r1
 	movs r1, #1
@@ -364,8 +364,8 @@ sub_8040F10: @ 0x08040F10
 	strb r1, [r0]
 	b _08040FCA
 	.align 2, 0
-_08040FB8: .4byte gUnknown_03000530
-_08040FBC: .4byte gUnknown_030008A0
+_08040FB8: .4byte gSaveGame
+_08040FBC: .4byte gStageData
 _08040FC0: .4byte 0x000003D7
 _08040FC4:
 	adds r0, r5, #0

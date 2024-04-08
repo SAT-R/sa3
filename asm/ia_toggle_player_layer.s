@@ -46,7 +46,7 @@ Task_Toggle_PlayerLayer: @ 0x0802E328
 _0802E374: .4byte gCurTask
 _0802E378:
 	movs r3, #0
-	ldr r0, _0802E39C @ =gUnknown_030008A0
+	ldr r0, _0802E39C @ =gStageData
 	mov sl, r0
 	ldr r1, _0802E3A0 @ =sub_800DDD0
 	mov ip, r1
@@ -65,7 +65,7 @@ _0802E390:
 	ldrb r1, [r0, #6]
 	b _0802E3B2
 	.align 2, 0
-_0802E39C: .4byte gUnknown_030008A0
+_0802E39C: .4byte gStageData
 _0802E3A0: .4byte sub_800DDD0
 _0802E3A4: .4byte gPlayers
 _0802E3A8:

@@ -144,12 +144,12 @@ _08048740:
 	adds r6, r0, #0
 	cmp r6, #0
 	bne _08048758
-	ldr r0, _08048754 @ =gUnknown_030008A0
+	ldr r0, _08048754 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _08048762
 	.align 2, 0
 _08048750: .4byte gCurTask
-_08048754: .4byte gUnknown_030008A0
+_08048754: .4byte gStageData
 _08048758:
 	adds r0, r4, #0
 	adds r0, #0x2b
@@ -509,7 +509,7 @@ _08048A00: .4byte sub_8008A8C
 _08048A04: .4byte sub_800ED80
 _08048A08: .4byte 0x00000257
 _08048A0C:
-	ldr r1, _08048A3C @ =gUnknown_030008A0
+	ldr r1, _08048A3C @ =gStageData
 	ldrb r0, [r1, #4]
 	subs r0, #5
 	lsls r0, r0, #0x18
@@ -534,7 +534,7 @@ _08048A20:
 	str r0, [r2, #0x14]
 	b _08048A44
 	.align 2, 0
-_08048A3C: .4byte gUnknown_030008A0
+_08048A3C: .4byte gStageData
 _08048A40:
 	movs r0, #0
 	str r0, [r5, #0x50]

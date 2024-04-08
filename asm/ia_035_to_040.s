@@ -141,7 +141,7 @@ sub_803124C: @ 0x0803124C
 	lsrs r0, r0, #0x10
 	mov sb, r0
 	movs r1, #0
-	ldr r2, _080312C0 @ =gUnknown_030008A0
+	ldr r2, _080312C0 @ =gStageData
 	mov r8, r2
 _08031292:
 	mov r2, r8
@@ -167,7 +167,7 @@ _080312A2:
 	b _080312E0
 	.align 2, 0
 _080312BC: .4byte gCurTask
-_080312C0: .4byte gUnknown_030008A0
+_080312C0: .4byte gStageData
 _080312C4: .4byte gPlayers
 _080312C8:
 	adds r0, r5, #0
@@ -395,14 +395,14 @@ _0803145E:
 	movs r0, #0xd9
 	lsls r0, r0, #2
 	strh r0, [r4, #0xc]
-	ldr r0, _08031478 @ =gUnknown_030008A0
+	ldr r0, _08031478 @ =gStageData
 	ldrb r0, [r0, #3]
 	cmp r0, #7
 	beq _0803147C
 	strb r6, [r4, #0x1a]
 	b _08031486
 	.align 2, 0
-_08031478: .4byte gUnknown_030008A0
+_08031478: .4byte gStageData
 _0803147C:
 	movs r0, #0
 	strb r0, [r4, #0x1a]

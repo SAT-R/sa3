@@ -29,7 +29,7 @@ CreateEntity_Interactable087: @ 0x0803E424
 	ldrb r0, [r7, #7]
 	movs r6, #0x1f
 	ands r6, r0
-	ldr r0, _0803E524 @ =gUnknown_030008A0
+	ldr r0, _0803E524 @ =gStageData
 	ldrb r0, [r0, #3]
 	cmp r0, #6
 	bne _0803E456
@@ -91,7 +91,7 @@ _0803E456:
 	adds r1, r1, r2
 	lsls r1, r1, #8
 	str r1, [r3, #0x10]
-	ldr r1, _0803E524 @ =gUnknown_030008A0
+	ldr r1, _0803E524 @ =gStageData
 	adds r1, #0xbd
 	mov r2, ip
 	strb r2, [r1]
@@ -139,7 +139,7 @@ _0803E50C:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0803E524: .4byte gUnknown_030008A0
+_0803E524: .4byte gStageData
 _0803E528: .4byte sub_803E544
 _0803E52C: .4byte 0x00000FFF
 _0803E530: .4byte sub_803E7D8
@@ -350,7 +350,7 @@ _0803E682:
 	ldr r0, [r4, #0xc]
 	asrs r2, r0, #8
 	str r2, [r3, #0x14]
-	ldr r1, _0803E6F4 @ =gUnknown_030008A0
+	ldr r1, _0803E6F4 @ =gStageData
 	ldrb r0, [r1, #0xa]
 	cmp r0, #7
 	bne _0803E6D8
@@ -373,7 +373,7 @@ _0803E6E8:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0803E6F4: .4byte gUnknown_030008A0
+_0803E6F4: .4byte gStageData
 _0803E6F8: .4byte gCurTask
 _0803E6FC: .4byte sub_803E7DC
 
@@ -386,7 +386,7 @@ sub_803E700: @ 0x0803E700
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r4, r1, r0
-	ldr r1, _0803E76C @ =gUnknown_030008A0
+	ldr r1, _0803E76C @ =gStageData
 	movs r0, #0xbd
 	adds r0, r0, r1
 	mov ip, r0
@@ -433,7 +433,7 @@ sub_803E700: @ 0x0803E700
 	b _0803E7C8
 	.align 2, 0
 _0803E768: .4byte gCurTask
-_0803E76C: .4byte gUnknown_030008A0
+_0803E76C: .4byte gStageData
 _0803E770: .4byte gPlayers
 _0803E774: .4byte gCamera
 _0803E778:
@@ -593,7 +593,7 @@ sub_803E884: @ 0x0803E884
 	adds r5, r1, r0
 	adds r0, #0x14
 	adds r2, r1, r0
-	ldr r0, _0803E8F0 @ =gUnknown_030008A0
+	ldr r0, _0803E8F0 @ =gStageData
 	ldrb r1, [r0, #6]
 	lsls r0, r1, #2
 	adds r0, r0, r1
@@ -637,7 +637,7 @@ _0803E8E4:
 	bx r0
 	.align 2, 0
 _0803E8EC: .4byte gCurTask
-_0803E8F0: .4byte gUnknown_030008A0
+_0803E8F0: .4byte gStageData
 _0803E8F4: .4byte gPlayers
 _0803E8F8: .4byte 0xFFFF8000
 _0803E8FC: .4byte sub_803E544
@@ -650,7 +650,7 @@ sub_803E900: @ 0x0803E900
 	ldr r5, [r0]
 	lsls r1, r5, #8
 	str r1, [r2, #0x10]
-	ldr r4, _0803E93C @ =gUnknown_030008A0
+	ldr r4, _0803E93C @ =gStageData
 	ldrb r1, [r4, #0xa]
 	adds r3, r0, #0
 	cmp r1, #7
@@ -674,7 +674,7 @@ sub_803E900: @ 0x0803E900
 	b _0803E95C
 	.align 2, 0
 _0803E938: .4byte gCamera
-_0803E93C: .4byte gUnknown_030008A0
+_0803E93C: .4byte gStageData
 _0803E940: .4byte 0x000004FF
 _0803E944: .4byte 0x00053C00
 _0803E948:

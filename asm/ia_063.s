@@ -224,7 +224,7 @@ _080365D6:
 _080365E8: .4byte gCurTask
 _080365EC: .4byte 0x0300000C
 _080365F0:
-	ldr r0, _0803666C @ =gUnknown_030008A0
+	ldr r0, _0803666C @ =gStageData
 	ldrb r1, [r0, #6]
 _080365F4:
 	lsls r0, r1, #2
@@ -289,7 +289,7 @@ _08036662:
 	strb r0, [r1]
 	b _080368B4
 	.align 2, 0
-_0803666C: .4byte gUnknown_030008A0
+_0803666C: .4byte gStageData
 _08036670: .4byte gPlayers
 _08036674:
 	ldr r2, [r6, #4]
@@ -671,7 +671,7 @@ _08036934:
 _08036948: .4byte gCurTask
 _0803694C: .4byte 0x0300000C
 _08036950:
-	ldr r0, _080369C8 @ =gUnknown_030008A0
+	ldr r0, _080369C8 @ =gStageData
 	ldrb r1, [r0, #6]
 _08036954:
 	lsls r0, r1, #2
@@ -734,7 +734,7 @@ _080369BE:
 	strb r0, [r1]
 	b _08036B98
 	.align 2, 0
-_080369C8: .4byte gUnknown_030008A0
+_080369C8: .4byte gStageData
 _080369CC: .4byte gPlayers
 _080369D0:
 	ldr r2, [r6, #4]
@@ -1074,7 +1074,7 @@ _08036C60: .4byte 0x03000076
 _08036C64: .4byte 0x03000068
 _08036C68: .4byte gPlayers
 _08036C6C:
-	ldr r0, _08036CDC @ =gUnknown_030008A0
+	ldr r0, _08036CDC @ =gStageData
 	ldrb r1, [r0, #6]
 _08036C70:
 	lsls r0, r1, #2
@@ -1131,7 +1131,7 @@ _08036C70:
 	blt _08036CE8
 	b _08036D62
 	.align 2, 0
-_08036CDC: .4byte gUnknown_030008A0
+_08036CDC: .4byte gStageData
 _08036CE0: .4byte gUnknown_082B48B4
 _08036CE4:
 	cmp r3, r5
@@ -1435,7 +1435,7 @@ sub_8036F0C: @ 0x08036F0C
 	push {r5, r6, r7}
 	adds r6, r0, #0
 	adds r7, r1, #0
-	ldr r0, _08036F38 @ =gUnknown_030008A0
+	ldr r0, _08036F38 @ =gStageData
 	ldrb r0, [r0, #9]
 	cmp r0, #6
 	bne _08036F3C
@@ -1450,7 +1450,7 @@ sub_8036F0C: @ 0x08036F0C
 	movs r0, #0x2c
 	b _08036F4C
 	.align 2, 0
-_08036F38: .4byte gUnknown_030008A0
+_08036F38: .4byte gStageData
 _08036F3C:
 	ldr r5, _08036FB8 @ =0x00000375
 	movs r1, #0
@@ -1572,7 +1572,7 @@ _0803700E:
 _08037024: .4byte gCurTask
 _08037028: .4byte gPlayers
 _0803702C:
-	ldr r0, _08037068 @ =gUnknown_030008A0
+	ldr r0, _08037068 @ =gStageData
 	ldrb r1, [r0, #6]
 _08037030:
 	lsls r0, r1, #2
@@ -1601,7 +1601,7 @@ _08037030:
 	bl TaskDestroy
 	b _0803711A
 	.align 2, 0
-_08037068: .4byte gUnknown_030008A0
+_08037068: .4byte gStageData
 _0803706C: .4byte gCurTask
 _08037070:
 	ldr r1, _0803708C @ =0x03000068

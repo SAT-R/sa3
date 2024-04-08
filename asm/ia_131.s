@@ -348,7 +348,7 @@ _0804BDB0:
 	mov sb, r0
 	cmp r0, #0
 	bne _0804BDDC
-	ldr r0, _0804BDD8 @ =gUnknown_030008A0
+	ldr r0, _0804BDD8 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _0804BDE6
 	.align 2, 0
@@ -358,7 +358,7 @@ _0804BDC8: .4byte 0x03000174
 _0804BDCC: .4byte 0x0000025B
 _0804BDD0: .4byte gUnknown_082B48B4
 _0804BDD4: .4byte 0x000003FF
-_0804BDD8: .4byte gUnknown_030008A0
+_0804BDD8: .4byte gStageData
 _0804BDDC:
 	mov r0, sl
 	adds r0, #0x2b
@@ -505,7 +505,7 @@ sub_804BEE4: @ 0x0804BEE4
 	push {r5, r6, r7}
 	sub sp, #4
 	adds r7, r0, #0
-	ldr r0, _0804BF04 @ =gUnknown_030008A0
+	ldr r0, _0804BF04 @ =gStageData
 	ldrb r0, [r0, #9]
 	cmp r0, #5
 	bne _0804BF0C
@@ -515,7 +515,7 @@ sub_804BEE4: @ 0x0804BEE4
 	str r1, [sp]
 	b _0804BF16
 	.align 2, 0
-_0804BF04: .4byte gUnknown_030008A0
+_0804BF04: .4byte gStageData
 _0804BF08: .4byte 0x000003AF
 _0804BF0C:
 	movs r3, #0xe6
@@ -786,7 +786,7 @@ _0804C120: .4byte 0x03000038
 _0804C124: .4byte 0x0300003C
 _0804C128: .4byte gPlayers
 _0804C12C:
-	ldr r0, _0804C174 @ =gUnknown_030008A0
+	ldr r0, _0804C174 @ =gStageData
 	ldrb r1, [r0, #6]
 _0804C130:
 	lsls r0, r1, #2
@@ -821,7 +821,7 @@ _0804C130:
 	bl TaskDestroy
 	b _0804C200
 	.align 2, 0
-_0804C174: .4byte gUnknown_030008A0
+_0804C174: .4byte gStageData
 _0804C178: .4byte gCurTask
 _0804C17C:
 	movs r0, #2

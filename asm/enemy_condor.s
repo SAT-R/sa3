@@ -175,7 +175,7 @@ Task_Condor: @ 0x08058FB0
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r4, r1, r0
-	ldr r0, _08058FF0 @ =gUnknown_030008A0
+	ldr r0, _08058FF0 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -197,7 +197,7 @@ _08058FD6:
 	b _08059058
 	.align 2, 0
 _08058FEC: .4byte gCurTask
-_08058FF0: .4byte gUnknown_030008A0
+_08058FF0: .4byte gStageData
 _08058FF4:
 	adds r0, r4, #0
 	bl sub_8059640
@@ -278,7 +278,7 @@ sub_805906C: @ 0x0805906C
 	.align 2, 0
 _08059094: .4byte gCurTask
 _08059098:
-	ldr r0, _080590D4 @ =gUnknown_030008A0
+	ldr r0, _080590D4 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -308,7 +308,7 @@ _080590CC:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080590D4: .4byte gUnknown_030008A0
+_080590D4: .4byte gStageData
 _080590D8: .4byte 0x03000038
 _080590DC: .4byte gUnknown_080D1E54
 _080590E0: .4byte sub_8059164
@@ -479,7 +479,7 @@ sub_8059210: @ 0x08059210
 	.align 2, 0
 _08059230: .4byte gCurTask
 _08059234:
-	ldr r0, _08059270 @ =gUnknown_030008A0
+	ldr r0, _08059270 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -507,7 +507,7 @@ _08059234:
 	str r0, [r1, #8]
 	b _08059286
 	.align 2, 0
-_08059270: .4byte gUnknown_030008A0
+_08059270: .4byte gStageData
 _08059274: .4byte 0x03000038
 _08059278: .4byte gUnknown_080D1E54
 _0805927C: .4byte sub_8059164
@@ -904,11 +904,11 @@ sub_8059540: @ 0x08059540
 _08059564:
 	cmp r5, #0
 	bne _08059574
-	ldr r0, _08059570 @ =gUnknown_030008A0
+	ldr r0, _08059570 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _0805957E
 	.align 2, 0
-_08059570: .4byte gUnknown_030008A0
+_08059570: .4byte gStageData
 _08059574:
 	adds r0, r4, #0
 	adds r0, #0x2b

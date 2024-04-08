@@ -215,14 +215,14 @@ _08046BE0:
 	str r0, [sp, #0x14]
 	cmp r0, #0
 	bne _08046C00
-	ldr r0, _08046BFC @ =gUnknown_030008A0
+	ldr r0, _08046BFC @ =gStageData
 	ldrb r1, [r0, #6]
 	b _08046C0A
 	.align 2, 0
 _08046BF0: .4byte 0x030000BE
 _08046BF4: .4byte 0x000003FF
 _08046BF8: .4byte gUnknown_082B48B4
-_08046BFC: .4byte gUnknown_030008A0
+_08046BFC: .4byte gStageData
 _08046C00:
 	adds r0, r5, #0
 	adds r0, #0x2b
@@ -318,7 +318,7 @@ _08046C9A:
 	rsbs r0, r0, #0
 	cmp r1, r0
 	beq _08046D76
-	ldr r0, _08046D18 @ =gUnknown_030008A0
+	ldr r0, _08046D18 @ =gStageData
 	ldrh r1, [r5, #0x20]
 	ldrh r2, [r0, #0x14]
 	ands r2, r1
@@ -363,7 +363,7 @@ _08046CF4:
 _08046D0C: .4byte sub_8008A8C
 _08046D10: .4byte sub_800ED80
 _08046D14: .4byte sub_800E5CC
-_08046D18: .4byte gUnknown_030008A0
+_08046D18: .4byte gStageData
 _08046D1C: .4byte 0xEFFFFFFF
 _08046D20: .4byte sub_800DB30
 _08046D24:

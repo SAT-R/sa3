@@ -22,7 +22,7 @@ sub_8030640: @ 0x08030640
 	lsls r1, r1, #0x18
 	lsrs r1, r1, #0x18
 	mov r8, r1
-	ldr r0, _08030670 @ =gUnknown_030008A0
+	ldr r0, _08030670 @ =gStageData
 	ldrb r0, [r0, #3]
 	cmp r0, #7
 	beq _08030694
@@ -31,7 +31,7 @@ sub_8030640: @ 0x08030640
 	ldr r0, _08030674 @ =sub_803072C
 	b _0803067A
 	.align 2, 0
-_08030670: .4byte gUnknown_030008A0
+_08030670: .4byte gStageData
 _08030674: .4byte sub_803072C
 _08030678:
 	ldr r0, _0803068C @ =sub_80309B4
@@ -87,7 +87,7 @@ _080306A6:
 	rsbs r1, r1, #0
 	adds r0, r1, #0
 	strb r0, [r4]
-	ldr r0, _08030708 @ =gUnknown_030008A0
+	ldr r0, _08030708 @ =gStageData
 	ldrb r0, [r0, #3]
 	cmp r0, #7
 	beq _08030716
@@ -102,7 +102,7 @@ _080306F8: .4byte sub_803072C
 _080306FC: .4byte sub_8031168
 _08030700: .4byte 0x0300000C
 _08030704: .4byte 0x03000034
-_08030708: .4byte gUnknown_030008A0
+_08030708: .4byte gStageData
 _0803070C:
 	ldrb r0, [r2]
 	adds r1, r3, #0
@@ -165,14 +165,14 @@ _08030776:
 	str r0, [sp, #0x18]
 	cmp r0, #0
 	bne _08030794
-	ldr r0, _08030790 @ =gUnknown_030008A0
+	ldr r0, _08030790 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _0803079E
 	.align 2, 0
 _08030784: .4byte gCurTask
 _08030788: .4byte 0x0300000C
 _0803078C: .4byte 0x03000034
-_08030790: .4byte gUnknown_030008A0
+_08030790: .4byte gStageData
 _08030794:
 	adds r0, r5, #0
 	adds r0, #0x2b
@@ -483,7 +483,7 @@ sub_80309B4: @ 0x080309B4
 	adds r0, r0, r2
 	ldrb r0, [r0]
 	mov r8, r0
-	ldr r0, _08030A34 @ =gUnknown_030008A0
+	ldr r0, _08030A34 @ =gStageData
 	ldr r7, [r0, #0x1c]
 	movs r0, #0x7f
 	ands r7, r0
@@ -517,14 +517,14 @@ _08030A18:
 	str r0, [sp, #0x18]
 	cmp r0, #0
 	bne _08030A3C
-	ldr r0, _08030A34 @ =gUnknown_030008A0
+	ldr r0, _08030A34 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _08030A46
 	.align 2, 0
 _08030A28: .4byte gCurTask
 _08030A2C: .4byte 0x0300000C
 _08030A30: .4byte 0x03000034
-_08030A34: .4byte gUnknown_030008A0
+_08030A34: .4byte gStageData
 _08030A38: .4byte gPlayers
 _08030A3C:
 	adds r0, r6, #0
@@ -590,7 +590,7 @@ _08030AA0:
 	lsrs r0, r0, #0x10
 	str r0, [sp, #0x14]
 _08030AAC:
-	ldr r2, _08030AD8 @ =gUnknown_030008A0
+	ldr r2, _08030AD8 @ =gStageData
 	ldrb r0, [r2, #3]
 	lsls r1, r1, #0x10
 	str r1, [sp, #0x18]
@@ -613,7 +613,7 @@ _08030ABE:
 	adds r6, r1, r0
 	b _08030AF8
 	.align 2, 0
-_08030AD8: .4byte gUnknown_030008A0
+_08030AD8: .4byte gStageData
 _08030ADC: .4byte gPlayers
 _08030AE0:
 	adds r0, r6, #0
@@ -949,7 +949,7 @@ sub_8030D30: @ 0x08030D30
 	strb r3, [r4, #0x1f]
 	subs r0, #0x11
 	str r0, [r4, #0x20]
-	ldr r2, _08030D84 @ =gUnknown_030008A0
+	ldr r2, _08030D84 @ =gStageData
 	ldrb r0, [r2, #3]
 	cmp r0, #7
 	beq _08030DA8
@@ -971,7 +971,7 @@ _08030D7E:
 	strb r3, [r4, #0x1a]
 	b _08030DB4
 	.align 2, 0
-_08030D84: .4byte gUnknown_030008A0
+_08030D84: .4byte gStageData
 _08030D88: .4byte 0x00000365
 _08030D8C:
 	ldrb r0, [r2, #9]
@@ -1083,7 +1083,7 @@ _08030E50: .4byte gCurTask
 _08030E54: .4byte 0x0300000C
 _08030E58: .4byte gPlayers
 _08030E5C:
-	ldr r0, _08030E94 @ =gUnknown_030008A0
+	ldr r0, _08030E94 @ =gStageData
 	ldrb r1, [r0, #6]
 _08030E60:
 	lsls r0, r1, #2
@@ -1111,7 +1111,7 @@ _08030E60:
 	bl TaskDestroy
 	b _08030EB6
 	.align 2, 0
-_08030E94: .4byte gUnknown_030008A0
+_08030E94: .4byte gStageData
 _08030E98: .4byte gCurTask
 _08030E9C:
 	ldr r0, _08030EC4 @ =gCamera
@@ -1144,7 +1144,7 @@ sub_8030EC8: @ 0x08030EC8
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	mov r8, r0
-	ldr r4, _08030F24 @ =gUnknown_030008A0
+	ldr r4, _08030F24 @ =gStageData
 	ldr r6, [r4, #0x1c]
 	movs r0, #0x7f
 	ands r6, r0
@@ -1183,7 +1183,7 @@ _08030F14:
 	movs r0, #2
 	b _08030F42
 	.align 2, 0
-_08030F24: .4byte gUnknown_030008A0
+_08030F24: .4byte gStageData
 _08030F28: .4byte 0x00000365
 _08030F2C:
 	cmp r6, #0x7b
@@ -1289,7 +1289,7 @@ _08030FD8:
 	ldrb r0, [r0]
 	cmp r0, #3
 	bls _08031046
-	ldr r0, _08031014 @ =gUnknown_030008A0
+	ldr r0, _08031014 @ =gStageData
 	ldr r1, [r0, #0x1c]
 	movs r0, #0x7f
 	ands r1, r0
@@ -1305,7 +1305,7 @@ _08030FD8:
 	.align 2, 0
 _0803100C: .4byte gCamera
 _08031010: .4byte 0x03000034
-_08031014: .4byte gUnknown_030008A0
+_08031014: .4byte gStageData
 _08031018:
 	cmp r1, #0x3c
 	beq _08031020

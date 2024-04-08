@@ -209,7 +209,7 @@ _080599A0:
 	adds r0, r4, #0
 	bl sub_8059C3C
 	adds r6, r0, #0
-	ldr r0, _080599E0 @ =gUnknown_030008A0
+	ldr r0, _080599E0 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -237,7 +237,7 @@ _080599A0:
 	strb r0, [r1]
 	b _080599EE
 	.align 2, 0
-_080599E0: .4byte gUnknown_030008A0
+_080599E0: .4byte gStageData
 _080599E4: .4byte 0x03000047
 _080599E8:
 	adds r0, r4, #0

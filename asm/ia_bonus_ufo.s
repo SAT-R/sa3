@@ -144,7 +144,7 @@ Task_BonusUfoMain: @ 0x080414B0
 	mov r6, sb
 	mov r5, r8
 	push {r5, r6, r7}
-	ldr r4, _080415F0 @ =gUnknown_030008A0
+	ldr r4, _080415F0 @ =gStageData
 	ldrb r0, [r4, #9]
 	mov r8, r0
 	ldr r0, _080415F4 @ =gCurTask
@@ -202,7 +202,7 @@ _08041522:
 	ldrb r3, [r0]
 	cmp r3, #7
 	bne _0804153C
-	ldr r0, _08041600 @ =gUnknown_03000530
+	ldr r0, _08041600 @ =gSaveGame
 	adds r0, #0x29
 	add r0, r8
 	ldrb r1, [r0]
@@ -288,7 +288,7 @@ _08041592:
 	ldrb r2, [r0]
 	cmp r2, #7
 	bne _0804161E
-	ldr r0, _08041600 @ =gUnknown_03000530
+	ldr r0, _08041600 @ =gSaveGame
 	adds r0, #0x29
 	add r0, r8
 	ldrb r1, [r0]
@@ -302,11 +302,11 @@ _08041592:
 	adds r1, r0, #0
 	b _08041626
 	.align 2, 0
-_080415F0: .4byte gUnknown_030008A0
+_080415F0: .4byte gStageData
 _080415F4: .4byte gCurTask
 _080415F8: .4byte gPlayers
 _080415FC: .4byte 0x030000B1
-_08041600: .4byte gUnknown_03000530
+_08041600: .4byte gSaveGame
 _08041604: .4byte 0x01000304
 _08041608: .4byte 0x0000020A
 _0804160C: .4byte sub_800EB4C
@@ -380,7 +380,7 @@ sub_804165C: @ 0x0804165C
 	lsls r0, r0, #8
 	adds r1, r1, r0
 	lsls r4, r1, #8
-	ldr r0, _080416B4 @ =gUnknown_030008A0
+	ldr r0, _080416B4 @ =gStageData
 	ldrb r1, [r0, #6]
 	lsls r0, r1, #2
 	adds r0, r0, r1
@@ -397,7 +397,7 @@ sub_804165C: @ 0x0804165C
 	b _080416C2
 	.align 2, 0
 _080416B0: .4byte gCurTask
-_080416B4: .4byte gUnknown_030008A0
+_080416B4: .4byte gStageData
 _080416B8: .4byte gPlayers
 _080416BC:
 	cmp r0, r2
@@ -511,7 +511,7 @@ _0804176C:
 	adds r1, r5, #0
 	adds r1, #0x4e
 	strb r0, [r1]
-	ldr r2, _080417E4 @ =gUnknown_030008A0
+	ldr r2, _080417E4 @ =gStageData
 	ldrb r1, [r2, #6]
 	lsls r0, r1, #2
 	adds r0, r0, r1
@@ -550,7 +550,7 @@ _080417DE:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080417E4: .4byte gUnknown_030008A0
+_080417E4: .4byte gStageData
 _080417E8: .4byte gPlayers
 _080417EC: .4byte sub_800AEF4
 
@@ -573,7 +573,7 @@ sub_80417F0: @ 0x080417F0
 	lsls r1, r1, #2
 	adds r1, r0, r1
 	str r1, [sp, #4]
-	ldr r0, _0804186C @ =gUnknown_030008A0
+	ldr r0, _0804186C @ =gStageData
 	ldrb r1, [r0, #9]
 	str r1, [sp, #8]
 	movs r2, #0
@@ -603,7 +603,7 @@ _0804182A:
 	mov ip, r2
 	cmp r4, #7
 	bne _0804189C
-	ldr r0, _08041870 @ =gUnknown_03000530
+	ldr r0, _08041870 @ =gSaveGame
 	adds r0, #0x29
 	ldr r1, [sp, #8]
 	adds r0, r1, r0
@@ -619,8 +619,8 @@ _0804182A:
 	strb r2, [r1]
 	b _080418D6
 	.align 2, 0
-_0804186C: .4byte gUnknown_030008A0
-_08041870: .4byte gUnknown_03000530
+_0804186C: .4byte gStageData
+_08041870: .4byte gSaveGame
 _08041874: .4byte 0x00000391
 _08041878:
 	adds r0, r4, #0

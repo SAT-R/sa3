@@ -188,7 +188,7 @@ sub_805ED48: @ 0x0805ED48
 	adds r3, r3, r1
 	movs r1, #0
 	bl sub_805CD70
-	ldr r0, _0805ED9C @ =gUnknown_030008A0
+	ldr r0, _0805ED9C @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -211,7 +211,7 @@ _0805ED80:
 	.align 2, 0
 _0805ED94: .4byte gCurTask
 _0805ED98: .4byte 0x0300001C
-_0805ED9C: .4byte gUnknown_030008A0
+_0805ED9C: .4byte gStageData
 _0805EDA0:
 	adds r0, r4, #0
 	bl sub_805F268
@@ -378,7 +378,7 @@ sub_805EEB4: @ 0x0805EEB4
 	bne _0805EEEE
 	b _0805F010
 _0805EEEE:
-	ldr r1, _0805EF60 @ =gUnknown_030008A0
+	ldr r1, _0805EF60 @ =gStageData
 	ldrb r2, [r1, #4]
 	subs r1, r2, #1
 	lsls r1, r1, #0x18
@@ -437,7 +437,7 @@ _0805EF1A:
 	b _0805EF84
 	.align 2, 0
 _0805EF5C: .4byte gUnknown_03001CFC
-_0805EF60: .4byte gUnknown_030008A0
+_0805EF60: .4byte gStageData
 _0805EF64:
 	mov r0, sb
 	adds r0, #8

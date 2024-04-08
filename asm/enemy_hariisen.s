@@ -336,7 +336,7 @@ Task_HariisenMain: @ 0x08061474
 	bl sub_806253C
 	adds r0, r4, #0
 	bl sub_8061BD4
-	ldr r0, _080614F8 @ =gUnknown_030008A0
+	ldr r0, _080614F8 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -379,7 +379,7 @@ Task_HariisenMain: @ 0x08061474
 	b _08061522
 	.align 2, 0
 _080614F4: .4byte gCurTask
-_080614F8: .4byte gUnknown_030008A0
+_080614F8: .4byte gStageData
 _080614FC: .4byte 0x0300005C
 _08061500: .4byte gUnknown_080D2044
 _08061504: .4byte 0x03000094
@@ -427,7 +427,7 @@ sub_806152C: @ 0x0806152C
 	bl sub_8061BD4
 	adds r0, r5, #0
 	bl sub_80619EC
-	ldr r0, _0806164C @ =gUnknown_030008A0
+	ldr r0, _0806164C @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -544,7 +544,7 @@ _0806161C:
 	b _0806168A
 	.align 2, 0
 _08061648: .4byte gCurTask
-_0806164C: .4byte gUnknown_030008A0
+_0806164C: .4byte gStageData
 _08061650: .4byte 0x0300005C
 _08061654: .4byte gUnknown_080D2044
 _08061658: .4byte 0xFFFBFFFF
@@ -588,7 +588,7 @@ sub_80616A0: @ 0x080616A0
 	bl sub_806253C
 	adds r0, r4, #0
 	bl sub_8061AC8
-	ldr r0, _08061704 @ =gUnknown_030008A0
+	ldr r0, _08061704 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -623,7 +623,7 @@ _080616E0:
 	b _08061722
 	.align 2, 0
 _08061700: .4byte gCurTask
-_08061704: .4byte gUnknown_030008A0
+_08061704: .4byte gStageData
 _08061708: .4byte 0x0000012B
 _0806170C: .4byte Task_HariisenMain
 _08061710:
@@ -1196,11 +1196,11 @@ _08061B3C:
 	mov r1, r8
 	cmp r1, #0
 	bne _08061B4C
-	ldr r0, _08061B48 @ =gUnknown_030008A0
+	ldr r0, _08061B48 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _08061B56
 	.align 2, 0
-_08061B48: .4byte gUnknown_030008A0
+_08061B48: .4byte gStageData
 _08061B4C:
 	adds r0, r7, #0
 	adds r0, #0x2b
@@ -2202,11 +2202,11 @@ _080622DC:
 	mov r0, r8
 	cmp r0, #0
 	bne _080622EC
-	ldr r0, _080622E8 @ =gUnknown_030008A0
+	ldr r0, _080622E8 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _080622F6
 	.align 2, 0
-_080622E8: .4byte gUnknown_030008A0
+_080622E8: .4byte gStageData
 _080622EC:
 	adds r0, r6, #0
 	adds r0, #0x2b

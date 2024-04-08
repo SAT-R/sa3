@@ -363,7 +363,7 @@ sub_8065484: @ 0x08065484
 	adds r5, r4, r0
 	adds r0, r5, #0
 	bl sub_80656B0
-	ldr r0, _080654F4 @ =gUnknown_030008A0
+	ldr r0, _080654F4 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -407,7 +407,7 @@ _080654C0:
 	b _0806553C
 	.align 2, 0
 _080654F0: .4byte gCurTask
-_080654F4: .4byte gUnknown_030008A0
+_080654F4: .4byte gStageData
 _080654F8: .4byte 0x03000048
 _080654FC:
 	movs r4, #0

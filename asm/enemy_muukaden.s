@@ -233,7 +233,7 @@ sub_8062800: @ 0x08062800
 	str r1, [sp]
 	adds r0, #0x6c
 	str r0, [sp, #4]
-	ldr r0, _0806298C @ =gUnknown_030008A0
+	ldr r0, _0806298C @ =gStageData
 	ldr r4, [r0, #0x1c]
 	movs r0, #7
 	ands r4, r0
@@ -413,7 +413,7 @@ sub_8062800: @ 0x08062800
 	adds r0, #0x2a
 	b _080629A4
 	.align 2, 0
-_0806298C: .4byte gUnknown_030008A0
+_0806298C: .4byte gStageData
 _08062990: .4byte gUnknown_080D20C4
 _08062994: .4byte gCamera
 _08062998:
@@ -554,7 +554,7 @@ Task_Muukaden: @ 0x08062A90
 	bl sub_8063260
 	adds r0, r5, #0
 	bl sub_8062CFC
-	ldr r0, _08062AF0 @ =gUnknown_030008A0
+	ldr r0, _08062AF0 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -583,7 +583,7 @@ _08062ACE:
 	b _08062B88
 	.align 2, 0
 _08062AEC: .4byte gCurTask
-_08062AF0: .4byte gUnknown_030008A0
+_08062AF0: .4byte gStageData
 _08062AF4: .4byte 0x03000064
 _08062AF8:
 	movs r4, #0
@@ -682,7 +682,7 @@ sub_8062B90: @ 0x08062B90
 	bl sub_8063260
 	adds r0, r5, #0
 	bl sub_8062CFC
-	ldr r0, _08062C18 @ =gUnknown_030008A0
+	ldr r0, _08062C18 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -731,7 +731,7 @@ _08062BF8:
 	b _08062C3E
 	.align 2, 0
 _08062C14: .4byte gCurTask
-_08062C18: .4byte gUnknown_030008A0
+_08062C18: .4byte gStageData
 _08062C1C: .4byte 0x03000064
 _08062C20:
 	ldr r1, [r5]
@@ -773,7 +773,7 @@ Task_8062C4C: @ 0x08062C4C
 	bl sub_8063260
 	adds r0, r5, #0
 	bl sub_8062CFC
-	ldr r0, _08062CD4 @ =gUnknown_030008A0
+	ldr r0, _08062CD4 @ =gStageData
 	ldrb r1, [r0, #4]
 	subs r0, r1, #1
 	lsls r0, r0, #0x18
@@ -822,7 +822,7 @@ _08062CB4:
 	b _08062CEE
 	.align 2, 0
 _08062CD0: .4byte gCurTask
-_08062CD4: .4byte gUnknown_030008A0
+_08062CD4: .4byte gStageData
 _08062CD8: .4byte 0x03000064
 _08062CDC:
 	cmp r6, #1

@@ -19,7 +19,7 @@ CreateEntity_Interactable142: @ 0x0804F358
 	lsls r3, r3, #0x18
 	lsrs r3, r3, #0x18
 	mov r8, r3
-	ldr r0, _0804F3E0 @ =gUnknown_03000530
+	ldr r0, _0804F3E0 @ =gSaveGame
 	ldrb r0, [r0, #0x11]
 	cmp r0, #7
 	bls _0804F3CC
@@ -75,7 +75,7 @@ _0804F3CC:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804F3E0: .4byte gUnknown_03000530
+_0804F3E0: .4byte gSaveGame
 _0804F3E4: .4byte sub_804F3F4
 _0804F3E8: .4byte sub_804F558
 _0804F3EC: .4byte 0x0300000C
@@ -94,7 +94,7 @@ sub_804F3F4: @ 0x0804F3F4
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r5, r6, r0
-	ldr r7, _0804F4CC @ =gUnknown_030008A0
+	ldr r7, _0804F4CC @ =gStageData
 	ldrb r2, [r7, #6]
 	lsls r0, r2, #2
 	adds r0, r0, r2
@@ -185,7 +185,7 @@ _0804F4B4:
 	bx r0
 	.align 2, 0
 _0804F4C8: .4byte gCurTask
-_0804F4CC: .4byte gUnknown_030008A0
+_0804F4CC: .4byte gStageData
 _0804F4D0: .4byte gPlayers
 _0804F4D4: .4byte 0x01000300
 _0804F4D8: .4byte 0x0300000C

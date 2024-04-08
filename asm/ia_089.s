@@ -150,7 +150,7 @@ _0803EFFC:
 	adds r7, r0, #0
 	cmp r7, #0
 	bne _0803F020
-	ldr r0, _0803F01C @ =gUnknown_030008A0
+	ldr r0, _0803F01C @ =gStageData
 	ldrb r1, [r0, #6]
 	b _0803F02A
 	.align 2, 0
@@ -158,7 +158,7 @@ _0803F00C: .4byte gCurTask
 _0803F010: .4byte 0x0300000C
 _0803F014: .4byte 0x03000070
 _0803F018: .4byte 0x03000072
-_0803F01C: .4byte gUnknown_030008A0
+_0803F01C: .4byte gStageData
 _0803F020:
 	adds r0, r4, #0
 	adds r0, #0x2b

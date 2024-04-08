@@ -85,11 +85,11 @@ _0803D864:
 	movs r3, #0
 	cmp r6, #0
 	bne _0803D874
-	ldr r0, _0803D870 @ =gUnknown_030008A0
+	ldr r0, _0803D870 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _0803D87E
 	.align 2, 0
-_0803D870: .4byte gUnknown_030008A0
+_0803D870: .4byte gStageData
 _0803D874:
 	adds r0, r4, #0
 	adds r0, #0x2b

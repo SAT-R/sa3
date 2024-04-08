@@ -25,7 +25,7 @@ CreateEntity_Interactable066: @ 0x08037E08
 	str r3, [sp, #8]
 	ldrb r0, [r7, #7]
 	mov sb, r0
-	ldr r0, _08037EF0 @ =gUnknown_030008A0
+	ldr r0, _08037EF0 @ =gStageData
 	ldrb r1, [r0, #3]
 	adds r2, r0, #0
 	cmp r1, #0
@@ -33,7 +33,7 @@ CreateEntity_Interactable066: @ 0x08037E08
 	mov r0, sb
 	cmp r0, #0x2c
 	bne _08037E44
-	ldr r0, _08037EF4 @ =gUnknown_03000530
+	ldr r0, _08037EF4 @ =gSaveGame
 	ldrb r0, [r0, #0x11]
 	cmp r0, #7
 	bls _08037ED6
@@ -124,8 +124,8 @@ _08037ED6:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08037EF0: .4byte gUnknown_030008A0
-_08037EF4: .4byte gUnknown_03000530
+_08037EF0: .4byte gStageData
+_08037EF4: .4byte gSaveGame
 _08037EF8: .4byte sub_8037F18
 _08037EFC: .4byte sub_80385F4
 _08037F00: .4byte 0x0300000C
@@ -154,7 +154,7 @@ sub_8037F18: @ 0x08037F18
 	adds r1, r4, r0
 	movs r0, #0x10
 	strb r0, [r1]
-	ldr r1, _08037F84 @ =gUnknown_030008A0
+	ldr r1, _08037F84 @ =gStageData
 	movs r0, #4
 	strb r0, [r1, #4]
 	movs r2, #1
@@ -185,13 +185,13 @@ _08037F6C:
 _08037F78: .4byte gCurTask
 _08037F7C: .4byte sub_8037F8C
 _08037F80: .4byte 0x03000060
-_08037F84: .4byte gUnknown_030008A0
+_08037F84: .4byte gStageData
 _08037F88: .4byte 0x00000201
 
 	thumb_func_start sub_8037F8C
 sub_8037F8C: @ 0x08037F8C
 	push {r4, r5, lr}
-	ldr r3, _08038028 @ =gUnknown_030008A0
+	ldr r3, _08038028 @ =gStageData
 	movs r0, #4
 	strb r0, [r3, #4]
 	movs r1, #1
@@ -269,7 +269,7 @@ _08037FDC:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08038028: .4byte gUnknown_030008A0
+_08038028: .4byte gStageData
 _0803802C: .4byte gCurTask
 _08038030: .4byte gPlayers
 _08038034: .4byte 0x03000060
@@ -285,7 +285,7 @@ _08038054: .4byte 0x00003FAF
 	thumb_func_start sub_8038058
 sub_8038058: @ 0x08038058
 	push {r4, r5, r6, lr}
-	ldr r2, _080380D8 @ =gUnknown_030008A0
+	ldr r2, _080380D8 @ =gStageData
 	movs r0, #4
 	strb r0, [r2, #4]
 	movs r1, #1
@@ -347,7 +347,7 @@ _080380D0:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080380D8: .4byte gUnknown_030008A0
+_080380D8: .4byte gStageData
 _080380DC: .4byte gCurTask
 _080380E0: .4byte gPlayers
 _080380E4: .4byte gUnknown_03003580
@@ -364,7 +364,7 @@ sub_80380FC: @ 0x080380FC
 	mov r6, r8
 	push {r6, r7}
 	sub sp, #4
-	ldr r2, _0803816C @ =gUnknown_030008A0
+	ldr r2, _0803816C @ =gStageData
 	movs r0, #4
 	strb r0, [r2, #4]
 	movs r1, #1
@@ -416,13 +416,13 @@ _0803815A:
 	lsrs r1, r1, #0x1e
 	b _08038184
 	.align 2, 0
-_0803816C: .4byte gUnknown_030008A0
+_0803816C: .4byte gStageData
 _08038170: .4byte gCurTask
 _08038174: .4byte gPlayers
 _08038178: .4byte 0x03000060
 _0803817C: .4byte 0x03000062
 _08038180:
-	ldr r0, _080381F4 @ =gUnknown_030008A0
+	ldr r0, _080381F4 @ =gStageData
 	ldrb r1, [r0, #6]
 _08038184:
 	lsls r0, r1, #2
@@ -484,14 +484,14 @@ _080381E4:
 	lsrs r1, r1, #0x1e
 	b _08038210
 	.align 2, 0
-_080381F4: .4byte gUnknown_030008A0
+_080381F4: .4byte gStageData
 _080381F8: .4byte gUnknown_03003C20
 _080381FC: .4byte 0x0000BFFF
 _08038200: .4byte gUnknown_03002BF8
 _08038204: .4byte gCamera
 _08038208: .4byte gPlayers
 _0803820C:
-	ldr r0, _08038290 @ =gUnknown_030008A0
+	ldr r0, _08038290 @ =gStageData
 	ldrb r1, [r0, #6]
 _08038210:
 	lsls r0, r1, #2
@@ -549,7 +549,7 @@ _0803825C:
 	movs r0, #0xc0
 	lsls r0, r0, #3
 	strh r0, [r6, #0x20]
-	ldr r0, _08038290 @ =gUnknown_030008A0
+	ldr r0, _08038290 @ =gStageData
 	movs r1, #3
 	strb r1, [r0, #4]
 	adds r1, r0, #0
@@ -559,7 +559,7 @@ _0803825C:
 	strb r2, [r0]
 	b _080382CC
 	.align 2, 0
-_08038290: .4byte gUnknown_030008A0
+_08038290: .4byte gStageData
 _08038294: .4byte 0xEFFFFFFF
 _08038298: .4byte sub_8005380
 _0803829C: .4byte gCurTask
@@ -645,7 +645,7 @@ _0803832E:
 	.align 2, 0
 _08038340: .4byte gCurTask
 _08038344:
-	ldr r0, _080383F4 @ =gUnknown_030008A0
+	ldr r0, _080383F4 @ =gStageData
 	ldrb r1, [r0, #6]
 _08038348:
 	lsls r0, r1, #2
@@ -733,11 +733,11 @@ _080383E2:
 	lsrs r1, r1, #0x1e
 	b _08038404
 	.align 2, 0
-_080383F4: .4byte gUnknown_030008A0
+_080383F4: .4byte gStageData
 _080383F8: .4byte gPlayers
 _080383FC: .4byte gUnknown_080CF690
 _08038400:
-	ldr r0, _08038478 @ =gUnknown_030008A0
+	ldr r0, _08038478 @ =gStageData
 	ldrb r1, [r0, #6]
 _08038404:
 	lsls r0, r1, #2
@@ -796,7 +796,7 @@ _0803846A:
 	bl sub_8004E98
 	b _0803848E
 	.align 2, 0
-_08038478: .4byte gUnknown_030008A0
+_08038478: .4byte gStageData
 _0803847C: .4byte gPlayers
 _08038480: .4byte 0x00000202
 _08038484:

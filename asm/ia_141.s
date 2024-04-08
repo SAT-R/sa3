@@ -23,7 +23,7 @@ CreateEntity_Interactable141: @ 0x0804E69C
 	mov sb, r3
 	ldrb r4, [r5, #7]
 	movs r2, #0
-	ldr r3, _0804E78C @ =gUnknown_030008A0
+	ldr r3, _0804E78C @ =gStageData
 	cmp r4, #1
 	beq _0804E6DC
 	movs r6, #1
@@ -51,7 +51,7 @@ _0804E6DC:
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _0804E774
-	ldr r1, _0804E790 @ =gUnknown_03000530
+	ldr r1, _0804E790 @ =gSaveGame
 	ldrb r0, [r3, #9]
 	lsls r0, r0, #1
 	adds r1, #0x14
@@ -128,8 +128,8 @@ _0804E774:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804E78C: .4byte gUnknown_030008A0
-_0804E790: .4byte gUnknown_03000530
+_0804E78C: .4byte gStageData
+_0804E790: .4byte gSaveGame
 _0804E794: .4byte 0x000003FF
 _0804E798: .4byte sub_804E7AC
 _0804E79C: .4byte sub_804E920
@@ -151,7 +151,7 @@ sub_804E7AC: @ 0x0804E7AC
 	movs r1, #0xc0
 	lsls r1, r1, #0x12
 	adds r2, r3, r1
-	ldr r0, _0804E840 @ =gUnknown_030008A0
+	ldr r0, _0804E840 @ =gStageData
 	mov sl, r0
 	adds r0, #0x98
 	ldr r0, [r0]
@@ -212,7 +212,7 @@ _0804E804:
 	b _0804E886
 	.align 2, 0
 _0804E83C: .4byte gCurTask
-_0804E840: .4byte gUnknown_030008A0
+_0804E840: .4byte gStageData
 _0804E844: .4byte gPlayers
 _0804E848: .4byte 0x00000536
 _0804E84C: .4byte sub_804E934

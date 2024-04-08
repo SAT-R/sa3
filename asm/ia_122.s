@@ -144,12 +144,12 @@ _0804A50C:
 	mov r8, r0
 	cmp r0, #0
 	bne _0804A524
-	ldr r0, _0804A520 @ =gUnknown_030008A0
+	ldr r0, _0804A520 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _0804A52E
 	.align 2, 0
 _0804A51C: .4byte gCurTask
-_0804A520: .4byte gUnknown_030008A0
+_0804A520: .4byte gStageData
 _0804A524:
 	adds r0, r4, #0
 	adds r0, #0x2b
@@ -590,7 +590,7 @@ _0804A878: .4byte 0x03000044
 _0804A87C: .4byte 0x03000046
 _0804A880: .4byte gPlayers
 _0804A884:
-	ldr r0, _0804A8C0 @ =gUnknown_030008A0
+	ldr r0, _0804A8C0 @ =gStageData
 	ldrb r1, [r0, #6]
 _0804A888:
 	lsls r0, r1, #2
@@ -619,7 +619,7 @@ _0804A888:
 	bl TaskDestroy
 	b _0804A8D4
 	.align 2, 0
-_0804A8C0: .4byte gUnknown_030008A0
+_0804A8C0: .4byte gStageData
 _0804A8C4: .4byte gCurTask
 _0804A8C8:
 	adds r0, r6, #0

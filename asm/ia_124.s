@@ -121,13 +121,13 @@ _0804AF58:
 	adds r6, r0, #0
 	cmp r6, #0
 	bne _0804AF74
-	ldr r0, _0804AF70 @ =gUnknown_030008A0
+	ldr r0, _0804AF70 @ =gStageData
 	ldrb r1, [r0, #6]
 	b _0804AF7E
 	.align 2, 0
 _0804AF68: .4byte gCurTask
 _0804AF6C: .4byte 0x03000040
-_0804AF70: .4byte gUnknown_030008A0
+_0804AF70: .4byte gStageData
 _0804AF74:
 	adds r0, r4, #0
 	adds r0, #0x2b
