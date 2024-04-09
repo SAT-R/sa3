@@ -5,6 +5,9 @@
 
 #define MAX_PLAYER_NAME_LENGTH 6
 
+#define PLAYER_LAYER_FRONT 0
+#define PLAYER_LAYER_BACK  1
+
 // Declared beforehand because it's used inside Player struct
 struct Player;
 typedef void (*PlayerCallback)(struct Player *);

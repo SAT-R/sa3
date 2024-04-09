@@ -6,14 +6,14 @@
 #include "game/player_callbacks.h"
 #include "game/stage.h"
 
-// NOTE(Jace): PL_TYPE and Interactable-IDs do differ!
-// IA000: PL_TYPE_2
-// IA001: PL_TYPE_FRONT
-// IA002: PL_TYPE_BACK
+#define LAYER_TYPE_FRONT PLAYER_LAYER_FRONT
+#define LAYER_TYPE_BACK  PLAYER_LAYER_BACK
+#define LAYER_TYPE_SWAP  2
 
-#define PL_TYPE_FRONT 0
-#define PL_TYPE_BACK  1
-#define PL_TYPE_2     2
+// NOTE(Jace): LAYER_TYPE and Interactable-IDs do differ!
+// IA000: LAYER_TYPE_2
+// IA001: LAYER_TYPE_FRONT
+// IA002: LAYER_TYPE_BACK
 
 typedef struct {
     SpriteBase base;
@@ -59,19 +59,19 @@ void Task_Toggle_PlayerLayer(void)
                     && (worldY <= I(p->qWorldY))
                     && (worldY + me->d.uData[3] * TILE_WIDTH >= I(p->qWorldY))) {
                     switch (layer->base.unk9) {
-                        case PL_TYPE_FRONT: {
+                        case LAYER_TYPE_FRONT: {
                             p->unk27 = layer->base.unk9;
                         } break;
 
-                        case PL_TYPE_BACK: {
+                        case LAYER_TYPE_BACK: {
                             p->unk27 = layer->base.unk9;
                         } break;
 
-                        case PL_TYPE_2: {
-                            u32 newLayer = 0;
+                        case LAYER_TYPE_SWAP: {
+                            u32 newLayer = LAYER_TYPE_FRONT;
 
-                            if (p->unk27 == 0) {
-                                newLayer = 1;
+                            if (p->unk27 == LAYER_TYPE_FRONT) {
+                                newLayer = LAYER_TYPE_BACK;
                             }
 
                             p->unk27 = newLayer;
@@ -85,17 +85,18 @@ void Task_Toggle_PlayerLayer(void)
 
 void CreateEntity_Toggle_PlayerLayer_Swap(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    sub_802E4C8(PL_TYPE_2, me, regionX, regionY, id);
+    sub_802E4C8(LAYER_TYPE_SWAP, me, regionX, regionY, id);
 }
 
-void CreateEntity_Toggle_PlayerLayer_Front(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+void CreateEntity_Toggle_PlayerLayer_Front(MapEntity *me, u16 regionX, u16 regionY,
+                                           u8 id)
 {
-    sub_802E4C8(PL_TYPE_FRONT, me, regionX, regionY, id);
+    sub_802E4C8(LAYER_TYPE_FRONT, me, regionX, regionY, id);
 }
 
 void CreateEntity_Toggle_PlayerLayer_Back(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    sub_802E4C8(PL_TYPE_BACK, me, regionX, regionY, id);
+    sub_802E4C8(LAYER_TYPE_BACK, me, regionX, regionY, id);
 }
 
 void sub_802E4C8(u16 layerType, MapEntity *me, u16 regionX, u16 regionY, u8 UNUSED id)
