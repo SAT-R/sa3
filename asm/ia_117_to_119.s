@@ -153,7 +153,7 @@ _08049482:
 	cmp r0, #0
 	bne _08049540
 	ldr r1, [r4]
-	ldr r0, _080494FC @ =sub_800DDD0
+	ldr r0, _080494FC @ =PlayerCB_800DDD0
 	cmp r1, r0
 	beq _08049540
 	ldr r0, [r4, #0x10]
@@ -209,7 +209,7 @@ _080494C4:
 	b _08049540
 	.align 2, 0
 _080494F8: .4byte gPlayers
-_080494FC: .4byte sub_800DDD0
+_080494FC: .4byte PlayerCB_800DDD0
 _08049500: .4byte 0xFFFEFFFF
 _08049504:
 	orrs r1, r2

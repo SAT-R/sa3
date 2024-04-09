@@ -5,10 +5,14 @@
 
 #define MAX_PLAYER_NAME_LENGTH 6
 
+// Declared beforehand because it's used inside Player struct
+struct Player;
+typedef void (*PlayerCallback)(struct Player *);
+
 typedef struct Player Player;
 struct Player {
     // Code (Character Movement) to be executed
-    void (*function)(Player *); // 0x00
+    PlayerCallback callback; // 0x00
 
     /* v4-values:
         0x00000001: Facing left
@@ -17,7 +21,7 @@ struct Player {
     */
     u32 moveState; // 0x04
 
-    u32 v8; // 0x08 | bitfield?
+    u32 unk8; // 0x08 | bitfield?
 
     u8 Padding[0x04];
 
@@ -38,10 +42,10 @@ struct Player {
 
     u8 Padding2[0x02];
 
-    u8 v24;
-    s8 v25;
-    u8 v26; // maybe a bitfield (upper 2 bits is 1 value)
-    u8 v27;
+    u8 unk24;
+    s8 unk25;
+    u8 unk26; // maybe a bitfield (upper 2 bits is 1 value)
+    u8 unk27; // SA2: Player.unk38 (layer?)
 
     struct {
         u16 padding0; // 0x28
@@ -55,14 +59,14 @@ struct Player {
         u8 someFlag1 : 1;
         u8 boostIsActive : 1;
 
-        u8 v2C_padding_00 : 2; // 0x2C
-        u8 v2C_04 : 1;
-        u8 v2C_padding_08 : 3;
-        u8 v2C_40 : 1; // 0x2C
-        u8 v2C_80 : 1; // 0x2C
+        u8 unk2C_padding_00 : 2; // 0x2C
+        u8 unk2C_04 : 1;
+        u8 unk2C_padding_08 : 3;
+        u8 unk2C_40 : 1; // 0x2C
+        u8 unk2C_80 : 1; // 0x2C
 
-        u8 v2D_0 : 4; // 0x2D
-        u8 v2D_padding : 4; // 0x2D
+        u8 unk2D_0 : 4; // 0x2D
+        u8 unk2D_padding : 4; // 0x2D
 
         // Sprite state manages the sprite's animations
         // The spriteState-vals are (always?) the same that

@@ -249,7 +249,7 @@ _0803933E:
 	b _0803951A
 _0803934A:
 	ldr r1, [r5]
-	ldr r0, _080393D0 @ =sub_800DDD0
+	ldr r0, _080393D0 @ =PlayerCB_800DDD0
 	cmp r1, r0
 	bne _08039354
 	b _0803951A
@@ -321,7 +321,7 @@ _080393B4:
 _080393C4: .4byte gStageData
 _080393C8: .4byte gPlayers
 _080393CC: .4byte 0x01000100
-_080393D0: .4byte sub_800DDD0
+_080393D0: .4byte PlayerCB_800DDD0
 _080393D4: .4byte sub_800DCB4
 _080393D8:
 	mov r0, sb

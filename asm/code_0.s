@@ -22973,7 +22973,7 @@ _0800B5EA:
 	rsbs r0, r0, #0
 	strh r0, [r4, #0x1a]
 _0800B610:
-	ldr r1, _0800B624 @ =sub_800DDD0
+	ldr r1, _0800B624 @ =PlayerCB_800DDD0
 	str r1, [r4]
 	adds r0, r4, #0
 	bl _call_via_r1
@@ -22983,7 +22983,7 @@ _0800B61A:
 	bx r0
 	.align 2, 0
 _0800B620: .4byte gStageData
-_0800B624: .4byte sub_800DDD0
+_0800B624: .4byte PlayerCB_800DDD0
 
 	thumb_func_start sub_800B628
 sub_800B628: @ 0x0800B628
@@ -23055,7 +23055,7 @@ _0800B668:
 	rsbs r0, r0, #0
 	strh r0, [r4, #0x1a]
 _0800B6AA:
-	ldr r1, _0800B6C0 @ =sub_800DDD0
+	ldr r1, _0800B6C0 @ =PlayerCB_800DDD0
 	str r1, [r4]
 	adds r0, r4, #0
 	bl _call_via_r1
@@ -23065,7 +23065,7 @@ _0800B6B4:
 	bx r0
 	.align 2, 0
 _0800B6BC: .4byte 0xFFFFFE00
-_0800B6C0: .4byte sub_800DDD0
+_0800B6C0: .4byte PlayerCB_800DDD0
 
 	thumb_func_start sub_800B6C4
 sub_800B6C4: @ 0x0800B6C4
@@ -28048,7 +28048,7 @@ _0800DD8A:
 	str r0, [r4, #0x10]
 	ldr r0, [r4, #0x74]
 	str r0, [r4, #0x14]
-	ldr r1, _0800DDB0 @ =sub_800DDD0
+	ldr r1, _0800DDB0 @ =PlayerCB_800DDD0
 	str r1, [r4]
 	adds r0, r4, #0
 	bl _call_via_r1
@@ -28058,7 +28058,7 @@ _0800DDA6:
 	bx r0
 	.align 2, 0
 _0800DDAC: .4byte gStageData
-_0800DDB0: .4byte sub_800DDD0
+_0800DDB0: .4byte PlayerCB_800DDD0
 
 	thumb_func_start sub_800DDB4
 sub_800DDB4: @ 0x0800DDB4
@@ -28075,8 +28075,8 @@ sub_800DDB4: @ 0x0800DDB4
 	.align 2, 0
 _0800DDCC: .4byte sub_800B628
 
-	thumb_func_start sub_800DDD0
-sub_800DDD0: @ 0x0800DDD0
+	thumb_func_start PlayerCB_800DDD0
+PlayerCB_800DDD0: @ 0x0800DDD0
 	push {lr}
 	adds r3, r0, #0
 	movs r0, #0x18
