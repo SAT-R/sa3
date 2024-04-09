@@ -11,9 +11,9 @@
 #define LAYER_TYPE_SWAP  2
 
 // NOTE(Jace): LAYER_TYPE and Interactable-IDs do differ!
-// IA000: LAYER_TYPE_2
-// IA001: LAYER_TYPE_FRONT
-// IA002: LAYER_TYPE_BACK
+// IA000: LAYER_TYPE_SWAP(2)
+// IA001: LAYER_TYPE_FRONT(0)
+// IA002: LAYER_TYPE_BACK(1)
 
 typedef struct {
     SpriteBase base;
