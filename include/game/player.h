@@ -43,8 +43,6 @@ struct Player {
     u8 v26; // maybe a bitfield (upper 2 bits is 1 value)
     u8 v27;
 
-    // if the compiler can't find "charId" it's because it was moved into 'charFlags'
-    // due to new information when decompiling
     struct {
         u16 padding0; // 0x28
         u8 charId : 4; // 0x2A /* Index of the player character (I think?) */
@@ -73,19 +71,19 @@ struct Player {
         // an animation to have multiple states!
         // @TODO: Are these bitfields?
         // SpriteStateNumber stateNumber0;    // 0x2E-0x2F
-        u8 stateNum0_subCount : 4;
-        u8 stateNum0_other : 3; // TODO: name
-        u8 stateNum0_subHighBit : 1;
-        s8 stateNum0_highValue : 8;
+        u8 state0_subCount : 4;
+        u8 state0_other : 3; // TODO: name
+        u8 state0_subHighBit : 1;
+        s8 state0_highValue : 8;
 
         s16 spriteState0; // 0x30
         s16 spriteState1; // 0x32
         s16 spriteAnimation; // 0x34
         // SpriteStateNumber stateNumber1;    // 0x36-0x37
-        u8 stateNum1_subCount : 4;
-        u8 stateNum1_other : 3; // TODO: name
-        u8 stateNum1_subHighBit : 1;
-        s8 stateNum1_highValue : 8;
+        u8 state1_subCount : 4;
+        u8 state1_other : 3; // TODO: name
+        u8 state1_subHighBit : 1;
+        s8 state1_highValue : 8;
     } charFlags;
 
     u8 Padding4[0x0D];

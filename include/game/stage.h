@@ -9,8 +9,8 @@ typedef struct {
                         // be a union?
     /* 0x01 */ u8 unk1;
     /* 0x02 */ u8 unk2;
-    /* 0x03 */ u8 unk3; // gameMode (0x0: normal, 0x1: Demo, 0x2: ???, 0x3: Time Attack,
-                        // x7: multiplayer?)
+    /* 0x03 */ u8 gameMode; // (0x0: normal, 0x1: Demo, 0x2: ???, 0x3: Time Attack,
+                            // x7: multiplayer?)
     /* 0x04 */ u8 unk4;
     /* 0x05 */ u8 unk5;
     /* 0x06 */ u8 charId; // 0-3

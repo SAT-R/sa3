@@ -90829,6 +90829,9 @@ _0802C192:
 	pop {r1}
 	bx r1
 
+@ Input:
+    @ R0 = worldX @ Not Q_24_8!
+    @ R1 = worldY @ Not Q_24_8!
 	thumb_func_start IsPointInScreenRect
 IsPointInScreenRect: @ 0x0802C198
 	push {lr}

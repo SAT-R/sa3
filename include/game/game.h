@@ -10,6 +10,15 @@
 // #include "sakit/player.h"
 #include "constants/characters.h"
 
+#define GAME_MODE_SINGLE_PLAYER    0
+#define GAME_MODE_DEMO             1
+#define GAME_MODE_2                2
+#define GAME_MODE_TIME_ATTACK      3
+#define GAME_MODE_BOSS_TIME_ATTACK 4
+#define GAME_MODE_5                5
+#define GAME_MODE_MP_MULTI_PACK    6
+#define GAME_MODE_MP_SINGLE_PACK   7
+
 #define GAME_SA1     1
 #define GAME_SA2     2
 #define GAME_SA3     3
