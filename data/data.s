@@ -222,9 +222,9 @@ gUnknown_080CF104:
 
     .global gSpriteInits_Interactables
 gSpriteInits_Interactables:
-    .4byte CreateEntity_Interactable000
-    .4byte CreateEntity_Interactable001
-    .4byte CreateEntity_Interactable002
+    .4byte CreateEntity_Toggle_PlayerLayer_Swap
+    .4byte CreateEntity_Toggle_PlayerLayer_Front
+    .4byte CreateEntity_Toggle_PlayerLayer_Back
     .4byte CreateEntity_ZoneWarp        @ 003 - ActRing and ZoneWarp are 2 IAs
     .4byte CreateEntity_Warp            @ 004
     .4byte CreateEntity_Spring_Up
@@ -370,9 +370,9 @@ gSpriteInits_Interactables:
 
     .global gSpriteInits_InteractablesMultiplayer
 gSpriteInits_InteractablesMultiplayer: @ 0x080CF354
-    .4byte CreateEntity_Interactable000 @ 000
-    .4byte CreateEntity_Interactable001 @ 001
-    .4byte CreateEntity_Interactable002 @ 002
+    .4byte CreateEntity_Toggle_PlayerLayer_Swap @ 000
+    .4byte CreateEntity_Toggle_PlayerLayer_Front @ 001
+    .4byte CreateEntity_Toggle_PlayerLayer_Back @ 002
     .4byte CreateEntity_Interactable015 @ 003
     .4byte CreateEntity_Spring_Up @ 004
     .4byte CreateEntity_Spring_Left @ 005

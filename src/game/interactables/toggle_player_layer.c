@@ -51,28 +51,23 @@ void Task_Toggle_PlayerLayer(void)
             } else {
                 p = &gPlayers[p->charFlags.partnerIndex];
             }
-            // _0802E3B2
 
             if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2
                 || p->charFlags.someIndex == 4) {
-                // _0802E3D4
                 if ((p->callback != PlayerCB_800DDD0) && (worldX <= I(p->qWorldX))
                     && (worldX + me->d.uData[2] * TILE_WIDTH >= I(p->qWorldX))
                     && (worldY <= I(p->qWorldY))
                     && (worldY + me->d.uData[3] * TILE_WIDTH >= I(p->qWorldY))) {
                     switch (layer->base.unk9) {
                         case PL_TYPE_FRONT: {
-                            // _0802E414
                             p->unk27 = layer->base.unk9;
                         } break;
 
                         case PL_TYPE_BACK: {
-                            // _0802E414
                             p->unk27 = layer->base.unk9;
                         } break;
 
                         case PL_TYPE_2: {
-                            // _0802E41C
                             u32 newLayer = 0;
 
                             if (p->unk27 == 0) {
@@ -88,17 +83,17 @@ void Task_Toggle_PlayerLayer(void)
     }
 }
 
-void CreateEntity_Interactable000(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+void CreateEntity_Toggle_PlayerLayer_Swap(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     sub_802E4C8(PL_TYPE_2, me, regionX, regionY, id);
 }
 
-void CreateEntity_Interactable001(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+void CreateEntity_Toggle_PlayerLayer_Front(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     sub_802E4C8(PL_TYPE_FRONT, me, regionX, regionY, id);
 }
 
-void CreateEntity_Interactable002(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+void CreateEntity_Toggle_PlayerLayer_Back(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     sub_802E4C8(PL_TYPE_BACK, me, regionX, regionY, id);
 }
