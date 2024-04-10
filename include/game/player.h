@@ -76,7 +76,6 @@ struct Player {
         // they are the "main indices" of the animations'
         // 'stateNumber0/1' are sub-values which allow
         // an animation to have multiple states!
-        // @TODO: Are these bitfields?
         // SpriteStateNumber stateNumber0;    // 0x2E-0x2F
         u8 state0_subCount : 4;
         u8 state0_other : 3; // TODO: name

@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_804C9A0
-sub_804C9A0: @ 0x0804C9A0
+	thumb_func_start Task_Interactable135
+Task_Interactable135: @ 0x0804C9A0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -207,67 +207,5 @@ _0804CB1C:
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Interactable135
-CreateEntity_Interactable135: @ 0x0804CB2C
-	push {r4, r5, r6, lr}
-	mov r6, r8
-	push {r6}
-	sub sp, #4
-	mov r8, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _0804CB9C @ =sub_804C9A0
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _0804CBA0 @ =sub_804CBA4
-	str r1, [sp]
-	movs r1, #0x10
-	movs r3, #0
-	bl TaskCreate
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r1, r1, r0
-	strh r4, [r1, #4]
-	strh r5, [r1, #6]
-	mov r0, r8
-	str r0, [r1]
-	ldrb r0, [r0]
-	strb r0, [r1, #0xa]
-	strb r6, [r1, #0xb]
-	mov r2, r8
-	ldrb r0, [r2]
-	lsls r0, r0, #3
-	lsls r4, r4, #8
-	adds r0, r0, r4
-	strh r0, [r1, #0xc]
-	ldrb r0, [r2, #1]
-	lsls r0, r0, #3
-	lsls r5, r5, #8
-	adds r0, r0, r5
-	strh r0, [r1, #0xe]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r2]
-	add sp, #4
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804CB9C: .4byte sub_804C9A0
-_0804CBA0: .4byte sub_804CBA4
-
-    thumb_func_start sub_804CBA4
-sub_804CBA4:
-    bx lr
-    .align 2 , 0
+.if 0
+.endif
