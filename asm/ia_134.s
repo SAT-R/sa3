@@ -197,12 +197,12 @@ _0804C85C: .4byte gPlayers
 _0804C860: .4byte 0x0000025F
 _0804C864:
 	ldr r7, [r6]
-	ldr r0, _0804C8F4 @ =sub_8008A8C
+	ldr r0, _0804C8F4 @ =PlayerCB_8008A8C
 	cmp r7, r0
 	bne _0804C86E
 	b _0804C97C
 _0804C86E:
-	ldr r0, _0804C8F8 @ =sub_800ED80
+	ldr r0, _0804C8F8 @ =PlayerCB_800ED80
 	cmp r7, r0
 	bne _0804C876
 	b _0804C97C
@@ -270,8 +270,8 @@ _0804C876:
 	strh r0, [r6, #0x18]
 	b _0804C950
 	.align 2, 0
-_0804C8F4: .4byte sub_8008A8C
-_0804C8F8: .4byte sub_800ED80
+_0804C8F4: .4byte PlayerCB_8008A8C
+_0804C8F8: .4byte PlayerCB_800ED80
 _0804C8FC: .4byte sub_800A724
 _0804C900: .4byte sub_800A860
 _0804C904: .4byte 0xFFFFFE80

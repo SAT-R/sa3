@@ -200,10 +200,10 @@ _08047C72:
 	cmp r0, #1
 	beq _08047D2C
 	ldr r1, [r4]
-	ldr r0, _08047CE4 @ =sub_8008A8C
+	ldr r0, _08047CE4 @ =PlayerCB_8008A8C
 	cmp r1, r0
 	beq _08047D2C
-	ldr r0, _08047CE8 @ =sub_800ED80
+	ldr r0, _08047CE8 @ =PlayerCB_800ED80
 	cmp r1, r0
 	beq _08047D2C
 	mov r0, sl
@@ -243,8 +243,8 @@ _08047C72:
 	b _08047CF8
 	.align 2, 0
 _08047CE0: .4byte gPlayers
-_08047CE4: .4byte sub_8008A8C
-_08047CE8: .4byte sub_800ED80
+_08047CE4: .4byte PlayerCB_8008A8C
+_08047CE8: .4byte PlayerCB_800ED80
 _08047CEC:
 	adds r1, r5, #0
 	adds r1, #0x84
@@ -434,10 +434,10 @@ _08047E64:
 	beq _08047EE4
 	adds r2, r1, #0
 	ldr r1, [r2]
-	ldr r0, _08047E8C @ =sub_8008A8C
+	ldr r0, _08047E8C @ =PlayerCB_8008A8C
 	cmp r1, r0
 	beq _08047E80
-	ldr r0, _08047E90 @ =sub_800ED80
+	ldr r0, _08047E90 @ =PlayerCB_800ED80
 	cmp r1, r0
 	bne _08047E98
 _08047E80:
@@ -446,8 +446,8 @@ _08047E80:
 	bl sub_8004F10
 	b _08047EE0
 	.align 2, 0
-_08047E8C: .4byte sub_8008A8C
-_08047E90: .4byte sub_800ED80
+_08047E8C: .4byte PlayerCB_8008A8C
+_08047E90: .4byte PlayerCB_800ED80
 _08047E94: .4byte 0x0000025E
 _08047E98:
 	ldr r1, _08047EDC @ =gStageData

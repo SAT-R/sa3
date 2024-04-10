@@ -39,7 +39,7 @@ void Task_802E92C(void)
         return;
     }
 
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         if ((gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) || (i == 0)) {
             if (i == 0) {
                 p = &gPlayers[gStageData.charId];

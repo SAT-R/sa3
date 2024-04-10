@@ -192,10 +192,10 @@ _08034416:
 	cmp r2, #0
 	bne _080344DE
 	ldr r1, [r4]
-	ldr r0, _08034488 @ =sub_8008A8C
+	ldr r0, _08034488 @ =PlayerCB_8008A8C
 	cmp r1, r0
 	beq _080344DE
-	ldr r0, _0803448C @ =sub_800ED80
+	ldr r0, _0803448C @ =PlayerCB_800ED80
 	cmp r1, r0
 	beq _080344DE
 	ldr r0, [r6, #0x38]
@@ -244,8 +244,8 @@ _0803446A:
 	b _080344A0
 	.align 2, 0
 _08034484: .4byte gPlayers
-_08034488: .4byte sub_8008A8C
-_0803448C: .4byte sub_800ED80
+_08034488: .4byte PlayerCB_8008A8C
+_0803448C: .4byte PlayerCB_800ED80
 _08034490:
 	mov r0, r8
 	subs r0, #0x10

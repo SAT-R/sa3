@@ -3,6 +3,8 @@
 
 #include "sprite.h"
 
+#define NUM_SINGLE_PLAYER_CHARS 2
+
 #define MAX_PLAYER_NAME_LENGTH 6
 
 #define PLAYER_LAYER_FRONT 0
@@ -36,9 +38,9 @@ struct Player {
     // (used for speeding up after hitting the ground)
     // Vertical speed only has one
     // (Since no acceleration happens after touching the ground or a platform)
-    s16 speedAirX; // 0x18
-    s16 speedAirY; // 0x1A
-    s16 speedGround; // 0x1C
+    s16 qSpeedAirX; // 0x18
+    s16 qSpeedAirY; // 0x1A
+    s16 qSpeedGround; // 0x1C
 
     u16 keyInput; // 0x1E
     u16 keyInput2; // 0x20
@@ -130,7 +132,9 @@ struct Player {
 
     Sprite *v6C; // set when interacting with some interactables
 
-    u8 Padding_70[0x1C];
+    u8 filler70[0x4];
+    s32 qUnk74;
+    u8 filler78[0x14];
 
     // x8C and v90 are speed-related
     s32 v8C; // max speed?
@@ -187,6 +191,7 @@ struct Player {
 
 extern Player gPlayers[4];
 
+bool32 sub_802C080(Player *p);
 bool32 sub_802C0D4(Player *p);
 
 #endif // GUARD_SA3_PLAYER_H

@@ -158,12 +158,12 @@ _0803DB82:
 	bne _0803DB8C
 	b _0803DC86
 _0803DB8C:
-	ldr r0, _0803DC34 @ =sub_8008A8C
+	ldr r0, _0803DC34 @ =PlayerCB_8008A8C
 	cmp r1, r0
 	bne _0803DB94
 	b _0803DC86
 _0803DB94:
-	ldr r0, _0803DC38 @ =sub_800ED80
+	ldr r0, _0803DC38 @ =PlayerCB_800ED80
 	cmp r1, r0
 	bne _0803DB9C
 	b _0803DC86
@@ -246,8 +246,8 @@ _0803DC1C:
 _0803DC28: .4byte gStageData
 _0803DC2C: .4byte gPlayers
 _0803DC30: .4byte sub_800A438
-_0803DC34: .4byte sub_8008A8C
-_0803DC38: .4byte sub_800ED80
+_0803DC34: .4byte PlayerCB_8008A8C
+_0803DC38: .4byte PlayerCB_800ED80
 _0803DC3C: .4byte sub_800BD88
 _0803DC40:
 	ldr r0, [r4]

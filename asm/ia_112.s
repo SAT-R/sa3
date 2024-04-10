@@ -296,12 +296,12 @@ _08046C7C:
 	b _08046DEE
 _08046C88:
 	ldr r1, [r5]
-	ldr r0, _08046D0C @ =sub_8008A8C
+	ldr r0, _08046D0C @ =PlayerCB_8008A8C
 	cmp r1, r0
 	bne _08046C92
 	b _08046DEE
 _08046C92:
-	ldr r0, _08046D10 @ =sub_800ED80
+	ldr r0, _08046D10 @ =PlayerCB_800ED80
 	cmp r1, r0
 	bne _08046C9A
 	b _08046DEE
@@ -360,8 +360,8 @@ _08046CF4:
 	bl sub_800D87C
 	b _08046DEE
 	.align 2, 0
-_08046D0C: .4byte sub_8008A8C
-_08046D10: .4byte sub_800ED80
+_08046D0C: .4byte PlayerCB_8008A8C
+_08046D10: .4byte PlayerCB_800ED80
 _08046D14: .4byte sub_800E5CC
 _08046D18: .4byte gStageData
 _08046D1C: .4byte 0xEFFFFFFF

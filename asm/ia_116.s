@@ -151,12 +151,12 @@ _08049148:
 	b _08049324
 _08049154:
 	ldr r6, [r4]
-	ldr r0, _08049308 @ =sub_8008A8C
+	ldr r0, _08049308 @ =PlayerCB_8008A8C
 	cmp r6, r0
 	bne _0804915E
 	b _08049324
 _0804915E:
-	ldr r0, _0804930C @ =sub_800ED80
+	ldr r0, _0804930C @ =PlayerCB_800ED80
 	cmp r6, r0
 	bne _08049166
 	b _08049324
@@ -375,8 +375,8 @@ _080492DA:
 	b _08049324
 	.align 2, 0
 _08049304: .4byte gPlayers
-_08049308: .4byte sub_8008A8C
-_0804930C: .4byte sub_800ED80
+_08049308: .4byte PlayerCB_8008A8C
+_0804930C: .4byte PlayerCB_800ED80
 _08049310: .4byte sub_800B240
 _08049314: .4byte sub_800B3FC
 _08049318: .4byte sub_800B374

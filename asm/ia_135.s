@@ -5,6 +5,7 @@
 .syntax unified
 .arm
 
+.if 0
 	thumb_func_start Task_Interactable135
 Task_Interactable135: @ 0x0804C9A0
 	push {r4, r5, r6, r7, lr}
@@ -19,13 +20,13 @@ Task_Interactable135: @ 0x0804C9A0
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r5, r1, r0
-	ldr r6, [r5]
+	adds r5, r1, r0         @ r5 = ia
+	ldr r6, [r5]            @ r6 = me
 	movs r2, #0xc
 	ldrsh r1, [r5, r2]
-	mov r8, r1
+	mov r8, r1              @ r8 = worldX
 	movs r3, #0xe
-	ldrsh r7, [r5, r3]
+	ldrsh r7, [r5, r3]      @ r7 = worldY
 	mov r0, r8
 	adds r1, r7, #0
 	bl IsPointInScreenRect
@@ -45,18 +46,18 @@ _0804C9EC: .4byte 0x00000262
 _0804C9F0:
 	movs r1, #4
 	ldrsb r1, [r6, r1]
-	lsls r1, r1, #3
-	adds r1, r7, r1
+	lsls r1, r1, #3     @ r1 = (me->d.sData[1] * TILE_WIDTH)
+	adds r1, r7, r1     @ r1 = top = worldY + r1
 	lsls r1, r1, #0x10
-	ldrb r3, [r6, #6]
+	ldrb r3, [r6, #6]   @ r3 = me->d.uData[3]
 	lsls r0, r3, #3
 	lsrs r2, r1, #0x10
-	str r2, [sp]
-	asrs r1, r1, #0x10
+	str r2, [sp]        @ sp00 = (u16)top
+	asrs r1, r1, #0x10  @ r1 = (s16)top
 	adds r0, r1, r0
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
-	mov sl, r0
+	mov sl, r0          @ sl = bottom
 	movs r0, #3
 	ldrsb r0, [r6, r0]
 	lsls r0, r0, #3
@@ -65,16 +66,17 @@ _0804C9F0:
 	ldrb r2, [r6, #5]
 	lsls r2, r2, #3
 	lsrs r5, r0, #0x10
-	mov sb, r5
+	mov sb, r5          @ sb = left
 	asrs r0, r0, #0x10
 	adds r0, r0, r2
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
-	mov r8, r0
+	mov r8, r0          @ r8 = right
 	lsls r3, r3, #2
-	adds r1, r1, r3
+	adds r1, r1, r3     @ r1 = top + (me->d.uData[3] * 4)
 	lsls r1, r1, #0x10
-	lsrs r7, r1, #0x10
+	lsrs r7, r1, #0x10  @ r7 = middle = top + (me->d.uData[3] * 4)
+__loopy:
 	movs r1, #0
 _0804CA32:
 	lsls r0, r1, #0x10
@@ -99,12 +101,12 @@ _0804CA4E:
 	adds r0, r0, r1
 	lsls r0, r0, #4
 	ldr r1, _0804CAC0 @ =gPlayers
-	adds r4, r0, r1
+	adds r4, r0, r1     @ r4 = p
 	ldr r1, [r4]
-	ldr r0, _0804CAC4 @ =sub_8008A8C
+	ldr r0, _0804CAC4 @ =PlayerCB_8008A8C
 	cmp r1, r0
 	beq _0804CB0E
-	ldr r0, _0804CAC8 @ =sub_800ED80
+	ldr r0, _0804CAC8 @ =PlayerCB_800ED80
 	cmp r1, r0
 	beq _0804CB0E
 	adds r0, r4, #0
@@ -115,26 +117,26 @@ _0804CA4E:
 	lsls r0, r0, #8
 	ldr r1, [r4, #0x14]
 	lsls r1, r1, #8
-	lsrs r1, r1, #0x10
-	asrs r2, r0, #0x10
-	mov r3, sb
+	lsrs r1, r1, #0x10      @ r1 = (u16)qPlayerY
+	asrs r2, r0, #0x10      @ r2 = qPlayerX
+	mov r3, sb              @ r3 = sb = left
 	lsls r0, r3, #0x10
 	asrs r0, r0, #0x10
 	cmp r2, r0
 	ble _0804CB0E
-	mov r5, r8
+	mov r5, r8              @ r5 = r8 = right
 	lsls r0, r5, #0x10
 	asrs r0, r0, #0x10
 	cmp r2, r0
 	bge _0804CB0E
 	lsls r0, r1, #0x10
-	ldr r2, [sp]
+	ldr r2, [sp]            @ r2= (u16)top
 	lsls r1, r2, #0x10
-	asrs r2, r0, #0x10
+	asrs r2, r0, #0x10      @ r2 = qPlayerY
 	adds r3, r0, #0
 	cmp r3, r1
 	ble _0804CB0E
-	mov r5, sl
+	mov r5, sl              @ r5 = sl = bottom
 	lsls r0, r5, #0x10
 	asrs r0, r0, #0x10
 	cmp r2, r0
@@ -151,8 +153,8 @@ _0804CA4E:
 	b _0804CAD4
 	.align 2, 0
 _0804CAC0: .4byte gPlayers
-_0804CAC4: .4byte sub_8008A8C
-_0804CAC8: .4byte sub_800ED80
+_0804CAC4: .4byte PlayerCB_8008A8C
+_0804CAC8: .4byte PlayerCB_800ED80
 _0804CACC:
 	movs r2, #0x1a
 	ldrsh r0, [r4, r2]
@@ -160,7 +162,7 @@ _0804CACC:
 	bgt _0804CB0E
 _0804CAD4:
 	ldr r1, [r4]
-	ldr r0, _0804CAF0 @ =sub_800A98C
+	ldr r0, _0804CAF0 @ =PlayerCB_800A98C
 	cmp r1, r0
 	beq _0804CB0E
 	asrs r0, r5, #0x10
@@ -174,7 +176,7 @@ _0804CAD4:
 	movs r0, #0x80
 	b _0804CAFA
 	.align 2, 0
-_0804CAF0: .4byte sub_800A98C
+_0804CAF0: .4byte PlayerCB_800A98C
 _0804CAF4:
 	adds r1, r4, #0
 	adds r1, #0x26
@@ -206,6 +208,4 @@ _0804CB1C:
 	pop {r4, r5, r6, r7}
 	pop {r0}
 	bx r0
-
-.if 0
 .endif

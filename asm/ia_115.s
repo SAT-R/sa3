@@ -172,12 +172,12 @@ _08048762:
 	b _080488F2
 _0804877E:
 	ldr r1, [r4]
-	ldr r0, _08048844 @ =sub_8008A8C
+	ldr r0, _08048844 @ =PlayerCB_8008A8C
 	cmp r1, r0
 	bne _08048788
 	b _080488F2
 _08048788:
-	ldr r0, _08048848 @ =sub_800ED80
+	ldr r0, _08048848 @ =PlayerCB_800ED80
 	cmp r1, r0
 	bne _08048790
 	b _080488F2
@@ -272,8 +272,8 @@ _08048828:
 	b _08048906
 	.align 2, 0
 _08048840: .4byte gPlayers
-_08048844: .4byte sub_8008A8C
-_08048848: .4byte sub_800ED80
+_08048844: .4byte PlayerCB_8008A8C
+_08048848: .4byte PlayerCB_800ED80
 _0804884C: .4byte sub_800DCB4
 _08048850: .4byte sub_800DB7C
 _08048854: .4byte gCurTask
@@ -493,10 +493,10 @@ _080489D2:
 	cmp r2, #0
 	beq _08048A44
 	ldr r1, [r2]
-	ldr r0, _08048A00 @ =sub_8008A8C
+	ldr r0, _08048A00 @ =PlayerCB_8008A8C
 	cmp r1, r0
 	beq _080489F6
-	ldr r0, _08048A04 @ =sub_800ED80
+	ldr r0, _08048A04 @ =PlayerCB_800ED80
 	cmp r1, r0
 	bne _08048A0C
 _080489F6:
@@ -505,8 +505,8 @@ _080489F6:
 	bl sub_8004F10
 	b _08048A40
 	.align 2, 0
-_08048A00: .4byte sub_8008A8C
-_08048A04: .4byte sub_800ED80
+_08048A00: .4byte PlayerCB_8008A8C
+_08048A04: .4byte PlayerCB_800ED80
 _08048A08: .4byte 0x00000257
 _08048A0C:
 	ldr r1, _08048A3C @ =gStageData
