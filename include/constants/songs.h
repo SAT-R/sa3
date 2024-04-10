@@ -1,310 +1,344 @@
 #ifndef GUARD_CONSTANTS_SONGS_H
 #define GUARD_CONSTANTS_SONGS_H
 
-#define MUS_DUMMY               0
-#define MUS_INTRO               1
-#define MUS_TITLE_FANFARE       2
-#define MUS_CHARACTER_SELECTION 3
-#define MUS_TA_COURSE_SELECTION                                                         \
-    4 // plays both in Time Attack and (initially) the zone map
-#define MUS_COURSE_SELECTION_2 5
-#define MUS_COURSE_SELECTION_3 6
-#define MUS_TIME_ATTACK_MENU   7
-// 8
-#define MUS_OPTIONS 9
-// 10
-// 11
-// 12
-#define MUS_LEAF_FOREST__ACT_1  13
-#define MUS_LEAF_FOREST__ACT_2  14
-#define MUS_HOT_CRATER__ACT_1   15
-#define MUS_HOT_CRATER__ACT_2   16
-#define MUS_MUSIC_PLANT__ACT_1  17
-#define MUS_MUSIC_PLANT__ACT_2  18
-#define MUS_ICE_PARADISE__ACT_1 19
-#define MUS_ICE_PARADISE__ACT_2 20
-#define MUS_SKY_CANYON__ACT_1   21
-#define MUS_SKY_CANYON__ACT_2   22
-#define MUS_TECHNO_BASE__ACT_1  23
-#define MUS_TECHNO_BASE__ACT_2  24
-#define MUS_EGG_UTOPIA__ACT_1   25
-#define MUS_EGG_UTOPIA__ACT_2   26
-#define MUS_XX__FINAL_ZONE      27
-#define MUS_TRUE_AREA_53        28
-#define MUS_INVINCIBILITY       29
-// 30
-#define MUS_DROWNING         31
-#define MUS_BOSS             32
-#define MUS_BOSS_PINCH       33
-#define MUS_BOSS_KNUCKLES    34
-#define MUS_7_BOSS           35
-#define MUS_7_BOSS_PINCH     36
-#define MUS_FINAL_BOSS       37
-#define MUS_FINAL_BOSS_PINCH 38
-// 39
-// 40
-#define MUS_GAME_OVER     41
-#define MUS_FINAL_ENDING  42
-#define MUS_EXTRA_ENDING  43
-#define MUS_STAFF_CREDITS 44
-#define MUS_DEMO_1        45
-#define MUS_DEMO_2        46
-// 47
-#define MUS_EXTRA_DEMO_1              48
-#define MUS_EXTRA_DEMO_2              49
-#define MUS_SPECIAL_STAGE_INTRO       50
-#define MUS_SPECIAL_STAGE             51
-#define MUS_SPECIAL_STAGE_PINCH       52
-#define MUS_ACHIEVEMENT               53
-#define MUS_SPECIAL_STAGE_CLEAR       54
-#define MUS_SPECIAL_STAGE_RESULT      55
-#define MUS_CHAOS_EMERALD             56
-#define MUS_SPECIAL_STAGE_RESULT_LOSE 57
-#define MUS_VS_2                      58
-#define MUS_VS_3                      59
-// 60
-#define MUS_CONNECTION_PENDING 61
-// 62
-// 63
-#define MUS_VS_LOBBY 64
-// 65
-#define MUS_VS_SELECT_PAK_MODE 66
+#define MUS_INTRO                   0x0
+#define MUS_TITLE_SCREEN            0x1
+#define MUS_MAIN_MENU               0x2
+#define MUS_CHARACTER_SELECT        0x3
+#define MUS_SONIC_FACTORY           0x4
+#define MUS_OPTIONS                 0x5
+#define MUS_OPTIONS_COPY            0x6
+#define MUS_CHAO_PLAYGROUND         0x7
+#define MUS_NEWGAME_INTRO           0x8
+#define MUS_DUMMY__9                0x9
+#define MUS_OVERWORLD__ROUTE_99     0xA
+#define MUS_OVERWORLD__SUNSET_HILL  0xB
+#define MUS_OVERWORLD__OCEAN_BASE   0xC
+#define MUS_OVERWORLD__TOY_KINGDOM  0xD
+#define MUS_OVERWORLD__TWINKLE_SNOW 0xE
+#define MUS_OVERWORLD__CYBER_TRACK  0xF
+#define MUS_OVERWORLD__CHAOS_ANGEL  0x10
+#define MUS_OVERWORLD__ALTAR_EMERALD                                                    \
+    0x11 // @TODO: Find better name? (Not really an overworld in Altar Emerald's case)
 
-/* 67 - 101: Dummies */
+#define MUS_INTACT_MUSIC_1 0x12
+#define MUS_DUMMY__19      0x13
 
-#define SE_RING                    102
-#define SE_SHIFT                   103
-#define SE_SUCCESS                 104
-#define SE_ABORT                   105
-#define SE_SELECT                  106
-#define SE_RETURN                  107
-#define SE_MENU_CURSOR_MOVE        108
-#define SE_SPIN_ATTACK             109
-#define SE_SPIN_DASH_RELEASE       110
-#define SE_SONIC_SKID_ATTACK       111
-#define SE_SONIC_MIDAIR_SOMERSAULT 112
-#define SE_SONIC_INSTA_SHIELD      113
-#define SE_GRINDING                114
-#define SE_BRAKE                   115
-#define SE_JUMP                    116
-#define SE_RING_COPY               117
-#define SE_RINGS_LOST              118
-#define SE_LIFE_LOST               119
-#define SE_TAILS_PROPELLER_FLYING  120
-#define SE_TAILS_TAIL_SWIPE        121
-// 122
-// 123
-// 124
-#define SE_125                     125
-#define SE_126                     126
-#define SE_127                     127
-#define SE_AMY_GROUND_HAMMER       128
-#define SE_AMY_SUPER_HAMMER_ATTACK 129
-// 130
-#define SE_AMY_HAMMER_SWIRL 131
-// 132
-// 133
-// 134
-#define SE_SA1_GOAL_POST 135
-// 136
-// 137
-#define SE_ITEM_BOX                  138
-#define SE_TIMER                     139
-#define SE_STAGE_RESULT_COUNTER      140
-#define SE_STAGE_RESULT_COUNTER_DONE 141
-#define SE_PAUSE_SCREEN              142
-#define SE_143                       143
-#define SE_144                       144
-#define SE_145                       145
-#define SE_146                       146
-#define SE_SPIN                      147
-#define SE_148                       148
-#define SE_149                       149
-#define SE_ITEM_BOX_2                150
-#define SE_ACTIVATE_SHIELD           151
-#define SE_CHECKPOINT                152
-#define SE_SPRING                    153
-#define SE_SPIKES                    154
-#define SE_SPEED_BOOSTER             155
-#define SE_156                       156
-#define SE_157                       157
-#define SE_AIR_BUBBLE                158
-#define SE_ALARM_1                   159
-#define SE_ALARM_2                   160
-#define SE_ALARM_3                   161
-#define SE_ALARM_4                   162
-#define SE_ALARM_5                   163
-#define SE_ALARM_6                   164
-#define SE_ALARM_7                   165
-#define SE_ALARM_8                   166
-#define SE_ALARM_9                   167
-#define SE_ALARM_10                  168
-#define SE_SPRINGY_POLE              169
-#define SE_SPRINGY_SPRING            170
+/* Act Themes */
+#define MUS_ROUTE_99__ACT_1 0x14
+#define MUS_ROUTE_99__ACT_2 0x15
+#define MUS_ROUTE_99__ACT_3 0x16
+// MUS_ROUTE_99__ACT_4           0x17 // Placeholder. One of many signs showing that 4
+// Acts per Zone were most likely planned
+#define MUS_SUNSET_HILL__ACT_1 0x18
+#define MUS_SUNSET_HILL__ACT_2 0x19
+#define MUS_SUNSET_HILL__ACT_3 0x1A
+// MUS_SUNSET_HILL__ACT_4        0x1B // Placeholder/Dummy
+#define MUS_OCEAN_BASE__ACT_1 0x1C
+#define MUS_OCEAN_BASE__ACT_2 0x1D
+#define MUS_OCEAN_BASE__ACT_3 0x1E
+// MUS_OCEAN_BASE__ACT_4        0x1F // Placeholder/Dummy
+#define MUS_TOY_KINGDOM__ACT_1 0x20
+#define MUS_TOY_KINGDOM__ACT_2 0x21
+#define MUS_TOY_KINGDOM__ACT_3 0x22
+// MUS_TOY_KINGDOM__ACT_4        0x23 // Placeholder/Dummy
+#define MUS_TWINKLE_SNOW__ACT_1 0x24
+#define MUS_TWINKLE_SNOW__ACT_2 0x25
+#define MUS_TWINKLE_SNOW__ACT_3 0x26
+// MUS_TWINKLE_SNOW__ACT_4       0x27 // Placeholder/Dummy
+#define MUS_CYBER_TRACK__ACT_1 0x28
+#define MUS_CYBER_TRACK__ACT_2 0x29
+#define MUS_CYBER_TRACK__ACT_3 0x2A
+// MUS_CYBER_TRACK__ACT_4        0x2B // Placeholder/Dummy
+#define MUS_CHAOS_ANGEL__ACT_1 0x2C
+#define MUS_CHAOS_ANGEL__ACT_2 0x2D
+#define MUS_CHAOS_ANGEL__ACT_3 0x2E
+// MUS_CHAOS_ANGEL__ACT_4        0x2F // Placeholder/Dummy
 
-/* 171 - 200: Dummies */
+#define MUS_DUMMY__48            0x30
+#define MUS_DUMMY__49            0x31
+#define MUS_VS__BOSS             0x32
+#define MUS_VS__BOSS_PINCH       0x33
+#define MUS_VS__7_BOSS           0x34
+#define MUS_VS__7_BOSS_PINCH     0x35
+#define MUS_VS__FINAL_BOSS       0x36
+#define MUS_VS__FINAL_BOSS_PINCH 0x37
+#define MUS_VS__EX_BOSS          0x38 // NONAGRESSION?
+#define MUS_VS__EX_BOSS_PINCH    0x39
 
-#define VOICE__ANNOUNCER__SONIC_ADVANCE_2 201
-#define VOICE__ANNOUNCER__SONIC           202
-#define VOICE__ANNOUNCER__TAILS           203
-#define VOICE__ANNOUNCER__KNUCKLES        204
-#define VOICE__ANNOUNCER__AMY             205
-#define VOICE__ANNOUNCER__CREAM           206
-// 207
-#define VOICE__ANNOUNCER__3               208
-#define VOICE__ANNOUNCER__2               209
-#define VOICE__ANNOUNCER__1               210
-#define VOICE__ANNOUNCER__GO              211
-#define VOICE__ANNOUNCER__CONGRATULATIONS 212
-#define SE_MAP_MOVE                       213
-#define SE_MAP_214                        214
-#define SE_MAP_MOVE_END                   215
-#define SE_216                            216
-#define SE_ITEM_CONFUSION                 217
-#define SE_218                            218
-#define SE_219                            219
-#define SE_DELETE_GAME_DATA               220
-#define SE_221                            221
-#define SE_222                            222
-// Plays when Sonic does his "Bound" trick and collides with the ground
-#define SE_SONIC_BOUND_IMPACT  223
-#define SE_224                 224
-#define SE_225                 225
-#define SE_226                 226
-#define SE_CREAM_FLYING        227
-#define SE_228                 228
-#define SE_CREAM_CHEESE_ATTACK 229
-#define SE_230                 230
-#define SE_231                 231
-#define SE_LONG_BRAKE          232
-// 233
-#define SE_234             234
-#define SE_235             235
-#define SE_236             236
-#define SE_EGGMOBILE_FLEES 237
-#define SE_238             238
-#define SE_239             239
-// 240
-#define SE_241 241
-#define SE_242 242
-#define SE_243 243
-#define SE_244 244
-#define SE_245 245
-#define SE_246 246
-// 247
-#define SE_248                248
-#define SE_249                249
-#define SE_250                250
-#define SE_251                251
-#define SE_252                252
-#define SE_253                253
-#define SE_254                254
-#define SE_255                255
-#define SE_256                256
-#define SE_257                257
-#define SE_258                258
-#define SE_259                259
-#define SE_260                260
-#define SE_261                261
-#define SE_262                262
-#define SE_263                263
-#define SE_264                264
-#define SE_265                265
-#define SE_266                266
-#define SE_267                267
-#define SE_268                268
-#define SE_269                269
-#define SE_SUCTION            270
-#define SE_271                271
-#define SE_272                272
-#define SE_273                273
-#define SE_274                274
-#define SE_275                275
-#define SE_276                276
-#define SE_DASH_RING          277
-#define SE_278                278
-#define SE_279                279
-#define SE_280                280
-#define SE_281                281
-#define SE_282                282
-#define SE_283                283
-#define SE_284                284
-#define SE_WHIRLWIND          285
-#define SE_286                286
-#define SE_287                287
-#define SE_288                288
-#define SE_289                289
-#define SE_290                290
-#define SE_291                291
-#define SE_ICE_PARADISE_SLIDE 292
-#define SE_293                293
-#define SE_TECHNO_BASE_COMMON 294
-#define SE_295                295
-#define SE_296                296
-#define SE_297                297
-#define SE_SPECIAL_RING       298
-// 299
+#define MUS_INTACT_MUSIC_2 0x3A
+#define MUS_DEMO           0x3B // @TODO Better name? (this one is from soundtest)
+#define MUS_EX_DEMO_1      0x3C
+#define MUS_EX_DEMO_2      0x3D
 
-/* 300 - 329: Music Plant Instruments */
-#define SE_MUSIC_PLANT_SPRING_1  300
-#define SE_MUSIC_PLANT_SPRING_2  301
-#define SE_MUSIC_PLANT_SPRING_3  302
-#define SE_MUSIC_PLANT_SPRING_4  303
-#define SE_MUSIC_PLANT_CRASH_HIT 304
+#define MUS_ENDING_A      0x3E
+#define MUS_ENDING_B      0x3F
+#define MUS_STAFF_CREDITS 0x40
 
-// TODO(Jace): Name them by the note they play, instead of 1-n
-#define SE_MUSIC_PLANT_NOTES_1        305
-#define SE_MUSIC_PLANT_NOTES_2        306
-#define SE_MUSIC_PLANT_NOTES_3        307
-#define SE_MUSIC_PLANT_NOTES_4        308
-#define SE_MUSIC_PLANT_NOTES_5        309
-#define SE_MUSIC_PLANT_NOTES_6        310
-#define SE_MUSIC_PLANT_NOTES_7        311
-#define SE_MUSIC_PLANT_NOTES_8        312
-#define SE_MUSIC_PLANT_GLOCKENSPIEL_1 313
-#define SE_MUSIC_PLANT_GLOCKENSPIEL_2 314
-#define SE_MUSIC_PLANT_GLOCKENSPIEL_3 315
-#define SE_MUSIC_PLANT_GLOCKENSPIEL_4 316
-#define SE_MUSIC_PLANT_GLOCKENSPIEL_5 317
-#define SE_MUSIC_PLANT_GLOCKENSPIEL_6 318
-#define SE_MUSIC_PLANT_ENTER_HORN     319
-#define SE_MUSIC_PLANT_EXIT_HORN      320
-#define SE_MUSIC_PLANT_ENTER_HORN2    321
-#define SE_MUSIC_PLANT_EXIT_HORN2     322
-#define SE_MUSIC_PLANT_HORN3          323
-#define SE_MUSIC_PLANT_GUITAR_STRING  324
-#define SE_MUSIC_PLANT_PIANO          325
-#define SE_MUSIC_PLANT_FLUTE_1        326
-#define SE_MUSIC_PLANT_FLUTE_2        327
-#define SE_MUSIC_PLANT_FLUTE_3        328
-#define SE_MUSIC_PLANT_FLUTE_4        329
-// 330
-#define SE_331 331
-#define SE_332 332
-#define SE_333 333
+#define MUS_SPECIAL_STAGE          0x41
+#define MUS_SPECIAL_STAGE_RESULT_1 0x42
+#define MUS_SPECIAL_STAGE_RESULT_2 0x43
 
-/* 334 - 400: Dummies */
+#define MUS_VS_MUSIC_1    0x44 // Checking connection
+#define MUS_VS_MUSIC_2    0x45
+#define MUS_VS_MUSIC_3    0x46
+#define MUS_TIME_ATTACK_1 0x47 // Choose stage
+#define MUS_TIME_ATTACK_2 0x48 // Try again
 
-#define MUS_ACT_CLEAR     401
-#define MUS_BOSS_CLEAR    402
-#define MUS_FINAL_CLEAR   403
-#define MUS_EXTRA_CLEAR   404
-#define MUS_TIME_ATTACK_2 405
-#define MUS_TIME_ATTACK_3 406
-#define MUS_1_UP          407
-#define MUS_MESSAGE_2     408
+#define MUS_INVINCIBILITY 0x49
+#define MUS_DUMMY__74     0x4A
+#define MUS_DROWNING      0x4B
 
-#define MUS_GOT_ALL_CHAOS_EMERALDS 410
-#define MUS_FANFARE                411
-#define MUS_VS_EXIT                412
-#define MUS_VS_SUCCESS             413
-#define MUS_VS_MISS                414
-#define MUS_MESSAGE                415
+#define MUS_MINIGAME  0x4C
+#define MUS_DUMMY__77 0x4D
+#define MUS_78        0x4E
+#define MUS_ENDING_A_COPY                                                               \
+    0x4F // @TODO: Find out whether there are differences between this and MUS_ENDING_A
+#define MUS_DUMMY__80   0x50
+#define MUS_EMERALD_GET 0x51
+#define MUS_GAME_OVER   0x52
+#define MUS_1_UP        0x53
+#define MUS_EXTRALIFE   0x53
 
-/* 416 - 503: Dummies */
+#define MUS_STAGE_CLEAR_GOLD    0x54
+#define MUS_STAGE_CLEAR         0x55
+#define MUS_BOSS_CLEAR_GOLD     0x56
+#define MUS_BOSS_CLEAR          0x57
+#define MUS_FINAL_CLEAR         0x58
+#define MUS_EXTRA_CLEAR         0x59
+#define MUS_DUMMY__90           0x5A
+#define MUS_MESSAGE             0x5B
+#define MUS_SPECIAL_STAGE_CLEAR 0x5C
+#define MUS_DUMMY__93           0x5D
+#define MUS_DUMMY__94           0x5E
+#define MUS_TIME_ATTACK_CLEAR_1 0x5F
+#define MUS_TIME_ATTACK_CLEAR_2 0x60
+#define MUS_VS_BGM_4            0x61
+#define MUS_VS_BGM_5            0x62
+#define MUS_VS_SUCCESS          0x63
+#define MUS_VS_MISS             0x64
+#define MUS_DUMMY__101          0x65
+#define SE_RING_OLD             0x66
+#define SE_CHARSELECT_SLIDE     0x67
+#define SE_104                  0x68
+#define SE_105                  0x69
+#define SE_SELECT               0x6A
+#define SE_ABORT                0x6B
+#define SE_DPAD_SELECT          0x6C
 
-#define MUS_504 504
-#define MUS_505 505
-#define MUS_506 506
+// @TODO: Look up official names for moves!
+#define SE_SPIN_ATTACK  0x6D
+#define SE_SPIN_RELEASE 0x6E
+#define SE_GROUND_SLIDE 0x6F
+
+#define SE_GRINDING                   0x72
+#define SE_STOPPING                   0x73
+#define SE_JUMP                       0x74
+#define SE_RING_OLD_2                 0x75
+#define SE_LOST_RINGS                 0x76
+#define SE_HIT_WITH_NO_RINGS          0x77
+#define SE_TAILS__FLYING              0x78
+#define SE_TAILS__TAIL_HIT            0x79
+#define MUS_DUMMY__122                0x7A
+#define MUS_DUMMY__123                0x7B
+#define MUS_DUMMY__124                0x7C
+#define SE_KNUCKLES__WALL_CLIMBING    0x7D
+#define SE_126                        0x7E
+#define MUS_DUMMY__127                0x7F
+#define SE_AMY__PIKO_PIKO_NEUTRAL     0x80
+#define SE_AMY__PIKO_PIKO_NEUTRAL_AIR 0x81
+#define MUS_DUMMY__130                0x82
+#define SE_AMY__DOWN_B                0x83
+#define MUS_DUMMY__132                0x84
+#define MUS_DUMMY__133                0x85
+#define MUS_DUMMY__134                0x86
+#define SE_GOAL_POST_OLD              0x87
+#define MUS_DUMMY__136                0x88
+#define MUS_DUMMY__137                0x89
+
+#define MUS_DUMMY__140 0x8C
+#define MUS_DUMMY__141 0x8D
+#define SE_PAUSE       0x8E
+
+#define MUS_DUMMY__144     0x91
+#define MUS_DUMMY__145     0x92
+#define MUS_DUMMY__146     0x93
+#define SE_BOUNCE_PAD      0x94
+#define SE_148             0x95
+#define SE_ITEMBOX         0x96
+#define SE_SHIELD_ACTIVATE 0x97
+#define SE_CHECKPOINT      0x98
+#define MUS_DUMMY__153     0x99
+#define SE_SPIKES          0x9A
+#define SE_SPEED_BOOSTER   0x9B
+#define SE_156             0x9C
+#define SE_157             0x9D
+#define SE_158             0x9E
+
+/* Dummy Entries from 0x9F to 0xA8 */
+
+#define SE_SPRINGY_POLE 0xA9
+#define SE_170          0xAA
+
+/* Dummy Entries from 0xAB to 0xDB */
+
+#define SE_DC         0xDC
+#define SE_CHAR_BOOST 0xDD
+
+#define MUS_DUMMY__225   0xE1
+#define SE_226           0xE2
+#define SE_CREAM__FLYING 0xE3
+#define MUS_DUMMY__228   0xE4
+#define MUS_DUMMY__229   0xE5
+#define SE_AIR_TRICK_SA2 0xE6
+#define SE_231           0xE7 // @TODO: Maybe water effect from SA2's intro?
+#define MUS_DUMMY__232   0xE8
+#define MUS_DUMMY__233   0xE9
+#define MUS_DUMMY__234   0xEA
+#define SE_235           0xEB
+#define MUS_DUMMY__236   0xEC
+#define SE_237           0xED
+
+/* Dummy Entries from 0xEE to 0x113 */
+
+#define SE_LAUNCH_PAD      0x114
+#define SE_277             0x115
+#define MUS_DUMMY__278     0x116
+#define MUS_DUMMY__279     0x117
+#define SE_ROTATING_HANDLE 0x118
+#define SE_281             0x119
+#define SE_282             0x11A
+
+/* Dummy Entries from 0x11B to 0x121 */
+
+#define SE_290 0x122
+
+/* Dummy Entries from 0x123 to 0x1F3 */
+
+// XYZ_LOW:  Low enthusiasm
+// XYZ_HIGH: High enthusiasm
+#define VOICE_ANNOUNCER__SONIC_ADVANCE_3 0x1F4
+#define VOICE_ANNOUNCER__SONIC_LOW       0x1F5
+#define VOICE_ANNOUNCER__SONIC_HIGH      0x1F6
+#define VOICE_ANNOUNCER__TAILS_LOW       0x1F7
+#define VOICE_ANNOUNCER__TAILS_HIGH      0x1F8
+#define VOICE_ANNOUNCER__KNUCKLES_LOW    0x1F9
+#define VOICE_ANNOUNCER__KNUCKLES_HIGH   0x1FA
+#define VOICE_ANNOUNCER__AMY_LOW         0x1FB
+#define VOICE_ANNOUNCER__AMY_HIGH        0x1FC
+#define VOICE_ANNOUNCER__CREAM_LOW       0x1FD
+#define VOICE_ANNOUNCER__CREAM_HIGH      0x1FE
+#define VOICE_ANNOUNCER__AND             0x1FF
+#define VOICE_ANNOUNCER__CONGRATULATIONS 0x200
+
+// When Omochao gets picked up by the player...
+#define SE_PICKUP_OMOCHAO_1     0x201 // This plays second
+#define SE_PICKUP_OMOCHAO_2     0x202 // This plays first
+#define SE_515                  0x203
+#define VOICE_CHAO__COLLECTED   0x204
+#define SE_BONUS_KEY            0x205
+#define SE_518                  0x206
+#define SE_GOAL_MEDAL           0x207
+#define SE_GOAL_MEDAL_RESULT    0x208
+#define SE_BIG_WARP_RING        0x209
+#define SE_BONUS_UFO            0x20A
+#define SE_523                  0x20B // Bonus Capsule switch?
+#define SE_BONUS_DEFEATED_ENEMY 0x20C
+#define SE_BONUS_1UP_COUNTER    0x20D
+#define SE_526                  0x20E
+#define SE_527                  0x20F
+#define SE_CREAM__CHEESE_ATTACK 0x210
+
+#define SE_TAILS__SWIM       0x21B
+#define SE_TAGACTION_CHARGED 0x21B
+#define SE_TAGACTION_BUILDUP 0x21C
+
+#define SE_ELEVATING_HANDLE 0x247
+
+#define SE_TIMED_SWITCH 0x249
+
+#define SE_ROCKET_ACCELERATING 0x256
+
+#define SE_MINECART_DESTROYED 0x258
+
+#define SE_MINECART_ROLL 0x25E
+
+// SE_610 sounds like Knuckles climbing a wall, but is used in an IA
+#define SE_610 0x262
+
+#define VOICE_SONIC__OKAY    0x265
+#define VOICE_SONIC__YEAH    0x266
+#define VOICE_SONIC__WHOA    0x267
+#define VOICE_SONIC__ALRIGHT 0x268
+
+#define VOICE_TAILS__OKAY    0x269
+#define VOICE_TAILS__YEAH    0x26A
+#define VOICE_TAILS__UARGH   0x26B
+#define VOICE_TAILS__HEHEHE  0x26C
+#define VOICE_TAILS__ALRIGHT 0x26D
+
+#define VOICE_KNUCKLES__COOL    0x26E
+#define MUS_DUMMY__623          0x26F
+#define VOICE_KNUCKLES__HUH     0x270
+#define VOICE_KNUCKLES__HUARGH  0x271
+#define VOICE_KNUCKLES__LETS_GO 0x272
+#define VOICE_KNUCKLES__ALRIGHT 0x273
+
+#define VOICE_AMY__WOOHOO 0x274
+#define VOICE_AMY__HEY    0x275
+#define VOICE_AMY__NO     0x276
+#define VOICE_AMY__YEAH   0x277
+
+#define VOICE_CREAM__HERE_WE_GO 0x278
+#define VOICE_CREAM__YEAH       0x279
+#define VOICE_CREAM__OH         0x27A
+#define VOICE_CREAM__ALRIGHT    0x27B
+
+#define VOICE_EGGMAN__OW                          0x27C
+#define VOICE_EGGMAN__YOU_LITTLE                  0x27D
+#define VOICE_EGGMAN__YOURE_GOING_TO_PAY_FOR_THIS 0x27E
+
+/* Dummy entries from 0x27F to 0x298 */
+
+#define SE_ROCKET_EXPLODING 0x299
+#define SE_666              0x29A
+#define SE_667              0x29B
+#define SE_668              0x29C
+#define SE_PHOTO_CAMERA     0x29D
+#define SE_670              0x29E
+#define SE_671              0x29F
+#define SE_672              0x2A0
+#define SE_673              0x2A1
+
+/* Dummy entries from 0x2A2 to 0x320 */
+
+#define MUS_VS_BGM_6             0x321
+#define MUS_VS_BGM_7             0x322
+#define MUS_VS_BGM_9             0x323
+#define MUS_DUMMY__804           0x324
+#define MUS_VS_BGM_8             0x325
+#define MUS_DUMMY__806           0x326
+#define MUS_DUMMY__807           0x327
+#define MUS_DUMMY__808           0x328
+#define MUS_DUMMY__809           0x329
+#define SE_VS__SELECT            0x32A
+#define SE_VS__811               0x32B
+#define SE_VS__812               0x32C
+#define SE_VS__813               0x32D
+#define SE_VS__JUMP              0x32E
+#define MUS_DUMMY__815           0x32F
+#define MUS_DUMMY__816           0x330
+#define MUS_DUMMY__817           0x331
+#define MUS_DUMMY__818           0x332
+#define SE_VS__ITEMBOX           0x333
+#define SE_VS__SPRING            0x334
+#define SE_VS__SPIKE             0x335
+#define SE_VS__DING_DONG         0x336
+#define SE_VS__823               0x337
+#define MUS_DUMMY__824           0x338
+#define MUS_DUMMY__825           0x339
+#define SE_VS__GRINDING          0x33A
+#define SE_VS__SPEED_BOOSTER     0x33B
+#define VOICE_VS__CHAO_COLLECTED 0x33C
 
 #endif
