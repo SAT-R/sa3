@@ -38,9 +38,9 @@ void Task_Interactable090Main(void)
             if (!sub_802C0D4(p)) {
                 if ((ia->left < p->qWorldX) && (ia->right > p->qWorldX)
                     && (ia->top < p->qWorldY) && (ia->bottom > p->qWorldY)) {
-                    p->speedGround = Q_24_8_MULTIPLY(p->speedGround, 0.96875);
-                    p->speedAirX = Q_24_8_MULTIPLY(p->speedAirX, 0.96875);
-                    p->speedAirY = Q_24_8_MULTIPLY(p->speedAirY, 0.96875);
+                    p->qSpeedGround = Q_24_8_MULTIPLY(p->qSpeedGround, 0.96875);
+                    p->qSpeedAirX = Q_24_8_MULTIPLY(p->qSpeedAirX, 0.96875);
+                    p->qSpeedAirY = Q_24_8_MULTIPLY(p->qSpeedAirY, 0.96875);
                     r7 |= (i + 1);
                 }
             }
