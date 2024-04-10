@@ -58,21 +58,26 @@ void Task_Interactable135(void)
 
                 if ((qPlayerX > left) && (qPlayerX < right) && (qPlayerY > top)
                     && (qPlayerY < bottom)) {
-                    if (((qPlayerY < middleY) && (p->qSpeedAirY >= 0))
-                        || ((qPlayerY > middleY) && (p->qSpeedAirY <= 0))) {
-                        if (p->callback != PlayerCB_800A98C) {
-                            p->qUnk74 = Q(middleY);
+                    if (qPlayerY < middleY) {
+                        if (p->qSpeedAirY < 0)
+                            continue;
+                    } else {
+                        if (p->qSpeedAirY > 0)
+                            continue;
+                    }
 
-                            if (qPlayerY < Q(middleY)) {
-                                p->unk26 = 0x80;
-                            } else {
-                                p->unk26 = 0x00;
-                            }
+                    if (p->callback != PlayerCB_800A98C) {
+                        p->qUnk74 = Q(middleY);
 
-                            p->idleAndCamCounter = 0;
-                            p->qWorldY = Q(middleY);
-                            sub_800A90C(p);
+                        if (qPlayerY < (middleY)) {
+                            p->unk26 = 0x80;
+                        } else {
+                            p->unk26 = 0x00;
                         }
+
+                        p->idleAndCamCounter = 0;
+                        p->qWorldY = Q(middleY);
+                        sub_800A90C(p);
                     }
                 }
             }
