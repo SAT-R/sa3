@@ -25,6 +25,8 @@ void sub_804E530(IAChao *);
 void TaskDestructor_IAChao(struct Task *);
 u16 GetChaoFlag(u16 ZoneIndex, u16 ChaoIndex);
 
+extern u8 gUnknown_080D0410[7][10][2];
+
 void CreateEntity_ChaoInStage(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t;
@@ -45,7 +47,6 @@ void CreateEntity_ChaoInStage(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         SET_MAP_ENTITY_INITIALIZED(me);
         return;
     }
-    // _0804DE82
 
     t = TaskCreate(Task_ChaoMain, sizeof(IAChao), 0x2100, 0, TaskDestructor_IAChao);
     chao = TASK_DATA(t);
@@ -64,6 +65,51 @@ void CreateEntity_ChaoInStage(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     chao->unk70 = (me->d.uData[4] >> 4);
     chao->chaoKind = chaoKind;
     chao->flags = chaoFlag;
+
+    s = &chao->s;
+    s->x = chao->worldX - gCamera.x;
+    s->y = chao->worldY - gCamera.y;
+
+    SET_MAP_ENTITY_INITIALIZED(me);
+    sub_804E530(chao);
+}
+
+void CreateEntity_ChaoInPlayground(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    struct Task *t;
+    IAChao *chao;
+    Sprite *s;
+    u32 chaoKind;
+    s32 worldX, worldY;
+
+    if ((gStageData.gameMode != GAME_MODE_SINGLE_PLAYER) && (gStageData.gameMode != GAME_MODE_5)) {
+        SET_MAP_ENTITY_INITIALIZED(me);
+        return;
+    }
+
+    chaoKind = me->d.uData[4] & 0xF;
+    if (!GetChaoFlag(gStageData.zone, chaoKind)) {
+        SET_MAP_ENTITY_INITIALIZED(me);
+        return;
+    }
+
+    t = TaskCreate(Task_ChaoMain, sizeof(IAChao), 0x2100, 0, TaskDestructor_IAChao);
+    chao = TASK_DATA(t);
+
+    chao->base.regionX = regionX;
+    chao->base.regionY = regionY;
+    chao->base.me = me;
+    chao->base.spriteX = me->x;
+    chao->base.spriteY = id;
+
+    worldX = TO_WORLD_POS(me->x, regionX);
+    chao->worldX = worldX;
+    worldY = TO_WORLD_POS(me->y, regionY);
+    chao->worldY = worldY - gUnknown_080D0410[gStageData.zone][chaoKind][1];
+
+    chao->unk70 = gUnknown_080D0410[gStageData.zone][chaoKind][0];;
+    chao->chaoKind = 0xFF;
+    chao->flags = 0;
 
     s = &chao->s;
     s->x = chao->worldX - gCamera.x;

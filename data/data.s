@@ -592,6 +592,7 @@ gUnknown_080D03E8:
 gUnknown_080D03F8:
     .incbin "baserom.gba", 0x000D03F8, 0x18
 
+@ u8 gUnknown_080D0410[7][10][2];
     .global gUnknown_080D0410
 gUnknown_080D0410:
     .incbin "baserom.gba", 0x000D0410, 0x8C
