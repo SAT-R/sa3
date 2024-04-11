@@ -22,10 +22,10 @@ CreateEntity_InteractableMP023: @ 0x0804E9CC
 	lsrs r5, r5, #0x10
 	lsls r6, r6, #0x18
 	lsrs r6, r6, #0x18
-	ldr r0, _0804EA98 @ =sub_804EAB8
+	ldr r0, _0804EA98 @ =Task_IA_MP023
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _0804EA9C @ =sub_804EFD4
+	ldr r1, _0804EA9C @ =TaskDestructor_IA_MP023
 	str r1, [sp]
 	movs r1, #0x78
 	movs r3, #0
@@ -108,8 +108,8 @@ CreateEntity_InteractableMP023: @ 0x0804E9CC
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804EA98: .4byte sub_804EAB8
-_0804EA9C: .4byte sub_804EFD4
+_0804EA98: .4byte Task_IA_MP023
+_0804EA9C: .4byte TaskDestructor_IA_MP023
 _0804EAA0: .4byte 0x0300006C
 _0804EAA4: .4byte 0x0300006E
 _0804EAA8: .4byte 0x03000073
@@ -117,8 +117,8 @@ _0804EAAC: .4byte 0x0300000C
 _0804EAB0: .4byte gCamera
 _0804EAB4: .4byte 0x03000034
 
-	thumb_func_start sub_804EAB8
-sub_804EAB8: @ 0x0804EAB8
+	thumb_func_start Task_IA_MP023
+Task_IA_MP023: @ 0x0804EAB8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -350,7 +350,7 @@ _0804EC48:
 	adds r1, #0x6e
 	movs r2, #0
 	ldrsh r1, [r1, r2]
-	bl sub_804EF2C
+	bl CreateSomeCloudEffect
 	cmp r5, #0
 	beq _0804ED26
 	ldrb r2, [r4]
@@ -671,8 +671,8 @@ _0804EF18:
 _0804EF24: .4byte gUnknown_03002C24
 _0804EF28: .4byte gUnknown_03001060
 
-	thumb_func_start sub_804EF2C
-sub_804EF2C: @ 0x0804EF2C
+	thumb_func_start CreateSomeCloudEffect
+CreateSomeCloudEffect: @ 0x0804EF2C
 	push {r4, r5, r6, lr}
 	mov r6, sb
 	mov r5, r8
@@ -684,9 +684,9 @@ sub_804EF2C: @ 0x0804EF2C
 	lsrs r5, r5, #0x10
 	lsls r6, r6, #0x10
 	lsrs r6, r6, #0x10
-	ldr r0, _0804EFC0 @ =sub_804F0E8
+	ldr r0, _0804EFC0 @ =Task_SomeCloudEffect
 	ldr r2, _0804EFC4 @ =0x00004040
-	ldr r1, _0804EFC8 @ =sub_804EFF0
+	ldr r1, _0804EFC8 @ =TaskDestructor_SomeCloudEffect
 	str r1, [sp]
 	movs r1, #0x2c
 	movs r3, #0
@@ -745,14 +745,14 @@ sub_804EF2C: @ 0x0804EF2C
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804EFC0: .4byte sub_804F0E8
+_0804EFC0: .4byte Task_SomeCloudEffect
 _0804EFC4: .4byte 0x00004040
-_0804EFC8: .4byte sub_804EFF0
+_0804EFC8: .4byte TaskDestructor_SomeCloudEffect
 _0804EFCC: .4byte 0x0000053A
 _0804EFD0: .4byte gCamera
 
-	thumb_func_start sub_804EFD4
-sub_804EFD4: @ 0x0804EFD4
+	thumb_func_start TaskDestructor_IA_MP023
+TaskDestructor_IA_MP023: @ 0x0804EFD4
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0
@@ -766,8 +766,8 @@ sub_804EFD4: @ 0x0804EFD4
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_804EFF0
-sub_804EFF0: @ 0x0804EFF0
+	thumb_func_start TaskDestructor_SomeCloudEffect
+TaskDestructor_SomeCloudEffect: @ 0x0804EFF0
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
@@ -876,7 +876,7 @@ sub_804F098: @ 0x0804F098
 	adds r0, r3, r1
 	strb r2, [r0]
 	ldr r1, [r4]
-	ldr r0, _0804F0E4 @ =sub_804EAB8
+	ldr r0, _0804F0E4 @ =Task_IA_MP023
 	str r0, [r1, #8]
 _0804F0C8:
 	pop {r4}
@@ -888,10 +888,10 @@ _0804F0D4: .4byte gUnknown_03001060
 _0804F0D8: .4byte 0x000001DF
 _0804F0DC: .4byte 0x03000070
 _0804F0E0: .4byte 0x03000073
-_0804F0E4: .4byte sub_804EAB8
+_0804F0E4: .4byte Task_IA_MP023
 
-	thumb_func_start sub_804F0E8
-sub_804F0E8: @ 0x0804F0E8
+	thumb_func_start Task_SomeCloudEffect
+Task_SomeCloudEffect: @ 0x0804F0E8
 	push {r4, r5, lr}
 	ldr r5, _0804F11C @ =gCurTask
 	ldr r0, [r5]
