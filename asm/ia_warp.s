@@ -329,14 +329,14 @@ _0802E7AA:
 	bl sub_802E8A8
 	b _0802E7E6
 _0802E7B0:
-	ldr r2, _0802E7EC @ =gUnknown_03003C20
+	ldr r2, _0802E7EC @ =gDispCnt
 	ldrh r0, [r2]
 	movs r3, #0x80
 	lsls r3, r3, #7
 	adds r1, r3, #0
 	orrs r0, r1
 	strh r0, [r2]
-	ldr r1, _0802E7F0 @ =gUnknown_03003580
+	ldr r1, _0802E7F0 @ =gWinRegs
 	movs r2, #0
 	movs r0, #0xf0
 	strh r0, [r1, #2]
@@ -360,8 +360,8 @@ _0802E7E6:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0802E7EC: .4byte gUnknown_03003C20
-_0802E7F0: .4byte gUnknown_03003580
+_0802E7EC: .4byte gDispCnt
+_0802E7F0: .4byte gWinRegs
 _0802E7F4: .4byte gUnknown_03002BF8
 
 	thumb_func_start CreateEntity_Warp

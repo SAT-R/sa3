@@ -214,7 +214,7 @@ _080BD518:
 	ldr r7, [sp]
 	cmp r4, #1
 	bls _080BD55C
-	ldr r0, _080BD554 @ =gUnknown_03003C20
+	ldr r0, _080BD554 @ =gDispCnt
 	ldrh r1, [r0]
 	adds r0, r3, #0
 	ands r0, r1
@@ -235,7 +235,7 @@ _080BD518:
 	.align 2, 0
 _080BD54C: .4byte 0x04000006
 _080BD550: .4byte gUnknown_03002B00
-_080BD554: .4byte gUnknown_03003C20
+_080BD554: .4byte gDispCnt
 _080BD558: .4byte gUnknown_030035C0
 _080BD55C:
 	movs r1, #0x20
@@ -2326,7 +2326,7 @@ _080BE4D8:
 	lsrs r7, r0, #0xf
 	cmp r7, #1
 	bls _080BE4F2
-	ldr r0, _080BE588 @ =gUnknown_03003C20
+	ldr r0, _080BE588 @ =gDispCnt
 	ldrh r1, [r0]
 	movs r0, #3
 	ands r0, r1
@@ -2409,7 +2409,7 @@ _080BE558:
 	b _080BE5A6
 	.align 2, 0
 _080BE584: .4byte gSpriteTablesRef
-_080BE588: .4byte gUnknown_03003C20
+_080BE588: .4byte gDispCnt
 _080BE58C: .4byte gUnknown_03003C10
 _080BE590: .4byte gUnknown_030035C0
 _080BE594: .4byte 0x0000FFFC
@@ -2654,7 +2654,7 @@ _080BE760:
 	bhi _080BE766
 	b _080BE922
 _080BE766:
-	ldr r0, _080BE8A4 @ =gUnknown_03003C20
+	ldr r0, _080BE8A4 @ =gDispCnt
 	ldrh r1, [r0]
 	movs r0, #3
 	ands r0, r1
@@ -2816,7 +2816,7 @@ _080BE88E:
 	.align 2, 0
 _080BE89C: .4byte gSpriteTablesRef
 _080BE8A0: .4byte gUnknown_030035C0
-_080BE8A4: .4byte gUnknown_03003C20
+_080BE8A4: .4byte gDispCnt
 _080BE8A8: .4byte 0x00003FFF
 _080BE8AC: .4byte 0x040000D4
 _080BE8B0: .4byte 0x80000003
@@ -3603,7 +3603,7 @@ _080BEE7E:
 	mov r0, r8
 	cmp r0, #1
 	bls _080BEF90
-	ldr r0, _080BEF14 @ =gUnknown_03003C20
+	ldr r0, _080BEF14 @ =gDispCnt
 	ldrh r1, [r0]
 	movs r0, #3
 	ands r0, r1
@@ -3653,7 +3653,7 @@ _080BEF04: .4byte gUnknown_03003590
 _080BEF08: .4byte gUnknown_03003593
 _080BEF0C: .4byte gUnknown_03003592
 _080BEF10: .4byte gUnknown_030035C0
-_080BEF14: .4byte gUnknown_03003C20
+_080BEF14: .4byte gDispCnt
 _080BEF18: .4byte gUnknown_03006230
 _080BEF1C: .4byte 0x040000D4
 _080BEF20:
@@ -18123,7 +18123,7 @@ _080C5BC2:
 	lsrs r0, r0, #0xf
 	cmp r0, #1
 	bls _080C5CD2
-	ldr r0, _080C5C78 @ =gUnknown_03003C20
+	ldr r0, _080C5C78 @ =gDispCnt
 	ldrh r1, [r0]
 	movs r0, #3
 	ands r0, r1
@@ -18192,7 +18192,7 @@ _080C5C62:
 _080C5C6C: .4byte 0x000003FF
 _080C5C70: .4byte 0xFFFFCFFF
 _080C5C74: .4byte 0x003FE000
-_080C5C78: .4byte gUnknown_03003C20
+_080C5C78: .4byte gDispCnt
 _080C5C7C: .4byte gUnknown_03002C24
 _080C5C80:
 	ldr r0, [r5, #0x14]

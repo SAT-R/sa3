@@ -231,7 +231,7 @@ sub_8037F8C: @ 0x08037F8C
 	ldr r0, _08038038 @ =sub_8038058
 	str r0, [r1, #8]
 _08037FDC:
-	ldr r2, _0803803C @ =gUnknown_03003C20
+	ldr r2, _0803803C @ =gDispCnt
 	ldrh r0, [r2]
 	movs r3, #0x80
 	lsls r3, r3, #7
@@ -240,7 +240,7 @@ _08037FDC:
 	ldr r1, _08038040 @ =0x0000DFFF
 	ands r0, r1
 	strh r0, [r2]
-	ldr r3, _08038044 @ =gUnknown_03003580
+	ldr r3, _08038044 @ =gWinRegs
 	ldr r0, _08038048 @ =0x000020D0
 	strh r0, [r3, #2]
 	ldrb r2, [r4]
@@ -274,9 +274,9 @@ _0803802C: .4byte gCurTask
 _08038030: .4byte gPlayers
 _08038034: .4byte 0x03000060
 _08038038: .4byte sub_8038058
-_0803803C: .4byte gUnknown_03003C20
+_0803803C: .4byte gDispCnt
 _08038040: .4byte 0x0000DFFF
-_08038044: .4byte gUnknown_03003580
+_08038044: .4byte gWinRegs
 _08038048: .4byte 0x000020D0
 _0803804C: .4byte 0x00003F1F
 _08038050: .4byte gUnknown_03002BF8
@@ -313,7 +313,7 @@ sub_8038058: @ 0x08038058
 	lsls r0, r0, #4
 	ldr r1, _080380E0 @ =gPlayers
 	adds r0, r0, r1
-	ldr r2, _080380E4 @ =gUnknown_03003580
+	ldr r2, _080380E4 @ =gWinRegs
 	ldr r1, _080380E8 @ =0x000020D0
 	strh r1, [r2, #2]
 	ldr r1, _080380EC @ =0x00001858
@@ -350,7 +350,7 @@ _080380D0:
 _080380D8: .4byte gStageData
 _080380DC: .4byte gCurTask
 _080380E0: .4byte gPlayers
-_080380E4: .4byte gUnknown_03003580
+_080380E4: .4byte gWinRegs
 _080380E8: .4byte 0x000020D0
 _080380EC: .4byte 0x00001858
 _080380F0: .4byte gUnknown_03002BF8
@@ -456,7 +456,7 @@ _080381AE:
 	lsrs r3, r0, #0x18
 	cmp r3, #0
 	bne _080382A8
-	ldr r2, _080381F8 @ =gUnknown_03003C20
+	ldr r2, _080381F8 @ =gDispCnt
 	ldrh r1, [r2]
 	ldr r0, _080381FC @ =0x0000BFFF
 	ands r0, r1
@@ -485,7 +485,7 @@ _080381E4:
 	b _08038210
 	.align 2, 0
 _080381F4: .4byte gStageData
-_080381F8: .4byte gUnknown_03003C20
+_080381F8: .4byte gDispCnt
 _080381FC: .4byte 0x0000BFFF
 _08038200: .4byte gUnknown_03002BF8
 _08038204: .4byte gCamera
@@ -566,7 +566,7 @@ _0803829C: .4byte gCurTask
 _080382A0: .4byte sub_8037F18
 _080382A4: .4byte 0x000003D1
 _080382A8:
-	ldr r3, _080382E0 @ =gUnknown_03003580
+	ldr r3, _080382E0 @ =gWinRegs
 	ldr r0, _080382E4 @ =0x000020D0
 	strh r0, [r3, #2]
 	ldrb r0, [r5]
@@ -594,7 +594,7 @@ _080382CC:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080382E0: .4byte gUnknown_03003580
+_080382E0: .4byte gWinRegs
 _080382E4: .4byte 0x000020D0
 _080382E8: .4byte gUnknown_03002BF8
 

@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start Task_ChaoMain
 Task_ChaoMain: @ 0x0804E06C
 	push {r4, r5, r6, r7, lr}
@@ -18,10 +16,10 @@ Task_ChaoMain: @ 0x0804E06C
 	sub sp, #8
 	ldr r1, _0804E16C @ =gCurTask
 	ldr r0, [r1]
-	ldrh r7, [r0, #6]
+	ldrh r7, [r0, #6]   @ r7 = (u16)chao
 	ldr r3, _0804E170 @ =0x03000071
 	adds r3, r3, r7
-	mov sl, r3
+	mov sl, r3          @ sl = &chao->chaoKind
 	ldrb r0, [r3]
 	cmp r0, #0xff
 	bne _0804E08C
@@ -29,13 +27,13 @@ Task_ChaoMain: @ 0x0804E06C
 _0804E08C:
 	ldr r1, _0804E174 @ =0x0300006C
 	adds r0, r7, r1
-	ldrh r4, [r0]
+	ldrh r4, [r0]       @ r4 = worldX
 	ldr r3, _0804E178 @ =0x0300006E
 	adds r0, r7, r3
 	ldrh r0, [r0]
-	mov r8, r0
+	mov r8, r0          @ r8 = worldY;
 	ldr r0, _0804E17C @ =gStageData
-	mov sb, r0
+	mov sb, r0          @ sb = gStageData
 	ldrb r1, [r0, #6]
 	lsls r0, r1, #2
 	adds r0, r0, r1
@@ -62,10 +60,11 @@ _0804E08C:
 	bl sub_8020700
 	cmp r0, #0
 	beq _0804E198
+__post_bl_sub_8020700:
 	mov r1, sl
 	ldrb r0, [r1]
 	bl SetChaoFlag
-	adds r0, r5, #0
+	adds r0, r5, #0     @ r0 = r5 = p
 	adds r0, #0x9e
 	strh r6, [r0]
 	ldr r3, _0804E188 @ =0x0300005C
@@ -158,6 +157,7 @@ _0804E19C:
 	pop {r4, r5, r6, r7}
 	pop {r0}
 	bx r0
+.endif
 
 	thumb_func_start sub_804E1AC
 sub_804E1AC: @ 0x0804E1AC
@@ -321,7 +321,7 @@ sub_804E2D8: @ 0x0804E2D8
 	ldr r1, _0804E374 @ =0x03000073
 	adds r2, r2, r1
 	strb r0, [r2]
-	ldr r2, _0804E378 @ =gUnknown_03003C20
+	ldr r2, _0804E378 @ =gDispCnt
 	ldrh r0, [r2]
 	movs r4, #0x80
 	lsls r4, r4, #7
@@ -330,7 +330,7 @@ sub_804E2D8: @ 0x0804E2D8
 	ldr r1, _0804E37C @ =0x0000DFFF
 	ands r0, r1
 	strh r0, [r2]
-	ldr r4, _0804E380 @ =gUnknown_03003580
+	ldr r4, _0804E380 @ =gWinRegs
 	ldr r0, _0804E384 @ =0x000020D0
 	strh r0, [r4, #2]
 	ldrb r2, [r5]
@@ -374,9 +374,9 @@ _0804E368: .4byte gStageData
 _0804E36C: .4byte gPlayers
 _0804E370: .4byte 0x03000072
 _0804E374: .4byte 0x03000073
-_0804E378: .4byte gUnknown_03003C20
+_0804E378: .4byte gDispCnt
 _0804E37C: .4byte 0x0000DFFF
-_0804E380: .4byte gUnknown_03003580
+_0804E380: .4byte gWinRegs
 _0804E384: .4byte 0x000020D0
 _0804E388: .4byte 0x00003F1F
 _0804E38C: .4byte gUnknown_03002BF8
@@ -401,7 +401,7 @@ sub_804E398: @ 0x0804E398
 	movs r3, #0xc0
 	lsls r3, r3, #0x12
 	adds r3, r5, r3
-	ldr r2, _0804E404 @ =gUnknown_03003580
+	ldr r2, _0804E404 @ =gWinRegs
 	ldr r0, _0804E408 @ =0x000020D0
 	strh r0, [r2, #2]
 	ldr r0, _0804E40C @ =0x00001858
@@ -435,7 +435,7 @@ _0804E3EA:
 _0804E3F8: .4byte gStageData
 _0804E3FC: .4byte gPlayers
 _0804E400: .4byte gCurTask
-_0804E404: .4byte gUnknown_03003580
+_0804E404: .4byte gWinRegs
 _0804E408: .4byte 0x000020D0
 _0804E40C: .4byte 0x00001858
 _0804E410: .4byte gUnknown_03002BF8
@@ -478,7 +478,7 @@ sub_804E41C: @ 0x0804E41C
 	ldrb r3, [r4]
 	cmp r3, #0
 	beq _0804E4A8
-	ldr r3, _0804E49C @ =gUnknown_03003580
+	ldr r3, _0804E49C @ =gWinRegs
 	ldr r0, _0804E4A0 @ =0x000020D0
 	strh r0, [r3, #2]
 	ldrb r0, [r4]
@@ -503,11 +503,11 @@ _0804E48C: .4byte gPlayers
 _0804E490: .4byte gCurTask
 _0804E494: .4byte 0x03000072
 _0804E498: .4byte 0x03000073
-_0804E49C: .4byte gUnknown_03003580
+_0804E49C: .4byte gWinRegs
 _0804E4A0: .4byte 0x000020D0
 _0804E4A4: .4byte gUnknown_03002BF8
 _0804E4A8:
-	ldr r2, _0804E520 @ =gUnknown_03003C20
+	ldr r2, _0804E520 @ =gDispCnt
 	ldrh r1, [r2]
 	ldr r0, _0804E524 @ =0x0000BFFF
 	ands r0, r1
@@ -568,7 +568,7 @@ _0804E516:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804E520: .4byte gUnknown_03003C20
+_0804E520: .4byte gDispCnt
 _0804E524: .4byte 0x0000BFFF
 _0804E528: .4byte gUnknown_03002BF8
 _0804E52C: .4byte 0xEFFFFFFF

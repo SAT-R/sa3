@@ -2130,7 +2130,7 @@ _0803A1F6:
 	asrs r0, r0, #0x18
 	cmp r0, #1
 	ble _0803A1B0
-	ldr r4, _0803A25C @ =gUnknown_03003C20
+	ldr r4, _0803A25C @ =gDispCnt
 	ldrh r1, [r4]
 	movs r2, #0x80
 	lsls r2, r2, #1
@@ -2168,7 +2168,7 @@ _0803A1F6:
 	b _0803A38E
 	.align 2, 0
 _0803A258: .4byte gStageData
-_0803A25C: .4byte gUnknown_03003C20
+_0803A25C: .4byte gDispCnt
 _0803A260: .4byte 0x0000FEFF
 _0803A264: .4byte gFlags
 _0803A268: .4byte gCurTask

@@ -137,50 +137,50 @@ struct Player {
     u8 filler78[0x14];
 
     // x8C and v90 are speed-related
-    s32 v8C; // max speed?
-    s32 v90; // acceleration?
+    s32 unk8C; // max speed?
+    s32 unk90; // acceleration?
 
-    s32 v94;
+    s32 unk94;
 
-    u8 v98; // is this a union?
-    u8 v99; // is this a union?
-    u8 v9A; // is this a union?
-    u8 v9B; // is this a union?
+    u8 unk98; // is this a union?
+    u8 unk99; // is this a union?
+    u8 unk9A; // is this a union?
+    u8 unk9B; // is this a union?
 
-    u16 v9C;
-    u16 v9E; // 0x9E
+    u16 unk9C;
+    u16 unk9E; // 0x9E
 
     u8 PaddingA0[0x4];
 
-    u8 vA4;
+    u8 unkA4;
     u8 PaddingA5[0x3];
 
     // Maybe vA8 -> vC2 are signed?
-    u32 vA8;
-    u32 vAC;
-    u32 vB0;
-    u32 vB4;
-    u32 vB8;
-    u32 vBC;
-    u16 vC0;
-    u16 vC2;
+    u32 unkA8;
+    u32 unkAC;
+    u32 unkB0;
+    u32 unkB4;
+    u32 unkB8;
+    u32 unkBC;
+    u16 unkC0;
+    u16 unkC2;
 
-    struct Task *vC4[0x03];
-    struct Task *vD0; // Points to something while the "Tag-Action" is toggled (not
-                      // anymore once released)
-    u32 vD4;
-    u32 vD8;
-    u32 vDC;
+    struct Task *unkC4[0x03];
+    struct Task *unkD0; // Points to something while the "Tag-Action" is toggled (not
+                        // anymore once released)
+    u32 unkD4;
+    u32 unkD8;
+    u32 unkDC;
 
-    u8 Padding62[0x4];
+    u8 fillerE0[0x4];
 
     //    spriteInfo* spriteInfo; // 0xE0 | the information is 0x3C bytes long
-    u32 vE4;
+    u32 unkE4;
 
     u8 Padding7[0x54];
 
-    u8 v13C;
-    u8 v13D;
+    u8 unk13C;
+    u8 unk13D;
     u8 Padding72[0x2];
 
     u16 *demoplayInput_Start;

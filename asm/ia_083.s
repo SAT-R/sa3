@@ -506,7 +506,7 @@ sub_803C600: @ 0x0803C600
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r6, r1, r0
-	ldr r2, _0803C648 @ =gUnknown_03003C20
+	ldr r2, _0803C648 @ =gDispCnt
 	ldrh r0, [r2]
 	movs r5, #0x80
 	lsls r5, r5, #1
@@ -533,7 +533,7 @@ _0803C632:
 	b _0803C656
 	.align 2, 0
 _0803C644: .4byte gCurTask
-_0803C648: .4byte gUnknown_03003C20
+_0803C648: .4byte gDispCnt
 _0803C64C: .4byte gStageData
 _0803C650: .4byte gPlayers
 _0803C654:
