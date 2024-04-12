@@ -3,6 +3,7 @@
 #include "task.h"
 #include "game/camera.h"
 #include "game/entity.h"
+#include "game/player.h"
 #include "game/stage.h"
 
 #include "constants/animations.h"
@@ -22,10 +23,16 @@ typedef struct {
 
 void Task_ChaoMain(void);
 void sub_804E530(IAChao *);
+void sub_804E5CC(void);
 void TaskDestructor_IAChao(struct Task *);
-u16 GetChaoFlag(u16 ZoneIndex, u16 ChaoIndex);
+u16 GetChaoFlag(u16 zoneIndex, u16 chaoIndex);
+void SetChaoFlag(u16 chaoIndex);
+
+extern bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5);
 
 extern u8 gUnknown_080D0410[7][10][2];
+
+#define CHAOKIND_PLAYGROUND 0xFF
 
 void CreateEntity_ChaoInStage(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -82,7 +89,8 @@ void CreateEntity_ChaoInPlayground(MapEntity *me, u16 regionX, u16 regionY, u8 i
     u32 chaoKind;
     s32 worldX, worldY;
 
-    if ((gStageData.gameMode != GAME_MODE_SINGLE_PLAYER) && (gStageData.gameMode != GAME_MODE_5)) {
+    if ((gStageData.gameMode != GAME_MODE_SINGLE_PLAYER)
+        && (gStageData.gameMode != GAME_MODE_5)) {
         SET_MAP_ENTITY_INITIALIZED(me);
         return;
     }
@@ -107,7 +115,8 @@ void CreateEntity_ChaoInPlayground(MapEntity *me, u16 regionX, u16 regionY, u8 i
     worldY = TO_WORLD_POS(me->y, regionY);
     chao->worldY = worldY - gUnknown_080D0410[gStageData.zone][chaoKind][1];
 
-    chao->unk70 = gUnknown_080D0410[gStageData.zone][chaoKind][0];;
+    chao->unk70 = gUnknown_080D0410[gStageData.zone][chaoKind][0];
+    ;
     chao->chaoKind = 0xFF;
     chao->flags = 0;
 
@@ -118,3 +127,41 @@ void CreateEntity_ChaoInPlayground(MapEntity *me, u16 regionX, u16 regionY, u8 i
     SET_MAP_ENTITY_INITIALIZED(me);
     sub_804E530(chao);
 }
+
+#if 0
+void Task_ChaoMain(void)
+{
+    IAChao *chao = TASK_DATA(gCurTask);
+    Sprite *s;
+    s16 worldX, worldY;
+    Player *p;
+    bool32 r6;
+
+    if(chao->chaoKind == CHAOKIND_PLAYGROUND) {
+        sub_804E5CC();
+        return;
+    }
+
+    worldX = chao->worldX;
+    worldY = chao->worldY;
+    
+    p = &gPlayers[gStageData.charId];
+    r6 = sub_802C080(p);
+    if(r6) {
+        sub_804E5CC();
+        return;
+    }
+
+    s = &chao->s;
+    // r6 = 0
+    if(sub_8020700(s, worldX, worldY, 0, p, r6)) {
+        SetChaoFlag(chao->chaoKind);
+
+        p->unk9E = r6; // r6 = 0
+
+    } else {
+        sub_804E5CC();
+        return;
+    }
+}
+#endif
