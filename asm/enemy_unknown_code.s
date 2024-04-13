@@ -1266,7 +1266,7 @@ _0805C988:
 	strh r5, [r6, #0x36]
 	adds r0, r6, #0
 	ldr r1, _0805CA00 @ =sub_800DB30
-	bl sub_800D87C
+	bl SetPlayerCallback
 	b _0805CA1C
 	.align 2, 0
 _0805C9F8: .4byte gPlayers

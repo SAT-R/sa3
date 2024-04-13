@@ -467,7 +467,7 @@ _0804731E:
 	str r1, [r6, #4]
 	adds r0, r6, #0
 	ldr r1, _08047360 @ =sub_800DB30
-	bl sub_800D87C
+	bl SetPlayerCallback
 	b _08047654
 	.align 2, 0
 _0804735C: .4byte 0xFFFFF800
@@ -867,7 +867,7 @@ _0804762C:
 	str r0, [r6, #4]
 	adds r0, r6, #0
 	ldr r1, _0804768C @ =sub_800891C
-	bl sub_800D87C
+	bl SetPlayerCallback
 	movs r4, #0x6c
 	add r4, sl
 	mov sb, r4

@@ -220,7 +220,7 @@ _080317D0:
 	strb r0, [r2]
 	adds r0, r5, #0
 	ldr r1, _08031850 @ =sub_800BC38
-	bl sub_800D87C
+	bl SetPlayerCallback
 	asrs r0, r4, #3
 	adds r0, r4, r0
 	strh r0, [r5, #0x1a]

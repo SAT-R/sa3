@@ -280,7 +280,7 @@ _08041592:
 	strh r0, [r5, #0x30]
 	ldr r1, _0804160C @ =sub_800EB4C
 	adds r0, r5, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	adds r0, r6, #0
 	adds r0, #0xb3
 	strb r4, [r0]
@@ -533,7 +533,7 @@ _0804176C:
 	adds r3, r3, r1
 	strb r3, [r4]
 	ldr r1, _080417EC @ =sub_800AEF4
-	bl sub_800D87C
+	bl SetPlayerCallback
 _080417C6:
 	bl sub_8041988
 	lsls r0, r0, #0x10

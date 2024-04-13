@@ -286,7 +286,7 @@ _0803DC6A:
 	beq _0803DC86
 	adds r0, r4, #0
 	ldr r1, _0803DCC0 @ =sub_800BCE0
-	bl sub_800D87C
+	bl SetPlayerCallback
 _0803DC86:
 	mov r0, r8
 	adds r0, #1

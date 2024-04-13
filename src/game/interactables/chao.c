@@ -48,8 +48,6 @@ void sub_804E5CC(void);
 void Task_804E66C(void);
 void TaskDestructor_IAChao(struct Task *);
 
-extern bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5);
-
 extern u8 gUnknown_080D0410[7][NUM_CHAO_PER_ZONE][2];
 extern u8 gUnknown_080D049C[NUM_CHAO_PER_ZONE];
 extern const u16 sChaoIATilesInfo[3][2];

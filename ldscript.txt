@@ -103,7 +103,6 @@ SECTIONS {
         build/sa3/asm/ia_mp_023.o(.text);
         build/sa3/asm/ia_mp_024.o(.text);
         build/sa3/src/game/interactables/final_zone_ring.o(.text);
-        build/sa3/asm/ia_142.o(.text);
         build/sa3/src/game/interactables/emerald_in_playground.o(.text);
         build/sa3/asm/ia_emerald_in_playground.o(.text);
         build/sa3/asm/code_1.o(.text);

@@ -873,7 +873,7 @@ _0804376C:
 	ldr r1, _08043780 @ =sub_800E348
 _08043774:
 	adds r0, r4, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	b _08043794
 	.align 2, 0
 _0804377C: .4byte 0xFFFFEC00
@@ -885,7 +885,7 @@ _08043784:
 	str r0, [r4, #0x74]
 	ldr r1, _0804379C @ =sub_800E370
 	adds r0, r4, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 _08043794:
 	pop {r4, r5}
 	pop {r0}
@@ -942,7 +942,7 @@ _080437E8:
 	ldr r1, _080437FC @ =sub_800E490
 _080437F4:
 	adds r0, r4, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	b _08043812
 	.align 2, 0
 _080437FC: .4byte sub_800E490
@@ -954,7 +954,7 @@ _08043800:
 	str r0, [r4, #0x74]
 	ldr r1, _08043818 @ =sub_800E468
 	adds r0, r4, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 _08043812:
 	pop {r4, r5}
 	pop {r0}

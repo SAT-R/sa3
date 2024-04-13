@@ -215,7 +215,7 @@ _080406A4:
 	movs r0, #0xb
 	strh r0, [r4, #0x30]
 	adds r0, r4, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 _0804070E:
 	movs r1, #0x1a
 	ldrsh r0, [r4, r1]

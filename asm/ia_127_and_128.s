@@ -122,7 +122,7 @@ _0804B586:
 	beq _0804B5D4
 	adds r0, r4, #0
 	ldr r1, _0804B5D0 @ =sub_800E5EC
-	bl sub_800D87C
+	bl SetPlayerCallback
 	b _0804B5DC
 	.align 2, 0
 _0804B5C8: .4byte gPlayers
@@ -131,7 +131,7 @@ _0804B5D0: .4byte sub_800E5EC
 _0804B5D4:
 	adds r0, r4, #0
 	ldr r1, _0804B5F8 @ =sub_800E5D0
-	bl sub_800D87C
+	bl SetPlayerCallback
 _0804B5DC:
 	movs r1, #0x80
 	lsls r1, r1, #9

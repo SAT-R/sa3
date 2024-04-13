@@ -1005,7 +1005,7 @@ _0804D34A:
 _0804D34C:
 	ldr r1, _0804D35C @ =sub_800DDB4
 	adds r0, r4, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	pop {r4}
 	pop {r0}
 	bx r0
@@ -1634,7 +1634,7 @@ sub_804D7F0: @ 0x0804D7F0
 	bgt _0804D824
 	ldr r1, _0804D820 @ =sub_800DD0C
 	adds r0, r4, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	b _0804D830
 	.align 2, 0
 _0804D820: .4byte sub_800DD0C
@@ -1643,7 +1643,7 @@ _0804D824:
 	bgt _0804D830
 	ldr r1, _0804D838 @ =sub_800DD28
 	adds r0, r4, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 _0804D830:
 	pop {r4, r5}
 	pop {r0}
@@ -1704,7 +1704,7 @@ _0804D88C:
 _0804D88E:
 	ldr r1, _0804D89C @ =sub_800DE48
 	adds r0, r4, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	pop {r4}
 	pop {r0}
 	bx r0

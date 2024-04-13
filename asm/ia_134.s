@@ -307,7 +307,7 @@ _0804C938:
 	strh r0, [r6, #0x18]
 	adds r0, r6, #0
 	ldr r1, _0804C948 @ =sub_800A690
-	bl sub_800D87C
+	bl SetPlayerCallback
 	b _0804C97C
 	.align 2, 0
 _0804C948: .4byte sub_800A690
@@ -317,7 +317,7 @@ _0804C94C:
 _0804C950:
 	adds r0, r6, #0
 	ldr r1, _0804C960 @ =sub_800A7CC
-	bl sub_800D87C
+	bl SetPlayerCallback
 	b _0804C97C
 	.align 2, 0
 _0804C95C: .4byte 0xFFFFFE80

@@ -23,10 +23,13 @@
 #define ACTS_PER_ZONE      4
 #define ACT_SLOTS_PER_ZONE (ACTS_PER_ZONE + 1)
 
+#define STAGE_ALTAR_EMERALD 71
+#define STAGE_NONAGGRESSION 72
+
 #define LEVEL_INDEX(zone, act) ((zone)*ACT_SLOTS_PER_ZONE) + (act)
 #define ACT_INDEX(lvl)         ((lvl) & (ACT_SLOTS_PER_ZONE - 1))
 
-#define NUM_LEVEL_IDS 34
+#define NUM_LEVEL_IDS 73
 
 #define LEVEL_TO_ZONE(level) ((level) >> 2)
 // ((((level) / (ACTS_PER_ZONE + 1)) * 2) | ((level) & 1))

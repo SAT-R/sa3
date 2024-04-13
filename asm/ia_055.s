@@ -184,7 +184,7 @@ _08033EBA:
 	bl sub_8004E98
 	ldr r1, _08033EEC @ =sub_8005BD4
 	adds r0, r5, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	ldr r1, _08033EE0 @ =gStageData
 	movs r0, #5
 	strb r0, [r1, #4]
@@ -235,7 +235,7 @@ _08033F2A:
 	ldr r6, _08033FC8 @ =sub_8005BD4
 	adds r0, r5, #0
 	adds r1, r6, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	ldrb r0, [r4, #3]
 	cmp r0, #5
 	bhi _08033F70
@@ -260,7 +260,7 @@ _08033F2A:
 	bne _08033F70
 	adds r0, r4, #0
 	adds r1, r6, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 _08033F70:
 	ldr r4, _08033FC0 @ =gStageData
 	movs r0, #5
@@ -361,7 +361,7 @@ _0803402A:
 	adds r4, r0, r6
 	adds r0, r4, #0
 	ldr r1, _0803405C @ =sub_8005E80
-	bl sub_800D87C
+	bl SetPlayerCallback
 	movs r1, #0x80
 	lsls r1, r1, #9
 	adds r0, r5, r1

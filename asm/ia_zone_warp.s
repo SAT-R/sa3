@@ -373,7 +373,7 @@ sub_802D9A8: @ 0x0802D9A8
 _0802D9F4:
 	ldr r1, _0802DA10 @ =sub_800DB30
 	adds r0, r4, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	ldr r1, [r6]
 	ldr r0, _0802DA14 @ =sub_802DADC
 	str r0, [r1, #8]

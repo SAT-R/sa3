@@ -272,7 +272,7 @@ _08047CF8:
 	str r4, [r1]
 	adds r0, r4, #0
 	ldr r1, _08047D5C @ =sub_800DBE8
-	bl sub_800D87C
+	bl SetPlayerCallback
 	ldr r0, [r4, #4]
 	movs r1, #0x20
 	orrs r0, r1
@@ -1235,7 +1235,7 @@ sub_8048420: @ 0x08048420
 	strh r5, [r4, #0x1c]
 	ldr r1, _080484C0 @ =sub_8005380
 	adds r0, r4, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 _0804849C:
 	mov r2, sb
 	ldrb r0, [r2, #0xa]

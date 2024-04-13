@@ -514,7 +514,7 @@ _08038210:
 	adds r0, r4, #0
 	ldr r1, _08038298 @ =sub_8005380
 	str r2, [sp]
-	bl sub_800D87C
+	bl SetPlayerCallback
 	ldr r2, [sp]
 _0803823E:
 	adds r0, r5, #1

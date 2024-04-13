@@ -432,7 +432,7 @@ _08037594:
 	strh r0, [r6, #0x1a]
 	adds r0, r6, #0
 	ldr r1, _08037608 @ =sub_800DB30
-	bl sub_800D87C
+	bl SetPlayerCallback
 	ldr r0, _0803760C @ =0x0000024D
 	bl sub_8003DF0
 _080375CC:

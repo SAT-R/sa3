@@ -203,10 +203,10 @@ _080409F2:
 	movs r1, #0
 	strh r0, [r6, #0x12]
 	strb r1, [r6, #0xc]
-	ldr r5, _08040A94 @ =sub_800AD24
+	ldr r5, _08040A94 @ =PlayerCB_800AD24
 	adds r0, r4, #0
 	adds r1, r5, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	adds r0, r4, #0
 	adds r0, #0x2b
 	ldrb r1, [r0]
@@ -228,7 +228,7 @@ _080409F2:
 	bne _08040A56
 	adds r0, r2, #0
 	adds r1, r5, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 _08040A56:
 	ldrb r0, [r6, #3]
 	cmp r0, #4
@@ -252,7 +252,7 @@ _08040A84: .4byte 0x0300000C
 _08040A88: .4byte 0x0300005C
 _08040A8C: .4byte 0x00000209
 _08040A90: .4byte 0x03000061
-_08040A94: .4byte sub_800AD24
+_08040A94: .4byte PlayerCB_800AD24
 _08040A98:
 	movs r1, #0
 	ldr r6, _08040AAC @ =gStageData

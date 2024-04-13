@@ -525,7 +525,7 @@ _08035628:
 	strh r0, [r4, #0x32]
 	ldr r1, _08035658 @ =sub_80071A8
 	adds r0, r4, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	adds r0, r5, #0
 	adds r0, #0x72
 	ldrb r0, [r0]
@@ -547,7 +547,7 @@ _08035658: .4byte sub_80071A8
 _0803565C:
 	ldr r1, _08035688 @ =sub_8007240
 	adds r0, r4, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	adds r0, r5, #0
 	adds r0, #0x72
 	ldrb r0, [r0]
@@ -571,7 +571,7 @@ _08035688: .4byte sub_8007240
 _0803568C:
 	ldr r1, _080356C8 @ =sub_8007110
 	adds r0, r4, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	ldr r0, [r4, #4]
 	movs r1, #1
 	orrs r0, r1
@@ -603,7 +603,7 @@ _080356C8: .4byte sub_8007110
 _080356CC:
 	ldr r1, _0803570C @ =sub_8007110
 	adds r0, r4, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	ldr r0, [r4, #4]
 	movs r1, #2
 	rsbs r1, r1, #0
@@ -637,7 +637,7 @@ _0803570C: .4byte sub_8007110
 _08035710:
 	ldr r1, _08035754 @ =sub_8007110
 	adds r0, r4, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	ldr r0, [r4, #4]
 	movs r1, #1
 	orrs r0, r1
@@ -673,7 +673,7 @@ _08035754: .4byte sub_8007110
 _08035758:
 	ldr r1, _0803579C @ =sub_8007240
 	adds r0, r4, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	ldr r0, [r4, #4]
 	movs r1, #1
 	orrs r0, r1
@@ -708,7 +708,7 @@ _0803579C: .4byte sub_8007240
 _080357A0:
 	ldr r1, _080357E4 @ =sub_8007110
 	adds r0, r4, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	ldr r0, [r4, #4]
 	movs r1, #2
 	rsbs r1, r1, #0
@@ -744,7 +744,7 @@ _080357E4: .4byte sub_8007110
 _080357E8:
 	ldr r1, _08035888 @ =sub_8007240
 	adds r0, r4, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	ldr r0, [r4, #4]
 	movs r1, #2
 	rsbs r1, r1, #0

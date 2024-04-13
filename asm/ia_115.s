@@ -199,7 +199,7 @@ _08048790:
 	bl sub_8016F28
 	adds r0, r4, #0
 	ldr r1, _08048850 @ =sub_800DB7C
-	bl sub_800D87C
+	bl SetPlayerCallback
 	ldr r0, [r4, #4]
 	movs r1, #0x20
 	orrs r0, r1
@@ -862,7 +862,7 @@ _08048C80:
 	strh r3, [r2, #0x1c]
 	ldr r1, _08048CDC @ =sub_8005380
 	adds r0, r2, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 _08048CBA:
 	ldrb r0, [r4, #0xa]
 	mov r1, sl

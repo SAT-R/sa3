@@ -525,14 +525,14 @@ _08031EA8:
 	beq _08031EC4
 	adds r0, r5, #0
 	ldr r1, _08031EC0 @ =sub_80077CC
-	bl sub_800D87C
+	bl SetPlayerCallback
 	b _08031ECC
 	.align 2, 0
 _08031EC0: .4byte sub_80077CC
 _08031EC4:
 	adds r0, r5, #0
 	ldr r1, _08031F14 @ =sub_8005528
-	bl sub_800D87C
+	bl SetPlayerCallback
 _08031ECC:
 	movs r1, #0x1a
 	ldrsh r0, [r5, r1]

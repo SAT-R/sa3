@@ -263,7 +263,7 @@ _080344A0:
 	str r0, [r4, #0x14]
 	adds r0, r4, #0
 	ldr r1, _080344FC @ =sub_800BEE8
-	bl sub_800D87C
+	bl SetPlayerCallback
 	str r4, [r6, #0x38]
 	adds r1, r6, #0
 	adds r1, #0x36
@@ -392,7 +392,7 @@ _0803458C:
 	bls _080345D0
 	ldr r1, _080345DC @ =sub_8006DB8
 	adds r0, r4, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	movs r1, #0
 	movs r0, #0
 	strh r0, [r4, #0x18]

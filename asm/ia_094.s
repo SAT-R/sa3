@@ -231,7 +231,7 @@ _0804044E:
 	bl sub_8016F28
 	adds r0, r5, #0
 	ldr r1, _08040484 @ =sub_800A5B0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	lsls r0, r4, #8
 	str r0, [r5, #0x10]
 	asrs r0, r7, #0x10
@@ -264,7 +264,7 @@ _08040496:
 	bl sub_8016F28
 	adds r0, r5, #0
 	ldr r1, _080404C4 @ =sub_800A5B0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	lsls r0, r6, #8
 	str r0, [r5, #0x10]
 	movs r0, #0

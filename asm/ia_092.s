@@ -115,7 +115,7 @@ _0803FBAE:
 	bl sub_8016F28
 	adds r0, r4, #0
 	ldr r1, _0803FC20 @ =sub_800A3C0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	ldr r0, [r4, #4]
 	movs r1, #0x24
 	orrs r0, r1

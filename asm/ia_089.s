@@ -214,7 +214,7 @@ _0803F052:
 	str r0, [r4, #0x74]
 	adds r0, r4, #0
 	ldr r1, _0803F0C4 @ =sub_800AAC0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	adds r0, r4, #0
 	bl sub_8016F28
 	ldr r1, [sp, #8]

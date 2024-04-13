@@ -169,7 +169,7 @@ _08040E00:
 	strb r0, [r3]
 	ldr r1, _08040E80 @ =sub_800ABD4
 	adds r0, r4, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	adds r0, r4, #0
 	adds r0, #0x2b
 	ldrb r1, [r0]
@@ -189,9 +189,9 @@ _08040E00:
 	ands r0, r1
 	cmp r0, #8
 	bne _08040E58
-	ldr r1, _08040E84 @ =sub_800AD24
+	ldr r1, _08040E84 @ =PlayerCB_800AD24
 	adds r0, r3, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 _08040E58:
 	movs r0, #2
 	mov r1, r8
@@ -208,7 +208,7 @@ _08040E74: .4byte gStageData
 _08040E78: .4byte gPlayers
 _08040E7C: .4byte gSaveGame
 _08040E80: .4byte sub_800ABD4
-_08040E84: .4byte sub_800AD24
+_08040E84: .4byte PlayerCB_800AD24
 _08040E88: .4byte 0x00000206
 _08040E8C:
 	movs r0, #0xc0

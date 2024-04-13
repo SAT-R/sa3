@@ -364,7 +364,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable139
     .4byte CreateEntity_ChaoInStage
     .4byte CreateEntity_Interactable141
-    .4byte CreateEntity_Interactable142
+    .4byte CreateEntity_FinalZoneRing
     .4byte CreateEntity_ChaoInPlayground
     .4byte CreateEntity_EmeraldInPlayground
 

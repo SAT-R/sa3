@@ -420,14 +420,14 @@ _080335C4:
 	ldr r1, _080335D0 @ =sub_8006F98
 _080335C6:
 	adds r0, r5, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	b _080335DC
 	.align 2, 0
 _080335D0: .4byte sub_8006F98
 _080335D4:
 	ldr r1, _0803365C @ =sub_8009BF0
 	adds r0, r5, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 _080335DC:
 	ldr r2, _08033660 @ =gUnknown_080CF470
 	ldrb r1, [r4]

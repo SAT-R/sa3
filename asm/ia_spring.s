@@ -393,14 +393,14 @@ _0802DF5C:
 	ldr r1, _0802DF68 @ =sub_800EA0C
 _0802DF5E:
 	adds r0, r5, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	b _0802DF74
 	.align 2, 0
 _0802DF68: .4byte sub_800EA0C
 _0802DF6C:
 	ldr r1, _0802DF90 @ =sub_8009BF0
 	adds r0, r5, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 _0802DF74:
 	ldrb r1, [r4]
 	mov r0, r8

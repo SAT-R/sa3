@@ -12,9 +12,9 @@
 
 // Declared beforehand because it's used inside Player struct
 struct Player;
-typedef void (*PlayerCallback)(struct Player *);
-
 typedef struct Player Player;
+typedef void (*PlayerCallback)(Player *);
+
 struct Player {
     // Code (Character Movement) to be executed
     PlayerCallback callback; // 0x00

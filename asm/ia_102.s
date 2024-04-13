@@ -264,7 +264,7 @@ _0804279A:
 	bl sub_8016F28
 	adds r0, r4, #0
 	ldr r1, _08042888 @ =sub_800DB30
-	bl sub_800D87C
+	bl SetPlayerCallback
 _08042802:
 	movs r2, #0x30
 	ldrsh r1, [r4, r2]

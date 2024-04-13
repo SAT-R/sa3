@@ -714,7 +714,7 @@ _080328CE:
 	strb r0, [r2]
 	adds r0, r5, #0
 	ldr r1, _08032914 @ =sub_800DB30
-	bl sub_800D87C
+	bl SetPlayerCallback
 	ldr r0, [r5, #4]
 	ldr r1, _08032918 @ =0xEFFFFFF7
 	ands r0, r1

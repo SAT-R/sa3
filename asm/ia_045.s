@@ -211,7 +211,7 @@ _08032CD6:
 	strb r0, [r2]
 	adds r0, r4, #0
 	ldr r1, _08032D54 @ =sub_800A168
-	bl sub_800D87C
+	bl SetPlayerCallback
 	mov r0, sb
 	add r0, r8
 	strb r5, [r0]
@@ -464,7 +464,7 @@ _08032EF4:
 	str r0, [r4, #4]
 	adds r0, r4, #0
 	ldr r1, _08032F38 @ =sub_800A094
-	bl sub_800D87C
+	bl SetPlayerCallback
 	movs r0, #0xfb
 	lsls r0, r0, #8
 	strh r0, [r4, #0x1a]
@@ -519,7 +519,7 @@ _08032F3C:
 	strb r1, [r0]
 	adds r0, r4, #0
 	ldr r1, _08032FCC @ =sub_800A168
-	bl sub_800D87C
+	bl SetPlayerCallback
 	strb r5, [r6]
 _08032F96:
 	adds r0, r7, #1

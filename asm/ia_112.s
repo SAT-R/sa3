@@ -357,7 +357,7 @@ _08046CF4:
 	strb r4, [r0]
 	adds r0, r5, #0
 	ldr r1, _08046D20 @ =sub_800DB30
-	bl sub_800D87C
+	bl SetPlayerCallback
 	b _08046DEE
 	.align 2, 0
 _08046D0C: .4byte PlayerCB_8008A8C

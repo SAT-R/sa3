@@ -313,7 +313,7 @@ sub_804EC14: @ 0x0804EC14
 	str r1, [r5, #4]
 	ldr r1, _0804ECB0 @ =sub_800DAF4
 	adds r0, r5, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 _0804EC48:
 	adds r0, r6, #0
 	adds r0, #0xc

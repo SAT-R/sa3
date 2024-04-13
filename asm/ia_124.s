@@ -187,7 +187,7 @@ _0804AFAA:
 	str r0, [r4, #0x74]
 	adds r0, r4, #0
 	ldr r1, _0804B000 @ =sub_800B8A8
-	bl sub_800D87C
+	bl SetPlayerCallback
 	adds r0, r4, #0
 	bl sub_8016F28
 	b _0804B0D6
@@ -243,7 +243,7 @@ _0804B01A:
 	str r0, [r4, #0x74]
 	adds r0, r4, #0
 	ldr r1, _0804B06C @ =sub_800B8A8
-	bl sub_800D87C
+	bl SetPlayerCallback
 	b _0804B0D6
 	.align 2, 0
 _0804B068: .4byte sub_800B9CC

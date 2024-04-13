@@ -152,7 +152,7 @@ _0803D8A2:
 	beq _0803D8FC
 	adds r0, r4, #0
 	ldr r1, _0803D8F8 @ =sub_80077CC
-	bl sub_800D87C
+	bl SetPlayerCallback
 	b _0803D91C
 	.align 2, 0
 _0803D8F4: .4byte gPlayers
@@ -164,14 +164,14 @@ _0803D8FC:
 	bne _0803D914
 	adds r0, r4, #0
 	ldr r1, _0803D910 @ =sub_8005380
-	bl sub_800D87C
+	bl SetPlayerCallback
 	b _0803D91C
 	.align 2, 0
 _0803D910: .4byte sub_8005380
 _0803D914:
 	adds r0, r4, #0
 	ldr r1, _0803D924 @ =sub_800891C
-	bl sub_800D87C
+	bl SetPlayerCallback
 _0803D91C:
 	adds r1, r5, r6
 	movs r0, #1

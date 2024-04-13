@@ -192,7 +192,7 @@ _0804A54E:
 	beq _0804A574
 	adds r0, r4, #0
 	ldr r1, _0804A5AC @ =sub_800DE64
-	bl sub_800D87C
+	bl SetPlayerCallback
 _0804A574:
 	ldr r0, [r6, #0x38]
 	str r0, [r4, #0x10]

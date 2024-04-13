@@ -84,7 +84,7 @@ _0804112C:
 	ldr r5, _080411C8 @ =sub_800AE14
 	adds r0, r4, #0
 	adds r1, r5, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 	adds r0, r4, #0
 	adds r0, #0x2b
 	ldrb r1, [r0]
@@ -106,7 +106,7 @@ _0804112C:
 	bne _08041190
 	adds r0, r2, #0
 	adds r1, r5, #0
-	bl sub_800D87C
+	bl SetPlayerCallback
 _08041190:
 	ldrb r0, [r6, #3]
 	cmp r0, #4
