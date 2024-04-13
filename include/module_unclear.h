@@ -13,6 +13,8 @@ void sub_8003E28(u16 song);
 bool32 sub_8004E98(Player *p, u16 song);
 
 void sub_80236C8(void *, u8 p1, void *);
+bool32 sub_8023734(void *chaoEwramData);
+void sub_80239A8(void *chaoEwramData);
 void sub_80299FC(void);
 
 #endif // GUARD_SA3_MODULE_UNCLEAR_H

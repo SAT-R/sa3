@@ -1000,7 +1000,7 @@ sub_8000918: @ 0x08000918
 	strh r0, [r1, #4]
 	ldr r0, _08000968 @ =0x00001F0C
 	strh r0, [r1, #6]
-	ldr r0, _0800096C @ =gUnknown_03002BF8
+	ldr r0, _0800096C @ =gBldRegs
 	strh r2, [r0]
 	strh r2, [r0, #2]
 	strh r2, [r0, #4]
@@ -1017,7 +1017,7 @@ _0800095C: .4byte gUnknown_030035C0
 _08000960: .4byte 0x00000F04
 _08000964: .4byte 0x00001708
 _08000968: .4byte 0x00001F0C
-_0800096C: .4byte gUnknown_03002BF8
+_0800096C: .4byte gBldRegs
 _08000970: .4byte sub_8001FB0
 
 	thumb_func_start sub_8000974
@@ -68691,7 +68691,7 @@ _08021450:
 	movs r0, #0x1f
 	orrs r0, r2
 	strh r0, [r1, #0xa]
-	ldr r1, _08021484 @ =gUnknown_03002BF8
+	ldr r1, _08021484 @ =gBldRegs
 	ldrh r0, [r3, #8]
 	strh r0, [r1]
 	ldrh r0, [r3, #0xa]
@@ -68710,7 +68710,7 @@ _08021450:
 	.align 2, 0
 _0802147C: .4byte gDispCnt
 _08021480: .4byte gWinRegs
-_08021484: .4byte gUnknown_03002BF8
+_08021484: .4byte gBldRegs
 _08021488:
 	ldrh r1, [r3, #4]
 	lsls r1, r1, #0x10
@@ -68822,7 +68822,7 @@ _08021544:
 	movs r0, #0x1f
 	orrs r0, r2
 	strh r0, [r1, #0xa]
-	ldr r1, _08021578 @ =gUnknown_03002BF8
+	ldr r1, _08021578 @ =gBldRegs
 	ldrh r0, [r3, #8]
 	strh r0, [r1]
 	ldrh r0, [r3, #0xa]
@@ -68840,7 +68840,7 @@ _08021544:
 	.align 2, 0
 _08021570: .4byte gDispCnt
 _08021574: .4byte gWinRegs
-_08021578: .4byte gUnknown_03002BF8
+_08021578: .4byte gBldRegs
 _0802157C:
 	ldrh r1, [r3, #4]
 	lsls r1, r1, #0x10
@@ -83487,7 +83487,7 @@ _0802891E:
 	.align 2, 0
 _08028924: .4byte gCurTask
 _08028928:
-	ldr r0, _08028A58 @ =gUnknown_03002BF8
+	ldr r0, _08028A58 @ =gBldRegs
 	strh r5, [r0]
 	strh r5, [r0, #4]
 	ldr r1, _08028A5C @ =gDispCnt
@@ -83642,7 +83642,7 @@ _08028A4A:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08028A58: .4byte gUnknown_03002BF8
+_08028A58: .4byte gBldRegs
 _08028A5C: .4byte gDispCnt
 _08028A60: .4byte gUnknown_03001060
 _08028A64: .4byte gUnknown_03002C64

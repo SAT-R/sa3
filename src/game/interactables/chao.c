@@ -36,6 +36,7 @@ void Task_ChaoMain(void);
 void Task_804E1AC(void);
 void Task_804E2D8(void);
 void Task_804E398(void);
+void Task_804E41C(void);
 void sub_804E530(IAChao *);
 void sub_804E5CC(void);
 void Task_804E66C(void);
@@ -161,7 +162,7 @@ void Task_ChaoMain(void)
             if (sub_8020700(s, worldX, worldY, 0, p, 0)) {
                 SetChaoFlag(chao->chaoKind);
 
-                p->unk9E = 0;
+                p->qCamOffsetY = 0;
                 fade = &chao->fade;
                 chao->unk73 = 2;
 
@@ -275,11 +276,32 @@ void Task_804E2D8(void)
         = BLDCNT_EFFECT_LIGHTEN | (BLDCNT_TGT1_ALL & ~BLDCNT_TGT1_OBJ) | BLDCNT_TGT2_ALL;
     gBldRegs.bldY = 8 - (chao->unk72 / 2u);
 
-    p->unk9E -= 0x40;
+    p->qCamOffsetY -= Q(0.25);
 
     if (chao->unk72 == 0) {
         gCurTask->main = Task_804E398;
     }
+}
+
+void Task_804E398(void)
+{
+    Player *p = &gPlayers[gStageData.charId];
+    IAChao *chao = TASK_DATA(gCurTask);
+    void *unkData;
+
+    gWinRegs[WINREG_WIN1H] = WIN_RANGE(32, DISPLAY_WIDTH - 32);
+    gWinRegs[WINREG_WIN1V] = WIN_RANGE(24, 88);
+
+    gBldRegs.bldY = 8;
+
+    p->qCamOffsetY = -Q(4.0);
+    unkData = chao->someData;
+    if (sub_8023734(unkData)) {
+        chao->unk72 = 0x10;
+        gCurTask->main = Task_804E41C;
+    }
+
+    sub_80239A8(unkData);
 }
 
 #if 01

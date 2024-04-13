@@ -6,155 +6,8 @@
 .arm
 
 .if 01
-	thumb_func_start sub_804E2D8
-sub_804E2D8: @ 0x0804E2D8
-	push {r4, r5, r6, lr}
-	ldr r6, _0804E364 @ =gCurTask
-	ldr r0, [r6]
-	ldrh r2, [r0, #6]
-	ldr r0, _0804E368 @ =gStageData
-	ldrb r0, [r0, #6]
-	lsls r3, r0, #2
-	adds r3, r3, r0
-	lsls r3, r3, #2
-	adds r3, r3, r0
-	lsls r3, r3, #4
-	ldr r0, _0804E36C @ =gPlayers
-	adds r3, r3, r0
-	ldr r0, _0804E370 @ =0x03000072
-	adds r5, r2, r0
-	ldrb r1, [r5]
-	subs r1, #1
-	strb r1, [r5]
-	movs r0, #0x10
-	subs r0, r0, r1
-	ldr r1, _0804E374 @ =0x03000073
-	adds r2, r2, r1
-	strb r0, [r2]
-	ldr r2, _0804E378 @ =gDispCnt
-	ldrh r0, [r2]
-	movs r4, #0x80
-	lsls r4, r4, #7
-	adds r1, r4, #0
-	orrs r0, r1
-	ldr r1, _0804E37C @ =0x0000DFFF
-	ands r0, r1
-	strh r0, [r2]
-	ldr r4, _0804E380 @ =gWinRegs
-	ldr r0, _0804E384 @ =0x000020D0
-	strh r0, [r4, #2]
-	ldrb r2, [r5]
-	lsls r2, r2, #1
-	adds r1, r2, #0
-	adds r1, #0x18
-	lsls r1, r1, #8
-	movs r0, #0x58
-	subs r0, r0, r2
-	orrs r1, r0
-	strh r1, [r4, #6]
-	ldr r0, _0804E388 @ =0x00003F1F
-	strh r0, [r4, #8]
-	movs r0, #0x1f
-	strh r0, [r4, #0xa]
-	ldr r2, _0804E38C @ =gUnknown_03002BF8
-	ldr r0, _0804E390 @ =0x00003FAF
-	strh r0, [r2]
-	ldrb r1, [r5]
-	lsrs r1, r1, #1
-	movs r0, #8
-	subs r0, r0, r1
-	strh r0, [r2, #4]
-	adds r3, #0x9e
-	ldrh r0, [r3]
-	subs r0, #0x40
-	strh r0, [r3]
-	ldrb r0, [r5]
-	cmp r0, #0
-	bne _0804E35C
-	ldr r1, [r6]
-	ldr r0, _0804E394 @ =sub_804E398
-	str r0, [r1, #8]
-_0804E35C:
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804E364: .4byte gCurTask
-_0804E368: .4byte gStageData
-_0804E36C: .4byte gPlayers
-_0804E370: .4byte 0x03000072
-_0804E374: .4byte 0x03000073
-_0804E378: .4byte gDispCnt
-_0804E37C: .4byte 0x0000DFFF
-_0804E380: .4byte gWinRegs
-_0804E384: .4byte 0x000020D0
-_0804E388: .4byte 0x00003F1F
-_0804E38C: .4byte gUnknown_03002BF8
-_0804E390: .4byte 0x00003FAF
-_0804E394: .4byte sub_804E398
-.endif
-
-	thumb_func_start sub_804E398
-sub_804E398: @ 0x0804E398
-	push {r4, r5, r6, lr}
-	ldr r0, _0804E3F8 @ =gStageData
-	ldrb r0, [r0, #6]
-	lsls r1, r0, #2
-	adds r1, r1, r0
-	lsls r1, r1, #2
-	adds r1, r1, r0
-	lsls r1, r1, #4
-	ldr r0, _0804E3FC @ =gPlayers
-	adds r1, r1, r0
-	ldr r6, _0804E400 @ =gCurTask
-	ldr r0, [r6]
-	ldrh r5, [r0, #6]
-	movs r3, #0xc0
-	lsls r3, r3, #0x12
-	adds r3, r5, r3
-	ldr r2, _0804E404 @ =gWinRegs
-	ldr r0, _0804E408 @ =0x000020D0
-	strh r0, [r2, #2]
-	ldr r0, _0804E40C @ =0x00001858
-	strh r0, [r2, #6]
-	ldr r2, _0804E410 @ =gUnknown_03002BF8
-	movs r0, #8
-	strh r0, [r2, #4]
-	adds r1, #0x9e
-	movs r0, #0xfc
-	lsls r0, r0, #8
-	strh r0, [r1]
-	ldr r4, [r3, #0x74]
-	adds r0, r4, #0
-	bl sub_8023734
-	cmp r0, #0
-	beq _0804E3EA
-	ldr r0, _0804E414 @ =0x03000072
-	adds r1, r5, r0
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r1, [r6]
-	ldr r0, _0804E418 @ =sub_804E41C
-	str r0, [r1, #8]
-_0804E3EA:
-	adds r0, r4, #0
-	bl sub_80239A8
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804E3F8: .4byte gStageData
-_0804E3FC: .4byte gPlayers
-_0804E400: .4byte gCurTask
-_0804E404: .4byte gWinRegs
-_0804E408: .4byte 0x000020D0
-_0804E40C: .4byte 0x00001858
-_0804E410: .4byte gUnknown_03002BF8
-_0804E414: .4byte 0x03000072
-_0804E418: .4byte sub_804E41C
-
-	thumb_func_start sub_804E41C
-sub_804E41C: @ 0x0804E41C
+	thumb_func_start Task_804E41C
+Task_804E41C: @ 0x0804E41C
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -203,7 +56,7 @@ sub_804E41C: @ 0x0804E41C
 	subs r0, r0, r2
 	orrs r1, r0
 	strh r1, [r3, #6]
-	ldr r1, _0804E4A4 @ =gUnknown_03002BF8
+	ldr r1, _0804E4A4 @ =gBldRegs
 	ldrb r0, [r4]
 	lsrs r0, r0, #1
 	strh r0, [r1, #4]
@@ -216,14 +69,14 @@ _0804E494: .4byte 0x03000072
 _0804E498: .4byte 0x03000073
 _0804E49C: .4byte gWinRegs
 _0804E4A0: .4byte 0x000020D0
-_0804E4A4: .4byte gUnknown_03002BF8
+_0804E4A4: .4byte gBldRegs
 _0804E4A8:
 	ldr r2, _0804E520 @ =gDispCnt
 	ldrh r1, [r2]
 	ldr r0, _0804E524 @ =0x0000BFFF
 	ands r0, r1
 	strh r0, [r2]
-	ldr r0, _0804E528 @ =gUnknown_03002BF8
+	ldr r0, _0804E528 @ =gBldRegs
 	strh r3, [r0]
 	strh r3, [r0, #4]
 	ldr r0, [r5, #4]
@@ -281,8 +134,9 @@ _0804E516:
 	.align 2, 0
 _0804E520: .4byte gDispCnt
 _0804E524: .4byte 0x0000BFFF
-_0804E528: .4byte gUnknown_03002BF8
+_0804E528: .4byte gBldRegs
 _0804E52C: .4byte 0xEFFFFFFF
+.endif
 
 	thumb_func_start sub_804E530
 sub_804E530: @ 0x0804E530

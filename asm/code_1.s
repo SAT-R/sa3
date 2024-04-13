@@ -8679,7 +8679,7 @@ _0805398C:
 	orrs r1, r0
 	str r1, [r2]
 _08053AE8:
-	ldr r1, _08053B1C @ =gUnknown_03002BF8
+	ldr r1, _08053B1C @ =gBldRegs
 	movs r0, #0x91
 	lsls r0, r0, #2
 	strh r0, [r1]
@@ -8704,7 +8704,7 @@ _08053B00:
 _08053B10: .4byte gUnknown_080D1C48
 _08053B14: .4byte 0x0000017B
 _08053B18: .4byte 0x0000FF20
-_08053B1C: .4byte gUnknown_03002BF8
+_08053B1C: .4byte gBldRegs
 _08053B20: .4byte gCurTask
 _08053B24: .4byte sub_8053B28
 
@@ -10214,7 +10214,7 @@ sub_80546F8: @ 0x080546F8
 	strh r0, [r4, #8]
 	movs r0, #0x1f
 	strh r0, [r4, #0xa]
-	ldr r0, _0805475C @ =gUnknown_03002BF8
+	ldr r0, _0805475C @ =gBldRegs
 	strh r5, [r0]
 	strh r5, [r0, #2]
 	strh r5, [r0, #4]
@@ -10227,7 +10227,7 @@ _0805474E:
 	.align 2, 0
 _08054754: .4byte gCurTask
 _08054758: .4byte gWinRegs
-_0805475C: .4byte gUnknown_03002BF8
+_0805475C: .4byte gBldRegs
 _08054760: .4byte sub_8056214
 
 	thumb_func_start sub_8054764
@@ -11256,7 +11256,7 @@ sub_8054F5C: @ 0x08054F5C
 	strh r0, [r5, #8]
 	movs r0, #0x1f
 	strh r0, [r5, #0xa]
-	ldr r0, _08054FD8 @ =gUnknown_03002BF8
+	ldr r0, _08054FD8 @ =gBldRegs
 	strh r6, [r0]
 	strh r6, [r0, #2]
 	strh r6, [r0, #4]
@@ -11276,7 +11276,7 @@ _08054FC8: .4byte gCurTask
 _08054FCC: .4byte 0x0300028D
 _08054FD0: .4byte 0x0300028F
 _08054FD4: .4byte gWinRegs
-_08054FD8: .4byte gUnknown_03002BF8
+_08054FD8: .4byte gBldRegs
 _08054FDC: .4byte 0x03000290
 _08054FE0: .4byte sub_8054FE4
 
@@ -11683,7 +11683,7 @@ sub_80552C8: @ 0x080552C8
 	strh r0, [r7, #8]
 	movs r0, #0x1f
 	strh r0, [r7, #0xa]
-	ldr r0, _0805536C @ =gUnknown_03002BF8
+	ldr r0, _0805536C @ =gBldRegs
 	strh r6, [r0]
 	strh r6, [r0, #2]
 	strh r6, [r0, #4]
@@ -11716,7 +11716,7 @@ _0805535C: .4byte 0x0300028D
 _08055360: .4byte 0x0300028F
 _08055364: .4byte gWinRegs
 _08055368: .4byte 0x0300028E
-_0805536C: .4byte gUnknown_03002BF8
+_0805536C: .4byte gBldRegs
 _08055370: .4byte 0x03000290
 _08055374: .4byte sub_8056538
 
@@ -14635,7 +14635,7 @@ sub_8056AFC: @ 0x08056AFC
 	lsls r0, r0, #6
 	strh r0, [r1, #8]
 	strh r5, [r1, #0xa]
-	ldr r0, _08056B74 @ =gUnknown_03002BF8
+	ldr r0, _08056B74 @ =gBldRegs
 	movs r1, #0xbf
 	strh r1, [r0]
 	strh r5, [r0, #2]
@@ -14649,7 +14649,7 @@ _08056B64: .4byte sub_8057054
 _08056B68: .4byte gDispCnt
 _08056B6C: .4byte 0x0000DFFF
 _08056B70: .4byte gWinRegs
-_08056B74: .4byte gUnknown_03002BF8
+_08056B74: .4byte gBldRegs
 
 	thumb_func_start sub_8056B78
 sub_8056B78: @ 0x08056B78
@@ -15018,7 +15018,7 @@ _08056E0E:
 	strh r0, [r7, #8]
 	movs r0, #0x3f
 	strh r0, [r7, #0xa]
-	ldr r1, _08057038 @ =gUnknown_03002BF8
+	ldr r1, _08057038 @ =gBldRegs
 	ldr r0, _0805703C @ =0x00003FEF
 	strh r0, [r1]
 	movs r0, #0x10
@@ -15255,7 +15255,7 @@ _08057028: .4byte 0x00007FFF
 _0805702C: .4byte gUnknown_03003D30
 _08057030: .4byte gFlags
 _08057034: .4byte 0x00003F10
-_08057038: .4byte gUnknown_03002BF8
+_08057038: .4byte gBldRegs
 _0805703C: .4byte 0x00003FEF
 _08057040: .4byte 0x00000366
 _08057044: .4byte gUnknown_080D1D88
@@ -15434,7 +15434,7 @@ _0805714E:
 	lsls r0, r0, #6
 	mov r1, sl
 	strh r0, [r1, #8]
-	ldr r0, _08057220 @ =gUnknown_03002BF8
+	ldr r0, _08057220 @ =gBldRegs
 	movs r1, #0xae
 	strh r1, [r0]
 	ldr r3, [sp]
@@ -15475,7 +15475,7 @@ _08057210: .4byte gSaveGame
 _08057214: .4byte 0x00000366
 _08057218: .4byte 0x03000048
 _0805721C: .4byte gUnknown_080D1D88
-_08057220: .4byte gUnknown_03002BF8
+_08057220: .4byte gBldRegs
 _08057224: .4byte gCurTask
 _08057228: .4byte sub_8057F7C
 
@@ -15533,7 +15533,7 @@ _08057274:
 	movs r0, #0x3f
 	strh r0, [r4, #8]
 	strh r6, [r4, #0xa]
-	ldr r1, _080572C4 @ =gUnknown_03002BF8
+	ldr r1, _080572C4 @ =gBldRegs
 	movs r0, #0xff
 	strh r0, [r1]
 	strh r6, [r1, #2]
@@ -15552,7 +15552,7 @@ _080572B2:
 _080572B8: .4byte gDispCnt
 _080572BC: .4byte 0x0000BEFF
 _080572C0: .4byte gWinRegs
-_080572C4: .4byte gUnknown_03002BF8
+_080572C4: .4byte gBldRegs
 _080572C8: .4byte sub_80572CC
 
 	thumb_func_start sub_80572CC
@@ -15567,7 +15567,7 @@ sub_80572CC: @ 0x080572CC
 	ldrb r0, [r1, #3]
 	subs r0, #1
 	strb r0, [r1, #3]
-	ldr r2, _08057304 @ =gUnknown_03002BF8
+	ldr r2, _08057304 @ =gBldRegs
 	ldrb r0, [r1, #3]
 	strh r0, [r2, #4]
 	ldrb r0, [r1, #3]
@@ -15584,7 +15584,7 @@ sub_80572CC: @ 0x080572CC
 	b _0805730E
 	.align 2, 0
 _08057300: .4byte gCurTask
-_08057304: .4byte gUnknown_03002BF8
+_08057304: .4byte gBldRegs
 _08057308: .4byte gStageData
 _0805730C:
 	movs r0, #3
@@ -16289,7 +16289,7 @@ _0805787C:
 	movs r1, #1
 	orrs r0, r1
 	str r0, [r2]
-	ldr r2, _080578E4 @ =gUnknown_03002BF8
+	ldr r2, _080578E4 @ =gBldRegs
 	ldr r0, _080578E8 @ =0x00003FEF
 	strh r0, [r2]
 	ldrh r0, [r5, #0xc]
@@ -16311,7 +16311,7 @@ _080578D4: .4byte 0x00003F10
 _080578D8: .4byte 0x00007FFF
 _080578DC: .4byte gUnknown_03003D30
 _080578E0: .4byte gFlags
-_080578E4: .4byte gUnknown_03002BF8
+_080578E4: .4byte gBldRegs
 _080578E8: .4byte 0x00003FEF
 
 	thumb_func_start sub_80578EC
@@ -16783,7 +16783,7 @@ sub_8057C84: @ 0x08057C84
 	lsls r0, r0, #0x12
 	adds r3, r1, r0
 	ldrh r0, [r3, #4]
-	ldr r4, _08057D14 @ =gUnknown_03002BF8
+	ldr r4, _08057D14 @ =gBldRegs
 	cmp r0, #0
 	bne _08057CF4
 	ldr r2, _08057D18 @ =gDispCnt
@@ -16843,7 +16843,7 @@ _08057CF4:
 	.align 2, 0
 _08057D0C: .4byte 0x0000FFFF
 _08057D10: .4byte gCurTask
-_08057D14: .4byte gUnknown_03002BF8
+_08057D14: .4byte gBldRegs
 _08057D18: .4byte gDispCnt
 _08057D1C: .4byte gWinRegs
 _08057D20: .4byte 0x00003FBF
@@ -16885,7 +16885,7 @@ sub_8057D64: @ 0x08057D64
 	lsls r0, r0, #0x12
 	adds r4, r1, r0
 	ldrh r0, [r4, #4]
-	ldr r5, _08057DCC @ =gUnknown_03002BF8
+	ldr r5, _08057DCC @ =gBldRegs
 	cmp r0, #0
 	beq _08057DAC
 	ldr r2, _08057DD0 @ =gDispCnt
@@ -16929,7 +16929,7 @@ _08057DAC:
 	b _08057DE2
 	.align 2, 0
 _08057DC8: .4byte gCurTask
-_08057DCC: .4byte gUnknown_03002BF8
+_08057DCC: .4byte gBldRegs
 _08057DD0: .4byte gDispCnt
 _08057DD4: .4byte gWinRegs
 _08057DD8: .4byte 0x00003FBF
@@ -17019,7 +17019,7 @@ _08057E30:
 	strh r0, [r6, #8]
 	movs r0, #0x3f
 	strh r0, [r6, #0xa]
-	ldr r1, _08057EC4 @ =gUnknown_03002BF8
+	ldr r1, _08057EC4 @ =gBldRegs
 	movs r0, #0xff
 	strh r0, [r1]
 	mov r0, r8
@@ -17045,7 +17045,7 @@ _08057EB4: .4byte 0x80000090
 _08057EB8: .4byte gFlags
 _08057EBC: .4byte 0x80000001
 _08057EC0: .4byte gDispCnt
-_08057EC4: .4byte gUnknown_03002BF8
+_08057EC4: .4byte gBldRegs
 _08057EC8: .4byte sub_80580F0
 
 	thumb_func_start sub_8057ECC

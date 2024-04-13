@@ -346,7 +346,7 @@ _0802E7B0:
 	lsls r0, r0, #6
 	strh r0, [r1, #8]
 	strh r2, [r1, #0xa]
-	ldr r1, _0802E7F4 @ =gUnknown_03002BF8
+	ldr r1, _0802E7F4 @ =gBldRegs
 	movs r0, #0xbf
 	strh r0, [r1]
 	strh r2, [r1, #2]
@@ -362,7 +362,7 @@ _0802E7E6:
 	.align 2, 0
 _0802E7EC: .4byte gDispCnt
 _0802E7F0: .4byte gWinRegs
-_0802E7F4: .4byte gUnknown_03002BF8
+_0802E7F4: .4byte gBldRegs
 
 	thumb_func_start CreateEntity_Warp
 CreateEntity_Warp: @ 0x0802E7F8

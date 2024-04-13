@@ -256,7 +256,7 @@ _08037FDC:
 	strh r0, [r3, #8]
 	movs r0, #0x1f
 	strh r0, [r3, #0xa]
-	ldr r2, _08038050 @ =gUnknown_03002BF8
+	ldr r2, _08038050 @ =gBldRegs
 	ldr r0, _08038054 @ =0x00003FAF
 	strh r0, [r2]
 	ldrb r1, [r4]
@@ -279,7 +279,7 @@ _08038040: .4byte 0x0000DFFF
 _08038044: .4byte gWinRegs
 _08038048: .4byte 0x000020D0
 _0803804C: .4byte 0x00003F1F
-_08038050: .4byte gUnknown_03002BF8
+_08038050: .4byte gBldRegs
 _08038054: .4byte 0x00003FAF
 
 	thumb_func_start sub_8038058
@@ -318,7 +318,7 @@ sub_8038058: @ 0x08038058
 	strh r1, [r2, #2]
 	ldr r1, _080380EC @ =0x00001858
 	strh r1, [r2, #6]
-	ldr r2, _080380F0 @ =gUnknown_03002BF8
+	ldr r2, _080380F0 @ =gBldRegs
 	movs r1, #8
 	strh r1, [r2, #4]
 	adds r0, #0x9e
@@ -353,7 +353,7 @@ _080380E0: .4byte gPlayers
 _080380E4: .4byte gWinRegs
 _080380E8: .4byte 0x000020D0
 _080380EC: .4byte 0x00001858
-_080380F0: .4byte gUnknown_03002BF8
+_080380F0: .4byte gBldRegs
 _080380F4: .4byte 0x03000060
 _080380F8: .4byte sub_80380FC
 
@@ -461,7 +461,7 @@ _080381AE:
 	ldr r0, _080381FC @ =0x0000BFFF
 	ands r0, r1
 	strh r0, [r2]
-	ldr r0, _08038200 @ =gUnknown_03002BF8
+	ldr r0, _08038200 @ =gBldRegs
 	strh r3, [r0]
 	strh r3, [r0, #4]
 	ldr r0, _08038204 @ =gCamera
@@ -487,7 +487,7 @@ _080381E4:
 _080381F4: .4byte gStageData
 _080381F8: .4byte gDispCnt
 _080381FC: .4byte 0x0000BFFF
-_08038200: .4byte gUnknown_03002BF8
+_08038200: .4byte gBldRegs
 _08038204: .4byte gCamera
 _08038208: .4byte gPlayers
 _0803820C:
@@ -580,7 +580,7 @@ _080382A8:
 	subs r0, r0, r2
 	orrs r1, r0
 	strh r1, [r3, #6]
-	ldr r1, _080382E8 @ =gUnknown_03002BF8
+	ldr r1, _080382E8 @ =gBldRegs
 	ldrb r0, [r5]
 	lsrs r0, r0, #1
 	strh r0, [r1, #4]
@@ -596,7 +596,7 @@ _080382CC:
 	.align 2, 0
 _080382E0: .4byte gWinRegs
 _080382E4: .4byte 0x000020D0
-_080382E8: .4byte gUnknown_03002BF8
+_080382E8: .4byte gBldRegs
 
 	thumb_func_start sub_80382EC
 sub_80382EC: @ 0x080382EC
