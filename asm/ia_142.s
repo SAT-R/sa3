@@ -5,84 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable142
-CreateEntity_Interactable142: @ 0x0804F358
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	sub sp, #4
-	adds r5, r0, #0
-	lsls r1, r1, #0x10
-	lsrs r6, r1, #0x10
-	lsls r2, r2, #0x10
-	lsrs r7, r2, #0x10
-	lsls r3, r3, #0x18
-	lsrs r3, r3, #0x18
-	mov r8, r3
-	ldr r0, _0804F3E0 @ =gSaveGame
-	ldrb r0, [r0, #0x11]
-	cmp r0, #7
-	bls _0804F3CC
-	ldr r0, _0804F3E4 @ =sub_804F3F4
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _0804F3E8 @ =sub_804F558
-	str r1, [sp]
-	movs r1, #0x38
-	movs r3, #0
-	bl TaskCreate
-	ldrh r0, [r0, #6]
-	movs r4, #0xc0
-	lsls r4, r4, #0x12
-	adds r4, r0, r4
-	strh r6, [r4, #4]
-	strh r7, [r4, #6]
-	str r5, [r4]
-	ldrb r1, [r5]
-	strb r1, [r4, #0xa]
-	mov r1, r8
-	strb r1, [r4, #0xb]
-	ldrb r3, [r5]
-	lsls r3, r3, #3
-	lsls r1, r6, #8
-	adds r3, r3, r1
-	strh r3, [r4, #0x34]
-	ldrb r1, [r5, #1]
-	lsls r1, r1, #3
-	lsls r2, r7, #8
-	adds r1, r1, r2
-	strh r1, [r4, #0x36]
-	ldr r1, _0804F3EC @ =0x0300000C
-	adds r0, r0, r1
-	ldr r2, _0804F3F0 @ =gCamera
-	ldr r1, [r2]
-	subs r3, r3, r1
-	strh r3, [r0, #0x10]
-	ldr r2, [r2, #4]
-	ldrh r1, [r4, #0x36]
-	subs r1, r1, r2
-	strh r1, [r0, #0x12]
-	bl sub_804F56C
-_0804F3CC:
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r5]
-	add sp, #4
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804F3E0: .4byte gSaveGame
-_0804F3E4: .4byte sub_804F3F4
-_0804F3E8: .4byte sub_804F558
-_0804F3EC: .4byte 0x0300000C
-_0804F3F0: .4byte gCamera
+.if 0
+.endif
 
-	thumb_func_start sub_804F3F4
-sub_804F3F4: @ 0x0804F3F4
+	thumb_func_start Task_FinalZoneRing
+Task_FinalZoneRing: @ 0x0804F3F4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -249,8 +176,8 @@ _0804F546:
 	.align 2, 0
 _0804F554: .4byte gCamera
 
-	thumb_func_start sub_804F558
-sub_804F558: @ 0x0804F558
+	thumb_func_start TaskDestructor_FinalZoneRing
+TaskDestructor_FinalZoneRing: @ 0x0804F558
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
@@ -261,8 +188,8 @@ sub_804F558: @ 0x0804F558
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_804F56C
-sub_804F56C: @ 0x0804F56C
+	thumb_func_start InitFinalZoneRingSprite
+InitFinalZoneRingSprite: @ 0x0804F56C
 	push {r4, lr}
 	adds r4, r0, #0
 	movs r0, #0x24
