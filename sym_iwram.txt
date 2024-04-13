@@ -131,7 +131,7 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 . = 0x00002BD8; gUnknown_03002BD8 = .;
 . = 0x00002BF0; gUnknown_03002BF0 = .;
 . = 0x00002BF4; gUnknown_03002BF4 = .;
-. = 0x00002BF8; gUnknown_03002BF8 = .;
+. = 0x00002BF8; gBldRegs = .;
 . = 0x00002C00; gUnknown_03002C00 = .;
 . = 0x00002C10; gEmptyTask = .;
 . = 0x00002C24; gUnknown_03002C24 = .;

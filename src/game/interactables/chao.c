@@ -1,6 +1,7 @@
 #include <string.h>
 
 #include "global.h"
+#include "core.h"
 #include "malloc_ewram.h"
 #include "module_unclear.h"
 #include "sprite.h"
@@ -33,7 +34,8 @@ typedef struct {
 
 void Task_ChaoMain(void);
 void Task_804E1AC(void);
-void sub_804E2D8(void);
+void Task_804E2D8(void);
+void Task_804E398(void);
 void sub_804E530(IAChao *);
 void sub_804E5CC(void);
 void Task_804E66C(void);
@@ -41,8 +43,8 @@ void TaskDestructor_IAChao(struct Task *);
 
 extern bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5);
 
-extern u8 gUnknown_080D0410[7][10][2];
-extern u8 gUnknown_080D049C[10];
+extern u8 gUnknown_080D0410[7][NUM_CHAO_PER_ZONE][2];
+extern u8 gUnknown_080D049C[NUM_CHAO_PER_ZONE];
 
 #define CHAOKIND_PLAYGROUND 0xFF
 
@@ -221,7 +223,7 @@ void sub_804E210(void)
 {
     Player *p;
     IAChao *chao;
-    u8 array[10];
+    u8 array[NUM_CHAO_PER_ZONE];
     u8 lastChaoId;
 
     // TODO: This might be an implicit memcpy
@@ -244,13 +246,40 @@ void sub_804E210(void)
 
     sub_8004E98(p, SE_PICKUP_OMOCHAO_2);
 
-    if (lastChaoId == 9) {
+    if (lastChaoId == (NUM_CHAO_PER_ZONE - 1)) {
         sub_8004E98(p, SE_672);
     } else {
         sub_8004E98(p, VOICE__CHAO__COLLECTED);
     }
 
-    gCurTask->main = sub_804E2D8;
+    gCurTask->main = Task_804E2D8;
+}
+
+void Task_804E2D8(void)
+{
+    IAChao *chao = TASK_DATA(gCurTask);
+    Player *p = &gPlayers[gStageData.charId];
+
+    chao->unk72--;
+    chao->unk73 = 16 - chao->unk72;
+
+    gDispCnt |= DISPCNT_WIN1_ON;
+    gDispCnt &= ~DISPCNT_WIN0_ON;
+
+    gWinRegs[WINREG_WIN1H] = WIN_RANGE(32, DISPLAY_WIDTH - 32);
+    gWinRegs[WINREG_WIN1V] = WIN_RANGE((chao->unk72 * 2) + 24, 88 - (chao->unk72 * 2));
+    gWinRegs[WINREG_WININ] = (WININ_WIN1_ALL | (WININ_WIN0_BG_ALL | WININ_WIN0_OBJ));
+    gWinRegs[WINREG_WINOUT] = (WINOUT_WIN01_BG_ALL | WINOUT_WIN01_OBJ);
+
+    gBldRegs.bldCnt
+        = BLDCNT_EFFECT_LIGHTEN | (BLDCNT_TGT1_ALL & ~BLDCNT_TGT1_OBJ) | BLDCNT_TGT2_ALL;
+    gBldRegs.bldY = 8 - (chao->unk72 / 2u);
+
+    p->unk9E -= 0x40;
+
+    if (chao->unk72 == 0) {
+        gCurTask->main = Task_804E398;
+    }
 }
 
 #if 01
