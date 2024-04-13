@@ -6243,7 +6243,7 @@ _0800317C:
 	movs r1, #0xff
 	strh r1, [r0, #8]
 	strh r2, [r0, #0xa]
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 	ldr r1, _080031BC @ =gStageData
 	movs r0, #0xb4
 	lsls r0, r0, #1
@@ -6299,7 +6299,7 @@ _08003208: .4byte gPlayers
 _0800320C: .4byte gStageData
 _08003210:
 	ldr r0, _0800326C @ =gUnknown_030010C0
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _08003264
@@ -6467,7 +6467,7 @@ _08003358:
 	movs r1, #0xff
 	strh r1, [r0, #8]
 	strh r2, [r0, #0xa]
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 	ldr r1, _080033AC @ =gStageData
 	movs r0, #0xf0
 	strh r0, [r1, #0x2e]
@@ -6528,7 +6528,7 @@ _080033F4: .4byte gPlayers
 _080033F8: .4byte gStageData
 _080033FC:
 	ldr r0, _08003414 @ =gUnknown_030010C0
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _08003410
@@ -7508,7 +7508,7 @@ sub_8003BD8: @ 0x08003BD8
 	ldr r3, _08003C30 @ =0x0300005E
 	adds r2, r2, r3
 	strh r4, [r2]
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 	ldr r1, [r5]
 	ldr r0, _08003C34 @ =sub_8003C38
 	str r0, [r1, #8]
@@ -7605,7 +7605,7 @@ sub_8003CA4: @ 0x08003CA4
 	ldr r3, _08003CFC @ =0x0300005E
 	adds r2, r2, r3
 	strh r4, [r2]
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 	ldr r1, [r5]
 	ldr r0, _08003D00 @ =sub_8004058
 	str r0, [r1, #8]
@@ -8044,7 +8044,7 @@ sub_8004058: @ 0x08004058
 	ldrh r0, [r0, #6]
 	ldr r1, _080040A0 @ =0x03000054
 	adds r0, r0, r1
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _08004098
@@ -68639,8 +68639,10 @@ sub_80213F0: @ 0x080213F0
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_80213FC
-sub_80213FC: @ 0x080213FC
+@ This is almost like the following, but ASM is slightly different:
+@ In SA2: src/game/screen_fade.c : UpdateScreenFade (0x0802D4CC)
+	thumb_func_start UpdateScreenFade
+UpdateScreenFade: @ 0x080213FC
 	push {r4, r5, r6, lr}
 	adds r3, r0, #0
 	movs r1, #0
@@ -68769,9 +68771,9 @@ _080214E8:
 	bx r1
 	.align 2, 0
 
-@ In SA2: src/game/screen_fade.c : ScreenFadeUpdateValues (0x0802D4CC)
-	thumb_func_start sub_80214F0
-sub_80214F0: @ 0x080214F0
+@ In SA2: src/game/screen_fade.c : ScreenFadeUpdateValues (0x0802D5A0)
+	thumb_func_start ScreenFadeUpdateValues
+ScreenFadeUpdateValues: @ 0x080214F0
 	push {r4, lr}
 	adds r3, r0, #0
 	movs r1, #0
@@ -78294,7 +78296,7 @@ sub_8025EEC: @ 0x08025EEC
 	movs r1, #0xff
 	strh r1, [r0, #8]
 	strh r4, [r0, #0xa]
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 	ldr r1, _0802603C @ =gUnknown_030035C0
 	ldr r0, _08026040 @ =0x00001F0D
 	strh r0, [r1]
@@ -78422,7 +78424,7 @@ sub_8026080: @ 0x08026080
 	lsls r0, r0, #0x12
 	adds r0, r5, r0
 	adds r4, r0, #0
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _080260D8
@@ -78453,7 +78455,7 @@ _080260B8:
 	strh r0, [r4, #8]
 	strh r3, [r4, #0xa]
 	adds r0, r4, #0
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 	ldr r1, [r6]
 	ldr r0, _080260EC @ =sub_802618C
 	str r0, [r1, #8]
@@ -78559,7 +78561,7 @@ sub_802618C: @ 0x0802618C
 	movs r1, #0xc0
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _080261A8
@@ -81752,7 +81754,7 @@ _08027A04:
 	strh r0, [r4, #8]
 	strh r7, [r4, #0xa]
 	adds r0, r4, #0
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
 	strh r7, [r0]
@@ -81812,7 +81814,7 @@ sub_8027ADC: @ 0x08027ADC
 	strh r0, [r5, #8]
 	strh r4, [r5, #0xa]
 	adds r0, r5, #0
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 	ldr r1, [r6]
 	ldr r0, _08027B30 @ =sub_8028418
 	str r0, [r1, #8]
@@ -82841,7 +82843,7 @@ sub_80283CC: @ 0x080283CC
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r0, r4, r0
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _08028400
@@ -82877,7 +82879,7 @@ sub_8028418: @ 0x08028418
 	movs r1, #0xc0
 	lsls r1, r1, #0x12
 	adds r0, r0, r1
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _0802843E

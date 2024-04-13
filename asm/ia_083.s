@@ -117,7 +117,7 @@ _0803C2BE:
 	movs r2, #0xb2
 	lsls r2, r2, #3
 	adds r0, r7, r2
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 	movs r4, #0xd8
 	lsls r4, r4, #2
 	adds r0, r7, r4
@@ -467,7 +467,7 @@ _0803C590:
 	movs r1, #0xb2
 	lsls r1, r1, #3
 	adds r0, r4, r1
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 	b _0803C5EE
 	.align 2, 0
 _0803C5CC: .4byte gStageData
@@ -475,7 +475,7 @@ _0803C5D0:
 	movs r2, #0xb2
 	lsls r2, r2, #3
 	adds r0, r4, r2
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	cmp r0, #1
@@ -1660,7 +1660,7 @@ sub_803CEE4: @ 0x0803CEE4
 	bne _0803CF70
 	ldr r1, _0803CF50 @ =gUnknown_03000590
 	adds r0, r2, r1
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _0803CF74
@@ -2113,7 +2113,7 @@ _0803D278:
 	movs r1, #0xb2
 	lsls r1, r1, #3
 	adds r0, r4, r1
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _0803D314
@@ -2282,7 +2282,7 @@ _0803D3CC:
 	movs r1, #0xb2
 	lsls r1, r1, #3
 	adds r0, r4, r1
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _0803D468

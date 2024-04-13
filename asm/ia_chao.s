@@ -5,158 +5,7 @@
 .syntax unified
 .arm
 
-.if 01
-	thumb_func_start Task_ChaoMain
-Task_ChaoMain: @ 0x0804E06C
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #8
-	ldr r1, _0804E16C @ =gCurTask
-	ldr r0, [r1]
-	ldrh r7, [r0, #6]   @ r7 = (u16)chao
-	ldr r3, _0804E170 @ =0x03000071
-	adds r3, r3, r7
-	mov sl, r3          @ sl = &chao->chaoKind
-	ldrb r0, [r3]
-	cmp r0, #0xff
-	bne _0804E08C
-	b _0804E198
-_0804E08C:
-	ldr r1, _0804E174 @ =0x0300006C
-	adds r0, r7, r1
-	ldrh r4, [r0]       @ r4 = worldX
-	ldr r3, _0804E178 @ =0x0300006E
-	adds r0, r7, r3
-	ldrh r0, [r0]
-	mov r8, r0          @ r8 = worldY;
-	ldr r0, _0804E17C @ =gStageData
-	mov sb, r0          @ sb = gStageData
-	ldrb r1, [r0, #6]
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	ldr r1, _0804E180 @ =gPlayers
-	adds r5, r0, r1
-	adds r0, r5, #0
-	bl sub_802C080
-	adds r6, r0, #0
-	cmp r6, #0
-	bne _0804E198
-	ldr r3, _0804E184 @ =0x0300000C
-	adds r0, r7, r3
-	lsls r1, r4, #0x10
-	asrs r1, r1, #0x10
-	mov r3, r8
-	lsls r2, r3, #0x10
-	asrs r2, r2, #0x10
-	str r5, [sp]
-	str r6, [sp, #4]
-	movs r3, #0
-	bl sub_8020700
-	cmp r0, #0
-	beq _0804E198
-__post_bl_sub_8020700:
-	mov r1, sl
-	ldrb r0, [r1]
-	bl SetChaoFlag
-	adds r0, r5, #0     @ r0 = r5 = p
-	adds r0, #0x9e
-	strh r6, [r0]
-	ldr r3, _0804E188 @ =0x0300005C
-	adds r0, r7, r3
-	ldr r1, _0804E18C @ =0x03000073
-	adds r2, r7, r1
-	movs r1, #2
-	strb r1, [r2]
-	strh r6, [r0]
-	movs r3, #1
-	mov r8, r3
-	movs r4, #1
-	strh r4, [r0, #2]
-	strh r6, [r0, #4]
-	movs r1, #0x80
-	lsls r1, r1, #2
-	strh r1, [r0, #6]
-	movs r1, #0xbf
-	strh r1, [r0, #8]
-	strh r6, [r0, #0xa]
-	bl sub_80214F0
-	movs r0, #4
-	mov r1, sb
-	strb r0, [r1, #4]
-	ldrb r3, [r1, #6]
-	lsls r4, r3
-	mov r0, sb
-	adds r0, #0xb9
-	strb r4, [r0]
-	subs r0, #0x34
-	mov r1, r8
-	strb r1, [r0]
-	ldr r3, _0804E190 @ =0x03000072
-	adds r1, r7, r3
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r0, [r5, #4]
-	movs r3, #0x80
-	lsls r3, r3, #0x15
-	orrs r0, r3
-	str r0, [r5, #4]
-	adds r0, r5, #0
-	adds r0, #0x2b
-	ldrb r1, [r0]
-	lsls r1, r1, #0x1e
-	lsrs r1, r1, #0x1e
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	ldr r1, _0804E180 @ =gPlayers
-	adds r2, r0, r1
-	adds r0, r2, #0
-	adds r0, #0x2b
-	ldrb r1, [r0]
-	movs r0, #0x1c
-	ands r0, r1
-	cmp r0, #8
-	bne _0804E160
-	ldr r0, [r2, #4]
-	orrs r0, r3
-	str r0, [r2, #4]
-_0804E160:
-	ldr r3, _0804E16C @ =gCurTask
-	ldr r1, [r3]
-	ldr r0, _0804E194 @ =sub_804E1AC
-	str r0, [r1, #8]
-	b _0804E19C
-	.align 2, 0
-_0804E16C: .4byte gCurTask
-_0804E170: .4byte 0x03000071
-_0804E174: .4byte 0x0300006C
-_0804E178: .4byte 0x0300006E
-_0804E17C: .4byte gStageData
-_0804E180: .4byte gPlayers
-_0804E184: .4byte 0x0300000C
-_0804E188: .4byte 0x0300005C
-_0804E18C: .4byte 0x03000073
-_0804E190: .4byte 0x03000072
-_0804E194: .4byte sub_804E1AC
-_0804E198:
-	bl sub_804E5CC
-_0804E19C:
-	add sp, #8
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
+.if 0
 .endif
 
 	thumb_func_start sub_804E1AC
@@ -168,7 +17,7 @@ sub_804E1AC: @ 0x0804E1AC
 	ldr r0, _0804E204 @ =0x0300005C
 	adds r4, r5, r0
 	adds r0, r4, #0
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _0804E1FA
@@ -196,7 +45,7 @@ sub_804E1AC: @ 0x0804E1AC
 	strh r0, [r4, #8]
 	strh r5, [r4, #0xa]
 	adds r0, r4, #0
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 _0804E1FA:
 	pop {r4, r5, r6}
 	pop {r0}
@@ -737,7 +586,7 @@ sub_804E66C: @ 0x0804E66C
 	ldrh r0, [r0, #6]
 	ldr r1, _0804E698 @ =0x0300005C
 	adds r0, r0, r1
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _0804E68E

@@ -1362,7 +1362,7 @@ CreateEntity_Interactable075: @ 0x08039A3C
 	adds r1, r2, #0
 	mov r3, sb
 	strb r1, [r3]
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 	adds r0, r6, #0
 	bl sub_803BE9C
 	ldr r0, _08039C78 @ =gUnknown_03000560
@@ -2029,7 +2029,7 @@ _0803A108:
 	movs r1, #0xde
 	lsls r1, r1, #3
 	adds r0, r4, r1
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 	b _0803A166
 	.align 2, 0
 _0803A144: .4byte gStageData
@@ -2037,7 +2037,7 @@ _0803A148:
 	movs r2, #0xde
 	lsls r2, r2, #3
 	adds r0, r4, r2
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	cmp r0, #1
@@ -3093,7 +3093,7 @@ Task_803A978: @ 0x0803A978
 	bne _0803AA04
 	ldr r2, _0803A9E4 @ =gUnknown_030006F0
 	adds r0, r1, r2
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _0803AA08
@@ -3173,7 +3173,7 @@ Task_803AA28: @ 0x0803AA28
 	bne _0803AABC
 	ldr r1, _0803AA9C @ =gUnknown_030006F0
 	adds r0, r3, r1
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _0803AAC0

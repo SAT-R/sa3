@@ -81290,7 +81290,7 @@ sub_808D00C: @ 0x0808D00C
 	strh r0, [r4, #8]
 	strh r1, [r4, #0xa]
 	adds r0, r4, #0
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 	mov r3, r8
 	ldr r1, [r3]
 	b _0808D090
@@ -81318,7 +81318,7 @@ _0808D060:
 	strh r0, [r4, #8]
 	strh r6, [r4, #0xa]
 	adds r0, r4, #0
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 	mov r0, r8
 	ldr r1, [r0]
 _0808D090:
@@ -81409,7 +81409,7 @@ sub_808D0F0: @ 0x0808D0F0
 	strh r0, [r6, #8]
 	strh r4, [r6, #0xa]
 	adds r0, r6, #0
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 	movs r1, #0
 	ldr r0, _0808D188 @ =0x0300000E
 	adds r5, r5, r0
@@ -81541,7 +81541,7 @@ sub_808D214: @ 0x0808D214
 	strh r0, [r4, #0xc]
 _0808D24C:
 	adds r0, r5, #0
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	cmp r0, #1
@@ -81619,7 +81619,7 @@ _0808D2D0:
 	adds r0, r6, #0
 	bl sub_808D648
 	adds r0, r5, #0
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	bne _0808D2F6
@@ -81695,7 +81695,7 @@ _0808D33A:
 	strh r0, [r5, #8]
 	strh r4, [r5, #0xa]
 	adds r0, r5, #0
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 	adds r0, r6, #0
 	movs r1, #4
 	bl sub_808D548
@@ -81731,7 +81731,7 @@ _0808D3AC:
 	strh r0, [r5, #8]
 	strh r4, [r5, #0xa]
 	adds r0, r5, #0
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 	movs r0, #0x63
 	bl sub_80BA57C
 	adds r0, r6, #0
@@ -81773,7 +81773,7 @@ _0808D400:
 	strh r0, [r5, #8]
 	strh r1, [r5, #0xa]
 	adds r0, r5, #0
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 	movs r0, #0x26
 	strb r0, [r6, #0x17]
 	ldr r0, _0808D454 @ =gCurTask
@@ -81834,7 +81834,7 @@ _0808D49A:
 	b _0808D524
 _0808D4AA:
 	adds r0, r6, #0
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _0808D524
@@ -81862,7 +81862,7 @@ _0808D4CC:
 	strh r0, [r6, #8]
 	strh r4, [r6, #0xa]
 	adds r0, r6, #0
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 	str r4, [sp]
 	ldr r2, _0808D52C @ =0x040000D4
 	mov r0, sp
@@ -82316,7 +82316,7 @@ _0808D860:
 	cmp r1, #3
 	ble _0808D860
 	mov r0, r8
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _0808D97C
@@ -82763,7 +82763,7 @@ _0808DC14:
 	cmp r0, #1
 	ble _0808DC20
 	adds r0, r7, #0
-	bl sub_80213FC
+	bl UpdateScreenFade
 _0808DC20:
 	pop {r3, r4, r5}
 	mov r8, r3
@@ -84398,7 +84398,7 @@ _0808E890:
 _0808E8A2:
 	bl sub_808EF98
 	adds r0, r6, #0
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _0808E8EE
@@ -84475,7 +84475,7 @@ _0808E928:
 	b _0808E986
 _0808E93A:
 	adds r0, r5, #0
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _0808E986
@@ -84604,7 +84604,7 @@ _0808EA38:
 	strh r0, [r6, #8]
 	strh r1, [r6, #0xa]
 	adds r0, r6, #0
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 	ldr r0, _0808EA64 @ =gCurTask
 	ldr r1, [r0]
 	ldr r0, _0808EA68 @ =sub_808EA6C
@@ -84662,7 +84662,7 @@ _0808EAB4:
 _0808EAC6:
 	bl sub_808EBBC
 	adds r0, r7, #0
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _0808EB48
@@ -84772,7 +84772,7 @@ _0808EB88:
 	strh r0, [r4, #8]
 	strh r1, [r4, #0xa]
 	adds r0, r4, #0
-	bl sub_80214F0
+	bl ScreenFadeUpdateValues
 	ldr r0, _0808EBB4 @ =gCurTask
 	ldr r1, [r0]
 	ldr r0, _0808EBB8 @ =sub_808EEB8
@@ -84916,7 +84916,7 @@ sub_808ECC4: @ 0x0808ECC4
 	ldrh r0, [r0, #6]
 	ldr r1, _0808ECEC @ =gUnknown_03000FC0
 	adds r0, r0, r1
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _0808ECE0
@@ -84943,7 +84943,7 @@ sub_808ECF4: @ 0x0808ECF4
 	adds r4, r0, r1
 	ldr r1, _0808ED28 @ =gUnknown_03000FC0
 	adds r0, r0, r1
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _0808ED50
@@ -85000,7 +85000,7 @@ sub_808ED60: @ 0x0808ED60
 	lsls r0, r0, #0x12
 	adds r4, r1, r0
 	adds r0, r4, #0
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _0808ED9C
@@ -85199,7 +85199,7 @@ _0808EEE0:
 	b _0808EF04
 _0808EEF0:
 	adds r0, r4, #0
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _0808EF04
@@ -156735,7 +156735,7 @@ sub_80B205C: @ 0x080B205C
 	strh r2, [r0, #0xa]
 	movs r1, #0xbf
 	strh r1, [r0, #8]
-	bl sub_80213FC
+	bl UpdateScreenFade
 	ldr r1, _080B20A4 @ =gDispCnt
 	ldr r2, _080B20A8 @ =0x00009C42
 	adds r0, r2, #0
@@ -156769,7 +156769,7 @@ sub_80B20B8: @ 0x080B20B8
 	adds r4, r5, r0
 	ldr r1, _080B20E8 @ =0x0300007C
 	adds r0, r5, r1
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	bne _080B20FC
@@ -156987,7 +156987,7 @@ sub_80B2284: @ 0x080B2284
 	ldrh r4, [r0, #6]
 	ldr r1, _080B22BC @ =0x0300007C
 	adds r0, r4, r1
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	beq _080B22B0
@@ -167456,7 +167456,7 @@ sub_80B75A0: @ 0x080B75A0
 	strh r0, [r1]
 	bl sub_80B7074
 	adds r0, r4, #0
-	bl sub_80213FC
+	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	cmp r0, #1
