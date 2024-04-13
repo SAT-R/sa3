@@ -1,4 +1,5 @@
 #include "global.h"
+#include "module_unclear.h"
 #include "sprite.h"
 #include "task.h"
 #include "game/camera.h"
@@ -22,14 +23,15 @@ typedef struct {
     /* 0x70 */ u8 unk70;
     /* 0x71 */ u8 chaoKind;
     /* 0x72 */ u8 unk72;
-    /* 0x73 */ u8 unk73;
+    /* 0x73 */ s8 unk73;
     /* 0x74 */ u32 flags;
 } IAChao; /* size: 0x78 */
 
 void Task_ChaoMain(void);
-void sub_804E1AC(void);
+void Task_804E1AC(void);
 void sub_804E530(IAChao *);
 void sub_804E5CC(void);
+void Task_804E66C(void);
 void TaskDestructor_IAChao(struct Task *);
 u16 GetChaoFlag(u16 zoneIndex, u16 chaoIndex);
 void SetChaoFlag(u16 chaoIndex);
@@ -179,13 +181,36 @@ void Task_ChaoMain(void)
                     partner->moveState |= MOVESTATE_10000000;
                 }
 
-                gCurTask->main = sub_804E1AC;
+                gCurTask->main = Task_804E1AC;
                 return;
             }
         }
     }
 
     sub_804E5CC();
+}
+
+void Task_804E1AC(void)
+{
+    IAChao *chao = TASK_DATA(gCurTask);
+
+    ScreenFade *fade = &chao->fade;
+
+    if (UpdateScreenFade(fade) != SCREEN_FADE_RUNNING) {
+        if (--chao->unk73 == 0) {
+            sub_8001E58();
+
+            gCurTask->main = Task_804E66C;
+
+            fade->window = 0;
+            fade->flags = SCREEN_FADE_FLAG_2;
+            fade->brightness = Q(0.0);
+            fade->speed = Q(2.0);
+            fade->bldCnt = (BLDCNT_EFFECT_LIGHTEN | BLDCNT_TGT1_ALL);
+            fade->bldAlpha = 0;
+            ScreenFadeUpdateValues(fade);
+        }
+    }
 }
 
 #if 01

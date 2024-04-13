@@ -5,57 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
-	thumb_func_start sub_804E1AC
-sub_804E1AC: @ 0x0804E1AC
-	push {r4, r5, r6, lr}
-	ldr r6, _0804E200 @ =gCurTask
-	ldr r0, [r6]
-	ldrh r5, [r0, #6]
-	ldr r0, _0804E204 @ =0x0300005C
-	adds r4, r5, r0
-	adds r0, r4, #0
-	bl UpdateScreenFade
-	lsls r0, r0, #0x18
-	cmp r0, #0
-	beq _0804E1FA
-	ldr r0, _0804E208 @ =0x03000073
-	adds r1, r5, r0
-	ldrb r0, [r1]
-	subs r0, #1
-	strb r0, [r1]
-	lsls r0, r0, #0x18
-	asrs r5, r0, #0x18
-	cmp r5, #0
-	bne _0804E1FA
-	bl sub_8001E58
-	ldr r1, [r6]
-	ldr r0, _0804E20C @ =sub_804E66C
-	str r0, [r1, #8]
-	strh r5, [r4]
-	movs r0, #2
-	strh r0, [r4, #2]
-	strh r5, [r4, #4]
-	movs r0, #0x80
-	lsls r0, r0, #2
-	strh r0, [r4, #6]
-	movs r0, #0xbf
-	strh r0, [r4, #8]
-	strh r5, [r4, #0xa]
-	adds r0, r4, #0
-	bl ScreenFadeUpdateValues
-_0804E1FA:
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804E200: .4byte gCurTask
-_0804E204: .4byte 0x0300005C
-_0804E208: .4byte 0x03000073
-_0804E20C: .4byte sub_804E66C
-
+.if 01
 	thumb_func_start sub_804E210
 sub_804E210: @ 0x0804E210
 	push {r4, r5, r6, r7, lr}
@@ -144,6 +94,7 @@ _0804E2BE:
 	.align 2, 0
 _0804E2D0: .4byte gCurTask
 _0804E2D4: .4byte sub_804E2D8
+.endif
 
 	thumb_func_start sub_804E2D8
 sub_804E2D8: @ 0x0804E2D8
@@ -578,8 +529,8 @@ _0804E666:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_804E66C
-sub_804E66C: @ 0x0804E66C
+	thumb_func_start Task_804E66C
+Task_804E66C: @ 0x0804E66C
 	push {lr}
 	ldr r0, _0804E694 @ =gCurTask
 	ldr r0, [r0]
