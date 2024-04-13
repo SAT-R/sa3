@@ -1,8 +1,12 @@
+#include <string.h>
+
 #include "global.h"
+#include "malloc_ewram.h"
 #include "module_unclear.h"
 #include "sprite.h"
 #include "task.h"
 #include "game/camera.h"
+#include "game/chao.h"
 #include "game/entity.h"
 #include "game/player.h"
 #include "game/screen_fade.h"
@@ -15,7 +19,7 @@
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
-    /* 0x34 */ u8 filler34[0x28];
+    /* 0x34 */ u8 unk34[0x28];
     /* 0x5C */ ScreenFade fade;
     /* 0x68 */ u8 filler68[0x4];
     /* 0x6C */ s16 worldX;
@@ -24,21 +28,21 @@ typedef struct {
     /* 0x71 */ u8 chaoKind;
     /* 0x72 */ u8 unk72;
     /* 0x73 */ s8 unk73;
-    /* 0x74 */ u32 flags;
+    /* 0x74 */ void *someData; // allocated in sub_804E210
 } IAChao; /* size: 0x78 */
 
 void Task_ChaoMain(void);
 void Task_804E1AC(void);
+void sub_804E2D8(void);
 void sub_804E530(IAChao *);
 void sub_804E5CC(void);
 void Task_804E66C(void);
 void TaskDestructor_IAChao(struct Task *);
-u16 GetChaoFlag(u16 zoneIndex, u16 chaoIndex);
-void SetChaoFlag(u16 chaoIndex);
 
 extern bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5);
 
 extern u8 gUnknown_080D0410[7][10][2];
+extern u8 gUnknown_080D049C[10];
 
 #define CHAOKIND_PLAYGROUND 0xFF
 
@@ -79,7 +83,7 @@ void CreateEntity_ChaoInStage(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     chao->unk70 = (me->d.uData[4] >> 4);
     chao->chaoKind = chaoKind;
-    chao->flags = chaoFlag;
+    chao->someData = NULL;
 
     s = &chao->s;
     s->x = chao->worldX - gCamera.x;
@@ -126,7 +130,7 @@ void CreateEntity_ChaoInPlayground(MapEntity *me, u16 regionX, u16 regionY, u8 i
     chao->unk70 = gUnknown_080D0410[gStageData.zone][chaoKind][0];
     ;
     chao->chaoKind = 0xFF;
-    chao->flags = 0;
+    chao->someData = 0;
 
     s = &chao->s;
     s->x = chao->worldX - gCamera.x;
@@ -211,6 +215,42 @@ void Task_804E1AC(void)
             ScreenFadeUpdateValues(fade);
         }
     }
+}
+
+void sub_804E210(void)
+{
+    Player *p;
+    IAChao *chao;
+    u8 array[10];
+    u8 lastChaoId;
+
+    // TODO: This might be an implicit memcpy
+    memcpy(array, gUnknown_080D049C, sizeof(array));
+
+    chao = TASK_DATA(gCurTask);
+    lastChaoId = GetChaoCount(gStageData.zone) - 1;
+
+    chao->someData = EwramMalloc(0xCAC);
+
+    sub_80236C8(&chao->unk34, array[lastChaoId], chao->someData);
+
+    chao->unk72 = 0x10;
+
+    p = &gPlayers[gStageData.charId];
+
+    if (p->unk56 <= 5) {
+        sub_80299FC();
+    }
+
+    sub_8004E98(p, SE_PICKUP_OMOCHAO_2);
+
+    if (lastChaoId == 9) {
+        sub_8004E98(p, SE_672);
+    } else {
+        sub_8004E98(p, VOICE__CHAO__COLLECTED);
+    }
+
+    gCurTask->main = sub_804E2D8;
 }
 
 #if 01

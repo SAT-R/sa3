@@ -220,23 +220,24 @@ bool32 sub_8002B20(void);
 void CopyOamBufferToOam(void);
 OamData *OamMalloc(u8 order);
 
+// SA2
+//
 // TransformSprite
-void sub_8004860(Sprite *, SpriteTransform *);
-void sub_8004ABC(Sprite *, SpriteTransform *);
-void sub_8004E14(Sprite *, SpriteTransform *);
-
-void sub_8003E28(u16 song);
-
-void sub_8003EE4(u16 p0, s16 p1, s16 p2, s16 p3, s16 p4, s16 p5, s16 p6,
-                 BgAffineReg *affine);
-void sub_8006228(u8 p0, u8 p1, u8 p2, u8 p3, u8 p4, u8 p5);
-void sub_80064A8(u8 p0, u8 p1, u8 p2, u8 p3, u8 p4, u8 p5);
-
-s32 sub_80036E0(Sprite *);
-void sub_8003914(Sprite *);
-void sub_80047A0(u16, s16, s16, u16);
-
-s16 sub_8004418(s16 x, s16 y);
+// void sub_8004860(Sprite *, SpriteTransform *);
+// void sub_8004ABC(Sprite *, SpriteTransform *);
+// void sub_8004E14(Sprite *, SpriteTransform *);
+//
+//
+// void sub_8003EE4(u16 p0, s16 p1, s16 p2, s16 p3, s16 p4, s16 p5, s16 p6,
+//                  BgAffineReg *affine);
+// void sub_8006228(u8 p0, u8 p1, u8 p2, u8 p3, u8 p4, u8 p5);
+// void sub_80064A8(u8 p0, u8 p1, u8 p2, u8 p3, u8 p4, u8 p5);
+//
+// s32 sub_80036E0(Sprite *);
+// void sub_8003914(Sprite *);
+// void sub_80047A0(u16, s16, s16, u16);
+//
+// s16 sub_8004418(s16 x, s16 y);
 
 #define SpriteShouldUpdate(sprite)                                                      \
     (((sprite)->prevVariant != (sprite)->variant)                                       \

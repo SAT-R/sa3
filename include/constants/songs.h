@@ -217,25 +217,25 @@
 
 // XYZ_LOW:  Low enthusiasm
 // XYZ_HIGH: High enthusiasm
-#define VOICE_ANNOUNCER__SONIC_ADVANCE_3 0x1F4
-#define VOICE_ANNOUNCER__SONIC_LOW       0x1F5
-#define VOICE_ANNOUNCER__SONIC_HIGH      0x1F6
-#define VOICE_ANNOUNCER__TAILS_LOW       0x1F7
-#define VOICE_ANNOUNCER__TAILS_HIGH      0x1F8
-#define VOICE_ANNOUNCER__KNUCKLES_LOW    0x1F9
-#define VOICE_ANNOUNCER__KNUCKLES_HIGH   0x1FA
-#define VOICE_ANNOUNCER__AMY_LOW         0x1FB
-#define VOICE_ANNOUNCER__AMY_HIGH        0x1FC
-#define VOICE_ANNOUNCER__CREAM_LOW       0x1FD
-#define VOICE_ANNOUNCER__CREAM_HIGH      0x1FE
-#define VOICE_ANNOUNCER__AND             0x1FF
-#define VOICE_ANNOUNCER__CONGRATULATIONS 0x200
+#define VOICE__ANNOUNCER__SONIC_ADVANCE_3 0x1F4
+#define VOICE__ANNOUNCER__SONIC_LOW       0x1F5
+#define VOICE__ANNOUNCER__SONIC_HIGH      0x1F6
+#define VOICE__ANNOUNCER__TAILS_LOW       0x1F7
+#define VOICE__ANNOUNCER__TAILS_HIGH      0x1F8
+#define VOICE__ANNOUNCER__KNUCKLES_LOW    0x1F9
+#define VOICE__ANNOUNCER__KNUCKLES_HIGH   0x1FA
+#define VOICE__ANNOUNCER__AMY_LOW         0x1FB
+#define VOICE__ANNOUNCER__AMY_HIGH        0x1FC
+#define VOICE__ANNOUNCER__CREAM_LOW       0x1FD
+#define VOICE__ANNOUNCER__CREAM_HIGH      0x1FE
+#define VOICE__ANNOUNCER__AND             0x1FF
+#define VOICE__ANNOUNCER__CONGRATULATIONS 0x200
 
 // When Omochao gets picked up by the player...
 #define SE_PICKUP_OMOCHAO_1     0x201 // This plays second
 #define SE_PICKUP_OMOCHAO_2     0x202 // This plays first
 #define SE_515                  0x203
-#define VOICE_CHAO__COLLECTED   0x204
+#define VOICE__CHAO__COLLECTED  0x204
 #define SE_BONUS_KEY            0x205
 #define SE_518                  0x206
 #define SE_GOAL_MEDAL           0x207
@@ -266,37 +266,37 @@
 // SE_610 sounds like Knuckles climbing a wall, but is used in an IA
 #define SE_610 0x262
 
-#define VOICE_SONIC__OKAY    0x265
-#define VOICE_SONIC__YEAH    0x266
-#define VOICE_SONIC__WHOA    0x267
-#define VOICE_SONIC__ALRIGHT 0x268
+#define VOICE__SONIC__OKAY    0x265
+#define VOICE__SONIC__YEAH    0x266
+#define VOICE__SONIC__WHOA    0x267
+#define VOICE__SONIC__ALRIGHT 0x268
 
-#define VOICE_TAILS__OKAY    0x269
-#define VOICE_TAILS__YEAH    0x26A
-#define VOICE_TAILS__UARGH   0x26B
-#define VOICE_TAILS__HEHEHE  0x26C
-#define VOICE_TAILS__ALRIGHT 0x26D
+#define VOICE__TAILS__OKAY    0x269
+#define VOICE__TAILS__YEAH    0x26A
+#define VOICE__TAILS__UARGH   0x26B
+#define VOICE__TAILS__HEHEHE  0x26C
+#define VOICE__TAILS__ALRIGHT 0x26D
 
-#define VOICE_KNUCKLES__COOL    0x26E
-#define MUS_DUMMY__623          0x26F
-#define VOICE_KNUCKLES__HUH     0x270
-#define VOICE_KNUCKLES__HUARGH  0x271
-#define VOICE_KNUCKLES__LETS_GO 0x272
-#define VOICE_KNUCKLES__ALRIGHT 0x273
+#define VOICE__KNUCKLES__COOL    0x26E
+#define MUS_DUMMY__623           0x26F
+#define VOICE__KNUCKLES__HUH     0x270
+#define VOICE__KNUCKLES__HUARGH  0x271
+#define VOICE__KNUCKLES__LETS_GO 0x272
+#define VOICE__KNUCKLES__ALRIGHT 0x273
 
-#define VOICE_AMY__WOOHOO 0x274
-#define VOICE_AMY__HEY    0x275
-#define VOICE_AMY__NO     0x276
-#define VOICE_AMY__YEAH   0x277
+#define VOICE__AMY__WOOHOO 0x274
+#define VOICE__AMY__HEY    0x275
+#define VOICE__AMY__NO     0x276
+#define VOICE__AMY__YEAH   0x277
 
-#define VOICE_CREAM__HERE_WE_GO 0x278
-#define VOICE_CREAM__YEAH       0x279
-#define VOICE_CREAM__OH         0x27A
-#define VOICE_CREAM__ALRIGHT    0x27B
+#define VOICE__CREAM__HERE_WE_GO 0x278
+#define VOICE__CREAM__YEAH       0x279
+#define VOICE__CREAM__OH         0x27A
+#define VOICE__CREAM__ALRIGHT    0x27B
 
-#define VOICE_EGGMAN__OW                          0x27C
-#define VOICE_EGGMAN__YOU_LITTLE                  0x27D
-#define VOICE_EGGMAN__YOURE_GOING_TO_PAY_FOR_THIS 0x27E
+#define VOICE__EGGMAN__OW                          0x27C
+#define VOICE__EGGMAN__YOU_LITTLE                  0x27D
+#define VOICE__EGGMAN__YOURE_GOING_TO_PAY_FOR_THIS 0x27E
 
 /* Dummy entries from 0x27F to 0x298 */
 

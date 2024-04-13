@@ -6,96 +6,6 @@
 .arm
 
 .if 01
-	thumb_func_start sub_804E210
-sub_804E210: @ 0x0804E210
-	push {r4, r5, r6, r7, lr}
-	sub sp, #0xc
-	ldr r1, _0804E294 @ =gUnknown_080D049C
-	mov r0, sp
-	movs r2, #0xa
-	bl memcpy
-	ldr r0, _0804E298 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r5, [r0, #6]
-	movs r4, #0xc0
-	lsls r4, r4, #0x12
-	adds r4, r5, r4
-	ldr r6, _0804E29C @ =gStageData
-	ldrb r0, [r6, #9]
-	bl GetChaoCount
-	subs r0, #1
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	adds r7, r0, #0
-	ldr r0, _0804E2A0 @ =0x00000CAC
-	bl EwramMalloc
-	adds r2, r0, #0
-	str r2, [r4, #0x74]
-	ldr r1, _0804E2A4 @ =0x03000034
-	adds r0, r5, r1
-	mov r3, sp
-	adds r1, r3, r7
-	ldrb r1, [r1]
-	bl sub_80236C8
-	ldr r0, _0804E2A8 @ =0x03000072
-	adds r5, r5, r0
-	movs r0, #0x10
-	strb r0, [r5]
-	ldrb r1, [r6, #6]
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	ldr r1, _0804E2AC @ =gPlayers
-	adds r4, r0, r1
-	adds r0, r4, #0
-	adds r0, #0x56
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #5
-	bgt _0804E27C
-	bl sub_80299FC
-_0804E27C:
-	ldr r1, _0804E2B0 @ =0x00000202
-	adds r0, r4, #0
-	bl sub_8004E98
-	cmp r7, #9
-	bne _0804E2B4
-	movs r1, #0xa8
-	lsls r1, r1, #2
-	adds r0, r4, #0
-	bl sub_8004E98
-	b _0804E2BE
-	.align 2, 0
-_0804E294: .4byte gUnknown_080D049C
-_0804E298: .4byte gCurTask
-_0804E29C: .4byte gStageData
-_0804E2A0: .4byte 0x00000CAC
-_0804E2A4: .4byte 0x03000034
-_0804E2A8: .4byte 0x03000072
-_0804E2AC: .4byte gPlayers
-_0804E2B0: .4byte 0x00000202
-_0804E2B4:
-	movs r1, #0x81
-	lsls r1, r1, #2
-	adds r0, r4, #0
-	bl sub_8004E98
-_0804E2BE:
-	ldr r0, _0804E2D0 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0804E2D4 @ =sub_804E2D8
-	str r0, [r1, #8]
-	add sp, #0xc
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804E2D0: .4byte gCurTask
-_0804E2D4: .4byte sub_804E2D8
-.endif
-
 	thumb_func_start sub_804E2D8
 sub_804E2D8: @ 0x0804E2D8
 	push {r4, r5, r6, lr}
@@ -182,6 +92,7 @@ _0804E388: .4byte 0x00003F1F
 _0804E38C: .4byte gUnknown_03002BF8
 _0804E390: .4byte 0x00003FAF
 _0804E394: .4byte sub_804E398
+.endif
 
 	thumb_func_start sub_804E398
 sub_804E398: @ 0x0804E398

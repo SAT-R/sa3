@@ -110,27 +110,32 @@ struct Player {
                     If it's > 0 input is ignored if the character is on the ground and
                     tries to move left or right.
     */
-    s16 v4E;
+    s16 unk4E;
 
     u16 boostEffectCounter; // 0x50
 
     u16 idleAndCamCounter; // 0x52 | counter until idle-animation
                            // or camera-movement when looking up/down (starts at 0x28)
 
-    u8 Padding53[0x6];
+    u8 filler54[0x2];
 
-    u8 v5A;
-    u8 v5B;
+    s8 unk56;
+    u8 unk57;
 
-    u8 v5C;
-    u8 v5D;
+    u8 filler58[0x2];
 
-    u16 v5E;
-    u16 v60;
+    u8 unk5A;
+    u8 unk5B;
 
-    u8 Padding_62[0x8 + 2];
+    u8 unk5C;
+    u8 unk5D;
 
-    Sprite *v6C; // set when interacting with some interactables
+    u16 unk5E;
+    u16 unk60;
+
+    u8 filler62[0x8 + 2];
+
+    Sprite *spr6C; // set when interacting with some interactables
 
     u8 filler70[0x4];
     s32 qUnk74;
