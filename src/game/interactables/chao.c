@@ -3,6 +3,7 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_ewram.h"
+#include "malloc_vram.h"
 #include "module_unclear.h"
 #include "sprite.h"
 #include "task.h"
@@ -20,17 +21,22 @@
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
-    /* 0x34 */ u8 unk34[0x28];
+    /* 0x0C */ Sprite s2;
     /* 0x5C */ ScreenFade fade;
-    /* 0x68 */ u8 filler68[0x4];
+    /* 0x68 */ void *vram;
     /* 0x6C */ s16 worldX;
     /* 0x6E */ s16 worldY;
     /* 0x70 */ u8 unk70;
     /* 0x71 */ u8 chaoKind;
-    /* 0x72 */ u8 unk72;
+    /* 0x72 */ u8 blend;
     /* 0x73 */ s8 unk73;
     /* 0x74 */ void *someData; // allocated in sub_804E210
 } IAChao; /* size: 0x78 */
+
+typedef struct {
+    /* 0x04 */ AnimId anim;
+    /* 0x06 */ u16 variant;
+} ChaoTileInfo;
 
 void Task_ChaoMain(void);
 void Task_804E1AC(void);
@@ -46,6 +52,7 @@ extern bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, 
 
 extern u8 gUnknown_080D0410[7][NUM_CHAO_PER_ZONE][2];
 extern u8 gUnknown_080D049C[NUM_CHAO_PER_ZONE];
+extern const u16 sChaoIATilesInfo[3][2];
 
 #define CHAOKIND_PLAYGROUND 0xFF
 
@@ -178,7 +185,7 @@ void Task_ChaoMain(void)
                 gStageData.unkB9 = (1 << gStageData.charId);
                 gStageData.unk85 = 1;
 
-                chao->unk72 = 0x10;
+                chao->blend = 0x10;
 
                 p->moveState |= MOVESTATE_10000000;
 
@@ -233,11 +240,12 @@ void sub_804E210(void)
     chao = TASK_DATA(gCurTask);
     lastChaoId = GetChaoCount(gStageData.zone) - 1;
 
+    // TODO: Could this be the scruct (size) for a message box prompt?
     chao->someData = EwramMalloc(0xCAC);
 
-    sub_80236C8(&chao->unk34, array[lastChaoId], chao->someData);
+    sub_80236C8(&chao->s2, array[lastChaoId], chao->someData);
 
-    chao->unk72 = 0x10;
+    chao->blend = 0x10;
 
     p = &gPlayers[gStageData.charId];
 
@@ -261,24 +269,24 @@ void Task_804E2D8(void)
     IAChao *chao = TASK_DATA(gCurTask);
     Player *p = &gPlayers[gStageData.charId];
 
-    chao->unk72--;
-    chao->unk73 = 16 - chao->unk72;
+    chao->blend--;
+    chao->unk73 = 16 - chao->blend;
 
     gDispCnt |= DISPCNT_WIN1_ON;
     gDispCnt &= ~DISPCNT_WIN0_ON;
 
     gWinRegs[WINREG_WIN1H] = WIN_RANGE(32, DISPLAY_WIDTH - 32);
-    gWinRegs[WINREG_WIN1V] = WIN_RANGE((chao->unk72 * 2) + 24, 88 - (chao->unk72 * 2));
+    gWinRegs[WINREG_WIN1V] = WIN_RANGE((chao->blend * 2) + 24, 88 - (chao->blend * 2));
     gWinRegs[WINREG_WININ] = (WININ_WIN1_ALL | (WININ_WIN0_BG_ALL | WININ_WIN0_OBJ));
     gWinRegs[WINREG_WINOUT] = (WINOUT_WIN01_BG_ALL | WINOUT_WIN01_OBJ);
 
     gBldRegs.bldCnt
         = BLDCNT_EFFECT_LIGHTEN | (BLDCNT_TGT1_ALL & ~BLDCNT_TGT1_OBJ) | BLDCNT_TGT2_ALL;
-    gBldRegs.bldY = 8 - (chao->unk72 / 2u);
+    gBldRegs.bldY = 8 - (chao->blend / 2u);
 
     p->qCamOffsetY -= Q(0.25);
 
-    if (chao->unk72 == 0) {
+    if (chao->blend == 0) {
         gCurTask->main = Task_804E398;
     }
 }
@@ -297,12 +305,139 @@ void Task_804E398(void)
     p->qCamOffsetY = -Q(4.0);
     unkData = chao->someData;
     if (sub_8023734(unkData)) {
-        chao->unk72 = 0x10;
+        chao->blend = 0x10;
         gCurTask->main = Task_804E41C;
     }
 
     sub_80239A8(unkData);
 }
 
+void Task_804E41C(void)
+{
+    Player *p = &gPlayers[gStageData.charId];
+    Player *partner;
+    IAChao *chao = TASK_DATA(gCurTask);
+    s32 bld;
+
+    chao->blend--;
+    chao->unk73 = chao->blend;
+
+    p->qCamOffsetY += Q(0.25);
+
+    if (chao->blend != 0) {
+
+        gWinRegs[WINREG_WIN1H] = WIN_RANGE(32, DISPLAY_WIDTH - 32);
+        bld = (16 - chao->blend) * 2;
+        gWinRegs[WINREG_WIN1V] = WIN_RANGE(bld + 24, 88 - bld);
+
+        gBldRegs.bldY = chao->blend / 2u;
+    } else {
+        gDispCnt &= ~0x4000;
+        gBldRegs.bldCnt = 0;
+        gBldRegs.bldY = 0;
+
+        p->moveState &= ~MOVESTATE_10000000;
+
+        partner = &gPlayers[p->charFlags.partnerIndex];
+
+        if ((partner->charFlags.someIndex) == 0x2) {
+            partner->moveState &= ~MOVESTATE_10000000;
+        }
+
+        gStageData.unk4 = 3;
+        gStageData.unkB9 = 0;
+        gStageData.unk85 = 0;
+
+        TaskDestroy(gCurTask);
+
+        if (p->unk56 <= 5) {
+            sub_8029A18(75);
+        }
+    }
+}
+
+void sub_804E530(IAChao *chao)
+{
+    Sprite *s, *s2;
+    u8 unk70 = chao->unk70;
+    void *ptr = VramMalloc(20);
+
+    // TODO: Use ALLOC_TILES() here with the proper anim!
+    chao->vram = ptr;
+
+    s = &chao->s;
+    s->tiles = ptr;
+
+    s->anim = sChaoIATilesInfo[unk70][0];
+    s->variant = sChaoIATilesInfo[unk70][1];
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->timeUntilNextFrame = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = 0x1000;
+    UpdateSpriteAnimation(s);
+
+    s2 = &chao->s2;
+    s2->tiles = chao->vram + (16 * TILE_SIZE_4BPP);
+    s2->anim = ANIM_UI_PROMPT_BUTTON;
+    s2->variant = 0;
+    s2->oamFlags = SPRITE_OAM_ORDER(0);
+    s2->animCursor = 0;
+    s2->timeUntilNextFrame = 0;
+    s2->prevVariant = -1;
+    s2->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s2->palId = 15;
+    s2->hitboxes[0].index = -1;
+    s2->frameFlags = 0;
+    UpdateSpriteAnimation(s2);
+}
+
+void sub_804E5CC(void)
+{
+    IAChao *chao = TASK_DATA(gCurTask);
+    Sprite *s = &chao->s;
+    MapEntity *me = chao->base.me;
+
+    s16 worldX, worldY;
+
+    worldX = chao->worldX;
+    worldY = chao->worldY;
+
+    if (!IsPointInScreenRect(worldX, worldY)) {
+        me->x = chao->base.spriteX;
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
 #if 01
 #endif
+
+void TaskDestructor_IAChao(struct Task *t)
+{
+    IAChao *chao = TASK_DATA(t);
+
+    VramFree(chao->vram);
+
+    if (chao->someData) {
+        EwramFree(chao->someData);
+    }
+}
+
+void Task_804E66C(void)
+{
+    IAChao *chao = TASK_DATA(gCurTask);
+
+    if (UpdateScreenFade(&chao->fade) != SCREEN_FADE_RUNNING) {
+        sub_804E210();
+        sub_8003DF0(VOICE__CHAO__COLLECTED);
+    }
+}

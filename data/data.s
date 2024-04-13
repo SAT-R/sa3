@@ -588,8 +588,8 @@ gUnknown_080D03D8:
 gUnknown_080D03E8:
     .incbin "baserom.gba", 0x000D03E8, 0x10
 
-    .global gUnknown_080D03F8
-gUnknown_080D03F8:
+    .global sChaoIATilesInfo
+sChaoIATilesInfo:
     .incbin "baserom.gba", 0x000D03F8, 0x18
 
 @ u8 gUnknown_080D0410[7][10][2];

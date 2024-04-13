@@ -99,7 +99,6 @@ SECTIONS {
         build/sa3/asm/ia_136_to_138.o(.text);
         build/sa3/asm/ia_139.o(.text);
         build/sa3/src/game/interactables/chao.o(.text);
-        build/sa3/asm/ia_chao.o(.text);
         build/sa3/asm/ia_141.o(.text);
         build/sa3/asm/ia_mp_023.o(.text);
         build/sa3/asm/ia_mp_024.o(.text);

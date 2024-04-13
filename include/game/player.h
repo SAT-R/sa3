@@ -152,8 +152,8 @@ struct Player {
     u8 unk9A; // is this a union?
     u8 unk9B; // is this a union?
 
-    s16 qCamOffsetX;
-    s16 qCamOffsetY;
+    /* 0x9C */ s16 qCamOffsetX;
+    /* 0x9E */ s16 qCamOffsetY;
 
     u8 PaddingA0[0x4];
 

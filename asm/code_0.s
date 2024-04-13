@@ -7758,6 +7758,8 @@ _08003DEA:
 	bx r0
 	.align 2, 0
 
+@ Input:
+    @ R0 = SongId
 	thumb_func_start sub_8003DF0
 sub_8003DF0: @ 0x08003DF0
 	push {lr}
@@ -72312,7 +72314,7 @@ sub_802318C: @ 0x0802318C
 	ldr r0, [sp, #0xc]
 	adds r0, #0xc8
 	movs r6, #0
-	ldr r7, _08023230 @ =gUnknown_080D03F8
+	ldr r7, _08023230 @ =sChaoIATilesInfo
 	movs r1, #0
 	mov sb, r1
 	adds r2, r7, #2
@@ -72379,7 +72381,7 @@ _08023214:
 	b _08023246
 	.align 2, 0
 _0802322C: .4byte gUnknown_080CEECC
-_08023230: .4byte gUnknown_080D03F8
+_08023230: .4byte sChaoIATilesInfo
 _08023234: .4byte 0x0000FFFF
 _08023238:
 	movs r0, #0x4a
