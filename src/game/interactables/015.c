@@ -49,7 +49,7 @@ void Task_802E92C(void)
 
             if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2
                 || p->charFlags.someIndex == 4) {
-                if (!sub_802C0D4(p) && (p->moveState & MOVESTATE_4)) {
+                if (!sub_802C0D4(p) && (p->moveState & MOVESTATE_IN_AIR)) {
                     if ((worldX <= I(p->qWorldX))
                         && ((worldX + me->d.uData[2] * TILE_WIDTH) >= I(p->qWorldX))
                         && (worldY <= I(p->qWorldY))

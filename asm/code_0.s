@@ -21298,8 +21298,8 @@ _0800A904:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_800A90C
-sub_800A90C: @ 0x0800A90C
+	thumb_func_start PlayerCB_800A90C
+PlayerCB_800A90C: @ 0x0800A90C
 	push {r4, r5, r6, r7, lr}
 	adds r4, r0, #0
 	adds r7, r4, #0
@@ -23851,8 +23851,8 @@ _0800BCD6:
 	.align 2, 0
 _0800BCDC: .4byte sub_8006C70
 
-	thumb_func_start sub_800BCE0
-sub_800BCE0: @ 0x0800BCE0
+	thumb_func_start PlayerCB_800BCE0
+PlayerCB_800BCE0: @ 0x0800BCE0
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r0, _0800BD78 @ =gStageData

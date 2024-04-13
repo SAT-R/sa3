@@ -78,7 +78,7 @@ void Task_Interactable135(void)
 
                         p->idleAndCamCounter = 0;
                         p->qWorldY = Q(middleY);
-                        sub_800A90C(p);
+                        PlayerCB_800A90C(p);
                     }
                 }
             }

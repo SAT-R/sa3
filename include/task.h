@@ -4,6 +4,7 @@
 #include "global.h"
 
 struct Task;
+typedef struct Task Task;
 
 typedef void (*TaskMain)(void);
 typedef void (*TaskDestructor)(struct Task *);
