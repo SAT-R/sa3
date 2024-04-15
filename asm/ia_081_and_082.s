@@ -27,12 +27,12 @@ Task_IA125_126: @ 0x0803D7D0
 	ldrh r0, [r7, #4]
 	lsls r0, r0, #8
 	adds r1, r1, r0
-	mov r8, r1
+	mov r8, r1          @ r8 = worldX
 	ldrb r1, [r5, #1]
 	lsls r1, r1, #3
 	ldrh r0, [r7, #6]
 	lsls r0, r0, #8
-	adds r6, r1, r0
+	adds r6, r1, r0     @ r6 = worldY
 	mov r0, r8
 	adds r1, r6, #0
 	bl IsPointInScreenRect
@@ -52,7 +52,7 @@ _0803D820:
 	ldrsb r0, [r5, r0]
 	lsls r0, r0, #0xb
 	adds r1, r1, r0
-	str r1, [sp]
+	str r1, [sp]         @ sp00 = Q(worldX)
 	ldrb r0, [r5, #6]
 	lsls r0, r0, #0xb
 	adds r1, r1, r0

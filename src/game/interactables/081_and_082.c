@@ -1,5 +1,6 @@
 #include "global.h"
 #include "task.h"
+#include "game/camera.h"
 #include "game/entity.h"
 
 void Task_IA125_126(void);
@@ -13,6 +14,27 @@ typedef struct {
     /* 0x0D */ u8 unkD;
     /* 0x0E */ u8 unkE;
 } IA081_082;
+
+#if 0
+void Task_IA125_126(void)
+{
+    IA081_082 *ia = TASK_DATA(gCurTask);
+    MapEntity *me = ia->base.me;
+    s32 worldX, worldY;
+
+    worldX = TO_WORLD_POS(ia->base.spriteX, ia->base.regionX);
+    worldY = TO_WORLD_POS(me->y, ia->base.regionY);
+
+    if(!IsPointInScreenRect(worldX, worldY)) {
+        me->x = ia->base.spriteX;
+        TaskDestroy(gCurTask);
+        return;
+    }
+    // _0803D820
+
+
+}
+#endif
 
 void CreateEntity_Interactable081(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
