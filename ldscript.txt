@@ -51,6 +51,7 @@ SECTIONS {
         build/sa3/asm/ia_grind_rail.o(.text);
         build/sa3/asm/ia_083.o(.text);
         build/sa3/asm/ia_081_and_082.o(.text);
+        build/sa3/src/game/interactables/081_and_082.o(.text);
         build/sa3/src/game/interactables/085.o(.text);
         build/sa3/asm/ia_084.o(.text);
         build/sa3/asm/ia_087.o(.text);

@@ -5,8 +5,9 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_803D7D0
-sub_803D7D0: @ 0x0803D7D0
+.if 01
+	thumb_func_start Task_IA125_126
+Task_IA125_126: @ 0x0803D7D0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -19,8 +20,8 @@ sub_803D7D0: @ 0x0803D7D0
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r7, r1, r0
-	ldr r5, [r7]
+	adds r7, r1, r0     @ r7 = ia
+	ldr r5, [r7]        @ r5 = me
 	ldrb r1, [r7, #0xa]
 	lsls r1, r1, #3
 	ldrh r0, [r7, #4]
@@ -238,117 +239,4 @@ _0803D982:
 	pop {r0}
 	bx r0
 	.align 2, 0
-
-	thumb_func_start CreateEntity_Interactable081
-CreateEntity_Interactable081: @ 0x0803D994
-	push {r4, r5, r6, lr}
-	sub sp, #4
-	adds r6, r0, #0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r3, r3, #0x18
-	lsrs r3, r3, #0x18
-	str r3, [sp]
-	movs r0, #0
-	adds r1, r6, #0
-	adds r2, r4, #0
-	adds r3, r5, #0
-	bl sub_803D9F0
-	add sp, #4
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-
-	thumb_func_start CreateEntity_Interactable082
-CreateEntity_Interactable082: @ 0x0803D9C0
-	push {r4, r5, r6, lr}
-	sub sp, #4
-	adds r6, r0, #0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r3, r3, #0x18
-	lsrs r3, r3, #0x18
-	str r3, [sp]
-	movs r0, #1
-	adds r1, r6, #0
-	adds r2, r4, #0
-	adds r3, r5, #0
-	bl sub_803D9F0
-	add sp, #4
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-
-	thumb_func_start sub_803D9EC
-sub_803D9EC: @ 0x0803D9EC
-	bx lr
-	.align 2, 0
-
-	thumb_func_start sub_803D9F0
-sub_803D9F0: @ 0x0803D9F0
-	push {r4, r5, r6, lr}
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6}
-	sub sp, #4
-	mov r8, r0
-	mov sb, r1
-	adds r4, r2, #0
-	adds r5, r3, #0
-	ldr r6, [sp, #0x1c]
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	mov r8, r0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _0803DA60 @ =sub_803D7D0
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _0803DA64 @ =sub_803D9EC
-	str r1, [sp]
-	movs r1, #0x10
-	movs r3, #0
-	bl TaskCreate
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r0, r0, r1
-	movs r2, #0
-	strh r4, [r0, #4]
-	strh r5, [r0, #6]
-	mov r1, sb
-	str r1, [r0]
-	ldrb r1, [r1]
-	strb r1, [r0, #0xa]
-	strb r6, [r0, #0xb]
-	movs r3, #2
-	rsbs r3, r3, #0
-	adds r1, r3, #0
-	mov r3, sb
-	strb r1, [r3]
-	mov r1, r8
-	strb r1, [r0, #0xc]
-	strb r2, [r0, #0xd]
-	strb r2, [r0, #0xe]
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0803DA60: .4byte sub_803D7D0
-_0803DA64: .4byte sub_803D9EC
+.endif
