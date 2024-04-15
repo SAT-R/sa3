@@ -1,5 +1,6 @@
 #include "global.h"
 #include "task.h"
+#include "module_unclear.h"
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/player.h"
@@ -13,8 +14,8 @@ typedef struct {
     /* 0x0C */ u8 unkC;
     /* 0x0D */ u8 unkD;
     /* 0x0E */ u8 fillerE[0x2];
-    /* 0x10 */ s16 worldX;
-    /* 0x12 */ s16 worldY;
+    /* 0x10 */ u16 worldX;
+    /* 0x12 */ u16 worldY;
     /* 0x14 */ s8 left;
     /* 0x15 */ s8 top;
     /* 0x16 */ s8 right;
@@ -52,43 +53,69 @@ void CreateEntity_Interactable085(MapEntity *me, u16 regionX, u16 regionY, u8 id
     SET_MAP_ENTITY_INITIALIZED(me);
 }
 
-#if 0
 void Task_Interactable085(void)
 {
     IA085 *ia = TASK_DATA(gCurTask);
     MapEntity *me = ia->base.me;
     Player *p;
-    u8 array[4];
+    u8 rect[4];
     u8 i;
+    s32 left;
 
-    for(i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        if(i != 0) {
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        if (i != 0) {
             p = &gPlayers[p->charFlags.partnerIndex];
         } else {
             p = &gPlayers[gStageData.charId];
         }
 
-        if(!sub_802C080(p)
-            && !(p->moveState & MOVESTATE_IN_AIR)
-            && !(p->callback != PlayerCB_8008A8C)
-            && !(p->callback != PlayerCB_800ED80)) {
-            array[0] = -p->unk24;
-            array[1] = -p->unk25;
-            array[2] = +p->unk24;
-            array[3] = +p->unk25;
+        if (!sub_802C080(p) && !(p->moveState & MOVESTATE_IN_AIR)
+            && (p->callback != PlayerCB_800A438) && (p->callback != PlayerCB_8008A8C)
+            && (p->callback != PlayerCB_800ED80)) {
+            rect[0] = -p->unk24;
+            rect[1] = -p->unk25;
+            rect[2] = +p->unk24;
+            rect[3] = +p->unk25;
 
-            // __pre_big_cmp
-            if((ia->worldX + ia->left) > (I(p->qWorldX) + ia->left)) {
+            if (RECT_COLLISION(ia->worldX, ia->worldY, ia, I(p->qWorldX), I(p->qWorldY),
+                               (Rect8 *)&rect)) {
+                bool32 pcbIsAlreadySet = FALSE;
+                void *pcbCmp;
 
+                if (ia->base.spriteY == 0) {
+                    pcbCmp = PlayerCB_800BD88;
+                } else {
+                    void *pcb = p->callback;
+                    pcbCmp = PlayerCB_800BD88;
+                    if (pcb == PlayerCB_800BD88) {
+                        pcbIsAlreadySet = TRUE;
+                    }
+
+                    if (!pcbIsAlreadySet) {
+                        continue;
+                    }
+                }
+
+                if (ia->base.spriteX != 0) {
+                    p->moveState &= ~MOVESTATE_FACING_LEFT;
+                } else {
+                    p->moveState |= MOVESTATE_FACING_LEFT;
+                }
+
+                p->charFlags.unk2C_02 = 1;
+
+                if (p->callback != pcbCmp) {
+                    SetPlayerCallback(p, (void *)PlayerCB_800BCE0);
+                }
             }
         }
     }
-    // _0803DC96
 
-    if(!IsPointInScreenRect(ia->worldX, ia->worldY)) {
+    if (!IsPointInScreenRect((u16)ia->worldX, (u16)ia->worldY)) {
         me->x = ia->base.unk8;
         TaskDestroy(gCurTask);
         return;
     }
 }
-#endif
+
+void TaskDestructor_Interactable085(struct Task *t) { }

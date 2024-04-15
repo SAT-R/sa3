@@ -64,7 +64,8 @@ struct Player {
         u8 someFlag1 : 1;
         u8 boostIsActive : 1;
 
-        u8 unk2C_padding_00 : 2; // 0x2C
+        u8 unk2C_01 : 1; // 0x2C
+        u8 unk2C_02 : 1; // 0x2C
         u8 unk2C_04 : 1;
         u8 unk2C_padding_08 : 3;
         u8 unk2C_40 : 1; // 0x2C
