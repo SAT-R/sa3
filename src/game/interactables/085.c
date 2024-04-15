@@ -60,7 +60,6 @@ void Task_Interactable085(void)
     Player *p;
     u8 rect[4];
     u8 i;
-    s32 left;
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         if (i != 0) {
@@ -79,19 +78,20 @@ void Task_Interactable085(void)
 
             if (RECT_COLLISION(ia->worldX, ia->worldY, ia, I(p->qWorldX), I(p->qWorldY),
                                (Rect8 *)&rect)) {
-                bool32 pcbIsAlreadySet = FALSE;
-                void *pcbCmp;
+                bool32 isExpectedCallback = FALSE;
+                void *cmpCallback;
 
                 if (ia->base.spriteY == 0) {
-                    pcbCmp = PlayerCB_800BD88;
+                    cmpCallback = PlayerCB_800BD88;
                 } else {
-                    void *pcb = p->callback;
-                    pcbCmp = PlayerCB_800BD88;
-                    if (pcb == PlayerCB_800BD88) {
-                        pcbIsAlreadySet = TRUE;
+                    void *callback = p->callback;
+                    cmpCallback = PlayerCB_800BD88;
+
+                    if (callback == PlayerCB_800BD88) {
+                        isExpectedCallback = TRUE;
                     }
 
-                    if (!pcbIsAlreadySet) {
+                    if (!isExpectedCallback) {
                         continue;
                     }
                 }
@@ -104,7 +104,7 @@ void Task_Interactable085(void)
 
                 p->charFlags.unk2C_02 = 1;
 
-                if (p->callback != pcbCmp) {
+                if (p->callback != cmpCallback) {
                     SetPlayerCallback(p, (void *)PlayerCB_800BCE0);
                 }
             }
