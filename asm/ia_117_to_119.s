@@ -5,103 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_8049370
-sub_8049370: @ 0x08049370
-	push {r4, r5, r6, lr}
-	mov r6, sl
-	mov r5, sb
-	mov r4, r8
-	push {r4, r5, r6}
-	sub sp, #4
-	mov sb, r0
-	adds r6, r1, #0
-	adds r4, r2, #0
-	adds r5, r3, #0
-	ldr r0, [sp, #0x20]
-	mov r1, sb
-	lsls r1, r1, #0x10
-	lsrs r1, r1, #0x10
-	mov sb, r1
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	mov r8, r0
-	ldr r0, _08049424 @ =sub_804942C
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _08049428 @ =sub_8049600
-	str r1, [sp]
-	movs r1, #0x1c
-	movs r3, #0
-	bl TaskCreate
-	ldrh r3, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r3, r3, r0
-	movs r1, #0
-	mov sl, r1
-	strh r4, [r3, #4]
-	strh r5, [r3, #6]
-	str r6, [r3]
-	ldrb r0, [r6]
-	strb r0, [r3, #0xa]
-	mov r0, r8
-	strb r0, [r3, #0xb]
-	mov r1, sb
-	strb r1, [r3, #0x18]
-	ldrb r1, [r6]
-	lsls r1, r1, #3
-	lsls r4, r4, #8
-	adds r1, r1, r4
-	strh r1, [r3, #0xc]
-	ldrb r2, [r6, #1]
-	lsls r2, r2, #3
-	lsls r5, r5, #8
-	adds r2, r2, r5
-	strh r2, [r3, #0xe]
-	movs r0, #3
-	ldrsb r0, [r6, r0]
-	lsls r0, r0, #3
-	adds r1, r1, r0
-	strh r1, [r3, #0x10]
-	ldrb r0, [r6, #5]
-	lsls r0, r0, #3
-	adds r1, r1, r0
-	strh r1, [r3, #0x14]
-	movs r0, #4
-	ldrsb r0, [r6, r0]
-	lsls r0, r0, #3
-	adds r2, r2, r0
-	strh r2, [r3, #0x12]
-	ldrb r0, [r6, #6]
-	lsls r0, r0, #3
-	adds r2, r2, r0
-	strh r2, [r3, #0x16]
-	mov r0, sb
-	strb r0, [r3, #0x18]
-	mov r1, sl
-	strb r1, [r3, #0x19]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r6]
-	add sp, #4
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08049424: .4byte sub_804942C
-_08049428: .4byte sub_8049600
+.if 0
+.endif
 
-	thumb_func_start sub_804942C
-sub_804942C: @ 0x0804942C
+	thumb_func_start Task_Interactable117_to_119
+Task_Interactable117_to_119: @ 0x0804942C
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _0804944C @ =gCurTask
 	ldr r0, [r0]
@@ -296,7 +204,7 @@ CreateEntity_Interactable117: @ 0x0804957C
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sub_8049370
+	bl CreateEntity_Interactable117_to_119
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
@@ -320,7 +228,7 @@ CreateEntity_Interactable118: @ 0x080495A8
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sub_8049370
+	bl CreateEntity_Interactable117_to_119
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
@@ -344,13 +252,13 @@ CreateEntity_Interactable119: @ 0x080495D4
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sub_8049370
+	bl CreateEntity_Interactable117_to_119
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
 	bx r0
     
-	thumb_func_start sub_8049600
-sub_8049600: @ 0x08049600
+	thumb_func_start TaskDestructor_Interactable117_to_119
+TaskDestructor_Interactable117_to_119: @ 0x08049600
 	bx lr
 	.align 2, 0

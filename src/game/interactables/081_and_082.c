@@ -9,12 +9,12 @@
 
 #include "constants/move_states.h"
 
-#define IA125_TYPE_0 0
-#define IA125_TYPE_1 1
+#define IA081_TYPE_0 0
+#define IA081_TYPE_1 1
 
-void Task_IA125_126(void);
-void TaskDestructor_IA125_126(struct Task *t);
-static void Create_Interactable125or126(u8 type, MapEntity *me, u16 regionX, u16 regionY,
+void Task_IA081_082(void);
+void TaskDestructor_IA081_082(struct Task *t);
+static void Create_Interactable081or082(u8 type, MapEntity *me, u16 regionX, u16 regionY,
                                         u8 id);
 
 typedef struct {
@@ -25,7 +25,7 @@ typedef struct {
 
 // TODO: Fakematch
 // (100.0%) https://decomp.me/scratch/ehSCd
-void Task_IA125_126(void)
+void Task_IA081_082(void)
 {
     IA081_082 *ia = TASK_DATA(gCurTask);
     MapEntity *me = ia->base.me;
@@ -49,7 +49,7 @@ void Task_IA125_126(void)
     qLeft = Q(worldX) + Q(me->d.sData[0] * TILE_WIDTH);
     qRight = qLeft + Q(me->d.uData[2] * TILE_WIDTH);
 
-    if (ia->type == IA125_TYPE_0) {
+    if (ia->type == IA081_TYPE_0) {
         qRight -= Q_8_8(6.0);
     } else {
         qLeft += Q_8_8(6.0);
@@ -125,21 +125,21 @@ void Task_IA125_126(void)
 
 void CreateEntity_Interactable081(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    Create_Interactable125or126(IA125_TYPE_0, me, regionX, regionY, id);
+    Create_Interactable081or082(IA081_TYPE_0, me, regionX, regionY, id);
 }
 
 void CreateEntity_Interactable082(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    Create_Interactable125or126(IA125_TYPE_1, me, regionX, regionY, id);
+    Create_Interactable081or082(IA081_TYPE_1, me, regionX, regionY, id);
 }
 
-void TaskDestructor_IA125_126(struct Task *t) { }
+void TaskDestructor_IA081_082(struct Task *t) { }
 
-static void Create_Interactable125or126(u8 type, MapEntity *me, u16 regionX, u16 regionY,
+static void Create_Interactable081or082(u8 type, MapEntity *me, u16 regionX, u16 regionY,
                                         u8 id)
 {
-    struct Task *t = TaskCreate(Task_IA125_126, sizeof(IA081_082), 0x2100, 0,
-                                TaskDestructor_IA125_126);
+    struct Task *t = TaskCreate(Task_IA081_082, sizeof(IA081_082), 0x2100, 0,
+                                TaskDestructor_IA081_082);
     IA081_082 *ia = TASK_DATA(t);
 
     ia->base.regionX = regionX;

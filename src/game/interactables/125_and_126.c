@@ -4,7 +4,7 @@
 #include "game/camera.h"
 #include "game/entity.h"
 
-static void Create_Interactable125or126(u32 UNUSED unused, MapEntity *me, u16 regionX,
+static void Create_Interactable081or082(u32 UNUSED unused, MapEntity *me, u16 regionX,
                                         u16 regionY, u8 id);
 static void TaskDestructor_804B44C(struct Task *);
 static void sub_804B4DC(void);
@@ -22,17 +22,17 @@ typedef struct {
 
 void CreateEntity_Interactable125(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    Create_Interactable125or126(0, me, regionX, regionY, id);
+    Create_Interactable081or082(0, me, regionX, regionY, id);
 }
 
 void CreateEntity_Interactable126(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    Create_Interactable125or126(1, me, regionX, regionY, id);
+    Create_Interactable081or082(1, me, regionX, regionY, id);
 }
 
 static void TaskDestructor_804B44C(struct Task *t) { }
 
-static void Create_Interactable125or126(u32 UNUSED unused, MapEntity *me, u16 regionX,
+static void Create_Interactable081or082(u32 UNUSED unused, MapEntity *me, u16 regionX,
                                         u16 regionY, u8 id)
 {
     struct Task *t

@@ -83,6 +83,7 @@ SECTIONS {
         build/sa3/asm/ia_114.o(.text);
         build/sa3/asm/ia_115.o(.text);
         build/sa3/asm/ia_116.o(.text);
+        build/sa3/src/game/interactables/117_to_119.o(.text);
         build/sa3/asm/ia_117_to_119.o(.text);
         build/sa3/asm/ia_120.o(.text);
         build/sa3/asm/ia_121.o(.text);
