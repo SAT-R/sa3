@@ -1233,7 +1233,7 @@ sub_8048420: @ 0x08048420
 	strh r5, [r4, #0x18]
 	strh r5, [r4, #0x1a]
 	strh r5, [r4, #0x1c]
-	ldr r1, _080484C0 @ =sub_8005380
+	ldr r1, _080484C0 @ =PlayerCB_8005380
 	adds r0, r4, #0
 	bl SetPlayerCallback
 _0804849C:
@@ -1250,7 +1250,7 @@ _080484B0: .4byte 0x03000071
 _080484B4: .4byte 0x03000080
 _080484B8: .4byte 0x0000025E
 _080484BC: .4byte 0x03000090
-_080484C0: .4byte sub_8005380
+_080484C0: .4byte PlayerCB_8005380
 _080484C4:
 	ldrb r0, [r4]
 	cmp r0, #3

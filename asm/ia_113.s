@@ -866,7 +866,7 @@ _0804762C:
 	ands r0, r1
 	str r0, [r6, #4]
 	adds r0, r6, #0
-	ldr r1, _0804768C @ =sub_800891C
+	ldr r1, _0804768C @ =PlayerCB_800891C
 	bl SetPlayerCallback
 	movs r4, #0x6c
 	add r4, sl
@@ -901,7 +901,7 @@ _08047666:
 	ble _080476DA
 	b _080476AE
 	.align 2, 0
-_0804768C: .4byte sub_800891C
+_0804768C: .4byte PlayerCB_800891C
 _08047690:
 	movs r0, #2
 	ands r0, r1

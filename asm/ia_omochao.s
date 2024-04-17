@@ -512,7 +512,7 @@ _08038210:
 	cmp r0, #0
 	beq _0803823E
 	adds r0, r4, #0
-	ldr r1, _08038298 @ =sub_8005380
+	ldr r1, _08038298 @ =PlayerCB_8005380
 	str r2, [sp]
 	bl SetPlayerCallback
 	ldr r2, [sp]
@@ -561,7 +561,7 @@ _0803825C:
 	.align 2, 0
 _08038290: .4byte gStageData
 _08038294: .4byte 0xEFFFFFFF
-_08038298: .4byte sub_8005380
+_08038298: .4byte PlayerCB_8005380
 _0803829C: .4byte gCurTask
 _080382A0: .4byte sub_8037F18
 _080382A4: .4byte 0x000003D1

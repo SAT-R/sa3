@@ -5,10 +5,10 @@
 
 /* Sonic Advance 3 */
 #define MOVESTATE_FACING_LEFT      0x00000001
-#define MOVESTATE_02               0x00000002
+#define MOVESTATE_2                0x00000002
 #define MOVESTATE_IN_AIR           0x00000004 // differs from SA2!
-#define MOVESTATE_JUMPING          (MOVESTATE_IN_AIR | MOVESTATE_02)
-#define MOVESTATE_08               0x00000008
+#define MOVESTATE_JUMPING          (MOVESTATE_IN_AIR | MOVESTATE_2)
+#define MOVESTATE_8                0x00000008
 #define MOVESTATE_10               0x00000010
 #define MOVESTATE_20               0x00000020 // Touching switch?
 #define MOVESTATE_40               0x00000040

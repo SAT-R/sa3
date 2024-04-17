@@ -5,7 +5,7 @@
 .syntax unified
 .arm
 
-.if 01
+.if 0
 	thumb_func_start Task_IA125_126
 Task_IA125_126: @ 0x0803D7D0
 	push {r4, r5, r6, r7, lr}
@@ -47,27 +47,27 @@ Task_IA125_126: @ 0x0803D7D0
 	.align 2, 0
 _0803D81C: .4byte gCurTask
 _0803D820:
-	lsls r1, r6, #8
+	lsls r1, r6, #8     @ r1 = Q(worldY)
 	movs r0, #4
 	ldrsb r0, [r5, r0]
 	lsls r0, r0, #0xb
 	adds r1, r1, r0
-	str r1, [sp]         @ sp00 = Q(worldX)
+	str r1, [sp]         @ sp00 = qTop = Q(worldY) + Q(me->d.sData[1] * 8)
 	ldrb r0, [r5, #6]
 	lsls r0, r0, #0xb
 	adds r1, r1, r0
-	mov sl, r1
+	mov sl, r1          @ sl = qBottom = qTop + Q(me->d.sData[3] << 3)
 	mov r0, r8
-	lsls r1, r0, #8
+	lsls r1, r0, #8     @ r1 = Q(worldX)
 	movs r0, #3
 	ldrsb r0, [r5, r0]
 	lsls r0, r0, #0xb
 	adds r1, r1, r0
-	mov r8, r1
+	mov r8, r1          @ r8 = qLeft
 	ldrb r0, [r5, #5]
 	lsls r0, r0, #0xb
 	add r0, r8
-	mov sb, r0
+	mov sb, r0          @ sb = qRight
 	ldrb r0, [r7, #0xc]
 	cmp r0, #0
 	bne _0803D85C
@@ -104,7 +104,7 @@ _0803D87E:
 	adds r0, r0, r1
 	lsls r0, r0, #4
 	ldr r1, _0803D8F4 @ =gPlayers
-	adds r4, r0, r1
+	adds r4, r0, r1     @ r4 = p
 	adds r0, r4, #0
 	adds r0, #0x2b
 	ldrb r0, [r0]
@@ -123,22 +123,23 @@ _0803D8A2:
 	ldr r3, [sp, #4]
 	cmp r0, #0
 	bne _0803D97A
-	ldr r2, [r4, #0x10]
+	ldr r2, [r4, #0x10]     @ r2 = p->qWorldX
 	cmp r2, r8
-	ble _0803D928
+	ble _0803D928   @ (p->qWorldX > qLeft)
 	cmp r2, sb
-	bge _0803D928
+	bge _0803D928   @ (p->qWorldX < qRight)
 	ldr r0, [r4, #0x14]
 	ldr r1, [sp]
 	cmp r0, r1
-	ble _0803D928
+	ble _0803D928   @ (p->qWorldY > qTop)
 	cmp r0, sl
-	bge _0803D928
+	bge _0803D928   @ (p->qWorldY < qBottom)
+__ia_ptr:
 	adds r0, r7, #0
 	adds r0, #0xd
 	adds r1, r0, r6
-	ldrb r1, [r1]
-	adds r5, r0, #0
+	ldrb r1, [r1]   @ r1 = ia->unkD[i]
+	adds r5, r0, #0     @ r5 = &ia->unkD
 	cmp r1, #0
 	bne _0803D97A
 	ldr r1, [r4, #4]
@@ -152,33 +153,33 @@ _0803D8A2:
 	cmp r0, #0
 	beq _0803D8FC
 	adds r0, r4, #0
-	ldr r1, _0803D8F8 @ =sub_80077CC
+	ldr r1, _0803D8F8 @ =PlayerCB_80077CC
 	bl SetPlayerCallback
 	b _0803D91C
 	.align 2, 0
 _0803D8F4: .4byte gPlayers
-_0803D8F8: .4byte sub_80077CC
+_0803D8F8: .4byte PlayerCB_80077CC
 _0803D8FC:
 	movs r0, #2
 	ands r1, r0
 	cmp r1, #0
 	bne _0803D914
 	adds r0, r4, #0
-	ldr r1, _0803D910 @ =sub_8005380
+	ldr r1, _0803D910 @ =PlayerCB_8005380
 	bl SetPlayerCallback
 	b _0803D91C
 	.align 2, 0
-_0803D910: .4byte sub_8005380
+_0803D910: .4byte PlayerCB_8005380
 _0803D914:
 	adds r0, r4, #0
-	ldr r1, _0803D924 @ =sub_800891C
+	ldr r1, _0803D924 @ =PlayerCB_800891C
 	bl SetPlayerCallback
 _0803D91C:
 	adds r1, r5, r6
 	movs r0, #1
 	b _0803D978
 	.align 2, 0
-_0803D924: .4byte sub_800891C
+_0803D924: .4byte PlayerCB_800891C
 _0803D928:
 	adds r0, r7, #0
 	adds r0, #0xd
@@ -196,7 +197,7 @@ _0803D928:
 	cmp r0, #0
 	bne _0803D956
 	cmp r2, sb
-	ble _0803D964
+	ble _0803D964   @ (p->qWorldX > qRight)
 	mov r0, sb
 	str r0, [r4, #0x70]
 	mov r1, sl

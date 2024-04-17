@@ -860,7 +860,7 @@ _08048C80:
 	strh r3, [r2, #0x18]
 	strh r3, [r2, #0x1a]
 	strh r3, [r2, #0x1c]
-	ldr r1, _08048CDC @ =sub_8005380
+	ldr r1, _08048CDC @ =PlayerCB_8005380
 	adds r0, r2, #0
 	bl SetPlayerCallback
 _08048CBA:
@@ -876,7 +876,7 @@ _08048CCC: .4byte gCurTask
 _08048CD0: .4byte 0x0300000C
 _08048CD4: .4byte 0x03000057
 _08048CD8: .4byte sub_8048D0C
-_08048CDC: .4byte sub_8005380
+_08048CDC: .4byte PlayerCB_8005380
 _08048CE0:
 	ldr r0, _08048D08 @ =gCamera
 	ldr r1, [r0]

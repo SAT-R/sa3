@@ -524,11 +524,11 @@ _08031EA8:
 	cmp r0, #0
 	beq _08031EC4
 	adds r0, r5, #0
-	ldr r1, _08031EC0 @ =sub_80077CC
+	ldr r1, _08031EC0 @ =PlayerCB_80077CC
 	bl SetPlayerCallback
 	b _08031ECC
 	.align 2, 0
-_08031EC0: .4byte sub_80077CC
+_08031EC0: .4byte PlayerCB_80077CC
 _08031EC4:
 	adds r0, r5, #0
 	ldr r1, _08031F14 @ =sub_8005528
