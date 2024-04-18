@@ -23,20 +23,21 @@
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
-    /* 0x34 */ s16 unk34;
+    /* 0x34 */ s16 destructDelay;
     /* 0x36 */ u8 variant;
     /* 0x37 */ u8 unk37;
     /* 0x38 */ s32 worldX;
     /* 0x3C */ s32 worldY;
 } ToyBalloon; /* size: 0x40 */
 
-void Task_ToyBalloon(void);
-void TaskDestructor_ToyBalloon(struct Task *);
-void sub_804B9A8(void);
-void sub_804BAA4(Sprite *s, u16 variant);
-void sub_804BAEC(Sprite *s, u16 variant);
+static void Task_ToyBalloon(void);
+static void TaskDestructor_ToyBalloon(struct Task *);
+static void ToyBalloon_Update(void);
+static void ToyBalloon_InitSprite(Sprite *s, u16 variant);
+static void sub_804BAEC(Sprite *s, u16 variant);
 
-void CreateEntity_ToyBalloon(u32 type, MapEntity *me, u16 regionX, u16 regionY, u8 id)
+static void CreateEntity_ToyBalloon(u32 type, MapEntity *me, u16 regionX, u16 regionY,
+                                    u8 id)
 {
     struct Task *t = TaskCreate(Task_ToyBalloon, sizeof(ToyBalloon), 0x2100, 0,
                                 TaskDestructor_ToyBalloon);
@@ -49,7 +50,7 @@ void CreateEntity_ToyBalloon(u32 type, MapEntity *me, u16 regionX, u16 regionY, 
     balloon->base.me = me;
     balloon->base.spriteX = me->x;
     balloon->base.spriteY = id;
-    balloon->unk34 = 0;
+    balloon->destructDelay = 0;
     balloon->variant = (me->d.uData[4] >> 6);
 
     for (i = 0; (i <= 5) && !((me->d.uData[4] >> i) & 0x1); i++) {
@@ -64,10 +65,10 @@ void CreateEntity_ToyBalloon(u32 type, MapEntity *me, u16 regionX, u16 regionY, 
     SET_MAP_ENTITY_INITIALIZED(me);
 
     s = &balloon->s;
-    sub_804BAA4(s, balloon->variant);
+    ToyBalloon_InitSprite(s, balloon->variant);
 }
 
-void Task_ToyBalloon(void)
+static void Task_ToyBalloon(void)
 {
     ToyBalloon *balloon = TASK_DATA(gCurTask);
     Sprite *s = &balloon->s;
@@ -92,16 +93,16 @@ void Task_ToyBalloon(void)
                 p->unkA4 = balloon->unk37 & 7;
                 sub_804BAEC(s, balloon->variant);
 
-                balloon->unk34 = -10;
+                balloon->destructDelay = -10;
                 sub_8003DF0(SE_MINECART_DESTROYED);
             }
         }
     }
 
-    sub_804B9A8();
+    ToyBalloon_Update();
 }
 
-void sub_804B9A8(void)
+static void ToyBalloon_Update(void)
 {
     ToyBalloon *balloon = TASK_DATA(gCurTask);
     Sprite *s = &balloon->s;
@@ -118,7 +119,7 @@ void sub_804B9A8(void)
     }
 
     // TODO: Merge the two ifs
-    if ((balloon->unk34 < 0) && (++balloon->unk34 == 0)) {
+    if ((balloon->destructDelay < 0) && (++balloon->destructDelay == 0)) {
         me->x = balloon->base.spriteX;
         TaskDestroy(gCurTask);
         return;
@@ -132,21 +133,21 @@ void sub_804B9A8(void)
 
 void CreateEntity_Interactable129(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    CreateEntity_ToyBalloon(0, me, regionX, regionY, id);
+    CreateEntity_ToyBalloon(TOY_BALLOON_TYPE_0, me, regionX, regionY, id);
 }
 
 void CreateEntity_Interactable130(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    CreateEntity_ToyBalloon(1, me, regionX, regionY, id);
+    CreateEntity_ToyBalloon(TOY_BALLOON_TYPE_1, me, regionX, regionY, id);
 }
 
-void TaskDestructor_ToyBalloon(struct Task *t)
+static void TaskDestructor_ToyBalloon(struct Task *t)
 {
     ToyBalloon *balloon = TASK_DATA(t);
     VramFree(balloon->s.tiles);
 }
 
-void sub_804BAA4(Sprite *s, u16 variant)
+static void ToyBalloon_InitSprite(Sprite *s, u16 variant)
 {
     s->tiles = ALLOC_TILES(ANIM_TOY_BALLOON);
     s->anim = ANIM_TOY_BALLOON;
@@ -162,7 +163,7 @@ void sub_804BAA4(Sprite *s, u16 variant)
     UpdateSpriteAnimation(s);
 }
 
-void sub_804BAEC(Sprite *s, u16 variant)
+static void sub_804BAEC(Sprite *s, u16 variant)
 {
     s->anim = ANIM_TOY_BALLOON_POPPED;
     s->variant = variant;
