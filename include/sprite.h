@@ -171,8 +171,8 @@ typedef struct {
     /* 0x14 */ s16 oamFlags; // bit 6-10: OAM order index
     /* 0x16 */ s16 timeUntilNextFrame; // Q_8_8, in frames
     /* 0x18 */ u16 prevAnim;
-    /* 0x1A */ s8 variant;
-    /* 0x1B */ s8 prevVariant;
+    /* 0x1A */ u8 variant;
+    /* 0x1B */ u8 prevVariant;
 
     // 0x08 = 0.5x, 0x10 = 1.0x, 0x20 = 2.0x ...
     /* 0x1C */ s8 animSpeed;
@@ -210,7 +210,13 @@ typedef struct PACKED {
 
 extern const u8 gOamShapesSizes[12][2];
 
-s32 UpdateSpriteAnimation(Sprite *);
+typedef enum {
+    ACMD_RESULT__ANIM_CHANGED = -1,
+    ACMD_RESULT__ENDED = 0,
+    ACMD_RESULT__RUNNING = +1,
+} AnimCmdResult;
+
+AnimCmdResult UpdateSpriteAnimation(Sprite *);
 
 void DisplaySprite(Sprite *);
 void DrawBackground(Background *);
