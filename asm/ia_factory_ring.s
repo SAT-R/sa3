@@ -45,10 +45,10 @@ Task_FactoryRingMain: @ 0x080410C0
 	mov r8, r1
 	adds r4, r0, r1
 	ldr r1, [r4]
-	ldr r0, _080411B8 @ =sub_80052C8
+	ldr r0, _080411B8 @ =PlayerCB_80052C8
 	cmp r1, r0
 	beq _080411CC
-	ldr r0, _080411BC @ =sub_800522C
+	ldr r0, _080411BC @ =PlayerCB_800522C
 	cmp r1, r0
 	beq _080411CC
 	ldr r0, [r4, #4]
@@ -124,8 +124,8 @@ _080411A8: .4byte gCurTask
 _080411AC: .4byte 0x0300000C
 _080411B0: .4byte gStageData
 _080411B4: .4byte gPlayers
-_080411B8: .4byte sub_80052C8
-_080411BC: .4byte sub_800522C
+_080411B8: .4byte PlayerCB_80052C8
+_080411BC: .4byte PlayerCB_800522C
 _080411C0: .4byte 0x01000300
 _080411C4: .4byte 0x00000209
 _080411C8: .4byte sub_800AE14
@@ -195,181 +195,6 @@ _08041238:
 	pop {r4, r5, r6, r7}
 	pop {r0}
 	bx r0
-
-	thumb_func_start sub_8041248
-sub_8041248: @ 0x08041248
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	ldr r0, _080412A0 @ =gCurTask
-	mov sb, r0
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	adds r0, #0xc
-	adds r5, r1, r0
-	ldr r1, [r4]
-	mov r8, r1
-	ldrb r2, [r4, #0xa]
-	lsls r2, r2, #3
-	ldrh r0, [r4, #4]
-	lsls r0, r0, #8
-	adds r2, r2, r0
-	ldrb r1, [r1, #1]
-	lsls r1, r1, #3
-	ldrh r0, [r4, #6]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	lsls r2, r2, #0x10
-	asrs r6, r2, #0x10
-	lsls r1, r1, #0x10
-	asrs r7, r1, #0x10
-	adds r0, r6, #0
-	adds r1, r7, #0
-	bl IsPointInScreenRect
-	cmp r0, #0
-	bne _080412A4
-	ldrb r0, [r4, #0xa]
-	mov r1, r8
-	strb r0, [r1]
-	mov r1, sb
-	ldr r0, [r1]
-	bl TaskDestroy
-	b _080412BE
-	.align 2, 0
-_080412A0: .4byte gCurTask
-_080412A4:
-	ldr r0, _080412CC @ =gCamera
-	ldr r1, [r0]
-	subs r1, r6, r1
-	strh r1, [r5, #0x10]
-	ldr r0, [r0, #4]
-	subs r0, r7, r0
-	strh r0, [r5, #0x12]
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-	adds r0, r5, #0
-	bl DisplaySprite
-_080412BE:
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080412CC: .4byte gCamera
-
-	thumb_func_start CreateEntity_FactoryRing
-CreateEntity_FactoryRing: @ 0x080412D0
-	push {r4, r5, r6, lr}
-	mov r6, r8
-	push {r6}
-	sub sp, #4
-	mov r8, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _08041348 @ =Task_FactoryRingMain
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _0804134C @ =TaskDestructor_FactoryRing
-	str r1, [sp]
-	movs r1, #0x34
-	movs r3, #0
-	bl TaskCreate
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r1, r0, r1
-	strh r4, [r1, #4]
-	strh r5, [r1, #6]
-	mov r2, r8
-	str r2, [r1]
-	ldrb r2, [r2]
-	strb r2, [r1, #0xa]
-	strb r6, [r1, #0xb]
-	ldr r3, _08041350 @ =0x0300000C
-	adds r0, r0, r3
-	mov r2, r8
-	ldrb r1, [r2]
-	lsls r1, r1, #3
-	lsls r4, r4, #8
-	adds r1, r1, r4
-	strh r1, [r0, #0x10]
-	ldrb r1, [r2, #1]
-	lsls r1, r1, #3
-	lsls r5, r5, #8
-	adds r1, r1, r5
-	strh r1, [r0, #0x12]
-	movs r3, #2
-	rsbs r3, r3, #0
-	adds r1, r3, #0
-	strb r1, [r2]
-	bl sub_8041368
-	add sp, #4
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08041348: .4byte Task_FactoryRingMain
-_0804134C: .4byte TaskDestructor_FactoryRing
-_08041350: .4byte 0x0300000C
-
-	thumb_func_start TaskDestructor_FactoryRing
-TaskDestructor_FactoryRing: @ 0x08041354
-	push {lr}
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r0, r0, r1
-	ldr r0, [r0, #0xc]
-	bl VramFree
-	pop {r0}
-	bx r0
-
-	thumb_func_start sub_8041368
-sub_8041368: @ 0x08041368
-	push {r4, lr}
-	adds r4, r0, #0
-	movs r0, #0x24
-	bl VramMalloc
-	str r0, [r4]
-	movs r2, #0
-	movs r1, #0
-	ldr r0, _080413A8 @ =0x0000038F
-	strh r0, [r4, #0xc]
-	strb r2, [r4, #0x1a]
-	movs r0, #0xc0
-	lsls r0, r0, #3
-	strh r0, [r4, #0x14]
-	strh r1, [r4, #0xe]
-	strh r1, [r4, #0x16]
-	movs r0, #0xff
-	strb r0, [r4, #0x1b]
-	movs r0, #0x10
-	strb r0, [r4, #0x1c]
-	strb r2, [r4, #0x1f]
-	subs r0, #0x11
-	str r0, [r4, #0x20]
-	movs r0, #0x80
-	lsls r0, r0, #5
-	str r0, [r4, #8]
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080413A8: .4byte 0x0000038F
+    
+.if 0
+.endif

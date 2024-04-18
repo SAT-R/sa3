@@ -65,6 +65,7 @@ SECTIONS {
         build/sa3/asm/ia_act_ring.o(.text);
         build/sa3/asm/ia_special_spring.o(.text);
         build/sa3/asm/ia_factory_ring.o(.text);
+        build/sa3/src/game/interactables/factory_ring.o(.text);
         build/sa3/asm/ia_bonus_ufo.o(.text);
         build/sa3/asm/ia_100.o(.text);
         build/sa3/asm/ia_101.o(.text);
