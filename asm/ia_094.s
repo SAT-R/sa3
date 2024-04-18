@@ -230,7 +230,7 @@ _0804044E:
 	adds r0, r5, #0
 	bl sub_8016F28
 	adds r0, r5, #0
-	ldr r1, _08040484 @ =sub_800A5B0
+	ldr r1, _08040484 @ =PlayerCB_800A5B0
 	bl SetPlayerCallback
 	lsls r0, r4, #8
 	str r0, [r5, #0x10]
@@ -239,7 +239,7 @@ _0804044E:
 	strb r6, [r0]
 	b _080404D8
 	.align 2, 0
-_08040484: .4byte sub_800A5B0
+_08040484: .4byte PlayerCB_800A5B0
 _08040488:
 	mov r4, ip
 	lsls r0, r4, #0x10
@@ -263,7 +263,7 @@ _08040496:
 	adds r0, r5, #0
 	bl sub_8016F28
 	adds r0, r5, #0
-	ldr r1, _080404C4 @ =sub_800A5B0
+	ldr r1, _080404C4 @ =PlayerCB_800A5B0
 	bl SetPlayerCallback
 	lsls r0, r6, #8
 	str r0, [r5, #0x10]
@@ -271,7 +271,7 @@ _08040496:
 	strb r0, [r4]
 	b _080404D8
 	.align 2, 0
-_080404C4: .4byte sub_800A5B0
+_080404C4: .4byte PlayerCB_800A5B0
 _080404C8:
 	asrs r0, r7, #0x10
 	adds r0, r1, r0

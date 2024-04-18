@@ -385,18 +385,18 @@ _0802DF44:
 	lsls r0, r0, #2
 	cmp r1, r0
 	ble _0802DF5C
-	ldr r1, _0802DF58 @ =sub_8009B4C
+	ldr r1, _0802DF58 @ =PlayerCB_8009B4C
 	b _0802DF5E
 	.align 2, 0
-_0802DF58: .4byte sub_8009B4C
+_0802DF58: .4byte PlayerCB_8009B4C
 _0802DF5C:
-	ldr r1, _0802DF68 @ =sub_800EA0C
+	ldr r1, _0802DF68 @ =PlayerCB_800EA0C
 _0802DF5E:
 	adds r0, r5, #0
 	bl SetPlayerCallback
 	b _0802DF74
 	.align 2, 0
-_0802DF68: .4byte sub_800EA0C
+_0802DF68: .4byte PlayerCB_800EA0C
 _0802DF6C:
 	ldr r1, _0802DF90 @ =sub_8009BF0
 	adds r0, r5, #0

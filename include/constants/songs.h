@@ -259,6 +259,7 @@
 
 #define SE_ROCKET_ACCELERATING 0x256
 
+// Also used for Toy Balloon in Toy Kingdom
 #define SE_MINECART_DESTROYED 0x258
 
 #define SE_MINECART_ROLL 0x25E

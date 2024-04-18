@@ -87,7 +87,7 @@
 #define ANIM_BONUS_TLPT_ANIM 914
 #define ANIM_ROCKET          915
 #define ANIM_CIRCLE_THINGY   916
-#define ANIM_BALLOON         917
+#define ANIM_TOY_BALLOON     917
 #define ANIM_SPRING_IN_A_BOX 918
 #define ANIM_PANDA_CART      919
 #define ANIM_PENDULUM        920
@@ -116,13 +116,14 @@
 
 #define ANIM_GOAL_RING 948
 
-#define ANIM_OMOCHAO0  977
-#define ANIM_OMOCHAO1  978
-#define ANIM_OMOCHAO2  979
-#define ANIM_OMOCHAO3  980
-#define ANIM_OMOCHAO4  981
-#define ANIM_OMOCHAO5  982
-#define ANIM_ACT_RINGS 983
+#define ANIM_TOY_BALLOON_POPPED 976
+#define ANIM_OMOCHAO0           977
+#define ANIM_OMOCHAO1           978
+#define ANIM_OMOCHAO2           979
+#define ANIM_OMOCHAO3           980
+#define ANIM_OMOCHAO4           981
+#define ANIM_OMOCHAO5           982
+#define ANIM_ACT_RINGS          983
 /* ANIM_ACT_RINGS:
     0=Act 1
     1=Act 2
