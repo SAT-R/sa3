@@ -4743,8 +4743,8 @@ _0800259E:
 	.align 2, 0
 _080025A4: .4byte gSaveGame
 
-	thumb_func_start sub_80025A8
-sub_80025A8: @ 0x080025A8
+	thumb_func_start AddRings
+AddRings: @ 0x080025A8
 	push {r4, r5, r6, lr}
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
@@ -4773,7 +4773,7 @@ sub_80025A8: @ 0x080025A8
 	bne _080025E6
 _080025E0:
 	movs r0, #1
-	bl sub_8003D90
+	bl AddLives
 _080025E6:
 	ldr r1, _080025FC @ =gStageData
 	ldrb r0, [r1, #3]
@@ -7702,8 +7702,8 @@ sub_8003D8C: @ 0x08003D8C
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_8003D90
-sub_8003D90: @ 0x08003D90
+	thumb_func_start AddLives
+AddLives: @ 0x08003D90
 	push {lr}
 	lsls r0, r0, #0x10
 	lsrs r1, r0, #0x10
@@ -21935,8 +21935,8 @@ _0800AE08: .4byte 0xDC510BA1
 _0800AE0C: .4byte gCamera
 _0800AE10: .4byte sub_800EAAC
 
-	thumb_func_start sub_800AE14
-sub_800AE14: @ 0x0800AE14
+	thumb_func_start PlayerCB_800AE14
+PlayerCB_800AE14: @ 0x0800AE14
 	push {r4, r5, lr}
 	adds r5, r0, #0
 	ldr r0, _0800AEE0 @ =gStageData
@@ -79737,7 +79737,7 @@ _08026A32:
 	cmp r0, #5
 	bne _08026AA0
 	movs r0, #1
-	bl sub_8003D90
+	bl AddLives
 	b _08026AA0
 _08026A94:
 	ldrh r0, [r7, #0xe]
@@ -80342,13 +80342,13 @@ _08026FBC:
 	bne _08027008
 	ldrb r0, [r2, #4]
 	strb r0, [r4, #9]
-	ldr r4, _08027004 @ =sub_800AE14
+	ldr r4, _08027004 @ =PlayerCB_800AE14
 	b _0802700A
 	.align 2, 0
 _08026FF8: .4byte gPlayers
 _08026FFC: .4byte gStageData
 _08027000: .4byte 0xEFFFFFFF
-_08027004: .4byte sub_800AE14
+_08027004: .4byte PlayerCB_800AE14
 _08027008:
 	ldr r4, _0802701C @ =PlayerCB_800AD24
 _0802700A:
@@ -80609,7 +80609,7 @@ _080271F8:
 	adds r1, #0xb4
 	strb r0, [r1]
 	movs r0, #1
-	bl sub_8003D90
+	bl AddLives
 	b _08027470
 	.align 2, 0
 _0802720C: .4byte gStageData
@@ -86392,7 +86392,7 @@ _0802A01C:
 	bne _0802A034
 _0802A02E:
 	movs r0, #1
-	bl sub_80025A8
+	bl AddRings
 _0802A034:
 	lsls r0, r7, #0x10
 	asrs r0, r0, #0x10
@@ -86972,7 +86972,7 @@ _0802A46A:
 	cmp r0, r1
 	bne _0802A494
 	movs r0, #1
-	bl sub_80025A8
+	bl AddRings
 	lsls r0, r7, #0x10
 	asrs r0, r0, #0x10
 	lsls r1, r6, #0x10
@@ -87570,7 +87570,7 @@ _0802A8EA:
 	blt _0802A90C
 _0802A8F6:
 	movs r0, #1
-	bl sub_80025A8
+	bl AddRings
 	lsls r0, r7, #0x10
 	asrs r0, r0, #0x10
 	lsls r1, r6, #0x10
@@ -88045,7 +88045,7 @@ _0802AC84:
 	cmp r0, #0
 	bne _0802ACA4
 	movs r0, #1
-	bl sub_80025A8
+	bl AddRings
 	mov r1, sl
 	lsls r0, r1, #0x10
 	asrs r0, r0, #0x10
@@ -88856,7 +88856,7 @@ _0802B2AA:
 	bne _0802B2D0
 _0802B2CA:
 	movs r0, #1
-	bl sub_80025A8
+	bl AddRings
 _0802B2D0:
 	movs r0, #1
 	mov r1, sb
@@ -91689,7 +91689,7 @@ _0802C7E4: @ jump table
 	.4byte _0802C8F8 @ case 15
 _0802C824:
 	movs r0, #1
-	bl sub_8003D90
+	bl AddLives
 	ldr r0, _0802C83C @ =gStageData
 	ldrb r0, [r0, #3]
 	cmp r0, #5
@@ -92385,7 +92385,7 @@ _0802CD68:
 	mov r3, r8
 	asrs r0, r3, #0x10
 _0802CD6C:
-	bl sub_80025A8
+	bl AddRings
 	movs r0, #0x75
 	bl sub_8003DF0
 	b _0802CE1A

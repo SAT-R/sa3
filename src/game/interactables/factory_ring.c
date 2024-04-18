@@ -1,11 +1,17 @@
 #include "global.h"
 #include "malloc_vram.h"
+#include "module_unclear.h"
 #include "sprite.h"
 #include "game/camera.h"
 #include "game/entity.h"
+#include "game/player.h"
+#include "game/player_callbacks.h"
+#include "game/stage.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
+#include "constants/move_states.h"
+#include "constants/songs.h"
 
 typedef struct {
     SpriteBase base;
@@ -14,7 +20,68 @@ typedef struct {
 
 void Task_FactoryRingMain(void);
 void TaskDestructor_FactoryRing(struct Task *t);
-void sub_8041368(Sprite *s);
+void FactoryRing_InitSprite(Sprite *s);
+void sub_8041248(void);
+
+#define FACTORY_RING_SPAWN_SPEED Q(4.0)
+
+void Task_FactoryRingMain(void)
+{
+    FactoryRing *ring = TASK_DATA(gCurTask);
+    Sprite *s = &ring->s;
+    MapEntity *me = ring->base.me;
+    Player *p, *partner;
+    s16 worldX, worldY;
+
+    worldX = TO_WORLD_POS(ring->base.spriteX, ring->base.regionX);
+    worldY = TO_WORLD_POS(me->y, ring->base.regionY);
+
+    p = &gPlayers[gStageData.charId];
+
+    if ((p->callback != PlayerCB_80052C8) && (p->callback != PlayerCB_800522C)) {
+        if (!(p->moveState & (MOVESTATE_1000000 | MOVESTATE_200 | MOVESTATE_100))) {
+            if (gStageData.charId == 0) {
+                if (sub_8020700(s, worldX, worldY, 0, p, 0)) {
+                    sub_8016F28(p);
+                    sub_8019A64(p);
+                    sub_8004E98(p, SE_BIG_WARP_RING);
+                    SetPlayerCallback(p, (void *)PlayerCB_800AE14);
+
+                    partner = &gPlayers[p->charFlags.partnerIndex];
+
+                    if (partner->charFlags.someIndex == 2) {
+                        SetPlayerCallback(partner, (void *)PlayerCB_800AE14);
+                    }
+
+                    if (!GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode)) {
+                        sub_80275B8(1, gStageData.zone, 1);
+                    }
+
+                    gStageData.unk4 = 8;
+                }
+            }
+        }
+    } else {
+        s16 i;
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            if (i == 0) {
+                p = &gPlayers[gStageData.charId];
+            } else {
+                p = &gPlayers[p->charFlags.partnerIndex];
+            }
+
+            if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2
+                || p->charFlags.someIndex == 4) {
+                if (gStageData.entryIndex == 0) {
+                    p->qSpeedAirX = FACTORY_RING_SPAWN_SPEED;
+                    p->moveState &= ~MOVESTATE_FACING_LEFT;
+                }
+            }
+        }
+    }
+
+    sub_8041248();
+}
 
 void sub_8041248(void)
 {
@@ -56,7 +123,7 @@ void CreateEntity_FactoryRing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s->y = TO_WORLD_POS(me->y, regionY);
     SET_MAP_ENTITY_INITIALIZED(me);
 
-    sub_8041368(s);
+    FactoryRing_InitSprite(s);
 }
 
 void TaskDestructor_FactoryRing(struct Task *t)
@@ -65,7 +132,7 @@ void TaskDestructor_FactoryRing(struct Task *t)
     VramFree(ring->s.tiles);
 }
 
-void sub_8041368(Sprite *s)
+void FactoryRing_InitSprite(Sprite *s)
 {
     s->tiles = ALLOC_TILES(ANIM_FACTORY_RING);
     s->anim = ANIM_FACTORY_RING;

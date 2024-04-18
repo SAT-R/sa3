@@ -33,6 +33,11 @@ extern const AnimId gPlayerCharacterIdleAnims[NUM_CHARACTERS];
 // NOTE: Proc type should be the same as SetStageSpawnPosInternal!
 // extern void SetStageSpawnPos(u32 character, u32 level, u32 p2, Player *player);
 
+#define GAME_MODE_IS_SINGLE_PLAYER(mode)                                                \
+    ((mode == GAME_MODE_SINGLE_PLAYER) || (mode == GAME_MODE_DEMO)                      \
+     || (mode == GAME_MODE_2) || (mode == GAME_MODE_TIME_ATTACK)                        \
+     || (mode == GAME_MODE_BOSS_TIME_ATTACK))
+
 #define INCREMENT_SCORE_A(incVal)                                                       \
     {                                                                                   \
         s32 divResA, divResB;                                                           \
