@@ -21,7 +21,6 @@ SECTIONS {
         build/sa3/asm/code_0.o(.text);
         build/sa3/asm/ia_zone_warp.o(.text);
         build/sa3/asm/ia_spring.o(.text);
-        build/sa3/asm/ia_toggle_player_layer.o(.text);
         build/sa3/src/game/interactables/toggle_player_layer.o(.text);
         build/sa3/asm/ia_warp.o(.text);
         build/sa3/src/game/interactables/015.o(.text);
@@ -104,7 +103,6 @@ SECTIONS {
         build/sa3/asm/ia_mp_024.o(.text);
         build/sa3/src/game/interactables/final_zone_ring.o(.text);
         build/sa3/src/game/interactables/emerald_in_playground.o(.text);
-        build/sa3/asm/ia_emerald_in_playground.o(.text);
         build/sa3/asm/code_1.o(.text);
         build/sa3/src/game/final_boss_init.o(.text);
         build/sa3/asm/enemy_akatento.o(.text);
