@@ -20752,8 +20752,8 @@ _0800A4C0:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_800A4C8
-sub_800A4C8: @ 0x0800A4C8
+	thumb_func_start PlayerCB_800A4C8
+PlayerCB_800A4C8: @ 0x0800A4C8
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	bl sub_8012FA0
@@ -67068,7 +67068,7 @@ sub_8020874: @ 0x08020874
 	mov sl, r1
 	str r2, [sp, #0x10]
 	ldr r0, [sp, #0x34]
-	mov ip, r0
+	mov ip, r0              @ ip = Player *p
 	ldr r0, [sp, #0x38]
 	ldr r1, [sp, #0x3c]
 	lsls r3, r3, #0x10

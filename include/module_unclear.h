@@ -22,6 +22,10 @@ void sub_8019A64(Player *p);
 
 extern bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5);
 
+// Collision
+extern u32 sub_8020874(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5,
+                       u8 p6);
+
 void sub_80236C8(void *, u8 p1, void *);
 bool32 sub_8023734(void *chaoEwramData);
 void sub_80239A8(void *chaoEwramData);
