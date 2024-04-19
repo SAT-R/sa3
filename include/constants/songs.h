@@ -265,6 +265,7 @@
 #define SE_MINECART_DESTROYED 0x258
 
 #define SE_MINECART_ROLL 0x25E
+#define SE_607           0x25F
 
 // SE_610 sounds like Knuckles climbing a wall, but is used in an IA
 #define SE_610 0x262
