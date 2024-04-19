@@ -58,7 +58,6 @@ void Task_Interactable134(void)
     bottom = top + me->d.uData[3] * TILE_WIDTH;
 
     left0 = me->d.sData[0] << 3;
-    asm("" :);
     qWorldX = ia->worldX;
     left = qWorldX + left0;
     right = left + me->d.uData[2] * TILE_WIDTH;
@@ -79,13 +78,10 @@ void Task_Interactable134(void)
 
         if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2
             || p->charFlags.someIndex == 4) {
-            // _0804C844
-            bool32 res = sub_802C0D4(p);
-            if (res) {
+            if (sub_802C0D4(p)) {
                 sub_8004F10(p, SE_607);
             } else if ((p->callback != PlayerCB_8008A8C)
                        && (p->callback != PlayerCB_800ED80)) {
-                // _0804C876
                 worldX = I(p->qWorldX);
                 worldY = I(p->qWorldY);
 
@@ -97,7 +93,7 @@ void Task_Interactable134(void)
                             sub_8016F28(p);
 
                             p->qWorldY = Q(middle);
-                            ia->unk11[i] = res;
+                            ia->unk11[i] = 0;
 
                             if (ia->unk10 == 0) {
                                 p->qSpeedAirX = -Q(1.5);
@@ -108,7 +104,6 @@ void Task_Interactable134(void)
                             }
                         }
                     } else {
-                        // _0804C908
                         s32 r0 = (middle > worldY) ? 0x1 : 0x2;
                         s32 r3 = r0;
 
