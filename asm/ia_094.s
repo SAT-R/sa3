@@ -5,6 +5,7 @@
 .syntax unified
 .arm
 
+.if 01
 	thumb_func_start Task_Interactable094Main
 Task_Interactable094Main: @ 0x080402AC
 	push {r4, r5, r6, r7, lr}
@@ -17,40 +18,40 @@ Task_Interactable094Main: @ 0x080402AC
 	mov r8, r0
 	ldr r0, [r0]
 	ldrh r0, [r0, #6]
-	str r0, [sp, #0x10]
+	str r0, [sp, #0x10]     @ sp10 = t
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	ldr r1, [sp, #0x10]
 	adds r0, r0, r1
-	mov sb, r0
-	ldr r6, [r0]
+	mov sb, r0              @ sb = ia
+	ldr r6, [r0]            @ r6 = me
 	ldrb r0, [r0, #0xa]
 	lsls r0, r0, #3
-	mov r2, sb
+	mov r2, sb              @ r2 = sb = ia
 	ldrh r1, [r2, #4]
 	lsls r1, r1, #8
-	adds r0, r0, r1
-	ldrb r1, [r6, #1]
+	adds r0, r0, r1         @ r0 = worldX
+	ldrb r1, [r6, #1]       @
 	lsls r1, r1, #3
 	ldrh r2, [r2, #6]
 	lsls r2, r2, #8
-	adds r1, r1, r2
+	adds r1, r1, r2         @ r1 = worldY
 	movs r2, #4
 	ldrsb r2, [r6, r2]
-	lsls r2, r2, #3
+	lsls r2, r2, #3         @ r2 = me->d.uData[1] * 8
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	adds r2, r1, r2
+	adds r2, r1, r2         @ r2 = worldY + (me->d.uData[1] * 8)
 	lsls r2, r2, #0x10
-	ldrb r3, [r6, #6]
-	lsls r3, r3, #3
+	ldrb r3, [r6, #6]       @ r3 = ia->d.uData[3]
+	lsls r3, r3, #3         @ r3 = ia->d.uData[3] * TILE_WIDTH
 	lsrs r4, r2, #0x10
-	str r4, [sp, #4]
+	str r4, [sp, #4]        @ sp04 = r2
 	asrs r2, r2, #0x10
 	adds r2, r2, r3
 	lsls r2, r2, #0x10
 	lsrs r2, r2, #0x10
-	str r2, [sp, #0xc]
+	str r2, [sp, #0xc]      @ sp0C = sp04 + me->d.uData[3] * TILE_WIDTH;
 	movs r2, #3
 	ldrsb r2, [r6, r2]
 	lsls r2, r2, #3
@@ -58,8 +59,8 @@ Task_Interactable094Main: @ 0x080402AC
 	asrs r0, r0, #0x10
 	adds r2, r0, r2
 	lsls r2, r2, #0x10
-	ldrb r4, [r6, #5]
-	lsls r3, r4, #3
+	ldrb r4, [r6, #5]       @ r4 = ia->d.uData[2]
+	lsls r3, r4, #3         @ r3 = ia->d.uData[2] * TILE_WIDTH
 	lsrs r7, r2, #0x10
 	str r7, [sp]
 	asrs r2, r2, #0x10
@@ -105,11 +106,11 @@ _0804036C: .4byte gCurTask
 _08040370: .4byte gStageData
 _08040374: .4byte gPlayers
 _08040378:
-	movs r1, #0
+	movs r1, #0         @ r1 = 0
 	ldr r3, _08040390 @ =0x0300000D
 	ldr r4, [sp, #0x10]
 	adds r3, r3, r4
-	mov r8, r3
+	mov r8, r3          @ r8 = &ia->unkD
 _08040382:
 	lsls r0, r1, #0x10
 	adds r7, r0, #0
@@ -134,7 +135,7 @@ _080403A2:
 	adds r0, r0, r1
 	lsls r0, r0, #4
 	ldr r1, _080403E0 @ =gPlayers
-	adds r5, r0, r1
+	adds r5, r0, r1     @ r5 = p
 	adds r0, r5, #0
 	adds r0, #0x2b
 	ldrb r0, [r0]
@@ -300,6 +301,4 @@ _080404E8:
 	pop {r4, r5, r6, r7}
 	pop {r0}
 	bx r0
-
-.if 0
 .endif
