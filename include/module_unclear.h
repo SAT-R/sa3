@@ -17,6 +17,7 @@ void sub_800A218(Player *p);
 
 // 0x0800D87C
 void SetPlayerCallback(Player *p, PlayerCallback *callback);
+void sub_800E6CC(Player *p);
 
 void sub_8016F28(Player *p);
 void sub_8019A64(Player *p);

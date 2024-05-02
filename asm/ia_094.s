@@ -73,7 +73,7 @@ Task_Interactable094Main: @ 0x080402AC
 	adds r2, #4
 	lsls r2, r2, #0x10
 	lsrs r2, r2, #0x10
-	mov sl, r2
+	mov sl, r2              @ sl = r2 = middle (sl)
 	bl IsPointInScreenRect
 	cmp r0, #0
 	bne _08040378
@@ -191,7 +191,7 @@ _080403E4:
 	asrs r0, r0, #0x10
 	cmp r2, r0
 	bge _080404D0
-	mov r2, sb
+	mov r2, sb          @ r2 = sb = ia
 	ldrb r6, [r2, #0xc]
 	cmp r6, #0
 	beq _0804044E

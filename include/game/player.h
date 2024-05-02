@@ -85,9 +85,9 @@ struct Player {
         u8 state0_subHighBit : 1;
         s8 state0_highValue : 8;
 
-        s16 spriteState0; // 0x30
-        s16 spriteState1; // 0x32
-        s16 spriteAnimation; // 0x34
+        s16 anim0; // 0x30
+        s16 anim1; // 0x32
+        s16 anim2; // 0x34
         // SpriteStateNumber stateNumber1;    // 0x36-0x37
         u8 state1_subCount : 4;
         u8 state1_other : 3; // TODO: name

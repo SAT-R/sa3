@@ -13,6 +13,8 @@
 #define ANIM_KNUCKLES_IDLE 489
 #define ANIM_AMY_IDLE      652
 
+#define ANIM_CHAR_113 113
+
 // UI elements etc.
 #define ANIM_CHAOS_EMERALD_BIG 854
 #define ANIM_ARROWUP           855
