@@ -18,7 +18,8 @@ typedef struct {
 
 void Task_Interactable094Main(void);
 
-#if 0
+#if 01
+// https://decomp.me/scratch/nVUXb
 void Task_Interactable094Main(void)
 {
     IA094 *ia = TASK_DATA(gCurTask);
@@ -35,7 +36,7 @@ void Task_Interactable094Main(void)
     sp0C = sp04 + me->d.uData[3] * TILE_WIDTH;
     sp00 = worldX + me->d.sData[0] * TILE_WIDTH;
     sp08 = sp00 + me->d.uData[2] * TILE_WIDTH;
-    sl = sp00 + me->d.uData[2] * (TILE_WIDTH / 2);
+    sl = sp00 + me->d.uData[2] * (TILE_WIDTH / 2) + 4;
 
     if (!IsPointInScreenRect(worldX, worldY)) {
         p = &gPlayers[gStageData.charId];
@@ -63,10 +64,10 @@ void Task_Interactable094Main(void)
                 if (sub_802C0D4(p)) {
                     sub_8004F10(p, SE_290);
                     // continue;
-                } else if ((worldX > sp00) && (worldX < sp08) && (worldY > sp04)
-                           && (worldY < sp0C)) {
+                } else if ((I(p->qWorldX) > sp00) && (I(p->qWorldX) < sp08)
+                           && (I(p->qWorldY) > sp04) && (I(p->qWorldY) < sp0C)) {
                     if (ia->unkC != 0) {
-                        if (p->charFlags.anim0 == ANIM_CHAR_113) {
+                        if (p->charFlags.anim0 == ANIM_CHAR_133) {
                             sub_8004F10(p, SE_290);
                             sub_800E6CC(p);
 
@@ -77,7 +78,7 @@ void Task_Interactable094Main(void)
                     } else {
                         // _0804044E
                         if (((sl - 4) <= worldY) && ((sl + 4) >= worldY)) {
-                            if (p->charFlags.anim0 != ANIM_CHAR_113) {
+                            if (p->charFlags.anim0 != ANIM_CHAR_133) {
                                 sub_8016F28(p);
                                 SetPlayerCallback(p, (void *)PlayerCB_800A5B0);
                                 p->qWorldX = Q(sl);
@@ -86,8 +87,25 @@ void Task_Interactable094Main(void)
                             }
                         } else {
                             // _08040488
+                            s32 r1 = 2;
+
+                            if (sl > I(p->qWorldX)) {
+                                r1 = 1;
+                            }
+
+                            if (ia->unkD[i] != 0 && ia->unkD[i] != r1) {
+                                sub_8016F28(p);
+                                SetPlayerCallback(p, (void *)PlayerCB_800A5B0);
+
+                                p->qWorldX = Q(sl);
+                                ia->unkD[i] = 0;
+                            } else {
+                                ia->unkD[i] = r1;
+                            }
                         }
                     }
+                } else {
+                    ia->unkD[i] = 0;
                 }
             }
         }

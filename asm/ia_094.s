@@ -163,12 +163,12 @@ _080403C8:
 _080403E0: .4byte gPlayers
 _080403E4:
 	ldr r0, [r5, #0x10]
-	lsls r0, r0, #8
+	lsls r0, r0, #8     @ r0 = Q(p->worldX)
 	ldr r1, [r5, #0x14]
-	lsls r1, r1, #8
+	lsls r1, r1, #8     @ r1 = Q(p->worldY)
 	lsrs r1, r1, #0x10
 	lsrs r2, r0, #0x10
-	mov ip, r2
+	mov ip, r2          @ ip = Q(p->worldX)
 	asrs r3, r0, #0x10
 	ldr r2, [sp]
 	lsls r0, r2, #0x10
