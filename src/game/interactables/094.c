@@ -19,7 +19,7 @@ typedef struct {
 void Task_Interactable094Main(void);
 
 #if 01
-// https://decomp.me/scratch/nVUXb
+// (96.29%) https://decomp.me/scratch/nVUXb
 void Task_Interactable094Main(void)
 {
     IA094 *ia = TASK_DATA(gCurTask);
@@ -64,48 +64,49 @@ void Task_Interactable094Main(void)
                 if (sub_802C0D4(p)) {
                     sub_8004F10(p, SE_290);
                     // continue;
-                } else if ((I(p->qWorldX) > sp00) && (I(p->qWorldX) < sp08)
-                           && (I(p->qWorldY) > sp04) && (I(p->qWorldY) < sp0C)) {
-                    if (ia->unkC != 0) {
-                        if (p->charFlags.anim0 == ANIM_CHAR_133) {
-                            sub_8004F10(p, SE_290);
-                            sub_800E6CC(p);
-
-                            p->qWorldX = Q(sl);
-                        }
-
-                        ia->unkD[i] = 0;
-                    } else {
-                        // _0804044E
-                        if (((sl - 4) <= worldY) && ((sl + 4) >= worldY)) {
-                            if (p->charFlags.anim0 != ANIM_CHAR_133) {
-                                sub_8016F28(p);
-                                SetPlayerCallback(p, (void *)PlayerCB_800A5B0);
-                                p->qWorldX = Q(sl);
-
-                                ia->unkD[i] = 0;
-                            }
-                        } else {
-                            // _08040488
-                            s32 r1 = 2;
-
-                            if (sl > I(p->qWorldX)) {
-                                r1 = 1;
-                            }
-
-                            if (ia->unkD[i] != 0 && ia->unkD[i] != r1) {
-                                sub_8016F28(p);
-                                SetPlayerCallback(p, (void *)PlayerCB_800A5B0);
-
-                                p->qWorldX = Q(sl);
-                                ia->unkD[i] = 0;
-                            } else {
-                                ia->unkD[i] = r1;
-                            }
-                        }
-                    }
                 } else {
-                    ia->unkD[i] = 0;
+                    s16 pWorldX = (p->qWorldX);
+                    s16 pWorldY = (p->qWorldY);
+                    if ((I(pWorldX) > sp00) && (I(pWorldX) < sp08) && ((pWorldY) > sp04)
+                        && ((pWorldY) < sp0C)) {
+                        if (ia->unkC != 0) {
+                            if (p->charFlags.anim0 == ANIM_CHAR_133) {
+                                sub_8004F10(p, SE_290);
+                                sub_800E6CC(p);
+
+                                p->qWorldX = Q(sl);
+
+                                ia->unkD[i] = 0;
+                            }
+
+                        } else {
+                            // _0804044E
+                            if (((sl - 4) <= I(pWorldX)) && ((sl + 4) >= I(pWorldX))) {
+                                if (p->charFlags.anim0 != ANIM_CHAR_133) {
+                                    sub_8016F28(p);
+                                    SetPlayerCallback(p, (void *)PlayerCB_800A5B0);
+                                    p->qWorldX = Q(sl);
+
+                                    ia->unkD[i] = 0;
+                                }
+                            } else {
+                                // _08040488
+                                s16 r2 = (sl > (pWorldX)) ? 1 : 2;
+
+                                if (ia->unkD[i] != 0 && ia->unkD[i] != r2) {
+                                    sub_8016F28(p);
+                                    SetPlayerCallback(p, (void *)PlayerCB_800A5B0);
+
+                                    p->qWorldX = Q(sl);
+                                    ia->unkD[i] = 0;
+                                } else {
+                                    ia->unkD[i] = r2;
+                                }
+                            }
+                        }
+                    } else {
+                        ia->unkD[i] = 0;
+                    }
                 }
             }
         }
