@@ -19,7 +19,6 @@ typedef struct {
 void Task_Interactable094Main(void);
 
 #if 01
-// (99.98%) https://decomp.me/scratch/nVUXb
 void Task_Interactable094Main(void)
 {
     IA094 *ia = TASK_DATA(gCurTask);
@@ -67,8 +66,9 @@ void Task_Interactable094Main(void)
                 } else {
                     s16 pWorldX = I(p->qWorldX);
                     s16 pWorldY = I(p->qWorldY);
-                    if ((I(pWorldX) > sp00) && (I(pWorldX) < sp08) && ((pWorldY) > sp04)
-                        && ((pWorldY) < sp0C)) {
+
+                    if ((pWorldX > sp00) && (pWorldX < sp08) && (pWorldY > sp04)
+                        && (pWorldY < sp0C)) {
                         if (ia->unkC != 0) {
                             if (p->charFlags.anim0 == ANIM_CHAR_133) {
                                 sub_8004F10(p, SE_290);
@@ -81,7 +81,7 @@ void Task_Interactable094Main(void)
 
                         } else {
                             // _0804044E
-                            if (((sl - 4) <= I(pWorldX)) && ((sl + 4) >= I(pWorldX))) {
+                            if (((sl - 4) <= pWorldX) && ((sl + 4) >= pWorldX)) {
                                 if (p->charFlags.anim0 != ANIM_CHAR_133) {
                                     sub_8016F28(p);
                                     SetPlayerCallback(p, (void *)PlayerCB_800A5B0);
@@ -91,7 +91,7 @@ void Task_Interactable094Main(void)
                                 }
                             } else {
                                 // _08040488
-                                s16 r2 = (sl > (pWorldX)) ? 1 : 2;
+                                s16 r2 = (sl > pWorldX) ? 1 : 2;
 
                                 if (ia->unkD[i] != 0 && ia->unkD[i] != r2) {
                                     sub_8016F28(p);
