@@ -19,7 +19,7 @@ typedef struct {
 void Task_Interactable094Main(void);
 
 #if 01
-// (96.29%) https://decomp.me/scratch/nVUXb
+// (99.98%) https://decomp.me/scratch/nVUXb
 void Task_Interactable094Main(void)
 {
     IA094 *ia = TASK_DATA(gCurTask);
@@ -65,8 +65,8 @@ void Task_Interactable094Main(void)
                     sub_8004F10(p, SE_290);
                     // continue;
                 } else {
-                    s16 pWorldX = (p->qWorldX);
-                    s16 pWorldY = (p->qWorldY);
+                    s16 pWorldX = I(p->qWorldX);
+                    s16 pWorldY = I(p->qWorldY);
                     if ((I(pWorldX) > sp00) && (I(pWorldX) < sp08) && ((pWorldY) > sp04)
                         && ((pWorldY) < sp0C)) {
                         if (ia->unkC != 0) {
