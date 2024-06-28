@@ -138,6 +138,9 @@ SECTIONS {
         build/sa3/src/main.o(.text);
         build/sa3/src/task.o(.text);
         build/sa3/asm/code_z.o(.text);
+        build/sa3/src/multi_sio.o(.text);
+        build/sa3/asm/code_z_1.o(.text);
+        build/sa3/src/multi_sio_asm.o(.text);
         build/sa3/src/malloc_ewram.o(.text);
     }
 

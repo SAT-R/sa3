@@ -5,7 +5,7 @@
 
     .global gUnknown_082B483C
 gUnknown_082B483C:
-    .4byte gUnknown_03006870
+    .4byte gMultiSioIntrFuncBuf
     .4byte sub_80BC7C0, sub_80BCC6C, sub_80BCCBC, sub_80BCD08
     .4byte sub_80BCD14, sub_80BCD20, sub_80C66DC, sub_80BCCC8
     .4byte sub_80BCCD8, sub_80BCCE8, sub_80BCCF8, sub_80BCD38
