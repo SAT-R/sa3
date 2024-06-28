@@ -82076,7 +82076,7 @@ sub_8027D3C: @ 0x08027D3C
 	movs r0, #0
 	strh r0, [r2]
 	ldr r1, _08027D88 @ =gIntrTable
-	ldr r0, _08027D8C @ =sub_80C4310
+	ldr r0, _08027D8C @ =Sio32MultiLoadIntr
 	str r0, [r1]
 	movs r0, #1
 	strh r0, [r2]
@@ -82096,13 +82096,13 @@ sub_8027D3C: @ 0x08027D3C
 	movs r1, #0x80
 	ands r0, r1
 	ldr r1, _08027DA0 @ =gUnknown_08E5F6B0
-	bl sub_80C43D8
+	bl Sio32MultiLoadInit
 	b _08027DD2
 	.align 2, 0
 _08027D80: .4byte gCurTask
 _08027D84: .4byte 0x04000208
 _08027D88: .4byte gIntrTable
-_08027D8C: .4byte sub_80C4310
+_08027D8C: .4byte Sio32MultiLoadIntr
 _08027D90: .4byte 0x030000DE
 _08027D94: .4byte gSaveGame
 _08027D98: .4byte 0x00000366
@@ -82114,7 +82114,7 @@ _08027DA4:
 	movs r1, #0x80
 	ands r0, r1
 	ldr r1, _08027DB8 @ =gUnknown_08E5C244
-	bl sub_80C43D8
+	bl Sio32MultiLoadInit
 	b _08027DD2
 	.align 2, 0
 _08027DB4: .4byte gUnknown_03002C64
@@ -82129,7 +82129,7 @@ _08027DBC:
 	lsls r1, r1, #2
 	adds r1, r1, r2
 	ldr r1, [r1]
-	bl sub_80C43D8
+	bl Sio32MultiLoadInit
 _08027DD2:
 	ldr r0, _08027DEC @ =gCurTask
 	ldr r1, [r0]
@@ -82158,7 +82158,7 @@ sub_8027DF4: @ 0x08027DF4
 	movs r0, #0
 	str r0, [sp]
 	mov r0, sp
-	bl sub_80C412C
+	bl Sio32MultiLoadMain
 	cmp r0, #0
 	beq _08027E18
 	ldr r1, [r5]
