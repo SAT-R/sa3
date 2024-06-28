@@ -104624,9 +104624,9 @@ _0809867A:
 	bl sub_802613C
 	b _08098698
 _08098680:
-	bl sub_80C3800
+	bl MultiSioStop
 	movs r0, #0
-	bl sub_80C3384
+	bl MultiSioInit
 	ldr r1, _080986A4 @ =gUnknown_03002C68
 	movs r0, #0
 	strb r0, [r1]
@@ -105474,9 +105474,9 @@ sub_8098CFC: @ 0x08098CFC
 	ldrb r4, [r7, #8]
 	cmp r4, #0
 	bne _08098D74
-	bl sub_80C3800
+	bl MultiSioStop
 	movs r0, #0
-	bl sub_80C3384
+	bl MultiSioInit
 	ldr r0, _08098D8C @ =gUnknown_03002C68
 	strb r4, [r0]
 	ldrb r0, [r7, #8]
@@ -177450,7 +177450,7 @@ _080BC06A:
 	str r4, [r6]
 	strb r4, [r7]
 	movs r0, #0
-	bl sub_80C3384
+	bl MultiSioInit
 	ldr r0, _080BC0D0 @ =gUnknown_0300620C
 	strb r4, [r0]
 	ldr r0, _080BC0D4 @ =gUnknown_03002BF0
@@ -177515,7 +177515,7 @@ _080BC0FA:
 	ldr r0, _080BC130 @ =gUnknown_03003C40
 	ldr r1, _080BC134 @ =gUnknown_03002B90
 	movs r2, #0
-	bl sub_80C3490
+	bl MultiSioMain
 	ldr r1, _080BC138 @ =gUnknown_03002C64
 	str r0, [r1]
 	b _080BC150

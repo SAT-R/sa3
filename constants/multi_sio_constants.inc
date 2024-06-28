@@ -1,6 +1,6 @@
 @ Optimize the following settings based on the software specifications
 
-MULTI_SIO_BLOCK_SIZE            =   20      @ Communication Data Block Size (Max. 24 Bytes)
+MULTI_SIO_BLOCK_SIZE            =   24      @ Communication Data Block Size (Max. 24 Bytes)
 
 MULTI_SIO_PLAYERS_MAX           =   4       @ Maximum Number of Players
 
