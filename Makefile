@@ -56,7 +56,7 @@ TOOLBASE = $(TOOLDIRS:tools/%=%)
 TOOLS = $(foreach tool,$(TOOLBASE),tools/$(tool)/$(tool)$(EXE))
 
 CC1FLAGS := -mthumb-interwork -Wimplicit -Wparentheses -O2 -fhex-asm -Werror
-CPPFLAGS := -I tools/agbcc/include -iquote include -nostdinc -D $(GAME_REGION)
+CPPFLAGS := -I tools/agbcc/include -iquote include -nostdinc -D $(GAME_REGION) -D PLATFORM_GBA=1
 ASFLAGS  := -mcpu=arm7tdmi -mthumb-interwork -I asminclude --defsym $(GAME_REGION)=1
 
 

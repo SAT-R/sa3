@@ -1,4 +1,7 @@
 
+. = 0x0000041c;
+build/sa3/src/multi_boot.o(.bss)
+
 . = 0x00000440;
 build/sa3/src/lib/agb_flash/agb_flash.o(.bss);
 
