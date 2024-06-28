@@ -81956,7 +81956,7 @@ _08027B78:
 	str r5, [sp]
 	mov r0, r8
 	movs r3, #4
-	bl sub_80C3E38
+	bl MultiBootStartMaster
 	b _08027C80
 	.align 2, 0
 _08027C40: .4byte gUnknown_03003F40
@@ -82014,7 +82014,7 @@ _08027CC0:
 	cmp r5, #0
 	bne _08027D18
 	ldr r0, _08027D24 @ =gUnknown_03003F40
-	bl sub_80C40D0
+	bl MultiBootCheckComplete
 	cmp r0, #0
 	beq _08027D18
 	adds r0, r7, #0
@@ -82859,7 +82859,7 @@ sub_80283CC: @ 0x080283CC
 	adds r2, #0x4b
 	movs r1, #0
 	strb r1, [r2]
-	bl sub_80C4094
+	bl MultiBootInit
 	ldr r1, [r5]
 	ldr r0, _08028414 @ =sub_8027B34
 	str r0, [r1, #8]
@@ -83013,7 +83013,7 @@ _0802852C: .4byte gUnknown_03002C64
 sub_8028530: @ 0x08028530
 	push {lr}
 	ldr r0, _08028550 @ =gUnknown_03003F40
-	bl sub_80C3850
+	bl MultiBootMain
 	cmp r0, #0x50
 	beq _08028548
 	cmp r0, #0x60

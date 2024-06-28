@@ -139,7 +139,7 @@ SECTIONS {
         build/sa3/src/task.o(.text);
         build/sa3/asm/code_z.o(.text);
         build/sa3/src/multi_sio.o(.text);
-        build/sa3/asm/code_z_0.o(.text);
+        build/sa3/src/multi_boot.o(.text);
         build/sa3/src/sio32_multi_load.o(.text);
         build/sa3/asm/code_z_1.o(.text);
         build/sa3/src/multi_sio_asm.o(.text);
