@@ -59,7 +59,7 @@ SECTIONS {
         build/sa3/asm/ia_091.o(.text);
         build/sa3/asm/ia_092.o(.text);
         build/sa3/src/game/interactables/waggle_coil.o(.text);
-        build/sa3/src/game/interactables/094.o(.text);
+        build/sa3/src/game/interactables/pole.o(.text);
         build/sa3/asm/ia_095.o(.text);
         build/sa3/asm/ia_act_ring.o(.text);
         build/sa3/asm/ia_special_spring.o(.text);
@@ -100,6 +100,7 @@ SECTIONS {
         build/sa3/src/game/interactables/chao.o(.text);
         build/sa3/asm/ia_141.o(.text);
         build/sa3/asm/ia_mp_023.o(.text);
+        build/sa3/src/game/interactables/mp_024.o(.text);
         build/sa3/asm/ia_mp_024.o(.text);
         build/sa3/src/game/interactables/final_zone_ring.o(.text);
         build/sa3/src/game/interactables/emerald_in_playground.o(.text);
