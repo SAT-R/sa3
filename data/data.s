@@ -394,7 +394,7 @@ gSpriteInits_InteractablesMultiplayer: @ 0x080CF354
     .4byte CreateEntity_Interactable079 @ 021
     .4byte CreateEntity_Interactable080 @ 022
     .4byte CreateEntity_InteractableMP023 @ 023
-    .4byte CreateEntity_InteractableMP024 @ 024
+    .4byte CreateEntity_MultiplayerChao @ 024
 
     .global gUnknown_080CF3B8
 gUnknown_080CF3B8:
