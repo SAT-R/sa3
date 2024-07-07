@@ -943,7 +943,7 @@ sub_8046358: @ 0x08046358
 	cmp r0, #0x19
 	bls _08046408
 	subs r0, #0x1a
-	ldr r3, _08046404 @ =gUnknown_082B48B4
+	ldr r3, _08046404 @ =gSineTable
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0xe
 	movs r2, #0x80
@@ -1022,7 +1022,7 @@ _080463CC:
 	bls _080463CC
 	b _08046432
 	.align 2, 0
-_08046404: .4byte gUnknown_082B48B4
+_08046404: .4byte gSineTable
 _08046408:
 	movs r2, #0
 _0804640A:

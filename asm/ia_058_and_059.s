@@ -893,7 +893,7 @@ sub_80358A0: @ 0x080358A0
 	adds r6, r3, r1
 	adds r2, r2, r7
 	mov r8, r2
-	ldr r2, _08035944 @ =gUnknown_082B48B4
+	ldr r2, _08035944 @ =gSineTable
 	ldrh r0, [r4]
 	lsls r0, r0, #1
 	adds r0, r0, r2
@@ -916,7 +916,7 @@ _08035934: .4byte gStageData
 _08035938: .4byte 0x03000072
 _0803593C: .4byte 0x0300006E
 _08035940: .4byte 0x000003FF
-_08035944: .4byte gUnknown_082B48B4
+_08035944: .4byte gSineTable
 _08035948: .4byte 0x03000070
 _0803594C:
 	adds r0, r6, r3

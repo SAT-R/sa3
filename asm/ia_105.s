@@ -289,7 +289,7 @@ sub_8043A00: @ 0x08043A00
 	mov r8, r1
 	movs r3, #0
 	movs r2, #0
-	ldr r0, _08043AF4 @ =gUnknown_082B48B4
+	ldr r0, _08043AF4 @ =gSineTable
 	mov sl, r0
 	ldr r1, _08043AF0 @ =0x000003FF
 	mov sb, r1
@@ -362,7 +362,7 @@ _08043AE4: .4byte 0x03000018
 _08043AE8: .4byte gCamera
 _08043AEC: .4byte gStageData
 _08043AF0: .4byte 0x000003FF
-_08043AF4: .4byte gUnknown_082B48B4
+_08043AF4: .4byte gSineTable
 
 	thumb_func_start sub_8043AF8
 sub_8043AF8: @ 0x08043AF8
@@ -630,7 +630,7 @@ _08043CF0:
 _08043D14:
 	ldr r1, _08043D60 @ =0x000003FF
 	ands r0, r1
-	ldr r1, _08043D64 @ =gUnknown_082B48B4
+	ldr r1, _08043D64 @ =gSineTable
 	lsls r0, r0, #1
 	adds r0, r0, r1
 	ldrh r1, [r0]
@@ -666,7 +666,7 @@ _08043D50:
 	.align 2, 0
 _08043D5C: .4byte gStageData
 _08043D60: .4byte 0x000003FF
-_08043D64: .4byte gUnknown_082B48B4
+_08043D64: .4byte gSineTable
 _08043D68: .4byte gCamera
 _08043D6C: .4byte gCurTask
 _08043D70:

@@ -509,7 +509,7 @@ Task_80326D8: @ 0x080326D8
 	movs r2, #0
 	str r2, [sp, #0xc]
 	lsls r0, r6, #1
-	ldr r1, _08032770 @ =gUnknown_082B48B4
+	ldr r1, _08032770 @ =gSineTable
 	adds r0, r0, r1
 	mov sb, r0
 _08032740:
@@ -534,7 +534,7 @@ _08032740:
 _08032764: .4byte gCurTask
 _08032768: .4byte 0x00003FF0
 _0803276C: .4byte gCamera
-_08032770: .4byte gUnknown_082B48B4
+_08032770: .4byte gSineTable
 _08032774: .4byte gPlayers
 _08032778: .4byte gStageData
 _0803277C:
@@ -795,7 +795,7 @@ _0803297A:
 	lsls r1, r1, #1
 	adds r0, r6, r1
 	lsls r0, r0, #1
-	ldr r2, _0803299C @ =gUnknown_082B48B4
+	ldr r2, _0803299C @ =gSineTable
 	adds r0, r0, r2
 	movs r2, #0
 	ldrsh r1, [r0, r2]
@@ -806,7 +806,7 @@ _0803297A:
 	b _080329DE
 	.align 2, 0
 _08032998: .4byte 0x000003FF
-_0803299C: .4byte gUnknown_082B48B4
+_0803299C: .4byte gSineTable
 _080329A0:
 	movs r1, #0x88
 	lsls r1, r1, #2
@@ -826,7 +826,7 @@ _080329B8:
 	lsls r1, r1, #1
 	adds r0, r6, r1
 	lsls r0, r0, #1
-	ldr r2, _080329D8 @ =gUnknown_082B48B4
+	ldr r2, _080329D8 @ =gSineTable
 	adds r0, r0, r2
 	movs r2, #0
 	ldrsh r1, [r0, r2]
@@ -837,7 +837,7 @@ _080329B8:
 	b _080329DE
 	.align 2, 0
 _080329D4: .4byte 0x000003FF
-_080329D8: .4byte gUnknown_082B48B4
+_080329D8: .4byte gSineTable
 _080329DC:
 	movs r4, #0
 _080329DE:
@@ -845,7 +845,7 @@ _080329DE:
 	lsls r1, r1, #1
 	adds r0, r4, r1
 	lsls r0, r0, #1
-	ldr r2, _08032A1C @ =gUnknown_082B48B4
+	ldr r2, _08032A1C @ =gSineTable
 	adds r0, r0, r2
 	movs r1, #0
 	ldrsh r0, [r0, r1]
@@ -854,7 +854,7 @@ _080329DE:
 	bl Div
 	strh r0, [r5, #0x18]
 	lsls r4, r4, #1
-	ldr r2, _08032A1C @ =gUnknown_082B48B4
+	ldr r2, _08032A1C @ =gSineTable
 	adds r4, r4, r2
 	movs r1, #0
 	ldrsh r0, [r4, r1]
@@ -870,7 +870,7 @@ _080329DE:
 	strb r0, [r2]
 	b _08032A60
 	.align 2, 0
-_08032A1C: .4byte gUnknown_082B48B4
+_08032A1C: .4byte gSineTable
 _08032A20:
 	movs r2, #0x30
 	ldrsh r0, [r5, r2]

@@ -908,7 +908,7 @@ _0805A3E0: .4byte gCurTask
 	thumb_func_start sub_805A3E4
 sub_805A3E4: @ 0x0805A3E4
 	push {r4, lr}
-	ldr r4, _0805A420 @ =gUnknown_082B48B4
+	ldr r4, _0805A420 @ =gSineTable
 	ldrh r3, [r0, #4]
 	lsrs r3, r3, #2
 	movs r1, #0xff
@@ -938,7 +938,7 @@ sub_805A3E4: @ 0x0805A3E4
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0805A420: .4byte gUnknown_082B48B4
+_0805A420: .4byte gSineTable
 
 	thumb_func_start sub_805A424
 sub_805A424: @ 0x0805A424

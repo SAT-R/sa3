@@ -1150,7 +1150,7 @@ _08062F2A:
 	movs r6, #1
 	b _08062FA6
 _08062F30:
-	ldr r1, _08062F54 @ =gUnknown_082B48B4
+	ldr r1, _08062F54 @ =gSineTable
 	lsls r0, r5, #1
 	mov r3, ip
 	adds r3, #0xa
@@ -1169,7 +1169,7 @@ _08062F30:
 	str r1, [r4]
 	b _08062F9E
 	.align 2, 0
-_08062F54: .4byte gUnknown_082B48B4
+_08062F54: .4byte gSineTable
 _08062F58:
 	mov r1, ip
 	movs r0, #8
@@ -1191,7 +1191,7 @@ _08062F76:
 	movs r6, #1
 	b _08062FA6
 _08062F7C:
-	ldr r1, _08062FB4 @ =gUnknown_082B48B4
+	ldr r1, _08062FB4 @ =gSineTable
 	lsls r0, r5, #1
 	mov r3, ip
 	adds r3, #0xa
@@ -1221,7 +1221,7 @@ _08062FA6:
 	movs r0, #1
 	b _08062FBA
 	.align 2, 0
-_08062FB4: .4byte gUnknown_082B48B4
+_08062FB4: .4byte gSineTable
 _08062FB8:
 	movs r0, #0
 _08062FBA:

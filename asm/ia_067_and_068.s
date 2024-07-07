@@ -219,7 +219,7 @@ _08038770:
 	mov sb, r3
 	ldr r0, [r7, #0x38]
 	mov r8, r0
-	ldr r5, _08038814 @ =gUnknown_082B48B4
+	ldr r5, _08038814 @ =gSineTable
 	ldrh r0, [r7, #0x3e]
 	lsls r0, r0, #1
 	adds r0, r0, r5
@@ -260,7 +260,7 @@ _080387FA:
 _08038808: .4byte gCurTask
 _0803880C: .4byte 0x03000043
 _08038810: .4byte gStageData
-_08038814: .4byte gUnknown_082B48B4
+_08038814: .4byte gSineTable
 _08038818: .4byte 0x03000040
 _0803881C:
 	adds r0, r6, #0
@@ -368,7 +368,7 @@ _080388D0:
 _080388E2:
 	strb r0, [r5]
 _080388E4:
-	ldr r1, _0803890C @ =gUnknown_082B48B4
+	ldr r1, _0803890C @ =gSineTable
 	ldrb r0, [r5]
 	lsls r0, r0, #5
 	adds r0, r0, r1
@@ -389,7 +389,7 @@ _080388F8:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0803890C: .4byte gUnknown_082B48B4
+_0803890C: .4byte gSineTable
 
 	thumb_func_start sub_8038910
 sub_8038910: @ 0x08038910
@@ -608,7 +608,7 @@ _08038A68:
 	adds r1, r1, r2
 	adds r3, r3, r4
 	mov r8, r3
-	ldr r5, _08038B10 @ =gUnknown_082B48B4
+	ldr r5, _08038B10 @ =gSineTable
 	ldrh r0, [r7, #0x3e]
 	lsls r0, r0, #1
 	adds r0, r0, r5
@@ -644,7 +644,7 @@ _08038A68:
 _08038B04: .4byte gStageData
 _08038B08: .4byte 0x03000042
 _08038B0C: .4byte 0x03000043
-_08038B10: .4byte gUnknown_082B48B4
+_08038B10: .4byte gSineTable
 _08038B14:
 	lsls r0, r2, #1
 	adds r1, r3, #0

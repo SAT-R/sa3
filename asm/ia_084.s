@@ -307,7 +307,7 @@ sub_803DED0: @ 0x0803DED0
 	movs r2, #0xa0
 	lsls r2, r2, #1
 	strh r2, [r5]
-	ldr r4, _0803DF98 @ =gUnknown_082B48B4
+	ldr r4, _0803DF98 @ =gSineTable
 	ldrh r0, [r1]
 	movs r3, #0x80
 	lsls r3, r3, #1
@@ -355,7 +355,7 @@ _0803DF88: .4byte 0x0300000C
 _0803DF8C: .4byte sub_805217C
 _0803DF90: .4byte 0x03000064
 _0803DF94: .4byte 0x03000066
-_0803DF98: .4byte gUnknown_082B48B4
+_0803DF98: .4byte gSineTable
 _0803DF9C: .4byte 0x03000068
 _0803DFA0: .4byte 0x0300006A
 _0803DFA4: .4byte sub_803E0D8
@@ -666,7 +666,7 @@ _0803E1D6:
 	movs r2, #0xa0
 	lsls r2, r2, #1
 	strh r2, [r4]
-	ldr r4, _0803E250 @ =gUnknown_082B48B4
+	ldr r4, _0803E250 @ =gSineTable
 	ldrh r0, [r1]
 	movs r3, #0x80
 	lsls r3, r3, #1
@@ -716,7 +716,7 @@ _0803E23E:
 	ldrb r1, [r0, #6]
 	b _0803E262
 	.align 2, 0
-_0803E250: .4byte gUnknown_082B48B4
+_0803E250: .4byte gSineTable
 _0803E254: .4byte gStageData
 _0803E258:
 	adds r0, r5, #0

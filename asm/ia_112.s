@@ -159,7 +159,7 @@ _08046B68:
 	strh r1, [r3]
 	ldrh r6, [r3]
 	movs r1, #0
-	ldr r7, _08046BF8 @ =gUnknown_082B48B4
+	ldr r7, _08046BF8 @ =gSineTable
 	mov sb, r2
 _08046B80:
 	lsls r3, r1, #0x10
@@ -221,7 +221,7 @@ _08046BE0:
 	.align 2, 0
 _08046BF0: .4byte 0x030000BE
 _08046BF4: .4byte 0x000003FF
-_08046BF8: .4byte gUnknown_082B48B4
+_08046BF8: .4byte gSineTable
 _08046BFC: .4byte gStageData
 _08046C00:
 	adds r0, r5, #0

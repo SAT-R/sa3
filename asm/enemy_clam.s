@@ -580,7 +580,7 @@ _080643A0:
 	movs r0, #0
 	str r0, [sp]
 	str r0, [sp, #4]
-	ldr r3, _0806441C @ =gUnknown_082B48B4
+	ldr r3, _0806441C @ =gSineTable
 	movs r1, #0xff
 	ands r1, r4
 	lsls r0, r1, #3
@@ -642,7 +642,7 @@ _080643EA:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0806441C: .4byte gUnknown_082B48B4
+_0806441C: .4byte gSineTable
 
 	thumb_func_start sub_8064420
 sub_8064420: @ 0x08064420

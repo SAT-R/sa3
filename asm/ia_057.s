@@ -1077,7 +1077,7 @@ sub_8034F88: @ 0x08034F88
 	strb r5, [r1, #0xe]
 	movs r0, #0x20
 	strh r0, [r1, #0xc]
-	ldr r2, _08035034 @ =gUnknown_082B48B4
+	ldr r2, _08035034 @ =gSineTable
 	ldr r1, _08035038 @ =0x000003FF
 	ands r1, r6
 	movs r3, #0x80
@@ -1110,7 +1110,7 @@ sub_8034F88: @ 0x08034F88
 _08035028: .4byte gUnknown_080CF638
 _0803502C: .4byte sub_80350EC
 _08035030: .4byte 0x03000010
-_08035034: .4byte gUnknown_082B48B4
+_08035034: .4byte gSineTable
 _08035038: .4byte 0x000003FF
 _0803503C: .4byte gStageData
 _08035040:

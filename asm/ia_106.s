@@ -963,7 +963,7 @@ sub_8044544: @ 0x08044544
 	adds r0, r6, #0
 	bl sub_8044450
 _08044574:
-	ldr r3, _08044614 @ =gUnknown_082B48B4
+	ldr r3, _08044614 @ =gSineTable
 	lsls r0, r7, #0x10
 	asrs r0, r0, #0xe
 	movs r2, #0x80
@@ -1046,7 +1046,7 @@ _080445DC:
 	blo _080445DC
 	b _08044646
 	.align 2, 0
-_08044614: .4byte gUnknown_082B48B4
+_08044614: .4byte gSineTable
 _08044618:
 	movs r2, #0
 	b _08044640

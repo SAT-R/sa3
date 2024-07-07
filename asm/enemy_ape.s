@@ -553,7 +553,7 @@ _0805A910:
 	ands r0, r1
 _0805A916:
 	str r0, [r2, #8]
-	ldr r3, _0805A95C @ =gUnknown_082B48B4
+	ldr r3, _0805A95C @ =gSineTable
 	ldrb r2, [r4, #8]
 	lsls r0, r2, #3
 	movs r1, #0x80
@@ -587,7 +587,7 @@ _0805A946:
 	bx r0
 	.align 2, 0
 _0805A958: .4byte 0xFFFFFBFF
-_0805A95C: .4byte gUnknown_082B48B4
+_0805A95C: .4byte gSineTable
 _0805A960: .4byte 0xFFFFF600
 
 	thumb_func_start sub_805A964

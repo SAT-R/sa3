@@ -856,7 +856,7 @@ _0805D72C:
 	str r0, [sp]
 	cmp r1, #0
 	bne _0805D774
-	ldr r3, _0805D770 @ =gUnknown_082B48B4
+	ldr r3, _0805D770 @ =gSineTable
 	ldrh r0, [r4]
 	lsls r0, r0, #3
 	movs r2, #0xff
@@ -885,9 +885,9 @@ _0805D72C:
 	adds r0, r0, r1
 	b _0805D7AA
 	.align 2, 0
-_0805D770: .4byte gUnknown_082B48B4
+_0805D770: .4byte gSineTable
 _0805D774:
-	ldr r3, _0805D7E8 @ =gUnknown_082B48B4
+	ldr r3, _0805D7E8 @ =gSineTable
 	ldrh r0, [r4]
 	lsls r0, r0, #2
 	movs r2, #0xff
@@ -927,7 +927,7 @@ _0805D7AA:
 	mov r8, r5
 	mov r7, ip
 	adds r7, #0x34
-	ldr r0, _0805D7E8 @ =gUnknown_082B48B4
+	ldr r0, _0805D7E8 @ =gSineTable
 	mov sl, r0
 	movs r1, #0xff
 	mov sb, r1
@@ -948,7 +948,7 @@ _0805D7D2:
 	add r1, r8
 	b _0805D7F6
 	.align 2, 0
-_0805D7E8: .4byte gUnknown_082B48B4
+_0805D7E8: .4byte gSineTable
 _0805D7EC:
 	lsls r0, r2, #3
 	adds r0, r7, r0

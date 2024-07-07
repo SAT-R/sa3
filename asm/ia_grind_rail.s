@@ -5258,7 +5258,7 @@ _0803BA1C:
 	mov sl, r5
 	lsls r7, r7, #0x10
 	mov sb, r7
-	ldr r7, _0803BB0C @ =gUnknown_082B48B4
+	ldr r7, _0803BB0C @ =gSineTable
 	mov r8, r7
 	movs r5, #1
 _0803BA70:
@@ -5339,7 +5339,7 @@ _0803BA70:
 	b _0803BB3A
 	.align 2, 0
 _0803BB08: .4byte gCamera
-_0803BB0C: .4byte gUnknown_082B48B4
+_0803BB0C: .4byte gSineTable
 _0803BB10: .4byte 0x000003FF
 _0803BB14: .4byte 0xFFFFFF00
 _0803BB18:
@@ -5648,7 +5648,7 @@ _0803BD60:
 	ldr r0, [r2, #4]
 	ldrh r1, [r3, #2]
 	subs r1, r1, r0
-	ldr r2, _0803BD9C @ =gUnknown_082B48B4
+	ldr r2, _0803BD9C @ =gSineTable
 	movs r5, #4
 	ldrsh r0, [r3, r5]
 	lsls r0, r0, #3
@@ -5669,7 +5669,7 @@ _0803BD90:
 	bx r0
 	.align 2, 0
 _0803BD98: .4byte gCamera
-_0803BD9C: .4byte gUnknown_082B48B4
+_0803BD9C: .4byte gSineTable
 
 	thumb_func_start sub_803BDA0
 sub_803BDA0: @ 0x0803BDA0

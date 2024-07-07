@@ -329,7 +329,7 @@ _0805B108:
 	ldrb r0, [r1, #0xa]
 	strb r0, [r2, #0x1a]
 _0805B11E:
-	ldr r1, _0805B140 @ =gUnknown_082B48B4
+	ldr r1, _0805B140 @ =gSineTable
 	ldrb r0, [r3, #0xc]
 	lsls r0, r0, #3
 	adds r0, r0, r1
@@ -346,7 +346,7 @@ _0805B11E:
 	b _0805B154
 	.align 2, 0
 _0805B13C: .4byte gUnknown_080D1EF4
-_0805B140: .4byte gUnknown_082B48B4
+_0805B140: .4byte gSineTable
 _0805B144:
 	movs r0, #0
 	strh r0, [r3, #0xc]

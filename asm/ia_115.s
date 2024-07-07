@@ -446,7 +446,7 @@ _08048990:
 	str r1, [r5, #0x44]
 _08048992:
 	ldr r3, [r5, #0x44]
-	ldr r2, _080489C0 @ =gUnknown_082B48B4
+	ldr r2, _080489C0 @ =gSineTable
 	asrs r1, r4, #0x10
 	lsls r0, r1, #3
 	movs r4, #0x80
@@ -469,7 +469,7 @@ _08048992:
 	adds r0, r0, r4
 	b _080489D0
 	.align 2, 0
-_080489C0: .4byte gUnknown_082B48B4
+_080489C0: .4byte gSineTable
 _080489C4:
 	cmp r0, #3
 	beq _080489CC
@@ -563,7 +563,7 @@ sub_8048A50: @ 0x08048A50
 	ldrb r1, [r0]
 	add r0, sp, #8
 	strb r1, [r0]
-	ldr r3, _08048AB8 @ =gUnknown_082B48B4
+	ldr r3, _08048AB8 @ =gSineTable
 	lsls r0, r1, #3
 	adds r0, r0, r3
 	movs r4, #0
@@ -598,7 +598,7 @@ sub_8048A50: @ 0x08048A50
 	b _08048B8A
 	.align 2, 0
 _08048AB4: .4byte gCurTask
-_08048AB8: .4byte gUnknown_082B48B4
+_08048AB8: .4byte gSineTable
 _08048ABC:
 	cmp r4, #2
 	beq _08048B48
@@ -1108,7 +1108,7 @@ sub_8048E74: @ 0x08048E74
 	mov r8, r1
 	ldr r2, _08048F10 @ =gUnknown_03006868
 	mov ip, r2
-	ldr r7, _08048F14 @ =gUnknown_082B48B4
+	ldr r7, _08048F14 @ =gSineTable
 _08048E98:
 	mov r3, ip
 	ldr r1, [r3]
@@ -1173,7 +1173,7 @@ _08048EEA:
 	b _08048F64
 	.align 2, 0
 _08048F10: .4byte gUnknown_03006868
-_08048F14: .4byte gUnknown_082B48B4
+_08048F14: .4byte gSineTable
 _08048F18: .4byte 0x00196225
 _08048F1C: .4byte 0x3C6EF35F
 _08048F20:

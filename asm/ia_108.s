@@ -554,7 +554,7 @@ sub_8045060: @ 0x08045060
 	movs r0, #0x28
 	add r0, ip
 	mov r8, r0
-	ldr r2, _080450D4 @ =gUnknown_082B48B4
+	ldr r2, _080450D4 @ =gSineTable
 	mov sb, r2
 _08045080:
 	lsls r3, r4, #2
@@ -603,7 +603,7 @@ _080450C8:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080450D4: .4byte gUnknown_082B48B4
+_080450D4: .4byte gSineTable
 
 	thumb_func_start sub_80450D8
 sub_80450D8: @ 0x080450D8
@@ -625,7 +625,7 @@ _080450F4:
 	lsls r0, r0, #9
 	adds r1, r2, #0
 	bl __divsi3
-	ldr r1, _08045130 @ =gUnknown_082B48B4
+	ldr r1, _08045130 @ =gSineTable
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0xf
 	adds r0, r0, r1
@@ -652,7 +652,7 @@ _080450F4:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08045130: .4byte gUnknown_082B48B4
+_08045130: .4byte gSineTable
 
 	thumb_func_start sub_8045134
 sub_8045134: @ 0x08045134

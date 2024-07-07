@@ -98,7 +98,7 @@ _0805C0B0:
 _0805C0E4:
 	adds r2, r0, #0
 _0805C0E6:
-	ldr r0, _0805C134 @ =gUnknown_082B48B4
+	ldr r0, _0805C134 @ =gSineTable
 	movs r1, #0xff
 	ands r1, r7
 	lsls r1, r1, #3
@@ -138,7 +138,7 @@ _0805C118:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0805C134: .4byte gUnknown_082B48B4
+_0805C134: .4byte gSineTable
 
 	thumb_func_start sub_805C138
 sub_805C138: @ 0x0805C138

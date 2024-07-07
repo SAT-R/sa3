@@ -458,7 +458,7 @@ sub_8049D70: @ 0x08049D70
 	ldrb r1, [r0]
 	add r0, sp, #8
 	strb r1, [r0]
-	ldr r4, _08049DEC @ =gUnknown_082B48B4
+	ldr r4, _08049DEC @ =gSineTable
 	lsls r0, r1, #3
 	adds r0, r0, r4
 	movs r5, #0
@@ -502,7 +502,7 @@ _08049DD6:
 	b _08049EEA
 	.align 2, 0
 _08049DE8: .4byte gCurTask
-_08049DEC: .4byte gUnknown_082B48B4
+_08049DEC: .4byte gSineTable
 _08049DF0: .4byte 0x0300007A
 _08049DF4:
 	cmp r4, #2
@@ -806,7 +806,7 @@ _0804A042:
 	ldr r4, [r5, #0x68]
 	lsls r2, r4, #0x10
 	asrs r2, r2, #0x10
-	ldr r3, _0804A074 @ =gUnknown_082B48B4
+	ldr r3, _0804A074 @ =gSineTable
 	asrs r1, r6, #0x10
 	lsls r0, r1, #3
 	movs r6, #0x80
@@ -829,7 +829,7 @@ _0804A042:
 	str r0, [r5, #0x70]
 	b _0804A08A
 	.align 2, 0
-_0804A074: .4byte gUnknown_082B48B4
+_0804A074: .4byte gSineTable
 _0804A078:
 	cmp r0, #1
 	beq _0804A082

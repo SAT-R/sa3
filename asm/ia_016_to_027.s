@@ -872,7 +872,7 @@ _0802F166:
 _0802F178:
 	strb r0, [r2]
 _0802F17A:
-	ldr r1, _0802F1B4 @ =gUnknown_082B48B4
+	ldr r1, _0802F1B4 @ =gSineTable
 	ldrb r0, [r2]
 	lsls r0, r0, #5
 	adds r0, r0, r1
@@ -901,7 +901,7 @@ _0802F1A4:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0802F1B4: .4byte gUnknown_082B48B4
+_0802F1B4: .4byte gSineTable
 
 	thumb_func_start sub_802F1B8
 sub_802F1B8: @ 0x0802F1B8

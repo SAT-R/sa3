@@ -223,7 +223,7 @@ _0804BCBC:
 	mov r3, sp
 	adds r3, #8
 	str r3, [sp, #0x1c]
-	ldr r0, _0804BDD0 @ =gUnknown_082B48B4
+	ldr r0, _0804BDD0 @ =gSineTable
 	mov ip, r0
 	movs r3, #0xb7
 	lsls r3, r3, #1
@@ -356,7 +356,7 @@ _0804BDC0: .4byte 0x03000172
 _0804BDC4: .4byte 0x0000FF40
 _0804BDC8: .4byte 0x03000174
 _0804BDCC: .4byte 0x0000025B
-_0804BDD0: .4byte gUnknown_082B48B4
+_0804BDD0: .4byte gSineTable
 _0804BDD4: .4byte 0x000003FF
 _0804BDD8: .4byte gStageData
 _0804BDDC:

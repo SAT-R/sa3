@@ -546,7 +546,7 @@ _080655E4:
 	bls _080655F2
 	strh r1, [r3]
 _080655F2:
-	ldr r3, _08065630 @ =gUnknown_082B48B4
+	ldr r3, _08065630 @ =gSineTable
 	adds r0, r2, r4
 	ldrh r2, [r0]
 	lsls r2, r2, #0x10
@@ -577,7 +577,7 @@ _080655F2:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08065630: .4byte gUnknown_082B48B4
+_08065630: .4byte gSineTable
 
 	thumb_func_start sub_8065634
 sub_8065634: @ 0x08065634

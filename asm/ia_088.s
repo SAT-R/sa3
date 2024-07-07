@@ -92,7 +92,7 @@ _0803E9E4:
 	adds r3, r3, r0
 	lsls r3, r3, #8
 	str r3, [r7, #0x78]
-	ldr r5, _0803EA94 @ =gUnknown_082B48B4
+	ldr r5, _0803EA94 @ =gSineTable
 	ldrh r1, [r1]
 	lsls r0, r1, #1
 	adds r0, r0, r5
@@ -143,7 +143,7 @@ _0803EA84: .4byte sub_803EEC4
 _0803EA88: .4byte 0x0300003C
 _0803EA8C: .4byte 0x0300007C
 _0803EA90: .4byte 0x03000080
-_0803EA94: .4byte gUnknown_082B48B4
+_0803EA94: .4byte gSineTable
 
 	thumb_func_start sub_803EA98
 sub_803EA98: @ 0x0803EA98
@@ -164,7 +164,7 @@ sub_803EA98: @ 0x0803EA98
 	ldr r1, [r6, #0x6c]
 	mov sb, r1
 	ldr r7, [r6, #0x70]
-	ldr r4, _0803EB1C @ =gUnknown_082B48B4
+	ldr r4, _0803EB1C @ =gSineTable
 	ldr r2, _0803EB20 @ =0x03000080
 	adds r0, r3, r2
 	ldrh r1, [r0]
@@ -213,7 +213,7 @@ _0803EB06:
 	b _0803EB2C
 	.align 2, 0
 _0803EB18: .4byte gCurTask
-_0803EB1C: .4byte gUnknown_082B48B4
+_0803EB1C: .4byte gSineTable
 _0803EB20: .4byte 0x03000080
 _0803EB24: .4byte 0x0300007E
 _0803EB28:
@@ -534,7 +534,7 @@ _0803ED98: .4byte gCurTask
 _0803ED9C:
 	adds r0, r5, #0
 	bl UpdateSpriteAnimation
-	ldr r2, _0803EE64 @ =gUnknown_082B48B4
+	ldr r2, _0803EE64 @ =gSineTable
 	ldr r3, _0803EE68 @ =0x03000080
 	adds r0, r6, r3
 	ldrh r1, [r0]
@@ -632,7 +632,7 @@ _0803EE54:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0803EE64: .4byte gUnknown_082B48B4
+_0803EE64: .4byte gSineTable
 _0803EE68: .4byte 0x03000080
 _0803EE6C: .4byte 0x0300007E
 _0803EE70: .4byte 0xFFFFEA00

@@ -611,7 +611,7 @@ sub_804B2C4: @ 0x0804B2C4
 	mov r8, r2
 	movs r0, #0x20
 	strh r0, [r6, #0xc]
-	ldr r2, _0804B3C4 @ =gUnknown_082B48B4
+	ldr r2, _0804B3C4 @ =gSineTable
 	ldr r1, _0804B3C8 @ =0x000003FF
 	ldr r3, [sp, #0xc]
 	ands r1, r3
@@ -678,7 +678,7 @@ _0804B3B4: .4byte gUnknown_080D03D8
 _0804B3B8: .4byte sub_804B24C
 _0804B3BC: .4byte sub_804B3E0
 _0804B3C0: .4byte 0x03000010
-_0804B3C4: .4byte gUnknown_082B48B4
+_0804B3C4: .4byte gSineTable
 _0804B3C8: .4byte 0x000003FF
 
 	thumb_func_start sub_804B3CC
