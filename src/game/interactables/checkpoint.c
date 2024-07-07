@@ -129,7 +129,7 @@ void sub_8033C0C(Sprite *s, s16 variant)
 
 void sub_8033C64(void)
 {
-    bool32 sl = FALSE;
+    bool32 isInvisible = FALSE;
     Checkpoint *checkpoint = TASK_DATA(gCurTask);
     Sprite *s = &checkpoint->s;
     MapEntity *me = checkpoint->base.me;
@@ -151,15 +151,13 @@ void sub_8033C64(void)
         if (gStageData.unkBC & 0x1) {
             s->frameFlags |= SPRITE_FLAG(OBJ_MODE, 1);
         } else {
-            // _08033CF8
             s->frameFlags &= ~SPRITE_FLAG(OBJ_MODE, 1);
         }
 
         if (gStageData.unkBC & 0x2) {
-            sl = TRUE;
+            isInvisible = TRUE;
         }
     } else {
-        // _08033D16
         s->frameFlags &= ~SPRITE_FLAG(OBJ_MODE, 1);
     }
 
@@ -169,7 +167,7 @@ void sub_8033C64(void)
         }
     }
 
-    if (!sl) {
+    if (!isInvisible) {
         DisplaySprite(s);
     }
 }
