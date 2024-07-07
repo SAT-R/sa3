@@ -29073,8 +29073,8 @@ sub_800E5CC: @ 0x0800E5CC
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_800E5D0
-sub_800E5D0: @ 0x0800E5D0
+	thumb_func_start Player_800E5D0
+Player_800E5D0: @ 0x0800E5D0
 	push {lr}
 	ldr r1, [r0, #4]
 	movs r2, #2
@@ -29089,8 +29089,8 @@ sub_800E5D0: @ 0x0800E5D0
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_800E5EC
-sub_800E5EC: @ 0x0800E5EC
+	thumb_func_start Player_800E5EC
+Player_800E5EC: @ 0x0800E5EC
 	push {lr}
 	ldr r1, [r0, #4]
 	movs r2, #1
@@ -29103,8 +29103,9 @@ sub_800E5EC: @ 0x0800E5EC
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_800E604
-sub_800E604: @ 0x0800E604
+    @ R0 = Player *
+	thumb_func_start Player_800E604
+Player_800E604: @ 0x0800E604
 	push {r4, lr}
 	adds r4, r0, #0
 	movs r0, #0x1c
@@ -29147,7 +29148,7 @@ _0800E632:
 	adds r0, r4, #0
 	bl sub_8016E00
 	ldr r1, [r4]
-	ldr r0, _0800E674 @ =sub_800E604
+	ldr r0, _0800E674 @ =Player_800E604
 	cmp r1, r0
 	beq _0800E66C
 	ldr r1, _0800E678 @ =0x00000257
@@ -29158,7 +29159,7 @@ _0800E66C:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0800E674: .4byte sub_800E604
+_0800E674: .4byte Player_800E604
 _0800E678: .4byte 0x00000257
 
 	thumb_func_start sub_800E67C
@@ -30669,7 +30670,7 @@ sub_800F1C4: @ 0x0800F1C4
 	ldr r1, _0800F220 @ =0x00000257
 	adds r0, r4, #0
 	bl sub_8004E98
-	ldr r1, _0800F224 @ =sub_800E604
+	ldr r1, _0800F224 @ =Player_800E604
 	str r1, [r4]
 	adds r0, r4, #0
 	bl _call_via_r1
@@ -30680,7 +30681,7 @@ sub_800F1C4: @ 0x0800F1C4
 _0800F218: .4byte 0xFDFFFFDF
 _0800F21C: .4byte 0xFFFFBFFF
 _0800F220: .4byte 0x00000257
-_0800F224: .4byte sub_800E604
+_0800F224: .4byte Player_800E604
     
 	thumb_func_start sub_800F228
 sub_800F228: @ 0x0800F228

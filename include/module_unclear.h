@@ -25,7 +25,11 @@ void sub_8003DF0(u16 song);
 void sub_8003E28(u16 song);
 bool32 sub_8004E98(Player *p, u16 song);
 void sub_8004F10(Player *, u16 song);
+void sub_8006824(Player *p);
 void sub_800A218(Player *p);
+void Player_800E5D0(Player *p);
+void Player_800E5EC(Player *p);
+void Player_800E604(Player *p);
 
 // 0x0800D87C
 void SetPlayerCallback(Player *p, PlayerCallback *callback);
