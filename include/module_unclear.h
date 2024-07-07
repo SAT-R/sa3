@@ -43,6 +43,8 @@ extern u32 sub_8020874(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16
 void sub_80236C8(void *, u8 p1, void *);
 bool32 sub_8023734(void *chaoEwramData);
 void sub_80239A8(void *chaoEwramData);
+// NOTE: x and y have different signedness, but it's correct
+void sub_80274F4(u8, u16 x, s16 y);
 void sub_80275B8(u8, u8, u8);
 void sub_80276A8(u8 charId);
 void sub_802954C(Player *p, s16 worldX, s16 worldY);

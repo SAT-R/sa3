@@ -150,7 +150,7 @@ typedef struct {
     /* 0x08 */ u32 frameFlags; // bit 0-4: affine-index / rotscale param selection
                                // bit 5: rotscale enable
                                // bit 6: rotscale double-size
-                               // bit 7-8: obj mode
+                               // bit 7-8: obj mode -- different (1 bit) in SA3?
                                // bit 9
                                // bit 10 X-Flip
                                // bit 11 Y-Flip

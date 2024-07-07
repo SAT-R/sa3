@@ -33,7 +33,7 @@ SECTIONS {
         build/sa3/asm/ia_044.o(.text);
         build/sa3/asm/ia_045.o(.text);
         build/sa3/asm/ia_046_to_053.o(.text);
-        build/sa3/asm/ia_054.o(.text);
+        build/sa3/src/game/interactables/checkpoint.o(.text);
         build/sa3/asm/ia_055.o(.text);
         build/sa3/asm/ia_056.o(.text);
         build/sa3/asm/ia_057.o(.text);
