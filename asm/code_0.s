@@ -12,14 +12,14 @@ GameStart: @ 0x080001CC
 	movs r1, #0x80
 	lsls r1, r1, #0x18
 	str r1, [r0]
-	ldr r0, _080001E8 @ =gSpriteTablesRef
+	ldr r0, _080001E8 @ =gRefSpriteTables
 	str r1, [r0]
 	bl sub_80001EC
 	pop {r0}
 	bx r0
 	.align 2, 0
 _080001E4: .4byte gTilemapsRef
-_080001E8: .4byte gSpriteTablesRef
+_080001E8: .4byte gRefSpriteTables
 
 	thumb_func_start sub_80001EC
 sub_80001EC: @ 0x080001EC
@@ -262,7 +262,7 @@ sub_80003B8: @ 0x080003B8
 	ldr r1, _080003F8 @ =gTilemapsRef
 	ldr r0, _080003FC @ =gUnknown_080D09AC
 	str r0, [r1]
-	ldr r1, _08000400 @ =gSpriteTablesRef
+	ldr r1, _08000400 @ =gRefSpriteTables
 	ldr r0, _08000404 @ =gSpriteTables
 	str r0, [r1]
 	ldr r1, _08000408 @ =gUnknown_03003D30
@@ -283,7 +283,7 @@ _080003F0: .4byte gUnknown_030035C0
 _080003F4: .4byte 0x00001E01
 _080003F8: .4byte gTilemapsRef
 _080003FC: .4byte gUnknown_080D09AC
-_08000400: .4byte gSpriteTablesRef
+_08000400: .4byte gRefSpriteTables
 _08000404: .4byte gSpriteTables
 _08000408: .4byte gUnknown_03003D30
 _0800040C: .4byte 0x00007FFF
@@ -15353,7 +15353,7 @@ _08007994:
 	mov sb, r5
 	adds r3, r4, #0
 	adds r3, #0xf4
-	ldr r1, _08007A3C @ =gUnknown_03003370
+	ldr r1, _08007A3C @ =gObjPalette
 	mov r8, r1
 _080079DE:
 	lsls r1, r0, #0x10
@@ -15402,7 +15402,7 @@ _08007A1E:
 	.align 2, 0
 _08007A34: .4byte 0xFFFEFFFE
 _08007A38: .4byte 0x00010001
-_08007A3C: .4byte gUnknown_03003370
+_08007A3C: .4byte gObjPalette
 _08007A40: .4byte gCamera
 _08007A44:
 	ldr r3, [r6, #0x10]
@@ -53004,7 +53004,7 @@ sub_8019AB4: @ 0x08019AB4
 	ands r0, r3
 	cmp r0, #0
 	beq _08019B10
-	ldr r0, _08019B0C @ =gSpriteTablesRef
+	ldr r0, _08019B0C @ =gRefSpriteTables
 	ldr r0, [r0]
 	lsls r1, r1, #5
 	ldr r0, [r0, #0xc]
@@ -53017,17 +53017,17 @@ sub_8019AB4: @ 0x08019AB4
 	.align 2, 0
 _08019B04: .4byte gAnimations
 _08019B08: .4byte gFlags
-_08019B0C: .4byte gSpriteTablesRef
+_08019B0C: .4byte gRefSpriteTables
 _08019B10:
 	ldr r2, _08019B40 @ =0x040000D4
-	ldr r0, _08019B44 @ =gSpriteTablesRef
+	ldr r0, _08019B44 @ =gRefSpriteTables
 	ldr r0, [r0]
 	lsls r1, r1, #5
 	ldr r0, [r0, #0xc]
 	adds r0, r0, r1
 	str r0, [r2]
 	lsls r0, r4, #1
-	ldr r1, _08019B48 @ =gUnknown_03003370
+	ldr r1, _08019B48 @ =gObjPalette
 	adds r0, r0, r1
 	str r0, [r2, #4]
 	lsls r0, r5, #1
@@ -53046,8 +53046,8 @@ _08019B3A:
 	bx r0
 	.align 2, 0
 _08019B40: .4byte 0x040000D4
-_08019B44: .4byte gSpriteTablesRef
-_08019B48: .4byte gUnknown_03003370
+_08019B44: .4byte gRefSpriteTables
+_08019B48: .4byte gObjPalette
 
 	thumb_func_start sub_8019B4C
 sub_8019B4C: @ 0x08019B4C
@@ -83255,7 +83255,7 @@ sub_8028708: @ 0x08028708
 	ldr r1, _08028748 @ =gTilemapsRef
 	ldr r0, _0802874C @ =gUnknown_080D1C0C
 	str r0, [r1]
-	ldr r1, _08028750 @ =gSpriteTablesRef
+	ldr r1, _08028750 @ =gRefSpriteTables
 	ldr r0, _08028754 @ =gSpriteTables
 	str r0, [r1]
 	ldr r1, _08028758 @ =gUnknown_03002C68
@@ -83282,7 +83282,7 @@ sub_8028708: @ 0x08028708
 	.align 2, 0
 _08028748: .4byte gTilemapsRef
 _0802874C: .4byte gUnknown_080D1C0C
-_08028750: .4byte gSpriteTablesRef
+_08028750: .4byte gRefSpriteTables
 _08028754: .4byte gSpriteTables
 _08028758: .4byte gUnknown_03002C68
 _0802875C: .4byte gFlags
@@ -83306,7 +83306,7 @@ sub_8028770: @ 0x08028770
 	ldr r0, _080287AC @ =gUnknown_02035000
 	ldr r0, [r0]
 	str r0, [r1]
-	ldr r1, _080287B0 @ =gSpriteTablesRef
+	ldr r1, _080287B0 @ =gRefSpriteTables
 	ldr r0, _080287B4 @ =0x02022000
 	str r0, [r1]
 	bl sub_8025D58
@@ -83319,7 +83319,7 @@ _080287A0: .4byte gFlags
 _080287A4: .4byte 0xFFFFBFFF
 _080287A8: .4byte gTilemapsRef
 _080287AC: .4byte gUnknown_02035000
-_080287B0: .4byte gSpriteTablesRef
+_080287B0: .4byte gRefSpriteTables
 _080287B4: .4byte 0x02022000
 
 	thumb_func_start sub_80287B8
@@ -86102,7 +86102,7 @@ sub_8029DE0: @ 0x08029DE0
 	lsrs r0, r2, #0x1c
 	cmp r0, #0
 	bne _08029E34
-	ldr r0, _08029E30 @ =gSpriteTablesRef
+	ldr r0, _08029E30 @ =gRefSpriteTables
 	ldr r0, [r0]
 	ldrh r1, [r3, #0xc]
 	ldr r0, [r0, #4]
@@ -86117,9 +86117,9 @@ sub_8029DE0: @ 0x08029DE0
 	b _08029E4A
 	.align 2, 0
 _08029E2C: .4byte gCurTask
-_08029E30: .4byte gSpriteTablesRef
+_08029E30: .4byte gRefSpriteTables
 _08029E34:
-	ldr r0, _08029E80 @ =gSpriteTablesRef
+	ldr r0, _08029E80 @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldr r4, [sp, #4]
 	ldrh r0, [r4, #0xc]
@@ -86160,7 +86160,7 @@ _08029E72:
 	ldrb r1, [r0, #6]
 	b _08029E92
 	.align 2, 0
-_08029E80: .4byte gSpriteTablesRef
+_08029E80: .4byte gRefSpriteTables
 _08029E84: .4byte gStageData
 _08029E88:
 	mov r0, sb
@@ -87332,7 +87332,7 @@ _0802A714:
 	lsrs r0, r2, #0x1c
 	cmp r0, #0
 	bne _0802A760
-	ldr r0, _0802A75C @ =gSpriteTablesRef
+	ldr r0, _0802A75C @ =gRefSpriteTables
 	ldr r0, [r0]
 	ldrh r1, [r4, #0xc]
 	ldr r0, [r0, #4]
@@ -87350,9 +87350,9 @@ _0802A74C: .4byte gCurTask
 _0802A750: .4byte gStageData
 _0802A754: .4byte gCamera
 _0802A758: .4byte gUnknown_080CEF58
-_0802A75C: .4byte gSpriteTablesRef
+_0802A75C: .4byte gRefSpriteTables
 _0802A760:
-	ldr r0, _0802A79C @ =gSpriteTablesRef
+	ldr r0, _0802A79C @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldr r6, [sp, #4]
 	ldrh r0, [r6, #0xc]
@@ -87384,7 +87384,7 @@ _0802A790:
 	ldrb r1, [r0, #6]
 	b _0802A7AE
 	.align 2, 0
-_0802A79C: .4byte gSpriteTablesRef
+_0802A79C: .4byte gRefSpriteTables
 _0802A7A0: .4byte gStageData
 _0802A7A4:
 	mov r0, sl

@@ -3,21 +3,19 @@
 
 .section .rodata
 
-    .global gUnknown_082B52B4
-gUnknown_082B52B4:
+@ From sprite.c
+    .global unkFractions
+unkFractions:
     .incbin "baserom.gba", 0x002B52B4, 0x8
 
-    .global gUnknown_082B52BC
-gUnknown_082B52BC:
+    .global animCmdTable
+animCmdTable:
     .incbin "baserom.gba", 0x002B52BC, 0x30
 
-    .global gUnknown_082B52EC
-gUnknown_082B52EC:
-    .incbin "baserom.gba", 0x002B52EC, 0x1
+    .global gOamShapesSizes
+gOamShapesSizes:
+    .incbin "baserom.gba", 0x002B52EC, 0x18
 
-    .global gUnknown_082B52ED
-gUnknown_082B52ED:
-    .incbin "baserom.gba", 0x002B52ED, 0x17
 
     .global gUnknown_082B5304
 gUnknown_082B5304:

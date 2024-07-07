@@ -69543,7 +69543,7 @@ _08087358: .4byte gUnknown_080D66D8
 _0808735C:
 	ldr r0, _08087380 @ =gUnknown_080D66D8
 	str r0, [r5]
-	ldr r0, _08087384 @ =gUnknown_03003370
+	ldr r0, _08087384 @ =gObjPalette
 	str r0, [r5, #4]
 	ldr r0, _08087388 @ =0x80000040
 	str r0, [r5, #8]
@@ -69561,7 +69561,7 @@ _08087370:
 	bx r0
 	.align 2, 0
 _08087380: .4byte gUnknown_080D66D8
-_08087384: .4byte gUnknown_03003370
+_08087384: .4byte gObjPalette
 _08087388: .4byte 0x80000040
 
 	thumb_func_start sub_808738C
@@ -77231,7 +77231,7 @@ _0808B068: .4byte gUnknown_080D6C1C
 _0808B06C:
 	ldr r0, _0808B094 @ =gUnknown_080D6C1C
 	str r0, [r6]
-	ldr r0, _0808B098 @ =gUnknown_03003370
+	ldr r0, _0808B098 @ =gObjPalette
 	str r0, [r6, #4]
 	ldr r0, _0808B09C @ =0x80000100
 	str r0, [r6, #8]
@@ -77251,7 +77251,7 @@ _0808B080:
 	bx r0
 	.align 2, 0
 _0808B094: .4byte gUnknown_080D6C1C
-_0808B098: .4byte gUnknown_03003370
+_0808B098: .4byte gObjPalette
 _0808B09C: .4byte 0x80000100
 _0808B0A0: .4byte gStageData
 
@@ -86951,7 +86951,7 @@ _0808FC1C:
 	adds r0, r4, #0
 	bl sub_808FCF4
 	ldr r0, _0808FCE8 @ =gUnknown_080D6C1C
-	ldr r1, _0808FCEC @ =gUnknown_03003370
+	ldr r1, _0808FCEC @ =gObjPalette
 	movs r2, #0x80
 	bl CpuFastSet
 	ldr r2, _0808FCF0 @ =gFlags
@@ -86978,7 +86978,7 @@ _0808FCDC: .4byte 0x03000018
 _0808FCE0: .4byte gSaveGame
 _0808FCE4: .4byte 0x00000366
 _0808FCE8: .4byte gUnknown_080D6C1C
-_0808FCEC: .4byte gUnknown_03003370
+_0808FCEC: .4byte gObjPalette
 _0808FCF0: .4byte gFlags
 
 	thumb_func_start sub_808FCF4
@@ -90078,7 +90078,7 @@ _08091518:
 	ldr r1, _08091538 @ =0x040000D4
 	ldr r0, _0809153C @ =gUnknown_080D737C
 	str r0, [r1]
-	ldr r0, _08091540 @ =gUnknown_03003370
+	ldr r0, _08091540 @ =gObjPalette
 	str r0, [r1, #4]
 	ldr r0, _08091544 @ =0x80000010
 	str r0, [r1, #8]
@@ -90094,7 +90094,7 @@ _0809152E:
 	.align 2, 0
 _08091538: .4byte 0x040000D4
 _0809153C: .4byte gUnknown_080D737C
-_08091540: .4byte gUnknown_03003370
+_08091540: .4byte gObjPalette
 _08091544: .4byte 0x80000010
 _08091548: .4byte gCurTask
 _0809154C:
@@ -90251,7 +90251,7 @@ _08091670:
 	ldr r1, _080916E0 @ =0x040000D4
 	ldr r3, _080916E4 @ =gUnknown_080D737C
 	str r3, [r1]
-	ldr r0, _080916E8 @ =gUnknown_03003370
+	ldr r0, _080916E8 @ =gObjPalette
 	str r0, [r1, #4]
 	ldr r0, _080916EC @ =0x80000010
 	str r0, [r1, #8]
@@ -90308,7 +90308,7 @@ _080916C4:
 	.align 2, 0
 _080916E0: .4byte 0x040000D4
 _080916E4: .4byte gUnknown_080D737C
-_080916E8: .4byte gUnknown_03003370
+_080916E8: .4byte gObjPalette
 _080916EC: .4byte 0x80000010
 _080916F0: .4byte gFlags
 _080916F4: .4byte gUnknown_03003C10
@@ -90369,7 +90369,7 @@ _08091764:
 	ldr r1, _080917EC @ =0x040000D4
 	ldr r0, _080917F0 @ =gUnknown_080D737C
 	str r0, [r1]
-	ldr r0, _080917F4 @ =gUnknown_03003370
+	ldr r0, _080917F4 @ =gObjPalette
 	str r0, [r1, #4]
 	ldr r0, _080917F8 @ =0x80000010
 	str r0, [r1, #8]
@@ -90439,7 +90439,7 @@ _080917CA:
 	.align 2, 0
 _080917EC: .4byte 0x040000D4
 _080917F0: .4byte gUnknown_080D737C
-_080917F4: .4byte gUnknown_03003370
+_080917F4: .4byte gObjPalette
 _080917F8: .4byte 0x80000010
 _080917FC: .4byte gFlags
 _08091800: .4byte gUnknown_03003F8C
@@ -90447,7 +90447,7 @@ _08091804:
 	ldr r1, _08091850 @ =0x040000D4
 	ldr r3, _08091854 @ =gUnknown_080D737C
 	str r3, [r1]
-	ldr r0, _08091858 @ =gUnknown_03003370
+	ldr r0, _08091858 @ =gObjPalette
 	str r0, [r1, #4]
 	ldr r0, _0809185C @ =0x80000010
 	str r0, [r1, #8]
@@ -90487,7 +90487,7 @@ _0809182A:
 	.align 2, 0
 _08091850: .4byte 0x040000D4
 _08091854: .4byte gUnknown_080D737C
-_08091858: .4byte gUnknown_03003370
+_08091858: .4byte gObjPalette
 _0809185C: .4byte 0x80000010
 _08091860: .4byte gFlags
 _08091864: .4byte gUnknown_03003C10
@@ -90556,7 +90556,7 @@ _080918DC:
 	ldr r1, _0809192C @ =0x040000D4
 	ldr r2, _08091930 @ =gUnknown_080D737C
 	str r2, [r1]
-	ldr r0, _08091934 @ =gUnknown_03003370
+	ldr r0, _08091934 @ =gObjPalette
 	str r0, [r1, #4]
 	ldr r0, _08091938 @ =0x80000010
 	str r0, [r1, #8]
@@ -90596,7 +90596,7 @@ _080918F6:
 	.align 2, 0
 _0809192C: .4byte 0x040000D4
 _08091930: .4byte gUnknown_080D737C
-_08091934: .4byte gUnknown_03003370
+_08091934: .4byte gObjPalette
 _08091938: .4byte 0x80000010
 _0809193C: .4byte gFlags
 _08091940: .4byte gUnknown_03003C10
@@ -90657,7 +90657,7 @@ _080919B0:
 	ldr r1, _080919CC @ =0x040000D4
 	ldr r0, _080919D0 @ =gUnknown_080D737C
 	str r0, [r1]
-	ldr r0, _080919D4 @ =gUnknown_03003370
+	ldr r0, _080919D4 @ =gObjPalette
 	str r0, [r1, #4]
 	ldr r0, _080919D8 @ =0x80000010
 	str r0, [r1, #8]
@@ -90671,7 +90671,7 @@ _080919C6:
 	.align 2, 0
 _080919CC: .4byte 0x040000D4
 _080919D0: .4byte gUnknown_080D737C
-_080919D4: .4byte gUnknown_03003370
+_080919D4: .4byte gObjPalette
 _080919D8: .4byte 0x80000010
 _080919DC:
 	ldr r3, _080919F8 @ =gFlags
@@ -90693,7 +90693,7 @@ _08091A00:
 	ldr r1, _08091A34 @ =0x040000D4
 	ldr r0, _08091A38 @ =gUnknown_080D739C
 	str r0, [r1]
-	ldr r0, _08091A3C @ =gUnknown_03003370
+	ldr r0, _08091A3C @ =gObjPalette
 	str r0, [r1, #4]
 	ldr r0, _08091A40 @ =0x80000010
 	str r0, [r1, #8]
@@ -90722,7 +90722,7 @@ _08091A24:
 	.align 2, 0
 _08091A34: .4byte 0x040000D4
 _08091A38: .4byte gUnknown_080D739C
-_08091A3C: .4byte gUnknown_03003370
+_08091A3C: .4byte gObjPalette
 _08091A40: .4byte 0x80000010
 
 	thumb_func_start sub_8091A44
@@ -95322,7 +95322,7 @@ _08093DB4:
 	ldr r1, _08093DE0 @ =0x040000D4
 	ldr r0, _08093DE4 @ =gUnknown_080D6C1C
 	str r0, [r1]
-	ldr r0, _08093DE8 @ =gUnknown_03003370
+	ldr r0, _08093DE8 @ =gObjPalette
 	str r0, [r1, #4]
 	ldr r0, _08093DEC @ =0x80000100
 	str r0, [r1, #8]
@@ -95344,7 +95344,7 @@ _08093DD8:
 	.align 2, 0
 _08093DE0: .4byte 0x040000D4
 _08093DE4: .4byte gUnknown_080D6C1C
-_08093DE8: .4byte gUnknown_03003370
+_08093DE8: .4byte gObjPalette
 _08093DEC: .4byte 0x80000100
 _08093DF0: .4byte gCurTask
 
@@ -111847,7 +111847,7 @@ _0809BEF4:
 	add r0, r8
 	ldrb r0, [r0]
 	lsls r0, r0, #5
-	ldr r1, _0809BF34 @ =gUnknown_03003370
+	ldr r1, _0809BF34 @ =gObjPalette
 	adds r0, r0, r1
 	str r0, [r2, #4]
 	ldr r0, _0809BF38 @ =0x80000010
@@ -111871,7 +111871,7 @@ _0809BF16:
 _0809BF28: .4byte 0x040000D4
 _0809BF2C: .4byte gUnknown_080D9448
 _0809BF30: .4byte gUnknown_080D9468
-_0809BF34: .4byte gUnknown_03003370
+_0809BF34: .4byte gObjPalette
 _0809BF38: .4byte 0x80000010
 
 	thumb_func_start sub_809BF3C
@@ -121721,7 +121721,7 @@ _080A0E64:
 	adds r0, r0, r1
 	str r0, [r2]
 	lsls r0, r5, #5
-	ldr r1, _080A0E9C @ =gUnknown_03003370
+	ldr r1, _080A0E9C @ =gObjPalette
 	adds r0, r0, r1
 	str r0, [r2, #4]
 	ldr r0, _080A0EA0 @ =0x80000010
@@ -121742,7 +121742,7 @@ _080A0E82:
 	.align 2, 0
 _080A0E94: .4byte 0x040000D4
 _080A0E98: .4byte gUnknown_08E2EE50
-_080A0E9C: .4byte gUnknown_03003370
+_080A0E9C: .4byte gObjPalette
 _080A0EA0: .4byte 0x80000010
 _080A0EA4: .4byte gFlags
 
@@ -165988,7 +165988,7 @@ sub_80B69B4: @ 0x080B69B4
 	lsrs r0, r2, #0x1c
 	cmp r0, #0
 	bne _080B69E8
-	ldr r0, _080B69E4 @ =gSpriteTablesRef
+	ldr r0, _080B69E4 @ =gRefSpriteTables
 	ldr r0, [r0]
 	ldrh r1, [r5, #0xc]
 	ldr r0, [r0, #4]
@@ -166002,9 +166002,9 @@ sub_80B69B4: @ 0x080B69B4
 	mov r8, r1
 	b _080B69FC
 	.align 2, 0
-_080B69E4: .4byte gSpriteTablesRef
+_080B69E4: .4byte gRefSpriteTables
 _080B69E8:
-	ldr r0, _080B6B04 @ =gSpriteTablesRef
+	ldr r0, _080B6B04 @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldrh r0, [r5, #0xc]
 	ldr r1, [r1, #4]
@@ -166044,7 +166044,7 @@ _080B69FC:
 	ldr r7, _080B6B0C @ =0x000001FF
 	mov sl, r7
 _080B6A34:
-	ldr r0, _080B6B04 @ =gSpriteTablesRef
+	ldr r0, _080B6B04 @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldrh r0, [r5, #0xc]
 	ldr r1, [r1, #8]
@@ -166149,7 +166149,7 @@ _080B6AF2:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080B6B04: .4byte gSpriteTablesRef
+_080B6B04: .4byte gRefSpriteTables
 _080B6B08: .4byte 0x040000D4
 _080B6B0C: .4byte 0x000001FF
 _080B6B10: .4byte iwram_end
@@ -176998,7 +176998,7 @@ _080BBC80:
 	ldr r0, _080BBE28 @ =0x040000D4
 	mov r4, sp
 	str r4, [r0]
-	ldr r7, _080BBE78 @ =gUnknown_03003370
+	ldr r7, _080BBE78 @ =gObjPalette
 	str r7, [r0, #4]
 	ldr r1, _080BBE7C @ =0x85000080
 	str r1, [r0, #8]
@@ -177234,7 +177234,7 @@ _080BBE68: .4byte gUnknown_03003750
 _080BBE6C: .4byte gUnknown_03002B50
 _080BBE70: .4byte 0x85000008
 _080BBE74: .4byte gUnknown_03006210
-_080BBE78: .4byte gUnknown_03003370
+_080BBE78: .4byte gObjPalette
 _080BBE7C: .4byte 0x85000080
 _080BBE80: .4byte gUnknown_03003D30
 _080BBE84: .4byte gUnknown_03002C30
@@ -177664,7 +177664,7 @@ _080BC240:
 	ands r0, r1
 	cmp r0, #0
 	beq _080BC25E
-	ldr r0, _080BC2FC @ =gUnknown_03003370
+	ldr r0, _080BC2FC @ =gObjPalette
 	str r0, [r3]
 	ldr r0, _080BC300 @ =0x05000200
 	str r0, [r3, #4]
@@ -177748,7 +177748,7 @@ _080BC2EC: .4byte 0x84000002
 _080BC2F0: .4byte gFlags
 _080BC2F4: .4byte gUnknown_03003D30
 _080BC2F8: .4byte 0x84000080
-_080BC2FC: .4byte gUnknown_03003370
+_080BC2FC: .4byte gObjPalette
 _080BC300: .4byte 0x05000200
 _080BC304: .4byte gWinRegs
 _080BC308: .4byte 0x04000040
@@ -178095,7 +178095,7 @@ _080BC5EA:
 	ands r0, r6
 	cmp r0, #0
 	beq _080BC604
-	ldr r0, _080BC680 @ =gUnknown_03003370
+	ldr r0, _080BC680 @ =gObjPalette
 	ldr r1, _080BC684 @ =0x05000200
 	movs r2, #0x80
 	bl CpuFastSet
@@ -178155,7 +178155,7 @@ _080BC670: .4byte 0x04000008
 _080BC674: .4byte 0x04000002
 _080BC678: .4byte gFlags
 _080BC67C: .4byte gUnknown_03003D30
-_080BC680: .4byte gUnknown_03003370
+_080BC680: .4byte gObjPalette
 _080BC684: .4byte 0x05000200
 _080BC688: .4byte gWinRegs
 _080BC68C: .4byte 0x04000040

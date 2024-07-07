@@ -1800,7 +1800,7 @@ _080BE0EC:
 	adds r0, r1, #0
 	b _080BE180
 _080BE0F0:
-	ldr r0, _080BE188 @ =gSpriteTablesRef
+	ldr r0, _080BE188 @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldrh r0, [r4, #0xc]
 	ldr r1, [r1]
@@ -1833,7 +1833,7 @@ _080BE114:
 	rsbs r0, r0, #0
 	cmp r1, r0
 	bne _080BE0EC
-	ldr r0, _080BE188 @ =gSpriteTablesRef
+	ldr r0, _080BE188 @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldrh r0, [r4, #0xc]
 	ldr r1, [r1]
@@ -1880,7 +1880,7 @@ _080BE180:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_080BE188: .4byte gSpriteTablesRef
+_080BE188: .4byte gRefSpriteTables
 _080BE18C: .4byte gUnknown_082B4884
 
 	thumb_func_start sub_80BE190
@@ -1905,7 +1905,7 @@ sub_80BE190: @ 0x080BE190
 	ldr r1, _080BE214 @ =0xFFFFBFFF
 	ands r0, r1
 	str r0, [r5, #8]
-	ldr r0, _080BE218 @ =gSpriteTablesRef
+	ldr r0, _080BE218 @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldrh r0, [r5, #0xc]
 	ldr r1, [r1]
@@ -1954,10 +1954,10 @@ _080BE1EC:
 	b _080BE296
 	.align 2, 0
 _080BE214: .4byte 0xFFFFBFFF
-_080BE218: .4byte gSpriteTablesRef
+_080BE218: .4byte gRefSpriteTables
 _080BE21C: .4byte gUnknown_082B4884
 _080BE220:
-	ldr r0, _080BE274 @ =gSpriteTablesRef
+	ldr r0, _080BE274 @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldrh r0, [r5, #0xc]
 	ldr r1, [r1]
@@ -2000,7 +2000,7 @@ _080BE248:
 	ldr r3, [sp]
 	b _080BE27C
 	.align 2, 0
-_080BE274: .4byte gSpriteTablesRef
+_080BE274: .4byte gRefSpriteTables
 _080BE278:
 	ldr r0, [r4]
 	adds r3, r3, r0
@@ -2045,7 +2045,7 @@ sub_80BE2A4: @ 0x080BE2A4
 	ldr r1, [r2, #4]
 	cmp r1, #0
 	bge _080BE2D8
-	ldr r0, _080BE2D4 @ =gSpriteTablesRef
+	ldr r0, _080BE2D4 @ =gRefSpriteTables
 	ldr r0, [r0]
 	lsls r1, r1, #6
 	ldr r0, [r0, #0x14]
@@ -2054,9 +2054,9 @@ sub_80BE2A4: @ 0x080BE2A4
 	lsls r0, r0, #0x16
 	b _080BE2E6
 	.align 2, 0
-_080BE2D4: .4byte gSpriteTablesRef
+_080BE2D4: .4byte gRefSpriteTables
 _080BE2D8:
-	ldr r0, _080BE328 @ =gSpriteTablesRef
+	ldr r0, _080BE328 @ =gRefSpriteTables
 	ldr r0, [r0]
 	lsls r1, r1, #5
 	ldr r0, [r0, #0x10]
@@ -2098,7 +2098,7 @@ _080BE31E:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_080BE328: .4byte gSpriteTablesRef
+_080BE328: .4byte gRefSpriteTables
 _080BE32C: .4byte gUnknown_030035D0
 _080BE330: .4byte gUnknown_03003F34
 
@@ -2124,7 +2124,7 @@ sub_80BE334: @ 0x080BE334
 	ands r0, r4
 	cmp r0, #0
 	beq _080BE384
-	ldr r0, _080BE380 @ =gSpriteTablesRef
+	ldr r0, _080BE380 @ =gRefSpriteTables
 	ldr r0, [r0]
 	lsls r1, r1, #5
 	ldr r0, [r0, #0xc]
@@ -2140,10 +2140,10 @@ sub_80BE334: @ 0x080BE334
 	b _080BE3B4
 	.align 2, 0
 _080BE37C: .4byte gFlags
-_080BE380: .4byte gSpriteTablesRef
+_080BE380: .4byte gRefSpriteTables
 _080BE384:
 	ldr r2, _080BE3BC @ =0x040000D4
-	ldr r0, _080BE3C0 @ =gSpriteTablesRef
+	ldr r0, _080BE3C0 @ =gRefSpriteTables
 	ldr r0, [r0]
 	lsls r1, r1, #5
 	ldr r0, [r0, #0xc]
@@ -2173,7 +2173,7 @@ _080BE3B4:
 	bx r1
 	.align 2, 0
 _080BE3BC: .4byte 0x040000D4
-_080BE3C0: .4byte gSpriteTablesRef
+_080BE3C0: .4byte gRefSpriteTables
 _080BE3C4: .4byte gUnknown_03003D30
 
 	thumb_func_start sub_80BE3C8
@@ -2290,7 +2290,7 @@ _080BE498:
 	lsrs r0, r2, #0x1c
 	cmp r0, #0
 	bne _080BE4C4
-	ldr r0, _080BE4C0 @ =gSpriteTablesRef
+	ldr r0, _080BE4C0 @ =gRefSpriteTables
 	ldr r0, [r0]
 	ldrh r1, [r6, #0xc]
 	ldr r0, [r0, #4]
@@ -2306,9 +2306,9 @@ _080BE498:
 	.align 2, 0
 _080BE4B8: .4byte gUnknown_030061C0
 _080BE4BC: .4byte gUnknown_03006840
-_080BE4C0: .4byte gSpriteTablesRef
+_080BE4C0: .4byte gRefSpriteTables
 _080BE4C4:
-	ldr r0, _080BE584 @ =gSpriteTablesRef
+	ldr r0, _080BE584 @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldrh r0, [r6, #0xc]
 	ldr r1, [r1, #4]
@@ -2394,7 +2394,7 @@ _080BE558:
 	ands r1, r0
 	lsrs r0, r0, #0x18
 	str r0, [sp]
-	ldr r0, _080BE584 @ =gSpriteTablesRef
+	ldr r0, _080BE584 @ =gRefSpriteTables
 	ldr r2, [r0]
 	lsls r1, r1, #2
 	ldr r0, [r2, #0x18]
@@ -2408,7 +2408,7 @@ _080BE558:
 	ldr r2, [r2, #0x10]
 	b _080BE5A6
 	.align 2, 0
-_080BE584: .4byte gSpriteTablesRef
+_080BE584: .4byte gRefSpriteTables
 _080BE588: .4byte gDispCnt
 _080BE58C: .4byte gUnknown_03003C10
 _080BE590: .4byte gUnknown_030035C0
@@ -2588,7 +2588,7 @@ _080BE6E0:
 	lsrs r0, r3, #0x1c
 	cmp r0, #0
 	bne _080BE710
-	ldr r4, _080BE70C @ =gSpriteTablesRef
+	ldr r4, _080BE70C @ =gRefSpriteTables
 	ldr r0, [r4]
 	ldr r5, [sp, #0xc]
 	ldrh r2, [r5, #0xc]
@@ -2606,9 +2606,9 @@ _080BE6E0:
 	.align 2, 0
 _080BE704: .4byte gUnknown_03006840
 _080BE708: .4byte gUnknown_030061C0
-_080BE70C: .4byte gSpriteTablesRef
+_080BE70C: .4byte gRefSpriteTables
 _080BE710:
-	ldr r7, _080BE89C @ =gSpriteTablesRef
+	ldr r7, _080BE89C @ =gRefSpriteTables
 	ldr r0, [r7]
 	ldr r1, [sp, #0xc]
 	ldrh r2, [r1, #0xc]
@@ -2723,12 +2723,12 @@ _080BE7BC:
 	lsrs r0, r0, #0xe
 	orrs r1, r0
 	lsls r1, r1, #1
-	ldr r2, _080BE8B4 @ =gUnknown_082B52EC
+	ldr r2, _080BE8B4 @ =gOamShapesSizes
 	adds r0, r1, r2
 	ldrb r0, [r0]
 	lsrs r0, r0, #3
 	str r0, [sp, #0x20]
-	ldr r4, _080BE8B8 @ =gUnknown_082B52ED
+	ldr r4, _080BE8B8 @ =gOamShapesSizes+1
 	adds r1, r1, r4
 	ldrb r0, [r1]
 	lsrs r0, r0, #3
@@ -2814,14 +2814,14 @@ _080BE88E:
 	str r5, [sp, #0x24]
 	b _080BE8D2
 	.align 2, 0
-_080BE89C: .4byte gSpriteTablesRef
+_080BE89C: .4byte gRefSpriteTables
 _080BE8A0: .4byte gUnknown_030035C0
 _080BE8A4: .4byte gDispCnt
 _080BE8A8: .4byte 0x00003FFF
 _080BE8AC: .4byte 0x040000D4
 _080BE8B0: .4byte 0x80000003
-_080BE8B4: .4byte gUnknown_082B52EC
-_080BE8B8: .4byte gUnknown_082B52ED
+_080BE8B4: .4byte gOamShapesSizes
+_080BE8B8: .4byte gOamShapesSizes+1
 _080BE8BC: .4byte 0x000003FF
 _080BE8C0: .4byte 0x000001FF
 _080BE8C4:
@@ -2942,12 +2942,12 @@ _080BE96E:
 	lsrs r0, r0, #0xe
 	orrs r1, r0
 	lsls r1, r1, #1
-	ldr r4, _080BEA08 @ =gUnknown_082B52EC
+	ldr r4, _080BEA08 @ =gOamShapesSizes
 	adds r0, r1, r4
 	ldrb r0, [r0]
 	lsrs r0, r0, #3
 	str r0, [sp, #0x20]
-	ldr r5, _080BEA0C @ =gUnknown_082B52ED
+	ldr r5, _080BEA0C @ =gOamShapesSizes+1
 	adds r1, r1, r5
 	ldrb r0, [r1]
 	lsrs r0, r0, #3
@@ -2994,8 +2994,8 @@ _080BE96E:
 _080BE9FC: .4byte 0x00003FFF
 _080BEA00: .4byte 0x040000D4
 _080BEA04: .4byte 0x80000003
-_080BEA08: .4byte gUnknown_082B52EC
-_080BEA0C: .4byte gUnknown_082B52ED
+_080BEA08: .4byte gOamShapesSizes
+_080BEA0C: .4byte gOamShapesSizes+1
 _080BEA10: .4byte 0x000001FF
 _080BEA14:
 	ldr r7, [sp, #0xc]
@@ -3397,7 +3397,7 @@ sub_80BECF8: @ 0x080BECF8
 	lsrs r0, r2, #0x1c
 	cmp r0, #0
 	bne _080BED2C
-	ldr r0, _080BED28 @ =gSpriteTablesRef
+	ldr r0, _080BED28 @ =gRefSpriteTables
 	ldr r0, [r0]
 	ldrh r1, [r5, #0xc]
 	ldr r0, [r0, #4]
@@ -3410,9 +3410,9 @@ sub_80BECF8: @ 0x080BECF8
 	adds r1, r1, r0
 	b _080BED3E
 	.align 2, 0
-_080BED28: .4byte gSpriteTablesRef
+_080BED28: .4byte gRefSpriteTables
 _080BED2C:
-	ldr r0, _080BEE30 @ =gSpriteTablesRef
+	ldr r0, _080BEE30 @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldrh r0, [r5, #0xc]
 	ldr r1, [r1, #4]
@@ -3539,7 +3539,7 @@ _080BED3E:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080BEE30: .4byte gSpriteTablesRef
+_080BEE30: .4byte gRefSpriteTables
 _080BEE34: .4byte gSineTable
 
 	thumb_func_start sub_80BEE38
@@ -4198,6 +4198,7 @@ _080BF2F6:
 	.align 2, 0
 _080BF308: .4byte 0x040000D4
 
+@ First function of sprite.c (SA2: sub_8004418)
 	thumb_func_start sub_80BF30C
 sub_80BF30C: @ 0x080BF30C
 	push {r4, r5, r6, lr}
@@ -4207,7 +4208,7 @@ sub_80BF30C: @ 0x080BF30C
 	lsls r1, r1, #0x10
 	lsrs r5, r1, #0x10
 	movs r6, #0
-	ldr r1, _080BF33C @ =gUnknown_082B52B4
+	ldr r1, _080BF33C @ =unkFractions
 	mov r0, sp
 	movs r2, #8
 	bl memcpy
@@ -4223,7 +4224,7 @@ sub_80BF30C: @ 0x080BF30C
 	rsbs r0, r0, #0
 	b _080BF3C2
 	.align 2, 0
-_080BF33C: .4byte gUnknown_082B52B4
+_080BF33C: .4byte unkFractions
 _080BF340:
 	cmp r1, #0
 	bgt _080BF34C
@@ -4304,8 +4305,8 @@ _080BF3C2:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_80BF3CC
-sub_80BF3CC: @ 0x080BF3CC
+	thumb_func_start numToTileIndices
+numToTileIndices: @ 0x080BF3CC
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	lsls r1, r1, #0x10
@@ -4342,8 +4343,8 @@ _080BF3EE:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_80BF40C
-sub_80BF40C: @ 0x080BF40C
+	thumb_func_start Base10DigitsToHexNibbles
+Base10DigitsToHexNibbles: @ 0x080BF40C
 	push {r4, r5, r6, lr}
 	lsls r0, r0, #0x10
 	lsrs r4, r0, #0x10
@@ -4426,7 +4427,7 @@ _080BF49C:
 	adds r0, r1, #0
 	b _080BF530
 _080BF4A0:
-	ldr r0, _080BF538 @ =gSpriteTablesRef
+	ldr r0, _080BF538 @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldrh r0, [r4, #0xc]
 	ldr r1, [r1]
@@ -4443,7 +4444,7 @@ _080BF4A0:
 	ldr r0, [r3]
 	cmp r0, #0
 	bge _080BF50A
-	ldr r6, _080BF53C @ =gUnknown_082B52BC
+	ldr r6, _080BF53C @ =animCmdTable
 _080BF4C4:
 	mvns r0, r0
 	lsls r0, r0, #2
@@ -4459,7 +4460,7 @@ _080BF4C4:
 	rsbs r0, r0, #0
 	cmp r1, r0
 	bne _080BF49C
-	ldr r0, _080BF538 @ =gSpriteTablesRef
+	ldr r0, _080BF538 @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldrh r0, [r4, #0xc]
 	ldr r1, [r1]
@@ -4506,8 +4507,8 @@ _080BF530:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_080BF538: .4byte gSpriteTablesRef
-_080BF53C: .4byte gUnknown_082B52BC
+_080BF538: .4byte gRefSpriteTables
+_080BF53C: .4byte animCmdTable
 
 	thumb_func_start sub_80BF540
 sub_80BF540: @ 0x080BF540
@@ -4531,7 +4532,7 @@ sub_80BF540: @ 0x080BF540
 	ldr r1, _080BF5C4 @ =0xFFFFBFFF
 	ands r0, r1
 	str r0, [r5, #8]
-	ldr r0, _080BF5C8 @ =gSpriteTablesRef
+	ldr r0, _080BF5C8 @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldrh r0, [r5, #0xc]
 	ldr r1, [r1]
@@ -4551,7 +4552,7 @@ _080BF582:
 	ldr r1, [r4]
 	cmp r1, #0
 	bge _080BF5F8
-	ldr r0, _080BF5CC @ =gUnknown_082B52BC
+	ldr r0, _080BF5CC @ =animCmdTable
 	mov r8, r0
 _080BF592:
 	movs r0, #3
@@ -4580,10 +4581,10 @@ _080BF59C:
 	b _080BF646
 	.align 2, 0
 _080BF5C4: .4byte 0xFFFFBFFF
-_080BF5C8: .4byte gSpriteTablesRef
-_080BF5CC: .4byte gUnknown_082B52BC
+_080BF5C8: .4byte gRefSpriteTables
+_080BF5CC: .4byte animCmdTable
 _080BF5D0:
-	ldr r0, _080BF624 @ =gSpriteTablesRef
+	ldr r0, _080BF624 @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldrh r0, [r5, #0xc]
 	ldr r1, [r1]
@@ -4626,7 +4627,7 @@ _080BF5F8:
 	ldr r3, [sp]
 	b _080BF62C
 	.align 2, 0
-_080BF624: .4byte gSpriteTablesRef
+_080BF624: .4byte gRefSpriteTables
 _080BF628:
 	ldr r0, [r4]
 	adds r3, r3, r0
@@ -4654,8 +4655,8 @@ _080BF646:
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_80BF654
-sub_80BF654: @ 0x080BF654
+	thumb_func_start animCmd_GetTiles
+animCmd_GetTiles: @ 0x080BF654
 	push {r4, r5, r6, lr}
 	adds r2, r0, #0
 	adds r4, r1, #0
@@ -4671,7 +4672,7 @@ sub_80BF654: @ 0x080BF654
 	ldr r1, [r2, #4]
 	cmp r1, #0
 	bge _080BF688
-	ldr r0, _080BF684 @ =gSpriteTablesRef
+	ldr r0, _080BF684 @ =gRefSpriteTables
 	ldr r0, [r0]
 	lsls r1, r1, #6
 	ldr r0, [r0, #0x14]
@@ -4680,9 +4681,9 @@ sub_80BF654: @ 0x080BF654
 	lsls r0, r0, #0x16
 	b _080BF696
 	.align 2, 0
-_080BF684: .4byte gSpriteTablesRef
+_080BF684: .4byte gRefSpriteTables
 _080BF688:
-	ldr r0, _080BF6D8 @ =gSpriteTablesRef
+	ldr r0, _080BF6D8 @ =gRefSpriteTables
 	ldr r0, [r0]
 	lsls r1, r1, #5
 	ldr r0, [r0, #0x10]
@@ -4724,7 +4725,7 @@ _080BF6CE:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_080BF6D8: .4byte gSpriteTablesRef
+_080BF6D8: .4byte gRefSpriteTables
 _080BF6DC: .4byte gUnknown_030035D0
 _080BF6E0: .4byte gUnknown_03003F34
 
@@ -4750,7 +4751,7 @@ sub_80BF6E4: @ 0x080BF6E4
 	ands r0, r4
 	cmp r0, #0
 	beq _080BF734
-	ldr r0, _080BF730 @ =gSpriteTablesRef
+	ldr r0, _080BF730 @ =gRefSpriteTables
 	ldr r0, [r0]
 	lsls r1, r1, #5
 	ldr r0, [r0, #0xc]
@@ -4766,10 +4767,10 @@ sub_80BF6E4: @ 0x080BF6E4
 	b _080BF764
 	.align 2, 0
 _080BF72C: .4byte gFlags
-_080BF730: .4byte gSpriteTablesRef
+_080BF730: .4byte gRefSpriteTables
 _080BF734:
 	ldr r2, _080BF76C @ =0x040000D4
-	ldr r0, _080BF770 @ =gSpriteTablesRef
+	ldr r0, _080BF770 @ =gRefSpriteTables
 	ldr r0, [r0]
 	lsls r1, r1, #5
 	ldr r0, [r0, #0xc]
@@ -4780,7 +4781,7 @@ _080BF734:
 	ldrh r1, [r5, #0xa]
 	adds r0, r0, r1
 	lsls r0, r0, #1
-	ldr r1, _080BF774 @ =gUnknown_03003370
+	ldr r1, _080BF774 @ =gObjPalette
 	adds r0, r0, r1
 	str r0, [r2, #4]
 	ldrh r0, [r5, #8]
@@ -4799,8 +4800,8 @@ _080BF764:
 	bx r1
 	.align 2, 0
 _080BF76C: .4byte 0x040000D4
-_080BF770: .4byte gSpriteTablesRef
-_080BF774: .4byte gUnknown_03003370
+_080BF770: .4byte gRefSpriteTables
+_080BF774: .4byte gObjPalette
 
 	thumb_func_start sub_80BF778
 sub_80BF778: @ 0x080BF778
@@ -5013,7 +5014,7 @@ _080BF910:
 	lsrs r0, r2, #0x1c
 	cmp r0, #0
 	bne _080BF934
-	ldr r0, _080BF930 @ =gSpriteTablesRef
+	ldr r0, _080BF930 @ =gRefSpriteTables
 	ldr r0, [r0]
 	ldr r3, [sp, #0x24]
 	ldrh r1, [r3, #0xc]
@@ -5027,9 +5028,9 @@ _080BF910:
 	adds r6, r1, r0
 	b _080BF948
 	.align 2, 0
-_080BF930: .4byte gSpriteTablesRef
+_080BF930: .4byte gRefSpriteTables
 _080BF934:
-	ldr r0, _080BFAE8 @ =gSpriteTablesRef
+	ldr r0, _080BFAE8 @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldr r5, [sp, #0x24]
 	ldrh r0, [r5, #0xc]
@@ -5246,7 +5247,7 @@ _080BFA4C:
 	ldrh r2, [r6, #4]
 	b _080BFB04
 	.align 2, 0
-_080BFAE8: .4byte gSpriteTablesRef
+_080BFAE8: .4byte gRefSpriteTables
 _080BFAEC: .4byte gUnknown_03006246
 _080BFAF0: .4byte gSineTable
 _080BFAF4: .4byte 0x000003FF
@@ -5352,7 +5353,7 @@ _080BFBAC:
 	lsrs r0, r2, #0x1c
 	cmp r0, #0
 	bne _080BFBD4
-	ldr r0, _080BFBD0 @ =gSpriteTablesRef
+	ldr r0, _080BFBD0 @ =gRefSpriteTables
 	ldr r0, [r0]
 	ldr r3, [sp, #0x24]
 	ldrh r1, [r3, #0xc]
@@ -5367,9 +5368,9 @@ _080BFBAC:
 	mov sb, r1
 	b _080BFBEA
 	.align 2, 0
-_080BFBD0: .4byte gSpriteTablesRef
+_080BFBD0: .4byte gRefSpriteTables
 _080BFBD4:
-	ldr r0, _080BFE68 @ =gSpriteTablesRef
+	ldr r0, _080BFE68 @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldr r4, [sp, #0x24]
 	ldrh r0, [r4, #0xc]
@@ -5698,7 +5699,7 @@ _080BFD24:
 	ldrh r2, [r1, #4]
 	b _080BFE9A
 	.align 2, 0
-_080BFE68: .4byte gSpriteTablesRef
+_080BFE68: .4byte gRefSpriteTables
 _080BFE6C: .4byte gUnknown_03006246
 _080BFE70: .4byte gUnknown_03002C54
 _080BFE74: .4byte 0x000003FF
@@ -5811,7 +5812,7 @@ _080BFF44:
 	lsrs r0, r2, #0x1c
 	cmp r0, #0
 	bne _080BFF6C
-	ldr r0, _080BFF68 @ =gSpriteTablesRef
+	ldr r0, _080BFF68 @ =gRefSpriteTables
 	ldr r0, [r0]
 	ldr r3, [sp, #0x24]
 	ldrh r1, [r3, #0xc]
@@ -5826,9 +5827,9 @@ _080BFF44:
 	mov sb, r1
 	b _080BFF82
 	.align 2, 0
-_080BFF68: .4byte gSpriteTablesRef
+_080BFF68: .4byte gRefSpriteTables
 _080BFF6C:
-	ldr r0, _080C0278 @ =gSpriteTablesRef
+	ldr r0, _080C0278 @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldr r4, [sp, #0x24]
 	ldrh r0, [r4, #0xc]
@@ -6218,7 +6219,7 @@ _080C00BA:
 	ldrh r2, [r2, #4]
 	b _080C02AE
 	.align 2, 0
-_080C0278: .4byte gSpriteTablesRef
+_080C0278: .4byte gRefSpriteTables
 _080C027C: .4byte gUnknown_03006246
 _080C0280: .4byte gUnknown_03002C54
 _080C0284: .4byte 0x000003FF
@@ -6342,7 +6343,7 @@ _080C036C:
 	lsrs r0, r4, #0x1c
 	cmp r0, #0
 	bne _080C0394
-	ldr r3, _080C0390 @ =gSpriteTablesRef
+	ldr r3, _080C0390 @ =gRefSpriteTables
 	ldr r0, [r3]
 	mov r1, sb
 	ldrh r2, [r1, #0xc]
@@ -6357,9 +6358,9 @@ _080C036C:
 	mov r8, r1
 	b _080C03AA
 	.align 2, 0
-_080C0390: .4byte gSpriteTablesRef
+_080C0390: .4byte gRefSpriteTables
 _080C0394:
-	ldr r3, _080C0460 @ =gSpriteTablesRef
+	ldr r3, _080C0460 @ =gRefSpriteTables
 	ldr r0, [r3]
 	mov r1, sb
 	ldrh r2, [r1, #0xc]
@@ -6465,7 +6466,7 @@ _080C0408:
 	str r0, [sp, #0x14]
 	b _080C04DE
 	.align 2, 0
-_080C0460: .4byte gSpriteTablesRef
+_080C0460: .4byte gRefSpriteTables
 _080C0464: .4byte gUnknown_03002AF4
 _080C0468:
 	movs r0, #0x80
@@ -6668,7 +6669,7 @@ _080C056E:
 	eors r0, r1
 	strh r0, [r4, #2]
 	lsls r0, r2, #1
-	ldr r1, _080C06D8 @ =gUnknown_082B52ED
+	ldr r1, _080C06D8 @ =gOamShapesSizes+1
 	adds r0, r0, r1
 	ldrb r0, [r0]
 	ldr r2, [sp, #8]
@@ -6685,7 +6686,7 @@ _080C05EE:
 	eors r0, r1
 	strh r0, [r4, #2]
 	lsls r0, r6, #1
-	ldr r3, _080C06DC @ =gUnknown_082B52EC
+	ldr r3, _080C06DC @ =gOamShapesSizes
 	adds r0, r0, r3
 	ldrb r0, [r0]
 	ldr r1, [sp, #4]
@@ -6771,7 +6772,7 @@ _080C0692:
 	ands r1, r0
 	lsrs r0, r0, #0x18
 	str r0, [sp, #0x28]
-	ldr r0, _080C06F0 @ =gSpriteTablesRef
+	ldr r0, _080C06F0 @ =gRefSpriteTables
 	ldr r2, [r0]
 	lsls r1, r1, #2
 	ldr r0, [r2, #0x18]
@@ -6791,13 +6792,13 @@ _080C06C8: .4byte 0x00003FFF
 _080C06CC: .4byte 0x040000D4
 _080C06D0: .4byte 0x80000003
 _080C06D4: .4byte 0x000001FF
-_080C06D8: .4byte gUnknown_082B52ED
-_080C06DC: .4byte gUnknown_082B52EC
+_080C06D8: .4byte gOamShapesSizes+1
+_080C06DC: .4byte gOamShapesSizes
 _080C06E0: .4byte 0x000003FF
 _080C06E4: .4byte 0xF9FF0000
 _080C06E8: .4byte 0xFBFFFFFF
 _080C06EC: .4byte 0x00FFFFFF
-_080C06F0: .4byte gSpriteTablesRef
+_080C06F0: .4byte gRefSpriteTables
 _080C06F4:
 	movs r4, #0x40
 	mov ip, r4
@@ -6952,7 +6953,7 @@ _080C0810:
 	lsrs r0, r4, #0x1c
 	cmp r0, #0
 	bne _080C0838
-	ldr r3, _080C0834 @ =gSpriteTablesRef
+	ldr r3, _080C0834 @ =gRefSpriteTables
 	ldr r0, [r3]
 	mov r1, sl
 	ldrh r2, [r1, #0xc]
@@ -6967,9 +6968,9 @@ _080C0810:
 	mov sb, r1
 	b _080C084E
 	.align 2, 0
-_080C0834: .4byte gSpriteTablesRef
+_080C0834: .4byte gRefSpriteTables
 _080C0838:
-	ldr r3, _080C08EC @ =gSpriteTablesRef
+	ldr r3, _080C08EC @ =gRefSpriteTables
 	ldr r0, [r3]
 	mov r1, sl
 	ldrh r2, [r1, #0xc]
@@ -7062,7 +7063,7 @@ _080C0888:
 	str r0, [sp, #0x20]
 	b _080C096A
 	.align 2, 0
-_080C08EC: .4byte gSpriteTablesRef
+_080C08EC: .4byte gRefSpriteTables
 _080C08F0: .4byte gUnknown_03002AF4
 _080C08F4:
 	movs r0, #0x80
@@ -7247,7 +7248,7 @@ _080C0A26:
 	ands r0, r2
 	lsrs r0, r0, #0xe
 	orrs r1, r0
-	ldr r2, _080C0BA0 @ =gUnknown_082B52EC
+	ldr r2, _080C0BA0 @ =gOamShapesSizes
 	lsls r1, r1, #1
 	adds r0, r2, #1
 	adds r0, r1, r0
@@ -7400,7 +7401,7 @@ _080C0B56:
 	ands r1, r0
 	lsrs r0, r0, #0x18
 	str r0, [sp, #0x34]
-	ldr r0, _080C0BB8 @ =gSpriteTablesRef
+	ldr r0, _080C0BB8 @ =gRefSpriteTables
 	ldr r2, [r0]
 	lsls r1, r1, #2
 	ldr r0, [r2, #0x18]
@@ -7421,13 +7422,13 @@ _080C0B90: .4byte 0x80000003
 _080C0B94: .4byte 0x000001FF
 _080C0B98: .4byte 0xFFFFFE00
 _080C0B9C: .4byte 0xFFFFFF00
-_080C0BA0: .4byte gUnknown_082B52EC
+_080C0BA0: .4byte gOamShapesSizes
 _080C0BA4: .4byte 0x000003FF
 _080C0BA8: .4byte 0xF9FF0000
 _080C0BAC: .4byte iwram_end
 _080C0BB0: .4byte 0xFBFFFFFF
 _080C0BB4: .4byte 0x00FFFFFF
-_080C0BB8: .4byte gSpriteTablesRef
+_080C0BB8: .4byte gRefSpriteTables
 _080C0BBC:
 	movs r1, #0x40
 	mov r8, r1
@@ -7575,7 +7576,7 @@ _080C0CCA:
 	lsrs r0, r2, #0x1c
 	cmp r0, #0
 	bne _080C0CF0
-	ldr r0, _080C0CEC @ =gSpriteTablesRef
+	ldr r0, _080C0CEC @ =gRefSpriteTables
 	ldr r0, [r0]
 	mov r3, sb
 	ldrh r1, [r3, #0xc]
@@ -7590,9 +7591,9 @@ _080C0CCA:
 	mov sl, r1
 	b _080C0D06
 	.align 2, 0
-_080C0CEC: .4byte gSpriteTablesRef
+_080C0CEC: .4byte gRefSpriteTables
 _080C0CF0:
-	ldr r0, _080C0D7C @ =gSpriteTablesRef
+	ldr r0, _080C0D7C @ =gRefSpriteTables
 	ldr r1, [r0]
 	mov r4, sb
 	ldrh r0, [r4, #0xc]
@@ -7665,7 +7666,7 @@ _080C0D3E:
 	str r4, [sp, #0x14]
 	b _080C0DC8
 	.align 2, 0
-_080C0D7C: .4byte gSpriteTablesRef
+_080C0D7C: .4byte gRefSpriteTables
 _080C0D80: .4byte gUnknown_03002AF4
 _080C0D84:
 	movs r0, #0x80
@@ -7751,7 +7752,7 @@ _080C0E08:
 	blo _080C0E16
 	b _080C1060
 _080C0E16:
-	ldr r0, _080C0ED4 @ =gSpriteTablesRef
+	ldr r0, _080C0ED4 @ =gRefSpriteTables
 	ldr r1, [r0]
 	mov r4, sb
 	ldrh r0, [r4, #0xc]
@@ -7848,7 +7849,7 @@ _080C0EC2:
 	strh r0, [r6, #2]
 	b _080C0F60
 	.align 2, 0
-_080C0ED4: .4byte gSpriteTablesRef
+_080C0ED4: .4byte gRefSpriteTables
 _080C0ED8: .4byte iwram_end
 _080C0EDC: .4byte 0x040000D4
 _080C0EE0: .4byte 0x00003FFF
@@ -7878,7 +7879,7 @@ _080C0EEC:
 	adds r0, r3, #0
 	eors r0, r1
 	strh r0, [r6, #2]
-	ldr r0, _080C1070 @ =gUnknown_082B52EC
+	ldr r0, _080C1070 @ =gOamShapesSizes
 	lsls r1, r2, #1
 	adds r0, #1
 	adds r1, r1, r0
@@ -7905,7 +7906,7 @@ _080C0F2E:
 	adds r1, r4, #0
 	eors r0, r1
 	strh r0, [r6, #2]
-	ldr r1, _080C1070 @ =gUnknown_082B52EC
+	ldr r1, _080C1070 @ =gOamShapesSizes
 	lsls r0, r2, #1
 	adds r0, r0, r1
 	ldrb r0, [r0]
@@ -8055,7 +8056,7 @@ _080C1060:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080C1070: .4byte gUnknown_082B52EC
+_080C1070: .4byte gOamShapesSizes
 _080C1074: .4byte 0x000001FF
 _080C1078: .4byte 0x000003FF
 _080C107C: .4byte 0xF9FF0000
@@ -15140,7 +15141,7 @@ _080C4590:
 	mov r0, r8
 	adds r4, r0, r5
 	lsls r4, r4, #1
-	ldr r0, _080C4600 @ =gUnknown_03003370
+	ldr r0, _080C4600 @ =gObjPalette
 	adds r4, r4, r0
 	ldrh r3, [r6]
 	movs r2, #0x1f
@@ -15175,7 +15176,7 @@ _080C45D2:
 	ldr r3, [r0]
 	cmp r3, #0
 	beq _080C45E4
-	ldr r0, _080C4600 @ =gUnknown_03003370
+	ldr r0, _080C4600 @ =gObjPalette
 	mov r1, r8
 	adds r2, r7, #0
 	bl _call_via_r3
@@ -15194,7 +15195,7 @@ _080C45E4:
 	bx r0
 	.align 2, 0
 _080C45FC: .4byte gUnknown_03003C60
-_080C4600: .4byte gUnknown_03003370
+_080C4600: .4byte gObjPalette
 _080C4604: .4byte gUnknown_03003C08
 _080C4608: .4byte gFlags
 

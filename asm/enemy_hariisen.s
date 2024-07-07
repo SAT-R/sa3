@@ -1040,7 +1040,7 @@ sub_80619EC: @ 0x080619EC
 	bls _08061AB8
 	movs r0, #0
 	strh r0, [r4, #0xc]
-	ldr r3, _08061A3C @ =gUnknown_03003370
+	ldr r3, _08061A3C @ =gObjPalette
 	movs r1, #0xc8
 	lsls r1, r1, #1
 	adds r0, r3, r1
@@ -1063,7 +1063,7 @@ sub_80619EC: @ 0x080619EC
 	b _08061A66
 	.align 2, 0
 _08061A38: .4byte gUnknown_080D20B8
-_08061A3C: .4byte gUnknown_03003370
+_08061A3C: .4byte gObjPalette
 _08061A40: .4byte gUnknown_080D206C
 _08061A44: .4byte gFlags
 _08061A48: .4byte gUnknown_080D208C

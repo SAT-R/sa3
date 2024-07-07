@@ -7008,7 +7008,7 @@ sub_8052D30: @ 0x08052D30
 	bne _08052D76
 	ldr r1, [r2]
 	ldr r2, _08052D80 @ =0x040000D4
-	ldr r0, _08052D84 @ =gSpriteTablesRef
+	ldr r0, _08052D84 @ =gRefSpriteTables
 	ldr r0, [r0]
 	lsls r1, r1, #5
 	ldr r0, [r0, #0xc]
@@ -7033,7 +7033,7 @@ _08052D76:
 	.align 2, 0
 _08052D7C: .4byte gAnimations
 _08052D80: .4byte 0x040000D4
-_08052D84: .4byte gSpriteTablesRef
+_08052D84: .4byte gRefSpriteTables
 _08052D88: .4byte gFlags
 
 	thumb_func_start sub_8052D8C
