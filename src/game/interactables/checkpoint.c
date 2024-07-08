@@ -35,7 +35,7 @@ void CreateEntity_Checkpoint(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     checkpoint->base.regionY = regionY;
     checkpoint->base.me = me;
     checkpoint->base.spriteX = me->x;
-    checkpoint->base.spriteY = id;
+    checkpoint->base.id = id;
 
     for (i = 0; i < 8; i++) {
         if ((me->d.uData[4] >> i) & 0x1) {

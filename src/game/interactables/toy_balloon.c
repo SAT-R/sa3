@@ -49,7 +49,7 @@ static void CreateEntity_ToyBalloon(u32 type, MapEntity *me, u16 regionX, u16 re
     balloon->base.regionY = regionY;
     balloon->base.me = me;
     balloon->base.spriteX = me->x;
-    balloon->base.spriteY = id;
+    balloon->base.id = id;
     balloon->destructDelay = 0;
     balloon->variant = (me->d.uData[4] >> 6);
 

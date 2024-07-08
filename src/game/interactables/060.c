@@ -23,7 +23,7 @@ void CreateEntity_Interactable060(MapEntity *me, u16 regionX, u16 regionY, u8 id
     ia->base.me = me;
 
     ia->base.spriteX = me->x;
-    ia->base.spriteY = id;
+    ia->base.id = id;
     SET_MAP_ENTITY_INITIALIZED(me);
 }
 

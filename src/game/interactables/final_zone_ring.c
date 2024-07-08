@@ -36,7 +36,7 @@ void CreateEntity_FinalZoneRing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         ring->base.regionY = regionY;
         ring->base.me = me;
         ring->base.spriteX = me->x;
-        ring->base.spriteY = id;
+        ring->base.id = id;
         ring->worldX = TO_WORLD_POS(me->x, regionX);
         ring->worldY = TO_WORLD_POS(me->y, regionY);
 

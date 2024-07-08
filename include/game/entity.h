@@ -47,7 +47,7 @@ typedef struct {
     /* 0x08 */ u8 unk8; // only in SA3
     /* 0x09 */ u8 unk9; // only in SA3
     /* 0x0A */ u8 spriteX;
-    /* 0x0B */ u8 spriteY;
+    /* 0x0B */ u8 id;
 } SpriteBase;
 
 // TODO maybe(?): Integrate this with every enemy

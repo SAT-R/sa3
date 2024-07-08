@@ -75,7 +75,7 @@ void CreateEntity_Interactable015(MapEntity *me, u16 regionX, u16 regionY, u8 id
     ia->base.regionY = regionY;
     ia->base.me = me;
     ia->base.spriteX = me->x;
-    ia->base.spriteY = id;
+    ia->base.id = id;
 
     ia->unkC = (me->d.uData[4] & 0x10) >> 4;
     ia->unkD = (me->d.uData[4] & 0x03);

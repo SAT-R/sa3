@@ -156,7 +156,7 @@ void CreateEntity_Interactable093(MapEntity *me, u16 regionX, u16 regionY, u8 id
     coil->base.regionY = regionY;
     coil->base.me = me;
     coil->base.spriteX = me->x;
-    coil->base.spriteY = id;
+    coil->base.id = id;
     coil->unk34 = me->d.uData[4] & 0x3;
     SET_MAP_ENTITY_INITIALIZED(me);
 

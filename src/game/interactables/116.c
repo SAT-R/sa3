@@ -34,7 +34,7 @@ void CreateEntity_Interactable116(MapEntity *me, u16 regionX, u16 regionY, u8 id
     ia->base.regionY = regionY;
     ia->base.me = me;
     ia->base.spriteX = me->x;
-    ia->base.spriteY = id;
+    ia->base.id = id;
     ia->worldX = TO_WORLD_POS(me->x, regionX);
     ia->worldY = TO_WORLD_POS(me->y, regionY);
     ia->left = ia->worldX + (me->d.sData[0] * TILE_WIDTH);

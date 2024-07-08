@@ -46,7 +46,7 @@ void CreateEntity_Interactable085(MapEntity *me, u16 regionX, u16 regionY, u8 id
     ia->bottom = (me->d.uData[3] + me->d.uData[1]) << 3;
 
     ia->base.spriteX = ((me->d.uData[4] >> 0) & 0x1);
-    ia->base.spriteY = ((me->d.uData[4] >> 1) & 0x1);
+    ia->base.id = ((me->d.uData[4] >> 1) & 0x1);
     ia->unkC = 0;
     ia->unkD = 0;
 
@@ -81,7 +81,7 @@ void Task_Interactable085(void)
                 bool32 isExpectedCallback = FALSE;
                 void *cmpCallback;
 
-                if (ia->base.spriteY == 0) {
+                if (ia->base.id == 0) {
                     cmpCallback = Player_800BD88;
                 } else {
                     void *callback = p->callback;

@@ -116,7 +116,7 @@ void CreateEntity_FactoryRing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     ring->base.regionY = regionY;
     ring->base.me = me;
     ring->base.spriteX = me->x;
-    ring->base.spriteY = id;
+    ring->base.id = id;
 
     s = &ring->s;
     s->x = TO_WORLD_POS(me->x, regionX);

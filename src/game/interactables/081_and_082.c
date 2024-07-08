@@ -146,7 +146,7 @@ static void Create_Interactable081or082(u8 type, MapEntity *me, u16 regionX, u16
     ia->base.regionY = regionY;
     ia->base.me = me;
     ia->base.spriteX = me->x;
-    ia->base.spriteY = id;
+    ia->base.id = id;
     SET_MAP_ENTITY_INITIALIZED(me);
 
     ia->type = type;

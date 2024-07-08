@@ -82,7 +82,7 @@ void CreateEntity_ChaoInStage(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     chao->base.regionY = regionY;
     chao->base.me = me;
     chao->base.spriteX = me->x;
-    chao->base.spriteY = id;
+    chao->base.id = id;
 
     worldX = TO_WORLD_POS(me->x, regionX);
     chao->worldX = worldX;
@@ -128,7 +128,7 @@ void CreateEntity_ChaoInPlayground(MapEntity *me, u16 regionX, u16 regionY, u8 i
     chao->base.regionY = regionY;
     chao->base.me = me;
     chao->base.spriteX = me->x;
-    chao->base.spriteY = id;
+    chao->base.id = id;
 
     worldX = TO_WORLD_POS(me->x, regionX);
     chao->worldX = worldX;

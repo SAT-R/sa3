@@ -36,7 +36,7 @@ void CreateEntity_EmeraldInPlayground(MapEntity *me, u16 regionX, u16 regionY, u
         emerald->base.regionY = regionY;
         emerald->base.me = me;
         emerald->base.spriteX = me->x;
-        emerald->base.spriteY = id;
+        emerald->base.id = id;
         emerald->worldX = TO_WORLD_POS(me->x, regionX);
         emerald->worldY = TO_WORLD_POS(me->y, regionY);
 
