@@ -3,6 +3,7 @@
 
 #define IA__IA000      0
 #define IA__CHECKPOINT 54
+#define IA__MUD_FX     95
 #define IA__IA105      105
 
 #endif // GUARD_CONSTANTS_INTERACTABLES_H

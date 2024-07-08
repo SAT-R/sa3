@@ -116,6 +116,8 @@
     7=Un-Launcher
 */
 
+#define ANIM_MUD_FX 945
+
 #define ANIM_GOAL_RING 948
 
 #define ANIM_TOY_BALLOON_POPPED 976
@@ -144,6 +146,9 @@
 #define ANIM_INV_PLATFORM_W07 994
 
 #define ANIM_FINALZONE_RING 996
+
+// ANIM_MUD_FX with lighter colors, only used in Chaos Angel
+#define ANIM_MUD_FX_CHAOS_ANGEL 999
 
 #define ANIM_CHAO_SITTING  1004
 #define ANIM_CHAO_STANDING 1005
