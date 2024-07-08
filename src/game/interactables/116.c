@@ -109,25 +109,21 @@ void Task_Interactable116(void)
                             qSpeedY = -qSpeedY;
                         }
 
-                        if (!r7) {
-                            if (qSpeedY <= 0) {
-                                res = sub_80110E8(2, p, &sp00, NULL);
-                                if (res < 8) {
-                                    r7 = TRUE;
-                                    p->qWorldY -= res;
-                                    p->unk26 = sp00;
-                                }
+                        if ((!r7) && (qSpeedY <= 0)) {
+                            res = sub_80110E8(2, p, &sp00, NULL);
+                            if (res < 8) {
+                                r7 = TRUE;
+                                p->qWorldY -= res;
+                                p->unk26 = sp00;
                             }
                         }
 
-                        if ((!r7)) {
-                            if (qSpeedY >= 0) {
-                                res = sub_80110E8(3, p, &sp00, NULL);
-                                if (res < 8) {
-                                    r7 = TRUE;
-                                    p->qWorldY += res;
-                                    p->unk26 = sp00;
-                                }
+                        if ((!r7) && (qSpeedY >= 0)) {
+                            res = sub_80110E8(3, p, &sp00, NULL);
+                            if (res < 8) {
+                                r7 = TRUE;
+                                p->qWorldY += res;
+                                p->unk26 = sp00;
                             }
                         }
 #ifndef NON_MATCHING
