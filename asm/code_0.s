@@ -22403,8 +22403,8 @@ _0800B1AC: .4byte 0xFFFFFB00
 _0800B1B0: .4byte 0x00000252
 _0800B1B4: .4byte sub_800E564
 
-	thumb_func_start sub_800B1B8
-sub_800B1B8: @ 0x0800B1B8
+	thumb_func_start Player_800B1B8
+Player_800B1B8: @ 0x0800B1B8
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	ldr r0, [r4, #4]
@@ -22456,7 +22456,7 @@ sub_800B1B8: @ 0x0800B1B8
 	strh r5, [r4, #0x1c]
 	strh r5, [r4, #0x18]
 	strh r5, [r4, #0x1a]
-	ldr r1, _0800B23C @ =sub_800B240
+	ldr r1, _0800B23C @ =Player_800B240
 	str r1, [r4]
 	adds r0, r4, #0
 	bl _call_via_r1
@@ -22467,10 +22467,10 @@ sub_800B1B8: @ 0x0800B1B8
 _0800B230: .4byte 0xFDFFFFF9
 _0800B234: .4byte gPlayers
 _0800B238: .4byte 0xFDFFFFFF
-_0800B23C: .4byte sub_800B240
+_0800B23C: .4byte Player_800B240
 
-	thumb_func_start sub_800B240
-sub_800B240: @ 0x0800B240
+	thumb_func_start Player_800B240
+Player_800B240: @ 0x0800B240
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	adds r0, #0x26
@@ -22632,8 +22632,8 @@ _0800B368:
 	.align 2, 0
 _0800B370: .4byte gSineTable
 
-	thumb_func_start sub_800B374
-sub_800B374: @ 0x0800B374
+	thumb_func_start Player_800B374
+Player_800B374: @ 0x0800B374
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	ldr r0, [r4, #4]
@@ -22685,7 +22685,7 @@ sub_800B374: @ 0x0800B374
 	strh r5, [r4, #0x1c]
 	strh r5, [r4, #0x18]
 	strh r5, [r4, #0x1a]
-	ldr r1, _0800B3F8 @ =sub_800B3FC
+	ldr r1, _0800B3F8 @ =Player_800B3FC
 	str r1, [r4]
 	adds r0, r4, #0
 	bl _call_via_r1
@@ -22696,10 +22696,10 @@ sub_800B374: @ 0x0800B374
 _0800B3EC: .4byte 0xFDFFFFF9
 _0800B3F0: .4byte gPlayers
 _0800B3F4: .4byte 0xFDFFFFFF
-_0800B3F8: .4byte sub_800B3FC
+_0800B3F8: .4byte Player_800B3FC
 
-	thumb_func_start sub_800B3FC
-sub_800B3FC: @ 0x0800B3FC
+	thumb_func_start Player_800B3FC
+Player_800B3FC: @ 0x0800B3FC
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	adds r0, #0x26

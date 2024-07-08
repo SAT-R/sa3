@@ -31,6 +31,8 @@ void Player_800E5D0(Player *p);
 void Player_800E5EC(Player *p);
 void Player_800E604(Player *p);
 
+s32 sub_80110E8(u16, Player *, u8 *, u32 *);
+
 // 0x0800D87C
 void SetPlayerCallback(Player *p, PlayerCallback *callback);
 void sub_800E6CC(Player *p);
