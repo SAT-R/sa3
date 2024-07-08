@@ -329,7 +329,7 @@ _080313EC:
 	cmp r0, #0xb
 	bne _080313FC
 	adds r0, r5, #0
-	bl PlayerCB_800891C
+	bl Player_800891C
 	b _08031402
 _080313FC:
 	adds r0, r5, #0

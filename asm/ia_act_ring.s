@@ -148,10 +148,10 @@ Task_ActRingMain: @ 0x08040984
 	lsls r0, r0, #0x12
 	adds r3, r5, r0
 	ldr r1, [r4]
-	ldr r0, _08040A78 @ =PlayerCB_80052C8
+	ldr r0, _08040A78 @ =Player_80052C8
 	cmp r1, r0
 	beq _08040A98
-	ldr r0, _08040A7C @ =PlayerCB_800522C
+	ldr r0, _08040A7C @ =Player_800522C
 	cmp r1, r0
 	beq _08040A98
 	ldr r0, [r4, #4]
@@ -203,7 +203,7 @@ _080409F2:
 	movs r1, #0
 	strh r0, [r6, #0x12]
 	strb r1, [r6, #0xc]
-	ldr r5, _08040A94 @ =PlayerCB_800AD24
+	ldr r5, _08040A94 @ =Player_800AD24
 	adds r0, r4, #0
 	adds r1, r5, #0
 	bl SetPlayerCallback
@@ -245,14 +245,14 @@ _08040A66:
 _08040A6C: .4byte gStageData
 _08040A70: .4byte gPlayers
 _08040A74: .4byte gCurTask
-_08040A78: .4byte PlayerCB_80052C8
-_08040A7C: .4byte PlayerCB_800522C
+_08040A78: .4byte Player_80052C8
+_08040A7C: .4byte Player_800522C
 _08040A80: .4byte 0x01000300
 _08040A84: .4byte 0x0300000C
 _08040A88: .4byte 0x0300005C
 _08040A8C: .4byte 0x00000209
 _08040A90: .4byte 0x03000061
-_08040A94: .4byte PlayerCB_800AD24
+_08040A94: .4byte Player_800AD24
 _08040A98:
 	movs r1, #0
 	ldr r6, _08040AAC @ =gStageData

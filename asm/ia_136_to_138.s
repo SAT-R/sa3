@@ -475,7 +475,7 @@ _0804CF32:
 	ldr r0, _0804CF80 @ =sub_800DD44
 	cmp r1, r0
 	beq _0804CF52
-	ldr r0, _0804CF84 @ =PlayerCB_800DDD0
+	ldr r0, _0804CF84 @ =Player_800DDD0
 	cmp r1, r0
 	bne _0804CF96
 _0804CF52:
@@ -505,7 +505,7 @@ _0804CF72:
 	.align 2, 0
 _0804CF7C: .4byte sub_800B5A4
 _0804CF80: .4byte sub_800DD44
-_0804CF84: .4byte PlayerCB_800DDD0
+_0804CF84: .4byte Player_800DDD0
 _0804CF88:
 	ldrb r0, [r7]
 	movs r1, #0xf
@@ -903,7 +903,7 @@ _0804D276:
 	cmp r2, #0
 	bne _0804D2CE
 	ldr r1, [r5]
-	ldr r0, _0804D2F4 @ =PlayerCB_800DDD0
+	ldr r0, _0804D2F4 @ =Player_800DDD0
 	cmp r1, r0
 	bne _0804D2CE
 	ldr r0, _0804D2F8 @ =sub_800B628
@@ -950,7 +950,7 @@ _0804D2CE:
 	bx r0
 	.align 2, 0
 _0804D2F0: .4byte gPlayers
-_0804D2F4: .4byte PlayerCB_800DDD0
+_0804D2F4: .4byte Player_800DDD0
 _0804D2F8: .4byte sub_800B628
 
 	thumb_func_start sub_804D2FC
@@ -1262,7 +1262,7 @@ _0804D53A:
 	cmp r2, #0
 	bne _0804D598
 	ldr r1, [r4]
-	ldr r0, _0804D55C @ =PlayerCB_800DDD0
+	ldr r0, _0804D55C @ =Player_800DDD0
 	cmp r1, r0
 	beq _0804D568
 	ldr r0, _0804D560 @ =sub_800B6C4
@@ -1273,7 +1273,7 @@ _0804D53A:
 	bne _0804D598
 	b _0804D632
 	.align 2, 0
-_0804D55C: .4byte PlayerCB_800DDD0
+_0804D55C: .4byte Player_800DDD0
 _0804D560: .4byte sub_800B6C4
 _0804D564: .4byte sub_800B748
 _0804D568:

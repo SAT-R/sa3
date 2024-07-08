@@ -91,7 +91,7 @@ void Task_WaggleCoil(void)
                     s->variant = 1;
 
                     sub_8003DF0(SE_WAGGLE_COIL);
-                    SetPlayerCallback(p, (void *)PlayerCB_800A4C8);
+                    SetPlayerCallback(p, (void *)Player_800A4C8);
                 }
             }
         }

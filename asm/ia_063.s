@@ -399,14 +399,14 @@ _0803671E:
 	cmp r1, #0
 	beq _0803674C
 	adds r0, r6, #0
-	ldr r1, _08036748 @ =PlayerCB_80077CC
+	ldr r1, _08036748 @ =Player_80077CC
 	bl SetPlayerCallback
 	b _08036754
 	.align 2, 0
-_08036748: .4byte PlayerCB_80077CC
+_08036748: .4byte Player_80077CC
 _0803674C:
 	adds r0, r6, #0
-	ldr r1, _08036778 @ =PlayerCB_8005380
+	ldr r1, _08036778 @ =Player_8005380
 	bl SetPlayerCallback
 _08036754:
 	ldr r0, [sp, #0x10]
@@ -429,7 +429,7 @@ _08036764:
 	bgt _08036788
 	b _0803682C
 	.align 2, 0
-_08036778: .4byte PlayerCB_8005380
+_08036778: .4byte Player_8005380
 _0803677C:
 	mov r4, sb
 	asrs r1, r4, #0x10
@@ -843,14 +843,14 @@ _08036A7A:
 	cmp r1, #0
 	beq _08036AA8
 	adds r0, r6, #0
-	ldr r1, _08036AA4 @ =PlayerCB_80077CC
+	ldr r1, _08036AA4 @ =Player_80077CC
 	bl SetPlayerCallback
 	b _08036AB0
 	.align 2, 0
-_08036AA4: .4byte PlayerCB_80077CC
+_08036AA4: .4byte Player_80077CC
 _08036AA8:
 	adds r0, r6, #0
-	ldr r1, _08036AD4 @ =PlayerCB_8005380
+	ldr r1, _08036AD4 @ =Player_8005380
 	bl SetPlayerCallback
 _08036AB0:
 	mov r0, sl
@@ -871,7 +871,7 @@ _08036AB0:
 	blt _08036AE4
 	b _08036B50
 	.align 2, 0
-_08036AD4: .4byte PlayerCB_8005380
+_08036AD4: .4byte Player_8005380
 _08036AD8:
 	mov r0, r8
 	asrs r1, r0, #0x10

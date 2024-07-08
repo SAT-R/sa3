@@ -69,7 +69,7 @@ void Task_Interactable117_to_119(void)
 
         if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2
             || p->charFlags.someIndex == 4) {
-            if (!sub_802C0D4(p) && (p->callback != PlayerCB_800DDD0)) {
+            if (!sub_802C0D4(p) && (p->callback != Player_800DDD0)) {
                 s16 pWorldX, pWorldY;
                 pWorldX = I(p->qWorldX);
                 pWorldY = I(p->qWorldY);

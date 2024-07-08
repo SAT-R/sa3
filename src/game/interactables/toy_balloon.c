@@ -85,9 +85,9 @@ static void Task_ToyBalloon(void)
         if (!sub_802C0D4(p) && (s->anim == ANIM_TOY_BALLOON)) {
             if (sub_8020700(s, balloon->worldX, balloon->worldY, 0, p, 0)) {
                 if (p->qSpeedAirX > Q(2.5)) {
-                    SetPlayerCallback(p, (void *)PlayerCB_8009B4C);
+                    SetPlayerCallback(p, (void *)Player_8009B4C);
                 } else {
-                    SetPlayerCallback(p, (void *)PlayerCB_800EA0C);
+                    SetPlayerCallback(p, (void *)Player_800EA0C);
                 }
 
                 p->unkA4 = balloon->unk37 & 7;

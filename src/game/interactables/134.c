@@ -80,16 +80,16 @@ void Task_Interactable134(void)
             || p->charFlags.someIndex == 4) {
             if (sub_802C0D4(p)) {
                 sub_8004F10(p, SE_607);
-            } else if ((p->callback != PlayerCB_8008A8C)
-                       && (p->callback != PlayerCB_800ED80)) {
+            } else if ((p->callback != Player_8008A8C)
+                       && (p->callback != Player_800ED80)) {
                 worldX = I(p->qWorldX);
                 worldY = I(p->qWorldY);
 
                 if ((worldX > left) && (worldX < right) && (worldY > top)
                     && (worldY < bottom)) {
                     if (((middle - 4) <= worldY) && ((middle + 4) >= worldY)) {
-                        if ((p->callback != PlayerCB_800A724)
-                            && (p->callback != PlayerCB_800A860)) {
+                        if ((p->callback != Player_800A724)
+                            && (p->callback != Player_800A860)) {
                             sub_8016F28(p);
 
                             p->qWorldY = Q(middle);
@@ -97,10 +97,10 @@ void Task_Interactable134(void)
 
                             if (ia->unk10 == 0) {
                                 p->qSpeedAirX = -Q(1.5);
-                                SetPlayerCallback(p, (void *)PlayerCB_800A7CC);
+                                SetPlayerCallback(p, (void *)Player_800A7CC);
                             } else {
                                 p->qSpeedAirX = +Q(1.5);
-                                SetPlayerCallback(p, (void *)PlayerCB_800A690);
+                                SetPlayerCallback(p, (void *)Player_800A690);
                             }
                         }
                     } else {
@@ -113,10 +113,10 @@ void Task_Interactable134(void)
 
                             if (ia->unk10 != 0) {
                                 p->qSpeedAirX = +Q(1.5);
-                                SetPlayerCallback(p, (void *)PlayerCB_800A690);
+                                SetPlayerCallback(p, (void *)Player_800A690);
                             } else {
                                 p->qSpeedAirX = -Q(1.5);
-                                SetPlayerCallback(p, (void *)PlayerCB_800A7CC);
+                                SetPlayerCallback(p, (void *)Player_800A7CC);
                             }
                         } else {
                             ia->unk11[i] = r3;

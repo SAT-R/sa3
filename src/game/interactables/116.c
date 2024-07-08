@@ -65,8 +65,8 @@ void Task_Interactable116(void)
 
         if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2
             || p->charFlags.someIndex == 4) {
-            if (!sub_802C0D4(p) && (p->callback != PlayerCB_8008A8C)
-                && (p->callback != PlayerCB_800ED80)) {
+            if (!sub_802C0D4(p) && (p->callback != Player_8008A8C)
+                && (p->callback != Player_800ED80)) {
                 s8 unk24;
                 s16 unk25;
                 s16 worldX, worldY;
@@ -81,7 +81,7 @@ void Task_Interactable116(void)
                     && ((ia->top <= (worldY + unk25))
                         && (ia->bottom >= (worldY - unk25)))) {
                     s32 res;
-                    u32 r7 = 0;
+                    bool32 collided = 0;
 
                     if ((p->moveState & MOVESTATE_IN_AIR)
                         || ((p->callback != Player_800B240)
@@ -89,16 +89,16 @@ void Task_Interactable116(void)
                         if (p->qSpeedAirX <= 0) {
                             res = sub_80110E8(0, p, &sp00, NULL);
                             if (res < 8) {
-                                r7 = TRUE;
+                                collided = TRUE;
                                 p->qWorldX -= res;
                                 p->unk26 = sp00;
                             }
                         }
 
-                        if (!r7 && (p->qSpeedAirX >= 0)) {
+                        if (!collided && (p->qSpeedAirX >= 0)) {
                             res = sub_80110E8(1, p, &sp00, NULL);
                             if (res < 8) {
-                                r7 = TRUE;
+                                collided = TRUE;
                                 p->qWorldX += res;
                                 p->unk26 = sp00;
                             }
@@ -109,28 +109,28 @@ void Task_Interactable116(void)
                             qSpeedY = -qSpeedY;
                         }
 
-                        if ((!r7) && (qSpeedY <= 0)) {
+                        if ((!collided) && (qSpeedY <= 0)) {
                             res = sub_80110E8(2, p, &sp00, NULL);
                             if (res < 8) {
-                                r7 = TRUE;
+                                collided = TRUE;
                                 p->qWorldY -= res;
                                 p->unk26 = sp00;
                             }
                         }
 
-                        if ((!r7) && (qSpeedY >= 0)) {
+                        if ((!collided) && (qSpeedY >= 0)) {
                             res = sub_80110E8(3, p, &sp00, NULL);
                             if (res < 8) {
-                                r7 = TRUE;
+                                collided = TRUE;
                                 p->qWorldY += res;
                                 p->unk26 = sp00;
                             }
                         }
 #ifndef NON_MATCHING
-                        asm("" : "=r"(r7) : "r"(r7));
+                        asm("" : "=r"(collided) : "r"(collided));
 #endif
 
-                        if (r7) {
+                        if (collided) {
                             p->moveState &= ~MOVESTATE_IN_AIR;
 
                             if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {

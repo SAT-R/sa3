@@ -576,7 +576,7 @@ _0804606A:
 	strb r1, [r2, #0xa]
 _0804607A:
 	ldr r1, [r4]
-	ldr r0, _080460AC @ =PlayerCB_800D944
+	ldr r0, _080460AC @ =Player_800D944
 	cmp r1, r0
 	beq _08046088
 	ldr r0, _080460B0 @ =sub_800EB58
@@ -601,7 +601,7 @@ _08046088:
 	b _08046158
 	.align 2, 0
 _080460A8: .4byte 0xFFFFFA00
-_080460AC: .4byte PlayerCB_800D944
+_080460AC: .4byte Player_800D944
 _080460B0: .4byte sub_800EB58
 _080460B4: .4byte 0xEFFFFFDF
 _080460B8:

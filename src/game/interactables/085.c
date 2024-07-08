@@ -69,8 +69,8 @@ void Task_Interactable085(void)
         }
 
         if (!sub_802C080(p) && !(p->moveState & MOVESTATE_IN_AIR)
-            && (p->callback != PlayerCB_800A438) && (p->callback != PlayerCB_8008A8C)
-            && (p->callback != PlayerCB_800ED80)) {
+            && (p->callback != Player_800A438) && (p->callback != Player_8008A8C)
+            && (p->callback != Player_800ED80)) {
             rect[0] = -p->unk24;
             rect[1] = -p->unk25;
             rect[2] = +p->unk24;
@@ -82,12 +82,12 @@ void Task_Interactable085(void)
                 void *cmpCallback;
 
                 if (ia->base.spriteY == 0) {
-                    cmpCallback = PlayerCB_800BD88;
+                    cmpCallback = Player_800BD88;
                 } else {
                     void *callback = p->callback;
-                    cmpCallback = PlayerCB_800BD88;
+                    cmpCallback = Player_800BD88;
 
-                    if (callback == PlayerCB_800BD88) {
+                    if (callback == Player_800BD88) {
                         isExpectedCallback = TRUE;
                     }
 
@@ -105,7 +105,7 @@ void Task_Interactable085(void)
                 p->charFlags.unk2C_02 = 1;
 
                 if (p->callback != cmpCallback) {
-                    SetPlayerCallback(p, (void *)PlayerCB_800BCE0);
+                    SetPlayerCallback(p, (void *)Player_800BCE0);
                 }
             }
         }

@@ -54,7 +54,7 @@ void Task_Toggle_PlayerLayer(void)
 
             if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2
                 || p->charFlags.someIndex == 4) {
-                if ((p->callback != PlayerCB_800DDD0) && (worldX <= I(p->qWorldX))
+                if ((p->callback != Player_800DDD0) && (worldX <= I(p->qWorldX))
                     && (worldX + me->d.uData[2] * TILE_WIDTH >= I(p->qWorldX))
                     && (worldY <= I(p->qWorldY))
                     && (worldY + me->d.uData[3] * TILE_WIDTH >= I(p->qWorldY))) {

@@ -1282,7 +1282,7 @@ _0805CA04:
 	mov r3, r8
 	bl sub_805CB70
 	adds r0, r6, #0
-	bl PlayerCB_800891C
+	bl Player_800891C
 _0805CA1C:
 	ldr r1, [r6, #4]
 	movs r2, #1

@@ -73,11 +73,11 @@ void Task_IA081_082(void)
                     if (ia->unkD[i] == FALSE) {
                         if (!(p->moveState & MOVESTATE_IN_AIR)) {
                             if (p->moveState & MOVESTATE_800000) {
-                                SetPlayerCallback(p, (void *)PlayerCB_80077CC);
+                                SetPlayerCallback(p, (void *)Player_80077CC);
                             } else if (!(p->moveState & MOVESTATE_2)) {
-                                SetPlayerCallback(p, (void *)PlayerCB_8005380);
+                                SetPlayerCallback(p, (void *)Player_8005380);
                             } else {
-                                SetPlayerCallback(p, (void *)PlayerCB_800891C);
+                                SetPlayerCallback(p, (void *)Player_800891C);
                             }
                         }
 

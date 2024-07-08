@@ -339,7 +339,7 @@ _08037500:
 	mov r0, r8
 	cmp r0, #0
 	beq _080375CC
-	ldr r0, _0803752C @ =PlayerCB_8005380
+	ldr r0, _0803752C @ =Player_8005380
 	str r0, [r6]
 	ldr r0, [r6, #4]
 	movs r1, #0x11
@@ -352,7 +352,7 @@ _08037500:
 	str r0, [r6, #4]
 	b _080375CC
 	.align 2, 0
-_0803752C: .4byte PlayerCB_8005380
+_0803752C: .4byte Player_8005380
 _08037530:
 	movs r4, #0
 	ldr r5, [sp, #4]

@@ -408,7 +408,7 @@ _08032E8E:
 	strb r3, [r0]
 _08032EA6:
 	ldr r1, [r4]
-	ldr r0, _08032EEC @ =PlayerCB_800D944
+	ldr r0, _08032EEC @ =Player_800D944
 	cmp r1, r0
 	bne _08032EBE
 	ldr r0, [r4, #4]
@@ -442,7 +442,7 @@ _08032EBE:
 	.align 2, 0
 _08032EE4: .4byte 0x01000100
 _08032EE8: .4byte 0xEFFFFFFF
-_08032EEC: .4byte PlayerCB_800D944
+_08032EEC: .4byte Player_800D944
 _08032EF0:
 	ldr r1, [sp, #0x1c]
 	str r1, [r4, #0x10]

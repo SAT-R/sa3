@@ -270,7 +270,7 @@ _08046C44:
 	cmp r0, #0
 	bne _08046C5C
 	ldr r1, [r5]
-	ldr r0, _08046C74 @ =PlayerCB_800D944
+	ldr r0, _08046C74 @ =Player_800D944
 	cmp r1, r0
 	bne _08046C7C
 _08046C5C:
@@ -286,7 +286,7 @@ _08046C5C:
 	b _08046DEE
 	.align 2, 0
 _08046C70: .4byte gPlayers
-_08046C74: .4byte PlayerCB_800D944
+_08046C74: .4byte Player_800D944
 _08046C78: .4byte 0xCFFFFFFF
 _08046C7C:
 	adds r0, r5, #0
@@ -296,12 +296,12 @@ _08046C7C:
 	b _08046DEE
 _08046C88:
 	ldr r1, [r5]
-	ldr r0, _08046D0C @ =PlayerCB_8008A8C
+	ldr r0, _08046D0C @ =Player_8008A8C
 	cmp r1, r0
 	bne _08046C92
 	b _08046DEE
 _08046C92:
-	ldr r0, _08046D10 @ =PlayerCB_800ED80
+	ldr r0, _08046D10 @ =Player_800ED80
 	cmp r1, r0
 	bne _08046C9A
 	b _08046DEE
@@ -360,8 +360,8 @@ _08046CF4:
 	bl SetPlayerCallback
 	b _08046DEE
 	.align 2, 0
-_08046D0C: .4byte PlayerCB_8008A8C
-_08046D10: .4byte PlayerCB_800ED80
+_08046D0C: .4byte Player_8008A8C
+_08046D10: .4byte Player_800ED80
 _08046D14: .4byte sub_800E5CC
 _08046D18: .4byte gStageData
 _08046D1C: .4byte 0xEFFFFFFF

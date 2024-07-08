@@ -52,7 +52,7 @@ void Task_Interactable135(void)
             p = &gPlayers[p->charFlags.partnerIndex];
         }
 
-        if ((p->callback != PlayerCB_8008A8C) && (p->callback != PlayerCB_800ED80)) {
+        if ((p->callback != Player_8008A8C) && (p->callback != Player_800ED80)) {
             if (!sub_802C080(p)) {
                 s16 qPlayerX = I(p->qWorldX);
                 s16 qPlayerY = I(p->qWorldY);
@@ -67,7 +67,7 @@ void Task_Interactable135(void)
                             continue;
                     }
 
-                    if (p->callback != PlayerCB_800A98C) {
+                    if (p->callback != Player_800A98C) {
                         p->qUnk74 = Q(middleY);
 
                         if (qPlayerY < (middleY)) {
@@ -78,7 +78,7 @@ void Task_Interactable135(void)
 
                         p->idleAndCamCounter = 0;
                         p->qWorldY = Q(middleY);
-                        PlayerCB_800A90C(p);
+                        Player_800A90C(p);
                     }
                 }
             }
