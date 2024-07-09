@@ -1224,7 +1224,7 @@ _0802F400:
 	subs r0, r0, r1
 	str r0, [r4, #0x14]
 	adds r0, r4, #0
-	bl sub_80149E4
+	bl Player_80149E4
 _0802F420:
 	ldr r1, [r7, #0xc]
 	asrs r1, r1, #8
@@ -1639,7 +1639,7 @@ _0802F738:
 	subs r0, r0, r1
 	str r0, [r4, #0x14]
 	adds r0, r4, #0
-	bl sub_80149E4
+	bl Player_80149E4
 _0802F756:
 	ldr r1, [r7, #0xc]
 	asrs r1, r1, #8

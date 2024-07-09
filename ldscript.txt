@@ -40,7 +40,7 @@ SECTIONS {
         build/sa3/asm/ia_058_and_059.o(.text);
         build/sa3/src/game/interactables/060.o(.text);
         build/sa3/asm/ia_061.o(.text);
-        build/sa3/asm/ia_062.o(.text);
+        build/sa3/src/game/interactables/platform_raising_wheel.o(.text);
         build/sa3/asm/ia_063.o(.text);
         build/sa3/asm/ia_064.o(.text);
         build/sa3/asm/ia_065.o(.text);

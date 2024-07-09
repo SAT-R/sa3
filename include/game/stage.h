@@ -53,7 +53,7 @@ typedef struct {
     /* 0x2E */ u16 unk2E[8]; // [0] Used as timer for blue switches
     /* 0x3E */ u16 unk3E[8]; // [2] Used as timer for red switches
     /* 0x4E */ u16 unk4E[8];
-    /* 0x5E */ u16 unk5E[8];
+    /* 0x5E */ s16 unk5E[8];
     /* 0x6E */ u16 unk6E[8];
 
     /* 0x7E */ u8 filler7E[0x2];

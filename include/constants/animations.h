@@ -47,27 +47,27 @@
 #define ANIM_ACT_NAMES_ENG 865
 
 // Interactables
-#define ANIM_SPRING           866
-#define ANIM_LAUNCH_RING      867
-#define ANIM_BOOSTER          868
-#define ANIM_SPIKES           869
-#define ANIM_RAMP             870
-#define ANIM_PLATFORM_R99     871
-#define ANIM_ZONE_TELEPORT    872
-#define ANIM_BOUNCE_BAR       873
-#define ANIM_ROTATING_HANDLE  874
-#define ANIM_CHECKPOINT       875
-#define ANIM_HANG_HANDLE      876
-#define ANIM_PLATFORM_2       877
-#define ANIM_TRAMPOLINE       878
-#define ANIM_INV_PLATFORM_W01 879 // xxx
-#define ANIM_INACTIVE_SPRING  880 // substate 15 = red switch
-#define ANIM_BREAKABLE_WALL   881
-#define ANIM_ROCK             882
-#define ANIM_HORZ_SWITCH      883
-#define ANIM_WHEEL_PLATFORM   884
-#define ANIM_SEESAW           885
-#define ANIM_YELLOW_SPRING_SH 886
+#define ANIM_SPRING                 866
+#define ANIM_LAUNCH_RING            867
+#define ANIM_BOOSTER                868
+#define ANIM_SPIKES                 869
+#define ANIM_RAMP                   870
+#define ANIM_PLATFORM_R99           871
+#define ANIM_ZONE_TELEPORT          872
+#define ANIM_BOUNCE_BAR             873
+#define ANIM_ROTATING_HANDLE        874
+#define ANIM_CHECKPOINT             875
+#define ANIM_HANG_HANDLE            876
+#define ANIM_PLATFORM_2             877
+#define ANIM_TRAMPOLINE             878
+#define ANIM_INV_PLATFORM_W01       879 // xxx
+#define ANIM_INACTIVE_SPRING        880 // substate 15 = red switch
+#define ANIM_BREAKABLE_WALL         881
+#define ANIM_ROCK                   882
+#define ANIM_HORZ_SWITCH            883
+#define ANIM_PLATFORM_RAISING_WHEEL 884
+#define ANIM_SEESAW                 885
+#define ANIM_YELLOW_SPRING_SH       886
 
 #define ANIM_SUNSET_LAUNCHER 891
 #define ANIM_SUNSET_BRIDGE   892

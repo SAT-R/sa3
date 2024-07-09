@@ -10,7 +10,7 @@
 #define MOVESTATE_JUMPING          (MOVESTATE_IN_AIR | MOVESTATE_2)
 #define MOVESTATE_8                0x00000008
 #define MOVESTATE_10               0x00000010
-#define MOVESTATE_20               0x00000020 // Touching switch?
+#define MOVESTATE_20               0x00000020 // Touching switch/wheel/...?
 #define MOVESTATE_40               0x00000040
 #define MOVESTATE_80               0x00000080
 #define MOVESTATE_100              0x00000100

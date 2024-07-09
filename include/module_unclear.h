@@ -31,12 +31,14 @@ void Player_800E5D0(Player *p);
 void Player_800E5EC(Player *p);
 void Player_800E604(Player *p);
 
+// Some collision function
 s32 sub_80110E8(u16, Player *, u8 *, u32 *);
 
 // 0x0800D87C
 void SetPlayerCallback(Player *p, PlayerCallback *callback);
 void sub_800E6CC(Player *p);
 
+void Player_80149E4(Player *p);
 void sub_8016F28(Player *p);
 void sub_8019A64(Player *p);
 
@@ -45,6 +47,8 @@ extern bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, 
 // Collision
 extern u32 sub_8020874(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5,
                        u8 p6);
+u32 sub_8020950(Sprite *s, s32 worldX, s32 worldY, Player *p, void *param4);
+void sub_80213B0(Sprite *s, Player *p);
 
 void sub_80236C8(void *, u8 p1, void *);
 bool32 sub_8023734(void *chaoEwramData);
