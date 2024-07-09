@@ -27,7 +27,7 @@ void CreateEntity_MultiplayerChao(MapEntity *me, u16 regionX, u16 regionY, u8 id
 {
     u32 uData = me->d.uData[4];
 
-    if (gStageData.unk98 == 0) {
+    if (gStageData.task98 == 0) {
         u32 unk56 = gUnknown_03001060.unk56;
 
         if (unk56 == uData) {
@@ -75,7 +75,7 @@ static void Task_MultiplayerChao(void)
         r7 = TRUE;
     }
 
-    if (gStageData.unk98 != 0) {
+    if (gStageData.task98 != 0) {
         r7 = TRUE;
     }
 

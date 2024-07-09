@@ -3,6 +3,13 @@
 
 #include "game/player_controls.h"
 
+typedef struct {
+    u8 filler0[0x16];
+    u16 unk16; // bitfield
+    u8 filler18[0x38];
+    Player *unk50;
+} StageDataTask98; /* size: ??? */
+
 /*                0x030008A0                */
 typedef struct {
     /* 0x00 */ u8 unk0; // @NOTE: unk0 and unk1 referenced as single u16 before, could it
@@ -61,7 +68,7 @@ typedef struct {
     /* 0x8F */ u8 unk8F;
     /* 0x90 */ u32 unk90;
     /* 0x94 */ u32 unk94;
-    /* 0x98 */ u32 unk98;
+    /* 0x98 */ struct Task *task98; // -> StageDataTask98 *
     /* 0x9C */ u32 unk9C;
     /* 0xA0 */ u32 unkA0;
     /* 0xA4 */ u32 unkA4;

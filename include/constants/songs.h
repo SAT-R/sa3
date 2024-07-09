@@ -236,7 +236,7 @@
 #define SE_PICKUP_OMOCHAO_2     0x202 // This plays first
 #define SE_515                  0x203
 #define VOICE__CHAO__COLLECTED  0x204
-#define SE_BONUS_KEY            0x205
+#define SE_SPECIAL_KEY          0x205
 #define SE_518                  0x206
 #define SE_GOAL_MEDAL           0x207
 #define SE_GOAL_MEDAL_RESULT    0x208

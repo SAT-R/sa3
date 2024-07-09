@@ -12,6 +12,9 @@
 
 #define PLAYER_NAME_END_CHAR 0xFFFF
 
+#define CHAO_COLLECTED_BIT(num) (1 << (num))
+#define CHAO_COLLECTED_ALL      0x3FF
+
 #define NUM_MULTIPLAYER_SCORES 10
 #define MAX_MULTIPLAYER_SCORE  99
 

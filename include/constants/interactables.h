@@ -1,9 +1,10 @@
 #ifndef GUARD_CONSTANTS_INTERACTABLES_H
 #define GUARD_CONSTANTS_INTERACTABLES_H
 
-#define IA__IA000      0
-#define IA__CHECKPOINT 54
-#define IA__MUD_FX     95
-#define IA__IA105      105
+#define IA__IA000       0
+#define IA__CHECKPOINT  54
+#define IA__MUD_FX      95
+#define IA__IA105       105
+#define IA__SPECIAL_KEY 141
 
 #endif // GUARD_CONSTANTS_INTERACTABLES_H
