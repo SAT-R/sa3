@@ -23,7 +23,7 @@ void Task_804E934(void);
 void sub_804E8AC(void);
 void TaskDestructor_SpecialKey(struct Task *);
 
-void sub_804E988(Sprite *s);
+static void InitSprite(Sprite *s);
 
 void CreateEntity_SpecialKey(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -60,7 +60,7 @@ void CreateEntity_SpecialKey(MapEntity *me, u16 regionX, u16 regionY, u8 id)
                 s = &key->s;
                 s->x = key->worldX - gCamera.x;
                 s->y = key->worldY - gCamera.y;
-                sub_804E988(s);
+                InitSprite(s);
             }
         }
     }
@@ -155,7 +155,7 @@ void Task_804E934(void)
     }
 }
 
-void sub_804E988(Sprite *s)
+static void InitSprite(Sprite *s)
 {
     s->tiles = ALLOC_TILES(ANIM_SPECIAL_KEY);
     s->anim = ANIM_SPECIAL_KEY;
