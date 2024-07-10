@@ -45,6 +45,7 @@ SECTIONS {
         build/sa3/asm/ia_064.o(.text);
         build/sa3/asm/ia_065.o(.text);
         build/sa3/asm/ia_omochao.o(.text);
+        build/sa3/asm/ia_omochao.o(.text);
         build/sa3/asm/ia_067_and_068.o(.text);
         build/sa3/asm/ia_069_and_070.o(.text);
         build/sa3/asm/ia_grind_rail.o(.text);
@@ -117,7 +118,7 @@ SECTIONS {
         build/sa3/asm/enemy_jousun.o(.text);
         build/sa3/asm/enemy_unknown_code.o(.text);
         build/sa3/asm/enemy_uutsubo.o(.text);
-        build/sa3/asm/enemy_gaogao.o(.text);
+        build/sa3/src/game/enemies/gaogao.o(.text);
         build/sa3/asm/enemy_juggling.o(.text);
         build/sa3/asm/enemy_bu_bu.o(.text);
         build/sa3/asm/enemy_guard.o(.text);

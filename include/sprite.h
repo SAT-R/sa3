@@ -202,6 +202,13 @@ typedef struct {
     /* 0x06 */ u8 variant;
 } TileInfo;
 
+// TileInfo, but ordered differently
+typedef struct {
+    /* 0x00 */ AnimId anim;
+    /* 0x02 */ u8 variant;
+    /* 0x04 */ u32 numTiles;
+} TileInfo2;
+
 typedef struct PACKED {
     /* 0x00 */ u16 numTiles;
     /* 0x02 */ AnimId anim;

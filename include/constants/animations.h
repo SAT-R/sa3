@@ -204,7 +204,7 @@
 #define ANIM_UUTSUBO 1179 /* Yellow Eel */
 
 #define ANIM_BUBU          1181
-#define ANIM_BAOBAO        1182
+#define ANIM_GAOGAO        1182
 #define ANIM_GUARD         1183
 #define ANIM_GUARD_PROJ    1184
 #define ANIM_JUGGLING      1185

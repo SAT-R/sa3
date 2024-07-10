@@ -217,6 +217,11 @@ typedef struct {
 } Vec2_16;
 
 typedef struct {
+    u16 x;
+    u16 y;
+} Vec2_u16;
+
+typedef struct {
     s32 x;
     s32 y;
 } Vec2_32;

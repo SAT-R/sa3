@@ -1089,6 +1089,8 @@ _0805C87C:
 	pop {r1}
 	bx r1
 
+@ Result:
+    @ R0 = bool32
 	thumb_func_start sub_805C890
 sub_805C890: @ 0x0805C890
 	push {r4, r5, r6, r7, lr}

@@ -1,6 +1,7 @@
 #ifndef GUARD_SA3_GAME_STAGE_H
 #define GUARD_SA3_GAME_STAGE_H
 
+#include "game/player.h" // for Player type
 #include "game/player_controls.h"
 
 typedef struct {

@@ -11,6 +11,11 @@
 
 #define TO_WORLD_POS(pos, region) ((pos)*TILE_WIDTH + (region)*CAM_REGION_WIDTH)
 
+// Some entities (e.g. Enemy GaoGao) set the region-internal position
+// on initialization, including the ((pos) * TILE_WIDTH) multiplication.
+// That's why we need a separate macro for those cases.
+#define TO_WORLD_POS_RAW(rawPos, region) ((rawPos) + (region)*CAM_REGION_WIDTH)
+
 #define CAM_BOUND_X ((DISPLAY_WIDTH) + (CAM_REGION_WIDTH))
 #define CAM_BOUND_Y ((DISPLAY_HEIGHT) + ((CAM_REGION_WIDTH) / 2))
 
