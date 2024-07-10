@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable061
-CreateEntity_Interactable061: @ 0x08035CE8
+	thumb_func_start CreateEntity_PlatformRaisingWheel
+CreateEntity_PlatformRaisingWheel: @ 0x08035CE8
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}

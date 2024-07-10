@@ -65,7 +65,7 @@
 #define ANIM_BREAKABLE_WALL         881
 #define ANIM_ROCK                   882
 #define ANIM_FLAT_SPRING            883
-#define ANIM_PLATFORM_RAISING_WHEEL 884
+#define ANIM_PLATFORM_RAISING_WHEEL 884 // 0: Still, 1: Rotating, 2: Platform
 #define ANIM_SEESAW                 885
 #define ANIM_YELLOW_SPRING_SH       886
 
