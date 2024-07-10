@@ -43,7 +43,8 @@ SECTIONS {
         build/sa3/src/game/interactables/platform_raising_wheel.o(.text);
         build/sa3/asm/ia_063.o(.text);
         build/sa3/asm/ia_064.o(.text);
-        build/sa3/asm/ia_065.o(.text);
+        build/sa3/src/game/interactables/flat_spring.o(.text);
+        build/sa3/asm/ia_flat_spring.o(.text);
         build/sa3/asm/ia_omochao.o(.text);
         build/sa3/asm/ia_omochao.o(.text);
         build/sa3/asm/ia_067_and_068.o(.text);

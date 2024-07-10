@@ -64,7 +64,7 @@
 #define ANIM_INACTIVE_SPRING        880 // substate 15 = red switch
 #define ANIM_BREAKABLE_WALL         881
 #define ANIM_ROCK                   882
-#define ANIM_HORZ_SWITCH            883
+#define ANIM_FLAT_SPRING            883
 #define ANIM_PLATFORM_RAISING_WHEEL 884
 #define ANIM_SEESAW                 885
 #define ANIM_YELLOW_SPRING_SH       886

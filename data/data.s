@@ -287,7 +287,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_PlatformRaisingWheel
     .4byte CreateEntity_Interactable063
     .4byte CreateEntity_Interactable064
-    .4byte CreateEntity_Interactable065
+    .4byte CreateEntity_FlatSpring
     .4byte CreateEntity_Interactable066
     .4byte CreateEntity_Interactable067
     .4byte CreateEntity_Interactable068
@@ -460,8 +460,9 @@ gUnknown_080CF5D8:
 gUnknown_080CF638:
     .incbin "baserom.gba", 0x000CF638, 0x48
 
-    .global gUnknown_080CF680
-gUnknown_080CF680:
+    @ IA065 (CreateEntity_FlatSpring)
+    .global sOamFlags
+sOamFlags:
     .incbin "baserom.gba", 0x000CF680, 0x10
 
     .global gUnknown_080CF690
