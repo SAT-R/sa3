@@ -6,7 +6,7 @@
 // Optimize the following settings based on the software
 // specifications
 
-#define MULTI_SIO_BLOCK_SIZE 20 // Communication Data Block Size (Max. 24 Bytes)
+#define MULTI_SIO_BLOCK_SIZE 24 // Communication Data Block Size (Max. 24 Bytes)
 
 #define MULTI_SIO_PLAYERS_MAX 4 // Maximum Number of Players
 
@@ -127,8 +127,8 @@ struct MultiSioArea {
     // Receive Buffer (Triple Buffer)
 };
 
-extern u32 gMultiSioRecvFuncBuf[0x40 / 4]; // Receive Data/Check Buffer Change
-                                           // Routine RAM Execution Buffer
+extern u32 gMultiSioRecvFuncBuf[0x40 / 4]; // Receive Data/Check Buffer Change Routine
+                                           // RAM Execution Buffer
 extern u32 gMultiSioIntrFuncBuf[0x120 / 4]; // Interrupt Routine RAM Execution Buffer
 
 extern struct MultiSioArea gMultiSioArea; // Multi-play Communication Work Area

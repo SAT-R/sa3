@@ -78094,11 +78094,11 @@ _08025DA0:
 	cmp r1, #3
 	ble _08025DA0
 	movs r0, #0
-	bl sub_80C3384
+	bl MultiSioInit
 	ldr r0, _08025DFC @ =gUnknown_03003C40
 	ldr r1, _08025E04 @ =gUnknown_03002B90
 	movs r2, #0
-	bl sub_80C3490
+	bl MultiSioMain
 	ldr r1, _08025E14 @ =gUnknown_03002C64
 	str r0, [r1]
 	ldr r4, _08025E18 @ =gStageData
@@ -78114,7 +78114,7 @@ _08025DA0:
 	ands r1, r0
 	cmp r1, #0
 	beq _08025DEE
-	bl sub_80C37E4
+	bl MultiSioStart
 _08025DEE:
 	ldrb r0, [r4, #6]
 	add sp, #4
@@ -78380,9 +78380,9 @@ sub_8025EEC: @ 0x08025EEC
 	ldr r0, _0802607C @ =gUnknown_03002C68
 	mov r3, r8
 	strb r3, [r0]
-	bl sub_80C3800
+	bl MultiSioStop
 	movs r0, #0
-	bl sub_80C3384
+	bl MultiSioInit
 	add sp, #4
 	pop {r3, r4}
 	mov r8, r3
@@ -78478,9 +78478,9 @@ sub_80260F0: @ 0x080260F0
 	ldr r1, _08026108 @ =gUnknown_03002C68
 	movs r0, #0
 	strb r0, [r1]
-	bl sub_80C3800
+	bl MultiSioStop
 	movs r0, #0
-	bl sub_80C3384
+	bl MultiSioInit
 	pop {r0}
 	bx r0
 	.align 2, 0
@@ -81956,7 +81956,7 @@ _08027B78:
 	str r5, [sp]
 	mov r0, r8
 	movs r3, #4
-	bl sub_80C3E38
+	bl MultiBootStartMaster
 	b _08027C80
 	.align 2, 0
 _08027C40: .4byte gUnknown_03003F40
@@ -82014,7 +82014,7 @@ _08027CC0:
 	cmp r5, #0
 	bne _08027D18
 	ldr r0, _08027D24 @ =gUnknown_03003F40
-	bl sub_80C40D0
+	bl MultiBootCheckComplete
 	cmp r0, #0
 	beq _08027D18
 	adds r0, r7, #0
@@ -82071,12 +82071,12 @@ sub_8027D3C: @ 0x08027D3C
 	ldr r0, _08027D80 @ =gCurTask
 	ldr r0, [r0]
 	ldrh r4, [r0, #6]
-	bl sub_80C3800
+	bl MultiSioStop
 	ldr r2, _08027D84 @ =0x04000208
 	movs r0, #0
 	strh r0, [r2]
 	ldr r1, _08027D88 @ =gIntrTable
-	ldr r0, _08027D8C @ =sub_80C4310
+	ldr r0, _08027D8C @ =Sio32MultiLoadIntr
 	str r0, [r1]
 	movs r0, #1
 	strh r0, [r2]
@@ -82096,13 +82096,13 @@ sub_8027D3C: @ 0x08027D3C
 	movs r1, #0x80
 	ands r0, r1
 	ldr r1, _08027DA0 @ =gUnknown_08E5F6B0
-	bl sub_80C43D8
+	bl Sio32MultiLoadInit
 	b _08027DD2
 	.align 2, 0
 _08027D80: .4byte gCurTask
 _08027D84: .4byte 0x04000208
 _08027D88: .4byte gIntrTable
-_08027D8C: .4byte sub_80C4310
+_08027D8C: .4byte Sio32MultiLoadIntr
 _08027D90: .4byte 0x030000DE
 _08027D94: .4byte gSaveGame
 _08027D98: .4byte 0x00000366
@@ -82114,7 +82114,7 @@ _08027DA4:
 	movs r1, #0x80
 	ands r0, r1
 	ldr r1, _08027DB8 @ =gUnknown_08E5C244
-	bl sub_80C43D8
+	bl Sio32MultiLoadInit
 	b _08027DD2
 	.align 2, 0
 _08027DB4: .4byte gUnknown_03002C64
@@ -82129,7 +82129,7 @@ _08027DBC:
 	lsls r1, r1, #2
 	adds r1, r1, r2
 	ldr r1, [r1]
-	bl sub_80C43D8
+	bl Sio32MultiLoadInit
 _08027DD2:
 	ldr r0, _08027DEC @ =gCurTask
 	ldr r1, [r0]
@@ -82158,7 +82158,7 @@ sub_8027DF4: @ 0x08027DF4
 	movs r0, #0
 	str r0, [sp]
 	mov r0, sp
-	bl sub_80C412C
+	bl Sio32MultiLoadMain
 	cmp r0, #0
 	beq _08027E18
 	ldr r1, [r5]
@@ -82253,14 +82253,14 @@ _08027EAE:
 	strb r1, [r0]
 	ldr r1, _08027F18 @ =gUnknown_03002B90
 	ldrb r2, [r2]
-	bl sub_80C3490
+	bl MultiSioMain
 	str r0, [r4]
 	adds r4, r5, #0
 	adds r4, #0xdf
 	ldrb r0, [r4]
 	cmp r0, #0
 	bne _08027EDA
-	bl sub_80C37E4
+	bl MultiSioStart
 	movs r0, #1
 	strb r0, [r4]
 _08027EDA:
@@ -82859,7 +82859,7 @@ sub_80283CC: @ 0x080283CC
 	adds r2, #0x4b
 	movs r1, #0
 	strb r1, [r2]
-	bl sub_80C4094
+	bl MultiBootInit
 	ldr r1, [r5]
 	ldr r0, _08028414 @ =sub_8027B34
 	str r0, [r1, #8]
@@ -82911,7 +82911,7 @@ sub_8028448: @ 0x08028448
 	ldr r1, [r4]
 	ldr r0, _08028474 @ =sub_8027E70
 	str r0, [r1, #8]
-	bl sub_80C37E4
+	bl MultiSioStart
 	bl sub_8028338
 	pop {r4}
 	pop {r0}
@@ -82982,7 +82982,7 @@ sub_80284E8: @ 0x080284E8
 	movs r5, #0
 	strh r5, [r2]
 	ldr r1, _08028524 @ =gIntrTable
-	ldr r0, _08028528 @ =gUnknown_03006870
+	ldr r0, _08028528 @ =gMultiSioIntrFuncBuf
 	str r0, [r1]
 	movs r0, #1
 	strh r0, [r2]
@@ -82992,7 +82992,7 @@ sub_80284E8: @ 0x080284E8
 	lsls r1, r1, #4
 	ands r0, r1
 	lsrs r0, r0, #8
-	bl sub_80C3384
+	bl MultiSioInit
 	adds r1, r4, #0
 	adds r1, #0xdd
 	movs r0, #0
@@ -83006,14 +83006,14 @@ sub_80284E8: @ 0x080284E8
 	.align 2, 0
 _08028520: .4byte 0x04000208
 _08028524: .4byte gIntrTable
-_08028528: .4byte gUnknown_03006870
+_08028528: .4byte gMultiSioIntrFuncBuf
 _0802852C: .4byte gUnknown_03002C64
 
 	thumb_func_start sub_8028530
 sub_8028530: @ 0x08028530
 	push {lr}
 	ldr r0, _08028550 @ =gUnknown_03003F40
-	bl sub_80C3850
+	bl MultiBootMain
 	cmp r0, #0x50
 	beq _08028548
 	cmp r0, #0x60

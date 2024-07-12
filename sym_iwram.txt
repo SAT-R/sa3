@@ -1,4 +1,7 @@
 
+. = 0x0000041c;
+build/sa3/src/multi_boot.o(.bss)
+
 . = 0x00000440;
 build/sa3/src/lib/agb_flash/agb_flash.o(.bss);
 
@@ -225,10 +228,10 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 . = 0x00006860; gUnknown_03006860 = .;
 . = 0x00006864; gExecSoundMain = .;
 . = 0x00006868; gUnknown_03006868 = .;
-. = 0x00006870; gUnknown_03006870 = .;
-. = 0x00006990; gUnknown_03006990 = .;
-. = 0x00006BB0; gUnknown_03006BB0 = .;
-. = 0x00006BF0; gUnknown_03006BF0 = .;
+. = 0x00006870; gMultiSioIntrFuncBuf = .;
+. = 0x00006990; gMultiSioArea = .;
+. = 0x00006BB0; gMultiSioRecvFuncBuf = .;
+. = 0x00006BF0; gSio32MultiLoadArea = .;
 . = 0x00006C10; gUnknown_03006C10 = .;
 . = 0x00006C1C; gUnknown_03006C1C = .;
 . = 0x00006C20; gUnknown_03006C20 = .;
