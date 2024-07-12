@@ -1,25 +1,24 @@
 #ifndef GUARD_CONSTANTS_SONGS_H
 #define GUARD_CONSTANTS_SONGS_H
 
-#define MUS_INTRO                   0x0
-#define MUS_TITLE_SCREEN            0x1
-#define MUS_MAIN_MENU               0x2
-#define MUS_CHARACTER_SELECT        0x3
-#define MUS_SONIC_FACTORY           0x4
-#define MUS_OPTIONS                 0x5
-#define MUS_OPTIONS_COPY            0x6
-#define MUS_CHAO_PLAYGROUND         0x7
-#define MUS_NEWGAME_INTRO           0x8
-#define MUS_DUMMY__9                0x9
-#define MUS_OVERWORLD__ROUTE_99     0xA
-#define MUS_OVERWORLD__SUNSET_HILL  0xB
-#define MUS_OVERWORLD__OCEAN_BASE   0xC
-#define MUS_OVERWORLD__TOY_KINGDOM  0xD
-#define MUS_OVERWORLD__TWINKLE_SNOW 0xE
-#define MUS_OVERWORLD__CYBER_TRACK  0xF
-#define MUS_OVERWORLD__CHAOS_ANGEL  0x10
-#define MUS_OVERWORLD__ALTAR_EMERALD                                                    \
-    0x11 // @TODO: Find better name? (Not really an overworld in Altar Emerald's case)
+#define MUS_INTRO                    0x0
+#define MUS_TITLE_SCREEN             0x1
+#define MUS_MAIN_MENU                0x2
+#define MUS_CHARACTER_SELECT         0x3
+#define MUS_SONIC_FACTORY            0x4
+#define MUS_OPTIONS                  0x5
+#define MUS_OPTIONS_COPY             0x6
+#define MUS_CHAO_PLAYGROUND          0x7
+#define MUS_NEWGAME_INTRO            0x8
+#define MUS_DUMMY__9                 0x9
+#define MUS_OVERWORLD__ROUTE_99      0xA
+#define MUS_OVERWORLD__SUNSET_HILL   0xB
+#define MUS_OVERWORLD__OCEAN_BASE    0xC
+#define MUS_OVERWORLD__TOY_KINGDOM   0xD
+#define MUS_OVERWORLD__TWINKLE_SNOW  0xE
+#define MUS_OVERWORLD__CYBER_TRACK   0xF
+#define MUS_OVERWORLD__CHAOS_ANGEL   0x10
+#define MUS_OVERWORLD__ALTAR_EMERALD 0x11 // @TODO: Find better name? (Not really an overworld in Altar Emerald's case)
 
 #define MUS_INTACT_MUSIC_1 0x12
 #define MUS_DUMMY__19      0x13
@@ -89,16 +88,15 @@
 #define MUS_DUMMY__74     0x4A
 #define MUS_DROWNING      0x4B
 
-#define MUS_MINIGAME  0x4C
-#define MUS_DUMMY__77 0x4D
-#define MUS_78        0x4E
-#define MUS_ENDING_A_COPY                                                               \
-    0x4F // @TODO: Find out whether there are differences between this and MUS_ENDING_A
-#define MUS_DUMMY__80   0x50
-#define MUS_EMERALD_GET 0x51
-#define MUS_GAME_OVER   0x52
-#define MUS_1_UP        0x53
-#define MUS_EXTRALIFE   0x53
+#define MUS_MINIGAME      0x4C
+#define MUS_DUMMY__77     0x4D
+#define MUS_78            0x4E
+#define MUS_ENDING_A_COPY 0x4F // @TODO: Find out whether there are differences between this and MUS_ENDING_A
+#define MUS_DUMMY__80     0x50
+#define MUS_EMERALD_GET   0x51
+#define MUS_GAME_OVER     0x52
+#define MUS_1_UP          0x53
+#define MUS_EXTRALIFE     0x53
 
 #define MUS_STAGE_CLEAR_GOLD    0x54
 #define MUS_STAGE_CLEAR         0x55

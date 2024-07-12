@@ -70,8 +70,7 @@ void Task_FactoryRingMain(void)
                 p = &gPlayers[p->charFlags.partnerIndex];
             }
 
-            if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2
-                || p->charFlags.someIndex == 4) {
+            if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2 || p->charFlags.someIndex == 4) {
                 if (gStageData.entryIndex == 0) {
                     p->qSpeedAirX = FACTORY_RING_SPAWN_SPEED;
                     p->moveState &= ~MOVESTATE_FACING_LEFT;
@@ -107,8 +106,7 @@ void sub_8041248(void)
 
 void CreateEntity_FactoryRing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_FactoryRingMain, sizeof(FactoryRing), 0x2100, 0,
-                                TaskDestructor_FactoryRing);
+    struct Task *t = TaskCreate(Task_FactoryRingMain, sizeof(FactoryRing), 0x2100, 0, TaskDestructor_FactoryRing);
     FactoryRing *ring = TASK_DATA(t);
     Sprite *s;
 

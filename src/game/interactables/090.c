@@ -33,11 +33,9 @@ void Task_Interactable090Main(void)
             p = &gPlayers[gStageData.charId];
         }
 
-        if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2
-            || p->charFlags.someIndex == 4) {
+        if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2 || p->charFlags.someIndex == 4) {
             if (!sub_802C0D4(p)) {
-                if ((ia->left < p->qWorldX) && (ia->right > p->qWorldX)
-                    && (ia->top < p->qWorldY) && (ia->bottom > p->qWorldY)) {
+                if ((ia->left < p->qWorldX) && (ia->right > p->qWorldX) && (ia->top < p->qWorldY) && (ia->bottom > p->qWorldY)) {
                     p->qSpeedGround = Q_24_8_MULTIPLY(p->qSpeedGround, 0.96875);
                     p->qSpeedAirX = Q_24_8_MULTIPLY(p->qSpeedAirX, 0.96875);
                     p->qSpeedAirY = Q_24_8_MULTIPLY(p->qSpeedAirY, 0.96875);
@@ -63,8 +61,7 @@ void Task_Interactable090Main(void)
 void CreateEntity_Interactable090(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     IA_090 *ia;
-    struct Task *t
-        = TaskCreate(Task_Interactable090Main, sizeof(IA_090), 0x2100, 0, NULL);
+    struct Task *t = TaskCreate(Task_Interactable090Main, sizeof(IA_090), 0x2100, 0, NULL);
     s32 qWorldX;
     s32 qWorldY;
     ia = TASK_DATA(t);

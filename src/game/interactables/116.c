@@ -26,8 +26,7 @@ void TaskDestructor_Interactable116(struct Task *t);
 
 void CreateEntity_Interactable116(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_Interactable116, sizeof(IA_116), 0x2100, 0,
-                                TaskDestructor_Interactable116);
+    struct Task *t = TaskCreate(Task_Interactable116, sizeof(IA_116), 0x2100, 0, TaskDestructor_Interactable116);
     IA_116 *ia = TASK_DATA(t);
 
     ia->base.regionX = regionX;
@@ -63,10 +62,8 @@ void Task_Interactable116(void)
             p = &gPlayers[p->charFlags.partnerIndex];
         }
 
-        if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2
-            || p->charFlags.someIndex == 4) {
-            if (!sub_802C0D4(p) && (p->callback != Player_8008A8C)
-                && (p->callback != Player_800ED80)) {
+        if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2 || p->charFlags.someIndex == 4) {
+            if (!sub_802C0D4(p) && (p->callback != Player_8008A8C) && (p->callback != Player_800ED80)) {
                 s8 unk24;
                 s16 unk25;
                 s16 worldX, worldY;
@@ -78,14 +75,11 @@ void Task_Interactable116(void)
                 unk24 = p->unk24;
                 unk25 = p->unk25;
                 if (((ia->left <= (worldX + unk24)) && (ia->right >= (worldX - unk24)))
-                    && ((ia->top <= (worldY + unk25))
-                        && (ia->bottom >= (worldY - unk25)))) {
+                    && ((ia->top <= (worldY + unk25)) && (ia->bottom >= (worldY - unk25)))) {
                     s32 res;
                     bool32 collided = 0;
 
-                    if ((p->moveState & MOVESTATE_IN_AIR)
-                        || ((p->callback != Player_800B240)
-                            && (p->callback != Player_800B3FC))) {
+                    if ((p->moveState & MOVESTATE_IN_AIR) || ((p->callback != Player_800B240) && (p->callback != Player_800B3FC))) {
                         if (p->qSpeedAirX <= 0) {
                             res = sub_80110E8(0, p, &sp00, NULL);
                             if (res < 8) {

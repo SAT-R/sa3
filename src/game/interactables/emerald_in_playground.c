@@ -26,9 +26,7 @@ void CreateEntity_EmeraldInPlayground(MapEntity *me, u16 regionX, u16 regionY, u
     bool32 wasCollected = (gSaveGame.collectedEmeralds >> gStageData.zone) & 0x1;
 
     if (wasCollected) {
-        struct Task *t
-            = TaskCreate(Task_EmeraldInPlaygroundMain, sizeof(PlaygroundEmerald), 0x2100,
-                         0, TaskDestructor_EmeraldInPlayground);
+        struct Task *t = TaskCreate(Task_EmeraldInPlaygroundMain, sizeof(PlaygroundEmerald), 0x2100, 0, TaskDestructor_EmeraldInPlayground);
         PlaygroundEmerald *emerald = TASK_DATA(t);
         Sprite *s;
 

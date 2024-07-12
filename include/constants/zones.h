@@ -33,24 +33,20 @@
 
 #define LEVEL_TO_ZONE(level) ((level) >> 2)
 // ((((level) / (ACTS_PER_ZONE + 1)) * 2) | ((level) & 1))
-#define LEVEL_TO_COURSE_INDEX(level)                                                    \
-    ((((level) / ACT_SLOTS_PER_ZONE) << 0x19 >> 0x18) | ((level)&1))
+#define LEVEL_TO_COURSE_INDEX(level)        ((((level) / ACT_SLOTS_PER_ZONE) << 0x19 >> 0x18) | ((level)&1))
 #define COURSE_LEVEL_TO_COURSE_INDEX(level) (((level) >> 1) + ((level)&1))
 
 #define COURSE_INDEX(zone, act) (LEVEL_TO_COURSE_INDEX(LEVEL_INDEX(zone, act)))
 
 #define CHAOS_EMERALD(zone) (1 << (zone))
-#define ALL_ZONE_CHAOS_EMERALDS                                                         \
-    (CHAOS_EMERALD(ZONE_1) | CHAOS_EMERALD(ZONE_2) | CHAOS_EMERALD(ZONE_3)              \
-     | CHAOS_EMERALD(ZONE_4) | CHAOS_EMERALD(ZONE_5) | CHAOS_EMERALD(ZONE_6)            \
-     | CHAOS_EMERALD(ZONE_7))
+#define ALL_ZONE_CHAOS_EMERALDS                                                                                                            \
+    (CHAOS_EMERALD(ZONE_1) | CHAOS_EMERALD(ZONE_2) | CHAOS_EMERALD(ZONE_3) | CHAOS_EMERALD(ZONE_4) | CHAOS_EMERALD(ZONE_5)                 \
+     | CHAOS_EMERALD(ZONE_6) | CHAOS_EMERALD(ZONE_7))
 
 #define CHAOS_EMERALDS_COMPLETED CHAOS_EMERALD(7)
 
-#define IS_BOSS_STAGE(lvl)                                                              \
-    ((ACT_INDEX(lvl) == ACT_BOSS)                                                       \
-     || (((lvl) == LEVEL_INDEX(ZONE_FINAL, ACT_XX_FINAL_ZONE))                          \
-         && (gUnknown_030054B0 == 0))                                                   \
+#define IS_BOSS_STAGE(lvl)                                                                                                                 \
+    ((ACT_INDEX(lvl) == ACT_BOSS) || (((lvl) == LEVEL_INDEX(ZONE_FINAL, ACT_XX_FINAL_ZONE)) && (gUnknown_030054B0 == 0))                   \
      || (((lvl) == LEVEL_INDEX(ZONE_FINAL, ACT_TRUE_AREA_53))))
 
 #endif // GUARD_ZONES_H

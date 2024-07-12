@@ -31,8 +31,7 @@ void CreateEntity_MultiplayerChao(MapEntity *me, u16 regionX, u16 regionY, u8 id
         u32 unk56 = gUnknown_03001060.unk56;
 
         if (unk56 == uData) {
-            struct Task *t = TaskCreate(Task_MultiplayerChao, sizeof(IA_MP024), 0x2100,
-                                        0, TaskDestructor_MultiplayerChao);
+            struct Task *t = TaskCreate(Task_MultiplayerChao, sizeof(IA_MP024), 0x2100, 0, TaskDestructor_MultiplayerChao);
             IA_MP024 *ia = TASK_DATA(t);
             Sprite *s;
 

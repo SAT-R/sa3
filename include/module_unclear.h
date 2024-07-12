@@ -45,8 +45,7 @@ void sub_8019A64(Player *p);
 extern bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5);
 
 // Collision
-extern u32 sub_8020874(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5,
-                       u8 p6);
+extern u32 sub_8020874(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5, u8 p6);
 u32 sub_8020950(Sprite *s, s32 worldX, s32 worldY, Player *p, void *param4);
 void sub_80213B0(Sprite *s, Player *p);
 

@@ -27,11 +27,9 @@ typedef struct {
 static void Task_Interactable117_to_119(void);
 static void TaskDestructor_Interactable117_to_119(struct Task *);
 
-static void CreateEntity_Interactable117_to_119(u16 type, MapEntity *me, u16 regionX,
-                                                u16 regionY, u8 id)
+static void CreateEntity_Interactable117_to_119(u16 type, MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_Interactable117_to_119, sizeof(IA117_119), 0x2100,
-                                0, TaskDestructor_Interactable117_to_119);
+    struct Task *t = TaskCreate(Task_Interactable117_to_119, sizeof(IA117_119), 0x2100, 0, TaskDestructor_Interactable117_to_119);
     IA117_119 *ia = TASK_DATA(t);
 
     ia->base.regionX = regionX;
@@ -67,15 +65,13 @@ void Task_Interactable117_to_119(void)
             p = &gPlayers[p->charFlags.partnerIndex];
         }
 
-        if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2
-            || p->charFlags.someIndex == 4) {
+        if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2 || p->charFlags.someIndex == 4) {
             if (!sub_802C0D4(p) && (p->callback != Player_800DDD0)) {
                 s16 pWorldX, pWorldY;
                 pWorldX = I(p->qWorldX);
                 pWorldY = I(p->qWorldY);
 
-                if ((ia->left > pWorldX) || (ia->right < pWorldX) || (ia->top > pWorldY)
-                    || (ia->bottom < pWorldY)) {
+                if ((ia->left > pWorldX) || (ia->right < pWorldX) || (ia->top > pWorldY) || (ia->bottom < pWorldY)) {
                     if (ia->type == IA117_TYPE_0) {
                         if ((ia->unk19 >> i) & 0x1) {
                             ia->unk19 &= ~(1 << i);

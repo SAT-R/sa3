@@ -38,12 +38,10 @@ void CreateEntity_SpecialKey(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     bit = i;
 
-    if ((gStageData.gameMode == GAME_MODE_SINGLE_PLAYER)
-        && (gStageData.flagSpKey == 0)) {
+    if ((gStageData.gameMode == GAME_MODE_SINGLE_PLAYER) && (gStageData.flagSpKey == 0)) {
         if (gSaveGame.chaoCount[gStageData.zone] == CHAO_COLLECTED_ALL) {
             if ((bit & 1) == (gStageData.unk86 & 1)) {
-                struct Task *t = TaskCreate(Task_SpecialKey, sizeof(SpecialKey), 0x2100,
-                                            0, TaskDestructor_SpecialKey);
+                struct Task *t = TaskCreate(Task_SpecialKey, sizeof(SpecialKey), 0x2100, 0, TaskDestructor_SpecialKey);
                 SpecialKey *key = TASK_DATA(t);
                 Sprite *s;
 
@@ -94,8 +92,8 @@ void Task_SpecialKey(void)
         sub_8003DF0(SE_SPECIAL_KEY);
     } else {
         Player *p2 = task98->unk50;
-        if (((p2->charFlags.someIndex == 1) || (p2->charFlags.someIndex == 4))
-            && ((task98->unk16 & 0x6) == 0x6) && (sub_805C510(s) == TRUE)) {
+        if (((p2->charFlags.someIndex == 1) || (p2->charFlags.someIndex == 4)) && ((task98->unk16 & 0x6) == 0x6)
+            && (sub_805C510(s) == TRUE)) {
             TaskDestroy(gCurTask);
             gStageData.flagSpKey = 1;
             sub_8003DF0(SE_SPECIAL_KEY);

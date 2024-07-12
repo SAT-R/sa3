@@ -35,8 +35,7 @@ void sub_8040814(void);
 
 void CreateEntity_Interactable095(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_Interactable095, sizeof(IA_095), 0x2100, 0,
-                                TaskDestructor_Interactable095);
+    struct Task *t = TaskCreate(Task_Interactable095, sizeof(IA_095), 0x2100, 0, TaskDestructor_Interactable095);
     IA_095 *ia = TASK_DATA(t);
     Sprite *s = &ia->s;
     Player *p;
@@ -75,18 +74,15 @@ void Task_Interactable095(void)
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         Player *p = ia->chars[i];
-        if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2
-            || p->charFlags.someIndex == 4) {
+        if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2 || p->charFlags.someIndex == 4) {
 
             if (!sub_802C080(p)) {
                 if ((p->callback != Player_8008A8C) && (p->callback != Player_800ED80)) {
-                    if ((ia->unk1C < p->qWorldX) && (ia->unk20 > p->qWorldX)
-                        && (ia->unk14 < p->qWorldY) && (ia->unk18 > p->qWorldY)) {
+                    if ((ia->unk1C < p->qWorldX) && (ia->unk20 > p->qWorldX) && (ia->unk14 < p->qWorldY) && (ia->unk18 > p->qWorldY)) {
                         p->qSpeedAirX = (p->qSpeedAirX * 15) >> 4;
                         p->qSpeedAirY = (p->qSpeedAirY * 15) >> 4;
 
-                        if ((p->moveState & MOVESTATE_IN_AIR)
-                            && (p->callback != Player_800EB5C)) {
+                        if ((p->moveState & MOVESTATE_IN_AIR) && (p->callback != Player_800EB5C)) {
                             p->charFlags.anim0 = 11;
                             SetPlayerCallback(p, (void *)Player_800EB5C);
                         }

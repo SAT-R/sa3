@@ -50,16 +50,16 @@ struct Unk_03003674 {
 // No idea why this exists when there is a
 // better random number generator in the math
 // module
-#define PseudoRandom32()                                                                \
-    ({                                                                                  \
-        gPseudoRandom = (gPseudoRandom * 0x196225) + 0x3C6EF35F;                        \
-        gPseudoRandom;                                                                  \
+#define PseudoRandom32()                                                                                                                   \
+    ({                                                                                                                                     \
+        gPseudoRandom = (gPseudoRandom * 0x196225) + 0x3C6EF35F;                                                                           \
+        gPseudoRandom;                                                                                                                     \
     })
 
-#define MultiplayerPseudoRandom32()                                                     \
-    ({                                                                                  \
-        gMultiplayerPseudoRandom = (gMultiplayerPseudoRandom * 0x196225) + 0x3C6EF35F;  \
-        gMultiplayerPseudoRandom;                                                       \
+#define MultiplayerPseudoRandom32()                                                                                                        \
+    ({                                                                                                                                     \
+        gMultiplayerPseudoRandom = (gMultiplayerPseudoRandom * 0x196225) + 0x3C6EF35F;                                                     \
+        gMultiplayerPseudoRandom;                                                                                                          \
     })
 #define PseudoRandBetween(min, max) ((PseudoRandom32() & ((-min) + (max))) + (min))
 

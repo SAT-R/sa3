@@ -66,8 +66,7 @@ void sub_8058C74(Spinner *spinner)
 
 void CreateEntity_Spinner(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_SpinnerMain, sizeof(Spinner), 0x2100, 0,
-                                TaskDestructor_Spinner);
+    struct Task *t = TaskCreate(Task_SpinnerMain, sizeof(Spinner), 0x2100, 0, TaskDestructor_Spinner);
     Spinner *spinner = TASK_DATA(t);
     u16 zero;
 

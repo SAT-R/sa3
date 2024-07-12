@@ -14,8 +14,7 @@
 
 void Task_IA081_082(void);
 void TaskDestructor_IA081_082(struct Task *t);
-static void Create_Interactable081or082(u8 type, MapEntity *me, u16 regionX, u16 regionY,
-                                        u8 id);
+static void Create_Interactable081or082(u8 type, MapEntity *me, u16 regionX, u16 regionY, u8 id);
 
 typedef struct {
     /* 0x00 */ SpriteBase base;
@@ -64,11 +63,9 @@ void Task_IA081_082(void)
             p = &gPlayers[p->charFlags.partnerIndex];
         }
 
-        if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2
-            || p->charFlags.someIndex == 4) {
+        if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2 || p->charFlags.someIndex == 4) {
             if (!sub_802C0D4(p)) {
-                if ((p->qWorldX > qLeft) && (p->qWorldX < qRight) && (p->qWorldY > qTop)
-                    && (p->qWorldY < qBottom)) {
+                if ((p->qWorldX > qLeft) && (p->qWorldX < qRight) && (p->qWorldY > qTop) && (p->qWorldY < qBottom)) {
                     // __ia_ptr
                     if (ia->unkD[i] == FALSE) {
                         if (!(p->moveState & MOVESTATE_IN_AIR)) {
@@ -135,11 +132,9 @@ void CreateEntity_Interactable082(MapEntity *me, u16 regionX, u16 regionY, u8 id
 
 void TaskDestructor_IA081_082(struct Task *t) { }
 
-static void Create_Interactable081or082(u8 type, MapEntity *me, u16 regionX, u16 regionY,
-                                        u8 id)
+static void Create_Interactable081or082(u8 type, MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_IA081_082, sizeof(IA081_082), 0x2100, 0,
-                                TaskDestructor_IA081_082);
+    struct Task *t = TaskCreate(Task_IA081_082, sizeof(IA081_082), 0x2100, 0, TaskDestructor_IA081_082);
     IA081_082 *ia = TASK_DATA(t);
 
     ia->base.regionX = regionX;

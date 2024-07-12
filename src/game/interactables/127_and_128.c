@@ -55,13 +55,10 @@ void Task_Interactable127(void)
             p = &gPlayers[p->charFlags.partnerIndex];
         }
 
-        if ((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2)
-            || (p->charFlags.someIndex == 4)) {
+        if ((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) {
             if (!sub_802C0D4(p)) {
-                if ((p->callback != Player_800E604)
-                    && !(p->moveState & MOVESTATE_IN_AIR))
-                    if ((p->qWorldX > qLeft) && (p->qWorldX < qRight)
-                        && (p->qWorldY > qTop) && (p->qWorldY < qBottom)) {
+                if ((p->callback != Player_800E604) && !(p->moveState & MOVESTATE_IN_AIR))
+                    if ((p->qWorldX > qLeft) && (p->qWorldX < qRight) && (p->qWorldY > qTop) && (p->qWorldY < qBottom)) {
                         if (ia->unk14) {
                             SetPlayerCallback(p, (void *)Player_800E5EC);
                         } else {
@@ -107,8 +104,7 @@ void Task_Interactable128(void)
         }
 
         if (!sub_802C0D4(p)) {
-            if ((p->callback == Player_800E604) && (p->qWorldX > qLeft)
-                && (p->qWorldX < qRight) && (p->qWorldY > qTop)
+            if ((p->callback == Player_800E604) && (p->qWorldX > qLeft) && (p->qWorldX < qRight) && (p->qWorldY > qTop)
                 && (p->qWorldY < qBottom)) {
                 sub_8016F28(p);
                 sub_8004F10(p, SE_599);
@@ -120,8 +116,7 @@ void Task_Interactable128(void)
 
 void CreateEntity_Interactable127(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_Interactable127, sizeof(IA127_128), 0x2100, 0,
-                                TaskDestructor_Interactable127);
+    struct Task *t = TaskCreate(Task_Interactable127, sizeof(IA127_128), 0x2100, 0, TaskDestructor_Interactable127);
 
     IA127_128 *ia = TASK_DATA(t);
     ia->base.regionX = regionX;
@@ -141,8 +136,7 @@ void CreateEntity_Interactable127(MapEntity *me, u16 regionX, u16 regionY, u8 id
 
 void CreateEntity_Interactable128(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_Interactable128, sizeof(IA127_128), 0x2100, 0,
-                                TaskDestructor_Interactable128);
+    struct Task *t = TaskCreate(Task_Interactable128, sizeof(IA127_128), 0x2100, 0, TaskDestructor_Interactable128);
 
     IA127_128 *ia = TASK_DATA(t);
     ia->base.regionX = regionX;

@@ -41,8 +41,7 @@ bool32 sub_805E1F0(GaoGao *);
 
 void CreateEntity_GaoGao(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t
-        = TaskCreate(Task_GaoGao, sizeof(GaoGao), 0x2100, 0, TaskDestructor_GaoGao);
+    struct Task *t = TaskCreate(Task_GaoGao, sizeof(GaoGao), 0x2100, 0, TaskDestructor_GaoGao);
     GaoGao *enemy = TASK_DATA(t);
     s32 qX, qY;
 
@@ -138,8 +137,7 @@ void Task_805E0AC(void)
         return;
     }
 
-    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)
-        && (acmdRes == ACMD_RESULT__ENDED)) {
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4) && (acmdRes == ACMD_RESULT__ENDED)) {
         Sprite *s = &enemy->s;
 
         if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {

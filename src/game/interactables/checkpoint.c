@@ -24,8 +24,7 @@ void sub_8033C64(void);
 
 void CreateEntity_Checkpoint(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_Checkpoint, sizeof(Checkpoint), 0x2100, 0,
-                                TaskDestructor_Checkpoint);
+    struct Task *t = TaskCreate(Task_Checkpoint, sizeof(Checkpoint), 0x2100, 0, TaskDestructor_Checkpoint);
     Checkpoint *checkpoint = TASK_DATA(t);
     Sprite *s;
     s16 i;
@@ -92,8 +91,7 @@ void Task_Checkpoint(void)
 
                     if (gStageData.gameMode >= GAME_MODE_5) {
                         if (p->charFlags.someIndex == 1) {
-                            sub_80274F4(checkpoint->unk34 & 0x7, gStageData.respawnX,
-                                        gStageData.respawnY);
+                            sub_80274F4(checkpoint->unk34 & 0x7, gStageData.respawnX, gStageData.respawnY);
                         }
                     }
                 }

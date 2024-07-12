@@ -26,8 +26,7 @@ extern const u32 sOamFlags[4];
 
 void CreateEntity_FlatSpring(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_FlatSpring, sizeof(FlatSpring), 0x2100, 0,
-                                TaskDestructor_FlatSpring);
+    struct Task *t = TaskCreate(Task_FlatSpring, sizeof(FlatSpring), 0x2100, 0, TaskDestructor_FlatSpring);
     FlatSpring *spring = TASK_DATA(t);
     Sprite *s = &spring->s;
     s32 sb = 0;

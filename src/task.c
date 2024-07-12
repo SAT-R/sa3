@@ -70,8 +70,7 @@ u32 TasksInit(void)
     return 1;
 }
 
-struct Task *TaskCreate(TaskMain taskMain, u16 structSize, u16 priority, u16 flags,
-                        TaskDestructor taskDestructor)
+struct Task *TaskCreate(TaskMain taskMain, u16 structSize, u16 priority, u16 flags, TaskDestructor taskDestructor)
 {
     struct Task *slow;
     struct Task *task;
@@ -145,8 +144,7 @@ void TaskDestroy(struct Task *task)
                 // can only happen in (implicitly) recursive TaskDestroy calls (from
                 // task->dtor) in TasksDestroyInPriorityRange
                 if (task == gNextTaskToCheckForDestruction) {
-                    gNextTaskToCheckForDestruction
-                        = (struct Task *)(task->next + IWRAM_START);
+                    gNextTaskToCheckForDestruction = (struct Task *)(task->next + IWRAM_START);
                 }
 
                 prev = TASK_PTR(task->prev);
@@ -315,8 +313,7 @@ static void sub_80BD1E0(void)
                 cur->state += ((struct IwramNode *)IWRAM_PTR(cur->next))->state;
                 cur->next = ((struct IwramNode *)IWRAM_PTR(cur->next))->next;
             } else {
-                nextNodeSpace = (u32)cur->next
-                    + (u8 *)IWRAM_PTR(offsetof(struct IwramNode, space));
+                nextNodeSpace = (u32)cur->next + (u8 *)IWRAM_PTR(offsetof(struct IwramNode, space));
                 space = cur->space;
                 curStateBackup = cur->state;
                 cur->state = ((struct IwramNode *)IWRAM_PTR(cur->next))->state;
@@ -333,8 +330,7 @@ static void sub_80BD1E0(void)
                     }
                 }
 
-                DmaCopy32(3, nextNodeSpace, space,
-                          cur->state + sizeof(struct IwramNode));
+                DmaCopy32(3, nextNodeSpace, space, cur->state + sizeof(struct IwramNode));
                 {
                     struct IwramNode *newLoc = (void *)cur + cur->state;
                     newLoc->next = cur->next;
@@ -402,8 +398,7 @@ void TasksDestroyInPriorityRange(u16 lbound, u16 rbound)
         if (cur->priority >= lbound) {
             lbound = 0;
             while (cur->priority < rbound) {
-                gNextTaskToCheckForDestruction
-                    = (struct Task *)(cur->next + (IWRAM_START));
+                gNextTaskToCheckForDestruction = (struct Task *)(cur->next + (IWRAM_START));
                 if (cur != gTaskPtrs[0] && cur != gTaskPtrs[1]) {
                     TaskDestroy(cur);
                 }

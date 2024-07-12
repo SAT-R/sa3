@@ -56,16 +56,14 @@ static void Task_Interactable094Main(void)
                 p = &gPlayers[p->charFlags.partnerIndex];
             }
 
-            if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2
-                || p->charFlags.someIndex == 4) {
+            if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2 || p->charFlags.someIndex == 4) {
                 if (sub_802C0D4(p)) {
                     sub_8004F10(p, SE_290);
                 } else {
                     s16 pWorldX = I(p->qWorldX);
                     s16 pWorldY = I(p->qWorldY);
 
-                    if ((pWorldX > left) && (pWorldX < right) && (pWorldY > top)
-                        && (pWorldY < bottom)) {
+                    if ((pWorldX > left) && (pWorldX < right) && (pWorldY > top) && (pWorldY < bottom)) {
                         if (ia->unkC) {
                             if (p->charFlags.anim0 == ANIM_CHAR_133) {
                                 sub_8004F10(p, SE_290);
@@ -76,8 +74,7 @@ static void Task_Interactable094Main(void)
                                 ia->unkD[i] = 0;
                             }
 
-                        } else if (((middle - (TILE_WIDTH / 2)) <= pWorldX)
-                                   && ((middle + (TILE_WIDTH / 2)) >= pWorldX)) {
+                        } else if (((middle - (TILE_WIDTH / 2)) <= pWorldX) && ((middle + (TILE_WIDTH / 2)) >= pWorldX)) {
                             if (p->charFlags.anim0 != ANIM_CHAR_133) {
                                 sub_8016F28(p);
                                 SetPlayerCallback(p, (void *)Player_800A5B0);
@@ -110,8 +107,7 @@ static void Task_Interactable094Main(void)
 
 void CreateEntity_Interactable094(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t
-        = TaskCreate(Task_Interactable094Main, sizeof(IA094), 0x2100, 0, NULL);
+    struct Task *t = TaskCreate(Task_Interactable094Main, sizeof(IA094), 0x2100, 0, NULL);
     IA094 *ia = TASK_DATA(t);
 
     ia->base.regionX = regionX;

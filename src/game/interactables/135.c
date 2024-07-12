@@ -57,8 +57,7 @@ void Task_Interactable135(void)
                 s16 qPlayerX = I(p->qWorldX);
                 s16 qPlayerY = I(p->qWorldY);
 
-                if ((qPlayerX > left) && (qPlayerX < right) && (qPlayerY > top)
-                    && (qPlayerY < bottom)) {
+                if ((qPlayerX > left) && (qPlayerX < right) && (qPlayerY > top) && (qPlayerY < bottom)) {
                     if (qPlayerY < middleY) {
                         if (p->qSpeedAirY < 0)
                             continue;
@@ -88,8 +87,7 @@ void Task_Interactable135(void)
 
 void CreateEntity_Interactable135(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_Interactable135, sizeof(IA_135), 0x2100, 0,
-                                TaskDestructor_Interactable135);
+    struct Task *t = TaskCreate(Task_Interactable135, sizeof(IA_135), 0x2100, 0, TaskDestructor_Interactable135);
     IA_135 *ia = TASK_DATA(t);
 
     ia->base.regionX = regionX;

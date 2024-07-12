@@ -47,12 +47,9 @@ void Task_802E92C(void)
                 p = &gPlayers[p->charFlags.partnerIndex];
             }
 
-            if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2
-                || p->charFlags.someIndex == 4) {
+            if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2 || p->charFlags.someIndex == 4) {
                 if (!sub_802C0D4(p) && (p->moveState & MOVESTATE_IN_AIR)) {
-                    if ((worldX <= I(p->qWorldX))
-                        && ((worldX + me->d.uData[2] * TILE_WIDTH) >= I(p->qWorldX))
-                        && (worldY <= I(p->qWorldY))
+                    if ((worldX <= I(p->qWorldX)) && ((worldX + me->d.uData[2] * TILE_WIDTH) >= I(p->qWorldX)) && (worldY <= I(p->qWorldY))
                         && ((worldY + me->d.uData[3] * TILE_WIDTH) >= I(p->qWorldY))) {
                         p->moveState |= MOVESTATE_80000;
 
@@ -67,8 +64,7 @@ void Task_802E92C(void)
 
 void CreateEntity_Interactable015(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_802E92C, sizeof(IA_015), 0x2100, 0,
-                                TaskDestructor_Interactable015);
+    struct Task *t = TaskCreate(Task_802E92C, sizeof(IA_015), 0x2100, 0, TaskDestructor_Interactable015);
     IA_015 *ia = TASK_DATA(t);
 
     ia->base.regionX = regionX;

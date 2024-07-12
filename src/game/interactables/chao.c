@@ -109,8 +109,7 @@ void CreateEntity_ChaoInPlayground(MapEntity *me, u16 regionX, u16 regionY, u8 i
     u32 chaoKind;
     s32 worldX, worldY;
 
-    if ((gStageData.gameMode != GAME_MODE_SINGLE_PLAYER)
-        && (gStageData.gameMode != GAME_MODE_5)) {
+    if ((gStageData.gameMode != GAME_MODE_SINGLE_PLAYER) && (gStageData.gameMode != GAME_MODE_5)) {
         SET_MAP_ENTITY_INITIALIZED(me);
         return;
     }
@@ -278,8 +277,7 @@ void Task_804E2D8(void)
     gWinRegs[WINREG_WININ] = (WININ_WIN1_ALL | (WININ_WIN0_BG_ALL | WININ_WIN0_OBJ));
     gWinRegs[WINREG_WINOUT] = (WINOUT_WIN01_BG_ALL | WINOUT_WIN01_OBJ);
 
-    gBldRegs.bldCnt
-        = BLDCNT_EFFECT_LIGHTEN | (BLDCNT_TGT1_ALL & ~BLDCNT_TGT1_OBJ) | BLDCNT_TGT2_ALL;
+    gBldRegs.bldCnt = BLDCNT_EFFECT_LIGHTEN | (BLDCNT_TGT1_ALL & ~BLDCNT_TGT1_OBJ) | BLDCNT_TGT2_ALL;
     gBldRegs.bldY = 8 - (chao->blend / 2u);
 
     p->qCamOffsetY -= Q(0.25);

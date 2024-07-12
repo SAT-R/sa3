@@ -147,8 +147,7 @@ void sub_804018C(void)
 
 void CreateEntity_Interactable093(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_WaggleCoil, sizeof(WaggleCoil), 0x2100, 0,
-                                TaskDestructor_WaggleCoil);
+    struct Task *t = TaskCreate(Task_WaggleCoil, sizeof(WaggleCoil), 0x2100, 0, TaskDestructor_WaggleCoil);
     WaggleCoil *coil = TASK_DATA(t);
     Sprite *s = &coil->s;
 

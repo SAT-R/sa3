@@ -23,8 +23,7 @@ void TaskDestructor_Interactable134(struct Task *);
 
 void CreateEntity_Interactable134(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_Interactable134, sizeof(IA_134), 0x2100, 0,
-                                TaskDestructor_Interactable134);
+    struct Task *t = TaskCreate(Task_Interactable134, sizeof(IA_134), 0x2100, 0, TaskDestructor_Interactable134);
     IA_134 *ia = TASK_DATA(t);
 
     ia->base.regionX = regionX;
@@ -76,20 +75,16 @@ void Task_Interactable134(void)
             p = &gPlayers[p->charFlags.partnerIndex];
         }
 
-        if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2
-            || p->charFlags.someIndex == 4) {
+        if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2 || p->charFlags.someIndex == 4) {
             if (sub_802C0D4(p)) {
                 sub_8004F10(p, SE_607);
-            } else if ((p->callback != Player_8008A8C)
-                       && (p->callback != Player_800ED80)) {
+            } else if ((p->callback != Player_8008A8C) && (p->callback != Player_800ED80)) {
                 worldX = I(p->qWorldX);
                 worldY = I(p->qWorldY);
 
-                if ((worldX > left) && (worldX < right) && (worldY > top)
-                    && (worldY < bottom)) {
+                if ((worldX > left) && (worldX < right) && (worldY > top) && (worldY < bottom)) {
                     if (((middle - 4) <= worldY) && ((middle + 4) >= worldY)) {
-                        if ((p->callback != Player_800A724)
-                            && (p->callback != Player_800A860)) {
+                        if ((p->callback != Player_800A724) && (p->callback != Player_800A860)) {
                             sub_8016F28(p);
 
                             p->qWorldY = Q(middle);

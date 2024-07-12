@@ -52,12 +52,9 @@ void Task_Toggle_PlayerLayer(void)
                 p = &gPlayers[p->charFlags.partnerIndex];
             }
 
-            if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2
-                || p->charFlags.someIndex == 4) {
-                if ((p->callback != Player_800DDD0) && (worldX <= I(p->qWorldX))
-                    && (worldX + me->d.uData[2] * TILE_WIDTH >= I(p->qWorldX))
-                    && (worldY <= I(p->qWorldY))
-                    && (worldY + me->d.uData[3] * TILE_WIDTH >= I(p->qWorldY))) {
+            if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2 || p->charFlags.someIndex == 4) {
+                if ((p->callback != Player_800DDD0) && (worldX <= I(p->qWorldX)) && (worldX + me->d.uData[2] * TILE_WIDTH >= I(p->qWorldX))
+                    && (worldY <= I(p->qWorldY)) && (worldY + me->d.uData[3] * TILE_WIDTH >= I(p->qWorldY))) {
                     switch (layer->base.unk9) {
                         case LAYER_TYPE_FRONT: {
                             p->unk27 = layer->base.unk9;
@@ -88,8 +85,7 @@ void CreateEntity_Toggle_PlayerLayer_Swap(MapEntity *me, u16 regionX, u16 region
     sub_802E4C8(LAYER_TYPE_SWAP, me, regionX, regionY, id);
 }
 
-void CreateEntity_Toggle_PlayerLayer_Front(MapEntity *me, u16 regionX, u16 regionY,
-                                           u8 id)
+void CreateEntity_Toggle_PlayerLayer_Front(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     sub_802E4C8(LAYER_TYPE_FRONT, me, regionX, regionY, id);
 }
@@ -101,8 +97,7 @@ void CreateEntity_Toggle_PlayerLayer_Back(MapEntity *me, u16 regionX, u16 region
 
 void sub_802E4C8(u16 layerType, MapEntity *me, u16 regionX, u16 regionY, u8 UNUSED id)
 {
-    struct Task *t = TaskCreate(Task_Toggle_PlayerLayer, sizeof(TogglePlayerLayer),
-                                0x2000, 0, NULL);
+    struct Task *t = TaskCreate(Task_Toggle_PlayerLayer, sizeof(TogglePlayerLayer), 0x2000, 0, NULL);
     TogglePlayerLayer *layer = TASK_DATA(t);
 
     layer->base.regionX = regionX;

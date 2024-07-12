@@ -97,8 +97,7 @@ extern u8 gIwramHeap[0x2204];
 
 u32 TasksInit(void);
 void TasksExec(void);
-struct Task *TaskCreate(TaskMain taskMain, u16 structSize, u16 priority, u16 flags,
-                        TaskDestructor taskDestructor);
+struct Task *TaskCreate(TaskMain taskMain, u16 structSize, u16 priority, u16 flags, TaskDestructor taskDestructor);
 void TaskDestroy(struct Task *);
 void *IwramMalloc(u16);
 void IwramFree(void *p);

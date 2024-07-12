@@ -27,8 +27,7 @@ void TaskDestructor_Interactable085(struct Task *t);
 
 void CreateEntity_Interactable085(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_Interactable085, sizeof(IA085), 0x2100, 0,
-                                TaskDestructor_Interactable085);
+    struct Task *t = TaskCreate(Task_Interactable085, sizeof(IA085), 0x2100, 0, TaskDestructor_Interactable085);
     IA085 *ia = TASK_DATA(t);
     s32 worldX, worldY;
 
@@ -68,16 +67,14 @@ void Task_Interactable085(void)
             p = &gPlayers[gStageData.charId];
         }
 
-        if (!sub_802C080(p) && !(p->moveState & MOVESTATE_IN_AIR)
-            && (p->callback != Player_800A438) && (p->callback != Player_8008A8C)
+        if (!sub_802C080(p) && !(p->moveState & MOVESTATE_IN_AIR) && (p->callback != Player_800A438) && (p->callback != Player_8008A8C)
             && (p->callback != Player_800ED80)) {
             rect[0] = -p->unk24;
             rect[1] = -p->unk25;
             rect[2] = +p->unk24;
             rect[3] = +p->unk25;
 
-            if (RECT_COLLISION(ia->worldX, ia->worldY, ia, I(p->qWorldX), I(p->qWorldY),
-                               (Rect8 *)&rect)) {
+            if (RECT_COLLISION(ia->worldX, ia->worldY, ia, I(p->qWorldX), I(p->qWorldY), (Rect8 *)&rect)) {
                 bool32 isExpectedCallback = FALSE;
                 void *cmpCallback;
 

@@ -36,11 +36,9 @@ static void ToyBalloon_Update(void);
 static void ToyBalloon_InitSprite(Sprite *s, u16 variant);
 static void sub_804BAEC(Sprite *s, u16 variant);
 
-static void CreateEntity_ToyBalloon(u32 type, MapEntity *me, u16 regionX, u16 regionY,
-                                    u8 id)
+static void CreateEntity_ToyBalloon(u32 type, MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_ToyBalloon, sizeof(ToyBalloon), 0x2100, 0,
-                                TaskDestructor_ToyBalloon);
+    struct Task *t = TaskCreate(Task_ToyBalloon, sizeof(ToyBalloon), 0x2100, 0, TaskDestructor_ToyBalloon);
     ToyBalloon *balloon = TASK_DATA(t);
     Sprite *s;
     s16 i;

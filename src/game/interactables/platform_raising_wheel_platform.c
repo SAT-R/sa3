@@ -27,11 +27,9 @@ void sub_8036304(void);
 void sub_80363FC(Sprite *s);
 void TaskDestructor_PlatformRaisingWheelPlatform(struct Task *);
 
-void CreateEntity_PlatformRaisingWheelPlatform(MapEntity *me, u16 regionX, u16 regionY,
-                                               u8 id)
+void CreateEntity_PlatformRaisingWheelPlatform(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_PlatformRaisingWheelPlatform,
-                                sizeof(PlatformRaisingWheelPlatform), 0x2100, 0,
+    struct Task *t = TaskCreate(Task_PlatformRaisingWheelPlatform, sizeof(PlatformRaisingWheelPlatform), 0x2100, 0,
                                 TaskDestructor_PlatformRaisingWheelPlatform);
     PlatformRaisingWheelPlatform *platform = TASK_DATA(t);
     Sprite *s = &platform->s;
@@ -106,9 +104,7 @@ void Task_PlatformRaisingWheelPlatform(void)
             p = &gPlayers[p->charFlags.partnerIndex];
         }
 
-        if (((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2)
-             || (p->charFlags.someIndex == 4))
-            && !sub_802C0D4(p)) {
+        if (((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) && !sub_802C0D4(p)) {
             s32 res;
 
             if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
@@ -123,8 +119,7 @@ void Task_PlatformRaisingWheelPlatform(void)
                 Player_80149E4(p);
             }
 
-            res = sub_8020950(s, I(platform->qWorldX32), I(platform->qWorldY32), p,
-                              NULL);
+            res = sub_8020950(s, I(platform->qWorldX32), I(platform->qWorldY32), p, NULL);
 
             if (res & 0x10000) {
                 s16 res16 = Q(res);
@@ -150,8 +145,7 @@ void sub_8036304(void)
     worldX = I(platform->qWorldX32);
     worldY = I(platform->qWorldY32);
 
-    if (!IsPointInScreenRect(worldX, worldY)
-        && !IsPointInScreenRect(platform->worldX, platform->worldY)) {
+    if (!IsPointInScreenRect(worldX, worldY) && !IsPointInScreenRect(platform->worldX, platform->worldY)) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             // _08036350
             if (i != 0) {
