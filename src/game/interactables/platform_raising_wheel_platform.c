@@ -123,7 +123,8 @@ void Task_PlatformRaisingWheelPlatform(void)
                 Player_80149E4(p);
             }
 
-            res = sub_8020950(s, I(platform->qWorldX32), I(platform->qWorldY32), p, NULL);
+            res = sub_8020950(s, I(platform->qWorldX32), I(platform->qWorldY32), p,
+                              NULL);
 
             if (res & 0x10000) {
                 s16 res16 = Q(res);
