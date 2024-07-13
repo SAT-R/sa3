@@ -113,7 +113,6 @@ def main():
 
     (src, asm, src_data, data) = parse_map(non_matching_funcs)
 
-    print(src, asm, src_data, data)
     total = src + asm
     data_total = src_data + data
 
