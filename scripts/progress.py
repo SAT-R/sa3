@@ -44,11 +44,10 @@ def parse_map(non_matching_funcs):
                 section = arr[0]
                 size = int(arr[2], 16)
                 filepath = arr[3]
-
-                # (asm|data|sound|src|...)/*/
-                #  ^
-                #  0                       1
-                dir = filepath.split('/')[0]
+                # build/sa3/../
+                #           ^ 
+                #   0    1  2          
+                dir = filepath.split('/')[2]
 
                 if section == '.text':
                     if dir == 'src':
@@ -114,6 +113,7 @@ def main():
 
     (src, asm, src_data, data) = parse_map(non_matching_funcs)
 
+    print(src, asm, src_data, data)
     total = src + asm
     data_total = src_data + data
 
