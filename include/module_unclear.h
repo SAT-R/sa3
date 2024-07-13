@@ -22,6 +22,7 @@ extern Struct_03001060 gUnknown_03001060;
 bool32 sub_8001E58(void);
 void sub_8004DD8(s32 qWorldX, s32 qWorldY);
 void sub_8003DF0(u16 song);
+void sub_8003E0C(u16 song);
 void sub_8003E28(u16 song);
 bool32 sub_8004E98(Player *p, u16 song);
 void sub_8004F10(Player *, u16 song);

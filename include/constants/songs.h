@@ -255,6 +255,8 @@
 
 #define SE_TIMED_SWITCH 0x249
 
+#define SE_588 0x24C
+
 #define SE_WAGGLE_COIL 0x250
 
 #define SE_ROCKET_ACCELERATING 0x256

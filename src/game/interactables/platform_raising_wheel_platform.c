@@ -177,7 +177,7 @@ void TaskDestructor_PlatformRaisingWheelPlatform(struct Task *t)
 
 void sub_80363FC(Sprite *s)
 {
-    s->tiles = ALLOC_TILES(ANIM_PLATFORM_RAISING_WHEEL);
+    s->tiles = ALLOC_TILES(ANIM_PLATFORM_RAISING_WHEEL_PLATFORM);
     s->anim = ANIM_PLATFORM_RAISING_WHEEL;
     s->variant = 2;
     s->oamFlags = SPRITE_OAM_ORDER(28);

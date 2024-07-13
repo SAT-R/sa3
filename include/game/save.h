@@ -88,7 +88,7 @@ typedef struct {
 
     /* 0x364 */ u8 unk364;
     /* 0x365 */ u8 unk365;
-    /* 0x366 */ u8 unk366;
+    /* 0x366 */ u8 language;
     /* 0x367 */ u8 unk367;
 } SaveGame;
 
@@ -141,7 +141,7 @@ typedef struct {
     u8 v363;
     u8 v364;
     u8 v365;
-    u8 v366;
+    u8 language;
     u8 v367; // INVESTIGATE: v367 might be unused.
 
     u32 v368; // v368 | Checksum? In sub_800212C() this value is calculated and show that
