@@ -14,7 +14,7 @@ SECTIONS {
     }
 
     . = 0x8000000;
-    .text :
+    ROM :
     ALIGN(4) {
         build/sa3/asm/rom_header.o(.text);
         build/sa3/asm/crt0.o(.text);
@@ -142,21 +142,16 @@ SECTIONS {
         build/sa3/asm/code_z_1.o(.text);
         build/sa3/src/multi_sio_asm.o(.text);
         build/sa3/src/malloc_ewram.o(.text);
-    }
 
-    agb_lib_text :
-    ALIGN(4)
-    {
+    /* agb_lib_text */
+
         build/sa3/src/lib/agb_flash/agb_flash.o(.text);
         build/sa3/src/lib/agb_flash/agb_flash_1m.o(.text);
         build/sa3/src/lib/agb_flash/agb_flash_mx.o(.text);
         build/sa3/src/lib/agb_flash/agb_flash_sst.o(.text);
         build/sa3/asm/libagbsyscall.o(.text);
-    }
 
-    lib_text :
-    ALIGN(4)
-    {
+    /* lib_text */
         /* 
             *libgcc.a:_udivdi3.o(.text);
 
@@ -218,10 +213,8 @@ SECTIONS {
         tools/agbcc/lib/libc.a:libcfunc.o(.text);
         tools/agbcc/lib/libc.a:lseekr.o(.text);
         tools/agbcc/lib/libc.a:readr.o(.text);
-    } =0
 
-    .rodata :
-    ALIGN(4) {
+    /* data */
         build/sa3/data/data.o(.rodata);
         build/sa3/data/sound.o(.rodata);
         build/sa3/sound/songs/song000.o(.rodata);
@@ -566,8 +559,7 @@ SECTIONS {
         *tools/agbcc/lib/libc.a:locale.o(.rodata);
         *tools/agbcc/lib/libc.a:mallocr.o(.rodata);
         *tools/agbcc/lib/libc.a:mallocr.o(.data);
-
-    }
+    } = 0
 
     /* DWARF debug sections.
        Symbols in the DWARF debugging sections are relative to the beginning
