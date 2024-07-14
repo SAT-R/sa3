@@ -20,6 +20,7 @@ extern void Player_800A7CC(Player *p);
 extern void Player_800A860(Player *p);
 extern void Player_800A90C(Player *p);
 extern void Player_800A98C(Player *p);
+extern void Player_UseSpecialSpringWithKey(Player *p);
 extern void Player_800AD24(Player *p);
 extern void Player_800AE14(Player *p);
 extern void Player_800B1B8(Player *p);

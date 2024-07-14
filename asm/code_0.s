@@ -21655,8 +21655,8 @@ _0800ABC8: .4byte 0xFFFFFF00
 _0800ABCC: .4byte 0xDFFFFFFF
 _0800ABD0: .4byte sub_800E67C
 
-	thumb_func_start sub_800ABD4
-sub_800ABD4: @ 0x0800ABD4
+	thumb_func_start Player_UseSpecialSpringWithKey
+Player_UseSpecialSpringWithKey: @ 0x0800ABD4
 	push {r4, r5, lr}
 	adds r5, r0, #0
 	ldr r0, _0800AC94 @ =gStageData
@@ -21820,6 +21820,7 @@ _0800AD14:
 _0800AD1C: .4byte gCamera
 _0800AD20: .4byte sub_800EB4C
 
+@ Used by Special Spring, Act Ring and Final Zone Ring.
 	thumb_func_start Player_800AD24
 Player_800AD24: @ 0x0800AD24
 	push {r4, r5, lr}

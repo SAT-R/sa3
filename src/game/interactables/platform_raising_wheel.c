@@ -28,7 +28,7 @@ typedef struct {
 void Task_PlatformRaisingWheel(void);
 void TaskDestructor_PlatformRaisingWheel(struct Task *t);
 void sub_8035F8C(void);
-void sub_8036068(Sprite *s);
+static void InitSprite(Sprite *s);
 
 void CreateEntity_PlatformRaisingWheel(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -61,7 +61,7 @@ void CreateEntity_PlatformRaisingWheel(MapEntity *me, u16 regionX, u16 regionY, 
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
-    sub_8036068(s);
+    InitSprite(s);
 }
 
 void Task_PlatformRaisingWheel(void)
@@ -175,7 +175,7 @@ void TaskDestructor_PlatformRaisingWheel(struct Task *t)
     VramFree(wheel->s.tiles);
 }
 
-void sub_8036068(Sprite *s)
+static void InitSprite(Sprite *s)
 {
     s->tiles = ALLOC_TILES(ANIM_PLATFORM_RAISING_WHEEL);
     s->anim = ANIM_PLATFORM_RAISING_WHEEL;

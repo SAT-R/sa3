@@ -127,7 +127,7 @@
 #define ANIM_OMOCHAO3           980
 #define ANIM_OMOCHAO4           981
 #define ANIM_OMOCHAO5           982
-#define ANIM_ACT_RINGS          983
+#define ANIM_ACT_RING           983
 /* ANIM_ACT_RINGS:
     0=Act 1
     1=Act 2
