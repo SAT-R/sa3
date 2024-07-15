@@ -10,6 +10,14 @@
 
 // Appears to be multiplayer-only?
 
+extern u8 gUnknown_03003F94;
+extern u8 gUnknown_03003D20;
+
+extern u8 gUnknown_03006840;
+
+extern u8 gUnknown_03003F34;
+extern u8 gUnknown_03006208;
+
 typedef struct {
     /* 0x00 */ u8 filler0[0x4C];
     /* 0x4C */ u8 unk4C;
@@ -20,7 +28,8 @@ typedef struct {
 extern Struct_03001060 gUnknown_03001060;
 
 bool32 sub_8001E58(void);
-void sub_8002210(s16, u16);
+void sub_8002210(s16 level, u16);
+void sub_8003D2C(void);
 void sub_8003DF0(u16 song);
 void sub_8003E0C(u16 song);
 void sub_8003E28(u16 song);
@@ -57,7 +66,11 @@ bool32 sub_8023734(void *chaoEwramData);
 void sub_80239A8(void *chaoEwramData);
 // NOTE: x and y have different signedness, but it's correct
 void sub_80274F4(u8, u16 x, s16 y);
-void sub_80275B8(u8, u8, u8);
+
+// The implementation of sub_80275B8 makes it seem that 'level' is a u8,
+// but that way the calling site in some instances will be wrong
+// (src/game/interactables/warp.c -> Task_802E6F8)
+void sub_80275B8(u32 level, u8, u8);
 void sub_80276A8(u8 charId);
 void sub_802954C(Player *p, s16 worldX, s16 worldY);
 void sub_80299FC(void);
