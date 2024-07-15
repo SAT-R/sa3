@@ -50,6 +50,17 @@ typedef struct {
     /* 0x0B */ u8 id;
 } SpriteBase;
 
+// SpriteBase2 merges unk8 and unk9 into 1 value, as used in
+// src/game/interactables/warp.c
+typedef struct {
+    /* 0x00 */ MapEntity *me;
+    /* 0x04 */ u16 regionX;
+    /* 0x06 */ u16 regionY;
+    /* 0x08 */ u16 unk8; // only in SA3
+    /* 0x0A */ u8 spriteX;
+    /* 0x0B */ u8 id;
+} SpriteBase2;
+
 // TODO maybe(?): Integrate this with every enemy
 typedef struct {
     SpriteBase base;

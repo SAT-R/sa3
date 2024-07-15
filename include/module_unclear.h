@@ -20,10 +20,12 @@ typedef struct {
 extern Struct_03001060 gUnknown_03001060;
 
 bool32 sub_8001E58(void);
-void sub_8004DD8(s32 qWorldX, s32 qWorldY);
+void sub_8002210(s16, u16);
 void sub_8003DF0(u16 song);
 void sub_8003E0C(u16 song);
 void sub_8003E28(u16 song);
+void sub_8004D30(void);
+void sub_8004DD8(s32 qWorldX, s32 qWorldY);
 bool32 sub_8004E98(Player *p, u16 song);
 void sub_8004F10(Player *, u16 song);
 void sub_8006824(Player *p);
@@ -61,5 +63,6 @@ void sub_802954C(Player *p, s16 worldX, s16 worldY);
 void sub_80299FC(void);
 void sub_8029A18(u16 songId);
 bool32 sub_805C510(Sprite *s);
+void sub_8097C54(u16);
 
 #endif // GUARD_SA3_MODULE_UNCLEAR_H
