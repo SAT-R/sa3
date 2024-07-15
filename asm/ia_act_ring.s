@@ -5,126 +5,7 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_ActRing
-CreateEntity_ActRing: @ 0x08040890
-	push {r4, r5, r6, r7, lr}
-	sub sp, #4
-	adds r5, r0, #0
-	adds r4, r3, #0
-	lsls r1, r1, #0x10
-	lsrs r6, r1, #0x10
-	lsls r2, r2, #0x10
-	lsrs r7, r2, #0x10
-	lsls r4, r4, #0x18
-	lsrs r4, r4, #0x18
-	ldr r0, _08040970 @ =Task_ActRingMain
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _08040974 @ =TaskDestructor_ActRing
-	str r1, [sp]
-	movs r1, #0x64
-	movs r3, #0
-	bl TaskCreate
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r1, r1, r0
-	mov ip, r1
-	strh r6, [r1, #4]
-	strh r7, [r1, #6]
-	str r5, [r1]
-	ldrb r0, [r5]
-	strb r0, [r1, #0xa]
-	strb r4, [r1, #0xb]
-	movs r3, #0
-	ldrb r0, [r5, #7]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	bne _080408F4
-	movs r2, #1
-_080408DA:
-	lsls r0, r3, #0x10
-	movs r1, #0x80
-	lsls r1, r1, #9
-	adds r0, r0, r1
-	lsrs r3, r0, #0x10
-	asrs r1, r0, #0x10
-	cmp r1, #2
-	bgt _080408F4
-	ldrb r0, [r5, #7]
-	asrs r0, r1
-	ands r0, r2
-	cmp r0, #0
-	beq _080408DA
-_080408F4:
-	ldrb r0, [r5]
-	lsls r0, r0, #3
-	lsls r1, r6, #8
-	adds r0, r0, r1
-	mov r4, ip
-	adds r4, #0x5c
-	movs r2, #0
-	strh r0, [r4]
-	ldrb r0, [r5, #1]
-	lsls r0, r0, #3
-	lsls r1, r7, #8
-	adds r0, r0, r1
-	mov r6, ip
-	adds r6, #0x5e
-	strh r0, [r6]
-	mov r0, ip
-	adds r0, #0x61
-	strb r3, [r0]
-	subs r0, #1
-	strb r2, [r0]
-	ldrb r0, [r5, #7]
-	lsrs r0, r0, #7
-	mov r1, ip
-	adds r1, #0x62
-	strb r0, [r1]
-	ldr r0, _08040978 @ =gSaveGame
-	ldr r1, _0804097C @ =gStageData
-	adds r0, #0x29
-	ldrb r1, [r1, #9]
-	adds r0, r0, r1
-	ldrb r1, [r0]
-	lsls r0, r3, #0x10
-	asrs r0, r0, #0x10
-	asrs r1, r0
-	movs r0, #1
-	ands r1, r0
-	mov r0, ip
-	adds r0, #0x63
-	strb r1, [r0]
-	mov r3, ip
-	adds r3, #0xc
-	ldr r2, _08040980 @ =gCamera
-	ldr r1, [r2]
-	ldrh r0, [r4]
-	subs r0, r0, r1
-	strh r0, [r3, #0x10]
-	ldr r1, [r2, #4]
-	ldrh r0, [r6]
-	subs r0, r0, r1
-	strh r0, [r3, #0x12]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r5]
-	mov r0, ip
-	bl sub_8040B34
-	add sp, #4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08040970: .4byte Task_ActRingMain
-_08040974: .4byte TaskDestructor_ActRing
-_08040978: .4byte gSaveGame
-_0804097C: .4byte gStageData
-_08040980: .4byte gCamera
-
+.if 01
 	thumb_func_start Task_ActRingMain
 Task_ActRingMain: @ 0x08040984
 	push {r4, r5, r6, r7, lr}
@@ -337,6 +218,7 @@ _08040B24:
 	pop {r4, r5, r6, r7}
 	pop {r0}
 	bx r0
+.endif
 
 	thumb_func_start sub_8040B34
 sub_8040B34: @ 0x08040B34

@@ -20,6 +20,24 @@
 
 #define TIME_RECORDS_PER_COURSE 3
 
+// TODO: Does using these match?
+typedef struct {
+    u8 Act1 : 1;
+    u8 Act2 : 1;
+    u8 Act3 : 1;
+    u8 Boss : 1;
+    u8 Bit5 : 1;
+    u8 Bit6 : 1;
+    u8 Bit7 : 1;
+} ZoneCompletion;
+
+// TODO: Does using these match?
+typedef struct {
+    u8 Bronze : 1;
+    u8 Silver : 1;
+    u8 Gold : 1;
+} MedalCollection;
+
 // Used in struc_30008A0
 typedef struct {
     u32 playerId;
@@ -63,7 +81,7 @@ typedef struct {
     /* 0x13 */ u8 unk13;
     /* 0x14 */ u16 chaoCount[NUM_COURSE_ZONES]; // 0x14 - 0x21 |
     /* 0x22 */ u8 specialKeys[NUM_COURSE_ZONES]; // 0x22 - 0x28 | Each counter counts for one Zone
-    /* 0x29 */ u8 zoneBits[9]; // 0x29-0x31 | (struct ZoneCompletion)
+    /* 0x29 */ u8 unlockedStages[9]; // 0x29-0x31 | (struct ZoneCompletion)
     /* 0x32 */ u8 collectedEmeralds; // 0x32 | Stored bitwise: x7654321b
     /* 0x33 */ u8 unk33;
     /* 0x34 */ u16 unk34;
@@ -119,7 +137,7 @@ typedef struct {
 
     u16 chaoCount[7]; // | v1D - 0x2B
     u8 specialKeys[7]; // Each counter counts for 1 Act | 0x2C - 0x32
-    u8 zoneBits[9]; // | 0x33-0x3B
+    u8 unlockedStages[9]; // | 0x33-0x3B
     u8 collectedEmeralds; // Stored bitwise: x7654321b | 0x3C
 
     // NOTE: These are different from
