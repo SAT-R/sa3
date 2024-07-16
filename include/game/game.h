@@ -37,6 +37,8 @@ extern const AnimId gPlayerCharacterIdleAnims[NUM_CHARACTERS];
     ((mode == GAME_MODE_SINGLE_PLAYER) || (mode == GAME_MODE_DEMO) || (mode == GAME_MODE_2) || (mode == GAME_MODE_TIME_ATTACK)             \
      || (mode == GAME_MODE_BOSS_TIME_ATTACK))
 
+#define GAME_MODE_IS_MULTI_PLAYER(mode) !GAME_MODE_IS_SINGLE_PLAYER(mode)
+
 #define INCREMENT_SCORE_A(incVal)                                                                                                          \
     {                                                                                                                                      \
         s32 divResA, divResB;                                                                                                              \

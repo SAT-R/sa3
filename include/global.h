@@ -185,7 +185,7 @@ typedef void (*VoidFn)(void);
 
 #define RECT_DISTANCE(aXA, aYA, aXB, aYB) (ABS((aXA) - (aXB)) + ABS((aYA) - (aYB)))
 
-#define GetBit(x, y) ((x) >> (y)&1)
+#define GetBit(x, y) (((x) >> (y)) & 1)
 
 // 60 is not exactly true as the GBA's FPS, but it's what they went
 // with for the calculation

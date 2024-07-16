@@ -1,11 +1,16 @@
 #include "global.h"
+#include "module_unclear.h"
 #include "task.h"
 #include "game/game.h"
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/player.h"
+#include "game/player_callbacks.h"
 #include "game/save.h"
 #include "game/stage.h"
+
+#include "constants/move_states.h"
+#include "constants/songs.h"
 
 typedef struct {
     /* 0x00 */ SpriteBase base;
@@ -22,6 +27,7 @@ typedef struct {
 void Task_ActRingMain(void);
 void TaskDestructor_ActRing(struct Task *);
 void sub_8040B34(ActRing *);
+void sub_8040BE4(void);
 
 void CreateEntity_ActRing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -36,7 +42,7 @@ void CreateEntity_ActRing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     ring->base.id = id;
 
     for (act = 0; act < 3; act++) {
-        if ((me->d.uData[4] >> act) & 0x1) {
+        if (GetBit(me->d.uData[4], act)) {
             break;
         }
     }
@@ -46,7 +52,7 @@ void CreateEntity_ActRing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     ring->act = act;
     ring->unk60 = 0;
     ring->unk62 = me->d.uData[4] >> 7;
-    ring->unk63 = ((gSaveGame.unlockedStages[gStageData.zone] >> act) & 0x1);
+    ring->unk63 = GetBit(gSaveGame.unlockedStages[gStageData.zone], act);
 
     {
         Sprite *s = &ring->s0;
@@ -57,4 +63,64 @@ void CreateEntity_ActRing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     SET_MAP_ENTITY_INITIALIZED(me);
 
     sub_8040B34(ring);
+}
+
+void Task_ActRingMain(void)
+{
+    Player *p = &gPlayers[gStageData.charId];
+    ActRing *ring = TASK_DATA(gCurTask);
+    Player *partner;
+    s16 i;
+
+    if ((p->callback != Player_80052C8) && (p->callback != Player_800522C)) {
+        if (!(p->moveState & (MOVESTATE_1000000 | MOVESTATE_200 | MOVESTATE_100)) && (gStageData.charId == CHARACTER_SONIC)) {
+            Sprite *s = &ring->s0;
+            s16 worldX = ring->worldX;
+            s16 worldY = ring->worldY;
+            if (sub_8020700(s, worldX, worldY, 0, p, 0)) {
+                sub_8016F28(p);
+                sub_8019A64(p);
+                sub_8004E98(p, SE_BIG_WARP_RING);
+
+                gStageData.nextMapIndex = (gStageData.zone * 10) + ring->act + 3;
+                gStageData.unkC = 0;
+
+                SetPlayerCallback(p, (void *)Player_800AD24);
+
+                partner = &gPlayers[p->charFlags.partnerIndex];
+
+                if (partner->charFlags.someIndex == 2) {
+                    SetPlayerCallback(partner, (void *)Player_800AD24);
+                }
+
+                if (GAME_MODE_IS_MULTI_PLAYER(gStageData.gameMode)) {
+                    sub_80275B8((u8)gStageData.nextMapIndex, 0, gStageData.unkC);
+                }
+
+                gStageData.unk4 = 8;
+            }
+        }
+    } else {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            if (i == 0) {
+                p = &gPlayers[gStageData.charId];
+            } else {
+                p = &gPlayers[p->charFlags.partnerIndex];
+            }
+
+            if ((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) {
+                if (gStageData.entryIndex == (ring->act + 1)) {
+                    if (ring->unk62 != 0) {
+                        p->qSpeedAirX = -Q(4);
+                        p->moveState |= MOVESTATE_FACING_LEFT;
+                    } else {
+                        p->qSpeedAirX = +Q(4);
+                        p->moveState &= ~MOVESTATE_FACING_LEFT;
+                    }
+                }
+            }
+        }
+    }
+
+    sub_8040BE4();
 }
