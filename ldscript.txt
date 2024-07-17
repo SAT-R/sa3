@@ -62,7 +62,6 @@ SECTIONS {
         build/sa3/src/game/interactables/pole.o(.text);
         build/sa3/src/game/interactables/mud_fx.o(.text);
         build/sa3/src/game/interactables/act_ring.o(.text);
-        build/sa3/asm/ia_act_ring.o(.text);
         build/sa3/src/game/interactables/special_spring.o(.text);
         build/sa3/src/game/interactables/factory_ring.o(.text);
         build/sa3/asm/ia_bonus_ufo.o(.text);
