@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable131
-CreateEntity_Interactable131: @ 0x0804BAF8
+	thumb_func_start CreateEntity_Pendulum
+CreateEntity_Pendulum: @ 0x0804BAF8
 	push {r4, r5, r6, lr}
 	mov r6, sb
 	mov r5, r8

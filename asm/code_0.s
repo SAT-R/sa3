@@ -7794,6 +7794,7 @@ _08003E20:
 	.align 2, 0
 _08003E24: .4byte gStageData
 
+@ Either StopSong or ContinueSong
 	thumb_func_start sub_8003E28
 sub_8003E28: @ 0x08003E28
 	push {lr}
@@ -90900,6 +90901,8 @@ _0802C1F4:
 	pop {r1}
 	bx r1
 
+    @ Some On-Screen check?
+    @ Used by IAs Gondola (Chaos Angel), 102 and 139
 	thumb_func_start sub_802C1F8
 sub_802C1F8: @ 0x0802C1F8
 	push {lr}

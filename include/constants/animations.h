@@ -100,6 +100,7 @@
 #define ANIM_MINECART    925
 #define ANIM_AIR_BUBBLES 926
 
+#define ANIM_GONDOLA         928
 #define ANIM_FALLING_BOULDER 929
 #define ANIM_SQUEEZER        930
 #define ANIM_UFO_PLATFORM    931

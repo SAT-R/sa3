@@ -342,7 +342,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable117
     .4byte CreateEntity_Interactable118
     .4byte CreateEntity_Interactable119
-    .4byte CreateEntity_Interactable120
+    .4byte CreateEntity_Gondola         @ In Chaos Angel
     .4byte CreateEntity_Interactable121
     .4byte CreateEntity_Interactable122
     .4byte CreateEntity_Interactable123
@@ -353,7 +353,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable128
     .4byte CreateEntity_Interactable129
     .4byte CreateEntity_Interactable130
-    .4byte CreateEntity_Interactable131
+    .4byte CreateEntity_Pendulum
     .4byte CreateEntity_Interactable132
     .4byte CreateEntity_Interactable133
     .4byte CreateEntity_Interactable134
