@@ -85,7 +85,6 @@ void Task_Pendulum(void)
                 pend->qSwingPos[PEND_LEFT] = -Q(1.0);
             }
         } else {
-            // _0804BC38
             pend->activePend = PEND_RIGHT;
             pend->swingForce[PEND_LEFT] = 0;
             pend->swingForce[PEND_RIGHT] = 0xC0;
@@ -93,7 +92,6 @@ void Task_Pendulum(void)
             sub_8003DF0(SE_PENDULUM_HIT);
         }
     } else {
-        // _0804BC68
         if (pend->qSwingPos[PEND_RIGHT] >= +PEND_IDLE_POS) {
             pend->swingForce[PEND_RIGHT] -= PEND_FORCE_DELTA;
             pend->qSwingPos[PEND_RIGHT] += (pend->swingForce[PEND_RIGHT] >> 5);
@@ -102,7 +100,6 @@ void Task_Pendulum(void)
                 pend->qSwingPos[PEND_RIGHT] = +Q(1.0);
             }
         } else {
-            // _0804BCA0
             pend->activePend = PEND_LEFT;
             pend->swingForce[PEND_LEFT] = -0xC0;
             pend->swingForce[PEND_RIGHT] = 0;
@@ -110,10 +107,8 @@ void Task_Pendulum(void)
             sub_8003DF0(SE_PENDULUM_HIT);
         }
     }
-    // _0804BCBC
 
     for (i = 0; i < PEND_COUNT; i++) {
-        // _0804BCD2
         s32 swingPos;
         ps = &pend->sprBalls[i];
 
@@ -126,9 +121,7 @@ void Task_Pendulum(void)
         sp04[i] -= ps->dx;
         sp08[i] -= ps->dy;
 
-        // __0804BD3A
         for (j = 0; j < SEGMENTS_PER_PEND; j++) {
-            // _0804BD40
             s32 sinValue;
             ps = &pend->sprSegments[i * SEGMENTS_PER_PEND + j];
 
@@ -136,13 +129,11 @@ void Task_Pendulum(void)
             ps->dy = ((COS(pend->qSwingPos[i] & ONE_CYCLE) >> 9) * (j + 1));
         }
     }
-    // __0804BD98
 
     worldX = pend->worldX;
     worldY = pend->worldY;
 
     for (j = 0; j < NUM_SINGLE_PLAYER_CHARS; j++) {
-        // _0804BDB0
         Player *p;
 
         if (j == 0) {
@@ -152,9 +143,7 @@ void Task_Pendulum(void)
         }
 
         if (((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) && !sub_802C0D4(p)) {
-            // _0804BE0C
             for (i = 0; i < PEND_COUNT; i++) {
-                // _0804BE22
                 u32 mask;
                 Sprite *s;
                 ps = &pend->sprBalls[i];
@@ -166,7 +155,6 @@ void Task_Pendulum(void)
                     val = p->qWorldY + Q(4);
                     p->qWorldY = val - Q(sp08[i]);
                 }
-                // _0804BE76
 
                 mask = sub_8020950(s, ps->dx + worldX, ps->dy + worldY, p, NULL);
                 if (mask & 0x10000) {
@@ -177,7 +165,6 @@ void Task_Pendulum(void)
         }
     }
 
-    // _0804BECA
     sub_804C008();
 }
 
