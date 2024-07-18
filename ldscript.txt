@@ -91,6 +91,7 @@ SECTIONS {
         build/sa3/src/game/interactables/125_and_126.o(.text);
         build/sa3/src/game/interactables/127_and_128.o(.text);
         build/sa3/src/game/interactables/toy_balloon.o(.text);
+        build/sa3/src/game/interactables/pendulum.o(.text);
         build/sa3/asm/ia_131.o(.text);
         build/sa3/asm/ia_132_and_133.o(.text);
         build/sa3/src/game/interactables/134.o(.text);

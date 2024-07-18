@@ -266,6 +266,8 @@
 // Also used for Toy Balloon in Toy Kingdom
 #define SE_MINECART_DESTROYED 0x258
 
+#define SE_PENDULUM_HIT 0x25B
+
 #define SE_MINECART_ROLL 0x25E
 #define SE_607           0x25F
 

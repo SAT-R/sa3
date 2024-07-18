@@ -99,7 +99,6 @@ void Task_Gondola(void)
             // It seems like the Q(4) acts sort of like a brake?
             p->qWorldY += Q(4) + gond->qTrajectoryX;
         }
-        // _08049792
 
         if (!sub_802C0D4(p)) {
             u32 mask = sub_8020950(s, I(gond->qWorldX), I(gond->qWorldY), p, NULL);
@@ -135,7 +134,6 @@ void sub_80497FC(void)
             sub_8003E0C(SE_GONDOLA);
 
             if (((gond->unk4A == 0) && (I(gond->qWorldX) >= gond->unk44)) || ((gond->unk4A == 1) && (I(gond->qWorldX) <= gond->unk44))) {
-                // _08049874
                 gond->unk48 = 120; // TODO: Is it (DISPLAY_WIDTH/2)?
                 gond->unk49 = 2;
 
@@ -195,7 +193,6 @@ void sub_80498B4(void)
     } else {
         u8 variant = 0;
 
-        // _08049968
         if (gond->unk49 == 1) {
             variant = 1;
         }

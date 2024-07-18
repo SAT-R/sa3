@@ -5,105 +5,9 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Pendulum
-CreateEntity_Pendulum: @ 0x0804BAF8
-	push {r4, r5, r6, lr}
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6}
-	sub sp, #4
-	mov r8, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _0804BBA4 @ =sub_804BBC8
-	movs r1, #0xc2
-	lsls r1, r1, #1
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r3, _0804BBA8 @ =sub_804C214
-	str r3, [sp]
-	movs r3, #0
-	bl TaskCreate
-	ldrh r3, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r3, r0
-	movs r1, #0
-	mov sb, r1
-	strh r4, [r0, #4]
-	strh r5, [r0, #6]
-	mov r2, r8
-	str r2, [r0]
-	ldrb r1, [r2]
-	strb r1, [r0, #0xa]
-	strb r6, [r0, #0xb]
-	ldr r6, _0804BBAC @ =0x0300016C
-	adds r1, r3, r6
-	mov r2, sb
-	strh r2, [r1]
-	adds r6, #2
-	adds r2, r3, r6
-	ldr r1, _0804BBB0 @ =0x0000FFE8
-	strh r1, [r2]
-	ldr r1, _0804BBB4 @ =0x03000170
-	adds r2, r3, r1
-	movs r1, #0x18
-	strh r1, [r2]
-	adds r6, #4
-	adds r2, r3, r6
-	ldr r1, _0804BBB8 @ =0x0000FF40
-	strh r1, [r2]
-	ldr r2, _0804BBBC @ =0x03000174
-	adds r1, r3, r2
-	mov r6, sb
-	strh r6, [r1]
-	ldr r1, _0804BBC0 @ =0x0300017C
-	adds r2, r3, r1
-	mov r6, r8
-	ldrb r1, [r6]
-	lsls r1, r1, #3
-	lsls r4, r4, #8
-	adds r1, r1, r4
-	str r1, [r2]
-	ldr r1, _0804BBC4 @ =0x03000180
-	adds r3, r3, r1
-	ldrb r1, [r6, #1]
-	lsls r1, r1, #3
-	lsls r5, r5, #8
-	adds r1, r1, r5
-	str r1, [r3]
-	movs r2, #2
-	rsbs r2, r2, #0
-	adds r1, r2, #0
-	strb r1, [r6]
-	bl sub_804BEE4
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804BBA4: .4byte sub_804BBC8
-_0804BBA8: .4byte sub_804C214
-_0804BBAC: .4byte 0x0300016C
-_0804BBB0: .4byte 0x0000FFE8
-_0804BBB4: .4byte 0x03000170
-_0804BBB8: .4byte 0x0000FF40
-_0804BBBC: .4byte 0x03000174
-_0804BBC0: .4byte 0x0300017C
-_0804BBC4: .4byte 0x03000180
-
-	thumb_func_start sub_804BBC8
-sub_804BBC8: @ 0x0804BBC8
+.if 01
+	thumb_func_start Task_Pendulum
+Task_Pendulum: @ 0x0804BBC8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -115,10 +19,10 @@ sub_804BBC8: @ 0x0804BBC8
 	ldrh r3, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r0, r3, r0
-	str r0, [sp, #0xc]
+	adds r0, r3, r0     @ r0 = pend
+	str r0, [sp, #0xc]  @ sp0C = pend
 	ldr r0, _0804BC28 @ =0x0300016C
-	adds r5, r3, r0
+	adds r5, r3, r0     @ r5 = pend->unk16C
 	ldrh r4, [r5]
 	cmp r4, #0
 	bne _0804BC68
@@ -222,45 +126,45 @@ _0804BCBC:
 	movs r2, #0
 	mov r3, sp
 	adds r3, #8
-	str r3, [sp, #0x1c]
+	str r3, [sp, #0x1c] @ sp1C = sp08
 	ldr r0, _0804BDD0 @ =gSineTable
 	mov ip, r0
 	movs r3, #0xb7
-	lsls r3, r3, #1
-	ldr r1, [sp, #0xc]
+	lsls r3, r3, #1 @ r3 = 0x16E
+	ldr r1, [sp, #0xc]  @ r1 = sp0C = pend
 	adds r3, r1, r3
-	str r3, [sp, #0x18]
+	str r3, [sp, #0x18] @ sp18 = &pend->swingPos[PEND_LEFT]
 _0804BCD2:
 	lsls r2, r2, #0x10
-	mov sb, r2
+	mov sb, r2          @ sb = (i << 16)
 	mov r0, sb
 	asrs r0, r0, #0x10
-	mov r8, r0
+	mov r8, r0          @ r8 = i
 	movs r1, #0x2c
 	mov r0, r8
 	muls r0, r1, r0
 	adds r0, #0xc
-	ldr r2, [sp, #0xc]
-	adds r7, r2, r0
+	ldr r2, [sp, #0xc]  @ r2 = sp0C = pend
+	adds r7, r2, r0     @ r7 = ps
 	mov r3, r8
-	lsls r4, r3, #1
+	lsls r4, r3, #1     @ r3 = i * 2
 	mov r3, sp
 	adds r3, r3, r4
 	adds r3, #4
 	ldrh r0, [r7]
 	strh r0, [r3]
 	ldr r0, [sp, #0x1c]
-	adds r5, r0, r4
+	adds r5, r0, r4     @ r5 = sp08[i]
 	ldrh r0, [r7, #2]
 	strh r0, [r5]
-	ldr r1, [sp, #0x18]
+	ldr r1, [sp, #0x18] @ r1 = pend->swingPos[PEND_LEFT]
 	adds r6, r1, r4
 	ldrh r1, [r6]
 	ldr r0, _0804BDD4 @ =0x000003FF
 	ands r0, r1
 	lsls r0, r0, #1
 	add r0, ip
-	ldrh r2, [r0]
+	ldrh r2, [r0]       @ COS(pend->swingPos[i] & ONE_CYCLE)
 	lsls r2, r2, #0x10
 	asrs r2, r2, #0x17
 	strh r2, [r7]
@@ -278,14 +182,15 @@ _0804BCD2:
 	strh r0, [r7, #2]
 	ldrh r0, [r3]
 	subs r0, r0, r2
-	strh r0, [r3]
+	strh r0, [r3]       @ sp04[i] -= ps->dx;
 	ldrh r0, [r5]
 	ldrh r1, [r7, #2]
 	subs r0, r0, r1
 	strh r0, [r5]
+__0804BD3A:
 	movs r2, #0
-	mov r5, sb
-	add r4, r8
+	mov r5, sb      @ r5 = (i << 16)
+	add r4, r8      @ r4 = i * 3
 _0804BD40:
 	lsls r1, r2, #0x10
 	asrs r1, r1, #0x10
@@ -293,9 +198,9 @@ _0804BD40:
 	movs r2, #0x2c
 	muls r0, r2, r0
 	adds r0, #0x64
-	ldr r3, [sp, #0xc]
-	adds r7, r3, r0
-	ldrh r2, [r6]
+	ldr r3, [sp, #0xc]  @ r3 = sp0C = pend
+	adds r7, r3, r0     @ r7 = psSegment
+	ldrh r2, [r6]       @ r2 = pend->swingPos[i]
 	ldr r0, _0804BDD4 @ =0x000003FF
 	ands r0, r2
 	lsls r0, r0, #1
@@ -331,17 +236,18 @@ _0804BD40:
 	asrs r0, r0, #0x10
 	cmp r0, #1
 	ble _0804BCD2
-	ldr r1, [sp, #0xc]
+__0804BD98:
+	ldr r1, [sp, #0xc]  @ r1 = sp0C = pend
 	movs r2, #0xbe
 	lsls r2, r2, #1
 	adds r0, r1, r2
 	ldrh r0, [r0]
-	str r0, [sp, #0x10]
+	str r0, [sp, #0x10] @ sp10 = worldX
 	movs r3, #0xc0
 	lsls r3, r3, #1
 	adds r0, r1, r3
 	ldrh r0, [r0]
-	str r0, [sp, #0x14]
+	str r0, [sp, #0x14] @ sp14 = worldY
 	movs r2, #0
 _0804BDB0:
 	lsls r0, r2, #0x10
@@ -373,7 +279,7 @@ _0804BDE6:
 	lsls r0, r0, #4
 	ldr r1, _0804BEE0 @ =gPlayers
 	adds r0, r0, r1
-	mov sl, r0
+	mov sl, r0          @ sl = p
 	mov r0, sl
 	adds r0, #0x2b
 	ldrb r0, [r0]
@@ -398,13 +304,13 @@ _0804BE0C:
 	lsls r6, r1, #0x10
 _0804BE22:
 	lsls r2, r2, #0x10
-	asrs r3, r2, #0x10
+	asrs r3, r2, #0x10  @ r3 = j
 	movs r0, #0x2c
 	muls r0, r3, r0
 	adds r0, #0xc
-	ldr r1, [sp, #0xc]
-	adds r7, r1, r0
-	adds r4, r7, #4
+	ldr r1, [sp, #0xc]  @ r1 = sp0C = pend
+	adds r7, r1, r0     @ r7 = ps
+	adds r4, r7, #4     @ r4 = s
 	mov r0, sl
 	ldr r1, [r0, #4]
 	movs r0, #0x20
@@ -442,11 +348,11 @@ _0804BE22:
 _0804BE76:
 	movs r2, #0
 	ldrsh r1, [r7, r2]
-	mov r3, r8
+	mov r3, r8          @ r3 = r8 = worldX
 	asrs r0, r3, #0x10
 	adds r1, r1, r0
 	movs r0, #2
-	ldrsh r2, [r7, r0]
+	ldrsh r2, [r7, r0]  @ r2 = r7 = worldY
 	asrs r0, r6, #0x10
 	adds r2, r2, r0
 	movs r0, #0
@@ -495,6 +401,7 @@ _0804BECA:
 	bx r0
 	.align 2, 0
 _0804BEE0: .4byte gPlayers
+.endif
 
 	thumb_func_start sub_804BEE4
 sub_804BEE4: @ 0x0804BEE4
@@ -899,8 +806,8 @@ _0804C200:
 	.align 2, 0
 _0804C210: .4byte gCamera
 
-	thumb_func_start sub_804C214
-sub_804C214: @ 0x0804C214
+	thumb_func_start TaskDestructor_Pendulum
+TaskDestructor_Pendulum: @ 0x0804C214
 	push {lr}
 	ldrh r0, [r0, #6]
 	ldr r1, _0804C228 @ =0x03000178
