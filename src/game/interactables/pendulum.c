@@ -68,7 +68,7 @@ void CreateEntity_Pendulum(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 }
 
 #if 0
-// (92.79%) https://decomp.me/scratch/vQ5OR
+// (96.68%) https://decomp.me/scratch/vQ5OR
 void Task_Pendulum(void)
 {
     Pendulum *pend = TASK_DATA(gCurTask);
@@ -139,10 +139,10 @@ void Task_Pendulum(void)
         {
             // _0804BD40
             s32 sinValue;
-            PendSprite *psSegment = &pend->sprSegments[i * SEGMENTS_PER_PEND + j];
+            ps = &pend->sprSegments[i * SEGMENTS_PER_PEND + j];
             
-            psSegment->dx = ((SIN(pend->qSwingPos[i] & ONE_CYCLE) >> 9) * (j + 1));
-            psSegment->dy = ((COS(pend->qSwingPos[i] & ONE_CYCLE) >> 9) * (j + 1));
+            ps->dx = ((SIN(pend->qSwingPos[i] & ONE_CYCLE) >> 9) * (j + 1));
+            ps->dy = ((COS(pend->qSwingPos[i] & ONE_CYCLE) >> 9) * (j + 1));
         }
     }
     // __0804BD98
