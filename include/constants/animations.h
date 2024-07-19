@@ -117,7 +117,8 @@
     7=Un-Launcher
 */
 
-#define ANIM_MUD_FX 945
+#define ANIM_PENDULUM_CYBER 943
+#define ANIM_MUD_FX         945
 
 #define ANIM_GOAL_RING 948
 

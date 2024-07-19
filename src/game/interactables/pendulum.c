@@ -1,5 +1,6 @@
 #include "global.h"
 #include "module_unclear.h"
+#include "malloc_vram.h"
 #include "task.h"
 #include "trig.h"
 #include "game/camera.h"
@@ -7,8 +8,11 @@
 #include "game/player.h"
 #include "game/stage.h"
 
+#include "constants/animations.h"
+#include "constants/anim_sizes.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"
+#include "constants/zones.h"
 
 #define PEND_LEFT         0
 #define PEND_RIGHT        1
@@ -32,7 +36,7 @@ typedef struct {
     /* 0x16C */ u16 activePend;
     /* 0x16E */ s16 qSwingPos[PEND_COUNT]; // -Q(24./256.) to -Q(1)
     /* 0x172 */ s16 swingForce[PEND_COUNT]; // grows/shrinks by 2 if the associated pend is active
-    /* 0x176 */ u8 filler176[0x6];
+    /* 0x178 */ void *tiles;
     /* 0x17C */ s32 worldX;
     /* 0x17E */ s32 worldY;
 } Pendulum; /* size: 0x184 */
@@ -169,4 +173,69 @@ void Task_Pendulum(void)
 }
 
 #if 01
+// (75.64%) https://decomp.me/scratch/Wb6GN
+NONMATCH("asm/non_matching/game/interactables/pendulum__sub_804BEE4.inc", void sub_804BEE4(Pendulum *pend))
+{
+    Sprite *s;
+    u8 zone = gStageData.zone;
+    AnimId anim;
+    s16 i;
+    u32 offset;
+
+    if (zone == ZONE_6) {
+        anim = ANIM_PENDULUM_CYBER;
+    } else {
+        anim = ANIM_PENDULUM;
+    }
+
+    // TODO: Create a macro for this kind of situation.
+    pend->tiles = VramMalloc(MAX_TILES_VARIANT(ANIM_PENDULUM, 0) + MAX_TILES_VARIANT(ANIM_PENDULUM, 1));
+
+    s = &pend->sprBalls[PEND_LEFT].s;
+    s->tiles = pend->tiles;
+    s->anim = anim;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->timeUntilNextFrame = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    UpdateSpriteAnimation(s);
+
+    s = &pend->sprBalls[PEND_RIGHT].s;
+    s->tiles = pend->tiles;
+    s->anim = anim;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->timeUntilNextFrame = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    UpdateSpriteAnimation(s);
+
+    i = 0;
+    offset = MAX_TILES_VARIANT(ANIM_PENDULUM, 0) << 5;
+    for (; i < (s16)ARRAY_COUNT(pend->sprSegments); i++) {
+        s = &pend->sprSegments[i].s;
+        s->tiles = pend->tiles + offset;
+        s->anim = anim;
+        s->variant = 1;
+        s->oamFlags = SPRITE_OAM_ORDER(25);
+        s->animCursor = 0;
+        s->timeUntilNextFrame = 0;
+        s->prevVariant = -1;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+        s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+        UpdateSpriteAnimation(s);
+    }
+}
+END_NONMATCH
 #endif
