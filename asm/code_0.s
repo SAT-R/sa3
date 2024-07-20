@@ -90874,7 +90874,9 @@ _0802C1CA:
 	pop {r1}
 	bx r1
 	.align 2, 0
-
+    
+    @ Some On-Screen check?
+    @ Used by IAs 084, 101, 103, 112 and 131 (Pendulum)
 	thumb_func_start sub_802C1D0
 sub_802C1D0: @ 0x0802C1D0
 	push {lr}

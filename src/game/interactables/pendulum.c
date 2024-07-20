@@ -38,7 +38,7 @@ typedef struct {
     /* 0x172 */ s16 swingForce[PEND_COUNT]; // grows/shrinks by 2 if the associated pend is active
     /* 0x178 */ void *tiles;
     /* 0x17C */ s32 worldX;
-    /* 0x17E */ s32 worldY;
+    /* 0x180 */ s32 worldY;
 } Pendulum; /* size: 0x184 */
 
 void Task_Pendulum(void);
@@ -172,7 +172,6 @@ void Task_Pendulum(void)
     sub_804C008();
 }
 
-#if 01
 // (75.64%) https://decomp.me/scratch/Wb6GN
 NONMATCH("asm/non_matching/game/interactables/pendulum__sub_804BEE4.inc", void sub_804BEE4(Pendulum *pend))
 {
@@ -238,4 +237,93 @@ NONMATCH("asm/non_matching/game/interactables/pendulum__sub_804BEE4.inc", void s
     }
 }
 END_NONMATCH
-#endif
+
+void sub_804C008(void)
+{
+    s16 r8 = 0;
+    s16 i, j;
+
+    Pendulum *pend = TASK_DATA(gCurTask);
+    MapEntity *me = pend->base.me;
+    PendSprite *ps;
+    Sprite *s, *s2;
+    s16 worldX, worldY;
+
+    worldX = pend->worldX;
+    worldY = pend->worldY;
+
+    ps = &pend->sprBalls[PEND_LEFT];
+    s = &ps->s;
+    s->x = (ps->dx + worldX) - gCamera.x;
+    s->y = (ps->dy + worldY) - gCamera.y;
+
+    ps = &pend->sprBalls[PEND_RIGHT];
+    s2 = &ps->s;
+    s2->x = (ps->dx + worldX) - gCamera.x;
+    s2->y = (ps->dy + worldY) - gCamera.y;
+
+    if (IsPointInScreenRect(worldX, worldY) == TRUE) {
+        r8 = 1;
+    }
+    // _0804C094
+
+    if (sub_802C1D0(s->x, s->y) == TRUE) {
+        r8 |= 2;
+    }
+
+    if (sub_802C1D0(s2->x, s2->y) == TRUE) {
+        r8 |= 4;
+    }
+
+    if (r8 == 0) {
+        for (i = 0; i < PEND_COUNT; i++) {
+            Player *p;
+            ps = &pend->sprBalls[i];
+
+            for (j = 0; j < NUM_SINGLE_PLAYER_CHARS; j++) {
+                if (j != 0) {
+                    p = &gPlayers[p->charFlags.partnerIndex];
+                } else {
+                    p = &gPlayers[gStageData.charId];
+                }
+
+                // TODO/HACK: What is this cast!?
+                sub_80213B0((Sprite *)ps, p);
+            }
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, pend->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+    // _0804C17C
+
+    if (r8 & 2) {
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+
+    if (r8 & 4) {
+        UpdateSpriteAnimation(s2);
+        DisplaySprite(s2);
+    }
+    // _0804C1A4
+
+    for (j = 0; j < (SEGMENTS_PER_PEND * PEND_COUNT); j++) {
+        ps = &pend->sprSegments[j];
+        s2 = &ps->s;
+        s2->x = (worldX + ps->dx) - gCamera.x;
+        s2->y = (worldY + ps->dy) - gCamera.y;
+
+        if (sub_802C1D0(s2->x, s2->y) == TRUE) {
+            UpdateSpriteAnimation(s2);
+            DisplaySprite(s2);
+        }
+    }
+}
+
+void TaskDestructor_Pendulum(struct Task *t)
+{
+    Pendulum *pend = TASK_DATA(t);
+    VramFree(pend->tiles);
+}
