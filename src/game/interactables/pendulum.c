@@ -265,7 +265,6 @@ void sub_804C008(void)
     if (IsPointInScreenRect(worldX, worldY) == TRUE) {
         r8 = 1;
     }
-    // _0804C094
 
     if (sub_802C1D0(s->x, s->y) == TRUE) {
         r8 |= 2;
@@ -296,7 +295,6 @@ void sub_804C008(void)
         TaskDestroy(gCurTask);
         return;
     }
-    // _0804C17C
 
     if (r8 & 2) {
         UpdateSpriteAnimation(s);
@@ -307,7 +305,6 @@ void sub_804C008(void)
         UpdateSpriteAnimation(s2);
         DisplaySprite(s2);
     }
-    // _0804C1A4
 
     for (j = 0; j < (SEGMENTS_PER_PEND * PEND_COUNT); j++) {
         ps = &pend->sprSegments[j];

@@ -60,8 +60,6 @@ extern bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, 
 extern u32 sub_8020874(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5, u8 p6);
 u32 sub_8020950(Sprite *s, s32 worldX, s32 worldY, Player *p, void *param4);
 
-// The first parameter of this might either be an expanded Sprite
-// or a different struct entirely? (see func call in src/game/interactables/pendulum.c)
 void sub_80213B0(Sprite *s, Player *p);
 
 void sub_80236C8(void *, u8 p1, void *);
