@@ -444,8 +444,8 @@ gUnknown_080CF51C:
 gUnknown_080CF56C:
     .incbin "baserom.gba", 0x000CF56C, 0x18
 
-    .global gUnknown_080CF584
-gUnknown_080CF584:
+    .global sWindupOffsets
+sWindupOffsets:
     .incbin "baserom.gba", 0x000CF584, 0xC
 
     .global gUnknown_080CF590

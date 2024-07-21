@@ -17,7 +17,7 @@
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
-    /* 0x34 */ u8 unk34;
+    /* 0x34 */ u8 isXFlipped;
     /* 0x35 */ u8 unk35;
     /* 0x36 */ u8 unk36;
     /* 0x37 */ u8 unk37;
@@ -30,7 +30,7 @@ static void Task_BouncyBarLaunch(void);
 static void TaskDestructor_BouncyBar(struct Task *);
 static void UpdateSprite(void);
 
-extern u8 gUnknown_080CF584[11];
+extern u8 sWindupOffsets[11];
 
 #define LAUNCH_SPEED Q(7.5)
 
@@ -46,7 +46,7 @@ void CreateEntity_BouncyBar(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     bar->base.spriteX = me->x;
     bar->base.id = id;
 
-    bar->unk34 = GetBit(me->d.uData[4], 0);
+    bar->isXFlipped = GetBit(me->d.uData[4], 0);
     bar->activePlayer = NULL;
     bar->unk36 = 0;
     bar->unk35 = 0;
@@ -56,7 +56,7 @@ void CreateEntity_BouncyBar(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
-    InitSprite(s, bar->unk34);
+    InitSprite(s, bar->isXFlipped);
 }
 
 static void Task_BouncyBarIdle(void)
@@ -97,7 +97,7 @@ static void Task_BouncyBarIdle(void)
                                 s->variant = 1;
                             }
 
-                            if (bar->unk34 != 0) {
+                            if (bar->isXFlipped) {
                                 p->qWorldX = Q(worldX + 16);
                                 p->moveState |= MOVESTATE_FACING_LEFT;
                             } else {
@@ -138,7 +138,7 @@ static void Task_BouncyBarLaunch(void)
     s32 worldX, worldY;
     u8 sp00[11];
     s32 offset;
-    memcpy(sp00, gUnknown_080CF584, sizeof(sp00));
+    memcpy(sp00, sWindupOffsets, sizeof(sp00));
 
     bar = TASK_DATA(gCurTask);
     me = bar->base.me;
@@ -154,7 +154,7 @@ static void Task_BouncyBarLaunch(void)
         worldX = TO_WORLD_POS(bar->base.spriteX, bar->base.regionX);
         worldY = TO_WORLD_POS(me->y, bar->base.regionY);
 
-        if (bar->unk34 != 0) {
+        if (bar->isXFlipped) {
             activePlayer->qWorldX = Q(worldX + 16);
         } else {
             activePlayer->qWorldX = Q(worldX - 16);
