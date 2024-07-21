@@ -13841,8 +13841,8 @@ _08006DAC: .4byte gSineTable
 _08006DB0: .4byte 0xFFFFBFFF
 _08006DB4: .4byte Player_800EB5C
 
-	thumb_func_start sub_8006DB8
-sub_8006DB8: @ 0x08006DB8
+	thumb_func_start Player_8006DB8
+Player_8006DB8: @ 0x08006DB8
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	ldr r1, [r4, #4]
@@ -24116,8 +24116,8 @@ _0800BEDC: .4byte 0x00000119
 _0800BEE0: .4byte 0xDC510BA1
 _0800BEE4: .4byte sub_800EB58
 
-	thumb_func_start sub_800BEE8
-sub_800BEE8: @ 0x0800BEE8
+	thumb_func_start Player_800BEE8
+Player_800BEE8: @ 0x0800BEE8
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r0, _0800BF68 @ =gStageData
@@ -24171,7 +24171,7 @@ _0800BF08:
 	str r0, [r4, #4]
 	adds r0, r4, #0
 	bl sub_8012FA0
-	ldr r1, _0800BF74 @ =sub_800EAA8
+	ldr r1, _0800BF74 @ =Player_800EAA8
 	str r1, [r4]
 	adds r0, r4, #0
 	bl _call_via_r1
@@ -24182,7 +24182,7 @@ _0800BF08:
 _0800BF68: .4byte gStageData
 _0800BF6C: .4byte 0x00000119
 _0800BF70: .4byte 0xDC510BA1
-_0800BF74: .4byte sub_800EAA8
+_0800BF74: .4byte Player_800EAA8
 
 	thumb_func_start sub_800BF78
 sub_800BF78: @ 0x0800BF78
@@ -29691,8 +29691,8 @@ sub_800EA74: @ 0x0800EA74
 	.align 2, 0
 _0800EAA4: .4byte sub_8006C70
 
-    thumb_func_start sub_800EAA8
-sub_800EAA8:
+    thumb_func_start Player_800EAA8
+Player_800EAA8:
     bx lr
     .align 2 , 0
 

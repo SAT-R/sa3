@@ -54,7 +54,7 @@
 #define ANIM_RAMP                   870
 #define ANIM_PLATFORM_R99           871
 #define ANIM_ZONE_TELEPORT          872
-#define ANIM_BOUNCE_BAR             873
+#define ANIM_BOUNCY_BAR             873
 #define ANIM_ROTATING_HANDLE        874
 #define ANIM_CHECKPOINT             875
 #define ANIM_HANG_HANDLE            876

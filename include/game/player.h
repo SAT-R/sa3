@@ -15,6 +15,19 @@ struct Player;
 typedef struct Player Player;
 typedef void (*PlayerCallback)(Player *);
 
+typedef union PACKED {
+    u16 raw;
+
+    // TODO: This is from old documentation.
+    //       Double-check these!
+    struct {
+        u8 subCount : 4;
+        u8 other : 3; // TODO: name
+        u8 subHighBit : 1;
+        s8 highValue : 8;
+    } split;
+} StateNum;
+
 struct Player {
     // Code (Character Movement) to be executed
     PlayerCallback callback; // 0x00
@@ -74,12 +87,7 @@ struct Player {
         u8 unk2D_0 : 4; // 0x2D
         u8 unk2D_padding : 4; // 0x2D
 
-        // Sprite state manages the sprite's animations
-        // The spriteState-vals are (always?) the same that
-        // they are the "main indices" of the animations'
-        // 'stateNumber0/1' are sub-values which allow
-        // an animation to have multiple states!
-        // SpriteStateNumber stateNumber0;    // 0x2E-0x2F
+        // StateNum state0;    // 0x2E-0x2F
         u8 state0_subCount : 4;
         u8 state0_other : 3; // TODO: name
         u8 state0_subHighBit : 1;
@@ -88,11 +96,9 @@ struct Player {
         s16 anim0; // 0x30
         s16 anim1; // 0x32
         s16 anim2; // 0x34
-        // SpriteStateNumber stateNumber1;    // 0x36-0x37
-        u8 state1_subCount : 4;
-        u8 state1_other : 3; // TODO: name
-        u8 state1_subHighBit : 1;
-        s8 state1_highValue : 8;
+
+        // TODO: May also be type StateNum ?
+        u16 state1; // 0x36-0x37
     } charFlags;
 
     u8 Padding4[0x0D];

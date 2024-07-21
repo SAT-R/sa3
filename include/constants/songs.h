@@ -175,8 +175,8 @@
 
 /* Dummy Entries from 0x9F to 0xA8 */
 
-#define SE_SPRINGY_POLE 0xA9
-#define SE_170          0xAA
+#define SE_BOUNCY_BAR 0xA9
+#define SE_170        0xAA
 
 /* Dummy Entries from 0xAB to 0xDB */
 
