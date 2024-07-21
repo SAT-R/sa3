@@ -5,6 +5,9 @@
 #define ALLOC_TILES_VARIANT(_animName, _variant)                                                                                           \
     VramMalloc(((_animName##_VAR##_variant##_WIDTH / 8) * (_animName##_VAR##_variant##_HEIGHT / 8)))
 
+#define ANIM_AKATENTO_WIDTH  32
+#define ANIM_AKATENTO_HEIGHT 24
+
 #define ANIM_CHAOMAP_EMERALD_WIDTH  24
 #define ANIM_CHAOMAP_EMERALD_HEIGHT 16
 

@@ -190,10 +190,10 @@
 #define ANIM_BONUS_CAPSULE 1154
 
 // SA3 - Enemies
-#define ANIM_SPINNER     1166
-#define ANIM_CONDOR      1167
-#define ANIM_RED_BEETLE  1168
-#define ANIM_BLUE_BEETLE 1169
+#define ANIM_SPINNER  1166
+#define ANIM_CONDOR   1167
+#define ANIM_AKATENTO 1168
+#define ANIM_AOTENTO  1169
 
 #define ANIM_APE 1171
 

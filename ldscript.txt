@@ -105,7 +105,7 @@ SECTIONS {
         build/sa3/src/game/interactables/emerald_in_playground.o(.text);
         build/sa3/asm/code_1.o(.text);
         build/sa3/src/game/final_boss_init.o(.text);
-        build/sa3/asm/enemy_akatento.o(.text);
+        build/sa3/src/game/enemies/akatento.o(.text);
         build/sa3/asm/enemy_aotento.o(.text);
         build/sa3/src/game/enemies/spinner.o(.text);
         build/sa3/asm/enemy_condor.o(.text);
