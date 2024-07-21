@@ -24,13 +24,15 @@ typedef struct {
     /* 0x38 */ Player *activePlayer;
 } BouncyBar; /* size: 0x3C */
 
-void sub_8034698(Sprite *, u8);
-void Task_BouncyBarIdle(void);
-void Task_BouncyBarLaunch(void);
-void TaskDestructor_BouncyBar(struct Task *);
-void sub_80345EC(void);
+static void InitSprite(Sprite *, u8);
+static void Task_BouncyBarIdle(void);
+static void Task_BouncyBarLaunch(void);
+static void TaskDestructor_BouncyBar(struct Task *);
+static void UpdateSprite(void);
 
 extern u8 gUnknown_080CF584[11];
+
+#define LAUNCH_SPEED Q(7.5)
 
 void CreateEntity_BouncyBar(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -54,10 +56,10 @@ void CreateEntity_BouncyBar(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
-    sub_8034698(s, bar->unk34);
+    InitSprite(s, bar->unk34);
 }
 
-void Task_BouncyBarIdle(void)
+static void Task_BouncyBarIdle(void)
 {
     BouncyBar *bar = TASK_DATA(gCurTask);
     Sprite *s = &bar->s;
@@ -124,11 +126,11 @@ void Task_BouncyBarIdle(void)
             }
         }
 
-        sub_80345EC();
+        UpdateSprite();
     }
 }
 
-void Task_BouncyBarLaunch(void)
+static void Task_BouncyBarLaunch(void)
 {
     BouncyBar *bar;
     MapEntity *me;
@@ -142,7 +144,7 @@ void Task_BouncyBarLaunch(void)
     me = bar->base.me;
     activePlayer = bar->activePlayer;
 
-    sub_80345EC();
+    UpdateSprite();
 
     if ((activePlayer->callback != Player_800EAA8) || sub_802C0D4(activePlayer)) {
         bar->unk35 = 0;
@@ -167,13 +169,13 @@ void Task_BouncyBarLaunch(void)
 
         SetPlayerCallback(activePlayer, (void *)Player_8006DB8);
         activePlayer->qSpeedAirX = 0;
-        activePlayer->qSpeedAirY = -Q(7.5);
+        activePlayer->qSpeedAirY = -LAUNCH_SPEED;
         bar->unk35 = 0;
         gCurTask->main = Task_BouncyBarIdle;
     }
 }
 
-void sub_80345EC(void)
+static void UpdateSprite(void)
 {
     BouncyBar *bar = TASK_DATA(gCurTask);
     Sprite *s = &bar->s;
@@ -190,7 +192,8 @@ void sub_80345EC(void)
     } else {
         s->x = worldX - gCamera.x;
         s->y = worldY - gCamera.y;
-        if ((!(u16)UpdateSpriteAnimation(s)) && (s->variant == 1)) {
+
+        if (((u16)UpdateSpriteAnimation(s) == ACMD_RESULT__ENDED) && (s->variant == 1)) {
             s->variant = 0;
         }
 
@@ -198,13 +201,13 @@ void sub_80345EC(void)
     }
 }
 
-void TaskDestructor_BouncyBar(struct Task *t)
+static void TaskDestructor_BouncyBar(struct Task *t)
 {
     BouncyBar *bar = TASK_DATA(t);
     VramFree(bar->s.tiles);
 }
 
-void sub_8034698(Sprite *s, u8 param1)
+static void InitSprite(Sprite *s, u8 param1)
 {
     s->tiles = ALLOC_TILES(ANIM_BOUNCY_BAR);
     s->anim = ANIM_BOUNCY_BAR;
