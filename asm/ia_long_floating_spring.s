@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_804C22C
-sub_804C22C: @ 0x0804C22C
+	thumb_func_start Task_804C22C
+Task_804C22C: @ 0x0804C22C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -558,8 +558,8 @@ _0804C66C:
 	.align 2, 0
 _0804C678: .4byte 0x000003AB
 
-	thumb_func_start CreateEntity_Interactable132
-CreateEntity_Interactable132: @ 0x0804C67C
+	thumb_func_start CreateEntity_LongFloatingSpringA
+CreateEntity_LongFloatingSpringA: @ 0x0804C67C
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	adds r6, r0, #0
@@ -576,14 +576,14 @@ CreateEntity_Interactable132: @ 0x0804C67C
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sub_804C22C
+	bl Task_804C22C
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Interactable133
-CreateEntity_Interactable133: @ 0x0804C6A8
+	thumb_func_start CreateEntity_LongFloatingSpringB
+CreateEntity_LongFloatingSpringB: @ 0x0804C6A8
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	adds r6, r0, #0
@@ -600,7 +600,7 @@ CreateEntity_Interactable133: @ 0x0804C6A8
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sub_804C22C
+	bl Task_804C22C
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}

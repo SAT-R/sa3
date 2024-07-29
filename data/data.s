@@ -354,8 +354,8 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable129
     .4byte CreateEntity_Interactable130
     .4byte CreateEntity_Pendulum
-    .4byte CreateEntity_Interactable132
-    .4byte CreateEntity_Interactable133
+    .4byte CreateEntity_LongFloatingSpringA
+    .4byte CreateEntity_LongFloatingSpringB
     .4byte CreateEntity_Interactable134
     .4byte CreateEntity_Interactable135
     .4byte CreateEntity_Interactable136

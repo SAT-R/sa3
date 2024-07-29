@@ -92,11 +92,12 @@ SECTIONS {
         build/sa3/src/game/interactables/127_and_128.o(.text);
         build/sa3/src/game/interactables/toy_balloon.o(.text);
         build/sa3/src/game/interactables/pendulum.o(.text);
-        build/sa3/asm/ia_132_and_133.o(.text);
+        build/sa3/asm/ia_long_floating_spring.o(.text);
         build/sa3/src/game/interactables/134.o(.text);
         build/sa3/src/game/interactables/135.o(.text);
         build/sa3/asm/ia_136_to_138.o(.text);
         build/sa3/asm/ia_139.o(.text);
+        build/sa3/asm/ia_shared_unknown.o(.text);
         build/sa3/src/game/interactables/chao.o(.text);
         build/sa3/src/game/interactables/special_key.o(.text);
         build/sa3/asm/ia_mp_023.o(.text);
