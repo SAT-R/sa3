@@ -1700,6 +1700,7 @@ _0805CD1A:
 	pop {r0}
 	bx r0
 
+@ This function is inlined in most places, but seemingly not everywhere?
 	thumb_func_start sub_805CD20
 sub_805CD20: @ 0x0805CD20
 	push {lr}

@@ -29,7 +29,6 @@ void CreateEntity_FlatSpring(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     struct Task *t = TaskCreate(Task_FlatSpring, sizeof(FlatSpring), 0x2100, 0, TaskDestructor_FlatSpring);
     FlatSpring *spring = TASK_DATA(t);
     Sprite *s = &spring->s;
-    s32 sb = 0;
 
     spring->base.regionX = regionX;
     spring->base.regionY = regionY;
@@ -37,7 +36,7 @@ void CreateEntity_FlatSpring(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     spring->base.spriteX = me->x;
     spring->base.id = id;
     spring->kind = me->d.uData[4] & 0x3;
-    spring->unk35 = sb;
+    spring->unk35 = 0;
 
     s->x = TO_WORLD_POS(me->x, regionX);
     s->y = TO_WORLD_POS(me->y, regionY);
