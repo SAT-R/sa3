@@ -234,6 +234,7 @@ _0804DDA6:
 _0804DDCC: .4byte gStageData
 _0804DDD0: .4byte gSineTable
 
+@ DrawPlatform?
 	thumb_func_start sub_804DDD4
 sub_804DDD4: @ 0x0804DDD4
 	push {r4, r5, r6, lr}
