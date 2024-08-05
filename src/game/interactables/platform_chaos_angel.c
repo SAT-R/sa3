@@ -1,11 +1,14 @@
 #include "global.h"
 #include "task.h"
+#include "malloc_vram.h"
 #include "module_unclear.h"
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/player.h"
 #include "game/stage.h"
 
+#include "constants/animations.h"
+#include "constants/anim_sizes.h"
 #include "constants/move_states.h"
 
 typedef struct {
@@ -143,25 +146,67 @@ NONMATCH("asm/non_matching/game/interactables/platform_ca__Task_PlatformChaosAng
 }
 END_NONMATCH
 
-#if 0
 void sub_804DB08(void)
 {
     PlatformCA *platform = TASK_DATA(gCurTask);
     MapEntity *me = platform->base.me;
     Sprite *s;
-    s32 qWorldX, qWorldY;
+    s16 worldX, worldY;
     s16 i;
+    
+    worldX = I(platform->qWorldX);
+    worldY = I(platform->qWorldY);
 
-    qWorldX = platform->qWorldX;
-    qWorldY = platform->qWorldY;
     s = &platform->s;
 
-    if(!IsPointInScreenRect(I(qWorldX), I(qWorldY))) {
+    if(!IsPointInScreenRect(worldX, worldY)) {
         for(i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            Player *p;
 
+            if (i != 0) {
+                p = &gPlayers[p->charFlags.partnerIndex];
+            } else {
+                p = &gPlayers[gStageData.charId];
+            }
+
+            sub_80213B0(s, p);
         }
-    } else {
 
+        me->x = platform->base.spriteX;
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        s->x = worldX - gCamera.x;
+        s->y = worldY - gCamera.y;
+        UpdateSpriteAnimation(s);
+
+        if(sub_802C1F8(s->x, s->y) == TRUE) {
+            DisplaySprite(s);
+        }
     }
 }
+
+void TaskDestructor_PlatformChaosAngel(struct Task *t)
+{
+    PlatformCA *platform = TASK_DATA(t);
+    VramFree(platform->s.tiles);
+}
+
+void sub_804DBF4(Sprite *s)
+{
+    s->tiles = ALLOC_TILES(ANIM_FALL_PLATFORM_CA);
+    s->anim = ANIM_FALL_PLATFORM_CA;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->timeUntilNextFrame = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    UpdateSpriteAnimation(s);
+}
+
+#if 01
 #endif
