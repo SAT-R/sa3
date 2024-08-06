@@ -28,6 +28,8 @@ void sub_804DB08(void);
 void TaskDestructor_PlatformChaosAngel(struct Task *);
 static void InitSprite(Sprite *s);
 
+extern u8 gUnknown_080D03E8[8][2];
+
 void CreateEntity_PlatformChaosAngel(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_PlatformChaosAngel, sizeof(PlatformCA), 0x2100, 0, TaskDestructor_PlatformChaosAngel);
