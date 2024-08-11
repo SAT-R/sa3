@@ -57,7 +57,7 @@ SECTIONS {
         build/sa3/asm/ia_launcher_twinkle_snow.o(.text);
         build/sa3/src/game/interactables/090.o(.text);
         build/sa3/asm/ia_accordion_spring.o(.text);
-        build/sa3/asm/ia_bungee_cord.o(.text);
+        build/sa3/src/game/interactables/bungee_cord.o(.text);
         build/sa3/src/game/interactables/waggle_coil.o(.text);
         build/sa3/src/game/interactables/pole.o(.text);
         build/sa3/src/game/interactables/mud_fx.o(.text);
