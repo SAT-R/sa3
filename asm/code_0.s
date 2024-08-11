@@ -20621,8 +20621,8 @@ _0800A3B8:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_800A3C0
-sub_800A3C0: @ 0x0800A3C0
+	thumb_func_start Player_800A3C0
+Player_800A3C0: @ 0x0800A3C0
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	bl sub_8012FA0

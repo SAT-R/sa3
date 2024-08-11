@@ -81,4 +81,6 @@ void sub_8029A18(u16 songId);
 bool32 sub_805C510(Sprite *s);
 void sub_8097C54(u16);
 
+void sub_80C0CA8(Sprite *s, Vec2_16 *positions, u16 count);
+
 #endif // GUARD_SA3_MODULE_UNCLEAR_H

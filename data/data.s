@@ -314,7 +314,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable089
     .4byte CreateEntity_Interactable090
     .4byte CreateEntity_Interactable091
-    .4byte CreateEntity_Interactable092
+    .4byte CreateEntity_BungeeCord
     .4byte CreateEntity_Interactable093
     .4byte CreateEntity_Interactable094
     .4byte CreateEntity_Interactable095 
