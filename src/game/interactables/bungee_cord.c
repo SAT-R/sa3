@@ -25,7 +25,7 @@ typedef struct {
 void Task_BungeeCord(void);
 void sub_803FC80(void);
 void TaskDestructor_BungeeCord(struct Task *t);
-void sub_803FC24(Sprite *s, Vec2_16 *inPositions);
+static void InitSprite(Sprite *s, Vec2_16 *inPositions);
 s16 sub_803FD5C(Vec2_16 *inPositions);
 
 void Task_BungeeCord(void)
@@ -41,14 +41,16 @@ void Task_BungeeCord(void)
 
     worldX = TO_WORLD_POS(cord->base.spriteX, cord->base.regionX);
     worldY = TO_WORLD_POS(me->y, cord->base.regionY);
+
     qWorldY = Q(worldY);
     qTop = qWorldY + Q(me->d.sData[1] * TILE_WIDTH);
     qBottom = qTop + Q(me->d.uData[3] * TILE_WIDTH);
+
     qWorldX = Q(worldX);
     qLeft = qWorldX + Q(me->d.sData[0] * TILE_WIDTH);
     qRight = qLeft + Q(me->d.uData[2] * TILE_WIDTH);
 
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         Player *p;
 
         if (i == 0) {
@@ -72,7 +74,7 @@ void Task_BungeeCord(void)
     sub_803FC80();
 }
 
-void sub_803FC24(Sprite *s, Vec2_16 *inPositions)
+static void InitSprite(Sprite *s, Vec2_16 *inPositions)
 {
     s16 i;
 
@@ -212,7 +214,7 @@ void CreateEntity_BungeeCord(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     }
 
     s = &cord->s;
-    sub_803FC24(s, &cord->positions[0]);
+    InitSprite(s, &cord->positions[0]);
 }
 
 void TaskDestructor_BungeeCord(struct Task *t)

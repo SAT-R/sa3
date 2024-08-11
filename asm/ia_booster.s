@@ -5,10 +5,8 @@
 .syntax unified
 .arm
 
-@ --- Start of IA035-040 ---
-
-	thumb_func_start CreateEntity_Interactables_035_040
-CreateEntity_Interactables_035_040: @ 0x0803117C
+	thumb_func_start CreateEntity_Booster
+CreateEntity_Booster: @ 0x0803117C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -505,7 +503,7 @@ CreateEntity_Interactable035: @ 0x08031520
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl CreateEntity_Interactables_035_040
+	bl CreateEntity_Booster
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
@@ -529,7 +527,7 @@ CreateEntity_Interactable037: @ 0x0803154C
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl CreateEntity_Interactables_035_040
+	bl CreateEntity_Booster
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
@@ -553,7 +551,7 @@ CreateEntity_Interactable039: @ 0x08031578
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl CreateEntity_Interactables_035_040
+	bl CreateEntity_Booster
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
@@ -577,7 +575,7 @@ CreateEntity_Interactable036: @ 0x080315A4
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl CreateEntity_Interactables_035_040
+	bl CreateEntity_Booster
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
@@ -601,7 +599,7 @@ CreateEntity_Interactable038: @ 0x080315D0
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl CreateEntity_Interactables_035_040
+	bl CreateEntity_Booster
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
@@ -625,7 +623,7 @@ CreateEntity_Interactable040: @ 0x080315FC
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl CreateEntity_Interactables_035_040
+	bl CreateEntity_Booster
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
