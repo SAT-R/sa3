@@ -257,12 +257,12 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Spikes_Right
     .4byte CreateEntity_Spikes_HidingUp
     .4byte CreateEntity_Spikes_HidingDown
-    .4byte CreateEntity_Interactable035
-    .4byte CreateEntity_Interactable036
-    .4byte CreateEntity_Interactable037
-    .4byte CreateEntity_Interactable038
-    .4byte CreateEntity_Interactable039
-    .4byte CreateEntity_Interactable040
+    .4byte CreateEntity_Booster0
+    .4byte CreateEntity_Booster2
+    .4byte CreateEntity_Booster1
+    .4byte CreateEntity_Booster4
+    .4byte CreateEntity_Booster3
+    .4byte CreateEntity_Booster5
     .4byte CreateEntity_Interactable041
     .4byte CreateEntity_Interactable042
     .4byte CreateEntity_Interactable043
@@ -384,7 +384,7 @@ gSpriteInits_InteractablesMultiplayer: @ 0x080CF354
     .4byte CreateEntity_Interactable023 @ 011
     .4byte CreateEntity_Interactable043 @ 012
     .4byte CreateEntity_Spikes_Up @ 013
-    .4byte CreateEntity_Interactable035 @ 014
+    .4byte CreateEntity_Booster0 @ 014
     .4byte CreateEntity_Interactable072 @ 015
     .4byte CreateEntity_Interactable073 @ 016
     .4byte CreateEntity_Interactable074 @ 017

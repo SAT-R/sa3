@@ -31,10 +31,10 @@ CreateEntity_Booster: @ 0x0803117C
 	adds r0, r7, #0
 	lsrs r0, r0, #0x18
 	mov r8, r0
-	ldr r0, _08031234 @ =sub_803124C
+	ldr r0, _08031234 @ =Task_Booster
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _08031238 @ =TaskDestructor_8031628
+	ldr r1, _08031238 @ =TaskDestructor_Booster
 	str r1, [sp]
 	movs r1, #0x38
 	movs r3, #0
@@ -97,15 +97,15 @@ CreateEntity_Booster: @ 0x0803117C
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08031234: .4byte sub_803124C
-_08031238: .4byte TaskDestructor_8031628
+_08031234: .4byte Task_Booster
+_08031238: .4byte TaskDestructor_Booster
 _0803123C: .4byte 0x0300000C
 _08031240: .4byte 0x03000034
 _08031244: .4byte 0x03000035
 _08031248: .4byte 0x03000036
 
-	thumb_func_start sub_803124C
-sub_803124C: @ 0x0803124C
+	thumb_func_start Task_Booster
+Task_Booster: @ 0x0803124C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -352,293 +352,6 @@ _08031412:
 	pop {r0}
 	bx r0
 	.align 2, 0
-
-	thumb_func_start sub_8031428
-sub_8031428: @ 0x08031428
-	push {r4, r5, r6, lr}
-	adds r4, r3, #0
-	lsls r0, r0, #0x18
-	lsrs r6, r0, #0x18
-	lsls r1, r1, #0x18
-	lsrs r1, r1, #0x18
-	lsls r2, r2, #0x18
-	movs r5, #0
-	cmp r2, #0
-	beq _0803144A
-	cmp r6, #5
-	bne _08031446
-	movs r5, #0x80
-	lsls r5, r5, #3
-	b _0803144A
-_08031446:
-	movs r5, #0x80
-	lsls r5, r5, #4
-_0803144A:
-	cmp r1, #0
-	beq _0803145E
-	cmp r6, #5
-	bne _08031458
-	movs r0, #0x80
-	lsls r0, r0, #4
-	b _0803145C
-_08031458:
-	movs r0, #0x80
-	lsls r0, r0, #3
-_0803145C:
-	orrs r5, r0
-_0803145E:
-	movs r0, #0x14
-	bl VramMalloc
-	str r0, [r4]
-	movs r0, #0xd9
-	lsls r0, r0, #2
-	strh r0, [r4, #0xc]
-	ldr r0, _08031478 @ =gStageData
-	ldrb r0, [r0, #3]
-	cmp r0, #7
-	beq _0803147C
-	strb r6, [r4, #0x1a]
-	b _08031486
-	.align 2, 0
-_08031478: .4byte gStageData
-_0803147C:
-	movs r0, #0
-	strb r0, [r4, #0x1a]
-	movs r0, #0x80
-	lsls r0, r0, #2
-	orrs r5, r0
-_08031486:
-	movs r2, #0
-	movs r1, #0
-	movs r0, #0xc0
-	lsls r0, r0, #3
-	strh r0, [r4, #0x14]
-	strh r1, [r4, #0xe]
-	strh r1, [r4, #0x16]
-	movs r0, #0xff
-	strb r0, [r4, #0x1b]
-	movs r0, #0x10
-	strb r0, [r4, #0x1c]
-	strb r2, [r4, #0x1f]
-	subs r0, #0x11
-	str r0, [r4, #0x20]
-	movs r0, #0x80
-	lsls r0, r0, #5
-	orrs r5, r0
-	str r5, [r4, #8]
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-
-	thumb_func_start sub_80314B0
-sub_80314B0: @ 0x080314B0
-	push {r4, r5, r6, r7, lr}
-	ldr r7, _08031504 @ =gCurTask
-	ldr r0, [r7]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	adds r0, #0xc
-	adds r5, r1, r0
-	ldr r6, [r4]
-	ldrb r0, [r4, #0xa]
-	lsls r0, r0, #3
-	ldrh r1, [r4, #4]
-	lsls r1, r1, #8
-	adds r0, r0, r1
-	ldrb r1, [r6, #1]
-	lsls r1, r1, #3
-	ldrh r2, [r4, #6]
-	lsls r2, r2, #8
-	adds r1, r1, r2
-	ldr r3, _08031508 @ =gCamera
-	ldr r2, [r3]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x10
-	subs r2, r0, r2
-	strh r2, [r5, #0x10]
-	ldr r2, [r3, #4]
-	lsls r1, r1, #0x10
-	asrs r1, r1, #0x10
-	subs r2, r1, r2
-	strh r2, [r5, #0x12]
-	bl IsPointInScreenRect
-	cmp r0, #0
-	bne _0803150C
-	ldrb r0, [r4, #0xa]
-	strb r0, [r6]
-	ldr r0, [r7]
-	bl TaskDestroy
-	b _08031518
-	.align 2, 0
-_08031504: .4byte gCurTask
-_08031508: .4byte gCamera
-_0803150C:
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-	adds r0, r5, #0
-	bl DisplaySprite
-_08031518:
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-
-	thumb_func_start CreateEntity_Interactable035
-CreateEntity_Interactable035: @ 0x08031520
-	push {r4, r5, r6, lr}
-	sub sp, #4
-	adds r6, r0, #0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r3, r3, #0x18
-	lsrs r3, r3, #0x18
-	str r3, [sp]
-	movs r0, #0
-	adds r1, r6, #0
-	adds r2, r4, #0
-	adds r3, r5, #0
-	bl CreateEntity_Booster
-	add sp, #4
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-
-	thumb_func_start CreateEntity_Interactable037
-CreateEntity_Interactable037: @ 0x0803154C
-	push {r4, r5, r6, lr}
-	sub sp, #4
-	adds r6, r0, #0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r3, r3, #0x18
-	lsrs r3, r3, #0x18
-	str r3, [sp]
-	movs r0, #1
-	adds r1, r6, #0
-	adds r2, r4, #0
-	adds r3, r5, #0
-	bl CreateEntity_Booster
-	add sp, #4
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-
-	thumb_func_start CreateEntity_Interactable039
-CreateEntity_Interactable039: @ 0x08031578
-	push {r4, r5, r6, lr}
-	sub sp, #4
-	adds r6, r0, #0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r3, r3, #0x18
-	lsrs r3, r3, #0x18
-	str r3, [sp]
-	movs r0, #3
-	adds r1, r6, #0
-	adds r2, r4, #0
-	adds r3, r5, #0
-	bl CreateEntity_Booster
-	add sp, #4
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-
-	thumb_func_start CreateEntity_Interactable036
-CreateEntity_Interactable036: @ 0x080315A4
-	push {r4, r5, r6, lr}
-	sub sp, #4
-	adds r6, r0, #0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r3, r3, #0x18
-	lsrs r3, r3, #0x18
-	str r3, [sp]
-	movs r0, #2
-	adds r1, r6, #0
-	adds r2, r4, #0
-	adds r3, r5, #0
-	bl CreateEntity_Booster
-	add sp, #4
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-
-	thumb_func_start CreateEntity_Interactable038
-CreateEntity_Interactable038: @ 0x080315D0
-	push {r4, r5, r6, lr}
-	sub sp, #4
-	adds r6, r0, #0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r3, r3, #0x18
-	lsrs r3, r3, #0x18
-	str r3, [sp]
-	movs r0, #4
-	adds r1, r6, #0
-	adds r2, r4, #0
-	adds r3, r5, #0
-	bl CreateEntity_Booster
-	add sp, #4
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-
-	thumb_func_start CreateEntity_Interactable040
-CreateEntity_Interactable040: @ 0x080315FC
-	push {r4, r5, r6, lr}
-	sub sp, #4
-	adds r6, r0, #0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r3, r3, #0x18
-	lsrs r3, r3, #0x18
-	str r3, [sp]
-	movs r0, #5
-	adds r1, r6, #0
-	adds r2, r4, #0
-	adds r3, r5, #0
-	bl CreateEntity_Booster
-	add sp, #4
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-
-	thumb_func_start TaskDestructor_8031628
-TaskDestructor_8031628: @ 0x08031628
-	push {lr}
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r0, r0, r1
-	ldr r0, [r0, #0xc]
-	bl VramFree
-	pop {r0}
-	bx r0
     
-@ --- End of IA035-040 ---
+.if 0
+.endif
