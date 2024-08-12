@@ -172,6 +172,17 @@ typedef void (*VoidFn)(void);
         }                                                                                                                                  \
     })
 
+#define CLAMP_INLINE_NO_ELSE_2(var, min, max)                                                                                              \
+    ({                                                                                                                                     \
+        if ((var) > (max)) {                                                                                                               \
+            var = (max);                                                                                                                   \
+        }                                                                                                                                  \
+                                                                                                                                           \
+        if ((var) < (min)) {                                                                                                               \
+            var = (min);                                                                                                                   \
+        }                                                                                                                                  \
+    })
+
 #define CLAMP_INLINE2(var, min, max)                                                                                                       \
     ({                                                                                                                                     \
         if ((var) > (max)) {                                                                                                               \

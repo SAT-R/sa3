@@ -81,7 +81,6 @@ bool32 sub_802C140(s32, s32, s32, s32);
 bool32 sub_802C1D0(s32, s32);
 bool32 sub_802C1F8(s32, s32);
 void sub_8029A18(u16 songId);
-u16 sub_804DC38(u8 kind, s32 worldX, s32 worldY, MapEntity *me);
 void sub_804DD68(void *);
 bool32 sub_805C510(Sprite *s);
 void sub_8097C54(u16);

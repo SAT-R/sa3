@@ -13,14 +13,19 @@
 #include "constants/move_states.h"
 #include "constants/songs.h"
 
+#include "game/interactables/platform_shared.h"
+
+#define MIN_BOUNCE_SPEED Q(3)
+#define MAX_BOUNCE_SPEED Q(8)
+
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ s32 qWorldX;
     /* 0x10 */ s32 qWorldY;
-    /* 0x14 */ s32 qHeight;
-    /* 0x18 */ s32 qWidth;
-    /* 0x1C */ s32 qRight;
-    /* 0x20 */ s32 qBottom;
+    /* 0x14 */ s32 qHalfHeight;
+    /* 0x18 */ s32 qHalfWidth;
+    /* 0x1C */ s32 qMiddleX;
+    /* 0x20 */ s32 qMiddleY;
     /* 0x24 */ u8 filler20[0x4];
     /* 0x28 */ u16 unk28;
     /* 0x2A */ u8 unk2A;
@@ -29,19 +34,22 @@ typedef struct {
     /* 0x54 */ u8 filler54[4];
 } Trampoline;
 
-bool32 sub_8031758(void);
-u8 sub_803185C(void);
+static bool32 UpdatePlayerSpeed(void);
+static u8 UpdatePlayer(void);
 void Task_Trampoline(void);
 static void InitSprite(Sprite *);
 void TaskDestructor_Trampoline(struct Task *);
 
-void CreateTrampoline(u8 kind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
+extern u16 sub_804DC38(u8 kind, s32 worldX, s32 worldY, MapEntity *me);
+extern void sub_804DD68(void *);
+
+static void CreateTrampoline(u8 kind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_Trampoline, sizeof(Trampoline), 0x2100, 0, TaskDestructor_Trampoline);
     Trampoline *trampoline = TASK_DATA(t);
     Sprite *s = &trampoline->s;
-    s32 qLeft, qTop, qRight, qBottom;
-    s32 qWidth, qHeight;
+    s32 qLeft, qTop, qMiddleX, qMiddleY;
+    s32 qHalfWidth, qHalfHeight;
     s32 qWorldX, qWorldY;
     u8 i;
 
@@ -66,14 +74,14 @@ void CreateTrampoline(u8 kind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
     trampoline->unk2A = i + 1;
 
     qTop = qWorldY + Q(me->d.sData[1] * TILE_WIDTH);
-    qHeight = Q(me->d.uData[3] * (TILE_WIDTH / 2));
+    qHalfHeight = Q(me->d.uData[3] * (TILE_WIDTH / 2));
     qLeft = qWorldX + Q(me->d.sData[0] * TILE_WIDTH);
-    qWidth = Q(me->d.uData[2] * (TILE_WIDTH / 2));
+    qHalfWidth = Q(me->d.uData[2] * (TILE_WIDTH / 2));
 
-    trampoline->qHeight = qHeight;
-    trampoline->qWidth = qWidth;
-    trampoline->qRight = qLeft + qWidth;
-    trampoline->qBottom = qTop + qHeight;
+    trampoline->qHalfHeight = qHalfHeight;
+    trampoline->qHalfWidth = qHalfWidth;
+    trampoline->qMiddleX = qLeft + qHalfWidth;
+    trampoline->qMiddleY = qTop + qHalfHeight;
 
     s->x = I(trampoline->qWorldX);
     s->y = I(trampoline->qWorldY);
@@ -82,16 +90,16 @@ void CreateTrampoline(u8 kind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
     InitSprite(s);
 }
 
-bool32 sub_8031758(void)
+static bool32 UpdatePlayerSpeed(void)
 {
-    u8 r1 = sub_803185C();
+    u8 r1 = UpdatePlayer();
     Trampoline *trampoline = TASK_DATA(gCurTask);
     Sprite *s = &trampoline->s;
     s32 qSpeedAirY;
     u8 i;
 
     if (r1 & 0x80) {
-        for (i = 0; i < 2; i++) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             Player *p;
 
             if (i != 0) {
@@ -110,13 +118,7 @@ bool32 sub_8031758(void)
 
                 p->qSpeedAirY = qSpeedAirY + (qSpeedAirY >> 3);
 
-                if (p->qSpeedAirY > Q(8)) {
-                    p->qSpeedAirY = Q(8);
-                }
-
-                if (p->qSpeedAirY < Q(3)) {
-                    p->qSpeedAirY = Q(3);
-                }
+                CLAMP_INLINE_NO_ELSE_2(p->qSpeedAirY, MIN_BOUNCE_SPEED, MAX_BOUNCE_SPEED);
 
                 p->qSpeedAirY = -p->qSpeedAirY;
 
@@ -130,10 +132,10 @@ bool32 sub_8031758(void)
         s->prevVariant = -1;
     }
 
-    return 1;
+    return TRUE;
 }
 
-u8 sub_803185C(void)
+static u8 UpdatePlayer(void)
 {
     u8 result = 0;
     Trampoline *trampoline = TASK_DATA(gCurTask);
@@ -171,7 +173,7 @@ u8 sub_803185C(void)
             u32 mask = sub_8020950(s, I(trampoline->qWorldX), I(trampoline->qWorldY), p, NULL);
 
             if (mask & 0x10000) {
-                if (qSpeedAirY > Q(3)) {
+                if (qSpeedAirY > MIN_BOUNCE_SPEED) {
                     result |= 0x80;
                 }
 
@@ -185,18 +187,18 @@ u8 sub_803185C(void)
     return result;
 }
 
-void sub_8031974(void)
+static void UpdateAnimation(void)
 {
     Trampoline *trampoline = TASK_DATA(gCurTask);
     Sprite *s = &trampoline->s;
     MapEntity *me = trampoline->base.me;
-    s32 qRight = trampoline->qRight;
-    s32 qBottom = trampoline->qBottom;
+    s32 qMiddleX = trampoline->qMiddleX;
+    s32 qMiddleY = trampoline->qMiddleY;
 
     s->x = I(trampoline->qWorldX) - gCamera.x;
     s->y = I(trampoline->qWorldY) - gCamera.y;
 
-    if (!sub_802C140(qRight, qBottom, s->x, s->y)) {
+    if (!sub_802C140(qMiddleX, qMiddleY, s->x, s->y)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, trampoline->base.spriteX);
         TaskDestroy(gCurTask);
         return;
@@ -225,8 +227,8 @@ void TaskDestructor_Trampoline(struct Task *t)
 
 void Task_Trampoline(void)
 {
-    if (sub_8031758() == 1) {
-        sub_8031974();
+    if (UpdatePlayerSpeed() == TRUE) {
+        UpdateAnimation();
     }
 }
 
