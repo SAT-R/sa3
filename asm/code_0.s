@@ -23770,8 +23770,8 @@ _0800BC2C: .4byte 0xDC510BA1
 _0800BC30: .4byte 0xFFFFBFFF
 _0800BC34: .4byte sub_800EC20
 
-	thumb_func_start sub_800BC38
-sub_800BC38: @ 0x0800BC38
+	thumb_func_start Player_800BC38
+Player_800BC38: @ 0x0800BC38
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	ldr r0, [r4, #4]

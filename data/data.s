@@ -263,8 +263,8 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Booster_TiltLeft_Big    @ 038
     .4byte CreateEntity_Booster_TiltRight_Big   @ 039
     .4byte CreateEntity_Booster_Wall            @ 040
-    .4byte CreateEntity_Interactable041
-    .4byte CreateEntity_Interactable042
+    .4byte CreateEntity_TrampolineA
+    .4byte CreateEntity_TrampolineB
     .4byte CreateEntity_Interactable043
     .4byte CreateEntity_Interactable044
     .4byte CreateEntity_Interactable045
