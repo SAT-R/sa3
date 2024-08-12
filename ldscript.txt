@@ -28,6 +28,7 @@ SECTIONS {
         build/sa3/asm/ia_platform_and_spring_with_switch.o(.text);
         build/sa3/asm/ia_spikes.o(.text);
         build/sa3/src/game/interactables/booster.o(.text);
+        build/sa3/src/game/interactables/trampoline.o(.text);
         build/sa3/asm/ia_trampoline.o(.text);
         build/sa3/asm/ia_ramp.o(.text);
         build/sa3/asm/ia_rotating_handle.o(.text);

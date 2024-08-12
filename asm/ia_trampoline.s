@@ -5,146 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_803163C
-sub_803163C: @ 0x0803163C
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #8
-	mov sb, r0
-	mov sl, r1
-	adds r4, r2, #0
-	adds r5, r3, #0
-	ldr r6, [sp, #0x28]
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	mov sb, r0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _080316D4 @ =sub_8031A80
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _080316D8 @ =sub_8031A6C
-	str r1, [sp]
-	movs r1, #0x58
-	movs r3, #0
-	bl TaskCreate
-	ldrh r0, [r0, #6]
-	mov r8, r0
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	mov r1, r8
-	adds r7, r1, r0
-	ldr r3, _080316DC @ =0x0300002C
-	add r3, r8
-	str r3, [sp, #4]
-	strh r4, [r7, #4]
-	strh r5, [r7, #6]
-	mov r0, sl
-	str r0, [r7]
-	ldrb r0, [r0]
-	strb r0, [r7, #0xa]
-	strb r6, [r7, #0xb]
-	mov r1, sl
-	ldrb r0, [r1]
-	lsls r0, r0, #3
-	lsls r4, r4, #8
-	adds r0, r0, r4
-	lsls r6, r0, #8
-	str r6, [r7, #0xc]
-	ldrb r0, [r1, #1]
-	lsls r0, r0, #3
-	lsls r5, r5, #8
-	adds r0, r0, r5
-	lsls r4, r0, #8
-	str r4, [r7, #0x10]
-	asrs r1, r6, #8
-	asrs r2, r4, #8
-	mov r0, sb
-	mov r3, sl
-	bl sub_804DC38
-	strh r0, [r7, #0x28]
-	ldr r3, _080316E0 @ =0x0300002B
-	add r8, r3
-	mov r1, sb
-	mov r0, r8
-	strb r1, [r0]
-	movs r2, #0
-	mov r3, sl
-	ldrb r0, [r3, #7]
-	movs r1, #1
-	b _080316F4
-	.align 2, 0
-_080316D4: .4byte sub_8031A80
-_080316D8: .4byte sub_8031A6C
-_080316DC: .4byte 0x0300002C
-_080316E0: .4byte 0x0300002B
-_080316E4:
-	adds r0, r2, #1
-	lsls r0, r0, #0x18
-	lsrs r2, r0, #0x18
-	cmp r2, #5
-	bhi _080316FA
-	mov r3, sl
-	ldrb r0, [r3, #7]
-	asrs r0, r2
-_080316F4:
-	ands r0, r1
-	cmp r0, #0
-	beq _080316E4
-_080316FA:
-	adds r0, r2, #1
-	adds r1, r7, #0
-	adds r1, #0x2a
-	strb r0, [r1]
-	mov r0, sl
-	movs r2, #4
-	ldrsb r2, [r0, r2]
-	lsls r2, r2, #0xb
-	adds r2, r4, r2
-	ldrb r3, [r0, #6]
-	lsls r3, r3, #0xa
-	ldrb r0, [r0, #3]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	lsls r0, r0, #0xb
-	adds r0, r6, r0
-	mov r4, sl
-	ldrb r1, [r4, #5]
-	lsls r1, r1, #0xa
-	str r3, [r7, #0x14]
-	str r1, [r7, #0x18]
-	adds r0, r0, r1
-	str r0, [r7, #0x1c]
-	adds r2, r2, r3
-	str r2, [r7, #0x20]
-	ldr r0, [r7, #0xc]
-	asrs r0, r0, #8
-	ldr r1, [sp, #4]
-	strh r0, [r1, #0x10]
-	ldr r0, [r7, #0x10]
-	asrs r0, r0, #8
-	strh r0, [r1, #0x12]
-	movs r3, #2
-	rsbs r3, r3, #0
-	adds r0, r3, #0
-	strb r0, [r4]
-	ldr r0, [sp, #4]
-	bl sub_8031A94
-	add sp, #8
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
+.if 0
+.endif
 
 	thumb_func_start sub_8031758
 sub_8031758: @ 0x08031758
@@ -514,7 +376,7 @@ CreateEntity_Interactable041: @ 0x08031A14
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sub_803163C
+	bl CreateTrampoline
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
@@ -538,14 +400,14 @@ CreateEntity_Interactable042: @ 0x08031A40
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sub_803163C
+	bl CreateTrampoline
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8031A6C
-sub_8031A6C: @ 0x08031A6C
+	thumb_func_start TaskDestructor_Trampoline
+TaskDestructor_Trampoline: @ 0x08031A6C
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
@@ -556,8 +418,8 @@ sub_8031A6C: @ 0x08031A6C
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8031A80
-sub_8031A80: @ 0x08031A80
+	thumb_func_start Task_Trampoline
+Task_Trampoline: @ 0x08031A80
 	push {lr}
 	bl sub_8031758
 	cmp r0, #1
