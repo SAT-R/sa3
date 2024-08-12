@@ -22,9 +22,18 @@ typedef struct {
     /* 0x36 */ u8 unk36;
 } Booster; /* size: 0x38 */
 
+enum BoosterKind {
+    DEFAULT = 0,
+    TILT_RIGHT_SMALL = 1,
+    TILT_LEFT_SMALL = 2,
+    TILT_RIGHT_BIG = 3,
+    TILT_LEFT_BIG = 4,
+    WALL = 5,
+};
+
 void Task_Booster(void);
-void sub_80314B0(void);
-void sub_8031428(u8 param0, u8 param1, u8 param2, Sprite *s);
+static void UpdateSprite(void);
+static void InitSprite(u8 kind, u8 xFlip, u8 yFlip, Sprite *s);
 void TaskDestructor_Booster(struct Task *t);
 
 void CreateEntity_Booster(u8 kind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -47,7 +56,7 @@ void CreateEntity_Booster(u8 kind, MapEntity *me, u16 regionX, u16 regionY, u8 i
     s->y = TO_WORLD_POS(me->y, regionY);
     SET_MAP_ENTITY_INITIALIZED(me);
 
-    sub_8031428(kind, booster->unk35, booster->unk36, s);
+    InitSprite(kind, booster->unk35, booster->unk36, s);
 }
 
 void Task_Booster(void)
@@ -56,12 +65,13 @@ void Task_Booster(void)
     Sprite *s = &booster->s;
     MapEntity *me = booster->base.me;
     s16 worldX, worldY;
+    s16 qGroundSpeed;
     s16 i;
 
     worldX = TO_WORLD_POS(booster->base.spriteX, booster->base.regionX);
     worldY = TO_WORLD_POS(me->y, booster->base.regionY);
 
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         Player *p;
 
         if ((gStageData.gameMode == GAME_MODE_MP_SINGLE_PACK) && (i != 0)) {
@@ -75,8 +85,6 @@ void Task_Booster(void)
         }
 
         if ((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) {
-            s16 qGroundSpeed;
-
             if (!sub_802C0D4(p)) {
                 if (p->moveState & MOVESTATE_IN_AIR) {
                     continue;
@@ -140,19 +148,21 @@ void Task_Booster(void)
         }
     }
 
-    sub_80314B0();
+    UpdateSprite();
 }
 
-void sub_8031428(u8 param0, u8 param1, u8 param2, Sprite *s)
+static void InitSprite(u8 kind, u8 xFlip, u8 yFlip, Sprite *s)
 {
     u32 mask = 0;
 
-    if (param2 != 0) {
-        mask |= (param0 == 5) ? SPRITE_FLAG_MASK_X_FLIP : SPRITE_FLAG_MASK_Y_FLIP;
+    // Since the wall-mounted booster is rotated by 90°
+    // it needs a different way of flipping the graphics
+    if (yFlip != 0) {
+        mask |= (kind == WALL) ? SPRITE_FLAG_MASK_X_FLIP : SPRITE_FLAG_MASK_Y_FLIP;
     }
 
-    if (param1 != 0) {
-        mask |= (param0 == 5) ? SPRITE_FLAG_MASK_Y_FLIP : SPRITE_FLAG_MASK_X_FLIP;
+    if (xFlip != 0) {
+        mask |= (kind == WALL) ? SPRITE_FLAG_MASK_Y_FLIP : SPRITE_FLAG_MASK_X_FLIP;
     }
 
     // TODO: s->tiles = ALLOC_TILES(ANIM_BOOSTER);
@@ -160,7 +170,7 @@ void sub_8031428(u8 param0, u8 param1, u8 param2, Sprite *s)
     s->anim = ANIM_BOOSTER;
 
     if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
-        s->variant = param0;
+        s->variant = kind;
     } else {
         s->variant = 0;
         mask |= SPRITE_FLAG_MASK_MOSAIC;
@@ -176,7 +186,7 @@ void sub_8031428(u8 param0, u8 param1, u8 param2, Sprite *s)
     s->frameFlags = mask | SPRITE_FLAG(PRIORITY, 1);
 }
 
-void sub_80314B0(void)
+static void UpdateSprite(void)
 {
     Booster *booster = TASK_DATA(gCurTask);
     Sprite *s = &booster->s;
@@ -199,17 +209,32 @@ void sub_80314B0(void)
     }
 }
 
-void CreateEntity_Booster0(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Booster(0, me, regionX, regionY, id); }
+void CreateEntity_Booster_Default(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateEntity_Booster(DEFAULT, me, regionX, regionY, id);
+}
 
-void CreateEntity_Booster1(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Booster(1, me, regionX, regionY, id); }
+void CreateEntity_Booster_TiltRight_Small(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateEntity_Booster(TILT_RIGHT_SMALL, me, regionX, regionY, id);
+}
 
-void CreateEntity_Booster3(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Booster(3, me, regionX, regionY, id); }
+void CreateEntity_Booster_TiltRight_Big(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateEntity_Booster(TILT_RIGHT_BIG, me, regionX, regionY, id);
+}
 
-void CreateEntity_Booster2(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Booster(2, me, regionX, regionY, id); }
+void CreateEntity_Booster_TiltLeft_Small(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateEntity_Booster(TILT_LEFT_SMALL, me, regionX, regionY, id);
+}
 
-void CreateEntity_Booster4(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Booster(4, me, regionX, regionY, id); }
+void CreateEntity_Booster_TiltLeft_Big(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateEntity_Booster(TILT_LEFT_BIG, me, regionX, regionY, id);
+}
 
-void CreateEntity_Booster5(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Booster(5, me, regionX, regionY, id); }
+void CreateEntity_Booster_Wall(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Booster(WALL, me, regionX, regionY, id); }
 
 void TaskDestructor_Booster(struct Task *t)
 {

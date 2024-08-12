@@ -251,18 +251,18 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable026
     .4byte CreateEntity_Interactable027
     .4byte CreateEntity_Interactable028 @ 028 - Same code as 071
-    .4byte CreateEntity_Spikes_Up
-    .4byte CreateEntity_Spikes_Down
-    .4byte CreateEntity_Spikes_Left
-    .4byte CreateEntity_Spikes_Right
-    .4byte CreateEntity_Spikes_HidingUp
-    .4byte CreateEntity_Spikes_HidingDown
-    .4byte CreateEntity_Booster0
-    .4byte CreateEntity_Booster2
-    .4byte CreateEntity_Booster1
-    .4byte CreateEntity_Booster4
-    .4byte CreateEntity_Booster3
-    .4byte CreateEntity_Booster5
+    .4byte CreateEntity_Spikes_Up               @ 029
+    .4byte CreateEntity_Spikes_Down             @ 030
+    .4byte CreateEntity_Spikes_Left             @ 031
+    .4byte CreateEntity_Spikes_Right            @ 032
+    .4byte CreateEntity_Spikes_HidingUp         @ 033
+    .4byte CreateEntity_Spikes_HidingDown       @ 034
+    .4byte CreateEntity_Booster_Default         @ 035
+    .4byte CreateEntity_Booster_TiltLeft_Small  @ 036
+    .4byte CreateEntity_Booster_TiltRight_Small @ 037
+    .4byte CreateEntity_Booster_TiltLeft_Big    @ 038
+    .4byte CreateEntity_Booster_TiltRight_Big   @ 039
+    .4byte CreateEntity_Booster_Wall            @ 040
     .4byte CreateEntity_Interactable041
     .4byte CreateEntity_Interactable042
     .4byte CreateEntity_Interactable043
@@ -384,7 +384,7 @@ gSpriteInits_InteractablesMultiplayer: @ 0x080CF354
     .4byte CreateEntity_Interactable023 @ 011
     .4byte CreateEntity_Interactable043 @ 012
     .4byte CreateEntity_Spikes_Up @ 013
-    .4byte CreateEntity_Booster0 @ 014
+    .4byte CreateEntity_Booster_Default @ 014
     .4byte CreateEntity_Interactable072 @ 015
     .4byte CreateEntity_Interactable073 @ 016
     .4byte CreateEntity_Interactable074 @ 017
