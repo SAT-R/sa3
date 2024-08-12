@@ -155,7 +155,7 @@ static void InitSprite(u8 kind, u8 xFlip, u8 yFlip, Sprite *s)
 {
     u32 mask = 0;
 
-    // Since the wall-mounted booster is rotated by 90°
+    // Since the wall-mounted booster is rotated by 90 degrees
     // it needs a different way of flipping the graphics
     if (yFlip != 0) {
         mask |= (kind == WALL) ? SPRITE_FLAG_MASK_X_FLIP : SPRITE_FLAG_MASK_Y_FLIP;
