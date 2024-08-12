@@ -34300,7 +34300,7 @@ _08076858:
 	ands r0, r1
 	strb r0, [r2]
 	adds r0, r4, #0
-	bl sub_8005528
+	bl Player_8005528
 	ldrh r0, [r4, #0x18]
 	mov r1, r8
 	strh r0, [r1, #0x18]
@@ -34324,7 +34324,7 @@ _08076858:
 	mov r3, r8
 	str r2, [r3, #4]
 	mov r0, r8
-	bl sub_8005528
+	bl Player_8005528
 _080768B6:
 	ldr r1, _080768EC @ =0xFFFFFDFE
 	adds r0, r1, #0
@@ -34346,7 +34346,7 @@ _080768B6:
 	rsbs r0, r0, #0
 	strh r0, [r4, #0x18]
 	adds r0, r4, #0
-	bl sub_8005528
+	bl Player_8005528
 	b _08076934
 	.align 2, 0
 _080768E4: .4byte 0x000004AF

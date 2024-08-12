@@ -41,7 +41,7 @@ struct Player {
 
     u32 unk8; // 0x08 | bitfield?
 
-    u8 Padding[0x04];
+    u32 unkC; // Bitfield
 
     /* 0x10 */ s32 qWorldX;
     /* 0x14 */ s32 qWorldY;

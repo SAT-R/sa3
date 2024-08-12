@@ -531,7 +531,7 @@ _08031EA8:
 _08031EC0: .4byte Player_80077CC
 _08031EC4:
 	adds r0, r5, #0
-	ldr r1, _08031F14 @ =sub_8005528
+	ldr r1, _08031F14 @ =Player_8005528
 	bl SetPlayerCallback
 _08031ECC:
 	movs r1, #0x1a
@@ -571,7 +571,7 @@ _08031ECC:
 	ble _08031F22
 	b _08031F86
 	.align 2, 0
-_08031F14: .4byte sub_8005528
+_08031F14: .4byte Player_8005528
 _08031F18: .4byte gStageData
 _08031F1C:
 	subs r0, r3, r4

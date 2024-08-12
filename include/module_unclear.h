@@ -52,6 +52,7 @@ void sub_800E6CC(Player *p);
 
 void Player_80149E4(Player *p);
 void sub_8016F28(Player *p);
+void sub_8019A58(Player *p);
 void sub_8019A64(Player *p);
 
 extern bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5);
