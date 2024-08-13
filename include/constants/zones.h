@@ -11,10 +11,14 @@
 #define ZONE_FINAL  7
 #define ZONE_UNUSED 8
 
-#define ACT_1    0
-#define ACT_2    1
-#define ACT_3    2
-#define ACT_BOSS 3
+#define ACT_HUB           2
+#define ACT_1             3
+#define ACT_2             4
+#define ACT_3             5
+#define ACT_4             6 // Unused in final game
+#define ACT_BOSS          7
+#define ACT_BONUS_CAPSULE 8
+#define ACT_BONUS_ENEMIES 9
 
 #define ACT_XX_FINAL_ZONE ACT_1
 #define ACT_TRUE_AREA_53  ACT_2

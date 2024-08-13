@@ -21811,7 +21811,7 @@ _0800ACFA:
 	lsls r0, r0, #0x1c
 	lsrs r0, r0, #0x1c
 	bl sub_80533F4
-	ldr r0, _0800AD20 @ =sub_800EB4C
+	ldr r0, _0800AD20 @ =Player_800EB4C
 	str r0, [r4]
 _0800AD14:
 	pop {r4, r5}
@@ -21819,7 +21819,7 @@ _0800AD14:
 	bx r0
 	.align 2, 0
 _0800AD1C: .4byte gCamera
-_0800AD20: .4byte sub_800EB4C
+_0800AD20: .4byte Player_800EB4C
 
 @ Used by Special Spring, Act Ring and Final Zone Ring.
 	thumb_func_start Player_800AD24
@@ -22042,8 +22042,8 @@ _0800AEE8: .4byte 0xDC510BA1
 _0800AEEC: .4byte gCamera
 _0800AEF0: .4byte sub_800EAEC
 
-	thumb_func_start sub_800AEF4
-sub_800AEF4: @ 0x0800AEF4
+	thumb_func_start Player_800AEF4
+Player_800AEF4: @ 0x0800AEF4
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r0, _0800AF88 @ =gStageData
@@ -29720,7 +29720,7 @@ sub_800EAAC: @ 0x0800EAAC
 	ldrsh r0, [r0, r1]
 	bl sub_8056120
 _0800EAD8:
-	ldr r0, _0800EAE8 @ =sub_800EB4C
+	ldr r0, _0800EAE8 @ =Player_800EB4C
 	str r0, [r4]
 _0800EADC:
 	pop {r4}
@@ -29728,7 +29728,7 @@ _0800EADC:
 	bx r0
 	.align 2, 0
 _0800EAE4: .4byte gStageData
-_0800EAE8: .4byte sub_800EB4C
+_0800EAE8: .4byte Player_800EB4C
 
 	thumb_func_start sub_800EAEC
 sub_800EAEC: @ 0x0800EAEC
@@ -29743,14 +29743,14 @@ sub_800EAEC: @ 0x0800EAEC
 	cmp r0, #0
 	bgt _0800EB08
 	bl sub_8056168
-	ldr r0, _0800EB10 @ =sub_800EB4C
+	ldr r0, _0800EB10 @ =Player_800EB4C
 	str r0, [r4]
 _0800EB08:
 	pop {r4}
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0800EB10: .4byte sub_800EB4C
+_0800EB10: .4byte Player_800EB4C
 
 	thumb_func_start sub_800EB14
 sub_800EB14: @ 0x0800EB14
@@ -29774,17 +29774,17 @@ sub_800EB14: @ 0x0800EB14
 	adds r0, #0xa4
 	ldrb r0, [r0]
 	bl sub_8056120
-	ldr r0, _0800EB48 @ =sub_800EB4C
+	ldr r0, _0800EB48 @ =Player_800EB4C
 	str r0, [r4]
 _0800EB42:
 	pop {r4}
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0800EB48: .4byte sub_800EB4C
+_0800EB48: .4byte Player_800EB4C
 
-	thumb_func_start sub_800EB4C
-sub_800EB4C: @ 0x0800EB4C
+	thumb_func_start Player_800EB4C
+Player_800EB4C: @ 0x0800EB4C
 	adds r0, #0x2c
 	ldrb r1, [r0]
 	movs r2, #0x40
@@ -79265,13 +79265,13 @@ _080266BC:
 	ands r0, r1
 	str r0, [r5, #4]
 	adds r0, r5, #0
-	ldr r1, _080266EC @ =sub_800EB4C
+	ldr r1, _080266EC @ =Player_800EB4C
 	bl SetPlayerCallback
 	b _080265E8
 	.align 2, 0
 _080266E4: .4byte gStageData
 _080266E8: .4byte 0xEFFFFFFF
-_080266EC: .4byte sub_800EB4C
+_080266EC: .4byte Player_800EB4C
 _080266F0:
 	ldrb r0, [r3, #3]
 	cmp r0, #5

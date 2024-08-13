@@ -541,9 +541,9 @@ gUnknown_080CFA50:
 gUnknown_080CFA58:
     .incbin "baserom.gba", 0x000CFA58, 0x168
 
-    .global gUnknown_080CFBC0
-gUnknown_080CFBC0:
-    .incbin "baserom.gba", 0x000CFBC0, 0x8
+    .global sUfoActs
+sUfoActs:
+    .short 7, 8, 9, 0
 
     .global gUnknown_080CFBC8
 gUnknown_080CFBC8:
