@@ -20,14 +20,23 @@
 
 #define TIME_RECORDS_PER_COURSE 3
 
-// TODO: Does using these match?
+#define ACT_COMPLETE_BIT__ACT_1         0x1
+#define ACT_COMPLETE_BIT__ACT_2         0x2
+#define ACT_COMPLETE_BIT__ACT_3         0x4
+#define ACT_COMPLETE_BIT__BOSS          0x8
+#define ACT_COMPLETE_BIT__BONUS_CAPSULE 0x10
+#define ACT_COMPLETE_BIT__BONUS_ENEMIES 0x20
+#define ARE_STAGE_ACTS_COMPLETE(zone)                                                                                                      \
+    ((gSaveGame.unlockedStages[zone] & (ACT_COMPLETE_BIT__ACT_1 | ACT_COMPLETE_BIT__ACT_2 | ACT_COMPLETE_BIT__ACT_3)) == 0x7)
+#define IS_ACT_COMPLETE(zone, act) (gSaveGame.unlockedStages[zone] & ACT_COMPLETE_BIT__##act)
+// TODO: Does using the bitmap match?
 typedef struct {
     u8 Act1 : 1;
     u8 Act2 : 1;
     u8 Act3 : 1;
     u8 Boss : 1;
-    u8 Bit5 : 1;
-    u8 Bit6 : 1;
+    u8 BonusCapsule : 1;
+    u8 BonusEnemies : 1;
     u8 Bit7 : 1;
 } ZoneCompletion;
 

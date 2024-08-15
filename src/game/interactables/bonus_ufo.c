@@ -1,6 +1,7 @@
 #include <string.h>
 #include "global.h"
 #include "task.h"
+#include "malloc_vram.h"
 #include "module_unclear.h"
 #include "game/camera.h"
 #include "game/entity.h"
@@ -9,17 +10,17 @@
 #include "game/save.h"
 #include "game/stage.h"
 
+#include "constants/animations.h"
+#include "constants/anim_sizes.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"
 #include "constants/zones.h"
 
 typedef struct {
     /* 0x00 */ SpriteBase base;
-    /* 0x0C */ Sprite s;
-    /* 0x34 */ Sprite s2;
-    /* 0x5C */ Sprite s3;
-    /* 0x84 */ Sprite s4;
-    /* 0xAC */ u8 fillerAC[0x4];
+    /* 0x0C */ Sprite s[2];
+    /* 0x5C */ Sprite s3[2];
+    /* 0xAC */ void *tiles;
     /* 0xB0 */ u8 unkB0;
     /* 0xB1 */ u8 unkB1;
     /* 0xB2 */ u8 unkB2;
@@ -77,19 +78,19 @@ void CreateEntity_BonusUfo(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     worldX = TO_WORLD_POS(me->x, regionX);
     worldY = TO_WORLD_POS(me->y, regionY);
 
-    s = &ufo->s;
+    s = &ufo->s[0];
     s->x = worldX;
     s->y = worldY;
 
-    s = &ufo->s2;
+    s = &ufo->s[1];
     s->x = worldX;
     s->y = worldY;
 
-    s = &ufo->s3;
+    s = &ufo->s3[0];
     s->x = worldX;
     s->y = worldY;
 
-    s = &ufo->s4;
+    s = &ufo->s3[1];
     s->x = worldX;
     s->y = worldY;
 
@@ -155,8 +156,8 @@ void Task_BonusUfoMain(void)
                     ufo->unkB0 = 0;
                 }
 
-                ufo->s.variant = ufo->unkB0 + 1;
-                ufo->s2.variant = ufo->unkB0 + 1;
+                ufo->s[0].variant = ufo->unkB0 + 1;
+                ufo->s[1].variant = ufo->unkB0 + 1;
                 gCurTask->main = Task_804165C;
             }
         }
@@ -189,8 +190,8 @@ void Task_804165C(void)
         }
 
         if (p->qWorldY <= qWorldY) {
-            ufo->s3.variant++;
-            ufo->s4.variant++;
+            ufo->s3[0].variant++;
+            ufo->s3[1].variant++;
             gCurTask->main = Task_8041710;
         }
     } else {
@@ -207,16 +208,16 @@ void Task_8041710(void)
     BonusUfo *ufo = TASK_DATA(gCurTask);
     Player *p;
 
-    if ((ufo->s3.frameFlags & SPRITE_FLAG_MASK_ANIM_OVER) && (ufo->unkB3 != 0)) {
+    if ((ufo->s3[0].frameFlags & SPRITE_FLAG_MASK_ANIM_OVER) && (ufo->unkB3 != 0)) {
         ufo->unkB3 = 0;
 
-        ufo->s.variant = ufo->unkB0 + 2;
-        ufo->s2.variant = ufo->unkB0 + 2;
+        ufo->s[0].variant = ufo->unkB0 + 2;
+        ufo->s[1].variant = ufo->unkB0 + 2;
 
         sub_8003E28(SE_BONUS_UFO);
-    } else if ((ufo->s.frameFlags & SPRITE_FLAG_MASK_ANIM_OVER) && (ufo->s.variant != ufo->unkB0 + 3)) {
-        ufo->s.variant = ufo->unkB0 + 3;
-        ufo->s2.variant = ufo->unkB0 + 3;
+    } else if ((ufo->s[0].frameFlags & SPRITE_FLAG_MASK_ANIM_OVER) && (ufo->s[0].variant != ufo->unkB0 + 3)) {
+        ufo->s[0].variant = ufo->unkB0 + 3;
+        ufo->s[1].variant = ufo->unkB0 + 3;
 
         p = &gPlayers[gStageData.charId];
         p->unkA4 = ufo->unkB1;
@@ -230,4 +231,138 @@ void Task_8041710(void)
             sub_8041A48();
         }
     }
+}
+
+void sub_80417F0(BonusUfo *ufo)
+{
+    void *tilesUfo;
+    void *tilesRay;
+    u8 zone;
+    s16 i;
+
+    ufo->tiles = VramMalloc(MAX_TILES(ANIM_BONUS_UFO) + MAX_TILES(ANIM_BONUS_UFO_RAY));
+    tilesUfo = ufo->tiles;
+    tilesRay = ufo->tiles + MAX_TILES(ANIM_BONUS_UFO) * TILE_SIZE_4BPP;
+    zone = gStageData.zone;
+    gStageData.unkBE[zone];
+
+    for (i = 0; i < 2; i++) {
+        Sprite *s = &ufo->s[i];
+        Sprite *s3 = &ufo->s3[i];
+
+        s->tiles = tilesUfo;
+
+        if (ufo->unkB1 == ACT_BOSS) {
+            if (IS_ACT_COMPLETE(zone, BOSS)) {
+                s->anim = ANIM_BONUS_UFO;
+                ufo->unkB0 = 8; // "closed"
+            } else {
+                if (ARE_STAGE_ACTS_COMPLETE(zone)) {
+                    s->anim = ANIM_BONUS_UFO;
+                    ufo->unkB0 = 4; // "active"
+                } else {
+                    s->anim = ANIM_BONUS_UFO;
+                    ufo->unkB0 = 7;
+                }
+            }
+        } else if (((ufo->unkB1 == ACT_BONUS_CAPSULE) && !(gStageData.unkBE[zone] & 0x1))
+                   || ((ufo->unkB1 == ACT_BONUS_ENEMIES) && !(gStageData.unkBE[zone] & 0x2))) {
+            s->anim = ANIM_BONUS_UFO;
+            ufo->unkB0 = 0;
+        } else {
+            s->anim = ANIM_BONUS_UFO;
+            ufo->unkB0 = 3;
+        }
+        // _080418D6
+
+        s->variant = ufo->unkB0;
+        s->oamFlags = SPRITE_OAM_ORDER(11);
+        s->animCursor = 0;
+        s->timeUntilNextFrame = 0;
+        s->prevVariant = -1;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+        s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+
+        if (i != 0) {
+            SPRITE_FLAG_SET(s, X_FLIP);
+        }
+
+        UpdateSpriteAnimation(s);
+
+        s3->tiles = tilesRay;
+        s3->anim = ANIM_BONUS_UFO_RAY;
+        s3->variant = 0;
+        s3->oamFlags = SPRITE_OAM_ORDER(12);
+        s3->animCursor = 0;
+        s3->timeUntilNextFrame = 0;
+        s3->prevVariant = -1;
+        s3->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s3->palId = 0;
+        s3->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+        s3->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+
+        if (i != 0) {
+            SPRITE_FLAG_SET(s3, X_FLIP);
+        }
+
+        UpdateSpriteAnimation(s3);
+    }
+}
+
+bool16 sub_8041988(void)
+{
+    BonusUfo *ufo = TASK_DATA(gCurTask);
+    Sprite *s = &ufo->s[0];
+    Sprite *s2 = &ufo->s[1];
+    MapEntity *me = ufo->base.me;
+    s16 worldX, worldY;
+
+    worldX = TO_WORLD_POS(ufo->base.spriteX, ufo->base.regionX);
+    worldY = TO_WORLD_POS(me->y, ufo->base.regionY);
+
+    if (!IsPointInScreenRect(worldX, worldY)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, ufo->base.spriteX);
+        TaskDestroy(gCurTask);
+        return FALSE;
+    } else {
+        s32 screenX, screenY;
+
+        screenX = worldX - gCamera.x;
+        s->x = screenX;
+        s2->x = screenX;
+        screenY = worldY - gCamera.y;
+        s->y = screenY;
+        s2->y = screenY;
+        UpdateSpriteAnimation(s);
+        UpdateSpriteAnimation(s2);
+        DisplaySprite(s);
+        DisplaySprite(s2);
+    }
+
+    return TRUE;
+}
+
+void TaskDestructor_BonusUfo(struct Task *t)
+{
+    BonusUfo *ufo = TASK_DATA(t);
+    VramFree(ufo->tiles);
+}
+
+void sub_8041A48(void)
+{
+    BonusUfo *ufo = TASK_DATA(gCurTask);
+    Sprite *s = &ufo->s[0];
+    Sprite *s3 = &ufo->s3[0];
+    Sprite *s4 = s3 + 1;
+
+    s3->x = s->x;
+    s4->x = s->x;
+    s3->y = s->y;
+    s4->y = s->y;
+    UpdateSpriteAnimation(s3);
+    UpdateSpriteAnimation(s4);
+    DisplaySprite(s3);
+    DisplaySprite(s4);
 }

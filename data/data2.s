@@ -5,15 +5,17 @@
 
     .global gUnknown_082B9C24
 gUnknown_082B9C24:
-    .incbin "baserom.gba", 0x002B9C24, 0x8
+    .ascii "powf\0"
+    .space 3
 
     .global gUnknown_082B9C2C
 gUnknown_082B9C2C:
-    .incbin "baserom.gba", 0x002B9C2C, 0x8
+    @ two floats
+    .4byte 0x3F800000, 0x3FC00000
 
     .global gUnknown_082B9C34
 gUnknown_082B9C34:
-    .incbin "baserom.gba", 0x002B9C34, 0x8
+    .4byte 0x00000000, 0x3F15C000
 
     .global gUnknown_082B9C3C
 gUnknown_082B9C3C:

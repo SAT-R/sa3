@@ -289,17 +289,17 @@ OamData *OamMalloc(u8 order);
     _sprite->x = 0;                                                                                                                        \
     _sprite->y = 0;                                                                                                                        \
     SPRITE_INIT_SCRIPT(_sprite, 1.0)                                                                                                       \
-    _sprite->unk10 = SPRITE_FLAG(PRIORITY, _priority);
+    _sprite->frameFlags = SPRITE_FLAG(PRIORITY, _priority);
 
 #define SPRITE_INIT_WITHOUT_VRAM(_sprite, _anim, _variant, _order, _priority, _flags)                                                      \
     SPRITE_INIT_ANIM_AND_SCRIPT(_sprite, _anim, _variant, _order);                                                                         \
-    _sprite->unk10 = (SPRITE_FLAG(PRIORITY, _priority) | (_flags));
+    _sprite->frameFlags = (SPRITE_FLAG(PRIORITY, _priority) | (_flags));
 
 #define SPRITE_INIT_WITHOUT_ANIM_OR_VRAM(_sprite, _order, _priority, _flags)                                                               \
     _sprite->unk1A = SPRITE_OAM_ORDER(_order);                                                                                             \
     _sprite->graphics.size = 0;                                                                                                            \
     SPRITE_INIT_SCRIPT(_sprite, 1.0);                                                                                                      \
-    _sprite->unk10 = (SPRITE_FLAG(PRIORITY, _priority) | (_flags));
+    _sprite->frameFlags = (SPRITE_FLAG(PRIORITY, _priority) | (_flags));
 
 #define SPRITE_INIT(_sprite, _numTiles, _anim, _variant, _order, _priority)                                                                \
     _sprite->graphics.dest = VramMalloc(_numTiles);                                                                                        \
@@ -309,13 +309,13 @@ OamData *OamMalloc(u8 order);
 
 #define SPRITE_FLAG(flagName, value) ((value) << SF_SHIFT(flagName))
 
-#define SPRITE_FLAG_GET(sprite, flagName) (((sprite)->unk10 & (SPRITE_FLAG_MASK_##flagName)) >> (SF_SHIFT(flagName)))
+#define SPRITE_FLAG_GET(sprite, flagName) (((sprite)->frameFlags & (SPRITE_FLAG_MASK_##flagName)) >> (SF_SHIFT(flagName)))
 
-#define SPRITE_FLAG_CLEAR(sprite, flagName) (sprite)->unk10 &= ~(SPRITE_FLAG_MASK_##flagName)
+#define SPRITE_FLAG_CLEAR(sprite, flagName) (sprite)->frameFlags &= ~(SPRITE_FLAG_MASK_##flagName)
 
-#define SPRITE_FLAG_SET(sprite, flagName) (sprite)->unk10 |= (SPRITE_FLAG_MASK_##flagName)
+#define SPRITE_FLAG_SET(sprite, flagName) (sprite)->frameFlags |= (SPRITE_FLAG_MASK_##flagName)
 
-#define SPRITE_FLAG_FLIP(sprite, flagName) (sprite)->unk10 ^= (SPRITE_FLAG_MASK_##flagName)
+#define SPRITE_FLAG_FLIP(sprite, flagName) (sprite)->frameFlags ^= (SPRITE_FLAG_MASK_##flagName)
 
 #define SPRITE_FLAG_SET_VALUE(sprite, flagName, value) (sprite)->unk10 |= SPRITE_FLAG(flagName, value)
 
