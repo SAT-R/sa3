@@ -330,8 +330,8 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable105
     .4byte CreateEntity_Interactable106
     .4byte CreateEntity_Interactable107
-    .4byte CreateEntity_Interactable108
-    .4byte CreateEntity_Interactable109
+    .4byte CreateEntity_SunsetBridge
+    .4byte CreateEntity_PlatformSpiked
     .4byte CreateEntity_Interactable110
     .4byte CreateEntity_Interactable111
     .4byte CreateEntity_Interactable112

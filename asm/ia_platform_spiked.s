@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable109
-CreateEntity_Interactable109: @ 0x0804514C
+	thumb_func_start CreateEntity_PlatformSpiked
+CreateEntity_PlatformSpiked: @ 0x0804514C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -22,7 +22,7 @@ CreateEntity_Interactable109: @ 0x0804514C
 	lsrs r5, r5, #0x10
 	lsls r6, r6, #0x18
 	lsrs r6, r6, #0x18
-	ldr r0, _0804522C @ =sub_80452AC
+	ldr r0, _0804522C @ =Task_80452AC
 	movs r2, #0x84
 	lsls r2, r2, #6
 	ldr r1, _08045230 @ =sub_804564C
@@ -117,7 +117,7 @@ CreateEntity_Interactable109: @ 0x0804514C
 	movs r1, #1
 	b _0804524C
 	.align 2, 0
-_0804522C: .4byte sub_80452AC
+_0804522C: .4byte Task_80452AC
 _08045230: .4byte sub_804564C
 _08045234: .4byte gStageData
 _08045238: .4byte gPlayers
@@ -179,8 +179,8 @@ _08045252:
 	.align 2, 0
 _080452A8: .4byte 0x00000399
 
-	thumb_func_start sub_80452AC
-sub_80452AC: @ 0x080452AC
+	thumb_func_start Task_80452AC
+Task_80452AC: @ 0x080452AC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

@@ -73,8 +73,8 @@ SECTIONS {
         build/sa3/asm/ia_air_bubble.o(.text);
         build/sa3/asm/ia_106.o(.text);
         build/sa3/asm/ia_107.o(.text);
-        build/sa3/asm/ia_108.o(.text);
-        build/sa3/asm/ia_109.o(.text);
+        build/sa3/asm/ia_sunset_bridge.o(.text);
+        build/sa3/asm/ia_platform_spiked.o(.text);
         build/sa3/asm/ia_110.o(.text);
         build/sa3/asm/ia_111.o(.text);
         build/sa3/asm/ia_112.o(.text);
