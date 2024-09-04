@@ -75,7 +75,6 @@ SECTIONS {
         build/sa3/asm/ia_107.o(.text);
         build/sa3/asm/ia_sunset_bridge.o(.text);
         build/sa3/src/game/interactables/platform_spiked.o(.text);
-        build/sa3/asm/ia_platform_spiked.o(.text);
         build/sa3/asm/ia_110.o(.text);
         build/sa3/asm/ia_111.o(.text);
         build/sa3/asm/ia_112.o(.text);

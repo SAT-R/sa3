@@ -226,7 +226,7 @@ void Task_80452AC(void)
         }
     }
 
-    if (sub_802C140(platform->unk34, platform->unk36, worldX - gCamera.x, worldY - gCamera.y) == 0) {
+    if (!sub_802C140(platform->unk34, platform->unk36, worldX - gCamera.x, worldY - gCamera.y)) {
         s16 j;
 
         for (j = 0; j < (s32)ARRAY_COUNT(platform->ps); j++) {
@@ -247,5 +247,25 @@ void Task_80452AC(void)
     }
 }
 
-#if 0
+void sub_80455FC(PlatformSpiked *platform)
+{
+    Sprite *s = &platform->s;
+
+    s->x = I(platform->qWorldX) - gCamera.x;
+    s->y = I(platform->qWorldY) - gCamera.y;
+    UpdateSpriteAnimation(s);
+
+    SPRITE_FLAG_SET(s, X_FLIP);
+    DisplaySprite(s);
+
+    SPRITE_FLAG_CLEAR(s, X_FLIP);
+    DisplaySprite(s);
+}
+
+#if 01
+void TaskDestructor_PlatformSpiked(struct Task *t)
+{
+    PlatformSpiked *platform = TASK_DATA(t);
+    VramFree(platform->s.tiles);
+}
 #endif
