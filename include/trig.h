@@ -18,6 +18,9 @@ extern const s16 gSineTable[1280];
 #define SIN(radAngle) (gSineTable[(radAngle)])
 #define COS(radAngle) (gSineTable[(radAngle) + 256])
 
+#define SIN_INT(radAngle) (Q_2_14_TO_INT(SIN(radAngle)))
+#define COS_INT(radAngle) (Q_2_14_TO_INT(COS(radAngle)))
+
 #define SIN_24_8(radAngle) Q_2_14_TO_Q_24_8(SIN(radAngle))
 #define COS_24_8(radAngle) Q_2_14_TO_Q_24_8(COS(radAngle))
 

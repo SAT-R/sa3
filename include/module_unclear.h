@@ -39,6 +39,7 @@ void sub_8004DD8(s32 qWorldX, s32 qWorldY);
 bool32 sub_8004E98(Player *p, u16 song);
 void sub_8004F10(Player *, u16 song);
 void sub_8006824(Player *p);
+void sub_8008E38(Player *p);
 void sub_800A218(Player *p);
 void Player_800E5D0(Player *p);
 void Player_800E5EC(Player *p);
@@ -46,6 +47,10 @@ void Player_800E604(Player *p);
 
 // Some collision function
 s32 sub_80110E8(u16, Player *, u8 *, u32 *);
+s32 sub_801226C(Player *);
+s32 sub_8012368(Player *);
+s32 sub_801246C(Player *);
+s32 sub_8012550(Player *);
 
 // 0x0800D87C
 void SetPlayerCallback(Player *p, PlayerCallback *callback);
@@ -61,6 +66,7 @@ extern bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, 
 // Collision
 extern u32 sub_8020874(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5, u8 p6);
 u32 sub_8020950(Sprite *s, s32 worldX, s32 worldY, Player *p, void *param4);
+bool32 sub_8020CE0(Sprite *s, s32 worldX, s32 worldY, u16 param3, Player *p);
 
 void sub_80213B0(Sprite *s, Player *p);
 

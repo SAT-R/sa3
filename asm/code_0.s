@@ -67668,6 +67668,11 @@ _08020CC8:
 _08020CD8: .4byte 0xFFFF00FF
 _08020CDC: .4byte 0xFFFFFF00
 
+@ Input:
+    @ R0 = s
+    @ R1 = worldX (not Q)
+    @ R2 = worldY (not Q)
+    @ R3 = (u16) param3
 	thumb_func_start sub_8020CE0
 sub_8020CE0: @ 0x08020CE0
 	push {r4, r5, r6, r7, lr}
