@@ -40,10 +40,6 @@ bool32 sub_8004E98(Player *p, u16 song);
 void sub_8004F10(Player *, u16 song);
 void sub_8006824(Player *p);
 void sub_8008E38(Player *p);
-void sub_800A218(Player *p);
-void Player_800E5D0(Player *p);
-void Player_800E5EC(Player *p);
-void Player_800E604(Player *p);
 
 // Some collision function
 s32 sub_80110E8(u16, Player *, u8 *, u32 *);
@@ -54,7 +50,6 @@ s32 sub_8012550(Player *);
 
 // 0x0800D87C
 void SetPlayerCallback(Player *p, PlayerCallback *callback);
-void sub_800E6CC(Player *p);
 
 void Player_80149E4(Player *p);
 void sub_8016F28(Player *p);

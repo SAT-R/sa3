@@ -72,7 +72,7 @@ void CreateEntity_BonusUfo(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     }
 
     ufo->unkB1 = array[i];
-    ufo->unkB2 = 60;
+    ufo->unkB2 = ZONE_TIME_TO_INT(0, 1);
     ufo->unkB3 = 0;
 
     worldX = TO_WORLD_POS(me->x, regionX);

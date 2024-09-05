@@ -67,7 +67,7 @@ static void Task_Interactable094Main(void)
                         if (ia->unkC) {
                             if (p->charFlags.anim0 == ANIM_CHAR_133) {
                                 sub_8004F10(p, SE_290);
-                                sub_800E6CC(p);
+                                Player_800E6CC(p);
 
                                 p->qWorldX = Q(middle);
 

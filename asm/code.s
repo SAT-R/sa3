@@ -19762,7 +19762,7 @@ _0806F728: .4byte gStageData
 _0806F72C: .4byte gCamera
 _0806F730:
 	adds r0, r4, #0
-	bl sub_800E67C
+	bl Player_800E67C
 	ldr r1, _0806F744 @ =0xFFFFFD00
 	adds r0, r1, #0
 	ldrh r2, [r4, #0x1a]
@@ -26799,7 +26799,7 @@ sub_8072D04: @ 0x08072D04
 	lsls r0, r0, #1
 	strh r0, [r6, #0x14]
 	movs r5, #0
-	ldr r7, _08072D9C @ =sub_800E67C
+	ldr r7, _08072D9C @ =Player_800E67C
 _08072D14:
 	lsls r1, r5, #2
 	movs r2, #0x98
@@ -26867,7 +26867,7 @@ _08072D76:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08072D9C: .4byte sub_800E67C
+_08072D9C: .4byte Player_800E67C
 _08072DA0: .4byte 0xFFFFFEFF
 
 	thumb_func_start sub_8072DA4
@@ -31360,7 +31360,7 @@ _080750A8:
 	str r1, [r4, #4]
 _080750BA:
 	adds r0, r4, #0
-	bl sub_800E67C
+	bl Player_800E67C
 	b _080750EC
 	.align 2, 0
 _080750C4: .4byte gCurTask
@@ -34810,7 +34810,7 @@ _08076C60:
 	adds r0, r4, #0
 	bl sub_8016F28
 	adds r0, r4, #0
-	ldr r1, _08076CCC @ =sub_800E67C
+	ldr r1, _08076CCC @ =Player_800E67C
 	bl SetPlayerCallback
 	adds r2, r4, #0
 	adds r2, #0x2c
@@ -34842,7 +34842,7 @@ _08076CBC: .4byte 0x030000B1
 _08076CC0: .4byte 0x030000F4
 _08076CC4: .4byte 0x000001C7
 _08076CC8: .4byte 0xFFFEFFFF
-_08076CCC: .4byte sub_800E67C
+_08076CCC: .4byte Player_800E67C
 _08076CD0: .4byte 0xFFFFFEFF
 _08076CD4: .4byte 0x000369FF
 _08076CD8: .4byte 0x0004A500

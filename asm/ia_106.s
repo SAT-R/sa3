@@ -623,7 +623,7 @@ _080442AC:
 	adds r1, r6, #0
 	bl sub_80213B0
 	adds r0, r6, #0
-	bl sub_800E67C
+	bl Player_800E67C
 	ldr r1, _08044308 @ =0xFFFFFD00
 	adds r0, r1, #0
 	ldrh r2, [r6, #0x1a]

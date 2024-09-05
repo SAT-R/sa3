@@ -53,4 +53,7 @@
     ((ACT_INDEX(lvl) == ACT_BOSS) || (((lvl) == LEVEL_INDEX(ZONE_FINAL, ACT_XX_FINAL_ZONE)) && (gUnknown_030054B0 == 0))                   \
      || (((lvl) == LEVEL_INDEX(ZONE_FINAL, ACT_TRUE_AREA_53))))
 
+#define ZONE_TIME_TO_INT(minutes, seconds) (int)(((minutes * 60.) + seconds) * GBA_FRAMES_PER_SECOND)
+#define MAX_COURSE_TIME                    (ZONE_TIME_TO_INT(10, 0))
+
 #endif // GUARD_ZONES_H

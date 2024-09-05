@@ -262,10 +262,8 @@ void sub_80455FC(PlatformSpiked *platform)
     DisplaySprite(s);
 }
 
-#if 01
 void TaskDestructor_PlatformSpiked(struct Task *t)
 {
     PlatformSpiked *platform = TASK_DATA(t);
     VramFree(platform->s.tiles);
 }
-#endif

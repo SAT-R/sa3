@@ -20408,8 +20408,8 @@ _0800A20C: .4byte 0xDC510BA1
 _0800A210: .4byte 0xFFFFBFFF
 _0800A214: .4byte sub_800DF9C
 
-	thumb_func_start sub_800A218
-sub_800A218: @ 0x0800A218
+	thumb_func_start Player_800A218
+Player_800A218: @ 0x0800A218
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	ldr r1, [r4, #4]
@@ -21517,8 +21517,8 @@ _0800AAB6:
 	.align 2, 0
 _0800AABC: .4byte 0xFFFFCFFF
 
-	thumb_func_start sub_800AAC0
-sub_800AAC0: @ 0x0800AAC0
+	thumb_func_start Player_800AAC0
+Player_800AAC0: @ 0x0800AAC0
 	push {r4, r5, r6, lr}
 	adds r6, r0, #0
 	bl sub_8012FC0
@@ -21568,7 +21568,7 @@ sub_800AAC0: @ 0x0800AAC0
 	lsls r1, r1, #0x16
 	orrs r0, r1
 	str r0, [r6, #4]
-	ldr r1, _0800AB44 @ =sub_800AB48
+	ldr r1, _0800AB44 @ =Player_800AB48
 	str r1, [r6]
 	adds r0, r6, #0
 	bl _call_via_r1
@@ -21579,10 +21579,10 @@ sub_800AAC0: @ 0x0800AAC0
 _0800AB38: .4byte 0xFDFFFFD7
 _0800AB3C: .4byte 0x20000006
 _0800AB40: .4byte 0xFFFFBFFF
-_0800AB44: .4byte sub_800AB48
+_0800AB44: .4byte Player_800AB48
 
-	thumb_func_start sub_800AB48
-sub_800AB48: @ 0x0800AB48
+	thumb_func_start Player_800AB48
+Player_800AB48: @ 0x0800AB48
 	push {r4, lr}
 	adds r3, r0, #0
 	ldr r1, [r3, #0x70]
@@ -21644,7 +21644,7 @@ _0800AB88:
 	str r0, [r3, #4]
 	movs r0, #0x13
 	strh r0, [r3, #0x30]
-	ldr r0, _0800ABD0 @ =sub_800E67C
+	ldr r0, _0800ABD0 @ =Player_800E67C
 	str r0, [r3]
 _0800ABBE:
 	pop {r4}
@@ -21654,7 +21654,7 @@ _0800ABBE:
 _0800ABC4: .4byte 0xFFFFE800
 _0800ABC8: .4byte 0xFFFFFF00
 _0800ABCC: .4byte 0xDFFFFFFF
-_0800ABD0: .4byte sub_800E67C
+_0800ABD0: .4byte Player_800E67C
 
 	thumb_func_start Player_UseSpecialSpringWithKey
 Player_UseSpecialSpringWithKey: @ 0x0800ABD4
@@ -23688,7 +23688,7 @@ _0800BB54:
 	adds r0, #0x26
 	strb r3, [r0]
 	strh r4, [r5, #0x1c]
-	ldr r1, _0800BB9C @ =sub_800E6CC
+	ldr r1, _0800BB9C @ =Player_800E6CC
 	str r1, [r5]
 	adds r0, r5, #0
 	bl _call_via_r1
@@ -23698,7 +23698,7 @@ _0800BB54:
 	.align 2, 0
 _0800BB94: .4byte 0xDDFFFFDF
 _0800BB98: .4byte 0xFFFFBFFF
-_0800BB9C: .4byte sub_800E6CC
+_0800BB9C: .4byte Player_800E6CC
 
 	thumb_func_start sub_800BBA0
 sub_800BBA0: @ 0x0800BBA0
@@ -29164,8 +29164,8 @@ _0800E66C:
 _0800E674: .4byte Player_800E604
 _0800E678: .4byte 0x00000257
 
-	thumb_func_start sub_800E67C
-sub_800E67C: @ 0x0800E67C
+	thumb_func_start Player_800E67C
+Player_800E67C: @ 0x0800E67C
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	ldr r0, [r4, #4]
@@ -29191,7 +29191,7 @@ sub_800E67C: @ 0x0800E67C
 	adds r0, #0x26
 	strb r3, [r0]
 	strh r5, [r4, #0x1c]
-	ldr r1, _0800E6C8 @ =sub_800E6CC
+	ldr r1, _0800E6C8 @ =Player_800E6CC
 	str r1, [r4]
 	adds r0, r4, #0
 	bl _call_via_r1
@@ -29201,10 +29201,10 @@ sub_800E67C: @ 0x0800E67C
 	.align 2, 0
 _0800E6C0: .4byte 0xDDFFFFDF
 _0800E6C4: .4byte 0xFFFFBFFF
-_0800E6C8: .4byte sub_800E6CC
+_0800E6C8: .4byte Player_800E6CC
 
-	thumb_func_start sub_800E6CC
-sub_800E6CC: @ 0x0800E6CC
+	thumb_func_start Player_800E6CC
+Player_800E6CC: @ 0x0800E6CC
 	push {r4, lr}
 	adds r4, r0, #0
 	bl sub_801350C

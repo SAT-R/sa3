@@ -54,6 +54,7 @@ SECTIONS {
         build/sa3/asm/ia_084.o(.text);
         build/sa3/asm/ia_087.o(.text);
         build/sa3/asm/ia_088.o(.text);
+        build/sa3/src/game/interactables/ice_launcher.o(.text);
         build/sa3/asm/ia_launcher_twinkle_snow.o(.text);
         build/sa3/src/game/interactables/090.o(.text);
         build/sa3/asm/ia_accordion_spring.o(.text);

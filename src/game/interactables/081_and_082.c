@@ -108,7 +108,7 @@ void Task_IA081_082(void)
                             if (r3) {
                             lbl:
                                 sub_8016F28(p);
-                                sub_800A218(p);
+                                Player_800A218(p);
                             }
                         }
                     }
