@@ -68,11 +68,8 @@ void Task_IceLauncher(void)
     worldY = launcher->worldY;
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        if (i == 0) {
-            p = &gPlayers[gStageData.charId];
-        } else {
-            p = &gPlayers[p->charFlags.partnerIndex];
-        }
+        // TODO: Maybe we should wrap this in a macro, if the ?-operator works everywhere else?
+        p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
 
         if (((p->callback != Player_800AB48) && (p->callback != Player_800E67C)) && (p->callback != Player_800E6CC)) {
             if (!sub_802C080(p) && sub_8020700(s, worldX, worldY, 2, p, 0)) {

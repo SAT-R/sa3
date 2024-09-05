@@ -230,11 +230,7 @@ void Task_80452AC(void)
         s16 j;
 
         for (j = 0; j < (s32)ARRAY_COUNT(platform->ps); j++) {
-            if (j != 0) {
-                p = &gPlayers[p->charFlags.partnerIndex];
-            } else {
-                p = &gPlayers[gStageData.charId];
-            }
+            p = (j != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
 
             sub_80213B0(s, p);
         }
