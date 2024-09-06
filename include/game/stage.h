@@ -20,7 +20,7 @@ typedef struct {
     /* 0x03 */ u8 gameMode; // (0x0: normal, 0x1: Demo, 0x2: ???, 0x3: Time Attack,
                             // x7: multiplayer?)
     /* 0x04 */ u8 unk4;
-    /* 0x05 */ u8 unk5;
+    /* 0x05 */ u8 unk5; // This appears to be flag with layout 0b01010101 (see IA goal_ring)
     /* 0x06 */ u8 charId; // 0-3
     /* 0x07 */ u8 unk7;
     /* 0x08 */ u8 unk8;
@@ -67,7 +67,7 @@ typedef struct {
     /* 0x8C */ u16 unk8C;
     /* 0x8E */ u8 unk8E;
     /* 0x8F */ u8 unk8F;
-    /* 0x90 */ struct Task *unk90;
+    /* 0x90 */ struct Task *task90;
     /* 0x94 */ u32 unk94;
     /* 0x98 */ struct Task *task98; // -> StageDataTask98 *
     /* 0x9C */ u32 unk9C;

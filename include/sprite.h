@@ -175,11 +175,11 @@ typedef struct {
     /* 0x1B */ u8 prevVariant;
 
     // 0x08 = 0.5x, 0x10 = 1.0x, 0x20 = 2.0x ...
-    /* 0x1C */ s8 animSpeed;
+    /* 0x1C */ u8 animSpeed;
 
-    /* 0x1D */ s8 oamBaseIndex;
-    /* 0x1E */ s8 numSubFrames;
-    /* 0x1F */ s8 palId; // (0 - 15)
+    /* 0x1D */ u8 oamBaseIndex;
+    /* 0x1E */ u8 numSubFrames;
+    /* 0x1F */ u8 palId; // (0 - 15)
     /* 0x20 */ Hitbox hitboxes[1];
 } Sprite; /* size: 0x28 (more with multiple Hitboxes) */
 

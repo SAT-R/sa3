@@ -8,6 +8,7 @@ extern void Player_80052C8(Player *p);
 extern void Player_8005380(Player *p);
 extern void Player_8005528(Player *p);
 extern void Player_8005BD4(Player *p);
+extern void Player_8005E80(Player *p);
 extern void Player_8006CF0(Player *p);
 extern void Player_8006DB8(Player *p);
 extern void Player_80077CC(Player *p);

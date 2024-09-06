@@ -1,5 +1,6 @@
 #include "global.h"
 #include "task.h"
+#include "malloc_vram.h"
 #include "module_unclear.h"
 #include "game/camera.h"
 #include "game/entity.h"
@@ -7,13 +8,16 @@
 #include "game/player_callbacks.h"
 #include "game/stage.h"
 
+#include "constants/animations.h"
+#include "constants/anim_sizes.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"
+#include "constants/zones.h"
 
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s[2];
-    /* 0x5C */ u8 filler[0x4];
+    /* 0x5C */ s16 unk5C;
 } GoalRing; /* 0x60 */
 
 void Task_GoalRing(void);
@@ -21,6 +25,7 @@ void TaskDestructor_GoalRing(struct Task *);
 void sub_80340B4(Sprite *);
 void sub_803414C(void);
 void sub_803421C(void);
+void sub_8034250(void);
 
 void CreateEntity_GoalRing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -36,7 +41,7 @@ void CreateEntity_GoalRing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         ring->base.spriteX = me->x;
         ring->base.id = id;
 
-        for (i = 0; i < 2; i++, s++) {
+        for (i = 0; i < (s32)ARRAY_COUNT(ring->s); i++, s++) {
             // NOTE: Technically this is incorrect, since Sprite
             //       coordinates are usually in screen-space.
             s->x = TO_WORLD_POS(me->x, regionX);
@@ -91,14 +96,157 @@ void Task_GoalRing(void)
         gStageData.unk4 = 5;
 
         if ((gStageData.gameMode == GAME_MODE_MP_MULTI_PACK) && !r7) {
-            s32 r3 = 85;
+            s32 r3 = 0x55; // = 0b01010101;
             r3 -= (1 << gStageData.charId * 2);
             r3 -= (1 << p1->charFlags.partnerIndex * 2);
             gStageData.unk5 = r3;
 
-            gStageData.unk90->main = Task_800303C;
+#ifdef BUG_FIX
+            if (gStageData.task90 != NULL)
+#endif
+            {
+                gStageData.task90->main = Task_800303C;
+            }
         }
 
         sub_803421C();
+    }
+}
+
+void Task_8033FD4(void)
+{
+    GoalRing *ring = TASK_DATA(gCurTask);
+    Sprite *s = &ring->s[0];
+    s16 i;
+
+    if (++ring->unk5C > ZONE_TIME_TO_INT(0, 2)) {
+        ring->unk5C = 0;
+
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            Player *p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+
+            SetPlayerCallback(p, Player_8005E80);
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(ring->base.me, ring->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        for (i = 0; i < (s32)ARRAY_COUNT(ring->s); i++, s++) {
+            s->y -= (ring->unk5C >> 3);
+
+            if (s->y < -16) {
+                s->y = -16;
+            }
+
+            if (s->animSpeed < SPRITE_ANIM_SPEED(4.0)) {
+                s->animSpeed += (ring->unk5C >> 1);
+            }
+        }
+
+        sub_8034250();
+    }
+}
+
+void sub_80340B4(Sprite *s)
+{
+    // Main sprite
+    s->tiles = ALLOC_TILES(ANIM_GOAL_RING);
+    s->anim = ANIM_GOAL_RING;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->timeUntilNextFrame = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    UpdateSpriteAnimation(s);
+    s++;
+
+    // Sparkle effect
+    s->tiles = ALLOC_TILES_VARIANT(ANIM_GOAL_RING, 8);
+    s->anim = ANIM_GOAL_RING;
+    s->variant = 8;
+    s->oamFlags = SPRITE_OAM_ORDER(23);
+    s->animCursor = 0;
+    s->timeUntilNextFrame = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(18, 1) | SPRITE_FLAG(PRIORITY, 1);
+    UpdateSpriteAnimation(s);
+    s++;
+}
+
+void sub_803414C(void)
+{
+    GoalRing *ring = TASK_DATA(gCurTask);
+    Sprite *s = &ring->s[0];
+    MapEntity *me = ring->base.me;
+    s16 worldX, worldY;
+
+    worldX = TO_WORLD_POS(ring->base.spriteX, ring->base.regionX);
+    worldY = TO_WORLD_POS(me->y, ring->base.regionY);
+
+    if (!IsPointInScreenRect(worldX, worldY)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, ring->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        // NOTE: worldX/Y are screenX/Y after this
+        worldX = worldX - gCamera.x;
+        worldY = worldY - gCamera.y;
+
+        s->x = worldX;
+        s->y = worldY;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+
+        s++;
+        s->x = worldX;
+        s->y = worldY;
+        UpdateSpriteAnimation(s);
+
+        sub_80C07E0(s);
+    }
+}
+
+void TaskDestructor_GoalRing(struct Task *t)
+{
+    GoalRing *ring = TASK_DATA(t);
+    VramFree(ring->s[0].tiles);
+    VramFree(ring->s[1].tiles);
+}
+
+void sub_803421C(void)
+{
+    GoalRing *ring = TASK_DATA(gCurTask);
+    Sprite *s;
+
+    ring->unk5C = 0;
+
+    s = &ring->s[0];
+    s->variant = 4;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    gCurTask->main = Task_8033FD4;
+}
+
+void sub_8034250(void)
+{
+    GoalRing *ring = TASK_DATA(gCurTask);
+    Sprite *s = &ring->s[0];
+    s16 x = s->x;
+    s16 y = s->y;
+
+    if (!IS_OUT_OF_CAM_RANGE_TYPED(u16, x, y)) {
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+
+        s = &ring->s[1];
+        UpdateSpriteAnimation(s);
+        sub_80C07E0(s);
     }
 }

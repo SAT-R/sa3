@@ -53252,7 +53252,7 @@ _0807F84A:
 	lsls r0, r0, #4
 	ldr r4, _0807F890 @ =gPlayers
 	adds r6, r0, r4
-	ldr r5, _0807F894 @ =sub_8005E80
+	ldr r5, _0807F894 @ =Player_8005E80
 	adds r0, r6, #0
 	adds r1, r5, #0
 	bl SetPlayerCallback
@@ -53276,7 +53276,7 @@ _0807F84A:
 	.align 2, 0
 _0807F88C: .4byte gStageData
 _0807F890: .4byte gPlayers
-_0807F894: .4byte sub_8005E80
+_0807F894: .4byte Player_8005E80
 _0807F898:
 	movs r0, #1
 	bl sub_807FB7C

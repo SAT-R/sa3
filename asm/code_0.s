@@ -9378,7 +9378,7 @@ _08004AA4:
 _08004AD4: .4byte gStageData
 _08004AD8:
 	adds r0, r5, #0
-	bl sub_8005E80
+	bl Player_8005E80
 	b _08004B06
 _08004AE0:
 	mov r3, r8
@@ -11931,8 +11931,8 @@ _08005E74: .4byte gPlayers
 _08005E78: .4byte 0xFFFEFFFF
 _08005E7C: .4byte sub_800D8DC
 
-	thumb_func_start sub_8005E80
-sub_8005E80: @ 0x08005E80
+	thumb_func_start Player_8005E80
+Player_8005E80: @ 0x08005E80
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

@@ -1314,7 +1314,7 @@ _0804664A:
 	lsls r0, r0, #4
 	adds r4, r0, r6
 	adds r0, r4, #0
-	ldr r1, _08046678 @ =sub_8005E80
+	ldr r1, _08046678 @ =Player_8005E80
 	bl SetPlayerCallback
 	movs r1, #0x80
 	lsls r1, r1, #9
@@ -1328,7 +1328,7 @@ _0804664A:
 	bl TaskDestroy
 	b _08046754
 	.align 2, 0
-_08046678: .4byte sub_8005E80
+_08046678: .4byte Player_8005E80
 _0804667C: .4byte gCurTask
 _08046680:
 	ldrb r1, [r7, #6]
