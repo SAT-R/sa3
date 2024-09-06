@@ -67,7 +67,7 @@ typedef struct {
     /* 0x8C */ u16 unk8C;
     /* 0x8E */ u8 unk8E;
     /* 0x8F */ u8 unk8F;
-    /* 0x90 */ u32 unk90;
+    /* 0x90 */ struct Task *unk90;
     /* 0x94 */ u32 unk94;
     /* 0x98 */ struct Task *task98; // -> StageDataTask98 *
     /* 0x9C */ u32 unk9C;

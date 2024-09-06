@@ -1245,7 +1245,7 @@ _08046574:
 _080465CC: .4byte 0x00000207
 _080465D0: .4byte sub_800613C
 _080465D4:
-	ldr r1, _080465F0 @ =sub_8005BD4
+	ldr r1, _080465F0 @ =Player_8005BD4
 	adds r0, r5, #0
 	bl SetPlayerCallback
 _080465DC:
@@ -1260,7 +1260,7 @@ _080465E0:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080465F0: .4byte sub_8005BD4
+_080465F0: .4byte Player_8005BD4
 
 	thumb_func_start sub_80465F4
 sub_80465F4: @ 0x080465F4

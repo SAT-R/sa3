@@ -236,8 +236,8 @@
 #define VOICE__CHAO__COLLECTED  0x204
 #define SE_SPECIAL_KEY          0x205
 #define SE_SPECIAL_SPRING       0x206
-#define SE_GOAL_MEDAL           0x207
-#define SE_GOAL_MEDAL_RESULT    0x208
+#define SE_GOAL_RING            0x207
+#define SE_GOAL_RING_RESULT     0x208
 #define SE_BIG_WARP_RING        0x209
 #define SE_BONUS_UFO            0x20A
 #define SE_523                  0x20B // Bonus Capsule switch?

@@ -6060,8 +6060,8 @@ _08003026:
 _08003034: .4byte gStageData
 _08003038: .4byte gUnknown_03003F8C
 
-	thumb_func_start sub_800303C
-sub_800303C: @ 0x0800303C
+	thumb_func_start Task_800303C
+Task_800303C: @ 0x0800303C
 	push {lr}
 	ldr r3, _08003058 @ =gStageData
 	ldrb r1, [r3, #5]
@@ -7562,7 +7562,7 @@ sub_8003C38: @ 0x08003C38
 	adds r0, r4, #0
 	adds r0, #0x90
 	ldr r1, [r0]
-	ldr r0, _08003C9C @ =sub_800303C
+	ldr r0, _08003C9C @ =Task_800303C
 	str r0, [r1, #8]
 _08003C84:
 	ldr r0, _08003CA0 @ =gCurTask
@@ -7574,7 +7574,7 @@ _08003C84:
 	.align 2, 0
 _08003C94: .4byte gStageData
 _08003C98: .4byte gPlayers
-_08003C9C: .4byte sub_800303C
+_08003C9C: .4byte Task_800303C
 _08003CA0: .4byte gCurTask
 
 	thumb_func_start sub_8003CA4
@@ -11611,8 +11611,8 @@ _08005BC6:
 	.align 2, 0
 _08005BD0: .4byte sub_800D9F4
 
-	thumb_func_start sub_8005BD4
-sub_8005BD4: @ 0x08005BD4
+	thumb_func_start Player_8005BD4
+Player_8005BD4: @ 0x08005BD4
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	ldr r2, [r4, #4]
@@ -79200,11 +79200,11 @@ _08026646:
 _0802664C:
 	adds r0, #0x90
 	ldr r1, [r0]
-	ldr r0, _08026658 @ =sub_800303C
+	ldr r0, _08026658 @ =Task_800303C
 	str r0, [r1, #8]
 	b _080265E8
 	.align 2, 0
-_08026658: .4byte sub_800303C
+_08026658: .4byte Task_800303C
 _0802665C:
 	ldr r1, _08026678 @ =gStageData
 	ldrb r0, [r1, #4]
