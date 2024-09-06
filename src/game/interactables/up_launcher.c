@@ -7,8 +7,11 @@
 #include "game/stage.h"
 #include "game/player_callbacks.h"
 
+#include "constants/animations.h"
+#include "constants/anim_sizes.h"
 #include "constants/move_states.h"
 
+// TODO: Rename, this is not the "Ice Launcher" I thought it was!
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
@@ -26,7 +29,7 @@ void TaskDestruction_IceLauncher(struct Task *);
 void sub_803F188(IceLauncher *);
 void sub_803F1D4(void);
 
-void CreateEntity_IceLauncher(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+void CreateEntity_UpLauncher(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_IceLauncher, sizeof(IceLauncher), 0x2100, 0, TaskDestruction_IceLauncher);
     IceLauncher *launcher = TASK_DATA(t);
@@ -117,4 +120,18 @@ void Task_IceLauncher(void)
 }
 
 #if 01
+void sub_803F188(IceLauncher *launcher)
+{
+    Sprite *s;
+    void *tiles;
+
+    tiles = ALLOC_TILES(ANIM_LAUNCHER_TS);
+    launcher->tiles = tiles;
+
+    s = &launcher->s;
+    s->tiles = tiles;
+    s->anim = ANIM_LAUNCHER_TS;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(12);
+}
 #endif

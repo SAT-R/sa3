@@ -96,7 +96,7 @@
 #define ANIM_PENDULUM          920
 #define ANIM_PLATFORM_SPIKED   921
 #define ANIM_ICE_SPIKE         922
-#define ANIM_ICE_LAUNCHER      923
+#define ANIM_LAUNCHER_TS      923
 #define ANIM_CHARGE_LAUNCHER   924
 #define ANIM_MINECART          925
 #define ANIM_AIR_BUBBLES       926
