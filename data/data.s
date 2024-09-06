@@ -277,7 +277,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable052
     .4byte CreateEntity_Interactable053
     .4byte CreateEntity_Checkpoint
-    .4byte CreateEntity_Interactable055
+    .4byte CreateEntity_GoalRing
     .4byte CreateEntity_BouncyBar
     .4byte CreateEntity_Interactable057
     .4byte CreateEntity_Interactable058
@@ -311,7 +311,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable085 @ 086
     .4byte CreateEntity_Interactable087
     .4byte CreateEntity_Interactable088
-    .4byte CreateEntity_UpLauncher
+    .4byte CreateEntity_WaterCannon
     .4byte CreateEntity_Interactable090
     .4byte CreateEntity_Interactable091
     .4byte CreateEntity_BungeeCord

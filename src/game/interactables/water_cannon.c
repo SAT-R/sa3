@@ -39,7 +39,7 @@ typedef struct {
 } WaterCannon; /* size: 0x78 */
 
 void Task_WaterCannon(void);
-void TaskDestruction_WaterCannon(struct Task *);
+void TaskDestructor_WaterCannon(struct Task *);
 void sub_803F188(WaterCannon *);
 void sub_803F1D4(void);
 
@@ -59,9 +59,9 @@ static inline void InitWaterEffectSprite_inline(WaterCannon *cannon)
     s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
 }
 
-void CreateEntity_UpLauncher(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+void CreateEntity_WaterCannon(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_WaterCannon, sizeof(WaterCannon), 0x2100, 0, TaskDestruction_WaterCannon);
+    struct Task *t = TaskCreate(Task_WaterCannon, sizeof(WaterCannon), 0x2100, 0, TaskDestructor_WaterCannon);
     WaterCannon *cannon = TASK_DATA(t);
     Sprite *s;
 
@@ -249,7 +249,7 @@ void sub_803F1D4(void)
     }
 }
 
-void TaskDestruction_WaterCannon(struct Task *t)
+void TaskDestructor_WaterCannon(struct Task *t)
 {
     WaterCannon *cannon = TASK_DATA(t);
     VramFree(cannon->tiles);

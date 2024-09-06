@@ -34,7 +34,8 @@ SECTIONS {
         build/sa3/asm/ia_hang_handle.o(.text);
         build/sa3/asm/ia_platforms_and_spring_with_switch_2.o(.text);
         build/sa3/src/game/interactables/checkpoint.o(.text);
-        build/sa3/asm/ia_055.o(.text);
+        build/sa3/src/game/interactables/goal_ring.o(.text);
+        build/sa3/asm/goal_ring.o(.text);
         build/sa3/src/game/interactables/bouncy_bar.o(.text);
         build/sa3/asm/ia_breakable_wall.o(.text);
         build/sa3/asm/ia_058_and_059.o(.text);
@@ -52,7 +53,7 @@ SECTIONS {
         build/sa3/src/game/interactables/081_and_082.o(.text);
         build/sa3/src/game/interactables/085.o(.text);
         build/sa3/asm/ia_084.o(.text);
-        build/sa3/asm/ia_087.o(.text);
+        build/sa3/asm/trigger_goal_ring_and_boss.o(.text);
         build/sa3/asm/ia_088.o(.text);
         build/sa3/src/game/interactables/water_cannon.o(.text);
         build/sa3/src/game/interactables/090.o(.text);

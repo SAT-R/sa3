@@ -5,81 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable055
-CreateEntity_Interactable055: @ 0x08033D64
-	push {r4, r5, r6, r7, lr}
-	sub sp, #4
-	adds r4, r0, #0
-	lsls r1, r1, #0x10
-	lsrs r6, r1, #0x10
-	lsls r2, r2, #0x10
-	lsrs r5, r2, #0x10
-	lsls r3, r3, #0x18
-	lsrs r7, r3, #0x18
-	ldr r0, _08033DE8 @ =gStageData
-	ldrb r0, [r0, #4]
-	cmp r0, #3
-	bne _08033DE0
-	ldr r0, _08033DEC @ =sub_8033DF4
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _08033DF0 @ =sub_8034200
-	str r1, [sp]
-	movs r1, #0x60
-	movs r3, #0
-	bl TaskCreate
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r3, r1, r0
-	adds r0, #0xc
-	adds r1, r1, r0
-	strh r6, [r3, #4]
-	strh r5, [r3, #6]
-	str r4, [r3]
-	ldrb r0, [r4]
-	strb r0, [r3, #0xa]
-	strb r7, [r3, #0xb]
-	movs r2, #0
-	lsls r6, r6, #8
-	lsls r5, r5, #8
-_08033DAE:
-	ldrb r0, [r4]
-	lsls r0, r0, #3
-	adds r0, r0, r6
-	strh r0, [r1, #0x10]
-	ldrb r0, [r4, #1]
-	lsls r0, r0, #3
-	adds r0, r0, r5
-	strh r0, [r1, #0x12]
-	lsls r0, r2, #0x10
-	movs r2, #0x80
-	lsls r2, r2, #9
-	adds r0, r0, r2
-	adds r1, #0x28
-	lsrs r2, r0, #0x10
-	asrs r0, r0, #0x10
-	cmp r0, #1
-	ble _08033DAE
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r4]
-	adds r0, r3, #0
-	adds r0, #0xc
-	bl sub_80340B4
-_08033DE0:
-	add sp, #4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08033DE8: .4byte gStageData
-_08033DEC: .4byte sub_8033DF4
-_08033DF0: .4byte sub_8034200
+.if 0
+.endif
 
-	thumb_func_start sub_8033DF4
-sub_8033DF4: @ 0x08033DF4
+	thumb_func_start Task_GoalRing
+Task_GoalRing: @ 0x08033DF4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -585,8 +515,8 @@ _080341EA:
 _080341F8: .4byte gCamera
 _080341FC: .4byte 0x03000034
 
-	thumb_func_start sub_8034200
-sub_8034200: @ 0x08034200
+	thumb_func_start TaskDestructor_GoalRing
+TaskDestructor_GoalRing: @ 0x08034200
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0
