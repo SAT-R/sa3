@@ -241,7 +241,7 @@ void sub_8034250(void)
     s16 x = s->x;
     s16 y = s->y;
 
-    if (!IS_OUT_OF_CAM_RANGE_TYPED(u16, x, y)) {
+    if (!IS_OUT_OF_CAM_RANGE(x, y)) {
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
 
