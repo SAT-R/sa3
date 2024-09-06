@@ -1,4 +1,17 @@
+/*
+ * Entity-Name: Water Cannon
+ *
+ * Description: Player enters from the top and gets shot upwards.
+ *              The graphics for this IA later get reused in Sonic Rush,
+ *              where after being launched the Player hooks onto a paraglider.
+ * 
+ * Entity-Type: Interactable
+ * Graphics:    ANIM_WATER_CANNON (910), ANIM_WATER_CANNON_SPLASH (934)
+ * Locations:   Ocean Base (Overworld)  (WIP)
+ */
+
 #include "global.h"
+#include "malloc_vram.h"
 #include "module_unclear.h"
 #include "task.h"
 #include "game/camera.h"
@@ -15,7 +28,7 @@
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
-    /* 0x34 */ u8 filler34[0x10];
+    /* 0x34 */ Hitbox reserved34[2];
     /* 0x44 */ Sprite s2;
     /* 0x6C */ void *tiles;
     /* 0x70 */ s16 worldX;
@@ -125,13 +138,24 @@ void sub_803F188(IceLauncher *launcher)
     Sprite *s;
     void *tiles;
 
-    tiles = ALLOC_TILES(ANIM_LAUNCHER_TS);
+    tiles = VramMalloc(MAX_TILES(ANIM_WATER_CANNON) + MAX_TILES(ANIM_WATER_CANNON_SPLASH));
     launcher->tiles = tiles;
 
     s = &launcher->s;
     s->tiles = tiles;
-    s->anim = ANIM_LAUNCHER_TS;
+    s->anim = ANIM_WATER_CANNON;
     s->variant = 0;
     s->oamFlags = SPRITE_OAM_ORDER(12);
+    s->animCursor = 0;
+    s->animCursor = 0;
+    s->timeUntilNextFrame = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->hitboxes[1].index = HITBOX_STATE_INACTIVE;
+    s->hitboxes[2].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    UpdateSpriteAnimation(s);
 }
 #endif

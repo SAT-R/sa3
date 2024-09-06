@@ -6,44 +6,6 @@
 .arm
 
 .if 0
-	thumb_func_start sub_803F188
-sub_803F188: @ 0x0803F188
-	push {r4, lr}
-	adds r4, r0, #0
-	movs r0, #0x36
-	bl VramMalloc
-	adds r1, r0, #0
-	str r1, [r4, #0x6c]
-	adds r0, r4, #0
-	adds r0, #0xc
-	str r1, [r4, #0xc]
-	movs r3, #0
-	movs r2, #0
-	ldr r1, _0803F1D0 @ =0x0000038E
-	strh r1, [r0, #0xc]
-	strb r3, [r0, #0x1a]
-	subs r1, #0x8e
-	strh r1, [r0, #0x14]
-	strh r2, [r0, #0xe]
-	strh r2, [r0, #0x16]
-	movs r1, #0xff
-	strb r1, [r0, #0x1b]
-	movs r1, #0x10
-	strb r1, [r0, #0x1c]
-	strb r3, [r0, #0x1f]
-	subs r1, #0x11
-	str r1, [r0, #0x20]
-	str r1, [r0, #0x28]
-	str r1, [r0, #0x30]
-	movs r1, #0x80
-	lsls r1, r1, #5
-	str r1, [r0, #8]
-	bl UpdateSpriteAnimation
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0803F1D0: .4byte 0x0000038E
 .endif
 
 	thumb_func_start sub_803F1D4
