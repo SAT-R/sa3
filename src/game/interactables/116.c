@@ -136,9 +136,9 @@ void Task_Interactable116(void)
                             p->qUnk74 = Q(ia->worldY);
 
                             if (ia->unk18 != 0) {
-                                SetPlayerCallback(p, (void *)Player_800B374);
+                                SetPlayerCallback(p, Player_800B374);
                             } else {
-                                SetPlayerCallback(p, (void *)Player_800B1B8);
+                                SetPlayerCallback(p, Player_800B1B8);
                             }
                         }
                     }

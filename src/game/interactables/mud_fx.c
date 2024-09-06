@@ -84,7 +84,7 @@ void Task_Interactable095(void)
 
                         if ((p->moveState & MOVESTATE_IN_AIR) && (p->callback != Player_800EB5C)) {
                             p->charFlags.anim0 = 11;
-                            SetPlayerCallback(p, (void *)Player_800EB5C);
+                            SetPlayerCallback(p, Player_800EB5C);
                         }
 
                         if (p->qSpeedAirY > 0) {

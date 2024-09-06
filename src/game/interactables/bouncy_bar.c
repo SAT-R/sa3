@@ -107,7 +107,7 @@ static void Task_BouncyBarIdle(void)
 
                             p->qWorldY = Q(worldY + 20);
 
-                            SetPlayerCallback(p, (void *)Player_800BEE8);
+                            SetPlayerCallback(p, Player_800BEE8);
                             bar->activePlayer = p;
 
                             bar->unk36 = 0;
@@ -167,7 +167,7 @@ static void Task_BouncyBarLaunch(void)
             return;
         }
 
-        SetPlayerCallback(activePlayer, (void *)Player_8006DB8);
+        SetPlayerCallback(activePlayer, Player_8006DB8);
         activePlayer->qSpeedAirX = 0;
         activePlayer->qSpeedAirY = -LAUNCH_SPEED;
         bar->unk35 = 0;

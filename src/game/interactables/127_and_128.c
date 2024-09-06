@@ -61,9 +61,9 @@ void Task_Interactable127(void)
                 if ((p->callback != Player_800E604) && !(p->moveState & MOVESTATE_IN_AIR))
                     if ((p->qWorldX > qLeft) && (p->qWorldX < qRight) && (p->qWorldY > qTop) && (p->qWorldY < qBottom)) {
                         if (ia->unk14) {
-                            SetPlayerCallback(p, (void *)Player_800E5EC);
+                            SetPlayerCallback(p, Player_800E5EC);
                         } else {
-                            SetPlayerCallback(p, (void *)Player_800E5D0);
+                            SetPlayerCallback(p, Player_800E5D0);
                         }
                     }
             }

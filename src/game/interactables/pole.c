@@ -77,7 +77,7 @@ static void Task_Interactable094Main(void)
                         } else if (((middle - (TILE_WIDTH / 2)) <= pWorldX) && ((middle + (TILE_WIDTH / 2)) >= pWorldX)) {
                             if (p->charFlags.anim0 != ANIM_CHAR_133) {
                                 sub_8016F28(p);
-                                SetPlayerCallback(p, (void *)Player_800A5B0);
+                                SetPlayerCallback(p, Player_800A5B0);
                                 p->qWorldX = Q(middle);
 
                                 ia->unkD[i] = 0;
@@ -87,7 +87,7 @@ static void Task_Interactable094Main(void)
 
                             if (ia->unkD[i] != 0 && ia->unkD[i] != r2) {
                                 sub_8016F28(p);
-                                SetPlayerCallback(p, (void *)Player_800A5B0);
+                                SetPlayerCallback(p, Player_800A5B0);
 
                                 p->qWorldX = Q(middle);
                                 ia->unkD[i] = 0;

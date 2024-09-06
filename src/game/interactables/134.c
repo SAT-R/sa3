@@ -92,10 +92,10 @@ void Task_Interactable134(void)
 
                             if (ia->unk10 == 0) {
                                 p->qSpeedAirX = -Q(1.5);
-                                SetPlayerCallback(p, (void *)Player_800A7CC);
+                                SetPlayerCallback(p, Player_800A7CC);
                             } else {
                                 p->qSpeedAirX = +Q(1.5);
-                                SetPlayerCallback(p, (void *)Player_800A690);
+                                SetPlayerCallback(p, Player_800A690);
                             }
                         }
                     } else {
@@ -108,10 +108,10 @@ void Task_Interactable134(void)
 
                             if (ia->unk10 != 0) {
                                 p->qSpeedAirX = +Q(1.5);
-                                SetPlayerCallback(p, (void *)Player_800A690);
+                                SetPlayerCallback(p, Player_800A690);
                             } else {
                                 p->qSpeedAirX = -Q(1.5);
-                                SetPlayerCallback(p, (void *)Player_800A7CC);
+                                SetPlayerCallback(p, Player_800A7CC);
                             }
                         } else {
                             ia->unk11[i] = r3;

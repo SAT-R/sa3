@@ -114,7 +114,7 @@ static bool32 UpdatePlayerSpeed(void)
                 sub_80213B0(s, p);
 
                 p->charFlags.unk2C_04 = 1;
-                SetPlayerCallback(p, (void *)Player_800BC38);
+                SetPlayerCallback(p, Player_800BC38);
 
                 p->qSpeedAirY = qSpeedAirY + (qSpeedAirY >> 3);
 

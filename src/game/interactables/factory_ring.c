@@ -45,12 +45,12 @@ void Task_FactoryRingMain(void)
                     sub_8016F28(p);
                     sub_8019A64(p);
                     sub_8004E98(p, SE_BIG_WARP_RING);
-                    SetPlayerCallback(p, (void *)Player_800AE14);
+                    SetPlayerCallback(p, Player_800AE14);
 
                     partner = &gPlayers[p->charFlags.partnerIndex];
 
                     if (partner->charFlags.someIndex == 2) {
-                        SetPlayerCallback(partner, (void *)Player_800AE14);
+                        SetPlayerCallback(partner, Player_800AE14);
                     }
 
                     if (!GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode)) {

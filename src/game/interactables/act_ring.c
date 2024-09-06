@@ -88,12 +88,12 @@ void Task_ActRingMain(void)
                 gStageData.nextMapIndex = (gStageData.zone * 10) + ring->act + 3;
                 gStageData.unkC = 0;
 
-                SetPlayerCallback(p, (void *)Player_800AD24);
+                SetPlayerCallback(p, Player_800AD24);
 
                 partner = &gPlayers[p->charFlags.partnerIndex];
 
                 if (partner->charFlags.someIndex == 2) {
-                    SetPlayerCallback(partner, (void *)Player_800AD24);
+                    SetPlayerCallback(partner, Player_800AD24);
                 }
 
                 if (GAME_MODE_IS_MULTI_PLAYER(gStageData.gameMode)) {

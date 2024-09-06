@@ -108,7 +108,7 @@ void Task_WaterCannon(void)
             if (!sub_802C080(p) && sub_8020700(s, worldX, worldY, 2, p, 0)) {
                 p->qUnk70 = Q(worldX);
                 p->qUnk74 = Q(worldY);
-                SetPlayerCallback(p, (void *)Player_800AAC0);
+                SetPlayerCallback(p, Player_800AAC0);
                 sub_8016F28(p);
 
                 if (cannon->unk74 == -1) {

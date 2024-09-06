@@ -63,7 +63,7 @@ void Task_BungeeCord(void)
             if (!sub_802C080(p) && !(p->moveState & MOVESTATE_IN_AIR) && (p->qWorldX > qLeft) && (p->qWorldX < qRight)
                 && (p->qWorldY > qTop) && (p->qWorldY < qBottom)) {
                 sub_8016F28(p);
-                SetPlayerCallback(p, (void *)Player_800A3C0);
+                SetPlayerCallback(p, Player_800A3C0);
                 p->moveState |= (MOVESTATE_20 | MOVESTATE_IN_AIR);
                 p->spr6C = s;
                 cord->tetheredPlayer[i] = p;

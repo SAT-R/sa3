@@ -64,12 +64,12 @@ void Task_FinalZoneRing(void)
                 gStageData.nextMapIndex = STAGE_ALTAR_EMERALD;
                 gStageData.unkC = 0;
 
-                SetPlayerCallback(p, (PlayerCallback *)Player_800AD24);
+                SetPlayerCallback(p, Player_800AD24);
 
                 partner = &gPlayers[p->charFlags.partnerIndex];
 
                 if (partner->charFlags.someIndex == 0x2) {
-                    SetPlayerCallback(partner, (PlayerCallback *)Player_800AD24);
+                    SetPlayerCallback(partner, Player_800AD24);
                 }
 
                 sub_8004E98(p, SE_BIG_WARP_RING);

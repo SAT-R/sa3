@@ -102,7 +102,7 @@ void Task_Interactable085(void)
                 p->charFlags.unk2C_02 = 1;
 
                 if (p->callback != cmpCallback) {
-                    SetPlayerCallback(p, (void *)Player_800BCE0);
+                    SetPlayerCallback(p, Player_800BCE0);
                 }
             }
         }

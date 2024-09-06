@@ -142,7 +142,7 @@ void Task_BonusUfoMain(void)
                 sub_8003DF0(SE_BONUS_UFO);
 
                 p->charFlags.anim0 = 1;
-                SetPlayerCallback(p, (void *)Player_800EB4C);
+                SetPlayerCallback(p, Player_800EB4C);
 
                 ufo->unkB3 = 1;
 
@@ -223,7 +223,7 @@ void Task_8041710(void)
         p->unkA4 = ufo->unkB1;
         p->unkA4 += gStageData.zone * 10;
 
-        SetPlayerCallback(p, (void *)Player_800AEF4);
+        SetPlayerCallback(p, Player_800AEF4);
     }
 
     if (sub_8041988()) {

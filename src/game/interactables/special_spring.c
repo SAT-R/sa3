@@ -79,12 +79,12 @@ void Task_SpecialSpring(void)
                 u8 spKeys = gSaveGame.specialKeys[gStageData.zone];
                 if ((spKeys > 0) && (gStageData.gameMode == GAME_MODE_SINGLE_PLAYER)) {
                     gSaveGame.specialKeys[gStageData.zone] = spKeys - 1;
-                    SetPlayerCallback(p, (void *)Player_UseSpecialSpringWithKey);
+                    SetPlayerCallback(p, Player_UseSpecialSpringWithKey);
 
                     partner = &gPlayers[p->charFlags.partnerIndex];
 
                     if (partner->charFlags.someIndex == 2) {
-                        SetPlayerCallback(partner, (void *)Player_800AD24);
+                        SetPlayerCallback(partner, Player_800AD24);
                     }
 
                     s->variant = 2;
