@@ -259,6 +259,7 @@
 
 #define SE_WAGGLE_COIL 0x250
 
+#define SE_WATER_CANNON        0x255
 #define SE_ROCKET_ACCELERATING 0x256
 
 #define SE_599 0x257
