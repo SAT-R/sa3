@@ -55,7 +55,6 @@ SECTIONS {
         build/sa3/asm/ia_087.o(.text);
         build/sa3/asm/ia_088.o(.text);
         build/sa3/src/game/interactables/water_cannon.o(.text);
-        build/sa3/asm/ia_launcher_twinkle_snow.o(.text);
         build/sa3/src/game/interactables/090.o(.text);
         build/sa3/asm/ia_accordion_spring.o(.text);
         build/sa3/src/game/interactables/bungee_cord.o(.text);
