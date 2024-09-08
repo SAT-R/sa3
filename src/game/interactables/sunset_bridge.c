@@ -39,6 +39,7 @@ void Task_SunsetBridge(void);
 void TaskDestruction_SunsetBridge(struct Task *);
 void sub_8045060(SunsetBridge *bridge);
 
+// (95.73%) https://decomp.me/scratch/YtwLu
 NONMATCH("asm/non_matching/game/interactables/sunset_bridge__CreateEntity_SunsetBridge.inc",
          void CreateEntity_SunsetBridge(MapEntity *me, u16 regionX, u16 regionY, u8 id))
 {
