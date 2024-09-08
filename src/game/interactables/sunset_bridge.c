@@ -39,7 +39,8 @@ void Task_SunsetBridge(void);
 void TaskDestruction_SunsetBridge(struct Task *);
 void sub_8045060(SunsetBridge *bridge);
 
-void CreateEntity_SunsetBridge(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+NONMATCH("asm/non_matching/game/interactables/sunset_bridge__CreateEntity_SunsetBridge.inc",
+         void CreateEntity_SunsetBridge(MapEntity *me, u16 regionX, u16 regionY, u8 id))
 {
     struct Task *t = TaskCreate(Task_SunsetBridge, sizeof(SunsetBridge), 0x2100, 0, TaskDestruction_SunsetBridge);
     SunsetBridge *bridge = TASK_DATA(t);
@@ -106,3 +107,4 @@ void CreateEntity_SunsetBridge(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
     UpdateSpriteAnimation(s);
 }
+END_NONMATCH
