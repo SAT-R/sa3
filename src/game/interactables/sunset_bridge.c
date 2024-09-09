@@ -1,5 +1,6 @@
 #include "global.h"
 #include "task.h"
+#include "module_unclear.h"
 #include "malloc_vram.h"
 #include "game/camera.h"
 #include "game/entity.h"
@@ -8,6 +9,7 @@
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
+#include "constants/move_states.h"
 
 #define MAX_BRIDGE_SEGMENTS 16
 
@@ -24,29 +26,32 @@ typedef struct {
     /* 0x20 */ s16 offsetMiddle;
     /* 0x22 */ s16 unk22;
     /* 0x24 */ u16 unk24;
-    /* 0x26 */ u8 filler26[0x42];
+    /* 0x26 */ u8 filler26[0x2];
+    /* 0x28 */ s32 unk28[2];
+    /* 0x30 */ u8 filler30[0x38];
     /* 0x68 */ u16 numSegments;
     /* 0x6C */ s32 unk6C;
     /* 0x70 */ s32 unk70;
-    /* 0x74 */ Player *p1;
-    /* 0x74 */ Player *p2;
-
-    /* 0x78 */ u8 filler78[0x8];
+    /* 0x74 */ Player *ps[2];
+    /* 0x7C */ Player *unk7C;
     /* 0x80 */ Sprite s;
 } SunsetBridge; /* 0xA8 */
 
 void Task_SunsetBridge(void);
-void TaskDestruction_SunsetBridge(struct Task *);
+void sub_8044F74(SunsetBridge *bridge);
 void sub_8045060(SunsetBridge *bridge);
+void sub_80450D8(SunsetBridge *bridge, Player *p);
+void TaskDestructor_SunsetBridge(struct Task *);
 
 // (95.73%) https://decomp.me/scratch/YtwLu
 NONMATCH("asm/non_matching/game/interactables/sunset_bridge__CreateEntity_SunsetBridge.inc",
          void CreateEntity_SunsetBridge(MapEntity *me, u16 regionX, u16 regionY, u8 id))
 {
-    struct Task *t = TaskCreate(Task_SunsetBridge, sizeof(SunsetBridge), 0x2100, 0, TaskDestruction_SunsetBridge);
+    struct Task *t = TaskCreate(Task_SunsetBridge, sizeof(SunsetBridge), 0x2100, 0, TaskDestructor_SunsetBridge);
     SunsetBridge *bridge = TASK_DATA(t);
     Sprite *s = &bridge->s;
     s32 worldX, worldY;
+    s32 top, bottom, left, right;
     s32 width;
 
     bridge->base.regionX = regionX;
@@ -60,8 +65,8 @@ NONMATCH("asm/non_matching/game/interactables/sunset_bridge__CreateEntity_Sunset
     worldY = TO_WORLD_POS(me->y, regionY);
     bridge->qWorldY = worldY;
 
-    bridge->p1 = &gPlayers[gStageData.charId];
-    bridge->p2 = &gPlayers[bridge->p1->charFlags.partnerIndex];
+    bridge->ps[0] = &gPlayers[gStageData.charId];
+    bridge->ps[1] = &gPlayers[bridge->ps[0]->charFlags.partnerIndex];
 
     bridge->top = worldY + me->d.sData[1] * TILE_WIDTH;
     bridge->bottom = bridge->top + me->d.uData[3] * TILE_WIDTH;
@@ -107,5 +112,83 @@ NONMATCH("asm/non_matching/game/interactables/sunset_bridge__CreateEntity_Sunset
     s->y = 0;
     s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
     UpdateSpriteAnimation(s);
+}
+END_NONMATCH
+
+// (99.28%) https://decomp.me/scratch/cFbak
+NONMATCH("asm/non_matching/game/interactables/sunset_bridge__Task_SunsetBridge.inc", void Task_SunsetBridge(void))
+{
+    volatile u32 unused;
+    SunsetBridge *bridge = TASK_DATA(gCurTask);
+    SpriteBase *base = &bridge->base;
+    MapEntity *me = base->me;
+    Sprite *s = &bridge->s;
+
+    s16 worldX, worldY;
+    u16 numSegments;
+    u8 i;
+
+    worldX = I(bridge->qWorldX);
+    worldY = I(bridge->qWorldY);
+
+    numSegments = bridge->numSegments;
+    bridge->unk7C = NULL;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        // _08044E18
+        Player *p = bridge->ps[i];
+
+        bool32 someBool = FALSE;
+        s16 segmentX;
+        u8 j = 0;
+        segmentX = bridge->left + (ANIM_SUNSET_BRIDGE_WIDTH / 2);
+        for (; j < numSegments; j++) {
+            // _08044E3A
+            s32 segmentY = bridge->unk28[j];
+            segmentY = Q(segmentY * bridge->unk70);
+
+            if (sub_8020700(s, segmentX, worldY + (segmentY >> 16), 0, p, 0) && p->qSpeedAirY >= Q(0)) {
+                // _mid_section
+                p->moveState |= MOVESTATE_20;
+                p->moveState &= ~MOVESTATE_IN_AIR;
+                p->spr6C = s;
+
+                sub_80450D8(bridge, p);
+
+                someBool = TRUE;
+
+                if (bridge->unk7C == NULL) {
+                    bridge->unk7C = p;
+                }
+
+                break;
+            }
+
+            segmentX += ANIM_SUNSET_BRIDGE_WIDTH;
+        }
+        // _08044EB8
+
+        if (!someBool && (p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
+            p->moveState &= ~MOVESTATE_20;
+            p->spr6C = NULL;
+        }
+    }
+    // __08044EE2
+
+    if (!sub_802C140(worldX, worldY, worldX - gCamera.x, worldY - gCamera.y)) {
+        Player *p;
+        s16 i;
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            p = (i != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
+
+            sub_80213B0(s, p);
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, bridge->base.unk8);
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        sub_8044F74(bridge);
+    }
 }
 END_NONMATCH

@@ -22,7 +22,7 @@
 	ldr r0, _08044D5C @ =Task_SunsetBridge
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _08044D60 @ =TaskDestruction_SunsetBridge
+	ldr r1, _08044D60 @ =TaskDestructor_SunsetBridge
 	str r1, [sp]
 	movs r1, #0xa8
 	movs r3, #0
@@ -141,7 +141,7 @@ _08044D2A:
 	b _08044D78
 	.align 2, 0
 _08044D5C: .4byte Task_SunsetBridge
-_08044D60: .4byte TaskDestruction_SunsetBridge
+_08044D60: .4byte TaskDestructor_SunsetBridge
 _08044D64: .4byte 0x03000080
 _08044D68: .4byte gStageData
 _08044D6C: .4byte gPlayers

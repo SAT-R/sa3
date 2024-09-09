@@ -37,7 +37,7 @@ CreateEntity_Interactables016_027: @ 0x0802EB04
 	ldr r0, _0802EC2C @ =Task_802ED40
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _0802EC30 @ =TaskDestruction_Interactables016_027
+	ldr r1, _0802EC30 @ =TaskDestructor_Interactables016_027
 	str r1, [sp]
 	movs r1, #0x58
 	movs r3, #0
@@ -157,7 +157,7 @@ _0802EC10:
 	b _0802EC48
 	.align 2, 0
 _0802EC2C: .4byte Task_802ED40
-_0802EC30: .4byte TaskDestruction_Interactables016_027
+_0802EC30: .4byte TaskDestructor_Interactables016_027
 _0802EC34: .4byte 0x0300002C
 _0802EC38: .4byte 0x0300002B
 _0802EC3C: .4byte 0x03000054
@@ -2394,8 +2394,8 @@ CreateEntity_Interactable027: @ 0x0802FCD8
 	pop {r0}
 	bx r0
 
-	thumb_func_start TaskDestruction_Interactables016_027
-TaskDestruction_Interactables016_027: @ 0x0802FD04
+	thumb_func_start TaskDestructor_Interactables016_027
+TaskDestructor_Interactables016_027: @ 0x0802FD04
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
