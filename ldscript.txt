@@ -73,7 +73,6 @@ SECTIONS {
         build/sa3/asm/ia_air_bubble.o(.text);
         build/sa3/asm/ia_106.o(.text);
         build/sa3/src/game/interactables/platform_square.o(.text);
-        build/sa3/asm/platform_square.o(.text);
         build/sa3/src/game/interactables/sunset_bridge.o(.text);
         build/sa3/src/game/interactables/platform_spiked.o(.text);
         build/sa3/asm/ia_110.o(.text);

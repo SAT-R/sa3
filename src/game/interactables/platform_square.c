@@ -9,6 +9,7 @@
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
+#include "constants/move_states.h"
 #include "constants/zones.h"
 
 typedef struct {
@@ -173,9 +174,74 @@ void Task_80449A4(void)
     }
 }
 
-#if 0
-u8 sub_8044AA0(Player *, u8)
+u8 sub_8044AA0(Player *p, u8 param1)
 {
+    PlatformSquare *platform = TASK_DATA(gCurTask);
+    Sprite *s = &platform->s;
+    s16 worldX, worldY;
+    u32 res;
+    u8 sb;
+    
+    worldX = I(platform->qWorldX);
+    worldY = I(platform->qWorldY);
+    sb = 0;
 
+    if(sub_802C0D4(p)) {
+        return 0;
+    }
+
+    if((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
+        p->qWorldY += platform->qUnk14;
+    }
+
+    res = sub_8020950(s, worldX, worldY, p, 1);
+    if(res & 0x10000) {
+        p->qWorldY  = ((p->qWorldY + Q_8_8(res + 1)) & ~0xFF) - 1;
+        sb |= (1 << param1);
+    } else if(res & 0x20000) {
+        p->qWorldY += +Q(1);
+        p->qWorldY += Q_8_8(res);
+        p->qSpeedAirY = 0;
+    } else if(res & 0x40000) {
+        p->qWorldX += (s16)(res & 0xFF00);
+
+        if(p->qSpeedAirX < 0) {
+            p->qSpeedAirX = 0;
+        }
+        p->qSpeedGround = 0;
+
+        if(p->keyInput & DPAD_LEFT) {
+            p->qWorldX -= Q(1.0);
+            p->moveState |= MOVESTATE_40;
+        }
+    } else if(res & 0x80000) {
+        p->qWorldX += (s16)(res & 0xFF00);
+
+        if(p->qSpeedAirX > 0) {
+            p->qSpeedAirX = 0;
+        }
+        p->qSpeedGround = 0;
+
+        if(p->keyInput & DPAD_RIGHT) {
+            p->qWorldX += Q(1.0);
+            p->moveState |= MOVESTATE_40;
+        }
+    }
+
+    return sb;
 }
-#endif
+
+void sub_8044C00(PlatformSquare *platform)
+{
+    Sprite *s = &platform->s;
+    s->x = I(platform->qWorldX) - gCamera.x;
+    s->y = I(platform->qWorldY) - gCamera.y;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void TaskDestructor_PlatformSquare(struct Task *t)
+{
+    PlatformSquare *platform = TASK_DATA(t);
+    VramFree(platform->s.tiles);
+}

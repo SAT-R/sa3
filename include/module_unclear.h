@@ -63,7 +63,7 @@ extern bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, 
 
 // Collision
 extern u32 sub_8020874(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5, u8 p6);
-u32 sub_8020950(Sprite *s, s32 worldX, s32 worldY, Player *p, void *param4);
+u32 sub_8020950(Sprite *s, s32 worldX, s32 worldY, Player *p, u8 param4);
 bool32 sub_8020CE0(Sprite *s, s32 worldX, s32 worldY, u16 param3, Player *p);
 
 void sub_80213B0(Sprite *s, Player *p);
