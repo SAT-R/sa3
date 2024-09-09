@@ -1,6 +1,7 @@
 #include "global.h"
 #include "task.h"
 #include "malloc_vram.h"
+#include "module_unclear.h"
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/player.h"
@@ -14,14 +15,21 @@ typedef struct {
     /* 0x00*/ SpriteBase base;
     /* 0x0C */ s32 qWorldX;
     /* 0x10 */ s32 qWorldY;
-    /* 0x14 */ u16 unk14;;
-    /* 0x14 */ u8 unk16;;
+    /* 0x14 */ s16 qUnk14;
+    ;
+    /* 0x14 */ u8 unk16;
+    ;
     /* 0x18 */ Player *ps[NUM_SINGLE_PLAYER_CHARS];
     /* 0x20 */ Sprite s;
     /* 0x48 */ u8 filler48[0x8];
 } PlatformSquare; /* 0x50 */
 
 void Task_PlatformSquare(void);
+void Task_80448D8(void);
+void Task_80449A4(void);
+// TODO: Maybe return type is bool8?
+u8 sub_8044AA0(Player *, u8);
+void sub_8044C00(PlatformSquare *);
 void TaskDestructor_PlatformSquare(struct Task *);
 
 void CreateEntity_PlatformSquare(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -42,17 +50,17 @@ void CreateEntity_PlatformSquare(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     platform->qWorldX = Q(worldX);
     worldY = TO_WORLD_POS(me->y, regionY);
     platform->qWorldY = Q(worldY);
-    
+
     platform->ps[0] = &gPlayers[gStageData.charId];
     platform->ps[1] = &gPlayers[platform->ps[0]->charFlags.partnerIndex];
     platform->unk16 = 0;
-    platform->unk14 = 0;
+    platform->qUnk14 = 0;
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
     s = &platform->s;
     s->tiles = ALLOC_TILES(ANIM_PLATFORM_BONUS);
-    if(gStageData.act == ACT_BONUS_ENEMIES) {
+    if (gStageData.act == ACT_BONUS_ENEMIES) {
         s->anim = ANIM_PLATFORM_BONUS;
         s->variant = 0;
     } else {
@@ -70,3 +78,104 @@ void CreateEntity_PlatformSquare(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
     UpdateSpriteAnimation(s);
 }
+
+void Task_PlatformSquare(void)
+{
+    PlatformSquare *platform = TASK_DATA(gCurTask);
+    MapEntity *me = platform->base.me;
+    s16 worldX, worldY;
+    u8 r5;
+
+    worldX = I(platform->qWorldX);
+    worldY = I(platform->qWorldY);
+
+    r5 = sub_8044AA0(platform->ps[0], 0);
+    r5 |= sub_8044AA0(platform->ps[1], 1);
+
+    if (r5) {
+        gCurTask->main = Task_80448D8;
+    }
+
+    if (!sub_802C140(worldX, worldY, worldX - gCamera.x, worldY - gCamera.y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.unk8);
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        platform->unk16 = r5;
+        sub_8044C00(platform);
+    }
+}
+
+void Task_80448D8(void)
+{
+    PlatformSquare *platform = TASK_DATA(gCurTask);
+    MapEntity *me = platform->base.me;
+    s16 worldX, worldY;
+    u8 r7;
+    worldX = I(platform->qWorldX);
+    // TODO: Was this supposed to be - Q(1.5)?
+    worldY = I(platform->qWorldY -= Q(1.5));
+
+    r7 = sub_8044AA0(platform->ps[0], 0);
+    r7 |= sub_8044AA0(platform->ps[1], 1);
+
+    if (!sub_8004E20(worldX, worldY - 16, NULL)) {
+        platform->qUnk14 = -Q(0.5);
+        gCurTask->main = Task_80449A4;
+    }
+
+    if (!sub_802C140(worldX, worldY, worldX - gCamera.x, worldY - gCamera.y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.unk8);
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        platform->unk16 = r7;
+        sub_8044C00(platform);
+    }
+}
+
+void Task_80449A4(void)
+{
+    PlatformSquare *platform = TASK_DATA(gCurTask);
+    MapEntity *me = platform->base.me;
+    s16 worldX, worldY;
+    u8 r5;
+
+    worldX = I(platform->qWorldX);
+    worldY = I(platform->qWorldY);
+
+    r5 = 0;
+
+    if (!sub_8004E20(worldX, worldY - 16, NULL)) {
+        platform->qUnk14 += Q(8. / 256.);
+    } else {
+        platform->qUnk14 -= Q(8. / 256.);
+    }
+
+    platform->qWorldY += platform->qUnk14;
+
+    r5 |= sub_8044AA0(platform->ps[0], 0);
+    r5 |= sub_8044AA0(platform->ps[1], 1);
+
+    if (!IsPointInScreenRect(worldX, worldY)) {
+        s16 i;
+        for (i = 0; i < 2; i++) {
+            Player *p = (i != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
+            sub_80213B0(&platform->s, p);
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.unk8);
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        platform->unk16 = r5;
+        sub_8044C00(platform);
+    }
+}
+
+#if 0
+u8 sub_8044AA0(Player *, u8)
+{
+
+}
+#endif
