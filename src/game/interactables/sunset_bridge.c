@@ -256,3 +256,26 @@ NONMATCH("asm/non_matching/game/interactables/Sunset_Bridge__sub_8045060.inc", v
     }
 }
 END_NONMATCH
+
+void sub_80450D8(SunsetBridge *bridge, Player *p)
+{
+    s32 r2 = bridge->offsetMiddle * 2;
+    s32 x = I(p->qWorldX) - bridge->left;
+    s16 sinVal;
+    s32 v;
+    s32 y;
+
+    if (x < 0)
+        x = 0;
+
+    sinVal = Q(x * 2) / r2;
+    v = (SIN(sinVal) * bridge->unk22) >> 6;
+    y = bridge->qWorldY + I(v * bridge->unk6C);
+    p->qWorldY = y - Q(p->unk25);
+}
+
+void TaskDestructor_SunsetBridge(struct Task *t)
+{
+    SunsetBridge *bridge = TASK_DATA(t);
+    VramFree(bridge->s.tiles);
+}
