@@ -156,7 +156,7 @@ void Task_80452AC(void)
         if ((p->framesInvincible != 0) || (p->framesInvulnerable != 0) || sub_802C080(p)
             || (!sub_8020CE0(s, I(platform->qWorldX), I(platform->qWorldY), 1, p)
                 && !sub_8020CE0(s, I(platform->qWorldX), I(platform->qWorldY), 2, p))) {
-            u32 res = sub_8020950(s, I(platform->qWorldX), I(platform->qWorldY), p, NULL);
+            u32 res = sub_8020950(s, I(platform->qWorldX), I(platform->qWorldY), p, 0);
 
             if (res & 0x10000) {
                 p->qWorldY += Q_8_8(res);

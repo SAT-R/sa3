@@ -72,7 +72,7 @@ void Task_SpecialSpring(void)
 
     if (!sub_802C080(p)) {
 
-        u32 mask = sub_8020950(s, worldX, worldY, p, NULL);
+        u32 mask = sub_8020950(s, worldX, worldY, p, 0);
 
         if (mask) {
             if (mask & 0x10000) {

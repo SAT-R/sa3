@@ -160,7 +160,7 @@ void Task_Pendulum(void)
                     p->qWorldY = val - Q(sp08[i]);
                 }
 
-                mask = sub_8020950(s, ps->dx + worldX, ps->dy + worldY, p, NULL);
+                mask = sub_8020950(s, ps->dx + worldX, ps->dy + worldY, p, 0);
                 if (mask & 0x10000) {
                     s16 qDY = Q(mask & 0x00FF);
                     p->qWorldY += qDY;

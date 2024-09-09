@@ -77,7 +77,7 @@ void Task_PlatformRaisingWheel(void)
     p = &gPlayers[gStageData.charId];
 
     if (!sub_802C0D4(p)) {
-        u32 mask = sub_8020950(s, worldX, worldY, p, NULL);
+        u32 mask = sub_8020950(s, worldX, worldY, p, 0);
         s16 qDX, qDY;
 
         if (mask) {

@@ -101,7 +101,7 @@ void Task_Gondola(void)
         }
 
         if (!sub_802C0D4(p)) {
-            u32 mask = sub_8020950(s, I(gond->qWorldX), I(gond->qWorldY), p, NULL);
+            u32 mask = sub_8020950(s, I(gond->qWorldX), I(gond->qWorldY), p, 0);
             if (mask & 0x10000) {
                 s16 qDY = Q(mask & 0x00FF);
                 p->qWorldY += qDY;

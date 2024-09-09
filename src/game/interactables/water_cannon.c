@@ -119,7 +119,7 @@ void Task_WaterCannon(void)
             } else {
                 if ((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) {
                     if (!sub_802C0D4(p)) {
-                        u32 res = sub_8020950(s, worldX, worldY, p, NULL);
+                        u32 res = sub_8020950(s, worldX, worldY, p, 0);
                         if (res) {
                             if (res & 0x10000) {
                                 p->qWorldY += Q_8_8(res);

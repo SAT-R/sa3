@@ -126,7 +126,7 @@ NONMATCH("asm/non_matching/game/interactables/platform_ca__Task_PlatformChaosAng
                 }
             }
 
-            res = sub_8020950(s, I(platform->qWorldX), I(platform->qWorldY), p, NULL);
+            res = sub_8020950(s, I(platform->qWorldX), I(platform->qWorldY), p, 0);
 
             if (res & 0x10000) {
                 s16 res16 = Q(res);

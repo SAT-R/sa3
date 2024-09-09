@@ -170,7 +170,7 @@ static u8 UpdatePlayer(void)
 
         if (!sub_802C0D4(p)) {
             s32 qSpeedAirY = p->qSpeedAirY;
-            u32 mask = sub_8020950(s, I(trampoline->qWorldX), I(trampoline->qWorldY), p, NULL);
+            u32 mask = sub_8020950(s, I(trampoline->qWorldX), I(trampoline->qWorldY), p, 0);
 
             if (mask & 0x10000) {
                 if (qSpeedAirY > MIN_BOUNCE_SPEED) {
