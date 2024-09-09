@@ -1,5 +1,6 @@
 #include "global.h"
 #include "task.h"
+#include "trig.h"
 #include "module_unclear.h"
 #include "malloc_vram.h"
 #include "game/camera.h"
@@ -27,8 +28,7 @@ typedef struct {
     /* 0x22 */ s16 unk22;
     /* 0x24 */ u16 unk24;
     /* 0x26 */ u8 filler26[0x2];
-    /* 0x28 */ s32 unk28[2];
-    /* 0x30 */ u8 filler30[0x38];
+    /* 0x28 */ s32 unk28[MAX_BRIDGE_SEGMENTS];
     /* 0x68 */ u16 numSegments;
     /* 0x6C */ s32 unk6C;
     /* 0x70 */ s32 unk70;
@@ -237,3 +237,22 @@ void sub_8044F74(SunsetBridge *bridge)
         segmentX += ANIM_SUNSET_BRIDGE_WIDTH;
     }
 }
+
+// (92.63%) https://decomp.me/scratch/M2IgH
+NONMATCH("asm/non_matching/game/interactables/Sunset_Bridge__sub_8045060.inc", void sub_8045060(SunsetBridge *bridge))
+{
+    s32 numSegments = bridge->numSegments;
+    u8 i;
+    s16 r1 = 0;
+
+    for (i = 0; i < numSegments; i++, r1 += bridge->unk24) {
+        bridge->unk28[i] = (SIN(r1) * bridge->unk22) >> 14;
+    }
+    // _080450AE
+
+    // Set remaining segments' y positions to 0
+    for (; i < MAX_BRIDGE_SEGMENTS; i++) {
+        bridge->unk28[i] = 0;
+    }
+}
+END_NONMATCH
