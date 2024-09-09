@@ -5,142 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable107
-CreateEntity_Interactable107: @ 0x0804472C
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #4
-	mov r8, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _080447E4 @ =sub_8044840
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _080447E8 @ =sub_8044C34
-	str r1, [sp]
-	movs r1, #0x50
-	movs r3, #0
-	bl TaskCreate
-	ldrh r0, [r0, #6]
-	mov sb, r0
-	movs r2, #0xc0
-	lsls r2, r2, #0x12
-	add r2, sb
-	movs r7, #0
-	movs r0, #0
-	mov sl, r0
-	strh r4, [r2, #4]
-	strh r5, [r2, #6]
-	mov r1, r8
-	str r1, [r2]
-	ldrb r0, [r1]
-	strb r0, [r2, #8]
-	strb r6, [r2, #9]
-	ldrb r0, [r1]
-	lsls r0, r0, #3
-	lsls r4, r4, #8
-	adds r0, r0, r4
-	lsls r0, r0, #8
-	str r0, [r2, #0xc]
-	ldrb r0, [r1, #1]
-	lsls r0, r0, #3
-	lsls r5, r5, #8
-	adds r0, r0, r5
-	lsls r0, r0, #8
-	str r0, [r2, #0x10]
-	ldr r4, _080447EC @ =gStageData
-	ldrb r1, [r4, #6]
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	ldr r3, _080447F0 @ =gPlayers
-	adds r0, r0, r3
-	str r0, [r2, #0x18]
-	adds r0, #0x2b
-	ldrb r1, [r0]
-	lsls r1, r1, #0x1e
-	lsrs r1, r1, #0x1e
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	adds r0, r0, r3
-	str r0, [r2, #0x1c]
-	strb r7, [r2, #0x16]
-	mov r0, sl
-	strh r0, [r2, #0x14]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	mov r1, r8
-	strb r0, [r1]
-	ldr r5, _080447F4 @ =0x03000020
-	add r5, sb
-	movs r0, #0x24
-	bl VramMalloc
-	str r0, [r5]
-	ldrb r0, [r4, #0xa]
-	cmp r0, #9
-	bne _080447FC
-	ldr r0, _080447F8 @ =0x000003E5
-	b _080447FE
-	.align 2, 0
-_080447E4: .4byte sub_8044840
-_080447E8: .4byte sub_8044C34
-_080447EC: .4byte gStageData
-_080447F0: .4byte gPlayers
-_080447F4: .4byte 0x03000020
-_080447F8: .4byte 0x000003E5
-_080447FC:
-	ldr r0, _0804483C @ =0x000003CE
-_080447FE:
-	strh r0, [r5, #0xc]
-	strb r7, [r5, #0x1a]
-	movs r2, #0
-	movs r1, #0
-	movs r0, #0xc0
-	lsls r0, r0, #3
-	strh r0, [r5, #0x14]
-	strh r1, [r5, #0xe]
-	strh r1, [r5, #0x16]
-	movs r0, #0xff
-	strb r0, [r5, #0x1b]
-	movs r0, #0x10
-	strb r0, [r5, #0x1c]
-	strb r2, [r5, #0x1f]
-	subs r0, #0x11
-	str r0, [r5, #0x20]
-	movs r0, #0x80
-	lsls r0, r0, #5
-	str r0, [r5, #8]
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-	add sp, #4
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804483C: .4byte 0x000003CE
+.if 0
+.endif
 
-	thumb_func_start sub_8044840
-sub_8044840: @ 0x08044840
+	thumb_func_start Task_PlatformSquare
+Task_PlatformSquare: @ 0x08044840
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -649,8 +518,8 @@ sub_8044C00: @ 0x08044C00
 	.align 2, 0
 _08044C30: .4byte gCamera
 
-	thumb_func_start sub_8044C34
-sub_8044C34: @ 0x08044C34
+	thumb_func_start TaskDestructor_PlatformSquare
+TaskDestructor_PlatformSquare: @ 0x08044C34
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0

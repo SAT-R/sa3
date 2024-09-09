@@ -124,6 +124,7 @@
 
 #define ANIM_GOAL_RING 948
 
+#define ANIM_PLATFORM_TS        974
 #define ANIM_TOY_BALLOON_POPPED 976
 #define ANIM_OMOCHAO0           977
 #define ANIM_OMOCHAO1           978
@@ -151,6 +152,7 @@
 #define ANIM_SPRING_WITH_SWITCH_2     995
 
 #define ANIM_FINALZONE_RING 996
+#define ANIM_PLATFORM_BONUS 997
 
 // ANIM_MUD_FX with lighter colors, only used in Chaos Angel
 #define ANIM_MUD_FX_CHAOS_ANGEL 999

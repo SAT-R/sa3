@@ -32,7 +32,7 @@ typedef struct {
     /* 0x68 */ u16 numSegments;
     /* 0x6C */ s32 unk6C;
     /* 0x70 */ s32 unk70;
-    /* 0x74 */ Player *ps[2];
+    /* 0x74 */ Player *ps[NUM_SINGLE_PLAYER_CHARS];
     /* 0x7C */ Player *unk7C;
     /* 0x80 */ Sprite s;
 } SunsetBridge; /* 0xA8 */
