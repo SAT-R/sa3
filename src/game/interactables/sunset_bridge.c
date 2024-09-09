@@ -144,8 +144,7 @@ NONMATCH("asm/non_matching/game/interactables/sunset_bridge__Task_SunsetBridge.i
         segmentX = bridge->left + (ANIM_SUNSET_BRIDGE_WIDTH / 2);
         for (; j < numSegments; j++) {
             // _08044E3A
-            s32 segmentY = bridge->unk28[j];
-            segmentY = Q(segmentY * bridge->unk70);
+            s32 segmentY = Q(bridge->unk28[j] * bridge->unk70);
 
             if (sub_8020700(s, segmentX, worldY + (segmentY >> 16), 0, p, 0) && p->qSpeedAirY >= Q(0)) {
                 // _mid_section
@@ -192,3 +191,49 @@ NONMATCH("asm/non_matching/game/interactables/sunset_bridge__Task_SunsetBridge.i
     }
 }
 END_NONMATCH
+
+void sub_8044F74(SunsetBridge *bridge)
+{
+    Sprite *s = &bridge->s;
+    Player *playerUnk = bridge->unk7C;
+    s32 numSegments = bridge->numSegments;
+    s32 segmentX;
+    s32 r4;
+    u8 i;
+
+    s16 screenY = I(bridge->qWorldY) - gCamera.y + 19;
+
+    if (playerUnk != NULL) {
+        r4 = ABS(playerUnk->qWorldX - bridge->qMiddleX);
+        r4 = r4 / bridge->offsetMiddle;
+        r4 = Q(1) - r4;
+
+        CLAMP_INLINE(r4, Q(0), Q(1));
+    } else {
+        r4 = 0;
+    }
+
+    bridge->unk70 = bridge->unk6C;
+
+    if (r4 < bridge->unk70) {
+        if (bridge->unk7C != NULL) {
+            bridge->unk6C = r4;
+        } else {
+            bridge->unk6C = bridge->unk70 - 4;
+        }
+    } else if (r4 > bridge->unk70) {
+        bridge->unk6C = bridge->unk70 + 4;
+    }
+
+    r4 = bridge->unk70;
+    CLAMP_INLINE(r4, Q(0.125), Q(1));
+
+    segmentX = bridge->left + (ANIM_SUNSET_BRIDGE_WIDTH / 2);
+    for (i = 0; i < numSegments; i++) {
+        s->x = segmentX - gCamera.x;
+        s->y = screenY + I(r4 * bridge->unk28[i]);
+        DisplaySprite(s);
+
+        segmentX += ANIM_SUNSET_BRIDGE_WIDTH;
+    }
+}
