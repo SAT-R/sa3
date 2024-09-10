@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable106
-CreateEntity_Interactable106: @ 0x08043DF4
+	thumb_func_start CreateEntity_IceSpike
+CreateEntity_IceSpike: @ 0x08043DF4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

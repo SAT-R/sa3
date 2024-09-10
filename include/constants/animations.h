@@ -52,7 +52,7 @@
 #define ANIM_BOOSTER                  868
 #define ANIM_SPIKES                   869
 #define ANIM_RAMP                     870
-#define ANIM_PLATFORM_R99             871
+#define ANIM_PLATFORM_1               871
 #define ANIM_ZONE_TELEPORT            872
 #define ANIM_BOUNCY_BAR               873
 #define ANIM_ROTATING_HANDLE          874
@@ -62,52 +62,58 @@
 #define ANIM_TRAMPOLINE               878
 #define ANIM_PLATFORM_WITH_SWITCH_W01 879
 #define ANIM_SPRING_WITH_SWITCH       880
-#define ANIM_BREAKABLE_WALL           881
+#define ANIM_BREAKABLE_WALL_1         881
 #define ANIM_ROCK                     882
 #define ANIM_FLAT_SPRING              883
 #define ANIM_PLATFORM_RAISING_WHEEL   884 // 0: Still, 1: Rotating, 2: Platform
-#define ANIM_SEESAW                   885
+#define ANIM_SEESAW_1                 885
 #define ANIM_YELLOW_SPRING_SH         886
 
 #define ANIM_BUNGEE_CORD   891
 #define ANIM_SUNSET_BRIDGE 892
 #define ANIM_WAGGLE_COIL   894
 
-#define ANIM_PLATFORM_SH       897
-#define ANIM_TRANSFER_PLATFORM 898
-
-#define ANIM_DEATH_CRUSHER_SPIKED 903
-#define ANIM_PLATFORM_OB          904
-#define ANIM_DEATH_CRUSHER        905
-//#define ANIM_PLATFORM_CRUMBLE 906
-#define ANIM_PLATFORM_CRUMBLE          907
+#define ANIM_PLATFORM_SH               897
+#define ANIM_PLATFORM_ON_A_PATH        898
+#define ANIM_BREAKABLE_WALL_3          899
+#define ANIM_PLATFORM_3_0              900
+#define ANIM_SUCTION_VERT              901
+#define ANIM_SUCTION_HORZ              902
+#define ANIM_DEATH_CRUSHER_SPIKED      903
+#define ANIM_PLATFORM_3                904
+#define ANIM_DEATH_CRUSHER             905
+#define ANIM_PLATFORM_CRUMBLE_3_IDLE   906
+#define ANIM_PLATFORM_CRUMBLE_3        907
 #define ANIM_PROPELLER_BUTTON_PLATFORM 908
-
-#define ANIM_WATER_CANNON        910
-#define ANIM_FACTORY_RING        911
-#define ANIM_SPECIAL_SPRING      912
-#define ANIM_BONUS_UFO           913
-#define ANIM_BONUS_UFO_RAY       914
-#define ANIM_ROCKET              915
-#define ANIM_CIRCLE_THINGY       916
-#define ANIM_TOY_BALLOON         917
-#define ANIM_SPRING_IN_A_BOX     918
-#define ANIM_PANDA_CART          919
-#define ANIM_PENDULUM            920
-#define ANIM_PLATFORM_SPIKED     921
-#define ANIM_ICE_SPIKE           922
-#define ANIM_ICE_LAUNCHER        923
-#define ANIM_CHARGE_LAUNCHER     924
-#define ANIM_MINECART            925
-#define ANIM_AIR_BUBBLES         926
-#define ANIM_ATTACHED_PLATFORM   927
-#define ANIM_GONDOLA             928
-#define ANIM_FALLING_BOULDER     929
-#define ANIM_SQUEEZER            930
-#define ANIM_UFO_PLATFORM        931
-#define ANIM_PLATFORM_CA         932
-#define ANIM_FALL_PLATFORM_CA    933
-#define ANIM_WATER_CANNON_SPLASH 934
+#define ANIM_PLATFORM_SQUARE_3         909
+#define ANIM_WATER_CANNON              910
+#define ANIM_FACTORY_RING              911
+#define ANIM_SPECIAL_SPRING            912
+#define ANIM_BONUS_UFO                 913
+#define ANIM_BONUS_UFO_RAY             914
+#define ANIM_ROCKET                    915
+#define ANIM_FERRIS_WHEEL              916
+#define ANIM_TOY_BALLOON               917
+#define ANIM_SPRING_IN_A_BOX           918
+#define ANIM_PANDA_CART                919
+#define ANIM_PENDULUM                  920
+#define ANIM_PLATFORM_SPIKED           921
+#define ANIM_ICE_SPIKE                 922
+#define ANIM_ICE_LAUNCHER              923
+#define ANIM_CHARGE_LAUNCHER           924
+#define ANIM_MINECART                  925
+#define ANIM_AIR_BUBBLES               926
+#define ANIM_ATTACHED_PLATFORM         927
+#define ANIM_GONDOLA                   928
+#define ANIM_FALLING_BOULDER           929
+#define ANIM_SQUEEZER                  930
+#define ANIM_UFO_PLATFORM              931
+#define ANIM_PLATFORM_CA               932
+#define ANIM_FALL_PLATFORM_CA          933
+#define ANIM_WATER_CANNON_SPLASH       934
+#define ANIM_PLATFORM_CRUMBLE_CA       935
+#define ANIM_SPRING_6                  936
+#define ANIM_PLATFORM_CRUMBLING_6      938
 
 #define ANIM_MAZE_LAUNCHER 940
 /* ANIM_MAZE_LAUNCHER:
@@ -122,8 +128,12 @@
 #define ANIM_PENDULUM_CYBER 943
 #define ANIM_MUD_FX         945
 
-#define ANIM_GOAL_RING 948
-
+#define ANIM_GOAL_RING          948
+#define ANIM_BREAKABLE_WALL_4   953
+#define ANIM_BREAKABLE_WALL_5   954
+#define ANIM_BREAKABLE_WALL_6   966
+#define ANIM_PLATFORM_CRUMBLE_6 967
+#define ANIM_SEESAW_3           968
 #define ANIM_PLATFORM_TS        974
 #define ANIM_TOY_BALLOON_POPPED 976
 #define ANIM_OMOCHAO0           977

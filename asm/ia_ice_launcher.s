@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable124
-CreateEntity_Interactable124: @ 0x0804AE78
+	thumb_func_start CreateEntity_IceLauncher
+CreateEntity_IceLauncher: @ 0x0804AE78
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}

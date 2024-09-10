@@ -160,7 +160,7 @@ void Task_80449A4(void)
 
     if (!IsPointInScreenRect(worldX, worldY)) {
         s16 i;
-        for (i = 0; i < 2; i++) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             Player *p = (i != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
             sub_80213B0(&platform->s, p);
         }

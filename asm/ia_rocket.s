@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable111
-CreateEntity_Interactable111: @ 0x08045BF8
+	thumb_func_start CreateEntity_Rocket
+CreateEntity_Rocket: @ 0x08045BF8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

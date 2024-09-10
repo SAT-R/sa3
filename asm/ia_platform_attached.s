@@ -5,8 +5,9 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable088
-CreateEntity_Interactable088: @ 0x0803E978
+@ Platform that is connected to a hook and rotates around it.
+	thumb_func_start CreateEntity_AttachedPlatform
+CreateEntity_AttachedPlatform: @ 0x0803E978
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

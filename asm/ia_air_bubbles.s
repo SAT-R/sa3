@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable105
-CreateEntity_Interactable105: @ 0x0804381C
+	thumb_func_start CreateEntity_AirBubbles
+CreateEntity_AirBubbles: @ 0x0804381C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

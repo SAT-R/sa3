@@ -310,7 +310,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable085
     .4byte CreateEntity_Interactable085 @ 086
     .4byte CreateEntity_Interactable087
-    .4byte CreateEntity_Interactable088
+    .4byte CreateEntity_AttachedPlatform
     .4byte CreateEntity_WaterCannon
     .4byte CreateEntity_Interactable090
     .4byte CreateEntity_Interactable091
@@ -326,14 +326,14 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable101
     .4byte CreateEntity_Interactable102
     .4byte CreateEntity_Interactable103
-    .4byte CreateEntity_Interactable104
-    .4byte CreateEntity_Interactable105
-    .4byte CreateEntity_Interactable106
+    .4byte CreateEntity_Suction
+    .4byte CreateEntity_AirBubbles
+    .4byte CreateEntity_IceSpike
     .4byte CreateEntity_PlatformSquare
     .4byte CreateEntity_SunsetBridge
     .4byte CreateEntity_PlatformSpiked
-    .4byte CreateEntity_Interactable110
-    .4byte CreateEntity_Interactable111
+    .4byte CreateEntity_SpringInABox
+    .4byte CreateEntity_Rocket
     .4byte CreateEntity_Interactable112
     .4byte CreateEntity_Interactable113
     .4byte CreateEntity_Interactable114
@@ -346,7 +346,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable121
     .4byte CreateEntity_Interactable122
     .4byte CreateEntity_Interactable123
-    .4byte CreateEntity_Interactable124
+    .4byte CreateEntity_IceLauncher
     .4byte CreateEntity_Interactable125
     .4byte CreateEntity_Interactable126
     .4byte CreateEntity_Interactable127
