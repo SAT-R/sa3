@@ -50,6 +50,7 @@ s32 sub_801226C(Player *);
 s32 sub_8012368(Player *);
 s32 sub_801246C(Player *);
 s32 sub_8012550(Player *);
+void sub_8012FE0(Player *);
 
 // 0x0800D87C
 void SetPlayerCallback(Player *p, PlayerCallback callback);

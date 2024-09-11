@@ -298,7 +298,7 @@ _08049C46:
 	movs r0, #0x18
 	strh r0, [r4, #0x30]
 	adds r0, r4, #0
-	bl sub_800DAF4
+	bl Player_800DAF4
 _08049C56:
 	ldr r0, [r5, #0x64]
 	asrs r0, r0, #8

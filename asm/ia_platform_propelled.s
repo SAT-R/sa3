@@ -377,7 +377,7 @@ _080428DE:
 	movs r0, #0x18
 	strh r0, [r4, #0x30]
 	adds r0, r4, #0
-	bl sub_800DAF4
+	bl Player_800DAF4
 _080428EE:
 	movs r0, #0xc0
 	lsls r0, r0, #0xc

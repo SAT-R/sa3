@@ -642,7 +642,7 @@ _0802EFB0:
 	movs r0, #0x18
 	strh r0, [r4, #0x30]
 	adds r0, r4, #0
-	bl sub_800DAF4
+	bl Player_800DAF4
 _0802EFCA:
 	mov r0, r8
 	ldrb r1, [r0]
@@ -1333,7 +1333,7 @@ _0802F4EA:
 	movs r0, #0x18
 	strh r0, [r4, #0x30]
 	adds r0, r4, #0
-	bl sub_800DAF4
+	bl Player_800DAF4
 _0802F4FA:
 	ldrb r1, [r6]
 	movs r0, #8
@@ -1748,7 +1748,7 @@ _0802F822:
 	movs r0, #0x18
 	strh r0, [r4, #0x30]
 	adds r0, r4, #0
-	bl sub_800DAF4
+	bl Player_800DAF4
 _0802F832:
 	ldrb r1, [r6]
 	movs r0, #8

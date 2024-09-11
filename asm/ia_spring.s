@@ -367,10 +367,10 @@ _0802DF14:
 	.align 2, 0
 _0802DF30: .4byte sub_8009C94
 _0802DF34:
-	ldr r1, _0802DF38 @ =sub_800EA74
+	ldr r1, _0802DF38 @ =Player_800EA74
 	b _0802DF5E
 	.align 2, 0
-_0802DF38: .4byte sub_800EA74
+_0802DF38: .4byte Player_800EA74
 _0802DF3C:
 	ldr r1, _0802DF40 @ =sub_8009D04
 	b _0802DF5E

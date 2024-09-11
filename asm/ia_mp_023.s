@@ -311,7 +311,7 @@ sub_804EC14: @ 0x0804EC14
 	strh r0, [r5, #0x32]
 	orrs r1, r2
 	str r1, [r5, #4]
-	ldr r1, _0804ECB0 @ =sub_800DAF4
+	ldr r1, _0804ECB0 @ =Player_800DAF4
 	adds r0, r5, #0
 	bl SetPlayerCallback
 _0804EC48:
@@ -363,7 +363,7 @@ _0804EC48:
 	b _0804ED26
 	.align 2, 0
 _0804ECAC: .4byte 0x0000FFFF
-_0804ECB0: .4byte sub_800DAF4
+_0804ECB0: .4byte Player_800DAF4
 _0804ECB4: .4byte gStageData
 _0804ECB8: .4byte gPlayers
 _0804ECBC: .4byte gUnknown_03001060

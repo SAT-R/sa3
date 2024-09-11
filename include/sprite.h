@@ -155,7 +155,7 @@ typedef struct {
                                // bit 10 X-Flip
                                // bit 11 Y-Flip
                                // bit 12-13: priority
-                               // bit 14
+                               // bit 14: Animation finished
                                // bit 15-16: Background ID
                                // bit 17
                                // bit 18
