@@ -92,8 +92,6 @@ void CreateEntity_LongFloatingSpring(u16 kind, MapEntity *me, u16 regionX, u16 r
     sub_804C608(s, spring->data4_bit5);
 }
 
-#if 0
-// (99.27%) https://decomp.me/scratch/EomZj
 void Task_LongFloatingSpring(void)
 {
     LongFloatingSpring *spring = TASK_DATA(gCurTask);
@@ -172,9 +170,23 @@ void Task_LongFloatingSpring(void)
 
             if (res & 0xC0000) {
                 if ((p->moveState & (MOVESTATE_40000 | MOVESTATE_IN_AIR)) == MOVESTATE_40000) {
-                    s32 dist = I(spring->qWorldX) - I(p->qWorldX);
+#ifndef NON_MATCHING
+                    register s32 r0 asm("r0");
+                    register s32 r1 asm("r1");
+                    register s32 r2 asm("r2");
+#else
+                    s32 r0;
+                    s32 r1;
+                    s32 r2;
+#endif
+                    r1 = I(spring->qWorldX);
+                    r0 = I(p->qWorldX);
+                    r2 = r1 - r0;
+                    r0 = r2;
+                    if (r2 < 0)
+                        r0 = -r2;
 
-                    if ((ABS(dist) < 13) && !sub_802C080(p)) {
+                    if ((r0 < 13) && !sub_802C080(p)) {
                         sub_8008E38(p);
                     }
                 } else {
@@ -220,4 +232,5 @@ void Task_LongFloatingSpring(void)
         s->variant = 0;
     }
 }
+#if 01
 #endif
