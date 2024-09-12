@@ -32,21 +32,21 @@ typedef struct {
     /* 0x54 */ Hitbox reserved;
     /* 0x5C */ u8 data4_bits67;
     /* 0x5D */ u8 data4_bit5;
-} LongFloatingSpring; /* 0x60 */
+} SpringPlatform; /* 0x60 */
 
-void Task_LongFloatingSpring(void);
+void Task_SpringPlatform(void);
 static void InitSprite(Sprite *s, u16 param1);
-void TaskDestructor_LongFloatingSpring(struct Task *);
+void TaskDestructor_SpringPlatform(struct Task *);
 
 // TODO: The constants used for 'kind' might be the same as used in 'spring'.
 //       Double-check, once springs are decompiled!
-void CreateEntity_LongFloatingSpring(u16 kind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
+void CreateEntity_SpringPlatform(u16 kind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_LongFloatingSpring, sizeof(LongFloatingSpring), 0x2100, 0, TaskDestructor_LongFloatingSpring);
-    LongFloatingSpring *spring = TASK_DATA(t);
+    struct Task *t = TaskCreate(Task_SpringPlatform, sizeof(SpringPlatform), 0x2100, 0, TaskDestructor_SpringPlatform);
+    SpringPlatform *spring = TASK_DATA(t);
 #ifndef NON_MATCHING
     // only needed for matching
-    LongFloatingSpring *spring2 = TASK_DATA(t);
+    SpringPlatform *spring2 = TASK_DATA(t);
 #endif
     Sprite *s;
     s32 qWorldX, qWorldY;
@@ -98,10 +98,10 @@ void CreateEntity_LongFloatingSpring(u16 kind, MapEntity *me, u16 regionX, u16 r
     InitSprite(s, spring->data4_bit5);
 }
 
-void Task_LongFloatingSpring(void)
+void Task_SpringPlatform(void)
 {
-    LongFloatingSpring *spring = TASK_DATA(gCurTask);
-    LongFloatingSpring *spring2 = TASK_DATA(gCurTask);
+    SpringPlatform *spring = TASK_DATA(gCurTask);
+    SpringPlatform *spring2 = TASK_DATA(gCurTask);
     Sprite *s = &spring->s;
     MapEntity *me;
     s16 i;
@@ -269,18 +269,18 @@ static void InitSprite(Sprite *s, u16 param1)
     UpdateSpriteAnimation(s);
 }
 
-void CreateEntity_LongFloatingSpringA(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+void CreateEntity_SpringPlatformA(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    CreateEntity_LongFloatingSpring(0, me, regionX, regionY, id);
+    CreateEntity_SpringPlatform(0, me, regionX, regionY, id);
 }
 
-void CreateEntity_LongFloatingSpringB(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+void CreateEntity_SpringPlatformB(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    CreateEntity_LongFloatingSpring(3, me, regionX, regionY, id);
+    CreateEntity_SpringPlatform(3, me, regionX, regionY, id);
 }
 
-void TaskDestructor_LongFloatingSpring(struct Task *t)
+void TaskDestructor_SpringPlatform(struct Task *t)
 {
-    LongFloatingSpring *spring = TASK_DATA(t);
+    SpringPlatform *spring = TASK_DATA(t);
     VramFree(spring->s.tiles);
 }
