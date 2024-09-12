@@ -14,7 +14,6 @@
 #include "constants/move_states.h"
 #include "constants/zones.h"
 
-// TODO: Maybe rename "Platform Spring"?
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ s32 qWorldX;
