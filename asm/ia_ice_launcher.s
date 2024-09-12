@@ -5,95 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_IceLauncher
-CreateEntity_IceLauncher: @ 0x0804AE78
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	sub sp, #4
-	mov r8, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _0804AF18 @ =sub_804AF2C
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _0804AF1C @ =sub_804B3CC
-	str r1, [sp]
-	movs r1, #0x44
-	movs r3, #0
-	bl TaskCreate
-	ldrh r0, [r0, #6]
-	movs r2, #0xc0
-	lsls r2, r2, #0x12
-	adds r2, r0, r2
-	movs r3, #0
-	strh r4, [r2, #4]
-	strh r5, [r2, #6]
-	mov r1, r8
-	str r1, [r2]
-	ldrb r1, [r1]
-	strb r1, [r2, #0xa]
-	strb r6, [r2, #0xb]
-	strh r3, [r2, #0x3c]
-	mov r3, r8
-	ldrb r1, [r3]
-	lsls r1, r1, #3
-	lsls r4, r4, #8
-	adds r1, r1, r4
-	strh r1, [r2, #0x3e]
-	ldrb r1, [r3, #1]
-	lsls r1, r1, #3
-	lsls r5, r5, #8
-	adds r1, r1, r5
-	ldr r7, _0804AF20 @ =0x03000040
-	adds r5, r0, r7
-	strh r1, [r5]
-	ldrb r3, [r3, #7]
-	movs r1, #3
-	ands r1, r3
-	ldr r3, _0804AF24 @ =0x03000042
-	adds r6, r0, r3
-	strb r1, [r6]
-	subs r7, #0x34
-	adds r0, r0, r7
-	ldr r4, _0804AF28 @ =gCamera
-	ldr r3, [r4]
-	ldrh r1, [r2, #0x3e]
-	subs r1, r1, r3
-	strh r1, [r0, #0x10]
-	ldr r2, [r4, #4]
-	ldrh r1, [r5]
-	subs r1, r1, r2
-	strh r1, [r0, #0x12]
-	movs r2, #2
-	rsbs r2, r2, #0
-	adds r1, r2, #0
-	mov r3, r8
-	strb r1, [r3]
-	ldrb r1, [r6]
-	bl sub_804B0F8
-	add sp, #4
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804AF18: .4byte sub_804AF2C
-_0804AF1C: .4byte sub_804B3CC
-_0804AF20: .4byte 0x03000040
-_0804AF24: .4byte 0x03000042
-_0804AF28: .4byte gCamera
+.if 0
+.endif
 
-	thumb_func_start sub_804AF2C
-sub_804AF2C: @ 0x0804AF2C
+	thumb_func_start Task_IceLauncher
+Task_IceLauncher: @ 0x0804AF2C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -222,7 +138,7 @@ _0804B01A:
 	bl sub_8020950
 	adds r2, r0, #0
 	ldr r1, [r4]
-	ldr r0, _0804B068 @ =sub_800B9CC
+	ldr r0, _0804B068 @ =Player_CollideGroundAfterIceLauncher
 	cmp r1, r0
 	bne _0804B070
 	cmp r2, #0
@@ -246,7 +162,7 @@ _0804B01A:
 	bl SetPlayerCallback
 	b _0804B0D6
 	.align 2, 0
-_0804B068: .4byte sub_800B9CC
+_0804B068: .4byte Player_CollideGroundAfterIceLauncher
 _0804B06C: .4byte sub_800B8A8
 _0804B070:
 	movs r3, #0x80
@@ -556,8 +472,8 @@ _0804B2B8:
 	.align 2, 0
 _0804B2C0: .4byte gCamera
 
-	thumb_func_start sub_804B2C4
-sub_804B2C4: @ 0x0804B2C4
+	thumb_func_start CreateIceShiver
+CreateIceShiver: @ 0x0804B2C4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -681,8 +597,8 @@ _0804B3C0: .4byte 0x03000010
 _0804B3C4: .4byte gSineTable
 _0804B3C8: .4byte 0x000003FF
 
-	thumb_func_start sub_804B3CC
-sub_804B3CC: @ 0x0804B3CC
+	thumb_func_start TaskDestructor_IceLauncher
+TaskDestructor_IceLauncher: @ 0x0804B3CC
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0

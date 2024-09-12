@@ -23474,8 +23474,8 @@ _0800B9C2:
 	.align 2, 0
 _0800B9C8: .4byte sub_800DEC4
 
-	thumb_func_start sub_800B9CC
-sub_800B9CC: @ 0x0800B9CC
+	thumb_func_start Player_CollideGroundAfterIceLauncher
+Player_CollideGroundAfterIceLauncher: @ 0x0800B9CC
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	adds r6, r0, #0
@@ -23522,7 +23522,7 @@ sub_800B9CC: @ 0x0800B9CC
 	movs r4, #0x1e
 	str r4, [sp]
 	adds r2, r5, #0
-	bl sub_804B2C4
+	bl CreateIceShiver
 	ldr r0, [r6, #0x10]
 	lsls r0, r0, #8
 	asrs r0, r0, #0x10
@@ -23533,7 +23533,7 @@ sub_800B9CC: @ 0x0800B9CC
 	lsls r3, r3, #2
 	str r4, [sp]
 	adds r2, r5, #0
-	bl sub_804B2C4
+	bl CreateIceShiver
 	ldr r0, [r6, #0x10]
 	asrs r0, r0, #8
 	adds r0, #8
@@ -23546,7 +23546,7 @@ sub_800B9CC: @ 0x0800B9CC
 	lsls r3, r3, #2
 	str r4, [sp]
 	adds r2, r5, #0
-	bl sub_804B2C4
+	bl CreateIceShiver
 _0800BA6C:
 	add sp, #4
 	pop {r4, r5, r6}
@@ -28231,14 +28231,14 @@ sub_800DEC4: @ 0x0800DEC4
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bne _0800DF04
-	ldr r0, _0800DF0C @ =sub_800B9CC
+	ldr r0, _0800DF0C @ =Player_CollideGroundAfterIceLauncher
 	str r0, [r4]
 _0800DF04:
 	pop {r4}
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0800DF0C: .4byte sub_800B9CC
+_0800DF0C: .4byte Player_CollideGroundAfterIceLauncher
 
 	thumb_func_start sub_800DF10
 sub_800DF10: @ 0x0800DF10
