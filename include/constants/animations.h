@@ -114,6 +114,7 @@
 #define ANIM_PLATFORM_CRUMBLE_CA       935
 #define ANIM_SPRING_6                  936
 #define ANIM_PLATFORM_CRUMBLING_6      938
+#define ANIM_SPRING_PLATFORM_6         939
 
 #define ANIM_MAZE_LAUNCHER 940
 /* ANIM_MAZE_LAUNCHER:
@@ -150,6 +151,7 @@
     3=Crown (completed stage)
 */
 
+#define ANIM_SPRING_PLATFORM_4        984
 #define ANIM_PLATFORM_CA_ACT3         986
 #define ANIM_SPRING_TK                987
 #define ANIM_SPIKES_TK                988
