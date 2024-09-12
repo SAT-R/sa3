@@ -23324,8 +23324,8 @@ _0800B8A2:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_800B8A8
-sub_800B8A8: @ 0x0800B8A8
+	thumb_func_start Player_IceLauncherLaunch
+Player_IceLauncherLaunch: @ 0x0800B8A8
 	push {r4, r5, r6, lr}
 	adds r6, r0, #0
 	bl sub_8012FC0
@@ -23370,7 +23370,7 @@ sub_800B8A8: @ 0x0800B8A8
 	rsbs r0, r0, #0
 	ands r0, r1
 	strb r0, [r2]
-	ldr r0, _0800B91C @ =sub_800B920
+	ldr r0, _0800B91C @ =Player_800B920
 	str r0, [r6]
 	pop {r4, r5, r6}
 	pop {r0}
@@ -23379,10 +23379,10 @@ sub_800B8A8: @ 0x0800B8A8
 _0800B910: .4byte 0xFDFFFFDF
 _0800B914: .4byte 0x20000006
 _0800B918: .4byte 0xFFFFBFFF
-_0800B91C: .4byte sub_800B920
+_0800B91C: .4byte Player_800B920
 
-	thumb_func_start sub_800B920
-sub_800B920: @ 0x0800B920
+	thumb_func_start Player_800B920
+Player_800B920: @ 0x0800B920
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	ldr r3, [r4, #0x70]
@@ -23463,7 +23463,7 @@ _0800B9A6:
 	movs r0, #0x97
 	lsls r0, r0, #2
 	bl sub_8003DF0
-	ldr r1, _0800B9C8 @ =sub_800DEC4
+	ldr r1, _0800B9C8 @ =Player_800DEC4
 	str r1, [r4]
 	adds r0, r4, #0
 	bl _call_via_r1
@@ -23472,7 +23472,7 @@ _0800B9C2:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0800B9C8: .4byte sub_800DEC4
+_0800B9C8: .4byte Player_800DEC4
 
 	thumb_func_start Player_CollideGroundAfterIceLauncher
 Player_CollideGroundAfterIceLauncher: @ 0x0800B9CC
@@ -28205,8 +28205,8 @@ sub_800DE64: @ 0x0800DE64
 _0800DEBC: .4byte 0xFDFFFFF9
 _0800DEC0: .4byte sub_800B81C
 
-	thumb_func_start sub_800DEC4
-sub_800DEC4: @ 0x0800DEC4
+	thumb_func_start Player_800DEC4
+Player_800DEC4: @ 0x0800DEC4
 	push {r4, lr}
 	adds r4, r0, #0
 	bl sub_8015064

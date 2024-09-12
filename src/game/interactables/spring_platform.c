@@ -110,7 +110,7 @@ void Task_SpringPlatform(void)
 
     sub_804DD68(spring);
 
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         Player *p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
 
         if (sub_802C0D4(p)) {
