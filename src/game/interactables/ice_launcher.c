@@ -7,6 +7,7 @@
 #include "game/player.h"
 #include "game/player_callbacks.h"
 #include "game/stage.h"
+#include "game/interactables/ice_launcher.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
@@ -22,10 +23,16 @@ typedef struct {
     /* 0x42 */ u8 unk42;
 } IceLauncher; /* 0x44 */
 
+// Shivers that spawn once the player collides with the ground after being shot out by the IceLauncher
 typedef struct {
-    /* 0x00 */ SpriteBase base;
-    /* 0x0C */ Sprite s;
-    /* 0x34 */ u8 filler34[4];
+    /* 0x00 */ s32 qWorldX;
+    /* 0x04 */ s32 qWorldY;
+    /* 0x08 */ s16 unk8;
+    /* 0x0A */ s16 unkA;
+    /* 0x0C */ u16 unkC;
+    /* 0x0E */ u8 unkE;
+    /* 0x0F */ u8 unkF;
+    /* 0x10 */ Sprite s;
 } IceShiver; /* 0x38 */
 
 void Task_IceLauncher(void);
@@ -170,7 +177,7 @@ void sub_804B168(void)
         return;
     }
 
-    if (launcher->unk3C) {
+    if (launcher->unk3C > 0) {
         launcher->unk3C--;
 
         if (launcher->unk42 == 0) {
@@ -179,7 +186,6 @@ void sub_804B168(void)
             s->variant = 3;
         }
     } else {
-        // _0804B1DC
         if (launcher->unk42 != 0) {
             s->variant = 2;
         } else {
@@ -200,5 +206,31 @@ void sub_804B168(void)
     DisplaySprite(s);
 }
 
-#if 01
+void Task_IceShiver(void)
+{
+    IceShiver *shiver = TASK_DATA(gCurTask);
+    Sprite *s = &shiver->s;
+
+    if (--shiver->unkE == 0) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    shiver->qWorldX += shiver->unk8;
+    shiver->unkA += shiver->unkC;
+    shiver->qWorldY += shiver->unkA;
+
+    s->x = I(shiver->qWorldX) - gCamera.x;
+    s->y = I(shiver->qWorldY) - gCamera.y;
+
+    if (shiver->unkE & 0x1) {
+        DisplaySprite(s);
+    }
+}
+
+#if 0
+void CreateIceShiver(s16 param0, s16 param1, s16 param2, u16 param3, u8 param4)
+{
+
+}
 #endif
