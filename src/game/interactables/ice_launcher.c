@@ -269,7 +269,6 @@ void CreateIceShiver(s16 param0, s16 param1, s16 param2, u16 param3, u8 param4)
     UpdateSpriteAnimation(s);
 }
 
-#if 01
 void TaskDestructor_IceLauncher(struct Task *t)
 {
     IceLauncher *ice = TASK_DATA(t);
@@ -281,4 +280,3 @@ void TaskDestructor_IceShiver(struct Task *t)
     IceShiver *ice = TASK_DATA(t);
     VramFree(ice->s.tiles);
 }
-#endif
