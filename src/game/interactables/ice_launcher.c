@@ -1,5 +1,7 @@
+#include <string.h>
 #include "global.h"
 #include "task.h"
+#include "trig.h"
 #include "malloc_vram.h"
 #include "module_unclear.h"
 #include "game/camera.h"
@@ -38,7 +40,11 @@ typedef struct {
 void Task_IceLauncher(void);
 void sub_804B168(void);
 void TaskDestructor_IceLauncher(struct Task *t);
+void TaskDestructor_IceShiver(struct Task *t);
 void sub_804B0F8(Sprite *s, s16 param1);
+
+// const u8 gUnknown_080D03D8 = {0x40, 0x05, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x48, 0x60, 0x78, 0x90, 0xA8, 0xC0, 0xC0, 0xC0};
+extern const u8 gUnknown_080D03D8[];
 
 void CreateEntity_IceLauncher(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -228,9 +234,51 @@ void Task_IceShiver(void)
     }
 }
 
-#if 0
 void CreateIceShiver(s16 param0, s16 param1, s16 param2, u16 param3, u8 param4)
 {
+    struct Task *t;
+    IceShiver *ice;
+    Sprite *s;
+    u8 array[6];
+    memcpy(array, &gUnknown_080D03D8[0], sizeof(array));
 
+    t = TaskCreate(Task_IceShiver, sizeof(IceShiver), 0x2100, 0, TaskDestructor_IceShiver);
+    ice = TASK_DATA(t);
+    s = &ice->s;
+
+    ice->unkE = param4;
+    ice->unkC = 32;
+
+    ice->unk8 = ((COS(param3 & ONE_CYCLE) * param2) >> 14);
+    ice->unkA = ((SIN(param3 & ONE_CYCLE) * param2) >> 14);
+
+    s->tiles = ALLOC_TILES(ANIM_ICE_SHIVER);
+    s->anim = ANIM_ICE_SHIVER;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(8);
+    s->animCursor = 0;
+    s->timeUntilNextFrame = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = 0;
+
+    ice->qWorldX = Q(param0);
+    ice->qWorldY = Q(param1);
+    UpdateSpriteAnimation(s);
+}
+
+#if 01
+void TaskDestructor_IceLauncher(struct Task *t)
+{
+    IceLauncher *ice = TASK_DATA(t);
+    VramFree(ice->s.tiles);
+}
+
+void TaskDestructor_IceShiver(struct Task *t)
+{
+    IceShiver *ice = TASK_DATA(t);
+    VramFree(ice->s.tiles);
 }
 #endif

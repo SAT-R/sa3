@@ -256,6 +256,7 @@
 #define ANIM_RING                1333
 #define ANIM_RING_COLLECT_EFFECT 1334
 
+#define ANIM_ICE_SHIVER  1344
 #define ANIM_SPECIAL_KEY 1348
 
 #define ANIM_ZONEX_NAME 1424 /* Substate-Index == Zone number */
