@@ -86,7 +86,8 @@ SECTIONS {
         build/sa3/src/game/interactables/toggle_gravity.o(.text);
         build/sa3/src/game/interactables/gondola.o(.text);
         build/sa3/asm/ia_121.o(.text);
-        build/sa3/asm/ia_122.o(.text);
+        build/sa3/src/game/interactables/ufo_platform.o(.text);
+        build/sa3/asm/ia_ufo_platform.o(.text);
         build/sa3/asm/ia_123.o(.text);
         build/sa3/src/game/interactables/ice_launcher.o(.text);
         build/sa3/src/game/interactables/125_and_126.o(.text);

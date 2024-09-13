@@ -275,7 +275,8 @@
 #define SE_GONDOLA 0x261
 
 // SE_610 sounds like Knuckles climbing a wall, but is used in an IA
-#define SE_610 0x262
+#define SE_610          0x262
+#define SE_UFO_PLATFORM 0x263
 
 #define VOICE__SONIC__OKAY    0x265
 #define VOICE__SONIC__YEAH    0x266

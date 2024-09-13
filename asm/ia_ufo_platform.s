@@ -5,124 +5,9 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable122
-CreateEntity_Interactable122: @ 0x0804A3F8
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	sub sp, #4
-	mov r8, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _0804A4D0 @ =sub_804A4EC
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _0804A4D4 @ =sub_804A8E0
-	str r1, [sp]
-	movs r1, #0x4c
-	movs r3, #0
-	bl TaskCreate
-	ldrh r0, [r0, #6]
-	movs r3, #0xc0
-	lsls r3, r3, #0x12
-	adds r3, r0, r3
-	movs r1, #0
-	mov sb, r1
-	movs r2, #0
-	strh r4, [r3, #4]
-	strh r5, [r3, #6]
-	mov r7, r8
-	str r7, [r3]
-	ldrb r1, [r7]
-	strb r1, [r3, #0xb]
-	strb r6, [r3, #0xc]
-	ldr r6, _0804A4D8 @ =0x03000040
-	adds r1, r0, r6
-	strh r2, [r1]
-	ldr r7, _0804A4DC @ =0x03000042
-	adds r1, r0, r7
-	strh r2, [r1]
-	mov r2, r8
-	ldrb r1, [r2]
-	lsls r1, r1, #3
-	lsls r4, r4, #8
-	adds r1, r1, r4
-	adds r7, #2
-	adds r6, r0, r7
-	strh r1, [r6]
-	ldrb r1, [r2, #1]
-	lsls r1, r1, #3
-	lsls r5, r5, #8
-	adds r1, r1, r5
-	ldr r2, _0804A4E0 @ =0x03000046
-	adds r4, r0, r2
-	strh r1, [r4]
-	movs r5, #0
-	ldrsh r1, [r6, r5]
-	lsls r1, r1, #8
-	str r1, [r3, #0x38]
-	movs r7, #0
-	ldrsh r1, [r4, r7]
-	lsls r1, r1, #8
-	str r1, [r3, #0x3c]
-	mov r2, r8
-	movs r1, #3
-	ldrsb r1, [r2, r1]
-	lsls r1, r1, #3
-	ldrh r5, [r6]
-	adds r1, r1, r5
-	ldr r7, _0804A4E4 @ =0x03000048
-	adds r2, r0, r7
-	strh r1, [r2]
-	mov r2, r8
-	movs r1, #4
-	ldrsb r1, [r2, r1]
-	lsls r1, r1, #3
-	ldrh r5, [r4]
-	adds r1, r1, r5
-	adds r7, #2
-	adds r2, r0, r7
-	strh r1, [r2]
-	mov r1, sb
-	strb r1, [r3, #0xa]
-	ldr r2, _0804A4E8 @ =0x03000010
-	adds r0, r0, r2
-	ldrh r1, [r6]
-	strh r1, [r0, #0x10]
-	ldrh r1, [r4]
-	strh r1, [r0, #0x12]
-	movs r5, #2
-	rsbs r5, r5, #0
-	adds r1, r5, #0
-	mov r6, r8
-	strb r1, [r6]
-	bl sub_804A8F4
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804A4D0: .4byte sub_804A4EC
-_0804A4D4: .4byte sub_804A8E0
-_0804A4D8: .4byte 0x03000040
-_0804A4DC: .4byte 0x03000042
-_0804A4E0: .4byte 0x03000046
-_0804A4E4: .4byte 0x03000048
-_0804A4E8: .4byte 0x03000010
-
-	thumb_func_start sub_804A4EC
-sub_804A4EC: @ 0x0804A4EC
+.if 01
+	thumb_func_start Task_UfoPlatform
+Task_UfoPlatform: @ 0x0804A4EC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -133,15 +18,15 @@ sub_804A4EC: @ 0x0804A4EC
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r6, r1, r0
+	adds r6, r1, r0     @ r6 = ufo
 	adds r0, #0x10
 	adds r0, r0, r1
-	mov sb, r0
+	mov sb, r0          @ sb = s
 	movs r7, #0
 	movs r1, #0
-_0804A50C:
+_0804A50C_loop_start_1:
 	lsls r0, r1, #0x10
-	mov r8, r0
+	mov r8, r0          @ r8 = i
 	cmp r0, #0
 	bne _0804A524
 	ldr r0, _0804A520 @ =gStageData
@@ -163,17 +48,17 @@ _0804A52E:
 	adds r0, r0, r1
 	lsls r0, r0, #4
 	ldr r1, _0804A59C @ =gPlayers
-	adds r4, r0, r1
+	adds r4, r0, r1     @ r4 = p
 	ldr r2, [r4]
-	ldr r0, _0804A5A0 @ =sub_8008CD0
+	ldr r0, _0804A5A0 @ =Player_8008CD0
 	cmp r2, r0
 	bne _0804A546
-	b _0804A690
+	b _0804A690_continue
 _0804A546:
-	ldr r0, _0804A5A4 @ =sub_800E1E4
+	ldr r0, _0804A5A4 @ =Player_800E1E4
 	cmp r2, r0
 	bne _0804A54E
-	b _0804A690
+	b _0804A690_continue
 _0804A54E:
 	ldr r0, [r4, #4]
 	movs r1, #0x20
@@ -183,7 +68,7 @@ _0804A54E:
 	ldr r0, [r4, #0x6c]
 	cmp r0, sb
 	bne _0804A5B0
-	ldr r0, _0804A5A8 @ =sub_800B81C
+	ldr r0, _0804A5A8 @ =Player_800B81C
 	cmp r2, r0
 	beq _0804A574
 	movs r1, #0x1c
@@ -191,7 +76,7 @@ _0804A54E:
 	cmp r0, #0
 	beq _0804A574
 	adds r0, r4, #0
-	ldr r1, _0804A5AC @ =sub_800DE64
+	ldr r1, _0804A5AC @ =Player_800DE64
 	bl SetPlayerCallback
 _0804A574:
 	ldr r0, [r6, #0x38]
@@ -213,18 +98,18 @@ _0804A574:
 	adds r0, r0, r1
 	lsls r0, r0, #0x10
 	lsrs r7, r0, #0x10
-	b _0804A690
+	b _0804A690_continue
 	.align 2, 0
 _0804A59C: .4byte gPlayers
-_0804A5A0: .4byte sub_8008CD0
-_0804A5A4: .4byte sub_800E1E4
-_0804A5A8: .4byte sub_800B81C
-_0804A5AC: .4byte sub_800DE64
+_0804A5A0: .4byte Player_8008CD0
+_0804A5A4: .4byte Player_800E1E4
+_0804A5A8: .4byte Player_800B81C
+_0804A5AC: .4byte Player_800DE64
 _0804A5B0:
 	adds r0, r4, #0
 	bl sub_802C0D4
 	cmp r0, #0
-	bne _0804A690
+	bne _0804A690_continue
 	ldr r1, [r6, #0x38]
 	asrs r1, r1, #8
 	ldr r2, [r6, #0x3c]
@@ -255,14 +140,14 @@ _0804A5B0:
 	b _0804A63C
 _0804A5FA:
 	ldr r1, [r4]
-	ldr r0, _0804A60C @ =sub_800B81C
+	ldr r0, _0804A60C @ =Player_800B81C
 	cmp r1, r0
 	beq _0804A63C
 	adds r0, r4, #0
-	bl sub_800DE64
+	bl Player_800DE64
 	b _0804A63C
 	.align 2, 0
-_0804A60C: .4byte sub_800B81C
+_0804A60C: .4byte Player_800B81C
 _0804A610:
 	movs r0, #0x80
 	lsls r0, r0, #0xa
@@ -289,7 +174,7 @@ _0804A63C:
 	lsls r0, r0, #0xc
 	ands r0, r5
 	cmp r0, #0
-	beq _0804A690
+	beq _0804A690_continue
 	movs r0, #0x80
 	lsls r0, r0, #0xc
 	ands r0, r5
@@ -330,7 +215,7 @@ _0804A67E:
 	adds r0, r0, r1
 	str r0, [r4, #0x10]
 	strh r2, [r4, #0x18]
-_0804A690:
+_0804A690_continue:
 	movs r0, #0x80
 	lsls r0, r0, #9
 	add r0, r8
@@ -338,7 +223,7 @@ _0804A690:
 	asrs r0, r0, #0x10
 	cmp r0, #1
 	bgt _0804A6A0
-	b _0804A50C
+	b _0804A50C_loop_start_1
 _0804A6A0:
 	lsls r0, r7, #0x10
 	asrs r0, r0, #0x10
@@ -363,7 +248,7 @@ _0804A6BC:
 _0804A6C6:
 	movs r7, #0
 _0804A6C8:
-	adds r1, r6, #0
+	adds r1, r6, #0     @ r1 = r6 = ufo
 	adds r1, #0x42
 	ldrh r0, [r1]
 	adds r0, r0, r7
@@ -397,7 +282,7 @@ _0804A704:
 	movs r0, #0
 	strb r0, [r6, #0xa]
 _0804A70E:
-	asrs r2, r5, #0x10
+	asrs r2, r5, #0x10      @ r2 = r5
 	cmp r2, #0
 	ble _0804A78A
 	ldr r1, [r6, #0x38]
@@ -462,7 +347,7 @@ _0804A76C:
 	bge _0804A7EE
 	b _0804A7EA
 _0804A78A:
-	cmp r2, #0
+	cmp r2, #0          @ if (r5 < 0)
 	bge _0804A7EE
 	ldr r1, [r6, #0x38]
 	asrs r3, r1, #8
@@ -525,6 +410,7 @@ _0804A7EE:
 	pop {r4, r5, r6, r7}
 	pop {r0}
 	bx r0
+.endif
 
 	thumb_func_start sub_804A800
 sub_804A800: @ 0x0804A800
@@ -634,8 +520,8 @@ _0804A8D4:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_804A8E0
-sub_804A8E0: @ 0x0804A8E0
+	thumb_func_start TaskDestructor_UfoPlatform
+TaskDestructor_UfoPlatform: @ 0x0804A8E0
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
