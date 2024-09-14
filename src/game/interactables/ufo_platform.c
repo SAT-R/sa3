@@ -1,5 +1,6 @@
 #include "global.h"
 #include "task.h"
+#include "malloc_vram.h"
 #include "module_unclear.h"
 #include "game/camera.h"
 #include "game/entity.h"
@@ -7,6 +8,8 @@
 #include "game/player_callbacks.h"
 #include "game/stage.h"
 
+#include "constants/animations.h"
+#include "constants/anim_sizes.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"
 
@@ -30,7 +33,7 @@ typedef struct {
 
 void Task_UfoPlatform(void);
 void sub_804A800(void);
-void sub_804A8F4(Sprite *);
+static void InitSprite(Sprite *);
 void TaskDestructor_UfoPlatform(struct Task *);
 
 void CreateEntity_UfoPlatform(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -62,7 +65,7 @@ void CreateEntity_UfoPlatform(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s->y = ufo->world.y;
 
     SET_MAP_ENTITY_INITIALIZED(me);
-    sub_804A8F4(s);
+    InitSprite(s);
 }
 
 void Task_UfoPlatform(void)
@@ -224,4 +227,56 @@ void Task_UfoPlatform(void)
     }
 
     sub_804A800();
+}
+
+void sub_804A800(void)
+{
+    UfoPlatform *ufo = TASK_DATA(gCurTask);
+    Sprite *s = &ufo->s;
+    MapEntity *me = ufo->me;
+    s16 worldX, worldY;
+
+    worldX = I(ufo->qWorldX);
+    worldY = I(ufo->qWorldY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (!sub_802C140(ufo->world.x, ufo->world.y, s->x, s->y)) {
+        s16 i;
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            Player *p = (i != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
+
+            sub_80213B0(s, p);
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, ufo->spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
+
+void TaskDestructor_UfoPlatform(struct Task *t)
+{
+    UfoPlatform *ufo = TASK_DATA(t);
+    VramFree(ufo->s.tiles);
+}
+
+static void InitSprite(Sprite *s)
+{
+    s->tiles = ALLOC_TILES(ANIM_UFO_PLATFORM);
+    s->anim = ANIM_UFO_PLATFORM;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->timeUntilNextFrame = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    UpdateSpriteAnimation(s);
 }
