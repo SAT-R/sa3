@@ -16,9 +16,9 @@ typedef struct {
     /* 0x06 */ u16 regionY;
     /* 0x08 */ u8 unk8; // only in SA3
     /* 0x09 */ u8 unk9; // only in SA3
-    /* 0x0C */ s8 unkA;
-    /* 0x0A */ u8 spriteX;
-    /* 0x0B */ u8 id;
+    /* 0x0A */ u8 unkA;
+    /* 0x0B */ u8 spriteX;
+    /* 0x0C */ u8 id;
     /* 0x10 */ Sprite s;
     /* 0x38 */ s32 qWorldX;
     /* 0x3C */ s32 qWorldY;
@@ -65,75 +65,66 @@ void CreateEntity_UfoPlatform(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     sub_804A8F4(s);
 }
 
-// (87.02%) https://decomp.me/scratch/JyWzN
-#if 0
 void Task_UfoPlatform(void)
 {
     UfoPlatform *ufo = TASK_DATA(gCurTask);
     Sprite *s = &ufo->s;
-    s16 r7;
     s16 r5;
+    s16 r7;
     s16 i;
     Player *p;
-    s32 worldX;
-    s32 worldY;
-    s32 upper;
 
     r7 = 0;
-    for(i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
 
         if ((p->callback == Player_8008CD0) || (p->callback == Player_800E1E4)) {
             continue;
         }
 
-        if((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
-            if((p->callback != Player_800B81C) && (p->qSpeedGround != 0)){
+        if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
+            if ((p->callback != Player_800B81C) && (p->qSpeedGround != 0)) {
                 SetPlayerCallback(p, Player_800DE64);
             }
-            // _0804A574
 
             p->qWorldX = ufo->qWorldX;
             p->qWorldY = ufo->qWorldY - Q(p->unk25 + 12);
 
             r7 += I(p->qSpeedGround);
         } else {
-            // _0804A5B0
-            if(!sub_802C0D4(p)) {
+            if (!sub_802C0D4(p)) {
                 u32 res = sub_8020950(s, I(ufo->qWorldX), I(ufo->qWorldY), p, 0);
-                
-                if(res & 0x10000) {
+
+                if (res & 0x10000) {
                     sub_8016F28(p);
                     p->qWorldY += Q_8_8(res);
 
-                    if(sub_801226C(p) < 0) {
+                    if (sub_801226C(p) < 0) {
                         sub_8008E38(p);
-                    } else if(p->callback != Player_800B81C) {
+                    } else if (p->callback != Player_800B81C) {
                         Player_800DE64(p);
                     }
-                } else if(res & 0x20000) {
+                } else if (res & 0x20000) {
                     p->qWorldY += Q(1) + Q_8_8(res);
                     p->qSpeedAirY = 0;
 
-                    if(sub_8012368(p) < 0) {
+                    if (sub_8012368(p) < 0) {
                         sub_8008E38(p);
                     }
                 }
-                // _0804A63C
 
-                if(res & 0xC0000) {
-                    if(res & 0x80000) {
-                        if(p->keyInput & DPAD_RIGHT) {
+                if (res & 0xC0000) {
+                    if (res & 0x80000) {
+                        if (p->keyInput & DPAD_RIGHT) {
                             p->qWorldX += Q(1);
                             p->moveState |= MOVESTATE_40;
                         }
                     } else {
-                        if(p->keyInput & DPAD_LEFT) {
+                        if (p->keyInput & DPAD_LEFT) {
                             p->qWorldX -= Q(1);
                             p->moveState |= MOVESTATE_40;
                         }
                     }
-                    // _0804A67E
 
                     p->qSpeedGround = 0;
                     p->qWorldX += Q((s16)res >> 8);
@@ -142,15 +133,14 @@ void Task_UfoPlatform(void)
             }
         }
     }
-    // _0804A6A0
 
-    if(r7 != 0) {
-        if(r7 < 0) {
-            if(++r7 > 0) {
+    if (r7 != 0) {
+        if (r7 < 0) {
+            if (++r7 > 0) {
                 r7 = 0;
             }
         } else {
-            if(--r7 < 0) {
+            if (--r7 < 0) {
                 r7 = 0;
             }
         }
@@ -159,69 +149,75 @@ void Task_UfoPlatform(void)
     ufo->unk42 += r7;
     s->variant = (((-ufo->unk42) >> 2) & 0x7);
 
-    // Non-match starting here
-    
-    r5 = r7;
-
-    if(r5 != 0) {
+    if (r7 != 0) {
         // TODO: p doesn't make sense. Or it's always the partner here?
+#ifndef NON_MATCHING
         u32 v = p->moveState & MOVESTATE_FACING_LEFT;
+        asm("" ::"r"(v));
+#endif
 
-        if(ufo->unkA == 0) {
+        if (ufo->unkA == 0) {
             sub_8003DF0(SE_UFO_PLATFORM);
             ufo->unkA = 1;
         }
     } else {
-        // _0804A704
         sub_8003E28(SE_UFO_PLATFORM);
         ufo->unkA = 0;
     }
 
-    if (r5 > 0) {
-        // _0804A70E+0x6
-        s32 worldX = I(ufo->qWorldX);
-        if((worldX < ufo->destination.x) || (worldX < ufo->world.x)) {
-            // _0804A730
-            ufo->qWorldX += Q(r5) >> 2;
-            
-            if(I(ufo->qWorldX) > ufo->world.x) {
+    if (r7 > 0) {
+        if (I(ufo->qWorldX) < ufo->destination.x) {
+            ufo->qWorldX += Q(r7) / 4;
+
+            if (I(ufo->qWorldX) > ufo->destination.x) {
+                ufo->qWorldX = Q(ufo->destination.x);
+            }
+        } else if (I(ufo->qWorldX) < ufo->world.x) {
+            ufo->qWorldX += Q(r7) / 4;
+
+            if (I(ufo->qWorldX) > ufo->world.x) {
                 ufo->qWorldX = Q(ufo->world.x);
             }
         }
 
-        worldY = I(ufo->qWorldY);
+        if (I(ufo->qWorldY) > ufo->destination.y) {
+            ufo->qWorldY -= Q(r7) / 4;
 
-        if((worldY > (upper = ufo->destination.y)) || (worldY > (upper = ufo->world.y))) {
-            // _0804A7DA
-            ufo->qWorldY += (Q(r5) >> 2);
+            if (I(ufo->qWorldY) < ufo->destination.y) {
+                ufo->qWorldY = Q(ufo->destination.y);
+            }
+        } else if (I(ufo->qWorldY) > ufo->world.y) {
+            ufo->qWorldY -= Q(r7) / 4;
 
-            if(I(ufo->qWorldY) > upper) {
+            if (I(ufo->qWorldY) < ufo->world.y) {
                 ufo->qWorldY = Q(ufo->world.y);
             }
-        }    
-    } else if (r5 < 0) {
-        // _0804A78A + 0x4
-        s32 worldX = I(ufo->qWorldX);
-        s32 worldY;
-        s32 upper;
+        }
+    } else if (r7 < 0) {
+        if (I(ufo->qWorldX) > ufo->destination.x) {
+            ufo->qWorldX += Q(r7) / 4;
 
-        if((worldX > ufo->destination.x) || (worldX > ufo->world.x)) {
-            // _0804A7AA
-            ufo->qWorldX += Q(r5) >> 2;
+            if (I(ufo->qWorldX) < ufo->destination.x) {
+                ufo->qWorldX = Q(ufo->destination.x);
+            }
+        } else if (I(ufo->qWorldX) > ufo->world.x) {
+            ufo->qWorldX += Q(r7) / 4;
 
-            if(I(ufo->qWorldX) < ufo->world.x) {
+            if (I(ufo->qWorldX) < ufo->world.x) {
                 ufo->qWorldX = Q(ufo->world.x);
             }
         }
-        // _0804A7BE
 
-        worldY = I(ufo->qWorldY);
+        if (I(ufo->qWorldY) < ufo->destination.y) {
+            ufo->qWorldY -= Q(r7) / 4;
 
-        if((worldY < ufo->destination.y) || (worldY < ufo->world.y)) {
-            // _0804A7DA
-            ufo->qWorldY -= (Q(r5) >> 2);
+            if (I(ufo->qWorldY) > ufo->destination.y) {
+                ufo->qWorldY = Q(ufo->destination.y);
+            }
+        } else if (I(ufo->qWorldY) < ufo->world.y) {
+            ufo->qWorldY -= Q(r7) / 4;
 
-            if(I(ufo->qWorldY) > ufo->world.y) {
+            if (I(ufo->qWorldY) > ufo->world.y) {
                 ufo->qWorldY = Q(ufo->world.y);
             }
         }
@@ -229,4 +225,3 @@ void Task_UfoPlatform(void)
 
     sub_804A800();
 }
-#endif
