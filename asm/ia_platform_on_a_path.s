@@ -63,7 +63,7 @@ CreateEntity_Interactable101: @ 0x080420F8
 	adds r1, r1, r5
 	lsls r1, r1, #8
 	str r1, [r2, #0x40]
-	ldr r1, _080421E0 @ =gUnknown_08E2EC5C
+	ldr r1, _080421E0 @ =gPlatformPathTable
 	mov r7, r8
 	lsls r7, r7, #2
 	mov r8, r7
@@ -118,7 +118,7 @@ _080421D0: .4byte gStageData
 _080421D4: .4byte sub_80421E8
 _080421D8: .4byte sub_80425E4
 _080421DC: .4byte 0x03000034
-_080421E0: .4byte gUnknown_08E2EC5C
+_080421E0: .4byte gPlatformPathTable
 _080421E4: .4byte 0x0300000C
 
 	thumb_func_start sub_80421E8
