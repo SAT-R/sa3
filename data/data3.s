@@ -158,7 +158,12 @@ gUnknown_08E2EC98:
 
     .global gUnknown_08E2ED00
 gUnknown_08E2ED00:
-    .incbin "baserom.gba", 0x00E2ED00, 0x18
+    .4byte sub_807C670
+    .4byte sub_807C728
+    .4byte sub_807C8AC
+    .4byte sub_807C9C0
+    .4byte sub_807CA38
+    .4byte sub_807CB78
 
     .global gUnknown_08E2ED18
 gUnknown_08E2ED18:
