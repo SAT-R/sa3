@@ -168086,8 +168086,11 @@ sub_80B7AA4: @ 0x080B7AA4
 	ldrsh r0, [r0, r1]
 	bx lr
 	.align 2, 0
-_080B7AAC:
-	.byte 0x70, 0x47, 0x00, 0x00
+
+	thumb_func_start nullsub_80B7AAC
+nullsub_80B7AAC:
+    bx lr
+    .align 2, 0
 
 	thumb_func_start sub_80B7AB0
 sub_80B7AB0: @ 0x080B7AB0
