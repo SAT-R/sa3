@@ -19,11 +19,15 @@ gOamShapesSizes:
 
     .global gUnknown_082B5304
 gUnknown_082B5304:
-    .incbin "baserom.gba", 0x002B5304, 0x38
+    .2byte 1, 1
+    .ascii "MultiSio4Sio32Load010528\0"
+    .align 2, 0
+    .ascii "Sio32MultiLoad010214\0"
+    .align 2, 0
 
     .global gUnknown_082B533C
 gUnknown_082B533C:
-    .incbin "baserom.gba", 0x002B533C, 0x8
+    .ascii "NINTENDO"
 
     .global gUnknown_082B5344
 gUnknown_082B5344:

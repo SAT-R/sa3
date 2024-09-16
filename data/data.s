@@ -1690,21 +1690,24 @@ gUnknown_080D6F00:
 gUnknown_080D6F0C:
     .incbin "baserom.gba", 0x000D6F0C, 0x18
 
-    .global gUnknown_080D6F24
-gUnknown_080D6F24:
-    .incbin "baserom.gba", 0x000D6F24, 0x10
+    .global gStringSelectStage
+gStringSelectStage:
+    .ascii "SELECT STAGE\0"
+    .align 2, 0
 
-    .global gUnknown_080D6F34
-gUnknown_080D6F34:
-    .incbin "baserom.gba", 0x000D6F34, 0x10
+    .global gStringZoneNActN
+gStringZoneNActN:
+    .ascii "ZONE %d  ACT %d\0"
+    .align 2, 0
 
-    .global gUnknown_080D6F44
-gUnknown_080D6F44:
-    .incbin "baserom.gba", 0x000D6F44, 0xC
+    .global gStringPressABtn
+gStringPressABtn:
+    .ascii "PRESS A BTN\0"
 
-    .global gUnknown_080D6F50
-gUnknown_080D6F50:
-    .incbin "baserom.gba", 0x000D6F50, 0xC
+    .global gStringPleaseWait
+gStringPleaseWait:
+    .ascii "PLEASE WAIT\0"
+    .align 2, 0
 
     .global gUnknown_080D6F5C
 gUnknown_080D6F5C:

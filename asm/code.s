@@ -84815,7 +84815,7 @@ sub_808EBBC: @ 0x0808EBBC
 	subs r4, #1
 	lsls r4, r4, #0x10
 	lsrs r4, r4, #0x10
-	ldr r1, _0808EC70 @ =gUnknown_080D6F24
+	ldr r1, _0808EC70 @ =gStringSelectStage
 	add r0, sp, #0xc
 	bl sprintf
 	ldr r0, _0808EC74 @ =gUnknown_082B5344
@@ -84835,7 +84835,7 @@ sub_808EBBC: @ 0x0808EBBC
 	movs r0, #0xc0
 	lsls r0, r0, #1
 	adds r7, r7, r0
-	ldr r1, _0808EC78 @ =gUnknown_080D6F34
+	ldr r1, _0808EC78 @ =gStringZoneNActN
 	lsls r5, r5, #0x10
 	asrs r5, r5, #0x10
 	lsls r4, r4, #0x10
@@ -84860,7 +84860,7 @@ sub_808EBBC: @ 0x0808EBBC
 	mov r0, sl
 	cmp r0, #0
 	bne _0808EC80
-	ldr r1, _0808EC7C @ =gUnknown_080D6F44
+	ldr r1, _0808EC7C @ =gStringPressABtn
 	add r0, sp, #0xc
 	bl sprintf
 	b _0808EC88
@@ -84868,12 +84868,12 @@ sub_808EBBC: @ 0x0808EBBC
 _0808EC64: .4byte gStageData
 _0808EC68: .4byte 0x06000040
 _0808EC6C: .4byte gUnknown_03001060
-_0808EC70: .4byte gUnknown_080D6F24
+_0808EC70: .4byte gStringSelectStage
 _0808EC74: .4byte gUnknown_082B5344
-_0808EC78: .4byte gUnknown_080D6F34
-_0808EC7C: .4byte gUnknown_080D6F44
+_0808EC78: .4byte gStringZoneNActN
+_0808EC7C: .4byte gStringPressABtn
 _0808EC80:
-	ldr r1, _0808ECB0 @ =gUnknown_080D6F50
+	ldr r1, _0808ECB0 @ =gStringPleaseWait
 	add r0, sp, #0xc
 	bl sprintf
 _0808EC88:
@@ -84897,7 +84897,7 @@ _0808EC88:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0808ECB0: .4byte gUnknown_080D6F50
+_0808ECB0: .4byte gStringPleaseWait
 _0808ECB4: .4byte gUnknown_082B5344
 
 	thumb_func_start sub_808ECB8
