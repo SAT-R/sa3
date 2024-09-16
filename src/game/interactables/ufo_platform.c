@@ -41,7 +41,6 @@ void CreateEntity_UfoPlatform(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     struct Task *t = TaskCreate(Task_UfoPlatform, sizeof(UfoPlatform), 0x2100, 0, TaskDestructor_UfoPlatform);
     UfoPlatform *ufo = TASK_DATA(t);
     Sprite *s;
-    s32 worldX, worldY;
 
     ufo->regionX = regionX;
     ufo->regionY = regionY;

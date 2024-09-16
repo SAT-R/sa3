@@ -365,7 +365,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Gondola         @ In Chaos Angel
     .4byte CreateEntity_Interactable121
     .4byte CreateEntity_UfoPlatform
-    .4byte CreateEntity_Interactable123
+    .4byte CreateEntity_ClosingWall
     .4byte CreateEntity_IceLauncher
     .4byte CreateEntity_Interactable125
     .4byte CreateEntity_Interactable126
