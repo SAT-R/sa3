@@ -6,10 +6,8 @@
 .arm
 
 .if 0
-.endif
-
-	thumb_func_start Task_Platform123
-Task_Platform123: @ 0x0804AA08
+	thumb_func_start Task_ClosingWall
+Task_ClosingWall: @ 0x0804AA08
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -22,11 +20,11 @@ Task_Platform123: @ 0x0804AA08
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r0, r0, r3
-	mov sl, r0
+	mov sl, r0          @ sl = wall
 	ldr r1, _0804AA68 @ =0x0300005C
 	adds r0, r3, r1
 	ldrb r0, [r0]
-	cmp r0, #2
+	cmp r0, #2          @ if(wall->unk5C)
 	beq _0804AA78
 	ldr r2, _0804AA6C @ =0x03000062
 	adds r0, r3, r2
@@ -71,22 +69,22 @@ _0804AA78:
 	movs r0, #0
 	str r0, [sp, #0x10]
 _0804AA88:
-	movs r1, #0
+	movs r1, #0             @ i = 0
 	mov r2, sl
 	adds r2, #0x62
-	str r2, [sp, #0x18]
+	str r2, [sp, #0x18]     @ sp18 = wall->unk62
 	movs r3, #0x5e
 	add r3, sl
-	mov r8, r3
+	mov r8, r3              @ r8 = &wall->unk5E
 	mov r4, sl
 	adds r4, #0x64
-	str r4, [sp, #0x1c]
+	str r4, [sp, #0x1c]     @ sp1C = wall->unk64
 	movs r0, #0x5c
 	add r0, sl
-	mov sb, r0
+	mov sb, r0              @ sb = &wall->unk5C
 	subs r2, #2
-	str r2, [sp, #0x14]
-_0804AAA6:
+	str r2, [sp, #0x14]     @ sp14 = &wall->unk60
+_0804AAA6_loop:
 	lsls r0, r1, #0x10
 	str r0, [sp, #0x20]
 	cmp r0, #0
@@ -109,9 +107,9 @@ _0804AAC2:
 	adds r0, r0, r1
 	lsls r0, r0, #4
 	ldr r1, _0804AAF8 @ =gPlayers
-	adds r6, r0, r1
-	movs r2, #0
-_0804AAD2:
+	adds r6, r0, r1         @ r6 = p
+	movs r2, #0             @ r2 = j
+_0804AAD2_inner_loop:
 	lsls r2, r2, #0x10
 	asrs r1, r2, #0x10
 	lsls r0, r1, #2
@@ -119,11 +117,11 @@ _0804AAD2:
 	lsls r0, r0, #3
 	adds r0, #0xc
 	mov r3, sl
-	adds r7, r3, r0
+	adds r7, r3, r0         @ r7 = s = &wall->s[j];
 	ldr r4, [sp, #0x18]
 	movs r0, #0
-	ldrsh r3, [r4, r0]
-	str r2, [sp, #0x24]
+	ldrsh r3, [r4, r0]      @ r3 = wall->unk62
+	str r2, [sp, #0x24]     @ sp24 = (j << 16)
 	cmp r1, #0
 	beq _0804AAFC
 	mov r1, r8
@@ -140,11 +138,11 @@ _0804AB02:
 	lsls r0, r0, #0x10
 	lsrs r4, r0, #0x10
 	ldr r3, [sp, #0x1c]
-	ldrh r5, [r3]
+	ldrh r5, [r3]           @ r5 = wall->unk64
 	adds r0, r6, #0
 	bl sub_802C0D4
 	cmp r0, #0
-	bne _0804ABEA
+	bne _0804AAD2_inner_continue
 	lsls r1, r4, #0x10
 	asrs r1, r1, #0x10
 	lsls r2, r5, #0x10
@@ -196,37 +194,37 @@ _0804AB5A:
 	strh r0, [r6, #0x18]
 	strh r0, [r6, #0x1c]
 _0804AB76:
-	mov r0, sb
+	mov r0, sb              @ r0 = sb = &wall->unk5C
 	ldrb r3, [r0]
 	cmp r3, #2
-	beq _0804ABEA
+	beq _0804AAD2_inner_continue
 	ldr r0, [r6, #0x10]
 	lsls r0, r0, #8
 	ldr r1, [r6, #0x14]
 	lsls r1, r1, #8
-	lsrs r1, r1, #0x10
+	lsrs r1, r1, #0x10      @ r1 = I(p->qWorldY)
 	asrs r2, r0, #0x10
 	ldr r4, [sp, #4]
 	lsls r0, r4, #0x10
 	asrs r0, r0, #0x10
 	cmp r2, r0
-	ble _0804ABEA
+	ble _0804AAD2_inner_continue
 	ldr r4, [sp, #0xc]
 	lsls r0, r4, #0x10
 	asrs r0, r0, #0x10
 	cmp r2, r0
-	bge _0804ABEA
+	bge _0804AAD2_inner_continue
 	lsls r0, r1, #0x10
 	ldr r2, [sp, #8]
 	lsls r1, r2, #0x10
 	asrs r2, r0, #0x10
 	cmp r0, r1
-	ble _0804ABEA
+	ble _0804AAD2_inner_continue
 	ldr r4, [sp, #0x10]
 	lsls r0, r4, #0x10
 	asrs r0, r0, #0x10
 	cmp r2, r0
-	bge _0804ABEA
+	bge _0804AAD2_inner_continue
 	cmp r3, #0
 	bne _0804ABD2
 	adds r0, r6, #0
@@ -235,25 +233,25 @@ _0804AB76:
 	movs r1, #0x1c
 	ands r1, r0
 	cmp r1, #8
-	beq _0804ABEA
+	beq _0804AAD2_inner_continue
 	cmp r1, #0x14
-	beq _0804ABEA
+	beq _0804AAD2_inner_continue
 	movs r0, #1
-	mov r1, sb
+	mov r1, sb              @ r1 = sb = &wall->unk5C
 	strb r0, [r1]
-	b _0804ABEA
+	b _0804AAD2_inner_continue
 _0804ABD2:
-	mov r2, r8
+	mov r2, r8              @ r2 = r8 = wall->unk5E
 	ldrh r0, [r2]
 	cmp r0, #0x25
-	bhi _0804ABEA
+	bhi _0804AAD2_inner_continue
 	adds r0, r6, #0
 	bl sub_802C080
 	cmp r0, #0
-	bne _0804ABEA
+	bne _0804AAD2_inner_continue
 	adds r0, r6, #0
 	bl sub_8008E38
-_0804ABEA:
+_0804AAD2_inner_continue:
 	ldr r3, [sp, #0x24]
 	movs r4, #0x80
 	lsls r4, r4, #9
@@ -261,19 +259,19 @@ _0804ABEA:
 	lsrs r2, r0, #0x10
 	asrs r0, r0, #0x10
 	cmp r0, #1
-	bgt _0804ABFC
-	b _0804AAD2
-_0804ABFC:
+	bgt _0804ABFC_outer_continue
+	b _0804AAD2_inner_loop
+_0804ABFC_outer_continue:
 	ldr r1, [sp, #0x20]
 	adds r0, r1, r4
 	lsrs r1, r0, #0x10
 	asrs r0, r0, #0x10
 	cmp r0, #1
 	bgt _0804AC0A
-	b _0804AAA6
+	b _0804AAA6_loop
 _0804AC0A:
 	mov r2, sb
-	ldrb r0, [r2]
+	ldrb r0, [r2]           @ r0 = wall->unk5C
 	ldr r2, _0804AC54 @ =gStageData
 	cmp r0, #1
 	bne _0804AC3A
@@ -283,12 +281,12 @@ _0804AC0A:
 	subs r0, r0, r1
 	lsls r0, r0, #0x10
 	lsrs r1, r0, #0x10
-	mov r4, r8
+	mov r4, r8              @ r4 = r8 = &wall->unk5E
 	ldrh r0, [r4]
 	cmp r0, #0x20
 	bls _0804AC34
 	subs r0, r0, r1
-	strh r0, [r4]
+	strh r0, [r4]           @ wall->unk5E = 
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	cmp r0, #0x20
@@ -312,6 +310,7 @@ _0804AC3A:
 	bx r0
 	.align 2, 0
 _0804AC54: .4byte gStageData
+.endif
 
 	thumb_func_start sub_804AC58
 sub_804AC58: @ 0x0804AC58
@@ -575,8 +574,8 @@ _0804AE4E:
 	.align 2, 0
 _0804AE60: .4byte 0xFFFFF7FF
 
-	thumb_func_start TaskDestructor_Platform123
-TaskDestructor_Platform123: @ 0x0804AE64
+	thumb_func_start TaskDestructor_ClosingWall
+TaskDestructor_ClosingWall: @ 0x0804AE64
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0

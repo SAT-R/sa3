@@ -93,45 +93,43 @@ void Task_UfoPlatform(void)
             p->qWorldY = ufo->qWorldY - Q(p->unk25 + 12);
 
             r7 += I(p->qSpeedGround);
-        } else {
-            if (!sub_802C0D4(p)) {
-                u32 res = sub_8020950(s, I(ufo->qWorldX), I(ufo->qWorldY), p, 0);
+        } else if (!sub_802C0D4(p)) {
+            u32 res = sub_8020950(s, I(ufo->qWorldX), I(ufo->qWorldY), p, 0);
 
-                if (res & 0x10000) {
-                    sub_8016F28(p);
-                    p->qWorldY += Q_8_8(res);
+            if (res & 0x10000) {
+                sub_8016F28(p);
+                p->qWorldY += Q_8_8(res);
 
-                    if (sub_801226C(p) < 0) {
-                        sub_8008E38(p);
-                    } else if (p->callback != Player_800B81C) {
-                        Player_800DE64(p);
+                if (sub_801226C(p) < 0) {
+                    sub_8008E38(p);
+                } else if (p->callback != Player_800B81C) {
+                    Player_800DE64(p);
+                }
+            } else if (res & 0x20000) {
+                p->qWorldY += Q(1) + Q_8_8(res);
+                p->qSpeedAirY = 0;
+
+                if (sub_8012368(p) < 0) {
+                    sub_8008E38(p);
+                }
+            }
+
+            if (res & 0xC0000) {
+                if (res & 0x80000) {
+                    if (p->keyInput & DPAD_RIGHT) {
+                        p->qWorldX += Q(1);
+                        p->moveState |= MOVESTATE_40;
                     }
-                } else if (res & 0x20000) {
-                    p->qWorldY += Q(1) + Q_8_8(res);
-                    p->qSpeedAirY = 0;
-
-                    if (sub_8012368(p) < 0) {
-                        sub_8008E38(p);
+                } else {
+                    if (p->keyInput & DPAD_LEFT) {
+                        p->qWorldX -= Q(1);
+                        p->moveState |= MOVESTATE_40;
                     }
                 }
 
-                if (res & 0xC0000) {
-                    if (res & 0x80000) {
-                        if (p->keyInput & DPAD_RIGHT) {
-                            p->qWorldX += Q(1);
-                            p->moveState |= MOVESTATE_40;
-                        }
-                    } else {
-                        if (p->keyInput & DPAD_LEFT) {
-                            p->qWorldX -= Q(1);
-                            p->moveState |= MOVESTATE_40;
-                        }
-                    }
-
-                    p->qSpeedGround = 0;
-                    p->qWorldX += Q((s16)res >> 8);
-                    p->qSpeedAirX = 0;
-                }
+                p->qSpeedGround = 0;
+                p->qWorldX += Q((s16)res >> 8);
+                p->qSpeedAirX = 0;
             }
         }
     }
