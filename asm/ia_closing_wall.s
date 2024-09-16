@@ -5,7 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
+.if 01
 	thumb_func_start Task_ClosingWall
 Task_ClosingWall: @ 0x0804AA08
 	push {r4, r5, r6, r7, lr}
