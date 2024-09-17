@@ -148,5 +148,4 @@ _0804BF9E:
 	bx r0
 	.align 2, 0
 
-	
 .syntax divided
