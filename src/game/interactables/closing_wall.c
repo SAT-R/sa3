@@ -64,6 +64,7 @@ void CreateEntity_ClosingWall(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 }
 
 // (94.46%) https://decomp.me/scratch/BEkaq
+// (99.15%) https://decomp.me/scratch/08l3i (by idefix)
 NONMATCH("asm/non_matching/game/interactables/closing_wall__Task_ClosingWall.inc", void Task_ClosingWall(void))
 {
     ClosingWall *wall = TASK_DATA(gCurTask);
