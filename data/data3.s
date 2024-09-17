@@ -6,9 +6,6 @@
 
 .align 2 , 0
 
-.if 0
-.endif
-
 @ TODO: Should be part of libc or libgcc
 .space 0x100
 

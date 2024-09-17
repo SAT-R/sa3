@@ -10,10 +10,14 @@
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
 
+#define WALLSTATE_0 0
+#define WALLSTATE_1 1
+#define WALLSTATE_2 2
+
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s[2];
-    /* 0x5C */ u8 unk5C;
+    /* 0x5C */ u8 state;
     /* 0x5D */ u8 unk5D;
     /* 0x5E */ s16 unk5E;
     /* 0x60 */ s16 unk60;
@@ -39,7 +43,7 @@ void CreateEntity_ClosingWall(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     wall->base.spriteX = me->x;
     wall->base.id = id;
 
-    wall->unk5C = 0;
+    wall->state = WALLSTATE_0;
     wall->unk5D = 0;
     wall->unk5E = me->d.uData[2] * (TILE_WIDTH / 2);
     wall->unk60 = gStageData.timer;
@@ -67,11 +71,11 @@ NONMATCH("asm/non_matching/game/interactables/closing_wall__Task_ClosingWall.inc
     s16 worldX, worldY;
     s16 i, j;
 
-    if (wall->unk5C != 2) {
+    if (wall->state != WALLSTATE_2) {
         sp4 = wall->worldX - wall->unk5E;
         spC = wall->worldX + wall->unk5E;
-        sp8 = wall->worldY - 24;
-        sp10 = wall->worldY + 24;
+        sp8 = wall->worldY - ANIM_CLOSING_WALL_HEIGHT;
+        sp10 = wall->worldY + ANIM_CLOSING_WALL_HEIGHT;
     } else {
         // _0804AA78
         sp4 = 0;
@@ -114,7 +118,7 @@ NONMATCH("asm/non_matching/game/interactables/closing_wall__Task_ClosingWall.inc
                 }
                 // _0804AB76
 
-                if (wall->unk5C == 2) {
+                if (wall->state == WALLSTATE_2) {
                     continue;
                 }
 
@@ -124,12 +128,12 @@ NONMATCH("asm/non_matching/game/interactables/closing_wall__Task_ClosingWall.inc
                     continue;
                 }
 
-                if (wall->unk5C == 0) {
+                if (wall->state == WALLSTATE_0) {
                     if ((p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 5)) {
                         continue;
                     }
 
-                    wall->unk5C = 1;
+                    wall->state = WALLSTATE_1;
                 } else {
                     // _0804ABD2
                     if (wall->unk5E < 38) {
@@ -143,11 +147,11 @@ NONMATCH("asm/non_matching/game/interactables/closing_wall__Task_ClosingWall.inc
     }
     // _0804AC0A
 
-    if (wall->unk5C == 1) {
+    if (wall->state == WALLSTATE_1) {
         s16 time = gStageData.timer - wall->unk60;
 
         if ((wall->unk5E <= 32) || ((wall->unk5E -= time) <= 32)) {
-            wall->unk5C = 2;
+            wall->state = WALLSTATE_2;
         }
     }
     // _0804AC3A
@@ -204,7 +208,7 @@ void sub_804ACF0(void)
     worldY = wall->worldY;
 
     if (!IsPointInScreenRect(worldX, worldY)) {
-        // i,j declared here for matching
+        // i,j shadowed here for matching
         s16 i, j;
 
         for (i = 0; i < (s32)ARRAY_COUNT(wall->s); i++) {
@@ -221,7 +225,6 @@ void sub_804ACF0(void)
         TaskDestroy(gCurTask);
         return;
     }
-    // _0804ADBC
 
     for (i = 0; i < (s32)ARRAY_COUNT(wall->s); i++) {
         s = &wall->s[i];
