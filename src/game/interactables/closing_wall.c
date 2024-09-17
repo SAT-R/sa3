@@ -1,9 +1,14 @@
 #include "global.h"
+#include "task.h"
+#include "malloc_vram.h"
 #include "module_unclear.h"
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/player.h"
 #include "game/stage.h"
+
+#include "constants/animations.h"
+#include "constants/anim_sizes.h"
 
 typedef struct {
     /* 0x00 */ SpriteBase base;
@@ -151,3 +156,100 @@ NONMATCH("asm/non_matching/game/interactables/closing_wall__Task_ClosingWall.inc
     sub_804ACF0();
 }
 END_NONMATCH
+
+void sub_804AC58(ClosingWall *wall)
+{
+    Sprite *s;
+    wall->tiles = ALLOC_TILES(ANIM_CLOSING_WALL);
+
+    s = &wall->s[0];
+    s->tiles = wall->tiles;
+    s->anim = ANIM_CLOSING_WALL;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->timeUntilNextFrame = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    UpdateSpriteAnimation(s);
+
+    s = &wall->s[1];
+    s->tiles = wall->tiles;
+    s->anim = ANIM_CLOSING_WALL;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->timeUntilNextFrame = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG_MASK_19 | SPRITE_FLAG_MASK_X_FLIP | SPRITE_FLAG(PRIORITY, 1);
+    UpdateSpriteAnimation(s);
+}
+
+void sub_804ACF0(void)
+{
+    ClosingWall *wall = TASK_DATA(gCurTask);
+    MapEntity *me = wall->base.me;
+    Player *p;
+    Sprite *s;
+    s16 worldX, worldY;
+    s16 i, j;
+
+    worldX = wall->worldX;
+    worldY = wall->worldY;
+
+    if (!IsPointInScreenRect(worldX, worldY)) {
+        // i,j declared here for matching
+        s16 i, j;
+
+        for (i = 0; i < (s32)ARRAY_COUNT(wall->s); i++) {
+            s = &wall->s[i];
+
+            for (j = 0; j < NUM_SINGLE_PLAYER_CHARS; j++) {
+                p = (j != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
+
+                sub_80213B0(s, p);
+            }
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, wall->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+    // _0804ADBC
+
+    for (i = 0; i < (s32)ARRAY_COUNT(wall->s); i++) {
+        s = &wall->s[i];
+
+        s->x = worldX - gCamera.x;
+
+        if (i == 0) {
+            s->x -= wall->unk5E;
+        } else {
+            s->x += wall->unk5E;
+        }
+
+        s->y = worldY - gCamera.y;
+
+        for (j = 0; j < 2; j++) {
+            if (j != 0) {
+                s->frameFlags |= SPRITE_FLAG_MASK_Y_FLIP;
+            } else {
+                s->frameFlags &= ~SPRITE_FLAG_MASK_Y_FLIP;
+            }
+
+            DisplaySprite(s);
+        }
+    }
+}
+
+void TaskDestructor_ClosingWall(struct Task *t)
+{
+    ClosingWall *wall = TASK_DATA(t);
+    VramFree(wall->tiles);
+}

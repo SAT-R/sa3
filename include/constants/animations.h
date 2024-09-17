@@ -106,7 +106,7 @@
 #define ANIM_ATTACHED_PLATFORM         927
 #define ANIM_GONDOLA                   928
 #define ANIM_FALLING_BOULDER           929
-#define ANIM_SQUEEZER                  930
+#define ANIM_CLOSING_WALL              930
 #define ANIM_UFO_PLATFORM              931
 #define ANIM_PLATFORM_CA               932
 #define ANIM_FALL_PLATFORM_CA          933
