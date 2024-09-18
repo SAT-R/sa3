@@ -64,19 +64,21 @@ void CreateEntity_ClosingWall(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 }
 
 // (94.46%) https://decomp.me/scratch/BEkaq
-// (99.15%) https://decomp.me/scratch/08l3i (by idefix)
+// (99.84%) https://decomp.me/scratch/ximFR (by idefix)
 NONMATCH("asm/non_matching/game/interactables/closing_wall__Task_ClosingWall.inc", void Task_ClosingWall(void))
 {
-    ClosingWall *wall = TASK_DATA(gCurTask);
+    ClosingWall *const wall = TASK_DATA(gCurTask);
+    s16 i = 0;
+    s16 j = 0;
     s16 sp4, sp8, spC, sp10;
-    s16 worldX, worldY;
-    s16 i, j;
+    s16 worldX;
+    s16 worldY;
 
     if (wall->state != WALLSTATE_2) {
         sp4 = wall->worldX - wall->unk5E;
         spC = wall->worldX + wall->unk5E;
-        sp8 = wall->worldY - ANIM_CLOSING_WALL_HEIGHT;
-        sp10 = wall->worldY + ANIM_CLOSING_WALL_HEIGHT;
+        sp8 = wall->worldY - 24;
+        sp10 = wall->worldY + 24;
     } else {
         // _0804AA78
         sp4 = 0;
@@ -87,23 +89,28 @@ NONMATCH("asm/non_matching/game/interactables/closing_wall__Task_ClosingWall.inc
     // _0804AA88
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        Player *p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+        Player *p;
+        if (i == 0) {
+            p = &gPlayers[gStageData.charId];
+        } else {
+            p = &gPlayers[p->charFlags.partnerIndex];
+        }
 
         for (j = 0; j < (s32)ARRAY_COUNT(wall->s); j++) {
             // _0804AAD2_inner_loop
-            Sprite *s = &wall->s[j];
             s16 r4;
-            worldX = (s32)wall->worldX;
+            Sprite *const s = &wall->s[j];
+            const s32 wallWorldXCopy = wall->worldX;
 
             if (j != 0) {
-                r4 = wall->worldX + wall->unk5E;
+                r4 = wallWorldXCopy + wall->unk5E;
             } else {
-                r4 = wall->worldX - wall->unk5E;
+                r4 = wallWorldXCopy - wall->unk5E;
             }
-
             worldY = wall->worldY;
+
             if (!sub_802C0D4(p)) {
-                s32 res = sub_8020950(s, r4, worldY, p, 0);
+                const s32 res = sub_8020950(s, r4, worldY, p, 0);
 
                 if (res & 0x10000) {
                     p->qWorldY += Q_8_8(res);
@@ -125,6 +132,7 @@ NONMATCH("asm/non_matching/game/interactables/closing_wall__Task_ClosingWall.inc
 
                 worldX = I(p->qWorldX);
                 worldY = I(p->qWorldY);
+
                 if ((worldX <= sp4) || (worldX >= spC) || (worldY <= sp8) || (worldY >= sp10)) {
                     continue;
                 }
@@ -149,7 +157,7 @@ NONMATCH("asm/non_matching/game/interactables/closing_wall__Task_ClosingWall.inc
     // _0804AC0A
 
     if (wall->state == WALLSTATE_1) {
-        s16 time = gStageData.timer - wall->unk60;
+        const u16 time = gStageData.timer - wall->unk60;
 
         if ((wall->unk5E <= 32) || ((wall->unk5E -= time) <= 32)) {
             wall->state = WALLSTATE_2;
