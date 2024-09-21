@@ -257,6 +257,25 @@ s16 sub_80BF30C(s16 x, s16 y);
 
 #define SpriteShouldUpdate(sprite) (((sprite)->prevVariant != (sprite)->variant) || ((sprite)->prevAnim != (sprite)->graphics.anim))
 
+#ifndef NON_MATCHING
+#define SPRITE_FLIP_X_DIR(sprite)                                                                                                          \
+    if ((sprite)->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {                                                                                  \
+        SPRITE_FLAG_CLEAR(sprite, X_FLIP);                                                                                                 \
+    } else {                                                                                                                               \
+        SPRITE_FLAG_SET(sprite, X_FLIP);                                                                                                   \
+    }
+
+#define SPRITE_FLIP_Y_DIR(sprite)                                                                                                          \
+    if ((sprite)->frameFlags & SPRITE_FLAG_MASK_Y_FLIP) {                                                                                  \
+        SPRITE_FLAG_CLEAR(sprite, Y_FLIP);                                                                                                 \
+    } else {                                                                                                                               \
+        SPRITE_FLAG_SET(sprite, Y_FLIP);                                                                                                   \
+    }
+#else
+#define SPRITE_FLIP_X_DIR(sprite) (sprite)->frameFlags ^= SPRITE_FLAG_MASK_X_FLIP;
+#define SPRITE_FLIP_Y_DIR(sprite) (sprite)->frameFlags ^= SPRITE_FLAG_MASK_Y_FLIP;
+#endif
+
 // TODO: Maybe rename this and move if out?
 #define SPRITE_MAYBE_SWITCH_ANIM(_sprite)                                                                                                  \
     if (SpriteShouldUpdate(_sprite)) {                                                                                                     \

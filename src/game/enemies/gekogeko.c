@@ -33,15 +33,15 @@ typedef struct {
     /* 0x58 */ u16 unk58[2]; // TODO: type
 } GekoGeko; /* size: 0x5C */
 
-void Task_GekoGeko0(void);
-void Task_GekoGeko2(void);
-bool32 sub_8059AE8(GekoGeko *enemy);
-void Task_GekoGeko1(void);
-void sub_8059C14(GekoGeko *enemy);
-AnimCmdResult sub_8059C3C(GekoGeko *enemy);
-bool32 sub_8059CB0(GekoGeko *enemy);
+static void Task_GekoGeko0(void);
+static void Task_GekoGeko2(void);
+static bool32 sub_8059AE8(GekoGeko *enemy);
+static void Task_GekoGeko1(void);
+static void UpdatePosition(GekoGeko *enemy);
+static AnimCmdResult sub_8059C3C(GekoGeko *enemy);
+static bool32 sub_8059CB0(GekoGeko *enemy);
 static void InitSprite(GekoGeko *enemy);
-void TaskDestructor_GekoGeko(struct Task *);
+static void TaskDestructor_GekoGeko(struct Task *);
 
 // const TileInfo2 sTileInfoGekoGeko[3] = {
 // {ANIM_FROG, 0, MAX_TILES_VARIANT(ANIM_FROG, 0)},
@@ -121,10 +121,10 @@ static void InitSprite(GekoGeko *enemy)
     UpdateSpriteAnimation(s);
 }
 
-void Task_GekoGeko0(void)
+static void Task_GekoGeko0(void)
 {
     GekoGeko *enemy = TASK_DATA(gCurTask);
-    AnimCmdResult cmdRes;
+    AnimCmdResult acmdRes;
 
     sub_805CD70(&enemy->qPos, 0, &enemy->region, &enemy->unk8);
 
@@ -133,10 +133,10 @@ void Task_GekoGeko0(void)
         return;
     }
 
-    cmdRes = sub_8059C3C(enemy);
+    acmdRes = sub_8059C3C(enemy);
 
     if (gStageData.unk4 != 1 && gStageData.unk4 != 2 && gStageData.unk4 != 4) {
-        if (cmdRes == ACMD_RESULT__ENDED) {
+        if (acmdRes == ACMD_RESULT__ENDED) {
             if ((unsigned)++enemy->unk7 > 60) {
                 enemy->unk12 = 0;
                 enemy->unk6 = 0;
@@ -144,10 +144,10 @@ void Task_GekoGeko0(void)
                 enemy->s.prevVariant = -1;
             }
         } else {
-            sub_8059C14(enemy);
+            UpdatePosition(enemy);
         }
 
-        if (cmdRes == ACMD_RESULT__ENDED) {
+        if (acmdRes == ACMD_RESULT__ENDED) {
             Sprite *s = &enemy->s;
 
             if (((enemy->qLeft >= enemy->qPos.x) && !(s->frameFlags & SPRITE_FLAG_MASK_X_FLIP))
@@ -164,19 +164,19 @@ void Task_GekoGeko0(void)
     }
 }
 
-void Task_GekoGeko2(void)
+static void Task_GekoGeko2(void)
 {
     GekoGeko *enemy = TASK_DATA(gCurTask);
-    AnimCmdResult cmdRes;
+    AnimCmdResult acmdRes;
 
     if (sub_8059CB0(enemy) == TRUE) {
         TaskDestroy(gCurTask);
         return;
     }
 
-    cmdRes = sub_8059C3C(enemy);
+    acmdRes = sub_8059C3C(enemy);
 
-    if (cmdRes == ACMD_RESULT__ENDED) {
+    if (acmdRes == ACMD_RESULT__ENDED) {
         Sprite *s = &enemy->s;
 
         s->anim = sTileInfoGekoGeko[0].anim;
@@ -190,7 +190,7 @@ void Task_GekoGeko2(void)
 }
 
 //(88.82%) https://decomp.me/scratch/phCcE
-NONMATCH("asm/non_matching/game/enemies/gekogeko__sub_8059AE8.inc", bool32 sub_8059AE8(GekoGeko *enemy))
+NONMATCH("asm/non_matching/game/enemies/gekogeko__sub_8059AE8.inc", static bool32 sub_8059AE8(GekoGeko *enemy))
 {
     Sprite *s = &enemy->s;
     Player *p;
@@ -221,3 +221,92 @@ NONMATCH("asm/non_matching/game/enemies/gekogeko__sub_8059AE8.inc", bool32 sub_8
     return FALSE;
 }
 END_NONMATCH
+
+static void Task_GekoGeko1(void)
+{
+    GekoGeko *enemy = TASK_DATA(gCurTask);
+    AnimCmdResult acmdRes;
+
+    if (sub_8059CB0(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    acmdRes = sub_8059C3C(enemy);
+
+    if (acmdRes == ACMD_RESULT__ENDED) {
+        Sprite *s = &enemy->s;
+
+        SPRITE_FLIP_X_DIR(s);
+
+        s->anim = sTileInfoGekoGeko[0].anim;
+        s->variant = sTileInfoGekoGeko[0].variant;
+
+        gCurTask->main = Task_GekoGeko0;
+    }
+}
+
+static void UpdatePosition(GekoGeko *enemy)
+{
+    if (enemy->s.frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+        enemy->qPos.x += Q(1);
+    } else {
+        enemy->qPos.x -= Q(1);
+    }
+}
+
+static AnimCmdResult sub_8059C3C(GekoGeko *enemy)
+{
+    AnimCmdResult acmdRes;
+
+    Sprite *s = &enemy->s;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region.x) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region.y) - gCamera.y;
+
+    acmdRes = UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    return acmdRes;
+}
+
+static bool32 sub_8059C80(GekoGeko *enemy, EnemyUnknownStruc0 *param1)
+{
+    Sprite *s;
+
+    param1->me = NULL;
+    param1->spriteX = 0;
+    param1->unk4 = 0;
+
+    s = &enemy->s;
+    param1->spr = s;
+    param1->posX = enemy->qPos.x;
+    param1->posY = enemy->qPos.y;
+    param1->regionX = enemy->region.x;
+    param1->regionY = enemy->region.y;
+
+    return sub_805C63C(param1);
+}
+
+bool32 sub_8059CAC() { return FALSE; }
+
+static bool32 sub_8059CB0(GekoGeko *enemy)
+{
+    EnemyUnknownStruc0 unk;
+
+    unk.unk4 = sub_8059C80(enemy, &unk);
+    unk.spr = &enemy->s;
+    unk.posX = enemy->qUnk14.x;
+    unk.posY = enemy->qUnk14.y;
+    unk.regionX = enemy->region.x;
+    unk.regionY = enemy->region.y;
+    unk.me = enemy->me;
+    unk.spriteX = enemy->spriteX;
+
+    return sub_805C280(&unk);
+}
+
+static void TaskDestructor_GekoGeko(struct Task *t)
+{
+    GekoGeko *enemy = TASK_DATA(t);
+    VramFree(enemy->s.tiles);
+}

@@ -112,7 +112,6 @@ SECTIONS {
         build/sa3/src/game/enemies/spinner.o(.text);
         build/sa3/asm/enemy_condor.o(.text);
         build/sa3/src/game/enemies/gekogeko.o(.text);
-        build/sa3/asm/enemy_gekogeko.o(.text);
         build/sa3/asm/enemy_buzzer.o(.text);
         build/sa3/asm/enemy_ape.o(.text);
         build/sa3/src/game/enemies/minimole.o(.text);
