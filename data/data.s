@@ -1006,8 +1006,8 @@ gUnknown_080D1E54:
 gUnknown_080D1E84:
     .incbin "baserom.gba", 0x000D1E84, 0x10
 
-    .global gUnknown_080D1E94
-gUnknown_080D1E94:
+    .global sTileInfoGekoGeko
+sTileInfoGekoGeko:
     .incbin "baserom.gba", 0x000D1E94, 0x18
 
     .global gUnknown_080D1EAC
