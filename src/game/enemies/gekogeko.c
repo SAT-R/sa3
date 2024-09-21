@@ -1,8 +1,13 @@
 #include "global.h"
+#include "sprite.h"
 #include "task.h"
+#include "trig.h"
 #include "malloc_vram.h"
 #include "game/camera.h"
 #include "game/entity.h"
+#include "game/enemy_unknown.h"
+#include "game/player.h"
+#include "game/stage.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
@@ -11,7 +16,7 @@ typedef struct {
     /* 0x00 */ MapEntity *me;
     /* 0x04 */ u8 id;
     /* 0x05 */ u8 spriteX;
-    /* 0x06 */ s8 unk6;
+    /* 0x06 */ u8 unk6;
     /* 0x07 */ s8 unk7;
     /* 0x08 */ u8 unk8;
     /* 0x09 */ s8 unk9;
@@ -28,7 +33,13 @@ typedef struct {
     /* 0x58 */ u16 unk58[2]; // TODO: type
 } GekoGeko; /* size: 0x5C */
 
-void Task_GekoGeko(void);
+void Task_GekoGeko0(void);
+void Task_GekoGeko2(void);
+bool32 sub_8059AE8(GekoGeko *enemy);
+void Task_GekoGeko1(void);
+void sub_8059C14(GekoGeko *enemy);
+AnimCmdResult sub_8059C3C(GekoGeko *enemy);
+bool32 sub_8059CB0(GekoGeko *enemy);
 static void InitSprite(GekoGeko *enemy);
 void TaskDestructor_GekoGeko(struct Task *);
 
@@ -41,7 +52,7 @@ extern const TileInfo2 sTileInfoGekoGeko[3];
 
 void CreateEntity_GekoGeko(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_GekoGeko, sizeof(GekoGeko), 0x2100, 0, TaskDestructor_GekoGeko);
+    struct Task *t = TaskCreate(Task_GekoGeko0, sizeof(GekoGeko), 0x2100, 0, TaskDestructor_GekoGeko);
     GekoGeko *enemy = TASK_DATA(t);
     s32 qX, qY;
 
@@ -109,3 +120,104 @@ static void InitSprite(GekoGeko *enemy)
 
     UpdateSpriteAnimation(s);
 }
+
+void Task_GekoGeko0(void)
+{
+    GekoGeko *enemy = TASK_DATA(gCurTask);
+    AnimCmdResult cmdRes;
+
+    sub_805CD70(&enemy->qPos, 0, &enemy->region, &enemy->unk8);
+
+    if (sub_8059CB0(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    cmdRes = sub_8059C3C(enemy);
+
+    if (gStageData.unk4 != 1 && gStageData.unk4 != 2 && gStageData.unk4 != 4) {
+        if (cmdRes == ACMD_RESULT__ENDED) {
+            if ((unsigned)++enemy->unk7 > 60) {
+                enemy->unk12 = 0;
+                enemy->unk6 = 0;
+                enemy->unk7 = 0;
+                enemy->s.prevVariant = -1;
+            }
+        } else {
+            sub_8059C14(enemy);
+        }
+
+        if (cmdRes == ACMD_RESULT__ENDED) {
+            Sprite *s = &enemy->s;
+
+            if (((enemy->qLeft >= enemy->qPos.x) && !(s->frameFlags & SPRITE_FLAG_MASK_X_FLIP))
+                || ((enemy->qRight <= enemy->qPos.x) && (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP))) {
+                s->anim = sTileInfoGekoGeko[1].anim;
+                s->variant = sTileInfoGekoGeko[1].variant;
+                gCurTask->main = Task_GekoGeko1;
+            } else if ((sub_8059AE8(enemy) == TRUE) && (enemy->unk6 == 0)) {
+                s->anim = sTileInfoGekoGeko[2].anim;
+                s->variant = sTileInfoGekoGeko[2].variant;
+                gCurTask->main = Task_GekoGeko2;
+            }
+        }
+    }
+}
+
+void Task_GekoGeko2(void)
+{
+    GekoGeko *enemy = TASK_DATA(gCurTask);
+    AnimCmdResult cmdRes;
+
+    if (sub_8059CB0(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    cmdRes = sub_8059C3C(enemy);
+
+    if (cmdRes == ACMD_RESULT__ENDED) {
+        Sprite *s = &enemy->s;
+
+        s->anim = sTileInfoGekoGeko[0].anim;
+        s->variant = sTileInfoGekoGeko[0].variant;
+
+        enemy->unk6 = 1;
+        CpuFill16(0, &enemy->unk58, sizeof(enemy->unk58));
+
+        gCurTask->main = Task_GekoGeko0;
+    }
+}
+
+//(88.82%) https://decomp.me/scratch/phCcE
+NONMATCH("asm/non_matching/game/enemies/gekogeko__sub_8059AE8.inc", bool32 sub_8059AE8(GekoGeko *enemy))
+{
+    Sprite *s = &enemy->s;
+    Player *p;
+    s32 worldX, worldY;
+    s32 dir;
+    u8 i;
+
+    worldX = I(enemy->qPos.x);
+    worldY = I(enemy->qPos.y);
+    worldX = TO_WORLD_POS_RAW(worldX, enemy->region.x);
+    worldY = TO_WORLD_POS_RAW(worldY, enemy->region.y);
+
+    for (i = 0; i < 2; i++) {
+        p = sub_805CD20(i);
+        if (p) {
+            dir = (u16)sub_80BF30C(I(p->qWorldY) - worldY, I(p->qWorldX) - worldX);
+
+            if ((((u16)(dir - 1) <= 254) || ((u16)(dir + (-Q(3) - 1)) <= 254)) && (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP)) {
+                return TRUE;
+            }
+
+            if (((u16)(dir + (-Q(1) - 1)) <= 510) && !(s->frameFlags & SPRITE_FLAG_MASK_X_FLIP)) {
+                return TRUE;
+            }
+        }
+    }
+
+    return FALSE;
+}
+END_NONMATCH

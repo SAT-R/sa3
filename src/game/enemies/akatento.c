@@ -14,7 +14,7 @@ typedef struct {
     /* 0x04 */ u8 id;
     /* 0x05 */ u8 spriteX;
     /* 0x06 */ s8 unk6;
-    /* 0x07 */ s8 unk7;
+    /* 0x07 */ s8 direction;
     /* 0x08 */ Vec2_u16 region;
     /* 0x0C */ Vec2_32 qUnkC;
     /* 0x14 */ Vec2_32 qPos;
@@ -61,9 +61,9 @@ void CreateEntity_Akatento(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     enemy->unk6 = 0;
 
     if (me->d.uData[4] & 0x8) {
-        enemy->unk7 = -1;
+        enemy->direction = -1;
     } else {
-        enemy->unk7 = +1;
+        enemy->direction = +1;
     }
 
     CpuFill16(0, &enemy->unk50, sizeof(enemy->unk50));
@@ -91,7 +91,7 @@ void sub_80582B0(Akatento *enemy)
     s->palId = 0;
     s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
 
-    if (enemy->unk7 < 0) {
+    if (enemy->direction < 0) {
         s->frameFlags |= SPRITE_FLAG_MASK_X_FLIP;
     }
 
