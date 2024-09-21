@@ -343,7 +343,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_FactoryRing
     .4byte CreateEntity_BonusUfo
     .4byte CreateEntity_Interactable100
-    .4byte CreateEntity_Interactable101
+    .4byte CreateEntity_PlatformOnAPath
     .4byte CreateEntity_Interactable102
     .4byte CreateEntity_Interactable103
     .4byte CreateEntity_Suction

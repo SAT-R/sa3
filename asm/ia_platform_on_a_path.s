@@ -5,124 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable101
-CreateEntity_Interactable101: @ 0x080420F8
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #4
-	mov sb, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _080421D0 @ =gStageData
-	ldrb r0, [r0, #9]
-	mov r8, r0
-	ldr r0, _080421D4 @ =sub_80421E8
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _080421D8 @ =sub_80425E4
-	str r1, [sp]
-	movs r1, #0x4c
-	movs r3, #0
-	bl TaskCreate
-	ldrh r0, [r0, #6]
-	movs r2, #0xc0
-	lsls r2, r2, #0x12
-	adds r2, r0, r2
-	movs r3, #0
-	movs r1, #0
-	mov sl, r1
-	strh r4, [r2, #4]
-	strh r5, [r2, #6]
-	mov r7, sb
-	str r7, [r2]
-	ldrb r1, [r7]
-	strb r1, [r2, #0xa]
-	strb r6, [r2, #0xb]
-	ldr r6, _080421DC @ =0x03000034
-	adds r1, r0, r6
-	strb r3, [r1]
-	ldrb r1, [r7]
-	lsls r1, r1, #3
-	lsls r4, r4, #8
-	adds r1, r1, r4
-	lsls r1, r1, #8
-	str r1, [r2, #0x3c]
-	ldrb r1, [r7, #1]
-	lsls r1, r1, #3
-	lsls r5, r5, #8
-	adds r1, r1, r5
-	lsls r1, r1, #8
-	str r1, [r2, #0x40]
-	ldr r1, _080421E0 @ =gPlatformPathTable
-	mov r7, r8
-	lsls r7, r7, #2
-	mov r8, r7
-	add r8, r1
-	mov r3, sb
-	ldrb r1, [r3, #7]
-	mov r4, r8
-	ldr r3, [r4]
-	lsls r1, r1, #2
-	adds r1, r1, r3
-	ldr r3, [r1]
-	str r3, [r2, #0x38]
-	ldrh r1, [r3]
-	lsls r1, r1, #8
-	str r1, [r2, #0x44]
-	ldrh r1, [r3, #2]
-	lsls r1, r1, #8
-	str r1, [r2, #0x48]
-	ldrh r3, [r3, #4]
-	adds r6, #1
-	adds r1, r0, r6
-	strb r3, [r1]
-	mov r7, sl
-	strh r7, [r2, #0x36]
-	ldr r1, [r2, #0x38]
-	adds r1, #6
-	str r1, [r2, #0x38]
-	ldr r1, _080421E4 @ =0x0300000C
-	adds r0, r0, r1
-	ldr r1, [r2, #0x3c]
-	asrs r1, r1, #8
-	strh r1, [r0, #0x10]
-	ldr r1, [r2, #0x40]
-	asrs r1, r1, #8
-	strh r1, [r0, #0x12]
-	movs r2, #2
-	rsbs r2, r2, #0
-	adds r1, r2, #0
-	mov r3, sb
-	strb r1, [r3]
-	bl sub_80424B0
-	add sp, #4
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080421D0: .4byte gStageData
-_080421D4: .4byte sub_80421E8
-_080421D8: .4byte sub_80425E4
-_080421DC: .4byte 0x03000034
-_080421E0: .4byte gPlatformPathTable
-_080421E4: .4byte 0x0300000C
+.if 0
+.endif
 
-	thumb_func_start sub_80421E8
-sub_80421E8: @ 0x080421E8
+	thumb_func_start Task_PlatformOnPath
+Task_PlatformOnPath: @ 0x080421E8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -651,8 +538,8 @@ _080425D8:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_80425E4
-sub_80425E4: @ 0x080425E4
+	thumb_func_start TaskDestructor_PlatformOnPath
+TaskDestructor_PlatformOnPath: @ 0x080425E4
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0

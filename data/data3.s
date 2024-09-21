@@ -103,8 +103,8 @@ gUnknown_08E2EC54:
     .4byte gUnknown_080D010E
     .4byte gUnknown_080D0132
 
-    .global gPlatformPathTable
-gPlatformPathTable:
+    .global sPlatformPathTable
+sPlatformPathTable:
     .4byte gUnknown_08E2EB9C
     .4byte gUnknown_08E2EBA4
     .4byte gUnknown_08E2EBAC
