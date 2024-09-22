@@ -133,11 +133,10 @@ void DrawPlatformShared(PlatformShared *platform, Sprite *s)
     UpdateSpriteAnimation(s);
 
     if ((worldX > -31) && (worldX < (DISPLAY_WIDTH + 32))) {
-        if (worldY <= -32)
-            return;
-
-        if (worldY < DISPLAY_HEIGHT + 32) {
-            DisplaySprite(s);
+        if (worldY > -32) {
+            if (worldY < DISPLAY_HEIGHT + 32) {
+                DisplaySprite(s);
+            }
         }
     }
 }
