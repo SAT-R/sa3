@@ -20,6 +20,6 @@ typedef struct {
 
 extern u16 sub_804DC38(u8 kind, s32 worldX, s32 worldY, MapEntity *me);
 extern void sub_804DD68(PlatformShared *platform);
-extern void sub_804DDD4(PlatformShared *platform, Sprite *);
+extern void DrawPlatformShared(PlatformShared *platform, Sprite *);
 
 #endif // GUARD_SA3_PLATFORM_SHARED_H

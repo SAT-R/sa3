@@ -202,7 +202,7 @@ void Task_SpringPlatform(void)
         return;
     }
 
-    sub_804DDD4(&spring->shared, s);
+    DrawPlatformShared(&spring->shared, s);
 
     // Switch back to idle animation
     if ((s->variant == 1) && (s->frameFlags & SPRITE_FLAG_MASK_ANIM_OVER)) {

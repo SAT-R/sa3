@@ -890,7 +890,7 @@ _0802F17A:
 	bne _0802F1A4
 	ldr r0, [sp, #8]
 	ldr r1, [sp, #0xc]
-	bl sub_804DDD4
+	bl DrawPlatformShared
 _0802F1A4:
 	add sp, #0x18
 	pop {r3, r4, r5}
@@ -1520,7 +1520,7 @@ _0802F626:
 _0802F664:
 	adds r0, r7, #0
 	mov r1, sl
-	bl sub_804DDD4
+	bl DrawPlatformShared
 	ldrb r0, [r4]
 	cmp r0, #0x1d
 	bls _0802F67A
@@ -1940,7 +1940,7 @@ _0802F95E:
 _0802F9A6:
 	adds r0, r7, #0
 	mov r1, sl
-	bl sub_804DDD4
+	bl DrawPlatformShared
 _0802F9AE:
 	add sp, #8
 	pop {r3, r4, r5}

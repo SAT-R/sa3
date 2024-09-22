@@ -109,7 +109,7 @@ NONMATCH("asm/non_matching/game/interactables/platform_shared__sub_804DD68.inc",
     s32 qHalfWidth = platform->qHalfWidth;
     s32 qHalfHeight = platform->qHalfHeight;
 
-    if(unk2A) {
+    if (unk2A) {
         unk28 += (unk2A * gStageData.timer);
         theta = (unk28 & ONE_CYCLE);
     } else {
@@ -123,3 +123,21 @@ NONMATCH("asm/non_matching/game/interactables/platform_shared__sub_804DD68.inc",
     platform->qWorldY = qMiddleY + ((qHalfHeight * sinVal) >> 14);
 }
 END_NONMATCH
+
+void DrawPlatformShared(PlatformShared *platform, Sprite *s)
+{
+    s16 worldX, worldY;
+    worldX = s->x = I(platform->qWorldX) - gCamera.x;
+    worldY = s->y = I(platform->qWorldY) - gCamera.y;
+
+    UpdateSpriteAnimation(s);
+
+    if ((worldX > -31) && (worldX < (DISPLAY_WIDTH + 32))) {
+        if (worldY <= -32)
+            return;
+
+        if (worldY < DISPLAY_HEIGHT + 32) {
+            DisplaySprite(s);
+        }
+    }
+}
