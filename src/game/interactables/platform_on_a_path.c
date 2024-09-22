@@ -146,12 +146,10 @@ void Task_PlatformOnPath(void)
             if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
                 p->qWorldX -= qWorldX;
 
-                if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
-                    qWorldY += Q(2);
-                } else {
-                    qWorldY -= Q(2);
-                }
+                qWorldY += (p->moveState & MOVESTATE_GRAVITY_SWITCHED) ? +Q(2) : -Q(2);
+
                 p->qWorldY -= qWorldY;
+
                 platform->unk34 = TRUE;
             }
 
