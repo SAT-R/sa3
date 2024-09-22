@@ -19,17 +19,7 @@
 #define MAX_BOUNCE_SPEED Q(8)
 
 typedef struct {
-    /* 0x00 */ SpriteBase base;
-    /* 0x0C */ s32 qWorldX;
-    /* 0x10 */ s32 qWorldY;
-    /* 0x14 */ s32 qHalfHeight;
-    /* 0x18 */ s32 qHalfWidth;
-    /* 0x1C */ s32 qMiddleX;
-    /* 0x20 */ s32 qMiddleY;
-    /* 0x24 */ u8 filler20[0x4];
-    /* 0x28 */ u16 unk28;
-    /* 0x2A */ u8 unk2A;
-    /* 0x2B */ u8 kind;
+    /* 0x00 */ PlatformShared shared;
     /* 0x2C */ Sprite s;
     /* 0x54 */ u8 filler54[4];
 } Trampoline;
@@ -39,9 +29,6 @@ static u8 UpdatePlayer(void);
 void Task_Trampoline(void);
 static void InitSprite(Sprite *);
 void TaskDestructor_Trampoline(struct Task *);
-
-extern u16 sub_804DC38(u8 kind, s32 worldX, s32 worldY, MapEntity *me);
-extern void sub_804DD68(void *);
 
 static void CreateTrampoline(u8 kind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -53,38 +40,38 @@ static void CreateTrampoline(u8 kind, MapEntity *me, u16 regionX, u16 regionY, u
     s32 qWorldX, qWorldY;
     u8 i;
 
-    trampoline->base.regionX = regionX;
-    trampoline->base.regionY = regionY;
-    trampoline->base.me = me;
-    trampoline->base.spriteX = me->x;
-    trampoline->base.id = id;
+    trampoline->shared.base.regionX = regionX;
+    trampoline->shared.base.regionY = regionY;
+    trampoline->shared.base.me = me;
+    trampoline->shared.base.spriteX = me->x;
+    trampoline->shared.base.id = id;
     qWorldX = Q(TO_WORLD_POS(me->x, regionX));
-    trampoline->qWorldX = qWorldX;
+    trampoline->shared.qWorldX = qWorldX;
     qWorldY = Q(TO_WORLD_POS(me->y, regionY));
-    trampoline->qWorldY = qWorldY;
+    trampoline->shared.qWorldY = qWorldY;
 
-    trampoline->unk28 = sub_804DC38(kind, I(qWorldX), I(qWorldY), me);
-    trampoline->kind = kind;
+    trampoline->shared.unk28 = sub_804DC38(kind, I(qWorldX), I(qWorldY), me);
+    trampoline->shared.kind = kind;
 
     for (i = 0; (i < 6); i++) {
-        if ((me->d.uData[4] >> i) & 1)
+        if (GetBit(me->d.uData[4], i))
             break;
     }
 
-    trampoline->unk2A = i + 1;
+    trampoline->shared.unk2A = i + 1;
 
     qTop = qWorldY + Q(me->d.sData[1] * TILE_WIDTH);
     qHalfHeight = Q(me->d.uData[3] * (TILE_WIDTH / 2));
     qLeft = qWorldX + Q(me->d.sData[0] * TILE_WIDTH);
     qHalfWidth = Q(me->d.uData[2] * (TILE_WIDTH / 2));
 
-    trampoline->qHalfHeight = qHalfHeight;
-    trampoline->qHalfWidth = qHalfWidth;
-    trampoline->qMiddleX = qLeft + qHalfWidth;
-    trampoline->qMiddleY = qTop + qHalfHeight;
+    trampoline->shared.qHalfHeight = qHalfHeight;
+    trampoline->shared.qHalfWidth = qHalfWidth;
+    trampoline->shared.qMiddleX = qLeft + qHalfWidth;
+    trampoline->shared.qMiddleY = qTop + qHalfHeight;
 
-    s->x = I(trampoline->qWorldX);
-    s->y = I(trampoline->qWorldY);
+    s->x = I(trampoline->shared.qWorldX);
+    s->y = I(trampoline->shared.qWorldY);
     SET_MAP_ENTITY_INITIALIZED(me);
 
     InitSprite(s);
@@ -140,24 +127,18 @@ static u8 UpdatePlayer(void)
     u8 result = 0;
     Trampoline *trampoline = TASK_DATA(gCurTask);
     Sprite *s = &trampoline->s;
-    s32 qWorldX = trampoline->qWorldX;
-    s32 qWorldY = trampoline->qWorldY;
+    s32 qWorldX = trampoline->shared.qWorldX;
+    s32 qWorldY = trampoline->shared.qWorldY;
     u8 i;
 
-    sub_804DD68(trampoline);
+    sub_804DD68(&trampoline->shared);
 
     // TODO: Why?
-    qWorldX -= trampoline->qWorldX;
-    qWorldY -= trampoline->qWorldY;
+    qWorldX -= trampoline->shared.qWorldX;
+    qWorldY -= trampoline->shared.qWorldY;
 
-    for (i = 0; i < 2; i++) {
-        Player *p;
-
-        if (i != 0) {
-            p = &gPlayers[p->charFlags.partnerIndex];
-        } else {
-            p = &gPlayers[gStageData.charId];
-        }
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        Player *p = (i != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
 
         if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
             s32 qY;
@@ -170,7 +151,7 @@ static u8 UpdatePlayer(void)
 
         if (!sub_802C0D4(p)) {
             s32 qSpeedAirY = p->qSpeedAirY;
-            u32 mask = sub_8020950(s, I(trampoline->qWorldX), I(trampoline->qWorldY), p, 0);
+            u32 mask = sub_8020950(s, I(trampoline->shared.qWorldX), I(trampoline->shared.qWorldY), p, 0);
 
             if (mask & 0x10000) {
                 if (qSpeedAirY > MIN_BOUNCE_SPEED) {
@@ -191,15 +172,15 @@ static void UpdateAnimation(void)
 {
     Trampoline *trampoline = TASK_DATA(gCurTask);
     Sprite *s = &trampoline->s;
-    MapEntity *me = trampoline->base.me;
-    s32 qMiddleX = trampoline->qMiddleX;
-    s32 qMiddleY = trampoline->qMiddleY;
+    MapEntity *me = trampoline->shared.base.me;
+    s32 qMiddleX = trampoline->shared.qMiddleX;
+    s32 qMiddleY = trampoline->shared.qMiddleY;
 
-    s->x = I(trampoline->qWorldX) - gCamera.x;
-    s->y = I(trampoline->qWorldY) - gCamera.y;
+    s->x = I(trampoline->shared.qWorldX) - gCamera.x;
+    s->y = I(trampoline->shared.qWorldY) - gCamera.y;
 
     if (!sub_802C140(qMiddleX, qMiddleY, s->x, s->y)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, trampoline->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, trampoline->shared.base.spriteX);
         TaskDestroy(gCurTask);
         return;
     } else if (UpdateSpriteAnimation(s) == ACMD_RESULT__ENDED) {
