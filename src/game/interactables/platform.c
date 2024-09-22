@@ -9,17 +9,17 @@ void TaskDestructor_Platform(struct Task *);
 typedef struct {
     /* 0x00 */ PlatformShared shared;
     /* 0x2C */ Sprite s;
-    /* 0x54 */ u8 unk54;
-    /* 0x55 */ u8 unk55_lo : 2;
-    /* 0x55 */ u8 unk55_2 : 1;
-    /* 0x55 */ u8 unk55_3 : 1;
-    /* 0x55 */ u8 unk55_4 : 1;
-    /* 0x55 */ u8 unk55_5 : 1;
+    /* 0x54 */ u8 kindA;
+    /* 0x55 */ u8 flags_lo : 2;
+    /* 0x55 */ u8 flags_2 : 1;
+    /* 0x55 */ u8 flags_3 : 1;
+    /* 0x55 */ u8 flags_4 : 1;
+    /* 0x55 */ u8 flags_5 : 1;
 } Platform;
 
 void sub_802F9C4(u16, u16, Sprite *);
 
-void CreateEntity_Interactables016_027(s16 param0, s16 kind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
+void CreateEntity_Interactables016_027(s16 kindA, s16 sharedKind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_Platform, sizeof(Platform), 0x2100, 0, TaskDestructor_Platform);
     Platform *platform = TASK_DATA(t);
@@ -42,11 +42,11 @@ void CreateEntity_Interactables016_027(s16 param0, s16 kind, MapEntity *me, u16 
     qWorldY = Q(TO_WORLD_POS(me->y, regionY));
     shared->qWorldY = qWorldY;
 
-    shared->unk28 = sub_804DC38(kind, I(qWorldX), I(qWorldY), me);
-    shared->kind = kind;
-    platform->unk54 = 0;
+    shared->unk28 = sub_804DC38(sharedKind, I(qWorldX), I(qWorldY), me);
+    shared->kind = sharedKind;
+    platform->kindA = 0;
 
-    platform->unk55_lo = param0;
+    platform->flags_lo = kindA;
 
     qTop = qWorldY + Q(me->d.sData[1] * TILE_WIDTH);
     qHalfHeight = Q(me->d.uData[3] * (TILE_WIDTH / 2));
@@ -68,45 +68,45 @@ void CreateEntity_Interactables016_027(s16 param0, s16 kind, MapEntity *me, u16 
 
     shared->unk2A = i + 1;
 
-    switch (param0) {
+    switch (kindA) {
         case 0: {
             if (me->d.uData[4] & 0x80) {
-                platform->unk55_3 = 1;
+                platform->flags_3 = 1;
             } else {
-                platform->unk55_3 = 0;
+                platform->flags_3 = 0;
             }
 
-            platform->unk55_2 = 0;
-            platform->unk55_4 = 0;
-            platform->unk55_5 = 0;
+            platform->flags_2 = 0;
+            platform->flags_4 = 0;
+            platform->flags_5 = 0;
         } break;
 
         case 1: {
-            platform->unk55_3 = 0;
-            platform->unk55_2 = 1;
-            platform->unk55_4 = 0;
-            platform->unk55_5 = 0;
+            platform->flags_3 = 0;
+            platform->flags_2 = 1;
+            platform->flags_4 = 0;
+            platform->flags_5 = 0;
         } break;
 
         case 2: {
-            platform->unk55_3 = 1;
+            platform->flags_3 = 1;
 
             if (me->d.uData[4] & 0x80) {
-                platform->unk55_2 = 1;
+                platform->flags_2 = 1;
             } else {
-                platform->unk55_2 = 0;
+                platform->flags_2 = 0;
             }
 
             if (me->d.uData[4] & 0x40) {
-                platform->unk55_4 = 1;
+                platform->flags_4 = 1;
             } else {
-                platform->unk55_4 = 0;
+                platform->flags_4 = 0;
             }
 
             if (me->d.uData[4] & 0x20) {
-                platform->unk55_5 = 1;
+                platform->flags_5 = 1;
             } else {
-                platform->unk55_5 = 0;
+                platform->flags_5 = 0;
             }
 
         } break;
@@ -117,7 +117,7 @@ void CreateEntity_Interactables016_027(s16 param0, s16 kind, MapEntity *me, u16 
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
-    sub_802F9C4(platform->unk55_lo, platform->unk55_5, s);
+    sub_802F9C4(platform->flags_lo, platform->flags_5, s);
 }
 
 #if 0
