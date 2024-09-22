@@ -74,7 +74,7 @@
 #define ANIM_WAGGLE_COIL   894
 
 #define ANIM_PLATFORM_SH               897
-#define ANIM_PLATFORM_ON_A_PATH        898
+#define ANIM_PLATFORM_ON_A_PATH_3      898
 #define ANIM_BREAKABLE_WALL_3          899
 #define ANIM_PLATFORM_3_0              900
 #define ANIM_SUCTION_VERT              901
@@ -126,8 +126,9 @@
     7=Un-Launcher
 */
 
-#define ANIM_PENDULUM_CYBER 943
-#define ANIM_MUD_FX         945
+#define ANIM_PLATFORM_ON_A_PATH_6 942
+#define ANIM_PENDULUM_CYBER       943
+#define ANIM_MUD_FX               945
 
 #define ANIM_GOAL_RING          948
 #define ANIM_BREAKABLE_WALL_4   953
