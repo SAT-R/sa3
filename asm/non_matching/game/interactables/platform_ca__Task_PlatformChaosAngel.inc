@@ -206,6 +206,4 @@ _0804DAE8:
 	pop {r0}
 	bx r0
 
-
-
 .syntax divided

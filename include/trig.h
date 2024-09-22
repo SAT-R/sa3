@@ -5,7 +5,7 @@
 
 extern const s16 gSineTable[1280];
 
-#define SIN_PERIOD 1024
+#define SIN_PERIOD 1024u
 
 #define CLAMP_SIN_PERIOD(val)                                                                                                              \
     ({                                                                                                                                     \

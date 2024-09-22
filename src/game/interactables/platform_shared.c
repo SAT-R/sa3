@@ -3,6 +3,7 @@
 #include "game/interactables/platform_shared.h"
 #include "game/camera.h"
 #include "game/entity.h"
+#include "game/stage.h"
 
 u16 sub_804DC38(u8 kind, s32 worldX, s32 worldY, MapEntity *me)
 {
@@ -96,3 +97,29 @@ u16 sub_804DC38(u8 kind, s32 worldX, s32 worldY, MapEntity *me)
 
     return 0;
 }
+
+// (95.10%) https://decomp.me/scratch/6Dbbz
+NONMATCH("asm/non_matching/game/interactables/platform_shared__sub_804DD68.inc", void sub_804DD68(PlatformShared *platform))
+{
+    s32 sinVal, theta;
+    u32 unk2A = platform->unk2A;
+    u32 unk28 = platform->unk28;
+    s32 qMiddleX = platform->qMiddleX;
+    s32 qMiddleY = platform->qMiddleY;
+    s32 qHalfWidth = platform->qHalfWidth;
+    s32 qHalfHeight = platform->qHalfHeight;
+
+    if(unk2A) {
+        unk28 += (unk2A * gStageData.timer);
+        theta = (unk28 & ONE_CYCLE);
+    } else {
+        s32 timer = gStageData.timer;
+        theta = (((timer + (unk28 / 4)) % (SIN_PERIOD >> 2)) * 4);
+    }
+
+    sinVal = SIN(theta);
+
+    platform->qWorldX = qMiddleX + (((qHalfWidth * sinVal)) >> 14);
+    platform->qWorldY = qMiddleY + ((qHalfHeight * sinVal) >> 14);
+}
+END_NONMATCH
