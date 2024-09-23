@@ -1,9 +1,18 @@
 #include "global.h"
+#include "trig.h"
+#include "module_unclear.h"
+#include "game/interactables/platform_shared.h"
 #include "game/camera.h"
 #include "game/entity.h"
-#include "game/interactables/platform_shared.h"
+#include "game/player.h"
+#include "game/player_callbacks.h"
+#include "game/stage.h"
+
+#include "constants/move_states.h"
 
 void Task_Platform(void);
+bool16 sub_802F1B8(Sprite *s);
+bool16 sub_802F2C8(void);
 void TaskDestructor_Platform(struct Task *);
 
 typedef struct {
@@ -118,6 +127,216 @@ void CreateEntity_Interactables016_027(s16 kindA, s16 sharedKind, MapEntity *me,
     SET_MAP_ENTITY_INITIALIZED(me);
 
     sub_802F9C4(platform->flags_lo, platform->flags_5, s);
+}
+
+void Task_Platform()
+{
+    Platform *platform;
+    PlatformShared *shared;
+    Sprite *s;
+    s32 qWorldX, qWorldY;
+    s32 qInitialWorldX, qInitialWorldY;
+    s16 i;
+    s16 qSpeed;
+    s16 sp10 = 0;
+    platform = TASK_DATA(gCurTask);
+    shared = TASK_DATA(gCurTask);
+    s = &platform->s;
+
+    qWorldX = platform->shared.qWorldX;
+    qWorldY = platform->shared.qWorldY;
+
+    sub_804DD68(&platform->shared);
+
+    // TODO: Why are they doing this?
+    qInitialWorldX = qWorldX -= shared->qWorldX;
+    qInitialWorldY = qWorldY -= shared->qWorldY;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        if ((gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) || (i == 0)) {
+            Player *p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+
+            if (!sub_802C0D4(p)) {
+                u32 res;
+
+                if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
+                    p->qWorldX -= qWorldX;
+
+                    if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
+                        qWorldY += Q(4);
+                    } else {
+                        qWorldY -= Q(4);
+                    }
+
+                    p->qWorldY -= qWorldY;
+                    sp10 = +1;
+
+                    if (platform->flags_2) {
+                        if (sub_802F2C8()) {
+                            return;
+                        }
+                    }
+                } else if (sp10 == 0) {
+                    sp10 = -1;
+                }
+
+                res = sub_8020950(s, I(shared->qWorldX), I(shared->qWorldY), p, 0);
+
+                if (res & 0x10000) {
+                    p->qWorldY += Q_8_8(res);
+                    p->qSpeedAirY = Q(0);
+                    p->unk26 = 0;
+
+                    if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+                        if (((sp10 == +1) && (qInitialWorldY > Q(2))) || ((sp10 != +1) && (qInitialWorldY > Q(0)))) {
+                            if (sub_801226C(p) < 0) {
+                                if (!sub_802C080(p)) {
+                                    sub_8008E38(p);
+                                }
+                            }
+                        }
+                    }
+                } else if (!platform->flags_3) {
+                    continue;
+                } else if (res & 0x20000) {
+                    if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
+                        s32 qPlayerY;
+                        s32 qOffsetY = Q(res & 0xFF00);
+                        qPlayerY = p->qWorldY;
+
+                        if (sp10 == +1) {
+                            p->qWorldY = qPlayerY - Q(6);
+                            p->qWorldY += qOffsetY;
+                        } else {
+                            p->qWorldY = qPlayerY - Q(4);
+                            p->qWorldY += qOffsetY;
+                        }
+
+                    } else {
+                        s32 qDiff = Q(res & 0xFF00);
+                        s32 qPlayerY = p->qWorldY;
+
+                        if (sp10 == +1) {
+                            p->qWorldY = qPlayerY + Q(6);
+                            p->qWorldY += qDiff;
+                        } else {
+                            p->qWorldY = qPlayerY + Q(4);
+                            p->qWorldY += qDiff;
+                        }
+
+                        if (((sp10 == +1) && (qInitialWorldY < Q(2))) || ((sp10 != +1) && (qInitialWorldY < Q(0)))) {
+                            p->qWorldY -= qInitialWorldY;
+                        }
+                    }
+
+#ifndef NON_MATCHING
+                    // NOTE: This is only here to prevent a jump from being optimized out
+                    asm("");
+#endif
+                    if (sp10 == +1) {
+                        if (qInitialWorldY < Q(2)) {
+                            // TODO: Remove goto
+                            goto test;
+                        } else {
+                            p->qSpeedAirY = Q(0);
+                        }
+                    } else {
+                        if (qInitialWorldY < Q(0)) {
+                        test:
+                            p->qSpeedAirY = -qInitialWorldY;
+                        } else {
+                            p->qSpeedAirY = Q(0);
+                        }
+                    }
+
+                    if (!sub_802C080(p)) {
+                        if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+                            if (sub_8012368(p) < 0) {
+                                sub_8008E38(p);
+                            } else if (!(p->moveState & MOVESTATE_IN_AIR)) {
+                                sub_8012FE0(p);
+
+                                p->charFlags.anim0 = 24;
+                                Player_800DAF4(p);
+                            }
+                        }
+                    }
+                }
+
+                if ((platform->flags_3) && (res & 0xC0000)) {
+                    p->qWorldX += Q_8_8((s16)res >> 8);
+
+                    if (((res & 0x40000) && (p->moveState & MOVESTATE_FACING_LEFT))
+                        || ((res & 0x80000) && !(p->moveState & MOVESTATE_FACING_LEFT))) {
+                        if (p->moveState & MOVESTATE_JUMPING) {
+                            p->qSpeedAirX = 0;
+                            p->qSpeedGround = 0;
+
+                            if (sub_80110E8(3, p, 0, 0) < 0) {
+                                p->qWorldY -= Q(9);
+
+                                if (p->moveState & MOVESTATE_FACING_LEFT) {
+                                    p->qWorldX += Q(16);
+                                } else {
+                                    p->qWorldX -= Q(16);
+                                }
+                            }
+                        } else {
+                            if ((p->charFlags.charId != 3) || (p->charFlags.anim0 != 231)) {
+                                if ((res & MOVESTATE_40000) && (p->keyInput & DPAD_LEFT)) {
+                                    if (qWorldX != Q(0)) {
+                                        p->qWorldX -= Q(2);
+                                    } else {
+                                        p->qWorldX -= Q(1);
+                                    }
+
+                                    p->qSpeedGround = -qWorldX; // huh?
+                                    p->moveState |= MOVESTATE_40;
+                                } else if ((res & MOVESTATE_80000) && (p->keyInput & DPAD_RIGHT)) {
+                                    if (qWorldX != Q(0)) {
+                                        p->qWorldX += Q(2);
+                                    } else {
+                                        p->qWorldX += Q(1);
+                                    }
+
+                                    p->qSpeedGround = -qWorldX; // huh?
+                                    p->moveState |= MOVESTATE_40;
+                                } else {
+                                    p->qSpeedGround = Q(0);
+                                }
+                            }
+                        }
+                    }
+
+                    if ((p->charFlags.anim0 == 238) || (p->charFlags.anim0 == 239) || (p->charFlags.anim0 == 244)
+                        || (p->charFlags.anim0 == 245)) {
+                        sub_8008E38(p);
+                    }
+
+                    if ((sub_801246C(p) < 0) || (sub_8012550(p) < 0)) {
+                        if (!sub_802C080(p)) {
+                            sub_8008E38(p);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if (sp10 != 0) {
+        if ((sp10 == +1) && (platform->kindA < 16)) {
+            platform->kindA++;
+        } else if ((sp10 == -1) && (platform->kindA > 0)) {
+            platform->kindA--;
+        }
+    }
+
+    qSpeed = SIN(platform->kindA * 16) >> 5;
+    shared->qWorldY += qSpeed;
+
+    if (!sub_802F1B8(s)) {
+        DrawPlatformShared(shared, s);
+    }
 }
 
 #if 0
