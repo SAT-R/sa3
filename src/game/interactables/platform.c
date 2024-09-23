@@ -13,6 +13,7 @@
 void Task_Platform(void);
 bool16 sub_802F1B8(Sprite *s);
 bool16 sub_802F2C8(void);
+void Task_802F368(void);
 void TaskDestructor_Platform(struct Task *);
 
 typedef struct {
@@ -140,7 +141,7 @@ void Task_Platform()
     s16 qSpeed;
     s16 sp10 = 0;
     platform = TASK_DATA(gCurTask);
-    shared = TASK_DATA(gCurTask);
+    shared = &platform->shared;
     s = &platform->s;
 
     qWorldX = platform->shared.qWorldX;
@@ -338,6 +339,74 @@ void Task_Platform()
         DrawPlatformShared(shared, s);
     }
 }
+
+bool16 sub_802F1B8(Sprite *s)
+{
+    Platform *platform = TASK_DATA(gCurTask);
+    PlatformShared *shared = &platform->shared;
+    MapEntity *me = platform->shared.base.me;
+    s16 i, j;
+    s16 k = 0;
+
+    for (i = 0; i < 2; i++) {
+        s32 screenX, screenY;
+
+        if (i == 0) {
+            screenX = TO_WORLD_POS(shared->base.spriteX, shared->base.regionX) - gCamera.x;
+            screenY = TO_WORLD_POS(me->y, shared->base.regionY) - gCamera.y;
+        } else {
+            screenX = I(shared->qWorldX) - gCamera.x;
+            screenY = I(shared->qWorldY) - gCamera.y;
+        }
+
+        if (IS_OUT_OF_CAM_RANGE_TYPED(u32, screenX, screenY)) {
+            k++;
+        }
+    }
+
+    if (k >= 2) {
+        for (j = 0; j < NUM_SINGLE_PLAYER_CHARS; j++) {
+            Player *p = (j != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
+
+            sub_80213B0(s, p);
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, shared->base.spriteX);
+        TaskDestroy(gCurTask);
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
+bool16 sub_802F2C8(void)
+{
+    Platform *platform = TASK_DATA(gCurTask);
+    Sprite *s = &platform->s;
+    s16 i;
+
+    platform->kindA = 0;
+
+    if (sub_802F1B8(s)) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            Player *p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+
+            if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
+                p->moveState &= ~MOVESTATE_20;
+                p->moveState |= MOVESTATE_IN_AIR;
+                p->spr6C = NULL;
+            }
+        }
+
+        return TRUE;
+    } else {
+        gCurTask->main = Task_802F368;
+        return FALSE;
+    }
+}
+
+#if 01
+#endif
 
 #if 0
 void CreateEntity_Interactable016(MapEntity *me, u16 regionX, u16 regionY, u8 id)
