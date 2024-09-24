@@ -67176,6 +67176,7 @@ _0802093E:
 	bx r1
 	.align 2, 0
 
+    @ Collision Player->Sprite
 	thumb_func_start sub_8020950
 sub_8020950: @ 0x08020950
 	push {r4, r5, r6, r7, lr}
@@ -67316,7 +67317,7 @@ _08020A48:
 	pop {r1}
 	bx r1
 	.align 2, 0
-
+    @ Collision?
 	thumb_func_start sub_8020A58
 sub_8020A58: @ 0x08020A58
 	push {r4, r5, r6, r7, lr}

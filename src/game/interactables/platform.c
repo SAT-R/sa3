@@ -14,6 +14,7 @@ void Task_Platform(void);
 bool16 sub_802F1B8(Sprite *s);
 bool16 sub_802F2C8(void);
 void Task_802F368(void);
+void Task_802F698(void);
 void TaskDestructor_Platform(struct Task *);
 
 typedef struct {
@@ -28,6 +29,9 @@ typedef struct {
 } Platform;
 
 void sub_802F9C4(u16, u16, Sprite *);
+// typedef s32 (*SomeFunc)(s32, s32, s32, s32);
+s32 sub_8052418(s32, s32, s32, s32, void *);
+s32 sub_8051F54(s32, s32, s32, s32);
 
 void CreateEntity_Interactables016_027(s16 kindA, s16 sharedKind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -404,6 +408,132 @@ bool16 sub_802F2C8(void)
         return FALSE;
     }
 }
+
+// (99.47%) https://decomp.me/scratch/dxwOr
+NONMATCH("asm/non_matching/game/interactables/platform__Task_802F368.inc", void Task_802F368(void)
+{
+    Platform *platform = TASK_DATA(gCurTask);
+    PlatformShared *shared = &platform->shared;
+    Platform *platform2 = TASK_DATA(gCurTask);
+#ifndef NON_MATCHING
+    register Sprite *s asm("sl") = &platform->s;
+#else
+    Sprite *s = &platform->s;
+#endif
+    Player *p;
+    s32 qWorldY;
+    s16 i;
+
+    qWorldY = shared->qWorldY;
+    platform->shared.qWorldY += platform->kindA * 42;
+    platform->kindA++;
+
+    qWorldY -= shared->qWorldY;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+
+        if (((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) && !sub_802C0D4(p)) {
+           u32 res;
+
+            if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
+                p->qWorldY -= qWorldY * 2;
+                Player_80149E4(p);
+            }
+
+            res = sub_8020950(s, I(platform->shared.qWorldX), I(platform->shared.qWorldY), p, 0);
+            if (res & 0x10000) {
+                p->qWorldY += Q_8_8(res);
+                p->unk26 = 0;
+
+                if (sub_801226C(p) < 0) {
+                    if (!sub_802C080(p)) {
+                        sub_8008E38(p);
+                    }
+                }
+            } else if (!platform2->flags_3) {
+                continue;
+            } else if (res & 0x20000) {
+                if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
+                    p->qWorldY += -Q(4) + Q_8_8(res);
+                } else {
+                    p->qWorldY += +Q(4) + Q_8_8(res);
+                }
+                p->qSpeedAirY = 0;
+
+                if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+                    if (sub_8012368(p) < 0) {
+                        if (!sub_802C080(p)) {
+                            sub_8008E38(p);
+                        }
+                    } else if ((p->charFlags.anim0 == 238) || (p->charFlags.anim0 == 239) || (p->charFlags.anim0 == 244)
+                               || (p->charFlags.anim0 == 245)) {
+                        sub_8012FE0(p);
+
+                        p->charFlags.anim0 = 24;
+                        Player_800DAF4(p);
+                    }
+                }
+            }
+
+            if (platform2->flags_3 && (res & 0xC0000)) {
+                p->qWorldX += Q_8_8((s16)res >> 8);
+                p->qSpeedAirX = 0;
+
+                if (((res & 0x40000) && (p->moveState & MOVESTATE_FACING_LEFT))
+                    || ((res & 0x80000) && !(p->moveState & MOVESTATE_FACING_LEFT))) {
+                    p->qSpeedGround = 0;
+                }
+
+                if ((p->charFlags.anim0 == 238) || (p->charFlags.anim0 == 239) || (p->charFlags.anim0 == 244)
+                    || (p->charFlags.anim0 == 245)) {
+                    if (!sub_802C080(p)) {
+                        sub_8008E38(p);
+                    }
+                }
+
+                if (sub_801246C(p) < 0) {
+                    if (!sub_802C080(p)) {
+                        sub_8008E38(p);
+                    }
+                }
+
+                if ((sub_8012550(p) < 0) && !sub_802C080(p)) {
+                    sub_8008E38(p);
+                }
+            }
+        }
+    }
+
+    if (sub_802F1B8(s)) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+
+            if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
+                p->moveState &= ~MOVESTATE_20;
+                p->moveState |= MOVESTATE_IN_AIR;
+                p->spr6C = NULL;
+            }
+        }
+    } else {
+        if (platform->flags_4) {
+            s32 res = sub_8052418(I(platform->shared.qWorldY), I(platform->shared.qWorldX), 1, 8, sub_8051F54);
+
+            if (res <= 0) {
+                platform->shared.qWorldY -= Q(res);
+                platform2->kindA = 0xFF;
+                gCurTask->main = Task_802F698;
+            }
+        }
+
+        DrawPlatformShared(&platform->shared, s);
+
+        if (platform2->kindA >= 30) {
+            gCurTask->main = Task_802F698;
+        }
+    }
+}
+END_NONMATCH
 
 #if 01
 #endif

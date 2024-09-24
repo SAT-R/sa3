@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
     thumb_func_start Task_802F368
 Task_802F368: @ 0x0802F368
     push {r4, r5, r6, r7, lr}
@@ -21,16 +19,16 @@ Task_802F368: @ 0x0802F368
     ldrh r1, [r0, #6]
     movs r0, #0xc0
     lsls r0, r0, #0x12
-    adds r7, r1, r0
-    str r7, [sp, #4]
+    adds r7, r1, r0     @ r7 = platform
+    str r7, [sp, #4]    @ sp04 = r7 = shared
     adds r0, #0x2c
     adds r0, r0, r1
-    mov sl, r0
+    mov sl, r0          @ sl = s
     ldr r0, [r7, #0x10]
-    mov sb, r0
+    mov sb, r0          @ sb = qWorldY
     ldr r0, _0802F3BC @ =0x03000054
-    adds r1, r1, r0
-    ldrb r2, [r1]
+    adds r1, r1, r0     @ r1 = &platform->kindA
+    ldrb r2, [r1]       @ r2 = platform->kindA
     movs r0, #0x2a
     muls r0, r2, r0
     add r0, sb
@@ -68,7 +66,7 @@ _0802F3CE:
     adds r0, r0, r1
     lsls r0, r0, #4
     ldr r1, _0802F460 @ =gPlayers
-    adds r4, r0, r1
+    adds r4, r0, r1     @ r4 = p
     adds r0, r4, #0
     adds r0, #0x2b
     ldrb r0, [r0]
@@ -80,13 +78,13 @@ _0802F3CE:
     beq _0802F3F4
     cmp r1, #0x10
     beq _0802F3F4
-    b _0802F5A8
+    b _0802F5A8_continue
 _0802F3F4:
     adds r0, r4, #0
     bl sub_802C0D4
     cmp r0, #0
     beq _0802F400
-    b _0802F5A8
+    b _0802F5A8_continue
 _0802F400:
     ldr r0, [r4, #4]
     movs r1, #0x20
@@ -113,7 +111,7 @@ _0802F420:
     mov r0, sl
     adds r3, r4, #0
     bl sub_8020950
-    adds r5, r0, #0
+    adds r5, r0, #0     @ r5 = res
     movs r3, #0x80
     lsls r3, r3, #9
     ands r0, r3
@@ -145,7 +143,7 @@ _0802F464:
     adds r6, r2, #0
     cmp r0, #0
     bne _0802F476
-    b _0802F5A8
+    b _0802F5A8_continue
 _0802F476:
     movs r0, #0x80
     lsls r0, r0, #0xa
@@ -213,16 +211,16 @@ _0802F4EA:
     adds r0, r4, #0
     bl Player_800DAF4
 _0802F4FA:
-    ldrb r1, [r6]
+    ldrb r1, [r6]       @ r1 = platform->flags_3
     movs r0, #8
     ands r0, r1
     cmp r0, #0
-    beq _0802F5A8
+    beq _0802F5A8_continue
     movs r0, #0xc0
     lsls r0, r0, #0xc
     ands r0, r5
     cmp r0, #0
-    beq _0802F5A8
+    beq _0802F5A8_continue
     lsls r1, r5, #0x10
     asrs r1, r1, #0x18
     lsls r1, r1, #8
@@ -291,14 +289,14 @@ _0802F58E:
     adds r0, r4, #0
     bl sub_8012550
     cmp r0, #0
-    bge _0802F5A8
+    bge _0802F5A8_continue
     adds r0, r4, #0
     bl sub_802C080
     cmp r0, #0
-    bne _0802F5A8
+    bne _0802F5A8_continue
     adds r0, r4, #0
     bl sub_8008E38
-_0802F5A8:
+_0802F5A8_continue:
     movs r0, #0x80
     lsls r0, r0, #9
     add r0, r8
@@ -338,7 +336,7 @@ _0802F5EA:
     lsls r0, r0, #2
     adds r0, r0, r1
     lsls r0, r0, #4
-    adds r4, r0, r2
+    adds r4, r0, r2     @ r4 = p
     ldr r1, [r4, #4]
     movs r0, #0x20
     ands r0, r1
@@ -393,7 +391,7 @@ _0802F626:
     strb r0, [r4]
     ldr r0, _0802F690 @ =gCurTask
     ldr r1, [r0]
-    ldr r0, _0802F694 @ =sub_802F698
+    ldr r0, _0802F694 @ =Task_802F698
     str r0, [r1, #8]
 _0802F664:
     adds r0, r7, #0
@@ -404,7 +402,7 @@ _0802F664:
     bls _0802F67A
     ldr r0, _0802F690 @ =gCurTask
     ldr r1, [r0]
-    ldr r0, _0802F694 @ =sub_802F698
+    ldr r0, _0802F694 @ =Task_802F698
     str r0, [r1, #8]
 _0802F67A:
     add sp, #8
@@ -418,10 +416,12 @@ _0802F67A:
     .align 2, 0
 _0802F68C: .4byte sub_8051F54
 _0802F690: .4byte gCurTask
-_0802F694: .4byte sub_802F698
+_0802F694: .4byte Task_802F698
+.endif
 
-    thumb_func_start sub_802F698
-sub_802F698: @ 0x0802F698
+@ Similar to Task_802F368
+    thumb_func_start Task_802F698
+Task_802F698: @ 0x0802F698
     push {r4, r5, r6, r7, lr}
     mov r7, sl
     mov r6, sb
