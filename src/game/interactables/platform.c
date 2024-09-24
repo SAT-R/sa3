@@ -42,7 +42,7 @@ extern const u16 sPlatformAnimsDefault[8][3];
 extern const u16 sPlatformAnimsHubworld[7][3];
 extern const u16 gUnknown_080CF4F2[7][3];
 
-void CreateEntity_Interactables016_027(s16 kindA, s16 sharedKind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
+void CreateEntity_Platform(s16 kindA, s16 sharedKind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_Platform, sizeof(Platform), 0x2100, 0, TaskDestructor_Platform);
     Platform *platform = TASK_DATA(t);
@@ -735,65 +735,29 @@ static void InitSprite(u16 kindA, u16 flag5, Sprite *s)
     s->frameFlags = sb | SPRITE_FLAG(PRIORITY, 1);
 }
 
-void CreateEntity_Interactable016(MapEntity *me, u16 regionX, u16 regionY, u8 id)
-{
-    CreateEntity_Interactables016_027(0, 0, me, regionX, regionY, id);
-}
+void CreateEntity_Platform_0_0(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Platform(0, 0, me, regionX, regionY, id); }
 
-void CreateEntity_Interactable017(MapEntity *me, u16 regionX, u16 regionY, u8 id)
-{
-    CreateEntity_Interactables016_027(0, 1, me, regionX, regionY, id);
-}
+void CreateEntity_Platform_0_1(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Platform(0, 1, me, regionX, regionY, id); }
 
-void CreateEntity_Interactable018(MapEntity *me, u16 regionX, u16 regionY, u8 id)
-{
-    CreateEntity_Interactables016_027(0, 2, me, regionX, regionY, id);
-}
+void CreateEntity_Platform_0_2(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Platform(0, 2, me, regionX, regionY, id); }
 
-void CreateEntity_Interactable019(MapEntity *me, u16 regionX, u16 regionY, u8 id)
-{
-    CreateEntity_Interactables016_027(0, 3, me, regionX, regionY, id);
-}
+void CreateEntity_Platform_0_3(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Platform(0, 3, me, regionX, regionY, id); }
 
-void CreateEntity_Interactable020(MapEntity *me, u16 regionX, u16 regionY, u8 id)
-{
-    CreateEntity_Interactables016_027(1, 0, me, regionX, regionY, id);
-}
+void CreateEntity_Platform_1_0(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Platform(1, 0, me, regionX, regionY, id); }
 
-void CreateEntity_Interactable021(MapEntity *me, u16 regionX, u16 regionY, u8 id)
-{
-    CreateEntity_Interactables016_027(1, 1, me, regionX, regionY, id);
-}
+void CreateEntity_Platform_1_1(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Platform(1, 1, me, regionX, regionY, id); }
 
-void CreateEntity_Interactable022(MapEntity *me, u16 regionX, u16 regionY, u8 id)
-{
-    CreateEntity_Interactables016_027(1, 2, me, regionX, regionY, id);
-}
+void CreateEntity_Platform_1_2(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Platform(1, 2, me, regionX, regionY, id); }
 
-void CreateEntity_Interactable023(MapEntity *me, u16 regionX, u16 regionY, u8 id)
-{
-    CreateEntity_Interactables016_027(1, 3, me, regionX, regionY, id);
-}
+void CreateEntity_Platform_1_3(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Platform(1, 3, me, regionX, regionY, id); }
 
-void CreateEntity_Interactable024(MapEntity *me, u16 regionX, u16 regionY, u8 id)
-{
-    CreateEntity_Interactables016_027(2, 0, me, regionX, regionY, id);
-}
+void CreateEntity_Platform_2_0(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Platform(2, 0, me, regionX, regionY, id); }
 
-void CreateEntity_Interactable025(MapEntity *me, u16 regionX, u16 regionY, u8 id)
-{
-    CreateEntity_Interactables016_027(2, 1, me, regionX, regionY, id);
-}
+void CreateEntity_Platform_2_1(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Platform(2, 1, me, regionX, regionY, id); }
 
-void CreateEntity_Interactable026(MapEntity *me, u16 regionX, u16 regionY, u8 id)
-{
-    CreateEntity_Interactables016_027(2, 2, me, regionX, regionY, id);
-}
+void CreateEntity_Platform_2_2(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Platform(2, 2, me, regionX, regionY, id); }
 
-void CreateEntity_Interactable027(MapEntity *me, u16 regionX, u16 regionY, u8 id)
-{
-    CreateEntity_Interactables016_027(2, 3, me, regionX, regionY, id);
-}
+void CreateEntity_Platform_2_3(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Platform(2, 3, me, regionX, regionY, id); }
 
 void TaskDestructor_Platform(struct Task *t)
 {

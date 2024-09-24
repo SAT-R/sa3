@@ -258,18 +258,18 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Spring_Small_UpRight
     .4byte CreateEntity_Spring_Small_UpLeft
     .4byte CreateEntity_Interactable015
-    .4byte CreateEntity_Interactable016
-    .4byte CreateEntity_Interactable017
-    .4byte CreateEntity_Interactable018
-    .4byte CreateEntity_Interactable019
-    .4byte CreateEntity_Interactable020
-    .4byte CreateEntity_Interactable021
-    .4byte CreateEntity_Interactable022
-    .4byte CreateEntity_Interactable023
-    .4byte CreateEntity_Interactable024
-    .4byte CreateEntity_Interactable025
-    .4byte CreateEntity_Interactable026
-    .4byte CreateEntity_Interactable027
+    .4byte CreateEntity_Platform_0_0
+    .4byte CreateEntity_Platform_0_1
+    .4byte CreateEntity_Platform_0_2
+    .4byte CreateEntity_Platform_0_3
+    .4byte CreateEntity_Platform_1_0
+    .4byte CreateEntity_Platform_1_1
+    .4byte CreateEntity_Platform_1_2
+    .4byte CreateEntity_Platform_1_3
+    .4byte CreateEntity_Platform_2_0
+    .4byte CreateEntity_Platform_2_1
+    .4byte CreateEntity_Platform_2_2
+    .4byte CreateEntity_Platform_2_3
     .4byte CreateEntity_Interactable028 @ 028 - Same code as 071
     .4byte CreateEntity_Spikes_Up               @ 029
     .4byte CreateEntity_Spikes_Down             @ 030
@@ -398,10 +398,10 @@ gSpriteInits_InteractablesMultiplayer: @ 0x080CF354
     .4byte CreateEntity_Spring_Left @ 005
     .4byte CreateEntity_Spring_Right @ 006
     .4byte CreateEntity_Spring_Small_UpRight @ 007
-    .4byte CreateEntity_Interactable016 @ 008
-    .4byte CreateEntity_Interactable019 @ 009
-    .4byte CreateEntity_Interactable020 @ 010
-    .4byte CreateEntity_Interactable023 @ 011
+    .4byte CreateEntity_Platform_0_0 @ 008
+    .4byte CreateEntity_Platform_0_3 @ 009
+    .4byte CreateEntity_Platform_1_0 @ 010
+    .4byte CreateEntity_Platform_1_3 @ 011
     .4byte CreateEntity_Interactable043 @ 012
     .4byte CreateEntity_Spikes_Up @ 013
     .4byte CreateEntity_Booster_Default @ 014
