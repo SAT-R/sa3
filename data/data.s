@@ -444,12 +444,12 @@ gUnknown_080CF468:
 gUnknown_080CF470:
     .incbin "baserom.gba", 0x000CF470, 0x28
 
-    .global gUnknown_080CF498
-gUnknown_080CF498:
+    .global sPlatformAnimsDefault
+sPlatformAnimsDefault:
     .incbin "baserom.gba", 0x000CF498, 0x30
 
-    .global gUnknown_080CF4C8
-gUnknown_080CF4C8:
+    .global sPlatformAnimsHubworld
+sPlatformAnimsHubworld:
     .incbin "baserom.gba", 0x000CF4C8, 0x2A
 
     .global gUnknown_080CF4F2

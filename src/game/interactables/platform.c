@@ -1,5 +1,7 @@
+#include <string.h> // memcpy
 #include "global.h"
 #include "trig.h"
+#include "malloc_vram.h"
 #include "module_unclear.h"
 #include "game/interactables/platform_shared.h"
 #include "game/camera.h"
@@ -8,7 +10,10 @@
 #include "game/player_callbacks.h"
 #include "game/stage.h"
 
+#include "constants/animations.h"
+#include "constants/anim_sizes.h"
 #include "constants/move_states.h"
+#include "constants/zones.h"
 
 void Task_Platform(void);
 bool16 sub_802F1B8(Sprite *s);
@@ -28,10 +33,14 @@ typedef struct {
     /* 0x55 */ u8 flags_5 : 1;
 } Platform;
 
-void sub_802F9C4(u16, u16, Sprite *);
+static void InitSprite(u16, u16, Sprite *);
 // typedef s32 (*SomeFunc)(s32, s32, s32, s32);
 s32 sub_8052418(s32, s32, s32, s32, void *);
 s32 sub_8051F54(s32, s32, s32, s32);
+
+extern const u16 sPlatformAnimsDefault[8][3];
+extern const u16 sPlatformAnimsHubworld[7][3];
+extern const u16 gUnknown_080CF4F2[7][3];
 
 void CreateEntity_Interactables016_027(s16 kindA, s16 sharedKind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -131,7 +140,7 @@ void CreateEntity_Interactables016_027(s16 kindA, s16 sharedKind, MapEntity *me,
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
-    sub_802F9C4(platform->flags_lo, platform->flags_5, s);
+    InitSprite(platform->flags_lo, platform->flags_5, s);
 }
 
 void Task_Platform()
@@ -665,9 +674,129 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F698.inc", void 
 }
 END_NONMATCH
 
-#if 0
+static void InitSprite(u16 kindA, u16 flag5, Sprite *s)
+{
+    AnimId anim;
+    u16 variant;
+    u16 tileCount;
+    s32 sb = 0;
+    u16 array0[8][3];
+    u16 array1[7][3];
+    u16 array2[7][3];
+    memcpy(array0, sPlatformAnimsDefault, sizeof(array0));
+    memcpy(array1, sPlatformAnimsHubworld, sizeof(array1));
+    memcpy(array2, gUnknown_080CF4F2, sizeof(array2));
+
+    if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+        if (kindA == 2) {
+            if (gStageData.act == ACT_BONUS_ENEMIES) {
+                anim = ANIM_PLATFORM_BONUS;
+                variant = 0;
+                tileCount = MAX_TILES_VARIANT(ANIM_PLATFORM_BONUS, 0);
+            } else if (flag5) {
+                anim = array0[7][0];
+                variant = array0[7][1];
+                tileCount = array0[7][2];
+            } else {
+                anim = array0[gStageData.zone][0];
+                variant = array0[gStageData.zone][1];
+                tileCount = array0[gStageData.zone][2];
+            }
+        } else if (gStageData.act == ACT_BONUS_ENEMIES) {
+            anim = ANIM_PLATFORM_BONUS;
+            variant = 1;
+            tileCount = MAX_TILES_VARIANT(ANIM_PLATFORM_BONUS, 1);
+        } else if (gStageData.act != ACT_HUB) {
+            anim = array2[gStageData.zone][0];
+            variant = array2[gStageData.zone][1];
+            tileCount = array2[gStageData.zone][2];
+        } else {
+            anim = array1[gStageData.zone][0];
+            variant = array1[gStageData.zone][1];
+            tileCount = array1[gStageData.zone][2];
+        }
+    } else {
+        anim = ANIM_PLATFORM_2;
+        variant = 0;
+        tileCount = MAX_TILES(ANIM_PLATFORM_2);
+        sb = SPRITE_FLAG_MASK_MOSAIC;
+    }
+
+    s->tiles = VramMalloc(tileCount);
+    s->anim = anim;
+    s->variant = variant;
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->timeUntilNextFrame = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = sb | SPRITE_FLAG(PRIORITY, 1);
+}
+
 void CreateEntity_Interactable016(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     CreateEntity_Interactables016_027(0, 0, me, regionX, regionY, id);
 }
-#endif
+
+void CreateEntity_Interactable017(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateEntity_Interactables016_027(0, 1, me, regionX, regionY, id);
+}
+
+void CreateEntity_Interactable018(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateEntity_Interactables016_027(0, 2, me, regionX, regionY, id);
+}
+
+void CreateEntity_Interactable019(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateEntity_Interactables016_027(0, 3, me, regionX, regionY, id);
+}
+
+void CreateEntity_Interactable020(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateEntity_Interactables016_027(1, 0, me, regionX, regionY, id);
+}
+
+void CreateEntity_Interactable021(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateEntity_Interactables016_027(1, 1, me, regionX, regionY, id);
+}
+
+void CreateEntity_Interactable022(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateEntity_Interactables016_027(1, 2, me, regionX, regionY, id);
+}
+
+void CreateEntity_Interactable023(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateEntity_Interactables016_027(1, 3, me, regionX, regionY, id);
+}
+
+void CreateEntity_Interactable024(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateEntity_Interactables016_027(2, 0, me, regionX, regionY, id);
+}
+
+void CreateEntity_Interactable025(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateEntity_Interactables016_027(2, 1, me, regionX, regionY, id);
+}
+
+void CreateEntity_Interactable026(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateEntity_Interactables016_027(2, 2, me, regionX, regionY, id);
+}
+
+void CreateEntity_Interactable027(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateEntity_Interactables016_027(2, 3, me, regionX, regionY, id);
+}
+
+void TaskDestructor_Platform(struct Task *t)
+{
+    Platform *platform = TASK_DATA(t);
+    VramFree(platform->s.tiles);
+}

@@ -52,13 +52,13 @@
 #define ANIM_BOOSTER                  868
 #define ANIM_SPIKES                   869
 #define ANIM_RAMP                     870
-#define ANIM_PLATFORM_1               871
+#define ANIM_PLATFORM_1_1             871
 #define ANIM_ZONE_TELEPORT            872
 #define ANIM_BOUNCY_BAR               873
 #define ANIM_ROTATING_HANDLE          874
 #define ANIM_CHECKPOINT               875
 #define ANIM_HANG_HANDLE              876
-#define ANIM_PLATFORM_2               877
+#define ANIM_PLATFORM_1_2             877
 #define ANIM_TRAMPOLINE               878
 #define ANIM_PLATFORM_WITH_SWITCH_W01 879
 #define ANIM_SPRING_WITH_SWITCH       880
@@ -68,10 +68,12 @@
 #define ANIM_PLATFORM_RAISING_WHEEL   884 // 0: Still, 1: Rotating, 2: Platform
 #define ANIM_SEESAW_1                 885
 #define ANIM_YELLOW_SPRING_SH         886
-
-#define ANIM_BUNGEE_CORD   891
-#define ANIM_SUNSET_BRIDGE 892
-#define ANIM_WAGGLE_COIL   894
+#define ANIM_PLATFORM_LONG_2_1        888
+#define ANIM_PLATFORM_2               889
+#define ANIM_PLATFORM_LONG_2_2        890
+#define ANIM_BUNGEE_CORD              891
+#define ANIM_SUNSET_BRIDGE            892
+#define ANIM_WAGGLE_COIL              894
 
 #define ANIM_PLATFORM_SH               897
 #define ANIM_PLATFORM_ON_A_PATH_3      898
