@@ -410,7 +410,10 @@ bool16 sub_802F2C8(void)
 }
 
 // (99.47%) https://decomp.me/scratch/dxwOr
-NONMATCH("asm/non_matching/game/interactables/platform__Task_802F368.inc", void Task_802F368(void)
+// TODO: The non-match of this is basically the same as Task_802F698.
+//       So if one of them gets a match, the other one's should be free.
+//       It's about the multiple "Platform" pointers being accessed differently.
+NONMATCH("asm/non_matching/game/interactables/platform__Task_802F368.inc", void Task_802F368(void))
 {
     Platform *platform = TASK_DATA(gCurTask);
     PlatformShared *shared = &platform->shared;
@@ -434,7 +437,7 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F368.inc", void 
         p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
 
         if (((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) && !sub_802C0D4(p)) {
-           u32 res;
+            u32 res;
 
             if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
                 p->qWorldY -= qWorldY * 2;
@@ -535,8 +538,132 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F368.inc", void 
 }
 END_NONMATCH
 
-#if 01
+// (99,47%) https://decomp.me/scratch/F6jFq
+// TODO: The non-match of this is basically the same as Task_802F368.
+//       So if one of them gets a match, the other one's should be free.
+//       It's about the multiple "Platform" pointers being accessed differently.
+NONMATCH("asm/non_matching/game/interactables/platform__Task_802F698.inc", void Task_802F698(void))
+{
+    Platform *platform = TASK_DATA(gCurTask);
+    PlatformShared *shared = &platform->shared;
+    Platform *platform2 = TASK_DATA(gCurTask);
+#ifndef NON_MATCHING
+    register Sprite *s asm("sl") = &platform->s;
+#else
+    Sprite *s = &platform->s;
 #endif
+    Player *p;
+    s32 qWorldY;
+    s16 i;
+
+    qWorldY = shared->qWorldY;
+    if (platform->kindA != 0xFF) {
+        platform->shared.qWorldY += platform->kindA * 42;
+        platform->kindA++;
+    }
+
+    qWorldY -= shared->qWorldY;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+
+        if (((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) && !sub_802C0D4(p)) {
+            u32 res;
+
+            if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
+                p->qWorldY -= qWorldY;
+                Player_80149E4(p);
+            }
+
+            res = sub_8020950(s, I(platform->shared.qWorldX), I(platform->shared.qWorldY), p, 0);
+            if (res & 0x10000) {
+                p->qWorldY += Q_8_8(res);
+                p->unk26 = 0;
+
+                if (sub_801226C(p) < 0) {
+                    if (!sub_802C080(p)) {
+                        sub_8008E38(p);
+                    }
+                }
+            } else if (!platform2->flags_3) {
+                continue;
+            } else if (res & 0x20000) {
+                if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
+                    p->qWorldY += -Q(4) + Q_8_8(res);
+                } else {
+                    p->qWorldY += +Q(4) + Q_8_8(res);
+                }
+                p->qSpeedAirY = 0;
+
+                if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+                    if (sub_8012368(p) < 0) {
+                        if (!sub_802C080(p)) {
+                            sub_8008E38(p);
+                        }
+                    } else if ((p->charFlags.anim0 == 238) || (p->charFlags.anim0 == 239) || (p->charFlags.anim0 == 244)
+                               || (p->charFlags.anim0 == 245)) {
+                        sub_8012FE0(p);
+
+                        p->charFlags.anim0 = 24;
+                        Player_800DAF4(p);
+                    }
+                }
+            }
+
+            if (platform2->flags_3 && (res & 0xC0000)) {
+                p->qWorldX += Q_8_8((s16)res >> 8);
+                p->qSpeedAirX = 0;
+
+                if (((res & 0x40000) && (p->moveState & MOVESTATE_FACING_LEFT))
+                    || ((res & 0x80000) && !(p->moveState & MOVESTATE_FACING_LEFT))) {
+                    p->qSpeedGround = 0;
+                }
+
+                if ((p->charFlags.anim0 == 238) || (p->charFlags.anim0 == 239) || (p->charFlags.anim0 == 244)
+                    || (p->charFlags.anim0 == 245)) {
+                    if (!sub_802C080(p)) {
+                        sub_8008E38(p);
+                    }
+                }
+
+                if (sub_801246C(p) < 0) {
+                    if (!sub_802C080(p)) {
+                        sub_8008E38(p);
+                    }
+                }
+
+                if ((sub_8012550(p) < 0) && !sub_802C080(p)) {
+                    sub_8008E38(p);
+                }
+            }
+        }
+    }
+
+    if (sub_802F1B8(s)) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+
+            if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
+                p->moveState &= ~MOVESTATE_20;
+                p->moveState |= MOVESTATE_IN_AIR;
+                p->spr6C = NULL;
+            }
+        }
+    } else {
+        if ((platform->flags_4) && (platform2->kindA != 0xFF)) {
+
+            s32 res = sub_8052418(I(platform->shared.qWorldY) + s->hitboxes[0].b.bottom, I(platform->shared.qWorldX), 1, 8, sub_8051F54);
+
+            if (res <= 0) {
+                platform->shared.qWorldY += Q(res);
+                platform2->kindA = 0xFF;
+            }
+        }
+
+        DrawPlatformShared(&platform->shared, s);
+    }
+}
+END_NONMATCH
 
 #if 0
 void CreateEntity_Interactable016(MapEntity *me, u16 regionX, u16 regionY, u8 id)
