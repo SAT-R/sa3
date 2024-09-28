@@ -22,7 +22,7 @@ typedef struct {
 
 void Task_PlatformPropelled(void);
 void TaskDestructor_PlatformPropelled(struct Task *t);
-void sub_8042930(Sprite *);
+void sub_8042930(void);
 void sub_80429D0(void);
 void sub_8042AF0(Sprite *);
 
@@ -64,7 +64,7 @@ void Task_PlatformPropelled(void)
     qWorldX = platform->qWorldX;
     qWorldY = platform->qWorldY;
 
-    sub_8042930(s);
+    sub_8042930();
 
     qWorldX -= platform->qWorldX;
     qWorldY -= platform->qWorldY;
@@ -148,4 +148,40 @@ void Task_PlatformPropelled(void)
     }
 
     sub_80429D0();
+}
+
+void sub_8042930(void)
+{
+    PlatformPropelled *platform = TASK_DATA(gCurTask);
+    s32 qOriginY, qHighestY;
+
+    qOriginY = QS(TO_WORLD_POS(platform->base.me->y, platform->base.regionY));
+    qHighestY = qOriginY - Q(192);
+
+    platform->unk44 -= platform->unk48;
+
+    if (platform->unk44 < -Q(1)) {
+        platform->unk44 = -Q(1);
+    }
+
+    if (platform->unk44 < Q(8)) {
+        platform->unk44 += Q(16. / 256.);
+    }
+
+    platform->qWorldY += platform->unk44;
+
+    if (platform->qWorldY < qHighestY) {
+        platform->qWorldY = qHighestY;
+    }
+
+    if (platform->qWorldY > qOriginY) {
+        platform->qWorldY = qOriginY;
+        platform->unk44 = 0;
+    }
+
+    if ((platform->unk44 < 0) || (platform->unk48 != 0)) {
+        platform->s.variant = 1;
+    } else {
+        platform->s.variant = 0;
+    }
 }
