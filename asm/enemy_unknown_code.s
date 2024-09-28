@@ -1267,13 +1267,13 @@ _0805C988:
 	bl sub_805CC5C
 	strh r5, [r6, #0x36]
 	adds r0, r6, #0
-	ldr r1, _0805CA00 @ =sub_800DB30
+	ldr r1, _0805CA00 @ =Player_800DB30
 	bl SetPlayerCallback
 	b _0805CA1C
 	.align 2, 0
 _0805C9F8: .4byte gPlayers
 _0805C9FC: .4byte gStageData
-_0805CA00: .4byte sub_800DB30
+_0805CA00: .4byte Player_800DB30
 _0805CA04:
 	str r7, [sp]
 	ldr r0, [sp, #0x18]

@@ -48,6 +48,7 @@ extern void Player_800BD88(Player *p);
 extern void Player_800BEE8(Player *p);
 extern void SetPlayerCallback(Player *p, PlayerCallback callback);
 extern void Player_800DAF4(Player *p);
+extern void Player_800DB30(Player *p);
 extern void Player_800DE64(Player *p);
 extern void Player_800DEC4(Player *p);
 extern void Player_800E1E4(Player *p);

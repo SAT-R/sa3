@@ -14312,7 +14312,7 @@ _0806CDA4:
 _0806CDA8:
 	strh r0, [r4, #0x1a]
 	adds r0, r4, #0
-	bl sub_800DB30
+	bl Player_800DB30
 _0806CDB0:
 	pop {r4}
 	pop {r0}
@@ -20117,7 +20117,7 @@ _0806F9CE:
 	cmp r0, #0xd4
 	bne _0806F9E2
 	adds r0, r4, #0
-	bl sub_800DB30
+	bl Player_800DB30
 _0806F9E2:
 	movs r2, #1
 	mov sb, r2
@@ -30190,7 +30190,7 @@ _08074750:
 	cmp r0, #0xd4
 	bne _080747BC
 	adds r0, r6, #0
-	bl sub_800DB30
+	bl Player_800DB30
 _080747BC:
 	ldr r0, _080747D0 @ =0x00000233
 	bl sub_80BA57C

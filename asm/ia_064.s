@@ -431,7 +431,7 @@ _08037594:
 	lsls r0, r0, #8
 	strh r0, [r6, #0x1a]
 	adds r0, r6, #0
-	ldr r1, _08037608 @ =sub_800DB30
+	ldr r1, _08037608 @ =Player_800DB30
 	bl SetPlayerCallback
 	ldr r0, _0803760C @ =0x0000024D
 	bl sub_8003DF0
@@ -465,7 +465,7 @@ _080375F8: .4byte 0xFFFFFA00
 _080375FC: .4byte 0xFFFFFB00
 _08037600: .4byte gCurTask
 _08037604: .4byte sub_80379F4
-_08037608: .4byte sub_800DB30
+_08037608: .4byte Player_800DB30
 _0803760C: .4byte 0x0000024D
 _08037610: .4byte gPlayers
 _08037614:

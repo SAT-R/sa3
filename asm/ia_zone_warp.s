@@ -371,7 +371,7 @@ sub_802D9A8: @ 0x0802D9A8
 	cmp r0, #0
 	beq _0802DA18
 _0802D9F4:
-	ldr r1, _0802DA10 @ =sub_800DB30
+	ldr r1, _0802DA10 @ =Player_800DB30
 	adds r0, r4, #0
 	bl SetPlayerCallback
 	ldr r1, [r6]
@@ -382,7 +382,7 @@ _0802D9F4:
 _0802DA04: .4byte gStageData
 _0802DA08: .4byte gPlayers
 _0802DA0C: .4byte gCurTask
-_0802DA10: .4byte sub_800DB30
+_0802DA10: .4byte Player_800DB30
 _0802DA14: .4byte sub_802DADC
 _0802DA18:
 	lsls r0, r2, #0x10

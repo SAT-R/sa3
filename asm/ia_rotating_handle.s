@@ -713,7 +713,7 @@ _080328CE:
 	orrs r0, r1
 	strb r0, [r2]
 	adds r0, r5, #0
-	ldr r1, _08032914 @ =sub_800DB30
+	ldr r1, _08032914 @ =Player_800DB30
 	bl SetPlayerCallback
 	ldr r0, [r5, #4]
 	ldr r1, _08032918 @ =0xEFFFFFF7
@@ -739,7 +739,7 @@ _080328CE:
 	b _080329DC
 	.align 2, 0
 _08032910: .4byte gStageData
-_08032914: .4byte sub_800DB30
+_08032914: .4byte Player_800DB30
 _08032918: .4byte 0xEFFFFFF7
 _0803291C: .4byte gCurTask
 _08032920: .4byte sub_8032A8C

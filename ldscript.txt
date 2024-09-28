@@ -68,6 +68,7 @@ SECTIONS {
         build/sa3/src/game/interactables/bonus_ufo.o(.text);
         build/sa3/asm/ia_death_crusher.o(.text);
         build/sa3/src/game/interactables/platform_on_a_path.o(.text);
+        build/sa3/src/game/interactables/platform_propelled.o(.text);
         build/sa3/asm/ia_platform_propelled.o(.text);
         build/sa3/asm/ia_platform_maybe_falling_ob.o(.text);
         build/sa3/asm/ia_suction.o(.text);

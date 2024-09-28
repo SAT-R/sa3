@@ -356,7 +356,7 @@ _08046CF4:
 	adds r0, #0x26
 	strb r4, [r0]
 	adds r0, r5, #0
-	ldr r1, _08046D20 @ =sub_800DB30
+	ldr r1, _08046D20 @ =Player_800DB30
 	bl SetPlayerCallback
 	b _08046DEE
 	.align 2, 0
@@ -365,7 +365,7 @@ _08046D10: .4byte Player_800ED80
 _08046D14: .4byte sub_800E5CC
 _08046D18: .4byte gStageData
 _08046D1C: .4byte 0xEFFFFFFF
-_08046D20: .4byte sub_800DB30
+_08046D20: .4byte Player_800DB30
 _08046D24:
 	movs r1, #0
 	ldrsb r1, [r3, r1]

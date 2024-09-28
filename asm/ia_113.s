@@ -466,12 +466,12 @@ _0804731E:
 	orrs r1, r0
 	str r1, [r6, #4]
 	adds r0, r6, #0
-	ldr r1, _08047360 @ =sub_800DB30
+	ldr r1, _08047360 @ =Player_800DB30
 	bl SetPlayerCallback
 	b _08047654
 	.align 2, 0
 _0804735C: .4byte 0xFFFFF800
-_08047360: .4byte sub_800DB30
+_08047360: .4byte Player_800DB30
 _08047364:
 	movs r2, #0x80
 	lsls r2, r2, #9
