@@ -169,7 +169,7 @@ typedef struct {
     /* 0x10 */ s16 x;
     /* 0x12 */ s16 y;
     /* 0x14 */ s16 oamFlags; // bit 6-10: OAM order index
-    /* 0x16 */ s16 timeUntilNextFrame; // Q_8_8, in frames
+    /* 0x16 */ s16 qAnimDelay; // Q_8_8, in frames
     /* 0x18 */ u16 prevAnim;
     /* 0x1A */ u8 variant;
     /* 0x1B */ u8 prevVariant;
@@ -283,7 +283,7 @@ s16 sub_80BF30C(s16 x, s16 y);
         (_sprite)->prevVariant = (_sprite)->variant;                                                                                       \
         (_sprite)->prevAnim = (_sprite)->graphics.anim;                                                                                    \
         (_sprite)->animCursor = 0;                                                                                                         \
-        (_sprite)->timeUntilNextFrame = 0;                                                                                                 \
+        (_sprite)->qAnimDelay = 0;                                                                                                         \
         SPRITE_FLAG_CLEAR(_sprite, ANIM_OVER);                                                                                             \
     }
 
@@ -295,7 +295,7 @@ s16 sub_80BF30C(s16 x, s16 y);
 
 #define SPRITE_INIT_SCRIPT(_sprite, _speed)                                                                                                \
     _sprite->animCursor = 0;                                                                                                               \
-    _sprite->timeUntilNextFrame = 0;                                                                                                       \
+    _sprite->qAnimDelay = 0;                                                                                                               \
     _sprite->prevVariant = -1;                                                                                                             \
     _sprite->animSpeed = SPRITE_ANIM_SPEED(_speed);                                                                                        \
     _sprite->palId = 0;                                                                                                                    \
