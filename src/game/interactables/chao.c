@@ -368,7 +368,7 @@ void sub_804E530(IAChao *chao)
     s->variant = sChaoIATilesInfo[unk70][1];
     s->oamFlags = SPRITE_OAM_ORDER(24);
     s->animCursor = 0;
-    s->timeUntilNextFrame = 0;
+    s->qAnimDelay = 0;
     s->prevVariant = -1;
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
@@ -382,7 +382,7 @@ void sub_804E530(IAChao *chao)
     s2->variant = 0;
     s2->oamFlags = SPRITE_OAM_ORDER(0);
     s2->animCursor = 0;
-    s2->timeUntilNextFrame = 0;
+    s2->qAnimDelay = 0;
     s2->prevVariant = -1;
     s2->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s2->palId = 15;

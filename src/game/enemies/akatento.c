@@ -86,7 +86,7 @@ void sub_80582B0(Akatento *enemy)
     s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region.y) - gCamera.y;
     s->oamFlags = SPRITE_OAM_ORDER(18);
     s->animCursor = 0;
-    s->timeUntilNextFrame = 0;
+    s->qAnimDelay = 0;
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
     s->frameFlags = SPRITE_FLAG(PRIORITY, 1);

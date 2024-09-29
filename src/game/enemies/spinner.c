@@ -55,7 +55,7 @@ void sub_8058C74(Spinner *spinner)
 
     s->oamFlags = SPRITE_OAM_ORDER(18);
     s->animCursor = 0;
-    s->timeUntilNextFrame = 0;
+    s->qAnimDelay = 0;
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
     s->frameFlags = SPRITE_FLAG(PRIORITY, 1);

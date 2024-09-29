@@ -71,7 +71,7 @@ void CreateEntity_PlatformSquare(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     s->oamFlags = SPRITE_OAM_ORDER(24);
     s->animCursor = 0;
-    s->timeUntilNextFrame = 0;
+    s->qAnimDelay = 0;
     s->prevVariant = -1;
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;

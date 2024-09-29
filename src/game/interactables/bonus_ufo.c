@@ -278,7 +278,7 @@ void sub_80417F0(BonusUfo *ufo)
         s->variant = ufo->unkB0;
         s->oamFlags = SPRITE_OAM_ORDER(11);
         s->animCursor = 0;
-        s->timeUntilNextFrame = 0;
+        s->qAnimDelay = 0;
         s->prevVariant = -1;
         s->animSpeed = SPRITE_ANIM_SPEED(1.0);
         s->palId = 0;
@@ -296,7 +296,7 @@ void sub_80417F0(BonusUfo *ufo)
         s3->variant = 0;
         s3->oamFlags = SPRITE_OAM_ORDER(12);
         s3->animCursor = 0;
-        s3->timeUntilNextFrame = 0;
+        s3->qAnimDelay = 0;
         s3->prevVariant = -1;
         s3->animSpeed = SPRITE_ANIM_SPEED(1.0);
         s3->palId = 0;

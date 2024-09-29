@@ -104,7 +104,7 @@ NONMATCH("asm/non_matching/game/interactables/sunset_bridge__CreateEntity_Sunset
     s->oamFlags = SPRITE_OAM_ORDER(24);
     s->anim = ANIM_SUNSET_BRIDGE;
     s->variant = 0;
-    s->timeUntilNextFrame = 0;
+    s->qAnimDelay = 0;
     s->prevVariant = -1;
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;

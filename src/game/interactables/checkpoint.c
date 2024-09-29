@@ -116,7 +116,7 @@ void sub_8033C0C(Sprite *s, s16 variant)
     s->variant = ((variant == 0) ? 0 : 2);
     s->oamFlags = SPRITE_OAM_ORDER(24);
     s->animCursor = 0;
-    s->timeUntilNextFrame = 0;
+    s->qAnimDelay = 0;
     s->prevVariant = -1;
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;

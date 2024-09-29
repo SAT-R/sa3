@@ -51,7 +51,7 @@ static inline void InitWaterEffectSprite_inline(WaterCannon *cannon)
     s->variant = 0;
     s->oamFlags = SPRITE_OAM_ORDER(12);
     s->animCursor = 0;
-    s->timeUntilNextFrame = 0;
+    s->qAnimDelay = 0;
     s->prevVariant = -1;
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
@@ -164,7 +164,7 @@ void sub_803F188(WaterCannon *cannon)
     s->oamFlags = SPRITE_OAM_ORDER(12);
     s->animCursor = 0;
     s->animCursor = 0;
-    s->timeUntilNextFrame = 0;
+    s->qAnimDelay = 0;
     s->prevVariant = -1;
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
@@ -263,7 +263,7 @@ void InitWaterEffectSprite(WaterCannon *cannon)
     s->variant = 0;
     s->oamFlags = SPRITE_OAM_ORDER(12);
     s->animCursor = 0;
-    s->timeUntilNextFrame = 0;
+    s->qAnimDelay = 0;
     s->prevVariant = -1;
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;

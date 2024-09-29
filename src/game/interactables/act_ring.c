@@ -138,7 +138,7 @@ void sub_8040B34(ActRing *ring)
     s->variant = act;
     s->oamFlags = SPRITE_OAM_ORDER(24);
     s->animCursor = 0;
-    s->timeUntilNextFrame = 0;
+    s->qAnimDelay = 0;
     s->prevVariant = -1;
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
@@ -153,7 +153,7 @@ void sub_8040B34(ActRing *ring)
         s->variant = 3;
         s->oamFlags = SPRITE_OAM_ORDER(24);
         s->animCursor = 0;
-        s->timeUntilNextFrame = 0;
+        s->qAnimDelay = 0;
         s->prevVariant = -1;
         s->animSpeed = SPRITE_ANIM_SPEED(1.0);
         s->palId = 0;

@@ -125,7 +125,7 @@ void sub_8037CA4(u8 param0, Sprite *s)
     s->variant = ((param0 & 0x1) == 0) ? 0 : 4;
     s->oamFlags = SPRITE_OAM_ORDER(24);
     s->animCursor = 0;
-    s->timeUntilNextFrame = 0;
+    s->qAnimDelay = 0;
     s->prevVariant = -1;
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;

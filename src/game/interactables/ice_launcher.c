@@ -157,7 +157,7 @@ void sub_804B0F8(Sprite *s, s16 param1)
 
     s->oamFlags = SPRITE_OAM_ORDER(12);
     s->animCursor = 0;
-    s->timeUntilNextFrame = 0;
+    s->qAnimDelay = 0;
     s->prevVariant = -1;
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
@@ -257,7 +257,7 @@ void CreateIceShiver(s16 param0, s16 param1, s16 param2, u16 param3, u8 param4)
     s->variant = 0;
     s->oamFlags = SPRITE_OAM_ORDER(8);
     s->animCursor = 0;
-    s->timeUntilNextFrame = 0;
+    s->qAnimDelay = 0;
     s->prevVariant = -1;
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
