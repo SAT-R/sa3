@@ -126,7 +126,6 @@ void Task_Pendulum(void)
         sp08[i] -= ps->dy;
 
         for (j = 0; j < SEGMENTS_PER_PEND; j++) {
-            s32 sinValue;
             ps = &pend->sprSegments[i * SEGMENTS_PER_PEND + j];
 
             ps->dx = ((SIN(pend->qSwingPos[i] & ONE_CYCLE) >> 9) * (j + 1));
