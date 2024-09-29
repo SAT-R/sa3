@@ -1,4 +1,5 @@
 #include "global.h"
+#include "malloc_vram.h"
 #include "module_unclear.h"
 #include "game/camera.h"
 #include "game/entity.h"
@@ -6,6 +7,8 @@
 #include "game/player_callbacks.h"
 #include "game/stage.h"
 
+#include "constants/animations.h"
+#include "constants/anim_sizes.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"
 
@@ -24,7 +27,7 @@ void Task_PlatformPropelled(void);
 void TaskDestructor_PlatformPropelled(struct Task *t);
 void sub_8042930(void);
 void sub_80429D0(void);
-void sub_8042AF0(Sprite *);
+static void InitSprite(Sprite *);
 
 void CreateEntity_PlatformPropelled(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -50,7 +53,7 @@ void CreateEntity_PlatformPropelled(MapEntity *me, u16 regionX, u16 regionY, u8 
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
-    sub_8042AF0(s);
+    InitSprite(s);
 }
 
 void Task_PlatformPropelled(void)
@@ -184,4 +187,66 @@ void sub_8042930(void)
     } else {
         platform->s.variant = 0;
     }
+}
+
+void sub_80429D0(void)
+{
+    PlatformPropelled *platform = TASK_DATA(gCurTask);
+    Sprite *s = &platform->s;
+    MapEntity *me = platform->base.me;
+    s16 worldX, worldY;
+    s32 screenX, screenY;
+    s16 i;
+
+    worldX = TO_WORLD_POS(platform->base.spriteX, platform->base.regionX);
+    worldY = TO_WORLD_POS(me->y, platform->base.regionY);
+    screenX = I(platform->qWorldX) - gCamera.x;
+    s->x = screenX;
+    screenY = I(platform->qWorldY) - gCamera.y;
+    s->y = screenY;
+
+    if (!sub_802C140(worldX, worldY, s->x, s->y)) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            Player *p = (i != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
+
+            sub_80213B0(s, p);
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.spriteX);
+
+        TaskDestroy(gCurTask);
+        return;
+    } else if (sub_802C1F8(s->x, s->y) == TRUE) {
+        UpdateSpriteAnimation(s);
+
+        SPRITE_FLAG_SET(s, X_FLIP);
+        DisplaySprite(s);
+
+        SPRITE_FLAG_CLEAR(s, X_FLIP);
+        DisplaySprite(s);
+    }
+}
+
+void TaskDestructor_PlatformPropelled(struct Task *t)
+{
+    PlatformPropelled *platform = TASK_DATA(t);
+    VramFree(platform->s.tiles);
+}
+
+static void InitSprite(Sprite *s)
+{
+    PlatformPropelled *platform = TASK_DATA(gCurTask);
+
+    s->tiles = ALLOC_TILES(ANIM_PROPELLER_BUTTON_PLATFORM);
+    s->anim = ANIM_PROPELLER_BUTTON_PLATFORM;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->timeUntilNextFrame = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(6.0);
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    UpdateSpriteAnimation(s);
 }
