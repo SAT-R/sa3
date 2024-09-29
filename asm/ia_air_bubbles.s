@@ -5,129 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_AirBubbles
-CreateEntity_AirBubbles: @ 0x0804381C
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #4
-	mov sl, r0
-	adds r5, r1, #0
-	adds r6, r2, #0
-	mov r8, r3
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x10
-	lsrs r6, r6, #0x10
-	mov r0, r8
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	mov r8, r0
-	ldr r0, _08043904 @ =sub_8043918
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _08043908 @ =sub_8043D84
-	str r1, [sp]
-	movs r1, #0x40
-	movs r3, #0
-	bl TaskCreate
-	ldrh r4, [r0, #6]
-	movs r2, #0xc0
-	lsls r2, r2, #0x12
-	adds r2, r4, r2
-	movs r7, #0
-	movs r1, #0
-	mov sb, r1
-	strh r5, [r2, #4]
-	strh r6, [r2, #6]
-	mov r0, sl
-	str r0, [r2]
-	ldrb r0, [r0]
-	strb r0, [r2, #8]
-	mov r1, r8
-	strb r1, [r2, #9]
-	mov r1, sl
-	ldrb r0, [r1]
-	lsls r0, r0, #3
-	lsls r5, r5, #8
-	adds r0, r0, r5
-	strh r0, [r2, #0xa]
-	ldrb r0, [r1, #1]
-	lsls r0, r0, #3
-	lsls r6, r6, #8
-	adds r0, r0, r6
-	strh r0, [r2, #0xc]
-	ldr r0, _0804390C @ =gStageData
-	ldrb r1, [r0, #6]
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	ldr r3, _08043910 @ =gPlayers
-	adds r0, r0, r3
-	str r0, [r2, #0x10]
-	adds r0, #0x2b
-	ldrb r1, [r0]
-	lsls r1, r1, #0x1e
-	lsrs r1, r1, #0x1e
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	adds r0, r0, r3
-	str r0, [r2, #0x14]
-	ldr r0, _08043914 @ =0x03000018
-	adds r4, r4, r0
-	movs r0, #1
-	bl VramMalloc
-	str r0, [r4]
-	movs r0, #0xc0
-	lsls r0, r0, #2
-	strh r0, [r4, #0x14]
-	adds r0, #0x9e
-	strh r0, [r4, #0xc]
-	movs r0, #1
-	strb r0, [r4, #0x1a]
-	mov r1, sb
-	strh r1, [r4, #0x16]
-	movs r0, #0xff
-	strb r0, [r4, #0x1b]
-	movs r0, #0x10
-	strb r0, [r4, #0x1c]
-	strb r7, [r4, #0x1f]
-	strh r1, [r4, #0x10]
-	strh r1, [r4, #0x12]
-	movs r0, #0x80
-	lsls r0, r0, #5
-	str r0, [r4, #8]
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	mov r1, sl
-	strb r0, [r1]
-	add sp, #4
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08043904: .4byte sub_8043918
-_08043908: .4byte sub_8043D84
-_0804390C: .4byte gStageData
-_08043910: .4byte gPlayers
-_08043914: .4byte 0x03000018
+.if 0
+.endif
 
-	thumb_func_start sub_8043918
-sub_8043918: @ 0x08043918
+	thumb_func_start Task_AirBubbles
+Task_AirBubbles: @ 0x08043918
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -681,8 +563,8 @@ _08043D74:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_8043D84
-sub_8043D84: @ 0x08043D84
+	thumb_func_start TaskDestructor_AirBubbles
+TaskDestructor_AirBubbles: @ 0x08043D84
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
