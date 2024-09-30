@@ -111,8 +111,7 @@ void Task_AirBubbles(void)
     sub_8043A00();
 }
 
-// (90.22%) https://decomp.me/scratch/i6oLk
-NONMATCH("asm/non_matching/game/interactables/air_bubbles__sub_8043A00.inc", void sub_8043A00(void))
+void sub_8043A00(void)
 {
     AirBubbles *bubbles = TASK_DATA(gCurTask);
     Sprite *s = &bubbles->s;
@@ -126,25 +125,25 @@ NONMATCH("asm/non_matching/game/interactables/air_bubbles__sub_8043A00.inc", voi
     screenX = bubbles->worldX - gCamera.x;
     screenY = bubbles->worldY - gCamera.y;
 
-    timer7 = gStageData.timer * 7;
-    timer7 %= 1024u;
+    timer7 = CLAMP_SIN_PERIOD(gStageData.timer * 7);
+    timer21 = CLAMP_SIN_PERIOD(gStageData.timer * 21);
 
-    timer21 = gStageData.timer * 21;
+    // Required for match??
     timer21 %= 1024u;
 
     UpdateSpriteAnimation(s);
 
-    for (k = 0, j = 0, i = 0; i < 8; i++, j += 0x80, k += 0x138) {
+    for(k = 0, j = 0, i = 0; i < 8; i++, j += 0x80, k += 0x138)
+    {
         s32 sx, sy;
 
-        sx = (SIN((timer7 + j) % SIN_PERIOD));
+        sx = (SIN(CLAMP_SIN_PERIOD(timer7 + j)));
         s->x = screenX + (sx >> 11);
-        sy = (COS((timer21 + k) % SIN_PERIOD) * 5);
+        sy = (COS(CLAMP_SIN_PERIOD(timer21 + k)) * 5);
         s->y = screenY + (s16)(sy >> 14);
         DisplaySprite(s);
     }
 }
-END_NONMATCH
 
 void CreateBigAirBubble(s16 worldX, s16 worldY, u8 variant)
 {
