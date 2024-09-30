@@ -311,8 +311,8 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable066
     .4byte CreateEntity_Interactable067
     .4byte CreateEntity_Interactable068
-    .4byte CreateEntity_Interactable069
-    .4byte CreateEntity_Interactable070
+    .4byte CreateEntity_PlatformCrumblingA
+    .4byte CreateEntity_PlatformCrumblingB
     .4byte CreateEntity_Interactable071 @ 071 - Same code as 028
     .4byte CreateEntity_Interactable072
     .4byte CreateEntity_Interactable073

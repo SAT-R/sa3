@@ -133,8 +133,7 @@ void sub_8043A00(void)
 
     UpdateSpriteAnimation(s);
 
-    for(k = 0, j = 0, i = 0; i < 8; i++, j += 0x80, k += 0x138)
-    {
+    for (k = 0, j = 0, i = 0; i < 8; i++, j += 0x80, k += 0x138) {
         s32 sx, sy;
 
         sx = (SIN(CLAMP_SIN_PERIOD(timer7 + j)));

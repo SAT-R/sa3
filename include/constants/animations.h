@@ -58,7 +58,7 @@
 #define ANIM_ROTATING_HANDLE          874
 #define ANIM_CHECKPOINT               875
 #define ANIM_HANG_HANDLE              876
-#define ANIM_PLATFORM_1_2             877
+#define ANIM_PLATFORM_CRUMBLING_1     877
 #define ANIM_TRAMPOLINE               878
 #define ANIM_PLATFORM_WITH_SWITCH_W01 879
 #define ANIM_SPRING_WITH_SWITCH       880
@@ -75,6 +75,7 @@
 #define ANIM_SUNSET_BRIDGE            892
 #define ANIM_WAGGLE_COIL              894
 
+#define ANIM_PLATFORM_CRUMBLING_2      896
 #define ANIM_PLATFORM_SH               897
 #define ANIM_PLATFORM_ON_A_PATH_3      898
 #define ANIM_BREAKABLE_WALL_3          899
@@ -84,8 +85,8 @@
 #define ANIM_DEATH_CRUSHER_SPIKED      903
 #define ANIM_PLATFORM_3                904
 #define ANIM_DEATH_CRUSHER             905
-#define ANIM_PLATFORM_CRUMBLE_3_IDLE   906
-#define ANIM_PLATFORM_CRUMBLE_3        907
+#define ANIM_PLATFORM_CRUMBLING_3_IDLE 906 // Might instead be ANIM_PLATFORM_FALLING_3 ?
+#define ANIM_PLATFORM_CRUMBLING_3      907
 #define ANIM_PROPELLER_BUTTON_PLATFORM 908
 #define ANIM_PLATFORM_SQUARE_3         909
 #define ANIM_WATER_CANNON              910
@@ -113,7 +114,7 @@
 #define ANIM_PLATFORM_CA               932
 #define ANIM_FALL_PLATFORM_CA          933
 #define ANIM_WATER_CANNON_SPLASH       934
-#define ANIM_PLATFORM_CRUMBLE_CA       935
+#define ANIM_PLATFORM_CRUMBLING_7      935
 #define ANIM_SPRING_6                  936
 #define ANIM_PLATFORM_CRUMBLING_6      938
 #define ANIM_SPRING_PLATFORM_6         939
@@ -132,21 +133,23 @@
 #define ANIM_PENDULUM_CYBER       943
 #define ANIM_MUD_FX               945
 
-#define ANIM_GOAL_RING          948
-#define ANIM_BREAKABLE_WALL_4   953
-#define ANIM_BREAKABLE_WALL_5   954
-#define ANIM_BREAKABLE_WALL_6   966
-#define ANIM_PLATFORM_CRUMBLE_6 967
-#define ANIM_SEESAW_3           968
-#define ANIM_PLATFORM_TS        974
-#define ANIM_TOY_BALLOON_POPPED 976
-#define ANIM_OMOCHAO0           977
-#define ANIM_OMOCHAO1           978
-#define ANIM_OMOCHAO2           979
-#define ANIM_OMOCHAO3           980
-#define ANIM_OMOCHAO4           981
-#define ANIM_OMOCHAO5           982
-#define ANIM_ACT_RING           983
+#define ANIM_GOAL_RING            948
+#define ANIM_PLATFORM_CRUMBLING_4 951
+#define ANIM_PLATFORM_CRUMBLING_5 952
+#define ANIM_BREAKABLE_WALL_4     953
+#define ANIM_BREAKABLE_WALL_5     954
+#define ANIM_BREAKABLE_WALL_6     966
+#define ANIM_PLATFORM_CRUMBLE_6   967
+#define ANIM_SEESAW_3             968
+#define ANIM_PLATFORM_TS          974
+#define ANIM_TOY_BALLOON_POPPED   976
+#define ANIM_OMOCHAO0             977
+#define ANIM_OMOCHAO1             978
+#define ANIM_OMOCHAO2             979
+#define ANIM_OMOCHAO3             980
+#define ANIM_OMOCHAO4             981
+#define ANIM_OMOCHAO5             982
+#define ANIM_ACT_RING             983
 /* ANIM_ACT_RINGS:
     0=Act 1
     1=Act 2

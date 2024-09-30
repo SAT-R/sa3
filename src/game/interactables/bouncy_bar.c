@@ -79,11 +79,7 @@ static void Task_BouncyBarIdle(void)
             Player *p;
 
             if (bar->unk35 == 0) {
-                if (i == 0) {
-                    p = &gPlayers[gStageData.charId];
-                } else {
-                    p = &gPlayers[p->charFlags.partnerIndex];
-                }
+                p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
 
                 if (((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) && !sub_802C0D4(p)) {
                     if (((p->callback != Player_8008A8C) && (p->callback != Player_800ED80))
