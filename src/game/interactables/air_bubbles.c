@@ -1,3 +1,4 @@
+#include <string.h> // memcpy
 #include "global.h"
 #include "trig.h"
 #include "malloc_vram.h"
@@ -9,6 +10,8 @@
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
+#include "constants/move_states.h"
+#include "constants/songs.h"
 
 typedef struct {
     /* 0x00 */ MapEntity *me;
@@ -26,17 +29,17 @@ typedef struct {
     /* 0x00 */ s32 qWorldX;
     /* 0x04 */ s32 qWorldY;
     /* 0x08 */ u8 unk8;
-    /* 0x09 */ u8 id;
     /* 0x0C */ Player *ps[NUM_SINGLE_PLAYER_CHARS];
     /* 0x14 */ Sprite s;
-} AirBubbleBig; /* 0x3C */
+} BigAirBubble; /* 0x3C */
 
 void Task_AirBubbles(void);
 void sub_8043A00(void);
 void CreateBigAirBubble(s16 worldX, s16 worldY, u8 variant);
-void Task_AirBubbleBig(void);
+void Task_BigAirBubble(void);
 void TaskDestructor_AirBubbles(struct Task *);
-void TaskDestructor_AirBubbleBig(struct Task *);
+void sub_8043D98(void);
+void TaskDestructor_BigAirBubble(struct Task *);
 
 void CreateEntity_AirBubbles(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -145,8 +148,8 @@ END_NONMATCH
 
 void CreateBigAirBubble(s16 worldX, s16 worldY, u8 variant)
 {
-    struct Task *t = TaskCreate(Task_AirBubbleBig, sizeof(AirBubbleBig), 0x2100, 0, TaskDestructor_AirBubbleBig);
-    AirBubbleBig *bubble = TASK_DATA(t);
+    struct Task *t = TaskCreate(Task_BigAirBubble, sizeof(BigAirBubble), 0x2100, 0, TaskDestructor_BigAirBubble);
+    BigAirBubble *bubble = TASK_DATA(t);
     Sprite *s;
     void *tiles;
 
@@ -172,4 +175,114 @@ void CreateBigAirBubble(s16 worldX, s16 worldY, u8 variant)
     s->y = 0;
     s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
     UpdateSpriteAnimation(s);
+}
+
+// (95.27%) https://decomp.me/scratch/h2YEn
+NONMATCH("asm/non_matching/game/interactables/air_bubbles__Task_BigAirBubble.inc", void Task_BigAirBubble(void))
+{
+    BigAirBubble *bubble = TASK_DATA(gCurTask);
+    Sprite *s = &bubble->s;
+    u8 r8 = 0; // TODO: rename to 'variant'
+    Player *p;
+    u8 *ptr;
+    s16 worldX, worldY;
+
+    worldX = I(bubble->qWorldX);
+    worldY = I(bubble->qWorldY);
+
+    if (s->variant != 1) {
+        if (!sub_8004E20(worldX, worldY - 8, NULL)) {
+            TaskDestroy(gCurTask);
+            return;
+        }
+        p = bubble->ps[0];
+
+        {
+            s8 sp0C[4] = { -p->unk24, -p->unk25, +p->unk24, +p->unk25 };
+
+            if (!sub_802C080(p) && (p->moveState & MOVESTATE_IN_AIR)) {
+                if (sub_8020A58(s, 0, worldX, worldY, &sp0C, p, r8)) {
+                    r8 = 1;
+                    sub_8016D04(p);
+                }
+            }
+        }
+        // _08043C82
+
+        if (r8 == 0) {
+            if (bubble->unk8 < 5) {
+                bubble->unk8++;
+
+                if (bubble->unk8 == 5) {
+                    s->variant = r8;
+                    s->prevVariant = -1;
+                }
+            }
+            // _08043CA2
+
+            if (gStageData.unk4 != 4) {
+                // _08043CA2+0x8
+                s8 timeVal = (gStageData.timer * 3);
+                s32 qWorldY = bubble->qWorldY - Q(0.6875);
+                bubble->qWorldY = qWorldY - timeVal;
+
+                // goto _08043D14_sine
+                bubble->qWorldX += SIN_24_8((gStageData.timer * 27) % SIN_PERIOD);
+            }
+        } else {
+            TaskDestroy(gCurTask);
+            return;
+        }
+    } else {
+        // _08043CD4
+
+        if (!sub_8004E20(worldX, worldY, NULL)) {
+            TaskDestroy(gCurTask);
+            return;
+        }
+        // _08043CF0
+
+        if (gStageData.unk4 != 4) {
+            // _08043CA2+0x8
+            s8 timeVal = (gStageData.timer * 7);
+            s32 qWorldY = bubble->qWorldY - Q(0.6875);
+            bubble->qWorldY = qWorldY - timeVal;
+
+            // goto _08043D14_sine
+            bubble->qWorldX += SIN_24_8((gStageData.timer * 57) % SIN_PERIOD);
+        }
+    }
+    // _08043D2A
+    worldX = I(bubble->qWorldX);
+    worldY = I(bubble->qWorldY);
+    if (!sub_802C140(worldX, worldY, worldX - gCamera.x, worldY - gCamera.y)) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    sub_8043D98();
+}
+END_NONMATCH
+
+void TaskDestructor_AirBubbles(struct Task *t)
+{
+    AirBubbles *bubbles = TASK_DATA(t);
+    VramFree(bubbles->s.tiles);
+}
+
+void sub_8043D98()
+{
+    BigAirBubble *bubble = TASK_DATA(gCurTask);
+    Sprite *s = &bubble->s;
+
+    s->x = I(bubble->qWorldX) - gCamera.x;
+    s->y = I(bubble->qWorldY) - gCamera.y;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void TaskDestructor_BigAirBubble(struct Task *t)
+{
+    BigAirBubble *bubble = TASK_DATA(t);
+    VramFree(bubble->s.tiles);
 }

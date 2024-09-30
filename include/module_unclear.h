@@ -53,6 +53,7 @@ s32 sub_8012550(Player *);
 void sub_8012FE0(Player *);
 
 void Player_80149E4(Player *p);
+void sub_8016D04(Player *p); // Player_RestoreAir? (it's only called by Air Bubbles)
 void sub_8016F28(Player *p);
 void sub_8019A58(Player *p);
 void sub_8019A64(Player *p);
@@ -62,6 +63,7 @@ extern bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, 
 // Collision - 'p5' might be hitbox ID?
 extern u32 sub_8020874(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5, u8 p6);
 u32 sub_8020950(Sprite *s, s32 worldX, s32 worldY, Player *p, u8 param4);
+bool32 sub_8020A58(Sprite *s, s16 param1, s32 worldX, s32 worldY, void *param4, Player *p, u8 param6);
 bool32 sub_8020CE0(Sprite *s, s32 worldX, s32 worldY, u16 param3, Player *p);
 
 void sub_80213B0(Sprite *s, Player *p);

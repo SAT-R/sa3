@@ -72,7 +72,6 @@ SECTIONS {
         build/sa3/asm/ia_platform_maybe_falling_ob.o(.text);
         build/sa3/asm/ia_suction.o(.text);
         build/sa3/src/game/interactables/air_bubbles.o(.text);
-        build/sa3/asm/ia_air_bubbles.o(.text);
         build/sa3/asm/ia_ice_spike.o(.text);
         build/sa3/src/game/interactables/platform_square.o(.text);
         build/sa3/src/game/interactables/sunset_bridge.o(.text);

@@ -67317,6 +67317,7 @@ _08020A48:
 	pop {r1}
 	bx r1
 	.align 2, 0
+
     @ Collision?
 	thumb_func_start sub_8020A58
 sub_8020A58: @ 0x08020A58
@@ -67330,7 +67331,7 @@ sub_8020A58: @ 0x08020A58
 	mov sl, r2
 	str r3, [sp, #4]
 	ldr r0, [sp, #0x3c]
-	mov ip, r0
+	mov ip, r0              @ ip = Player *
 	ldr r0, [sp, #0x40]
 	lsls r1, r1, #0x10
 	lsrs r2, r1, #0x10
@@ -67373,7 +67374,7 @@ _08020AA6:
 	str r0, [sp, #0x14]
 	adds r3, r0, #0
 	add r3, sl
-	ldr r5, [sp, #0x38]
+	ldr r5, [sp, #0x38]     @ r5 = void *param4
 	movs r0, #0
 	ldrsb r0, [r5, r0]
 	mov r5, sb
@@ -90794,6 +90795,8 @@ _0802C138:
 	bx r0
 	.align 2, 0
 
+@ TODO/MATCHING: It doesn't look like it here, but maybe this gets s16 params?
+@                It gets called with s16s in some places. (e.g. Task_BigAirBubble)
 	thumb_func_start sub_802C140
 sub_802C140: @ 0x0802C140
 	push {r4, r5, lr}
