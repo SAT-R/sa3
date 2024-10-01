@@ -262,11 +262,9 @@
 #define SE_PROPELLER_BUTTON    0x253
 #define SE_WATER_CANNON        0x255
 #define SE_ROCKET_ACCELERATING 0x256
-
-#define SE_599 0x257
-
-// Also used for Toy Balloon in Toy Kingdom
-#define SE_MINECART_DESTROYED 0x258
+#define SE_599                 0x257
+#define SE_MINECART_DESTROYED  0x258 // Also used for Toy Balloon in Toy Kingdom
+#define SE_SPRING_IN_A_BOX     0x259
 
 #define SE_PENDULUM_HIT 0x25B
 

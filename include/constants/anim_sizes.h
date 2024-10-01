@@ -95,6 +95,10 @@
 #define ANIM_TOY_BALLOON_WIDTH  32
 #define ANIM_TOY_BALLOON_HEIGHT 48
 
+// 918 (x-mirrored)
+#define ANIM_SPRING_IN_A_BOX_WIDTH  (64 / 2)
+#define ANIM_SPRING_IN_A_BOX_HEIGHT 64
+
 // 920
 #define ANIM_PENDULUM_WIDTH       40
 #define ANIM_PENDULUM_HEIGHT      40
@@ -103,8 +107,7 @@
 #define ANIM_PENDULUM_VAR1_WIDTH  8
 #define ANIM_PENDULUM_VAR1_HEIGHT 8
 
-// 921
-// Mirrored on X-axis
+// 921 (x-mirrored)
 #define ANIM_PLATFORM_SPIKED_WIDTH  32
 #define ANIM_PLATFORM_SPIKED_HEIGHT 48
 

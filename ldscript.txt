@@ -75,6 +75,7 @@ SECTIONS {
         build/sa3/src/game/interactables/platform_square.o(.text);
         build/sa3/src/game/interactables/sunset_bridge.o(.text);
         build/sa3/src/game/interactables/platform_spiked.o(.text);
+        build/sa3/src/game/interactables/spring_in_a_box.o(.text);
         build/sa3/asm/ia_spring_in_a_box.o(.text);
         build/sa3/asm/ia_rocket.o(.text);
         build/sa3/asm/ia_ferris_wheel.o(.text);

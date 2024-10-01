@@ -21,7 +21,7 @@ typedef struct {
     /* 0x3C */ u16 unk3C;
     /* 0x3E */ u16 unk3E;
     /* 0x40 */ u8 unk40;
-    /* 0x41 */ u8 unk41;
+    /* 0x41 */ u8 unk41; // fallìngSpeedMult?
     /* 0x42 */ u8 unk42;
     /* 0x43 */ u8 unk43;
 } PlatformCrumbling;
