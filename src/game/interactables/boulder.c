@@ -1,4 +1,5 @@
 #include "global.h"
+#include "trig.h"
 #include "malloc_vram.h"
 #include "module_unclear.h"
 #include "game/camera.h"
@@ -36,6 +37,7 @@ void sub_8049CA8(void);
 void sub_8049D70(void);
 void sub_8049FD0(void);
 void sub_804A0B0(Boulder *);
+void sub_804A104(Boulder *);
 void sub_804A1E0(void);
 void TaskDestructor_Boulder(struct Task *);
 
@@ -184,4 +186,125 @@ void sub_8049CA8(void)
 
     boulder->qWorldX += boulder->qUnk6C;
     boulder->qWorldY += boulder->qUnk70;
+}
+
+// TODO: Fix register fakematch
+void sub_8049D70(void)
+{
+    Boulder *boulder = TASK_DATA(gCurTask);
+    u8 r8_0 = boulder->unk7B;
+#ifndef NON_MATCHING
+    register u32 r8 asm("r1");
+#else
+    u32 r8;
+#endif
+    u8 sp08[4];
+    s32 sl;
+    u32 theta;
+    s32 sinVal, cosVal;
+    s32 res;
+
+    sp08[0] = r8_0;
+
+    theta = (r8_0 * 4);
+    sinVal = (SIN(theta) * 5) >> 4;
+    cosVal = (COS(theta) * 5) >> 4;
+
+    r8 = (u8)(r8_0 + 0x20);
+    sp08[0] = r8;
+
+    sl = 8;
+
+    if (boulder->unk7A == 1) {
+        sl = 4;
+    }
+
+    switch (sp08[0] >> 6) {
+        case 0: {
+            res = sub_80517FC(I(boulder->qWorldY + cosVal), I(boulder->qWorldX), 1, +8, sp08, sub_805217C);
+            if (res < sl) {
+                boulder->qWorldY += Q(res);
+
+                if (!GetBit(sp08[0], 0)) {
+                    boulder->unk7B = sp08[0];
+                }
+            }
+        } break;
+
+        case 1: {
+            res = sub_80517FC(I(boulder->qWorldX + sinVal), I(boulder->qWorldY + cosVal), 1, -8, sp08, sub_805203C);
+            if (res < 4) {
+                boulder->qWorldX -= Q(res);
+
+                if (!GetBit(sp08[0], 0)) {
+                    boulder->unk7B = sp08[0];
+                }
+            }
+
+        } break;
+
+        case 2: {
+            res = sub_80517FC(I(boulder->qWorldY + cosVal), I(boulder->qWorldX + sinVal), 1, -8, sp08, sub_805217C);
+            if (res < 4) {
+                boulder->qWorldY -= Q(res);
+
+                if (!GetBit(sp08[0], 0)) {
+                    boulder->unk7B = sp08[0];
+                }
+            }
+        } break;
+
+        case 3: {
+            res = sub_80517FC(I(boulder->qWorldX + sinVal), I(boulder->qWorldY + cosVal), 1, +8, sp08, sub_805203C);
+            if (res < 4) {
+                boulder->qWorldX += Q(res);
+
+                if (!GetBit(sp08[0], 0)) {
+                    boulder->unk7B = sp08[0];
+                }
+            }
+        } break;
+    }
+
+    if (boulder->unk7A == 2) {
+
+        s32 resN = sub_80517FC(I(boulder->qWorldX - cosVal), I(boulder->qWorldY), 1, -8, sp08, sub_805203C);
+        s32 resP = sub_80517FC(I(boulder->qWorldX + cosVal), I(boulder->qWorldY), 1, +8, sp08, sub_805203C);
+
+        if (resN < 0 || resP < 0) {
+            boulder->unk7A = 4;
+            boulder->unk68 = 0;
+            boulder->qUnk6C = 0;
+            boulder->qUnk70 = 0;
+
+            sub_804A104(boulder);
+            sub_8003DF0(SE_BOULDER);
+        }
+
+        if (res > 16) {
+            boulder->unk7A = 3;
+        }
+    } else if (boulder->unk7A == 3 || boulder->unk7A == 1) {
+        if (res <= 0) {
+            if (boulder->unk7A == 1) {
+                boulder->unk7A = 2;
+                boulder->unk68 = 0;
+                boulder->qUnk6C = 0;
+                boulder->qUnk70 = 0;
+            } else {
+                boulder->unk7A = 4;
+                boulder->unk68 = 0;
+                boulder->qUnk6C = 0;
+                boulder->qUnk70 = 0;
+
+                sub_804A104(boulder);
+                sub_8003DF0(SE_BOULDER);
+            }
+        }
+    }
+
+    if (!IsPointInScreenRect(I(boulder->qWorldX), I(boulder->qWorldY))) {
+        boulder->unk7A = 5;
+        sub_8003E28(SE_BOULDER);
+    }
 }
