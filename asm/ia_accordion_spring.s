@@ -377,7 +377,7 @@ _0803F834:
 _0803F838:
 	strh r0, [r4, #0x1a]
 	adds r0, r4, #0
-	bl sub_8009E8C
+	bl Player_8009E8C
 	b _0803F858
 _0803F842:
 	strh r1, [r4, #0x1a]
@@ -472,7 +472,7 @@ _0803F8D4:
 	lsls r0, r0, #8
 	strh r0, [r4, #0x1a]
 	adds r0, r4, #0
-	bl sub_8009E8C
+	bl Player_8009E8C
 _0803F8F4:
 	adds r0, r5, #1
 	lsls r0, r0, #0x18

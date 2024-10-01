@@ -4,10 +4,12 @@
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/player.h"
+#include "game/player_callbacks.h"
 #include "game/stage.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
+#include "constants/move_states.h"
 #include "constants/songs.h"
 
 typedef struct {
@@ -142,4 +144,134 @@ void Task_SpringInABox(void)
     }
 
     sub_8045B40(spring);
+}
+
+void Task_80458FC(void)
+{
+    SpringInABox *spring = TASK_DATA(gCurTask);
+    MapEntity *me = spring->me;
+    Sprite *s = &spring->s;
+    Player *p;
+    s16 worldX, worldY;
+    u8 i;
+    s16 j;
+
+    worldX = spring->worldX;
+    worldY = spring->worldY;
+
+    for (i = 0; i < (s32)ARRAY_COUNT(spring->ps); i++) {
+        if (!sub_802C080(spring->ps[i])) {
+            u32 res = sub_8045A5C(spring, spring->ps[i]);
+            if (res & 0x10000) {
+                if (s->variant == 1) {
+                    sub_80213F0(spring->ps[i]);
+                } else {
+                    spring->ps[i]->qSpeedAirY = -Q(6) - (spring->unk10 * 32);
+                    spring->ps[i]->charFlags.unk2C_04 = 1;
+                    Player_8009E8C(spring->ps[i]);
+                }
+            }
+        }
+    }
+
+    if (--spring->unkF == 0) {
+        if (gStageData.timer & 0x40) {
+            s->variant = 2;
+        } else {
+            s->variant = 0;
+        }
+        s->prevVariant = -1;
+
+        gCurTask->main = Task_SpringInABox;
+    }
+
+    if (!IsPointInScreenRect(worldX, worldY)) {
+        for (j = 0; j < 2; j++) {
+            p = (j != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
+
+            sub_80213B0(s, p);
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spring->spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        sub_8045B40(spring);
+    }
+}
+
+u32 sub_8045A5C(SpringInABox *spring, Player *p)
+{
+    Sprite *s = &spring->s;
+    u32 res = sub_8020950(s, spring->worldX, spring->worldY, p, 0);
+
+    if (res & 0x10000) {
+        p->qWorldY += Q_8_8(res + 1);
+    } else if (res & 0x20000) {
+        p->qWorldY += Q(1) + Q_8_8(res);
+        p->qSpeedAirY = 0;
+    } else if (res & 0x40000) {
+        p->qWorldX += (s16)(res & 0xFF00);
+
+        if (p->qSpeedAirX < 0) {
+            p->qSpeedAirX = 0;
+        }
+
+        p->qSpeedGround = 0;
+
+        if (p->keyInput & DPAD_LEFT) {
+            p->qWorldX -= Q(1);
+            p->moveState |= MOVESTATE_40;
+        }
+    } else if (res & 0x80000) {
+        p->qWorldX += (s16)(res & 0xFF00);
+
+        if (p->qSpeedAirX > 0) {
+            p->qSpeedAirX = 0;
+        }
+        p->qSpeedGround = 0;
+
+        if (p->keyInput & DPAD_RIGHT) {
+            p->qWorldX += Q(1);
+            p->moveState |= MOVESTATE_40;
+        }
+    }
+
+    return res;
+}
+
+void sub_8045B40(SpringInABox *spring)
+{
+    Sprite *s = &spring->s;
+    s16 x, y;
+    s32 x_2, y_2;
+
+    if (spring->unkE != 0) {
+        u32 timer = gStageData.timer;
+
+        x = (timer & 0x2) ? -1 : +1;
+        y = (timer & 0x4) ? -1 : +1;
+    } else {
+        x = 0;
+        y = 0;
+    }
+
+    s->x = (spring->worldX + x) - gCamera.x;
+    ;
+    s->y = (spring->worldY + y) - gCamera.y;
+
+    if ((s->x < DISPLAY_WIDTH + 16) && (s->x > -16) && (s->y < DISPLAY_HEIGHT + 30) && (s->y > 0)) {
+        UpdateSpriteAnimation(s);
+
+        SPRITE_FLAG_SET(s, X_FLIP);
+        DisplaySprite(s);
+        SPRITE_FLAG_CLEAR(s, X_FLIP);
+        DisplaySprite(s);
+    }
+}
+
+void TaskDestructor_SpringInABox(struct Task *t)
+{
+    SpringInABox *spring = TASK_DATA(t);
+    VramFree(spring->s.tiles);
 }

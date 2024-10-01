@@ -370,7 +370,7 @@ _08045EC0:
 	cmp r1, #0
 	beq _08045EEC
 	adds r0, r4, #0
-	bl sub_8009E8C
+	bl Player_8009E8C
 	ldr r0, [r4, #4]
 	ldr r1, _08045F2C @ =0xEFFFFFFF
 	ands r0, r1
@@ -725,7 +725,7 @@ _08046186:
 	cmp r1, #0
 	beq _080461C0
 	adds r0, r4, #0
-	bl sub_8009E8C
+	bl Player_8009E8C
 	ldr r1, [r4, #4]
 	ldr r0, _08046268 @ =0xEFFFFFFF
 	ands r1, r0
@@ -789,7 +789,7 @@ _08046208:
 	cmp r1, #0
 	beq _08046242
 	adds r0, r4, #0
-	bl sub_8009E8C
+	bl Player_8009E8C
 	ldr r1, [r4, #4]
 	ldr r0, _08046268 @ =0xEFFFFFFF
 	ands r1, r0

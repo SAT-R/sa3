@@ -19983,8 +19983,8 @@ _08009E54:
 _08009E84: .4byte gUnknown_080CF468
 _08009E88: .4byte 0xFFFFBFFF
 
-	thumb_func_start sub_8009E8C
-sub_8009E8C: @ 0x08009E8C
+	thumb_func_start Player_8009E8C
+Player_8009E8C: @ 0x08009E8C
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	ldr r1, [r4, #4]
