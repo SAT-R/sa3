@@ -201,7 +201,7 @@ _0802F808:
     bne _0802F832
 _0802F822:
     adds r0, r4, #0
-    bl sub_8012FE0
+    bl Player_8012FE0
     movs r0, #0x18
     strh r0, [r4, #0x30]
     adds r0, r4, #0

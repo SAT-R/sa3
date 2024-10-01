@@ -268,7 +268,7 @@ void Task_Platform()
                             if (sub_8012368(p) < 0) {
                                 sub_8008E38(p);
                             } else if (!(p->moveState & MOVESTATE_IN_AIR)) {
-                                sub_8012FE0(p);
+                                Player_8012FE0(p);
 
                                 p->charFlags.anim0 = 24;
                                 Player_800DAF4(p);
@@ -480,7 +480,7 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F368.inc", void 
                         }
                     } else if ((p->charFlags.anim0 == 238) || (p->charFlags.anim0 == 239) || (p->charFlags.anim0 == 244)
                                || (p->charFlags.anim0 == 245)) {
-                        sub_8012FE0(p);
+                        Player_8012FE0(p);
 
                         p->charFlags.anim0 = 24;
                         Player_800DAF4(p);
@@ -611,7 +611,7 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F698.inc", void 
                         }
                     } else if ((p->charFlags.anim0 == 238) || (p->charFlags.anim0 == 239) || (p->charFlags.anim0 == 244)
                                || (p->charFlags.anim0 == 245)) {
-                        sub_8012FE0(p);
+                        Player_8012FE0(p);
 
                         p->charFlags.anim0 = 24;
                         Player_800DAF4(p);

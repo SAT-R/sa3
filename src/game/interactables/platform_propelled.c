@@ -135,7 +135,7 @@ void Task_PlatformPropelled(void)
                 } else {
                     if ((p->charFlags.anim0 == 238) || (p->charFlags.anim0 == 239) || (p->charFlags.anim0 == 244)
                         || (p->charFlags.anim0 == 245)) {
-                        sub_8012FE0(p);
+                        Player_8012FE0(p);
                         p->charFlags.anim0 = 24;
                         Player_800DAF4(p);
                     }

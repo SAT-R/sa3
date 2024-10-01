@@ -1,5 +1,6 @@
 #include "global.h"
 #include "malloc_vram.h"
+#include "module_unclear.h"
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/player.h"
@@ -30,6 +31,8 @@ typedef struct {
 } Boulder;
 
 void Task_Boulder(void);
+void sub_8049CA8(void);
+void sub_804A1E0(void);
 void sub_804A0B0(Boulder *);
 void TaskDestructor_Boulder(struct Task *);
 
@@ -64,4 +67,75 @@ void CreateEntity_Boulder(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     SET_MAP_ENTITY_INITIALIZED(me);
 
     sub_804A0B0(boulder);
+}
+
+void Task_Boulder(void)
+{
+    Boulder *boulder = TASK_DATA(gCurTask);
+    Player *p;
+    Sprite *s;
+    s16 i;
+    u32 res;
+
+    boulder->unk78 = (gStageData.timer % 64u);
+
+    // TODO: Solve this condition more sensibly!
+    if (((*(u32 *)&boulder->unk78) & 0x00FFFFFF) == 0) {
+        boulder->unk68 = 0;
+        boulder->unk6C = 0;
+        boulder->unk70 = 0;
+        boulder->unk7A = 1;
+
+        s = &boulder->s;
+
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+
+            res = sub_8020874(s, I(boulder->qWorldX), I(boulder->qWorldY), 0, p, 0, 0);
+            if (res) {
+                if (!(p->moveState & (MOVESTATE_1000000))) {
+                    sub_8008E38(p);
+                }
+            }
+        }
+    }
+
+    if (boulder->unk7A == 1 || boulder->unk7A == 2 || boulder->unk7A == 3) {
+        s = &boulder->s;
+
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+
+            if (!sub_802C080(p)) {
+                s32 res = sub_8020874(s, I(boulder->qWorldX), I(boulder->qWorldY), 0, p, 0, 0);
+
+                if (res) {
+                    if (res & 0x10000) {
+                        p->qWorldY += Q_8_8(res);
+                    } else {
+                        p->qWorldX += Q_8_8((s16)res >> 8);
+                    }
+
+                    if ((p->charFlags.anim0 == 238) || (p->charFlags.anim0 == 239) || (p->charFlags.anim0 == 244)
+                        || (p->charFlags.anim0 == 245)) {
+                        Player_8012FE0(p);
+                        p->charFlags.anim0 = 24;
+
+                        Player_800DAF4(p);
+                    }
+
+                    res = sub_80517FC(I(boulder->qWorldY), I(boulder->qWorldX), 1, 8, NULL, sub_805217C);
+
+                    if (res < 0) {
+                        p->qWorldY += Q_8_8((s16)res >> 8);
+                    }
+
+                    sub_8014550(p);
+                }
+            }
+        }
+    }
+
+    sub_8049CA8();
+    sub_804A1E0();
 }
