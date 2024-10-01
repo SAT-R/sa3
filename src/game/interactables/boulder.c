@@ -21,19 +21,22 @@ typedef struct {
     /* 0x60 */ s32 qWorldX;
     /* 0x64 */ s32 qWorldY;
     /* 0x68 */ s32 unk68;
-    /* 0x6C */ s32 unk6C;
-    /* 0x70 */ s32 unk70;
+    /* 0x6C */ s32 qUnk6C;
+    /* 0x70 */ s32 qUnk70;
     /* 0x74 */ void *tiles;
     /* 0x78 */ s16 unk78;
     /* 0x7A */ u8 unk7A;
     /* 0x7B */ u8 unk7B;
-    /* 0x7C */ u8 filler7C[0x14];
+    /* 0x7C */ u8 unk7C;
+    /* 0x7D */ u8 filler7C[0x13];
 } Boulder;
 
 void Task_Boulder(void);
 void sub_8049CA8(void);
-void sub_804A1E0(void);
+void sub_8049D70(void);
+void sub_8049FD0(void);
 void sub_804A0B0(Boulder *);
+void sub_804A1E0(void);
 void TaskDestructor_Boulder(struct Task *);
 
 void CreateEntity_Boulder(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -53,8 +56,8 @@ void CreateEntity_Boulder(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     boulder->qWorldX = Q(boulder->worldX);
     boulder->qWorldY = Q(boulder->worldY);
     boulder->unk68 = 0;
-    boulder->unk6C = 0;
-    boulder->unk70 = 0;
+    boulder->qUnk6C = 0;
+    boulder->qUnk70 = 0;
     boulder->unk78 = 0;
     boulder->unk7A = 0;
     boulder->unk7B = 0;
@@ -82,8 +85,8 @@ void Task_Boulder(void)
     // TODO: Solve this condition more sensibly!
     if (((*(u32 *)&boulder->unk78) & 0x00FFFFFF) == 0) {
         boulder->unk68 = 0;
-        boulder->unk6C = 0;
-        boulder->unk70 = 0;
+        boulder->qUnk6C = 0;
+        boulder->qUnk70 = 0;
         boulder->unk7A = 1;
 
         s = &boulder->s;
@@ -138,4 +141,47 @@ void Task_Boulder(void)
 
     sub_8049CA8();
     sub_804A1E0();
+}
+
+void sub_8049CA8(void)
+{
+    Boulder *boulder = TASK_DATA(gCurTask);
+
+    switch (boulder->unk7A) {
+        case 0: {
+            sub_8003E28(SE_BOULDER);
+            sub_804A0B0(boulder);
+        } break;
+
+        case 1:
+        case 2:
+        case 3: {
+            sub_8049D70();
+            sub_8049FD0();
+        } break;
+
+        case 4: {
+            boulder->unk68 = 0;
+            boulder->qUnk6C = 0;
+            boulder->qUnk70 = 0;
+            boulder->unk7B = 0;
+
+            if (boulder->unk7C & 0x20) {
+                boulder->unk7A = 5;
+            }
+        } break;
+
+        case 5: {
+            boulder->qWorldX = Q(boulder->worldX);
+            boulder->qWorldY = Q(boulder->worldY);
+            boulder->unk68 = 0;
+            boulder->qUnk6C = 0;
+            boulder->qUnk70 = 0;
+            boulder->unk7A = 0;
+            boulder->unk7B = 0;
+        } break;
+    }
+
+    boulder->qWorldX += boulder->qUnk6C;
+    boulder->qWorldY += boulder->qUnk70;
 }
