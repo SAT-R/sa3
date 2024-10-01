@@ -5,117 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable121
-CreateEntity_Interactable121: @ 0x080499FC
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	sub sp, #4
-	mov r8, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _08049AC4 @ =sub_8049AE4
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _08049AC8 @ =sub_804A3D8
-	str r1, [sp]
-	movs r1, #0x90
-	movs r3, #0
-	bl TaskCreate
-	ldrh r3, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r3, r0
-	movs r1, #0
-	mov sb, r1
-	movs r2, #0
-	strh r4, [r0, #4]
-	strh r5, [r0, #6]
-	mov r7, r8
-	str r7, [r0]
-	ldrb r1, [r7]
-	strb r1, [r0, #0xa]
-	strb r6, [r0, #0xb]
-	ldrb r1, [r7]
-	lsls r1, r1, #3
-	lsls r4, r4, #8
-	adds r1, r1, r4
-	ldr r4, _08049ACC @ =0x0300005C
-	adds r6, r3, r4
-	strh r1, [r6]
-	ldrb r1, [r7, #1]
-	lsls r1, r1, #3
-	lsls r5, r5, #8
-	adds r1, r1, r5
-	ldr r7, _08049AD0 @ =0x0300005E
-	adds r5, r3, r7
-	strh r1, [r5]
-	movs r4, #0
-	ldrsh r1, [r6, r4]
-	lsls r1, r1, #8
-	str r1, [r0, #0x60]
-	movs r7, #0
-	ldrsh r1, [r5, r7]
-	lsls r1, r1, #8
-	str r1, [r0, #0x64]
-	str r2, [r0, #0x68]
-	str r2, [r0, #0x6c]
-	str r2, [r0, #0x70]
-	ldr r4, _08049AD4 @ =0x03000078
-	adds r1, r3, r4
-	strh r2, [r1]
-	ldr r7, _08049AD8 @ =0x0300007A
-	adds r1, r3, r7
-	mov r4, sb
-	strb r4, [r1]
-	adds r7, #1
-	adds r1, r3, r7
-	strb r4, [r1]
-	str r2, [r0, #0x74]
-	ldr r1, _08049ADC @ =0x0300000C
-	adds r3, r3, r1
-	ldr r4, _08049AE0 @ =gCamera
-	ldr r2, [r4]
-	ldrh r1, [r6]
-	subs r1, r1, r2
-	strh r1, [r3, #0x10]
-	ldr r2, [r4, #4]
-	ldrh r1, [r5]
-	subs r1, r1, r2
-	strh r1, [r3, #0x12]
-	movs r2, #2
-	rsbs r2, r2, #0
-	adds r1, r2, #0
-	mov r4, r8
-	strb r1, [r4]
-	bl sub_804A0B0
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08049AC4: .4byte sub_8049AE4
-_08049AC8: .4byte sub_804A3D8
-_08049ACC: .4byte 0x0300005C
-_08049AD0: .4byte 0x0300005E
-_08049AD4: .4byte 0x03000078
-_08049AD8: .4byte 0x0300007A
-_08049ADC: .4byte 0x0300000C
-_08049AE0: .4byte gCamera
+.if 0
+.endif
 
-	thumb_func_start sub_8049AE4
-sub_8049AE4: @ 0x08049AE4
+	thumb_func_start Task_Boulder
+Task_Boulder: @ 0x08049AE4
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0xc
 	ldr r0, _08049B30 @ =gCurTask
@@ -1263,8 +1157,8 @@ _0804A3C4:
 	.align 2, 0
 _0804A3D4: .4byte gCamera
 
-	thumb_func_start sub_804A3D8
-sub_804A3D8: @ 0x0804A3D8
+	thumb_func_start TaskDestructor_Boulder
+TaskDestructor_Boulder: @ 0x0804A3D8
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0
