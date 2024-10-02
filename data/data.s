@@ -338,7 +338,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable093
     .4byte CreateEntity_Interactable094
     .4byte CreateEntity_Interactable095 
-    .4byte CreateEntity_Boulder         @ 096 - ActRing and ZoneWarp are 2 IAs
+    .4byte CreateEntity_ActRing         @ 096 - ActRing and ZoneWarp are 2 IAs
     .4byte CreateEntity_SpecialSpring
     .4byte CreateEntity_FactoryRing
     .4byte CreateEntity_BonusUfo
