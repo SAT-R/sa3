@@ -107,6 +107,13 @@ typedef void (*VoidFn)(void);
 
 #define Q_24_8_MULTIPLY(intVal, floatVal) Q_24_8_TO_INT((intVal)*Q_24_8(floatVal))
 
+// Multiplies two Q values
+#define Q_MUL(qValA, qValB)         ((qValA * qValB) >> 8)
+#define Q_SQUARE(qVal)              Q_MUL(qVal, qVal)
+#define Q_DIV(qValA, qValB)         Div((qValA << 8), qValB)
+#define Q_DIV2(qValA, qValB)        ((qValA << 8) / qValB)
+#define Q_MUL_Q_F32(qVal, floatVal) Q_MUL(qVal, Q(floatVal))
+
 /*
  * Aliases for common macros
  */

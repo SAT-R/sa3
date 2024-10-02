@@ -5,285 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
-	thumb_func_start sub_8049FD0
-sub_8049FD0: @ 0x08049FD0
-	push {r4, r5, r6, lr}
-	ldr r0, _0804A004 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r5, r1, r0
-	ldr r2, _0804A008 @ =0x0300007A
-	adds r0, r1, r2
-	ldrb r0, [r0]
-	cmp r0, #2
-	bne _0804A078
-	ldr r6, _0804A00C @ =0x0300007B
-	adds r0, r1, r6
-	ldrb r0, [r0]
-	lsls r1, r0, #0x10
-	asrs r2, r1, #0x10
-	cmp r2, #0
-	beq _0804A010
-	cmp r2, #0x40
-	bgt _0804A010
-	ldr r0, [r5, #0x68]
-	adds r0, #4
-	str r0, [r5, #0x68]
-	adds r6, r1, #0
-	b _0804A020
-	.align 2, 0
-_0804A004: .4byte gCurTask
-_0804A008: .4byte 0x0300007A
-_0804A00C: .4byte 0x0300007B
-_0804A010:
-	lsls r0, r0, #0x10
-	asrs r1, r0, #0x10
-	adds r6, r0, #0
-	cmp r1, #0xbf
-	ble _0804A020
-	ldr r0, [r5, #0x68]
-	subs r0, #4
-	str r0, [r5, #0x68]
-_0804A020:
-	ldr r0, [r5, #0x68]
-	cmp r0, #0
-	bge _0804A028
-	rsbs r0, r0, #0
-_0804A028:
-	movs r1, #0x80
-	lsls r1, r1, #4
-	cmp r0, r1
-	ble _0804A042
-	ldr r0, [r5, #0x68]
-	cmp r0, #0
-	bge _0804A040
-	ldr r0, _0804A03C @ =0xFFFFF800
-	str r0, [r5, #0x68]
-	b _0804A042
-	.align 2, 0
-_0804A03C: .4byte 0xFFFFF800
-_0804A040:
-	str r1, [r5, #0x68]
-_0804A042:
-	ldr r4, [r5, #0x68]
-	lsls r2, r4, #0x10
-	asrs r2, r2, #0x10
-	ldr r3, _0804A074 @ =gSineTable
-	asrs r1, r6, #0x10
-	lsls r0, r1, #3
-	movs r6, #0x80
-	lsls r6, r6, #2
-	adds r0, r0, r6
-	adds r0, r0, r3
-	ldrh r0, [r0]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x16
-	muls r0, r2, r0
-	asrs r0, r0, #8
-	str r0, [r5, #0x6c]
-	lsls r1, r1, #3
-	adds r1, r1, r3
-	ldrh r0, [r1]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x16
-	muls r0, r2, r0
-	asrs r0, r0, #8
-	str r0, [r5, #0x70]
-	b _0804A08A
-	.align 2, 0
-_0804A074: .4byte gSineTable
-_0804A078:
-	cmp r0, #1
-	beq _0804A082
-	ldr r4, [r5, #0x68]
-	cmp r0, #3
-	bne _0804A08A
-_0804A082:
-	ldr r0, [r5, #0x70]
-	adds r0, #0x10
-	str r0, [r5, #0x70]
-	ldr r4, [r5, #0x68]
-_0804A08A:
-	cmp r4, #0
-	bge _0804A098
-	ldr r0, [r5, #0x14]
-	movs r1, #0x80
-	lsls r1, r1, #3
-	orrs r0, r1
-	b _0804A0A2
-_0804A098:
-	cmp r4, #0
-	ble _0804A0A4
-	ldr r0, [r5, #0x14]
-	ldr r1, _0804A0AC @ =0xFFFFFBFF
-	ands r0, r1
-_0804A0A2:
-	str r0, [r5, #0x14]
-_0804A0A4:
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804A0AC: .4byte 0xFFFFFBFF
-
-	thumb_func_start sub_804A0B0
-sub_804A0B0: @ 0x0804A0B0
-	push {r4, r5, lr}
-	adds r5, r0, #0
-	adds r4, r5, #0
-	adds r4, #0xc
-	ldr r0, [r5, #0x74]
-	cmp r0, #0
-	bne _0804A0C6
-	movs r0, #0x19
-	bl VramMalloc
-	str r0, [r5, #0x74]
-_0804A0C6:
-	ldr r0, [r5, #0x74]
-	str r0, [r5, #0xc]
-	movs r2, #0
-	movs r1, #0
-	ldr r0, _0804A100 @ =0x000003A1
-	strh r0, [r4, #0xc]
-	strb r2, [r4, #0x1a]
-	movs r0, #0xc0
-	lsls r0, r0, #3
-	strh r0, [r4, #0x14]
-	strh r1, [r4, #0xe]
-	strh r1, [r4, #0x16]
-	movs r0, #0xff
-	strb r0, [r4, #0x1b]
-	movs r0, #0x10
-	strb r0, [r4, #0x1c]
-	strb r2, [r4, #0x1f]
-	subs r0, #0x11
-	str r0, [r4, #0x20]
-	movs r0, #0x80
-	lsls r0, r0, #5
-	str r0, [r4, #8]
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804A100: .4byte 0x000003A1
-
-	thumb_func_start sub_804A104
-sub_804A104: @ 0x0804A104
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #0x10
-	adds r7, r0, #0
-	ldr r1, _0804A1D8 @ =gUnknown_080D03C8
-	mov r0, sp
-	movs r2, #0x10
-	bl memcpy
-	adds r1, r7, #0
-	adds r1, #0xc
-	ldr r0, [r7, #0x74]
-	str r0, [r7, #0xc]
-	movs r5, #0
-	movs r4, #0
-	ldr r0, _0804A1DC @ =0x000003A1
-	mov sl, r0
-	mov r0, sl
-	strh r0, [r1, #0xc]
-	movs r0, #1
-	strb r0, [r1, #0x1a]
-	movs r0, #0x80
-	lsls r0, r0, #2
-	mov sb, r0
-	mov r0, sb
-	strh r0, [r1, #0x14]
-	strh r4, [r1, #0xe]
-	strh r4, [r1, #0x16]
-	movs r0, #0xff
-	strb r0, [r1, #0x1b]
-	movs r0, #0x10
-	mov r8, r0
-	mov r0, r8
-	strb r0, [r1, #0x1c]
-	strb r5, [r1, #0x1f]
-	movs r6, #1
-	rsbs r6, r6, #0
-	str r6, [r1, #0x20]
-	str r4, [r1, #8]
-	adds r0, r1, #0
-	bl UpdateSpriteAnimation
-	adds r1, r7, #0
-	adds r1, #0x34
-	ldr r0, [r7, #0x74]
-	adds r0, #0x80
-	str r0, [r7, #0x34]
-	mov r0, sl
-	strh r0, [r1, #0xc]
-	movs r0, #2
-	strb r0, [r1, #0x1a]
-	mov r0, sb
-	strh r0, [r1, #0x14]
-	strh r4, [r1, #0xe]
-	strh r4, [r1, #0x16]
-	adds r0, r6, #0
-	strb r0, [r1, #0x1b]
-	mov r0, r8
-	strb r0, [r1, #0x1c]
-	strb r5, [r1, #0x1f]
-	str r6, [r1, #0x20]
-	str r4, [r1, #8]
-	adds r0, r1, #0
-	bl UpdateSpriteAnimation
-	adds r0, r7, #0
-	adds r0, #0x7c
-	strb r5, [r0]
-	movs r2, #0
-	adds r5, r7, #0
-	adds r5, #0x7d
-_0804A198:
-	movs r1, #0
-	lsls r4, r2, #0x10
-	asrs r3, r4, #0xe
-_0804A19E:
-	lsls r0, r1, #0x10
-	asrs r0, r0, #0x10
-	adds r1, r0, r3
-	adds r2, r5, r1
-	add r1, sp
-	ldrb r1, [r1]
-	strb r1, [r2]
-	adds r0, #1
-	lsls r0, r0, #0x10
-	lsrs r1, r0, #0x10
-	asrs r0, r0, #0x10
-	cmp r0, #3
-	ble _0804A19E
-	movs r1, #0x80
-	lsls r1, r1, #9
-	adds r0, r4, r1
-	lsrs r2, r0, #0x10
-	asrs r0, r0, #0x10
-	cmp r0, #3
-	ble _0804A198
-	add sp, #0x10
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804A1D8: .4byte gUnknown_080D03C8
-_0804A1DC: .4byte 0x000003A1
-
+.if 01
 	thumb_func_start sub_804A1E0
 sub_804A1E0: @ 0x0804A1E0
 	push {r4, r5, r6, r7, lr}
@@ -299,11 +21,11 @@ sub_804A1E0: @ 0x0804A1E0
 	ldrh r6, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r4, r6, r0
+	adds r4, r6, r0     @ r4 = boulder
 	ldr r2, _0804A264 @ =0x0300000C
-	adds r7, r6, r2
+	adds r7, r6, r2     @ r7 = s
 	ldr r3, [r4]
-	mov sl, r3
+	mov sl, r3          @ sl = me
 	ldr r1, _0804A268 @ =0x0300005C
 	adds r0, r6, r1
 	movs r2, #0
@@ -326,11 +48,11 @@ _0804A220:
 	lsrs r1, r1, #0x10
 	lsls r0, r0, #0x10
 	str r0, [sp]
-	asrs r5, r0, #0x10
+	asrs r5, r0, #0x10      @ r5 = worldX
 	lsls r1, r1, #0x10
 	str r1, [sp, #4]
 	asrs r1, r1, #0x10
-	mov r8, r1
+	mov r8, r1              @ r8 = worldY
 	adds r0, r5, #0
 	bl IsPointInScreenRect
 	cmp r0, #1
@@ -370,31 +92,31 @@ _0804A27C:
 	ands r1, r0
 	lsls r1, r1, #0x18
 	lsrs r1, r1, #0x19
-	mov sl, r1
+	mov sl, r1          @ sl = ((boulder->unk7C & 0x2) >> 1);
 	movs r3, #0
 	ldr r0, [sp]
-	mov ip, r0
+	mov ip, r0          @ ip = worldX << 16
 	ldr r1, [sp, #4]
-	str r1, [sp, #8]
+	str r1, [sp, #8]    @ sp08 = worldY << 16
 	adds r2, #1
-	adds r2, r2, r6
-	mov r8, r2
+	adds r2, r2, r6     @
+	mov r8, r2          @ r8 = &boulder->unk7D[0][0]
 	ldr r0, _0804A37C @ =0x0300007F
-	adds r5, r6, r0
+	adds r5, r6, r0     @ r5 = &boulder->unk7D[0][2]
 	ldr r1, _0804A380 @ =0x0300007E
 	adds r1, r6, r1
-	str r1, [sp, #0xc]
+	str r1, [sp, #0xc]  @ sp0C = &boulder->unk7D[0][1]
 	ldr r2, _0804A384 @ =0x03000080
-	adds r4, r6, r2
+	adds r4, r6, r2     @ r4 = &boulder->unk7D[0][3]
 	subs r0, #0x4b
 	adds r0, r0, r6
-	mov sb, r0
+	mov sb, r0          @ sb = &boulder->s2
 _0804A2B4:
 	lsls r1, r3, #1
 	add r1, sl
 	lsls r1, r1, #0x18
 	lsrs r1, r1, #0x16
-	mov r6, r8
+	mov r6, r8          @ r6 = r8 = &boulder->unk7D[0][0]
 	adds r2, r6, r1
 	adds r0, r5, r1
 	ldrb r0, [r0]
@@ -402,8 +124,8 @@ _0804A2B4:
 	adds r0, r0, r6
 	strb r0, [r2]
 	ldr r0, [sp, #0xc]
-	adds r2, r0, r1
-	adds r1, r4, r1
+	adds r2, r0, r1     @ r2 = &boulder->unk7D[i][1]
+	adds r1, r4, r1     @ r1 = &boulder->unk7D[i][3]
 	ldrb r0, [r1]
 	ldrb r6, [r2]
 	adds r0, r0, r6
@@ -422,9 +144,9 @@ _0804A2B4:
 	ldr r2, _0804A388 @ =gCamera
 	ldr r1, [r2]
 	mov r3, ip
-	asrs r5, r3, #0x10
+	asrs r5, r3, #0x10  @ r5 = worldX
 	subs r1, r5, r1
-	mov r6, sl
+	mov r6, sl          @ r6 = sl = ((boulder->unk7C & 0x2) >> 1);
 	lsls r2, r6, #2
 	mov r3, r8
 	adds r0, r3, r2
@@ -436,10 +158,10 @@ _0804A2B4:
 	ldr r6, _0804A388 @ =gCamera
 	ldr r1, [r6, #4]
 	ldr r0, [sp, #8]
-	asrs r4, r0, #0x10
+	asrs r4, r0, #0x10  @ r4 = worldY
 	subs r1, r4, r1
-	ldr r3, [sp, #0xc]
-	adds r2, r3, r2
+	ldr r3, [sp, #0xc]  @ r3 = sp0C = &boulder->unk7D[0][1]
+	adds r2, r3, r2     @ r2 = &boulder->unk7D[sl][1]
 	ldrb r0, [r2]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x19
@@ -457,7 +179,7 @@ _0804A2B4:
 	mov r1, sl
 	adds r1, #2
 	lsls r1, r1, #2
-	mov r2, r8
+	mov r2, r8          @ r2 = r8 = &boulder->unk7D[sl + 2][1]
 	adds r0, r2, r1
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -529,6 +251,7 @@ _0804A3C4:
 	bx r0
 	.align 2, 0
 _0804A3D4: .4byte gCamera
+.endif
 
 	thumb_func_start TaskDestructor_Boulder
 TaskDestructor_Boulder: @ 0x0804A3D8
