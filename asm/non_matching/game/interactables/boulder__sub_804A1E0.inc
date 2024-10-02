@@ -1,13 +1,6 @@
-.include "asm/macros.inc"
-.include "constants/constants.inc"
 
-.text
 .syntax unified
-.arm
-
-.if 01
-	thumb_func_start sub_804A1E0
-sub_804A1E0: @ 0x0804A1E0
+.text
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -251,21 +244,5 @@ _0804A3C4:
 	bx r0
 	.align 2, 0
 _0804A3D4: .4byte gCamera
-.endif
 
-	thumb_func_start TaskDestructor_Boulder
-TaskDestructor_Boulder: @ 0x0804A3D8
-	push {r4, lr}
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r4, r0
-	ldr r0, _0804A3F4 @ =0x00000246
-	bl sub_8003E28
-	ldr r0, [r4, #0x74]
-	bl VramFree
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804A3F4: .4byte 0x00000246
+.syntax divided

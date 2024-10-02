@@ -417,9 +417,8 @@ void InitDebrisSprites(Boulder *boulder)
     }
 }
 
-#if 0
 // (99.90%) https://decomp.me/scratch/8XNhi
-void sub_804A1E0(void)
+NONMATCH("asm/non_matching/game/interactables/boulder__sub_804A1E0.inc", void sub_804A1E0(void))
 {
     bool32 isOnScreen = FALSE;
     Boulder *boulder = TASK_DATA(gCurTask);
@@ -491,4 +490,11 @@ void sub_804A1E0(void)
         DisplaySprite(s);
     }
 }
-#endif
+END_NONMATCH
+
+void TaskDestructor_Boulder(struct Task *t)
+{
+    Boulder *boulder = TASK_DATA(t);
+    sub_8003E28(SE_BOULDER);
+    VramFree(boulder->tiles);
+}
