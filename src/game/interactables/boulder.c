@@ -470,9 +470,8 @@ NONMATCH("asm/non_matching/game/interactables/boulder__sub_804A1E0.inc", void su
 
         s2 = &boulder->s2;
         s2->x = (worldX - gCamera.x) + (boulder->unk7D[sl + 2][0] >> 1);
-        ;
         s2->y = (worldY - gCamera.y) + (boulder->unk7D[sl + 2][1] >> 1);
-        ;
+
         s2->animSpeed = SPRITE_ANIM_SPEED(1.0);
         UpdateSpriteAnimation(s2);
         DisplaySprite(s2);

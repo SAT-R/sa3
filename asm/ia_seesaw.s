@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable063
-CreateEntity_Interactable063: @ 0x08036440
+	thumb_func_start CreateEntity_Seesaw
+CreateEntity_Seesaw: @ 0x08036440
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

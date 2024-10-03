@@ -305,7 +305,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable060
     .4byte CreateEntity_PlatformRaisingWheel
     .4byte CreateEntity_PlatformRaisingWheelPlatform
-    .4byte CreateEntity_Interactable063
+    .4byte CreateEntity_Seesaw
     .4byte CreateEntity_Interactable064
     .4byte CreateEntity_FlatSpring
     .4byte CreateEntity_Interactable066
