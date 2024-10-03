@@ -314,18 +314,18 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_PlatformCrumblingA
     .4byte CreateEntity_PlatformCrumblingB
     .4byte CreateEntity_Interactable071 @ 071 - Same code as 028
-    .4byte CreateEntity_Interactable072
+    .4byte CreateEntity_Interactable072 @ 072 Grind Rail
     .4byte CreateEntity_Interactable073
     .4byte CreateEntity_Interactable074
-    .4byte CreateEntity_Interactable075
-    .4byte CreateEntity_Interactable073 @ 076
-    .4byte CreateEntity_Interactable077
+    .4byte CreateEntity_BonusCapsule
+    .4byte CreateEntity_Interactable073 @ 076 Grind Rail
+    .4byte CreateEntity_Interactable077 @ 077 Grind Rail
     .4byte CreateEntity_Interactable078
-    .4byte CreateEntity_Interactable079
-    .4byte CreateEntity_Interactable080
+    .4byte CreateEntity_Interactable079 @ 079 Grind Rail
+    .4byte CreateEntity_Interactable080 @ 080 Grind Rail
     .4byte CreateEntity_Interactable081
     .4byte CreateEntity_Interactable082
-    .4byte CreateEntity_Interactable083
+    .4byte CreateEntity_BonusGameUI
     .4byte CreateEntity_Interactable084
     .4byte CreateEntity_Interactable085
     .4byte CreateEntity_Interactable085 @ 086

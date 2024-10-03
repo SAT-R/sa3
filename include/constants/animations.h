@@ -212,6 +212,9 @@
 
 #define ANIM_BONUS_CAPSULE 1154
 
+#define ANIM_BONUS_UI_FLOWER 1163
+#define ANIM_BONUS_UI_BAR    1164
+
 // SA3 - Enemies
 #define ANIM_SPINNER  1166
 #define ANIM_CONDOR   1167

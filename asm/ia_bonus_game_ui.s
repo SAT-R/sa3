@@ -5,199 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable083
-CreateEntity_Interactable083: @ 0x0803C214
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	sub sp, #4
-	mov r8, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r1, _0803C384 @ =gUnknown_03001D00
-	movs r0, #0
-	strb r0, [r1]
-	ldr r0, _0803C388 @ =sub_803C600
-	ldr r1, _0803C38C @ =0x0000059C
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r3, _0803C390 @ =sub_803D6D4
-	str r3, [sp]
-	movs r3, #0
-	bl TaskCreate
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r7, r1, r0
-	ldr r0, _0803C394 @ =gUnknown_03000590
-	adds r0, r0, r1
-	mov ip, r0
-	movs r2, #0
-	movs r3, #0
-	strh r4, [r7, #4]
-	strh r5, [r7, #6]
-	mov r4, r8
-	str r4, [r7]
-	ldrb r0, [r4]
-	strb r0, [r7, #0xa]
-	strb r6, [r7, #0xb]
-	strb r2, [r7, #0x16]
-	movs r0, #0xd8
-	strh r0, [r7, #0x12]
-	movs r0, #0xe1
-	lsls r0, r0, #4
-	strh r0, [r7, #0x10]
-	movs r0, #0x3c
-	strb r0, [r7, #0x17]
-	ldr r0, _0803C398 @ =0x030004C8
-	adds r1, r1, r0
-	str r3, [r1]
-	strb r2, [r7, #0x14]
-	strb r2, [r7, #0x15]
-	movs r4, #0
-	ldr r3, _0803C39C @ =gPlayers
-	movs r5, #0x1d
-	rsbs r5, r5, #0
-_0803C28C:
-	adds r1, r7, #0
-	adds r1, #0xc
-	adds r1, r1, r4
-	lsls r0, r4, #2
-	adds r0, r0, r4
-	lsls r0, r0, #2
-	adds r0, r0, r4
-	lsls r0, r0, #4
-	adds r0, r0, r3
-	adds r2, r0, #0
-	adds r2, #0x2b
-	ldrb r0, [r2]
-	lsls r0, r0, #0x1b
-	lsrs r0, r0, #0x1d
-	strb r0, [r1]
-	ldrb r1, [r2]
-	lsls r0, r1, #0x1b
-	lsrs r0, r0, #0x1d
-	cmp r0, #3
-	beq _0803C2BE
-	adds r0, r5, #0
-	ands r0, r1
-	movs r1, #4
-	orrs r0, r1
-	strb r0, [r2]
-_0803C2BE:
-	adds r0, r4, #1
-	lsls r0, r0, #0x18
-	lsrs r4, r0, #0x18
-	cmp r4, #3
-	bls _0803C28C
-	movs r1, #0
-	mov r2, ip
-	strh r1, [r2]
-	movs r0, #2
-	strh r0, [r2, #2]
-	strh r1, [r2, #4]
-	movs r0, #0x80
-	strh r0, [r2, #6]
-	movs r0, #0xff
-	strh r0, [r2, #8]
-	strh r1, [r2, #0xa]
-	movs r4, #2
-	rsbs r4, r4, #0
-	adds r0, r4, #0
-	mov r1, r8
-	strb r0, [r1]
-	movs r2, #0xb2
-	lsls r2, r2, #3
-	adds r0, r7, r2
-	bl ScreenFadeUpdateValues
-	movs r4, #0xd8
-	lsls r4, r4, #2
-	adds r0, r7, r4
-	bl sub_803D47C
-	movs r4, #0
-_0803C2FE:
-	lsls r0, r4, #2
-	adds r0, r0, r4
-	lsls r0, r0, #3
-	adds r0, #0x18
-	adds r0, r7, r0
-	ldr r2, [r7, #0x18]
-	adds r1, r4, #0
-	bl sub_8039D60
-	adds r0, r4, #1
-	lsls r0, r0, #0x18
-	lsrs r4, r0, #0x18
-	cmp r4, #0x14
-	bls _0803C2FE
-	movs r0, #0x20
-	bl VramMalloc
-	mov r8, r0
-	movs r4, #0
-	movs r6, #0
-	movs r5, #0
-	ldr r0, _0803C3A0 @ =0x0000048C
-	mov sb, r0
-_0803C32C:
-	lsls r0, r4, #2
-	adds r0, r0, r4
-	lsls r0, r0, #3
-	movs r1, #0xe2
-	lsls r1, r1, #2
-	adds r0, r0, r1
-	adds r0, r7, r0
-	lsls r1, r4, #7
-	add r1, r8
-	str r1, [r0]
-	strh r5, [r0, #0x14]
-	mov r2, sb
-	strh r2, [r0, #0xc]
-	strb r6, [r0, #0x1a]
-	strh r5, [r0, #0x16]
-	movs r1, #0xff
-	strb r1, [r0, #0x1b]
-	movs r1, #0x10
-	strb r1, [r0, #0x1c]
-	strb r6, [r0, #0x1f]
-	lsls r1, r4, #4
-	adds r1, #0x48
-	strh r1, [r0, #0x10]
-	movs r1, #0x96
-	strh r1, [r0, #0x12]
-	str r5, [r0, #8]
-	bl UpdateSpriteAnimation
-	adds r0, r4, #1
-	lsls r0, r0, #0x18
-	lsrs r4, r0, #0x18
-	cmp r4, #7
-	bls _0803C32C
-	ldr r1, _0803C3A4 @ =gStageData
-	movs r0, #2
-	strb r0, [r1, #4]
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0803C384: .4byte gUnknown_03001D00
-_0803C388: .4byte sub_803C600
-_0803C38C: .4byte 0x0000059C
-_0803C390: .4byte sub_803D6D4
-_0803C394: .4byte gUnknown_03000590
-_0803C398: .4byte 0x030004C8
-_0803C39C: .4byte gPlayers
-_0803C3A0: .4byte 0x0000048C
-_0803C3A4: .4byte gStageData
+.if 0
+.endif
 
 	thumb_func_start sub_803C3A8
 sub_803C3A8: @ 0x0803C3A8
@@ -484,7 +293,7 @@ _0803C5D0:
 	strh r0, [r4, #0x12]
 	ldr r0, _0803C5F8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0803C5FC @ =sub_803C600
+	ldr r0, _0803C5FC @ =Task_BonusGameUIInit
 	str r0, [r1, #8]
 _0803C5EE:
 	bl sub_803D4C8
@@ -493,10 +302,10 @@ _0803C5EE:
 	bx r0
 	.align 2, 0
 _0803C5F8: .4byte gCurTask
-_0803C5FC: .4byte sub_803C600
+_0803C5FC: .4byte Task_BonusGameUIInit
 
-	thumb_func_start sub_803C600
-sub_803C600: @ 0x0803C600
+	thumb_func_start Task_BonusGameUIInit
+Task_BonusGameUIInit: @ 0x0803C600
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -1058,7 +867,7 @@ sub_803CA28: @ 0x0803CA28
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r7, r1, r0
-	ldr r0, _0803CADC @ =gUnknown_03000590
+	ldr r0, _0803CADC @ =0x03000590
 	adds r0, r0, r1
 	mov r8, r0
 	ldrb r1, [r7, #0x16]
@@ -1139,7 +948,7 @@ _0803CAC4:
 	b _0803CAF0
 	.align 2, 0
 _0803CAD8: .4byte gCurTask
-_0803CADC: .4byte gUnknown_03000590
+_0803CADC: .4byte 0x03000590
 _0803CAE0: .4byte gUnknown_03001D00
 _0803CAE4: .4byte gStageData
 _0803CAE8: .4byte gPlayers
@@ -1658,7 +1467,7 @@ sub_803CEE4: @ 0x0803CEE4
 	ldrsh r4, [r1, r3]
 	cmp r4, #0
 	bne _0803CF70
-	ldr r1, _0803CF50 @ =gUnknown_03000590
+	ldr r1, _0803CF50 @ =0x03000590
 	adds r0, r2, r1
 	bl UpdateScreenFade
 	lsls r0, r0, #0x18
@@ -1691,7 +1500,7 @@ sub_803CEE4: @ 0x0803CEE4
 	b _0803CF7E
 	.align 2, 0
 _0803CF4C: .4byte gCurTask
-_0803CF50: .4byte gUnknown_03000590
+_0803CF50: .4byte 0x03000590
 _0803CF54: .4byte 0x0000FFFF
 _0803CF58: .4byte gUnknown_03003F94
 _0803CF5C: .4byte gUnknown_03003D20
@@ -2608,8 +2417,8 @@ sub_803D6C0: @ 0x0803D6C0
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_803D6D4
-sub_803D6D4: @ 0x0803D6D4
+	thumb_func_start TaskDestructor_BonusGameUI
+TaskDestructor_BonusGameUI: @ 0x0803D6D4
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0
