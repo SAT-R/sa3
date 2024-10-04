@@ -1,4 +1,5 @@
 #include "global.h"
+#include "module_unclear.h"
 #include "malloc_vram.h"
 #include "game/camera.h"
 #include "game/entity.h"
@@ -10,6 +11,8 @@
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
+#include "constants/move_states.h"
+#include "constants/songs.h"
 #include "constants/zones.h"
 
 #define NUM_DEFEATABLE_ENEMIES 8
@@ -19,10 +22,19 @@
 #define FIRST_ELEM_X (((DISPLAY_WIDTH / 2) - (BAR_WIDTH / 2)) + ANIM_BONUS_UI_BAR_WIDTH)
 
 typedef struct {
+    /* 0x00 */ Sprite s;
+    /* 0x28 */ s32 qUnk28;
+    /* 0x2C */ s32 qUnk2C;
+    /* 0x30 */ s16 unk30;
+    /* 0x32 */ s16 unk32;
+    /* 0x34 */ u8 unk34;
+} BonusFlower; /* 0x38 */
+
+typedef struct {
     /* 0x000 */ SpriteBase base;
     /* 0x00C */ u8 unkC[4];
     /* 0x010 */ u16 timer;
-    /* 0x012 */ u16 unk12;
+    /* 0x012 */ s16 unk12;
     /* 0x014 */ u8 unk14;
     /* 0x015 */ u8 unk15;
     /* 0x016 */ u8 unk16;
@@ -40,7 +52,9 @@ typedef struct {
 
 void Task_BonusGameUIInit(void);
 void TaskDestructor_BonusGameUI(struct Task *);
+void Task_BonusFlower_803C4A0(void);
 void sub_803D47C(Sprite *s);
+void sub_803D4C8(void);
 
 // TODO: Merge ia_bonus_capsule and bonus_game_UI?
 extern void sub_8039D60(Sprite *, u8 i, void *tiles);
@@ -118,4 +132,100 @@ void CreateEntity_BonusGameUI(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     }
 
     gStageData.unk4 = 2;
+}
+
+void Task_BonusFlower_803C3A8(void)
+{
+    s32 r3 = 0;
+    BonusFlower *flower = TASK_DATA(gCurTask);
+    Sprite *s = &flower->s;
+    s32 checkY;
+
+    if (flower->unk34 == 0) {
+        flower->qUnk28 += Q(0.1875);
+        flower->qUnk2C += flower->qUnk28;
+        SPRITE_FLAG_CLEAR(s, Y_FLIP);
+
+        checkY = Q(flower->unk32 + 16);
+        if (flower->qUnk2C >= checkY) {
+            r3 = sub_8052418(I(flower->qUnk2C), flower->unk30, 1, +8, sub_8051F54);
+        }
+    } else {
+        flower->qUnk28 -= Q(0.1875);
+        flower->qUnk2C += flower->qUnk28;
+        SPRITE_FLAG_SET(s, Y_FLIP);
+
+        checkY = Q(flower->unk32 - 16);
+        if (flower->qUnk2C <= checkY) {
+            r3 = sub_8052418(I(flower->qUnk2C), flower->unk30, 1, -8, sub_8051F54);
+        }
+    }
+
+    if (r3 < 0) {
+        flower->qUnk2C += Q(r3 + 2);
+        flower->qUnk28 = 0;
+        s->variant = 1;
+        s->prevVariant = -1;
+        sub_8003DF0(SE_BONUS_DEFEATED_ENEMY);
+        gCurTask->main = Task_BonusFlower_803C4A0;
+    }
+
+    s->x = flower->unk30 - gCamera.x;
+    s->y = I(flower->qUnk2C) - gCamera.y;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void Task_BonusFlower_803C4A0(void)
+{
+    s32 res = 0;
+    BonusFlower *flower = TASK_DATA(gCurTask);
+    s8 r3;
+    Sprite *s = &flower->s;
+    s32 checkY;
+
+    if (flower->unk34 == 0) {
+        SPRITE_FLAG_CLEAR(s, Y_FLIP);
+
+        res = +sub_8052418(I(flower->qUnk2C), flower->unk30, 1, +8, sub_8051F54);
+    } else {
+        SPRITE_FLAG_SET(s, Y_FLIP);
+
+        res = -sub_8052418(I(flower->qUnk2C), flower->unk30, 1, -8, sub_8051F54);
+    }
+
+    if (ABS(res) > 1) {
+        flower->qUnk2C += Q(res);
+        r3 = 0;
+    } else {
+        r3 = res;
+    }
+
+    s->x = flower->unk30 - gCamera.x;
+    s->y = (I(flower->qUnk2C) - gCamera.y) + r3;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void sub_803C560(void)
+{
+    BonusGameUI *ui = TASK_DATA(gCurTask);
+    u8 i;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        Player *p = (i != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
+
+        p->moveState |= MOVESTATE_IGNORE_INPUT;
+    }
+
+    if (ui->unk12 != 0) {
+        ui->unk12--;
+
+        ScreenFadeUpdateValues(&ui->fade);
+    } else if (UpdateScreenFade(&ui->fade) == SCREEN_FADE_COMPLETE) {
+        ui->unk12 = 216;
+        gCurTask->main = Task_BonusGameUIInit;
+    }
+
+    sub_803D4C8();
 }

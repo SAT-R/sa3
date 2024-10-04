@@ -42,12 +42,12 @@ CreateEntity_BonusCapsule: @ 0x08039A3C
 	lsls r2, r2, #0x18
 	lsrs r2, r2, #0x18
 	mov sl, r2
-	ldr r0, _08039C50 @ =Task_Interactable075Main
+	ldr r0, _08039C50 @ =Task_BonusCapsuleMain
 	movs r1, #0xe0
 	lsls r1, r1, #3
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r3, _08039C54 @ =TaskDestructor_Interactable075
+	ldr r3, _08039C54 @ =TaskDestructor_BonusCapsule
 	str r3, [sp]
 	movs r3, #0
 	bl TaskCreate
@@ -286,8 +286,8 @@ _08039C24:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08039C50: .4byte Task_Interactable075Main
-_08039C54: .4byte TaskDestructor_Interactable075
+_08039C50: .4byte Task_BonusCapsuleMain
+_08039C54: .4byte TaskDestructor_BonusCapsule
 _08039C58: .4byte 0x030000B0
 _08039C5C: .4byte gUnknown_030006F0
 _08039C60: .4byte gStageData
@@ -301,8 +301,8 @@ _08039C7C: .4byte gUnknown_03000588
 _08039C80: .4byte 0x03000218
 _08039C84: .4byte gCamera
 
-	thumb_func_start TaskDestructor_Interactable075
-TaskDestructor_Interactable075: @ 0x08039C88
+	thumb_func_start TaskDestructor_BonusCapsule
+TaskDestructor_BonusCapsule: @ 0x08039C88
 	push {r4, r5, r6, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0
@@ -890,7 +890,7 @@ _0803A148:
 	strh r0, [r4, #0x18]
 	ldr r0, _0803A180 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0803A184 @ =Task_Interactable075Main
+	ldr r0, _0803A184 @ =Task_BonusCapsuleMain
 	str r0, [r1, #8]
 _0803A166:
 	movs r0, #0
@@ -904,10 +904,10 @@ _0803A166:
 	bx r0
 	.align 2, 0
 _0803A180: .4byte gCurTask
-_0803A184: .4byte Task_Interactable075Main
+_0803A184: .4byte Task_BonusCapsuleMain
 
-	thumb_func_start Task_Interactable075Main
-Task_Interactable075Main: @ 0x0803A188
+	thumb_func_start Task_BonusCapsuleMain
+Task_BonusCapsuleMain: @ 0x0803A188
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -4983,14 +4983,14 @@ sub_803C12C: @ 0x0803C12C
 	lsrs r5, r5, #0x10
 	lsls r4, r4, #0x10
 	lsrs r4, r4, #0x10
-	ldr r0, _0803C18C @ =sub_803C3A8
+	ldr r0, _0803C18C @ =Task_BonusFlower_803C3A8
 	movs r2, #0x84
 	lsls r2, r2, #6
 	ldr r1, _0803C190 @ =sub_803D6C0
 	str r1, [sp]
 	movs r1, #0x38
 	movs r3, #0
-	bl TaskCreate
+	bl TaskCreate           @ Task data starts with a 'Sprite' struct
 	ldrh r2, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
@@ -5023,7 +5023,7 @@ sub_803C12C: @ 0x0803C12C
 	lsls r0, r0, #2
 	b _0803C1AA
 	.align 2, 0
-_0803C18C: .4byte sub_803C3A8
+_0803C18C: .4byte Task_BonusFlower_803C3A8
 _0803C190: .4byte sub_803D6C0
 _0803C194: .4byte gStageData
 _0803C198: .4byte gPlayers
@@ -5047,7 +5047,7 @@ _0803C1AA:
 	lsls r0, r0, #3
 	strh r0, [r6, #0x14]
 	subs r0, #0xf5
-	strh r0, [r6, #0xc]
+	strh r0, [r6, #0xc]     @ s->anim = ANIM_BONUS_FLOWER
 	strb r2, [r6, #0x1a]
 	strh r1, [r6, #0x16]
 	movs r0, #0xff
