@@ -34,9 +34,6 @@ typedef struct {
 } Platform;
 
 static void InitSprite(u16, u16, Sprite *);
-// typedef s32 (*SomeFunc)(s32, s32, s32, s32);
-s32 sub_8052418(s32, s32, s32, s32, void *);
-s32 sub_8051F54(s32, s32, s32, s32);
 
 extern const u16 sPlatformAnimsDefault[8][3];
 extern const u16 sPlatformAnimsHubworld[7][3];

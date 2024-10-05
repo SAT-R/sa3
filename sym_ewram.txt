@@ -1,16 +1,18 @@
-. = 0x00001400; gSoundInfo = .;
-. = 0x000023B0; gUnknown_020023B0 = .;
-. = 0x000023B4; gUnknown_020023B4 = .;
-. = 0x00002438; gUnknown_02002438 = .;
-. = 0x0000243C; gUnknown_0200243C = .;
-. = 0x00002440; gCgbChans = .;
-. = 0x00002540; gUnknown_02002540 = .;
-. = 0x00002580; gUnknown_02002580 = .;
-. = 0x000025C0; gUnknown_020025C0 = .;
-. = 0x00002600; gMPlayMemAccArea = .;
-. = 0x00002610; gUnknown_02002610 = .;
+. = 0x00001400;
+/*@. = 0x000023B0; gMPlayJumpTable = .;
+@. = 0x000023B4; gUnknown_020023B4 = .;
+@. = 0x00002438; gUnknown_02002438 = .;
+@. = 0x0000243C; gUnknown_0200243C = .;
+@. = 0x00002440; gCgbChans = .;
+@. = 0x00002540; gMPlayInfo_BGM = .;
+@. = 0x00002580; gMPlayInfo_SE1 = .;
+@. = 0x000025C0; gMPlayInfo_SE2 = .;
+@. = 0x00002600; gMPlayMemAccArea = .;
+@. = 0x00002610; gMPlayInfo_SE3 = .;
+@
+@. = 0x00002650;*/
 
-. = 0x00002650;
+build/sa3/src/lib/m4a.o(ewram_data);
 
 build/sa3/src/malloc_ewram.o(ewram_data);
 ewram_end = .;

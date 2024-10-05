@@ -341,7 +341,7 @@ _0804EC48:
 	adds r4, #0x74
 	strb r0, [r4]
 	movs r0, #0x96
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	adds r0, r6, #0
 	adds r0, #0x6c
 	movs r3, #0

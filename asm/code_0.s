@@ -2040,8 +2040,8 @@ sub_8001120: @ 0x08001120
 	str r1, [sp]
 	lsls r5, r5, #0x10
 	lsrs r5, r5, #0x10
-	bl sub_80BA6B0
-	bl sub_80BAB80
+	bl m4aMPlayAllStop
+	bl m4aSoundVSyncOff
 	ldr r0, _08001200 @ =gFlags
 	mov r8, r0
 	ldr r1, [r0]
@@ -2122,7 +2122,7 @@ sub_8001120: @ 0x08001120
 	strh r0, [r7]
 	mov r1, sb
 	strh r6, [r1]
-	bl sub_80BABFC
+	bl m4aSoundVSyncOn
 	mov r2, r8
 	ldr r0, [r2]
 	ldr r1, _08001220 @ =0xFFFF7FFF
@@ -2159,8 +2159,8 @@ sub_8001224: @ 0x08001224
 	adds r5, r0, #0
 	lsls r5, r5, #0x10
 	lsrs r5, r5, #0x10
-	bl sub_80BA6B0
-	bl sub_80BAB80
+	bl m4aMPlayAllStop
+	bl m4aSoundVSyncOff
 	ldr r0, _08001304 @ =gFlags
 	mov r8, r0
 	ldr r1, [r0]
@@ -2242,7 +2242,7 @@ sub_8001224: @ 0x08001224
 	strh r0, [r7]
 	mov r1, sb
 	strh r6, [r1]
-	bl sub_80BABFC
+	bl m4aSoundVSyncOn
 	mov r2, r8
 	ldr r0, [r2]
 	ldr r1, _08001328 @ =0xFFFF7FFF
@@ -4537,7 +4537,7 @@ _080023A4:
 	asrs r1, r1, #0x10
 	cmp r1, #3
 	ble _080023A4
-	bl sub_80BA6B0
+	bl m4aMPlayAllStop
 	bl sub_8003FC8
 	pop {r4, r5}
 	pop {r0}
@@ -4640,7 +4640,7 @@ _080024A4:
 	ble _080024A4
 	bl sub_80299FC
 	movs r0, #0x52
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	add sp, #4
 	pop {r3}
 	mov r8, r3
@@ -5054,7 +5054,7 @@ _08002816:
 _0800281C:
 	bl sub_8022FB0
 	ldr r0, _08002834 @ =0x00000322
-	bl sub_80BA57C
+	bl m4aSongNumStart
 _08002826:
 	add sp, #4
 	pop {r3, r4}
@@ -5684,7 +5684,7 @@ _08002D12:
 	bne _08002D66
 _08002D60:
 	ldr r0, _08002E10 @ =0x00000336
-	bl sub_80BA57C
+	bl m4aSongNumStart
 _08002D66:
 	ldrh r1, [r4]
 	ldr r0, _08002E14 @ =0x00002A30
@@ -5799,7 +5799,7 @@ _08002E34:
 	cmp r0, #0
 	bne _08002E50
 	ldr r0, _08002EBC @ =0x00000249
-	bl sub_80BA57C
+	bl m4aSongNumStart
 _08002E50:
 	ldrh r0, [r4]
 	cmp r0, #0
@@ -5874,7 +5874,7 @@ _08002EC4:
 	cmp r0, #0
 	bne _08002EDE
 	ldr r0, _08002F44 @ =0x00000249
-	bl sub_80BA57C
+	bl m4aSongNumStart
 _08002EDE:
 	ldrh r0, [r4]
 	cmp r0, #0
@@ -6455,7 +6455,7 @@ _08003330:
 	strb r0, [r1, #1]
 _08003358:
 	ldr r0, _080033A4 @ =0x00000325
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	ldr r0, _080033A8 @ =gUnknown_030010C0
 	movs r2, #0
 	strh r2, [r0]
@@ -6809,7 +6809,7 @@ _08003632:
 	lsls r0, r0, #2
 	adds r0, r0, r5
 	ldr r0, [r0]
-	bl sub_80BAD94
+	bl MPlayStop
 	adds r4, #1
 	lsls r4, r4, #0x10
 	lsrs r0, r4, #0x10
@@ -6817,7 +6817,7 @@ _08003632:
 	cmp r4, #3
 	ble _08003632
 	movs r0, #0x8e
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	ldr r1, _08003680 @ =gStageData
 	adds r2, r1, #0
 	adds r2, #0xb9
@@ -6890,9 +6890,9 @@ _080036CE:
 	strb r6, [r0]
 	ldr r0, _08003708 @ =gMPlayTable
 	ldr r0, [r0]
-	bl sub_80BA6DC
+	bl m4aMPlayContinue
 	movs r0, #0x8e
-	bl sub_80BAD94
+	bl MPlayStop
 	ldr r0, [r7]
 	bl TaskDestroy
 	b _08003A08
@@ -7102,9 +7102,9 @@ _08003888:
 _0800389A:
 	ldr r0, _080038C0 @ =gMPlayTable
 	ldr r0, [r0]
-	bl sub_80BA6DC
+	bl m4aMPlayContinue
 	movs r0, #0x8e
-	bl sub_80BAD94
+	bl MPlayStop
 	ldr r0, _080038C4 @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy
@@ -7126,7 +7126,7 @@ _080038CE:
 	ands r0, r1
 	str r0, [r2]
 	movs r0, #0x6a
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	ldrb r0, [r4, #0xa]
 	cmp r0, #0xa
 	bne _08003928
@@ -7431,7 +7431,7 @@ _08003B68:
 	cmp r0, #4
 	bne _08003B74
 	movs r0, #0x95
-	bl sub_80BA57C
+	bl m4aSongNumStart
 _08003B74:
 	ldrh r0, [r4]
 	adds r0, #1
@@ -7770,7 +7770,7 @@ sub_8003DF0: @ 0x08003DF0
 	cmp r0, #2
 	beq _08003E04
 	adds r0, r1, #0
-	bl sub_80BA57C
+	bl m4aSongNumStart
 _08003E04:
 	pop {r0}
 	bx r0
@@ -7787,7 +7787,7 @@ sub_8003E0C: @ 0x08003E0C
 	cmp r0, #2
 	beq _08003E20
 	adds r0, r1, #0
-	bl sub_80BA5F4
+	bl m4aSongNumStartOrContinue
 _08003E20:
 	pop {r0}
 	bx r0
@@ -7805,7 +7805,7 @@ sub_8003E28: @ 0x08003E28
 	cmp r0, #2
 	beq _08003E3C
 	adds r0, r1, #0
-	bl sub_80BA648
+	bl m4aSongNumStop
 _08003E3C:
 	pop {r0}
 	bx r0
@@ -7930,7 +7930,7 @@ sub_8003F40: @ 0x08003F40
 	ldrb r0, [r5, #3]
 	cmp r0, #2
 	beq _08003F7E
-	bl sub_80BA6B0
+	bl m4aMPlayAllStop
 _08003F7E:
 	bl sub_8003FC8
 	pop {r4, r5}
@@ -7962,7 +7962,7 @@ _08003F9E:
 	asrs r4, r4, #0x10
 	cmp r4, #3
 	ble _08003F9E
-	bl sub_80BA6B0
+	bl m4aMPlayAllStop
 	bl sub_8003FC8
 	pop {r4, r5}
 	pop {r0}
@@ -9907,7 +9907,7 @@ sub_8004E98: @ 0x08004E98
 	cmp r0, #2
 	beq _08004ECC
 	adds r0, r4, #0
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	movs r0, #1
 	b _08004ECE
 	.align 2, 0
@@ -9940,7 +9940,7 @@ sub_8004ED4: @ 0x08004ED4
 	cmp r0, #2
 	beq _08004F08
 	adds r0, r4, #0
-	bl sub_80BA5F4
+	bl m4aSongNumStartOrContinue
 	movs r0, #1
 	b _08004F0A
 	.align 2, 0
@@ -9973,7 +9973,7 @@ sub_8004F10: @ 0x08004F10
 	cmp r0, #2
 	beq _08004F38
 	adds r0, r4, #0
-	bl sub_80BA648
+	bl m4aSongNumStop
 _08004F38:
 	pop {r4}
 	pop {r0}
@@ -10103,7 +10103,7 @@ sub_8004FF8: @ 0x08004FF8
 	cmp r0, #2
 	beq _0800505A
 	movs r0, #0x78
-	bl sub_80BA648
+	bl m4aSongNumStop
 	b _0800505A
 	.align 2, 0
 _08005030: .4byte gStageData
@@ -10124,7 +10124,7 @@ _08005038:
 	cmp r0, #2
 	beq _0800505A
 	movs r0, #0xe3
-	bl sub_80BA648
+	bl m4aSongNumStop
 _0800505A:
 	pop {r0}
 	bx r0
@@ -18708,12 +18708,12 @@ _08009412:
 	adds r1, #0xbb
 	movs r0, #7
 	strb r0, [r1]
-	ldr r0, _08009504 @ =gUnknown_02002580
-	bl sub_80BAD94
-	ldr r0, _08009508 @ =gUnknown_020025C0
-	bl sub_80BAD94
-	ldr r0, _0800950C @ =gUnknown_02002610
-	bl sub_80BAD94
+	ldr r0, _08009504 @ =gMPlayInfo_SE1
+	bl MPlayStop
+	ldr r0, _08009508 @ =gMPlayInfo_SE2
+	bl MPlayStop
+	ldr r0, _0800950C @ =gMPlayInfo_SE3
+	bl MPlayStop
 	mov r2, r8
 	ldrb r1, [r2]
 	lsls r1, r1, #0x1e
@@ -18823,9 +18823,9 @@ _080094EE:
 	bx r0
 	.align 2, 0
 _08009500: .4byte Player_800522C
-_08009504: .4byte gUnknown_02002580
-_08009508: .4byte gUnknown_020025C0
-_0800950C: .4byte gUnknown_02002610
+_08009504: .4byte gMPlayInfo_SE1
+_08009508: .4byte gMPlayInfo_SE2
+_0800950C: .4byte gMPlayInfo_SE3
 _08009510: .4byte gPlayers
 _08009514: .4byte gCamera
 
@@ -19010,12 +19010,12 @@ _0800967C:
 	.align 2, 0
 _08009690: .4byte sub_8002388
 _08009694:
-	ldr r0, _0800976C @ =gUnknown_02002580
-	bl sub_80BAD94
-	ldr r0, _08009770 @ =gUnknown_020025C0
-	bl sub_80BAD94
-	ldr r0, _08009774 @ =gUnknown_02002610
-	bl sub_80BAD94
+	ldr r0, _0800976C @ =gMPlayInfo_SE1
+	bl MPlayStop
+	ldr r0, _08009770 @ =gMPlayInfo_SE2
+	bl MPlayStop
+	ldr r0, _08009774 @ =gMPlayInfo_SE3
+	bl MPlayStop
 	adds r4, r5, #0
 	adds r4, #0x2b
 	ldrb r1, [r4]
@@ -19117,9 +19117,9 @@ _08009764:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0800976C: .4byte gUnknown_02002580
-_08009770: .4byte gUnknown_020025C0
-_08009774: .4byte gUnknown_02002610
+_0800976C: .4byte gMPlayInfo_SE1
+_08009770: .4byte gMPlayInfo_SE2
+_08009774: .4byte gMPlayInfo_SE3
 _08009778: .4byte Player_800522C
 _0800977C: .4byte gCamera
 
@@ -30886,7 +30886,7 @@ sub_800F378: @ 0x0800F378
 	adds r0, r4, #0
 	bl sub_8019A64
 	movs r0, #0x70
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	ldr r5, _0800F3E4 @ =sub_800F3E8
 	adds r0, r4, #0
 	adds r1, r5, #0
@@ -31635,7 +31635,7 @@ _0800F96C:
 	movs r0, #1
 	strb r0, [r6, #8]
 	ldr r0, _0800F988 @ =0x0000021F
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	ldr r1, _0800F98C @ =sub_8010FE0
 	b _0800F992
 	.align 2, 0
@@ -31689,7 +31689,7 @@ sub_800F9C0: @ 0x0800F9C0
 	movs r0, #0
 	strb r0, [r2, #2]
 	ldr r0, _0800FA14 @ =0x00000242
-	bl sub_80BA57C
+	bl m4aSongNumStart
 _0800F9EC:
 	movs r0, #0xa6
 	lsls r0, r0, #1
@@ -33951,7 +33951,7 @@ sub_8010AA0: @ 0x08010AA0
 	strh r0, [r4, #0x18]
 	strh r2, [r4, #0x1a]
 	ldr r0, _08010ADC @ =0x0000021F
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	ldr r5, _08010AE0 @ =sub_8010AE4
 	adds r0, r4, #0
 	adds r1, r5, #0
@@ -34084,7 +34084,7 @@ sub_8010BBC: @ 0x08010BBC
 	strh r0, [r4, #0x18]
 	strh r1, [r4, #0x1a]
 	ldr r0, _08010BFC @ =0x00000242
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	movs r0, #0xa6
 	lsls r0, r0, #1
 	adds r2, r4, r0
@@ -34125,7 +34125,7 @@ sub_8010C04: @ 0x08010C04
 	strh r0, [r2, #8]
 	strb r3, [r2, #0xa]
 	ldr r0, _08010C50 @ =0x00000242
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	movs r0, #0xa6
 	lsls r0, r0, #1
 	adds r2, r4, r0
@@ -34267,7 +34267,7 @@ sub_8010D28: @ 0x08010D28
 	strh r0, [r4, #0x18]
 	strh r1, [r4, #0x1a]
 	ldr r0, _08010D68 @ =0x00000242
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	movs r0, #0xa6
 	lsls r0, r0, #1
 	adds r2, r4, r0
@@ -69559,7 +69559,7 @@ _08021B00:
 	cmp r5, #0
 	bne _08021B16
 	movs r0, #0x8b
-	bl sub_80BA57C
+	bl m4aSongNumStart
 _08021B16:
 	ldr r4, _08021D48 @ =gUnknown_080CF936
 	lsls r5, r5, #1
@@ -70482,7 +70482,7 @@ _080222A6:
 	cmp r5, #0
 	bne _080222B6
 	movs r0, #0x8b
-	bl sub_80BA57C
+	bl m4aSongNumStart
 _080222B6:
 	ldr r4, _08022548 @ =gUnknown_080CF936
 	lsls r5, r5, #1
@@ -72945,12 +72945,12 @@ sub_8023634: @ 0x08023634
 	bl sub_802304C
 	adds r0, r4, #0
 	bl sub_802318C
-	ldr r0, _08023688 @ =gUnknown_02002580
-	bl sub_80BAD94
-	ldr r0, _0802368C @ =gUnknown_020025C0
-	bl sub_80BAD94
-	ldr r0, _08023690 @ =gUnknown_02002610
-	bl sub_80BAD94
+	ldr r0, _08023688 @ =gMPlayInfo_SE1
+	bl MPlayStop
+	ldr r0, _0802368C @ =gMPlayInfo_SE2
+	bl MPlayStop
+	ldr r0, _08023690 @ =gMPlayInfo_SE3
+	bl MPlayStop
 	strh r5, [r4]
 	strh r5, [r4, #2]
 	strh r5, [r4, #4]
@@ -72961,9 +72961,9 @@ sub_8023634: @ 0x08023634
 	bx r0
 	.align 2, 0
 _08023684: .4byte sub_8023694
-_08023688: .4byte gUnknown_02002580
-_0802368C: .4byte gUnknown_020025C0
-_08023690: .4byte gUnknown_02002610
+_08023688: .4byte gMPlayInfo_SE1
+_0802368C: .4byte gMPlayInfo_SE2
+_08023690: .4byte gMPlayInfo_SE3
 
 	thumb_func_start sub_8023694
 sub_8023694: @ 0x08023694
@@ -78374,9 +78374,9 @@ sub_8025EEC: @ 0x08025EEC
 	strh r0, [r1, #0x2e]
 	adds r0, r1, #0
 	bl sub_80BD384
-	bl sub_80BA6B0
+	bl m4aMPlayAllStop
 	movs r0, #0x64
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	ldr r2, _08026070 @ =gFlags
 	ldr r0, [r2]
 	ldr r1, _08026074 @ =0xFFFFBFFF
@@ -78384,7 +78384,7 @@ sub_8025EEC: @ 0x08025EEC
 	ldr r1, _08026078 @ =0xFFFF7FFF
 	ands r0, r1
 	str r0, [r2]
-	bl sub_80BABFC
+	bl m4aSoundVSyncOn
 	bl sub_8001E84
 	ldr r0, _0802607C @ =gUnknown_03002C68
 	mov r3, r8
@@ -80052,7 +80052,7 @@ _08026D08:
 	adds r0, #1
 	strb r0, [r1]
 	movs r0, #0x8a
-	bl sub_80BA57C
+	bl m4aSongNumStart
 _08026D52:
 	ldrb r1, [r4, #1]
 	ldrb r0, [r4, #2]
@@ -81750,7 +81750,7 @@ _08027A04:
 	adds r2, r2, r0
 	str r7, [r2]
 	movs r0, #0x44
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	adds r0, r4, #0
 	bl sub_80280AC
 	adds r0, r4, #0
@@ -81907,13 +81907,13 @@ _08027B78:
 	lsls r1, r1, #7
 	orrs r0, r1
 	str r0, [r4]
-	bl sub_80BA6B0
+	bl m4aMPlayAllStop
 	ldr r0, [r4]
 	movs r1, #5
 	rsbs r1, r1, #0
 	ands r0, r1
 	str r0, [r4]
-	bl sub_80BAB80
+	bl m4aSoundVSyncOff
 	ldr r1, _08027C50 @ =0x040000B0
 	ldrh r2, [r1, #0xa]
 	ldr r4, _08027C54 @ =0x0000C5FF
@@ -81989,7 +81989,7 @@ _08027C68:
 	ldr r1, _08027CB0 @ =0xFFFF7FFF
 	ands r0, r1
 	str r0, [r2]
-	bl sub_80BABFC
+	bl m4aSoundVSyncOn
 _08027C80:
 	adds r0, r7, #0
 	adds r0, #0xdd
@@ -82003,7 +82003,7 @@ _08027C80:
 	cmp r0, #0
 	beq _08027CC0
 	movs r0, #0x6b
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	ldr r0, _08027CB8 @ =gCurTask
 	ldr r1, [r0]
 	ldr r0, _08027CBC @ =sub_8027ADC
@@ -83276,7 +83276,7 @@ sub_8028708: @ 0x08028708
 	ldr r1, _08028760 @ =0xFFFFBFFF
 	ands r0, r1
 	str r0, [r2]
-	bl sub_80BABFC
+	bl m4aSoundVSyncOn
 	bl sub_8028688
 	ldr r1, _08028764 @ =gStageData
 	ldr r0, _08028768 @ =gSaveGame
@@ -83380,9 +83380,9 @@ sub_80287CC: @ 0x080287CC
 	adds r1, r1, r2
 	strb r3, [r1]
 	bl sub_8028DEC
-	bl sub_80BA6B0
+	bl m4aMPlayAllStop
 	ldr r0, _08028844 @ =0x00000321
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	ldr r2, _08028848 @ =gDispCnt
 	ldrh r1, [r2]
 	ldr r0, _0802884C @ =0x0000FEFF
@@ -83441,9 +83441,9 @@ sub_8028850: @ 0x08028850
 	strb r0, [r4]
 	adds r0, r5, #0
 	bl sub_8028DEC
-	bl sub_80BA6B0
+	bl m4aMPlayAllStop
 	ldr r0, _080288E0 @ =0x00000323
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
 	strh r6, [r0]
@@ -83887,7 +83887,7 @@ _08028C58:
 	movs r0, #0
 	strb r0, [r2]
 	ldr r0, _08028C8C @ =0x00000321
-	bl sub_80BA57C
+	bl m4aSongNumStart
 _08028C72:
 	ldr r0, _08028C90 @ =gUnknown_03001060
 	ldrb r1, [r0, #7]
@@ -84734,7 +84734,7 @@ sub_8029324: @ 0x08029324
 	movs r0, #0x78
 	strh r0, [r2]
 	ldr r0, _08029360 @ =0x0000032A
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	ldr r1, [r4]
 	ldr r0, _08029364 @ =sub_8028C94
 	str r0, [r1, #8]
@@ -84844,7 +84844,7 @@ sub_80293E8: @ 0x080293E8
 	asrs r4, r4, #0x10
 	movs r0, #0x81
 	lsls r0, r0, #2
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	ldr r0, _08029450 @ =sub_8029474
 	str r6, [sp]
 	movs r1, #0x40
@@ -85019,7 +85019,7 @@ sub_802954C: @ 0x0802954C
 	bne _080295A2
 	movs r0, #0x81
 	lsls r0, r0, #2
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	ldr r0, _080295B4 @ =sub_8029474
 	ldr r2, _080295B8 @ =0x00003010
 	str r4, [sp]
@@ -85369,7 +85369,7 @@ _0802981C:
 	adds r5, r1, #0
 	cmp r7, r0
 	bne _08029880
-	ldr r0, _08029878 @ =gUnknown_02002540
+	ldr r0, _08029878 @ =gMPlayInfo_BGM
 	ldr r1, [r0, #4]
 	ldrh r0, [r0, #4]
 	cmp r0, #0
@@ -85397,7 +85397,7 @@ _0802981C:
 	bne _08029866
 _08029860:
 	movs r0, #0x4b
-	bl sub_80BA648
+	bl m4aSongNumStop
 _08029866:
 	ldr r0, _0802987C @ =gUnknown_03001CF0
 	movs r1, #0
@@ -85408,7 +85408,7 @@ _08029866:
 	b _08029988
 	.align 2, 0
 _08029874: .4byte gSongTable
-_08029878: .4byte gUnknown_02002540
+_08029878: .4byte gMPlayInfo_BGM
 _0802987C: .4byte gUnknown_03001CF0
 _08029880:
 	ldrb r0, [r6, #4]
@@ -85419,7 +85419,7 @@ _08029880:
 	movs r0, #1
 	strb r0, [r6, #5]
 	movs r0, #0x4b
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	b _08029988
 _08029896:
 	movs r1, #0x92
@@ -85428,7 +85428,7 @@ _08029896:
 	ldr r0, [r0]
 	cmp r7, r0
 	bne _080298D8
-	ldr r0, _080298D4 @ =gUnknown_02002540
+	ldr r0, _080298D4 @ =gMPlayInfo_BGM
 	ldr r1, [r0, #4]
 	ldrh r0, [r0, #4]
 	cmp r0, #0
@@ -85450,10 +85450,10 @@ _08029896:
 	movs r0, #1
 	strb r0, [r6, #5]
 	movs r0, #0x49
-	bl sub_80BA648
+	bl m4aSongNumStop
 	b _08029988
 	.align 2, 0
-_080298D4: .4byte gUnknown_02002540
+_080298D4: .4byte gMPlayInfo_BGM
 _080298D8:
 	movs r1, #0xa6
 	lsls r1, r1, #2
@@ -85495,7 +85495,7 @@ _0802991A:
 	movs r0, #1
 	strb r0, [r6, #5]
 	movs r0, #0x49
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	b _08029988
 _08029928:
 	ldrb r5, [r4, #3]
@@ -85505,14 +85505,14 @@ _08029928:
 	movs r0, #1
 	strb r0, [r4, #5]
 	movs r0, #0x53
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	b _08029988
 _0802993C:
 	ldrb r7, [r4, #1]
 	cmp r7, #0
 	beq _0802995C
 	ldrh r0, [r4, #8]
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	ldrb r0, [r4, #1]
 	cmp r0, #2
 	bne _08029954
@@ -85523,7 +85523,7 @@ _08029954:
 	bl sub_8029A78
 	b _08029988
 _0802995C:
-	ldr r0, _08029980 @ =gUnknown_02002540
+	ldr r0, _08029980 @ =gMPlayInfo_BGM
 	ldr r1, [r0, #4]
 	ldrh r0, [r0, #4]
 	cmp r0, #0
@@ -85532,7 +85532,7 @@ _0802995C:
 	bge _08029984
 _0802996A:
 	ldrh r0, [r6, #8]
-	bl sub_80BA5F4
+	bl m4aSongNumStartOrContinue
 	ldrb r0, [r6, #5]
 	cmp r0, #0
 	beq _08029988
@@ -85540,7 +85540,7 @@ _0802996A:
 	bl sub_8029A30
 	b _08029988
 	.align 2, 0
-_08029980: .4byte gUnknown_02002540
+_08029980: .4byte gMPlayInfo_BGM
 _08029984:
 	bl sub_8029A78
 _08029988:
@@ -85610,15 +85610,15 @@ _080299F8: .4byte gUnknown_03001CF0
 	thumb_func_start sub_80299FC
 sub_80299FC: @ 0x080299FC
 	push {lr}
-	ldr r0, _08029A10 @ =gUnknown_02002540
-	bl sub_80BAD94
+	ldr r0, _08029A10 @ =gMPlayInfo_BGM
+	bl MPlayStop
 	ldr r1, _08029A14 @ =gUnknown_03001CF0
 	movs r0, #0xff
 	strb r0, [r1]
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08029A10: .4byte gUnknown_02002540
+_08029A10: .4byte gMPlayInfo_BGM
 _08029A14: .4byte gUnknown_03001CF0
 
 	thumb_func_start sub_8029A18
@@ -85626,7 +85626,7 @@ sub_8029A18: @ 0x08029A18
 	push {lr}
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
-	bl sub_80BA5F4
+	bl m4aSongNumStartOrContinue
 	ldr r1, _08029A2C @ =gUnknown_03001CF0
 	movs r0, #0
 	strb r0, [r1]
@@ -85638,36 +85638,36 @@ _08029A2C: .4byte gUnknown_03001CF0
 	thumb_func_start sub_8029A30
 sub_8029A30: @ 0x08029A30
 	push {r4, lr}
-	ldr r4, _08029A58 @ =gUnknown_02002540
+	ldr r4, _08029A58 @ =gMPlayInfo_BGM
 	adds r0, r4, #0
-	bl sub_80BA76C
+	bl m4aMPlayImmInit
 	adds r0, r4, #0
 	movs r1, #0xff
 	movs r2, #4
-	bl sub_80BB524
+	bl m4aMPlayVolumeControl
 	adds r0, r4, #0
 	movs r1, #4
-	bl sub_80BA744
+	bl m4aMPlayFadeIn
 	bl sub_8029A78
 	pop {r4}
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08029A58: .4byte gUnknown_02002540
+_08029A58: .4byte gMPlayInfo_BGM
 
 	thumb_func_start sub_8029A5C
 sub_8029A5C: @ 0x08029A5C
 	push {lr}
 	adds r1, r0, #0
 	lsls r1, r1, #0x10
-	ldr r0, _08029A74 @ =gUnknown_02002540
+	ldr r0, _08029A74 @ =gMPlayInfo_BGM
 	lsrs r1, r1, #0x14
-	bl sub_80BA724
+	bl m4aMPlayFadeOutTemporarily
 	bl sub_8029A78
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08029A74: .4byte gUnknown_02002540
+_08029A74: .4byte gMPlayInfo_BGM
 
 	thumb_func_start sub_8029A78
 sub_8029A78: @ 0x08029A78
@@ -85687,15 +85687,15 @@ sub_8029A78: @ 0x08029A78
 	ldrsh r0, [r0, r2]
 	cmp r0, #0
 	ble _08029AB0
-	ldr r0, _08029AAC @ =gUnknown_02002540
+	ldr r0, _08029AAC @ =gMPlayInfo_BGM
 	movs r1, #0x80
 	lsls r1, r1, #2
-	bl sub_80BB4FC
+	bl m4aMPlayTempoControl
 	b _08029AD6
 	.align 2, 0
 _08029AA4: .4byte gPlayers
 _08029AA8: .4byte gStageData
-_08029AAC: .4byte gUnknown_02002540
+_08029AAC: .4byte gMPlayInfo_BGM
 _08029AB0:
 	adds r0, r1, #0
 	adds r0, #0x60
@@ -85703,22 +85703,22 @@ _08029AB0:
 	ldrsh r0, [r0, r1]
 	cmp r0, #0
 	ble _08029ACC
-	ldr r0, _08029AC8 @ =gUnknown_02002540
+	ldr r0, _08029AC8 @ =gMPlayInfo_BGM
 	movs r1, #0x80
-	bl sub_80BB4FC
+	bl m4aMPlayTempoControl
 	b _08029AD6
 	.align 2, 0
-_08029AC8: .4byte gUnknown_02002540
+_08029AC8: .4byte gMPlayInfo_BGM
 _08029ACC:
-	ldr r0, _08029ADC @ =gUnknown_02002540
+	ldr r0, _08029ADC @ =gMPlayInfo_BGM
 	movs r1, #0x80
 	lsls r1, r1, #1
-	bl sub_80BB4FC
+	bl m4aMPlayTempoControl
 _08029AD6:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08029ADC: .4byte gUnknown_02002540
+_08029ADC: .4byte gMPlayInfo_BGM
 
 	thumb_func_start sub_8029AE0
 sub_8029AE0: @ 0x08029AE0
@@ -85850,50 +85850,50 @@ _08029BD4:
 	ands r0, r1
 	cmp r0, #0
 	beq _08029C1C
-	ldr r4, _08029C10 @ =gUnknown_020025C0
+	ldr r4, _08029C10 @ =gMPlayInfo_SE2
 	ldr r1, _08029C14 @ =0x82AF3D4 TODO: song117
 	adds r0, r4, #0
-	bl sub_80BACB0
+	bl MPlayStart
 	adds r0, r4, #0
-	bl sub_80BA76C
+	bl m4aMPlayImmInit
 	ldr r5, _08029C18 @ =0x0000FFFF
 	adds r0, r4, #0
 	adds r1, r5, #0
 	movs r2, #0x80
-	bl sub_80BB524
+	bl m4aMPlayVolumeControl
 	movs r2, #0x40
 	rsbs r2, r2, #0
 	adds r0, r4, #0
 	adds r1, r5, #0
-	bl sub_80BB600
+	bl m4aMPlayPanpotControl
 	b _08029C42
 	.align 2, 0
 _08029C0C: .4byte gStageData
-_08029C10: .4byte gUnknown_020025C0
+_08029C10: .4byte gMPlayInfo_SE2
 _08029C14: .4byte 0x82AF3D4
 _08029C18: .4byte 0x0000FFFF
 _08029C1C:
-	ldr r4, _08029C48 @ =gUnknown_02002580
+	ldr r4, _08029C48 @ =gMPlayInfo_SE1
 	ldr r1, _08029C4C @ =0x82AF3D4
 	adds r0, r4, #0
-	bl sub_80BACB0
+	bl MPlayStart
 	adds r0, r4, #0
-	bl sub_80BA76C
+	bl m4aMPlayImmInit
 	ldr r5, _08029C50 @ =0x0000FFFF
 	adds r0, r4, #0
 	adds r1, r5, #0
 	movs r2, #0x80
-	bl sub_80BB524
+	bl m4aMPlayVolumeControl
 	adds r0, r4, #0
 	adds r1, r5, #0
 	movs r2, #0x40
-	bl sub_80BB600
+	bl m4aMPlayPanpotControl
 _08029C42:
 	pop {r4, r5}
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08029C48: .4byte gUnknown_02002580
+_08029C48: .4byte gMPlayInfo_SE1
 _08029C4C: .4byte 0x82AF3D4
 _08029C50: .4byte 0x0000FFFF
 
@@ -88357,7 +88357,7 @@ _0802AEEE:
 _0802AEFA:
 	adds r5, r1, #0
 	movs r0, #0x76
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	movs r3, #0x91
 	lsls r3, r3, #3
 	mov r1, r8

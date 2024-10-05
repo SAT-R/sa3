@@ -3959,7 +3959,7 @@ sub_80BF158: @ 0x080BF158
 	adds r2, #2
 	strh r2, [r1, #0xe]
 	ldrh r0, [r0, #4]
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	movs r0, #1
 	pop {r1}
 	bx r1
@@ -8409,7 +8409,7 @@ sub_80C1330: @ 0x080C1330
 	adds r2, #2
 	strh r2, [r1, #0xe]
 	ldrh r0, [r0, #4]
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	movs r0, #1
 	pop {r1}
 	bx r1

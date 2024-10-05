@@ -360,10 +360,10 @@ ProgrammableWaveData_80EB76C:
 	.align 2
 	.global gMPlayTable
 gMPlayTable:	@ 0x080EB77C
-	music_player gUnknown_02002540, 0x02000000, 16, 0
-	music_player gUnknown_02002580, 0x02000500, 16, 0
-	music_player gUnknown_020025C0, 0x02000A00, 16, 0
-	music_player gUnknown_02002610, 0x02000F00, 16, 0
+	music_player gMPlayInfo_BGM, 0x02000000, 16, 0
+	music_player gMPlayInfo_SE1, 0x02000500, 16, 0
+	music_player gMPlayInfo_SE2, 0x02000A00, 16, 0
+	music_player gMPlayInfo_SE3, 0x02000F00, 16, 0
 
 	.align 2
 	.global gSongTable

@@ -1,3 +1,4 @@
+build/sa3/src/lib/m4a.o(.bss.code);
 
 . = 0x0000041c;
 build/sa3/src/multi_boot.o(.bss)

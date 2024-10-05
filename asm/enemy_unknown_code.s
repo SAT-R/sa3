@@ -386,7 +386,7 @@ sub_805C280: @ 0x0805C280
 	strb r2, [r0, #5]
 	bl sub_805C138
 	movs r0, #0x8a
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	b _0805C38A
 	.align 2, 0
 _0805C328: .4byte gCamera
@@ -430,7 +430,7 @@ _0805C33C:
 	strb r2, [r0, #5]
 	bl sub_805C138
 	movs r0, #0x8a
-	bl sub_80BA57C
+	bl m4aSongNumStart
 _0805C38A:
 	ldr r0, _0805C3A8 @ =gStageData
 	ldrb r0, [r0, #3]
@@ -503,7 +503,7 @@ _0805C3D0:
 	strb r5, [r0, #5]
 	bl sub_805C138
 	movs r0, #0x8a
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	ldrh r0, [r7, #0xc]
 	mov sb, r0
 	ldrh r1, [r7, #0xe]
@@ -577,7 +577,7 @@ _0805C484:
 	strb r2, [r0, #5]
 	bl sub_805C138
 	movs r0, #0x8a
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	b _0805C4FA
 	.align 2, 0
 _0805C4C8: .4byte sub_805C198
@@ -1964,7 +1964,7 @@ sub_805CEBC: @ 0x0805CEBC
 	cmp r6, #0
 	bne _0805CF1C
 	movs r0, #0x8a
-	bl sub_80BA57C
+	bl m4aSongNumStart
 _0805CF1C:
 	add sp, #4
 	pop {r3, r4}

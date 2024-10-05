@@ -1,3 +1,6 @@
+gNumMusicPlayers = 4;
+gMaxLines = 0;
+
 SECTIONS {
 
     . = 0x2000000;
@@ -135,6 +138,9 @@ SECTIONS {
         build/sa3/asm/enemy_guruguru.o(.text);
         build/sa3/asm/enemy_kyacchaa.o(.text);
         build/sa3/asm/code.o(.text);
+        build/sa3/src/lib/m4a0.o(.text);
+        build/sa3/src/lib/m4a.o(.text);
+        build/sa3/asm/game_init.o(.text);
         build/sa3/src/main.o(.text);
         build/sa3/src/task.o(.text);
         build/sa3/asm/code_z.o(.text);
@@ -218,6 +224,7 @@ SECTIONS {
 
     /* data */
         build/sa3/data/data.o(.rodata);
+        build/sa3/src/lib/m4a_tables.o(.rodata);
         build/sa3/data/sound.o(.rodata);
         build/sa3/sound/songs/song000.o(.rodata);
         build/sa3/sound/songs/song001.o(.rodata);

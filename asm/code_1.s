@@ -7277,7 +7277,7 @@ _08052F62:
 	ldr r0, _08052FB0 @ =gUnknown_03003F34
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_80BA6B0
+	bl m4aMPlayAllStop
 	bl LaunchGameIntro
 	b _0805301E
 	.align 2, 0
@@ -7299,7 +7299,7 @@ _08052FB4:
 	cmp r1, #0
 	beq _08052FD8
 	bl sub_8003D2C
-	bl sub_80BA6B0
+	bl m4aMPlayAllStop
 	bl LaunchTitleScreen
 	b _0805301E
 	.align 2, 0
@@ -7614,7 +7614,7 @@ _08053190:
 	cmp r1, r0
 	bhi _08053270
 	movs r0, #0x56
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	b _08053276
 	.align 2, 0
 _08053260: .4byte 0x0300021C
@@ -7623,7 +7623,7 @@ _08053268: .4byte gStageData
 _0805326C: .4byte gUnknown_080D1A40
 _08053270:
 	movs r0, #0x57
-	bl sub_80BA57C
+	bl m4aSongNumStart
 _08053276:
 	add sp, #4
 	pop {r3}
@@ -9798,9 +9798,9 @@ _080543C8:
 	ldrsh r0, [r0, r2]
 	cmp r0, #0xdf
 	ble _080543E6
-	ldr r0, _080543EC @ =gUnknown_02002540
+	ldr r0, _080543EC @ =gMPlayInfo_BGM
 	movs r1, #1
-	bl sub_80BA714
+	bl m4aMPlayFadeOut
 	ldr r0, _080543F0 @ =gCurTask
 	ldr r1, [r0]
 	ldr r0, _080543F4 @ =sub_80543F8
@@ -9810,7 +9810,7 @@ _080543E6:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080543EC: .4byte gUnknown_02002540
+_080543EC: .4byte gMPlayInfo_BGM
 _080543F0: .4byte gCurTask
 _080543F4: .4byte sub_80543F8
 
@@ -11558,7 +11558,7 @@ _080551F8:
 	strh r0, [r1]
 	movs r0, #0x82
 	lsls r0, r0, #2
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	ldr r0, _08055234 @ =gCurTask
 	ldr r1, [r0]
 	ldr r0, _08055238 @ =sub_805523C
@@ -13327,7 +13327,7 @@ sub_8056090: @ 0x08056090
 	bl sub_8055E50
 	bl sub_80299FC
 	movs r0, #0x61
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
@@ -13690,7 +13690,7 @@ sub_8056370: @ 0x08056370
 	strh r0, [r4, #4]
 	movs r0, #0x82
 	lsls r0, r0, #2
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	ldr r1, [r5]
 	ldr r0, _080563B8 @ =sub_80547DC
 	str r0, [r1, #8]
@@ -14504,7 +14504,7 @@ sub_8056A20: @ 0x08056A20
 	ands r0, r1
 	strh r0, [r2]
 	movs r0, #0x59
-	bl sub_80BA57C
+	bl m4aSongNumStart
 	ldr r0, _08056A54 @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy

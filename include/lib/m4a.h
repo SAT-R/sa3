@@ -31,6 +31,8 @@ void m4aMPlayVolumeControl(struct MusicPlayerInfo *mplayInfo, u16 trackBits, u16
 void m4aMPlayPitchControl(struct MusicPlayerInfo *mplayInfo, u16 trackBits, s16 pitch);
 void m4aMPlayPanpotControl(struct MusicPlayerInfo *mplayInfo, u16 trackBits, s8 pan);
 
-#define DEFAULT_SOUND_MODE (SOUND_MODE_DA_BIT_8 | SOUND_MODE_FREQ_10512 | (15 << SOUND_MODE_MASVOL_SHIFT) | (5 << SOUND_MODE_MAXCHN_SHIFT))
+// NOTE: This default value is different from some other games (a certain monster catching series), with a Master Volume 10 and Max Channel
+// count of 6.
+#define DEFAULT_SOUND_MODE (SOUND_MODE_DA_BIT_8 | SOUND_MODE_FREQ_10512 | (10 << SOUND_MODE_MASVOL_SHIFT) | (6 << SOUND_MODE_MAXCHN_SHIFT))
 
 #endif // GUARD_M4A_H
