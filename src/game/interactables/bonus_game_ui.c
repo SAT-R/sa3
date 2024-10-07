@@ -32,6 +32,8 @@
 #define LIFE_BACKDROP_Y     85
 #define EXTRALIFE_COUNTER_X 150
 #define EXTRALIFE_COUNTER_Y 85
+#define LIFE_COUNT_X_X      138
+#define LIFE_COUNT_X_Y      86
 
 typedef struct {
     /* 0x00 */ Sprite s;
@@ -430,9 +432,8 @@ void Task_803C898(void)
     sub_803D4C8();
 }
 
-#if 0
 // (99.51%) https://decomp.me/scratch/64Wmf
-void Task_803CA28(void)
+NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__Task_803CA28.inc", void Task_803CA28(void))
 {
     s8 r6 = 0;
     BonusGameUI *ui = TASK_DATA(gCurTask);
@@ -636,7 +637,7 @@ void Task_803CA28(void)
 
         gCurTask->main = Task_803D750;
 
-        for (i = 0, r6 = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             p = GET_SP_PLAYER_V1(i);
 
             p->moveState |= MOVESTATE_IGNORE_INPUT;
@@ -662,4 +663,4 @@ void Task_803CA28(void)
 
     ui->unk16 = gUnknown_03001D00;
 }
-#endif
+END_NONMATCH
