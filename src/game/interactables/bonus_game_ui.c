@@ -55,7 +55,7 @@ typedef struct {
     /* 0x015 */ u8 unk15;
     /* 0x016 */ s8 unk16;
     /* 0x017 */ u8 unk17;
-    /* 0x018 */ Sprite spr18[21];
+    /* 0x018 */ Sprite sprScore[21];
     /* 0x360 */ Sprite sprCountdownDigit;
     /* 0x388 */ Sprite sprKillBar[NUM_DEFEATABLE_ENEMIES];
     /* 0x4C8 */ Sprite sprPlayer1Icon;
@@ -153,8 +153,8 @@ void CreateEntity_BonusGameUI(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     InitCountdownDigitSprite(&ui->sprCountdownDigit);
 
-    for (i = 0; i < (s32)ARRAY_COUNT(ui->spr18); i++) {
-        sub_8039D60(&ui->spr18[i], i, ui->spr18[0].tiles);
+    for (i = 0; i < (s32)ARRAY_COUNT(ui->sprScore); i++) {
+        sub_8039D60(&ui->sprScore[i], i, ui->sprScore[0].tiles);
     }
 
     tiles = VramMalloc(ARRAY_COUNT(ui->sprKillBar) * MAX_TILES(ANIM_BONUS_UI_BAR));
@@ -953,3 +953,68 @@ void InitCountdownDigitSprite(Sprite *s)
     s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
     UpdateSpriteAnimation(s);
 }
+
+extern u8 gUnknown_080CF936[120];
+extern s16 gUnknown_080CF9AE[61];
+extern u8 gUnknown_080CF8BC[122];
+// (91.70%) https://decomp.me/scratch/Mzfqn
+NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__sub_803D4C8.inc", void sub_803D4C8(void))
+{
+    BonusGameUI *ui = TASK_DATA(gCurTask);
+    Sprite *s;
+    s32 r4;
+    s32 r9;
+    s32 temp;
+    u8 i;
+
+    r4 = ui->timer;
+    r4 -= gUnknown_080CF9AE[r4 / 60];
+
+    s = &ui->sprScore[ARRAY_COUNT(ui->sprScore) - 1];
+    s->x = 128;
+    s->y = 22;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &ui->sprScore[gUnknown_080CF936[(r4 * 2) + 0]];
+    s->x = 134;
+    s->y = 18;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &ui->sprScore[gUnknown_080CF936[(r4 * 2) + 1]];
+    s->x = 140;
+    s->y = 18;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    if (gUnknown_080CF8BC[(r4 * 2) + 0]) {
+        s = &ui->sprScore[gUnknown_080CF8BC[(r4 * 2) + 0]];
+        s->x = 112;
+        s->y = 14;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+
+    s = &ui->sprScore[gUnknown_080CF8BC[(r4 * 2) + 1]];
+    s->x = 120;
+    s->y = 14;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    for (i = 0; i < (s32)ARRAY_COUNT(ui->sprKillBar); i++) {
+        s = &ui->sprKillBar[i];
+
+        if (UpdateSpriteAnimation(s) == ACMD_RESULT__ENDED) {
+            DisplaySprite(s);
+
+            if (s->variant == 1) {
+                s->variant = 2;
+                s->prevVariant = -1;
+            }
+        } else {
+            DisplaySprite(s);
+        }
+    }
+}
+END_NONMATCH
