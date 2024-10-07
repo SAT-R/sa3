@@ -71,6 +71,7 @@ void sub_803C6F4(s16);
 void Task_803C898(void);
 void Task_803CA28(void);
 void Task_803CF84(void);
+void Task_803D248(void);
 void Task_803D324(void);
 void sub_803D47C(Sprite *s);
 void sub_803D4C8(void);
@@ -652,7 +653,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__Task_803CA28.inc", 
         // _0803CEA8
         u8 prevUnk17 = ui->unk17;
 
-        sub_803D784(0);
+        sub_803D784(FALSE);
 
         if ((prevUnk17 != 0) && (ui->unk17 == 0)) {
             gStageData.unk85 = 0;
@@ -664,3 +665,180 @@ NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__Task_803CA28.inc", 
     ui->unk16 = gUnknown_03001D00;
 }
 END_NONMATCH
+
+void Task_803CEE4(void)
+{
+    BonusGameUI *ui = TASK_DATA(gCurTask);
+
+    if (ui->unk17 == 1) {
+        ui->unk17 = 2;
+
+        if (ui->unk12 == 0) {
+            if (UpdateScreenFade(&ui->fade) != SCREEN_FADE_RUNNING) {
+                TasksDestroyAll();
+
+                gUnknown_03003F94 = gUnknown_03003D20;
+                gUnknown_03006840 = 0;
+                gUnknown_03006208 = gUnknown_03003F34;
+
+                sub_8002210((gStageData.zone * 10) + 2, 7);
+                return;
+            }
+        } else {
+            ui->unk12--;
+        }
+    }
+
+    sub_803D784(TRUE);
+    sub_803D4C8();
+}
+
+void Task_803CF84(void)
+{
+    s8 r6 = 0;
+    BonusGameUI *ui = TASK_DATA(gCurTask);
+    u8 arr[ARRAY_COUNT(sBonusLifeIconVariants)];
+    Player *p;
+    Sprite *s;
+    u8 i;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        p = GET_SP_PLAYER_V1(i);
+
+        p->moveState |= MOVESTATE_IGNORE_INPUT;
+    }
+
+    if ((gStageData.playerIndex == 0) && (ui->unk17 >= 96)) {
+        s = &ui->sprCountdownDigit;
+
+        if (!(gUnknown_03001D00 < 8)) {
+            s->anim = gUnknown_080CF770[1].anim;
+            s->variant = gUnknown_080CF770[1].variant;
+            s->prevVariant = -1;
+
+            s->y = 60;
+            sub_803D4C8();
+
+            ui->unk12 = 100;
+            memcpy(arr, sBonusLifeIconVariants, sizeof(arr));
+            {
+                void *tiles = (OBJ_VRAM0 + 0x2800);
+                Player *p1 = &gPlayers[gStageData.playerIndex];
+                Player *p2 = &gPlayers[p1->charFlags.partnerIndex];
+                s32 r4;
+
+                s = &ui->sprPlayer1Icon;
+                s->tiles = tiles;
+                tiles += MAX_TILES(ANIM_LIFE_ICONS) * TILE_SIZE_4BPP;
+                s->anim = ANIM_LIFE_ICONS;
+                s->variant = arr[p1->charFlags.character];
+                s->oamFlags = SPRITE_OAM_ORDER(0);
+                s->animCursor = 0;
+                s->qAnimDelay = Q(0);
+                s->prevVariant = -1;
+                s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+                s->palId = 0;
+                s->hitboxes[0].index = -1;
+                s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+                s->x = LIFE_ICON_P1_X;
+                s->y = LIFE_ICON_P1_Y;
+                UpdateSpriteAnimation(s);
+
+                s = &ui->sprPlayer2Icon;
+                s->tiles = tiles;
+                tiles += MAX_TILES(ANIM_LIFE_ICONS) * TILE_SIZE_4BPP;
+                s->anim = ANIM_LIFE_ICONS;
+                s->variant = arr[p2->charFlags.character];
+                s->oamFlags = SPRITE_OAM_ORDER(1);
+                s->animCursor = 0;
+                s->qAnimDelay = Q(0);
+                s->prevVariant = -1;
+                s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+                s->palId = 0;
+                s->hitboxes[0].index = -1;
+                s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+                s->x = LIFE_ICON_P2_X;
+                s->y = LIFE_ICON_P2_Y;
+                UpdateSpriteAnimation(s);
+
+                s = &ui->spr518;
+                s->tiles = tiles;
+                tiles += MAX_TILES_VARIANT(ANIM_BONUS_UI_X, 1) * TILE_SIZE_4BPP;
+                s->anim = ANIM_BONUS_UI_X;
+                s->variant = 1;
+                s->oamFlags = SPRITE_OAM_ORDER(2);
+                s->animCursor = 0;
+                s->qAnimDelay = Q(0);
+                s->prevVariant = -1;
+                s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+                s->palId = 0;
+                s->hitboxes[0].index = -1;
+                s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+                s->x = LIFE_BACKDROP_X;
+                s->y = LIFE_BACKDROP_Y;
+                UpdateSpriteAnimation(s);
+
+                s = &ui->spr540;
+                s->tiles = tiles;
+                tiles += MAX_TILES_VARIANT(ANIM_BONUS_UI_X, 0) * TILE_SIZE_4BPP;
+                s->anim = ANIM_BONUS_UI_X;
+                s->variant = 0;
+                s->oamFlags = SPRITE_OAM_ORDER(1);
+                s->animCursor = 0;
+                s->qAnimDelay = Q(0);
+                s->prevVariant = -1;
+                s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+                s->palId = 0;
+                s->hitboxes[0].index = -1;
+                s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+                s->x = LIFE_COUNT_X_X;
+                s->y = LIFE_COUNT_X_Y;
+                UpdateSpriteAnimation(s);
+
+                if (ui->timer >= 1500) {
+                    r4 = 5;
+                } else if (ui->timer >= 600) {
+                    r4 = 2;
+                } else {
+                    r4 = 1;
+                }
+
+                // Lives counter?
+                s = &ui->spr568;
+                s->tiles = tiles;
+                s->anim = ANIM_BONUS_UI_TIMER_DIGITS;
+                s->variant = 0;
+                s->oamFlags = SPRITE_OAM_ORDER(1);
+                s->animCursor = 0;
+                s->qAnimDelay = Q(0);
+                s->prevVariant = -1;
+                s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+                s->palId = 0;
+                s->hitboxes[0].index = -1;
+                s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+                s->x = EXTRALIFE_COUNTER_X;
+                s->y = EXTRALIFE_COUNTER_Y;
+                UpdateSpriteAnimation(s);
+
+                sub_8003DC4(r4);
+                ui->unk14 = r4;
+            }
+
+            gCurTask->main = Task_803D324;
+            gStageData.unk4 = 6;
+            return;
+        } else {
+            s->anim = gUnknown_080CF770[2].anim;
+            s->variant = gUnknown_080CF770[2].variant;
+            s->prevVariant = -1;
+        }
+    }
+
+    if (--ui->unk17 == 0) {
+        ui->unk17 = 128;
+
+        gCurTask->main = Task_803D248;
+    }
+
+    sub_803D4C8();
+}
