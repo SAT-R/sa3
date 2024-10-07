@@ -15,6 +15,9 @@ struct Player;
 typedef struct Player Player;
 typedef void (*PlayerCallback)(Player *);
 
+#define GET_SP_PLAYER_V0(index) ((i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex])
+#define GET_SP_PLAYER_V1(index) ((i != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId])
+
 typedef union PACKED {
     u16 raw;
 

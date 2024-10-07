@@ -1,4 +1,6 @@
 #include "global.h"
+#include "core.h"
+#include "flags.h"
 #include "module_unclear.h"
 #include "malloc_vram.h"
 #include "game/camera.h"
@@ -55,6 +57,8 @@ void TaskDestructor_BonusGameUI(struct Task *);
 void Task_BonusFlower_803C4A0(void);
 void sub_803D47C(Sprite *s);
 void sub_803D4C8(void);
+void Task_803C898(void);
+void sub_803C6F4(s16);
 
 // TODO: Merge ia_bonus_capsule and bonus_game_UI?
 extern void sub_8039D60(Sprite *, u8 i, void *tiles);
@@ -229,3 +233,102 @@ void sub_803C560(void)
 
     sub_803D4C8();
 }
+
+void Task_BonusGameUIInit(void)
+{
+    BonusGameUI *ui = TASK_DATA(gCurTask);
+    u8 i;
+
+    gDispCnt |= DISPCNT_BG0_ON;
+    gStageData.unk4 = 1;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        Player *p = GET_SP_PLAYER_V1(i);
+        p->moveState |= MOVESTATE_IGNORE_INPUT;
+        p->charFlags.state1 = 0;
+        p->qSpeedAirX = 0;
+        p->qSpeedAirY = 0;
+        p->qSpeedGround = 0;
+        p->keyInput = 0;
+    }
+
+    if (--ui->unk12 == 0) {
+        gDispCnt &= ~DISPCNT_BG0_ON;
+        gFlags &= ~FLAGS_4;
+
+        ui->unk12 = 180;
+        gCurTask->main = Task_803C898;
+    } else {
+        u16 value;
+
+        if (216 - ui->unk12 <= 48) {
+            value = (216 - ui->unk12);
+        } else if (ui->unk12 <= 48) {
+            value = (ui->unk12);
+        } else {
+            value = 48;
+        }
+        sub_803C6F4(value);
+    }
+
+    sub_803D4C8();
+}
+
+extern u16 **gUnknown_03002B84;
+
+// TODO: Type properly
+extern void *gUnknown_03003C5C;
+extern u8 gUnknown_03003F30;
+
+// VERY unfinished.
+NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__unfinished_sub_803C6F4.inc", void sub_803C6F4(s16 param0))
+{
+    u16 r6 = 0;
+    u16 r1 = param0;
+    s32 r0;
+    s16 r3;
+    s16 sl;
+    s32 sp00;
+    s16 i;
+    s16 *ptr;
+
+    if (param0 < 16) {
+        sp00 = 0;
+
+        if (param0 < 2) {
+            r1 = 2;
+        }
+
+        r3 = r1 * 6;
+    } else {
+        // _0803C724
+        if (param0 > 24) {
+            param0 = 24;
+        }
+
+        sp00 = 1;
+
+        r3 = 24;
+
+        sl = (r1 * 4) - 64;
+    }
+    // _0803C73A
+
+    gFlags |= FLAGS_4;
+
+    // TODO: Cast properly
+    gUnknown_03003C5C = (void *)&REG_BG0VOFS;
+    gUnknown_03003F30 = 2;
+
+    ptr = *gUnknown_03002B84;
+    for (i = 0; i < DISPLAY_HEIGHT; i += 2) {
+        // _0803C75A
+        *ptr++ = -i;
+    }
+
+    r0 = 72 - r3;
+    for (i = 0; i < 6; i++) {
+        *gUnknown_03002B84[i] = r0;
+    }
+}
+END_NONMATCH
