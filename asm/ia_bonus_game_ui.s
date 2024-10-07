@@ -5,214 +5,9 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
-	thumb_func_start Task_803C898
-Task_803C898: @ 0x0803C898
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	ldr r2, _0803C8C8 @ =gCurTask
-	ldr r0, [r2]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r6, r1, r0
-	ldr r0, _0803C8CC @ =0x03000360
-	adds r5, r1, r0
-	movs r4, #0
-	mov sb, r2
-	ldr r7, _0803C8D0 @ =gPlayers
-	movs r2, #0
-_0803C8B8:
-	cmp r4, #0
-	beq _0803C8D4
-	adds r0, r3, #0
-	adds r0, #0x2b
-	ldrb r1, [r0]
-	lsls r1, r1, #0x1e
-	lsrs r1, r1, #0x1e
-	b _0803C8D8
-	.align 2, 0
-_0803C8C8: .4byte gCurTask
-_0803C8CC: .4byte 0x03000360
-_0803C8D0: .4byte gPlayers
-_0803C8D4:
-	ldr r0, _0803C930 @ =gStageData
-	ldrb r1, [r0, #6]
-_0803C8D8:
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	adds r3, r0, r7
-	ldr r0, [r3, #4]
-	movs r1, #0x80
-	lsls r1, r1, #0x14
-	orrs r0, r1
-	str r0, [r3, #4]
-	strh r2, [r3, #0x36]
-	strh r2, [r3, #0x18]
-	strh r2, [r3, #0x1a]
-	strh r2, [r3, #0x1c]
-	strh r2, [r3, #0x1e]
-	adds r0, r4, #1
-	lsls r0, r0, #0x18
-	lsrs r4, r0, #0x18
-	cmp r4, #1
-	bls _0803C8B8
-	ldrh r0, [r6, #0x12]
-	subs r0, #1
-	strh r0, [r6, #0x12]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x10
-	cmp r0, #0
-	bne _0803C9E0
-	movs r4, #0
-	ldr r7, _0803C934 @ =gUnknown_080CF770
-	movs r1, #0xc
-	adds r1, r1, r6
-	mov ip, r1
-	ldr r2, _0803C938 @ =sub_803CA28
-	mov r8, r2
-	ldr r2, _0803C93C @ =gPlayers
-_0803C920:
-	cmp r4, #0
-	beq _0803C940
-	adds r0, r3, #0
-	adds r0, #0x2b
-	ldrb r1, [r0]
-	lsls r1, r1, #0x1e
-	lsrs r1, r1, #0x1e
-	b _0803C944
-	.align 2, 0
-_0803C930: .4byte gStageData
-_0803C934: .4byte gUnknown_080CF770
-_0803C938: .4byte sub_803CA28
-_0803C93C: .4byte gPlayers
-_0803C940:
-	ldr r0, _0803C9D4 @ =gStageData
-	ldrb r1, [r0, #6]
-_0803C944:
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	adds r3, r0, r2
-	ldr r0, [r3, #4]
-	ldr r1, _0803C9D8 @ =0xF7FFFFFF
-	ands r0, r1
-	str r0, [r3, #4]
-	adds r0, r4, #1
-	lsls r0, r0, #0x18
-	lsrs r4, r0, #0x18
-	cmp r4, #1
-	bls _0803C920
-	ldrh r0, [r7, #4]
-	strh r0, [r5, #0xc]
-	ldrb r0, [r7, #6]
-	strb r0, [r5, #0x1a]
-	movs r0, #0xff
-	strb r0, [r5, #0x1b]
-	movs r0, #0x80
-	strb r0, [r6, #0x17]
-	movs r4, #0
-	ldr r6, _0803C9DC @ =gPlayers
-	movs r7, #0x1d
-	rsbs r7, r7, #0
-	mov r5, ip
-_0803C97C:
-	lsls r1, r4, #2
-	adds r1, r1, r4
-	lsls r1, r1, #2
-	adds r1, r1, r4
-	lsls r1, r1, #4
-	adds r1, r1, r6
-	adds r0, r5, r4
-	ldrb r0, [r0]
-	movs r2, #0x2b
-	adds r2, r2, r1
-	mov ip, r2
-	movs r2, #7
-	ands r2, r0
-	lsls r2, r2, #2
-	mov r0, ip
-	ldrb r3, [r0]
-	adds r0, r7, #0
-	ands r0, r3
-	orrs r0, r2
-	mov r2, ip
-	strb r0, [r2]
-	adds r1, #0x52
-	movs r0, #0xb4
-	lsls r0, r0, #1
-	strh r0, [r1]
-	adds r0, r4, #1
-	lsls r0, r0, #0x18
-	lsrs r4, r0, #0x18
-	cmp r4, #3
-	bls _0803C97C
-	mov r1, sb
-	ldr r0, [r1]
-	mov r2, r8
-	str r2, [r0, #8]
-	bl _call_via_r8
-	ldr r0, _0803C9D4 @ =gStageData
-	movs r1, #3
-	strb r1, [r0, #4]
-	adds r0, #0x85
-	movs r1, #1
-	strb r1, [r0]
-	b _0803CA18
-	.align 2, 0
-_0803C9D4: .4byte gStageData
-_0803C9D8: .4byte 0xF7FFFFFF
-_0803C9DC: .4byte gPlayers
-_0803C9E0:
-	cmp r0, #0x78
-	bne _0803C9F8
-	movs r0, #0x3c
-	strb r0, [r6, #0x17]
-	ldr r0, _0803C9F4 @ =gUnknown_080CF770
-	ldrh r1, [r0, #0x2c]
-	strh r1, [r5, #0xc]
-	adds r0, #0x2e
-	b _0803CA06
-	.align 2, 0
-_0803C9F4: .4byte gUnknown_080CF770
-_0803C9F8:
-	cmp r0, #0x3c
-	bne _0803CA0E
-	strb r0, [r6, #0x17]
-	ldr r0, _0803CA24 @ =gUnknown_080CF770
-	ldrh r1, [r0, #0x24]
-	strh r1, [r5, #0xc]
-	adds r0, #0x26
-_0803CA06:
-	ldrb r0, [r0]
-	strb r0, [r5, #0x1a]
-	movs r0, #0xff
-	strb r0, [r5, #0x1b]
-_0803CA0E:
-	movs r0, #1
-	bl sub_803D784
-	bl sub_803D4C8
-_0803CA18:
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0803CA24: .4byte gUnknown_080CF770
-
-	thumb_func_start sub_803CA28
-sub_803CA28: @ 0x0803CA28
+.if 01
+	thumb_func_start Task_803CA28
+Task_803CA28: @ 0x0803CA28
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -225,10 +20,10 @@ sub_803CA28: @ 0x0803CA28
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r7, r1, r0
+	adds r7, r1, r0     @ r7 = ui
 	ldr r0, _0803CADC @ =0x03000590
 	adds r0, r0, r1
-	mov r8, r0
+	mov r8, r0          @ r8 = fade
 	ldrb r1, [r7, #0x16]
 	lsls r1, r1, #0x18
 	asrs r0, r1, #0x18
@@ -264,7 +59,7 @@ _0803CA64:
 _0803CA86:
 	movs r0, #0xd8
 	lsls r0, r0, #2
-	adds r3, r7, r0
+	adds r3, r7, r0     @ r3 = s = &ui->sprCountdownDigit;
 	mov r1, ip
 	ldrb r0, [r1]
 	cmp r0, #7
@@ -281,7 +76,7 @@ _0803CAA2:
 	movs r0, #0x80
 	strb r0, [r7, #0x17]
 	movs r0, #1
-	mov r2, r8
+	mov r2, r8          @ r2 = r8 = fade
 	strh r0, [r2, #2]
 	strh r1, [r2, #4]
 	movs r0, #0xbf
@@ -320,7 +115,7 @@ _0803CAF0:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	adds r4, r0, r2
+	adds r4, r0, r2     @ r4 = p
 	ldr r0, [r4, #4]
 	movs r1, #0x80
 	lsls r1, r1, #0x14
@@ -397,9 +192,10 @@ _0803CB74:
 	asrs r0, r0, #0x18
 	cmp r0, #1
 	ble _0803CB52
+__0803CB98:
 	ldrh r0, [r6, #0xc]
 	movs r5, #0
-	strh r0, [r3, #0xc]
+	strh r0, [r3, #0xc] @ s->anim = gUnknown_080CF770[1].anim
 	ldrb r0, [r6, #0xe]
 	strb r0, [r3, #0x1a]
 	movs r0, #0xff
@@ -409,7 +205,7 @@ _0803CB74:
 	bl sub_803D4C8
 	movs r0, #0x64
 	strh r0, [r7, #0x12]
-	ldr r1, _0803CD0C @ =gUnknown_080CFA50
+	ldr r1, _0803CD0C @ =sBonusLifeIconVariants
 	mov r0, sp
 	movs r2, #5
 	bl memcpy
@@ -422,7 +218,7 @@ _0803CB74:
 	adds r1, r1, r0
 	lsls r1, r1, #4
 	ldr r2, _0803CD14 @ =gPlayers
-	adds r1, r1, r2
+	adds r1, r1, r2     @ r1 = p1
 	adds r0, r1, #0
 	adds r0, #0x2b
 	ldrb r0, [r0]
@@ -433,10 +229,10 @@ _0803CB74:
 	lsls r4, r4, #2
 	adds r4, r4, r0
 	lsls r4, r4, #4
-	adds r4, r4, r2
+	adds r4, r4, r2     @ r4 = p2
 	movs r2, #0x99
 	lsls r2, r2, #3
-	adds r3, r7, r2
+	adds r3, r7, r2     @ r3 = s = &ui->sprPlayer1Icon;
 	str r6, [r3]
 	adds r6, #0x80
 	ldr r0, _0803CD18 @ =0x0000058F
@@ -457,8 +253,8 @@ _0803CB74:
 	rsbs r0, r0, #0
 	strb r0, [r3, #0x1b]
 	movs r0, #0x10
-	mov r8, r0
-	mov r1, r8
+	mov r8, r0          @ r8 = 0x10
+	mov r1, r8          @ r1 = r8 = 0x10
 	strb r1, [r3, #0x1c]
 	movs r2, #0
 	strb r2, [r3, #0x1f]
@@ -496,7 +292,7 @@ _0803CB74:
 	movs r0, #1
 	rsbs r0, r0, #0
 	strb r0, [r3, #0x1b]
-	mov r1, r8
+	mov r1, r8          @ r1 = r8 = 0x10
 	strb r1, [r3, #0x1c]
 	movs r2, #0
 	strb r2, [r3, #0x1f]
@@ -525,7 +321,7 @@ _0803CB74:
 	strh r5, [r3, #0x16]
 	subs r0, #0x81
 	strb r0, [r3, #0x1b]
-	mov r0, r8
+	mov r0, r8          @ r0 = r8 = 0x10
 	strb r0, [r3, #0x1c]
 	movs r1, #0
 	strb r1, [r3, #0x1f]
@@ -576,7 +372,7 @@ _0803CB74:
 	b _0803CD2E
 	.align 2, 0
 _0803CD08: .4byte gStageData
-_0803CD0C: .4byte gUnknown_080CFA50
+_0803CD0C: .4byte sBonusLifeIconVariants
 _0803CD10: .4byte 0x06012800
 _0803CD14: .4byte gPlayers
 _0803CD18: .4byte 0x0000058F
@@ -627,7 +423,7 @@ _0803CD74:
 	ldr r1, _0803CD8C @ =gStageData
 	movs r0, #6
 	strb r0, [r1, #4]
-	b _0803CECA
+	b _0803CECA_return
 	.align 2, 0
 _0803CD80: .4byte 0x00000257
 _0803CD84: .4byte gCurTask
@@ -646,7 +442,7 @@ _0803CD90:
 	adds r0, r0, r1
 	lsls r0, r0, #4
 	ldr r1, _0803CDC8 @ =gPlayers
-	adds r4, r0, r1
+	adds r4, r0, r1     @ r4 = p1
 	ldr r0, [r4, #4]
 	movs r1, #0x80
 	lsls r1, r1, #1
@@ -715,7 +511,7 @@ _0803CE20:
 	movs r0, #0x80
 	strb r0, [r7, #0x17]
 	movs r0, #1
-	mov r2, r8
+	mov r2, r8          @ r2 = r8 = fade
 	strh r0, [r2, #2]
 	strh r1, [r2, #4]
 	movs r0, #0xbf
@@ -794,7 +590,7 @@ _0803CEC0:
 	ldr r0, _0803CEE0 @ =gUnknown_03001D00
 	ldrb r0, [r0]
 	strb r0, [r7, #0x16]
-_0803CECA:
+_0803CECA_return:
 	add sp, #8
 	pop {r3, r4, r5}
 	mov r8, r3
@@ -806,6 +602,7 @@ _0803CECA:
 	.align 2, 0
 _0803CEDC: .4byte gStageData
 _0803CEE0: .4byte gUnknown_03001D00
+.endif
 
 	thumb_func_start Task_803CEE4
 Task_803CEE4: @ 0x0803CEE4
@@ -962,7 +759,7 @@ _0803D006:
 	bl sub_803D4C8
 	movs r0, #0x64
 	strh r0, [r6, #0x12]
-	ldr r1, _0803D180 @ =gUnknown_080CFA50
+	ldr r1, _0803D180 @ =sBonusLifeIconVariants
 	mov r0, sp
 	movs r2, #5
 	bl memcpy
@@ -1132,7 +929,7 @@ _0803D006:
 	.align 2, 0
 _0803D178: .4byte gUnknown_03001D00
 _0803D17C: .4byte gUnknown_080CF770
-_0803D180: .4byte gUnknown_080CFA50
+_0803D180: .4byte sBonusLifeIconVariants
 _0803D184: .4byte 0x06012800
 _0803D188: .4byte gPlayers
 _0803D18C: .4byte 0x0000058F

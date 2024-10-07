@@ -268,6 +268,7 @@
 #define ANIM_ICE_SHIVER  1344
 #define ANIM_SPECIAL_KEY 1348
 
+#define LIFE_ICONS      1423
 #define ANIM_ZONEX_NAME 1424 /* Substate-Index == Zone number */
 
 #endif // GUARD_ANIMATIONS_SA3_H

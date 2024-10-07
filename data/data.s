@@ -553,13 +553,14 @@ gUnknown_080CFA3E:
 gUnknown_080CFA4E:
     .incbin "baserom.gba", 0x000CFA4E, 0x2
 
-    .global gUnknown_080CFA50
-gUnknown_080CFA50:
+    .global sBonusLifeIconVariants
+sBonusLifeIconVariants:
     .incbin "baserom.gba", 0x000CFA50, 0x8
 
     .global gUnknown_080CFA58
 gUnknown_080CFA58:
-    .incbin "baserom.gba", 0x000CFA58, 0x168
+    .4byte sub_80661A0
+    .incbin "baserom.gba", 0x000CFA5C, 0x164
 
     .global sUfoActs
 sUfoActs:

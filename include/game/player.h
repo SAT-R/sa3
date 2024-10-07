@@ -70,11 +70,10 @@ struct Player {
 
     struct {
         u16 padding0; // 0x28
-        u8 charId : 4; // 0x2A /* Index of the player character (I think?) */
+        u8 charId : 4; // 0x2A /* Index of this Player in gPlayers[] */
         u8 padding1 : 4; // 0x2A
 
-        u8 partnerIndex : 2; // Defines at which of the 0-3 "Player" the partner is
-                             // located | 0x2B
+        u8 partnerIndex : 2; // Index of the partner in gPlayers[] | 0x2B
         u8 someIndex : 3;
         u8 someFlag0 : 1;
         u8 someFlag1 : 1;
