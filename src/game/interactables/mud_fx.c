@@ -56,7 +56,7 @@ void CreateEntity_Interactable095(MapEntity *me, u16 regionX, u16 regionY, u8 id
 
     ia->unk24 = 0;
 
-    p = &gPlayers[gStageData.charId];
+    p = &gPlayers[gStageData.playerIndex];
     ia->chars[0] = p;
     ia->chars[1] = &gPlayers[p->charFlags.partnerIndex];
 

@@ -116,7 +116,7 @@ void Task_BonusUfoMain(void)
     qLeft = qWorldX + Q(me->d.sData[0] * TILE_WIDTH);
     qRight = qLeft + Q(me->d.uData[2] * TILE_WIDTH);
 
-    p = &gPlayers[gStageData.charId];
+    p = &gPlayers[gStageData.playerIndex];
 
     if (zone > ZONE_7) {
         zone = 0;
@@ -130,7 +130,7 @@ void Task_BonusUfoMain(void)
                 && (anim0 != 239) //
                 && (anim0 != 244) //
                 && (anim0 != 245) //
-                && (gStageData.charId == 0) //
+                && (gStageData.playerIndex == 0) //
                 && (ABS(p->qSpeedGround) < Q(0.5)) //
                 && (p->qWorldX > qLeft) //
                 && (p->qWorldX < qRight) //
@@ -177,7 +177,7 @@ void Task_804165C(void)
         qWorldX = Q(TO_WORLD_POS(ufo->base.spriteX, ufo->base.regionX));
         qWorldY = Q(TO_WORLD_POS(me->y, ufo->base.regionY));
 
-        p = &gPlayers[gStageData.charId];
+        p = &gPlayers[gStageData.playerIndex];
 
         if (p->qWorldX < qWorldX) {
             p->qWorldX += Q(1);
@@ -219,7 +219,7 @@ void Task_8041710(void)
         ufo->s[0].variant = ufo->unkB0 + 3;
         ufo->s[1].variant = ufo->unkB0 + 3;
 
-        p = &gPlayers[gStageData.charId];
+        p = &gPlayers[gStageData.playerIndex];
         p->unkA4 = ufo->unkB1;
         p->unkA4 += gStageData.zone * 10;
 

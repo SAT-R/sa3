@@ -15,8 +15,8 @@ struct Player;
 typedef struct Player Player;
 typedef void (*PlayerCallback)(Player *);
 
-#define GET_SP_PLAYER_V0(index) ((i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex])
-#define GET_SP_PLAYER_V1(index) ((i != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId])
+#define GET_SP_PLAYER_V0(index) ((index == 0) ? &gPlayers[gStageData.playerIndex] : &gPlayers[p->charFlags.partnerIndex])
+#define GET_SP_PLAYER_V1(index) ((index != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.playerIndex])
 
 typedef union PACKED {
     u16 raw;
@@ -70,7 +70,7 @@ struct Player {
 
     struct {
         u16 padding0; // 0x28
-        u8 charId : 4; // 0x2A /* Index of this Player in gPlayers[] */
+        u8 character : 4; // CHARACTER_SONIC, ..., CHARACTER_AMY | 0x2A
         u8 padding1 : 4; // 0x2A
 
         u8 partnerIndex : 2; // Index of the partner in gPlayers[] | 0x2B

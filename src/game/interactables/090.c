@@ -26,12 +26,8 @@ void Task_Interactable090Main(void)
     Player *p;
     u8 i;
 
-    for (i = 0; i < 2; i++) {
-        if (i != 0) {
-            p = &gPlayers[p->charFlags.partnerIndex];
-        } else {
-            p = &gPlayers[gStageData.charId];
-        }
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        p = GET_SP_PLAYER_V1(i);
 
         if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2 || p->charFlags.someIndex == 4) {
             if (!sub_802C0D4(p)) {

@@ -140,7 +140,7 @@ void Task_Pendulum(void)
         Player *p;
 
         if (j == 0) {
-            p = &gPlayers[gStageData.charId];
+            p = &gPlayers[gStageData.playerIndex];
         } else {
             p = &gPlayers[p->charFlags.partnerIndex];
         }
@@ -282,7 +282,7 @@ void sub_804C008(void)
                 if (j != 0) {
                     p = &gPlayers[p->charFlags.partnerIndex];
                 } else {
-                    p = &gPlayers[gStageData.charId];
+                    p = &gPlayers[gStageData.playerIndex];
                 }
 
                 // TODO/HACK: What is this cast!?

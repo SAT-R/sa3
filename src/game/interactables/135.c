@@ -46,11 +46,7 @@ void Task_Interactable135(void)
 
     // __loopy
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        if (i == 0) {
-            p = &gPlayers[gStageData.charId];
-        } else {
-            p = &gPlayers[p->charFlags.partnerIndex];
-        }
+        p = GET_SP_PLAYER_V0(i);
 
         if ((p->callback != Player_8008A8C) && (p->callback != Player_800ED80)) {
             if (!sub_802C080(p)) {

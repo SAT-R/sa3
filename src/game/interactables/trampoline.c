@@ -87,13 +87,7 @@ static bool32 UpdatePlayerSpeed(void)
 
     if (r1 & 0x80) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-            Player *p;
-
-            if (i != 0) {
-                p = &gPlayers[p->charFlags.partnerIndex];
-            } else {
-                p = &gPlayers[gStageData.charId];
-            }
+            Player *p = GET_SP_PLAYER_V1(i);
 
             if (!((~r1 >> i) & 0x1)) {
                 qSpeedAirY = ABS(p->qSpeedAirY);
@@ -138,7 +132,7 @@ static u8 UpdatePlayer(void)
     qWorldY -= trampoline->shared.qWorldY;
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        Player *p = (i != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
+        Player *p = GET_SP_PLAYER_V1(i);
 
         if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
             s32 qY;

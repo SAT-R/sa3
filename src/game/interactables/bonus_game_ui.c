@@ -240,7 +240,7 @@ void sub_803C560(void)
     u8 i;
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        Player *p = (i != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
+        Player *p = GET_SP_PLAYER_V1(i);
 
         p->moveState |= MOVESTATE_IGNORE_INPUT;
     }
@@ -459,7 +459,7 @@ void Task_803CA28(void)
                 p->moveState |= MOVESTATE_IGNORE_INPUT;
             }
 
-            if(gStageData.charId != 0) {
+            if(gStageData.playerIndex != 0) {
                 s->anim = gUnknown_080CF770[2].anim;
                 s->variant = gUnknown_080CF770[2].variant;
                 s->prevVariant = -1;
@@ -492,7 +492,7 @@ void Task_803CA28(void)
             memcpy(arr, sBonusLifeIconVariants, sizeof(arr));
             {
                 void *tiles = (OBJ_VRAM0 + 0x2800);
-                Player *p1 = &gPlayers[gStageData.charId];
+                Player *p1 = &gPlayers[gStageData.playerIndex];
                 Player *p2 = &gPlayers[p1->charFlags.partnerIndex];
                 Sprite *s;
 
@@ -501,7 +501,7 @@ void Task_803CA28(void)
                 tiles += MAX_TILES(LIFE_ICONS) * TILE_SIZE_4BPP;
                 s->anim = LIFE_ICONS;
 
-                p1->charFlags.someIndex = 1;
+                s->variant = p1->charFlags.someIndex;
             }
         }
     } else if(gStageData.gameMode != GAME_MODE_5) {

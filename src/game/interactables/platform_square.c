@@ -52,7 +52,7 @@ void CreateEntity_PlatformSquare(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     worldY = TO_WORLD_POS(me->y, regionY);
     platform->qWorldY = Q(worldY);
 
-    platform->ps[0] = &gPlayers[gStageData.charId];
+    platform->ps[0] = &gPlayers[gStageData.playerIndex];
     platform->ps[1] = &gPlayers[platform->ps[0]->charFlags.partnerIndex];
     platform->unk16 = 0;
     platform->qUnk14 = 0;
@@ -161,7 +161,7 @@ void Task_80449A4(void)
     if (!IsPointInScreenRect(worldX, worldY)) {
         s16 i;
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-            Player *p = (i != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
+            Player *p = GET_SP_PLAYER_V1(i);
             sub_80213B0(&platform->s, p);
         }
 

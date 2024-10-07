@@ -138,7 +138,7 @@ void Task_PlatformOnPath(void)
 
     s = &platform->s;
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        Player *p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+        Player *p = GET_SP_PLAYER_V0(i);
 
         if (!sub_802C0D4(p)) {
             s32 res;
@@ -240,7 +240,7 @@ void sub_8042520(void)
 
     if (!sub_802C1D0((s16)screenX, (s16)screenY)) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-            Player *p = (i != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
+            Player *p = GET_SP_PLAYER_V1(i);
 
             sub_80213B0(s, p);
         }

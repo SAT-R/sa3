@@ -60,13 +60,7 @@ void FlatSpringTaskA(void)
     spring->unk35 = 1;
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        Player *p;
-
-        if (i != 0) {
-            p = &gPlayers[p->charFlags.partnerIndex];
-        } else {
-            p = &gPlayers[gStageData.charId];
-        }
+        Player *p = GET_SP_PLAYER_V1(i);
 
         if (sub_802C0D4(p))
             continue;

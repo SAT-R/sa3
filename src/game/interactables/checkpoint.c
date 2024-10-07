@@ -70,13 +70,7 @@ void Task_Checkpoint(void)
         worldY = TO_WORLD_POS(me->y, checkpoint->base.regionY);
 
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-            Player *p;
-
-            if (i == 0) {
-                p = &gPlayers[gStageData.charId];
-            } else {
-                p = &gPlayers[p->charFlags.partnerIndex];
-            }
+            Player *p = GET_SP_PLAYER_V0(i);
 
             if (p->charFlags.someIndex != 2) {
                 if (!sub_802C080(p) && sub_8020700(s, worldX, worldY, 0, p, 0)) {

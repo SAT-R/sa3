@@ -80,7 +80,7 @@ void Task_IceLauncher(void)
     u32 res;
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        Player *p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+        Player *p = GET_SP_PLAYER_V0(i);
 
         if (!sub_802C080(p)) {
             if ((p->callback == Player_800B920) || (p->callback == Player_800DEC4)) {

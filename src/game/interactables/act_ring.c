@@ -70,13 +70,13 @@ void CreateEntity_ActRing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
 void Task_ActRingMain(void)
 {
-    Player *p = &gPlayers[gStageData.charId];
+    Player *p = &gPlayers[gStageData.playerIndex];
     ActRing *ring = TASK_DATA(gCurTask);
     Player *partner;
     s16 i;
 
     if ((p->callback != Player_80052C8) && (p->callback != Player_800522C)) {
-        if (!(p->moveState & (MOVESTATE_1000000 | MOVESTATE_200 | MOVESTATE_100)) && (gStageData.charId == CHARACTER_SONIC)) {
+        if (!(p->moveState & (MOVESTATE_1000000 | MOVESTATE_200 | MOVESTATE_100)) && (gStageData.playerIndex == CHARACTER_SONIC)) {
             Sprite *s = &ring->s0;
             s16 worldX = ring->worldX;
             s16 worldY = ring->worldY;
@@ -105,11 +105,7 @@ void Task_ActRingMain(void)
         }
     } else {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-            if (i == 0) {
-                p = &gPlayers[gStageData.charId];
-            } else {
-                p = &gPlayers[p->charFlags.partnerIndex];
-            }
+            p = GET_SP_PLAYER_V0(i);
 
             if ((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) {
                 if (gStageData.entryIndex == (ring->act + 1)) {

@@ -67,7 +67,7 @@ void Task_GoalRing(void)
 
     sub_803414C();
 
-    p1 = &gPlayers[gStageData.charId];
+    p1 = &gPlayers[gStageData.playerIndex];
     p2 = &gPlayers[p1->charFlags.partnerIndex];
 
     if (gStageData.gameMode == GAME_MODE_5) {
@@ -97,7 +97,7 @@ void Task_GoalRing(void)
 
         if ((gStageData.gameMode == GAME_MODE_MP_MULTI_PACK) && !r7) {
             s32 r3 = 0x55; // = 0b01010101;
-            r3 -= (1 << gStageData.charId * 2);
+            r3 -= (1 << gStageData.playerIndex * 2);
             r3 -= (1 << p1->charFlags.partnerIndex * 2);
             gStageData.unk5 = r3;
 
@@ -123,7 +123,7 @@ void Task_8033FD4(void)
         ring->unk5C = 0;
 
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-            Player *p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+            Player *p = GET_SP_PLAYER_V0(i);
 
             SetPlayerCallback(p, Player_8005E80);
         }

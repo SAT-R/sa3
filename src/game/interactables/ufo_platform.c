@@ -78,7 +78,7 @@ void Task_UfoPlatform(void)
 
     r7 = 0;
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+        p = GET_SP_PLAYER_V0(i);
 
         if ((p->callback == Player_8008CD0) || (p->callback == Player_800E1E4)) {
             continue;
@@ -242,7 +242,7 @@ void sub_804A800(void)
     if (!sub_802C140(ufo->world.x, ufo->world.y, s->x, s->y)) {
         s16 i;
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-            Player *p = (i != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
+            Player *p = GET_SP_PLAYER_V1(i);
 
             sub_80213B0(s, p);
         }

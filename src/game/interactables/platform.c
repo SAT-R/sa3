@@ -165,7 +165,7 @@ void Task_Platform()
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         if ((gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) || (i == 0)) {
-            Player *p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+            Player *p = GET_SP_PLAYER_V0(i);
 
             if (!sub_802C0D4(p)) {
                 u32 res;
@@ -293,7 +293,7 @@ void Task_Platform()
                                 }
                             }
                         } else {
-                            if ((p->charFlags.charId != 3) || (p->charFlags.anim0 != 231)) {
+                            if ((p->charFlags.character != CHARACTER_KNUCKLES) || (p->charFlags.anim0 != 231)) {
                                 if ((res & MOVESTATE_40000) && (p->keyInput & DPAD_LEFT)) {
                                     if (qWorldX != Q(0)) {
                                         p->qWorldX -= Q(2);
@@ -376,7 +376,7 @@ bool16 sub_802F1B8(Sprite *s)
 
     if (k >= 2) {
         for (j = 0; j < NUM_SINGLE_PLAYER_CHARS; j++) {
-            Player *p = (j != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
+            Player *p = (j != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.playerIndex];
 
             sub_80213B0(s, p);
         }
@@ -399,7 +399,7 @@ bool16 sub_802F2C8(void)
 
     if (sub_802F1B8(s)) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-            Player *p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+            Player *p = GET_SP_PLAYER_V0(i);
 
             if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
                 p->moveState &= ~MOVESTATE_20;
@@ -440,7 +440,7 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F368.inc", void 
     qWorldY -= shared->qWorldY;
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+        p = GET_SP_PLAYER_V0(i);
 
         if (((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) && !sub_802C0D4(p)) {
             u32 res;
@@ -516,7 +516,7 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F368.inc", void 
 
     if (sub_802F1B8(s)) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-            p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+            p = GET_SP_PLAYER_V0(i);
 
             if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
                 p->moveState &= ~MOVESTATE_20;
@@ -571,7 +571,7 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F698.inc", void 
     qWorldY -= shared->qWorldY;
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+        p = GET_SP_PLAYER_V0(i);
 
         if (((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) && !sub_802C0D4(p)) {
             u32 res;
@@ -647,7 +647,7 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F698.inc", void 
 
     if (sub_802F1B8(s)) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-            p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+            p = GET_SP_PLAYER_V0(i);
 
             if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
                 p->moveState &= ~MOVESTATE_20;

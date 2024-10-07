@@ -36,11 +36,11 @@ void Task_FactoryRingMain(void)
     worldX = TO_WORLD_POS(ring->base.spriteX, ring->base.regionX);
     worldY = TO_WORLD_POS(me->y, ring->base.regionY);
 
-    p = &gPlayers[gStageData.charId];
+    p = &gPlayers[gStageData.playerIndex];
 
     if ((p->callback != Player_80052C8) && (p->callback != Player_800522C)) {
         if (!(p->moveState & (MOVESTATE_1000000 | MOVESTATE_200 | MOVESTATE_100))) {
-            if (gStageData.charId == 0) {
+            if (gStageData.playerIndex == 0) {
                 if (sub_8020700(s, worldX, worldY, 0, p, 0)) {
                     sub_8016F28(p);
                     sub_8019A64(p);
@@ -65,7 +65,7 @@ void Task_FactoryRingMain(void)
         s16 i;
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             if (i == 0) {
-                p = &gPlayers[gStageData.charId];
+                p = &gPlayers[gStageData.playerIndex];
             } else {
                 p = &gPlayers[p->charFlags.partnerIndex];
             }

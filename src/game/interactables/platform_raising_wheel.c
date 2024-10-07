@@ -74,7 +74,7 @@ void Task_PlatformRaisingWheel(void)
     worldX = wheel->worldX;
     worldY = wheel->worldY;
 
-    p = &gPlayers[gStageData.charId];
+    p = &gPlayers[gStageData.playerIndex];
 
     if (!sub_802C0D4(p)) {
         u32 mask = sub_8020950(s, worldX, worldY, p, 0);
@@ -147,13 +147,7 @@ void sub_8035F8C(void)
 
     if (!IsPointInScreenRect(worldX, worldY)) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-            Player *p;
-
-            if (i != 0) {
-                p = &gPlayers[p->charFlags.partnerIndex];
-            } else {
-                p = &gPlayers[gStageData.charId];
-            }
+            Player *p = GET_SP_PLAYER_V1(i);
 
             sub_80213B0(s, p);
         }

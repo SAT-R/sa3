@@ -56,12 +56,7 @@ void Task_IA081_082(void)
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         bool32 r3 = FALSE;
-
-        if (i == 0) {
-            p = &gPlayers[gStageData.charId];
-        } else {
-            p = &gPlayers[p->charFlags.partnerIndex];
-        }
+        p = GET_SP_PLAYER_V0(i);
 
         if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2 || p->charFlags.someIndex == 4) {
             if (!sub_802C0D4(p)) {

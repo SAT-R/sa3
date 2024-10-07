@@ -89,7 +89,7 @@ NONMATCH("asm/non_matching/game/interactables/closing_wall__Task_ClosingWall.inc
     // _0804AA88
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        Player *p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+        Player *p = (i == 0) ? &gPlayers[gStageData.playerIndex] : &gPlayers[p->charFlags.partnerIndex];
 
         for (j = 0; j < (s32)ARRAY_COUNT(wall->s); j++) {
             // _0804AAD2_inner_loop
@@ -219,7 +219,7 @@ void sub_804ACF0(void)
             s = &wall->s[i];
 
             for (j = 0; j < NUM_SINGLE_PLAYER_CHARS; j++) {
-                p = (j != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
+                p = GET_SP_PLAYER_V1(j);
 
                 sub_80213B0(s, p);
             }

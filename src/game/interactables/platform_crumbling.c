@@ -116,7 +116,7 @@ void Task_PlatformCrumbling(void)
     qPlatformY -= platform->qWorldY;
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        Player *p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+        Player *p = GET_SP_PLAYER_V0(i);
 
         if (!sub_802C0D4(p)) {
             if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
@@ -228,7 +228,7 @@ void sub_803901C(void)
 
     if (!sub_802C140(worldX, worldY, s->x, s->y)) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-            Player *p = (i != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
+            Player *p = GET_SP_PLAYER_V1(i);
 
             sub_80213B0(s, p);
         }

@@ -70,7 +70,7 @@ void CreateEntity_PlatformSpiked(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     platform->unk2C = platform->unk24 + platform->unk28;
     platform->unk30 = platform->unk1C + platform->unk20;
 
-    platform->ps[0] = &gPlayers[gStageData.charId];
+    platform->ps[0] = &gPlayers[gStageData.playerIndex];
     platform->ps[1] = &gPlayers[platform->ps[0]->charFlags.partnerIndex];
 
     platform->unk16 = sub_804DC38(0, worldX, worldY, me);
@@ -230,7 +230,7 @@ void Task_80452AC(void)
         s16 j;
 
         for (j = 0; j < (s32)ARRAY_COUNT(platform->ps); j++) {
-            p = (j != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
+            p = GET_SP_PLAYER_V1(j);
 
             sub_80213B0(s, p);
         }

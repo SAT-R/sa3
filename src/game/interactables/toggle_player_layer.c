@@ -46,11 +46,7 @@ void Task_Toggle_PlayerLayer(void)
 
     for (i = 0; i < 2; i++) {
         if ((gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) || (i == 0)) {
-            if (i == 0) {
-                p = &gPlayers[gStageData.charId];
-            } else {
-                p = &gPlayers[p->charFlags.partnerIndex];
-            }
+            p = GET_SP_PLAYER_V0(i);
 
             if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2 || p->charFlags.someIndex == 4) {
                 if ((p->callback != Player_800DDD0) && (worldX <= I(p->qWorldX)) && (worldX + me->d.uData[2] * TILE_WIDTH >= I(p->qWorldX))

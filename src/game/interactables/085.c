@@ -61,11 +61,7 @@ void Task_Interactable085(void)
     u8 i;
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        if (i != 0) {
-            p = &gPlayers[p->charFlags.partnerIndex];
-        } else {
-            p = &gPlayers[gStageData.charId];
-        }
+        p = GET_SP_PLAYER_V1(i);
 
         if (!sub_802C080(p) && !(p->moveState & MOVESTATE_IN_AIR) && (p->callback != Player_800A438) && (p->callback != Player_8008A8C)
             && (p->callback != Player_800ED80)) {

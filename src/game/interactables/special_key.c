@@ -78,7 +78,7 @@ void Task_SpecialKey(void)
     worldY = key->worldY;
     s = &key->s;
 
-    p = &gPlayers[gStageData.charId];
+    p = &gPlayers[gStageData.playerIndex];
 
     if (task98->unk16 & 0x4) {
         sub_8004DD8(Q(worldX), Q(worldY));

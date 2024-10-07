@@ -54,7 +54,7 @@ void CreateEntity_AirBubbles(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     bubbles->id = id;
     bubbles->worldX = TO_WORLD_POS(me->x, regionX);
     bubbles->worldY = TO_WORLD_POS(me->y, regionY);
-    bubbles->ps[0] = &gPlayers[gStageData.charId];
+    bubbles->ps[0] = &gPlayers[gStageData.playerIndex];
     bubbles->ps[1] = &gPlayers[bubbles->ps[0]->charFlags.partnerIndex];
 
     s = &bubbles->s;
@@ -154,7 +154,7 @@ void CreateBigAirBubble(s16 worldX, s16 worldY, u8 variant)
     bubble->qWorldX = Q(worldX);
     bubble->qWorldY = Q(worldY);
 
-    bubble->ps[0] = &gPlayers[gStageData.charId];
+    bubble->ps[0] = &gPlayers[gStageData.playerIndex];
     bubble->ps[1] = &gPlayers[bubble->ps[0]->charFlags.partnerIndex];
 
     bubble->unk8 = 0;

@@ -74,11 +74,7 @@ static void Task_ToyBalloon(void)
     s16 i;
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        if (i == 0) {
-            p = &gPlayers[gStageData.charId];
-        } else {
-            p = &gPlayers[p->charFlags.partnerIndex];
-        }
+        p = GET_SP_PLAYER_V0(i);
 
         if (!sub_802C0D4(p) && (s->anim == ANIM_TOY_BALLOON)) {
             if (sub_8020700(s, balloon->worldX, balloon->worldY, 0, p, 0)) {

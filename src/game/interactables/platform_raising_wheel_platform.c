@@ -99,7 +99,7 @@ void Task_PlatformRaisingWheelPlatform(void)
         Player *p;
 
         if (i == 0) {
-            p = &gPlayers[gStageData.charId];
+            p = &gPlayers[gStageData.playerIndex];
         } else {
             p = &gPlayers[p->charFlags.partnerIndex];
         }
@@ -147,12 +147,7 @@ void sub_8036304(void)
 
     if (!IsPointInScreenRect(worldX, worldY) && !IsPointInScreenRect(platform->worldX, platform->worldY)) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-            // _08036350
-            if (i != 0) {
-                p = &gPlayers[p->charFlags.partnerIndex];
-            } else {
-                p = &gPlayers[gStageData.charId];
-            }
+            p = GET_SP_PLAYER_V1(i);
 
             sub_80213B0(s, p);
         }

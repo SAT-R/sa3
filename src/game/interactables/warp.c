@@ -24,13 +24,13 @@ void Task_802E8D8(void);
 
 void Task_WarpMain(void)
 {
-    if (gStageData.charId == 0) {
+    if (gStageData.playerIndex == 0) {
         Warp *warp = TASK_DATA(gCurTask);
         MapEntity *me = warp->base.me;
         u8 meX = warp->base.spriteX;
         u16 regionX = warp->base.regionX;
         u16 regionY = warp->base.regionY;
-        Player *p = &gPlayers[gStageData.charId];
+        Player *p = &gPlayers[gStageData.playerIndex];
         s16 worldX, worldY;
         s32 qNewWorldY;
 
@@ -73,7 +73,7 @@ void Task_802E634(void)
     u8 meX = warp->base.spriteX;
     u16 regionX = warp->base.regionX;
     u16 regionY = warp->base.regionY;
-    Player *p = &gPlayers[gStageData.charId];
+    Player *p = &gPlayers[gStageData.playerIndex];
     s16 worldX, worldY;
     s32 qWorldX, qWorldY;
     s32 qNewWorldY;
@@ -228,7 +228,7 @@ void Task_802E8D8(void)
     Warp *warp = TASK_DATA(gCurTask);
     Player *p;
 
-    p = &gPlayers[gStageData.charId];
+    p = &gPlayers[gStageData.playerIndex];
     p->charFlags.unk2C_40 = 1;
 
     warp->base.unk8++;

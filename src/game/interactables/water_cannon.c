@@ -101,8 +101,7 @@ void Task_WaterCannon(void)
     worldY = cannon->worldY;
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        // TODO: Maybe we should wrap this in a macro, if the ?-operator works everywhere else?
-        p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+        p = GET_SP_PLAYER_V0(i);
 
         if (((p->callback != Player_800AB48) && (p->callback != Player_800E67C)) && (p->callback != Player_800E6CC)) {
             if (!sub_802C080(p) && sub_8020700(s, worldX, worldY, 2, p, 0)) {

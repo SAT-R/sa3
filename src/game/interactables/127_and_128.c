@@ -48,13 +48,7 @@ void Task_Interactable127(void)
     qRight = qLeft + Q(me->d.uData[2] * TILE_WIDTH);
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        Player *p;
-
-        if (i == 0) {
-            p = &gPlayers[gStageData.charId];
-        } else {
-            p = &gPlayers[p->charFlags.partnerIndex];
-        }
+        Player *p = GET_SP_PLAYER_V0(i);
 
         if ((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) {
             if (!sub_802C0D4(p)) {
@@ -99,7 +93,7 @@ void Task_Interactable128(void)
         Player *p;
 
         if (i == 0) {
-            p = &gPlayers[gStageData.charId];
+            p = &gPlayers[gStageData.playerIndex];
         } else {
             p = &gPlayers[p->charFlags.partnerIndex];
         }

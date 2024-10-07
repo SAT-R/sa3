@@ -94,7 +94,7 @@ void Task_Boulder(void)
         s = &boulder->s;
 
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-            p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+            p = GET_SP_PLAYER_V0(i);
 
             res = sub_8020874(s, I(boulder->qWorldX), I(boulder->qWorldY), 0, p, 0, 0);
             if (res) {
@@ -109,7 +109,7 @@ void Task_Boulder(void)
         s = &boulder->s;
 
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-            p = (i == 0) ? &gPlayers[gStageData.charId] : &gPlayers[p->charFlags.partnerIndex];
+            p = GET_SP_PLAYER_V0(i);
 
             if (!sub_802C080(p)) {
                 s32 res = sub_8020874(s, I(boulder->qWorldX), I(boulder->qWorldY), 0, p, 0, 0);

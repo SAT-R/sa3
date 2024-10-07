@@ -68,7 +68,7 @@ void Task_SpecialSpring(void)
     worldX = TO_WORLD_POS(spring->base.spriteX, spring->base.regionX);
     worldY = TO_WORLD_POS(me->y, spring->base.regionY);
 
-    p = &gPlayers[gStageData.charId];
+    p = &gPlayers[gStageData.playerIndex];
 
     if (!sub_802C080(p)) {
 

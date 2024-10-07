@@ -51,11 +51,11 @@ void CreateEntity_FinalZoneRing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 void Task_FinalZoneRing(void)
 {
     FinalZoneRing *ring = TASK_DATA(gCurTask);
-    Player *p = &gPlayers[gStageData.charId];
+    Player *p = &gPlayers[gStageData.playerIndex];
     Player *partner;
 
     if (!(p->moveState & (MOVESTATE_1000000 | MOVESTATE_200 | MOVESTATE_100))) {
-        if (gStageData.charId == CHARACTER_SONIC) {
+        if (gStageData.playerIndex == CHARACTER_SONIC) {
             Sprite *s = &ring->s;
 
             if (sub_8020700(s, ring->worldX, ring->worldY, 0, p, 0)) {

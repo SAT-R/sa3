@@ -47,7 +47,7 @@ void CreateEntity_SpringInABox(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     spring->worldX = TO_WORLD_POS(me->x, regionX);
     spring->worldY = TO_WORLD_POS(me->y, regionY);
-    spring->ps[0] = &gPlayers[gStageData.charId];
+    spring->ps[0] = &gPlayers[gStageData.playerIndex];
     spring->ps[1] = &gPlayers[spring->ps[0]->charFlags.partnerIndex];
 
     spring->unkE = 0;
@@ -186,8 +186,8 @@ void Task_80458FC(void)
     }
 
     if (!IsPointInScreenRect(worldX, worldY)) {
-        for (j = 0; j < 2; j++) {
-            p = (j != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
+        for (j = 0; j < NUM_SINGLE_PLAYER_CHARS; j++) {
+            p = GET_SP_PLAYER_V1(j);
 
             sub_80213B0(s, p);
         }

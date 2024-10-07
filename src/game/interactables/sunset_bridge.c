@@ -65,7 +65,7 @@ NONMATCH("asm/non_matching/game/interactables/sunset_bridge__CreateEntity_Sunset
     worldY = TO_WORLD_POS(me->y, regionY);
     bridge->qWorldY = worldY;
 
-    bridge->ps[0] = &gPlayers[gStageData.charId];
+    bridge->ps[0] = &gPlayers[gStageData.playerIndex];
     bridge->ps[1] = &gPlayers[bridge->ps[0]->charFlags.partnerIndex];
 
     bridge->top = worldY + me->d.sData[1] * TILE_WIDTH;
@@ -178,7 +178,7 @@ NONMATCH("asm/non_matching/game/interactables/sunset_bridge__Task_SunsetBridge.i
         Player *p;
         s16 i;
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-            p = (i != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.charId];
+            p = GET_SP_PLAYER_V1(i);
 
             sub_80213B0(s, p);
         }

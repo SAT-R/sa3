@@ -51,13 +51,7 @@ void Task_BungeeCord(void)
     qRight = qLeft + Q(me->d.uData[2] * TILE_WIDTH);
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        Player *p;
-
-        if (i == 0) {
-            p = &gPlayers[gStageData.charId];
-        } else {
-            p = &gPlayers[p->charFlags.partnerIndex];
-        }
+        Player *p = GET_SP_PLAYER_V0(i);
 
         if (((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4))) {
             if (!sub_802C080(p) && !(p->moveState & MOVESTATE_IN_AIR) && (p->qWorldX > qLeft) && (p->qWorldX < qRight)

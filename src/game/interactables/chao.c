@@ -160,7 +160,7 @@ void Task_ChaoMain(void)
         worldX = chao->worldX;
         worldY = chao->worldY;
 
-        p = &gPlayers[gStageData.charId];
+        p = &gPlayers[gStageData.playerIndex];
         if (!sub_802C080(p)) {
             s = &chao->s;
             if (sub_8020700(s, worldX, worldY, 0, p, 0)) {
@@ -179,7 +179,7 @@ void Task_ChaoMain(void)
                 ScreenFadeUpdateValues(fade);
 
                 gStageData.unk4 = 0x4;
-                gStageData.unkB9 = (1 << gStageData.charId);
+                gStageData.unkB9 = (1 << gStageData.playerIndex);
                 gStageData.unk85 = 1;
 
                 chao->blend = 0x10;
@@ -244,7 +244,7 @@ void sub_804E210(void)
 
     chao->blend = 0x10;
 
-    p = &gPlayers[gStageData.charId];
+    p = &gPlayers[gStageData.playerIndex];
 
     if (p->unk56 <= 5) {
         sub_80299FC();
@@ -264,7 +264,7 @@ void sub_804E210(void)
 void Task_804E2D8(void)
 {
     IAChao *chao = TASK_DATA(gCurTask);
-    Player *p = &gPlayers[gStageData.charId];
+    Player *p = &gPlayers[gStageData.playerIndex];
 
     chao->blend--;
     chao->unk73 = 16 - chao->blend;
@@ -289,7 +289,7 @@ void Task_804E2D8(void)
 
 void Task_804E398(void)
 {
-    Player *p = &gPlayers[gStageData.charId];
+    Player *p = &gPlayers[gStageData.playerIndex];
     IAChao *chao = TASK_DATA(gCurTask);
     void *unkData;
 
@@ -310,7 +310,7 @@ void Task_804E398(void)
 
 void Task_804E41C(void)
 {
-    Player *p = &gPlayers[gStageData.charId];
+    Player *p = &gPlayers[gStageData.playerIndex];
     Player *partner;
     IAChao *chao = TASK_DATA(gCurTask);
     s32 bld;

@@ -34,7 +34,7 @@ static void Task_Interactable094Main(void)
     middle = left + me->d.uData[2] * (TILE_WIDTH / 2) + 4;
 
     if (!IsPointInScreenRect(worldX, worldY)) {
-        p = &gPlayers[gStageData.charId];
+        p = &gPlayers[gStageData.playerIndex];
 
 #ifdef BUG_FIX
         if (p->charFlags.anim0 != ANIM_CHAR_133)
@@ -50,11 +50,7 @@ static void Task_Interactable094Main(void)
         return;
     } else {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-            if (i == 0) {
-                p = &gPlayers[gStageData.charId];
-            } else {
-                p = &gPlayers[p->charFlags.partnerIndex];
-            }
+            p = GET_SP_PLAYER_V0(i);
 
             if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2 || p->charFlags.someIndex == 4) {
                 if (sub_802C0D4(p)) {

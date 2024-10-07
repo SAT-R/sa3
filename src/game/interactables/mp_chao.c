@@ -60,7 +60,7 @@ static void Task_MultiplayerChao(void)
     bool32 r7 = FALSE;
     IA_MP024 *ia = TASK_DATA(gCurTask);
     Sprite *s = &ia->s;
-    Player *p = &gPlayers[gStageData.charId];
+    Player *p = &gPlayers[gStageData.playerIndex];
     // NOTE: Changing worldX|Y to s32 is non-matching
     s16 worldX, worldY;
 
@@ -68,7 +68,7 @@ static void Task_MultiplayerChao(void)
     worldY = ia->worldY;
 
     if (sub_8020700(s, worldX, worldY, 0, p, r7)) {
-        sub_80276A8(gStageData.charId);
+        sub_80276A8(gStageData.playerIndex);
 
         sub_802954C(p, worldX, worldY);
         r7 = TRUE;

@@ -85,11 +85,7 @@ void Task_Gondola(void)
     s16 i;
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        if (i == 0) {
-            p = &gPlayers[gStageData.charId];
-        } else {
-            p = &gPlayers[p->charFlags.partnerIndex];
-        }
+        p = GET_SP_PLAYER_V0(i);
 
         // If player is standing on the platform, move player
         if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
@@ -178,11 +174,7 @@ void sub_80498B4(void)
         sub_8003E28(SE_GONDOLA);
 
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-            if (i != 0) {
-                p = &gPlayers[p->charFlags.partnerIndex];
-            } else {
-                p = &gPlayers[gStageData.charId];
-            }
+            p = GET_SP_PLAYER_V1(i);
 
             sub_80213B0(s, p);
         }

@@ -21,7 +21,7 @@ typedef struct {
                             // x7: multiplayer?)
     /* 0x04 */ u8 unk4;
     /* 0x05 */ u8 unk5; // This appears to be flag with layout 0b01010101 (see IA goal_ring)
-    /* 0x06 */ u8 charId; // 0-3
+    /* 0x06 */ u8 playerIndex; // Index of the controlled Player in gPlayers[] | 0x2B
     /* 0x07 */ u8 unk7;
     /* 0x08 */ u8 unk8;
     /* 0x09 */ u8 zone; // Currently visited Zone
