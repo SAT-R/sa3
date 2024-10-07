@@ -33,10 +33,10 @@
 #define OBJ_PLTT      (PLTT + 0x200)
 #define OBJ_PLTT_SIZE 0x200
 
-#define VRAM      0x6000000
+#define VRAM      (void*)0x6000000
 #define VRAM_SIZE 0x18000
 
-#define BG_VRAM           VRAM
+#define BG_VRAM           (void*)VRAM
 #define BG_VRAM_SIZE      0x10000
 #define BG_CHAR_ADDR(n)   (BG_VRAM + (0x4000 * (n)))
 #define BG_SCREEN_ADDR(n) (BG_VRAM + (0x800 * (n)))

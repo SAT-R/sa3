@@ -212,8 +212,12 @@
 
 #define ANIM_BONUS_CAPSULE 1154
 
-#define ANIM_BONUS_UI_FLOWER 1163
-#define ANIM_BONUS_UI_BAR    1164
+#define ANIM_BONUS_UI_EXCLAMATION  1157
+#define ANIM_BONUS_UI_COUNTDOWN    1158
+#define ANIM_BONUS_UI_TIMER_DIGITS 1159
+#define ANIM_BONUS_UI_FLOWER       1163
+#define ANIM_BONUS_UI_BAR          1164
+#define ANIM_BONUS_UI_X            1165
 
 // SA3 - Enemies
 #define ANIM_SPINNER  1166
@@ -268,7 +272,7 @@
 #define ANIM_ICE_SHIVER  1344
 #define ANIM_SPECIAL_KEY 1348
 
-#define LIFE_ICONS      1423
+#define ANIM_LIFE_ICONS 1423
 #define ANIM_ZONEX_NAME 1424 /* Substate-Index == Zone number */
 
 #endif // GUARD_ANIMATIONS_SA3_H

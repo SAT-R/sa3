@@ -24,6 +24,15 @@
 // NOTE: Technically this is offset by (ANIM_BONUS_UI_BAR_WIDTH / 2)
 #define FIRST_ELEM_X (((DISPLAY_WIDTH / 2) - (BAR_WIDTH / 2)) + ANIM_BONUS_UI_BAR_WIDTH)
 
+#define LIFE_ICON_P1_X      95
+#define LIFE_ICON_P1_Y      78
+#define LIFE_ICON_P2_X      105
+#define LIFE_ICON_P2_Y      78
+#define LIFE_BACKDROP_X     108
+#define LIFE_BACKDROP_Y     85
+#define EXTRALIFE_COUNTER_X 150
+#define EXTRALIFE_COUNTER_Y 85
+
 typedef struct {
     /* 0x00 */ Sprite s;
     /* 0x28 */ s32 qUnk28;
@@ -36,7 +45,7 @@ typedef struct {
 typedef struct {
     /* 0x000 */ SpriteBase base;
     /* 0x00C */ u8 unkC[4];
-    /* 0x010 */ u16 timer;
+    /* 0x010 */ s16 timer;
     /* 0x012 */ s16 unk12;
     /* 0x014 */ u8 unk14;
     /* 0x015 */ u8 unk15;
@@ -59,9 +68,11 @@ void Task_BonusFlower_803C4A0(void);
 void sub_803C6F4(s16);
 void Task_803C898(void);
 void Task_803CA28(void);
-void sub_803CF84(void);
+void Task_803CF84(void);
+void Task_803D324(void);
 void sub_803D47C(Sprite *s);
 void sub_803D4C8(void);
+void Task_803D750(void);
 void sub_803D784(bool32 param0);
 
 // TODO: Merge ia_bonus_capsule and bonus_game_UI?
@@ -420,30 +431,28 @@ void Task_803C898(void)
 }
 
 #if 0
+// (99.51%) https://decomp.me/scratch/64Wmf
 void Task_803CA28(void)
 {
+    s8 r6 = 0;
     BonusGameUI *ui = TASK_DATA(gCurTask);
     ScreenFade *fade = &ui->fade;
+    u8 arr[ARRAY_COUNT(sBonusLifeIconVariants)];
+    Player *p;
     Sprite *s;
     s8 i;
-    u8 arr[ARRAY_COUNT(sBonusLifeIconVariants)];
 
-    if(ui->unk16 < gUnknown_03001D00) {
-        i = ui->unk16;
-
-        while(i < gUnknown_03001D00) {
-            s = &ui->sprKillBar[i];
-            s->variant = 1;
-            s->prevVariant = -1;
-
-            i++;
-        }
+    for (i = ui->unk16; i < gUnknown_03001D00; i++) {
+        Sprite *s = &ui->sprKillBar[i];
+        s->variant = 1;
+        s->prevVariant = -1;
     }
+
     // _0803CA86
 
     s = &ui->sprCountdownDigit;
 
-    if(!(gUnknown_03001D00 < 8) || (ui->timer == 0)) {
+    if (!(gUnknown_03001D00 < 8) || (--ui->timer == 0)) {
         // _0803CAA2
 
         ui->unk17 = 128;
@@ -452,14 +461,14 @@ void Task_803CA28(void)
         fade->brightness = Q(0);
         fade->bldCnt = (BLDCNT_EFFECT_LIGHTEN | BLDCNT_TGT1_ALL);
 
-        if(ui->timer == 0) {
-            for(i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-                Player *p = GET_SP_PLAYER_V1(i);
-                
+        if (ui->timer == 0) {
+            for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+                p = GET_SP_PLAYER_V1(i);
+
                 p->moveState |= MOVESTATE_IGNORE_INPUT;
             }
 
-            if(gStageData.playerIndex != 0) {
+            if (gStageData.playerIndex != 0) {
                 s->anim = gUnknown_080CF770[2].anim;
                 s->variant = gUnknown_080CF770[2].variant;
                 s->prevVariant = -1;
@@ -468,15 +477,13 @@ void Task_803CA28(void)
             ui->unk12 = 30;
             sub_803D4C8();
 
-            gCurTask->main = sub_803CF84;
-            gStageData.unk4 = 6;
-            return;
+            gCurTask->main = Task_803CF84;
         } else {
             // _0803CB4C
-            
-            for(i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-                Player *p = GET_SP_PLAYER_V1(i);
-                
+
+            for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+                p = GET_SP_PLAYER_V1(i);
+
                 p->moveState |= MOVESTATE_IGNORE_INPUT;
             }
             // __0803CB98
@@ -494,18 +501,165 @@ void Task_803CA28(void)
                 void *tiles = (OBJ_VRAM0 + 0x2800);
                 Player *p1 = &gPlayers[gStageData.playerIndex];
                 Player *p2 = &gPlayers[p1->charFlags.partnerIndex];
-                Sprite *s;
+                s32 r4;
 
                 s = &ui->sprPlayer1Icon;
                 s->tiles = tiles;
-                tiles += MAX_TILES(LIFE_ICONS) * TILE_SIZE_4BPP;
-                s->anim = LIFE_ICONS;
+                tiles += MAX_TILES(ANIM_LIFE_ICONS) * TILE_SIZE_4BPP;
+                s->anim = ANIM_LIFE_ICONS;
+                s->variant = arr[p1->charFlags.character];
+                s->oamFlags = SPRITE_OAM_ORDER(0);
+                s->animCursor = 0;
+                s->qAnimDelay = Q(0);
+                s->prevVariant = -1;
+                s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+                s->palId = 0;
+                s->hitboxes[0].index = -1;
+                s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+                s->x = LIFE_ICON_P1_X;
+                s->y = LIFE_ICON_P1_Y;
+                UpdateSpriteAnimation(s);
 
-                s->variant = p1->charFlags.someIndex;
+                s = &ui->sprPlayer2Icon;
+                s->tiles = tiles;
+                tiles += MAX_TILES(ANIM_LIFE_ICONS) * TILE_SIZE_4BPP;
+                s->anim = ANIM_LIFE_ICONS;
+                s->variant = arr[p2->charFlags.character];
+                s->oamFlags = SPRITE_OAM_ORDER(1);
+                s->animCursor = 0;
+                s->qAnimDelay = Q(0);
+                s->prevVariant = -1;
+                s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+                s->palId = 0;
+                s->hitboxes[0].index = -1;
+                s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+                s->x = LIFE_ICON_P2_X;
+                s->y = LIFE_ICON_P2_Y;
+                UpdateSpriteAnimation(s);
+
+                s = &ui->spr518;
+                s->tiles = tiles;
+                tiles += MAX_TILES_VARIANT(ANIM_BONUS_UI_X, 1) * TILE_SIZE_4BPP;
+                s->anim = ANIM_BONUS_UI_X;
+                s->variant = 1;
+                s->oamFlags = SPRITE_OAM_ORDER(2);
+                s->animCursor = 0;
+                s->qAnimDelay = Q(0);
+                s->prevVariant = -1;
+                s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+                s->palId = 0;
+                s->hitboxes[0].index = -1;
+                s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+                s->x = LIFE_BACKDROP_X;
+                s->y = LIFE_BACKDROP_Y;
+                UpdateSpriteAnimation(s);
+
+                s = &ui->spr540;
+                s->tiles = tiles;
+                tiles += MAX_TILES_VARIANT(ANIM_BONUS_UI_X, 0) * TILE_SIZE_4BPP;
+                s->anim = ANIM_BONUS_UI_X;
+                s->variant = 0;
+                s->oamFlags = SPRITE_OAM_ORDER(1);
+                s->animCursor = 0;
+                s->qAnimDelay = Q(0);
+                s->prevVariant = -1;
+                s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+                s->palId = 0;
+                s->hitboxes[0].index = -1;
+                s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+                s->x = LIFE_COUNT_X_X;
+                s->y = LIFE_COUNT_X_Y;
+                UpdateSpriteAnimation(s);
+
+                if (ui->timer >= 1500) {
+                    r4 = 5;
+                } else if (ui->timer >= 600) {
+                    r4 = 2;
+                } else {
+                    r4 = 1;
+                }
+
+                // Lives counter?
+                s = &ui->spr568;
+                s->tiles = tiles;
+                s->anim = ANIM_BONUS_UI_TIMER_DIGITS;
+                s->variant = 0;
+                s->oamFlags = SPRITE_OAM_ORDER(1);
+                s->animCursor = 0;
+                s->qAnimDelay = Q(0);
+                s->prevVariant = -1;
+                s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+                s->palId = 0;
+                s->hitboxes[0].index = -1;
+                s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+                s->x = EXTRALIFE_COUNTER_X;
+                s->y = EXTRALIFE_COUNTER_Y;
+                UpdateSpriteAnimation(s);
+
+                sub_8003DC4(r4);
+                ui->unk14 = r4;
+            }
+
+            gCurTask->main = Task_803D324;
+        }
+
+        gStageData.unk4 = 6;
+        return;
+    } else if (gStageData.gameMode != GAME_MODE_5) {
+        // _0803CD90
+        p = &gPlayers[gStageData.playerIndex];
+
+        if (p->moveState & MOVESTATE_100) {
+            r6++;
+        }
+    } else {
+        // _0803CDCC
+        for (i = 0, r6 = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            // _0803CDD2
+            p = GET_SP_PLAYER_V1(i);
+
+            if (p->moveState & MOVESTATE_100) {
+                r6++;
             }
         }
-    } else if(gStageData.gameMode != GAME_MODE_5) {
-        // _0803CD90
     }
+    // _0803CE20
+
+    if (r6 != 0) {
+        ui->unk17 = 128;
+
+        fade->flags = SCREEN_FADE_FLAG_LIGHTEN;
+        fade->brightness = Q(0);
+        fade->bldCnt = (BLDCNT_EFFECT_LIGHTEN | BLDCNT_TGT1_ALL);
+
+        ui->unk12 = 60;
+
+        gCurTask->main = Task_803D750;
+
+        for (i = 0, r6 = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            p = GET_SP_PLAYER_V1(i);
+
+            p->moveState |= MOVESTATE_IGNORE_INPUT;
+        }
+
+        s->anim = gUnknown_080CF770[3].anim;
+        s->variant = gUnknown_080CF770[3].variant;
+        s->prevVariant = -1;
+
+        gStageData.unk4 = 6;
+    } else {
+        // _0803CEA8
+        u8 prevUnk17 = ui->unk17;
+
+        sub_803D784(0);
+
+        if ((prevUnk17 != 0) && (ui->unk17 == 0)) {
+            gStageData.unk85 = 0;
+        }
+    }
+
+    sub_803D4C8();
+
+    ui->unk16 = gUnknown_03001D00;
 }
 #endif

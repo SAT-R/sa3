@@ -145,13 +145,13 @@ _0803CB2A:
 	bl sub_803D4C8
 	ldr r0, _0803CB44 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0803CB48 @ =sub_803CF84
+	ldr r0, _0803CB48 @ =Task_803CF84
 	b _0803CD74
 	.align 2, 0
 _0803CB3C: .4byte gStageData
 _0803CB40: .4byte gUnknown_080CF770
 _0803CB44: .4byte gCurTask
-_0803CB48: .4byte sub_803CF84
+_0803CB48: .4byte Task_803CF84
 _0803CB4C:
 	movs r1, #0
 	ldr r6, _0803CB68 @ =gUnknown_080CF770
@@ -284,7 +284,7 @@ __0803CB98:
 	ldrb r0, [r0]
 	strb r0, [r3, #0x1a]
 	movs r2, #0x40
-	mov sl, r2
+	mov sl, r2          @ sl = 0x40
 	mov r0, sl
 	strh r0, [r3, #0x14]
 	strh r5, [r3, #0xe]
@@ -417,7 +417,7 @@ _0803CD2E:
 	strb r4, [r7, #0x14]
 	ldr r0, _0803CD84 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0803CD88 @ =sub_803D324
+	ldr r0, _0803CD88 @ =Task_803D324
 _0803CD74:
 	str r0, [r1, #8]
 	ldr r1, _0803CD8C @ =gStageData
@@ -427,7 +427,7 @@ _0803CD74:
 	.align 2, 0
 _0803CD80: .4byte 0x00000257
 _0803CD84: .4byte gCurTask
-_0803CD88: .4byte sub_803D324
+_0803CD88: .4byte Task_803D324
 _0803CD8C: .4byte gStageData
 _0803CD90:
 	ldr r0, _0803CDC4 @ =gStageData
@@ -484,7 +484,7 @@ _0803CDF0:
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	lsls r0, r0, #4
-	adds r4, r0, r2
+	adds r4, r0, r2     @ r4 = p
 	ldr r0, [r4, #4]
 	movs r1, #0x80
 	lsls r1, r1, #1
@@ -520,7 +520,7 @@ _0803CE20:
 	strh r0, [r7, #0x12]
 	ldr r0, _0803CE5C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0803CE60 @ =sub_803D750
+	ldr r0, _0803CE60 @ =Task_803D750
 	str r0, [r1, #8]
 	movs r1, #0
 	ldr r6, _0803CE64 @ =gUnknown_080CF770
@@ -538,7 +538,7 @@ _0803CE48:
 	b _0803CE70
 	.align 2, 0
 _0803CE5C: .4byte gCurTask
-_0803CE60: .4byte sub_803D750
+_0803CE60: .4byte Task_803D750
 _0803CE64: .4byte gUnknown_080CF770
 _0803CE68: .4byte gPlayers
 _0803CE6C:
@@ -676,8 +676,8 @@ _0803CF7E:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_803CF84
-sub_803CF84: @ 0x0803CF84
+	thumb_func_start Task_803CF84
+Task_803CF84: @ 0x0803CF84
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -975,7 +975,7 @@ _0803D1A2:
 	strb r4, [r6, #0x14]
 	ldr r0, _0803D1FC @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0803D200 @ =sub_803D324
+	ldr r0, _0803D200 @ =Task_803D324
 	str r0, [r1, #8]
 	ldr r1, _0803D204 @ =gStageData
 	movs r0, #6
@@ -985,7 +985,7 @@ _0803D1A2:
 _0803D1F4: .4byte 0x00000257
 _0803D1F8: .4byte 0x00000487
 _0803D1FC: .4byte gCurTask
-_0803D200: .4byte sub_803D324
+_0803D200: .4byte Task_803D324
 _0803D204: .4byte gStageData
 _0803D208:
 	ldr r1, _0803D240 @ =gUnknown_080CF770
@@ -1127,8 +1127,8 @@ _0803D31E:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_803D324
-sub_803D324: @ 0x0803D324
+	thumb_func_start Task_803D324
+Task_803D324: @ 0x0803D324
 	push {r4, r5, r6, lr}
 	ldr r2, _0803D348 @ =gCurTask
 	ldr r0, [r2]
@@ -1625,8 +1625,8 @@ _0803D744: .4byte 0x03000518
 _0803D748: .4byte 0x03000540
 _0803D74C: .4byte 0x03000568
 
-	thumb_func_start sub_803D750
-sub_803D750: @ 0x0803D750
+	thumb_func_start Task_803D750
+Task_803D750: @ 0x0803D750
 	push {lr}
 	ldr r2, _0803D77C @ =gCurTask
 	ldr r0, [r2]
