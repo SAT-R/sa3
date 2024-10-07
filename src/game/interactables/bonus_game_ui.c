@@ -1018,3 +1018,94 @@ NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__sub_803D4C8.inc", v
     }
 }
 END_NONMATCH
+
+void sub_803D614(void)
+{
+    BonusGameUI *ui = TASK_DATA(gCurTask);
+    Sprite *s;
+
+    s = &ui->sprPlayer1Icon;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &ui->sprPlayer2Icon;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &ui->spr518;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &ui->spr540;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &ui->spr568;
+
+    // TODO: Maybe a bug? (ui->unk15-- == 0)
+    if ((ui->unk14 != 0) && (ui->unk15-- == 0)) {
+        ui->unk15 = 20;
+
+        sub_8003DF0(SE_BONUS_1UP_COUNTER);
+        ui->unk14--;
+        s->variant++;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void TaskDestructor_BonusFlower(struct Task *t)
+{
+    BonusFlower *flower = TASK_DATA(t);
+    VramFree(flower->s.tiles);
+}
+
+void TaskDestructor_BonusGameUI(struct Task *t)
+{
+    BonusGameUI *ui = TASK_DATA(t);
+    VramFree(ui->sprScore[0].tiles);
+    VramFree(ui->sprKillBar[0].tiles);
+    VramFree(ui->sprCountdownDigit.tiles);
+
+    if (ui->sprPlayer1Icon.tiles != NULL) {
+        VramFree(ui->sprPlayer1Icon.tiles);
+        VramFree(ui->sprPlayer2Icon.tiles);
+        VramFree(ui->spr518.tiles);
+        VramFree(ui->spr540.tiles);
+        VramFree(ui->spr568.tiles);
+    }
+}
+
+void Task_803D750(void)
+{
+    BonusGameUI *ui = TASK_DATA(gCurTask);
+
+    if (--ui->unk17 == 0) {
+        ui->unk17 = 128;
+
+        gCurTask->main = Task_803CEE4;
+    }
+
+    sub_803D4C8();
+}
+
+void sub_803D784(bool32 param0)
+{
+    BonusGameUI *ui = TASK_DATA(gCurTask);
+    Sprite *s;
+
+    if (ui->unk17 != 0) {
+        --ui->unk17;
+
+        if (!param0 && ui->unk17 <= 30) {
+            if (!(ui->unk17 & 2)) {
+                return;
+            }
+        }
+
+        s = &ui->sprCountdownDigit;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}

@@ -4986,7 +4986,7 @@ sub_803C12C: @ 0x0803C12C
 	ldr r0, _0803C18C @ =Task_BonusFlower_803C3A8
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _0803C190 @ =sub_803D6C0
+	ldr r1, _0803C190 @ =TaskDestructor_BonusFlower
 	str r1, [sp]
 	movs r1, #0x38
 	movs r3, #0
@@ -5024,7 +5024,7 @@ sub_803C12C: @ 0x0803C12C
 	b _0803C1AA
 	.align 2, 0
 _0803C18C: .4byte Task_BonusFlower_803C3A8
-_0803C190: .4byte sub_803D6C0
+_0803C190: .4byte TaskDestructor_BonusFlower
 _0803C194: .4byte gStageData
 _0803C198: .4byte gPlayers
 _0803C19C: .4byte 0x03000034
