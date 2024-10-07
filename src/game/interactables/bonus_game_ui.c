@@ -34,6 +34,8 @@
 #define EXTRALIFE_COUNTER_Y 85
 #define LIFE_COUNT_X_X      138
 #define LIFE_COUNT_X_Y      86
+#define COUNTDOWN_DIGIT_X   (DISPLAY_WIDTH / 2)
+#define COUNTDOWN_DIGIT_Y   (DISPLAY_HEIGHT / 2)
 
 typedef struct {
     /* 0x00 */ Sprite s;
@@ -73,8 +75,10 @@ void Task_803CA28(void);
 void Task_803CF84(void);
 void Task_803D248(void);
 void Task_803D324(void);
-void sub_803D47C(Sprite *s);
+void Task_803D39C(void);
+void InitCountdownDigitSprite(Sprite *s);
 void sub_803D4C8(void);
+void sub_803D614(void);
 void Task_803D750(void);
 void sub_803D784(bool32 param0);
 
@@ -147,7 +151,7 @@ void CreateEntity_BonusGameUI(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     ScreenFadeUpdateValues(&ui->fade);
 
-    sub_803D47C(&ui->sprCountdownDigit);
+    InitCountdownDigitSprite(&ui->sprCountdownDigit);
 
     for (i = 0; i < (s32)ARRAY_COUNT(ui->spr18); i++) {
         sub_8039D60(&ui->spr18[i], i, ui->spr18[0].tiles);
@@ -841,4 +845,111 @@ void Task_803CF84(void)
     }
 
     sub_803D4C8();
+}
+
+void Task_803D248(void)
+{
+    BonusGameUI *ui = TASK_DATA(gCurTask);
+    u8 i;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        Player *p = GET_SP_PLAYER_V1(i);
+
+        p->moveState |= MOVESTATE_IGNORE_INPUT;
+    }
+
+    if (ui->unk17 == 1) {
+        ui->unk17 = 2;
+
+        if (ui->unk12 == 0) {
+            if (UpdateScreenFade(&ui->fade) != SCREEN_FADE_RUNNING) {
+                TasksDestroyAll();
+
+                gUnknown_03003F94 = gUnknown_03003D20;
+                gUnknown_03006840 = 0;
+                gUnknown_03006208 = gUnknown_03003F34;
+
+                sub_8002210((gStageData.zone * 10) + 2, 7);
+                return;
+            }
+        } else {
+            ui->unk12--;
+        }
+    }
+
+    sub_803D784(TRUE);
+    sub_803D4C8();
+}
+
+void Task_803D324(void)
+{
+    BonusGameUI *ui = TASK_DATA(gCurTask);
+    u8 i;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        Player *p = GET_SP_PLAYER_V1(i);
+
+        p->moveState |= MOVESTATE_IGNORE_INPUT;
+    }
+
+    if (--ui->unk17 == 0) {
+        ui->unk17 = 128;
+
+        gCurTask->main = Task_803D39C;
+    }
+
+    sub_803D4C8();
+}
+
+void Task_803D39C(void)
+{
+    BonusGameUI *ui = TASK_DATA(gCurTask);
+    u8 i;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        Player *p = GET_SP_PLAYER_V1(i);
+
+        p->moveState |= MOVESTATE_IGNORE_INPUT;
+    }
+
+    if (ui->unk17 == 1) {
+        ui->unk17 = 2;
+
+        if (ui->unk12 == 0) {
+            if (UpdateScreenFade(&ui->fade) != SCREEN_FADE_RUNNING) {
+                TasksDestroyAll();
+
+                gUnknown_03003F94 = gUnknown_03003D20;
+                gUnknown_03006840 = 0;
+                gUnknown_03006208 = gUnknown_03003F34;
+
+                sub_8002210((gStageData.zone * 10) + 2, 7);
+                return;
+            }
+        } else {
+            ui->unk12--;
+        }
+    }
+
+    sub_803D614();
+    sub_803D784(TRUE);
+    sub_803D4C8();
+}
+
+void InitCountdownDigitSprite(Sprite *s)
+{
+    s->tiles = VramMalloc(gUnknown_080CF770[0].numTiles);
+    s->anim = gUnknown_080CF770[6].anim;
+    s->variant = gUnknown_080CF770[6].variant;
+    s->oamFlags = SPRITE_OAM_ORDER(0);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->x = COUNTDOWN_DIGIT_X;
+    s->y = COUNTDOWN_DIGIT_Y;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+    UpdateSpriteAnimation(s);
 }
