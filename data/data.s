@@ -378,9 +378,9 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_SpringPlatformB
     .4byte CreateEntity_Interactable134
     .4byte CreateEntity_Interactable135
-    .4byte CreateEntity_MazeLauncherA
-    .4byte CreateEntity_MazeLauncherB
-    .4byte CreateEntity_MazeLauncherC
+    .4byte CreateEntity_MazeEnter
+    .4byte CreateEntity_MazeRedirect
+    .4byte CreateEntity_MazeExit
     .4byte CreateEntity_PlatformChaosAngel
     .4byte CreateEntity_ChaoInStage
     .4byte CreateEntity_SpecialKey

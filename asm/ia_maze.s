@@ -804,6 +804,7 @@ _0804D472:
 	.align 2, 0
 _0804D480: .4byte gCamera
 
+@ Is very similar to Task_MazeLauncher
 	thumb_func_start Task_Interactable138Main
 Task_Interactable138Main: @ 0x0804D484
 	push {r4, r5, r6, r7, lr}

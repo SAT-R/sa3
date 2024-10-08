@@ -23,7 +23,7 @@ void sub_804D08C(Sprite *, s16 i);
 void sub_804D360(Sprite *, u16 i, s16 a);
 void sub_804D658(Sprite *, s16 i); // like sub_804D08C, but for MazeC
 
-void CreateEntity_MazeLauncherA(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+void CreateEntity_MazeEnter(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_MazeLauncher, sizeof(MazeLauncher), 0x2100, 0, TaskDestructor_MazeLauncher);
     MazeLauncher *maze = TASK_DATA(t);
@@ -59,8 +59,8 @@ void CreateEntity_MazeLauncherA(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
 // (99.64%) https://decomp.me/scratch/ADZew
 // NOTE: Reg-alloc mismatch r9/sl
-NONMATCH("asm/non_matching/game/interactables/maze_launcher__CreateEntity_MazeLauncherB.inc",
-         void CreateEntity_MazeLauncherB(MapEntity *me, u16 regionX, u16 regionY, u8 id))
+NONMATCH("asm/non_matching/game/interactables/maze__CreateEntity_MazeRedirect.inc",
+         void CreateEntity_MazeRedirect(MapEntity *me, u16 regionX, u16 regionY, u8 id))
 {
     struct Task *t = TaskCreate(Task_Interactable137Main, sizeof(MazeLauncher), 0x2100, 0, TaskDestructor_Interactable137);
     MazeLauncher *maze = TASK_DATA(t);
@@ -99,7 +99,7 @@ NONMATCH("asm/non_matching/game/interactables/maze_launcher__CreateEntity_MazeLa
 }
 END_NONMATCH
 
-void CreateEntity_MazeLauncherC(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+void CreateEntity_MazeExit(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_Interactable138Main, sizeof(MazeLauncher), 0x2100, 0, TaskDestructor_Interactable138);
     MazeLauncher *maze = TASK_DATA(t);
