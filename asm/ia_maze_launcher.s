@@ -5,117 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable136
-CreateEntity_Interactable136: @ 0x0804CBA8
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	sub sp, #4
-	adds r5, r0, #0
-	adds r4, r3, #0
-	lsls r1, r1, #0x10
-	lsrs r7, r1, #0x10
-	lsls r2, r2, #0x10
-	lsrs r2, r2, #0x10
-	mov r8, r2
-	lsls r4, r4, #0x18
-	lsrs r4, r4, #0x18
-	ldr r0, _0804CC74 @ =Task_Interactable136Main
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _0804CC78 @ =TaskDestructor_Interactable136
-	str r1, [sp]
-	movs r1, #0x44
-	movs r3, #0
-	bl TaskCreate
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r3, r1, r0
-	strh r7, [r3, #4]
-	mov r0, r8
-	strh r0, [r3, #6]
-	str r5, [r3]
-	ldrb r0, [r5]
-	strb r0, [r3, #0xa]
-	strb r4, [r3, #0xb]
-	movs r6, #0
-	ldrb r0, [r5, #7]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	bne _0804CC12
-	movs r2, #1
-_0804CBF8:
-	lsls r0, r6, #0x10
-	movs r1, #0x80
-	lsls r1, r1, #9
-	adds r0, r0, r1
-	lsrs r6, r0, #0x10
-	asrs r1, r0, #0x10
-	cmp r1, #3
-	bgt _0804CC12
-	ldrb r0, [r5, #7]
-	asrs r0, r1
-	ands r0, r2
-	cmp r0, #0
-	beq _0804CBF8
-_0804CC12:
-	adds r0, r3, #0
-	adds r0, #0x3c
-	movs r1, #0
-	strb r6, [r0]
-	adds r0, #1
-	strb r1, [r0]
-	strh r1, [r3, #0x3e]
-	ldrb r0, [r5]
-	lsls r0, r0, #3
-	lsls r1, r7, #8
-	adds r0, r0, r1
-	adds r4, r3, #0
-	adds r4, #0x40
-	strh r0, [r4]
-	ldrb r0, [r5, #1]
-	lsls r0, r0, #3
-	mov r2, r8
-	lsls r1, r2, #8
-	adds r0, r0, r1
-	movs r1, #0x42
-	adds r1, r1, r3
-	mov ip, r1
-	strh r0, [r1]
-	adds r0, r3, #0
-	adds r0, #0xc
-	ldr r3, _0804CC7C @ =gCamera
-	ldr r2, [r3]
-	ldrh r1, [r4]
-	subs r1, r1, r2
-	strh r1, [r0, #0x10]
-	ldr r2, [r3, #4]
-	mov r3, ip
-	ldrh r1, [r3]
-	subs r1, r1, r2
-	strh r1, [r0, #0x12]
-	movs r2, #2
-	rsbs r2, r2, #0
-	adds r1, r2, #0
-	strb r1, [r5]
-	lsls r1, r6, #0x10
-	asrs r1, r1, #0x10
-	bl sub_804D08C
-	add sp, #4
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804CC74: .4byte Task_Interactable136Main
-_0804CC78: .4byte TaskDestructor_Interactable136
-_0804CC7C: .4byte gCamera
+.if 0
+.endif
 
-	thumb_func_start CreateEntity_Interactable137
-CreateEntity_Interactable137: @ 0x0804CC80
+	thumb_func_start CreateEntity_MazeLauncherB
+CreateEntity_MazeLauncherB: @ 0x0804CC80
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -261,8 +155,9 @@ _0804CD94: .4byte Task_Interactable137Main
 _0804CD98: .4byte TaskDestructor_Interactable137
 _0804CD9C: .4byte gCamera
 
-	thumb_func_start CreateEntity_Interactable138
-CreateEntity_Interactable138: @ 0x0804CDA0
+@ Very similar to CreateEntity_MazeLauncherA
+	thumb_func_start CreateEntity_MazeLauncherC
+CreateEntity_MazeLauncherC: @ 0x0804CDA0
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -368,8 +263,8 @@ _0804CE68: .4byte Task_Interactable138Main
 _0804CE6C: .4byte TaskDestructor_Interactable138
 _0804CE70: .4byte gCamera
 
-	thumb_func_start Task_Interactable136Main
-Task_Interactable136Main: @ 0x0804CE74
+	thumb_func_start Task_MazeLauncher
+Task_MazeLauncher: @ 0x0804CE74
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1575,8 +1470,8 @@ _0804D7A2:
 	.align 2, 0
 _0804D7B0: .4byte gCamera
 
-	thumb_func_start TaskDestructor_Interactable136
-TaskDestructor_Interactable136: @ 0x0804D7B4
+	thumb_func_start TaskDestructor_MazeLauncher
+TaskDestructor_MazeLauncher: @ 0x0804D7B4
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
