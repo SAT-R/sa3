@@ -16,6 +16,7 @@ typedef struct {
 void Task_MazeLauncher(void);
 void TaskDestructor_MazeLauncher(struct Task *);
 void sub_804D08C(Sprite *, s16 i);
+void sub_804D360(Sprite *, u16 i, s16 a);
 
 void CreateEntity_MazeLauncherA(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -50,3 +51,44 @@ void CreateEntity_MazeLauncherA(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     sub_804D08C(s, i);
 }
+
+// (99.64%) https://decomp.me/scratch/ADZew
+// NOTE: Reg-alloc mismatch r9/sl
+NONMATCH("asm/non_matching/game/interactables/maze_launcher__CreateEntity_MazeLauncherB.inc", void CreateEntity_MazeLauncherB(MapEntity *me, u16 regionX, u16 regionY, u8 id))
+{
+    struct Task *t = TaskCreate(Task_MazeLauncher, sizeof(MazeLauncher), 0x2100, 0, TaskDestructor_MazeLauncher);
+    MazeLauncher *maze = TASK_DATA(t);
+    Sprite *s;
+    s16 i;
+
+    maze->base.regionX = regionX;
+    maze->base.regionY = regionY;
+    maze->base.me = me;
+    maze->base.spriteX = me->x;
+    maze->base.id = id;
+
+    for (i = 0; i < 4; i++) {
+        if ((me->d.uData[4] >> i) & 0x1)
+            break;
+    }
+
+    maze->unk3C = i;
+    
+    for (i = 0; i < 4; i++) {
+        if (((me->d.uData[4]) >> (i + 4)) & 0x1)
+            break;
+    }
+
+    maze->unk3D = i;
+    maze->unk3E = 0;
+    maze->unk40 = TO_WORLD_POS(me->x, regionX);
+    maze->unk42 = TO_WORLD_POS(me->y, regionY);
+    s = &maze->s;
+    s->x = maze->unk40 - gCamera.x;
+    s->y = maze->unk42 - gCamera.y;
+
+    SET_MAP_ENTITY_INITIALIZED(me);
+
+    sub_804D360(s, maze->unk3C, maze->unk3D);
+}
+END_NONMATCH
