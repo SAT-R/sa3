@@ -437,8 +437,7 @@ void Task_803C898(void)
     sub_803D4C8();
 }
 
-// (99.51%) https://decomp.me/scratch/64Wmf
-NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__Task_803CA28.inc", void Task_803CA28(void))
+void Task_803CA28(void)
 {
     s8 r6 = 0;
     BonusGameUI *ui = TASK_DATA(gCurTask);
@@ -449,17 +448,14 @@ NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__Task_803CA28.inc", 
     s8 i;
 
     for (i = ui->unk16; i < gUnknown_03001D00; i++) {
-        Sprite *s = &ui->sprKillBar[i];
+        s = &ui->sprKillBar[i];
         s->variant = 1;
         s->prevVariant = -1;
     }
 
-    // _0803CA86
-
     s = &ui->sprCountdownDigit;
 
     if (!(gUnknown_03001D00 < 8) || (--ui->timer == 0)) {
-        // _0803CAA2
 
         ui->unk17 = 128;
 
@@ -485,14 +481,11 @@ NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__Task_803CA28.inc", 
 
             gCurTask->main = Task_803CF84;
         } else {
-            // _0803CB4C
-
             for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
                 p = GET_SP_PLAYER_V1(i);
 
                 p->moveState |= MOVESTATE_IGNORE_INPUT;
             }
-            // __0803CB98
 
             s->anim = gUnknown_080CF770[1].anim;
             s->variant = gUnknown_080CF770[1].variant;
@@ -612,16 +605,13 @@ NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__Task_803CA28.inc", 
         gStageData.unk4 = 6;
         return;
     } else if (gStageData.gameMode != GAME_MODE_5) {
-        // _0803CD90
         p = &gPlayers[gStageData.playerIndex];
 
         if (p->moveState & MOVESTATE_100) {
             r6++;
         }
     } else {
-        // _0803CDCC
         for (i = 0, r6 = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-            // _0803CDD2
             p = GET_SP_PLAYER_V1(i);
 
             if (p->moveState & MOVESTATE_100) {
@@ -629,7 +619,6 @@ NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__Task_803CA28.inc", 
             }
         }
     }
-    // _0803CE20
 
     if (r6 != 0) {
         ui->unk17 = 128;
@@ -654,7 +643,6 @@ NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__Task_803CA28.inc", 
 
         gStageData.unk4 = 6;
     } else {
-        // _0803CEA8
         u8 prevUnk17 = ui->unk17;
 
         sub_803D784(FALSE);
@@ -668,7 +656,6 @@ NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__Task_803CA28.inc", 
 
     ui->unk16 = gUnknown_03001D00;
 }
-END_NONMATCH
 
 void Task_803CEE4(void)
 {
