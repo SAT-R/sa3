@@ -22919,8 +22919,8 @@ _0800B598: .4byte 0xFDFFFFDF
 _0800B59C: .4byte 0x20000006
 _0800B5A0: .4byte 0xFFFFBFFF
 
-	thumb_func_start sub_800B5A4
-sub_800B5A4: @ 0x0800B5A4
+	thumb_func_start Player_800B5A4
+Player_800B5A4: @ 0x0800B5A4
 	push {r4, lr}
 	adds r4, r0, #0
 	bl sub_800F170
@@ -27980,7 +27980,7 @@ sub_800DD0C: @ 0x0800DD0C
 	push {r4, lr}
 	adds r4, r0, #0
 	bl sub_800B530
-	ldr r1, _0800DD24 @ =sub_800B5A4
+	ldr r1, _0800DD24 @ =Player_800B5A4
 	str r1, [r4]
 	adds r0, r4, #0
 	bl _call_via_r1
@@ -27988,14 +27988,14 @@ sub_800DD0C: @ 0x0800DD0C
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0800DD24: .4byte sub_800B5A4
+_0800DD24: .4byte Player_800B5A4
 
-	thumb_func_start sub_800DD28
-sub_800DD28: @ 0x0800DD28
+	thumb_func_start Player_800DD28
+Player_800DD28: @ 0x0800DD28
 	push {r4, lr}
 	adds r4, r0, #0
 	bl sub_800B530
-	ldr r1, _0800DD40 @ =sub_800DD44
+	ldr r1, _0800DD40 @ =Player_800DD44
 	str r1, [r4]
 	adds r0, r4, #0
 	bl _call_via_r1
@@ -28003,10 +28003,10 @@ sub_800DD28: @ 0x0800DD28
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0800DD40: .4byte sub_800DD44
+_0800DD40: .4byte Player_800DD44
 
-	thumb_func_start sub_800DD44
-sub_800DD44: @ 0x0800DD44
+	thumb_func_start Player_800DD44
+Player_800DD44: @ 0x0800DD44
 	push {r4, lr}
 	adds r4, r0, #0
 	bl sub_800F170
@@ -41806,8 +41806,8 @@ _08014548:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_8014550
-sub_8014550: @ 0x08014550
+	thumb_func_start Player_8014550
+Player_8014550: @ 0x08014550
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -44769,7 +44769,7 @@ _08015B78:
 	cmp r0, #0xa
 	beq _08015C66
 	adds r0, r5, #0
-	bl sub_8014550
+	bl Player_8014550
 	adds r0, r6, #0
 	adds r0, #0x8e
 	ldrb r0, [r0]
@@ -44812,13 +44812,13 @@ _08015BB4:
 	cmp r4, sl
 	beq _08015C66
 	adds r0, r5, #0
-	bl sub_8014550
+	bl Player_8014550
 	b _08015C80
 	.align 2, 0
 _08015BDC: .4byte gStageData
 _08015BE0:
 	adds r0, r5, #0
-	bl sub_8014550
+	bl Player_8014550
 	adds r0, r6, #0
 	adds r0, #0x8e
 	ldrb r0, [r0]
@@ -67842,7 +67842,7 @@ _08020E0E:
 	blt _08020E28
 _08020E1E:
 	adds r0, r6, #0
-	bl sub_8014550
+	bl Player_8014550
 	movs r0, #1
 	b _08020E2A
 _08020E28:
@@ -68646,7 +68646,7 @@ _080213E8:
 	thumb_func_start sub_80213F0
 sub_80213F0: @ 0x080213F0
 	push {lr}
-	bl sub_8014550
+	bl Player_8014550
 	pop {r0}
 	bx r0
 	.align 2, 0

@@ -135,7 +135,7 @@ void Task_Boulder(void)
                         p->qWorldY += Q_8_8((s16)res >> 8);
                     }
 
-                    sub_8014550(p);
+                    Player_8014550(p);
                 }
             }
         }

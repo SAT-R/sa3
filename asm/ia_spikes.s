@@ -338,7 +338,7 @@ _0803089C:
 	cmp r0, #0
 	bne _080308E6
 	adds r0, r5, #0
-	bl sub_8014550
+	bl Player_8014550
 	adds r0, r5, #0
 	movs r1, #0x9a
 	bl sub_8004E98
@@ -729,7 +729,7 @@ _08030B9A:
 	cmp r0, #0
 	bne _08030BDE
 	adds r0, r6, #0
-	bl sub_8014550
+	bl Player_8014550
 	adds r0, r6, #0
 	movs r1, #0x9a
 	bl sub_8004E98

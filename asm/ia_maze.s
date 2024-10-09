@@ -8,280 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start Task_MazeLauncher
-Task_MazeLauncher: @ 0x0804CE74
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #0x10
-	ldr r0, _0804CECC @ =gCurTask
-	ldr r0, [r0]
-	ldrh r2, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r2, r0
-	str r0, [sp, #8]
-	ldr r0, _0804CED0 @ =0x0300000C
-	adds r0, r0, r2
-	mov r8, r0
-	ldr r1, _0804CED4 @ =0x03000040
-	adds r0, r2, r1
-	ldrh r0, [r0]
-	str r0, [sp, #0xc]
-	ldr r3, _0804CED8 @ =0x03000042
-	adds r0, r2, r3
-	ldrh r0, [r0]
-	mov sl, r0
-	ldr r0, _0804CEDC @ =0x0300003D
-	adds r3, r2, r0
-	ldrb r0, [r3]
-	adds r0, #1
-	movs r1, #0xff
-	ands r0, r1
-	movs r1, #0xf
-	ands r0, r1
-	strb r0, [r3]
-	movs r1, #0
-	ldr r3, _0804CEDC @ =0x0300003D
-	adds r7, r2, r3
-_0804CEBC:
-	lsls r0, r1, #0x10
-	mov sb, r0
-	cmp r0, #0
-	bne _0804CEE4
-	ldr r0, _0804CEE0 @ =gStageData
-	ldrb r1, [r0, #6]
-	b _0804CEEE
-	.align 2, 0
-_0804CECC: .4byte gCurTask
-_0804CED0: .4byte 0x0300000C
-_0804CED4: .4byte 0x03000040
-_0804CED8: .4byte 0x03000042
-_0804CEDC: .4byte 0x0300003D
-_0804CEE0: .4byte gStageData
-_0804CEE4:
-	adds r0, r4, #0
-	adds r0, #0x2b
-	ldrb r1, [r0]
-	lsls r1, r1, #0x1e
-	lsrs r1, r1, #0x1e
-_0804CEEE:
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	ldr r1, _0804CF20 @ =gPlayers
-	adds r4, r0, r1
-	ldr r1, [r4, #4]
-	movs r0, #0x20
-	ands r0, r1
-	cmp r0, #0
-	beq _0804CF32
-	ldr r0, [r4, #0x6c]
-	cmp r0, r8
-	bne _0804CF32
-	movs r0, #0x80
-	lsls r0, r0, #9
-	ands r1, r0
-	cmp r1, #0
-	beq _0804CF28
-	ldr r0, [r4, #0x14]
-	ldr r1, _0804CF24 @ =0xFFFFFE00
-	adds r0, r0, r1
-	b _0804CF30
-	.align 2, 0
-_0804CF20: .4byte gPlayers
-_0804CF24: .4byte 0xFFFFFE00
-_0804CF28:
-	ldr r0, [r4, #0x14]
-	movs r2, #0x80
-	lsls r2, r2, #2
-	adds r0, r0, r2
-_0804CF30:
-	str r0, [r4, #0x14]
-_0804CF32:
-	adds r0, r4, #0
-	bl sub_802C080
-	adds r2, r0, #0
-	cmp r2, #0
-	bne _0804CFC8
-	ldr r1, [r4]
-	ldr r0, _0804CF7C @ =sub_800B5A4
-	cmp r1, r0
-	beq _0804CF52
-	ldr r0, _0804CF80 @ =sub_800DD44
-	cmp r1, r0
-	beq _0804CF52
-	ldr r0, _0804CF84 @ =Player_800DDD0
-	cmp r1, r0
-	bne _0804CF96
-_0804CF52:
-	adds r0, r4, #0
-	adds r0, #0x2b
-	ldrb r1, [r0]
-	movs r0, #0x1c
-	ands r0, r1
-	cmp r0, #4
-	beq _0804CF62
-	b _0804D066
-_0804CF62:
-	movs r3, #0x18
-	ldrsh r0, [r4, r3]
-	cmp r0, #0
-	blt _0804CF72
-	movs r1, #0x1a
-	ldrsh r0, [r4, r1]
-	cmp r0, #0
-	bge _0804CF88
-_0804CF72:
-	ldrb r0, [r7]
-	movs r1, #0xf
-	ands r1, r0
-	movs r0, #0x10
-	b _0804CF90
-	.align 2, 0
-_0804CF7C: .4byte sub_800B5A4
-_0804CF80: .4byte sub_800DD44
-_0804CF84: .4byte Player_800DDD0
-_0804CF88:
-	ldrb r0, [r7]
-	movs r1, #0xf
-	ands r1, r0
-	movs r0, #0x20
-_0804CF90:
-	orrs r1, r0
-	strb r1, [r7]
-	b _0804D066
-_0804CF96:
-	ldr r3, [sp, #0xc]
-	lsls r0, r3, #0x10
-	asrs r6, r0, #0x10
-	mov r1, sl
-	lsls r0, r1, #0x10
-	asrs r5, r0, #0x10
-	str r4, [sp]
-	str r2, [sp, #4]
-	mov r0, r8
-	adds r1, r6, #0
-	adds r2, r5, #0
-	movs r3, #1
-	bl sub_8020700
-	cmp r0, #0
-	beq _0804CFC8
-	ldr r0, [sp, #8]
-	adds r0, #0x3c
-	ldrb r1, [r0]
-	adds r0, r4, #0
-	adds r2, r6, #0
-	adds r3, r5, #0
-	bl sub_804D7F0
-	b _0804D066
-_0804CFC8:
-	adds r0, r4, #0
-	adds r0, #0x2b
-	ldrb r0, [r0]
-	movs r1, #0x1c
-	ands r1, r0
-	cmp r1, #4
-	beq _0804CFDE
-	cmp r1, #8
-	beq _0804CFDE
-	cmp r1, #0x10
-	bne _0804D066
-_0804CFDE:
-	adds r0, r4, #0
-	bl sub_802C0D4
-	cmp r0, #0
-	bne _0804D066
-	ldr r2, [sp, #0xc]
-	lsls r1, r2, #0x10
-	mov r3, sl
-	lsls r2, r3, #0x10
-	str r0, [sp]
-	mov r0, r8
-	asrs r1, r1, #0x10
-	asrs r2, r2, #0x10
-	adds r3, r4, #0
-	bl sub_8020950
-	adds r2, r0, #0
-	movs r3, #0x80
-	lsls r3, r3, #9
-	ands r0, r3
-	cmp r0, #0
-	beq _0804D016
-	lsls r1, r2, #0x18
-	asrs r1, r1, #0x10
-	ldr r0, [r4, #0x14]
-	adds r0, r0, r1
-	str r0, [r4, #0x14]
-	b _0804D04A
-_0804D016:
-	movs r0, #0x80
-	lsls r0, r0, #0xa
-	ands r0, r2
-	cmp r0, #0
-	beq _0804D04A
-	lsls r0, r2, #0x18
-	asrs r0, r0, #0x10
-	ldr r1, [r4, #0x14]
-	adds r1, r1, r0
-	str r1, [r4, #0x14]
-	ldr r0, [r4, #4]
-	ands r0, r3
-	cmp r0, #0
-	beq _0804D03C
-	ldr r3, _0804D038 @ =0xFFFFFF00
-	b _0804D040
-	.align 2, 0
-_0804D038: .4byte 0xFFFFFF00
-_0804D03C:
-	movs r3, #0x80
-	lsls r3, r3, #1
-_0804D040:
-	adds r0, r1, r3
-	str r0, [r4, #0x14]
-	movs r0, #0
-	strh r0, [r4, #0x1a]
-	strh r0, [r4, #0x1c]
-_0804D04A:
-	movs r0, #0xc0
-	lsls r0, r0, #0xc
-	ands r0, r2
-	cmp r0, #0
-	beq _0804D066
-	lsls r0, r2, #0x10
-	asrs r0, r0, #0x18
-	lsls r0, r0, #8
-	ldr r1, [r4, #0x10]
-	adds r1, r1, r0
-	str r1, [r4, #0x10]
-	movs r0, #0
-	strh r0, [r4, #0x18]
-	strh r0, [r4, #0x1c]
-_0804D066:
-	movs r0, #0x80
-	lsls r0, r0, #9
-	add r0, sb
-	lsrs r1, r0, #0x10
-	asrs r0, r0, #0x10
-	cmp r0, #1
-	bgt _0804D076
-	b _0804CEBC
-_0804D076:
-	bl sub_804D114
-	add sp, #0x10
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-
 	thumb_func_start sub_804D08C
 sub_804D08C: @ 0x0804D08C
 	push {r4, r5, r6, lr}
@@ -804,7 +530,7 @@ _0804D472:
 	.align 2, 0
 _0804D480: .4byte gCamera
 
-@ Is very similar to Task_MazeLauncher
+@ Is very similar to Task_MazeEnter
 	thumb_func_start Task_Interactable138Main
 Task_Interactable138Main: @ 0x0804D484
 	push {r4, r5, r6, r7, lr}
@@ -1282,7 +1008,7 @@ _0804D820: .4byte sub_800DD0C
 _0804D824:
 	cmp r5, #3
 	bgt _0804D830
-	ldr r1, _0804D838 @ =sub_800DD28
+	ldr r1, _0804D838 @ =Player_800DD28
 	adds r0, r4, #0
 	bl SetPlayerCallback
 _0804D830:
@@ -1290,7 +1016,7 @@ _0804D830:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804D838: .4byte sub_800DD28
+_0804D838: .4byte Player_800DD28
 
 	thumb_func_start sub_804D83C
 sub_804D83C: @ 0x0804D83C

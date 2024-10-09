@@ -6316,11 +6316,11 @@ _08069098:
 	b _080690B0
 _0806909E:
 	mov r0, sl
-	bl sub_8014550
+	bl Player_8014550
 	b _08069180
 _080690A6:
 	mov r0, sl
-	bl sub_8014550
+	bl Player_8014550
 	movs r3, #1
 	str r3, [sp, #0x10]
 _080690B0:
@@ -6591,7 +6591,7 @@ _0806929E:
 	blt _080692B6
 _080692B0:
 	mov r0, sl
-	bl sub_8014550
+	bl Player_8014550
 _080692B6:
 	ldr r0, [sp, #8]
 	adds r0, #1
@@ -6703,7 +6703,7 @@ sub_8069360: @ 0x08069360
 	cmp r0, #0
 	beq _08069392
 	adds r0, r5, #0
-	bl sub_8014550
+	bl Player_8014550
 _08069392:
 	ldr r0, [r5, #0x10]
 	asrs r1, r0, #8
@@ -6759,7 +6759,7 @@ _080693C4:
 	cmp r0, #0
 	beq _080693FE
 	adds r0, r5, #0
-	bl sub_8014550
+	bl Player_8014550
 _080693FE:
 	pop {r4, r5, r6}
 	pop {r0}
@@ -12015,7 +12015,7 @@ _0806BBCA:
 	cmp r1, #0
 	beq _0806BBE6
 	mov r0, sl
-	bl sub_8014550
+	bl Player_8014550
 	ldr r1, _0806BC1C @ =gUnknown_080D5780
 	ldrh r0, [r1, #0x10]
 	ldr r2, [sp, #8]
@@ -19750,7 +19750,7 @@ _0806F6B0:
 	cmp r0, r5
 	bne _0806F730
 	adds r0, r4, #0
-	bl sub_8014550
+	bl Player_8014550
 	b _0806F7FC
 	.align 2, 0
 _0806F714: .4byte gCurTask
@@ -50681,7 +50681,7 @@ _0807E4C4:
 _0807E4E4: .4byte Player_8008CD0
 _0807E4E8:
 	adds r0, r5, #0
-	bl sub_8014550
+	bl Player_8014550
 _0807E4EE:
 	movs r0, #0xfa
 	lsls r0, r0, #1
