@@ -851,8 +851,8 @@ gUnknown_080D096C:
 gUnknown_080D098C:
     .incbin "baserom.gba", 0x000D098C, 0x20
 
-    .global gUnknown_080D09AC
-gUnknown_080D09AC:
+    .global gTilemaps
+gTilemaps:
     .incbin "baserom.gba", 0x000D09AC, 0x754
 
     .global gUnknown_080D1100

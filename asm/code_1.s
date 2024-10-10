@@ -167,7 +167,7 @@ _0804F894:
 	mov r2, r8
 	str r4, [r2, #0x50]
 _0804F898:
-	ldr r4, _0804F8EC @ =gUnknown_080D09AC
+	ldr r4, _0804F8EC @ =gTilemaps
 	mov r2, sb
 	adds r2, #2
 	lsls r0, r2, #2
@@ -210,7 +210,7 @@ _0804F8D4:
 	strh r0, [r3, #0x10]
 	b _0804FCBE
 	.align 2, 0
-_0804F8EC: .4byte gUnknown_080D09AC
+_0804F8EC: .4byte gTilemaps
 _0804F8F0: .4byte gUnknown_03001D80
 _0804F8F4:
 	bl sub_80510F8
@@ -436,7 +436,7 @@ _0804FA58:
 	beq _0804FADE
 	bl _call_via_r0
 _0804FADE:
-	ldr r0, _0804FB5C @ =gUnknown_080D09AC
+	ldr r0, _0804FB5C @ =gTilemaps
 	mov r2, sb
 	adds r2, #2
 	lsls r1, r2, #2
@@ -490,7 +490,7 @@ _0804FB4C: .4byte gUnknown_03001D80
 _0804FB50: .4byte gUnknown_080D04A8
 _0804FB54: .4byte gUnknown_03001E40
 _0804FB58: .4byte gUnknown_080D06CC
-_0804FB5C: .4byte gUnknown_080D09AC
+_0804FB5C: .4byte gTilemaps
 _0804FB60: .4byte 0x00001002
 _0804FB64: .4byte sub_80511A4
 _0804FB68:
@@ -622,7 +622,7 @@ _0804FC78:
 	mov r2, r8
 	str r4, [r2, #0x50]
 _0804FC7C:
-	ldr r4, _0804FCD4 @ =gUnknown_080D09AC
+	ldr r4, _0804FCD4 @ =gTilemaps
 	mov r2, sb
 	adds r2, #2
 	lsls r0, r2, #2
@@ -667,7 +667,7 @@ _0804FCBE:
 	str r1, [r0]
 	b _0804FCEE
 	.align 2, 0
-_0804FCD4: .4byte gUnknown_080D09AC
+_0804FCD4: .4byte gTilemaps
 _0804FCD8: .4byte gUnknown_03001D80
 _0804FCDC: .4byte gStageData
 _0804FCE0: .4byte gUnknown_03001E80

@@ -260,7 +260,7 @@ sub_80003B8: @ 0x080003B8
 	ldr r0, _080003F4 @ =0x00001E01
 	strh r0, [r1, #4]
 	ldr r1, _080003F8 @ =gTilemapsRef
-	ldr r0, _080003FC @ =gUnknown_080D09AC
+	ldr r0, _080003FC @ =gTilemaps
 	str r0, [r1]
 	ldr r1, _08000400 @ =gRefSpriteTables
 	ldr r0, _08000404 @ =gSpriteTables
@@ -282,7 +282,7 @@ _080003EC: .4byte gDispCnt
 _080003F0: .4byte gUnknown_030035C0
 _080003F4: .4byte 0x00001E01
 _080003F8: .4byte gTilemapsRef
-_080003FC: .4byte gUnknown_080D09AC
+_080003FC: .4byte gTilemaps
 _08000400: .4byte gRefSpriteTables
 _08000404: .4byte gSpriteTables
 _08000408: .4byte gUnknown_03003D30
@@ -78264,7 +78264,7 @@ sub_8025EEC: @ 0x08025EEC
 	push {r5, r6}
 	sub sp, #4
 	ldr r1, _0802601C @ =gTilemapsRef
-	ldr r0, _08026020 @ =gUnknown_080D09AC
+	ldr r0, _08026020 @ =gTilemaps
 	str r0, [r1]
 	ldr r0, _08026024 @ =gStageData
 	mov sb, r0
@@ -78401,7 +78401,7 @@ sub_8025EEC: @ 0x08025EEC
 	bx r0
 	.align 2, 0
 _0802601C: .4byte gTilemapsRef
-_08026020: .4byte gUnknown_080D09AC
+_08026020: .4byte gTilemaps
 _08026024: .4byte gStageData
 _08026028: .4byte gSaveGame
 _0802602C: .4byte 0x00000366

@@ -423,6 +423,7 @@ void sub_804D3FC(void)
     DisplaySprite(s);
 }
 
+// TODO: Match without goto!
 void Task_Interactable138Main(void)
 {
     Maze *maze = TASK_DATA(gCurTask);
@@ -448,14 +449,16 @@ void Task_Interactable138Main(void)
             if (p->callback != Player_800DDD0) {
                 if ((p->callback != Player_800B6C4) && (p->callback != Player_800B748)) {
                     goto lbl;
+                } else {
+                    continue;
                 }
             } else {
                 if (sub_8020700(s, worldX, worldY, 0, p, 0)) {
                     ApplyMazeEndDirection(p, maze->unk3C, worldX, worldY);
                 }
-            }
 
-            continue;
+                continue;
+            }
         }
     lbl:
 
