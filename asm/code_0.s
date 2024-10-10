@@ -22989,8 +22989,8 @@ _0800B61A:
 _0800B620: .4byte gStageData
 _0800B624: .4byte Player_800DDD0
 
-	thumb_func_start sub_800B628
-sub_800B628: @ 0x0800B628
+	thumb_func_start Player_800B628
+Player_800B628: @ 0x0800B628
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	ldr r5, [r4, #0x70]
@@ -23071,8 +23071,8 @@ _0800B6B4:
 _0800B6BC: .4byte 0xFFFFFE00
 _0800B6C0: .4byte Player_800DDD0
 
-	thumb_func_start sub_800B6C4
-sub_800B6C4: @ 0x0800B6C4
+	thumb_func_start Player_800B6C4
+Player_800B6C4: @ 0x0800B6C4
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	ldr r5, [r4, #0x70]
@@ -23129,7 +23129,7 @@ _0800B704:
 	str r0, [r4, #0x10]
 	ldr r0, [r4, #0x74]
 	str r0, [r4, #0x14]
-	ldr r1, _0800B744 @ =sub_800B748
+	ldr r1, _0800B744 @ =Player_800B748
 	str r1, [r4]
 	adds r0, r4, #0
 	bl _call_via_r1
@@ -23139,10 +23139,10 @@ _0800B738:
 	bx r0
 	.align 2, 0
 _0800B740: .4byte 0xFFFFFE00
-_0800B744: .4byte sub_800B748
+_0800B744: .4byte Player_800B748
 
-	thumb_func_start sub_800B748
-sub_800B748: @ 0x0800B748
+	thumb_func_start Player_800B748
+Player_800B748: @ 0x0800B748
 	push {r4, lr}
 	adds r4, r0, #0
 	adds r2, r4, #0
@@ -27975,8 +27975,8 @@ _0800DD00: .4byte 0xFFFFE000
 _0800DD04: .4byte sub_80068EC
 _0800DD08: .4byte 0x00000257
 
-	thumb_func_start sub_800DD0C
-sub_800DD0C: @ 0x0800DD0C
+	thumb_func_start Player_800DD0C
+Player_800DD0C: @ 0x0800DD0C
 	push {r4, lr}
 	adds r4, r0, #0
 	bl sub_800B530
@@ -28064,20 +28064,20 @@ _0800DDA6:
 _0800DDAC: .4byte gStageData
 _0800DDB0: .4byte Player_800DDD0
 
-	thumb_func_start sub_800DDB4
-sub_800DDB4: @ 0x0800DDB4
+	thumb_func_start Player_800DDB4
+Player_800DDB4: @ 0x0800DDB4
 	push {lr}
 	adds r2, r0, #0
 	adds r2, #0x52
 	movs r1, #0xa
 	strh r1, [r2]
-	ldr r1, _0800DDCC @ =sub_800B628
+	ldr r1, _0800DDCC @ =Player_800B628
 	str r1, [r0]
 	bl _call_via_r1
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0800DDCC: .4byte sub_800B628
+_0800DDCC: .4byte Player_800B628
 
 	thumb_func_start Player_800DDD0
 Player_800DDD0: @ 0x0800DDD0
@@ -28144,20 +28144,20 @@ _0800DE3C:
 _0800DE40: .4byte gCamera
 _0800DE44: .4byte 0x0000011F
 
-	thumb_func_start sub_800DE48
-sub_800DE48: @ 0x0800DE48
+	thumb_func_start Player_800DE48
+Player_800DE48: @ 0x0800DE48
 	push {lr}
 	adds r2, r0, #0
 	adds r2, #0x52
 	movs r1, #0x1e
 	strh r1, [r2]
-	ldr r1, _0800DE60 @ =sub_800B6C4
+	ldr r1, _0800DE60 @ =Player_800B6C4
 	str r1, [r0]
 	bl _call_via_r1
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0800DE60: .4byte sub_800B6C4
+_0800DE60: .4byte Player_800B6C4
 
 	thumb_func_start Player_800DE64
 Player_800DE64: @ 0x0800DE64

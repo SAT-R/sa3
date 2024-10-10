@@ -379,7 +379,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable134
     .4byte CreateEntity_Interactable135
     .4byte CreateEntity_MazeEnter
-    .4byte CreateEntity_MazeRedirect
+    .4byte CreateEntity_MazeCorner
     .4byte CreateEntity_MazeExit
     .4byte CreateEntity_PlatformChaosAngel
     .4byte CreateEntity_ChaoInStage

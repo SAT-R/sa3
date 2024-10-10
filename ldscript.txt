@@ -100,7 +100,6 @@ SECTIONS {
         build/sa3/src/game/interactables/134.o(.text);
         build/sa3/src/game/interactables/135.o(.text);
         build/sa3/src/game/interactables/maze.o(.text);
-        build/sa3/asm/ia_maze.o(.text);
         build/sa3/src/game/interactables/platform_chaos_angel.o(.text);
         build/sa3/src/game/interactables/platform_shared.o(.text);
         build/sa3/src/game/interactables/chao.o(.text);

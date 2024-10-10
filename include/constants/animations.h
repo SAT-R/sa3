@@ -119,8 +119,8 @@
 #define ANIM_PLATFORM_CRUMBLING_6      938
 #define ANIM_SPRING_PLATFORM_6         939
 
-#define ANIM_MAZE_LAUNCHER 940
-/* ANIM_MAZE_LAUNCHER:
+#define ANIM_MAZE 940
+/* ANIM_MAZE:
     0=Std
     1=Blink Left
     2=Blink Right

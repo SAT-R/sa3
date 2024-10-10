@@ -18,10 +18,10 @@
 	mov sl, r2
 	lsls r4, r4, #0x18
 	lsrs r4, r4, #0x18
-	ldr r0, _0804CD94 @ =Task_Interactable137Main
+	ldr r0, _0804CD94 @ =Task_MazeCorner
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _0804CD98 @ =TaskDestructor_Interactable137
+	ldr r1, _0804CD98 @ =TaskDestructor_MazeCorner
 	str r1, [sp]
 	movs r1, #0x44
 	movs r3, #0
@@ -144,8 +144,8 @@ _0804CD40:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804CD94: .4byte Task_Interactable137Main
-_0804CD98: .4byte TaskDestructor_Interactable137
+_0804CD94: .4byte Task_MazeCorner
+_0804CD98: .4byte TaskDestructor_MazeCorner
 _0804CD9C: .4byte gCamera
 
 .syntax divided
