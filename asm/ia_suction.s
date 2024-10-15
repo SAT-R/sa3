@@ -5,142 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Suction
-CreateEntity_Suction: @ 0x080430B8
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	sub sp, #4
-	adds r7, r0, #0
-	adds r4, r3, #0
-	lsls r1, r1, #0x10
-	lsrs r6, r1, #0x10
-	lsls r2, r2, #0x10
-	lsrs r2, r2, #0x10
-	mov r8, r2
-	lsls r4, r4, #0x18
-	lsrs r4, r4, #0x18
-	ldr r0, _08043128 @ =sub_80431C4
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _0804312C @ =sub_80436E8
-	str r1, [sp]
-	movs r1, #0x6c
-	movs r3, #0
-	bl TaskCreate
-	ldrh r2, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r0, r2
-	mov ip, r0
-	strh r6, [r0, #4]
-	mov r1, r8
-	strh r1, [r0, #6]
-	str r7, [r0]
-	ldrb r0, [r7]
-	mov r3, ip
-	strb r0, [r3, #0xa]
-	strb r4, [r3, #0xb]
-	ldrb r1, [r7, #7]
-	movs r0, #0xf0
-	ands r0, r1
-	rsbs r0, r0, #0
-	lsrs r0, r0, #0x1f
-	ldr r3, _08043130 @ =0x03000069
-	adds r1, r2, r3
-	strb r0, [r1]
-	movs r3, #0
-	ldrb r0, [r7, #7]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _08043138
-	ldr r0, _08043134 @ =0x03000068
-	adds r1, r2, r0
-	movs r0, #0
-	strb r0, [r1]
-	ldr r1, _08043134 @ =0x03000068
-	adds r2, r2, r1
-	b _0804315A
-	.align 2, 0
-_08043128: .4byte sub_80431C4
-_0804312C: .4byte sub_80436E8
-_08043130: .4byte 0x03000069
-_08043134: .4byte 0x03000068
-_08043138:
-	lsls r0, r3, #0x10
-	movs r2, #0x80
-	lsls r2, r2, #9
-	adds r0, r0, r2
-	lsrs r3, r0, #0x10
-	asrs r1, r0, #0x10
-	mov r2, ip
-	adds r2, #0x68
-	cmp r1, #7
-	bgt _0804315A
-	ldrb r0, [r7, #7]
-	asrs r0, r1
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _08043138
-	strb r3, [r2]
-_0804315A:
-	ldrb r0, [r2]
-	cmp r0, #3
-	bls _08043164
-	subs r0, #4
-	strb r0, [r2]
-_08043164:
-	mov r0, ip
-	adds r0, #0x6a
-	movs r5, #0
-	strh r5, [r0]
-	ldrb r0, [r7]
-	lsls r0, r0, #3
-	lsls r1, r6, #8
-	adds r0, r0, r1
-	mov r4, ip
-	adds r4, #0x64
-	strh r0, [r4]
-	ldrb r0, [r7, #1]
-	lsls r0, r0, #3
-	mov r3, r8
-	lsls r1, r3, #8
-	adds r0, r0, r1
-	mov r6, ip
-	adds r6, #0x66
-	strh r0, [r6]
-	mov r3, ip
-	adds r3, #0x34
-	ldr r2, _080431C0 @ =gCamera
-	ldr r1, [r2]
-	ldrh r0, [r4]
-	subs r0, r0, r1
-	strh r0, [r3, #0x10]
-	ldr r1, [r2, #4]
-	ldrh r0, [r6]
-	subs r0, r0, r1
-	strh r0, [r3, #0x12]
-	mov r0, ip
-	str r5, [r0, #0xc]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r7]
-	mov r0, ip
-	bl sub_80433C8
-	add sp, #4
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080431C0: .4byte gCamera
+.if 0
+.endif
 
-	thumb_func_start sub_80431C4
-sub_80431C4: @ 0x080431C4
+	thumb_func_start Task_Suction
+Task_Suction: @ 0x080431C4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -796,8 +665,8 @@ _080436CE:
 _080436E0: .4byte 0xFFFFF7FF
 _080436E4: .4byte gCamera
 
-	thumb_func_start sub_80436E8
-sub_80436E8: @ 0x080436E8
+	thumb_func_start TaskDestructor_Suction
+TaskDestructor_Suction: @ 0x080436E8
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0
