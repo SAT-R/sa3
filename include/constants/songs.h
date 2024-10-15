@@ -259,6 +259,7 @@
 #define SE_588 0x24C
 
 #define SE_WAGGLE_COIL 0x250
+#define SE_SUCTION     0x251
 
 #define SE_PROPELLER_BUTTON    0x253
 #define SE_WATER_CANNON        0x255

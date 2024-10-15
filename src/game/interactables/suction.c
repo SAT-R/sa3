@@ -1,4 +1,5 @@
 #include "global.h"
+#include "module_unclear.h"
 #include "malloc_vram.h"
 #include "game/camera.h"
 #include "game/entity.h"
@@ -9,6 +10,7 @@
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
 #include "constants/move_states.h"
+#include "constants/songs.h"
 
 typedef struct {
     /* 0x00 */ SpriteBase base;
@@ -26,6 +28,9 @@ typedef struct {
 void Task_Suction(void);
 void TaskDestructor_Suction(struct Task *);
 void sub_80433C8(Suction *);
+void sub_8043530(void);
+void sub_8043708(Player *p, u8 unk68, s16 worldX, s16 worldY);
+void sub_80437A0(Player *p, u8 unk68, s16 worldX, s16 worldY);
 
 void CreateEntity_Suction(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -67,4 +72,84 @@ void CreateEntity_Suction(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     SET_MAP_ENTITY_INITIALIZED(me);
 
     sub_80433C8(suction);
+}
+
+void Task_Suction(void)
+{
+    Suction *suction = TASK_DATA(gCurTask);
+    Sprite *s = &suction->s2;
+    s16 worldX, worldY;
+    u32 res;
+    s16 i;
+
+    worldX = suction->worldX;
+    worldY = suction->worldY;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        Player *p = GET_SP_PLAYER_V0(i);
+
+        if (!sub_802C080(p)) {
+            if (!suction->unk69) {
+                if ((p->callback == Player_800E3EC) || (p->callback == Player_800B004)) {
+                    continue;
+                }
+
+                res = sub_8020700(s, worldX, worldY, 1, p, 0);
+                if (res) {
+                    suction->unk6A = 60;
+                    sub_8043708(p, suction->unk68, worldX, worldY);
+
+                    sub_8003DF0(SE_SUCTION);
+
+                    sub_8016F28(p);
+                    continue;
+                }
+            } else {
+                if ((p->callback == Player_800B128) || (p->callback == Player_800E564)) {
+                    continue;
+                }
+
+                res = sub_8020700(s, worldX, worldY, 1, p, 0);
+                if (res) {
+                    sub_80437A0(p, suction->unk68, worldX, worldY);
+                    continue;
+                }
+            }
+        }
+
+        if ((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) {
+            if (!sub_802C0D4(p)) {
+
+                if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
+                    p->qWorldY += Q(1);
+                }
+
+                res = sub_8020950(s, worldX, worldY, p, 0);
+
+                if (res & 0x30000) {
+                    p->qWorldY += Q_8_8(res);
+                    
+                    if (res & 0x20000) {
+                        if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
+                            p->qWorldY -= Q(1);
+                        } else {
+                            p->qWorldY += Q(1);
+                        }
+
+                        p->qSpeedAirY = 0;
+                        p->qSpeedGround = 0;
+                    }
+                }
+
+                if (res & 0xC0000) {
+                    p->qWorldX += Q((s16)res >> 8);
+
+                    p->qSpeedAirX = 0;
+                    p->qSpeedGround = 0;
+                }
+            }
+        }
+    }
+
+    sub_8043530();
 }
