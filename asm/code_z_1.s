@@ -5,29 +5,30 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_80C4474
-sub_80C4474: @ 0x080C4474
-	ldr r1, _080C447C @ =gUnknown_03006C10
+@ Start of src/input_recorder.c
+	thumb_func_start InputRecorderResetRecordHead
+InputRecorderResetRecordHead: @ 0x080C4474
+	ldr r1, _080C447C @ =gInputRecorder
 	movs r0, #0
 	str r0, [r1, #4]
 	bx lr
 	.align 2, 0
-_080C447C: .4byte gUnknown_03006C10
+_080C447C: .4byte gInputRecorder
 
-	thumb_func_start sub_80C4480
-sub_80C4480: @ 0x080C4480
-	ldr r1, _080C4488 @ =gUnknown_03006C10
+	thumb_func_start InputRecorderResetPlaybackHead
+InputRecorderResetPlaybackHead: @ 0x080C4480
+	ldr r1, _080C4488 @ =gInputRecorder
 	movs r0, #0
 	str r0, [r1]
 	bx lr
 	.align 2, 0
-_080C4488: .4byte gUnknown_03006C10
+_080C4488: .4byte gInputRecorder
 
-	thumb_func_start sub_80C448C
-sub_80C448C: @ 0x080C448C
+	thumb_func_start InputRecorderLoadTape
+InputRecorderLoadTape: @ 0x080C448C
 	push {r4, r5, r6, lr}
 	sub sp, #4
-	ldr r6, _080C44CC @ =gUnknown_03006C10
+	ldr r6, _080C44CC @ =gInputRecorder
 	movs r5, #0
 	strb r5, [r6, #8]
 	ldr r4, _080C44D0 @ =gUnknown_03006C1C
@@ -39,10 +40,10 @@ sub_80C448C: @ 0x080C448C
 	ldr r0, _080C44D4 @ =gUnknown_03006860
 	ldr r0, [r0]
 	bl LZ77UnCompWram
-	ldr r0, _080C44D8 @ =sub_80C4540
+	ldr r0, _080C44D8 @ =Task_InputRecorder
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _080C44DC @ =sub_80C4544
+	ldr r1, _080C44DC @ =InputRecorderEject
 	str r1, [sp]
 	movs r1, #0
 	movs r3, #0
@@ -54,16 +55,16 @@ sub_80C448C: @ 0x080C448C
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080C44CC: .4byte gUnknown_03006C10
+_080C44CC: .4byte gInputRecorder
 _080C44D0: .4byte gUnknown_03006C1C
 _080C44D4: .4byte gUnknown_03006860
-_080C44D8: .4byte sub_80C4540
-_080C44DC: .4byte sub_80C4544
+_080C44D8: .4byte Task_InputRecorder
+_080C44DC: .4byte InputRecorderEject
 
-	thumb_func_start sub_80C44E0
-sub_80C44E0: @ 0x080C44E0
+	thumb_func_start InputRecorderRead
+InputRecorderRead: @ 0x080C44E0
 	push {lr}
-	ldr r3, _080C44F0 @ =gUnknown_03006C10
+	ldr r3, _080C44F0 @ =gInputRecorder
 	ldr r2, [r3]
 	ldr r0, _080C44F4 @ =0x000007FF
 	cmp r2, r0
@@ -71,7 +72,7 @@ sub_80C44E0: @ 0x080C44E0
 	movs r0, #0
 	b _080C4506
 	.align 2, 0
-_080C44F0: .4byte gUnknown_03006C10
+_080C44F0: .4byte gInputRecorder
 _080C44F4: .4byte 0x000007FF
 _080C44F8:
 	ldr r0, _080C450C @ =gUnknown_03006C1C
@@ -87,12 +88,12 @@ _080C4506:
 	.align 2, 0
 _080C450C: .4byte gUnknown_03006C1C
 
-	thumb_func_start sub_80C4510
-sub_80C4510: @ 0x080C4510
+	thumb_func_start InputRecorderWrite
+InputRecorderWrite: @ 0x080C4510
 	push {r4, lr}
 	lsls r0, r0, #0x10
 	lsrs r3, r0, #0x10
-	ldr r4, _080C4534 @ =gUnknown_03006C10
+	ldr r4, _080C4534 @ =gInputRecorder
 	ldr r2, [r4, #4]
 	ldr r0, _080C4538 @ =0x000007FF
 	cmp r2, r0
@@ -109,22 +110,22 @@ _080C452E:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080C4534: .4byte gUnknown_03006C10
+_080C4534: .4byte gInputRecorder
 _080C4538: .4byte 0x000007FF
 _080C453C: .4byte gUnknown_03006C1C
 
-	thumb_func_start sub_80C4540
-sub_80C4540: @ 0x080C4540
+	thumb_func_start Task_InputRecorder
+Task_InputRecorder: @ 0x080C4540
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_80C4544
-sub_80C4544: @ 0x080C4544
+	thumb_func_start InputRecorderEject
+InputRecorderEject: @ 0x080C4544
 	push {lr}
 	ldr r0, _080C455C @ =gUnknown_03006C1C
 	ldr r0, [r0]
 	bl EwramFree
-	ldr r1, _080C4560 @ =gUnknown_03006C10
+	ldr r1, _080C4560 @ =gInputRecorder
 	movs r0, #0
 	strb r0, [r1, #8]
 	str r0, [r1, #4]
@@ -133,7 +134,9 @@ sub_80C4544: @ 0x080C4544
 	bx r0
 	.align 2, 0
 _080C455C: .4byte gUnknown_03006C1C
-_080C4560: .4byte gUnknown_03006C10
+_080C4560: .4byte gInputRecorder
+
+@ End of src/input_recorder.c
 
 	thumb_func_start sub_80C4564
 sub_80C4564: @ 0x080C4564
@@ -249,7 +252,7 @@ _080C4638:
 	mov r0, r8
 	adds r4, r0, r5
 	lsls r4, r4, #1
-	ldr r0, _080C46A8 @ =gUnknown_03003D30
+	ldr r0, _080C46A8 @ =gBgPalette
 	adds r4, r4, r0
 	ldrh r3, [r6]
 	movs r2, #0x1f
@@ -284,7 +287,7 @@ _080C467A:
 	ldr r3, [r0]
 	cmp r3, #0
 	beq _080C468C
-	ldr r0, _080C46A8 @ =gUnknown_03003D30
+	ldr r0, _080C46A8 @ =gBgPalette
 	mov r1, r8
 	adds r2, r7, #0
 	bl _call_via_r3
@@ -303,7 +306,7 @@ _080C468C:
 	bx r0
 	.align 2, 0
 _080C46A4: .4byte gUnknown_03003C60
-_080C46A8: .4byte gUnknown_03003D30
+_080C46A8: .4byte gBgPalette
 _080C46AC: .4byte gUnknown_03003C08
 _080C46B0: .4byte gFlags
 
@@ -3890,7 +3893,7 @@ sub_80C6168: @ 0x080C6168
 	ldr r0, _080C61A4 @ =0x040000D4
 	mov r1, sp
 	str r1, [r0]
-	ldr r1, _080C61A8 @ =gUnknown_03003C40
+	ldr r1, _080C61A8 @ =gMultiSioSend
 	str r1, [r0, #4]
 	ldr r1, _080C61AC @ =0x85000006
 	str r1, [r0, #8]
@@ -3898,12 +3901,12 @@ sub_80C6168: @ 0x080C6168
 	str r2, [sp]
 	mov r1, sp
 	str r1, [r0]
-	ldr r1, _080C61B0 @ =gUnknown_03002B90
+	ldr r1, _080C61B0 @ =gMultiSioRecv
 	str r1, [r0, #4]
 	ldr r1, _080C61B4 @ =0x85000018
 	str r1, [r0, #8]
 	ldr r0, [r0, #8]
-	ldr r0, _080C61B8 @ =gUnknown_03002C64
+	ldr r0, _080C61B8 @ =gMultiSioStatusFlags
 	str r2, [r0]
 	ldr r0, _080C61BC @ =gUnknown_03002C68
 	strb r2, [r0]
@@ -3914,11 +3917,11 @@ sub_80C6168: @ 0x080C6168
 	bx r0
 	.align 2, 0
 _080C61A4: .4byte 0x040000D4
-_080C61A8: .4byte gUnknown_03003C40
+_080C61A8: .4byte gMultiSioSend
 _080C61AC: .4byte 0x85000006
-_080C61B0: .4byte gUnknown_03002B90
+_080C61B0: .4byte gMultiSioRecv
 _080C61B4: .4byte 0x85000018
-_080C61B8: .4byte gUnknown_03002C64
+_080C61B8: .4byte gMultiSioStatusFlags
 _080C61BC: .4byte gUnknown_03002C68
 
 	thumb_func_start sub_80C61C0
@@ -4661,7 +4664,7 @@ sub_80C6738: @ 0x080C6738
 	strh r7, [r0]
 	adds r6, r1, #0
 _080C679E:
-	bl sub_80BCA94
+	bl GetInput
 	cmp r5, #1
 	beq _080C67EC
 	cmp r5, #1
@@ -4710,7 +4713,7 @@ _080C67FE:
 	lsls r0, r0, #0x10
 	lsrs r4, r0, #0x10
 _080C6808:
-	ldr r0, _080C682C @ =gUnknown_03003F8C
+	ldr r0, _080C682C @ =gPressedKeys
 	ldrh r1, [r0]
 	movs r0, #0xf0
 	ands r0, r1
@@ -4730,7 +4733,7 @@ _080C6826:
 	bl VBlankIntrWait
 	b _080C679E
 	.align 2, 0
-_080C682C: .4byte gUnknown_03003F8C
+_080C682C: .4byte gPressedKeys
 _080C6830:
 	lsls r0, r7, #0x18
 	asrs r0, r0, #0x18

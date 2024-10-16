@@ -18,10 +18,12 @@
 #include "constants/zones.h"
 
 typedef struct {
-    /* 0x00 */ SpriteBase base;
-    /* 0x0C */ u8 fillerC[0xA4];
-    /* 0xB0 */ Sprite s;
-    /* 0xD8 */ u8 fillerD8[0x628];
+    /* 0x000 */ SpriteBase base;
+    /* 0x00C */ u8 fillerC[0xA4];
+    /* 0x0B0 */ Sprite s;
+    /* 0x0D8 */ u8 fillerD8[0x618];
+    /* 0x6F0 */ ScreenFade fade;
+    /* 0x6FC */ s32 random;
 } Capsule; /* 0x700 */
 
 void Task_BonusCapsuleMain(void);

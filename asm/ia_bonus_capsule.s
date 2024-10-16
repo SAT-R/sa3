@@ -31,18 +31,18 @@ CreateEntity_BonusCapsule: @ 0x08039A3C
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0x14
-	mov sb, r0
+	mov sb, r0          @ sb = me
 	adds r5, r1, #0
 	mov sl, r3
 	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
+	lsrs r5, r5, #0x10  @ r5 = regionX
 	lsls r0, r2, #0x10
 	lsrs r1, r0, #0x10
-	str r1, [sp, #8]
+	str r1, [sp, #8]    @ sp08 = regionY
 	mov r2, sl
 	lsls r2, r2, #0x18
 	lsrs r2, r2, #0x18
-	mov sl, r2
+	mov sl, r2          @ sl = id
 	ldr r0, _08039C50 @ =Task_BonusCapsuleMain
 	movs r1, #0xe0
 	lsls r1, r1, #3

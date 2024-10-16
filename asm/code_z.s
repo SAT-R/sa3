@@ -97,7 +97,7 @@ _080BD434:
 	mov r1, ip
 	ldrb r0, [r1]
 	lsls r0, r0, #1
-	ldr r1, _080BD49C @ =gUnknown_03003D30
+	ldr r1, _080BD49C @ =gBgPalette
 	adds r0, r0, r1
 	str r0, [r2, #4]
 	movs r0, #0x80
@@ -147,7 +147,7 @@ _080BD478:
 	bx r0
 	.align 2, 0
 _080BD498: .4byte 0x040000D4
-_080BD49C: .4byte gUnknown_03003D30
+_080BD49C: .4byte gBgPalette
 _080BD4A0: .4byte gUnknown_03002B00
 _080BD4A4: .4byte gUnknown_03003D20
 
@@ -220,7 +220,7 @@ _080BD518:
 	ands r0, r1
 	cmp r0, #0
 	beq _080BD55C
-	ldr r1, _080BD558 @ =gUnknown_030035C0
+	ldr r1, _080BD558 @ =gBgCntRegs
 	lsls r0, r4, #1
 	adds r0, r0, r1
 	ldrh r0, [r0]
@@ -236,11 +236,11 @@ _080BD518:
 _080BD54C: .4byte 0x04000006
 _080BD550: .4byte gUnknown_03002B00
 _080BD554: .4byte gDispCnt
-_080BD558: .4byte gUnknown_030035C0
+_080BD558: .4byte gBgCntRegs
 _080BD55C:
 	movs r1, #0x20
 	str r1, [sp, #0xc]
-	ldr r0, _080BD650 @ =gUnknown_030035C0
+	ldr r0, _080BD650 @ =gBgCntRegs
 	lsls r1, r4, #1
 	adds r1, r1, r0
 	ldrh r0, [r1]
@@ -368,7 +368,7 @@ _080BD63C:
 	bne _080BD60A
 	bl _080BDF9E
 	.align 2, 0
-_080BD650: .4byte gUnknown_030035C0
+_080BD650: .4byte gBgCntRegs
 _080BD654: .4byte 0x0000FFFF
 _080BD658:
 	ldrh r0, [r6, #0x20]
@@ -787,7 +787,7 @@ _080BD978:
 	movs r0, #0x40
 	ands r0, r2
 	ldrh r3, [r6, #0x30]
-	ldr r1, _080BDA48 @ =gUnknown_03003C10
+	ldr r1, _080BDA48 @ =gBgScrollRegs
 	mov sb, r1
 	lsls r4, r4, #2
 	mov r8, r4
@@ -895,7 +895,7 @@ _080BDA02:
 	mov r8, r0
 	b _080BDA50
 	.align 2, 0
-_080BDA48: .4byte gUnknown_03003C10
+_080BDA48: .4byte gBgScrollRegs
 _080BDA4C:
 	movs r2, #0
 	mov r8, r2
@@ -2154,7 +2154,7 @@ _080BE384:
 	ldrh r1, [r5, #0xa]
 	adds r0, r0, r1
 	lsls r0, r0, #1
-	ldr r1, _080BE3C4 @ =gUnknown_03003D30
+	ldr r1, _080BE3C4 @ =gBgPalette
 	adds r0, r0, r1
 	str r0, [r2, #4]
 	ldrh r0, [r5, #8]
@@ -2174,7 +2174,7 @@ _080BE3B4:
 	.align 2, 0
 _080BE3BC: .4byte 0x040000D4
 _080BE3C0: .4byte gRefSpriteTables
-_080BE3C4: .4byte gUnknown_03003D30
+_080BE3C4: .4byte gBgPalette
 
 	thumb_func_start sub_80BE3C8
 sub_80BE3C8: @ 0x080BE3C8
@@ -2341,7 +2341,7 @@ _080BE4F2:
 	subs r0, r0, r1
 	movs r1, #0x10
 	bl Mod
-	ldr r4, _080BE58C @ =gUnknown_03003C10
+	ldr r4, _080BE58C @ =gBgScrollRegs
 	lsls r5, r7, #2
 	adds r1, r5, r4
 	strh r0, [r1]
@@ -2357,7 +2357,7 @@ _080BE4F2:
 	adds r5, r5, r4
 	strh r0, [r5]
 _080BE524:
-	ldr r0, _080BE590 @ =gUnknown_030035C0
+	ldr r0, _080BE590 @ =gBgCntRegs
 	lsls r3, r7, #1
 	adds r3, r3, r0
 	ldrh r0, [r3]
@@ -2410,8 +2410,8 @@ _080BE558:
 	.align 2, 0
 _080BE584: .4byte gRefSpriteTables
 _080BE588: .4byte gDispCnt
-_080BE58C: .4byte gUnknown_03003C10
-_080BE590: .4byte gUnknown_030035C0
+_080BE58C: .4byte gBgScrollRegs
+_080BE590: .4byte gBgCntRegs
 _080BE594: .4byte 0x0000FFFC
 _080BE598: .4byte 0xFBFFFFFF
 _080BE59C: .4byte 0x00FFFFFF
@@ -2627,7 +2627,7 @@ _080BE726:
 	ands r0, r1
 	lsrs r4, r0, #0xf
 	lsls r0, r4, #1
-	ldr r5, _080BE8A0 @ =gUnknown_030035C0
+	ldr r5, _080BE8A0 @ =gBgCntRegs
 	adds r0, r0, r5
 	ldrh r3, [r0]
 	movs r0, #0xc
@@ -2815,7 +2815,7 @@ _080BE88E:
 	b _080BE8D2
 	.align 2, 0
 _080BE89C: .4byte gRefSpriteTables
-_080BE8A0: .4byte gUnknown_030035C0
+_080BE8A0: .4byte gBgCntRegs
 _080BE8A4: .4byte gDispCnt
 _080BE8A8: .4byte 0x00003FFF
 _080BE8AC: .4byte 0x040000D4
@@ -3581,7 +3581,7 @@ _080BEE4C:
 	bne _080BEE7E
 	b _080BF06A
 _080BEE7E:
-	ldr r2, _080BEF10 @ =gUnknown_030035C0
+	ldr r2, _080BEF10 @ =gBgCntRegs
 	mov r6, r8
 	lsls r3, r6, #1
 	adds r0, r3, r2
@@ -3652,7 +3652,7 @@ _080BEE7E:
 _080BEF04: .4byte gUnknown_03003590
 _080BEF08: .4byte gUnknown_03003593
 _080BEF0C: .4byte gUnknown_03003592
-_080BEF10: .4byte gUnknown_030035C0
+_080BEF10: .4byte gBgCntRegs
 _080BEF14: .4byte gDispCnt
 _080BEF18: .4byte gUnknown_03006230
 _080BEF1C: .4byte 0x040000D4
@@ -3868,7 +3868,7 @@ sub_80BF09C: @ 0x080BF09C
 	lsrs r1, r1, #0x18
 	mov sb, r1
 	movs r5, #0
-	ldr r1, _080BF138 @ =gUnknown_030035C0
+	ldr r1, _080BF138 @ =gBgCntRegs
 	lsrs r0, r0, #0x17
 	adds r0, r0, r1
 	ldrh r4, [r0]
@@ -3930,7 +3930,7 @@ _080BF126:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_080BF138: .4byte gUnknown_030035C0
+_080BF138: .4byte gBgCntRegs
 
 	thumb_func_start sub_80BF13C
 sub_80BF13C: @ 0x080BF13C
@@ -8149,7 +8149,7 @@ sub_80C1124: @ 0x080C1124
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0x10
-	ldr r5, _080C11D4 @ =gUnknown_03006240
+	ldr r5, _080C11D4 @ =gOamBuffer
 	movs r0, #0
 	mov sb, r0
 	movs r3, #0
@@ -8210,7 +8210,7 @@ _080C118A:
 	ldr r0, _080C11F4 @ =gUnknown_03002C00
 	ldrb r3, [r0]
 	lsls r0, r3, #3
-	ldr r1, _080C11D4 @ =gUnknown_03006240
+	ldr r1, _080C11D4 @ =gOamBuffer
 	adds r5, r0, r1
 	mov r2, sl
 	ldrb r0, [r2]
@@ -8236,7 +8236,7 @@ _080C11BC:
 	blt _080C11BC
 	b _080C1288
 	.align 2, 0
-_080C11D4: .4byte gUnknown_03006240
+_080C11D4: .4byte gOamBuffer
 _080C11D8: .4byte gUnknown_03003F90
 _080C11DC: .4byte gUnknown_03002B50
 _080C11E0: .4byte 0x040000D4
@@ -8256,13 +8256,13 @@ _080C11FC:
 	ldrb r0, [r1]
 	subs r3, r0, #1
 	lsls r0, r3, #3
-	ldr r2, _080C1274 @ =gUnknown_03006240
+	ldr r2, _080C1274 @ =gOamBuffer
 	adds r5, r0, r2
 	cmp r3, #0
 	blt _080C1236
 	ldr r2, _080C1278 @ =0x040000D4
 	ldr r6, _080C127C @ =0x80000003
-	ldr r0, _080C1274 @ =gUnknown_03006240
+	ldr r0, _080C1274 @ =gOamBuffer
 	movs r1, #0xfe
 	lsls r1, r1, #2
 	adds r4, r0, r1
@@ -8295,7 +8295,7 @@ _080C1236:
 	ldr r1, _080C1278 @ =0x040000D4
 	adds r4, r0, #0
 	ldr r6, _080C1280 @ =0x81000003
-	ldr r2, _080C1274 @ =gUnknown_03006240
+	ldr r2, _080C1274 @ =gOamBuffer
 _080C125A:
 	strh r7, [r5]
 	mov r0, sp
@@ -8310,7 +8310,7 @@ _080C125A:
 	b _080C1288
 	.align 2, 0
 _080C1270: .4byte gUnknown_03002C00
-_080C1274: .4byte gUnknown_03006240
+_080C1274: .4byte gOamBuffer
 _080C1278: .4byte 0x040000D4
 _080C127C: .4byte 0x80000003
 _080C1280: .4byte 0x81000003

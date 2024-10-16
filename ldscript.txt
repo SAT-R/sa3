@@ -225,6 +225,8 @@ SECTIONS {
 
     /* data */
         build/sa3/data/data.o(.rodata);
+        build/sa3/asm/game__math.o(.rodata);
+        build/sa3/data/data_x.o(.rodata);
         build/sa3/src/lib/m4a_tables.o(.rodata);
         build/sa3/data/sound.o(.rodata);
         build/sa3/sound/songs/song000.o(.rodata);

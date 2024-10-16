@@ -272,7 +272,7 @@ sub_80B1D30: @ 0x080B1D30
 	ldr r2, _080B1D84 @ =0x00001C42
 	adds r0, r2, #0
 	strh r0, [r1]
-	ldr r1, _080B1D88 @ =gUnknown_030035C0
+	ldr r1, _080B1D88 @ =gBgCntRegs
 	movs r3, #0
 	movs r2, #0
 	ldr r0, _080B1D8C @ =0x0000D086
@@ -285,7 +285,7 @@ sub_80B1D30: @ 0x080B1D30
 	strh r0, [r1]
 	movs r0, #0x10
 	strh r0, [r1, #4]
-	ldr r0, _080B1D94 @ =gUnknown_03003C10
+	ldr r0, _080B1D94 @ =gBgScrollRegs
 	strh r2, [r0, #8]
 	strh r2, [r0, #0xa]
 	strh r2, [r0, #0xc]
@@ -310,10 +310,10 @@ sub_80B1D30: @ 0x080B1D30
 	.align 2, 0
 _080B1D80: .4byte gDispCnt
 _080B1D84: .4byte 0x00001C42
-_080B1D88: .4byte gUnknown_030035C0
+_080B1D88: .4byte gBgCntRegs
 _080B1D8C: .4byte 0x0000D086
 _080B1D90: .4byte gBldRegs
-_080B1D94: .4byte gUnknown_03003C10
+_080B1D94: .4byte gBgScrollRegs
 _080B1D98: .4byte gUnknown_03006230
 _080B1D9C: .4byte gUnknown_03003590
 
@@ -622,7 +622,7 @@ _080B202C: .4byte gStageData
 _080B2030: .4byte 0x000008C4
 _080B2034: .4byte sub_80B205C
 _080B2038:
-	ldr r0, _080B2054 @ =gUnknown_03003F8C
+	ldr r0, _080B2054 @ =gPressedKeys
 	ldrh r1, [r0]
 	movs r0, #8
 	ands r0, r1
@@ -637,7 +637,7 @@ _080B2050:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080B2054: .4byte gUnknown_03003F8C
+_080B2054: .4byte gPressedKeys
 _080B2058: .4byte gStageData
 
 	thumb_func_start sub_80B205C
@@ -2915,7 +2915,7 @@ sub_80B3290: @ 0x080B3290
 	ldrh r3, [r0]
 	ldr r2, _080B3308 @ =0x000008BC
 	adds r0, r1, r2
-	ldr r2, _080B330C @ =gUnknown_03003C10
+	ldr r2, _080B330C @ =gBgScrollRegs
 	ldrb r0, [r0]
 	rsbs r0, r0, #0
 	strh r0, [r2, #4]
@@ -2957,7 +2957,7 @@ _080B32FC: .4byte gCurTask
 _080B3300: .4byte 0x000008C7
 _080B3304: .4byte gUnknown_080DBFD8
 _080B3308: .4byte 0x000008BC
-_080B330C: .4byte gUnknown_03003C10
+_080B330C: .4byte gBgScrollRegs
 _080B3310: .4byte 0x000008C8
 
 	thumb_func_start sub_80B3314
@@ -4525,7 +4525,7 @@ _080B3FA4:
 _080B3FB4:
 	str r1, [r3]
 _080B3FB6:
-	ldr r1, _080B3FE0 @ =gUnknown_030035A0
+	ldr r1, _080B3FE0 @ =gInput
 	ldrh r2, [r1]
 	movs r0, #0x20
 	ands r0, r2
@@ -4545,7 +4545,7 @@ _080B3FB6:
 	b _080B4002
 	.align 2, 0
 _080B3FDC: .4byte 0xFFFE0000
-_080B3FE0: .4byte gUnknown_030035A0
+_080B3FE0: .4byte gInput
 _080B3FE4: .4byte gUnknown_020EFFFF
 _080B3FE8:
 	movs r0, #0x10
@@ -4685,7 +4685,7 @@ _080B40D8:
 _080B40E8:
 	str r2, [r1]
 _080B40EA:
-	ldr r1, _080B4118 @ =gUnknown_030035A0
+	ldr r1, _080B4118 @ =gInput
 	ldrh r2, [r1]
 	movs r0, #0x20
 	ands r0, r2
@@ -4707,7 +4707,7 @@ _080B40EA:
 	b _080B413E
 	.align 2, 0
 _080B4114: .4byte 0xFFFE0000
-_080B4118: .4byte gUnknown_030035A0
+_080B4118: .4byte gInput
 _080B411C: .4byte gUnknown_020EFFFF
 _080B4120:
 	movs r0, #0x10
@@ -4810,7 +4810,7 @@ sub_80B41B0: @ 0x080B41B0
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _080B41FC
-	ldr r0, _080B41F8 @ =gUnknown_030035A0
+	ldr r0, _080B41F8 @ =gInput
 	ldrh r1, [r0]
 	movs r0, #0x20
 	ands r0, r1
@@ -4822,7 +4822,7 @@ sub_80B41B0: @ 0x080B41B0
 _080B41EC: .4byte gCurTask
 _080B41F0: .4byte 0x000008C4
 _080B41F4: .4byte 0x030000B3
-_080B41F8: .4byte gUnknown_030035A0
+_080B41F8: .4byte gInput
 _080B41FC:
 	ldr r1, _080B4218 @ =0x03000088
 	adds r0, r3, r1
@@ -4830,7 +4830,7 @@ _080B41FC:
 	ldr r0, _080B421C @ =0x01E50000
 	cmp r1, r0
 	bgt _080B4224
-	ldr r0, _080B4220 @ =gUnknown_030035A0
+	ldr r0, _080B4220 @ =gInput
 	ldrh r1, [r0]
 	movs r0, #0x20
 	ands r0, r1
@@ -4841,12 +4841,12 @@ _080B41FC:
 	.align 2, 0
 _080B4218: .4byte 0x03000088
 _080B421C: .4byte 0x01E50000
-_080B4220: .4byte gUnknown_030035A0
+_080B4220: .4byte gInput
 _080B4224:
 	ldr r0, _080B427C @ =0x021AFFFF
 	cmp r1, r0
 	ble _080B4240
-	ldr r0, _080B4280 @ =gUnknown_030035A0
+	ldr r0, _080B4280 @ =gInput
 	ldrh r1, [r0]
 _080B422E:
 	movs r0, #0x10
@@ -4860,7 +4860,7 @@ _080B4238:
 	movs r0, #0xff
 	strb r0, [r1]
 _080B4240:
-	ldr r0, _080B4288 @ =gUnknown_03003F8C
+	ldr r0, _080B4288 @ =gPressedKeys
 	ldr r1, _080B428C @ =gStageData
 	ldrh r2, [r0]
 	ldrh r0, [r1, #0x14]
@@ -4892,9 +4892,9 @@ _080B426A:
 	bx r0
 	.align 2, 0
 _080B427C: .4byte 0x021AFFFF
-_080B4280: .4byte gUnknown_030035A0
+_080B4280: .4byte gInput
 _080B4284: .4byte 0x03000023
-_080B4288: .4byte gUnknown_03003F8C
+_080B4288: .4byte gPressedKeys
 _080B428C: .4byte gStageData
 _080B4290: .4byte 0xFFFFFC00
 
@@ -4914,7 +4914,7 @@ sub_80B4294: @ 0x080B4294
 	adds r1, #0xac
 	adds r0, r2, r1
 	ldrh r5, [r0]
-	ldr r1, _080B42D0 @ =gUnknown_030035A0
+	ldr r1, _080B42D0 @ =gInput
 	ldrh r3, [r1]
 	movs r0, #0x20
 	ands r0, r3
@@ -4929,7 +4929,7 @@ sub_80B4294: @ 0x080B4294
 	b _080B42E8
 	.align 2, 0
 _080B42CC: .4byte gCurTask
-_080B42D0: .4byte gUnknown_030035A0
+_080B42D0: .4byte gInput
 _080B42D4: .4byte 0x03000094
 _080B42D8:
 	movs r0, #0x10
@@ -5009,7 +5009,7 @@ _080B4366:
 	bge _080B436C
 	movs r5, #1
 _080B436C:
-	ldr r0, _080B43A8 @ =gUnknown_03003F8C
+	ldr r0, _080B43A8 @ =gPressedKeys
 	ldr r1, _080B43AC @ =gStageData
 	ldrh r2, [r0]
 	ldrh r0, [r1, #0x14]
@@ -5040,7 +5040,7 @@ _080B4396:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080B43A8: .4byte gUnknown_03003F8C
+_080B43A8: .4byte gPressedKeys
 _080B43AC: .4byte gStageData
 _080B43B0: .4byte 0xFFFFFC00
 
@@ -5069,7 +5069,7 @@ sub_80B43B4: @ 0x080B43B4
 	ldr r3, [r1]
 	adds r3, #0x30
 	adds r4, r4, r3
-	ldr r2, _080B4418 @ =gUnknown_030035A0
+	ldr r2, _080B4418 @ =gInput
 	cmp r3, #0
 	bge _080B43F6
 	ldr r0, _080B441C @ =gStageData
@@ -5095,7 +5095,7 @@ _080B43F6:
 _080B440C: .4byte gCurTask
 _080B4410: .4byte 0x03000090
 _080B4414: .4byte 0x0300009C
-_080B4418: .4byte gUnknown_030035A0
+_080B4418: .4byte gInput
 _080B441C: .4byte gStageData
 _080B4420:
 	movs r0, #0x10
@@ -6379,7 +6379,7 @@ sub_80B4DA8: @ 0x080B4DA8
 	ldrh r0, [r0]
 	cmp r0, #2
 	bhi _080B4E10
-	ldr r0, _080B4DF0 @ =gUnknown_030035A0
+	ldr r0, _080B4DF0 @ =gInput
 	ldrh r1, [r0]
 	movs r0, #0x80
 	ands r0, r1
@@ -6399,7 +6399,7 @@ sub_80B4DA8: @ 0x080B4DA8
 	.align 2, 0
 _080B4DE8: .4byte 0x000008C4
 _080B4DEC: .4byte 0x030000AC
-_080B4DF0: .4byte gUnknown_030035A0
+_080B4DF0: .4byte gInput
 _080B4DF4:
 	movs r0, #0x40
 	ands r0, r1
@@ -10406,11 +10406,11 @@ sub_80B6D78: @ 0x080B6D78
 	lsls r2, r2, #5
 	adds r0, r2, #0
 	strh r0, [r1]
-	ldr r1, _080B6E54 @ =gUnknown_030035C0
+	ldr r1, _080B6E54 @ =gBgCntRegs
 	movs r4, #0
 	ldr r0, _080B6E58 @ =0x00000703
 	strh r0, [r1, #2]
-	ldr r0, _080B6E5C @ =gUnknown_03003C10
+	ldr r0, _080B6E5C @ =gBgScrollRegs
 	strh r4, [r0, #4]
 	strh r4, [r0, #6]
 	ldr r1, _080B6E60 @ =0x0300000C
@@ -10493,9 +10493,9 @@ sub_80B6D78: @ 0x080B6D78
 	.align 2, 0
 _080B6E4C: .4byte gCurTask
 _080B6E50: .4byte gDispCnt
-_080B6E54: .4byte gUnknown_030035C0
+_080B6E54: .4byte gBgCntRegs
 _080B6E58: .4byte 0x00000703
-_080B6E5C: .4byte gUnknown_03003C10
+_080B6E5C: .4byte gBgScrollRegs
 _080B6E60: .4byte 0x0300000C
 _080B6E64: .4byte 0x000001AB
 _080B6E68: .4byte gBldRegs
@@ -11173,7 +11173,7 @@ _080B7404: .4byte gStageData
 _080B7408: .4byte 0x0300027F
 _080B740C: .4byte 0x03000280
 _080B7410:
-	ldr r0, _080B7440 @ =gUnknown_03003F8C
+	ldr r0, _080B7440 @ =gPressedKeys
 	ldrh r1, [r0]
 	movs r5, #1
 	adds r0, r5, #0
@@ -11198,7 +11198,7 @@ _080B742E:
 	str r0, [r1, #8]
 	b _080B7462
 	.align 2, 0
-_080B7440: .4byte gUnknown_03003F8C
+_080B7440: .4byte gPressedKeys
 _080B7444: .4byte sub_80B75A0
 _080B7448:
 	movs r0, #0x30
