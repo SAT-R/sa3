@@ -148,6 +148,7 @@ SECTIONS {
         build/sa3/src/multi_sio.o(.text);
         build/sa3/src/multi_boot.o(.text);
         build/sa3/src/sio32_multi_load.o(.text);
+        build/sa3/src/input_recorder.o(.text);
         build/sa3/asm/code_z_1.o(.text);
         build/sa3/src/multi_sio_asm.o(.text);
         build/sa3/src/malloc_ewram.o(.text);

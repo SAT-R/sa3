@@ -226,7 +226,7 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 . = 0x00006844; gUnknown_03006844 = .;
 . = 0x00006848; gUnknown_03006848 = .;
 . = 0x00006850; gUnknown_03006850 = .;
-. = 0x00006860; gUnknown_03006860 = .;
+. = 0x00006860; gInputPlaybackData = .;
 . = 0x00006864; gExecSoundMain = .;
 . = 0x00006868; gUnknown_03006868 = .;
 . = 0x00006870; gMultiSioIntrFuncBuf = .;
@@ -234,7 +234,7 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 . = 0x00006BB0; gMultiSioRecvFuncBuf = .;
 . = 0x00006BF0; gSio32MultiLoadArea = .;
 . = 0x00006C10; gInputRecorder = .;
-. = 0x00006C1C; gUnknown_03006C1C = .;
+. = 0x00006C1C; gInputRecorderTapeBuffer = .;
 . = 0x00006C20; gUnknown_03006C20 = .;
 
 . = 0x00006C24; build/sa3/src/lib/agb_flash/agb_flash.o(.data);

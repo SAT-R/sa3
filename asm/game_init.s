@@ -462,7 +462,7 @@ _080BBD3E:
 	strb r1, [r0, #8]
 	ldr r0, _080BBEC4 @ =gPhysicalInput
 	strh r1, [r0]
-	ldr r0, _080BBEC8 @ =gUnknown_03006860
+	ldr r0, _080BBEC8 @ =gInputPlaybackData
 	str r1, [r0]
 	ldr r0, _080BBECC @ =gUnknown_03003574
 	str r1, [r0]
@@ -607,7 +607,7 @@ _080BBEB8: .4byte gKeysFirstRepeatIntervals
 _080BBEBC: .4byte gKeysContinuedRepeatIntervals
 _080BBEC0: .4byte gInputRecorder
 _080BBEC4: .4byte gPhysicalInput
-_080BBEC8: .4byte gUnknown_03006860
+_080BBEC8: .4byte gInputPlaybackData
 _080BBECC: .4byte gUnknown_03003574
 _080BBED0: .4byte gUnknown_03002E70
 _080BBED4: .4byte gUnknown_03002B84
