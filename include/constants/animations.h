@@ -80,8 +80,8 @@
 #define ANIM_PLATFORM_ON_A_PATH_3      898
 #define ANIM_BREAKABLE_WALL_3          899
 #define ANIM_PLATFORM_3_0              900
-#define ANIM_SUCTION_VERT              901
-#define ANIM_SUCTION_HORZ              902
+#define ANIM_SUCTION_3_VERTICAL        901
+#define ANIM_SUCTION_3_HORIZONTAL      902
 #define ANIM_DEATH_CRUSHER_SPIKED      903
 #define ANIM_PLATFORM_3                904
 #define ANIM_DEATH_CRUSHER             905
@@ -133,23 +133,27 @@
 #define ANIM_PENDULUM_CYBER       943
 #define ANIM_MUD_FX               945
 
-#define ANIM_GOAL_RING            948
-#define ANIM_PLATFORM_CRUMBLING_4 951
-#define ANIM_PLATFORM_CRUMBLING_5 952
-#define ANIM_BREAKABLE_WALL_4     953
-#define ANIM_BREAKABLE_WALL_5     954
-#define ANIM_BREAKABLE_WALL_6     966
-#define ANIM_PLATFORM_CRUMBLE_6   967
-#define ANIM_SEESAW_3             968
-#define ANIM_PLATFORM_TS          974
-#define ANIM_TOY_BALLOON_POPPED   976
-#define ANIM_OMOCHAO0             977
-#define ANIM_OMOCHAO1             978
-#define ANIM_OMOCHAO2             979
-#define ANIM_OMOCHAO3             980
-#define ANIM_OMOCHAO4             981
-#define ANIM_OMOCHAO5             982
-#define ANIM_ACT_RING             983
+#define ANIM_GOAL_RING                 948
+#define ANIM_SUCTION_VERTICAL          949
+#define ANIM_SUCTION_HORIZONTAL        950
+#define ANIM_PLATFORM_CRUMBLING_4      951
+#define ANIM_PLATFORM_CRUMBLING_5      952
+#define ANIM_BREAKABLE_WALL_4          953
+#define ANIM_BREAKABLE_WALL_5          954
+#define ANIM_SUCTION_STREAM_HORIZONTAL 955
+#define ANIM_SUCTION_STREAM_VERTICAL   956
+#define ANIM_BREAKABLE_WALL_6          966
+#define ANIM_PLATFORM_CRUMBLE_6        967
+#define ANIM_SEESAW_3                  968
+#define ANIM_PLATFORM_TS               974
+#define ANIM_TOY_BALLOON_POPPED        976
+#define ANIM_OMOCHAO0                  977
+#define ANIM_OMOCHAO1                  978
+#define ANIM_OMOCHAO2                  979
+#define ANIM_OMOCHAO3                  980
+#define ANIM_OMOCHAO4                  981
+#define ANIM_OMOCHAO5                  982
+#define ANIM_ACT_RING                  983
 /* ANIM_ACT_RINGS:
     0=Act 1
     1=Act 2

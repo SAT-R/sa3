@@ -16,8 +16,7 @@ typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
     /* 0x34 */ Sprite s2;
-
-    /* 0x5C */ u8 filler54[0x8];
+    /* 0x5C */ Hitbox reserved;
     /* 0x64 */ s16 worldX;
     /* 0x66 */ s16 worldY;
     /* 0x68 */ u8 unk68;
@@ -119,16 +118,14 @@ void Task_Suction(void)
 
         if ((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) {
             if (!sub_802C0D4(p)) {
-
                 if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
                     p->qWorldY += Q(1);
                 }
 
                 res = sub_8020950(s, worldX, worldY, p, 0);
-
                 if (res & 0x30000) {
                     p->qWorldY += Q_8_8(res);
-                    
+
                     if (res & 0x20000) {
                         if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
                             p->qWorldY -= Q(1);
@@ -152,4 +149,221 @@ void Task_Suction(void)
     }
 
     sub_8043530();
+}
+
+void sub_80433C8(Suction *suction)
+{
+    Sprite *s;
+
+    s = &suction->s2;
+    s->frameFlags = 0;
+    if (suction->unk69) {
+        if (suction->unk68 & 0x2) {
+            s->tiles = ALLOC_TILES(ANIM_SUCTION_VERTICAL);
+            s->anim = ANIM_SUCTION_VERTICAL;
+            s->variant = 0;
+
+            if (suction->unk68 & 0x1) {
+                s->frameFlags = SPRITE_FLAG(Y_FLIP, 1);
+            }
+        } else {
+            s->tiles = ALLOC_TILES(ANIM_SUCTION_HORIZONTAL);
+            s->anim = ANIM_SUCTION_HORIZONTAL;
+            s->variant = 0;
+
+            if (suction->unk68 & 0x1) {
+                s->frameFlags = SPRITE_FLAG(X_FLIP, 1);
+            }
+        }
+    } else {
+        if (suction->unk68 & 0x2) {
+            s->tiles = ALLOC_TILES(ANIM_SUCTION_3_VERTICAL);
+            s->anim = ANIM_SUCTION_3_VERTICAL;
+            s->variant = 0;
+
+            if (suction->unk68 & 0x1) {
+                s->frameFlags = SPRITE_FLAG(Y_FLIP, 1);
+            }
+        } else {
+            s->tiles = ALLOC_TILES(ANIM_SUCTION_3_HORIZONTAL);
+            s->anim = ANIM_SUCTION_3_HORIZONTAL;
+            s->variant = 0;
+
+            if (suction->unk68 & 0x1) {
+                s->frameFlags = SPRITE_FLAG(X_FLIP, 1);
+            }
+        }
+    }
+
+    s->oamFlags = SPRITE_OAM_ORDER(9);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->hitboxes[1].index = HITBOX_STATE_INACTIVE;
+    UpdateSpriteAnimation(s);
+
+    s = &suction->s;
+    s->frameFlags = 0;
+    if (suction->unk68 & 0x2) {
+        s->tiles = ALLOC_TILES(ANIM_SUCTION_STREAM_VERTICAL);
+        s->anim = ANIM_SUCTION_STREAM_VERTICAL;
+        s->variant = 0;
+
+        if (suction->unk68 & 0x1) {
+            s->frameFlags = SPRITE_FLAG(Y_FLIP, 1);
+        }
+    } else {
+        s->tiles = ALLOC_TILES(ANIM_SUCTION_STREAM_HORIZONTAL);
+        s->anim = ANIM_SUCTION_STREAM_HORIZONTAL;
+        s->variant = 0;
+
+        if (suction->unk68 & 0x1) {
+            s->frameFlags = SPRITE_FLAG(X_FLIP, 1);
+        }
+    }
+
+    s->oamFlags = SPRITE_OAM_ORDER(9);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    UpdateSpriteAnimation(s);
+}
+
+void sub_8043530(void)
+{
+    Suction *suction = TASK_DATA(gCurTask);
+    Sprite *s = &suction->s2;
+    MapEntity *me = suction->base.me;
+    s16 worldX, worldY;
+    s16 i;
+    u8 j;
+
+    worldX = suction->worldX;
+    worldY = suction->worldY;
+
+    if (!IsPointInScreenRect(worldX, worldY)) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            Player *p = GET_SP_PLAYER_V1(i);
+            sub_80213B0(s, p);
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, suction->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        if (suction->unk68 & 0x2) {
+            worldX += 4;
+        } else {
+            worldY += 4;
+        }
+
+        s->x = worldX - gCamera.x;
+        s->y = worldY - gCamera.y;
+        UpdateSpriteAnimation(s);
+
+        if (suction->unk68 & 0x2) {
+            for (j = 0; j < 2; j++) {
+                if (j != 0) {
+                    SPRITE_FLAG_SET(s, X_FLIP);
+                } else {
+                    SPRITE_FLAG_CLEAR(s, X_FLIP);
+                }
+                DisplaySprite(s);
+            }
+        } else {
+            for (j = 0; j < 2; j++) {
+                if (j != 0) {
+                    SPRITE_FLAG_SET(s, Y_FLIP);
+                } else {
+                    SPRITE_FLAG_CLEAR(s, Y_FLIP);
+                }
+
+                DisplaySprite(s);
+            }
+        }
+
+        if (!suction->unk69) {
+            s = &suction->s;
+            s->x = worldX - gCamera.x;
+            s->y = worldY - gCamera.y;
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+        }
+    }
+}
+
+void TaskDestructor_Suction(struct Task *t)
+{
+    Suction *suction = TASK_DATA(t);
+    VramFree(suction->s2.tiles);
+
+    if (suction->s.tiles) {
+        VramFree(suction->s.tiles);
+    }
+}
+
+void sub_8043708(Player *p, u8 unk68, s16 worldX, s16 worldY)
+{
+    p->qUnk70 = Q(worldX);
+    p->qUnk74 = Q(worldY);
+
+    switch (unk68) {
+        case 0: {
+            p->qUnk70 += Q(20);
+            p->qUnk74 += Q(5);
+            SetPlayerCallback(p, Player_800E3C4);
+        } break;
+
+        case 1: {
+            p->qUnk70 -= Q(20);
+            p->qUnk74 += Q(5);
+            SetPlayerCallback(p, Player_800E398);
+        } break;
+
+        case 2: {
+            p->qUnk74 -= Q(20);
+            SetPlayerCallback(p, Player_800E348);
+        } break;
+
+        case 3: {
+            p->qUnk74 += Q(20);
+            SetPlayerCallback(p, Player_800E370);
+        } break;
+    }
+}
+
+void sub_80437A0(Player *p, u8 unk68, s16 worldX, s16 worldY)
+{
+    p->qUnk70 = Q(worldX);
+    p->qUnk74 = Q(worldY);
+
+    switch (unk68) {
+        case 0: {
+            p->qUnk70 -= Q(16. / 256.);
+            SetPlayerCallback(p, Player_800E4B8);
+        } break;
+
+        case 1: {
+            p->qUnk70 += Q(16. / 256.);
+            SetPlayerCallback(p, Player_800E4E0);
+        } break;
+
+        case 2: {
+            p->qUnk70 += Q(4. / 256.);
+            p->qUnk74 += Q(16. / 256.);
+            SetPlayerCallback(p, Player_800E490);
+        } break;
+
+        case 3: {
+            p->qUnk70 += Q(4. / 256.);
+            p->qUnk74 -= Q(16. / 256.);
+            SetPlayerCallback(p, Player_800E468);
+        } break;
+    }
 }

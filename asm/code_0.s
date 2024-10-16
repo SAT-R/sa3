@@ -28746,8 +28746,8 @@ _0800E33A:
 _0800E340: .4byte Player_8005380
 _0800E344: .4byte Player_800DB30
 
-	thumb_func_start sub_800E348
-sub_800E348: @ 0x0800E348
+	thumb_func_start Player_800E348
+Player_800E348: @ 0x0800E348
 	push {r4, lr}
 	adds r4, r0, #0
 	bl sub_800AF98
@@ -28766,8 +28766,8 @@ sub_800E348: @ 0x0800E348
 	.align 2, 0
 _0800E36C: .4byte Player_800E3EC
 
-	thumb_func_start sub_800E370
-sub_800E370: @ 0x0800E370
+	thumb_func_start Player_800E370
+Player_800E370: @ 0x0800E370
 	push {r4, lr}
 	adds r4, r0, #0
 	bl sub_800AF98
@@ -28786,8 +28786,8 @@ sub_800E370: @ 0x0800E370
 	.align 2, 0
 _0800E394: .4byte Player_800E3EC
 
-	thumb_func_start sub_800E398
-sub_800E398: @ 0x0800E398
+	thumb_func_start Player_800E398
+Player_800E398: @ 0x0800E398
 	push {r4, lr}
 	adds r4, r0, #0
 	bl sub_800AF98
@@ -28807,8 +28807,8 @@ sub_800E398: @ 0x0800E398
 _0800E3BC: .4byte 0x0000FF80
 _0800E3C0: .4byte Player_800E3EC
 
-	thumb_func_start sub_800E3C4
-sub_800E3C4: @ 0x0800E3C4
+	thumb_func_start Player_800E3C4
+Player_800E3C4: @ 0x0800E3C4
 	push {r4, lr}
 	adds r4, r0, #0
 	bl sub_800AF98
@@ -28891,8 +28891,8 @@ _0800E45C: .4byte 0x00000251
 _0800E460: .4byte 0x00000252
 _0800E464: .4byte Player_800B004
 
-	thumb_func_start sub_800E468
-sub_800E468: @ 0x0800E468
+	thumb_func_start Player_800E468
+Player_800E468: @ 0x0800E468
 	push {r4, lr}
 	adds r4, r0, #0
 	bl sub_800E508
@@ -28911,8 +28911,8 @@ sub_800E468: @ 0x0800E468
 	.align 2, 0
 _0800E48C: .4byte Player_800B128
 
-	thumb_func_start sub_800E490
-sub_800E490: @ 0x0800E490
+	thumb_func_start Player_800E490
+Player_800E490: @ 0x0800E490
 	push {r4, lr}
 	adds r4, r0, #0
 	bl sub_800E508
@@ -28931,8 +28931,8 @@ sub_800E490: @ 0x0800E490
 	.align 2, 0
 _0800E4B4: .4byte Player_800B128
 
-	thumb_func_start sub_800E4B8
-sub_800E4B8: @ 0x0800E4B8
+	thumb_func_start Player_800E4B8
+Player_800E4B8: @ 0x0800E4B8
 	push {r4, lr}
 	adds r4, r0, #0
 	bl sub_800E508
@@ -28951,8 +28951,8 @@ sub_800E4B8: @ 0x0800E4B8
 	.align 2, 0
 _0800E4DC: .4byte Player_800B128
 
-	thumb_func_start sub_800E4E0
-sub_800E4E0: @ 0x0800E4E0
+	thumb_func_start Player_800E4E0
+Player_800E4E0: @ 0x0800E4E0
 	push {r4, lr}
 	adds r4, r0, #0
 	bl sub_800E508
