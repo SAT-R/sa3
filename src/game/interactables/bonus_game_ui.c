@@ -104,6 +104,45 @@ extern const TileInfo gUnknown_080CF770[7];
 //  };
 extern const u8 sBonusLifeIconVariants[5];
 
+void Task_BonusFlower_Spawn(void);
+void TaskDestructor_BonusFlower(struct Task *);
+
+void CreateBonusFlower(s16 worldX, s16 worldY)
+{
+    struct Task *t = TaskCreate(Task_BonusFlower_Spawn, sizeof(BonusFlower), 0x2100, 0, TaskDestructor_BonusFlower);
+    BonusFlower *flower = TASK_DATA(t);
+
+    Player *p = &gPlayers[gStageData.playerIndex];
+    flower->unk30 = worldX;
+    flower->unk32 = worldY;
+    flower->qUnk2C = Q(worldY);
+
+    if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
+        flower->unk34 = 1;
+        flower->qUnk28 = +Q(3);
+    } else {
+        flower->unk34 = 0;
+        flower->qUnk28 = -Q(3);
+    }
+    sub_8003DF0(SE_POOF);
+
+    flower->s.tiles = ALLOC_TILES(ANIM_BONUS_UI_FLOWER);
+    flower->s.oamFlags = SPRITE_OAM_ORDER(22);
+    flower->s.anim = ANIM_BONUS_UI_FLOWER;
+    flower->s.variant = 0;
+    flower->s.qAnimDelay = Q(0);
+    flower->s.prevVariant = -1;
+    flower->s.animSpeed = SPRITE_ANIM_SPEED(1.0);
+    flower->s.palId = 0;
+    flower->s.x = I(flower->unk30); // TODO: This doesn't make sense... should be qUnk28
+    flower->s.y = I(flower->unk32); // TODO: This doesn't make sense... should be qUnk2C
+    flower->s.frameFlags = SPRITE_FLAG(PRIORITY, 1);
+
+    if (!(p->moveState & MOVESTATE_IGNORE_INPUT)) {
+        gUnknown_03001D00++;
+    }
+}
+
 void CreateEntity_BonusGameUI(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t;
@@ -179,7 +218,7 @@ void CreateEntity_BonusGameUI(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     gStageData.unk4 = 2;
 }
 
-void Task_BonusFlower_803C3A8(void)
+void Task_BonusFlower_Spawn(void)
 {
     s32 r3 = 0;
     BonusFlower *flower = TASK_DATA(gCurTask);

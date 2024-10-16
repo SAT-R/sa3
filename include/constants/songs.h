@@ -153,6 +153,7 @@
 #define SE_GOAL_POST_OLD              0x87
 #define MUS_DUMMY__136                0x88
 #define MUS_DUMMY__137                0x89
+#define SE_POOF                       0x8A
 
 #define MUS_DUMMY__140 0x8C
 #define MUS_DUMMY__141 0x8D

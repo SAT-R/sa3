@@ -278,7 +278,7 @@ _0805C23A:
 	ldrb r2, [r2]
 	lsls r2, r2, #0x1c
 	lsrs r2, r2, #0x1c
-	bl sub_803C12C
+	bl CreateBonusFlower
 _0805C256:
 	movs r0, #1
 	strb r0, [r4, #5]
