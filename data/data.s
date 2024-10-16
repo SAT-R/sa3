@@ -501,8 +501,8 @@ gUnknown_080CF6C8:
 gUnknown_080CF770:
     .incbin "baserom.gba", 0x000CF770, 0x38
 
-    .global gUnknown_080CF7A8
-gUnknown_080CF7A8:
+    .global gTileInfoAnimals
+gTileInfoAnimals:
     .incbin "baserom.gba", 0x000CF7A8, 0xA8
 
     .global gUnknown_080CF850
@@ -2596,7 +2596,7 @@ gUnknown_080DBE50:
 
     .global gUnknown_080DBE54
 gUnknown_080DBE54:
-    .incbin "baserom.gba", 0x000DBE54, 0x4
+    .2byte 0x0AAA, 0x02AA
 
     .global gUnknown_080DBE58
 gUnknown_080DBE58:

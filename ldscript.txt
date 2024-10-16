@@ -137,6 +137,8 @@ SECTIONS {
         build/sa3/asm/enemy_guruguru.o(.text);
         build/sa3/asm/enemy_kyacchaa.o(.text);
         build/sa3/asm/code.o(.text);
+        build/sa3/asm/game__math.o(.text);
+        build/sa3/asm/code_x.o(.text);
         build/sa3/src/lib/m4a0.o(.text);
         build/sa3/src/lib/m4a.o(.text);
         build/sa3/asm/game_init.o(.text);

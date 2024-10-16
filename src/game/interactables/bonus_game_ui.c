@@ -44,7 +44,7 @@ typedef struct {
     /* 0x30 */ s16 unk30;
     /* 0x32 */ s16 unk32;
     /* 0x34 */ u8 unk34;
-} BonusFlower; /* 0x38 */
+} BonusFlower;
 
 typedef struct {
     /* 0x000 */ SpriteBase base;
@@ -64,7 +64,7 @@ typedef struct {
     /* 0x540 */ Sprite spr540;
     /* 0x568 */ Sprite spr568;
     /* 0x590 */ ScreenFade fade;
-} BonusGameUI; /* size: 0x59C */
+} BonusGameUI;
 
 void Task_BonusGameUIInit(void);
 void TaskDestructor_BonusGameUI(struct Task *);

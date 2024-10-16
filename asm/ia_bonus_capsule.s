@@ -22,6 +22,7 @@ gUnknown_08E2E550:
 .syntax unified
 .arm
 
+.if 01
 	thumb_func_start CreateEntity_BonusCapsule
 CreateEntity_BonusCapsule: @ 0x08039A3C
 	push {r4, r5, r6, r7, lr}
@@ -52,21 +53,21 @@ CreateEntity_BonusCapsule: @ 0x08039A3C
 	movs r3, #0
 	bl TaskCreate
 	ldrh r0, [r0, #6]
-	mov r8, r0
+	mov r8, r0          @ r8 = t
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	mov r3, r8
-	adds r7, r3, r0
+	adds r7, r3, r0     @ r7 = cap
 	ldr r6, _08039C58 @ =0x030000B0
-	add r6, r8
-	ldr r0, _08039C5C @ =gUnknown_030006F0
+	add r6, r8          @ r6 = s
+	ldr r0, _08039C5C @ =0x030006F0
 	add r0, r8
 	ldr r1, _08039C60 @ =gStageData
 	mov ip, r1
 	adds r1, #0x8c
 	movs r4, #0
 	strh r4, [r1]
-	ldr r2, _08039C64 @ =gUnknown_030006FC
+	ldr r2, _08039C64 @ =0x030006FC
 	add r2, r8
 	ldr r3, _08039C68 @ =gUnknown_03006868
 	ldr r1, [r3]
@@ -289,9 +290,9 @@ _08039C24:
 _08039C50: .4byte Task_BonusCapsuleMain
 _08039C54: .4byte TaskDestructor_BonusCapsule
 _08039C58: .4byte 0x030000B0
-_08039C5C: .4byte gUnknown_030006F0
+_08039C5C: .4byte 0x030006F0
 _08039C60: .4byte gStageData
-_08039C64: .4byte gUnknown_030006FC
+_08039C64: .4byte 0x030006FC
 _08039C68: .4byte gUnknown_03006868
 _08039C6C: .4byte gPlayers
 _08039C70: .4byte gUnknown_080CF864
@@ -300,6 +301,7 @@ _08039C78: .4byte gUnknown_03000560
 _08039C7C: .4byte gUnknown_03000588
 _08039C80: .4byte 0x03000218
 _08039C84: .4byte gCamera
+.endif
 
 	thumb_func_start TaskDestructor_BonusCapsule
 TaskDestructor_BonusCapsule: @ 0x08039C88
@@ -309,7 +311,7 @@ TaskDestructor_BonusCapsule: @ 0x08039C88
 	lsls r0, r0, #0x12
 	adds r5, r4, r0
 	ldr r1, _08039CAC @ =gUnknown_03006868
-	ldr r2, _08039CB0 @ =gUnknown_030006FC
+	ldr r2, _08039CB0 @ =0x030006FC
 	adds r0, r4, r2
 	ldr r0, [r0]
 	str r0, [r1]
@@ -322,7 +324,7 @@ TaskDestructor_BonusCapsule: @ 0x08039C88
 	b _08039CCC
 	.align 2, 0
 _08039CAC: .4byte gUnknown_03006868
-_08039CB0: .4byte gUnknown_030006FC
+_08039CB0: .4byte 0x030006FC
 _08039CB4: .4byte 0x030000B0
 _08039CB8:
 	ldr r2, _08039D58 @ =0x030000A8
@@ -1610,7 +1612,7 @@ sub_803A6DC: @ 0x0803A6DC
 	adds r5, r0, r1
 	ldr r1, _0803A748 @ =gUnknown_03000588
 	adds r6, r0, r1
-	ldr r1, _0803A74C @ =gUnknown_030006F0
+	ldr r1, _0803A74C @ =0x030006F0
 	adds r2, r0, r1
 	ldr r7, _0803A750 @ =gStageData
 	adds r0, r7, #0
@@ -1658,7 +1660,7 @@ _0803A734:
 	.align 2, 0
 _0803A744: .4byte gCurTask
 _0803A748: .4byte gUnknown_03000588
-_0803A74C: .4byte gUnknown_030006F0
+_0803A74C: .4byte 0x030006F0
 _0803A750: .4byte gStageData
 _0803A754: .4byte gPlayers
 _0803A758:
@@ -1935,7 +1937,7 @@ Task_803A978: @ 0x0803A978
 	ldrsh r5, [r4, r2]
 	cmp r5, #0
 	bne _0803AA04
-	ldr r2, _0803A9E4 @ =gUnknown_030006F0
+	ldr r2, _0803A9E4 @ =0x030006F0
 	adds r0, r1, r2
 	bl UpdateScreenFade
 	lsls r0, r0, #0x18
@@ -1968,7 +1970,7 @@ Task_803A978: @ 0x0803A978
 	b _0803AA22
 	.align 2, 0
 _0803A9E0: .4byte gCurTask
-_0803A9E4: .4byte gUnknown_030006F0
+_0803A9E4: .4byte 0x030006F0
 _0803A9E8: .4byte 0x0000FFFF
 _0803A9EC: .4byte gUnknown_03003F94
 _0803A9F0: .4byte gUnknown_03003D20
@@ -2015,7 +2017,7 @@ Task_803AA28: @ 0x0803AA28
 	ldrsh r0, [r1, r4]
 	cmp r0, #0
 	bne _0803AABC
-	ldr r1, _0803AA9C @ =gUnknown_030006F0
+	ldr r1, _0803AA9C @ =0x030006F0
 	adds r0, r3, r1
 	bl UpdateScreenFade
 	lsls r0, r0, #0x18
@@ -2049,7 +2051,7 @@ Task_803AA28: @ 0x0803AA28
 	b _0803AAE2
 	.align 2, 0
 _0803AA98: .4byte gCurTask
-_0803AA9C: .4byte gUnknown_030006F0
+_0803AA9C: .4byte 0x030006F0
 _0803AAA0: .4byte 0x0000FFFF
 _0803AAA4: .4byte gUnknown_03003F94
 _0803AAA8: .4byte gUnknown_03003D20
@@ -3719,7 +3721,7 @@ _0803B75C:
 	bl VramMalloc
 	adds r6, r0, #0
 	movs r4, #0
-	ldr r0, _0803B7FC @ =gUnknown_080CF7A8
+	ldr r0, _0803B7FC @ =gTileInfoAnimals
 	mov sb, r0
 	ldr r1, _0803B800 @ =gStageData
 	mov r8, r1
@@ -3782,7 +3784,7 @@ _0803B78C:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0803B7FC: .4byte gUnknown_080CF7A8
+_0803B7FC: .4byte gTileInfoAnimals
 _0803B800: .4byte gStageData
 
 	thumb_func_start sub_803B804
@@ -4972,6 +4974,3 @@ _0803C11E:
 	pop {r4, r5, r6, r7}
 	pop {r1}
 	bx r1
-
-.if 0
-.endif
