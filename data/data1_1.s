@@ -18,7 +18,7 @@ gOamShapesSizes:
 
 
     .global gUnknown_082B5304
-gUnknown_082B5304:
+gUnknown_082B5304: @ SA2: gUnknown_080984F4
     .2byte 1, 1
     .ascii "MultiSio4Sio32Load010528\0"
     .align 2, 0

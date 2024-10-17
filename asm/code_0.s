@@ -84584,7 +84584,7 @@ _08029202:
 	lsrs r3, r3, #0x10
 	str r0, [sp]
 	movs r0, #3
-	bl sub_80C3038
+	bl sa2__sub_80078D4
 	lsls r4, r4, #0x10
 	lsrs r1, r4, #0x10
 	asrs r4, r4, #0x10

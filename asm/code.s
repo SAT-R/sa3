@@ -65855,7 +65855,7 @@ _0808575A:
 	lsrs r0, r5, #0x10
 	str r0, [sp, #4]
 	movs r0, #0
-	bl sub_80C2D34
+	bl sa2__sub_80075D0
 	add sp, #0xc
 	pop {r4, r5, r6}
 	pop {r0}
@@ -65908,7 +65908,7 @@ _080857CE:
 	movs r1, #0
 	movs r2, #0
 	movs r3, #0x42
-	bl sub_80C1718
+	bl sa2__unused_sub_8005FB4
 	movs r2, #0xf0
 	lsls r2, r2, #2
 	ldr r1, _08085838 @ =gSineTable
@@ -65975,7 +65975,7 @@ _0808585A:
 	movs r1, #0
 	movs r2, #0
 	movs r3, #0xe
-	bl sub_80C1718
+	bl sa2__unused_sub_8005FB4
 	add sp, #8
 	pop {r4}
 	pop {r0}
