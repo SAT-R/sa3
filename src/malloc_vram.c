@@ -42,8 +42,9 @@ void VramFree(void *addr)
     }
 }
 
-// NOTE: Not in SA1 and  SA2!
-u16 VramGetTotalAllocatedTiles(void) {
+// NOTE: Not in SA1 and SA2!
+u16 VramGetTotalAllocatedTiles(void)
+{
     u16 i;
     u16 count = 0;
 
