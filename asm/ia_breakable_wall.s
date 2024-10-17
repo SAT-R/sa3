@@ -964,7 +964,7 @@ _08034EBA:
 	asrs r1, r1, #0x10
 	adds r1, r1, r0
 	movs r4, #0
-	ldr r6, _08034F50 @ =gUnknown_03006868
+	ldr r6, _08034F50 @ =gPseudoRandom
 	lsls r3, r3, #0x10
 	mov r8, r3
 	lsls r7, r1, #0x10
@@ -1000,7 +1000,7 @@ _08034F40: .4byte 0x03000032
 _08034F44: .4byte 0x03000033
 _08034F48: .4byte 0x0300003A
 _08034F4C: .4byte gPlayers
-_08034F50: .4byte gUnknown_03006868
+_08034F50: .4byte gPseudoRandom
 _08034F54: .4byte 0x00196225
 _08034F58: .4byte 0x3C6EF35F
 _08034F5C: .4byte 0x000001FF

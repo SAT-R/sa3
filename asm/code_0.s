@@ -4917,7 +4917,7 @@ _080026E2:
 	adds r0, r6, #0
 	adds r0, #0xb5
 	strb r5, [r0]
-	ldr r2, _080027D8 @ =gUnknown_03006868
+	ldr r2, _080027D8 @ =gPseudoRandom
 	ldr r1, [r2]
 	ldr r0, _080027DC @ =0x00196225
 	muls r0, r1, r0
@@ -5026,7 +5026,7 @@ _08002776:
 	bl sub_8004F48
 	b _08002816
 	.align 2, 0
-_080027D8: .4byte gUnknown_03006868
+_080027D8: .4byte gPseudoRandom
 _080027DC: .4byte 0x00196225
 _080027E0: .4byte 0x3C6EF35F
 _080027E4: .4byte sub_8002988
@@ -83598,7 +83598,7 @@ _080289D0:
 	ldrb r0, [r0, #6]
 	cmp r0, #0
 	bne _08028A26
-	ldr r2, _08028A88 @ =gUnknown_03006868
+	ldr r2, _08028A88 @ =gPseudoRandom
 	ldr r0, [r2]
 	ldr r6, _08028A8C @ =0x00196225
 	muls r0, r6, r0
@@ -83666,7 +83666,7 @@ _08028A78: .4byte 0x0300048C
 _08028A7C: .4byte 0x0300048B
 _08028A80: .4byte gMultiSioRecv
 _08028A84: .4byte 0x03000460
-_08028A88: .4byte gUnknown_03006868
+_08028A88: .4byte gPseudoRandom
 _08028A8C: .4byte 0x00196225
 _08028A90: .4byte 0x3C6EF35F
 _08028A94: .4byte 0xFFFF0000
@@ -83736,7 +83736,7 @@ _08028AD0:
 	ldrb r0, [r1, #6]
 	cmp r0, #0
 	bne _08028B70
-	ldr r2, _08028BCC @ =gUnknown_03006868
+	ldr r2, _08028BCC @ =gPseudoRandom
 	ldr r1, [r2]
 	ldr r0, _08028BD0 @ =0x00196225
 	muls r1, r0, r1
@@ -83816,7 +83816,7 @@ _08028BBC: .4byte 0x00006001
 _08028BC0: .4byte 0x0300048C
 _08028BC4: .4byte 0x0300048B
 _08028BC8: .4byte gStageData
-_08028BCC: .4byte gUnknown_03006868
+_08028BCC: .4byte gPseudoRandom
 _08028BD0: .4byte 0x00196225
 _08028BD4: .4byte 0x3C6EF35F
 _08028BD8: .4byte 0x0300048D
@@ -88371,7 +88371,7 @@ _0802AEFA:
 	movs r2, #0
 	mov sb, r2
 	mov ip, r2
-	ldr r0, _0802AF50 @ =gUnknown_03006868
+	ldr r0, _0802AF50 @ =gPseudoRandom
 	mov sl, r0
 	lsls r0, r5, #0x10
 	asrs r5, r0, #0x10
@@ -88399,7 +88399,7 @@ _0802AF24:
 	adds r0, #9
 	b _0802AF56
 	.align 2, 0
-_0802AF50: .4byte gUnknown_03006868
+_0802AF50: .4byte gPseudoRandom
 _0802AF54:
 	adds r0, r2, #0
 _0802AF56:
@@ -92321,7 +92321,7 @@ _0802CCC0:
 _0802CCD0: .4byte gStageData
 _0802CCD4:
 	ldr r3, _0802CD78 @ =gUnknown_080CF43E
-	ldr r2, _0802CD7C @ =gUnknown_03006868
+	ldr r2, _0802CD7C @ =gPseudoRandom
 	ldr r1, [r2]
 	ldr r0, _0802CD80 @ =0x00196225
 	muls r0, r1, r0
@@ -92407,13 +92407,13 @@ _0802CD6C:
 	b _0802CE1A
 	.align 2, 0
 _0802CD78: .4byte gUnknown_080CF43E
-_0802CD7C: .4byte gUnknown_03006868
+_0802CD7C: .4byte gPseudoRandom
 _0802CD80: .4byte 0x00196225
 _0802CD84: .4byte 0x3C6EF35F
 _0802CD88: .4byte gPlayers
 _0802CD8C:
 	ldr r3, _0802CE30 @ =gUnknown_080CF43E
-	ldr r2, _0802CE34 @ =gUnknown_03006868
+	ldr r2, _0802CE34 @ =gPseudoRandom
 	ldr r1, [r2]
 	ldr r0, _0802CE38 @ =0x00196225
 	muls r0, r1, r0
@@ -92499,7 +92499,7 @@ _0802CE26:
 	bx r0
 	.align 2, 0
 _0802CE30: .4byte gUnknown_080CF43E
-_0802CE34: .4byte gUnknown_03006868
+_0802CE34: .4byte gPseudoRandom
 _0802CE38: .4byte 0x00196225
 _0802CE3C: .4byte 0x3C6EF35F
 _0802CE40: .4byte gPlayers

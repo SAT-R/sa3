@@ -437,7 +437,7 @@ _080BBCD0:
 	strh r1, [r0]
 	strh r1, [r0, #2]
 	strh r1, [r0, #4]
-	ldr r0, _080BBEB4 @ =gUnknown_03006868
+	ldr r0, _080BBEB4 @ =gPseudoRandom
 	str r1, [r0]
 	movs r2, #0
 	ldr r6, _080BBEB8 @ =gKeysFirstRepeatIntervals
@@ -602,7 +602,7 @@ _080BBEA4: .4byte gUnknown_03003C0C
 _080BBEA8: .4byte gUnknown_03006848
 _080BBEAC: .4byte gWinRegs
 _080BBEB0: .4byte gBldRegs
-_080BBEB4: .4byte gUnknown_03006868
+_080BBEB4: .4byte gPseudoRandom
 _080BBEB8: .4byte gKeysFirstRepeatIntervals
 _080BBEBC: .4byte gKeysContinuedRepeatIntervals
 _080BBEC0: .4byte gInputRecorder

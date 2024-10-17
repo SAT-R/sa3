@@ -228,7 +228,7 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 . = 0x00006850; gUnknown_03006850 = .;
 . = 0x00006860; gInputPlaybackData = .;
 . = 0x00006864; gExecSoundMain = .;
-. = 0x00006868; gUnknown_03006868 = .;
+. = 0x00006868; gPseudoRandom = .;
 . = 0x00006870; gMultiSioIntrFuncBuf = .;
 . = 0x00006990; gMultiSioArea = .;
 . = 0x00006BB0; gMultiSioRecvFuncBuf = .;

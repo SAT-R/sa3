@@ -5906,7 +5906,7 @@ _0805249C:
 	ands r0, r1
 	cmp r0, #0
 	beq _080524D0
-	ldr r2, _080524C4 @ =gUnknown_03006868
+	ldr r2, _080524C4 @ =gPseudoRandom
 	ldr r1, [r2]
 	ldr r0, _080524C8 @ =0x00196225
 	muls r0, r1, r0
@@ -5920,7 +5920,7 @@ _0805249C:
 	b _080524DE
 	.align 2, 0
 _080524C0: .4byte gCamera
-_080524C4: .4byte gUnknown_03006868
+_080524C4: .4byte gPseudoRandom
 _080524C8: .4byte 0x00196225
 _080524CC: .4byte 0x3C6EF35F
 _080524D0:

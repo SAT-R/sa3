@@ -69,7 +69,7 @@ CreateEntity_BonusCapsule: @ 0x08039A3C
 	strh r4, [r1]
 	ldr r2, _08039C64 @ =0x030006FC
 	add r2, r8
-	ldr r3, _08039C68 @ =gUnknown_03006868
+	ldr r3, _08039C68 @ =gPseudoRandom
 	ldr r1, [r3]
 	str r1, [r2]
 	mov r1, ip
@@ -111,7 +111,7 @@ CreateEntity_BonusCapsule: @ 0x08039A3C
 	lsls r1, r1, #0x1c
 	lsrs r1, r1, #0x1c
 	adds r3, r3, r1
-	ldr r1, _08039C68 @ =gUnknown_03006868
+	ldr r1, _08039C68 @ =gPseudoRandom
 	str r3, [r1]
 	strh r5, [r7, #4]
 	mov r2, sp
@@ -293,7 +293,7 @@ _08039C58: .4byte 0x030000B0
 _08039C5C: .4byte 0x030006F0
 _08039C60: .4byte gStageData
 _08039C64: .4byte 0x030006FC
-_08039C68: .4byte gUnknown_03006868
+_08039C68: .4byte gPseudoRandom
 _08039C6C: .4byte gPlayers
 _08039C70: .4byte gUnknown_080CF864
 _08039C74: .4byte gUnknown_03000628
@@ -310,7 +310,7 @@ TaskDestructor_BonusCapsule: @ 0x08039C88
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r5, r4, r0
-	ldr r1, _08039CAC @ =gUnknown_03006868
+	ldr r1, _08039CAC @ =gPseudoRandom
 	ldr r2, _08039CB0 @ =0x030006FC
 	adds r0, r4, r2
 	ldr r0, [r0]
@@ -323,7 +323,7 @@ TaskDestructor_BonusCapsule: @ 0x08039C88
 	bl VramFree
 	b _08039CCC
 	.align 2, 0
-_08039CAC: .4byte gUnknown_03006868
+_08039CAC: .4byte gPseudoRandom
 _08039CB0: .4byte 0x030006FC
 _08039CB4: .4byte 0x030000B0
 _08039CB8:
@@ -2833,7 +2833,7 @@ _0803B084:
 	movs r0, #0xff
 	b _0803B110
 _0803B088:
-	ldr r2, _0803B0AC @ =gUnknown_03006868
+	ldr r2, _0803B0AC @ =gPseudoRandom
 	ldr r1, [r2]
 	ldr r0, _0803B0B0 @ =0x00196225
 	muls r0, r1, r0
@@ -2851,7 +2851,7 @@ _0803B088:
 	ldr r0, [r0]
 	mov pc, r0
 	.align 2, 0
-_0803B0AC: .4byte gUnknown_03006868
+_0803B0AC: .4byte gPseudoRandom
 _0803B0B0: .4byte 0x00196225
 _0803B0B4: .4byte 0x3C6EF35F
 _0803B0B8: .4byte _0803B0BC

@@ -34,7 +34,11 @@ void CreateEntity_BonusCapsule(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_BonusCapsuleMain, sizeof(Capsule), 0x2100, 0, TaskDestructor_BonusCapsule);
     Capsule *cap = TASK_DATA(t);
+    Sprite *s = &cap->s;
+    ScreenFade *fade = &cap->fade;
 
+    gStageData.unk8C = 0;
 
+    cap->random = gPseudoRandom;
 }
 #endif

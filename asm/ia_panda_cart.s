@@ -1106,7 +1106,7 @@ sub_8048E74: @ 0x08048E74
 	movs r1, #0x7c
 	adds r1, r1, r6
 	mov r8, r1
-	ldr r2, _08048F10 @ =gUnknown_03006868
+	ldr r2, _08048F10 @ =gPseudoRandom
 	mov ip, r2
 	ldr r7, _08048F14 @ =gSineTable
 _08048E98:
@@ -1172,7 +1172,7 @@ _08048EEA:
 	bls _08048E98
 	b _08048F64
 	.align 2, 0
-_08048F10: .4byte gUnknown_03006868
+_08048F10: .4byte gPseudoRandom
 _08048F14: .4byte gSineTable
 _08048F18: .4byte 0x00196225
 _08048F1C: .4byte 0x3C6EF35F
