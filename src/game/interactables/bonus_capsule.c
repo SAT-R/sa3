@@ -1,4 +1,3 @@
-#include <string.h> // memcpy
 #include "global.h"
 #include "core.h"
 #include "flags.h"
@@ -51,16 +50,17 @@ typedef struct {
     /* 0x03C */ s32 qUnk3C;
     /* 0x040 */ s32 qUnk40;
     /* 0x044 */ s32 qUnk44;
-    /* 0x048 */ u8 filler48[0x68];
+    /* 0x048 */ u8 filler48[0x60];
+    /* 0x0A8 */ void *unkA8;
+    /* 0x0AC */ void *unkAC;
     /* 0x0B0 */ Sprite s;
     /* 0x0D8 */ u8 fillerD8[0x14];
     /* 0x0EC */ CapsuleEC unkEC[5];
     /* 0x218 */ Sprite sprScore[21];
     /* 0x560 */ Sprite s2;
     /* 0x588 */ Sprite s3;
-    /* 0x5B0 */ u8 filler5B0[0x78];
-    /* 0x628 */ u32 unk628;
-    /* 0x62C */ u8 filler62C[0xC4];
+    /* 0x5B0 */ Sprite spr5B0[3];
+    /* 0x628 */ Sprite spr628[5]; // Switches?
     /* 0x6F0 */ ScreenFade fade;
     /* 0x6FC */ s32 random;
 } Capsule; /* 0x700 */
@@ -132,7 +132,7 @@ void CreateEntity_BonusCapsule(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     cap->unk2C = 0;
     cap->unk2E = 60;
 
-    cap->unk628 = 0;
+    cap->spr628[0].tiles = NULL;
     cap->unk30 = -Q(1);
     cap->unk32 = -Q(6);
     cap->unk34 = +Q(1);
@@ -184,6 +184,39 @@ void CreateEntity_BonusCapsule(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     // Maybe 160 is DISPLAY_HEIGHT?
     gCamera.unk14 = 160;
     gCamera.shiftY = 288;
+}
+
+void TaskDestructor_BonusCapsule(struct Task *t)
+{
+    Capsule *cap = TASK_DATA(t);
+    void *tiles;
+    u8 i;
+
+    gPseudoRandom = cap->random;
+    tiles = cap->s.tiles;
+
+    if (tiles != NULL) {
+        VramFree(tiles);
+    } else {
+        sub_80C60B0(&cap->unkA8, 1);
+        sub_80C60B0(&cap->unkAC, 1);
+    }
+
+    for (i = 0; i < (s32)ARRAY_COUNT(cap->unkEC); i++) {
+        VramFree(cap->unkEC[i].s.tiles);
+    }
+
+    VramFree(cap->sprScore->tiles);
+    VramFree(cap->spr5B0[0].tiles);
+    VramFree(cap->s3.tiles);
+
+    if (cap->spr628[0].tiles != NULL) {
+        VramFree(cap->spr628[0].tiles);
+        VramFree(cap->spr628[1].tiles);
+        VramFree(cap->spr628[2].tiles);
+        VramFree(cap->spr628[3].tiles);
+        VramFree(cap->spr628[4].tiles);
+    }
 }
 
 #if 01
