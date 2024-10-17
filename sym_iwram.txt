@@ -141,7 +141,7 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 . = 0x00002C24; gUnknown_03002C24 = .;
 . = 0x00002C30; gBgAffineRegs = .;
 . = 0x00002C40; gUnknown_03002C40 = .;
-. = 0x00002C50; gUnknown_03002C50 = .;
+. = 0x00002C50; gVramHeapStartAddr = .;
 . = 0x00002C54; gUnknown_03002C54 = .;
 . = 0x00002C58; gUnknown_03002C58 = .;
 . = 0x00002C5C; gUnknown_03002C5C = .;

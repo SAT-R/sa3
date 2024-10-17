@@ -691,7 +691,7 @@ _080BBF64:
 	lsls r2, r2, #2
 	adds r0, r2, #0
 	strh r0, [r1]
-	ldr r1, _080BBFCC @ =gUnknown_03002C50
+	ldr r1, _080BBFCC @ =gVramHeapStartAddr
 	ldr r0, _080BBFD0 @ =0x06012200
 	str r0, [r1]
 	bl VramResetHeapState
@@ -716,7 +716,7 @@ _080BBFBC: .4byte gUnknown_03006850
 _080BBFC0: .4byte 0x0093A600
 _080BBFC4: .4byte gExecSoundMain
 _080BBFC8: .4byte gVramHeapMaxTileSlots
-_080BBFCC: .4byte gUnknown_03002C50
+_080BBFCC: .4byte gVramHeapStartAddr
 _080BBFD0: .4byte 0x06012200
 _080BBFD4: .4byte gFlags
 _080BBFD8:

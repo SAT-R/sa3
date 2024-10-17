@@ -12594,156 +12594,11 @@ _080C3214:
 _080C321C: .4byte gUnknown_03003C5C
 _080C3220: .4byte 0x04000040
 
-	thumb_func_start VramMalloc
-VramMalloc: @ 0x080C3224
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	adds r5, r0, #0
-	adds r0, r5, #3
-	lsrs r5, r0, #2
-	movs r4, #0
-	ldr r1, _080C3260 @ =gVramHeapMaxTileSlots
-	ldrh r0, [r1]
-	lsrs r0, r0, #2
-	mov sb, r1
-	cmp r4, r0
-	bhs _080C32C2
-	ldr r0, _080C3264 @ =gVramHeapState
-	mov r8, r0
-_080C3246:
-	lsls r1, r4, #1
-	mov r2, r8
-	adds r0, r1, r2
-	ldrh r2, [r0]
-	cmp r2, #0
-	bne _080C32A8
-	movs r3, #0
-	ldr r7, _080C3260 @ =gVramHeapMaxTileSlots
-	mov ip, r7
-	ldr r0, _080C3264 @ =gVramHeapState
-	mov sl, r0
-	ldr r6, _080C3268 @ =ewram_end
-	b _080C3272
-	.align 2, 0
-_080C3260: .4byte gVramHeapMaxTileSlots
-_080C3264: .4byte gVramHeapState
-_080C3268: .4byte ewram_end
-_080C326C:
-	adds r0, r3, #1
-	lsls r0, r0, #0x10
-	lsrs r3, r0, #0x10
-_080C3272:
-	cmp r3, r5
-	bhs _080C3290
-	adds r2, r4, r3
-	mov r7, ip
-	ldrh r0, [r7]
-	lsrs r0, r0, #2
-	cmp r2, r0
-	blt _080C3286
-	ldr r0, [r6]
-	b _080C32C6
-_080C3286:
-	lsls r0, r2, #1
-	add r0, sl
-	ldrh r0, [r0]
-	cmp r0, #0
-	beq _080C326C
-_080C3290:
-	cmp r3, r5
-	bne _080C32B2
-	mov r2, r8
-	adds r0, r1, r2
-	strh r5, [r0]
-	ldr r0, _080C32A4 @ =gUnknown_03002C50
-	lsls r1, r4, #7
-	ldr r0, [r0]
-	adds r0, r0, r1
-	b _080C32C6
-	.align 2, 0
-_080C32A4: .4byte gUnknown_03002C50
-_080C32A8:
-	ldr r7, _080C32D4 @ =0x0000FFFF
-	adds r0, r4, r7
-	adds r0, r2, r0
-	lsls r0, r0, #0x10
-	lsrs r4, r0, #0x10
-_080C32B2:
-	adds r0, r4, #1
-	lsls r0, r0, #0x10
-	lsrs r4, r0, #0x10
-	mov r1, sb
-	ldrh r0, [r1]
-	lsrs r0, r0, #2
-	cmp r4, r0
-	blo _080C3246
-_080C32C2:
-	ldr r0, _080C32D8 @ =ewram_end
-	ldr r0, [r0]
-_080C32C6:
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r1}
-	bx r1
-	.align 2, 0
-_080C32D4: .4byte 0x0000FFFF
-_080C32D8: .4byte ewram_end
+.if 0
+.endif
 
-	thumb_func_start VramResetHeapState
-VramResetHeapState: @ 0x080C32DC
-	sub sp, #4
-	mov r1, sp
-	movs r0, #0
-	strh r0, [r1]
-	ldr r1, _080C32F8 @ =0x040000D4
-	mov r0, sp
-	str r0, [r1]
-	ldr r0, _080C32FC @ =gVramHeapState
-	str r0, [r1, #4]
-	ldr r0, _080C3300 @ =0x81000100
-	str r0, [r1, #8]
-	ldr r0, [r1, #8]
-	add sp, #4
-	bx lr
-	.align 2, 0
-_080C32F8: .4byte 0x040000D4
-_080C32FC: .4byte gVramHeapState
-_080C3300: .4byte 0x81000100
-
-	thumb_func_start VramFree
-VramFree: @ 0x080C3304
-	push {lr}
-	adds r1, r0, #0
-	ldr r0, _080C3328 @ =ewram_end
-	ldr r0, [r0]
-	cmp r0, r1
-	beq _080C3324
-	ldr r0, _080C332C @ =gUnknown_03002C50
-	ldr r0, [r0]
-	subs r0, r1, r0
-	lsls r0, r0, #9
-	lsrs r0, r0, #0x10
-	ldr r1, _080C3330 @ =gVramHeapState
-	lsls r0, r0, #1
-	adds r0, r0, r1
-	movs r1, #0
-	strh r1, [r0]
-_080C3324:
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080C3328: .4byte ewram_end
-_080C332C: .4byte gUnknown_03002C50
-_080C3330: .4byte gVramHeapState
-
-@ -- End of malloc_vram ---
-
+.if 0
+@ Unused VRAM func, not in SA2 !
 	thumb_func_start sub_80C3334
 sub_80C3334: @ 0x080C3334
 	push {r4, r5, r6, lr}
@@ -12787,6 +12642,6 @@ _080C336E:
 _080C3378: .4byte gVramHeapMaxTileSlots
 _080C337C: .4byte gVramHeapState
 _080C3380: .4byte 0x0000FFFF
-
-.if 0
 .endif
+
+@ -- End of malloc_vram ---

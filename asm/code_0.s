@@ -42,7 +42,7 @@ sub_80001EC: @ 0x080001EC
 	movs r0, #0xca
 	lsls r0, r0, #1
 	strh r0, [r1]
-	ldr r0, _08000248 @ =gUnknown_03002C50
+	ldr r0, _08000248 @ =gVramHeapStartAddr
 	str r2, [r0]
 	movs r0, #0
 	bl sub_8001DDC
@@ -62,7 +62,7 @@ _08000238: .4byte gStageData
 _0800023C: .4byte gUnknown_03001CFC
 _08000240: .4byte gVramHeapMaxTileSlots
 _08000244: .4byte 0x06014D80
-_08000248: .4byte gUnknown_03002C50
+_08000248: .4byte gVramHeapStartAddr
 _0800024C: .4byte gFlags
 _08000250: .4byte sub_8000284
 _08000254:
@@ -7893,7 +7893,7 @@ _08003F1E:
 	subs r1, r1, r2
 	lsrs r1, r1, #5
 	strh r1, [r0]
-	ldr r0, _08003F3C @ =gUnknown_03002C50
+	ldr r0, _08003F3C @ =gVramHeapStartAddr
 	str r2, [r0]
 	pop {r0}
 	bx r0
@@ -7901,7 +7901,7 @@ _08003F1E:
 _08003F30: .4byte 0x06012700
 _08003F34: .4byte gVramHeapMaxTileSlots
 _08003F38: .4byte 0x06018000
-_08003F3C: .4byte gUnknown_03002C50
+_08003F3C: .4byte gVramHeapStartAddr
 
 	thumb_func_start sub_8003F40
 sub_8003F40: @ 0x08003F40
