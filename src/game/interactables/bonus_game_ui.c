@@ -354,8 +354,6 @@ void Task_BonusGameUIInit(void)
     sub_803D4C8();
 }
 
-extern u16 **gUnknown_03002B84;
-
 // TODO: Type this properly
 extern void *gUnknown_03003C5C;
 extern u8 gUnknown_03003F30;
@@ -400,7 +398,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__unfinished_sub_803C
     gUnknown_03003C5C = (void *)&REG_BG0VOFS;
     gUnknown_03003F30 = 2;
 
-    ptr = *gUnknown_03002B84;
+    ptr = *(u16 **)gBgOffsetsHBlank;
     for (i = 0; i < DISPLAY_HEIGHT; i += 2) {
         // _0803C75A
         *ptr++ = -i;
@@ -408,7 +406,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__unfinished_sub_803C
 
     r0 = 72 - r3;
     for (i = 0; i < 6; i++) {
-        *gUnknown_03002B84[i] = r0;
+        //*((u16 *)gBgOffsetsHBlank[i]) = r0;
     }
 }
 END_NONMATCH

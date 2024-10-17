@@ -828,7 +828,7 @@ _0803A422:
 	ldr r1, _0803A5CC @ =gUnknown_03003F30
 	movs r0, #2
 	strb r0, [r1]
-	ldr r0, _0803A5D0 @ =gUnknown_03002B84
+	ldr r0, _0803A5D0 @ =gBgOffsetsHBlank
 	ldr r3, [r0]
 	movs r4, #0
 	adds r7, r0, #0
@@ -1042,7 +1042,7 @@ _0803A5C0: .4byte gFlags
 _0803A5C4: .4byte gUnknown_03003C5C
 _0803A5C8: .4byte 0x04000012
 _0803A5CC: .4byte gUnknown_03003F30
-_0803A5D0: .4byte gUnknown_03002B84
+_0803A5D0: .4byte gBgOffsetsHBlank
 
 	thumb_func_start Task_803A5D4
 Task_803A5D4: @ 0x0803A5D4

@@ -468,7 +468,7 @@ _080BBD3E:
 	str r1, [r0]
 	movs r2, #0
 	ldr r5, _080BBED0 @ =gUnknown_03002E70
-	ldr r6, _080BBED4 @ =gUnknown_03002B84
+	ldr r6, _080BBED4 @ =gBgOffsetsHBlank
 	ldr r7, _080BBED8 @ =gUnknown_030035BC
 	ldr r4, _080BBEDC @ =gUnknown_03003C5C
 	mov ip, r4
@@ -610,7 +610,7 @@ _080BBEC4: .4byte gPhysicalInput
 _080BBEC8: .4byte gInputPlaybackData
 _080BBECC: .4byte gUnknown_03003574
 _080BBED0: .4byte gUnknown_03002E70
-_080BBED4: .4byte gUnknown_03002B84
+_080BBED4: .4byte gBgOffsetsHBlank
 _080BBED8: .4byte gUnknown_030035BC
 _080BBEDC: .4byte gUnknown_03003C5C
 _080BBEE0: .4byte gUnknown_03003F30
@@ -1137,7 +1137,7 @@ _080BC35A:
 	cmp r0, #0
 	beq _080BC382
 	ldr r2, _080BC444 @ =0x040000D4
-	ldr r0, _080BC448 @ =gUnknown_03002B84
+	ldr r0, _080BC448 @ =gBgOffsetsHBlank
 	ldr r0, [r0]
 	str r0, [r2]
 	ldr r0, _080BC44C @ =gUnknown_03003C5C
@@ -1249,7 +1249,7 @@ _080BC438: .4byte 0x04000200
 _080BC43C: .4byte 0x0000FFFD
 _080BC440: .4byte gNumHBlankIntrs
 _080BC444: .4byte 0x040000D4
-_080BC448: .4byte gUnknown_03002B84
+_080BC448: .4byte gBgOffsetsHBlank
 _080BC44C: .4byte gUnknown_03003C5C
 _080BC450: .4byte gUnknown_03003F30
 _080BC454: .4byte sLastCalledVblankFuncId
@@ -1323,7 +1323,7 @@ ClearOamBufferDma: @ 0x080BC4D0
 	adds r4, r2, #0
 	cmp r0, #0
 	bne _080BC528
-	ldr r1, _080BC510 @ =gUnknown_03002B84
+	ldr r1, _080BC510 @ =gBgOffsetsHBlank
 	ldr r0, [r1]
 	ldr r2, _080BC514 @ =gUnknown_03002E70
 	cmp r0, r2
@@ -1338,7 +1338,7 @@ ClearOamBufferDma: @ 0x080BC4D0
 	.align 2, 0
 _080BC508: .4byte gNumHBlankCallbacks
 _080BC50C: .4byte gFlags
-_080BC510: .4byte gUnknown_03002B84
+_080BC510: .4byte gBgOffsetsHBlank
 _080BC514: .4byte gUnknown_03002E70
 _080BC518: .4byte gUnknown_030035BC
 _080BC51C:
@@ -1682,7 +1682,7 @@ VBlankIntr: @ 0x080BC7C0
 	movs r1, #0x80
 	lsls r1, r1, #0x18
 	adds r6, r5, #0
-	ldr r4, _080BC868 @ =gUnknown_03002B84
+	ldr r4, _080BC868 @ =gBgOffsetsHBlank
 	ldr r5, _080BC86C @ =gUnknown_03003C5C
 	ldr r3, _080BC870 @ =gUnknown_03003F30
 	cmp r0, #0
@@ -1726,7 +1726,7 @@ _080BC858: .4byte gUnknown_03007FF8
 _080BC85C: .4byte gExecSoundMain
 _080BC860: .4byte gUnknown_03003C00
 _080BC864: .4byte 0x04000200
-_080BC868: .4byte gUnknown_03002B84
+_080BC868: .4byte gBgOffsetsHBlank
 _080BC86C: .4byte gUnknown_03003C5C
 _080BC870: .4byte gUnknown_03003F30
 _080BC874: .4byte 0xA2600000
@@ -2391,7 +2391,7 @@ ClearOamBufferCpuSet: @ 0x080BCD5C
 	adds r4, r2, #0
 	cmp r0, #0
 	bne _080BCDB4
-	ldr r1, _080BCD9C @ =gUnknown_03002B84
+	ldr r1, _080BCD9C @ =gBgOffsetsHBlank
 	ldr r0, [r1]
 	ldr r2, _080BCDA0 @ =gUnknown_03002E70
 	cmp r0, r2
@@ -2406,7 +2406,7 @@ ClearOamBufferCpuSet: @ 0x080BCD5C
 	.align 2, 0
 _080BCD94: .4byte gNumHBlankCallbacks
 _080BCD98: .4byte gFlags
-_080BCD9C: .4byte gUnknown_03002B84
+_080BCD9C: .4byte gBgOffsetsHBlank
 _080BCDA0: .4byte gUnknown_03002E70
 _080BCDA4: .4byte gUnknown_030035BC
 _080BCDA8:

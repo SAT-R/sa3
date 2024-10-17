@@ -51,7 +51,7 @@ _0803C73A:
 	ldr r1, _0803C84C @ =gUnknown_03003F30
 	movs r0, #2
 	strb r0, [r1]
-	ldr r0, _0803C850 @ =gUnknown_03002B84
+	ldr r0, _0803C850 @ =gBgOffsetsHBlank
 	ldr r5, [r0]
 	movs r2, #0     @ r2 = i = 0
 	mov sb, r0
@@ -69,7 +69,7 @@ _0803C75A:
 	cmp r0, #0x9f
 	ble _0803C75A
 	movs r3, #0x48
-	mov r2, sb          @ r2 = gUnknown_03002B84
+	mov r2, sb          @ r2 = gBgOffsetsHBlank
 	ldr r5, [r2]
 	asrs r1, r7, #0x10
 	subs r0, r3, r1
@@ -181,7 +181,7 @@ _0803C840: .4byte gFlags
 _0803C844: .4byte gUnknown_03003C5C
 _0803C848: .4byte 0x04000012
 _0803C84C: .4byte gUnknown_03003F30
-_0803C850: .4byte gUnknown_03002B84
+_0803C850: .4byte gBgOffsetsHBlank
 _0803C854:
 	mov r1, sb
 	ldr r5, [r1]

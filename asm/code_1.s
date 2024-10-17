@@ -2048,7 +2048,7 @@ sub_8050748: @ 0x08050748
 	ldr r1, _080507C8 @ =gUnknown_03003F30
 	movs r0, #2
 	strb r0, [r1]
-	ldr r0, _080507CC @ =gUnknown_03002B84
+	ldr r0, _080507CC @ =gBgOffsetsHBlank
 	ldr r5, [r0]
 	ldr r0, _080507D0 @ =gBgScrollRegs
 	movs r2, #0
@@ -2086,7 +2086,7 @@ _080507BC: .4byte gFlags
 _080507C0: .4byte gUnknown_03003C5C
 _080507C4: .4byte 0x0400001C
 _080507C8: .4byte gUnknown_03003F30
-_080507CC: .4byte gUnknown_03002B84
+_080507CC: .4byte gBgOffsetsHBlank
 _080507D0: .4byte gBgScrollRegs
 _080507D4: .4byte gCamera
 _080507D8:
@@ -2269,7 +2269,7 @@ sub_8050920: @ 0x08050920
 	ldr r1, _080509A4 @ =gUnknown_03003F30
 	movs r0, #2
 	strb r0, [r1]
-	ldr r0, _080509A8 @ =gUnknown_03002B84
+	ldr r0, _080509A8 @ =gBgOffsetsHBlank
 	ldr r2, [r0]
 	movs r5, #0
 	ldr r0, _080509AC @ =gCamera
@@ -2312,7 +2312,7 @@ _08050998: .4byte gFlags
 _0805099C: .4byte gUnknown_03003C5C
 _080509A0: .4byte 0x0400001C
 _080509A4: .4byte gUnknown_03003F30
-_080509A8: .4byte gUnknown_03002B84
+_080509A8: .4byte gBgOffsetsHBlank
 _080509AC: .4byte gCamera
 _080509B0: .4byte gSineTable
 
@@ -2436,7 +2436,7 @@ sub_8050A78: @ 0x08050A78
 	ldr r1, _08050B04 @ =gUnknown_03003F30
 	movs r0, #2
 	strb r0, [r1]
-	ldr r0, _08050B08 @ =gUnknown_03002B84
+	ldr r0, _08050B08 @ =gBgOffsetsHBlank
 	ldr r2, [r0]
 	ldr r0, _08050B0C @ =gBgScrollRegs
 	movs r3, #0
@@ -2480,7 +2480,7 @@ _08050AF8: .4byte gFlags
 _08050AFC: .4byte gUnknown_03003C5C
 _08050B00: .4byte 0x04000010
 _08050B04: .4byte gUnknown_03003F30
-_08050B08: .4byte gUnknown_03002B84
+_08050B08: .4byte gBgOffsetsHBlank
 _08050B0C: .4byte gBgScrollRegs
 _08050B10: .4byte gSineTable
 
@@ -2624,7 +2624,7 @@ sub_8050C08: @ 0x08050C08
 	ldr r1, _08050C60 @ =gUnknown_03003F30
 	movs r0, #2
 	strb r0, [r1]
-	ldr r0, _08050C64 @ =gUnknown_03002B84
+	ldr r0, _08050C64 @ =gBgOffsetsHBlank
 	ldr r2, [r0]
 	ldr r0, _08050C68 @ =gBgScrollRegs
 	movs r1, #0
@@ -2649,7 +2649,7 @@ _08050C54: .4byte gFlags
 _08050C58: .4byte gUnknown_03003C5C
 _08050C5C: .4byte 0x04000010
 _08050C60: .4byte gUnknown_03003F30
-_08050C64: .4byte gUnknown_03002B84
+_08050C64: .4byte gBgOffsetsHBlank
 _08050C68: .4byte gBgScrollRegs
 _08050C6C: .4byte gSineTable
 _08050C70:
@@ -2814,7 +2814,7 @@ sub_8050D90: @ 0x08050D90
 	ldr r1, _08050E0C @ =gUnknown_03003F30
 	movs r0, #2
 	strb r0, [r1]
-	ldr r0, _08050E10 @ =gUnknown_03002B84
+	ldr r0, _08050E10 @ =gBgOffsetsHBlank
 	ldr r3, [r0]
 	ldr r0, _08050E14 @ =gBgScrollRegs
 	movs r1, #0
@@ -2852,7 +2852,7 @@ _08050E00: .4byte gFlags
 _08050E04: .4byte gUnknown_03003C5C
 _08050E08: .4byte 0x0400001C
 _08050E0C: .4byte gUnknown_03003F30
-_08050E10: .4byte gUnknown_03002B84
+_08050E10: .4byte gBgOffsetsHBlank
 _08050E14: .4byte gBgScrollRegs
 
 	thumb_func_start sub_8050E18
@@ -3027,7 +3027,7 @@ _08050F56:
 	ldr r1, _08050FB4 @ =gUnknown_03003F30
 	movs r0, #2
 	strb r0, [r1]
-	ldr r0, _08050FB8 @ =gUnknown_03002B84
+	ldr r0, _08050FB8 @ =gBgOffsetsHBlank
 	ldr r3, [r0]
 	movs r1, #0
 	lsls r0, r4, #0x10
@@ -3058,7 +3058,7 @@ _08050FA8: .4byte gFlags
 _08050FAC: .4byte gUnknown_03003C5C
 _08050FB0: .4byte 0x0400001C
 _08050FB4: .4byte gUnknown_03003F30
-_08050FB8: .4byte gUnknown_03002B84
+_08050FB8: .4byte gBgOffsetsHBlank
 _08050FBC:
 	cmp r1, ip
 	bne _08050FC8
@@ -3134,7 +3134,7 @@ _0805101A:
 	ldr r1, _08051070 @ =gUnknown_03003F30
 	movs r0, #2
 	strb r0, [r1]
-	ldr r0, _08051074 @ =gUnknown_03002B84
+	ldr r0, _08051074 @ =gBgOffsetsHBlank
 	ldr r2, [r0]
 	movs r1, #0
 	ldrh r5, [r4, #2]
@@ -3155,7 +3155,7 @@ _08051064: .4byte gFlags
 _08051068: .4byte gUnknown_03003C5C
 _0805106C: .4byte 0x04000012
 _08051070: .4byte gUnknown_03003F30
-_08051074: .4byte gUnknown_03002B84
+_08051074: .4byte gBgOffsetsHBlank
 _08051078: .4byte 0xFFFFFF00
 _0805107C:
 	strh r5, [r2]
@@ -6378,7 +6378,7 @@ _080527FC:
 	ldr r1, _08052888 @ =gUnknown_03003F30
 	movs r0, #2
 	strb r0, [r1]
-	ldr r0, _0805288C @ =gUnknown_03002B84
+	ldr r0, _0805288C @ =gBgOffsetsHBlank
 	ldr r2, [r0]
 	movs r1, #0
 	lsls r0, r3, #0x10
@@ -6412,7 +6412,7 @@ _0805287C: .4byte gFlags
 _08052880: .4byte gUnknown_03003C5C
 _08052884: .4byte 0x0400001C
 _08052888: .4byte gUnknown_03003F30
-_0805288C: .4byte gUnknown_03002B84
+_0805288C: .4byte gBgOffsetsHBlank
 _08052890: .4byte gSineTable
 _08052894: .4byte gBgScrollRegs
 _08052898: .4byte 0x000003FF
@@ -8250,7 +8250,7 @@ sub_805374C: @ 0x0805374C
 	ldr r1, _08053814 @ =gUnknown_03003C5C
 	ldr r0, _08053818 @ =0x04000020
 	str r0, [r1]
-	ldr r1, _0805381C @ =gUnknown_03002B84
+	ldr r1, _0805381C @ =gBgOffsetsHBlank
 	ldr r2, _08053820 @ =0x0300015C
 	adds r0, r3, r2
 	ldr r5, [r0]
@@ -8334,7 +8334,7 @@ _0805380C: .4byte gCurTask
 _08053810: .4byte gUnknown_03003F30
 _08053814: .4byte gUnknown_03003C5C
 _08053818: .4byte 0x04000020
-_0805381C: .4byte gUnknown_03002B84
+_0805381C: .4byte gBgOffsetsHBlank
 _08053820: .4byte 0x0300015C
 _08053824: .4byte gFlags
 _08053828: .4byte 0x03000168

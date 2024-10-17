@@ -2593,7 +2593,7 @@ _080B3014:
 	bl EwramMalloc
 	mov r1, r8
 	str r0, [r1, #4]
-	ldr r1, _080B307C @ =gUnknown_03002B84
+	ldr r1, _080B307C @ =gBgOffsetsHBlank
 	str r0, [r1]
 	adds r5, r0, #0
 	mov r4, sp
@@ -2635,7 +2635,7 @@ _080B303C:
 _080B3070: .4byte 0x000008DF
 _080B3074: .4byte 0x000008DC
 _080B3078: .4byte 0x000008DA
-_080B307C: .4byte gUnknown_03002B84
+_080B307C: .4byte gBgOffsetsHBlank
 
 	thumb_func_start sub_80B3080
 sub_80B3080: @ 0x080B3080
@@ -2663,7 +2663,7 @@ sub_80B3080: @ 0x080B3080
 	ldr r1, _080B30DC @ =gUnknown_03003C5C
 	ldr r0, _080B30E0 @ =0x04000020
 	str r0, [r1]
-	ldr r1, _080B30E4 @ =gUnknown_03002B84
+	ldr r1, _080B30E4 @ =gBgOffsetsHBlank
 	mov r3, r8
 	ldr r0, [r3, #4]
 	str r0, [r1]
@@ -2685,7 +2685,7 @@ _080B30D4: .4byte gCurTask
 _080B30D8: .4byte gUnknown_03003F30
 _080B30DC: .4byte gUnknown_03003C5C
 _080B30E0: .4byte 0x04000020
-_080B30E4: .4byte gUnknown_03002B84
+_080B30E4: .4byte gBgOffsetsHBlank
 _080B30E8:
 	cmp r0, #0x78
 	ble _080B30EE
@@ -2767,7 +2767,7 @@ _080B315C:
 	cmp r1, r5
 	blt _080B315C
 _080B3186:
-	ldr r0, _080B3284 @ =gUnknown_03002B84
+	ldr r0, _080B3284 @ =gBgOffsetsHBlank
 	ldr r7, [r0]
 	movs r4, #0x3c
 	ldr r5, [sp, #0x18]
@@ -2892,7 +2892,7 @@ _080B3274: .4byte 0x000008BC
 _080B3278: .4byte gSineTable
 _080B327C: .4byte 0x000008DC
 _080B3280: .4byte gFlags
-_080B3284: .4byte gUnknown_03002B84
+_080B3284: .4byte gBgOffsetsHBlank
 _080B3288: .4byte 0x000008D8
 _080B328C: .4byte 0x000008DA
 

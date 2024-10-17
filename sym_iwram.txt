@@ -126,7 +126,7 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 . = 0x00002B50; gUnknown_03002B50 = .;
 . = 0x00002B70; gUnknown_03002B70 = .;
 . = 0x00002B80; gPhysicalInput = .;
-. = 0x00002B84; gUnknown_03002B84 = .;
+. = 0x00002B84; gBgOffsetsHBlank = .;
 . = 0x00002B88; gVramHeapMaxTileSlots = .;
 . = 0x00002B8C; gNumHBlankCallbacks = .;
 . = 0x00002B90; gMultiSioRecv = .;
