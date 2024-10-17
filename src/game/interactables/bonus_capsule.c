@@ -166,7 +166,7 @@ void CreateEntity_BonusCapsule(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     sub_803B6E8(cap, s->x, s->y);
 
     for (i = 0; i < (s32)ARRAY_COUNT(cap->sprTimer); i++) {
-        sub_8039D60(&cap->sprScore[i], i, cap->sprTimer[0].tiles);
+        sub_8039D60(&cap->sprTimer[i], i, cap->sprTimer[0].tiles);
     }
 
     for (i = 0; i < (s32)ARRAY_COUNT(cap->unkEC); i++) {
@@ -208,7 +208,7 @@ void TaskDestructor_BonusCapsule(struct Task *t)
         VramFree(cap->unkEC[i].s.tiles);
     }
 
-    VramFree(cap->sprScore->tiles);
+    VramFree(cap->sprTimer->tiles);
     VramFree(cap->spr5B0[0].tiles);
     VramFree(cap->s3.tiles);
 
