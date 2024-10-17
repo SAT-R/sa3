@@ -55,7 +55,7 @@ typedef struct {
     /* 0x015 */ u8 unk15;
     /* 0x016 */ s8 unk16;
     /* 0x017 */ u8 unk17;
-    /* 0x018 */ Sprite sprScore[21];
+    /* 0x018 */ Sprite sprTimer[21];
     /* 0x360 */ Sprite sprCountdownDigit;
     /* 0x388 */ Sprite sprKillBar[NUM_DEFEATABLE_ENEMIES];
     /* 0x4C8 */ Sprite sprPlayer1Icon;
@@ -192,8 +192,8 @@ void CreateEntity_BonusGameUI(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     InitCountdownDigitSprite(&ui->sprCountdownDigit);
 
-    for (i = 0; i < (s32)ARRAY_COUNT(ui->sprScore); i++) {
-        sub_8039D60(&ui->sprScore[i], i, ui->sprScore[0].tiles);
+    for (i = 0; i < (s32)ARRAY_COUNT(ui->sprTimer); i++) {
+        sub_8039D60(&ui->sprTimer[i], i, ui->sprTimer[0].tiles);
     }
 
     tiles = VramMalloc(ARRAY_COUNT(ui->sprKillBar) * MAX_TILES(ANIM_BONUS_UI_BAR));
@@ -996,33 +996,33 @@ NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__sub_803D4C8.inc", v
     r4 = ui->timer;
     r4 -= gUnknown_080CF9AE[r4 / 60];
 
-    s = &ui->sprScore[ARRAY_COUNT(ui->sprScore) - 1];
+    s = &ui->sprTimer[ARRAY_COUNT(ui->sprTimer) - 1];
     s->x = 128;
     s->y = 22;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
-    s = &ui->sprScore[gUnknown_080CF936[(r4 * 2) + 0]];
+    s = &ui->sprTimer[gUnknown_080CF936[(r4 * 2) + 0]];
     s->x = 134;
     s->y = 18;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
-    s = &ui->sprScore[gUnknown_080CF936[(r4 * 2) + 1]];
+    s = &ui->sprTimer[gUnknown_080CF936[(r4 * 2) + 1]];
     s->x = 140;
     s->y = 18;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
     if (gUnknown_080CF8BC[(r4 * 2) + 0]) {
-        s = &ui->sprScore[gUnknown_080CF8BC[(r4 * 2) + 0]];
+        s = &ui->sprTimer[gUnknown_080CF8BC[(r4 * 2) + 0]];
         s->x = 112;
         s->y = 14;
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
     }
 
-    s = &ui->sprScore[gUnknown_080CF8BC[(r4 * 2) + 1]];
+    s = &ui->sprTimer[gUnknown_080CF8BC[(r4 * 2) + 1]];
     s->x = 120;
     s->y = 14;
     UpdateSpriteAnimation(s);
@@ -1090,7 +1090,7 @@ void TaskDestructor_BonusFlower(struct Task *t)
 void TaskDestructor_BonusGameUI(struct Task *t)
 {
     BonusGameUI *ui = TASK_DATA(t);
-    VramFree(ui->sprScore[0].tiles);
+    VramFree(ui->sprTimer[0].tiles);
     VramFree(ui->sprKillBar[0].tiles);
     VramFree(ui->sprCountdownDigit.tiles);
 

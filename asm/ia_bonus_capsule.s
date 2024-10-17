@@ -25,57 +25,6 @@ gUnknown_08E2E550:
 .if 0
 .endif
 
-	thumb_func_start sub_8039D60
-sub_8039D60: @ 0x08039D60
-	push {r4, r5, lr}
-	adds r4, r0, #0
-	lsls r1, r1, #0x18
-	lsrs r5, r1, #0x18
-	cmp r5, #0
-	bne _08039D84
-	ldr r0, _08039D80 @ =gUnknown_080CF6C8
-	ldr r1, [r0]
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	bl VramMalloc
-	b _08039D88
-	.align 2, 0
-_08039D80: .4byte gUnknown_080CF6C8
-_08039D84:
-	lsls r0, r5, #6
-	adds r0, r2, r0
-_08039D88:
-	str r0, [r4]
-	ldr r1, _08039DBC @ =gUnknown_080CF6C8
-	lsls r0, r5, #3
-	adds r0, r0, r1
-	ldrh r1, [r0, #4]
-	movs r3, #0
-	movs r2, #0
-	strh r1, [r4, #0xc]
-	ldrb r0, [r0, #6]
-	strb r0, [r4, #0x1a]
-	movs r0, #0xc0
-	lsls r0, r0, #1
-	strh r0, [r4, #0x14]
-	strh r2, [r4, #0xe]
-	strh r2, [r4, #0x16]
-	movs r0, #0xff
-	strb r0, [r4, #0x1b]
-	movs r0, #0x10
-	strb r0, [r4, #0x1c]
-	strb r3, [r4, #0x1f]
-	subs r0, #0x11
-	str r0, [r4, #0x20]
-	str r2, [r4, #8]
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08039DBC: .4byte gUnknown_080CF6C8
-
 	thumb_func_start sub_8039DC0
 sub_8039DC0: @ 0x08039DC0
 	push {r4, r5, r6, r7, lr}

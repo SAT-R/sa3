@@ -56,7 +56,7 @@ typedef struct {
     /* 0x0B0 */ Sprite s;
     /* 0x0D8 */ u8 fillerD8[0x14];
     /* 0x0EC */ CapsuleEC unkEC[5];
-    /* 0x218 */ Sprite sprScore[21];
+    /* 0x218 */ Sprite sprTimer[21];
     /* 0x560 */ Sprite s2;
     /* 0x588 */ Sprite s3;
     /* 0x5B0 */ Sprite spr5B0[3];
@@ -73,6 +73,8 @@ void sub_803BEE0(Sprite *s);
 void TaskDestructor_BonusCapsule(struct Task *);
 void sub_8039D60(Sprite *s, u8, void *tiles);
 void sub_803BF20(Sprite *s, u8, u32);
+
+extern TileInfo sTileInfoTimerDigits[21];
 
 // const u8 gUnknown_080CF864[7] = {5, 8, 12, 15, 18, 22, 25};
 extern const u8 gUnknown_080CF864[7];
@@ -163,8 +165,8 @@ void CreateEntity_BonusCapsule(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     sub_803B23C(&cap->s3);
     sub_803B6E8(cap, s->x, s->y);
 
-    for (i = 0; i < (s32)ARRAY_COUNT(cap->sprScore); i++) {
-        sub_8039D60(&cap->sprScore[i], i, cap->sprScore[0].tiles);
+    for (i = 0; i < (s32)ARRAY_COUNT(cap->sprTimer); i++) {
+        sub_8039D60(&cap->sprScore[i], i, cap->sprTimer[0].tiles);
     }
 
     for (i = 0; i < (s32)ARRAY_COUNT(cap->unkEC); i++) {
@@ -217,6 +219,30 @@ void TaskDestructor_BonusCapsule(struct Task *t)
         VramFree(cap->spr628[3].tiles);
         VramFree(cap->spr628[4].tiles);
     }
+}
+
+void sub_8039D60(Sprite *s, u8 i, void *inTiles)
+{
+    void *tiles;
+
+    if (i == 0) {
+        Capsule *cap;
+        tiles = VramMalloc(sTileInfoTimerDigits[0].numTiles * ARRAY_COUNT(cap->sprTimer));
+    } else {
+        tiles = inTiles + i * (MAX_TILES(ANIM_BONUS_UI_TIMER_DIGITS) * TILE_SIZE_4BPP);
+    }
+
+    s->tiles = tiles;
+    s->anim = sTileInfoTimerDigits[i].anim;
+    s->variant = sTileInfoTimerDigits[i].variant;
+    s->oamFlags = SPRITE_OAM_ORDER(6);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
 }
 
 #if 01

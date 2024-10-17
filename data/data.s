@@ -493,9 +493,9 @@ gUnknown_080CF690:
 gUnknown_080CF69C:
     .incbin "baserom.gba", 0x000CF69C, 0x2C
 
-    .global gUnknown_080CF6C8
-gUnknown_080CF6C8:
-    .incbin "baserom.gba", 0x000CF6C8, 0xA8
+    .global sTileInfoTimerDigits
+sTileInfoTimerDigits:
+    .incbin "baserom.gba", 0x000CF6C8, 21*8
 
     .global gUnknown_080CF770
 gUnknown_080CF770:
