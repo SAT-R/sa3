@@ -45,7 +45,7 @@ GameInit: @ 0x080BB9EC
 	mov sb, r7
 	ldr r4, _080BBA98 @ =gUnknown_03006208
 	mov sl, r4
-	ldr r7, _080BBA9C @ =gUnknown_03003F34
+	ldr r7, _080BBA9C @ =gVramGraphicsCopyQueueIndex
 	mov ip, r7
 	add r4, sp, #4
 	cmp r1, r0
@@ -87,7 +87,7 @@ _080BBA8C: .4byte sLastCalledVblankFuncId
 _080BBA90: .4byte gUnknown_03003D20
 _080BBA94: .4byte gUnknown_03006840
 _080BBA98: .4byte gUnknown_03006208
-_080BBA9C: .4byte gUnknown_03003F34
+_080BBA9C: .4byte gVramGraphicsCopyQueueIndex
 _080BBAA0: .4byte 0x040000D4
 _080BBAA4: .4byte 0x0600C000
 _080BBAA8: .4byte gUnknown_02035000
@@ -232,7 +232,7 @@ _080BBB9A:
 	ldr r0, _080BBE28 @ =0x040000D4
 	mov r1, sp
 	str r1, [r0]
-	ldr r2, _080BBE50 @ =gUnknown_030035D0
+	ldr r2, _080BBE50 @ =gVramGraphicsCopyQueue
 	str r2, [r0, #4]
 	ldr r1, _080BBE54 @ =0x85000060
 	str r1, [r0, #8]
@@ -577,7 +577,7 @@ _080BBE40: .4byte gUnknown_03006230
 _080BBE44: .4byte gBgScrollRegs
 _080BBE48: .4byte gUnknown_03002AF4
 _080BBE4C: .4byte gDispCnt
-_080BBE50: .4byte gUnknown_030035D0
+_080BBE50: .4byte gVramGraphicsCopyQueue
 _080BBE54: .4byte 0x85000060
 _080BBE58: .4byte gUnknown_03002C00
 _080BBE5C: .4byte gUnknown_03003F90
@@ -1899,7 +1899,7 @@ _080BC9D8: .4byte REG_IF
 sub_80BC9DC: @ 0x080BC9DC
 	push {r4, r5, r6, r7, lr}
 	ldr r2, _080BCA28 @ =gUnknown_03006208
-	ldr r0, _080BCA2C @ =gUnknown_03003F34
+	ldr r0, _080BCA2C @ =gVramGraphicsCopyQueueIndex
 	ldrb r1, [r2]
 	adds r7, r0, #0
 	ldrb r0, [r7]
@@ -1911,7 +1911,7 @@ _080BC9EE:
 	lsls r1, r0, #1
 	adds r1, r1, r0
 	lsls r1, r1, #2
-	ldr r0, _080BCA30 @ =gUnknown_030035D0
+	ldr r0, _080BCA30 @ =gVramGraphicsCopyQueue
 	adds r2, r1, r0
 	ldrh r0, [r2, #8]
 	cmp r0, #0
@@ -1939,8 +1939,8 @@ _080BCA08:
 	b _080BCA5C
 	.align 2, 0
 _080BCA28: .4byte gUnknown_03006208
-_080BCA2C: .4byte gUnknown_03003F34
-_080BCA30: .4byte gUnknown_030035D0
+_080BCA2C: .4byte gVramGraphicsCopyQueueIndex
+_080BCA30: .4byte gVramGraphicsCopyQueue
 _080BCA34: .4byte 0x040000D4
 _080BCA38: .4byte 0x80000200
 _080BCA3C: .4byte 0xFFFFFC00

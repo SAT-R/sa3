@@ -6243,7 +6243,7 @@ _080B4C76:
 	str r1, [sp, #0xc]
 	adds r1, r2, #0
 	movs r3, #0x40
-	bl sub_80BEBCC
+	bl sa2__sub_8003EE4
 	movs r0, #0x8b
 	lsls r0, r0, #4
 	adds r1, r7, r0
@@ -10149,7 +10149,7 @@ sub_80B6B3C: @ 0x080B6B3C
 	mov r2, ip
 	strh r2, [r7, #0x32]
 	adds r0, r7, #0
-	bl sub_80BD384
+	bl DrawBackground
 	pop {r3, r4, r5}
 	mov r8, r3
 	mov sb, r4
@@ -11280,7 +11280,7 @@ _080B74C8:
 	movs r0, #0
 	strb r0, [r1]
 	ldr r1, _080B7518 @ =gUnknown_03006208
-	ldr r0, _080B751C @ =gUnknown_03003F34
+	ldr r0, _080B751C @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
 	cmp r5, #0
@@ -11299,7 +11299,7 @@ _080B750C: .4byte gUnknown_03003F94
 _080B7510: .4byte gUnknown_03003D20
 _080B7514: .4byte gUnknown_03006840
 _080B7518: .4byte gUnknown_03006208
-_080B751C: .4byte gUnknown_03003F34
+_080B751C: .4byte gVramGraphicsCopyQueueIndex
 _080B7520:
 	ldr r0, _080B7534 @ =gStageData
 	ldrb r1, [r0, #9]
@@ -11323,7 +11323,7 @@ _080B7538:
 	ldr r0, _080B757C @ =gUnknown_03006840
 	strb r5, [r0]
 	ldr r1, _080B7580 @ =gUnknown_03006208
-	ldr r0, _080B7584 @ =gUnknown_03003F34
+	ldr r0, _080B7584 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
 	ldr r1, _080B7588 @ =0x03000282
@@ -11346,7 +11346,7 @@ _080B7574: .4byte gUnknown_03003F94
 _080B7578: .4byte gUnknown_03003D20
 _080B757C: .4byte gUnknown_03006840
 _080B7580: .4byte gUnknown_03006208
-_080B7584: .4byte gUnknown_03003F34
+_080B7584: .4byte gVramGraphicsCopyQueueIndex
 _080B7588: .4byte 0x03000282
 _080B758C:
 	movs r0, #0
@@ -14594,7 +14594,7 @@ sub_80B8DC8: @ 0x080B8DC8
 	asrs r0, r0, #0x10
 	lsls r1, r6, #0x10
 	asrs r1, r1, #0x10
-	bl sub_80BF30C
+	bl sa2__sub_8004418
 	str r6, [r4, #0x14]
 	str r5, [r4, #0x18]
 	mov r1, r8

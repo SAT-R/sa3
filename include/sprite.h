@@ -234,7 +234,7 @@ void CopyOamBufferToOam(void);
 OamData *OamMalloc(u8 order);
 
 // SA2: sub_8004418
-s16 sub_80BF30C(s16 x, s16 y);
+s16 sa2__sub_8004418(s16 x, s16 y);
 
 // SA2
 //

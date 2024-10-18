@@ -206,7 +206,7 @@ NONMATCH("asm/non_matching/game/enemies/gekogeko__sub_8059AE8.inc", static bool3
     for (i = 0; i < 2; i++) {
         p = sub_805CD20(i);
         if (p) {
-            dir = (u16)sub_80BF30C(I(p->qWorldY) - worldY, I(p->qWorldX) - worldX);
+            dir = (u16)sa2__sub_8004418(I(p->qWorldY) - worldY, I(p->qWorldX) - worldX);
 
             if ((((u16)(dir - 1) <= 254) || ((u16)(dir + (-Q(3) - 1)) <= 254)) && (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP)) {
                 return TRUE;

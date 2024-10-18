@@ -456,7 +456,7 @@ _0802DA86:
 	ldr r0, _0802DAD0 @ =gUnknown_03006840
 	strb r5, [r0]
 	ldr r1, _0802DAD4 @ =gUnknown_03006208
-	ldr r0, _0802DAD8 @ =gUnknown_03003F34
+	ldr r0, _0802DAD8 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
 	ldrb r0, [r4, #9]
@@ -475,7 +475,7 @@ _0802DAC8: .4byte gUnknown_03003F94
 _0802DACC: .4byte gUnknown_03003D20
 _0802DAD0: .4byte gUnknown_03006840
 _0802DAD4: .4byte gUnknown_03006208
-_0802DAD8: .4byte gUnknown_03003F34
+_0802DAD8: .4byte gVramGraphicsCopyQueueIndex
 
 	thumb_func_start sub_802DADC
 sub_802DADC: @ 0x0802DADC

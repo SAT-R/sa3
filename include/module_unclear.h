@@ -16,7 +16,7 @@ extern u8 gUnknown_03003D20;
 
 extern u8 gUnknown_03006840;
 
-extern u8 gUnknown_03003F34;
+extern u8 gVramGraphicsCopyQueueIndex;
 extern u8 gUnknown_03006208;
 
 typedef struct {

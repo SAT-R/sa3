@@ -1525,7 +1525,7 @@ Task_803A978: @ 0x0803A978
 	ldr r0, _0803A9F4 @ =gUnknown_03006840
 	strb r5, [r0]
 	ldr r1, _0803A9F8 @ =gUnknown_03006208
-	ldr r0, _0803A9FC @ =gUnknown_03003F34
+	ldr r0, _0803A9FC @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
 	ldr r0, _0803AA00 @ =gStageData
@@ -1548,7 +1548,7 @@ _0803A9EC: .4byte gUnknown_03003F94
 _0803A9F0: .4byte gUnknown_03003D20
 _0803A9F4: .4byte gUnknown_03006840
 _0803A9F8: .4byte gUnknown_03006208
-_0803A9FC: .4byte gUnknown_03003F34
+_0803A9FC: .4byte gVramGraphicsCopyQueueIndex
 _0803AA00: .4byte gStageData
 _0803AA04:
 	subs r0, #1
@@ -1606,7 +1606,7 @@ Task_803AA28: @ 0x0803AA28
 	movs r0, #0
 	strb r0, [r1]
 	ldr r1, _0803AAB0 @ =gUnknown_03006208
-	ldr r0, _0803AAB4 @ =gUnknown_03003F34
+	ldr r0, _0803AAB4 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
 	ldr r0, _0803AAB8 @ =gStageData
@@ -1629,7 +1629,7 @@ _0803AAA4: .4byte gUnknown_03003F94
 _0803AAA8: .4byte gUnknown_03003D20
 _0803AAAC: .4byte gUnknown_03006840
 _0803AAB0: .4byte gUnknown_03006208
-_0803AAB4: .4byte gUnknown_03003F34
+_0803AAB4: .4byte gVramGraphicsCopyQueueIndex
 _0803AAB8: .4byte gStageData
 _0803AABC:
 	subs r0, r2, #1

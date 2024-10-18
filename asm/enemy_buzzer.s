@@ -457,7 +457,7 @@ _0805A074:
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
 	str r3, [sp]
-	bl sub_80BF30C
+	bl sa2__sub_8004418
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x10
 	ldr r1, _0805A0D8 @ =0xFFFF0000

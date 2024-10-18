@@ -145,7 +145,8 @@ SECTIONS {
         build/sa3/asm/game_init.o(.text);
         build/sa3/src/main.o(.text);
         build/sa3/src/task.o(.text);
-        build/sa3/asm/code_z.o(.text);
+        build/sa3/asm/background.o(.text);
+        build/sa3/asm/sprite.o(.text);
         build/sa3/asm/bg_triangles.o(.text);
         build/sa3/src/malloc_vram.o(.text);
         build/sa3/src/multi_sio.o(.text);

@@ -323,7 +323,7 @@ _08044060:
 	subs r1, r1, r2
 	lsls r1, r1, #8
 	asrs r1, r1, #0x10
-	bl sub_80BF30C
+	bl sa2__sub_8004418
 	mov r2, r8
 	lsls r1, r2, #1
 	mov r4, sp
