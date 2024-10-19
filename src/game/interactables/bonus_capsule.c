@@ -1,3 +1,4 @@
+#include <string.h> // memcpy
 #include "global.h"
 #include "core.h"
 #include "flags.h"
@@ -30,7 +31,7 @@ typedef struct {
     /* 0x00E */ u8 unkE;
     /* 0x00F */ u8 unkF;
     /* 0x010 */ u8 unk10;
-    /* 0x011 */ u8 unk11;
+    /* 0x011 */ s8 unk11;
     /* 0x012 */ u8 unk12;
     /* 0x013 */ u8 unk13;
     /* 0x014 */ u8 unk14;
@@ -67,6 +68,8 @@ typedef struct {
 } Capsule; /* 0x700 */
 
 void Task_BonusCapsuleMain(void);
+void sub_803A3B4(s16);
+void Task_803A5D4(void);
 void sub_803B1A4(Capsule *cap);
 void sub_803B23C(Sprite *s);
 void sub_803B288(void);
@@ -97,6 +100,7 @@ extern const u8 gUnknown_080CF864[7];
 //     [CHARACTER_AMY] = 3
 // };
 extern const u8 gUnknown_080CF86B[5];
+extern const u8 gUnknown_080CF870[7];
 
 extern const u8 gUnknown_08E2DEF4[];
 extern const u8 gUnknown_08E2E134[];
@@ -463,6 +467,99 @@ void sub_803A0D8(void)
     } else if (UpdateScreenFade(&cap->fade) == SCREEN_FADE_COMPLETE) {
         cap->unk18 = 216;
         gCurTask->main = Task_BonusCapsuleMain;
+    }
+
+    sub_803C010(0);
+    sub_803B1A4(cap);
+    sub_803B498();
+    sub_803B288();
+}
+
+void Task_BonusCapsuleMain(void)
+{
+    Capsule *cap;
+    Sprite *s;
+    Player *p;
+    u16 arr[6][2][2];
+    s16 sb;
+    s8 i;
+
+    memcpy(arr, gUnknown_080CF870, sizeof(arr));
+
+    cap = TASK_DATA(gCurTask);
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        p = GET_SP_PLAYER_V1(i);
+
+        p->moveState |= MOVESTATE_IGNORE_INPUT;
+    }
+
+    gDispCnt |= DISPCNT_BG0_ON;
+
+    gStageData.unk4 = 1;
+
+    if (--cap->unk18 == 0) {
+        gDispCnt &= ~DISPCNT_BG0_ON;
+        gFlags &= ~FLAGS_4;
+
+        cap->unk18 = ZONE_TIME_TO_INT(0, 3);
+        gCurTask->main = Task_803A5D4;
+    } else {
+        s32 r1 = 216 - cap->unk18;
+
+        if (r1 <= 48) {
+            u16 v = 216 - cap->unk18;
+            sb = v;
+        } else if (cap->unk18 > 48) {
+            s8 r4;
+            u16 r2;
+            u16 r5;
+            u16 r6;
+
+            if (r1 < 59) {
+                r4 = (r1 & 0x2) ? -2 : +2;
+            } else {
+                r4 = 0;
+            }
+
+            sb = 48;
+            r5 = cap->unk11;
+
+            if (r5 > 99) {
+                r5 = 99;
+            }
+
+            r2 = (r5 / 10);
+            r6 = r5 - (r2 * 10);
+
+            if (r2 != 0) {
+                s = &cap->sprTimer[r2];
+
+                s->x = arr[gStageData.unk0][0][0];
+                s->y = arr[gStageData.unk0][0][1] + r4;
+                s->frameFlags = 0;
+                UpdateSpriteAnimation(s);
+                DisplaySprite(s);
+
+                s = &cap->sprTimer[r6];
+                s->x = arr[gStageData.unk0][1][0];
+                s->y = arr[gStageData.unk0][1][1] + r4;
+                s->frameFlags = 0;
+                UpdateSpriteAnimation(s);
+                DisplaySprite(s);
+            } else {
+                s = &cap->sprTimer[r6];
+                s->x = arr[gStageData.unk0][0][0] + 6;
+                s->y = arr[gStageData.unk0][0][1] + r4;
+                s->frameFlags = 0;
+                UpdateSpriteAnimation(s);
+                DisplaySprite(s);
+            }
+        } else {
+            sb = cap->unk18;
+        }
+
+        sub_803A3B4(sb);
     }
 
     sub_803C010(0);

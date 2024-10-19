@@ -13,8 +13,7 @@ typedef struct {
 
 /*                0x030008A0                */
 typedef struct {
-    /* 0x00 */ u8 unk0; // @NOTE: unk0 and unk1 referenced as single u16 before, could it
-                        // be a union?
+    /* 0x00 */ u8 unk0; // @NOTE: unk0 and unk1 referenced as single u16 before; union?
     /* 0x01 */ u8 unk1;
     /* 0x02 */ u8 unk2;
     /* 0x03 */ u8 gameMode; // (0x0: normal, 0x1: Demo, 0x2: ???, 0x3: Time Attack,
