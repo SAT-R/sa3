@@ -310,8 +310,8 @@ void sub_8039DC0(void)
 
             s = &cap->spr628[0];
             cap->spr628[0].tiles = fixedTiles;
-            fixedTiles = (OBJ_VRAM0 + 0x2880);
-            s->anim = 0x58F;
+            fixedTiles += MAX_TILES(ANIM_LIFE_ICONS) * TILE_SIZE_4BPP;
+            s->anim = ANIM_LIFE_ICONS;
             s->variant = arr[p1->charFlags.character];
             s->oamFlags = SPRITE_OAM_ORDER(0);
             s->animCursor = 0;
@@ -327,8 +327,8 @@ void sub_8039DC0(void)
 
             s = &cap->spr628[1];
             s->tiles = fixedTiles;
-            fixedTiles += 4 * TILE_SIZE_4BPP;
-            s->anim = 0x58F;
+            fixedTiles += MAX_TILES(ANIM_LIFE_ICONS) * TILE_SIZE_4BPP;
+            s->anim = ANIM_LIFE_ICONS;
             s->variant = arr[p2->charFlags.character];
             s->oamFlags = SPRITE_OAM_ORDER(1);
             s->animCursor = 0;
@@ -344,9 +344,9 @@ void sub_8039DC0(void)
 
             s = &cap->spr628[2];
             s->tiles = fixedTiles;
-            fixedTiles += 24 * TILE_SIZE_4BPP;
-            s->anim = 0x48D;
-            s->variant = kind;
+            fixedTiles += MAX_TILES_VARIANT(ANIM_BONUS_UI_X, 1) * TILE_SIZE_4BPP;
+            s->anim = ANIM_BONUS_UI_X;
+            s->variant = 1;
             s->oamFlags = SPRITE_OAM_ORDER(2);
             s->animCursor = 0;
             s->qAnimDelay = Q(0);
@@ -361,8 +361,8 @@ void sub_8039DC0(void)
 
             s = &cap->spr628[3];
             s->tiles = fixedTiles;
-            fixedTiles += 4 * TILE_SIZE_4BPP;
-            s->anim = 0x48D;
+            fixedTiles += MAX_TILES_VARIANT(ANIM_BONUS_UI_X, 0) * TILE_SIZE_4BPP;
+            s->anim = ANIM_BONUS_UI_X;
             s->variant = 0;
             s->oamFlags = SPRITE_OAM_ORDER(1);
             s->animCursor = 0;
@@ -378,7 +378,7 @@ void sub_8039DC0(void)
 
             s = &cap->spr628[4];
             s->tiles = fixedTiles;
-            s->anim = 0x487;
+            s->anim = ANIM_BONUS_UI_TIMER_DIGITS;
             s->variant = 0;
             s->oamFlags = SPRITE_OAM_ORDER(1);
             s->animCursor = 0;
