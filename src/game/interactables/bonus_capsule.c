@@ -406,19 +406,28 @@ void sub_8039DC0(void)
             cap->unk14 = r4;
 
 #ifdef BUG_FIX
+            // BUG: p1 and p2 get used but were not initialized originally!
             p1 = &gPlayers[gStageData.playerIndex];
             p2 = &gPlayers[p1->charFlags.partnerIndex];
-#endif
 
-            // BUG: p1 gets used here but was not defined!
             if ((p1->moveState & MOVESTATE_20) && (p1->qWorldY < Q(129))) {
                 p1->moveState &= ~MOVESTATE_20;
             }
 
-            // BUG: p2 gets used here but was not defined!
+            // BUG: p2's movestate was checked/set, but
+            //      the original condition checked p1's y-position
+            if ((p2->moveState & MOVESTATE_20) && (p2->qWorldY < Q(129))) {
+                p2->moveState &= ~MOVESTATE_20;
+            }
+#else
+            if ((p1->moveState & MOVESTATE_20) && (p1->qWorldY < Q(129))) {
+                p1->moveState &= ~MOVESTATE_20;
+            }
+
             if ((p2->moveState & MOVESTATE_20) && (p1->qWorldY < Q(129))) {
                 p2->moveState &= ~MOVESTATE_20;
             }
+#endif
 
             gCurTask->main = sub_803BE48;
 
