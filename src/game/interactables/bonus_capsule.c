@@ -36,7 +36,7 @@ typedef struct {
     /* 0x014 */ u8 unk14;
     /* 0x015 */ u8 unk15;
     /* 0x016 */ s16 timer;
-    /* 0x018 */ u16 unk18;
+    /* 0x018 */ s16 unk18;
     /* 0x01C */ s32 unk1C;
     /* 0x020 */ s32 unk20;
     /* 0x024 */ s32 unk24;
@@ -67,16 +67,19 @@ typedef struct {
 } Capsule; /* 0x700 */
 
 void Task_BonusCapsuleMain(void);
+void sub_803B1A4(Capsule *cap);
 void sub_803B23C(Sprite *s);
+void sub_803B288(void);
 void sub_803B498(void);
 void sub_803B6E8(Capsule *cap, s16 worldX, s16 worldY);
 void sub_803B804(void);
 void sub_803B910(void);
 void sub_803BB60(void);
-void sub_803BE48(void);
 void sub_803BC0C(void);
+void sub_803BE48(void);
 void sub_803BE9C(Sprite *s);
 void sub_803BEE0(Sprite *s);
+void sub_803C010(u32 param0);
 void TaskDestructor_BonusCapsule(struct Task *);
 void sub_8039D60(Sprite *s, u8, void *tiles);
 void sub_803BF20(Sprite *s, u8, u32);
@@ -263,7 +266,6 @@ void sub_8039D60(Sprite *s, u8 i, void *inTiles)
     s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
 }
 
-#if 01
 void sub_8039DC0(void)
 {
     void *sp14 = &gUnknown_08E2E280;
@@ -443,4 +445,31 @@ void sub_8039DC0(void)
     sub_803BC0C();
     sub_803B498();
 }
+
+void sub_803A0D8(void)
+{
+    Capsule *cap = TASK_DATA(gCurTask);
+    u8 i;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        Player *p = GET_SP_PLAYER_V1(i);
+
+        p->moveState |= MOVESTATE_IGNORE_INPUT;
+    }
+
+    if (cap->unk18 != 0) {
+        cap->unk18--;
+        ScreenFadeUpdateValues(&cap->fade);
+    } else if (UpdateScreenFade(&cap->fade) == SCREEN_FADE_COMPLETE) {
+        cap->unk18 = 216;
+        gCurTask->main = Task_BonusCapsuleMain;
+    }
+
+    sub_803C010(0);
+    sub_803B1A4(cap);
+    sub_803B498();
+    sub_803B288();
+}
+
+#if 01
 #endif
