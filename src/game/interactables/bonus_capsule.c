@@ -33,8 +33,9 @@ typedef struct {
     /* 0x011 */ u8 unk11;
     /* 0x012 */ u8 unk12;
     /* 0x013 */ u8 unk13;
-    /* 0x014 */ u8 filler14[0x2];
-    /* 0x016 */ u16 timer;
+    /* 0x014 */ u8 unk14;
+    /* 0x015 */ u8 unk15;
+    /* 0x016 */ s16 timer;
     /* 0x018 */ u16 unk18;
     /* 0x01C */ s32 unk1C;
     /* 0x020 */ s32 unk20;
@@ -67,7 +68,13 @@ typedef struct {
 
 void Task_BonusCapsuleMain(void);
 void sub_803B23C(Sprite *s);
+void sub_803B498(void);
 void sub_803B6E8(Capsule *cap, s16 worldX, s16 worldY);
+void sub_803B804(void);
+void sub_803B910(void);
+void sub_803BB60(void);
+void sub_803BE48(void);
+void sub_803BC0C(void);
 void sub_803BE9C(Sprite *s);
 void sub_803BEE0(Sprite *s);
 void TaskDestructor_BonusCapsule(struct Task *);
@@ -79,8 +86,19 @@ extern TileInfo sTileInfoTimerDigits[21];
 // const u8 gUnknown_080CF864[7] = {5, 8, 12, 15, 18, 22, 25};
 extern const u8 gUnknown_080CF864[7];
 
-// const u8 gUnknown_080CF86B[5] = {0, 4, 2, 1, 3};
+// const u8 gUnknown_080CF86B[5] = {
+//     [CHARACTER_SONIC] = 0,
+//     [CHARACTER_CREAM] = 4,
+//     [CHARACTER_TAILS] = 2,
+//     [CHARACTER_KNUCKLES] = 1,
+//     [CHARACTER_AMY] = 3
+// };
 extern const u8 gUnknown_080CF86B[5];
+
+extern const u8 gUnknown_08E2DEF4[];
+extern const u8 gUnknown_08E2E134[];
+extern const u8 gUnknown_08E2E280[];
+extern const u8 gUnknown_08E2E550[];
 
 // (100.00%) https://decomp.me/scratch/aJb0e
 void CreateEntity_BonusCapsule(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -246,4 +264,174 @@ void sub_8039D60(Sprite *s, u8 i, void *inTiles)
 }
 
 #if 01
+void sub_8039DC0(void)
+{
+    void *sp14 = &gUnknown_08E2E280;
+    void *sp10 = &gUnknown_08E2E550;
+    void *sp0C = &gUnknown_08E2DEF4;
+    void *sp08 = &gUnknown_08E2E134;
+    void *fixedTiles = (OBJ_VRAM0 + 0x2800);
+    Capsule *cap;
+    Sprite *s;
+    Player *p1, *p2;
+    u8 arr[5];
+    s32 kind;
+
+    memcpy(arr, gUnknown_080CF86B, sizeof(arr));
+    cap = TASK_DATA(gCurTask);
+
+    kind = cap->unkC;
+    switch (kind) {
+        case 0: {
+            ; // Do nothing
+        } break;
+
+        case 2: {
+            s = &cap->s;
+            VramFree(s->tiles);
+            s->tiles = NULL;
+            cap->unkA8 = sub_80C4C60(&sp08, 1);
+            sub_80C4E24(&cap->unkA8, 1, (void *)&sp0C);
+            sub_80C610C(&cap->unkA8, 1);
+        } break;
+
+        case 3: {
+            cap->unkAC = sub_80C4C60(&sp10, 1);
+            sub_80C4E24(&cap->unkAC, 1, (void *)&sp14);
+            sub_80C610C(&cap->unkAC, 1);
+        } break;
+
+        case 1: {
+            Sprite *s;
+            p1 = &gPlayers[gStageData.playerIndex];
+            p2 = &gPlayers[p1->charFlags.partnerIndex];
+
+            s = &cap->spr628[0];
+            cap->spr628[0].tiles = fixedTiles;
+            fixedTiles = (OBJ_VRAM0 + 0x2880);
+            s->anim = 0x58F;
+            s->variant = arr[p1->charFlags.character];
+            s->oamFlags = SPRITE_OAM_ORDER(0);
+            s->animCursor = 0;
+            s->qAnimDelay = Q(0);
+            s->prevVariant = -1;
+            s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+            s->palId = 0;
+            s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+            s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+            s->x = (DISPLAY_WIDTH / 2) - 25;
+            s->y = (DISPLAY_HEIGHT / 2) - 2;
+            UpdateSpriteAnimation(s);
+
+            s = &cap->spr628[1];
+            s->tiles = fixedTiles;
+            fixedTiles += 4 * TILE_SIZE_4BPP;
+            s->anim = 0x58F;
+            s->variant = arr[p2->charFlags.character];
+            s->oamFlags = SPRITE_OAM_ORDER(1);
+            s->animCursor = 0;
+            s->qAnimDelay = Q(0);
+            s->prevVariant = -1;
+            s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+            s->palId = 0;
+            s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+            s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+            s->x = (DISPLAY_WIDTH / 2) - 15;
+            s->y = (DISPLAY_HEIGHT / 2) - 2;
+            UpdateSpriteAnimation(s);
+
+            s = &cap->spr628[2];
+            s->tiles = fixedTiles;
+            fixedTiles += 24 * TILE_SIZE_4BPP;
+            s->anim = 0x48D;
+            s->variant = kind;
+            s->oamFlags = SPRITE_OAM_ORDER(2);
+            s->animCursor = 0;
+            s->qAnimDelay = Q(0);
+            s->prevVariant = -1;
+            s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+            s->palId = 0;
+            s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+            s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+            s->x = (DISPLAY_WIDTH / 2) - 12;
+            s->y = (DISPLAY_HEIGHT / 2) + 5;
+            UpdateSpriteAnimation(s);
+
+            s = &cap->spr628[3];
+            s->tiles = fixedTiles;
+            fixedTiles += 4 * TILE_SIZE_4BPP;
+            s->anim = 0x48D;
+            s->variant = 0;
+            s->oamFlags = SPRITE_OAM_ORDER(1);
+            s->animCursor = 0;
+            s->qAnimDelay = Q(0);
+            s->prevVariant = -1;
+            s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+            s->palId = 0;
+            s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+            s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+            s->x = (DISPLAY_WIDTH / 2) + 18;
+            s->y = (DISPLAY_HEIGHT / 2) + 6;
+            UpdateSpriteAnimation(s);
+
+            s = &cap->spr628[4];
+            s->tiles = fixedTiles;
+            s->anim = 0x487;
+            s->variant = 0;
+            s->oamFlags = SPRITE_OAM_ORDER(1);
+            s->animCursor = 0;
+            s->qAnimDelay = Q(0);
+            s->prevVariant = -1;
+            s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+            s->palId = 0;
+            s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+            s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+            s->x = (DISPLAY_WIDTH / 2) + 30;
+            s->y = (DISPLAY_HEIGHT / 2) + 5;
+            UpdateSpriteAnimation(s);
+
+        } break;
+
+        default: {
+            s32 r4;
+            if (cap->timer >= 900) {
+                r4 = 5;
+            } else if (cap->timer >= 300) {
+                r4 = 2;
+            } else {
+                r4 = 1;
+            }
+
+            sub_8003DC4(r4);
+            cap->unk14 = r4;
+
+#ifdef BUG_FIX
+            p1 = &gPlayers[gStageData.playerIndex];
+            p2 = &gPlayers[p1->charFlags.partnerIndex];
+#endif
+
+            // BUG: p1 gets used here but was not defined!
+            if ((p1->moveState & MOVESTATE_20) && (p1->qWorldY < Q(129))) {
+                p1->moveState &= ~MOVESTATE_20;
+            }
+
+            // BUG: p2 gets used here but was not defined!
+            if ((p2->moveState & MOVESTATE_20) && (p1->qWorldY < Q(129))) {
+                p2->moveState &= ~MOVESTATE_20;
+            }
+
+            gCurTask->main = sub_803BE48;
+
+            sub_8003DF0(SE_CAPSULE_DESTROY);
+        } break;
+    }
+
+    cap->unkC++;
+
+    sub_803B804();
+    sub_803B910();
+    sub_803BB60();
+    sub_803BC0C();
+    sub_803B498();
+}
 #endif

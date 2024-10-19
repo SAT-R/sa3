@@ -155,15 +155,16 @@
 #define MUS_DUMMY__137                0x89
 #define SE_POOF                       0x8A
 
-#define MUS_DUMMY__140 0x8C
-#define MUS_DUMMY__141 0x8D
-#define SE_PAUSE       0x8E
-
-#define MUS_DUMMY__144     0x91
-#define MUS_DUMMY__145     0x92
-#define MUS_DUMMY__146     0x93
+#define MUS_DUMMY__140     0x8C
+#define MUS_DUMMY__141     0x8D
+#define SE_PAUSE           0x8E
+#define SE_143             0x8F
+#define SE_CAPSULE_DESTROY 0x90
+#define MUS_DUMMY__145     0x91
+#define MUS_DUMMY__146     0x92
+#define MUS_DUMMY__147     0x93
 #define SE_BOUNCE_PAD      0x94
-#define SE_148             0x95
+#define SE_149             0x95
 #define SE_ITEMBOX         0x96
 #define SE_SHIELD_ACTIVATE 0x97
 #define SE_CHECKPOINT      0x98

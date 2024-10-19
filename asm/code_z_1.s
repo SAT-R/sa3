@@ -4435,6 +4435,7 @@ _080C66CE:
 	.align 2, 0
 _080C66D8: .4byte 0x10000010
 
+@ Timer3Intr(?)
 	thumb_func_start sub_80C66DC
 sub_80C66DC: @ 0x080C66DC
 	push {r4, r5, lr}

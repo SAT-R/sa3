@@ -97,5 +97,8 @@ void sub_8097C54(u16);
 void sub_80C0CA8(Sprite *s, Vec2_16 *positions, u16 count);
 void sub_80C07E0(Sprite *s);
 void sub_80C60B0(void **param0, u8 param1);
+void *sub_80C4C60(void *param0, u8 param1);
+void sub_80C4E24(void *param0, u8 param1, u32 *param2);
+void sub_80C610C(void *param0, u8 param1);
 
 #endif // GUARD_SA3_MODULE_UNCLEAR_H
