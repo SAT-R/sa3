@@ -11,8 +11,12 @@
 
 // Appears to be multiplayer-only?
 
-extern u8 gUnknown_03003F94;
+// TODO: Type this properly
+extern void *gUnknown_03003C5C;
+
 extern u8 gUnknown_03003D20;
+extern u8 gUnknown_03003F30;
+extern u8 gUnknown_03003F94;
 
 extern u8 gUnknown_03006840;
 

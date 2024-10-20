@@ -100,7 +100,7 @@ extern const u8 gUnknown_080CF864[7];
 //     [CHARACTER_AMY] = 3
 // };
 extern const u8 gUnknown_080CF86B[5];
-extern const u8 gUnknown_080CF870[7];
+extern const u16 gUnknown_080CF870[6][2][2];
 
 extern const u8 gUnknown_08E2DEF4[];
 extern const u8 gUnknown_08E2E134[];
@@ -566,6 +566,112 @@ void Task_BonusCapsuleMain(void)
     sub_803B1A4(cap);
     sub_803B498();
     sub_803B288();
+}
+
+void sub_803A3B4(s16 param0)
+{
+    s32 ip;
+    s16 r5;
+    s16 r8;
+    s16 sb;
+    s16 sl;
+    s16 *offsets;
+    s16 i;
+
+    if (param0 < 16) {
+        ip = 0;
+        if (param0 < 2) {
+            param0 = 2;
+        }
+
+        r5 = (param0 * 3) / 2u;
+    } else if (param0 < 32) {
+        ip = 1;
+
+        r5 = 24;
+
+        if (param0 < 17) {
+            param0 = 17;
+        }
+
+        r8 = ((param0 - 16) * 9) / 4u;
+    } else if (param0 < 49) {
+        ip = 2;
+
+        r5 = 24;
+
+        r8 = 36;
+        sb = (param0 - 32) * 2;
+
+        sl = ((param0 - 32) * 15) / 4u;
+    }
+    // _0803A422
+
+    gFlags |= FLAGS_4;
+
+    gUnknown_03003C5C = (void *)&REG_BG0VOFS;
+    gUnknown_03003F30 = 2;
+
+    offsets = (u16 *)gBgOffsetsHBlank;
+
+    for (i = 0; i < DISPLAY_HEIGHT; i++) {
+        *offsets++ = -i;
+    }
+
+    offsets = (u16 *)gBgOffsetsHBlank;
+    offsets = (u16 *)((void *)offsets + (40 - r5) * 2);
+
+    for (i = 0; i < 4; i++) {
+        *offsets++ = r5 - 24;
+    }
+
+    for (i = (40 - r5); i < (r5 + 36); i++) {
+        *offsets++ = (i % 4u) - (i - 16);
+    }
+    // _0803A4AA
+
+    offsets = (u16 *)gBgOffsetsHBlank;
+    offsets = (u16 *)((void *)offsets + (r5 * 2 + 72));
+
+    for (i = 0; i < 4; i++) {
+        *offsets++ = 23 - r5;
+    }
+
+    if (ip != 0) {
+        offsets = (u16 *)gBgOffsetsHBlank;
+        offsets = (u16 *)((void *)offsets + (108 - r8) * 2);
+
+        for (i = 0; i < 4; i++) {
+            *offsets++ = r8 - 35;
+        }
+
+        for (i = (108 - r8); i < (r8 + 104); i++) {
+            *offsets++ = (i % 4u) - (i - 72);
+        }
+
+        offsets = (u16 *)gBgOffsetsHBlank;
+        offsets = (u16 *)((void *)offsets + (r8 * 2 + 208));
+
+        for (i = 0; i < 4; i++) {
+            *offsets++ = 35 - r8;
+        }
+
+        if (ip != 1) {
+            offsets = (u16 *)gBgOffsetsHBlank;
+            offsets = (u16 *)((void *)offsets + (58 - sb) * 2);
+
+            for (i = (58 - sb); i < 58; i++) {
+                *offsets++ = sb - 32;
+            }
+
+            offsets = (u16 *)gBgOffsetsHBlank;
+            offsets = (u16 *)((void *)offsets + (138 - sl) * 2);
+
+            for (i = (138 - sl); i < 138; i++) {
+                *offsets++ = sl - 60;
+            }
+        }
+    }
 }
 
 #if 01

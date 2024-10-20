@@ -354,11 +354,8 @@ void Task_BonusGameUIInit(void)
     sub_803D4C8();
 }
 
-// TODO: Type this properly
-extern void *gUnknown_03003C5C;
-extern u8 gUnknown_03003F30;
-
 // VERY unfinished.
+// Maybe close to sub_803A3B4 ?
 NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__unfinished_sub_803C6F4.inc", void sub_803C6F4(s16 param0))
 {
     u16 r6 = 0;
