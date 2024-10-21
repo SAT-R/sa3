@@ -38,10 +38,7 @@ typedef struct {
     /* 0x015 */ u8 unk15;
     /* 0x016 */ s16 timer;
     /* 0x018 */ s16 unk18;
-    /* 0x01C */ s32 unk1C;
-    /* 0x020 */ s32 unk20;
-    /* 0x024 */ s32 unk24;
-    /* 0x028 */ s32 unk28;
+    /* 0x01C */ Vec2_32 playerPos[NUM_SINGLE_PLAYER_CHARS]; // TODO: Not a pos?
     /* 0x02C */ u16 unk2C;
     /* 0x02E */ u16 unk2E;
     /* 0x030 */ s16 unk30;
@@ -67,6 +64,7 @@ typedef struct {
     /* 0x6FC */ s32 random;
 } Capsule; /* 0x700 */
 
+s32 sub_803C094(Sprite *s, u8 param1, s32 worldX, s32 worldY);
 void Task_BonusCapsuleMain(void);
 void Task_8039DC0(void);
 void sub_803A3B4(s16);
@@ -74,6 +72,7 @@ void Task_803A5D4(void);
 void Task_803A6DC(void);
 void Task_803A8A8(void);
 void Task_803A978(void);
+void sub_803AAE8(Capsule *cap, Player *p, u8 param2);
 u8 sub_803B070(Capsule *cap);
 void sub_803B1A4(Capsule *cap);
 void sub_803B23C(Sprite *s);
@@ -152,10 +151,10 @@ void CreateEntity_BonusCapsule(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     cap->base.spriteX = me->x;
     cap->base.id = id;
     cap->unkC = 0;
-    cap->unk1C = 0;
-    cap->unk20 = 0;
-    cap->unk24 = 0;
-    cap->unk28 = 0;
+    cap->playerPos[0].x = 0;
+    cap->playerPos[0].y = 0;
+    cap->playerPos[1].x = 0;
+    cap->playerPos[1].y = 0;
     cap->unkE = 0;
     cap->unkF = 1;
     cap->unk18 = 216;
@@ -928,5 +927,109 @@ void Task_803AA28(void)
     sub_803B354();
 }
 
-#if 01
+#if 0
+// (78.88%) https://decomp.me/scratch/WBFUW
+void sub_803AAE8(Capsule *cap, Player *p, u8 pid)
+{
+    Sprite *s = &cap->s;
+    MapEntity *me = cap->base.me;
+
+    s32 worldX = TO_WORLD_POS(cap->base.spriteX, cap->base.regionX);
+    s32 worldY = TO_WORLD_POS(cap->base.me->y, cap->base.regionY);
+    s32 playerX, playerY;
+    u32 resA, resB;
+
+    playerX = cap->playerPos[pid].x;
+    resA = sub_803C094(s, 0, worldX, worldY);
+    playerY = cap->playerPos[pid].y;
+    resB = sub_803C094(s, 1, worldX, worldY);
+
+    cap->playerPos[pid].x = 0;
+    cap->playerPos[pid].y = 0;
+
+    if(resA & 0x10000) {
+        p->qWorldY += Q_8_8(resA);
+        
+        cap->playerPos[pid].x = 1;
+
+        p->moveState |= MOVESTATE_20;
+        p->moveState &= ~MOVESTATE_IN_AIR;
+        p->spr6C = s;
+    } else if(resB & 0x10000) {
+        // _0803AB8A+0x8
+        p->qWorldY += Q_8_8(resA);
+        
+        cap->playerPos[pid].y = 1;
+
+        p->moveState |= MOVESTATE_20;
+        p->moveState &= ~MOVESTATE_IN_AIR;
+        p->spr6C = s;
+
+        if(resA & 0x80000) {
+            if(p->keyInput & DPAD_RIGHT) {
+                p->qWorldX += Q(1);
+                p->moveState |= MOVESTATE_40;
+            }
+            // _0803ABD8
+            // TODO: proper Q(resA)
+            p->qWorldX += resA & 0xFF00;
+            p->qSpeedGround = Q(0);
+        } else if(resA & 0x40000) {
+            // _0803ABF0
+            
+            if(p->keyInput & DPAD_LEFT) {
+                p->qWorldX -= Q(1);
+                p->moveState |= MOVESTATE_40;
+            }
+            // _0803AC08
+            
+            p->qWorldX += (s16)(resA & 0xFF00);
+            p->qSpeedGround = Q(0);
+            asm("");
+        }
+    } else if(resA & 0x80000) {
+        // _0803AC24+0xC
+        
+        if((p->keyInput & DPAD_RIGHT) && (p->spr6C == &cap->unkEC[1].s)){
+            p->qWorldX += Q(1);
+            p->moveState |= MOVESTATE_40;
+        }
+
+        // TODO: proper Q(resA)
+        p->qWorldX += (s16)(resA & 0xFF00);
+        p->qSpeedGround = Q(0);
+        asm("");
+    } else if(resA & 0x40000) {
+        // _0803AC62+0xE
+        if((p->keyInput & DPAD_LEFT) && (p->spr6C == &cap->unkEC[3].s)){
+            p->qWorldX -= Q(1);
+            p->moveState |= MOVESTATE_40;
+        }
+        
+        // TODO: proper Q(resA)
+        p->qWorldX += (s16)(resA & 0xFF00);
+        p->qSpeedGround = Q(0);
+    } else if(resB & 0x80000) {
+        // _0803ACB4
+        if(p->keyInput & DPAD_RIGHT) {
+            p->qWorldX += Q(1);
+            p->moveState |= MOVESTATE_40;
+        }
+        // _0803ABD8
+        // TODO: proper Q(resA)
+        p->qWorldX += (s16)(resB & 0xFF00);
+        p->qSpeedGround = Q(0);
+    } else if(resB & 0x40000) {
+        // _0803ACEE
+        
+        if(p->keyInput & DPAD_LEFT) {
+            p->qWorldX -= Q(1);
+            p->moveState |= MOVESTATE_40;
+        }
+        
+        // TODO: proper Q(resA)
+        p->qWorldX += (s16)(resB & 0xFF00);
+        p->qSpeedGround = Q(0);
+    }
+}
 #endif
