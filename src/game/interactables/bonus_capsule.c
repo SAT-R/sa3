@@ -30,7 +30,7 @@ typedef struct {
     /* 0x00D */ u8 unkD;
     /* 0x00E */ u8 unkE;
     /* 0x00F */ u8 unkF;
-    /* 0x010 */ u8 unk10;
+    /* 0x010 */ s8 unk10;
     /* 0x011 */ s8 unk11;
     /* 0x012 */ u8 unk12;
     /* 0x013 */ u8 unk13;
@@ -68,8 +68,13 @@ typedef struct {
 } Capsule; /* 0x700 */
 
 void Task_BonusCapsuleMain(void);
+void Task_8039DC0(void);
 void sub_803A3B4(s16);
 void Task_803A5D4(void);
+void Task_803A6DC(void);
+void Task_803A8A8(void);
+void Task_803A978(void);
+u8 sub_803B070(Capsule *cap);
 void sub_803B1A4(Capsule *cap);
 void sub_803B23C(Sprite *s);
 void sub_803B288(void);
@@ -82,6 +87,8 @@ void sub_803BC0C(void);
 void sub_803BE48(void);
 void sub_803BE9C(Sprite *s);
 void sub_803BEE0(Sprite *s);
+void sub_803BF78(u32 param0);
+void sub_803BFC4(Capsule *cap);
 void sub_803C010(u32 param0);
 void TaskDestructor_BonusCapsule(struct Task *);
 void sub_8039D60(Sprite *s, u8, void *tiles);
@@ -101,6 +108,7 @@ extern const u8 gUnknown_080CF864[7];
 // };
 extern const u8 gUnknown_080CF86B[5];
 extern const u16 gUnknown_080CF870[6][2][2];
+extern const TileInfo gUnknown_080CF770[7];
 
 extern const u8 gUnknown_08E2DEF4[];
 extern const u8 gUnknown_08E2E134[];
@@ -270,7 +278,7 @@ void sub_8039D60(Sprite *s, u8 i, void *inTiles)
     s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
 }
 
-void sub_8039DC0(void)
+void Task_8039DC0(void)
 {
     void *sp14 = &gUnknown_08E2E280;
     void *sp10 = &gUnknown_08E2E550;
@@ -605,7 +613,6 @@ void sub_803A3B4(s16 param0)
 
         sl = ((param0 - 32) * 15) / 4u;
     }
-    // _0803A422
 
     gFlags |= FLAGS_4;
 
@@ -628,7 +635,6 @@ void sub_803A3B4(s16 param0)
     for (i = (40 - r5); i < (r5 + 36); i++) {
         *offsets++ = (i % 4u) - (i - 16);
     }
-    // _0803A4AA
 
     offsets = (u16 *)gBgOffsetsHBlank;
     offsets = (u16 *)((void *)offsets + (r5 * 2 + 72));
@@ -672,6 +678,187 @@ void sub_803A3B4(s16 param0)
             }
         }
     }
+}
+
+void Task_803A5D4(void)
+{
+    Capsule *cap = TASK_DATA(gCurTask);
+    Sprite *s = &cap->s3;
+    u8 i;
+
+    if (--cap->unk18 == 0) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            Player *p = GET_SP_PLAYER_V1(i);
+            p->moveState &= ~MOVESTATE_IGNORE_INPUT;
+        }
+
+        s->anim = gUnknown_080CF770[0].anim;
+        s->variant = gUnknown_080CF770[0].variant;
+        s->prevVariant = -1;
+
+        cap->unkD = 128;
+
+        gCurTask->main = Task_803A6DC;
+        cap->unkE = sub_803B070(cap);
+        Task_803A6DC();
+
+        gStageData.unk4 = 3;
+        gStageData.unk85 = 1;
+
+        return;
+    } else if (cap->unk18 == 120) {
+        // _0803A684+0x4
+        cap->unkD = 60;
+
+        s->anim = gUnknown_080CF770[5].anim;
+        s->variant = gUnknown_080CF770[5].variant;
+        s->prevVariant = -1;
+    } else if (cap->unk18 == 60) {
+        // _0803A69C+0x4
+        cap->unkD = 60;
+
+        s->anim = gUnknown_080CF770[4].anim;
+        s->variant = gUnknown_080CF770[4].variant;
+        s->prevVariant = -1;
+    }
+
+    sub_803BF78(1);
+    sub_803C010(0);
+    sub_803B1A4(cap);
+    sub_803B498();
+    sub_803B288();
+}
+
+void Task_803A6DC(void)
+{
+    Capsule *cap = TASK_DATA(gCurTask);
+    Sprite *s = &cap->s3;
+    Player *p;
+    ScreenFade *fade = &cap->fade;
+    u8 i;
+    u8 prevUnkD;
+
+    cap->unk10 = gStageData.unk8C;
+
+    if ((cap->unk10 >= cap->unk11) || (--cap->timer == 0)) {
+        cap->unkD = 128;
+
+        fade->flags = SCREEN_FADE_FLAG_LIGHTEN;
+        fade->brightness = Q(0);
+        fade->bldCnt = (BLDCNT_TGT1_ALL | BLDCNT_EFFECT_LIGHTEN);
+
+        if (cap->timer == 0) {
+            for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+                p = GET_SP_PLAYER_V1(i);
+                p->moveState |= MOVESTATE_IGNORE_INPUT;
+            }
+
+            cap->unk18 = 30;
+
+            if (gStageData.playerIndex != 0) {
+                s->anim = gUnknown_080CF770[2].anim;
+                s->variant = gUnknown_080CF770[2].variant;
+                s->prevVariant = -1;
+            }
+
+            sub_803C010(1);
+            sub_803B1A4(cap);
+            sub_803B498();
+            sub_803B288();
+
+            gCurTask->main = Task_803A8A8;
+        } else {
+            sub_803C010(1);
+            sub_803B1A4(cap);
+            sub_803B498();
+            sub_803BFC4(cap);
+
+            for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+                p = GET_SP_PLAYER_V1(i);
+                p->moveState |= MOVESTATE_IGNORE_INPUT;
+            }
+
+            s->anim = gUnknown_080CF770[1].anim;
+            s->variant = gUnknown_080CF770[1].variant;
+            s->prevVariant = -1;
+            s->y = 60;
+
+            cap->unk18 = 100;
+            cap->unkC = 0;
+
+            gCurTask->main = Task_8039DC0;
+        }
+
+        gStageData.unk4 = 6;
+    } else {
+        u8 res = sub_803B070(cap);
+        if (res != 0xFF) {
+            cap->unkE = res;
+        }
+
+        prevUnkD = cap->unkD;
+
+        sub_803BF78(0);
+
+        if ((prevUnkD != 0) && (cap->unkD == 0)) {
+            gStageData.unk85 = 0;
+        }
+
+        sub_803C010(1);
+        sub_803B1A4(cap);
+        sub_803B498();
+        sub_803B288();
+
+        gStageData.unk8C = cap->unk10;
+    }
+}
+
+void Task_803A8A8(void)
+{
+    Capsule *cap = TASK_DATA(gCurTask);
+    Sprite *s;
+
+    if((gStageData.playerIndex == 0) && (cap->unkD >= 96)) {
+        s = &cap->s3;
+
+        cap->unk10 = gStageData.unk8C;
+
+        if(cap->unk10 >= cap->unk11) {
+            sub_803C010(1);
+            sub_803B1A4(cap);
+            sub_803B498();
+            sub_803BFC4(cap);
+        
+            s->anim = gUnknown_080CF770[1].anim;
+            s->variant = gUnknown_080CF770[1].variant;
+            s->prevVariant = -1;
+            s->y = 60;
+
+            cap->unk18 = 100;
+
+            gCurTask->main = Task_8039DC0;
+
+            return;
+        } else {
+            if(cap->unkD == 96) {
+                s->anim = gUnknown_080CF770[2].anim;
+                s->variant = gUnknown_080CF770[2].variant;
+                s->prevVariant = -1;
+            }
+
+            gStageData.unk8C = cap->unk10;
+        }
+    }
+    if(--cap->unkD == 0){
+        // _0803A940
+        cap->unkD = 128;
+        gCurTask->main = Task_803A978;
+    }
+    
+    sub_803C010(0);
+    sub_803B1A4(cap);
+    sub_803B498();
+    sub_803B288();
 }
 
 #if 01
