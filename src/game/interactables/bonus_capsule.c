@@ -818,17 +818,17 @@ void Task_803A8A8(void)
     Capsule *cap = TASK_DATA(gCurTask);
     Sprite *s;
 
-    if((gStageData.playerIndex == 0) && (cap->unkD >= 96)) {
+    if ((gStageData.playerIndex == 0) && (cap->unkD >= 96)) {
         s = &cap->s3;
 
         cap->unk10 = gStageData.unk8C;
 
-        if(cap->unk10 >= cap->unk11) {
+        if (cap->unk10 >= cap->unk11) {
             sub_803C010(1);
             sub_803B1A4(cap);
             sub_803B498();
             sub_803BFC4(cap);
-        
+
             s->anim = gUnknown_080CF770[1].anim;
             s->variant = gUnknown_080CF770[1].variant;
             s->prevVariant = -1;
@@ -840,7 +840,7 @@ void Task_803A8A8(void)
 
             return;
         } else {
-            if(cap->unkD == 96) {
+            if (cap->unkD == 96) {
                 s->anim = gUnknown_080CF770[2].anim;
                 s->variant = gUnknown_080CF770[2].variant;
                 s->prevVariant = -1;
@@ -849,12 +849,12 @@ void Task_803A8A8(void)
             gStageData.unk8C = cap->unk10;
         }
     }
-    if(--cap->unkD == 0){
+    if (--cap->unkD == 0) {
         // _0803A940
         cap->unkD = 128;
         gCurTask->main = Task_803A978;
     }
-    
+
     sub_803C010(0);
     sub_803B1A4(cap);
     sub_803B498();
