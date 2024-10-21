@@ -134,7 +134,7 @@ void Task_802E6F8(void)
         TasksDestroyAll();
         gUnknown_03003F94 = gUnknown_03003D20;
         gUnknown_03006840 = 0;
-        gUnknown_03006208 = gVramGraphicsCopyQueueIndex;
+        gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
     }
 
     switch (id) {

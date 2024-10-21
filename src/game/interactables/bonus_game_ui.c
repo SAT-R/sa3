@@ -704,7 +704,7 @@ void Task_803CEE4(void)
 
                 gUnknown_03003F94 = gUnknown_03003D20;
                 gUnknown_03006840 = 0;
-                gUnknown_03006208 = gVramGraphicsCopyQueueIndex;
+                gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
 
                 sub_8002210((gStageData.zone * 10) + 2, 7);
                 return;
@@ -888,7 +888,7 @@ void Task_803D248(void)
 
                 gUnknown_03003F94 = gUnknown_03003D20;
                 gUnknown_03006840 = 0;
-                gUnknown_03006208 = gVramGraphicsCopyQueueIndex;
+                gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
 
                 sub_8002210((gStageData.zone * 10) + 2, 7);
                 return;
@@ -942,7 +942,7 @@ void Task_803D39C(void)
 
                 gUnknown_03003F94 = gUnknown_03003D20;
                 gUnknown_03006840 = 0;
-                gUnknown_03006208 = gVramGraphicsCopyQueueIndex;
+                gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
 
                 sub_8002210((gStageData.zone * 10) + 2, 7);
                 return;

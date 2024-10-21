@@ -862,4 +862,32 @@ void Task_803A8A8(void)
 }
 
 #if 01
+void Task_803A978(void)
+{
+    Capsule *cap = TASK_DATA(gCurTask);
+
+    if(cap->unkD == 1) {
+        cap->unkD = 2;
+
+        if(cap->unk18 == 0) {
+            if(UpdateScreenFade(&cap->fade) != SCREEN_FADE_RUNNING) {
+                TasksDestroyAll();
+
+                gUnknown_03003F94 = gUnknown_03003D20;
+                gUnknown_03006840 = 0;
+                gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+
+
+            }
+        } else {
+            --cap->unk18;
+        }
+    }
+
+    sub_803BF78(1);
+    sub_803C010(0);
+    sub_803B1A4(cap);
+    sub_803B498();
+    sub_803B288();
+}
 #endif

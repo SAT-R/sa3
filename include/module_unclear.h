@@ -21,7 +21,7 @@ extern u8 gUnknown_03003F94;
 extern u8 gUnknown_03006840;
 
 extern u8 gVramGraphicsCopyQueueIndex;
-extern u8 gUnknown_03006208;
+extern u8 gVramGraphicsCopyCursor;
 
 typedef struct {
     /* 0x00 */ u8 filler0[0x4C];
