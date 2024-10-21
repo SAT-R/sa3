@@ -43,7 +43,7 @@ GameInit: @ 0x080BB9EC
 	mov r8, r4
 	ldr r7, _080BBA94 @ =gUnknown_03006840
 	mov sb, r7
-	ldr r4, _080BBA98 @ =gUnknown_03006208
+	ldr r4, _080BBA98 @ =gVramGraphicsCopyCursor
 	mov sl, r4
 	ldr r7, _080BBA9C @ =gVramGraphicsCopyQueueIndex
 	mov ip, r7
@@ -86,7 +86,7 @@ _080BBA88: .4byte gInput
 _080BBA8C: .4byte sLastCalledVblankFuncId
 _080BBA90: .4byte gUnknown_03003D20
 _080BBA94: .4byte gUnknown_03006840
-_080BBA98: .4byte gUnknown_03006208
+_080BBA98: .4byte gVramGraphicsCopyCursor
 _080BBA9C: .4byte gVramGraphicsCopyQueueIndex
 _080BBAA0: .4byte 0x040000D4
 _080BBAA4: .4byte 0x0600C000
@@ -1898,7 +1898,7 @@ _080BC9D8: .4byte REG_IF
 	thumb_func_start sub_80BC9DC
 sub_80BC9DC: @ 0x080BC9DC
 	push {r4, r5, r6, r7, lr}
-	ldr r2, _080BCA28 @ =gUnknown_03006208
+	ldr r2, _080BCA28 @ =gVramGraphicsCopyCursor
 	ldr r0, _080BCA2C @ =gVramGraphicsCopyQueueIndex
 	ldrb r1, [r2]
 	adds r7, r0, #0
@@ -1938,7 +1938,7 @@ _080BCA08:
 	adds r0, r0, r1
 	b _080BCA5C
 	.align 2, 0
-_080BCA28: .4byte gUnknown_03006208
+_080BCA28: .4byte gVramGraphicsCopyCursor
 _080BCA2C: .4byte gVramGraphicsCopyQueueIndex
 _080BCA30: .4byte gVramGraphicsCopyQueue
 _080BCA34: .4byte 0x040000D4

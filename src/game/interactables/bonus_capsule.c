@@ -861,7 +861,7 @@ void Task_803A8A8(void)
     sub_803B288();
 }
 
-#if 01
+#if 0
 void Task_803A978(void)
 {
     Capsule *cap = TASK_DATA(gCurTask);
