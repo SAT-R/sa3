@@ -78,12 +78,14 @@ u8 sub_803B070(Capsule *cap);
 void sub_803B1A4(Capsule *cap);
 void sub_803B23C(Sprite *s);
 void sub_803B288(void);
+void sub_803B354(void);
 void sub_803B498(void);
 void sub_803B6E8(Capsule *cap, s16 worldX, s16 worldY);
 void sub_803B804(void);
 void sub_803B910(void);
 void sub_803BB60(void);
 void sub_803BC0C(void);
+void sub_803BDA0(void);
 void sub_803BE48(void);
 void sub_803BE9C(Sprite *s);
 void sub_803BEE0(Sprite *s);
@@ -861,23 +863,23 @@ void Task_803A8A8(void)
     sub_803B288();
 }
 
-#if 0
 void Task_803A978(void)
 {
     Capsule *cap = TASK_DATA(gCurTask);
 
-    if(cap->unkD == 1) {
+    if (cap->unkD == 1) {
         cap->unkD = 2;
 
-        if(cap->unk18 == 0) {
-            if(UpdateScreenFade(&cap->fade) != SCREEN_FADE_RUNNING) {
+        if (cap->unk18 == 0) {
+            if (UpdateScreenFade(&cap->fade) != SCREEN_FADE_RUNNING) {
                 TasksDestroyAll();
 
                 gUnknown_03003F94 = gUnknown_03003D20;
                 gUnknown_03006840 = 0;
                 gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
 
-
+                sub_8002210(gStageData.zone * 10 + 2, 6);
+                return;
             }
         } else {
             --cap->unk18;
@@ -890,4 +892,41 @@ void Task_803A978(void)
     sub_803B498();
     sub_803B288();
 }
+
+void Task_803AA28(void)
+{
+    Capsule *cap = TASK_DATA(gCurTask);
+
+    cap->unk2C++;
+
+    if (cap->unkD == 1) {
+        cap->unkD = 2;
+
+        if (cap->unk18 == 0) {
+            if (UpdateScreenFade(&cap->fade) != SCREEN_FADE_RUNNING) {
+                TasksDestroyAll();
+
+                gUnknown_03003F94 = gUnknown_03003D20;
+                gUnknown_03006840 = 0;
+                gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+
+                sub_8002210(gStageData.zone * 10 + 2, 6);
+                return;
+            }
+        } else {
+            --cap->unk18;
+        }
+    }
+
+    sub_803BDA0();
+    sub_803B804();
+    sub_803B910();
+    sub_803BB60();
+    sub_803BC0C();
+    sub_803BF78(1);
+    sub_803B498();
+    sub_803B354();
+}
+
+#if 01
 #endif
