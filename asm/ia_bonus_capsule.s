@@ -184,7 +184,7 @@ _0803AE56:
 	bne _0803AE6E
 	b _0803AFBC
 _0803AE6E:
-	ldr r1, [sp, #8]
+	ldr r1, [sp, #8]		@ r1 = sp08 = arr
 	adds r0, r4, r1
 	ldr r0, [r0]
 	cmp r0, #0
@@ -246,7 +246,7 @@ _0803AED8:
 	cmp r2, #0
 	beq _0803AFBC
 _0803AEDC:
-	ldr r3, [sp, #4]
+	ldr r3, [sp, #4]		@ r3 = sp04 = cap
 	ldrb r1, [r3, #0xe]
 	ldr r0, [sp, #0x10]     @ r0 = sp10 = i
 	cmp r1, r0
@@ -295,18 +295,18 @@ _0803AF20:
 	lsrs r2, r2, #0x18
 	bl sub_803BC80
 _0803AF3A:
-	ldr r0, [sp, #8]
+	ldr r0, [sp, #8]		@ r0 = sp08 = arr
 	adds r1, r4, r0
 	movs r0, #1
 	str r0, [r1]
 	movs r0, #0xff
-	mov r1, sl
+	mov r1, sl				@ r1 = sl = s
 	strb r0, [r1, #0x1b]
 	ldrb r0, [r1, #0x1a]
 	adds r0, #1
 	movs r4, #0             @ r4 = 0
 	strb r0, [r1, #0x1a]
-	mov r2, r8
+	mov r2, r8				@ r2 = r8 = 
 	ldr r3, [sp, #0x10]     @ r3 = sp10 = i
 	subs r1, r2, r3
 	lsls r1, r1, #2

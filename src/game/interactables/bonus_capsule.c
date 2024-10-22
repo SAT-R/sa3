@@ -30,7 +30,7 @@ typedef struct {
     /* 0x00D */ u8 unkD;
     /* 0x00E */ u8 unkE;
     /* 0x00F */ u8 unkF;
-    /* 0x010 */ s8 unk10;
+    /* 0x010 */ s8 unk10; // score
     /* 0x011 */ s8 unk11;
     /* 0x012 */ u8 unk12;
     /* 0x013 */ u8 unk13;
@@ -1035,6 +1035,7 @@ END_NONMATCH
 
 #if 0
 extern const u16 gUnknown_080CF850[5][2];
+extern void sub_803BC80(u16 param0, u16 param1, u8 param2);
 void sub_803AD38(Capsule *cap, Player *p, u32 *arr, u32 param3)
 {
     s32 i;
@@ -1049,7 +1050,7 @@ void sub_803AD38(Capsule *cap, Player *p, u32 *arr, u32 param3)
 
         if((sp14) && (cap->unkEC[(r8 - i)].unk0 != 2) && (arr[i] == 0) && (param3 != 0)){
             // _0803AE82
-            bool32 r2;
+            u32 r2;
             bool32 r5 = FALSE;
             bool32 r6 = FALSE;
 
@@ -1068,11 +1069,17 @@ void sub_803AD38(Capsule *cap, Player *p, u32 *arr, u32 param3)
 
             if(i == 0) {
                 r2 = FALSE;
+
+				if(!r5 || !r6) {
+                    if ((p->qSpeedAirY >= 0) && p->qWorldY >= Q(48)) {
+						goto _0803AEDC;
+					}
+				}
             } else {
                 // _0803AED0
-                r2 = FALSE;
+                r2 = TRUE;
                 if(r5) {
-                    r2 = TRUE;
+                    r2 = FALSE;
                 }
             }
 
@@ -1087,9 +1094,34 @@ void sub_803AD38(Capsule *cap, Player *p, u32 *arr, u32 param3)
                 p->spr6C = s;
 #endif
             }
-            
-            // _0803AEDC
+		_0803AEDC:
 
+			if(cap->unkE == i) {
+				cap->unkF = 19;
+				cap->unkE = -1;
+
+				// Switch-hit scores (1 - 3)
+				r2 = 3;
+				if (cap->unkEC[r8 - i].unk4 > 60) {
+					r2 = 1;
+				} else if(cap->unkEC[r8 - i].unk4 <= 120) {
+					r2 = 2;
+				}
+				// _0803AF0C
+
+				if(p->moveState & MOVESTATE_IGNORE_INPUT) {
+					cap->unk10 += r2;
+				}
+				// _0803AF20
+				
+				sub_803BC80(gUnknown_080CF850[i][0], gUnknown_080CF850[i][1], r2--);
+
+			}
+			// _0803AF3A
+            arr[i] = 1;
+            s->prevVariant = -1;
+            s->variant++;
+			
         } else if(res & 0x10000) {
 _0803AFBC:
             p->qWorldY += Q_8_8(res);
