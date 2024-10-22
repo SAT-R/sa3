@@ -507,11 +507,7 @@ gTileInfoAnimals:
 
     .global gUnknown_080CF850
 gUnknown_080CF850:
-    .incbin "baserom.gba", 0x000CF850, 0x2
-
-    .global gUnknown_080CF852
-gUnknown_080CF852:
-    .incbin "baserom.gba", 0x000CF852, 0x12
+    .2byte 0x0090, 0x003E, 0x0070, 0x0060, 0x005A, 0x0080, 0x00B0, 0x0060, 0x00C6, 0x0080
 
     .global gUnknown_080CF864
 gUnknown_080CF864:

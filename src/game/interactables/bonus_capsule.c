@@ -18,11 +18,11 @@
 #include "constants/zones.h"
 
 typedef struct {
-    u32 unk0;
-    u8 unk4;
-    u8 filler5[0xF];
-    Sprite s;
-} CapsuleEC;
+    /* 0x00 */ u32 unk0;
+    /* 0x04 */ u8 unk4;
+    /* 0x05 */ u8 filler5[0xF];
+    /* 0x14 */ Sprite s;
+} CapsuleEC; /* 0x3C */
 
 typedef struct {
     /* 0x000 */ SpriteBase base;
@@ -1034,4 +1034,90 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AAE8.inc", v
 END_NONMATCH
 
 #if 0
+extern const u16 gUnknown_080CF850[5][2];
+void sub_803AD38(Capsule *cap, Player *p, u32 *arr, u32 param3)
+{
+    s32 i;
+
+    for(i = 0; i < (s32)ARRAY_COUNT(gUnknown_080CF850); i++) {
+        Sprite *s = &cap->unkEC[i].s;
+        u16 r8 = gUnknown_080CF850[i][0];
+        u16 r5 = gUnknown_080CF850[i][1];
+
+        bool32 sp14 = sub_8020E3C(s, r8, r5, 0, p);
+        u32 res = sub_8020950(s, r8, r5, p, 0);
+
+        if((sp14) && (cap->unkEC[(r8 - i)].unk0 != 2) && (arr[i] == 0) && (param3 != 0)){
+            // _0803AE82
+            bool32 r2;
+            bool32 r5 = FALSE;
+            bool32 r6 = FALSE;
+
+            if((p->charFlags.anim0 == 170)
+            || (p->charFlags.anim0 == 256)
+            || (p->charFlags.anim0 == 187)
+            || (p->charFlags.anim0 == 229))
+            {
+                r5 = TRUE;
+            }
+
+            if(p->charFlags.anim0 == 255) {
+                r6 = TRUE;
+            }
+            // _0803AEA8
+
+            if(i == 0) {
+                r2 = FALSE;
+            } else {
+                // _0803AED0
+                r2 = FALSE;
+                if(r5) {
+                    r2 = TRUE;
+                }
+            }
+
+            if(!r2) {
+#if 1
+                goto _0803AFBC;
+#else
+                p->qWorldY += Q_8_8(res);
+                p->moveState |= MOVESTATE_20;
+                p->moveState &= ~MOVESTATE_IN_AIR;
+
+                p->spr6C = s;
+#endif
+            }
+            
+            // _0803AEDC
+
+        } else if(res & 0x10000) {
+_0803AFBC:
+            p->qWorldY += Q_8_8(res);
+            p->moveState |= MOVESTATE_20;
+            p->moveState &= ~MOVESTATE_IN_AIR;
+
+            p->spr6C = s;
+        } else if(res & 0x80000) {
+            // _0803AFE2+0xA
+            if((p->keyInput & DPAD_RIGHT) && !(p->moveState & MOVESTATE_IN_AIR)) {
+                p->qWorldX += Q(1);
+                p->moveState |= MOVESTATE_40;
+            }
+            
+            p->qWorldX += (s16)(res & 0xFF00);
+            p->qSpeedGround = Q(0);
+        } else if(res & 0x40000) {
+            // _0803B008+0xA
+            if((p->keyInput & DPAD_LEFT) && !(p->moveState & MOVESTATE_IN_AIR)){
+                p->qWorldX -= Q(1);
+                p->moveState |= MOVESTATE_40;
+            }
+            // _0803B02A
+            
+            // TODO: proper Q(resA)
+            p->qWorldX += (s16)(res & 0xFF00);
+            p->qSpeedGround = Q(0);
+        }
+    }
+}
 #endif

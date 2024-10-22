@@ -23,8 +23,6 @@ gUnknown_08E2E550:
 .arm
 
 .if 01
-.endif
-
 	thumb_func_start sub_803AD38
 sub_803AD38: @ 0x0803AD38
 	push {r4, r5, r6, r7, lr}
@@ -33,50 +31,50 @@ sub_803AD38: @ 0x0803AD38
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0x18
-	str r0, [sp, #4]
-	adds r7, r1, #0
-	str r2, [sp, #8]
-	str r3, [sp, #0xc]
+	str r0, [sp, #4]        @ sp04 = cap
+	adds r7, r1, #0         @ r7 = p
+	str r2, [sp, #8]        @ sp08 = arr
+	str r3, [sp, #0xc]      @ sp0C = param3
 	movs r0, #0
-	str r0, [sp, #0x10]
+	str r0, [sp, #0x10]     @ sp10 = i
 _0803AD50:
 	ldr r1, [sp, #0x10]
 	lsls r1, r1, #4
-	mov sb, r1
-	ldr r2, [sp, #0x10]
+	mov sb, r1              @ sb = r1 = i * 16
+	ldr r2, [sp, #0x10]     @ r2 = i
 	subs r0, r1, r2
-	lsls r0, r0, #2
-	ldr r3, [sp, #4]
+	lsls r0, r0, #2         @ r0 = i * 60
+	ldr r3, [sp, #4]        @ r3 = sp04 = cap
 	adds r0, r0, r3
 	movs r1, #0x80
 	lsls r1, r1, #1
-	adds r1, r1, r0
-	mov sl, r1
-	lsls r4, r2, #2
+	adds r1, r1, r0         @ r1 = cap + 0x100 + i * 0x3C
+	mov sl, r1              @ sl = s = &cap->unkEC[i].s
+	lsls r4, r2, #2         @ r4 = i * 4
 	ldr r2, _0803ADD4 @ =gUnknown_080CF850
 	adds r0, r4, r2
 	ldrh r0, [r0]
-	mov r8, r0
-	ldr r3, _0803ADD8 @ =gUnknown_080CF852
+	mov r8, r0              @ r8 = gUnknown_080CF850[i][0];
+	ldr r3, _0803ADD8 @ =gUnknown_080CF850+0x2
 	adds r0, r4, r3
-	ldrh r5, [r0]
-	movs r6, #0
+	ldrh r5, [r0]           @ r5 = gUnknown_080CF850[i][1];
+	movs r6, #0             @ r6 = 0
 	str r7, [sp]
 	mov r0, sl
 	mov r1, r8
 	adds r2, r5, #0
 	movs r3, #0
 	bl sub_8020E3C
-	str r0, [sp, #0x14]
+	str r0, [sp, #0x14]     @ sp14 = sp14 = sub_8020E3C(s, r8, r5, 0, p);
 	str r6, [sp]
 	mov r0, sl
 	mov r1, r8
 	adds r2, r5, #0
 	adds r3, r7, #0
 	bl sub_8020950
-	adds r3, r0, #0
-	mov r8, sb
-	ldr r0, [sp, #0x10]
+	adds r3, r0, #0         @ r3 = res
+	mov r8, sb              @ r8 = sb * 16
+	ldr r0, [sp, #0x10]     @ r0 = sp10 = i
 	cmp r0, #0
 	bne _0803AE28
 	movs r0, #0xc0
@@ -105,7 +103,7 @@ _0803AD50:
 	b _0803ADFE
 	.align 2, 0
 _0803ADD4: .4byte gUnknown_080CF850
-_0803ADD8: .4byte gUnknown_080CF852
+_0803ADD8: .4byte gUnknown_080CF850+0x2
 _0803ADDC:
 	movs r0, #0x80
 	lsls r0, r0, #0xb
@@ -166,15 +164,15 @@ _0803AE28:
 	str r1, [r7, #4]
 	mov r3, sl
 	str r3, [r7, #0x6c]
-	b _0803B04A
+	b _0803B04A_continue
 _0803AE4E:
-	ldr r0, [sp, #0x14]
+	ldr r0, [sp, #0x14]     @ r0 = sp14
 	cmp r0, #0
 	bne _0803AE56
 	b _0803AFBC
 _0803AE56:
 	mov r1, r8
-	ldr r2, [sp, #0x10]
+	ldr r2, [sp, #0x10]     @ r2 = sp10 = i
 	subs r0, r1, r2
 	lsls r0, r0, #2
 	ldr r1, [sp, #4]
@@ -220,7 +218,7 @@ _0803AEA2:
 	bne _0803AEA8
 	movs r6, #1
 _0803AEA8:
-	ldr r1, [sp, #0x10]
+	ldr r1, [sp, #0x10]     @ r1 = sp10 = i
 	cmp r1, #0
 	bne _0803AED0
 	cmp r5, #0
@@ -250,7 +248,7 @@ _0803AED8:
 _0803AEDC:
 	ldr r3, [sp, #4]
 	ldrb r1, [r3, #0xe]
-	ldr r0, [sp, #0x10]
+	ldr r0, [sp, #0x10]     @ r0 = sp10 = i
 	cmp r1, r0
 	bne _0803AF3A
 	movs r0, #0x13
@@ -259,7 +257,7 @@ _0803AEDC:
 	orrs r0, r1
 	strb r0, [r3, #0xe]
 	mov r1, r8
-	ldr r2, [sp, #0x10]
+	ldr r2, [sp, #0x10]     @ r2 = sp10 = i
 	subs r0, r1, r2
 	lsls r0, r0, #2
 	adds r0, r3, r0
@@ -288,7 +286,7 @@ _0803AF20:
 	adds r0, r4, r1
 	movs r3, #0
 	ldrsh r0, [r0, r3]
-	ldr r3, _0803AF94 @ =gUnknown_080CF852
+	ldr r3, _0803AF94 @ =gUnknown_080CF850+0x2
 	adds r1, r4, r3
 	movs r3, #0
 	ldrsh r1, [r1, r3]
@@ -306,10 +304,10 @@ _0803AF3A:
 	strb r0, [r1, #0x1b]
 	ldrb r0, [r1, #0x1a]
 	adds r0, #1
-	movs r4, #0
+	movs r4, #0             @ r4 = 0
 	strb r0, [r1, #0x1a]
 	mov r2, r8
-	ldr r3, [sp, #0x10]
+	ldr r3, [sp, #0x10]     @ r3 = sp10 = i
 	subs r1, r2, r3
 	lsls r1, r1, #2
 	ldr r2, [sp, #4]
@@ -328,7 +326,7 @@ _0803AF3A:
 	movs r0, #4
 	orrs r1, r0
 	str r1, [r7, #4]
-	ldr r3, [sp, #0x10]
+	ldr r3, [sp, #0x10]     @ r3 = sp10 = i
 	cmp r3, #0
 	bne _0803AFA0
 	adds r0, r7, #0
@@ -337,27 +335,27 @@ _0803AF3A:
 	movs r0, #0xfe
 	lsls r0, r0, #8
 	strh r0, [r7, #0x1a]
-	b _0803B04A
+	b _0803B04A_continue
 	.align 2, 0
 _0803AF90: .4byte gUnknown_080CF850
-_0803AF94: .4byte gUnknown_080CF852
+_0803AF94: .4byte gUnknown_080CF850+0x2
 _0803AF98: .4byte 0x0000020B
 _0803AF9C: .4byte sub_80072D8
 _0803AFA0:
-	ldr r0, [sp, #0x10]
+	ldr r0, [sp, #0x10]     @ r0 = sp10 = i
 	cmp r0, #2
 	bhi _0803AFB4
-	strh r4, [r7, #0x1c]
+	strh r4, [r7, #0x1c]    @ r4 = 0
 	ldr r0, _0803AFB0 @ =0x0000FF80
 	strh r0, [r7, #0x18]
-	b _0803B04A
+	b _0803B04A_continue
 	.align 2, 0
 _0803AFB0: .4byte 0x0000FF80
 _0803AFB4:
-	strh r4, [r7, #0x1c]
+	strh r4, [r7, #0x1c]    @ r4 = 0
 	movs r0, #0x80
 	strh r0, [r7, #0x18]
-	b _0803B04A
+	b _0803B04A_continue
 _0803AFBC:
 	movs r0, #0x80
 	lsls r0, r0, #9
@@ -377,7 +375,7 @@ _0803AFBC:
 	str r1, [r7, #4]
 	mov r1, sl
 	str r1, [r7, #0x6c]
-	b _0803B04A
+	b _0803B04A_continue
 _0803AFE2:
 	movs r0, #0x80
 	lsls r0, r0, #0xc
@@ -403,7 +401,7 @@ _0803B008:
 	lsls r0, r0, #0xb
 	ands r0, r3
 	cmp r0, #0
-	beq _0803B04A
+	beq _0803B04A_continue
 	ldrh r1, [r7, #0x1e]
 	movs r0, #0x20
 	ands r0, r1
@@ -434,12 +432,12 @@ _0803B034:
 	str r0, [r7, #0x10]
 	movs r2, #0
 	strh r2, [r7, #0x1c]
-_0803B04A:
+_0803B04A_continue:
 	ldr r0, [sp, #0x10]
 	adds r0, #1
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
-	str r0, [sp, #0x10]
+	str r0, [sp, #0x10]     @ i++
 	cmp r0, #4
 	bhi _0803B05A
 	b _0803AD50
@@ -454,6 +452,7 @@ _0803B05A:
 	bx r0
 	.align 2, 0
 _0803B06C: .4byte 0xFFFFFF00
+.endif
 
 	thumb_func_start sub_803B070
 sub_803B070: @ 0x0803B070
