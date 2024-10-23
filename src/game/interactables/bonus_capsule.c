@@ -17,6 +17,8 @@
 #include "constants/songs.h"
 #include "constants/zones.h"
 
+#define NUM_SWITCHES 5
+
 typedef struct {
     /* 0x00 */ u32 unk0;
     /* 0x04 */ u8 unk4;
@@ -54,7 +56,7 @@ typedef struct {
     /* 0x0AC */ void *unkAC;
     /* 0x0B0 */ Sprite s;
     /* 0x0D8 */ u8 fillerD8[0x14];
-    /* 0x0EC */ CapSwitch switches[5];
+    /* 0x0EC */ CapSwitch switches[NUM_SWITCHES];
     /* 0x218 */ Sprite sprTimer[21];
     /* 0x560 */ Sprite s2;
     /* 0x588 */ Sprite s3;
@@ -98,7 +100,7 @@ void sub_803BF20(Sprite *s, u8, u32);
 
 extern TileInfo sTileInfoTimerDigits[21];
 
-extern const s16 gUnknown_080CF850[5][2];
+extern const s16 sSwitchesScreenPositions[5][2];
 
 // const u8 gUnknown_080CF864[7] = {5, 8, 12, 15, 18, 22, 25};
 extern const u8 gUnknown_080CF864[7];
@@ -1042,10 +1044,10 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AD38.inc",
 {
     u8 i;
 
-    for (i = 0; i < (s32)ARRAY_COUNT(gUnknown_080CF850); i++) {
+    for (i = 0; i < (s32)ARRAY_COUNT(sSwitchesScreenPositions); i++) {
         Sprite *s = &cap->switches[i].s;
-        u16 r8 = gUnknown_080CF850[i][0];
-        u16 r5 = gUnknown_080CF850[i][1];
+        u16 r8 = sSwitchesScreenPositions[i][0];
+        u16 r5 = sSwitchesScreenPositions[i][1];
 
         bool32 sp14 = sub_8020E3C(s, r8, r5, 0, p);
         u32 res = sub_8020950(s, r8, r5, p, 0);
@@ -1120,7 +1122,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AD38.inc",
                 }
                 // _0803AF20
 
-                sub_803BC80(gUnknown_080CF850[i][0], gUnknown_080CF850[i][1], --r2);
+                sub_803BC80(sSwitchesScreenPositions[i][0], sSwitchesScreenPositions[i][1], --r2);
             }
             // _0803AF3A
             arr[i] = 1;
@@ -1343,8 +1345,8 @@ void sub_803B288(void)
 
     for (i = 0; i < ARRAY_COUNT(cap->switches); i++) {
         s = &cap->switches[i].s;
-        s->x = gUnknown_080CF850[i][0] - gCamera.x;
-        s->y = gUnknown_080CF850[i][1] - gCamera.y;
+        s->x = sSwitchesScreenPositions[i][0] - gCamera.x;
+        s->y = sSwitchesScreenPositions[i][1] - gCamera.y;
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
     }

@@ -505,13 +505,13 @@ gUnknown_080CF770:
 gTileInfoAnimals:
     .incbin "baserom.gba", 0x000CF7A8, 0xA8
 
-    .global gUnknown_080CF850
-gUnknown_080CF850:
-    .2byte 0x0090, 0x003E
-    .2byte 0x0070, 0x0060
-    .2byte 0x005A, 0x0080
-    .2byte 0x00B0, 0x0060
-    .2byte 0x00C6, 0x0080
+    .global sSwitchesScreenPositions
+sSwitchesScreenPositions:
+    .2byte 144, 62
+    .2byte 112, 96
+    .2byte 90, 128
+    .2byte 176, 96
+    .2byte 198, 128
 
     .global gUnknown_080CF864
 gUnknown_080CF864:

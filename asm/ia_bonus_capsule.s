@@ -1620,7 +1620,7 @@ sub_803BFC4: @ 0x0803BFC4
 	adds r6, r0, #0
 	movs r3, #0
 	movs r4, #0
-	ldr r5, _0803C00C @ =gUnknown_080CF850
+	ldr r5, _0803C00C @ =sSwitchesScreenPositions
 	adds r0, r5, #2
 	mov ip, r0
 	movs r7, #4
@@ -1653,7 +1653,7 @@ _0803BFD4:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0803C00C: .4byte gUnknown_080CF850
+_0803C00C: .4byte sSwitchesScreenPositions
 
 	thumb_func_start sub_803C010
 sub_803C010: @ 0x0803C010
