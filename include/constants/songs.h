@@ -242,7 +242,7 @@
 #define SE_GOAL_RING_RESULT     0x208
 #define SE_BIG_WARP_RING        0x209
 #define SE_BONUS_UFO            0x20A
-#define SE_523                  0x20B // Bonus Capsule switch?
+#define SE_BONUS_CAPSULE_SWITCH 0x20B
 #define SE_BONUS_DEFEATED_ENEMY 0x20C
 #define SE_BONUS_1UP_COUNTER    0x20D
 #define SE_526                  0x20E

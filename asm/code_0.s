@@ -14475,8 +14475,8 @@ _080072CC: .4byte 0x08040000
 _080072D0: .4byte 0xFFFFBFFF
 _080072D4: .4byte sub_800DFA0
 
-	thumb_func_start sub_80072D8
-sub_80072D8: @ 0x080072D8
+	thumb_func_start Player_80072D8
+Player_80072D8: @ 0x080072D8
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r0, _08007350 @ =gStageData
