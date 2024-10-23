@@ -1036,7 +1036,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AAE8.inc", v
 }
 END_NONMATCH
 
-#if 01
+// (66.04%) https://decomp.me/scratch/hrvSx
 NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AD38.inc",
          void sub_803AD38(Capsule *cap, Player *p, u32 *arr, u32 param3))
 {
@@ -1179,4 +1179,6 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AD38.inc",
     }
 }
 END_NONMATCH
+
+#if 01
 #endif
