@@ -22,7 +22,7 @@ typedef struct {
     /* 0x04 */ u8 unk4;
     /* 0x05 */ u8 filler5[0xF];
     /* 0x14 */ Sprite s;
-} CapsuleEC; /* 0x3C */
+} CapSwitch; /* 0x3C */
 
 typedef struct {
     /* 0x000 */ SpriteBase base;
@@ -54,7 +54,7 @@ typedef struct {
     /* 0x0AC */ void *unkAC;
     /* 0x0B0 */ Sprite s;
     /* 0x0D8 */ u8 fillerD8[0x14];
-    /* 0x0EC */ CapsuleEC unkEC[5];
+    /* 0x0EC */ CapSwitch switches[5];
     /* 0x218 */ Sprite sprTimer[21];
     /* 0x560 */ Sprite s2;
     /* 0x588 */ Sprite s3;
@@ -73,7 +73,7 @@ void Task_803A6DC(void);
 void Task_803A8A8(void);
 void Task_803A978(void);
 void sub_803AAE8(Capsule *cap, Player *p, u8 param2);
-u8 sub_803B070(Capsule *cap);
+u32 sub_803B070(Capsule *cap);
 void sub_803B1A4(Capsule *cap);
 void sub_803B23C(Sprite *s);
 void sub_803B288(void);
@@ -206,12 +206,12 @@ void CreateEntity_BonusCapsule(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         sub_8039D60(&cap->sprTimer[i], i, cap->sprTimer[0].tiles);
     }
 
-    for (i = 0; i < (s32)ARRAY_COUNT(cap->unkEC); i++) {
+    for (i = 0; i < (s32)ARRAY_COUNT(cap->switches); i++) {
         u16 r2;
 
-        s = &cap->unkEC[i].s;
-        cap->unkEC[i].unk0 = 0;
-        cap->unkEC[i].unk4 = 0;
+        s = &cap->switches[i].s;
+        cap->switches[i].unk0 = 0;
+        cap->switches[i].unk4 = 0;
 
         r2 = 0;
         if (i > 2) {
@@ -241,8 +241,8 @@ void TaskDestructor_BonusCapsule(struct Task *t)
         sub_80C60B0(&cap->unkAC, 1);
     }
 
-    for (i = 0; i < (s32)ARRAY_COUNT(cap->unkEC); i++) {
-        VramFree(cap->unkEC[i].s.tiles);
+    for (i = 0; i < (s32)ARRAY_COUNT(cap->switches); i++) {
+        VramFree(cap->switches[i].s.tiles);
     }
 
     VramFree(cap->sprTimer->tiles);
@@ -992,7 +992,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AAE8.inc", v
     } else if (resA & 0x80000) {
         // _0803AC24+0xC
 
-        if ((p->keyInput & DPAD_RIGHT) && (p->spr6C == &cap->unkEC[1].s)) {
+        if ((p->keyInput & DPAD_RIGHT) && (p->spr6C == &cap->switches[1].s)) {
             p->qWorldX += Q(1);
             p->moveState |= MOVESTATE_40;
         }
@@ -1003,7 +1003,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AAE8.inc", v
         asm("");
     } else if (resA & 0x40000) {
         // _0803AC62+0xE
-        if ((p->keyInput & DPAD_LEFT) && (p->spr6C == &cap->unkEC[3].s)) {
+        if ((p->keyInput & DPAD_LEFT) && (p->spr6C == &cap->switches[3].s)) {
             p->qWorldX -= Q(1);
             p->moveState |= MOVESTATE_40;
         }
@@ -1043,7 +1043,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AD38.inc",
     u8 i;
 
     for (i = 0; i < (s32)ARRAY_COUNT(gUnknown_080CF850); i++) {
-        Sprite *s = &cap->unkEC[i].s;
+        Sprite *s = &cap->switches[i].s;
         u16 r8 = gUnknown_080CF850[i][0];
         u16 r5 = gUnknown_080CF850[i][1];
 
@@ -1051,7 +1051,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AD38.inc",
         u32 res = sub_8020950(s, r8, r5, p, 0);
         u8 unkEC_4;
 
-        if ((sp14) && (cap->unkEC[(r8 - i)].unk0 != 2) && (arr[i] == 0) && (param3 != 0)) {
+        if ((sp14) && (cap->switches[(r8 - i)].unk0 != 2) && (arr[i] == 0) && (param3 != 0)) {
             // _0803AE82
             u32 r2;
             bool32 r5 = FALSE;
@@ -1101,7 +1101,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AD38.inc",
 
                 // Switch-hit scores (1 - 3)
 #if 01
-                unkEC_4 = cap->unkEC[r8 - i].unk4;
+                unkEC_4 = cap->switches[r8 - i].unk4;
                 r2 = 3;
                 if (unkEC_4 > 60) {
                     if (unkEC_4 <= 120) {
@@ -1111,7 +1111,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AD38.inc",
                     }
                 }
 #else
-                r2 = (cap->unkEC[r8 - i].unk4 > 60) ? ((cap->unkEC[r8 - i].unk4 <= 120) ? 2 : 1) : 3;
+                r2 = (cap->switches[r8 - i].unk4 > 60) ? ((cap->switches[r8 - i].unk4 <= 120) ? 2 : 1) : 3;
 #endif
                 // _0803AF0C
 
@@ -1127,8 +1127,8 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AD38.inc",
             s->prevVariant = -1;
             s->variant++;
 
-            cap->unkEC[r8 - i].unk4 = 0;
-            cap->unkEC[r8 - i].unk0 = 2;
+            cap->switches[r8 - i].unk4 = 0;
+            cap->switches[r8 - i].unk0 = 2;
             sub_8003DF0(SE_BONUS_CAPSULE_SWITCH);
 
             p->moveState &= ~MOVESTATE_10;
@@ -1179,6 +1179,176 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AD38.inc",
     }
 }
 END_NONMATCH
+
+u32 sub_803B070(Capsule *cap)
+{
+    u32 switchId;
+    CapSwitch *swit;
+    Sprite *s;
+
+    if ((cap->unkF == 0) || (--cap->unkF != 0)) {
+        return 0xFF;
+    }
+
+    switchId = PseudoRandom32();
+    switchId = (switchId >> 8) % 8u;
+
+    switch (switchId) {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4: {
+            ;
+        } break;
+
+        case 5: {
+            switchId = 0;
+        } break;
+
+        case 6: {
+            switchId = 1;
+        } break;
+
+        case 7: {
+            switchId = 2;
+        } break;
+    }
+
+    swit = &cap->switches[switchId];
+    s = &swit->s;
+    s->prevVariant = -1;
+    s->anim = ANIM_BONUS_CAPSULE_SWITCH;
+    s->variant = (switchId == 0) ? 0 : 11;
+    swit->unk4 = 0;
+    swit->unk0 = 1;
+
+    return switchId;
+}
+
+// Unused, inline?
+void sub_803B118(Capsule *cap, u8 i)
+{
+    CapSwitch *swit;
+    Sprite *s;
+
+    if ((cap->unkE == 0xFF) || i == cap->unkE) {
+        return;
+    }
+
+    swit = &cap->switches[cap->unkE];
+    s = &swit->s;
+
+    swit->unk0 = 0;
+    swit->unk4 = 0;
+
+    s->anim = ANIM_BONUS_CAPSULE_SWITCH;
+    s->variant = (cap->unkE == 0) ? 9 : 20;
+    s->prevVariant = -1;
+    UpdateSpriteAnimation(s);
+
+    if (i != 0xFF) {
+        swit = &cap->switches[i];
+        s = &swit->s;
+
+        swit->unk4 = 0;
+        swit->unk0 = 1;
+
+        s->anim = ANIM_BONUS_CAPSULE_SWITCH;
+        s->variant = (i == 0) ? 0 : 11;
+        s->prevVariant = -1;
+
+        UpdateSpriteAnimation(s);
+    }
+
+    cap->unkF = 0;
+    cap->unkE = i;
+}
+
+void sub_803B1A4(Capsule *cap)
+{
+    u8 i;
+
+    for (i = 0; i < ARRAY_COUNT(cap->switches); i++) {
+        CapSwitch *swit = &cap->switches[i];
+        Sprite *s = &swit->s;
+
+        if (swit->unk0 != 0) {
+            if (swit->unk4 < 255) {
+                swit->unk4++;
+            }
+
+            if (swit->unk0 == 2) {
+                if (swit->unk4 > 19) {
+                    s->prevVariant = -1;
+
+                    s->anim = ANIM_BONUS_CAPSULE_SWITCH;
+                    s->variant = (i == 0) ? 9 : 20;
+                    swit->unk0 = 0;
+                    swit->unk4 = 0;
+                }
+            } else if (swit->unk4 == 60) {
+                s->prevVariant = -1;
+
+                s->anim = ANIM_BONUS_CAPSULE_SWITCH;
+                s->variant = (i == 0) ? 3 : 14;
+            } else if (swit->unk4 == 120) {
+                s->prevVariant = -1;
+
+                s->anim = ANIM_BONUS_CAPSULE_SWITCH;
+                s->variant = (i == 0) ? 6 : 17;
+            }
+        }
+    }
+}
+
+void sub_803B23C(Sprite *s)
+{
+    s->tiles = VramMalloc(gUnknown_080CF770[0].numTiles);
+    s->anim = gUnknown_080CF770[6].anim;
+    s->variant = gUnknown_080CF770[6].variant;
+    s->oamFlags = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->x = (DISPLAY_WIDTH / 2);
+    s->y = (DISPLAY_HEIGHT / 2);
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+    UpdateSpriteAnimation(s);
+}
+
+void sub_803B288(void)
+{
+    Capsule *cap = TASK_DATA(gCurTask);
+    Sprite *s = &cap->s;
+    MapEntity *me = cap->base.me;
+    s16 worldX, worldY;
+    u8 i;
+
+    worldX = TO_WORLD_POS(cap->base.spriteX, cap->base.regionX);
+    worldY = TO_WORLD_POS(me->y, cap->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    UpdateSpriteAnimation(s);
+
+    SPRITE_FLAG_SET(s, X_FLIP);
+    DisplaySprite(s);
+
+    SPRITE_FLAG_CLEAR(s, X_FLIP);
+    DisplaySprite(s);
+
+    for (i = 0; i < ARRAY_COUNT(cap->switches); i++) {
+        s = &cap->switches[i].s;
+        s->x = gUnknown_080CF850[i][0] - gCamera.x;
+        s->y = gUnknown_080CF850[i][1] - gCamera.y;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
 
 #if 01
 #endif
