@@ -527,7 +527,11 @@ gUnknown_080CF870:
 
     .global gUnknown_080CF8A0
 gUnknown_080CF8A0:
-    .incbin "baserom.gba", 0x000CF8A0, 0x1C
+    .byte 1, 1, 1, 1
+
+    .global gUnknown_080CF8A4
+gUnknown_080CF8A4:
+    .incbin "baserom.gba", 0x000CF8A4, 0x18
 
     .global gUnknown_080CF8BC
 gUnknown_080CF8BC:

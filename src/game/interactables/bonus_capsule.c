@@ -43,14 +43,8 @@ typedef struct {
     /* 0x01C */ Vec2_32 playerPos[NUM_SINGLE_PLAYER_CHARS]; // TODO: Not a pos?
     /* 0x02C */ u16 unk2C;
     /* 0x02E */ u16 unk2E;
-    /* 0x030 */ s16 unk30;
-    /* 0x032 */ s16 unk32;
-    /* 0x034 */ s16 unk34;
-    /* 0x036 */ s16 unk36;
-    /* 0x038 */ s32 qUnk38;
-    /* 0x03C */ s32 qUnk3C;
-    /* 0x040 */ s32 qUnk40;
-    /* 0x044 */ s32 qUnk44;
+    /* 0x030 */ s16 qUnk30[2][2];
+    /* 0x038 */ s32 qUnk38[2][2];
     /* 0x048 */ u8 filler48[0x60];
     /* 0x0A8 */ void *unkA8;
     /* 0x0AC */ void *unkAC;
@@ -115,6 +109,8 @@ extern const u8 gUnknown_080CF864[7];
 extern const u8 gUnknown_080CF86B[5];
 extern const u16 gUnknown_080CF870[6][2][2];
 extern const TileInfo gUnknown_080CF770[7];
+extern const u8 gUnknown_080CF8A0[0x4];
+extern const u8 gUnknown_080CF8A4[0x18]; // Unused?
 
 extern const u8 gUnknown_08E2DEF4[];
 extern const u8 gUnknown_08E2E134[];
@@ -174,10 +170,10 @@ void CreateEntity_BonusCapsule(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     cap->unk2E = 60;
 
     cap->spr628[0].tiles = NULL;
-    cap->unk30 = -Q(1);
-    cap->unk32 = -Q(6);
-    cap->unk34 = +Q(1);
-    cap->unk36 = -Q(6);
+    cap->qUnk30[0][0] = -Q(1);
+    cap->qUnk30[0][1] = -Q(6);
+    cap->qUnk30[1][0] = +Q(1);
+    cap->qUnk30[1][1] = -Q(6);
 
     fade->window = 0;
     fade->flags = SCREEN_FADE_FLAG_2;
@@ -190,10 +186,10 @@ void CreateEntity_BonusCapsule(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     worldY32 = TO_WORLD_POS(me->y, regionY);
     s->y = worldY32;
 
-    cap->qUnk38 = Q(s->x);
-    cap->qUnk3C = Q(s->y);
-    cap->qUnk40 = Q(s->x);
-    cap->qUnk44 = Q(s->y);
+    cap->qUnk38[0][0] = Q(s->x);
+    cap->qUnk38[0][1] = Q(s->y);
+    cap->qUnk38[1][0] = Q(s->x);
+    cap->qUnk38[1][1] = Q(s->y);
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
@@ -1351,6 +1347,55 @@ void sub_803B288(void)
         DisplaySprite(s);
     }
 }
+
+// (98.91%) https://decomp.me/scratch/fR98n
+NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803B354.inc", void sub_803B354(void))
+{
+    Capsule *cap;
+    u8 arr[4];
+    // u8 arr2[4];
+    Vec2_32 screenPos; // sp08
+    u8 i;
+
+    memcpy(arr, gUnknown_080CF8A0, sizeof(arr));
+
+    cap = TASK_DATA(gCurTask);
+
+    if (cap->unk2E != 0) {
+        u32 val;
+        // _0803B37E
+        --cap->unk2E;
+
+        for (i = 0; i < 2; i++) {
+            cap->qUnk30[i][1] += Q(0.25);
+            cap->qUnk38[i][0] += cap->qUnk30[i][0];
+            cap->qUnk38[i][1] += cap->qUnk30[i][1];
+
+            // val = cap->unk2E;
+            if ((cap->unk2E & 0x2) != 0) {
+                if (i == 0) {
+                    sub_80C4EB0(&cap->unkA8, 1, 0);
+
+                    screenPos.x = Q(I(cap->qUnk38[0][0]) - gCamera.x);
+                    screenPos.y = Q(I(cap->qUnk38[0][1]) - gCamera.y);
+
+                    sub_80C59E8(&cap->unkA8, 1, (void *)&screenPos, (void *)&arr, 0);
+                }
+            } else {
+                // _0803B444
+                if (i == 1) {
+                    sub_80C4EB0(&cap->unkAC, 1, 0);
+
+                    screenPos.x = Q(I(cap->qUnk38[1][0]) - gCamera.x);
+                    screenPos.y = Q(I(cap->qUnk38[1][1]) - gCamera.y);
+
+                    sub_80C59E8(&cap->unkAC, 1, (void *)&screenPos, (void *)&arr, 0);
+                }
+            }
+        }
+    }
+}
+END_NONMATCH
 
 #if 01
 #endif
