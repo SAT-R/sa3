@@ -23,8 +23,6 @@ gUnknown_08E2E550:
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start sub_803B498
 sub_803B498: @ 0x0803B498
 	push {r4, r5, r6, r7, lr}
@@ -35,11 +33,11 @@ sub_803B498: @ 0x0803B498
 	ldr r0, _0803B5FC @ =gCurTask
 	ldr r0, [r0]
 	ldrh r0, [r0, #6]
-	mov sl, r0
+	mov sl, r0          @ sl = gCurTask->offset
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	add r0, sl
-	mov r8, r0
+	mov r8, r0          @ r8 = cap
 	movs r1, #0x16
 	ldrsh r5, [r0, r1]
 	adds r0, r5, #0
@@ -48,14 +46,14 @@ sub_803B498: @ 0x0803B498
 	adds r4, r0, #0
 	movs r1, #0x3c
 	bl Div
-	ldr r2, _0803B600 @ =gUnknown_080CF9AE
+	ldr r2, _0803B600 @ =sFrameCountPerSecond
 	lsls r0, r0, #1
 	adds r1, r0, r2
 	movs r3, #0
 	ldrsh r1, [r1, r3]
 	subs r4, r4, r1
 	lsls r4, r4, #1
-	mov sb, r4
+	mov sb, r4          @ sb = r4 = secondsPerMinute
 	add r2, sb
 	movs r3, #0
 	ldrsh r1, [r2, r3]
@@ -63,7 +61,7 @@ sub_803B498: @ 0x0803B498
 	ldr r1, _0803B604 @ =gUnknown_080CFA28
 	adds r0, r0, r1
 	ldrh r0, [r0]
-	subs r5, r5, r0
+	subs r5, r5, r0     @ r5 = timer -= gUnknown_080CFA28[secondsPerMinute];
 	ldr r7, _0803B608 @ =0x03000538
 	add r7, sl
 	movs r0, #0x80
@@ -195,7 +193,7 @@ _0803B5EE:
 	b _0803B61E
 	.align 2, 0
 _0803B5FC: .4byte gCurTask
-_0803B600: .4byte gUnknown_080CF9AE
+_0803B600: .4byte sFrameCountPerSecond
 _0803B604: .4byte gUnknown_080CFA28
 _0803B608: .4byte 0x03000538
 _0803B60C: .4byte gUnknown_080CF936
@@ -228,7 +226,7 @@ _0803B63C:
 	adds r0, r4, #0
 	movs r1, #0xa
 	bl __divsi3
-	adds r5, r0, #0
+	adds r5, r0, #0     @ r5 = tens = r4 / 10;
 	lsls r0, r5, #2
 	adds r1, r0, r5
 	lsls r0, r1, #1
@@ -313,6 +311,7 @@ _0803B6C0:
 	pop {r4, r5, r6, r7}
 	pop {r0}
 	bx r0
+.endif
 
 	thumb_func_start sub_803B6E8
 sub_803B6E8: @ 0x0803B6E8

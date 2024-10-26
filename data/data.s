@@ -493,6 +493,7 @@ gUnknown_080CF690:
 gUnknown_080CF69C:
     .incbin "baserom.gba", 0x000CF69C, 0x2C
 
+@ Bonus Capsule Data Start
     .global sTileInfoTimerDigits
 sTileInfoTimerDigits:
     .incbin "baserom.gba", 0x000CF6C8, 21*8
@@ -529,6 +530,7 @@ gUnknown_080CF870:
 gUnknown_080CF8A0:
     .byte 1, 1, 1, 1
 
+    @ Appears to be unused?
     .global gUnknown_080CF8A4
 gUnknown_080CF8A4:
     .incbin "baserom.gba", 0x000CF8A4, 0x18
@@ -541,8 +543,8 @@ gUnknown_080CF8BC:
 gUnknown_080CF936:
     .incbin "baserom.gba", 0x000CF936, 0x78
 
-    .global gUnknown_080CF9AE
-gUnknown_080CF9AE:
+    .global sFrameCountPerSecond
+sFrameCountPerSecond:
     .incbin "baserom.gba", 0x000CF9AE, 0x7A
 
     .global gUnknown_080CFA28

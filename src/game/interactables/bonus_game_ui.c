@@ -976,7 +976,7 @@ void InitCountdownDigitSprite(Sprite *s)
 }
 
 extern u8 gUnknown_080CF936[120];
-extern s16 gUnknown_080CF9AE[61];
+extern s16 sFrameCountPerSecond[61];
 extern u8 gUnknown_080CF8BC[122];
 // (91.70%) https://decomp.me/scratch/Mzfqn
 NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__sub_803D4C8.inc", void sub_803D4C8(void))
@@ -989,7 +989,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__sub_803D4C8.inc", v
     u8 i;
 
     r4 = ui->timer;
-    r4 -= gUnknown_080CF9AE[r4 / 60];
+    r4 -= sFrameCountPerSecond[r4 / 60];
 
     s = &ui->sprTimer[ARRAY_COUNT(ui->sprTimer) - 1];
     s->x = 128;

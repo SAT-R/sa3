@@ -17,7 +17,7 @@
 	adds r0, r4, #0
 	movs r1, #0x3c
 	bl Div
-	ldr r1, _0803D5E8 @ =gUnknown_080CF9AE
+	ldr r1, _0803D5E8 @ =sFrameCountPerSecond
 	lsls r0, r0, #1
 	mov sb, r0
 	add r1, sb
@@ -133,7 +133,7 @@ _0803D5B2:
 	b _0803D5FE
 	.align 2, 0
 _0803D5E4: .4byte gCurTask
-_0803D5E8: .4byte gUnknown_080CF9AE
+_0803D5E8: .4byte sFrameCountPerSecond
 _0803D5EC: .4byte 0x03000338
 _0803D5F0: .4byte gUnknown_080CF936
 _0803D5F4: .4byte gUnknown_080CF8BC

@@ -34,7 +34,7 @@ typedef struct {
     /* 0x00F */ u8 unkF;
     /* 0x010 */ s8 unk10; // score
     /* 0x011 */ s8 unk11;
-    /* 0x012 */ u8 unk12;
+    /* 0x012 */ s8 unk12;
     /* 0x013 */ u8 unk13;
     /* 0x014 */ u8 unk14;
     /* 0x015 */ u8 unk15;
@@ -92,7 +92,7 @@ void TaskDestructor_BonusCapsule(struct Task *);
 void sub_8039D60(Sprite *s, u8, void *tiles);
 void sub_803BF20(Sprite *s, u8, u32);
 
-extern TileInfo sTileInfoTimerDigits[21];
+extern const TileInfo sTileInfoTimerDigits[21];
 
 extern const s16 sSwitchesScreenPositions[5][2];
 
@@ -1398,4 +1398,114 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803B354.inc", v
 END_NONMATCH
 
 #if 01
+extern const u8 gUnknown_080CF8BC[61][2];
+extern const u8 gUnknown_080CF936[60][2];
+extern const s16 sFrameCountPerSecond[61];
+extern const u16 gUnknown_080CFA28[61];
+void sub_803B498(void)
+{
+    Capsule *cap = TASK_DATA(gCurTask);
+    s32 seconds, minutes, secondsPerMinute, frames, timer;
+    Sprite *s;
+    u8 i;
+
+    timer = cap->timer;
+    seconds = Div(timer, GBA_FRAMES_PER_SECOND);
+    minutes = Div(seconds, GBA_FRAMES_PER_SECOND);
+    secondsPerMinute = sFrameCountPerSecond[minutes];
+    frames = sFrameCountPerSecond[seconds - secondsPerMinute];
+
+    timer -= frames;
+    timer -= gUnknown_080CFA28[secondsPerMinute];
+
+    s = &cap->sprTimer[ARRAY_COUNT(cap->sprTimer) - 1];
+
+    s->x = 128;
+    s->y = 22;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &cap->sprTimer[gUnknown_080CF936[timer][0]];
+    s->x = 134;
+    s->y = 18;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &cap->sprTimer[gUnknown_080CF936[timer][1]];
+    s->x = 140;
+    s->y = 18;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    if (gUnknown_080CF8BC[frames][0]) {
+        s = &cap->sprTimer[gUnknown_080CF8BC[frames][0]];
+        s->x = 112;
+        s->y = 14;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+    // _0803B584
+
+    s = &cap->sprTimer[gUnknown_080CF8BC[frames][1]];
+    s->x = 120;
+    s->y = 14;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &cap->s2;
+    s->x = 200;
+    s->y = 14;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    if (cap->unk12 < cap->unk10 && (--cap->unk13 == 0)) {
+        cap->unk13 = 8;
+        cap->unk12++;
+    }
+    //_0803B5EC
+
+    for (i = 0; i < 2; i++) {
+        s8 r0;
+        s8 sb;
+        s32 r4 = (i != 0) ? cap->unk11 : cap->unk12;
+        s32 tens, ones;
+
+        if (r4 > 99) {
+            r4 = 99;
+        }
+        // _0803B624
+
+        if ((i == 0) && (cap->unk13 != 8)) {
+            r0 = cap->unk13 >> 1;
+        } else {
+            r0 = 0;
+        }
+        // _0803B63C
+
+        sb = r0;
+
+        tens = r4 / 10;
+
+        r4 -= tens * 10;
+
+        if (tens != 0) {
+            s = &cap->sprTimer[tens];
+            s->x = (i != 0) ? 210 : 180;
+            s->y = ((i != 0) ? 17 : 11) - sb;
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+        }
+        // _0803B68A
+
+        s = &cap->sprTimer[r4];
+        if ((tens == 0) && (i != 0)) {
+            s->x = 210;
+        } else {
+            s->x = (i != 0) ? 220 : 190;
+        }
+        s->y = ((i != 0) ? 17 : 11) - sb;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
 #endif

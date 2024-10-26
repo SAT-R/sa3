@@ -69518,7 +69518,7 @@ _08021AA8:
 	movs r1, #0x3c
 	bl Div
 	str r0, [sp]
-	ldr r2, _08021D38 @ =gUnknown_080CF9AE
+	ldr r2, _08021D38 @ =sFrameCountPerSecond
 	lsls r1, r0, #1
 	adds r0, r1, r2
 	movs r3, #0
@@ -69810,7 +69810,7 @@ _08021CBE:
 	.align 2, 0
 _08021D30: .4byte gStageData
 _08021D34: .4byte gCurTask
-_08021D38: .4byte gUnknown_080CF9AE
+_08021D38: .4byte sFrameCountPerSecond
 _08021D3C: .4byte gUnknown_080CFA28
 _08021D40: .4byte 0x00007E8F
 _08021D44: .4byte 0x000087EF
@@ -70446,7 +70446,7 @@ sub_8022234: @ 0x08022234
 	movs r1, #0x3c
 	bl Div
 	str r0, [sp]
-	ldr r2, _08022538 @ =gUnknown_080CF9AE
+	ldr r2, _08022538 @ =sFrameCountPerSecond
 	lsls r1, r0, #1
 	adds r0, r1, r2
 	movs r3, #0
@@ -70784,7 +70784,7 @@ _080224E8:
 	.align 2, 0
 _08022530: .4byte gCurTask
 _08022534: .4byte gStageData
-_08022538: .4byte gUnknown_080CF9AE
+_08022538: .4byte sFrameCountPerSecond
 _0802253C: .4byte gUnknown_080CFA28
 _08022540: .4byte 0x00007E90
 _08022544: .4byte 0x000087EF
