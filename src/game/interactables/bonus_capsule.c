@@ -35,7 +35,7 @@ typedef struct {
     /* 0x010 */ s8 unk10; // score
     /* 0x011 */ s8 unk11;
     /* 0x012 */ s8 unk12;
-    /* 0x013 */ u8 unk13;
+    /* 0x013 */ s8 unk13;
     /* 0x014 */ u8 unk14;
     /* 0x015 */ u8 unk15;
     /* 0x016 */ s16 timer;
@@ -111,6 +111,10 @@ extern const u16 gUnknown_080CF870[6][2][2];
 extern const TileInfo gUnknown_080CF770[7];
 extern const u8 gUnknown_080CF8A0[0x4];
 extern const u8 gUnknown_080CF8A4[0x18]; // Unused?
+extern const u8 gUnknown_080CF8BC[61][2];
+extern const u8 gUnknown_080CF936[60][2];
+extern const s16 sFrameCountPerSecond[61];
+extern const u16 gUnknown_080CFA28[61];
 
 extern const u8 gUnknown_08E2DEF4[];
 extern const u8 gUnknown_08E2E134[];
@@ -1397,11 +1401,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803B354.inc", v
 }
 END_NONMATCH
 
-#if 01
-extern const u8 gUnknown_080CF8BC[61][2];
-extern const u8 gUnknown_080CF936[60][2];
-extern const s16 sFrameCountPerSecond[61];
-extern const u16 gUnknown_080CFA28[61];
+// ShowSprites() ?
 void sub_803B498(void)
 {
     Capsule *cap = TASK_DATA(gCurTask);
@@ -1413,10 +1413,11 @@ void sub_803B498(void)
     seconds = Div(timer, GBA_FRAMES_PER_SECOND);
     minutes = Div(seconds, GBA_FRAMES_PER_SECOND);
     secondsPerMinute = sFrameCountPerSecond[minutes];
-    frames = sFrameCountPerSecond[seconds - secondsPerMinute];
+    seconds -= secondsPerMinute;
+    frames = sFrameCountPerSecond[seconds];
 
     timer -= frames;
-    timer -= gUnknown_080CFA28[secondsPerMinute];
+    timer -= gUnknown_080CFA28[minutes];
 
     s = &cap->sprTimer[ARRAY_COUNT(cap->sprTimer) - 1];
 
@@ -1437,16 +1438,15 @@ void sub_803B498(void)
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
-    if (gUnknown_080CF8BC[frames][0]) {
-        s = &cap->sprTimer[gUnknown_080CF8BC[frames][0]];
+    if (gUnknown_080CF8BC[seconds][0]) {
+        s = &cap->sprTimer[gUnknown_080CF8BC[seconds][0]];
         s->x = 112;
         s->y = 14;
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
     }
-    // _0803B584
 
-    s = &cap->sprTimer[gUnknown_080CF8BC[frames][1]];
+    s = &cap->sprTimer[gUnknown_080CF8BC[seconds][1]];
     s->x = 120;
     s->y = 14;
     UpdateSpriteAnimation(s);
@@ -1462,10 +1462,9 @@ void sub_803B498(void)
         cap->unk13 = 8;
         cap->unk12++;
     }
-    //_0803B5EC
 
     for (i = 0; i < 2; i++) {
-        s8 r0;
+        u8 r0;
         s8 sb;
         s32 r4 = (i != 0) ? cap->unk11 : cap->unk12;
         s32 tens, ones;
@@ -1473,14 +1472,8 @@ void sub_803B498(void)
         if (r4 > 99) {
             r4 = 99;
         }
-        // _0803B624
 
-        if ((i == 0) && (cap->unk13 != 8)) {
-            r0 = cap->unk13 >> 1;
-        } else {
-            r0 = 0;
-        }
-        // _0803B63C
+        r0 = ((i == 0) && (cap->unk13 != 8)) ? cap->unk13 >> 1 : 0;
 
         sb = r0;
 
@@ -1495,7 +1488,6 @@ void sub_803B498(void)
             UpdateSpriteAnimation(s);
             DisplaySprite(s);
         }
-        // _0803B68A
 
         s = &cap->sprTimer[r4];
         if ((tens == 0) && (i != 0)) {
@@ -1508,4 +1500,6 @@ void sub_803B498(void)
         DisplaySprite(s);
     }
 }
+
+#if 01
 #endif
