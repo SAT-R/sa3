@@ -45,7 +45,8 @@ typedef struct {
     /* 0x02E */ u16 unk2E;
     /* 0x030 */ s16 qUnk30[2][2];
     /* 0x038 */ s32 qUnk38[2][2];
-    /* 0x048 */ u8 filler48[0x60];
+    /* 0x048 */ s16 unk48[8][2];
+    /* 0x068 */ s32 unk68[8][2];
     /* 0x0A8 */ void *unkA8;
     /* 0x0AC */ void *unkAC;
     /* 0x0B0 */ Sprite s;
@@ -94,6 +95,7 @@ void sub_803BF20(Sprite *s, u8, u32);
 
 extern const TileInfo sTileInfoTimerDigits[21];
 
+extern TileInfo gTileInfoAnimals[NUM_COURSE_ZONES][3];
 extern const s16 sSwitchesScreenPositions[5][2];
 
 // const u8 gUnknown_080CF864[7] = {5, 8, 12, 15, 18, 22, 25};
@@ -115,6 +117,8 @@ extern const u8 gUnknown_080CF8BC[61][2];
 extern const u8 gUnknown_080CF936[60][2];
 extern const s16 sFrameCountPerSecond[61];
 extern const u16 gUnknown_080CFA28[61];
+// const s16 gUnknown_080CFA3E[8] = {+Q(1.00), -Q(1.00), +Q(1.25), -Q(1.25), +Q(1.50), -Q(1.50), +Q(1.75), -Q(1.75) }; // Q_8_8
+extern const s16 gUnknown_080CFA3E[8]; // Q_8_8
 
 extern const u8 gUnknown_08E2DEF4[];
 extern const u8 gUnknown_08E2E134[];
@@ -1500,6 +1504,46 @@ void sub_803B498(void)
         DisplaySprite(s);
     }
 }
+
+// (91.03%) https://decomp.me/scratch/cTZQD
+NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803B6E8.inc", void sub_803B6E8(Capsule *cap, s16 worldX, s16 worldY))
+{
+    u8 i;
+    void *tiles;
+
+    for (i = 0; i < 8; i++) {
+        u8 i2;
+        cap->unk48[i][0] = gUnknown_080CFA3E[i];
+        cap->unk48[i][1] = (i != 0) ? -Q(4.75) : -Q(4.50);
+
+        cap->unk68[i][0] = Q(((i & 1) == 0) ? worldX - ((i / 2) * 6) : worldX + ((i / 2) * 6));
+        cap->unk68[i][1] = Q(worldY) + Q(23);
+    }
+
+    // NOTE: All animals have only 3 frames a 4 tiles.
+    // TODO: Why does it allocate one extra frame's # of tiles?
+    tiles = VramMalloc(4 * MAX_TILES(ANIM_ANIMAL));
+
+    for (i = 0; i < 3; i++) {
+        Sprite *s = &cap->spr5B0[i];
+
+        s->tiles = tiles;
+        tiles += MAX_TILES(ANIM_ANIMAL) * TILE_SIZE_4BPP;
+
+        s->anim = gTileInfoAnimals[gStageData.zone][i].anim;
+        s->variant = gTileInfoAnimals[gStageData.zone][i].variant;
+        s->oamFlags = SPRITE_OAM_ORDER(2);
+        s->animCursor = 0;
+        s->qAnimDelay = Q(0);
+        s->prevVariant = -1;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+        s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+        UpdateSpriteAnimation(s);
+    }
+}
+END_NONMATCH
 
 #if 01
 #endif

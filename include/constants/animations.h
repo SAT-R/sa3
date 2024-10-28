@@ -15,6 +15,9 @@
 
 #define ANIM_CHAR_133 133
 
+// Rescued animals
+#define ANIM_ANIMAL 840
+
 // UI elements etc.
 #define ANIM_CHAOS_EMERALD_BIG 854
 #define ANIM_ARROWUP           855

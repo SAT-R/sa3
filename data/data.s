@@ -551,6 +551,7 @@ sFrameCountPerSecond:
 gUnknown_080CFA28:
     .incbin "baserom.gba", 0x000CFA28, 0x16
 
+    @ s16 Q_8_8 values
     .global gUnknown_080CFA3E
 gUnknown_080CFA3E:
     .incbin "baserom.gba", 0x000CFA3E, 0x10
