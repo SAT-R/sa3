@@ -1546,4 +1546,38 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803B6E8.inc", v
 END_NONMATCH
 
 #if 01
+// (86.91%) https://decomp.me/scratch/SQgwy
+NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803B804.inc", void sub_803B804(void))
+{
+    Capsule *cap = TASK_DATA(gCurTask);
+    u8 maximum = MIN((cap->unk2C / 4), 8);
+    u8 i;
+    s32 res;
+
+    for (i = 0; i < maximum; i++) {
+        cap->unk48[i][1] += Q(0.25);
+        cap->unk68[i][0] += cap->unk48[i][0];
+        cap->unk68[i][1] += cap->unk48[i][1];
+
+        res = sub_8052418(I(cap->unk68[i][1]), I(cap->unk68[i][0]), 1, +8, sub_8051F54);
+
+        if ((res < 0) && (cap->unk48[i][0] > 0)) {
+            cap->unk68[i][1] += Q(res);
+
+            if (cap->unk68[i][0] > Q(200)) {
+                if (cap->unk48[i][0] > 0) {
+                    cap->unk48[i][0] = -cap->unk48[i][0];
+                }
+            } else if (cap->unk68[i][0] < Q(80)) {
+                if (cap->unk48[i][0] < 0) {
+                    cap->unk48[i][0] = -cap->unk48[i][0];
+                }
+            }
+            // _0803B8D2
+
+            cap->unk48[i][1] = -Q(4.5) - (Q((i % 4u)) >> 2);
+        }
+    }
+}
+END_NONMATCH
 #endif
