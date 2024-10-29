@@ -940,45 +940,42 @@ void Task_803AA28(void)
     sub_803B354();
 }
 
-// (78.88%) https://decomp.me/scratch/WBFUW
+// (87.34%) https://decomp.me/scratch/LQxHe
 NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AAE8.inc", void sub_803AAE8(Capsule *cap, Player *p, u8 pid))
 {
     Sprite *s = &cap->s;
     MapEntity *me = cap->base.me;
 
     s32 worldX = TO_WORLD_POS(cap->base.spriteX, cap->base.regionX);
-    s32 worldY = TO_WORLD_POS(cap->base.me->y, cap->base.regionY);
-    s32 playerX, playerY;
+    s32 worldY = TO_WORLD_POS(me->y, cap->base.regionY);
     u32 resA, resB;
 
-    playerX = cap->playerPos[pid].x;
-    resA = sub_803C094(s, 0, worldX, worldY);
-    playerY = cap->playerPos[pid].y;
-    resB = sub_803C094(s, 1, worldX, worldY);
+    resA = sub_803C094(s, 0, worldX, worldY, p, cap->playerPos[pid].x);
+    resB = sub_803C094(s, 1, worldX, worldY, p, cap->playerPos[pid].y);
 
     cap->playerPos[pid].x = 0;
     cap->playerPos[pid].y = 0;
 
-    if (resA & 0x10000) {
+    if(resA & 0x10000) {
         p->qWorldY += Q_8_8(resA);
-
+        
         cap->playerPos[pid].x = 1;
 
         p->moveState |= MOVESTATE_20;
         p->moveState &= ~MOVESTATE_IN_AIR;
         p->spr6C = s;
-    } else if (resB & 0x10000) {
+    } else if(resB & 0x10000) {
         // _0803AB8A+0x8
-        p->qWorldY += Q_8_8(resA);
-
+        p->qWorldY += Q_8_8(resB);
+        
         cap->playerPos[pid].y = 1;
 
         p->moveState |= MOVESTATE_20;
         p->moveState &= ~MOVESTATE_IN_AIR;
         p->spr6C = s;
 
-        if (resA & 0x80000) {
-            if (p->keyInput & DPAD_RIGHT) {
+        if(resA & 0x80000) {
+            if(p->keyInput & DPAD_RIGHT) {
                 p->qWorldX += Q(1);
                 p->moveState |= MOVESTATE_40;
             }
@@ -986,23 +983,23 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AAE8.inc", v
             // TODO: proper Q(resA)
             p->qWorldX += resA & 0xFF00;
             p->qSpeedGround = Q(0);
-        } else if (resA & 0x40000) {
+        } else if(resA & 0x40000) {
             // _0803ABF0
-
-            if (p->keyInput & DPAD_LEFT) {
+            
+            if(p->keyInput & DPAD_LEFT) {
                 p->qWorldX -= Q(1);
                 p->moveState |= MOVESTATE_40;
             }
             // _0803AC08
-
+            
             p->qWorldX += (s16)(resA & 0xFF00);
             p->qSpeedGround = Q(0);
             asm("");
         }
-    } else if (resA & 0x80000) {
+    } else if(resA & 0x80000) {
         // _0803AC24+0xC
-
-        if ((p->keyInput & DPAD_RIGHT) && (p->spr6C == &cap->switches[1].s)) {
+        
+        if((p->keyInput & DPAD_RIGHT) && (p->spr6C == &cap->unkEC[1].s)){
             p->qWorldX += Q(1);
             p->moveState |= MOVESTATE_40;
         }
@@ -1011,19 +1008,19 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AAE8.inc", v
         p->qWorldX += (s16)(resA & 0xFF00);
         p->qSpeedGround = Q(0);
         asm("");
-    } else if (resA & 0x40000) {
+    } else if(resA & 0x40000) {
         // _0803AC62+0xE
-        if ((p->keyInput & DPAD_LEFT) && (p->spr6C == &cap->switches[3].s)) {
+        if((p->keyInput & DPAD_LEFT) && (p->spr6C == &cap->unkEC[3].s)){
             p->qWorldX -= Q(1);
             p->moveState |= MOVESTATE_40;
         }
-
+        
         // TODO: proper Q(resA)
         p->qWorldX += (s16)(resA & 0xFF00);
         p->qSpeedGround = Q(0);
-    } else if (resB & 0x80000) {
+    } else if(resB & 0x80000) {
         // _0803ACB4
-        if (p->keyInput & DPAD_RIGHT) {
+        if(p->keyInput & DPAD_RIGHT) {
             p->qWorldX += Q(1);
             p->moveState |= MOVESTATE_40;
         }
@@ -1031,14 +1028,14 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AAE8.inc", v
         // TODO: proper Q(resA)
         p->qWorldX += (s16)(resB & 0xFF00);
         p->qSpeedGround = Q(0);
-    } else if (resB & 0x40000) {
+    } else if(resB & 0x40000) {
         // _0803ACEE
-
-        if (p->keyInput & DPAD_LEFT) {
+        
+        if(p->keyInput & DPAD_LEFT) {
             p->qWorldX -= Q(1);
             p->moveState |= MOVESTATE_40;
         }
-
+        
         // TODO: proper Q(resA)
         p->qWorldX += (s16)(resB & 0xFF00);
         p->qSpeedGround = Q(0);
