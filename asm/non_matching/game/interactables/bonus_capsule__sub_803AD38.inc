@@ -27,13 +27,13 @@ _0803AD50:
 	adds r1, r1, r0         @ r1 = cap + 0x100 + i * 0x3C
 	mov sl, r1              @ sl = s = &cap->unkEC[i].s
 	lsls r4, r2, #2         @ r4 = i * 4
-	ldr r2, _0803ADD4 @ =sSwitchesScreenPositions
+	ldr r2, _0803ADD4 @ =sSwitchesPositions
 	adds r0, r4, r2
 	ldrh r0, [r0]
-	mov r8, r0              @ r8 = sSwitchesScreenPositions[i][0];
-	ldr r3, _0803ADD8 @ =sSwitchesScreenPositions+0x2
+	mov r8, r0              @ r8 = sSwitchesPositions[i][0];
+	ldr r3, _0803ADD8 @ =sSwitchesPositions+0x2
 	adds r0, r4, r3
-	ldrh r5, [r0]           @ r5 = sSwitchesScreenPositions[i][1];
+	ldrh r5, [r0]           @ r5 = sSwitchesPositions[i][1];
 	movs r6, #0             @ r6 = 0
 	str r7, [sp]
 	mov r0, sl
@@ -78,8 +78,8 @@ _0803AD50:
 	lsls r2, r2, #1
 	b _0803ADFE
 	.align 2, 0
-_0803ADD4: .4byte sSwitchesScreenPositions
-_0803ADD8: .4byte sSwitchesScreenPositions+0x2
+_0803ADD4: .4byte sSwitchesPositions
+_0803ADD8: .4byte sSwitchesPositions+0x2
 _0803ADDC:
 	movs r0, #0x80
 	lsls r0, r0, #0xb
@@ -258,18 +258,18 @@ _0803AF0C:
 	adds r0, r2, r0
 	strb r0, [r3, #0x10]
 _0803AF20:
-	ldr r1, _0803AF90 @ =sSwitchesScreenPositions
+	ldr r1, _0803AF90 @ =sSwitchesPositions
 	adds r0, r4, r1
 	movs r3, #0
 	ldrsh r0, [r0, r3]
-	ldr r3, _0803AF94 @ =sSwitchesScreenPositions+0x2
+	ldr r3, _0803AF94 @ =sSwitchesPositions+0x2
 	adds r1, r4, r3
 	movs r3, #0
 	ldrsh r1, [r1, r3]
 	subs r2, #1
 	lsls r2, r2, #0x18
 	lsrs r2, r2, #0x18
-	bl sub_803BC80
+	bl CreatePointsPopUp
 _0803AF3A:
 	ldr r0, [sp, #8]		@ r0 = sp08 = arr
 	adds r1, r4, r0
@@ -313,8 +313,8 @@ _0803AF3A:
 	strh r0, [r7, #0x1a]
 	b _0803B04A_continue
 	.align 2, 0
-_0803AF90: .4byte sSwitchesScreenPositions
-_0803AF94: .4byte sSwitchesScreenPositions+0x2
+_0803AF90: .4byte sSwitchesPositions
+_0803AF94: .4byte sSwitchesPositions+0x2
 _0803AF98: .4byte 0x0000020B
 _0803AF9C: .4byte Player_80072D8
 _0803AFA0:

@@ -52,7 +52,6 @@ SECTIONS {
         build/sa3/src/game/interactables/platform_crumbling.o(.text);
         build/sa3/asm/ia_grind_rail.o(.text);
         build/sa3/src/game/interactables/bonus_capsule.o(.text);
-        build/sa3/asm/ia_bonus_capsule.o(.text);
         build/sa3/src/game/interactables/bonus_game_ui.o(.text);
         build/sa3/src/game/interactables/081_and_082.o(.text);
         build/sa3/src/game/interactables/085.o(.text);
@@ -554,7 +553,7 @@ SECTIONS {
         build/sa3/src/lib/agb_flash/agb_flash_sst.o(.rodata)
 
         build/sa3/data/data2.o(.rodata);
-        build/sa3/asm/ia_bonus_capsule.o(.rodata);
+        build/sa3/data/ia_bonus_capsule.o(.rodata);
         *tools/agbcc/lib/libgcc.a:_divdi3.o(.rodata);
         *tools/agbcc/lib/libgcc.a:_divsi3.o(.rodata);
 

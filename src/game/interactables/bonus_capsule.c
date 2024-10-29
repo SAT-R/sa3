@@ -24,9 +24,22 @@
 typedef struct {
     /* 0x00 */ u32 unk0;
     /* 0x04 */ u8 unk4;
-    /* 0x05 */ u8 filler5[0xF];
+    /* 0x05 */ s8 unk5;
+    /* 0x06 */ s8 unk6;
+    /* 0x07 */ u8 filler7[0x1];
+    /* 0x08 */ s16 unk8;
+    /* 0x0A */ s16 unkA;
+    /* 0x0C */ s32 unkC;
+    /* 0x10 */ s32 unk10;
     /* 0x14 */ Sprite s;
 } CapSwitch; /* 0x3C */
+
+typedef struct {
+    /* 0x00 */ u16 x;
+    /* 0x02 */ u16 y;
+    /* 0x04 */ s16 unk4;
+    /* 0x08 */ Sprite s;
+} PointsPopUp; /* 0x30 */
 
 typedef struct {
     /* 0x000 */ SpriteBase base;
@@ -42,6 +55,7 @@ typedef struct {
     /* 0x015 */ u8 unk15;
     /* 0x016 */ s16 timer;
     /* 0x018 */ s16 unk18;
+    /* 0x01A */ u8 unk1A;
     /* 0x01C */ Vec2_32 playerPos[NUM_SINGLE_PLAYER_CHARS]; // TODO: Not a pos?
     /* 0x02C */ u16 unk2C;
     /* 0x02E */ u16 unk2E;
@@ -58,12 +72,12 @@ typedef struct {
     /* 0x560 */ Sprite s2;
     /* 0x588 */ Sprite s3;
     /* 0x5B0 */ Sprite spr5B0[3];
-    /* 0x628 */ Sprite spr628[5]; // Switches?
+    /* 0x628 */ Sprite spr628[5];
     /* 0x6F0 */ ScreenFade fade;
     /* 0x6FC */ s32 random;
 } Capsule; /* 0x700 */
 
-s32 sub_803C094(Sprite *s, u8 param1, s32 worldX, s32 worldY);
+s32 sub_803C094(Sprite *s, u8 param1, s32 worldX, s32 worldY, Player *p, s32 playerX);
 void Task_BonusCapsuleMain(void);
 void Task_8039DC0(void);
 void sub_803A3B4(s16);
@@ -90,15 +104,17 @@ void sub_803BEE0(Sprite *s);
 void sub_803BF78(u32 param0);
 void sub_803BFC4(Capsule *cap);
 void sub_803C010(u32 param0);
-void sub_803BC80(s16 param0, s16 param1, u8 param2);
+void CreatePointsPopUp(u16 x, u16 y, u8 variant);
+void Task_PointsPopUp(void);
+void TaskDestructor_PointsPopUp(struct Task *);
 void TaskDestructor_BonusCapsule(struct Task *);
 void sub_8039D60(Sprite *s, u8, void *tiles);
-void sub_803BF20(Sprite *s, u8, u32);
+void sub_803BF20(Sprite *s, u8 id, u32 frameFlags);
 
 extern const TileInfo sTileInfoTimerDigits[21];
 
 extern TileInfo gTileInfoAnimals[NUM_COURSE_ZONES][3];
-extern const s16 sSwitchesScreenPositions[5][2];
+extern const u16 sSwitchesPositions[5][2];
 
 // const u8 gUnknown_080CF864[7] = {5, 8, 12, 15, 18, 22, 25};
 extern const u8 gUnknown_080CF864[7];
@@ -217,17 +233,17 @@ void CreateEntity_BonusCapsule(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     }
 
     for (i = 0; i < (s32)ARRAY_COUNT(cap->switches); i++) {
-        u16 r2;
+        u16 frameFlags;
 
         s = &cap->switches[i].s;
         cap->switches[i].unk0 = 0;
         cap->switches[i].unk4 = 0;
 
-        r2 = 0;
+        frameFlags = 0;
         if (i > 2) {
-            r2 = 0x400;
+            frameFlags = SPRITE_FLAG(X_FLIP, 1);
         }
-        sub_803BF20(s, i, r2);
+        sub_803BF20(s, i, frameFlags);
     }
 
     // Maybe 160 is DISPLAY_HEIGHT?
@@ -999,7 +1015,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AAE8.inc", v
     } else if(resA & 0x80000) {
         // _0803AC24+0xC
         
-        if((p->keyInput & DPAD_RIGHT) && (p->spr6C == &cap->unkEC[1].s)){
+        if((p->keyInput & DPAD_RIGHT) && (p->spr6C == &cap->switches[1].s)){
             p->qWorldX += Q(1);
             p->moveState |= MOVESTATE_40;
         }
@@ -1010,7 +1026,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AAE8.inc", v
         asm("");
     } else if(resA & 0x40000) {
         // _0803AC62+0xE
-        if((p->keyInput & DPAD_LEFT) && (p->spr6C == &cap->unkEC[3].s)){
+        if((p->keyInput & DPAD_LEFT) && (p->spr6C == &cap->switches[3].s)){
             p->qWorldX -= Q(1);
             p->moveState |= MOVESTATE_40;
         }
@@ -1049,14 +1065,14 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AD38.inc",
 {
     u8 i;
 
-    for (i = 0; i < (s32)ARRAY_COUNT(sSwitchesScreenPositions); i++) {
+    for (i = 0; i < (s32)ARRAY_COUNT(sSwitchesPositions); i++) {
         Sprite *s = &cap->switches[i].s;
-        u16 r8 = sSwitchesScreenPositions[i][0];
-        u16 r5 = sSwitchesScreenPositions[i][1];
+        u16 r8 = sSwitchesPositions[i][0];
+        u16 r5 = sSwitchesPositions[i][1];
 
         bool32 sp14 = sub_8020E3C(s, r8, r5, 0, p);
         u32 res = sub_8020950(s, r8, r5, p, 0);
-        u8 unkEC_4;
+        u8 switches_4;
 
         if ((sp14) && (cap->switches[(r8 - i)].unk0 != 2) && (arr[i] == 0) && (param3 != 0)) {
             // _0803AE82
@@ -1108,10 +1124,10 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AD38.inc",
 
                 // Switch-hit scores (1 - 3)
 #if 01
-                unkEC_4 = cap->switches[r8 - i].unk4;
+                switches_4 = cap->switches[r8 - i].unk4;
                 r2 = 3;
-                if (unkEC_4 > 60) {
-                    if (unkEC_4 <= 120) {
+                if (switches_4 > 60) {
+                    if (switches_4 <= 120) {
                         r2 = 2;
                     } else {
                         r2 = 1;
@@ -1127,7 +1143,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AD38.inc",
                 }
                 // _0803AF20
 
-                sub_803BC80(sSwitchesScreenPositions[i][0], sSwitchesScreenPositions[i][1], --r2);
+                CreatePointsPopUp(sSwitchesPositions[i][0], sSwitchesPositions[i][1], --r2);
             }
             // _0803AF3A
             arr[i] = 1;
@@ -1350,8 +1366,8 @@ void sub_803B288(void)
 
     for (i = 0; i < ARRAY_COUNT(cap->switches); i++) {
         s = &cap->switches[i].s;
-        s->x = sSwitchesScreenPositions[i][0] - gCamera.x;
-        s->y = sSwitchesScreenPositions[i][1] - gCamera.y;
+        s->x = sSwitchesPositions[i][0] - gCamera.x;
+        s->y = sSwitchesPositions[i][1] - gCamera.y;
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
     }
@@ -1674,5 +1690,269 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803B910.inc", v
 }
 END_NONMATCH
 
-#if 01
-#endif
+void sub_803BB60(void)
+{
+    Capsule *cap = TASK_DATA(gCurTask);
+    s32 res;
+    u8 i;
+
+    for (i = 0; i < 5; i++) {
+        CapSwitch *swit = &cap->switches[i];
+
+        if (swit->unk5 == 0) {
+            if (swit->unk6 == 0) {
+                continue;
+            }
+
+            swit->unk6--;
+        }
+
+        swit->unkA += 24;
+        swit->unkC += swit->unk8;
+        swit->unk10 += swit->unkA;
+
+        res = sub_8052418(I(swit->unk10), I(swit->unkC), 1, +8, sub_8051F54);
+
+        if ((res < 0) && (swit->unkA > 0)) {
+            s32 unkA = swit->unkA;
+            swit->unkA = (-(swit->unkA * 12 + unkA) >> 4);
+
+            swit->unk10 += Q(res);
+
+            if (swit->unk5 != 0) {
+                swit->unk5--;
+            }
+        }
+    }
+}
+
+void sub_803BC0C(void)
+{
+    Capsule *cap = TASK_DATA(gCurTask);
+    u8 i;
+
+    for (i = 0; i < (s32)ARRAY_COUNT(cap->switches); i++) {
+        CapSwitch *swit = &cap->switches[i];
+
+        if ((swit->unk6 != 0) && ((swit->unk5 != 0) || ((swit->unk6 & 0x2) != 2))) {
+            Sprite *s = &swit->s;
+
+            s->x = I(swit->unkC) - gCamera.x;
+            s->y = I(swit->unk10) - gCamera.y;
+
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+        }
+    }
+}
+
+void CreatePointsPopUp(u16 x, u16 y, u8 variant)
+{
+    struct Task *t = TaskCreate(Task_PointsPopUp, sizeof(PointsPopUp), 0x2100, 0, TaskDestructor_PointsPopUp);
+    PointsPopUp *popup = TASK_DATA(t);
+    Sprite *s = &popup->s;
+
+    popup->x = x;
+    popup->y = y;
+    popup->unk4 = 45;
+
+    s->tiles = ALLOC_TILES(ANIM_BONUS_CAPSULE_POINTS);
+    s->anim = ANIM_BONUS_CAPSULE_POINTS;
+    s->variant = variant;
+    s->oamFlags = SPRITE_OAM_ORDER(2);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    UpdateSpriteAnimation(s);
+}
+
+void Task_PointsPopUp(void)
+{
+    PointsPopUp *popup = TASK_DATA(gCurTask);
+    Sprite *s = &popup->s;
+
+    if (--popup->unk4 == 0) {
+        TaskDestroy(gCurTask);
+        return;
+    } else if ((popup->unk4 >= 20) || !(popup->unk4 & 0x2)) {
+        s->x = (popup->x - gCamera.x);
+        s->y = (popup->y - gCamera.y) - (COS(popup->unk4 * 4) >> 9);
+
+        DisplaySprite(s);
+    }
+}
+
+void sub_803BDA0(void)
+{
+    Capsule *cap = TASK_DATA(gCurTask);
+    Sprite *s;
+
+    s = &cap->spr628[0];
+    DisplaySprite(s);
+    s = &cap->spr628[1];
+    DisplaySprite(s);
+    s = &cap->spr628[2];
+    DisplaySprite(s);
+    s = &cap->spr628[3];
+    DisplaySprite(s);
+    s = &cap->spr628[4];
+
+    if ((cap->unk14 != 0) && (cap->unk15-- == 0)) {
+        cap->unk15 = 20;
+        sub_8003DF0(SE_BONUS_1UP_COUNTER);
+        cap->unk14--;
+
+        s->variant++;
+    }
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void TaskDestructor_PointsPopUp(struct Task *t)
+{
+    PointsPopUp *popup = TASK_DATA(t);
+    VramFree(popup->s.tiles);
+}
+
+void sub_803BE48(void)
+{
+    Capsule *cap = TASK_DATA(gCurTask);
+
+    cap->unk2C++;
+
+    if (--cap->unkD == 0) {
+        cap->unkD = 128;
+        cap->unk15 = 0;
+
+        gCurTask->main = Task_803AA28;
+    }
+
+    sub_803B804();
+    sub_803B910();
+    sub_803BB60();
+    sub_803BC0C();
+    sub_803B498();
+    sub_803B354();
+}
+
+void sub_803BE9C(Sprite *s)
+{
+    s->tiles = ALLOC_TILES(ANIM_BONUS_CAPSULE);
+    s->anim = ANIM_BONUS_CAPSULE;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(21);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->hitboxes[1].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    UpdateSpriteAnimation(s);
+}
+
+void sub_803BEE0(Sprite *s)
+{
+    s->tiles = ALLOC_TILES(ANIM_BONUS_UI_SCORE);
+    s->anim = ANIM_BONUS_UI_SCORE;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(8);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+    UpdateSpriteAnimation(s);
+}
+
+void sub_803BF20(Sprite *s, u8 id, u32 frameFlags)
+{
+    s->tiles = ALLOC_TILES(ANIM_BONUS_CAPSULE_SWITCH);
+    s->anim = ANIM_BONUS_CAPSULE_SWITCH;
+    s->variant = (id == 0) ? 9 : 20;
+    s->oamFlags = SPRITE_OAM_ORDER(22);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 2) | frameFlags;
+    UpdateSpriteAnimation(s);
+}
+
+void sub_803BF78(u32 param0)
+{
+    Capsule *cap = TASK_DATA(gCurTask);
+    Sprite *s;
+
+    if (cap->unkD != 0) {
+        --cap->unkD;
+
+        if ((param0 == 0) && (cap->unkD < 31)) {
+            if (!(cap->unkD & 0x2)) {
+                return;
+            }
+        }
+
+        s = &cap->s3;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
+
+void sub_803BFC4(Capsule *cap)
+{
+    u8 i;
+
+    for (i = 0; i < 5; i++) {
+        CapSwitch *swit = &cap->switches[i];
+        swit->unk8 = 0;
+        swit->unkA = 0;
+        swit->unkC = Q(sSwitchesPositions[i][0]);
+        swit->unk10 = Q(sSwitchesPositions[i][1]);
+        swit->unk5 = 4;
+        swit->unk6 = 60;
+    }
+}
+
+void sub_803C010(u32 param0)
+{
+    u32 arr[5] = {0};
+    Capsule *cap = TASK_DATA(gCurTask);
+    s32 i;
+
+    for(i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        Player *p = GET_SP_PLAYER_V1(i);
+
+        if(!sub_802C0D4(p)) {
+            sub_803AD38(cap, p, arr, param0);
+            sub_803AAE8(cap, p, i);
+        }
+    }
+}
+
+// (98.31) https://decomp.me/scratch/V0Lp2
+NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803C094.inc", s32 sub_803C094(Sprite *s, u8 hbIndex, s32 worldX, s32 worldY, Player *p, s32 playerX))
+{
+    s8 sp0C[] = { -p->unk24, -p->unk25, +p->unk24, +p->unk25 };
+
+    if(!HITBOX_IS_ACTIVE(s->hitboxes[hbIndex]) || (p->moveState & MOVESTATE_100)) {
+        return 0;
+    }
+
+    if(playerX != 0) {
+        p->moveState &= ~MOVESTATE_20;
+        p->moveState |= MOVESTATE_IN_AIR;
+    }
+
+    return sub_8020A58(s, hbIndex, worldX, worldY, sp0C, p, 0);
+}
+END_NONMATCH
