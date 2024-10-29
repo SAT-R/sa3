@@ -92,7 +92,7 @@ typedef struct {
     /* 0x22 */ u8 specialKeys[NUM_COURSE_ZONES]; // 0x22 - 0x28 | Each counter counts for one Zone
     /* 0x29 */ u8 unlockedStages[9]; // 0x29-0x31 | (struct ZoneCompletion)
     /* 0x32 */ u8 collectedEmeralds; // 0x32 | Stored bitwise: x7654321b
-    /* 0x33 */ u8 unk33;
+    /* 0x33 */ u8 unlockables;
     /* 0x34 */ u16 unk34;
     /* 0x36 */ u8 unk36; /* Live count? */
     /* 0x37 */ u8 collectedMedals[9][ACTS_PER_ZONE]; // 0x37 | (struct MedalCollection)
@@ -151,7 +151,7 @@ typedef struct {
 
     // NOTE: These are different from
     //       struct struc_3000530, why?
-    u8 v3D; // v33: struc_3000530
+    u8 unlockables; // v33: struc_3000530
     u8 collectedMedals[9][4]; // 0x3E | v37: struc_3000530
     u16 v62; // v34?: struc_3000530
     u8 vsWins; // v60?: struc_3000530

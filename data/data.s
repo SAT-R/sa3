@@ -558,7 +558,7 @@ gUnknown_080CFA3E:
 
     .global gUnknown_080CFA4E
 gUnknown_080CFA4E:
-    .incbin "baserom.gba", 0x000CFA4E, 0x2
+    .byte +1, -1
 
     .global sBonusLifeIconVariants
 sBonusLifeIconVariants:

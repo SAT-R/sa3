@@ -4,6 +4,7 @@
 #include "flags.h"
 #include "module_unclear.h"
 #include "malloc_vram.h"
+#include "trig.h"
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/player.h"
@@ -18,6 +19,7 @@
 #include "constants/zones.h"
 
 #define NUM_SWITCHES 5
+#define NUM_ANIMALS  8
 
 typedef struct {
     /* 0x00 */ u32 unk0;
@@ -45,8 +47,8 @@ typedef struct {
     /* 0x02E */ u16 unk2E;
     /* 0x030 */ s16 qUnk30[2][2];
     /* 0x038 */ s32 qUnk38[2][2];
-    /* 0x048 */ s16 unk48[8][2];
-    /* 0x068 */ s32 unk68[8][2];
+    /* 0x048 */ s16 unk48[NUM_ANIMALS][2];
+    /* 0x068 */ s32 unk68[NUM_ANIMALS][2];
     /* 0x0A8 */ void *unkA8;
     /* 0x0AC */ void *unkAC;
     /* 0x0B0 */ Sprite s;
@@ -117,8 +119,10 @@ extern const u8 gUnknown_080CF8BC[61][2];
 extern const u8 gUnknown_080CF936[60][2];
 extern const s16 sFrameCountPerSecond[61];
 extern const u16 gUnknown_080CFA28[61];
-// const s16 gUnknown_080CFA3E[8] = {+Q(1.00), -Q(1.00), +Q(1.25), -Q(1.25), +Q(1.50), -Q(1.50), +Q(1.75), -Q(1.75) }; // Q_8_8
-extern const s16 gUnknown_080CFA3E[8]; // Q_8_8
+// const s16 gUnknown_080CFA3E[NUM_ANIMALS] = {+Q(1.00), -Q(1.00), +Q(1.25), -Q(1.25), +Q(1.50), -Q(1.50), +Q(1.75), -Q(1.75) }; // Q_8_8
+extern const s16 gUnknown_080CFA3E[NUM_ANIMALS]; // Q_8_8
+// const s8 gUnknown_080CFA4E[2] = {+1, -1};
+extern const s8 gUnknown_080CFA4E[2];
 
 extern const u8 gUnknown_08E2DEF4[];
 extern const u8 gUnknown_08E2E134[];
@@ -1511,7 +1515,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803B6E8.inc", v
     u8 i;
     void *tiles;
 
-    for (i = 0; i < 8; i++) {
+    for (i = 0; i < NUM_ANIMALS; i++) {
         u8 i2;
         cap->unk48[i][0] = gUnknown_080CFA3E[i];
         cap->unk48[i][1] = (i != 0) ? -Q(4.75) : -Q(4.50);
@@ -1545,12 +1549,11 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803B6E8.inc", v
 }
 END_NONMATCH
 
-#if 01
 // (86.91%) https://decomp.me/scratch/SQgwy
 NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803B804.inc", void sub_803B804(void))
 {
     Capsule *cap = TASK_DATA(gCurTask);
-    u8 maximum = MIN((cap->unk2C / 4), 8);
+    u8 maximum = MIN((cap->unk2C / 4), NUM_ANIMALS);
     u8 i;
     s32 res;
 
@@ -1580,4 +1583,99 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803B804.inc", v
     }
 }
 END_NONMATCH
+
+// (69.31%) https://decomp.me/scratch/5vLMO
+NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803B910.inc", void sub_803B910(void))
+{
+    s8 arr[2];
+    Capsule *cap;
+    MapEntity *me;
+    Sprite *s;
+    s16 worldX, worldY;
+    s16 r3;
+    s16 r7;
+    s16 ip;
+    u8 i;
+
+    memcpy(arr, gUnknown_080CFA4E, sizeof(arr));
+
+    cap = TASK_DATA(gCurTask);
+    me = cap->base.me;
+
+    worldX = TO_WORLD_POS(cap->base.spriteX, cap->base.regionX);
+    worldY = TO_WORLD_POS(me->y, cap->base.regionY);
+
+    for (i = 0; i < (s32)ARRAY_COUNT(cap->spr5B0); i++) {
+        UpdateSpriteAnimation(&cap->spr5B0[i]);
+    }
+
+    for (i = 0; i < NUM_ANIMALS; i++) {
+        s = &cap->spr5B0[0];
+
+        if ((i & 0x2) != 0) {
+            s = &cap->spr5B0[1];
+        }
+
+        s->x = I(cap->unk68[i][0]) - gCamera.x;
+        s->y = I(cap->unk68[i][1]) - gCamera.y;
+
+        if (cap->unk48[i][0] <= 0) {
+            SPRITE_FLAG_CLEAR(s, X_FLIP);
+        } else {
+            SPRITE_FLAG_SET(s, X_FLIP);
+        }
+
+        DisplaySprite(s);
+    }
+
+    if (cap->unk2C < 60) {
+        ip = cap->unk2C * 2;
+        r7 = cap->unk2C / 4;
+        r3 = (cap->unk2C * 5) >> 3;
+    } else {
+        ip = 120;
+        r7 = 15;
+        r3 = 40;
+    }
+    // _0803BA1C
+
+    s = &cap->spr5B0[2];
+
+    for (i = 0; i < NUM_ANIMALS; i++) {
+        s16 screenX = (worldX - gCamera.x);
+        s16 screenY = (worldY - gCamera.y);
+        s16 val = ((cap->unk2C * 5));
+        s32 r1 = I(SIN_24_8(val & ONE_CYCLE) * ip) * arr[i % 2u];
+
+        s->x = screenX + r1;
+
+        val = ((i * 24) + (cap->unk2C * 13));
+        val = COS_24_8(val & ONE_CYCLE);
+        r1 = I(val * r7) * arr[(i >> 1) % 2u];
+
+        s->y = screenY + r1;
+
+        if ((i % 2u) != 0) {
+            s32 val = (r3 - Q(1));
+            if (!(val & 0x200)) {
+                SPRITE_FLAG_SET(s, X_FLIP);
+            } else {
+                SPRITE_FLAG_CLEAR(s, X_FLIP);
+            }
+        } else {
+            s32 val = (r3 - Q(1));
+
+            if ((val & 0x200)) {
+                SPRITE_FLAG_SET(s, X_FLIP);
+            } else {
+                SPRITE_FLAG_CLEAR(s, X_FLIP);
+            }
+        }
+
+        DisplaySprite(s);
+    }
+}
+END_NONMATCH
+
+#if 01
 #endif
