@@ -20,6 +20,13 @@
 
 #define TIME_RECORDS_PER_COURSE 3
 
+#define DIFFICULTY_NORMAL 0
+#define DIFFICULTY_EASY   1
+
+#define UNLOCK_FLAG__BOSS_TIME_ATTACK (1 << 1)
+
+enum eLanguage { JAPANESE = 0, ENGLISH = 1, GERMAN = 2, FRENCH = 3, SPANISH = 4, ITALIAN = 5, NUM_LANGUAGES };
+
 #define ACT_COMPLETE_BIT__ACT_1         0x1
 #define ACT_COMPLETE_BIT__ACT_2         0x2
 #define ACT_COMPLETE_BIT__ACT_3         0x4
@@ -92,7 +99,7 @@ typedef struct {
     /* 0x22 */ u8 specialKeys[NUM_COURSE_ZONES]; // 0x22 - 0x28 | Each counter counts for one Zone
     /* 0x29 */ u8 unlockedStages[9]; // 0x29-0x31 | (struct ZoneCompletion)
     /* 0x32 */ u8 collectedEmeralds; // 0x32 | Stored bitwise: x7654321b
-    /* 0x33 */ u8 unlockables;
+    /* 0x33 */ u8 unlockFlags;
     /* 0x34 */ u16 unk34;
     /* 0x36 */ u8 unk36; /* Live count? */
     /* 0x37 */ u8 collectedMedals[9][ACTS_PER_ZONE]; // 0x37 | (struct MedalCollection)
@@ -113,8 +120,8 @@ typedef struct {
     /* 0x12C */ TimeRecords timeRecords;
     /* 0x35C */ ButtonConfig buttonConfig;
 
-    /* 0x364 */ u8 unk364;
-    /* 0x365 */ u8 unk365;
+    /* 0x364 */ u8 difficulty; // 0: Normal, 1: Easy
+    /* 0x365 */ bool8 disableTimeLimit;
     /* 0x366 */ u8 language;
     /* 0x367 */ u8 unk367;
 } SaveGame;
@@ -129,30 +136,30 @@ extern SaveGame *gLoadedSaveGame;
 // They might've done it for security reasons, but strangely it's not excrypted, even in
 // .sav file...
 typedef struct {
-    u32 magicNumber; // default: 0x47544E4C ("LNTG")
-    u32 v4;
+    /* 0x000 */ u32 magicNumber; // default: 0x47544E4C ("LNTG")
+    /* 0x004 */ u32 v4;
 
     // @NOTE This contains mostly the same information as struc_3000530, but
     // some values are missing or in a different order.
-    u32 id; // | 0x08
-    u16 playerName[MAX_PLAYER_NAME_LENGTH];
-    u8 v18; // Don't know why this byte is here, but it's correct
+    /* 0x008 */ u32 id; // | 0x08
+    /* 0x00C */ u16 playerName[MAX_PLAYER_NAME_LENGTH];
+    /* 0x018 */ u8 v18; // Don't know why this byte is here, but it's correct
 
-    u8 unlockedCharacters; // 0x19 |
-    u8 unlockedZones; // 0x1A |
-    u8 continueZone; // 0x1B | Zone the player continues at on startup after character
-                     // select (0 to 6)
-    u8 v1C;
+    /* 0x019 */ u8 unlockedCharacters; // 0x19 |
+    /* 0x01A */ u8 unlockedZones; // 0x1A |
+    /* 0x01B */ u8 continueZone; // 0x1B | Zone the player continues at on startup after character
+                                 // select (0 to 6)
+    /* 0x01C */ u8 v1C;
 
-    u16 chaoCount[7]; // | v1D - 0x2B
-    u8 specialKeys[7]; // Each counter counts for 1 Act | 0x2C - 0x32
-    u8 unlockedStages[9]; // | 0x33-0x3B
-    u8 collectedEmeralds; // Stored bitwise: x7654321b | 0x3C
+    /* 0x01D */ u16 chaoCount[7]; // | v1D - 0x2B
+    /* 0x02C */ u8 specialKeys[7]; // Each counter counts for 1 Act | 0x2C - 0x32
+    /* 0x033 */ u8 unlockedStages[9]; // | 0x33-0x3B
+    /* 0x03C */ u8 collectedEmeralds; // Stored bitwise: x7654321b | 0x3C
 
     // NOTE: These are different from
     //       struct struc_3000530, why?
-    u8 unlockables; // v33: struc_3000530
-    u8 collectedMedals[9][4]; // 0x3E | v37: struc_3000530
+    /* 0x03D */ u8 unlockFlags;
+    /* 0x03E */ u8 collectedMedals[9][4];
     u16 v62; // v34?: struc_3000530
     u8 vsWins; // v60?: struc_3000530
 
@@ -165,9 +172,9 @@ typedef struct {
     TimeRecords timeRecords[7][4][5]; // 0x130
 
     u8 buttonConfig[3];
-    u8 v363;
-    u8 v364;
-    u8 v365;
+    u8 v363; // padding?
+    u8 difficulty;
+    bool8 disableTimeLimit;
     u8 language;
     u8 v367; // INVESTIGATE: v367 might be unused.
 
