@@ -972,26 +972,26 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AAE8.inc", v
     cap->playerPos[pid].x = 0;
     cap->playerPos[pid].y = 0;
 
-    if(resA & 0x10000) {
+    if (resA & 0x10000) {
         p->qWorldY += Q_8_8(resA);
-        
+
         cap->playerPos[pid].x = 1;
 
         p->moveState |= MOVESTATE_20;
         p->moveState &= ~MOVESTATE_IN_AIR;
         p->spr6C = s;
-    } else if(resB & 0x10000) {
+    } else if (resB & 0x10000) {
         // _0803AB8A+0x8
         p->qWorldY += Q_8_8(resB);
-        
+
         cap->playerPos[pid].y = 1;
 
         p->moveState |= MOVESTATE_20;
         p->moveState &= ~MOVESTATE_IN_AIR;
         p->spr6C = s;
 
-        if(resA & 0x80000) {
-            if(p->keyInput & DPAD_RIGHT) {
+        if (resA & 0x80000) {
+            if (p->keyInput & DPAD_RIGHT) {
                 p->qWorldX += Q(1);
                 p->moveState |= MOVESTATE_40;
             }
@@ -999,23 +999,23 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AAE8.inc", v
             // TODO: proper Q(resA)
             p->qWorldX += resA & 0xFF00;
             p->qSpeedGround = Q(0);
-        } else if(resA & 0x40000) {
+        } else if (resA & 0x40000) {
             // _0803ABF0
-            
-            if(p->keyInput & DPAD_LEFT) {
+
+            if (p->keyInput & DPAD_LEFT) {
                 p->qWorldX -= Q(1);
                 p->moveState |= MOVESTATE_40;
             }
             // _0803AC08
-            
+
             p->qWorldX += (s16)(resA & 0xFF00);
             p->qSpeedGround = Q(0);
             asm("");
         }
-    } else if(resA & 0x80000) {
+    } else if (resA & 0x80000) {
         // _0803AC24+0xC
-        
-        if((p->keyInput & DPAD_RIGHT) && (p->spr6C == &cap->switches[1].s)){
+
+        if ((p->keyInput & DPAD_RIGHT) && (p->spr6C == &cap->switches[1].s)) {
             p->qWorldX += Q(1);
             p->moveState |= MOVESTATE_40;
         }
@@ -1024,19 +1024,19 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AAE8.inc", v
         p->qWorldX += (s16)(resA & 0xFF00);
         p->qSpeedGround = Q(0);
         asm("");
-    } else if(resA & 0x40000) {
+    } else if (resA & 0x40000) {
         // _0803AC62+0xE
-        if((p->keyInput & DPAD_LEFT) && (p->spr6C == &cap->switches[3].s)){
+        if ((p->keyInput & DPAD_LEFT) && (p->spr6C == &cap->switches[3].s)) {
             p->qWorldX -= Q(1);
             p->moveState |= MOVESTATE_40;
         }
-        
+
         // TODO: proper Q(resA)
         p->qWorldX += (s16)(resA & 0xFF00);
         p->qSpeedGround = Q(0);
-    } else if(resB & 0x80000) {
+    } else if (resB & 0x80000) {
         // _0803ACB4
-        if(p->keyInput & DPAD_RIGHT) {
+        if (p->keyInput & DPAD_RIGHT) {
             p->qWorldX += Q(1);
             p->moveState |= MOVESTATE_40;
         }
@@ -1044,14 +1044,14 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AAE8.inc", v
         // TODO: proper Q(resA)
         p->qWorldX += (s16)(resB & 0xFF00);
         p->qSpeedGround = Q(0);
-    } else if(resB & 0x40000) {
+    } else if (resB & 0x40000) {
         // _0803ACEE
-        
-        if(p->keyInput & DPAD_LEFT) {
+
+        if (p->keyInput & DPAD_LEFT) {
             p->qWorldX -= Q(1);
             p->moveState |= MOVESTATE_40;
         }
-        
+
         // TODO: proper Q(resA)
         p->qWorldX += (s16)(resB & 0xFF00);
         p->qSpeedGround = Q(0);
@@ -1925,14 +1925,14 @@ void sub_803BFC4(Capsule *cap)
 
 void sub_803C010(u32 param0)
 {
-    u32 arr[5] = {0};
+    u32 arr[5] = { 0 };
     Capsule *cap = TASK_DATA(gCurTask);
     s32 i;
 
-    for(i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         Player *p = GET_SP_PLAYER_V1(i);
 
-        if(!sub_802C0D4(p)) {
+        if (!sub_802C0D4(p)) {
             sub_803AD38(cap, p, arr, param0);
             sub_803AAE8(cap, p, i);
         }
@@ -1940,15 +1940,16 @@ void sub_803C010(u32 param0)
 }
 
 // (98.31) https://decomp.me/scratch/V0Lp2
-NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803C094.inc", s32 sub_803C094(Sprite *s, u8 hbIndex, s32 worldX, s32 worldY, Player *p, s32 playerX))
+NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803C094.inc",
+         s32 sub_803C094(Sprite *s, u8 hbIndex, s32 worldX, s32 worldY, Player *p, s32 playerX))
 {
     s8 sp0C[] = { -p->unk24, -p->unk25, +p->unk24, +p->unk25 };
 
-    if(!HITBOX_IS_ACTIVE(s->hitboxes[hbIndex]) || (p->moveState & MOVESTATE_100)) {
+    if (!HITBOX_IS_ACTIVE(s->hitboxes[hbIndex]) || (p->moveState & MOVESTATE_100)) {
         return 0;
     }
 
-    if(playerX != 0) {
+    if (playerX != 0) {
         p->moveState &= ~MOVESTATE_20;
         p->moveState |= MOVESTATE_IN_AIR;
     }
