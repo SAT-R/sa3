@@ -51,8 +51,8 @@ SECTIONS {
         build/sa3/asm/ia_platform_enabled_by_switch.o(.text);
         build/sa3/src/game/interactables/platform_crumbling.o(.text);
         build/sa3/asm/ia_grind_rail.o(.text);
-        build/sa3/src/game/interactables/bonus_capsule.o(.text);
-        build/sa3/src/game/interactables/bonus_game_ui.o(.text);
+        build/sa3/src/game/interactables/bonus_game_capsule.o(.text);
+        build/sa3/src/game/interactables/bonus_game_enemies.o(.text);
         build/sa3/src/game/interactables/081_and_082.o(.text);
         build/sa3/src/game/interactables/085.o(.text);
         build/sa3/asm/ia_slow_chaos_elevator.o(.text);
