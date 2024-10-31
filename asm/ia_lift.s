@@ -5,106 +5,9 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable045
-CreateEntity_Interactable045: @ 0x08032B5C
-	push {r4, r5, r6, lr}
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6}
-	sub sp, #4
-	mov sb, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _08032C0C @ =sub_8032C2C
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _08032C10 @ =sub_8033280
-	str r1, [sp]
-	movs r1, #0x90
-	movs r3, #0
-	bl TaskCreate
-	ldrh r2, [r0, #6]
-	movs r3, #0xc0
-	lsls r3, r3, #0x12
-	adds r3, r2, r3
-	movs r0, #0
-	mov r8, r0
-	strh r4, [r3, #4]
-	strh r5, [r3, #6]
-	mov r1, sb
-	str r1, [r3]
-	ldrb r0, [r1]
-	strb r0, [r3, #0xa]
-	strb r6, [r3, #0xb]
-	ldr r0, _08032C14 @ =0x0300008C
-	adds r1, r2, r0
-	movs r0, #0xf0
-	lsls r0, r0, #7
-	strh r0, [r1]
-	ldr r1, _08032C18 @ =0x0300008E
-	adds r0, r2, r1
-	mov r1, r8
-	strb r1, [r0]
-	ldr r1, _08032C1C @ =0x0300008F
-	adds r0, r2, r1
-	mov r1, r8
-	strb r1, [r0]
-	ldr r0, _08032C20 @ =0x03000084
-	adds r4, r2, r0
-	ldrb r1, [r3, #0xa]
-	lsls r1, r1, #3
-	ldrh r0, [r3, #4]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	str r1, [r4]
-	ldr r1, _08032C24 @ =0x03000088
-	adds r4, r2, r1
-	mov r1, sb
-	ldrb r0, [r1, #1]
-	lsls r0, r0, #3
-	ldrh r1, [r3, #6]
-	lsls r1, r1, #8
-	adds r0, r0, r1
-	subs r0, #0x20
-	str r0, [r4]
-	movs r3, #2
-	rsbs r3, r3, #0
-	adds r0, r3, #0
-	mov r1, sb
-	strb r0, [r1]
-	ldr r3, _08032C28 @ =0x0300000C
-	adds r0, r2, r3
-	adds r3, #0x28
-	adds r1, r2, r3
-	adds r3, #0x28
-	adds r2, r2, r3
-	bl sub_8033098
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08032C0C: .4byte sub_8032C2C
-_08032C10: .4byte sub_8033280
-_08032C14: .4byte 0x0300008C
-_08032C18: .4byte 0x0300008E
-_08032C1C: .4byte 0x0300008F
-_08032C20: .4byte 0x03000084
-_08032C24: .4byte 0x03000088
-_08032C28: .4byte 0x0300000C
-
-	thumb_func_start sub_8032C2C
-sub_8032C2C: @ 0x08032C2C
+.if 01
+	thumb_func_start Task_LiftIdle
+Task_LiftIdle: @ 0x08032C2C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -251,6 +154,7 @@ _08032D54: .4byte sub_800A168
 _08032D58: .4byte 0x00000247
 _08032D5C: .4byte gCurTask
 _08032D60: .4byte sub_8032D64
+.endif
 
 	thumb_func_start sub_8032D64
 sub_8032D64: @ 0x08032D64
@@ -582,7 +486,7 @@ sub_8032FDC: @ 0x08032FDC
 	movs r0, #0xf0
 	lsls r0, r0, #7
 	strh r0, [r2]
-	ldr r0, _0803302C @ =sub_8032C2C
+	ldr r0, _0803302C @ =Task_LiftIdle
 	str r0, [r3, #8]
 _08033012:
 	movs r5, #0
@@ -598,7 +502,7 @@ _08033014:
 	.align 2, 0
 _08033024: .4byte gCurTask
 _08033028: .4byte 0x77FF0000
-_0803302C: .4byte sub_8032C2C
+_0803302C: .4byte Task_LiftIdle
 _08033030:
 	ldr r0, _08033090 @ =gStageData
 	ldrb r1, [r0, #6]
@@ -885,8 +789,8 @@ _0803326A:
 _08033278: .4byte 0xFFFFFBFF
 _0803327C: .4byte 0xFFF00000
 
-	thumb_func_start sub_8033280
-sub_8033280: @ 0x08033280
+	thumb_func_start TaskDestructor_Lift
+TaskDestructor_Lift: @ 0x08033280
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0

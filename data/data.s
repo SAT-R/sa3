@@ -287,7 +287,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_TrampolineB
     .4byte CreateEntity_Interactable043
     .4byte CreateEntity_Interactable044
-    .4byte CreateEntity_Interactable045
+    .4byte CreateEntity_Lift
     .4byte CreateEntity_Interactable046
     .4byte CreateEntity_Interactable047
     .4byte CreateEntity_Interactable048
