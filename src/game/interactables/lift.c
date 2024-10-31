@@ -1,5 +1,6 @@
 #include "global.h"
 #include "task.h"
+#include "malloc_vram.h"
 #include "sprite.h"
 #include "module_unclear.h"
 #include "game/camera.h"
@@ -8,6 +9,8 @@
 #include "game/player_callbacks.h"
 #include "game/stage.h"
 
+#include "constants/animations.h"
+#include "constants/anim_sizes.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"
 
@@ -181,4 +184,80 @@ void Task_8032D64(void)
     }
 
     sub_8033158();
+}
+
+void sub_8032FDC(void)
+{
+    Lift *lift = TASK_DATA(gCurTask);
+    Sprite *s = &lift->s[0];
+    Player *p;
+    u8 i;
+
+    lift->unk8C += Q(2);
+
+    if (lift->unk8C >= Q(120)) {
+        lift->unk8C = Q(120);
+        gCurTask->main = Task_LiftIdle;
+    }
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        p = GET_SP_PLAYER_V1(i);
+
+        if (!sub_802C0D4(p)) {
+            u32 res = sub_8020950(s, lift->worldX, lift->worldY, p, 0);
+
+            if (res & 0x10000) {
+                p->qWorldY += Q_8_8(res);
+            }
+        }
+    }
+
+    sub_8033158();
+}
+
+void sub_8033098(Sprite *s, Sprite *s2, Sprite *s3)
+{
+    void *tiles = VramMalloc(MAX_TILES_VARIANT(ANIM_LIFT, 0) + MAX_TILES_VARIANT(ANIM_LIFT, 1) + MAX_TILES_VARIANT(ANIM_LIFT, 2));
+
+    s->tiles = tiles;
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->anim = ANIM_LIFT;
+    s->variant = 2;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->x = 0;
+    s->y = 0;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+
+    tiles += MAX_TILES_VARIANT(ANIM_LIFT, 2) * TILE_SIZE_4BPP;
+    s2->tiles = tiles;
+    s2->oamFlags = SPRITE_OAM_ORDER(25);
+    s2->anim = ANIM_LIFT;
+    s2->variant = 1;
+    s2->qAnimDelay = Q(0);
+    s2->prevVariant = -1;
+    s2->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s2->palId = 0;
+    s2->x = 0;
+    s2->y = 0;
+    s2->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+
+    tiles += MAX_TILES_VARIANT(ANIM_LIFT, 1) * TILE_SIZE_4BPP;
+    s3->tiles = tiles;
+    s3->oamFlags = SPRITE_OAM_ORDER(24);
+    s3->anim = ANIM_LIFT;
+    s3->variant = 0;
+    s3->qAnimDelay = Q(0);
+    s3->prevVariant = -1;
+    s3->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s3->palId = 0;
+    s3->x = 0;
+    s3->y = 0;
+    s3->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+    UpdateSpriteAnimation(s3);
 }

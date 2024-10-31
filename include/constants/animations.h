@@ -60,7 +60,7 @@
 #define ANIM_BOUNCY_BAR               873
 #define ANIM_ROTATING_HANDLE          874
 #define ANIM_CHECKPOINT               875
-#define ANIM_HANG_HANDLE              876
+#define ANIM_LIFT                     876
 #define ANIM_PLATFORM_CRUMBLING_1     877
 #define ANIM_TRAMPOLINE               878
 #define ANIM_PLATFORM_WITH_SWITCH_W01 879
