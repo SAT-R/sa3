@@ -1,13 +1,6 @@
-.include "asm/macros.inc"
-.include "constants/constants.inc"
 
-.text
 .syntax unified
-.arm
-
-.if 01
-	thumb_func_start sub_8033158
-sub_8033158: @ 0x08033158
+.text
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -20,15 +13,15 @@ sub_8033158: @ 0x08033158
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r0, r0, r2
-	mov r8, r0
+	mov r8, r0          @ r8 = lift
 	ldr r1, _080331E4 @ =0x0300000C
-	adds r6, r2, r1
+	adds r6, r2, r1     @ r6 = s
 	ldr r7, [r0]
-	mov sb, r7
+	mov sb, r7          @ sb = me
 	ldr r0, _080331E8 @ =0x03000084
-	adds r4, r2, r0
+	adds r4, r2, r0     @ r4 = &lift->worldX
 	adds r1, #0x7c
-	adds r0, r2, r1
+	adds r0, r2, r1     @ r0 = &lift->worldY
 	ldr r3, _080331EC @ =gCamera
 	ldr r1, [r3, #4]
 	movs r7, #0
@@ -41,7 +34,7 @@ sub_8033158: @ 0x08033158
 	asrs r0, r0, #0x18
 	adds r1, r1, r0
 	lsls r1, r1, #0x10
-	lsrs r7, r1, #0x10
+	lsrs r7, r1, #0x10      @ r7 = handleY
 	ldr r0, [r3]
 	movs r1, #0
 	ldrsh r4, [r4, r1]
@@ -82,9 +75,9 @@ _080331F0: .4byte 0x0300008C
 _080331F4: .4byte 0x0300008E
 _080331F8:
 	ldrh r0, [r6, #0x10]
-	mov sb, r0
+	mov sb, r0              @ sb = screenX = s->x;
 	ldrh r1, [r6, #0x12]
-	mov sl, r1
+	mov sl, r1              @ sl = screenY = s->y;
 	ldr r0, [r6, #8]
 	movs r5, #0x80
 	lsls r5, r5, #3
@@ -145,16 +138,5 @@ _0803326A:
 	.align 2, 0
 _08033278: .4byte 0xFFFFFBFF
 _0803327C: .4byte 0xFFF00000
-.endif
 
-	thumb_func_start TaskDestructor_Lift
-TaskDestructor_Lift: @ 0x08033280
-	push {lr}
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r0, r0, r1
-	ldr r0, [r0, #0xc]
-	bl VramFree
-	pop {r0}
-	bx r0
+.syntax divided
