@@ -5,140 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable100
-CreateEntity_Interactable100: @ 0x08041A94
-	push {r4, r5, r6, r7, lr}
-	sub sp, #0x10
-	adds r7, r0, #0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r1, _08041B24 @ =gUnknown_080CFBC8
-	add r0, sp, #4
-	movs r2, #0xc
-	bl memcpy
-	ldr r0, _08041B28 @ =sub_8041B9C
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _08041B2C @ =sub_80420E4
-	str r1, [sp]
-	movs r1, #0x50
-	movs r3, #0
-	bl TaskCreate
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r0, r1
-	mov ip, r0
-	movs r2, #0
-	strh r4, [r0, #4]
-	strh r5, [r0, #6]
-	str r7, [r0]
-	ldrb r0, [r7]
-	mov r3, ip
-	strb r0, [r3, #0xa]
-	strb r6, [r3, #0xb]
-	ldrb r0, [r7]
-	lsls r0, r0, #3
-	lsls r4, r4, #8
-	adds r0, r0, r4
-	lsls r0, r0, #8
-	str r0, [r3, #0x3c]
-	ldrb r0, [r7, #1]
-	lsls r0, r0, #3
-	lsls r5, r5, #8
-	adds r0, r0, r5
-	lsls r0, r0, #8
-	str r0, [r3, #0x40]
-	ldr r3, _08041B30 @ =0x03000046
-	adds r0, r1, r3
-	strh r2, [r0]
-	adds r3, #4
-	adds r0, r1, r3
-	strh r2, [r0]
-	subs r3, #6
-	adds r0, r1, r3
-	strh r2, [r0]
-	ldrb r2, [r7, #7]
-	movs r3, #1
-	adds r0, r3, #0
-	ands r0, r2
-	ldr r2, _08041B34 @ =0x0300004C
-	adds r1, r1, r2
-	strb r0, [r1]
-	movs r2, #2
-	ldrb r0, [r7, #7]
-	asrs r0, r0, #2
-	b _08041B4C
-	.align 2, 0
-_08041B24: .4byte gUnknown_080CFBC8
-_08041B28: .4byte sub_8041B9C
-_08041B2C: .4byte sub_80420E4
-_08041B30: .4byte 0x03000046
-_08041B34: .4byte 0x0300004C
-_08041B38:
-	lsls r0, r2, #0x10
-	movs r1, #0x80
-	lsls r1, r1, #9
-	adds r0, r0, r1
-	lsrs r2, r0, #0x10
-	asrs r1, r0, #0x10
-	cmp r1, #6
-	bgt _08041B52
-	ldrb r0, [r7, #7]
-	asrs r0, r1
-_08041B4C:
-	ands r0, r3
-	cmp r0, #0
-	beq _08041B38
-_08041B52:
-	ldrb r1, [r7, #7]
-	movs r0, #0xfc
-	ands r0, r1
-	cmp r0, #0
-	beq _08041B6A
-	lsls r0, r2, #0x10
-	asrs r0, r0, #0xf
-	subs r0, #4
-	add r0, sp
-	adds r0, #4
-	ldrh r1, [r0]
-	b _08041B6C
-_08041B6A:
-	movs r1, #0
-_08041B6C:
-	mov r0, ip
-	adds r0, #0x48
-	strh r1, [r0]
-	subs r0, #0x3c
-	mov r2, ip
-	ldr r1, [r2, #0x3c]
-	asrs r1, r1, #8
-	strh r1, [r0, #0x10]
-	ldr r1, [r2, #0x40]
-	asrs r1, r1, #8
-	strh r1, [r0, #0x12]
-	movs r3, #2
-	rsbs r3, r3, #0
-	adds r1, r3, #0
-	strb r1, [r7]
-	mov r1, ip
-	adds r1, #0x4c
-	ldrb r1, [r1]
-	bl sub_8041E74
-	add sp, #0x10
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
+.if 0
+.endif
 
-	thumb_func_start sub_8041B9C
-sub_8041B9C: @ 0x08041B9C
+	thumb_func_start Task_DeathCrusher
+Task_DeathCrusher: @ 0x08041B9C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -818,8 +689,8 @@ _080420D0:
 	.align 2, 0
 _080420E0: .4byte 0xFFFFFBFF
 
-	thumb_func_start sub_80420E4
-sub_80420E4: @ 0x080420E4
+	thumb_func_start TaskDestructor_DeathCrusher
+TaskDestructor_DeathCrusher: @ 0x080420E4
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0

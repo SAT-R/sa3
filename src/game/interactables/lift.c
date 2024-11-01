@@ -1,5 +1,4 @@
 #include "global.h"
-#include "task.h"
 #include "malloc_vram.h"
 #include "sprite.h"
 #include "module_unclear.h"
