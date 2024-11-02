@@ -242,9 +242,9 @@ gUnknown_08E2EF54:
 
     .global gUnknown_08E2EF64
 gUnknown_08E2EF64:
-    .4byte gUnknown_080DBD90
-    .4byte gUnknown_080DBDD0
-    .4byte gUnknown_080DBE10
+    .4byte gPalette_80DBD90
+    .4byte gPalette_80DBDD0
+    .4byte gPalette_80DBE10
     .4byte gUnknown_080DBFE8
     .4byte gUnknown_080DBFE8
     .4byte gUnknown_080DBFE8

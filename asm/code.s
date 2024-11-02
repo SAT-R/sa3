@@ -144570,7 +144570,7 @@ _080AC15C:
 	str r1, [r4, #0xc]
 	lsrs r1, r1, #8
 	subs r1, #0xa
-	ldr r2, _080AC1A8 @ =gUnknown_080DA428
+	ldr r2, _080AC1A8 @ =strCredits_CreatedBy
 	ldrb r5, [r4, #1]
 	lsls r0, r5, #2
 	adds r0, r0, r5
@@ -144602,7 +144602,7 @@ _080AC15C:
 	strb r0, [r4, #2]
 	b _080AC1C2
 	.align 2, 0
-_080AC1A8: .4byte gUnknown_080DA428
+_080AC1A8: .4byte strCredits_CreatedBy
 _080AC1AC: .4byte 0x0000058C
 _080AC1B0:
 	adds r1, r4, #0
@@ -144706,7 +144706,7 @@ _080AC27C:
 	adds r0, #0x80
 	str r0, [r4, #0xc]
 	lsrs r0, r0, #8
-	ldr r1, _080AC2A8 @ =gUnknown_080DA428
+	ldr r1, _080AC2A8 @ =strCredits_CreatedBy
 	ldr r2, _080AC2AC @ =0x000013D4
 	adds r1, r1, r2
 	ldrh r1, [r1]
@@ -144723,7 +144723,7 @@ _080AC2A0:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080AC2A8: .4byte gUnknown_080DA428
+_080AC2A8: .4byte strCredits_CreatedBy
 _080AC2AC: .4byte 0x000013D4
 _080AC2B0: .4byte gCurTask
 
@@ -144861,7 +144861,7 @@ sub_80AC398: @ 0x080AC398
 	lsls r0, r0, #0x12
 	adds r6, r1, r0
 	movs r4, #0
-	ldr r2, _080AC40C @ =gUnknown_080DA428
+	ldr r2, _080AC40C @ =strCredits_CreatedBy
 	ldrb r3, [r6]
 	lsls r0, r3, #2
 	adds r0, r0, r3
@@ -144907,7 +144907,7 @@ _080AC3C6:
 	b _080AC4D6
 	.align 2, 0
 _080AC408: .4byte gCurTask
-_080AC40C: .4byte gUnknown_080DA428
+_080AC40C: .4byte strCredits_CreatedBy
 _080AC410:
 	cmp r3, #0x2e
 	bne _080AC418
@@ -144990,7 +144990,7 @@ _080AC474:
 	mov r3, sb
 	subs r0, r0, r3
 	str r0, [r1]
-	ldr r2, _080AC4C0 @ =gUnknown_080DA428
+	ldr r2, _080AC4C0 @ =strCredits_CreatedBy
 	ldrb r1, [r6]
 	lsls r0, r1, #2
 	adds r0, r0, r1
@@ -145004,7 +145004,7 @@ _080AC474:
 	b _080AC4CE
 	.align 2, 0
 _080AC4BC: .4byte gUnknown_080DB868
-_080AC4C0: .4byte gUnknown_080DA428
+_080AC4C0: .4byte strCredits_CreatedBy
 _080AC4C4:
 	cmp r0, #3
 	bne _080AC4CC
@@ -145022,7 +145022,7 @@ _080AC4D6:
 	add r1, r8
 	lsrs r4, r1, #0x18
 	asrs r1, r1, #0x18
-	ldr r2, _080AC510 @ =gUnknown_080DA428
+	ldr r2, _080AC510 @ =strCredits_CreatedBy
 	ldrb r3, [r6]
 	lsls r0, r3, #2
 	adds r0, r0, r3
@@ -145048,7 +145048,7 @@ _080AC504:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080AC510: .4byte gUnknown_080DA428
+_080AC510: .4byte strCredits_CreatedBy
 _080AC514: .4byte 0x00002CFF
 _080AC518: .4byte gCurTask
 
@@ -145673,7 +145673,7 @@ sub_80AC9E8: @ 0x080AC9E8
 	str r6, [r1, #4]
 	mov r0, r8
 	str r0, [r1, #8]
-	ldr r4, _080ACA78 @ =gUnknown_080DA428
+	ldr r4, _080ACA78 @ =strCredits_CreatedBy
 	ldrb r2, [r1]
 	lsls r0, r2, #2
 	adds r0, r0, r2
@@ -145711,7 +145711,7 @@ _080ACA4A:
 _080ACA6C: .4byte sub_80AC398
 _080ACA70: .4byte sub_80ACB48
 _080ACA74: .4byte 0x0300012C
-_080ACA78: .4byte gUnknown_080DA428
+_080ACA78: .4byte strCredits_CreatedBy
 _080ACA7C: .4byte 0x03000014
 
 	thumb_func_start sub_80ACA80
@@ -145745,7 +145745,7 @@ sub_80ACA80: @ 0x080ACA80
 	strb r5, [r1]
 	str r6, [r1, #4]
 	str r7, [r1, #8]
-	ldr r3, _080ACAEC @ =gUnknown_080DA428
+	ldr r3, _080ACAEC @ =strCredits_CreatedBy
 	ldrb r2, [r1]
 	lsls r0, r2, #2
 	adds r0, r0, r2
@@ -145768,7 +145768,7 @@ sub_80ACA80: @ 0x080ACA80
 	.align 2, 0
 _080ACAE4: .4byte sub_80ACB50
 _080ACAE8: .4byte sub_80ACB4C
-_080ACAEC: .4byte gUnknown_080DA428
+_080ACAEC: .4byte strCredits_CreatedBy
 
 	thumb_func_start sub_80ACAF0
 sub_80ACAF0: @ 0x080ACAF0
