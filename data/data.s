@@ -2587,16 +2587,19 @@ gUnknown_080DBD88:
 
     .global gUnknown_080DBD90
 gUnknown_080DBD90:
-    .incbin "baserom.gba", 0x000DBD90, 0x40
+    .incbin "graphics/gPalette_80DBD90.gbapal"
+    .incbin "graphics/gPalette_80DBDB0.gbapal"
 
     .global gUnknown_080DBDD0
 gUnknown_080DBDD0:
-    .incbin "baserom.gba", 0x000DBDD0, 0x40
+    .incbin "graphics/gPalette_80DBDD0.gbapal"
+    .incbin "graphics/gPalette_80DBDF0.gbapal"
 
     .global gUnknown_080DBE10
 gUnknown_080DBE10:
-    .incbin "baserom.gba", 0x000DBE10, 0x40
+    .incbin "graphics/gPalette_80DBE10.gbapal"
+    .incbin "graphics/gPalette_80DBE30.gbapal"
 
     .global gUnknown_080DBE50
 gUnknown_080DBE50:
-    .incbin "baserom.gba", 0x000DBE50, 0x4
+    .byte 2, 3, 4, 0
