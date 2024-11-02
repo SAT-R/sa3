@@ -13,34 +13,38 @@
 #include "constants/move_states.h"
 #include "constants/songs.h"
 
+#define DCKIND_NO_LED   0
+#define DCKIND_WITH_LED 1
+
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
-    /* 0x34 */ u8 filler[8];
+    /* 0x34 */ Hitbox reserved;
     /* 0x3C */ s32 qWorldX;
     /* 0x40 */ s32 qWorldY;
-    /* 0x44 */ u16 unk44;
-    /* 0x46 */ u16 unk46;
-    /* 0x48 */ u16 unk48;
-    /* 0x4A */ s16 unk4A;
-    /* 0x4C */ u8 unk4C;
+    /* 0x44 */ u16 unused44;
+    /* 0x46 */ u16 unused46;
+    /* 0x48 */ u16 speedup;
+    /* 0x4A */ u16 timeAlive;
+    /* 0x4C */ u8 hasLED;
 } DeathCrusher;
 
-extern const u16 gUnknown_080CFBC8[];
+// const u16 gUnknown_080CFBC8[6] = {32, 64, 96, 0, 0, 0};
+extern const u16 gUnknown_080CFBC8[6];
 
 void Task_DeathCrusher(void);
-void sub_8041E74(Sprite *s, u8 i);
-void sub_8041ED4(void);
+static void InitSprite(Sprite *s, u8 kind);
+static void UpdateAnimations(void);
 void TaskDestructor_DeathCrusher(struct Task *);
 
 void CreateEntity_DeathCrusher(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    u16 arr[6];
+    u16 arr[ARRAY_COUNT(gUnknown_080CFBC8)];
     struct Task *t;
     DeathCrusher *crusher;
     Sprite *s;
     s16 i;
-    s32 r1;
+    s32 speedup;
 
     memcpy(arr, gUnknown_080CFBC8, sizeof(arr));
 
@@ -56,24 +60,24 @@ void CreateEntity_DeathCrusher(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     crusher->qWorldX = Q(TO_WORLD_POS(me->x, regionX));
     crusher->qWorldY = Q(TO_WORLD_POS(me->y, regionY));
 
-    crusher->unk46 = 0;
-    crusher->unk4A = 0;
-    crusher->unk44 = 0;
+    crusher->unused46 = 0;
+    crusher->timeAlive = 0;
+    crusher->unused44 = 0;
 
-    crusher->unk4C = (me->d.uData[4] & 0x1);
+    crusher->hasLED = (me->d.uData[4] & 0x1);
 
-    for (i = 2; i <= 6; i++) {
+    for (i = 2; i <= (s32)ARRAY_COUNT(gUnknown_080CFBC8); i++) {
         if ((me->d.uData[4] >> i) & 0x1)
             break;
     }
 
     if ((me->d.uData[4] & 0xFC) != 0) {
-        r1 = arr[i - 2];
+        speedup = arr[i - 2];
     } else {
-        r1 = 0;
+        speedup = 0;
     }
 
-    crusher->unk48 = r1;
+    crusher->speedup = speedup;
 
     s = &crusher->s;
     s->x = I(crusher->qWorldX);
@@ -81,7 +85,7 @@ void CreateEntity_DeathCrusher(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
-    sub_8041E74(s, crusher->unk4C);
+    InitSprite(s, crusher->hasLED);
 }
 
 // (99.68%) https://decomp.me/scratch/YDegv
@@ -105,7 +109,7 @@ NONMATCH("asm/non_matching/game/interactables/death_crusher__Task_DeathCrusher.i
 
     qWorldY = Q(TO_WORLD_POS(me->y, crusher->base.regionY));
     timer = gStageData.timer;
-    r4 = timer + crusher->unk48;
+    r4 = timer + crusher->speedup;
 
     modVal = 127;
     qPathTop = qWorldY + Q(me->d.sData[1] * (TILE_SIZE_4BPP / 4));
@@ -123,7 +127,7 @@ NONMATCH("asm/non_matching/game/interactables/death_crusher__Task_DeathCrusher.i
     } else if (r4 < 80) {
         // _08041C1C+0x4
         crusher->qWorldY = qPathTop;
-        crusher->unk44 = 0;
+        crusher->unused44 = 0;
     } else if (r4 < 96) {
         // _08041C34+0x4
 
@@ -157,7 +161,7 @@ NONMATCH("asm/non_matching/game/interactables/death_crusher__Task_DeathCrusher.i
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         Player *p = GET_SP_PLAYER_V0(i);
 
-        if (!sub_802C080(p) && (crusher->unk4C != 0) && (p->framesInvulnerable == 0) && (p->framesInvincible == 0)
+        if (!sub_802C080(p) && (crusher->hasLED != 0) && (p->framesInvulnerable == 0) && (p->framesInvincible == 0)
             && (r4 = sub_8020CE0(s, I(crusher->qWorldX), I(crusher->qWorldY), 1, p))) {
             sub_8004E98(p, SE_SPIKES);
         } else if (!sub_802C0D4(p)) {
@@ -166,8 +170,8 @@ NONMATCH("asm/non_matching/game/interactables/death_crusher__Task_DeathCrusher.i
                 p->qWorldX -= qCrusherX;
                 p->qWorldY += (Q(4) - qCrusherY);
 
-                if ((crusher->unk4C != 0) && (crusher->unk4A == 0)) {
-                    crusher->unk4A++;
+                if ((crusher->hasLED != 0) && (crusher->timeAlive == 0)) {
+                    crusher->timeAlive++;
                 }
             }
             // _08041D5A
@@ -218,6 +222,131 @@ NONMATCH("asm/non_matching/game/interactables/death_crusher__Task_DeathCrusher.i
         }
     }
 
-    sub_8041ED4();
+    UpdateAnimations();
 }
 END_NONMATCH
+
+static void InitSprite(Sprite *s, u8 hasLED)
+{
+    if (!hasLED) {
+        s->tiles = ALLOC_TILES(ANIM_DEATH_CRUSHER_NO_LED);
+        s->anim = ANIM_DEATH_CRUSHER_NO_LED;
+        s->variant = 0;
+    } else {
+        s->tiles = ALLOC_TILES(ANIM_DEATH_CRUSHER_SPIKED);
+        s->anim = ANIM_DEATH_CRUSHER;
+        s->variant = 0;
+    }
+
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->hitboxes[1].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+
+    UpdateSpriteAnimation(s);
+}
+
+static void UpdateAnimations(void)
+{
+    DeathCrusher *crusher = TASK_DATA(gCurTask);
+    Sprite *s = &crusher->s;
+    MapEntity *me = crusher->base.me;
+    s16 worldX, worldY;
+    s16 i;
+    u8 j;
+
+    worldX = TO_WORLD_POS(crusher->base.spriteX, crusher->base.regionX);
+    worldY = TO_WORLD_POS(me->y, crusher->base.regionY);
+
+    s->x = I(crusher->qWorldX) - gCamera.x;
+    s->y = I(crusher->qWorldY) - gCamera.y;
+
+    if (!sub_802C140(worldX, worldY, s->x, s->y)) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            Player *p = GET_SP_PLAYER_V1(i);
+
+            sub_80213B0(s, p);
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, crusher->base.spriteX);
+
+        TaskDestroy(gCurTask);
+        return;
+    } else if (crusher->hasLED != 0) {
+        u16 timeAlive;
+
+        if (crusher->timeAlive != 0) {
+            if (++crusher->timeAlive >= 320) {
+                crusher->timeAlive = 0;
+            }
+        }
+
+        timeAlive = crusher->timeAlive;
+        if (timeAlive == 0) {
+            // With LED, off
+            s->anim = ANIM_DEATH_CRUSHER;
+            s->variant = 0;
+        } else if (timeAlive < 174) {
+            // With LED, on
+            s->anim = ANIM_DEATH_CRUSHER;
+            s->variant = 1;
+            s->animSpeed = timeAlive / 8u;
+        } else if (timeAlive < 180) {
+            s->anim = ANIM_DEATH_CRUSHER_SPIKED;
+            s->variant = 0;
+            s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        } else if (timeAlive < 182) {
+            s->anim = ANIM_DEATH_CRUSHER_SPIKED;
+            s->variant = 1;
+        } else if (timeAlive < 184) {
+            s->anim = ANIM_DEATH_CRUSHER_SPIKED;
+            s->variant = 2;
+        } else if (timeAlive < 304) {
+            s->anim = ANIM_DEATH_CRUSHER_SPIKED;
+            s->variant = 3;
+        } else if (timeAlive < 306) {
+            s->anim = ANIM_DEATH_CRUSHER_SPIKED;
+            s->variant = 2;
+        } else if (timeAlive < 308) {
+            s->anim = ANIM_DEATH_CRUSHER_SPIKED;
+            s->variant = 1;
+        } else if (timeAlive < 320) {
+            // Remove (bounds of) 2nd hitbox
+            CPU_FILL(0, &s->hitboxes[1].b, sizeof(s->hitboxes[0].b), 16);
+            s->anim = ANIM_DEATH_CRUSHER;
+            s->variant = 0;
+        }
+    }
+
+    UpdateSpriteAnimation(s);
+
+#ifndef NON_MATCHING
+    // The loop must be from a macro...
+    for (j = 0; j < 2; j++) {
+        if (j != 0) {
+            SPRITE_FLAG_SET(s, X_FLIP);
+            DisplaySprite(s);
+        } else {
+            SPRITE_FLAG_CLEAR(s, X_FLIP);
+            DisplaySprite(s);
+        }
+    }
+#else
+    SPRITE_FLAG_SET(s, X_FLIP);
+    DisplaySprite(s);
+
+    SPRITE_FLAG_CLEAR(s, X_FLIP);
+    DisplaySprite(s);
+#endif
+}
+
+void TaskDestructor_DeathCrusher(struct Task *t)
+{
+    DeathCrusher *crusher = TASK_DATA(t);
+    VramFree(crusher->s.tiles);
+}

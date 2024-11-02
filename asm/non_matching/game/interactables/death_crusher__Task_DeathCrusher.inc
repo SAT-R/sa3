@@ -361,7 +361,7 @@ _08041E50_continue:
 	bgt _08041E60
 	b _08041C90_loop
 _08041E60:
-	bl sub_8041ED4
+	bl UpdateAnimations
 	add sp, #8
 	pop {r3, r4, r5}
 	mov r8, r3
