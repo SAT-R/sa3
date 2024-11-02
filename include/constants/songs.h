@@ -264,6 +264,7 @@
 #define SE_SUCTION     0x251
 
 #define SE_PROPELLER_BUTTON    0x253
+#define SE_DEATH_CRUSHER       0x254
 #define SE_WATER_CANNON        0x255
 #define SE_ROCKET_ACCELERATING 0x256
 #define SE_599                 0x257
