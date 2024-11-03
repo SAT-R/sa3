@@ -235,7 +235,7 @@ sub_8000390: @ 0x08000390
 	movs r0, #0
 	movs r2, #0
 	movs r3, #0
-	bl sub_808FBB4
+	bl OptionsSlideInit_Language
 	pop {r0}
 	bx r0
 	.align 2, 0

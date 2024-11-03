@@ -78497,7 +78497,7 @@ _0808BA32:
 	cmp r0, #0
 	beq _0808BA8A
 	adds r0, r4, #0
-	bl sub_808C7DC
+	bl Options_LoadSelectedMenu
 _0808BA8A:
 	ldr r0, _0808BAA0 @ =gCurTask
 	ldr r1, [r0]
@@ -78816,7 +78816,7 @@ _0808BD28:
 	movs r0, #1
 	str r0, [r4, #0x2c]
 	adds r0, r4, #0
-	bl sub_808C7DC
+	bl Options_LoadSelectedMenu
 	b _0808BD82
 	.align 2, 0
 _0808BD48: .4byte gCurTask
@@ -80217,8 +80217,8 @@ _0808C7CE:
 _0808C7D4: .4byte gCurTask
 _0808C7D8: .4byte sub_808C9B0
 
-	thumb_func_start sub_808C7DC
-sub_808C7DC: @ 0x0808C7DC
+	thumb_func_start Options_LoadSelectedMenu
+Options_LoadSelectedMenu: @ 0x0808C7DC
 	push {r4, r5, r6, r7, lr}
 	adds r5, r0, #0
 	ldrb r4, [r5, #6]
@@ -80285,7 +80285,7 @@ _0808C84E:
 	adds r0, r7, r0
 	str r1, [r0]
 _0808C85E:
-	ldr r4, _0808C8A0 @ =gUnknown_080D6E1C
+	ldr r4, _0808C8A0 @ =sOptionsSlideInits
 	movs r0, #8
 	ldrsh r2, [r5, r0]
 	lsls r2, r2, #2
@@ -80311,7 +80311,7 @@ _0808C890: .4byte 0x00005E86
 _0808C894: .4byte 0x06004000
 _0808C898: .4byte 0x0600F000
 _0808C89C: .4byte 0x00000165
-_0808C8A0: .4byte gUnknown_080D6E1C
+_0808C8A0: .4byte sOptionsSlideInits
 _0808C8A4:
 	movs r4, #0
 _0808C8A6:
@@ -85284,8 +85284,8 @@ sub_808EF98: @ 0x0808EF98
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_808EF9C
-sub_808EF9C: @ 0x0808EF9C
+	thumb_func_start OptionsSlideInit_PlayerData
+OptionsSlideInit_PlayerData: @ 0x0808EF9C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -86145,8 +86145,8 @@ _0808F658: .4byte gBgScrollRegs
 _0808F65C: .4byte gBldRegs
 _0808F660: .4byte gCurTask
 
-	thumb_func_start sub_808F664
-sub_808F664: @ 0x0808F664
+	thumb_func_start OptionsSlideInit_Difficulty
+OptionsSlideInit_Difficulty: @ 0x0808F664
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -86832,8 +86832,8 @@ sub_808FBB0: @ 0x0808FBB0
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_808FBB4
-sub_808FBB4: @ 0x0808FBB4
+	thumb_func_start OptionsSlideInit_Language
+OptionsSlideInit_Language: @ 0x0808FBB4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -87828,8 +87828,8 @@ _0809033C:
 	.align 2, 0
 _0809038C: .4byte gBgScrollRegs
 
-	thumb_func_start sub_8090390
-sub_8090390: @ 0x08090390
+	thumb_func_start OptionsSlideInit_DeleteSaveData
+OptionsSlideInit_DeleteSaveData: @ 0x08090390
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -88680,8 +88680,8 @@ sub_8090A18: @ 0x08090A18
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_8090A1C
-sub_8090A1C: @ 0x08090A1C
+	thumb_func_start OptionsSlideInit_TimeUp
+OptionsSlideInit_TimeUp: @ 0x08090A1C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -89367,8 +89367,8 @@ sub_8090F6C: @ 0x08090F6C
 	bx lr
 	.align 2, 0
  
-	thumb_func_start sub_8090F70
-sub_8090F70: @ 0x08090F70
+	thumb_func_start OptionsSlideInit_ButtonConfig
+OptionsSlideInit_ButtonConfig: @ 0x08090F70
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -94783,14 +94783,14 @@ sub_8093950: @ 0x08093950
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_8093954
-sub_8093954: @ 0x08093954
+	thumb_func_start OptionsSlideInit_SoundTest
+OptionsSlideInit_SoundTest: @ 0x08093954
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	adds r5, r1, #0
 	adds r6, r2, #0
 	adds r4, r3, #0
-	ldr r0, _08093A94 @ =sub_8094548
+	ldr r0, _08093A94 @ =InitOptionsSlide_SoundTest
 	movs r1, #0x94
 	lsls r1, r1, #2
 	movs r2, #0x80
@@ -94944,7 +94944,7 @@ _080939C0:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08093A94: .4byte sub_8094548
+_08093A94: .4byte InitOptionsSlide_SoundTest
 _08093A98: .4byte sub_8094698
 _08093A9C: .4byte 0x030000A0
 _08093AA0: .4byte gSaveGame
@@ -96205,23 +96205,23 @@ _0809447E:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8094488
-sub_8094488: @ 0x08094488
+	thumb_func_start SoundTest_DrawSongName
+SoundTest_DrawSongName: @ 0x08094488
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
 	push {r6, r7}
 	adds r6, r0, #0
 	movs r5, #0
-	ldr r3, _0809453C @ =gUnknown_080D7748
+	ldr r3, _0809453C @ =sSongNames
 	ldr r2, [r6, #8]
 	movs r0, #0
 	ldrsh r1, [r2, r0]
 	lsls r0, r1, #2
 	adds r0, r0, r1
 	lsls r0, r0, #3
-	adds r0, r0, r3
-	ldrb r0, [r0]
+	adds r0, r0, r3     @ r0 = &sSongNames[i]
+	ldrb r0, [r0]       @ r0 = sSongNames[i].strlen
 	cmp r5, r0
 	bhs _08094530
 	mov sb, r3
@@ -96299,12 +96299,12 @@ _08094530:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0809453C: .4byte gUnknown_080D7748
+_0809453C: .4byte sSongNames
 _08094540: .4byte gUnknown_080D8A84
 _08094544: .4byte gBgScrollRegs
 
-	thumb_func_start sub_8094548
-sub_8094548: @ 0x08094548
+	thumb_func_start InitOptionsSlide_SoundTest
+InitOptionsSlide_SoundTest: @ 0x08094548
 	push {r4, r5, r6, lr}
 	ldr r6, _0809458C @ =gCurTask
 	ldr r0, [r6]
@@ -96325,7 +96325,7 @@ sub_8094548: @ 0x08094548
 	adds r3, #0x88
 	adds r2, r4, r3
 	ldr r2, [r2]
-	bl sub_809469C
+	bl CreateSoundTest
 	ldr r2, _08094598 @ =0x0300024C
 	adds r1, r4, r2
 	str r0, [r1]
@@ -96482,8 +96482,8 @@ sub_8094698: @ 0x08094698
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_809469C
-sub_809469C: @ 0x0809469C
+	thumb_func_start CreateSoundTest
+CreateSoundTest: @ 0x0809469C
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	adds r5, r0, #0
@@ -96546,7 +96546,7 @@ sub_80946F0: @ 0x080946F0
 	movs r0, #1
 	strb r0, [r4, #4]
 	adds r0, r4, #0
-	bl sub_8094488
+	bl SoundTest_DrawSongName
 	adds r0, r4, #0
 	bl sub_809473C
 	b _08094734

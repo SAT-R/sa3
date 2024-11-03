@@ -1666,9 +1666,15 @@ gUnknown_080D6C08:
 gUnknown_080D6C1C:
     .incbin "baserom.gba", 0x000D6C1C, 0x200
 
-    .global gUnknown_080D6E1C
-gUnknown_080D6E1C:
-    .incbin "baserom.gba", 0x000D6E1C, 0x1C
+    .global sOptionsSlideInits
+sOptionsSlideInits:
+    .int OptionsSlideInit_PlayerData
+    .int OptionsSlideInit_Difficulty
+    .int OptionsSlideInit_TimeUp
+    .int OptionsSlideInit_Language
+    .int OptionsSlideInit_ButtonConfig
+    .int OptionsSlideInit_SoundTest
+    .int OptionsSlideInit_DeleteSaveData
 
     .global gUnknown_080D6E38
 gUnknown_080D6E38:
@@ -1901,13 +1907,15 @@ gUnknown_080D76F0:
 gUnknown_080D7740:
     .incbin "baserom.gba", 0x000D7740, 0x8
 
-    .global gUnknown_080D7748
-gUnknown_080D7748:
+    .global sSongNames
+sSongNames:
     .incbin "baserom.gba", 0x000D7748, 0x133C
 
     .global gUnknown_080D8A84
 gUnknown_080D8A84:
-    .incbin "baserom.gba", 0x000D8A84, 0x8
+    .2byte 0x462 @ ANIM_ASCII
+    .byte  0x00, 0x00
+    .4byte 0
 
     .global gUnknown_080D8A8C
 gUnknown_080D8A8C:
@@ -2773,20 +2781,20 @@ gUnknown_080DBD64:
 gUnknown_080DBD88:
     .incbin "baserom.gba", 0x000DBD88, 0x8
 
-    .global gPalette_80DBD90
-gPalette_80DBD90:
-    .incbin "graphics/gPalette_80DBD90.gbapal"
-    .incbin "graphics/gPalette_80DBDB0.gbapal"
+    .global gPalette_080DBD90
+gPalette_080DBD90:
+    .incbin "graphics/gPalette_080DBD90.gbapal"
+    .incbin "graphics/gPalette_080DBDB0.gbapal"
 
-    .global gPalette_80DBDD0
-gPalette_80DBDD0:
-    .incbin "graphics/gPalette_80DBDD0.gbapal"
-    .incbin "graphics/gPalette_80DBDF0.gbapal"
+    .global gPalette_080DBDD0
+gPalette_080DBDD0:
+    .incbin "graphics/gPalette_080DBDD0.gbapal"
+    .incbin "graphics/gPalette_080DBDF0.gbapal"
 
-    .global gPalette_80DBE10
-gPalette_80DBE10:
-    .incbin "graphics/gPalette_80DBE10.gbapal"
-    .incbin "graphics/gPalette_80DBE30.gbapal"
+    .global gPalette_080DBE10
+gPalette_080DBE10:
+    .incbin "graphics/gPalette_080DBE10.gbapal"
+    .incbin "graphics/gPalette_080DBE30.gbapal"
 
     .global gUnknown_080DBE50
 gUnknown_080DBE50:
