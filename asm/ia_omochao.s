@@ -5,360 +5,9 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable066
-CreateEntity_Interactable066: @ 0x08037E08
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #0xc
-	adds r7, r0, #0
-	lsls r1, r1, #0x10
-	lsrs r1, r1, #0x10
-	mov sl, r1
-	lsls r2, r2, #0x10
-	lsrs r2, r2, #0x10
-	str r2, [sp, #4]
-	lsls r3, r3, #0x18
-	lsrs r3, r3, #0x18
-	str r3, [sp, #8]
-	ldrb r0, [r7, #7]
-	mov sb, r0
-	ldr r0, _08037EF0 @ =gStageData
-	ldrb r1, [r0, #3]
-	adds r2, r0, #0
-	cmp r1, #0
-	bne _08037ED6
-	mov r0, sb
-	cmp r0, #0x2c
-	bne _08037E44
-	ldr r0, _08037EF4 @ =gSaveGame
-	ldrb r0, [r0, #0x11]
-	cmp r0, #7
-	bls _08037ED6
-_08037E44:
-	mov r0, sb
-	cmp r0, #3
-	beq _08037E52
-	cmp r0, #8
-	beq _08037E52
-	cmp r0, #9
-	bne _08037E58
-_08037E52:
-	ldrb r0, [r2, #3]
-	cmp r0, #0
-	bne _08037ED6
-_08037E58:
-	ldr r0, _08037EF8 @ =sub_8037F18
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _08037EFC @ =sub_80385F4
-	str r1, [sp]
-	movs r1, #0x68
-	movs r3, #0
-	bl TaskCreate
-	ldrh r5, [r0, #6]
-	movs r4, #0xc0
-	lsls r4, r4, #0x12
-	adds r4, r5, r4
-	ldr r2, _08037F00 @ =0x0300000C
-	adds r6, r5, r2
-	ldr r0, _08037F04 @ =0x03000034
-	adds r0, r0, r5
-	mov r8, r0
-	ldr r0, _08037F08 @ =0x00000CAC
-	bl EwramMalloc
-	str r0, [r4, #0x64]
-	movs r2, #0
-	movs r3, #0
-	mov r1, sl
-	strh r1, [r4, #4]
-	mov r0, sp
-	ldrh r0, [r0, #4]
-	strh r0, [r4, #6]
-	str r7, [r4]
-	ldrb r0, [r7]
-	strb r0, [r4, #0xa]
-	mov r1, sp
-	ldrb r1, [r1, #8]
-	strb r1, [r4, #0xb]
-	ldr r1, _08037F0C @ =0x03000061
-	adds r0, r5, r1
-	mov r1, sb
-	strb r1, [r0]
-	ldr r0, _08037F10 @ =0x03000060
-	adds r1, r5, r0
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r1, _08037F14 @ =0x03000062
-	adds r5, r5, r1
-	strb r2, [r5]
-	str r3, [r4, #0x5c]
-	ldrb r0, [r7]
-	lsls r0, r0, #3
-	mov r2, sl
-	lsls r1, r2, #8
-	adds r0, r0, r1
-	strh r0, [r6, #0x10]
-	ldrb r0, [r7, #1]
-	lsls r0, r0, #3
-	ldr r2, [sp, #4]
-	lsls r1, r2, #8
-	adds r0, r0, r1
-	strh r0, [r6, #0x12]
-	adds r0, r6, #0
-	mov r1, r8
-	bl sub_80384B0
-_08037ED6:
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r7]
-	add sp, #0xc
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08037EF0: .4byte gStageData
-_08037EF4: .4byte gSaveGame
-_08037EF8: .4byte sub_8037F18
-_08037EFC: .4byte sub_80385F4
-_08037F00: .4byte 0x0300000C
-_08037F04: .4byte 0x03000034
-_08037F08: .4byte 0x00000CAC
-_08037F0C: .4byte 0x03000061
-_08037F10: .4byte 0x03000060
-_08037F14: .4byte 0x03000062
-
-	thumb_func_start sub_8037F18
-sub_8037F18: @ 0x08037F18
-	push {r4, r5, r6, lr}
-	ldr r5, _08037F78 @ =gCurTask
-	ldr r0, [r5]
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r6, r4, r0
-	bl sub_80382EC
-	cmp r0, #0
-	beq _08037F6C
-	ldr r1, [r5]
-	ldr r0, _08037F7C @ =sub_8037F8C
-	str r0, [r1, #8]
-	ldr r0, _08037F80 @ =0x03000060
-	adds r1, r4, r0
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r1, _08037F84 @ =gStageData
-	movs r0, #4
-	strb r0, [r1, #4]
-	movs r2, #1
-	adds r0, r2, #0
-	ldrb r3, [r1, #6]
-	lsls r0, r3
-	adds r3, r1, #0
-	adds r3, #0xb9
-	strb r0, [r3]
-	adds r1, #0x85
-	strb r2, [r1]
-	ldr r0, _08037F88 @ =0x00000201
-	bl sub_8003DF0
-	ldr r0, [r6, #0x5c]
-	adds r0, #0x56
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #5
-	bgt _08037F6C
-	bl sub_80299FC
-_08037F6C:
-	bl sub_8038548
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08037F78: .4byte gCurTask
-_08037F7C: .4byte sub_8037F8C
-_08037F80: .4byte 0x03000060
-_08037F84: .4byte gStageData
-_08037F88: .4byte 0x00000201
-
-	thumb_func_start sub_8037F8C
-sub_8037F8C: @ 0x08037F8C
-	push {r4, r5, lr}
-	ldr r3, _08038028 @ =gStageData
-	movs r0, #4
-	strb r0, [r3, #4]
-	movs r1, #1
-	adds r0, r1, #0
-	ldrb r2, [r3, #6]
-	lsls r0, r2
-	adds r2, r3, #0
-	adds r2, #0xb9
-	strb r0, [r2]
-	adds r0, r3, #0
-	adds r0, #0x85
-	strb r1, [r0]
-	ldr r5, _0803802C @ =gCurTask
-	ldr r0, [r5]
-	ldrh r2, [r0, #6]
-	ldrb r1, [r3, #6]
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	ldr r1, _08038030 @ =gPlayers
-	adds r0, r0, r1
-	adds r0, #0x9e
-	ldrh r1, [r0]
-	subs r1, #0x40
-	strh r1, [r0]
-	ldr r3, _08038034 @ =0x03000060
-	adds r4, r2, r3
-	ldrb r0, [r4]
-	subs r0, #1
-	strb r0, [r4]
-	lsls r0, r0, #0x18
-	cmp r0, #0
-	bne _08037FDC
-	ldr r1, [r5]
-	ldr r0, _08038038 @ =sub_8038058
-	str r0, [r1, #8]
-_08037FDC:
-	ldr r2, _0803803C @ =gDispCnt
-	ldrh r0, [r2]
-	movs r3, #0x80
-	lsls r3, r3, #7
-	adds r1, r3, #0
-	orrs r0, r1
-	ldr r1, _08038040 @ =0x0000DFFF
-	ands r0, r1
-	strh r0, [r2]
-	ldr r3, _08038044 @ =gWinRegs
-	ldr r0, _08038048 @ =0x000020D0
-	strh r0, [r3, #2]
-	ldrb r2, [r4]
-	lsls r2, r2, #1
-	adds r1, r2, #0
-	adds r1, #0x18
-	lsls r1, r1, #8
-	movs r0, #0x58
-	subs r0, r0, r2
-	orrs r1, r0
-	strh r1, [r3, #6]
-	ldr r0, _0803804C @ =0x00003F1F
-	strh r0, [r3, #8]
-	movs r0, #0x1f
-	strh r0, [r3, #0xa]
-	ldr r2, _08038050 @ =gBldRegs
-	ldr r0, _08038054 @ =0x00003FAF
-	strh r0, [r2]
-	ldrb r1, [r4]
-	lsrs r1, r1, #1
-	movs r0, #8
-	subs r0, r0, r1
-	strh r0, [r2, #4]
-	bl sub_8038548
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08038028: .4byte gStageData
-_0803802C: .4byte gCurTask
-_08038030: .4byte gPlayers
-_08038034: .4byte 0x03000060
-_08038038: .4byte sub_8038058
-_0803803C: .4byte gDispCnt
-_08038040: .4byte 0x0000DFFF
-_08038044: .4byte gWinRegs
-_08038048: .4byte 0x000020D0
-_0803804C: .4byte 0x00003F1F
-_08038050: .4byte gBldRegs
-_08038054: .4byte 0x00003FAF
-
-	thumb_func_start sub_8038058
-sub_8038058: @ 0x08038058
-	push {r4, r5, r6, lr}
-	ldr r2, _080380D8 @ =gStageData
-	movs r0, #4
-	strb r0, [r2, #4]
-	movs r1, #1
-	adds r0, r1, #0
-	ldrb r3, [r2, #6]
-	lsls r0, r3
-	adds r3, r2, #0
-	adds r3, #0xb9
-	strb r0, [r3]
-	adds r0, r2, #0
-	adds r0, #0x85
-	strb r1, [r0]
-	ldr r6, _080380DC @ =gCurTask
-	ldr r0, [r6]
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r4, r0
-	ldr r5, [r0, #0x64]
-	ldrb r1, [r2, #6]
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	ldr r1, _080380E0 @ =gPlayers
-	adds r0, r0, r1
-	ldr r2, _080380E4 @ =gWinRegs
-	ldr r1, _080380E8 @ =0x000020D0
-	strh r1, [r2, #2]
-	ldr r1, _080380EC @ =0x00001858
-	strh r1, [r2, #6]
-	ldr r2, _080380F0 @ =gBldRegs
-	movs r1, #8
-	strh r1, [r2, #4]
-	adds r0, #0x9e
-	movs r1, #0xfc
-	lsls r1, r1, #8
-	strh r1, [r0]
-	bl sub_8038548
-	cmp r0, #0
-	beq _080380D0
-	adds r0, r5, #0
-	bl sub_8023734
-	cmp r0, #0
-	beq _080380CA
-	ldr r0, _080380F4 @ =0x03000060
-	adds r1, r4, r0
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r1, [r6]
-	ldr r0, _080380F8 @ =sub_80380FC
-	str r0, [r1, #8]
-_080380CA:
-	adds r0, r5, #0
-	bl sub_80239A8
-_080380D0:
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080380D8: .4byte gStageData
-_080380DC: .4byte gCurTask
-_080380E0: .4byte gPlayers
-_080380E4: .4byte gWinRegs
-_080380E8: .4byte 0x000020D0
-_080380EC: .4byte 0x00001858
-_080380F0: .4byte gBldRegs
-_080380F4: .4byte 0x03000060
-_080380F8: .4byte sub_80380FC
-
-	thumb_func_start sub_80380FC
-sub_80380FC: @ 0x080380FC
+.if 0
+	thumb_func_start Task_80380FC
+Task_80380FC: @ 0x080380FC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -534,7 +183,7 @@ _0803823E:
 _0803825C:
 	ldr r0, _0803829C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080382A0 @ =sub_8037F18
+	ldr r0, _080382A0 @ =Task_OmochaoInit
 	str r0, [r1, #8]
 	movs r0, #0
 	str r0, [r6, #0x5c]
@@ -563,7 +212,7 @@ _08038290: .4byte gStageData
 _08038294: .4byte 0xEFFFFFFF
 _08038298: .4byte Player_8005380
 _0803829C: .4byte gCurTask
-_080382A0: .4byte sub_8037F18
+_080382A0: .4byte Task_OmochaoInit
 _080382A4: .4byte 0x000003D1
 _080382A8:
 	ldr r3, _080382E0 @ =gWinRegs
@@ -597,6 +246,7 @@ _080382CC:
 _080382E0: .4byte gWinRegs
 _080382E4: .4byte 0x000020D0
 _080382E8: .4byte gBldRegs
+.endif
 
 	thumb_func_start sub_80382EC
 sub_80382EC: @ 0x080382EC
@@ -988,8 +638,8 @@ _080385E4:
 	.align 2, 0
 _080385F0: .4byte gCamera
 
-	thumb_func_start sub_80385F4
-sub_80385F4: @ 0x080385F4
+	thumb_func_start TaskDestructor_Omochao
+TaskDestructor_Omochao: @ 0x080385F4
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0

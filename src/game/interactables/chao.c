@@ -178,7 +178,7 @@ void Task_ChaoMain(void)
                 fade->bldAlpha = 0;
                 ScreenFadeUpdateValues(fade);
 
-                gStageData.unk4 = 0x4;
+                gStageData.unk4 = 4;
                 gStageData.unkB9 = (1 << gStageData.playerIndex);
                 gStageData.unk85 = 1;
 
