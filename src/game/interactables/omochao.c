@@ -305,3 +305,70 @@ NONMATCH("asm/non_matching/game/interactables/omochao__OmochaoPickUp.inc", bool3
     return FALSE;
 }
 END_NONMATCH
+
+void sub_80384B0(Sprite *s, Sprite *s2)
+{
+    s->tiles = ALLOC_TILES(ANIM_OMOCHAO0);
+    s->anim = ANIM_OMOCHAO0;
+    s->variant = 1;
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    UpdateSpriteAnimation(s);
+
+    s2->tiles = ALLOC_TILES(ANIM_UI_PROMPT_BUTTON);
+    s2->anim = ANIM_UI_PROMPT_BUTTON;
+    s2->variant = 0;
+    s2->oamFlags = SPRITE_OAM_ORDER(0);
+    s2->animCursor = 0;
+    s2->qAnimDelay = 0;
+    s2->prevVariant = -1;
+    s2->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s2->palId = 15;
+    s2->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s2->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+    UpdateSpriteAnimation(s2);
+}
+
+bool32 sub_8038548(void)
+{
+    Omochao *omochao = TASK_DATA(gCurTask);
+    Sprite *s = &omochao->s;
+    MapEntity *me = omochao->base.me;
+    s16 worldX, worldY;
+
+    worldX = TO_WORLD_POS(omochao->base.spriteX, omochao->base.regionX);
+    worldY = TO_WORLD_POS(me->y, omochao->base.regionY);
+
+    if (!IsPointInScreenRect(worldX, worldY)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, omochao->base.spriteX);
+        TaskDestroy(gCurTask);
+        return FALSE;
+    }
+
+    if (omochao->player) {
+        s->x = I(omochao->player->qWorldX) - gCamera.x;
+        s->y = I(omochao->player->qWorldY) - gCamera.y;
+    } else {
+        s->x = worldX - gCamera.x;
+        s->y = worldY - gCamera.y;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    return TRUE;
+}
+
+void TaskDestructor_Omochao(struct Task *t)
+{
+    Omochao *omochao = TASK_DATA(t);
+    VramFree(omochao->s.tiles);
+    VramFree(omochao->s2.tiles);
+    EwramFree(omochao->data);
+}
