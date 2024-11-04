@@ -248,7 +248,7 @@ void CreateEntity_BonusCapsule(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     // Maybe 160 is DISPLAY_HEIGHT?
     gCamera.unk14 = 160;
-    gCamera.shiftY = 288;
+    gCamera.unk1C = 288;
 }
 
 void TaskDestructor_BonusCapsule(struct Task *t)
