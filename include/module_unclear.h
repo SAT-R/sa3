@@ -74,7 +74,7 @@ bool32 sub_8020E3C(Sprite *s, s32 param1, s32 param2, s16 param3, Player *p);
 
 void sub_80213B0(Sprite *s, Player *p);
 
-void sub_80236C8(void *, u8 p1, void *);
+void sub_80236C8(Sprite *, u8 p1, void *);
 bool32 sub_8023734(void *chaoEwramData);
 void sub_80239A8(void *chaoEwramData);
 // NOTE: x and y have different signedness, but it's correct

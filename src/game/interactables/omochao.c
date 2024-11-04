@@ -46,10 +46,13 @@ void Task_OmochaoInit(void);
 void Task_8037F8C(void);
 void Task_8038058(void);
 void Task_80380FC(void);
-bool32 sub_80382EC(void);
+bool32 OmochaoPickUp(void);
 void sub_80384B0(Sprite *s, Sprite *s2);
 bool32 sub_8038548(void);
 void TaskDestructor_Omochao(struct Task *t);
+
+// const AnimId gUnknown_080CF690[NUM_CHARACTERS] = {ANIM_OMOCHAO1, ANIM_OMOCHAO2, ANIM_OMOCHAO3, ANIM_OMOCHAO4, ANIM_OMOCHAO5 };
+extern const AnimId gUnknown_080CF690[NUM_CHARACTERS];
 
 // (99.92%) https://decomp.me/scratch/8EpcD
 NONMATCH("asm/non_matching/game/interactables/omochao__CreateEntity_Omochao.inc",
@@ -90,7 +93,7 @@ void Task_OmochaoInit(void)
 {
     Omochao *omochao = TASK_DATA(gCurTask);
 
-    if (sub_80382EC()) {
+    if (OmochaoPickUp()) {
         gCurTask->main = Task_8037F8C;
 
         omochao->unk60 = 0x10;
@@ -237,3 +240,68 @@ void Task_80380FC(void)
 
     sub_8038548();
 }
+
+// (98.00%) https://decomp.me/scratch/qgAUG
+// Result
+// - TRUE: Picked up
+NONMATCH("asm/non_matching/game/interactables/omochao__OmochaoPickUp.inc", bool32 OmochaoPickUp(void))
+{
+    u8 sb = 0;
+    Omochao *omochao = TASK_DATA(gCurTask);
+    Sprite *s = &omochao->s;
+    MapEntity *me = omochao->base.me;
+    Player *p;
+    s16 worldX, worldY;
+    u8 i;
+
+    worldX = TO_WORLD_POS(omochao->base.spriteX, omochao->base.regionX);
+    worldY = TO_WORLD_POS(me->y, omochao->base.regionY);
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        p = GET_SP_PLAYER_V1(i);
+
+        if ((p->charFlags.someIndex != 2) && (p->charFlags.someIndex != 5) && !(p->moveState & MOVESTATE_IN_AIR)
+            && (p->charFlags.anim0 == 0) && !(p->moveState & MOVESTATE_20) && !sub_802C080(p) && sub_8020700(s, worldX, worldY, 0, p, 0)
+            && (p->keyInput2 & DPAD_UP)) {
+            sb = (1 << i);
+        }
+    }
+
+    if (sb != 0) {
+        omochao->unk62 = sb;
+        sub_80236C8(&omochao->s2, omochao->textId, omochao->data);
+
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            // _08038404
+            p = GET_SP_PLAYER_V1(i);
+
+            if ((sb >> i) & 0x1) {
+                sub_8016F28(p);
+                Player_800ED14(p);
+
+                omochao->player = p;
+
+                omochao->s.anim = gUnknown_080CF690[p->charFlags.character];
+                omochao->s.variant = 0;
+
+                omochao->s.oamFlags = p->spriteData->s.oamFlags + SPRITE_OAM_ORDER(1);
+                omochao->s.frameFlags = p->spriteData->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
+
+                if (!(p->moveState & MOVESTATE_FACING_LEFT)) {
+                    SPRITE_FLAG_SET(&omochao->s, X_FLIP);
+                } else {
+                    SPRITE_FLAG_CLEAR(&omochao->s, X_FLIP);
+                }
+
+                sub_8004E98(p, SE_PICKUP_OMOCHAO_2);
+            } else {
+                p->moveState |= MOVESTATE_10000000;
+            }
+        }
+
+        return TRUE;
+    }
+
+    return FALSE;
+}
+END_NONMATCH

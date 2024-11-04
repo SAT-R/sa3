@@ -2,6 +2,7 @@
 #define GUARD_SA3_PLAYER_H
 
 #include "sprite.h"
+#include "game/entity.h" // SpriteBase
 
 #define NUM_SINGLE_PLAYER_CHARS 2
 
@@ -30,6 +31,14 @@ typedef union PACKED {
         s8 highValue : 8;
     } split;
 } StateNum;
+
+// SA3
+//
+// Pointed to by Player::unkE0
+typedef struct {
+    /* 0x00 */ SpriteBase base;
+    /* 0x0C */ Sprite s;
+} PlayerSprite; /* size: 0xF0 ? */
 
 struct Player {
     // Code (Character Movement) to be executed
@@ -186,9 +195,9 @@ struct Player {
     u32 unkD8;
     u32 unkDC;
 
-    u8 fillerE0[0x4];
+    PlayerSprite *spriteData;
 
-    //    spriteInfo* spriteInfo; // 0xE0 | the information is 0x3C bytes long
+    //    SpriteInfo* spriteInfo; // 0xE0 | the information is 0x3C bytes long
     u32 unkE4;
 
     u8 Padding7[0x54];

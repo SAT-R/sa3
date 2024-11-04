@@ -30004,8 +30004,8 @@ _0800ED0C:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_800ED14
-sub_800ED14: @ 0x0800ED14
+	thumb_func_start Player_800ED14
+Player_800ED14: @ 0x0800ED14
 	push {r4, lr}
 	adds r4, r0, #0
 	bl sub_8016F28
