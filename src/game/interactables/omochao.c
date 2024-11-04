@@ -24,7 +24,7 @@ typedef struct {
     /* 0x5C */ Player *player;
     /* 0x60 */ u8 unk60;
     /* 0x61 */ u8 textId;
-    /* 0x61 */ u8 unk62;
+    /* 0x62 */ u8 unk62;
     /* 0x64 */ void *data;
 } Omochao; /* 0x68 */
 
@@ -170,4 +170,70 @@ void Task_8038058(void)
 
         sub_80239A8(data);
     }
+}
+
+void Task_80380FC(void)
+{
+    Omochao *omochao;
+    Player *p;
+    void *data;
+    u8 i;
+
+    gStageData.unk4 = 4;
+    gStageData.unkB9 = (1 << gStageData.playerIndex);
+    gStageData.unk85 = 1;
+
+    omochao = TASK_DATA(gCurTask);
+    p = &gPlayers[gStageData.playerIndex];
+    p->qCamOffsetY += Q(0.25);
+
+    if (omochao->unk60 == 0x10) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            p = GET_SP_PLAYER_V1(i);
+
+            if ((omochao->unk62 >> i) & 0x1) {
+                Player_800ED34(p);
+            }
+        }
+    }
+
+    if (--omochao->unk60 == 0) {
+        gDispCnt &= ~DISPCNT_WIN1_ON;
+        gBldRegs.bldCnt = 0;
+        gBldRegs.bldY = 0;
+
+        gCamera.shiftY = 0;
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            p = GET_SP_PLAYER_V1(i);
+
+            p->moveState &= ~MOVESTATE_10000000;
+
+            if ((omochao->unk62 >> i) & 0x1) {
+                SetPlayerCallback(p, Player_8005380);
+            }
+        }
+
+        if (omochao->player->unk56 < 6) {
+            sub_8029A18(MUS_DROWNING);
+        }
+
+        gCurTask->main = Task_OmochaoInit;
+        omochao->player = NULL;
+
+        omochao->s.anim = ANIM_OMOCHAO0;
+        omochao->s.variant = 1;
+        omochao->s.frameFlags = SPRITE_FLAG(PRIORITY, 1);
+        omochao->s.oamFlags = SPRITE_OAM_ORDER(24);
+
+        gStageData.unk4 = 3;
+        gStageData.unkB9 = 0;
+        gStageData.unk85 = 0;
+    } else {
+        gWinRegs[WINREG_WIN1H] = WIN_RANGE(TXTBOX_X, TXTBOX_RIGHT);
+        gWinRegs[WINREG_WIN1V] = WIN_RANGE((24 + (16 - omochao->unk60) * 2), (88 - (16 - omochao->unk60) * 2));
+
+        gBldRegs.bldY = omochao->unk60 / 2;
+    }
+
+    sub_8038548();
 }

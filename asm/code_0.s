@@ -30021,8 +30021,8 @@ sub_800ED14: @ 0x0800ED14
 	.align 2, 0
 _0800ED30: .4byte sub_800ED4C
 
-	thumb_func_start sub_800ED34
-sub_800ED34: @ 0x0800ED34
+	thumb_func_start Player_800ED34
+Player_800ED34: @ 0x0800ED34
 	push {lr}
 	movs r1, #0xa4
 	strh r1, [r0, #0x30]

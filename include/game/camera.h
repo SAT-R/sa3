@@ -23,29 +23,28 @@ typedef void (*BgUpdate)(s32, s32);
 
 #define CAM_MODE_SPECTATOR 4
 
-// struct Camera is from SA2!
+// TODO: struct Camera is mostly from SA2!
+//       Some many members are likely wrong!
 struct Camera {
     /* 0x00 */ s32 x;
     /* 0x04 */ s32 y;
     /* 0x08 */ s32 unk8;
-    /* 0x0C */ s32 unkC;
+    /* 0x0C */ s16 shiftX; // x offset?
+    /* 0x0E */ s16 shiftY; // y offset?
     /* 0x10 */ s32 unk10;
     /* 0x14 */ s32 unk14;
-    /* 0x18 */ s32 shiftX;
-    /* 0x1C */ s32 shiftY;
+    /* 0x18 */ s32 unk18;
+    /* 0x1C */ s32 unk1C;
     /* 0x20 */ s32 unk20;
     /* 0x24 */ s32 unk24;
 
-    // TODO: Why are X/Y swapped?
-    //       Did they make this a matrix or sth.?
-    //       (Used to calc min/max cam pos in UpdateCamera())
-    /* 0x28 */ s32 minY;
-    /* 0x2c */ s32 maxY;
-    /* 0x30 */ s32 minX;
-    /* 0x34 */ s32 maxX;
+    /* 0x28 */ s32 unk28;
+    /* 0x2c */ s32 unk2C;
+    /* 0x30 */ s32 dx;
+    /* 0x34 */ s32 dy;
 
-    /* 0x38 */ s32 unk38; // movementX?
-    /* 0x3c */ s32 unk3C; // movementY?
+    /* 0x38 */ s32 unk38;
+    /* 0x3c */ s32 unk3C;
     /* 0x40 */ s16 unk40;
     /* 0x44 */ s32 unk44;
     /* 0x48 */ s32 unk48;
@@ -64,7 +63,7 @@ struct Camera {
     /* 0x62 */ s16 unk62;
     /* 0x64 */ s16 unk64;
     /* 0x66 */ u8 spectatorTarget;
-}; /* size 0x80 */
+}; /* size ??? */
 
 extern struct Camera gCamera;
 

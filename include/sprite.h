@@ -339,7 +339,7 @@ s16 sa2__sub_8004418(s16 x, s16 y);
 
 #define SPRITE_FLAG_FLIP(sprite, flagName) (sprite)->frameFlags ^= (SPRITE_FLAG_MASK_##flagName)
 
-#define SPRITE_FLAG_SET_VALUE(sprite, flagName, value) (sprite)->unk10 |= SPRITE_FLAG(flagName, value)
+#define SPRITE_FLAG_SET_VALUE(sprite, flagName, value) (sprite)->frameFlags |= SPRITE_FLAG(flagName, value)
 
 #define SPRITE_FLAG_SHIFT_ROT_SCALE             0
 #define SPRITE_FLAG_SHIFT_ROT_SCALE_ENABLE      5
