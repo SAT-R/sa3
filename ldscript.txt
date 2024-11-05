@@ -57,7 +57,7 @@ SECTIONS {
         build/sa3/src/game/interactables/085.o(.text);
         build/sa3/asm/ia_slow_chaos_elevator.o(.text);
         build/sa3/asm/trigger_goal_ring_and_boss.o(.text);
-        build/sa3/asm/ia_platform_attached.o(.text);
+        build/sa3/src/game/interactables/platform_attached.o(.text);
         build/sa3/src/game/interactables/water_cannon.o(.text);
         build/sa3/src/game/interactables/090.o(.text);
         build/sa3/asm/ia_accordion_spring.o(.text);
