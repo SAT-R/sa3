@@ -16,8 +16,12 @@ struct Player;
 typedef struct Player Player;
 typedef void (*PlayerCallback)(Player *);
 
-#define GET_SP_PLAYER_V0(index) ((index == 0) ? &gPlayers[gStageData.playerIndex] : &gPlayers[p->charFlags.partnerIndex])
-#define GET_SP_PLAYER_V1(index) ((index != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.playerIndex])
+#define PLAYER_1                0
+#define PLAYER_2                1
+#define PLAYER_3                2
+#define PLAYER_4                3
+#define GET_SP_PLAYER_V0(index) ((index == PLAYER_1) ? &gPlayers[gStageData.playerIndex] : &gPlayers[p->charFlags.partnerIndex])
+#define GET_SP_PLAYER_V1(index) ((index != PLAYER_1) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.playerIndex])
 
 typedef union PACKED {
     u16 raw;

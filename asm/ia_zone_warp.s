@@ -6,220 +6,10 @@
 .arm
 
 .if 0
-	thumb_func_start Task_ZoneWarpInit
-Task_ZoneWarpInit: @ 0x0802D7FC
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	sub sp, #8
-	ldr r0, _0802D8B0 @ =gCurTask
-	mov sb, r0
-	ldr r0, [r0]
-	ldrh r0, [r0, #6]
-	movs r2, #0xc0
-	lsls r2, r2, #0x12
-	adds r2, r0, r2     @ r2 = warp
-	ldr r1, _0802D8B4 @ =0x0300000C
-	adds r1, r1, r0
-	mov r8, r1          @ r8 = s
-	ldr r3, [r2]        @ r3 = me
-	ldr r5, _0802D8B8 @ =gStageData
-	ldrb r1, [r5, #6]
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	ldr r1, _0802D8BC @ =gPlayers
-	adds r4, r0, r1     @ r4 = p
-	ldrb r0, [r2, #0xa]
-	lsls r0, r0, #3
-	ldrh r1, [r2, #4]
-	lsls r1, r1, #8
-	adds r0, r0, r1
-	lsls r0, r0, #0x10
-	lsrs r7, r0, #0x10
-	ldrb r0, [r3, #1]
-	lsls r0, r0, #3
-	ldrh r1, [r2, #6]
-	lsls r1, r1, #8
-	adds r0, r0, r1
-	lsls r0, r0, #0x10
-	lsrs r6, r0, #0x10
-	adds r0, r4, #0
-	bl sub_802C080
-	cmp r0, #0
-	bne _0802D89E
-	ldrb r5, [r5, #6]
-	cmp r5, #0
-	bne _0802D89E
-	lsls r1, r7, #0x10
-	asrs r1, r1, #0x10
-	lsls r2, r6, #0x10
-	asrs r2, r2, #0x10
-	str r4, [sp]
-	str r5, [sp, #4]
-	mov r0, r8
-	movs r3, #0
-	bl sub_8020700
-	cmp r0, #0
-	beq _0802D89E
-	adds r0, r4, #0
-	bl sub_8016F28
-	ldr r0, [r4, #4]
-	ldr r1, _0802D8C0 @ =0x30000002
-	orrs r0, r1
-	str r0, [r4, #4]
-	movs r0, #0xb
-	strh r0, [r4, #0x30]
-	strh r5, [r4, #0x1c]
-	strh r5, [r4, #0x18]
-	strh r5, [r4, #0x1a]
-	adds r0, r4, #0
-	bl Player_8004FF8
-	movs r0, #0x6d
-	bl sub_8003DF0
-	mov r0, sb
-	ldr r1, [r0]
-	ldr r0, _0802D8C4 @ =sub_802D8C8
-	str r0, [r1, #8]
-_0802D89E:
-	bl sub_802DB9C
-	add sp, #8
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0802D8B0: .4byte gCurTask
-_0802D8B4: .4byte 0x0300000C
-_0802D8B8: .4byte gStageData
-_0802D8BC: .4byte gPlayers
-_0802D8C0: .4byte 0x30000002
-_0802D8C4: .4byte sub_802D8C8
 .endif
 
-	thumb_func_start sub_802D8C8
-sub_802D8C8: @ 0x0802D8C8
-	push {r4, r5, r6, lr}
-	ldr r0, _0802D91C @ =gStageData
-	ldrb r1, [r0, #6]
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	ldr r1, _0802D920 @ =gPlayers
-	adds r4, r0, r1
-	ldr r3, _0802D924 @ =gCurTask
-	ldr r0, [r3]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r5, r1, r0
-	ldr r1, [r5]
-	ldrb r2, [r5, #0xa]
-	lsls r2, r2, #3
-	ldrh r0, [r5, #4]
-	lsls r0, r0, #8
-	adds r2, r2, r0
-	ldrb r1, [r1, #1]
-	lsls r1, r1, #3
-	ldrh r0, [r5, #6]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	lsls r2, r2, #0x10
-	asrs r2, r2, #8
-	lsls r1, r1, #0x10
-	asrs r1, r1, #8
-	ldr r0, [r4, #0x10]
-	cmp r2, r0
-	beq _0802D93A
-	cmp r2, r0
-	bge _0802D92C
-	ldr r6, _0802D928 @ =0xFFFFFE00
-	adds r0, r0, r6
-	str r0, [r4, #0x10]
-	cmp r0, r2
-	bgt _0802D93A
-	b _0802D938
-	.align 2, 0
-_0802D91C: .4byte gStageData
-_0802D920: .4byte gPlayers
-_0802D924: .4byte gCurTask
-_0802D928: .4byte 0xFFFFFE00
-_0802D92C:
-	movs r6, #0x80
-	lsls r6, r6, #2
-	adds r0, r0, r6
-	str r0, [r4, #0x10]
-	cmp r0, r2
-	blt _0802D93A
-_0802D938:
-	str r2, [r4, #0x10]
-_0802D93A:
-	ldr r0, [r4, #0x14]
-	cmp r1, r0
-	beq _0802D962
-	cmp r1, r0
-	bge _0802D954
-	ldr r6, _0802D950 @ =0xFFFFFE00
-	adds r0, r0, r6
-	str r0, [r4, #0x14]
-	cmp r0, r1
-	bgt _0802D962
-	b _0802D960
-	.align 2, 0
-_0802D950: .4byte 0xFFFFFE00
-_0802D954:
-	movs r6, #0x80
-	lsls r6, r6, #2
-	adds r0, r0, r6
-	str r0, [r4, #0x14]
-	cmp r0, r1
-	blt _0802D962
-_0802D960:
-	str r1, [r4, #0x14]
-_0802D962:
-	ldr r0, [r4, #0x10]
-	cmp r2, r0
-	bne _0802D978
-	ldr r0, [r4, #0x14]
-	cmp r1, r0
-	bne _0802D978
-	ldr r0, [r3]
-	ldr r1, _0802D99C @ =sub_802D9A8
-	str r1, [r0, #8]
-	movs r0, #0x78
-	strh r0, [r5, #8]
-_0802D978:
-	bl sub_802DB9C
-	ldr r0, [r4, #4]
-	movs r1, #0x80
-	lsls r1, r1, #0x11
-	ands r0, r1
-	cmp r0, #0
-	beq _0802D994
-	ldr r0, _0802D9A0 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0802D9A4 @ =sub_802DADC
-	str r0, [r1, #8]
-	movs r0, #0x1e
-	strh r0, [r5, #8]
-_0802D994:
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0802D99C: .4byte sub_802D9A8
-_0802D9A0: .4byte gCurTask
-_0802D9A4: .4byte sub_802DADC
-
-	thumb_func_start sub_802D9A8
-sub_802D9A8: @ 0x0802D9A8
+	thumb_func_start Task_802D9A8
+Task_802D9A8: @ 0x0802D9A8
 	push {r4, r5, r6, lr}
 	ldr r0, _0802DA04 @ =gStageData
 	ldrb r1, [r0, #6]
@@ -262,7 +52,7 @@ _0802D9F4:
 	adds r0, r4, #0
 	bl SetPlayerCallback
 	ldr r1, [r6]
-	ldr r0, _0802DA14 @ =sub_802DADC
+	ldr r0, _0802DA14 @ =Task_802DADC
 	str r0, [r1, #8]
 	b _0802DA2C
 	.align 2, 0
@@ -270,7 +60,7 @@ _0802DA04: .4byte gStageData
 _0802DA08: .4byte gPlayers
 _0802DA0C: .4byte gCurTask
 _0802DA10: .4byte Player_800DB30
-_0802DA14: .4byte sub_802DADC
+_0802DA14: .4byte Task_802DADC
 _0802DA18:
 	lsls r0, r2, #0x10
 	cmp r0, #0
@@ -364,8 +154,8 @@ _0802DAD0: .4byte gUnknown_03006840
 _0802DAD4: .4byte gVramGraphicsCopyCursor
 _0802DAD8: .4byte gVramGraphicsCopyQueueIndex
 
-	thumb_func_start sub_802DADC
-sub_802DADC: @ 0x0802DADC
+	thumb_func_start Task_802DADC
+Task_802DADC: @ 0x0802DADC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -558,5 +348,3 @@ sub_802DC20: @ 0x0802DC20
 	pop {r0}
 	bx r0
 	.align 2, 0
-
-@ --- End of ZoneWarp ---
