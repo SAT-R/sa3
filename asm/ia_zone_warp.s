@@ -5,123 +5,11 @@
 .syntax unified
 .arm
 
-@ --- Start of ZoneWarp ---
+.if 0
+.endif
 
-	thumb_func_start CreateEntity_ZoneWarp
-CreateEntity_ZoneWarp: @ 0x0802D718
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	sub sp, #4
-	adds r4, r0, #0
-	lsls r1, r1, #0x10
-	lsrs r7, r1, #0x10
-	lsls r2, r2, #0x10
-	lsrs r2, r2, #0x10
-	mov r8, r2
-	lsls r3, r3, #0x18
-	lsrs r3, r3, #0x18
-	mov sb, r3
-	movs r5, #0
-	ldrb r1, [r4, #7]
-	movs r0, #1
-	ands r1, r0
-	ldr r3, _0802D7E4 @ =gStageData
-	ldr r6, _0802D7E8 @ =gSaveGame
-	cmp r1, #0
-	bne _0802D760
-	movs r2, #1
-_0802D746:
-	lsls r0, r5, #0x10
-	movs r1, #0x80
-	lsls r1, r1, #9
-	adds r0, r0, r1
-	lsrs r5, r0, #0x10
-	asrs r1, r0, #0x10
-	cmp r1, #5
-	bgt _0802D760
-	ldrb r0, [r4, #7]
-	asrs r0, r1
-	ands r0, r2
-	cmp r0, #0
-	beq _0802D746
-_0802D760:
-	ldrb r1, [r3, #9]
-	lsls r0, r5, #0x10
-	asrs r0, r0, #0x10
-	cmp r1, r0
-	bgt _0802D770
-	adds r0, #1
-	lsls r0, r0, #0x10
-	lsrs r5, r0, #0x10
-_0802D770:
-	ldrb r0, [r6, #0x11]
-	subs r0, #1
-	lsls r1, r5, #0x10
-	asrs r6, r1, #0x10
-	cmp r0, r6
-	blt _0802D7D4
-	ldr r0, _0802D7EC @ =sub_802D7FC
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _0802D7F0 @ =sub_802DC0C
-	str r1, [sp]
-	movs r1, #0x38
-	movs r3, #0
-	bl TaskCreate
-	ldrh r3, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r3, r0
-	ldr r2, _0802D7F4 @ =0x0300000C
-	adds r1, r3, r2
-	strh r7, [r0, #4]
-	mov r2, r8
-	strh r2, [r0, #6]
-	str r4, [r0]
-	ldrb r2, [r4]
-	strb r2, [r0, #0xa]
-	mov r2, sb
-	strb r2, [r0, #0xb]
-	ldr r0, _0802D7F8 @ =0x03000034
-	adds r3, r3, r0
-	strb r5, [r3]
-	ldrb r0, [r4]
-	lsls r0, r0, #3
-	lsls r2, r7, #8
-	adds r0, r0, r2
-	strh r0, [r1, #0x10]
-	ldrb r0, [r4, #1]
-	lsls r0, r0, #3
-	mov r3, r8
-	lsls r2, r3, #8
-	adds r0, r0, r2
-	strh r0, [r1, #0x12]
-	movs r2, #2
-	rsbs r2, r2, #0
-	adds r0, r2, #0
-	strb r0, [r4]
-	adds r0, r6, #0
-	bl sub_802DC20
-_0802D7D4:
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0802D7E4: .4byte gStageData
-_0802D7E8: .4byte gSaveGame
-_0802D7EC: .4byte sub_802D7FC
-_0802D7F0: .4byte sub_802DC0C
-_0802D7F4: .4byte 0x0300000C
-_0802D7F8: .4byte 0x03000034
-
-	thumb_func_start sub_802D7FC
-sub_802D7FC: @ 0x0802D7FC
+	thumb_func_start Task_ZoneWarpInit
+Task_ZoneWarpInit: @ 0x0802D7FC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -551,7 +439,7 @@ sub_802DADC: @ 0x0802DADC
 	str r0, [r5, #4]
 	mov r0, sb
 	ldr r1, [r0]
-	ldr r0, _0802DB98 @ =sub_802D7FC
+	ldr r0, _0802DB98 @ =Task_ZoneWarpInit
 	str r0, [r1, #8]
 _0802DB74:
 	add sp, #8
@@ -567,7 +455,7 @@ _0802DB88: .4byte gPlayers
 _0802DB8C: .4byte gCurTask
 _0802DB90: .4byte 0x0300000C
 _0802DB94: .4byte 0xEFFFFFFF
-_0802DB98: .4byte sub_802D7FC
+_0802DB98: .4byte Task_ZoneWarpInit
 
 	thumb_func_start sub_802DB9C
 sub_802DB9C: @ 0x0802DB9C
@@ -624,8 +512,8 @@ _0802DC04:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_802DC0C
-sub_802DC0C: @ 0x0802DC0C
+	thumb_func_start TaskDestructor_ZoneWarp
+TaskDestructor_ZoneWarp: @ 0x0802DC0C
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0

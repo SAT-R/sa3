@@ -3,7 +3,6 @@
 #include "core.h"
 #include "sprite.h"
 #include "trig.h"
-#include "malloc_ewram.h"
 #include "malloc_vram.h"
 #include "game/camera.h"
 #include "game/entity.h"
