@@ -3,6 +3,7 @@
 
 #include "game/player.h"
 
+extern void Player_8004FF8(Player *p);
 extern void Player_800522C(Player *p);
 extern void Player_80052C8(Player *p);
 extern void Player_8005380(Player *p);

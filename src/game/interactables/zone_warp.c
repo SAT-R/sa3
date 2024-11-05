@@ -14,6 +14,7 @@
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
 #include "constants/move_states.h"
+#include "constants/songs.h"
 #include "constants/zones.h"
 
 typedef struct {
@@ -23,6 +24,8 @@ typedef struct {
 } ZoneWarp; /* size: 0x38 */
 
 void Task_ZoneWarpInit(void);
+void sub_802DB9C(void);
+void sub_802D8C8(void);
 void TaskDestructor_ZoneWarp(struct Task *);
 void sub_802DC20(s16, Sprite *);
 
@@ -58,4 +61,35 @@ void CreateEntity_ZoneWarp(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         SET_MAP_ENTITY_INITIALIZED(me);
         sub_802DC20(i, s);
     }
+}
+
+void Task_ZoneWarpInit(void)
+{
+    ZoneWarp *warp = TASK_DATA(gCurTask);
+    Sprite *s = &warp->s;
+    MapEntity *me = warp->base.me;
+    Player *p = &gPlayers[gStageData.playerIndex];
+    s16 worldX, worldY;
+
+    worldX = TO_WORLD_POS(warp->base.spriteX, warp->base.regionX);
+    worldY = TO_WORLD_POS(me->y, warp->base.regionY);
+
+    if (!sub_802C080(p) && (gStageData.playerIndex == 0)) {
+        if (sub_8020700(s, worldX, worldY, 0, p, 0)) {
+            sub_8016F28(p);
+
+            p->moveState |= (MOVESTATE_20000000 | MOVESTATE_10000000 | MOVESTATE_2);
+
+            p->charFlags.anim0 = 11;
+            p->qSpeedGround = 0;
+            p->qSpeedAirX = 0;
+            p->qSpeedAirY = 0;
+
+            Player_8004FF8(p);
+            sub_8003DF0(SE_SPIN_ATTACK);
+            gCurTask->main = sub_802D8C8;
+        }
+    }
+
+    sub_802DB9C();
 }

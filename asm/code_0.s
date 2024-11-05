@@ -10076,8 +10076,8 @@ _08004FF2:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_8004FF8
-sub_8004FF8: @ 0x08004FF8
+	thumb_func_start Player_8004FF8
+Player_8004FF8: @ 0x08004FF8
 	push {lr}
 	adds r2, r0, #0
 	adds r0, #0x2a
@@ -11823,7 +11823,7 @@ _08005D68:
 	movs r0, #8
 	strh r0, [r4, #0x30]
 	adds r0, r4, #0
-	bl sub_8004FF8
+	bl Player_8004FF8
 _08005D9C:
 	ldr r0, _08005DA8 @ =sub_8005CB8
 	str r0, [r4]
@@ -12391,7 +12391,7 @@ _0800620C:
 	movs r0, #8
 	strh r0, [r4, #0x30]
 	adds r0, r4, #0
-	bl sub_8004FF8
+	bl Player_8004FF8
 _08006240:
 	ldr r0, _0800624C @ =sub_80061D8
 	str r0, [r4]
@@ -17826,7 +17826,7 @@ Player_8008CD0: @ 0x08008CD0
 	adds r0, r4, #0
 	bl sub_8019A64
 	adds r0, r4, #0
-	bl sub_8004FF8
+	bl Player_8004FF8
 	movs r0, #0x18
 	ldrsh r1, [r4, r0]
 	cmp r1, #0
@@ -21922,7 +21922,7 @@ _0800ADD2:
 	adds r0, #0xa0
 	str r0, [r1, #0x14]
 	adds r0, r5, #0
-	bl sub_8004FF8
+	bl Player_8004FF8
 	ldr r1, _0800AE10 @ =sub_800EAAC
 	str r1, [r5]
 	adds r0, r5, #0
@@ -22027,7 +22027,7 @@ _0800AE34:
 	adds r0, r5, #0
 	bl sub_80173F0
 	adds r0, r5, #0
-	bl sub_8004FF8
+	bl Player_8004FF8
 	ldr r1, _0800AEF0 @ =sub_800EAEC
 	str r1, [r5]
 	adds r0, r5, #0

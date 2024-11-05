@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start Task_ZoneWarpInit
 Task_ZoneWarpInit: @ 0x0802D7FC
 	push {r4, r5, r6, r7, lr}
@@ -21,11 +19,11 @@ Task_ZoneWarpInit: @ 0x0802D7FC
 	ldrh r0, [r0, #6]
 	movs r2, #0xc0
 	lsls r2, r2, #0x12
-	adds r2, r0, r2
+	adds r2, r0, r2     @ r2 = warp
 	ldr r1, _0802D8B4 @ =0x0300000C
 	adds r1, r1, r0
-	mov r8, r1
-	ldr r3, [r2]
+	mov r8, r1          @ r8 = s
+	ldr r3, [r2]        @ r3 = me
 	ldr r5, _0802D8B8 @ =gStageData
 	ldrb r1, [r5, #6]
 	lsls r0, r1, #2
@@ -34,7 +32,7 @@ Task_ZoneWarpInit: @ 0x0802D7FC
 	adds r0, r0, r1
 	lsls r0, r0, #4
 	ldr r1, _0802D8BC @ =gPlayers
-	adds r4, r0, r1
+	adds r4, r0, r1     @ r4 = p
 	ldrb r0, [r2, #0xa]
 	lsls r0, r0, #3
 	ldrh r1, [r2, #4]
@@ -79,7 +77,7 @@ Task_ZoneWarpInit: @ 0x0802D7FC
 	strh r5, [r4, #0x18]
 	strh r5, [r4, #0x1a]
 	adds r0, r4, #0
-	bl sub_8004FF8
+	bl Player_8004FF8
 	movs r0, #0x6d
 	bl sub_8003DF0
 	mov r0, sb
@@ -102,6 +100,7 @@ _0802D8B8: .4byte gStageData
 _0802D8BC: .4byte gPlayers
 _0802D8C0: .4byte 0x30000002
 _0802D8C4: .4byte sub_802D8C8
+.endif
 
 	thumb_func_start sub_802D8C8
 sub_802D8C8: @ 0x0802D8C8
