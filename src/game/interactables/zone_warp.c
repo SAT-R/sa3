@@ -264,7 +264,7 @@ static void InitSprite(s16 in_zoneId, Sprite *s)
 
     s->tiles = ALLOC_TILES(ANIM_ZONE_WARP);
     s->anim = ANIM_ZONE_WARP;
-    s->variant = (u8)(zoneId * 2 + 1);
+    s->variant = (zoneId * 2 + 1);
     s->oamFlags = SPRITE_OAM_ORDER(8);
     s->animCursor = 0;
     s->qAnimDelay = Q(0);
