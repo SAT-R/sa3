@@ -163,7 +163,7 @@
 #define MUS_DUMMY__145     0x91
 #define MUS_DUMMY__146     0x92
 #define MUS_DUMMY__147     0x93
-#define SE_BOUNCE_PAD      0x94
+#define SE_SPRING          0x94
 #define SE_149             0x95
 #define SE_ITEMBOX         0x96
 #define SE_SHIELD_ACTIVATE 0x97
