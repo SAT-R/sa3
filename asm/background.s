@@ -7,6 +7,7 @@
 
 @ Start of background.c
 
+.if 01
 	thumb_func_start DrawBackground
 DrawBackground: @ 0x080BD384
 	push {r4, r5, r6, r7, lr}
@@ -131,8 +132,8 @@ _080BD45E:
 	ldrh r0, [r6, #0x22]
 	strh r0, [r4, #0x3e]
 _080BD478:
-	ldr r1, _080BD4A0 @ =gUnknown_03002B00
-	ldr r2, _080BD4A4 @ =gUnknown_03003D20
+	ldr r1, _080BD4A0 @ =gBackgroundsCopyQueue
+	ldr r2, _080BD4A4 @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r2]
 	lsls r0, r0, #2
 	adds r0, r0, r1
@@ -150,8 +151,9 @@ _080BD478:
 	.align 2, 0
 _080BD498: .4byte 0x040000D4
 _080BD49C: .4byte gBgPalette
-_080BD4A0: .4byte gUnknown_03002B00
-_080BD4A4: .4byte gUnknown_03003D20
+_080BD4A0: .4byte gBackgroundsCopyQueue
+_080BD4A4: .4byte gBackgroundsCopyQueueIndex
+.endif
 
 	thumb_func_start sa2__sub_8002B20
 sa2__sub_8002B20: @ 0x080BD4A8
@@ -164,7 +166,7 @@ sa2__sub_8002B20: @ 0x080BD4A8
 	movs r0, #0
 	str r0, [sp, #4]
 	ldr r0, _080BD4E0 @ =gUnknown_03003F94
-	ldr r1, _080BD4E4 @ =gUnknown_03003D20
+	ldr r1, _080BD4E4 @ =gBackgroundsCopyQueueIndex
 	ldrb r2, [r0]
 	adds r3, r0, #0
 	adds r4, r1, #0
@@ -183,12 +185,12 @@ _080BD4CC:
 	bl sub_80BDFBC
 	.align 2, 0
 _080BD4E0: .4byte gUnknown_03003F94
-_080BD4E4: .4byte gUnknown_03003D20
+_080BD4E4: .4byte gBackgroundsCopyQueueIndex
 _080BD4E8: .4byte 0x04000004
 _080BD4EC:
 	ldr r0, _080BD54C @ =0x04000006
 	ldrh r0, [r0]
-	ldr r2, _080BD550 @ =gUnknown_03002B00
+	ldr r2, _080BD550 @ =gBackgroundsCopyQueue
 	ldrb r1, [r3]
 	lsls r0, r1, #2
 	adds r0, r0, r2
@@ -236,7 +238,7 @@ _080BD518:
 	b _080BD57A
 	.align 2, 0
 _080BD54C: .4byte 0x04000006
-_080BD550: .4byte gUnknown_03002B00
+_080BD550: .4byte gBackgroundsCopyQueue
 _080BD554: .4byte gDispCnt
 _080BD558: .4byte gBgCntRegs
 _080BD55C:
@@ -1623,7 +1625,7 @@ _080BDF9E:
 	ldrh r0, [r6, #0x32]
 	strh r0, [r6, #0x36]
 	ldr r3, _080BDFD4 @ =gUnknown_03003F94
-	ldr r4, _080BDFD8 @ =gUnknown_03003D20
+	ldr r4, _080BDFD8 @ =gBackgroundsCopyQueueIndex
 
 	non_word_aligned_thumb_func_start sub_80BDFAE
 sub_80BDFAE: @ 0x080BDFAE
@@ -1647,7 +1649,7 @@ sub_80BDFBC:
 _080BDFCC: .4byte 0x040000D4
 _080BDFD0: .4byte 0x04000006
 _080BDFD4: .4byte gUnknown_03003F94
-_080BDFD8: .4byte gUnknown_03003D20
+_080BDFD8: .4byte gBackgroundsCopyQueueIndex
 
 	thumb_func_start UpdateBgAnimationTiles
 UpdateBgAnimationTiles: @ 0x080BDFDC

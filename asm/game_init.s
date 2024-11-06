@@ -39,7 +39,7 @@ GameInit: @ 0x080BB9EC
 	lsrs r0, r3, #0x10
 	ldr r5, _080BBA88 @ =gInput
 	ldr r6, _080BBA8C @ =sLastCalledVblankFuncId
-	ldr r4, _080BBA90 @ =gUnknown_03003D20
+	ldr r4, _080BBA90 @ =gBackgroundsCopyQueueIndex
 	mov r8, r4
 	ldr r7, _080BBA94 @ =gUnknown_03006840
 	mov sb, r7
@@ -84,7 +84,7 @@ _080BBA80: .4byte gUnknown_030035A4
 _080BBA84: .4byte 0x04000134
 _080BBA88: .4byte gInput
 _080BBA8C: .4byte sLastCalledVblankFuncId
-_080BBA90: .4byte gUnknown_03003D20
+_080BBA90: .4byte gBackgroundsCopyQueueIndex
 _080BBA94: .4byte gUnknown_03006840
 _080BBA98: .4byte gVramGraphicsCopyCursor
 _080BBA9C: .4byte gVramGraphicsCopyQueueIndex

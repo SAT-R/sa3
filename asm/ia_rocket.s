@@ -1363,7 +1363,7 @@ _08046680:
 	movs r0, #0
 	bl TasksDestroyInPriorityRange
 	ldr r1, _080466FC @ =gUnknown_03003F94
-	ldr r0, _08046700 @ =gUnknown_03003D20
+	ldr r0, _08046700 @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
 	ldr r1, _08046704 @ =gUnknown_03006840
@@ -1391,7 +1391,7 @@ _080466EA:
 _080466F4: .4byte gPlayers
 _080466F8: .4byte 0x0000FFFF
 _080466FC: .4byte gUnknown_03003F94
-_08046700: .4byte gUnknown_03003D20
+_08046700: .4byte gBackgroundsCopyQueueIndex
 _08046704: .4byte gUnknown_03006840
 _08046708: .4byte gVramGraphicsCopyCursor
 _0804670C: .4byte gVramGraphicsCopyQueueIndex

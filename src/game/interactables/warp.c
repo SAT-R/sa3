@@ -132,7 +132,7 @@ void Task_802E6F8(void)
     if ((id != 2) || (gStageData.gameMode == GAME_MODE_SINGLE_PLAYER)) {
         sub_8003D2C();
         TasksDestroyAll();
-        gUnknown_03003F94 = gUnknown_03003D20;
+        gUnknown_03003F94 = gBackgroundsCopyQueueIndex;
         gUnknown_03006840 = 0;
         gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
     }

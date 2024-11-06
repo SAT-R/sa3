@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable114
-CreateEntity_Interactable114: @ 0x08047AF8
+	thumb_func_start CreateEntity_MineCart
+CreateEntity_MineCart: @ 0x08047AF8
 	push {r4, r5, r6, lr}
 	mov r6, sl
 	mov r5, sb

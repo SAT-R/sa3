@@ -155,7 +155,7 @@ extern OamData gOamBuffer[OAM_ENTRY_COUNT];
 
 // NOTE(Jace): This could be u16[2][DISPLAY_HEIGHT][2] (or unsigned Vec2_16?)
 extern u32 gBgOffsetsBuffer[2][DISPLAY_HEIGHT];
-// extern Background *gUnknown_03001800[16];
+extern Background *gBackgroundsCopyQueue[16];
 
 // This is used to buffer the xy-shift for each background scanline
 extern void *gBgOffsetsHBlank;
@@ -182,7 +182,7 @@ extern struct GraphicsData *gVramGraphicsCopyQueue[32];
 // extern u16 gUnknown_03002820;
 // extern u8 gUnknown_03002874;
 // extern void *gUnknown_03002878;
-// extern u8 gUnknown_0300287C;
+extern u8 gBackgroundsCopyQueueIndex;
 // extern u8 gUnknown_03002A80;
 extern u8 gVramGraphicsCopyQueueIndex;
 // extern u16 gUnknown_03002A8C;
@@ -203,6 +203,23 @@ extern u8 gVramGraphicsCopyCursor;
 extern s32 gPseudoRandom;
 // extern u8 gUnknown_03002710[128];
 extern struct MultiBootParam gMultiBootParam;
+
+// Because the graphics in the queue only get copied if
+// (gVramGraphicsCopyCursor != gVramGraphicsCopyQueueIndex),
+// just making them equal will pause the queue.
+#define PAUSE_GRAPHICS_QUEUE() gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+
+#define INC_GRAPHICS_QUEUE_CURSOR(cursor) cursor = (cursor + 1) % ARRAY_COUNT(gVramGraphicsCopyQueue);
+
+#define ADD_TO_GRAPHICS_QUEUE(gfx)                                                                                                         \
+    gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex] = gfx;                                                                             \
+    INC_GRAPHICS_QUEUE_CURSOR(gVramGraphicsCopyQueueIndex);
+
+#define INC_BACKGROUNDS_QUEUE_CURSOR(cursor) cursor = (cursor + 1) % ARRAY_COUNT(gBackgroundsCopyQueue);
+
+#define ADD_TO_BACKGROUNDS_QUEUE(gfx)                                                                                                      \
+    gBackgroundsCopyQueue[gBackgroundsCopyQueueIndex] = gfx;                                                                               \
+    INC_BACKGROUNDS_QUEUE_CURSOR(gBackgroundsCopyQueueIndex);
 
 void GameInit(void);
 void GameLoop(void);
