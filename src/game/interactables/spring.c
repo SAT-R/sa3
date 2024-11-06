@@ -146,12 +146,12 @@ void Task_SpringMain(void)
             if (sb != 0) {
                 if (shouldSwapVerticalAcceleration == FALSE) {
                     if (p->qSpeedAirX > 640) {
-                        SetPlayerCallback(p, sub_8009C94);
+                        SetPlayerCallback(p, Player_8009C94);
                     } else {
                         SetPlayerCallback(p, Player_800EA74);
                     }
                 } else {
-                    SetPlayerCallback(p, sub_8009D04);
+                    SetPlayerCallback(p, Player_8009D04);
                 }
             } else if (shouldSwapVerticalAcceleration == FALSE) {
                 if (p->qSpeedAirX > 640) {
@@ -160,7 +160,7 @@ void Task_SpringMain(void)
                     SetPlayerCallback(p, Player_800EA0C);
                 }
             } else {
-                SetPlayerCallback(p, sub_8009BF0);
+                SetPlayerCallback(p, Player_8009BF0);
             }
 
             {

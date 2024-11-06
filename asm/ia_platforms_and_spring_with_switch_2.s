@@ -425,7 +425,7 @@ _080335C6:
 	.align 2, 0
 _080335D0: .4byte sub_8006F98
 _080335D4:
-	ldr r1, _0803365C @ =sub_8009BF0
+	ldr r1, _0803365C @ =Player_8009BF0
 	adds r0, r5, #0
 	bl SetPlayerCallback
 _080335DC:
@@ -497,7 +497,7 @@ _08033640:
 	strh r1, [r5, #0x1a]
 	b _0803367A
 	.align 2, 0
-_0803365C: .4byte sub_8009BF0
+_0803365C: .4byte Player_8009BF0
 _08033660: .4byte gUnknown_080CF470
 _08033664: .4byte gUnknown_080CF468
 _08033668:

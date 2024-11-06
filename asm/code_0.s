@@ -19670,8 +19670,8 @@ _08009BE6:
 	.align 2, 0
 _08009BEC: .4byte sub_800DFA0
 
-	thumb_func_start sub_8009BF0
-sub_8009BF0: @ 0x08009BF0
+	thumb_func_start Player_8009BF0
+Player_8009BF0: @ 0x08009BF0
 	push {r4, lr}
 	adds r4, r0, #0
 	bl sub_8009D74
@@ -19742,8 +19742,8 @@ _08009C8A:
 	.align 2, 0
 _08009C90: .4byte sub_800DFA0
 
-	thumb_func_start sub_8009C94
-sub_8009C94: @ 0x08009C94
+	thumb_func_start Player_8009C94
+Player_8009C94: @ 0x08009C94
 	push {r4, lr}
 	adds r4, r0, #0
 	bl sub_8009D74
@@ -19792,8 +19792,8 @@ _08009CFA:
 	.align 2, 0
 _08009D00: .4byte sub_800DFA0
 
-	thumb_func_start sub_8009D04
-sub_8009D04: @ 0x08009D04
+	thumb_func_start Player_8009D04
+Player_8009D04: @ 0x08009D04
 	push {r4, lr}
 	adds r4, r0, #0
 	bl sub_8009D74
