@@ -73,7 +73,7 @@ void Task_GoalRing(void)
     if (gStageData.gameMode == GAME_MODE_5) {
         if ((!(p1->moveState & MOVESTATE_100) && sub_8020700(s, worldX, worldY, 0, p1, 0))
             || (!(p2->moveState & MOVESTATE_100) && sub_8020700(s, worldX, worldY, 0, p2, 0)) || (gStageData.unk4 == 5)) {
-            sub_8004E98(p1, SE_GOAL_RING);
+            Player_PlaySoundEffect(p1, SE_GOAL_RING);
             SetPlayerCallback(p1, Player_8005BD4);
             gStageData.unk4 = 5;
             sub_803421C();
@@ -82,7 +82,7 @@ void Task_GoalRing(void)
                || (gStageData.unk4 == 5)) {
         bool32 r7 = (gStageData.unk4 == 5) ? TRUE : FALSE;
 
-        sub_8004E98(p1, SE_GOAL_RING);
+        Player_PlaySoundEffect(p1, SE_GOAL_RING);
         SetPlayerCallback(p1, Player_8005BD4);
 
         if (GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode) || gStageData.gameMode == GAME_MODE_5) {

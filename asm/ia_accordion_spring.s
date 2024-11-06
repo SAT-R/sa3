@@ -397,7 +397,7 @@ _0803F854:
 _0803F858:
 	adds r0, r4, #0
 	ldr r1, _0803F894 @ =0x0000024E
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _0803F860:
 	adds r0, r6, #1
 	lsls r0, r0, #0x18

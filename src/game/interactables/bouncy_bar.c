@@ -109,7 +109,7 @@ static void Task_BouncyBarIdle(void)
                             bar->unk36 = 0;
                             bar->unk35 = 1;
 
-                            sub_8004E98(p, SE_BOUNCY_BAR);
+                            Player_PlaySoundEffect(p, SE_BOUNCY_BAR);
 
                             gCurTask->main = Task_BouncyBarLaunch;
                         }

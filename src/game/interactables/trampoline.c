@@ -103,7 +103,7 @@ static bool32 UpdatePlayerSpeed(void)
 
                 p->qSpeedAirY = -p->qSpeedAirY;
 
-                sub_8004E98(p, SE_TRAMPOLINE);
+                Player_PlaySoundEffect(p, SE_TRAMPOLINE);
             }
         }
 

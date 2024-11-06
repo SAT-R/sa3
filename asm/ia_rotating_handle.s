@@ -413,7 +413,7 @@ _08032658:
 	adds r0, r4, #0
 	movs r1, #0x8c
 	lsls r1, r1, #1
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	adds r0, r4, #0
 	adds r0, #0x99
 	movs r3, #0

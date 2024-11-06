@@ -825,7 +825,7 @@ sub_8048C18: @ 0x08048C18
 	movs r1, #0x96
 	lsls r1, r1, #2
 	adds r0, r2, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _08048C70:
 	ldr r0, _08048CD4 @ =0x03000057
 	adds r1, r5, r0

@@ -90,7 +90,7 @@ void Task_Interactable095(void)
                         if (p->qSpeedAirY > 0) {
                             if (p->keyInput2 & gStageData.buttonConfig.jump) {
                                 Player_8006CF0(p);
-                                sub_8004E98(p, SE_JUMP);
+                                Player_PlaySoundEffect(p, SE_JUMP);
                             }
                         }
                         ia->unk24 |= (1 << i);

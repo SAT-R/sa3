@@ -1184,7 +1184,7 @@ _08046530:
 _08046538:
 	ldr r1, _0804656C @ =0x00000207
 	adds r0, r5, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	adds r0, r5, #0
 	bl sub_8016F28
 	ldr r1, _08046564 @ =gStageData
@@ -1224,7 +1224,7 @@ _08046574:
 	beq _080465E0
 	ldr r1, _080465CC @ =0x00000207
 	adds r0, r5, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	adds r0, r5, #0
 	bl sub_8016F28
 	movs r0, #5

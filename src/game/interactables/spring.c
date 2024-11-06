@@ -114,7 +114,7 @@ void Task_SpringMain(void)
 
             if (!GetBit(spring->unk3A, i)) {
                 SetBit(spring->unk3A, i);
-                sub_8004E98(p, SE_SPRING);
+                Player_PlaySoundEffect(p, SE_SPRING);
             }
 
             if ((s->variant & 1) == 0) {

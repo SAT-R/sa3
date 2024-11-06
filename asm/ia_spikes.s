@@ -341,7 +341,7 @@ _0803089C:
 	bl Player_8014550
 	adds r0, r5, #0
 	movs r1, #0x9a
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	b _080308E6
 _080308D8:
 	lsls r0, r1, #0x18
@@ -732,7 +732,7 @@ _08030B9A:
 	bl Player_8014550
 	adds r0, r6, #0
 	movs r1, #0x9a
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	b _08030BDE
 	.align 2, 0
 _08030BCC: .4byte gPlayers

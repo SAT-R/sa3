@@ -9887,8 +9887,8 @@ _08004E90:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_8004E98
-sub_8004E98: @ 0x08004E98
+	thumb_func_start Player_PlaySoundEffect
+Player_PlaySoundEffect: @ 0x08004E98
 	push {r4, lr}
 	lsls r1, r1, #0x10
 	lsrs r4, r1, #0x10
@@ -12106,7 +12106,7 @@ _08005FB4:
 	adds r0, r0, r1
 	ldrh r1, [r0]
 	adds r0, r7, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	b _0800600C
 	.align 2, 0
 _08005FF0: .4byte gUnknown_080D1A40
@@ -12121,7 +12121,7 @@ _08005FF4:
 	add r0, sp
 	ldrh r1, [r0]
 	adds r0, r7, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _0800600C:
 	ldr r0, _08006048 @ =gStageData
 	ldrb r3, [r0, #3]
@@ -12706,7 +12706,7 @@ _080064A2:
 	str r0, [r2, #0x14]
 	adds r0, r4, #0
 	movs r1, #0x71
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r1, _080064D0 @ =sub_800EDC8
 	str r1, [r4]
 	adds r0, r4, #0
@@ -14990,7 +14990,7 @@ _080076D2:
 	strh r0, [r1]
 	adds r0, r4, #0
 	movs r1, #0x70
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	adds r0, r4, #0
 	bl sub_8019A58
 	ldr r1, _08007710 @ =sub_8007714
@@ -17146,7 +17146,7 @@ _0800874C:
 	bl sub_80170A0
 	adds r0, r5, #0
 	movs r1, #0x6d
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r1, _080087C8 @ =sub_80087CC
 	str r1, [r5]
 	adds r0, r5, #0
@@ -17221,7 +17221,7 @@ _08008834:
 	str r0, [r5]
 	adds r0, r5, #0
 	movs r1, #0x6e
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	b _0800890A
 	.align 2, 0
 _08008844: .4byte gUnknown_080CE7D8
@@ -17275,7 +17275,7 @@ _08008894:
 	strb r0, [r2]
 	adds r0, r5, #0
 	movs r1, #0x6d
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _080088AE:
 	strh r4, [r6]
 	cmp r7, #0xa
@@ -18132,7 +18132,7 @@ _08008F46:
 	str r0, [r6, #4]
 	adds r0, r6, #0
 	movs r1, #0x77
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	adds r0, r6, #0
 	adds r0, #0x2a
 	ldrb r0, [r0]
@@ -18141,7 +18141,7 @@ _08008F46:
 	add r0, sp
 	ldrh r1, [r0]
 	adds r0, r6, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r5, _08008FD8 @ =gStageData
 	ldrb r0, [r5, #3]
 	cmp r0, #4
@@ -18285,7 +18285,7 @@ _08009016:
 	str r0, [r6, #4]
 	adds r0, r6, #0
 	movs r1, #0x77
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	adds r0, r6, #0
 	adds r0, #0x2a
 	ldrb r0, [r0]
@@ -18294,7 +18294,7 @@ _08009016:
 	add r0, sp
 	ldrh r1, [r0]
 	adds r0, r6, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r4, _0800911C @ =gStageData
 	ldrb r0, [r4, #3]
 	cmp r0, #4
@@ -19423,7 +19423,7 @@ _080099AC:
 	strb r3, [r0]
 	adds r0, r4, #0
 	movs r1, #0x72
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r1, _080099F8 @ =sub_80099FC
 	str r1, [r4]
 	adds r0, r4, #0
@@ -20174,7 +20174,7 @@ _08009FB0:
 	movs r1, #0x8a
 	lsls r1, r1, #1
 	adds r0, r4, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r1, [r4, #4]
 	movs r2, #0x80
 	lsls r2, r2, #0x10
@@ -20706,7 +20706,7 @@ Player_800A438: @ 0x0800A438
 	str r0, [r4, #0x6c]
 	ldr r1, _0800A478 @ =0x0000024F
 	adds r0, r4, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	b _0800A4C0
 	.align 2, 0
 _0800A470: .4byte 0xFFFFF600
@@ -20916,7 +20916,7 @@ Player_800A5B0: @ 0x0800A5B0
 	movs r1, #0x91
 	lsls r1, r1, #1
 	adds r0, r4, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r1, _0800A628 @ =sub_800A62C
 	str r1, [r4]
 	adds r0, r4, #0
@@ -21041,7 +21041,7 @@ _0800A6E4:
 	strb r0, [r2]
 	ldr r1, _0800A71C @ =0x0000025F
 	adds r0, r5, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r1, _0800A720 @ =Player_800A724
 	str r1, [r5]
 	adds r0, r5, #0
@@ -21199,7 +21199,7 @@ _0800A820:
 	strb r0, [r2]
 	ldr r1, _0800A858 @ =0x0000025F
 	adds r0, r5, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r1, _0800A85C @ =Player_800A860
 	str r1, [r5]
 	adds r0, r5, #0
@@ -21345,7 +21345,7 @@ Player_800A90C: @ 0x0800A90C
 	strb r6, [r7]
 	ldr r1, _0800A984 @ =0x00000262
 	adds r0, r4, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r1, _0800A988 @ =Player_800A98C
 	str r1, [r4]
 	adds r0, r4, #0
@@ -22961,7 +22961,7 @@ _0800B5EA:
 	movs r1, #0x98
 	lsls r1, r1, #2
 	adds r0, r4, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r0, [r4, #0x70]
 	str r0, [r4, #0x10]
 	ldr r0, [r4, #0x74]
@@ -23037,7 +23037,7 @@ _0800B668:
 	movs r1, #0x98
 	lsls r1, r1, #2
 	adds r0, r4, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	movs r0, #0x18
 	ldrsh r1, [r4, r0]
 	ldr r0, [r4, #0x70]
@@ -23162,7 +23162,7 @@ Player_800B748: @ 0x0800B748
 	movs r1, #0x98
 	lsls r1, r1, #2
 	adds r0, r4, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	movs r1, #0x18
 	ldrsh r0, [r4, r1]
 	cmp r0, #0
@@ -24373,7 +24373,7 @@ _0800C0CE:
 	bl sub_80056CC
 	adds r0, r5, #0
 	movs r1, #0x9b
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	pop {r4, r5, r6}
 	pop {r0}
 	bx r0
@@ -24477,7 +24477,7 @@ _0800C1C0:
 _0800C1C6:
 	adds r0, r4, #0
 	movs r1, #0x74
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	b _0800C1DC
 _0800C1D0:
 	adds r0, r4, #0
@@ -24753,7 +24753,7 @@ sub_800C3AC: @ 0x0800C3AC
 	add r0, sp
 	ldrh r1, [r0]
 	adds r0, r5, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldrh r1, [r5, #0x1e]
 	movs r0, #0x40
 	ands r0, r1
@@ -25836,7 +25836,7 @@ _0800CC80:
 	strh r0, [r4, #0x36]
 	adds r0, r4, #0
 	movs r1, #0x74
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _0800CC9C:
 	adds r0, r4, #0
 	bl sub_8014E70
@@ -26102,7 +26102,7 @@ _0800CE90:
 	strh r1, [r0]
 	ldr r1, _0800CEFC @ =0x0000021E
 	adds r0, r4, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _0800CEA8:
 	adds r0, r4, #0
 	adds r0, #0xe0
@@ -26683,7 +26683,7 @@ _0800D2FC:
 	str r0, [r5]
 	adds r0, r5, #0
 	movs r1, #0x80
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _0800D306:
 	adds r0, r5, #0
 	bl sub_8015064
@@ -27043,7 +27043,7 @@ _0800D5C4:
 	str r0, [r5]
 	adds r0, r5, #0
 	movs r1, #0x80
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _0800D5CE:
 	adds r0, r5, #0
 	bl sub_8015064
@@ -27822,7 +27822,7 @@ sub_800DB7C: @ 0x0800DB7C
 	bl sub_8019A64
 	ldr r1, _0800DBE0 @ =0x00000257
 	adds r0, r4, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r1, _0800DBE4 @ =sub_800DCB4
 	str r1, [r4]
 	adds r0, r4, #0
@@ -27870,7 +27870,7 @@ sub_800DBE8: @ 0x0800DBE8
 	strh r0, [r4, #0x30]
 	ldr r1, _0800DC48 @ =0x0000025E
 	adds r0, r4, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r1, _0800DC4C @ =sub_800DC50
 	str r1, [r4]
 	adds r0, r4, #0
@@ -28047,7 +28047,7 @@ _0800DD8A:
 	movs r1, #0x98
 	lsls r1, r1, #2
 	adds r0, r4, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r0, [r4, #0x70]
 	str r0, [r4, #0x10]
 	ldr r0, [r4, #0x74]
@@ -28717,7 +28717,7 @@ sub_800E2C8: @ 0x0800E2C8
 	bne _0800E316
 	adds r0, r4, #0
 	movs r1, #0x80
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _0800E316:
 	adds r0, r4, #0
 	adds r0, #0xe0
@@ -29347,7 +29347,7 @@ sub_800E7BC: @ 0x0800E7BC
 	bl Player_8012FE0
 	adds r0, r4, #0
 	movs r1, #0x78
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r1, _0800E804 @ =sub_800C9C4
 	str r1, [r4]
 	adds r0, r4, #0
@@ -30671,7 +30671,7 @@ sub_800F1C4: @ 0x0800F1C4
 	strb r0, [r2]
 	ldr r1, _0800F220 @ =0x00000257
 	adds r0, r4, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r1, _0800F224 @ =Player_800E604
 	str r1, [r4]
 	adds r0, r4, #0
@@ -33386,10 +33386,10 @@ _0801062C:
 	strh r0, [r1]
 	adds r0, r5, #0
 	movs r1, #0x77
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r1, _0801066C @ =0x00000267
 	adds r0, r5, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	adds r0, r5, #0
 	bl sub_8019A64
 	ldr r4, _08010670 @ =sub_80106E0
@@ -35431,7 +35431,7 @@ _0801157E:
 	bl sub_8017364
 	ldr r1, _080115DC @ =0x00000119
 	adds r0, r4, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _080115B4:
 	ldr r1, _080115DC @ =0x00000119
 	adds r0, r4, #0
@@ -41702,7 +41702,7 @@ _08014454:
 	str r0, [r1, #0x20]
 	adds r0, r4, #0
 	movs r1, #0xdd
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	b _080144AE
 	.align 2, 0
 _080144A0: .4byte gUnknown_080CECC6
@@ -42106,7 +42106,7 @@ _08014784:
 _08014788:
 	adds r0, r4, #0
 	movs r1, #0x9d
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	adds r0, r4, #0
 	bl sub_8008FE4
 _08014796:
@@ -42556,7 +42556,7 @@ _08014AA8:
 	bl SetPlayerCallback
 	adds r0, r4, #0
 	movs r1, #0x6d
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	movs r0, #1
 	b _08014AF2
 	.align 2, 0
@@ -42732,7 +42732,7 @@ _08014C14:
 	movs r1, #0x87
 	lsls r1, r1, #2
 	adds r0, r5, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _08014C28:
 	ldr r0, [r5, #4]
 	orrs r0, r4
@@ -42772,7 +42772,7 @@ _08014C6C:
 	bl sub_8004F10
 	ldr r1, _08014C98 @ =0x0000021B
 	adds r0, r5, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r0, [r5, #4]
 	ldr r1, _08014C9C @ =0xFFBFFFF5
 	ands r0, r1
@@ -43816,7 +43816,7 @@ _08015422:
 	bl sub_80172F0
 	adds r0, r4, #0
 	movs r1, #0x9c
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _0801544E:
 	adds r0, r4, #0
 	bl sub_8014710
@@ -46981,7 +46981,7 @@ sub_8016D04: @ 0x08016D04
 	bl SetPlayerCallback
 	adds r0, r4, #0
 	movs r1, #0x9e
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	adds r1, r4, #0
 	adds r1, #0x56
 	movs r0, #0xe
@@ -48312,7 +48312,7 @@ _0801772C:
 	strb r0, [r4, #0x1a]
 	adds r0, r6, #0
 	movs r1, #0x97
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	b _0801774E
 	.align 2, 0
 _08017738: .4byte gUnknown_08E2EAF4
@@ -48324,7 +48324,7 @@ _0801773C:
 	strb r0, [r4, #0x1a]
 	adds r0, r6, #0
 	movs r1, #0x97
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _0801774E:
 	ldr r0, _080177B0 @ =0x0000FFFF
 	strh r0, [r4, #0x18]
@@ -48624,7 +48624,7 @@ _08017984:
 	movs r1, #0x8d
 	lsls r1, r1, #1
 	adds r0, r5, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	add sp, #4
 	pop {r4, r5}
 	pop {r0}
@@ -53145,7 +53145,7 @@ _08019BF2:
 	strh r0, [r1]
 	adds r0, r5, #0
 	movs r1, #0x70
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r4, _08019C20 @ =sub_8019CF0
 	adds r0, r5, #0
 	adds r1, r4, #0
@@ -53407,7 +53407,7 @@ _08019DE8:
 	bne _08019E28
 	ldr r1, _08019E24 @ =0x00000213
 	adds r0, r4, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	adds r1, r4, #0
 	adds r1, #0x52
 	movs r0, #0x40
@@ -53418,7 +53418,7 @@ _08019E24: .4byte 0x00000213
 _08019E28:
 	adds r0, r4, #0
 	movs r1, #0x6f
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	adds r1, r4, #0
 	adds r1, #0x52
 	movs r0, #0x20
@@ -53759,7 +53759,7 @@ sub_801A0C0: @ 0x0801A0C0
 	strh r0, [r1]
 	adds r0, r4, #0
 	movs r1, #0x71
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	adds r0, r4, #0
 	bl sub_8017B80
 	ldr r5, _0801A11C @ =sub_801A280
@@ -53803,7 +53803,7 @@ sub_801A120: @ 0x0801A120
 	strh r0, [r4, #0x1a]
 	adds r0, r4, #0
 	movs r1, #0x70
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r5, _0801A178 @ =sub_8019F80
 	adds r0, r4, #0
 	adds r1, r5, #0
@@ -54050,7 +54050,7 @@ sub_801A330: @ 0x0801A330
 	bl SetPlayerCallback
 	adds r0, r4, #0
 	movs r1, #0xdf
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _0801A37C:
 	pop {r4}
 	pop {r0}
@@ -54210,7 +54210,7 @@ _0801A4B8:
 	strh r0, [r5, #0x30]
 	adds r0, r5, #0
 	movs r1, #0xe6
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	b _0801A4CA
 _0801A4C6:
 	movs r0, #0xdd
@@ -57237,7 +57237,7 @@ _0801BBBC:
 	strh r4, [r5, #0x36]
 	ldr r1, _0801BC08 @ =0x0000021A
 	adds r0, r5, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r0, [r5, #4]
 	ands r0, r4
 	cmp r0, #0
@@ -57382,7 +57382,7 @@ sub_801BCCC: @ 0x0801BCCC
 	strh r0, [r4, #0x30]
 	adds r0, r4, #0
 	movs r1, #0x79
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r5, _0801BD18 @ =sub_801AF50
 	adds r0, r4, #0
 	adds r1, r5, #0
@@ -57430,7 +57430,7 @@ sub_801BD1C: @ 0x0801BD1C
 	movs r1, #0x85
 	lsls r1, r1, #2
 	adds r0, r4, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r5, _0801BD80 @ =sub_801AFEC
 	adds r0, r4, #0
 	adds r1, r5, #0
@@ -57466,7 +57466,7 @@ sub_801BD84: @ 0x0801BD84
 	str r0, [r2, #0x14]
 	adds r0, r4, #0
 	movs r1, #0x71
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r5, _0801BDD4 @ =sub_801B258
 	adds r0, r4, #0
 	adds r1, r5, #0
@@ -58166,7 +58166,7 @@ sub_801C2D8: @ 0x0801C2D8
 	str r0, [r4, #4]
 	adds r0, r4, #0
 	movs r1, #0x74
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r5, _0801C344 @ =sub_801CFFC
 	adds r0, r4, #0
 	adds r1, r5, #0
@@ -58320,7 +58320,7 @@ _0801C440:
 	strh r0, [r5, #0x36]
 	ldr r1, _0801C478 @ =0x00000215
 	adds r0, r5, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	str r4, [r5, #0x6c]
 	ldr r0, [r5, #4]
 	movs r1, #0x21
@@ -58486,7 +58486,7 @@ _0801C588:
 	bl sub_8004F10
 	adds r0, r5, #0
 	movs r1, #0x7d
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _0801C5A4:
 	cmp r4, #0
 	bge _0801C5AA
@@ -58678,7 +58678,7 @@ _0801C700:
 	bl sub_8004F10
 	adds r0, r5, #0
 	movs r1, #0x7d
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	b _0801C730
 _0801C71C:
 	adds r1, r5, #0
@@ -59163,7 +59163,7 @@ _0801CACC:
 	bl Player_800891C
 	adds r0, r5, #0
 	movs r1, #0x6e
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	b _0801CB5C
 _0801CADE:
 	adds r0, r5, #0
@@ -59205,7 +59205,7 @@ _0801CB22:
 	adds r4, r2, #0
 	adds r0, r5, #0
 	movs r1, #0x6d
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _0801CB2C:
 	strh r4, [r6]
 	adds r0, r5, #0
@@ -60339,7 +60339,7 @@ _0801D380:
 	bl sub_8012F74
 	adds r0, r4, #0
 	movs r1, #0x6f
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	b _0801D3DC
 	.align 2, 0
 _0801D3AC: .4byte sub_801DD2C
@@ -60638,7 +60638,7 @@ sub_801D5CC: @ 0x0801D5CC
 	strh r0, [r4, #0x1a]
 	adds r0, r4, #0
 	movs r1, #0x70
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _0801D5F4:
 	adds r0, r4, #0
 	bl sub_8017004
@@ -60877,7 +60877,7 @@ sub_801D7B0: @ 0x0801D7B0
 	strh r0, [r4, #0x30]
 	adds r0, r4, #0
 	movs r1, #0x7e
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	strh r5, [r4, #0x1c]
 	ldr r5, _0801D800 @ =sub_801DA04
 	adds r0, r4, #0
@@ -60952,7 +60952,7 @@ sub_801D84C: @ 0x0801D84C
 	strh r0, [r4, #0x1a]
 	adds r0, r4, #0
 	movs r1, #0xe2
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r5, _0801D8A4 @ =sub_801DB20
 	adds r0, r4, #0
 	adds r1, r5, #0
@@ -61170,7 +61170,7 @@ sub_801DA04: @ 0x0801DA04
 	beq _0801DA6A
 	adds r0, r4, #0
 	movs r1, #0x7e
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldrh r0, [r4, #0x36]
 	adds r0, #1
 	strh r0, [r4, #0x36]
@@ -61725,7 +61725,7 @@ sub_801DE94: @ 0x0801DE94
 	strh r5, [r4, #0x1c]
 	adds r0, r4, #0
 	movs r1, #0x6d
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r5, _0801DEE0 @ =sub_801CA00
 	adds r0, r4, #0
 	adds r1, r5, #0
@@ -61886,7 +61886,7 @@ _0801E004:
 	strh r0, [r5, #0x1a]
 	ldr r1, _0801E030 @ =0x00000212
 	adds r0, r5, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	adds r0, r5, #0
 	bl sub_8016F28
 	ldr r4, _0801E034 @ =sub_801E92C
@@ -61946,7 +61946,7 @@ _0801E078:
 	strh r0, [r1]
 	adds r0, r5, #0
 	movs r1, #0x70
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r4, _0801E0A8 @ =sub_801EAF4
 	adds r0, r5, #0
 	adds r1, r4, #0
@@ -62000,7 +62000,7 @@ _0801E0DE:
 	strh r0, [r5, #0x30]
 	adds r0, r5, #0
 	movs r1, #0x6f
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	adds r0, r5, #0
 	bl sub_8016F28
 	ldr r4, _0801E11C @ =sub_801E4C0
@@ -62056,7 +62056,7 @@ _0801E15C:
 	bl SetPlayerCallback
 	adds r0, r5, #0
 	movs r1, #0x6e
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	b _0801E1D4
 	.align 2, 0
 _0801E170: .4byte gUnknown_080CE5B8
@@ -62107,7 +62107,7 @@ _0801E1BC:
 	strb r0, [r2]
 	ldr r1, _0801E214 @ =0x00000211
 	adds r0, r5, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _0801E1D2:
 	strh r4, [r6]
 _0801E1D4:
@@ -62219,7 +62219,7 @@ _0801E2AA:
 	bne _0801E2CC
 	adds r0, r4, #0
 	movs r1, #0xdf
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _0801E2CC:
 	pop {r4}
 	pop {r0}
@@ -62263,7 +62263,7 @@ _0801E30A:
 	bne _0801E326
 	adds r0, r4, #0
 	movs r1, #0x81
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _0801E326:
 	adds r0, r4, #0
 	bl sub_8015064
@@ -62326,7 +62326,7 @@ _0801E390:
 	bne _0801E3AC
 	adds r0, r4, #0
 	movs r1, #0x81
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _0801E3AC:
 	adds r0, r4, #0
 	bl sub_8015064
@@ -62426,7 +62426,7 @@ sub_801E44C: @ 0x0801E44C
 	bne _0801E46C
 	adds r0, r4, #0
 	movs r1, #0x80
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _0801E46C:
 	movs r1, #0
 	ldrsh r0, [r5, r1]
@@ -62686,7 +62686,7 @@ sub_801E65C: @ 0x0801E65C
 	bl sub_80170A0
 	ldr r1, _0801E694 @ =0x00000211
 	adds r0, r4, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r5, _0801E698 @ =sub_801E120
 	adds r0, r4, #0
 	adds r1, r5, #0
@@ -63055,7 +63055,7 @@ sub_801E980: @ 0x0801E980
 	bne _0801E9A0
 	ldr r1, _0801E9D8 @ =0x00000216
 	adds r0, r4, #0
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 _0801E9A0:
 	adds r0, r4, #0
 	bl sub_8015064
@@ -64642,7 +64642,7 @@ sub_801F5B4: @ 0x0801F5B4
 	ldr r0, [r2, #0x50]
 	movs r1, #0x84
 	lsls r1, r1, #2
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r1, [r5]
 	ldr r0, _0801F62C @ =sub_801F630
 	str r0, [r1, #8]
@@ -65058,7 +65058,7 @@ _0801F906:
 	ldr r0, [r4, #0x50]
 	movs r1, #0x84
 	lsls r1, r1, #2
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r0, _0801F968 @ =gCurTask
 	ldr r1, [r0]
 	ldr r0, _0801F96C @ =sub_801F970
@@ -65259,7 +65259,7 @@ _0801FA92:
 	ldr r0, [r4, #0x50]
 	movs r1, #0x84
 	lsls r1, r1, #2
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	ldr r0, _0801FAF4 @ =gCurTask
 	ldr r1, [r0]
 	ldr r0, _0801FAF8 @ =sub_801FAFC
@@ -65742,7 +65742,7 @@ _0801FE44:
 	ldr r0, [r4, #0x50]
 	movs r1, #0x84
 	lsls r1, r1, #2
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	mov r0, sb
 	ldr r1, [r0]
 	ldr r0, _0801FECC @ =sub_801FED0
@@ -91620,7 +91620,7 @@ _0802C75C:
 _0802C762:
 	adds r0, r4, #0
 	movs r1, #0x96
-	bl sub_8004E98
+	bl Player_PlaySoundEffect
 	movs r0, #0
 	strb r0, [r6, #7]
 	ldr r0, _0802C7A4 @ =gStageData
