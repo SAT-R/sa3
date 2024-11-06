@@ -4,7 +4,7 @@
 #include "global.h"
 #include "task.h"
 #include "flags.h"
-#include "lib/m4a.h"
+#include "lib/m4a/m4a.h"
 
 static void TaskMainDummy1(void);
 static void TaskMainDummy2(void);
