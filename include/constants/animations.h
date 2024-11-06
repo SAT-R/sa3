@@ -167,8 +167,8 @@
 
 #define ANIM_SPRING_PLATFORM_4        984
 #define ANIM_PLATFORM_CA_ACT3         986
-#define ANIM_SPRING_TK                987
-#define ANIM_SPIKES_TK                988
+#define ANIM_SPRING_4                 987
+#define ANIM_SPIKES_4                 988
 #define ANIM_PLATFORM_WITH_SWITCH_W02 989
 #define ANIM_PLATFORM_WITH_SWITCH_W03 990
 #define ANIM_PLATFORM_WITH_SWITCH_W04 991

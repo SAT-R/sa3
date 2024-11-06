@@ -39,8 +39,6 @@ void CreateEntity_Spring(u16 direction, MapEntity *me, u16 regionX, u16 regionY,
     Sprite *s = &spring->s;
     s32 absPosX;
     s32 absPosY;
-    s32 negativeTwo;
-    s16 MATCHING;
     s16 i;
 
     spring->base.regionX = regionX;
@@ -53,7 +51,7 @@ void CreateEntity_Spring(u16 direction, MapEntity *me, u16 regionX, u16 regionY,
     spring->unk3A = 0;
 
     for (i = 0; i < 8; i++) {
-        if ((me->d.uData[4] >> i) & 1)
+        if (GetBit(me->d.uData[4], i))
             break;
     }
 
@@ -178,141 +176,132 @@ void Task_SpringMain(void)
 
     sub_802E0D8();
 }
-#if 0
-void
-sub_802DFC8(s16 direction, Sprite* param1) { // OK
-	s32 mask = 0;
-	s32 subAnim;
-	s32 value;
 
+void sub_802DFC8(s16 direction, Sprite *s)
+{
+    s32 mask = 0;
+    s32 variant;
 
-	if (direction & 0x8) {
-		subAnim = 0x6;
+    if (direction & 0x8) {
+        variant = 6;
 
-		value = (direction & 1);
+        mask = (direction & 1) ? SPRITE_FLAG(X_FLIP, 1) : 0;
+    } else if (direction & 0x4) {
+        variant = 4;
 
-		direction = (value * -1);
-		direction |= value;
-		mask = direction >> 31;
-		mask &= 0x400;
-	} else if (direction & 0x4) {
-		subAnim = 0x4;
+        if (direction & 0x2) {
+            mask = SPRITE_FLAG(X_FLIP, 1);
+        }
 
-		if (direction & 0x2) {
-			mask = 0x400;
-		}
+        if (direction & 0x1) {
+            mask |= SPRITE_FLAG(Y_FLIP, 1);
+        }
+    } else if (direction & 0x2) {
+        variant = 2;
 
-		if (direction & 0x1) {
-			mask |= 0x800;
-		}
-	} else if (direction & 0x2) {
-		subAnim = 0x2;
+        if (direction & 0x1) {
+            mask = SPRITE_FLAG(X_FLIP, 1);
+        }
+    } else {
+        variant = 0;
 
-		if (direction & 0x1) {
-			mask = 0x400;
-		}
-	} else {
-		subAnim = 0;
+        if (direction & 0x1) {
+            mask = SPRITE_FLAG(Y_FLIP, 1);
+        }
+    }
 
-		if (direction & 0x1) {
-			mask = 0x800;
-		}
-	}
+    if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+        if ((gStageData.act >= ACT_1) && (gStageData.act <= ACT_BONUS_CAPSULE)) {
+            if (gStageData.zone == ZONE_6) {
+                s->tiles = ALLOC_TILES(ANIM_SPRING_6);
+                s->anim = ANIM_SPRING_6;
+            } else if (gStageData.zone == ZONE_4) {
+                s->tiles = ALLOC_TILES(ANIM_SPRING_4);
+                s->anim = ANIM_SPRING_4;
+            } else {
+                s->tiles = ALLOC_TILES(ANIM_SPRING);
+                s->anim = ANIM_SPRING;
+            }
+        } else {
+            s->tiles = ALLOC_TILES(ANIM_SPRING);
+            s->anim = ANIM_SPRING;
+        }
+    } else {
+        s->tiles = ALLOC_TILES(ANIM_SPRING);
+        s->anim = ANIM_SPRING;
+        mask |= SPRITE_FLAG_MASK_MOSAIC;
+    }
 
-	if (gStageData.v3 != 0x7) {
-		if ((gStageData.Act >= ACT_1) && (gStageData.Act <= ACT_BONUS_CAPSULE)) {
-			if (gStageData.Zone == CYBER_TRACK) {
-				param1->tiles = GetVramTileLocation(0x0F);
-				param1->anim = SA3_ANIM__SPRING_CT;
-			} else if (gStageData.Zone == TOY_KINGDOM) {
-				param1->tiles = GetVramTileLocation(0x14);
-				param1->anim = SA3_ANIM__SPRING_TK;
-			} else {
-				param1->tiles = GetVramTileLocation(0x14);
-				param1->anim = SA3_ANIM__SPRING;
-			}
-		} else {
-			param1->tiles = GetVramTileLocation(0x14);
-			param1->anim = SA3_ANIM__SPRING;
-		}
-	}
-	else {
-		// _0802E094
-		param1->tiles = GetVramTileLocation(0x14);
-		param1->anim = SA3_ANIM__SPRING;
-		mask |= 0x200;
-	}
-
-	//_802E0A6
-	param1->subAnim = subAnim;
-	param1->flags2 = 0x600;
-	param1->animProgress = 0;
-	param1->v16 = 0;
-	param1->maxSubAnim = 0xFF;
-	param1->v1C = 0x10;
-	param1->palIndexVram = 0;
-	param1->v20[0].v0 = -1;
-	param1->flags = mask | 0x1000;
+    s->variant = variant;
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = mask | SPRITE_FLAG(PRIORITY, 1);
 }
 
+#if 0
 // _0802E15C
 void
-BETA_InitInteractable_Spring_Up(Interactable* sprite, u16 spriteRegionX, u16 spriteRegionY, u8 param3) {
-	BETA_InitInteractable_Spring(0, sprite, spriteRegionX, spriteRegionY, param3);
+CreateEntity_Spring_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
+	CreateEntity_Spring(0, sprite, spriteRegionX, spriteRegionY, param3);
 }
 
 // _0802E188
 void
-BETA_InitInteractable_Spring_Down(Interactable* sprite, u16 spriteRegionX, u16 spriteRegionY, u8 param3) {
-	BETA_InitInteractable_Spring(1, sprite, spriteRegionX, spriteRegionY, param3);
+CreateEntity_Spring_Down(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
+	CreateEntity_Spring(1, sprite, spriteRegionX, spriteRegionY, param3);
 }
 
 // _0802E1B4
 void
-BETA_InitInteractable_Spring_Left(Interactable* sprite, u16 spriteRegionX, u16 spriteRegionY, u8 param3) {
-	BETA_InitInteractable_Spring(3, sprite, spriteRegionX, spriteRegionY, param3);
+CreateEntity_Spring_Left(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
+	CreateEntity_Spring(3, sprite, spriteRegionX, spriteRegionY, param3);
 }
 
 // _0802E1E0
 void
-BETA_InitInteractable_Spring_Right(Interactable* sprite, u16 spriteRegionX, u16 spriteRegionY, u8 param3) {
-	BETA_InitInteractable_Spring(2, sprite, spriteRegionX, spriteRegionY, param3);
+CreateEntity_Spring_Right(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
+	CreateEntity_Spring(2, sprite, spriteRegionX, spriteRegionY, param3);
 }
 
 // _0802E20C
 void
-BETA_InitInteractable_Spring_UpLeft(Interactable* sprite, u16 spriteRegionX, u16 spriteRegionY, u8 param3) {
-	BETA_InitInteractable_Spring(6, sprite, spriteRegionX, spriteRegionY, param3);
+CreateEntity_Spring_UpLeft(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
+	CreateEntity_Spring(6, sprite, spriteRegionX, spriteRegionY, param3);
 }
 
 // _0802E238
 void
-BETA_InitInteractable_Spring_DownLeft(Interactable* sprite, u16 spriteRegionX, u16 spriteRegionY, u8 param3) {
-	BETA_InitInteractable_Spring(7, sprite, spriteRegionX, spriteRegionY, param3);
+CreateEntity_Spring_DownLeft(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
+	CreateEntity_Spring(7, sprite, spriteRegionX, spriteRegionY, param3);
 }
 
 // _0802E264
 void
-BETA_InitInteractable_Spring_UpRight(Interactable* sprite, u16 spriteRegionX, u16 spriteRegionY, u8 param3) {
-	BETA_InitInteractable_Spring(4, sprite, spriteRegionX, spriteRegionY, param3);
+CreateEntity_Spring_UpRight(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
+	CreateEntity_Spring(4, sprite, spriteRegionX, spriteRegionY, param3);
 }
 
 // _0802E290
 void
-BETA_InitInteractable_Spring_DownRight(Interactable* sprite, u16 spriteRegionX, u16 spriteRegionY, u8 param3) {
-	BETA_InitInteractable_Spring(5, sprite, spriteRegionX, spriteRegionY, param3);
+CreateEntity_Spring_DownRight(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
+	CreateEntity_Spring(5, sprite, spriteRegionX, spriteRegionY, param3);
 }
 
 // _0802E2BC
 void
-BETA_InitInteractable_Spring_UpRightCut(Interactable* sprite, u16 spriteRegionX, u16 spriteRegionY, u8 param3) {
-	BETA_InitInteractable_Spring(8, sprite, spriteRegionX, spriteRegionY, param3);
+CreateEntity_Spring_UpRightCut(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
+	CreateEntity_Spring(8, sprite, spriteRegionX, spriteRegionY, param3);
 }
 
 // _0802E2E8
 void
-BETA_InitInteractable_Spring_UpLeftCut(Interactable* sprite, u16 spriteRegionX, u16 spriteRegionY, u8 param3) {
-	BETA_InitInteractable_Spring(9, sprite, spriteRegionX, spriteRegionY, param3);
+CreateEntity_Spring_UpLeftCut(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
+	CreateEntity_Spring(9, sprite, spriteRegionX, spriteRegionY, param3);
 }
 
 // _0802E314
