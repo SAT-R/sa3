@@ -56,7 +56,7 @@
 #define ANIM_SPIKES                    869
 #define ANIM_RAMP                      870
 #define ANIM_PLATFORM_1_1              871
-#define ANIM_ZONE_TELEPORT             872
+#define ANIM_ZONE_WARP                 872
 #define ANIM_BOUNCY_BAR                873
 #define ANIM_ROTATING_HANDLE           874
 #define ANIM_CHECKPOINT                875

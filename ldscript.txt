@@ -23,7 +23,6 @@ SECTIONS {
         build/sa3/asm/crt0.o(.text);
         build/sa3/asm/code_0.o(.text);
         build/sa3/src/game/interactables/zone_warp.o(.text);
-        build/sa3/asm/ia_zone_warp.o(.text);
         build/sa3/asm/ia_spring.o(.text);
         build/sa3/src/game/interactables/toggle_player_layer.o(.text);
         build/sa3/src/game/interactables/warp.o(.text);
