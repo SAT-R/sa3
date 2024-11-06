@@ -90,7 +90,7 @@ void Task_Booster(void)
                     continue;
                 }
 
-                Player_PlaySoundEffect(p, SE_SPEED_BOOSTER);
+                Player_PlaySong(p, SE_SPEED_BOOSTER);
 
                 p->unk99 = 0;
                 p->qCamOffsetY = Q(0);

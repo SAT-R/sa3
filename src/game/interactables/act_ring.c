@@ -83,7 +83,7 @@ void Task_ActRingMain(void)
             if (sub_8020700(s, worldX, worldY, 0, p, 0)) {
                 sub_8016F28(p);
                 sub_8019A64(p);
-                Player_PlaySoundEffect(p, SE_BIG_WARP_RING);
+                Player_PlaySong(p, SE_BIG_WARP_RING);
 
                 gStageData.nextMapIndex = (gStageData.zone * 10) + ring->act + 3;
                 gStageData.unkC = 0;

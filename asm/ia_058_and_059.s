@@ -791,7 +791,7 @@ _0803583C:
 	bl _call_via_r1
 	ldr r1, _0803588C @ =0x00000115
 	adds r0, r4, #0
-	bl Player_PlaySoundEffect
+	bl Player_PlaySong
 	lsls r2, r7, #3
 	adds r0, r5, #0
 	adds r0, #0x84

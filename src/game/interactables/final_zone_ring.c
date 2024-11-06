@@ -72,7 +72,7 @@ void Task_FinalZoneRing(void)
                     SetPlayerCallback(partner, Player_800AD24);
                 }
 
-                Player_PlaySoundEffect(p, SE_BIG_WARP_RING);
+                Player_PlaySong(p, SE_BIG_WARP_RING);
 
                 if (gStageData.gameMode > GAME_MODE_BOSS_TIME_ATTACK) {
                     if (p->charFlags.someIndex == 0x1) {

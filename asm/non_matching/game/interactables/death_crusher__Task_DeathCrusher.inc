@@ -186,7 +186,7 @@ _08041CAE:
 	beq _08041D10
 	adds r0, r5, #0
 	movs r1, #0x9a
-	bl Player_PlaySoundEffect
+	bl Player_PlaySong
 	b _08041E50_continue
 	.align 2, 0
 _08041D0C: .4byte gPlayers

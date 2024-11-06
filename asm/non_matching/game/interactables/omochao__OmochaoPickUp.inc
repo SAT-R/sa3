@@ -194,7 +194,7 @@ _0803846A:
 	str r1, [r5, #0x14]
 	adds r0, r4, #0
 	ldr r1, _08038480 @ =0x00000202
-	bl Player_PlaySoundEffect
+	bl Player_PlaySong
 	b _0803848E
 	.align 2, 0
 _08038478: .4byte gStageData

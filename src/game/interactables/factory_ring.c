@@ -44,7 +44,7 @@ void Task_FactoryRingMain(void)
                 if (sub_8020700(s, worldX, worldY, 0, p, 0)) {
                     sub_8016F28(p);
                     sub_8019A64(p);
-                    Player_PlaySoundEffect(p, SE_BIG_WARP_RING);
+                    Player_PlaySong(p, SE_BIG_WARP_RING);
                     SetPlayerCallback(p, Player_800AE14);
 
                     partner = &gPlayers[p->charFlags.partnerIndex];

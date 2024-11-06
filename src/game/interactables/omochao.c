@@ -293,7 +293,7 @@ NONMATCH("asm/non_matching/game/interactables/omochao__OmochaoPickUp.inc", bool3
                     SPRITE_FLAG_CLEAR(&omochao->s, X_FLIP);
                 }
 
-                Player_PlaySoundEffect(p, SE_PICKUP_OMOCHAO_2);
+                Player_PlaySong(p, SE_PICKUP_OMOCHAO_2);
             } else {
                 p->moveState |= MOVESTATE_10000000;
             }

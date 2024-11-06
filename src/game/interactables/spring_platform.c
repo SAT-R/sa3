@@ -130,7 +130,7 @@ void Task_SpringPlatform(void)
             }
 
             p->unkA4 = ((spring2->data4_bit5 << 4) | (spring2->data4_bits67 & 0xF));
-            Player_PlaySoundEffect(p, 0x94);
+            Player_PlaySong(p, 0x94);
         } else {
             u32 res = sub_8020874(s, I(spring->shared.qWorldX), I(spring->shared.qWorldY), 0, p, r5, 1);
             if (res & 0x20000) {

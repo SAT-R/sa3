@@ -360,7 +360,7 @@ _08033524:
 	strb r1, [r4]
 	adds r0, r5, #0
 	movs r1, #0x94
-	bl Player_PlaySoundEffect
+	bl Player_PlaySong
 _0803354C:
 	mov r1, sb
 	ldrb r0, [r1, #0x1a]

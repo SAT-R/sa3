@@ -250,12 +250,12 @@ void sub_804E210(void)
         sub_80299FC();
     }
 
-    Player_PlaySoundEffect(p, SE_PICKUP_OMOCHAO_2);
+    Player_PlaySong(p, SE_PICKUP_OMOCHAO_2);
 
     if (lastChaoId == (NUM_CHAO_PER_ZONE - 1)) {
-        Player_PlaySoundEffect(p, SE_672);
+        Player_PlaySong(p, SE_672);
     } else {
-        Player_PlaySoundEffect(p, VOICE__CHAO__COLLECTED);
+        Player_PlaySong(p, VOICE__CHAO__COLLECTED);
     }
 
     gCurTask->main = Task_804E2D8;

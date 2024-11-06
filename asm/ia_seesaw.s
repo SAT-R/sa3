@@ -925,7 +925,7 @@ _08036B1C:
 	adds r0, r6, #0
 	movs r1, #0x94
 	lsls r1, r1, #2
-	bl Player_PlaySoundEffect
+	bl Player_PlaySong
 	b _08036B98
 	.align 2, 0
 _08036B48: .4byte 0xFFFFFB00

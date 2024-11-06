@@ -163,7 +163,7 @@ NONMATCH("asm/non_matching/game/interactables/death_crusher__Task_DeathCrusher.i
 
         if (!sub_802C080(p) && (crusher->hasLED != 0) && (p->framesInvulnerable == 0) && (p->framesInvincible == 0)
             && (r4 = sub_8020CE0(s, I(crusher->qWorldX), I(crusher->qWorldY), 1, p))) {
-            Player_PlaySoundEffect(p, SE_SPIKES);
+            Player_PlaySong(p, SE_SPIKES);
         } else if (!sub_802C0D4(p)) {
             if ((p->moveState & MOVESTATE_20) && p->spr6C == s) {
                 // _08041D1C+0x12
