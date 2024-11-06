@@ -73,7 +73,7 @@ void Task_Interactable134(void)
 
         if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2 || p->charFlags.someIndex == 4) {
             if (sub_802C0D4(p)) {
-                sub_8004F10(p, SE_607);
+                Player_StopSong(p, SE_607);
             } else if ((p->callback != Player_8008A8C) && (p->callback != Player_800ED80)) {
                 worldX = I(p->qWorldX);
                 worldY = I(p->qWorldY);

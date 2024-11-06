@@ -443,7 +443,7 @@ _08047E64:
 _08047E80:
 	ldr r1, _08047E94 @ =0x0000025E
 	adds r0, r2, #0
-	bl sub_8004F10
+	bl Player_StopSong
 	b _08047EE0
 	.align 2, 0
 _08047E8C: .4byte Player_8008A8C

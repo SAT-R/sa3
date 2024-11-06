@@ -502,7 +502,7 @@ _080489D2:
 _080489F6:
 	ldr r1, _08048A08 @ =0x00000257
 	adds r0, r2, #0
-	bl sub_8004F10
+	bl Player_StopSong
 	b _08048A40
 	.align 2, 0
 _08048A00: .4byte Player_8008A8C
@@ -749,7 +749,7 @@ _08048BD4:
 _08048BDC:
 	ldr r0, [r5, #0x50]
 	ldr r1, _08048BE8 @ =0x00000257
-	bl sub_8004F10
+	bl Player_StopSong
 	b _08048C0A
 	.align 2, 0
 _08048BE8: .4byte 0x00000257

@@ -102,7 +102,7 @@ void Task_Interactable128(void)
             if ((p->callback == Player_800E604) && (p->qWorldX > qLeft) && (p->qWorldX < qRight) && (p->qWorldY > qTop)
                 && (p->qWorldY < qBottom)) {
                 sub_8016F28(p);
-                sub_8004F10(p, SE_599);
+                Player_StopSong(p, SE_599);
                 sub_8006824(p);
             }
         }

@@ -42,7 +42,7 @@ static void Task_Interactable094Main(void)
         if (p->callback != (void *)ANIM_CHAR_133)
 #endif
         {
-            sub_8004F10(p, SE_290);
+            Player_StopSong(p, SE_290);
         }
 
         me->x = ia->base.spriteX;
@@ -54,7 +54,7 @@ static void Task_Interactable094Main(void)
 
             if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2 || p->charFlags.someIndex == 4) {
                 if (sub_802C0D4(p)) {
-                    sub_8004F10(p, SE_290);
+                    Player_StopSong(p, SE_290);
                 } else {
                     s16 pWorldX = I(p->qWorldX);
                     s16 pWorldY = I(p->qWorldY);
@@ -62,7 +62,7 @@ static void Task_Interactable094Main(void)
                     if ((pWorldX > left) && (pWorldX < right) && (pWorldY > top) && (pWorldY < bottom)) {
                         if (ia->unkC) {
                             if (p->charFlags.anim0 == ANIM_CHAR_133) {
-                                sub_8004F10(p, SE_290);
+                                Player_StopSong(p, SE_290);
                                 Player_800E6CC(p);
 
                                 p->qWorldX = Q(middle);

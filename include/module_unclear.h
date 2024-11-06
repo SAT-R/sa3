@@ -45,7 +45,7 @@ void sub_8004DD8(s32 qWorldX, s32 qWorldY);
 // TODO: param2 type
 u16 sub_8004E20(s16, s16, u16 *param2);
 bool32 Player_PlaySong(Player *p, u16 song);
-void sub_8004F10(Player *, u16 song);
+void Player_StopSong(Player *, u16 song);
 void sub_8006824(Player *p);
 void sub_8008E38(Player *p);
 

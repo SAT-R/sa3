@@ -726,7 +726,7 @@ _080328CE:
 	adds r0, r5, #0
 	movs r1, #0x8c
 	lsls r1, r1, #1
-	bl sub_8004F10
+	bl Player_StopSong
 	adds r0, r7, #0
 	adds r0, #0x3c
 	ldrb r0, [r0]
