@@ -139,8 +139,8 @@ SECTIONS {
         build/sa3/asm/code.o(.text);
         build/sa3/asm/game__math.o(.text);
         build/sa3/asm/code_x.o(.text);
-        build/sa3/src/lib/m4a0.o(.text);
-        build/sa3/src/lib/m4a.o(.text);
+        build/sa3/src/lib/m4a/m4a0.o(.text);
+        build/sa3/src/lib/m4a/m4a.o(.text);
         build/sa3/asm/game_init.o(.text);
         build/sa3/src/main.o(.text);
         build/sa3/src/task.o(.text);
@@ -231,7 +231,7 @@ SECTIONS {
         build/sa3/data/data.o(.rodata);
         build/sa3/asm/game__math.o(.rodata);
         build/sa3/data/data_x.o(.rodata);
-        build/sa3/src/lib/m4a_tables.o(.rodata);
+        build/sa3/src/lib/m4a/m4a_tables.o(.rodata);
         build/sa3/data/sound.o(.rodata);
         build/sa3/sound/songs/song000.o(.rodata);
         build/sa3/sound/songs/song001.o(.rodata);
