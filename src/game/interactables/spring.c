@@ -110,10 +110,10 @@ void Task_SpringMain(void)
         }
 
         if ((sb != 0) || (sub_8020700(s, worldX, worldY, 0, p, sb))) {
-            bool32 shouldSwapVerticalAcceleration = FALSE; // for down-facing springs and swapped gravity
+            bool32 shouldSwapVerticalAcceleration = FALSE;
 
-            if (((spring->unk3A >> i) & 1) == 0) {
-                spring->unk3A |= (1 << i);
+            if (!GetBit(spring->unk3A, i)) {
+                SetBit(spring->unk3A, i);
                 sub_8004E98(p, SE_SPRING);
             }
 
@@ -170,7 +170,7 @@ void Task_SpringMain(void)
             }
 
         } else {
-            spring->unk3A &= ~(1 << i);
+            ClearBit(spring->unk3A, i);
         }
     }
 
@@ -243,71 +243,56 @@ void sub_802DFC8(s16 direction, Sprite *s)
     s->frameFlags = mask | SPRITE_FLAG(PRIORITY, 1);
 }
 
-#if 0
-// _0802E15C
-void
-CreateEntity_Spring_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
-	CreateEntity_Spring(0, sprite, spriteRegionX, spriteRegionY, param3);
+void sub_802E0D8(void)
+{
+    Spring *spring = TASK_DATA(gCurTask);
+    Sprite *s = &spring->s;
+    MapEntity *me = spring->base.me;
+    s16 worldX, worldY;
+
+    worldX = spring->worldX;
+    worldY = spring->worldY;
+
+    if (!IsPointInScreenRect(worldX, worldY)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spring->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (UpdateSpriteAnimation(s) == ACMD_RESULT__ENDED) {
+        if (s->variant & 0x1) {
+            s->variant--;
+        }
+    }
+
+    DisplaySprite(s);
 }
 
-// _0802E188
-void
-CreateEntity_Spring_Down(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
-	CreateEntity_Spring(1, sprite, spriteRegionX, spriteRegionY, param3);
-}
+void CreateEntity_Spring_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Spring(0, me, regionX, regionY, id); }
 
-// _0802E1B4
-void
-CreateEntity_Spring_Left(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
-	CreateEntity_Spring(3, sprite, spriteRegionX, spriteRegionY, param3);
-}
+void CreateEntity_Spring_Down(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Spring(1, me, regionX, regionY, id); }
 
-// _0802E1E0
-void
-CreateEntity_Spring_Right(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
-	CreateEntity_Spring(2, sprite, spriteRegionX, spriteRegionY, param3);
-}
+void CreateEntity_Spring_Left(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Spring(3, me, regionX, regionY, id); }
 
-// _0802E20C
-void
-CreateEntity_Spring_UpLeft(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
-	CreateEntity_Spring(6, sprite, spriteRegionX, spriteRegionY, param3);
-}
+void CreateEntity_Spring_Right(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Spring(2, me, regionX, regionY, id); }
 
-// _0802E238
-void
-CreateEntity_Spring_DownLeft(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
-	CreateEntity_Spring(7, sprite, spriteRegionX, spriteRegionY, param3);
-}
+void CreateEntity_Spring_UpLeft(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Spring(6, me, regionX, regionY, id); }
 
-// _0802E264
-void
-CreateEntity_Spring_UpRight(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
-	CreateEntity_Spring(4, sprite, spriteRegionX, spriteRegionY, param3);
-}
+void CreateEntity_Spring_DownLeft(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Spring(7, me, regionX, regionY, id); }
 
-// _0802E290
-void
-CreateEntity_Spring_DownRight(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
-	CreateEntity_Spring(5, sprite, spriteRegionX, spriteRegionY, param3);
-}
+void CreateEntity_Spring_UpRight(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Spring(4, me, regionX, regionY, id); }
 
-// _0802E2BC
-void
-CreateEntity_Spring_UpRightCut(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
-	CreateEntity_Spring(8, sprite, spriteRegionX, spriteRegionY, param3);
-}
+void CreateEntity_Spring_DownRight(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Spring(5, me, regionX, regionY, id); }
 
-// _0802E2E8
-void
-CreateEntity_Spring_UpLeftCut(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
-	CreateEntity_Spring(9, sprite, spriteRegionX, spriteRegionY, param3);
-}
+void CreateEntity_Spring_Small_UpRight(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Spring(8, me, regionX, regionY, id); }
 
-// _0802E314
-void
-_sub_802E314(struc_30020F0 *param0) {
-	Entity* entity = (Entity*)IWRAM_POINTER(param0->v6);
-	sub_80C3304(spring->vC.union0._u32.v0);
+void CreateEntity_Spring_Small_UpLeft(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_Spring(9, me, regionX, regionY, id); }
+
+void TaskDestructor_Spring(struct Task *t)
+{
+    Spring *spring = TASK_DATA(t);
+    VramFree(spring->s.tiles);
 }
-#endif
