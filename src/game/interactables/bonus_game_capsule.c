@@ -902,7 +902,7 @@ void Task_803A978(void)
             if (UpdateScreenFade(&cap->fade) != SCREEN_FADE_RUNNING) {
                 TasksDestroyAll();
 
-                gUnknown_03003F94 = gBackgroundsCopyQueueIndex;
+                gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
                 gUnknown_03006840 = 0;
                 gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
 
@@ -934,7 +934,7 @@ void Task_803AA28(void)
             if (UpdateScreenFade(&cap->fade) != SCREEN_FADE_RUNNING) {
                 TasksDestroyAll();
 
-                gUnknown_03003F94 = gBackgroundsCopyQueueIndex;
+                gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
                 gUnknown_03006840 = 0;
                 gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
 

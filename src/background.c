@@ -79,9 +79,8 @@ void DrawBackground(Background *background)
     ADD_TO_BACKGROUNDS_QUEUE(background);
 }
 
-#if 0
-// (85.37%) https://decomp.me/scratch/617Jb
-// (87.46%) https://decomp.me/scratch/1CFim
+// Code copy-pasted from SA2
+// 2024, Nov. 7
 NONMATCH("asm/non_matching/engine/sa2__sub_8002B20.inc", bool32 sa2__sub_8002B20(void))
 {
     u16 sp00;
@@ -634,6 +633,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8002B20.inc", bool32 sa2__sub_8002B20
 }
 END_NONMATCH
 
+#if 0
 void UpdateBgAnimationTiles(Background *bg)
 {
     Tilemap *tilemap = gTilemapsRef[bg->tilemapId];

@@ -208,7 +208,7 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 . = 0x00003F40; gUnknown_03003F40 = .;
 . = 0x00003F8C; gPressedKeys = .;
 . = 0x00003F90; gUnknown_03003F90 = .;
-. = 0x00003F94; gUnknown_03003F94 = .;
+. = 0x00003F94; gBackgroundsCopyQueueCursor = .;
 . = 0x00003FA0; gHBlankIntrs = .;
 . = 0x00003FB0; gIwramHeap = .;
 . = 0x000061C0; gUnknown_030061C0 = .;

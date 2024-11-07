@@ -165,7 +165,7 @@ _080BBB2C:
 	movs r0, #0xff
 	strb r0, [r6]
 	movs r0, #0
-	ldr r1, _080BBE34 @ =gUnknown_03003F94
+	ldr r1, _080BBE34 @ =gBackgroundsCopyQueueCursor
 	strb r0, [r1]
 	mov r2, r8
 	strb r0, [r2]
@@ -570,7 +570,7 @@ _080BBE06:
 _080BBE28: .4byte 0x040000D4
 _080BBE2C: .4byte 0x85006000
 _080BBE30: .4byte 0x85000100
-_080BBE34: .4byte gUnknown_03003F94
+_080BBE34: .4byte gBackgroundsCopyQueueCursor
 _080BBE38: .4byte gUnknown_03003590
 _080BBE3C: .4byte 0x85000004
 _080BBE40: .4byte gUnknown_03006230

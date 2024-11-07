@@ -199,7 +199,7 @@ void Task_802DA3C(void)
 
     TasksDestroyAll();
 
-    gUnknown_03003F94 = gBackgroundsCopyQueueIndex;
+    gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
     gUnknown_03006840 = 0;
     gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
 
