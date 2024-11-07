@@ -633,10 +633,13 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8002B20.inc", bool32 sa2__sub_8002B20
 }
 END_NONMATCH
 
-#if 0
-void UpdateBgAnimationTiles(Background *bg)
+// Matches in SA2!
+// (99.89%) https://decomp.me/scratch/renVB
+NONMATCH("asm/non_matching/engine/UpdateBgAnimationTiles.inc", void UpdateBgAnimationTiles(Background *bg))
 {
-    Tilemap *tilemap = gTilemapsRef[bg->tilemapId];
+    Tilemap *tilemap = (Tilemap *)gTilemapsRef[bg->tilemapId];
+    const u8 *tiles;
+
     if (tilemap->animFrameCount > 0) {
         if (tilemap->animDelay <= ++bg->animDelayCounter) {
             u32 animTileSize;
@@ -650,28 +653,28 @@ void UpdateBgAnimationTiles(Background *bg)
 
             if (!(bg->flags & BACKGROUND_UPDATE_ANIMATIONS)) {
                 if (bg->animFrameCounter == 0) {
-                    bg->graphics.src = tilemap->tiles;
+                    tiles = tilemap->tiles;
                 } else {
-                    const u8 *tiles = tilemap->tiles;
-                    u32 size = tilemap->tilesSize;
-                    tiles += size;
-                    tiles += (bg->animFrameCounter - 1) * animTileSize;
-                    bg->graphics.src = tiles;
+                    u32 tilesSize;
+                    const u8 *_tiles = tilemap->tiles;
+                    tilesSize = tilemap->tilesSize;
+                    _tiles += tilesSize;
+                    tiles = _tiles + (bg->animFrameCounter - 1) * animTileSize;
                 }
+
+                ADD_TO_GRAPHICS_QUEUE(tiles, bg->graphics.dest, animTileSize);
             } else {
-                u8 *ts = bg->graphics.dest;
-                ts += tilemap->tilesSize;
-                ts += (bg->animFrameCounter * animTileSize);
-                bg->graphics.src = ts;
-            }
-            {
-                bg->graphics.size = animTileSize;
-                ADD_TO_GRAPHICS_QUEUE(&bg->graphics)
+                u8 *_tiles = bg->graphics.dest;
+                _tiles += tilemap->tilesSize;
+                tiles = _tiles + (bg->animFrameCounter * animTileSize);
+                ADD_TO_GRAPHICS_QUEUE(tiles, bg->graphics.dest, animTileSize);
             }
         }
     }
 }
+END_NONMATCH
 
+#if 0
 // Differences to UpdateSpriteAnimation:
 // - SPRITE_INIT_ANIM_IF_CHANGED gets executed *after* the if.
 // - Uses animCmdTable_BG instead of animCmdTable
