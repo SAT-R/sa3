@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "module_unclear.h"
 #include "flags.h"
 #include "sprite.h"
 #include "tilemap.h"
@@ -33,23 +34,22 @@ const AnimationCommandFunc animCmdTable_BG[12] = {
 
 #define CastPointer(ptr, index) (void *)&(((u8 *)(ptr))[(index)])
 
-#if 0
 void DrawBackground(Background *background)
 {
     struct MapHeader *mapHeader = (struct MapHeader *)gTilemapsRef[background->tilemapId];
     const u16 *pal;
+    const u8 *tiles;
     u32 palSize;
     u16 gfxSize;
 
     // Set tilemap (or tileset, for map chunks) dimensions and graphics
     background->xTiles = mapHeader->tileset.xTiles;
     background->yTiles = mapHeader->tileset.yTiles;
-    background->graphics.src = mapHeader->tileset.tiles;
+    tiles = mapHeader->tileset.tiles;
     gfxSize = mapHeader->tileset.tilesSize;
-    background->graphics.size = gfxSize;
 
     if (!(background->flags & BACKGROUND_DISABLE_TILESET_UPDATE)) {
-        ADD_TO_GRAPHICS_QUEUE(&background->graphics);
+        ADD_TO_GRAPHICS_QUEUE(tiles, background->graphics.dest, gfxSize);
         background->flags ^= BACKGROUND_DISABLE_TILESET_UPDATE;
     }
 
@@ -58,8 +58,13 @@ void DrawBackground(Background *background)
     background->paletteOffset = mapHeader->tileset.palOffset;
 
     if (!(background->flags & BACKGROUND_DISABLE_PALETTE_UPDATE)) {
-        DmaCopy16(3, pal, gBgPalette + background->paletteOffset, palSize * sizeof(*pal));
-        gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+        if (gFlags & 0x10000) {
+            sub_80C460C(pal, background->paletteOffset, palSize);
+        } else {
+            DmaCopy16(3, pal, gBgPalette + background->paletteOffset, palSize * sizeof(*pal));
+            gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+        }
+
         background->flags ^= BACKGROUND_DISABLE_PALETTE_UPDATE;
     }
 
@@ -72,10 +77,9 @@ void DrawBackground(Background *background)
     }
 
     ADD_TO_BACKGROUNDS_QUEUE(background);
-    //gUnknown_03001800[gUnknown_0300287C] = background;
-    //gUnknown_0300287C = (gUnknown_0300287C + 1) % ARRAY_COUNT(gUnknown_03001800);
 }
 
+#if 0
 // (85.37%) https://decomp.me/scratch/617Jb
 // (87.46%) https://decomp.me/scratch/1CFim
 NONMATCH("asm/non_matching/engine/sa2__sub_8002B20.inc", bool32 sa2__sub_8002B20(void))
@@ -94,7 +98,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8002B20.inc", bool32 sa2__sub_8002B20
     s32 j;
     u16 k;
 
-    while (gUnknown_03002AE4 != gUnknown_0300287C) {
+    while (gBackgroundsCopyQueueCursor != gBackgroundsCopyQueueIndex) {
         Background *bg;
 
 #if !PORTABLE
@@ -106,10 +110,10 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8002B20.inc", bool32 sa2__sub_8002B20
         // _08002B64
         REG_VCOUNT;
         {
-            Background **backgrounds = &gUnknown_03001800[0];
-            s32 index = gUnknown_03002AE4;
+            Background **backgrounds = &gBackgroundsCopyQueue[0];
+            s32 index = gBackgroundsCopyQueueCursor;
             bg = backgrounds[index];
-            gUnknown_03002AE4 = (gUnknown_03002AE4 + 1) % ARRAY_COUNT(gUnknown_03001800);
+            gBackgroundsCopyQueueCursor = (gBackgroundsCopyQueueCursor + 1) % ARRAY_COUNT(gBackgroundsCopyQueue);
 
             if ((bg->flags & BACKGROUND_FLAG_20) && (bg->scrollX == bg->prevScrollX) && bg->scrollY == bg->prevScrollY)
                 continue;

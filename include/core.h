@@ -178,7 +178,7 @@ struct MapHeader **gTilemapsRef; // TODO: make this an array and add size
 // extern void *gUnknown_030022C0;
 extern s16 gMosaicReg;
 // extern u8 gUnknown_030026F4;
-extern struct GraphicsData *gVramGraphicsCopyQueue[32];
+extern struct GraphicsData gVramGraphicsCopyQueue[32];
 // extern u16 gUnknown_03002820;
 // extern u8 gUnknown_03002874;
 // extern void *gUnknown_03002878;
@@ -211,14 +211,16 @@ extern struct MultiBootParam gMultiBootParam;
 
 #define INC_GRAPHICS_QUEUE_CURSOR(cursor) cursor = (cursor + 1) % ARRAY_COUNT(gVramGraphicsCopyQueue);
 
-#define ADD_TO_GRAPHICS_QUEUE(gfx)                                                                                                         \
-    gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex] = gfx;                                                                             \
+#define ADD_TO_GRAPHICS_QUEUE(_src, _dest, _size)                                                                                          \
+    gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].src = _src;                                                                        \
+    gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].dest = _dest;                                                                      \
+    gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].size = _size;                                                                      \
     INC_GRAPHICS_QUEUE_CURSOR(gVramGraphicsCopyQueueIndex);
 
 #define INC_BACKGROUNDS_QUEUE_CURSOR(cursor) cursor = (cursor + 1) % ARRAY_COUNT(gBackgroundsCopyQueue);
 
-#define ADD_TO_BACKGROUNDS_QUEUE(gfx)                                                                                                      \
-    gBackgroundsCopyQueue[gBackgroundsCopyQueueIndex] = gfx;                                                                               \
+#define ADD_TO_BACKGROUNDS_QUEUE(_bg)                                                                                                      \
+    gBackgroundsCopyQueue[gBackgroundsCopyQueueIndex] = _bg;                                                                               \
     INC_BACKGROUNDS_QUEUE_CURSOR(gBackgroundsCopyQueueIndex);
 
 void GameInit(void);

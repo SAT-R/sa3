@@ -3937,7 +3937,7 @@ _080C1102:
 	strb r0, [r4]
 	ldrb r0, [r4]
 	lsls r0, r0, #3
-	ldr r1, _080C1120 @ =gUnknown_03003748
+	ldr r1, _080C1120 @ =gUnknown_03003750-0x8
 	adds r0, r0, r1
 _080C1110:
 	pop {r4, r5}
@@ -3946,7 +3946,7 @@ _080C1110:
 	.align 2, 0
 _080C1118: .4byte gUnknown_03003750
 _080C111C: .4byte gUnknown_03006210
-_080C1120: .4byte gUnknown_03003748
+_080C1120: .4byte gUnknown_03003750-0x8
 
 	thumb_func_start sub_80C1124
 sub_80C1124: @ 0x080C1124
