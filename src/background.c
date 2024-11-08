@@ -1139,11 +1139,6 @@ void sa2__sub_8003EE4(u16 p0, s16 p1, s16 p2, s16 p3, s16 p4, s16 p5, s16 p6, Bg
 NONMATCH("asm/non_matching/engine/background__sub_80BECF8.inc", void sub_80BECF8(Sprite *s, void *maybeScreenFade, void *emptyTaskPtr)) { }
 END_NONMATCH
 
-#if 0
-// (57.61%) https://decomp.me/scratch/6Xm6S
-// (58.36%) https://decomp.me/scratch/ClyxP
-// (48.23%) https://decomp.me/scratch/bDTEe
-#if 01
 NONMATCH("asm/non_matching/engine/sa2__sub_8004010.inc", u32 sa2__sub_8004010(void))
 {
     u8 bgIndex = 0;
@@ -1156,8 +1151,8 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004010.inc", u32 sa2__sub_8004010(vo
 
     for (; bgIndex < 4; bgIndex++) {
 
-        if ((gUnknown_03002280[bgIndex][1] == gUnknown_03002280[bgIndex][3])
-            && (gUnknown_03002280[bgIndex][0] == gUnknown_03002280[bgIndex][2]))
+        if ((gUnknown_03003590[bgIndex][1] == gUnknown_03003590[bgIndex][3])
+            && (gUnknown_03003590[bgIndex][0] == gUnknown_03003590[bgIndex][2]))
             continue;
 
         { // _08004056
@@ -1166,31 +1161,31 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004010.inc", u32 sa2__sub_8004010(vo
             target &= BGCNT_SCREENBASE_MASK;
             vramBgCtrl += target * 4;
 
-            r4 = gUnknown_03002280[bgIndex][1];
+            r4 = gUnknown_03003590[bgIndex][1];
 
-            sp08 = gUnknown_03002280[bgIndex][0];
+            sp08 = gUnknown_03003590[bgIndex][0];
 
             if ((bgIndex > 1) && (gDispCnt & (DISPCNT_MODE_2 | DISPCNT_MODE_1 | DISPCNT_MODE_0))) {
                 // _0800408E
                 spVramPtr = (u8 *)&vramBgCtrl[sp08];
                 bgSize_TxtOrAff = (0x10 << (gBgCntRegs[bgIndex] >> 14));
 
-                if (gUnknown_03002280[bgIndex][3] == 0xFF) {
+                if (gUnknown_03003590[bgIndex][3] == 0xFF) {
                     // _080040A2
-                    u16 v = gUnknown_03004D80[bgIndex];
+                    u16 v = gUnknown_03006230[bgIndex];
                     u32 value;
                     v |= v << 8;
 
-                    value = ((gUnknown_03002280[bgIndex][3] - r4) * bgSize_TxtOrAff);
+                    value = ((gUnknown_03003590[bgIndex][3] - r4) * bgSize_TxtOrAff);
                     DmaFill16(3, v, (void *)&spVramPtr[bgSize_TxtOrAff], (((s32)(value + (value >> 31))) >> 1));
                 } else {
                     // _080040F8
                     // u8 i2 = i + 1;
-                    for (; r4 < gUnknown_03002280[bgIndex][3]; r4++) {
-                        u16 v = gUnknown_03004D80[bgIndex];
+                    for (; r4 < gUnknown_03003590[bgIndex][3]; r4++) {
+                        u16 v = gUnknown_03006230[bgIndex];
                         v |= v << 8;
 
-                        DmaFill16(3, v, &spVramPtr[bgIndex * r4], (s32)(bgIndex * 4 - gUnknown_03002280[bgIndex][0] + 1));
+                        DmaFill16(3, v, &spVramPtr[bgIndex * r4], (s32)(bgIndex * 4 - gUnknown_03003590[bgIndex][0] + 1));
                     }
                 }
                 // then -> _0800422C
@@ -1202,26 +1197,26 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004010.inc", u32 sa2__sub_8004010(vo
                 if ((u8)((gBgCntRegs[sp08] >> 14) - 2) <= 1)
                     tileSize = 64;
 
-                if (gUnknown_03002280[bgIndex][2] == 0xFF) {
-                    u8 r1 = gUnknown_03004D80[bgIndex];
-                    p1p = &gUnknown_03002280[bgIndex][tileSize];
+                if (gUnknown_03003590[bgIndex][2] == 0xFF) {
+                    u8 r1 = gUnknown_03006230[bgIndex];
+                    p1p = &gUnknown_03003590[bgIndex][tileSize];
                     sp00[0] = r1;
 
 #if 0
                     // TODO: This crashes the game after selecting a stage right now.
-                    DmaFill16(3, sp00[0], &gUnknown_03002280[bgIndex][tileSize],
-                              gUnknown_03002280[bgIndex][3] - r4);
+                    DmaFill16(3, sp00[0], &gUnknown_03003590[bgIndex][tileSize],
+                              gUnknown_03003590[bgIndex][3] - r4);
 #endif
                 } else {
                     // _080041D8
-                    for (; r4 <= gUnknown_03002280[bgIndex][3]; r4++) {
+                    for (; r4 <= gUnknown_03003590[bgIndex][3]; r4++) {
                         // _080041F6
-                        DmaFill16(3, gUnknown_03004D80[bgIndex], &gUnknown_03002280[bgIndex][tileSize], ARRAY_COUNT(gUnknown_03002280[0]));
+                        DmaFill16(3, gUnknown_03006230[bgIndex], &gUnknown_03003590[bgIndex][tileSize], ARRAY_COUNT(gUnknown_03003590[0]));
                     }
                 }
             }
             // _0800422C
-            DmaFill32(3, 0, &gUnknown_03002280[bgIndex], ARRAY_COUNT(gUnknown_03002280[bgIndex]));
+            DmaFill32(3, 0, &gUnknown_03003590[bgIndex], ARRAY_COUNT(gUnknown_03003590[bgIndex]));
         }
     }
 
@@ -1229,136 +1224,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004010.inc", u32 sa2__sub_8004010(vo
 }
 END_NONMATCH
 
-#else
-#define combine(v) ((v) << 8 | (v))
-
-u32 sa2__sub_8004010(void)
-{
-    // Stack size: 0x18 bytes
-
-    u8 bg; // bg index
-    u16 sp00; // 4 : num backgrounds
-    u8 sp08;
-
-    for (bg = 0; bg < 4; bg++) {
-        if ((gUnknown_03002280[bg][1] != gUnknown_03002280[bg][3]) || (gUnknown_03002280[bg][0] != gUnknown_03002280[bg][2])) {
-            // _08004056
-            void *vramBase = ((void *)BG_VRAM + ((gBgCntRegs[bg] & BGCNT_SCREENBASE_MASK) << 3));
-            sp08 = gUnknown_03002280[bg][0];
-
-            // Potential bug?
-            // gDispCnt could be set to bitmap mode (0x5), which
-            // would still trigger this condition but is not intended.
-            if (bg > 1 || (gDispCnt & 0x3)) {
-                // __0800408E
-                u16 affineSize;
-
-                vramBase = (vramBase + sp08);
-
-                // affineSize = internal "screen size"
-                // 0 = 128x128
-                // 1 = 256x256
-                // 2 = 512x512
-                // 3 = 1024x1024
-                affineSize = 16 << (gBgCntRegs[bg] >> 14);
-
-                if (gUnknown_03002280[bg][3] == 0xFF) {
-                    // __080040A2
-                    u16 cb = combine(gUnknown_03004D80[bg]);
-                    void *vram = (vramBase + (gUnknown_03002280[bg][1] * affineSize));
-                    s32 size = affineSize * (gUnknown_03002280[bg][3] - gUnknown_03002280[bg][1]);
-
-                    DmaFill16(3, cb, vram, ABS(size));
-                } else {
-                    // _080040F8
-                    u8 r4 = gUnknown_03002280[bg][1];
-
-                    for (; r4 <= gUnknown_03002280[bg][3]; r4++) {
-                        u16 cb = combine(gUnknown_03004D80[bg]);
-                        void *vram = (vramBase + (gUnknown_03002280[bg][1] * affineSize));
-                        s32 size = (gUnknown_03002280[bg][2] - sp08) + 1;
-
-                        DmaFill16(3, cb, vram, ABS(size));
-                    }
-                }
-            } else {
-                // _08004168
-                int tileSize;
-                u8 affineSize;
-                vramBase = (vramBase + sp08 * 2);
-
-                tileSize = 32;
-
-                // affineSize = internal "screen size"
-                // 0 = 128x128     (-2, -> 254)
-                // 1 = 256x256     (-2, -> 255)
-                // 2 = 512x512     (-2, -> 0)
-                // 3 = 1024x1024   (-2, -> 1)
-                affineSize = (gBgCntRegs[bg] >> 14) - 2;
-
-                if (affineSize < 2) {
-                    // 512x512 or 1024x1024
-                    tileSize = 64;
-                }
-                // _08004182
-
-                if (gUnknown_03002280[bg][2] == 0xFF) {
-                    // __0800418C
-                    void *vram = (vramBase + (gUnknown_03002280[bg][1] * tileSize));
-                    s32 size = tileSize * (gUnknown_03002280[bg][3] - gUnknown_03002280[bg][1]);
-
-                    DmaFill16(3, gUnknown_03004D80[bg], vram, size * 2);
-                } else {
-                    // _080041D8
-                    u8 r4 = gUnknown_03002280[bg][1];
-
-                    for (; r4 < gUnknown_03002280[bg][3]; r4++) {
-                        void *vram = (vramBase + (gUnknown_03002280[bg][1] * (tileSize * 2)));
-                        s32 size = tileSize * (gUnknown_03002280[bg][2] - sp08) + 1;
-                        DmaFill16(3, gUnknown_03004D80[bg], vram, size * 2);
-                    }
-                }
-            }
-
-            // _0800422C
-            DmaFill32(3, 0, &gUnknown_03002280[bg], ARRAY_COUNT(gUnknown_03002280[bg]));
-        }
-    }
-
-    return 1;
-}
-#endif
-
-// Copies the font to VRAM and displays the input text by using it as tileset.
-s32 RenderText(void *dest, const void *font, u16 x, u16 y, u8 bg, const char *text, u8 palette)
-{
-    u8 i = 0;
-
-    u16 *vramTiles = (void *)BG_CHAR_ADDR_FROM_BGCNT(bg);
-
-    u16 layoutBase = (gBgCntRegs[bg] & BGCNT_SCREENBASE_MASK) << 3;
-    u16 *vramLayout = ({ (u16 *)(VRAM + (layoutBase)); }) + y * 32 + x;
-
-    for (; text[i] != 0; i++) {
-        u16 *copyDest = dest + (i * TILE_SIZE_4BPP);
-        u16 tile;
-        u16 *addr;
-        CpuFastCopy(font + (text[i] * TILE_SIZE_4BPP), copyDest, TILE_SIZE_4BPP);
-
-        tile = (copyDest - vramTiles) / 16u;
-#ifndef NON_MATCHING
-        vramLayout++;
-        vramLayout--;
-#endif
-
-        addr = &vramLayout[i];
-
-        *addr = (palette << 12) | tile;
-    }
-
-    return i * TILE_SIZE_4BPP;
-}
-
+#if 0
 // (-2)
 // This is different to animCmd_GetPalette in that:
 // - gBgPalette is used instead of gObjPalette

@@ -184,8 +184,8 @@ extern u8 gOamFreeIndex;
 // extern u16 gUnknown_0300194C;
 
 struct MapHeader **gTilemapsRef; // TODO: make this an array and add size
-// extern u8 gUnknown_03002280[4][4];
-// extern u8 gUnknown_03004D80[16];
+extern u8 gUnknown_03003590[4][4]; // extern u8 gUnknown_03002280[4][4];
+extern u8 gUnknown_03006230[16];
 
 // extern u16 *gUnknown_030022AC;
 // extern void *gUnknown_030022C0;
