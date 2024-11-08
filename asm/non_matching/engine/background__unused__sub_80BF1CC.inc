@@ -1,18 +1,6 @@
-.include "asm/macros.inc"
-.include "constants/constants.inc"
 
-.text
 .syntax unified
-.arm
-
-@ Start of background.c
-
-.if 0
-.endif
-
-@ Not in SA2
-	thumb_func_start sub_80BF1CC
-sub_80BF1CC: @ 0x080BF1CC
+.text
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -179,4 +167,4 @@ _080BF2F6:
 	.align 2, 0
 _080BF308: .4byte 0x040000D4
 
-@ End of background.c
+.syntax divided

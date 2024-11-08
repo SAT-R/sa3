@@ -1144,6 +1144,7 @@ void sa2__sub_8003EE4(u16 p0, s16 p1, s16 p2, s16 p3, s16 p4, s16 p5, s16 p6, Bg
 NONMATCH("asm/non_matching/engine/background__sub_80BECF8.inc", void sub_80BECF8(Sprite *s, void *maybeScreenFade, void *emptyTaskPtr)) { }
 END_NONMATCH
 
+// (54.19%) https://decomp.me/scratch/6n5R5
 NONMATCH("asm/non_matching/engine/sa2__sub_8004010.inc", u32 sa2__sub_8004010(void))
 {
     u8 bgIndex = 0;
@@ -1287,7 +1288,6 @@ static AnimCmdResult animCmd_PlaySoundEffect_BG(void *cursor, Sprite *s)
     return 1;
 }
 
-#if 01
 // (-7)
 static AnimCmdResult animCmd_TranslateSprite_BG(void *cursor, Sprite *s)
 {
@@ -1349,4 +1349,6 @@ static AnimCmdResult animCmd_SetOamOrder_BG(void *cursor, Sprite *s)
     return 1;
 }
 
-#endif
+// Not in SA2
+NONMATCH("asm/non_matching/engine/background__unused__sub_80BF1CC.inc", void sub_80BF1CC(void *param0)) { }
+END_NONMATCH
