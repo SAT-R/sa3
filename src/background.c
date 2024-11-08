@@ -1135,6 +1135,10 @@ void sa2__sub_8003EE4(u16 p0, s16 p1, s16 p2, s16 p3, s16 p4, s16 p5, s16 p6, Bg
     }
 }
 
+// Not in SA2
+NONMATCH("asm/non_matching/engine/background__sub_80BECF8.inc", void sub_80BECF8(Sprite *s, void *maybeScreenFade, void *emptyTaskPtr)) { }
+END_NONMATCH
+
 #if 0
 // (57.61%) https://decomp.me/scratch/6Xm6S
 // (58.36%) https://decomp.me/scratch/ClyxP
