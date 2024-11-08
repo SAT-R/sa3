@@ -945,9 +945,8 @@ NONMATCH("asm/non_matching/engine/background__sub_80BE46C.inc", void sub_80BE46C
 }
 END_NONMATCH
 
-#if 0
 // Some VBlank function
-// (21.30%) https://decomp.me/scratch/UfJX7
+// VERY UNFINISHED !
 NONMATCH("asm/non_matching/engine/sa2__sub_80039E4.inc", bool32 sa2__sub_80039E4(void))
 {
     // tilesize (could be 32 and get optimized out?)
@@ -962,11 +961,11 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80039E4.inc", bool32 sa2__sub_80039E4
 
 // TODO: once function matches this can be removed
 #if PORTABLE
-    gUnknown_03005390 = 0;
+    gUnknown_03006840 = 0;
     return TRUE;
 #endif
 
-    if (gUnknown_03005390 != 0) {
+    if (gUnknown_03006840 != 0) {
         OamDataShort oam;
         s32 r5;
         s32 sp08;
@@ -982,10 +981,10 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80039E4.inc", bool32 sa2__sub_80039E4
         s32 yPos; // =r5
         u16 oamX, oamY;
 
-        for (r5 = 0; r5 < gUnknown_03005390; r5++) {
+        for (r5 = 0; r5 < gUnknown_03006840; r5++) {
             // _08003A1A
-            s = gUnknown_03004D10[r5];
-            dims = s->dimensions;
+            s = gUnknown_030061C0[r5];
+            dims = &gRefSpriteTables->dimensions[s->anim][s->frameNum];
 
             if (dims != (void *)-1) {
                 u32 bgId = SPRITE_FLAG_GET(s, BG_ID);
@@ -1014,7 +1013,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80039E4.inc", bool32 sa2__sub_80039E4
                     oamSub = gRefSpriteTables->oamData;
 
                     // OAM entry for this sub-frame
-                    sp1C = (OamDataShort *)oamSub[s->graphics.anim];
+                    sp1C = (OamDataShort *)oamSub[s->anim];
                     sp1C = &sp1C[dims->oamIndex];
 
                     for (sp08 = 0; sp08 < dims->numSubframes; sp08++) {
@@ -1032,7 +1031,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80039E4.inc", bool32 sa2__sub_80039E4
                         xPos = s->x - dims->offsetX;
                         xPos &= ~0xF;
                         r7 = bgBase + (((oam.y + yPos) >> 3) * sp10);
-                        tileId = ((size_t)(s->graphics.dest - bgVram)) >> sp28;
+                        tileId = ((size_t)(((uintptr_t)s->tiles) - (uintptr_t)bgVram)) >> sp28;
                         shrunkTileId = (oam.tileNum + tileId) & 0xFF;
 
                         // __08003B68
@@ -1051,7 +1050,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80039E4.inc", bool32 sa2__sub_80039E4
                         sp10 = 0x40;
                     }
                     // _08003C46
-                    sp1C = (OamDataShort *)gRefSpriteTables->oamData[s->graphics.anim];
+                    sp1C = (OamDataShort *)gRefSpriteTables->oamData[s->anim];
                     sp1C = (OamDataShort *)&sp1C[dims->oamIndex];
 
                     // _08003C78
@@ -1102,13 +1101,15 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80039E4.inc", bool32 sa2__sub_80039E4
             }
         }
 
-        gUnknown_03005390 = 0;
+        gUnknown_03006840 = 0;
     }
 
     return TRUE;
 }
+
 END_NONMATCH
 
+#if 0
 void sa2__sub_8003EE4(u16 p0, s16 p1, s16 p2, s16 p3, s16 p4, s16 p5, s16 p6, BgAffineReg *affine)
 {
     affine->pa = (COS_24_8(p0) * (s16)Div(0x10000, p1)) >> 8;
