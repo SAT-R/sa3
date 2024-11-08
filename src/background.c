@@ -893,45 +893,26 @@ static AnimCmdResult animCmd_AddHitbox_BG(void *cursor, Sprite *s)
     return 1;
 }
 
-#if 0
-// (-6)
-// Differences to animCmd_AddHitbox:
-// - uses XOR_SWAP macro instead of SWAP_AND_NEGATE
-// TODO: rename animCmd_AddHitbox_BG
-static AnimCmdResult animCmd_AddHitbox_BG(void *cursor, Sprite *s)
-{
-    ACmd_Hitbox *cmd = (ACmd_Hitbox *)cursor;
-    s32 index = cmd->hitbox.index & 0xF;
-    s->animCursor += AnimCommandSizeInWords(*cmd);
-
-    DmaCopy32(3, &cmd->hitbox, &s->hitboxes[index].index, sizeof(Hitbox));
-
-    if ((cmd->hitbox.left == 0) && (cmd->hitbox.top == 0) && (cmd->hitbox.right == 0) && (cmd->hitbox.bottom == 0)) {
-        s->hitboxes[index].index = -1;
-    } else {
-        if (s->frameFlags & SPRITE_FLAG_MASK_Y_FLIP) {
-            XOR_SWAP(s->hitboxes[index].top, s->hitboxes[index].bottom);
-        }
-
-        if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
-            XOR_SWAP(s->hitboxes[index].left, s->hitboxes[index].right);
-        }
-    }
-
-    return 1;
-}
-
-void sa2__sub_8003914(Sprite *s)
+// void sa2__sub_8003914(Sprite *s) ???
+//
+//  VERY UNFINISHED!
+//  (31.36%) https://decomp.me/scratch/YIsVM
+NONMATCH("asm/non_matching/engine/background__sub_80BE46C.inc", void sub_80BE46C(Sprite *s))
 {
     const SpriteOffset *dims;
 
-    gUnknown_03004D10[gUnknown_03005390] = s;
-    gUnknown_03005390++;
+    gUnknown_030061C0[gUnknown_03006840] = s;
+    gUnknown_03006840++;
 
-    if (s->dimensions != (void *)-1) {
+    if (s->frameNum != -1) {
         u32 bgId;
 
-        dims = s->dimensions;
+        if ((u32)s->frameNum >> 28) {
+            dims = &gRefSpriteTables->dimensions[s->anim][s->frameNum];
+        } else {
+            dims = &gRefSpriteTables->dimensions[s->anim][0];
+        }
+
         bgId = SPRITE_FLAG_GET(s, BG_ID);
         // Potential UB:
         //     gDispCnt 'Mode' is an int, not a bitfield!
@@ -962,7 +943,9 @@ void sa2__sub_8003914(Sprite *s)
         }
     }
 }
+END_NONMATCH
 
+#if 0
 // Some VBlank function
 // (21.30%) https://decomp.me/scratch/UfJX7
 NONMATCH("asm/non_matching/engine/sa2__sub_80039E4.inc", bool32 sa2__sub_80039E4(void))

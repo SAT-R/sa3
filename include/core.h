@@ -203,7 +203,7 @@ extern u8 gVramGraphicsCopyQueueIndex;
 //  of the OAM. This is the index of the first currently-inactive element
 extern u8 gOamFirstPausedIndex;
 // extern u8 gUnknown_03002AE4;
-// extern Sprite *gUnknown_03004D10[16];
+extern Sprite *gUnknown_030061C0[16]; // extern Sprite *gUnknown_03004D10[16];
 // extern u8 gUnknown_03004D50;
 // extern void *gUnknown_03004D54;
 // extern u16 gUnknown_03004D58;
