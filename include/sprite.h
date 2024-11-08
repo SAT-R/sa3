@@ -255,7 +255,16 @@ s16 sa2__sub_8004418(s16 x, s16 y);
 //
 // s16 sub_8004418(s16 x, s16 y);
 
-#define SpriteShouldUpdate(sprite) (((sprite)->prevVariant != (sprite)->variant) || ((sprite)->prevAnim != (sprite)->graphics.anim))
+#define SpriteShouldUpdate(sprite) (((sprite)->prevVariant != (sprite)->variant) || ((sprite)->prevAnim != (sprite)->anim))
+
+#define SPRITE_INIT_ANIM_IF_CHANGED(_sprite)                                                                                               \
+    if (SpriteShouldUpdate(_sprite)) {                                                                                                     \
+        (_sprite)->prevVariant = (_sprite)->variant;                                                                                       \
+        (_sprite)->prevAnim = (_sprite)->anim;                                                                                             \
+        (_sprite)->animCursor = 0;                                                                                                         \
+        (_sprite)->qAnimDelay = 0;                                                                                                         \
+        SPRITE_FLAG_CLEAR(_sprite, ANIM_OVER);                                                                                             \
+    }
 
 #ifndef NON_MATCHING
 #define SPRITE_FLIP_X_DIR(sprite)                                                                                                          \

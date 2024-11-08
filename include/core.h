@@ -4,6 +4,7 @@
 #include "global.h"
 #include "task.h"
 #include "sprite.h"
+#include "animation_commands.h"
 //#include "tilemap.h"
 //#include "input_recorder.h"
 
@@ -46,6 +47,18 @@ struct Unk_03003674 {
     const void *unk14;
     const s32 *unk18;
 }; /* size = 0x1C */
+
+struct SpriteTables {
+    /* 0x00 */ const ACmd **const *animations;
+    /* 0x04 */ const SpriteOffset *const *dimensions;
+    /* 0x08 */ const u16 **const oamData;
+    /* 0x0C */ const u16 *const palettes;
+    /* 0x10 */ const u8 *const tiles_4bpp;
+    /* 0x14 */ const u8 *const tiles_8bpp;
+#if 1 // SA3-only
+    /* 0x18 */
+#endif
+};
 
 // No idea why this exists when there is a
 // better random number generator in the math
@@ -222,6 +235,8 @@ extern struct MultiBootParam gMultiBootParam;
 #define ADD_TO_BACKGROUNDS_QUEUE(_bg)                                                                                                      \
     gBackgroundsCopyQueue[gBackgroundsCopyQueueIndex] = _bg;                                                                               \
     INC_BACKGROUNDS_QUEUE_CURSOR(gBackgroundsCopyQueueIndex);
+
+extern struct SpriteTables *gRefSpriteTables;
 
 void GameInit(void);
 void GameLoop(void);

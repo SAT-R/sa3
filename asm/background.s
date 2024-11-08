@@ -10,139 +10,6 @@
 .if 0
 .endif
 
-@ SA2: sub_80036E0
-	thumb_func_start sub_80BE09C
-sub_80BE09C: @ 0x080BE09C
-	push {r4, r5, r6, lr}
-	adds r4, r0, #0
-	ldrb r2, [r4, #0x1a]
-	ldrb r0, [r4, #0x1b]
-	cmp r0, r2
-	bne _080BE0B0
-	ldrh r0, [r4, #0x18]
-	ldrh r1, [r4, #0xc]
-	cmp r0, r1
-	beq _080BE0C4
-_080BE0B0:
-	movs r1, #0
-	strb r2, [r4, #0x1b]
-	ldrh r0, [r4, #0xc]
-	strh r0, [r4, #0x18]
-	strh r1, [r4, #0xe]
-	strh r1, [r4, #0x16]
-	ldr r0, [r4, #8]
-	ldr r1, _080BE0D4 @ =0xFFFFBFFF
-	ands r0, r1
-	str r0, [r4, #8]
-_080BE0C4:
-	ldr r0, [r4, #8]
-	movs r1, #0x80
-	lsls r1, r1, #7
-	ands r0, r1
-	cmp r0, #0
-	beq _080BE0D8
-	movs r0, #0
-	b _080BE180
-	.align 2, 0
-_080BE0D4: .4byte 0xFFFFBFFF
-_080BE0D8:
-	ldrh r1, [r4, #0x16]
-	movs r2, #0x16
-	ldrsh r0, [r4, r2]
-	cmp r0, #0
-	ble _080BE0F0
-	ldrb r0, [r4, #0x1c]
-	lsls r0, r0, #4
-	subs r0, r1, r0
-	strh r0, [r4, #0x16]
-	b _080BE17E
-_080BE0EC:
-	adds r0, r1, #0
-	b _080BE180
-_080BE0F0:
-	ldr r0, _080BE188 @ =gRefSpriteTables
-	ldr r1, [r0]
-	ldrh r0, [r4, #0xc]
-	ldr r1, [r1]
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	ldr r1, [r0]
-	ldrb r0, [r4, #0x1a]
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	ldr r5, [r0]
-	ldrh r0, [r4, #0xe]
-	lsls r0, r0, #2
-	adds r3, r5, r0
-	ldr r0, [r3]
-	cmp r0, #0
-	bge _080BE15A
-	ldr r6, _080BE18C @ =gUnknown_082B4884
-_080BE114:
-	mvns r0, r0
-	lsls r0, r0, #2
-	adds r0, r0, r6
-	ldr r2, [r0]
-	adds r0, r3, #0
-	adds r1, r4, #0
-	bl _call_via_r2
-	adds r1, r0, #0
-	cmp r1, #1
-	beq _080BE14E
-	movs r0, #1
-	rsbs r0, r0, #0
-	cmp r1, r0
-	bne _080BE0EC
-	ldr r0, _080BE188 @ =gRefSpriteTables
-	ldr r1, [r0]
-	ldrh r0, [r4, #0xc]
-	ldr r1, [r1]
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	ldr r1, [r0]
-	ldrb r0, [r4, #0x1a]
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	ldr r1, [r0]
-	movs r0, #0
-	strh r0, [r4, #0xe]
-	adds r5, r1, #0
-_080BE14E:
-	ldrh r0, [r4, #0xe]
-	lsls r0, r0, #2
-	adds r3, r5, r0
-	ldr r0, [r3]
-	cmp r0, #0
-	blt _080BE114
-_080BE15A:
-	ldr r0, [r3]
-	lsls r0, r0, #8
-	ldrh r1, [r4, #0x16]
-	adds r0, r0, r1
-	ldrb r1, [r4, #0x1c]
-	lsls r1, r1, #4
-	subs r0, r0, r1
-	strh r0, [r4, #0x16]
-	ldr r0, [r3, #4]
-	str r0, [r4, #4]
-	ldr r0, [r4, #8]
-	movs r1, #0x80
-	lsls r1, r1, #0x13
-	orrs r0, r1
-	str r0, [r4, #8]
-	ldrh r0, [r4, #0xe]
-	adds r0, #2
-	strh r0, [r4, #0xe]
-_080BE17E:
-	movs r0, #1
-_080BE180:
-	pop {r4, r5, r6}
-	pop {r1}
-	bx r1
-	.align 2, 0
-_080BE188: .4byte gRefSpriteTables
-_080BE18C: .4byte gUnknown_082B4884
-
 	thumb_func_start sub_80BE190
 sub_80BE190: @ 0x080BE190
 	push {r4, r5, r6, r7, lr}
@@ -185,7 +52,7 @@ _080BE1D2:
 	ldr r1, [r4]
 	cmp r1, #0
 	bge _080BE248
-	ldr r0, _080BE21C @ =gUnknown_082B4884
+	ldr r0, _080BE21C @ =animCmdTable_BG
 	mov r8, r0
 _080BE1E2:
 	movs r0, #3
@@ -215,7 +82,7 @@ _080BE1EC:
 	.align 2, 0
 _080BE214: .4byte 0xFFFFBFFF
 _080BE218: .4byte gRefSpriteTables
-_080BE21C: .4byte gUnknown_082B4884
+_080BE21C: .4byte animCmdTable_BG
 _080BE220:
 	ldr r0, _080BE274 @ =gRefSpriteTables
 	ldr r1, [r0]
@@ -362,8 +229,8 @@ _080BE328: .4byte gRefSpriteTables
 _080BE32C: .4byte gVramGraphicsCopyQueue
 _080BE330: .4byte gVramGraphicsCopyQueueIndex
 
-	thumb_func_start sub_80BE334
-sub_80BE334: @ 0x080BE334
+	thumb_func_start animCmd_GetPalette_BG
+animCmd_GetPalette_BG: @ 0x080BE334
 	push {r4, r5, r6, lr}
 	adds r5, r0, #0
 	adds r3, r1, #0
@@ -2192,8 +2059,8 @@ _080BF126:
 	.align 2, 0
 _080BF138: .4byte gBgCntRegs
 
-	thumb_func_start sub_80BF13C
-sub_80BF13C: @ 0x080BF13C
+	thumb_func_start animCmd_JumpBack_BG
+animCmd_JumpBack_BG: @ 0x080BF13C
 	ldr r2, [r0, #4]
 	ldrh r0, [r1, #0xe]
 	subs r0, r0, r2
@@ -2201,8 +2068,8 @@ sub_80BF13C: @ 0x080BF13C
 	movs r0, #1
 	bx lr
 
-	thumb_func_start sub_80BF148
-sub_80BF148: @ 0x080BF148
+	thumb_func_start animCmd_End_BG
+animCmd_End_BG: @ 0x080BF148
 	ldr r0, [r1, #8]
 	movs r2, #0x80
 	lsls r2, r2, #7
@@ -2212,8 +2079,8 @@ sub_80BF148: @ 0x080BF148
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_80BF158
-sub_80BF158: @ 0x080BF158
+	thumb_func_start animCmd_PlaySoundEffect_BG
+animCmd_PlaySoundEffect_BG: @ 0x080BF158
 	push {lr}
 	ldrh r2, [r1, #0xe]
 	adds r2, #2
@@ -2224,8 +2091,8 @@ sub_80BF158: @ 0x080BF158
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_80BF16C
-sub_80BF16C: @ 0x080BF16C
+	thumb_func_start animCmd_TranslateSprite_BG
+animCmd_TranslateSprite_BG: @ 0x080BF16C
 	ldrh r2, [r1, #0xe]
 	adds r2, #2
 	strh r2, [r1, #0xe]
@@ -2241,8 +2108,8 @@ sub_80BF16C: @ 0x080BF16C
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_80BF188
-sub_80BF188: @ 0x080BF188
+	thumb_func_start animCmd_8_BG
+animCmd_8_BG: @ 0x080BF188
 	ldrh r0, [r1, #0xe]
 	adds r0, #3
 	strh r0, [r1, #0xe]
@@ -2250,8 +2117,8 @@ sub_80BF188: @ 0x080BF188
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_80BF194
-sub_80BF194: @ 0x080BF194
+	thumb_func_start animCmd_SetIdAndVariant_BG
+animCmd_SetIdAndVariant_BG: @ 0x080BF194
 	ldrh r2, [r1, #0xe]
 	adds r2, #2
 	strh r2, [r1, #0xe]
@@ -2265,15 +2132,15 @@ sub_80BF194: @ 0x080BF194
 	rsbs r0, r0, #0
 	bx lr
 
-	thumb_func_start sub_80BF1AC
-sub_80BF1AC: @ 0x080BF1AC
+	thumb_func_start animCmd_10_BG
+animCmd_10_BG: @ 0x080BF1AC
 	ldrh r2, [r1, #0xe]
 	adds r2, #4
 	strh r2, [r1, #0xe]
 	bx lr
 
-	thumb_func_start sub_80BF1B4
-sub_80BF1B4: @ 0x080BF1B4
+	thumb_func_start animCmd_SetSpritePriority_BG
+animCmd_SetSpritePriority_BG: @ 0x080BF1B4
 	ldrh r0, [r1, #0xe]
 	adds r0, #2
 	strh r0, [r1, #0xe]
@@ -2281,8 +2148,8 @@ sub_80BF1B4: @ 0x080BF1B4
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_80BF1C0
-sub_80BF1C0: @ 0x080BF1C0
+	thumb_func_start animCmd_SetOamOrder_BG
+animCmd_SetOamOrder_BG: @ 0x080BF1C0
 	ldrh r0, [r1, #0xe]
 	adds r0, #2
 	strh r0, [r1, #0xe]

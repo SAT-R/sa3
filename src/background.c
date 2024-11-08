@@ -9,26 +9,24 @@
 
 #include "animation_commands.h"
 
-static AnimCmdResult animCmd_GetTiles_BG(void *, Sprite *);
-static AnimCmdResult animCmd_GetPalette_BG(void *, Sprite *);
-static AnimCmdResult animCmd_JumpBack_BG(void *, Sprite *);
-static AnimCmdResult animCmd_End_BG(void *, Sprite *);
-static AnimCmdResult animCmd_PlaySoundEffect_BG(void *, Sprite *);
-static AnimCmdResult animCmd_AddHitbox_BG(void *, Sprite *);
-static AnimCmdResult animCmd_TranslateSprite_BG(void *, Sprite *);
-static AnimCmdResult animCmd_8_BG(void *, Sprite *);
-static AnimCmdResult animCmd_SetIdAndVariant_BG(void *, Sprite *);
-static AnimCmdResult animCmd_10_BG(void *, Sprite *);
-static AnimCmdResult animCmd_SetSpritePriority_BG(void *, Sprite *);
-static AnimCmdResult animCmd_SetOamOrder_BG(void *, Sprite *);
+AnimCmdResult animCmd_GetTiles_BG(void *, Sprite *);
+AnimCmdResult animCmd_GetPalette_BG(void *, Sprite *);
+AnimCmdResult animCmd_JumpBack_BG(void *, Sprite *);
+AnimCmdResult animCmd_End_BG(void *, Sprite *);
+AnimCmdResult animCmd_PlaySoundEffect_BG(void *, Sprite *);
+AnimCmdResult animCmd_AddHitbox_BG(void *, Sprite *);
+AnimCmdResult animCmd_TranslateSprite_BG(void *, Sprite *);
+AnimCmdResult animCmd_8_BG(void *, Sprite *);
+AnimCmdResult animCmd_SetIdAndVariant_BG(void *, Sprite *);
+AnimCmdResult animCmd_10_BG(void *, Sprite *);
+AnimCmdResult animCmd_SetSpritePriority_BG(void *, Sprite *);
+AnimCmdResult animCmd_SetOamOrder_BG(void *, Sprite *);
 
-#if 0
 const AnimationCommandFunc animCmdTable_BG[12] = {
     animCmd_GetTiles_BG,        animCmd_GetPalette_BG, animCmd_JumpBack_BG,          animCmd_End_BG,
     animCmd_PlaySoundEffect_BG, animCmd_AddHitbox_BG,  animCmd_TranslateSprite_BG,   animCmd_8_BG,
     animCmd_SetIdAndVariant_BG, animCmd_10_BG,         animCmd_SetSpritePriority_BG, animCmd_SetOamOrder_BG,
 };
-#endif
 
 #define ReadInstruction(script, cursor) ((void *)(script) + (cursor * sizeof(s32)))
 
@@ -674,16 +672,17 @@ NONMATCH("asm/non_matching/engine/UpdateBgAnimationTiles.inc", void UpdateBgAnim
 }
 END_NONMATCH
 
-#if 0
 // Differences to UpdateSpriteAnimation:
 // - SPRITE_INIT_ANIM_IF_CHANGED gets executed *after* the if.
 // - Uses animCmdTable_BG instead of animCmdTable
 s32 sa2__sub_80036E0(Sprite *s)
 {
-    if (s->frameFlags & SPRITE_FLAG_MASK_ANIM_OVER)
-        return 0;
 
     SPRITE_INIT_ANIM_IF_CHANGED(s);
+
+    if (s->frameFlags & SPRITE_FLAG_MASK_ANIM_OVER) {
+        return 0;
+    }
 
     if (s->qAnimDelay > 0)
         s->qAnimDelay -= s->animSpeed * 16;
@@ -694,14 +693,14 @@ s32 sa2__sub_80036E0(Sprite *s)
         const ACmd **variants;
 
         // Handle all the "regular" Animation commands with an ID < 0
-        variants = gRefSpriteTables->animations[s->graphics.anim];
+        variants = gRefSpriteTables->animations[s->anim];
         script = variants[s->variant];
         cmd = ReadInstruction(script, s->animCursor);
         while (cmd->id < 0) {
             // TODO: Fix types to make these const
             ret = animCmdTable_BG[~cmd->id]((void *)cmd, s);
             if (ret != 1) {
-#ifndef NON_MATCHING
+#ifdef NON_MATCHING
                 register const ACmd *newScript asm("r1");
 #else
                 ACmd *newScript;
@@ -711,7 +710,7 @@ s32 sa2__sub_80036E0(Sprite *s)
                 }
 
                 // animation has changed
-                variants = gRefSpriteTables->animations[s->graphics.anim];
+                variants = gRefSpriteTables->animations[s->anim];
                 newScript = (ACmd *)variants[s->variant];
                 // reset cursor
                 s->animCursor = 0;
@@ -724,22 +723,29 @@ s32 sa2__sub_80036E0(Sprite *s)
         // Display the image 'index' for 'delay' frames
         s->qAnimDelay += (((ACmd_ShowFrame *)cmd)->delay << 8);
         s->qAnimDelay -= s->animSpeed * 16;
+
+#if 0
+        // SA2
         {
             s32 frame = ((ACmd_ShowFrame *)cmd)->index;
             if (frame != -1) {
                 const struct SpriteTables *sprTables = gRefSpriteTables;
 
-                s->dimensions = &sprTables->dimensions[s->graphics.anim][frame];
+                s->dimensions = &sprTables->dimensions[s->anim][frame];
             } else {
                 s->dimensions = (void *)-1;
             }
         }
+#endif
 
+        s->frameNum = ((ACmd_ShowFrame *)cmd)->index;
+        s->frameFlags |= SPRITE_FLAG_MASK_26;
         s->animCursor += 2;
     }
     return 1;
 }
 
+#if 0
 // (-1)
 // No differences to animCmd_GetTiles
 static AnimCmdResult animCmd_GetTiles_BG(void *cursor, Sprite *s)

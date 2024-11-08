@@ -14,10 +14,3 @@ gUnknown_082B483C:
     .global sVblankFuncs
 sVblankFuncs:
     .4byte sub_80BC9DC, sa2__sub_8004010, sa2__sub_80039E4, sa2__sub_8002B20
-
-    .global gUnknown_082B4884
-gUnknown_082B4884:
-    .4byte animCmd_GetTiles_BG, sub_80BE334, sub_80BF13C
-    .4byte sub_80BF148, sub_80BF158, animCmd_AddHitbox_BG, sub_80BF16C
-    .4byte sub_80BF188, sub_80BF194, sub_80BF1AC, sub_80BF1B4
-    .4byte sub_80BF1C0

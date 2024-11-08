@@ -1727,7 +1727,7 @@ _080C5238:
 	cmp r0, #0
 	beq _080C5266
 	adds r0, r2, #0
-	bl sub_80BE09C
+	bl sa2__sub_80036E0
 	b _080C526C
 _080C5266:
 	adds r0, r2, #0
@@ -2716,7 +2716,7 @@ _080C5988:
 	cmp r0, #0
 	beq _080C59BC
 	adds r0, r2, #0
-	bl sub_80BE09C
+	bl sa2__sub_80036E0
 	b _080C59C2
 	.align 2, 0
 _080C59B8: .4byte 0x000003FF
@@ -3725,7 +3725,7 @@ _080C611A:
 	cmp r0, #0
 	beq _080C613E
 	adds r0, r2, #0
-	bl sub_80BE09C
+	bl sa2__sub_80036E0
 	b _080C6144
 _080C613E:
 	adds r0, r2, #0

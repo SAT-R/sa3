@@ -545,6 +545,7 @@ SECTIONS {
         build/sa3/sound/songs/song828.o(.rodata);
         
         build/sa3/data/data1.o(.rodata);
+        build/sa3/src/background.o(.rodata);
         build/sa3/src/trig.o(.rodata);
         build/sa3/data/data1_1.o(.rodata);
 

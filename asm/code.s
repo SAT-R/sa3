@@ -6802,7 +6802,7 @@ sub_806940C: @ 0x0806940C
 	strh r1, [r0, #0x10]
 	movs r1, #0x68
 	strh r1, [r0, #0x12]
-	bl sub_80BE09C
+	bl sa2__sub_80036E0
 	strh r4, [r5, #0x30]
 	pop {r4, r5}
 	pop {r0}
@@ -9738,7 +9738,7 @@ sub_806AAA4: @ 0x0806AAA4
 	rsbs r1, r1, #0
 	mov sl, r1
 	str r1, [r0, #0x20]
-	bl sub_80BE09C
+	bl sa2__sub_80036E0
 	adds r4, r7, #0
 	adds r4, #0x94
 	adds r1, r7, #0
@@ -12757,7 +12757,7 @@ sub_806C12C: @ 0x0806C12C
 	strh r6, [r5, #0x10]
 	strh r6, [r5, #0x12]
 	adds r0, r5, #0
-	bl sub_80BE09C
+	bl sa2__sub_80036E0
 	adds r0, r5, #0
 	bl sub_80BE46C
 	adds r0, r4, #0
@@ -12821,7 +12821,7 @@ sub_806C1C8: @ 0x0806C1C8
 	strh r5, [r4, #0x10]
 	strh r5, [r4, #0x12]
 	adds r0, r4, #0
-	bl sub_80BE09C
+	bl sa2__sub_80036E0
 	adds r0, r4, #0
 	bl sub_80BE46C
 	adds r0, r6, #0
@@ -13062,7 +13062,7 @@ _0806C3A8:
 	strh r5, [r4, #0x10]
 	strh r5, [r4, #0x12]
 	adds r0, r4, #0
-	bl sub_80BE09C
+	bl sa2__sub_80036E0
 	adds r0, r4, #0
 	bl sub_80BE46C
 	adds r0, r6, #0
@@ -13235,7 +13235,7 @@ _0806C516:
 	strh r5, [r4, #0x10]
 	strh r5, [r4, #0x12]
 	adds r0, r4, #0
-	bl sub_80BE09C
+	bl sa2__sub_80036E0
 	adds r0, r4, #0
 	bl sub_80BE46C
 	adds r0, r6, #0
@@ -13598,7 +13598,7 @@ _0806C7E4:
 	strh r5, [r4, #0x10]
 	strh r5, [r4, #0x12]
 	adds r0, r4, #0
-	bl sub_80BE09C
+	bl sa2__sub_80036E0
 	adds r0, r4, #0
 	bl sub_80BE46C
 	strb r7, [r6, #0x16]
@@ -14742,7 +14742,7 @@ sub_806D07C: @ 0x0806D07C
 	strh r5, [r4, #0x10]
 	strh r5, [r4, #0x12]
 	adds r0, r4, #0
-	bl sub_80BE09C
+	bl sa2__sub_80036E0
 	adds r0, r4, #0
 	bl sub_80BE46C
 	add sp, #0x10
@@ -14794,7 +14794,7 @@ sub_806D0E8: @ 0x0806D0E8
 	strh r5, [r4, #0x10]
 	strh r5, [r4, #0x12]
 	adds r0, r4, #0
-	bl sub_80BE09C
+	bl sa2__sub_80036E0
 	adds r0, r4, #0
 	bl sub_80BE46C
 	add sp, #0x10
@@ -42319,7 +42319,7 @@ _0807A53C:
 	cmp r0, #0
 	beq _0807A55C
 	adds r0, r1, #0
-	bl sub_80BE09C
+	bl sa2__sub_80036E0
 	ldr r0, _0807A558 @ =gFlags
 	ldr r1, [r0]
 	movs r2, #1
@@ -101451,7 +101451,7 @@ sub_8096C60: @ 0x08096C60
 	lsls r0, r0, #8
 	str r0, [r7, #8]
 	adds r0, r7, #0
-	bl sub_80BE09C
+	bl sa2__sub_80036E0
 	adds r0, r7, #0
 	bl sub_80BE46C
 	movs r6, #0x82
