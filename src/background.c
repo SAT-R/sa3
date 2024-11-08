@@ -11,16 +11,16 @@
 
 static AnimCmdResult animCmd_GetTiles_BG(void *, Sprite *);
 static AnimCmdResult animCmd_GetPalette_BG(void *, Sprite *);
-AnimCmdResult animCmd_JumpBack_BG(void *, Sprite *);
-AnimCmdResult animCmd_End_BG(void *, Sprite *);
-AnimCmdResult animCmd_PlaySoundEffect_BG(void *, Sprite *);
+static AnimCmdResult animCmd_JumpBack_BG(void *, Sprite *);
+static AnimCmdResult animCmd_End_BG(void *, Sprite *);
+static AnimCmdResult animCmd_PlaySoundEffect_BG(void *, Sprite *);
 static AnimCmdResult animCmd_AddHitbox_BG(void *, Sprite *);
-AnimCmdResult animCmd_TranslateSprite_BG(void *, Sprite *);
-AnimCmdResult animCmd_8_BG(void *, Sprite *);
-AnimCmdResult animCmd_SetIdAndVariant_BG(void *, Sprite *);
-AnimCmdResult animCmd_10_BG(void *, Sprite *);
-AnimCmdResult animCmd_SetSpritePriority_BG(void *, Sprite *);
-AnimCmdResult animCmd_SetOamOrder_BG(void *, Sprite *);
+static AnimCmdResult animCmd_TranslateSprite_BG(void *, Sprite *);
+static AnimCmdResult animCmd_8_BG(void *, Sprite *);
+static AnimCmdResult animCmd_SetIdAndVariant_BG(void *, Sprite *);
+static AnimCmdResult animCmd_10_BG(void *, Sprite *);
+static AnimCmdResult animCmd_SetSpritePriority_BG(void *, Sprite *);
+static AnimCmdResult animCmd_SetOamOrder_BG(void *, Sprite *);
 
 const AnimationCommandFunc animCmdTable_BG[12] = {
     animCmd_GetTiles_BG,        animCmd_GetPalette_BG, animCmd_JumpBack_BG,          animCmd_End_BG,
@@ -850,6 +850,11 @@ static AnimCmdResult animCmd_GetTiles_BG(void *cursor, Sprite *s)
     return 1;
 }
 
+// (-2)
+// This is different to animCmd_GetPalette in that:
+// - gBgPalette is used instead of gObjPalette
+// - gFlags ->  FLAGS_UPDATE_BACKGROUND_PALETTES
+//   instead of FLAGS_UPDATE_SPRITE_PALETTES
 static AnimCmdResult animCmd_GetPalette_BG(void *cursor, Sprite *s)
 {
     ACmd_GetPalette *cmd = (ACmd_GetPalette *)cursor;
@@ -1254,30 +1259,8 @@ s32 RenderText(void *dest, const void *font, u16 x, u16 y, u8 bg, const char *te
     return i * TILE_SIZE_4BPP;
 }
 
-#if 0
-// (-2)
-// This is different to animCmd_GetPalette in that:
-// - gBgPalette is used instead of gObjPalette
-// - gFlags ->  FLAGS_UPDATE_BACKGROUND_PALETTES
-//   instead of FLAGS_UPDATE_SPRITE_PALETTES
-static AnimCmdResult animCmd_GetPalette_BG(void *cursor, Sprite *s)
-{
-    ACmd_GetPalette *cmd = (ACmd_GetPalette *)cursor;
-    s->animCursor += AnimCommandSizeInWords(*cmd);
-
-    if (!(s->frameFlags & SPRITE_FLAG_MASK_18)) {
-        s32 paletteIndex = cmd->palId;
-
-        DmaCopy32(3, &gRefSpriteTables->palettes[paletteIndex * 16], &gBgPalette[s->palId * 16 + cmd->insertOffset], cmd->numColors * 2);
-
-        gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
-    }
-
-    return 1;
-}
-
 // (-3)
-static AnimCmdResult animCmd_JumpBack_BG(void *cursor, Sprite *s)
+AnimCmdResult animCmd_JumpBack_BG(void *cursor, Sprite *s)
 {
     ACmd_JumpBack *cmd = cursor;
     s->animCursor -= cmd->offset;
@@ -1304,6 +1287,7 @@ static AnimCmdResult animCmd_PlaySoundEffect_BG(void *cursor, Sprite *s)
     return 1;
 }
 
+#if 01
 // (-7)
 static AnimCmdResult animCmd_TranslateSprite_BG(void *cursor, Sprite *s)
 {
@@ -1330,7 +1314,7 @@ static AnimCmdResult animCmd_SetIdAndVariant_BG(void *cursor, Sprite *s)
     ACmd_SetIdAndVariant *cmd = cursor;
     s->animCursor += AnimCommandSizeInWords(*cmd);
 
-    s->graphics.anim = cmd->animId;
+    s->anim = cmd->animId;
     s->prevVariant = 0xFF;
     s->variant = cmd->variant;
 
@@ -1364,4 +1348,5 @@ static AnimCmdResult animCmd_SetOamOrder_BG(void *cursor, Sprite *s)
     s->animCursor += AnimCommandSizeInWords(*cmd);
     return 1;
 }
+
 #endif
