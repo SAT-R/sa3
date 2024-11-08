@@ -745,6 +745,80 @@ s32 sa2__sub_80036E0(Sprite *s)
     return 1;
 }
 
+// (88.98%) https://decomp.me/scratch/zClIO
+NONMATCH("asm/non_matching/engine/sub_80BE190.inc", s32 sub_80BE190(Sprite *s, u16 in_param1))
+{
+    s32 param1 = in_param1;
+    s32 res;
+    s32 ret = 0;
+    s32 r9 = ret;
+
+    s->prevVariant = s->variant;
+    s->prevAnim = s->anim;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    SPRITE_FLAG_CLEAR(s, ANIM_OVER);
+
+    {
+        const ACmd *cmd;
+        const ACmd *script;
+        const ACmd **variants;
+
+        // Handle all the "regular" Animation commands with an ID < 0
+        variants = gRefSpriteTables->animations[s->anim];
+        script = variants[s->variant];
+
+        while (param1 >= 0) {
+            cmd = ReadInstruction(script, s->animCursor);
+            asm("");
+
+            while (cmd->id < 0) {
+                // TODO: Fix types to make these const
+                if (cmd->id == -3) {
+                    r9 = ret;
+                }
+                res = animCmdTable_BG[~cmd->id]((void *)cmd, s);
+                if (res != 1) {
+
+                    ACmd *newScript;
+
+                    if (res != -1) {
+                        return res;
+                    }
+
+                    // animation has changed
+                    variants = gRefSpriteTables->animations[s->anim];
+                    newScript = (ACmd *)variants[s->variant];
+                    // reset cursor
+                    s->animCursor = 0;
+                    // load the new script
+                    script = newScript;
+                }
+
+                cmd = ReadInstruction(script, s->animCursor);
+            }
+
+            // Display the image 'index' for 'delay' frames
+            s->qAnimDelay = (((ACmd_ShowFrame *)cmd)->delay << 8);
+            param1 = (param1 - (((ACmd_ShowFrame *)cmd)->delay));
+            s->qAnimDelay = -QS(param1);
+
+            if ((r9 != 0) && param1 > 0) {
+                param1 = Mod(param1, r9);
+            } else {
+                ret += ((ACmd_ShowFrame *)cmd)->delay;
+            }
+
+            s->frameNum = ((ACmd_ShowFrame *)cmd)->index;
+            s->frameFlags |= SPRITE_FLAG_MASK_26;
+            s->animCursor += 2;
+        }
+    }
+
+    return 1;
+}
+END_NONMATCH
+
 #if 0
 // (-1)
 // No differences to animCmd_GetTiles
