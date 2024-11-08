@@ -947,6 +947,7 @@ END_NONMATCH
 
 // Some VBlank function
 // VERY UNFINISHED !
+// (17.39%) https://decomp.me/scratch/YJZrk
 NONMATCH("asm/non_matching/engine/sa2__sub_80039E4.inc", bool32 sa2__sub_80039E4(void))
 {
     // tilesize (could be 32 and get optimized out?)
@@ -1109,7 +1110,6 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80039E4.inc", bool32 sa2__sub_80039E4
 
 END_NONMATCH
 
-#if 0
 void sa2__sub_8003EE4(u16 p0, s16 p1, s16 p2, s16 p3, s16 p4, s16 p5, s16 p6, BgAffineReg *affine)
 {
     affine->pa = (COS_24_8(p0) * (s16)Div(0x10000, p1)) >> 8;
@@ -1135,6 +1135,7 @@ void sa2__sub_8003EE4(u16 p0, s16 p1, s16 p2, s16 p3, s16 p4, s16 p5, s16 p6, Bg
     }
 }
 
+#if 0
 // (57.61%) https://decomp.me/scratch/6Xm6S
 // (58.36%) https://decomp.me/scratch/ClyxP
 // (48.23%) https://decomp.me/scratch/bDTEe
