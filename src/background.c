@@ -14,7 +14,7 @@ static AnimCmdResult animCmd_GetPalette_BG(void *, Sprite *);
 AnimCmdResult animCmd_JumpBack_BG(void *, Sprite *);
 AnimCmdResult animCmd_End_BG(void *, Sprite *);
 AnimCmdResult animCmd_PlaySoundEffect_BG(void *, Sprite *);
-AnimCmdResult animCmd_AddHitbox_BG(void *, Sprite *);
+static AnimCmdResult animCmd_AddHitbox_BG(void *, Sprite *);
 AnimCmdResult animCmd_TranslateSprite_BG(void *, Sprite *);
 AnimCmdResult animCmd_8_BG(void *, Sprite *);
 AnimCmdResult animCmd_SetIdAndVariant_BG(void *, Sprite *);
@@ -864,6 +864,29 @@ static AnimCmdResult animCmd_GetPalette_BG(void *cursor, Sprite *s)
             DmaCopy16(3, &gRefSpriteTables->palettes[paletteIndex * 16], &gBgPalette[s->palId * 16 + cmd->insertOffset],
                       cmd->numColors * 2);
             gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+        }
+    }
+
+    return 1;
+}
+
+static AnimCmdResult animCmd_AddHitbox_BG(void *cursor, Sprite *s)
+{
+    ACmd_Hitbox *cmd = (ACmd_Hitbox *)cursor;
+    s32 index = cmd->hitbox.index & 0xF;
+    s->animCursor += AnimCommandSizeInWords(*cmd);
+
+    DmaCopy32(3, &cmd->hitbox, &s->hitboxes[index].index, sizeof(Hitbox));
+
+    if ((cmd->hitbox.b.left == 0) && (cmd->hitbox.b.top == 0) && (cmd->hitbox.b.right == 0) && (cmd->hitbox.b.bottom == 0)) {
+        s->hitboxes[index].index = -1;
+    } else {
+        if (s->frameFlags & SPRITE_FLAG_MASK_Y_FLIP) {
+            XOR_SWAP(s->hitboxes[index].b.top, s->hitboxes[index].b.bottom);
+        }
+
+        if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+            XOR_SWAP(s->hitboxes[index].b.left, s->hitboxes[index].b.right);
         }
     }
 
