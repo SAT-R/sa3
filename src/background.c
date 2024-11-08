@@ -1224,6 +1224,36 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004010.inc", u32 sa2__sub_8004010(vo
 }
 END_NONMATCH
 
+// Copies the font to VRAM and displays the input text by using it as tileset.
+s32 RenderText(void *dest, const void *font, u16 x, u16 y, u8 bg, const char *text, u8 palette)
+{
+    u8 i = 0;
+
+    u16 *vramTiles = (void *)BG_CHAR_ADDR_FROM_BGCNT(bg);
+
+    u16 layoutBase = (gBgCntRegs[bg] & BGCNT_SCREENBASE_MASK) << 3;
+    u16 *vramLayout = ({ (u16 *)(VRAM + (layoutBase)); }) + y * 32 + x;
+
+    for (; text[i] != 0; i++) {
+        u16 *copyDest = dest + (i * TILE_SIZE_4BPP);
+        u16 tile;
+        u16 *addr;
+        CpuFastCopy(font + (text[i] * TILE_SIZE_4BPP), copyDest, TILE_SIZE_4BPP);
+
+        tile = (copyDest - vramTiles) / 16u;
+#ifndef NON_MATCHING
+        vramLayout++;
+        vramLayout--;
+#endif
+
+        addr = &vramLayout[i];
+
+        *addr = (palette << 12) | tile;
+    }
+
+    return i * TILE_SIZE_4BPP;
+}
+
 #if 0
 // (-2)
 // This is different to animCmd_GetPalette in that:
