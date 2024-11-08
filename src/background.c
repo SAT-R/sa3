@@ -9,8 +9,8 @@
 
 #include "animation_commands.h"
 
-AnimCmdResult animCmd_GetTiles_BG(void *, Sprite *);
-AnimCmdResult animCmd_GetPalette_BG(void *, Sprite *);
+static AnimCmdResult animCmd_GetTiles_BG(void *, Sprite *);
+static AnimCmdResult animCmd_GetPalette_BG(void *, Sprite *);
 AnimCmdResult animCmd_JumpBack_BG(void *, Sprite *);
 AnimCmdResult animCmd_End_BG(void *, Sprite *);
 AnimCmdResult animCmd_PlaySoundEffect_BG(void *, Sprite *);
@@ -819,7 +819,6 @@ NONMATCH("asm/non_matching/engine/sub_80BE190.inc", s32 sub_80BE190(Sprite *s, u
 }
 END_NONMATCH
 
-#if 0
 // (-1)
 // No differences to animCmd_GetTiles
 static AnimCmdResult animCmd_GetTiles_BG(void *cursor, Sprite *s)
@@ -829,6 +828,8 @@ static AnimCmdResult animCmd_GetTiles_BG(void *cursor, Sprite *s)
 
     if ((s->frameFlags & SPRITE_FLAG_MASK_19) == 0) {
         s32 tileIndex = cmd->tileIndex;
+        const void *tiles;
+        u16 size;
 
         if (tileIndex < 0) {
 #ifdef BUG_FIX
@@ -836,19 +837,40 @@ static AnimCmdResult animCmd_GetTiles_BG(void *cursor, Sprite *s)
             // high-bit. But if they don't, it could underflow.
             tileIndex &= ~0x80000000;
 #endif
-            s->graphics.src = &gRefSpriteTables->tiles_8bpp[tileIndex * TILE_SIZE_8BPP];
-            s->graphics.size = cmd->numTilesToCopy * TILE_SIZE_8BPP;
+            tiles = &gRefSpriteTables->tiles_8bpp[tileIndex * TILE_SIZE_8BPP];
+            size = cmd->numTilesToCopy * TILE_SIZE_8BPP;
         } else {
-            s->graphics.src = &gRefSpriteTables->tiles_4bpp[tileIndex * TILE_SIZE_4BPP];
-            s->graphics.size = cmd->numTilesToCopy * TILE_SIZE_4BPP;
+            tiles = &gRefSpriteTables->tiles_4bpp[tileIndex * TILE_SIZE_4BPP];
+            size = cmd->numTilesToCopy * TILE_SIZE_4BPP;
         }
 
-        ADD_TO_GRAPHICS_QUEUE(&s->graphics)
+        ADD_TO_GRAPHICS_QUEUE(tiles, s->tiles, size);
     }
 
     return 1;
 }
 
+static AnimCmdResult animCmd_GetPalette_BG(void *cursor, Sprite *s)
+{
+    ACmd_GetPalette *cmd = (ACmd_GetPalette *)cursor;
+    s->animCursor += AnimCommandSizeInWords(*cmd);
+
+    if (!(s->frameFlags & SPRITE_FLAG_MASK_18)) {
+        s32 paletteIndex = cmd->palId;
+
+        if (gFlags & 0x10000) {
+            sub_80C460C(&gRefSpriteTables->palettes[paletteIndex * 16], (u8)((s->palId * 16) + (cmd->insertOffset & 0xFF)), cmd->numColors);
+        } else {
+            DmaCopy16(3, &gRefSpriteTables->palettes[paletteIndex * 16], &gBgPalette[s->palId * 16 + cmd->insertOffset],
+                      cmd->numColors * 2);
+            gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+        }
+    }
+
+    return 1;
+}
+
+#if 0
 // (-6)
 // Differences to animCmd_AddHitbox:
 // - uses XOR_SWAP macro instead of SWAP_AND_NEGATE

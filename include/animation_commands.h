@@ -23,7 +23,7 @@ typedef struct {
 
     /* 0x04 */ s32 palId;
     /* 0x06 */ u16 numColors;
-    /* 0x08 */ u16 insertOffset;
+    /* 0x08 */ u16 insertOffset; // SA3: just a byte?
 } ACmd_GetPalette;
 
 typedef struct {
