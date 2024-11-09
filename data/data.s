@@ -356,7 +356,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Rocket
     .4byte CreateEntity_Interactable112
     .4byte CreateEntity_Interactable113
-    .4byte CreateEntity_MineCart
+    .4byte CreateEntity_Minecart
     .4byte CreateEntity_Interactable115
     .4byte CreateEntity_Interactable116
     .4byte CreateEntity_Interactable117

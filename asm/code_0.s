@@ -27837,8 +27837,8 @@ _0800DBDC: .4byte 0xFDFFFFF5
 _0800DBE0: .4byte 0x00000257
 _0800DBE4: .4byte sub_800DCB4
 
-	thumb_func_start sub_800DBE8
-sub_800DBE8: @ 0x0800DBE8
+	thumb_func_start Player_800DBE8
+Player_800DBE8: @ 0x0800DBE8
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r0, [r4, #4]
