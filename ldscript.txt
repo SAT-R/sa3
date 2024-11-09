@@ -56,7 +56,7 @@ SECTIONS {
         build/sa3/src/game/interactables/081_and_082.o(.text);
         build/sa3/src/game/interactables/085.o(.text);
         build/sa3/asm/ia_slow_chaos_elevator.o(.text);
-        build/sa3/asm/trigger_goal_ring_and_boss.o(.text);
+        build/sa3/asm/ia_trigger_goal_ring_and_boss.o(.text);
         build/sa3/src/game/interactables/platform_attached.o(.text);
         build/sa3/src/game/interactables/water_cannon.o(.text);
         build/sa3/src/game/interactables/090.o(.text);
@@ -83,6 +83,7 @@ SECTIONS {
         build/sa3/asm/ia_rocket.o(.text);
         build/sa3/asm/ia_ferris_wheel.o(.text);
         build/sa3/asm/ia_windup_block.o(.text);
+        build/sa3/src/game/interactables/mine_cart.o(.text);
         build/sa3/asm/ia_mine_cart.o(.text);
         build/sa3/asm/ia_panda_cart.o(.text);
         build/sa3/src/game/interactables/116.o(.text);
