@@ -84,7 +84,7 @@ void Task_UfoPlatform(void)
             continue;
         }
 
-        if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
+        if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
             if ((p->callback != Player_800B81C) && (p->qSpeedGround != 0)) {
                 SetPlayerCallback(p, Player_800DE64);
             }

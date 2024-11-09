@@ -88,7 +88,7 @@ void Task_PlatformPropelled(void)
         Player *p = GET_SP_PLAYER_V0(i);
 
         if (((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) && !sub_802C0D4(p)) {
-            if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
+            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
                 p->qWorldX -= qWorldX;
                 p->qWorldY += Q(4) - qWorldY;
             }

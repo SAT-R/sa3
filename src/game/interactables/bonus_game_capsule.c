@@ -454,22 +454,22 @@ void Task_8039DC0(void)
             p1 = &gPlayers[gStageData.playerIndex];
             p2 = &gPlayers[p1->charFlags.partnerIndex];
 
-            if ((p1->moveState & MOVESTATE_20) && (p1->qWorldY < Q(129))) {
-                p1->moveState &= ~MOVESTATE_20;
+            if ((p1->moveState & MOVESTATE_COLLIDING_ENT) && (p1->qWorldY < Q(129))) {
+                p1->moveState &= ~MOVESTATE_COLLIDING_ENT;
             }
 
             // BUG: p2's movestate was checked/set, but
             //      the original condition checked p1's y-position
-            if ((p2->moveState & MOVESTATE_20) && (p2->qWorldY < Q(129))) {
-                p2->moveState &= ~MOVESTATE_20;
+            if ((p2->moveState & MOVESTATE_COLLIDING_ENT) && (p2->qWorldY < Q(129))) {
+                p2->moveState &= ~MOVESTATE_COLLIDING_ENT;
             }
 #else
-            if ((p1->moveState & MOVESTATE_20) && (p1->qWorldY < Q(129))) {
-                p1->moveState &= ~MOVESTATE_20;
+            if ((p1->moveState & MOVESTATE_COLLIDING_ENT) && (p1->qWorldY < Q(129))) {
+                p1->moveState &= ~MOVESTATE_COLLIDING_ENT;
             }
 
-            if ((p2->moveState & MOVESTATE_20) && (p1->qWorldY < Q(129))) {
-                p2->moveState &= ~MOVESTATE_20;
+            if ((p2->moveState & MOVESTATE_COLLIDING_ENT) && (p1->qWorldY < Q(129))) {
+                p2->moveState &= ~MOVESTATE_COLLIDING_ENT;
             }
 #endif
 
@@ -977,7 +977,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AAE8.inc", v
 
         cap->playerPos[pid].x = 1;
 
-        p->moveState |= MOVESTATE_20;
+        p->moveState |= MOVESTATE_COLLIDING_ENT;
         p->moveState &= ~MOVESTATE_IN_AIR;
         p->spr6C = s;
     } else if (resB & 0x10000) {
@@ -986,7 +986,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AAE8.inc", v
 
         cap->playerPos[pid].y = 1;
 
-        p->moveState |= MOVESTATE_20;
+        p->moveState |= MOVESTATE_COLLIDING_ENT;
         p->moveState &= ~MOVESTATE_IN_AIR;
         p->spr6C = s;
 
@@ -1110,7 +1110,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AD38.inc",
                 goto _0803AFBC;
 #else
                 p->qWorldY += Q_8_8(res);
-                p->moveState |= MOVESTATE_20;
+                p->moveState |= MOVESTATE_COLLIDING_ENT;
                 p->moveState &= ~MOVESTATE_IN_AIR;
 
                 p->spr6C = s;
@@ -1174,7 +1174,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AD38.inc",
         } else if (res & 0x10000) {
         _0803AFBC:
             p->qWorldY += Q_8_8(res);
-            p->moveState |= MOVESTATE_20;
+            p->moveState |= MOVESTATE_COLLIDING_ENT;
             p->moveState &= ~MOVESTATE_IN_AIR;
 
             p->spr6C = s;
@@ -1950,7 +1950,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803C094.inc",
     }
 
     if (playerX != 0) {
-        p->moveState &= ~MOVESTATE_20;
+        p->moveState &= ~MOVESTATE_COLLIDING_ENT;
         p->moveState |= MOVESTATE_IN_AIR;
     }
 

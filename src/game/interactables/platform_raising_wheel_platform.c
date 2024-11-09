@@ -107,7 +107,7 @@ void Task_PlatformRaisingWheelPlatform(void)
         if (((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) && !sub_802C0D4(p)) {
             s32 res;
 
-            if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
+            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
                 p->qWorldX -= qWorldX32;
                 p->qWorldY -= (qWorldY32 - Q(4));
 

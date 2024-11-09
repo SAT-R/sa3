@@ -148,7 +148,7 @@ NONMATCH("asm/non_matching/game/interactables/sunset_bridge__Task_SunsetBridge.i
 
             if (sub_8020700(s, segmentX, worldY + (segmentY >> 16), 0, p, 0) && p->qSpeedAirY >= Q(0)) {
                 // _mid_section
-                p->moveState |= MOVESTATE_20;
+                p->moveState |= MOVESTATE_COLLIDING_ENT;
                 p->moveState &= ~MOVESTATE_IN_AIR;
                 p->spr6C = s;
 
@@ -167,8 +167,8 @@ NONMATCH("asm/non_matching/game/interactables/sunset_bridge__Task_SunsetBridge.i
         }
         // _08044EB8
 
-        if (!someBool && (p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
-            p->moveState &= ~MOVESTATE_20;
+        if (!someBool && (p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
+            p->moveState &= ~MOVESTATE_COLLIDING_ENT;
             p->spr6C = NULL;
         }
     }

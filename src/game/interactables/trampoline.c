@@ -134,7 +134,7 @@ static u8 UpdatePlayer(void)
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         Player *p = GET_SP_PLAYER_V1(i);
 
-        if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
+        if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
             s32 qY;
             p->qWorldX -= qWorldX;
             qY = (p->qWorldY + Q(2));

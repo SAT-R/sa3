@@ -170,7 +170,7 @@ void Task_Platform()
             if (!sub_802C0D4(p)) {
                 u32 res;
 
-                if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
+                if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
                     p->qWorldX -= qWorldX;
 
                     if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
@@ -401,8 +401,8 @@ bool16 sub_802F2C8(void)
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             Player *p = GET_SP_PLAYER_V0(i);
 
-            if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
-                p->moveState &= ~MOVESTATE_20;
+            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
+                p->moveState &= ~MOVESTATE_COLLIDING_ENT;
                 p->moveState |= MOVESTATE_IN_AIR;
                 p->spr6C = NULL;
             }
@@ -445,7 +445,7 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F368.inc", void 
         if (((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) && !sub_802C0D4(p)) {
             u32 res;
 
-            if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
+            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
                 p->qWorldY -= qWorldY * 2;
                 Player_80149E4(p);
             }
@@ -518,8 +518,8 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F368.inc", void 
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             p = GET_SP_PLAYER_V0(i);
 
-            if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
-                p->moveState &= ~MOVESTATE_20;
+            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
+                p->moveState &= ~MOVESTATE_COLLIDING_ENT;
                 p->moveState |= MOVESTATE_IN_AIR;
                 p->spr6C = NULL;
             }
@@ -576,7 +576,7 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F698.inc", void 
         if (((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) && !sub_802C0D4(p)) {
             u32 res;
 
-            if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
+            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
                 p->qWorldY -= qWorldY;
                 Player_80149E4(p);
             }
@@ -649,8 +649,8 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F698.inc", void 
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             p = GET_SP_PLAYER_V0(i);
 
-            if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
-                p->moveState &= ~MOVESTATE_20;
+            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
+                p->moveState &= ~MOVESTATE_COLLIDING_ENT;
                 p->moveState |= MOVESTATE_IN_AIR;
                 p->spr6C = NULL;
             }

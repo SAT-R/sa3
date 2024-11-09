@@ -261,8 +261,8 @@ NONMATCH("asm/non_matching/game/interactables/omochao__OmochaoPickUp.inc", bool3
         p = GET_SP_PLAYER_V1(i);
 
         if ((p->charFlags.someIndex != 2) && (p->charFlags.someIndex != 5) && !(p->moveState & MOVESTATE_IN_AIR)
-            && (p->charFlags.anim0 == 0) && !(p->moveState & MOVESTATE_20) && !sub_802C080(p) && sub_8020700(s, worldX, worldY, 0, p, 0)
-            && (p->keyInput2 & DPAD_UP)) {
+            && (p->charFlags.anim0 == 0) && !(p->moveState & MOVESTATE_COLLIDING_ENT) && !sub_802C080(p)
+            && sub_8020700(s, worldX, worldY, 0, p, 0) && (p->keyInput2 & DPAD_UP)) {
             sb = (1 << i);
         }
     }

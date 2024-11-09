@@ -88,7 +88,7 @@ void Task_Gondola(void)
         p = GET_SP_PLAYER_V0(i);
 
         // If player is standing on the platform, move player
-        if ((p->moveState & MOVESTATE_20) && (p->spr6C == s)) {
+        if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
             p->qWorldX += gond->qTrajectoryX;
 
             // NOTE/BUG(?): Shouldn't this be +gond->qTrajectoryY instead of X?

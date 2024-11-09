@@ -165,7 +165,7 @@ NONMATCH("asm/non_matching/game/interactables/death_crusher__Task_DeathCrusher.i
             && (r4 = sub_8020CE0(s, I(crusher->qWorldX), I(crusher->qWorldY), 1, p))) {
             Player_PlaySong(p, SE_SPIKES);
         } else if (!sub_802C0D4(p)) {
-            if ((p->moveState & MOVESTATE_20) && p->spr6C == s) {
+            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && p->spr6C == s) {
                 // _08041D1C+0x12
                 p->qWorldX -= qCrusherX;
                 p->qWorldY += (Q(4) - qCrusherY);

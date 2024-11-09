@@ -122,7 +122,7 @@ void Task_Minecart(void)
             if (cart->player == 0) {
                 cart->player = p;
                 SetPlayerCallback(p, Player_800DBE8);
-                p->moveState |= MOVESTATE_20;
+                p->moveState |= MOVESTATE_COLLIDING_ENT;
                 p->spr6C = s;
             }
         }
