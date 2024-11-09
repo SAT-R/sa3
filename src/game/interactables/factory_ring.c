@@ -39,7 +39,7 @@ void Task_FactoryRingMain(void)
     p = &gPlayers[gStageData.playerIndex];
 
     if ((p->callback != Player_80052C8) && (p->callback != Player_800522C)) {
-        if (!(p->moveState & (MOVESTATE_1000000 | MOVESTATE_COLLIDING_ENT0 | MOVESTATE_100))) {
+        if (!(p->moveState & (MOVESTATE_1000000 | MOVESTATE_200 | MOVESTATE_100))) {
             if (gStageData.playerIndex == 0) {
                 if (sub_8020700(s, worldX, worldY, 0, p, 0)) {
                     sub_8016F28(p);

@@ -84,7 +84,7 @@ void Task_ZoneWarpInit(void)
         if (sub_8020700(s, worldX, worldY, 0, p, 0)) {
             sub_8016F28(p);
 
-            p->moveState |= (MOVESTATE_COLLIDING_ENT000000 | MOVESTATE_10000000 | MOVESTATE_2);
+            p->moveState |= (MOVESTATE_20000000 | MOVESTATE_10000000 | MOVESTATE_2);
 
             p->charFlags.anim0 = 11;
             p->qSpeedGround = 0;

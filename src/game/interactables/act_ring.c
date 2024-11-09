@@ -76,8 +76,7 @@ void Task_ActRingMain(void)
     s16 i;
 
     if ((p->callback != Player_80052C8) && (p->callback != Player_800522C)) {
-        if (!(p->moveState & (MOVESTATE_1000000 | MOVESTATE_COLLIDING_ENT0 | MOVESTATE_100))
-            && (gStageData.playerIndex == CHARACTER_SONIC)) {
+        if (!(p->moveState & (MOVESTATE_1000000 | MOVESTATE_200 | MOVESTATE_100)) && (gStageData.playerIndex == CHARACTER_SONIC)) {
             Sprite *s = &ring->s0;
             s16 worldX = ring->worldX;
             s16 worldY = ring->worldY;
