@@ -42,7 +42,7 @@ void Task_WaggleCoil(void)
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         p = GET_SP_PLAYER_V0(i);
 
-        if (!(p->moveState & MOVESTATE_COLLIDING_ENT) || p->spr6C != s) {
+        if (!(p->moveState & MOVESTATE_COLLIDING_ENT) || p->sprColliding != s) {
             if (!sub_802C080(p)) {
                 u32 collision = sub_8020874(s, worldX, worldY, 0, p, 0, 0);
 
@@ -80,7 +80,7 @@ void Task_WaggleCoil(void)
                     }
 
                     p->moveState |= MOVESTATE_COLLIDING_ENT;
-                    p->spr6C = s;
+                    p->sprColliding = s;
                     p->qWorldX = Q(worldX);
                     p->qWorldY = Q(worldY);
 

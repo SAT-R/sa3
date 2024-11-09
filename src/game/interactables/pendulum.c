@@ -152,7 +152,7 @@ void Task_Pendulum(void)
                 ps = &pend->sprBalls[i];
                 s = &ps->s;
 
-                if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
+                if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s)) {
                     s32 val;
                     p->qWorldX -= Q(sp04[i]);
                     val = p->qWorldY + Q(4);

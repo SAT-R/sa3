@@ -979,7 +979,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AAE8.inc", v
 
         p->moveState |= MOVESTATE_COLLIDING_ENT;
         p->moveState &= ~MOVESTATE_IN_AIR;
-        p->spr6C = s;
+        p->sprColliding = s;
     } else if (resB & 0x10000) {
         // _0803AB8A+0x8
         p->qWorldY += Q_8_8(resB);
@@ -988,7 +988,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AAE8.inc", v
 
         p->moveState |= MOVESTATE_COLLIDING_ENT;
         p->moveState &= ~MOVESTATE_IN_AIR;
-        p->spr6C = s;
+        p->sprColliding = s;
 
         if (resA & 0x80000) {
             if (p->keyInput & DPAD_RIGHT) {
@@ -1015,7 +1015,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AAE8.inc", v
     } else if (resA & 0x80000) {
         // _0803AC24+0xC
 
-        if ((p->keyInput & DPAD_RIGHT) && (p->spr6C == &cap->switches[1].s)) {
+        if ((p->keyInput & DPAD_RIGHT) && (p->sprColliding == &cap->switches[1].s)) {
             p->qWorldX += Q(1);
             p->moveState |= MOVESTATE_40;
         }
@@ -1026,7 +1026,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AAE8.inc", v
         asm("");
     } else if (resA & 0x40000) {
         // _0803AC62+0xE
-        if ((p->keyInput & DPAD_LEFT) && (p->spr6C == &cap->switches[3].s)) {
+        if ((p->keyInput & DPAD_LEFT) && (p->sprColliding == &cap->switches[3].s)) {
             p->qWorldX -= Q(1);
             p->moveState |= MOVESTATE_40;
         }
@@ -1113,7 +1113,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AD38.inc",
                 p->moveState |= MOVESTATE_COLLIDING_ENT;
                 p->moveState &= ~MOVESTATE_IN_AIR;
 
-                p->spr6C = s;
+                p->sprColliding = s;
 #endif
             }
         _0803AEDC:
@@ -1177,7 +1177,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AD38.inc",
             p->moveState |= MOVESTATE_COLLIDING_ENT;
             p->moveState &= ~MOVESTATE_IN_AIR;
 
-            p->spr6C = s;
+            p->sprColliding = s;
         } else if (res & 0x80000) {
             // _0803AFE2+0xA
             if ((p->keyInput & DPAD_RIGHT) && !(p->moveState & MOVESTATE_IN_AIR)) {

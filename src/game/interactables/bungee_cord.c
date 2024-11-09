@@ -59,7 +59,7 @@ void Task_BungeeCord(void)
                 sub_8016F28(p);
                 SetPlayerCallback(p, Player_800A3C0);
                 p->moveState |= (MOVESTATE_COLLIDING_ENT | MOVESTATE_IN_AIR);
-                p->spr6C = s;
+                p->sprColliding = s;
                 cord->tetheredPlayer[i] = p;
             }
         }
@@ -142,7 +142,7 @@ s16 sub_803FD5C(Vec2_16 *inPositions)
         Player *p = cord->tetheredPlayer[i];
 
         if (p != NULL) {
-            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
+            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s)) {
                 result++;
             } else {
                 cord->tetheredPlayer[i] = NULL;

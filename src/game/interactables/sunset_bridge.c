@@ -150,7 +150,7 @@ NONMATCH("asm/non_matching/game/interactables/sunset_bridge__Task_SunsetBridge.i
                 // _mid_section
                 p->moveState |= MOVESTATE_COLLIDING_ENT;
                 p->moveState &= ~MOVESTATE_IN_AIR;
-                p->spr6C = s;
+                p->sprColliding = s;
 
                 sub_80450D8(bridge, p);
 
@@ -167,9 +167,9 @@ NONMATCH("asm/non_matching/game/interactables/sunset_bridge__Task_SunsetBridge.i
         }
         // _08044EB8
 
-        if (!someBool && (p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
+        if (!someBool && (p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s)) {
             p->moveState &= ~MOVESTATE_COLLIDING_ENT;
-            p->spr6C = NULL;
+            p->sprColliding = NULL;
         }
     }
     // __08044EE2

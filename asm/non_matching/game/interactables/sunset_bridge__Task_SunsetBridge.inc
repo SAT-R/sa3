@@ -129,8 +129,8 @@ _08044EB8:
 	movs r0, #0x21
 	rsbs r0, r0, #0
 	ands r1, r0
-	str r1, [r5, #4]        @ p->moveState &= ~MOVESTATE_20;
-	str r3, [r5, #0x6c]     @ p->spr6C = NULL;
+	str r1, [r5, #4]        @ p->moveState &= ~MOVESTATE_COLLIDING_ENT;
+	str r3, [r5, #0x6c]     @ p->sprColliding = NULL;
 _08044ED8:
 	ldr r1, [sp, #0x18]     @ r1 = sp18 = i
 	lsls r0, r1, #0x18

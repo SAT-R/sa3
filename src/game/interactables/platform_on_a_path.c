@@ -143,7 +143,7 @@ void Task_PlatformOnPath(void)
         if (!sub_802C0D4(p)) {
             s32 res;
 
-            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
+            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s)) {
                 p->qWorldX -= qWorldX;
 
                 qWorldY += (p->moveState & MOVESTATE_GRAVITY_SWITCHED) ? +Q(2) : -Q(2);

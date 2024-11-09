@@ -162,7 +162,7 @@ void Task_MazeEnter(void)
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         Player *p = GET_SP_PLAYER_V0(i);
 
-        if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
+        if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s)) {
             if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
                 p->qWorldY -= Q(2);
             } else {
@@ -437,7 +437,7 @@ void Task_Interactable138Main(void)
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         Player *p = GET_SP_PLAYER_V0(i);
 
-        if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
+        if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s)) {
             if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
                 p->qWorldY -= Q(2);
             } else {

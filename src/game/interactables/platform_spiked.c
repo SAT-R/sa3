@@ -147,7 +147,7 @@ void Task_80452AC(void)
             continue;
         }
 
-        if ((p->moveState & MOVESTATE_COLLIDING_ENT) && p->spr6C == s) {
+        if ((p->moveState & MOVESTATE_COLLIDING_ENT) && p->sprColliding == s) {
             p->qWorldX -= qWorldX;
             p->qWorldY += +Q(2);
             p->qWorldY -= qWorldY;

@@ -109,7 +109,7 @@ NONMATCH("asm/non_matching/game/interactables/platform_ca__Task_PlatformChaosAng
         if (!sub_802C0D4(p)) {
             s32 res;
 
-            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
+            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s)) {
 
                 res = sub_80110E8(3, p, NULL, NULL);
                 if (res > 0) {

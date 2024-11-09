@@ -157,7 +157,7 @@ struct Player {
 
     u8 filler62[0x8 + 2];
 
-    Sprite *spr6C; // set when interacting with some interactables
+    Sprite *sprColliding; // set when interacting with some interactables
 
     s32 qUnk70;
     s32 qUnk74;

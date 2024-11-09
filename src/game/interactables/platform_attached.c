@@ -108,7 +108,7 @@ void sub_803EA98(void)
         if (((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) && !sub_802C0D4(p)) {
             u32 res;
 
-            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
+            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s)) {
                 p->qWorldX -= dx;
                 p->qWorldY -= dy;
 

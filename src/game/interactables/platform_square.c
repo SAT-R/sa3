@@ -190,7 +190,7 @@ u8 sub_8044AA0(Player *p, u8 param1)
         return 0;
     }
 
-    if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
+    if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s)) {
         p->qWorldY += platform->qUnk14;
     }
 

@@ -123,7 +123,7 @@ void Task_Minecart(void)
                 cart->player = p;
                 SetPlayerCallback(p, Player_800DBE8);
                 p->moveState |= MOVESTATE_COLLIDING_ENT;
-                p->spr6C = s;
+                p->sprColliding = s;
             }
         }
     }

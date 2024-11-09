@@ -118,7 +118,7 @@ void Task_Suction(void)
 
         if ((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) {
             if (!sub_802C0D4(p)) {
-                if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
+                if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s)) {
                     p->qWorldY += Q(1);
                 }
 

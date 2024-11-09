@@ -119,7 +119,7 @@ void Task_PlatformCrumbling(void)
         Player *p = GET_SP_PLAYER_V0(i);
 
         if (!sub_802C0D4(p)) {
-            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
+            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s)) {
                 p->qWorldX -= qPlatformX;
                 p->qWorldY += Q(4) - qPlatformY;
                 sp04 = TRUE;
@@ -130,7 +130,7 @@ void Task_PlatformCrumbling(void)
                 if (res & 0x10000) {
                     p->qWorldY += Q_8_8(res);
                 }
-            } else if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->spr6C == s)) {
+            } else if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s)) {
                 sub_80213B0(s, p);
             }
         }
