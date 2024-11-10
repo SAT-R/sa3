@@ -5,113 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable112
-CreateEntity_Interactable112: @ 0x08046A40
-	push {r4, r5, r6, lr}
-	mov r6, sl
-	mov r5, sb
-	mov r4, r8
-	push {r4, r5, r6}
-	sub sp, #4
-	mov r8, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _08046B00 @ =sub_8046B1C
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _08046B04 @ =sub_8046FAC
-	str r1, [sp]
-	movs r1, #0xd0
-	movs r3, #0
-	bl TaskCreate
-	ldrh r3, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r3, r0
-	movs r1, #0
-	mov sb, r1
-	movs r2, #0
-	mov sl, r2
-	strh r4, [r0, #4]
-	strh r5, [r0, #6]
-	mov r1, r8
-	str r1, [r0]
-	ldrb r1, [r1]
-	strb r1, [r0, #0xa]
-	strb r6, [r0, #0xb]
-	mov r6, r8
-	ldrb r2, [r6, #7]
-	movs r1, #1
-	ands r1, r2
-	ldr r6, _08046B08 @ =0x030000BC
-	adds r2, r3, r6
-	strh r1, [r2]
-	ldr r2, _08046B0C @ =0x030000BE
-	adds r1, r3, r2
-	mov r6, sl
-	strh r6, [r1]
-	adds r2, #4
-	adds r1, r3, r2
-	mov r6, sb
-	strb r6, [r1]
-	adds r2, #1
-	adds r1, r3, r2
-	strb r6, [r1]
-	ldr r6, _08046B10 @ =0x030000C0
-	adds r2, r3, r6
-	movs r1, #0xff
-	strb r1, [r2]
-	ldr r1, _08046B14 @ =0x030000C1
-	adds r2, r3, r1
-	movs r1, #1
-	rsbs r1, r1, #0
-	strb r1, [r2]
-	adds r6, #4
-	adds r2, r3, r6
-	mov r6, r8
-	ldrb r1, [r6]
-	lsls r1, r1, #3
-	lsls r4, r4, #8
-	adds r1, r1, r4
-	str r1, [r2]
-	ldr r1, _08046B18 @ =0x030000C8
-	adds r3, r3, r1
-	ldrb r1, [r6, #1]
-	lsls r1, r1, #3
-	lsls r5, r5, #8
-	adds r1, r1, r5
-	str r1, [r3]
-	bl sub_8046E20
-	movs r2, #2
-	rsbs r2, r2, #0
-	adds r0, r2, #0
-	strb r0, [r6]
-	add sp, #4
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08046B00: .4byte sub_8046B1C
-_08046B04: .4byte sub_8046FAC
-_08046B08: .4byte 0x030000BC
-_08046B0C: .4byte 0x030000BE
-_08046B10: .4byte 0x030000C0
-_08046B14: .4byte 0x030000C1
-_08046B18: .4byte 0x030000C8
+.if 0
+.endif
 
-	thumb_func_start sub_8046B1C
-sub_8046B1C: @ 0x08046B1C
+	thumb_func_start Task_FerrisWheel
+Task_FerrisWheel: @ 0x08046B1C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -210,7 +108,7 @@ _08046B80:
 	cmp r3, #7
 	ble _08046B80
 	movs r1, #0
-_08046BE0:
+_08046BE0_loop:
 	lsls r0, r1, #0x10
 	str r0, [sp, #0x14]
 	cmp r0, #0
@@ -478,7 +376,7 @@ _08046DEE:
 	asrs r0, r0, #0x10
 	cmp r0, #1
 	bgt _08046E00
-	b _08046BE0
+	b _08046BE0_loop
 _08046E00:
 	bl sub_8046EC0
 	add sp, #0x18
@@ -608,14 +506,14 @@ sub_8046EC0: @ 0x08046EC0
 	adds r7, r3, r0
 	adds r0, #0x28
 	adds r6, r3, r0
-	movs r3, #0
+	movs r3, #0         @ r3 = i = 0
 	lsls r2, r2, #0x10
 	asrs r2, r2, #0x10
 	mov sb, r2
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
 	mov r8, r1
-_08046F0E:
+_08046F0E_loop:
 	lsls r0, r3, #0x10
 	asrs r5, r0, #0x10
 	lsls r0, r5, #1
@@ -655,7 +553,7 @@ _08046F56:
 	lsrs r3, r0, #0x10
 	asrs r0, r0, #0x10
 	cmp r0, #7
-	ble _08046F0E
+	ble _08046F0E_loop
 	mov r0, sl
 	adds r0, #0xc0
 	ldr r1, _08046FA8 @ =0x0000FFFF
@@ -689,8 +587,8 @@ _08046FA0: .4byte 0x030000C8
 _08046FA4: .4byte 0x0300000C
 _08046FA8: .4byte 0x0000FFFF
 
-	thumb_func_start sub_8046FAC
-sub_8046FAC: @ 0x08046FAC
+	thumb_func_start TaskDestructor_FerrisWheel
+TaskDestructor_FerrisWheel: @ 0x08046FAC
 	push {lr}
 	ldrh r0, [r0, #6]
 	ldr r1, _08046FC0 @ =0x030000CC

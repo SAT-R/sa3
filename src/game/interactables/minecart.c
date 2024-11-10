@@ -482,10 +482,10 @@ void sub_8048420(void)
 
             SetPlayerCallback(p, Player_8005380);
         }
+
         SET_MAP_ENTITY_NOT_INITIALIZED(me, cart->base.spriteX);
         TaskDestroy(gCurTask);
         return;
-
     } else {
         Sprite *s, *s2;
         SpriteTransform *transform;
@@ -528,7 +528,6 @@ void sub_8048420(void)
             cart->unk78++;
             cart->unk7A++;
         }
-        return;
     }
 }
 
