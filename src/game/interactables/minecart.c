@@ -25,7 +25,7 @@ typedef struct {
     /* 0x68 */ void *tiles;
     /* 0x6C */ s16 worldX;
     /* 0x6E */ s16 worldY;
-    /* 0x70 */ u8 unk70; // rotation?
+    /* 0x70 */ u8 rotation;
     /* 0x71 */ u8 unk71;
     /* 0x72 */ u8 unk72;
     /* 0x73 */ u8 unk73;
@@ -68,7 +68,7 @@ void CreateEntity_Minecart(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     cart->worldX = TO_WORLD_POS(me->x, regionX);
     cart->worldY = TO_WORLD_POS(me->y, regionY);
 
-    cart->unk70 = 0;
+    cart->rotation = 0;
     cart->unk71 = 0;
     cart->unk72 = me->d.uData[4] & 0x1;
     cart->unk73 = 0;
@@ -201,7 +201,7 @@ void sub_8047D60(void)
         } else if ((p->moveState & MOVESTATE_COLLIDING_ENT) && p->sprColliding == &cart->s) {
             p->qWorldX = cart->qWorldX;
             p->qWorldY = cart->qWorldY;
-            p->unk26 = cart->unk70;
+            p->unk26 = cart->rotation;
         } else {
             cart->player = NULL;
         }
@@ -211,7 +211,7 @@ void sub_8047D60(void)
 u16 sub_8047EEC(void)
 {
     Minecart *cart = TASK_DATA(gCurTask);
-    u8 sp08 = cart->unk70;
+    u8 sp08 = cart->rotation;
     s32 sinX, sinY;
     u32 res;
 
@@ -266,8 +266,8 @@ u16 sub_8047EEC(void)
 NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048044.inc", void sub_8048044())
 {
     Minecart *cart = TASK_DATA(gCurTask);
-    u8 *pUnk70 = &cart->unk70;
-    u8 sp08 = *pUnk70;
+    u8 *protation = &cart->rotation;
+    u8 sp08 = *protation;
     s32 sinX, sinY;
     s32 res;
 
@@ -287,7 +287,7 @@ NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048044.inc", void s
                 goto lbl;
 #else
                 if (!(sp08 & 0x1)) {
-                    *pUnk70 = 0;
+                    *protation = 0;
                 }
 #endif
             }
@@ -300,7 +300,7 @@ NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048044.inc", void s
                 cart->qWorldX -= Q(res);
 
                 if (!(sp08 & 0x1)) {
-                    *pUnk70 = 0;
+                    *protation = 0;
                 }
             }
         } break;
@@ -312,7 +312,7 @@ NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048044.inc", void s
                 cart->qWorldY -= Q(res);
 
                 if (!(sp08 & 0x1)) {
-                    *pUnk70 = 0;
+                    *protation = 0;
                 }
             }
         } break;
@@ -325,7 +325,7 @@ NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048044.inc", void s
 
             lbl:
                 if (!(sp08 & 0x1)) {
-                    *pUnk70 = 0;
+                    *protation = 0;
                 }
             }
         } break;
@@ -356,7 +356,7 @@ void sub_8048218(void)
     Minecart *cart = TASK_DATA(gCurTask);
 
     if (cart->unk71 == 1) {
-        s16 r5 = cart->unk70;
+        s16 r5 = cart->rotation;
         s16 qUnk84;
 
         if ((r5 != 0) && (r5 <= 64)) {
@@ -452,9 +452,7 @@ void sub_8048384(Minecart *cart)
     }
 }
 
-#if 01
-// (96.27%) https://decomp.me/scratch/AznhN
-NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048420.inc", void sub_8048420(void))
+void sub_8048420(void)
 {
     Minecart *cart = TASK_DATA(gCurTask);
     MapEntity *me = cart->base.me;
@@ -487,8 +485,8 @@ NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048420.inc", void s
         SET_MAP_ENTITY_NOT_INITIALIZED(me, cart->base.spriteX);
         TaskDestroy(gCurTask);
         return;
+
     } else {
-        // _080484C4
         Sprite *s, *s2;
         SpriteTransform *transform;
 
@@ -496,7 +494,7 @@ NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048420.inc", void s
             s = &cart->s;
             transform = &cart->transform;
 
-            transform->rotation = cart->unk70 * 4;
+            transform->rotation = cart->rotation * 4;
             transform->x = worldX - gCamera.x;
             transform->y = worldY - gCamera.y;
 
@@ -507,33 +505,18 @@ NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048420.inc", void s
             TransformSprite(s, transform);
             DisplaySprite(s);
         } else {
-            // _0804852C
-            u16 sl = cart->unk73;
-            u32 sp0C = cart->unk73 * 2;
-            s32 screenX;
+            s16 sl = cart->unk73;
+            s16 sp0C = cart->unk73 * 2;
+
             s = &cart->s;
-
-            screenX = worldX - gCamera.x;
-            if (sl & 0x2) {
-                s->x = screenX - (sp0C);
-            } else {
-                s->x = screenX + (cart->unk73 * 1);
-            }
-
+            s->x = (worldX - gCamera.x) + ((sl & 0x2) ? -(sp0C) : (sl * 1));
             s->y = worldY - gCamera.y + (cart->unk74 >> 2);
 
             UpdateSpriteAnimation(s);
             DisplaySprite(s);
 
             s2 = &cart->s2;
-
-            screenX = worldX - gCamera.x;
-            if (sl & 0x2) {
-                s2->x = screenX + (sp0C >> 1);
-            } else {
-                s2->x = screenX + (-sl >> 1);
-            }
-
+            s2->x = (worldX - gCamera.x) + ((sl & 0x2) ? (sp0C >> 1) : (-sl >> 1));
             s2->y = (worldY - gCamera.y) + (cart->unk76 >> 2);
 
             UpdateSpriteAnimation(s2);
@@ -545,10 +528,9 @@ NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048420.inc", void s
             cart->unk78++;
             cart->unk7A++;
         }
+        return;
     }
 }
-END_NONMATCH
-#endif
 
 void TaskDestructor_Minecart(struct Task *t)
 {
