@@ -254,7 +254,6 @@ u16 sub_8047EEC()
             return 0;
         }
     }
-    // _08048014
 
     if (res >> 31 != 0) {
         Player *p = cart->player;
@@ -267,3 +266,88 @@ u16 sub_8047EEC()
 
     return res >> 31;
 }
+
+NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048044.inc", void sub_8048044())
+{
+    Minecart *cart = TASK_DATA(gCurTask);
+    u8 *pUnk70 = &cart->unk70;
+    u8 sp08 = *pUnk70;
+    s32 sinX, sinY;
+    s32 res;
+
+    sinX = (-(SIN(sp08 * 4) * 24)) >> 6;
+    sinY = (+(COS(sp08 * 4) * 3)) >> 3;
+
+    sp08 += Q(0.125);
+
+    switch (sp08 >> 6) {
+        case 0: {
+            res = sub_80517FC(I(cart->qWorldY + sinY), I(cart->qWorldX + sinX), 1, +8, &sp08, sub_805217C);
+
+            if (res < 4) {
+                cart->qWorldY += Q(res);
+
+                goto lbl;
+                if (!(sp08 & 0x1)) {
+                    *pUnk70 = 0;
+                }
+            }
+        } break;
+
+        case 1: {
+            res = sub_80517FC(I(cart->qWorldX + sinX), I(cart->qWorldY + sinY), 1, -8, &sp08, sub_805203C);
+
+            if (res < 4) {
+                cart->qWorldX -= Q(res);
+
+                if (!(sp08 & 0x1)) {
+                    *pUnk70 = 0;
+                }
+            }
+        } break;
+
+        case 2: {
+            res = sub_80517FC(I(cart->qWorldY + sinY), I(cart->qWorldX + sinX), 1, -8, &sp08, sub_805217C);
+
+            if (res < 4) {
+                cart->qWorldY -= Q(res);
+
+                if (!(sp08 & 0x1)) {
+                    *pUnk70 = 0;
+                }
+            }
+        } break;
+
+        case 3: {
+            res = sub_80517FC(I(cart->qWorldX + sinX), I(cart->qWorldY + sinY), 1, +8, &sp08, sub_805203C);
+
+            if (res < 4) {
+                cart->qWorldX += Q(res);
+
+            lbl:
+                if (!(sp08 & 0x1)) {
+                    *pUnk70 = 0;
+                }
+            }
+        } break;
+    }
+
+    if (cart->unk71 == 1) {
+        if (res > 8) {
+            cart->unk71 = 2;
+        }
+    } else if (cart->unk71 == 2) {
+        if (res <= 0) {
+            sub_8047EEC();
+            cart->unk71 = 3;
+            cart->unk73 = 0;
+            cart->unk74 = 0;
+            cart->unk76 = 0;
+            cart->unk78 = -20;
+            cart->unk7A = -16;
+
+            sub_8048384(cart);
+        }
+    }
+}
+END_NONMATCH
