@@ -254,6 +254,8 @@ void UnusedTransform(Sprite *, SpriteTransform *);
 //
 // s16 sub_8004418(s16 x, s16 y);
 
+extern u8 gUnknown_03002C24; // related to Sprite.frameFlags
+
 #define SpriteShouldUpdate(sprite) (((sprite)->prevVariant != (sprite)->variant) || ((sprite)->prevAnim != (sprite)->anim))
 
 #define SPRITE_INIT_ANIM_IF_CHANGED(_sprite)                                                                                               \

@@ -26,12 +26,12 @@ typedef struct {
     /* 0x68 */ void *tiles;
     /* 0x6C */ s16 worldX;
     /* 0x6E */ s16 worldY;
-    /* 0x70 */ u8 unk70;
+    /* 0x70 */ u8 unk70; // rotation?
     /* 0x71 */ u8 unk71;
     /* 0x72 */ u8 unk72;
     /* 0x73 */ u8 unk73;
-    /* 0x74 */ u16 unk74;
-    /* 0x76 */ u16 unk76;
+    /* 0x74 */ s16 unk74;
+    /* 0x76 */ s16 unk76;
     /* 0x78 */ s16 unk78;
     /* 0x7A */ s16 unk7A;
     /* 0x7C */ s32 qWorldX;
@@ -209,7 +209,7 @@ void sub_8047D60(void)
     }
 }
 
-u16 sub_8047EEC()
+u16 sub_8047EEC(void)
 {
     Minecart *cart = TASK_DATA(gCurTask);
     u8 sp08 = cart->unk70;
@@ -352,7 +352,7 @@ NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048044.inc", void s
 }
 END_NONMATCH
 
-void sub_8048218()
+void sub_8048218(void)
 {
     Minecart *cart = TASK_DATA(gCurTask);
 
@@ -454,4 +454,95 @@ void sub_8048384(Minecart *cart)
 }
 
 #if 01
+// (80.35%) https://decomp.me/scratch/IKpuj
+NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048420.inc", void sub_8048420(void))
+{
+    Minecart *cart = TASK_DATA(gCurTask);
+    MapEntity *me = cart->base.me;
+    s16 worldX, worldY;
+
+    worldX = I(cart->qWorldX);
+    worldY = I(cart->qWorldY);
+    if ((cart->unk71 == 4) || !IsPointInScreenRect(worldX, worldY)) {
+        Player *p;
+
+        if (cart->unk71 != 4) {
+            sub_8003E28(SE_MINECART_ROLL);
+
+            if (cart->player) {
+                p = cart->player;
+                p->moveState &= ~MOVESTATE_COLLIDING_ENT;
+                p->sprColliding = NULL;
+                p->qSpeedAirX = 0;
+                p->qSpeedAirY = 0;
+                p->qSpeedGround = 0;
+
+                SetPlayerCallback(p, Player_8005380);
+            }
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, cart->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        // _080484C4
+        Sprite *s, *s2;
+        SpriteTransform *transform;
+
+        if (cart->unk71 != 3) {
+            s = &cart->s;
+            transform = &cart->transform;
+
+            transform->rotation = cart->unk70 * 4;
+            transform->x = worldX - gCamera.x;
+            transform->y = worldY - gCamera.y;
+
+            s->frameFlags = gUnknown_03002C24 | SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(ROT_SCALE_ENABLE, 1);
+            gUnknown_03002C24++;
+
+            UpdateSpriteAnimation(s);
+            TransformSprite(s, transform);
+            DisplaySprite(s);
+        } else {
+            // _0804852C
+            u16 sl = cart->unk73;
+            u32 sp0C = cart->unk73 * 2;
+            s32 screenX;
+            s = &cart->s;
+
+            screenX = worldX - gCamera.x;
+            if (sl & 0x2) {
+                s->x = screenX - (sp0C);
+            } else {
+                s->x = screenX + (cart->unk73 * 1);
+            }
+
+            s->y = worldY - gCamera.y + (cart->unk74 >> 2);
+
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+
+            s2 = &cart->s2;
+
+            screenX = worldX - gCamera.x;
+            if (sl & 0x2) {
+                s2->x = screenX + (sp0C >> 1);
+            } else {
+                s2->x = screenX + (-sl >> 1);
+            }
+
+            s2->y = (worldY - gCamera.y) + (cart->unk76 >> 2);
+
+            UpdateSpriteAnimation(s2);
+            DisplaySprite(s2);
+
+            cart->unk74 += cart->unk78 >> 1;
+            cart->unk76 += cart->unk7A >> 1;
+
+            cart->unk78++;
+            cart->unk7A++;
+        }
+    }
+}
+END_NONMATCH
 #endif
