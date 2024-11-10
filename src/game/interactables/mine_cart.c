@@ -35,18 +35,25 @@ typedef struct {
     /* 0x71 */ u8 unk71;
     /* 0x72 */ u8 unk72;
     /* 0x73 */ u8 unk73;
-    /* 0x74 */ u8 filler74[0x8];
+    /* 0x74 */ u16 unk74;
+    /* 0x76 */ u16 unk76;
+    /* 0x78 */ s16 unk78;
+    /* 0x7A */ s16 unk7A;
     /* 0x7C */ s32 qWorldX;
     /* 0x80 */ s32 qWorldY;
     /* 0x84 */ s32 qUnk84;
     /* 0x88 */ s32 qUnk88;
-    /* 0x8C */ s32 unk8C;
+    /* 0x8C */ s32 qUnk8C;
     /* 0x90 */ Player *player;
 } Minecart; /* 0x94 */
 
 void Task_Minecart(void);
 void sub_8047D60(void);
+u16 sub_8047EEC(void);
 void sub_804831C(Minecart *);
+void sub_8048044(void);
+void sub_8048218(void);
+void sub_8048384(Minecart *);
 void sub_8048420(void);
 void TaskDestructor_Minecart(struct Task *);
 
@@ -73,9 +80,9 @@ void CreateEntity_Minecart(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     cart->unk73 = 0;
     cart->qWorldX = Q(cart->worldX);
     cart->qWorldY = Q(cart->worldY);
-    cart->qUnk84 = 0;
-    cart->qUnk88 = 0;
-    cart->unk8C = 0;
+    cart->qUnk84 = Q(0);
+    cart->qUnk88 = Q(0);
+    cart->qUnk8C = Q(0);
     cart->player = 0;
 
     unk34 = &cart->unk34;
@@ -103,7 +110,7 @@ void Task_Minecart(void)
 
         if ((sub_802C0D4(p) != TRUE) && (p->callback != Player_8008A8C) && (p->callback != Player_800ED80)
             && sub_8020700(s, worldX, worldY, 0, p, 0) && (cart->unk71 == 0)) {
-            cart->unk71 = TRUE;
+            cart->unk71 = 1;
 
             if (cart->unk72 == 0) {
                 cart->qUnk84 = +Q(5);
@@ -114,7 +121,7 @@ void Task_Minecart(void)
             }
 
             cart->qUnk88 = Q(0);
-            cart->unk8C = 0;
+            cart->qUnk8C = 0;
 
             s->anim = ANIM_MINECART;
             s->variant = 1;
@@ -130,4 +137,79 @@ void Task_Minecart(void)
 
     sub_8047D60();
     sub_8048420();
+}
+
+void sub_8047D60(void)
+{
+    Minecart *cart = TASK_DATA(gCurTask);
+
+    switch (cart->unk71) {
+        case 0: {
+            return;
+        } break;
+
+        case 1: {
+            if (sub_8047EEC() != 0) {
+                cart->unk71 = 3;
+                cart->unk73 = 0;
+                cart->unk74 = 0;
+                cart->unk76 = 0;
+                cart->unk78 = -20;
+                cart->unk7A = -16;
+
+                sub_8048384(cart);
+                sub_8003DF0(SE_MINECART_DESTROYED);
+                return;
+            } else {
+                sub_8048044();
+                sub_8048218();
+
+                cart->qWorldX += cart->qUnk88;
+                cart->qWorldY += cart->qUnk8C;
+            }
+        } break;
+
+        case 2: {
+            cart->qWorldX += cart->qUnk88;
+            cart->qWorldY += cart->qUnk8C;
+
+            sub_8048044();
+            cart->qUnk8C += Q(32. / 256.);
+        } break;
+
+        case 3: {
+            if (cart->unk73 == 0) {
+                sub_8003DF0(SE_MINECART_DESTROYED);
+            }
+
+            if (++cart->unk73 > 30) {
+                cart->unk71 = 4;
+            }
+
+            return;
+        } break;
+
+        case 4: {
+            sub_804831C(cart);
+            return;
+        } break;
+    }
+
+    if (cart->player != NULL) {
+        Player *p = cart->player;
+
+        if ((p->callback == Player_8008A8C) || (p->callback == Player_800ED80)) {
+            Player_StopSong(p, SE_MINECART_ROLL);
+            cart->player = NULL;
+        } else if (((gStageData.unk4 == 5) || (gStageData.unk4 == 6)) && (gStageData.gameMode == GAME_MODE_5)) {
+            Player_StopSong(p, SE_MINECART_ROLL);
+            cart->player = NULL;
+        } else if ((p->moveState & MOVESTATE_COLLIDING_ENT) && p->sprColliding == &cart->s) {
+            p->qWorldX = cart->qWorldX;
+            p->qWorldY = cart->qWorldY;
+            p->unk26 = cart->unk70;
+        } else {
+            cart->player = NULL;
+        }
+    }
 }
