@@ -3127,7 +3127,7 @@ _080C5CC4: .4byte gEmptyTask
 _080C5CC8:
 	ldr r0, [r5, #0x14]
 	adds r1, r3, #0
-	bl sub_80BF8F4
+	bl TransformSprite
 	b _080C5D16
 _080C5CD2:
 	ldr r1, [r5, #0x14]

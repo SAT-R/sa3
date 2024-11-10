@@ -187,11 +187,10 @@ typedef struct {
     /* 0x00 */ u16 rotation;
 
     // TODO:
-    //     The names "width" and "height" appear to be inaccurate.
-    //     Maybe "scaleX" and "scaleY" would be more fitting?
+    //     Does "scaleX" and "scaleY" fit as names?
     //     It's 0x100 or Q_8_8(1.0) for 1x, Q_8_8(2.0) for 2x, etc.
-    /* 0x02 */ s16 width;
-    /* 0x04 */ s16 height;
+    /* 0x02 */ s16 scaleX;
+    /* 0x04 */ s16 scaleY;
     /* 0x06 */ s16 x;
     /* 0x08 */ s16 y;
 } SpriteTransform; /* size 0xA */
@@ -239,8 +238,8 @@ s16 sa2__sub_8004418(s16 x, s16 y);
 // SA2
 //
 // TransformSprite
-// void sub_8004860(Sprite *, SpriteTransform *);
-// void sub_8004ABC(Sprite *, SpriteTransform *);
+void TransformSprite(Sprite *sprite, SpriteTransform *transform);
+void UnusedTransform(Sprite *, SpriteTransform *);
 // void sub_8004E14(Sprite *, SpriteTransform *);
 //
 //

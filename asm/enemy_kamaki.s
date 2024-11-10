@@ -677,7 +677,7 @@ sub_8064D04: @ 0x08064D04
 	strh r4, [r1, #4]
 	adds r0, r7, #0
 	str r3, [sp]
-	bl sub_80BF8F4
+	bl TransformSprite
 	adds r0, r7, #0
 	bl UpdateSpriteAnimation
 	ldr r3, [sp]
@@ -725,7 +725,7 @@ sub_8064D04: @ 0x08064D04
 	strh r4, [r1, #2]
 	strh r4, [r1, #4]
 	adds r0, r7, #0
-	bl sub_80BF8F4
+	bl TransformSprite
 	adds r0, r7, #0
 	bl UpdateSpriteAnimation
 	add sp, #4
@@ -1006,7 +1006,7 @@ sub_8064FCC: @ 0x08064FCC
 	ldrh r0, [r4, #0x12]
 	strh r0, [r1, #8]
 	adds r0, r4, #0
-	bl sub_80BF8F4
+	bl TransformSprite
 	adds r0, r4, #0
 	bl UpdateSpriteAnimation
 	adds r5, r0, #0
@@ -1051,7 +1051,7 @@ sub_8065028: @ 0x08065028
 	ldrh r0, [r4, #0x12]
 	strh r0, [r1, #8]
 	adds r0, r4, #0
-	bl sub_80BF8F4
+	bl TransformSprite
 	adds r0, r4, #0
 	bl UpdateSpriteAnimation
 	adds r5, r0, #0

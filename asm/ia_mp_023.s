@@ -629,7 +629,7 @@ _0804EE9C:
 	adds r7, #0x5c
 	adds r0, r4, #0
 	adds r1, r7, #0
-	bl sub_80BF8F4
+	bl TransformSprite
 	ldr r0, _0804EF28 @ =gUnknown_03001060
 	adds r0, #0x55
 	ldrb r0, [r0]
@@ -652,7 +652,7 @@ _0804EE9C:
 	str r0, [r4, #8]
 	adds r0, r4, #0
 	adds r1, r7, #0
-	bl sub_80BF8F4
+	bl TransformSprite
 	adds r0, r4, #0
 	bl UpdateSpriteAnimation
 	adds r0, r4, #0

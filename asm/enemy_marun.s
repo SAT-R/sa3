@@ -170,7 +170,7 @@ _08063722:
 	strh r0, [r6, #4]
 	adds r0, r4, #0
 	adds r1, r6, #0
-	bl sub_80BF8F4
+	bl TransformSprite
 	adds r0, r4, #0
 	bl UpdateSpriteAnimation
 	pop {r4, r5, r6, r7}
@@ -1106,7 +1106,7 @@ _08063EB0:
 	strh r0, [r4, #8]
 	adds r0, r5, #0
 	adds r1, r4, #0
-	bl sub_80BF8F4
+	bl TransformSprite
 	adds r0, r5, #0
 	bl UpdateSpriteAnimation
 	adds r4, r0, #0

@@ -1,5 +1,6 @@
 #include <string.h>
 #include "global.h"
+#include "sprite.h"
 #include "task.h"
 #include "trig.h"
 #include "malloc_vram.h"
@@ -18,18 +19,11 @@
 #include "constants/zones.h"
 
 typedef struct {
-    /* 0x00 */ u8 filler0[0x6];
-    /* 0x06 */ s16 screenX;
-    /* 0x08 */ s16 screenY;
-    /* 0x0A */ u8 fillerA[0x2];
-} Minecart34;
-
-typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
-    /* 0x34 */ Minecart34 unk34;
+    /* 0x34 */ SpriteTransform transform;
     /* 0x40 */ Sprite s2;
-    /* 0x68 */ s32 unk68;
+    /* 0x68 */ void *tiles;
     /* 0x6C */ s16 worldX;
     /* 0x6E */ s16 worldY;
     /* 0x70 */ u8 unk70;
@@ -62,7 +56,7 @@ void CreateEntity_Minecart(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_Minecart, sizeof(Minecart), 0x2100, 0, TaskDestructor_Minecart);
     Minecart *cart = TASK_DATA(t);
-    Minecart34 *unk34;
+    SpriteTransform *transform;
 
     cart->base.regionX = regionX;
     cart->base.regionY = regionY;
@@ -70,7 +64,7 @@ void CreateEntity_Minecart(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     cart->base.spriteX = me->x;
     cart->base.id = id;
 
-    cart->unk68 = 0;
+    cart->tiles = NULL;
 
     cart->worldX = TO_WORLD_POS(me->x, regionX);
     cart->worldY = TO_WORLD_POS(me->y, regionY);
@@ -86,9 +80,9 @@ void CreateEntity_Minecart(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     cart->qUnk8C = Q(0);
     cart->player = 0;
 
-    unk34 = &cart->unk34;
-    unk34->screenX = cart->worldX - gCamera.x;
-    unk34->screenY = cart->worldY - gCamera.y;
+    transform = &cart->transform;
+    transform->x = cart->worldX - gCamera.x;
+    transform->y = cart->worldY - gCamera.y;
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
@@ -267,6 +261,9 @@ u16 sub_8047EEC()
     return res >> 31;
 }
 
+// TODO: Remove goto
+//
+// (99.68%) https://decomp.me/scratch/uCl9p
 NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048044.inc", void sub_8048044())
 {
     Minecart *cart = TASK_DATA(gCurTask);
@@ -287,10 +284,13 @@ NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048044.inc", void s
             if (res < 4) {
                 cart->qWorldY += Q(res);
 
+#if 01
                 goto lbl;
+#else
                 if (!(sp08 & 0x1)) {
                     *pUnk70 = 0;
                 }
+#endif
             }
         } break;
 
@@ -351,3 +351,73 @@ NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048044.inc", void s
     }
 }
 END_NONMATCH
+
+void sub_8048218()
+{
+    Minecart *cart = TASK_DATA(gCurTask);
+
+    if (cart->unk71 == 1) {
+        s16 r5 = cart->unk70;
+        s16 qUnk84;
+
+        if ((r5 != 0) && (r5 <= 64)) {
+            cart->qUnk84 += Q(16. / 256.);
+        } else if (r5 >= 192) {
+            cart->qUnk84 -= Q(16. / 256.);
+        }
+
+        if (ABS(cart->qUnk84) > Q(12)) {
+            if (cart->qUnk84 < 0) {
+                cart->qUnk84 = -Q(12);
+            } else {
+                cart->qUnk84 = +Q(12);
+            }
+        }
+
+        if (ABS(cart->qUnk84) < Q(5)) {
+            if (cart->qUnk84 < 0) {
+                cart->qUnk84 = -Q(5);
+            } else {
+                cart->qUnk84 = +Q(5);
+            }
+        }
+
+        qUnk84 = (s16)cart->qUnk84;
+        cart->qUnk88 = Q_MUL(qUnk84, COS_24_8(r5 * 4));
+        cart->qUnk8C = Q_MUL(qUnk84, SIN_24_8(r5 * 4)) + Q(2);
+    } else if (cart->unk71 == 2) {
+        cart->qUnk8C += Q(0.125);
+    }
+}
+
+void sub_804831C(Minecart *cart)
+{
+    Sprite *s = &cart->s;
+    SpriteTransform *transform = &cart->transform;
+
+    if (cart->tiles == NULL) {
+        cart->tiles = ALLOC_TILES(ANIM_MINECART);
+    }
+
+    s->tiles = cart->tiles;
+    s->anim = ANIM_MINECART;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(12);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(ROT_SCALE_ENABLE, 1);
+
+    transform->rotation = 0;
+    transform->scaleX = Q(1);
+    transform->scaleY = Q(1);
+
+    UpdateSpriteAnimation(s);
+    TransformSprite(s, transform);
+}
+
+#if 01
+#endif

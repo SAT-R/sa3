@@ -9965,7 +9965,7 @@ sub_8054514: @ 0x08054514
 	mov sb, r0
 	adds r0, r6, #0
 	mov r1, sb
-	bl sub_80BF8F4
+	bl TransformSprite
 	adds r0, r6, #0
 	bl DisplaySprite
 	ldr r2, _0805459C @ =0x03000028
@@ -9977,7 +9977,7 @@ sub_8054514: @ 0x08054514
 	mov r8, r0
 	adds r0, r4, #0
 	mov r1, r8
-	bl sub_80BF8F4
+	bl TransformSprite
 	adds r0, r4, #0
 	bl DisplaySprite
 	ldr r2, _080545A4 @ =0x0300021C
@@ -10002,7 +10002,7 @@ sub_8054514: @ 0x08054514
 	strh r1, [r0]
 	adds r0, r4, #0
 	mov r1, sb
-	bl sub_80BF8F4
+	bl TransformSprite
 	b _080545C8
 	.align 2, 0
 _08054594: .4byte gCurTask
@@ -10023,7 +10023,7 @@ _080545B0:
 	strh r1, [r0]
 	adds r0, r4, #0
 	mov r1, r8
-	bl sub_80BF8F4
+	bl TransformSprite
 _080545C8:
 	adds r0, r6, #0
 	adds r0, #0xe8
@@ -15845,7 +15845,7 @@ _080574C4:
 	bl UpdateSpriteAnimation
 	adds r0, r6, #0
 	adds r1, r4, #0
-	bl sub_80BF8F4
+	bl TransformSprite
 	adds r0, r6, #0
 	bl DisplaySprite
 	ldr r2, [r7, #0x1c]

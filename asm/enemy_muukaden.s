@@ -1569,7 +1569,7 @@ sub_80631F8: @ 0x080631F8
 	strh r0, [r5, #8]
 	adds r0, r4, #0
 	adds r1, r5, #0
-	bl sub_80BF8F4
+	bl TransformSprite
 _08063248:
 	adds r0, r4, #0
 	bl UpdateSpriteAnimation
@@ -1655,7 +1655,7 @@ _0806329C:
 	strh r0, [r6, #8]
 	adds r0, r4, #0
 	adds r1, r6, #0
-	bl sub_80BF8F4
+	bl TransformSprite
 _080632F0:
 	adds r0, r4, #0
 	bl DisplaySprite
@@ -1981,7 +1981,7 @@ _08063550:
 	strh r0, [r5, #4]
 	adds r0, r4, #0
 	adds r1, r5, #0
-	bl sub_80BF8F4
+	bl TransformSprite
 _0806356C:
 	pop {r4, r5}
 	pop {r0}

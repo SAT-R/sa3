@@ -5372,7 +5372,7 @@ sub_80B4508: @ 0x080B4508
 	bl UpdateSpriteAnimation
 	mov r0, sl
 	mov r1, sb
-	bl sub_80BF8F4
+	bl TransformSprite
 	mov r0, sl
 	bl DisplaySprite
 	add sp, #8

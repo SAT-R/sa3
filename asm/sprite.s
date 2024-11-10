@@ -801,8 +801,8 @@ sub_80BF834: @ 0x080BF834
 _080BF8EC: .4byte gUnknown_03006246
 _080BF8F0: .4byte gSineTable
 
-	thumb_func_start sub_80BF8F4
-sub_80BF8F4: @ 0x080BF8F4
+	thumb_func_start TransformSprite
+TransformSprite: @ 0x080BF8F4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1140,8 +1140,8 @@ _080BFB7E:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_80BFB90
-sub_80BFB90: @ 0x080BFB90
+	thumb_func_start UnusedTransform
+UnusedTransform: @ 0x080BFB90
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

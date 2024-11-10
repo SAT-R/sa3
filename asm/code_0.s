@@ -40184,7 +40184,7 @@ _080138DE:
 	bl UpdateSpriteAnimation
 	adds r0, r5, #0
 	adds r1, r4, #0
-	bl sub_80BF8F4
+	bl TransformSprite
 	b _0801398A
 	.align 2, 0
 _080138F0: .4byte 0xFFFFCFFF
@@ -40602,7 +40602,7 @@ _08013BD6:
 	bl UpdateSpriteAnimation
 	adds r0, r6, #0
 	adds r1, r4, #0
-	bl sub_80BF8F4
+	bl TransformSprite
 	ldr r1, [r5, #4]
 	movs r0, #0x80
 	lsls r0, r0, #1
@@ -40756,7 +40756,7 @@ _08013CFE:
 	bl UpdateSpriteAnimation
 	adds r0, r6, #0
 	adds r1, r4, #0
-	bl sub_80BF8F4
+	bl TransformSprite
 	ldr r1, [r5, #4]
 	movs r0, #0x80
 	lsls r0, r0, #1
@@ -52847,7 +52847,7 @@ _080199BC:
 _080199D0:
 	adds r0, r4, #0
 	adds r1, r6, #0
-	bl sub_80BF8F4
+	bl TransformSprite
 	b _080199FC
 _080199DA:
 	movs r2, #0x40
@@ -71064,7 +71064,7 @@ _08022760:
 	lsls r1, r1, #2
 	add r1, r8
 	mov r0, sb
-	bl sub_80BF8F4
+	bl TransformSprite
 	add sp, #4
 	pop {r3, r4}
 	mov r8, r3
@@ -71747,7 +71747,7 @@ _08022B60:
 	mov r2, r8
 	strh r2, [r0]
 	adds r0, r7, #0
-	bl sub_80BF8F4
+	bl TransformSprite
 	adds r7, r6, #0
 	movs r4, #0
 _08022CEE:
@@ -72072,7 +72072,7 @@ _08022F84:
 	lsls r1, r1, #2
 	add r1, r8
 	mov r0, sb
-	bl sub_80BF8F4
+	bl TransformSprite
 	add sp, #4
 	pop {r3, r4}
 	mov r8, r3

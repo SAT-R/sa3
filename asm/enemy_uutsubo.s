@@ -287,7 +287,7 @@ _0805D2C8:
 	strh r1, [r3, #4]
 	adds r0, r4, #0
 	adds r1, r3, #0
-	bl sub_80BF8F4
+	bl TransformSprite
 	b _0805D30E
 _0805D2EA:
 	movs r0, #0x6b
@@ -306,7 +306,7 @@ _0805D2EA:
 	strh r0, [r3, #4]
 	adds r0, r4, #0
 	adds r1, r3, #0
-	bl sub_80BF8F4
+	bl TransformSprite
 _0805D30E:
 	pop {r4}
 	pop {r0}
@@ -1399,7 +1399,7 @@ sub_805DADC: @ 0x0805DADC
 	ldrh r0, [r4, #0x12]
 	strh r0, [r1, #8]
 	adds r0, r4, #0
-	bl sub_80BF8F4
+	bl TransformSprite
 _0805DB38:
 	adds r0, r4, #0
 	bl UpdateSpriteAnimation
@@ -1448,7 +1448,7 @@ _0805DB5E:
 	ldrh r0, [r2, #0x12]
 	strh r0, [r1, #8]
 	ldr r0, [sp, #0xc]
-	bl sub_80BF8F4
+	bl TransformSprite
 _0805DB9C:
 	adds r0, r4, #0
 	bl DisplaySprite
@@ -1481,7 +1481,7 @@ _0805DB9C:
 	ldrh r0, [r4, #0x12]
 	strh r0, [r1, #8]
 	adds r0, r4, #0
-	bl sub_80BF8F4
+	bl TransformSprite
 _0805DBE0:
 	adds r0, r4, #0
 	bl DisplaySprite
