@@ -1,6 +1,7 @@
 #include <string.h>
 #include "global.h"
 #include "task.h"
+#include "trig.h"
 #include "malloc_vram.h"
 #include "module_unclear.h"
 #include "game/camera.h"
@@ -212,4 +213,57 @@ void sub_8047D60(void)
             cart->player = NULL;
         }
     }
+}
+
+u16 sub_8047EEC()
+{
+    Minecart *cart = TASK_DATA(gCurTask);
+    u8 sp08 = cart->unk70;
+    s32 sinX, sinY;
+    u32 res;
+
+    if (cart->qUnk84 < 0) {
+        sp08 += Q(0.25);
+    } else {
+        sp08 -= Q(0.25);
+    }
+
+    sinX = (-(SIN(sp08 * 4) * 12) >> 6);
+    sinY = (+(COS(sp08 * 4) * 3) >> 4);
+
+    sp08 += Q(0.125);
+
+    switch (sp08 >> 6) {
+        case 0: {
+            res = sub_80517FC(I(cart->qWorldY + sinY), I(cart->qWorldX + sinX), 1, +8, &sp08, sub_805217C);
+        } break;
+
+        case 1: {
+            res = sub_80517FC(I(cart->qWorldX + sinX), I(cart->qWorldY + sinY), 1, -8, &sp08, sub_805203C);
+        } break;
+
+        case 2: {
+            res = sub_80517FC(I(cart->qWorldY + sinY), I(cart->qWorldX + sinX), 1, -8, &sp08, sub_805217C);
+        } break;
+
+        case 3: {
+            res = sub_80517FC(I(cart->qWorldX + sinX), I(cart->qWorldY + sinY), 1, +8, &sp08, sub_805203C);
+        } break;
+
+        default: {
+            return 0;
+        }
+    }
+    // _08048014
+
+    if (res >> 31 != 0) {
+        Player *p = cart->player;
+        if (p) {
+            p->qSpeedAirX = cart->qUnk8C;
+            p->moveState &= ~MOVESTATE_COLLIDING_ENT;
+            cart->player = NULL;
+        }
+    }
+
+    return res >> 31;
 }
