@@ -546,3 +546,9 @@ NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048420.inc", void s
 }
 END_NONMATCH
 #endif
+
+void TaskDestructor_Minecart(struct Task *t)
+{
+    Minecart *cart = TASK_DATA(t);
+    VramFree(cart->tiles);
+}
