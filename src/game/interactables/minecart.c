@@ -419,5 +419,39 @@ void sub_804831C(Minecart *cart)
     TransformSprite(s, transform);
 }
 
+void sub_8048384(Minecart *cart)
+{
+    Sprite *s = &cart->s;
+    Sprite *s2 = &cart->s2;
+
+    if (cart->tiles) {
+        s->tiles = cart->tiles;
+        s->anim = ANIM_MINECART;
+        s->variant = 2;
+        s->oamFlags = SPRITE_OAM_ORDER(8);
+        s->animCursor = 0;
+        s->qAnimDelay = Q(0);
+        s->prevVariant = -1;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+        s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+        UpdateSpriteAnimation(s);
+
+        s2->tiles = cart->tiles + MAX_TILES_VARIANT(ANIM_MINECART, 2) * TILE_SIZE_4BPP;
+        s2->anim = ANIM_MINECART;
+        s2->variant = 3;
+        s2->oamFlags = SPRITE_OAM_ORDER(8);
+        s2->animCursor = 0;
+        s2->qAnimDelay = Q(0);
+        s2->prevVariant = -1;
+        s2->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s2->palId = 0;
+        s2->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+        s2->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+        UpdateSpriteAnimation(s2);
+    }
+}
+
 #if 01
 #endif
