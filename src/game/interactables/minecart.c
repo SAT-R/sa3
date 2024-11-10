@@ -9,7 +9,6 @@
 #include "game/entity.h"
 #include "game/player.h"
 #include "game/player_callbacks.h"
-#include "game/save.h"
 #include "game/stage.h"
 
 #include "constants/animations.h"
@@ -454,33 +453,37 @@ void sub_8048384(Minecart *cart)
 }
 
 #if 01
-// (80.35%) https://decomp.me/scratch/IKpuj
+// (96.27%) https://decomp.me/scratch/AznhN
 NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048420.inc", void sub_8048420(void))
 {
     Minecart *cart = TASK_DATA(gCurTask);
     MapEntity *me = cart->base.me;
     s16 worldX, worldY;
 
+    if ((cart->unk71 == 4)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, cart->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
     worldX = I(cart->qWorldX);
     worldY = I(cart->qWorldY);
-    if ((cart->unk71 == 4) || !IsPointInScreenRect(worldX, worldY)) {
+
+    if (!IsPointInScreenRect(worldX, worldY)) {
         Player *p;
 
-        if (cart->unk71 != 4) {
-            sub_8003E28(SE_MINECART_ROLL);
+        sub_8003E28(SE_MINECART_ROLL);
 
-            if (cart->player) {
-                p = cart->player;
-                p->moveState &= ~MOVESTATE_COLLIDING_ENT;
-                p->sprColliding = NULL;
-                p->qSpeedAirX = 0;
-                p->qSpeedAirY = 0;
-                p->qSpeedGround = 0;
+        if (cart->player) {
+            p = cart->player;
+            p->moveState &= ~MOVESTATE_COLLIDING_ENT;
+            p->sprColliding = NULL;
+            p->qSpeedAirX = 0;
+            p->qSpeedAirY = 0;
+            p->qSpeedGround = 0;
 
-                SetPlayerCallback(p, Player_8005380);
-            }
+            SetPlayerCallback(p, Player_8005380);
         }
-
         SET_MAP_ENTITY_NOT_INITIALIZED(me, cart->base.spriteX);
         TaskDestroy(gCurTask);
         return;
