@@ -60,6 +60,7 @@ SECTIONS {
         build/sa3/src/game/interactables/platform_attached.o(.text);
         build/sa3/src/game/interactables/water_cannon.o(.text);
         build/sa3/src/game/interactables/090.o(.text);
+        build/sa3/src/game/interactables/accordion_spring.o(.text);
         build/sa3/asm/ia_accordion_spring.o(.text);
         build/sa3/src/game/interactables/bungee_cord.o(.text);
         build/sa3/src/game/interactables/waggle_coil.o(.text);

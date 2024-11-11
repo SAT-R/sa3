@@ -333,7 +333,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_AttachedPlatform
     .4byte CreateEntity_WaterCannon
     .4byte CreateEntity_Interactable090
-    .4byte CreateEntity_Interactable091
+    .4byte CreateEntity_AccordionSpring
     .4byte CreateEntity_BungeeCord
     .4byte CreateEntity_Interactable093
     .4byte CreateEntity_Interactable094

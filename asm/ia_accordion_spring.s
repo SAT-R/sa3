@@ -5,200 +5,9 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable091
-CreateEntity_Interactable091: @ 0x0803F550
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	sub sp, #4
-	mov sb, r0
-	adds r5, r1, #0
-	mov r8, r2
-	adds r6, r3, #0
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	mov r0, r8
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	mov r8, r0
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _0803F61C @ =Task_Interactable091Main
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _0803F620 @ =sub_803FAF4
-	str r1, [sp]
-	movs r1, #0x44
-	movs r3, #0
-	bl TaskCreate
-	ldrh r4, [r0, #6]
-	movs r3, #0xc0
-	lsls r3, r3, #0x12
-	adds r3, r4, r3
-	ldr r1, _0803F624 @ =0x03000014
-	adds r0, r4, r1
-	movs r2, #0
-	strh r5, [r3, #4]
-	mov r7, r8
-	strh r7, [r3, #6]
-	mov r1, sb
-	str r1, [r3]
-	ldrb r1, [r1]
-	strb r1, [r3, #0xa]
-	strb r6, [r3, #0xb]
-	ldr r6, _0803F628 @ =0x0300003C
-	adds r1, r4, r6
-	strb r2, [r1]
-	ldr r7, _0803F62C @ =0x0300003D
-	adds r1, r4, r7
-	strb r2, [r1]
-	ldr r1, _0803F630 @ =gStageData
-	ldrb r2, [r1, #6]
-	lsls r1, r2, #2
-	adds r1, r1, r2
-	lsls r1, r1, #2
-	adds r1, r1, r2
-	lsls r1, r1, #4
-	ldr r6, _0803F634 @ =gPlayers
-	adds r1, r1, r6
-	str r1, [r3, #0xc]
-	adds r1, #0x2b
-	ldrb r2, [r1]
-	lsls r2, r2, #0x1e
-	lsrs r2, r2, #0x1e
-	lsls r1, r2, #2
-	adds r1, r1, r2
-	lsls r1, r1, #2
-	adds r1, r1, r2
-	lsls r1, r1, #4
-	adds r1, r1, r6
-	str r1, [r3, #0x10]
-	mov r2, sb
-	ldrb r1, [r2]
-	lsls r1, r1, #3
-	lsls r5, r5, #8
-	adds r1, r1, r5
-	strh r1, [r3, #0x3e]
-	ldrb r1, [r2, #1]
-	lsls r1, r1, #3
-	mov r6, r8
-	lsls r6, r6, #8
-	mov r8, r6
-	add r1, r8
-	adds r7, #3
-	adds r4, r4, r7
-	strh r1, [r4]
-	ldrh r1, [r3, #0x3e]
-	strh r1, [r0, #0x10]
-	ldrh r1, [r4]
-	strh r1, [r0, #0x12]
-	movs r2, #2
-	rsbs r2, r2, #0
-	adds r1, r2, #0
-	mov r6, sb
-	strb r1, [r6]
-	bl sub_803F9F0
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0803F61C: .4byte Task_Interactable091Main
-_0803F620: .4byte sub_803FAF4
-_0803F624: .4byte 0x03000014
-_0803F628: .4byte 0x0300003C
-_0803F62C: .4byte 0x0300003D
-_0803F630: .4byte gStageData
-_0803F634: .4byte gPlayers
-
-	thumb_func_start Task_Interactable091Main
-Task_Interactable091Main: @ 0x0803F638
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	ldr r0, _0803F678 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r7, r1, r0
-	adds r0, #0x14
-	adds r0, r0, r1
-	mov sb, r0
-	movs r6, #0
-	movs r5, #0
-	movs r1, #1
-	mov r8, r1
-_0803F65A:
-	lsls r0, r5, #2
-	adds r1, r7, #0
-	adds r1, #0xc
-	adds r1, r1, r0
-	ldr r4, [r1]
-	adds r0, r4, #0
-	bl sub_802C0D4
-	cmp r0, #0
-	beq _0803F67C
-	mov r0, r8
-	lsls r0, r5
-	bics r6, r0
-	b _0803F690
-	.align 2, 0
-_0803F678: .4byte gCurTask
-_0803F67C:
-	adds r0, r4, #0
-	bl sub_803F938
-	cmp r0, #0
-	beq _0803F690
-	mov r0, r8
-	lsls r0, r5
-	orrs r6, r0
-	lsls r0, r6, #0x18
-	lsrs r6, r0, #0x18
-_0803F690:
-	adds r0, r5, #1
-	lsls r0, r0, #0x18
-	lsrs r5, r0, #0x18
-	cmp r5, #1
-	bls _0803F65A
-	cmp r6, #0
-	beq _0803F6C0
-	adds r2, r7, #0
-	adds r2, #0x3c
-	movs r1, #0
-	strb r1, [r2]
-	adds r0, r7, #0
-	adds r0, #0x3d
-	strb r6, [r0]
-	strb r1, [r2]
-	movs r0, #1
-	mov r1, sb
-	strb r0, [r1, #0x1a]
-	movs r0, #0xff
-	strb r0, [r1, #0x1b]
-	ldr r0, _0803F6D0 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0803F6D4 @ =sub_803F6D8
-	str r0, [r1, #8]
-_0803F6C0:
-	bl sub_803FA5C
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0803F6D0: .4byte gCurTask
-_0803F6D4: .4byte sub_803F6D8
-
-	thumb_func_start sub_803F6D8
-sub_803F6D8: @ 0x0803F6D8
+.if 01
+	thumb_func_start Task_803F6D8
+Task_803F6D8: @ 0x0803F6D8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -223,7 +32,7 @@ sub_803F6D8: @ 0x0803F6D8
 	ldr r2, _0803F738 @ =0x0300003D
 	adds r2, r2, r1
 	mov sb, r2
-_0803F708:
+_0803F708_loop_a:
 	lsls r0, r6, #2
 	adds r1, r7, #0
 	adds r1, #0xc
@@ -309,7 +118,7 @@ _0803F7B2:
 	lsls r0, r0, #0x18
 	lsrs r6, r0, #0x18
 	cmp r6, #1
-	bls _0803F708
+	bls _0803F708_loop_a
 	adds r1, r7, #0
 	adds r1, #0x3c
 	ldrb r0, [r1]
@@ -326,7 +135,7 @@ _0803F7B2:
 _0803F7D6:
 	movs r6, #0
 	mov r5, r8
-_0803F7DA:
+_0803F7DA_loop_b:
 	lsls r0, r6, #2
 	ldr r1, [sp, #4]
 	adds r0, r1, r0
@@ -403,7 +212,7 @@ _0803F860:
 	lsls r0, r0, #0x18
 	lsrs r6, r0, #0x18
 	cmp r6, #1
-	bls _0803F7DA
+	bls _0803F7DA_loop_b
 	movs r0, #0
 	strb r0, [r7]
 	movs r0, #2
@@ -429,6 +238,7 @@ _0803F880:
 _0803F894: .4byte 0x0000024E
 _0803F898: .4byte gCurTask
 _0803F89C: .4byte sub_803F8A0
+.endif
 
 	thumb_func_start sub_803F8A0
 sub_803F8A0: @ 0x0803F8A0
@@ -496,7 +306,7 @@ _0803F8F4:
 	strb r0, [r7, #0x1b]
 	ldr r0, _0803F930 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0803F934 @ =Task_Interactable091Main
+	ldr r0, _0803F934 @ =Task_AccordionSpringMain
 	str r0, [r1, #8]
 _0803F924:
 	bl sub_803FA5C
@@ -505,7 +315,7 @@ _0803F924:
 	bx r0
 	.align 2, 0
 _0803F930: .4byte gCurTask
-_0803F934: .4byte Task_Interactable091Main
+_0803F934: .4byte Task_AccordionSpringMain
 
 	thumb_func_start sub_803F938
 sub_803F938: @ 0x0803F938
@@ -735,8 +545,8 @@ _0803FAE0:
 _0803FAEC: .4byte gCamera
 _0803FAF0: .4byte 0x010F0000
 
-	thumb_func_start sub_803FAF4
-sub_803FAF4: @ 0x0803FAF4
+	thumb_func_start TaskDestructor_AccordionSpring
+TaskDestructor_AccordionSpring: @ 0x0803FAF4
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0

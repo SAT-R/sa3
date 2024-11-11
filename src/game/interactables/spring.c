@@ -8,7 +8,6 @@
 #include "game/entity.h"
 #include "game/player.h"
 #include "game/player_callbacks.h"
-#include "game/save.h"
 #include "game/stage.h"
 
 #include "constants/animations.h"
@@ -37,8 +36,6 @@ void CreateEntity_Spring(u16 direction, MapEntity *me, u16 regionX, u16 regionY,
     struct Task *t = TaskCreate(Task_SpringMain, sizeof(Spring), 0x2100, 0, TaskDestructor_Spring);
     Spring *spring = TASK_DATA(t);
     Sprite *s = &spring->s;
-    s32 absPosX;
-    s32 absPosY;
     s16 i;
 
     spring->base.regionX = regionX;
