@@ -15,11 +15,21 @@
 #include "constants/songs.h"
 #include "constants/zones.h"
 
+#define NUM_SEGMENTS 8
+
+typedef struct {
+    /* 0x00 */ s16 screenX0;
+    /* 0x02 */ s16 screenY0;
+    /* 0x04 */ s16 screenX1;
+    /* 0x06 */ s16 screenY1;
+    /* 0x08 */ s16 unk8;
+} Ball;
+
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
     /* 0x34 */ Sprite s2;
-    /* 0x5C */ u8 filler5C[0x60];
+    /* 0x5C */ Ball balls[NUM_SEGMENTS];
     /* 0xBC */ u16 unkBC;
     /* 0xBE */ u16 unkBE;
     /* 0xC0 */ u8 unkC0;
@@ -34,6 +44,8 @@ typedef struct {
 void Task_FerrisWheel(void);
 void sub_8046E20(FerrisWheel *);
 void TaskDestructor_FerrisWheel(struct Task *t);
+
+// TODO: Merge ferris_wheel.c and ferris_wheel_2.c
 
 void CreateEntity_FerrisWheel(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -60,6 +72,3 @@ void CreateEntity_FerrisWheel(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     SET_MAP_ENTITY_INITIALIZED(me);
 }
-
-#if 0
-#endif
