@@ -258,7 +258,8 @@
 
 #define SE_TIMED_SWITCH 0x249
 
-#define SE_588 0x24C
+#define SE_588              0x24C
+#define SE_ACCORDION_SPRING 0x24E
 
 #define SE_WAGGLE_COIL 0x250
 #define SE_SUCTION     0x251

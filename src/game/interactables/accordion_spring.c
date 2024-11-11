@@ -2,6 +2,7 @@
 #include "core.h"
 #include "sprite.h"
 #include "malloc_vram.h"
+#include "module_unclear.h"
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/player.h"
@@ -26,6 +27,7 @@ typedef struct {
 
 void Task_AccordionSpringMain(void);
 void Task_803F6D8(void);
+void Task_803F8A0(void);
 bool32 sub_803F938(Player *);
 void sub_803F9F0(Sprite *);
 void sub_803FA5C(void);
@@ -88,6 +90,75 @@ void Task_AccordionSpringMain(void)
         s->prevVariant = -1;
 
         gCurTask->main = Task_803F6D8;
+    }
+
+    sub_803FA5C();
+}
+
+void Task_803F6D8(void)
+{
+    AccordionSpring *spring = TASK_DATA(gCurTask);
+    Sprite *s = &spring->s;
+    Player *p;
+    u8 i;
+    u8 sl = 0;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        p = spring->players[i];
+
+        if (sub_802C0D4(p)) {
+            ClearBit(spring->unk3D, i);
+        } else if (GetBit(spring->unk3D, i)) {
+            if (p->keyInput2 & gStageData.buttonConfig.jump) {
+                SetBit(sl, i);
+            } else {
+                p->qWorldY += Q(8);
+
+                if (!sub_803F938(p)) {
+                    p->qWorldY -= Q(8);
+                    sub_80213B0(s, p);
+                }
+            }
+        } else if (sub_803F938(p)) {
+            SetBit(spring->unk3D, i);
+        }
+    }
+
+    if ((++spring->unk3C == 24) || sl) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            p = spring->players[i];
+
+            if ((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) {
+                if (!sub_802C0D4(p)) {
+                    if (sub_803F938(p)) {
+                        if (GetBit(spring->unk3D, i)) {
+                            if (sl) {
+                                p->qSpeedAirY = -Q(4) - spring->unk3C * 112;
+                                Player_8009E8C(p);
+                            } else {
+                                p->qSpeedAirY = -Q(4);
+                                Player_8009E8C(p);
+                            }
+                        } else {
+                            p->qSpeedAirY = 0;
+                        }
+                    } else {
+                        if (i != 0) {
+                            spring->unk3D &= 0x2;
+                        } else {
+                            spring->unk3D &= 0x1;
+                        }
+                    }
+
+                    Player_PlaySong(p, SE_ACCORDION_SPRING);
+                }
+            }
+        }
+
+        spring->unk3C = 0;
+        s->variant = 2;
+        s->prevVariant = -1;
+        gCurTask->main = Task_803F8A0;
     }
 
     sub_803FA5C();
