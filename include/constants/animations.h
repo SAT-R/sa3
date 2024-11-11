@@ -70,7 +70,7 @@
 #define ANIM_FLAT_SPRING               883
 #define ANIM_PLATFORM_RAISING_WHEEL    884 // 0: Still, 1: Rotating, 2: Platform
 #define ANIM_SEESAW_1                  885
-#define ANIM_YELLOW_SPRING_SH          886
+#define ANIM_ACCORDION_SPRING_2        886
 #define ANIM_PLATFORM_LONG_2_1         888
 #define ANIM_PLATFORM_2                889
 #define ANIM_PLATFORM_LONG_2_2         890
@@ -133,6 +133,7 @@
     7=Un-Launcher
 */
 
+#define ANIM_ACCORDION_SPRING_6   941
 #define ANIM_PLATFORM_ON_A_PATH_6 942
 #define ANIM_PENDULUM_CYBER       943
 #define ANIM_MUD_FX               945
