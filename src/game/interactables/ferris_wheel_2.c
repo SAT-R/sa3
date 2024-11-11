@@ -48,6 +48,41 @@ void TaskDestructor_FerrisWheel(struct Task *t);
 
 // TODO: Merge ferris_wheel.c and ferris_wheel_2.c
 
+void sub_8046E20(FerrisWheel *wheel)
+{
+    Sprite *s, *s2;
+
+    wheel->tiles = VramMalloc(MAX_TILES_VARIANT(ANIM_FERRIS_WHEEL, 0) + MAX_TILES_VARIANT(ANIM_FERRIS_WHEEL, 1));
+
+    s = &wheel->s;
+    s->tiles = wheel->tiles;
+    s->anim = ANIM_FERRIS_WHEEL;
+    s->variant = 1;
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    UpdateSpriteAnimation(s);
+
+    s2 = &wheel->s2;
+    s2->tiles = wheel->tiles + MAX_TILES_VARIANT(ANIM_FERRIS_WHEEL, 0) * TILE_SIZE_4BPP;
+    s2->anim = ANIM_FERRIS_WHEEL;
+    s2->variant = 0;
+    s2->oamFlags = SPRITE_OAM_ORDER(24);
+    s2->animCursor = 0;
+    s2->qAnimDelay = Q(0);
+    s2->prevVariant = -1;
+    s2->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s2->palId = 0;
+    s2->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s2->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    UpdateSpriteAnimation(s2);
+}
+
 void sub_8046EC0(void)
 {
     // 'me' goes onto the stack, so for matching we have to split decls.
@@ -83,7 +118,7 @@ void sub_8046EC0(void)
 #else
                 DisplaySprite(s2);
 
-                // Fixed by calling DisplaySprite(s) immediately
+                // Fixed by calling DisplaySprite() with 's' immediately
                 // after setting position of 's'.
                 s->x = centerX + ball->screenX0;
                 s->y = centerY + ball->screenY0;
