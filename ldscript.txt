@@ -82,7 +82,6 @@ SECTIONS {
         build/sa3/src/game/interactables/spring_in_a_box.o(.text);
         build/sa3/asm/ia_rocket.o(.text);
         build/sa3/src/game/interactables/ferris_wheel.o(.text);
-        build/sa3/asm/ia_ferris_wheel.o(.text);
         build/sa3/src/game/interactables/ferris_wheel_2.o(.text);
         build/sa3/asm/ia_windup_block.o(.text);
         build/sa3/src/game/interactables/minecart.o(.text);

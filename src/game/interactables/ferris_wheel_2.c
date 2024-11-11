@@ -33,10 +33,8 @@ typedef struct {
     /* 0x5C */ Ball balls[NUM_SEGMENTS];
     /* 0xBC */ u16 unkBC;
     /* 0xBE */ u16 unkBE;
-    /* 0xC0 */ u8 unkC0;
-    /* 0xC1 */ u8 unkC1;
-    /* 0xC2 */ u8 unkC2;
-    /* 0xC3 */ u8 unkC3;
+    /* 0xC0 */ s8 unkC0[2];
+    /* 0xC2 */ u8 unkC2[2];
     /* 0xC4 */ s32 worldX;
     /* 0xC8 */ s32 worldY;
     /* 0xCC */ void *tiles;
@@ -44,6 +42,7 @@ typedef struct {
 
 void Task_FerrisWheel(void);
 void sub_8046E20(FerrisWheel *);
+void sub_8046EC0(void);
 void TaskDestructor_FerrisWheel(struct Task *t);
 
 // TODO: Merge ferris_wheel.c and ferris_wheel_2.c
@@ -129,7 +128,7 @@ void sub_8046EC0(void)
             }
         }
 
-        if (((wheel->unkC0 == 0xFF) && (wheel->unkC1 == 0xFF)) && !sp04) {
+        if (((wheel->unkC0[0] == -1) && (wheel->unkC0[1] == -1)) && !sp04) {
             SET_MAP_ENTITY_NOT_INITIALIZED(me, wheel->base.spriteX);
             TaskDestroy(gCurTask);
             return;

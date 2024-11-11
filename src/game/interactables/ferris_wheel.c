@@ -3,6 +3,7 @@
 #include "task.h"
 #include "trig.h"
 #include "malloc_vram.h"
+#include "module_unclear.h"
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/player.h"
@@ -32,10 +33,8 @@ typedef struct {
     /* 0x5C */ Ball balls[NUM_SEGMENTS];
     /* 0xBC */ u16 unkBC;
     /* 0xBE */ u16 unkBE;
-    /* 0xC0 */ u8 unkC0;
-    /* 0xC1 */ u8 unkC1;
-    /* 0xC2 */ u8 unkC2;
-    /* 0xC3 */ u8 unkC3;
+    /* 0xC0 */ s8 unkC0[NUM_SINGLE_PLAYER_CHARS];
+    /* 0xC2 */ u8 unkC2[NUM_SINGLE_PLAYER_CHARS];
     /* 0xC4 */ s32 worldX;
     /* 0xC8 */ s32 worldY;
     /* 0xCC */ void *tiles;
@@ -43,6 +42,7 @@ typedef struct {
 
 void Task_FerrisWheel(void);
 void sub_8046E20(FerrisWheel *);
+void sub_8046EC0(void);
 void TaskDestructor_FerrisWheel(struct Task *t);
 
 // TODO: Merge ferris_wheel.c and ferris_wheel_2.c
@@ -60,10 +60,10 @@ void CreateEntity_FerrisWheel(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     wheel->unkBC = me->d.uData[4] & 0x1;
     wheel->unkBE = 0;
-    wheel->unkC2 = 0;
-    wheel->unkC3 = 0;
-    wheel->unkC0 = 0xFF;
-    wheel->unkC1 = 0xFF;
+    wheel->unkC2[0] = 0;
+    wheel->unkC2[1] = 0;
+    wheel->unkC0[0] = 0xFF;
+    wheel->unkC0[1] = 0xFF;
 
     wheel->worldX = TO_WORLD_POS(me->x, regionX);
     wheel->worldY = TO_WORLD_POS(me->y, regionY);
@@ -72,3 +72,123 @@ void CreateEntity_FerrisWheel(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     SET_MAP_ENTITY_INITIALIZED(me);
 }
+
+#if 01
+// (99.83%) https://decomp.me/scratch/shAdS
+NONMATCH("asm/non_matching/game/interactables/ferris_wheel__Task_FerrisWheel.inc", void Task_FerrisWheel(void))
+{
+    FerrisWheel *wheel = TASK_DATA(gCurTask);
+    Sprite *s2 = &wheel->s2;
+    Ball *ball;
+    s32 r6;
+    u32 sp0C;
+    s16 j, i;
+
+    if (wheel->unkBC != 0) {
+        wheel->unkBE += 6;
+    } else {
+        wheel->unkBE -= 6;
+    }
+    wheel->unkBE &= ONE_CYCLE;
+    r6 = wheel->unkBE;
+
+    for (i = 0; i < (s32)ARRAY_COUNT(wheel->balls); i++) {
+        s16 sinX, sinY;
+        s32 mask;
+
+        ball = &wheel->balls[i];
+        mask = SIN_PERIOD - 1;
+
+        sinX = SIN(r6) >> 8;
+        sinY = COS(r6) >> 8;
+
+        ball->screenX0 = (sinX * 17) >> 4;
+        ball->screenY0 = (sinY * 17) >> 4;
+        ball->screenX1 = (sinX * 5) >> 2;
+        ball->screenY1 = (sinY * 5) >> 2;
+        r6 += 0x80;
+        r6 = (r6 & mask);
+        ball->unk8 = r6;
+    }
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        Player *p = GET_SP_PLAYER_V0(i);
+
+        if ((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) {
+            // _08046C30
+
+            if (wheel->unkC2[i] > 0) {
+                wheel->unkC2[i]--;
+            }
+
+            sp0C = wheel->unkC2[i];
+
+            if ((p->moveState & MOVESTATE_1000000) || (p->callback == Player_800D944)) {
+                wheel->unkC0[i] = 0xFF;
+                p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_10000000);
+                continue;
+            }
+
+            if (sub_802C0D4(p) || (p->callback == Player_8008A8C) || (p->callback == Player_800ED80)) {
+                continue;
+            }
+            // _08046C9A
+
+            if ((p->callback == Player_800E5CC) && (wheel->unkC0[i] != -1)) {
+                if (p->keyInput2 & gStageData.buttonConfig.jump) {
+                    wheel->unkC2[i] = 30;
+                    wheel->unkC0[i] = -1;
+                    sub_8003DF0(SE_JUMP);
+                    Player_800D880(p);
+                    p->moveState &= ~MOVESTATE_10000000;
+
+                    p->qSpeedGround = -Q(8);
+
+                    if (wheel->unkBC > 0) {
+                        NEGATE(p->qSpeedGround);
+                    }
+
+                    Player_801479C(p);
+                    p->unk26 = 0;
+                    SetPlayerCallback(p, Player_800DB30);
+                    continue;
+                } else {
+                    // _08046D24
+                    // Player has not jumped off
+                    s32 r0;
+
+                    ball = &wheel->balls[wheel->unkC0[i]];
+                    r0 = CLAMP_SIN_PERIOD(-(903 + ball->unk8));
+                    p->charFlags.anim0 = 140;
+                    p->unk26 = r0 >> 2;
+
+                    p->qWorldX = Q(wheel->worldX + ball->screenX1);
+                    p->qWorldY = Q(wheel->worldY + ball->screenY1);
+                    p->qSpeedAirX = 0;
+                    p->qSpeedAirY = 0;
+                    p->qSpeedGround = 0;
+                }
+            }
+            // _08046D76
+
+            for (j = 0; j < (s32)ARRAY_COUNT(wheel->balls); j++) {
+                s32 worldX, worldY;
+                ball = &wheel->balls[j];
+
+                worldX = wheel->worldX + ball->screenX1;
+                worldY = wheel->worldY + ball->screenY1;
+
+                if ((p->callback != Player_800E5CC) && !sp0C) {
+                    if (sub_8020700(s2, worldX, worldY, 0, p, 0)) {
+                        Player_800BA78(p);
+                        wheel->unkC0[i] = j;
+                    }
+                }
+            }
+        }
+    }
+
+    sub_8046EC0();
+}
+END_NONMATCH
+#endif
