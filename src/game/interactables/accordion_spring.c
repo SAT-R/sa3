@@ -266,8 +266,6 @@ bool32 sub_803FA5C(void)
         TaskDestroy(gCurTask);
         return FALSE;
     } else {
-        // _0803FAAC
-
         s->x = worldX - gCamera.x;
         s->y = worldY - gCamera.y;
         UpdateSpriteAnimation(s);

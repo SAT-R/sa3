@@ -16,16 +16,16 @@ CreateEntity_Interactable087: @ 0x0803E424
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #4
-	adds r7, r0, #0
+	adds r7, r0, #0     @ r7 = me
 	lsls r1, r1, #0x10
 	lsrs r1, r1, #0x10
-	mov sb, r1
+	mov sb, r1          @ sb = regionX
 	lsls r2, r2, #0x10
 	lsrs r2, r2, #0x10
-	mov r8, r2
+	mov r8, r2          @ r8 = regionY
 	lsls r3, r3, #0x18
 	lsrs r3, r3, #0x18
-	mov sl, r3
+	mov sl, r3          @ sl = id
 	ldrb r0, [r7, #7]
 	movs r6, #0x1f
 	ands r6, r0
@@ -475,7 +475,7 @@ _0803E7A4:
 _0803E7C0:
 	ldr r0, _0803E7D0 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0803E7D4 @ =sub_803E964
+	ldr r0, _0803E7D4 @ =Task_DestroyTrigger
 _0803E7C6:
 	str r0, [r1, #8]
 _0803E7C8:
@@ -484,7 +484,7 @@ _0803E7C8:
 	bx r0
 	.align 2, 0
 _0803E7D0: .4byte gCurTask
-_0803E7D4: .4byte sub_803E964
+_0803E7D4: .4byte Task_DestroyTrigger
 
 	thumb_func_start sub_803E7D8
 sub_803E7D8: @ 0x0803E7D8
@@ -642,66 +642,5 @@ _0803E8F4: .4byte gPlayers
 _0803E8F8: .4byte 0xFFFF8000
 _0803E8FC: .4byte sub_803E544
 
-	thumb_func_start sub_803E900
-sub_803E900: @ 0x0803E900
-	push {r4, r5, lr}
-	adds r2, r0, #0
-	ldr r0, _0803E938 @ =gCamera
-	ldr r5, [r0]
-	lsls r1, r5, #8
-	str r1, [r2, #0x10]
-	ldr r4, _0803E93C @ =gStageData
-	ldrb r1, [r4, #0xa]
-	adds r3, r0, #0
-	cmp r1, #7
-	bne _0803E956
-	ldrb r1, [r4, #9]
-	subs r0, r1, #4
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #1
-	bhi _0803E956
-	cmp r1, #4
-	bne _0803E956
-	ldr r0, _0803E940 @ =0x000004FF
-	cmp r5, r0
-	bgt _0803E948
-	ldr r0, [r3, #4]
-	lsls r0, r0, #8
-	str r0, [r2, #0x14]
-	ldr r0, _0803E944 @ =0x00053C00
-	str r0, [r2, #8]
-	b _0803E95C
-	.align 2, 0
-_0803E938: .4byte gCamera
-_0803E93C: .4byte gStageData
-_0803E940: .4byte 0x000004FF
-_0803E944: .4byte 0x00053C00
-_0803E948:
-	ldr r0, [r3, #4]
-	lsls r0, r0, #8
-	str r0, [r2, #0x14]
-	movs r0, #0xa3
-	lsls r0, r0, #0xb
-	str r0, [r2, #8]
-	b _0803E95C
-_0803E956:
-	ldr r0, [r3, #4]
-	lsls r0, r0, #8
-	str r0, [r2, #0x14]
-_0803E95C:
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-
-	thumb_func_start sub_803E964
-sub_803E964: @ 0x0803E964
-	push {lr}
-	ldr r0, _0803E974 @ =gCurTask
-	ldr r0, [r0]
-	bl TaskDestroy
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0803E974: .4byte gCurTask
+.if 0
+.endif
