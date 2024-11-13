@@ -567,7 +567,7 @@ sBonusLifeIconVariants:
     .global gUnknown_080CFA58
 gUnknown_080CFA58:
     .4byte sub_80661A0
-    .incbin "baserom.gba", 0x000CFA5C, 0x164
+    .incbin "baserom.gba", 0x000CFA5C, (0x10 + 17 * 0x14)
 
     .global sUfoActs
 sUfoActs:
