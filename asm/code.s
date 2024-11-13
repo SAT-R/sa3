@@ -252,8 +252,9 @@ sub_806619C:
     .align 2 , 0
 
     @ Called on init of Gmerl (in Boss 1 and Extra Boss)
-	thumb_func_start sub_80661A0
-sub_80661A0: @ 0x080661A0
+    @ struct Task CreateGmerl1(u8 *param0, s32 worldX, s32 worldY);
+	thumb_func_start CreateGmerl1
+CreateGmerl1: @ 0x080661A0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
