@@ -1,15 +1,6 @@
-.include "asm/macros.inc"
-.include "constants/constants.inc"
 
-.text
 .syntax unified
-.arm
-
-@ NOTE(Jace): Trigger for Bosses (Gmerl and main each) as well as the
-@             Trigger for the Stage Goal Ring (different from main Stage Goal Ring IA)
-
-	thumb_func_start CreateEntity_Interactable087
-CreateEntity_Interactable087: @ 0x0803E424
+.text
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -36,7 +27,7 @@ CreateEntity_Interactable087: @ 0x0803E424
 	cmp r6, #3
 	bls _0803E50C
 _0803E456:
-	ldr r0, _0803E528 @ =sub_803E544
+	ldr r0, _0803E528 @ =Task_TriggerBossAndGoalRingInit
 	ldr r2, _0803E52C @ =0x00000FFF
 	ldr r1, _0803E530 @ =TaskDestructor_TriggerBossAndGoalRing
 	str r1, [sp]
@@ -46,20 +37,20 @@ _0803E456:
 	ldrh r4, [r0, #6]
 	movs r3, #0xc0
 	lsls r3, r3, #0x12
-	adds r3, r4, r3
+	adds r3, r4, r3     @ r3 = trig
 	ldr r2, _0803E534 @ =0x03000014
-	adds r0, r4, r2
+	adds r0, r4, r2     @ r0 = camState
 	movs r1, #0
-	mov ip, r1
+	mov ip, r1          @ ip = r1 = 0
 	movs r5, #0
-	mov r2, sb
+	mov r2, sb          @ r2 = sb = regionX
 	strh r2, [r3, #4]
-	mov r1, r8
+	mov r1, r8          @ r1 = r8 = regionY
 	strh r1, [r3, #6]
 	str r7, [r3]
 	ldrb r1, [r7]
 	strb r1, [r3, #0xa]
-	mov r2, sl
+	mov r2, sl          @ r2 = sl = id
 	strb r2, [r3, #0xb]
 	ldr r1, _0803E538 @ =0x0300002F
 	adds r2, r4, r1
@@ -140,7 +131,7 @@ _0803E50C:
 	bx r0
 	.align 2, 0
 _0803E524: .4byte gStageData
-_0803E528: .4byte sub_803E544
+_0803E528: .4byte Task_TriggerBossAndGoalRingInit
 _0803E52C: .4byte 0x00000FFF
 _0803E530: .4byte TaskDestructor_TriggerBossAndGoalRing
 _0803E534: .4byte 0x03000014
@@ -148,7 +139,4 @@ _0803E538: .4byte 0x0300002F
 _0803E53C: .4byte 0x0300002E
 _0803E540: .4byte gCamera
 
-.if 0
-	thumb_func_start sub_803E544
-sub_803E544: @ 0x0803E544
-.endif
+.syntax divided

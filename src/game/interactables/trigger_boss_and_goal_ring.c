@@ -15,6 +15,9 @@
 #include "constants/songs.h"
 #include "constants/zones.h"
 
+/* NOTE(Jace): Trigger for Bosses (Gmerl and main each) as well as the
+               Trigger for the Stage Goal Ring (different from main Stage Goal Ring IA) */
+
 typedef struct Task *(*BossInitFunc)(u8 *param0, s32 worldX, s32 worldY);
 
 typedef struct {
@@ -32,15 +35,15 @@ typedef struct {
     /* 0x0C */ s32 unkC;
     /* 0x10 */ s32 qCamX;
     /* 0x14 */ s32 qCamY;
-} Trigger14;
+} TriggerCamState;
 
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ s32 qWorldX;
     /* 0x10 */ s32 qWorldY;
-    /* 0x14 */ Trigger14 unk14;
+    /* 0x14 */ TriggerCamState camState;
     /* 0x2C */ s16 unk2C;
-    /* 0x2E */ u8 unk2E;
+    /* 0x2E */ u8 bossId;
     /* 0x2F */ u8 unk2F;
     /* 0x30 */ struct Task *bossTask;
     /* 0x34 */ u16 unk34;
@@ -50,28 +53,73 @@ typedef struct {
     /* 0x3C */ s32 unk3C;
 } TriggerBossOrGoal; /* 0x40 */
 
-void sub_803E544(void);
+void Task_TriggerBossAndGoalRingInit(void);
 void sub_803E700(void);
 void TaskDestructor_TriggerBossAndGoalRing(struct Task *t);
 void Task_803E7DC(void);
 void Task_803E818(void);
 void Task_803E884(void);
-void sub_803E900(Trigger14 *unk14);
+void sub_803E900(TriggerCamState *camState);
 void Task_DestroyTrigger(void);
 
 extern const TriggerConsts gUnknown_080CFA58[18];
 
+NONMATCH("asm/non_matching/game/interactables/boss_trigger__CreateEntity_TriggerBossOrGoal.inc",
+         void CreateEntity_TriggerBossOrGoal(MapEntity *me, u16 regionX, u16 regionY, u8 id))
+{
+    u32 bossId = me->d.uData[4] & 0x1F;
+
+    if ((gStageData.gameMode != GAME_MODE_MP_MULTI_PACK) || (bossId > 3)) {
+        struct Task *t
+            = TaskCreate(Task_TriggerBossAndGoalRingInit, sizeof(TriggerBossOrGoal), 0x0FFF, 0, TaskDestructor_TriggerBossAndGoalRing);
+        TriggerBossOrGoal *trig = TASK_DATA(t);
+        TriggerCamState *camState = &trig->camState;
+
+        trig->base.regionX = regionX;
+        trig->base.regionY = regionY;
+        trig->base.me = me;
+        trig->base.spriteX = me->x;
+        trig->base.id = id;
+
+        trig->unk2F = 1;
+        trig->bossTask = NULL;
+        trig->bossId = bossId;
+
+        trig->unk2C = Q(3) + ((me->d.uData[4] >> 5) << 6);
+        trig->unk3C = 0;
+        trig->qWorldX = Q(TO_WORLD_POS(trig->base.spriteX, trig->base.regionX));
+        trig->qWorldY = Q(TO_WORLD_POS(me->y, trig->base.regionY));
+
+        gStageData.unkBD = 0;
+
+        trig->unk34 = gCamera.unk18;
+        trig->unk36 = gCamera.unk10;
+        trig->unk38 = gCamera.unk1C;
+        trig->unk3A = gCamera.unk14;
+
+        camState->unk0 = trig->qWorldX + Q(me->d.sData[0] * TILE_WIDTH);
+        camState->unk4 = camState->unk0 + Q(me->d.uData[2] * TILE_WIDTH);
+        camState->unk8 = trig->qWorldY + Q(me->d.sData[1] * TILE_WIDTH);
+        camState->unkC = camState->unk8 + Q(me->d.uData[3] * TILE_WIDTH);
+
+        sub_803E900(camState);
+    }
+
+    SET_MAP_ENTITY_INITIALIZED(me);
+}
+END_NONMATCH
+
 // (99.86%) https://decomp.me/scratch/e74VW
-NONMATCH("asm/non_matching/game/interactables/boss_trigger__sub_803E544.inc", void sub_803E544())
+NONMATCH("asm/non_matching/game/interactables/boss_trigger__Task_TriggerBossAndGoalRingInit.inc", void Task_TriggerBossAndGoalRingInit())
 {
     TriggerBossOrGoal *trig = TASK_DATA(gCurTask);
-    Trigger14 *unk14 = &trig->unk14;
+    TriggerCamState *camState = &trig->camState;
 
     trig->unk3C++;
 
     if (trig->bossTask == 0) {
         const TriggerConsts *tcBase = &gUnknown_080CFA58[0];
-        const TriggerConsts *tc = (tcBase + trig->unk2E); // For matching
+        const TriggerConsts *tc = (tcBase + trig->bossId); // For matching
 
         if ((tc->bossInit != NULL) && (trig->unk3C > 4)) {
             trig->bossTask = tc->bossInit(&trig->unk2F, I(trig->qWorldX), I(trig->qWorldY));
@@ -79,73 +127,73 @@ NONMATCH("asm/non_matching/game/interactables/boss_trigger__sub_803E544.inc", vo
     }
     // _0803E58E
 
-    if (unk14->qCamX < unk14->unk0) {
-        unk14->qCamX += trig->unk2C;
+    if (camState->qCamX < camState->unk0) {
+        camState->qCamX += trig->unk2C;
 
-        if (unk14->qCamX > unk14->unk0) {
-            unk14->qCamX = unk14->unk0;
+        if (camState->qCamX > camState->unk0) {
+            camState->qCamX = camState->unk0;
         }
-    } else if (unk14->qCamX + Q(DISPLAY_WIDTH) > unk14->unk4) {
+    } else if (camState->qCamX + Q(DISPLAY_WIDTH) > camState->unk4) {
         // _0803E5B8+0xC
 
-        unk14->qCamX -= trig->unk2C;
+        camState->qCamX -= trig->unk2C;
 
-        if (unk14->qCamX + Q(DISPLAY_WIDTH) < unk14->unk4) {
-            unk14->qCamX = unk14->unk4 - Q(DISPLAY_WIDTH);
+        if (camState->qCamX + Q(DISPLAY_WIDTH) < camState->unk4) {
+            camState->qCamX = camState->unk4 - Q(DISPLAY_WIDTH);
         }
     }
     // _0803E5DC
 
-    if (unk14->qCamY < unk14->unk8) {
-        unk14->qCamY += trig->unk2C >> 1;
+    if (camState->qCamY < camState->unk8) {
+        camState->qCamY += trig->unk2C >> 1;
 
-        if (unk14->qCamY > unk14->unk8) {
-            unk14->qCamY = unk14->unk8;
+        if (camState->qCamY > camState->unk8) {
+            camState->qCamY = camState->unk8;
         }
-    } else if (unk14->qCamY + Q(DISPLAY_HEIGHT) > unk14->unkC) {
-        unk14->qCamY -= trig->unk2C >> 1;
+    } else if (camState->qCamY + Q(DISPLAY_HEIGHT) > camState->unkC) {
+        camState->qCamY -= trig->unk2C >> 1;
 
-        if (unk14->qCamY + Q(DISPLAY_HEIGHT) < unk14->unkC) {
-            unk14->qCamY = unk14->unkC - Q(DISPLAY_HEIGHT);
+        if (camState->qCamY + Q(DISPLAY_HEIGHT) < camState->unkC) {
+            camState->qCamY = camState->unkC - Q(DISPLAY_HEIGHT);
         }
     }
     // _0803E622
 
-    if (unk14->unk0 >= unk14->qCamX) {
-        gCamera.unk18 = I(unk14->qCamX);
+    if (camState->unk0 >= camState->qCamX) {
+        gCamera.unk18 = I(camState->qCamX);
     } else {
-        gCamera.unk18 = I(unk14->unk0);
+        gCamera.unk18 = I(camState->unk0);
     }
     // _0803E63C
 
-    if (unk14->unk4 <= unk14->qCamX + Q(DISPLAY_WIDTH)) {
-        gCamera.unk1C = I(unk14->qCamX) + DISPLAY_WIDTH;
+    if (camState->unk4 <= camState->qCamX + Q(DISPLAY_WIDTH)) {
+        gCamera.unk1C = I(camState->qCamX) + DISPLAY_WIDTH;
     } else {
-        gCamera.unk1C = I(unk14->unk4);
+        gCamera.unk1C = I(camState->unk4);
     }
 
-    if (unk14->unk8 >= unk14->qCamY) {
-        gCamera.unk10 = I(unk14->qCamY);
+    if (camState->unk8 >= camState->qCamY) {
+        gCamera.unk10 = I(camState->qCamY);
     } else {
-        gCamera.unk10 = I(unk14->unk8);
+        gCamera.unk10 = I(camState->unk8);
     }
 
-    if (unk14->unkC <= unk14->qCamY + Q(DISPLAY_HEIGHT)) {
-        gCamera.unk14 = I(unk14->qCamY) + DISPLAY_HEIGHT;
+    if (camState->unkC <= camState->qCamY + Q(DISPLAY_HEIGHT)) {
+        gCamera.unk14 = I(camState->qCamY) + DISPLAY_HEIGHT;
     } else {
-        gCamera.unk14 = I(unk14->unkC);
+        gCamera.unk14 = I(camState->unkC);
     }
     // _0803E682
 
     {
-        register s32 x asm("r5") = I(unk14->unk0);
-        if ((gCamera.x >= x) && (gCamera.y >= I(unk14->unk8)) && (gCamera.x + DISPLAY_WIDTH <= I(unk14->unk4))
-            && (gCamera.y + DISPLAY_HEIGHT <= I(unk14->unkC))) {
+        register s32 x asm("r5") = I(camState->unk0);
+        if ((gCamera.x >= x) && (gCamera.y >= I(camState->unk8)) && (gCamera.x + DISPLAY_WIDTH <= I(camState->unk4))
+            && (gCamera.y + DISPLAY_HEIGHT <= I(camState->unkC))) {
             if (trig->unk3C > 4) {
                 gCamera.unk18 = x;
-                gCamera.unk1C = I(unk14->unk4);
-                gCamera.unk10 = I(unk14->unk8);
-                gCamera.unk14 = I(unk14->unkC);
+                gCamera.unk1C = I(camState->unk4);
+                gCamera.unk10 = I(camState->unk8);
+                gCamera.unk14 = I(camState->unkC);
 
 #ifndef NON_MATCHING
                 if (gStageData.act == ACT_BOSS) {
@@ -189,7 +237,7 @@ void sub_803E700()
         gCamera.unk1C = trig->unk38;
         gCamera.unk14 = trig->unk3A;
 
-        if ((trig->unk2E >= 3) && (trig->unk2E < 13)) {
+        if ((trig->bossId >= 3) && (trig->bossId < 13)) {
             gCurTask->main = Task_803E884;
         } else {
             MapEntity *me = trig->base.me;
@@ -229,7 +277,7 @@ void Task_803E7DC(void)
 void Task_803E818(void)
 {
     TriggerBossOrGoal *trig = TASK_DATA(gCurTask);
-    const TriggerConsts *tc = &gUnknown_080CFA58[trig->unk2E];
+    const TriggerConsts *tc = &gUnknown_080CFA58[trig->bossId];
 
     if (tc->unk4 != -1) {
         gCamera.unk18 = tc->unk4;
@@ -255,41 +303,41 @@ void sub_803E878(void) { sub_803E700(); }
 void Task_803E884()
 {
     TriggerBossOrGoal *trig = TASK_DATA(gCurTask);
-    Trigger14 *unk14 = &trig->unk14;
+    TriggerCamState *camState = &trig->camState;
     Player *p = &gPlayers[gStageData.playerIndex];
 
-    if ((p->qWorldX >= unk14->unk0 - Q(128)) && (p->qWorldX <= unk14->unk4 + Q(128)) && (p->qWorldY >= unk14->unk8 - Q(128))
-        && (p->qWorldY <= unk14->unkC + Q(128))) {
+    if ((p->qWorldX >= camState->unk0 - Q(128)) && (p->qWorldX <= camState->unk4 + Q(128)) && (p->qWorldY >= camState->unk8 - Q(128))
+        && (p->qWorldY <= camState->unkC + Q(128))) {
         trig->unk3C = 0;
 
-        sub_803E900(unk14);
+        sub_803E900(camState);
 
-        gCurTask->main = sub_803E544;
+        gCurTask->main = Task_TriggerBossAndGoalRingInit;
     }
 }
 
-void sub_803E900(Trigger14 *unk14)
+void sub_803E900(TriggerCamState *camState)
 {
-    unk14->qCamX = Q(gCamera.x);
+    camState->qCamX = Q(gCamera.x);
 
     if ((gStageData.act == ACT_BOSS) && ((gStageData.zone == ZONE_5) || (gStageData.zone == ZONE_6))) {
 #ifndef NON_MATCHING
         // NOTE: This introduces a redundant check, already handled by the 'else'.
         if (gStageData.zone != ZONE_5) {
-            unk14->qCamY = Q(gCamera.y);
+            camState->qCamY = Q(gCamera.y);
             return;
         }
 #endif
 
         if (gCamera.x < 0x500) {
-            unk14->qCamY = Q(gCamera.y);
-            unk14->unk8 = Q(1340);
+            camState->qCamY = Q(gCamera.y);
+            camState->unk8 = Q(1340);
         } else {
-            unk14->qCamY = Q(gCamera.y);
-            unk14->unk8 = Q(1304);
+            camState->qCamY = Q(gCamera.y);
+            camState->unk8 = Q(1304);
         }
     } else {
-        unk14->qCamY = Q(gCamera.y);
+        camState->qCamY = Q(gCamera.y);
     }
 }
 

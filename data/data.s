@@ -329,7 +329,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable084
     .4byte CreateEntity_Interactable085
     .4byte CreateEntity_Interactable085 @ 086
-    .4byte CreateEntity_Interactable087
+    .4byte CreateEntity_TriggerBossOrGoal
     .4byte CreateEntity_AttachedPlatform
     .4byte CreateEntity_WaterCannon
     .4byte CreateEntity_Interactable090

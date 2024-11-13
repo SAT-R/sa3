@@ -9,7 +9,7 @@
 	lsls r0, r0, #0x12
 	adds r6, r3, r0     @ r6 = trig
 	adds r0, #0x14
-	adds r4, r3, r0     @ r4 = unk14
+	adds r4, r3, r0     @ r4 = camState
 	ldr r0, [r6, #0x3c]
 	adds r7, r0, #1
 	str r7, [r6, #0x3c] @ trig->unk3C++
@@ -58,8 +58,8 @@ _0803E5B4: .4byte 0x0300002F
 _0803E5B8:
 	movs r1, #0xf0
 	lsls r1, r1, #8
-	adds r0, r2, r1     @ r0 = unk14->qCamX + Q(128)
-	ldr r1, [r4, #4]    @ r1 = unk14->unk4
+	adds r0, r2, r1     @ r0 = camState->qCamX + Q(128)
+	ldr r1, [r4, #4]    @ r1 = camState->unk4
 	cmp r0, r1
 	ble _0803E5DC
 	movs r3, #0x2c
@@ -127,7 +127,7 @@ _0803E638:
 _0803E63C:
 	str r0, [r1, #0x18]
 	adds r3, r1, #0     @ r3 = r1 = gCamera
-	ldr r2, [r4, #0x10] @ r2 = unk14->qCamX
+	ldr r2, [r4, #0x10] @ r2 = camState->qCamX
 	movs r1, #0xf0
 	lsls r1, r1, #8
 	adds r0, r2, r1
