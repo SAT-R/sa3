@@ -288,3 +288,55 @@ void Task_803E0D8(void)
 
     sub_803E32C();
 }
+
+void sub_803E32C(void)
+{
+    SlowChaosLift *lift = TASK_DATA(gCurTask);
+    MapEntity *me = lift->base.me;
+    Sprite *s;
+    s32 screenX, screenY;
+    s16 i;
+
+    screenX = I(lift->qWorldX) - gCamera.x;
+    screenY = I(lift->qWorldY) - gCamera.y;
+
+    if (!sub_802C1D0(screenX, screenY)) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            Player *p = GET_SP_PLAYER_V1(i);
+
+#ifdef BUG_FIX
+            s = &lift->s;
+            ResolvePlayerSpriteCollision(s, p);
+
+            s = &lift->s2;
+            ResolvePlayerSpriteCollision(s, p);
+#else
+            // BUG: ResolvePlayerSpriteCollision gets called with an uninitialized Sprite pointer without the fix
+            ResolvePlayerSpriteCollision(s, p);
+#endif
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, lift->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        s = &lift->s;
+
+        s->x = screenX;
+        s->y = screenY;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+
+        s = &lift->s2;
+        s->x = screenX;
+        s->y = screenY;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
+
+void TaskDestructor_SlowChaosLift(struct Task *t)
+{
+    SlowChaosLift *lift = TASK_DATA(t);
+    VramFree(lift->s.tiles);
+}
