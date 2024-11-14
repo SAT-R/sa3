@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "sprite.h"
 #include "malloc_vram.h"
 #include "module_unclear.h"
@@ -22,14 +23,15 @@ typedef struct {
     /* 0x5C */ s32 qWorldX;
     /* 0x60 */ s32 qWorldY;
     /* 0x64 */ u16 unk64;
-    /* 0x66 */ u16 unk66;
-    /* 0x68 */ u16 unk68;
-    /* 0x6A */ u16 unk6A;
+    /* 0x66 */ s16 qUnk66;
+    /* 0x68 */ s16 qUnk68;
+    /* 0x6A */ s16 qUnk6A;
 } SlowChaosLift;
 
 void Task_SlowChaosLiftInit(void);
 void sub_803DDB0(SlowChaosLift *lift);
 void Task_803DED0(void);
+void Task_803E0D8(void);
 void sub_803E32C(void);
 void TaskDestructor_SlowChaosLift(struct Task *t);
 
@@ -50,9 +52,9 @@ void CreateEntity_SlowChaosLift(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     lift->qWorldY = Q(TO_WORLD_POS(me->y, regionY));
 
     lift->unk64 = 0;
-    lift->unk66 = 0x30;
-    lift->unk68 = 0;
-    lift->unk6A = 0;
+    lift->qUnk66 = 0x30;
+    lift->qUnk68 = 0;
+    lift->qUnk6A = 0;
 
     s->x = I(lift->qWorldX) - gCamera.x;
     s->y = I(lift->qWorldY) - gCamera.y;
@@ -112,6 +114,76 @@ void Task_SlowChaosLiftInit(void)
                 gCurTask->main = Task_803DED0;
             }
         }
+    }
+
+    sub_803E32C();
+}
+
+void Task_803DED0(void)
+{
+    SlowChaosLift *lift = TASK_DATA(gCurTask);
+    Sprite *s = &lift->s;
+    s16 i;
+    u8 arr[4];
+    u32 res;
+
+    s32 offY = sub_80517FC(I(lift->qWorldY), I(lift->qWorldX), 0, +8, arr, sub_805217C);
+
+    if (offY <= 0) {
+        lift->qWorldY += Q(offY);
+        lift->unk64 = arr[0] * 4;
+        lift->qUnk66 = Q(1.25);
+
+        lift->qUnk68 = (COS(lift->unk64) * lift->qUnk66) >> 14;
+        lift->qUnk6A = (SIN(lift->unk64) * lift->qUnk66) >> 14;
+
+        lift->qWorldX += lift->qUnk68;
+        lift->qWorldY += lift->qUnk6A;
+
+        gCurTask->main = Task_803E0D8;
+    } else {
+        // _0803DFA8
+        lift->qUnk6A = lift->qUnk66;
+        lift->qWorldY += lift->qUnk6A;
+        lift->qUnk66 += Q(0.1875);
+    }
+    // _0803DFC6
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        bool32 r5 = FALSE;
+        Player *p = GET_SP_PLAYER_V0(i);
+
+        if (!sub_802C0D4(p)) {
+            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s)) {
+                if (lift->unk64 < Q(2)) {
+                    p->qWorldY += Q(8);
+                }
+                // _0803E028
+
+                p->qWorldX += lift->qUnk68;
+                p->qWorldY += lift->qUnk6A;
+
+                if (!(p->moveState & MOVESTATE_200) && (sub_801226C(p) < 0)) {
+                    sub_8008E38(p);
+                } else {
+                    r5 = TRUE;
+                }
+            }
+            // _0803E06A
+
+            res = sub_8020950(s, I(lift->qWorldX), I(lift->qWorldY), p, 1);
+
+            if (res & 0x10000) {
+                p->qWorldY += Q_8_8(res);
+
+                if (!r5) {
+                    p->qSpeedGround >>= 2;
+                    p->qSpeedAirX >>= 2;
+                    p->qSpeedAirY >>= 2;
+                }
+            }
+        }
+        // _0803E0B2 - continue
     }
 
     sub_803E32C();
