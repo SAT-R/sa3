@@ -29,10 +29,10 @@ typedef struct {
 } SlowChaosLift;
 
 void Task_SlowChaosLiftInit(void);
-void sub_803DDB0(SlowChaosLift *lift);
+static void InitSprites(SlowChaosLift *lift);
 void Task_803DED0(void);
 void Task_803E0D8(void);
-void sub_803E32C(void);
+static void UpdateAnimOrDestroy(void);
 void TaskDestructor_SlowChaosLift(struct Task *t);
 
 void CreateEntity_SlowChaosLift(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -61,10 +61,10 @@ void CreateEntity_SlowChaosLift(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
-    sub_803DDB0(lift);
+    InitSprites(lift);
 }
 
-void sub_803DDB0(SlowChaosLift *lift)
+static void InitSprites(SlowChaosLift *lift)
 {
     Sprite *s = &lift->s;
     void *tiles;
@@ -116,7 +116,7 @@ void Task_SlowChaosLiftInit(void)
         }
     }
 
-    sub_803E32C();
+    UpdateAnimOrDestroy();
 }
 
 void Task_803DED0(void)
@@ -181,7 +181,7 @@ void Task_803DED0(void)
         }
     }
 
-    sub_803E32C();
+    UpdateAnimOrDestroy();
 }
 
 // TODO_ Fix fakematch
@@ -286,14 +286,14 @@ void Task_803E0D8(void)
         }
     }
 
-    sub_803E32C();
+    UpdateAnimOrDestroy();
 }
 
-void sub_803E32C(void)
+static void UpdateAnimOrDestroy(void)
 {
     SlowChaosLift *lift = TASK_DATA(gCurTask);
     MapEntity *me = lift->base.me;
-    Sprite *s;
+    Sprite *s, *s2;
     s32 screenX, screenY;
     s16 i;
 
@@ -308,8 +308,8 @@ void sub_803E32C(void)
             s = &lift->s;
             ResolvePlayerSpriteCollision(s, p);
 
-            s = &lift->s2;
-            ResolvePlayerSpriteCollision(s, p);
+            s2 = &lift->s2;
+            ResolvePlayerSpriteCollision(s2, p);
 #else
             // BUG: ResolvePlayerSpriteCollision gets called with an uninitialized Sprite pointer without the fix
             ResolvePlayerSpriteCollision(s, p);
