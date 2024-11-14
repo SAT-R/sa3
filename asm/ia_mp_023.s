@@ -271,7 +271,7 @@ _0804EBDC:
 	ldr r1, _0804EC10 @ =0x0300000C
 	adds r0, r5, r1
 	adds r1, r4, #0
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 _0804EBF6:
 	movs r0, #1
 	bl sub_804EE08
@@ -327,7 +327,7 @@ _0804EC48:
 	ldr r2, _0804ECB8 @ =gPlayers
 	mov r8, r2
 	add r1, r8
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	adds r1, r6, #0
 	adds r1, #0x73
 	movs r0, #0

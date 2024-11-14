@@ -378,7 +378,7 @@ bool16 sub_802F1B8(Sprite *s)
         for (j = 0; j < NUM_SINGLE_PLAYER_CHARS; j++) {
             Player *p = (j != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.playerIndex];
 
-            sub_80213B0(s, p);
+            ResolvePlayerSpriteCollision(s, p);
         }
 
         SET_MAP_ENTITY_NOT_INITIALIZED(me, shared->base.spriteX);

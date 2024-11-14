@@ -947,7 +947,7 @@ _08030440:
 	adds r6, r0, r7
 	adds r0, r4, #0
 	adds r1, r6, #0
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	movs r1, #0x80
 	lsls r1, r1, #9
 	adds r0, r5, r1

@@ -270,7 +270,7 @@ static void UpdateAnimations(void)
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             Player *p = GET_SP_PLAYER_V1(i);
 
-            sub_80213B0(s, p);
+            ResolvePlayerSpriteCollision(s, p);
         }
 
         SET_MAP_ENTITY_NOT_INITIALIZED(me, crusher->base.spriteX);

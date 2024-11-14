@@ -221,7 +221,7 @@ void sub_804ACF0(void)
             for (j = 0; j < NUM_SINGLE_PLAYER_CHARS; j++) {
                 p = GET_SP_PLAYER_V1(j);
 
-                sub_80213B0(s, p);
+                ResolvePlayerSpriteCollision(s, p);
             }
         }
 

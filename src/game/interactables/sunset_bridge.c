@@ -180,7 +180,7 @@ NONMATCH("asm/non_matching/game/interactables/sunset_bridge__Task_SunsetBridge.i
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             p = GET_SP_PLAYER_V1(i);
 
-            sub_80213B0(s, p);
+            ResolvePlayerSpriteCollision(s, p);
         }
 
         SET_MAP_ENTITY_NOT_INITIALIZED(me, bridge->base.unk8);

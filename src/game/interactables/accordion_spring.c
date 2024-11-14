@@ -116,7 +116,7 @@ void Task_803F6D8(void)
 
                 if (!sub_803F938(p)) {
                     p->qWorldY -= Q(8);
-                    sub_80213B0(s, p);
+                    ResolvePlayerSpriteCollision(s, p);
                 }
             }
         } else if (sub_803F938(p)) {

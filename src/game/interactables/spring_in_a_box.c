@@ -189,7 +189,7 @@ void Task_80458FC(void)
         for (j = 0; j < NUM_SINGLE_PLAYER_CHARS; j++) {
             p = GET_SP_PLAYER_V1(j);
 
-            sub_80213B0(s, p);
+            ResolvePlayerSpriteCollision(s, p);
         }
 
         SET_MAP_ENTITY_NOT_INITIALIZED(me, spring->spriteX);

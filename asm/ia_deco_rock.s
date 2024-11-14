@@ -486,7 +486,7 @@ _08037618:
 	bne _08037638
 	ldr r0, [sp, #8]
 	adds r1, r6, #0
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 _08037638:
 	mov r0, sl
 	adds r0, #1
@@ -710,7 +710,7 @@ _080377D4:
 	adds r5, r0, r6
 	mov r0, r8
 	adds r1, r5, #0
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	movs r1, #0x80
 	lsls r1, r1, #9
 	adds r0, r4, r1

@@ -179,7 +179,7 @@ _08044F20:
 	mov sl, r0
 	mov r0, sb
 	mov r1, sl
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	movs r1, #0x80
 	lsls r1, r1, #9
 	adds r0, r4, r1

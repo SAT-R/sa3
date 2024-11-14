@@ -9226,10 +9226,10 @@ sub_0806A69C: @ 0x0806A69C
 	strh r3, [r6, #0x2c]
 	strh r3, [r6, #0x2e]
 	adds r0, r5, #0
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	ldr r1, [r6, #0x54]
 	adds r0, r5, #0
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	ldr r1, [r7]
 	ldr r0, _0806A700 @ =sub_806A760
 	str r0, [r1, #8]
@@ -9396,10 +9396,10 @@ sub_806A818: @ 0x0806A818
 	strh r0, [r4, #0x2c]
 	strh r0, [r4, #0x2e]
 	adds r0, r5, #0
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	ldr r1, [r4, #0x54]
 	adds r0, r5, #0
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -27168,10 +27168,10 @@ _08072FF0:
 _08072FF8:
 	ldr r1, [r5, #0x40]
 	mov r0, r8
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	ldr r1, [r5, #0x44]
 	mov r0, r8
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	movs r0, #0
 	strb r0, [r5, #0x11]
 	ldr r0, _08073038 @ =gCurTask
@@ -34807,7 +34807,7 @@ _08076C60:
 	str r0, [r4, #4]
 	ldr r0, [sp]
 	adds r1, r4, #0
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	adds r0, r4, #0
 	bl sub_8016F28
 	adds r0, r4, #0

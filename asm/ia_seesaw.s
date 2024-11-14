@@ -518,7 +518,7 @@ _080367FE:
 _08036822:
 	ldr r0, [sp, #0x14]
 	adds r1, r6, #0
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	b _080368B4
 _0803682C:
 	mov r3, sb
@@ -581,7 +581,7 @@ _0803689C:
 _0803689E:
 	ldr r0, [sp, #0x14]
 	adds r1, r6, #0
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	cmp r4, #0
 	beq _080368B4
 	ldr r0, [r6, #4]
@@ -897,7 +897,7 @@ _08036AE4:
 	bne _08036B98
 	mov r0, sb
 	adds r1, r6, #0
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	ldr r0, [r6, #0x10]
 	asrs r0, r0, #8
 	subs r0, r0, r4
@@ -964,7 +964,7 @@ _08036B50:
 	str r0, [r6, #0x14]
 	mov r0, sb
 	adds r1, r6, #0
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 _08036B98:
 	ldr r0, [sp, #0x18]
 	adds r0, #1
@@ -1357,7 +1357,7 @@ _08036E80:
 	ble _08036E98
 	adds r0, r6, #0
 	adds r1, r4, #0
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	movs r0, #0
 	b _08036F04
 	.align 2, 0
@@ -1584,7 +1584,7 @@ _08037030:
 	adds r0, r5, #0
 	adds r1, r4, #0
 	str r2, [sp]
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	movs r1, #0x80
 	lsls r1, r1, #9
 	adds r0, r6, r1
@@ -1749,7 +1749,7 @@ _0803717A:
 	blt _0803718E
 	adds r0, r6, #0
 	adds r1, r4, #0
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	movs r0, #0
 	b _08037212
 _0803718E:

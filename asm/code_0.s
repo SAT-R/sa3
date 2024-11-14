@@ -68609,8 +68609,8 @@ _0802139A:
 	.align 2, 0
 _080213AC: .4byte 0xFFFFFF00
 
-	thumb_func_start sub_80213B0
-sub_80213B0: @ 0x080213B0
+	thumb_func_start ResolvePlayerSpriteCollision
+ResolvePlayerSpriteCollision: @ 0x080213B0
 	push {r4, lr}
 	adds r4, r0, #0
 	adds r2, r1, #0
@@ -91416,7 +91416,7 @@ _0802C5BC:
 	adds r6, r0, r7
 	mov r0, r8
 	adds r1, r6, #0
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	movs r1, #0x80
 	lsls r1, r1, #9
 	adds r0, r5, r1

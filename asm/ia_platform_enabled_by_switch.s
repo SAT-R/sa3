@@ -542,7 +542,7 @@ _08038A28:
 	adds r0, r6, #0
 	adds r1, r4, #0
 	str r2, [sp, #8]
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	movs r1, #0x80
 	lsls r1, r1, #9
 	adds r0, r5, r1
@@ -707,7 +707,7 @@ _08038B76:
 	adds r0, r6, #0
 	adds r1, r4, #0
 	str r2, [sp, #8]
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	movs r3, #0x80
 	lsls r3, r3, #9
 	adds r0, r5, r3

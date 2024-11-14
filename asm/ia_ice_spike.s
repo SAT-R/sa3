@@ -621,7 +621,7 @@ _080442AC:
 	bne _080442EA
 	adds r0, r4, #0
 	adds r1, r6, #0
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	adds r0, r6, #0
 	bl Player_800E67C
 	ldr r1, _08044308 @ =0xFFFFFD00

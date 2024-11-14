@@ -162,7 +162,7 @@ void Task_80449A4(void)
         s16 i;
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             Player *p = GET_SP_PLAYER_V1(i);
-            sub_80213B0(&platform->s, p);
+            ResolvePlayerSpriteCollision(&platform->s, p);
         }
 
         SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.unk8);

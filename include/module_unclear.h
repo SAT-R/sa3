@@ -72,7 +72,7 @@ bool32 sub_8020A58(Sprite *s, s16 param1, s32 worldX, s32 worldY, void *param4, 
 bool32 sub_8020CE0(Sprite *s, s32 worldX, s32 worldY, u16 param3, Player *p);
 bool32 sub_8020E3C(Sprite *s, s32 param1, s32 param2, s16 param3, Player *p);
 
-void sub_80213B0(Sprite *s, Player *p);
+void ResolvePlayerSpriteCollision(Sprite *s, Player *p);
 
 void sub_80236C8(Sprite *, u8 p1, void *);
 bool32 sub_8023734(void *chaoEwramData);

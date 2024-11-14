@@ -286,7 +286,7 @@ void sub_804C008(void)
                 }
 
                 // TODO/HACK: What is this cast!?
-                sub_80213B0((Sprite *)ps, p);
+                ResolvePlayerSpriteCollision((Sprite *)ps, p);
             }
         }
 

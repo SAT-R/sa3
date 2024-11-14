@@ -131,7 +131,7 @@ void Task_PlatformCrumbling(void)
                     p->qWorldY += Q_8_8(res);
                 }
             } else if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s)) {
-                sub_80213B0(s, p);
+                ResolvePlayerSpriteCollision(s, p);
             }
         }
     }
@@ -230,7 +230,7 @@ void sub_803901C(void)
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             Player *p = GET_SP_PLAYER_V1(i);
 
-            sub_80213B0(s, p);
+            ResolvePlayerSpriteCollision(s, p);
         }
 
         SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.spriteX);

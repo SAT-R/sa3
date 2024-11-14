@@ -539,7 +539,7 @@ void sub_804D6D8(void)
         for (i = 0; i < 2; i++) {
             Player *p = GET_SP_PLAYER_V1(i);
 
-            sub_80213B0(s, p);
+            ResolvePlayerSpriteCollision(s, p);
         }
 
         SET_MAP_ENTITY_NOT_INITIALIZED(me, maze->base.spriteX);

@@ -665,7 +665,7 @@ _08043046:
 	adds r0, #0xc
 	adds r0, r6, r0
 	mov r1, r8
-	bl sub_80213B0
+	bl ResolvePlayerSpriteCollision
 	adds r4, #1
 	lsls r4, r4, #0x10
 	lsrs r0, r4, #0x10

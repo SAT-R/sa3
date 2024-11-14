@@ -92,7 +92,7 @@ static bool32 UpdatePlayerSpeed(void)
             if (!((~r1 >> i) & 0x1)) {
                 qSpeedAirY = ABS(p->qSpeedAirY);
 
-                sub_80213B0(s, p);
+                ResolvePlayerSpriteCollision(s, p);
 
                 p->charFlags.unk2C_04 = 1;
                 SetPlayerCallback(p, Player_800BC38);
