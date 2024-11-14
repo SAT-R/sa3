@@ -5,261 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable084
-CreateEntity_Interactable084: @ 0x0803DCCC
-	push {r4, r5, r6, lr}
-	mov r6, sl
-	mov r5, sb
-	mov r4, r8
-	push {r4, r5, r6}
-	sub sp, #4
-	mov sb, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _0803DD90 @ =sub_803DE28
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _0803DD94 @ =sub_803E410
-	str r1, [sp]
-	movs r1, #0x6c
-	movs r3, #0
-	bl TaskCreate
-	ldrh r3, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r3, r0
-	ldr r1, _0803DD98 @ =0x0300000C
-	adds r1, r1, r3
-	mov sl, r1
-	movs r2, #0
-	mov r8, r2
-	strh r4, [r0, #4]
-	strh r5, [r0, #6]
-	mov r1, sb
-	str r1, [r0]
-	ldrb r1, [r1]
-	strb r1, [r0, #0xa]
-	strb r6, [r0, #0xb]
-	mov r2, sb
-	ldrb r1, [r2]
-	lsls r1, r1, #3
-	lsls r4, r4, #8
-	adds r1, r1, r4
-	lsls r1, r1, #8
-	str r1, [r0, #0x5c]
-	ldrb r1, [r2, #1]
-	lsls r1, r1, #3
-	lsls r5, r5, #8
-	adds r1, r1, r5
-	lsls r1, r1, #8
-	str r1, [r0, #0x60]
-	ldr r2, _0803DD9C @ =0x03000064
-	adds r1, r3, r2
-	mov r2, r8
-	strh r2, [r1]
-	ldr r1, _0803DDA0 @ =0x03000066
-	adds r2, r3, r1
-	movs r1, #0x30
-	strh r1, [r2]
-	ldr r2, _0803DDA4 @ =0x03000068
-	adds r1, r3, r2
-	mov r2, r8
-	strh r2, [r1]
-	ldr r1, _0803DDA8 @ =0x0300006A
-	adds r3, r3, r1
-	strh r2, [r3]
-	ldr r1, [r0, #0x5c]
-	asrs r1, r1, #8
-	ldr r3, _0803DDAC @ =gCamera
-	ldr r2, [r3]
-	subs r1, r1, r2
-	mov r2, sl
-	strh r1, [r2, #0x10]
-	ldr r1, [r0, #0x60]
-	asrs r1, r1, #8
-	ldr r2, [r3, #4]
-	subs r1, r1, r2
-	mov r2, sl
-	strh r1, [r2, #0x12]
-	movs r2, #2
-	rsbs r2, r2, #0
-	adds r1, r2, #0
-	mov r2, sb
-	strb r1, [r2]
-	bl sub_803DDB0
-	add sp, #4
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0803DD90: .4byte sub_803DE28
-_0803DD94: .4byte sub_803E410
-_0803DD98: .4byte 0x0300000C
-_0803DD9C: .4byte 0x03000064
-_0803DDA0: .4byte 0x03000066
-_0803DDA4: .4byte 0x03000068
-_0803DDA8: .4byte 0x0300006A
-_0803DDAC: .4byte gCamera
+.if 0
+.endif
 
-	thumb_func_start sub_803DDB0
-sub_803DDB0: @ 0x0803DDB0
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	mov sb, r0
-	mov r7, sb
-	adds r7, #0xc
-	movs r0, #0x15
-	bl VramMalloc
-	mov r1, sb
-	str r0, [r1, #0xc]
-	movs r3, #0
-	movs r2, #0
-	ldr r1, _0803DE24 @ =0x000003DA
-	mov r8, r1
-	mov r1, r8
-	strh r1, [r7, #0xc]
-	strb r3, [r7, #0x1a]
-	movs r6, #0xc0
-	lsls r6, r6, #3
-	strh r6, [r7, #0x14]
-	strh r2, [r7, #0xe]
-	strh r2, [r7, #0x16]
-	movs r1, #0xff
-	strb r1, [r7, #0x1b]
-	movs r5, #0x10
-	strb r5, [r7, #0x1c]
-	strb r3, [r7, #0x1f]
-	movs r4, #1
-	rsbs r4, r4, #0
-	str r4, [r7, #0x20]
-	movs r1, #0x80
-	lsls r1, r1, #5
-	str r1, [r7, #8]
-	adds r7, #0x28
-	mov r1, sb
-	str r0, [r1, #0x34]
-	mov r0, r8
-	strh r0, [r7, #0xc]
-	strb r3, [r7, #0x1a]
-	strh r6, [r7, #0x14]
-	strh r2, [r7, #0xe]
-	strh r2, [r7, #0x16]
-	adds r0, r4, #0
-	strb r0, [r7, #0x1b]
-	strb r5, [r7, #0x1c]
-	strb r3, [r7, #0x1f]
-	str r4, [r7, #0x20]
-	movs r0, #0xa0
-	lsls r0, r0, #5
-	str r0, [r7, #8]
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0803DE24: .4byte 0x000003DA
-
-	thumb_func_start sub_803DE28
-sub_803DE28: @ 0x0803DE28
-	push {r4, r5, r6, r7, lr}
-	sub sp, #4
-	ldr r0, _0803DE4C @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r6, r1, r0
-	adds r0, #0xc
-	adds r7, r1, r0
-	movs r1, #0
-_0803DE3E:
-	lsls r0, r1, #0x10
-	adds r5, r0, #0
-	cmp r5, #0
-	bne _0803DE54
-	ldr r0, _0803DE50 @ =gStageData
-	ldrb r1, [r0, #6]
-	b _0803DE5E
-	.align 2, 0
-_0803DE4C: .4byte gCurTask
-_0803DE50: .4byte gStageData
-_0803DE54:
-	adds r0, r4, #0
-	adds r0, #0x2b
-	ldrb r1, [r0]
-	lsls r1, r1, #0x1e
-	lsrs r1, r1, #0x1e
-_0803DE5E:
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	ldr r1, _0803DEC4 @ =gPlayers
-	adds r4, r0, r1
-	adds r0, r4, #0
-	bl sub_802C0D4
-	cmp r0, #0
-	bne _0803DEA8
-	ldr r1, [r6, #0x5c]
-	asrs r1, r1, #8
-	ldr r2, [r6, #0x60]
-	asrs r2, r2, #8
-	movs r0, #1
-	str r0, [sp]
-	adds r0, r7, #0
-	adds r3, r4, #0
-	bl sub_8020950
-	adds r1, r0, #0
-	movs r0, #0x80
-	lsls r0, r0, #9
-	ands r0, r1
-	cmp r0, #0
-	beq _0803DEA8
-	lsls r1, r1, #0x18
-	asrs r1, r1, #0x10
-	ldr r0, [r4, #0x14]
-	adds r0, r0, r1
-	str r0, [r4, #0x14]
-	ldr r0, _0803DEC8 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0803DECC @ =sub_803DED0
-	str r0, [r1, #8]
-_0803DEA8:
-	movs r1, #0x80
-	lsls r1, r1, #9
-	adds r0, r5, r1
-	lsrs r1, r0, #0x10
-	asrs r0, r0, #0x10
-	cmp r0, #1
-	ble _0803DE3E
-	bl sub_803E32C
-	add sp, #4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0803DEC4: .4byte gPlayers
-_0803DEC8: .4byte gCurTask
-_0803DECC: .4byte sub_803DED0
-
-	thumb_func_start sub_803DED0
-sub_803DED0: @ 0x0803DED0
+	thumb_func_start Task_803DED0
+Task_803DED0: @ 0x0803DED0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -346,7 +96,7 @@ sub_803DED0: @ 0x0803DED0
 	str r0, [r3, #0x60]
 	mov r2, sl
 	ldr r1, [r2]
-	ldr r0, _0803DFA4 @ =sub_803E0D8
+	ldr r0, _0803DFA4 @ =Task_803E0D8
 	str r0, [r1, #8]
 	b _0803DFC6
 	.align 2, 0
@@ -358,7 +108,7 @@ _0803DF94: .4byte 0x03000066
 _0803DF98: .4byte gSineTable
 _0803DF9C: .4byte 0x03000068
 _0803DFA0: .4byte 0x0300006A
-_0803DFA4: .4byte sub_803E0D8
+_0803DFA4: .4byte Task_803E0D8
 _0803DFA8:
 	ldr r3, _0803DFD8 @ =0x03000066
 	adds r2, r7, r3
@@ -515,8 +265,8 @@ _0803E0C2:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_803E0D8
-sub_803E0D8: @ 0x0803E0D8
+	thumb_func_start Task_803E0D8
+Task_803E0D8: @ 0x0803E0D8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -935,8 +685,8 @@ _0803E3F8:
 _0803E408: .4byte 0x0300000C
 _0803E40C: .4byte 0x03000034
 
-	thumb_func_start sub_803E410
-sub_803E410: @ 0x0803E410
+	thumb_func_start TaskDestructor_SlowChaosLift
+TaskDestructor_SlowChaosLift: @ 0x0803E410
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0

@@ -326,7 +326,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable081
     .4byte CreateEntity_Interactable082
     .4byte CreateEntity_BonusGameUI
-    .4byte CreateEntity_Interactable084
+    .4byte CreateEntity_SlowChaosLift
     .4byte CreateEntity_Interactable085
     .4byte CreateEntity_Interactable085 @ 086
     .4byte CreateEntity_TriggerBossOrGoal
