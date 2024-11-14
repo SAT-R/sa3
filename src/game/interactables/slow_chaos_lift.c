@@ -142,15 +142,13 @@ void Task_803DED0(void)
 
         gCurTask->main = Task_803E0D8;
     } else {
-        // _0803DFA8
         lift->qUnk6A = lift->qUnk66;
         lift->qWorldY += lift->qUnk6A;
         lift->qUnk66 += Q(0.1875);
     }
-    // _0803DFC6
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        bool32 r5 = FALSE;
+        bool32 cond = FALSE;
         Player *p = GET_SP_PLAYER_V0(i);
 
         if (!sub_802C0D4(p)) {
@@ -158,7 +156,6 @@ void Task_803DED0(void)
                 if (lift->unk64 < Q(2)) {
                     p->qWorldY += Q(8);
                 }
-                // _0803E028
 
                 p->qWorldX += lift->qUnk68;
                 p->qWorldY += lift->qUnk6A;
@@ -166,24 +163,127 @@ void Task_803DED0(void)
                 if (!(p->moveState & MOVESTATE_200) && (sub_801226C(p) < 0)) {
                     sub_8008E38(p);
                 } else {
-                    r5 = TRUE;
+                    cond = TRUE;
                 }
             }
-            // _0803E06A
 
             res = sub_8020950(s, I(lift->qWorldX), I(lift->qWorldY), p, 1);
 
             if (res & 0x10000) {
                 p->qWorldY += Q_8_8(res);
 
-                if (!r5) {
+                if (!cond) {
                     p->qSpeedGround >>= 2;
                     p->qSpeedAirX >>= 2;
                     p->qSpeedAirY >>= 2;
                 }
             }
         }
-        // _0803E0B2 - continue
+    }
+
+    sub_803E32C();
+}
+
+// TODO_ Fix fakematch
+void Task_803E0D8(void)
+{
+    SlowChaosLift *lift = TASK_DATA(gCurTask);
+    Sprite *s = &lift->s;
+    s32 r4 = I((lift->unk64 + Q(0.5)) & ONE_CYCLE);
+    u8 arr[4];
+    s16 i;
+
+#ifndef NON_MATCHING
+    register s32 r0 asm("r0") = r4;
+    register s32 r1 asm("r1");
+    register s32 r2 asm("r2");
+#else
+    s32 r0 = r4;
+    s32 r1;
+    s32 r2;
+#endif
+
+    switch (r0) {
+        case 0: {
+            r2 = sub_80517FC(I(lift->qWorldY), I(lift->qWorldX), 0, +8, arr, sub_805217C);
+        } break;
+
+        case 1: {
+            r2 = sub_80517FC(I(lift->qWorldX), I(lift->qWorldY), 0, -8, arr, sub_805203C);
+        } break;
+
+        case 2: {
+            r2 = sub_80517FC(I(lift->qWorldY), I(lift->qWorldX), 0, -8, arr, sub_805217C);
+        } break;
+
+        case 3: {
+            r2 = sub_80517FC(I(lift->qWorldX), I(lift->qWorldY), 0, +8, arr, sub_805203C);
+        } break;
+    }
+
+    r0 = r4;
+    switch (r0) {
+        case 0: {
+            r1 = Q(r2);
+            lift->qWorldY += r1;
+        } break;
+
+        case 1: {
+            r1 = Q(r2);
+            lift->qWorldX -= r1;
+        } break;
+
+        case 2: {
+            r1 = Q(r2);
+            lift->qWorldY -= r1;
+        } break;
+
+        case 3: {
+            r1 = Q(r2);
+            lift->qWorldX += r1;
+        } break;
+    }
+
+    lift->unk64 = arr[0] * 4;
+    lift->qUnk66 = Q(1.25);
+
+    lift->qUnk68 = (COS(lift->unk64) * lift->qUnk66) >> 14;
+    lift->qUnk6A = (SIN(lift->unk64) * lift->qUnk66) >> 14;
+
+    lift->qWorldX += lift->qUnk68;
+    lift->qWorldY += lift->qUnk6A;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        bool32 cond = FALSE;
+        Player *p = GET_SP_PLAYER_V0(i);
+        u32 res;
+
+        if (!sub_802C0D4(p)) {
+            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s)) {
+                p->qWorldY += Q(2);
+
+                p->qWorldX += lift->qUnk68;
+                p->qWorldY += lift->qUnk6A;
+
+                if (sub_801226C(p) < 0) {
+                    sub_8008E38(p);
+                } else {
+                    cond = TRUE;
+                }
+            }
+
+            res = sub_8020950(s, I(lift->qWorldX), I(lift->qWorldY), p, 1);
+
+            if (res & 0x10000) {
+                p->qWorldY += Q_8_8(res);
+
+                if (!cond) {
+                    p->qSpeedGround >>= 2;
+                    p->qSpeedAirX >>= 2;
+                    p->qSpeedAirY >>= 2;
+                }
+            }
+        }
     }
 
     sub_803E32C();
