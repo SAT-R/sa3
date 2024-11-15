@@ -771,8 +771,9 @@ gUnknown_080D0132:
     
     .global gUnknown_080D0144
 gUnknown_080D0144:
-    .incbin "baserom.gba", 0x000D0144, 0x8
+    .2byte 0x0040, 0x0020, 0x0020
 
+    .align 2 , 0
     .global gUnknown_080D014C
 gUnknown_080D014C:
     .incbin "baserom.gba", 0x000D014C, 0x1C0

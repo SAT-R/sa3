@@ -61,6 +61,23 @@ typedef struct {
     /* 0x0B */ u8 id;
 } SpriteBase2;
 
+// Used in IA Ice Spike (originally from SA1?)
+typedef struct {
+    /* 0x00 */ MapEntity *me;
+    /* 0x04 */ s32 qWorldX;
+    /* 0x08 */ s32 qWorldY;
+    /* 0x0C */ u16 regionX;
+    /* 0x0E */ u16 regionY;
+    /* 0x10 */ u16 unk10;
+    /* 0x12 */ u16 unk12;
+    /* 0x14 */ u8 spriteX;
+    /* 0x15 */ u8 id;
+    /* 0x16 */ u8 unk16;
+    /* 0x17 */ u8 unk17;
+    /* 0x18 */ u8 unk18;
+    /* 0x19 */ u8 unk19;
+} SpriteBase3; /* 0x1A ? */
+
 // TODO maybe(?): Integrate this with every enemy
 typedef struct {
     SpriteBase base;

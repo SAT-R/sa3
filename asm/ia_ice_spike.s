@@ -5,187 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_IceSpike
-CreateEntity_IceSpike: @ 0x08043DF4
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #0x10
-	mov sl, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r1, _08043F4C @ =gUnknown_080D0144
-	add r0, sp, #4
-	movs r2, #6
-	bl memcpy
-	ldr r0, _08043F50 @ =sub_8043F68
-	movs r1, #0xba
-	lsls r1, r1, #1
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r3, _08043F54 @ =sub_8044718
-	str r3, [sp]
-	movs r3, #0
-	bl TaskCreate
-	ldrh r0, [r0, #6]
-	mov sb, r0
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	mov r1, sb
-	adds r7, r1, r0
-	movs r0, #0
-	mov r8, r0
-	movs r3, #0
-	strh r4, [r7, #0xc]
-	strh r5, [r7, #0xe]
-	mov r1, sl
-	str r1, [r7]
-	ldrb r0, [r1]
-	strb r0, [r7, #0x14]
-	strb r6, [r7, #0x15]
-	ldrb r0, [r1]
-	lsls r0, r0, #3
-	lsls r4, r4, #8
-	adds r0, r0, r4
-	lsls r0, r0, #8
-	str r0, [r7, #4]
-	ldrb r0, [r1, #1]
-	lsls r0, r0, #3
-	lsls r5, r5, #8
-	adds r0, r0, r5
-	lsls r0, r0, #8
-	str r0, [r7, #8]
-	strh r3, [r7, #0x12]
-	ldr r0, _08043F58 @ =gStageData
-	ldrb r1, [r0, #6]
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	ldr r2, _08043F5C @ =gPlayers
-	adds r0, r0, r2
-	str r0, [r7, #0x1c]
-	adds r0, #0x2b
-	ldrb r1, [r0]
-	lsls r1, r1, #0x1e
-	lsrs r1, r1, #0x1e
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	adds r0, r0, r2
-	str r0, [r7, #0x20]
-	mov r0, r8
-	strb r0, [r7, #0x16]
-	movs r0, #1
-	strb r0, [r7, #0x17]
-	movs r0, #0x50
-	strh r0, [r7, #0x10]
-	movs r0, #7
-	strb r0, [r7, #0x18]
-	movs r0, #2
-	strb r0, [r7, #0x19]
-	movs r0, #0x10
-	str r3, [sp, #0xc]
-	bl VramMalloc
-	adds r5, r0, #0
-	ldr r2, _08043F60 @ =0x03000024
-	add r2, sb
-	str r5, [r2]
-	movs r0, #0xc0
-	lsls r0, r0, #3
-	strh r0, [r2, #0x14]
-	ldr r4, _08043F64 @ =0x0000039A
-	strh r4, [r2, #0xc]
-	mov r1, r8
-	strb r1, [r2, #0x1a]
-	ldr r3, [sp, #0xc]
-	strh r3, [r2, #0x16]
-	movs r0, #0xff
-	strb r0, [r2, #0x1b]
-	movs r0, #0x10
-	strb r0, [r2, #0x1c]
-	strb r1, [r2, #0x1f]
-	strh r3, [r2, #0x10]
-	strh r3, [r2, #0x12]
-	movs r0, #0x80
-	lsls r0, r0, #5
-	str r0, [r2, #8]
-	adds r0, r2, #0
-	bl UpdateSpriteAnimation
-	movs r3, #0
-	movs r0, #0
-	mov r8, r0
-	movs r6, #0
-_08043EEE:
-	lsls r0, r3, #2
-	adds r0, r0, r3
-	lsls r0, r0, #3
-	adds r0, #0xfc
-	adds r2, r7, r0
-	str r5, [r2]
-	movs r0, #0xc0
-	lsls r0, r0, #3
-	strh r0, [r2, #0x14]
-	strh r4, [r2, #0xc]
-	adds r1, r3, #1
-	strb r1, [r2, #0x1a]
-	strh r6, [r2, #0x16]
-	movs r0, #0xff
-	strb r0, [r2, #0x1b]
-	movs r0, #0x10
-	strb r0, [r2, #0x1c]
-	mov r0, r8
-	strb r0, [r2, #0x1f]
-	strh r6, [r2, #0x10]
-	strh r6, [r2, #0x12]
-	movs r0, #0x80
-	lsls r0, r0, #5
-	str r0, [r2, #8]
-	lsls r0, r3, #1
-	add r0, sp
-	adds r0, #4
-	ldrh r0, [r0]
-	adds r5, r5, r0
-	lsls r1, r1, #0x18
-	lsrs r3, r1, #0x18
-	cmp r3, #2
-	bls _08043EEE
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	mov r1, sl
-	strb r0, [r1]
-	add sp, #0x10
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08043F4C: .4byte gUnknown_080D0144
-_08043F50: .4byte sub_8043F68
-_08043F54: .4byte sub_8044718
-_08043F58: .4byte gStageData
-_08043F5C: .4byte gPlayers
-_08043F60: .4byte 0x03000024
-_08043F64: .4byte 0x0000039A
+.if 0
+.endif
 
-	thumb_func_start sub_8043F68
-sub_8043F68: @ 0x08043F68
+	thumb_func_start Task_IceSpikeInit
+Task_IceSpikeInit: @ 0x08043F68
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1185,8 +1009,8 @@ _08044708:
 	.align 2, 0
 _08044714: .4byte gCamera
 
-	thumb_func_start sub_8044718
-sub_8044718: @ 0x08044718
+	thumb_func_start TaskDestructor_IceSpike
+TaskDestructor_IceSpike: @ 0x08044718
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
