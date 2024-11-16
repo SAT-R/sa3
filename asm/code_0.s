@@ -8207,7 +8207,7 @@ sub_8004178: @ 0x08004178
 	adds r5, r5, r0
 	lsls r5, r5, #4
 	adds r5, r5, r1
-	ldr r0, _08004294 @ =sub_80045EC
+	ldr r0, _08004294 @ =Task_80045EC
 	movs r1, #0xc0
 	lsls r1, r1, #6
 	adds r2, r4, r1
@@ -8230,7 +8230,7 @@ sub_8004178: @ 0x08004178
 	mov r1, sb
 	strh r1, [r0, #4]
 	str r6, [r0]
-	ldr r0, _0800429C @ =sub_8005068
+	ldr r0, _0800429C @ =Task_8005068
 	ldr r1, _080042A0 @ =0x00003010
 	adds r2, r4, r1
 	lsls r2, r2, #0x10
@@ -8247,7 +8247,7 @@ sub_8004178: @ 0x08004178
 	mov r1, sb
 	strh r1, [r0, #4]
 	str r6, [r0]
-	ldr r0, _080042A4 @ =sub_80050E0
+	ldr r0, _080042A4 @ =Task_80050E0
 	ldr r1, _080042A8 @ =0x00003020
 	adds r4, r4, r1
 	lsls r4, r4, #0x10
@@ -8312,11 +8312,11 @@ _08004260:
 	b _080042BE
 	.align 2, 0
 _08004290: .4byte gPlayers
-_08004294: .4byte sub_80045EC
+_08004294: .4byte Task_80045EC
 _08004298: .4byte sub_8004D2C
-_0800429C: .4byte sub_8005068
+_0800429C: .4byte Task_8005068
 _080042A0: .4byte 0x00003010
-_080042A4: .4byte sub_80050E0
+_080042A4: .4byte Task_80050E0
 _080042A8: .4byte 0x00003020
 _080042AC: .4byte gStageData
 _080042B0: .4byte Player_800522C
@@ -8750,8 +8750,8 @@ _080045E0: .4byte gUnknown_03006840
 _080045E4: .4byte gVramGraphicsCopyCursor
 _080045E8: .4byte gVramGraphicsCopyQueueIndex
 
-	thumb_func_start sub_80045EC
-sub_80045EC: @ 0x080045EC
+	thumb_func_start Task_80045EC
+Task_80045EC: @ 0x080045EC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -9984,6 +9984,7 @@ _08004F38:
 _08004F40: .4byte gStageData
 _08004F44: .4byte gPlayers
 
+@ Called on demo creation
 	thumb_func_start sub_8004F48
 sub_8004F48: @ 0x08004F48
 	push {r4, r5, r6, lr}
@@ -10046,7 +10047,10 @@ _08004FB0:
 	pop {r0}
 	bx r0
 	.align 2, 0
+@ Maybe end of demo_manager?
+@ sub_8004F48 gets called on demo creation, but sub_8004F9C is not called when it is done.
 
+    @ Unused?
 	thumb_func_start sub_8004FC4
 sub_8004FC4: @ 0x08004FC4
 	push {lr}
@@ -10134,8 +10138,8 @@ _0800505A:
 _08005060: .4byte gStageData
 _08005064: .4byte gPlayers
 
-	thumb_func_start sub_8005068
-sub_8005068: @ 0x08005068
+	thumb_func_start Task_8005068
+Task_8005068: @ 0x08005068
 	push {r4, r5, r6, lr}
 	ldr r0, _080050D4 @ =gCurTask
 	ldr r0, [r0]
@@ -10191,8 +10195,8 @@ _080050D4: .4byte gCurTask
 _080050D8: .4byte gPlayers
 _080050DC: .4byte gStageData
 
-	thumb_func_start sub_80050E0
-sub_80050E0: @ 0x080050E0
+	thumb_func_start Task_80050E0
+Task_80050E0: @ 0x080050E0
 	push {lr}
 	ldr r0, _08005124 @ =gCurTask
 	ldr r0, [r0]

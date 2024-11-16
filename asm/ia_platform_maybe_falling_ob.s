@@ -5,114 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable103
-CreateEntity_Interactable103: @ 0x08042B34
-	push {r4, r5, r6, lr}
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6}
-	sub sp, #4
-	mov r8, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _08042BF0 @ =sub_8042C1C
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _08042BF4 @ =sub_80430A0
-	str r1, [sp]
-	movs r1, #0xc4
-	movs r3, #0
-	bl TaskCreate
-	ldrh r3, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r3, r0
-	movs r1, #0
-	mov sb, r1
-	strh r4, [r0, #4]
-	strh r5, [r0, #6]
-	mov r2, r8
-	str r2, [r0]
-	ldrb r1, [r2]
-	strb r1, [r0, #0xa]
-	strb r6, [r0, #0xb]
-	ldr r4, _08042BF8 @ =0x030000B0
-	adds r2, r3, r4
-	movs r1, #2
-	strb r1, [r2]
-	mov r5, r8
-	ldrb r1, [r5, #7]
-	lsrs r1, r1, #7
-	ldr r6, _08042BFC @ =0x030000B1
-	adds r2, r3, r6
-	strb r1, [r2]
-	ldr r2, _08042C00 @ =0x030000B2
-	adds r1, r3, r2
-	mov r4, sb
-	strh r4, [r1]
-	ldr r5, _08042C04 @ =0x030000B4
-	adds r1, r3, r5
-	movs r2, #0x28
-	strh r2, [r1]
-	adds r6, #0xb
-	adds r1, r3, r6
-	movs r5, #0x12
-	strh r5, [r1]
-	ldr r4, _08042C08 @ =0x030000B6
-	adds r1, r3, r4
-	strh r2, [r1]
-	adds r6, #2
-	adds r1, r3, r6
-	ldr r4, _08042C0C @ =0x0000FFE8
-	strh r4, [r1]
-	ldr r2, _08042C10 @ =0x030000B8
-	adds r1, r3, r2
-	ldr r2, _08042C14 @ =0x0000FFD8
-	strh r2, [r1]
-	adds r6, #2
-	adds r1, r3, r6
-	strh r5, [r1]
-	ldr r5, _08042C18 @ =0x030000BA
-	adds r1, r3, r5
-	strh r2, [r1]
-	adds r6, #2
-	adds r3, r3, r6
-	strh r4, [r3]
-	movs r2, #2
-	rsbs r2, r2, #0
-	adds r1, r2, #0
-	mov r4, r8
-	strb r1, [r4]
-	bl sub_8042EA8
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08042BF0: .4byte sub_8042C1C
-_08042BF4: .4byte sub_80430A0
-_08042BF8: .4byte 0x030000B0
-_08042BFC: .4byte 0x030000B1
-_08042C00: .4byte 0x030000B2
-_08042C04: .4byte 0x030000B4
-_08042C08: .4byte 0x030000B6
-_08042C0C: .4byte 0x0000FFE8
-_08042C10: .4byte 0x030000B8
-_08042C14: .4byte 0x0000FFD8
-_08042C18: .4byte 0x030000BA
+.if 0
+.endif
 
-	thumb_func_start sub_8042C1C
-sub_8042C1C: @ 0x08042C1C
+	thumb_func_start Task_PlatformMaybeFalling
+Task_PlatformMaybeFalling: @ 0x08042C1C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -699,8 +596,8 @@ _08043094: .4byte gStageData
 _08043098: .4byte gPlayers
 _0804309C: .4byte gCurTask
 
-	thumb_func_start sub_80430A0
-sub_80430A0: @ 0x080430A0
+	thumb_func_start TaskDestructor_PlatformMaybeFalling
+TaskDestructor_PlatformMaybeFalling: @ 0x080430A0
 	push {lr}
 	ldrh r0, [r0, #6]
 	ldr r1, _080430B4 @ =0x030000AC

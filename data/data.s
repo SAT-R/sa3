@@ -345,7 +345,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_DeathCrusher
     .4byte CreateEntity_PlatformOnAPath
     .4byte CreateEntity_PlatformPropelled
-    .4byte CreateEntity_Interactable103
+    .4byte CreateEntity_PlatformMaybeFalling
     .4byte CreateEntity_Suction
     .4byte CreateEntity_AirBubbles
     .4byte CreateEntity_IceSpike

@@ -28,7 +28,7 @@ typedef struct {
     /* 0x1C */ Player *players[NUM_SINGLE_PLAYER_CHARS];
     /* 0x24 */ Sprite s;
     /* 0x4C */ Hitbox reserved;
-    /* 0x54 */ u32 unk54[14];
+    /* 0x54 */ s32 unk54[14];
     /* 0x8C */ u32 unk8C[14];
     /* 0xC4 */ u16 unkC4[14];
     /* 0xC4 */ u16 unkE0[14];
@@ -295,7 +295,7 @@ void sub_80443B0(IceSpike *spike)
 {
     IceSpikeParams arr[28];
     s32 qWorldX, qWorldY;
-    u32 *ptr32;
+    s32 *ptr32;
     u16 *ptr16;
     u8 i;
 
@@ -326,8 +326,8 @@ void sub_80443B0(IceSpike *spike)
 void sub_8044450(IceSpike *spike)
 {
     IceSpikeParams arr[28];
-    u32 *ptr32_a;
-    u32 *ptr32_b;
+    s32 *ptr32_a;
+    s32 *ptr32_b;
     u16 *ptr16_a;
     u16 *ptr16_b;
     u8 i;
@@ -361,7 +361,7 @@ void sub_8044450(IceSpike *spike)
 
 void sub_8044544(IceSpike *spike)
 {
-    u32 *ptr32 = &spike->unk54[0];
+    s32 *ptr32 = &spike->unk54[0];
     s16 *ptr16 = &spike->unkC4[0];
     s32 r3;
     s16 r7;
