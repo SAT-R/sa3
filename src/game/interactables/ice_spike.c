@@ -30,18 +30,21 @@ typedef struct {
     /* 0x4C */ Hitbox reserved;
     /* 0x54 */ u32 unk54[14];
     /* 0x8C */ u32 unk8C[14];
-    /* 0xC4 */ u16 unkC4[28];
+    /* 0xC4 */ u16 unkC4[14];
+    /* 0xC4 */ u16 unkE0[14];
     /* 0xFC */ Sprite s2[3];
 } IceSpike; /* 0x174 */
 
 // const u16 gUnknown_080D0144[3] = {64, 32, 32};
 extern const u16 gUnknown_080D0144[3];
 extern const IceSpikeParams gUnknown_080D014C[28];
+extern u8 gUnknown_080D030C[0x1C];
 
 void Task_IceSpikeInit(void);
 void Task_8044160(void);
 void Task_8044350(void);
 void sub_80443B0(IceSpike *spike);
+void sub_8044450(IceSpike *spike);
 void sub_8044544(IceSpike *spike);
 void sub_804464C(IceSpike *spike);
 void sub_80446E0(IceSpike *spike);
@@ -305,17 +308,144 @@ void sub_80443B0(IceSpike *spike)
     memcpy(arr, gUnknown_080D014C, sizeof(arr));
 
     {
-        s16 r6 = gStageData.timer * 16;
+        s16 time = gStageData.timer * 16;
 
-        for (i = 0; i < spike->base.unk18; i++, r6 += 0x40) {
+        for (i = 0; i < spike->base.unk18; i++, time += 0x40) {
             *ptr32++ = qWorldX + arr[i].qUnk0;
             *ptr16++ = arr[i].qUnk8 >> 1;
             *ptr32++ = qWorldY + arr[i].qUnk4;
-            *ptr16++ = arr[i].qUnkC + (r6 % 256u);
+            *ptr16++ = arr[i].qUnkC + (time & 0xFF);
         }
     }
 
     spike->base.unk19 = 2;
 
     sub_8003DF0(SE_ICE_SPIKE);
+}
+
+void sub_8044450(IceSpike *spike)
+{
+    IceSpikeParams arr[28];
+    u32 *ptr32_a;
+    u32 *ptr32_b;
+    u16 *ptr16_a;
+    u16 *ptr16_b;
+    u8 i;
+
+    ptr32_a = &spike->unk54[0];
+    ptr16_a = &spike->unkC4[0];
+    ptr32_b = &spike->unk8C[0];
+    ptr16_b = &spike->unkE0[0];
+
+    memcpy(arr, gUnknown_080D014C, sizeof(arr));
+
+    {
+        s16 time = gStageData.timer * 16;
+
+        for (i = 0; i < 7; i++, time += 0x40) {
+            *ptr16_a++ = (arr[i].qUnk8 >> 1) + (time & 0xFF);
+            *ptr16_a++ = arr[i].qUnkC + (time & 0xFF);
+        }
+
+        for (; i < spike->base.unk18; i++, time += 0x40) {
+            *ptr32_b++ = *ptr32_a++;
+            *ptr16_b++ = (arr[i].qUnk8 >> 1) + (time & 0xFF);
+
+            *ptr32_b++ = *ptr32_a++;
+            *ptr16_b++ = arr[i].qUnkC + (time & 0xFF);
+        }
+    }
+
+    spike->base.unk19 = 1;
+}
+
+void sub_8044544(IceSpike *spike)
+{
+    u32 *ptr32 = &spike->unk54[0];
+    s16 *ptr16 = &spike->unkC4[0];
+    s32 r3;
+    s16 r7;
+    s32 v;
+    u8 i;
+
+    if (spike->base.unk10 >= 16) {
+        r7 = spike->base.unk10 - 16;
+
+        if ((r7 == 0) && (spike->base.unk18 != 14)) {
+            spike->base.unk18 = 14;
+            spike->base.unk10 = 80;
+            sub_8044450(spike);
+        }
+
+        r7 = 64 - (COS_24_8(r7 * 4) >> 2);
+        r7 = 64 - (COS_24_8(r7 * 4) >> 2);
+        r7 = 64 - (COS_24_8(r7 * 4) >> 2);
+        r7 = 96 - ((COS(r7 * 4) * 3) >> 9);
+
+        if (r7 < 10)
+            r7 = 10;
+
+        for (i = 0; i < spike->base.unk18; i++) {
+            ptr16[1] += 0x10;
+
+            *ptr32++ += ((*ptr16++) * r7) >> 5;
+            *ptr32++ += ((*ptr16++) * r7) >> 5;
+        }
+    } else {
+        for (i = 0; i < spike->base.unk18; i++) {
+            ptr16[1] += 0x10;
+
+            *ptr32++ += *ptr16++;
+            *ptr32++ += *ptr16++;
+        }
+    }
+}
+
+void sub_804464C(IceSpike *spike)
+{
+    s32 *ptr32 = &spike->unk54[0];
+    Sprite *s;
+    u8 arr[28];
+    u32 r8;
+    u8 i;
+
+    memcpy(arr, gUnknown_080D030C, sizeof(arr));
+
+    r8 = 0;
+
+    if (spike->base.unk18 == 14) {
+        r8 = 1;
+    }
+
+    for (i = 0; i < (s32)ARRAY_COUNT(spike->s2); i++) {
+        s = &spike->s2[i];
+        UpdateSpriteAnimation(s);
+    }
+
+    for (i = 0; i < spike->base.unk18; i++) {
+        Sprite *s = &spike->s2[arr[i] + r8];
+
+        s->x = I(*ptr32++) - gCamera.x;
+        s->y = I(*ptr32++) - gCamera.y;
+        DisplaySprite(s);
+    }
+}
+
+void sub_80446E0(IceSpike *spike)
+{
+    Sprite *s = &spike->s;
+    s->x = I(spike->base.qWorldX) - gCamera.x;
+    s->y = I(spike->base.qWorldY) - gCamera.y;
+
+    if (spike->base.unk16 != 0) {
+        UpdateSpriteAnimation(s);
+    }
+
+    DisplaySprite(s);
+}
+
+void TaskDestructor_IceSpike(struct Task *t)
+{
+    IceSpike *spike = TASK_DATA(t);
+    VramFree(spike->s.tiles);
 }
