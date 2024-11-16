@@ -17,16 +17,34 @@
 #include "constants/zones.h"
 
 typedef struct {
+    s32 qUnk0;
+    s32 qUnk4;
+    s32 qUnk8;
+    s32 qUnkC;
+} IceSpikeParams;
+
+typedef struct {
     /* 0x00 */ SpriteBase3 base;
-    /* 0x1C */ Player *players[2];
+    /* 0x1C */ Player *players[NUM_SINGLE_PLAYER_CHARS];
     /* 0x24 */ Sprite s;
-    /* 0x4C */ u8 filler[0xB0];
+    /* 0x4C */ Hitbox reserved;
+    /* 0x54 */ u32 unk54[14];
+    /* 0x8C */ u32 unk8C[14];
+    /* 0xC4 */ u16 unkC4[28];
     /* 0xFC */ Sprite s2[3];
 } IceSpike; /* 0x174 */
 
-extern u16 gUnknown_080D0144[3];
+// const u16 gUnknown_080D0144[3] = {64, 32, 32};
+extern const u16 gUnknown_080D0144[3];
+extern const IceSpikeParams gUnknown_080D014C[28];
 
 void Task_IceSpikeInit(void);
+void Task_8044160(void);
+void Task_8044350(void);
+void sub_80443B0(IceSpike *spike);
+void sub_8044544(IceSpike *spike);
+void sub_804464C(IceSpike *spike);
+void sub_80446E0(IceSpike *spike);
 void TaskDestructor_IceSpike(struct Task *t);
 
 void CreateEntity_IceSpike(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -96,4 +114,208 @@ void CreateEntity_IceSpike(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     }
 
     SET_MAP_ENTITY_INITIALIZED(me);
+}
+
+void Task_IceSpikeInit(void)
+{
+    IceSpike *spike = TASK_DATA(gCurTask);
+    MapEntity *me = spike->base.me;
+    Sprite *s = &spike->s;
+    s16 worldX, worldY;
+    u16 sp04[NUM_SINGLE_PLAYER_CHARS];
+    u8 sp10;
+    u8 i;
+
+    worldX = I(spike->base.qWorldX);
+    worldY = I(spike->base.qWorldY);
+
+    sp10 = 0;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        Player *p = spike->players[i];
+
+        if ((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) {
+            if (!sub_802C0D4(p)) {
+                u32 res = sub_8020950(s, worldX, worldY, p, 0);
+
+                if (res & 0x10000) {
+                    p->qWorldY += Q_8_8(res + 1);
+                    sp10 |= (1 << i);
+                } else if (!sub_802C080(p)) {
+                    sub_8020CE0(s, worldX, worldY, 1, p);
+                }
+            }
+        }
+    }
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        Player *p = spike->players[i];
+        u16 r1;
+
+        sp04[i] = sa2__sub_8004418(I(p->qWorldY - spike->base.qWorldY), I(p->qWorldX - spike->base.qWorldX));
+
+        r1 = 0;
+        if ((u16)(sp04[i] - 0x81) < 0xFF) {
+            r1 = 1;
+        }
+
+        sp04[i] = r1;
+
+        if (r1) {
+            s32 lenX, lenY, c2;
+            Player *p2 = spike->players[i];
+
+            { // Is this a macro? GetVectorLength or something?
+                lenX = (ABS(I(p2->qWorldX - spike->base.qWorldX)));
+                lenX = SQUARE(lenX);
+                lenY = (ABS(I(p2->qWorldY - spike->base.qWorldY)));
+                lenY = SQUARE(lenY);
+                lenX += lenY;
+            }
+
+            if (lenX > 0x2710) {
+                sp04[i] = 0;
+            }
+        }
+    }
+
+    if (((spike->base.unk16 != 0) && (sp10 == 0)) || (sp04[PLAYER_1] != 0) || (sp04[PLAYER_2] != 0)) {
+        gCurTask->main = Task_8044160;
+    }
+
+    if (!sub_802C140(worldX, worldY, worldX - gCamera.x, worldY - gCamera.y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spike->base.spriteX);
+
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        spike->base.unk16 = sp10;
+        sub_80446E0(spike);
+    }
+}
+
+void Task_8044160(void)
+{
+    IceSpike *spike = TASK_DATA(gCurTask);
+    MapEntity *me = spike->base.me;
+    Sprite *s = &spike->s;
+    Player *p;
+    s16 worldX, worldY;
+    s32 res;
+    u8 i;
+
+    worldX = I(spike->base.qWorldX);
+    worldY = I(spike->base.qWorldY);
+
+    spike->base.unk12 += 0x20;
+    spike->base.qWorldY += spike->base.unk12;
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        p = spike->players[i];
+
+        if (!sub_802C080(p)) {
+            s32 res;
+            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s)) {
+                p->qWorldY += spike->base.unk12;
+            }
+
+            res = sub_8020950(s, worldX, worldY, p, 0);
+
+            if (res & 0x10000) {
+                p->qWorldY += Q_8_8(res + 1);
+            } else {
+                sub_8020CE0(s, worldX, worldY, 1, p);
+            }
+        }
+    }
+
+    res = sub_80517FC(worldY + 6, worldX, spike->base.unk17, +8, NULL, sub_805217C);
+
+    if (res < 0) {
+        spike->base.qWorldY += Q_8_8(res);
+        gCurTask->main = Task_8044350;
+
+        sub_80443B0(spike);
+        Task_8044350();
+
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            p = spike->players[i];
+
+            if (!sub_802C0D4(p)) {
+                if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s)) {
+                    ResolvePlayerSpriteCollision(s, p);
+
+                    Player_800E67C(p);
+
+                    p->qSpeedAirY -= Q(3);
+                }
+            }
+        }
+    } else {
+        if (!sub_802C140(worldX, worldY, s->x, s->y)) {
+            SET_MAP_ENTITY_NOT_INITIALIZED(me, spike->base.spriteX);
+            TaskDestroy(gCurTask);
+            return;
+        }
+
+        sub_80446E0(spike);
+    }
+}
+
+void Task_8044350(void)
+{
+    IceSpike *spike = TASK_DATA(gCurTask);
+    MapEntity *me = spike->base.me;
+    u8 i;
+
+    spike->base.unk10 -= spike->base.unk19;
+
+    if (spike->base.unk10 == 0) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spike->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    for (i = 0; i < spike->base.unk19; i++) {
+        sub_8044544(spike);
+    }
+
+    if ((spike->base.unk10 >= 30) || ((spike->base.unk10 & 0x2) == 0)) {
+        sub_804464C(spike);
+    }
+}
+
+void sub_80443B0(IceSpike *spike)
+{
+    IceSpikeParams arr[28];
+    s32 qWorldX, qWorldY;
+    u32 *ptr32;
+    u16 *ptr16;
+    u8 i;
+
+    qWorldX = spike->base.qWorldX;
+    qWorldY = spike->base.qWorldY;
+
+    ptr32 = &spike->unk54[0];
+    ptr16 = &spike->unkC4[0];
+
+    memcpy(arr, gUnknown_080D014C, sizeof(arr));
+
+    {
+        s16 r6 = gStageData.timer * 16;
+
+        for (i = 0; i < spike->base.unk18; i++, r6 += 0x40) {
+            *ptr32++ = qWorldX + arr[i].qUnk0;
+            *ptr16++ = arr[i].qUnk8 >> 1;
+            *ptr32++ = qWorldY + arr[i].qUnk4;
+            *ptr16++ = arr[i].qUnkC + (r6 % 256u);
+        }
+    }
+
+    spike->base.unk19 = 2;
+
+    sub_8003DF0(SE_ICE_SPIKE);
 }

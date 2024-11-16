@@ -257,6 +257,7 @@
 #define SE_LIFT    0x247
 
 #define SE_TIMED_SWITCH 0x249
+#define SE_ICE_SPIKE    0x24A
 
 #define SE_588              0x24C
 #define SE_ACCORDION_SPRING 0x24E

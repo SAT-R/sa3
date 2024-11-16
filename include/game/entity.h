@@ -69,7 +69,7 @@ typedef struct {
     /* 0x0C */ u16 regionX;
     /* 0x0E */ u16 regionY;
     /* 0x10 */ u16 unk10;
-    /* 0x12 */ u16 unk12;
+    /* 0x12 */ s16 unk12;
     /* 0x14 */ u8 spriteX;
     /* 0x15 */ u8 id;
     /* 0x16 */ u8 unk16;
