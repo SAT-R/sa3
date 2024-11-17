@@ -208,6 +208,11 @@ typedef struct {
     /* 0x04 */ u32 numTiles;
 } TileInfo2;
 
+// Used in places where the RODATA is u16[n][3] instead of TileInfo.
+#define TI_NUM_TILES(arr) (arr)[0]
+#define TI_ANIM(arr)      (arr)[1]
+#define TI_VARIANT(arr)   (arr)[2]
+
 // Used in places where the RODATA is u16[n][3] instead of TileInfo2.
 #define TI2_ANIM(arr)      (arr)[0]
 #define TI2_VARIANT(arr)   (arr)[1]

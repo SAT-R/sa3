@@ -20,8 +20,8 @@
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
-    /* 0x34 */ s32 worldX;
-    /* 0x38 */ s32 worldY;
+    /* 0x34 */ s32 qWorldX;
+    /* 0x38 */ s32 qWorldY;
     /* 0x3C */ u16 unk3C;
     /* 0x3E */ u16 unk3E;
     /* 0x40 */ u8 unk40;
@@ -42,6 +42,7 @@ void CreateButtonPlatform(u16 kind, MapEntity *me, u16 regionX, u16 regionY, u8 
     struct Task *t = TaskCreate(Task_ButtonPlatformInit, sizeof(ButtonPlatform), 0x2100, 0, TaskDestructor_ButtonPlatform);
     ButtonPlatform *platform = TASK_DATA(t);
     Sprite *s = &platform->s;
+    s32 worldX, worldY;
     s16 i;
 
     platform->base.regionX = regionX;
@@ -50,12 +51,20 @@ void CreateButtonPlatform(u16 kind, MapEntity *me, u16 regionX, u16 regionY, u8 
     platform->base.spriteX = me->x;
     platform->base.id = id;
 
-    // NOTE/BUG?: worldX/Y set to integer value, but Task_ButtonPlatformInit
-    //            applies I(...) to them.
-    platform->worldX = TO_WORLD_POS(me->x, regionX);
-    platform->worldY = TO_WORLD_POS(me->y, regionY);
+#ifndef BUG_FIX
+    // NOTE/BUG?: qWorldX/Y set to integer value, but Task_ButtonPlatformInit
+    //            and other procs apply I(...) to them.
+    platform->qWorldX = worldX = TO_WORLD_POS(me->x, regionX);
+    platform->qWorldY = worldY = TO_WORLD_POS(me->y, regionY);
+    platform->unk3C = sub_804DC38(kind, worldX, worldY, me);
+#else
+    worldX = TO_WORLD_POS(me->x, regionX);
+    worldY = TO_WORLD_POS(me->y, regionY);
+    platform->qWorldX = Q(worldX);
+    platform->qWorldY = Q(worldY);
+    platform->unk3C = sub_804DC38(kind, worldX, worldY, me);
+#endif
 
-    platform->unk3C = sub_804DC38(kind, platform->worldX, platform->worldY, me);
     platform->unk3E = 0;
     platform->unk40 = 0;
     platform->unk41 = kind;
@@ -74,9 +83,14 @@ void CreateButtonPlatform(u16 kind, MapEntity *me, u16 regionX, u16 regionY, u8 
         platform->unk43 = 0;
     }
 
+#ifndef BUG_FIX
     // NOTE: Once again the game sets the Sprite pos to a world- instead of a screen pos on init.
-    s->x = platform->worldX;
-    s->y = platform->worldY;
+    s->x = platform->qWorldX;
+    s->y = platform->qWorldY;
+#else
+    s->x = worldX;
+    s->y = worldY;
+#endif
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
@@ -111,14 +125,14 @@ void Task_ButtonPlatformInit(void)
         qPathMiddleY = qPathTop + qPathHalfHeight;
 
         {
-            dx = platform->worldX;
-            dy = platform->worldY;
+            dx = platform->qWorldX;
+            dy = platform->qWorldY;
 
-            platform->worldX = qPathMiddleX + ((SIN(platform->unk3E) * qPathHalfWidth) >> 14);
-            platform->worldY = qPathMiddleY + ((SIN(platform->unk3E) * qPathHalfHeight) >> 14);
+            platform->qWorldX = qPathMiddleX + ((SIN(platform->unk3E) * qPathHalfWidth) >> 14);
+            platform->qWorldY = qPathMiddleY + ((SIN(platform->unk3E) * qPathHalfHeight) >> 14);
 
-            dx = dx - platform->worldX;
-            dy = dy - platform->worldY;
+            dx = dx - platform->qWorldX;
+            dy = dy - platform->qWorldY;
         }
 
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
@@ -136,7 +150,7 @@ void Task_ButtonPlatformInit(void)
                 }
 
                 // NOTE/BUG?: I(...) on integer values
-                res = sub_8020950(s, I(platform->worldX), I(platform->worldY), p, 0);
+                res = sub_8020950(s, I(platform->qWorldX), I(platform->qWorldY), p, 0);
 
                 if (res & 0x10000) {
                     p->qWorldY += Q_8_8(res);
@@ -152,7 +166,7 @@ void Task_ButtonPlatformInit(void)
             }
         }
 
-        platform->worldY += (SIN(platform->unk40 * 16) >> 5);
+        platform->qWorldY += (SIN(platform->unk40 * 16) >> 5);
     }
 
     sub_8038988();

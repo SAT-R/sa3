@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start sub_8038988
 sub_8038988: @ 0x08038988
 	push {r4, r5, r6, r7, lr}
@@ -21,39 +19,39 @@ sub_8038988: @ 0x08038988
 	ldrh r5, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r7, r5, r0
+	adds r7, r5, r0     @ r7 = platform
 	adds r0, #0xc
-	adds r6, r5, r0
+	adds r6, r5, r0     @ r6 = s
 	ldr r1, [r7]
-	mov r8, r1
+	mov r8, r1          @ r8 = me
 	ldrb r0, [r7, #0xa]
 	lsls r0, r0, #3
 	ldrh r1, [r7, #4]
 	lsls r1, r1, #8
-	adds r0, r0, r1
+	adds r0, r0, r1     @ r0 = spawnX
 	mov r2, r8
 	ldrb r1, [r2, #1]
 	lsls r1, r1, #3
 	ldrh r2, [r7, #6]
 	lsls r2, r2, #8
-	adds r1, r1, r2
+	adds r1, r1, r2     @ r1 = spawnY
 	ldr r2, [r7, #0x34]
 	asrs r2, r2, #8
 	mov ip, r2
 	ldr r3, _08038A1C @ =gCamera
-	mov sb, r3
+	mov sb, r3          @ sb = gCamera
 	ldr r2, [r3]
 	mov r3, ip
 	subs r3, r3, r2
 	movs r2, #0
 	mov sl, r2
-	strh r3, [r6, #0x10]
+	strh r3, [r6, #0x10]    @ s->x = I(platform->qWorldX) - gCamera.x
 	ldr r2, [r7, #0x38]
 	asrs r2, r2, #8
-	mov r3, sb
+	mov r3, sb          @ r3 = sb = gCamera
 	ldr r3, [r3, #4]
 	subs r2, r2, r3
-	strh r2, [r6, #0x12]
+	strh r2, [r6, #0x12]    @ s->y = I(platform->qWorldY) - gCamera.y
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	lsls r1, r1, #0x10
@@ -186,7 +184,7 @@ _08038A68:
 	adds r3, r4, r0
 	str r3, [r7, #0x38]
 	asrs r1, r1, #8
-	mov r2, sb
+	mov r2, sb          @ r2 = sb = gCamera
 	ldr r0, [r2]
 	subs r1, r1, r0
 	strh r1, [r6, #0x10]
@@ -300,6 +298,7 @@ _08038BBE:
 	pop {r0}
 	bx r0
 	.align 2, 0
+.endif
 
 	thumb_func_start CreateEntity_Interactable067
 CreateEntity_Interactable067: @ 0x08038BD0
