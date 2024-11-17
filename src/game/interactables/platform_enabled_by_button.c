@@ -25,7 +25,7 @@ typedef struct {
     /* 0x3C */ u16 unk3C;
     /* 0x3E */ u16 unk3E;
     /* 0x40 */ u8 unk40;
-    /* 0x41 */ u8 unk41;
+    /* 0x41 */ u8 kind;
     /* 0x42 */ u8 unk42;
     /* 0x43 */ u8 unk43;
 } ButtonPlatform;
@@ -67,7 +67,7 @@ void CreateButtonPlatform(u16 kind, MapEntity *me, u16 regionX, u16 regionY, u8 
 
     platform->unk3E = 0;
     platform->unk40 = 0;
-    platform->unk41 = kind;
+    platform->kind = kind;
 
     for (i = 0; i < 8; i++) {
         if (GetBit(me->d.uData[4], i)) {
@@ -197,4 +197,103 @@ void sub_8038910(u32 UNUSED kindIndex, Sprite *s)
     s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
     s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
     UpdateSpriteAnimation(s);
+}
+
+void sub_8038988(void)
+{
+    ButtonPlatform *platform = TASK_DATA(gCurTask);
+    Sprite *s = &platform->s;
+    MapEntity *me = platform->base.me;
+    Player *p;
+    s32 qWorldX, qWorldY; // BUG: uninitialized, copy-paste error?
+    s16 i, j;
+
+#ifndef BUG_FIX
+    s16 spawnX, spawnY;
+    spawnX = TO_WORLD_POS(platform->base.spriteX, platform->base.regionX);
+    spawnY = TO_WORLD_POS(me->y, platform->base.regionY);
+#else
+    s32 spawnX, spawnY;
+    spawnX = TO_WORLD_POS(platform->base.spriteX, platform->base.regionX);
+    spawnY = TO_WORLD_POS(me->y, platform->base.regionY);
+
+    // BUG: These are uninitialized usually
+    qWorldX = Q(spawnX);
+    qWorldY = Q(spawnY);
+#endif
+
+    s->x = I(platform->qWorldX) - gCamera.x;
+    s->y = I(platform->qWorldY) - gCamera.y;
+
+    if (!sub_802C140(spawnX, spawnY, s->x, s->y)) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            p = GET_SP_PLAYER_V1(i);
+
+            ResolvePlayerSpriteCollision(s, p);
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (GetBit(gStageData.unk2C, platform->unk42)) {
+        s32 qPathTop, qPathBottom;
+        s32 qPathLeft, qPathRight;
+        s32 qPathHalfWidth, qPathHalfHeight;
+        s32 qPathMiddleX, qPathMiddleY;
+
+        if (platform->unk43 == 0) {
+            s->variant = 1;
+            platform->unk43 = 1;
+
+            platform->unk3E = ((gStageData.timer + (platform->unk3C >> 2)) & 0xFF) << 2;
+
+            qPathTop = qWorldY + Q(me->d.sData[1] * TILE_WIDTH);
+            qPathHalfHeight = Q(me->d.uData[3] * (TILE_WIDTH / 2));
+            qPathLeft = qWorldX + Q(me->d.sData[0] * TILE_WIDTH);
+            qPathHalfWidth = Q(me->d.uData[2] * (TILE_WIDTH / 2));
+            qPathMiddleX = qPathLeft + qPathHalfWidth;
+            qPathMiddleY = qPathTop + qPathHalfHeight;
+
+            platform->qWorldX = qPathMiddleX + ((SIN(platform->unk3E) * qPathHalfWidth) >> 14);
+            platform->qWorldY = qPathMiddleY + ((SIN(platform->unk3E) * qPathHalfHeight) >> 14);
+
+            s->x = I(platform->qWorldX) - gCamera.x;
+            s->y = I(platform->qWorldY) - gCamera.y;
+        } else if ((gStageData.buttonTimersBlue[platform->unk42] < 0x78)) {
+            if (s->variant != 2) {
+                s->variant = 2;
+            }
+        } else if (s->variant == 2) {
+            s->variant = 0;
+        }
+    } else if (platform->unk43 == 1) {
+        platform->unk43 = 0;
+
+        for (j = 0; j < NUM_SINGLE_PLAYER_CHARS; j++) {
+            p = GET_SP_PLAYER_V0(j);
+            ResolvePlayerSpriteCollision(s, p);
+        }
+    }
+
+    if (platform->unk43 != 0) {
+        u16 cmdRes = UpdateSpriteAnimation(s);
+
+        if ((cmdRes == ACMD_RESULT__ENDED) && (s->variant == 1)) {
+            s->variant = 0;
+        }
+
+        DisplaySprite(s);
+    }
+}
+
+void CreateEntity_Interactable067(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateButtonPlatform(0, me, regionX, regionY, id); }
+
+void CreateEntity_Interactable068(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateButtonPlatform(3, me, regionX, regionY, id); }
+
+void TaskDestructor_ButtonPlatform(struct Task *t)
+{
+    ButtonPlatform *platform = TASK_DATA(t);
+    VramFree(platform->s.tiles);
 }

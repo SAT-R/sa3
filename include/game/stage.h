@@ -50,8 +50,8 @@ typedef struct {
 
     /* 0x2C */ u8 unk2C;
     /* 0x2D */ u8 unk2D;
-    /* 0x2E */ u16 unk2E[8]; // [0] Used as timer for blue switches
-    /* 0x3E */ u16 unk3E[8]; // [2] Used as timer for red switches
+    /* 0x2E */ u16 buttonTimersBlue[8]; // [0] Used as timer for blue buttons
+    /* 0x3E */ u16 buttonTimersRed[8]; // [2] Used as timer for red buttons
     /* 0x4E */ u16 unk4E[8];
     /* 0x5E */ s16 unk5E[8];
     /* 0x6E */ u16 unk6E[8];
