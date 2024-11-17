@@ -1149,8 +1149,8 @@ _080305C4:
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Interactable028
-CreateEntity_Interactable028: @ 0x080305D4
+	thumb_func_start CreateEntity_BlueButton
+CreateEntity_BlueButton: @ 0x080305D4
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	adds r6, r0, #0
@@ -1173,8 +1173,8 @@ CreateEntity_Interactable028: @ 0x080305D4
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Interactable071
-CreateEntity_Interactable071: @ 0x08030600
+	thumb_func_start CreateEntity_RedButton
+CreateEntity_RedButton: @ 0x08030600
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	adds r6, r0, #0

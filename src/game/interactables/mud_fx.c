@@ -33,7 +33,7 @@ void TaskDestructor_Interactable095(struct Task *t);
 void sub_80407AC(Sprite *s);
 void sub_8040814(void);
 
-void CreateEntity_Interactable095(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+void CreateEntity_WaterfallResist(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_Interactable095, sizeof(IA_095), 0x2100, 0, TaskDestructor_Interactable095);
     IA_095 *ia = TASK_DATA(t);

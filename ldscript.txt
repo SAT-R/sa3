@@ -28,14 +28,14 @@ SECTIONS {
         build/sa3/src/game/interactables/warp.o(.text);
         build/sa3/src/game/interactables/015.o(.text);
         build/sa3/src/game/interactables/platform.o(.text);
-        build/sa3/asm/ia_platform_and_spring_with_switch.o(.text);
+        build/sa3/asm/ia_platform_and_spring_with_button.o(.text);
         build/sa3/asm/ia_spikes.o(.text);
         build/sa3/src/game/interactables/booster.o(.text);
         build/sa3/src/game/interactables/trampoline.o(.text);
         build/sa3/asm/ia_ramp.o(.text);
         build/sa3/asm/ia_rotating_handle.o(.text);
         build/sa3/src/game/interactables/lift.o(.text);
-        build/sa3/asm/ia_platforms_and_spring_with_switch_2.o(.text);
+        build/sa3/asm/ia_platforms_and_spring_with_button_2.o(.text);
         build/sa3/src/game/interactables/checkpoint.o(.text);
         build/sa3/src/game/interactables/goal_ring.o(.text);
         build/sa3/src/game/interactables/bouncy_bar.o(.text);
@@ -48,7 +48,7 @@ SECTIONS {
         build/sa3/asm/ia_deco_rock.o(.text);
         build/sa3/src/game/interactables/flat_spring.o(.text);
         build/sa3/src/game/interactables/omochao.o(.text);
-        build/sa3/asm/ia_platform_enabled_by_switch.o(.text);
+        build/sa3/asm/ia_platform_enabled_by_button.o(.text);
         build/sa3/src/game/interactables/platform_crumbling.o(.text);
         build/sa3/asm/ia_grind_rail.o(.text);
         build/sa3/src/game/interactables/bonus_game_capsule.o(.text);

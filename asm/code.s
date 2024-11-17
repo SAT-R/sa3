@@ -10196,7 +10196,7 @@ sub_806AE3C: @ 0x0806AE3C
 	adds r5, r5, r7
 	strb r3, [r5]
 	movs r3, #0
-	bl CreateEntity_Interactable028 @ NOTE(Jace)::What..?
+	bl CreateEntity_BlueButton @ NOTE(Jace)::What..?
 	mov r0, r8
 	ldr r1, [r0]
 	ldr r0, _0806AED8 @ =sub_806AEDC

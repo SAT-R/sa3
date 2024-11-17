@@ -270,7 +270,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Platform_2_1
     .4byte CreateEntity_Platform_2_2
     .4byte CreateEntity_Platform_2_3
-    .4byte CreateEntity_Interactable028 @ 028 - Same code as 071
+    .4byte CreateEntity_BlueButton @ 028 - Same code as 071
     .4byte CreateEntity_Spikes_Up               @ 029
     .4byte CreateEntity_Spikes_Down             @ 030
     .4byte CreateEntity_Spikes_Left             @ 031
@@ -313,7 +313,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable068
     .4byte CreateEntity_PlatformCrumblingA
     .4byte CreateEntity_PlatformCrumblingB
-    .4byte CreateEntity_Interactable071 @ 071 - Same code as 028
+    .4byte CreateEntity_RedButton @ 071 - Same code as 028
     .4byte CreateEntity_Interactable072 @ 072 Grind Rail
     .4byte CreateEntity_Interactable073
     .4byte CreateEntity_Interactable074
@@ -337,7 +337,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_BungeeCord
     .4byte CreateEntity_Interactable093
     .4byte CreateEntity_Interactable094
-    .4byte CreateEntity_Interactable095 
+    .4byte CreateEntity_WaterfallResist 
     .4byte CreateEntity_ActRing         @ 096 - ActRing and ZoneWarp are 2 IAs
     .4byte CreateEntity_SpecialSpring
     .4byte CreateEntity_FactoryRing
