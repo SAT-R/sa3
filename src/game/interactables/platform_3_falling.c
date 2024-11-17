@@ -159,3 +159,66 @@ void sub_8042EA8(PlatformMaybeFalling *platform)
         UpdateSpriteAnimation(s);
     }
 }
+
+void sub_8042F10(void)
+{
+    bool32 sb = TRUE;
+    PlatformMaybeFalling *platform = TASK_DATA(gCurTask);
+    MapEntity *me = platform->base.me;
+    s16 worldX, worldY;
+    s16 screenX, screenY;
+    s16 i, j, k;
+
+    worldX = TO_WORLD_POS(platform->base.spriteX, platform->base.regionX);
+    worldY = TO_WORLD_POS(me->y, platform->base.regionY);
+
+    sb = (IsPointInScreenRect(worldX, worldY) == sb) ? FALSE : TRUE;
+
+    screenX = worldX - gCamera.x;
+    screenY = worldY - gCamera.y;
+
+    for (i = 0; i < (s32)ARRAY_COUNT(platform->sprites); i++) {
+        Sprite *s = &platform->sprites[i];
+        s->x = platform->unkB4[i] + screenX;
+        s->y = platform->unkBC[i] + screenY;
+
+        if (sub_802C1D0(s->x, s->y) == TRUE) {
+            UpdateSpriteAnimation(s);
+
+            for (k = 0; k < NUM_SINGLE_PLAYER_CHARS; k++) {
+                if (k != 0) {
+                    SPRITE_FLAG_SET(s, X_FLIP);
+                } else {
+                    SPRITE_FLAG_CLEAR(s, X_FLIP);
+                }
+
+                DisplaySprite(s);
+            }
+
+            sb = FALSE;
+        }
+    }
+
+    if (sb) {
+        for (j = 0; j < NUM_SINGLE_PLAYER_CHARS; j++) {
+            Player *p = GET_SP_PLAYER_V1(j);
+            s16 i;
+
+            for (i = 0; i < (s32)ARRAY_COUNT(platform->sprites); i++) {
+                Sprite *s = &platform->sprites[i];
+
+                ResolvePlayerSpriteCollision(s, p);
+            }
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+}
+
+void TaskDestructor_PlatformMaybeFalling(struct Task *t)
+{
+    PlatformMaybeFalling *platform = TASK_DATA(t);
+    VramFree(platform->tiles);
+}
