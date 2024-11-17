@@ -48,7 +48,6 @@ void CreateEntity_Platform(s16 kindA, s16 sharedKind, MapEntity *me, u16 regionX
     s32 qWorldX, qWorldY;
     s32 qLeft, qTop;
     s32 qHalfHeight, qHalfWidth;
-    s32 qMiddleX, qMiddleY;
     s16 i;
 
     shared->base.regionX = regionX;

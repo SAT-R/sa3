@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_8039198
-sub_8039198: @ 0x08039198
+	thumb_func_start CreateGrindRail
+CreateGrindRail: @ 0x08039198
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -961,7 +961,7 @@ CreateEntity_Interactable072: @ 0x080398A0
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sub_8039198
+	bl CreateGrindRail
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
@@ -985,7 +985,7 @@ CreateEntity_Interactable077: @ 0x080398CC
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sub_8039198
+	bl CreateGrindRail
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
@@ -1009,7 +1009,7 @@ CreateEntity_Interactable078: @ 0x080398F8
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sub_8039198
+	bl CreateGrindRail
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
@@ -1033,7 +1033,7 @@ CreateEntity_Interactable079: @ 0x08039924
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sub_8039198
+	bl CreateGrindRail
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
@@ -1057,7 +1057,7 @@ CreateEntity_Interactable080: @ 0x08039950
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sub_8039198
+	bl CreateGrindRail
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
