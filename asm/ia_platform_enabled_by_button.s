@@ -5,66 +5,7 @@
 .syntax unified
 .arm
 
-.if 01
-	thumb_func_start sub_8038910
-sub_8038910: @ 0x08038910
-	push {r4, r5, lr}
-	sub sp, #0x2c
-	adds r5, r1, #0
-	ldr r1, _08038980 @ =gUnknown_080CF69C
-	mov r0, sp
-	movs r2, #0x2a
-	bl memcpy
-	ldr r2, _08038984 @ =gStageData
-	ldrb r0, [r2, #0xa]
-	movs r1, #0
-	cmp r0, #9
-	beq _0803892C
-	ldrb r1, [r2, #9]
-_0803892C:
-	lsls r4, r1, #1
-	adds r4, r4, r1
-	lsls r4, r4, #1
-	add r0, sp, #4
-	adds r0, r0, r4
-	ldrh r0, [r0]
-	bl VramMalloc
-	str r0, [r5]
-	mov r1, sp
-	adds r0, r1, r4
-	ldrh r0, [r0]
-	movs r2, #0
-	movs r1, #0
-	strh r0, [r5, #0xc]
-	mov r0, sp
-	adds r0, #2
-	adds r0, r0, r4
-	ldrh r0, [r0]
-	strb r0, [r5, #0x1a]
-	movs r0, #0xc0
-	lsls r0, r0, #3
-	strh r0, [r5, #0x14]
-	strh r1, [r5, #0xe]
-	strh r1, [r5, #0x16]
-	movs r0, #0xff
-	strb r0, [r5, #0x1b]
-	movs r0, #0x10
-	strb r0, [r5, #0x1c]
-	strb r2, [r5, #0x1f]
-	subs r0, #0x11
-	str r0, [r5, #0x20]
-	movs r0, #0x80
-	lsls r0, r0, #5
-	str r0, [r5, #8]
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-	add sp, #0x2c
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08038980: .4byte gUnknown_080CF69C
-_08038984: .4byte gStageData
+.if 0
 .endif
 
 	thumb_func_start sub_8038988

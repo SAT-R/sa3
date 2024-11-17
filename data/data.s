@@ -489,8 +489,8 @@ sOamFlags:
 gUnknown_080CF690:
     .incbin "baserom.gba", 0x000CF690, 0xC
 
-    .global gUnknown_080CF69C
-gUnknown_080CF69C:
+    .global sTileInfoBtnPlatforms
+sTileInfoBtnPlatforms:
     .incbin "baserom.gba", 0x000CF69C, 0x2C
 
 @ Bonus Capsule Data Start

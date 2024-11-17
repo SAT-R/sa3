@@ -208,11 +208,16 @@ typedef struct {
     /* 0x04 */ u32 numTiles;
 } TileInfo2;
 
+// Used in places where the RODATA is u16[n][3] instead of TileInfo2.
+#define TI2_ANIM(arr)      (arr)[0]
+#define TI2_VARIANT(arr)   (arr)[1]
+#define TI2_NUM_TILES(arr) (arr)[2]
+
 typedef struct PACKED {
     /* 0x00 */ u16 numTiles;
     /* 0x02 */ AnimId anim;
     /* 0x04 */ u16 variant;
-} TileInfo16;
+} TileInfo_16;
 
 extern const u8 gOamShapesSizes[12][2];
 

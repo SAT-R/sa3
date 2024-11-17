@@ -31,9 +31,11 @@ typedef struct {
 } ButtonPlatform;
 
 void Task_ButtonPlatformInit(void);
-void sub_8038910(u32 UNUSED unused, Sprite *s);
+void sub_8038910(u32 UNUSED kindIndex, Sprite *s);
 void sub_8038988(void);
 void TaskDestructor_ButtonPlatform(struct Task *t);
+
+extern const u16 sTileInfoBtnPlatforms[NUM_COURSE_ZONES][3];
 
 void CreateButtonPlatform(u16 kind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -126,7 +128,7 @@ void Task_ButtonPlatformInit(void)
             if (!sub_802C0D4(p)) {
                 if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s)) {
                     p->qWorldX -= dx;
-                    p->qWorldY -= -Q(4) + dy;
+                    p->qWorldY -= dy - Q(4);
 
                     sl = +1;
                 } else if (sl == 0) {
@@ -154,4 +156,31 @@ void Task_ButtonPlatformInit(void)
     }
 
     sub_8038988();
+}
+
+void sub_8038910(u32 UNUSED kindIndex, Sprite *s)
+{
+    u32 infoIndex;
+
+    u16 tileInfo[NUM_COURSE_ZONES][3];
+    memcpy(tileInfo, sTileInfoBtnPlatforms, sizeof(tileInfo));
+
+    if (gStageData.act == ACT_BONUS_ENEMIES) {
+        infoIndex = 0;
+    } else {
+        infoIndex = gStageData.zone;
+    }
+
+    s->tiles = VramMalloc(TI2_NUM_TILES(tileInfo[infoIndex]));
+    s->anim = TI2_ANIM(tileInfo[infoIndex]);
+    s->variant = TI2_VARIANT(tileInfo[infoIndex]);
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    UpdateSpriteAnimation(s);
 }
