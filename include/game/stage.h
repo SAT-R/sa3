@@ -55,7 +55,7 @@ typedef struct {
 
     /* Timers
         The indices for the arrays (which are the bit number for each EnableBits value)
-        are retrieved by fínding the first bit set in me->d.uData[4].
+        are retrieved by finding the first bit set in me->d.uData[4].
     */
     /* 0x2C */ u8 platformTimerEnableBits;
     /* 0x2D */ u8 springTimerEnableBits;
