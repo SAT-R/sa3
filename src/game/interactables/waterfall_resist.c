@@ -158,7 +158,7 @@ void sub_8040814(void)
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         Player *p = ia->chars[i];
 
-        if ((ia->unk24 >> i) & 0x1) {
+        if (GetBit(ia->unk24, i)) {
             s->x = I(p->qWorldX) - gCamera.x;
             s->y = I(p->qWorldY) - gCamera.y;
             DisplaySprite(s);

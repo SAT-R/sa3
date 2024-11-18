@@ -138,7 +138,7 @@ void Task_8037F8C(void)
     gWinRegs[WINREG_WINOUT] = (WINOUT_WIN01_ALL & ~WINOUT_WIN01_CLR);
 
     gBldRegs.bldCnt = 0x3FAF;
-    gBldRegs.bldY = 8 - (omochao->unk60 >> 1);
+    gBldRegs.bldY = 8 - (omochao->unk60 / 2);
 
     sub_8038548();
 }
@@ -194,7 +194,7 @@ void Task_80380FC(void)
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             p = GET_SP_PLAYER_V1(i);
 
-            if ((omochao->unk62 >> i) & 0x1) {
+            if (GetBit(omochao->unk62, i)) {
                 Player_800ED34(p);
             }
         }
@@ -211,7 +211,7 @@ void Task_80380FC(void)
 
             p->moveState &= ~MOVESTATE_10000000;
 
-            if ((omochao->unk62 >> i) & 0x1) {
+            if (GetBit(omochao->unk62, i)) {
                 SetPlayerCallback(p, Player_8005380);
             }
         }
@@ -275,7 +275,7 @@ NONMATCH("asm/non_matching/game/interactables/omochao__OmochaoPickUp.inc", bool3
             // _08038404
             p = GET_SP_PLAYER_V1(i);
 
-            if ((sb >> i) & 0x1) {
+            if (GetBit(sb, i)) {
                 sub_8016F28(p);
                 Player_800ED14(p);
 

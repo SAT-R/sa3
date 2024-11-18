@@ -67,7 +67,7 @@ void CreateEntity_DeathCrusher(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     crusher->hasLED = (me->d.uData[4] & 0x1);
 
     for (i = 2; i <= (s32)ARRAY_COUNT(gUnknown_080CFBC8); i++) {
-        if ((me->d.uData[4] >> i) & 0x1)
+        if (GetBit(me->d.uData[4], i))
             break;
     }
 

@@ -43,11 +43,7 @@ void CreateEntity_PlatformRaisingWheel(MapEntity *me, u16 regionX, u16 regionY, 
     wheel->base.spriteX = me->x;
     wheel->base.id = id;
 
-    for (i = 0; i < 8; i++) {
-        if ((me->d.uData[4] >> i) & 0x1) {
-            break;
-        }
-    }
+    i = GetFirstSetBitIndex(me->d.uData[4], 8);
 
     wheel->unk44 = i;
     wheel->unk40 = (me->d.sData[0] * TILE_WIDTH);

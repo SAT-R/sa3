@@ -50,11 +50,8 @@ void CreateEntity_BonusUfo(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     memcpy(array, sUfoActs, sizeof(sUfoActs));
 
 #ifndef NON_MATCHING
-    // NOTE: This loop does nothing
-    for (i = 0; i < (s32)ARRAY_COUNT(array); i++) {
-        if ((me->d.uData[4] >> i) & 1)
-            break;
-    }
+    // NOTE: Result is unused, but agbcc always generates loops...
+    i = GetFirstSetBitIndexExt(me->d.uData[4], (s32)ARRAY_COUNT(array), i);
 #endif
 
     t = TaskCreate(Task_BonusUfoMain, sizeof(BonusUfo), 0x2100, 0, TaskDestructor_BonusUfo);
@@ -66,10 +63,8 @@ void CreateEntity_BonusUfo(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     ufo->base.spriteX = me->x;
     ufo->base.id = id;
 
-    for (i = 0; i < (s32)ARRAY_COUNT(array); i++) {
-        if ((me->d.uData[4] >> i) & 1)
-            break;
-    }
+    // NOTE: 'i' is implicitly incremented here! (does not match otherwise)
+    GetFirstSetBitIndexExt(me->d.uData[4], 3, i);
 
     ufo->unkB1 = array[i];
     ufo->unkB2 = ZONE_TIME_TO_INT(0, 1);

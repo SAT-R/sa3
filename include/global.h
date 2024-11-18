@@ -210,18 +210,27 @@ typedef void (*VoidFn)(void);
 #define SetSoleBit(x, y) (x) = BitValue(y)
 #define ClearBit(x, y)   (x) &= ~BitValue(y)
 
-// TODO: Use instrinsics for this platforms that support it!
-// Get the index to the first set bit in a given value.
-#define GetFirstSetBitIndex(value, max)                                                                                                    \
+// TODO: Use instrinsics for these, on platforms that support it!
+// Like GetFirstSetBitIndex, but an external iterator can be passed.
+#define GetFirstSetBitIndexExt(value, max, it)                                                                                             \
     ({                                                                                                                                     \
-        s16 bit;                                                                                                                           \
-        for (bit = 0; bit < (max); bit++) {                                                                                                \
-            if (GetBit(value, bit)) {                                                                                                      \
+        s32 res;                                                                                                                           \
+                                                                                                                                           \
+        for (it = 0; it < (max); it++) {                                                                                                   \
+            if (GetBit(value, it)) {                                                                                                       \
                 break;                                                                                                                     \
             }                                                                                                                              \
         }                                                                                                                                  \
                                                                                                                                            \
-        bit;                                                                                                                               \
+        res = it;                                                                                                                          \
+    })
+
+// Get the index to the first set bit in a given value.
+#define GetFirstSetBitIndex(value, max)                                                                                                    \
+    ({                                                                                                                                     \
+        s16 bit;                                                                                                                           \
+                                                                                                                                           \
+        bit = GetFirstSetBitIndexExt(value, max, bit);                                                                                     \
     })
 
 // Like GetFirstSetBitIndex, but expects input value to only have 1 bit set.

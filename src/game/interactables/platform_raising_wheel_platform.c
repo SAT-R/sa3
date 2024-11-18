@@ -42,11 +42,7 @@ void CreateEntity_PlatformRaisingWheelPlatform(MapEntity *me, u16 regionX, u16 r
     platform->base.spriteX = me->x;
     platform->base.id = id;
 
-    for (i = 0; i < 8; i++) {
-        if ((me->d.uData[4] >> i) & 0x1) {
-            break;
-        }
-    }
+    i = GetFirstSetBitIndex(me->d.uData[4], 8);
 
     platform->unk34 = i;
 

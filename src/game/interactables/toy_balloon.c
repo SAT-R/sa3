@@ -51,9 +51,7 @@ static void CreateEntity_ToyBalloon(u32 type, MapEntity *me, u16 regionX, u16 re
     balloon->destructDelay = 0;
     balloon->variant = (me->d.uData[4] >> 6);
 
-    for (i = 0; (i <= 5) && !((me->d.uData[4] >> i) & 0x1); i++) {
-        ;
-    }
+    i = GetFirstSetBitIndex(me->d.uData[4], 6);
 
     balloon->unk37 = 0;
 

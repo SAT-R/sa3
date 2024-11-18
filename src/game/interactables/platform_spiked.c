@@ -80,10 +80,7 @@ void CreateEntity_PlatformSpiked(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     platform->qWorldX = Q(platform->qWorldX);
     platform->qWorldY = Q(platform->qWorldY);
 
-    for (i = 0; i < 6; i++) {
-        if ((me->d.uData[4] >> i) & 1)
-            break;
-    }
+    GetFirstSetBitIndexExt(me->d.uData[4], 6, i);
 
     platform->unk18 = i + 1;
 
@@ -124,7 +121,7 @@ void Task_80452AC(void)
         platform->unk14 = val & ONE_CYCLE;
     } else {
         s32 val = gStageData.timer;
-        platform->unk14 = ((val + (platform->unk16 >> 2)) & 0xFF) << 2;
+        platform->unk14 = ((val + (platform->unk16 / 4)) & 0xFF) << 2;
     }
 
     qWorldX = platform->qWorldX;

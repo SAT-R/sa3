@@ -69,7 +69,7 @@ void Task_Interactable117_to_119(void)
 
                 if ((ia->left > pWorldX) || (ia->right < pWorldX) || (ia->top > pWorldY) || (ia->bottom < pWorldY)) {
                     if (ia->type == IA117_TYPE_0) {
-                        if ((ia->unk19 >> i) & 0x1) {
+                        if (GetBit(ia->unk19, i)) {
                             ClearBit(ia->unk19, i);
 
                             if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {

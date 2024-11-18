@@ -89,7 +89,8 @@ static bool32 UpdatePlayerSpeed(void)
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             Player *p = GET_SP_PLAYER_V1(i);
 
-            if (!((~r1 >> i) & 0x1)) {
+            // TODO: Is there a reason for not saying GetBit(r1, i)?
+            if (!GetBit(~r1, i)) {
                 qSpeedAirY = ABS(p->qSpeedAirY);
 
                 ResolvePlayerSpriteCollision(s, p);

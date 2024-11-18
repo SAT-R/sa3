@@ -174,11 +174,7 @@ void CreateEntity_Warp(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     u8 i;
 
-    for (i = 0; i < 4; i++) {
-        if ((me->d.uData[4] >> i) & 0x1) {
-            break;
-        }
-    }
+    GetFirstSetBitIndexExt(me->d.uData[4], 4, i);
 
     if ((i != 1) || (gStageData.gameMode == GAME_MODE_SINGLE_PLAYER)) {
         struct Task *t = TaskCreate(Task_WarpMain, sizeof(Warp), 0x2000, 0, NULL);

@@ -53,10 +53,7 @@ void CreateEntity_MazeEnter(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     maze->base.spriteX = me->x;
     maze->base.id = id;
 
-    for (i = 0; i < 4; i++) {
-        if ((me->d.uData[4] >> i) & 0x1)
-            break;
-    }
+    i = GetFirstSetBitIndex(me->d.uData[4], 4);
 
     maze->unk3C = i;
     maze->unk3D = 0;
@@ -90,17 +87,11 @@ NONMATCH("asm/non_matching/game/interactables/maze__CreateEntity_MazeCorner.inc"
     maze->base.spriteX = me->x;
     maze->base.id = id;
 
-    for (i = 0; i < 4; i++) {
-        if ((me->d.uData[4] >> i) & 0x1)
-            break;
-    }
+    i = GetFirstSetBitIndex(me->d.uData[4], 4);
 
     maze->unk3C = i;
 
-    for (i = 0; i < 4; i++) {
-        if (((me->d.uData[4]) >> (i + 4)) & 0x1)
-            break;
-    }
+    i = GetFirstSetBitIndex(me->d.uData[4], 4);
 
     maze->unk3D = i;
     maze->unk3E = 0;
@@ -129,10 +120,7 @@ void CreateEntity_MazeExit(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     maze->base.spriteX = me->x;
     maze->base.id = id;
 
-    for (i = 0; i < 4; i++) {
-        if ((me->d.uData[4] >> i) & 0x1)
-            break;
-    }
+    i = GetFirstSetBitIndex(me->d.uData[4], 4);
 
     maze->unk3C = i;
     maze->unk3E = 0;

@@ -47,7 +47,7 @@ void CreateEntity_Suction(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     suction->unk69 = (me->d.uData[4] & 0xF0) ? 1 : 0;
 
     for (i = 0; i < 8; i++) {
-        if ((me->d.uData[4] >> i) & 0x1) {
+        if (GetBit(me->d.uData[4], i)) {
             suction->unk68 = i;
             break;
         }
