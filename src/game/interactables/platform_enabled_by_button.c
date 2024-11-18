@@ -23,21 +23,21 @@ typedef struct {
     /* 0x34 */ s32 qWorldX;
     /* 0x38 */ s32 qWorldY;
     /* 0x3C */ u16 unk3C;
-    /* 0x3E */ u16 unk3E;
+    /* 0x3E */ u16 theta;
     /* 0x40 */ u8 unk40;
-    /* 0x41 */ u8 kind;
-    /* 0x42 */ u8 unk42;
-    /* 0x43 */ u8 unk43;
+    /* 0x41 */ u8 sharedKind;
+    /* 0x42 */ u8 timerId;
+    /* 0x43 */ bool8 isActive;
 } ButtonPlatform;
 
-void Task_ButtonPlatformInit(void);
-void sub_8038910(u32 UNUSED kindIndex, Sprite *s);
-void sub_8038988(void);
-void TaskDestructor_ButtonPlatform(struct Task *t);
+static void Task_ButtonPlatformInit(void);
+static void sub_8038910(u8 UNUSED timerId, Sprite *s);
+static void sub_8038988(void);
+static void TaskDestructor_ButtonPlatform(struct Task *t);
 
 extern const u16 sTileInfoBtnPlatforms[NUM_COURSE_ZONES][3];
 
-void CreateButtonPlatform(u16 kind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
+static void CreateButtonPlatform(u16 sharedKind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_ButtonPlatformInit, sizeof(ButtonPlatform), 0x2100, 0, TaskDestructor_ButtonPlatform);
     ButtonPlatform *platform = TASK_DATA(t);
@@ -56,31 +56,32 @@ void CreateButtonPlatform(u16 kind, MapEntity *me, u16 regionX, u16 regionY, u8 
     //            and other procs apply I(...) to them.
     platform->qWorldX = worldX = TO_WORLD_POS(me->x, regionX);
     platform->qWorldY = worldY = TO_WORLD_POS(me->y, regionY);
-    platform->unk3C = sub_804DC38(kind, worldX, worldY, me);
+    platform->unk3C = sub_804DC38(sharedKind, worldX, worldY, me);
 #else
     worldX = TO_WORLD_POS(me->x, regionX);
     worldY = TO_WORLD_POS(me->y, regionY);
     platform->qWorldX = Q(worldX);
     platform->qWorldY = Q(worldY);
-    platform->unk3C = sub_804DC38(kind, worldX, worldY, me);
+    platform->unk3C = sub_804DC38(sharedKind, worldX, worldY, me);
 #endif
 
-    platform->unk3E = 0;
+    platform->theta = 0;
     platform->unk40 = 0;
-    platform->kind = kind;
+    platform->sharedKind = sharedKind;
 
-    for (i = 0; i < 8; i++) {
+    // NOTE: If TIMER_ID_COUNT was changed to be > 8, the logic would have to change here.
+    for (i = 0; i < TIMER_ID_COUNT; i++) {
         if (GetBit(me->d.uData[4], i)) {
             break;
         }
     }
 
-    platform->unk42 = i;
+    platform->timerId = i;
 
-    if (GetBit(gStageData.unk2C, platform->unk42)) {
-        platform->unk43 = 1;
+    if (GetBit(gStageData.platformTimerEnableBits, platform->timerId)) {
+        platform->isActive = TRUE;
     } else {
-        platform->unk43 = 0;
+        platform->isActive = FALSE;
     }
 
 #ifndef BUG_FIX
@@ -94,10 +95,10 @@ void CreateButtonPlatform(u16 kind, MapEntity *me, u16 regionX, u16 regionY, u8 
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
-    sub_8038910(platform->unk42, s);
+    sub_8038910(platform->timerId, s);
 }
 
-void Task_ButtonPlatformInit(void)
+static void Task_ButtonPlatformInit(void)
 {
     ButtonPlatform *platform = TASK_DATA(gCurTask);
     s16 sl = 0;
@@ -111,11 +112,11 @@ void Task_ButtonPlatformInit(void)
     s32 qPathHalfWidth, qPathHalfHeight;
     s32 qPathMiddleX, qPathMiddleY;
 
-    if (platform->unk43 == 1) {
+    if (platform->isActive == TRUE) {
         qWorldX = Q(TO_WORLD_POS(platform->base.spriteX, platform->base.regionX));
         qWorldY = Q(TO_WORLD_POS(me->y, platform->base.regionY));
 
-        platform->unk3E = ((gStageData.timer + (platform->unk3C >> 2)) & 0xFF) << 2;
+        platform->theta = ((gStageData.timer + (platform->unk3C >> 2)) & 0xFF) << 2;
 
         qPathTop = qWorldY + Q(me->d.sData[1] * TILE_WIDTH);
         qPathHalfHeight = Q(me->d.uData[3] * (TILE_WIDTH / 2));
@@ -128,8 +129,8 @@ void Task_ButtonPlatformInit(void)
             dx = platform->qWorldX;
             dy = platform->qWorldY;
 
-            platform->qWorldX = qPathMiddleX + ((SIN(platform->unk3E) * qPathHalfWidth) >> 14);
-            platform->qWorldY = qPathMiddleY + ((SIN(platform->unk3E) * qPathHalfHeight) >> 14);
+            platform->qWorldX = qPathMiddleX + ((SIN(platform->theta) * qPathHalfWidth) >> 14);
+            platform->qWorldY = qPathMiddleY + ((SIN(platform->theta) * qPathHalfHeight) >> 14);
 
             dx = dx - platform->qWorldX;
             dy = dy - platform->qWorldY;
@@ -172,7 +173,7 @@ void Task_ButtonPlatformInit(void)
     sub_8038988();
 }
 
-void sub_8038910(u32 UNUSED kindIndex, Sprite *s)
+static void sub_8038910(u8 UNUSED timerId, Sprite *s)
 {
     u32 infoIndex;
 
@@ -199,7 +200,7 @@ void sub_8038910(u32 UNUSED kindIndex, Sprite *s)
     UpdateSpriteAnimation(s);
 }
 
-void sub_8038988(void)
+static void sub_8038988(void)
 {
     ButtonPlatform *platform = TASK_DATA(gCurTask);
     Sprite *s = &platform->s;
@@ -237,17 +238,17 @@ void sub_8038988(void)
         return;
     }
 
-    if (GetBit(gStageData.unk2C, platform->unk42)) {
+    if (GetBit(gStageData.platformTimerEnableBits, platform->timerId)) {
         s32 qPathTop, qPathBottom;
         s32 qPathLeft, qPathRight;
         s32 qPathHalfWidth, qPathHalfHeight;
         s32 qPathMiddleX, qPathMiddleY;
 
-        if (platform->unk43 == 0) {
+        if (!platform->isActive) {
             s->variant = 1;
-            platform->unk43 = 1;
+            platform->isActive = TRUE;
 
-            platform->unk3E = ((gStageData.timer + (platform->unk3C >> 2)) & 0xFF) << 2;
+            platform->theta = ((gStageData.timer + (platform->unk3C >> 2)) & 0xFF) << 2;
 
             qPathTop = qWorldY + Q(me->d.sData[1] * TILE_WIDTH);
             qPathHalfHeight = Q(me->d.uData[3] * (TILE_WIDTH / 2));
@@ -256,20 +257,20 @@ void sub_8038988(void)
             qPathMiddleX = qPathLeft + qPathHalfWidth;
             qPathMiddleY = qPathTop + qPathHalfHeight;
 
-            platform->qWorldX = qPathMiddleX + ((SIN(platform->unk3E) * qPathHalfWidth) >> 14);
-            platform->qWorldY = qPathMiddleY + ((SIN(platform->unk3E) * qPathHalfHeight) >> 14);
+            platform->qWorldX = qPathMiddleX + ((SIN(platform->theta) * qPathHalfWidth) >> 14);
+            platform->qWorldY = qPathMiddleY + ((SIN(platform->theta) * qPathHalfHeight) >> 14);
 
             s->x = I(platform->qWorldX) - gCamera.x;
             s->y = I(platform->qWorldY) - gCamera.y;
-        } else if ((gStageData.buttonTimersBlue[platform->unk42] < 0x78)) {
+        } else if ((gStageData.platformTimers[platform->timerId] < ZONE_TIME_TO_INT(0, 2))) {
             if (s->variant != 2) {
                 s->variant = 2;
             }
         } else if (s->variant == 2) {
             s->variant = 0;
         }
-    } else if (platform->unk43 == 1) {
-        platform->unk43 = 0;
+    } else if (platform->isActive == TRUE) {
+        platform->isActive = FALSE;
 
         for (j = 0; j < NUM_SINGLE_PLAYER_CHARS; j++) {
             p = GET_SP_PLAYER_V0(j);
@@ -277,7 +278,7 @@ void sub_8038988(void)
         }
     }
 
-    if (platform->unk43 != 0) {
+    if (platform->isActive != FALSE) {
         u16 cmdRes = UpdateSpriteAnimation(s);
 
         if ((cmdRes == ACMD_RESULT__ENDED) && (s->variant == 1)) {
@@ -288,11 +289,11 @@ void sub_8038988(void)
     }
 }
 
-void CreateEntity_Interactable067(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateButtonPlatform(0, me, regionX, regionY, id); }
+void CreateEntity_ButtonPlatformA(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateButtonPlatform(0, me, regionX, regionY, id); }
 
-void CreateEntity_Interactable068(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateButtonPlatform(3, me, regionX, regionY, id); }
+void CreateEntity_ButtonPlatformB(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateButtonPlatform(3, me, regionX, regionY, id); }
 
-void TaskDestructor_ButtonPlatform(struct Task *t)
+static void TaskDestructor_ButtonPlatform(struct Task *t)
 {
     ButtonPlatform *platform = TASK_DATA(t);
     VramFree(platform->s.tiles);

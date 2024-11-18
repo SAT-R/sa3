@@ -11,6 +11,11 @@ typedef struct {
     Player *unk50;
 } StageDataTask98; /* size: ??? */
 
+// NOTE: If you want to change this value to something greater than 8,
+//       make sure that Entities like ButtonPlatform retrieve the Timer ID
+//       through the whole byte, not by the first set bit in me->d.uData[4].
+#define TIMER_ID_COUNT 8
+
 /*                0x030008A0                */
 typedef struct {
     /* 0x00 */ u8 unk0; // @NOTE: unk0 and unk1 referenced as single u16 before; union?
@@ -48,13 +53,17 @@ typedef struct {
     /* 0x28 */ u16 respawnX;
     /* 0x2A */ u16 respawnY;
 
-    /* 0x2C */ u8 unk2C;
-    /* 0x2D */ u8 unk2D;
-    /* 0x2E */ u16 buttonTimersBlue[8]; // [0] Used as timer for blue buttons
-    /* 0x3E */ u16 buttonTimersRed[8]; // [2] Used as timer for red buttons
-    /* 0x4E */ u16 unk4E[8];
-    /* 0x5E */ s16 unk5E[8];
-    /* 0x6E */ u16 unk6E[8];
+    /* Timers
+        The indices for the arrays (which are the bit number for each EnableBits value)
+        are retrieved by fínding the first bit set in me->d.uData[4].
+    */
+    /* 0x2C */ u8 platformTimerEnableBits;
+    /* 0x2D */ u8 springTimerEnableBits;
+    /* 0x2E */ u16 platformTimers[TIMER_ID_COUNT];
+    /* 0x3E */ u16 springTimers[TIMER_ID_COUNT]; // TODO: Check name accuracy
+    /* 0x4E */ u16 unk4E[TIMER_ID_COUNT];
+    /* 0x5E */ s16 unk5E[TIMER_ID_COUNT];
+    /* 0x6E */ u16 unk6E[TIMER_ID_COUNT];
 
     /* 0x7E */ u8 filler7E[0x2];
     /* 0x80 */ u16 *unk80; // (type not checked, used in sub_8002838) | 0x80

@@ -309,8 +309,8 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Interactable064
     .4byte CreateEntity_FlatSpring
     .4byte CreateEntity_Omochao
-    .4byte CreateEntity_Interactable067
-    .4byte CreateEntity_Interactable068
+    .4byte CreateEntity_ButtonPlatformA
+    .4byte CreateEntity_ButtonPlatformB
     .4byte CreateEntity_PlatformCrumblingA
     .4byte CreateEntity_PlatformCrumblingB
     .4byte CreateEntity_RedButton @ 071 - Same code as 028
