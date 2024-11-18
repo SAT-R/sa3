@@ -5,84 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateGrindRail
-CreateGrindRail: @ 0x08039198
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	sub sp, #4
-	adds r7, r1, #0
-	adds r4, r2, #0
-	adds r5, r3, #0
-	ldr r6, [sp, #0x1c]
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	mov r8, r0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _0803922C @ =sub_8039230
-	movs r2, #0x84
-	lsls r2, r2, #6
-	movs r1, #0
-	str r1, [sp]
-	movs r1, #0x10
-	movs r3, #0
-	bl TaskCreate
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r2, r1, r0
-	strh r4, [r2, #4]
-	strh r5, [r2, #6]
-	str r7, [r2]
-	ldrb r0, [r7]
-	strb r0, [r2, #0xa]
-	strb r6, [r2, #0xb]
-	ldrb r0, [r7, #7]
-	lsrs r0, r0, #6
-	strb r0, [r2, #0xc]
-	movs r3, #0
-	ldrb r0, [r7, #7]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	bne _0803920E
-	movs r4, #1
-_080391F4:
-	lsls r0, r3, #0x10
-	movs r1, #0x80
-	lsls r1, r1, #9
-	adds r0, r0, r1
-	lsrs r3, r0, #0x10
-	asrs r1, r0, #0x10
-	cmp r1, #5
-	bgt _0803920E
-	ldrb r0, [r7, #7]
-	asrs r0, r1
-	ands r0, r4
-	cmp r0, #0
-	beq _080391F4
-_0803920E:
-	adds r0, r3, #1
-	strb r0, [r2, #0xd]
-	mov r0, r8
-	strb r0, [r2, #0xe]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r7]
-	add sp, #4
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0803922C: .4byte sub_8039230
+.if 0
+.endif
 
 	thumb_func_start sub_8039230
 sub_8039230: @ 0x08039230

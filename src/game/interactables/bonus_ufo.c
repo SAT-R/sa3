@@ -147,9 +147,9 @@ void Task_BonusUfoMain(void)
                 ufo->unkB3 = 1;
 
                 if (ufo->unkB1 == ACT_BOSS) {
-                    if (gSaveGame.unlockedStages[zone] & (1 << 3)) {
+                    if (CheckBit(gSaveGame.unlockedStages[zone], ACT_1)) {
                         ufo->unkB0 = 8;
-                    } else if ((gSaveGame.unlockedStages[zone] & 0x7) == 0x7) {
+                    } else if ((gSaveGame.unlockedStages[zone] & ACT_MASK_DEFAULT_UNLOCKED) == ACT_MASK_DEFAULT_UNLOCKED) {
                         ufo->unkB0 = 4;
                     }
                 } else {

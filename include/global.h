@@ -203,9 +203,40 @@ typedef void (*VoidFn)(void);
 
 #define RECT_DISTANCE(aXA, aYA, aXB, aYB) (ABS((aXA) - (aXB)) + ABS((aYA) - (aYB)))
 
-#define GetBit(x, y)   (((x) >> (y)) & 1)
-#define SetBit(x, y)   (x) |= (1 << (y))
-#define ClearBit(x, y) (x) &= ~(1 << (y))
+#define BitValue(y)      (1 << (y))
+#define CheckBit(x, y)   ((x) & (BitValue(y)))
+#define GetBit(x, y)     (((x) >> (y)) & 1)
+#define SetBit(x, y)     (x) |= BitValue(y)
+#define SetSoleBit(x, y) (x) = BitValue(y)
+#define ClearBit(x, y)   (x) &= ~BitValue(y)
+
+// TODO: Use instrinsics for this platforms that support it!
+// Get the index to the first set bit in a given value.
+#define GetFirstSetBitIndex(value, max)                                                                                                    \
+    ({                                                                                                                                     \
+        s16 bit;                                                                                                                           \
+        for (bit = 0; bit < (max); bit++) {                                                                                                \
+            if (GetBit(value, bit)) {                                                                                                      \
+                break;                                                                                                                     \
+            }                                                                                                                              \
+        }                                                                                                                                  \
+                                                                                                                                           \
+        bit;                                                                                                                               \
+    })
+
+// Like GetFirstSetBitIndex, but expects input value to only have 1 bit set.
+#define GetSoleSetBitIndex(value, max)                                                                                                     \
+    ({                                                                                                                                     \
+        s16 bit;                                                                                                                           \
+                                                                                                                                           \
+        for (bit = 0; bit < (max); bit++) {                                                                                                \
+            if ((value) == (1 << bit)) {                                                                                                   \
+                break;                                                                                                                     \
+            }                                                                                                                              \
+        }                                                                                                                                  \
+                                                                                                                                           \
+        bit;                                                                                                                               \
+    })
 
 // 60 is not exactly true as the GBA's FPS, but it's what they went
 // with for the calculation

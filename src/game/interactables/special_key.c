@@ -27,20 +27,14 @@ static void InitSprite(Sprite *s);
 
 void CreateEntity_SpecialKey(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    s16 i;
 
-    u8 bit = me->d.uData[4];
-    for (i = 0; i < 8; i++) {
-        if (bit == (1 << i)) {
-            break;
-        }
-    }
+    u8 bits = me->d.uData[4];
 
-    bit = i;
+    bits = GetSoleSetBitIndex(bits, 8);
 
     if ((gStageData.gameMode == GAME_MODE_SINGLE_PLAYER) && (gStageData.flagSpKey == 0)) {
         if (gSaveGame.chaoCount[gStageData.zone] == CHAO_COLLECTED_ALL) {
-            if ((bit & 1) == (gStageData.unk86 & 1)) {
+            if ((bits & 1) == (gStageData.unk86 & 1)) {
                 struct Task *t = TaskCreate(Task_SpecialKey, sizeof(SpecialKey), 0x2100, 0, TaskDestructor_SpecialKey);
                 SpecialKey *key = TASK_DATA(t);
                 Sprite *s;
@@ -53,7 +47,7 @@ void CreateEntity_SpecialKey(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
                 key->worldX = TO_WORLD_POS(me->x, regionX);
                 key->worldY = TO_WORLD_POS(me->y, regionY);
-                key->unk38 = bit;
+                key->unk38 = bits;
 
                 s = &key->s;
                 s->x = key->worldX - gCamera.x;

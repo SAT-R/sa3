@@ -143,7 +143,7 @@ void Task_IceSpikeInit(void)
 
                 if (res & 0x10000) {
                     p->qWorldY += Q_8_8(res + 1);
-                    sp10 |= (1 << i);
+                    SetBit(sp10, i);
                 } else if (!sub_802C080(p)) {
                     sub_8020CE0(s, worldX, worldY, 1, p);
                 }

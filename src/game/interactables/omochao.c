@@ -98,7 +98,7 @@ void Task_OmochaoInit(void)
 
         omochao->unk60 = 0x10;
         gStageData.unk4 = 4;
-        gStageData.unkB9 = (1 << gStageData.playerIndex);
+        SetSoleBit(gStageData.unkB9, gStageData.playerIndex);
         gStageData.unk85 = 1;
 
         sub_8003DF0(SE_PICKUP_OMOCHAO_1);
@@ -117,7 +117,7 @@ void Task_8037F8C(void)
     Player *p;
 
     gStageData.unk4 = 4;
-    gStageData.unkB9 = (1 << gStageData.playerIndex);
+    SetSoleBit(gStageData.unkB9, gStageData.playerIndex);
     gStageData.unk85 = 1;
 
     omochao = TASK_DATA(gCurTask);
@@ -150,7 +150,7 @@ void Task_8038058(void)
     void *data;
 
     gStageData.unk4 = 4;
-    gStageData.unkB9 = (1 << gStageData.playerIndex);
+    SetSoleBit(gStageData.unkB9, gStageData.playerIndex);
     gStageData.unk85 = 1;
 
     omochao = TASK_DATA(gCurTask);
@@ -183,7 +183,7 @@ void Task_80380FC(void)
     u8 i;
 
     gStageData.unk4 = 4;
-    gStageData.unkB9 = (1 << gStageData.playerIndex);
+    SetSoleBit(gStageData.unkB9, gStageData.playerIndex);
     gStageData.unk85 = 1;
 
     omochao = TASK_DATA(gCurTask);
@@ -263,7 +263,7 @@ NONMATCH("asm/non_matching/game/interactables/omochao__OmochaoPickUp.inc", bool3
         if ((p->charFlags.someIndex != 2) && (p->charFlags.someIndex != 5) && !(p->moveState & MOVESTATE_IN_AIR)
             && (p->charFlags.anim0 == 0) && !(p->moveState & MOVESTATE_COLLIDING_ENT) && !sub_802C080(p)
             && sub_8020700(s, worldX, worldY, 0, p, 0) && (p->keyInput2 & DPAD_UP)) {
-            sb = (1 << i);
+            SetSoleBit(sb, i);
         }
     }
 

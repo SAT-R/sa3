@@ -93,17 +93,17 @@ void Task_Interactable095(void)
                                 Player_PlaySong(p, SE_JUMP);
                             }
                         }
-                        ia->unk24 |= (1 << i);
+                        SetBit(ia->unk24, i);
                     } else {
                     clear_bit:
-                        ia->unk24 &= ~(1 << i);
+                        ClearBit(ia->unk24, i);
                     }
                 }
             } else {
 #ifndef NON_MATCHING
                 goto clear_bit;
 #else
-                ia->unk24 &= ~(1 << i);
+                ClearBit(ia->unk24, i);
 #endif
             }
         }

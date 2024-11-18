@@ -140,7 +140,7 @@ static u8 UpdatePlayer(void)
             qY = (p->qWorldY + Q(2));
             p->qWorldY = qY - qWorldY;
 
-            result |= (1 << i);
+            SetBit(result, i);
         }
 
         if (!sub_802C0D4(p)) {
@@ -154,7 +154,7 @@ static u8 UpdatePlayer(void)
 
                 p->qWorldY += Q((s8)mask);
 
-                result |= (1 << i);
+                SetBit(result, i);
             }
         }
     }

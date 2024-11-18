@@ -89,8 +89,8 @@ static void CreateButtonPlatform(u16 sharedKind, MapEntity *me, u16 regionX, u16
     s->x = platform->qWorldX;
     s->y = platform->qWorldY;
 #else
-    s->x = worldX;
-    s->y = worldY;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
 #endif
 
     SET_MAP_ENTITY_INITIALIZED(me);

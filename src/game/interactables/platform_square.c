@@ -197,7 +197,7 @@ u8 sub_8044AA0(Player *p, u8 param1)
     res = sub_8020950(s, worldX, worldY, p, 1);
     if (res & 0x10000) {
         p->qWorldY = ((p->qWorldY + Q_8_8(res + 1)) & ~0xFF) - 1;
-        sb |= (1 << param1);
+        SetBit(sb, param1);
     } else if (res & 0x20000) {
         p->qWorldY += +Q(1);
         p->qWorldY += Q_8_8(res);
