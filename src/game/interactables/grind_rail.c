@@ -49,7 +49,8 @@ void CreateGrindRail(u8 railType, MapEntity *me, u16 regionX, u16 regionY, u8 id
     SET_MAP_ENTITY_INITIALIZED(me);
 }
 
-void Task_8039230(void)
+// (99.62%) https://decomp.me/scratch/OIq3u
+NONMATCH("asm/non_matching/game/interactables/grind_rail__Task_8039230.inc", void Task_8039230(void))
 {
     GrindRail *rail = TASK_DATA(gCurTask);
     register MapEntity *me = rail->base.me;
@@ -179,3 +180,4 @@ void Task_8039230(void)
         }
     }
 }
+END_NONMATCH
