@@ -94,6 +94,7 @@ bool32 sub_802C1F8(s32, s32);
 u8 sub_805203C(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4); // same type as sub_805217C
 u8 sub_805217C(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4); // same type as sub_805203C
 s32 sub_80517FC(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4, void *callback);
+s32 sub_80519EC(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4, void *callback);
 s32 sub_8051F54(s32 worldX, s32 worldY, s32 param2);
 s32 sub_8052418(s32 worldX, s32 worldY, s32 param2, s32 param3, void *callback);
 void sub_8057AA0(u16, u16, u8);

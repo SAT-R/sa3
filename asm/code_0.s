@@ -19293,8 +19293,8 @@ _080098CC: .4byte 0xDC510BA1
 _080098D0: .4byte 0xFDFFFFFF
 _080098D4: .4byte sub_800EB58
 
-	thumb_func_start sub_80098D8
-sub_80098D8: @ 0x080098D8
+	thumb_func_start Player_80098D8
+Player_80098D8: @ 0x080098D8
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	ldr r0, _08009970 @ =gStageData
@@ -27829,7 +27829,7 @@ sub_800DB7C: @ 0x0800DB7C
 	ldr r1, _0800DBE0 @ =0x00000257
 	adds r0, r4, #0
 	bl Player_PlaySong
-	ldr r1, _0800DBE4 @ =sub_800DCB4
+	ldr r1, _0800DBE4 @ =Player_800DCB4
 	str r1, [r4]
 	adds r0, r4, #0
 	bl _call_via_r1
@@ -27839,7 +27839,7 @@ sub_800DB7C: @ 0x0800DB7C
 	.align 2, 0
 _0800DBDC: .4byte 0xFDFFFFF5
 _0800DBE0: .4byte 0x00000257
-_0800DBE4: .4byte sub_800DCB4
+_0800DBE4: .4byte Player_800DCB4
 
 	thumb_func_start Player_800DBE8
 Player_800DBE8: @ 0x0800DBE8
@@ -27937,8 +27937,8 @@ _0800DCA8: .4byte 0x0000025E
 _0800DCAC: .4byte 0xFFFFE000
 _0800DCB0: .4byte sub_80068EC
 
-	thumb_func_start sub_800DCB4
-sub_800DCB4: @ 0x0800DCB4
+	thumb_func_start Player_800DCB4
+Player_800DCB4: @ 0x0800DCB4
 	push {r4, lr}
 	adds r4, r0, #0
 	bl sub_801480C

@@ -18,6 +18,7 @@ extern void Player_8007898(Player *p);
 extern void Player_800891C(Player *p);
 extern void Player_8008A8C(Player *p);
 extern void Player_8008CD0(Player *p);
+extern void Player_80098D8(Player *p); // Grinding-related
 extern void Player_8009B4C(Player *p);
 extern void Player_8009BF0(Player *p);
 extern void Player_8009C94(Player *p);
@@ -67,6 +68,7 @@ extern void SetPlayerCallback(Player *p, PlayerCallback callback);
 extern void Player_800DAF4(Player *p);
 extern void Player_800DB30(Player *p);
 extern void Player_800DBE8(Player *p);
+extern void Player_800DCB4(Player *p);
 extern void Player_800DD0C(Player *p);
 extern void Player_800DD28(Player *p);
 extern void Player_800DD44(Player *p);

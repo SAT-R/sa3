@@ -182,7 +182,7 @@ _08048788:
 	bne _08048790
 	b _080488F2
 _08048790:
-	ldr r0, _0804884C @ =sub_800DCB4
+	ldr r0, _0804884C @ =Player_800DCB4
 	cmp r1, r0
 	beq _0804885C
 	str r4, [sp]
@@ -274,7 +274,7 @@ _08048828:
 _08048840: .4byte gPlayers
 _08048844: .4byte Player_8008A8C
 _08048848: .4byte Player_800ED80
-_0804884C: .4byte sub_800DCB4
+_0804884C: .4byte Player_800DCB4
 _08048850: .4byte sub_800DB7C
 _08048854: .4byte gCurTask
 _08048858: .4byte sub_804891C
