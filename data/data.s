@@ -306,7 +306,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_PlatformRaisingWheel
     .4byte CreateEntity_PlatformRaisingWheelPlatform
     .4byte CreateEntity_Seesaw
-    .4byte CreateEntity_Interactable064
+    .4byte CreateEntity_DecoRock
     .4byte CreateEntity_FlatSpring
     .4byte CreateEntity_Omochao
     .4byte CreateEntity_ButtonPlatformA
@@ -413,7 +413,7 @@ gSpriteInits_InteractablesMultiplayer: @ 0x080CF354
     .4byte CreateEntity_GrindRail2 @ 020
     .4byte CreateEntity_GrindRail3 @ 021
     .4byte CreateEntity_GrindRail4 @ 022
-    .4byte CreateEntity_InteractableMP023 @ 023
+    .4byte CreateEntity_MultiplayerItemBox @ 023
     .4byte CreateEntity_MultiplayerChao @ 024
 
     .global gUnknown_080CF3B8

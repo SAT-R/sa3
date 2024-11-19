@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable064
-CreateEntity_Interactable064: @ 0x08037274
+	thumb_func_start CreateEntity_DecoRock
+CreateEntity_DecoRock: @ 0x08037274
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

@@ -90557,7 +90557,7 @@ _0802BF40:
 	adds r0, r2, #0
 	adds r1, r5, #0
 	adds r2, r6, #0
-	bl sub_802C21C
+	bl CreateEntity_ItemBox
 _0802BF80:
 	ldr r0, [r4, #0x14]
 	adds r0, #3
@@ -90944,8 +90944,8 @@ _0802C218:
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_802C21C
-sub_802C21C: @ 0x0802C21C
+	thumb_func_start CreateEntity_ItemBox
+CreateEntity_ItemBox: @ 0x0802C21C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -90991,10 +90991,10 @@ _0802C264:
 _0802C26E:
 	strb r0, [r6, #2]
 _0802C270:
-	ldr r0, _0802C348 @ =sub_802C534
+	ldr r0, _0802C348 @ =Task_ItemBoxInit
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _0802C34C @ =sub_802D600
+	ldr r1, _0802C34C @ =TaskDestructor_ItemBox
 	str r1, [sp]
 	movs r1, #0x70
 	movs r3, #0
@@ -91095,8 +91095,8 @@ _0802C334:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0802C348: .4byte sub_802C534
-_0802C34C: .4byte sub_802D600
+_0802C348: .4byte Task_ItemBoxInit
+_0802C34C: .4byte TaskDestructor_ItemBox
 _0802C350: .4byte 0x0300001C
 _0802C354: .4byte 0x00000524
 _0802C358: .4byte 0x03000044
@@ -91342,8 +91342,8 @@ _0802C528: .4byte gUnknown_080CF44E
 _0802C52C: .4byte gUnknown_080CF3B8
 _0802C530: .4byte gUnknown_080CF3C0
 
-	thumb_func_start sub_802C534
-sub_802C534: @ 0x0802C534
+	thumb_func_start Task_ItemBoxInit
+Task_ItemBoxInit: @ 0x0802C534
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -93522,8 +93522,8 @@ _0802D5EE:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_802D600
-sub_802D600: @ 0x0802D600
+	thumb_func_start TaskDestructor_ItemBox
+TaskDestructor_ItemBox: @ 0x0802D600
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0

@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_InteractableMP023
-CreateEntity_InteractableMP023: @ 0x0804E9CC
+	thumb_func_start CreateEntity_MultiplayerItemBox
+CreateEntity_MultiplayerItemBox: @ 0x0804E9CC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
