@@ -24,6 +24,10 @@ typedef struct {
     /* 0x0E */ u8 kind;
 } GrindRail;
 
+typedef struct {
+    SpriteBase base;
+} IA073_074; /* 0xC */
+
 void Task_8039230(void);
 bool16 sub_8039538(s32 qLeft, s32 qTop, s32 width, s32 height, u8 kind, Player *p);
 
@@ -267,4 +271,121 @@ bool16 sub_8039538(s32 qLeft, s32 qTop, s32 width, s32 height, u8 kind, Player *
     }
 
     return FALSE;
+}
+
+void Task_Interactable073Main(void)
+{
+    IA073_074 *ia = TASK_DATA(gCurTask);
+    MapEntity *me = ia->base.me;
+    s32 worldX, worldY;
+    s32 qLeft, qRight;
+    s32 qTop, qBottom;
+    s32 i;
+
+    worldX = TO_WORLD_POS(ia->base.spriteX, ia->base.regionX);
+    worldY = TO_WORLD_POS(me->y, ia->base.regionY);
+
+    if (!IsPointInScreenRect(worldX, worldY)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, ia->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    qTop = Q(worldY) + Q(me->d.sData[1] * TILE_WIDTH);
+    qBottom = qTop + Q(me->d.uData[3] * TILE_WIDTH);
+    qLeft = Q(worldX) + Q(me->d.sData[0] * TILE_WIDTH);
+    qRight = qLeft + Q(me->d.uData[2] * TILE_WIDTH);
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        if ((gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) || (i == 0)) {
+            Player *p = GET_SP_PLAYER_V1(i);
+
+            if (((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4))
+                && !(p->moveState & (MOVESTATE_1000000 | MOVESTATE_100)) && (p->qWorldX > qLeft) && (p->qWorldX < qRight)
+                && (p->qWorldY > qTop) && (p->qWorldY < qBottom)) {
+
+                if (p->moveState & MOVESTATE_20000) {
+                    SetPlayerCallback(p, Player_800D978);
+                }
+                p->unk27 = 1;
+            }
+        }
+    }
+}
+
+void Task_Interactable074Main(void)
+{
+    IA073_074 *ia = TASK_DATA(gCurTask);
+    MapEntity *me = ia->base.me;
+    s32 worldX, worldY;
+    s32 qLeft, qRight;
+    s32 qTop, qBottom;
+    s32 i;
+
+    worldX = TO_WORLD_POS(ia->base.spriteX, ia->base.regionX);
+    worldY = TO_WORLD_POS(me->y, ia->base.regionY);
+
+    if (!IsPointInScreenRect(worldX, worldY)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, ia->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    qTop = Q(worldY) + Q(me->d.sData[1] * TILE_WIDTH);
+    qBottom = qTop + Q(me->d.uData[3] * TILE_WIDTH);
+    qLeft = Q(worldX) + Q(me->d.sData[0] * TILE_WIDTH);
+    qRight = qLeft + Q(me->d.uData[2] * TILE_WIDTH);
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        if ((gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) || (i == 0)) {
+            Player *p = GET_SP_PLAYER_V1(i);
+
+            if (((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4))
+                && !(p->moveState & (MOVESTATE_1000000 | MOVESTATE_100))
+                && ((p->moveState & MOVESTATE_20000) && (p->qWorldX > qLeft) && (p->qWorldX < qRight) && (p->qWorldY > qTop)
+                    && (p->qWorldY < qBottom))) {
+                {
+                    Player_800D9B4(p);
+                }
+            }
+        }
+    }
+}
+
+void CreateEntity_Interactable072(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateGrindRail(0, me, regionX, regionY, id); }
+
+void CreateEntity_Interactable077(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateGrindRail(1, me, regionX, regionY, id); }
+
+void CreateEntity_Interactable078(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateGrindRail(2, me, regionX, regionY, id); }
+
+void CreateEntity_Interactable079(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateGrindRail(3, me, regionX, regionY, id); }
+
+void CreateEntity_Interactable080(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateGrindRail(4, me, regionX, regionY, id); }
+
+void CreateEntity_Interactable073(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    struct Task *t = TaskCreate(Task_Interactable073Main, sizeof(IA073_074), 0x2100, 0, NULL);
+    IA073_074 *ia = TASK_DATA(t);
+
+    ia->base.regionX = regionX;
+    ia->base.regionY = regionY;
+    ia->base.me = me;
+    ia->base.spriteX = me->x;
+    ia->base.id = id;
+
+    SET_MAP_ENTITY_INITIALIZED(me);
+}
+
+void CreateEntity_Interactable074(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    struct Task *t = TaskCreate(Task_Interactable074Main, sizeof(IA073_074), 0x2100, 0, NULL);
+    IA073_074 *ia = TASK_DATA(t);
+
+    ia->base.regionX = regionX;
+    ia->base.regionY = regionY;
+    ia->base.me = me;
+    ia->base.spriteX = me->x;
+    ia->base.id = id;
+
+    SET_MAP_ENTITY_INITIALIZED(me);
 }
