@@ -181,3 +181,90 @@ NONMATCH("asm/non_matching/game/interactables/grind_rail__Task_8039230.inc", voi
     }
 }
 END_NONMATCH
+
+bool16 sub_8039538(s32 qLeft, s32 qTop, s32 width, s32 height, u8 kind, Player *p)
+{
+    s32 playerRailBoxX = I(p->qWorldX - qLeft);
+    s32 playerRailBoxY = I(p->qWorldY - qTop);
+    s32 ratio, v;
+
+    if (kind == 1) {
+        if (width < height) {
+            ratio = ((height << 4) / width);
+            v = ((playerRailBoxX * ratio) >> 4) + playerRailBoxY;
+
+            if (v <= height) {
+                return TRUE;
+            }
+        } else {
+            ratio = ((width << 4) / height);
+            v = ((ratio * playerRailBoxY) >> 4) + playerRailBoxX;
+
+            if (v <= width) {
+                return TRUE;
+            }
+        }
+    } else if (kind == 2) {
+        if (width < height) {
+            ratio = ((height << 8) / width);
+
+            if (playerRailBoxX == 0) {
+                return TRUE;
+            } else {
+                if (ratio <= ((playerRailBoxY << 8) / playerRailBoxX)) {
+                    return TRUE;
+                }
+            }
+        } else {
+            ratio = ((width << 8) / height);
+
+            if (playerRailBoxY == 0) {
+                return TRUE;
+            } else {
+                if (ratio >= ((playerRailBoxX << 8) / playerRailBoxY)) {
+                    return TRUE;
+                }
+            }
+        }
+    } else if (kind == 3) {
+        if (width < height) {
+            ratio = (height << 8) / width;
+
+            if (playerRailBoxX == 0) {
+                if (playerRailBoxY == 0) {
+                    return TRUE;
+                }
+            } else {
+                if (ratio >= ((playerRailBoxY << 8) / playerRailBoxX)) {
+                    return TRUE;
+                }
+            }
+        } else {
+            ratio = (width << 8) / height;
+
+            if (playerRailBoxY == 0) {
+                return TRUE;
+            }
+
+            if (ratio <= ((playerRailBoxX << 8) / playerRailBoxY)) {
+                return TRUE;
+            }
+        }
+    } else if (kind == 4) {
+        if (width < height) {
+            ratio = ((height << 4) / width);
+
+            if ((((ratio * playerRailBoxX) >> 4) + playerRailBoxY) >= height) {
+                return TRUE;
+            }
+        } else {
+            ratio = ((width << 4) / height);
+
+            if ((((ratio * playerRailBoxY) >> 4) + playerRailBoxX) >= width) {
+                return TRUE;
+            }
+        }
+    }
+
+    return FALSE;
+}
