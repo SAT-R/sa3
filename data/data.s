@@ -314,15 +314,15 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_PlatformCrumblingA
     .4byte CreateEntity_PlatformCrumblingB
     .4byte CreateEntity_RedButton @ 071 - Same code as 028
-    .4byte CreateEntity_Interactable072 @ 072 Grind Rail
+    .4byte CreateEntity_GrindRail0 @ 072 Grind Rail
     .4byte CreateEntity_Interactable073
     .4byte CreateEntity_Interactable074
     .4byte CreateEntity_BonusCapsule
     .4byte CreateEntity_Interactable073 @ 076 Grind Rail
-    .4byte CreateEntity_Interactable077 @ 077 Grind Rail
-    .4byte CreateEntity_Interactable078
-    .4byte CreateEntity_Interactable079 @ 079 Grind Rail
-    .4byte CreateEntity_Interactable080 @ 080 Grind Rail
+    .4byte CreateEntity_GrindRail1 @ 077 Grind Rail
+    .4byte CreateEntity_GrindRail2
+    .4byte CreateEntity_GrindRail3 @ 079 Grind Rail
+    .4byte CreateEntity_GrindRail4 @ 080 Grind Rail
     .4byte CreateEntity_Interactable081
     .4byte CreateEntity_Interactable082
     .4byte CreateEntity_BonusGameUI
@@ -405,14 +405,14 @@ gSpriteInits_InteractablesMultiplayer: @ 0x080CF354
     .4byte CreateEntity_Interactable043 @ 012
     .4byte CreateEntity_Spikes_Up @ 013
     .4byte CreateEntity_Booster_Default @ 014
-    .4byte CreateEntity_Interactable072 @ 015
+    .4byte CreateEntity_GrindRail0 @ 015
     .4byte CreateEntity_Interactable073 @ 016
     .4byte CreateEntity_Interactable074 @ 017
     .4byte CreateEntity_Interactable073 @ 018
-    .4byte CreateEntity_Interactable077 @ 019
-    .4byte CreateEntity_Interactable078 @ 020
-    .4byte CreateEntity_Interactable079 @ 021
-    .4byte CreateEntity_Interactable080 @ 022
+    .4byte CreateEntity_GrindRail1 @ 019
+    .4byte CreateEntity_GrindRail2 @ 020
+    .4byte CreateEntity_GrindRail3 @ 021
+    .4byte CreateEntity_GrindRail4 @ 022
     .4byte CreateEntity_InteractableMP023 @ 023
     .4byte CreateEntity_MultiplayerChao @ 024
 

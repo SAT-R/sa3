@@ -352,15 +352,15 @@ void Task_Interactable074Main(void)
     }
 }
 
-void CreateEntity_Interactable072(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateGrindRail(0, me, regionX, regionY, id); }
+void CreateEntity_GrindRail0(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateGrindRail(0, me, regionX, regionY, id); }
 
-void CreateEntity_Interactable077(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateGrindRail(1, me, regionX, regionY, id); }
+void CreateEntity_GrindRail1(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateGrindRail(1, me, regionX, regionY, id); }
 
-void CreateEntity_Interactable078(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateGrindRail(2, me, regionX, regionY, id); }
+void CreateEntity_GrindRail2(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateGrindRail(2, me, regionX, regionY, id); }
 
-void CreateEntity_Interactable079(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateGrindRail(3, me, regionX, regionY, id); }
+void CreateEntity_GrindRail3(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateGrindRail(3, me, regionX, regionY, id); }
 
-void CreateEntity_Interactable080(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateGrindRail(4, me, regionX, regionY, id); }
+void CreateEntity_GrindRail4(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateGrindRail(4, me, regionX, regionY, id); }
 
 void CreateEntity_Interactable073(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
