@@ -36,7 +36,6 @@ SECTIONS {
         build/sa3/asm/ia_rotating_handle.o(.text);
         build/sa3/src/game/interactables/lift.o(.text);
         build/sa3/src/game/interactables/button_spring.o(.text);
-        build/sa3/asm/ia_button_enabled_springs.o(.text);
         build/sa3/src/game/interactables/checkpoint.o(.text);
         build/sa3/src/game/interactables/goal_ring.o(.text);
         build/sa3/src/game/interactables/bouncy_bar.o(.text);

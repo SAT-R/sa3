@@ -84,31 +84,31 @@ void sub_8033374(void)
     Sprite *s = &spring->s;
     MapEntity *me = spring->base.me;
     u8 dir;
-    s32 sp08;
+    s32 variant;
 
     Player *p;
     s16 worldX, worldY;
     s16 i;
 
     dir = spring->direction;
-    sp08 = 0;
+    variant = 0;
     if (dir > 1) {
-        sp08 = 10;
+        variant = 10;
 
         if (dir < 4) {
-            sp08 = 5;
+            variant = 5;
         }
     }
 
     worldX = TO_WORLD_POS(spring->base.spriteX, spring->base.regionX);
     worldY = TO_WORLD_POS(me->y, spring->base.regionY);
 
-    if (GetBit(gStageData.springTimerEnableBits, spring->unk35) && (s->variant == sp08 && spring->unk36 == 0)) {
-        s->variant = sp08 + 1;
+    if (GetBit(gStageData.springTimerEnableBits, spring->unk35) && (s->variant == variant && spring->unk36 == 0)) {
+        s->variant = variant + 1;
         spring->unk36 = 1;
     } else if (!GetBit(gStageData.springTimerEnableBits, spring->unk35)) {
-        if ((s->variant == sp08 + 2) && (spring->unk36 == 1) && (1)) {
-            s->variant = sp08 + 4;
+        if ((s->variant == variant + 2) && (spring->unk36 == 1) && (1)) {
+            s->variant = variant + 4;
             spring->unk36 = 0;
         }
     }
@@ -147,8 +147,8 @@ void sub_8033374(void)
                     Player_PlaySong(p, SE_SPRING);
                 }
 
-                if ((s->variant) != (sp08 + 3)) {
-                    s->variant = (sp08 + 3);
+                if ((s->variant) != (variant + 3)) {
+                    s->variant = (variant + 3);
                 }
 
                 switch (spring->direction) {
@@ -273,4 +273,115 @@ void sub_80336A0(u8 direction, Sprite *s)
     s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
     s->frameFlags = mask | SPRITE_FLAG(PRIORITY, 1);
     UpdateSpriteAnimation(s);
+}
+
+// TODO: Fix gotos and lack of clarity at the bottom
+void sub_8033778(void)
+{
+    ButtonSpring *spring = TASK_DATA(gCurTask);
+    Sprite *s;
+    MapEntity *me = spring->base.me;
+    s16 worldX, worldY;
+    s16 i;
+    u8 dir;
+    s32 variant;
+
+    worldX = TO_WORLD_POS(spring->base.spriteX, spring->base.regionX);
+    worldY = TO_WORLD_POS(me->y, spring->base.regionY);
+
+    s = &spring->s;
+
+    if (!IsPointInScreenRect(worldX, worldY)) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            Player *p = GET_SP_PLAYER_V1(i);
+
+            ResolvePlayerSpriteCollision(s, p);
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spring->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    dir = spring->direction;
+    variant = 0;
+    if (dir > 1) {
+        variant = 10;
+
+        if (dir < 4) {
+            variant = 5;
+        }
+    }
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if ((s16)UpdateSpriteAnimation(s) == ACMD_RESULT__ENDED) {
+        u32 spriteVar = s->variant;
+        u8 var = variant;
+
+        if (spriteVar != var + 1) {
+            if (spriteVar == var + 3) {
+                if (GetBit(gStageData.springTimerEnableBits, spring->unk35)) {
+                lbl3:
+                    s->variant = variant + 2;
+                } else {
+                    s->variant = variant;
+                    spring->unk36 = 0;
+                }
+            } else if (spriteVar == var + 4) {
+                s->variant = variant;
+            }
+        } else {
+            goto lbl3;
+        }
+    }
+
+    DisplaySprite(s);
+}
+
+void CreateEntity_Interactable046(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateSpringEnabledByButton(0, me, regionX, regionY, id);
+}
+
+void CreateEntity_Interactable047(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateSpringEnabledByButton(1, me, regionX, regionY, id);
+}
+
+void CreateEntity_Interactable048(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateSpringEnabledByButton(3, me, regionX, regionY, id);
+}
+
+void CreateEntity_Interactable049(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateSpringEnabledByButton(2, me, regionX, regionY, id);
+}
+
+void CreateEntity_Interactable050(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateSpringEnabledByButton(6, me, regionX, regionY, id);
+}
+
+void CreateEntity_Interactable051(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateSpringEnabledByButton(7, me, regionX, regionY, id);
+}
+
+void CreateEntity_Interactable052(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateSpringEnabledByButton(4, me, regionX, regionY, id);
+}
+
+void CreateEntity_Interactable053(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateSpringEnabledByButton(5, me, regionX, regionY, id);
+}
+
+void sub_8033A30(struct Task *t)
+{
+    ButtonSpring *spring = TASK_DATA(t);
+    VramFree(spring->s.tiles);
 }
