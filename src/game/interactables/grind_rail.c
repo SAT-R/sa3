@@ -307,6 +307,7 @@ void Task_Interactable073Main(void)
                 if (p->moveState & MOVESTATE_20000) {
                     SetPlayerCallback(p, Player_800D978);
                 }
+
                 p->unk27 = 1;
             }
         }

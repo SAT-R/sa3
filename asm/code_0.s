@@ -14001,7 +14001,7 @@ _08006EB6:
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bne _08006EFA
-	ldr r0, _08006F04 @ =sub_8006F98
+	ldr r0, _08006F04 @ =Player_8006F98
 	str r0, [r4]
 _08006EFA:
 	pop {r4}
@@ -14009,7 +14009,7 @@ _08006EFA:
 	bx r0
 	.align 2, 0
 _08006F00: .4byte 0xFFFFBFFF
-_08006F04: .4byte sub_8006F98
+_08006F04: .4byte Player_8006F98
 
 	thumb_func_start sub_8006F08
 sub_8006F08: @ 0x08006F08
@@ -14080,8 +14080,8 @@ _08006F8C: .4byte 0xE7FFFFF5
 _08006F90: .4byte 0xFFFFBFFF
 _08006F94: .4byte sub_8006C70
 
-	thumb_func_start sub_8006F98
-sub_8006F98: @ 0x08006F98
+	thumb_func_start Player_8006F98
+Player_8006F98: @ 0x08006F98
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	ldr r1, [r4, #4]
@@ -14165,8 +14165,8 @@ _0800703A:
 	.align 2, 0
 _08007040: .4byte sub_8006C70
 
-	thumb_func_start sub_8007044
-sub_8007044: @ 0x08007044
+	thumb_func_start Player_8007044
+Player_8007044: @ 0x08007044
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	ldr r1, [r4, #4]
@@ -20701,7 +20701,7 @@ Player_800A438: @ 0x0800A438
 	movs r1, #4
 	orrs r0, r1
 	strb r0, [r2]
-	ldr r0, _0800A474 @ =sub_8006F98
+	ldr r0, _0800A474 @ =Player_8006F98
 	str r0, [r4]
 	ldr r0, [r4, #4]
 	movs r1, #0x21
@@ -20716,7 +20716,7 @@ Player_800A438: @ 0x0800A438
 	b _0800A4C0
 	.align 2, 0
 _0800A470: .4byte 0xFFFFF600
-_0800A474: .4byte sub_8006F98
+_0800A474: .4byte Player_8006F98
 _0800A478: .4byte 0x0000024F
 _0800A47C:
 	cmp r1, #0

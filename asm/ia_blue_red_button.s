@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactables028_and_071
-CreateEntity_Interactables028_and_071: @ 0x0802FD18
+	thumb_func_start CreateEntity_BlueOrRedButton
+CreateEntity_BlueOrRedButton: @ 0x0802FD18
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1167,7 +1167,7 @@ CreateEntity_BlueButton: @ 0x080305D4
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl CreateEntity_Interactables028_and_071
+	bl CreateEntity_BlueOrRedButton
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
@@ -1191,7 +1191,7 @@ CreateEntity_RedButton: @ 0x08030600
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl CreateEntity_Interactables028_and_071
+	bl CreateEntity_BlueOrRedButton
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}

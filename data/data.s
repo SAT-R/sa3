@@ -438,7 +438,7 @@ gUnknown_080CF44E:
 
     .global gUnknown_080CF468
 gUnknown_080CF468:
-    .incbin "baserom.gba", 0x000CF468, 0x8
+    .byte 0x78, 0x90, 0xA8, 0xC0, 0xD8, 0xF0, 0xFF, 0x78
 
     .global gUnknown_080CF470
 gUnknown_080CF470:

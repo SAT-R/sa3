@@ -920,7 +920,7 @@ _08036B1C:
 	orrs r0, r1
 	strb r0, [r2]
 	adds r0, r6, #0
-	ldr r1, _08036B4C @ =sub_8006F98
+	ldr r1, _08036B4C @ =Player_8006F98
 	bl SetPlayerCallback
 	adds r0, r6, #0
 	movs r1, #0x94
@@ -929,7 +929,7 @@ _08036B1C:
 	b _08036B98
 	.align 2, 0
 _08036B48: .4byte 0xFFFFFB00
-_08036B4C: .4byte sub_8006F98
+_08036B4C: .4byte Player_8006F98
 _08036B50:
 	ldr r0, [r6, #4]
 	movs r1, #0x20

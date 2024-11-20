@@ -47,10 +47,7 @@ void CreateEntity_Spring(u16 direction, MapEntity *me, u16 regionX, u16 regionY,
     spring->direction = direction;
     spring->unk3A = 0;
 
-    for (i = 0; i < 8; i++) {
-        if (GetBit(me->d.uData[4], i))
-            break;
-    }
+    i = GetFirstSetBitIndex(me->d.uData[4], 8);
 
     spring->unk39 = i;
 
