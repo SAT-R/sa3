@@ -38,7 +38,7 @@ typedef struct {
 
 void sub_8033374(void);
 void sub_8033778(void);
-void sub_80336A0(s16 direction, Sprite *s);
+void sub_80336A0(u8 direction, Sprite *s);
 void sub_8033A30(struct Task *t);
 
 extern void sub_8007044(Player *p);
@@ -78,7 +78,6 @@ void CreateSpringEnabledByButton(u8 direction, MapEntity *me, u16 regionX, u16 r
     sub_80336A0(direction, s);
 }
 
-// https://decomp.me/scratch/ZsOuM
 void sub_8033374(void)
 {
     ButtonSpring *spring = TASK_DATA(gCurTask);
@@ -105,10 +104,9 @@ void sub_8033374(void)
     worldY = TO_WORLD_POS(me->y, spring->base.regionY);
 
     if (GetBit(gStageData.springTimerEnableBits, spring->unk35) && (s->variant == sp08 && spring->unk36 == 0)) {
-        s->variant = sp08 + 1; // temp
+        s->variant = sp08 + 1;
         spring->unk36 = 1;
     } else if (!GetBit(gStageData.springTimerEnableBits, spring->unk35)) {
-        // NOTE(Jace): I do not think this code will ever be reached?
         if ((s->variant == sp08 + 2) && (spring->unk36 == 1) && (1)) {
             s->variant = sp08 + 4;
             spring->unk36 = 0;
@@ -218,4 +216,61 @@ void sub_8033374(void)
     }
 
     sub_8033778();
+}
+
+void sub_80336A0(u8 direction, Sprite *s)
+{
+    s32 mask = 0;
+    s32 variant;
+
+    switch (direction) {
+        case 1:
+            mask = SPRITE_FLAG(Y_FLIP, 1);
+            // fallthrough!!!
+        case 0: {
+            s->tiles = ALLOC_TILES_VARIANT(ANIM_BUTTON_SPRING_1, 0);
+            s->variant = 0;
+        } break;
+
+        case 3:
+            mask = SPRITE_FLAG(X_FLIP, 1);
+            // fallthrough!!!
+        case 2: {
+            s->tiles = ALLOC_TILES_VARIANT(ANIM_BUTTON_SPRING_1, 5);
+            s->variant = 5;
+        } break;
+
+            // fallthrough!!!
+        case 4:
+        case 5:
+        case 6:
+        case 7: {
+            s->tiles = ALLOC_TILES_VARIANT(ANIM_BUTTON_SPRING_1, 10);
+            s->variant = 10;
+
+            if (direction & 0x1) {
+                mask = SPRITE_FLAG(Y_FLIP, 1);
+            }
+
+            if (direction & 0x2) {
+                mask = SPRITE_FLAG(X_FLIP, 1);
+            }
+        } break;
+    }
+
+    if ((gStageData.zone == ZONE_6) && (gStageData.act != ACT_BONUS_ENEMIES)) {
+        s->anim = ANIM_BUTTON_SPRING_6;
+    } else {
+        s->anim = ANIM_BUTTON_SPRING_1;
+    }
+
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = mask | SPRITE_FLAG(PRIORITY, 1);
+    UpdateSpriteAnimation(s);
 }
