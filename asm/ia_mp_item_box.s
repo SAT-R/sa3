@@ -5,120 +5,9 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_MultiplayerItemBox
-CreateEntity_MultiplayerItemBox: @ 0x0804E9CC
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	sub sp, #4
-	mov r8, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _0804EA98 @ =Task_IA_MP023
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _0804EA9C @ =TaskDestructor_IA_MP023
-	str r1, [sp]
-	movs r1, #0x78
-	movs r3, #0
-	bl TaskCreate
-	ldrh r3, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r3, r0
-	movs r1, #0
-	mov sb, r1
-	movs r2, #0
-	strh r4, [r0, #4]
-	strh r5, [r0, #6]
-	mov r7, r8
-	str r7, [r0]
-	ldrb r1, [r7]
-	strb r1, [r0, #0xa]
-	strb r6, [r0, #0xb]
-	ldrb r1, [r7]
-	lsls r1, r1, #3
-	lsls r4, r4, #8
-	adds r1, r1, r4
-	ldr r4, _0804EAA0 @ =0x0300006C
-	adds r6, r3, r4
-	strh r1, [r6]
-	ldrb r1, [r7, #1]
-	lsls r1, r1, #3
-	lsls r5, r5, #8
-	adds r1, r1, r5
-	ldr r7, _0804EAA4 @ =0x0300006E
-	adds r5, r3, r7
-	strh r1, [r5]
-	adds r4, #4
-	adds r1, r3, r4
-	strh r2, [r1]
-	mov r7, r8
-	ldrb r2, [r7, #7]
-	adds r4, #2
-	adds r1, r3, r4
-	strb r2, [r1]
-	ldr r7, _0804EAA8 @ =0x03000073
-	adds r1, r3, r7
-	mov r2, sb
-	strb r2, [r1]
-	adds r4, #2
-	adds r1, r3, r4
-	strb r2, [r1]
-	ldr r1, _0804EAAC @ =0x0300000C
-	adds r7, r3, r1
-	ldr r4, _0804EAB0 @ =gCamera
-	ldr r2, [r4]
-	ldrh r1, [r6]
-	subs r1, r1, r2
-	strh r1, [r7, #0x10]
-	ldr r2, [r4, #4]
-	ldrh r1, [r5]
-	subs r1, r1, r2
-	strh r1, [r7, #0x12]
-	ldr r2, _0804EAB4 @ =0x03000034
-	adds r7, r3, r2
-	ldr r2, [r4]
-	ldrh r1, [r6]
-	subs r1, r1, r2
-	strh r1, [r7, #0x10]
-	ldr r2, [r4, #4]
-	ldrh r1, [r5]
-	subs r1, r1, r2
-	strh r1, [r7, #0x12]
-	movs r4, #2
-	rsbs r4, r4, #0
-	adds r1, r4, #0
-	mov r6, r8
-	strb r1, [r6]
-	bl sub_804ED44
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804EA98: .4byte Task_IA_MP023
-_0804EA9C: .4byte TaskDestructor_IA_MP023
-_0804EAA0: .4byte 0x0300006C
-_0804EAA4: .4byte 0x0300006E
-_0804EAA8: .4byte 0x03000073
-_0804EAAC: .4byte 0x0300000C
-_0804EAB0: .4byte gCamera
-_0804EAB4: .4byte 0x03000034
-
-	thumb_func_start Task_IA_MP023
-Task_IA_MP023: @ 0x0804EAB8
+.if 0
+	thumb_func_start Task_ItemBoxMP
+Task_ItemBoxMP: @ 0x0804EAB8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -150,7 +39,7 @@ Task_IA_MP023: @ 0x0804EAB8
 	strb r1, [r0]
 	ldr r0, [r4]
 	bl TaskDestroy
-	b _0804EBFC
+	b _0804EBFC_return
 	.align 2, 0
 _0804EAFC: .4byte gCurTask
 _0804EB00: .4byte 0x0300006C
@@ -164,14 +53,14 @@ _0804EB08:
 	ldrb r0, [r0]
 	ldrb r1, [r1]
 	cmp r0, r1
-	bne _0804EBFC
+	bne _0804EBFC_return
 	adds r0, r2, #0
 	adds r0, #0x52
 	ldrh r1, [r0]
 	movs r0, #0xf0
 	lsls r0, r0, #1
 	cmp r1, r0
-	bhi _0804EBFC
+	bhi _0804EBFC_return
 	ldr r2, _0804EB44 @ =gStageData
 	adds r0, r2, #0
 	adds r0, #0x8f
@@ -275,7 +164,7 @@ _0804EBDC:
 _0804EBF6:
 	movs r0, #1
 	bl sub_804EE08
-_0804EBFC:
+_0804EBFC_return:
 	add sp, #8
 	pop {r3, r4}
 	mov r8, r3
@@ -286,6 +175,7 @@ _0804EBFC:
 	.align 2, 0
 _0804EC0C: .4byte gPlayers
 _0804EC10: .4byte 0x0300000C
+.endif
 
 	thumb_func_start sub_804EC14
 sub_804EC14: @ 0x0804EC14
@@ -751,8 +641,8 @@ _0804EFC8: .4byte TaskDestructor_SomeCloudEffect
 _0804EFCC: .4byte 0x0000053A
 _0804EFD0: .4byte gCamera
 
-	thumb_func_start TaskDestructor_IA_MP023
-TaskDestructor_IA_MP023: @ 0x0804EFD4
+	thumb_func_start TaskDestructor_ItemBoxMP
+TaskDestructor_ItemBoxMP: @ 0x0804EFD4
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0
@@ -876,7 +766,7 @@ sub_804F098: @ 0x0804F098
 	adds r0, r3, r1
 	strb r2, [r0]
 	ldr r1, [r4]
-	ldr r0, _0804F0E4 @ =Task_IA_MP023
+	ldr r0, _0804F0E4 @ =Task_ItemBoxMP
 	str r0, [r1, #8]
 _0804F0C8:
 	pop {r4}
@@ -888,7 +778,7 @@ _0804F0D4: .4byte gUnknown_03001060
 _0804F0D8: .4byte 0x000001DF
 _0804F0DC: .4byte 0x03000070
 _0804F0E0: .4byte 0x03000073
-_0804F0E4: .4byte Task_IA_MP023
+_0804F0E4: .4byte Task_ItemBoxMP
 
 	thumb_func_start Task_SomeCloudEffect
 Task_SomeCloudEffect: @ 0x0804F0E8

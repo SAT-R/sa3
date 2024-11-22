@@ -104,7 +104,8 @@ SECTIONS {
         build/sa3/src/game/interactables/platform_shared.o(.text);
         build/sa3/src/game/interactables/chao.o(.text);
         build/sa3/src/game/interactables/special_key.o(.text);
-        build/sa3/asm/ia_mp_023.o(.text);
+        build/sa3/src/game/interactables/item_box_mp.o(.text);
+        build/sa3/asm/ia_mp_item_box.o(.text);
         build/sa3/src/game/interactables/mp_chao.o(.text);
         build/sa3/src/game/interactables/final_zone_ring.o(.text);
         build/sa3/src/game/interactables/emerald_in_playground.o(.text);
