@@ -81285,9 +81285,9 @@ _080276E6:
 sub_80276F4: @ 0x080276F4
 	push {r4, lr}
 	sub sp, #8
-	lsls r0, r0, #0x10
+	lsls r0, r0, #0x10      @ r0 = param0 << 16
 	lsls r1, r1, #0x10
-	lsrs r4, r1, #0x10
+	lsrs r4, r1, #0x10      @ r4 = playerIndex
 	ldr r2, _08027734 @ =gStageData
 	adds r2, #0x8f
 	movs r3, #1

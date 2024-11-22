@@ -23,11 +23,15 @@ extern u8 gUnknown_03006840;
 extern u8 gVramGraphicsCopyQueueIndex;
 extern u8 gVramGraphicsCopyCursor;
 
+// Multiplayer-related (used in IA item_box_mp.c)
 typedef struct {
     /* 0x00 */ u8 filler0[0x4C];
     /* 0x4C */ u8 unk4C;
     /* 0x4D */ u8 unk4D;
-    /* 0x4E */ u8 filler4E[0x8];
+    /* 0x4E */ u8 filler4E[0x4];
+    /* 0x52 */ u16 unk52;
+    /* 0x54 */ u8 unk54;
+    /* 0x55 */ u8 unk55;
     /* 0x56 */ u8 unk56;
 } Struct_03001060; /* size: ??? */
 extern Struct_03001060 gUnknown_03001060;
@@ -85,6 +89,8 @@ void sub_80274F4(u8, u16 x, s16 y);
 // (src/game/interactables/warp.c -> Task_802E6F8)
 void sub_80275B8(u32 level, u8, u8);
 void sub_80276A8(u8 charId);
+void sub_80276F4(u16 somePlayerFlags, u16 playerIndex);
+void sub_80296F8(u16 somePlayerFlags);
 void sub_802954C(Player *p, s16 worldX, s16 worldY);
 void sub_80299FC(void);
 void sub_8029A18(u16 songId);

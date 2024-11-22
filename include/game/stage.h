@@ -73,7 +73,7 @@ typedef struct {
     /* 0x87 */ u8 flagSpKey; // SP-key-flag of current act | 0x87
     /* 0x88 */ u8 PADDING42[0x04];
     /* 0x8C */ u16 unk8C;
-    /* 0x8E */ u8 unk8E;
+    /* 0x8E */ u8 unk8E; // PlayerIndex for Multiplayer?
     /* 0x8F */ u8 unk8F;
     /* 0x90 */ struct Task *task90;
     /* 0x94 */ u32 unk94;
