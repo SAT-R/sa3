@@ -19,17 +19,23 @@
 
 typedef struct {
     /* 0x00 */ SpriteBase base;
-    /* 0x0C */ Sprite s;
-    /* 0x34 */ Sprite s2;
+    /* 0x0C */ Sprite sprBox;
+    /* 0x34 */ Sprite sprItem;
     /* 0x5C */ SpriteTransform transform;
     /* 0x68 */ Player *player;
     /* 0x6C */ s16 worldX;
     /* 0x6E */ s16 worldY;
-    /* 0x70 */ s16 unk70;
+    /* 0x70 */ s16 qUnk70;
     /* 0x72 */ u8 unk72;
     /* 0x73 */ u8 unk73;
     /* 0x74 */ u8 unk74; // TODO: Is that a 4:4 bitfield?
 } ItemBoxMP; /* 0x78 */
+
+typedef struct {
+    /* 0x00 */ Sprite s;
+    /* 0x28 */ s16 worldX;
+    /* 0x2A */ s16 worldY;
+} CloudEffect; /* 0x2C */
 
 void Task_ItemBoxMP(void);
 void TaskDestructor_ItemBoxMP(struct Task *t);
@@ -37,7 +43,11 @@ void sub_804EC14(ItemBoxMP *itembox);
 void sub_804ED44(ItemBoxMP *itembox);
 void sub_804EE08(u8);
 void CreateCloudEffect(s16, s16);
-void Task_804F004(void);
+void Task_CloudEffect(void);
+void TaskDestructor_CloudEffect(struct Task *t);
+void Task_ItemBoxMP_804F004(void);
+void Task_ItemBoxMP_804F05C(void);
+void Task_ItemBoxMP_804F098(void);
 
 void CreateEntity_MultiplayerItemBox(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -53,16 +63,16 @@ void CreateEntity_MultiplayerItemBox(MapEntity *me, u16 regionX, u16 regionY, u8
 
     itembox->worldX = TO_WORLD_POS(me->x, regionX);
     itembox->worldY = TO_WORLD_POS(me->y, regionY);
-    itembox->unk70 = 0;
+    itembox->qUnk70 = 0;
     itembox->unk72 = me->d.uData[4];
     itembox->unk73 = 0;
     itembox->unk74 = 0;
 
-    s = &itembox->s;
+    s = &itembox->sprBox;
     s->x = itembox->worldX - gCamera.x;
     s->y = itembox->worldY - gCamera.y;
 
-    s = &itembox->s2;
+    s = &itembox->sprItem;
     s->x = itembox->worldX - gCamera.x;
     s->y = itembox->worldY - gCamera.y;
 
@@ -103,7 +113,7 @@ void Task_ItemBoxMP(void)
         // NOTE/TODO: The 416 in the condition below might be (< DISPLAY_HEIGHT + 256)
     } else if ((gUnknown_03001060.unk52 > 32) && (gUnknown_03001060.unk52 < 416)) {
         p = &gPlayers[gStageData.playerIndex];
-        s = &itembox->s;
+        s = &itembox->sprBox;
         if (sub_8020700(s, worldX, worldY, 0, p, 1)) {
             itembox->player = p;
             sub_804EC14(itembox);
@@ -125,7 +135,7 @@ void Task_ItemBoxMP(void)
     } else {
         Sprite *s;
         p = &gPlayers[gStageData.playerIndex];
-        s = &itembox->s;
+        s = &itembox->sprBox;
         ResolvePlayerSpriteCollision(s, p);
     }
 
@@ -148,7 +158,7 @@ void sub_804EC14(ItemBoxMP *itembox)
         SetPlayerCallback(itemboxPlayer, Player_800DAF4);
     }
 
-    s = &itembox->s;
+    s = &itembox->sprBox;
     p = &gPlayers[gStageData.playerIndex];
     ResolvePlayerSpriteCollision(s, p);
 
@@ -181,12 +191,12 @@ void sub_804EC14(ItemBoxMP *itembox)
         }
     }
 
-    gCurTask->main = Task_804F004;
+    gCurTask->main = Task_ItemBoxMP_804F004;
 }
 
 void sub_804ED44(ItemBoxMP *itembox)
 {
-    Sprite *s = &itembox->s;
+    Sprite *s = &itembox->sprBox;
 
     s->tiles = ALLOC_TILES(ANIM_ITEM_BOX);
     s->anim = ANIM_ITEM_BOX;
@@ -201,7 +211,7 @@ void sub_804ED44(ItemBoxMP *itembox)
     s->frameFlags = SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(MOSAIC, 1);
     UpdateSpriteAnimation(s);
 
-    s = &itembox->s2;
+    s = &itembox->sprItem;
     s->tiles = ALLOC_TILES(ANIM_ITEM_BOX_TYPE);
     s->anim = ANIM_ITEM_BOX_TYPE;
     s->variant = 15 + (gUnknown_03001060.unk55 & 0x1);
@@ -231,7 +241,7 @@ void sub_804EE08(u8 param0)
     u16 r2;
 
     screenX = itembox->worldX - gCamera.x;
-    screenY = itembox->worldY - gCamera.y + I(itembox->unk70);
+    screenY = itembox->worldY - gCamera.y + I(itembox->qUnk70);
 
     if (param0 == 0) {
         r2 = 0x100;
@@ -253,7 +263,7 @@ void sub_804EE08(u8 param0)
             itembox->transform.x = screenX;
             itembox->transform.y = screenY;
 
-            s = &itembox->s2;
+            s = &itembox->sprItem;
 
             s->frameFlags = gUnknown_03002C24 | SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(ROT_SCALE_ENABLE, 1);
             TransformSprite(s, &itembox->transform);
@@ -263,7 +273,7 @@ void sub_804EE08(u8 param0)
             gUnknown_03002C24++;
 
             if (param0 != 0) {
-                s = &itembox->s;
+                s = &itembox->sprBox;
 
                 s->frameFlags = gUnknown_03002C24 | SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(ROT_SCALE_ENABLE, 1);
                 TransformSprite(s, &itembox->transform);
@@ -272,5 +282,94 @@ void sub_804EE08(u8 param0)
                 gUnknown_03002C24++;
             }
         }
+    }
+}
+
+void CreateCloudEffect(s16 worldX, s16 worldY)
+{
+    struct Task *t = TaskCreate(Task_CloudEffect, sizeof(CloudEffect), 0x4040, 0, TaskDestructor_CloudEffect);
+    CloudEffect *cloud = TASK_DATA(t);
+    Sprite *s = &cloud->s;
+
+    cloud->worldX = worldX;
+    cloud->worldY = worldY;
+
+    s->tiles = ALLOC_TILES(ANIM_ITEM_BOX_CLOUD_EFFECT);
+    s->anim = ANIM_ITEM_BOX_CLOUD_EFFECT;
+    s->variant = 0;
+    s->prevVariant = -1;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    s->oamFlags = SPRITE_OAM_ORDER(12);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+}
+
+void TaskDestructor_ItemBoxMP(struct Task *t)
+{
+    ItemBoxMP *itembox = TASK_DATA(t);
+    VramFree(itembox->sprBox.tiles);
+    VramFree(itembox->sprItem.tiles);
+}
+
+void TaskDestructor_CloudEffect(struct Task *t)
+{
+    CloudEffect *itembox = TASK_DATA(t);
+    VramFree(itembox->s.tiles);
+}
+
+void Task_ItemBoxMP_804F004(void)
+{
+    ItemBoxMP *itembox = TASK_DATA(gCurTask);
+
+    if (itembox->unk73++ >= 60) {
+        itembox->unk73 = 0;
+        gCurTask->main = Task_ItemBoxMP_804F05C;
+    } else {
+        itembox->qUnk70 -= Q(1);
+    }
+
+    sub_804EE08(0);
+}
+
+void Task_ItemBoxMP_804F05C(void)
+{
+    ItemBoxMP *itembox = TASK_DATA(gCurTask);
+
+    if (itembox->unk73++ >= 30) {
+        gCurTask->main = Task_ItemBoxMP_804F098;
+    } else {
+        sub_804EE08(0);
+    }
+}
+
+void Task_ItemBoxMP_804F098(void)
+{
+    ItemBoxMP *itembox = TASK_DATA(gCurTask);
+
+    if (gUnknown_03001060.unk52 >= 480) {
+        itembox->qUnk70 = 0;
+        itembox->unk73 = 0;
+        itembox->unk74 = 0;
+        gCurTask->main = Task_ItemBoxMP;
+    }
+}
+
+void Task_CloudEffect(void)
+{
+    CloudEffect *cloud = TASK_DATA(gCurTask);
+    Sprite *s = &cloud->s;
+
+    s->x = cloud->worldX - gCamera.x;
+    s->y = cloud->worldY - gCamera.y;
+
+    if (UpdateSpriteAnimation(s) != ACMD_RESULT__ENDED) {
+        DisplaySprite(s);
+    } else {
+        TaskDestroy(gCurTask);
     }
 }
