@@ -46,7 +46,7 @@ typedef struct {
 } BlueRedButton;
 
 void Task_BlueRedButton(void);
-void sub_80302A0(u16 kind, s16 param1, s16 param2, Sprite *s);
+void sub_80302A0(s16 kind, s16 param1, s16 param2, Sprite *s);
 void sub_80303B4(void);
 void TaskDestructor_BlueRedButton(struct Task *t);
 
@@ -191,4 +191,153 @@ void Task_BlueRedButton(void)
     }
 
     sub_80303B4();
+}
+
+void sub_80302A0(s16 kind, s16 param1, s16 param2, Sprite *s)
+{
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+
+    if (kind == BUTTON_KIND_BLUE) {
+        if (param1 == 1) {
+            SPRITE_FLAG_SET(s, Y_FLIP);
+        } else if (param1 == 3) {
+            SPRITE_FLAG_SET(s, X_FLIP);
+        }
+
+        s->tiles = ALLOC_TILES(ANIM_BUTTON_BLUE);
+        s->anim = ANIM_BUTTON_BLUE;
+
+        if (GetBit(gStageData.platformTimerEnableBits, param2)) {
+            if (param1 & 0x2) {
+                s->variant = 9;
+            } else {
+                s->variant = 5;
+            }
+        } else {
+            if (param1 & 0x2) {
+                s->variant = 7;
+            } else {
+                s->variant = 3;
+            }
+        }
+    } else {
+        if (param1 == 1) {
+            SPRITE_FLAG_SET(s, Y_FLIP);
+        } else if (param1 == 3) {
+            SPRITE_FLAG_SET(s, X_FLIP);
+        }
+
+        s->tiles = ALLOC_TILES_VARIANT(ANIM_BUTTON_SPRING_1, 15);
+        s->anim = ANIM_BUTTON_SPRING_1;
+
+        if (GetBit(gStageData.springTimerEnableBits, param2)) {
+            if (param1 & 0x2) {
+                s->variant = 21;
+            } else {
+                s->variant = 17;
+            }
+        } else {
+            if (param1 & 0x2) {
+                s->variant = 19;
+            } else {
+                s->variant = 15;
+            }
+        }
+    }
+
+    UpdateSpriteAnimation(s);
+}
+
+void sub_80303B4(void)
+{
+    BlueRedButton *button = TASK_DATA(gCurTask);
+    Sprite *s = &button->s;
+    MapEntity *me = button->base.me;
+    s16 worldX, worldY;
+    AnimCmdResult acmdRes;
+    s16 i;
+    u8 unk35 = button->unk35 - 1;
+
+    worldX = TO_WORLD_POS(button->base.spriteX, button->base.regionX);
+    worldY = TO_WORLD_POS(me->y, button->base.regionY);
+
+    if (!IsPointInScreenRect(worldX, worldY)) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            Player *p = GET_SP_PLAYER_V1(i);
+            ResolvePlayerSpriteCollision(s, p);
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, button->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    // TODO: This cast is weird, but required for matching.
+    acmdRes = (u16)UpdateSpriteAnimation(s);
+
+    if (button->kind == BUTTON_KIND_BLUE) {
+        if (unk35 & 0x2) {
+            if ((acmdRes == ACMD_RESULT__ENDED) && (s->variant == 8)) {
+                s->variant = 9;
+            } else if (!GetBit(gStageData.platformTimerEnableBits, button->unk36) && (s->variant == 9)) {
+                s->variant = 10;
+            } else if ((acmdRes == ACMD_RESULT__ENDED) && (s->variant == 10)) {
+                s->variant = 7;
+            }
+        } else {
+            if ((acmdRes == ACMD_RESULT__ENDED) && (s->variant == 4)) {
+                s->variant = 5;
+            } else if (!GetBit(gStageData.platformTimerEnableBits, button->unk36) && (s->variant == 5)) {
+                s->variant = 6;
+            } else if ((acmdRes == ACMD_RESULT__ENDED) && (s->variant == 6)) {
+                s->variant = 3;
+            }
+        }
+    } else {
+        if (unk35 & 0x2) {
+            if ((acmdRes == ACMD_RESULT__ENDED) && (s->variant == 20)) {
+                s->variant = 21;
+            } else if (!GetBit(gStageData.springTimerEnableBits, button->unk36) && s->variant == 21) {
+                s->variant = 22;
+            } else if ((acmdRes == ACMD_RESULT__ENDED) && (s->variant == 22)) {
+                s->variant = 19;
+            }
+        } else {
+            if ((acmdRes == ACMD_RESULT__ENDED) && (s->variant == 16)) {
+                s->variant = 17;
+            } else if (!GetBit(gStageData.springTimerEnableBits, button->unk36) && (s->variant == 17)) {
+                s->variant = 18;
+            } else if ((acmdRes == ACMD_RESULT__ENDED) && (s->variant == 18)) {
+                s->variant = 15;
+            }
+        }
+    }
+
+    DisplaySprite(s);
+}
+
+void CreateEntity_BlueButton(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateBlueOrRedButton(BUTTON_KIND_BLUE, me, regionX, regionY, id);
+}
+
+void CreateEntity_RedButton(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateBlueOrRedButton(BUTTON_KIND_RED, me, regionX, regionY, id);
+}
+
+void TaskDestructor_BlueRedButton(struct Task *t)
+{
+    BlueRedButton *button = TASK_DATA(t);
+    VramFree(button->s.tiles);
 }

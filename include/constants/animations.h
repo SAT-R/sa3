@@ -63,8 +63,8 @@
 #define ANIM_LIFT                      876
 #define ANIM_PLATFORM_CRUMBLING_1      877
 #define ANIM_TRAMPOLINE                878
-#define ANIM_PLATFORM_WITH_SWITCH_W01  879
-#define ANIM_BUTTON_SPRING_1           880
+#define ANIM_BUTTON_BLUE               879
+#define ANIM_BUTTON_SPRING_1           880 // Has both the spring and the Red Button GFX
 #define ANIM_BREAKABLE_WALL_1          881
 #define ANIM_ROCK                      882
 #define ANIM_FLAT_SPRING               883
