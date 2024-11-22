@@ -19,6 +19,24 @@
 #define BUTTON_KIND_BLUE 0
 #define BUTTON_KIND_RED  1
 
+#define GET_ACTIVE_SECONDS(me) (me)->d.sData[0]
+
+#define APPLY_BLUE_BUTTON(me, button, sprite)                                                                                              \
+    if (((sprite)->variant == 3) || ((sprite)->variant == 7)) {                                                                            \
+        SetBit(gStageData.platformTimerEnableBits, (button)->unk36);                                                                       \
+        gStageData.platformTimers[(button)->unk36] = GET_ACTIVE_SECONDS(me) * GBA_FRAMES_PER_SECOND;                                       \
+        (sprite)->variant++;                                                                                                               \
+        sub_8003DF0(SE_BUTTON_HIT);                                                                                                        \
+    }
+
+#define APPLY_RED_BUTTON(me, button, sprite)                                                                                               \
+    if (((sprite)->variant == 15) || ((sprite)->variant == 19)) {                                                                          \
+        SetBit(gStageData.springTimerEnableBits, (button)->unk36);                                                                         \
+        gStageData.springTimers[(button)->unk36] = GET_ACTIVE_SECONDS(me) * GBA_FRAMES_PER_SECOND;                                         \
+        (sprite)->variant++;                                                                                                               \
+        sub_8003DF0(SE_BUTTON_HIT);                                                                                                        \
+    }
+
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
@@ -104,19 +122,9 @@ void Task_BlueRedButton(void)
         if (res) {
             if (res & r6) {
                 if (button->kind == BUTTON_KIND_BLUE) {
-                    if ((s->variant == 3) || (s->variant == 7)) {
-                        SetBit(gStageData.platformTimerEnableBits, button->unk36);
-                        gStageData.platformTimers[button->unk36] = me->d.sData[0] * GBA_FRAMES_PER_SECOND;
-                        s->variant++;
-                        sub_8003DF0(SE_BUTTON_HIT);
-                    }
+                    APPLY_BLUE_BUTTON(me, button, s);
                 } else {
-                    if ((s->variant == 15) || (s->variant == 19)) {
-                        SetBit(gStageData.springTimerEnableBits, button->unk36);
-                        gStageData.springTimers[button->unk36] = me->d.sData[0] * GBA_FRAMES_PER_SECOND;
-                        s->variant++;
-                        sub_8003DF0(SE_BUTTON_HIT);
-                    }
+                    APPLY_RED_BUTTON(me, button, s);
                 }
 
                 p->qWorldY += Q_8_8(res);
@@ -147,19 +155,9 @@ void Task_BlueRedButton(void)
             if ((p2->charFlags.someIndex == 1) || (p2->charFlags.someIndex == 4)) {
                 if (((stg98->unk16 & 0x6) == 0x6) && (sub_805C510(s) == TRUE)) {
                     if (button->kind == BUTTON_KIND_BLUE) {
-                        if ((s->variant == 3) || (s->variant == 7)) {
-                            SetBit(gStageData.platformTimerEnableBits, button->unk36);
-                            gStageData.platformTimers[button->unk36] = me->d.sData[0] * GBA_FRAMES_PER_SECOND;
-                            s->variant++;
-                            sub_8003DF0(SE_BUTTON_HIT);
-                        }
+                        APPLY_BLUE_BUTTON(me, button, s);
                     } else {
-                        if ((s->variant == 15) || (s->variant == 19)) {
-                            SetBit(gStageData.springTimerEnableBits, button->unk36);
-                            gStageData.springTimers[button->unk36] = me->d.sData[0] * GBA_FRAMES_PER_SECOND;
-                            s->variant++;
-                            sub_8003DF0(SE_BUTTON_HIT);
-                        }
+                        APPLY_RED_BUTTON(me, button, s);
                     }
                 }
             }
@@ -168,19 +166,9 @@ void Task_BlueRedButton(void)
 
             if (res) {
                 if (button->kind == BUTTON_KIND_BLUE) {
-                    if ((s->variant == 3) || (s->variant == 7)) {
-                        SetBit(gStageData.platformTimerEnableBits, button->unk36);
-                        gStageData.platformTimers[button->unk36] = me->d.sData[0] * GBA_FRAMES_PER_SECOND;
-                        s->variant++;
-                        sub_8003DF0(SE_BUTTON_HIT);
-                    }
+                    APPLY_BLUE_BUTTON(me, button, s);
                 } else {
-                    if ((s->variant == 15) || (s->variant == 19)) {
-                        SetBit(gStageData.springTimerEnableBits, button->unk36);
-                        gStageData.springTimers[button->unk36] = me->d.sData[0] * GBA_FRAMES_PER_SECOND;
-                        s->variant++;
-                        sub_8003DF0(SE_BUTTON_HIT);
-                    }
+                    APPLY_RED_BUTTON(me, button, s);
                 }
             }
         }
@@ -193,11 +181,8 @@ void Task_BlueRedButton(void)
             return;
         }
 
-        if ((me->d.uData[4] == 2) && (button->kind == BUTTON_KIND_BLUE) && (s->variant == 3 || s->variant == 7)) {
-            SetBit(gStageData.platformTimerEnableBits, button->unk36);
-            gStageData.platformTimers[button->unk36] = me->d.sData[0] * GBA_FRAMES_PER_SECOND;
-            s->variant++;
-            sub_8003DF0(SE_BUTTON_HIT);
+        if ((me->d.uData[4] == 2) && (button->kind == BUTTON_KIND_BLUE)) {
+            APPLY_BLUE_BUTTON(me, button, s);
         }
 
         if ((s->variant != 3) && (s->variant != 7)) {
