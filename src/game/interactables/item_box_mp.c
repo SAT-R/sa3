@@ -21,11 +21,11 @@ typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
     /* 0x34 */ Sprite s2;
-    /* 0x5C */ u8 filler5C[0xC];
+    /* 0x5C */ SpriteTransform transform;
     /* 0x68 */ Player *player;
     /* 0x6C */ s16 worldX;
     /* 0x6E */ s16 worldY;
-    /* 0x70 */ u16 unk70;
+    /* 0x70 */ s16 unk70;
     /* 0x72 */ u8 unk72;
     /* 0x73 */ u8 unk73;
     /* 0x74 */ u8 unk74; // TODO: Is that a 4:4 bitfield?
@@ -100,7 +100,7 @@ void Task_ItemBoxMP(void)
         itembox->player = NULL;
         sub_804EC14(itembox);
 
-        // NOTE/TODO:  The 416 in the condition below might be (< DISPLAY_HEIGHT + 256)
+        // NOTE/TODO: The 416 in the condition below might be (< DISPLAY_HEIGHT + 256)
     } else if ((gUnknown_03001060.unk52 > 32) && (gUnknown_03001060.unk52 < 416)) {
         p = &gPlayers[gStageData.playerIndex];
         s = &itembox->s;
@@ -182,4 +182,95 @@ void sub_804EC14(ItemBoxMP *itembox)
     }
 
     gCurTask->main = Task_804F004;
+}
+
+void sub_804ED44(ItemBoxMP *itembox)
+{
+    Sprite *s = &itembox->s;
+
+    s->tiles = ALLOC_TILES(ANIM_ITEM_BOX);
+    s->anim = ANIM_ITEM_BOX;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(MOSAIC, 1);
+    UpdateSpriteAnimation(s);
+
+    s = &itembox->s2;
+    s->tiles = ALLOC_TILES(ANIM_ITEM_BOX_TYPE);
+    s->anim = ANIM_ITEM_BOX_TYPE;
+    s->variant = 15 + (gUnknown_03001060.unk55 & 0x1);
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(MOSAIC, 1);
+    UpdateSpriteAnimation(s);
+
+    itembox->transform.rotation = 0;
+    itembox->transform.scaleX = Q(1);
+    itembox->transform.scaleY = Q(1);
+    itembox->transform.x = 0;
+    itembox->transform.y = 0;
+}
+
+void sub_804EE08(u8 param0)
+{
+    u16 unk52 = gUnknown_03001060.unk52;
+    ItemBoxMP *itembox = TASK_DATA(gCurTask);
+    Sprite *s;
+    u16 screenX, screenY;
+    u16 r2;
+
+    screenX = itembox->worldX - gCamera.x;
+    screenY = itembox->worldY - gCamera.y + I(itembox->unk70);
+
+    if (param0 == 0) {
+        r2 = 0x100;
+    } else {
+        if (unk52 < 32) {
+            r2 = unk52 * 8;
+
+            // NOTE/TODO: The 416 in the condition below might be (< DISPLAY_HEIGHT + 256)
+        } else if (unk52 < 416) {
+            r2 = 0x100;
+        } else {
+            r2 = (480 - unk52) << 2;
+        }
+    }
+
+    if (r2 != 0) {
+        if ((r2 & 0xFE00) == 0) {
+            itembox->transform.scaleY = r2;
+            itembox->transform.x = screenX;
+            itembox->transform.y = screenY;
+
+            s = &itembox->s2;
+
+            s->frameFlags = gUnknown_03002C24 | SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(ROT_SCALE_ENABLE, 1);
+            TransformSprite(s, &itembox->transform);
+            s->variant = 15 + gUnknown_03001060.unk55;
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+            gUnknown_03002C24++;
+
+            if (param0 != 0) {
+                s = &itembox->s;
+
+                s->frameFlags = gUnknown_03002C24 | SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(ROT_SCALE_ENABLE, 1);
+                TransformSprite(s, &itembox->transform);
+                UpdateSpriteAnimation(s);
+                DisplaySprite(s);
+                gUnknown_03002C24++;
+            }
+        }
+    }
 }

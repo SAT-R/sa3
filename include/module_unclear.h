@@ -31,7 +31,7 @@ typedef struct {
     /* 0x4E */ u8 filler4E[0x4];
     /* 0x52 */ u16 unk52;
     /* 0x54 */ u8 unk54;
-    /* 0x55 */ u8 unk55;
+    /* 0x55 */ u8 unk55; // used to determine item type in MP itemboxes (15 + (unk55 & 0x1))
     /* 0x56 */ u8 unk56;
 } Struct_03001060; /* size: ??? */
 extern Struct_03001060 gUnknown_03001060;
