@@ -240,7 +240,6 @@ void sub_80336A0(u8 direction, Sprite *s)
             s->variant = 5;
         } break;
 
-            // fallthrough!!!
         case 4:
         case 5:
         case 6:

@@ -85,7 +85,7 @@ void Task_SpecialKey(void)
         gStageData.flagSpKey = 1;
         sub_8003DF0(SE_SPECIAL_KEY);
     } else {
-        Player *p2 = task98->unk50;
+        Player *p2 = task98->player;
         if (((p2->charFlags.someIndex == 1) || (p2->charFlags.someIndex == 4)) && ((task98->unk16 & 0x6) == 0x6)
             && (sub_805C510(s) == TRUE)) {
             TaskDestroy(gCurTask);
