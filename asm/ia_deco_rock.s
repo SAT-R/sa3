@@ -5,137 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_DecoRock
-CreateEntity_DecoRock: @ 0x08037274
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #4
-	mov r8, r0
-	adds r4, r3, #0
-	lsls r1, r1, #0x10
-	lsrs r1, r1, #0x10
-	adds r7, r1, #0
-	lsls r2, r2, #0x10
-	lsrs r2, r2, #0x10
-	mov sl, r2
-	lsls r4, r4, #0x18
-	lsrs r4, r4, #0x18
-	ldr r0, _08037364 @ =sub_80379E4
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _08037368 @ =sub_80379D0
-	str r1, [sp]
-	movs r1, #0xb8
-	movs r3, #0
-	bl TaskCreate
-	ldrh r5, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r5, r0
-	ldr r1, _0803736C @ =0x0300000C
-	adds r6, r5, r1
-	ldr r2, _08037370 @ =0x03000034
-	adds r2, r2, r5
-	mov ip, r2
-	ldr r3, _08037374 @ =0x0300005C
-	adds r3, r3, r5
-	mov sb, r3
-	movs r2, #0
-	strh r7, [r0, #4]
-	mov r1, sl
-	strh r1, [r0, #6]
-	mov r3, r8
-	str r3, [r0]
-	ldrb r1, [r3]
-	strb r1, [r0, #0xa]
-	strb r4, [r0, #0xb]
-	ldr r1, _08037378 @ =0x03000086
-	adds r0, r5, r1
-	strb r2, [r0]
-	ldrb r0, [r3, #3]
-	ldr r2, _0803737C @ =0x03000085
-	adds r1, r5, r2
-	strb r0, [r1]
-	lsls r0, r0, #0x18
-	cmp r0, #0
-	bne _080372E8
-	movs r0, #1
-	strb r0, [r1]
-_080372E8:
-	mov r3, r8
-	ldrb r2, [r3]
-	lsls r2, r2, #3
-	lsls r0, r7, #8
-	adds r2, r2, r0
-	strh r2, [r6, #0x10]
-	ldrb r0, [r3, #1]
-	lsls r0, r0, #3
-	mov r3, sl
-	lsls r1, r3, #8
-	adds r0, r0, r1
-	strh r0, [r6, #0x12]
-	mov r0, ip
-	strh r2, [r0, #0x10]
-	ldrh r0, [r6, #0x12]
-	mov r1, ip
-	strh r0, [r1, #0x12]
-	ldrh r0, [r6, #0x10]
-	mov r2, sb
-	strh r0, [r2, #0x10]
-	ldrh r0, [r6, #0x12]
-	strh r0, [r2, #0x12]
-	movs r3, #0
-	ldr r0, _08037380 @ =0x03000088
-	adds r7, r5, r0
-	ldr r1, _08037384 @ =0x0300008C
-	adds r4, r5, r1
-_0803731E:
-	lsls r1, r3, #3
-	adds r2, r7, r1
-	movs r5, #0x10
-	ldrsh r0, [r6, r5]
-	lsls r0, r0, #8
-	str r0, [r2]
-	adds r1, r4, r1
-	movs r2, #0x12
-	ldrsh r0, [r6, r2]
-	lsls r0, r0, #8
-	str r0, [r1]
-	adds r0, r3, #1
-	lsls r0, r0, #0x18
-	lsrs r3, r0, #0x18
-	cmp r3, #3
-	bls _0803731E
-	movs r3, #2
-	rsbs r3, r3, #0
-	adds r0, r3, #0
-	mov r5, r8
-	strb r0, [r5]
-	adds r0, r6, #0
-	mov r1, ip
-	mov r2, sb
-	bl sub_803765C
-	add sp, #4
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08037364: .4byte sub_80379E4
-_08037368: .4byte sub_80379D0
-_0803736C: .4byte 0x0300000C
-_08037370: .4byte 0x03000034
-_08037374: .4byte 0x0300005C
-_08037378: .4byte 0x03000086
-_0803737C: .4byte 0x03000085
-_08037380: .4byte 0x03000088
-_08037384: .4byte 0x0300008C
+.if 0
+.endif
 
 	thumb_func_start sub_8037388
 sub_8037388: @ 0x08037388
@@ -419,7 +290,7 @@ _08037594:
 	strb r0, [r5]
 	ldr r1, _08037600 @ =gCurTask
 	ldr r0, [r1]
-	ldr r2, _08037604 @ =sub_80379F4
+	ldr r2, _08037604 @ =Task_80379F4
 	str r2, [r0, #8]
 	movs r3, #1
 	mov sb, r3
@@ -464,7 +335,7 @@ _080375E6:
 _080375F8: .4byte 0xFFFFFA00
 _080375FC: .4byte 0xFFFFFB00
 _08037600: .4byte gCurTask
-_08037604: .4byte sub_80379F4
+_08037604: .4byte Task_80379F4
 _08037608: .4byte Player_800DB30
 _0803760C: .4byte 0x0000024D
 _08037610: .4byte gPlayers
@@ -957,8 +828,8 @@ _080379B8:
 _080379C8: .4byte sub_8051F54
 _080379CC: .4byte gCamera
 
-	thumb_func_start sub_80379D0
-sub_80379D0: @ 0x080379D0
+	thumb_func_start TaskDestructor_DecoRock
+TaskDestructor_DecoRock: @ 0x080379D0
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
@@ -969,8 +840,8 @@ sub_80379D0: @ 0x080379D0
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_80379E4
-sub_80379E4: @ 0x080379E4
+	thumb_func_start Task_DecoRockInit
+Task_DecoRockInit: @ 0x080379E4
 	push {lr}
 	bl sub_8037388
 	bl sub_8037710
@@ -978,8 +849,8 @@ sub_80379E4: @ 0x080379E4
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_80379F4
-sub_80379F4: @ 0x080379F4
+	thumb_func_start Task_80379F4
+Task_80379F4: @ 0x080379F4
 	push {r4, r5, r6, lr}
 	ldr r0, _08037A3C @ =gCurTask
 	ldr r0, [r0]
