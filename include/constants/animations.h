@@ -66,7 +66,7 @@
 #define ANIM_BUTTON_BLUE               879
 #define ANIM_BUTTON_SPRING_1           880 // Has both the spring and the Red Button GFX
 #define ANIM_BREAKABLE_WALL_1          881
-#define ANIM_ROCK                      882
+#define ANIM_DECO_ROCK                 882
 #define ANIM_FLAT_SPRING               883
 #define ANIM_PLATFORM_RAISING_WHEEL    884 // 0: Still, 1: Rotating, 2: Platform
 #define ANIM_SEESAW_1                  885

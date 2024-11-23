@@ -260,6 +260,7 @@
 #define SE_ICE_SPIKE    0x24A
 
 #define SE_588              0x24C
+#define SE_SMASH_ROCK       0x24D
 #define SE_ACCORDION_SPRING 0x24E
 
 #define SE_WAGGLE_COIL 0x250

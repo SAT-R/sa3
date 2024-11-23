@@ -46,7 +46,6 @@ SECTIONS {
         build/sa3/src/game/interactables/platform_raising_wheel_platform.o(.text);
         build/sa3/asm/ia_seesaw.o(.text);
         build/sa3/src/game/interactables/deco_rock.o(.text);
-        build/sa3/asm/ia_deco_rock.o(.text);
         build/sa3/src/game/interactables/flat_spring.o(.text);
         build/sa3/src/game/interactables/omochao.o(.text);
         build/sa3/src/game/interactables/platform_enabled_by_button.o(.text);
