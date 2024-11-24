@@ -84,8 +84,8 @@ typedef struct {
     /* 0x04 */ u16 regionX;
     /* 0x06 */ u16 regionY;
     /* 0x08 */ u8 filler8[0x2];
-    /* 0x0A */ u16 unkA; // only in SA3
-    /* 0x0A */ u16 unkC; // only in SA3
+    /* 0x0A */ u16 qSpeedAirX; // only in SA3
+    /* 0x0A */ u16 qSpeedAirY; // only in SA3
     /* 0x0E */ u8 spriteX;
     /* 0x0F */ u8 id;
 } SpriteBase4;

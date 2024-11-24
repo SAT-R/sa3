@@ -116,7 +116,7 @@ struct Player {
         u16 state1; // 0x36-0x37
     } charFlags;
 
-    u8 Padding4[0x0D];
+    u8 Padding38[0x0D];
 
     u16 Spindash_Velocity; // 0x46
 
