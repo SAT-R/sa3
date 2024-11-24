@@ -214,8 +214,7 @@ void sub_803765C(Sprite *s, Sprite *s2, Sprite *s3)
     UpdateSpriteAnimation(s);
 }
 
-// (99.38%) https://decomp.me/scratch/RELxP
-NONMATCH("asm/non_matching/game/interactables/deco_rock__sub_8037710.inc", void sub_8037710(void))
+void sub_8037710(void)
 {
     DecoRock *deco = TASK_DATA(gCurTask);
     Sprite *s = &deco->s;
@@ -227,18 +226,11 @@ NONMATCH("asm/non_matching/game/interactables/deco_rock__sub_8037710.inc", void 
     worldX = TO_WORLD_POS(deco->base.spriteX, deco->base.regionX);
     worldY = TO_WORLD_POS(me->y, deco->base.regionY);
 
-    screenX = worldX - gCamera.x;
-    if (deco->unk86 & 0x2) {
-        screenX -= 2;
-    } else {
-        screenX += 2;
-    }
-
-    s->x = screenX;
+    screenX = (worldX - gCamera.x);
+    s->x = (deco->unk86 & 0x2) ? screenX - 2 : screenX + 2;
 
     screenY = (worldY - gCamera.y);
-    screenY += (deco->unk86 & 0x4) ? -1 : +1;
-    s->y = screenY;
+    s->y = (deco->unk86 & 0x4) ? screenY - 1 : screenY + 1;
 
     if (deco->unk86 > 0) {
         deco->unk86--;
@@ -257,7 +249,6 @@ NONMATCH("asm/non_matching/game/interactables/deco_rock__sub_8037710.inc", void 
         DisplaySprite(s);
     }
 }
-END_NONMATCH
 
 void sub_8037828(void)
 {
