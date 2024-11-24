@@ -30,6 +30,7 @@ typedef struct {
 void Task_RotatingHandleInit(void);
 void sub_8032410(s16 param0);
 void Task_80326D8(void);
+void Task_8032A8C(void);
 void sub_8032B18(Sprite *s);
 void TaskDestructor_RotatingHandle(struct Task *t);
 
@@ -161,3 +162,163 @@ void Task_RotatingHandleInit(void)
 
     sub_8032410(0);
 }
+
+// (86.19%) https://decomp.me/scratch/aQecB
+NONMATCH("asm/non_matching/game/interactables/rotating_handle__Task_80326D8.inc", void Task_80326D8(void))
+{
+    s32 sp08 = 0;
+#ifdef NON_MATCHING
+    register RotatingHandle *handle asm("r7") = TASK_DATA(gCurTask);
+    register Sprite *s asm("r8") = &handle->s;
+#else
+    RotatingHandle *handle = TASK_DATA(gCurTask);
+    Sprite *s = &handle->s;
+#endif
+    MapEntity *me = handle->base.me;
+    s32 worldX, worldY;
+    s32 r6;
+    u8 i;
+
+    worldX = TO_WORLD_POS(handle->base.spriteX, handle->base.regionX);
+    worldY = TO_WORLD_POS(me->y, handle->base.regionY);
+
+    handle->unk38 = (handle->unk38 + handle->unk3A) & 0x3FF0;
+    r6 = handle->unk38 >> 4;
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        Player *p = GET_SP_PLAYER_V1(i);
+        Player *handlePlayer;
+
+        if (GAME_MODE_IS_MULTI_PLAYER(gStageData.gameMode) && p->charFlags.someIndex == 3) {
+            continue;
+        }
+
+        if (handle->unk3D != i) {
+            if (p->moveState & (MOVESTATE_1000000 | MOVESTATE_100)) {
+                continue;
+            }
+
+            if (sub_8020700(s, worldX, worldY, 0, p, 0) != 1) {
+                continue;
+            }
+            // _080327D6
+
+            handlePlayer = handle->player;
+
+            if (handlePlayer->charFlags.someIndex == 2) {
+                handlePlayer->keyInput2 |= gStageData.buttonConfig.jump;
+                HALVE(p->qSpeedAirX);
+                HALVE(p->qSpeedAirY);
+                gCurTask->main = Task_8032A8C;
+                asm("");
+                continue;
+            } else if ((handlePlayer->charFlags.someIndex == 1) && (p->charFlags.someIndex == 2)) {
+                // _08032820+0x14
+                sub_8032410(1);
+                return;
+            }
+        } else if (p->charFlags.anim0 == 102) {
+            // _0803283A
+            handlePlayer = handle->player;
+            handlePlayer->keyInput2 |= gStageData.buttonConfig.jump;
+            HALVE(p->qSpeedAirX);
+            HALVE(p->qSpeedAirY);
+            gCurTask->main = Task_8032A8C;
+            return;
+        } else if ((p->charFlags.anim0 != 120) && (p->charFlags.anim0 != 121)) {
+            // _08032860+0xC
+            gCurTask->main = Task_8032A8C;
+            return;
+        } else {
+            // _08032880
+            p->qSpeedAirX = handle->base.qSpeedAirX;
+            p->qSpeedAirY = handle->base.qSpeedAirY;
+        }
+        // _08032888
+
+        if ((p->moveState & (MOVESTATE_1000000 | MOVESTATE_100)) || p->callback == Player_800D944) {
+            p->moveState &= ~MOVESTATE_10000000;
+            gCurTask->main = Task_8032A8C;
+        } else if (p->keyInput2 & gStageData.buttonConfig.jump) {
+            u32 theta;
+            // _080328C0+0xE
+
+            p->charFlags.unk2C_04 = 1;
+            SetPlayerCallback(p, Player_800DB30);
+            p->moveState &= ~(MOVESTATE_1000000 | MOVESTATE_8);
+
+            gCurTask->main = Task_8032A8C;
+
+            Player_StopSong(p, SE_ROTATING_HANDLE);
+
+            switch (handle->unk3C) {
+                case 0: {
+                    theta = (32 - r6) & ONE_CYCLE;
+
+                    p->qWorldX += (SIN(r6) * 32);
+                    p->qWorldY += (COS(r6) >> 1);
+                } break;
+
+                case 1: {
+                    theta = (32 + r6) & ONE_CYCLE;
+
+                    p->qWorldX += (SIN(r6) * 32);
+                    p->qWorldY += (COS(r6) >> 1);
+                } break;
+
+                case 2: {
+                    theta = (480 + r6) & ONE_CYCLE;
+
+                    p->qWorldX -= (SIN(r6) >> 1);
+                    p->qWorldY += (COS(r6) >> 1);
+                } break;
+
+                case 3: {
+                    theta = (544 - r6) & ONE_CYCLE;
+
+                    p->qWorldX -= (SIN(r6) >> 1);
+                    p->qWorldY -= (COS(r6) >> 1);
+                } break;
+
+                default: {
+                    theta = 0;
+                }
+            }
+
+            p->qSpeedAirX = Div((COS(theta) * 2), 17);
+            p->qSpeedAirY = Div((SIN(theta) * 2), 17);
+            p->charFlags.someFlag1 = 1;
+        } else {
+            // _08032A20
+            u8 newVariant;
+
+#ifndef NON_MATCHING
+            u32 a0 = p->charFlags.anim0;
+            asm("" ::"r"(a0));
+#endif
+
+            newVariant = Div(r6, 86);
+            if (newVariant > 11) {
+                newVariant = 11;
+            }
+            // _08032A36
+
+            s->anim = ANIM_ROTATING_HANDLE;
+            s->variant = newVariant;
+            s->prevVariant = -1;
+
+            p->charFlags.state1 = newVariant;
+            p->charFlags.someFlag1 = 1;
+            p->qWorldX = Q(worldX);
+            p->qWorldY = Q(worldY);
+            p->qSpeedAirX = 0;
+            p->qSpeedAirY = 0;
+        }
+    }
+
+    sub_8032410(1);
+}
+END_NONMATCH

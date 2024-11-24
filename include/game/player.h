@@ -108,11 +108,13 @@ struct Player {
         u8 state0_subHighBit : 1;
         s8 state0_highValue : 8;
 
+        // NOTE: In rotating_handle.c:Task_80326D8 anim0 is divided by 86
+        // TODO: Find meaning of that value!
         s16 anim0; // 0x30
         s16 anim1; // 0x32
         s16 anim2; // 0x34
 
-        // TODO: May also be type StateNum ?
+        // TODO: Anim variant?
         u16 state1; // 0x36-0x37
     } charFlags;
 
