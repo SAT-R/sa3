@@ -285,8 +285,8 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Booster_Wall            @ 040
     .4byte CreateEntity_TrampolineA
     .4byte CreateEntity_TrampolineB
-    .4byte CreateEntity_Interactable043
-    .4byte CreateEntity_Interactable044
+    .4byte CreateEntity_Ramp
+    .4byte CreateEntity_RotatingHandle
     .4byte CreateEntity_Lift
     .4byte CreateEntity_Interactable046
     .4byte CreateEntity_Interactable047
@@ -402,7 +402,7 @@ gSpriteInits_InteractablesMultiplayer: @ 0x080CF354
     .4byte CreateEntity_Platform_0_3 @ 009
     .4byte CreateEntity_Platform_1_0 @ 010
     .4byte CreateEntity_Platform_1_3 @ 011
-    .4byte CreateEntity_Interactable043 @ 012
+    .4byte CreateEntity_Ramp @ 012
     .4byte CreateEntity_Spikes_Up @ 013
     .4byte CreateEntity_Booster_Default @ 014
     .4byte CreateEntity_GrindRail0 @ 015

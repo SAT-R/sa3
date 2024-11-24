@@ -311,7 +311,6 @@ void sub_8037828(void)
             deco->qUnkA8[i][0] = +(deco->qUnkA8[i][0] * 3) >> 2;
             deco->qUnkA8[i][1] = -(deco->qUnkA8[i][1] * 3) >> 2;
         }
-        // _08037986
 
         s->x = I(deco->qPositions[i].x) - gCamera.x;
         s->y = I(deco->qPositions[i].y) - gCamera.y;

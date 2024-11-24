@@ -78,6 +78,18 @@ typedef struct {
     /* 0x19 */ u8 unk19;
 } SpriteBase3; /* 0x1A ? */
 
+// Used in IA Rotating Handle
+typedef struct {
+    /* 0x00 */ MapEntity *me;
+    /* 0x04 */ u16 regionX;
+    /* 0x06 */ u16 regionY;
+    /* 0x08 */ u8 filler8[0x2];
+    /* 0x0A */ u16 unkA; // only in SA3
+    /* 0x0A */ u16 unkC; // only in SA3
+    /* 0x0E */ u8 spriteX;
+    /* 0x0F */ u8 id;
+} SpriteBase4;
+
 // TODO maybe(?): Integrate this with every enemy
 typedef struct {
     SpriteBase base;

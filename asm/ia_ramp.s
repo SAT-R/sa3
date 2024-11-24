@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable043
-CreateEntity_Interactable043: @ 0x08031AD8
+	thumb_func_start CreateEntity_Ramp
+CreateEntity_Ramp: @ 0x08031AD8
 	push {r4, r5, r6, r7, lr}
 	sub sp, #4
 	adds r7, r0, #0
