@@ -34,7 +34,6 @@ SECTIONS {
         build/sa3/src/game/interactables/trampoline.o(.text);
         build/sa3/asm/ia_ramp.o(.text);
         build/sa3/src/game/interactables/rotating_handle.o(.text);
-        build/sa3/asm/ia_rotating_handle.o(.text);
         build/sa3/src/game/interactables/lift.o(.text);
         build/sa3/src/game/interactables/button_spring.o(.text);
         build/sa3/src/game/interactables/checkpoint.o(.text);

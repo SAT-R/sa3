@@ -322,3 +322,56 @@ NONMATCH("asm/non_matching/game/interactables/rotating_handle__Task_80326D8.inc"
     sub_8032410(1);
 }
 END_NONMATCH
+
+void Task_8032A8C(void)
+{
+    RotatingHandle *handle = TASK_DATA(gCurTask);
+    Sprite *s = &handle->s;
+    u8 newVariant;
+
+    if (--handle->unk3A < 0xE0) {
+        handle->unk3A = 0xE0;
+    }
+
+    handle->unk38 = (handle->unk38 + handle->unk3A) & 0x3FF0;
+
+    newVariant = Div(handle->unk38 >> 4, 85);
+
+    if (newVariant > 11) {
+        newVariant = 11;
+    }
+
+    s->anim = ANIM_ROTATING_HANDLE;
+    s->variant = newVariant;
+    s->prevVariant = -1;
+
+    if (newVariant == 0) {
+        handle->unk38 = 0;
+        handle->unk3A = 0;
+        gCurTask->main = Task_RotatingHandleInit;
+    }
+
+    sub_8032410(0);
+}
+
+void TaskDestructor_RotatingHandle(struct Task *t)
+{
+    RotatingHandle *handle = TASK_DATA(t);
+    VramFree(handle->s.tiles);
+}
+
+void sub_8032B18(Sprite *s)
+{
+    s->tiles = ALLOC_TILES(ANIM_ROTATING_HANDLE);
+    s->anim = ANIM_ROTATING_HANDLE;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    UpdateSpriteAnimation(s);
+}
