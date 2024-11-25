@@ -20102,8 +20102,8 @@ _08009F70:
 	.align 2, 0
 _08009F78: .4byte sub_8006C70
 
-	thumb_func_start sub_8009F7C
-sub_8009F7C: @ 0x08009F7C
+	thumb_func_start Player_8009F7C
+Player_8009F7C: @ 0x08009F7C
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}

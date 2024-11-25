@@ -33,6 +33,7 @@ bool32 sub_803205C(Ramp *ramp, Player *p);
 void sub_80322D8(Player *p, u8 param1, u8 param2, u8 param3);
 
 extern s8 gUnknown_080CF51C[2][40];
+extern s16 gUnknown_080CF56C[6][2];
 
 void CreateEntity_Ramp(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -268,3 +269,162 @@ NONMATCH("asm/non_matching/game/interactables/ramp__sub_8031C10.inc", void sub_8
     }
 }
 END_NONMATCH
+
+bool32 sub_803205C(Ramp *ramp, Player *p)
+{
+    Sprite *s = &ramp->s;
+    s16 dx, dy;
+    s16 r0, r6;
+    s32 r2;
+    s8 r2_8;
+    s32 unk39;
+
+    if (!sub_8020700(s, ramp->worldX, ramp->worldY, 0, p, 0)) {
+        return 0;
+    }
+
+    dx = I(p->qWorldX);
+    dy = I(p->qWorldY);
+
+    r0 = p->unk25 + I(p->qWorldY);
+
+    dx -= ramp->worldX;
+    dy = r0 - ramp->worldY;
+
+    r6 = dy;
+    r2 = dx;
+
+    dx += 19;
+
+    if ((u16)dx > 38) {
+        return 0;
+    }
+
+    unk39 = ramp->unk39;
+    if (ramp->unk38) {
+        if (unk39) {
+            r2_8 = gUnknown_080CF51C[0][20 - r2];
+            if (r2_8 > r6) {
+                return 0;
+            }
+        } else {
+            r2_8 = gUnknown_080CF51C[0][r2 + 20];
+            if (r2_8 > r6) {
+                return 0;
+            }
+        }
+    } else {
+        if (unk39) {
+            r2_8 = gUnknown_080CF51C[1][20 - r2];
+            if (r2_8 > r6) {
+                return 0;
+            }
+        } else {
+            r2_8 = gUnknown_080CF51C[1][r2 + 20];
+            if (r2_8 > r6) {
+                return 0;
+            }
+        }
+    }
+
+    p->qWorldY = Q(ramp->worldY + r2_8 - p->unk25);
+
+    if (p->qSpeedAirY > 0) {
+        p->qSpeedAirY = 0;
+    }
+
+    return 1;
+}
+
+void sub_803213C(u8 unk38, u8 unk39, Sprite *s)
+{
+    u32 mask = (unk39 & 0x1) ? SPRITE_FLAG(X_FLIP, 1) : 0;
+
+    if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+        if (unk38 != 0) {
+            s->tiles = ALLOC_TILES(ANIM_RAMP);
+            s->anim = ANIM_RAMP;
+            s->variant = 0;
+        } else {
+            s->tiles = ALLOC_TILES_VARIANT(ANIM_RAMP, 1);
+            s->anim = ANIM_RAMP;
+            s->variant = 1;
+        }
+    } else {
+        s->tiles = ALLOC_TILES_VARIANT(ANIM_RAMP, 1);
+        s->anim = ANIM_RAMP;
+        s->variant = 1;
+        mask |= SPRITE_FLAG(MOSAIC, 1);
+    }
+
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1) | mask;
+}
+
+void sub_80321D8(void)
+{
+    Ramp *ramp = TASK_DATA(gCurTask);
+    Sprite *s = &ramp->s;
+    MapEntity *me = ramp->base.me;
+    s16 worldX, worldY;
+    s16 i;
+
+    worldX = ramp->worldX;
+    worldY = ramp->worldY;
+
+    if (!IsPointInScreenRect(worldX, worldY)) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            Player *p = GET_SP_PLAYER_V1(i);
+            ResolvePlayerSpriteCollision(s, p);
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, ramp->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        s->x = worldX - gCamera.x - 0;
+        s->y = worldY - gCamera.y - 2;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
+
+void TaskDestructor_Ramp(struct Task *t)
+{
+    Ramp *ramp = TASK_DATA(t);
+    VramFree(ramp->s.tiles);
+}
+
+void Task_Ramp(void)
+{
+    Ramp *ramp = TASK_DATA(gCurTask);
+    sub_8031C10(ramp->unk39);
+    sub_80321D8();
+}
+
+void sub_80322D8(Player *p, u8 param1, u8 param2, u8 param3)
+{
+    s16 arr[6][2];
+    s16 r3, r2;
+    memcpy(arr, gUnknown_080CF56C, sizeof(arr));
+
+    r3 = arr[((param2 * 3) + param3)][0];
+    r2 = arr[((param2 * 3) + param3)][1];
+
+    if (param1) {
+        r3 = -r3;
+        p->moveState |= MOVESTATE_FACING_LEFT;
+    } else {
+        p->moveState &= ~MOVESTATE_FACING_LEFT;
+    }
+
+    p->moveState &= ~MOVESTATE_COLLIDING_ENT;
+    p->sprColliding = NULL;
+    Player_8009F7C(p, r3, r2);
+}

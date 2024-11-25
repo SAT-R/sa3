@@ -26,6 +26,7 @@ extern void Player_8009BF0(Player *p); // ButtonSpring ver. of Player_8009D04
 extern void Player_8009C94(Player *p);
 extern void Player_8009D04(Player *p);
 extern void Player_8009E8C(Player *p);
+extern void Player_8009F7C(Player *p, s16 someX, s16 someY);
 extern void Player_800A094(Player *p);
 extern void Player_800A168(Player *p);
 extern void Player_800A218(Player *p);
