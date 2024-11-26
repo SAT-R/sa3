@@ -5,124 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_8030640
-sub_8030640: @ 0x08030640
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	sub sp, #4
-	adds r4, r1, #0
-	ldr r1, [sp, #0x1c]
-	lsls r0, r0, #0x18
-	lsrs r5, r0, #0x18
-	lsls r2, r2, #0x10
-	lsrs r6, r2, #0x10
-	lsls r3, r3, #0x10
-	lsrs r7, r3, #0x10
-	lsls r1, r1, #0x18
-	lsrs r1, r1, #0x18
-	mov r8, r1
-	ldr r0, _08030670 @ =gStageData
-	ldrb r0, [r0, #3]
-	cmp r0, #7
-	beq _08030694
-	cmp r5, #3
-	bhi _08030678
-	ldr r0, _08030674 @ =sub_803072C
-	b _0803067A
-	.align 2, 0
-_08030670: .4byte gStageData
-_08030674: .4byte sub_803072C
-_08030678:
-	ldr r0, _0803068C @ =sub_80309B4
-_0803067A:
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _08030690 @ =sub_8031168
-	str r1, [sp]
-	movs r1, #0x38
-	movs r3, #0
-	bl TaskCreate
-	b _080306A6
-	.align 2, 0
-_0803068C: .4byte sub_80309B4
-_08030690: .4byte sub_8031168
-_08030694:
-	ldr r0, _080306F8 @ =sub_803072C
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _080306FC @ =sub_8031168
-	str r1, [sp]
-	movs r1, #0x38
-	movs r3, #0
-	bl TaskCreate
-_080306A6:
-	ldrh r2, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r2, r0
-	ldr r1, _08030700 @ =0x0300000C
-	adds r3, r2, r1
-	strh r6, [r0, #4]
-	strh r7, [r0, #6]
-	str r4, [r0]
-	ldrb r1, [r4]
-	strb r1, [r0, #0xa]
-	mov r1, r8
-	strb r1, [r0, #0xb]
-	ldr r0, _08030704 @ =0x03000034
-	adds r2, r2, r0
-	strb r5, [r2]
-	ldrb r0, [r4]
-	lsls r0, r0, #3
-	lsls r1, r6, #8
-	adds r0, r0, r1
-	strh r0, [r3, #0x10]
-	ldrb r0, [r4, #1]
-	lsls r0, r0, #3
-	lsls r1, r7, #8
-	adds r0, r0, r1
-	strh r0, [r3, #0x12]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r4]
-	ldr r0, _08030708 @ =gStageData
-	ldrb r0, [r0, #3]
-	cmp r0, #7
-	beq _08030716
-	cmp r5, #3
-	bhi _0803070C
-	ldrb r0, [r2]
-	adds r1, r3, #0
-	bl sub_8030D30
-	b _0803071E
-	.align 2, 0
-_080306F8: .4byte sub_803072C
-_080306FC: .4byte sub_8031168
-_08030700: .4byte 0x0300000C
-_08030704: .4byte 0x03000034
-_08030708: .4byte gStageData
-_0803070C:
-	ldrb r0, [r2]
-	adds r1, r3, #0
-	bl sub_8030EC8
-	b _0803071E
-_08030716:
-	ldrb r0, [r2]
-	adds r1, r3, #0
-	bl sub_8030D30
-_0803071E:
-	add sp, #4
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
+.if 0
+.endif
 
-	thumb_func_start sub_803072C
-sub_803072C: @ 0x0803072C
+	thumb_func_start Task_Spikes7
+Task_Spikes7: @ 0x0803072C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -461,8 +348,8 @@ _0803099E:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_80309B4
-sub_80309B4: @ 0x080309B4
+	thumb_func_start Task_Spikes_4_6
+Task_Spikes_4_6: @ 0x080309B4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1367,7 +1254,7 @@ CreateEntity_Spikes_Up: @ 0x08031060
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sub_8030640
+	bl CreateSpikes
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
@@ -1391,7 +1278,7 @@ CreateEntity_Spikes_Down: @ 0x0803108C
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sub_8030640
+	bl CreateSpikes
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
@@ -1415,7 +1302,7 @@ CreateEntity_Spikes_Left: @ 0x080310B8
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sub_8030640
+	bl CreateSpikes
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
@@ -1439,7 +1326,7 @@ CreateEntity_Spikes_Right: @ 0x080310E4
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sub_8030640
+	bl CreateSpikes
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
@@ -1463,7 +1350,7 @@ CreateEntity_Spikes_HidingUp: @ 0x08031110
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sub_8030640
+	bl CreateSpikes
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
@@ -1487,14 +1374,14 @@ CreateEntity_Spikes_HidingDown: @ 0x0803113C
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sub_8030640
+	bl CreateSpikes
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8031168
-sub_8031168: @ 0x08031168
+	thumb_func_start TaskDestructor_Spikes
+TaskDestructor_Spikes: @ 0x08031168
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0

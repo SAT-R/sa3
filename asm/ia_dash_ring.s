@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_8035204
-sub_8035204: @ 0x08035204
+	thumb_func_start CreateDashRing
+CreateDashRing: @ 0x08035204
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -20,7 +20,7 @@ sub_8035204: @ 0x08035204
 	mov sl, r1
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
-	str r0, [sp, #4]
+	str r0, [sp, #4]    @ sp04 = kind
 	lsls r2, r2, #0x10
 	lsrs r2, r2, #0x10
 	mov r8, r2
@@ -117,8 +117,8 @@ sub_8035204: @ 0x08035204
 	str r2, [r0]
 	ldr r1, [r5, #0x7c]
 	ldr r3, [r5]
-	ldr r0, [sp, #4]
-	bl sub_804DC38
+	ldr r0, [sp, #4]    @ r0 = kind
+	bl sub_804DC38      @ from platform_shared.c
 	ldr r2, _08035368 @ =0x0300006E
 	adds r1, r4, r2
 	strh r0, [r1]
@@ -1181,8 +1181,8 @@ _08035B58:
 _08035B64: .4byte gCamera
 _08035B68: .4byte 0x03000080
 
-	thumb_func_start CreateEntity_Interactable058
-CreateEntity_Interactable058: @ 0x08035B6C
+	thumb_func_start CreateEntity_DashRing0
+CreateEntity_DashRing0: @ 0x08035B6C
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	adds r6, r0, #0
@@ -1199,14 +1199,14 @@ CreateEntity_Interactable058: @ 0x08035B6C
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sub_8035204
+	bl CreateDashRing
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Interactable059
-CreateEntity_Interactable059: @ 0x08035B98
+	thumb_func_start CreateEntity_DashRing1
+CreateEntity_DashRing1: @ 0x08035B98
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	adds r6, r0, #0
@@ -1223,7 +1223,7 @@ CreateEntity_Interactable059: @ 0x08035B98
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sub_8035204
+	bl CreateDashRing
 	add sp, #4
 	pop {r4, r5, r6}
 	pop {r0}
