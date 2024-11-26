@@ -25,6 +25,7 @@ typedef struct {
 
 void Task_Spikes7(void);
 void Task_Spikes_4_6(void);
+void sub_8030DEC(void);
 void sub_8030D30(s16 param0, Sprite *s);
 void sub_8030EC8(s16 param0, Sprite *s);
 void TaskDestructor_Spikes(struct Task *t);
@@ -71,3 +72,77 @@ void CreateSpikes(u8 kind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
         sub_8030D30(spikes->kind, s);
     }
 }
+
+#if 0
+void Task_Spikes7(void)
+{
+    Spikes *spikes = TASK_DATA(gCurTask);
+    Sprite *s = &spikes->s;
+    MapEntity *me = spikes->base.me;
+    u8 kind = spikes->kind;
+    s16 worldX, worldY;
+    u32 mask;
+    s16 i;
+
+    worldX = TO_WORLD_POS(spikes->base.spriteX, spikes->base.regionX);
+    worldY = TO_WORLD_POS(me->y, spikes->base.regionY);
+
+    for(i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        Player *p = GET_SP_PLAYER_V0(i);
+        u32 res;
+
+        if(((p->charFlags.someIndex == 1)
+        ||  (p->charFlags.someIndex == 2)
+        ||  (p->charFlags.someIndex == 4)) && !sub_802C0D4(p)) {
+            switch(kind) {
+            case 0: {
+                mask = 0x10000;
+
+                if(p->moveState & MOVESTATE_10000) {
+                    mask |= 0x20000;
+                }
+            } break;
+
+            case 1: {
+                mask = 0x20000;
+
+                if(p->moveState & MOVESTATE_20000) {
+                    mask |= 0x10000;
+                }
+            } break;
+
+            case 2: {
+                if(p->moveState & MOVESTATE_20000) {
+                    mask = 0xC0000;
+                }
+            } break;
+
+            case 3: {
+                mask = 0x20000;
+            } break;
+
+#ifdef BUG_FIX
+            default: {
+                mask = 0;
+            } break;
+#endif
+            }
+            // _08030826
+
+            res = sub_8020950(s, worldX, worldY, p, 0);
+
+            if(res) {
+                if(res & mask) {
+                    if((res & mask) & 0x30000) {
+                    } else {
+                        // _0803089A
+                    }
+                }
+                // _080308E6
+            }
+        }
+    }
+
+    sub_8030DEC();
+}
+#endif

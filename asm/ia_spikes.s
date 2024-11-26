@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start Task_Spikes7
 Task_Spikes7: @ 0x0803072C
 	push {r4, r5, r6, r7, lr}
@@ -21,15 +19,15 @@ Task_Spikes7: @ 0x0803072C
 	ldrh r0, [r0, #6]
 	movs r2, #0xc0
 	lsls r2, r2, #0x12
-	adds r2, r0, r2
+	adds r2, r0, r2     @ r2 = spikes
 	ldr r1, _08030788 @ =0x0300000C
 	adds r1, r0, r1
-	str r1, [sp, #4]
-	ldr r3, [r2]
+	str r1, [sp, #4]    @ sp04 = s
+	ldr r3, [r2]        @ r3 = me
 	ldr r1, _0803078C @ =0x03000034
 	adds r0, r0, r1
 	ldrb r0, [r0]
-	str r0, [sp, #0x14]
+	str r0, [sp, #0x14] @ sp14 = kind
 	ldrb r0, [r2, #0xa]
 	lsls r0, r0, #3
 	ldrh r1, [r2, #4]
@@ -37,7 +35,7 @@ Task_Spikes7: @ 0x0803072C
 	adds r0, r0, r1
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
-	str r0, [sp, #8]
+	str r0, [sp, #8]    @ sp08 = worldX
 	ldrb r0, [r3, #1]
 	lsls r0, r0, #3
 	ldrh r1, [r2, #6]
@@ -45,9 +43,9 @@ Task_Spikes7: @ 0x0803072C
 	adds r0, r0, r1
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
-	str r0, [sp, #0xc]
+	str r0, [sp, #0xc]  @ sp0C = worldY
 	movs r1, #0
-_08030776:
+_08030776_loop:
 	lsls r0, r1, #0x10
 	str r0, [sp, #0x18]
 	cmp r0, #0
@@ -73,7 +71,7 @@ _0803079E:
 	adds r0, r0, r1
 	lsls r0, r0, #4
 	ldr r1, _080307E0 @ =gPlayers
-	adds r5, r0, r1
+	adds r5, r0, r1     @ r5 = p
 	adds r0, r5, #0
 	adds r0, #0x2b
 	ldrb r0, [r0]
@@ -85,69 +83,69 @@ _0803079E:
 	beq _080307C4
 	cmp r1, #0x10
 	beq _080307C4
-	b _0803098C
+	b _0803098C_continue
 _080307C4:
 	adds r0, r5, #0
 	bl sub_802C0D4
 	cmp r0, #0
 	beq _080307D0
-	b _0803098C
+	b _0803098C_continue
 _080307D0:
-	ldr r2, [sp, #0x14]
+	ldr r2, [sp, #0x14] @ r2 = kind
 	cmp r2, #1
-	beq _08030804
+	beq _08030804_case_1
 	cmp r2, #1
 	bgt _080307E4
 	cmp r2, #0
-	beq _080307F0
+	beq _080307F0_case_0
 	b _08030826
 	.align 2, 0
 _080307E0: .4byte gPlayers
 _080307E4:
-	ldr r0, [sp, #0x14]
+	ldr r0, [sp, #0x14] @ r0 = kind
 	cmp r0, #2
-	beq _08030818
+	beq _08030818_case_2
 	cmp r0, #3
-	beq _08030820
+	beq _08030820_case_3
 	b _08030826
-_080307F0:
+_080307F0_case_0:
 	ldr r0, [r5, #4]
 	movs r1, #0x80
 	lsls r1, r1, #9
 	ands r0, r1
-	str r1, [sp, #0x10]
+	str r1, [sp, #0x10]     @ sp10 = mask
 	cmp r0, #0
 	beq _08030826
 	movs r1, #0x80
 	lsls r1, r1, #0xa
 	b _08030824
-_08030804:
+_08030804_case_1:
 	ldr r0, [r5, #4]
 	movs r1, #0x80
 	lsls r1, r1, #9
 	ands r0, r1
 	movs r2, #0x80
 	lsls r2, r2, #0xa
-	str r2, [sp, #0x10]
+	str r2, [sp, #0x10]     @ sp10 = mask
 	cmp r0, #0
 	beq _08030826
 	b _08030824
-_08030818:
+_08030818_case_2:
 	movs r0, #0x80
 	lsls r0, r0, #0xc
-	str r0, [sp, #0x10]
+	str r0, [sp, #0x10]     @ sp10 = mask
 	b _08030826
-_08030820:
+_08030820_case_3:
 	movs r1, #0x80
 	lsls r1, r1, #0xb
 _08030824:
-	str r1, [sp, #0x10]
+	str r1, [sp, #0x10]     @ sp10 = mask
 _08030826:
-	ldr r2, [sp, #8]
+	ldr r2, [sp, #8]        @ r2 = worldX
 	lsls r0, r2, #0x10
 	asrs r0, r0, #0x10
 	mov sl, r0
-	ldr r1, [sp, #0xc]
+	ldr r1, [sp, #0xc]      @ r1 = worldY
 	lsls r0, r1, #0x10
 	asrs r0, r0, #0x10
 	mov sb, r0
@@ -161,11 +159,11 @@ _08030826:
 	adds r7, r0, #0
 	cmp r7, #0
 	bne _0803084E
-	b _0803098C
+	b _0803098C_continue
 _0803084E:
 	mov r8, r7
 	mov r0, r8
-	ldr r1, [sp, #0x10]
+	ldr r1, [sp, #0x10]     @ r1 = sp10 = mask
 	ands r0, r1
 	mov r8, r0
 	cmp r0, #0
@@ -204,7 +202,7 @@ _0803089A:
 	adds r1, r7, #0
 _0803089C:
 	adds r0, r1, #0
-	ldr r2, [sp, #0x10]
+	ldr r2, [sp, #0x10]     @ r2 = sp10 = mask
 	ands r0, r2
 	cmp r0, #0
 	beq _080308E6
@@ -277,12 +275,12 @@ _08030928:
 	lsls r0, r0, #0xc
 	ands r0, r7
 	cmp r0, #0
-	beq _0803098C
+	beq _0803098C_continue
 	ldrh r1, [r5, #0x1e]
 	movs r0, #0x10
 	ands r0, r1
 	cmp r0, #0
-	beq _0803098C
+	beq _0803098C_continue
 	ldr r0, [r5, #0x10]
 	movs r2, #0x80
 	lsls r2, r2, #1
@@ -293,11 +291,11 @@ _08030944:
 	movs r1, #0x40
 	orrs r0, r1
 	str r0, [r5, #4]
-	b _0803098C
+	b _0803098C_continue
 _08030950:
 	mov r0, r8
 	cmp r0, #0
-	bne _0803098C
+	bne _0803098C_continue
 	lsls r0, r7, #0x18
 	asrs r0, r0, #0x10
 	ldr r1, [r5, #0x14]
@@ -307,7 +305,7 @@ _08030950:
 	lsls r0, r0, #0xa
 	ands r0, r7
 	cmp r0, #0
-	beq _0803098C
+	beq _0803098C_continue
 	ldr r0, [r5, #4]
 	movs r1, #0x80
 	lsls r1, r1, #9
@@ -326,7 +324,7 @@ _08030984:
 	str r0, [r5, #0x14]
 	movs r0, #0
 	strh r0, [r5, #0x1a]
-_0803098C:
+_0803098C_continue:
 	ldr r2, [sp, #0x18]
 	movs r1, #0x80
 	lsls r1, r1, #9
@@ -335,7 +333,7 @@ _0803098C:
 	asrs r0, r0, #0x10
 	cmp r0, #1
 	bgt _0803099E
-	b _08030776
+	b _08030776_loop
 _0803099E:
 	bl sub_8030DEC
 	add sp, #0x1c
@@ -347,6 +345,7 @@ _0803099E:
 	pop {r0}
 	bx r0
 	.align 2, 0
+.endif
 
 	thumb_func_start Task_Spikes_4_6
 Task_Spikes_4_6: @ 0x080309B4
@@ -485,7 +484,7 @@ _08030AAC:
 	bne _08030ABE
 	cmp r1, #0
 	beq _08030ABE
-	b _08030D0E
+	b _08030D0E_continue
 _08030ABE:
 	ldr r0, [sp, #0x18]
 	cmp r0, #0
@@ -527,14 +526,14 @@ _08030AF8:
 	beq _08030B10
 	cmp r1, #0x10
 	beq _08030B10
-	b _08030D0E
+	b _08030D0E_continue
 _08030B10:
 	adds r0, r6, #0
 	bl sub_802C0D4
 	mov r8, r0
 	cmp r0, #0
 	beq _08030B1E
-	b _08030D0E
+	b _08030D0E_continue
 _08030B1E:
 	ldr r1, [sp, #8]
 	lsls r0, r1, #0x10
@@ -554,7 +553,7 @@ _08030B1E:
 	adds r7, r0, #0
 	cmp r7, #0
 	bne _08030B46
-	b _08030D0E
+	b _08030D0E_continue
 _08030B46:
 	ldr r4, [sp, #0x10]
 	ands r0, r4
@@ -637,7 +636,7 @@ _08030BDE:
 	adds r3, r0, #0
 	cmp r3, #0
 	beq _08030BEC
-	b _08030D0E
+	b _08030D0E_continue
 _08030BEC:
 	ldr r2, [sp, #0x14]
 	cmp r2, #4
@@ -705,7 +704,7 @@ _08030C64:
 	lsls r0, r0, #8
 	str r0, [r6, #0x14]
 	strh r3, [r6, #0x1a]
-	b _08030D0E
+	b _08030D0E_continue
 	.align 2, 0
 _08030C6C: .4byte gCamera
 _08030C70:
@@ -746,12 +745,12 @@ _08030CB0:
 	lsls r0, r0, #0xc
 	ands r0, r7
 	cmp r0, #0
-	beq _08030D0E
+	beq _08030D0E_continue
 	ldrh r1, [r6, #0x1e]
 	movs r0, #0x10
 	ands r0, r1
 	cmp r0, #0
-	beq _08030D0E
+	beq _08030D0E_continue
 	ldr r0, [r6, #0x10]
 	movs r2, #0x80
 	lsls r2, r2, #1
@@ -762,7 +761,7 @@ _08030CCC:
 	movs r1, #0x40
 	orrs r0, r1
 	str r0, [r6, #4]
-	b _08030D0E
+	b _08030D0E_continue
 _08030CD8:
 	lsls r0, r7, #0x18
 	asrs r0, r0, #0x10
@@ -785,15 +784,15 @@ _08030CF8:
 	lsls r1, r1, #9
 	ands r7, r1
 	cmp r7, #0
-	beq _08030D0E
+	beq _08030D0E_continue
 	ldr r0, [r6, #4]
 	ands r0, r1
 	cmp r0, #0
-	beq _08030D0E
+	beq _08030D0E_continue
 _08030D0A:
 	movs r0, #0
 	strh r0, [r6, #0x1a]
-_08030D0E:
+_08030D0E_continue:
 	ldr r3, [sp, #0x18]
 	movs r4, #0x80
 	lsls r4, r4, #9
