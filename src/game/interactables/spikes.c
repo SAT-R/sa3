@@ -73,124 +73,115 @@ void CreateSpikes(u8 kind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
     }
 }
 
-#if 01
 void Task_Spikes7(void)
 {
     Spikes *spikes = TASK_DATA(gCurTask);
     Sprite *s = &spikes->s;
     MapEntity *me = spikes->base.me;
-    u8 kind = spikes->kind;
     s16 worldX, worldY;
     u32 mask;
     s16 i;
+    u8 kind = spikes->kind;
 
     worldX = TO_WORLD_POS(spikes->base.spriteX, spikes->base.regionX);
     worldY = TO_WORLD_POS(me->y, spikes->base.regionY);
 
-    for(i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         Player *p = GET_SP_PLAYER_V0(i);
         u32 res;
-        u32 r8;
         s32 res2;
 
-        if(((p->charFlags.someIndex == 1)
-        ||  (p->charFlags.someIndex == 2)
-        ||  (p->charFlags.someIndex == 4)) && !sub_802C0D4(p)) {
-            switch(kind) {
-            case 0: {
-                mask = 0x10000;
+        if (((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) && !sub_802C0D4(p)) {
+            switch (kind) {
+                case 0: {
+                    if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
+                        mask = 0x20000;
+                    } else {
+                        mask = 0x10000;
+                    }
+                } break;
 
-                if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
-                    mask |= 0x20000;
-                }
-            } break;
+                case 1: {
 
-            case 1: {
-                mask = 0x20000;
+                    if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
+                        mask = 0x10000;
+                    } else {
+                        mask = 0x20000;
+                    }
+                } break;
 
-                if(p->moveState & MOVESTATE_20000) {
-                    mask |= 0x10000;
-                }
-            } break;
+                case 2: {
+                    mask = 0x80000;
+                } break;
 
-            case 2: {
-                if(p->moveState & MOVESTATE_20000) {
-                    mask = 0xC0000;
-                }
-            } break;
-
-            case 3: {
-                mask = 0x20000;
-            } break;
+                case 3: {
+                    mask = 0x40000;
+                } break;
 
 #ifdef BUG_FIX
-            default: {
-                mask = 0;
-            } break;
+                default: {
+                    mask = 0;
+                } break;
 #endif
             }
-            // _08030826
 
             res = sub_8020950(s, worldX, worldY, p, 0);
-            r8 = res & mask;
 
-            if(res) {
-                if(res & mask) {
-                    if((res & mask) & 0x30000) {
+            if (res) {
+                if (res & mask) {
+                    if ((mask)&0x30000) {
                         s->hitboxes[0].b.left++;
                         s->hitboxes[0].b.right--;
 
-						res2 = sub_8020950(s, worldX, worldY, p, 0);
+                        res2 = sub_8020950(s, worldX, worldY, p, 0);
 
                         s->hitboxes[0].b.left--;
                         s->hitboxes[0].b.right++;
 
                     } else {
-                        // _0803089A
-                        res2 = 0;
+                        res2 = res;
                     }
-					//_0803089C
 
-					if (mask & res2) {
-                        if ((p->framesInvulnerable == 0) || p->framesInvincible == 0) {
+                    if (res2 & mask) {
+                        if ((p->framesInvulnerable == 0) && p->framesInvincible == 0) {
                             if (!sub_802C080(p)) {
                                 Player_8014550(p);
                                 Player_PlaySong(p, SE_SPIKES);
                             }
                         } else {
-							// _080308D8
                             p->qWorldY += Q_8_8(res2);
                             p->qSpeedAirY = 0;
                         }
-					}
+                    }
                 }
-                // _080308E6
 
-				if (res & 0xC0000) {
+                if (res & 0xC0000) {
                     p->qSpeedAirX = 0;
                     p->qSpeedGround = 0;
-                    p->qWorldX += Q_8_8(res & 0xFF00);
+                    p->qWorldX += (s16)(res & 0xFF00);
 
                     if ((res & 0x40000) && (p->keyInput & DPAD_LEFT)) {
                         p->qWorldX -= Q(1);
+                        p->moveState |= MOVESTATE_40;
                     } else if ((res & 0x80000) && (p->keyInput & DPAD_RIGHT)) {
-						// _08030928
                         p->qWorldX += Q(1);
-					}
-					// _08030944
-                    p->moveState |= MOVESTATE_40;
-				} else if(!r8) {
-					p->qWorldY += Q_8_8(res);
+                        p->moveState |= MOVESTATE_40;
+                    }
+                } else if (!(res & mask)) {
+                    p->qWorldY += Q_8_8(res);
 
-					if (res & 0x20000) {
-						p->qWorldY += (p->moveState & MOVESTATE_GRAVITY_SWITCHED) ? -Q(1) : +Q(1);
+                    if (res & 0x20000) {
+                        if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
+                            p->qWorldY -= Q(1);
+                        } else {
+                            p->qWorldY += Q(1);
+                        }
                         p->qSpeedAirY = 0;
-					}
-				}
+                    }
+                }
             }
         }
     }
 
     sub_8030DEC();
 }
-#endif
