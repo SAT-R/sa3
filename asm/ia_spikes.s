@@ -156,12 +156,12 @@ _08030826:
 	mov r2, sb
 	adds r3, r5, #0
 	bl sub_8020950
-	adds r7, r0, #0
+	adds r7, r0, #0			@ r7 = res
 	cmp r7, #0
 	bne _0803084E
 	b _0803098C_continue
 _0803084E:
-	mov r8, r7
+	mov r8, r7				@ r8 = r7 = res
 	mov r0, r8
 	ldr r1, [sp, #0x10]     @ r1 = sp10 = mask
 	ands r0, r1
@@ -185,7 +185,7 @@ _0803084E:
 	strb r0, [r6]
 	movs r2, #0
 	str r2, [sp]
-	ldr r0, [sp, #4]
+	ldr r0, [sp, #4]		@ r0 = s
 	mov r1, sl
 	mov r2, sb
 	adds r3, r5, #0
