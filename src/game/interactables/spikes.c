@@ -73,7 +73,7 @@ void CreateSpikes(u8 kind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
     }
 }
 
-#if 0
+#if 01
 void Task_Spikes7(void)
 {
     Spikes *spikes = TASK_DATA(gCurTask);
@@ -90,6 +90,8 @@ void Task_Spikes7(void)
     for(i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         Player *p = GET_SP_PLAYER_V0(i);
         u32 res;
+        u32 r8;
+        s32 res2;
 
         if(((p->charFlags.someIndex == 1)
         ||  (p->charFlags.someIndex == 2)
@@ -98,7 +100,7 @@ void Task_Spikes7(void)
             case 0: {
                 mask = 0x10000;
 
-                if(p->moveState & MOVESTATE_10000) {
+                if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
                     mask |= 0x20000;
                 }
             } break;
@@ -130,15 +132,61 @@ void Task_Spikes7(void)
             // _08030826
 
             res = sub_8020950(s, worldX, worldY, p, 0);
+            r8 = res & mask;
 
             if(res) {
                 if(res & mask) {
                     if((res & mask) & 0x30000) {
+                        s->hitboxes[0].b.left++;
+                        s->hitboxes[0].b.right--;
+
+						res2 = sub_8020950(s, worldX, worldY, p, 0);
+
+                        s->hitboxes[0].b.left--;
+                        s->hitboxes[0].b.right++;
+
                     } else {
                         // _0803089A
+                        res2 = 0;
                     }
+					//_0803089C
+
+					if (mask & res2) {
+                        if ((p->framesInvulnerable == 0) || p->framesInvincible == 0) {
+                            if (!sub_802C080(p)) {
+                                Player_8014550(p);
+                                Player_PlaySong(p, SE_SPIKES);
+                            }
+                        } else {
+							// _080308D8
+                            p->qWorldY += Q_8_8(res2);
+                            p->qSpeedAirY = 0;
+                        }
+					}
                 }
                 // _080308E6
+
+				if (res & 0xC0000) {
+                    p->qSpeedAirX = 0;
+                    p->qSpeedGround = 0;
+                    p->qWorldX += Q_8_8(res & 0xFF00);
+
+                    if ((res & 0x40000) && (p->keyInput & DPAD_LEFT)) {
+                        p->qWorldX -= Q(1);
+                    } else if ((res & 0x80000) && (p->keyInput & DPAD_RIGHT)) {
+						// _08030928
+                        p->qWorldX += Q(1);
+					}
+					// _08030944
+                    p->moveState |= MOVESTATE_40;
+				} else if(!r8) {
+					p->qWorldY += Q_8_8(res);
+
+					if (res & 0x20000) {
+						p->qWorldY += (p->moveState & MOVESTATE_GRAVITY_SWITCHED) ? -Q(1) : +Q(1);
+                        p->qSpeedAirY = 0;
+					}
+				}
             }
         }
     }

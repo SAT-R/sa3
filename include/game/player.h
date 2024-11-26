@@ -225,7 +225,7 @@ struct Player {
 extern Player gPlayers[4];
 
 void sub_80213F0(Player *p);
-bool32 sub_802C080(Player *p);
+bool32 sub_802C080(Player *p); // Player_Hurt ?
 bool32 sub_802C0D4(Player *p);
 
 #endif // GUARD_SA3_PLAYER_H

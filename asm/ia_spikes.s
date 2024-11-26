@@ -5,7 +5,7 @@
 .syntax unified
 .arm
 
-.if 01
+.if 0
 	thumb_func_start Task_Spikes7
 Task_Spikes7: @ 0x0803072C
 	push {r4, r5, r6, r7, lr}
@@ -173,12 +173,12 @@ _0803084E:
 	ands r0, r1
 	cmp r0, #0
 	beq _0803089A
-	ldr r4, [sp, #4]
+	ldr r4, [sp, #4]		@ r4 = sp04 = s
 	adds r4, #0x24
 	ldrb r0, [r4]
 	adds r0, #1
 	strb r0, [r4]
-	ldr r6, [sp, #4]
+	ldr r6, [sp, #4]		@ r6 = s
 	adds r6, #0x26
 	ldrb r0, [r6]
 	subs r0, #1
