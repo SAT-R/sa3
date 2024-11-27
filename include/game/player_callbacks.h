@@ -14,6 +14,9 @@ extern void Player_8006CF0(Player *p);
 extern void Player_8006DB8(Player *p);
 extern void Player_8006F98(Player *p); // ButtonSpring ver. of Player_800EA74
 extern void Player_8007044(Player *p); // ButtonSpring ver. of Player_8009C94
+extern void Player_8007110(Player *p); // DashRing 3, 4, 7, 8
+extern void Player_80071A8(Player *p); // DashRing 0
+extern void Player_8007240(Player *p); // DashRing 1, 9
 extern void Player_80072D8(Player *p);
 extern void Player_80077CC(Player *p);
 extern void Player_8007898(Player *p);

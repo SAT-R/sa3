@@ -202,7 +202,7 @@
 /* Dummy Entries from 0xEE to 0x113 */
 
 #define SE_LAUNCH_PAD      0x114
-#define SE_277             0x115
+#define SE_DASH_RING       0x115
 #define MUS_DUMMY__278     0x116
 #define MUS_DUMMY__279     0x117
 #define SE_ROTATING_HANDLE 0x118

@@ -32,14 +32,15 @@ typedef struct {
     /* 0x74 */ u8 unk74[NUM_SINGLE_PLAYER_CHARS];
     /* 0x76 */ s8 unk76[NUM_SINGLE_PLAYER_CHARS];
     /* 0x78 */ u16 unk78[NUM_SINGLE_PLAYER_CHARS];
-    /* 0x7C */ s32 worldX;
-    /* 0x80 */ s32 worldY;
+    /* 0x7C */ s32 qWorldX;
+    /* 0x80 */ s32 qWorldY;
     /* 0x84 */ Vec2_32 unk84[2];
 } DashRing;
 
 void Task_DashRing(void);
-void sub_8035480(Player *p, u8 i);
-void sub_8035540(Player *p, u8 i);
+bool32 sub_8035480(Player *p, u8 i);
+static bool32 SetPlayerAcceleration(Player *p, u8 i);
+void sub_80358A0(void);
 void sub_803598C(u8 type, Sprite *s, Sprite *s2);
 void TaskDestructor_DashRing(struct Task *t);
 
@@ -67,17 +68,30 @@ void CreateDashRing(u8 kind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
     ring->unk84[1].y = 0;
     ring->unk76[PLAYER_1] = 0;
     ring->unk76[PLAYER_2] = 0;
-    ring->worldX = TO_WORLD_POS(me->x, regionX);
-    ring->worldY = TO_WORLD_POS(me->y, regionY);
-    ring->unk6E = sub_804DC38(kind, ring->worldX, ring->worldY, ring->base.me);
+
+#ifndef BUG_FIX
+    ring->qWorldX = TO_WORLD_POS(me->x, regionX);
+    ring->qWorldY = TO_WORLD_POS(me->y, regionY);
+    ring->unk6E = sub_804DC38(kind, ring->qWorldX, ring->qWorldY, ring->base.me);
+#else
+    ring->qWorldX = Q(TO_WORLD_POS(me->x, regionX));
+    ring->qWorldY = Q(TO_WORLD_POS(me->y, regionY));
+    ring->unk6E = sub_804DC38(kind, I(ring->qWorldX), I(ring->qWorldY), ring->base.me);
+#endif
+
     ring->unk6C = 0;
     ring->kind = kind;
     ring->unk71 = me->d.uData[4];
     ring->unk72 = 4;
 
-    // NOTE: Set Sprite position to world position, not screen pos
-    s->x = ring->worldX;
-    s->y = ring->worldY;
+#ifndef BUG_FIX
+    // NOTE: Sets Sprite position to world position, not screen pos
+    s->x = ring->qWorldX;
+    s->y = ring->qWorldY;
+#else
+    s->x = I(ring->qWorldX) - gCamera.x;
+    s->y = I(ring->qWorldY) - gCamera.y;
+#endif
     s2->x = s->x;
     s2->y = s->y;
 
@@ -109,7 +123,7 @@ void sub_8035374()
 
                 sub_8035480(p, i);
             } else {
-                sub_8035540(p, i);
+                SetPlayerAcceleration(p, i);
             }
 
             if (ring->unk78[i] != 0) {
@@ -129,3 +143,193 @@ void sub_8035374()
         }
     }
 }
+
+bool32 sub_8035480(Player *p, u8 i)
+{
+    DashRing *ring = TASK_DATA(gCurTask);
+    Sprite *s = &ring->s;
+    s16 worldX, worldY;
+
+    worldX = I(ring->qWorldX);
+    worldY = I(ring->qWorldY);
+
+    if (ring->unk78[i] < 30) {
+        p->qSpeedAirX = ring->unk84[i].x;
+        p->qSpeedAirY = ring->unk84[i].y;
+
+        if (!sub_8020700(s, worldX, worldY, 0, p, 0)) {
+            if (!(p->moveState & MOVESTATE_40000)) {
+                ring->unk78[i] = 0;
+                ring->unk74[i] = 0;
+                p->moveState &= ~MOVESTATE_40000;
+                return 0;
+            }
+        }
+    }
+
+    return 1;
+}
+
+static bool32 SetPlayerAcceleration(Player *p, u8 i)
+{
+    s32 speedExp = 9;
+    bool32 sb = 0;
+    DashRing *ring = TASK_DATA(gCurTask);
+    Sprite *s = &ring->s;
+    s16 worldX, worldY;
+
+    worldX = I(ring->qWorldX);
+    worldY = I(ring->qWorldY);
+
+    if (sub_8020700(s, worldX, worldY, 0, p, 0) == 1) {
+        if (!(p->moveState & MOVESTATE_1000000)) {
+            sub_8016F28(p);
+        }
+
+        if (p->moveState & MOVESTATE_40000) {
+            p->moveState &= ~MOVESTATE_40000;
+            return FALSE;
+        }
+
+        p->charFlags.unk2C_04 = 1;
+        sb = TRUE;
+
+        switch ((ring->unk71 & 0xF) - 1) {
+            case 0: {
+                p->charFlags.anim1 = -1;
+                SetPlayerCallback(p, Player_80071A8);
+                p->qSpeedAirY = -(ring->unk72 << speedExp);
+                p->qSpeedAirX = 0;
+                p->qWorldX = ring->qWorldX;
+                // p->qWorldY = ring->qWorldY;
+                p->unk26 = 0x40;
+            } break;
+
+            case 1: {
+                SetPlayerCallback(p, Player_8007240);
+                p->qSpeedAirY = +(ring->unk72 << speedExp);
+                p->qSpeedAirX = 0;
+                p->qWorldX = ring->qWorldX;
+                // p->qWorldY = ring->qWorldY;
+                p->unk26 = 0xC0;
+            } break;
+
+            case 3: {
+                SetPlayerCallback(p, Player_8007110);
+                p->moveState |= MOVESTATE_FACING_LEFT;
+                ring->unk76[i] = -1;
+                p->qSpeedAirX = -(ring->unk72 << speedExp);
+                p->qSpeedAirY = 0;
+                // p->qWorldX = ring->qWorldX;
+                p->qWorldY = ring->qWorldY;
+                p->unk26 = 0x80;
+            } break;
+
+            case 7: {
+                SetPlayerCallback(p, Player_8007110);
+                p->moveState &= ~MOVESTATE_FACING_LEFT;
+                ring->unk76[i] = +1;
+                p->qSpeedAirX = +(ring->unk72 << speedExp);
+                p->qSpeedAirY = 0;
+                // p->qWorldX = ring->qWorldX;
+                p->qWorldY = ring->qWorldY;
+                p->unk26 = 0;
+            } break;
+
+            case 4: {
+                SetPlayerCallback(p, Player_8007110);
+                p->moveState |= MOVESTATE_FACING_LEFT;
+                ring->unk76[i] = -1;
+                p->qSpeedAirY = -(ring->unk72 << speedExp);
+                p->qSpeedAirX = -(ring->unk72 << speedExp);
+                p->qWorldX = ring->qWorldX;
+                p->qWorldY = ring->qWorldY;
+                p->unk26 = 0x60;
+            } break;
+
+            case 5: {
+                SetPlayerCallback(p, Player_8007240);
+                p->moveState |= MOVESTATE_FACING_LEFT;
+                ring->unk76[i] = -1;
+                p->qSpeedAirY = +(ring->unk72 << speedExp);
+                p->qSpeedAirX = -(ring->unk72 << speedExp);
+                p->qWorldX = ring->qWorldX;
+                p->qWorldY = ring->qWorldY;
+                p->unk26 = 0xA0;
+            } break;
+
+            case 8: {
+                SetPlayerCallback(p, Player_8007110);
+                p->moveState &= ~MOVESTATE_FACING_LEFT;
+                ring->unk76[i] = +1;
+                p->qSpeedAirY = -(ring->unk72 << speedExp);
+                p->qSpeedAirX = +(ring->unk72 << speedExp);
+                p->qWorldX = ring->qWorldX;
+                p->qWorldY = ring->qWorldY;
+                p->unk26 = 0x20;
+            } break;
+
+            case 9: {
+                SetPlayerCallback(p, Player_8007240);
+                p->moveState &= ~MOVESTATE_FACING_LEFT;
+                ring->unk76[i] = +1;
+                p->qSpeedAirY = +(ring->unk72 << speedExp);
+                p->qSpeedAirX = +(ring->unk72 << speedExp);
+                p->qWorldX = ring->qWorldX;
+                p->qWorldY = ring->qWorldY;
+                p->unk26 = 0xE0;
+            } break;
+        }
+
+        if (ring->unk76[i] != 0) {
+            p->qSpeedGround = -p->qSpeedGround;
+        }
+
+        p->callback(p);
+        Player_PlaySong(p, SE_DASH_RING);
+
+        ring->unk84[i].x = p->qSpeedAirX;
+        ring->unk84[i].y = p->qSpeedAirY;
+        ring->unk74[i] = 1;
+        ring->unk78[i] = 30;
+    }
+
+    if (sb) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
+NONMATCH("asm/non_matching/game/interactables/dash_ring__sub_80358A0.inc", void sub_80358A0(void))
+{
+    DashRing *ring = TASK_DATA(gCurTask);
+    MapEntity *me = ring->base.me;
+    Sprite *s = &ring->s;
+    s32 qLeft, qTop;
+    s32 qRight, qBottom;
+    s32 qWidth, qHeight;
+
+    qLeft = Q(TO_WORLD_POS(ring->base.spriteX, ring->base.regionX));
+    qTop = Q(TO_WORLD_POS(me->y, ring->base.regionY));
+
+    ring->unk6C = ((gStageData.timer * ring->unk72) + ring->unk6E) & 0x3FF;
+
+    qTop = qTop + Q(me->d.sData[1] * TILE_WIDTH);
+    qHeight = Q(me->d.uData[3] * (TILE_WIDTH / 2));
+    qLeft = qLeft + Q(me->d.sData[0] * TILE_WIDTH);
+    qWidth = Q(me->d.uData[2] * (TILE_WIDTH / 2));
+    qRight = qLeft + qWidth;
+    qBottom = qTop + qHeight;
+
+    ring->qWorldX = ({
+        s32 v = ((SIN(ring->unk6C) * qWidth) >> 14);
+        qRight - ((ring->kind & 0x2) ? +v : -v);
+    });
+
+    ring->qWorldY = ({
+        s32 v = ((qHeight * SIN(ring->unk6C)) >> 14);
+        (qBottom - (!(ring->kind & 0x1) ? -v : +v));
+    });
+}
+END_NONMATCH

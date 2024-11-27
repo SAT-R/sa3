@@ -14267,8 +14267,8 @@ _08007106:
 	.align 2, 0
 _0800710C: .4byte sub_800DFA0
 
-	thumb_func_start sub_8007110
-sub_8007110: @ 0x08007110
+	thumb_func_start Player_8007110
+Player_8007110: @ 0x08007110
 	push {r4, r5, lr}
 	adds r5, r0, #0
 	ldr r0, _08007190 @ =gStageData
@@ -14339,8 +14339,8 @@ _0800719C: .4byte 0x08040000
 _080071A0: .4byte 0xFFFFBFFF
 _080071A4: .4byte sub_800DFA0
 
-	thumb_func_start sub_80071A8
-sub_80071A8: @ 0x080071A8
+	thumb_func_start Player_80071A8
+Player_80071A8: @ 0x080071A8
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r0, _08007228 @ =gStageData
@@ -14410,8 +14410,8 @@ _08007234: .4byte 0x08040000
 _08007238: .4byte 0xFFFFBFFF
 _0800723C: .4byte sub_8006C70
 
-	thumb_func_start sub_8007240
-sub_8007240: @ 0x08007240
+	thumb_func_start Player_8007240
+Player_8007240: @ 0x08007240
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r0, _080072C0 @ =gStageData
