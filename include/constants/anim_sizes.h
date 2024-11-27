@@ -17,6 +17,10 @@
 #define ANIM_SPRING_WIDTH  32
 #define ANIM_SPRING_HEIGHT 40
 
+// 869
+#define ANIM_SPIKES_WIDTH  32
+#define ANIM_SPIKES_HEIGHT 32
+
 // 870
 #define ANIM_RAMP_WIDTH       40
 #define ANIM_RAMP_HEIGHT      32

@@ -30,7 +30,6 @@ SECTIONS {
         build/sa3/src/game/interactables/platform.o(.text);
         build/sa3/src/game/interactables/blue_red_button.o(.text);
         build/sa3/src/game/interactables/spikes.o(.text);
-        build/sa3/asm/ia_spikes.o(.text);
         build/sa3/src/game/interactables/booster.o(.text);
         build/sa3/src/game/interactables/trampoline.o(.text);
         build/sa3/src/game/interactables/ramp.o(.text);

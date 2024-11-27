@@ -26,8 +26,8 @@ typedef struct {
 void Task_Spikes7(void);
 void Task_Spikes_4_6(void);
 void sub_8030DEC(void);
-void sub_8030D30(s16 param0, Sprite *s);
-void sub_8030EC8(s16 param0, Sprite *s);
+void sub_8030D30(s16 kind, Sprite *s);
+void sub_8030EC8(s16 kind, Sprite *s);
 void sub_8030F70(void);
 void TaskDestructor_Spikes(struct Task *t);
 
@@ -303,4 +303,170 @@ void Task_Spikes_4_6(void)
             }
         }
     }
+}
+
+void sub_8030D30(s16 kind, Sprite *s)
+{
+    u32 mask = 0;
+    s->tiles = ALLOC_TILES(ANIM_SPIKES);
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+
+    if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+        if (kind < 2) {
+            s->anim = (gStageData.zone == ZONE_4) ? ANIM_SPIKES_4 : ANIM_SPIKES;
+            s->variant = 0;
+        } else {
+            s->anim = (gStageData.zone == ZONE_4) ? ANIM_SPIKES_4 : ANIM_SPIKES;
+            s->variant = 3;
+        }
+    } else {
+        s->anim = ANIM_SPIKES;
+        s->variant = 0;
+        mask = SPRITE_FLAG(MOSAIC, 1);
+    }
+
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1) | mask;
+
+    if ((kind & 0x3) == 1) {
+        SPRITE_FLAG_SET(s, Y_FLIP);
+    }
+
+    if (kind == 2) {
+        SPRITE_FLAG_SET(s, X_FLIP);
+    }
+
+    UpdateSpriteAnimation(s);
+}
+
+void sub_8030DEC(void)
+{
+    Spikes *spikes = TASK_DATA(gCurTask);
+    Sprite *s = &spikes->s;
+    MapEntity *me = spikes->base.me;
+    s16 worldX, worldY;
+    s16 i;
+
+    worldX = TO_WORLD_POS(spikes->base.spriteX, spikes->base.regionX);
+    worldY = TO_WORLD_POS(me->y, spikes->base.regionY);
+
+    if (!IsPointInScreenRect(worldX, worldY)) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            Player *p = GET_SP_PLAYER_V1(i);
+            ResolvePlayerSpriteCollision(s, p);
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spikes->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        s->x = worldX - gCamera.x;
+        s->y = worldY - gCamera.y;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
+
+void sub_8030EC8(s16 kind, Sprite *s)
+{
+    u32 timer = gStageData.timer % 128u;
+    u32 mask;
+
+    s->tiles = ALLOC_TILES(ANIM_SPIKES);
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+
+    s->anim = (gStageData.zone == ZONE_4) ? ANIM_SPIKES_4 : ANIM_SPIKES;
+
+    if (timer < 62) {
+        s->variant = 1;
+    } else if (timer < 64) {
+        s->variant = 2;
+    } else if (timer < 124) {
+        s->variant = 0;
+    } else if (timer < 126) {
+        s->variant = 2;
+    } else if (timer < 128) {
+        s->variant = 1;
+    }
+
+    mask = SPRITE_FLAG(PRIORITY, 1);
+    s->frameFlags = mask;
+
+    if ((kind & 0x1) == 1) {
+        s->frameFlags = SPRITE_FLAG(Y_FLIP, 1) | mask;
+    }
+
+    UpdateSpriteAnimation(s);
+}
+
+void sub_8030F70(void)
+{
+    Spikes *spikes = TASK_DATA(gCurTask);
+    Sprite *s = &spikes->s;
+    MapEntity *me = spikes->base.me;
+    s16 worldX, worldY;
+    s16 i;
+
+    worldX = TO_WORLD_POS(spikes->base.spriteX, spikes->base.regionX);
+    worldY = TO_WORLD_POS(me->y, spikes->base.regionY);
+
+    if (!IsPointInScreenRect(worldX, worldY)) {
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spikes->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (spikes->kind >= 4) {
+        u32 timer = gStageData.timer % 128u;
+        if (timer < 60) {
+            s->variant = 1;
+            s->hitboxes[0].index = -1;
+            UpdateSpriteAnimation(s);
+            return;
+        } else if ((timer == 60) || (timer == 126)) {
+            s->variant = 1;
+            s->hitboxes[0].index = -1;
+        } else if ((timer == 62) || (timer == 124)) {
+            s->variant = 2;
+            s->hitboxes[0].index = -1;
+        } else if ((timer == 64)) {
+            s->variant = 0;
+            s->hitboxes[0].index = -1;
+        }
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void CreateEntity_Spikes_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateSpikes(0, me, regionX, regionY, id); }
+
+void CreateEntity_Spikes_Down(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateSpikes(1, me, regionX, regionY, id); }
+
+void CreateEntity_Spikes_Left(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateSpikes(2, me, regionX, regionY, id); }
+
+void CreateEntity_Spikes_Right(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateSpikes(3, me, regionX, regionY, id); }
+
+void CreateEntity_Spikes_HidingUp(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateSpikes(4, me, regionX, regionY, id); }
+
+void CreateEntity_Spikes_HidingDown(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateSpikes(5, me, regionX, regionY, id); }
+
+void TaskDestructor_Spikes(struct Task *t)
+{
+    Spikes *spikes = TASK_DATA(t);
+    VramFree(spikes->s.tiles);
 }
