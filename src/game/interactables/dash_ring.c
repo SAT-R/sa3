@@ -333,3 +333,144 @@ NONMATCH("asm/non_matching/game/interactables/dash_ring__sub_80358A0.inc", void 
     });
 }
 END_NONMATCH
+
+void sub_803598C(u8 type, Sprite *s, Sprite *s2)
+{
+    u32 mask = 0;
+    void *tiles;
+
+    switch (type) {
+        case 2:
+            mask = SPRITE_FLAG(Y_FLIP, 1);
+            // FALLTHROUGH!!!
+        case 0:
+        case 1:
+        case 3:
+        case 7:
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+        case 15: {
+            // TODO: Remove direct VramMalloc call!
+            tiles = VramMalloc(MAX_TILES_VARIANT(ANIM_DASH_RING, 2) + MAX_TILES_VARIANT(ANIM_DASH_RING, 3));
+            s->tiles = tiles;
+            tiles += MAX_TILES_VARIANT(ANIM_DASH_RING, 2) * TILE_SIZE_4BPP;
+            s2->tiles = tiles;
+            s->variant = 2;
+            s2->variant = 3;
+        } break;
+
+        case 4:
+            mask = SPRITE_FLAG(X_FLIP, 1);
+            // FALLTHROUGH!!!
+        case 8: {
+            // TODO: Remove direct VramMalloc call!
+            tiles = VramMalloc(MAX_TILES_VARIANT(ANIM_DASH_RING, 0) + MAX_TILES_VARIANT(ANIM_DASH_RING, 1));
+            s->tiles = tiles;
+            tiles += MAX_TILES_VARIANT(ANIM_DASH_RING, 0) * TILE_SIZE_4BPP;
+            s2->tiles = tiles;
+            s->variant = 0;
+            s2->variant = 1;
+        } break;
+
+        case 5:
+        case 6:
+        case 9:
+        case 10: {
+            // TODO: Remove direct VramMalloc call!
+            tiles = VramMalloc(MAX_TILES_VARIANT(ANIM_DASH_RING, 4) + MAX_TILES_VARIANT(ANIM_DASH_RING, 5));
+            s->tiles = tiles;
+            tiles += MAX_TILES_VARIANT(ANIM_DASH_RING, 4) * TILE_SIZE_4BPP;
+            s2->tiles = tiles;
+            s->variant = 4;
+            s2->variant = 5;
+
+            if (type & 0x2) {
+                // TODO/BUG?: Does not OR 'mask' value
+                mask = SPRITE_FLAG(Y_FLIP, 1);
+            }
+            if (!(type & 0x4)) {
+                mask |= SPRITE_FLAG(X_FLIP, 1);
+            }
+        } break;
+    }
+
+    s->anim = ANIM_DASH_RING;
+    s->oamFlags = SPRITE_OAM_ORDER(12);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+
+    s2->anim = ANIM_DASH_RING;
+    s2->oamFlags = SPRITE_OAM_ORDER(24);
+    s2->animCursor = 0;
+    s2->qAnimDelay = Q(0);
+    s2->prevVariant = -1;
+    s2->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s2->palId = 0;
+    s2->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1) | mask;
+    s2->frameFlags = SPRITE_FLAG(PRIORITY, 1) | mask;
+
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+}
+
+void sub_8035AC8(void)
+{
+    DashRing *ring = TASK_DATA(gCurTask);
+    Sprite *s = &ring->s;
+    Sprite *s2 = &ring->s2;
+    MapEntity *me = ring->base.me;
+    s16 worldX, worldY;
+    s16 i;
+
+    worldX = TO_WORLD_POS(ring->base.spriteX, ring->base.regionX);
+    worldY = TO_WORLD_POS(me->y, ring->base.regionY);
+
+    if (!IsPointInScreenRect(worldX, worldY)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, ring->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        s->x = I(ring->qWorldX) - gCamera.x;
+        s->y = I(ring->qWorldY) - gCamera.y;
+        s2->x = s->x;
+        s2->y = s->y;
+        DisplaySprite(s);
+        DisplaySprite(s2);
+    }
+}
+
+void CreateEntity_DashRing0(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateDashRing(0, me, regionX, regionY, id); }
+
+void CreateEntity_DashRing1(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateDashRing(1, me, regionX, regionY, id); }
+
+void TaskDestructor_DashRing(struct Task *t)
+{
+    u32 p1Index = gStageData.playerIndex;
+    u32 p2Index = ((gStageData.playerIndex + 1) % 2u);
+    u8 i;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        Player *p = (i != 0) ? &gPlayers[p2Index] : &gPlayers[p1Index];
+        p->moveState &= ~(MOVESTATE_IGNORE_INPUT | MOVESTATE_40000);
+    }
+
+    {
+        DashRing *ring = TASK_DATA(t);
+        VramFree(ring->s.tiles);
+    }
+}
+
+void Task_DashRing(void)
+{
+    sub_8035374();
+    sub_80358A0();
+    sub_8035AC8();
+}

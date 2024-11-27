@@ -51,7 +51,7 @@
 
 // Interactables
 #define ANIM_SPRING                    866
-#define ANIM_LAUNCH_RING               867
+#define ANIM_DASH_RING                 867
 #define ANIM_BOOSTER                   868
 #define ANIM_SPIKES                    869
 #define ANIM_RAMP                      870
