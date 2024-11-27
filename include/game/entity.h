@@ -51,6 +51,7 @@ typedef struct {
 } SpriteBase;
 
 // SpriteBase2 merges unk8 and unk9 into 1 value, as used in
+// src/game/interactables/dash_ring.c
 // src/game/interactables/warp.c
 typedef struct {
     /* 0x00 */ MapEntity *me;
