@@ -158,7 +158,7 @@ void Task_80449A4(void)
     r5 |= sub_8044AA0(platform->ps[0], 0);
     r5 |= sub_8044AA0(platform->ps[1], 1);
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         s16 i;
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             Player *p = GET_SP_PLAYER_V1(i);

@@ -36,7 +36,7 @@ void Task_IA081_082(void)
     worldX = TO_WORLD_POS(ia->base.spriteX, ia->base.regionX);
     worldY = TO_WORLD_POS(me->y, ia->base.regionY);
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         me->x = ia->base.spriteX;
         TaskDestroy(gCurTask);
         return;

@@ -378,7 +378,7 @@ void sub_80321D8(void)
     worldX = ramp->worldX;
     worldY = ramp->worldY;
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             Player *p = GET_SP_PLAYER_V1(i);
             ResolvePlayerSpriteCollision(s, p);

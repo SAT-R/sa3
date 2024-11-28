@@ -181,7 +181,7 @@ static void UpdateSprite(void)
     worldX = TO_WORLD_POS(bar->base.spriteX, bar->base.regionX);
     worldY = TO_WORLD_POS(me->y, bar->base.regionY);
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, bar->base.spriteX);
         TaskDestroy(gCurTask);
         return;

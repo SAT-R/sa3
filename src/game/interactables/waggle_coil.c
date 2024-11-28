@@ -124,7 +124,7 @@ void sub_804018C(void)
     worldX = TO_WORLD_POS(coil->base.spriteX, coil->base.regionX);
     worldY = TO_WORLD_POS(me->y, coil->base.regionY);
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         me->x = coil->base.spriteX;
         TaskDestroy(gCurTask);
         return;

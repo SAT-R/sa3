@@ -317,7 +317,7 @@ bool16 sub_8041988(void)
     worldX = TO_WORLD_POS(ufo->base.spriteX, ufo->base.regionX);
     worldY = TO_WORLD_POS(me->y, ufo->base.regionY);
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, ufo->base.spriteX);
         TaskDestroy(gCurTask);
         return FALSE;

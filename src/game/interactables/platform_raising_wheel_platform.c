@@ -141,7 +141,7 @@ void sub_8036304(void)
     worldX = I(platform->qWorldX32);
     worldY = I(platform->qWorldY32);
 
-    if (!IsPointInScreenRect(worldX, worldY) && !IsPointInScreenRect(platform->worldX, platform->worldY)) {
+    if (!IsWorldPtActive(worldX, worldY) && !IsWorldPtActive(platform->worldX, platform->worldY)) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             p = GET_SP_PLAYER_V1(i);
 

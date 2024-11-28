@@ -300,7 +300,7 @@ static void UpdateAnimOrDestroy(void)
     screenX = I(lift->qWorldX) - gCamera.x;
     screenY = I(lift->qWorldY) - gCamera.y;
 
-    if (!sub_802C1D0(screenX, screenY)) {
+    if (!IsScreenPtActive(screenX, screenY)) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             Player *p = GET_SP_PLAYER_V1(i);
 

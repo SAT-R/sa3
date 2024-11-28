@@ -97,7 +97,7 @@ void sub_804F4E4(void)
     worldX = ring->worldX;
     worldY = ring->worldY;
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         me->x = ring->base.spriteX;
         TaskDestroy(gCurTask);
         return;

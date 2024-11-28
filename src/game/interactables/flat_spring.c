@@ -139,7 +139,7 @@ void FlatSpringTaskB(void)
     worldX = TO_WORLD_POS(spring->base.spriteX, spring->base.regionX);
     worldY = TO_WORLD_POS(me->y, spring->base.regionY);
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         me->x = spring->base.spriteX;
         TaskDestroy(gCurTask);
         return;

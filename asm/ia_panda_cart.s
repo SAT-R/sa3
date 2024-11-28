@@ -843,7 +843,7 @@ _08048C80:
 	asrs r6, r0, #0x10
 	adds r0, r5, #0
 	adds r1, r6, #0
-	bl IsPointInScreenRect
+	bl IsWorldPtActive
 	adds r3, r0, #0
 	cmp r3, #0
 	bne _08048CE0

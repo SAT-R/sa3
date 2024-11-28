@@ -126,7 +126,7 @@ void sub_8033C64(void)
     worldX = TO_WORLD_POS(checkpoint->base.spriteX, checkpoint->base.regionX);
     worldY = TO_WORLD_POS(me->y, checkpoint->base.regionY);
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         me->x = checkpoint->base.spriteX;
         TaskDestroy(gCurTask);
         return;

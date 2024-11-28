@@ -268,7 +268,7 @@ void sub_80303B4(void)
     worldX = TO_WORLD_POS(button->base.spriteX, button->base.regionX);
     worldY = TO_WORLD_POS(me->y, button->base.regionY);
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             Player *p = GET_SP_PLAYER_V1(i);
             ResolvePlayerSpriteCollision(s, p);

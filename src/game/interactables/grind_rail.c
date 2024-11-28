@@ -285,7 +285,7 @@ void Task_Interactable073Main(void)
     worldX = TO_WORLD_POS(ia->base.spriteX, ia->base.regionX);
     worldY = TO_WORLD_POS(me->y, ia->base.regionY);
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, ia->base.spriteX);
         TaskDestroy(gCurTask);
         return;
@@ -326,7 +326,7 @@ void Task_Interactable074Main(void)
     worldX = TO_WORLD_POS(ia->base.spriteX, ia->base.regionX);
     worldY = TO_WORLD_POS(me->y, ia->base.regionY);
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, ia->base.spriteX);
         TaskDestroy(gCurTask);
         return;

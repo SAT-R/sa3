@@ -27,7 +27,7 @@
 	adds r1, r6, r3
 	movs r2, #0
 	ldrsh r1, [r1, r2]
-	bl IsPointInScreenRect
+	bl IsWorldPtActive
 	cmp r0, #1
 	bne _0804A220
 	movs r3, #1
@@ -47,7 +47,7 @@ _0804A220:
 	asrs r1, r1, #0x10
 	mov r8, r1              @ r8 = worldY
 	adds r0, r5, #0
-	bl IsPointInScreenRect
+	bl IsWorldPtActive
 	cmp r0, #1
 	bne _0804A248
 	movs r0, #1

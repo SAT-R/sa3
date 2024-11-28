@@ -90853,11 +90853,13 @@ _0802C192:
 	pop {r1}
 	bx r1
 
+@ NOTE: IsWorldPtActive/IsScreenPtActive are not about just visibility,
+@       but about being in the range where entities spawn/are active.
 @ Input:
     @ R0 = worldX @ Not Q_24_8!
     @ R1 = worldY @ Not Q_24_8!
-	thumb_func_start IsPointInScreenRect
-IsPointInScreenRect: @ 0x0802C198
+	thumb_func_start IsWorldPtActive
+IsWorldPtActive: @ 0x0802C198
 	push {lr}
 	adds r3, r1, #0
 	ldr r2, _0802C1C4 @ =gCamera
@@ -90889,11 +90891,10 @@ _0802C1CA:
 	pop {r1}
 	bx r1
 	.align 2, 0
-    
-    @ Some On-Screen check?
+
     @ Used by IAs 084, 101, 103, 112 and 131 (Pendulum)
-	thumb_func_start sub_802C1D0
-sub_802C1D0: @ 0x0802C1D0
+	thumb_func_start IsScreenPtActive
+IsScreenPtActive: @ 0x0802C1D0
 	push {lr}
 	adds r2, r1, #0
 	adds r0, #0x80

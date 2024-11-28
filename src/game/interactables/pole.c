@@ -33,7 +33,7 @@ static void Task_Interactable094Main(void)
     right = left + me->d.uData[2] * TILE_WIDTH;
     middle = left + me->d.uData[2] * (TILE_WIDTH / 2) + 4;
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         p = &gPlayers[gStageData.playerIndex];
 
 #ifdef BUG_FIX

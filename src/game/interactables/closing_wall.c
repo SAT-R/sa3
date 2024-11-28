@@ -211,7 +211,7 @@ void sub_804ACF0(void)
     worldX = wall->worldX;
     worldY = wall->worldY;
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         // i,j shadowed here for matching
         s16 i, j;
 

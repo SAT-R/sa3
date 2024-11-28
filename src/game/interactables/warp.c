@@ -37,7 +37,7 @@ void Task_WarpMain(void)
         worldX = TO_WORLD_POS(meX, regionX);
         worldY = TO_WORLD_POS(me->y, regionY);
 
-        if (!IsPointInScreenRect(worldX, worldY)) {
+        if (!IsWorldPtActive(worldX, worldY)) {
             SET_MAP_ENTITY_NOT_INITIALIZED(me, meX);
             TaskDestroy(gCurTask);
             return;

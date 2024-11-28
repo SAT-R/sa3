@@ -355,7 +355,7 @@ void sub_8030DEC(void)
     worldX = TO_WORLD_POS(spikes->base.spriteX, spikes->base.regionX);
     worldY = TO_WORLD_POS(me->y, spikes->base.regionY);
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             Player *p = GET_SP_PLAYER_V1(i);
             ResolvePlayerSpriteCollision(s, p);
@@ -421,7 +421,7 @@ void sub_8030F70(void)
     worldX = TO_WORLD_POS(spikes->base.spriteX, spikes->base.regionX);
     worldY = TO_WORLD_POS(me->y, spikes->base.regionY);
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
 
         SET_MAP_ENTITY_NOT_INITIALIZED(me, spikes->base.spriteX);
         TaskDestroy(gCurTask);

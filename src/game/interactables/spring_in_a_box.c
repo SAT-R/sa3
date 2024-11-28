@@ -185,7 +185,7 @@ void Task_80458FC(void)
         gCurTask->main = Task_SpringInABox;
     }
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         for (j = 0; j < NUM_SINGLE_PLAYER_CHARS; j++) {
             p = GET_SP_PLAYER_V1(j);
 

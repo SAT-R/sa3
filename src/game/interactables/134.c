@@ -62,7 +62,7 @@ void Task_Interactable134(void)
     right = left + me->d.uData[2] * TILE_WIDTH;
     middle = top + me->d.uData[3] * (TILE_WIDTH / 2) + 4;
 
-    if (!IsPointInScreenRect(qWorldX, qWorldY)) {
+    if (!IsWorldPtActive(qWorldX, qWorldY)) {
         me->x = ia->base.spriteX;
         TaskDestroy(gCurTask);
         return;

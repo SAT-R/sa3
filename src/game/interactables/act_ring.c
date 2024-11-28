@@ -169,7 +169,7 @@ bool32 sub_8040BE4(void)
     worldX = ring->worldX;
     worldY = ring->worldY;
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, ring->base.spriteX);
         TaskDestroy(gCurTask);
         return FALSE;

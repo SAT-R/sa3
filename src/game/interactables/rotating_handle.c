@@ -73,7 +73,7 @@ void sub_8032410(s16 param0)
     worldX = TO_WORLD_POS(handle->base.spriteX, handle->base.regionX);
     worldY = TO_WORLD_POS(me->y, handle->base.regionY);
 
-    if (!param0 && !IsPointInScreenRect(worldX, worldY)) {
+    if (!param0 && !IsWorldPtActive(worldX, worldY)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, handle->base.spriteX);
         TaskDestroy(gCurTask);
         return;

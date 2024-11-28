@@ -304,7 +304,7 @@ void sub_8049D70(void)
         }
     }
 
-    if (!IsPointInScreenRect(I(boulder->qWorldX), I(boulder->qWorldY))) {
+    if (!IsWorldPtActive(I(boulder->qWorldX), I(boulder->qWorldY))) {
         boulder->unk7A = 5;
         sub_8003E28(SE_BOULDER);
     }
@@ -429,7 +429,7 @@ NONMATCH("asm/non_matching/game/interactables/boulder__sub_804A1E0.inc", void su
     u32 sl;
     s16 i;
 
-    if (IsPointInScreenRect(boulder->worldX, boulder->worldY) == TRUE) {
+    if (IsWorldPtActive(boulder->worldX, boulder->worldY) == TRUE) {
         isOnScreen = TRUE;
     }
     // _0804A220
@@ -437,7 +437,7 @@ NONMATCH("asm/non_matching/game/interactables/boulder__sub_804A1E0.inc", void su
     worldX = I(boulder->qWorldX);
     worldY = I(boulder->qWorldY);
 
-    if (IsPointInScreenRect(worldX, worldY) == TRUE) {
+    if (IsWorldPtActive(worldX, worldY) == TRUE) {
         isOnScreen = TRUE;
     }
     // _0804A248

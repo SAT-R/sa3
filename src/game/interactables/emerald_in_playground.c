@@ -56,7 +56,7 @@ void sub_804F65C(void)
 
     worldX = emerald->worldX;
     worldY = emerald->worldY;
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         me->x = emerald->base.spriteX;
         TaskDestroy(gCurTask);
         return;

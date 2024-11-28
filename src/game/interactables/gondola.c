@@ -170,7 +170,7 @@ void sub_80498B4(void)
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         sub_8003E28(SE_GONDOLA);
 
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {

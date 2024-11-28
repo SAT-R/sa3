@@ -1552,7 +1552,7 @@ sub_8036FBC: @ 0x08036FBC
 	lsrs r2, r1, #0x10
 	mov sb, r2
 	asrs r1, r1, #0x10
-	bl IsPointInScreenRect
+	bl IsWorldPtActive
 	cmp r0, #0
 	bne _08037070
 	movs r1, #0

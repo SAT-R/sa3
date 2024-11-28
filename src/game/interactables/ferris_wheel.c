@@ -245,7 +245,7 @@ void sub_8046EC0(void)
             s2->x = centerX + ball->screenX1;
             s2->y = centerY + ball->screenY1;
 
-            if (sub_802C1D0(s2->x, s2->y) == TRUE) {
+            if (IsScreenPtActive(s2->x, s2->y) == TRUE) {
                 // BUG(Jace): DisplaySprite calls are done in the wrong order.
                 //            This leads to one segment of balls not getting
                 //            updated correctly. All others get their position

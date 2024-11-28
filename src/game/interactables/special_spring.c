@@ -169,7 +169,7 @@ void sub_8040FD8(void)
     worldX = spring->worldX;
     worldY = spring->worldY;
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, spring->base.spriteX);
         TaskDestroy(gCurTask);
         return;

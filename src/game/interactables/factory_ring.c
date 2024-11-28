@@ -92,7 +92,7 @@ void sub_8041248(void)
     worldX = TO_WORLD_POS(ring->base.spriteX, ring->base.regionX);
     worldY = TO_WORLD_POS(me->y, ring->base.regionY);
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         me->x = ring->base.spriteX;
         TaskDestroy(gCurTask);
         return;

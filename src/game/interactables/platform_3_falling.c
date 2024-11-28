@@ -172,7 +172,7 @@ void sub_8042F10(void)
     worldX = TO_WORLD_POS(platform->base.spriteX, platform->base.regionX);
     worldY = TO_WORLD_POS(me->y, platform->base.regionY);
 
-    sb = (IsPointInScreenRect(worldX, worldY) == sb) ? FALSE : TRUE;
+    sb = (IsWorldPtActive(worldX, worldY) == sb) ? FALSE : TRUE;
 
     screenX = worldX - gCamera.x;
     screenY = worldY - gCamera.y;
@@ -182,7 +182,7 @@ void sub_8042F10(void)
         s->x = platform->unkB4[i] + screenX;
         s->y = platform->unkBC[i] + screenY;
 
-        if (sub_802C1D0(s->x, s->y) == TRUE) {
+        if (IsScreenPtActive(s->x, s->y) == TRUE) {
             UpdateSpriteAnimation(s);
 
             for (k = 0; k < NUM_SINGLE_PLAYER_CHARS; k++) {

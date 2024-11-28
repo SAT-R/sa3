@@ -242,7 +242,7 @@ void sub_802DB9C(void)
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, warp->base.spriteX);
         TaskDestroy(gCurTask);
         return;

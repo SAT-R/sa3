@@ -91,7 +91,7 @@ void Task_ItemBoxMP(void)
     worldX = itembox->worldX;
     worldY = itembox->worldY;
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         MapEntity *me = itembox->base.me;
         SET_MAP_ENTITY_NOT_INITIALIZED(me, itembox->base.spriteX);
         TaskDestroy(gCurTask);

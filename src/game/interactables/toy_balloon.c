@@ -104,7 +104,7 @@ static void ToyBalloon_Update(void)
     worldX = balloon->worldX;
     worldY = balloon->worldY;
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         me->x = balloon->base.spriteX;
         TaskDestroy(gCurTask);
         return;

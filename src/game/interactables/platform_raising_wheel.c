@@ -141,7 +141,7 @@ void sub_8035F8C(void)
     worldX = wheel->worldX;
     worldY = wheel->worldY;
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             Player *p = GET_SP_PLAYER_V1(i);
 

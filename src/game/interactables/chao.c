@@ -402,7 +402,7 @@ void sub_804E5CC(void)
     worldX = chao->worldX;
     worldY = chao->worldY;
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         me->x = chao->base.spriteX;
         TaskDestroy(gCurTask);
         return;

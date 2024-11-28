@@ -104,7 +104,7 @@ void Task_Interactable085(void)
         }
     }
 
-    if (!IsPointInScreenRect((u16)ia->worldX, (u16)ia->worldY)) {
+    if (!IsWorldPtActive((u16)ia->worldX, (u16)ia->worldY)) {
         me->x = ia->base.unk8;
         TaskDestroy(gCurTask);
         return;

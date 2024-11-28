@@ -141,7 +141,7 @@ void Task_Interactable116(void)
         }
     }
 
-    if (!IsPointInScreenRect(ia->worldX, ia->worldY)) {
+    if (!IsWorldPtActive(ia->worldX, ia->worldY)) {
         me->x = ia->base.spriteX;
         TaskDestroy(gCurTask);
         return;

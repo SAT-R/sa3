@@ -252,7 +252,7 @@ void sub_804D114(void)
     worldX = maze->worldX;
     worldY = maze->worldY;
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, maze->base.spriteX);
         TaskDestroy(gCurTask);
         return;
@@ -399,7 +399,7 @@ void sub_804D3FC(void)
     worldX = TO_WORLD_POS(maze->base.spriteX, maze->base.regionX);
     worldY = TO_WORLD_POS(me->y, maze->base.regionY);
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, maze->base.spriteX);
         TaskDestroy(gCurTask);
         return;
@@ -523,7 +523,7 @@ void sub_804D6D8(void)
     worldX = TO_WORLD_POS(maze->base.spriteX, maze->base.regionX);
     worldY = TO_WORLD_POS(me->y, maze->base.regionY);
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         for (i = 0; i < 2; i++) {
             Player *p = GET_SP_PLAYER_V1(i);
 

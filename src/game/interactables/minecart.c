@@ -467,7 +467,7 @@ void sub_8048420(void)
     worldX = I(cart->qWorldX);
     worldY = I(cart->qWorldY);
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         Player *p;
 
         sub_8003E28(SE_MINECART_ROLL);

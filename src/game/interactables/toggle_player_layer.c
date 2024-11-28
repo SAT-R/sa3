@@ -38,7 +38,7 @@ void Task_Toggle_PlayerLayer(void)
     worldX = TO_WORLD_POS(meX, regionX);
     worldY = TO_WORLD_POS(me->y, regionY);
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         me->x = meX;
         TaskDestroy(gCurTask);
         return;

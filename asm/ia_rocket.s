@@ -1524,7 +1524,7 @@ sub_80467F0: @ 0x080467F0
 	ldr r6, [r5]
 	ldr r0, [r5, #0x64]
 	ldr r1, [r5, #0x68]
-	bl IsPointInScreenRect
+	bl IsWorldPtActive
 	cmp r0, #0
 	bne _08046820
 	ldrb r0, [r5, #0xa]

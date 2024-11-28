@@ -345,7 +345,7 @@ bool32 sub_8038548(void)
     worldX = TO_WORLD_POS(omochao->base.spriteX, omochao->base.regionX);
     worldY = TO_WORLD_POS(me->y, omochao->base.regionY);
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, omochao->base.spriteX);
         TaskDestroy(gCurTask);
         return FALSE;

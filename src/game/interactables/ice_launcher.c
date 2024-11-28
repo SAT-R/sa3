@@ -177,7 +177,7 @@ void sub_804B168(void)
 
     worldX = launcher->worldX;
     worldY = launcher->worldY;
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, launcher->base.spriteX);
         TaskDestroy(gCurTask);
         return;

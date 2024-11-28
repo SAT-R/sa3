@@ -96,7 +96,7 @@ static void ChaoDestroyOrUpdateAnim(void)
     worldX = ia->worldX;
     worldY = ia->worldY;
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         me->x = ia->base.spriteX;
         TaskDestroy(gCurTask);
         return;

@@ -261,15 +261,15 @@ void sub_804C008(void)
     s2->x = (ps->dx + worldX) - gCamera.x;
     s2->y = (ps->dy + worldY) - gCamera.y;
 
-    if (IsPointInScreenRect(worldX, worldY) == TRUE) {
+    if (IsWorldPtActive(worldX, worldY) == TRUE) {
         r8 = 1;
     }
 
-    if (sub_802C1D0(s->x, s->y) == TRUE) {
+    if (IsScreenPtActive(s->x, s->y) == TRUE) {
         r8 |= 2;
     }
 
-    if (sub_802C1D0(s2->x, s2->y) == TRUE) {
+    if (IsScreenPtActive(s2->x, s2->y) == TRUE) {
         r8 |= 4;
     }
 
@@ -311,7 +311,7 @@ void sub_804C008(void)
         s2->x = (worldX + ps->dx) - gCamera.x;
         s2->y = (worldY + ps->dy) - gCamera.y;
 
-        if (sub_802C1D0(s2->x, s2->y) == TRUE) {
+        if (IsScreenPtActive(s2->x, s2->y) == TRUE) {
             UpdateSpriteAnimation(s2);
             DisplaySprite(s2);
         }

@@ -238,7 +238,7 @@ void sub_8042520(void)
     screenY = I(platform->qWorld.y) - gCamera.y;
     s->y = screenY;
 
-    if (!sub_802C1D0((s16)screenX, (s16)screenY)) {
+    if (!IsScreenPtActive((s16)screenX, (s16)screenY)) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             Player *p = GET_SP_PLAYER_V1(i);
 

@@ -108,7 +108,7 @@ void sub_804E8AC(void)
     worldX = key->worldX;
     worldY = key->worldY;
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         me->x = key->base.spriteX;
         TaskDestroy(gCurTask);
         return;

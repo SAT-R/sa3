@@ -247,7 +247,7 @@ void sub_8043530(void)
     worldX = suction->worldX;
     worldY = suction->worldY;
 
-    if (!IsPointInScreenRect(worldX, worldY)) {
+    if (!IsWorldPtActive(worldX, worldY)) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             Player *p = GET_SP_PLAYER_V1(i);
             ResolvePlayerSpriteCollision(s, p);
