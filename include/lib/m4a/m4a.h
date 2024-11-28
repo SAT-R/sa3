@@ -1,7 +1,7 @@
 #ifndef GUARD_M4A_H
 #define GUARD_M4A_H
 
-#include "gba/m4a_internal.h"
+#include "lib/m4a/m4a_internal.h"
 
 extern struct SoundInfo gSoundInfo;
 

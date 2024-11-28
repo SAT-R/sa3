@@ -1,5 +1,5 @@
 #include "gba/gba.h"
-#include "gba/flash_internal.h"
+#include "lib/agb_flash/flash_internal.h"
 
 u32 sub_80C7430(vu8 *param0);
 u16 sub_80C7454(u8 *param0, u32 (*someFlashFunc)(u8 *));

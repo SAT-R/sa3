@@ -1,5 +1,5 @@
 #include "gba/gba.h"
-#include "gba/flash_internal.h"
+#include "lib/agb_flash/flash_internal.h"
 
 extern u16 ProgramFlashSector_SST(u16 sectorNum, void *src);
 

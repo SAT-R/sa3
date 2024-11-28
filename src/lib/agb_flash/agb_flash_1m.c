@@ -1,5 +1,5 @@
 #include "gba/gba.h"
-#include "gba/flash_internal.h"
+#include "lib/agb_flash/flash_internal.h"
 
 static const char AgbLibFlashVersion[] = "FLASH512_V131";
 
