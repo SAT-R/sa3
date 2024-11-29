@@ -100,10 +100,12 @@ gUnknown_080CE7C0:
 gUnknown_080CE7C8:
     .incbin "baserom.gba", 0x000CE7C8, 0x10
 
-    .global gUnknown_080CE7D8
-gUnknown_080CE7D8:
-    .incbin "baserom.gba", 0x000CE7D8, 0xA
+    @ NOTE: Should likely belong to player.c!
+    .global gPlayerCharacterIdleAnims
+gPlayerCharacterIdleAnims:
+    .2byte 0x0000, 0x00A3, 0x0146, 0x01E9, 0x028C
 
+    @ TODO: Maybe sCharStateAnimInfo ?
     .global gUnknown_080CE7E2
 gUnknown_080CE7E2:
     .incbin "baserom.gba", 0x000CE7E2, 0x4D0

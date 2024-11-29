@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start Task_WindupBlock
 Task_WindupBlock: @ 0x0804713C
 	push {r4, r5, r6, r7, lr}
@@ -22,14 +20,14 @@ Task_WindupBlock: @ 0x0804713C
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r0, r0, r1
-	mov sl, r0
+	mov sl, r0          @ sl = block
 	ldr r0, _08047170 @ =0x03000034
 	adds r0, r1, r0
-	str r0, [sp, #8]
+	str r0, [sp, #8]    @ sp08 = s2
 	movs r1, #0
-_0804715E:
+_0804715E_loop_a:
 	lsls r0, r1, #0x10
-	str r0, [sp, #0x14]
+	str r0, [sp, #0x14] @ sp14 = i << 16
 	cmp r0, #0
 	bne _08047178
 	ldr r0, _08047174 @ =gStageData
@@ -52,22 +50,22 @@ _08047182:
 	adds r0, r0, r1
 	lsls r0, r0, #4
 	ldr r1, _08047210 @ =gPlayers
-	adds r6, r0, r1
+	adds r6, r0, r1     @ r6 = p
 	adds r0, r6, #0
 	bl sub_802C0D4
 	adds r7, r0, #0
 	mov r1, sl
 	adds r1, #0x6f
-	str r1, [sp, #0x10]
+	str r1, [sp, #0x10] @ sp10 = &block->unk6F
 	mov r2, sl
 	adds r2, #0x6d
-	str r2, [sp, #0xc]
+	str r2, [sp, #0xc]  @ sp0C = &block->unk6D
 	movs r3, #0x6c
 	add r3, sl
 	mov sb, r3
 	cmp r7, #0
 	beq _080471B0
-	b _08047654
+	b _08047654_loop_a_cont
 _080471B0:
 	mov r5, sl
 	adds r5, #0x68
@@ -81,8 +79,8 @@ _080471B0:
 	ldr r0, [sp, #8]
 	adds r3, r6, #0
 	bl sub_8020950
-	mov r8, r0
-	ldr r1, [sp, #0x10]
+	mov r8, r0      @ r8 = r8
+	ldr r1, [sp, #0x10] @ r1 = sp10 = &block->unk6F
 	ldrb r0, [r1]
 	movs r3, #1
 	ands r3, r0
@@ -91,7 +89,7 @@ _080471B0:
 	bne _080471DC
 	b _08047364
 _080471DC:
-	ldr r2, [sp, #0xc]
+	ldr r2, [sp, #0xc]  @ r2 = sp0C = &block->unk6D
 	ldrb r0, [r2]
 	cmp r0, #2
 	bne _080471E6
@@ -122,7 +120,7 @@ _080471E6:
 _08047210: .4byte gPlayers
 _08047214: .4byte gStageData
 _08047218:
-	ldr r1, _080472C4 @ =gUnknown_080CE7D8
+	ldr r1, _080472C4 @ =gPlayerCharacterIdleAnims
 	adds r0, r6, #0
 	adds r0, #0x2a
 	ldrb r0, [r0]
@@ -142,7 +140,7 @@ _08047238:
 	movs r2, #1
 _0804723A:
 	movs r5, #0x6c
-	add r5, sl
+	add r5, sl      @ r5 = &block->unk6C
 	mov sb, r5
 	cmp r2, #0
 	beq _080472AA
@@ -185,7 +183,7 @@ _08047272:
 	orrs r0, r1
 	strb r0, [r3]
 	movs r0, #1
-	ldr r5, [sp, #0xc]
+	ldr r5, [sp, #0xc]  @ r5 = sp0C = &block->unk6D
 	strb r0, [r5]
 	mov r0, sl
 	adds r0, #0x66
@@ -212,7 +210,7 @@ _080472AA:
 	str r0, [r6, #0x14]
 	b _080472EC
 	.align 2, 0
-_080472C4: .4byte gUnknown_080CE7D8
+_080472C4: .4byte gPlayerCharacterIdleAnims
 _080472C8: .4byte 0x0000025D
 _080472CC:
 	movs r0, #0x80
@@ -238,12 +236,12 @@ _080472EC:
 	ands r0, r5
 	cmp r0, #0
 	bne _080472FA
-	b _08047654
+	b _08047654_loop_a_cont
 _080472FA:
 	movs r0, #0
 	strh r0, [r6, #0x18]
 	strh r0, [r6, #0x1c]
-	b _08047654
+	b _08047654_loop_a_cont
 _08047302:
 	movs r0, #0
 	ldrsh r1, [r5, r0]
@@ -257,7 +255,7 @@ _08047302:
 	bl sub_8020700
 	cmp r0, #0
 	bne _0804731E
-	b _08047654
+	b _08047654_loop_a_cont
 _0804731E:
 	mov r0, sl
 	adds r0, #0x6e
@@ -287,14 +285,14 @@ _0804731E:
 	adds r0, r6, #0
 	ldr r1, _08047360 @ =Player_800DB30
 	bl SetPlayerCallback
-	b _08047654
+	b _08047654_loop_a_cont
 	.align 2, 0
 _0804735C: .4byte 0xFFFFF800
 _08047360: .4byte Player_800DB30
 _08047364:
 	movs r2, #0x80
 	lsls r2, r2, #9
-	mov r0, r8
+	mov r0, r8          @ r0 = r8 = r8
 	ands r2, r0
 	cmp r2, #0
 	beq _0804737E
@@ -308,7 +306,7 @@ _08047364:
 _0804737E:
 	movs r0, #0x80
 	lsls r0, r0, #0xa
-	mov r1, r8
+	mov r1, r8          @ r1 = r8 = r8
 	ands r0, r1
 	cmp r0, #0
 	beq _0804739E
@@ -329,20 +327,20 @@ _0804739E:
 	ands r0, r1
 	mov r2, sl
 	adds r2, #0x6d
-	str r2, [sp, #0xc]
+	str r2, [sp, #0xc]  @ r2 = sp0C = &block->unk6D
 	movs r3, #0x6c
 	add r3, sl
-	mov sb, r3
+	mov sb, r3          @ sb = &block->unk6C
 	cmp r0, #0
 	bne _080473B8
-	b _08047654
+	b _08047654_loop_a_cont
 _080473B8:
 	ldrb r4, [r2]
 	cmp r4, #2
 	bne _080473C0
 	b _080475E4
 _080473C0:
-	ldr r4, [sp, #0x10]
+	ldr r4, [sp, #0x10] @ r4 = &block->unk6F
 	ldrb r1, [r4]
 	movs r0, #2
 	ands r0, r1
@@ -507,7 +505,7 @@ _080474E6:
 	mov sb, r2
 _080474F4:
 	movs r0, #1
-	ldr r5, [sp, #0xc]
+	ldr r5, [sp, #0xc]  @ r5 = sp0C = &block->unk6D
 	strb r0, [r5]
 	ldr r0, _08047504 @ =0x0000025D
 	bl sub_8003E0C
@@ -534,7 +532,7 @@ _0804751C:
 	ands r0, r1
 	cmp r0, #0
 	beq _0804752E
-	b _08047654
+	b _08047654_loop_a_cont
 _0804752E:
 	movs r2, #0x30
 	ldrsh r0, [r6, r2]
@@ -546,7 +544,7 @@ _0804752E:
 	beq _08047544
 	cmp r0, #9
 	beq _08047544
-	b _08047654
+	b _08047654_loop_a_cont
 _08047544:
 	movs r0, #0x80
 	lsls r0, r0, #0xb
@@ -565,9 +563,9 @@ _08047544:
 	movs r0, #0x1c
 	ands r0, r1
 	cmp r0, #0xc
-	bne _08047654
+	bne _08047654_loop_a_cont
 _08047568:
-	ldr r4, [sp, #0x10]
+	ldr r4, [sp, #0x10] @ r4 = sp10 = &block->unk6F
 	ldrb r1, [r4]
 	movs r0, #2
 	ands r0, r1
@@ -593,7 +591,7 @@ _08047590:
 	mov r3, r8
 	ands r0, r3
 	cmp r0, #0
-	beq _08047654
+	beq _08047654_loop_a_cont
 	ldrh r1, [r6, #0x1e]
 	movs r0, #0x10
 	ands r0, r1
@@ -605,9 +603,9 @@ _08047590:
 	movs r0, #0x1c
 	ands r0, r1
 	cmp r0, #0xc
-	bne _08047654
+	bne _08047654_loop_a_cont
 _080475B4:
-	ldr r4, [sp, #0x10]
+	ldr r4, [sp, #0x10] @ r4 = sp10 = &block->unk6F
 	ldrb r1, [r4]
 	movs r0, #2
 	ands r0, r1
@@ -632,7 +630,7 @@ _080475D6:
 	movs r1, #0x40
 	orrs r0, r1
 	str r0, [r6, #4]
-	b _08047654
+	b _08047654_loop_a_cont
 _080475E4:
 	movs r3, #0
 	ldrsh r1, [r5, r3]
@@ -646,13 +644,13 @@ _080475E4:
 	movs r3, #0
 	bl sub_8020700
 	cmp r0, #0
-	beq _08047654
+	beq _08047654_loop_a_cont
 	mov r0, sl
 	adds r0, #0x6e
 	ldrb r0, [r0]
 	lsls r0, r0, #7
 	strh r0, [r6, #0x1c]
-	ldr r1, [sp, #0x10]
+	ldr r1, [sp, #0x10] @ r1 = sp10 = &block->unk6F
 	ldrb r0, [r1]
 	ands r4, r0
 	cmp r4, #0
@@ -690,7 +688,7 @@ _0804762C:
 	movs r4, #0x6c
 	add r4, sl
 	mov sb, r4
-_08047654:
+_08047654_loop_a_cont:
 	ldr r5, [sp, #0x14]
 	movs r1, #0x80
 	lsls r1, r1, #9
@@ -699,9 +697,9 @@ _08047654:
 	asrs r0, r0, #0x10
 	cmp r0, #1
 	bgt _08047666
-	b _0804715E
+	b _0804715E_loop_a
 _08047666:
-	ldr r2, [sp, #0x10]
+	ldr r2, [sp, #0x10] @ r2 = sp10 = &block->unk6F
 	ldrb r1, [r2]
 	movs r0, #1
 	ands r0, r1
@@ -788,7 +786,7 @@ _080476FA:
 	ldr r0, _08047754 @ =0x0000025D
 	bl sub_8003E28
 	movs r0, #2
-	ldr r1, [sp, #0xc]
+	ldr r1, [sp, #0xc]  @ r1 = sp0C = &block->unk6D
 	strb r0, [r1]
 	mov r1, sl
 	adds r1, #0x68
@@ -853,7 +851,7 @@ _08047780:
 	adds r1, #0x6e
 	strb r0, [r1]
 _0804778A:
-	ldr r1, [sp, #0xc]
+	ldr r1, [sp, #0xc]  @ r1 = sp0C = &block->unk6D
 	ldrb r0, [r1]
 	cmp r0, #2
 	bne _08047828
@@ -863,7 +861,7 @@ _0804778A:
 	cmp r1, r0
 	bne _080477A4
 	movs r0, #0
-	ldr r3, [sp, #0xc]
+	ldr r3, [sp, #0xc]  @ r3 = sp0C = &block->unk6D
 	strb r0, [r3]
 	b _08047828
 _080477A4:
@@ -948,6 +946,7 @@ _08047828:
 	pop {r4, r5, r6, r7}
 	pop {r0}
 	bx r0
+.endif
 
 	thumb_func_start sub_804783C
 sub_804783C: @ 0x0804783C
