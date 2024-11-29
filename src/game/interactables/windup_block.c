@@ -41,6 +41,8 @@ void Task_WindupBlock(void);
 void TaskDestructor_WindupBlock(struct Task *t);
 void sub_804783C(WindupBlock *block);
 
+extern const AnimId gPlayerCharacterIdleAnims[NUM_CHARACTERS];
+
 void CreateEntity_WindupBlock(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_WindupBlock, sizeof(WindupBlock), 0x2100, 0, TaskDestructor_WindupBlock);
@@ -94,3 +96,99 @@ void CreateEntity_WindupBlock(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     sub_804783C(block);
 }
+
+#if 0
+void Task_WindupBlock(void)
+{
+    WindupBlock *block = TASK_DATA(gCurTask);
+    Sprite *s2 = &block->s2;
+    Player *p;
+    s16 i;
+    s32 r8;
+
+    for(i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        p = GET_SP_PLAYER_V0(i);
+
+        if(sub_802C0D4(p)) {
+            continue;
+        }
+
+        r8 = sub_8020950(s2, block->unk68, block->unk6A, p, 0);
+
+        if(block->unk6F & 0x1) {
+            // _080471DC
+
+            if(block->unk6D != 0x2) {
+                // _080471E6
+
+                if((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s2)) {
+                    s32 r2 = 0;
+
+                    if(GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode)) {
+
+                    } else {
+                        // _08047218
+                        u16 r0 = p->charFlags.anim2 - gPlayerCharacterIdleAnims[p->charFlags.character];
+
+                        if(r0 == 2 ||r0 == 5) {
+                            r2 = 1;
+                        }
+                    }
+                }
+                // _080472AA
+
+                // _08047302
+            } else if(sub_8020700(s, block->unk68, block->unk6A, 0, p, 0)) {
+                // _0804731E
+                p->qSpeedAirY = -((block->unk6E + 8) * Q(0.4375));
+                p->qWorldY -= Q(8);
+
+                sub_8016F28(p);
+
+                p->qCamOffsetY = 0;
+                p->moveState &= ~MOVESTATE_40;
+                p->moveState |= MOVESTATE_IN_AIR;
+
+                SetPlayerCallback(p, Player_800DB30);
+                continue;
+            }
+        } else if(r8 & 0x10000) {
+            // _08047364
+            p->qWorldY += Q_8_8(r8);
+            p->qSpeedAirY = Q(0);
+        } else if(r8 & 0x20000) {
+            p->qWorldY += Q_8_8(r8) + Q(1);
+            p->qSpeedAirY = Q(0);
+        }
+
+        // _0804739E
+        if(r8 & 0xC0000) {
+            if(block->unk6D != 2) {
+                if(!(block->unk6F & 0x2)) {
+                    if(r8 & 0x40000) {
+                        // _080473DA
+                        if(block->unk68 > block->unk64) {
+                            // _080473EC
+                            p->qWorldX += Q_8_8(r8 >> 8);
+                        } else {
+                            // _08047508
+                            p->qWorldX += Q_8_8(r8)
+                        }
+                        // _0804751C
+                        p->qSpeedAirX = 0;
+                        p->qSpeedGround = 0;
+                    }
+                } else {
+                    // _08047460
+                }
+                // _08047508
+            } else {
+                // _080475E4
+            }
+        } else {
+            continue;
+        }
+    }
+    // _08047666
+}
+#endif
