@@ -301,7 +301,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_Checkpoint
     .4byte CreateEntity_GoalRing
     .4byte CreateEntity_BouncyBar
-    .4byte CreateEntity_Interactable057
+    .4byte CreateEntity_BreakableWall
     .4byte CreateEntity_DashRing0
     .4byte CreateEntity_DashRing1
     .4byte CreateEntity_Interactable060

@@ -5,116 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable057
-CreateEntity_Interactable057: @ 0x080346EC
-	push {r4, r5, r6, r7, lr}
-	sub sp, #4
-	adds r7, r0, #0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _080347B8 @ =sub_80347C4
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _080347BC @ =sub_8035158
-	str r1, [sp]
-	movs r1, #0x3c
-	movs r3, #0
-	bl TaskCreate
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r1, r1, r0
-	mov ip, r1
-	movs r1, #0
-	mov r0, ip
-	strh r4, [r0, #4]
-	strh r5, [r0, #6]
-	str r7, [r0]
-	ldrb r0, [r7]
-	mov r2, ip
-	strb r0, [r2, #0xa]
-	strb r6, [r2, #0xb]
-	strh r1, [r2, #8]
-	ldrb r0, [r7]
-	lsls r0, r0, #3
-	lsls r4, r4, #8
-	adds r0, r0, r4
-	strh r0, [r2, #0x34]
-	ldrb r0, [r7, #1]
-	lsls r0, r0, #3
-	lsls r5, r5, #8
-	adds r0, r0, r5
-	strh r0, [r2, #0x36]
-	movs r2, #0
-	ldrb r0, [r7, #7]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	bne _08034770
-	movs r3, #1
-_08034756:
-	lsls r0, r2, #0x10
-	movs r5, #0x80
-	lsls r5, r5, #9
-	adds r0, r0, r5
-	lsrs r2, r0, #0x10
-	asrs r1, r0, #0x10
-	cmp r1, #2
-	bgt _08034770
-	ldrb r0, [r7, #7]
-	asrs r0, r1
-	ands r0, r3
-	cmp r0, #0
-	beq _08034756
-_08034770:
-	mov r0, ip
-	adds r0, #0x39
-	strb r2, [r0]
-	ldrb r0, [r7, #7]
-	lsrs r0, r0, #7
-	mov r4, ip
-	adds r4, #0x38
-	strb r0, [r4]
-	ldrb r0, [r7, #3]
-	mov r1, ip
-	adds r1, #0x3a
-	strb r0, [r1]
-	mov r0, ip
-	adds r0, #0xc
-	ldr r3, _080347C0 @ =gCamera
-	ldr r2, [r3]
-	mov r5, ip
-	ldrh r1, [r5, #0x34]
-	subs r1, r1, r2
-	strh r1, [r0, #0x10]
-	ldr r2, [r3, #4]
-	ldrh r1, [r5, #0x36]
-	subs r1, r1, r2
-	strh r1, [r0, #0x12]
-	movs r2, #2
-	rsbs r2, r2, #0
-	adds r1, r2, #0
-	strb r1, [r7]
-	ldrb r1, [r4]
-	bl sub_803516C
-	add sp, #4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080347B8: .4byte sub_80347C4
-_080347BC: .4byte sub_8035158
-_080347C0: .4byte gCamera
+.if 0
+.endif
 
-	thumb_func_start sub_80347C4
-sub_80347C4: @ 0x080347C4
+	thumb_func_start Task_BreakableWall
+Task_BreakableWall: @ 0x080347C4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -1260,8 +1155,8 @@ _0803514E:
 	.align 2, 0
 _08035154: .4byte gCamera
 
-	thumb_func_start sub_8035158
-sub_8035158: @ 0x08035158
+	thumb_func_start TaskDestructor_BreakableWall
+TaskDestructor_BreakableWall: @ 0x08035158
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
