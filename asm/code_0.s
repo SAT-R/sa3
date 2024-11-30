@@ -7796,7 +7796,7 @@ _08003E20:
 	.align 2, 0
 _08003E24: .4byte gStageData
 
-@ Either StopSong or ContinueSong
+@ Either StopSong
 	thumb_func_start sub_8003E28
 sub_8003E28: @ 0x08003E28
 	push {lr}
