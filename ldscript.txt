@@ -83,7 +83,6 @@ SECTIONS {
         build/sa3/asm/ia_rocket.o(.text);
         build/sa3/src/game/interactables/ferris_wheel.o(.text);
         build/sa3/src/game/interactables/windup_block.o(.text);
-        build/sa3/asm/ia_windup_block.o(.text);
         build/sa3/src/game/interactables/minecart.o(.text);
         build/sa3/asm/ia_panda_cart.o(.text);
         build/sa3/src/game/interactables/116.o(.text);

@@ -28,8 +28,8 @@ typedef struct {
     /* 0x62 */ s16 unk62;
     /* 0x64 */ s16 unk64;
     /* 0x66 */ s16 unk66;
-    /* 0x68 */ s16 unk68;
-    /* 0x6A */ s16 unk6A;
+    /* 0x68 */ s16 unk68; // s2X
+    /* 0x6A */ s16 unk6A; // s2Y
     /* 0x6C */ u8 unk6C_05 : 6;
     /* 0x6C */ u8 unk6C_67 : 2;
     /* 0x6D */ u8 unk6D;
@@ -42,6 +42,8 @@ void TaskDestructor_WindupBlock(struct Task *t);
 void sub_804783C(WindupBlock *block);
 
 extern const AnimId gPlayerCharacterIdleAnims[NUM_CHARACTERS];
+
+// TODO: Would "Charge Launcher" be a better name for this entity?
 
 void CreateEntity_WindupBlock(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -406,12 +408,12 @@ void sub_804713C(void)
             sVar1 = *(short *)(&DAT_03000064 + tskOffset);
             if (*psVar14 <= *(short *)(&DAT_03000064 + tskOffset)) {
                 *psVar14 = sVar1;
-                sub_8003E28(0x25d);
+                sub_8003E28(SE_WINDUP_BLOCK_PUSH);
                 // goto _080476AE;
             }
         } else if (*(short *)(&DAT_03000064 + tskOffset) <= *block->unk68) {
             block->unk68 = *(short *)(&DAT_03000064 + tskOffset);
-            sub_8003E28(0x25d);
+            sub_8003E28(SE_WINDUP_BLOCK_PUSH);
         }
     } else {
         psVar14 = block->unk6A;
@@ -419,7 +421,7 @@ void sub_804713C(void)
         if (*(short *)(&DAT_03000066 + tskOffset) < *psVar14) {
         _080476AE:
             *psVar14 = sVar1;
-            sub_8003E28(0x25d);
+            sub_8003E28(SE_WINDUP_BLOCK_PUSH);
         }
     }
     bVar9 = *(byte *)puVar15;
@@ -427,7 +429,7 @@ void sub_804713C(void)
         *(byte *)puVar15 = bVar9 & 0xC0 | (bVar9 & 0x3f) - 1 & 0x3f;
     }
     if ((*puVar15 & 0xff3f) == 0x100) {
-        sub_8003E28(0x25d);
+        sub_8003E28(SE_WINDUP_BLOCK_PUSH);
         *local_2c = 2;
         iVar18 = block->unk68;
         iVar6 = block->unk60;
@@ -509,3 +511,123 @@ _08047828:
     return in_lr;
 }
 #endif
+
+void sub_804783C(WindupBlock *block)
+{
+    u32 mask = 0;
+    Sprite *s = &block->s;
+
+    if (block->unk6F & 0x1) {
+        if (gStageData.zone == ZONE_7) {
+            s->tiles = ALLOC_TILES_VARIANT(ANIM_WINDUP_BLOCK_7, 3);
+            s->anim = ANIM_WINDUP_BLOCK_7;
+            s->variant = 3;
+        } else {
+            s->tiles = ALLOC_TILES_VARIANT(ANIM_WINDUP_BLOCK, 1);
+            s->anim = ANIM_WINDUP_BLOCK;
+            s->variant = 3;
+        }
+
+        if (!(block->unk6F & 0x2)) {
+            mask = SPRITE_FLAG(X_FLIP, 1);
+        }
+
+    } else {
+        if (gStageData.zone == ZONE_7) {
+            s->tiles = ALLOC_TILES_VARIANT(ANIM_WINDUP_BLOCK_7, 1);
+            s->anim = ANIM_WINDUP_BLOCK_7;
+            s->variant = 1;
+        } else {
+            s->tiles = ALLOC_TILES_VARIANT(ANIM_WINDUP_BLOCK, 1);
+            s->anim = ANIM_WINDUP_BLOCK;
+            s->variant = 1;
+        }
+    }
+
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1) | mask;
+    UpdateSpriteAnimation(s);
+
+    s = &block->s2;
+
+    if (block->unk6F & 0x1) {
+        if ((gStageData.zone == ZONE_7) && (gStageData.act != ACT_BONUS_ENEMIES)) {
+            s->tiles = ALLOC_TILES_VARIANT(ANIM_WINDUP_BLOCK_7, 2);
+            s->anim = ANIM_WINDUP_BLOCK_7;
+            s->variant = 2;
+
+        } else {
+            s->tiles = ALLOC_TILES_VARIANT(ANIM_WINDUP_BLOCK, 2);
+            s->anim = ANIM_WINDUP_BLOCK;
+            s->variant = 2;
+        }
+    } else {
+        if ((gStageData.zone == ZONE_7) && (gStageData.act != ACT_BONUS_ENEMIES)) {
+            s->tiles = ALLOC_TILES_VARIANT(ANIM_WINDUP_BLOCK_7, 0);
+            s->anim = ANIM_WINDUP_BLOCK_7;
+            s->variant = 0;
+        } else {
+            s->tiles = ALLOC_TILES_VARIANT(ANIM_WINDUP_BLOCK, 0);
+            s->anim = ANIM_WINDUP_BLOCK;
+            s->variant = 0;
+        }
+    }
+
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1) | mask;
+    UpdateSpriteAnimation(s);
+}
+
+void sub_80479B0(void)
+{
+    WindupBlock *block = TASK_DATA(gCurTask);
+    MapEntity *me = block->base.me;
+    Sprite *s2 = &block->s2;
+    s16 i;
+
+    s2->x = block->unk68 - gCamera.x;
+    s2->y = block->unk6A - gCamera.y;
+
+    if (!sub_802C140(block->worldX, block->worldY, s2->x, s2->y)) {
+        sub_8003E28(SE_WINDUP_BLOCK_PUSH);
+
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            Player *p = GET_SP_PLAYER_V1(i);
+            ResolvePlayerSpriteCollision(s2, p);
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, block->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        Sprite *s;
+
+        UpdateSpriteAnimation(s2);
+        DisplaySprite(s2);
+
+        s = &block->s;
+        s->x = block->worldX - gCamera.x;
+        s->y = block->worldY - gCamera.y;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
+
+void TaskDestructor_WindupBlock(struct Task *t)
+{
+    WindupBlock *block = TASK_DATA(t);
+    VramFree(block->s.tiles);
+    VramFree(block->s2.tiles);
+}

@@ -276,8 +276,9 @@
 
 #define SE_PENDULUM_HIT 0x25B
 
-#define SE_MINECART_ROLL 0x25E
-#define SE_607           0x25F
+#define SE_WINDUP_BLOCK_PUSH 0x25D
+#define SE_MINECART_ROLL     0x25E
+#define SE_607               0x25F
 
 #define SE_GONDOLA 0x261
 

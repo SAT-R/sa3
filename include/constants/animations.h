@@ -107,7 +107,7 @@
 #define ANIM_PLATFORM_SPIKED           921
 #define ANIM_ICE_SPIKE                 922
 #define ANIM_ICE_LAUNCHER              923
-#define ANIM_CHARGE_LAUNCHER           924
+#define ANIM_WINDUP_BLOCK              924
 #define ANIM_MINECART                  925
 #define ANIM_AIR_BUBBLES               926
 #define ANIM_ATTACHED_PLATFORM         927
@@ -150,6 +150,7 @@
 #define ANIM_BREAKABLE_WALL_6          966
 #define ANIM_PLATFORM_CRUMBLE_6        967
 #define ANIM_SEESAW_3                  968
+#define ANIM_WINDUP_BLOCK_7            969
 #define ANIM_PLATFORM_TS               974
 #define ANIM_TOY_BALLOON_POPPED        976
 #define ANIM_OMOCHAO0                  977
