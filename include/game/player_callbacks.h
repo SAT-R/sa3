@@ -114,5 +114,7 @@ extern void Player_800ED34(Player *p);
 extern void Player_800ED80(Player *p);
 extern void Player_8014550(Player *p);
 extern void Player_801479C(Player *p);
+extern void Player_801D73C(Player *p);
+extern void Player_801DF18(Player *p);
 
 #endif // GUARD_SA3_PLAYER_CALLBACKS_H

@@ -112,7 +112,7 @@ struct Player {
         // TODO: Find meaning of that value!
         s16 anim0; // 0x30
         s16 anim1; // 0x32
-        s16 anim2; // 0x34
+        u16 anim2; // 0x34
 
         // TODO: Anim variant?
         u16 state1; // 0x36-0x37

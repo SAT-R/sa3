@@ -28,7 +28,7 @@ typedef struct {
 } BreakableWall; /* 0x3C */
 
 void Task_BreakableWall(void);
-int sub_8034A20(Player *p);
+s16 sub_8034A20(Player *p);
 void sub_8034C60(s16);
 void sub_8034D74(void);
 void Task_8034E44(void);
@@ -155,3 +155,70 @@ void Task_BreakableWall(void)
 
     sub_8034D74();
 }
+
+// (98.91%) https://decomp.me/scratch/SCkrx
+NONMATCH("asm/non_matching/game/interactables/breakable_wall__sub_8034A20.inc", s16 sub_8034A20(Player *p))
+{
+    if (p->charFlags.someIndex != 3) {
+        switch (p->charFlags.anim0) {
+            case 166:
+            case 168:
+            case 184:
+            case 204:
+            case 230:
+            case 254:
+            case 259: {
+                return 2;
+            } break;
+
+            case 226:
+            case 227:
+            case 229:
+            case 255: {
+                return 3;
+            } break;
+        }
+    } else {
+        switch (p->charFlags.anim2) {
+            case 526:
+            case 527:
+            case 570:
+            case 690: {
+                return 3;
+            } break;
+
+            case 42:
+            case 205:
+            case 368:
+            case 531:
+            case 689:
+            case 695: {
+                return 2;
+            } break;
+
+            case 38: {
+                if (p->charFlags.state1 != 2) {
+                    return 2;
+                }
+            } break;
+        }
+    }
+
+    if ((p->charFlags.anim0 == 213) && (p->charFlags.state1 == 1)) {
+        return 2;
+    }
+
+    if ((p->callback == Player_801D73C) || (p->callback == Player_801DF18)) {
+        return 3;
+    }
+
+    return 1;
+}
+END_NONMATCH
+
+#if 0
+void sub_8034C60(s16 param0)
+{
+
+}
+#endif

@@ -294,7 +294,7 @@ _08045E1E:
 	cmp r3, #0
 	bne _08045E86
 	ldr r1, [r4]
-	ldr r0, _08045F1C @ =sub_801D73C
+	ldr r0, _08045F1C @ =Player_801D73C
 	cmp r1, r0
 	beq _08045E86
 	movs r0, #4
@@ -399,7 +399,7 @@ _08045F0C: .4byte gCurTask
 _08045F10: .4byte 0x030000E8
 _08045F14: .4byte 0x030000E0
 _08045F18: .4byte 0x01000100
-_08045F1C: .4byte sub_801D73C
+_08045F1C: .4byte Player_801D73C
 _08045F20: .4byte 0x00000256
 _08045F24: .4byte sub_8045F48
 _08045F28: .4byte gCamera
