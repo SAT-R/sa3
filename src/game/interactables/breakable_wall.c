@@ -27,6 +27,17 @@ typedef struct {
     /* 0x3A */ u8 unk3A;
 } BreakableWall; /* 0x3C */
 
+typedef struct {
+    /* 0x00 */ s32 qWorldX;
+    /* 0x04 */ s32 qWorldY;
+    /* 0x08 */ u16 unk8;
+    /* 0x0A */ u16 unkA;
+    /* 0x0C */ u16 unkC;
+    /* 0x0E */ u16 unkE;
+    /* 0x0F */ u16 unkF;
+    /* 0x10 */ Sprite s;
+} BreakableWallDebris; /* 0x38 */
+
 void Task_BreakableWall(void);
 s16 sub_8034A20(Player *p);
 void sub_8034C60(s16);
@@ -35,9 +46,12 @@ void Task_8034E44(void);
 void sub_803516C(Sprite *s, u8 param1);
 void sub_80351A8(Sprite *s, u8 param1, u8 param2);
 void TaskDestructor_BreakableWall(struct Task *t);
-void sub_8034F88(s16 worldX, s16 worldY, s16 param2, s16 rand, u8 param4, u8 param5, Sprite *s);
+void CreateBreakableWallDebris(s16 worldX, s16 worldY, s16 param2, s16 rand, u8 param4, u8 param5, void *tiles);
+void Task_DebrisInit(void);
 
 extern const u16 gUnknown_080CF590[6][2][3];
+extern const u16 gUnknown_080CF5D8[0x30];
+extern const u16 gUnknown_080CF638[6][2][3];
 
 void CreateEntity_BreakableWall(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -257,19 +271,19 @@ void sub_8034C60(s16 param0)
 void sub_8034D0C(Sprite *s, u8 param1)
 {
     u16 arr[6][2][3];
-    s32 id;
+    s32 zone;
 
     memcpy(arr, gUnknown_080CF590, sizeof(arr));
 
     if (gStageData.act == ACT_BONUS_ENEMIES) {
-        id = 0;
+        zone = ZONE_1;
     } else {
-        id = (gStageData.zone != ZONE_7) ? gStageData.zone : 0;
+        zone = (gStageData.zone != ZONE_7) ? gStageData.zone : ZONE_1;
     }
 
-    s->tiles = VramMalloc(arr[id][param1][2]);
-    s->anim = arr[id][param1][0];
-    s->variant = arr[id][param1][1];
+    s->tiles = VramMalloc(arr[zone][param1][2]);
+    s->anim = arr[zone][param1][0];
+    s->variant = arr[zone][param1][1];
 }
 
 void sub_8034D74(void)
@@ -301,6 +315,7 @@ void sub_8034D74(void)
     }
 }
 
+// (89.40%) https://decomp.me/scratch/L5NH9
 NONMATCH("asm/non_matching/game/interactables/breakable_wall__Task_8034E44.inc", void Task_8034E44(void))
 {
     BreakableWall *wall = TASK_DATA(gCurTask);
@@ -336,7 +351,7 @@ NONMATCH("asm/non_matching/game/interactables/breakable_wall__Task_8034E44.inc",
         for (i = 0; i < 6; i++) {
             s32 rand = PseudoRandom32() & 0x1FF;
 
-            sub_8034F88(worldX, worldY, 0x200, rand, 30, i, s);
+            CreateBreakableWallDebris(worldX, worldY, 0x200, rand, 30, i, wall->s.tiles);
         }
 
         goto inc_counter;
@@ -351,5 +366,64 @@ NONMATCH("asm/non_matching/game/interactables/breakable_wall__Task_8034E44.inc",
 
 inc_counter:
     wall->unk3A++;
+}
+END_NONMATCH
+
+// (99.88%) https://decomp.me/scratch/XSZVN
+NONMATCH("asm/non_matching/game/interactables/breakable_wall__CreateBreakableWallDebris.inc",
+         void CreateBreakableWallDebris(s16 worldX, s16 worldY, s16 param2, s16 rand, u8 param4, u8 param5, void *tiles))
+{
+    BreakableWallDebris *debris;
+    struct Task *t;
+    Sprite *sprNew;
+    u16 arr[6][2][3]; // sp04
+    s32 randClamped;
+    s16 zone;
+    s32 r3;
+
+    memcpy(arr, gUnknown_080CF638, sizeof(arr));
+
+    t = TaskCreate(Task_DebrisInit, sizeof(BreakableWallDebris), 0x2100, 0, NULL);
+    debris = TASK_DATA(t);
+    sprNew = &debris->s;
+
+    debris->unkE = param4;
+    debris->unkC = 32;
+
+    randClamped = (rand & ONE_CYCLE);
+    debris->unk8 = (COS(randClamped & ONE_CYCLE) * param2) >> 14;
+    debris->unkA = (SIN(randClamped & ONE_CYCLE) * param2) >> 14;
+
+    if (gStageData.act == ACT_BONUS_ENEMIES) {
+        zone = ZONE_1;
+    } else {
+        zone = (gStageData.zone != ZONE_7) ? gStageData.zone : ZONE_1;
+    }
+
+    r3 = (param5 & 0x1);
+    if (!r3) {
+        sprNew->tiles = tiles;
+    } else {
+        sprNew->tiles = tiles + arr[zone][0][2] * TILE_SIZE_4BPP;
+    }
+
+    sprNew->anim = arr[zone][r3][0];
+    sprNew->variant = arr[zone][r3][1];
+    sprNew->oamFlags = SPRITE_OAM_ORDER(8);
+    sprNew->animCursor = 0;
+    sprNew->qAnimDelay = Q(0);
+    sprNew->prevVariant = -1;
+    sprNew->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    sprNew->palId = 0;
+    sprNew->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    sprNew->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+
+    if (param5 > 1) {
+        sprNew->frameFlags = SPRITE_FLAG_MASK_19;
+    }
+
+    debris->qWorldX = Q(worldX);
+    debris->qWorldY = Q(worldY);
+    UpdateSpriteAnimation(sprNew);
 }
 END_NONMATCH

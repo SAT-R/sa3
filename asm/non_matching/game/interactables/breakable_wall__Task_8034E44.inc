@@ -120,7 +120,7 @@ _08034F08:
 	asrs r1, r7, #0x10
 	movs r2, #0x80
 	lsls r2, r2, #2
-	bl sub_8034F88
+	bl CreateBreakableWallDebris
 	adds r0, r4, #1
 	lsls r0, r0, #0x18
 	lsrs r4, r0, #0x18
