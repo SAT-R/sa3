@@ -253,12 +253,12 @@
 #define SE_TAGACTION_CHARGED 0x21B
 #define SE_TAGACTION_BUILDUP 0x21C
 
-#define SE_BOULDER      0x246
-#define SE_LIFT         0x247
-#define SE_BUTTON_HIT   0x248
-#define SE_BUTTON_TIMER 0x249
-#define SE_ICE_SPIKE    0x24A
-
+#define SE_BOULDER          0x246
+#define SE_LIFT             0x247
+#define SE_BUTTON_HIT       0x248
+#define SE_BUTTON_TIMER     0x249
+#define SE_ICE_SPIKE        0x24A
+#define SE_587              0x24B
 #define SE_588              0x24C
 #define SE_SMASH_ROCK       0x24D
 #define SE_ACCORDION_SPRING 0x24E

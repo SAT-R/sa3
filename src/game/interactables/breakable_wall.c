@@ -33,7 +33,10 @@ void sub_8034C60(s16);
 void sub_8034D74(void);
 void Task_8034E44(void);
 void sub_803516C(Sprite *s, u8 param1);
+void sub_80351A8(Sprite *s, u8 param1, u8 param2);
 void TaskDestructor_BreakableWall(struct Task *t);
+
+extern const u16 gUnknown_080CF590[6][2][3];
 
 void CreateEntity_BreakableWall(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -216,9 +219,83 @@ NONMATCH("asm/non_matching/game/interactables/breakable_wall__sub_8034A20.inc", 
 }
 END_NONMATCH
 
-#if 0
 void sub_8034C60(s16 param0)
 {
+    BreakableWall *wall = TASK_DATA(gCurTask);
+    s16 r3;
 
+    if (wall->unk39 >= param0) {
+        sub_8003DF0(SE_PENDULUM_HIT);
+        return;
+    }
+
+    r3 = (param0 - wall->unk39);
+
+    if (wall->unk3A <= r3) {
+        Sprite *s;
+        wall->unk3A = 0;
+
+        sub_8003DF0(SE_ICE_SPIKE);
+
+        s = &wall->s;
+        sub_80351A8(s, wall->unk38, 1);
+    } else {
+        Sprite *s;
+        wall->unk3A = wall->unk3A - r3;
+
+        sub_8003DF0(SE_587);
+        s = &wall->s;
+        sub_80351A8(s, wall->unk38, wall->base.unk8);
+
+        if (wall->base.unk8 == 0) {
+            wall->base.unk8++;
+        }
+    }
 }
-#endif
+
+void sub_8034D0C(Sprite *s, u8 param1)
+{
+    u16 arr[6][2][3];
+    s32 id;
+
+    memcpy(arr, gUnknown_080CF590, sizeof(arr));
+
+    if (gStageData.act == ACT_BONUS_ENEMIES) {
+        id = 0;
+    } else {
+        id = (gStageData.zone != ZONE_7) ? gStageData.zone : 0;
+    }
+
+    s->tiles = VramMalloc(arr[id][param1][2]);
+    s->anim = arr[id][param1][0];
+    s->variant = arr[id][param1][1];
+}
+
+void sub_8034D74(void)
+{
+    BreakableWall *wall = TASK_DATA(gCurTask);
+    Sprite *s = &wall->s;
+    MapEntity *me = wall->base.me;
+    s16 worldX, worldY;
+    s16 i;
+
+    worldX = TO_WORLD_POS(wall->base.spriteX, wall->base.regionX);
+    worldY = TO_WORLD_POS(me->y, wall->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (!IsWorldPtActive(worldX, worldY)) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            Player *p = GET_SP_PLAYER_V1(i);
+            ResolvePlayerSpriteCollision(s, p);
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, wall->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
