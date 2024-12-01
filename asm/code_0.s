@@ -23651,8 +23651,8 @@ _0800BB28: .4byte 0xDC510BA1
 _0800BB2C: .4byte 0xFFFFBFFF
 _0800BB30: .4byte Player_800E5CC
 
-	thumb_func_start sub_800BB34
-sub_800BB34: @ 0x0800BB34
+	thumb_func_start Player_800BB34
+Player_800BB34: @ 0x0800BB34
 	push {r4, r5, lr}
 	adds r5, r0, #0
 	bl sub_8016F28
