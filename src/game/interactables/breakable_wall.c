@@ -35,6 +35,7 @@ void Task_8034E44(void);
 void sub_803516C(Sprite *s, u8 param1);
 void sub_80351A8(Sprite *s, u8 param1, u8 param2);
 void TaskDestructor_BreakableWall(struct Task *t);
+void sub_8034F88(s16 worldX, s16 worldY, s16 param2, s16 rand, u8 param4, u8 param5, Sprite *s);
 
 extern const u16 gUnknown_080CF590[6][2][3];
 
@@ -299,3 +300,56 @@ void sub_8034D74(void)
         DisplaySprite(s);
     }
 }
+
+NONMATCH("asm/non_matching/game/interactables/breakable_wall__Task_8034E44.inc", void Task_8034E44(void))
+{
+    BreakableWall *wall = TASK_DATA(gCurTask);
+    MapEntity *me = wall->base.me;
+    Sprite *s = &wall->s;
+
+    if (wall->unk3A != 0) {
+        if (wall->unk3A == 40) {
+            goto lbl_destroy_task;
+        }
+
+        goto inc_counter;
+    } else {
+        // _08034E84
+        s16 worldX, worldY;
+        u8 i;
+
+        for (i = 0; i < 4; i++) {
+            Player *p = &gPlayers[i];
+
+            if (p->sprColliding == s) {
+                p->sprColliding = NULL;
+                p->moveState &= ~MOVESTATE_COLLIDING_ENT;
+            }
+        }
+
+        worldX = TO_WORLD_POS(wall->base.spriteX, wall->base.regionX);
+        worldX += (s32)(wall->s.hitboxes[0].b.right + ((wall->s.hitboxes[0].b.right & 0x80000000) >> 31)) >> 1;
+
+        worldY = TO_WORLD_POS(me->y, wall->base.regionY);
+        worldY += (s32)(wall->s.hitboxes[0].b.bottom + ((wall->s.hitboxes[0].b.bottom & 0x80000000) >> 31)) >> 1;
+
+        for (i = 0; i < 6; i++) {
+            s32 rand = PseudoRandom32() & 0x1FF;
+
+            sub_8034F88(worldX, worldY, 0x200, rand, 30, i, s);
+        }
+
+        goto inc_counter;
+    }
+
+    do {
+    lbl_destroy_task:
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, wall->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    } while (0);
+
+inc_counter:
+    wall->unk3A++;
+}
+END_NONMATCH
