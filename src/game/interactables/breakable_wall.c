@@ -30,11 +30,11 @@ typedef struct {
 typedef struct {
     /* 0x00 */ s32 qWorldX;
     /* 0x04 */ s32 qWorldY;
-    /* 0x08 */ u16 unk8;
-    /* 0x0A */ u16 unkA;
-    /* 0x0C */ u16 unkC;
-    /* 0x0E */ u16 unkE;
-    /* 0x0F */ u16 unkF;
+    /* 0x08 */ s16 qUnk8;
+    /* 0x0A */ s16 qUnkA;
+    /* 0x0C */ u16 qUnkC;
+    /* 0x0E */ u8 unkE;
+    /* 0x0F */ u8 unkF;
     /* 0x10 */ Sprite s;
 } BreakableWallDebris; /* 0x38 */
 
@@ -50,7 +50,7 @@ void CreateBreakableWallDebris(s16 worldX, s16 worldY, s16 param2, s16 rand, u8 
 void Task_DebrisInit(void);
 
 extern const u16 gUnknown_080CF590[6][2][3];
-extern const u16 gUnknown_080CF5D8[0x30];
+extern const u16 gUnknown_080CF5D8[4][6][2];
 extern const u16 gUnknown_080CF638[6][2][3];
 
 void CreateEntity_BreakableWall(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -388,11 +388,11 @@ NONMATCH("asm/non_matching/game/interactables/breakable_wall__CreateBreakableWal
     sprNew = &debris->s;
 
     debris->unkE = param4;
-    debris->unkC = 32;
+    debris->qUnkC = 32;
 
     randClamped = (rand & ONE_CYCLE);
-    debris->unk8 = (COS(randClamped & ONE_CYCLE) * param2) >> 14;
-    debris->unkA = (SIN(randClamped & ONE_CYCLE) * param2) >> 14;
+    debris->qUnk8 = (COS(randClamped & ONE_CYCLE) * param2) >> 14;
+    debris->qUnkA = (SIN(randClamped & ONE_CYCLE) * param2) >> 14;
 
     if (gStageData.act == ACT_BONUS_ENEMIES) {
         zone = ZONE_1;
@@ -427,3 +427,59 @@ NONMATCH("asm/non_matching/game/interactables/breakable_wall__CreateBreakableWal
     UpdateSpriteAnimation(sprNew);
 }
 END_NONMATCH
+
+void Task_DebrisInit(void)
+{
+    BreakableWallDebris *debris = TASK_DATA(gCurTask);
+    Sprite *s = &debris->s;
+
+    if (--debris->unkE == 0) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    debris->qWorldX += debris->qUnk8;
+    debris->qUnkA += debris->qUnkC;
+    debris->qWorldY += debris->qUnkA;
+
+    s->x = I(debris->qWorldX) - gCamera.x;
+    s->y = I(debris->qWorldY) - gCamera.y;
+    DisplaySprite(s);
+}
+
+void TaskDestructor_BreakableWall(struct Task *t)
+{
+    BreakableWall *wall = TASK_DATA(t);
+    VramFree(wall->s.tiles);
+}
+
+void sub_803516C(Sprite *s, u8 param1)
+{
+    sub_8034D0C(s, param1);
+
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    UpdateSpriteAnimation(s);
+}
+
+void sub_80351A8(Sprite *s, u8 param1, u8 param2)
+{
+    u16 arr[6][4][2];
+    u32 zone;
+    memcpy(arr, gUnknown_080CF5D8, sizeof(arr));
+
+    if (gStageData.act == ACT_BONUS_ENEMIES) {
+        zone = ZONE_1;
+    } else {
+        zone = (gStageData.zone != ZONE_7) ? gStageData.zone : ZONE_1;
+    }
+
+    s->anim = arr[zone][param1 * 2 + param2][0];
+    s->variant = arr[zone][param1 * 2 + param2][1];
+}
