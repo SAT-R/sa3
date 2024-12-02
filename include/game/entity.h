@@ -91,6 +91,17 @@ typedef struct {
     /* 0x0F */ u8 id;
 } SpriteBase4;
 
+// Used in IA Rocket
+typedef struct {
+    /* 0x00 */ MapEntity *me;
+    /* 0x04 */ u16 regionX;
+    /* 0x06 */ u16 regionY;
+    /* 0x08 */ u8 spriteX;
+    /* 0x09 */ u8 id;
+    /* 0x0A */ u8 unkA;
+    /* 0x0B */ u8 unkB;
+} SpriteBase5;
+
 // TODO maybe(?): Integrate this with every enemy
 typedef struct {
     SpriteBase base;

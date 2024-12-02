@@ -47,7 +47,7 @@ void sub_803516C(Sprite *s, u8 param1);
 void sub_80351A8(Sprite *s, u8 param1, u8 param2);
 void TaskDestructor_BreakableWall(struct Task *t);
 void CreateBreakableWallDebris(s16 worldX, s16 worldY, s16 param2, s16 rand, u8 param4, u8 param5, void *tiles);
-void Task_DebrisInit(void);
+void Task_Debris(void);
 
 extern const u16 gUnknown_080CF590[6][2][3];
 extern const u16 gUnknown_080CF5D8[4][6][2];
@@ -383,7 +383,7 @@ NONMATCH("asm/non_matching/game/interactables/breakable_wall__CreateBreakableWal
 
     memcpy(arr, gUnknown_080CF638, sizeof(arr));
 
-    t = TaskCreate(Task_DebrisInit, sizeof(BreakableWallDebris), 0x2100, 0, NULL);
+    t = TaskCreate(Task_Debris, sizeof(BreakableWallDebris), 0x2100, 0, NULL);
     debris = TASK_DATA(t);
     sprNew = &debris->s;
 
@@ -428,7 +428,7 @@ NONMATCH("asm/non_matching/game/interactables/breakable_wall__CreateBreakableWal
 }
 END_NONMATCH
 
-void Task_DebrisInit(void)
+void Task_Debris(void)
 {
     BreakableWallDebris *debris = TASK_DATA(gCurTask);
     Sprite *s = &debris->s;
