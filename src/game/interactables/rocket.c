@@ -31,7 +31,7 @@ typedef struct {
     /* 0xE8 */ Sprite sprites[4];
 } Rocket; /* 0x188 */
 
-void sub_8045DE4(void);
+void Task_RocketMain(void);
 void sub_804646C(struct Task *t);
 
 // const u8 gUnknown_080D0328[0x8] = {0, 24, 1, 2, 2, 1, 3, 1};
@@ -51,7 +51,7 @@ void CreateEntity_Rocket(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     memcpy(sp04, gUnknown_080D0328, sizeof(sp04));
     memcpy(sp0C, gUnknown_080D0330, sizeof(sp0C));
 
-    t = TaskCreate(sub_8045DE4, sizeof(Rocket), 0x2100, 0, sub_804646C);
+    t = TaskCreate(Task_RocketMain, sizeof(Rocket), 0x2100, 0, sub_804646C);
     rocket = TASK_DATA(t);
 
     rocket->base.regionX = regionX;
@@ -103,7 +103,6 @@ void CreateEntity_Rocket(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         }
 
         if (i != 0) {
-            // BUG(?): Shouldn't this happen for i == 0, too?
             tiles += sp04[i][1] * TILE_SIZE_4BPP;
         } else {
             UpdateSpriteAnimation(s);

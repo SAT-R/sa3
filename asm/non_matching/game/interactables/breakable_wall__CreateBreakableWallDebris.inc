@@ -30,7 +30,7 @@
 	add r0, sp, #4
 	movs r2, #0x48
 	bl memcpy
-	ldr r0, _0803502C @ =Task_DebrisInit
+	ldr r0, _0803502C @ =Task_Debris
 	movs r2, #0x84
 	lsls r2, r2, #6
 	movs r1, #0
@@ -80,7 +80,7 @@
 	b _0803504A
 	.align 2, 0
 _08035028: .4byte gUnknown_080CF638
-_0803502C: .4byte Task_DebrisInit
+_0803502C: .4byte Task_Debris
 _08035030: .4byte 0x03000010
 _08035034: .4byte gSineTable
 _08035038: .4byte 0x000003FF

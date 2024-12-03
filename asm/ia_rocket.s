@@ -5,11 +5,9 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
-	thumb_func_start sub_8045DE4
-sub_8045DE4: @ 0x08045DE4
+.if 01
+	thumb_func_start Task_RocketMain
+Task_RocketMain: @ 0x08045DE4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -21,12 +19,12 @@ sub_8045DE4: @ 0x08045DE4
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r6, r1, r0
+	adds r6, r1, r0     @ r6 = rocket
 	ldr r0, [r6]
-	str r0, [sp, #8]
+	str r0, [sp, #8]    @ sp08 = me
 	ldr r2, _08045F10 @ =0x030000E8
 	adds r2, r2, r1
-	mov r8, r2
+	mov r8, r2          @ r8 = s
 	ldr r7, [r6, #0x18]
 	movs r0, #0
 	strb r0, [r6, #0xa]
@@ -178,6 +176,7 @@ _08045F36:
 	pop {r0}
 	bx r0
 	.align 2, 0
+.endif
 
 	thumb_func_start sub_8045F48
 sub_8045F48: @ 0x08045F48
