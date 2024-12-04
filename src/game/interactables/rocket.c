@@ -20,27 +20,29 @@
 
 typedef struct {
     /* 0x00 */ SpriteBase5 base;
-    /* 0x0C */ s32 unkC;
+    /* 0x0C */ u16 unkC;
     /* 0x10 */ s32 qWorldX;
     /* 0x14 */ s32 qWorldY;
     /* 0x18 */ s16 worldX;
     /* 0x1A */ s16 worldY;
     /* 0x1C */ s32 qTop;
     /* 0x20 */ Vec2_16 unk20[16];
-    /* 0x60 */ Vec2_32 unk60[16];
+    /* 0x60 */ Vec2_32 qStarWorldPos[16];
     /* 0xE0 */ Player *players[NUM_SINGLE_PLAYER_CHARS];
     /* 0xE8 */ Sprite sprites[4];
 } Rocket; /* 0x188 */
 
 void Task_RocketMain(void);
 void Task_8045F48(void);
-void Task_8046298(void);
+void Task_UpdateStarParticles(void);
 void sub_804646C(struct Task *t);
+void sub_8046358(Rocket *rocket);
 void sub_8046438(Rocket *rocket);
 
 // const u8 gUnknown_080D0328[0x8] = {0, 24, 1, 2, 2, 1, 3, 1};
 extern const u8 gUnknown_080D0328[4][2];
 extern const s16 gUnknown_080D0330[16][4];
+extern const u8 gUnknown_080D03B0[0x10];
 
 void CreateEntity_Rocket(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -75,8 +77,8 @@ void CreateEntity_Rocket(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     rocket->qTop = rocket->qWorldY + Q(me->d.sData[1] * TILE_WIDTH);
 
     for (i = 0; i < 16; i++) {
-        rocket->unk60[i].x = sp0C[i][0] + rocket->qWorldX;
-        rocket->unk60[i].y = sp0C[i][1] + rocket->qTop;
+        rocket->qStarWorldPos[i].x = sp0C[i][0] + rocket->qWorldX;
+        rocket->qStarWorldPos[i].y = sp0C[i][1] + rocket->qTop;
         rocket->unk20[i].x = sp0C[i][2] >> 1;
         rocket->unk20[i].y = sp0C[i][3] >> 1;
     }
@@ -321,8 +323,8 @@ NONMATCH("asm/non_matching/game/interactables/rocket__Task_8045F48.inc", void Ta
                 }
             }
 
-            rocket->unkC = 90;
-            gCurTask->main = Task_8046298;
+            rocket->unkC = ZONE_TIME_TO_INT(0, 1.5);
+            gCurTask->main = Task_UpdateStarParticles;
             sub_8003E28(SE_ROCKET_ACCELERATING);
             sub_8003DF0(SE_ROCKET_EXPLODING);
         }
@@ -353,3 +355,36 @@ NONMATCH("asm/non_matching/game/interactables/rocket__Task_8045F48.inc", void Ta
     }
 }
 END_NONMATCH
+
+void Task_UpdateStarParticles(void)
+{
+    Rocket *rocket = TASK_DATA(gCurTask);
+    MapEntity *me = rocket->base.me;
+    u8 arr[0x10];
+    u8 i;
+    Vec2_32 *qPoint;
+    memcpy(arr, gUnknown_080D03B0, sizeof(arr));
+
+    if (--rocket->unkC == 0) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, rocket->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        sub_8046358(rocket);
+
+        if ((rocket->unkC < ZONE_TIME_TO_INT(0, 0.5)) && (rocket->unkC & 0x2)) {
+            return;
+        }
+        UpdateSpriteAnimation(&rocket->sprites[1]);
+        UpdateSpriteAnimation(&rocket->sprites[2]);
+        UpdateSpriteAnimation(&rocket->sprites[3]);
+
+        for (i = 0, qPoint = &rocket->qStarWorldPos[0]; i < (s32)ARRAY_COUNT(arr); i++) {
+            Sprite *s = &rocket->sprites[arr[i]];
+            s->x = I(qPoint->x) - gCamera.x;
+            s->y = I(qPoint->y) - gCamera.y;
+            qPoint++;
+            DisplaySprite(s);
+        }
+    }
+}

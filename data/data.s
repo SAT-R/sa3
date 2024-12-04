@@ -794,7 +794,7 @@ gUnknown_080D0330:
 
     .global gUnknown_080D03B0
 gUnknown_080D03B0:
-    .incbin "baserom.gba", 0x000D03B0, 0x10
+    .byte 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1
 
     .global gUnknown_080D03C0
 gUnknown_080D03C0:

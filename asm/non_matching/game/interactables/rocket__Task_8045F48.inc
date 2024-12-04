@@ -332,7 +332,7 @@ _080461C0:
 	strh r0, [r4, #0xc]
 	ldr r0, _0804626C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08046270 @ =Task_8046298
+	ldr r0, _08046270 @ =Task_UpdateStarParticles
 	str r0, [r1, #8]
 	ldr r0, _08046274 @ =0x00000256
 	bl sub_8003E28
@@ -404,7 +404,7 @@ _08046242:
 	.align 2, 0
 _08046268: .4byte 0xEFFFFFFF
 _0804626C: .4byte gCurTask
-_08046270: .4byte Task_8046298
+_08046270: .4byte Task_UpdateStarParticles
 _08046274: .4byte 0x00000256
 _08046278: .4byte 0x00000299
 _0804627C: .4byte gCamera
