@@ -7,6 +7,7 @@
 #include "lib/m4a/m4a.h"
 #include "game/camera.h"
 #include "game/entity.h"
+#include "game/parameters/interactables.h"
 #include "game/player.h"
 #include "game/player_callbacks.h"
 #include "game/stage.h"
@@ -19,7 +20,7 @@
 
 typedef struct {
     /* 0x00 */ SpriteBase5 base;
-    /* 0x0C */ u8 fillerC[0x4];
+    /* 0x0C */ s32 unkC;
     /* 0x10 */ s32 qWorldX;
     /* 0x14 */ s32 qWorldY;
     /* 0x18 */ s16 worldX;
@@ -33,6 +34,7 @@ typedef struct {
 
 void Task_RocketMain(void);
 void Task_8045F48(void);
+void Task_8046298(void);
 void sub_804646C(struct Task *t);
 void sub_8046438(Rocket *rocket);
 
@@ -172,6 +174,180 @@ NONMATCH("asm/non_matching/game/interactables/rocket__Task_RocketMain.inc", void
         SET_MAP_ENTITY_NOT_INITIALIZED(me, rocket->base.spriteX);
         sub_8003E28(SE_ROCKET_ACCELERATING);
         TaskDestroy(gCurTask);
+    } else {
+        sub_8046438(rocket);
+    }
+}
+END_NONMATCH
+
+// (91.18%) https://decomp.me/scratch/KKcmK
+NONMATCH("asm/non_matching/game/interactables/rocket__Task_8045F48.inc", void Task_8045F48(void))
+{
+    Rocket *rocket = TASK_DATA(gCurTask);
+    MapEntity *me = rocket->base.me;
+    Sprite *s = &rocket->sprites[0];
+    Player *p;
+    s32 worldPos; // sp10
+    s32 worldX, worldY;
+#ifndef NON_MATCHING
+    register s32 sb asm("sb");
+    register s32 sl asm("sl");
+    register s32 qWorldX asm("r5");
+    register s32 qWorldY asm("r6");
+#else
+    s32 sb;
+    s32 sl;
+    s32 qWorldX;
+    s32 qWorldY;
+#endif
+    u8 i;
+
+    qWorldX = rocket->qWorldX;
+    qWorldY = rocket->qWorldY;
+    worldPos = *(s32 *)&rocket->worldX;
+    qWorldY -= Q(6);
+    rocket->qWorldX = qWorldX;
+    rocket->qWorldY = qWorldY;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        p = rocket->players[i];
+
+        if (p->moveState & (MOVESTATE_1000000 | MOVESTATE_100)) {
+            rocket->base.unkA &= ~(1 << i * 2);
+            rocket->base.unkA |= (2 << i * 2);
+        }
+        // _08045FB4
+
+        if (!(rocket->base.unkA & (3 << i * 2))) {
+            u32 msMask = (p->moveState & (MOVESTATE_1000000 | MOVESTATE_100));
+            sl = I(qWorldX);
+            sb = I(qWorldY);
+
+            if (!msMask) {
+
+                if ((p->moveState & MOVESTATE_IN_AIR) && (p->qSpeedAirY > 0)) {
+                    // _08045FEC
+
+                    if (sub_8020700(s, sl, sb, 0, p, 0)) {
+                        // _08046000
+
+                        sub_8016F28(p);
+                        Player_800BE60(p);
+                        p->moveState |= MOVESTATE_COLLIDING_ENT;
+                        p->sprColliding = s;
+                        rocket->base.unkA |= (1 << i * 2);
+                    }
+                }
+            }
+        } else {
+            // _0804603C ^ else if
+            sl = I(qWorldX);
+            sb = I(qWorldY);
+
+            if (!(rocket->base.unkA & (1 << i * 2))) {
+                rocket->qWorldY -= Q(6);
+
+                if (!(p->moveState & MOVESTATE_COLLIDING_ENT) || (p->sprColliding != s)) {
+                    // _0804606A
+                    rocket->base.unkA &= ~(1 << i * 2);
+                    rocket->base.unkA |= (2 << i * 2);
+                }
+                // _0804607A
+
+                if ((p->callback == Player_800D944) || (p->callback != Player_800EB58)) {
+                    // _08046088
+                    p->moveState &= ~(MOVESTATE_10000000 | MOVESTATE_COLLIDING_ENT);
+                    p->sprColliding = NULL;
+                    rocket->base.unkA &= ~(1 << i * 2);
+                    rocket->base.unkA |= (2 << i * 2);
+                } else if (p->keyInput2 & gStageData.buttonConfig.jump) {
+                    // _080460B8+0xA
+                    rocket->base.unkA &= ~(1 << i * 2);
+                    rocket->base.unkA |= (2 << i * 2);
+                    p->moveState &= ~(MOVESTATE_10000000 | MOVESTATE_COLLIDING_ENT);
+                    p->sprColliding = NULL;
+                    p->qSpeedAirY = 0;
+                    p->qSpeedAirX = 0;
+
+                    if (p->unkC & 0x40) {
+                        SetPlayerCallback(p, Player_8006250);
+                        sl = I(qWorldX);
+                        sb = I(qWorldY);
+
+                        asm("" ::"r"(qWorldX), "r"(qWorldY));
+                    } else {
+                        SetPlayerCallback(p, Player_8006310);
+                        sl = I(qWorldX);
+                        sb = I(qWorldY);
+
+                        asm("" ::"r"(qWorldX), "r"(qWorldY));
+                    }
+                } else {
+                    // _08046128
+                    rocket->qWorldY += Q(IA_ROCKET_SPEED);
+
+                    if (!(p->moveState & MOVESTATE_FACING_LEFT)) {
+                        p->qWorldX -= Q(4);
+                    } else {
+                        // _0804614C
+                        p->qWorldX += Q(4);
+                    }
+                    sl = I(qWorldX);
+                    sb = I(qWorldY);
+                }
+            }
+        }
+    }
+    // _08046170
+
+    {
+        s32 qTop = rocket->qTop;
+        ;
+        worldX = (s16)worldPos;
+        worldY = (worldPos >> 16);
+
+        if (qWorldY < qTop) {
+            for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+                p = rocket->players[i];
+
+                if (GetBit(rocket->base.unkA, i * 2)) {
+                    Player_8009E8C(p);
+
+                    p->moveState &= ~MOVESTATE_10000000;
+                    p->moveState &= ~MOVESTATE_COLLIDING_ENT;
+                    p->sprColliding = NULL;
+                    p->qSpeedAirY = -Q(4);
+                    p->qSpeedAirX = +Q(0);
+                }
+            }
+
+            rocket->unkC = 90;
+            gCurTask->main = Task_8046298;
+            sub_8003E28(SE_ROCKET_ACCELERATING);
+            sub_8003DF0(SE_ROCKET_EXPLODING);
+        }
+    }
+    // _080461E8
+
+    if (!sub_802C140((s16)worldPos, worldPos >> 16, sl - gCamera.x, sb - gCamera.y)) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            p = rocket->players[i];
+
+            if (GetBit(rocket->base.unkA, i * 2)) {
+                Player_8009E8C(p);
+
+                p->moveState &= ~MOVESTATE_10000000;
+                p->moveState &= ~MOVESTATE_COLLIDING_ENT;
+                p->sprColliding = NULL;
+                p->qSpeedAirY = -Q(4);
+                p->qSpeedAirX = +Q(0);
+            }
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, rocket->base.spriteX);
+        TaskDestroy(gCurTask);
+        sub_8003E28(SE_ROCKET_ACCELERATING);
+        return;
     } else {
         sub_8046438(rocket);
     }
