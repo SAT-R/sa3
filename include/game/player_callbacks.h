@@ -68,6 +68,7 @@ extern void Player_CollideGroundAfterIceLauncher(Player *p);
 extern void Player_800BC38(Player *p);
 extern void Player_800BCE0(Player *p);
 extern void Player_800BD88(Player *p);
+extern void Player_800BE60(Player *p);
 extern void Player_800BEE8(Player *p);
 extern void Player_800D880(Player *p);
 extern void Player_800D944(Player *p);

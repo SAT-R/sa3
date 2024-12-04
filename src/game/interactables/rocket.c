@@ -32,7 +32,9 @@ typedef struct {
 } Rocket; /* 0x188 */
 
 void Task_RocketMain(void);
+void Task_8045F48(void);
 void sub_804646C(struct Task *t);
+void sub_8046438(Rocket *rocket);
 
 // const u8 gUnknown_080D0328[0x8] = {0, 24, 1, 2, 2, 1, 3, 1};
 extern const u8 gUnknown_080D0328[4][2];
@@ -109,3 +111,69 @@ void CreateEntity_Rocket(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         }
     }
 }
+
+// (94.46%) https://decomp.me/scratch/2IQPo
+NONMATCH("asm/non_matching/game/interactables/rocket__Task_RocketMain.inc", void Task_RocketMain(void))
+{
+    Rocket *rocket = TASK_DATA(gCurTask);
+    MapEntity *me = rocket->base.me;
+    Player *p;
+    s16 worldX, worldY;
+
+#ifndef NON_MATCHING
+    register Sprite *s asm("r8") = &rocket->sprites[0];
+    register s32 worldPos asm("r7") = *(s32 *)&rocket->worldX;
+    u8 i;
+    rocket->base.unkA = 0;
+#else
+    Sprite *s = &rocket->sprites[0];
+    s32 worldPos = *(s32 *)&rocket->worldX;
+    u8 i;
+    rocket->base.unkA = 0;
+#endif
+
+    for (i = 0, worldX = rocket->worldX, worldY = rocket->worldY; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        p = rocket->players[i];
+
+        if (!(p->moveState & (MOVESTATE_1000000 | MOVESTATE_100)) && (p->callback != Player_801D73C) && (p->moveState & MOVESTATE_IN_AIR)) {
+#ifndef NON_MATCHING
+            if (sub_8020700(s, (s16)worldPos, worldY, 0, p, 0))
+#else
+            if (sub_8020700(s, worldX, worldY, 0, p, 0))
+#endif
+            {
+                sub_8016F28(p);
+                Player_800BE60(p);
+                p->moveState |= MOVESTATE_COLLIDING_ENT;
+                p->sprColliding = s;
+                rocket->base.unkA |= (1 << (i * 2));
+            }
+        }
+    }
+
+    if (rocket->base.unkA) {
+        sub_8003DF0(SE_ROCKET_ACCELERATING);
+        gCurTask->main = Task_8045F48;
+    }
+
+    if (!sub_802C140((s16)worldPos, worldY, (s16)worldPos - gCamera.x, worldY - gCamera.y)) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            p = rocket->players[i];
+
+            if (GetBit(rocket->base.unkA, i * 2)) {
+                Player_8009E8C(p);
+
+                p->moveState &= ~MOVESTATE_10000000;
+                p->qSpeedAirY = -Q(4);
+                p->qSpeedAirX = Q(0);
+            }
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, rocket->base.spriteX);
+        sub_8003E28(SE_ROCKET_ACCELERATING);
+        TaskDestroy(gCurTask);
+    } else {
+        sub_8046438(rocket);
+    }
+}
+END_NONMATCH

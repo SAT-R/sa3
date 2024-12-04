@@ -24054,8 +24054,8 @@ _0800BE5A:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_800BE60
-sub_800BE60: @ 0x0800BE60
+	thumb_func_start Player_800BE60
+Player_800BE60: @ 0x0800BE60
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r0, _0800BED8 @ =gStageData
