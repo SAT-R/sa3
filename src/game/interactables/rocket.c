@@ -26,7 +26,7 @@ typedef struct {
     /* 0x18 */ s16 worldX;
     /* 0x1A */ s16 worldY;
     /* 0x1C */ s32 qTop;
-    /* 0x20 */ Vec2_16 unk20[16];
+    /* 0x20 */ Vec2_16 qStarSpeeds[16];
     /* 0x60 */ Vec2_32 qStarWorldPos[16];
     /* 0xE0 */ Player *players[NUM_SINGLE_PLAYER_CHARS];
     /* 0xE8 */ Sprite sprites[4];
@@ -35,7 +35,7 @@ typedef struct {
 void Task_RocketMain(void);
 void Task_8045F48(void);
 void Task_UpdateStarParticles(void);
-void sub_804646C(struct Task *t);
+void TaskDestructor_RocketMain(struct Task *t);
 void sub_8046358(Rocket *rocket);
 void sub_8046438(Rocket *rocket);
 
@@ -57,7 +57,7 @@ void CreateEntity_Rocket(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     memcpy(sp04, gUnknown_080D0328, sizeof(sp04));
     memcpy(sp0C, gUnknown_080D0330, sizeof(sp0C));
 
-    t = TaskCreate(Task_RocketMain, sizeof(Rocket), 0x2100, 0, sub_804646C);
+    t = TaskCreate(Task_RocketMain, sizeof(Rocket), 0x2100, 0, TaskDestructor_RocketMain);
     rocket = TASK_DATA(t);
 
     rocket->base.regionX = regionX;
@@ -79,8 +79,8 @@ void CreateEntity_Rocket(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     for (i = 0; i < 16; i++) {
         rocket->qStarWorldPos[i].x = sp0C[i][0] + rocket->qWorldX;
         rocket->qStarWorldPos[i].y = sp0C[i][1] + rocket->qTop;
-        rocket->unk20[i].x = sp0C[i][2] >> 1;
-        rocket->unk20[i].y = sp0C[i][3] >> 1;
+        rocket->qStarSpeeds[i].x = sp0C[i][2] >> 1;
+        rocket->qStarSpeeds[i].y = sp0C[i][3] >> 1;
     }
 
     SET_MAP_ENTITY_INITIALIZED(me);
@@ -375,6 +375,7 @@ void Task_UpdateStarParticles(void)
         if ((rocket->unkC < ZONE_TIME_TO_INT(0, 0.5)) && (rocket->unkC & 0x2)) {
             return;
         }
+
         UpdateSpriteAnimation(&rocket->sprites[1]);
         UpdateSpriteAnimation(&rocket->sprites[2]);
         UpdateSpriteAnimation(&rocket->sprites[3]);
@@ -387,4 +388,55 @@ void Task_UpdateStarParticles(void)
             DisplaySprite(s);
         }
     }
+}
+
+void sub_8046358(Rocket *rocket)
+{
+    Vec2_32 *qStarPoint = &rocket->qStarWorldPos[0];
+    Vec2_16 *qStarSpeeds = &rocket->qStarSpeeds[0];
+    u8 i;
+
+    if (rocket->unkC >= 26) {
+        s16 theta = rocket->unkC - 26;
+
+        s16 v = Q(0.25) - (COS_24_8(theta * 4) >> 2);
+        v = Q(0.25) - (COS_24_8(v * 4) >> 2);
+        v = Q(0.25) - (COS_24_8(v * 4) >> 2);
+        v = Q(0.375) - (((COS(v * 4)) * 3) >> 9);
+
+        if (v < 10) {
+            v = 10;
+        }
+
+        for (i = 0; i < 16; i++) {
+            qStarSpeeds->y += Q(16. / 256.);
+            qStarPoint->x += (qStarSpeeds->x * v) >> 5;
+            qStarPoint->y += (qStarSpeeds->y * v) >> 5;
+            qStarPoint++;
+            qStarSpeeds++;
+        }
+    } else {
+        for (i = 0; i < 16; i++) {
+            qStarSpeeds->y += Q(32. / 256.);
+            qStarPoint->x += qStarSpeeds->x;
+            qStarPoint->y += qStarSpeeds->y;
+            qStarPoint++;
+            qStarSpeeds++;
+        }
+    }
+}
+
+void sub_8046438(Rocket *rocket)
+{
+    Sprite *s = &rocket->sprites[0];
+    s->x = I(rocket->qWorldX) - gCamera.x;
+    s->y = I(rocket->qWorldY) - gCamera.y;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void TaskDestructor_RocketMain(struct Task *t)
+{
+    Rocket *rocket = TASK_DATA(t);
+    VramFree(rocket->sprites[0].tiles);
 }
