@@ -9374,7 +9374,7 @@ _08004AA4:
 	cmp r0, #7
 	bne _08004AD8
 	adds r0, r5, #0
-	bl sub_800613C
+	bl Player_800613C
 	b _08004B06
 	.align 2, 0
 _08004AD4: .4byte gStageData
@@ -12281,8 +12281,8 @@ _08006128:
 	.align 2, 0
 _08006138: .4byte Player_800D944
 
-	thumb_func_start sub_800613C
-sub_800613C: @ 0x0800613C
+	thumb_func_start Player_800613C
+Player_800613C: @ 0x0800613C
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	bl sub_8016F28
@@ -79184,7 +79184,7 @@ _08026618:
 	cmp r0, #7
 	bne _0802662C
 	adds r0, r5, #0
-	bl sub_800613C
+	bl Player_800613C
 	b _080265E8
 _0802662C:
 	adds r0, r5, #0

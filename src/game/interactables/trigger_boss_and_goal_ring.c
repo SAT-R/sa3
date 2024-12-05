@@ -8,6 +8,7 @@
 #include "game/player.h"
 #include "game/player_callbacks.h"
 #include "game/stage.h"
+#include "game/interactables/trigger_boss_and_goal_ring.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
@@ -17,8 +18,6 @@
 
 /* NOTE(Jace): Trigger for Bosses (Gmerl and main each) as well as the
                Trigger for the Stage Goal Ring (different from main Stage Goal Ring IA) */
-
-typedef struct Task *(*BossInitFunc)(u8 *param0, s32 worldX, s32 worldY);
 
 typedef struct {
     /* 0x00 */ BossInitFunc bossInit; // Maybe Boss creation func?
@@ -262,7 +261,7 @@ void Task_803E7DC(void)
 {
     TriggerBossOrGoal *trig = TASK_DATA(gCurTask);
 
-    if (!trig->unk2F) {
+    if (trig->unk2F == 0) {
         if (trig->bossTask) {
             TaskDestroy(trig->bossTask);
             trig->bossTask = NULL;

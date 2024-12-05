@@ -8,178 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start Task_GoalRingImplInit
-Task_GoalRingImplInit: @ 0x08046484
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #0xc
-	ldr r0, _0804655C @ =gCurTask
-	ldr r0, [r0]
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r1, r0, r1
-	ldr r2, _08046560 @ =0x0300000C
-	adds r2, r2, r0
-	mov r8, r2
-	ldr r0, [r1, #0x64]
-	lsls r0, r0, #0x10
-	lsrs r6, r0, #0x10
-	str r6, [sp, #8]
-	ldr r0, [r1, #0x68]
-	lsls r0, r0, #0x10
-	lsrs r4, r0, #0x10
-	mov sb, r4
-	bl sub_80467F0
-	ldr r0, _08046564 @ =gStageData
-	mov sl, r0
-	ldrb r1, [r0, #6]
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	ldr r2, _08046568 @ =gPlayers
-	adds r5, r0, r2
-	adds r0, r5, #0
-	adds r0, #0x2b
-	ldrb r1, [r0]
-	lsls r1, r1, #0x1e
-	lsrs r1, r1, #0x1e
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	adds r7, r0, r2
-	mov r1, sl
-	ldrb r0, [r1, #3]
-	cmp r0, #5
-	bne _08046574
-	ldr r0, [r5, #4]
-	movs r2, #0x80
-	lsls r2, r2, #1
-	mov sb, r2
-	ands r0, r2
-	cmp r0, #0
-	bne _0804650E
-	lsls r1, r6, #0x10
-	asrs r1, r1, #0x10
-	lsls r2, r4, #0x10
-	asrs r2, r2, #0x10
-	str r5, [sp]
-	str r0, [sp, #4]
-	mov r0, r8
-	movs r3, #0
-	bl sub_8020700
-	cmp r0, #0
-	bne _08046538
-_0804650E:
-	ldr r3, [r7, #4]
-	mov r0, sb
-	ands r3, r0
-	cmp r3, #0
-	bne _08046530
-	lsls r1, r6, #0x10
-	asrs r1, r1, #0x10
-	lsls r2, r4, #0x10
-	asrs r2, r2, #0x10
-	str r7, [sp]
-	str r3, [sp, #4]
-	mov r0, r8
-	movs r3, #0
-	bl sub_8020700
-	cmp r0, #0
-	bne _08046538
-_08046530:
-	mov r1, sl
-	ldrb r0, [r1, #4]
-	cmp r0, #5
-	bne _080465E0
-_08046538:
-	ldr r1, _0804656C @ =0x00000207
-	adds r0, r5, #0
-	bl Player_PlaySong
-	adds r0, r5, #0
-	bl sub_8016F28
-	ldr r1, _08046564 @ =gStageData
-	movs r0, #5
-	strb r0, [r1, #4]
-	ldr r1, _08046570 @ =sub_800613C
-	adds r0, r5, #0
-	bl SetPlayerCallback
-	bl sub_80469AC
-	b _080465E0
-	.align 2, 0
-_0804655C: .4byte gCurTask
-_08046560: .4byte 0x0300000C
-_08046564: .4byte gStageData
-_08046568: .4byte gPlayers
-_0804656C: .4byte 0x00000207
-_08046570: .4byte sub_800613C
-_08046574:
-	ldr r3, [r5, #4]
-	movs r0, #0x80
-	lsls r0, r0, #1
-	ands r3, r0
-	cmp r3, #0
-	bne _080465E0
-	ldr r2, [sp, #8]
-	lsls r1, r2, #0x10
-	asrs r1, r1, #0x10
-	mov r0, sb
-	lsls r2, r0, #0x10
-	asrs r2, r2, #0x10
-	str r5, [sp]
-	str r3, [sp, #4]
-	mov r0, r8
-	movs r3, #0
-	bl sub_8020700
-	cmp r0, #0
-	beq _080465E0
-	ldr r1, _080465CC @ =0x00000207
-	adds r0, r5, #0
-	bl Player_PlaySong
-	adds r0, r5, #0
-	bl sub_8016F28
-	movs r0, #5
-	mov r1, sl
-	strb r0, [r1, #4]
-	ldrb r0, [r1, #3]
-	cmp r0, #4
-	beq _080465D4
-	ldr r4, _080465D0 @ =sub_800613C
-	adds r0, r5, #0
-	adds r1, r4, #0
-	bl SetPlayerCallback
-	adds r0, r7, #0
-	adds r1, r4, #0
-	bl SetPlayerCallback
-	b _080465DC
-	.align 2, 0
-_080465CC: .4byte 0x00000207
-_080465D0: .4byte sub_800613C
-_080465D4:
-	ldr r1, _080465F0 @ =Player_8005BD4
-	adds r0, r5, #0
-	bl SetPlayerCallback
-_080465DC:
-	bl sub_80469AC
-_080465E0:
-	add sp, #0xc
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080465F0: .4byte Player_8005BD4
-
 	thumb_func_start sub_80465F4
 sub_80465F4: @ 0x080465F4
 	push {r4, r5, r6, r7, lr}
@@ -492,9 +320,9 @@ _08046860: .4byte gCamera
 CreateGoalRing: @ 0x08046864
 	push {r4, r5, r6, r7, lr}
 	sub sp, #4
-	adds r4, r0, #0
-	adds r6, r1, #0
-	adds r5, r2, #0
+	adds r4, r0, #0     @ r4 = u8*
+	adds r6, r1, #0     @ r6 = worldX
+	adds r5, r2, #0     @ r5 = worldY
 	ldr r0, _080468D4 @ =Task_GoalRingImplInit
 	movs r2, #0x84
 	lsls r2, r2, #6
@@ -507,7 +335,7 @@ CreateGoalRing: @ 0x08046864
 	ldrh r1, [r7, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r3, r1, r0
+	adds r3, r1, r0     @ r3 = ring
 	adds r0, #0xc
 	adds r2, r1, r0
 	str r4, [r3, #0x5c]
@@ -537,7 +365,7 @@ _0804689E:
 	ldrb r0, [r0, #3]
 	cmp r0, #5
 	bne _080468C8
-	ldr r0, _080468E0 @ =sub_8046900
+	ldr r0, _080468E0 @ =Task_8046900
 	str r0, [r7, #8]
 _080468C8:
 	adds r0, r7, #0
@@ -549,7 +377,7 @@ _080468C8:
 _080468D4: .4byte Task_GoalRingImplInit
 _080468D8: .4byte Task_GoalRingImpl
 _080468DC: .4byte gStageData
-_080468E0: .4byte sub_8046900
+_080468E0: .4byte Task_8046900
 
 	thumb_func_start Task_GoalRingImpl
 Task_GoalRingImpl: @ 0x080468E4
@@ -566,8 +394,8 @@ Task_GoalRingImpl: @ 0x080468E4
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8046900
-sub_8046900: @ 0x08046900
+	thumb_func_start Task_8046900
+Task_8046900: @ 0x08046900
 	push {r4, lr}
 	ldr r4, _08046920 @ =gCurTask
 	ldr r2, [r4]

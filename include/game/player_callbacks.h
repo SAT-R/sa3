@@ -10,6 +10,7 @@ extern void Player_8005380(Player *p);
 extern void Player_8005528(Player *p);
 extern void Player_8005BD4(Player *p);
 extern void Player_8005E80(Player *p);
+extern void Player_800613C(Player *p); // Goal Ring touch
 extern void Player_8006250(Player *p);
 extern void Player_8006310(Player *p);
 extern void Player_8006CF0(Player *p);
