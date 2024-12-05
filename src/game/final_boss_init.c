@@ -3,7 +3,7 @@
 void sub_80581F0(void);
 void sub_807B6C8(void *unk);
 
-struct Task *sub_80581C8(void *unk)
+struct Task *CreateBoss_80581C8(void *unk)
 {
     sub_807B6C8(unk);
 

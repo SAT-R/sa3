@@ -8,8 +8,8 @@
 .if 0
 .endif
 
-	thumb_func_start sub_8046484
-sub_8046484: @ 0x08046484
+	thumb_func_start Task_GoalRingImplInit
+Task_GoalRingImplInit: @ 0x08046484
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -488,17 +488,17 @@ _0804685A:
 	.align 2, 0
 _08046860: .4byte gCamera
 
-	thumb_func_start sub_8046864
-sub_8046864: @ 0x08046864
+	thumb_func_start CreateGoalRing
+CreateGoalRing: @ 0x08046864
 	push {r4, r5, r6, r7, lr}
 	sub sp, #4
 	adds r4, r0, #0
 	adds r6, r1, #0
 	adds r5, r2, #0
-	ldr r0, _080468D4 @ =sub_8046484
+	ldr r0, _080468D4 @ =Task_GoalRingImplInit
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _080468D8 @ =sub_80468E4
+	ldr r1, _080468D8 @ =Task_GoalRingImpl
 	str r1, [sp]
 	movs r1, #0x6c
 	movs r3, #0
@@ -546,13 +546,13 @@ _080468C8:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_080468D4: .4byte sub_8046484
-_080468D8: .4byte sub_80468E4
+_080468D4: .4byte Task_GoalRingImplInit
+_080468D8: .4byte Task_GoalRingImpl
 _080468DC: .4byte gStageData
 _080468E0: .4byte sub_8046900
 
-	thumb_func_start sub_80468E4
-sub_80468E4: @ 0x080468E4
+	thumb_func_start Task_GoalRingImpl
+Task_GoalRingImpl: @ 0x080468E4
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0
@@ -646,7 +646,7 @@ sub_804697C: @ 0x0804697C
 	lsrs r0, r0, #0x10
 	cmp r0, #8
 	bls _0804699C
-	ldr r0, _080469A8 @ =sub_8046484
+	ldr r0, _080469A8 @ =Task_GoalRingImplInit
 	str r0, [r2, #8]
 _0804699C:
 	bl sub_80467F0
@@ -654,7 +654,7 @@ _0804699C:
 	bx r0
 	.align 2, 0
 _080469A4: .4byte gCurTask
-_080469A8: .4byte sub_8046484
+_080469A8: .4byte Task_GoalRingImplInit
 
 	thumb_func_start sub_80469AC
 sub_80469AC: @ 0x080469AC

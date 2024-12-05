@@ -568,8 +568,24 @@ sBonusLifeIconVariants:
 
     .global gUnknown_080CFA58
 gUnknown_080CFA58:
-    .4byte CreateGmerl1
-    .incbin "baserom.gba", 0x000CFA5C, (0x10 + 17 * 0x14)
+    .4byte CreateGmerl1, -1, 0x1D40, 0, 0xC60
+    .4byte CreateGmerl1, -1, 0x1FE0, 0, 0xB40
+    .4byte CreateGmerl1, -1, 0x32A0, 0, 0x660
+    .4byte CreateGmerl1, -1, 0x0960, -1, -1
+    .4byte CreateBoss_8068B3C, -1, 0x0960, -1, -1
+    .4byte CreateBoss_806A90C, -1, -1, -1, -1
+    .4byte CreateBoss_806D1A0, -1, -1, -1, -1
+    .4byte CreateBoss_806EADC, -1, 0x8A0, -1, -1
+    .4byte CreateBoss_8071A08, -1, 0x7E0, -1, -1
+    .4byte CreateBoss_8073640, -1, 0x9C0, 0, 0x1E0
+    .4byte CreateBoss_8074E88, -1, 0x6C0, -1, -1
+    .4byte CreateBoss_80581C8, -1, -1, -1, -1
+    .4byte NULL, 0, 0, 0, 0
+    .4byte NULL, 0, 0, 0, 0
+    .4byte NULL, 0, 0, 0, 0
+    .4byte NULL, 0, 0, 0, 0
+    .4byte NULL, 0, 0, 0, 0
+    .4byte CreateGoalRing, -1, -1, -1, -1
 
     .global sUfoActs
 sUfoActs:

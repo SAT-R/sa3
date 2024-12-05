@@ -3945,8 +3945,8 @@ _08067E8C:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_08067EA0
-sub_08067EA0: @ 0x08067EA0
+	thumb_func_start sub_8067EA0
+sub_8067EA0: @ 0x08067EA0
 	push {r4, r5, r6, lr}
 	ldr r1, _08067EE8 @ =gStageData
 	adds r1, #0x88
@@ -5626,8 +5626,8 @@ _08068B34: .4byte 0x00000514
 _08068B38: .4byte 0x0000FFFF
 
     @ Called on init of Boss 1
-	thumb_func_start sub_8068B3C
-sub_8068B3C: @ 0x08068B3C
+	thumb_func_start CreateBoss_8068B3C
+CreateBoss_8068B3C: @ 0x08068B3C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -9503,8 +9503,8 @@ sub_806A908: @ 0x0806A908
 	.align 2, 0
     
     @ Called on init of Boss 2
-	thumb_func_start sub_806A90C
-sub_806A90C: @ 0x0806A90C
+	thumb_func_start CreateBoss_806A90C
+CreateBoss_806A90C: @ 0x0806A90C
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -14854,8 +14854,8 @@ _0806D198:
 _0806D19C: .4byte 0xFFFFFF00
 
     @ Called on init of Boss 3
-	thumb_func_start sub_806D1A0
-sub_806D1A0: @ 0x0806D1A0
+	thumb_func_start CreateBoss_806D1A0
+CreateBoss_806D1A0: @ 0x0806D1A0
 	push {r4, r5, r6, r7, lr}
 	sub sp, #4
 	adds r5, r0, #0
@@ -18184,8 +18184,8 @@ _0806EAB8:
 	.align 2, 0
 
     @ Called on init of Boss 4
-	thumb_func_start sub_806EADC
-sub_806EADC: @ 0x0806EADC
+	thumb_func_start CreateBoss_806EADC
+CreateBoss_806EADC: @ 0x0806EADC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -24368,8 +24368,8 @@ _08071A00:
 	.byte 0x70, 0x47, 0x00, 0x00, 0x70, 0x47, 0x00, 0x00
 
     @ Called on init of Boss 5
-	thumb_func_start sub_8071A08
-sub_8071A08: @ 0x08071A08
+	thumb_func_start CreateBoss_8071A08
+CreateBoss_8071A08: @ 0x08071A08
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -27991,8 +27991,8 @@ _0807362E:
 _0807363C: .4byte gCamera
 
     @ Called on init of Boss 6
-	thumb_func_start sub_8073640
-sub_8073640: @ 0x08073640
+	thumb_func_start CreateBoss_8073640
+CreateBoss_8073640: @ 0x08073640
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -31089,8 +31089,8 @@ sub_8074E4C: @ 0x08074E4C
 	.align 2, 0
     
     @ Called on init of Boss 7
-	thumb_func_start sub_8074E88
-sub_8074E88: @ 0x08074E88
+	thumb_func_start CreateBoss_8074E88
+CreateBoss_8074E88: @ 0x08074E88
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -41838,7 +41838,7 @@ _0807A1B6:
 	lsls r1, r3, #0x10
 	asrs r1, r1, #0x10
 	adds r0, r2, #0
-	bl sub_08067EA0
+	bl sub_8067EA0
 	b _0807A1D8
 _0807A1C2:
 	lsls r1, r3, #0x10
