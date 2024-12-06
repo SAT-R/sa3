@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable115
-CreateEntity_Interactable115: @ 0x0804862C
+	thumb_func_start CreateEntity_PandaCart
+CreateEntity_PandaCart: @ 0x0804862C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8

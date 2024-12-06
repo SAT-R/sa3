@@ -359,7 +359,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_FerrisWheel
     .4byte CreateEntity_WindupBlock
     .4byte CreateEntity_Minecart
-    .4byte CreateEntity_Interactable115
+    .4byte CreateEntity_PandaCart
     .4byte CreateEntity_Interactable116
     .4byte CreateEntity_Interactable117
     .4byte CreateEntity_Interactable118

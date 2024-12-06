@@ -11,27 +11,7 @@
 #include "game/player.h"
 #include "game/player_callbacks.h"
 #include "game/stage.h"
-
-#include "constants/animations.h"
-#include "constants/anim_sizes.h"
-#include "constants/move_states.h"
-#include "constants/songs.h"
-#include "constants/zones.h"
-#include "global.h"
-#include "module_unclear.h"
-#include "core.h"
-#include "sprite.h"
-#include "trig.h"
-#include "malloc_vram.h"
-#include "lib/m4a/m4a.h"
-#include "game/camera.h"
-#include "game/entity.h"
-#include "game/parameters/interactables.h"
-#include "game/player.h"
-#include "game/player_callbacks.h"
-#include "game/stage.h"
 #include "game/interactables/trigger_boss_and_goal_ring.h"
-
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
 #include "constants/move_states.h"
@@ -57,6 +37,9 @@ void sub_80469E0(void);
 
 void Task_GoalRingImplInit(void);
 void TaskDestructor_GoalRingImpl(struct Task *);
+
+// BossInitFunc CreateGoalRing;
+struct Task *CreateGoalRing(u8 *param0, s32 worldX, s32 worldY);
 
 void Task_GoalRingImplInit(void)
 {
@@ -223,7 +206,7 @@ struct Task *CreateGoalRing(u8 *param0, s32 worldX, s32 worldY)
     ring->worldY = worldY;
 
     for (i = 0; i < (s32)ARRAY_COUNT(ring->sprites); i++, s++) {
-        // NOTE: Sprite-pos initted to world-, not screen-pos
+        // NOTE: Sprite initialized to world-, not screen-pos
         s->x = worldX;
         s->y = worldY;
     }
