@@ -27791,8 +27791,8 @@ _0800DB5E:
 	.align 2, 0
 _0800DB78: .4byte sub_800DF10
 
-	thumb_func_start sub_800DB7C
-sub_800DB7C: @ 0x0800DB7C
+	thumb_func_start Player_800DB7C
+Player_800DB7C: @ 0x0800DB7C
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r0, [r4, #4]

@@ -80,6 +80,7 @@ extern void Player_800D9B4(Player *p); // GrindRail-related
 extern void SetPlayerCallback(Player *p, PlayerCallback callback);
 extern void Player_800DAF4(Player *p);
 extern void Player_800DB30(Player *p);
+extern void Player_800DB7C(Player *p);
 extern void Player_800DBE8(Player *p);
 extern void Player_800DCB4(Player *p);
 extern void Player_800DD0C(Player *p);

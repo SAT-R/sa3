@@ -5,6 +5,7 @@
 #include "game/entity.h" // SpriteBase
 
 #define NUM_SINGLE_PLAYER_CHARS 2
+#define NUM_MULTI_PLAYER_CHARS  4
 
 #define MAX_PLAYER_NAME_LENGTH 6
 
@@ -222,7 +223,7 @@ struct Player {
     u8 Padding8[0x8];
 };
 
-extern Player gPlayers[4];
+extern Player gPlayers[NUM_MULTI_PLAYER_CHARS];
 
 void sub_80213F0(Player *p);
 bool32 sub_802C080(Player *p); // Player_Hurt ?

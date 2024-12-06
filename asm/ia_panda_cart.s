@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start Task_PandaCartInit
 Task_PandaCartInit: @ 0x08048714
 	push {r4, r5, r6, r7, lr}
@@ -21,17 +19,17 @@ Task_PandaCartInit: @ 0x08048714
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r5, r1, r0
+	adds r5, r1, r0     @ r5 = cart
 	adds r0, #0xc
 	adds r0, r0, r1
-	mov r8, r0
+	mov r8, r0          @ r8 = s
 	ldr r0, [r5, #0x3c]
 	asrs r0, r0, #8
-	mov sl, r0
+	mov sl, r0          @ sl = worldX
 	ldr r0, [r5, #0x40]
-	asrs r7, r0, #8
+	asrs r7, r0, #8     @ r7 = worldY
 	movs r1, #0
-	mov sb, r1
+	mov sb, r1          @ sb = 0
 _08048740:
 	lsls r0, r1, #0x10
 	adds r6, r0, #0
@@ -56,7 +54,7 @@ _08048762:
 	adds r0, r0, r1
 	lsls r0, r0, #4
 	ldr r1, _08048840 @ =gPlayers
-	adds r4, r0, r1
+	adds r4, r0, r1     @ r4 = p
 	adds r0, r4, #0
 	bl sub_802C0D4
 	adds r2, r0, #0
@@ -81,17 +79,17 @@ _08048790:
 	str r4, [sp]
 	str r2, [sp, #4]
 	mov r0, r8
-	mov r1, sl
+	mov r1, sl          @ r1 = sl = worldX
 	adds r2, r7, #0
 	movs r3, #1
 	bl sub_8020700
 	adds r2, r0, #0
 	cmp r2, #0
 	beq _0804885C
-	adds r0, r4, #0
+	adds r0, r4, #0     @ r0 = r4 = p
 	bl sub_8016F28
 	adds r0, r4, #0
-	ldr r1, _08048850 @ =sub_800DB7C
+	ldr r1, _08048850 @ =Player_800DB7C
 	bl SetPlayerCallback
 	ldr r0, [r4, #4]
 	movs r1, #0x20
@@ -117,7 +115,7 @@ _080487D8:
 	adds r0, r0, r1
 	lsls r0, r0, #4
 	ldr r1, _08048840 @ =gPlayers
-	adds r1, r0, r1
+	adds r1, r0, r1     @ r1 = &gPlayers[j]
 	cmp r1, r4
 	beq _0804880A
 	ldr r3, [r1, #4]
@@ -145,22 +143,22 @@ _0804880A:
 	movs r1, #0xc0
 	lsls r1, r1, #2
 	str r1, [r5, #0x44]
-	ldrb r0, [r6]
+	ldrb r0, [r6]       @ r0 = cart->unk54
 	cmp r0, #0
 	beq _08048828
 	rsbs r0, r1, #0
 	str r0, [r5, #0x44]
 _08048828:
 	mov r1, sb
-	mov r0, ip
+	mov r0, ip          @ r0 = &cart->unk55
 	strb r1, [r0]
 	movs r0, #1
-	strb r0, [r7]
+	strb r0, [r7]       @ cart->unk56 = 1
 	mov r1, r8
 	strb r0, [r1, #0x1a]
 	ldr r0, _08048854 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08048858 @ =sub_804891C
+	ldr r0, _08048858 @ =Task_804891C
 	str r0, [r1, #8]
 	b _08048906
 	.align 2, 0
@@ -168,14 +166,14 @@ _08048840: .4byte gPlayers
 _08048844: .4byte Player_8008A8C
 _08048848: .4byte Player_800ED80
 _0804884C: .4byte Player_800DCB4
-_08048850: .4byte sub_800DB7C
+_08048850: .4byte Player_800DB7C
 _08048854: .4byte gCurTask
-_08048858: .4byte sub_804891C
+_08048858: .4byte Task_804891C
 _0804885C:
 	mov r0, sb
 	str r0, [sp]
 	mov r0, r8
-	mov r1, sl
+	mov r1, sl          @ r1 = sl = worldX
 	adds r2, r7, #0
 	adds r3, r4, #0
 	bl sub_8020950
@@ -273,9 +271,10 @@ _08048906:
 	bx r0
 	.align 2, 0
 _08048918: .4byte 0xFFFFFF00
+.endif
 
-	thumb_func_start sub_804891C
-sub_804891C: @ 0x0804891C
+	thumb_func_start Task_804891C
+Task_804891C: @ 0x0804891C
 	push {r4, r5, r6, lr}
 	ldr r0, _08048958 @ =gCurTask
 	ldr r0, [r0]
