@@ -36,6 +36,7 @@ typedef struct {
 
 void Task_PandaCartInit(void);
 void Task_804891C(void);
+void sub_8048A50(void);
 void sub_8048C18(void);
 void TaskDestructor_PandaCart(struct Task *t);
 
@@ -150,3 +151,42 @@ void Task_PandaCartInit(void)
 
     sub_8048C18();
 }
+
+#if 0
+void Task_804891C(void)
+{
+	PandaCart *cart = TASK_DATA(gCurTask);
+    Sprite *s = &cart->s;
+
+	sub_8048A50();
+
+	if (cart->unk56 == 2) {
+        s16 unk55 = cart->unk55;
+        s16 theta;
+
+		if ((unk55 != 0) && (unk55 <= 0x40)) {
+            cart->unk44 += Q(16. / 256.);
+        } else {
+            // _08048960
+			if (unk55 > 0x40) {
+				cart->unk44 -= Q(16. / 256.);
+			}
+        }
+		// _08048970
+
+		if (ABS(cart->unk44) > Q(4)) {
+            if (cart->unk44 < 0) {
+                cart->unk44 = -Q(4);
+            } else {
+                cart->unk44 = +Q(4);
+            }
+		}
+		// _08048992
+		{
+            cart->unk48 = Q_MUL(cart->unk44, COS_24_8(unk55 * 4));
+            cart->unk4C = Q_MUL(cart->unk44, SIN_24_8(unk55 * 4));
+    } else if ((cart->unk56 == 3) || (cart->unk56 == 1)) {
+		// _080489CC
+    }
+}
+#endif

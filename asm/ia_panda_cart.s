@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start Task_804891C
 Task_804891C: @ 0x0804891C
 	push {r4, r5, r6, lr}
@@ -16,9 +14,9 @@ Task_804891C: @ 0x0804891C
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r5, r4, r0
+	adds r5, r4, r0		@ r5 = cart
 	adds r0, #0xc
-	adds r6, r4, r0
+	adds r6, r4, r0		@ r6 = s
 	bl sub_8048A50
 	ldr r1, _0804895C @ =0x03000056
 	adds r0, r4, r1
@@ -171,6 +169,7 @@ _08048A44:
 	pop {r0}
 	bx r0
 	.align 2, 0
+.endif
 
 	thumb_func_start sub_8048A50
 sub_8048A50: @ 0x08048A50
