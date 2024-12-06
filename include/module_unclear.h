@@ -103,7 +103,10 @@ s32 sub_80519EC(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4, vo
 s32 sub_8051F54(s32 worldX, s32 worldY, s32 param2);
 s32 sub_8052418(s32 worldX, s32 worldY, s32 param2, s32 param3, void *callback);
 void sub_8057AA0(u16, u16, u8);
+void sub_8053128(s16, s16);
 bool32 sub_805C510(Sprite *s);
+bool8 sub_8079FFC(void);
+bool8 sub_807A074(void);
 void sub_8097C54(u16);
 
 void sub_80C0CA8(Sprite *s, Vec2_16 *positions, u16 count);
