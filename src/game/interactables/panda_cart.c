@@ -36,6 +36,7 @@ typedef struct {
 
 void Task_PandaCartInit(void);
 void Task_804891C(void);
+void sub_8048C18(void);
 void TaskDestructor_PandaCart(struct Task *t);
 
 void sub_8048FF8(Sprite *);
@@ -75,36 +76,32 @@ void CreateEntity_PandaCart(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     sub_8048D98(cart);
 }
 
-#if 0
 void Task_PandaCartInit(void)
 {
     PandaCart *cart = TASK_DATA(gCurTask);
     Sprite *s = &cart->s;
     s32 worldX, worldY;
+    s32 res;
     s16 i, j;
 
     worldX = I(cart->qWorldX);
     worldY = I(cart->qWorldY);
 
-    for(i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         Player *p = GET_SP_PLAYER_V0(i);
-        if(!sub_802C0D4(p)
-        && (p->callback != Player_8008A8C)
-        && (p->callback != Player_800ED80)) {
-            if((p->callback != Player_800DCB4)
-            && sub_8020700(s, worldX, worldY, 1, p, 0)) {
+        if (!sub_802C0D4(p) && (p->callback != Player_8008A8C) && (p->callback != Player_800ED80)) {
+            if ((p->callback != Player_800DCB4) && (res = sub_8020700(s, worldX, worldY, 1, p, 0))) {
                 sub_8016F28(p);
                 SetPlayerCallback(p, Player_800DB7C);
 
                 p->moveState |= MOVESTATE_COLLIDING_ENT;
                 p->sprColliding = s;
+                cart->player = p;
 
                 // Remove Cart collision from other players
-                for(j = 0; j < NUM_MULTI_PLAYER_CHARS; j++) {
+                for (j = 0; j < NUM_MULTI_PLAYER_CHARS; j++) {
                     Player *chkPlayer = &gPlayers[j];
-                    if((chkPlayer != p)
-                    && (chkPlayer->moveState & MOVESTATE_COLLIDING_ENT)
-                    && (chkPlayer->sprColliding == s)) {
+                    if ((chkPlayer != p) && (chkPlayer->moveState & MOVESTATE_COLLIDING_ENT) && (chkPlayer->sprColliding == s)) {
                         chkPlayer->moveState &= ~MOVESTATE_COLLIDING_ENT;
                         chkPlayer->sprColliding = NULL;
                     }
@@ -112,7 +109,7 @@ void Task_PandaCartInit(void)
 
                 cart->unk44 = Q(3);
 
-                if(cart->unk54 != 0) {
+                if (cart->unk54 != 0) {
                     NEGATE(cart->unk44);
                 }
 
@@ -120,10 +117,36 @@ void Task_PandaCartInit(void)
                 cart->unk56 = 1;
                 s->variant = 1;
                 gCurTask->main = Task_804891C;
+                return;
             } else {
-                // _0804885C
+                res = sub_8020950(s, worldX, worldY, p, 0);
+                if (res & 0x10000) {
+                    p->qWorldY += Q_8_8(res);
+                } else if (res & 0x20000) {
+                    p->qWorldY += Q_8_8(res) + Q(1);
+                    p->qSpeedAirY = 0;
+                }
+
+                if (res & 0xC0000) {
+                    if (res & 0x80000) {
+                        if (p->keyInput & DPAD_RIGHT) {
+                            p->qWorldX += Q(1);
+                            p->moveState |= MOVESTATE_40;
+                        }
+                    } else {
+                        if (p->keyInput & DPAD_LEFT) {
+                            p->qWorldX -= Q(1);
+                            p->moveState |= MOVESTATE_40;
+                        }
+                    }
+
+                    p->qWorldX += Q_8_8((s16)res >> 8);
+                    p->qSpeedAirX = 0;
+                    p->qSpeedGround = 0;
+                }
             }
         }
     }
+
+    sub_8048C18();
 }
-#endif
