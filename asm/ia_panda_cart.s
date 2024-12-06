@@ -5,118 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_PandaCart
-CreateEntity_PandaCart: @ 0x0804862C
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	sub sp, #4
-	mov sb, r0
-	adds r5, r1, #0
-	adds r6, r2, #0
-	mov r8, r3
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x10
-	lsrs r6, r6, #0x10
-	mov r0, r8
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	mov r8, r0
-	ldr r0, _080486FC @ =sub_8048714
-	movs r1, #0x98
-	lsls r1, r1, #1
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r3, _08048700 @ =sub_8048FE4
-	str r3, [sp]
-	movs r3, #0
-	bl TaskCreate
-	ldrh r0, [r0, #6]
-	movs r4, #0xc0
-	lsls r4, r4, #0x12
-	adds r4, r0, r4
-	movs r3, #0
-	movs r2, #0
-	strh r5, [r4, #4]
-	strh r6, [r4, #6]
-	mov r1, sb
-	str r1, [r4]
-	ldrb r1, [r1]
-	strb r1, [r4, #0xa]
-	mov r7, r8
-	strb r7, [r4, #0xb]
-	mov r7, sb
-	ldrb r1, [r7]
-	lsls r1, r1, #3
-	lsls r5, r5, #8
-	adds r1, r1, r5
-	lsls r1, r1, #8
-	str r1, [r4, #0x3c]
-	ldrb r1, [r7, #1]
-	lsls r1, r1, #3
-	lsls r6, r6, #8
-	adds r1, r1, r6
-	lsls r1, r1, #8
-	str r1, [r4, #0x40]
-	str r2, [r4, #0x44]
-	str r2, [r4, #0x48]
-	str r2, [r4, #0x4c]
-	str r2, [r4, #0x50]
-	ldrb r2, [r7, #7]
-	movs r1, #1
-	ands r1, r2
-	ldr r5, _08048704 @ =0x03000054
-	adds r2, r0, r5
-	strb r1, [r2]
-	ldr r7, _08048708 @ =0x03000055
-	adds r1, r0, r7
-	strb r3, [r1]
-	ldr r2, _0804870C @ =0x03000056
-	adds r1, r0, r2
-	strb r3, [r1]
-	adds r5, #3
-	adds r1, r0, r5
-	strb r3, [r1]
-	subs r7, #0x49
-	adds r0, r0, r7
-	ldr r1, [r4, #0x3c]
-	asrs r1, r1, #8
-	ldr r3, _08048710 @ =gCamera
-	ldr r2, [r3]
-	subs r1, r1, r2
-	strh r1, [r0, #0x10]
-	ldr r1, [r4, #0x40]
-	asrs r1, r1, #8
-	ldr r2, [r3, #4]
-	subs r1, r1, r2
-	strh r1, [r0, #0x12]
-	movs r2, #2
-	rsbs r2, r2, #0
-	adds r1, r2, #0
-	mov r5, sb
-	strb r1, [r5]
-	bl sub_8048FF8
-	adds r0, r4, #0
-	bl sub_8048D98
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080486FC: .4byte sub_8048714
-_08048700: .4byte sub_8048FE4
-_08048704: .4byte 0x03000054
-_08048708: .4byte 0x03000055
-_0804870C: .4byte 0x03000056
-_08048710: .4byte gCamera
+.if 0
+.endif
 
-	thumb_func_start sub_8048714
-sub_8048714: @ 0x08048714
+	thumb_func_start Task_PandaCartInit
+Task_PandaCartInit: @ 0x08048714
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1281,8 +1174,8 @@ _08048FCA:
 	.align 2, 0
 _08048FE0: .4byte gCamera
 
-	thumb_func_start sub_8048FE4
-sub_8048FE4: @ 0x08048FE4
+	thumb_func_start TaskDestructor_PandaCart
+TaskDestructor_PandaCart: @ 0x08048FE4
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
