@@ -163,9 +163,9 @@ void Task_804891C(void)
     if (cart->unk56 == 2) {
         s16 theta = cart->unk55;
 
-        if ((theta != 0) && (theta <= 0x40)) {
+        if ((theta != 0) && (theta <= +Q(0.25))) {
             cart->unk44 += Q(16. / 256.);
-        } else if (theta >= 0xC0) {
+        } else if (theta >= (u8)-Q(0.25)) {
             cart->unk44 -= Q(16. / 256.);
         }
 
@@ -213,4 +213,97 @@ void Task_804891C(void)
     }
 
     sub_8048C18();
+}
+
+void sub_8048A50(void)
+{
+    PandaCart *cart = TASK_DATA(gCurTask);
+    s32 r2, r7;
+    u8 sp08;
+    s32 res;
+    u8 idx;
+
+    sp08 = cart->unk55;
+
+    r7 = -(SIN(sp08 * 4) * 24) >> 6;
+    r2 = +(COS(sp08 * 4) * 24) >> 6;
+
+    sp08 = (u8)(sp08 + 0x20);
+    idx = sp08 >> 6;
+    switch (sp08 >> 6) {
+        case 0: {
+            res = sub_80517FC(I(cart->qWorldY + r2), I(cart->qWorldX + r7), 1, +8, &sp08, sub_805217C);
+
+            if (res < 8) {
+                cart->qWorldY += Q(res);
+
+                if (!(sp08 & 0x1)) {
+                    cart->unk55 = sp08;
+                }
+            }
+        } break;
+
+        case 1: {
+            res = sub_80517FC(I(cart->qWorldX + r7), I(cart->qWorldY + r2), 1, -8, &sp08, sub_805203C);
+
+            if (res < 8) {
+                cart->qWorldX -= Q(res);
+
+                if (!(sp08 & 0x1)) {
+                    cart->unk55 = sp08;
+                }
+            }
+        } break;
+
+        case 2: {
+            cart->unk55 = 0;
+        } break;
+
+        case 3: {
+            res = sub_80517FC(I(cart->qWorldX + r7), I(cart->qWorldY + r2), 1, +8, &sp08, sub_805203C);
+
+            if (res < 8) {
+                cart->qWorldX += Q(res);
+
+                if (!(sp08 & 0x1)) {
+                    cart->unk55 = sp08;
+                }
+            }
+        } break;
+    }
+    // _08048B8A
+
+    if (res > 8) {
+        if (cart->unk56 == 2) {
+            cart->unk56 = 3;
+
+            if (cart->unk57 == 0) {
+                cart->unk48 = Q(3);
+
+                if (cart->unk54 != 0) {
+                    NEGATE(cart->unk48);
+                }
+
+                cart->unk4C = -Q(6);
+            }
+            // _08048BBE
+
+            if (cart->unk57 < 8) {
+                cart->unk57++;
+            } else {
+                cart->unk55 = 0;
+            }
+
+            Player_StopSong(cart->player, SE_PANDA_CART);
+        }
+    } else {
+        // _08048BEC
+        if (cart->unk56 == 1) {
+            cart->unk56 = 2;
+        } else if (cart->unk56 == 3) {
+            cart->unk56 = 4;
+        }
+
+        cart->unk57 = 0;
+    }
 }
