@@ -17,7 +17,7 @@
 #include "constants/zones.h"
 
 typedef struct {
-    /* 0x00 */ SpriteBase base;
+    /* 0x00 */ SpriteBase2 base;
     /* 0x0C */ Sprite s;
     /* 0x34 */ Hitbox reserved;
     /* 0x3C */ s32 qWorldX;
@@ -30,7 +30,8 @@ typedef struct {
     /* 0x55 */ u8 unk55;
     /* 0x56 */ u8 unk56;
     /* 0x57 */ u8 unk57;
-    /* 0x58 */ u8 filler58[0x60];
+    /* 0x58 */ Vec2_16 qUnk58[8];
+    /* 0x58 */ Vec2_32 qUnk78[8];
     /* 0xB8 */ Sprite sprB8[3];
 } PandaCart; /* 0x6C */
 
@@ -38,10 +39,16 @@ void Task_PandaCartInit(void);
 void Task_804891C(void);
 void sub_8048A50(void);
 void sub_8048C18(void);
+void Task_8048D0C(void);
+void sub_8048E74(PandaCart *cart, u8 param1);
 void TaskDestructor_PandaCart(struct Task *t);
 
-void sub_8048FF8(Sprite *);
 void sub_8048D98(PandaCart *);
+void sub_8048F70(PandaCart *);
+void sub_8048FF8(Sprite *);
+
+// u8 gUnknown_080D03C0[4][2] = {{1, 2}, {2, 1}, {3, 1}, {0, 0}};
+extern u8 gUnknown_080D03C0[4][2];
 
 void CreateEntity_PandaCart(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -271,7 +278,6 @@ void sub_8048A50(void)
             }
         } break;
     }
-    // _08048B8A
 
     if (res > 8) {
         if (cart->unk56 == 2) {
@@ -286,7 +292,6 @@ void sub_8048A50(void)
 
                 cart->unk4C = -Q(6);
             }
-            // _08048BBE
 
             if (cart->unk57 < 8) {
                 cart->unk57++;
@@ -297,7 +302,6 @@ void sub_8048A50(void)
             Player_StopSong(cart->player, SE_PANDA_CART);
         }
     } else {
-        // _08048BEC
         if (cart->unk56 == 1) {
             cart->unk56 = 2;
         } else if (cart->unk56 == 3) {
@@ -307,3 +311,164 @@ void sub_8048A50(void)
         cart->unk57 = 0;
     }
 }
+
+void sub_8048C18(void)
+{
+    PandaCart *cart = TASK_DATA(gCurTask);
+    Sprite *s = &cart->s;
+    Player *p;
+    MapEntity *me = cart->base.me;
+    s16 worldX, worldY;
+
+    worldX = I(cart->qWorldX);
+    worldY = I(cart->qWorldY);
+
+    if (cart->unk56 == 4) {
+        if (cart->player != NULL) {
+            p = cart->player;
+            p->moveState &= ~MOVESTATE_COLLIDING_ENT;
+            cart->player = NULL;
+            Player_PlaySong(p, SE_MINECART_DESTROYED);
+        }
+
+        cart->unk57 = 0;
+        gCurTask->main = Task_8048D0C;
+    }
+
+    if (!IsWorldPtActive(worldX, worldY)) {
+        if (cart->player != NULL) {
+            p = cart->player;
+            p->moveState &= ~MOVESTATE_COLLIDING_ENT;
+            p->sprColliding = NULL;
+            p->qSpeedAirX = 0;
+            p->qSpeedAirY = 0;
+            p->qSpeedGround = 0;
+            SetPlayerCallback(p, Player_8005380);
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, cart->base.spriteX);
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        s->x = worldX - gCamera.x;
+        s->y = worldY - gCamera.y;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
+
+void Task_8048D0C(void)
+{
+    PandaCart *cart = TASK_DATA(gCurTask);
+    MapEntity *me = cart->base.me;
+
+    switch (cart->unk57) {
+        case 0: {
+            cart->unk57 = 10;
+            cart->base.unk8 = 30;
+            sub_8048E74(cart, 0);
+        } break;
+
+        case 10: {
+            if (--cart->base.unk8 == 0) {
+                cart->base.unk8 = 60;
+                cart->unk57 = 20;
+            }
+
+            sub_8048E74(cart, 1);
+        } break;
+
+        case 20: {
+            if (--cart->base.unk8 == 0) {
+                cart->unk57 = 100;
+            }
+
+            sub_8048E74(cart, 1);
+        } break;
+
+        case 100: {
+            SET_MAP_ENTITY_NOT_INITIALIZED(me, cart->base.spriteX);
+            TaskDestroy(gCurTask);
+            return;
+        } break;
+    }
+
+    sub_8048F70(cart);
+}
+
+void sub_8048D98(PandaCart *cart)
+{
+    u8 sp00[4][2];
+    u8 i;
+    void *tiles;
+
+    memcpy(sp00, gUnknown_080D03C0, sizeof(sp00));
+
+    for (i = 0; i < 8; i++) {
+        cart->qUnk58[i].x = 0;
+        cart->qUnk58[i].y = 0;
+        cart->qUnk78[i].x = cart->qWorldX;
+        cart->qUnk78[i].y = cart->qWorldY;
+    }
+
+    tiles = cart->s.tiles;
+
+    for (i = 0; i < (s32)ARRAY_COUNT(cart->sprB8); i++) {
+        Sprite *s = &cart->sprB8[i];
+
+        s->tiles = tiles;
+        s->anim = ANIM_ROCKET;
+        s->variant = sp00[i][0];
+        s->oamFlags = SPRITE_OAM_ORDER(8);
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->prevVariant = -1;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+        s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+
+        s->x = I(cart->qWorldX) - gCamera.x;
+        s->y = I(cart->qWorldY) - gCamera.y;
+        UpdateSpriteAnimation(s);
+
+        tiles += sp00[i][1] * TILE_SIZE_4BPP;
+    }
+}
+
+NONMATCH("asm/non_matching/game/interactables/panda_cart__sub_8048E74.inc", void sub_8048E74(PandaCart *cart, u8 param1))
+{
+    u8 i;
+
+    if (param1 == 0) {
+        for (i = 0; i < 8; i++) {
+            s32 r5 = (PseudoRandom32() % 256u) + Q(2.5);
+            s32 r2 = ((i & 0x1) + 3);
+
+            s32 v = COS(r5) * r2;
+            s32 v2;
+
+            if (v < 0) {
+                v += 0x3F;
+            }
+            cart->qUnk58[i].x = (v) >> 6;
+
+            v2 = SIN(r5) * r2;
+
+            if (v2 < 0) {
+                v2 += 0x3F;
+            }
+            cart->qUnk58[i].y = (v2 >> 6);
+            cart->qUnk78[i].x = cart->qWorldX;
+            cart->qUnk78[i].y = cart->qWorldY;
+        }
+    } else {
+        for (i = 0; i < 8; i++) {
+            cart->qUnk58[i].y += Q(32. / 256.);
+
+            cart->qUnk78[i].x += cart->qUnk58[i].x;
+            cart->qUnk78[i].y += cart->qUnk58[i].y;
+        }
+    }
+}
+END_NONMATCH
