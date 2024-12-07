@@ -849,9 +849,12 @@ gUnknown_080D04A8:
 gUnknown_080D05A8:
     .incbin "baserom.gba", 0x000D05A8, 0x124
 
+@ Pointer-Array
+@ [i][0] = StageBackground Init
+@ [i][1] = StageBackground Update
     .global gUnknown_080D06CC
 gUnknown_080D06CC:
-    .incbin "baserom.gba", 0x000D06CC, 0x248
+    .incbin "baserom.gba", 0x000D06CC, (73*2) * 4 // 73 = Stage count, 2 = BG layer count(?)
 
     .global gUnknown_080D0914
 gUnknown_080D0914:
