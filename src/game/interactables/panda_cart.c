@@ -31,7 +31,7 @@ typedef struct {
     /* 0x56 */ u8 unk56;
     /* 0x57 */ u8 unk57;
     /* 0x58 */ Vec2_16 qUnk58[8];
-    /* 0x58 */ Vec2_32 qUnk78[8];
+    /* 0x78 */ Vec2_32 qUnk78[8];
     /* 0xB8 */ Sprite sprB8[3];
 } PandaCart; /* 0x6C */
 
@@ -436,6 +436,7 @@ void sub_8048D98(PandaCart *cart)
     }
 }
 
+// (91.80%) https://decomp.me/scratch/rNgds
 NONMATCH("asm/non_matching/game/interactables/panda_cart__sub_8048E74.inc", void sub_8048E74(PandaCart *cart, u8 param1))
 {
     u8 i;
@@ -472,3 +473,50 @@ NONMATCH("asm/non_matching/game/interactables/panda_cart__sub_8048E74.inc", void
     }
 }
 END_NONMATCH
+
+void sub_8048F70(PandaCart *cart)
+{
+    u8 ip;
+    u8 is;
+
+    for (ip = 0, is = 0; ip < (s32)ARRAY_COUNT(cart->qUnk58); ip++) {
+        Sprite *s = &cart->sprB8[is];
+
+        s->x = I(cart->qUnk78[ip].x) - gCamera.x;
+        s->y = I(cart->qUnk78[ip].y) - gCamera.y;
+
+        if (ip < 3) {
+            UpdateSpriteAnimation(s);
+        }
+        DisplaySprite(s);
+
+        if (++is > 2)
+            is = 0;
+    }
+}
+
+void TaskDestructor_PandaCart(struct Task *t)
+{
+    PandaCart *cart = TASK_DATA(t);
+    VramFree(cart->s.tiles);
+}
+
+void sub_8048FF8(Sprite *s)
+{
+    s->tiles = VramMalloc(MAX_TILES(ANIM_PANDA_CART) //
+                          + MAX_TILES_VARIANT(ANIM_ROCKET, 1) //
+                          + MAX_TILES_VARIANT(ANIM_ROCKET, 2) //
+                          + MAX_TILES_VARIANT(ANIM_ROCKET, 3));
+    s->anim = ANIM_PANDA_CART;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(12);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->hitboxes[1].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    UpdateSpriteAnimation(s);
+}
