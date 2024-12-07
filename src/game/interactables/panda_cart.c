@@ -152,41 +152,65 @@ void Task_PandaCartInit(void)
     sub_8048C18();
 }
 
-#if 0
 void Task_804891C(void)
 {
-	PandaCart *cart = TASK_DATA(gCurTask);
+    PandaCart *cart = TASK_DATA(gCurTask);
     Sprite *s = &cart->s;
+    Player *p;
 
-	sub_8048A50();
+    sub_8048A50();
 
-	if (cart->unk56 == 2) {
-        s16 unk55 = cart->unk55;
-        s16 theta;
+    if (cart->unk56 == 2) {
+        s16 theta = cart->unk55;
 
-		if ((unk55 != 0) && (unk55 <= 0x40)) {
+        if ((theta != 0) && (theta <= 0x40)) {
             cart->unk44 += Q(16. / 256.);
-        } else {
-            // _08048960
-			if (unk55 > 0x40) {
-				cart->unk44 -= Q(16. / 256.);
-			}
+        } else if (theta >= 0xC0) {
+            cart->unk44 -= Q(16. / 256.);
         }
-		// _08048970
 
-		if (ABS(cart->unk44) > Q(4)) {
+        if (ABS(cart->unk44) > Q(8)) {
             if (cart->unk44 < 0) {
-                cart->unk44 = -Q(4);
+                cart->unk44 = -Q(8);
             } else {
-                cart->unk44 = +Q(4);
+                cart->unk44 = +Q(8);
             }
-		}
-		// _08048992
-		{
-            cart->unk48 = Q_MUL(cart->unk44, COS_24_8(unk55 * 4));
-            cart->unk4C = Q_MUL(cart->unk44, SIN_24_8(unk55 * 4));
+        }
+        {
+            s32 scalar = cart->unk44;
+            cart->unk48 = Q_MUL(COS_24_8(theta * 4), scalar);
+            cart->unk4C = Q_MUL(SIN_24_8(theta * 4), scalar) + Q(2);
+        }
     } else if ((cart->unk56 == 3) || (cart->unk56 == 1)) {
-		// _080489CC
+        cart->unk4C += Q(32. / 256.);
     }
+
+    cart->qWorldX += cart->unk48;
+    cart->qWorldY += cart->unk4C;
+
+    p = cart->player;
+    if (p != NULL) {
+        if ((p->callback == Player_8008A8C) || (p->callback == Player_800ED80)) {
+        lbl:
+            Player_StopSong(p, SE_PANDA_CART);
+            cart->player = NULL;
+        } else {
+            if ((gStageData.unk4 == 0x5) || (gStageData.unk4 == 0x6)) {
+                if (gStageData.gameMode == GAME_MODE_5) {
+                    // TODO: Remove goto
+                    goto lbl;
+                }
+            }
+
+            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s)) {
+                // TODO: Remove cast
+                p->qWorldX = *(volatile s32 *)&cart->qWorldX;
+                p->qWorldY = cart->qWorldY;
+            } else {
+                cart->player = NULL;
+            }
+        }
+    }
+
+    sub_8048C18();
 }
-#endif
