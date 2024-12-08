@@ -375,7 +375,6 @@ AnimCmdResult animCmd_AddHitbox(void *cursor, Sprite *s)
     return 1;
 }
 
-#if 0
 void sub_80047A0(u16 angle, s16 p1, s16 p2, u16 affineIndex)
 {
     u16 *affine = &gOamBuffer[affineIndex * 4].all.affineParam;
@@ -394,31 +393,35 @@ void sub_80047A0(u16 angle, s16 p1, s16 p2, u16 affineIndex)
     affine[12] = I(COS_24_8(angle) * res);
 }
 
-// Similar to sub_8004ABC and sub_8004E14
-// (53.42%) https://decomp.me/scratch/llwGy
-// (56.74%) https://decomp.me/scratch/rXgtp
+// Similar to sa2__sub_8004ABC and sa2__sub_8004E14
+// (39.57%) https://decomp.me/scratch/bKkIE
 NONMATCH("asm/non_matching/engine/TransformSprite.inc", void TransformSprite(Sprite *s, SpriteTransform *transform))
 {
     // sp24 = s
     UnkSpriteStruct big;
-    const SpriteOffset *dimensions = s->dimensions;
 
-    if (dimensions != (SpriteOffset *)-1) {
+    if (s->frameNum != -1) {
         s16 res;
         s16 x16, y16;
         s16 *affine;
+        const SpriteOffset *dimensions;
+        if ((s->frameNum >> 28) == 0) {
+            dimensions = &gRefSpriteTables->dimensions[s->anim][s->frameNum];
+        } else {
+            dimensions = (const SpriteOffset *)(((u8 *)gRefSpriteTables->dimensions[s->anim]) + s->frameNum * 16);
+        }
         big.affineIndex = s->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE;
         affine = (void *)&gOamBuffer[big.affineIndex * 4].all.affineParam;
 
 #if 0
-        sub_80047A0(transform->rotation & ONE_CYCLE, transform->width, transform->height,
+        sub_80047A0(transform->rotation & ONE_CYCLE, transform->scaleX, transform->scaleY,
                     big.affineIndex);
 #else
         big.qDirX = COS_24_8(transform->rotation & ONE_CYCLE);
         big.qDirY = SIN_24_8(transform->rotation & ONE_CYCLE);
 
-        big.unkC[0] = transform->width;
-        big.unkC[1] = transform->height;
+        big.unkC[0] = transform->scaleX;
+        big.unkC[1] = transform->scaleY;
         // __set_UnkC
 
         res = Div(0x10000, big.unkC[0]);
@@ -439,11 +442,11 @@ NONMATCH("asm/non_matching/engine/TransformSprite.inc", void TransformSprite(Spr
 #endif
         // __post_Divs
 
-        if (transform->width < 0)
-            big.unkC[0] = -transform->width;
+        if (transform->scaleX < 0)
+            big.unkC[0] = -transform->scaleX;
 
-        if (transform->height < 0)
-            big.unkC[1] = -transform->height;
+        if (transform->scaleY < 0)
+            big.unkC[1] = -transform->scaleY;
 
         // _0800497A
         x16 = big.qDirX;
@@ -475,7 +478,7 @@ NONMATCH("asm/non_matching/engine/TransformSprite.inc", void TransformSprite(Spr
             s32 r4;
 
             // __08004A04
-            if (transform->width > 0) {
+            if (transform->scaleX > 0) {
                 // __08004A08
                 r4 = dimensions->offsetX;
             } else {
@@ -484,7 +487,7 @@ NONMATCH("asm/non_matching/engine/TransformSprite.inc", void TransformSprite(Spr
             }
 
             // _08004A2E
-            if (transform->height > 0) {
+            if (transform->scaleY > 0) {
                 r3 = dimensions->offsetY;
             } else {
                 // _08004A3E
@@ -512,6 +515,7 @@ NONMATCH("asm/non_matching/engine/TransformSprite.inc", void TransformSprite(Spr
 }
 END_NONMATCH
 
+#if 0
 // (0.00%)
 NONMATCH("asm/non_matching/engine/unused_transform.inc", void UnusedTransform(Sprite *sprite, SpriteTransform *transform))
 {

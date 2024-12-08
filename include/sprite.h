@@ -144,7 +144,7 @@ typedef struct {
 //             but overall they are mostly similar.
 typedef struct {
     /* 0x00 */ u8 *tiles; // in VRAM
-    /* 0x04 */ s32 frameNum;
+    /* 0x04 */ u32 frameNum;
 
     // Bitfield description from KATAM decomp
     /* 0x08 */ u32 frameFlags; // bit 0-4: affine-index / rotscale param selection
@@ -194,6 +194,20 @@ typedef struct {
     /* 0x06 */ s16 x;
     /* 0x08 */ s16 y;
 } SpriteTransform; /* size 0xA */
+
+typedef struct {
+    /* 0x00 */ s16 unk0[4];
+    /* 0x08 */ s16 qDirX;
+    /* 0x0A */ s16 qDirY;
+
+    /* 0x0C */ s16 unkC[2];
+
+    /* 0x10 */ s32 posX;
+    /* 0x14 */ s32 posY;
+
+    /* 0x18 */ s16 unk18[2][2];
+    /* 0x20 */ u16 affineIndex;
+} UnkSpriteStruct;
 
 typedef struct {
     /* 0x00 */ u32 numTiles;
