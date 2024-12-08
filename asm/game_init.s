@@ -632,7 +632,7 @@ _080BBF0A:
 	movs r0, #0
 	ldr r4, _080BBFA8 @ =gUnknown_03006200
 	strb r0, [r4]
-	ldr r7, _080BBFAC @ =gUnknown_03002C58
+	ldr r7, _080BBFAC @ =sa2__gUnknown_03001948
 	strb r0, [r7]
 	movs r0, #0
 	str r0, [sp]
@@ -708,7 +708,7 @@ _080BBF64:
 	b _080BBFE0
 	.align 2, 0
 _080BBFA8: .4byte gUnknown_03006200
-_080BBFAC: .4byte gUnknown_03002C58
+_080BBFAC: .4byte sa2__gUnknown_03001948
 _080BBFB0: .4byte 0x040000D4
 _080BBFB4: .4byte gUnknown_03002B70
 _080BBFB8: .4byte 0x85000004
@@ -1192,7 +1192,7 @@ _080BC382:
 	ldr r0, [r0, #8]
 _080BC3D0:
 	movs r4, #0
-	ldr r0, _080BC46C @ =gUnknown_03002C58
+	ldr r0, _080BC46C @ =sa2__gUnknown_03001948
 	ldrb r1, [r0]
 	cmp r4, r1
 	bhs _080BC3F4
@@ -1240,7 +1240,7 @@ _080BC3F4:
 	str r0, [r2, #8]
 	ldr r0, [r2, #8]
 _080BC42E:
-	ldr r1, _080BC46C @ =gUnknown_03002C58
+	ldr r1, _080BC46C @ =sa2__gUnknown_03001948
 	ldrb r0, [r3]
 	strb r0, [r1]
 	b _080BC488
@@ -1258,14 +1258,14 @@ _080BC45C: .4byte 0x80000080
 _080BC460: .4byte 0x07000100
 _080BC464: .4byte 0x07000200
 _080BC468: .4byte 0x07000300
-_080BC46C: .4byte gUnknown_03002C58
+_080BC46C: .4byte sa2__gUnknown_03001948
 _080BC470: .4byte gUnknown_03006850
 _080BC474: .4byte gFlags
 _080BC478: .4byte 0x85000004
 _080BC47C: .4byte gUnknown_03006200
 _080BC480: .4byte gUnknown_03002B70
 _080BC484:
-	ldr r0, _080BC49C @ =gUnknown_03002C58
+	ldr r0, _080BC49C @ =sa2__gUnknown_03001948
 	strb r1, [r0]
 _080BC488:
 	ldr r1, _080BC4A0 @ =sLastCalledVblankFuncId
@@ -1279,7 +1279,7 @@ _080BC492:
 	ldr r5, _080BC4A4 @ =sVblankFuncs
 	b _080BC4AE
 	.align 2, 0
-_080BC49C: .4byte gUnknown_03002C58
+_080BC49C: .4byte sa2__gUnknown_03001948
 _080BC4A0: .4byte sLastCalledVblankFuncId
 _080BC4A4: .4byte sVblankFuncs
 _080BC4A8:
@@ -1548,7 +1548,7 @@ _080BC6D2:
 	bl CpuFastSet
 _080BC6EC:
 	movs r4, #0
-	ldr r0, _080BC75C @ =gUnknown_03002C58
+	ldr r0, _080BC75C @ =sa2__gUnknown_03001948
 	ldrb r1, [r0]
 	cmp r4, r1
 	bhs _080BC710
@@ -1588,7 +1588,7 @@ _080BC710:
 	adds r1, r5, #0
 	bl CpuFastSet
 _080BC73E:
-	ldr r1, _080BC75C @ =gUnknown_03002C58
+	ldr r1, _080BC75C @ =sa2__gUnknown_03001948
 	ldrb r0, [r4]
 	strb r0, [r1]
 	b _080BC778
@@ -1598,14 +1598,14 @@ _080BC74C: .4byte 0x0000FFFD
 _080BC750: .4byte gNumHBlankIntrs
 _080BC754: .4byte sLastCalledVblankFuncId
 _080BC758: .4byte gOamBuffer
-_080BC75C: .4byte gUnknown_03002C58
+_080BC75C: .4byte sa2__gUnknown_03001948
 _080BC760: .4byte gUnknown_03006850
 _080BC764: .4byte gFlags
 _080BC768: .4byte 0x01000004
 _080BC76C: .4byte gUnknown_03006200
 _080BC770: .4byte gUnknown_03002B70
 _080BC774:
-	ldr r0, _080BC78C @ =gUnknown_03002C58
+	ldr r0, _080BC78C @ =sa2__gUnknown_03001948
 	strb r1, [r0]
 _080BC778:
 	ldr r1, _080BC790 @ =sLastCalledVblankFuncId
@@ -1619,7 +1619,7 @@ _080BC782:
 	ldr r5, _080BC794 @ =sVblankFuncs
 	b _080BC79E
 	.align 2, 0
-_080BC78C: .4byte gUnknown_03002C58
+_080BC78C: .4byte sa2__gUnknown_03001948
 _080BC790: .4byte sLastCalledVblankFuncId
 _080BC794: .4byte sVblankFuncs
 _080BC798:

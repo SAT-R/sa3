@@ -173,15 +173,15 @@ extern Background *gBackgroundsCopyQueue[16];
 // This is used to buffer the xy-shift for each background scanline
 extern void *gBgOffsetsHBlank;
 
-// extern u16 gUnknown_030017F0;
+extern u16 sa2__gUnknown_030017F0;
 // extern s16 gUnknown_030017F4[2];
 // extern u8 gUnknown_03001850[32];
 // extern FuncType_030053A0 gUnknown_03001870[4];
 
 extern u8 gOamFreeIndex;
-// extern u16 gUnknown_03001944;
-// extern u8 gUnknown_03001948;
-// extern u16 gUnknown_0300194C;
+extern u16 sa2__gUnknown_03001944;
+extern u8 sa2__gUnknown_03001948;
+extern u16 sa2__gUnknown_0300194C;
 
 struct MapHeader **gTilemapsRef; // TODO: make this an array and add size
 extern u8 gUnknown_03003590[4][4]; // extern u8 gUnknown_03002280[4][4];
@@ -192,7 +192,7 @@ extern u8 gUnknown_03006230[16];
 extern s16 gMosaicReg;
 // extern u8 gUnknown_030026F4;
 extern struct GraphicsData gVramGraphicsCopyQueue[32];
-// extern u16 gUnknown_03002820;
+extern u16 sa2__gUnknown_03002820;
 // extern u8 gUnknown_03002874;
 extern void *sa2__gUnknown_03002878;
 extern u8 gBackgroundsCopyQueueIndex;
@@ -210,8 +210,8 @@ extern Sprite *gUnknown_030061C0[16]; // extern Sprite *gUnknown_03004D10[16];
 extern u8 gVramGraphicsCopyCursor;
 // extern u8 gUnknown_03004D60[0x20];
 // extern u8 gUnknown_03005390;
-// extern u16 gUnknown_03005394;
-// extern u16 gUnknown_03005398;
+extern u16 sa2__gUnknown_03005394;
+extern u16 sa2__gUnknown_03005398;
 // extern FuncType_030053A0 gUnknown_030053A0[4];
 extern s32 gPseudoRandom;
 // extern u8 gUnknown_03002710[128];

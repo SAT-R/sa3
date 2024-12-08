@@ -264,7 +264,7 @@ s16 sa2__sub_8004418(s16 x, s16 y);
 // TransformSprite
 void TransformSprite(Sprite *sprite, SpriteTransform *transform);
 void UnusedTransform(Sprite *, SpriteTransform *);
-// void sub_8004E14(Sprite *, SpriteTransform *);
+// void sa2__sub_8004E14(Sprite *, SpriteTransform *);
 //
 //
 // void sub_8003EE4(u16 p0, s16 p1, s16 p2, s16 p3, s16 p4, s16 p5, s16 p6,

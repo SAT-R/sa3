@@ -393,7 +393,7 @@ void sub_80047A0(u16 angle, s16 p1, s16 p2, u16 affineIndex)
     affine[12] = I(COS_24_8(angle) * res);
 }
 
-// Similar to sa2__sub_8004ABC and sa2__sub_8004E14
+// Similar to UnusedTransform and sa2__sub_8004E14
 // (39.57%) https://decomp.me/scratch/bKkIE
 NONMATCH("asm/non_matching/engine/TransformSprite.inc", void TransformSprite(Sprite *s, SpriteTransform *transform))
 {
@@ -522,36 +522,40 @@ NONMATCH("asm/non_matching/engine/UnusedTransform.inc", void UnusedTransform(Spr
 }
 END_NONMATCH
 
-#if 0
-// VERY similar to TransformSprite and sub_8004ABC
-// (41.14%) https://decomp.me/scratch/n3NXz
-NONMATCH("asm/non_matching/engine/sub_8004E14.inc", void sub_8004E14(Sprite *sprite, SpriteTransform *transform))
+// VERY similar to TransformSprite and UnusedTransform
+NONMATCH("asm/non_matching/engine/sa2__sub_8004E14.inc", void sa2__sub_8004E14(Sprite *sprite, SpriteTransform *transform))
 {
     UnkSpriteStruct us;
-    if (sprite->dimensions != (void *)-1) {
-        const SpriteOffset *sprDims = sprite->dimensions;
-        u16 *affine;
+    u16 *affine;
+
+    if (sprite->frameNum != -1) {
+        const SpriteOffset *sprDims;
+        if ((sprite->frameNum >> 28) == 0) {
+            sprDims = &gRefSpriteTables->dimensions[sprite->anim][sprite->frameNum];
+        } else {
+            sprDims = (const SpriteOffset *)(((u8 *)gRefSpriteTables->dimensions[sprite->anim]) + sprite->frameNum * 16);
+        }
 
         us.affineIndex = sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE;
         affine = (u16 *)&gOamBuffer[us.affineIndex * 4 + 3];
 
-        us.qDirX = COS_24_8((transform->rotation + gUnknown_03001944) & ONE_CYCLE);
-        us.qDirY = SIN_24_8((transform->rotation + gUnknown_03001944) & ONE_CYCLE);
-        us.unkC[0] = I(transform->width * gUnknown_030017F0);
-        us.unkC[1] = I(transform->height * gUnknown_03005394);
+        us.qDirX = COS_24_8((transform->rotation + sa2__gUnknown_03001944) & ONE_CYCLE);
+        us.qDirY = SIN_24_8((transform->rotation + sa2__gUnknown_03001944) & ONE_CYCLE);
+        us.unkC[0] = I(transform->scaleX * sa2__gUnknown_030017F0);
+        us.unkC[1] = I(transform->scaleY * sa2__gUnknown_03005394);
 
         affine[0] = I(Div(Q(256), us.unkC[0]) * us.qDirX);
         affine[4] = I(Div(Q(256), us.unkC[0]) * us.qDirY);
         affine[8] = I(Div(Q(256), us.unkC[1]) * -us.qDirY);
         affine[12] = I(Div(Q(256), us.unkC[1]) * us.qDirX);
 
-        if (transform->width < 0) {
-            us.unkC[0] = I(-transform->width * gUnknown_030017F0);
+        if (transform->scaleX < 0) {
+            us.unkC[0] = I(-transform->scaleX * sa2__gUnknown_030017F0);
         }
         // _08004F48
 
-        if (transform->height < 0) {
-            us.unkC[1] = I(-transform->height * gUnknown_03005394);
+        if (transform->scaleY < 0) {
+            us.unkC[1] = I(-transform->scaleY * sa2__gUnknown_03005394);
         }
         // _08004F6A
 
@@ -563,13 +567,17 @@ NONMATCH("asm/non_matching/engine/sub_8004E14.inc", void sub_8004E14(Sprite *spr
         // 2D Rotation matrix:
         // { +cos(a), -sin(a) }
         // { +sin(a), +cos(a) }
-        us.unk18[0][0] = I((Q(+COS_24_8(gUnknown_03001944) * gUnknown_030017F0) >> 16) * (Q(us.unkC[0] * gUnknown_03005398) >> 16));
-        us.unk18[0][1] = I((Q(-SIN_24_8(gUnknown_03001944) * gUnknown_030017F0) >> 16) * (Q(us.unkC[0] * gUnknown_03005398) >> 16));
-        us.unk18[1][0] = I((Q(+SIN_24_8(gUnknown_03001944) * gUnknown_03005394) >> 16) * (Q(us.unkC[1] * gUnknown_03005398) >> 16));
-        us.unk18[1][1] = I((Q(+COS_24_8(gUnknown_03001944) * gUnknown_03005394) >> 16) * (Q(us.unkC[1] * gUnknown_03005398) >> 16));
+        us.unk18[0][0]
+            = I((Q(+COS_24_8(sa2__gUnknown_03001944) * sa2__gUnknown_030017F0) >> 16) * (Q(us.unkC[0] * sa2__gUnknown_03005398) >> 16));
+        us.unk18[0][1]
+            = I((Q(-SIN_24_8(sa2__gUnknown_03001944) * sa2__gUnknown_030017F0) >> 16) * (Q(us.unkC[0] * sa2__gUnknown_03005398) >> 16));
+        us.unk18[1][0]
+            = I((Q(+SIN_24_8(sa2__gUnknown_03001944) * sa2__gUnknown_03005394) >> 16) * (Q(us.unkC[1] * sa2__gUnknown_03005398) >> 16));
+        us.unk18[1][1]
+            = I((Q(+COS_24_8(sa2__gUnknown_03001944) * sa2__gUnknown_03005394) >> 16) * (Q(us.unkC[1] * sa2__gUnknown_03005398) >> 16));
 
-        us.posX = I(transform->x * us.unk18[0][0] + transform->y * us.unk18[0][1] + Q(gUnknown_0300194C));
-        us.posY = I(transform->x * us.unk18[1][0] + transform->y * us.unk18[1][1] + Q(gUnknown_03002820));
+        us.posX = I(transform->x * us.unk18[0][0] + transform->y * us.unk18[0][1] + Q(sa2__gUnknown_0300194C));
+        us.posY = I(transform->x * us.unk18[1][0] + transform->y * us.unk18[1][1] + Q(sa2__gUnknown_03002820));
 
         {
             u16 width, height;
@@ -577,7 +585,7 @@ NONMATCH("asm/non_matching/engine/sub_8004E14.inc", void sub_8004E14(Sprite *spr
             s16 offsetX, offsetY;
             s32 x, y;
 
-            if (transform->width > 0) {
+            if (transform->scaleX > 0) {
                 offsetX = sprDims->offsetX;
                 width = sprDims->width;
             } else {
@@ -586,7 +594,7 @@ NONMATCH("asm/non_matching/engine/sub_8004E14.inc", void sub_8004E14(Sprite *spr
             }
             // _0800515A
 
-            if (transform->height > 0) {
+            if (transform->scaleY > 0) {
                 offsetY = sprDims->offsetY;
                 height = sprDims->height;
             } else {
@@ -617,6 +625,7 @@ NONMATCH("asm/non_matching/engine/sub_8004E14.inc", void sub_8004E14(Sprite *spr
 }
 END_NONMATCH
 
+#if 0
 void DisplaySprite(Sprite *sprite)
 {
     OamData *oam;

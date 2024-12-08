@@ -143,7 +143,7 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 . = 0x00002C40; gUnknown_03002C40 = .;
 . = 0x00002C50; gVramHeapStartAddr = .;
 . = 0x00002C54; sa2__gUnknown_03001944 = .;
-. = 0x00002C58; gUnknown_03002C58 = .;
+. = 0x00002C58; sa2__gUnknown_03001948 = .;
 . = 0x00002C5C; sa2__gUnknown_0300194C = .;
 . = 0x00002C60; gUnknown_03002C60 = .;
 . = 0x00002C64; gMultiSioStatusFlags = .;
