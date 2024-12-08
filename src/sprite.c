@@ -625,9 +625,8 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004E14.inc", void sa2__sub_8004E14(S
 }
 END_NONMATCH
 
-#if 0
 // (34.52%) https://decomp.me/scratch/5GcHT
-void DisplaySprite(Sprite *sprite)
+NONMATCH("asm/non_matching/engine/DisplaySprite.inc", void DisplaySprite(Sprite *sprite))
 {
     OamData *oam;
     s32 x, y, sprWidth, sprHeight;
@@ -661,16 +660,16 @@ void DisplaySprite(Sprite *sprite)
         sprWidth = sprDims->width;
         sprHeight = sprDims->height;
 
-        if(sprite->frameFlags & 0x200) {
+        if (sprite->frameFlags & 0x200) {
             sp14 |= 0x1000;
             sprite->x = sp14;
-        } 
-        
-        if(sprite->frameFlags & 0x1000) {
+        }
+
+        if (sprite->frameFlags & 0x1000) {
             sp14 |= 0x100;
             sprite->y = sp14;
-        } 
-        
+        }
+
         if (sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE_ENABLE) {
             if (sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE_DOUBLE_SIZE) {
                 x -= sprDims->width / 2;
@@ -692,14 +691,14 @@ void DisplaySprite(Sprite *sprite)
                 x -= sprDims->offsetX;
             }
 
-            if(GetBit(sprite->frameFlags, 11)) {
+            if (GetBit(sprite->frameFlags, 11)) {
                 //
             }
         }
 
         if (x + sprWidth >= 0 && x <= DISPLAY_WIDTH && // fmt
             y + sprHeight >= 0 && y <= DISPLAY_HEIGHT) {
-            //u8 mosaicHVSizes = gMosaicReg >> 8;
+            // u8 mosaicHVSizes = gMosaicReg >> 8;
 
             for (i = 0; i < sprDims->numSubframes; i++) {
                 oamData = gRefSpriteTables->oamData[sprite->anim];
@@ -750,10 +749,10 @@ void DisplaySprite(Sprite *sprite)
                     }
                 }
 
-                //if (mosaicHVSizes != 0 && (sprite->frameFlags & SPRITE_FLAG_MASK_MOSAIC) != 0)
+                // if (mosaicHVSizes != 0 && (sprite->frameFlags & SPRITE_FLAG_MASK_MOSAIC) != 0)
                 {
                     // Enable mosaic bit
-                //    oam->all.attr0 |= 0x1000;
+                    //    oam->all.attr0 |= 0x1000;
                 }
 
                 oam->all.attr0 |= (sprite->frameFlags & SPRITE_FLAG_MASK_OBJ_MODE) * 8;
@@ -764,12 +763,12 @@ void DisplaySprite(Sprite *sprite)
                 if (oam->all.attr0 & (ST_OAM_8BPP << 13)) {
                     oam->all.attr2 += oam->all.attr2 & 0x3FF;
                 }
-                //oam->all.attr2 += GET_TILE_NUM(sprite->graphics.dest);
+                // oam->all.attr2 += GET_TILE_NUM(sprite->graphics.dest);
             }
         }
     }
 }
-#endif
+END_NONMATCH
 
 #if 0
 void sub_081569A0(Sprite *sprite, u16 *sp08, u8 sp0C)
