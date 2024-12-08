@@ -5,185 +5,8 @@
 .syntax unified
 .arm
 
-@ Start of sprite.c
-	thumb_func_start sa2__sub_8004418
-sa2__sub_8004418: @ 0x080BF30C
-	push {r4, r5, r6, lr}
-	sub sp, #8
-	lsls r0, r0, #0x10
-	lsrs r4, r0, #0x10
-	lsls r1, r1, #0x10
-	lsrs r5, r1, #0x10
-	movs r6, #0
-	ldr r1, _080BF33C @ =unkFractions
-	mov r0, sp
-	movs r2, #8
-	bl memcpy
-	lsls r0, r4, #0x10
-	asrs r1, r0, #0x10
-	lsls r0, r5, #0x10
-	asrs r2, r0, #0x10
-	adds r0, r1, #0
-	orrs r0, r2
-	cmp r0, #0
-	bne _080BF340
-	movs r0, #1
-	rsbs r0, r0, #0
-	b _080BF3C2
-	.align 2, 0
-_080BF33C: .4byte unkFractions
-_080BF340:
-	cmp r1, #0
-	bgt _080BF34C
-	rsbs r0, r1, #0
-	lsls r0, r0, #0x10
-	lsrs r4, r0, #0x10
-	movs r6, #4
-_080BF34C:
-	cmp r2, #0
-	bgt _080BF35C
-	rsbs r0, r2, #0
-	lsls r0, r0, #0x10
-	lsrs r5, r0, #0x10
-	adds r0, r6, #2
-	lsls r0, r0, #0x18
-	lsrs r6, r0, #0x18
-_080BF35C:
-	lsls r0, r4, #0x10
-	asrs r2, r0, #0x10
-	lsls r0, r5, #0x10
-	asrs r1, r0, #0x10
-	cmp r2, r1
-	blt _080BF37C
-	lsls r0, r1, #0x17
-	lsrs r5, r0, #0x10
-	cmp r2, #0
-	bne _080BF374
-	adds r2, r5, #0
-	b _080BF39A
-_080BF374:
-	lsls r0, r5, #0x10
-	asrs r0, r0, #0x10
-	adds r1, r2, #0
-	b _080BF392
-_080BF37C:
-	adds r0, r6, #1
-	lsls r0, r0, #0x18
-	lsrs r6, r0, #0x18
-	lsls r0, r2, #0x17
-	lsrs r4, r0, #0x10
-	cmp r1, #0
-	bne _080BF38E
-	adds r2, r4, #0
-	b _080BF39A
-_080BF38E:
-	lsls r0, r4, #0x10
-	asrs r0, r0, #0x10
-_080BF392:
-	bl __divsi3
-	lsls r0, r0, #0x10
-	lsrs r2, r0, #0x10
-_080BF39A:
-	mov r0, sp
-	adds r3, r0, r6
-	ldrb r1, [r3]
-	movs r0, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _080BF3B4
-	movs r1, #0x80
-	lsls r0, r2, #0x10
-	asrs r0, r0, #0x10
-	subs r1, r1, r0
-	lsls r1, r1, #0x10
-	lsrs r2, r1, #0x10
-_080BF3B4:
-	ldrb r1, [r3]
-	lsls r1, r1, #7
-	lsls r0, r2, #0x10
-	asrs r0, r0, #0x10
-	adds r0, r0, r1
-	lsls r0, r0, #0x16
-	lsrs r0, r0, #0x16
-_080BF3C2:
-	add sp, #8
-	pop {r4, r5, r6}
-	pop {r1}
-	bx r1
-	.align 2, 0
-
-	thumb_func_start numToASCII
-numToASCII: @ 0x080BF3CC
-	push {r4, r5, lr}
-	adds r4, r0, #0
-	lsls r1, r1, #0x10
-	lsrs r3, r1, #0x10
-	movs r2, #0
-	movs r5, #0xf0
-	lsls r5, r5, #8
-_080BF3DA:
-	adds r0, r3, #0
-	ands r0, r5
-	lsrs r0, r0, #0xc
-	cmp r0, #9
-	bls _080BF3EA
-	adds r1, r4, r2
-	adds r0, #0x57
-	b _080BF3EE
-_080BF3EA:
-	adds r1, r4, r2
-	adds r0, #0x30
-_080BF3EE:
-	strb r0, [r1]
-	lsls r0, r3, #0x14
-	lsrs r3, r0, #0x10
-	adds r0, r2, #1
-	lsls r0, r0, #0x18
-	lsrs r2, r0, #0x18
-	cmp r2, #3
-	bls _080BF3DA
-	adds r1, r4, r2
-	movs r0, #0
-	strb r0, [r1]
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-
-	thumb_func_start Base10DigitsToHexNibbles
-Base10DigitsToHexNibbles: @ 0x080BF40C
-	push {r4, r5, r6, lr}
-	lsls r0, r0, #0x10
-	lsrs r4, r0, #0x10
-	movs r6, #0
-	movs r5, #0
-_080BF416:
-	adds r0, r4, #0
-	movs r1, #0xa
-	bl Div
-	lsls r1, r0, #2
-	adds r1, r1, r0
-	lsls r1, r1, #1
-	subs r1, r4, r1
-	lsls r1, r1, #0x18
-	lsrs r1, r1, #0x18
-	lsls r0, r0, #0x10
-	lsrs r4, r0, #0x10
-	lsls r0, r5, #2
-	lsls r1, r0
-	orrs r6, r1
-	lsls r0, r6, #0x10
-	lsrs r6, r0, #0x10
-	adds r0, r5, #1
-	lsls r0, r0, #0x18
-	lsrs r5, r0, #0x18
-	cmp r5, #3
-	bls _080BF416
-	adds r0, r6, #0
-	pop {r4, r5, r6}
-	pop {r1}
-	bx r1
-	.align 2, 0
+.if 0
+.endif
 
 	thumb_func_start UpdateSpriteAnimation
 UpdateSpriteAnimation: @ 0x080BF44C
@@ -536,8 +359,8 @@ _080BF6D8: .4byte gRefSpriteTables
 _080BF6DC: .4byte gVramGraphicsCopyQueue
 _080BF6E0: .4byte gVramGraphicsCopyQueueIndex
 
-	thumb_func_start sub_80BF6E4
-sub_80BF6E4: @ 0x080BF6E4
+	thumb_func_start animCmd_GetPalette
+animCmd_GetPalette: @ 0x080BF6E4
 	push {r4, r5, r6, lr}
 	adds r5, r0, #0
 	adds r3, r1, #0
@@ -610,8 +433,8 @@ _080BF76C: .4byte 0x040000D4
 _080BF770: .4byte gRefSpriteTables
 _080BF774: .4byte gObjPalette
 
-	thumb_func_start sub_80BF778
-sub_80BF778: @ 0x080BF778
+	thumb_func_start animCmd_AddHitbox
+animCmd_AddHitbox: @ 0x080BF778
 	push {r4, r5, lr}
 	adds r3, r0, #0
 	adds r4, r1, #0
@@ -4189,8 +4012,8 @@ _080C1308: .4byte gUnknown_03002B50
 _080C130C: .4byte 0x85000008
 _080C1310: .4byte gUnknown_03006210
 
-	thumb_func_start sub_80C1314
-sub_80C1314: @ 0x080C1314
+	thumb_func_start animCmd_JumpBack
+animCmd_JumpBack: @ 0x080C1314
 	ldr r2, [r0, #4]
 	ldrh r0, [r1, #0xe]
 	subs r0, r0, r2
@@ -4198,8 +4021,8 @@ sub_80C1314: @ 0x080C1314
 	movs r0, #1
 	bx lr
 
-	thumb_func_start sub_80C1320
-sub_80C1320: @ 0x080C1320
+	thumb_func_start animCmd_End
+animCmd_End: @ 0x080C1320
 	ldr r0, [r1, #8]
 	movs r2, #0x80
 	lsls r2, r2, #7
@@ -4209,8 +4032,8 @@ sub_80C1320: @ 0x080C1320
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_80C1330
-sub_80C1330: @ 0x080C1330
+	thumb_func_start animCmd_PlaySoundEffect
+animCmd_PlaySoundEffect: @ 0x080C1330
 	push {lr}
 	ldrh r2, [r1, #0xe]
 	adds r2, #2
@@ -4221,8 +4044,8 @@ sub_80C1330: @ 0x080C1330
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_80C1344
-sub_80C1344: @ 0x080C1344
+	thumb_func_start animCmd_TranslateSprite
+animCmd_TranslateSprite: @ 0x080C1344
 	ldrh r2, [r1, #0xe]
 	adds r2, #2
 	strh r2, [r1, #0xe]
@@ -4238,8 +4061,8 @@ sub_80C1344: @ 0x080C1344
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_80C1360
-sub_80C1360: @ 0x080C1360
+	thumb_func_start animCmd_8
+animCmd_8: @ 0x080C1360
 	ldrh r0, [r1, #0xe]
 	adds r0, #3
 	strh r0, [r1, #0xe]
@@ -4247,8 +4070,8 @@ sub_80C1360: @ 0x080C1360
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_80C136C
-sub_80C136C: @ 0x080C136C
+	thumb_func_start animCmd_SetIdAndVariant
+animCmd_SetIdAndVariant: @ 0x080C136C
 	ldrh r2, [r1, #0xe]
 	adds r2, #2
 	strh r2, [r1, #0xe]
@@ -4262,15 +4085,15 @@ sub_80C136C: @ 0x080C136C
 	rsbs r0, r0, #0
 	bx lr
 
-	thumb_func_start sub_80C1384
-sub_80C1384: @ 0x080C1384
+	thumb_func_start animCmd_10
+animCmd_10: @ 0x080C1384
 	ldrh r2, [r1, #0xe]
 	adds r2, #4
 	strh r2, [r1, #0xe]
 	bx lr
 
-	thumb_func_start sub_80C138C
-sub_80C138C: @ 0x080C138C
+	thumb_func_start animCmd_SetSpritePriority
+animCmd_SetSpritePriority: @ 0x080C138C
 	ldrh r2, [r1, #0xe]
 	adds r2, #2
 	strh r2, [r1, #0xe]
@@ -4286,8 +4109,8 @@ sub_80C138C: @ 0x080C138C
 	.align 2, 0
 _080C13A4: .4byte 0xFFFFCFFF
 
-	thumb_func_start sub_80C13A8
-sub_80C13A8: @ 0x080C13A8
+	thumb_func_start animCmd_SetOamOrder
+animCmd_SetOamOrder: @ 0x080C13A8
 	ldrh r2, [r1, #0xe]
 	adds r2, #2
 	strh r2, [r1, #0xe]

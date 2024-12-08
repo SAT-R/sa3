@@ -3,6 +3,7 @@
 
 .section .rodata
 
+.if 0
 @ From sprite.c
     .global unkFractions
 unkFractions:
@@ -15,3 +16,4 @@ animCmdTable:
     .global gOamShapesSizes
 gOamShapesSizes:
     .incbin "baserom.gba", 0x002B52EC, 0x18
+.endif
