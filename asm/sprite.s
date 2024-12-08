@@ -5,11 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-	thumb_func_start sub_80BFF28
-sub_80BFF28: @ 0x080BFF28
-.endif
-
+.if 01
 	thumb_func_start DisplaySprite
 DisplaySprite: @ 0x080C033C
 	push {r4, r5, r6, r7, lr}
@@ -87,7 +83,7 @@ _080C03AA:
 	adds r5, r1, #0
 	cmp r0, #0
 	beq _080C03E4
-	ldr r0, _080C0464 @ =gUnknown_03002AF4
+	ldr r0, _080C0464 @ =sa2__gUnknown_030017F4
 	movs r4, #0
 	ldrsh r1, [r0, r4]
 	ldr r4, [sp]
@@ -164,7 +160,7 @@ _080C0408:
 	b _080C04DE
 	.align 2, 0
 _080C0460: .4byte gRefSpriteTables
-_080C0464: .4byte gUnknown_03002AF4
+_080C0464: .4byte sa2__gUnknown_030017F4
 _080C0468:
 	movs r0, #0x80
 	lsls r0, r0, #4
@@ -281,7 +277,7 @@ _080C0506:
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x10]
-	ldr r0, _080C06C0 @ =gUnknown_03002C00
+	ldr r0, _080C06C0 @ =gOamFreeIndex
 	ldrb r0, [r0]
 	mov r1, sb
 	strb r0, [r1, #0x1d]
@@ -300,7 +296,7 @@ _080C0550:
 	adds r1, r2, #0
 	ands r0, r1
 	lsrs r0, r0, #6
-	bl sub_80C108C
+	bl OamMalloc
 	adds r4, r0, #0
 	ldr r0, _080C06C4 @ =iwram_end
 	ldr r0, [r0]
@@ -483,7 +479,7 @@ _080C0692:
 	ldr r2, [r2, #0x10]
 	b _080C06FA
 	.align 2, 0
-_080C06C0: .4byte gUnknown_03002C00
+_080C06C0: .4byte gOamFreeIndex
 _080C06C4: .4byte iwram_end
 _080C06C8: .4byte 0x00003FFF
 _080C06CC: .4byte 0x040000D4
@@ -619,6 +615,7 @@ _080C07C8:
 	.align 2, 0
 _080C07D8: .4byte gVramGraphicsCopyQueueIndex
 _080C07DC: .4byte gVramGraphicsCopyQueue
+.endif
 
 	thumb_func_start sub_80C07E0
 sub_80C07E0: @ 0x080C07E0
@@ -697,7 +694,7 @@ _080C084E:
 	adds r5, r1, #0
 	cmp r0, #0
 	beq _080C0888
-	ldr r0, _080C08F0 @ =gUnknown_03002AF4
+	ldr r0, _080C08F0 @ =sa2__gUnknown_030017F4
 	movs r4, #0
 	ldrsh r1, [r0, r4]
 	ldr r4, [sp, #8]
@@ -761,7 +758,7 @@ _080C0888:
 	b _080C096A
 	.align 2, 0
 _080C08EC: .4byte gRefSpriteTables
-_080C08F0: .4byte gUnknown_03002AF4
+_080C08F0: .4byte sa2__gUnknown_030017F4
 _080C08F4:
 	movs r0, #0x80
 	lsls r0, r0, #4
@@ -878,7 +875,7 @@ _080C0992:
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x1c]
-	ldr r0, _080C0B84 @ =gUnknown_03002C00
+	ldr r0, _080C0B84 @ =gOamFreeIndex
 	ldrb r0, [r0]
 	mov r1, sl
 	strb r0, [r1, #0x1d]
@@ -1046,7 +1043,7 @@ _080C0AEC:
 	adds r1, r2, #0
 	ands r0, r1
 	lsrs r0, r0, #6
-	bl sub_80C108C
+	bl OamMalloc
 	adds r1, r0, #0
 	ldr r0, _080C0BAC @ =iwram_end
 	ldr r0, [r0]
@@ -1112,7 +1109,7 @@ _080C0B56:
 	ldr r2, [r2, #0x10]
 	b _080C0BC2
 	.align 2, 0
-_080C0B84: .4byte gUnknown_03002C00
+_080C0B84: .4byte gOamFreeIndex
 _080C0B88: .4byte 0x040000D4
 _080C0B8C: .4byte 0x00003FFF
 _080C0B90: .4byte 0x80000003
@@ -1319,7 +1316,7 @@ _080C0D06:
 	adds r3, r1, #0
 	cmp r0, #0
 	beq _080C0D3E
-	ldr r2, _080C0D80 @ =gUnknown_03002AF4
+	ldr r2, _080C0D80 @ =sa2__gUnknown_030017F4
 	movs r4, #0
 	ldrsh r1, [r2, r4]
 	ldr r0, [sp]
@@ -1364,7 +1361,7 @@ _080C0D3E:
 	b _080C0DC8
 	.align 2, 0
 _080C0D7C: .4byte gRefSpriteTables
-_080C0D80: .4byte gUnknown_03002AF4
+_080C0D80: .4byte sa2__gUnknown_030017F4
 _080C0D84:
 	movs r0, #0x80
 	lsls r0, r0, #4
@@ -1464,7 +1461,7 @@ _080C0E16:
 	adds r1, r2, #0
 	ands r0, r1
 	lsrs r0, r0, #6
-	bl sub_80C108C
+	bl OamMalloc
 	adds r6, r0, #0
 	ldr r0, _080C0ED8 @ =iwram_end
 	ldr r0, [r0]
@@ -1681,7 +1678,7 @@ _080C0FD6:
 	adds r1, r3, #0
 	ands r0, r1
 	lsrs r0, r0, #6
-	bl sub_80C108C
+	bl OamMalloc
 	adds r5, r0, #0
 	ldr r0, _080C1084 @ =iwram_end
 	ldr r0, [r0]
@@ -1761,8 +1758,8 @@ _080C1080: .4byte 0x040000D4
 _080C1084: .4byte iwram_end
 _080C1088: .4byte 0x80000003
 
-	thumb_func_start sub_80C108C
-sub_80C108C: @ 0x080C108C
+	thumb_func_start OamMalloc
+OamMalloc: @ 0x080C108C
 	push {r4, r5, lr}
 	lsls r0, r0, #0x18
 	lsrs r5, r0, #0x18
@@ -1770,7 +1767,7 @@ sub_80C108C: @ 0x080C108C
 	bls _080C1098
 	movs r5, #0x1f
 _080C1098:
-	ldr r0, _080C10AC @ =gUnknown_03002C00
+	ldr r0, _080C10AC @ =gOamFreeIndex
 	movs r1, #0
 	ldrsb r1, [r0, r1]
 	adds r4, r0, #0
@@ -1780,7 +1777,7 @@ _080C1098:
 	ldr r0, [r0]
 	b _080C1110
 	.align 2, 0
-_080C10AC: .4byte gUnknown_03002C00
+_080C10AC: .4byte gOamFreeIndex
 _080C10B0: .4byte iwram_end
 _080C10B4:
 	ldr r0, _080C10D8 @ =gUnknown_03002B50
@@ -1838,8 +1835,8 @@ _080C1118: .4byte gUnknown_03003750
 _080C111C: .4byte gUnknown_03006210
 _080C1120: .4byte gUnknown_03003750-0x8
 
-	thumb_func_start sub_80C1124
-sub_80C1124: @ 0x080C1124
+	thumb_func_start CopyOamBufferToOam
+CopyOamBufferToOam: @ 0x080C1124
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1904,7 +1901,7 @@ _080C118A:
 	ands r0, r1
 	cmp r0, #0
 	beq _080C11FC
-	ldr r0, _080C11F4 @ =gUnknown_03002C00
+	ldr r0, _080C11F4 @ =gOamFreeIndex
 	ldrb r3, [r0]
 	lsls r0, r3, #3
 	ldr r1, _080C11D4 @ =gOamBuffer
@@ -1941,7 +1938,7 @@ _080C11E4: .4byte gUnknown_03003B80
 _080C11E8: .4byte gUnknown_03003750
 _080C11EC: .4byte 0x80000003
 _080C11F0: .4byte gFlags
-_080C11F4: .4byte gUnknown_03002C00
+_080C11F4: .4byte gOamFreeIndex
 _080C11F8: .4byte 0x81000003
 _080C11FC:
 	movs r0, #0x80
@@ -1949,7 +1946,7 @@ _080C11FC:
 	ands r0, r1
 	cmp r0, #0
 	beq _080C1284
-	ldr r1, _080C1270 @ =gUnknown_03002C00
+	ldr r1, _080C1270 @ =gOamFreeIndex
 	ldrb r0, [r1]
 	subs r3, r0, #1
 	lsls r0, r3, #3
@@ -1975,7 +1972,7 @@ _080C1224:
 	cmp r3, #0
 	bge _080C1224
 _080C1236:
-	ldr r2, _080C1270 @ =gUnknown_03002C00
+	ldr r2, _080C1270 @ =gOamFreeIndex
 	ldrb r1, [r2]
 	movs r0, #0x80
 	subs r0, r0, r1
@@ -2006,7 +2003,7 @@ _080C125A:
 	blt _080C125A
 	b _080C1288
 	.align 2, 0
-_080C1270: .4byte gUnknown_03002C00
+_080C1270: .4byte gOamFreeIndex
 _080C1274: .4byte gOamBuffer
 _080C1278: .4byte 0x040000D4
 _080C127C: .4byte 0x80000003
@@ -2016,7 +2013,7 @@ _080C1284:
 	strb r0, [r1]
 _080C1288:
 	movs r0, #0
-	ldr r2, _080C12BC @ =gUnknown_03002C00
+	ldr r2, _080C12BC @ =gOamFreeIndex
 	strb r0, [r2]
 	ldr r1, _080C12C0 @ =gFlags
 	ldr r0, [r1]
@@ -2040,7 +2037,7 @@ _080C1288:
 	bl CpuSet
 	b _080C12F4
 	.align 2, 0
-_080C12BC: .4byte gUnknown_03002C00
+_080C12BC: .4byte gOamFreeIndex
 _080C12C0: .4byte gFlags
 _080C12C4: .4byte 0x05000008
 _080C12C8: .4byte gUnknown_03002B50

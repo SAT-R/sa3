@@ -174,7 +174,7 @@ extern Background *gBackgroundsCopyQueue[16];
 extern void *gBgOffsetsHBlank;
 
 extern u16 sa2__gUnknown_030017F0;
-// extern s16 gUnknown_030017F4[2];
+extern s16 sa2__gUnknown_030017F4[2];
 // extern u8 gUnknown_03001850[32];
 // extern FuncType_030053A0 gUnknown_03001870[4];
 

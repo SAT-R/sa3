@@ -222,7 +222,7 @@ _080BBB92:
 	bne _080BBB92
 _080BBB9A:
 	movs r1, #0
-	ldr r2, _080BBE48 @ =gUnknown_03002AF4
+	ldr r2, _080BBE48 @ =sa2__gUnknown_030017F4
 	strh r1, [r2]
 	strh r1, [r2, #2]
 	movs r0, #0x80
@@ -250,7 +250,7 @@ _080BBBC6:
 	bne _080BBBC6
 _080BBBCE:
 	movs r0, #0
-	ldr r7, _080BBE58 @ =gUnknown_03002C00
+	ldr r7, _080BBE58 @ =gOamFreeIndex
 	strb r0, [r7]
 	ldr r1, _080BBE5C @ =gUnknown_03003F90
 	strb r0, [r1]
@@ -575,11 +575,11 @@ _080BBE38: .4byte gUnknown_03003590
 _080BBE3C: .4byte 0x85000004
 _080BBE40: .4byte gUnknown_03006230
 _080BBE44: .4byte gBgScrollRegs
-_080BBE48: .4byte gUnknown_03002AF4
+_080BBE48: .4byte sa2__gUnknown_030017F4
 _080BBE4C: .4byte gDispCnt
 _080BBE50: .4byte gVramGraphicsCopyQueue
 _080BBE54: .4byte 0x85000060
-_080BBE58: .4byte gUnknown_03002C00
+_080BBE58: .4byte gOamFreeIndex
 _080BBE5C: .4byte gUnknown_03003F90
 _080BBE60: .4byte gOamBuffer
 _080BBE64: .4byte 0x81000200
@@ -1156,7 +1156,7 @@ _080BC382:
 	ldrb r0, [r0]
 	cmp r0, #0xff
 	bne _080BC3D0
-	bl sub_80C1124
+	bl CopyOamBufferToOam
 	ldr r0, _080BC444 @ =0x040000D4
 	ldr r3, _080BC458 @ =gOamBuffer
 	str r3, [r0]
@@ -1539,7 +1539,7 @@ _080BC6D2:
 	ldrb r0, [r0]
 	cmp r0, #0xff
 	bne _080BC6EC
-	bl sub_80C1124
+	bl CopyOamBufferToOam
 	ldr r0, _080BC758 @ =gOamBuffer
 	movs r1, #0xe0
 	lsls r1, r1, #0x13

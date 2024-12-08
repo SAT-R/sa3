@@ -86630,7 +86630,7 @@ _0802A1BC:
 	ands r0, r1
 	lsrs r0, r0, #6
 	str r2, [sp, #0x48]
-	bl sub_80C108C
+	bl OamMalloc
 	adds r4, r0, #0
 	ldr r0, _0802A2A8 @ =iwram_end
 	ldr r0, [r0]
@@ -87184,7 +87184,7 @@ _0802A5D8:
 	ands r0, r1
 	lsrs r0, r0, #6
 	str r2, [sp, #0x48]
-	bl sub_80C108C
+	bl OamMalloc
 	adds r4, r0, #0
 	ldr r0, _0802A6B0 @ =iwram_end
 	ldr r0, [r0]
@@ -87757,7 +87757,7 @@ _0802AA20:
 	ands r0, r1
 	lsrs r0, r0, #6
 	str r2, [sp, #0x2c]
-	bl sub_80C108C
+	bl OamMalloc
 	adds r4, r0, #0
 	ldr r0, _0802AAFC @ =iwram_end
 	ldr r0, [r0]

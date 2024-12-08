@@ -136,7 +136,7 @@ typedef struct {
 
 #define SPRITE_ANIM_SPEED(speed) ((int)((float)(speed)*0x10))
 #define SPRITE_OAM_ORDER(index)  ((index) << 6)
-#define GET_SPRITE_OAM_ORDER(s)  ((((s)->unk1A) & 0x7C0) >> 6)
+#define GET_SPRITE_OAM_ORDER(s)  ((((s)->oamFlags) & 0x7C0) >> 6)
 
 // NOTE(Jace): The layout of this struct is different
 //             to SA1 and SA2, with missing GraphicsData

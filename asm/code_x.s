@@ -9980,7 +9980,7 @@ _080B6A34:
 	adds r1, r2, #0
 	ands r0, r1
 	lsrs r0, r0, #6
-	bl sub_80C108C
+	bl OamMalloc
 	adds r4, r0, #0
 	ldr r0, _080B6B10 @ =iwram_end
 	ldr r0, [r0]
@@ -9990,7 +9990,7 @@ _080B6A34:
 	asrs r6, r0, #0x10
 	cmp r6, #0
 	bne _080B6A6C
-	ldr r0, _080B6B14 @ =gUnknown_03002C00
+	ldr r0, _080B6B14 @ =gOamFreeIndex
 	ldrb r0, [r0]
 	subs r0, #1
 	strb r0, [r5, #0x1d]
@@ -10076,7 +10076,7 @@ _080B6B04: .4byte gRefSpriteTables
 _080B6B08: .4byte 0x040000D4
 _080B6B0C: .4byte 0x000001FF
 _080B6B10: .4byte iwram_end
-_080B6B14: .4byte gUnknown_03002C00
+_080B6B14: .4byte gOamFreeIndex
 _080B6B18: .4byte 0x80000003
 _080B6B1C: .4byte 0xF9FF0000
 

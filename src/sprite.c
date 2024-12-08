@@ -626,6 +626,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004E14.inc", void sa2__sub_8004E14(S
 END_NONMATCH
 
 #if 0
+// (34.52%) https://decomp.me/scratch/5GcHT
 void DisplaySprite(Sprite *sprite)
 {
     OamData *oam;
@@ -634,26 +635,49 @@ void DisplaySprite(Sprite *sprite)
     u32 r5, r7;
     const u16 *oamData;
 
-    if (sprite->dimensions != (void *)-1) {
-        const SpriteOffset *sprDims = sprite->dimensions;
+    s32 sp14 = 0;
+    s32 sp18 = 0;
+    s32 sp1C = 0;
+    s32 sp20 = 0;
+    s32 sp24 = 0;
+
+    if (sprite->frameNum != -1) {
+        const SpriteOffset *sprDims;
+        if ((sprite->frameNum >> 28) == 0) {
+            sprDims = &gRefSpriteTables->dimensions[sprite->anim][sprite->frameNum];
+        } else {
+            sprDims = (const SpriteOffset *)(((u8 *)gRefSpriteTables->dimensions[sprite->anim]) + sprite->frameNum * 16);
+        }
 
         sprite->numSubFrames = sprDims->numSubframes;
         x = sprite->x;
         y = sprite->y;
 
         if (sprite->frameFlags & SPRITE_FLAG_MASK_17) {
-            x -= gUnknown_030017F4[0];
-            y -= gUnknown_030017F4[1];
+            x -= sa2__gUnknown_030017F4[0];
+            y -= sa2__gUnknown_030017F4[1];
         }
 
         sprWidth = sprDims->width;
         sprHeight = sprDims->height;
+
+        if(sprite->frameFlags & 0x200) {
+            sp14 |= 0x1000;
+            sprite->x = sp14;
+        } 
+        
+        if(sprite->frameFlags & 0x1000) {
+            sp14 |= 0x100;
+            sprite->y = sp14;
+        } 
+        
         if (sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE_ENABLE) {
             if (sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE_DOUBLE_SIZE) {
                 x -= sprDims->width / 2;
                 y -= sprDims->height / 2;
                 sprWidth *= 2;
                 sprHeight *= 2;
+                sp14 |= 0x200;
             }
         } else {
             if (sprite->frameFlags & SPRITE_FLAG_MASK_Y_FLIP) {
@@ -667,14 +691,18 @@ void DisplaySprite(Sprite *sprite)
             } else {
                 x -= sprDims->offsetX;
             }
+
+            if(GetBit(sprite->frameFlags, 11)) {
+                //
+            }
         }
 
         if (x + sprWidth >= 0 && x <= DISPLAY_WIDTH && // fmt
             y + sprHeight >= 0 && y <= DISPLAY_HEIGHT) {
-            u8 mosaicHVSizes = gMosaicReg >> 8;
+            //u8 mosaicHVSizes = gMosaicReg >> 8;
 
             for (i = 0; i < sprDims->numSubframes; i++) {
-                oamData = gRefSpriteTables->oamData[sprite->graphics.anim];
+                oamData = gRefSpriteTables->oamData[sprite->anim];
 
                 // oam gets zero-initialized(?)
                 oam = OamMalloc(GET_SPRITE_OAM_ORDER(sprite));
@@ -722,9 +750,10 @@ void DisplaySprite(Sprite *sprite)
                     }
                 }
 
-                if (mosaicHVSizes != 0 && (sprite->frameFlags & SPRITE_FLAG_MASK_MOSAIC) != 0) {
+                //if (mosaicHVSizes != 0 && (sprite->frameFlags & SPRITE_FLAG_MASK_MOSAIC) != 0)
+                {
                     // Enable mosaic bit
-                    oam->all.attr0 |= 0x1000;
+                //    oam->all.attr0 |= 0x1000;
                 }
 
                 oam->all.attr0 |= (sprite->frameFlags & SPRITE_FLAG_MASK_OBJ_MODE) * 8;
@@ -735,12 +764,14 @@ void DisplaySprite(Sprite *sprite)
                 if (oam->all.attr0 & (ST_OAM_8BPP << 13)) {
                     oam->all.attr2 += oam->all.attr2 & 0x3FF;
                 }
-                oam->all.attr2 += GET_TILE_NUM(sprite->graphics.dest);
+                //oam->all.attr2 += GET_TILE_NUM(sprite->graphics.dest);
             }
         }
     }
 }
+#endif
 
+#if 0
 void sub_081569A0(Sprite *sprite, u16 *sp08, u8 sp0C)
 {
     vs32 x, y;
