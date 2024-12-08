@@ -410,19 +410,19 @@ _080BBCD0:
 	str r1, [r0, #0x1c]
 	ldr r0, _080BBE88 @ =gUnknown_03002C24
 	strb r3, [r0]
-	ldr r0, _080BBE8C @ =gUnknown_03002C54
+	ldr r0, _080BBE8C @ =sa2__gUnknown_03001944
 	strh r1, [r0]
-	ldr r0, _080BBE90 @ =gUnknown_03002AF0
+	ldr r0, _080BBE90 @ =sa2__gUnknown_030017F0
 	strh r2, [r0]
-	ldr r0, _080BBE94 @ =gUnknown_03006844
+	ldr r0, _080BBE94 @ =sa2__gUnknown_03005394
 	strh r2, [r0]
 	ldr r0, _080BBE98 @ =gUnknown_03003F3C
 	strh r1, [r0]
 	ldr r0, _080BBE9C @ =gUnknown_03006204
 	strh r1, [r0]
-	ldr r0, _080BBEA0 @ =gUnknown_03002C5C
+	ldr r0, _080BBEA0 @ =sa2__gUnknown_0300194C
 	strh r1, [r0]
-	ldr r0, _080BBEA4 @ =gUnknown_03003C0C
+	ldr r0, _080BBEA4 @ =sa2__gUnknown_03002820
 	strh r1, [r0]
 	ldr r0, _080BBEA8 @ =gUnknown_03006848
 	strh r2, [r0]
@@ -592,13 +592,13 @@ _080BBE7C: .4byte 0x85000080
 _080BBE80: .4byte gBgPalette
 _080BBE84: .4byte gBgAffineRegs
 _080BBE88: .4byte gUnknown_03002C24
-_080BBE8C: .4byte gUnknown_03002C54
-_080BBE90: .4byte gUnknown_03002AF0
-_080BBE94: .4byte gUnknown_03006844
+_080BBE8C: .4byte sa2__gUnknown_03001944
+_080BBE90: .4byte sa2__gUnknown_030017F0
+_080BBE94: .4byte sa2__gUnknown_03005394
 _080BBE98: .4byte gUnknown_03003F3C
 _080BBE9C: .4byte gUnknown_03006204
-_080BBEA0: .4byte gUnknown_03002C5C
-_080BBEA4: .4byte gUnknown_03003C0C
+_080BBEA0: .4byte sa2__gUnknown_0300194C
+_080BBEA4: .4byte sa2__gUnknown_03002820
 _080BBEA8: .4byte gUnknown_03006848
 _080BBEAC: .4byte gWinRegs
 _080BBEB0: .4byte gBldRegs

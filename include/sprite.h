@@ -276,7 +276,7 @@ void UnusedTransform(Sprite *, SpriteTransform *);
 // void sub_8003914(Sprite *);
 // void sub_80047A0(u16, s16, s16, u16);
 //
-// s16 sub_8004418(s16 x, s16 y);
+s16 sa2__sub_8004418(s16 x, s16 y);
 
 extern u8 gUnknown_03002C24; // related to Sprite.frameFlags
 

@@ -54,7 +54,7 @@ _080BF948:
 	strh r0, [r2]
 	ldrh r4, [r2]
 	lsls r4, r4, #5
-	ldr r0, _080BFAEC @ =gUnknown_03006246
+	ldr r0, _080BFAEC @ =gOamBuffer + 0x6
 	adds r4, r4, r0
 	subs r2, #0x18
 	str r2, [sp, #0x28]
@@ -253,7 +253,7 @@ _080BFA4C:
 	b _080BFB04
 	.align 2, 0
 _080BFAE8: .4byte gRefSpriteTables
-_080BFAEC: .4byte gUnknown_03006246
+_080BFAEC: .4byte gOamBuffer + 0x6
 _080BFAF0: .4byte gSineTable
 _080BFAF4: .4byte 0x000003FF
 _080BFAF8:

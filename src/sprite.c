@@ -515,14 +515,14 @@ NONMATCH("asm/non_matching/engine/TransformSprite.inc", void TransformSprite(Spr
 }
 END_NONMATCH
 
-#if 0
 // (0.00%)
-NONMATCH("asm/non_matching/engine/unused_transform.inc", void UnusedTransform(Sprite *sprite, SpriteTransform *transform))
+NONMATCH("asm/non_matching/engine/UnusedTransform.inc", void UnusedTransform(Sprite *sprite, SpriteTransform *transform))
 {
     // TODO
 }
 END_NONMATCH
 
+#if 0
 // VERY similar to TransformSprite and sub_8004ABC
 // (41.14%) https://decomp.me/scratch/n3NXz
 NONMATCH("asm/non_matching/engine/sub_8004E14.inc", void sub_8004E14(Sprite *sprite, SpriteTransform *transform))

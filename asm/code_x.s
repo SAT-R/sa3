@@ -8369,7 +8369,7 @@ _080B5DB6:
 	adds r0, r7, #0
 	bl sub_80B69B4
 	lsls r0, r5, #5
-	ldr r1, _080B5DF0 @ =gUnknown_03006246
+	ldr r1, _080B5DF0 @ =gOamBuffer + 0x6
 	adds r0, r0, r1
 	ldrh r1, [r6, #0xc]
 	strh r1, [r0]
@@ -8391,7 +8391,7 @@ _080B5DB6:
 	.align 2, 0
 _080B5DE8: .4byte 0x0400000A
 _080B5DEC: .4byte 0x000008DA
-_080B5DF0: .4byte gUnknown_03006246
+_080B5DF0: .4byte gOamBuffer + 0x6
 
 	thumb_func_start sub_80B5DF4
 sub_80B5DF4: @ 0x080B5DF4
@@ -8464,7 +8464,7 @@ _080B5E78:
 	mov r1, sl
 	lsls r0, r1, #0x10
 	asrs r0, r0, #0xb
-	ldr r1, _080B5EB8 @ =gUnknown_03006246
+	ldr r1, _080B5EB8 @ =gOamBuffer + 0x6
 	adds r0, r0, r1
 	ldrh r1, [r6, #0xc]
 	strh r1, [r0]
@@ -8489,7 +8489,7 @@ _080B5EA8: .4byte gCurTask
 _080B5EAC: .4byte 0x0300011C
 _080B5EB0: .4byte 0x0400000A
 _080B5EB4: .4byte 0x030000AC
-_080B5EB8: .4byte gUnknown_03006246
+_080B5EB8: .4byte gOamBuffer + 0x6
 
 	thumb_func_start sub_80B5EBC
 sub_80B5EBC: @ 0x080B5EBC
@@ -8732,7 +8732,7 @@ _080B6086:
 	ble _080B5FB2
 	ldr r6, [sp, #0x3c]
 	asrs r0, r6, #0xb
-	ldr r1, _080B60DC @ =gUnknown_03006246
+	ldr r1, _080B60DC @ =gOamBuffer + 0x6
 	adds r0, r0, r1
 	ldr r2, [sp, #0x28]
 	ldrh r1, [r2, #0xc]
@@ -8757,7 +8757,7 @@ _080B6086:
 _080B60D0: .4byte 0x000008E2
 _080B60D4: .4byte 0x000003FF
 _080B60D8: .4byte gSineTable
-_080B60DC: .4byte gUnknown_03006246
+_080B60DC: .4byte gOamBuffer + 0x6
 
 	thumb_func_start sub_80B60E0
 sub_80B60E0: @ 0x080B60E0
@@ -8829,7 +8829,7 @@ _080B6160:
 	adds r0, r6, #0
 	bl sub_80B69B4
 	lsls r0, r7, #5
-	ldr r1, _080B6194 @ =gUnknown_03006246
+	ldr r1, _080B6194 @ =gOamBuffer + 0x6
 	adds r0, r0, r1
 	ldrh r1, [r5, #0xc]
 	strh r1, [r0]
@@ -8848,7 +8848,7 @@ _080B6160:
 _080B6188: .4byte gCurTask
 _080B618C: .4byte 0x0400000A
 _080B6190: .4byte 0x000008DA
-_080B6194: .4byte gUnknown_03006246
+_080B6194: .4byte gOamBuffer + 0x6
 
 	thumb_func_start sub_80B6198
 sub_80B6198: @ 0x080B6198
@@ -9179,7 +9179,7 @@ sub_80B6370: @ 0x080B6370
 	mov r0, r8
 	bl sub_80B69B4
 	lsls r4, r4, #5
-	ldr r0, _080B6460 @ =gUnknown_03006246
+	ldr r0, _080B6460 @ =gOamBuffer + 0x6
 	adds r4, r4, r0
 	ldrh r0, [r7, #0xc]
 	strh r0, [r4]
@@ -9207,7 +9207,7 @@ _080B6450: .4byte 0x03000004
 _080B6454: .4byte 0x0400000A
 _080B6458: .4byte 0x000C0060
 _080B645C: .4byte gUnknown_030008E0
-_080B6460: .4byte gUnknown_03006246
+_080B6460: .4byte gOamBuffer + 0x6
 
 	thumb_func_start sub_80B6464
 sub_80B6464: @ 0x080B6464
@@ -9284,7 +9284,7 @@ sub_80B6464: @ 0x080B6464
 	adds r0, r6, #0
 	bl sub_80B69B4
 	lsls r4, r4, #5
-	ldr r0, _080B6534 @ =gUnknown_03006246
+	ldr r0, _080B6534 @ =gOamBuffer + 0x6
 	adds r4, r4, r0
 	ldrh r0, [r7, #0xc]
 	strh r0, [r4]
@@ -9309,7 +9309,7 @@ _080B6524: .4byte gCurTask
 _080B6528: .4byte 0x030000F4
 _080B652C: .4byte 0x0400000A
 _080B6530: .4byte 0x000C0060
-_080B6534: .4byte gUnknown_03006246
+_080B6534: .4byte gOamBuffer + 0x6
 
 	thumb_func_start sub_80B6538
 sub_80B6538: @ 0x080B6538
