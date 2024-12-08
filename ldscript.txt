@@ -147,7 +147,7 @@ SECTIONS {
         build/sa3/src/task.o(.text);
         build/sa3/src/background.o(.text);
         build/sa3/asm/sprite.o(.text);
-        build/sa3/asm/bg_triangles.o(.text);
+        build/sa3/src/bg_triangles.o(.text);
         build/sa3/src/malloc_vram.o(.text);
         build/sa3/src/multi_sio.o(.text);
         build/sa3/src/multi_boot.o(.text);
@@ -548,6 +548,8 @@ SECTIONS {
         build/sa3/src/background.o(.rodata);
         build/sa3/src/trig.o(.rodata);
         build/sa3/data/data1_1.o(.rodata);
+        build/sa3/src/bg_triangles.o(.rodata);
+        build/sa3/data/data1_2.o(.rodata);
 
         build/sa3/src/lib/agb_flash/agb_flash.o(.rodata)
         build/sa3/src/lib/agb_flash/agb_flash_1m.o(.rodata)

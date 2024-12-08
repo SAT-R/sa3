@@ -392,8 +392,8 @@ NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__unfinished_sub_803C
     gFlags |= FLAGS_4;
 
     // TODO: Cast properly
-    gUnknown_03003C5C = (void *)&REG_BG0VOFS;
-    gUnknown_03003F30 = 2;
+    sa2__gUnknown_03002878 = (void *)&REG_BG0VOFS;
+    sa2__gUnknown_03002A80 = 2;
 
     ptr = *(u16 **)gBgOffsetsHBlank;
     for (i = 0; i < DISPLAY_HEIGHT; i += 2) {

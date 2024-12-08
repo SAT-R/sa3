@@ -470,9 +470,9 @@ _080BBD3E:
 	ldr r5, _080BBED0 @ =gUnknown_03002E70
 	ldr r6, _080BBED4 @ =gBgOffsetsHBlank
 	ldr r7, _080BBED8 @ =gUnknown_030035BC
-	ldr r4, _080BBEDC @ =gUnknown_03003C5C
+	ldr r4, _080BBEDC @ =sa2__gUnknown_03002878
 	mov ip, r4
-	ldr r0, _080BBEE0 @ =gUnknown_03003F30
+	ldr r0, _080BBEE0 @ =sa2__gUnknown_03002A80
 	mov r8, r0
 	ldr r1, _080BBEE4 @ =gNumHBlankCallbacks
 	mov sb, r1
@@ -612,8 +612,8 @@ _080BBECC: .4byte gUnknown_03003574
 _080BBED0: .4byte gUnknown_03002E70
 _080BBED4: .4byte gBgOffsetsHBlank
 _080BBED8: .4byte gUnknown_030035BC
-_080BBEDC: .4byte gUnknown_03003C5C
-_080BBEE0: .4byte gUnknown_03003F30
+_080BBEDC: .4byte sa2__gUnknown_03002878
+_080BBEE0: .4byte sa2__gUnknown_03002A80
 _080BBEE4: .4byte gNumHBlankCallbacks
 _080BBEE8: .4byte gNumHBlankIntrs
 _080BBEEC: .4byte gIntrTable
@@ -1140,10 +1140,10 @@ _080BC35A:
 	ldr r0, _080BC448 @ =gBgOffsetsHBlank
 	ldr r0, [r0]
 	str r0, [r2]
-	ldr r0, _080BC44C @ =gUnknown_03003C5C
+	ldr r0, _080BC44C @ =sa2__gUnknown_03002878
 	ldr r0, [r0]
 	str r0, [r2, #4]
-	ldr r0, _080BC450 @ =gUnknown_03003F30
+	ldr r0, _080BC450 @ =sa2__gUnknown_03002A80
 	ldrb r0, [r0]
 	lsrs r0, r0, #1
 	movs r1, #0x80
@@ -1250,8 +1250,8 @@ _080BC43C: .4byte 0x0000FFFD
 _080BC440: .4byte gNumHBlankIntrs
 _080BC444: .4byte 0x040000D4
 _080BC448: .4byte gBgOffsetsHBlank
-_080BC44C: .4byte gUnknown_03003C5C
-_080BC450: .4byte gUnknown_03003F30
+_080BC44C: .4byte sa2__gUnknown_03002878
+_080BC450: .4byte sa2__gUnknown_03002A80
 _080BC454: .4byte sLastCalledVblankFuncId
 _080BC458: .4byte gOamBuffer
 _080BC45C: .4byte 0x80000080
@@ -1683,8 +1683,8 @@ VBlankIntr: @ 0x080BC7C0
 	lsls r1, r1, #0x18
 	adds r6, r5, #0
 	ldr r4, _080BC868 @ =gBgOffsetsHBlank
-	ldr r5, _080BC86C @ =gUnknown_03003C5C
-	ldr r3, _080BC870 @ =gUnknown_03003F30
+	ldr r5, _080BC86C @ =sa2__gUnknown_03002878
+	ldr r3, _080BC870 @ =sa2__gUnknown_03002A80
 	cmp r0, #0
 	bge _080BC81A
 _080BC812:
@@ -1727,11 +1727,11 @@ _080BC85C: .4byte gExecSoundMain
 _080BC860: .4byte gUnknown_03003C00
 _080BC864: .4byte 0x04000200
 _080BC868: .4byte gBgOffsetsHBlank
-_080BC86C: .4byte gUnknown_03003C5C
-_080BC870: .4byte gUnknown_03003F30
+_080BC86C: .4byte sa2__gUnknown_03002878
+_080BC870: .4byte sa2__gUnknown_03002A80
 _080BC874: .4byte 0xA2600000
 _080BC878:
-	ldr r4, _080BC8D0 @ =gUnknown_03003C5C
+	ldr r4, _080BC8D0 @ =sa2__gUnknown_03002878
 	ldr r0, [r4]
 	adds r6, r5, #0
 	cmp r0, #0
@@ -1777,7 +1777,7 @@ _080BC88E:
 	strh r0, [r2]
 	b _080BC904
 	.align 2, 0
-_080BC8D0: .4byte gUnknown_03003C5C
+_080BC8D0: .4byte sa2__gUnknown_03002878
 _080BC8D4: .4byte 0x04000200
 _080BC8D8: .4byte 0x0000FFFD
 _080BC8DC: .4byte 0x04000004

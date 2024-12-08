@@ -45,10 +45,10 @@ _0803C73A:
 	movs r1, #4
 	orrs r0, r1
 	str r0, [r2]
-	ldr r1, _0803C844 @ =gUnknown_03003C5C
+	ldr r1, _0803C844 @ =sa2__gUnknown_03002878
 	ldr r0, _0803C848 @ =0x04000012
 	str r0, [r1]
-	ldr r1, _0803C84C @ =gUnknown_03003F30
+	ldr r1, _0803C84C @ =sa2__gUnknown_03002A80
 	movs r0, #2
 	strb r0, [r1]
 	ldr r0, _0803C850 @ =gBgOffsetsHBlank
@@ -178,9 +178,9 @@ _0803C82A:
 	.align 2, 0
 _0803C83C: .4byte 0xFFC00000
 _0803C840: .4byte gFlags
-_0803C844: .4byte gUnknown_03003C5C
+_0803C844: .4byte sa2__gUnknown_03002878
 _0803C848: .4byte 0x04000012
-_0803C84C: .4byte gUnknown_03003F30
+_0803C84C: .4byte sa2__gUnknown_03002A80
 _0803C850: .4byte gBgOffsetsHBlank
 _0803C854:
 	mov r1, sb

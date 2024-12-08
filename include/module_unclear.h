@@ -12,10 +12,10 @@
 // Appears to be multiplayer-only?
 
 // TODO: Type this properly
-extern void *gUnknown_03003C5C;
+extern void *sa2__gUnknown_03002878;
 
 extern u8 gBackgroundsCopyQueueIndex;
-extern u8 gUnknown_03003F30;
+extern u8 sa2__gUnknown_03002A80;
 extern u8 gBackgroundsCopyQueueCursor;
 
 extern u8 gUnknown_03006840;

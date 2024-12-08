@@ -646,8 +646,8 @@ void sub_803A3B4(s16 param0)
 
     gFlags |= FLAGS_4;
 
-    gUnknown_03003C5C = (void *)&REG_BG0VOFS;
-    gUnknown_03003F30 = 2;
+    sa2__gUnknown_03002878 = (void *)&REG_BG0VOFS;
+    sa2__gUnknown_03002A80 = 2;
 
     offsets = (u16 *)gBgOffsetsHBlank;
 

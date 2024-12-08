@@ -194,9 +194,9 @@ extern s16 gMosaicReg;
 extern struct GraphicsData gVramGraphicsCopyQueue[32];
 // extern u16 gUnknown_03002820;
 // extern u8 gUnknown_03002874;
-// extern void *gUnknown_03002878;
+extern void *sa2__gUnknown_03002878;
 extern u8 gBackgroundsCopyQueueIndex;
-// extern u8 gUnknown_03002A80;
+extern u8 sa2__gUnknown_03002A80;
 extern u8 gVramGraphicsCopyQueueIndex;
 // extern u16 gUnknown_03002A8C;
 //  When paused, the previously-active OAM elements get moved to the end

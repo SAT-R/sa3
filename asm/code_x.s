@@ -2657,10 +2657,10 @@ sub_80B3080: @ 0x080B3080
 	ldr r0, [r0, #0xc]
 	ldrh r2, [r0, #6]
 	adds r2, r2, r1
-	ldr r1, _080B30D8 @ =gUnknown_03003F30
+	ldr r1, _080B30D8 @ =sa2__gUnknown_03002A80
 	movs r0, #0x10
 	strb r0, [r1]
-	ldr r1, _080B30DC @ =gUnknown_03003C5C
+	ldr r1, _080B30DC @ =sa2__gUnknown_03002878
 	ldr r0, _080B30E0 @ =0x04000020
 	str r0, [r1]
 	ldr r1, _080B30E4 @ =gBgOffsetsHBlank
@@ -2682,8 +2682,8 @@ sub_80B3080: @ 0x080B3080
 	b _080B30EE
 	.align 2, 0
 _080B30D4: .4byte gCurTask
-_080B30D8: .4byte gUnknown_03003F30
-_080B30DC: .4byte gUnknown_03003C5C
+_080B30D8: .4byte sa2__gUnknown_03002A80
+_080B30DC: .4byte sa2__gUnknown_03002878
 _080B30E0: .4byte 0x04000020
 _080B30E4: .4byte gBgOffsetsHBlank
 _080B30E8:
