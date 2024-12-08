@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_80C4564
-sub_80C4564: @ 0x080C4564
+	thumb_func_start CopyPalette
+CopyPalette: @ 0x080C4564
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

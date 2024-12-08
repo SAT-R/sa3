@@ -19,6 +19,7 @@
 #define FLAGS_SKIP_INTRO                 0x1000
 #define FLAGS_4000                       0x4000
 #define FLAGS_8000                       0x8000
+#define FLAGS_20000                      0x20000 // Disable DMA?
 
 extern u32 gFlags;
 

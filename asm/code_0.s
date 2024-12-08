@@ -53021,7 +53021,7 @@ sub_8019AB4: @ 0x08019AB4
 	lsls r1, r4, #0x18
 	lsrs r1, r1, #0x18
 	adds r2, r5, #0
-	bl sub_80C4564
+	bl CopyPalette
 	b _08019B3A
 	.align 2, 0
 _08019B04: .4byte gAnimations

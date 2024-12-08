@@ -4,6 +4,7 @@
 #include "flags.h"
 #include "sprite.h"
 #include "trig.h"
+#include "code_z_1.h"
 #include "lib/m4a/m4a.h"
 #include "data/sprite_data.h"
 #include "animation_commands.h"
@@ -15,8 +16,8 @@ extern const AnimationCommandFunc animCmdTable[];
 #define ReadInstruction(script, cursor) ((void *)(script) + (cursor * sizeof(s32)))
 
 // TODO: extern -> static
-extern AnimCmdResult animCmd_GetTiles(void *cursor, Sprite *s);
-extern AnimCmdResult animCmd_GetPalette(void *cursor, Sprite *s);
+static AnimCmdResult animCmd_GetTiles(void *cursor, Sprite *s);
+static AnimCmdResult animCmd_GetPalette(void *cursor, Sprite *s);
 extern AnimCmdResult animCmd_JumpBack(void *cursor, Sprite *s);
 extern AnimCmdResult animCmd_End(void *cursor, Sprite *s);
 extern AnimCmdResult animCmd_PlaySoundEffect(void *cursor, Sprite *s);
@@ -294,12 +295,12 @@ AnimCmdResult sub_80BF540(Sprite *s, u16 param1)
     return ACMD_RESULT__RUNNING;
 }
 
-#if 0
-
 // (-1)
 static AnimCmdResult animCmd_GetTiles(void *cursor, Sprite *s)
 {
     ACmd_GetTiles *cmd = (ACmd_GetTiles *)cursor;
+    void *src;
+    u16 copySize;
     s->animCursor += AnimCommandSizeInWords(ACmd_GetTiles);
 
     if ((s->frameFlags & SPRITE_FLAG_MASK_19) == 0) {
@@ -311,21 +312,47 @@ static AnimCmdResult animCmd_GetTiles(void *cursor, Sprite *s)
             // high-bit. But if they don't, it could underflow.
             tileIndex &= ~0x80000000;
 #endif
-            s->graphics.src = &gRefSpriteTables->tiles_8bpp[tileIndex * TILE_SIZE_8BPP];
-            s->graphics.size = cmd->numTilesToCopy * TILE_SIZE_8BPP;
+            src = (void *)&gRefSpriteTables->tiles_8bpp[tileIndex * TILE_SIZE_8BPP];
+            copySize = cmd->numTilesToCopy * TILE_SIZE_8BPP;
         } else {
-            s->graphics.src = &gRefSpriteTables->tiles_4bpp[tileIndex * TILE_SIZE_4BPP];
-            s->graphics.size = cmd->numTilesToCopy * TILE_SIZE_4BPP;
+            src = (void *)&gRefSpriteTables->tiles_4bpp[tileIndex * TILE_SIZE_4BPP];
+            copySize = cmd->numTilesToCopy * TILE_SIZE_4BPP;
         }
 
-        ADD_TO_GRAPHICS_QUEUE(&s->graphics)
+        ADD_TO_GRAPHICS_QUEUE(src, s->tiles, copySize);
     }
 
     return 1;
 }
 
+// Reordered in SA3
+#if (CURRENT_GAME == GAME_SA3)
+// (-2)
+static AnimCmdResult animCmd_GetPalette(void *cursor, Sprite *s)
+{
+    ACmd_GetPalette *cmd = (ACmd_GetPalette *)cursor;
+    s->animCursor += AnimCommandSizeInWords(*cmd);
+
+    if (!(s->frameFlags & SPRITE_FLAG_MASK_18)) {
+        s32 paletteIndex = cmd->palId;
+
+        if (gFlags & FLAGS_20000) {
+            CopyPalette(&gRefSpriteTables->palettes[paletteIndex * 16], s->palId * 16 + cmd->insertOffset, cmd->numColors);
+        } else {
+            DmaCopy16(3, &gRefSpriteTables->palettes[paletteIndex * 16], &gObjPalette[s->palId * 16 + cmd->insertOffset],
+                      cmd->numColors * 2);
+
+            gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
+        }
+    }
+
+    return ACMD_RESULT__RUNNING;
+}
+#endif
+
 // (-6)
-static AnimCmdResult animCmd_AddHitbox(void *cursor, Sprite *s)
+// TODO: Remove volatile pointer
+AnimCmdResult animCmd_AddHitbox(void *cursor, Sprite *s)
 {
     ACmd_Hitbox *cmd = (ACmd_Hitbox *)cursor;
     s32 hitboxId = cmd->hitbox.index % 16u;
@@ -333,21 +360,22 @@ static AnimCmdResult animCmd_AddHitbox(void *cursor, Sprite *s)
 
     DmaCopy32(3, &cmd->hitbox, &s->hitboxes[hitboxId].index, sizeof(Hitbox));
 
-    if ((cmd->hitbox.left == 0) && (cmd->hitbox.top == 0) && (cmd->hitbox.right == 0) && (cmd->hitbox.bottom == 0)) {
+    if (((u8)cmd->hitbox.b.left == (u8)cmd->hitbox.b.right) && (*(volatile u8 *)&cmd->hitbox.b.top == (u8)cmd->hitbox.b.bottom)) {
         s->hitboxes[hitboxId].index = -1;
     } else {
         if (s->frameFlags & SPRITE_FLAG_MASK_Y_FLIP) {
-            SWAP_AND_NEGATE(s->hitboxes[hitboxId].top, s->hitboxes[hitboxId].bottom);
+            SWAP_AND_NEGATE(s->hitboxes[hitboxId].b.top, s->hitboxes[hitboxId].b.bottom);
         }
 
         if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
-            SWAP_AND_NEGATE(s->hitboxes[hitboxId].left, s->hitboxes[hitboxId].right);
+            SWAP_AND_NEGATE(s->hitboxes[hitboxId].b.left, s->hitboxes[hitboxId].b.right);
         }
     }
 
     return 1;
 }
 
+#if 0
 void sub_80047A0(u16 angle, s16 p1, s16 p2, u16 affineIndex)
 {
     u16 *affine = &gOamBuffer[affineIndex * 4].all.affineParam;
@@ -926,6 +954,8 @@ void CopyOamBufferToOam(void)
     }
 }
 
+// Reordered in SA3
+#if (CURRENT_GAME != GAME_SA3)
 // (-2)
 static AnimCmdResult animCmd_GetPalette(void *cursor, Sprite *s)
 {
@@ -942,6 +972,7 @@ static AnimCmdResult animCmd_GetPalette(void *cursor, Sprite *s)
 
     return ACMD_RESULT__RUNNING;
 }
+#endif
 
 // (-3)
 static AnimCmdResult animCmd_JumpBack(void *cursor, Sprite *s)

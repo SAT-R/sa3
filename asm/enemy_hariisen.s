@@ -1059,7 +1059,7 @@ sub_80619EC: @ 0x080619EC
 	ldr r0, _08061A48 @ =gUnknown_080D208C
 	movs r1, #0xc0
 	movs r2, #0x10
-	bl sub_80C4564
+	bl CopyPalette
 	b _08061A66
 	.align 2, 0
 _08061A38: .4byte gUnknown_080D20B8
@@ -1103,7 +1103,7 @@ _08061A80:
 	adds r0, r5, #0
 	movs r1, #0xc0
 	movs r2, #0x10
-	bl sub_80C4564
+	bl CopyPalette
 	b _08061AB8
 	.align 2, 0
 _08061A9C: .4byte gFlags

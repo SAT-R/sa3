@@ -69524,7 +69524,7 @@ sub_808723C: @ 0x0808723C
 	ldr r0, _08087358 @ =gUnknown_080D66D8
 	movs r1, #0
 	movs r2, #0x40
-	bl sub_80C4564
+	bl CopyPalette
 	b _08087370
 	.align 2, 0
 _0808731C: .4byte gDispCnt
@@ -77217,7 +77217,7 @@ _0808AF9A:
 	movs r2, #0x80
 	lsls r2, r2, #1
 	movs r1, #0
-	bl sub_80C4564
+	bl CopyPalette
 	b _0808B080
 	.align 2, 0
 _0808B040: .4byte gSaveGame
@@ -90070,7 +90070,7 @@ sub_8091490: @ 0x08091490
 	beq _08091518
 	ldr r0, _08091514 @ =gUnknown_080D737C
 	movs r2, #0x10
-	bl sub_80C4564
+	bl CopyPalette
 	b _0809152E
 	.align 2, 0
 _08091508: .4byte gCurTask
@@ -90244,7 +90244,7 @@ _08091622:
 	ldr r0, _0809166C @ =gUnknown_080D737C
 	movs r1, #0
 	movs r2, #0x10
-	bl sub_80C4564
+	bl CopyPalette
 	b _0809168A
 	.align 2, 0
 _08091664: .4byte gUnknown_080D73C0
@@ -90363,7 +90363,7 @@ _08091726:
 	ldr r0, _08091760 @ =gUnknown_080D737C
 	movs r1, #0
 	movs r2, #0x10
-	bl sub_80C4564
+	bl CopyPalette
 	b _0809177C
 	.align 2, 0
 _0809175C: .4byte gFlags
@@ -90437,7 +90437,7 @@ _080917CA:
 	ldr r0, _080917F0 @ =gUnknown_080D737C
 	movs r1, #0
 	movs r2, #0x10
-	bl sub_80C4564
+	bl CopyPalette
 	b _0809181E
 	.align 2, 0
 _080917EC: .4byte 0x040000D4
@@ -90550,7 +90550,7 @@ _08091896:
 	ldr r0, _080918D8 @ =gUnknown_080D737C
 	movs r1, #0
 	movs r2, #0x10
-	bl sub_80C4564
+	bl CopyPalette
 	b _080918F6
 	.align 2, 0
 _080918D4: .4byte gFlags
@@ -90651,7 +90651,7 @@ _08091978:
 	ldr r0, _080919AC @ =gUnknown_080D737C
 	movs r1, #0
 	movs r2, #0x10
-	bl sub_80C4564
+	bl CopyPalette
 	b _080919C6
 	.align 2, 0
 _080919A8: .4byte gFlags
@@ -90687,7 +90687,7 @@ _080919DC:
 	ldr r0, _080919FC @ =gUnknown_080D739C
 	movs r1, #0
 	movs r2, #0x10
-	bl sub_80C4564
+	bl CopyPalette
 	b _08091A16
 	.align 2, 0
 _080919F8: .4byte gFlags
@@ -95314,7 +95314,7 @@ _08093D68:
 	movs r2, #0x80
 	lsls r2, r2, #1
 	movs r1, #0
-	bl sub_80C4564
+	bl CopyPalette
 	b _08093DCA
 	.align 2, 0
 _08093DA4: .4byte gCurTask
@@ -96163,7 +96163,7 @@ _0809440E:
 	ldr r0, _0809443C @ =gUnknown_080D8A8C
 	movs r1, #0xf0
 	movs r2, #0x10
-	bl sub_80C4564
+	bl CopyPalette
 	b _08094456
 	.align 2, 0
 _08094430: .4byte gCurTask
@@ -106008,7 +106008,7 @@ _08099198:
 _080991AC:
 	movs r1, #0x60
 	movs r2, #0x10
-	bl sub_80C4564
+	bl CopyPalette
 	b _080991DA
 	.align 2, 0
 _080991B8: .4byte gFlags
@@ -106500,7 +106500,7 @@ _0809958C:
 _080995A0:
 	movs r1, #0x70
 	movs r2, #0x10
-	bl sub_80C4564
+	bl CopyPalette
 	b _080995CE
 	.align 2, 0
 _080995AC: .4byte gFlags
@@ -107112,7 +107112,7 @@ _08099A8C:
 _08099AA0:
 	movs r1, #0x70
 	movs r2, #0x10
-	bl sub_80C4564
+	bl CopyPalette
 	b _08099ACC
 	.align 2, 0
 _08099AAC: .4byte gFlags
@@ -108308,7 +108308,7 @@ sub_809A3BC: @ 0x0809A3BC
 	adds r0, r0, r1
 	movs r1, #0x60
 	movs r2, #0x10
-	bl sub_80C4564
+	bl CopyPalette
 	b _0809A48A
 	.align 2, 0
 _0809A458: .4byte gCurTask
@@ -108348,7 +108348,7 @@ _0809A48A:
 	adds r0, r0, r1
 	movs r1, #0x70
 	movs r2, #0x10
-	bl sub_80C4564
+	bl CopyPalette
 	b _0809A4E2
 	.align 2, 0
 _0809A4B0: .4byte 0x040000D4
@@ -111765,7 +111765,7 @@ _0809BE0A:
 	ldr r0, _0809BE54 @ =gUnknown_080D9448
 	movs r1, #0x50
 	movs r2, #0x10
-	bl sub_80C4564
+	bl CopyPalette
 	b _0809BE6E
 	.align 2, 0
 _0809BE44: .4byte gStageData
@@ -111836,7 +111836,7 @@ _0809BEC4:
 	lsls r1, r1, #0x1c
 	lsrs r1, r1, #0x18
 	movs r2, #0x10
-	bl sub_80C4564
+	bl CopyPalette
 	b _0809BF14
 	.align 2, 0
 _0809BEE8: .4byte gFlags
@@ -121707,7 +121707,7 @@ _080A0E28:
 	adds r0, r0, r1
 	lsls r1, r5, #4
 	movs r2, #0x10
-	bl sub_80C4564
+	bl CopyPalette
 	b _080A0E82
 	.align 2, 0
 _080A0E48: .4byte gUnknown_080D8F18
@@ -121773,7 +121773,7 @@ sub_80A0EA8: @ 0x080A0EA8
 	adds r0, r0, r1
 	movs r1, #0x70
 	movs r2, #0x10
-	bl sub_80C4564
+	bl CopyPalette
 	b _080A0F02
 	.align 2, 0
 _080A0EDC: .4byte gUnknown_080D8F18
@@ -144102,7 +144102,7 @@ sub_80ABD44: @ 0x080ABD44
 	ldr r0, _080ABDAC @ =gUnknown_080DB824
 	movs r1, #0x70
 	movs r2, #0x10
-	bl sub_80C4564
+	bl CopyPalette
 	b _080ABDC6
 	.align 2, 0
 _080ABD98: .4byte sub_80ABE28
@@ -144134,7 +144134,7 @@ _080ABDC6:
 	ldr r0, _080ABDF4 @ =gUnknown_080DB804
 	movs r1, #0xe0
 	movs r2, #0x10
-	bl sub_80C4564
+	bl CopyPalette
 	b _080ABE0E
 	.align 2, 0
 _080ABDE0: .4byte 0x040000D4
