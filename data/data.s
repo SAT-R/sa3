@@ -854,7 +854,7 @@ gUnknown_080D05A8:
 @ [i][1] = StageBackground Update
     .global gUnknown_080D06CC
 gUnknown_080D06CC:
-    .incbin "baserom.gba", 0x000D06CC, (73*2) * 4 // 73 = Stage count, 2 = BG layer count(?)
+    .incbin "baserom.gba", 0x000D06CC, (73*2) * 4 // 73 = Stage count, 2 = procedures per stage
 
     .global gUnknown_080D0914
 gUnknown_080D0914:

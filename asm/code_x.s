@@ -1648,7 +1648,7 @@ sub_80B28AC: @ 0x080B28AC
 	strh r0, [r4]
 	ldr r0, _080B28EC @ =gUnknown_080DBF68
 	ldrh r1, [r4]
-	bl sub_80B1560
+	bl sa3__sub_80B1560
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x11
 	lsls r0, r0, #0x10
@@ -2014,7 +2014,7 @@ _080B2BA6:
 	adds r0, r0, r4
 	ldrh r1, [r0]
 	ldr r0, _080B2BE8 @ =gUnknown_080DBF68
-	bl sub_80B1560
+	bl sa3__sub_80B1560
 	mov r2, sp
 	adds r1, r2, r4
 	lsls r0, r0, #0x10
@@ -2199,7 +2199,7 @@ sub_80B2D0C: @ 0x080B2D0C
 	strh r0, [r4]
 	ldr r0, _080B2D4C @ =gUnknown_080DBF68
 	ldrh r1, [r4]
-	bl sub_80B1560
+	bl sa3__sub_80B1560
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x11
 	lsls r0, r0, #0x10
@@ -5828,7 +5828,7 @@ sub_80B494C: @ 0x080B494C
 	ldrh r1, [r6]
 	lsls r1, r1, #0x16
 	lsrs r1, r1, #0x10
-	bl sub_80B1560
+	bl sa3__sub_80B1560
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	mov r8, r0
@@ -5836,7 +5836,7 @@ sub_80B494C: @ 0x080B494C
 	ldrh r1, [r6]
 	lsls r1, r1, #0x16
 	lsrs r1, r1, #0x10
-	bl sub_80B1560
+	bl sa3__sub_80B1560
 	adds r4, r0, #0
 	lsls r4, r4, #0x10
 	asrs r4, r4, #0x10
@@ -5844,14 +5844,14 @@ sub_80B494C: @ 0x080B494C
 	ldrh r1, [r6]
 	lsls r1, r1, #0x16
 	lsrs r1, r1, #0x10
-	bl sub_80B1560
+	bl sa3__sub_80B1560
 	lsls r0, r0, #0x10
 	asrs r7, r0, #0x10
 	ldr r0, _080B4A64 @ =gUnknown_080DC3E8
 	ldrh r1, [r6]
 	lsls r1, r1, #0x16
 	lsrs r1, r1, #0x10
-	bl sub_80B1560
+	bl sa3__sub_80B1560
 	lsls r0, r0, #0x10
 	asrs r2, r0, #0x10
 	lsls r4, r4, #6
@@ -10941,13 +10941,13 @@ _080B71D4:
 	bls _080B71D4
 	mov r0, sp
 	ldr r1, [sp, #0x34]
-	bl sub_80B1560
+	bl sa3__sub_80B1560
 	adds r4, r0, #0
 	lsls r4, r4, #0x10
 	lsrs r4, r4, #0x10
 	add r0, sp, #0x18
 	ldr r1, [sp, #0x34]
-	bl sub_80B1560
+	bl sa3__sub_80B1560
 	lsls r4, r4, #0x10
 	adds r2, r7, r6
 	lsls r2, r2, #4

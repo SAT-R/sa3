@@ -139,6 +139,7 @@ SECTIONS {
         build/sa3/asm/enemy_kyacchaa.o(.text);
         build/sa3/asm/code.o(.text);
         build/sa3/asm/game__math.o(.text);
+        build/sa3/src/game/math.o(.text);
         build/sa3/asm/code_x.o(.text);
         build/sa3/src/lib/m4a/m4a0.o(.text);
         build/sa3/src/lib/m4a/m4a.o(.text);
@@ -230,7 +231,7 @@ SECTIONS {
 
     /* data */
         build/sa3/data/data.o(.rodata);
-        build/sa3/asm/game__math.o(.rodata);
+        build/sa3/src/game/math.o(.rodata);
         build/sa3/data/data_x.o(.rodata);
         build/sa3/src/lib/m4a/m4a_tables.o(.rodata);
         build/sa3/data/sound.o(.rodata);
