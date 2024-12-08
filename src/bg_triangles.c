@@ -9,7 +9,7 @@
 /* TODO: Rename this module to something background-related */
 #include "bg_triangles.h"
 
-#if 0   // SA1
+#if 0 // SA1
 #elif 0 // SA2
 const u16 gUnknown_080984F4[] = {
     // Zone 1
