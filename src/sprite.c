@@ -770,24 +770,31 @@ NONMATCH("asm/non_matching/engine/DisplaySprite.inc", void DisplaySprite(Sprite 
 }
 END_NONMATCH
 
-#if 0
-void sub_081569A0(Sprite *sprite, u16 *sp08, u8 sp0C)
+// (28.68%) https://decomp.me/scratch/aW8it
+NONMATCH("asm/non_matching/engine/sa2__sub_081569A0.inc", void sa2__sub_081569A0(Sprite *sprite))
 {
+    u16 *sp08; // <---- param1 in old implementation
+    u8 sp0C; // <---- param2 in old implementation
     vs32 x, y;
     s32 sprWidth, sprHeight;
     u8 subframe, i;
     u32 x1, y1, sp24, sp28;
 
-    if (sprite->dimensions != (void *)-1) {
-        const SpriteOffset *sprDims = sprite->dimensions;
+    if (sprite->frameFlags != -1) {
+        const SpriteOffset *sprDims;
+        if ((sprite->frameNum >> 28) == 0) {
+            sprDims = &gRefSpriteTables->dimensions[sprite->anim][sprite->frameNum];
+        } else {
+            sprDims = (const SpriteOffset *)(((u8 *)gRefSpriteTables->dimensions[sprite->anim]) + sprite->frameNum * 16);
+        }
 
         sprite->numSubFrames = sprDims->numSubframes;
         x = sprite->x;
         y = sprite->y;
 
         if (sprite->frameFlags & SPRITE_FLAG_MASK_17) {
-            x -= gUnknown_030017F4[0];
-            y -= gUnknown_030017F4[1];
+            x -= sa2__gUnknown_030017F4[0];
+            y -= sa2__gUnknown_030017F4[1];
         }
 
         sprWidth = sprDims->width;
@@ -817,7 +824,7 @@ void sub_081569A0(Sprite *sprite, u16 *sp08, u8 sp0C)
         sp28 = y - sprite->y;
         if (x + sprWidth >= 0 && x <= DISPLAY_WIDTH && y + sprHeight >= 0 && y <= DISPLAY_HEIGHT) {
             for (subframe = 0; subframe < sprDims->numSubframes; ++subframe) {
-                const u16 *oamData = gRefSpriteTables->oamData[sprite->graphics.anim];
+                const u16 *oamData = gRefSpriteTables->oamData[sprite->anim];
                 OamData *oam = OamMalloc(GET_SPRITE_OAM_ORDER(sprite));
 
                 if (iwram_end == oam) {
@@ -868,7 +875,7 @@ void sub_081569A0(Sprite *sprite, u16 *sp08, u8 sp0C)
                 if (oam->all.attr0 & (ST_OAM_8BPP << 13)) {
                     oam->all.attr2 += oam->all.attr2 & 0x3FF;
                 }
-                oam->all.attr2 += GET_TILE_NUM(sprite->graphics.dest);
+                // oam->all.attr2 += GET_TILE_NUM(sprite->graphics.dest);
 
                 for (i = 0; i < sp0C; ++i) {
                     OamData *r5 = OamMalloc(GET_SPRITE_OAM_ORDER(sprite));
@@ -885,7 +892,9 @@ void sub_081569A0(Sprite *sprite, u16 *sp08, u8 sp0C)
         }
     }
 }
+END_NONMATCH
 
+#if 0
 // The parameter to this determines the order this sprite is expected to be drawn at.
 //
 // If you have created n Sprite instances, and you want them to be drawn in a certain
