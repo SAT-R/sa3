@@ -41,41 +41,38 @@ bool8 sa2__sub_8085D98(UNK_8085DEC *thing, UNK_8085DEC *target);
 
 #define RAND_CONST 0x37119371;
 
-void sa2__sub_8083B88(struct UNK_8085F1C_1 *a, struct UNK_8085F1C_1 *b, struct UNK_8085F1C_1 *c);
-void sa2__sub_80835E0(struct UNK_8085F1C *p2, s32 *b);
-
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_80832FC.inc", void sub_80832FC()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_80832FC.inc", void sa2__sub_80832FC()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_808343C.inc", void sub_808343C()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_808343C.inc", void sa2__sub_808343C()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8083504.inc", void sub_8083504()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8083504.inc", void sa2__sub_8083504()) { }
 END_NONMATCH
 
 // TODO: match this
 NONMATCH("asm/non_matching/game/math/sa2__sub_80835E0.inc", void sa2__sub_80835E0(struct UNK_8085F1C *p2, s32 *b)) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_80836BC.inc", void sub_80836BC()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_80836BC.inc", void sa2__sub_80836BC()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8083798.inc", void sub_8083798()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8083798.inc", void sa2__sub_8083798()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8083858.inc", void sub_8083858()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8083858.inc", void sa2__sub_8083858()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_80838CC.inc", void sub_80838CC()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_80838CC.inc", void sa2__sub_80838CC()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_808399C.inc", void sub_808399C()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_808399C.inc", void sa2__sub_808399C()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8083A48.inc", void sub_8083A48()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8083A48.inc", void sa2__sub_8083A48()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8083B10.inc", void sub_8083B10()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8083B10.inc", void sa2__sub_8083B10()) { }
 END_NONMATCH
 
 // TODO: match this
@@ -85,53 +82,53 @@ NONMATCH("asm/non_matching/game/math/sa2__sub_8083B88.inc",
 }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8083E44.inc", void sub_8083E44()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8083E44.inc", void sa2__sub_8083E44()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8084090.inc", void sub_8084090()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8084090.inc", void sa2__sub_8084090()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_80842E4.inc", void sub_80842E4()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_80842E4.inc", void sa2__sub_80842E4()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_808442C.inc", void sub_808442C()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_808442C.inc", void sa2__sub_808442C()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_808458C.inc", void sub_808458C()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_808458C.inc", void sa2__sub_808458C()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_808477C.inc", void sub_808477C()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_808477C.inc", void sa2__sub_808477C()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8084904.inc", void sub_8084904()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8084904.inc", void sa2__sub_8084904()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8084964.inc", void sub_8084964()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8084964.inc", void sa2__sub_8084964()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_80849C4.inc", void sub_80849C4()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_80849C4.inc", void sa2__sub_80849C4()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8084A24.inc", void sub_8084A24()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8084A24.inc", void sa2__sub_8084A24()) { }
 END_NONMATCH
 
 // TODO: match this
 NONMATCH("asm/non_matching/game/math/sa2__sub_8084B54.inc", void sa2__sub_8084B54(struct UNK_8085F1C_1 *a, u16 b, u16 c, u16 d)) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8084C70.inc", void sub_8084C70()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8084C70.inc", void sa2__sub_8084C70()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8084EAC.inc", void sub_8084EAC()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8084EAC.inc", void sa2__sub_8084EAC()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8084EE0.inc", void sub_8084EE0()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8084EE0.inc", void sa2__sub_8084EE0()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_80851E0.inc", void sub_80851E0()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_80851E0.inc", void sa2__sub_80851E0()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8085314.inc", void sub_8085314()) { }
+NONMATCH("asm/non_matching/game/math/sa2__unused_sub_8085314.inc", void sa2__sub_8085314()) { }
 END_NONMATCH
 
 // void sub_8085314(struct UNK_8085F1C_1 *p1, struct UNK_8085F1C_1 *p2)

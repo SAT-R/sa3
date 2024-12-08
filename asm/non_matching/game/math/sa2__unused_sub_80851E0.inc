@@ -9,7 +9,7 @@
 	push {r4, r5, r6}
 	sub sp, #0x10
 	mov r8, r0
-	bl sub_8084EAC
+	bl sa2__sub_8084EAC
 	mov r1, r8
 	ldr r0, [r1, #0x14]
 	rsbs r0, r0, #0
