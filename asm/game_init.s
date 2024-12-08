@@ -2171,9 +2171,9 @@ sub_80BCB84: @ 0x080BCB84
 	movs r0, #1
 	mov r8, r0
 	strh r0, [r5]
-	bl SetBIASLevel_000
+	bl SoundBiasReset
 	svc #3
-	bl SetBIASLevel_200
+	bl SoundBiasSet
 	strh r6, [r5]
 	ldrh r0, [r7]
 	strh r0, [r4]

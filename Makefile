@@ -22,6 +22,8 @@ PREFIX := arm-none-eabi-
 
 include config.mk
 
+ROOT_DIR := $(realpath $(dir $(realpath $(lastword $(MAKEFILE_LIST)))))
+
 ifeq ($(OS),Windows_NT)
 EXE := .exe
 else
@@ -71,11 +73,11 @@ ASFLAGS  := -mcpu=arm7tdmi -mthumb-interwork -I asminclude --defsym $(GAME_REGIO
 .SECONDEXPANSION:
 
 # these commands will run regardless of deps being completed
-.PHONY: __rom clean tools clean-tools $(TOOLDIRS)
+.PHONY: __rom clean tools clean-tools $(TOOLDIRS) libagbsyscall
 
 # ensure that we don't scan deps if we are not running
 # any of these commands
-ifeq (,$(filter-out all rom __rom compare,$(MAKECMDGOALS)))
+ifeq (,$(filter-out all rom __rom compare libagbsyscall,$(MAKECMDGOALS)))
 $(call infoshell, $(MAKE) -f tools/Makefile)
 else
 NODEP ?= 1
@@ -179,6 +181,7 @@ clean: tidy clean-tools
 	@$(MAKE) clean -C multi_boot/subgame_bootstrap
 	@$(MAKE) clean -C multi_boot/programs/subgame_loader
 	@$(MAKE) clean -C multi_boot/collect_rings
+	@$(MAKE) clean -C libagbsyscall
 
 	$(RM) $(SAMPLE_SUBDIR)/*.bin $(MID_SUBDIR)/*.s
 	find . \( -iwholename './data/maps/**/*.bin' -o -iname '*.1bpp' -o -iname '*.4bpp' -o -iname '*.8bpp' -o -iname '*.gbapal' -o -iname '*.lz' -o -iname '*.rl' -o -iname '*.latfont' -o -iname '*.hwjpnfont' -o -iname '*.fwjpnfont' \) -exec $(RM) {} +
@@ -231,9 +234,9 @@ chao_garden/mb_chao_garden.gba.lz: chao_garden/mb_chao_garden.gba
 
 %.bin: %.aif ; $(AIF) $< $@
 
-$(ELF): $(OBJS) $(LDSCRIPT)
+$(ELF): $(OBJS) $(LDSCRIPT) libagbsyscall
 	@echo "$(LD) -T $(LD_SCRIPT) -Map $(MAP) <objects> <lib>"
-	@$(LD) -T $(LDSCRIPT) -Map $(MAP) $(OBJS) tools/agbcc/lib/libgcc.a tools/agbcc/lib/libc.a -o $@
+	@$(LD) -T $(LDSCRIPT) -Map $(MAP) $(OBJS) tools/agbcc/lib/libgcc.a tools/agbcc/lib/libc.a -L$(ROOT_DIR)/libagbsyscall -lagbsyscall -o $@
 
 $(ROM): $(ELF)
 	$(OBJCOPY) -O binary --pad-to 0x8400000 $< $@
@@ -314,3 +317,6 @@ $(SONG_BUILDDIR)/%.o: $(SONG_SUBDIR)/%.s
 
 # collect_rings: tools
 # 	$(MAKE) -C multi_boot/collect_rings
+
+libagbsyscall:
+	@$(MAKE) -C libagbsyscall MODERN=0 PLATFORM=$(PLATFORM) CPU_ARCH=$(CPU_ARCH)

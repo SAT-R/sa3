@@ -163,7 +163,20 @@ SECTIONS {
         build/sa3/src/lib/agb_flash/agb_flash_1m.o(.text);
         build/sa3/src/lib/agb_flash/agb_flash_mx.o(.text);
         build/sa3/src/lib/agb_flash/agb_flash_sst.o(.text);
-        build/sa3/asm/libagbsyscall.o(.text);
+        *libagbsyscall.a:ArcTan2.o(.text);
+        *libagbsyscall.a:CpuFastSet.o(.text);
+        *libagbsyscall.a:CpuSet.o(.text);
+        *libagbsyscall.a:Div.o(.text);
+        *libagbsyscall.a:Mod.o(.text);
+        *libagbsyscall.a:LZ77UnCompWram.o(.text);
+        *libagbsyscall.a:MultiBoot.o(.text);
+        *libagbsyscall.a:RLUnCompWram.o(.text);
+        *libagbsyscall.a:SoftReset.o(.text);
+        *libagbsyscall.a:SoundBiasReset.o(.text);
+        *libagbsyscall.a:SoundBiasSet.o(.text);
+        *libagbsyscall.a:Sqrt.o(.text);
+        *libagbsyscall.a:VBlankIntrWait.o(.text);
+        *libagbsyscall.a:SoftResetExram.o(.text);
 
     /* lib_text */
         /* 
