@@ -120,7 +120,6 @@ SECTIONS {
         build/sa3/asm/enemy_ape.o(.text);
         build/sa3/src/game/enemies/minimole.o(.text);
         build/sa3/src/game/enemies/takkon.o(.text);
-        build/sa3/asm/enemy_takkon.o(.text);
         build/sa3/asm/enemy_jousun.o(.text);
         build/sa3/asm/enemy_unknown_code.o(.text);
         build/sa3/asm/enemy_uutsubo.o(.text);

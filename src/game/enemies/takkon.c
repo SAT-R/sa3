@@ -45,9 +45,10 @@ bool32 sub_805B7C0(Takkon *enemy);
 bool32 sub_805B844(Takkon *enemy);
 void Task_Proj_805B8EC(void);
 void sub_Proj_805B91C(TakkonProjectile *proj);
-void sub_Proj_805B928(TakkonProjectile *proj);
+AnimCmdResult sub_Proj_805B928(TakkonProjectile *proj);
 void TaskDestructor_Takkon(struct Task *t);
 void CreateTakkonProjectile(s32 param0, s32 param1, u16 param2, u16 param3);
+void TaskDestructor_TakkonProjectile(struct Task *t);
 
 extern TileInfo2 gUnknown_080D1F0C[4]; // Takkon
 extern TileInfo2 gUnknown_080D1F1C[4]; // proj
@@ -380,4 +381,51 @@ void TaskDestructor_Takkon(struct Task *t)
 {
     Takkon *enemy = TASK_DATA(t);
     VramFree(enemy->s.tiles);
+}
+
+void CreateTakkonProjectile(s32 qPosX, s32 qPosY, u16 regionX, u16 regionY)
+{
+    struct Task *t = TaskCreate(Task_TakkonProjectileInit, sizeof(TakkonProjectile), 0x4040, 0, TaskDestructor_TakkonProjectile);
+    TakkonProjectile *proj = TASK_DATA(t);
+
+    proj->qPos.x = qPosX;
+    proj->qPos.y = qPosY;
+    proj->region.x = regionX;
+    proj->region.y = regionY;
+    sub_805B568(proj);
+}
+
+void Task_Proj_805B8EC(void)
+{
+    TakkonProjectile *proj = TASK_DATA(gCurTask);
+    AnimCmdResult acmdRes = sub_Proj_805B928(proj);
+
+    sub_805B670(proj);
+
+    if (acmdRes == ACMD_RESULT__ENDED) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+}
+
+void sub_Proj_805B91C(TakkonProjectile *proj) { proj->qPos.y += Q(3); }
+
+AnimCmdResult sub_Proj_805B928(TakkonProjectile *proj)
+{
+    AnimCmdResult acmdRes;
+
+    Sprite *s = &proj->s;
+    s->x = TO_WORLD_POS_RAW(I(proj->qPos.x), proj->region.x) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(proj->qPos.y), proj->region.y) - gCamera.y;
+
+    acmdRes = UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    return acmdRes;
+}
+
+void TaskDestructor_TakkonProjectile(struct Task *t)
+{
+    TakkonProjectile *proj = TASK_DATA(t);
+    VramFree(proj->s.tiles);
 }
