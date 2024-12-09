@@ -6,6 +6,9 @@
 
 #define TAPE_LENGTH 0x800
 
+struct InputRecorder gInputRecorder ALIGNED(8) = { 0 };
+u16 *gInputRecorderTapeBuffer = NULL;
+
 static void Task_InputRecorder(void);
 static void InputRecorderEject(struct Task *);
 

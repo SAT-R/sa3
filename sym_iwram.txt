@@ -159,20 +159,17 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 . = 0x00006860; gInputPlaybackData = .;
 . = 0x00006864; gExecSoundMain = .;
 . = 0x00006868; gPseudoRandom = .;
-. = 0x00006870; gMultiSioIntrFuncBuf = .;
-. = 0x00006990; gMultiSioArea = .;
-. = 0x00006BB0; gMultiSioRecvFuncBuf = .;
 
-/* src/sio32_multi_load.c */
-. = 0x00006BF0; gSio32MultiLoadArea = .;
+. = 0x00006870;
+build/sa3/src/multi_sio.o(.data);
+build/sa3/src/sio32_multi_load.o(.data);
 
-/* src/input_recorder.c */
-. = 0x00006C10; gInputRecorder = .;
-. = 0x00006C1C; gInputRecorderTapeBuffer = .;
+. = 0x00006C10;
+build/sa3/src/input_recorder.o(.data);
 
-. = 0x00006C20; gUnknown_03006C20 = .;
+. = 0x00006C20; gUnknown_03006C20 = .; . += 0x1;
 
-. = 0x00006C24; build/sa3/src/lib/agb_flash/agb_flash.o(.data);
+build/sa3/src/lib/agb_flash/agb_flash.o(.data);
 
 *libc.a:sbrkr.o(COMMON);
 
