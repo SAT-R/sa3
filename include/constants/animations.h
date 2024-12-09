@@ -243,10 +243,10 @@
 #define ANIM_MINIMOLE 1174
 #define ANIM_BUZZER   1175
 
-#define ANIM_JOUSUN  1177 /* Green Plane */
-#define ANIM_TAKKON  1178 /* Red Octopus */
-#define ANIM_UUTSUBO 1179 /* Yellow Eel */
-
+#define ANIM_JOUSUN        1177 /* Green Plane */
+#define ANIM_TAKKON        1178 /* Red Octopus */
+#define ANIM_UUTSUBO       1179 /* Yellow Eel */
+#define ANIM_TAKKON_PROJ   1180
 #define ANIM_BUBU          1181
 #define ANIM_GAOGAO        1182
 #define ANIM_GUARD         1183
