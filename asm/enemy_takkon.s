@@ -5,96 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Takkon
-CreateEntity_Takkon: @ 0x0805B2F4
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	sub sp, #8
-	mov r8, r0
-	adds r5, r1, #0
-	adds r6, r2, #0
-	adds r4, r3, #0
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x10
-	lsrs r6, r6, #0x10
-	lsls r4, r4, #0x18
-	lsrs r4, r4, #0x18
-	ldr r0, _0805B36C @ =sub_805B430
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _0805B370 @ =sub_805B880
-	str r1, [sp]
-	movs r1, #0x54
-	movs r3, #0
-	bl TaskCreate
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r7, r1, r0
-	mov r0, r8
-	str r0, [r7]
-	ldrb r0, [r0]
-	strb r0, [r7, #5]
-	strb r4, [r7, #4]
-	strh r5, [r7, #8]
-	strh r6, [r7, #0xa]
-	mov r2, r8
-	ldrb r1, [r2]
-	lsls r1, r1, #0xb
-	str r1, [r7, #0x14]
-	ldrb r0, [r2, #1]
-	lsls r0, r0, #0xb
-	str r0, [r7, #0x18]
-	str r1, [r7, #0xc]
-	str r0, [r7, #0x10]
-	movs r0, #3
-	ldrsb r0, [r2, r0]
-	lsls r0, r0, #0xb
-	adds r1, r1, r0
-	str r1, [r7, #0x1c]
-	ldrb r0, [r2, #5]
-	lsls r0, r0, #0xb
-	adds r1, r1, r0
-	str r1, [r7, #0x20]
-	ldrb r1, [r2, #7]
-	movs r0, #8
-	ands r0, r1
-	cmp r0, #0
-	beq _0805B374
-	movs r0, #0xff
-	b _0805B376
-	.align 2, 0
-_0805B36C: .4byte sub_805B430
-_0805B370: .4byte sub_805B880
-_0805B374:
-	movs r0, #1
-_0805B376:
-	strb r0, [r7, #7]
-	add r1, sp, #4
-	movs r0, #0
-	strh r0, [r1]
-	adds r1, r7, #0
-	adds r1, #0x50
-	ldr r2, _0805B3A8 @ =0x01000002
-	add r0, sp, #4
-	bl CpuSet
-	adds r0, r7, #0
-	bl sub_805B3AC
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	mov r2, r8
-	strb r0, [r2]
-	add sp, #8
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0805B3A8: .4byte 0x01000002
+.if 0
+.endif
 
 	thumb_func_start sub_805B3AC
 sub_805B3AC: @ 0x0805B3AC
@@ -163,8 +75,8 @@ _0805B416:
 _0805B428: .4byte gUnknown_080D1F0C
 _0805B42C: .4byte gCamera
 
-	thumb_func_start sub_805B430
-sub_805B430: @ 0x0805B430
+	thumb_func_start Task_Takkon
+Task_Takkon: @ 0x0805B430
 	push {r4, r5, r6, lr}
 	ldr r5, _0805B450 @ =gCurTask
 	ldr r0, [r5]
@@ -304,7 +216,7 @@ _0805B510:
 	ldrh r3, [r4, #0xa]
 	bl sub_805B894
 	ldr r1, [r7]
-	ldr r0, _0805B564 @ =sub_805B430
+	ldr r0, _0805B564 @ =Task_Takkon
 	str r0, [r1, #8]
 _0805B550:
 	pop {r4, r5, r6, r7}
@@ -314,7 +226,7 @@ _0805B550:
 _0805B558: .4byte gStageData
 _0805B55C: .4byte 0x03000024
 _0805B560: .4byte gUnknown_080D1F0C
-_0805B564: .4byte sub_805B430
+_0805B564: .4byte Task_Takkon
 
 	thumb_func_start sub_805B568
 sub_805B568: @ 0x0805B568
@@ -732,8 +644,8 @@ sub_805B844: @ 0x0805B844
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_805B880
-sub_805B880: @ 0x0805B880
+	thumb_func_start TaskDestructor_Takkon
+TaskDestructor_Takkon: @ 0x0805B880
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
