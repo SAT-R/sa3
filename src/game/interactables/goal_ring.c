@@ -210,7 +210,7 @@ void sub_803414C(void)
         s->y = worldY;
         UpdateSpriteAnimation(s);
 
-        sa2__sub_081569A0(s);
+        sub_80C07E0(s);
     }
 }
 
@@ -247,6 +247,6 @@ void sub_8034250(void)
 
         s = &ring->s[1];
         UpdateSpriteAnimation(s);
-        sa2__sub_081569A0(s);
+        sub_80C07E0(s);
     }
 }

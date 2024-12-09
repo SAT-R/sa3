@@ -124,7 +124,7 @@ void sub_803FC80(void)
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
 
-        sub_80C0CA8(s, &cord->positions[0], ARRAY_COUNT(cord->positions));
+        DisplaySprites(s, &cord->positions[0], ARRAY_COUNT(cord->positions));
     }
 }
 

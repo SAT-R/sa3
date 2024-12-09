@@ -63,7 +63,7 @@ struct PlttData
 //       usually generated during runtime, anyway.
 //       That's what this variation of 'OamData' is for,
 //       as well using this to determine the size for some DMAs to gOamBuffer.
-typedef struct PACKED {
+typedef struct PACKED OamDataShort {
     /*0x00*/
     u32 y : 8;
 

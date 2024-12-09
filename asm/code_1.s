@@ -6710,7 +6710,7 @@ _08052AD4:
 	bgt _08052AD4
 	adds r0, r5, #0
 	movs r2, #0xf
-	bl sub_80C0CA8
+	bl DisplaySprites
 _08052AFA:
 	ldrb r0, [r7, #2]
 	subs r0, #1

@@ -736,6 +736,10 @@ NONMATCH("asm/non_matching/engine/DisplaySprite.inc", void DisplaySprite(Sprite 
                     flipY = sprite->frameFlags >> SPRITE_FLAG_SHIFT_Y_FLIP;
                     r6 = 1;
 
+#if 0
+                    // Done differently in SA3.
+                    //  See SpriteOffset declaration!
+                    
                     // y-flip
                     if ((((sprDims->flip >> 1) ^ flipY) & r6) != 0) {
                         oam->all.attr1 ^= 0x2000;
@@ -747,6 +751,7 @@ NONMATCH("asm/non_matching/engine/DisplaySprite.inc", void DisplaySprite(Sprite 
                         oam->all.attr1 ^= 0x1000;
                         r7 = sprWidth - gOamShapesSizes[shapeAndSize][0] - r7;
                     }
+#endif
                 }
 
                 // if (mosaicHVSizes != 0 && (sprite->frameFlags & SPRITE_FLAG_MASK_MOSAIC) != 0)
@@ -763,24 +768,26 @@ NONMATCH("asm/non_matching/engine/DisplaySprite.inc", void DisplaySprite(Sprite 
                 if (oam->all.attr0 & (ST_OAM_8BPP << 13)) {
                     oam->all.attr2 += oam->all.attr2 & 0x3FF;
                 }
-                // oam->all.attr2 += GET_TILE_NUM(sprite->graphics.dest);
+                oam->all.attr2 += GET_TILE_NUM(sprite->tiles);
             }
         }
     }
 }
 END_NONMATCH
 
-// (28.68%) https://decomp.me/scratch/aW8it
-NONMATCH("asm/non_matching/engine/sa2__sub_081569A0.inc", void sa2__sub_081569A0(Sprite *sprite))
+NONMATCH("asm/non_matching/engine/sub_80C07E0.inc", void sub_80C07E0(Sprite *sprite)) { }
+END_NONMATCH
+
+// (99.82%) https://decomp.me/scratch/UPXYB
+// TODO: Rename SA2: sub_081569A0
+NONMATCH("asm/non_matching/engine/sa2__sub_081569A0.inc", void DisplaySprites(Sprite *sprite, Vec2_16 *positions, u8 numPositions))
 {
-    u16 *sp08; // <---- param1 in old implementation
-    u8 sp0C; // <---- param2 in old implementation
     vs32 x, y;
     s32 sprWidth, sprHeight;
     u8 subframe, i;
     u32 x1, y1, sp24, sp28;
 
-    if (sprite->frameFlags != -1) {
+    if (sprite->frameNum != -1) {
         const SpriteOffset *sprDims;
         if ((sprite->frameNum >> 28) == 0) {
             sprDims = &gRefSpriteTables->dimensions[sprite->anim][sprite->frameNum];
@@ -847,21 +854,20 @@ NONMATCH("asm/non_matching/engine/sa2__sub_081569A0.inc", void sa2__sub_081569A0
                     oam->all.attr1 |= (sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE) << 9;
                 } else {
                     u32 shapeAndSize = ((oam->all.attr0 & 0xC000) >> 12);
-                    u32 flipY;
-                    u32 r6;
+                    u32 a, b;
 
                     shapeAndSize |= ((oam->all.attr1 & 0xC000) >> 14);
-                    flipY = sprite->frameFlags >> 11;
-                    r6 = 1;
 
                     // y-flip
-                    if ((((sprDims->flip >> 1) ^ flipY) & r6) != 0) {
+                    if (((sprite->frameFlags >> 11) & 1) != (sprDims->oamIndex >> 15)) {
                         oam->all.attr1 ^= 0x2000;
                         y1 = sprHeight - gOamShapesSizes[shapeAndSize][1] - y1;
                     }
 
+                    a = (sprite->frameFlags >> 10);
+                    b = (sprDims->oamIndex >> 14);
                     // x-flip
-                    if (((sprite->frameFlags >> 10) & r6) != (sprDims->flip & 1)) {
+                    if ((b ^ a) & 1) {
                         oam->all.attr1 ^= 0x1000;
                         x1 = sprWidth - gOamShapesSizes[shapeAndSize][0] - x1;
                     }
@@ -875,9 +881,9 @@ NONMATCH("asm/non_matching/engine/sa2__sub_081569A0.inc", void sa2__sub_081569A0
                 if (oam->all.attr0 & (ST_OAM_8BPP << 13)) {
                     oam->all.attr2 += oam->all.attr2 & 0x3FF;
                 }
-                // oam->all.attr2 += GET_TILE_NUM(sprite->graphics.dest);
+                oam->all.attr2 += GET_TILE_NUM(sprite->tiles);
 
-                for (i = 0; i < sp0C; ++i) {
+                for (i = 0; i < numPositions; ++i) {
                     OamData *r5 = OamMalloc(GET_SPRITE_OAM_ORDER(sprite));
 
                     if (iwram_end == oam)
@@ -885,8 +891,8 @@ NONMATCH("asm/non_matching/engine/sa2__sub_081569A0.inc", void sa2__sub_081569A0
                     DmaCopy16(3, oam, r5, sizeof(OamDataShort));
                     r5->all.attr1 &= 0xFE00;
                     r5->all.attr0 &= 0xFF00;
-                    r5->all.attr0 += (sp08[2 * i + 1] + sp28 + y1) & 0xFF;
-                    r5->all.attr1 += (sp08[2 * i + 0] + sp24 + x1) & 0x1FF;
+                    r5->all.attr0 += (positions[i].y + sp28 + y1) & 0xFF;
+                    r5->all.attr1 += (positions[i].x + sp24 + x1) & 0x1FF;
                 }
             }
         }

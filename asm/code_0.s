@@ -50045,7 +50045,7 @@ _08018480:
 	adds r0, r6, #0
 	ldr r1, [sp]
 	movs r2, #0xa
-	bl sub_80C0CA8
+	bl DisplaySprites
 	add sp, #8
 	pop {r3, r4, r5}
 	mov r8, r3
@@ -72813,7 +72813,7 @@ _08023544:
 	lsrs r2, r2, #0x18
 	adds r0, r5, #0
 	mov r1, sl
-	bl sub_80C0CA8
+	bl DisplaySprites
 	mov sl, r6
 _0802355A:
 	mov r4, sb

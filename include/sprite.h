@@ -96,11 +96,15 @@ typedef struct {
 } Background; /* size = 0x40 */
 
 typedef struct {
-    /* 0x00 */ u8 flip;
-
+#if (CURRENT_GAME == GAME_SA3)
     // every animation has an associated oamData pointer, oamIndex starts at
     // 0 for every new animation and ends at variantCount-1
+    /* 0x00 */ u16 oamIndex;
+#else
+    /* 0x00 */ u8 flip;
+
     /* 0x01 */ u8 oamIndex;
+#endif
 
     // some sprite frames consist of multiple images (of the same size
     // as GBA's Object Attribute Memory, e.g. 8x8, 8x32, 32x64, ...)
