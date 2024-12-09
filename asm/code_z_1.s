@@ -3029,7 +3029,7 @@ _080C5BFE:
 	rsbs r0, r0, #0
 	ands r1, r0
 	str r1, [r3, #8]
-	ldr r4, _080C5C7C @ =gUnknown_03002C24
+	ldr r4, _080C5C7C @ =gNextFreeAffineIndex
 	ldrb r2, [r4]
 	movs r0, #0x20
 	orrs r0, r2
@@ -3086,7 +3086,7 @@ _080C5C6C: .4byte 0x000003FF
 _080C5C70: .4byte 0xFFFFCFFF
 _080C5C74: .4byte 0x003FE000
 _080C5C78: .4byte gDispCnt
-_080C5C7C: .4byte gUnknown_03002C24
+_080C5C7C: .4byte gNextFreeAffineIndex
 _080C5C80:
 	ldr r0, [r5, #0x14]
 	ldr r1, [r0, #8]
@@ -3775,7 +3775,7 @@ sub_80C6168: @ 0x080C6168
 	ldr r0, [r0, #8]
 	ldr r0, _080C61B8 @ =gMultiSioStatusFlags
 	str r2, [r0]
-	ldr r0, _080C61BC @ =gUnknown_03002C68
+	ldr r0, _080C61BC @ =gMultiSioEnabled
 	strb r2, [r0]
 	movs r0, #0
 	bl MultiSioInit
@@ -3789,7 +3789,7 @@ _080C61AC: .4byte 0x85000006
 _080C61B0: .4byte gMultiSioRecv
 _080C61B4: .4byte 0x85000018
 _080C61B8: .4byte gMultiSioStatusFlags
-_080C61BC: .4byte gUnknown_03002C68
+_080C61BC: .4byte gMultiSioEnabled
 
 	thumb_func_start sub_80C61C0
 sub_80C61C0: @ 0x080C61C0
@@ -3819,7 +3819,7 @@ sub_80C61C0: @ 0x080C61C0
 	movs r0, #0
 	bl MultiSioInit
 _080C61F4:
-	ldr r1, _080C6218 @ =gUnknown_03002C68
+	ldr r1, _080C6218 @ =gMultiSioEnabled
 	movs r0, #1
 	strb r0, [r1]
 	pop {r4}
@@ -3832,12 +3832,12 @@ _080C6208: .4byte 0x04000200
 _080C620C: .4byte 0x0000FFBF
 _080C6210: .4byte gIntrTable
 _080C6214: .4byte gMultiSioIntrFuncBuf
-_080C6218: .4byte gUnknown_03002C68
+_080C6218: .4byte gMultiSioEnabled
 
 	thumb_func_start sub_80C621C
 sub_80C621C: @ 0x080C621C
 	push {r4, lr}
-	ldr r1, _080C6250 @ =gUnknown_03002C68
+	ldr r1, _080C6250 @ =gMultiSioEnabled
 	movs r0, #0
 	strb r0, [r1]
 	ldr r4, _080C6254 @ =gFlags
@@ -3860,7 +3860,7 @@ _080C6248:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080C6250: .4byte gUnknown_03002C68
+_080C6250: .4byte gMultiSioEnabled
 _080C6254: .4byte gFlags
 _080C6258: .4byte 0xFFFEFFFF
 

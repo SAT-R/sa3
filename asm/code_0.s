@@ -112,7 +112,7 @@ sub_8000284: @ 0x08000284
 	ldr r0, [r3, #8]
 	ldr r0, _080002EC @ =sa2__gUnknown_03004D80
 	strb r2, [r0, #2]
-	ldr r1, _080002F0 @ =gUnknown_03003590
+	ldr r1, _080002F0 @ =sa2__gUnknown_03002280
 	strb r2, [r1, #8]
 	strb r2, [r1, #9]
 	movs r0, #0xff
@@ -138,7 +138,7 @@ _080002E0: .4byte 0x040000D4
 _080002E4: .4byte gBgCntRegs
 _080002E8: .4byte 0x85000010
 _080002EC: .4byte sa2__gUnknown_03004D80
-_080002F0: .4byte gUnknown_03003590
+_080002F0: .4byte sa2__gUnknown_03002280
 _080002F4: .4byte gBgScrollRegs
 _080002F8: .4byte gStageData
 _080002FC: .4byte gCurTask
@@ -5485,7 +5485,7 @@ sub_8002BBC: @ 0x08002BBC
 	ldr r3, _08002BF8 @ =gStageData
 	movs r0, #0
 	mov sl, r0
-	ldr r0, _08002BFC @ =gUnknown_03002C24
+	ldr r0, _08002BFC @ =gNextFreeAffineIndex
 	movs r1, #6
 	strb r1, [r0]
 	ldrb r0, [r3, #3]
@@ -5509,7 +5509,7 @@ sub_8002BBC: @ 0x08002BBC
 	b _08002C16
 	.align 2, 0
 _08002BF8: .4byte gStageData
-_08002BFC: .4byte gUnknown_03002C24
+_08002BFC: .4byte gNextFreeAffineIndex
 _08002C00: .4byte gMultiSioRecv
 _08002C04:
 	ldrb r0, [r3, #4]
@@ -6752,7 +6752,7 @@ _08003516:
 	str r1, [r0, #0x20]
 	bl UpdateSpriteAnimation
 	ldr r0, _0800360C @ =0x040000D4
-	ldr r2, _08003610 @ =gUnknown_03003562
+	ldr r2, _08003610 @ =gObjPalette + 0x1F2
 	str r2, [r0]
 	ldr r3, _08003614 @ =0x03000004
 	adds r1, r4, r3
@@ -6787,7 +6787,7 @@ _08003600: .4byte gInput
 _08003604: .4byte 0x03000010
 _08003608: .4byte 0x0000FFFF
 _0800360C: .4byte 0x040000D4
-_08003610: .4byte gUnknown_03003562
+_08003610: .4byte gObjPalette + 0x1F2
 _08003614: .4byte 0x03000004
 _08003618: .4byte 0x80000003
 _0800361C: .4byte 0x0300000A
@@ -52812,7 +52812,7 @@ _08019932:
 	rsbs r0, r0, #0
 	ands r1, r0
 	str r1, [r4, #8]
-	ldr r2, _080199B4 @ =gUnknown_03002C24
+	ldr r2, _080199B4 @ =gNextFreeAffineIndex
 	ldrb r1, [r2]
 	adds r0, r1, #1
 	strb r0, [r2]
@@ -52833,7 +52833,7 @@ _08019932:
 	b _080199BC
 	.align 2, 0
 _080199B0: .4byte gCamera
-_080199B4: .4byte gUnknown_03002C24
+_080199B4: .4byte gNextFreeAffineIndex
 _080199B8:
 	movs r0, #0xff
 	lsls r0, r0, #8
@@ -70970,7 +70970,7 @@ sub_8022664: @ 0x08022664
 	lsrs r5, r0, #0x10
 	mov r0, sb
 	strb r4, [r0, #0x1f]
-	ldr r2, _08022730 @ =gUnknown_03002C24
+	ldr r2, _08022730 @ =gNextFreeAffineIndex
 	ldrb r0, [r2]
 	ldr r1, _08022734 @ =0x00040020
 	orrs r0, r1
@@ -71026,7 +71026,7 @@ sub_8022664: @ 0x08022664
 _08022724: .4byte gCurTask
 _08022728: .4byte gStageData
 _0802272C: .4byte gPlayers
-_08022730: .4byte gUnknown_03002C24
+_08022730: .4byte gNextFreeAffineIndex
 _08022734: .4byte 0x00040020
 _08022738: .4byte 0xFFFFFF00
 _0802273C: .4byte 0x000003FF
@@ -71504,7 +71504,7 @@ _08022A94:
 	ble _08022A94
 	ldr r0, _08022B20 @ =0x040000D4
 	str r3, [r0]
-	ldr r1, _08022B24 @ =gUnknown_03003470
+	ldr r1, _08022B24 @ =gObjPalette + 0x100
 	str r1, [r0, #4]
 	ldr r1, _08022B28 @ =0x80000010
 	str r1, [r0, #8]
@@ -71527,7 +71527,7 @@ _08022B08:
 _08022B18: .4byte gUnknown_080CEE40
 _08022B1C: .4byte gStageData + 0x8E
 _08022B20: .4byte 0x040000D4
-_08022B24: .4byte gUnknown_03003470
+_08022B24: .4byte gObjPalette + 0x100
 _08022B28: .4byte 0x80000010
 _08022B2C: .4byte gFlags
 
@@ -71716,7 +71716,7 @@ _08022B60:
 	ldr r0, [r7, #8]
 	ldr r1, _08022D34 @ =0x00040020
 	orrs r0, r1
-	ldr r2, _08022D38 @ =gUnknown_03002C24
+	ldr r2, _08022D38 @ =gNextFreeAffineIndex
 	ldrb r1, [r2]
 	orrs r0, r1
 	str r0, [r7, #8]
@@ -71783,7 +71783,7 @@ _08022D28: .4byte 0x00000462
 _08022D2C: .4byte 0x000005EC
 _08022D30: .4byte 0x000005E7
 _08022D34: .4byte 0x00040020
-_08022D38: .4byte gUnknown_03002C24
+_08022D38: .4byte gNextFreeAffineIndex
 _08022D3C: .4byte 0x0000020E
 
 	thumb_func_start sub_8022D40
@@ -71986,7 +71986,7 @@ sub_8022E84: @ 0x08022E84
 	subs r1, r1, r0
 	lsls r1, r1, #8
 	lsrs r5, r1, #0x10
-	ldr r2, _08022F54 @ =gUnknown_03002C24
+	ldr r2, _08022F54 @ =gNextFreeAffineIndex
 	ldrb r0, [r2]
 	ldr r1, _08022F58 @ =0x00040020
 	orrs r0, r1
@@ -72043,7 +72043,7 @@ _08022F44: .4byte gCurTask
 _08022F48: .4byte gStageData
 _08022F4C: .4byte gPlayers
 _08022F50: .4byte 0x030001E0
-_08022F54: .4byte gUnknown_03002C24
+_08022F54: .4byte gNextFreeAffineIndex
 _08022F58: .4byte 0x00040020
 _08022F5C: .4byte 0xFFFFFF00
 _08022F60: .4byte 0x000003FF
@@ -78122,7 +78122,7 @@ _08025DA0:
 	lsls r1, r1, #0x1a
 	lsrs r1, r1, #0x1e
 	strb r1, [r4, #6]
-	ldr r2, _08025E20 @ =gUnknown_03002C68
+	ldr r2, _08025E20 @ =gMultiSioEnabled
 	movs r1, #1
 	strb r1, [r2]
 	movs r1, #0x80
@@ -78147,7 +78147,7 @@ _08025E10: .4byte 0x85000001
 _08025E14: .4byte gMultiSioStatusFlags
 _08025E18: .4byte gStageData
 _08025E1C: .4byte 0x04000128
-_08025E20: .4byte gUnknown_03002C68
+_08025E20: .4byte gMultiSioEnabled
 
 	thumb_func_start sub_8025E24
 sub_8025E24: @ 0x08025E24
@@ -78392,7 +78392,7 @@ sub_8025EEC: @ 0x08025EEC
 	str r0, [r2]
 	bl m4aSoundVSyncOn
 	bl sub_8001E84
-	ldr r0, _0802607C @ =gUnknown_03002C68
+	ldr r0, _0802607C @ =gMultiSioEnabled
 	mov r3, r8
 	strb r3, [r0]
 	bl MultiSioStop
@@ -78430,7 +78430,7 @@ _0802606C: .4byte 0x03000036
 _08026070: .4byte gFlags
 _08026074: .4byte 0xFFFFBFFF
 _08026078: .4byte 0xFFFF7FFF
-_0802607C: .4byte gUnknown_03002C68
+_0802607C: .4byte gMultiSioEnabled
 
 	thumb_func_start sub_8026080
 sub_8026080: @ 0x08026080
@@ -78490,7 +78490,7 @@ _080260EC: .4byte sub_802618C
 	thumb_func_start sub_80260F0
 sub_80260F0: @ 0x080260F0
 	push {lr}
-	ldr r1, _08026108 @ =gUnknown_03002C68
+	ldr r1, _08026108 @ =gMultiSioEnabled
 	movs r0, #0
 	strb r0, [r1]
 	bl MultiSioStop
@@ -78499,7 +78499,7 @@ sub_80260F0: @ 0x080260F0
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08026108: .4byte gUnknown_03002C68
+_08026108: .4byte gMultiSioEnabled
 
 	thumb_func_start sub_802610C
 sub_802610C: @ 0x0802610C
@@ -81670,7 +81670,7 @@ sub_8027960: @ 0x08027960
 	ldr r3, _080279FC @ =sa2__gUnknown_03004D80
 	mov r2, r8
 	strb r2, [r3, #2]
-	ldr r0, _08027A00 @ =gUnknown_03003590
+	ldr r0, _08027A00 @ =sa2__gUnknown_03002280
 	strb r2, [r0, #8]
 	strb r2, [r0, #9]
 	movs r1, #0xff
@@ -81707,7 +81707,7 @@ _080279F0: .4byte 0x040000D4
 _080279F4: .4byte gBgCntRegs
 _080279F8: .4byte 0x85000010
 _080279FC: .4byte sa2__gUnknown_03004D80
-_08027A00: .4byte gUnknown_03003590
+_08027A00: .4byte sa2__gUnknown_03002280
 _08027A04:
 	ldr r0, _08027AB0 @ =gSaveGame
 	ldr r2, _08027AB4 @ =0x00000366
@@ -81818,7 +81818,7 @@ sub_8027ADC: @ 0x08027ADC
 	strb r4, [r0, #2]
 	strb r4, [r0, #1]
 	strb r4, [r0]
-	ldr r0, _08027B2C @ =gUnknown_03002C68
+	ldr r0, _08027B2C @ =gMultiSioEnabled
 	strb r4, [r0]
 	bl sub_80260F0
 	strh r4, [r5]
@@ -81842,7 +81842,7 @@ sub_8027ADC: @ 0x08027ADC
 	.align 2, 0
 _08027B24: .4byte gCurTask
 _08027B28: .4byte gUnknown_03001060
-_08027B2C: .4byte gUnknown_03002C68
+_08027B2C: .4byte gMultiSioEnabled
 _08027B30: .4byte sub_8028418
 
 	thumb_func_start sub_8027B34
@@ -82617,7 +82617,7 @@ sub_8028160: @ 0x08028160
 	ldr r1, _08028304 @ =sa2__gUnknown_03004D80
 	movs r0, #0xff
 	strb r0, [r1, #1]
-	ldr r1, _08028308 @ =gUnknown_03003590
+	ldr r1, _08028308 @ =sa2__gUnknown_03002280
 	strb r5, [r1, #4]
 	strb r5, [r1, #5]
 	movs r0, #1
@@ -82772,7 +82772,7 @@ _080282F8: .4byte 0x040000D4
 _080282FC: .4byte 0x06009FE0
 _08028300: .4byte 0x85000008
 _08028304: .4byte sa2__gUnknown_03004D80
-_08028308: .4byte gUnknown_03003590
+_08028308: .4byte sa2__gUnknown_03002280
 _0802830C: .4byte 0x0600C000
 _08028310: .4byte 0x0600F000
 _08028314: .4byte 0x06008000
@@ -83274,7 +83274,7 @@ sub_8028708: @ 0x08028708
 	ldr r1, _08028750 @ =gRefSpriteTables
 	ldr r0, _08028754 @ =gSpriteTables
 	str r0, [r1]
-	ldr r1, _08028758 @ =gUnknown_03002C68
+	ldr r1, _08028758 @ =gMultiSioEnabled
 	movs r0, #1
 	strb r0, [r1]
 	ldr r2, _0802875C @ =gFlags
@@ -83300,7 +83300,7 @@ _08028748: .4byte gTilemapsRef
 _0802874C: .4byte gUnknown_080D1C0C
 _08028750: .4byte gRefSpriteTables
 _08028754: .4byte gSpriteTables
-_08028758: .4byte gUnknown_03002C68
+_08028758: .4byte gMultiSioEnabled
 _0802875C: .4byte gFlags
 _08028760: .4byte 0xFFFFBFFF
 _08028764: .4byte gStageData
@@ -83310,7 +83310,7 @@ _0802876C: .4byte 0x00000366
 	thumb_func_start sub_8028770
 sub_8028770: @ 0x08028770
 	push {lr}
-	ldr r1, _0802879C @ =gUnknown_03002C68
+	ldr r1, _0802879C @ =gMultiSioEnabled
 	movs r0, #1
 	strb r0, [r1]
 	ldr r2, _080287A0 @ =gFlags
@@ -83330,7 +83330,7 @@ sub_8028770: @ 0x08028770
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0802879C: .4byte gUnknown_03002C68
+_0802879C: .4byte gMultiSioEnabled
 _080287A0: .4byte gFlags
 _080287A4: .4byte 0xFFFFBFFF
 _080287A8: .4byte gTilemapsRef
@@ -84120,7 +84120,7 @@ sub_8028DEC: @ 0x08028DEC
 	movs r1, #0x26
 	ldr r2, _08029108 @ =sa2__gUnknown_03004D80
 	strb r1, [r2, #3]
-	ldr r4, _0802910C @ =gUnknown_03003590
+	ldr r4, _0802910C @ =sa2__gUnknown_03002280
 	movs r3, #0
 	strb r3, [r4, #0xc]
 	strb r3, [r4, #0xd]
@@ -84461,7 +84461,7 @@ _080290FC: .4byte 0x040000D4
 _08029100: .4byte 0x060004C0
 _08029104: .4byte 0x85000008
 _08029108: .4byte sa2__gUnknown_03004D80
-_0802910C: .4byte gUnknown_03003590
+_0802910C: .4byte sa2__gUnknown_03002280
 _08029110: .4byte 0x05000010
 _08029114: .4byte 0x0600C000
 _08029118: .4byte 0x0600E000

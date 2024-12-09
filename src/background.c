@@ -1161,8 +1161,8 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004010.inc", u32 sa2__sub_8004010(vo
 
     for (; bgIndex < 4; bgIndex++) {
 
-        if ((gUnknown_03003590[bgIndex][1] == gUnknown_03003590[bgIndex][3])
-            && (gUnknown_03003590[bgIndex][0] == gUnknown_03003590[bgIndex][2]))
+        if ((sa2__gUnknown_03002280[bgIndex][1] == sa2__gUnknown_03002280[bgIndex][3])
+            && (sa2__gUnknown_03002280[bgIndex][0] == sa2__gUnknown_03002280[bgIndex][2]))
             continue;
 
         { // _08004056
@@ -1171,31 +1171,31 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004010.inc", u32 sa2__sub_8004010(vo
             target &= BGCNT_SCREENBASE_MASK;
             vramBgCtrl += target * 4;
 
-            r4 = gUnknown_03003590[bgIndex][1];
+            r4 = sa2__gUnknown_03002280[bgIndex][1];
 
-            sp08 = gUnknown_03003590[bgIndex][0];
+            sp08 = sa2__gUnknown_03002280[bgIndex][0];
 
             if ((bgIndex > 1) && (gDispCnt & (DISPCNT_MODE_2 | DISPCNT_MODE_1 | DISPCNT_MODE_0))) {
                 // _0800408E
                 spVramPtr = (u8 *)&vramBgCtrl[sp08];
                 bgSize_TxtOrAff = (0x10 << (gBgCntRegs[bgIndex] >> 14));
 
-                if (gUnknown_03003590[bgIndex][3] == 0xFF) {
+                if (sa2__gUnknown_03002280[bgIndex][3] == 0xFF) {
                     // _080040A2
                     u16 v = sa2__gUnknown_03004D80[bgIndex];
                     u32 value;
                     v |= v << 8;
 
-                    value = ((gUnknown_03003590[bgIndex][3] - r4) * bgSize_TxtOrAff);
+                    value = ((sa2__gUnknown_03002280[bgIndex][3] - r4) * bgSize_TxtOrAff);
                     DmaFill16(3, v, (void *)&spVramPtr[bgSize_TxtOrAff], (((s32)(value + (value >> 31))) >> 1));
                 } else {
                     // _080040F8
                     // u8 i2 = i + 1;
-                    for (; r4 < gUnknown_03003590[bgIndex][3]; r4++) {
+                    for (; r4 < sa2__gUnknown_03002280[bgIndex][3]; r4++) {
                         u16 v = sa2__gUnknown_03004D80[bgIndex];
                         v |= v << 8;
 
-                        DmaFill16(3, v, &spVramPtr[bgIndex * r4], (s32)(bgIndex * 4 - gUnknown_03003590[bgIndex][0] + 1));
+                        DmaFill16(3, v, &spVramPtr[bgIndex * r4], (s32)(bgIndex * 4 - sa2__gUnknown_03002280[bgIndex][0] + 1));
                     }
                 }
                 // then -> _0800422C
@@ -1207,27 +1207,27 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004010.inc", u32 sa2__sub_8004010(vo
                 if ((u8)((gBgCntRegs[sp08] >> 14) - 2) <= 1)
                     tileSize = 64;
 
-                if (gUnknown_03003590[bgIndex][2] == 0xFF) {
+                if (sa2__gUnknown_03002280[bgIndex][2] == 0xFF) {
                     u8 r1 = sa2__gUnknown_03004D80[bgIndex];
-                    p1p = &gUnknown_03003590[bgIndex][tileSize];
+                    p1p = &sa2__gUnknown_03002280[bgIndex][tileSize];
                     sp00[0] = r1;
 
 #if 0
                     // TODO: This crashes the game after selecting a stage right now.
-                    DmaFill16(3, sp00[0], &gUnknown_03003590[bgIndex][tileSize],
-                              gUnknown_03003590[bgIndex][3] - r4);
+                    DmaFill16(3, sp00[0], &sa2__gUnknown_03002280[bgIndex][tileSize],
+                              sa2__gUnknown_03002280[bgIndex][3] - r4);
 #endif
                 } else {
                     // _080041D8
-                    for (; r4 <= gUnknown_03003590[bgIndex][3]; r4++) {
+                    for (; r4 <= sa2__gUnknown_03002280[bgIndex][3]; r4++) {
                         // _080041F6
-                        DmaFill16(3, sa2__gUnknown_03004D80[bgIndex], &gUnknown_03003590[bgIndex][tileSize],
-                                  ARRAY_COUNT(gUnknown_03003590[0]));
+                        DmaFill16(3, sa2__gUnknown_03004D80[bgIndex], &sa2__gUnknown_03002280[bgIndex][tileSize],
+                                  ARRAY_COUNT(sa2__gUnknown_03002280[0]));
                     }
                 }
             }
             // _0800422C
-            DmaFill32(3, 0, &gUnknown_03003590[bgIndex], ARRAY_COUNT(gUnknown_03003590[bgIndex]));
+            DmaFill32(3, 0, &sa2__gUnknown_03002280[bgIndex], ARRAY_COUNT(sa2__gUnknown_03002280[bgIndex]));
         }
     }
 

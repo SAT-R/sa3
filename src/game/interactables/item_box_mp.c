@@ -265,21 +265,21 @@ void sub_804EE08(u8 param0)
 
             s = &itembox->sprItem;
 
-            s->frameFlags = gUnknown_03002C24 | SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(ROT_SCALE_ENABLE, 1);
+            s->frameFlags = gNextFreeAffineIndex | SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(ROT_SCALE_ENABLE, 1);
             TransformSprite(s, &itembox->transform);
             s->variant = 15 + gUnknown_03001060.unk55;
             UpdateSpriteAnimation(s);
             DisplaySprite(s);
-            gUnknown_03002C24++;
+            gNextFreeAffineIndex++;
 
             if (param0 != 0) {
                 s = &itembox->sprBox;
 
-                s->frameFlags = gUnknown_03002C24 | SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(ROT_SCALE_ENABLE, 1);
+                s->frameFlags = gNextFreeAffineIndex | SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(ROT_SCALE_ENABLE, 1);
                 TransformSprite(s, &itembox->transform);
                 UpdateSpriteAnimation(s);
                 DisplaySprite(s);
-                gUnknown_03002C24++;
+                gNextFreeAffineIndex++;
             }
         }
     }

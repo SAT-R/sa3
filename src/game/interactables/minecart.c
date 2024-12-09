@@ -498,8 +498,8 @@ void sub_8048420(void)
             transform->x = worldX - gCamera.x;
             transform->y = worldY - gCamera.y;
 
-            s->frameFlags = gUnknown_03002C24 | SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(ROT_SCALE_ENABLE, 1);
-            gUnknown_03002C24++;
+            s->frameFlags = gNextFreeAffineIndex | SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(ROT_SCALE_ENABLE, 1);
+            gNextFreeAffineIndex++;
 
             UpdateSpriteAnimation(s);
             TransformSprite(s, transform);

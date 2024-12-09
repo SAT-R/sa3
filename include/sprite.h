@@ -282,7 +282,7 @@ void UnusedTransform(Sprite *, SpriteTransform *);
 //
 s16 sa2__sub_8004418(s16 x, s16 y);
 
-extern u8 gUnknown_03002C24; // related to Sprite.frameFlags
+extern u8 gNextFreeAffineIndex; // related to Sprite.frameFlags
 
 #define SpriteShouldUpdate(sprite) (((sprite)->prevVariant != (sprite)->variant) || ((sprite)->prevAnim != (sprite)->anim))
 

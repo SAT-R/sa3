@@ -184,7 +184,7 @@ extern u8 sa2__gUnknown_03001948;
 extern u16 sa2__gUnknown_0300194C;
 
 struct MapHeader **gTilemapsRef; // TODO: make this an array and add size
-extern u8 gUnknown_03003590[4][4]; // extern u8 gUnknown_03002280[4][4];
+extern u8 sa2__gUnknown_03002280[4][4]; // extern u8 gUnknown_03002280[4][4];
 extern u8 sa2__gUnknown_03004D80[16];
 
 // extern u16 *gUnknown_030022AC;

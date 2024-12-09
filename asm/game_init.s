@@ -180,7 +180,7 @@ _080BBB2C:
 	ldr r0, _080BBE28 @ =0x040000D4
 	mov r7, sp
 	str r7, [r0]
-	ldr r1, _080BBE38 @ =gUnknown_03003590
+	ldr r1, _080BBE38 @ =sa2__gUnknown_03002280
 	str r1, [r0, #4]
 	ldr r1, _080BBE3C @ =0x85000004
 	str r1, [r0, #8]
@@ -408,7 +408,7 @@ _080BBCD0:
 	strh r2, [r0, #0x16]
 	str r1, [r0, #0x18]
 	str r1, [r0, #0x1c]
-	ldr r0, _080BBE88 @ =gUnknown_03002C24
+	ldr r0, _080BBE88 @ =gNextFreeAffineIndex
 	strb r3, [r0]
 	ldr r0, _080BBE8C @ =sa2__gUnknown_03001944
 	strh r1, [r0]
@@ -464,10 +464,10 @@ _080BBD3E:
 	strh r1, [r0]
 	ldr r0, _080BBEC8 @ =gInputPlaybackData
 	str r1, [r0]
-	ldr r0, _080BBECC @ =gUnknown_03003574
+	ldr r0, _080BBECC @ =gFrameCount
 	str r1, [r0]
 	movs r2, #0
-	ldr r5, _080BBED0 @ =gUnknown_03002E70
+	ldr r5, _080BBED0 @ =gBgOffsetsBuffer
 	ldr r6, _080BBED4 @ =gBgOffsetsHBlank
 	ldr r7, _080BBED8 @ =gUnknown_030035BC
 	ldr r4, _080BBEDC @ =sa2__gUnknown_03002878
@@ -571,7 +571,7 @@ _080BBE28: .4byte 0x040000D4
 _080BBE2C: .4byte 0x85006000
 _080BBE30: .4byte 0x85000100
 _080BBE34: .4byte gBackgroundsCopyQueueCursor
-_080BBE38: .4byte gUnknown_03003590
+_080BBE38: .4byte sa2__gUnknown_03002280
 _080BBE3C: .4byte 0x85000004
 _080BBE40: .4byte sa2__gUnknown_03004D80
 _080BBE44: .4byte gBgScrollRegs
@@ -591,7 +591,7 @@ _080BBE78: .4byte gObjPalette
 _080BBE7C: .4byte 0x85000080
 _080BBE80: .4byte gBgPalette
 _080BBE84: .4byte gBgAffineRegs
-_080BBE88: .4byte gUnknown_03002C24
+_080BBE88: .4byte gNextFreeAffineIndex
 _080BBE8C: .4byte sa2__gUnknown_03001944
 _080BBE90: .4byte sa2__gUnknown_030017F0
 _080BBE94: .4byte sa2__gUnknown_03005394
@@ -608,8 +608,8 @@ _080BBEBC: .4byte gKeysContinuedRepeatIntervals
 _080BBEC0: .4byte gInputRecorder
 _080BBEC4: .4byte gPhysicalInput
 _080BBEC8: .4byte gInputPlaybackData
-_080BBECC: .4byte gUnknown_03003574
-_080BBED0: .4byte gUnknown_03002E70
+_080BBECC: .4byte gFrameCount
+_080BBED0: .4byte gBgOffsetsBuffer
 _080BBED4: .4byte gBgOffsetsHBlank
 _080BBED8: .4byte gUnknown_030035BC
 _080BBEDC: .4byte sa2__gUnknown_03002878
@@ -639,7 +639,7 @@ _080BBF0A:
 	ldr r0, _080BBFB0 @ =0x040000D4
 	mov r1, sp
 	str r1, [r0]
-	ldr r2, _080BBFB4 @ =gUnknown_03002B70
+	ldr r2, _080BBFB4 @ =sa2__gUnknown_03001870
 	str r2, [r0, #4]
 	ldr r1, _080BBFB8 @ =0x85000004
 	str r1, [r0, #8]
@@ -710,7 +710,7 @@ _080BBF64:
 _080BBFA8: .4byte gUnknown_03006200
 _080BBFAC: .4byte sa2__gUnknown_03001948
 _080BBFB0: .4byte 0x040000D4
-_080BBFB4: .4byte gUnknown_03002B70
+_080BBFB4: .4byte sa2__gUnknown_03001870
 _080BBFB8: .4byte 0x85000004
 _080BBFBC: .4byte sa2__gUnknown_030053A0
 _080BBFC0: .4byte 0x0093A600
@@ -720,14 +720,14 @@ _080BBFCC: .4byte gVramHeapStartAddr
 _080BBFD0: .4byte 0x06012200
 _080BBFD4: .4byte gFlags
 _080BBFD8:
-	ldr r1, _080BC094 @ =gUnknown_03001EC4
+	ldr r1, _080BC094 @ =gIntrTable + (5 * 0x4)
 	movs r0, #1
 	bl SetFlashTimerIntr
 _080BBFE0:
 	ldr r1, _080BC098 @ =0x040000D4
 	ldr r0, _080BC09C @ =IntrMain
 	str r0, [r1]
-	ldr r2, _080BC0A0 @ =gUnknown_03001EF0
+	ldr r2, _080BC0A0 @ =gIntrMainBuf
 	str r2, [r1, #4]
 	ldr r0, _080BC0A4 @ =0x84000080
 	str r0, [r1, #8]
@@ -738,7 +738,7 @@ _080BBFE0:
 	ldr r4, _080BC0A8 @ =gMultiSioSend
 	ldr r5, _080BC0AC @ =gMultiSioRecv
 	ldr r6, _080BC0B0 @ =gMultiSioStatusFlags
-	ldr r7, _080BC0B4 @ =gUnknown_03002C68
+	ldr r7, _080BC0B4 @ =gMultiSioEnabled
 	cmp r0, #0
 	bge _080BC00A
 _080BC002:
@@ -819,15 +819,15 @@ _080BC06A:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080BC094: .4byte gUnknown_03001EC4
+_080BC094: .4byte gIntrTable + (5 * 0x4)
 _080BC098: .4byte 0x040000D4
 _080BC09C: .4byte IntrMain
-_080BC0A0: .4byte gUnknown_03001EF0
+_080BC0A0: .4byte gIntrMainBuf
 _080BC0A4: .4byte 0x84000080
 _080BC0A8: .4byte gMultiSioSend
 _080BC0AC: .4byte gMultiSioRecv
 _080BC0B0: .4byte gMultiSioStatusFlags
-_080BC0B4: .4byte gUnknown_03002C68
+_080BC0B4: .4byte gMultiSioEnabled
 _080BC0B8: .4byte gUnknown_03007FFC
 _080BC0BC: .4byte 0x04000200
 _080BC0C0: .4byte 0x04000004
@@ -862,7 +862,7 @@ _080BC0FA:
 	cmp r0, #0xff
 	bne _080BC154
 	bl GetInput
-	ldr r0, _080BC12C @ =gUnknown_03002C68
+	ldr r0, _080BC12C @ =gMultiSioEnabled
 	ldrb r0, [r0]
 	cmp r0, #0
 	beq _080BC13C
@@ -877,7 +877,7 @@ _080BC0FA:
 _080BC120: .4byte gFlags
 _080BC124: .4byte gExecSoundMain
 _080BC128: .4byte sLastCalledVblankFuncId
-_080BC12C: .4byte gUnknown_03002C68
+_080BC12C: .4byte gMultiSioEnabled
 _080BC130: .4byte gMultiSioSend
 _080BC134: .4byte gMultiSioRecv
 _080BC138: .4byte gMultiSioStatusFlags
@@ -899,7 +899,7 @@ _080BC154:
 	ldr r0, [r4]
 	str r0, [r1]
 	bl VBlankIntrWait
-	ldr r1, _080BC18C @ =gUnknown_03002C24
+	ldr r1, _080BC18C @ =gNextFreeAffineIndex
 	movs r0, #0
 	strb r0, [r1]
 	ldr r0, [r4]
@@ -918,7 +918,7 @@ _080BC154:
 	.align 2, 0
 _080BC184: .4byte gFlagsPreVBlank
 _080BC188: .4byte gFlags
-_080BC18C: .4byte gUnknown_03002C24
+_080BC18C: .4byte gNextFreeAffineIndex
 _080BC190:
 	bl UpdateScreenDma
 	ldr r0, [r4]
@@ -1230,7 +1230,7 @@ _080BC3F4:
 	ldrb r0, [r3]
 	cmp r0, #0
 	beq _080BC42E
-	ldr r0, _080BC480 @ =gUnknown_03002B70
+	ldr r0, _080BC480 @ =sa2__gUnknown_03001870
 	str r0, [r2]
 	str r1, [r2, #4]
 	ldrb r0, [r3]
@@ -1263,7 +1263,7 @@ _080BC470: .4byte sa2__gUnknown_030053A0
 _080BC474: .4byte gFlags
 _080BC478: .4byte 0x85000004
 _080BC47C: .4byte gUnknown_03006200
-_080BC480: .4byte gUnknown_03002B70
+_080BC480: .4byte sa2__gUnknown_03001870
 _080BC484:
 	ldr r0, _080BC49C @ =sa2__gUnknown_03001948
 	strb r1, [r0]
@@ -1325,7 +1325,7 @@ ClearOamBufferDma: @ 0x080BC4D0
 	bne _080BC528
 	ldr r1, _080BC510 @ =gBgOffsetsHBlank
 	ldr r0, [r1]
-	ldr r2, _080BC514 @ =gUnknown_03002E70
+	ldr r2, _080BC514 @ =gBgOffsetsBuffer
 	cmp r0, r2
 	bne _080BC51C
 	movs r3, #0xa0
@@ -1339,7 +1339,7 @@ ClearOamBufferDma: @ 0x080BC4D0
 _080BC508: .4byte gNumHBlankCallbacks
 _080BC50C: .4byte gFlags
 _080BC510: .4byte gBgOffsetsHBlank
-_080BC514: .4byte gUnknown_03002E70
+_080BC514: .4byte gBgOffsetsBuffer
 _080BC518: .4byte gUnknown_030035BC
 _080BC51C:
 	str r2, [r1]
@@ -1583,7 +1583,7 @@ _080BC710:
 	ldrb r0, [r4]
 	cmp r0, #0
 	beq _080BC73E
-	ldr r0, _080BC770 @ =gUnknown_03002B70
+	ldr r0, _080BC770 @ =sa2__gUnknown_03001870
 	ldrb r2, [r4]
 	adds r1, r5, #0
 	bl CpuFastSet
@@ -1603,7 +1603,7 @@ _080BC760: .4byte sa2__gUnknown_030053A0
 _080BC764: .4byte gFlags
 _080BC768: .4byte 0x01000004
 _080BC76C: .4byte gUnknown_03006200
-_080BC770: .4byte gUnknown_03002B70
+_080BC770: .4byte sa2__gUnknown_03001870
 _080BC774:
 	ldr r0, _080BC78C @ =sa2__gUnknown_03001948
 	strb r1, [r0]
@@ -1870,7 +1870,7 @@ _080BC904:
 	movs r0, #0x20
 	bl SoftReset
 _080BC992:
-	ldr r1, _080BC9D4 @ =gUnknown_03003574
+	ldr r1, _080BC9D4 @ =gFrameCount
 	ldr r0, [r1]
 	adds r0, #1
 	str r0, [r1]
@@ -1892,7 +1892,7 @@ _080BC9C4: .4byte 0x0000C5FF
 _080BC9C8: .4byte 0x00007FFF
 _080BC9CC: .4byte 0x040000D4
 _080BC9D0: .4byte gInput
-_080BC9D4: .4byte gUnknown_03003574
+_080BC9D4: .4byte gFrameCount
 _080BC9D8: .4byte REG_IF
 
 	thumb_func_start sub_80BC9DC
@@ -2393,7 +2393,7 @@ ClearOamBufferCpuSet: @ 0x080BCD5C
 	bne _080BCDB4
 	ldr r1, _080BCD9C @ =gBgOffsetsHBlank
 	ldr r0, [r1]
-	ldr r2, _080BCDA0 @ =gUnknown_03002E70
+	ldr r2, _080BCDA0 @ =gBgOffsetsBuffer
 	cmp r0, r2
 	bne _080BCDA8
 	movs r3, #0xa0
@@ -2407,7 +2407,7 @@ ClearOamBufferCpuSet: @ 0x080BCD5C
 _080BCD94: .4byte gNumHBlankCallbacks
 _080BCD98: .4byte gFlags
 _080BCD9C: .4byte gBgOffsetsHBlank
-_080BCDA0: .4byte gUnknown_03002E70
+_080BCDA0: .4byte gBgOffsetsBuffer
 _080BCDA4: .4byte gUnknown_030035BC
 _080BCDA8:
 	str r2, [r1]

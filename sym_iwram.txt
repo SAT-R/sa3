@@ -23,7 +23,6 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 
 . = 0x00000530; gSaveGame = .;
 
-/* In game/stage.h's StageData */
 . = 0x000008A0; gStageData = .;
 
 . = 0x00000970; gUnknown_03000970 = .;
@@ -62,16 +61,17 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 . = 0x00001E98; gRngValue = .;
 . = 0x00001E9C; gUnknown_03001E9C = .;
 . = 0x00001EA0; gUnknown_03001EA0 = .;
+
+/* src/core.c */
 . = 0x00001EB0; gIntrTable = .;
-. = 0x00001EC4; gUnknown_03001EC4 = .;
-. = 0x00001EF0; gUnknown_03001EF0 = .;
+. = 0x00001EF0; gIntrMainBuf = .;
 . = 0x000020F0; gTasks = .;
 . = 0x00002AF0; sa2__gUnknown_030017F0 = .;
 . = 0x00002AF4; sa2__gUnknown_030017F4 = .;
 . = 0x00002B00; gBackgroundsCopyQueue = .;
 . = 0x00002B40; gFlags = .;
 . = 0x00002B50; sa2__gUnknown_03001850 = .;
-. = 0x00002B70; gUnknown_03002B70 = .;
+. = 0x00002B70; sa2__gUnknown_03001870 = .;
 . = 0x00002B80; gPhysicalInput = .;
 . = 0x00002B84; gBgOffsetsHBlank = .;
 . = 0x00002B88; gVramHeapMaxTileSlots = .;
@@ -85,34 +85,23 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 . = 0x00002BF8; gBldRegs = .;
 . = 0x00002C00; gOamFreeIndex = .;
 . = 0x00002C10; gEmptyTask = .;
-. = 0x00002C24; gUnknown_03002C24 = .;
+. = 0x00002C24; gNextFreeAffineIndex = .;
 . = 0x00002C30; gBgAffineRegs = .;
-. = 0x00002C40; gUnknown_03002C40 = .;
 . = 0x00002C50; gVramHeapStartAddr = .;
 . = 0x00002C54; sa2__gUnknown_03001944 = .;
 . = 0x00002C58; sa2__gUnknown_03001948 = .;
 . = 0x00002C5C; sa2__gUnknown_0300194C = .;
 . = 0x00002C60; gUnknown_03002C60 = .;
 . = 0x00002C64; gMultiSioStatusFlags = .;
-. = 0x00002C68; gUnknown_03002C68 = .;
+. = 0x00002C68; gMultiSioEnabled = .;
 . = 0x00002C70; gTaskPtrs = .;
-. = 0x00002E70; gUnknown_03002E70 = .;
+. = 0x00002E70; gBgOffsetsBuffer = .;
 . = 0x00003370; gObjPalette = .;
-. = 0x00003410; gUnknown_03003410 = .;
-. = 0x00003430; gUnknown_03003430 = .;
-. = 0x00003450; gUnknown_03003450 = .;
-. = 0x00003470; gUnknown_03003470 = .;
-. = 0x00003530; gUnknown_03003530 = .;
-. = 0x00003550; gUnknown_03003550 = .;
-. = 0x00003562; gUnknown_03003562 = .;
 . = 0x00003570; gTilemapsRef = .;
-. = 0x00003574; gUnknown_03003574 = .;
+. = 0x00003574; gFrameCount = .;
 . = 0x00003580; gWinRegs = .;
-. = 0x00003582; gUnknown_03003582 = .;
 . = 0x0000358C; gNumTasks = .;
-. = 0x00003590; gUnknown_03003590 = .;
-. = 0x00003592; gUnknown_03003592 = .;
-. = 0x00003593; gUnknown_03003593 = .;
+. = 0x00003590; sa2__gUnknown_03002280 = .;
 . = 0x000035A0; gInput = .;
 . = 0x000035A4; gUnknown_030035A4 = .;
 . = 0x000035A8; gNextTaskToCheckForDestruction = .;
@@ -173,9 +162,14 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 . = 0x00006870; gMultiSioIntrFuncBuf = .;
 . = 0x00006990; gMultiSioArea = .;
 . = 0x00006BB0; gMultiSioRecvFuncBuf = .;
+
+/* src/sio32_multi_load.c */
 . = 0x00006BF0; gSio32MultiLoadArea = .;
+
+/* src/input_recorder.c */
 . = 0x00006C10; gInputRecorder = .;
 . = 0x00006C1C; gInputRecorderTapeBuffer = .;
+
 . = 0x00006C20; gUnknown_03006C20 = .;
 
 . = 0x00006C24; build/sa3/src/lib/agb_flash/agb_flash.o(.data);

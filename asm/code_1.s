@@ -43,7 +43,7 @@ _0804F76E:
 	beq _0804F7B4
 	ldr r3, _0804F878 @ =sa2__gUnknown_03004D80
 	strb r6, [r3]
-	ldr r0, _0804F87C @ =gUnknown_03003590
+	ldr r0, _0804F87C @ =sa2__gUnknown_03002280
 	strb r6, [r0]
 	strb r6, [r0, #1]
 	movs r1, #0xff
@@ -157,7 +157,7 @@ _0804F86C: .4byte gDispCnt
 _0804F870: .4byte gBgCntRegs
 _0804F874: .4byte 0x00001F01
 _0804F878: .4byte sa2__gUnknown_03004D80
-_0804F87C: .4byte gUnknown_03003590
+_0804F87C: .4byte sa2__gUnknown_03002280
 _0804F880: .4byte gUnknown_03001D80
 _0804F884: .4byte gUnknown_080D04A8
 _0804F888: .4byte gUnknown_080D06CC
@@ -272,7 +272,7 @@ _0804F958:
 	strh r0, [r1, #4]
 	ldr r3, _0804FA34 @ =sa2__gUnknown_03004D80
 	strb r6, [r3]
-	ldr r0, _0804FA38 @ =gUnknown_03003590
+	ldr r0, _0804FA38 @ =sa2__gUnknown_03002280
 	strb r6, [r0]
 	strb r6, [r0, #1]
 	movs r1, #0xff
@@ -363,7 +363,7 @@ _0804FA28: .4byte 0x00001D0B
 _0804FA2C: .4byte 0x00001F02
 _0804FA30: .4byte 0x00001A85
 _0804FA34: .4byte sa2__gUnknown_03004D80
-_0804FA38: .4byte gUnknown_03003590
+_0804FA38: .4byte sa2__gUnknown_03002280
 _0804FA3C: .4byte 0x040000D4
 _0804FA40: .4byte 0x06004000
 _0804FA44: .4byte 0x85000010
@@ -381,7 +381,7 @@ _0804FA58:
 	strh r0, [r1, #2]
 	ldr r3, _0804FB44 @ =sa2__gUnknown_03004D80
 	strb r6, [r3]
-	ldr r0, _0804FB48 @ =gUnknown_03003590
+	ldr r0, _0804FB48 @ =sa2__gUnknown_03002280
 	strb r6, [r0]
 	strb r6, [r0, #1]
 	movs r1, #0xff
@@ -485,7 +485,7 @@ _0804FB08:
 _0804FB3C: .4byte gBgCntRegs
 _0804FB40: .4byte 0x00001F02
 _0804FB44: .4byte sa2__gUnknown_03004D80
-_0804FB48: .4byte gUnknown_03003590
+_0804FB48: .4byte sa2__gUnknown_03002280
 _0804FB4C: .4byte gUnknown_03001D80
 _0804FB50: .4byte gUnknown_080D04A8
 _0804FB54: .4byte gUnknown_03001E40
@@ -506,7 +506,7 @@ _0804FB6E:
 	strh r0, [r1, #4]
 	ldr r3, _0804FC5C @ =sa2__gUnknown_03004D80
 	strb r6, [r3]
-	ldr r0, _0804FC60 @ =gUnknown_03003590
+	ldr r0, _0804FC60 @ =sa2__gUnknown_03002280
 	strb r6, [r0]
 	strb r6, [r0, #1]
 	movs r1, #0xff
@@ -612,7 +612,7 @@ _0804FC24:
 _0804FC54: .4byte gBgCntRegs
 _0804FC58: .4byte 0x00001F01
 _0804FC5C: .4byte sa2__gUnknown_03004D80
-_0804FC60: .4byte gUnknown_03003590
+_0804FC60: .4byte sa2__gUnknown_03002280
 _0804FC64: .4byte gUnknown_03001D80
 _0804FC68: .4byte gUnknown_080D04A8
 _0804FC6C: .4byte gUnknown_080D06CC
@@ -6435,14 +6435,14 @@ _080528B0:
 	lsls r0, r0, #0x10
 	lsrs r3, r0, #0x10
 	ldr r0, _08052A28 @ =0x040000D4
-	ldr r1, _08052A2C @ =gUnknown_03003562
+	ldr r1, _08052A2C @ =gObjPalette + 0x1F2
 	str r1, [r0]
 	mov r1, sp
 	str r1, [r0, #4]
 	ldr r1, _08052A30 @ =0x80000006
 	str r1, [r0, #8]
 	ldr r1, [r0, #8]
-	ldr r1, _08052A2C @ =gUnknown_03003562
+	ldr r1, _08052A2C @ =gObjPalette + 0x1F2
 	subs r1, #0xf2
 	str r1, [r0]
 	mov r1, r8
@@ -6598,7 +6598,7 @@ _080529E6:
 	lsls r3, r3, #1
 	adds r1, r4, #0
 	bl sub_805268C
-	ldr r3, _08052A5C @ =gUnknown_03002B70
+	ldr r3, _08052A5C @ =sa2__gUnknown_03001870
 	ldr r2, _08052A60 @ =gUnknown_03006200
 	ldrb r0, [r2]
 	adds r1, r0, #1
@@ -6623,7 +6623,7 @@ _080529E6:
 	b _08052A7C
 	.align 2, 0
 _08052A28: .4byte 0x040000D4
-_08052A2C: .4byte gUnknown_03003562
+_08052A2C: .4byte gObjPalette + 0x1F2
 _08052A30: .4byte 0x80000006
 _08052A34: .4byte 0x80000010
 _08052A38: .4byte 0x00FFFF00
@@ -6635,7 +6635,7 @@ _08052A4C: .4byte gStageData
 _08052A50: .4byte gUnknown_080D1BEC
 _08052A54: .4byte 0x0000022E
 _08052A58: .4byte gBgPalette
-_08052A5C: .4byte gUnknown_03002B70
+_08052A5C: .4byte sa2__gUnknown_03001870
 _08052A60: .4byte gUnknown_03006200
 _08052A64: .4byte sub_8052C54
 _08052A68: .4byte gFlags
@@ -15212,7 +15212,7 @@ _08056EBA:
 	strh r0, [r7, #0x10]
 	movs r0, #0x96
 	strh r0, [r7, #0x12]
-	ldr r2, _08057050 @ =gUnknown_03002C24
+	ldr r2, _08057050 @ =gNextFreeAffineIndex
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -15261,7 +15261,7 @@ _08057040: .4byte 0x00000366
 _08057044: .4byte gUnknown_080D1D88
 _08057048: .4byte 0x0000035E
 _0805704C: .4byte 0x0000035D
-_08057050: .4byte gUnknown_03002C24
+_08057050: .4byte gNextFreeAffineIndex
 
 	thumb_func_start sub_8057054
 sub_8057054: @ 0x08057054
@@ -15823,7 +15823,7 @@ _080574C4:
 	asrs r0, r0, #0x10
 	adds r0, #0xc7
 	strh r0, [r6, #0x10]
-	ldr r2, _080575E4 @ =gUnknown_03002C24
+	ldr r2, _080575E4 @ =gNextFreeAffineIndex
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -15950,7 +15950,7 @@ _080575D4:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080575E4: .4byte gUnknown_03002C24
+_080575E4: .4byte gNextFreeAffineIndex
 _080575E8: .4byte gUnknown_080D1D7C
 _080575EC: .4byte 0xFFFB0000
 
@@ -16610,7 +16610,7 @@ sub_8057AA0: @ 0x08057AA0
 	ldr r0, [r2, #8]
 	ldr r4, _08057B68 @ =sa2__gUnknown_03004D80
 	strb r3, [r4]
-	ldr r0, _08057B6C @ =gUnknown_03003590
+	ldr r0, _08057B6C @ =sa2__gUnknown_03002280
 	strb r3, [r0]
 	strb r3, [r0, #1]
 	movs r1, #0xff
@@ -16641,7 +16641,7 @@ _08057B5C: .4byte 0x040000D4
 _08057B60: .4byte gBgCntRegs
 _08057B64: .4byte 0x85000010
 _08057B68: .4byte sa2__gUnknown_03004D80
-_08057B6C: .4byte gUnknown_03003590
+_08057B6C: .4byte sa2__gUnknown_03002280
 
 	thumb_func_start sub_8057B70
 sub_8057B70: @ 0x08057B70
