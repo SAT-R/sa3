@@ -252,7 +252,7 @@ _080BBBCE:
 	movs r0, #0
 	ldr r7, _080BBE58 @ =gOamFreeIndex
 	strb r0, [r7]
-	ldr r1, _080BBE5C @ =gUnknown_03003F90
+	ldr r1, _080BBE5C @ =gOamFirstPausedIndex
 	strb r0, [r1]
 	movs r2, #0x80
 	lsls r2, r2, #2
@@ -580,7 +580,7 @@ _080BBE4C: .4byte gDispCnt
 _080BBE50: .4byte gVramGraphicsCopyQueue
 _080BBE54: .4byte 0x85000060
 _080BBE58: .4byte gOamFreeIndex
-_080BBE5C: .4byte gUnknown_03003F90
+_080BBE5C: .4byte gOamFirstPausedIndex
 _080BBE60: .4byte gOamBuffer
 _080BBE64: .4byte 0x81000200
 _080BBE68: .4byte gOamBuffer2

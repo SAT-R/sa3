@@ -214,7 +214,7 @@ extern u16 sa2__gUnknown_03005394;
 extern u16 sa2__gUnknown_03005398;
 // extern FuncType_030053A0 gUnknown_030053A0[4];
 extern s32 gPseudoRandom;
-// extern u8 gUnknown_03002710[128];
+extern u8 sa2__gUnknown_03002710[128];
 extern struct MultiBootParam gMultiBootParam;
 
 // Because the graphics in the queue only get copied if

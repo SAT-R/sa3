@@ -147,7 +147,6 @@ SECTIONS {
         build/sa3/src/task.o(.text);
         build/sa3/src/background.o(.text);
         build/sa3/src/sprite.o(.text);
-        build/sa3/asm/sprite.o(.text);
         build/sa3/src/bg_triangles.o(.text);
         build/sa3/src/malloc_vram.o(.text);
         build/sa3/src/multi_sio.o(.text);

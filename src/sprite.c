@@ -18,16 +18,16 @@ extern const AnimationCommandFunc animCmdTable[];
 // TODO: extern -> static
 static AnimCmdResult animCmd_GetTiles(void *cursor, Sprite *s);
 static AnimCmdResult animCmd_GetPalette(void *cursor, Sprite *s);
-extern AnimCmdResult animCmd_JumpBack(void *cursor, Sprite *s);
-extern AnimCmdResult animCmd_End(void *cursor, Sprite *s);
-extern AnimCmdResult animCmd_PlaySoundEffect(void *cursor, Sprite *s);
-extern AnimCmdResult animCmd_AddHitbox(void *cursor, Sprite *s);
-extern AnimCmdResult animCmd_TranslateSprite(void *cursor, Sprite *s);
-extern AnimCmdResult animCmd_8(void *cursor, Sprite *s);
-extern AnimCmdResult animCmd_SetIdAndVariant(void *cursor, Sprite *s);
-extern AnimCmdResult animCmd_10(void *cursor, Sprite *s);
-extern AnimCmdResult animCmd_SetSpritePriority(void *cursor, Sprite *s);
-extern AnimCmdResult animCmd_SetOamOrder(void *cursor, Sprite *s);
+static AnimCmdResult animCmd_JumpBack(void *cursor, Sprite *s);
+static AnimCmdResult animCmd_End(void *cursor, Sprite *s);
+static AnimCmdResult animCmd_PlaySoundEffect(void *cursor, Sprite *s);
+static AnimCmdResult animCmd_AddHitbox(void *cursor, Sprite *s);
+static AnimCmdResult animCmd_TranslateSprite(void *cursor, Sprite *s);
+static AnimCmdResult animCmd_8(void *cursor, Sprite *s);
+static AnimCmdResult animCmd_SetIdAndVariant(void *cursor, Sprite *s);
+static AnimCmdResult animCmd_10(void *cursor, Sprite *s);
+static AnimCmdResult animCmd_SetSpritePriority(void *cursor, Sprite *s);
+static AnimCmdResult animCmd_SetOamOrder(void *cursor, Sprite *s);
 
 static const u8 unkFractions[8] = {
     /* 0x00 */ I(Q(0.5 * 2)),
@@ -938,7 +938,6 @@ OamData *OamMalloc(u8 order)
     return result;
 }
 
-#if 0
 void CopyOamBufferToOam(void)
 {
     OamData *dstOam = &gOamBuffer[0];
@@ -950,7 +949,7 @@ void CopyOamBufferToOam(void)
 
         while (index != -1) {
             u8 newI;
-            u8 *byteArray = gUnknown_03002710;
+            u8 *byteArray = sa2__gUnknown_03002710;
             DmaCopy16(3, &gOamBuffer2[index], dstOam, sizeof(OamDataShort));
             dstOam++;
 
@@ -1086,7 +1085,7 @@ static AnimCmdResult animCmd_SetIdAndVariant(void *cursor, Sprite *s)
     ACmd_SetIdAndVariant *cmd = cursor;
     s->animCursor += AnimCommandSizeInWords(*cmd);
 
-    s->graphics.anim = cmd->animId;
+    s->anim = cmd->animId;
     s->prevVariant = -1;
     s->variant = cmd->variant;
 
@@ -1131,4 +1130,3 @@ static AnimCmdResult animCmd_SetOamOrder(void *cursor, Sprite *s)
 
     return ACMD_RESULT__RUNNING;
 }
-#endif

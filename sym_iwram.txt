@@ -207,7 +207,7 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 . = 0x00003F3C; gUnknown_03003F3C = .;
 . = 0x00003F40; gUnknown_03003F40 = .;
 . = 0x00003F8C; gPressedKeys = .;
-. = 0x00003F90; gUnknown_03003F90 = .;
+. = 0x00003F90; gOamFirstPausedIndex = .;
 . = 0x00003F94; gBackgroundsCopyQueueCursor = .;
 . = 0x00003FA0; gHBlankIntrs = .;
 . = 0x00003FB0; gIwramHeap = .;
@@ -237,17 +237,7 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 
 . = 0x00006C24; build/sa3/src/lib/agb_flash/agb_flash.o(.data);
 
-/*. = 0x00006C24; gFlashTimeoutFlag = .;
-. = 0x00006C28; PollFlashStatus = .;
-. = 0x00006C2C; WaitForFlashWrite = .;
-. = 0x00006C30; ProgramFlashSector = .;
-. = 0x00006C34; gFlash = .;
-. = 0x00006C3C; EraseFlashChip = .;
-. = 0x00006C40; EraseFlashSector = .;
-. = 0x00006C44; gFlashMaxTime = .;*/
-
-/* *libc.a:sbrkr.o(COMMON); */
-. = 0x00006C48; errno = .;
+*libc.a:sbrkr.o(COMMON);
 
 /* 'end' referenced in tools/agbcc/lib/libc.a(syscalls.o) */
 . = 0x00006C4C; iwram_end = .; end = .;
