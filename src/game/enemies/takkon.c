@@ -311,5 +311,73 @@ AnimCmdResult sub_805B77C(Takkon *enemy)
     return acmdRes;
 }
 
-#if 01
-#endif
+bool32 sub_805B7C0(Takkon *enemy)
+{
+    Sprite *s = &enemy->s;
+    Player *p;
+    s32 worldX;
+    u8 i;
+
+    worldX = I(enemy->qPos.x);
+    worldX = TO_WORLD_POS_RAW(worldX, enemy->region.x);
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        s32 wx;
+
+        p = sub_805CD20(i);
+        if (p == NULL)
+            break;
+
+        if (s->frameFlags & SPRITE_FLAG(X_FLIP, 1)) {
+            wx = I(p->qWorldX) - worldX;
+        } else {
+            wx = worldX - I(p->qWorldX);
+        }
+
+        if ((wx > 0 && wx < 100)) {
+            return 1;
+        }
+    }
+
+    return FALSE;
+}
+
+bool32 sub_805B818(Takkon *enemy, EnemyUnknownStruc0 *param1)
+{
+    Sprite *s;
+
+    param1->me = NULL;
+    param1->spriteX = 0;
+    param1->unk4 = 0;
+
+    s = &enemy->s;
+    param1->spr = s;
+    param1->posX = enemy->qPos.x;
+    param1->posY = enemy->qPos.y;
+    param1->regionX = enemy->region.x;
+    param1->regionY = enemy->region.y;
+
+    return sub_805C63C(param1);
+}
+
+bool32 sub_805B844(Takkon *enemy)
+{
+    EnemyUnknownStruc0 unk;
+
+    unk.unk4 = sub_805B818(enemy, &unk);
+    unk.spr = &enemy->s;
+    unk.posX = enemy->qUnkC.x;
+    unk.posY = enemy->qUnkC.y;
+    unk.regionX = enemy->region.x;
+    unk.regionY = enemy->region.y;
+    unk.me = enemy->me;
+    unk.spriteX = enemy->spriteX;
+
+    return sub_805C280(&unk);
+}
+
+void TaskDestructor_Takkon(struct Task *t)
+{
+    Takkon *enemy = TASK_DATA(t);
+    VramFree(enemy->s.tiles);
+}
