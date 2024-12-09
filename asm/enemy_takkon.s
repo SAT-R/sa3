@@ -8,262 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_805B5D0
-sub_805B5D0: @ 0x0805B5D0
-	push {r4, r5, r6, lr}
-	sub sp, #8
-	ldr r0, _0805B65C @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	movs r5, #0
-	ldr r0, _0805B660 @ =gStageData
-	ldrb r1, [r0, #4]
-	subs r0, r1, #1
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #1
-	bls _0805B5FA
-	cmp r1, #4
-	beq _0805B5FA
-	adds r0, r4, #0
-	bl sub_805B91C
-_0805B5FA:
-	adds r0, r4, #0
-	bl sub_805B928
-	adds r0, r4, #0
-	bl sub_805B670
-	cmp r0, #1
-	bne _0805B60C
-	movs r5, #1
-_0805B60C:
-	ldr r1, [r4, #4]
-	asrs r1, r1, #8
-	ldr r0, [r4, #8]
-	asrs r0, r0, #8
-	ldrh r2, [r4]
-	lsls r2, r2, #8
-	adds r1, r1, r2
-	ldrh r2, [r4, #2]
-	lsls r2, r2, #8
-	adds r0, r0, r2
-	movs r6, #0
-	str r6, [sp]
-	ldr r2, _0805B664 @ =sub_805217C
-	str r2, [sp, #4]
-	movs r2, #1
-	movs r3, #8
-	bl sub_8052394
-	cmp r0, #0
-	bge _0805B636
-	movs r5, #1
-_0805B636:
-	cmp r5, #1
-	bne _0805B652
-	adds r1, r4, #0
-	adds r1, #0xc
-	ldr r2, _0805B668 @ =gUnknown_080D1F1C
-	ldrh r0, [r2, #8]
-	strh r0, [r1, #0xc]
-	ldrb r0, [r2, #0xa]
-	strb r0, [r1, #0x1a]
-	str r6, [r1, #8]
-	ldr r0, _0805B65C @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0805B66C @ =sub_805B8EC
-	str r0, [r1, #8]
-_0805B652:
-	add sp, #8
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0805B65C: .4byte gCurTask
-_0805B660: .4byte gStageData
-_0805B664: .4byte sub_805217C
-_0805B668: .4byte gUnknown_080D1F1C
-_0805B66C: .4byte sub_805B8EC
-
-	thumb_func_start sub_805B670
-sub_805B670: @ 0x0805B670
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	sub sp, #8
-	adds r3, r0, #0
-	movs r4, #0
-	ldr r0, [r3, #4]
-	asrs r7, r0, #8
-	ldr r0, [r3, #8]
-	asrs r6, r0, #8
-	ldrh r0, [r3]
-	lsls r0, r0, #8
-	adds r7, r7, r0
-	ldrh r0, [r3, #2]
-	lsls r0, r0, #8
-	adds r6, r6, r0
-	movs r0, #0xc
-	adds r0, r0, r3
-	mov r8, r0
-	adds r1, r3, #0
-	adds r1, #0x38
-	movs r0, #0xfd
-	strb r0, [r1]
-	adds r1, #1
-	movs r0, #0xfc
-	strb r0, [r1]
-	adds r1, #1
-	movs r0, #3
-	strb r0, [r1]
-	adds r1, #1
-	movs r0, #4
-	strb r0, [r1]
-	subs r0, #7
-	mov r1, r8
-	str r0, [r1, #0x28]
-	movs r5, #0
-_0805B6B8:
-	cmp r5, #0
-	bne _0805B6C8
-	ldr r0, _0805B6C4 @ =gStageData
-	ldrb r1, [r0, #6]
-	b _0805B6D2
-	.align 2, 0
-_0805B6C4: .4byte gStageData
-_0805B6C8:
-	adds r0, r4, #0
-	adds r0, #0x2b
-	ldrb r1, [r0]
-	lsls r1, r1, #0x1e
-	lsrs r1, r1, #0x1e
-_0805B6D2:
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	ldr r1, _0805B71C @ =gPlayers
-	adds r4, r0, r1
-	adds r0, r4, #0
-	bl sub_802C080
-	cmp r0, #0
-	bne _0805B720
-	str r4, [sp]
-	str r0, [sp, #4]
-	mov r0, r8
-	adds r1, r7, #0
-	adds r2, r6, #0
-	movs r3, #1
-	bl sub_8020700
-	cmp r0, #0
-	beq _0805B720
-	adds r0, r4, #0
-	adds r0, #0x4c
-	movs r1, #0
-	ldrsh r0, [r0, r1]
-	cmp r0, #0
-	bne _0805B718
-	str r4, [sp]
-	mov r0, r8
-	adds r1, r7, #0
-	adds r2, r6, #0
-	movs r3, #1
-	bl sub_8020CE0
-_0805B718:
-	movs r0, #1
-	b _0805B72C
-	.align 2, 0
-_0805B71C: .4byte gPlayers
-_0805B720:
-	adds r0, r5, #1
-	lsls r0, r0, #0x18
-	lsrs r5, r0, #0x18
-	cmp r5, #1
-	bls _0805B6B8
-	movs r0, #0
-_0805B72C:
-	add sp, #8
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r1}
-	bx r1
-
-	thumb_func_start sub_805B738
-sub_805B738: @ 0x0805B738
-	push {lr}
-	adds r2, r0, #0
-	ldr r0, [r2, #0x2c]
-	movs r1, #0x80
-	lsls r1, r1, #3
-	ands r0, r1
-	cmp r0, #0
-	beq _0805B75E
-	ldr r0, [r2, #0x14]
-	ldr r1, [r2, #0x20]
-	cmp r0, r1
-	bge _0805B772
-	movs r3, #0x80
-	lsls r3, r3, #1
-	adds r0, r0, r3
-	str r0, [r2, #0x14]
-	cmp r0, r1
-	ble _0805B772
-	b _0805B770
-_0805B75E:
-	ldr r0, [r2, #0x14]
-	ldr r1, [r2, #0x1c]
-	cmp r0, r1
-	blt _0805B772
-	ldr r3, _0805B778 @ =0xFFFFFF00
-	adds r0, r0, r3
-	str r0, [r2, #0x14]
-	cmp r0, r1
-	bge _0805B772
-_0805B770:
-	str r1, [r2, #0x14]
-_0805B772:
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0805B778: .4byte 0xFFFFFF00
-
-	thumb_func_start sub_805B77C
-sub_805B77C: @ 0x0805B77C
-	push {r4, r5, lr}
-	adds r5, r0, #0
-	adds r5, #0x24
-	ldr r2, [r0, #0x14]
-	asrs r2, r2, #8
-	ldrh r1, [r0, #8]
-	lsls r1, r1, #8
-	adds r2, r2, r1
-	ldr r3, _0805B7BC @ =gCamera
-	ldr r1, [r3]
-	subs r2, r2, r1
-	strh r2, [r5, #0x10]
-	ldr r1, [r0, #0x18]
-	asrs r1, r1, #8
-	ldrh r0, [r0, #0xa]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	ldr r0, [r3, #4]
-	subs r1, r1, r0
-	strh r1, [r5, #0x12]
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-	adds r4, r0, #0
-	adds r0, r5, #0
-	bl DisplaySprite
-	adds r0, r4, #0
-	pop {r4, r5}
-	pop {r1}
-	bx r1
-	.align 2, 0
-_0805B7BC: .4byte gCamera
-
 	thumb_func_start sub_805B7C0
 sub_805B7C0: @ 0x0805B7C0
 	push {r4, r5, r6, lr}
@@ -398,9 +142,9 @@ CreateTakkonProjectile: @ 0x0805B894
 	lsrs r4, r4, #0x10
 	lsls r5, r5, #0x10
 	lsrs r5, r5, #0x10
-	ldr r0, _0805B8E0 @ =sub_805B5D0
+	ldr r0, _0805B8E0 @ =Task_TakkonProjectileInit
 	ldr r2, _0805B8E4 @ =0x00004040
-	ldr r1, _0805B8E8 @ =sub_805B96C
+	ldr r1, _0805B8E8 @ =TaskDestructor_TakkonProjectile
 	str r1, [sp]
 	movs r1, #0x3c
 	movs r3, #0
@@ -422,12 +166,12 @@ CreateTakkonProjectile: @ 0x0805B894
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0805B8E0: .4byte sub_805B5D0
+_0805B8E0: .4byte Task_TakkonProjectileInit
 _0805B8E4: .4byte 0x00004040
-_0805B8E8: .4byte sub_805B96C
+_0805B8E8: .4byte TaskDestructor_TakkonProjectile
 
-	thumb_func_start sub_805B8EC
-sub_805B8EC: @ 0x0805B8EC
+	thumb_func_start Task_Proj_805B8EC
+Task_Proj_805B8EC: @ 0x0805B8EC
 	push {r4, r5, r6, lr}
 	ldr r6, _0805B918 @ =gCurTask
 	ldr r0, [r6]
@@ -436,7 +180,7 @@ sub_805B8EC: @ 0x0805B8EC
 	lsls r0, r0, #0x12
 	adds r4, r4, r0
 	adds r0, r4, #0
-	bl sub_805B928
+	bl sub_Proj_805B928
 	adds r5, r0, #0
 	adds r0, r4, #0
 	bl sub_805B670
@@ -451,8 +195,8 @@ _0805B912:
 	.align 2, 0
 _0805B918: .4byte gCurTask
 
-	thumb_func_start sub_805B91C
-sub_805B91C: @ 0x0805B91C
+	thumb_func_start sub_Proj_805B91C
+sub_Proj_805B91C: @ 0x0805B91C
 	ldr r1, [r0, #8]
 	movs r2, #0xc0
 	lsls r2, r2, #2
@@ -460,8 +204,8 @@ sub_805B91C: @ 0x0805B91C
 	str r1, [r0, #8]
 	bx lr
 
-	thumb_func_start sub_805B928
-sub_805B928: @ 0x0805B928
+	thumb_func_start sub_Proj_805B928
+sub_Proj_805B928: @ 0x0805B928
 	push {r4, r5, lr}
 	adds r5, r0, #0
 	adds r5, #0xc
@@ -494,8 +238,8 @@ sub_805B928: @ 0x0805B928
 	.align 2, 0
 _0805B968: .4byte gCamera
 
-	thumb_func_start sub_805B96C
-sub_805B96C: @ 0x0805B96C
+	thumb_func_start TaskDestructor_TakkonProjectile
+TaskDestructor_TakkonProjectile: @ 0x0805B96C
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0

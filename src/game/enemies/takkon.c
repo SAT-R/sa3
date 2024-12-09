@@ -1,6 +1,7 @@
 #include "global.h"
 #include "task.h"
 #include "malloc_vram.h"
+#include "module_unclear.h"
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/enemy_unknown.h"
@@ -28,21 +29,28 @@ typedef struct {
 typedef struct {
     /* 0x00 */ Vec2_u16 region;
     /* 0x04 */ Vec2_32 qPos;
-    /* 0x24 */ Sprite s;
+    /* 0x0C */ Sprite s;
+    /* 0x34 */ Hitbox reserved;
 } TakkonProjectile; /* size: 0x3C */
+
+s32 sub_8052394(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4, void *callback);
 
 void Task_Takkon(void);
 void sub_805B3AC(Takkon *enemy);
 void Task_805B4E4(void);
+bool32 sub_805B670(TakkonProjectile *proj);
 void sub_805B738(Takkon *enemy);
 AnimCmdResult sub_805B77C(Takkon *enemy);
 bool32 sub_805B7C0(Takkon *enemy);
 bool32 sub_805B844(Takkon *enemy);
+void Task_Proj_805B8EC(void);
+void sub_Proj_805B91C(TakkonProjectile *proj);
+void sub_Proj_805B928(TakkonProjectile *proj);
 void TaskDestructor_Takkon(struct Task *t);
 void CreateTakkonProjectile(s32 param0, s32 param1, u16 param2, u16 param3);
 
 extern TileInfo2 gUnknown_080D1F0C[4]; // Takkon
-extern TileInfo2 gUnknown_080D1F1C[4]; // Projectile
+extern TileInfo2 gUnknown_080D1F1C[4]; // proj
 
 void CreateEntity_Takkon(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -166,17 +174,17 @@ void Task_805B4E4(void)
     }
 }
 
-void sub_805B568(TakkonProjectile *projectile)
+void sub_805B568(TakkonProjectile *proj)
 {
     void *tiles = VramMalloc(MAX_TILES_VARIANT(ANIM_TAKKON_PROJ, 0) + MAX_TILES_VARIANT(ANIM_TAKKON_PROJ, 4));
-    Sprite *s = &projectile->s;
+    Sprite *s = &proj->s;
     s->tiles = tiles;
 
     s->anim = gUnknown_080D1F1C[0].anim;
     s->variant = gUnknown_080D1F1C[0].variant;
     s->prevVariant = -1;
-    s->x = I(projectile->qPos.x) - gCamera.x;
-    s->y = I(projectile->qPos.y) - gCamera.y;
+    s->x = I(proj->qPos.x) - gCamera.x;
+    s->y = I(proj->qPos.y) - gCamera.y;
     s->oamFlags = SPRITE_OAM_ORDER(19);
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -188,3 +196,120 @@ void sub_805B568(TakkonProjectile *projectile)
 
     UpdateSpriteAnimation(s);
 }
+
+void Task_TakkonProjectileInit(void)
+{
+    TakkonProjectile *proj = TASK_DATA(gCurTask);
+    bool32 r5 = FALSE;
+    s32 worldX, worldY;
+    s32 res;
+
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        sub_Proj_805B91C(proj);
+    }
+
+    sub_Proj_805B928(proj);
+
+    if (sub_805B670(proj) == TRUE) {
+        r5 = TRUE;
+    }
+
+    worldX = I(proj->qPos.x);
+    worldY = I(proj->qPos.y);
+
+    worldX = TO_WORLD_POS_RAW(worldX, proj->region.x);
+    worldY = TO_WORLD_POS_RAW(worldY, proj->region.y);
+
+    res = sub_8052394(worldY, worldX, 1, +8, 0, sub_805217C);
+
+    if (res < 0) {
+        r5 = TRUE;
+    }
+
+    if (r5 == TRUE) {
+        Sprite *s = &proj->s;
+
+        s->anim = gUnknown_080D1F1C[1].anim;
+        s->variant = gUnknown_080D1F1C[1].variant;
+        s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+
+        gCurTask->main = Task_Proj_805B8EC;
+    }
+}
+
+bool32 sub_805B670(TakkonProjectile *proj)
+{
+    Sprite *s;
+    s32 worldX, worldY;
+    u8 i;
+
+    Player *p = NULL;
+
+    worldX = I(proj->qPos.x);
+    worldY = I(proj->qPos.y);
+
+    worldX = TO_WORLD_POS_RAW(worldX, proj->region.x);
+    worldY = TO_WORLD_POS_RAW(worldY, proj->region.y);
+
+    s = &proj->s;
+
+    s->hitboxes[1].b.left = -3;
+    s->hitboxes[1].b.top = -4;
+    s->hitboxes[1].b.right = +3;
+    s->hitboxes[1].b.bottom = +4;
+    s->hitboxes[1].index = HITBOX_STATE_INACTIVE - 2;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        p = GET_SP_PLAYER_V0(i);
+
+        if ((!sub_802C080(p)) && sub_8020700(s, worldX, worldY, 1, p, 0)) {
+            if (p->framesInvincible == 0) {
+                sub_8020CE0(s, worldX, worldY, 1, p);
+            }
+
+            return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
+void sub_805B738(Takkon *enemy)
+{
+    Sprite *s = &enemy->s;
+
+    if (s->frameFlags & SPRITE_FLAG(X_FLIP, 1)) {
+        if (enemy->qPos.x < enemy->unk20) {
+            enemy->qPos.x += Q(1);
+
+            if (enemy->qPos.x > enemy->unk20) {
+                enemy->qPos.x = enemy->unk20;
+            }
+        }
+    } else {
+        if (enemy->qPos.x >= enemy->unk1C) {
+            enemy->qPos.x -= Q(1);
+
+            if (enemy->qPos.x < enemy->unk1C) {
+                enemy->qPos.x = enemy->unk1C;
+            }
+        }
+    }
+}
+
+AnimCmdResult sub_805B77C(Takkon *enemy)
+{
+    AnimCmdResult acmdRes;
+
+    Sprite *s = &enemy->s;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region.x) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region.y) - gCamera.y;
+
+    acmdRes = UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    return acmdRes;
+}
+
+#if 01
+#endif

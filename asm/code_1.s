@@ -5749,6 +5749,7 @@ _08052388: .4byte 0x03000400
 _0805238C: .4byte 0x85000003
 _08052390: .4byte 0x03000410
 
+@ Collision (of projectiles with Player?)
 	thumb_func_start sub_8052394
 sub_8052394: @ 0x08052394
 	push {r4, r5, r6, r7, lr}
