@@ -283,7 +283,7 @@ _080BBC02:
 	strh r0, [r4]
 	ldr r0, _080BBE28 @ =0x040000D4
 	str r4, [r0]
-	ldr r2, _080BBE68 @ =gUnknown_03003750
+	ldr r2, _080BBE68 @ =gOamBuffer2
 	str r2, [r0, #4]
 	ldr r1, _080BBE64 @ =0x81000200
 	str r1, [r0, #8]
@@ -306,7 +306,7 @@ _080BBC2C:
 	ldr r0, _080BBE28 @ =0x040000D4
 	mov r4, sp
 	str r4, [r0]
-	ldr r7, _080BBE6C @ =gUnknown_03002B50
+	ldr r7, _080BBE6C @ =sa2__gUnknown_03001850
 	str r7, [r0, #4]
 	ldr r1, _080BBE70 @ =0x85000008
 	str r1, [r0, #8]
@@ -329,7 +329,7 @@ _080BBC56:
 	ldr r0, _080BBE28 @ =0x040000D4
 	mov r1, sp
 	str r1, [r0]
-	ldr r2, _080BBE74 @ =gUnknown_03006210
+	ldr r2, _080BBE74 @ =sa2__gUnknown_03004D60
 	str r2, [r0, #4]
 	ldr r1, _080BBE70 @ =0x85000008
 	str r1, [r0, #8]
@@ -583,10 +583,10 @@ _080BBE58: .4byte gOamFreeIndex
 _080BBE5C: .4byte gUnknown_03003F90
 _080BBE60: .4byte gOamBuffer
 _080BBE64: .4byte 0x81000200
-_080BBE68: .4byte gUnknown_03003750
-_080BBE6C: .4byte gUnknown_03002B50
+_080BBE68: .4byte gOamBuffer2
+_080BBE6C: .4byte sa2__gUnknown_03001850
 _080BBE70: .4byte 0x85000008
-_080BBE74: .4byte gUnknown_03006210
+_080BBE74: .4byte sa2__gUnknown_03004D60
 _080BBE78: .4byte gObjPalette
 _080BBE7C: .4byte 0x85000080
 _080BBE80: .4byte gBgPalette

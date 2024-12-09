@@ -779,7 +779,6 @@ NONMATCH("asm/non_matching/engine/sub_80C07E0.inc", void sub_80C07E0(Sprite *spr
 END_NONMATCH
 
 // (99.82%) https://decomp.me/scratch/UPXYB
-// TODO: Rename SA2: sub_081569A0
 NONMATCH("asm/non_matching/engine/sa2__sub_081569A0.inc", void DisplaySprites(Sprite *sprite, Vec2_16 *positions, u8 numPositions))
 {
     vs32 x, y;
@@ -900,7 +899,6 @@ NONMATCH("asm/non_matching/engine/sa2__sub_081569A0.inc", void DisplaySprites(Sp
 }
 END_NONMATCH
 
-#if 0
 // The parameter to this determines the order this sprite is expected to be drawn at.
 //
 // If you have created n Sprite instances, and you want them to be drawn in a certain
@@ -923,14 +921,14 @@ OamData *OamMalloc(u8 order)
     if (gOamFreeIndex > OAM_ENTRY_COUNT - 1) {
         result = (OamData *)iwram_end;
     } else {
-        if (gUnknown_03001850[order] == 0xFF) {
+        if (sa2__gUnknown_03001850[order] == 0xFF) {
             gOamBuffer2[gOamFreeIndex].split.fractional = 0xFF;
-            gUnknown_03001850[order] = gOamFreeIndex;
-            gUnknown_03004D60[order] = gOamFreeIndex;
+            sa2__gUnknown_03001850[order] = gOamFreeIndex;
+            sa2__gUnknown_03004D60[order] = gOamFreeIndex;
         } else {
             gOamBuffer2[gOamFreeIndex].split.fractional = 0xFF;
-            gOamBuffer2[gUnknown_03004D60[order]].split.fractional = gOamFreeIndex;
-            gUnknown_03004D60[order] = gOamFreeIndex;
+            gOamBuffer2[sa2__gUnknown_03004D60[order]].split.fractional = gOamFreeIndex;
+            sa2__gUnknown_03004D60[order] = gOamFreeIndex;
         }
 
         gOamFreeIndex++;
@@ -940,6 +938,7 @@ OamData *OamMalloc(u8 order)
     return result;
 }
 
+#if 0
 void CopyOamBufferToOam(void)
 {
     OamData *dstOam = &gOamBuffer[0];
@@ -947,7 +946,7 @@ void CopyOamBufferToOam(void)
     s32 r3;
 
     for (r3 = 0; r3 < 32; r3++) {
-        s8 index = gUnknown_03001850[r3];
+        s8 index = sa2__gUnknown_03001850[r3];
 
         while (index != -1) {
             u8 newI;
@@ -1004,11 +1003,11 @@ void CopyOamBufferToOam(void)
 
     gOamFreeIndex = 0;
     if (gFlags & FLAGS_4000) {
-        CpuFill32(-1, gUnknown_03001850, sizeof(gUnknown_03001850));
-        CpuFill32(-1, gUnknown_03004D60, sizeof(gUnknown_03004D60));
+        CpuFill32(-1, sa2__gUnknown_03001850, sizeof(sa2__gUnknown_03001850));
+        CpuFill32(-1, sa2__gUnknown_03004D60, sizeof(sa2__gUnknown_03004D60));
     } else {
-        DmaFill32(3, -1, gUnknown_03001850, sizeof(gUnknown_03001850));
-        DmaFill32(3, -1, gUnknown_03004D60, sizeof(gUnknown_03004D60));
+        DmaFill32(3, -1, sa2__gUnknown_03001850, sizeof(sa2__gUnknown_03001850));
+        DmaFill32(3, -1, sa2__gUnknown_03004D60, sizeof(sa2__gUnknown_03004D60));
     }
 }
 

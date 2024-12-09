@@ -86621,7 +86621,7 @@ _0802A1BC:
 	ldr r3, [sp, #4]
 	ldrb r1, [r3, #0x1d]
 	lsls r1, r1, #3
-	ldr r0, _0802A2A4 @ =gUnknown_03003750
+	ldr r0, _0802A2A4 @ =gOamBuffer2
 	adds r2, r1, r0
 	ldrh r0, [r3, #0x14]
 	movs r4, #0xf8
@@ -86741,7 +86741,7 @@ _0802A292:
 _0802A2A2:
 	b _0802A514
 	.align 2, 0
-_0802A2A4: .4byte gUnknown_03003750
+_0802A2A4: .4byte gOamBuffer2
 _0802A2A8: .4byte iwram_end
 _0802A2AC: .4byte 0x040000D4
 _0802A2B0: .4byte 0x80000003
@@ -87175,7 +87175,7 @@ _0802A5D8:
 	ldr r3, [sp, #4]
 	ldrb r1, [r3, #0x1d]
 	lsls r1, r1, #3
-	ldr r0, _0802A6AC @ =gUnknown_03003750
+	ldr r0, _0802A6AC @ =gOamBuffer2
 	adds r2, r1, r0
 	ldrh r0, [r3, #0x14]
 	movs r4, #0xf8
@@ -87284,7 +87284,7 @@ _0802A69C:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0802A6AC: .4byte gUnknown_03003750
+_0802A6AC: .4byte gOamBuffer2
 _0802A6B0: .4byte iwram_end
 _0802A6B4: .4byte 0x040000D4
 _0802A6B8: .4byte 0x80000003
@@ -87748,7 +87748,7 @@ _0802AA20:
 	ldr r3, [sp, #4]
 	ldrb r1, [r3, #0x1d]
 	lsls r1, r1, #3
-	ldr r0, _0802AAF8 @ =gUnknown_03003750
+	ldr r0, _0802AAF8 @ =gOamBuffer2
 	adds r2, r1, r0
 	ldrh r0, [r3, #0x14]
 	movs r4, #0xf8
@@ -87858,7 +87858,7 @@ _0802AAE6:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0802AAF8: .4byte gUnknown_03003750
+_0802AAF8: .4byte gOamBuffer2
 _0802AAFC: .4byte iwram_end
 _0802AB00: .4byte 0x040000D4
 _0802AB04: .4byte 0x80000003

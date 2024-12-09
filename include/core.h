@@ -175,7 +175,7 @@ extern void *gBgOffsetsHBlank;
 
 extern u16 sa2__gUnknown_030017F0;
 extern s16 sa2__gUnknown_030017F4[2];
-// extern u8 gUnknown_03001850[32];
+extern u8 sa2__gUnknown_03001850[32];
 // extern FuncType_030053A0 gUnknown_03001870[4];
 
 extern u8 gOamFreeIndex;
@@ -208,7 +208,7 @@ extern Sprite *gUnknown_030061C0[16]; // extern Sprite *gUnknown_03004D10[16];
 // extern void *gUnknown_03004D54;
 // extern u16 gUnknown_03004D58;
 extern u8 gVramGraphicsCopyCursor;
-// extern u8 gUnknown_03004D60[0x20];
+extern u8 sa2__gUnknown_03004D60[0x20];
 // extern u8 gUnknown_03005390;
 extern u16 sa2__gUnknown_03005394;
 extern u16 sa2__gUnknown_03005398;
