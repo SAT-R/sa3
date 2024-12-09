@@ -23,7 +23,7 @@ GameInit: @ 0x080BB9EC
 	ldr r2, _080BBA78 @ =gFlags
 	movs r1, #0
 	str r1, [r2]
-	ldr r0, _080BBA7C @ =gUnknown_03003C00
+	ldr r0, _080BBA7C @ =gFlagsPreVBlank
 	str r1, [r0]
 	ldr r1, _080BBA80 @ =gUnknown_030035A4
 	movs r0, #1
@@ -79,7 +79,7 @@ _080BBA60:
 _080BBA70: .4byte 0x04000208
 _080BBA74: .4byte 0x00004014
 _080BBA78: .4byte gFlags
-_080BBA7C: .4byte gUnknown_03003C00
+_080BBA7C: .4byte gFlagsPreVBlank
 _080BBA80: .4byte gUnknown_030035A4
 _080BBA84: .4byte 0x04000134
 _080BBA88: .4byte gInput
@@ -894,7 +894,7 @@ _080BC13C:
 _080BC150:
 	bl TasksExec
 _080BC154:
-	ldr r1, _080BC184 @ =gUnknown_03003C00
+	ldr r1, _080BC184 @ =gFlagsPreVBlank
 	ldr r4, _080BC188 @ =gFlags
 	ldr r0, [r4]
 	str r0, [r1]
@@ -916,7 +916,7 @@ _080BC154:
 	bl ClearOamBufferCpuSet
 	b _080BC1A0
 	.align 2, 0
-_080BC184: .4byte gUnknown_03003C00
+_080BC184: .4byte gFlagsPreVBlank
 _080BC188: .4byte gFlags
 _080BC18C: .4byte gUnknown_03002C24
 _080BC190:
@@ -1666,7 +1666,7 @@ VBlankIntr: @ 0x080BC7C0
 	strh r0, [r1]
 	ldr r0, _080BC85C @ =gExecSoundMain
 	strb r2, [r0]
-	ldr r5, _080BC860 @ =gUnknown_03003C00
+	ldr r5, _080BC860 @ =gFlagsPreVBlank
 	ldr r3, [r5]
 	movs r0, #4
 	ands r3, r0
@@ -1724,7 +1724,7 @@ _080BC850: .4byte 0x0000C5FF
 _080BC854: .4byte 0x00007FFF
 _080BC858: .4byte gUnknown_03007FF8
 _080BC85C: .4byte gExecSoundMain
-_080BC860: .4byte gUnknown_03003C00
+_080BC860: .4byte gFlagsPreVBlank
 _080BC864: .4byte 0x04000200
 _080BC868: .4byte gBgOffsetsHBlank
 _080BC86C: .4byte sa2__gUnknown_03002878
@@ -2121,13 +2121,13 @@ sub_80BCB84: @ 0x080BCB84
 	sub sp, #0xc
 	bl m4aMPlayAllStop
 	bl m4aSoundVSyncOff
-	ldr r1, _080BCC4C @ =gUnknown_03003C00
+	ldr r1, _080BCC4C @ =gFlagsPreVBlank
 	ldr r0, [r1]
 	str r0, [sp, #4]
 	movs r1, #0x80
 	lsls r1, r1, #8
 	orrs r0, r1
-	ldr r2, _080BCC4C @ =gUnknown_03003C00
+	ldr r2, _080BCC4C @ =gFlagsPreVBlank
 	str r0, [r2]
 	mov r1, sp
 	movs r2, #0x80
@@ -2190,7 +2190,7 @@ sub_80BCB84: @ 0x080BCB84
 	lsls r2, r2, #0x13
 	strh r0, [r2]
 	ldr r0, [sp, #4]
-	ldr r1, _080BCC4C @ =gUnknown_03003C00
+	ldr r1, _080BCC4C @ =gFlagsPreVBlank
 	str r0, [r1]
 	ldr r2, _080BCC64 @ =gFlags
 	ldr r0, [r2]
@@ -2207,7 +2207,7 @@ sub_80BCB84: @ 0x080BCB84
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080BCC4C: .4byte gUnknown_03003C00
+_080BCC4C: .4byte gFlagsPreVBlank
 _080BCC50: .4byte 0x04000004
 _080BCC54: .4byte 0x04000132
 _080BCC58: .4byte 0x00008304

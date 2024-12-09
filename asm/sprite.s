@@ -5,85 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-	thumb_func_start OamMalloc
-OamMalloc: @ 0x080C108C
-	push {r4, r5, lr}
-	lsls r0, r0, #0x18
-	lsrs r5, r0, #0x18
-	cmp r5, #0x1f
-	bls _080C1098
-	movs r5, #0x1f
-_080C1098:
-	ldr r0, _080C10AC @ =gOamFreeIndex
-	movs r1, #0
-	ldrsb r1, [r0, r1]
-	adds r4, r0, #0
-	cmp r1, #0
-	bge _080C10B4
-	ldr r0, _080C10B0 @ =iwram_end
-	ldr r0, [r0]
-	b _080C1110
-	.align 2, 0
-_080C10AC: .4byte gOamFreeIndex
-_080C10B0: .4byte iwram_end
-_080C10B4:
-	ldr r0, _080C10D8 @ =sa2__gUnknown_03001850
-	adds r2, r5, r0
-	ldrb r0, [r2]
-	cmp r0, #0xff
-	bne _080C10E4
-	ldr r1, _080C10DC @ =gOamBuffer2
-	ldrb r0, [r4]
-	lsls r0, r0, #3
-	adds r0, r0, r1
-	movs r1, #0xff
-	strb r1, [r0, #6]
-	ldrb r0, [r4]
-	strb r0, [r2]
-	ldr r0, _080C10E0 @ =sa2__gUnknown_03004D60
-	adds r0, r5, r0
-	ldrb r1, [r4]
-	strb r1, [r0]
-	b _080C1102
-	.align 2, 0
-_080C10D8: .4byte sa2__gUnknown_03001850
-_080C10DC: .4byte gOamBuffer2
-_080C10E0: .4byte sa2__gUnknown_03004D60
-_080C10E4:
-	ldr r3, _080C1118 @ =gOamBuffer2
-	ldrb r0, [r4]
-	lsls r0, r0, #3
-	adds r0, r0, r3
-	movs r1, #0xff
-	strb r1, [r0, #6]
-	ldr r2, _080C111C @ =sa2__gUnknown_03004D60
-	adds r2, r5, r2
-	ldrb r0, [r2]
-	lsls r0, r0, #3
-	adds r0, r0, r3
-	ldrb r1, [r4]
-	strb r1, [r0, #6]
-	ldrb r0, [r4]
-	strb r0, [r2]
-_080C1102:
-	ldrb r0, [r4]
-	adds r0, #1
-	strb r0, [r4]
-	ldrb r0, [r4]
-	lsls r0, r0, #3
-	ldr r1, _080C1120 @ =gOamBuffer2-0x8
-	adds r0, r0, r1
-_080C1110:
-	pop {r4, r5}
-	pop {r1}
-	bx r1
-	.align 2, 0
-_080C1118: .4byte gOamBuffer2
-_080C111C: .4byte sa2__gUnknown_03004D60
-_080C1120: .4byte gOamBuffer2-0x8
-.endif
-
+.if 01
 	thumb_func_start CopyOamBufferToOam
 CopyOamBufferToOam: @ 0x080C1124
 	push {r4, r5, r6, r7, lr}
@@ -114,7 +36,7 @@ _080C1142:
 	beq _080C118A
 	ldr r4, _080C11E0 @ =0x040000D4
 	mov r8, r1
-	ldr r0, _080C11E4 @ =gUnknown_03003B80
+	ldr r0, _080C11E4 @ =sa2__gUnknown_03002710
 	mov ip, r0
 	ldr r7, _080C11E8 @ =gOamBuffer2
 _080C1160:
@@ -183,7 +105,7 @@ _080C11D4: .4byte gOamBuffer
 _080C11D8: .4byte gUnknown_03003F90
 _080C11DC: .4byte sa2__gUnknown_03001850
 _080C11E0: .4byte 0x040000D4
-_080C11E4: .4byte gUnknown_03003B80
+_080C11E4: .4byte sa2__gUnknown_03002710
 _080C11E8: .4byte gOamBuffer2
 _080C11EC: .4byte 0x80000003
 _080C11F0: .4byte gFlags
@@ -324,6 +246,7 @@ _080C1304: .4byte 0x040000D4
 _080C1308: .4byte sa2__gUnknown_03001850
 _080C130C: .4byte 0x85000008
 _080C1310: .4byte sa2__gUnknown_03004D60
+.endif
 
 	thumb_func_start animCmd_JumpBack
 animCmd_JumpBack: @ 0x080C1314

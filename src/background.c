@@ -1076,16 +1076,19 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80039E4.inc", bool32 sa2__sub_80039E4
                         // __08003CD8
 
                         yFlip = s->frameFlags >> SPRITE_FLAG_SHIFT_Y_FLIP;
-                        yFlip ^= (dims->flip >> 1);
+                        //yFlip ^= (dims->flip >> 1);
 
                         if (yFlip & 1) {
                             // ___08003CEE
                             // alt: oam.all.attr1 ^ 0x2000
                             oam.matrixNum ^= 0x4; // do flip Y in OAM
-                            if (dims->flip & 0x1) {
+                            //  if (dims->flip & 0x1)
+                            {
                                 // __08003D04
                                 someOffsetY = s->y + dims->offsetY;
-                            } else {
+                            }
+                            //else
+                            {
                                 // _08003D2C
                                 someOffsetY = s->y + (dims->height - dims->offsetY);
                             }
@@ -1097,9 +1100,10 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80039E4.inc", bool32 sa2__sub_80039E4
                             someOffsetY = s->y - dims->offsetY;
                         }
 
-                        if ((SPRITE_FLAG_GET(s, X_FLIP) & 0x1) != (dims->flip & 0x1)) {
+                        //if ((SPRITE_FLAG_GET(s, X_FLIP) & 0x1) != (dims->flip & 0x1))
+                        {
 
-                        } else {
+                        //} else {
                             //_08003DB4
                         }
                     }
