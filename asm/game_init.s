@@ -41,7 +41,7 @@ GameInit: @ 0x080BB9EC
 	ldr r6, _080BBA8C @ =sLastCalledVblankFuncId
 	ldr r4, _080BBA90 @ =gBackgroundsCopyQueueIndex
 	mov r8, r4
-	ldr r7, _080BBA94 @ =gUnknown_03006840
+	ldr r7, _080BBA94 @ =sa2__gUnknown_03005390
 	mov sb, r7
 	ldr r4, _080BBA98 @ =gVramGraphicsCopyCursor
 	mov sl, r4
@@ -85,7 +85,7 @@ _080BBA84: .4byte 0x04000134
 _080BBA88: .4byte gInput
 _080BBA8C: .4byte sLastCalledVblankFuncId
 _080BBA90: .4byte gBackgroundsCopyQueueIndex
-_080BBA94: .4byte gUnknown_03006840
+_080BBA94: .4byte sa2__gUnknown_03005390
 _080BBA98: .4byte gVramGraphicsCopyCursor
 _080BBA9C: .4byte gVramGraphicsCopyQueueIndex
 _080BBAA0: .4byte 0x040000D4
@@ -198,7 +198,7 @@ _080BBB66:
 	bne _080BBB66
 _080BBB6E:
 	movs r0, #0
-	ldr r2, _080BBE40 @ =gUnknown_03006230
+	ldr r2, _080BBE40 @ =sa2__gUnknown_03004D80
 	str r0, [r2]
 	str r0, [sp]
 	ldr r0, _080BBE28 @ =0x040000D4
@@ -416,7 +416,7 @@ _080BBCD0:
 	strh r2, [r0]
 	ldr r0, _080BBE94 @ =sa2__gUnknown_03005394
 	strh r2, [r0]
-	ldr r0, _080BBE98 @ =gUnknown_03003F3C
+	ldr r0, _080BBE98 @ =sa2__gUnknown_03002A8C  @ Some Debug-Value? Never used.
 	strh r1, [r0]
 	ldr r0, _080BBE9C @ =gUnknown_03006204
 	strh r1, [r0]
@@ -424,7 +424,7 @@ _080BBCD0:
 	strh r1, [r0]
 	ldr r0, _080BBEA4 @ =sa2__gUnknown_03002820
 	strh r1, [r0]
-	ldr r0, _080BBEA8 @ =gUnknown_03006848
+	ldr r0, _080BBEA8 @ =sa2__gUnknown_03005398
 	strh r2, [r0]
 	ldr r0, _080BBEAC @ =gWinRegs
 	strh r1, [r0]
@@ -573,7 +573,7 @@ _080BBE30: .4byte 0x85000100
 _080BBE34: .4byte gBackgroundsCopyQueueCursor
 _080BBE38: .4byte gUnknown_03003590
 _080BBE3C: .4byte 0x85000004
-_080BBE40: .4byte gUnknown_03006230
+_080BBE40: .4byte sa2__gUnknown_03004D80
 _080BBE44: .4byte gBgScrollRegs
 _080BBE48: .4byte sa2__gUnknown_030017F4
 _080BBE4C: .4byte gDispCnt
@@ -595,11 +595,11 @@ _080BBE88: .4byte gUnknown_03002C24
 _080BBE8C: .4byte sa2__gUnknown_03001944
 _080BBE90: .4byte sa2__gUnknown_030017F0
 _080BBE94: .4byte sa2__gUnknown_03005394
-_080BBE98: .4byte gUnknown_03003F3C
+_080BBE98: .4byte sa2__gUnknown_03002A8C
 _080BBE9C: .4byte gUnknown_03006204
 _080BBEA0: .4byte sa2__gUnknown_0300194C
 _080BBEA4: .4byte sa2__gUnknown_03002820
-_080BBEA8: .4byte gUnknown_03006848
+_080BBEA8: .4byte sa2__gUnknown_03005398
 _080BBEAC: .4byte gWinRegs
 _080BBEB0: .4byte gBldRegs
 _080BBEB4: .4byte gPseudoRandom
@@ -661,7 +661,7 @@ _080BBF3C:
 	ldr r0, _080BBFB0 @ =0x040000D4
 	mov r4, sp
 	str r4, [r0]
-	ldr r7, _080BBFBC @ =gUnknown_03006850
+	ldr r7, _080BBFBC @ =sa2__gUnknown_030053A0
 	str r7, [r0, #4]
 	ldr r1, _080BBFB8 @ =0x85000004
 	str r1, [r0, #8]
@@ -712,7 +712,7 @@ _080BBFAC: .4byte sa2__gUnknown_03001948
 _080BBFB0: .4byte 0x040000D4
 _080BBFB4: .4byte gUnknown_03002B70
 _080BBFB8: .4byte 0x85000004
-_080BBFBC: .4byte gUnknown_03006850
+_080BBFBC: .4byte sa2__gUnknown_030053A0
 _080BBFC0: .4byte 0x0093A600
 _080BBFC4: .4byte gExecSoundMain
 _080BBFC8: .4byte gVramHeapMaxTileSlots
@@ -1196,7 +1196,7 @@ _080BC3D0:
 	ldrb r1, [r0]
 	cmp r4, r1
 	bhs _080BC3F4
-	ldr r6, _080BC470 @ =gUnknown_03006850
+	ldr r6, _080BC470 @ =sa2__gUnknown_030053A0
 	adds r5, r0, #0
 _080BC3DE:
 	lsls r0, r4, #2
@@ -1221,7 +1221,7 @@ _080BC3F4:
 	ldr r2, _080BC444 @ =0x040000D4
 	mov r1, sp
 	str r1, [r2]
-	ldr r1, _080BC470 @ =gUnknown_03006850
+	ldr r1, _080BC470 @ =sa2__gUnknown_030053A0
 	str r1, [r2, #4]
 	ldr r0, _080BC478 @ =0x85000004
 	str r0, [r2, #8]
@@ -1259,7 +1259,7 @@ _080BC460: .4byte 0x07000100
 _080BC464: .4byte 0x07000200
 _080BC468: .4byte 0x07000300
 _080BC46C: .4byte sa2__gUnknown_03001948
-_080BC470: .4byte gUnknown_03006850
+_080BC470: .4byte sa2__gUnknown_030053A0
 _080BC474: .4byte gFlags
 _080BC478: .4byte 0x85000004
 _080BC47C: .4byte gUnknown_03006200
@@ -1552,7 +1552,7 @@ _080BC6EC:
 	ldrb r1, [r0]
 	cmp r4, r1
 	bhs _080BC710
-	ldr r6, _080BC760 @ =gUnknown_03006850
+	ldr r6, _080BC760 @ =sa2__gUnknown_030053A0
 	adds r5, r0, #0
 _080BC6FA:
 	lsls r0, r4, #2
@@ -1575,7 +1575,7 @@ _080BC710:
 	movs r0, #0
 	str r0, [sp, #4]
 	add r0, sp, #4
-	ldr r5, _080BC760 @ =gUnknown_03006850
+	ldr r5, _080BC760 @ =sa2__gUnknown_030053A0
 	ldr r2, _080BC768 @ =0x01000004
 	adds r1, r5, #0
 	bl CpuFastSet
@@ -1599,7 +1599,7 @@ _080BC750: .4byte gNumHBlankIntrs
 _080BC754: .4byte sLastCalledVblankFuncId
 _080BC758: .4byte gOamBuffer
 _080BC75C: .4byte sa2__gUnknown_03001948
-_080BC760: .4byte gUnknown_03006850
+_080BC760: .4byte sa2__gUnknown_030053A0
 _080BC764: .4byte gFlags
 _080BC768: .4byte 0x01000004
 _080BC76C: .4byte gUnknown_03006200

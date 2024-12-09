@@ -76,7 +76,7 @@ _080BEE7E:
 	mov r2, ip
 	cmp r2, #0xff
 	bne _080BEF20
-	ldr r0, _080BEF18 @ =gUnknown_03006230
+	ldr r0, _080BEF18 @ =sa2__gUnknown_03004D80
 	add r0, r8
 	ldrb r1, [r0]
 	lsls r0, r1, #8
@@ -111,7 +111,7 @@ _080BEF08: .4byte gUnknown_03003593
 _080BEF0C: .4byte gUnknown_03003592
 _080BEF10: .4byte gBgCntRegs
 _080BEF14: .4byte gDispCnt
-_080BEF18: .4byte gUnknown_03006230
+_080BEF18: .4byte sa2__gUnknown_03004D80
 _080BEF1C: .4byte 0x040000D4
 _080BEF20:
 	add r6, sp, #4
@@ -122,7 +122,7 @@ _080BEF20:
 	bls _080BEF2E
 	b _080BF054
 _080BEF2E:
-	ldr r0, _080BEF84 @ =gUnknown_03006230
+	ldr r0, _080BEF84 @ =sa2__gUnknown_03004D80
 	add r0, r8
 	mov ip, r0
 	ldr r2, _080BEF88 @ =0x040000D4
@@ -167,7 +167,7 @@ _080BEF40:
 	bls _080BEF40
 	b _080BF054
 	.align 2, 0
-_080BEF84: .4byte gUnknown_03006230
+_080BEF84: .4byte sa2__gUnknown_03004D80
 _080BEF88: .4byte 0x040000D4
 _080BEF8C: .4byte gUnknown_03003592
 _080BEF90:
@@ -190,7 +190,7 @@ _080BEFAA:
 	ldrb r0, [r1]
 	cmp r0, #0xff
 	bne _080BF000
-	ldr r0, _080BEFF4 @ =gUnknown_03006230
+	ldr r0, _080BEFF4 @ =sa2__gUnknown_03004D80
 	add r0, r8
 	ldrb r1, [r0]
 	lsls r0, r3, #1
@@ -222,7 +222,7 @@ _080BEFE8:
 	b _080BF054
 	.align 2, 0
 _080BEFF0: .4byte gUnknown_03003592
-_080BEFF4: .4byte gUnknown_03006230
+_080BEFF4: .4byte sa2__gUnknown_03004D80
 _080BEFF8: .4byte 0x040000D4
 _080BEFFC: .4byte gUnknown_03003593
 _080BF000:
@@ -235,7 +235,7 @@ _080BF000:
 	ldrb r6, [r0]
 	cmp r4, r6
 	bhi _080BF054
-	ldr r2, _080BF08C @ =gUnknown_03006230
+	ldr r2, _080BF08C @ =sa2__gUnknown_03004D80
 	add r8, r2
 	ldr r2, _080BF090 @ =0x040000D4
 	mov ip, r1
@@ -300,7 +300,7 @@ _080BF076:
 	bx r1
 	.align 2, 0
 _080BF088: .4byte gUnknown_03003593
-_080BF08C: .4byte gUnknown_03006230
+_080BF08C: .4byte sa2__gUnknown_03004D80
 _080BF090: .4byte 0x040000D4
 _080BF094: .4byte gUnknown_03003590
 _080BF098: .4byte 0x85000001

@@ -906,8 +906,8 @@ NONMATCH("asm/non_matching/engine/background__sub_80BE46C.inc", void sub_80BE46C
 {
     const SpriteOffset *dims;
 
-    gUnknown_030061C0[gUnknown_03006840] = s;
-    gUnknown_03006840++;
+    gUnknown_030061C0[sa2__gUnknown_03005390] = s;
+    sa2__gUnknown_03005390++;
 
     if (s->frameNum != -1) {
         u32 bgId;
@@ -967,11 +967,11 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80039E4.inc", bool32 sa2__sub_80039E4
 
 // TODO: once function matches this can be removed
 #if PORTABLE
-    gUnknown_03006840 = 0;
+    sa2__gUnknown_03005390 = 0;
     return TRUE;
 #endif
 
-    if (gUnknown_03006840 != 0) {
+    if (sa2__gUnknown_03005390 != 0) {
         OamDataShort oam;
         s32 r5;
         s32 sp08;
@@ -987,7 +987,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80039E4.inc", bool32 sa2__sub_80039E4
         s32 yPos; // =r5
         u16 oamX, oamY;
 
-        for (r5 = 0; r5 < gUnknown_03006840; r5++) {
+        for (r5 = 0; r5 < sa2__gUnknown_03005390; r5++) {
             // _08003A1A
             s = gUnknown_030061C0[r5];
             dims = &gRefSpriteTables->dimensions[s->anim][s->frameNum];
@@ -1111,7 +1111,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80039E4.inc", bool32 sa2__sub_80039E4
             }
         }
 
-        gUnknown_03006840 = 0;
+        sa2__gUnknown_03005390 = 0;
     }
 
     return TRUE;
@@ -1182,7 +1182,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004010.inc", u32 sa2__sub_8004010(vo
 
                 if (gUnknown_03003590[bgIndex][3] == 0xFF) {
                     // _080040A2
-                    u16 v = gUnknown_03006230[bgIndex];
+                    u16 v = sa2__gUnknown_03004D80[bgIndex];
                     u32 value;
                     v |= v << 8;
 
@@ -1192,7 +1192,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004010.inc", u32 sa2__sub_8004010(vo
                     // _080040F8
                     // u8 i2 = i + 1;
                     for (; r4 < gUnknown_03003590[bgIndex][3]; r4++) {
-                        u16 v = gUnknown_03006230[bgIndex];
+                        u16 v = sa2__gUnknown_03004D80[bgIndex];
                         v |= v << 8;
 
                         DmaFill16(3, v, &spVramPtr[bgIndex * r4], (s32)(bgIndex * 4 - gUnknown_03003590[bgIndex][0] + 1));
@@ -1208,7 +1208,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004010.inc", u32 sa2__sub_8004010(vo
                     tileSize = 64;
 
                 if (gUnknown_03003590[bgIndex][2] == 0xFF) {
-                    u8 r1 = gUnknown_03006230[bgIndex];
+                    u8 r1 = sa2__gUnknown_03004D80[bgIndex];
                     p1p = &gUnknown_03003590[bgIndex][tileSize];
                     sp00[0] = r1;
 
@@ -1221,7 +1221,8 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004010.inc", u32 sa2__sub_8004010(vo
                     // _080041D8
                     for (; r4 <= gUnknown_03003590[bgIndex][3]; r4++) {
                         // _080041F6
-                        DmaFill16(3, gUnknown_03006230[bgIndex], &gUnknown_03003590[bgIndex][tileSize], ARRAY_COUNT(gUnknown_03003590[0]));
+                        DmaFill16(3, sa2__gUnknown_03004D80[bgIndex], &gUnknown_03003590[bgIndex][tileSize],
+                                  ARRAY_COUNT(gUnknown_03003590[0]));
                     }
                 }
             }

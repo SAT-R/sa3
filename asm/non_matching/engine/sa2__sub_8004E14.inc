@@ -275,7 +275,7 @@ _080C00BA:
 	ldrh r0, [r7]
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
-	ldr r3, _080C0294 @ =gUnknown_03006848
+	ldr r3, _080C0294 @ =sa2__gUnknown_03005398
 	movs r5, #0
 	ldrsh r1, [r3, r5]
 	muls r0, r1, r0
@@ -432,7 +432,7 @@ _080C0284: .4byte 0x000003FF
 _080C0288: .4byte gSineTable
 _080C028C: .4byte sa2__gUnknown_030017F0
 _080C0290: .4byte sa2__gUnknown_03005394
-_080C0294: .4byte gUnknown_03006848
+_080C0294: .4byte sa2__gUnknown_03005398
 _080C0298: .4byte sa2__gUnknown_0300194C
 _080C029C: .4byte sa2__gUnknown_03002820
 _080C02A0:

@@ -866,7 +866,7 @@ _0805C6D0:
 	beq _0805C6DC
 	b _0805C86C
 _0805C6DC:
-	ldr r3, _0805C74C @ =gUnknown_03000938
+	ldr r3, _0805C74C @ =gStageData + 0x98
 	ldr r0, [r3]
 	cmp r0, #0
 	beq _0805C700
@@ -921,7 +921,7 @@ _0805C73C:
 	b _0805C826
 	.align 2, 0
 _0805C748: .4byte gPlayers
-_0805C74C: .4byte gUnknown_03000938
+_0805C74C: .4byte gStageData + 0x98
 _0805C750: .4byte gStageData
 _0805C754:
 	str r5, [sp]

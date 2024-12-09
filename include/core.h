@@ -185,7 +185,7 @@ extern u16 sa2__gUnknown_0300194C;
 
 struct MapHeader **gTilemapsRef; // TODO: make this an array and add size
 extern u8 gUnknown_03003590[4][4]; // extern u8 gUnknown_03002280[4][4];
-extern u8 gUnknown_03006230[16];
+extern u8 sa2__gUnknown_03004D80[16];
 
 // extern u16 *gUnknown_030022AC;
 // extern void *gUnknown_030022C0;
@@ -198,7 +198,7 @@ extern void *sa2__gUnknown_03002878;
 extern u8 gBackgroundsCopyQueueIndex;
 extern u8 sa2__gUnknown_03002A80;
 extern u8 gVramGraphicsCopyQueueIndex;
-// extern u16 gUnknown_03002A8C;
+extern u16 sa2__gUnknown_03002A8C;
 //  When paused, the previously-active OAM elements get moved to the end
 //  of the OAM. This is the index of the first currently-inactive element
 extern u8 gOamFirstPausedIndex;

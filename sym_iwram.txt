@@ -1,5 +1,9 @@
 build/sa3/src/lib/m4a/m4a.o(.bss.code);
 
+/* NOTE: If you rename some sa2__ variable or procedure,
+         ensure that all three codebases share the same name!
+*/
+
 . = 0x0000041c;
 build/sa3/src/multi_boot.o(.bss)
 
@@ -18,66 +22,9 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 
 
 . = 0x00000530; gSaveGame = .;
-. = 0x00000534; gUnknown_03000534 = .;
-. = 0x00000538; gUnknown_03000538 = .;
-. = 0x00000540; gUnknown_03000540 = .;
-. = 0x00000544; gUnknown_03000544 = .;
-. = 0x00000559; gUnknown_03000559 = .;
-. = 0x00000560; gUnknown_03000560 = .;
-. = 0x00000562; gUnknown_03000562 = .;
-. = 0x00000563; gUnknown_03000563 = .;
-. = 0x00000566; gUnknown_03000566 = .;
-. = 0x00000568; gUnknown_03000568 = .;
-. = 0x00000588; gUnknown_03000588 = .;
-. = 0x00000590; gUnknown_03000590 = .;
-. = 0x00000592; gUnknown_03000592 = .;
-. = 0x00000594; gUnknown_03000594 = .;
-. = 0x000005A8; gUnknown_030005A8 = .;
-. = 0x000005F4; gUnknown_030005F4 = .;
-. = 0x00000628; gUnknown_03000628 = .;
-. = 0x00000650; gUnknown_03000650 = .;
-. = 0x00000678; gUnknown_03000678 = .;
-. = 0x000006A0; gUnknown_030006A0 = .;
-. = 0x000006C8; gUnknown_030006C8 = .;
-. = 0x000006F0; gUnknown_030006F0 = .;
-. = 0x000006FC; gUnknown_030006FC = .;
-. = 0x00000744; gUnknown_03000744 = .;
-. = 0x0000075E; gUnknown_0300075E = .;
-. = 0x00000760; gUnknown_03000760 = .;
-. = 0x0000077A; gUnknown_0300077A = .;
-. = 0x0000077C; gUnknown_0300077C = .;
-. = 0x00000796; gUnknown_03000796 = .;
-. = 0x00000798; gUnknown_03000798 = .;
-. = 0x000007B2; gUnknown_030007B2 = .;
-. = 0x000007B4; gUnknown_030007B4 = .;
-. = 0x00000814; gUnknown_03000814 = .;
-. = 0x0000088C; gUnknown_0300088C = .;
-. = 0x0000088E; gUnknown_0300088E = .;
 
 /* In game/stage.h's StageData */
 . = 0x000008A0; gStageData = .;
-. = 0x000008B0; gUnknown_030008B0 = .;
-. = 0x000008B4; gUnknown_030008B4 = .;
-. = 0x000008B8; gUnknown_030008B8 = .;
-. = 0x000008BE; gUnknown_030008BE = .;
-. = 0x000008C0; gUnknown_030008C0 = .;
-. = 0x000008C2; gUnknown_030008C2 = .;
-. = 0x000008C4; gUnknown_030008C4 = .;
-. = 0x000008C6; gUnknown_030008C6 = .;
-. = 0x000008C7; gUnknown_030008C7 = .;
-. = 0x000008C8; gUnknown_030008C8 = .;
-. = 0x000008C9; gUnknown_030008C9 = .;
-. = 0x000008D4; gUnknown_030008D4 = .;
-. = 0x000008DA; gUnknown_030008DA = .;
-. = 0x000008DC; gUnknown_030008DC = .;
-. = 0x000008DE; gUnknown_030008DE = .;
-. = 0x000008DF; gUnknown_030008DF = .;
-. = 0x000008E0; gUnknown_030008E0 = .;
-. = 0x000008E2; gUnknown_030008E2 = .;
-. = 0x000008E4; gUnknown_030008E4 = .;
-. = 0x000008FE; gUnknown_030008FE = .;
-. = 0x0000092E; gUnknown_0300092E = .;
-. = 0x00000938; gUnknown_03000938 = .;
 
 . = 0x00000970; gUnknown_03000970 = .;
 . = 0x00000980; gUnknown_03000980 = .;
@@ -197,15 +144,11 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 . = 0x00003CE0; gUnknown_03003CE0 = .;
 . = 0x00003D20; gBackgroundsCopyQueueIndex = .;
 . = 0x00003D30; gBgPalette = .;
-. = 0x00003D50; gUnknown_03003D50 = .;
-. = 0x00003D70; gUnknown_03003D70 = .;
-. = 0x00003D90; gUnknown_03003D90 = .;
-. = 0x00003E10; gUnknown_03003E10 = .;
 . = 0x00003F30; sa2__gUnknown_03002A80 = .;
 . = 0x00003F34; gVramGraphicsCopyQueueIndex = .;
 . = 0x00003F38; gPrevInput = .;
-. = 0x00003F3C; gUnknown_03003F3C = .;
-. = 0x00003F40; gUnknown_03003F40 = .;
+. = 0x00003F3C; sa2__gUnknown_03002A8C = .;
+. = 0x00003F40; gMultiBootParam = .;
 . = 0x00003F8C; gPressedKeys = .;
 . = 0x00003F90; gOamFirstPausedIndex = .;
 . = 0x00003F94; gBackgroundsCopyQueueCursor = .;
@@ -215,15 +158,15 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 . = 0x00006200; gUnknown_03006200 = .;
 . = 0x00006204; gUnknown_03006204 = .;
 . = 0x00006208; gVramGraphicsCopyCursor = .;
-. = 0x0000620C; gUnknown_0300620C = .;
+. = 0x0000620C; gUnknown_0300620C = .;      /* 1 byte */
 . = 0x00006210; sa2__gUnknown_03004D60 = .;
-. = 0x00006230; gUnknown_03006230 = .;
+. = 0x00006230; sa2__gUnknown_03004D80 = .;
 . = 0x00006240; gOamBuffer = .;
 . = 0x00006640; gVramHeapState = .;
-. = 0x00006840; gUnknown_03006840 = .;
+. = 0x00006840; sa2__gUnknown_03005390 = .;
 . = 0x00006844; sa2__gUnknown_03005394 = .;
-. = 0x00006848; gUnknown_03006848 = .;
-. = 0x00006850; gUnknown_03006850 = .;
+. = 0x00006848; sa2__gUnknown_03005398 = .;
+. = 0x00006850; sa2__gUnknown_030053A0 = .;
 . = 0x00006860; gInputPlaybackData = .;
 . = 0x00006864; gExecSoundMain = .;
 . = 0x00006868; gPseudoRandom = .;
