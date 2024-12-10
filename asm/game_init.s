@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start GameInit
-GameInit: @ 0x080BB9EC
+	thumb_func_start EngineInit
+EngineInit: @ 0x080BB9EC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -839,8 +839,8 @@ _080BC0D4: .4byte gUnknown_03002BF0
 _080BC0D8: .4byte gUnknown_03002C60
 
 @ NOTE: Seems to be slightly different form SA2
-	thumb_func_start GameLoop
-GameLoop: @ 0x080BC0DC
+	thumb_func_start EngineMainLoop
+EngineMainLoop: @ 0x080BC0DC
 	push {r4, r5, r6, lr}
 	ldr r5, _080BC120 @ =gFlags
 	movs r6, #0x80

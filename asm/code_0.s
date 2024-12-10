@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start GameStart
-GameStart: @ 0x080001CC
+	thumb_func_start GameInit
+GameInit: @ 0x080001CC
 	push {lr}
 	ldr r0, _080001E4 @ =gTilemapsRef
 	movs r1, #0x80

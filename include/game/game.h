@@ -19,12 +19,6 @@
 #define GAME_MODE_MP_MULTI_PACK    6
 #define GAME_MODE_MP_SINGLE_PACK   7
 
-#define GAME_SA1     1
-#define GAME_SA2     2
-#define GAME_SA3     3
-#define GAME_KATAM   4
-#define CURRENT_GAME GAME_SA3
-
 void GameStart(void);
 
 // rodata
