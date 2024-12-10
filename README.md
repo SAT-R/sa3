@@ -22,8 +22,8 @@ It so far builds the following ROM:
 
 On December 10th 2024 we integrated previously unused LibC math code (dubbed 'newlib') into the codebase.
 Since that is included through linking with agbcc's LibC binary. You HAVE to update your version of the compiler if you're using a version that is older than:
-* [**this**](https://github.com/SAT-R/agbcc/commit/cb2282c6509d0f91414db4a50cadaa695c693ed3) version if you use our fork
-* [**or this**](https://github.com/jiangzhengwenjz/agbcc/commit/ca3795d8e139d2c79f586f617cac2a3a52fddff5) commit if that is the compiler fork you are using
+* [**this**](https://github.com/SAT-R/agbcc/commit/cb2282c6509d0f91414db4a50cadaa695c693ed3) commit if you use our fork
+* [**this**](https://github.com/jiangzhengwenjz/agbcc/commit/ca3795d8e139d2c79f586f617cac2a3a52fddff5) commit if that is the compiler fork you are using
 
 **Provide assets**
 
