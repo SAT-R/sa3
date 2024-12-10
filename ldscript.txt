@@ -187,7 +187,6 @@ SECTIONS {
             *libc.a:vsprintf.o(.text);        
         */
 
-        build/sa3/asm/libc_0.o(.text);
         tools/agbcc/lib/libc.a:wf_pow.o(.text);
         tools/agbcc/lib/libc.a:ef_pow.o(.text);
         tools/agbcc/lib/libc.a:ef_sqrt.o(.text);
