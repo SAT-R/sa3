@@ -3,35 +3,9 @@
 
 .section .rodata
 
-    .global gUnknown_082B9C24
-gUnknown_082B9C24:
-    .ascii "powf\0"
-    .space 3
-
-    .global gUnknown_082B9C2C
-gUnknown_082B9C2C:
-    @ two floats
-    .4byte 0x3F800000, 0x3FC00000
-
-    .global gUnknown_082B9C34
-gUnknown_082B9C34:
-    .4byte 0x00000000, 0x3F15C000
-
-    .global gUnknown_082B9C3C
-gUnknown_082B9C3C:
-    .incbin "baserom.gba", 0x002B9C3C, 0x7C
-
-    .global gUnknown_082B9CB8
-gUnknown_082B9CB8:
-    .incbin "baserom.gba", 0x002B9CB8, 0x8
-
-    .global gUnknown_082B9CC0
-gUnknown_082B9CC0:
-    .incbin "baserom.gba", 0x002B9CC0, 0x4
-
-    .global gUnknown_082B9CC4
-gUnknown_082B9CC4:
-    .incbin "baserom.gba", 0x002B9CC4, 0x2046C
+    .global gUnknown_082B9CD4
+gUnknown_082B9CD4:
+    .incbin "baserom.gba", 0x002B9CD4, 0x2045C
 
     .global gUnknown_082DA130
 gUnknown_082DA130:

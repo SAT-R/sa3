@@ -525,7 +525,7 @@ _080C495E:
 	bl __divsf3
 	mov r2, r8
 	ldr r1, [r2]
-	bl sub_80C7574
+	bl powf
 	adds r1, r7, #0
 	bl __mulsf3
 	bl __fixsfsi
@@ -552,7 +552,7 @@ _080C4992:
 	bl __divsf3
 	mov r2, r8
 	ldr r1, [r2, #4]
-	bl sub_80C7574
+	bl powf
 	adds r1, r7, #0
 	bl __mulsf3
 	bl __fixsfsi
@@ -581,7 +581,7 @@ _080C49D0:
 	bl __divsf3
 	mov r2, r8
 	ldr r1, [r2, #8]
-	bl sub_80C7574
+	bl powf
 	adds r1, r7, #0
 	bl __mulsf3
 	bl __fixsfsi

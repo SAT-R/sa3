@@ -187,7 +187,13 @@ SECTIONS {
             *libc.a:vsprintf.o(.text);        
         */
 
-        build/sa3/asm/libgcc_0.o(.text);
+        build/sa3/asm/libc_0.o(.text);
+        tools/agbcc/lib/libc.a:wf_pow.o(.text);
+        tools/agbcc/lib/libc.a:ef_pow.o(.text);
+        tools/agbcc/lib/libc.a:ef_sqrt.o(.text);
+        tools/agbcc/lib/libc.a:s_matherr.o(.text);
+        tools/agbcc/lib/libc.a:s_rint.o(.text);
+        tools/agbcc/lib/libc.a:sf_fabs.o(.text);
         tools/agbcc/lib/libc.a:sf_finite.o(.text);
         tools/agbcc/lib/libc.a:sf_isnan.o(.text);
         tools/agbcc/lib/libc.a:sf_scalbn.o(.text);
@@ -568,6 +574,14 @@ SECTIONS {
         build/sa3/src/lib/agb_flash/agb_flash_1m.o(.rodata)
         build/sa3/src/lib/agb_flash/agb_flash_mx.o(.rodata)
         build/sa3/src/lib/agb_flash/agb_flash_sst.o(.rodata)
+        
+        tools/agbcc/lib/libc.a:wf_pow.o(.rodata);
+        tools/agbcc/lib/libc.a:ef_pow.o(.rodata);
+        tools/agbcc/lib/libc.a:ef_sqrt.o(.rodata);
+        tools/agbcc/lib/libc.a:s_infconst.o(.rodata);
+        tools/agbcc/lib/libc.a:s_lib_ver.o(.rodata);
+        tools/agbcc/lib/libc.a:ef_pow.o(.rodata);
+        tools/agbcc/lib/libc.a:s_rint.o(.rodata);
 
         build/sa3/data/data2.o(.rodata);
         build/sa3/data/ia_bonus_capsule.o(.rodata);
