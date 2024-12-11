@@ -814,8 +814,8 @@ sub_805944C: @ 0x0805944C
 _080594AC: .4byte gUnknown_080D1E84
 _080594B0: .4byte gCamera
 
-	thumb_func_start Task_CondorProjectile
-Task_CondorProjectile: @ 0x080594B4
+	thumb_func_start Task_CondorProjectileInit
+Task_CondorProjectileInit: @ 0x080594B4
 	push {r4, r5, r6, r7, lr}
 	sub sp, #8
 	ldr r7, _0805952C @ =gCurTask
@@ -826,7 +826,7 @@ Task_CondorProjectile: @ 0x080594B4
 	adds r4, r6, r0
 	movs r5, #0
 	adds r0, r4, #0
-	bl sub_80597A8
+	bl UpdateProjectilePos
 	adds r0, r4, #0
 	bl sub_80597B4
 	adds r0, r4, #0
@@ -1120,139 +1120,6 @@ TaskDestructor_Condor: @ 0x080596EC
 	bl VramFree
 	pop {r0}
 	bx r0
-
-	thumb_func_start CreateCondorProjectile
-CreateCondorProjectile: @ 0x08059700
-	push {r4, r5, r6, lr}
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6}
-	sub sp, #8
-	mov r8, r0
-	mov sb, r1
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x10
-	lsrs r6, r6, #0x10
-	ldr r0, _08059764 @ =Task_CondorProjectile
-	ldr r2, _08059768 @ =0x00004040
-	ldr r1, _0805976C @ =TaskDestructor_CondorProjectile
-	str r1, [sp]
-	movs r1, #0x3c
-	movs r3, #0
-	bl TaskCreate
-	ldrh r1, [r0, #6]
-	movs r4, #0xc0
-	lsls r4, r4, #0x12
-	adds r4, r1, r4
-	mov r0, r8
-	str r0, [r4, #4]
-	mov r0, sb
-	str r0, [r4, #8]
-	movs r2, #0
-	strh r5, [r4]
-	strh r6, [r4, #2]
-	add r0, sp, #4
-	strh r2, [r0]
-	ldr r0, _08059770 @ =0x03000038
-	adds r1, r1, r0
-	ldr r2, _08059774 @ =0x01000002
-	add r0, sp, #4
-	bl CpuSet
-	adds r0, r4, #0
-	bl sub_805944C
-	add sp, #8
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08059764: .4byte Task_CondorProjectile
-_08059768: .4byte 0x00004040
-_0805976C: .4byte TaskDestructor_CondorProjectile
-_08059770: .4byte 0x03000038
-_08059774: .4byte 0x01000002
-
-	thumb_func_start sub_8059778
-sub_8059778: @ 0x08059778
-	push {r4, r5, r6, lr}
-	ldr r6, _080597A4 @ =gCurTask
-	ldr r0, [r6]
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r4, r0
-	adds r0, r4, #0
-	bl sub_80597B4
-	adds r5, r0, #0
-	adds r0, r4, #0
-	bl sub_8059540
-	cmp r5, #0
-	bne _0805979E
-	ldr r0, [r6]
-	bl TaskDestroy
-_0805979E:
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080597A4: .4byte gCurTask
-
-	thumb_func_start sub_80597A8
-sub_80597A8: @ 0x080597A8
-	ldr r1, [r0, #8]
-	movs r2, #0x80
-	lsls r2, r2, #2
-	adds r1, r1, r2
-	str r1, [r0, #8]
-	bx lr
-
-	thumb_func_start sub_80597B4
-sub_80597B4: @ 0x080597B4
-	push {r4, r5, lr}
-	adds r5, r0, #0
-	adds r5, #0xc
-	ldr r2, [r0, #4]
-	asrs r2, r2, #8
-	ldrh r1, [r0]
-	lsls r1, r1, #8
-	adds r2, r2, r1
-	ldr r3, _080597F4 @ =gCamera
-	ldr r1, [r3]
-	subs r2, r2, r1
-	strh r2, [r5, #0x10]
-	ldr r1, [r0, #8]
-	asrs r1, r1, #8
-	ldrh r0, [r0, #2]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	ldr r0, [r3, #4]
-	subs r1, r1, r0
-	strh r1, [r5, #0x12]
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-	adds r4, r0, #0
-	adds r0, r5, #0
-	bl DisplaySprite
-	adds r0, r4, #0
-	pop {r4, r5}
-	pop {r1}
-	bx r1
-	.align 2, 0
-_080597F4: .4byte gCamera
-
-	thumb_func_start TaskDestructor_CondorProjectile
-TaskDestructor_CondorProjectile: @ 0x080597F8
-	push {lr}
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r0, r0, r1
-	ldr r0, [r0, #0xc]
-	bl VramFree
-	pop {r0}
-	bx r0
+    
+.if 0
+.endif

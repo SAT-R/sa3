@@ -44,7 +44,7 @@ AnimCmdResult sub_805B77C(Takkon *enemy);
 bool32 sub_805B7C0(Takkon *enemy);
 bool32 sub_805B844(Takkon *enemy);
 void Task_Proj_805B8EC(void);
-void sub_Proj_805B91C(TakkonProjectile *proj);
+static void UpdateProjectilePos(TakkonProjectile *proj);
 AnimCmdResult sub_Proj_805B928(TakkonProjectile *proj);
 void TaskDestructor_Takkon(struct Task *t);
 void CreateTakkonProjectile(s32 param0, s32 param1, u16 param2, u16 param3);
@@ -206,7 +206,7 @@ void Task_TakkonProjectileInit(void)
     s32 res;
 
     if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
-        sub_Proj_805B91C(proj);
+        UpdateProjectilePos(proj);
     }
 
     sub_Proj_805B928(proj);
@@ -407,7 +407,7 @@ void Task_Proj_805B8EC(void)
     }
 }
 
-void sub_Proj_805B91C(TakkonProjectile *proj) { proj->qPos.y += Q(3); }
+static void UpdateProjectilePos(TakkonProjectile *proj) { proj->qPos.y += Q(3); }
 
 AnimCmdResult sub_Proj_805B928(TakkonProjectile *proj)
 {
