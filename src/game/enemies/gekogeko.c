@@ -189,8 +189,7 @@ static void Task_GekoGeko2(void)
     }
 }
 
-//(88.82%) https://decomp.me/scratch/phCcE
-NONMATCH("asm/non_matching/game/enemies/gekogeko__sub_8059AE8.inc", static bool32 sub_8059AE8(GekoGeko *enemy))
+bool32 sub_8059AE8(GekoGeko *enemy)
 {
     Sprite *s = &enemy->s;
     Player *p;
@@ -203,8 +202,11 @@ NONMATCH("asm/non_matching/game/enemies/gekogeko__sub_8059AE8.inc", static bool3
     worldX = TO_WORLD_POS_RAW(worldX, enemy->region[0]);
     worldY = TO_WORLD_POS_RAW(worldY, enemy->region[1]);
 
-    for (i = 0; i < 2; i++) {
-        p = sub_805CD20(i);
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        Player *p = sub_805CD20(i);
+        if (p == NULL)
+            break;
+
         if (p) {
             dir = (u16)sa2__sub_8004418(I(p->qWorldY) - worldY, I(p->qWorldX) - worldX);
 
@@ -220,7 +222,6 @@ NONMATCH("asm/non_matching/game/enemies/gekogeko__sub_8059AE8.inc", static bool3
 
     return FALSE;
 }
-END_NONMATCH
 
 static void Task_GekoGeko1(void)
 {
