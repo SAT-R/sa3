@@ -34,7 +34,7 @@ void sub_8058464(Akatento *);
 bool32 sub_8058518(Akatento *);
 AnimCmdResult sub_80584A8(Akatento *);
 
-extern TileInfo2 gUnknown_080D1E20[4];
+extern const TileInfo2 gUnknown_080D1E20[4];
 
 void CreateEntity_Akatento(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {

@@ -232,12 +232,12 @@
 #define ANIM_BONUS_UI_X            1165
 
 // SA3 - Enemies
-#define ANIM_SPINNER  1166
-#define ANIM_CONDOR   1167
-#define ANIM_AKATENTO 1168
-#define ANIM_AOTENTO  1169
-
-#define ANIM_APE 1171
+#define ANIM_SPINNER     1166
+#define ANIM_CONDOR      1167
+#define ANIM_AKATENTO    1168
+#define ANIM_AOTENTO     1169
+#define ANIM_CONDOR_PROJ 1170
+#define ANIM_APE         1171
 
 #define ANIM_FROG     1173
 #define ANIM_MINIMOLE 1174
@@ -281,6 +281,7 @@
 #define ANIM_RING                  1333
 #define ANIM_RING_COLLECT_EFFECT   1334
 #define ANIM_ITEM_BOX_CLOUD_EFFECT 1338
+#define ANIM_CONDOR_PROJ_EXPLOSION 1339
 
 #define ANIM_ICE_SHIVER  1344
 #define ANIM_SPECIAL_KEY 1348

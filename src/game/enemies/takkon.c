@@ -50,8 +50,8 @@ void TaskDestructor_Takkon(struct Task *t);
 void CreateTakkonProjectile(s32 param0, s32 param1, u16 param2, u16 param3);
 void TaskDestructor_TakkonProjectile(struct Task *t);
 
-extern TileInfo2 gUnknown_080D1F0C[4]; // Takkon
-extern TileInfo2 gUnknown_080D1F1C[4]; // proj
+extern const TileInfo2 gUnknown_080D1F0C[4]; // Takkon
+extern const TileInfo2 gUnknown_080D1F1C[4]; // proj
 
 void CreateEntity_Takkon(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
