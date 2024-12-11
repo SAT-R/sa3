@@ -16,7 +16,7 @@ typedef struct {
     /* 0x05 */ u8 spriteX;
     /* 0x06 */ u8 unk6;
     /* 0x07 */ s8 direction;
-    u8 filler8[0x2];
+    /* 0x08 */ u16 unk8;
     /* 0x0A */ u16 region[2];
     u8 fillerE[2];
     /* 0x18 */ s32 qUnk10;
@@ -38,11 +38,21 @@ typedef struct {
     /* 0x34 */ Hitbox reserved;
 } CondorProjectile; /* size: 0x3C */
 
+void Task_Condor(void);
 void Task_CondorProjectileInit(void);
 void TaskDestructor_Condor(struct Task *t);
 static void InitSpriteProjectile(CondorProjectile *proj);
+void Task_8058854(void);
+void Task_8059164(void);
+void Task_8059210(void);
+bool32 sub_805928C(Condor *enemy);
+bool32 sub_80592E0(Condor *enemy);
 bool32 sub_8059540(CondorProjectile *proj);
+void sub_80595FC(Condor *enemy);
+AnimCmdResult sub_8059640(Condor *enemy);
 bool32 sub_8059684(Condor *enemy, EnemyUnknownStruc0 *param1);
+bool32 sub_80596B0(Condor *enemy);
+bool32 sub_8058AE0(Condor *enemy);
 void CreateCondorProjectile(s32 qPosX, s32 qPosY, u16 regionX, u16 regionY);
 void Task_8059778(void);
 void UpdateProjectilePos(CondorProjectile *proj);
@@ -54,6 +64,157 @@ extern const TileInfo2 gUnknown_080D1E54[6]; // Condor
 extern const TileInfo2 gUnknown_080D1E84[2]; // proj
 
 #define isBetween(v, min, onePastMax) (((v) >= (min)) && ((v) < onePastMax))
+
+void sub_805906C(void)
+{
+    Condor *enemy = TASK_DATA(gCurTask);
+
+    sub_8059640(enemy);
+
+    if (sub_80596B0(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4) && (sub_805928C(enemy) == TRUE)) {
+        Sprite *s = &enemy->s;
+        s->anim = gUnknown_080D1E54[3].anim;
+        s->variant = gUnknown_080D1E54[3].variant;
+
+        enemy->unk6 = 1;
+
+        gCurTask->main = Task_8059164;
+    }
+}
+
+void sub_80590E4(void)
+{
+    Condor *enemy = TASK_DATA(gCurTask);
+
+    AnimCmdResult acmdRes = sub_8059640(enemy);
+
+    if (sub_80596B0(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (acmdRes == ACMD_RESULT__ENDED) {
+        Sprite *s = &enemy->s;
+        s->anim = gUnknown_080D1E54[0].anim;
+        s->variant = gUnknown_080D1E54[0].variant;
+
+        if (s->frameFlags & SPRITE_FLAG(X_FLIP, 1)) {
+            SPRITE_FLAG_CLEAR(s, X_FLIP);
+        } else {
+            SPRITE_FLAG_SET(s, X_FLIP);
+        }
+
+        enemy->unk6 = 0;
+        gCurTask->main = Task_Condor;
+    }
+}
+
+void Task_8059164(void)
+{
+    Condor *enemy = TASK_DATA(gCurTask);
+
+    AnimCmdResult acmdRes = sub_8059640(enemy);
+
+    if (sub_80596B0(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (acmdRes == ACMD_RESULT__ENDED) {
+        if (enemy->qPos.y > enemy->qUnk20.y) {
+            Sprite *s = &enemy->s;
+            s->anim = gUnknown_080D1E54[4].anim;
+            s->variant = gUnknown_080D1E54[4].variant;
+
+            CreateCondorProjectile(enemy->qPos.x, enemy->qPos.y, enemy->region[0], enemy->region[1]);
+
+            if (enemy->qPos.x < enemy->qLeft) {
+                enemy->unk18 = enemy->qLeft;
+            } else if (enemy->qPos.x > enemy->qRight) {
+                enemy->unk18 = enemy->qRight;
+            } else {
+                enemy->unk18 = enemy->qUnk10 - Q(enemy->region[0] << 8);
+            }
+
+            gCurTask->main = Task_8059210;
+        } else {
+            Sprite *s = &enemy->s;
+            s->anim = gUnknown_080D1E54[0].anim;
+            s->variant = gUnknown_080D1E54[0].variant;
+            gCurTask->main = Task_Condor;
+        }
+    }
+}
+
+void Task_8059210(void)
+{
+    Condor *enemy = TASK_DATA(gCurTask);
+
+    if (sub_80596B0(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4) && (sub_80592E0(enemy) == TRUE)) {
+        Sprite *s = &enemy->s;
+        s->anim = gUnknown_080D1E54[5].anim;
+        s->variant = gUnknown_080D1E54[5].variant;
+        sub_8059640(enemy);
+        gCurTask->main = Task_8059164;
+    } else {
+        sub_8059640(enemy);
+    }
+}
+
+bool32 sub_805928C(Condor *enemy)
+{
+    s32 arr[4];
+    u32 r1, r4;
+
+    arr[0] = enemy->unk18;
+    arr[1] = enemy->unk1C;
+    arr[2] = enemy->qUnk10 - Q(enemy->region[0] << 8);
+    arr[3] = enemy->qUnk14 - Q(enemy->region[1] << 8);
+
+    enemy->qPos.y = arr[1] + (((arr[3] - arr[1]) >> 6) * (enemy->unk8 >> 6));
+    enemy->qPos.x = arr[0] + (((arr[2] - arr[0]) >> 6) * (enemy->unk8 >> 6));
+
+    enemy->unk8 += 0x80;
+
+    if (enemy->unk8 >> 6 >= 64) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
+bool32 sub_80592E0(Condor *enemy)
+{
+    s32 arr[4];
+    u32 r1, r4;
+
+    arr[0] = enemy->unk18;
+    arr[1] = enemy->unk1C;
+    arr[2] = enemy->qUnk10 - Q(enemy->region[0] << 8);
+    arr[3] = enemy->qUnk14 - Q(enemy->region[1] << 8);
+
+    enemy->qPos.y = arr[1] + (((arr[3] - arr[1]) >> 6) * (enemy->unk8 >> 6));
+    enemy->qPos.x = arr[0] + (((arr[2] - arr[0]) >> 6) * (enemy->unk8 >> 6));
+
+    enemy->unk8 -= 0x80;
+
+    if (enemy->unk8 >> 6 >= 64) {
+        enemy->unk8 = 0;
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
 
 // Incomplete!
 // (72.44%) https://decomp.me/scratch/qkJgd
