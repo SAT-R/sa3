@@ -18,7 +18,9 @@ typedef struct {
     /* 0x07 */ s8 direction;
     u8 filler8[0x2];
     /* 0x0A */ u16 region[2];
-    u8 fillerE[0x8 + 2];
+    u8 fillerE[2];
+    /* 0x18 */ s32 qUnk10;
+    /* 0x1C */ s32 qUnk14;
     /* 0x18 */ s32 unk18;
     /* 0x1C */ s32 unk1C;
     /* 0x20 */ Vec2_32 qUnk20;
@@ -51,8 +53,45 @@ extern const TileInfo2 gUnknown_080D1E54[6]; // Condor
 // extern const TileInfo2 gUnknown_080D1E84[2] = {{ANIM_CONDOR_PROJ, 0, 16}, {ANIM_CONDOR_PROJ_EXPLOSION, 0, 16}}; // proj
 extern const TileInfo2 gUnknown_080D1E84[2]; // proj
 
-#if 01
-#endif
+#define isBetween(v, min, onePastMax) (((v) >= (min)) && ((v) < onePastMax))
+
+// Incomplete!
+// (72.44%) https://decomp.me/scratch/qkJgd
+NONMATCH("asm/non_matching/game/enemies/condor__sub_805933C.inc", bool32 sub_805933C(Condor *enemy))
+{
+    Sprite *s = &enemy->s;
+    Player *p;
+    s32 worldX;
+    s32 worldY;
+    s32 qWorldX;
+    s32 dir;
+    u8 i;
+
+    worldX = I(enemy->qPos.x);
+    worldY = I(enemy->qPos.y);
+    worldX = (TO_WORLD_POS_RAW(worldX, enemy->region[0]));
+    worldY = (TO_WORLD_POS_RAW(worldY, enemy->region[1]));
+
+    for (i = 0, qWorldX = Q(worldX); i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        Player *p = sub_805CD20(i);
+        if (p == NULL)
+            break;
+
+        dir = (u16)sa2__sub_8004418(I(p->qWorldY) - worldY, I(p->qWorldX) - worldX);
+
+        if (!((((u16)(dir - 1) <= 254) && (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP))
+              || ((((u16)(dir + (-Q(1) - 1)) > 254)) || (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP)))
+            && ((isBetween(ABS(worldX - I(p->qWorldX)), 0, 100) && isBetween(ABS((worldY - 26) - I(p->qWorldY)), 0, 100)
+                 && (worldY < I(p->qWorldY) - 26)))) {
+            enemy->qUnk10 = p->qWorldX - Q(0);
+            enemy->qUnk14 = p->qWorldY - Q(26);
+            return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+END_NONMATCH
 
 static void InitSpriteProjectile(CondorProjectile *enemy)
 {
