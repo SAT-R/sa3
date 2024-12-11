@@ -19,7 +19,7 @@ typedef struct {
     /* 0x05 */ u8 spriteX;
     /* 0x06 */ s8 unk6;
     /* 0x07 */ s8 unk7;
-    /* 0x08 */ Vec2_u16 region;
+    /* 0x08 */ u16 region[2];
     /* 0x0C */ s32 unkC;
     /* 0x10 */ s32 unk10;
     /* 0x14 */ Vec2_32 qPos;
@@ -48,8 +48,8 @@ void CreateEntity_GaoGao(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     enemy->me = me;
     enemy->spriteX = me->x;
     enemy->id = id;
-    enemy->region.x = regionX;
-    enemy->region.y = regionY;
+    enemy->region[0] = regionX;
+    enemy->region[1] = regionY;
 
     qX = Q(me->x * TILE_WIDTH);
     enemy->qPos.x = qX;
@@ -84,8 +84,8 @@ void sub_805DF94(GaoGao *enemy)
     s->anim = gUnknown_080D1F5C[0].anim;
     s->variant = gUnknown_080D1F5C[0].variant;
     s->prevVariant = -1;
-    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region.x) - gCamera.x;
-    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region.y) - gCamera.y;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
     s->oamFlags = SPRITE_OAM_ORDER(18);
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -106,7 +106,7 @@ void Task_GaoGao(void)
 {
     GaoGao *enemy = TASK_DATA(gCurTask);
 
-    sub_805CD70(&enemy->qPos, NULL, &enemy->region, &enemy->unk6);
+    sub_805CD70(&enemy->qPos, NULL, enemy->region, &enemy->unk6);
 
     if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
         sub_805E144(enemy);
@@ -181,8 +181,8 @@ AnimCmdResult sub_805E17C(GaoGao *enemy)
     AnimCmdResult acmdRes;
 
     Sprite *s = &enemy->s;
-    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region.x) - gCamera.x;
-    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region.y) - gCamera.y;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
 
     acmdRes = UpdateSpriteAnimation(s);
     DisplaySprite(s);
@@ -202,8 +202,8 @@ bool32 sub_805E1C0(GaoGao *enemy, EnemyUnknownStruc0 *param1)
     param1->spr = s;
     param1->posX = enemy->qPos.x;
     param1->posY = enemy->qPos.y;
-    param1->regionX = enemy->region.x;
-    param1->regionY = enemy->region.y;
+    param1->regionX = enemy->region[0];
+    param1->regionY = enemy->region[1];
 
     return sub_805C890(param1, enemy->unk7);
 }
@@ -216,8 +216,8 @@ bool32 sub_805E1F0(GaoGao *enemy)
     unk.spr = &enemy->s;
     unk.posX = enemy->unkC;
     unk.posY = enemy->unk10;
-    unk.regionX = enemy->region.x;
-    unk.regionY = enemy->region.y;
+    unk.regionX = enemy->region[0];
+    unk.regionY = enemy->region[1];
     unk.me = enemy->me;
     unk.spriteX = enemy->spriteX;
 

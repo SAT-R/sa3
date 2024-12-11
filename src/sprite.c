@@ -326,7 +326,7 @@ static AnimCmdResult animCmd_GetTiles(void *cursor, Sprite *s)
 }
 
 // Reordered in SA3
-#if (ENGINE == ENGINE_3)
+#if (ENGINE >= ENGINE_3)
 // (-2)
 static AnimCmdResult animCmd_GetPalette(void *cursor, Sprite *s)
 {

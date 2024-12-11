@@ -315,7 +315,6 @@ AnimCmdResult sub_805B77C(Takkon *enemy)
 bool32 sub_805B7C0(Takkon *enemy)
 {
     Sprite *s = &enemy->s;
-    Player *p;
     s32 worldX;
     u8 i;
 
@@ -325,7 +324,7 @@ bool32 sub_805B7C0(Takkon *enemy)
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         s32 wx;
 
-        p = sub_805CD20(i);
+        Player *p = sub_805CD20(i);
         if (p == NULL)
             break;
 

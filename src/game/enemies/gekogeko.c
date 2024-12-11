@@ -21,7 +21,7 @@ typedef struct {
     /* 0x08 */ u8 unk8;
     /* 0x09 */ s8 unk9;
     /* 0x0A */ u8 unkA;
-    /* 0x0C */ Vec2_u16 region;
+    /* 0x0C */ u16 region[2];
     /* 0x10 */ u8 unk10;
     /* 0x12 */ s16 unk12;
     /* 0x14 */ Vec2_32 qUnk14;
@@ -60,8 +60,8 @@ void CreateEntity_GekoGeko(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     enemy->unk6 = 0;
     enemy->id = id;
     enemy->spriteX = me->x;
-    enemy->region.x = regionX;
-    enemy->region.y = regionY;
+    enemy->region[0] = regionX;
+    enemy->region[1] = regionY;
 
     qX = Q(me->x * TILE_WIDTH);
     enemy->qPos.x = qX;
@@ -103,8 +103,8 @@ static void InitSprite(GekoGeko *enemy)
     s->anim = sTileInfoGekoGeko[0].anim;
     s->variant = sTileInfoGekoGeko[0].variant;
     s->prevVariant = -1;
-    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region.x) - gCamera.x;
-    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region.y) - gCamera.y;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
     s->oamFlags = SPRITE_OAM_ORDER(18);
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -126,7 +126,7 @@ static void Task_GekoGeko0(void)
     GekoGeko *enemy = TASK_DATA(gCurTask);
     AnimCmdResult acmdRes;
 
-    sub_805CD70(&enemy->qPos, 0, &enemy->region, &enemy->unk8);
+    sub_805CD70(&enemy->qPos, 0, enemy->region, &enemy->unk8);
 
     if (sub_8059CB0(enemy) == TRUE) {
         TaskDestroy(gCurTask);
@@ -200,8 +200,8 @@ NONMATCH("asm/non_matching/game/enemies/gekogeko__sub_8059AE8.inc", static bool3
 
     worldX = I(enemy->qPos.x);
     worldY = I(enemy->qPos.y);
-    worldX = TO_WORLD_POS_RAW(worldX, enemy->region.x);
-    worldY = TO_WORLD_POS_RAW(worldY, enemy->region.y);
+    worldX = TO_WORLD_POS_RAW(worldX, enemy->region[0]);
+    worldY = TO_WORLD_POS_RAW(worldY, enemy->region[1]);
 
     for (i = 0; i < 2; i++) {
         p = sub_805CD20(i);
@@ -260,8 +260,8 @@ static AnimCmdResult sub_8059C3C(GekoGeko *enemy)
     AnimCmdResult acmdRes;
 
     Sprite *s = &enemy->s;
-    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region.x) - gCamera.x;
-    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region.y) - gCamera.y;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
 
     acmdRes = UpdateSpriteAnimation(s);
     DisplaySprite(s);
@@ -281,8 +281,8 @@ static bool32 sub_8059C80(GekoGeko *enemy, EnemyUnknownStruc0 *param1)
     param1->spr = s;
     param1->posX = enemy->qPos.x;
     param1->posY = enemy->qPos.y;
-    param1->regionX = enemy->region.x;
-    param1->regionY = enemy->region.y;
+    param1->regionX = enemy->region[0];
+    param1->regionY = enemy->region[1];
 
     return sub_805C63C(param1);
 }
@@ -297,8 +297,8 @@ static bool32 sub_8059CB0(GekoGeko *enemy)
     unk.spr = &enemy->s;
     unk.posX = enemy->qUnk14.x;
     unk.posY = enemy->qUnk14.y;
-    unk.regionX = enemy->region.x;
-    unk.regionY = enemy->region.y;
+    unk.regionX = enemy->region[0];
+    unk.regionY = enemy->region[1];
     unk.me = enemy->me;
     unk.spriteX = enemy->spriteX;
 

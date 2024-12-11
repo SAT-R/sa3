@@ -13,7 +13,7 @@ typedef struct {
     /* 0x05 */ u8 spriteX;
     /* 0x06 */ s8 unk6;
     /* 0x07 */ s8 unk7;
-    /* 0x08 */ Vec2_u16 region;
+    /* 0x08 */ u16 region[2];
     /* 0x0C */ u16 unkC;
     /* 0x0E */ u16 unkE;
     /* 0x10 */ Vec2_32 qUnk10;
@@ -46,8 +46,8 @@ void CreateEntity_Minimole(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     enemy->me = me;
     enemy->spriteX = me->x;
     enemy->id = id;
-    enemy->region.x = regionX;
-    enemy->region.y = regionY;
+    enemy->region[0] = regionX;
+    enemy->region[1] = regionY;
 
     qX = Q(me->x * TILE_WIDTH);
     enemy->qPos.x = qX;
@@ -87,8 +87,8 @@ void sub_805AF38(Minimole *enemy)
     s->anim = gUnknown_080D1EF4[2].anim;
     s->variant = gUnknown_080D1EF4[2].variant;
     s->prevVariant = -1;
-    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region.x) - gCamera.x;
-    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region.y) - gCamera.y;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
     s->oamFlags = SPRITE_OAM_ORDER(18);
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -105,8 +105,8 @@ void sub_805AF38(Minimole *enemy)
     s->anim = gUnknown_080D1EF4[0].anim;
     s->variant = gUnknown_080D1EF4[0].variant;
     s->prevVariant = -1;
-    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region.x) - gCamera.x;
-    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region.y) - gCamera.y;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
     s->oamFlags = SPRITE_OAM_ORDER(19);
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -122,8 +122,8 @@ void sub_805AF38(Minimole *enemy)
 void Task_Minimole(void)
 {
     Minimole *enemy = TASK_DATA(gCurTask);
-    sub_805CD70(&enemy->qUnk20, NULL, &enemy->region, &enemy->unk6);
-    sub_805CD70(&enemy->qPos, &enemy->qUnk10, &enemy->region, &enemy->unk6);
+    sub_805CD70(&enemy->qUnk20, NULL, enemy->region, &enemy->unk6);
+    sub_805CD70(&enemy->qPos, &enemy->qUnk10, enemy->region, &enemy->unk6);
 
     if (sub_805B2A4(enemy) == TRUE) {
         TaskDestroy(gCurTask);
@@ -179,15 +179,15 @@ AnimCmdResult sub_805B158(Minimole *enemy)
     AnimCmdResult acmdRes;
 
     Sprite *s = &enemy->s2;
-    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region.x) - gCamera.x;
-    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region.y) - gCamera.y + 20;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y + 20;
 
     acmdRes = UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
     s = &enemy->s;
-    s->x = TO_WORLD_POS_RAW(I(enemy->qUnk20.x), enemy->region.x) - gCamera.x;
-    s->y = TO_WORLD_POS_RAW(I(enemy->qUnk20.y), enemy->region.y) - gCamera.y;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qUnk20.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qUnk20.y), enemy->region[1]) - gCamera.y;
 
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
@@ -219,7 +219,7 @@ bool32 sub_805B22C(Minimole *enemy)
 {
     u8 i;
     s32 worldX = I(enemy->qPos.x);
-    worldX = TO_WORLD_POS_RAW(worldX, enemy->region.x);
+    worldX = TO_WORLD_POS_RAW(worldX, enemy->region[0]);
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         s32 playerToMoleX;
@@ -258,8 +258,8 @@ bool32 sub_805B274(Minimole *enemy, EnemyUnknownStruc0 *param1)
     param1->spr = s;
     param1->posX = enemy->qPos.x;
     param1->posY = enemy->qPos.y + Q(20);
-    param1->regionX = enemy->region.x;
-    param1->regionY = enemy->region.y;
+    param1->regionX = enemy->region[0];
+    param1->regionY = enemy->region[1];
 
     return sub_805C63C(param1);
 }
@@ -272,8 +272,8 @@ bool32 sub_805B2A4(Minimole *enemy)
     unk.spr = &enemy->s2;
     unk.posX = enemy->qUnk10.x;
     unk.posY = enemy->qUnk10.y;
-    unk.regionX = enemy->region.x;
-    unk.regionY = enemy->region.y;
+    unk.regionX = enemy->region[0];
+    unk.regionY = enemy->region[1];
     unk.me = enemy->me;
     unk.spriteX = enemy->spriteX;
 
