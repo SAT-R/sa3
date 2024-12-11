@@ -23,8 +23,8 @@ typedef struct {
     /* 0x10 */ u16 unk10;
     /* 0x14 */ Vec2_32 qUnk14;
     /* 0x1C */ Vec2_32 qPos;
-    /* 0x24 */ s32 unk24;
-    /* 0x28 */ s32 unk28;
+    /* 0x24 */ s32 qLeft;
+    /* 0x28 */ s32 qRight;
     /* 0x2C */ Sprite s;
     /* 0x44 */ u8 filler44[0x4];
     /* 0x50 */ u16 unk50[2]; // TODO: type
@@ -72,8 +72,8 @@ void CreateEntity_Aotento(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     enemy->qUnk14.x = qX;
     enemy->qUnk14.y = qY;
     enemy->unkE = 90;
-    enemy->unk24 = qX + Q(me->d.sData[0] * TILE_WIDTH);
-    enemy->unk28 = enemy->unk24 + Q(me->d.uData[2] * TILE_WIDTH);
+    enemy->qLeft = qX + Q(me->d.sData[0] * TILE_WIDTH);
+    enemy->qRight = enemy->qLeft + Q(me->d.uData[2] * TILE_WIDTH);
     enemy->unk8 = 0;
 
     if (me->d.uData[4] & 0x8) {
@@ -132,7 +132,7 @@ void Task_Aotento(void)
 
     sub_8058C1C(enemy);
 
-    if ((enemy->qPos.x <= enemy->unk24) || (enemy->qPos.x >= enemy->unk28)) {
+    if ((enemy->qPos.x <= enemy->qLeft) || (enemy->qPos.x >= enemy->qRight)) {
         Sprite *s = &enemy->s;
 
         s->anim = gUnknown_080D1E30[1].anim;
@@ -326,19 +326,19 @@ void sub_8058B50(Aotento *enemy)
     Sprite *s = &enemy->s;
 
     if (s->frameFlags & SPRITE_FLAG(X_FLIP, 1)) {
-        if (enemy->qPos.x <= enemy->unk28) {
+        if (enemy->qPos.x <= enemy->qRight) {
             enemy->qPos.x += Q(1);
 
-            if (enemy->qPos.x > enemy->unk28) {
-                enemy->qPos.x = enemy->unk28;
+            if (enemy->qPos.x > enemy->qRight) {
+                enemy->qPos.x = enemy->qRight;
             }
         }
     } else {
-        if (enemy->qPos.x >= enemy->unk24) {
+        if (enemy->qPos.x >= enemy->qLeft) {
             enemy->qPos.x -= Q(1);
 
-            if (enemy->qPos.x < enemy->unk24) {
-                enemy->qPos.x = enemy->unk24;
+            if (enemy->qPos.x < enemy->qLeft) {
+                enemy->qPos.x = enemy->qLeft;
             }
         }
     }
