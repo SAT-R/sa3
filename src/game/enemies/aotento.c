@@ -42,7 +42,6 @@ AnimCmdResult sub_8058C1C(Aotento *);
 bool32 sub_805B7C0(Aotento *);
 void TaskDestructor_Aotento(struct Task *t);
 
-
 extern TileInfo2 gUnknown_080D1E30[4];
 
 void CreateEntity_Aotento(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -109,7 +108,6 @@ void sub_8058630(Aotento *enemy)
         s->frameFlags |= SPRITE_FLAG_MASK_X_FLIP;
     }
 
-
     UpdateSpriteAnimation(s);
 }
 
@@ -127,7 +125,7 @@ void Task_Aotento(void)
         TaskDestroy(gCurTask);
         return;
     }
-    
+
     sub_8058C1C(enemy);
 
     if ((enemy->qPos.x <= enemy->unk1C) || (enemy->qPos.x >= enemy->unk20)) {
@@ -137,14 +135,14 @@ void Task_Aotento(void)
         s->variant = gUnknown_080D1E30[1].variant;
 
         gCurTask->main = Task_805892C;
-    } else if((sub_8058A00(enemy) == TRUE) && (enemy->unk6 == 0)){
+    } else if ((sub_8058A00(enemy) == TRUE) && (enemy->unk6 == 0)) {
         Sprite *s = &enemy->s;
-        
+
         s->anim = gUnknown_080D1E30[2].anim;
         s->variant = gUnknown_080D1E30[2].variant;
-        
+
         enemy->unkE = 90;
 
-        gCurTask->main = Task_805878C;        
+        gCurTask->main = Task_805878C;
     }
 }
