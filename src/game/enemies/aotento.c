@@ -288,6 +288,7 @@ bool32 sub_8058A00(Aotento *enemy)
     return FALSE;
 }
 
+// (94.17%) https://decomp.me/scratch/nMoLp
 NONMATCH("asm/non_matching/game/enemies/aotento__sub_8058AE0.inc", bool32 sub_8058AE0(Aotento *enemy))
 {
     enemy->qPos.y -= Q(gUnknown_080D1E50[enemy->unk6]);
