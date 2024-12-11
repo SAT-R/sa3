@@ -23,10 +23,10 @@ typedef struct {
     /* 0x10 */ u16 unk10;
     /* 0x14 */ Vec2_32 qUnk14;
     /* 0x1C */ Vec2_32 qPos;
-    /* 0x24 */ s32 unk1C;
-    /* 0x20 */ s32 unk20;
-    /* 0x24 */ Sprite s;
-    /* 0x4C */ u8 filler4C[0x4];
+    /* 0x24 */ s32 unk24;
+    /* 0x28 */ s32 unk28;
+    /* 0x2C */ Sprite s;
+    /* 0x44 */ u8 filler44[0x4];
     /* 0x50 */ u16 unk50[2]; // TODO: type
 } Aotento; /* size: 0x54 */
 
@@ -34,15 +34,19 @@ void Task_Aotento(void);
 void sub_8058630(Aotento *);
 void Task_805878C(void);
 void sub_805B738(Aotento *);
+void Task_8058854(void);
 void sub_8058B50(Aotento *);
 void Task_805892C(void);
 bool32 sub_8058A00(Aotento *);
+bool32 sub_8058AE0(Aotento *);
+bool32 DecentAndCheckGroundTouch(Aotento *);
 bool32 sub_8058BE0(Aotento *);
 AnimCmdResult sub_8058C1C(Aotento *);
 bool32 sub_805B7C0(Aotento *);
 void TaskDestructor_Aotento(struct Task *t);
 
 extern TileInfo2 gUnknown_080D1E30[4];
+extern u8 gUnknown_080D1E50[4];
 
 void CreateEntity_Aotento(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -68,8 +72,8 @@ void CreateEntity_Aotento(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     enemy->qUnk14.x = qX;
     enemy->qUnk14.y = qY;
     enemy->unkE = 90;
-    enemy->unk1C = qX + Q(me->d.sData[0] * TILE_WIDTH);
-    enemy->unk20 = enemy->unk1C + Q(me->d.uData[2] * TILE_WIDTH);
+    enemy->unk24 = qX + Q(me->d.sData[0] * TILE_WIDTH);
+    enemy->unk28 = enemy->unk24 + Q(me->d.uData[2] * TILE_WIDTH);
     enemy->unk8 = 0;
 
     if (me->d.uData[4] & 0x8) {
@@ -128,7 +132,7 @@ void Task_Aotento(void)
 
     sub_8058C1C(enemy);
 
-    if ((enemy->qPos.x <= enemy->unk1C) || (enemy->qPos.x >= enemy->unk20)) {
+    if ((enemy->qPos.x <= enemy->unk24) || (enemy->qPos.x >= enemy->unk28)) {
         Sprite *s = &enemy->s;
 
         s->anim = gUnknown_080D1E30[1].anim;
@@ -145,4 +149,262 @@ void Task_Aotento(void)
 
         gCurTask->main = Task_805878C;
     }
+}
+
+void Task_805878C(void)
+{
+    Aotento *enemy = TASK_DATA(gCurTask);
+
+    sub_8058C1C(enemy);
+
+    if (sub_8058BE0(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        Player *p = GET_SP_PLAYER_V0(0);
+
+        // TODO: THE Q<->I conversion is weird here
+        if (((p->qWorldX > TO_WORLD_POS_RAW(enemy->qPos.x, Q(enemy->region[0]))) && !(enemy->s.frameFlags & SPRITE_FLAG(X_FLIP, 1)))
+            || ((p->qWorldX < TO_WORLD_POS_RAW(enemy->qPos.x, Q(enemy->region[0]))) && (enemy->s.frameFlags & SPRITE_FLAG(X_FLIP, 1)))) {
+            Sprite *s = &enemy->s;
+            s->anim = gUnknown_080D1E30[3].anim;
+            s->variant = gUnknown_080D1E30[3].variant;
+            gCurTask->main = Task_805892C;
+        } else {
+            if (sub_8058AE0(enemy) == TRUE) {
+                enemy->unk6 = 3;
+
+                gCurTask->main = Task_8058854;
+            }
+        }
+    }
+}
+
+void Task_8058854(void)
+{
+    Aotento *enemy = TASK_DATA(gCurTask);
+
+    sub_8058C1C(enemy);
+
+    if (sub_8058BE0(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        Player *p = GET_SP_PLAYER_V0(0);
+
+        // TODO: THE Q<->I conversion is weird here
+        if (((p->qWorldX > TO_WORLD_POS_RAW(enemy->qPos.x, Q(enemy->region[0]))) && !(enemy->s.frameFlags & SPRITE_FLAG(X_FLIP, 1)))
+            || ((p->qWorldX < TO_WORLD_POS_RAW(enemy->qPos.x, Q(enemy->region[0]))) && (enemy->s.frameFlags & SPRITE_FLAG(X_FLIP, 1)))) {
+            Sprite *s = &enemy->s;
+            s->anim = gUnknown_080D1E30[3].anim;
+            s->variant = gUnknown_080D1E30[3].variant;
+            gCurTask->main = Task_805892C;
+        } else {
+            if (DecentAndCheckGroundTouch(enemy) == TRUE) {
+                Sprite *s = &enemy->s;
+                s->anim = gUnknown_080D1E30[0].anim;
+                s->variant = gUnknown_080D1E30[0].variant;
+
+                gCurTask->main = Task_Aotento;
+            }
+        }
+    }
+}
+
+void Task_805892C(void)
+{
+    Aotento *enemy = TASK_DATA(gCurTask);
+    AnimCmdResult acmdRes;
+
+    if (sub_8058BE0(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    acmdRes = sub_8058C1C(enemy);
+
+    if (((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) && (acmdRes == ACMD_RESULT__ENDED)) {
+        Sprite *s = &enemy->s;
+
+        if (s->frameFlags & SPRITE_FLAG(X_FLIP, 1)) {
+            SPRITE_FLAG_CLEAR(s, X_FLIP);
+        } else {
+            SPRITE_FLAG_SET(s, X_FLIP);
+        }
+
+        if (enemy->qPos.y == enemy->qUnk14.y) {
+            s->anim = gUnknown_080D1E30[0].anim;
+            s->variant = gUnknown_080D1E30[0].variant;
+            enemy->unk6 = 0;
+            gCurTask->main = Task_Aotento;
+        } else {
+            s->anim = gUnknown_080D1E30[2].anim;
+            s->variant = gUnknown_080D1E30[2].variant;
+            if (enemy->unk6 == 3) {
+                gCurTask->main = Task_8058854;
+            } else {
+                gCurTask->main = Task_805878C;
+            }
+        }
+    }
+}
+
+bool32 sub_8058A00(Aotento *enemy)
+{
+    Sprite *s = &enemy->s;
+    Player *p;
+    s32 worldX;
+    s32 worldY;
+    s32 qWorldX;
+    s32 dir;
+    u8 i;
+
+    worldX = I(enemy->qPos.x);
+    worldY = I(enemy->qPos.y);
+    worldX = (TO_WORLD_POS_RAW(worldX, enemy->region[0]));
+    worldY = (TO_WORLD_POS_RAW(worldY, enemy->region[1]));
+
+    for (i = 0, qWorldX = Q(worldX); i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        Player *p = sub_805CD20(i);
+        if (p == NULL)
+            break;
+
+        dir = (u16)sa2__sub_8004418(I(p->qWorldY) - worldY, I(p->qWorldX) - worldX);
+
+        if ((((u16)(dir - 1) <= 254) || ((u16)(dir + (-Q(3) - 1)) <= 254)) && (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP)
+            && ((p->qWorldX - qWorldX) < Q(100))) {
+            return TRUE;
+        }
+
+        if (((u16)(dir + (-Q(1) - 1)) <= 510) && !(s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) && ((qWorldX - p->qWorldX) < Q(100))) {
+            return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
+NONMATCH("asm/non_matching/game/enemies/aotento__sub_8058AE0.inc", bool32 sub_8058AE0(Aotento *enemy))
+{
+    enemy->qPos.y -= Q(gUnknown_080D1E50[enemy->unk6]);
+
+    if (enemy->qPos.y < enemy->qUnk14.y - Q(64)) {
+        enemy->qPos.y = enemy->qUnk14.y - Q(64);
+    }
+
+    if (enemy->qPos.y == (enemy->qUnk14.y - Q(64))) {
+        if (enemy->unkE == 0) {
+            enemy->unkE = 90;
+
+            return TRUE;
+        } else {
+            enemy->unkE--;
+        }
+    }
+
+    if (enemy->unk10 < 6) {
+        enemy->unk10++;
+    } else {
+        if (++enemy->unk6 >= ARRAY_COUNT(gUnknown_080D1E50)) {
+            enemy->unk6 = 2;
+        }
+
+        enemy->unk10 = 0;
+    }
+
+    return FALSE;
+}
+END_NONMATCH
+
+void sub_8058B50(Aotento *enemy)
+{
+    Sprite *s = &enemy->s;
+
+    if (s->frameFlags & SPRITE_FLAG(X_FLIP, 1)) {
+        if (enemy->qPos.x <= enemy->unk28) {
+            enemy->qPos.x += Q(1);
+
+            if (enemy->qPos.x > enemy->unk28) {
+                enemy->qPos.x = enemy->unk28;
+            }
+        }
+    } else {
+        if (enemy->qPos.x >= enemy->unk24) {
+            enemy->qPos.x -= Q(1);
+
+            if (enemy->qPos.x < enemy->unk24) {
+                enemy->qPos.x = enemy->unk24;
+            }
+        }
+    }
+}
+
+bool32 DecentAndCheckGroundTouch(Aotento *enemy)
+{
+    enemy->qPos.y += Q(1);
+
+    if (enemy->qPos.y < enemy->qUnk14.y) {
+        return FALSE;
+    } else {
+        enemy->qPos.y = enemy->qUnk14.y;
+        return TRUE;
+    }
+}
+
+bool32 sub_8058BB4(Aotento *enemy, EnemyUnknownStruc0 *param1)
+{
+    Sprite *s;
+
+    param1->me = NULL;
+    param1->spriteX = 0;
+    param1->unk4 = 0;
+
+    s = &enemy->s;
+    param1->spr = s;
+    param1->posX = enemy->qPos.x;
+    param1->posY = enemy->qPos.y;
+    param1->regionX = enemy->region[0];
+    param1->regionY = enemy->region[1];
+
+    return sub_805C63C(param1);
+}
+
+bool32 sub_8058BE0(Aotento *enemy)
+{
+    EnemyUnknownStruc0 unk;
+
+    unk.unk4 = sub_8058BB4(enemy, &unk);
+    unk.spr = &enemy->s;
+    unk.posX = enemy->qUnk14.x;
+    unk.posY = enemy->qUnk14.y;
+    unk.regionX = enemy->region[0];
+    unk.regionY = enemy->region[1];
+    unk.me = enemy->me;
+    unk.spriteX = enemy->spriteX;
+
+    return sub_805C280(&unk);
+}
+
+AnimCmdResult sub_8058C1C(Aotento *enemy)
+{
+    AnimCmdResult acmdRes;
+
+    Sprite *s = &enemy->s;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+
+    acmdRes = UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    return acmdRes;
+}
+
+void TaskDestructor_Aotento(struct Task *t)
+{
+    Aotento *enemy = TASK_DATA(t);
+    VramFree(enemy->s.tiles);
 }

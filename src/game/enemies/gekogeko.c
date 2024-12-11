@@ -207,16 +207,14 @@ bool32 sub_8059AE8(GekoGeko *enemy)
         if (p == NULL)
             break;
 
-        if (p) {
-            dir = (u16)sa2__sub_8004418(I(p->qWorldY) - worldY, I(p->qWorldX) - worldX);
+        dir = (u16)sa2__sub_8004418(I(p->qWorldY) - worldY, I(p->qWorldX) - worldX);
 
-            if ((((u16)(dir - 1) <= 254) || ((u16)(dir + (-Q(3) - 1)) <= 254)) && (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP)) {
-                return TRUE;
-            }
+        if ((((u16)(dir - 1) <= 254) || ((u16)(dir + (-Q(3) - 1)) <= 254)) && (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP)) {
+            return TRUE;
+        }
 
-            if (((u16)(dir + (-Q(1) - 1)) <= 510) && !(s->frameFlags & SPRITE_FLAG_MASK_X_FLIP)) {
-                return TRUE;
-            }
+        if (((u16)(dir + (-Q(1) - 1)) <= 510) && !(s->frameFlags & SPRITE_FLAG_MASK_X_FLIP)) {
+            return TRUE;
         }
     }
 
