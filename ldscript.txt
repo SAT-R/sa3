@@ -114,7 +114,6 @@ SECTIONS {
         build/sa3/src/game/enemies/akatento.o(.text);
         build/sa3/src/game/enemies/aotento.o(.text);
         build/sa3/src/game/enemies/spinner.o(.text);
-        build/sa3/asm/enemy_condor.o(.text);
         build/sa3/src/game/enemies/condor.o(.text);
         build/sa3/src/game/enemies/gekogeko.o(.text);
         build/sa3/asm/enemy_buzzer.o(.text);

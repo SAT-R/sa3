@@ -15,14 +15,15 @@ typedef struct {
     /* 0x04 */ u8 id;
     /* 0x05 */ u8 spriteX;
     /* 0x06 */ u8 unk6;
-    /* 0x07 */ s8 direction;
+    /* 0x07 */ u8 unk7;
     /* 0x08 */ u16 unk8;
     /* 0x0A */ u16 region[2];
-    u8 fillerE[2];
+    /* 0x0E */ s8 direction;
+    /* 0x0F */ u8 unkF;
     /* 0x18 */ s32 qUnk10;
     /* 0x1C */ s32 qUnk14;
-    /* 0x18 */ s32 unk18;
-    /* 0x1C */ s32 unk1C;
+    /* 0x18 */ s32 qUnk18;
+    /* 0x1C */ s32 qUnk1C;
     /* 0x20 */ Vec2_32 qUnk20;
     /* 0x28 */ Vec2_32 qPos;
     /* 0x30 */ s32 qLeft;
@@ -38,15 +39,19 @@ typedef struct {
     /* 0x34 */ Hitbox reserved;
 } CondorProjectile; /* size: 0x3C */
 
-void Task_Condor(void);
+void Task_Condor0(void);
 void Task_CondorProjectileInit(void);
 void TaskDestructor_Condor(struct Task *t);
 static void InitSpriteProjectile(CondorProjectile *proj);
 void Task_8058854(void);
-void Task_8059164(void);
+void Task_Condor2(void);
+void Task_Condor1(void);
+void Task_Condor3(void);
+void sub_8058F2C(Condor *enemy);
 void Task_8059210(void);
 bool32 sub_805928C(Condor *enemy);
 bool32 sub_80592E0(Condor *enemy);
+bool32 sub_805933C(Condor *enemy);
 bool32 sub_8059540(CondorProjectile *proj);
 void sub_80595FC(Condor *enemy);
 AnimCmdResult sub_8059640(Condor *enemy);
@@ -65,7 +70,105 @@ extern const TileInfo2 gUnknown_080D1E84[2]; // proj
 
 #define isBetween(v, min, onePastMax) (((v) >= (min)) && ((v) < onePastMax))
 
-void sub_805906C(void)
+void CreateEntity_Condor(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    struct Task *t = TaskCreate(Task_Condor0, sizeof(Condor), 0x2100, 0, TaskDestructor_Condor);
+    Condor *enemy = TASK_DATA(t);
+    s32 qX, qY;
+
+    enemy->me = me;
+    enemy->spriteX = me->x;
+    enemy->unk6 = 0;
+    enemy->id = id;
+    enemy->region[0] = regionX;
+    enemy->region[1] = regionY;
+
+    qX = Q(me->x * TILE_WIDTH);
+    enemy->qPos.x = qX;
+    qY = Q(me->y * TILE_WIDTH);
+    enemy->qPos.y = qY;
+
+    enemy->qUnk20.x = qX;
+    enemy->qUnk20.y = qY;
+    enemy->qLeft = qX + Q(me->d.sData[0] * TILE_WIDTH);
+    enemy->qRight = enemy->qLeft + Q(me->d.uData[2] * TILE_WIDTH);
+    enemy->unk8 = 0;
+
+    if (me->d.uData[4] & 0x8) {
+        enemy->direction = -1;
+    } else {
+        enemy->direction = +1;
+    }
+
+    CpuFill16(0, &enemy->reserved.b, sizeof(enemy->reserved.b));
+
+    sub_8058F2C(enemy);
+
+    SET_MAP_ENTITY_INITIALIZED(me);
+}
+
+void sub_8058F2C(Condor *enemy)
+{
+    void *tiles = ALLOC_TILES(ANIM_CONDOR);
+    Sprite *s = &enemy->s;
+    s->tiles = tiles;
+
+    s->anim = gUnknown_080D1E54[0].anim;
+    s->variant = gUnknown_080D1E54[0].variant;
+    s->prevVariant = -1;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+    s->oamFlags = SPRITE_OAM_ORDER(18);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+
+    if (enemy->direction < 0) {
+        s->frameFlags |= SPRITE_FLAG_MASK_X_FLIP;
+    }
+
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+
+    UpdateSpriteAnimation(s);
+}
+
+void Task_Condor0(void)
+{
+    Condor *enemy = TASK_DATA(gCurTask);
+
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        sub_80595FC(enemy);
+    }
+
+    if (sub_80596B0(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    sub_8059640(enemy);
+
+    if ((sub_805933C(enemy) == TRUE) && enemy->unk6 == 0) {
+        Sprite *s = &enemy->s;
+        s->anim = gUnknown_080D1E54[2].anim;
+        s->variant = gUnknown_080D1E54[2].variant;
+
+        enemy->qUnk18 = enemy->qPos.x;
+        enemy->qUnk1C = enemy->qPos.y;
+
+        gCurTask->main = Task_Condor2;
+    } else if ((enemy->qPos.x <= enemy->qLeft) || enemy->qPos.x >= enemy->qRight) {
+        Sprite *s = &enemy->s;
+
+        s->anim = gUnknown_080D1E54[1].anim;
+        s->variant = gUnknown_080D1E54[1].variant;
+
+        gCurTask->main = Task_Condor1;
+    }
+}
+
+void Task_Condor2(void)
 {
     Condor *enemy = TASK_DATA(gCurTask);
 
@@ -83,11 +186,11 @@ void sub_805906C(void)
 
         enemy->unk6 = 1;
 
-        gCurTask->main = Task_8059164;
+        gCurTask->main = Task_Condor3;
     }
 }
 
-void sub_80590E4(void)
+void Task_Condor1(void)
 {
     Condor *enemy = TASK_DATA(gCurTask);
 
@@ -110,11 +213,11 @@ void sub_80590E4(void)
         }
 
         enemy->unk6 = 0;
-        gCurTask->main = Task_Condor;
+        gCurTask->main = Task_Condor0;
     }
 }
 
-void Task_8059164(void)
+void Task_Condor3(void)
 {
     Condor *enemy = TASK_DATA(gCurTask);
 
@@ -134,11 +237,11 @@ void Task_8059164(void)
             CreateCondorProjectile(enemy->qPos.x, enemy->qPos.y, enemy->region[0], enemy->region[1]);
 
             if (enemy->qPos.x < enemy->qLeft) {
-                enemy->unk18 = enemy->qLeft;
+                enemy->qUnk18 = enemy->qLeft;
             } else if (enemy->qPos.x > enemy->qRight) {
-                enemy->unk18 = enemy->qRight;
+                enemy->qUnk18 = enemy->qRight;
             } else {
-                enemy->unk18 = enemy->qUnk10 - Q(enemy->region[0] << 8);
+                enemy->qUnk18 = enemy->qUnk10 - Q(enemy->region[0] << 8);
             }
 
             gCurTask->main = Task_8059210;
@@ -146,7 +249,7 @@ void Task_8059164(void)
             Sprite *s = &enemy->s;
             s->anim = gUnknown_080D1E54[0].anim;
             s->variant = gUnknown_080D1E54[0].variant;
-            gCurTask->main = Task_Condor;
+            gCurTask->main = Task_Condor0;
         }
     }
 }
@@ -165,7 +268,7 @@ void Task_8059210(void)
         s->anim = gUnknown_080D1E54[5].anim;
         s->variant = gUnknown_080D1E54[5].variant;
         sub_8059640(enemy);
-        gCurTask->main = Task_8059164;
+        gCurTask->main = Task_Condor3;
     } else {
         sub_8059640(enemy);
     }
@@ -176,8 +279,8 @@ bool32 sub_805928C(Condor *enemy)
     s32 arr[4];
     u32 r1, r4;
 
-    arr[0] = enemy->unk18;
-    arr[1] = enemy->unk1C;
+    arr[0] = enemy->qUnk18;
+    arr[1] = enemy->qUnk1C;
     arr[2] = enemy->qUnk10 - Q(enemy->region[0] << 8);
     arr[3] = enemy->qUnk14 - Q(enemy->region[1] << 8);
 
@@ -198,8 +301,8 @@ bool32 sub_80592E0(Condor *enemy)
     s32 arr[4];
     u32 r1, r4;
 
-    arr[0] = enemy->unk18;
-    arr[1] = enemy->unk1C;
+    arr[0] = enemy->qUnk18;
+    arr[1] = enemy->qUnk1C;
     arr[2] = enemy->qUnk10 - Q(enemy->region[0] << 8);
     arr[3] = enemy->qUnk14 - Q(enemy->region[1] << 8);
 
