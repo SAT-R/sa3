@@ -91,7 +91,7 @@ void Task_ZoneWarpInit(void)
             p->qSpeedAirX = 0;
             p->qSpeedAirY = 0;
 
-            Player_8004FF8(p);
+            Player_Flyer_SoundStop(p);
             sub_8003DF0(SE_SPIN_ATTACK);
             gCurTask->main = Task_802D8C8;
         }

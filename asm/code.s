@@ -35907,7 +35907,7 @@ _08077494:
 	ldrb r0, [r0]
 	cmp r0, #0
 	beq _080774E0
-	ldr r1, _080774C8 @ =sub_80068EC
+	ldr r1, _080774C8 @ =Player_80068EC
 	adds r0, r4, #0
 	bl SetPlayerCallback
 	movs r0, #0xfc
@@ -35915,7 +35915,7 @@ _08077494:
 	strh r0, [r4, #0x1a]
 	b _080774E0
 	.align 2, 0
-_080774C8: .4byte sub_80068EC
+_080774C8: .4byte Player_80068EC
 _080774CC:
 	ldr r0, [r4, #4]
 	movs r1, #0x20

@@ -3,28 +3,64 @@
 
 #include "game/player.h"
 
-extern void Player_8004FF8(Player *p);
+extern void Player_8004FC4(Player *p); // unused
+extern void Player_Flyer_SoundStop(Player *p);
 extern void Player_800522C(Player *p);
 extern void Player_80052C8(Player *p);
 extern void Player_8005380(Player *p);
 extern void Player_8005528(Player *p);
-extern void Player_8005BD4(Player *p);
-extern void Player_8005E80(Player *p);
+extern void Player_8005BD4(Player *p); // Goal Ring related
+extern void Player_8005CB8(Player *p);
+extern void Player_8005DAC(Player *p);
+extern void Player_8005E80(Player *p); // Goal Ring related
 extern void Player_800613C(Player *p); // Goal Ring touch
-extern void Player_8006250(Player *p);
-extern void Player_8006310(Player *p);
+extern void Player_80061D8(Player *p);
+extern void Player_8006250(Player *p); // Rocket
+extern void Player_8006310(Player *p); // Rocket
+extern void Player_8006424(Player *p);
+extern void Player_80064D4(Player *p);
+extern void Player_800657C(Player *p);
+extern void Player_8006654(Player *p);
+extern void Player_800673C(Player *p);
+extern void Player_80068EC(Player *p);
+extern void Player_80069E4(Player *p);
+extern void Player_8006AE4(Player *p);
+extern void Player_8006C70(Player *p);
 extern void Player_8006CF0(Player *p);
 extern void Player_8006DB8(Player *p);
+extern void Player_8006E70(Player *p);
+extern void Player_8006F08(Player *p);
 extern void Player_8006F98(Player *p); // ButtonSpring ver. of Player_800EA74
 extern void Player_8007044(Player *p); // ButtonSpring ver. of Player_8009C94
 extern void Player_8007110(Player *p); // DashRing 3, 4, 7, 8
 extern void Player_80071A8(Player *p); // DashRing 0
 extern void Player_8007240(Player *p); // DashRing 1, 9
 extern void Player_80072D8(Player *p);
-extern void Player_80077CC(Player *p);
-extern void Player_8007898(Player *p);
+extern void Player_8007368(Player *p);
+extern void Player_8007430(Player *p);
+extern void Player_80074B8(Player *p);
+extern void Player_8007560(Player *p);
+extern void Player_8007620(Player *p);
+extern void Player_8007714(Player *p);
+extern void Player_80077CC(Player *p); // Ramp, Seesaw, IA081 / IA082
+extern void Player_8007898(Player *p); // Booster
+extern void Player_8007B00(Player *p);
+extern void Player_8007C28(Player *p);
+extern void Player_8007DF4(Player *p);
+extern void Player_8007EAC(Player *p);
+extern void Player_8007F4C(Player *p);
+extern void Player_8007FE8(Player *p);
+extern void Player_8008080(Player *p);
+extern void Player_80082BC(Player *p);
+extern void Player_8008354(Player *p);
+extern void Player_800856C(Player *p);
+extern void Player_8008654(Player *p);
+extern void Player_800872C(Player *p);
+extern void Player_80087CC(Player *p);
 extern void Player_800891C(Player *p);
+extern void Player_80089CC(Player *p);
 extern void Player_8008A8C(Player *p);
+extern void Player_8008C1C(Player *p);
 extern void Player_8008CD0(Player *p);
 extern void Player_80098D8(Player *p); // Grinding-related
 extern void Player_8009B4C(Player *p);

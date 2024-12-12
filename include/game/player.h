@@ -215,7 +215,6 @@ struct Player {
 
     u8 unk13C;
     u8 unk13D;
-    u8 Padding72[0x2];
 
     u16 *demoplayInput_Start;
     u16 *demoplayInput_Current;
