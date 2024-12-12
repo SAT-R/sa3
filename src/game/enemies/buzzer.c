@@ -1,5 +1,5 @@
 #include "global.h"
-#include "task.h"
+#include "trig.h"
 #include "malloc_vram.h"
 #include "module_unclear.h"
 #include "game/camera.h"
@@ -30,7 +30,9 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u16 region[2];
-    u8 filler4[0xC];
+    /* 0x04 */ u16 theta;
+    u8 filler4[0x2];
+    /* 0x08 */ Vec2_32 qUnk8;
     /* 0x10 */ Vec2_32 qPos;
     /* 0x18 */ Sprite s;
     /* 0x40 */ Hitbox reserved;
@@ -51,6 +53,11 @@ AnimCmdResult sub_8059640(Buzzer *enemy);
 bool32 sub_8059684(Buzzer *enemy, EnemyUnknownStruc0 *param1);
 void CreateBuzzerProjectile(s32 qPosX, s32 qPosY, u16 regionX, u16 regionY, u16 param4);
 void UpdateProjectilePos(BuzzerProjectile *proj);
+bool32 sub_805A194(BuzzerProjectile *proj);
+void sub_805A3E4(BuzzerProjectile *proj);
+bool32 sub_805A424(BuzzerProjectile *proj);
+AnimCmdResult sub_805A464(BuzzerProjectile *proj);
+void TaskDestructor_BuzzerProjectile(struct Task *t);
 
 extern const TileInfo2 gUnknown_080D1EAC[6]; // Buzzer
 extern const TileInfo2 gUnknown_080D1EC4[2]; // proj
@@ -380,4 +387,75 @@ void TaskDestructor_Buzzer(struct Task *t)
 {
     Buzzer *enemy = TASK_DATA(t);
     VramFree(enemy->s.tiles);
+}
+
+void CreateBuzzerProjectile(s32 qPosX, s32 qPosY, u16 regionX, u16 regionY, u16 param4)
+{
+    struct Task *t = TaskCreate(Task_BuzzerProjectileInit, sizeof(BuzzerProjectile), 0x4040, 0, TaskDestructor_BuzzerProjectile);
+    BuzzerProjectile *proj = TASK_DATA(t);
+
+    proj->qPos.x = qPosX;
+    proj->qPos.y = qPosY;
+    proj->qUnk8.x = qPosX;
+    proj->qUnk8.y = qPosY;
+    proj->region[0] = regionX;
+    proj->region[1] = regionY;
+    proj->theta = param4;
+
+    // CpuFill16(0, &proj->reserved.b, sizeof(proj->reserved.b));
+
+    InitSpriteProjectile(proj);
+}
+
+void Task_BuzzerProjectileInit(void)
+{
+    BuzzerProjectile *proj = TASK_DATA(gCurTask);
+    sub_805A3E4(proj);
+    sub_805A464(proj);
+    sub_805A194(proj);
+
+    if (sub_805A424(proj) == TRUE) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+}
+
+void sub_805A3E4(BuzzerProjectile *proj)
+{
+    proj->qPos.y += SIN_24_8(((proj->theta >> 2) & 0xFF) * 4) * 2;
+    proj->qPos.x += COS_24_8(((proj->theta >> 2) & 0xFF) * 4) * 2;
+}
+
+bool32 sub_805A424(BuzzerProjectile *proj)
+{
+    s16 screenX, screenY;
+    screenX = TO_WORLD_POS_RAW(I(proj->qPos.x), proj->region[0]) - gCamera.x;
+    screenY = TO_WORLD_POS_RAW(I(proj->qPos.y), proj->region[1]) - gCamera.y;
+
+    // TODO: This condition is weird, can we check it differently?
+    if (!isBetween(screenX, 0, DISPLAY_WIDTH + 1) || !isBetween(screenY, 0, DISPLAY_HEIGHT + 1)) {
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+AnimCmdResult sub_805A464(BuzzerProjectile *proj)
+{
+    AnimCmdResult acmdRes;
+
+    Sprite *s = &proj->s;
+    s->x = TO_WORLD_POS_RAW(I(proj->qPos.x), proj->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(proj->qPos.y), proj->region[1]) - gCamera.y;
+
+    acmdRes = UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    return acmdRes;
+}
+
+void TaskDestructor_BuzzerProjectile(struct Task *t)
+{
+    BuzzerProjectile *proj = TASK_DATA(t);
+    VramFree(proj->s.tiles);
 }
