@@ -2,7 +2,7 @@
 #define GUARD_GLOBAL_H
 
 // TODO/BUG: genctx.py generates a cycle-error, when this is #included, but config.h doesn't include global.h?
-//#include "config.h"
+#include "config.h"
 #include "gba/gba.h"
 
 #define CONST_DATA __attribute__((section(".data")))
