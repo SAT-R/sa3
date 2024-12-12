@@ -30,9 +30,10 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u16 region[2];
-    /* 0x04 */ Vec2_32 qPos;
-    /* 0x0C */ Sprite s;
-    /* 0x34 */ Hitbox reserved;
+    u8 filler4[0xC];
+    /* 0x10 */ Vec2_32 qPos;
+    /* 0x18 */ Sprite s;
+    /* 0x40 */ Hitbox reserved;
 } BuzzerProjectile; /* size: 0x48 */
 
 void Task_BuzzerMain(void);
@@ -41,7 +42,7 @@ void sub_8059F08(void);
 void sub_8059FA0(void);
 void TaskDestructor_Buzzer(struct Task *t);
 void Task_BuzzerProjectileInit(void);
-static void InitSpriteProjectile(BuzzerProjectile *proj);
+void InitSpriteProjectile(BuzzerProjectile *proj);
 bool32 sub_805A04C(Buzzer *enemy);
 void sub_805A238(Buzzer *enemy);
 AnimCmdResult sub_805A27C(Buzzer *enemy);
@@ -214,4 +215,169 @@ void sub_8059FA0(void)
             gCurTask->main = Task_BuzzerMain;
         }
     }
+}
+
+bool32 sub_805A04C(Buzzer *enemy)
+{
+    Sprite *s = &enemy->s;
+    Player *p;
+    s32 worldX;
+    s32 worldY;
+    s32 qWorldX;
+    s32 dir;
+    u8 i;
+
+    worldX = I(enemy->qPos.x);
+    worldY = I(enemy->qPos.y);
+    worldX = (TO_WORLD_POS_RAW(worldX, enemy->region[0]));
+    worldY = (TO_WORLD_POS_RAW(worldY, enemy->region[1]));
+
+    for (i = 0, qWorldX = Q(worldX); i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        Player *p = sub_805CD20(i);
+        if (p == NULL)
+            break;
+
+        dir = (u16)sa2__sub_8004418(I(p->qWorldY) - worldY, I(p->qWorldX) - worldX);
+
+        if ((((u16)(dir - 1) <= 254) && (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP))
+            || ((((u16)(dir + (-Q(1) - 1)) <= 254)) && !(s->frameFlags & SPRITE_FLAG_MASK_X_FLIP))) {
+            if ((ABS(worldX - I(p->qWorldX)) < 100) && (ABS(worldY - I(p->qWorldY)) < 100)) {
+                enemy->unkE = dir;
+                return TRUE;
+            }
+        }
+    }
+
+    return FALSE;
+}
+
+void InitSpriteProjectile(BuzzerProjectile *enemy)
+{
+    void *tiles = ALLOC_TILES(ANIM_BUZZER_PROJ);
+    Sprite *s = &enemy->s;
+    s->tiles = tiles;
+
+    s->anim = gUnknown_080D1EC4[0].anim;
+    s->variant = gUnknown_080D1EC4[0].variant;
+    s->prevVariant = -1;
+    s->x = I(enemy->qPos.x) - gCamera.x;
+    s->y = I(enemy->qPos.y) - gCamera.y;
+    s->oamFlags = SPRITE_OAM_ORDER(19);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+
+    UpdateSpriteAnimation(s);
+}
+
+bool32 sub_805A194(BuzzerProjectile *proj)
+{
+    Sprite *s;
+    s32 worldX, worldY;
+    u8 i;
+
+    Player *p = NULL;
+
+    worldX = I(proj->qPos.x);
+    worldY = I(proj->qPos.y);
+
+    worldX = TO_WORLD_POS_RAW(worldX, proj->region[0]);
+    worldY = TO_WORLD_POS_RAW(worldY, proj->region[1]);
+
+    s = &proj->s;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        p = GET_SP_PLAYER_V0(i);
+
+        if ((!sub_802C080(p)) && sub_8020700(s, worldX, worldY, 1, p, 0)) {
+            if (p->framesInvincible == 0) {
+                sub_8020CE0(s, worldX, worldY, 1, p);
+            }
+
+            return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
+// NOTE: Like sub_80595FC, but (enemy->qPos.x < enemy->qRight) instead of <=.
+void sub_805A238(Buzzer *enemy)
+{
+    Sprite *s = &enemy->s;
+
+    if (s->frameFlags & SPRITE_FLAG(X_FLIP, 1)) {
+        if (enemy->qPos.x < enemy->qRight) {
+            enemy->qPos.x += Q(1);
+
+            if (enemy->qPos.x > enemy->qRight) {
+                enemy->qPos.x = enemy->qRight;
+            }
+        }
+    } else {
+        if (enemy->qPos.x >= enemy->qLeft) {
+            enemy->qPos.x -= Q(1);
+
+            if (enemy->qPos.x < enemy->qLeft) {
+                enemy->qPos.x = enemy->qLeft;
+            }
+        }
+    }
+}
+
+AnimCmdResult sub_805A27C(Buzzer *enemy)
+{
+    AnimCmdResult acmdRes;
+
+    Sprite *s = &enemy->s;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+
+    acmdRes = UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    return acmdRes;
+}
+
+bool32 sub_805A2C0(Buzzer *enemy, EnemyUnknownStruc0 *param1)
+{
+    Sprite *s;
+
+    param1->me = NULL;
+    param1->spriteX = 0;
+    param1->unk4 = 0;
+
+    s = &enemy->s;
+    param1->spr = s;
+    param1->posX = enemy->qPos.x;
+    param1->posY = enemy->qPos.y;
+    param1->regionX = enemy->region[0];
+    param1->regionY = enemy->region[1];
+
+    return sub_805C63C(param1);
+}
+
+bool32 sub_805A2EC(Buzzer *enemy)
+{
+    EnemyUnknownStruc0 unk;
+
+    unk.unk4 = sub_805A2C0(enemy, &unk);
+    unk.spr = &enemy->s;
+    unk.posX = enemy->qUnk10.x;
+    unk.posY = enemy->qUnk10.y;
+    unk.regionX = enemy->region[0];
+    unk.regionY = enemy->region[1];
+    unk.me = enemy->me;
+    unk.spriteX = enemy->spriteX;
+
+    return sub_805C280(&unk);
+}
+
+void TaskDestructor_Buzzer(struct Task *t)
+{
+    Buzzer *enemy = TASK_DATA(t);
+    VramFree(enemy->s.tiles);
 }

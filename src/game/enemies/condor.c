@@ -319,7 +319,7 @@ bool32 sub_80592E0(Condor *enemy)
     }
 }
 
-// Incomplete!
+// Incomplete! (Maybe buzzer.c:sub_805A04C can help fix this?)
 // (72.44%) https://decomp.me/scratch/qkJgd
 NONMATCH("asm/non_matching/game/enemies/condor__sub_805933C.inc", bool32 sub_805933C(Condor *enemy))
 {
