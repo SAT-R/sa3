@@ -5,423 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Buzzer
-CreateEntity_Buzzer: @ 0x08059D00
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	sub sp, #8
-	mov r8, r0
-	adds r5, r1, #0
-	adds r6, r2, #0
-	adds r4, r3, #0
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x10
-	lsrs r6, r6, #0x10
-	lsls r4, r4, #0x18
-	lsrs r4, r4, #0x18
-	ldr r0, _08059D80 @ =Task_BuzzerMain
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _08059D84 @ =TaskDestructor_Buzzer
-	str r1, [sp]
-	movs r1, #0x58
-	movs r3, #0
-	bl TaskCreate
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r7, r1, r0
-	mov r0, r8
-	str r0, [r7]
-	ldrb r0, [r0]
-	movs r2, #0
-	strb r0, [r7, #5]
-	strb r4, [r7, #4]
-	movs r0, #0
-	strh r5, [r7, #0xa]
-	strh r6, [r7, #0xc]
-	strb r0, [r7, #8]
-	mov r3, r8
-	ldrb r1, [r3]
-	lsls r1, r1, #0xb
-	str r1, [r7, #0x18]
-	ldrb r0, [r3, #1]
-	lsls r0, r0, #0xb
-	str r0, [r7, #0x1c]
-	str r1, [r7, #0x10]
-	str r0, [r7, #0x14]
-	movs r0, #3
-	ldrsb r0, [r3, r0]
-	lsls r0, r0, #0xb
-	adds r1, r1, r0
-	str r1, [r7, #0x20]
-	ldrb r0, [r3, #5]
-	lsls r0, r0, #0xb
-	adds r1, r1, r0
-	str r1, [r7, #0x24]
-	strh r2, [r7, #0xe]
-	ldrb r1, [r3, #7]
-	movs r0, #8
-	ands r0, r1
-	cmp r0, #0
-	beq _08059D88
-	movs r0, #0xff
-	b _08059D8A
-	.align 2, 0
-_08059D80: .4byte Task_BuzzerMain
-_08059D84: .4byte TaskDestructor_Buzzer
-_08059D88:
-	movs r0, #1
-_08059D8A:
-	strb r0, [r7, #7]
-	add r1, sp, #4
-	movs r0, #0
-	strh r0, [r1]
-	adds r1, r7, #0
-	adds r1, #0x54
-	ldr r2, _08059DBC @ =0x01000002
-	add r0, sp, #4
-	bl CpuSet
-	adds r0, r7, #0
-	bl sub_8059DC0
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	mov r3, r8
-	strb r0, [r3]
-	add sp, #8
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08059DBC: .4byte 0x01000002
-
-	thumb_func_start sub_8059DC0
-sub_8059DC0: @ 0x08059DC0
-	push {r4, r5, r6, lr}
-	adds r4, r0, #0
-	movs r0, #0x18
-	bl VramMalloc
-	adds r6, r4, #0
-	adds r6, #0x28
-	str r0, [r4, #0x28]
-	ldr r1, _08059E3C @ =gUnknown_080D1EAC
-	ldrh r0, [r1]
-	movs r5, #0
-	movs r3, #0
-	strh r0, [r6, #0xc]
-	ldrb r0, [r1, #2]
-	strb r0, [r6, #0x1a]
-	movs r0, #0xff
-	strb r0, [r6, #0x1b]
-	ldr r1, [r4, #0x18]
-	asrs r1, r1, #8
-	ldrh r0, [r4, #0xa]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	ldr r2, _08059E40 @ =gCamera
-	ldr r0, [r2]
-	subs r1, r1, r0
-	strh r1, [r6, #0x10]
-	ldr r1, [r4, #0x1c]
-	asrs r1, r1, #8
-	ldrh r0, [r4, #0xc]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	ldr r0, [r2, #4]
-	subs r1, r1, r0
-	strh r1, [r6, #0x12]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r6, #0x14]
-	strh r3, [r6, #0xe]
-	strh r3, [r6, #0x16]
-	movs r0, #0x10
-	strb r0, [r6, #0x1c]
-	strb r5, [r6, #0x1f]
-	movs r1, #0x80
-	lsls r1, r1, #5
-	str r1, [r6, #8]
-	movs r0, #7
-	ldrsb r0, [r4, r0]
-	cmp r0, #0
-	bge _08059E2A
-	movs r0, #0x80
-	lsls r0, r0, #3
-	orrs r0, r1
-	str r0, [r6, #8]
-_08059E2A:
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r6, #0x20]
-	adds r0, r6, #0
-	bl UpdateSpriteAnimation
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08059E3C: .4byte gUnknown_080D1EAC
-_08059E40: .4byte gCamera
-
-	thumb_func_start Task_BuzzerMain
-Task_BuzzerMain: @ 0x08059E44
-	push {r4, r5, r6, lr}
-	ldr r6, _08059E68 @ =gCurTask
-	ldr r0, [r6]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	adds r0, #0x28
-	adds r5, r1, r0
-	adds r0, r4, #0
-	bl sub_805A2EC
-	cmp r0, #1
-	bne _08059E6C
-	ldr r0, [r6]
-	bl TaskDestroy
-	b _08059EF4
-	.align 2, 0
-_08059E68: .4byte gCurTask
-_08059E6C:
-	adds r0, r4, #0
-	bl sub_805A27C
-	ldr r0, _08059EAC @ =gStageData
-	ldrb r1, [r0, #4]
-	subs r0, r1, #1
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #1
-	bls _08059EB8
-	cmp r1, #4
-	beq _08059EB8
-	adds r0, r4, #0
-	bl sub_805A238
-	adds r0, r4, #0
-	bl sub_805A04C
-	cmp r0, #1
-	bne _08059EB8
-	ldrb r0, [r4, #6]
-	cmp r0, #0
-	bne _08059EB8
-	ldr r1, _08059EB0 @ =gUnknown_080D1EAC
-	ldrh r0, [r1, #0x10]
-	strh r0, [r5, #0xc]
-	ldrb r0, [r1, #0x12]
-	strb r0, [r5, #0x1a]
-	ldr r1, [r6]
-	ldr r0, _08059EB4 @ =sub_8059FA0
-	b _08059EF2
-	.align 2, 0
-_08059EAC: .4byte gStageData
-_08059EB0: .4byte gUnknown_080D1EAC
-_08059EB4: .4byte sub_8059FA0
-_08059EB8:
-	ldr r2, [r4, #0x18]
-	ldr r0, [r4, #0x20]
-	cmp r2, r0
-	bgt _08059ECC
-	ldr r0, [r5, #8]
-	movs r1, #0x80
-	lsls r1, r1, #3
-	ands r0, r1
-	cmp r0, #0
-	beq _08059EDE
-_08059ECC:
-	ldr r0, [r4, #0x24]
-	cmp r2, r0
-	blt _08059EF4
-	ldr r0, [r5, #8]
-	movs r1, #0x80
-	lsls r1, r1, #3
-	ands r0, r1
-	cmp r0, #0
-	beq _08059EF4
-_08059EDE:
-	ldr r1, _08059EFC @ =gUnknown_080D1EAC
-	ldrh r0, [r1, #8]
-	strh r0, [r5, #0xc]
-	ldrb r0, [r1, #0xa]
-	strb r0, [r5, #0x1a]
-	movs r0, #0xff
-	strb r0, [r5, #0x1b]
-	ldr r0, _08059F00 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _08059F04 @ =sub_8059F08
-_08059EF2:
-	str r0, [r1, #8]
-_08059EF4:
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08059EFC: .4byte gUnknown_080D1EAC
-_08059F00: .4byte gCurTask
-_08059F04: .4byte sub_8059F08
-
-	thumb_func_start sub_8059F08
-sub_8059F08: @ 0x08059F08
-	push {r4, r5, r6, r7, lr}
-	ldr r7, _08059F30 @ =gCurTask
-	ldr r0, [r7]
-	ldrh r5, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r5, r0
-	adds r0, r4, #0
-	bl sub_805A27C
-	adds r6, r0, #0
-	adds r0, r4, #0
-	bl sub_805A2EC
-	cmp r0, #1
-	bne _08059F34
-	ldr r0, [r7]
-	bl TaskDestroy
-	b _08059F90
-	.align 2, 0
-_08059F30: .4byte gCurTask
-_08059F34:
-	ldr r0, _08059F70 @ =gStageData
-	ldrb r1, [r0, #4]
-	subs r0, r1, #1
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #1
-	bls _08059F90
-	cmp r1, #4
-	beq _08059F90
-	cmp r6, #0
-	bne _08059F90
-	ldr r0, _08059F74 @ =0x03000028
-	adds r2, r5, r0
-	ldr r1, _08059F78 @ =gUnknown_080D1EAC
-	ldrh r0, [r1]
-	strh r0, [r2, #0xc]
-	ldrb r0, [r1, #2]
-	strb r0, [r2, #0x1a]
-	movs r0, #0xff
-	strb r0, [r2, #0x1b]
-	ldr r1, [r2, #8]
-	movs r3, #0x80
-	lsls r3, r3, #3
-	adds r0, r1, #0
-	ands r0, r3
-	cmp r0, #0
-	beq _08059F80
-	ldr r0, _08059F7C @ =0xFFFFFBFF
-	ands r1, r0
-	b _08059F82
-	.align 2, 0
-_08059F70: .4byte gStageData
-_08059F74: .4byte 0x03000028
-_08059F78: .4byte gUnknown_080D1EAC
-_08059F7C: .4byte 0xFFFFFBFF
-_08059F80:
-	orrs r1, r3
-_08059F82:
-	str r1, [r2, #8]
-	movs r0, #0
-	strb r0, [r4, #6]
-	ldr r0, _08059F98 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _08059F9C @ =Task_BuzzerMain
-	str r0, [r1, #8]
-_08059F90:
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08059F98: .4byte gCurTask
-_08059F9C: .4byte Task_BuzzerMain
-
-	thumb_func_start sub_8059FA0
-sub_8059FA0: @ 0x08059FA0
-	push {r4, r5, r6, lr}
-	sub sp, #4
-	ldr r6, _08059FC8 @ =gCurTask
-	ldr r0, [r6]
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r5, r4, r0
-	adds r0, r5, #0
-	bl sub_805A27C
-	adds r0, r5, #0
-	bl sub_805A2EC
-	cmp r0, #1
-	bne _08059FCC
-	ldr r0, [r6]
-	bl TaskDestroy
-	b _0805A034
-	.align 2, 0
-_08059FC8: .4byte gCurTask
-_08059FCC:
-	ldr r0, _0805A03C @ =gStageData
-	ldrb r1, [r0, #4]
-	subs r0, r1, #1
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #1
-	bls _0805A034
-	cmp r1, #4
-	beq _0805A034
-	ldrb r0, [r5, #8]
-	adds r0, #1
-	strb r0, [r5, #8]
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #0x21
-	bls _0805A034
-	ldr r0, _0805A040 @ =0x03000028
-	adds r1, r4, r0
-	ldr r2, _0805A044 @ =gUnknown_080D1EAC
-	ldrh r0, [r2]
-	strh r0, [r1, #0xc]
-	ldrb r0, [r2, #2]
-	strb r0, [r1, #0x1a]
-	movs r0, #1
-	strb r0, [r5, #6]
-	ldr r0, [r1, #8]
-	movs r1, #0x80
-	lsls r1, r1, #3
-	ands r0, r1
-	movs r1, #0xf6
-	cmp r0, #0
-	beq _0805A00E
-	movs r1, #0xa
-_0805A00E:
-	lsls r1, r1, #0x18
-	asrs r1, r1, #0x10
-	ldr r0, [r5, #0x18]
-	adds r0, r0, r1
-	ldr r1, [r5, #0x1c]
-	movs r2, #0xe0
-	lsls r2, r2, #4
-	adds r1, r1, r2
-	ldrh r2, [r5, #0xa]
-	ldrh r3, [r5, #0xc]
-	ldrh r4, [r5, #0xe]
-	str r4, [sp]
-	bl sub_805A33C
-	movs r0, #0
-	strb r0, [r5, #8]
-	ldr r1, [r6]
-	ldr r0, _0805A048 @ =Task_BuzzerMain
-	str r0, [r1, #8]
-_0805A034:
-	add sp, #4
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0805A03C: .4byte gStageData
-_0805A040: .4byte 0x03000028
-_0805A044: .4byte gUnknown_080D1EAC
-_0805A048: .4byte Task_BuzzerMain
+.if 0
+.endif
 
 	thumb_func_start sub_805A04C
 sub_805A04C: @ 0x0805A04C
@@ -824,8 +409,8 @@ TaskDestructor_Buzzer: @ 0x0805A328
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_805A33C
-sub_805A33C: @ 0x0805A33C
+	thumb_func_start CreateBuzzerProjectile
+CreateBuzzerProjectile: @ 0x0805A33C
 	push {r4, r5, r6, lr}
 	mov r6, sb
 	mov r5, r8
@@ -842,9 +427,9 @@ sub_805A33C: @ 0x0805A33C
 	lsrs r5, r5, #0x10
 	lsls r6, r6, #0x10
 	lsrs r6, r6, #0x10
-	ldr r0, _0805A39C @ =sub_805A3A8
+	ldr r0, _0805A39C @ =Task_BuzzerProjectileInit
 	ldr r2, _0805A3A0 @ =0x00004040
-	ldr r1, _0805A3A4 @ =sub_805A4A8
+	ldr r1, _0805A3A4 @ =TaskDestructor_BuzzerProjectile
 	str r1, [sp]
 	movs r1, #0x48
 	movs r3, #0
@@ -873,12 +458,12 @@ sub_805A33C: @ 0x0805A33C
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0805A39C: .4byte sub_805A3A8
+_0805A39C: .4byte Task_BuzzerProjectileInit
 _0805A3A0: .4byte 0x00004040
-_0805A3A4: .4byte sub_805A4A8
+_0805A3A4: .4byte TaskDestructor_BuzzerProjectile
 
-	thumb_func_start sub_805A3A8
-sub_805A3A8: @ 0x0805A3A8
+	thumb_func_start Task_BuzzerProjectileInit
+Task_BuzzerProjectileInit: @ 0x0805A3A8
 	push {r4, r5, lr}
 	ldr r5, _0805A3E0 @ =gCurTask
 	ldr r0, [r5]
@@ -1012,8 +597,8 @@ sub_805A464: @ 0x0805A464
 	.align 2, 0
 _0805A4A4: .4byte gCamera
 
-	thumb_func_start sub_805A4A8
-sub_805A4A8: @ 0x0805A4A8
+	thumb_func_start TaskDestructor_BuzzerProjectile
+TaskDestructor_BuzzerProjectile: @ 0x0805A4A8
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
