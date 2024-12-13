@@ -224,3 +224,37 @@ void Task_805A7F0(void)
         }
     }
 }
+
+NONMATCH("asm/non_matching/game/enemies/ape__sub_805A8B0.inc", void sub_805A8B0(Ape *enemy))
+{
+    u32 r1 = 160;
+    u16 theta;
+    u32 chk;
+    Sprite *s2 = &enemy->s2;
+
+    chk = enemy->unk8;
+    if (((chk > 44) && (enemy->unk8 < 85)) || ((chk > 172) && (enemy->unk8 < 213))) {
+        enemy->unk8 += 3;
+    } else {
+        enemy->unk8 += 1;
+    }
+    // _0805A8D6
+
+    if (enemy->unk8 > 224) {
+        enemy->unk8 = 32;
+    }
+
+    if ((enemy->unk8 > 96) && (enemy->unk8 < r1)) {
+        enemy->unk8 = r1;
+    }
+
+    if (((u16)(enemy->unk8 - 1) <= 62) || ((u16)(enemy->unk8 - 193) <= 62)) {
+        SPRITE_FLAG_SET(s2, X_FLIP);
+    } else {
+        SPRITE_FLAG_CLEAR(s2, X_FLIP);
+    }
+
+    enemy->qPos.x = enemy->qUnk14.x + COS_24_8((u8)enemy->unk8 * 4) * 32;
+    enemy->qPos.y = enemy->qUnk14.y + ABS(SIN_24_8((u8)enemy->unk8 * 4) * 32) - Q(10);
+}
+END_NONMATCH
