@@ -60,6 +60,7 @@ Temporary Items
 
 *.hex
 *.o
+*.a
 *.dump
 build
 tools/agbcc
