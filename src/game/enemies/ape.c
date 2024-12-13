@@ -19,7 +19,7 @@ typedef struct {
     /* 0x08 */ u16 unk8;
     /* 0x0A */ u16 region[2];
     /* 0x0E */ u16 unkE;
-    u8 filler10[4];
+    /* 0x10 */ s32 unk10;
     /* 0x14 */ Vec2_32 qUnk14;
     /* 0x1C */ Vec2_32 qPos;
     /* 0x24 */ Sprite s;
@@ -39,10 +39,16 @@ typedef struct {
 
 void Task_ApeMain(void);
 void sub_805A674(Ape *);
+void Task_805A7F0(void);
+void sub_805A8B0(Ape *);
+bool32 sub_805A964(Ape *);
+AnimCmdResult sub_805AA10(Ape *);
+bool32 sub_805ACB4(Ape *);
 void TaskDestructor_Ape(struct Task *t);
+void CreateApeProjectile(s32 x, s32 y, u16 regionX, u16 regionY, s8 param4);
 
-extern const TileInfo2 gUnknown_080D1EAC[6]; // Buzzer
-extern const TileInfo2 gUnknown_080D1EC4[2]; // proj
+extern const TileInfo2 gUnknown_080D1ECC[6]; // Buzzer
+extern const TileInfo2 gUnknown_080D1EE4[2]; // proj
 
 #define isBetween(v, min, onePastMax) (((v) >= (min)) && ((v) < onePastMax))
 
@@ -108,4 +114,113 @@ void CreateEntity_Ape_1(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     sub_805A674(enemy);
 
     SET_MAP_ENTITY_INITIALIZED(me);
+}
+
+void sub_805A674(Ape *enemy)
+{
+    void *tiles = VramMalloc(MAX_TILES(ANIM_APE) + MAX_TILES_VARIANT(ANIM_APE, 2));
+    Sprite *s = &enemy->s;
+    s->tiles = tiles;
+    tiles += gUnknown_080D1ECC[2].numTiles * TILE_SIZE_4BPP;
+
+    s->anim = gUnknown_080D1ECC[2].anim;
+    s->variant = gUnknown_080D1ECC[2].variant;
+    s->prevVariant = -1;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+    s->oamFlags = SPRITE_OAM_ORDER(18);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+
+    UpdateSpriteAnimation(s);
+
+    s = &enemy->s2;
+    s->tiles = tiles;
+
+    s->anim = gUnknown_080D1ECC[0].anim;
+    s->variant = gUnknown_080D1ECC[0].variant;
+    s->prevVariant = -1;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+    s->oamFlags = SPRITE_OAM_ORDER(19);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+
+    UpdateSpriteAnimation(s);
+}
+
+void Task_ApeMain(void)
+{
+    Ape *enemy = TASK_DATA(gCurTask);
+
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        sub_805A8B0(enemy);
+    }
+
+    if (sub_805ACB4(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    sub_805AA10(enemy);
+
+    if ((sub_805A964(enemy) == TRUE) && ((gStageData.timer - enemy->unk10) >= 120)) {
+        Sprite *s = &enemy->s2;
+        s->anim = gUnknown_080D1ECC[1].anim;
+        s->variant = gUnknown_080D1ECC[1].variant;
+
+        gCurTask->main = Task_805A7F0;
+        return;
+    }
+}
+
+void Task_805A7F0(void)
+{
+    Ape *enemy = TASK_DATA(gCurTask);
+    AnimCmdResult acmdRes;
+
+    acmdRes = sub_805AA10(enemy);
+
+    if (sub_805ACB4(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        s8 dir;
+
+        if (enemy->unkE > 22 && enemy->unk6 == 0) {
+            if (enemy->s2.frameFlags & SPRITE_FLAG(X_FLIP, 1)) {
+                dir = +1;
+            } else {
+                dir = -1;
+            }
+
+            CreateApeProjectile(enemy->qPos.x, enemy->qPos.y, enemy->region[0], enemy->region[1], dir);
+            enemy->unk6 = 1;
+        } else {
+            enemy->unkE--;
+        }
+
+        if (acmdRes == ACMD_RESULT__ENDED) {
+            Sprite *s = &enemy->s2;
+            s->anim = gUnknown_080D1ECC[0].anim;
+            s->variant = gUnknown_080D1ECC[0].variant;
+            enemy->unk10 = gStageData.timer;
+            enemy->unkE = 22;
+            enemy->unk6 = 0;
+
+            gCurTask->main = Task_ApeMain;
+        }
+    }
 }
