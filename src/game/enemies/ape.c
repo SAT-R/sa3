@@ -292,3 +292,31 @@ NONMATCH("asm/non_matching/game/enemies/ape__sub_805A964.inc", bool32 sub_805A96
     return FALSE;
 }
 END_NONMATCH
+
+AnimCmdResult sub_805AA10(Ape *enemy)
+{
+    AnimCmdResult acmdRes;
+    u8 i = 0;
+
+    Sprite *s = &enemy->s2;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+
+    acmdRes = UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    for (i = 0; i < 5; i++) {
+        s32 ix16;
+
+        s = &enemy->s;
+        s->x = I(enemy->qPos.x + ((enemy->qUnk14.x - enemy->qPos.x) >> 6) * (ix16 = i * 16));
+        s->x += (enemy->region[0] << 8) - gCamera.x;
+        s->y = I(enemy->qPos.y + ((enemy->qUnk14.y - enemy->qPos.y) >> 6) * ix16);
+        s->y += (enemy->region[1] << 8) - gCamera.y;
+
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+
+    return acmdRes;
+}
