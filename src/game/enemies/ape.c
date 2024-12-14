@@ -320,3 +320,26 @@ AnimCmdResult sub_805AA10(Ape *enemy)
 
     return acmdRes;
 }
+
+void sub_805AAB0(ApeProjectile *proj)
+{
+    void *tiles = VramMalloc(MAX_TILES(ANIM_APE_PROJ) + MAX_TILES(ANIM_CONDOR_PROJ_EXPLOSION));
+    Sprite *s = &proj->s;
+    s->tiles = tiles;
+    tiles += gUnknown_080D1EE4[0].numTiles * TILE_SIZE_4BPP;
+
+    s->anim = gUnknown_080D1EE4[0].anim;
+    s->variant = gUnknown_080D1EE4[0].variant;
+    s->prevVariant = -1;
+    s->x = I(proj->qPos.x) - gCamera.x;
+    s->y = I(proj->qPos.y) - gCamera.y;
+    s->oamFlags = SPRITE_OAM_ORDER(18);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+
+    UpdateSpriteAnimation(s);
+}
