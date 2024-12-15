@@ -118,7 +118,6 @@ SECTIONS {
         build/sa3/src/game/enemies/gekogeko.o(.text);
         build/sa3/src/game/enemies/buzzer.o(.text);
         build/sa3/src/game/enemies/ape.o(.text);
-        build/sa3/asm/enemy_ape.o(.text);
         build/sa3/src/game/enemies/minimole.o(.text);
         build/sa3/src/game/enemies/takkon.o(.text);
         build/sa3/asm/enemy_jousun.o(.text);

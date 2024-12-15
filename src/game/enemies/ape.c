@@ -29,7 +29,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8 unk0;
-    /* 0x01 */ u8 unk1;
+    /* 0x01 */ s8 unk1;
     /* 0x02 */ s8 unk2;
     /* 0x03 */ u8 unk3;
     /* 0x04 */ u16 region[2];
@@ -52,7 +52,8 @@ bool32 sub_805ABE4(ApeProjectile *);
 bool32 sub_805ACB4(Ape *);
 void Task_805ADC8(void);
 void sub_805ADF8(ApeProjectile *);
-void sub_805AE30(ApeProjectile *);
+AnimCmdResult sub_805AE30(ApeProjectile *);
+static void InitSpriteProjectile(ApeProjectile *proj);
 void TaskDestructor_Ape(struct Task *t);
 void CreateApeProjectile(s32 qPosX, s32 qPosY, u16 regionX, u16 regionY, s8 param4);
 void TaskDestructor_ApeProjectile(struct Task *t);
@@ -331,7 +332,7 @@ AnimCmdResult sub_805AA10(Ape *enemy)
     return acmdRes;
 }
 
-void sub_805AAB0(ApeProjectile *proj)
+static void InitSpriteProjectile(ApeProjectile *proj)
 {
     void *tiles = VramMalloc(MAX_TILES(ANIM_APE_PROJ) + MAX_TILES(ANIM_CONDOR_PROJ_EXPLOSION));
     Sprite *s = &proj->s;
@@ -472,21 +473,83 @@ void TaskDestructor_Ape(struct Task *t)
     VramFree(enemy->s.tiles);
 }
 
-#if 0
 void CreateApeProjectile(s32 qPosX, s32 qPosY, u16 regionX, u16 regionY, s8 param4)
 {
     struct Task *t = TaskCreate(Task_ApeProjectileInit, sizeof(ApeProjectile), 0x4040, 0, TaskDestructor_ApeProjectile);
     ApeProjectile *proj = TASK_DATA(t);
 
-    proj->qPos.x = qPosX;
+    proj->qPos.x = qPosX + Q(param4 * 5);
     proj->qPos.y = qPosY;
     proj->region[0] = regionX;
     proj->region[1] = regionY;
-    proj->unk8 = param4;
+    proj->unk0 = 0;
+    proj->unk1 = param4;
+    proj->unk2 = -1;
+    proj->unkA = 0;
+    proj->unkC = 0;
+    proj->unk8 = 0;
 
     CpuFill16(0, &proj->reserved.b, sizeof(proj->reserved.b));
+    CpuFill16(0, &proj->s.hitboxes[0].b, sizeof(proj->s.hitboxes[0].b));
 
     InitSpriteProjectile(proj);
 }
 
+void Task_805ADC8(void)
+{
+    ApeProjectile *proj = TASK_DATA(gCurTask);
+
+    AnimCmdResult acmdRes = sub_805AE30(proj);
+
+    sub_805ABE4(proj);
+
+    if (acmdRes == ACMD_RESULT__ENDED) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+}
+
+// (90.54%) https://decomp.me/scratch/8nsAg
+NONMATCH("asm/non_matching/game/enemies/ape__sub_805ADF8.inc", void sub_805ADF8(ApeProjectile *proj))
+{
+#ifndef NON_MATCHING
+    register s32 r1 asm("r1");
+    s16 r2 = proj->unk2;
+    register s32 r3 asm("r3") = proj->unk1;
+#else
+    s32 r1;
+    s16 r2 = proj->unk2;
+    s32 r3 = proj->unk1;
 #endif
+
+    proj->unkC += 0x20;
+    r2 = (((Q(r2) * 2) << 16) >> 16) + proj->unkC;
+
+    proj->unkA++;
+    r1 = r3;
+    r3 = Q(r3) + r1;
+
+    proj->qPos.y += r2;
+    proj->qPos.x += ((r3 << 16) >> 17);
+}
+END_NONMATCH
+
+AnimCmdResult sub_805AE30(ApeProjectile *proj)
+{
+    AnimCmdResult acmdRes;
+
+    Sprite *s = &proj->s;
+    s->x = TO_WORLD_POS_RAW(I(proj->qPos.x), proj->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(proj->qPos.y), proj->region[1]) - gCamera.y;
+
+    acmdRes = UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    return acmdRes;
+}
+
+void TaskDestructor_ApeProjectile(struct Task *t)
+{
+    ApeProjectile *proj = TASK_DATA(t);
+    VramFree(proj->s.tiles);
+}
