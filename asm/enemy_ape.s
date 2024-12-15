@@ -8,108 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_805AB14
-sub_805AB14: @ 0x0805AB14
-	push {r4, r5, lr}
-	sub sp, #8
-	ldr r0, _0805ABD0 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	ldr r0, _0805ABD4 @ =gStageData
-	ldrb r1, [r0, #4]
-	subs r0, r1, #1
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #1
-	bls _0805AB42
-	cmp r1, #4
-	beq _0805AB42
-	ldrb r0, [r4]
-	cmp r0, #1
-	bhi _0805AB42
-	adds r0, r4, #0
-	bl sub_805ADF8
-_0805AB42:
-	adds r0, r4, #0
-	bl sub_805AE30
-	adds r0, r4, #0
-	bl sub_805ABE4
-	ldr r1, [r4, #0x10]
-	asrs r1, r1, #8
-	ldr r0, [r4, #0x14]
-	asrs r0, r0, #8
-	ldrh r2, [r4, #4]
-	lsls r2, r2, #8
-	adds r1, r1, r2
-	ldrh r2, [r4, #6]
-	lsls r2, r2, #8
-	adds r0, r0, r2
-	movs r5, #0
-	str r5, [sp]
-	ldr r2, _0805ABD8 @ =sub_805217C
-	str r2, [sp, #4]
-	movs r2, #1
-	movs r3, #8
-	bl sub_8052394
-	cmp r0, #0
-	bge _0805AB96
-	lsls r1, r0, #8
-	ldr r0, [r4, #0x14]
-	adds r0, r0, r1
-	str r0, [r4, #0x14]
-	ldrb r0, [r4]
-	adds r0, #1
-	strb r0, [r4]
-	strh r5, [r4, #0xc]
-	movs r1, #0xff
-	strb r1, [r4, #2]
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #1
-	bls _0805AB96
-	movs r0, #2
-	strb r0, [r4]
-_0805AB96:
-	ldrb r1, [r4]
-	cmp r1, #0
-	beq _0805ABA2
-	ldrh r0, [r4, #8]
-	adds r0, #1
-	strh r0, [r4, #8]
-_0805ABA2:
-	cmp r1, #2
-	bne _0805ABC6
-	ldrh r0, [r4, #8]
-	cmp r0, #0x3b
-	bls _0805ABC6
-	adds r1, r4, #0
-	adds r1, #0x18
-	ldr r2, _0805ABDC @ =gUnknown_080D1EE4
-	ldrh r0, [r2, #8]
-	movs r3, #0
-	strh r0, [r1, #0xc]
-	ldrb r0, [r2, #0xa]
-	strb r0, [r1, #0x1a]
-	str r3, [r1, #8]
-	ldr r0, _0805ABD0 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0805ABE0 @ =sub_805ADC8
-	str r0, [r1, #8]
-_0805ABC6:
-	add sp, #8
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0805ABD0: .4byte gCurTask
-_0805ABD4: .4byte gStageData
-_0805ABD8: .4byte sub_805217C
-_0805ABDC: .4byte gUnknown_080D1EE4
-_0805ABE0: .4byte sub_805ADC8
-
 	thumb_func_start sub_805ABE4
 sub_805ABE4: @ 0x0805ABE4
 	push {r4, r5, r6, r7, lr}
@@ -287,7 +185,7 @@ CreateApeProjectile: @ 0x0805AD04
 	mov sb, r1
 	lsls r6, r6, #0x18
 	lsrs r6, r6, #0x18
-	ldr r0, _0805ADB0 @ =sub_805AB14
+	ldr r0, _0805ADB0 @ =Task_ApeProjectileInit
 	ldr r2, _0805ADB4 @ =0x00004040
 	ldr r1, _0805ADB8 @ =sub_805AE74
 	str r1, [sp]
@@ -349,15 +247,15 @@ CreateApeProjectile: @ 0x0805AD04
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0805ADB0: .4byte sub_805AB14
+_0805ADB0: .4byte Task_ApeProjectileInit
 _0805ADB4: .4byte 0x00004040
 _0805ADB8: .4byte sub_805AE74
 _0805ADBC: .4byte 0x03000044
 _0805ADC0: .4byte 0x01000002
 _0805ADC4: .4byte 0x0300003C
 
-	thumb_func_start sub_805ADC8
-sub_805ADC8: @ 0x0805ADC8
+	thumb_func_start Task_805ADC8
+Task_805ADC8: @ 0x0805ADC8
 	push {r4, r5, r6, lr}
 	ldr r6, _0805ADF4 @ =gCurTask
 	ldr r0, [r6]

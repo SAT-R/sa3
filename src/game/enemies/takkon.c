@@ -33,8 +33,6 @@ typedef struct {
     /* 0x34 */ Hitbox reserved;
 } TakkonProjectile; /* size: 0x3C */
 
-s32 sub_8052394(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4, void *callback);
-
 void Task_Takkon(void);
 void sub_805B3AC(Takkon *enemy);
 void Task_805B4E4(void);

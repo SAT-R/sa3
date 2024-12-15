@@ -28,10 +28,15 @@ typedef struct {
 } Ape; /* size: 0x7C */
 
 typedef struct {
-    /* 0x00 */ u16 region[2];
-    /* 0x04 */ u16 theta;
-    u8 filler4[0x2];
-    /* 0x08 */ Vec2_32 qUnk8;
+    /* 0x00 */ u8 unk0;
+    /* 0x01 */ u8 unk1;
+    /* 0x02 */ s8 unk2;
+    /* 0x03 */ u8 unk3;
+    /* 0x04 */ u16 region[2];
+    /* 0x08 */ u16 unk8;
+    /* 0x0A */ u16 unkA;
+    /* 0x0C */ u16 unkC;
+    /* 0x0E */ u16 unkE;
     /* 0x10 */ Vec2_32 qPos;
     /* 0x18 */ Sprite s;
     /* 0x40 */ Hitbox reserved;
@@ -43,7 +48,11 @@ void Task_805A7F0(void);
 void sub_805A8B0(Ape *);
 bool32 sub_805A964(Ape *);
 AnimCmdResult sub_805AA10(Ape *);
+void sub_805ABE4(ApeProjectile *);
 bool32 sub_805ACB4(Ape *);
+void Task_805ADC8(void);
+void sub_805ADF8(ApeProjectile *);
+void sub_805AE30(ApeProjectile *);
 void TaskDestructor_Ape(struct Task *t);
 void CreateApeProjectile(s32 x, s32 y, u16 regionX, u16 regionY, s8 param4);
 
@@ -343,3 +352,54 @@ void sub_805AAB0(ApeProjectile *proj)
 
     UpdateSpriteAnimation(s);
 }
+
+void Task_ApeProjectileInit(void)
+{
+    ApeProjectile *proj = TASK_DATA(gCurTask);
+    bool32 r5 = FALSE;
+    s32 worldX, worldY;
+    s32 res;
+
+    if (((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) && (proj->unk0 == 0 || proj->unk0 == 1)) {
+        sub_805ADF8(proj);
+    }
+
+    sub_805AE30(proj);
+    sub_805ABE4(proj);
+
+    worldX = I(proj->qPos.x);
+    worldY = I(proj->qPos.y);
+
+    worldX = TO_WORLD_POS_RAW(I(proj->qPos.x), proj->region[0]);
+    worldY = TO_WORLD_POS_RAW(I(proj->qPos.y), proj->region[1]);
+
+    res = sub_8052394(worldY, worldX, 1, +8, 0, sub_805217C);
+
+    if (res < 0) {
+        proj->qPos.y += Q(res);
+        proj->unk0++;
+        proj->unkC = 0;
+        proj->unk2 = -1;
+
+        if (proj->unk0 >= 2) {
+            proj->unk0 = 2;
+        }
+    }
+
+    if (proj->unk0 != 0) {
+        proj->unk8++;
+    }
+
+    if ((proj->unk0 == 2) && (proj->unk8 >= 60)) {
+        Sprite *s = &proj->s;
+
+        s->anim = gUnknown_080D1EE4[1].anim;
+        s->variant = gUnknown_080D1EE4[1].variant;
+        s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+
+        gCurTask->main = Task_805ADC8;
+    }
+}
+
+#if 01
+#endif
