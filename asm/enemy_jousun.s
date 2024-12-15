@@ -5,63 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_805B980
-sub_805B980: @ 0x0805B980
-	push {r4, r5, r6, lr}
-	adds r4, r0, #0
-	movs r0, #0x14
-	bl VramMalloc
-	adds r1, r0, #0
-	adds r0, r4, #0
-	adds r0, #0x30
-	str r1, [r4, #0x30]
-	ldr r2, _0805B9EC @ =gUnknown_080D1F2C
-	ldrh r1, [r2]
-	movs r6, #0
-	movs r5, #0
-	strh r1, [r0, #0xc]
-	ldrb r1, [r2, #2]
-	strb r1, [r0, #0x1a]
-	movs r1, #0xff
-	strb r1, [r0, #0x1b]
-	ldr r2, [r4, #0x20]
-	asrs r2, r2, #8
-	ldrh r1, [r4, #0xa]
-	lsls r1, r1, #8
-	adds r2, r2, r1
-	ldr r3, _0805B9F0 @ =gCamera
-	ldr r1, [r3]
-	subs r2, r2, r1
-	strh r2, [r0, #0x10]
-	ldr r2, [r4, #0x24]
-	asrs r2, r2, #8
-	ldrh r1, [r4, #0xc]
-	lsls r1, r1, #8
-	adds r2, r2, r1
-	ldr r1, [r3, #4]
-	subs r2, r2, r1
-	strh r2, [r0, #0x12]
-	movs r1, #0x90
-	lsls r1, r1, #3
-	strh r1, [r0, #0x14]
-	strh r5, [r0, #0xe]
-	strh r5, [r0, #0x16]
-	movs r1, #0x10
-	strb r1, [r0, #0x1c]
-	strb r6, [r0, #0x1f]
-	movs r1, #0x80
-	lsls r1, r1, #5
-	str r1, [r0, #8]
-	movs r1, #1
-	rsbs r1, r1, #0
-	str r1, [r0, #0x20]
-	bl UpdateSpriteAnimation
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0805B9EC: .4byte gUnknown_080D1F2C
-_0805B9F0: .4byte gCamera
+.if 0
+.endif
 
 	thumb_func_start Task_JousunMain
 Task_JousunMain: @ 0x0805B9F4
