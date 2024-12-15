@@ -48,13 +48,14 @@ void Task_805A7F0(void);
 void sub_805A8B0(Ape *);
 bool32 sub_805A964(Ape *);
 AnimCmdResult sub_805AA10(Ape *);
-void sub_805ABE4(ApeProjectile *);
+bool32 sub_805ABE4(ApeProjectile *);
 bool32 sub_805ACB4(Ape *);
 void Task_805ADC8(void);
 void sub_805ADF8(ApeProjectile *);
 void sub_805AE30(ApeProjectile *);
 void TaskDestructor_Ape(struct Task *t);
-void CreateApeProjectile(s32 x, s32 y, u16 regionX, u16 regionY, s8 param4);
+void CreateApeProjectile(s32 qPosX, s32 qPosY, u16 regionX, u16 regionY, s8 param4);
+void TaskDestructor_ApeProjectile(struct Task *t);
 
 extern const TileInfo2 gUnknown_080D1ECC[6]; // Buzzer
 extern const TileInfo2 gUnknown_080D1EE4[2]; // proj
@@ -401,5 +402,91 @@ void Task_ApeProjectileInit(void)
     }
 }
 
-#if 01
+bool32 sub_805ABE4(ApeProjectile *proj)
+{
+    s32 worldX, worldY;
+    Sprite *s;
+    u8 i;
+
+    Player *p = NULL;
+
+    worldX = I(proj->qPos.x);
+    worldY = I(proj->qPos.y);
+
+    worldX = TO_WORLD_POS_RAW(worldX, proj->region[0]);
+    worldY = TO_WORLD_POS_RAW(worldY, proj->region[1]);
+
+    s = &proj->s;
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        p = GET_SP_PLAYER_V0(i);
+
+        if ((!sub_802C080(p)) && sub_8020700(s, worldX, worldY, 1, p, 0)) {
+            if (p->framesInvincible == 0) {
+                sub_8020CE0(s, worldX, worldY, 1, p);
+            }
+
+            return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
+bool32 sub_805AC88(Ape *enemy, EnemyUnknownStruc0 *param1)
+{
+    Sprite *s;
+
+    param1->me = NULL;
+    param1->spriteX = 0;
+    param1->unk4 = 0;
+
+    s = &enemy->s2;
+    param1->spr = s;
+    param1->posX = enemy->qPos.x;
+    param1->posY = enemy->qPos.y;
+    param1->regionX = enemy->region[0];
+    param1->regionY = enemy->region[1];
+
+    return sub_805C63C(param1);
+}
+
+bool32 sub_805ACB4(Ape *enemy)
+{
+    EnemyUnknownStruc0 unk;
+
+    unk.unk4 = sub_805AC88(enemy, &unk);
+    unk.spr = &enemy->s2;
+    unk.posX = enemy->qUnk14.x;
+    unk.posY = enemy->qUnk14.y;
+    unk.regionX = enemy->region[0];
+    unk.regionY = enemy->region[1];
+    unk.me = enemy->me;
+    unk.spriteX = enemy->spriteX;
+
+    return sub_805C280(&unk);
+}
+
+void TaskDestructor_Ape(struct Task *t)
+{
+    Ape *enemy = TASK_DATA(t);
+    VramFree(enemy->s.tiles);
+}
+
+#if 0
+void CreateApeProjectile(s32 qPosX, s32 qPosY, u16 regionX, u16 regionY, s8 param4)
+{
+    struct Task *t = TaskCreate(Task_ApeProjectileInit, sizeof(ApeProjectile), 0x4040, 0, TaskDestructor_ApeProjectile);
+    ApeProjectile *proj = TASK_DATA(t);
+
+    proj->qPos.x = qPosX;
+    proj->qPos.y = qPosY;
+    proj->region[0] = regionX;
+    proj->region[1] = regionY;
+    proj->unk8 = param4;
+
+    CpuFill16(0, &proj->reserved.b, sizeof(proj->reserved.b));
+
+    InitSpriteProjectile(proj);
+}
+
 #endif
