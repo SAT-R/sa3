@@ -213,8 +213,8 @@ gSpriteInits_Enemies: @ 0x080CF07C
     .4byte CreateEntity_Ape_0
     .4byte CreateEntity_Ape_1
     .4byte CreateEntity_Takkon
-    .4byte CreateEntity_Jousun_0
-    .4byte CreateEntity_Jousun_1
+    .4byte CreateEntity_Jousun_Right
+    .4byte CreateEntity_Jousun_Left
     .4byte CreateEntity_Uutsubo_0
     .4byte CreateEntity_Uutsubo_1
     .4byte CreateEntity_Uutsubo_2
