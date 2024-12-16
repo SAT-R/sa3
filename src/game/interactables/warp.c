@@ -208,7 +208,7 @@ void sub_802E8A8(void)
 {
     switch (gStageData.gameMode) {
         case GAME_MODE_SINGLE_PLAYER: {
-            sub_8097C54(4);
+            CreateCharacterSelect(4);
         } break;
 
         case GAME_MODE_5: {

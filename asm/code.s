@@ -37862,7 +37862,7 @@ _0807833A:
 	lsrs r7, r0, #0x18
 	cmp r7, #2
 	bls _080782EE
-	movs r0, #0x90
+	movs r0, #0x90      @ SE_CAPSULE_DESTROY
 	bl m4aSongNumStart
 	mov r0, sl
 	bl sub_8078380
@@ -41333,7 +41333,7 @@ _08079DC0:
 	lsrs r0, r0, #0x10
 	cmp r0, #0xa0
 	bne _08079DCE
-	ldr r0, _08079DF8 @ =0x0000027E
+	ldr r0, _08079DF8 @ =0x0000027E @ VOICE__EGGMAN__YOURE_GOING_TO_PAY_FOR_THIS
 	bl m4aSongNumStart
 _08079DCE:
 	movs r5, #0
@@ -41490,7 +41490,7 @@ sub_8079EDC: @ 0x08079EDC
 	ldrh r0, [r6]
 	cmp r0, #0
 	bne _08079F08
-	ldr r0, _08079F60 @ =0x0000027E
+	ldr r0, _08079F60 @ =0x0000027E @ VOICE__EGGMAN__YOURE_GOING_TO_PAY_FOR_THIS
 	bl m4aSongNumStart
 	mov r1, r8
 	strh r1, [r6]
@@ -42671,7 +42671,7 @@ _0807A7C4:
 	str r0, [r1, #8]
 	adds r0, r6, #0
 	bl sub_807A8B4
-	movs r0, #0x90
+	movs r0, #0x90      @ SE_CAPSULE_DESTROY
 	bl m4aSongNumStart
 	b _0807A83E
 	.align 2, 0
@@ -53344,7 +53344,7 @@ _0807F912:
 	str r0, [r1, #0x18]
 	movs r0, #0xc8
 	strh r0, [r7, #8]
-	movs r0, #0x3c
+	movs r0, #0x3c      @ MUS_EX_DEMO_1
 	bl m4aSongNumStart
 	ldr r0, _0807F930 @ =0x000007E4
 	strh r0, [r7, #0xc]
@@ -53621,7 +53621,7 @@ _0807FB40:
 	.align 2, 0
 _0807FB54: .4byte 0x000008FC
 _0807FB58:
-	movs r0, #0x58
+	movs r0, #0x58      @ MUS_FINAL_CLEAR
 	bl m4aSongNumStart
 	bl sub_8002508
 	ldr r0, _0807FB78 @ =0x0000091A
@@ -54642,7 +54642,7 @@ _080802A8:
 	strh r0, [r4, #0x10]
 	ldr r0, _080802CC @ =0x00000212
 	strh r0, [r4, #0x12]
-	movs r0, #0x73
+	movs r0, #0x73      @ SE_STOPPING
 	bl m4aSongNumStart
 	b _080804AC
 	.align 2, 0
@@ -54666,7 +54666,7 @@ _080802DE:
 	strh r0, [r4, #0x12]
 	movs r0, #0x64
 	strh r0, [r4, #0xc]
-	movs r0, #0x3d
+	movs r0, #0x3d      @ MUS_EX_DEMO_2
 	bl m4aSongNumStart
 	b _080804AC
 _080802F8:
@@ -56121,7 +56121,7 @@ _08080D8C:
 	movs r0, #0x32
 	strh r0, [r5, #0x18]
 	movs r0, #0x9f
-	lsls r0, r0, #2
+	lsls r0, r0, #2     @ VOICE__EGGMAN__OW
 	bl m4aSongNumStart
 	b _080811C6
 	.align 2, 0
@@ -56375,7 +56375,7 @@ _08080F88:
 	ldr r0, [r3, #8]
 	orrs r0, r1
 	str r0, [r3, #8]
-	ldr r0, _08080FB0 @ =0x0000027E
+	ldr r0, _08080FB0 @ =0x0000027E @ VOICE__EGGMAN__YOURE_GOING_TO_PAY_FOR_THIS
 	bl m4aSongNumStart
 	b _080811C6
 	.align 2, 0
@@ -56522,7 +56522,7 @@ _080810B0:
 	bl sub_805256C
 	movs r0, #0x9f
 	lsls r0, r0, #2
-	bl m4aSongNumStart
+	bl m4aSongNumStart  @ VOICE__EGGMAN__OW
 	ldr r0, _080810DC @ =0xFFFFFC00
 	str r0, [r5, #0xc]
 	movs r0, #0x8c
@@ -57024,7 +57024,7 @@ _0808142E:
 	str r0, [r3, #8]
 	movs r0, #0x64
 	strh r0, [r4, #0x18]
-	movs r0, #0x74
+	movs r0, #0x74      @ SE_JUMP
 	bl m4aSongNumStart
 	b _080816B8
 	.align 2, 0
@@ -68455,7 +68455,7 @@ _08086AE0:
 	strh r0, [r6, #0x10]
 	strh r4, [r6, #0x12]
 	movs r0, #0x96
-	lsls r0, r0, #2
+	lsls r0, r0, #2     @ SE_MINECART_DESTROYED
 	bl m4aSongNumStart
 	adds r3, r6, #0
 	adds r3, #0x18
@@ -70915,7 +70915,7 @@ _08087E3A:
 	strh r0, [r2, #0x18]
 _08087E5C:
 	movs r0, #0
-	bl sub_8097C54
+	bl CreateCharacterSelect
 	b _08087EFE
 	.align 2, 0
 _08087E64: .4byte gStageData
@@ -70927,7 +70927,7 @@ _08087E70:
 	b _08087EFE
 _08087E78:
 	movs r0, #1
-	bl sub_808A25C
+	bl CreateTitleScreen
 	b _08087EFE
 _08087E80:
 	ldr r1, _08087ED4 @ =0x0000FFFF
@@ -71122,7 +71122,7 @@ _0808802C:
 	movs r0, #0
 	strb r0, [r1, #6]
 	movs r0, #3
-	bl sub_8097C54
+	bl CreateCharacterSelect
 	b _08088076
 	.align 2, 0
 _0808803C: .4byte gStageData
@@ -71146,11 +71146,11 @@ _08088058:
 	b _08088076
 _08088068:
 	movs r0, #1
-	bl sub_808A25C
+	bl CreateTitleScreen
 	b _08088076
 _08088070:
 	movs r0, #1
-	bl sub_808A25C
+	bl CreateTitleScreen
 _08088076:
 	ldr r0, _08088084 @ =gCurTask
 	ldr r0, [r0]
@@ -71355,7 +71355,7 @@ sub_808819C: @ 0x0808819C
 	ldrb r1, [r1, #2]
 	cmp r0, r1
 	bne _0808826C
-	movs r0, #0x6c
+	movs r0, #0x6c      @ SE_DPAD_SELECT
 	bl m4aSongNumStart
 	movs r0, #0xb
 	strh r0, [r4, #0x10]
@@ -71414,7 +71414,7 @@ _080882A6:
 	ldrsh r0, [r4, r3]
 	cmp r0, #0
 	bne _080882D6
-	movs r0, #0x6c
+	movs r0, #0x6c      @ SE_DPAD_SELECT
 	bl m4aSongNumStart
 	movs r1, #0
 	movs r0, #0xa
@@ -71438,7 +71438,7 @@ _080882D6:
 	ldrsh r0, [r4, r1]
 	cmp r0, #0xa
 	bne _08088306
-	movs r0, #0x6c
+	movs r0, #0x6c      @ SE_DPAD_SELECT
 	bl m4aSongNumStart
 	movs r1, #0
 	movs r0, #0
@@ -71464,7 +71464,7 @@ _08088306:
 	ands r0, r1
 	cmp r0, #0
 	beq _08088344
-	movs r0, #0x6b
+	movs r0, #0x6b      @ SE_ABORT
 	bl m4aSongNumStart
 	movs r0, #0
 	strh r0, [r4, #0x12]
@@ -71489,7 +71489,7 @@ _08088344:
 	ands r0, r1
 	cmp r0, #0
 	beq _08088374
-	movs r0, #0x6a
+	movs r0, #0x6a      @ SE_SELECT
 	bl m4aSongNumStart
 	adds r0, r4, #0
 	adds r0, #0x6e
@@ -71515,7 +71515,7 @@ _08088374:
 	ands r0, r1
 	cmp r0, #0
 	beq _08088418
-	movs r0, #0x6c
+	movs r0, #0x6c      @ SE_DPAD_SELECT
 	bl m4aSongNumStart
 	ldrh r1, [r5]
 	movs r0, #0x40
@@ -72336,7 +72336,7 @@ sub_80889CC: @ 0x080889CC
 	lsrs r5, r0, #0x10
 	cmp r5, #0
 	beq _08088A54
-	movs r0, #0x6b
+	movs r0, #0x6b      @ SE_ABORT
 	bl m4aSongNumStart
 	movs r2, #0
 	movs r0, #0
@@ -72365,7 +72365,7 @@ _08088A54:
 	ands r0, r1
 	cmp r0, #0
 	beq _08088AD0
-	movs r0, #0x6c
+	movs r0, #0x6c      @ SE_DPAD_SELECT
 	bl m4aSongNumStart
 	ldrb r0, [r4, #0xc]
 	cmp r0, #1
@@ -72448,7 +72448,7 @@ _08088AD0:
 	ldrb r0, [r4, #0xc]
 	cmp r0, #1
 	bne _08088B14
-	movs r0, #0x69
+	movs r0, #0x69      @ SE_105
 	bl m4aSongNumStart
 	b _08088B38
 	.align 2, 0
@@ -72456,7 +72456,7 @@ _08088B08: .4byte gSaveGame
 _08088B0C: .4byte 0x00000326
 _08088B10: .4byte gPressedKeys
 _08088B14:
-	movs r0, #0x6a
+	movs r0, #0x6a      @ SE_SELECT
 	bl m4aSongNumStart
 	adds r1, r4, #0
 	adds r1, #0x6e
@@ -72464,7 +72464,7 @@ _08088B14:
 	strh r0, [r1]
 	b _08088B30
 _08088B24:
-	movs r0, #0x6a
+	movs r0, #0x6a      @ SE_SELECT
 	bl m4aSongNumStart
 	adds r0, r4, #0
 	adds r0, #0x6e
@@ -73438,7 +73438,7 @@ sub_808927C: @ 0x0808927C
 	asrs r0, r0, #0x10
 	cmp r0, #5
 	bne _080892FC
-	movs r0, #0x6c
+	movs r0, #0x6c      @ SE_DPAD_SELECT
 	bl m4aSongNumStart
 	movs r0, #0xa
 	strh r0, [r4, #0x14]
@@ -75138,6 +75138,9 @@ sub_8089F40: @ 0x08089F40
 	.align 2, 0
 _08089F50: .4byte gBgScrollRegs
 
+@ Main Menu - Start Song
+@ Calls the correct music playback depending on whether you are in the regular main menu or just lost the Time Attack
+@ Called once whenever a "Main Menu sub-menu" is creted.
 	thumb_func_start sub_8089F54
 sub_8089F54: @ 0x08089F54
 	push {r4, lr}
@@ -75173,12 +75176,12 @@ _08089F86:
 	cmp r0, #1
 	bhi _08089FA4
 	bl m4aMPlayAllStop
-	movs r0, #0x48
+	movs r0, #0x48      @ MUS_TIME_ATTACK_2 (Try Again)
 	bl m4aSongNumStart
 	b _08089FAE
 _08089FA4:
 	bl m4aMPlayAllStop
-	movs r0, #2
+	movs r0, #2         @ MUS_MAIN_MENU
 	bl m4aSongNumStart
 _08089FAE:
 	ldr r0, _08089FC4 @ =gCurTask
@@ -75488,8 +75491,8 @@ _0808A254: .4byte gCurTask
 _0808A258:
 	.byte 0x70, 0x47, 0x00, 0x00
 
-	thumb_func_start sub_808A25C
-sub_808A25C: @ 0x0808A25C
+	thumb_func_start CreateTitleScreen
+CreateTitleScreen: @ 0x0808A25C
 	push {r4, r5, lr}
 	sub sp, #8
 	lsls r0, r0, #0x18
@@ -75500,7 +75503,7 @@ sub_808A25C: @ 0x0808A25C
 	strh r0, [r1]
 	cmp r4, #2
 	bne _0808A298
-	ldr r0, _0808A290 @ =sub_808A65C
+	ldr r0, _0808A290 @ =Task_TitleScreenMain
 	movs r1, #0xb2
 	lsls r1, r1, #1
 	movs r2, #0x80
@@ -75513,7 +75516,7 @@ sub_808A25C: @ 0x0808A25C
 	.align 2, 0
 _0808A288: .4byte gDispCnt
 _0808A28C: .4byte 0x00001041
-_0808A290: .4byte sub_808A65C
+_0808A290: .4byte Task_TitleScreenMain
 _0808A294: .4byte sub_808AF0C
 _0808A298:
 	ldr r0, _0808A304 @ =sub_808AA34
@@ -75649,7 +75652,7 @@ _0808A346:
 	bl sub_808A4EC
 	adds r0, r5, #0
 	bl sub_808A3D8
-	movs r0, #1
+	movs r0, #1     @ MUS_TITLE_SCREEN
 	bl m4aSongNumStart
 	add sp, #8
 	pop {r4, r5}
@@ -75971,8 +75974,8 @@ _0808A650: .4byte 0x00005D8D
 _0808A654: .4byte 0x0600C000
 _0808A658: .4byte 0x0600E800
 
-	thumb_func_start sub_808A65C
-sub_808A65C: @ 0x0808A65C
+	thumb_func_start Task_TitleScreenMain
+Task_TitleScreenMain: @ 0x0808A65C
 	push {r4, lr}
 	ldr r0, _0808A69C @ =gCurTask
 	ldr r0, [r0]
@@ -76608,7 +76611,7 @@ _0808AB5E:
 	ldr r0, _0808AB88 @ =sub_808A7F0
 	str r0, [r1, #8]
 	movs r0, #0xfa
-	lsls r0, r0, #1
+	lsls r0, r0, #1     @ VOICE__ANNOUNCER__SONIC_ADVANCE_3
 	bl m4aSongNumStart
 	b _0808ABC0
 	.align 2, 0
@@ -76686,7 +76689,7 @@ _0808ABFE:
 	lsrs r3, r0, #0x10
 	cmp r3, #0
 	beq _0808AC38
-	movs r0, #0x6a
+	movs r0, #0x6a      @ SE_SELECT
 	bl m4aSongNumStart
 	movs r0, #0x19
 	strh r0, [r4, #6]
@@ -76741,7 +76744,7 @@ _0808AC72:
 	movs r0, #0xfa
 	lsls r0, r0, #1
 	bl m4aSongNumStop
-	movs r0, #0x6a
+	movs r0, #0x6a      @ SE_SELECT
 	bl m4aSongNumStart
 _0808AC94:
 	ldrh r0, [r4, #4]
@@ -76947,7 +76950,7 @@ _0808AE24: .4byte sub_808AE34
 sub_808AE28: @ 0x0808AE28
 	push {lr}
 	movs r0, #0
-	bl sub_808A25C
+	bl CreateTitleScreen
 	pop {r0}
 	bx r0
 
@@ -76955,7 +76958,7 @@ sub_808AE28: @ 0x0808AE28
 sub_808AE34: @ 0x0808AE34
 	push {lr}
 	movs r0, #1
-	bl sub_808A25C
+	bl CreateTitleScreen
 	pop {r0}
 	bx r0
 
@@ -76963,7 +76966,7 @@ sub_808AE34: @ 0x0808AE34
 sub_808AE40: @ 0x0808AE40
 	push {lr}
 	movs r0, #2
-	bl sub_808A25C
+	bl CreateTitleScreen
 	pop {r0}
 	bx r0
 
@@ -77243,7 +77246,7 @@ _0808B06C:
 	orrs r1, r0
 	str r1, [r2]
 _0808B080:
-	movs r0, #6
+	movs r0, #6         @ MUS_OPTIONS_COPY
 	bl m4aSongNumStart
 	ldr r1, _0808B0A0 @ =gStageData
 	movs r0, #0
@@ -78899,7 +78902,7 @@ _0808BDEC:
 	ands r0, r1
 	cmp r0, #0
 	beq _0808BE24
-	movs r0, #0x6a
+	movs r0, #0x6a      @ SE_SELECT
 	bl m4aSongNumStart
 	movs r0, #0
 	strh r0, [r4, #0xc]
@@ -78921,7 +78924,7 @@ _0808BE24:
 	ands r0, r1
 	cmp r0, #0
 	beq _0808BE44
-	movs r0, #0x6b
+	movs r0, #0x6b      @ SE_ABORT
 	bl m4aSongNumStart
 _0808BE32:
 	adds r0, r4, #0
@@ -78939,7 +78942,7 @@ _0808BE44:
 	ands r0, r1
 	cmp r0, #0
 	beq _0808BED4
-	movs r0, #0x6c
+	movs r0, #0x6c      @ SE_DPAD_SELECT
 	bl m4aSongNumStart
 	ldrh r1, [r5]
 	movs r0, #0x40
@@ -81500,7 +81503,7 @@ _0808D198:
 	movs r1, #3
 	bl sub_808D548
 	bl m4aMPlayAllStop
-	movs r0, #0x44
+	movs r0, #0x44      @ MUS_VS_MUSIC_1 @ checking connection
 	bl m4aSongNumStart
 	add sp, #8
 	pop {r4, r5, r6, r7}
@@ -81685,7 +81688,7 @@ _0808D33A:
 	cmp r0, #0
 	beq _0808D400
 	bl sub_80244E4
-	movs r0, #0x63
+	movs r0, #0x63      @ MUS_VS_SUCCESS
 	bl m4aSongNumStart
 	strh r4, [r5]
 	movs r0, #1
@@ -81735,7 +81738,7 @@ _0808D3AC:
 	strh r4, [r5, #0xa]
 	adds r0, r5, #0
 	bl ScreenFadeUpdateValues
-	movs r0, #0x63
+	movs r0, #0x63      @ MUS_VS_SUCCESS
 	bl m4aSongNumStart
 	adds r0, r6, #0
 	movs r1, #4
@@ -82402,7 +82405,7 @@ _0808D930:
 	lsrs r5, r0, #0x10
 	cmp r5, #0
 	beq _0808D958
-	movs r0, #0x67
+	movs r0, #0x67      @ SE_CHARSELECT_SLIDE
 	bl m4aSongNumStart
 	ldrb r1, [r4, #0x13]
 	movs r0, #0x13
@@ -82421,7 +82424,7 @@ _0808D958:
 	ands r0, r1
 	cmp r0, #0
 	beq _0808D978
-	movs r0, #0x67
+	movs r0, #0x67      @ SE_CHARSELECT_SLIDE
 	bl m4aSongNumStart
 	ldrb r1, [r4, #0x13]
 	movs r0, #0x13
@@ -82627,7 +82630,7 @@ _0808DAE2:
 	ldr r0, _0808DB14 @ =gUnknown_03001060
 	adds r0, #0x4c
 	ldrb r0, [r0]
-	ldr r2, _0808DB18 @ =gUnknown_080D9022
+	ldr r2, _0808DB18 @ =gCharacterSelectedVoices
 	ldr r1, _0808DB1C @ =gUnknown_080D6EE0
 	adds r0, r0, r1
 	ldrb r0, [r0]
@@ -82642,7 +82645,7 @@ _0808DAE2:
 	b _0808DC20
 	.align 2, 0
 _0808DB14: .4byte gUnknown_03001060
-_0808DB18: .4byte gUnknown_080D9022
+_0808DB18: .4byte gCharacterSelectedVoices
 _0808DB1C: .4byte gUnknown_080D6EE0
 _0808DB20: .4byte gCurTask
 _0808DB24: .4byte sub_808DCFC
@@ -82681,7 +82684,7 @@ _0808DB5C:
 	ldrb r0, [r4, #0xe]
 	strb r0, [r5]
 	ldrb r0, [r3]
-	ldr r2, _0808DB80 @ =gUnknown_080D9022
+	ldr r2, _0808DB80 @ =gCharacterSelectedVoices
 	ldr r1, _0808DB84 @ =gUnknown_080D6EE0
 	adds r0, r0, r1
 	ldrb r0, [r0]
@@ -82690,12 +82693,12 @@ _0808DB5C:
 	b _0808DBC2
 	.align 2, 0
 _0808DB7C: .4byte gUnknown_080D8F18
-_0808DB80: .4byte gUnknown_080D9022
+_0808DB80: .4byte gCharacterSelectedVoices
 _0808DB84: .4byte gUnknown_080D6EE0
 _0808DB88:
 	movs r2, #0
 	ldr r7, _0808DBD8 @ =gUnknown_03001060
-	ldr r6, _0808DBDC @ =gUnknown_080D9022
+	ldr r6, _0808DBDC @ =gCharacterSelectedVoices
 	mov sb, r6
 	ldr r0, _0808DBE0 @ =gUnknown_080D6EE0
 	mov r8, r0
@@ -82735,7 +82738,7 @@ _0808DBC2:
 	b _0808DC20
 	.align 2, 0
 _0808DBD8: .4byte gUnknown_03001060
-_0808DBDC: .4byte gUnknown_080D9022
+_0808DBDC: .4byte gCharacterSelectedVoices
 _0808DBE0: .4byte gUnknown_080D6EE0
 _0808DBE4: .4byte gCurTask
 _0808DBE8: .4byte sub_808DD6C
@@ -83537,7 +83540,7 @@ _0808E200:
 	ands r0, r1
 	cmp r0, #0
 	beq _0808E26C
-	movs r0, #0x67
+	movs r0, #0x67      @ SE_CHARSELECT_SLIDE
 	bl m4aSongNumStart
 	ldr r1, _0808E224 @ =gUnknown_030010AC
 	mov ip, r1
@@ -83997,7 +84000,7 @@ _0808E556:
 	asrs r0, r6, #0x10
 	cmp r0, #2
 	beq _0808E5B8
-	ldr r1, _0808E594 @ =gUnknown_080D9022
+	ldr r1, _0808E594 @ =gCharacterSelectedVoices
 	ldr r0, _0808E598 @ =gUnknown_080D6EE0
 	adds r0, r2, r0
 	ldrb r0, [r0]
@@ -84008,7 +84011,7 @@ _0808E556:
 	b _0808E5B8
 	.align 2, 0
 _0808E590: .4byte gUnknown_030010AC
-_0808E594: .4byte gUnknown_080D9022
+_0808E594: .4byte gCharacterSelectedVoices
 _0808E598: .4byte gUnknown_080D6EE0
 _0808E59C:
 	asrs r0, r6, #0x10
@@ -84016,7 +84019,7 @@ _0808E59C:
 	adds r1, #0x4c
 	adds r0, r0, r1
 	ldrb r0, [r0]
-	ldr r2, _0808E5C4 @ =gUnknown_080D9022
+	ldr r2, _0808E5C4 @ =gCharacterSelectedVoices
 	ldr r1, _0808E5C8 @ =gUnknown_080D6EE0
 	adds r0, r0, r1
 	ldrb r0, [r0]
@@ -84031,7 +84034,7 @@ _0808E5B8:
 	str r0, [r1, #8]
 	b _0808E6A4
 	.align 2, 0
-_0808E5C4: .4byte gUnknown_080D9022
+_0808E5C4: .4byte gCharacterSelectedVoices
 _0808E5C8: .4byte gUnknown_080D6EE0
 _0808E5CC: .4byte gCurTask
 _0808E5D0: .4byte sub_808EDA8
@@ -84059,7 +84062,7 @@ _0808E5D8:
 	adds r1, #0x4c
 	adds r0, r0, r1
 	ldrb r0, [r0]
-	ldr r2, _0808E624 @ =gUnknown_080D9022
+	ldr r2, _0808E624 @ =gCharacterSelectedVoices
 	ldr r1, _0808E628 @ =gUnknown_080D6EE0
 	adds r0, r0, r1
 	ldrb r0, [r0]
@@ -84077,7 +84080,7 @@ _0808E612:
 	b _0808E6A4
 	.align 2, 0
 _0808E620: .4byte gUnknown_030010AC
-_0808E624: .4byte gUnknown_080D9022
+_0808E624: .4byte gCharacterSelectedVoices
 _0808E628: .4byte gUnknown_080D6EE0
 _0808E62C: .4byte gCurTask
 _0808E630: .4byte sub_808E7B0
@@ -95045,7 +95048,7 @@ _08093B70: .4byte gUnknown_080D7530
 _08093B74:
 	movs r0, #0x6b
 	bl m4aSongNumStart
-	movs r0, #6
+	movs r0, #6         @ MUS_OPTIONS_COPY
 	bl m4aSongNumStart
 	ldr r1, [r4, #0x14]
 	movs r0, #0x7b
@@ -98432,7 +98435,7 @@ _0809562E:
 	strb r1, [r0, #3]
 	strb r2, [r0, #6]
 	movs r0, #0
-	bl sub_8097C54
+	bl CreateCharacterSelect
 	b _08095662
 	.align 2, 0
 _0809563C: .4byte gStageData
@@ -98446,7 +98449,7 @@ _08095648:
 	movs r0, #0
 	strb r0, [r1, #6]
 	movs r0, #3
-	bl sub_8097C54
+	bl CreateCharacterSelect
 	b _08095662
 	.align 2, 0
 _08095658: .4byte gStageData
@@ -99989,7 +99992,7 @@ sub_80961E4: @ 0x080961E4
 	cmp r0, #0
 	beq _0809622E
 	bl m4aMPlayAllStop
-	movs r0, #0x47
+	movs r0, #0x47      @ MUS_TIME_ATTACK_1
 	bl m4aSongNumStart
 _0809622E:
 	add sp, #4
@@ -103371,8 +103374,8 @@ sub_8097C50: @ 0x08097C50
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_8097C54
-sub_8097C54: @ 0x08097C54
+	thumb_func_start CreateCharacterSelect
+CreateCharacterSelect: @ 0x08097C54
 	push {r4, r5, r6, lr}
 	sub sp, #8
 	lsls r0, r0, #0x18
@@ -103381,12 +103384,12 @@ sub_8097C54: @ 0x08097C54
 	ldr r2, _08097CE8 @ =0x00001541
 	adds r0, r2, #0
 	strh r0, [r1]
-	ldr r0, _08097CEC @ =sub_809B0C4
+	ldr r0, _08097CEC @ =Task_CharacterSelectInit
 	movs r1, #0x9d
 	lsls r1, r1, #2
 	movs r2, #0x80
 	lsls r2, r2, #1
-	ldr r3, _08097CF0 @ =sub_809B758
+	ldr r3, _08097CF0 @ =TaskDestructor_CharacterSelect
 	str r3, [sp]
 	movs r3, #0
 	bl TaskCreate
@@ -103446,8 +103449,8 @@ sub_8097C54: @ 0x08097C54
 	.align 2, 0
 _08097CE4: .4byte gDispCnt
 _08097CE8: .4byte 0x00001541
-_08097CEC: .4byte sub_809B0C4
-_08097CF0: .4byte sub_809B758
+_08097CEC: .4byte Task_CharacterSelectInit
+_08097CF0: .4byte TaskDestructor_CharacterSelect
 _08097CF4: .4byte 0x040000D4
 _08097CF8: .4byte gBgCntRegs
 _08097CFC: .4byte 0x85000010
@@ -103479,7 +103482,7 @@ _08097D28:
 	adds r0, r4, #0
 	bl sub_8097E5C
 	bl m4aMPlayAllStop
-	movs r0, #3
+	movs r0, #3         @ MUS_CHARACTER_SELECT
 	bl m4aSongNumStart
 	ldr r2, _08097D80 @ =gDispCnt
 	ldrh r0, [r2]
@@ -105697,7 +105700,7 @@ _08098F00:
 	ands r0, r2
 	cmp r0, #0
 	beq _08098FE2
-	ldr r1, _08098F50 @ =gUnknown_080D9022
+	ldr r1, _08098F50 @ =gCharacterSelectedVoices
 	lsls r0, r3, #1
 	adds r0, r0, r1
 	ldrh r0, [r0]
@@ -105713,7 +105716,7 @@ _08098F40: .4byte gPressedKeys
 _08098F44: .4byte gUnknown_080D8F18
 _08098F48: .4byte gSaveGame
 _08098F4C: .4byte gUnknown_080D946D
-_08098F50: .4byte gUnknown_080D9022
+_08098F50: .4byte gCharacterSelectedVoices
 _08098F54: .4byte gCurTask
 _08098F58: .4byte sub_8099300
 _08098F5C:
@@ -106856,7 +106859,7 @@ _08099870:
 	ands r0, r2
 	cmp r0, #0
 	beq _08099958
-	ldr r1, _080998CC @ =gUnknown_080D9022
+	ldr r1, _080998CC @ =gCharacterSelectedVoices
 	lsls r0, r3, #1
 	adds r0, r0, r1
 	ldrh r0, [r0]
@@ -106879,7 +106882,7 @@ _080998BC: .4byte gPressedKeys
 _080998C0: .4byte gUnknown_080D8F18
 _080998C4: .4byte gSaveGame
 _080998C8: .4byte gUnknown_080D946D
-_080998CC: .4byte gUnknown_080D9022
+_080998CC: .4byte gCharacterSelectedVoices
 _080998D0:
 	ldr r0, _080998D8 @ =gCurTask
 	ldr r1, [r0]
@@ -108017,7 +108020,7 @@ sub_809A1C4: @ 0x0809A1C4
 	ldrh r0, [r4, #0x14]
 	cmp r0, #0
 	bne _0809A218
-	ldr r0, _0809A214 @ =gUnknown_080D900E
+	ldr r0, _0809A214 @ =gAnnouncerSelect1st
 	ldrb r1, [r4, #5]
 	lsls r1, r1, #1
 	adds r1, r1, r0
@@ -108027,11 +108030,11 @@ sub_809A1C4: @ 0x0809A1C4
 	.align 2, 0
 _0809A20C: .4byte gCurTask
 _0809A210: .4byte gStageData
-_0809A214: .4byte gUnknown_080D900E
+_0809A214: .4byte gAnnouncerSelect1st
 _0809A218:
 	cmp r0, #0x3c
 	bne _0809A228
-	ldr r0, _0809A224 @ =0x000001FF
+	ldr r0, _0809A224 @ =0x000001FF @ VOICE__ANNOUNCER__AND
 	bl m4aSongNumStart
 	b _0809A23A
 	.align 2, 0
@@ -108039,7 +108042,7 @@ _0809A224: .4byte 0x000001FF
 _0809A228:
 	cmp r0, #0x5a
 	bne _0809A23A
-	ldr r0, _0809A26C @ =gUnknown_080D9018
+	ldr r0, _0809A26C @ =gAnnouncerSelect2nd
 	ldrb r1, [r4, #6]
 	lsls r1, r1, #1
 	adds r1, r1, r0
@@ -108071,7 +108074,7 @@ _0809A25C:
 	bl sub_8024130
 	b _0809A2C6
 	.align 2, 0
-_0809A26C: .4byte gUnknown_080D9018
+_0809A26C: .4byte gAnnouncerSelect2nd
 _0809A270: .4byte gPressedKeys
 _0809A274:
 	lsls r0, r3, #0x10
@@ -109879,8 +109882,8 @@ sub_809B094: @ 0x0809B094
 	.align 2, 0
 _0809B0C0: .4byte gBgScrollRegs
 
-	thumb_func_start sub_809B0C4
-sub_809B0C4: @ 0x0809B0C4
+	thumb_func_start Task_CharacterSelectInit
+Task_CharacterSelectInit: @ 0x0809B0C4
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	ldr r6, _0809B100 @ =gCurTask
@@ -110835,8 +110838,8 @@ _0809B752:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_809B758
-sub_809B758: @ 0x0809B758
+	thumb_func_start TaskDestructor_CharacterSelect
+TaskDestructor_CharacterSelect: @ 0x0809B758
 	push {lr}
 	ldrh r0, [r0, #6]
 	ldr r1, _0809B76C @ =0x030000C4
@@ -112239,7 +112242,7 @@ _0809C23A:
 	ldrb r0, [r7, #5]
 	cmp r0, #0
 	bne _0809C264
-	movs r0, #0x45
+	movs r0, #0x45      @ MUS_VS_MUSIC_2
 	bl m4aSongNumStart
 	b _0809C26A
 	.align 2, 0
@@ -112250,7 +112253,7 @@ _0809C258: .4byte 0x0000041A
 _0809C25C: .4byte gBgPalette + 0x60
 _0809C260: .4byte 0x80000010
 _0809C264:
-	movs r0, #0x46
+	movs r0, #0x46      @ MUS_VS_MUSIC_3
 	bl m4aSongNumStart
 _0809C26A:
 	add sp, #8
@@ -115239,7 +115242,7 @@ _0809DA70:
 	cmp r0, #1
 	bne _0809DAAE
 	bl m4aMPlayAllStop
-	movs r0, #0x62
+	movs r0, #0x62      @ MUS_VS_BGM_5
 	bl m4aSongNumStart
 _0809DAAE:
 	ldr r1, [r6]
@@ -115323,7 +115326,7 @@ _0809DB44:
 	cmp r0, #1
 	bne _0809DB56
 	bl m4aMPlayAllStop
-	movs r0, #0x62
+	movs r0, #0x62      @ MUS_VS_BGM_5
 	bl m4aSongNumStart
 	b _0809DB5C
 _0809DB56:
@@ -119129,7 +119132,7 @@ _0809F88A:
 	adds r0, r4, #0
 	bl sub_809FBD0
 	bl m4aMPlayAllStop
-	movs r0, #3
+	movs r0, #3         @ MUS_CHARACTER_SELECT
 	bl m4aSongNumStart
 	add sp, #4
 	pop {r4, r5}
@@ -121415,8 +121418,8 @@ _080A0BD4:
 	ldrh r0, [r4, #4]
 	cmp r0, #0
 	bne _080A0C08
-	ldr r1, _080A0C00 @ =gUnknown_080D900E
-	ldr r0, _080A0C04 @ =gUnknown_080D9B74
+	ldr r1, _080A0C00 @ =gAnnouncerSelect1st
+	ldr r0, _080A0C04 @ =gCharacterSelectOrderLUT
 	adds r0, r5, r0
 	ldrb r0, [r0]
 	lsls r0, r0, #1
@@ -121425,12 +121428,12 @@ _080A0BD4:
 	bl m4aSongNumStart
 	b _080A0C2E
 	.align 2, 0
-_080A0C00: .4byte gUnknown_080D900E
-_080A0C04: .4byte gUnknown_080D9B74
+_080A0C00: .4byte gAnnouncerSelect1st
+_080A0C04: .4byte gCharacterSelectOrderLUT
 _080A0C08:
 	cmp r0, #0x3c
 	bne _080A0C18
-	ldr r0, _080A0C14 @ =0x000001FF
+	ldr r0, _080A0C14 @ =0x000001FF @ VOICE__ANNOUNCER__AND
 	bl m4aSongNumStart
 	b _080A0C2E
 	.align 2, 0
@@ -121438,8 +121441,8 @@ _080A0C14: .4byte 0x000001FF
 _080A0C18:
 	cmp r0, #0x5a
 	bne _080A0C2E
-	ldr r1, _080A0C4C @ =gUnknown_080D9018
-	ldr r0, _080A0C50 @ =gUnknown_080D9B74
+	ldr r1, _080A0C4C @ =gAnnouncerSelect2nd
+	ldr r0, _080A0C50 @ =gCharacterSelectOrderLUT
 	adds r0, r6, r0
 	ldrb r0, [r0]
 	lsls r0, r0, #1
@@ -121463,8 +121466,8 @@ _080A0C44:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080A0C4C: .4byte gUnknown_080D9018
-_080A0C50: .4byte gUnknown_080D9B74
+_080A0C4C: .4byte gAnnouncerSelect2nd
+_080A0C50: .4byte gCharacterSelectOrderLUT
 _080A0C54: .4byte gCurTask
 _080A0C58: .4byte sub_80A0C5C
 
@@ -123461,7 +123464,7 @@ sub_80A1A4C: @ 0x080A1A4C
 	bl sub_80A2024
 	bl sub_80260F0
 	bl m4aMPlayAllStop
-	movs r0, #0x64
+	movs r0, #0x64      @ MUS_VS_MISS
 	bl m4aSongNumStart
 	b _080A1B60
 	.align 2, 0
@@ -123489,7 +123492,7 @@ _080A1B3C:
 _080A1B56:
 	bl sub_80258D4
 _080A1B5A:
-	movs r0, #0x44
+	movs r0, #0x44      @ MUS_VS_MUSIC_1
 	bl m4aSongNumStart
 _080A1B60:
 	add sp, #8
@@ -123768,7 +123771,7 @@ _080A1D7C:
 	cmp r0, #2
 	bne _080A1D8E
 	movs r0, #1
-	bl sub_8097C54
+	bl CreateCharacterSelect
 	b _080A1DB4
 _080A1D8E:
 	ldrb r1, [r4, #2]
@@ -124891,7 +124894,7 @@ _080A2698: .4byte gCurTask
 _080A269C: .4byte sub_80A2A9C
 _080A26A0:
 	bl m4aMPlayAllStop
-	movs r0, #0
+	movs r0, #0         @ MUS_INTRO
 	bl m4aSongNumStart
 _080A26AA:
 	movs r0, #0x9e
@@ -128873,16 +128876,16 @@ sub_80A4678: @ 0x080A4678
 	lsrs r0, r2, #0x1c
 	cmp r0, #5
 	bls _080A46A8
-	ldr r0, _080A46A4 @ =gUnknown_080D9B74
+	ldr r0, _080A46A4 @ =gCharacterSelectOrderLUT
 	ldrb r1, [r0]
 	str r1, [sp, #0xc]
 	ldrb r0, [r0, #2]
 	b _080A46C2
 	.align 2, 0
 _080A46A0: .4byte gPlayers
-_080A46A4: .4byte gUnknown_080D9B74
+_080A46A4: .4byte gCharacterSelectOrderLUT
 _080A46A8:
-	ldr r1, _080A4758 @ =gUnknown_080D9B74
+	ldr r1, _080A4758 @ =gCharacterSelectOrderLUT
 	lsrs r0, r2, #0x1c
 	adds r0, r0, r1
 	ldrb r0, [r0]
@@ -128975,7 +128978,7 @@ _080A46F6:
 	adds r2, r3, #0
 	b _080A4786
 	.align 2, 0
-_080A4758: .4byte gUnknown_080D9B74
+_080A4758: .4byte gCharacterSelectOrderLUT
 _080A475C: .4byte gUnknown_080D99D0
 _080A4760: .4byte gUnknown_080D9B5C
 _080A4764: .4byte gUnknown_080D9B7E
@@ -129217,16 +129220,16 @@ sub_80A490C: @ 0x080A490C
 	lsrs r0, r2, #0x1c
 	cmp r0, #5
 	bls _080A4948
-	ldr r0, _080A4944 @ =gUnknown_080D9B74
+	ldr r0, _080A4944 @ =gCharacterSelectOrderLUT
 	ldrb r1, [r0]
 	str r1, [sp, #0x10]
 	ldrb r0, [r0, #2]
 	b _080A4962
 	.align 2, 0
 _080A4940: .4byte gPlayers
-_080A4944: .4byte gUnknown_080D9B74
+_080A4944: .4byte gCharacterSelectOrderLUT
 _080A4948:
-	ldr r1, _080A4980 @ =gUnknown_080D9B74
+	ldr r1, _080A4980 @ =gCharacterSelectOrderLUT
 	lsrs r0, r2, #0x1c
 	adds r0, r0, r1
 	ldrb r0, [r0]
@@ -129256,7 +129259,7 @@ _080A4962:
 	lsls r3, r3, #2
 	b _080A4998
 	.align 2, 0
-_080A4980: .4byte gUnknown_080D9B74
+_080A4980: .4byte gCharacterSelectOrderLUT
 _080A4984:
 	movs r1, #0xac
 	lsls r1, r1, #1
@@ -129417,16 +129420,16 @@ sub_80A4A88: @ 0x080A4A88
 	lsrs r0, r2, #0x1c
 	cmp r0, #5
 	bls _080A4AC4
-	ldr r0, _080A4AC0 @ =gUnknown_080D9B74
+	ldr r0, _080A4AC0 @ =gCharacterSelectOrderLUT
 	ldrb r1, [r0]
 	str r1, [sp, #0x14]
 	ldrb r0, [r0, #2]
 	b _080A4ADE
 	.align 2, 0
 _080A4ABC: .4byte gPlayers
-_080A4AC0: .4byte gUnknown_080D9B74
+_080A4AC0: .4byte gCharacterSelectOrderLUT
 _080A4AC4:
-	ldr r1, _080A4AFC @ =gUnknown_080D9B74
+	ldr r1, _080A4AFC @ =gCharacterSelectOrderLUT
 	lsrs r0, r2, #0x1c
 	adds r0, r0, r1
 	ldrb r0, [r0]
@@ -129456,7 +129459,7 @@ _080A4ADE:
 	lsls r3, r3, #2
 	b _080A4B14
 	.align 2, 0
-_080A4AFC: .4byte gUnknown_080D9B74
+_080A4AFC: .4byte gCharacterSelectOrderLUT
 _080A4B00:
 	movs r1, #0xac
 	lsls r1, r1, #1
@@ -129611,15 +129614,15 @@ sub_80A4BF8: @ 0x080A4BF8
 	lsrs r0, r2, #0x1c
 	cmp r0, #5
 	bls _080A4C34
-	ldr r0, _080A4C30 @ =gUnknown_080D9B74
+	ldr r0, _080A4C30 @ =gCharacterSelectOrderLUT
 	ldrb r5, [r0]
 	ldrb r3, [r0, #2]
 	b _080A4C4C
 	.align 2, 0
 _080A4C2C: .4byte gPlayers
-_080A4C30: .4byte gUnknown_080D9B74
+_080A4C30: .4byte gCharacterSelectOrderLUT
 _080A4C34:
-	ldr r1, _080A4C70 @ =gUnknown_080D9B74
+	ldr r1, _080A4C70 @ =gCharacterSelectOrderLUT
 	lsrs r0, r2, #0x1c
 	adds r0, r0, r1
 	ldrb r5, [r0]
@@ -129651,7 +129654,7 @@ _080A4C52:
 	lsls r0, r0, #2
 	b _080A4C88
 	.align 2, 0
-_080A4C70: .4byte gUnknown_080D9B74
+_080A4C70: .4byte gCharacterSelectOrderLUT
 _080A4C74:
 	movs r0, #0xac
 	lsls r0, r0, #1
@@ -130968,15 +130971,15 @@ sub_80A5698: @ 0x080A5698
 	lsrs r0, r2, #0x1c
 	cmp r0, #5
 	bls _080A56C4
-	ldr r0, _080A56C0 @ =gUnknown_080D9B74
+	ldr r0, _080A56C0 @ =gCharacterSelectOrderLUT
 	ldrb r2, [r0]
 	ldrb r1, [r0, #2]
 	b _080A56DC
 	.align 2, 0
 _080A56BC: .4byte gPlayers
-_080A56C0: .4byte gUnknown_080D9B74
+_080A56C0: .4byte gCharacterSelectOrderLUT
 _080A56C4:
-	ldr r1, _080A580C @ =gUnknown_080D9B74
+	ldr r1, _080A580C @ =gCharacterSelectOrderLUT
 	lsrs r0, r2, #0x1c
 	adds r0, r0, r1
 	ldrb r2, [r0]
@@ -131147,7 +131150,7 @@ _080A57DE:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_080A580C: .4byte gUnknown_080D9B74
+_080A580C: .4byte gCharacterSelectOrderLUT
 _080A5810: .4byte gUnknown_080D9B1C
 _080A5814: .4byte gUnknown_080D9A1C
 _080A5818: .4byte gUnknown_080D9ADC
@@ -131170,15 +131173,15 @@ sub_80A5824: @ 0x080A5824
 	lsrs r0, r2, #0x1c
 	cmp r0, #5
 	bls _080A5850
-	ldr r0, _080A584C @ =gUnknown_080D9B74
+	ldr r0, _080A584C @ =gCharacterSelectOrderLUT
 	ldrb r2, [r0]
 	ldrb r1, [r0, #2]
 	b _080A5868
 	.align 2, 0
 _080A5848: .4byte gPlayers
-_080A584C: .4byte gUnknown_080D9B74
+_080A584C: .4byte gCharacterSelectOrderLUT
 _080A5850:
-	ldr r1, _080A594C @ =gUnknown_080D9B74
+	ldr r1, _080A594C @ =gCharacterSelectOrderLUT
 	lsrs r0, r2, #0x1c
 	adds r0, r0, r1
 	ldrb r2, [r0]
@@ -131308,7 +131311,7 @@ _080A5920:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_080A594C: .4byte gUnknown_080D9B74
+_080A594C: .4byte gCharacterSelectOrderLUT
 _080A5950: .4byte gUnknown_080D9B1C
 
 	thumb_func_start sub_80A5954
@@ -131534,15 +131537,15 @@ sub_80A5B08: @ 0x080A5B08
 	lsrs r0, r2, #0x1c
 	cmp r0, #5
 	bls _080A5B38
-	ldr r0, _080A5B34 @ =gUnknown_080D9B74
+	ldr r0, _080A5B34 @ =gCharacterSelectOrderLUT
 	ldrb r6, [r0]
 	ldrb r5, [r0, #2]
 	b _080A5B50
 	.align 2, 0
 _080A5B30: .4byte gPlayers
-_080A5B34: .4byte gUnknown_080D9B74
+_080A5B34: .4byte gCharacterSelectOrderLUT
 _080A5B38:
-	ldr r1, _080A5CA4 @ =gUnknown_080D9B74
+	ldr r1, _080A5CA4 @ =gCharacterSelectOrderLUT
 	lsrs r0, r2, #0x1c
 	adds r0, r0, r1
 	ldrb r6, [r0]
@@ -131728,7 +131731,7 @@ _080A5C92:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080A5CA4: .4byte gUnknown_080D9B74
+_080A5CA4: .4byte gCharacterSelectOrderLUT
 _080A5CA8: .4byte gUnknown_080D9E68
 _080A5CAC: .4byte gUnknown_080D9E40
 
@@ -131754,16 +131757,16 @@ sub_80A5CB0: @ 0x080A5CB0
 	lsrs r0, r2, #0x1c
 	cmp r0, #5
 	bls _080A5CEC
-	ldr r0, _080A5CE8 @ =gUnknown_080D9B74
+	ldr r0, _080A5CE8 @ =gCharacterSelectOrderLUT
 	ldrb r1, [r0]
 	mov r8, r1
 	ldrb r6, [r0, #2]
 	b _080A5D06
 	.align 2, 0
 _080A5CE4: .4byte gPlayers
-_080A5CE8: .4byte gUnknown_080D9B74
+_080A5CE8: .4byte gCharacterSelectOrderLUT
 _080A5CEC:
-	ldr r1, _080A5D4C @ =gUnknown_080D9B74
+	ldr r1, _080A5D4C @ =gCharacterSelectOrderLUT
 	lsrs r0, r2, #0x1c
 	adds r0, r0, r1
 	ldrb r0, [r0]
@@ -131814,7 +131817,7 @@ _080A5D12:
 	mov r0, r8
 	b _080A5D56
 	.align 2, 0
-_080A5D4C: .4byte gUnknown_080D9B74
+_080A5D4C: .4byte gCharacterSelectOrderLUT
 _080A5D50: .4byte gUnknown_080D9E40
 _080A5D54:
 	movs r0, #0
@@ -132058,15 +132061,15 @@ sub_80A5EF0: @ 0x080A5EF0
 	lsrs r0, r2, #0x1c
 	cmp r0, #5
 	bls _080A5F28
-	ldr r0, _080A5F24 @ =gUnknown_080D9B74
+	ldr r0, _080A5F24 @ =gCharacterSelectOrderLUT
 	ldrb r5, [r0]
 	ldrb r7, [r0, #2]
 	b _080A5F40
 	.align 2, 0
 _080A5F20: .4byte gPlayers
-_080A5F24: .4byte gUnknown_080D9B74
+_080A5F24: .4byte gCharacterSelectOrderLUT
 _080A5F28:
-	ldr r1, _080A5F84 @ =gUnknown_080D9B74
+	ldr r1, _080A5F84 @ =gCharacterSelectOrderLUT
 	lsrs r0, r2, #0x1c
 	adds r0, r0, r1
 	ldrb r5, [r0]
@@ -132114,7 +132117,7 @@ _080A5F4C:
 	movs r0, #0x20
 	b _080A5F8E
 	.align 2, 0
-_080A5F84: .4byte gUnknown_080D9B74
+_080A5F84: .4byte gCharacterSelectOrderLUT
 _080A5F88: .4byte gUnknown_080D9E40
 _080A5F8C:
 	movs r0, #0x10
@@ -132462,16 +132465,16 @@ sub_80A6208: @ 0x080A6208
 	lsrs r0, r2, #0x1c
 	cmp r0, #5
 	bls _080A6244
-	ldr r0, _080A6240 @ =gUnknown_080D9B74
+	ldr r0, _080A6240 @ =gCharacterSelectOrderLUT
 	ldrb r6, [r0]
 	ldrb r7, [r0, #2]
 	b _080A625C
 	.align 2, 0
 _080A6238: .4byte gCurTask
 _080A623C: .4byte gPlayers
-_080A6240: .4byte gUnknown_080D9B74
+_080A6240: .4byte gCharacterSelectOrderLUT
 _080A6244:
-	ldr r1, _080A62AC @ =gUnknown_080D9B74
+	ldr r1, _080A62AC @ =gCharacterSelectOrderLUT
 	lsrs r0, r2, #0x1c
 	adds r0, r0, r1
 	ldrb r6, [r0]
@@ -132523,7 +132526,7 @@ _080A625C:
 	orrs r0, r1
 	b _080A62BE
 	.align 2, 0
-_080A62AC: .4byte gUnknown_080D9B74
+_080A62AC: .4byte gCharacterSelectOrderLUT
 _080A62B0: .4byte gUnknown_080D9BC0
 _080A62B4: .4byte gUnknown_080D9E40
 _080A62B8:
@@ -132634,13 +132637,13 @@ sub_80A6370: @ 0x080A6370
 	lsrs r0, r2, #0x1c
 	cmp r0, #5
 	bls _080A6394
-	ldr r0, _080A6390 @ =gUnknown_080D9B74
+	ldr r0, _080A6390 @ =gCharacterSelectOrderLUT
 	b _080A639A
 	.align 2, 0
 _080A638C: .4byte gPlayers
-_080A6390: .4byte gUnknown_080D9B74
+_080A6390: .4byte gCharacterSelectOrderLUT
 _080A6394:
-	ldr r1, _080A63C4 @ =gUnknown_080D9B74
+	ldr r1, _080A63C4 @ =gCharacterSelectOrderLUT
 	lsrs r0, r2, #0x1c
 	adds r0, r0, r1
 _080A639A:
@@ -132666,7 +132669,7 @@ _080A639A:
 	blt _080A63F4
 	b _080A63E4
 	.align 2, 0
-_080A63C4: .4byte gUnknown_080D9B74
+_080A63C4: .4byte gCharacterSelectOrderLUT
 _080A63C8: .4byte gUnknown_080D9B79
 _080A63CC:
 	cmp r0, r2
@@ -132702,7 +132705,7 @@ sub_80A63FC: @ 0x080A63FC
 	movs r0, #0x92
 	lsls r0, r0, #1
 	adds r4, r3, r0
-	ldr r1, _080A6444 @ =gUnknown_080D9B74
+	ldr r1, _080A6444 @ =gCharacterSelectOrderLUT
 	ldr r0, _080A6448 @ =gPlayers
 	movs r2, #0xbd
 	lsls r2, r2, #1
@@ -132733,7 +132736,7 @@ sub_80A63FC: @ 0x080A63FC
 	blt _080A6478
 	b _080A6468
 	.align 2, 0
-_080A6444: .4byte gUnknown_080D9B74
+_080A6444: .4byte gCharacterSelectOrderLUT
 _080A6448: .4byte gPlayers
 _080A644C: .4byte gUnknown_080D9B79
 _080A6450:
@@ -132788,16 +132791,16 @@ sub_80A6480: @ 0x080A6480
 	lsrs r0, r2, #0x1c
 	cmp r0, #5
 	bls _080A64C4
-	ldr r0, _080A64C0 @ =gUnknown_080D9B74
+	ldr r0, _080A64C0 @ =gCharacterSelectOrderLUT
 	ldrb r6, [r0]
 	ldrb r3, [r0, #2]
 	b _080A64DC
 	.align 2, 0
 _080A64B8: .4byte gCurTask
 _080A64BC: .4byte gPlayers
-_080A64C0: .4byte gUnknown_080D9B74
+_080A64C0: .4byte gCharacterSelectOrderLUT
 _080A64C4:
-	ldr r1, _080A6554 @ =gUnknown_080D9B74
+	ldr r1, _080A6554 @ =gCharacterSelectOrderLUT
 	lsrs r0, r2, #0x1c
 	adds r0, r0, r1
 	ldrb r6, [r0]
@@ -132867,7 +132870,7 @@ _080A64DC:
 	str r0, [r4, #0xc]
 	b _080A65B4
 	.align 2, 0
-_080A6554: .4byte gUnknown_080D9B74
+_080A6554: .4byte gCharacterSelectOrderLUT
 _080A6558: .4byte gUnknown_080D9B7E
 _080A655C: .4byte 0x00000533
 _080A6560:
@@ -133147,16 +133150,16 @@ sub_80A6768: @ 0x080A6768
 	lsrs r0, r2, #0x1c
 	cmp r0, #5
 	bls _080A67A8
-	ldr r0, _080A67A4 @ =gUnknown_080D9B74
+	ldr r0, _080A67A4 @ =gCharacterSelectOrderLUT
 	ldrb r7, [r0]
 	ldrb r6, [r0, #2]
 	b _080A67C0
 	.align 2, 0
 _080A679C: .4byte gCurTask
 _080A67A0: .4byte gPlayers
-_080A67A4: .4byte gUnknown_080D9B74
+_080A67A4: .4byte gCharacterSelectOrderLUT
 _080A67A8:
-	ldr r1, _080A6844 @ =gUnknown_080D9B74
+	ldr r1, _080A6844 @ =gCharacterSelectOrderLUT
 	lsrs r0, r2, #0x1c
 	adds r0, r0, r1
 	ldrb r7, [r0]
@@ -133232,7 +133235,7 @@ _080A680C:
 	str r0, [r5, #0x18]
 	b _080A6856
 	.align 2, 0
-_080A6844: .4byte gUnknown_080D9B74
+_080A6844: .4byte gCharacterSelectOrderLUT
 _080A6848:
 	cmp r6, #0
 	bne _080A6856
@@ -133508,15 +133511,15 @@ sub_80A6A5C: @ 0x080A6A5C
 	lsrs r0, r2, #0x1c
 	cmp r0, #5
 	bls _080A6A84
-	ldr r0, _080A6A80 @ =gUnknown_080D9B74
+	ldr r0, _080A6A80 @ =gCharacterSelectOrderLUT
 	ldrb r2, [r0]
 	ldrb r6, [r0, #2]
 	b _080A6A9C
 	.align 2, 0
 _080A6A7C: .4byte gPlayers
-_080A6A80: .4byte gUnknown_080D9B74
+_080A6A80: .4byte gCharacterSelectOrderLUT
 _080A6A84:
-	ldr r1, _080A6BC8 @ =gUnknown_080D9B74
+	ldr r1, _080A6BC8 @ =gCharacterSelectOrderLUT
 	lsrs r0, r2, #0x1c
 	adds r0, r0, r1
 	ldrb r2, [r0]
@@ -133683,7 +133686,7 @@ _080A6BB8:
 	movs r0, #1
 	b _080A6BD6
 	.align 2, 0
-_080A6BC8: .4byte gUnknown_080D9B74
+_080A6BC8: .4byte gCharacterSelectOrderLUT
 _080A6BCC: .4byte gUnknown_080D9D08
 _080A6BD0: .4byte gUnknown_080D9C90
 _080A6BD4:
@@ -133706,15 +133709,15 @@ sub_80A6BDC: @ 0x080A6BDC
 	lsrs r0, r2, #0x1c
 	cmp r0, #5
 	bls _080A6C04
-	ldr r0, _080A6C00 @ =gUnknown_080D9B74
+	ldr r0, _080A6C00 @ =gCharacterSelectOrderLUT
 	ldrb r2, [r0]
 	ldrb r6, [r0, #2]
 	b _080A6C1C
 	.align 2, 0
 _080A6BFC: .4byte gPlayers
-_080A6C00: .4byte gUnknown_080D9B74
+_080A6C00: .4byte gCharacterSelectOrderLUT
 _080A6C04:
-	ldr r1, _080A6CD4 @ =gUnknown_080D9B74
+	ldr r1, _080A6CD4 @ =gCharacterSelectOrderLUT
 	lsrs r0, r2, #0x1c
 	adds r0, r0, r1
 	ldrb r2, [r0]
@@ -133818,7 +133821,7 @@ _080A6CC6:
 	movs r0, #1
 	b _080A6CDA
 	.align 2, 0
-_080A6CD4: .4byte gUnknown_080D9B74
+_080A6CD4: .4byte gCharacterSelectOrderLUT
 _080A6CD8:
 	movs r0, #0
 _080A6CDA:
@@ -133839,15 +133842,15 @@ sub_80A6CE0: @ 0x080A6CE0
 	lsrs r0, r2, #0x1c
 	cmp r0, #5
 	bls _080A6D08
-	ldr r0, _080A6D04 @ =gUnknown_080D9B74
+	ldr r0, _080A6D04 @ =gCharacterSelectOrderLUT
 	ldrb r2, [r0]
 	ldrb r6, [r0, #2]
 	b _080A6D20
 	.align 2, 0
 _080A6D00: .4byte gPlayers
-_080A6D04: .4byte gUnknown_080D9B74
+_080A6D04: .4byte gCharacterSelectOrderLUT
 _080A6D08:
-	ldr r1, _080A6DC4 @ =gUnknown_080D9B74
+	ldr r1, _080A6DC4 @ =gCharacterSelectOrderLUT
 	lsrs r0, r2, #0x1c
 	adds r0, r0, r1
 	ldrb r2, [r0]
@@ -133938,7 +133941,7 @@ _080A6DB4:
 	movs r0, #1
 	b _080A6DCA
 	.align 2, 0
-_080A6DC4: .4byte gUnknown_080D9B74
+_080A6DC4: .4byte gCharacterSelectOrderLUT
 _080A6DC8:
 	movs r0, #0
 _080A6DCA:
@@ -133959,15 +133962,15 @@ sub_80A6DD0: @ 0x080A6DD0
 	lsrs r0, r2, #0x1c
 	cmp r0, #5
 	bls _080A6DF8
-	ldr r0, _080A6DF4 @ =gUnknown_080D9B74
+	ldr r0, _080A6DF4 @ =gCharacterSelectOrderLUT
 	ldrb r2, [r0]
 	ldrb r6, [r0, #2]
 	b _080A6E10
 	.align 2, 0
 _080A6DF0: .4byte gPlayers
-_080A6DF4: .4byte gUnknown_080D9B74
+_080A6DF4: .4byte gCharacterSelectOrderLUT
 _080A6DF8:
-	ldr r1, _080A6EB0 @ =gUnknown_080D9B74
+	ldr r1, _080A6EB0 @ =gCharacterSelectOrderLUT
 	lsrs r0, r2, #0x1c
 	adds r0, r0, r1
 	ldrb r2, [r0]
@@ -134057,7 +134060,7 @@ _080A6EA2:
 	movs r0, #1
 	b _080A6EB6
 	.align 2, 0
-_080A6EB0: .4byte gUnknown_080D9B74
+_080A6EB0: .4byte gCharacterSelectOrderLUT
 _080A6EB4:
 	movs r0, #0
 _080A6EB6:
@@ -137562,7 +137565,7 @@ _080A89CC:
 	ldrb r0, [r6, #1]
 	adds r0, #1
 	strb r0, [r6, #1]
-	movs r0, #0x4f
+	movs r0, #0x4f      @ MUS_ENDING_A_COPY
 	bl m4aSongNumStart
 	bl sub_80A8E54
 	b _080A8A64
@@ -138128,7 +138131,7 @@ _080A8E3C:
 	movs r0, #0x10
 	strh r0, [r6, #4]
 	movs r0, #1
-	bl sub_808A25C
+	bl CreateTitleScreen
 	ldr r0, [r7]
 	bl TaskDestroy
 _080A8E4C:
@@ -141949,7 +141952,7 @@ sub_80AAC38: @ 0x080AAC38
 	orrs r0, r5
 	strh r0, [r4]
 	bl m4aMPlayAllStop
-	movs r0, #0x5b
+	movs r0, #0x5b      @ MUS_MESSAGE
 	bl m4aSongNumStart
 _080AACA6:
 	ldr r1, [r6, #0x10]
@@ -145255,7 +145258,7 @@ _080AC6B4:
 	cmp r0, #1
 	bne _080AC6CE
 	movs r0, #0x80
-	lsls r0, r0, #2
+	lsls r0, r0, #2     @ VOICE__ANNOUNCER__CONGRATULATIONS
 	bl m4aSongNumStart
 	ldr r0, _080AC6D4 @ =gCurTask
 	ldr r1, [r0]
@@ -146035,7 +146038,7 @@ sub_80ACC40: @ 0x080ACC40
 	adds r0, r4, #0
 	bl sub_80ACD10
 	bl m4aMPlayAllStop
-	movs r0, #0x3b
+	movs r0, #0x3b      @ MUS_DEMO
 	bl m4aSongNumStart
 	add sp, #8
 	pop {r3, r4}
@@ -147571,7 +147574,7 @@ sub_80AD824: @ 0x080AD824
 	orrs r0, r2
 	str r0, [r1]
 	bl m4aMPlayAllStop
-	movs r0, #8
+	movs r0, #8         @ MUS_NEWGAME_INTRO
 	bl m4aSongNumStart
 	add sp, #0xc
 	pop {r3, r4}
@@ -150018,7 +150021,7 @@ _080AEC74: .4byte 0xFFFFFF00
 _080AEC78:
 	strh r0, [r1, #4]
 	bl m4aMPlayAllStop
-	movs r0, #0x63
+	movs r0, #0x63      @ MUS_VS_SUCCESS
 	bl m4aSongNumStart
 	ldr r1, [r5]
 	ldr r0, _080AEC90 @ =sub_80AED80

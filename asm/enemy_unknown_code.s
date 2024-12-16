@@ -1963,7 +1963,7 @@ sub_805CEBC: @ 0x0805CEBC
 	bl sub_805C138
 	cmp r6, #0
 	bne _0805CF1C
-	movs r0, #0x8a
+	movs r0, #0x8a      @ SE_POOF
 	bl m4aSongNumStart
 _0805CF1C:
 	add sp, #4

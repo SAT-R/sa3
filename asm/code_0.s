@@ -8734,7 +8734,7 @@ _0800458A:
 	ldrb r0, [r0]
 	strb r0, [r1]
 	movs r0, #4
-	bl sub_8097C54
+	bl CreateCharacterSelect
 _080045C0:
 	pop {r4, r5, r6}
 	pop {r0}

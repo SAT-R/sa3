@@ -108,7 +108,7 @@ void sub_8053128(s16, s16);
 bool32 sub_805C510(Sprite *s);
 bool8 sub_8079FFC(void);
 bool8 sub_807A074(void);
-void sub_8097C54(u16);
+void CreateCharacterSelect(u16);
 
 void DisplaySprites(Sprite *s, Vec2_16 *positions, u16 count);
 void sub_80C07E0(Sprite *s);
