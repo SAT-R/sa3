@@ -372,7 +372,7 @@ sub_805EEB4: @ 0x0805EEB4
 	lsls r1, r1, #8
 	adds r2, r2, r1
 	mov sl, r2
-	ldr r1, _0805EF5C @ =gUnknown_03001CFC
+	ldr r1, _0805EF5C @ =gTask_03001CFC
 	ldr r3, [r1]
 	cmp r3, #0
 	bne _0805EEEE
@@ -436,7 +436,7 @@ _0805EF1A:
 	strh r1, [r4, #0x30]
 	b _0805EF84
 	.align 2, 0
-_0805EF5C: .4byte gUnknown_03001CFC
+_0805EF5C: .4byte gTask_03001CFC
 _0805EF60: .4byte gStageData
 _0805EF64:
 	mov r0, sb
@@ -746,7 +746,7 @@ _0805F19C: .4byte 0xFFFFFF00
 	thumb_func_start sub_805F1A0
 sub_805F1A0: @ 0x0805F1A0
 	push {lr}
-	ldr r1, _0805F1D0 @ =gUnknown_03001CFC
+	ldr r1, _0805F1D0 @ =gTask_03001CFC
 	ldr r1, [r1]
 	cmp r1, #0
 	beq _0805F1D8
@@ -770,7 +770,7 @@ _0805F1B4:
 	bls _0805F1B4
 	b _0805F1DA
 	.align 2, 0
-_0805F1D0: .4byte gUnknown_03001CFC
+_0805F1D0: .4byte gTask_03001CFC
 _0805F1D4:
 	movs r0, #1
 	b _0805F1DA

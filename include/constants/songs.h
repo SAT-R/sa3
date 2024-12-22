@@ -182,7 +182,7 @@
 
 /* Dummy Entries from 0xAB to 0xDB */
 
-#define SE_DC         0xDC
+#define SE_220        0xDC
 #define SE_CHAR_BOOST 0xDD
 
 #define MUS_DUMMY__225   0xE1

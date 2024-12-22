@@ -35,7 +35,7 @@ sub_80001EC: @ 0x080001EC
 	strh r5, [r2]
 	str r5, [r0, #0x1c]
 	strb r1, [r0, #8]
-	ldr r0, _0800023C @ =gUnknown_03001CFC
+	ldr r0, _0800023C @ =gTask_03001CFC
 	str r5, [r0]
 	ldr r1, _08000240 @ =gVramHeapMaxTileSlots
 	ldr r2, _08000244 @ =0x06014D80
@@ -59,7 +59,7 @@ sub_80001EC: @ 0x080001EC
 	b _08000266
 	.align 2, 0
 _08000238: .4byte gStageData
-_0800023C: .4byte gUnknown_03001CFC
+_0800023C: .4byte gTask_03001CFC
 _08000240: .4byte gVramHeapMaxTileSlots
 _08000244: .4byte 0x06014D80
 _08000248: .4byte gVramHeapStartAddr
@@ -5018,7 +5018,7 @@ _08002776:
 	ldrb r0, [r4, #3]
 	cmp r0, #7
 	beq _0800281C
-	bl sub_802AD64
+	bl Create_gTask_03001CFC
 	ldrb r0, [r4, #3]
 	cmp r0, #1
 	bne _080027F4
@@ -5055,7 +5055,7 @@ _08002816:
 	b _08002826
 _0800281C:
 	bl sub_8022FB0
-	ldr r0, _08002834 @ =0x00000322
+	ldr r0, _08002834 @ =0x00000322 @ MUS_VS_BGM_7
 	bl m4aSongNumStart
 _08002826:
 	add sp, #4
@@ -88164,8 +88164,8 @@ sub_802AD50: @ 0x0802AD50
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_802AD64
-sub_802AD64: @ 0x0802AD64
+	thumb_func_start Create_gTask_03001CFC
+Create_gTask_03001CFC: @ 0x0802AD64
 	push {r4, lr}
 	sub sp, #8
 	ldr r0, _0802AD7C @ =gStageData
@@ -88174,28 +88174,28 @@ sub_802AD64: @ 0x0802AD64
 	beq _0802AD98
 	cmp r0, #5
 	bhi _0802AD88
-	ldr r4, _0802AD80 @ =gUnknown_03001CFC
-	ldr r0, _0802AD84 @ =sub_802B71C
+	ldr r4, _0802AD80 @ =gTask_03001CFC
+	ldr r0, _0802AD84 @ =Task_802B71C
 	b _0802AD9C
 	.align 2, 0
 _0802AD7C: .4byte gStageData
-_0802AD80: .4byte gUnknown_03001CFC
-_0802AD84: .4byte sub_802B71C
+_0802AD80: .4byte gTask_03001CFC
+_0802AD84: .4byte Task_802B71C
 _0802AD88:
-	ldr r4, _0802AD90 @ =gUnknown_03001CFC
+	ldr r4, _0802AD90 @ =gTask_03001CFC
 	ldr r0, _0802AD94 @ =sub_802B744
 	b _0802AD9C
 	.align 2, 0
-_0802AD90: .4byte gUnknown_03001CFC
+_0802AD90: .4byte gTask_03001CFC
 _0802AD94: .4byte sub_802B744
 _0802AD98:
-	ldr r4, _0802ADCC @ =gUnknown_03001CFC
+	ldr r4, _0802ADCC @ =gTask_03001CFC
 	ldr r0, _0802ADD0 @ =sub_802B76C
 _0802AD9C:
 	movs r1, #0xad
 	lsls r1, r1, #2
 	ldr r2, _0802ADD4 @ =0x00002001
-	ldr r3, _0802ADD8 @ =sub_802B778
+	ldr r3, _0802ADD8 @ =TaskDestructor_802B778
 	str r3, [sp]
 	movs r3, #0
 	bl TaskCreate
@@ -88215,10 +88215,10 @@ _0802AD9C:
 	ldr r0, _0802ADE0 @ =0x06014180
 	b _0802ADE6
 	.align 2, 0
-_0802ADCC: .4byte gUnknown_03001CFC
+_0802ADCC: .4byte gTask_03001CFC
 _0802ADD0: .4byte sub_802B76C
 _0802ADD4: .4byte 0x00002001
-_0802ADD8: .4byte sub_802B778
+_0802ADD8: .4byte TaskDestructor_802B778
 _0802ADDC: .4byte gStageData
 _0802ADE0: .4byte 0x06014180
 _0802ADE4:
@@ -88291,7 +88291,7 @@ sub_802AE64: @ 0x0802AE64
 	push {r5, r6, r7}
 	mov r8, r0
 	lsls r1, r1, #0x10
-	ldr r0, _0802AEC0 @ =gUnknown_03001CFC
+	ldr r0, _0802AEC0 @ =gTask_03001CFC
 	ldr r0, [r0]
 	ldrh r2, [r0, #6]
 	movs r0, #0xc0
@@ -88331,7 +88331,7 @@ _0802AE90:
 	bne _0802AEDA
 	b _0802AED4
 	.align 2, 0
-_0802AEC0: .4byte gUnknown_03001CFC
+_0802AEC0: .4byte gTask_03001CFC
 _0802AEC4: .4byte 0x03000028
 _0802AEC8: .4byte gStageData
 _0802AECC: .4byte gPlayers
@@ -89370,7 +89370,7 @@ _0802B6B4: .4byte 0x0000FFFC
 	thumb_func_start sub_802B6B8
 sub_802B6B8: @ 0x0802B6B8
 	push {r4, lr}
-	ldr r4, _0802B6CC @ =gUnknown_03001CFC
+	ldr r4, _0802B6CC @ =gTask_03001CFC
 	ldr r0, [r4]
 	bl TaskDestroy
 	movs r0, #0
@@ -89379,7 +89379,7 @@ sub_802B6B8: @ 0x0802B6B8
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0802B6CC: .4byte gUnknown_03001CFC
+_0802B6CC: .4byte gTask_03001CFC
 
 	thumb_func_start sub_802B6D0
 sub_802B6D0: @ 0x0802B6D0
@@ -89388,7 +89388,7 @@ sub_802B6D0: @ 0x0802B6D0
 	lsrs r3, r0, #0x10
 	lsls r1, r1, #0x10
 	lsrs r1, r1, #0x10
-	ldr r0, _0802B714 @ =gUnknown_03001CFC
+	ldr r0, _0802B714 @ =gTask_03001CFC
 	ldr r0, [r0]
 	cmp r0, #0
 	beq _0802B70C
@@ -89420,11 +89420,11 @@ _0802B70C:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0802B714: .4byte gUnknown_03001CFC
+_0802B714: .4byte gTask_03001CFC
 _0802B718: .4byte 0x03000028
 
-	thumb_func_start sub_802B71C
-sub_802B71C: @ 0x0802B71C
+	thumb_func_start Task_802B71C
+Task_802B71C: @ 0x0802B71C
 	push {lr}
 	ldr r0, _0802B734 @ =gCurTask
 	ldr r0, [r0]
@@ -89475,14 +89475,14 @@ sub_802B76C: @ 0x0802B76C
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_802B778
-sub_802B778: @ 0x0802B778
-	ldr r1, _0802B780 @ =gUnknown_03001CFC
+	thumb_func_start TaskDestructor_802B778
+TaskDestructor_802B778: @ 0x0802B778
+	ldr r1, _0802B780 @ =gTask_03001CFC
 	movs r0, #0
 	str r0, [r1]
 	bx lr
 	.align 2, 0
-_0802B780: .4byte gUnknown_03001CFC
+_0802B780: .4byte gTask_03001CFC
 
 	thumb_func_start sub_802B784
 sub_802B784: @ 0x0802B784

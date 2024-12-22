@@ -20457,7 +20457,7 @@ sub_806FC2C: @ 0x0806FC2C
 	strh r0, [r5, #0x18]
 	movs r0, #0xff
 	strb r0, [r5, #0x1b]
-	movs r0, #0x8a
+	movs r0, #0x8a      @ SE_POOF
 	bl m4aSongNumStart
 _0806FC72:
 	ldrh r1, [r5, #0xc]
@@ -20675,7 +20675,7 @@ _0806FE0E:
 	strh r0, [r5, #0x18]
 	movs r0, #0xff
 	strb r0, [r5, #0x1b]
-	movs r0, #0x8a
+	movs r0, #0x8a      @ SE_POOF
 	bl m4aSongNumStart
 	b _0806FE4E
 	.align 2, 0

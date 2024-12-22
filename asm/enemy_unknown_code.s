@@ -11,7 +11,7 @@ Task_805C03C: @ 0x0805C03C
 	mov r7, r8
 	push {r7}
 	movs r5, #0
-	ldr r0, _0805C068 @ =gUnknown_03001CFC
+	ldr r0, _0805C068 @ =gTask_03001CFC
 	ldr r0, [r0]
 	ldrh r0, [r0, #6]
 	movs r2, #0xc0
@@ -30,7 +30,7 @@ Task_805C03C: @ 0x0805C03C
 	mov r8, r1
 	b _0805C07C
 	.align 2, 0
-_0805C068: .4byte gUnknown_03001CFC
+_0805C068: .4byte gTask_03001CFC
 _0805C06C: .4byte 0x03000028
 _0805C070: .4byte gCurTask
 _0805C074:
@@ -152,7 +152,7 @@ sub_805C138: @ 0x0805C138
 	str r1, [r4, #0x18]
 	movs r6, #0
 	movs r5, #0
-	ldr r1, _0805C190 @ =0x0000053A
+	ldr r1, _0805C190 @ =0x0000053A @ ANIM_ITEM_BOX_CLOUD_EFFECT but spawned after enemy is dead
 	strh r1, [r0, #0xc]
 	strb r6, [r0, #0x1a]
 	movs r1, #0xff

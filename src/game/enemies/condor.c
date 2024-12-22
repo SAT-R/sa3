@@ -357,17 +357,17 @@ NONMATCH("asm/non_matching/game/enemies/condor__sub_805933C.inc", bool32 sub_805
 }
 END_NONMATCH
 
-static void InitSpriteProjectile(CondorProjectile *enemy)
+static void InitSpriteProjectile(CondorProjectile *proj)
 {
     void *tiles = ALLOC_TILES(ANIM_CONDOR_PROJ_EXPLOSION);
-    Sprite *s = &enemy->s;
+    Sprite *s = &proj->s;
     s->tiles = tiles;
 
     s->anim = gUnknown_080D1E84[0].anim;
     s->variant = gUnknown_080D1E84[0].variant;
     s->prevVariant = -1;
-    s->x = I(enemy->qPos.x) - gCamera.x;
-    s->y = I(enemy->qPos.y) - gCamera.y;
+    s->x = I(proj->qPos.x) - gCamera.x;
+    s->y = I(proj->qPos.y) - gCamera.y;
     s->oamFlags = SPRITE_OAM_ORDER(19);
     s->animCursor = 0;
     s->qAnimDelay = 0;

@@ -7614,7 +7614,7 @@ _08053190:
 	ldrh r0, [r0]
 	cmp r1, r0
 	bhi _08053270
-	movs r0, #0x56
+	movs r0, #0x56      @ MUS_BOSS_CLEAR_GOLD
 	bl m4aSongNumStart
 	b _08053276
 	.align 2, 0
@@ -7623,7 +7623,7 @@ _08053264: .4byte 0x0000FFF0
 _08053268: .4byte gStageData
 _0805326C: .4byte gUnknown_080D1A40
 _08053270:
-	movs r0, #0x57
+	movs r0, #0x57      @ MUS_BOSS_CLEAR
 	bl m4aSongNumStart
 _08053276:
 	add sp, #4
@@ -11558,7 +11558,7 @@ _080551F8:
 	movs r0, #0
 	strh r0, [r1]
 	movs r0, #0x82
-	lsls r0, r0, #2
+	lsls r0, r0, #2     @ SE_GOAL_RING_RESULT
 	bl m4aSongNumStart
 	ldr r0, _08055234 @ =gCurTask
 	ldr r1, [r0]
@@ -13327,7 +13327,7 @@ sub_8056090: @ 0x08056090
 	strb r6, [r1]
 	bl sub_8055E50
 	bl sub_80299FC
-	movs r0, #0x61
+	movs r0, #0x61      @ MUS_VS_BGM_4
 	bl m4aSongNumStart
 	add sp, #4
 	pop {r4, r5, r6}
@@ -13690,7 +13690,7 @@ sub_8056370: @ 0x08056370
 	movs r0, #0
 	strh r0, [r4, #4]
 	movs r0, #0x82
-	lsls r0, r0, #2
+	lsls r0, r0, #2     @ SE_GOAL_RING_RESULT
 	bl m4aSongNumStart
 	ldr r1, [r5]
 	ldr r0, _080563B8 @ =sub_80547DC
@@ -14504,7 +14504,7 @@ sub_8056A20: @ 0x08056A20
 	ldr r0, _08056A50 @ =0x0000F0FF
 	ands r0, r1
 	strh r0, [r2]
-	movs r0, #0x59
+	movs r0, #0x59      @ MUS_EXTRA_CLEAR
 	bl m4aSongNumStart
 	ldr r0, _08056A54 @ =gCurTask
 	ldr r0, [r0]
@@ -14652,6 +14652,7 @@ _08056B6C: .4byte 0x0000DFFF
 _08056B70: .4byte gWinRegs
 _08056B74: .4byte gBldRegs
 
+@ Seems to create the Stage Intro graphics?
 	thumb_func_start sub_8056B78
 sub_8056B78: @ 0x08056B78
 	push {r4, r5, r6, r7, lr}
@@ -15196,9 +15197,9 @@ _08056EBA:
 	str r2, [r7]
 	strh r4, [r7, #0x14]
 	movs r0, #0xd7
-	lsls r0, r0, #2
+	lsls r0, r0, #2     @ ANIM_ACT_EMBLEM
 	strh r0, [r7, #0xc]
-	mov r1, r8
+	mov r1, r8          @ 0-3: "ACT 01" ... "ACT 04" | 4: "VS BOSS"
 	ldrb r0, [r1, #2]
 	strb r0, [r7, #0x1a]
 	strh r4, [r7, #0x16]
