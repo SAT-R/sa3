@@ -50,9 +50,10 @@ bool32 sub_8060774(Ginpe *enemy);
 void sub_8060384(Ginpe *enemy);
 void sub_80604F0(GinpeProjectile *proj);
 static bool32 CheckPlayerCollision(Ginpe *enemy);
-static bool32 UpdateProjectilePos(GinpeProjectile *proj);
+static void UpdateProjectilePos(GinpeProjectile *proj);
 static AnimCmdResult DisplayProjectile(GinpeProjectile *proj);
-bool32 sub_806027C(GinpeProjectile *proj);
+void Task_80608CC(void);
+bool32 sub_8060940(GinpeProjectile *proj);
 void TaskDestructor_Ginpe(struct Task *t);
 void CreateGinpeProjectile(s32 qPosX, s32 qPosY, u16 regionX, u16 regionY, u8 param4);
 void Task_GinpeProjectileInit(void);
@@ -228,7 +229,7 @@ bool32 CheckPlayerCollisionProj(GinpeProjectile *proj)
     return FALSE;
 }
 
-void sub_80605FC(GinpeProjectile *proj)
+void UpdateProjectilePos(GinpeProjectile *proj)
 {
     s16 r2, r5;
 
@@ -351,4 +352,100 @@ void TaskDestructor_Ginpe(struct Task *t)
 {
     Ginpe *enemy = TASK_DATA(t);
     VramFree(enemy->s.tiles);
+}
+
+void CreateGinpeProjectile(s32 qPosX, s32 qPosY, u16 regionX, u16 regionY, u8 param4)
+{
+    struct Task *t = TaskCreate(Task_GinpeProjectileInit, sizeof(GinpeProjectile), 0x4040, 0, TaskDestructor_GinpeProjectile);
+    GinpeProjectile *proj = TASK_DATA(t);
+
+    proj->qPos.x = qPosX;
+    proj->qPos.y = qPosY;
+    proj->region[0] = regionX;
+    proj->region[1] = regionY;
+    proj->unk0 = 0;
+    proj->unk1 = param4;
+    proj->unk2 = -1;
+    proj->unkA = 0;
+    proj->unkC = 0;
+    proj->unk8 = 0;
+
+    CpuFill16(0, &proj->reserved.b, sizeof(proj->reserved.b));
+
+    sub_80604F0(proj);
+}
+
+void Task_GinpeProjectileInit(void)
+{
+    GinpeProjectile *proj = TASK_DATA(gCurTask);
+
+    bool32 r6 = FALSE;
+
+    UpdateProjectilePos(proj);
+    DisplayProjectile(proj);
+    if (CheckPlayerCollisionProj(proj) == TRUE) {
+        r6 = TRUE;
+    }
+
+    if (r6 == TRUE) {
+        Sprite *s = &proj->s;
+
+        s->anim = gUnknown_080D2014[1].anim;
+        s->variant = gUnknown_080D2014[1].variant;
+        s->frameFlags = 0;
+
+        gCurTask->main = Task_80608CC;
+    } else {
+        if (sub_8060940(proj) == 1) {
+            TaskDestroy(gCurTask);
+        }
+    }
+}
+
+void Task_80608CC(void)
+{
+    GinpeProjectile *proj = TASK_DATA(gCurTask);
+
+    AnimCmdResult acmdRes = DisplayProjectile(proj);
+    CheckPlayerCollisionProj(proj);
+
+    if (acmdRes == ACMD_RESULT__ENDED) {
+        TaskDestroy(gCurTask);
+    }
+}
+
+static AnimCmdResult DisplayProjectile(GinpeProjectile *proj)
+{
+    AnimCmdResult acmdRes;
+
+    Sprite *s = &proj->s;
+    s->x = TO_WORLD_POS_RAW(I(proj->qPos.x), proj->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(proj->qPos.y), proj->region[1]) - gCamera.y;
+
+    acmdRes = UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    return acmdRes;
+}
+
+bool32 sub_8060940(GinpeProjectile *proj)
+{
+    EnemyUnknownStruc0 unk;
+
+    unk.unk4 = FALSE;
+    unk.spr = &proj->s;
+    unk.posX = proj->qPos.x;
+    unk.posY = proj->qPos.y;
+    unk.regionX = proj->region[0];
+    unk.regionY = proj->region[1];
+    unk.me = NULL;
+    unk.spriteX = 0;
+
+    return sub_805C280(&unk);
+}
+
+void TaskDestructor_GinpeProjectile(struct Task *t)
+{
+    GinpeProjectile *proj = TASK_DATA(t);
+    VramFree(proj->s.tiles);
 }
