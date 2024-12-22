@@ -352,8 +352,8 @@ _08065466:
 _0806547C: .4byte gUnknown_080D2180
 _08065480: .4byte gCamera
 
-	thumb_func_start sub_8065484
-sub_8065484: @ 0x08065484
+	thumb_func_start Task_GuruguruInit
+Task_GuruguruInit: @ 0x08065484
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _080654F0 @ =gCurTask
 	ldr r0, [r0]
@@ -848,10 +848,10 @@ CreateEntity_GuruGuru: @ 0x08065814
 	mov r8, r0
 	lsls r5, r5, #0x18
 	lsrs r5, r5, #0x18
-	ldr r0, _0806587C @ =sub_8065484
+	ldr r0, _0806587C @ =Task_GuruguruInit
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _08065880 @ =sub_80658C0
+	ldr r1, _08065880 @ =TaskDestructor_Guruguru
 	str r1, [sp]
 	movs r1, #0xe0
 	movs r3, #0
@@ -881,8 +881,8 @@ CreateEntity_GuruGuru: @ 0x08065814
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0806587C: .4byte sub_8065484
-_08065880: .4byte sub_80658C0
+_0806587C: .4byte Task_GuruguruInit
+_08065880: .4byte TaskDestructor_Guruguru
 
 	thumb_func_start sub_8065884
 sub_8065884: @ 0x08065884
@@ -915,8 +915,8 @@ sub_8065884: @ 0x08065884
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_80658C0
-sub_80658C0: @ 0x080658C0
+	thumb_func_start TaskDestructor_Guruguru
+TaskDestructor_Guruguru: @ 0x080658C0
 	push {lr}
 	ldrh r0, [r0, #6]
 	ldr r1, _080658D4 @ =0x030000B0

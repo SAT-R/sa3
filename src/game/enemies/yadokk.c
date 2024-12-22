@@ -46,9 +46,9 @@ AnimCmdResult sub_8060088(Yadokk *enemy);
 bool32 sub_80600F8(Yadokk *enemy);
 void sub_805FCC4(Yadokk *enemy);
 void sub_805FEE0(YadokkProjectile *proj);
-bool32 sub_8060030(Yadokk *enemy);
-bool32 sub_8060204(YadokkProjectile *proj);
-AnimCmdResult sub_8060238(YadokkProjectile *proj);
+static bool32 CheckPlayerCollision(Yadokk *enemy);
+static bool32 UpdateProjectilePos(YadokkProjectile *proj);
+static AnimCmdResult DisplayProjectile(YadokkProjectile *proj);
 bool32 sub_806027C(YadokkProjectile *proj);
 void TaskDestructor_Yadokk(struct Task *t);
 void CreateYadokkProjectile(s32 qPosX, s32 qPosY, u16 regionX, u16 regionY);
@@ -160,7 +160,7 @@ void Task_Yadokk(void)
         s->variant = gUnknown_080D1FD0[spriteIndex].variant;
 
         gCurTask->main = sub_805FE40;
-    } else if ((sub_8060030(enemy) == TRUE) && (enemy->unk6 == 0)) {
+    } else if ((CheckPlayerCollision(enemy) == TRUE) && (enemy->unk6 == 0)) {
         Sprite *s = &enemy->s;
 
         CreateYadokkProjectile(enemy->qPos.x, enemy->qPos.y, enemy->region[0], enemy->region[1]);
@@ -228,7 +228,7 @@ void sub_805FEE0(YadokkProjectile *proj)
     UpdateSpriteAnimation(s);
 }
 
-bool32 sub_805FF48(YadokkProjectile *proj)
+static bool32 CheckPlayerCollisionProj(YadokkProjectile *proj)
 {
     Sprite *s;
     s32 worldX, worldY;
@@ -282,7 +282,7 @@ void sub_805FFEC(Yadokk *enemy)
     }
 }
 
-bool32 sub_8060030(Yadokk *enemy)
+static bool32 CheckPlayerCollision(Yadokk *enemy)
 {
     Sprite *s = &enemy->s;
     Player *p;
@@ -389,16 +389,16 @@ void Task_YadokkProjectileInit(void)
 {
     YadokkProjectile *proj = TASK_DATA(gCurTask);
 
-    sub_8060204(proj);
-    sub_8060238(proj);
-    sub_805FF48(proj);
+    UpdateProjectilePos(proj);
+    DisplayProjectile(proj);
+    CheckPlayerCollisionProj(proj);
 
     if (sub_806027C(proj) == 1) {
         TaskDestroy(gCurTask);
     }
 }
 
-bool32 sub_8060204(YadokkProjectile *proj)
+static bool32 UpdateProjectilePos(YadokkProjectile *proj)
 {
     if (proj->qUnk0 < Q(10)) {
         proj->qUnk0 += Q(0.25);
@@ -409,7 +409,7 @@ bool32 sub_8060204(YadokkProjectile *proj)
     return FALSE;
 }
 
-AnimCmdResult sub_8060238(YadokkProjectile *proj)
+static AnimCmdResult DisplayProjectile(YadokkProjectile *proj)
 {
     AnimCmdResult acmdRes;
 

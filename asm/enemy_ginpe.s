@@ -5,168 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Ginpe
-CreateEntity_Ginpe: @ 0x080602C8
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	sub sp, #8
-	mov r8, r0
-	adds r5, r1, #0
-	adds r6, r2, #0
-	adds r4, r3, #0
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x10
-	lsrs r6, r6, #0x10
-	lsls r4, r4, #0x18
-	lsrs r4, r4, #0x18
-	ldr r0, _08060344 @ =sub_8060408
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _08060348 @ =TaskDestructor_Ginpe
-	str r1, [sp]
-	movs r1, #0x58
-	movs r3, #0
-	bl TaskCreate
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r7, r1, r0
-	mov r0, r8
-	str r0, [r7]
-	ldrb r0, [r0]
-	strb r0, [r7, #5]
-	strb r4, [r7, #4]
-	movs r2, #0
-	strh r5, [r7, #0xa]
-	strh r6, [r7, #0xc]
-	mov r3, r8
-	ldrb r1, [r3]
-	lsls r1, r1, #0xb
-	str r1, [r7, #0x18]
-	ldrb r0, [r3, #1]
-	lsls r0, r0, #0xb
-	str r0, [r7, #0x1c]
-	str r1, [r7, #0x10]
-	str r0, [r7, #0x14]
-	movs r0, #3
-	ldrsb r0, [r3, r0]
-	lsls r0, r0, #0xb
-	adds r1, r1, r0
-	str r1, [r7, #0x20]
-	ldrb r0, [r3, #5]
-	lsls r0, r0, #0xb
-	adds r1, r1, r0
-	str r1, [r7, #0x24]
-	strb r2, [r7, #6]
-	ldrb r1, [r3, #7]
-	movs r0, #8
-	ands r0, r1
-	cmp r0, #0
-	beq _0806034C
-	movs r0, #0xff
-	b _0806034E
-	.align 2, 0
-_08060344: .4byte sub_8060408
-_08060348: .4byte TaskDestructor_Ginpe
-_0806034C:
-	movs r0, #1
-_0806034E:
-	strb r0, [r7, #8]
-	movs r1, #0
-	strb r1, [r7, #7]
-	add r0, sp, #4
-	strh r1, [r0]
-	adds r1, r7, #0
-	adds r1, #0x54
-	ldr r2, _08060380 @ =0x01000002
-	bl CpuSet
-	adds r0, r7, #0
-	bl sub_8060384
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	mov r3, r8
-	strb r0, [r3]
-	add sp, #8
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08060380: .4byte 0x01000002
+.if 0
+.endif
 
-	thumb_func_start sub_8060384
-sub_8060384: @ 0x08060384
-	push {r4, r5, r6, lr}
-	adds r4, r0, #0
-	movs r0, #0xc
-	bl VramMalloc
-	adds r6, r4, #0
-	adds r6, #0x28
-	str r0, [r4, #0x28]
-	ldr r1, _08060400 @ =gUnknown_080D2004
-	ldrh r0, [r1]
-	movs r5, #0
-	movs r3, #0
-	strh r0, [r6, #0xc]
-	ldrb r0, [r1, #2]
-	strb r0, [r6, #0x1a]
-	movs r0, #0xff
-	strb r0, [r6, #0x1b]
-	ldr r1, [r4, #0x18]
-	asrs r1, r1, #8
-	ldrh r0, [r4, #0xa]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	ldr r2, _08060404 @ =gCamera
-	ldr r0, [r2]
-	subs r1, r1, r0
-	strh r1, [r6, #0x10]
-	ldr r1, [r4, #0x1c]
-	asrs r1, r1, #8
-	ldrh r0, [r4, #0xc]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	ldr r0, [r2, #4]
-	subs r1, r1, r0
-	strh r1, [r6, #0x12]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r6, #0x14]
-	strh r3, [r6, #0xe]
-	strh r3, [r6, #0x16]
-	movs r0, #0x10
-	strb r0, [r6, #0x1c]
-	strb r5, [r6, #0x1f]
-	movs r1, #0x80
-	lsls r1, r1, #5
-	str r1, [r6, #8]
-	movs r0, #8
-	ldrsb r0, [r4, r0]
-	cmp r0, #0
-	bge _080603EE
-	movs r0, #0x80
-	lsls r0, r0, #3
-	orrs r0, r1
-	str r0, [r6, #8]
-_080603EE:
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r6, #0x20]
-	adds r0, r6, #0
-	bl UpdateSpriteAnimation
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08060400: .4byte gUnknown_080D2004
-_08060404: .4byte gCamera
-
-	thumb_func_start sub_8060408
-sub_8060408: @ 0x08060408
+	thumb_func_start Task_Ginpe
+Task_Ginpe: @ 0x08060408
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	ldr r0, _08060468 @ =gCurTask
@@ -266,7 +109,7 @@ _080604CE:
 	ldrh r3, [r4, #0xc]
 	str r6, [sp]
 	adds r0, r5, #0
-	bl CreateGinpeProjtile
+	bl CreateGinpeProjectile
 	movs r0, #0
 	strb r0, [r4, #6]
 _080604E4:
@@ -515,7 +358,7 @@ _080606A6:
 	strb r0, [r4, #0x1a]
 	ldr r0, _080606C4 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080606C8 @ =sub_8060408
+	ldr r0, _080606C8 @ =Task_Ginpe
 	str r0, [r1, #8]
 _080606BA:
 	pop {r4, r5, r6, r7}
@@ -524,7 +367,7 @@ _080606BA:
 	.align 2, 0
 _080606C0: .4byte gUnknown_080D2004
 _080606C4: .4byte gCurTask
-_080606C8: .4byte sub_8060408
+_080606C8: .4byte Task_Ginpe
 
 	thumb_func_start sub_80606CC
 sub_80606CC: @ 0x080606CC
@@ -661,8 +504,8 @@ TaskDestructor_Ginpe: @ 0x080607B0
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateGinpeProjtile
-CreateGinpeProjtile: @ 0x080607C4
+	thumb_func_start CreateGinpeProjectile
+CreateGinpeProjectile: @ 0x080607C4
 	push {r4, r5, r6, lr}
 	mov r6, sl
 	mov r5, sb
@@ -681,9 +524,9 @@ CreateGinpeProjtile: @ 0x080607C4
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	mov r8, r0
-	ldr r0, _08060848 @ =sub_806085C
+	ldr r0, _08060848 @ =Task_GinpeProj
 	ldr r2, _0806084C @ =0x00004040
-	ldr r1, _08060850 @ =sub_8060978
+	ldr r1, _08060850 @ =TaskDestructor_GinpeProj
 	str r1, [sp]
 	movs r1, #0x48
 	movs r3, #0
@@ -726,14 +569,14 @@ CreateGinpeProjtile: @ 0x080607C4
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08060848: .4byte sub_806085C
+_08060848: .4byte Task_GinpeProj
 _0806084C: .4byte 0x00004040
-_08060850: .4byte sub_8060978
+_08060850: .4byte TaskDestructor_GinpeProj
 _08060854: .4byte 0x03000044
 _08060858: .4byte 0x01000002
 
-	thumb_func_start sub_806085C
-sub_806085C: @ 0x0806085C
+	thumb_func_start Task_GinpeProj
+Task_GinpeProj: @ 0x0806085C
 	push {r4, r5, r6, r7, lr}
 	ldr r7, _080608A4 @ =gCurTask
 	ldr r0, [r7]
@@ -874,8 +717,8 @@ sub_8060940: @ 0x08060940
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_8060978
-sub_8060978: @ 0x08060978
+	thumb_func_start TaskDestructor_GinpeProj
+TaskDestructor_GinpeProj: @ 0x08060978
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
