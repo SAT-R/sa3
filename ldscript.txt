@@ -127,7 +127,7 @@ SECTIONS {
         build/sa3/asm/enemy_juggling.o(.text);
         build/sa3/asm/enemy_bu_bu.o(.text);
         build/sa3/asm/enemy_guard.o(.text);
-        build/sa3/asm/enemy_yadokk.o(.text);
+        build/sa3/src/game/enemies/yadokk.o(.text);
         build/sa3/asm/enemy_ginpe.o(.text);
         build/sa3/asm/enemy_yukigasen.o(.text);
         build/sa3/asm/enemy_hariisen.o(.text);
