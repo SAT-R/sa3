@@ -135,6 +135,7 @@ SECTIONS {
         build/sa3/asm/enemy_marun.o(.text);
         build/sa3/asm/enemy_clam.o(.text);
         build/sa3/asm/enemy_kamaki.o(.text);
+        build/sa3/src/game/enemies/guruguru.o(.text);
         build/sa3/asm/enemy_guruguru.o(.text);
         build/sa3/asm/enemy_kyacchaa.o(.text);
         build/sa3/asm/code.o(.text);

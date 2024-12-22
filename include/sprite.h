@@ -190,6 +190,27 @@ typedef struct {
     /* 0x20 */ Hitbox hitboxes[1];
 } Sprite; /* size: 0x28 (more with multiple Hitboxes) */
 
+// TODO: Merge with Sprite
+typedef struct {
+    /* 0x00 */ u8 *tiles;
+    /* 0x04 */ u32 frameNum;
+    /* 0x08 */ u32 frameFlags;
+    /* 0x0C */ u16 anim;
+    /* 0x0E */ u16 animCursor;
+    /* 0x10 */ s16 x;
+    /* 0x12 */ s16 y;
+    /* 0x14 */ s16 oamFlags;
+    /* 0x16 */ s16 qAnimDelay;
+    /* 0x18 */ u16 prevAnim;
+    /* 0x1A */ u8 variant;
+    /* 0x1B */ u8 prevVariant;
+    /* 0x1C */ u8 animSpeed;
+    /* 0x1D */ u8 oamBaseIndex;
+    /* 0x1E */ u8 numSubFrames;
+    /* 0x1F */ u8 palId;
+    /* 0x20 */ Hitbox hitboxes[2];
+} Sprite2; /* size: 0x30 */
+
 typedef struct {
     /* 0x00 */ u16 rotation;
 
