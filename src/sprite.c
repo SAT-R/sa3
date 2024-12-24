@@ -351,15 +351,19 @@ static AnimCmdResult animCmd_GetPalette(void *cursor, Sprite *s)
 
 // (-6)
 // TODO: Remove volatile pointer
-AnimCmdResult animCmd_AddHitbox(void *cursor, Sprite *s)
+static AnimCmdResult animCmd_AddHitbox(void *cursor, Sprite *s)
 {
     ACmd_Hitbox *cmd = (ACmd_Hitbox *)cursor;
     s32 hitboxId = cmd->hitbox.index % 16u;
     s->animCursor += AnimCommandSizeInWords(ACmd_Hitbox);
 
     DmaCopy32(3, &cmd->hitbox, &s->hitboxes[hitboxId].index, sizeof(Hitbox));
-
-    if (((u8)cmd->hitbox.b.left == (u8)cmd->hitbox.b.right) && (*(volatile u8 *)&cmd->hitbox.b.top == (u8)cmd->hitbox.b.bottom)) {
+#if (GAME == GAME_SA3)
+    if (((u8)cmd->hitbox.b.left == (u8)cmd->hitbox.b.right) && (*(volatile u8 *)&cmd->hitbox.b.top == (u8)cmd->hitbox.b.bottom))
+#else
+    if ((cmd->hitbox.b.left == 0) && (cmd->hitbox.b.top == 0) && (cmd->hitbox.b.right == 0) && (cmd->hitbox.b.bottom == 0))
+#endif
+    {
         s->hitboxes[hitboxId].index = -1;
     } else {
         if (s->frameFlags & SPRITE_FLAG_MASK_Y_FLIP) {
@@ -778,7 +782,7 @@ NONMATCH("asm/non_matching/engine/sub_80C07E0.inc", void sub_80C07E0(Sprite *spr
 END_NONMATCH
 
 // (99.82%) https://decomp.me/scratch/UPXYB
-NONMATCH("asm/non_matching/engine/sa2__sub_081569A0.inc", void DisplaySprites(Sprite *sprite, Vec2_16 *positions, u8 numPositions))
+NONMATCH("asm/non_matching/engine/DisplaySprites.inc", void DisplaySprites(Sprite *sprite, Vec2_16 *positions, u8 numPositions))
 {
     vs32 x, y;
     s32 sprWidth, sprHeight;
