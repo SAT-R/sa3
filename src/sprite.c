@@ -15,7 +15,6 @@ extern const AnimationCommandFunc animCmdTable[];
 
 #define ReadInstruction(script, cursor) ((void *)(script) + (cursor * sizeof(s32)))
 
-// TODO: extern -> static
 static AnimCmdResult animCmd_GetTiles(void *cursor, Sprite *s);
 static AnimCmdResult animCmd_GetPalette(void *cursor, Sprite *s);
 static AnimCmdResult animCmd_JumpBack(void *cursor, Sprite *s);

@@ -22,7 +22,7 @@ u32 TasksInit(void)
     gNextTask = NULL;
     gNumTasks = 0;
 
-#if !USE_OLD_TASK_SYSTEM
+#if !USE_SA2_TASK_SYSTEM
     gNextTaskToCheckForDestruction = NULL;
 #endif
 
@@ -99,7 +99,7 @@ struct Task *TaskCreate(TaskMain taskMain, u16 structSize, u16 priority, u16 fla
     task->dtor = taskDestructor;
     task->priority = priority;
     task->flags = flags;
-#if USE_OLD_TASK_SYSTEM
+#if USE_SA2_TASK_SYSTEM
     task->unk15 = 0;
     task->unk16 = 0;
     task->unk18 = 0;
@@ -128,6 +128,9 @@ void TaskDestroy(struct Task *task)
 {
     TaskPtr32 next, prev;
     if (!(task->flags & TASK_DESTROY_DISABLED)) {
+#if ENABLE_TASK_LOGGING
+        printf("Destroying '%s'\n", task->name);
+#endif
         prev = TASK_PTR(task->prev);
         next = TASK_PTR(task->next);
 
@@ -141,11 +144,13 @@ void TaskDestroy(struct Task *task)
                     gNextTask = TASK_NEXT(task);
                 }
 
+#if (GAME == GAME_SA3)
                 // can only happen in (implicitly) recursive TaskDestroy calls (from
                 // task->dtor) in TasksDestroyInPriorityRange
                 if (task == gNextTaskToCheckForDestruction) {
                     gNextTaskToCheckForDestruction = (struct Task *)(task->next + IWRAM_START);
                 }
+#endif
 
                 prev = TASK_PTR(task->prev);
                 next = TASK_PTR(task->next);
@@ -164,7 +169,7 @@ void TaskDestroy(struct Task *task)
                 task->flags = 0;
                 task->data = (IwramData)NULL;
 
-#if USE_OLD_TASK_SYSTEM
+#if USE_SA2_TASK_SYSTEM
                 task->unk15 = 0;
                 task->unk16 = 0;
                 task->unk18 = 0;
@@ -294,9 +299,8 @@ void IwramFree(void *p)
     }
 }
 
-/* The function is probably for cleaning up the IWRAM nodes, but it's not working.
-   SA2: sub_80028DC */
-static void sub_80BD1E0(void)
+/* The function is probably for cleaning up the IWRAM nodes, but it's not working. */
+static void sa2__sub_80028DC(void)
 {
     struct IwramNode *cur = (struct IwramNode *)&gIwramHeap[0];
     s32 curStateBackup;
@@ -354,7 +358,7 @@ static struct Task *TaskGetNextSlot(void)
     }
 }
 
-#if USE_OLD_TASK_SYSTEM
+#if ((GAME == GAME_SA1) || (GAME == GAME_SA2))
 void TasksDestroyInPriorityRange(u16 lbound, u16 rbound)
 {
     struct Task *cur = gTaskPtrs[0];
@@ -421,6 +425,7 @@ void TasksDestroyInPriorityRange(u16 lbound, u16 rbound)
 }
 #endif
 
+#if (GAME == GAME_SA3)
 static s32 IwramActiveNodeTotalSize(void)
 {
     s32 activeSize = 0;
@@ -438,6 +443,7 @@ static s32 IwramActiveNodeTotalSize(void)
     }
     return activeSize;
 }
+#endif
 
 static void TaskMainDummy1(void) { }
 

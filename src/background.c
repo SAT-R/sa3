@@ -1354,6 +1354,7 @@ static AnimCmdResult animCmd_SetOamOrder_BG(void *cursor, Sprite *s)
     return 1;
 }
 
-// Not in SA2
+#if (GAME >= GAME_SA3)
 NONMATCH("asm/non_matching/engine/background__unused__sub_80BF1CC.inc", void sub_80BF1CC(void *param0)) { }
 END_NONMATCH
+#endif
