@@ -163,8 +163,6 @@ u32 Base10DigitsToHexNibbles(u16 num)
     return result;
 }
 
-// NOTE: This is different from SA1/SA2
-// TODO: Merge both versions!
 AnimCmdResult UpdateSpriteAnimation(Sprite *s)
 {
     SPRITE_INIT_ANIM_IF_CHANGED(s);
@@ -182,21 +180,24 @@ AnimCmdResult UpdateSpriteAnimation(Sprite *s)
         const ACmd **variants;
 
         // Handle all the "regular" Animation commands with an ID < 0
-        variants = gRefSpriteTables->animations[s->anim];
+        variants = gRefSpriteTables->animations[GET_SPRITE_ANIM(s)];
         script = variants[s->variant];
         cmd = ReadInstruction(script, s->animCursor);
         while (cmd->id < 0) {
             // TODO: make this const void*
             ret = animCmdTable[~cmd->id]((void *)cmd, s);
             if (ret != ACMD_RESULT__RUNNING) {
+#if (!defined(NON_MATCHING) && ((GAME == GAME_SA1) || (GAME == GAME_SA2)))
+                register const ACmd *newScript asm("r2");
+#else
                 const ACmd *newScript;
-
+#endif
                 if (ret != ACMD_RESULT__ANIM_CHANGED) {
                     return ret;
                 }
 
                 // animation has changed
-                variants = gRefSpriteTables->animations[s->anim];
+                variants = gRefSpriteTables->animations[GET_SPRITE_ANIM(s)];
                 newScript = variants[s->variant];
 
                 // reset cursor
@@ -213,8 +214,19 @@ AnimCmdResult UpdateSpriteAnimation(Sprite *s)
         s->qAnimDelay -= s->animSpeed * 0x10;
         {
             s32 frame = ((ACmd_ShowFrame *)cmd)->index;
+
+#if ((GAME == GAME_SA1) || (GAME == GAME_SA2))
+            if (frame != -1) {
+                const struct SpriteTables *sprTables = gRefSpriteTables;
+
+                s->dimensions = &sprTables->dimensions[GET_SPRITE_ANIM(s)][frame];
+            } else {
+                s->dimensions = (void *)-1;
+            }
+#else
             s->frameNum = cmd->show.index;
             s->frameFlags |= SPRITE_FLAG_MASK_26;
+#endif
         }
 
         s->animCursor += 2;
@@ -222,6 +234,7 @@ AnimCmdResult UpdateSpriteAnimation(Sprite *s)
     return 1;
 }
 
+#if (GAME == GAME_SA3)
 AnimCmdResult sub_80BF540(Sprite *s, u16 param1)
 {
     s32 r6 = param1;
@@ -293,6 +306,7 @@ AnimCmdResult sub_80BF540(Sprite *s, u16 param1)
 
     return ACMD_RESULT__RUNNING;
 }
+#endif // (GAME == GAME_SA3)
 
 // (-1)
 static AnimCmdResult animCmd_GetTiles(void *cursor, Sprite *s)

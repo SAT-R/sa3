@@ -1,7 +1,7 @@
 #ifndef GUARD_RECT_H
 #define GUARD_RECT_H
 
-typedef struct {
+typedef struct Rect8 {
     /* 0x00 */ s8 left;
     /* 0x01 */ s8 top;
     /* 0x02 */ s8 right;
@@ -29,14 +29,14 @@ typedef struct {
 #define RECT_COLLISION(x0, y0, hb0, x1, y1, hb1) (RECT_COLLISION_X(x0, hb0, x1, hb1) && RECT_COLLISION_Y(y0, hb0, y1, hb1))
 
 /* Rect collision checks using Fixed-point values */
-#define Q_RECT_WIDTH(hb)      Q_24_8_NEW(RECT_WIDTH(hb))
-#define Q_RECT_HEIGHT(hb)     Q_24_8_NEW(RECT_HEIGHT(hb))
-#define Q_RECT_LEFT(x, hb)    ((x) + Q_24_8((hb)->left))
-#define Q_RECT_LEFT2(x, hb)   Q_24_8_NEW((hb)->left + (x))
+#define Q_RECT_WIDTH(hb)      QS(RECT_WIDTH(hb))
+#define Q_RECT_HEIGHT(hb)     QS(RECT_HEIGHT(hb))
+#define Q_RECT_LEFT(x, hb)    ((x) + Q((hb)->left))
+#define Q_RECT_LEFT2(x, hb)   QS((hb)->left + (x))
 #define Q_RECT_RIGHT(x, hb)   (Q_RECT_LEFT(x, hb) + Q_RECT_WIDTH(hb))
 #define Q_RECT_RIGHT2(x, hb)  (Q_RECT_LEFT2(x, hb) + Q_RECT_WIDTH(hb))
-#define Q_RECT_TOP(y, hb)     (((y) + Q_24_8((hb)->top)))
-#define Q_RECT_TOP2(y, hb)    Q_24_8_NEW(((hb)->top) + (y))
+#define Q_RECT_TOP(y, hb)     (((y) + Q((hb)->top)))
+#define Q_RECT_TOP2(y, hb)    QS(((hb)->top) + (y))
 #define Q_RECT_BOTTOM(y, hb)  (Q_RECT_TOP(y, hb) + Q_RECT_HEIGHT(hb))
 #define Q_RECT_BOTTOM2(y, hb) (Q_RECT_TOP2(y, hb) + Q_RECT_HEIGHT(hb))
 

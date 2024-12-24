@@ -308,6 +308,12 @@ s16 sa2__sub_8004418(s16 x, s16 y);
 
 extern u8 gNextFreeAffineIndex; // related to Sprite.frameFlags
 
+#if ((GAME == GAME_SA1) || (GAME == GAME_SA2))
+#define GET_SPRITE_ANIM(s) ((s)->graphics.anim)
+#else
+#define GET_SPRITE_ANIM(s) ((s)->anim)
+#endif
+
 #define SpriteShouldUpdate(sprite) (((sprite)->prevVariant != (sprite)->variant) || ((sprite)->prevAnim != (sprite)->anim))
 
 #define SPRITE_INIT_ANIM_IF_CHANGED(_sprite)                                                                                               \
