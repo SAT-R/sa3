@@ -89,8 +89,8 @@ _08063722:
 _08063750: .4byte gUnknown_080D210C
 _08063754: .4byte gCamera
 
-	thumb_func_start sub_8063758
-sub_8063758: @ 0x08063758
+	thumb_func_start Task_MarunInit
+Task_MarunInit: @ 0x08063758
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -572,7 +572,7 @@ _08063B0E:
 	str r5, [r7, #0x18]
 	mov r3, sb
 	ldr r1, [r3]
-	ldr r0, _08063B94 @ =sub_8063758
+	ldr r0, _08063B94 @ =Task_MarunInit
 	str r0, [r1, #8]
 	b _08063BAA
 	.align 2, 0
@@ -586,7 +586,7 @@ _08063B84: .4byte gUnknown_080D210C
 _08063B88: .4byte 0x03000064
 _08063B8C: .4byte 0x01000002
 _08063B90: .4byte 0x0300005C
-_08063B94: .4byte sub_8063758
+_08063B94: .4byte Task_MarunInit
 _08063B98:
 	adds r0, r7, #0
 	bl sub_8063D38
@@ -1050,8 +1050,8 @@ sub_8063EDC: @ 0x08063EDC
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_8063F08
-sub_8063F08: @ 0x08063F08
+	thumb_func_start TaskDestructor_Marun
+TaskDestructor_Marun: @ 0x08063F08
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0

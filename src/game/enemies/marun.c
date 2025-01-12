@@ -35,16 +35,14 @@ typedef struct {
 
 // extern const TileInfo2 gUnknown_080D210C[];
 
-// void TaskDestructor_Marun(struct Task *t);
-void sub_8063F08(struct Task *t);
+void TaskDestructor_Marun(struct Task *t);
 // u32 sub_8063C98(void* base);
 // bool32 sub_8063EDC(Marun *enemy, EnemyUnknownStruc0 *param1);
 // void sub_8063858(void);
 // s32 sub_8063E5C(Marun *enemy);
 
 // static void Task_Marun0() {}
-// void Task_MarunInit(void);
-void sub_8063758(void);
+void Task_MarunInit(void);
 
 // static void InitSprite(Marun *enemy) {}
 void sub_80636B4(Marun *enemy);
@@ -52,7 +50,7 @@ void sub_80636B4(Marun *enemy);
 // https://decomp.me/scratch/x6Qwh
 void CreateEntity_Marun(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(sub_8063758 /* Task_MarunInit */, sizeof(Marun), 0x2100, 0, sub_8063F08 /* TaskDestructor_Marun */);
+    struct Task *t = TaskCreate(Task_MarunInit, sizeof(Marun), 0x2100, 0, TaskDestructor_Marun);
 
     Marun *enemy = TASK_DATA(t);
     s32 qX, qY;
