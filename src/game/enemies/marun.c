@@ -21,8 +21,8 @@ typedef struct {
     /* 0x08 */ u8 unk8;
     /* 0x09 */ u8 unk9;
     /* 0x0A */ u8 direction;
-    /* 0x0B */ u16 region[2];
-    /* 0x0F */ u16 rotation;
+    /* 0x0C */ u16 region[2];
+    /* 0x10 */ u16 rotation;
     /* 0x12 */ u16 unk12;
     /* 0x14 */ s32 unk14;
     /* 0x18 */ s32 unk18;
@@ -46,19 +46,13 @@ void sub_8063F08(struct Task *t);
 // void Task_MarunInit(void);
 void sub_8063758(void);
 
-//static void InitSprite(Marun *enemy) {}
-void sub_8063FE0(Marun *enemy);
+// static void InitSprite(Marun *enemy) {}
+void sub_80636B4(Marun *enemy);
 
 // https://decomp.me/scratch/x6Qwh
 void CreateEntity_Marun(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(
-        sub_8063758, // Task_MarunInit,
-        sizeof(Marun),
-        0x2100,
-        0,
-        sub_8063F08 // TaskDestructor_Marun
-    );
+    struct Task *t = TaskCreate(sub_8063758 /* Task_MarunInit */, sizeof(Marun), 0x2100, 0, sub_8063F08 /* TaskDestructor_Marun */);
 
     Marun *enemy = TASK_DATA(t);
     s32 qX, qY;
@@ -94,7 +88,7 @@ void CreateEntity_Marun(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     CpuFill16(0, &enemy->reserved.b.left, sizeof(enemy->reserved.b));
 
-    sub_8063FE0(enemy);
+    sub_80636B4(enemy);
 
     SET_MAP_ENTITY_INITIALIZED(me);
 }
