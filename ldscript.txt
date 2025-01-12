@@ -121,7 +121,6 @@ SECTIONS {
         build/sa3/src/game/enemies/minimole.o(.text);
         build/sa3/src/game/enemies/takkon.o(.text);
         build/sa3/src/game/enemies/jousun.o(.text);
-        build/sa3/src/game/enemies/marun.o(.text);
         build/sa3/asm/enemy_unknown_code.o(.text);
         build/sa3/asm/enemy_uutsubo.o(.text);
         build/sa3/src/game/enemies/gaogao.o(.text);
@@ -133,6 +132,7 @@ SECTIONS {
         build/sa3/asm/enemy_yukigasen.o(.text);
         build/sa3/asm/enemy_hariisen.o(.text);
         build/sa3/asm/enemy_muukaden.o(.text);
+        build/sa3/src/game/enemies/marun.o(.text);
         build/sa3/asm/enemy_marun.o(.text);
         build/sa3/asm/enemy_clam.o(.text);
         build/sa3/asm/enemy_kamaki.o(.text);
