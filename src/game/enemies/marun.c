@@ -20,7 +20,7 @@ typedef struct {
     /* 0x07 */ u8 spriteX;
     /* 0x08 */ u8 unk8;
     /* 0x09 */ u8 unk9;
-    /* 0x0A */ u8 direction;
+    /* 0x0A */ s8 direction;
     /* 0x0C */ u16 region[2];
     /* 0x10 */ u16 rotation;
     /* 0x12 */ u16 unk12;
@@ -33,7 +33,7 @@ typedef struct {
     /* 0x60 */ Hitbox reserved;
 } Marun; /* size: 0x68 */
 
-// extern const TileInfo2 gUnknown_080D210C[];
+extern const TileInfo2 gUnknown_080D210C[];
 
 void TaskDestructor_Marun(struct Task *t);
 // u32 sub_8063C98(void* base);
@@ -89,6 +89,50 @@ void CreateEntity_Marun(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     sub_80636B4(enemy);
 
     SET_MAP_ENTITY_INITIALIZED(me);
+}
+
+// https://decomp.me/scratch/WTG0g
+void sub_80636B4(Marun *enemy) {
+    void *tiles = VramMalloc(0x11);
+    Sprite *s = &enemy->s;
+    SpriteTransform *transform = &enemy->transform;
+
+    // Initialize sprite
+    s->tiles = tiles;
+    s->anim = gUnknown_080D210C[0].anim;
+    s->variant = gUnknown_080D210C[0].variant;
+    s->prevVariant = -1;
+
+    // Set sprite position relative to camera
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+
+    // Set sprite properties
+    s->oamFlags = SPRITE_OAM_ORDER(18);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+
+    // Handle sprite flipping based on direction
+    if (enemy->direction < 0) {
+        s->frameFlags |= SPRITE_FLAG_MASK_X_FLIP;
+    }
+
+    // Initialize hitbox
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+
+    // Initialize transform
+    enemy->transform.rotation = 0;
+    transform->x = s->x;
+    transform->y = s->y;
+    transform->scaleX = 0x100;
+    transform->scaleY = 0x100;
+
+    // Apply transform and update animation
+    TransformSprite(s, transform);
+    UpdateSpriteAnimation(s);
 }
 
 // https://decomp.me/scratch/LwjhM
@@ -159,22 +203,22 @@ void CreateEntity_Marun(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
 //     if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
 //         u32 result = sub_8063C98(enemy);
-        
+
 //         if ((result == 1) && ((enemy->unk4 == 0) && (enemy->unk5 == 0))) {
 //             // u8 temp = 0;
 //             Sprite *sprite;
 //             sprite = &enemy->s;
-            
+
 //             sprite->anim = gUnknown_080D210C[1].anim;
 //             sprite->variant = gUnknown_080D210C[1].variant;
 //             sprite->prevVariant = 0xFF;
-            
+
 //             // Clear two sections of memory using CpuSet
 //             CpuFill16(0, &enemy->reserved.b, sizeof(Rect8));
 //             CpuFill16(0, &enemy->s.hitboxes[0].b, sizeof(Rect8));
-            
+
 //             UpdateSpriteAnimation(sprite);
-            
+
 //             enemy->unk8 = result;
 //             gCurTask->main = sub_8063858;
 //             return;
@@ -223,7 +267,7 @@ void CreateEntity_Marun(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 //     s->y = screenY - gCamera.y;
 
 //     // Special y-position adjustment based on sprite state
-//     if (s->anim == gUnknown_080D210C[2].anim && 
+//     if (s->anim == gUnknown_080D210C[2].anim &&
 //         s->variant == gUnknown_080D210C[2].variant) {
 //         s->y -= 0xB;  // Subtract 11 pixels
 //     } else {
