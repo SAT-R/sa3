@@ -36,10 +36,11 @@ typedef struct {
 extern const TileInfo2 gUnknown_080D210C[];
 
 void TaskDestructor_Marun(struct Task *t);
-// u32 sub_8063C98(void* base);
+u32 sub_8063C98(void* base);
 // bool32 sub_8063EDC(Marun *enemy, EnemyUnknownStruc0 *param1);
-// void sub_8063858(void);
-// s32 sub_8063E5C(Marun *enemy);
+void sub_8063858(void);
+bool32 sub_8063D38(void* param);
+s32 sub_8063E5C(Marun *enemy);
 
 // static void Task_Marun0() {}
 void Task_MarunInit(void);
@@ -135,6 +136,44 @@ void sub_80636B4(Marun *enemy) {
     UpdateSpriteAnimation(s);
 }
 
+// https://decomp.me/scratch/ednnh
+void Task_MarunInit(void) { // sub_8063758
+    Marun *enemy = TASK_DATA(gCurTask);
+
+    sub_805CD70(&enemy->qPos, &enemy->qUnk1C, enemy->region, &enemy->unk9);
+
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        u32 result = sub_8063C98(enemy);
+
+        if ((result == 1) && ((enemy->unk4 == 0) && (enemy->unk5 == 0))) {
+            // u8 temp = 0;
+            Sprite *sprite;
+            sprite = &enemy->s;
+
+            sprite->anim = gUnknown_080D210C[1].anim;
+            sprite->variant = gUnknown_080D210C[1].variant;
+            sprite->prevVariant = 0xFF;
+
+            // Clear two sections of memory using CpuSet
+            CpuFill16(0, &enemy->reserved.b, sizeof(Rect8));
+            CpuFill16(0, &enemy->s.hitboxes[0].b, sizeof(Rect8));
+
+            UpdateSpriteAnimation(sprite);
+
+            enemy->unk8 = result;
+            gCurTask->main = sub_8063858;
+            return;
+        }
+    }
+
+    if (sub_8063D38(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    sub_8063E5C(enemy);
+}
+
 // https://decomp.me/scratch/LwjhM
 // bool32 sub_8063D38(void* param) {
 //     EnemyUnknownStruc0 unk;
@@ -193,44 +232,6 @@ void sub_80636B4(Marun *enemy) {
 //     }
 
 //     return result;
-// }
-
-// // https://decomp.me/scratch/ednnh
-// void Task_MarunInit(void) { // sub_8063758
-//     Marun *enemy = TASK_DATA(gCurTask);
-
-//     sub_805CD70(&enemy->qPos, &enemy->qUnk1C, enemy->region, &enemy->unk9);
-
-//     if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
-//         u32 result = sub_8063C98(enemy);
-
-//         if ((result == 1) && ((enemy->unk4 == 0) && (enemy->unk5 == 0))) {
-//             // u8 temp = 0;
-//             Sprite *sprite;
-//             sprite = &enemy->s;
-
-//             sprite->anim = gUnknown_080D210C[1].anim;
-//             sprite->variant = gUnknown_080D210C[1].variant;
-//             sprite->prevVariant = 0xFF;
-
-//             // Clear two sections of memory using CpuSet
-//             CpuFill16(0, &enemy->reserved.b, sizeof(Rect8));
-//             CpuFill16(0, &enemy->s.hitboxes[0].b, sizeof(Rect8));
-
-//             UpdateSpriteAnimation(sprite);
-
-//             enemy->unk8 = result;
-//             gCurTask->main = sub_8063858;
-//             return;
-//         }
-//     }
-
-//     if (sub_8063D38(enemy) == TRUE) {
-//         TaskDestroy(gCurTask);
-//         return;
-//     }
-
-//     sub_8063E5C(enemy);
 // }
 
 // // https://decomp.me/scratch/GCw5n
