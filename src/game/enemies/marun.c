@@ -41,6 +41,7 @@ u32 sub_8063C98(void* base);
 void sub_8063858(void);
 bool32 sub_8063D38(void* param);
 s32 sub_8063E5C(Marun *enemy);
+void sub_806394C(void);
 
 // static void Task_Marun0() {}
 void Task_MarunInit(void);
@@ -172,6 +173,36 @@ void Task_MarunInit(void) { // sub_8063758
     }
 
     sub_8063E5C(enemy);
+}
+
+// https://decomp.me/scratch/nASKV
+void sub_8063858(void) {
+    Marun* enemy = TASK_DATA(gCurTask);
+
+    sub_805CD70(&enemy->qPos, &enemy->qUnk1C, enemy->region, &enemy->unk9);
+
+    if (gStageData.unk4 != 1 && gStageData.unk4 != 2 && gStageData.unk4 != 4 && sub_8063E5C(enemy) == 0) {
+        // Update sprite properties
+        Sprite* sprite = &enemy->s;
+        sprite->anim = gUnknown_080D210C[2].anim;
+        sprite->variant = gUnknown_080D210C[2].variant;
+        sprite->prevVariant = 0xFF;
+        sprite->frameFlags |= 0x6A;
+
+        // Update position
+        enemy->qPos.x += 0xFFFFF000;
+
+        // Clear some memory regions using CpuSet
+        CpuFill16(0, &enemy->reserved.b, sizeof(Rect8));
+        CpuFill16(0, &enemy->s.hitboxes[0].b, sizeof(Rect8));
+
+        UpdateSpriteAnimation(sprite);
+
+        // Update task callback
+        gCurTask->main = sub_806394C;
+    } else if (sub_8063D38(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
+    }
 }
 
 // https://decomp.me/scratch/LwjhM
