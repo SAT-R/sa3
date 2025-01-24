@@ -290,6 +290,44 @@ void sub_806394C(void) {
     }
 }
 
+// https://decomp.me/scratch/f7cNh
+void sub_8063ADC(void)
+{
+    Marun *enemy = TASK_DATA(gCurTask);
+
+    if (enemy->unk4 == 0) {
+        sub_805CD70(&enemy->qPos, &enemy->qUnk1C, enemy->region, &enemy->unk9);
+    }
+
+    if (sub_8063E5C(enemy) == 0) {
+        Sprite *s = &enemy->s;
+
+        // Set up animation from predefined data
+        s->anim = gUnknown_080D210C[0].anim;
+        s->variant = gUnknown_080D210C[0].variant;
+        s->prevVariant = 0xFF; // Reset previous variant
+
+        // Clear hitbox and reserved memory regions
+        CpuFill16(0, &enemy->reserved.b, sizeof(Rect8));
+        CpuFill16(0, &enemy->s.hitboxes[0].b, sizeof(Rect8));
+
+        UpdateSpriteAnimation(s); // Refresh sprite state
+
+        // Reset movement/counter properties
+        enemy->rotation = 0;
+        enemy->unk12 = 0;
+        enemy->unk14 = 0x200; // Initial speed value
+        enemy->unk18 = 0;
+
+        // Transition to main behavior task
+        gCurTask->main = Task_MarunInit;
+    } else {
+        if (sub_8063D38(enemy) == 1) {
+            TaskDestroy(gCurTask); // Cleanup if condition met
+        }
+    }
+}
+
 // https://decomp.me/scratch/LwjhM
 // bool32 sub_8063D38(void* param) {
 //     EnemyUnknownStruc0 unk;
