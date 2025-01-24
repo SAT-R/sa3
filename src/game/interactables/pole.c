@@ -101,7 +101,7 @@ static void Task_Interactable094Main(void)
     }
 }
 
-void CreateEntity_Interactable094(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+void CreateEntity_Pole(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_Interactable094Main, sizeof(IA094), 0x2100, 0, NULL);
     IA094 *ia = TASK_DATA(t);

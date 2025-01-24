@@ -1,3 +1,6 @@
+#ifndef GUARD_ANIM_SIZES_H
+#define GUARD_ANIM_SIZES_H
+
 // TODO: Auto-generate this file
 #define MAX_TILES(_animName)                   ((_animName##_WIDTH / 8) * (_animName##_HEIGHT / 8))
 #define MAX_TILES_VARIANT(_animName, _variant) ((_animName##_VAR##_variant##_WIDTH / 8) * (_animName##_VAR##_variant##_HEIGHT / 8))
@@ -5,6 +8,10 @@
 #define ALLOC_TILES_VARIANT(_animName, _variant)                                                                                           \
     VramMalloc(((_animName##_VAR##_variant##_WIDTH / 8) * (_animName##_VAR##_variant##_HEIGHT / 8)))
 
+#if (GAME == GAME_SA1)
+
+#elif (GAME == GAME_SA2)
+#elif (GAME == GAME_SA3)
 // 858
 #define ANIM_CHAOMAP_EMERALD_WIDTH  24
 #define ANIM_CHAOMAP_EMERALD_HEIGHT 16
@@ -654,3 +661,6 @@
 #define ANIM_LIFE_ICONS_VAR5_HEIGHT 16
 #define ANIM_LIFE_ICONS_VAR6_WIDTH  16
 #define ANIM_LIFE_ICONS_VAR6_HEIGHT 16
+#endif
+
+#endif // GUARD_ANIM_SIZES_H

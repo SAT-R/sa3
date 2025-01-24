@@ -338,7 +338,7 @@ gSpriteInits_Interactables:
     .4byte CreateEntity_AccordionSpring
     .4byte CreateEntity_BungeeCord
     .4byte CreateEntity_Interactable093
-    .4byte CreateEntity_Interactable094
+    .4byte CreateEntity_Pole
     .4byte CreateEntity_WaterfallResist 
     .4byte CreateEntity_ActRing         @ 096 - ActRing and ZoneWarp are 2 IAs
     .4byte CreateEntity_SpecialSpring
