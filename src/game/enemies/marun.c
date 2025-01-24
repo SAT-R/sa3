@@ -6,6 +6,7 @@
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/enemy_unknown.h"
+#include "module_unclear.h"
 #include "game/player.h"
 #include "game/stage.h"
 
@@ -41,7 +42,9 @@ u32 sub_8063C98(void* base);
 void sub_8063858(void);
 bool32 sub_8063D38(void* param);
 s32 sub_8063E5C(Marun *enemy);
+void sub_8063BB8(Marun* enemy);
 void sub_806394C(void);
+void sub_8063ADC(void);
 
 // static void Task_Marun0() {}
 void Task_MarunInit(void);
@@ -202,6 +205,88 @@ void sub_8063858(void) {
         gCurTask->main = sub_806394C;
     } else if (sub_8063D38(enemy) == TRUE) {
         TaskDestroy(gCurTask);
+    }
+}
+
+// https://decomp.me/scratch/m3tax
+void sub_806394C(void) {
+    Marun* enemy = TASK_DATA(gCurTask);
+    s8 collisionResult = 0;
+    s32 x, y;
+    s32 r1;
+    s32 r0;
+
+    sub_8063BB8(enemy);
+
+    x = (enemy->qPos.x >> 8);
+    y = (enemy->qPos.y >> 8);
+
+    x += (enemy->region[0] << 8);
+    y += (enemy->region[1] << 8);
+
+    if (enemy->direction > 0) {
+        collisionResult = sub_8052394(x, y - 8, 1, -8, 0, sub_805203C);
+
+        if (collisionResult < 0) {
+            enemy->qPos.x -= (collisionResult << 8);
+            enemy->qPos.x += 0x800;
+
+            enemy->unk4 = 1;
+            enemy->unk14 = 0;
+        }
+
+    } else {
+        collisionResult = sub_8052394(x + 8, y - 8, 1, 8, 0, sub_805203C);
+
+        if (collisionResult < 0) {
+            enemy->qPos.x += (collisionResult << 8);
+            enemy->qPos.x -= 0x800;
+
+            enemy->unk4 = 1;
+            enemy->unk14 = 0;
+        }
+    }
+
+    if ((gStageData.unk4 != 1 && gStageData.unk4 != 2 && gStageData.unk4 != 4) &&
+        (r0 = ++enemy->unk12, r0 <<= 16, r0 > (r1 = 0x1680000) || collisionResult < 0)) {
+        Sprite* s = &enemy->s;
+
+        s->anim = gUnknown_080D210C[3].anim;
+        s->variant = gUnknown_080D210C[3].variant;
+        s->prevVariant = 0xFF;
+
+        CpuFill16(0, &enemy->reserved.b, sizeof(Rect8));
+        CpuFill16(0, &enemy->s.hitboxes[0].b, sizeof(Rect8));
+
+        s->frameFlags = 0x1000;
+
+        if (enemy->direction < 0) {
+            s->frameFlags |= 0x400;
+        }
+
+        if (enemy->direction > 0) {
+            enemy->qPos.x += 0x1300;
+        } else {
+            enemy->qPos.x += 0xD00;
+        }
+
+        UpdateSpriteAnimation(s);
+
+        enemy->rotation = 0;
+        enemy->unk12 = 0;
+        enemy->unk14 = 0x200;
+        enemy->unk18 = 0;
+        enemy->unk8 = 0;
+        enemy->unk5 = 1;
+
+        gCurTask->main = sub_8063ADC;
+
+    } else {
+        if (sub_8063D38(enemy) == 1) {
+            TaskDestroy(gCurTask);
+        } else {
+            sub_8063E5C(enemy);
+        }
     }
 }
 
