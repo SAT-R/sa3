@@ -38,7 +38,7 @@ extern const TileInfo2 gUnknown_080D210C[];
 
 void TaskDestructor_Marun(struct Task *t);
 bool32 sub_8063C98(Marun *enemy);
-// bool32 sub_8063EDC(Marun *enemy, EnemyUnknownStruc0 *param1);
+bool32 sub_8063EDC(Marun *enemy, EnemyUnknownStruc0 *param1);
 void sub_8063858(void);
 bool32 sub_8063D38(void* param);
 s32 sub_8063E5C(Marun *enemy);
@@ -373,6 +373,7 @@ void sub_8063BB8(Marun* enemy) {
     }
 }
 
+// https://decomp.me/scratch/cMlw3
 bool32 sub_8063C98(Marun *enemy) {
     Sprite *s = &enemy->s;
     s32 worldX;
@@ -424,64 +425,64 @@ bool32 sub_8063C98(Marun *enemy) {
 }
 
 // https://decomp.me/scratch/LwjhM
-// bool32 sub_8063D38(void* param) {
-//     EnemyUnknownStruc0 unk;
-//     bool32 result;
+bool32 sub_8063D38(void* param) {
+    EnemyUnknownStruc0 unk;
+    bool32 result;
 
-//     if (*(u8*)(param + 8) != 1) {
-//         // Subtract 0x10 from bytes at various offsets
-//         *(u8*)(param + 0x5C) -= 0x10;
-//         *(u8*)(param + 0x5D) -= 0x10;
-//         *(u8*)(param + 0x5E) -= 0x10;
-//         *(u8*)(param + 0x5F) -= 0x10;
-//         *(u8*)(param + 0x64) -= 0x10;
-//         *(u8*)(param + 0x65) -= 0x10;
-//         *(u8*)(param + 0x66) -= 0x10;
-//         *(u8*)(param + 0x67) -= 0x10;
-//     }
+    if (*(u8*)(param + 8) != 1) {
+        // Subtract 0x10 from bytes at various offsets
+        *(u8*)(param + 0x5C) -= 0x10;
+        *(u8*)(param + 0x5D) -= 0x10;
+        *(u8*)(param + 0x5E) -= 0x10;
+        *(u8*)(param + 0x5F) -= 0x10;
+        *(u8*)(param + 0x64) -= 0x10;
+        *(u8*)(param + 0x65) -= 0x10;
+        *(u8*)(param + 0x66) -= 0x10;
+        *(u8*)(param + 0x67) -= 0x10;
+    }
 
-//     if (*(u8*)(param + 8) == 1) {
-//         // Set specific values at offsets
-//         *(u8*)(param + 0x5C) = 0xFC;
-//         *(u8*)(param + 0x5D) = 0xFC;
-//         *(u8*)(param + 0x5E) = 4;
-//         *(u8*)(param + 0x5F) = 4;
-//     }
+    if (*(u8*)(param + 8) == 1) {
+        // Set specific values at offsets
+        *(u8*)(param + 0x5C) = 0xFC;
+        *(u8*)(param + 0x5D) = 0xFC;
+        *(u8*)(param + 0x5E) = 4;
+        *(u8*)(param + 0x5F) = 4;
+    }
 
-//     // Setup EnemyUnknownStruc0 fields
-//     unk.unk4 = sub_8063EDC(param, &unk);
-//     unk.spr = param + 0x38;
-//     unk.posX = *(int*)(param + 0x1C);
-//     unk.posY = *(int*)(param + 0x20);
-//     unk.regionX = *(uint16_t*)(param + 0xC);
-//     unk.regionY = *(uint16_t*)(param + 0xE);
-//     unk.me = *(void**)(param);
-//     *(u8*)((char*)&unk + 8) = *(u8*)(param + 7);
+    // Setup EnemyUnknownStruc0 fields
+    unk.unk4 = sub_8063EDC(param, &unk);
+    unk.spr = param + 0x38;
+    unk.posX = *(int*)(param + 0x1C);
+    unk.posY = *(int*)(param + 0x20);
+    unk.regionX = *(uint16_t*)(param + 0xC);
+    unk.regionY = *(uint16_t*)(param + 0xE);
+    unk.me = *(void**)(param);
+    *(u8*)((char*)&unk + 8) = *(u8*)(param + 7);
 
-//     result = sub_805C280(&unk);
+    result = sub_805C280(&unk);
 
-//     if (*(u8*)(param + 8) != 1) {
-//         // Add 0x10 to bytes at various offsets
-//         *(u8*)(param + 0x5C) += 0x10;
-//         *(u8*)(param + 0x5D) += 0x10;
-//         *(u8*)(param + 0x5E) += 0x10;
-//         *(u8*)(param + 0x5F) += 0x10;
-//         *(u8*)(param + 0x64) += 0x10;
-//         *(u8*)(param + 0x65) += 0x10;
-//         *(u8*)(param + 0x66) += 0x10;
-//         *(u8*)(param + 0x67) += 0x10;
-//     }
+    if (*(u8*)(param + 8) != 1) {
+        // Add 0x10 to bytes at various offsets
+        *(u8*)(param + 0x5C) += 0x10;
+        *(u8*)(param + 0x5D) += 0x10;
+        *(u8*)(param + 0x5E) += 0x10;
+        *(u8*)(param + 0x5F) += 0x10;
+        *(u8*)(param + 0x64) += 0x10;
+        *(u8*)(param + 0x65) += 0x10;
+        *(u8*)(param + 0x66) += 0x10;
+        *(u8*)(param + 0x67) += 0x10;
+    }
 
-//     if (*(u8*)(param + 8) == 1) {
-//         // Zero out bytes at offsets
-//         *(u8*)(param + 0x5C) = 0;
-//         *(u8*)(param + 0x5D) = 0;
-//         *(u8*)(param + 0x5E) = 0;
-//         *(u8*)(param + 0x5F) = 0;
-//     }
+    if (*(u8*)(param + 8) == 1) {
+        // Zero out bytes at offsets
+        *(u8*)(param + 0x5C) = 0;
+        *(u8*)(param + 0x5D) = 0;
+        *(u8*)(param + 0x5E) = 0;
+        *(u8*)(param + 0x5F) = 0;
+    }
 
-//     return result;
-// }
+    return result;
+}
 
 // // https://decomp.me/scratch/GCw5n
 // bool32 sub_8063EDC(Marun *enemy, EnemyUnknownStruc0 *param1)
