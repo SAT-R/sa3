@@ -37,7 +37,7 @@ typedef struct {
 extern const TileInfo2 gUnknown_080D210C[];
 
 void TaskDestructor_Marun(struct Task *t);
-u32 sub_8063C98(void* base);
+bool32 sub_8063C98(Marun *enemy);
 // bool32 sub_8063EDC(Marun *enemy, EnemyUnknownStruc0 *param1);
 void sub_8063858(void);
 bool32 sub_8063D38(void* param);
@@ -147,7 +147,7 @@ void Task_MarunInit(void) { // sub_8063758
     sub_805CD70(&enemy->qPos, &enemy->qUnk1C, enemy->region, &enemy->unk9);
 
     if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
-        u32 result = sub_8063C98(enemy);
+        bool32 result = sub_8063C98(enemy);
 
         if ((result == 1) && ((enemy->unk4 == 0) && (enemy->unk5 == 0))) {
             // u8 temp = 0;
@@ -371,6 +371,57 @@ void sub_8063BB8(Marun* enemy) {
     } else {
         enemy->unk14 = 0;
     }
+}
+
+bool32 sub_8063C98(Marun *enemy) {
+    Sprite *s = &enemy->s;
+    s32 worldX;
+    s32 worldY;
+    u8 i;
+
+    worldX = I(enemy->qPos.x);
+    worldY = I(enemy->qPos.y);
+    worldX = (TO_WORLD_POS_RAW(worldX, enemy->region[0]));
+    worldY = (TO_WORLD_POS_RAW(worldY, enemy->region[1]));
+
+    for (i = 0; ; i++) {
+        Player *p;
+        s32 dx, y;
+
+        if (i > 1) break; // Loop runs for i=0 and i=1
+        p = sub_805CD20(i);
+        if (!p) break;
+
+        // X-FLIP case (original check)
+        if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+            /* --- X-FLIP CASE --- */
+            dx = I(p->qWorldX) - worldX - 1;
+            if ((u32)dx > 0x4E) goto x_flip_cleanup; // Unsigned comparison
+
+            y = I(p->qWorldY);
+            if (y >= worldY + 0x50) goto x_flip_cleanup;
+            if (y <= worldY - 0x10) goto x_flip_cleanup;
+
+            return TRUE; // Player in valid area
+
+            x_flip_cleanup:
+            // Assembly lines 50-5A: Re-check original X-FLIP state
+            if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+                continue; // Skip non-X-flip checks
+            }
+        }
+
+        /* --- NON X-FLIP CASE --- */
+        dx = worldX - I(p->qWorldX) - 1;
+        if ((u32)dx > 0x4E) continue; // Unsigned comparison
+
+        if (I(p->qWorldY) >= worldY + 0x50) continue;
+        if (I(p->qWorldY) <= worldY - 0x10) continue;
+
+        return TRUE; // Player in valid area
+    }
+
+    return FALSE;
 }
 
 // https://decomp.me/scratch/LwjhM
