@@ -504,39 +504,39 @@ bool32 sub_8063D38(void* param) {
 // }
 
 // // https://decomp.me/scratch/2VR0x
-// s32 sub_8063E5C(Marun *enemy) {
-//     s32 result;
-//     Sprite *s = &enemy->s;
-//     SpriteTransform *transform = &enemy->transform;
-//     s32 screenX, screenY;
+s32 sub_8063E5C(Marun *enemy) {
+    s32 result;
+    Sprite *s = &enemy->s;
+    SpriteTransform *transform = &enemy->transform;
+    s32 screenX, screenY;
 
-//     // Calculate screen coordinates relative to camera
-//     screenX = I(enemy->qPos.x) + (enemy->region[0] * CAM_REGION_WIDTH);
-//     s->x = screenX - gCamera.x;
+    // Calculate screen coordinates relative to camera
+    screenX = I(enemy->qPos.x) + (enemy->region[0] * CAM_REGION_WIDTH);
+    s->x = screenX - gCamera.x;
 
-//     screenY = I(enemy->qPos.y) + (enemy->region[1] * CAM_REGION_WIDTH);
-//     s->y = screenY - gCamera.y;
+    screenY = I(enemy->qPos.y) + (enemy->region[1] * CAM_REGION_WIDTH);
+    s->y = screenY - gCamera.y;
 
-//     // Special y-position adjustment based on sprite state
-//     if (s->anim == gUnknown_080D210C[2].anim &&
-//         s->variant == gUnknown_080D210C[2].variant) {
-//         s->y -= 0xB;  // Subtract 11 pixels
-//     } else {
-//         s->y += 6;    // Add 6 pixels
-//     }
+    // Special y-position adjustment based on sprite state
+    if (s->anim == gUnknown_080D210C[2].anim &&
+        s->variant == gUnknown_080D210C[2].variant) {
+        s->y -= 0xB;  // Subtract 11 pixels
+    } else {
+        s->y += 6;    // Add 6 pixels
+    }
 
-//     // Update transform data
-//     transform->rotation = enemy->rotation;
-//     transform->x = s->x;
-//     transform->y = s->y;
+    // Update transform data
+    transform->rotation = enemy->rotation;
+    transform->x = s->x;
+    transform->y = s->y;
 
-//     // Apply transformations and update sprite
-//     TransformSprite(s, transform);
-//     result = UpdateSpriteAnimation(s);
-//     DisplaySprite(s);
+    // Apply transformations and update sprite
+    TransformSprite(s, transform);
+    result = UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 
-//     return result;
-// }
+    return result;
+}
 
 // // https://decomp.me/scratch/laLdi
 // void TaskDestructor_Marun(struct Task *t) { // sub_8063F08
