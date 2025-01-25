@@ -399,10 +399,9 @@ bool32 sub_8063C98(Marun *enemy) {
             if ((u32)dx > 0x4E) goto x_flip_cleanup; // Unsigned comparison
 
             y = I(p->qWorldY);
-            if (y >= worldY + 0x50) goto x_flip_cleanup;
-            if (y <= worldY - 0x10) goto x_flip_cleanup;
-
-            return TRUE; // Player in valid area
+            if (y < worldY + 0x50 && y > worldY - 0x10) {
+                return TRUE; // Player in valid area
+            }
 
             x_flip_cleanup:
             // Assembly lines 50-5A: Re-check original X-FLIP state
