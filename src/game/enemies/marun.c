@@ -328,6 +328,51 @@ void sub_8063ADC(void)
     }
 }
 
+// https://decomp.me/scratch/FXBMR
+void sub_8063BB8(Marun* enemy) {
+    s32 screenX;
+    s32 screenY;
+    s8 collisionResult;
+
+    if (enemy->direction < 0) {
+        enemy->qPos.x += 0x100 + enemy->unk14;
+        enemy->rotation += 0x10;
+    } else {
+        enemy->qPos.x -= 0x100 + enemy->unk14;
+        enemy->rotation -= 0x10;
+    }
+
+    screenX = (enemy->qPos.x >> 8);
+    screenY = (enemy->qPos.y >> 8);
+
+    screenX += (enemy->region[0] << 8);
+    screenY += (enemy->region[1] << 8);
+
+    if ((collisionResult = sub_8052394(screenY, screenX, 1, 8, NULL, sub_805217C) <= 0 ? 0 : 1)) {
+        enemy->qPos.y += collisionResult << 8;
+
+        screenX = (enemy->qPos.x >> 8);
+        screenY = (enemy->qPos.y >> 8);
+
+        screenX += (enemy->region[0] << 8);
+        screenY += (enemy->region[1] << 8);
+
+        if (sub_8052394(screenY, screenX, 1, 8, NULL, sub_805217C) > 0) {
+            enemy->qPos.y += enemy->unk18;
+            enemy->unk18 += 0x20;
+        }
+    } else {
+        enemy->unk18 = 0;
+        sub_805CD70(&enemy->qPos, &enemy->qUnk1C, enemy->region, &enemy->unk9);
+    }
+
+    if (enemy->unk14 > 0) {
+        enemy->unk14 -= 4;
+    } else {
+        enemy->unk14 = 0;
+    }
+}
+
 // https://decomp.me/scratch/LwjhM
 // bool32 sub_8063D38(void* param) {
 //     EnemyUnknownStruc0 unk;
