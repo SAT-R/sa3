@@ -484,26 +484,7 @@ bool32 sub_8063D38(void* param) {
     return result;
 }
 
-// // https://decomp.me/scratch/GCw5n
-// bool32 sub_8063EDC(Marun *enemy, EnemyUnknownStruc0 *param1)
-// {
-//     Sprite *s;
-
-//     param1->me = NULL;
-//     param1->spriteX = 0;
-//     param1->unk4 = 0;
-
-//     s = &enemy->s;
-//     param1->spr = s;
-//     param1->posX = enemy->qPos.x;
-//     param1->posY = enemy->qPos.y;
-//     param1->regionX = enemy->region[0];
-//     param1->regionY = enemy->region[1];
-
-//     return sub_805C63C(param1);
-// }
-
-// // https://decomp.me/scratch/2VR0x
+// https://decomp.me/scratch/2VR0x
 s32 sub_8063E5C(Marun *enemy) {
     s32 result;
     Sprite *s = &enemy->s;
@@ -536,6 +517,25 @@ s32 sub_8063E5C(Marun *enemy) {
     DisplaySprite(s);
 
     return result;
+}
+
+// https://decomp.me/scratch/GCw5n
+bool32 sub_8063EDC(Marun *enemy, EnemyUnknownStruc0 *param1)
+{
+    Sprite *s;
+
+    param1->me = NULL;
+    param1->spriteX = 0;
+    param1->unk4 = 0;
+
+    s = &enemy->s;
+    param1->spr = s;
+    param1->posX = enemy->qPos.x;
+    param1->posY = enemy->qPos.y;
+    param1->regionX = enemy->region[0];
+    param1->regionY = enemy->region[1];
+
+    return sub_805C63C(param1);
 }
 
 // // https://decomp.me/scratch/laLdi
