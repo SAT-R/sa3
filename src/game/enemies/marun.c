@@ -538,8 +538,8 @@ bool32 sub_8063EDC(Marun *enemy, EnemyUnknownStruc0 *param1)
     return sub_805C63C(param1);
 }
 
-// // https://decomp.me/scratch/laLdi
-// void TaskDestructor_Marun(struct Task *t) { // sub_8063F08
-//     Marun *enemy = TASK_DATA(t);
-//     VramFree(enemy->s.tiles);
-// }
+// https://decomp.me/scratch/laLdi
+void TaskDestructor_Marun(struct Task *t) { // sub_8063F08
+    Marun *enemy = TASK_DATA(t);
+    VramFree(enemy->s.tiles);
+}
