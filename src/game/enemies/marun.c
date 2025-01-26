@@ -1,7 +1,6 @@
 #include "global.h"
 #include "sprite.h"
 #include "task.h"
-#include "trig.h"
 #include "malloc_vram.h"
 #include "game/camera.h"
 #include "game/entity.h"
@@ -9,9 +8,6 @@
 #include "module_unclear.h"
 #include "game/player.h"
 #include "game/stage.h"
-
-#include "constants/animations.h"
-#include "constants/anim_sizes.h"
 
 typedef struct {
     /* 0x00 */ MapEntity *me;
@@ -40,9 +36,9 @@ void InitSprite(Marun *enemy);
 bool32 sub_8063C98(Marun *enemy);
 bool32 sub_8063EDC(Marun *enemy, EnemyUnknownStruc0 *unk);
 void Task_8063858(void);
-bool32 sub_8063D38(Marun* enemy);
+bool32 sub_8063D38(Marun *enemy);
 s32 sub_8063E5C(Marun *enemy);
-void sub_8063BB8(Marun* enemy);
+void sub_8063BB8(Marun *enemy);
 void Task_806394C(void);
 void Task_8063ADC(void);
 void TaskDestructor_Marun(struct Task *t);
@@ -91,7 +87,8 @@ void CreateEntity_Marun(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     SET_MAP_ENTITY_INITIALIZED(me);
 }
 
-void InitSprite(Marun *enemy) {
+void InitSprite(Marun *enemy)
+{
     void *tiles = VramMalloc(0x11);
     Sprite *s = &enemy->s;
     SpriteTransform *transform = &enemy->transform;
@@ -127,7 +124,8 @@ void InitSprite(Marun *enemy) {
     UpdateSpriteAnimation(s);
 }
 
-void Task_MarunInit(void) {
+void Task_MarunInit(void)
+{
     Marun *enemy = TASK_DATA(gCurTask);
 
     sub_805CD70(&enemy->qPos, &enemy->qUnk1C, enemy->region, &enemy->unk9);
@@ -135,7 +133,7 @@ void Task_MarunInit(void) {
     if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
         bool32 result = sub_8063C98(enemy);
 
-        if ((result == 1) && ((enemy->unk4 == 0) && (enemy->unk5 == 0))) {
+        if ((result == TRUE) && ((enemy->unk4 == 0) && (enemy->unk5 == 0))) {
             Sprite *sprite;
             sprite = &enemy->s;
 
@@ -162,13 +160,14 @@ void Task_MarunInit(void) {
     sub_8063E5C(enemy);
 }
 
-void Task_8063858(void) {
-    Marun* enemy = TASK_DATA(gCurTask);
+void Task_8063858(void)
+{
+    Marun *enemy = TASK_DATA(gCurTask);
 
     sub_805CD70(&enemy->qPos, &enemy->qUnk1C, enemy->region, &enemy->unk9);
 
     if (gStageData.unk4 != 1 && gStageData.unk4 != 2 && gStageData.unk4 != 4 && sub_8063E5C(enemy) == 0) {
-        Sprite* sprite = &enemy->s;
+        Sprite *sprite = &enemy->s;
         sprite->anim = gUnknown_080D210C[2].anim;
         sprite->variant = gUnknown_080D210C[2].variant;
         sprite->prevVariant = 0xFF;
@@ -187,8 +186,9 @@ void Task_8063858(void) {
     }
 }
 
-void Task_806394C(void) {
-    Marun* enemy = TASK_DATA(gCurTask);
+void Task_806394C(void)
+{
+    Marun *enemy = TASK_DATA(gCurTask);
     s8 res = 0;
     s32 x, y;
     s32 r1;
@@ -225,9 +225,9 @@ void Task_806394C(void) {
         }
     }
 
-    if ((gStageData.unk4 != 1 && gStageData.unk4 != 2 && gStageData.unk4 != 4) &&
-        (r0 = ++enemy->unk12, r0 <<= 16, r0 > (r1 = 0x1680000) || res < 0)) {
-        Sprite* s = &enemy->s;
+    if ((gStageData.unk4 != 1 && gStageData.unk4 != 2 && gStageData.unk4 != 4)
+        && (r0 = ++enemy->unk12, r0 <<= 16, r0 > (r1 = 0x1680000) || res < 0)) {
+        Sprite *s = &enemy->s;
 
         s->anim = gUnknown_080D210C[3].anim;
         s->variant = gUnknown_080D210C[3].variant;
@@ -299,7 +299,8 @@ void Task_8063ADC(void)
     }
 }
 
-void sub_8063BB8(Marun* enemy) {
+void sub_8063BB8(Marun *enemy)
+{
     s32 screenX;
     s32 screenY;
     s8 res;
@@ -343,7 +344,8 @@ void sub_8063BB8(Marun* enemy) {
     }
 }
 
-bool32 sub_8063C98(Marun *enemy) {
+bool32 sub_8063C98(Marun *enemy)
+{
     Sprite *s = &enemy->s;
     s32 worldX;
     s32 worldY;
@@ -354,34 +356,40 @@ bool32 sub_8063C98(Marun *enemy) {
     worldX = (TO_WORLD_POS_RAW(worldX, enemy->region[0]));
     worldY = (TO_WORLD_POS_RAW(worldY, enemy->region[1]));
 
-    for (i = 0; ; i++) {
+    for (i = 0;; i++) {
         Player *p;
         s32 dx, y;
 
-        if (i > 1) break;
+        if (i > 1)
+            break;
         p = sub_805CD20(i);
-        if (!p) break;
+        if (!p)
+            break;
 
         if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
             dx = I(p->qWorldX) - worldX - 1;
-            if ((u32)dx > 0x4E) goto x_flip_cleanup;
+            if ((u32)dx > 0x4E)
+                goto x_flip_cleanup;
 
             y = I(p->qWorldY);
             if (y < worldY + 0x50 && y > worldY - 0x10) {
                 return TRUE;
             }
 
-            x_flip_cleanup:
+        x_flip_cleanup:
             if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
                 continue;
             }
         }
 
         dx = worldX - I(p->qWorldX) - 1;
-        if ((u32)dx > 0x4E) continue;
+        if ((u32)dx > 0x4E)
+            continue;
 
-        if (I(p->qWorldY) >= worldY + 0x50) continue;
-        if (I(p->qWorldY) <= worldY - 0x10) continue;
+        if (I(p->qWorldY) >= worldY + 0x50)
+            continue;
+        if (I(p->qWorldY) <= worldY - 0x10)
+            continue;
 
         return TRUE;
     }
@@ -389,7 +397,8 @@ bool32 sub_8063C98(Marun *enemy) {
     return FALSE;
 }
 
-bool32 sub_8063D38(Marun* enemy) {
+bool32 sub_8063D38(Marun *enemy)
+{
     EnemyUnknownStruc0 unk;
     bool32 result;
 
@@ -419,7 +428,7 @@ bool32 sub_8063D38(Marun* enemy) {
     unk.regionX = enemy->region[0];
     unk.regionY = enemy->region[1];
     unk.me = enemy->me;
-    *(u8*)((char*)&unk + 8) = enemy->spriteX;
+    *(u8 *)((char *)&unk + 8) = enemy->spriteX;
 
     result = sub_805C280(&unk);
 
@@ -445,7 +454,8 @@ bool32 sub_8063D38(Marun* enemy) {
     return result;
 }
 
-s32 sub_8063E5C(Marun *enemy) {
+s32 sub_8063E5C(Marun *enemy)
+{
     s32 result;
     Sprite *s = &enemy->s;
     SpriteTransform *transform = &enemy->transform;
@@ -457,8 +467,7 @@ s32 sub_8063E5C(Marun *enemy) {
     screenY = I(enemy->qPos.y) + (enemy->region[1] * CAM_REGION_WIDTH);
     s->y = screenY - gCamera.y;
 
-    if (s->anim == gUnknown_080D210C[2].anim &&
-        s->variant == gUnknown_080D210C[2].variant) {
+    if (s->anim == gUnknown_080D210C[2].anim && s->variant == gUnknown_080D210C[2].variant) {
         s->y -= 0xB;
     } else {
         s->y += 6;
@@ -493,7 +502,8 @@ bool32 sub_8063EDC(Marun *enemy, EnemyUnknownStruc0 *unk)
     return sub_805C63C(unk);
 }
 
-void TaskDestructor_Marun(struct Task *t) {
+void TaskDestructor_Marun(struct Task *t)
+{
     Marun *enemy = TASK_DATA(t);
     VramFree(enemy->s.tiles);
 }
