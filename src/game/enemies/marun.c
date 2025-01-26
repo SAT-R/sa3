@@ -19,7 +19,7 @@ typedef struct {
     /* 0x05 */ u8 unk5;
     /* 0x06 */ u8 id;
     /* 0x07 */ u8 spriteX;
-    /* 0x08 */ u8 unk8;
+    /* 0x08 */ bool8 unk8;
     /* 0x09 */ u8 unk9;
     /* 0x0A */ s8 direction;
     /* 0x0C */ u16 region[2];
@@ -40,7 +40,7 @@ void TaskDestructor_Marun(struct Task *t);
 bool32 sub_8063C98(Marun *enemy);
 bool32 sub_8063EDC(Marun *enemy, EnemyUnknownStruc0 *param1);
 void sub_8063858(void);
-bool32 sub_8063D38(void* param);
+bool32 sub_8063D38(Marun* enemy);
 s32 sub_8063E5C(Marun *enemy);
 void sub_8063BB8(Marun* enemy);
 void sub_806394C(void);
@@ -64,7 +64,7 @@ void CreateEntity_Marun(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     enemy->id = id;
     enemy->me = me;
     enemy->spriteX = me->x;
-    enemy->unk8 = 0;
+    enemy->unk8 = FALSE;
     enemy->region[0] = regionX;
     enemy->region[1] = regionY;
 
@@ -276,7 +276,7 @@ void sub_806394C(void) {
         enemy->unk12 = 0;
         enemy->unk14 = 0x200;
         enemy->unk18 = 0;
-        enemy->unk8 = 0;
+        enemy->unk8 = FALSE;
         enemy->unk5 = 1;
 
         gCurTask->main = sub_8063ADC;
@@ -425,60 +425,57 @@ bool32 sub_8063C98(Marun *enemy) {
 }
 
 // https://decomp.me/scratch/LwjhM
-bool32 sub_8063D38(void* param) {
+bool32 sub_8063D38(Marun* enemy) {
     EnemyUnknownStruc0 unk;
     bool32 result;
 
-    if (*(u8*)(param + 8) != 1) {
-        // Subtract 0x10 from bytes at various offsets
-        *(u8*)(param + 0x5C) -= 0x10;
-        *(u8*)(param + 0x5D) -= 0x10;
-        *(u8*)(param + 0x5E) -= 0x10;
-        *(u8*)(param + 0x5F) -= 0x10;
-        *(u8*)(param + 0x64) -= 0x10;
-        *(u8*)(param + 0x65) -= 0x10;
-        *(u8*)(param + 0x66) -= 0x10;
-        *(u8*)(param + 0x67) -= 0x10;
+    if (enemy->unk8 != TRUE) {
+        enemy->s.hitboxes[0].b.left -= 0x10;
+        enemy->s.hitboxes[0].b.top -= 0x10;
+        enemy->s.hitboxes[0].b.right -= 0x10;
+        enemy->s.hitboxes[0].b.bottom -= 0x10;
+
+        enemy->reserved.b.left -= 0x10;
+        enemy->reserved.b.top -= 0x10;
+        enemy->reserved.b.right -= 0x10;
+        enemy->reserved.b.bottom -= 0x10;
     }
 
-    if (*(u8*)(param + 8) == 1) {
-        // Set specific values at offsets
-        *(u8*)(param + 0x5C) = 0xFC;
-        *(u8*)(param + 0x5D) = 0xFC;
-        *(u8*)(param + 0x5E) = 4;
-        *(u8*)(param + 0x5F) = 4;
+    if (enemy->unk8 == TRUE) {
+        enemy->s.hitboxes[0].b.left = 0xFC;
+        enemy->s.hitboxes[0].b.top = 0xFC;
+        enemy->s.hitboxes[0].b.right = 4;
+        enemy->s.hitboxes[0].b.bottom = 4;
     }
 
-    // Setup EnemyUnknownStruc0 fields
-    unk.unk4 = sub_8063EDC(param, &unk);
-    unk.spr = param + 0x38;
-    unk.posX = *(int*)(param + 0x1C);
-    unk.posY = *(int*)(param + 0x20);
-    unk.regionX = *(uint16_t*)(param + 0xC);
-    unk.regionY = *(uint16_t*)(param + 0xE);
-    unk.me = *(void**)(param);
-    *(u8*)((char*)&unk + 8) = *(u8*)(param + 7);
+    unk.unk4 = sub_8063EDC(enemy, &unk);
+    unk.spr = &enemy->s;
+    unk.posX = enemy->qUnk1C.x;
+    unk.posY = enemy->qUnk1C.y;
+    unk.regionX = enemy->region[0];
+    unk.regionY = enemy->region[1];
+    unk.me = enemy->me;
+    *(u8*)((char*)&unk + 8) = enemy->spriteX;
 
     result = sub_805C280(&unk);
 
-    if (*(u8*)(param + 8) != 1) {
-        // Add 0x10 to bytes at various offsets
-        *(u8*)(param + 0x5C) += 0x10;
-        *(u8*)(param + 0x5D) += 0x10;
-        *(u8*)(param + 0x5E) += 0x10;
-        *(u8*)(param + 0x5F) += 0x10;
-        *(u8*)(param + 0x64) += 0x10;
-        *(u8*)(param + 0x65) += 0x10;
-        *(u8*)(param + 0x66) += 0x10;
-        *(u8*)(param + 0x67) += 0x10;
+    if (enemy->unk8 != TRUE) {
+        enemy->s.hitboxes[0].b.left += 0x10;
+        enemy->s.hitboxes[0].b.top += 0x10;
+        enemy->s.hitboxes[0].b.right += 0x10;
+        enemy->s.hitboxes[0].b.bottom += 0x10;
+
+        enemy->reserved.b.left += 0x10;
+        enemy->reserved.b.top += 0x10;
+        enemy->reserved.b.right += 0x10;
+        enemy->reserved.b.bottom += 0x10;
     }
 
-    if (*(u8*)(param + 8) == 1) {
-        // Zero out bytes at offsets
-        *(u8*)(param + 0x5C) = 0;
-        *(u8*)(param + 0x5D) = 0;
-        *(u8*)(param + 0x5E) = 0;
-        *(u8*)(param + 0x5F) = 0;
+    if (enemy->unk8 == TRUE) {
+        enemy->s.hitboxes[0].b.left = 0;
+        enemy->s.hitboxes[0].b.top = 0;
+        enemy->s.hitboxes[0].b.right = 0;
+        enemy->s.hitboxes[0].b.bottom = 0;
     }
 
     return result;
