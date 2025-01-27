@@ -37,7 +37,7 @@ bool32 sub_8063C98(Marun *enemy);
 bool32 sub_8063EDC(Marun *enemy, EnemyUnknownStruc0 *unk);
 void Task_8063858(void);
 bool32 sub_8063D38(Marun *enemy);
-s32 sub_8063E5C(Marun *enemy);
+AnimCmdResult sub_8063E5C(Marun *enemy);
 void sub_8063BB8(Marun *enemy);
 void Task_806394C(void);
 void Task_8063ADC(void);
@@ -437,9 +437,9 @@ bool32 sub_8063D38(Marun *enemy)
     return result;
 }
 
-s32 sub_8063E5C(Marun *enemy)
+AnimCmdResult sub_8063E5C(Marun *enemy)
 {
-    s32 result;
+    AnimCmdResult result;
     Sprite *s = &enemy->s;
     SpriteTransform *transform = &enemy->transform;
     s32 screenX, screenY;
