@@ -134,8 +134,7 @@ void Task_MarunInit(void)
         bool32 result = sub_8063C98(enemy);
 
         if ((result == TRUE) && ((enemy->unk4 == 0) && (enemy->unk5 == 0))) {
-            Sprite *sprite;
-            sprite = &enemy->s;
+            Sprite *sprite = &enemy->s;
 
             sprite->anim = gUnknown_080D210C[1].anim;
             sprite->variant = gUnknown_080D210C[1].variant;
@@ -212,7 +211,6 @@ void Task_806394C(void)
             enemy->unk4 = 1;
             enemy->speed = 0;
         }
-
     } else {
         res = sub_8052394(x + 8, y - 8, 1, 8, 0, sub_805203C);
 
@@ -258,7 +256,6 @@ void Task_806394C(void)
         enemy->unk5 = 1;
 
         gCurTask->main = Task_8063ADC;
-
     } else {
         if (sub_8063D38(enemy) == TRUE) {
             TaskDestroy(gCurTask);
@@ -368,13 +365,13 @@ bool32 sub_8063C98(Marun *enemy)
             }
 
             if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
-                 continue;
+                continue;
             }
         }
 
         if (worldX - I(p->qWorldX) > 0 && worldX - I(p->qWorldX) < 0x50 && (I(p->qWorldY) < worldY + 0x50 &&  I(p->qWorldY) > worldY - 0x10)) {
             return TRUE;
-        };
+        }
     }
 
     return FALSE;
