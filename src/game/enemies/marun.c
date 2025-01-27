@@ -356,42 +356,25 @@ bool32 sub_8063C98(Marun *enemy)
     worldX = (TO_WORLD_POS_RAW(worldX, enemy->region[0]));
     worldY = (TO_WORLD_POS_RAW(worldY, enemy->region[1]));
 
-    for (i = 0;; i++) {
-        Player *p;
-        s32 dx, y;
-
-        if (i > 1)
+    for (i = 0; i < 2; i++) {
+        Player *p = sub_805CD20(i);
+        if (!p) {
             break;
-        p = sub_805CD20(i);
-        if (!p)
-            break;
+        }
 
         if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
-            dx = I(p->qWorldX) - worldX - 1;
-            if ((u32)dx > 0x4E)
-                goto x_flip_cleanup;
-
-            y = I(p->qWorldY);
-            if (y < worldY + 0x50 && y > worldY - 0x10) {
-                return TRUE;
+            if (I(p->qWorldX) - worldX > 0 && (I(p->qWorldX) - worldX) < 0x50 && (I(p->qWorldY) < worldY + 0x50 &&  I(p->qWorldY) > worldY - 0x10)) {
+               return TRUE;
             }
 
-        x_flip_cleanup:
             if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
-                continue;
+                 continue;
             }
         }
 
-        dx = worldX - I(p->qWorldX) - 1;
-        if ((u32)dx > 0x4E)
-            continue;
-
-        if (I(p->qWorldY) >= worldY + 0x50)
-            continue;
-        if (I(p->qWorldY) <= worldY - 0x10)
-            continue;
-
-        return TRUE;
+        if (worldX - I(p->qWorldX) > 0 && worldX - I(p->qWorldX) < 0x50 && (I(p->qWorldY) < worldY + 0x50 &&  I(p->qWorldY) > worldY - 0x10)) {
+            return TRUE;
+        };
     }
 
     return FALSE;
