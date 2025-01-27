@@ -80,7 +80,7 @@ void CreateEntity_Marun(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         enemy->direction = +1;
     }
 
-    CpuFill16(0, &enemy->reserved.b.left, sizeof(enemy->reserved.b));
+    CpuFill16(0, &enemy->s.hitboxes[1].b.left, sizeof(enemy->s.hitboxes[1].b));
 
     InitSprite(enemy);
 
@@ -141,7 +141,7 @@ void Task_MarunInit(void)
             sprite->variant = gUnknown_080D210C[1].variant;
             sprite->prevVariant = 0xFF;
 
-            CpuFill16(0, &enemy->reserved.b, sizeof(Rect8));
+            CpuFill16(0, &enemy->s.hitboxes[1].b, sizeof(Rect8));
             CpuFill16(0, &enemy->s.hitboxes[0].b, sizeof(Rect8));
 
             UpdateSpriteAnimation(sprite);
@@ -175,7 +175,7 @@ void Task_8063858(void)
 
         enemy->qPos.x += 0xFFFFF000;
 
-        CpuFill16(0, &enemy->reserved.b, sizeof(Rect8));
+        CpuFill16(0, &enemy->s.hitboxes[1].b, sizeof(Rect8));
         CpuFill16(0, &enemy->s.hitboxes[0].b, sizeof(Rect8));
 
         UpdateSpriteAnimation(sprite);
@@ -233,7 +233,7 @@ void Task_806394C(void)
         s->variant = gUnknown_080D210C[3].variant;
         s->prevVariant = 0xFF;
 
-        CpuFill16(0, &enemy->reserved.b, sizeof(Rect8));
+        CpuFill16(0, &enemy->s.hitboxes[1].b, sizeof(Rect8));
         CpuFill16(0, &enemy->s.hitboxes[0].b, sizeof(Rect8));
 
         s->frameFlags = 0x1000;
@@ -283,7 +283,7 @@ void Task_8063ADC(void)
         s->variant = gUnknown_080D210C[0].variant;
         s->prevVariant = 0xFF;
 
-        CpuFill16(0, &enemy->reserved.b, sizeof(Rect8));
+        CpuFill16(0, &enemy->s.hitboxes[1].b, sizeof(Rect8));
         CpuFill16(0, &enemy->s.hitboxes[0].b, sizeof(Rect8));
 
         UpdateSpriteAnimation(s);
@@ -391,10 +391,10 @@ bool32 sub_8063D38(Marun *enemy)
         enemy->s.hitboxes[0].b.right -= 0x10;
         enemy->s.hitboxes[0].b.bottom -= 0x10;
 
-        enemy->reserved.b.left -= 0x10;
-        enemy->reserved.b.top -= 0x10;
-        enemy->reserved.b.right -= 0x10;
-        enemy->reserved.b.bottom -= 0x10;
+        enemy->s.hitboxes[1].b.left -= 0x10;
+        enemy->s.hitboxes[1].b.top -= 0x10;
+        enemy->s.hitboxes[1].b.right -= 0x10;
+        enemy->s.hitboxes[1].b.bottom -= 0x10;
     }
 
     if (enemy->unk8 == TRUE) {
@@ -421,10 +421,10 @@ bool32 sub_8063D38(Marun *enemy)
         enemy->s.hitboxes[0].b.right += 0x10;
         enemy->s.hitboxes[0].b.bottom += 0x10;
 
-        enemy->reserved.b.left += 0x10;
-        enemy->reserved.b.top += 0x10;
-        enemy->reserved.b.right += 0x10;
-        enemy->reserved.b.bottom += 0x10;
+        enemy->s.hitboxes[1].b.left += 0x10;
+        enemy->s.hitboxes[1].b.top += 0x10;
+        enemy->s.hitboxes[1].b.right += 0x10;
+        enemy->s.hitboxes[1].b.bottom += 0x10;
     }
 
     if (enemy->unk8 == TRUE) {
