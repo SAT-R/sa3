@@ -360,8 +360,9 @@ bool32 sub_8063C98(Marun *enemy)
         }
 
         if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
-            if (I(p->qWorldX) - worldX > 0 && (I(p->qWorldX) - worldX) < 0x50 && (I(p->qWorldY) < worldY + 0x50 &&  I(p->qWorldY) > worldY - 0x10)) {
-               return TRUE;
+            if (I(p->qWorldX) - worldX > 0 && (I(p->qWorldX) - worldX) < 0x50
+                && (I(p->qWorldY) < worldY + 0x50 && I(p->qWorldY) > worldY - 0x10)) {
+                return TRUE;
             }
 
             if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
@@ -369,7 +370,8 @@ bool32 sub_8063C98(Marun *enemy)
             }
         }
 
-        if (worldX - I(p->qWorldX) > 0 && worldX - I(p->qWorldX) < 0x50 && (I(p->qWorldY) < worldY + 0x50 &&  I(p->qWorldY) > worldY - 0x10)) {
+        if (worldX - I(p->qWorldX) > 0 && worldX - I(p->qWorldX) < 0x50
+            && (I(p->qWorldY) < worldY + 0x50 && I(p->qWorldY) > worldY - 0x10)) {
             return TRUE;
         }
     }
