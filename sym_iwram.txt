@@ -1,19 +1,19 @@
-build/sa3/src/lib/m4a/m4a.o(.bss.code);
+src/lib/m4a/m4a.o(.bss.code);
 
 /* NOTE: If you rename some sa2__ variable or procedure,
          ensure that all three codebases share the same name!
 */
 
 . = 0x0000041c;
-build/sa3/src/multi_boot.o(.bss)
+src/multi_boot.o(.bss)
 
 . = 0x00000440;
-build/sa3/src/lib/agb_flash/agb_flash.o(.bss);
+src/lib/agb_flash/agb_flash.o(.bss);
 
 /* TODO: Remove the indivisual includes for 'dp-bit.o' or 'fp-bit.o' */
 *libgcc.a(.bss);
-tools/agbcc/lib/libgcc.a:dp-bit.o(.bss);
-tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
+*libgcc.a:dp-bit.o(.bss);
+*libgcc.a:fp-bit.o(.bss);
 
 *libc.a(.bss);
 
@@ -161,15 +161,15 @@ tools/agbcc/lib/libgcc.a:fp-bit.o(.bss);
 . = 0x00006868; gPseudoRandom = .;
 
 . = 0x00006870;
-build/sa3/src/multi_sio.o(.data);
-build/sa3/src/sio32_multi_load.o(.data);
+src/multi_sio.o(.data);
+src/sio32_multi_load.o(.data);
 
 . = 0x00006C10;
-build/sa3/src/input_recorder.o(.data);
+src/input_recorder.o(.data);
 
 . = 0x00006C20; gUnknown_03006C20 = .; . += 0x1;
 
-build/sa3/src/lib/agb_flash/agb_flash.o(.data);
+src/lib/agb_flash/agb_flash.o(.data);
 
 *libc.a:sbrkr.o(COMMON);
 
