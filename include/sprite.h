@@ -410,8 +410,6 @@ extern u8 gNextFreeAffineIndex; // related to Sprite.frameFlags
 #define SPRITE_FLAG_SET_VALUE(sprite, flagName, value) (sprite)->frameFlags |= SPRITE_FLAG(flagName, value)
 
 #define SPRITE_FLAG_SHIFT_ROT_SCALE             0
-#define SPRITE_FLAG_SHIFT_2                     1
-#define SPRITE_FLAG_SHIFT_3                     3
 #define SPRITE_FLAG_SHIFT_ROT_SCALE_ENABLE      5
 #define SPRITE_FLAG_SHIFT_ROT_SCALE_DOUBLE_SIZE 6
 #define SPRITE_FLAG_SHIFT_OBJ_MODE              7

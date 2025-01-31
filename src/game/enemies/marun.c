@@ -172,7 +172,7 @@ void Task_8063858(void)
         sprite->variant = gUnknown_080D210C[2].variant;
         sprite->prevVariant = 0xFF;
         sprite->frameFlags
-            |= SPRITE_FLAG(ROT_SCALE_ENABLE, 1) | SPRITE_FLAG(ROT_SCALE_DOUBLE_SIZE, 1) | SPRITE_FLAG(3, 1) | SPRITE_FLAG(2, 1);
+            |= SPRITE_FLAG(ROT_SCALE_ENABLE, 1) | SPRITE_FLAG(ROT_SCALE_DOUBLE_SIZE, 1) | SPRITE_FLAG(ROT_SCALE, 10);
 
         enemy->qPos.x -= Q(16);
 
