@@ -21,7 +21,7 @@ typedef struct {
     /* 0x0A */ s8 direction;
     /* 0x0C */ u16 region[2];
     /* 0x10 */ u16 rotation;
-    /* 0x12 */ u16 timer;
+    /* 0x12 */ s16 timer;
     /* 0x14 */ s32 speed;
     /* 0x18 */ s32 unk18;
     /* 0x1C */ Vec2_32 qUnk1C;
@@ -171,7 +171,7 @@ void Task_8063858(void)
         sprite->anim = gUnknown_080D210C[2].anim;
         sprite->variant = gUnknown_080D210C[2].variant;
         sprite->prevVariant = 0xFF;
-        sprite->frameFlags |= SPRITE_FLAG_SHIFT_106;
+        sprite->frameFlags |= SPRITE_FLAG(ROT_SCALE_ENABLE, 1) |  SPRITE_FLAG(ROT_SCALE_DOUBLE_SIZE, 1) | SPRITE_FLAG(3, 1) | SPRITE_FLAG(2, 1);
 
         enemy->qPos.x -= Q(16);
 
@@ -225,9 +225,7 @@ void Task_806394C(void)
     }
 
     if ((gStageData.unk4 != 1 && gStageData.unk4 != 2 && gStageData.unk4 != 4)) {
-        s32 rangedTimer = (++enemy->timer) << 16;
-        s32 limit = ZONE_TIME_TO_INT(6553, 36);
-        if (rangedTimer > limit || res < 0) {
+        if (++enemy->timer > ZONE_TIME_TO_INT(0, 6) || res < 0) {
             Sprite *s = &enemy->s;
 
             s->anim = gUnknown_080D210C[3].anim;
@@ -240,7 +238,7 @@ void Task_806394C(void)
             s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
 
             if (enemy->direction < 0) {
-                s->frameFlags = SPRITE_FLAG_SET(s, X_FLIP);
+                SPRITE_FLAG_SET(s, X_FLIP);
             }
 
             if (enemy->direction > 0) {
