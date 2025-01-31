@@ -132,7 +132,7 @@ SECTIONS {
         asm/enemy_yukigasen.o(.text);
         asm/enemy_hariisen.o(.text);
         asm/enemy_muukaden.o(.text);
-        asm/enemy_marun.o(.text);
+        src/game/enemies/marun.o(.text);
         asm/enemy_clam.o(.text);
         asm/enemy_kamaki.o(.text);
         src/game/enemies/guruguru.o(.text);
