@@ -226,7 +226,7 @@ void Task_806394C(void)
 
     if ((gStageData.unk4 != 1 && gStageData.unk4 != 2 && gStageData.unk4 != 4)) {
         s32 rangedTimer = (++enemy->timer) << 16;
-        s32 limit = ZONE_TIME_TO_INT(0, 393216);
+        s32 limit = ZONE_TIME_TO_INT(6553, 36);
         if (rangedTimer > limit || res < 0) {
             Sprite *s = &enemy->s;
 
