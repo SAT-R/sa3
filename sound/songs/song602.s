@@ -41,7 +41,7 @@ song602:	@ 0x082B1DD4
 	.byte	25		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup003		@ voicegroup/tone
+	.int	voicegroup003		@ voicegroup/tone
 
-	.word	song602_1		@ track
-	.word	song602_2		@ track
+	.int	song602_1		@ track
+	.int	song602_2		@ track

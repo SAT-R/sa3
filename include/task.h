@@ -11,7 +11,7 @@ typedef void (*TaskDestructor)(struct Task *);
 
 // The task system uses the GBA's unique memory layout to halve the size of pointers.
 // Other platforms need to have the same logical behavior, but done differently.
-#ifndef PORTABLE
+#if !PORTABLE
 typedef u16 TaskPtr;
 
 // Mainly used to silence (void* -> u16) warnings
@@ -61,7 +61,7 @@ struct Task {
 #endif
 };
 
-#ifndef PORTABLE
+#if !PORTABLE
 typedef u16 IwramNodePtr;
 typedef u32 IwramNodePtr32;
 #else

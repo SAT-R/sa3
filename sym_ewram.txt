@@ -1,6 +1,6 @@
-. = 0x00001400; build/sa3/src/lib/m4a/m4a.o(ewram_data);
+. = 0x00001400; src/lib/m4a/m4a.o(ewram_data);
 
-build/sa3/src/malloc_ewram.o(ewram_data);
+src/malloc_ewram.o(ewram_data);
 ewram_end = .;
 
 . = 0x00035000; gUnknown_02035000 = .;

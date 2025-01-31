@@ -4,6 +4,7 @@ ehthumbs.db
 
 # Visual Studio folder
 .vs
+*.pdb
 
 # Folder config file
 Desktop.ini
@@ -58,9 +59,10 @@ Temporary Items
 *.map
 *.bin
 
+*.a
+
 *.hex
 *.o
-*.a
 *.dump
 build
 tools/agbcc
@@ -75,3 +77,12 @@ reports
 ./maps
 *.4bpp
 *.8bpp
+libagbsyscall/*.s
+
+!data/maps/*/*/tilemaps/*/*.bin
+*.exe
+*.dll
+*.sdl
+
+# third party deps
+/ext

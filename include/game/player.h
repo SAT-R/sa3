@@ -41,7 +41,7 @@ typedef union PACKED {
 //
 // Pointed to by Player::unkE0
 typedef struct {
-    /* 0x00 */ SpriteBase base;
+    /* 0x00 */ SpriteBase base; // maybe SpriteTransform instead?
     /* 0x0C */ Sprite s;
 } PlayerSprite; /* size: 0xF0 ? */
 
