@@ -2,6 +2,7 @@
 #include "sprite.h"
 #include "task.h"
 #include "malloc_vram.h"
+#include "constants/zones.h"
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/enemy_unknown.h"
@@ -20,7 +21,7 @@ typedef struct {
     /* 0x0A */ s8 direction;
     /* 0x0C */ u16 region[2];
     /* 0x10 */ u16 rotation;
-    /* 0x12 */ u16 unk12;
+    /* 0x12 */ u16 timer;
     /* 0x14 */ s32 speed;
     /* 0x18 */ s32 unk18;
     /* 0x1C */ Vec2_32 qUnk1C;
@@ -71,7 +72,7 @@ void CreateEntity_Marun(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     enemy->unk9 = 0;
     enemy->speed = Q(2);
     enemy->unk18 = 0;
-    enemy->unk12 = 0;
+    enemy->timer = 0;
     enemy->unk5 = 0;
 
     if (me->d.uData[4] & 0x8) {
@@ -170,9 +171,9 @@ void Task_8063858(void)
         sprite->anim = gUnknown_080D210C[2].anim;
         sprite->variant = gUnknown_080D210C[2].variant;
         sprite->prevVariant = 0xFF;
-        sprite->frameFlags |= 0x6A;
+        sprite->frameFlags |= SPRITE_FLAG_SHIFT_106;
 
-        enemy->qPos.x += 0xFFFFF000;
+        enemy->qPos.x -= Q(16);
 
         CpuFill16(0, &enemy->s.hitboxes[1].b, sizeof(Rect8));
         CpuFill16(0, &enemy->s.hitboxes[0].b, sizeof(Rect8));
@@ -195,17 +196,17 @@ void Task_806394C(void)
 
     sub_8063BB8(enemy);
 
-    x = (enemy->qPos.x >> 8);
-    y = (enemy->qPos.y >> 8);
+    x = I(enemy->qPos.x);
+    y = I(enemy->qPos.y);
 
-    x += (enemy->region[0] << 8);
-    y += (enemy->region[1] << 8);
+    x = TO_WORLD_POS_RAW(x, enemy->region[0]);
+    y = TO_WORLD_POS_RAW(y, enemy->region[1]);
 
     if (enemy->direction > 0) {
         res = sub_8052394(x, y - 8, 1, -8, 0, sub_805203C);
 
         if (res < 0) {
-            enemy->qPos.x -= (res << 8);
+            enemy->qPos.x -= Q(res);
             enemy->qPos.x += Q(8);
 
             enemy->unk4 = 1;
@@ -215,7 +216,7 @@ void Task_806394C(void)
         res = sub_8052394(x + 8, y - 8, 1, 8, 0, sub_805203C);
 
         if (res < 0) {
-            enemy->qPos.x += (res << 8);
+            enemy->qPos.x += Q(res);
             enemy->qPos.x -= Q(8);
 
             enemy->unk4 = 1;
@@ -223,45 +224,49 @@ void Task_806394C(void)
         }
     }
 
-    if ((gStageData.unk4 != 1 && gStageData.unk4 != 2 && gStageData.unk4 != 4)
-        && (r0 = ++enemy->unk12, r0 <<= 16, r0 > (r1 = 0x1680000) || res < 0)) {
-        Sprite *s = &enemy->s;
+    if ((gStageData.unk4 != 1 && gStageData.unk4 != 2 && gStageData.unk4 != 4)) {
+        s32 rangedTimer = (++enemy->timer) << 16;
+        s32 limit = ZONE_TIME_TO_INT(0, 393216);
+        if (rangedTimer > limit || res < 0) {
+            Sprite *s = &enemy->s;
 
-        s->anim = gUnknown_080D210C[3].anim;
-        s->variant = gUnknown_080D210C[3].variant;
-        s->prevVariant = 0xFF;
+            s->anim = gUnknown_080D210C[3].anim;
+            s->variant = gUnknown_080D210C[3].variant;
+            s->prevVariant = 0xFF;
 
-        CpuFill16(0, &enemy->s.hitboxes[1].b, sizeof(Rect8));
-        CpuFill16(0, &enemy->s.hitboxes[0].b, sizeof(Rect8));
+            CpuFill16(0, &enemy->s.hitboxes[1].b, sizeof(Rect8));
+            CpuFill16(0, &enemy->s.hitboxes[0].b, sizeof(Rect8));
 
-        s->frameFlags = 0x1000;
+            s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
 
-        if (enemy->direction < 0) {
-            s->frameFlags |= 0x400;
+            if (enemy->direction < 0) {
+                s->frameFlags = SPRITE_FLAG_SET(s, X_FLIP);
+            }
+
+            if (enemy->direction > 0) {
+                enemy->qPos.x += Q(19);
+            } else {
+                enemy->qPos.x += Q(13);
+            }
+
+            UpdateSpriteAnimation(s);
+
+            enemy->rotation = 0;
+            enemy->timer = 0;
+            enemy->speed = Q(2);
+            enemy->unk18 = 0;
+            enemy->unk8 = FALSE;
+            enemy->unk5 = 1;
+
+            gCurTask->main = Task_8063ADC;
+            return;
         }
+    }
 
-        if (enemy->direction > 0) {
-            enemy->qPos.x += 0x1300;
-        } else {
-            enemy->qPos.x += 0xD00;
-        }
-
-        UpdateSpriteAnimation(s);
-
-        enemy->rotation = 0;
-        enemy->unk12 = 0;
-        enemy->speed = Q(2);
-        enemy->unk18 = 0;
-        enemy->unk8 = FALSE;
-        enemy->unk5 = 1;
-
-        gCurTask->main = Task_8063ADC;
+    if (sub_8063D38(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
     } else {
-        if (sub_8063D38(enemy) == TRUE) {
-            TaskDestroy(gCurTask);
-        } else {
-            sub_8063E5C(enemy);
-        }
+        sub_8063E5C(enemy);
     }
 }
 
@@ -286,7 +291,7 @@ void Task_8063ADC(void)
         UpdateSpriteAnimation(s);
 
         enemy->rotation = 0;
-        enemy->unk12 = 0;
+        enemy->timer = 0;
         enemy->speed = Q(2);
         enemy->unk18 = 0;
 
@@ -313,17 +318,17 @@ void sub_8063BB8(Marun *enemy)
     screenX = I(enemy->qPos.x);
     screenY = I(enemy->qPos.y);
 
-    screenX += (enemy->region[0] << 8);
-    screenY += (enemy->region[1] << 8);
+    screenX = TO_WORLD_POS_RAW(screenX, enemy->region[0]);
+    screenY = TO_WORLD_POS_RAW(screenY, enemy->region[1]);
 
     if ((res = sub_8052394(screenY, screenX, 1, 8, NULL, sub_805217C) <= 0 ? 0 : 1)) {
-        enemy->qPos.y += res << 8;
+        enemy->qPos.y += Q(res);
 
-        screenX = (enemy->qPos.x >> 8);
-        screenY = (enemy->qPos.y >> 8);
+        screenX = I(enemy->qPos.x);
+        screenY = I(enemy->qPos.y);
 
-        screenX += (enemy->region[0] << 8);
-        screenY += (enemy->region[1] << 8);
+        screenX = TO_WORLD_POS_RAW(screenX, enemy->region[0]);
+        screenY = TO_WORLD_POS_RAW(screenY, enemy->region[1]);
 
         if (sub_8052394(screenY, screenX, 1, 8, NULL, sub_805217C) > 0) {
             enemy->qPos.y += enemy->unk18;
