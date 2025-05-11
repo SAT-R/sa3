@@ -17,7 +17,7 @@ typedef struct {
     /* 0x06 */ u8 unk6;
     /* 0x07 */ s8 direction;
     /* 0x08 */ u16 region[2];
-    /* 0x0C */ u16 unkC;
+    /* 0x0C */ s16 unkC;
     /* 0x10 */ s32 unk10;
     /* 0x14 */ s32 unk14;
     /* 0x18 */ Vec2_32 qUnk18;
@@ -36,9 +36,10 @@ void Task_Kyacchaa(void);
 void TaskDestructor_Kyacchaa(struct Task *t);
 void InitSprite_Kyacchaa(Kyacchaa *enemy);
 s32 sub_8065C48(Kyacchaa* enemy);
-void sub_8065CE0(Kyacchaa* enemy);
+bool32 sub_8065CE0(Kyacchaa* enemy);
 s32 sub_8065F5C(Kyacchaa* enemy);
-void sub_8065B0C(void);
+void Task_8065B0C(void);
+void sub_8065E48(void);
 
 // https://decomp.me/scratch/Bfjhv
 void CreateEntity_Kyacchaa(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -165,6 +166,37 @@ void sub_8065A8C(void)
 
         UpdateSpriteAnimation(s2);
 
-        gCurTask->main = sub_8065B0C;
+        gCurTask->main = Task_8065B0C;
+    }
+}
+
+// https://decomp.me/scratch/YXwo0
+void Task_8065B0C(void)
+{
+    Kyacchaa *enemy = TASK_DATA(gCurTask);
+    bool32 result = sub_8065CE0(enemy);
+
+    if (sub_8065F5C(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        if (result == FALSE) {
+            enemy->unkC++;
+
+            if (enemy->unkC > 60) {
+                Sprite *s = &enemy->s2;
+
+                s->anim = gUnknown_080D2198[2].anim;
+                s->variant = gUnknown_080D2198[2].variant;
+                s->prevVariant = 0xFF;
+
+                UpdateSpriteAnimation(s);
+                enemy->unkC = 0;
+
+                gCurTask->main = sub_8065E48;
+            }
+        }
     }
 }
