@@ -25,21 +25,16 @@ typedef struct {
     /* 0x28 */ u32 unk28;
     /* 0x2C */ s32 unk2C;
     /* 0x30 */ s32 unk30;
-    /* 0x34 */ s32 unk34;
-    /* 0x38 */ s32 unk38;
-    /* 0x3C */ s32 unk3C;
-    /* 0x40 */ s32 unk40;
-    /* 0x44 */ s32 unk44;
-    /* 0x48 */ s32 unk48;
-    /* 0x4C */ s32 unk4C;
-    /* 0x50 */ SpriteTransform transform;
-    /* 0x5A */ Sprite s;
-    /* 0x82 */ Hitbox reserved;
+    /* 0x34 */ Sprite s;
+    /* 0x5C */ Sprite s2;
+    /* 0x84 */ Hitbox reserved;
 } Kyacchaa; /* size: 0x8C */
+
+extern const TileInfo2 gUnknown_080D2198[];
 
 void Task_Kyacchaa(void);
 void TaskDestructor_Kyacchaa(struct Task *t);
-void sub_806599C(Kyacchaa *enemy); // TODO: Rename it to InitSprite
+void InitSprite_Kyacchaa(Kyacchaa *enemy);
 
 // https://decomp.me/scratch/Bfjhv
 void CreateEntity_Kyacchaa(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -79,9 +74,63 @@ void CreateEntity_Kyacchaa(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         enemy->direction = +1;
     }
 
-    CpuFill16(0, &enemy->s.hitboxes[1].b.left, sizeof(enemy->s.hitboxes[1].b));
+    CpuFill16(0, &enemy->s2.hitboxes[1].b.left, sizeof(enemy->s2.hitboxes[1].b));
 
-    sub_806599C(enemy);
+    InitSprite_Kyacchaa(enemy);
 
     SET_MAP_ENTITY_INITIALIZED(me);
+}
+
+// https://decomp.me/scratch/TBjJ3
+void InitSprite_Kyacchaa(Kyacchaa *enemy)
+{
+    void *tiles = VramMalloc(0x15);
+    Sprite *s;
+    void *secondaryTiles;
+
+    // Initialize the second sprite (s2)
+    s = &enemy->s2;
+    s->tiles = tiles;
+
+    secondaryTiles = tiles + (gUnknown_080D2198[0].numTiles << 5);
+
+    s->anim = gUnknown_080D2198[0].anim;
+    s->variant = gUnknown_080D2198[0].variant;
+    s->prevVariant = -1;
+
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+
+    s->oamFlags = SPRITE_OAM_ORDER(18);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+
+    UpdateSpriteAnimation(s);
+
+    // Initialize the first sprite (s)
+    s = &enemy->s;
+    s->tiles = secondaryTiles;
+
+    s->anim = gUnknown_080D2198[3].anim;
+    s->variant = gUnknown_080D2198[3].variant;
+    s->prevVariant = -1;
+
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+
+    s->oamFlags = SPRITE_OAM_ORDER(19);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+
+    UpdateSpriteAnimation(s);
 }
