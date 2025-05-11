@@ -5,68 +5,6 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_8065A8C
-sub_8065A8C: @ 0x08065A8C
-	push {r4, r5, lr}
-	ldr r0, _08065AD0 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	movs r5, #0
-	ldr r0, _08065AD4 @ =gStageData
-	ldrb r1, [r0, #4]
-	subs r0, r1, #1
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #1
-	bls _08065AB6
-	cmp r1, #4
-	beq _08065AB6
-	adds r0, r4, #0
-	bl sub_8065C48
-	adds r5, r0, #0
-_08065AB6:
-	adds r0, r4, #0
-	bl sub_8065CE0
-	adds r0, r4, #0
-	bl sub_8065F5C
-	cmp r0, #1
-	bne _08065AD8
-	ldr r0, _08065AD0 @ =gCurTask
-	ldr r0, [r0]
-	bl TaskDestroy
-	b _08065AFA
-	.align 2, 0
-_08065AD0: .4byte gCurTask
-_08065AD4: .4byte gStageData
-_08065AD8:
-	cmp r5, #1
-	bne _08065AFA
-	adds r0, r4, #0
-	adds r0, #0x5c
-	ldr r2, _08065B00 @ =gUnknown_080D2198
-	ldrh r1, [r2, #8]
-	strh r1, [r0, #0xc]
-	ldrb r1, [r2, #0xa]
-	strb r1, [r0, #0x1a]
-	movs r1, #0xff
-	strb r1, [r0, #0x1b]
-	bl UpdateSpriteAnimation
-	ldr r0, _08065B04 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _08065B08 @ =sub_8065B0C
-	str r0, [r1, #8]
-_08065AFA:
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08065B00: .4byte gUnknown_080D2198
-_08065B04: .4byte gCurTask
-_08065B08: .4byte sub_8065B0C
-
 	thumb_func_start sub_8065B0C
 sub_8065B0C: @ 0x08065B0C
 	push {r4, r5, r6, r7, lr}

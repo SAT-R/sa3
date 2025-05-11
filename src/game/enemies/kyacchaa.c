@@ -35,6 +35,10 @@ extern const TileInfo2 gUnknown_080D2198[];
 void Task_Kyacchaa(void);
 void TaskDestructor_Kyacchaa(struct Task *t);
 void InitSprite_Kyacchaa(Kyacchaa *enemy);
+s32 sub_8065C48(Kyacchaa* enemy);
+void sub_8065CE0(Kyacchaa* enemy);
+s32 sub_8065F5C(Kyacchaa* enemy);
+void sub_8065B0C(void);
 
 // https://decomp.me/scratch/Bfjhv
 void CreateEntity_Kyacchaa(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -133,4 +137,34 @@ void InitSprite_Kyacchaa(Kyacchaa *enemy)
     s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
 
     UpdateSpriteAnimation(s);
+}
+
+// https://decomp.me/scratch/n025r
+void sub_8065A8C(void)
+{
+    Kyacchaa *enemy = TASK_DATA(gCurTask);
+    s32 checkResult = 0;
+
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        checkResult = sub_8065C48(enemy);
+    }
+
+    sub_8065CE0(enemy);
+
+    if (sub_8065F5C(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (checkResult == 1) {
+        Sprite *s2 = &enemy->s2;
+
+        s2->anim = gUnknown_080D2198[1].anim;
+        s2->variant = gUnknown_080D2198[1].variant;
+        s2->prevVariant = 0xFF;
+
+        UpdateSpriteAnimation(s2);
+
+        gCurTask->main = sub_8065B0C;
+    }
 }
