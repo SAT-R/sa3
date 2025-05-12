@@ -200,3 +200,46 @@ void Task_8065B0C(void)
         }
     }
 }
+
+// https://decomp.me/scratch/JwSMm
+bool32 sub_8065B90(Kyacchaa *enemy)
+{
+    s32 worldX, worldY;
+    u8 i;
+    Player *p;
+
+    worldX = I(enemy->qPos.x);
+    worldY = I(enemy->qPos.y);
+    worldX = TO_WORLD_POS_RAW(worldX, enemy->region[0]);
+    worldY = TO_WORLD_POS_RAW(worldY, enemy->region[1]);
+
+    for (i = 0; i < 2; i++) {
+        p = sub_805CD20(i);
+        if (!p) {
+            break;
+        }
+
+        // First check: player to the right of enemy within range
+        if (p->qWorldX - Q(worldX) < Q(40) && p->qWorldX >= Q(worldX)) {
+            // Vertical check
+            if (p->qWorldY - Q(worldY) < Q(80) && p->qWorldY >= Q(worldY)) {
+                // Store relative position in enemy's unk10/unk14 fields
+                goto lbl;
+            }
+        }
+
+        // Second check: player to the left of enemy within range
+        if (Q(worldX) - p->qWorldX < Q(40) && Q(worldX) >= p->qWorldX) {
+            // Vertical check
+            if (p->qWorldY - Q(worldY) < Q(80) && p->qWorldY >= Q(worldY)) {
+            lbl:
+                // Store relative position in enemy's unk10/unk14 fields
+                enemy->unk10 = p->qWorldX - (enemy->region[0] << 16);
+                enemy->unk14 = p->qWorldY - (enemy->region[1] << 16);
+                return TRUE;
+            }
+        }
+    }
+
+    return FALSE;
+}
