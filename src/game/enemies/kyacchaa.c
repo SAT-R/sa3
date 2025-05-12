@@ -18,16 +18,15 @@ typedef struct {
     /* 0x07 */ s8 direction;
     /* 0x08 */ u16 region[2];
     /* 0x0C */ s16 unkC;
-    /* 0x10 */ s32 unk10;
-    /* 0x14 */ s32 unk14;
+    /* 0x10 */ Vec2_32 qUnk10;
     /* 0x18 */ Vec2_32 qUnk18;
     /* 0x20 */ Vec2_32 qPos;
     /* 0x28 */ u32 unk28;
     /* 0x2C */ s32 unk2C;
-    /* 0x30 */ s32 unk30;
-    /* 0x34 */ Sprite s;
-    /* 0x5C */ Sprite s2;
-    /* 0x84 */ Hitbox reserved;
+    /* 0x34 */ s32 unk34;
+    /* 0x38 */ Sprite s;
+    /* 0x60 */ Sprite s2;
+    /* 0x88 */ Hitbox reserved;
 } Kyacchaa; /* size: 0x8C */
 
 extern const TileInfo2 gUnknown_080D2198[];
@@ -65,11 +64,11 @@ void CreateEntity_Kyacchaa(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     enemy->qUnk18.x = qX;
     enemy->qUnk18.y = qY;
 
-    enemy->unk10 = 0;
-    enemy->unk14 = 0;
+    enemy->qUnk10.x = 0;
+    enemy->qUnk10.y = 0;
 
-    enemy->unk30 = qX + Q(me->d.sData[0] * TILE_WIDTH);
-    enemy->unk2C = enemy->unk30 + Q(me->d.uData[2] * TILE_WIDTH);
+    enemy->unk34 = qX + Q(me->d.sData[0] * TILE_WIDTH);
+    enemy->unk2C = enemy->unk34 + Q(me->d.uData[2] * TILE_WIDTH);
 
     enemy->unk6 = 0;
 
@@ -86,7 +85,7 @@ void CreateEntity_Kyacchaa(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     SET_MAP_ENTITY_INITIALIZED(me);
 }
 
-// https://decomp.me/scratch/TBjJ3
+// https://decomp.me/scratch/YJIlE
 void InitSprite_Kyacchaa(Kyacchaa *enemy)
 {
     void *tiles = VramMalloc(0x15);
@@ -234,8 +233,8 @@ bool32 sub_8065B90(Kyacchaa *enemy)
             if (p->qWorldY - Q(worldY) < Q(80) && p->qWorldY >= Q(worldY)) {
             lbl:
                 // Store relative position in enemy's unk10/unk14 fields
-                enemy->unk10 = p->qWorldX - (enemy->region[0] << 16);
-                enemy->unk14 = p->qWorldY - (enemy->region[1] << 16);
+                enemy->qUnk10.x = p->qWorldX - (enemy->region[0] << 16);
+                enemy->qUnk10.y = p->qWorldY - (enemy->region[1] << 16);
                 return TRUE;
             }
         }
