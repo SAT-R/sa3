@@ -35,9 +35,9 @@ extern const TileInfo2 gUnknown_080D2198[];
 void Task_Kyacchaa(void);
 void TaskDestructor_Kyacchaa(struct Task *t);
 void InitSprite_Kyacchaa(Kyacchaa *enemy);
-s32 sub_8065C48(Kyacchaa* enemy);
-bool32 sub_8065CE0(Kyacchaa* enemy);
-s32 sub_8065F5C(Kyacchaa* enemy);
+s32 sub_8065C48(Kyacchaa *enemy);
+bool32 sub_8065CE0(Kyacchaa *enemy);
+s32 sub_8065F5C(Kyacchaa *enemy);
 void Task_8065B0C(void);
 void sub_8065E48(void);
 
