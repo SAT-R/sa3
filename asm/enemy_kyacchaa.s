@@ -91,6 +91,7 @@ _08065CD8:
 	bx r1
 	.align 2, 0
 
+@ This function is already decompiled
 	thumb_func_start sub_8065CE0
 sub_8065CE0: @ 0x08065CE0
 	push {r4, r5, r6, r7, lr}

@@ -245,6 +245,60 @@ bool32 sub_8065B90(Kyacchaa *enemy)
     return FALSE;
 }
 
+// https://decomp.me/scratch/cOz3m
+// AnimCmdResult sub_8065CE0(Kyacchaa *enemy)
+// {
+//     AnimCmdResult acmdRes;
+//     s32 yPos;
+
+//     // Setup second sprite
+//     Sprite *s = &enemy->s2;
+//     s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+//     s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+
+//     UpdateSpriteAnimation(s);
+//     DisplaySprite(s);
+
+//     // Setup first sprite
+//     s = &enemy->s;
+//     s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+//     s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y - 19;
+
+//     // Adjust x position based on sprite's horizontal flip flag
+//     if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+//         s->x -= 1;
+//     } else {
+//         s->x += 1;
+//     }
+
+//     acmdRes = UpdateSpriteAnimation(s);
+//     DisplaySprite(s);
+
+//     // Draw additional sprites vertically above
+//     yPos = enemy->qPos.y + Q(7);
+
+//     while (yPos > enemy->qUnk18.y) {
+//         s = &enemy->s;
+
+//         s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+//         s->y = TO_WORLD_POS_RAW(I(yPos), enemy->region[1]) - gCamera.y - 19;
+
+//         // Same x adjustment as the main sprite
+//         if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+//             s->x -= 1;
+//         } else {
+//             s->x += 1;
+//         }
+
+//         acmdRes = UpdateSpriteAnimation(s);
+//         DisplaySprite(s);
+
+//         yPos -= Q(8);
+//     }
+
+//     return acmdRes;
+// }
+
 // https://decomp.me/scratch/cNfBx
 // void Task_Kyacchaa(void)
 // {
