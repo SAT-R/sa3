@@ -39,6 +39,7 @@ bool32 sub_8065CE0(Kyacchaa *enemy);
 s32 sub_8065F5C(Kyacchaa *enemy);
 void Task_8065B0C(void);
 void sub_8065E48(void);
+// bool32 sub_8065F30(Kyacchaa *enemy, EnemyUnknownStruc0 *param1);
 
 // https://decomp.me/scratch/Bfjhv
 void CreateEntity_Kyacchaa(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -242,3 +243,22 @@ bool32 sub_8065B90(Kyacchaa *enemy)
 
     return FALSE;
 }
+
+// https://decomp.me/scratch/I25aw
+// bool32 sub_8065F30(Kyacchaa *enemy, EnemyUnknownStruc0 *param1)
+// {
+//     Sprite *s;
+
+//     param1->me = NULL;
+//     param1->spriteX = 0;
+//     param1->unk4 = 0;
+
+//     s = &enemy->s2;
+//     param1->spr = s;
+//     param1->posX = enemy->qPos.x;
+//     param1->posY = enemy->qPos.y;
+//     param1->regionX = enemy->region[0];
+//     param1->regionY = enemy->region[1];
+
+//     return sub_805C63C(param1);
+// }

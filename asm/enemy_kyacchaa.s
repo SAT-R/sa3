@@ -396,6 +396,7 @@ _08065F2C:
 	pop {r1}
 	bx r1
 
+@ This function is already decompiled
 	thumb_func_start sub_8065F30
 sub_8065F30: @ 0x08065F30
 	push {lr}
