@@ -245,6 +245,27 @@ bool32 sub_8065B90(Kyacchaa *enemy)
     return FALSE;
 }
 
+// https://decomp.me/scratch/cNfBx
+// void Task_Kyacchaa(void)
+// {
+//     Kyacchaa *enemy = TASK_DATA(gCurTask);
+
+//     sub_8065CE0(enemy);
+
+//     if (sub_8065B90(enemy) == TRUE) {
+//         gCurTask->main = sub_8065A8C;
+//         return;
+//     }
+
+//     if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+//         sub_8065EB0(enemy);
+//     }
+
+//     if (sub_8065F5C(enemy) == TRUE) {
+//         TaskDestroy(gCurTask);
+//     }
+// }
+
 // https://decomp.me/scratch/I25aw
 // bool32 sub_8065F30(Kyacchaa *enemy, EnemyUnknownStruc0 *param1)
 // {

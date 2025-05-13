@@ -220,6 +220,7 @@ _08065DD0:
 	.align 2, 0
 _08065DDC: .4byte 0xFFFFF800
 
+@ This function is already decompiled
 	thumb_func_start Task_Kyacchaa
 Task_Kyacchaa: @ 0x08065DE0
 	push {r4, r5, lr}
