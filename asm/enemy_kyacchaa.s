@@ -272,6 +272,7 @@ _08065E3A:
 _08065E40: .4byte gStageData
 _08065E44: .4byte gCurTask
 
+@ This function is already decompiled
 	thumb_func_start sub_8065E48
 sub_8065E48: @ 0x08065E48
 	push {r4, r5, lr}
