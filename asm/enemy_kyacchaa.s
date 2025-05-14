@@ -458,6 +458,7 @@ sub_8065F5C: @ 0x08065F5C
 	pop {r1}
 	bx r1
 
+@ This function is already decompiled
 	thumb_func_start TaskDestructor_Kyacchaa
 TaskDestructor_Kyacchaa: @ 0x08065F98
 	push {lr}

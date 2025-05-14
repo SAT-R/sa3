@@ -429,3 +429,10 @@ bool32 sub_8065B90(Kyacchaa *enemy)
 
 //     return sub_805C280(&unk);
 // }
+
+// https://decomp.me/scratch/M68pr
+// void TaskDestructor_Kyacchaa(struct Task *t)
+// {
+//     Kyacchaa *enemy = TASK_DATA(t);
+//     VramFree(enemy->s2.tiles);
+// }
