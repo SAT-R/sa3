@@ -376,6 +376,24 @@ bool32 sub_8065B90(Kyacchaa *enemy)
 //     }
 // }
 
+// https://decomp.me/scratch/a7KIo
+// bool32 sub_8065F10(Kyacchaa *enemy)
+// {
+//     if (enemy->qPos.y < enemy->qUnk18.y) {
+//         return FALSE;
+//     }
+
+//     enemy->qPos.y -= 0x80;
+
+//     if (enemy->qPos.y >= enemy->qUnk18.y) {
+//         return FALSE;
+//     }
+
+//     enemy->qPos.y = enemy->qUnk18.y;
+
+//     return TRUE;
+// }
+
 // https://decomp.me/scratch/I25aw
 // bool32 sub_8065F30(Kyacchaa *enemy, EnemyUnknownStruc0 *param1)
 // {

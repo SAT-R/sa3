@@ -379,6 +379,7 @@ _08065F06:
 	.align 2, 0
 _08065F0C: .4byte 0xFFFFFF00
 
+@ This function is already decompiled
 	thumb_func_start sub_8065F10
 sub_8065F10: @ 0x08065F10
 	push {lr}
