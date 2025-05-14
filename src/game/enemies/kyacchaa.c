@@ -22,8 +22,8 @@ typedef struct {
     /* 0x18 */ Vec2_32 qUnk18;
     /* 0x20 */ Vec2_32 qPos;
     /* 0x28 */ u32 unk28;
-    /* 0x2C */ s32 unk2C;
-    /* 0x34 */ s32 unk34;
+    /* 0x2C */ u32 upperBound;
+    /* 0x30 */ u32 lowerBound;
     /* 0x38 */ Sprite s;
     /* 0x60 */ Sprite s2;
     /* 0x88 */ Hitbox reserved;
@@ -69,8 +69,8 @@ void CreateEntity_Kyacchaa(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     enemy->qUnk10.x = 0;
     enemy->qUnk10.y = 0;
 
-    enemy->unk34 = qX + Q(me->d.sData[0] * TILE_WIDTH);
-    enemy->unk2C = enemy->unk34 + Q(me->d.uData[2] * TILE_WIDTH);
+    enemy->lowerBound = qX + Q(me->d.sData[0] * TILE_WIDTH);
+    enemy->upperBound = enemy->lowerBound + Q(me->d.uData[2] * TILE_WIDTH);
 
     enemy->unk6 = 0;
 
@@ -336,6 +336,43 @@ bool32 sub_8065B90(Kyacchaa *enemy)
 //         TaskDestroy(gCurTask);
 //     } else if (transformToKyacchaa == TRUE) {
 //         gCurTask->main = Task_Kyacchaa;
+//     }
+// }
+
+// https://decomp.me/scratch/TVEMx
+// void sub_8065EB0(Kyacchaa *enemy)
+// {
+//     u16 upperBound = enemy->upperBound;
+//     u32 flags = enemy->s2.frameFlags;
+
+//     if (flags & SPRITE_FLAG_MASK_X_FLIP) {
+//         // Moving upward/right direction
+//         if (enemy->qPos.x <= upperBound) {
+//             enemy->qPos.x += Q(1);
+
+//             if (enemy->qPos.x > upperBound) {
+//                 enemy->qPos.x = upperBound;
+
+//                 // TODO: Use SPRITE_FLAG_CLEAR
+//                 enemy->s2.frameFlags &= ~SPRITE_FLAG_MASK_X_FLIP;
+//                 enemy->s.frameFlags &= ~SPRITE_FLAG_MASK_X_FLIP;
+//             }
+//         }
+//     } else {
+//         // Moving downward/left direction
+//         u16 lowerBound = enemy->lowerBound;
+
+//         if (enemy->qPos.x >= lowerBound) {
+//             enemy->qPos.x -= Q(1);
+
+//             if (enemy->qPos.x < lowerBound) {
+//                 enemy->qPos.x = lowerBound;
+
+//                 // TODO: Use SPRITE_FLAG_SET
+//                 enemy->s2.frameFlags |= SPRITE_FLAG_MASK_X_FLIP;
+//                 enemy->s.frameFlags |= SPRITE_FLAG_MASK_X_FLIP;
+//             }
+//         }
 //     }
 // }
 

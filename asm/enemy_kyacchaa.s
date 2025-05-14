@@ -324,6 +324,7 @@ _08065EA0:
 _08065EA8: .4byte gCurTask
 _08065EAC: .4byte Task_Kyacchaa
 
+@ This function is already decompiled
 	thumb_func_start sub_8065EB0
 sub_8065EB0: @ 0x08065EB0
 	push {r4, r5, lr}
