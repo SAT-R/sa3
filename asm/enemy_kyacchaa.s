@@ -6,57 +6,6 @@
 .arm
 
 @ This function is already decompiled
-	thumb_func_start Task_Kyacchaa
-Task_Kyacchaa: @ 0x08065DE0
-	push {r4, r5, lr}
-	ldr r5, _08065E08 @ =gCurTask
-	ldr r0, [r5]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	adds r0, r4, #0
-	bl sub_8065CE0
-	adds r0, r4, #0
-	bl sub_8065B90
-	cmp r0, #1
-	bne _08065E10
-	ldr r1, [r5]
-	ldr r0, _08065E0C @ =sub_8065A8C
-	str r0, [r1, #8]
-	b _08065E3A
-	.align 2, 0
-_08065E08: .4byte gCurTask
-_08065E0C: .4byte sub_8065A8C
-_08065E10:
-	ldr r0, _08065E40 @ =gStageData
-	ldrb r1, [r0, #4]
-	subs r0, r1, #1
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #1
-	bls _08065E28
-	cmp r1, #4
-	beq _08065E28
-	adds r0, r4, #0
-	bl sub_8065EB0
-_08065E28:
-	adds r0, r4, #0
-	bl sub_8065F5C
-	cmp r0, #1
-	bne _08065E3A
-	ldr r0, _08065E44 @ =gCurTask
-	ldr r0, [r0]
-	bl TaskDestroy
-_08065E3A:
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08065E40: .4byte gStageData
-_08065E44: .4byte gCurTask
-
-@ This function is already decompiled
 	thumb_func_start sub_8065E48
 sub_8065E48: @ 0x08065E48
 	push {r4, r5, lr}

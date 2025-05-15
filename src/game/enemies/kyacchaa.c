@@ -39,6 +39,7 @@ AnimCmdResult sub_8065CE0(Kyacchaa *enemy);
 bool32 sub_8065F5C(Kyacchaa *enemy);
 void Task_8065B0C(void);
 void sub_8065E48(void);
+void sub_8065EB0(Kyacchaa *enemy);
 // bool32 sub_8065F30(Kyacchaa *enemy, EnemyUnknownStruc0 *param1);
 // bool32 sub_8065F5C(Kyacchaa *enemy);
 
@@ -346,25 +347,25 @@ AnimCmdResult sub_8065CE0(Kyacchaa *enemy)
 }
 
 // https://decomp.me/scratch/cNfBx
-// void Task_Kyacchaa(void)
-// {
-//     Kyacchaa *enemy = TASK_DATA(gCurTask);
+void Task_Kyacchaa(void)
+{
+    Kyacchaa *enemy = TASK_DATA(gCurTask);
 
-//     sub_8065CE0(enemy);
+    sub_8065CE0(enemy);
 
-//     if (sub_8065B90(enemy) == TRUE) {
-//         gCurTask->main = sub_8065A8C;
-//         return;
-//     }
+    if (sub_8065B90(enemy) == TRUE) {
+        gCurTask->main = sub_8065A8C;
+        return;
+    }
 
-//     if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
-//         sub_8065EB0(enemy);
-//     }
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        sub_8065EB0(enemy);
+    }
 
-//     if (sub_8065F5C(enemy) == TRUE) {
-//         TaskDestroy(gCurTask);
-//     }
-// }
+    if (sub_8065F5C(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
+    }
+}
 
 // https://decomp.me/scratch/zU2aC
 // void sub_8065E48(void)
