@@ -6,28 +6,6 @@
 .arm
 
 @ This function is already decompiled
-	thumb_func_start sub_8065F10
-sub_8065F10: @ 0x08065F10
-	push {lr}
-	adds r1, r0, #0
-	ldr r0, [r1, #0x24]
-	ldr r2, [r1, #0x1c]
-	cmp r0, r2
-	blt _08065F2A
-	subs r0, #0x80
-	str r0, [r1, #0x24]
-	cmp r0, r2
-	bge _08065F2A
-	str r2, [r1, #0x24]
-	movs r0, #1
-	b _08065F2C
-_08065F2A:
-	movs r0, #0
-_08065F2C:
-	pop {r1}
-	bx r1
-
-@ This function is already decompiled
 	thumb_func_start sub_8065F30
 sub_8065F30: @ 0x08065F30
 	push {lr}
