@@ -441,23 +441,23 @@ bool32 sub_8065F10(Kyacchaa *enemy)
 }
 
 // https://decomp.me/scratch/I25aw
-// bool32 sub_8065F30(Kyacchaa *enemy, EnemyUnknownStruc0 *param1)
-// {
-//     Sprite *s;
+bool32 sub_8065F30(Kyacchaa *enemy, EnemyUnknownStruc0 *param1)
+{
+    Sprite *s;
 
-//     param1->me = NULL;
-//     param1->spriteX = 0;
-//     param1->unk4 = 0;
+    param1->me = NULL;
+    param1->spriteX = 0;
+    param1->unk4 = 0;
 
-//     s = &enemy->s2;
-//     param1->spr = s;
-//     param1->posX = enemy->qPos.x;
-//     param1->posY = enemy->qPos.y;
-//     param1->regionX = enemy->region[0];
-//     param1->regionY = enemy->region[1];
+    s = &enemy->s2;
+    param1->spr = s;
+    param1->posX = enemy->qPos.x;
+    param1->posY = enemy->qPos.y;
+    param1->regionX = enemy->region[0];
+    param1->regionY = enemy->region[1];
 
-//     return sub_805C63C(param1);
-// }
+    return sub_805C63C(param1);
+}
 
 // https://decomp.me/scratch/KNgKf
 // bool32 sub_8065F5C(Kyacchaa *enemy)
