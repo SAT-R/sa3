@@ -160,7 +160,7 @@ void sub_8065A8C(void)
 
         s2->anim = gUnknown_080D2198[1].anim;
         s2->variant = gUnknown_080D2198[1].variant;
-        s2->prevVariant = 0xFF;
+        s2->prevVariant = -1;
 
         UpdateSpriteAnimation(s2);
 
@@ -187,7 +187,7 @@ void Task_8065B0C(void)
 
                 s->anim = gUnknown_080D2198[2].anim;
                 s->variant = gUnknown_080D2198[2].variant;
-                s->prevVariant = 0xFF;
+                s->prevVariant = -1;
 
                 UpdateSpriteAnimation(s);
                 enemy->unkC = 0;
