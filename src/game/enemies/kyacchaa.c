@@ -388,41 +388,39 @@ void sub_8065E48(void)
 }
 
 // https://decomp.me/scratch/TVEMx
-// void sub_8065EB0(Kyacchaa *enemy)
-// {
-//     u16 upperBound = enemy->upperBound;
-//     u32 flags = enemy->s2.frameFlags;
+void sub_8065EB0(Kyacchaa *enemy)
+{
+    u16 upperBound = enemy->upperBound;
+    u32 flags = enemy->s2.frameFlags;
 
-//     if (flags & SPRITE_FLAG_MASK_X_FLIP) {
-//         // Moving upward/right direction
-//         if (enemy->qPos.x <= upperBound) {
-//             enemy->qPos.x += Q(1);
+    if (flags & SPRITE_FLAG_MASK_X_FLIP) {
+        // Moving upward/right direction
+        if (enemy->qPos.x <= upperBound) {
+            enemy->qPos.x += Q(1);
 
-//             if (enemy->qPos.x > upperBound) {
-//                 enemy->qPos.x = upperBound;
+            if (enemy->qPos.x > upperBound) {
+                enemy->qPos.x = upperBound;
 
-//                 // TODO: Use SPRITE_FLAG_CLEAR
-//                 enemy->s2.frameFlags &= ~SPRITE_FLAG_MASK_X_FLIP;
-//                 enemy->s.frameFlags &= ~SPRITE_FLAG_MASK_X_FLIP;
-//             }
-//         }
-//     } else {
-//         // Moving downward/left direction
-//         u16 lowerBound = enemy->lowerBound;
+                SPRITE_FLAG_CLEAR(&enemy->s2, X_FLIP);
+                SPRITE_FLAG_CLEAR(&enemy->s, X_FLIP);
+            }
+        }
+    } else {
+        // Moving downward/left direction
+        u16 lowerBound = enemy->lowerBound;
 
-//         if (enemy->qPos.x >= lowerBound) {
-//             enemy->qPos.x -= Q(1);
+        if (enemy->qPos.x >= lowerBound) {
+            enemy->qPos.x -= Q(1);
 
-//             if (enemy->qPos.x < lowerBound) {
-//                 enemy->qPos.x = lowerBound;
+            if (enemy->qPos.x < lowerBound) {
+                enemy->qPos.x = lowerBound;
 
-//                 // TODO: Use SPRITE_FLAG_SET
-//                 enemy->s2.frameFlags |= SPRITE_FLAG_MASK_X_FLIP;
-//                 enemy->s.frameFlags |= SPRITE_FLAG_MASK_X_FLIP;
-//             }
-//         }
-//     }
-// }
+                SPRITE_FLAG_SET(&enemy->s2, X_FLIP);
+                SPRITE_FLAG_SET(&enemy->s, X_FLIP);
+            }
+        }
+    }
+}
 
 // https://decomp.me/scratch/a7KIo
 // bool32 sub_8065F10(Kyacchaa *enemy)

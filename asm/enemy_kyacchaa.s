@@ -6,61 +6,6 @@
 .arm
 
 @ This function is already decompiled
-	thumb_func_start sub_8065EB0
-sub_8065EB0: @ 0x08065EB0
-	push {r4, r5, lr}
-	adds r2, r0, #0
-	ldrh r1, [r2, #0x2c]
-	ldr r3, [r2, #0x64]
-	movs r4, #0x80
-	lsls r4, r4, #3
-	adds r0, r3, #0
-	ands r0, r4
-	cmp r0, #0
-	beq _08065EE8
-	ldr r0, [r2, #0x20]
-	cmp r0, r1
-	bgt _08065F06
-	movs r4, #0x80
-	lsls r4, r4, #1
-	adds r0, r0, r4
-	str r0, [r2, #0x20]
-	cmp r0, r1
-	ble _08065F06
-	str r1, [r2, #0x20]
-	ldr r1, _08065EE4 @ =0xFFFFFBFF
-	ands r3, r1
-	str r3, [r2, #0x64]
-	ldr r0, [r2, #0x3c]
-	ands r0, r1
-	b _08065F04
-	.align 2, 0
-_08065EE4: .4byte 0xFFFFFBFF
-_08065EE8:
-	ldrh r1, [r2, #0x30]
-	ldr r0, [r2, #0x20]
-	cmp r0, r1
-	blt _08065F06
-	ldr r5, _08065F0C @ =0xFFFFFF00
-	adds r0, r0, r5
-	str r0, [r2, #0x20]
-	cmp r0, r1
-	bge _08065F06
-	str r1, [r2, #0x20]
-	orrs r3, r4
-	str r3, [r2, #0x64]
-	ldr r0, [r2, #0x3c]
-	orrs r0, r4
-_08065F04:
-	str r0, [r2, #0x3c]
-_08065F06:
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08065F0C: .4byte 0xFFFFFF00
-
-@ This function is already decompiled
 	thumb_func_start sub_8065F10
 sub_8065F10: @ 0x08065F10
 	push {lr}
