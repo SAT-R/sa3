@@ -22,8 +22,8 @@ typedef struct {
     /* 0x18 */ Vec2_32 qUnk18;
     /* 0x20 */ Vec2_32 qPos;
     /* 0x28 */ u32 unk28;
-    /* 0x2C */ u32 upperBound;
-    /* 0x30 */ u32 lowerBound;
+    /* 0x2C */ s32 upperBound;
+    /* 0x30 */ s32 lowerBound;
     /* 0x38 */ Sprite s;
     /* 0x60 */ Sprite s2;
     /* 0x88 */ Hitbox reserved;
@@ -34,9 +34,9 @@ extern const TileInfo2 gUnknown_080D2198[];
 void Task_Kyacchaa(void);
 void TaskDestructor_Kyacchaa(struct Task *t);
 void InitSprite_Kyacchaa(Kyacchaa *enemy);
-s32 sub_8065C48(Kyacchaa *enemy);
+bool32 sub_8065C48(Kyacchaa *enemy);
 bool32 sub_8065CE0(Kyacchaa *enemy);
-s32 sub_8065F5C(Kyacchaa *enemy);
+bool32 sub_8065F5C(Kyacchaa *enemy);
 void Task_8065B0C(void);
 void sub_8065E48(void);
 // bool32 sub_8065F30(Kyacchaa *enemy, EnemyUnknownStruc0 *param1);
@@ -145,8 +145,9 @@ void InitSprite_Kyacchaa(Kyacchaa *enemy)
 void sub_8065A8C(void)
 {
     Kyacchaa *enemy = TASK_DATA(gCurTask);
-    s32 checkResult = 0;
+    bool32 checkResult = FALSE;
 
+    // Check the stage data condition (same logic as in the Minimole example)
     if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
         checkResult = sub_8065C48(enemy);
     }
@@ -158,7 +159,7 @@ void sub_8065A8C(void)
         return;
     }
 
-    if (checkResult == 1) {
+    if (checkResult == TRUE) {
         Sprite *s2 = &enemy->s2;
 
         s2->anim = gUnknown_080D2198[1].anim;
@@ -237,6 +238,51 @@ bool32 sub_8065B90(Kyacchaa *enemy)
                 // Store relative position in enemy's unk10/unk14 fields
                 enemy->qUnk10.x = p->qWorldX - (enemy->region[0] << 16);
                 enemy->qUnk10.y = p->qWorldY - (enemy->region[1] << 16);
+                return TRUE;
+            }
+        }
+    }
+
+    return FALSE;
+}
+
+bool32 sub_8065C48(Kyacchaa *enemy)
+{
+    s32 qSpeed = Q(2);
+
+    if (enemy->qPos.x <= enemy->qUnk10.x) {
+        if (enemy->qPos.x != enemy->qUnk10.x) {
+            SPRITE_FLAG_SET(&enemy->s2, X_FLIP);
+            SPRITE_FLAG_SET(&enemy->s, X_FLIP);
+
+            enemy->qPos.x += qSpeed;
+        }
+
+        if (enemy->qPos.x > enemy->qUnk10.x) {
+            enemy->qPos.x = enemy->qUnk10.x;
+        } else if (enemy->qPos.x > enemy->upperBound) {
+            enemy->qPos.x = enemy->upperBound;
+        }
+    } else {
+        SPRITE_FLAG_CLEAR(&enemy->s2, X_FLIP);
+        SPRITE_FLAG_CLEAR(&enemy->s, X_FLIP);
+
+        enemy->qPos.x -= qSpeed;
+
+        if (enemy->qPos.x < enemy->qUnk10.x) {
+            enemy->qPos.x = enemy->qUnk10.x;
+        } else if (enemy->qPos.x < enemy->lowerBound) {
+            enemy->qPos.x = enemy->lowerBound;
+        }
+    }
+
+    if (enemy->qPos.x == enemy->qUnk10.x || enemy->qPos.x == enemy->upperBound || enemy->qPos.x == enemy->lowerBound) {
+
+        if (enemy->qPos.y <= enemy->qUnk10.y) {
+            enemy->qPos.y += qSpeed;
+
+            if (enemy->qPos.y > enemy->qUnk10.y) {
+                enemy->qPos.y = enemy->qUnk10.y;
                 return TRUE;
             }
         }
