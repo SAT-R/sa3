@@ -460,21 +460,21 @@ bool32 sub_8065F30(Kyacchaa *enemy, EnemyUnknownStruc0 *param1)
 }
 
 // https://decomp.me/scratch/KNgKf
-// bool32 sub_8065F5C(Kyacchaa *enemy)
-// {
-//     EnemyUnknownStruc0 unk;
+bool32 sub_8065F5C(Kyacchaa *enemy)
+{
+    EnemyUnknownStruc0 unk;
 
-//     unk.unk4 = sub_8065F30(enemy, &unk);
-//     unk.spr = &enemy->s2;
-//     unk.posX = enemy->qUnk18.x;  // [r4, #0x18]
-//     unk.posY = enemy->qUnk18.y;  // [r4, #0x1c]
-//     unk.regionX = enemy->region[0];
-//     unk.regionY = enemy->region[1];
-//     unk.me = enemy->me;
-//     unk.spriteX = enemy->spriteX;
+    unk.unk4 = sub_8065F30(enemy, &unk);
+    unk.spr = &enemy->s2;
+    unk.posX = enemy->qUnk18.x;
+    unk.posY = enemy->qUnk18.y;
+    unk.regionX = enemy->region[0];
+    unk.regionY = enemy->region[1];
+    unk.me = enemy->me;
+    unk.spriteX = enemy->spriteX;
 
-//     return sub_805C280(&unk);
-// }
+    return sub_805C280(&unk);
+}
 
 // https://decomp.me/scratch/M68pr
 // void TaskDestructor_Kyacchaa(struct Task *t)
