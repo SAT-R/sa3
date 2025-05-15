@@ -41,10 +41,7 @@ void Task_8065B0C(void);
 void sub_8065E48(void);
 void sub_8065EB0(Kyacchaa *enemy);
 bool32 sub_8065F10(Kyacchaa *enemy);
-// bool32 sub_8065F30(Kyacchaa *enemy, EnemyUnknownStruc0 *param1);
-// bool32 sub_8065F5C(Kyacchaa *enemy);
 
-// https://decomp.me/scratch/Bfjhv
 void CreateEntity_Kyacchaa(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_Kyacchaa, sizeof(Kyacchaa), 0x2100, 0, TaskDestructor_Kyacchaa);
@@ -89,7 +86,6 @@ void CreateEntity_Kyacchaa(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     SET_MAP_ENTITY_INITIALIZED(me);
 }
 
-// https://decomp.me/scratch/YJIlE
 void InitSprite_Kyacchaa(Kyacchaa *enemy)
 {
     void *tiles = VramMalloc(0x15);
@@ -143,13 +139,11 @@ void InitSprite_Kyacchaa(Kyacchaa *enemy)
     UpdateSpriteAnimation(s);
 }
 
-// https://decomp.me/scratch/n025r
 void sub_8065A8C(void)
 {
     Kyacchaa *enemy = TASK_DATA(gCurTask);
     bool32 checkResult = FALSE;
 
-    // Check the stage data condition (same logic as in the Minimole example)
     if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
         checkResult = sub_8065C48(enemy);
     }
@@ -174,7 +168,6 @@ void sub_8065A8C(void)
     }
 }
 
-// https://decomp.me/scratch/YXwo0
 void Task_8065B0C(void)
 {
     Kyacchaa *enemy = TASK_DATA(gCurTask);
@@ -205,7 +198,6 @@ void Task_8065B0C(void)
     }
 }
 
-// https://decomp.me/scratch/JwSMm
 bool32 sub_8065B90(Kyacchaa *enemy)
 {
     s32 worldX, worldY;
@@ -293,7 +285,6 @@ bool32 sub_8065C48(Kyacchaa *enemy)
     return FALSE;
 }
 
-// https://decomp.me/scratch/cOz3m
 AnimCmdResult sub_8065CE0(Kyacchaa *enemy)
 {
     AnimCmdResult acmdRes;
@@ -347,7 +338,6 @@ AnimCmdResult sub_8065CE0(Kyacchaa *enemy)
     return acmdRes;
 }
 
-// https://decomp.me/scratch/cNfBx
 void Task_Kyacchaa(void)
 {
     Kyacchaa *enemy = TASK_DATA(gCurTask);
@@ -368,7 +358,6 @@ void Task_Kyacchaa(void)
     }
 }
 
-// https://decomp.me/scratch/zU2aC
 void sub_8065E48(void)
 {
     Kyacchaa *enemy = TASK_DATA(gCurTask);
@@ -387,7 +376,6 @@ void sub_8065E48(void)
     }
 }
 
-// https://decomp.me/scratch/TVEMx
 void sub_8065EB0(Kyacchaa *enemy)
 {
     u16 upperBound = enemy->upperBound;
@@ -422,7 +410,6 @@ void sub_8065EB0(Kyacchaa *enemy)
     }
 }
 
-// https://decomp.me/scratch/a7KIo
 bool32 sub_8065F10(Kyacchaa *enemy)
 {
     if (enemy->qPos.y < enemy->qUnk18.y) {
@@ -440,7 +427,6 @@ bool32 sub_8065F10(Kyacchaa *enemy)
     return TRUE;
 }
 
-// https://decomp.me/scratch/I25aw
 bool32 sub_8065F30(Kyacchaa *enemy, EnemyUnknownStruc0 *param1)
 {
     Sprite *s;
@@ -459,7 +445,6 @@ bool32 sub_8065F30(Kyacchaa *enemy, EnemyUnknownStruc0 *param1)
     return sub_805C63C(param1);
 }
 
-// https://decomp.me/scratch/KNgKf
 bool32 sub_8065F5C(Kyacchaa *enemy)
 {
     EnemyUnknownStruc0 unk;
@@ -476,7 +461,6 @@ bool32 sub_8065F5C(Kyacchaa *enemy)
     return sub_805C280(&unk);
 }
 
-// https://decomp.me/scratch/M68pr
 void TaskDestructor_Kyacchaa(struct Task *t)
 {
     Kyacchaa *enemy = TASK_DATA(t);
