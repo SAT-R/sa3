@@ -477,8 +477,8 @@ bool32 sub_8065F5C(Kyacchaa *enemy)
 }
 
 // https://decomp.me/scratch/M68pr
-// void TaskDestructor_Kyacchaa(struct Task *t)
-// {
-//     Kyacchaa *enemy = TASK_DATA(t);
-//     VramFree(enemy->s2.tiles);
-// }
+void TaskDestructor_Kyacchaa(struct Task *t)
+{
+    Kyacchaa *enemy = TASK_DATA(t);
+    VramFree(enemy->s2.tiles);
+}

@@ -138,7 +138,6 @@ SECTIONS {
         src/game/enemies/guruguru.o(.text);
         asm/enemy_guruguru.o(.text);
         src/game/enemies/kyacchaa.o(.text);
-        asm/enemy_kyacchaa.o(.text);
         asm/code.o(.text);
         src/game/math.o(.text);
         asm/code_x.o(.text);
