@@ -40,6 +40,7 @@ bool32 sub_8065F5C(Kyacchaa *enemy);
 void Task_8065B0C(void);
 void sub_8065E48(void);
 void sub_8065EB0(Kyacchaa *enemy);
+bool32 sub_8065F10(Kyacchaa *enemy);
 // bool32 sub_8065F30(Kyacchaa *enemy, EnemyUnknownStruc0 *param1);
 // bool32 sub_8065F5C(Kyacchaa *enemy);
 
@@ -368,23 +369,23 @@ void Task_Kyacchaa(void)
 }
 
 // https://decomp.me/scratch/zU2aC
-// void sub_8065E48(void)
-// {
-//     Kyacchaa *enemy = TASK_DATA(gCurTask);
-//     bool32 transformToKyacchaa = FALSE;
+void sub_8065E48(void)
+{
+    Kyacchaa *enemy = TASK_DATA(gCurTask);
+    bool32 transformToKyacchaa = FALSE;
 
-//     if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
-//         transformToKyacchaa = sub_8065F10(enemy);
-//     }
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        transformToKyacchaa = sub_8065F10(enemy);
+    }
 
-//     sub_8065CE0(enemy);
+    sub_8065CE0(enemy);
 
-//     if (sub_8065F5C(enemy) == TRUE) {
-//         TaskDestroy(gCurTask);
-//     } else if (transformToKyacchaa == TRUE) {
-//         gCurTask->main = Task_Kyacchaa;
-//     }
-// }
+    if (sub_8065F5C(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
+    } else if (transformToKyacchaa == TRUE) {
+        gCurTask->main = Task_Kyacchaa;
+    }
+}
 
 // https://decomp.me/scratch/TVEMx
 // void sub_8065EB0(Kyacchaa *enemy)
