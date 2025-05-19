@@ -215,25 +215,11 @@ bool32 sub_8065B90(Kyacchaa *enemy)
             break;
         }
 
-        // First check: player to the right of enemy within range
-        if (p->qWorldX - Q(worldX) < Q(40) && p->qWorldX >= Q(worldX)) {
-            // Vertical check
-            if (p->qWorldY - Q(worldY) < Q(80) && p->qWorldY >= Q(worldY)) {
-                // Store relative position in enemy's unk10/unk14 fields
-                goto lbl;
-            }
-        }
-
-        // Second check: player to the left of enemy within range
-        if (Q(worldX) - p->qWorldX < Q(40) && Q(worldX) >= p->qWorldX) {
-            // Vertical check
-            if (p->qWorldY - Q(worldY) < Q(80) && p->qWorldY >= Q(worldY)) {
-            lbl:
-                // Store relative position in enemy's unk10/unk14 fields
-                enemy->qUnk10.x = p->qWorldX - (enemy->region[0] << 16);
-                enemy->qUnk10.y = p->qWorldY - (enemy->region[1] << 16);
-                return TRUE;
-            }
+        if (((p->qWorldX - Q(worldX) < Q(40) && p->qWorldX >= Q(worldX)) && (p->qWorldY - Q(worldY) < Q(80) && p->qWorldY >= Q(worldY)))
+            || (Q(worldX) - p->qWorldX < Q(40) && Q(worldX) >= p->qWorldX && p->qWorldY - Q(worldY) < Q(80) && p->qWorldY >= Q(worldY))) {
+            enemy->qUnk10.x = p->qWorldX - (enemy->region[0] << 16);
+            enemy->qUnk10.y = p->qWorldY - (enemy->region[1] << 16);
+            return TRUE;
         }
     }
 
@@ -416,7 +402,7 @@ bool32 sub_8065F10(Kyacchaa *enemy)
         return FALSE;
     }
 
-    enemy->qPos.y -= 0x80;
+    enemy->qPos.y -= Q(0.5);
 
     if (enemy->qPos.y >= enemy->qUnk18.y) {
         return FALSE;
