@@ -459,6 +459,7 @@ ifeq ($(PLATFORM),gba)
 	@echo "$(LD) -T $(LDSCRIPT) $(MAP_FLAG) $(MAP) <objects> <lib> -o $@"
 	@$(CPP) -P $(CPPFLAGS) $(LDSCRIPT) > $(OBJ_DIR)/$(LDSCRIPT)
 	@cd $(OBJ_DIR) && $(LD) -T $(LDSCRIPT) $(MAP_FLAG) $(ROOT_DIR)/$(MAP) $(OBJS_REL) $(LIBS) -o $(ROOT_DIR)/$@
+	@sed -i.bak 's|asm/|$(OBJ_DIR)/asm/|g; s|src/|$(OBJ_DIR)/src/|g; s|data/|$(OBJ_DIR)/data/|g; s|sound/|$(OBJ_DIR)/sound/|g' $(MAP) && rm $(MAP).bak
 else
 	@echo "$(CC1) $(MAP_FLAG)$(MAP) <objects> <lib> -o $@"
 	@touch $(ROOT_DIR)/$(MAP)
