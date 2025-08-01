@@ -256,7 +256,7 @@ ifeq ($(DEBUG),1)
   CC1FLAGS += -g3 -O0
   CPPFLAGS += -D DEBUG=1
 else
-  CC1FLAGS += -O2
+  CC1FLAGS += -g3 -O2
   CPPFLAGS += -D DEBUG=0
 endif
 
