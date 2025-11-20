@@ -51,6 +51,9 @@ AnimCmdResult sub_8060704(GuruGuru *enemy);
 bool32 sub_8060774(GuruGuru *enemy);
 void sub_8060384(GuruGuru *enemy);
 void sub_80604F0(GuruGuruProjectile *proj);
+void sub_8065544(GuruGuru *arg0, Vec2_32 *arg1, u8 arg2);
+s32 sub_80656B0(GuruGuru *arg0);
+s32 sub_8065884(GuruGuru *arg0, Sprite2 *arg1, Vec2_32 *arg2);
 static bool32 CheckPlayerCollision(GuruGuru *enemy);
 static void UpdateProjectilePos(GuruGuruProjectile *proj);
 static AnimCmdResult DisplayProjectile(GuruGuruProjectile *proj);
@@ -64,6 +67,7 @@ void TaskDestructor_GuruGuruProjectile(struct Task *t);
 extern const TileInfo2 gUnknown_080D2004[4]; // GuruGuru
 extern const TileInfo2 gUnknown_080D2014[4]; // proj
 extern const u8 gUnknown_080D1FF8[12];
+extern const TileInfo2 gUnknown_080D2180[6];
 
 #define isBetween(v, min, onePastMax) (((v) >= (min)) && ((v) < onePastMax))
 
@@ -113,6 +117,113 @@ void sub_80651D0(GuruGuru *enemy, MapEntity *me, u16 regionX, u16 regionY, u8 id
     CpuFill16(0, &enemy->s[0].hitboxes[0].b, sizeof(enemy->s[0].hitboxes[0].b));
     CpuFill16(0, &enemy->s[1].hitboxes[0].b, sizeof(enemy->s[1].hitboxes[0].b));
     CpuFill16(0, &enemy->s[2].hitboxes[0].b, sizeof(enemy->s[2].hitboxes[0].b));
+}
+
+void sub_8065300(GuruGuru *enemy)
+{
+    Sprite2 *s;
+    u8 *vram;
+
+    vram = VramMalloc(0x16U);
+    s = &enemy->s[2];
+    s->tiles = vram;
+    vram += (gUnknown_080D2180[2].numTiles << 5);
+    s->anim = gUnknown_080D2180[2].anim;
+    s->variant = gUnknown_080D2180[2].variant;
+    s->prevVariant = -1;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+    s->oamFlags = 0x480;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x1000;
+    if (enemy->unk6 != 0) {
+        s->frameFlags |= 0x800;
+        s->frameFlags |= 0x1000;
+    }
+    UpdateSpriteAnimation((Sprite *)s);
+
+    s = &enemy->s[0];
+    s->tiles = vram;
+    vram += (gUnknown_080D2180->numTiles << 5);
+    s->anim = gUnknown_080D2180->anim;
+    s->variant = gUnknown_080D2180->variant;
+    s->prevVariant = -1;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+    s->oamFlags = 0x480;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x1000;
+    if (enemy->unk6 != 0) {
+        s->frameFlags |= 0x800;
+        s->frameFlags |= 0x1000;
+    }
+    UpdateSpriteAnimation((Sprite *)s);
+
+    s = &enemy->s[1];
+    s->tiles = vram;
+    s->anim = gUnknown_080D2180[1].anim;
+    s->variant = gUnknown_080D2180[1].variant;
+    s->prevVariant = -1;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+    s->oamFlags = 0x480;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x1000;
+    if (enemy->unk6 != 0) {
+        s->frameFlags |= 0x800;
+        s->frameFlags |= 0x1000;
+    }
+    UpdateSpriteAnimation((Sprite *)s);
+}
+
+void Task_GuruguruInit()
+{
+    Vec2_32 *temp_r1;
+    u32 var_r4_2;
+    u8 var_r4;
+
+    GuruGuru *enemy = TASK_DATA(gCurTask);
+
+    sub_80656B0(enemy);
+    if (((u32)(u8)(gStageData.unk4 - 1) > 1U) && (gStageData.unk4 != 4)) {
+        sub_8065544(enemy, &enemy->qPos, 0U);
+    }
+
+    for (var_r4 = 0; var_r4 < 4; var_r4++) {
+        temp_r1 = &enemy->qUnk20[var_r4];
+        sub_8065544(enemy, temp_r1, var_r4 + 1);
+    }
+
+    if (sub_8065884(enemy, enemy->s, &enemy->qUnk40) == 1) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    for (var_r4 = 0; var_r4 < 4; var_r4++) {
+        s8 *meX;
+        if (var_r4 != 0) {
+            if (var_r4 < 2) {
+                sub_8065884(enemy, &enemy->s[2], &enemy->qUnk20[var_r4]);
+            } else {
+                sub_8065884(enemy, &enemy->s[1], &enemy->qUnk20[var_r4]);
+            }
+        }
+
+        // TODO: Macro?
+        meX = &enemy->me->x;
+        *meX = MAP_ENTITY_STATE_INITIALIZED;
+    }
 }
 
 #if 0
