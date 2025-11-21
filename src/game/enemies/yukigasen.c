@@ -236,8 +236,7 @@ u32 sub_8060C68(YukigasenSnowball *snowball)
     return FALSE;
 }
 
-// (97.76%) https://decomp.me/scratch/4L8KH
-NONMATCH("asm/non_matching/game/enemies/yukigasen__sub_8060D0C.inc", void sub_8060D0C(YukigasenSnowball *snowball))
+void sub_8060D0C(YukigasenSnowball *snowball)
 {
     s16 var_r0;
     s16 dx, dy;
@@ -253,7 +252,10 @@ NONMATCH("asm/non_matching/game/enemies/yukigasen__sub_8060D0C.inc", void sub_80
     snowball->unkC += 16;
     unk2 += snowball->unkC;
     if ((snowball->unk1 > 0)) {
-        if ((dx = snowball->unkA, (dx > 0)) || (dx < 0)) {
+        dx = snowball->unkA;
+        if ((dx > 0)) {
+            snowball->unkA += snowball->unk1;
+        } else if ((dx < 0)) {
             snowball->unkA += snowball->unk1;
         }
     }
@@ -263,7 +265,6 @@ NONMATCH("asm/non_matching/game/enemies/yukigasen__sub_8060D0C.inc", void sub_80
     snowball->qWorldPos.y += unk1;
     snowball->qWorldPos.x += dx >> 1;
 }
-END_NONMATCH
 
 void CreateEntity_Yukigasen_Right(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
