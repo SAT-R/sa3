@@ -51,7 +51,9 @@ bool32 sub_8061054(Yukigasen *enemy);
 void TaskDestructor_Yukigasen(struct Task *t);
 void CreateYukigasenSnowball(s32 arg0, s32 arg1, u16 arg2, u16 arg3, s32 arg4);
 void Task_Snowball_8061170(void);
+bool32 sub_8061090(Yukigasen *enemy, EnemyUnknownStruc0 *strc0);
 void sub_80611A0(YukigasenSnowball *snowball);
+
 AnimCmdResult sub_8061010(Yukigasen *enemy);
 
 void sub_806098C(Yukigasen *enemy, u8 param1)
@@ -302,9 +304,6 @@ void CreateEntity_Yukigasen_Left_HighCooldown(MapEntity *me, u16 regionX, u16 re
 
 void sub_8060FE0(Yukigasen *enemy, s8 cooldown, MapEntity *me, u16 regionX, s32 regionY, s32 id)
 {
-    s32 temp_r2;
-    s32 temp_r3;
-
     enemy->id = id;
     enemy->me = me;
     enemy->meX = me->x;
@@ -317,4 +316,50 @@ void sub_8060FE0(Yukigasen *enemy, s8 cooldown, MapEntity *me, u16 regionX, s32 
     enemy->unk8 = 0;
     enemy->cooldown = cooldown;
     enemy->unk7 = 0;
+}
+
+AnimCmdResult sub_8061010(Yukigasen *enemy)
+{
+    Sprite2 *s;
+    AnimCmdResult acmdRes;
+
+    s = &enemy->s;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+    acmdRes = UpdateSpriteAnimation((Sprite *)s);
+    DisplaySprite((Sprite *)s);
+    return acmdRes;
+}
+
+bool32 sub_8061054(Yukigasen *enemy)
+{
+    EnemyUnknownStruc0 strc0;
+    strc0.unk4 = sub_8061090(enemy, &strc0);
+    strc0.spr = (Sprite *)&enemy->s;
+    strc0.posX = enemy->qSpawn.x;
+    strc0.posY = enemy->qSpawn.y;
+    strc0.regionX = enemy->region[0];
+    strc0.regionY = enemy->region[1];
+    strc0.me = enemy->me;
+    strc0.spriteX = enemy->meX;
+    return sub_805C280(&strc0);
+}
+
+bool32 sub_8061090(Yukigasen *enemy, EnemyUnknownStruc0 *strc0)
+{
+    strc0->me = NULL;
+    strc0->spriteX = 0;
+    strc0->unk4 = 0;
+    strc0->spr = (Sprite *)&enemy->s;
+    strc0->posX = enemy->qPos.x;
+    strc0->posY = enemy->qPos.y;
+    strc0->regionX = enemy->region[0];
+    strc0->regionY = enemy->region[1];
+    return sub_805C63C(strc0);
+}
+
+void TaskDestructor_Yukigasen(Task *t)
+{
+    Yukigasen *enemy = TASK_DATA(t);
+    VramFree(enemy->s.tiles);
 }
