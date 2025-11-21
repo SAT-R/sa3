@@ -5,33 +5,7 @@
 .syntax unified
 .arm
 
-.if 01
-	thumb_func_start sub_8060FE0
-sub_8060FE0: @ 0x08060FE0
-	push {r4, r5, lr}
-	ldr r5, [sp, #0xc]
-	ldr r4, [sp, #0x10]
-	strb r4, [r0, #4]
-	str r2, [r0]
-	ldrb r4, [r2]
-	strb r4, [r0, #5]
-	movs r4, #0
-	strh r3, [r0, #0xa]
-	strh r5, [r0, #0xc]
-	ldrb r3, [r2]
-	lsls r3, r3, #0xb
-	str r3, [r0, #0x18]
-	ldrb r2, [r2, #1]
-	lsls r2, r2, #0xb
-	str r2, [r0, #0x1c]
-	str r3, [r0, #0x10]
-	str r2, [r0, #0x14]
-	strb r4, [r0, #8]
-	strb r1, [r0, #6]
-	strb r4, [r0, #7]
-	pop {r4, r5}
-	pop {r0}
-	bx r0
+.if 0
 .endif
 
 	thumb_func_start sub_8061010

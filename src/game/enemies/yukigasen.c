@@ -8,12 +8,15 @@
 #include "module_unclear.h"
 
 typedef struct Yukigasen {
-    /* 0x00 */ u8 filler0[0x6];
-    /* 0x08 */ u8 unk6;
-    /* 0x08 */ u8 unk7;
+    /* 0x00 */ MapEntity *me;
+    /* 0x04 */ u8 id;
+    /* 0x05 */ u8 meX;
+    /* 0x06 */ u8 cooldown;
+    /* 0x07 */ u8 unk7;
     /* 0x08 */ s8 unk8;
     /* 0x0A */ u16 region[2];
-    /* 0x0E */ u8 fillerE[0xA];
+    /* 0x0E */ u8 fillerE[0x2];
+    /* 0x10 */ Vec2_32 qSpawn;
     /* 0x18 */ Vec2_32 qPos;
     /* 0x20 */ Sprite2 s;
 } Yukigasen; /* 0x50 */
@@ -43,7 +46,7 @@ void Task_8060AC8(void);
 void sub_Snowball_8060B60(YukigasenSnowball *snowball);
 bool32 sub_8060C68(YukigasenSnowball *snowball);
 void sub_8060D0C(YukigasenSnowball *snowball);
-void sub_8060FE0(Yukigasen *enemy, s8 cooldown, MapEntity *me, u16 arg3, s32 arg4, s32 arg5);
+void sub_8060FE0(Yukigasen *enemy, s8 cooldown, MapEntity *me, u16 regionX, s32 regionY, s32 arg5);
 bool32 sub_8061054(Yukigasen *enemy);
 void TaskDestructor_Yukigasen(struct Task *t);
 void CreateYukigasenSnowball(s32 arg0, s32 arg1, u16 arg2, u16 arg3, s32 arg4);
@@ -131,7 +134,7 @@ void Task_8060AC8(void)
             enemy->unk7++;
         }
 
-        if (enemy->unk7 >= enemy->unk6) {
+        if (enemy->unk7 >= enemy->cooldown) {
             Sprite2 *s = &enemy->s;
             if (enemy->s.frameFlags & 0x400) {
                 dir = +1;
@@ -263,44 +266,55 @@ END_NONMATCH
 
 void CreateEntity_Yukigasen_Right(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    Yukigasen *enemy;
-
-    enemy = TASK_DATA(TaskCreate(Task_YukigasenMain, sizeof(Yukigasen), 0x2100U, 0U, TaskDestructor_Yukigasen));
+    Yukigasen *enemy = TASK_DATA(TaskCreate(Task_YukigasenMain, sizeof(Yukigasen), 0x2100U, 0U, TaskDestructor_Yukigasen));
     sub_8060FE0(enemy, YUKIGASEN_COOLDOWN_FAST, me, regionX, regionY, id);
     CpuFill16(0, &enemy->s.hitboxes[1].b, sizeof(enemy->s.hitboxes[1].b));
-    sub_806098C((Yukigasen *)enemy, 2);
+    sub_806098C(enemy, 2);
     SET_MAP_ENTITY_INITIALIZED(me);
 }
 
 void CreateEntity_Yukigasen_Left(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    Yukigasen *enemy;
-
-    enemy = TASK_DATA(TaskCreate(Task_YukigasenMain, sizeof(Yukigasen), 0x2100U, 0U, TaskDestructor_Yukigasen));
+    Yukigasen *enemy = TASK_DATA(TaskCreate(Task_YukigasenMain, sizeof(Yukigasen), 0x2100U, 0U, TaskDestructor_Yukigasen));
     sub_8060FE0(enemy, YUKIGASEN_COOLDOWN_FAST, me, regionX, regionY, id);
     CpuFill16(0, &enemy->s.hitboxes[1].b, sizeof(enemy->s.hitboxes[1].b));
-    sub_806098C((Yukigasen *)enemy, 3);
+    sub_806098C(enemy, 3);
     SET_MAP_ENTITY_INITIALIZED(me);
 }
 
 void CreateEntity_Yukigasen_Right_HighCooldown(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    Yukigasen *enemy;
-
-    enemy = TASK_DATA(TaskCreate(Task_YukigasenMain, sizeof(Yukigasen), 0x2100U, 0U, TaskDestructor_Yukigasen));
+    Yukigasen *enemy = TASK_DATA(TaskCreate(Task_YukigasenMain, sizeof(Yukigasen), 0x2100U, 0U, TaskDestructor_Yukigasen));
     sub_8060FE0(enemy, YUKIGASEN_COOLDOWN_SLOW, me, regionX, regionY, id);
     CpuFill16(0, &enemy->s.hitboxes[1].b, sizeof(enemy->s.hitboxes[1].b));
-    sub_806098C((Yukigasen *)enemy, 2);
+    sub_806098C(enemy, 2);
     SET_MAP_ENTITY_INITIALIZED(me);
 }
 
 void CreateEntity_Yukigasen_Left_HighCooldown(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    Yukigasen *enemy;
-
-    enemy = TASK_DATA(TaskCreate(Task_YukigasenMain, sizeof(Yukigasen), 0x2100U, 0U, TaskDestructor_Yukigasen));
+    Yukigasen *enemy = TASK_DATA(TaskCreate(Task_YukigasenMain, sizeof(Yukigasen), 0x2100U, 0U, TaskDestructor_Yukigasen));
     sub_8060FE0(enemy, YUKIGASEN_COOLDOWN_SLOW, me, regionX, regionY, id);
     CpuFill16(0, &enemy->s.hitboxes[1].b, sizeof(enemy->s.hitboxes[1].b));
-    sub_806098C((Yukigasen *)enemy, 3);
+    sub_806098C(enemy, 3);
     SET_MAP_ENTITY_INITIALIZED(me);
+}
+
+void sub_8060FE0(Yukigasen *enemy, s8 cooldown, MapEntity *me, u16 regionX, s32 regionY, s32 id)
+{
+    s32 temp_r2;
+    s32 temp_r3;
+
+    enemy->id = id;
+    enemy->me = me;
+    enemy->meX = me->x;
+    enemy->region[0] = regionX;
+    enemy->region[1] = regionY;
+    enemy->qPos.x = Q(me->x * TILE_WIDTH);
+    enemy->qPos.y = Q(me->y * TILE_WIDTH);
+    enemy->qSpawn.x = enemy->qPos.x;
+    enemy->qSpawn.y = enemy->qPos.y;
+    enemy->unk8 = 0;
+    enemy->cooldown = cooldown;
+    enemy->unk7 = 0;
 }
