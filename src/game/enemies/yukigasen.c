@@ -2,6 +2,7 @@
 #include "core.h"
 #include "game/camera.h"
 #include "game/enemy_unknown.h"
+#include "game/parameters/enemies.h"
 #include "game/stage.h"
 #include "malloc_vram.h"
 #include "module_unclear.h"
@@ -14,8 +15,7 @@ typedef struct Yukigasen {
     /* 0x0A */ u16 region[2];
     /* 0x0E */ u8 fillerE[0xA];
     /* 0x18 */ Vec2_32 qPos;
-    /* 0x20 */ Sprite s;
-    /* 0x48 */ u8 filler48[0x8];
+    /* 0x20 */ Sprite2 s;
 } Yukigasen; /* 0x50 */
 
 typedef struct YukigasYukigasenSnowballen {
@@ -43,16 +43,18 @@ void Task_8060AC8(void);
 void sub_Snowball_8060B60(YukigasenSnowball *snowball);
 bool32 sub_8060C68(YukigasenSnowball *snowball);
 void sub_8060D0C(YukigasenSnowball *snowball);
+void sub_8060FE0(Yukigasen *enemy, s8 cooldown, MapEntity *me, u16 arg3, s32 arg4, s32 arg5);
 bool32 sub_8061054(Yukigasen *enemy);
+void TaskDestructor_Yukigasen(struct Task *t);
+void CreateYukigasenSnowball(s32 arg0, s32 arg1, u16 arg2, u16 arg3, s32 arg4);
 void Task_Snowball_8061170(void);
 void sub_80611A0(YukigasenSnowball *snowball);
-void CreateYukigasenSnowball(s32 arg0, s32 arg1, u16 arg2, u16 arg3, s32 arg4);
 AnimCmdResult sub_8061010(Yukigasen *enemy);
 
 void sub_806098C(Yukigasen *enemy, u8 param1)
 {
     u8 *tiles = VramMalloc(0x10U);
-    Sprite *s = &enemy->s;
+    Sprite2 *s = &enemy->s;
 
     s->tiles = tiles;
     s->anim = gUnknown_080D2024[0].anim;
@@ -73,7 +75,7 @@ void sub_806098C(Yukigasen *enemy, u8 param1)
     }
 
     s->hitboxes[0].index = -1;
-    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation((Sprite *)s);
 }
 
 void Task_YukigasenMain(void)
@@ -82,7 +84,7 @@ void Task_YukigasenMain(void)
     s8 dir;
     Yukigasen *enemy;
     void *temp_r4;
-    Sprite *s;
+    Sprite2 *s;
 
     enemy = TASK_DATA(gCurTask);
     s = &enemy->s;
@@ -112,7 +114,7 @@ void Task_8060AC8(void)
     s8 dir;
     Yukigasen *enemy;
     void *temp_r4;
-    Sprite *s;
+    Sprite2 *s;
 
     enemy = TASK_DATA(gCurTask);
     s = &enemy->s;
@@ -130,7 +132,7 @@ void Task_8060AC8(void)
         }
 
         if (enemy->unk7 >= enemy->unk6) {
-            Sprite *s = &enemy->s;
+            Sprite2 *s = &enemy->s;
             if (enemy->s.frameFlags & 0x400) {
                 dir = +1;
             } else {
@@ -258,3 +260,47 @@ NONMATCH("asm/non_matching/game/enemies/yukigasen__sub_8060D0C.inc", void sub_80
     snowball->qWorldPos.x += dx >> 1;
 }
 END_NONMATCH
+
+void CreateEntity_Yukigasen_Right(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    Yukigasen *enemy;
+
+    enemy = TASK_DATA(TaskCreate(Task_YukigasenMain, sizeof(Yukigasen), 0x2100U, 0U, TaskDestructor_Yukigasen));
+    sub_8060FE0(enemy, YUKIGASEN_COOLDOWN_FAST, me, regionX, regionY, id);
+    CpuFill16(0, &enemy->s.hitboxes[1].b, sizeof(enemy->s.hitboxes[1].b));
+    sub_806098C((Yukigasen *)enemy, 2);
+    SET_MAP_ENTITY_INITIALIZED(me);
+}
+
+void CreateEntity_Yukigasen_Left(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    Yukigasen *enemy;
+
+    enemy = TASK_DATA(TaskCreate(Task_YukigasenMain, sizeof(Yukigasen), 0x2100U, 0U, TaskDestructor_Yukigasen));
+    sub_8060FE0(enemy, YUKIGASEN_COOLDOWN_FAST, me, regionX, regionY, id);
+    CpuFill16(0, &enemy->s.hitboxes[1].b, sizeof(enemy->s.hitboxes[1].b));
+    sub_806098C((Yukigasen *)enemy, 3);
+    SET_MAP_ENTITY_INITIALIZED(me);
+}
+
+void CreateEntity_Yukigasen_Right_HighCooldown(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    Yukigasen *enemy;
+
+    enemy = TASK_DATA(TaskCreate(Task_YukigasenMain, sizeof(Yukigasen), 0x2100U, 0U, TaskDestructor_Yukigasen));
+    sub_8060FE0(enemy, YUKIGASEN_COOLDOWN_SLOW, me, regionX, regionY, id);
+    CpuFill16(0, &enemy->s.hitboxes[1].b, sizeof(enemy->s.hitboxes[1].b));
+    sub_806098C((Yukigasen *)enemy, 2);
+    SET_MAP_ENTITY_INITIALIZED(me);
+}
+
+void CreateEntity_Yukigasen_Left_HighCooldown(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    Yukigasen *enemy;
+
+    enemy = TASK_DATA(TaskCreate(Task_YukigasenMain, sizeof(Yukigasen), 0x2100U, 0U, TaskDestructor_Yukigasen));
+    sub_8060FE0(enemy, YUKIGASEN_COOLDOWN_SLOW, me, regionX, regionY, id);
+    CpuFill16(0, &enemy->s.hitboxes[1].b, sizeof(enemy->s.hitboxes[1].b));
+    sub_806098C((Yukigasen *)enemy, 3);
+    SET_MAP_ENTITY_INITIALIZED(me);
+}
