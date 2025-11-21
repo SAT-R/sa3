@@ -51,9 +51,10 @@ AnimCmdResult sub_8060704(GuruGuru *enemy);
 bool32 sub_8060774(GuruGuru *enemy);
 void sub_8060384(GuruGuru *enemy);
 void sub_80604F0(GuruGuruProjectile *proj);
-void sub_8065544(GuruGuru *arg0, Vec2_32 *arg1, u8 arg2);
-s32 sub_80656B0(GuruGuru *arg0);
-s32 sub_8065884(GuruGuru *arg0, Sprite2 *arg1, Vec2_32 *arg2);
+void sub_8065544(GuruGuru *enemy, Vec2_32 *param1, u8 param2);
+bool32 sub_8065634(GuruGuru *enemy, Sprite2 *arg1, Vec2_32 *arg2, EnemyUnknownStruc0 *arg3);
+s32 sub_80656B0(GuruGuru *enemy);
+s32 sub_8065884(GuruGuru *enemy, Sprite2 *s, Vec2_32 *param2);
 static bool32 CheckPlayerCollision(GuruGuru *enemy);
 static void UpdateProjectilePos(GuruGuruProjectile *proj);
 static AnimCmdResult DisplayProjectile(GuruGuruProjectile *proj);
@@ -210,6 +211,7 @@ void Task_GuruguruInit()
         TaskDestroy(gCurTask);
         return;
     }
+
     for (var_r4 = 0; var_r4 < 4; var_r4++) {
         s8 *meX;
         if (var_r4 != 0) {
@@ -224,6 +226,70 @@ void Task_GuruguruInit()
         meX = &enemy->me->x;
         *meX = MAP_ENTITY_STATE_INITIALIZED;
     }
+}
+
+void sub_8065544(GuruGuru *enemy, Vec2_32 *param1, u8 param2)
+{
+    s16 var_r5;
+
+    if (enemy->direction < 0) {
+        var_r5 = 3;
+    } else {
+        var_r5 = -3;
+    }
+
+    if (param2 == 0) {
+        enemy->unk8[0] = enemy->unk8[0] + (var_r5 * 64);
+    } else if (param2 == 1) {
+        enemy->unk8[1] = enemy->unk8[0] - (var_r5 * 512);
+    } else if (param2 > 2) {
+        if (param2 == 3) {
+            s32 shift6 = (var_r5 << 6);
+            s32 shift9 = (var_r5 << 9);
+            enemy->unk8[3] = (enemy->unk8[2] - shift9 - shift6);
+        } else {
+            enemy->unk8[param2] = enemy->unk8[param2 - 1] - ((var_r5 << 0x10) >> 7);
+        }
+    } else {
+        enemy->unk8[param2] = enemy->unk8[param2 - 1] - ((var_r5 << 0x10) >> 7);
+    }
+    if (enemy->direction < 0) {
+        if (enemy->unk8[param2] > 0xFF00U) {
+            enemy->unk8[param2] = 0;
+        }
+    } else {
+        if (enemy->unk8[param2] > 0xFF00U) {
+            enemy->unk8[param2] = 0xFF00;
+        }
+    }
+    param1->x = enemy->qUnk40.x + ((SIN(((enemy->unk8[param2] >> 0x8) % 256u) * 4) >> 0x6) << 5);
+    param1->y = enemy->qUnk40.y + ((SIN(((enemy->unk8[param2] >> 0x7) % 256u) * 4) >> 0x6) * 0x10);
+}
+
+bool32 sub_8065634(GuruGuru *enemy, Sprite2 *arg1, Vec2_32 *arg2, EnemyUnknownStruc0 *arg3)
+{
+    arg3->me = NULL;
+    arg3->spriteX = 0;
+    arg3->unk4 = 0;
+    arg3->spr = (Sprite *)arg1;
+
+    if (arg1 == &enemy->s[0]) {
+        arg3->posX = Q(enemy->s[0].x + gCamera.x);
+        arg3->posY = Q(enemy->s[0].y + gCamera.y);
+        arg3->regionX = 0;
+        arg3->regionY = 0;
+    } else {
+        arg3->spr->hitboxes[1].b.left = -6;
+        arg3->spr->hitboxes[1].b.top = -6;
+        arg3->spr->hitboxes[1].b.right = +6;
+        arg3->spr->hitboxes[1].b.bottom = +6;
+        arg3->posX = arg2->x;
+        arg3->posY = arg2->y;
+        arg3->regionX = enemy->region[0];
+        arg3->regionY = enemy->region[1];
+    }
+
+    return sub_805C63C(arg3);
 }
 
 #if 0
