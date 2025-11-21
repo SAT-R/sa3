@@ -1,6 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_vram.h"
+#include "module_unclear.h"
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/stage.h"
@@ -42,7 +43,9 @@ typedef struct Guard {
 } Guard; /* 0x60 */
 
 typedef struct GuardProj {
-    /* 0x00 */ u8 filler0[0x10];
+    /* 0x00 */ u8 filler0[0x4];
+    /* 0x04 */ u16 region[2];
+    /* 0x08 */ u8 filler8[0x8];
     /* 0x10 */ Vec2_32 qPos;
     /* 0x18 */ Sprite2 s;
 } GuardProj; /* 0x48 */
@@ -51,6 +54,12 @@ void sub_805F2C0(u8 *param0, u16 regionX, u16 regionY, u8 meX, s32 unkD, u8 unkC
 void Task_805F418(void);
 void Task_805F518(void);
 void sub_805F398(Guard *guard);
+void sub_805F654(GuardProj *proj);
+void sub_805F6BC(void);
+bool32 sub_805F75C(GuardProj *proj);
+void sub_805F800(GuardProj *proj);
+void sub_805FA80(GuardProj *proj);
+void sub_805FA50(void);
 void sub_805F858(Guard *guard);
 bool32 sub_805F89C(Guard *guard);
 AnimCmdResult sub_805F8E8(Guard *guard);
@@ -260,4 +269,40 @@ void sub_805F654(GuardProj *proj)
     s->frameFlags = 0x1000;
     s->hitboxes[0].index = -1;
     UpdateSpriteAnimation((Sprite *)s);
+}
+
+void sub_805F6BC(void)
+{
+    Sprite2 *s;
+    GuardProj *proj = TASK_DATA(gCurTask);
+    bool32 var_r5 = 0;
+    s32 worldX, worldY;
+    s32 res;
+
+    if (((u8)(gStageData.unk4 - 1) > 1U) && (gStageData.unk4 != 4)) {
+        sub_805F800(proj);
+    }
+
+    sub_805FA80(proj);
+
+    if (sub_805F75C(proj) == 1) {
+        var_r5 = 1;
+    }
+
+    worldX = I(proj->qPos.x);
+    worldY = I(proj->qPos.y);
+    worldX = TO_WORLD_POS_RAW(worldX, proj->region[0]);
+    worldY = TO_WORLD_POS_RAW(worldY, proj->region[1]);
+
+    res = sub_8052394(worldY, worldX, 1, 8, NULL, sub_805217C);
+    if (res < 0) {
+        var_r5 = 1;
+    }
+    if (var_r5 == 1) {
+        s = &proj->s;
+        s->anim = gUnknown_080D1FC0[1].anim;
+        s->variant = gUnknown_080D1FC0[1].variant;
+        s->frameFlags = 0;
+        gCurTask->main = sub_805FA50;
+    }
 }
