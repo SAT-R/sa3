@@ -130,7 +130,6 @@ SECTIONS {
         src/game/enemies/yadokk.o(.text);
         src/game/enemies/ginpe.o(.text);
         src/game/enemies/yukigasen.o(.text);
-        asm/enemy_yukigasen.o(.text);
         asm/enemy_hariisen.o(.text);
         asm/enemy_muukaden.o(.text);
         src/game/enemies/marun.o(.text);

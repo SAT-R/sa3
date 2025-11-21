@@ -28,13 +28,12 @@ typedef struct YukigasYukigasenSnowballen {
     /* 0x03 */ s8 unk3;
     /* 0x04 */ u16 unk4;
     /* 0x06 */ u16 unk6;
-    /* 0x08 */ s8 unk8;
+    /* 0x08 */ s16 unk8;
     /* 0x0A */ s16 unkA;
     /* 0x0C */ s16 unkC;
     /* 0x0E */ u8 fillerE[0x2];
     /* 0x10 */ Vec2_32 qWorldPos;
-    /* 0x18 */ Sprite s;
-    /* 0x40 */ u8 filler40[0x28];
+    /* 0x18 */ Sprite2 s;
 } YukigasenSnowball; /* 0x48 */
 
 extern const TileInfo2 gUnknown_080D2024[4];
@@ -49,10 +48,11 @@ void sub_8060D0C(YukigasenSnowball *snowball);
 void sub_8060FE0(Yukigasen *enemy, s8 cooldown, MapEntity *me, u16 regionX, s32 regionY, s32 arg5);
 bool32 sub_8061054(Yukigasen *enemy);
 void TaskDestructor_Yukigasen(struct Task *t);
-void CreateYukigasenSnowball(s32 arg0, s32 arg1, u16 arg2, u16 arg3, s32 arg4);
+void TaskDestructor_YukigasenSnowball(struct Task *t);
+void CreateYukigasenSnowball(s32 qWorldX, s32 qWorldY, u16 regionX, u16 regionY, s8 dir);
 void Task_Snowball_8061170(void);
 bool32 sub_8061090(Yukigasen *enemy, EnemyUnknownStruc0 *strc0);
-void sub_80611A0(YukigasenSnowball *snowball);
+AnimCmdResult sub_80611A0(YukigasenSnowball *snowball);
 
 AnimCmdResult sub_8061010(Yukigasen *enemy);
 
@@ -154,7 +154,7 @@ void Task_8060AC8(void)
 void sub_Snowball_8060B60(YukigasenSnowball *snowball)
 {
     u8 *tiles = VramMalloc(0x10U);
-    Sprite *s;
+    Sprite2 *s;
 
     s = &snowball->s;
     s->tiles = tiles;
@@ -170,12 +170,12 @@ void sub_Snowball_8060B60(YukigasenSnowball *snowball)
     s->palId = 0;
     s->frameFlags = 0x1000;
     s->hitboxes[0].index = -1;
-    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation((Sprite *)s);
 }
 
 void Task_SnowballMain()
 {
-    Sprite *s;
+    Sprite2 *s;
     s32 var_r5;
 
     YukigasenSnowball *snowball = TASK_DATA(gCurTask);
@@ -209,7 +209,7 @@ void Task_SnowballMain()
 
 u32 sub_8060C68(YukigasenSnowball *snowball)
 {
-    Sprite *s;
+    Sprite2 *s;
     u32 res;
     u8 i;
     s32 worldX, worldY;
@@ -225,9 +225,9 @@ u32 sub_8060C68(YukigasenSnowball *snowball)
         p = GET_SP_PLAYER_V0(i);
 
         res = sub_802C080(p);
-        if ((res == 0) && (sub_8020700(s, worldX, worldY, 1, p, (s16)res) != 0)) {
+        if ((res == 0) && (sub_8020700((Sprite *)s, worldX, worldY, 1, p, (s16)res) != 0)) {
             if (p->framesInvincible == 0) {
-                sub_8020CE0(s, worldX, worldY, 1U, p);
+                sub_8020CE0((Sprite *)s, worldX, worldY, 1U, p);
             }
             return TRUE;
         }
@@ -239,7 +239,6 @@ u32 sub_8060C68(YukigasenSnowball *snowball)
 // (97.76%) https://decomp.me/scratch/4L8KH
 NONMATCH("asm/non_matching/game/enemies/yukigasen__sub_8060D0C.inc", void sub_8060D0C(YukigasenSnowball *snowball))
 {
-    s16 temp_r1;
     s16 var_r0;
     s16 dx, dy;
     s32 unk1;
@@ -362,4 +361,55 @@ void TaskDestructor_Yukigasen(Task *t)
 {
     Yukigasen *enemy = TASK_DATA(t);
     VramFree(enemy->s.tiles);
+}
+
+void CreateYukigasenSnowball(s32 qWorldX, s32 qWorldY, u16 regionX, u16 regionY, s8 dir)
+{
+    YukigasenSnowball *snowball;
+
+    snowball = TASK_DATA(TaskCreate(Task_SnowballMain, sizeof(YukigasenSnowball), 0x4040U, 0U, TaskDestructor_YukigasenSnowball));
+    snowball->qWorldPos.x = qWorldX;
+    snowball->qWorldPos.y = qWorldY;
+    snowball->unk4 = regionX;
+    snowball->unk6 = regionY;
+    snowball->unk0 = 0;
+    snowball->unk1 = dir;
+    snowball->unk2 = 0;
+    snowball->unkA = dir * Q(5);
+    snowball->unkC = 0;
+    snowball->unk8 = 0;
+    CpuFill16(0, &snowball->s.hitboxes[1].b, sizeof(snowball->s.hitboxes[1].b));
+    sub_Snowball_8060B60(snowball);
+}
+
+void Task_Snowball_8061170(void)
+{
+    YukigasenSnowball *snowball = TASK_DATA(gCurTask);
+    AnimCmdResult acmdRes = sub_80611A0(snowball);
+
+    sub_8060C68(snowball);
+
+    if (acmdRes == ACMD_RESULT__ENDED) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+}
+
+AnimCmdResult sub_80611A0(YukigasenSnowball *snowball)
+{
+    Sprite2 *s;
+    s32 temp_r4;
+
+    s = &snowball->s;
+    s->x = TO_WORLD_POS_RAW(I(snowball->qWorldPos.x), snowball->unk4) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(snowball->qWorldPos.y), snowball->unk6) - gCamera.y;
+    temp_r4 = UpdateSpriteAnimation((Sprite *)s);
+    DisplaySprite((Sprite *)s);
+    return temp_r4;
+}
+
+void TaskDestructor_YukigasenSnowball(Task *t)
+{
+    YukigasenSnowball *snowball = TASK_DATA(t);
+    VramFree(snowball->s.tiles);
 }
