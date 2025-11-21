@@ -42,8 +42,9 @@ typedef struct Guard {
 } Guard; /* 0x60 */
 
 typedef struct GuardProj {
-    u8 filler0[0x18];
-    Sprite2 s;
+    /* 0x00 */ u8 filler0[0x10];
+    /* 0x10 */ Vec2_32 qPos;
+    /* 0x18 */ Sprite2 s;
 } GuardProj; /* 0x48 */
 
 void sub_805F2C0(u8 *param0, u16 regionX, u16 regionY, u8 meX, s32 unkD, u8 unkC);
@@ -58,6 +59,7 @@ void TaskDestructor_805F9A4(struct Task *t);
 void sub_805CD70(Vec2_32 *qVal, Vec2_32 *param1, u16 region[2], s8 *param3);
 
 extern const TileInfo2 gUnknown_080D1FB0[4];
+extern const TileInfo2 gUnknown_080D1FC0[4];
 
 void sub_805F2C0(u8 *param0, u16 regionX, u16 regionY, u8 meX, s32 unkD, u8 unkC)
 {
@@ -123,7 +125,7 @@ void sub_805F398(Guard *guard)
     s->hitboxes[0].index = -1;
 }
 
-void Task_805F418()
+void Task_805F418(void)
 {
     Sprite2 *s;
     Sprite2 *s2;
@@ -177,7 +179,7 @@ void Task_805F418()
     }
 }
 
-void Task_805F518()
+void Task_805F518(void)
 {
     Sprite2 *s;
     Sprite2 *s2;
@@ -219,13 +221,12 @@ void Task_805F518()
         temp_r5 = guard->unk28.x;
         if ((temp_r2 <= temp_r5) || (temp_r2 >= (s32)guard->unk28.y)) {
             s = &guard->s;
-            temp_r1 = s->frameFlags;
-            if (temp_r1 & 0x400) {
+            if (SPRITE_FLAG_GET(s, X_FLIP)) {
                 if (temp_r2 >= (s32)guard->unk28.y) {
-                    s->frameFlags &= ~0x400;
+                    SPRITE_FLAG_CLEAR(s, X_FLIP);
                 }
             } else if (temp_r2 <= temp_r5) {
-                s->frameFlags = temp_r1 | 0x400;
+                SPRITE_FLAG_SET(s, X_FLIP);
             }
         }
         if (temp_r7 == ACMD_RESULT__ENDED) {
@@ -239,4 +240,24 @@ void Task_805F518()
             gCurTask->main = Task_805F418;
         }
     }
+}
+
+void sub_805F654(GuardProj *proj)
+{
+    u8 *tiles = VramMalloc(0x10U);
+    Sprite2 *s = &proj->s;
+    s->tiles = tiles;
+    s->anim = gUnknown_080D1FC0[0].anim;
+    s->variant = gUnknown_080D1FC0[0].variant;
+    s->prevVariant = 0xFF;
+    s->x = I(proj->qPos.x) - gCamera.x;
+    s->y = I(proj->qPos.y) - gCamera.y;
+    s->oamFlags = 0x4C0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x1000;
+    s->hitboxes[0].index = -1;
+    UpdateSpriteAnimation((Sprite *)s);
 }
