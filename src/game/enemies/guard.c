@@ -1,6 +1,9 @@
 #include "global.h"
 #include "core.h"
+#include "malloc_vram.h"
+#include "game/camera.h"
 #include "game/entity.h"
+#include "game/stage.h"
 
 typedef struct GuardState {
     /* 0x00 */ MapEntity *me;
@@ -43,19 +46,25 @@ typedef struct GuardProj {
     Sprite2 s;
 } GuardProj; /* 0x48 */
 
+void sub_805F2C0(u8 *param0, u16 regionX, u16 regionY, u8 meX, s32 unkD, u8 unkC);
 void Task_805F418(void);
+void Task_805F518(void);
 void sub_805F398(Guard *guard);
+void sub_805F858(Guard *guard);
+bool32 sub_805F89C(Guard *guard);
+AnimCmdResult sub_805F8E8(Guard *guard);
+void sub_805F9B8(s32 x, s32 y, u16 regionX, u16 regionY, s8 dir);
 void TaskDestructor_805F9A4(struct Task *t);
+void sub_805CD70(Vec2_32 *qVal, Vec2_32 *param1, u16 region[2], s8 *param3);
+
+extern const TileInfo2 gUnknown_080D1FB0[4];
 
 void sub_805F2C0(u8 *param0, u16 regionX, u16 regionY, u8 meX, s32 unkD, u8 unkC)
 {
-    s16 sp4;
     s32 temp_r0_2;
     s32 temp_r1_2;
     s32 temp_r1_3;
-    s8 var_r0;
     Guard *guard;
-    u8 temp_r0;
 
     guard = TASK_DATA(TaskCreate(Task_805F418, sizeof(Guard), 0x2100U, 0U, TaskDestructor_805F9A4));
     guard->mePos = param0;
@@ -69,9 +78,9 @@ void sub_805F2C0(u8 *param0, u16 regionX, u16 regionY, u8 meX, s32 unkD, u8 unkC
     guard->unk20.y = temp_r0_2;
     guard->unk18.x = guard->unk20.x;
     guard->unk18.y = guard->unk20.y;
-    temp_r1_3 = temp_r1_2 + ((s8)param0[3] << 0xB);
-    guard->unk28.x = temp_r1_3;
-    guard->unk28.y = (s32)(temp_r1_3 + (param0[5] << 0xB));
+    temp_r1_2 = temp_r1_2 + ((s8)param0[3] << 0xB);
+    guard->unk28.x = temp_r1_2;
+    guard->unk28.y = (s32)(temp_r1_2 + (param0[5] << 0xB));
     guard->unk14 = unkD;
     guard->unk10 = unkC;
     guard->unk5 = 0;
@@ -87,4 +96,147 @@ void sub_805F2C0(u8 *param0, u16 regionX, u16 regionY, u8 meX, s32 unkD, u8 unkC
 
     CpuFill16(0, &guard->s.hitboxes[1].b, sizeof(guard->s.hitboxes[1].b));
     sub_805F398(guard);
+}
+
+void sub_805F398(Guard *guard)
+{
+    u8 *vram = VramMalloc(0x10U);
+    Sprite2 *s = &guard->s;
+    s->tiles = vram;
+    s->anim = gUnknown_080D1FB0[0].anim;
+    s->variant = gUnknown_080D1FB0[0].variant;
+    s->prevVariant = -1;
+    s->x = TO_WORLD_POS_RAW(I(guard->unk20.x), guard->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(guard->unk20.y), guard->region[1]) - gCamera.y;
+    s->oamFlags = 0x480;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x1000;
+
+    if (guard->dir < 0) {
+        s->frameFlags |= 0x400;
+        s->frameFlags |= 0x1000;
+    }
+
+    s->hitboxes[0].index = -1;
+}
+
+void Task_805F418()
+{
+    Sprite2 *s;
+    Sprite2 *s2;
+    s32 temp_r2;
+    s32 temp_r5;
+    s32 temp_r7;
+    u32 temp_r1;
+
+    Guard *guard = TASK_DATA(gCurTask);
+
+    sub_805CD70(&guard->unk20, &guard->unk18, guard->region, (s8 *)&guard->unk9);
+    if (sub_805F89C(guard) == 1) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    temp_r7 = sub_805F8E8(guard);
+    ++guard->unk5;
+    if ((temp_r7 == ACMD_RESULT__ENDED) || (guard->unk5 > 0x1DU)) {
+        guard->unk5 = 0;
+    }
+    if (((u32)(u8)(gStageData.unk4 - 1) > 1U) && (gStageData.unk4 != 4)) {
+        if ((u32)guard->unk5 > 0x14U) {
+            sub_805F858(guard);
+        }
+        temp_r2 = guard->unk20.x;
+        temp_r5 = guard->unk28.x;
+        if ((temp_r2 <= temp_r5) || (temp_r2 >= (s32)guard->unk28.y)) {
+            s = &guard->s;
+            temp_r1 = s->frameFlags;
+            if (temp_r1 & 0x400) {
+                if (temp_r2 >= (s32)guard->unk28.y) {
+                    s->frameFlags &= ~0x400;
+                    guard->unk7 = 0;
+                }
+            } else if (temp_r2 <= temp_r5) {
+                s->frameFlags = temp_r1 | 0x400;
+                guard->unk7 = 0;
+            }
+        }
+        if (temp_r7 == ACMD_RESULT__ENDED) {
+            s2 = &guard->s;
+            s2->anim = gUnknown_080D1FB0[1].anim;
+            s2->variant = gUnknown_080D1FB0[1].variant;
+            s2->animCursor = 0;
+            s2->qAnimDelay = 0;
+            guard->unk7 = 0;
+            guard->s.prevVariant = -1;
+            guard->unk5 = 0;
+            gCurTask->main = Task_805F518;
+        }
+    }
+}
+
+void Task_805F518()
+{
+    Sprite2 *s;
+    Sprite2 *s2;
+    s32 temp_r2;
+    s32 temp_r5;
+    s32 temp_r7;
+    u32 temp_r1;
+
+    Guard *guard = TASK_DATA(gCurTask);
+
+    sub_805CD70(&guard->unk20, &guard->unk18, guard->region, (s8 *)&guard->unk9);
+    if (sub_805F89C(guard) == 1) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    temp_r7 = sub_805F8E8(guard);
+    ++guard->unk5;
+    if ((temp_r7 == ACMD_RESULT__ENDED) || (guard->unk5 > 0x1DU)) {
+        guard->unk5 = 0;
+    }
+    if (((u32)(u8)(gStageData.unk4 - 1) > 1U) && (gStageData.unk4 != 4)) {
+        if ((u32)guard->unk5 > 0x14U) {
+            sub_805F858(guard);
+        }
+
+        if (guard->unk5 == 0x1D && guard->unk8 == 0) {
+            s8 dir;
+            if (guard->s.frameFlags & 0x400) {
+                dir = +1;
+            } else {
+                dir = -1;
+            }
+
+            sub_805F9B8(guard->unk20.x + (dir << 12), guard->unk20.y - Q(27), guard->region[0], guard->region[1], dir);
+            guard->unk8 = 1;
+        }
+
+        temp_r2 = guard->unk20.x;
+        temp_r5 = guard->unk28.x;
+        if ((temp_r2 <= temp_r5) || (temp_r2 >= (s32)guard->unk28.y)) {
+            s = &guard->s;
+            temp_r1 = s->frameFlags;
+            if (temp_r1 & 0x400) {
+                if (temp_r2 >= (s32)guard->unk28.y) {
+                    s->frameFlags &= ~0x400;
+                }
+            } else if (temp_r2 <= temp_r5) {
+                s->frameFlags = temp_r1 | 0x400;
+            }
+        }
+        if (temp_r7 == ACMD_RESULT__ENDED) {
+            s2 = &guard->s;
+            s2->anim = gUnknown_080D1FB0[0].anim;
+            s2->variant = gUnknown_080D1FB0[0].variant;
+            s2->animCursor = 0;
+            s2->qAnimDelay = 0;
+            guard->s.prevVariant = -1;
+            guard->unk8 = 0;
+            gCurTask->main = Task_805F418;
+        }
+    }
 }
