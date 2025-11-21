@@ -796,7 +796,8 @@ NONMATCH("asm/non_matching/engine/sub_80C07E0.inc", void sub_80C07E0(Sprite *spr
 END_NONMATCH
 
 // (99.82%) https://decomp.me/scratch/UPXYB
-NONMATCH("asm/non_matching/engine/DisplaySprites.inc", void DisplaySprites(Sprite *sprite, Vec2_16 *positions, u8 numPositions))
+// TODO: Is param 'numPositions' u8 in SA1/SA2 but u8 in SA3?
+NONMATCH("asm/non_matching/engine/DisplaySprites.inc", void DisplaySprites(Sprite *sprite, Vec2_16 *positions, u16 numPositions))
 {
     vs32 x, y;
     s32 sprWidth, sprHeight;
