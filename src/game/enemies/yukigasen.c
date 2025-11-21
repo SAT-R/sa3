@@ -19,11 +19,15 @@ typedef struct Yukigasen {
 } Yukigasen; /* 0x50 */
 
 typedef struct YukigasYukigasenSnowballen {
-    /* 0x00 */ u8 filler0[0x4];
-    /* 0x08 */ u16 unk4;
-    /* 0x08 */ u16 unk6;
+    /* 0x00 */ s8 unk0;
+    /* 0x01 */ s8 unk1;
+    /* 0x02 */ s8 unk2;
+    /* 0x03 */ s8 unk3;
+    /* 0x04 */ u16 unk4;
+    /* 0x06 */ u16 unk6;
     /* 0x08 */ s8 unk8;
-    /* 0x0A */ u16 region[2];
+    /* 0x0A */ s16 unkA;
+    /* 0x0C */ s16 unkC;
     /* 0x0E */ u8 fillerE[0x2];
     /* 0x10 */ Vec2_32 qWorldPos;
     /* 0x18 */ Sprite s;
@@ -195,3 +199,62 @@ void Task_SnowballMain()
         }
     }
 }
+
+u32 sub_8060C68(YukigasenSnowball *snowball)
+{
+    Sprite *s;
+    u32 res;
+    u8 i;
+    s32 worldX, worldY;
+    Player *p = NULL;
+
+    worldX = I(snowball->qWorldPos.x);
+    worldY = I(snowball->qWorldPos.y);
+    worldX = TO_WORLD_POS_RAW(worldX, snowball->unk4);
+    worldY = TO_WORLD_POS_RAW(worldY, snowball->unk6);
+    s = &snowball->s;
+
+    for (i = 0; i < 2; i++) {
+        p = GET_SP_PLAYER_V0(i);
+
+        res = sub_802C080(p);
+        if ((res == 0) && (sub_8020700(s, worldX, worldY, 1, p, (s16)res) != 0)) {
+            if (p->framesInvincible == 0) {
+                sub_8020CE0(s, worldX, worldY, 1U, p);
+            }
+            return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
+// (97.76%) https://decomp.me/scratch/4L8KH
+NONMATCH("asm/non_matching/game/enemies/yukigasen__sub_8060D0C.inc", void sub_8060D0C(YukigasenSnowball *snowball))
+{
+    s16 temp_r1;
+    s16 var_r0;
+    s16 dx, dy;
+    s32 unk1;
+    s16 unk2 = (snowball->unk2 << 9);
+
+    if (snowball->unk1 > 0) {
+        var_r0 = (snowball->unk1 + 4) << 7;
+    } else {
+        var_r0 = (snowball->unk1 - 4) << 7;
+    }
+
+    snowball->unkC += 16;
+    unk2 += snowball->unkC;
+    if ((snowball->unk1 > 0)) {
+        if ((dx = snowball->unkA, (dx > 0)) || (dx < 0)) {
+            snowball->unkA += snowball->unk1;
+        }
+    }
+    dx = var_r0 + snowball->unkA;
+    unk1 = unk2 << 16;
+    unk1 >>= 16;
+    snowball->qWorldPos.y += unk1;
+    snowball->qWorldPos.x += dx >> 1;
+}
+END_NONMATCH
