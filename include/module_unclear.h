@@ -110,7 +110,6 @@ bool8 sub_8079FFC(void);
 bool8 sub_807A074(void);
 void CreateCharacterSelect(u16);
 
-void DisplaySprites(Sprite *s, Vec2_16 *positions, u16 count);
 void sub_80C07E0(Sprite *s);
 void sub_80C460C(const u16 *pal, u8 paletteOffset, u16 palSize);
 void *sub_80C4C60(void *param0, u8 param1);

@@ -19,7 +19,7 @@ typedef struct {
     /* 0x14 */ s32 posY;
 
     /* 0x18 */ s32 unk18;
-    /* 0x1C */ Sprite *spr;
+    /* 0x1C */ Sprite *spr; // TODO: might be (Sprite2 *)?
     /* 0x20 */ u8 filler20[0x8];
 } EnemyUnknownStruc0; /* size: 0x28 */
 

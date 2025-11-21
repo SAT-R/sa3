@@ -5,72 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_806098C
-sub_806098C: @ 0x0806098C
-	push {r4, r5, r6, r7, lr}
-	adds r4, r0, #0
-	lsls r5, r1, #0x18
-	lsrs r5, r5, #0x18
-	movs r0, #0x10
-	bl VramMalloc
-	adds r7, r4, #0
-	adds r7, #0x20
-	str r0, [r4, #0x20]
-	ldr r1, _08060A08 @ =gUnknown_080D2024
-	ldrh r0, [r1]
-	movs r6, #0
-	movs r3, #0
-	strh r0, [r7, #0xc]
-	ldrb r0, [r1, #2]
-	strb r0, [r7, #0x1a]
-	movs r0, #0xff
-	strb r0, [r7, #0x1b]
-	ldr r1, [r4, #0x18]
-	asrs r1, r1, #8
-	ldrh r0, [r4, #0xa]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	ldr r2, _08060A0C @ =gCamera
-	ldr r0, [r2]
-	subs r1, r1, r0
-	strh r1, [r7, #0x10]
-	ldr r1, [r4, #0x1c]
-	asrs r1, r1, #8
-	ldrh r0, [r4, #0xc]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	ldr r0, [r2, #4]
-	subs r1, r1, r0
-	strh r1, [r7, #0x12]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r7, #0x14]
-	strh r3, [r7, #0xe]
-	strh r3, [r7, #0x16]
-	movs r0, #0x10
-	strb r0, [r7, #0x1c]
-	strb r6, [r7, #0x1f]
-	movs r1, #0x80
-	lsls r1, r1, #5
-	str r1, [r7, #8]
-	cmp r5, #2
-	bne _080609F6
-	movs r0, #0x80
-	lsls r0, r0, #3
-	orrs r0, r1
-	str r0, [r7, #8]
-_080609F6:
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r7, #0x20]
-	adds r0, r7, #0
-	bl UpdateSpriteAnimation
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08060A08: .4byte gUnknown_080D2024
-_08060A0C: .4byte gCamera
+.if 0
+.endif
 
 	thumb_func_start Task_YukigasenMain
 Task_YukigasenMain: @ 0x08060A10

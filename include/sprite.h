@@ -276,7 +276,8 @@ typedef enum {
 
 AnimCmdResult UpdateSpriteAnimation(Sprite *);
 
-void DisplaySprite(Sprite *);
+void DisplaySprite(Sprite *s);
+void DisplaySprites(Sprite *s, Vec2_16 *positions, u16 count);
 void DrawBackground(Background *);
 u32 sub_8004010(void);
 u32 sub_80039E4(void);

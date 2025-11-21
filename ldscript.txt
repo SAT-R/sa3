@@ -129,6 +129,7 @@ SECTIONS {
         asm/enemy_guard.o(.text);
         src/game/enemies/yadokk.o(.text);
         src/game/enemies/ginpe.o(.text);
+        src/game/enemies/yukigasen.o(.text);
         asm/enemy_yukigasen.o(.text);
         asm/enemy_hariisen.o(.text);
         asm/enemy_muukaden.o(.text);
@@ -136,7 +137,6 @@ SECTIONS {
         asm/enemy_clam.o(.text);
         asm/enemy_kamaki.o(.text);
         src/game/enemies/guruguru.o(.text);
-        asm/enemy_guruguru.o(.text);
         src/game/enemies/kyacchaa.o(.text);
         asm/code.o(.text);
         src/game/math.o(.text);
