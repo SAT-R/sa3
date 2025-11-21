@@ -363,7 +363,6 @@ void CreateEntity_GuruGuru(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 s32 sub_8065884(GuruGuru *enemy, Sprite2 *s, Vec2_32 *param2)
 {
     EnemyUnknownStruc0 strc0;
-    // enemy->me, , param2->x, param2->y, s);
     strc0.unk4 = sub_8065634(enemy, s, param2, &strc0);
     strc0.spr = (Sprite *)s;
     strc0.posX = param2->x;

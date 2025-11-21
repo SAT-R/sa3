@@ -8,207 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_8060AC8
-sub_8060AC8: @ 0x08060AC8
-	push {r4, r5, r6, lr}
-	ldr r6, _08060AFC @ =gCurTask
-	ldr r0, [r6]
-	ldrh r5, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r5, r0
-	ldr r1, _08060B00 @ =0x03000018
-	adds r0, r5, r1
-	subs r1, #0xe
-	adds r2, r5, r1
-	subs r1, #2
-	adds r3, r5, r1
-	movs r1, #0
-	bl sub_805CD70
-	adds r0, r4, #0
-	bl sub_8061054
-	cmp r0, #1
-	bne _08060B04
-	ldr r0, [r6]
-	bl TaskDestroy
-	b _08060B48
-	.align 2, 0
-_08060AFC: .4byte gCurTask
-_08060B00: .4byte 0x03000018
-_08060B04:
-	adds r0, r4, #0
-	bl sub_8061010
-	adds r2, r0, #0
-	ldr r0, _08060B50 @ =gStageData
-	ldrb r1, [r0, #4]
-	subs r0, r1, #1
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #1
-	bls _08060B48
-	cmp r1, #4
-	beq _08060B48
-	cmp r2, #0
-	bne _08060B28
-	ldrb r0, [r4, #7]
-	adds r0, #1
-	strb r0, [r4, #7]
-_08060B28:
-	ldrb r0, [r4, #7]
-	ldrb r1, [r4, #6]
-	cmp r0, r1
-	blo _08060B48
-	ldr r0, _08060B54 @ =0x03000020
-	adds r2, r5, r0
-	ldr r1, _08060B58 @ =gUnknown_080D2024
-	ldrh r0, [r1]
-	movs r3, #0
-	strh r0, [r2, #0xc]
-	ldrb r0, [r1, #2]
-	strb r0, [r2, #0x1a]
-	strb r3, [r4, #7]
-	ldr r1, [r6]
-	ldr r0, _08060B5C @ =Task_YukigasenMain
-	str r0, [r1, #8]
-_08060B48:
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08060B50: .4byte gStageData
-_08060B54: .4byte 0x03000020
-_08060B58: .4byte gUnknown_080D2024
-_08060B5C: .4byte Task_YukigasenMain
-
-	thumb_func_start sub_8060B60
-sub_8060B60: @ 0x08060B60
-	push {r4, r5, r6, lr}
-	adds r4, r0, #0
-	movs r0, #0x10
-	bl VramMalloc
-	adds r1, r0, #0
-	adds r0, r4, #0
-	adds r0, #0x18
-	str r1, [r4, #0x18]
-	ldr r2, _08060BC0 @ =gUnknown_080D2034
-	ldrh r1, [r2]
-	movs r6, #0
-	movs r5, #0
-	strh r1, [r0, #0xc]
-	ldrb r1, [r2, #2]
-	strb r1, [r0, #0x1a]
-	movs r1, #0xff
-	strb r1, [r0, #0x1b]
-	ldr r1, [r4, #0x10]
-	asrs r1, r1, #8
-	ldr r3, _08060BC4 @ =gCamera
-	ldr r2, [r3]
-	subs r1, r1, r2
-	strh r1, [r0, #0x10]
-	ldr r1, [r4, #0x14]
-	asrs r1, r1, #8
-	ldr r2, [r3, #4]
-	subs r1, r1, r2
-	strh r1, [r0, #0x12]
-	movs r1, #0x98
-	lsls r1, r1, #3
-	strh r1, [r0, #0x14]
-	strh r5, [r0, #0xe]
-	strh r5, [r0, #0x16]
-	movs r1, #0x10
-	strb r1, [r0, #0x1c]
-	strb r6, [r0, #0x1f]
-	movs r1, #0x80
-	lsls r1, r1, #5
-	str r1, [r0, #8]
-	movs r1, #1
-	rsbs r1, r1, #0
-	str r1, [r0, #0x20]
-	bl UpdateSpriteAnimation
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08060BC0: .4byte gUnknown_080D2034
-_08060BC4: .4byte gCamera
-
-	thumb_func_start sub_8060BC8
-sub_8060BC8: @ 0x08060BC8
-	push {r4, r5, r6, r7, lr}
-	sub sp, #8
-	ldr r7, _08060C50 @ =gCurTask
-	ldr r0, [r7]
-	ldrh r6, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r6, r0
-	movs r5, #0
-	adds r0, r4, #0
-	bl sub_80611A0
-	ldr r0, _08060C54 @ =gStageData
-	ldrb r1, [r0, #4]
-	subs r0, r1, #1
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #1
-	bls _08060C48
-	cmp r1, #4
-	beq _08060C48
-	adds r0, r4, #0
-	bl sub_8060D0C
-	adds r0, r4, #0
-	bl sub_8060C68
-	cmp r0, #1
-	bne _08060C04
-	movs r5, #1
-_08060C04:
-	ldr r1, [r4, #0x10]
-	asrs r1, r1, #8
-	ldr r0, [r4, #0x14]
-	asrs r0, r0, #8
-	ldrh r2, [r4, #4]
-	lsls r2, r2, #8
-	adds r1, r1, r2
-	ldrh r2, [r4, #6]
-	lsls r2, r2, #8
-	adds r0, r0, r2
-	movs r4, #0
-	str r4, [sp]
-	ldr r2, _08060C58 @ =sub_805217C
-	str r2, [sp, #4]
-	movs r2, #1
-	movs r3, #8
-	bl sub_8052394
-	cmp r0, #0
-	bge _08060C2E
-	movs r5, #1
-_08060C2E:
-	cmp r5, #1
-	bne _08060C48
-	ldr r0, _08060C5C @ =0x03000018
-	adds r1, r6, r0
-	ldr r2, _08060C60 @ =gUnknown_080D2034
-	ldrh r0, [r2, #8]
-	strh r0, [r1, #0xc]
-	ldrb r0, [r2, #0xa]
-	strb r0, [r1, #0x1a]
-	str r4, [r1, #8]
-	ldr r1, [r7]
-	ldr r0, _08060C64 @ =sub_8061170
-	str r0, [r1, #8]
-_08060C48:
-	add sp, #8
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08060C50: .4byte gCurTask
-_08060C54: .4byte gStageData
-_08060C58: .4byte sub_805217C
-_08060C5C: .4byte 0x03000018
-_08060C60: .4byte gUnknown_080D2034
-_08060C64: .4byte sub_8061170
-
 	thumb_func_start sub_8060C68
 sub_8060C68: @ 0x08060C68
 	push {r4, r5, r6, r7, lr}
@@ -773,8 +572,8 @@ sub_80610BC: @ 0x080610BC
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_80610D0
-sub_80610D0: @ 0x080610D0
+	thumb_func_start CreateYukigasenSnowball
+CreateYukigasenSnowball: @ 0x080610D0
 	push {r4, r5, r6, lr}
 	mov r6, sl
 	mov r5, sb
@@ -794,7 +593,7 @@ sub_80610D0: @ 0x080610D0
 	mov r8, r0
 	lsls r5, r5, #0x18
 	lsrs r5, r5, #0x18
-	ldr r0, _0806115C @ =sub_8060BC8
+	ldr r0, _0806115C @ =Task_SnowballMain
 	ldr r2, _08061160 @ =0x00004040
 	ldr r1, _08061164 @ =sub_80611E4
 	str r1, [sp]
@@ -833,7 +632,7 @@ sub_80610D0: @ 0x080610D0
 	add r0, sp, #4
 	bl CpuSet
 	adds r0, r4, #0
-	bl sub_8060B60
+	bl sub_Snowball_8060B60
 	add sp, #8
 	pop {r3, r4, r5}
 	mov r8, r3
@@ -843,14 +642,14 @@ sub_80610D0: @ 0x080610D0
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0806115C: .4byte sub_8060BC8
+_0806115C: .4byte Task_SnowballMain
 _08061160: .4byte 0x00004040
 _08061164: .4byte sub_80611E4
 _08061168: .4byte 0x03000044
 _0806116C: .4byte 0x01000002
 
-	thumb_func_start sub_8061170
-sub_8061170: @ 0x08061170
+	thumb_func_start Task_Snowball_8061170
+Task_Snowball_8061170: @ 0x08061170
 	push {r4, r5, r6, lr}
 	ldr r6, _0806119C @ =gCurTask
 	ldr r0, [r6]
