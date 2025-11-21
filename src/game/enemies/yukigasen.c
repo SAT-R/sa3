@@ -240,8 +240,8 @@ void sub_8060D0C(YukigasenSnowball *snowball)
 {
     s16 var_r0;
     s16 dx, dy;
-    s32 unk1;
-    s16 unk2 = (snowball->unk2 << 9);
+
+    dy = (snowball->unk2 << 9);
 
     if (snowball->unk1 > 0) {
         var_r0 = (snowball->unk1 + 4) << 7;
@@ -250,19 +250,18 @@ void sub_8060D0C(YukigasenSnowball *snowball)
     }
 
     snowball->unkC += 16;
-    unk2 += snowball->unkC;
+    dy += snowball->unkC;
     if ((snowball->unk1 > 0)) {
         dx = snowball->unkA;
-        if ((dx > 0)) {
+        if (dx > 0) {
             snowball->unkA += snowball->unk1;
-        } else if ((dx < 0)) {
+        } else if (dx < 0) {
             snowball->unkA += snowball->unk1;
         }
     }
     dx = var_r0 + snowball->unkA;
-    unk1 = unk2 << 16;
-    unk1 >>= 16;
-    snowball->qWorldPos.y += unk1;
+
+    snowball->qWorldPos.y += dy;
     snowball->qWorldPos.x += dx >> 1;
 }
 

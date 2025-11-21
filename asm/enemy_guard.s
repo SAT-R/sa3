@@ -5,112 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_805F2C0
-sub_805F2C0: @ 0x0805F2C0
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	sub sp, #8
-	adds r5, r0, #0
-	adds r6, r1, #0
-	mov r8, r2
-	adds r4, r3, #0
-	ldr r0, [sp, #0x28]
-	mov sb, r0
-	lsls r6, r6, #0x10
-	lsrs r6, r6, #0x10
-	mov r0, r8
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	mov r8, r0
-	lsls r4, r4, #0x18
-	lsrs r4, r4, #0x18
-	mov r0, sb
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	mov sb, r0
-	ldr r0, _0805F360 @ =sub_805F418
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _0805F364 @ =sub_805F9A4
-	str r1, [sp]
-	movs r1, #0x60
-	movs r3, #0
-	bl TaskCreate
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r7, r1, r0
-	str r5, [r7]
-	ldrb r0, [r5]
-	strb r0, [r7, #6]
-	strb r4, [r7, #4]
-	movs r2, #0
-	strh r6, [r7, #0xc]
-	mov r0, r8
-	strh r0, [r7, #0xe]
-	mov r0, sb
-	lsls r1, r0, #1
-	ldrb r0, [r5]
-	adds r1, r1, r0
-	lsls r1, r1, #0xb
-	str r1, [r7, #0x20]
-	ldrb r0, [r5, #1]
-	lsls r0, r0, #0xb
-	str r0, [r7, #0x24]
-	str r1, [r7, #0x18]
-	str r0, [r7, #0x1c]
-	movs r0, #3
-	ldrsb r0, [r5, r0]
-	lsls r0, r0, #0xb
-	adds r1, r1, r0
-	str r1, [r7, #0x28]
-	ldrb r0, [r5, #5]
-	lsls r0, r0, #0xb
-	adds r1, r1, r0
-	str r1, [r7, #0x2c]
-	ldr r0, [sp, #0x24]
-	str r0, [r7, #0x14]
-	mov r0, sb
-	strb r0, [r7, #0x10]
-	strb r2, [r7, #5]
-	strb r2, [r7, #7]
-	strb r2, [r7, #8]
-	strb r2, [r7, #9]
-	ldrb r1, [r5, #7]
-	movs r0, #8
-	ands r0, r1
-	cmp r0, #0
-	beq _0805F368
-	movs r0, #0xff
-	b _0805F36A
-	.align 2, 0
-_0805F360: .4byte sub_805F418
-_0805F364: .4byte sub_805F9A4
-_0805F368:
-	movs r0, #1
-_0805F36A:
-	strb r0, [r7, #0xa]
-	add r1, sp, #4
-	movs r0, #0
-	strh r0, [r1]
-	adds r1, r7, #0
-	adds r1, #0x5c
-	ldr r2, _0805F394 @ =0x01000002
-	add r0, sp, #4
-	bl CpuSet
-	adds r0, r7, #0
-	bl sub_805F398
-	add sp, #8
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0805F394: .4byte 0x01000002
+.if 0
+.endif
 
 	thumb_func_start sub_805F398
 sub_805F398: @ 0x0805F398
@@ -177,8 +73,8 @@ _0805F402:
 _0805F410: .4byte gUnknown_080D1FB0
 _0805F414: .4byte gCamera
 
-	thumb_func_start sub_805F418
-sub_805F418: @ 0x0805F418
+	thumb_func_start Task_805F418
+Task_805F418: @ 0x0805F418
 	push {r4, r5, r6, r7, lr}
 	ldr r5, _0805F44C @ =gCurTask
 	ldr r0, [r5]
@@ -450,7 +346,7 @@ _0805F618:
 	strb r3, [r5, #8]
 	ldr r0, _0805F64C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0805F650 @ =sub_805F418
+	ldr r0, _0805F650 @ =Task_805F418
 	str r0, [r1, #8]
 _0805F640:
 	add sp, #4
@@ -460,7 +356,7 @@ _0805F640:
 	.align 2, 0
 _0805F648: .4byte gUnknown_080D1FB0
 _0805F64C: .4byte gCurTask
-_0805F650: .4byte sub_805F418
+_0805F650: .4byte Task_805F418
 
 	thumb_func_start sub_805F654
 sub_805F654: @ 0x0805F654
@@ -907,8 +803,8 @@ sub_805F958: @ 0x0805F958
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_805F9A4
-sub_805F9A4: @ 0x0805F9A4
+	thumb_func_start TaskDestructor_805F9A4
+TaskDestructor_805F9A4: @ 0x0805F9A4
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
@@ -1079,10 +975,10 @@ CreateEntity_Guard: @ 0x0805FAD8
 	mov r8, r0
 	lsls r5, r5, #0x18
 	lsrs r5, r5, #0x18
-	ldr r0, _0805FB50 @ =sub_805FB8C
+	ldr r0, _0805FB50 @ =Task_GuardStateInit
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _0805FB54 @ =sub_805FC04
+	ldr r1, _0805FB54 @ =TaskDestructor_GuardState
 	str r1, [sp]
 	movs r1, #0x14
 	movs r3, #0
@@ -1122,11 +1018,11 @@ CreateEntity_Guard: @ 0x0805FAD8
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0805FB50: .4byte sub_805FB8C
-_0805FB54: .4byte sub_805FC04
+_0805FB50: .4byte Task_GuardStateInit
+_0805FB54: .4byte TaskDestructor_GuardState
 
-	thumb_func_start sub_805FB58
-sub_805FB58: @ 0x0805FB58
+	thumb_func_start Task_GuardState2
+Task_GuardState2: @ 0x0805FB58
 	push {lr}
 	ldr r3, _0805FB88 @ =gCurTask
 	ldr r0, [r3]
@@ -1155,8 +1051,8 @@ _0805FB84:
 	.align 2, 0
 _0805FB88: .4byte gCurTask
 
-	thumb_func_start sub_805FB8C
-sub_805FB8C: @ 0x0805FB8C
+	thumb_func_start Task_GuardStateInit
+Task_GuardStateInit: @ 0x0805FB8C
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -1202,7 +1098,7 @@ _0805FBD4:
 	bne _0805FBEA
 	mov r7, r8
 	ldr r1, [r7]
-	ldr r0, _0805FC00 @ =sub_805FB58
+	ldr r0, _0805FC00 @ =Task_GuardState2
 	str r0, [r1, #8]
 _0805FBEA:
 	add sp, #8
@@ -1214,9 +1110,9 @@ _0805FBEA:
 	.align 2, 0
 _0805FBF8: .4byte gCurTask
 _0805FBFC: .4byte 0x03000004
-_0805FC00: .4byte sub_805FB58
+_0805FC00: .4byte Task_GuardState2
     
-    thumb_func_start sub_805FC04
-sub_805FC04:
+    thumb_func_start TaskDestructor_GuardState
+TaskDestructor_GuardState:
     bx lr
     .align 2 , 0
