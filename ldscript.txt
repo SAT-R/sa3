@@ -44,6 +44,7 @@ SECTIONS {
         src/game/interactables/060.o(.text);
         src/game/interactables/platform_raising_wheel.o(.text);
         src/game/interactables/platform_raising_wheel_platform.o(.text);
+        src/game/interactables/seesaw.o(.text);
         asm/ia_seesaw.o(.text);
         src/game/interactables/deco_rock.o(.text);
         src/game/interactables/flat_spring.o(.text);
