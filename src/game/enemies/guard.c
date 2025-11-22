@@ -556,9 +556,9 @@ void Task_GuardStateInit(void)
     GuardState *state = TASK_DATA(gCurTask);
     u8 temp_r0;
 
-    if (!((state->unkB >> state->unkC) & 1)) {
+    if (!GetBit(state->unkB, state->unkC)) {
         sub_805F2C0(state->mePos, state->region[0], state->region[1], state->meX, &state->unkD, state->unkC);
-        state->unkD = ((1 << state->unkC) | state->unkD);
+        SetBit(state->unkD, state->unkC);
     }
 
     if (++state->unkC == 3) {

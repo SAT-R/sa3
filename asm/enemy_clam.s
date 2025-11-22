@@ -5,103 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Clam
-CreateEntity_Clam: @ 0x08063F1C
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	sub sp, #8
-	mov r8, r0
-	adds r5, r1, #0
-	adds r6, r2, #0
-	adds r4, r3, #0
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x10
-	lsrs r6, r6, #0x10
-	lsls r4, r4, #0x18
-	lsrs r4, r4, #0x18
-	ldr r0, _08063F8C @ =sub_8064074
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _08063F90 @ =sub_80646DC
-	str r1, [sp]
-	movs r1, #0x50
-	movs r3, #0
-	bl TaskCreate
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r7, r1, r0
-	movs r3, #0
-	strb r4, [r7, #5]
-	mov r0, r8
-	str r0, [r7]
-	ldrb r0, [r0]
-	strb r0, [r7, #6]
-	movs r2, #0
-	strh r5, [r7, #0xa]
-	strh r6, [r7, #0xc]
-	mov r4, r8
-	ldrb r1, [r4]
-	lsls r1, r1, #0xb
-	str r1, [r7, #0x18]
-	ldrb r0, [r4, #1]
-	lsls r0, r0, #0xb
-	str r0, [r7, #0x1c]
-	str r1, [r7, #0x10]
-	str r0, [r7, #0x14]
-	strh r3, [r7, #0xe]
-	strb r2, [r7, #7]
-	strb r2, [r7, #8]
-	ldrb r1, [r4, #7]
-	movs r0, #8
-	ands r0, r1
-	cmp r0, #0
-	beq _08063F94
-	movs r0, #0xff
-	b _08063F96
-	.align 2, 0
-_08063F8C: .4byte sub_8064074
-_08063F90: .4byte sub_80646DC
-_08063F94:
-	movs r0, #1
-_08063F96:
-	strb r0, [r7, #9]
-	mov r0, r8
-	ldrb r1, [r0, #7]
-	movs r0, #0x10
-	ands r0, r1
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x1c
-	cmp r0, #0
-	beq _08063FAA
-	movs r0, #1
-_08063FAA:
-	strb r0, [r7, #4]
-	add r1, sp, #4
-	movs r0, #0
-	strh r0, [r1]
-	adds r1, r7, #0
-	adds r1, #0x4c
-	ldr r2, _08063FDC @ =0x01000002
-	add r0, sp, #4
-	bl CpuSet
-	adds r0, r7, #0
-	bl sub_8063FE0
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	mov r4, r8
-	strb r0, [r4]
-	add sp, #8
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08063FDC: .4byte 0x01000002
+.if 0
+.endif
 
 	thumb_func_start sub_8063FE0
 sub_8063FE0: @ 0x08063FE0
@@ -179,8 +84,8 @@ _0806405A:
 _0806406C: .4byte gUnknown_080D212C
 _08064070: .4byte gCamera
 
-	thumb_func_start sub_8064074
-sub_8064074: @ 0x08064074
+	thumb_func_start Task_8064074
+Task_8064074: @ 0x08064074
 	push {r4, lr}
 	ldr r0, _0806409C @ =gCurTask
 	ldr r0, [r0]
@@ -469,7 +374,7 @@ _08064272:
 	strb r0, [r4, #7]
 	ldr r0, _080642DC @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080642E0 @ =sub_8064074
+	ldr r0, _080642E0 @ =Task_8064074
 	str r0, [r1, #8]
 	b _080642FA
 	.align 2, 0
@@ -477,7 +382,7 @@ _080642D0: .4byte 0x03000018
 _080642D4: .4byte gStageData
 _080642D8: .4byte gUnknown_080D212C
 _080642DC: .4byte gCurTask
-_080642E0: .4byte sub_8064074
+_080642E0: .4byte Task_8064074
 _080642E4:
 	adds r0, #1
 	strb r0, [r4, #7]
@@ -1028,8 +933,8 @@ _080646D4:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_80646DC
-sub_80646DC: @ 0x080646DC
+	thumb_func_start TaskDestructor_80646DC
+TaskDestructor_80646DC: @ 0x080646DC
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
