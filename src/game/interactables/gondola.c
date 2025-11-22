@@ -43,7 +43,7 @@ void CreateEntity_Gondola(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     gond->base.regionX = regionX;
     gond->base.regionY = regionY;
     gond->base.me = me;
-    gond->base.spriteX = me->x;
+    gond->base.meX = me->x;
     gond->base.id = id;
 
     gond->qTrajectoryX = Q(2);
@@ -179,7 +179,7 @@ void sub_80498B4(void)
             ResolvePlayerSpriteCollision(s, p);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, gond->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, gond->base.meX);
         TaskDestroy(gCurTask);
         return;
     } else {

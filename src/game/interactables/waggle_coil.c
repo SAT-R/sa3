@@ -36,7 +36,7 @@ void Task_WaggleCoil(void)
     s16 worldX, worldY;
     s16 i;
 
-    worldX = TO_WORLD_POS(coil->base.spriteX, coil->base.regionX);
+    worldX = TO_WORLD_POS(coil->base.meX, coil->base.regionX);
     worldY = TO_WORLD_POS(me->y, coil->base.regionY);
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
@@ -121,11 +121,11 @@ void sub_804018C(void)
     MapEntity *me = coil->base.me;
     s32 worldX, worldY;
 
-    worldX = TO_WORLD_POS(coil->base.spriteX, coil->base.regionX);
+    worldX = TO_WORLD_POS(coil->base.meX, coil->base.regionX);
     worldY = TO_WORLD_POS(me->y, coil->base.regionY);
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        me->x = coil->base.spriteX;
+        me->x = coil->base.meX;
         TaskDestroy(gCurTask);
         return;
     }
@@ -150,7 +150,7 @@ void CreateEntity_Interactable093(MapEntity *me, u16 regionX, u16 regionY, u8 id
     coil->base.regionX = regionX;
     coil->base.regionY = regionY;
     coil->base.me = me;
-    coil->base.spriteX = me->x;
+    coil->base.meX = me->x;
     coil->base.id = id;
     coil->unk34 = me->d.uData[4] & 0x3;
     SET_MAP_ENTITY_INITIALIZED(me);

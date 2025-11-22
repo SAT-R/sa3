@@ -59,7 +59,7 @@ void CreateEntity_PandaCart(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     cart->base.regionX = regionX;
     cart->base.regionY = regionY;
     cart->base.me = me;
-    cart->base.spriteX = me->x;
+    cart->base.meX = me->x;
     cart->base.id = id;
 
     cart->qWorldX = Q(TO_WORLD_POS(me->x, regionX));
@@ -346,7 +346,7 @@ void sub_8048C18(void)
             SetPlayerCallback(p, Player_8005380);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, cart->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, cart->base.meX);
         TaskDestroy(gCurTask);
         return;
     } else {
@@ -387,7 +387,7 @@ void Task_8048D0C(void)
         } break;
 
         case 100: {
-            SET_MAP_ENTITY_NOT_INITIALIZED(me, cart->base.spriteX);
+            SET_MAP_ENTITY_NOT_INITIALIZED(me, cart->base.meX);
             TaskDestroy(gCurTask);
             return;
         } break;

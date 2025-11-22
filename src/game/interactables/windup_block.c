@@ -55,7 +55,7 @@ void CreateEntity_WindupBlock(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     block->base.regionX = regionX;
     block->base.regionY = regionY;
     block->base.me = me;
-    block->base.spriteX = me->x;
+    block->base.meX = me->x;
     block->base.id = id;
 
     worldX = TO_WORLD_POS(me->x, regionX);
@@ -608,7 +608,7 @@ void sub_80479B0(void)
             ResolvePlayerSpriteCollision(s2, p);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, block->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, block->base.meX);
         TaskDestroy(gCurTask);
         return;
     } else {

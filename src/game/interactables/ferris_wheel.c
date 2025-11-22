@@ -53,7 +53,7 @@ void CreateEntity_FerrisWheel(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     wheel->base.regionX = regionX;
     wheel->base.regionY = regionY;
     wheel->base.me = me;
-    wheel->base.spriteX = me->x;
+    wheel->base.meX = me->x;
     wheel->base.id = id;
 
     wheel->unkBC = me->d.uData[4] & 0x1;
@@ -271,7 +271,7 @@ void sub_8046EC0(void)
         }
 
         if (((wheel->unkC0[0] == -1) && (wheel->unkC0[1] == -1)) && !sp04) {
-            SET_MAP_ENTITY_NOT_INITIALIZED(me, wheel->base.spriteX);
+            SET_MAP_ENTITY_NOT_INITIALIZED(me, wheel->base.meX);
             TaskDestroy(gCurTask);
             return;
         }

@@ -41,7 +41,7 @@ void CreateEntity_Suction(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     suction->base.regionX = regionX;
     suction->base.regionY = regionY;
     suction->base.me = me;
-    suction->base.spriteX = me->x;
+    suction->base.meX = me->x;
     suction->base.id = id;
 
     suction->unk69 = (me->d.uData[4] & 0xF0) ? 1 : 0;
@@ -253,7 +253,7 @@ void sub_8043530(void)
             ResolvePlayerSpriteCollision(s, p);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, suction->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, suction->base.meX);
         TaskDestroy(gCurTask);
         return;
     } else {

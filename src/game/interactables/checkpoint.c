@@ -33,7 +33,7 @@ void CreateEntity_Checkpoint(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     checkpoint->base.regionX = regionX;
     checkpoint->base.regionY = regionY;
     checkpoint->base.me = me;
-    checkpoint->base.spriteX = me->x;
+    checkpoint->base.meX = me->x;
     checkpoint->base.id = id;
 
     i = GetFirstSetBitIndex(me->d.uData[4], 8);
@@ -62,7 +62,7 @@ void Task_Checkpoint(void)
 
     if (s->variant == 0) {
         MapEntity *me = checkpoint->base.me;
-        worldX = TO_WORLD_POS(checkpoint->base.spriteX, checkpoint->base.regionX);
+        worldX = TO_WORLD_POS(checkpoint->base.meX, checkpoint->base.regionX);
         worldY = TO_WORLD_POS(me->y, checkpoint->base.regionY);
 
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
@@ -123,11 +123,11 @@ void sub_8033C64(void)
     MapEntity *me = checkpoint->base.me;
     s16 worldX, worldY;
 
-    worldX = TO_WORLD_POS(checkpoint->base.spriteX, checkpoint->base.regionX);
+    worldX = TO_WORLD_POS(checkpoint->base.meX, checkpoint->base.regionX);
     worldY = TO_WORLD_POS(me->y, checkpoint->base.regionY);
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        me->x = checkpoint->base.spriteX;
+        me->x = checkpoint->base.meX;
         TaskDestroy(gCurTask);
         return;
     }

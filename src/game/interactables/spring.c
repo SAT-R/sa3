@@ -42,7 +42,7 @@ void CreateEntity_Spring(u16 direction, MapEntity *me, u16 regionX, u16 regionY,
     spring->base.regionY = regionY;
 
     spring->base.me = me;
-    spring->base.spriteX = me->x;
+    spring->base.meX = me->x;
     spring->base.id = id;
     spring->direction = direction;
     spring->unk3A = 0;
@@ -248,7 +248,7 @@ void sub_802E0D8(void)
     worldY = spring->worldY;
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, spring->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spring->base.meX);
         TaskDestroy(gCurTask);
         return;
     }

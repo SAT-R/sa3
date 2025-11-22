@@ -16,7 +16,7 @@ typedef struct {
     /* 0x00 */ MapEntity *me;
     /* 0x04 */ u16 regionX;
     /* 0x06 */ u16 regionY;
-    /* 0x08 */ u8 spriteX;
+    /* 0x08 */ u8 meX;
     /* 0x09 */ u8 id;
     /* 0x0A */ s16 worldX;
     /* 0x0C */ s16 worldY;
@@ -42,7 +42,7 @@ void CreateEntity_SpringInABox(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     spring->regionX = regionX;
     spring->regionY = regionY;
     spring->me = me;
-    spring->spriteX = me->x;
+    spring->meX = me->x;
     spring->id = id;
 
     spring->worldX = TO_WORLD_POS(me->x, regionX);
@@ -138,7 +138,7 @@ void Task_SpringInABox(void)
     }
 
     if (!sub_802C140(worldX, worldY, worldX - gCamera.x, worldY - gCamera.y)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, spring->spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spring->meX);
         TaskDestroy(gCurTask);
         return;
     }
@@ -192,7 +192,7 @@ void Task_80458FC(void)
             ResolvePlayerSpriteCollision(s, p);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, spring->spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spring->meX);
         TaskDestroy(gCurTask);
         return;
     } else {

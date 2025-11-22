@@ -33,7 +33,7 @@ void Task_FactoryRingMain(void)
     Player *p, *partner;
     s16 worldX, worldY;
 
-    worldX = TO_WORLD_POS(ring->base.spriteX, ring->base.regionX);
+    worldX = TO_WORLD_POS(ring->base.meX, ring->base.regionX);
     worldY = TO_WORLD_POS(me->y, ring->base.regionY);
 
     p = &gPlayers[gStageData.playerIndex];
@@ -89,11 +89,11 @@ void sub_8041248(void)
     MapEntity *me = ring->base.me;
     s16 worldX, worldY;
 
-    worldX = TO_WORLD_POS(ring->base.spriteX, ring->base.regionX);
+    worldX = TO_WORLD_POS(ring->base.meX, ring->base.regionX);
     worldY = TO_WORLD_POS(me->y, ring->base.regionY);
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        me->x = ring->base.spriteX;
+        me->x = ring->base.meX;
         TaskDestroy(gCurTask);
         return;
     }
@@ -113,7 +113,7 @@ void CreateEntity_FactoryRing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     ring->base.regionX = regionX;
     ring->base.regionY = regionY;
     ring->base.me = me;
-    ring->base.spriteX = me->x;
+    ring->base.meX = me->x;
     ring->base.id = id;
 
     s = &ring->s;

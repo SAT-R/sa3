@@ -160,7 +160,7 @@ void CreateEntity_BonusGameUI(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     ui->base.regionX = regionX;
     ui->base.regionY = regionY;
     ui->base.me = me;
-    ui->base.spriteX = me->x;
+    ui->base.meX = me->x;
     ui->base.id = id;
 
     ui->unk16 = 0;

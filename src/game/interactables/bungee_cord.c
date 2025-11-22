@@ -39,7 +39,7 @@ void Task_BungeeCord(void)
     s32 qTop, qBottom;
     s16 i;
 
-    worldX = TO_WORLD_POS(cord->base.spriteX, cord->base.regionX);
+    worldX = TO_WORLD_POS(cord->base.meX, cord->base.regionX);
     worldY = TO_WORLD_POS(me->y, cord->base.regionY);
 
     qWorldY = Q(worldY);
@@ -117,7 +117,7 @@ void sub_803FC80(void)
     s->y = currPos->y - gCamera.y;
 
     if (IS_OUT_OF_CAM_RANGE(s->x, s->y) && (numTetheredPlayers == 0)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, cord->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, cord->base.meX);
         TaskDestroy(gCurTask);
         return;
     } else {
@@ -154,7 +154,7 @@ s16 sub_803FD5C(Vec2_16 *inPositions)
         }
     }
 
-    worldX = TO_WORLD_POS(cord->base.spriteX, cord->base.regionX);
+    worldX = TO_WORLD_POS(cord->base.meX, cord->base.regionX);
     worldY = TO_WORLD_POS(me->y, cord->base.regionY);
 
     if (result == 0) {
@@ -199,7 +199,7 @@ void CreateEntity_BungeeCord(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     cord->base.regionX = regionX;
     cord->base.regionY = regionY;
     cord->base.me = me;
-    cord->base.spriteX = me->x;
+    cord->base.meX = me->x;
     cord->base.id = id;
     SET_MAP_ENTITY_INITIALIZED(me);
 

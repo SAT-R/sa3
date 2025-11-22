@@ -43,7 +43,7 @@ static void CreateTrampoline(u8 kind, MapEntity *me, u16 regionX, u16 regionY, u
     trampoline->shared.base.regionX = regionX;
     trampoline->shared.base.regionY = regionY;
     trampoline->shared.base.me = me;
-    trampoline->shared.base.spriteX = me->x;
+    trampoline->shared.base.meX = me->x;
     trampoline->shared.base.id = id;
     qWorldX = Q(TO_WORLD_POS(me->x, regionX));
     trampoline->shared.qWorldX = qWorldX;
@@ -175,7 +175,7 @@ static void UpdateAnimation(void)
     s->y = I(trampoline->shared.qWorldY) - gCamera.y;
 
     if (!sub_802C140(qMiddleX, qMiddleY, s->x, s->y)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, trampoline->shared.base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, trampoline->shared.base.meX);
         TaskDestroy(gCurTask);
         return;
     } else if (UpdateSpriteAnimation(s) == ACMD_RESULT__ENDED) {

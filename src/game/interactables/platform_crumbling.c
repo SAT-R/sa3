@@ -42,7 +42,7 @@ void CreateEntity_PlatformCrumbling(u16 kind, MapEntity *me, u16 regionX, u16 re
     platform->base.regionX = regionX;
     platform->base.regionY = regionY;
     platform->base.me = me;
-    platform->base.spriteX = me->x;
+    platform->base.meX = me->x;
     platform->base.id = id;
 
     // NOTE: This is not initialized as Q()!
@@ -85,7 +85,7 @@ void Task_PlatformCrumbling(void)
     s32 qPlatformX, qPlatformY;
     s16 i;
 
-    qWorldX = Q(TO_WORLD_POS(platform->base.spriteX, platform->base.regionX));
+    qWorldX = Q(TO_WORLD_POS(platform->base.meX, platform->base.regionX));
     qWorldY = Q(TO_WORLD_POS(me->y, platform->base.regionY));
 
     if (platform->unk41 != 0) {
@@ -221,7 +221,7 @@ void sub_803901C(void)
     s16 i;
     s16 variant;
 
-    worldX = TO_WORLD_POS(platform->base.spriteX, platform->base.regionX);
+    worldX = TO_WORLD_POS(platform->base.meX, platform->base.regionX);
     worldY = TO_WORLD_POS(me->y, platform->base.regionY);
     s->x = I(platform->qWorldX) - gCamera.x;
     s->y = I(platform->qWorldY) - gCamera.y;
@@ -233,7 +233,7 @@ void sub_803901C(void)
             ResolvePlayerSpriteCollision(s, p);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.meX);
         TaskDestroy(gCurTask);
         return;
     }

@@ -21,7 +21,7 @@ void CreateEntity_Interactable060(MapEntity *me, u16 regionX, u16 regionY, u8 id
     ia->base.regionY = regionY;
     ia->base.me = me;
 
-    ia->base.spriteX = me->x;
+    ia->base.meX = me->x;
     ia->base.id = id;
     SET_MAP_ENTITY_INITIALIZED(me);
 }
@@ -33,11 +33,11 @@ void Task_Interactable060(void)
     IA_060 *ia = TASK_DATA(gCurTask);
     MapEntity *me = ia->base.me;
 
-    s16 worldX = TO_WORLD_POS(ia->base.spriteX, ia->base.regionX);
+    s16 worldX = TO_WORLD_POS(ia->base.meX, ia->base.regionX);
     s16 worldY = TO_WORLD_POS(me->y, ia->base.regionY);
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        me->x = ia->base.spriteX;
+        me->x = ia->base.meX;
         TaskDestroy(gCurTask);
     }
 }

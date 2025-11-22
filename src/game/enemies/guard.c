@@ -428,7 +428,7 @@ AnimCmdResult sub_805F8E8(Guard *guard)
 bool32 sub_805F92C(Guard *arg0, EnemyUnknownStruc0 *arg1)
 {
     arg1->me = NULL;
-    arg1->spriteX = 0;
+    arg1->meX = 0;
     arg1->unk4 = 0;
     arg1->spr = (Sprite *)&arg0->s;
     arg1->posX = arg0->unk20.x;
@@ -449,7 +449,7 @@ bool32 sub_805F958(Guard *guard, u8 *param1)
     sp00.regionX = guard->region[0];
     sp00.regionY = guard->region[1];
     sp00.me = NULL;
-    sp00.spriteX = guard->mePosX;
+    sp00.meX = guard->mePosX;
     *param1 = sp00.unk4;
     return sub_805C280(&sp00);
 }

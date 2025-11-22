@@ -42,7 +42,7 @@ void CreateEntity_SpecialKey(MapEntity *me, u16 regionX, u16 regionY, u8 id)
                 key->base.regionX = regionX;
                 key->base.regionY = regionY;
                 key->base.me = me;
-                key->base.spriteX = me->x;
+                key->base.meX = me->x;
                 key->base.id = id;
 
                 key->worldX = TO_WORLD_POS(me->x, regionX);
@@ -109,7 +109,7 @@ void sub_804E8AC(void)
     worldY = key->worldY;
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        me->x = key->base.spriteX;
+        me->x = key->base.meX;
         TaskDestroy(gCurTask);
         return;
     } else {

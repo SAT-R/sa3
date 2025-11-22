@@ -40,7 +40,7 @@ void CreateEntity_ClosingWall(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     wall->base.regionX = regionX;
     wall->base.regionY = regionY;
     wall->base.me = me;
-    wall->base.spriteX = me->x;
+    wall->base.meX = me->x;
     wall->base.id = id;
 
     wall->state = WALLSTATE_0;
@@ -225,7 +225,7 @@ void sub_804ACF0(void)
             }
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, wall->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, wall->base.meX);
         TaskDestroy(gCurTask);
         return;
     }

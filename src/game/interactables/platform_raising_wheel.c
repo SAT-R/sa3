@@ -40,7 +40,7 @@ void CreateEntity_PlatformRaisingWheel(MapEntity *me, u16 regionX, u16 regionY, 
     wheel->base.regionX = regionX;
     wheel->base.regionY = regionY;
     wheel->base.me = me;
-    wheel->base.spriteX = me->x;
+    wheel->base.meX = me->x;
     wheel->base.id = id;
 
     i = GetFirstSetBitIndex(me->d.uData[4], 8);
@@ -148,7 +148,7 @@ void sub_8035F8C(void)
             ResolvePlayerSpriteCollision(s, p);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, wheel->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, wheel->base.meX);
         TaskDestroy(gCurTask);
         return;
     } else {

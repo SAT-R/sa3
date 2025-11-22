@@ -20,7 +20,7 @@ typedef struct {
     /* 0x08 */ u8 unk8; // only in SA3
     /* 0x09 */ u8 unk9; // only in SA3
     /* 0x0A */ u8 unkA;
-    /* 0x0B */ u8 spriteX;
+    /* 0x0B */ u8 meX;
     /* 0x0C */ u8 id;
     /* 0x10 */ Sprite s;
     /* 0x38 */ s32 qWorldX;
@@ -45,7 +45,7 @@ void CreateEntity_UfoPlatform(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     ufo->regionX = regionX;
     ufo->regionY = regionY;
     ufo->me = me;
-    ufo->spriteX = me->x;
+    ufo->meX = me->x;
     ufo->id = id;
     ufo->unk40 = 0;
     ufo->unk42 = 0;
@@ -247,7 +247,7 @@ void sub_804A800(void)
             ResolvePlayerSpriteCollision(s, p);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, ufo->spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, ufo->meX);
         TaskDestroy(gCurTask);
         return;
     } else {

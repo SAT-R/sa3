@@ -54,7 +54,7 @@ void CreateEntity_DeathCrusher(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     crusher->base.regionX = regionX;
     crusher->base.regionY = regionY;
     crusher->base.me = me;
-    crusher->base.spriteX = me->x;
+    crusher->base.meX = me->x;
     crusher->base.id = id;
 
     crusher->qWorldX = Q(TO_WORLD_POS(me->x, regionX));
@@ -260,7 +260,7 @@ static void UpdateAnimations(void)
     s16 i;
     u8 j;
 
-    worldX = TO_WORLD_POS(crusher->base.spriteX, crusher->base.regionX);
+    worldX = TO_WORLD_POS(crusher->base.meX, crusher->base.regionX);
     worldY = TO_WORLD_POS(me->y, crusher->base.regionY);
 
     s->x = I(crusher->qWorldX) - gCamera.x;
@@ -273,7 +273,7 @@ static void UpdateAnimations(void)
             ResolvePlayerSpriteCollision(s, p);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, crusher->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, crusher->base.meX);
 
         TaskDestroy(gCurTask);
         return;

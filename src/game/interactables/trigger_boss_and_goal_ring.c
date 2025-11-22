@@ -77,7 +77,7 @@ NONMATCH("asm/non_matching/game/interactables/boss_trigger__CreateEntity_Trigger
         trig->base.regionX = regionX;
         trig->base.regionY = regionY;
         trig->base.me = me;
-        trig->base.spriteX = me->x;
+        trig->base.meX = me->x;
         trig->base.id = id;
 
         trig->unk2F = 1;
@@ -86,7 +86,7 @@ NONMATCH("asm/non_matching/game/interactables/boss_trigger__CreateEntity_Trigger
 
         trig->unk2C = Q(3) + ((me->d.uData[4] >> 5) << 6);
         trig->unk3C = 0;
-        trig->qWorldX = Q(TO_WORLD_POS(trig->base.spriteX, trig->base.regionX));
+        trig->qWorldX = Q(TO_WORLD_POS(trig->base.meX, trig->base.regionX));
         trig->qWorldY = Q(TO_WORLD_POS(me->y, trig->base.regionY));
 
         gStageData.unkBD = 0;
@@ -241,7 +241,7 @@ void sub_803E700()
         } else {
             MapEntity *me = trig->base.me;
 
-            SET_MAP_ENTITY_NOT_INITIALIZED(me, trig->base.spriteX);
+            SET_MAP_ENTITY_NOT_INITIALIZED(me, trig->base.meX);
 
             trig->unk2F = 3;
 

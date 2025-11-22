@@ -41,7 +41,7 @@ void CreateEntity_ActRing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     ring->base.regionX = regionX;
     ring->base.regionY = regionY;
     ring->base.me = me;
-    ring->base.spriteX = me->x;
+    ring->base.meX = me->x;
     ring->base.id = id;
 
     for (act = 0; act < 3; act++) {
@@ -170,7 +170,7 @@ bool32 sub_8040BE4(void)
     worldY = ring->worldY;
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, ring->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, ring->base.meX);
         TaskDestroy(gCurTask);
         return FALSE;
     } else {

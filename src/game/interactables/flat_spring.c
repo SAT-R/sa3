@@ -33,7 +33,7 @@ void CreateEntity_FlatSpring(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     spring->base.regionX = regionX;
     spring->base.regionY = regionY;
     spring->base.me = me;
-    spring->base.spriteX = me->x;
+    spring->base.meX = me->x;
     spring->base.id = id;
     spring->kind = me->d.uData[4] & 0x3;
     spring->unk35 = 0;
@@ -54,7 +54,7 @@ void FlatSpringTaskA(void)
     s16 worldX, worldY;
     u8 i;
 
-    worldX = TO_WORLD_POS(spring->base.spriteX, spring->base.regionX);
+    worldX = TO_WORLD_POS(spring->base.meX, spring->base.regionX);
     worldY = TO_WORLD_POS(me->y, spring->base.regionY);
 
     spring->unk35 = 1;
@@ -136,11 +136,11 @@ void FlatSpringTaskB(void)
     s16 worldX, worldY;
     u16 acmdRes;
 
-    worldX = TO_WORLD_POS(spring->base.spriteX, spring->base.regionX);
+    worldX = TO_WORLD_POS(spring->base.meX, spring->base.regionX);
     worldY = TO_WORLD_POS(me->y, spring->base.regionY);
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        me->x = spring->base.spriteX;
+        me->x = spring->base.meX;
         TaskDestroy(gCurTask);
         return;
     } else {

@@ -62,7 +62,7 @@ void CreateBlueOrRedButton(u16 kind, MapEntity *me, u16 regionX, u16 regionY, u8
     button->base.regionX = regionX;
     button->base.regionY = regionY;
     button->base.me = me;
-    button->base.spriteX = me->x;
+    button->base.meX = me->x;
     button->base.id = id;
     button->kind = kind;
     button->unk35 = me->d.uData[1];
@@ -94,7 +94,7 @@ void Task_BlueRedButton(void)
     s32 r6;
     me = button->base.me;
 
-    worldX = TO_WORLD_POS(button->base.spriteX, button->base.regionX);
+    worldX = TO_WORLD_POS(button->base.meX, button->base.regionX);
     worldY = TO_WORLD_POS(me->y, button->base.regionY);
 
     if ((s->variant == 3) || (s->variant == 7) || (s->variant == 15) || (s->variant == 19)) {
@@ -265,7 +265,7 @@ void sub_80303B4(void)
     s16 i;
     u8 unk35 = button->unk35 - 1;
 
-    worldX = TO_WORLD_POS(button->base.spriteX, button->base.regionX);
+    worldX = TO_WORLD_POS(button->base.meX, button->base.regionX);
     worldY = TO_WORLD_POS(me->y, button->base.regionY);
 
     if (!IsWorldPtActive(worldX, worldY)) {
@@ -274,7 +274,7 @@ void sub_80303B4(void)
             ResolvePlayerSpriteCollision(s, p);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, button->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, button->base.meX);
         TaskDestroy(gCurTask);
         return;
     }

@@ -43,7 +43,7 @@ void CreateEntity_BouncyBar(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     bar->base.regionX = regionX;
     bar->base.regionY = regionY;
     bar->base.me = me;
-    bar->base.spriteX = me->x;
+    bar->base.meX = me->x;
     bar->base.id = id;
 
     bar->isXFlipped = GetBit(me->d.uData[4], 0);
@@ -67,7 +67,7 @@ static void Task_BouncyBarIdle(void)
     s32 worldX, worldY;
     s32 i;
 
-    worldX = TO_WORLD_POS(bar->base.spriteX, bar->base.regionX);
+    worldX = TO_WORLD_POS(bar->base.meX, bar->base.regionX);
     worldY = TO_WORLD_POS(me->y, bar->base.regionY);
 
     if (bar->unk36 > 0) {
@@ -147,7 +147,7 @@ static void Task_BouncyBarLaunch(void)
         gCurTask->main = Task_BouncyBarIdle;
     } else {
         // _08034560
-        worldX = TO_WORLD_POS(bar->base.spriteX, bar->base.regionX);
+        worldX = TO_WORLD_POS(bar->base.meX, bar->base.regionX);
         worldY = TO_WORLD_POS(me->y, bar->base.regionY);
 
         if (bar->isXFlipped) {
@@ -178,11 +178,11 @@ static void UpdateSprite(void)
     MapEntity *me = bar->base.me;
     s16 worldX, worldY;
 
-    worldX = TO_WORLD_POS(bar->base.spriteX, bar->base.regionX);
+    worldX = TO_WORLD_POS(bar->base.meX, bar->base.regionX);
     worldY = TO_WORLD_POS(me->y, bar->base.regionY);
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, bar->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, bar->base.meX);
         TaskDestroy(gCurTask);
         return;
     } else {

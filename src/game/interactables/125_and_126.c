@@ -40,7 +40,7 @@ static void Create_Interactable081or082(u32 UNUSED unused, MapEntity *me, u16 re
     ia->base.regionX = regionX;
     ia->base.regionY = regionY;
     ia->base.me = me;
-    ia->base.spriteX = me->x;
+    ia->base.meX = me->x;
     ia->base.id = id;
 
     ia->unk34 = 0;

@@ -40,7 +40,7 @@ void CreateEntity_PlatformMaybeFalling(MapEntity *me, u16 regionX, u16 regionY, 
     platform->base.regionX = regionX;
     platform->base.regionY = regionY;
     platform->base.me = me;
-    platform->base.spriteX = me->x;
+    platform->base.meX = me->x;
     platform->base.id = id;
 
     platform->unkB0 = 2;
@@ -68,7 +68,7 @@ NONMATCH("asm/non_matching/game/interactables/platform_maybe_falling__Task_Platf
     s16 worldX, worldY;
     s16 i, pid;
 
-    worldX = TO_WORLD_POS(platform->base.spriteX, platform->base.regionX);
+    worldX = TO_WORLD_POS(platform->base.meX, platform->base.regionX);
     worldY = TO_WORLD_POS(me->y, platform->base.regionY);
 
     platform->timer = gStageData.timer & 0x1FF;
@@ -169,7 +169,7 @@ void sub_8042F10(void)
     s16 screenX, screenY;
     s16 i, j, k;
 
-    worldX = TO_WORLD_POS(platform->base.spriteX, platform->base.regionX);
+    worldX = TO_WORLD_POS(platform->base.meX, platform->base.regionX);
     worldY = TO_WORLD_POS(me->y, platform->base.regionY);
 
     sb = (IsWorldPtActive(worldX, worldY) == sb) ? FALSE : TRUE;
@@ -211,7 +211,7 @@ void sub_8042F10(void)
             }
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.meX);
         TaskDestroy(gCurTask);
         return;
     }

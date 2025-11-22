@@ -38,7 +38,7 @@ void CreateEntity_GoalRing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         ring->base.regionX = regionX;
         ring->base.regionY = regionY;
         ring->base.me = me;
-        ring->base.spriteX = me->x;
+        ring->base.meX = me->x;
         ring->base.id = id;
 
         for (i = 0; i < (s32)ARRAY_COUNT(ring->s); i++, s++) {
@@ -62,7 +62,7 @@ void Task_GoalRing(void)
     s16 worldX, worldY;
     Player *p1, *p2;
 
-    worldX = TO_WORLD_POS(ring->base.spriteX, ring->base.regionX);
+    worldX = TO_WORLD_POS(ring->base.meX, ring->base.regionX);
     worldY = TO_WORLD_POS(me->y, ring->base.regionY);
 
     sub_803414C();
@@ -128,7 +128,7 @@ void Task_8033FD4(void)
             SetPlayerCallback(p, Player_8005E80);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(ring->base.me, ring->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(ring->base.me, ring->base.meX);
         TaskDestroy(gCurTask);
         return;
     } else {
@@ -188,11 +188,11 @@ void sub_803414C(void)
     MapEntity *me = ring->base.me;
     s16 worldX, worldY;
 
-    worldX = TO_WORLD_POS(ring->base.spriteX, ring->base.regionX);
+    worldX = TO_WORLD_POS(ring->base.meX, ring->base.regionX);
     worldY = TO_WORLD_POS(me->y, ring->base.regionY);
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, ring->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, ring->base.meX);
         TaskDestroy(gCurTask);
         return;
     } else {

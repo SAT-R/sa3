@@ -11,12 +11,12 @@
 
 typedef struct {
     // TODO: This resembles struct SpriteBase,
-    //       but it is not the same (id / spriteX).
+    //       but it is not the same (id / meX).
     //       SpriteBase gets used by IA 060 with the SA1/SA2 layout,
     //       so it might be specifically for enemies?
     /* 0x00 */ MapEntity *me;
     /* 0x04 */ u8 id;
-    /* 0x05 */ u8 spriteX;
+    /* 0x05 */ u8 meX;
     /* 0x06 */ u16 regionX;
     /* 0x08 */ u16 regionY;
 
@@ -72,7 +72,7 @@ void CreateEntity_Spinner(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     spinner->id = id;
     spinner->me = me;
-    spinner->spriteX = me->x;
+    spinner->meX = me->x;
     spinner->regionX = regionX;
     spinner->regionY = regionY;
 
@@ -131,7 +131,7 @@ bool32 sub_8058DF4(Spinner *spinner)
     unk.regionX = spinner->regionX;
     unk.regionY = spinner->regionY;
     unk.me = spinner->me;
-    unk.spriteX = spinner->spriteX;
+    unk.meX = spinner->meX;
 
     return sub_805C280(&unk);
 }
@@ -141,7 +141,7 @@ bool32 sub_8058E30(Spinner *spinner, EnemyUnknownStruc0 *unk)
     Sprite *s;
 
     unk->me = NULL;
-    unk->spriteX = 0;
+    unk->meX = 0;
     unk->unk4 = 0;
 
     unk->spr = &spinner->s;

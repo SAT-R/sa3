@@ -60,7 +60,7 @@ void CreateEntity_Minecart(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     cart->base.regionX = regionX;
     cart->base.regionY = regionY;
     cart->base.me = me;
-    cart->base.spriteX = me->x;
+    cart->base.meX = me->x;
     cart->base.id = id;
 
     cart->tiles = NULL;
@@ -459,7 +459,7 @@ void sub_8048420(void)
     s16 worldX, worldY;
 
     if ((cart->unk71 == 4)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, cart->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, cart->base.meX);
         TaskDestroy(gCurTask);
         return;
     }
@@ -483,7 +483,7 @@ void sub_8048420(void)
             SetPlayerCallback(p, Player_8005380);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, cart->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, cart->base.meX);
         TaskDestroy(gCurTask);
         return;
     } else {

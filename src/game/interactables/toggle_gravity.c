@@ -35,7 +35,7 @@ static void CreateEntity_Interactable117_to_119(u16 type, MapEntity *me, u16 reg
     ia->base.regionX = regionX;
     ia->base.regionY = regionY;
     ia->base.me = me;
-    ia->base.spriteX = me->x;
+    ia->base.meX = me->x;
     ia->base.id = id;
     ia->type = type;
 
@@ -99,7 +99,7 @@ void Task_Interactable117_to_119(void)
     }
 
     if (!IsWorldPtActive(ia->worldX, ia->worldY)) {
-        me->x = ia->base.spriteX;
+        me->x = ia->base.meX;
         TaskDestroy(gCurTask);
         return;
     }

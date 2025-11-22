@@ -16,7 +16,7 @@
 typedef struct {
     /* 0x00 */ MapEntity *me;
     /* 0x04 */ u8 id;
-    /* 0x05 */ u8 spriteX;
+    /* 0x05 */ u8 meX;
     /* 0x06 */ u8 unk6;
     /* 0x07 */ s8 direction;
     /* 0x08 */ u16 unk8[5]; // TODO: check size, 4 or 5?
@@ -79,7 +79,7 @@ void sub_80651D0(GuruGuru *enemy, MapEntity *me, u16 regionX, u16 regionY, u8 id
     u8 i;
 
     enemy->me = me;
-    enemy->spriteX = me->x;
+    enemy->meX = me->x;
     enemy->id = id;
     enemy->region[0] = regionX;
     enemy->region[1] = regionY;
@@ -269,7 +269,7 @@ void sub_8065544(GuruGuru *enemy, Vec2_32 *param1, u8 param2)
 bool32 sub_8065634(GuruGuru *enemy, Sprite2 *arg1, Vec2_32 *arg2, EnemyUnknownStruc0 *arg3)
 {
     arg3->me = NULL;
-    arg3->spriteX = 0;
+    arg3->meX = 0;
     arg3->unk4 = 0;
     arg3->spr = (Sprite *)arg1;
 
@@ -370,7 +370,7 @@ s32 sub_8065884(GuruGuru *enemy, Sprite2 *s, Vec2_32 *param2)
     strc0.regionX = enemy->region[0];
     strc0.regionY = enemy->region[1];
     strc0.me = enemy->me;
-    strc0.spriteX = enemy->spriteX;
+    strc0.meX = enemy->meX;
     return sub_805C280(&strc0);
 }
 

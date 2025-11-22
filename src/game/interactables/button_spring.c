@@ -56,7 +56,7 @@ void CreateSpringEnabledByButton(u8 direction, MapEntity *me, u16 regionX, u16 r
     spring->base.regionY = regionY;
 
     spring->base.me = me;
-    spring->base.spriteX = me->x;
+    spring->base.meX = me->x;
     spring->base.id = id;
     spring->direction = direction;
     spring->unk38 = 0;
@@ -100,7 +100,7 @@ void sub_8033374(void)
         }
     }
 
-    worldX = TO_WORLD_POS(spring->base.spriteX, spring->base.regionX);
+    worldX = TO_WORLD_POS(spring->base.meX, spring->base.regionX);
     worldY = TO_WORLD_POS(me->y, spring->base.regionY);
 
     if (GetBit(gStageData.springTimerEnableBits, spring->unk35) && (s->variant == variant && spring->unk36 == 0)) {
@@ -285,7 +285,7 @@ void sub_8033778(void)
     u8 dir;
     s32 variant;
 
-    worldX = TO_WORLD_POS(spring->base.spriteX, spring->base.regionX);
+    worldX = TO_WORLD_POS(spring->base.meX, spring->base.regionX);
     worldY = TO_WORLD_POS(me->y, spring->base.regionY);
 
     s = &spring->s;
@@ -297,7 +297,7 @@ void sub_8033778(void)
             ResolvePlayerSpriteCollision(s, p);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, spring->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spring->base.meX);
         TaskDestroy(gCurTask);
         return;
     }

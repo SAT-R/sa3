@@ -438,7 +438,7 @@ bool32 sub_806461C(Clam *enemy)
     unk.regionX = enemy->region[0];
     unk.regionY = enemy->region[1];
     unk.me = enemy->me;
-    unk.spriteX = enemy->meX;
+    unk.meX = enemy->meX;
 
     return sub_805C280(&unk);
 }
@@ -446,7 +446,7 @@ bool32 sub_806461C(Clam *enemy)
 bool32 sub_8064658(Clam *enemy, EnemyUnknownStruc0 *arg1)
 {
     arg1->me = NULL;
-    arg1->spriteX = 0;
+    arg1->meX = 0;
     arg1->unk4 = 0;
     arg1->spr = (Sprite *)&enemy->s;
     arg1->posX = enemy->qPos.x;

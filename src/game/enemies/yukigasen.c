@@ -340,14 +340,14 @@ bool32 sub_8061054(Yukigasen *enemy)
     strc0.regionX = enemy->region[0];
     strc0.regionY = enemy->region[1];
     strc0.me = enemy->me;
-    strc0.spriteX = enemy->meX;
+    strc0.meX = enemy->meX;
     return sub_805C280(&strc0);
 }
 
 bool32 sub_8061090(Yukigasen *enemy, EnemyUnknownStruc0 *strc0)
 {
     strc0->me = NULL;
-    strc0->spriteX = 0;
+    strc0->meX = 0;
     strc0->unk4 = 0;
     strc0->spr = (Sprite *)&enemy->s;
     strc0->posX = enemy->qPos.x;
