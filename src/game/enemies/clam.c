@@ -20,7 +20,7 @@ typedef struct Clam {
     /* 0x0E */ s16 unkE;
     /* 0x10 */ Vec2_32 qUnk10;
     /* 0x18 */ Vec2_32 qPos;
-    /* 0x28 */ Sprite2 s;
+    /* 0x20 */ Sprite2 s;
 } Clam; /* 0x58 */
 
 typedef struct ClamProj {
@@ -42,6 +42,7 @@ bool32 sub_806461C(Clam *clam);
 bool32 sub_8064684(Clam *clam);
 void Task_8064140(void);
 void Task_8064230(void);
+bool32 sub_8064658(Clam *clam, EnemyUnknownStruc0 *arg1);
 void TaskDestructor_80646DC(struct Task *t);
 void sub_80646F0(s32 x, s32 y, u16 regionX, u16 regionY, bool8 param4, u8 param5);
 
@@ -311,4 +312,180 @@ bool32 sub_806437C(ClamProj *proj)
     proj->unk8 += vv;
 
     return FALSE;
+}
+
+bool32 sub_8064420(ClamProj *proj)
+{
+    s16 screenX, screenY;
+    screenX = TO_WORLD_POS_RAW(I(proj->qPos.x), proj->region[0]) - gCamera.x;
+    screenX += I(proj->unk14);
+    screenY = (TO_WORLD_POS_RAW(I(proj->qPos.y), proj->region[1]) - gCamera.y);
+    screenY += I(proj->unk18);
+
+    if (ABS(proj->unk18) >= Q(140) && ABS(proj->unk14) >= Q(140)) {
+        return TRUE;
+    }
+
+    if ((screenX < 0 || screenX > 240) || (screenY < 0 || screenY > 160)) {
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+bool32 sub_8064490(ClamProj *proj)
+{
+    Sprite2 *s;
+    s32 worldX;
+    s32 worldY;
+    s32 mid;
+    u32 temp_r0_2;
+    u8 i;
+    Player *p = NULL;
+
+    s = &proj->s;
+
+    worldX = TO_WORLD_POS_RAW(I(proj->qPos.x), proj->region[0]);
+    worldY = TO_WORLD_POS_RAW(I(proj->qPos.y), proj->region[1]);
+
+    worldX += I(proj->unk14);
+
+    if (proj->unk0 != 0) {
+        mid = worldY + 0x14;
+        worldY = mid + I(proj->unk18);
+    } else {
+        mid = worldY - 0x14;
+        worldY = mid + I(proj->unk18);
+    }
+
+    if (proj->unk1 != 0) {
+        worldX = worldX + 0xA;
+    } else {
+        worldX = worldX - 0xA;
+    }
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        p = GET_SP_PLAYER_V0(i);
+        if (!sub_802C080(p) && sub_8020700((Sprite *)s, worldX, worldY, 1, p, 0)) {
+            if (p->framesInvincible == 0) {
+                sub_8020CE0((Sprite *)s, worldX, worldY, 1U, p);
+                return TRUE;
+            }
+            return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
+s32 sub_8064564(ClamProj *proj)
+{
+    Sprite2 *s;
+    s32 dx, dy;
+    AnimCmdResult acmdRes;
+
+    s = &proj->s;
+    dx = TO_WORLD_POS_RAW(I(proj->qPos.x), proj->region[0]) - gCamera.x;
+    s->x = dx;
+    dy = TO_WORLD_POS_RAW(I(proj->qPos.y), proj->region[1]) - gCamera.y;
+    s->y = dy;
+    s->x = dx + I(proj->unk14);
+
+    if (proj->unk0 != 0) {
+        dy += 20;
+        dy += I(proj->unk18);
+        s->y = dy;
+    } else {
+        dy -= 20;
+        dy += I(proj->unk18);
+        s->y = dy;
+    }
+
+    if (proj->unk1 != 0) {
+        s->x += 10;
+    } else {
+        s->x -= 10;
+    }
+
+    acmdRes = UpdateSpriteAnimation((Sprite *)s);
+    DisplaySprite((Sprite *)s);
+    return acmdRes;
+}
+
+AnimCmdResult sub_80645D8(Clam *clam)
+{
+    Sprite2 *temp_r5;
+    s32 temp_r4;
+
+    temp_r5 = &clam->s;
+    temp_r5->x = TO_WORLD_POS_RAW(I(clam->qPos.x), clam->region[0]) - gCamera.x;
+    temp_r5->y = TO_WORLD_POS_RAW(I(clam->qPos.y), clam->region[1]) - gCamera.y;
+    temp_r4 = UpdateSpriteAnimation((Sprite *)temp_r5);
+    DisplaySprite((Sprite *)temp_r5);
+    return temp_r4;
+}
+
+bool32 sub_806461C(Clam *clam)
+{
+    EnemyUnknownStruc0 unk;
+
+    unk.unk4 = sub_8064658(clam, &unk);
+    unk.spr = (Sprite *)&clam->s;
+    unk.posX = clam->qUnk10.x;
+    unk.posY = clam->qUnk10.y;
+    unk.regionX = clam->region[0];
+    unk.regionY = clam->region[1];
+    unk.me = clam->me;
+    unk.spriteX = clam->meX;
+
+    return sub_805C280(&unk);
+}
+
+bool32 sub_8064658(Clam *clam, EnemyUnknownStruc0 *arg1)
+{
+    arg1->me = NULL;
+    arg1->spriteX = 0;
+    arg1->unk4 = 0;
+    arg1->spr = (Sprite *)&clam->s;
+    arg1->posX = clam->qPos.x;
+    arg1->posY = clam->qPos.y;
+    arg1->regionX = clam->region[0];
+    arg1->regionY = clam->region[1];
+    return sub_805C63C(arg1);
+}
+
+bool32 sub_8064684(Clam *clam)
+{
+    Sprite2 *s = &clam->s;
+    Player *p;
+    s32 worldX;
+    s32 dx;
+    u8 i;
+
+    worldX = I(clam->qPos.x);
+    worldX = TO_WORLD_POS_RAW(worldX, clam->region[0]);
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        p = sub_805CD20(i);
+        if (p == NULL) {
+            break;
+        }
+
+        if (s->frameFlags & 0x400) {
+            dx = I(p->qWorldX) - worldX;
+        } else {
+            dx = worldX - I(p->qWorldX);
+        }
+        if ((dx > 0) && (dx < (DISPLAY_WIDTH / 2))) {
+            return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
+void TaskDestructor_80646DC(Task *t)
+{
+    Clam *clam = TASK_DATA(t);
+    VramFree(clam->s.tiles);
 }
