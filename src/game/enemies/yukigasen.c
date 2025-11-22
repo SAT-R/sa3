@@ -221,7 +221,7 @@ u32 sub_8060C68(YukigasenSnowball *snowball)
     worldY = TO_WORLD_POS_RAW(worldY, snowball->unk6);
     s = &snowball->s;
 
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         p = GET_SP_PLAYER_V0(i);
 
         res = sub_802C080(p);
