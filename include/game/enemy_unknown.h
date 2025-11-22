@@ -30,5 +30,6 @@ bool32 sub_805C890(EnemyUnknownStruc0 *param0, s8 param1);
 Player *sub_805CD20(u8);
 
 void sub_805CD70(Vec2_32 *qVal, Vec2_32 *param1, u16 region[2], s8 *param3);
+void sub_805CE14(Vec2_32 *qVal, Vec2_32 *param1, u16 region[2], s8 *param3);
 
 #endif // GUARD_SA3_ENEMY_UNKNOWN_CODE_H

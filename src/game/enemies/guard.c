@@ -78,8 +78,8 @@ void Task_GuardStateInit(void);
 void TaskDestructor_GuardState(struct Task *t);
 void sub_805CD70(Vec2_32 *qVal, Vec2_32 *param1, u16 region[2], s8 *param3);
 
-extern const TileInfo2 gUnknown_080D1FB0[4];
-extern const TileInfo2 gUnknown_080D1FC0[4];
+extern const TileInfo2 gUnknown_080D1FB0[2];
+extern const TileInfo2 gUnknown_080D1FC0[2];
 
 void sub_805F2C0(u8 *param0, u16 regionX, u16 regionY, u8 meX, u8 *unkD, u8 unkC)
 {
