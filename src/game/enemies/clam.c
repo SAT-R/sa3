@@ -35,16 +35,18 @@ typedef struct ClamProj {
     /* 0x1C */ Sprite2 s;
 } ClamProj; /* 0x4C */
 
-void sub_8063FE0(Clam *clam);
+void sub_8063FE0(Clam *enemy);
 void Task_8064074(void);
-AnimCmdResult sub_80645D8(Clam *clam);
-bool32 sub_806461C(Clam *clam);
-bool32 sub_8064684(Clam *clam);
+AnimCmdResult sub_80645D8(Clam *enemy);
+bool32 sub_806461C(Clam *enemy);
+bool32 sub_8064684(Clam *enemy);
 void Task_8064140(void);
 void Task_8064230(void);
-bool32 sub_8064658(Clam *clam, EnemyUnknownStruc0 *arg1);
+void Task_80647B0(void);
+void TaskDestructor_8064804(struct Task *t);
+bool32 sub_8064658(Clam *enemy, EnemyUnknownStruc0 *arg1);
 void TaskDestructor_80646DC(struct Task *t);
-void sub_80646F0(s32 x, s32 y, u16 regionX, u16 regionY, bool8 param4, u8 param5);
+void CreateClamProjectile(s32 x, s32 y, u16 regionX, u16 regionY, bool8 param4, u8 param5);
 
 extern const TileInfo2 gUnknown_080D212C[6];
 
@@ -94,18 +96,18 @@ void CreateEntity_Clam(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     SET_MAP_ENTITY_INITIALIZED(me);
 }
 
-void sub_8063FE0(Clam *clam)
+void sub_8063FE0(Clam *enemy)
 {
     u8 *vram = VramMalloc(0x10U);
     Sprite2 *s;
 
-    s = &clam->s;
+    s = &enemy->s;
     s->tiles = vram;
     s->anim = gUnknown_080D212C[0].anim;
     s->variant = gUnknown_080D212C[0].variant;
     s->prevVariant = -1;
-    s->x = TO_WORLD_POS_RAW(I(clam->qPos.x), clam->region[0]) - gCamera.x;
-    s->y = TO_WORLD_POS_RAW(I(clam->qPos.y), clam->region[1]) - gCamera.y;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
     s->oamFlags = SPRITE_OAM_ORDER(18);
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -113,12 +115,12 @@ void sub_8063FE0(Clam *clam)
     s->palId = 0;
     s->frameFlags = 0x1000;
 
-    if (clam->direction < 0) {
+    if (enemy->direction < 0) {
         s->frameFlags |= 0x400;
         s->frameFlags |= 0x1000;
     }
 
-    if (clam->unk4 != 0) {
+    if (enemy->unk4 != 0) {
         s->frameFlags |= 0x800;
     }
     s->hitboxes[0].index = -1;
@@ -127,55 +129,55 @@ void sub_8063FE0(Clam *clam)
 
 void Task_8064074()
 {
-    Clam *clam = TASK_DATA(gCurTask);
+    Clam *enemy = TASK_DATA(gCurTask);
 
-    if (clam->unk4 != 0) {
-        sub_805CE14(&clam->qPos, NULL, clam->region, &clam->unk8);
+    if (enemy->unk4 != 0) {
+        sub_805CE14(&enemy->qPos, NULL, enemy->region, &enemy->unk8);
     } else {
-        sub_805CD70(&clam->qPos, NULL, clam->region, &clam->unk8);
+        sub_805CD70(&enemy->qPos, NULL, enemy->region, &enemy->unk8);
     }
-    sub_80645D8(clam);
-    if (sub_806461C(clam) == 1) {
+    sub_80645D8(enemy);
+    if (sub_806461C(enemy) == 1) {
         TaskDestroy(gCurTask);
         return;
     }
     if (((u8)(gStageData.unk4 - 1) > 1U) && (gStageData.unk4 != 4)) {
-        if ((clam->unkE == 0) && (sub_8064684(clam) == 1)) {
-            Sprite2 *s = &clam->s;
+        if ((enemy->unkE == 0) && (sub_8064684(enemy) == 1)) {
+            Sprite2 *s = &enemy->s;
             s->anim = gUnknown_080D212C[1].anim;
             s->variant = gUnknown_080D212C[1].variant;
             s->prevVariant = -1;
             gCurTask->main = Task_8064140;
             return;
         }
-        if (clam->unkE > 0) {
-            clam->unkE--;
+        if (enemy->unkE > 0) {
+            enemy->unkE--;
         }
     }
 }
 
 void Task_8064140()
 {
-    Clam *clam = TASK_DATA(gCurTask);
+    Clam *enemy = TASK_DATA(gCurTask);
     Sprite2 *s;
     AnimCmdResult acmdRes;
     bool8 b;
 
-    if (clam->unk4 != 0) {
-        sub_805CE14(&clam->qPos, 0, clam->region, &clam->unk8);
+    if (enemy->unk4 != 0) {
+        sub_805CE14(&enemy->qPos, 0, enemy->region, &enemy->unk8);
     } else {
-        sub_805CD70(&clam->qPos, NULL, clam->region, &clam->unk8);
+        sub_805CD70(&enemy->qPos, NULL, enemy->region, &enemy->unk8);
     }
 
-    acmdRes = sub_80645D8(clam);
+    acmdRes = sub_80645D8(enemy);
 
     if (((u8)(gStageData.unk4 - 1) > 1U) && (gStageData.unk4 != 4)) {
         if (acmdRes == ACMD_RESULT__ENDED) {
-            s = &clam->s;
+            s = &enemy->s;
             s->anim = gUnknown_080D212C[3].anim;
             s->variant = gUnknown_080D212C[3].variant;
             s->prevVariant = -1;
-            if ((u8)clam->unk7 == 3) {
+            if ((u8)enemy->unk7 == 3) {
                 s->anim = gUnknown_080D212C[2].anim;
                 s->variant = gUnknown_080D212C[2].variant;
                 s->prevVariant = -1;
@@ -184,11 +186,11 @@ void Task_8064140()
             }
 
             b = (-(s->frameFlags & 0x400)) >> 31;
-            sub_80646F0(clam->qPos.x, clam->qPos.y, clam->region[0], clam->region[1], b, clam->unk4);
-            clam->unk7++;
+            CreateClamProjectile(enemy->qPos.x, enemy->qPos.y, enemy->region[0], enemy->region[1], b, enemy->unk4);
+            enemy->unk7++;
         }
 
-        if (sub_806461C(clam) == 1) {
+        if (sub_806461C(enemy) == 1) {
             TaskDestroy(gCurTask);
         }
     }
@@ -196,36 +198,36 @@ void Task_8064140()
 
 void Task_8064230(void)
 {
-    Clam *clam = TASK_DATA(gCurTask);
+    Clam *enemy = TASK_DATA(gCurTask);
     Sprite2 *s;
     AnimCmdResult acmdRes;
 
-    if (clam->unk4 != 0) {
-        sub_805CE14(&clam->qPos, 0, clam->region, &clam->unk8);
+    if (enemy->unk4 != 0) {
+        sub_805CE14(&enemy->qPos, 0, enemy->region, &enemy->unk8);
     } else {
-        sub_805CD70(&clam->qPos, NULL, clam->region, &clam->unk8);
+        sub_805CD70(&enemy->qPos, NULL, enemy->region, &enemy->unk8);
     }
-    acmdRes = sub_80645D8(clam);
+    acmdRes = sub_80645D8(enemy);
     if (((u8)(gStageData.unk4 - 1) > 1U) && (gStageData.unk4 != 4)) {
         if (acmdRes == ACMD_RESULT__ENDED) {
-            s = &clam->s;
+            s = &enemy->s;
             s->anim = gUnknown_080D212C[4].anim;
             s->variant = gUnknown_080D212C[4].variant;
             s->prevVariant = -1;
 
-            if (clam->unk7 == 4) {
+            if (enemy->unk7 == 4) {
                 s->anim = gUnknown_080D212C[0].anim;
                 s->variant = gUnknown_080D212C[0].variant;
                 s->prevVariant = -1;
-                clam->unkE = 0x78;
-                clam->unk7 = 0;
+                enemy->unkE = 0x78;
+                enemy->unk7 = 0;
                 gCurTask->main = Task_8064074;
                 return;
             }
-            clam->unk7++;
+            enemy->unk7++;
         }
 
-        if (sub_806461C(clam) == 1) {
+        if (sub_806461C(enemy) == 1) {
             TaskDestroy(gCurTask);
         }
     }
@@ -412,58 +414,58 @@ s32 sub_8064564(ClamProj *proj)
     return acmdRes;
 }
 
-AnimCmdResult sub_80645D8(Clam *clam)
+AnimCmdResult sub_80645D8(Clam *enemy)
 {
     Sprite2 *temp_r5;
     s32 temp_r4;
 
-    temp_r5 = &clam->s;
-    temp_r5->x = TO_WORLD_POS_RAW(I(clam->qPos.x), clam->region[0]) - gCamera.x;
-    temp_r5->y = TO_WORLD_POS_RAW(I(clam->qPos.y), clam->region[1]) - gCamera.y;
+    temp_r5 = &enemy->s;
+    temp_r5->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    temp_r5->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
     temp_r4 = UpdateSpriteAnimation((Sprite *)temp_r5);
     DisplaySprite((Sprite *)temp_r5);
     return temp_r4;
 }
 
-bool32 sub_806461C(Clam *clam)
+bool32 sub_806461C(Clam *enemy)
 {
     EnemyUnknownStruc0 unk;
 
-    unk.unk4 = sub_8064658(clam, &unk);
-    unk.spr = (Sprite *)&clam->s;
-    unk.posX = clam->qUnk10.x;
-    unk.posY = clam->qUnk10.y;
-    unk.regionX = clam->region[0];
-    unk.regionY = clam->region[1];
-    unk.me = clam->me;
-    unk.spriteX = clam->meX;
+    unk.unk4 = sub_8064658(enemy, &unk);
+    unk.spr = (Sprite *)&enemy->s;
+    unk.posX = enemy->qUnk10.x;
+    unk.posY = enemy->qUnk10.y;
+    unk.regionX = enemy->region[0];
+    unk.regionY = enemy->region[1];
+    unk.me = enemy->me;
+    unk.spriteX = enemy->meX;
 
     return sub_805C280(&unk);
 }
 
-bool32 sub_8064658(Clam *clam, EnemyUnknownStruc0 *arg1)
+bool32 sub_8064658(Clam *enemy, EnemyUnknownStruc0 *arg1)
 {
     arg1->me = NULL;
     arg1->spriteX = 0;
     arg1->unk4 = 0;
-    arg1->spr = (Sprite *)&clam->s;
-    arg1->posX = clam->qPos.x;
-    arg1->posY = clam->qPos.y;
-    arg1->regionX = clam->region[0];
-    arg1->regionY = clam->region[1];
+    arg1->spr = (Sprite *)&enemy->s;
+    arg1->posX = enemy->qPos.x;
+    arg1->posY = enemy->qPos.y;
+    arg1->regionX = enemy->region[0];
+    arg1->regionY = enemy->region[1];
     return sub_805C63C(arg1);
 }
 
-bool32 sub_8064684(Clam *clam)
+bool32 sub_8064684(Clam *enemy)
 {
-    Sprite2 *s = &clam->s;
+    Sprite2 *s = &enemy->s;
     Player *p;
     s32 worldX;
     s32 dx;
     u8 i;
 
-    worldX = I(clam->qPos.x);
-    worldX = TO_WORLD_POS_RAW(worldX, clam->region[0]);
+    worldX = I(enemy->qPos.x);
+    worldX = TO_WORLD_POS_RAW(worldX, enemy->region[0]);
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         p = sub_805CD20(i);
@@ -486,6 +488,51 @@ bool32 sub_8064684(Clam *clam)
 
 void TaskDestructor_80646DC(Task *t)
 {
-    Clam *clam = TASK_DATA(t);
-    VramFree(clam->s.tiles);
+    Clam *enemy = TASK_DATA(t);
+    VramFree(enemy->s.tiles);
+}
+
+void CreateClamProjectile(s32 x, s32 y, u16 regionX, u16 regionY, u8 param4, u8 param5)
+{
+    s16 sp4;
+    s32 sp8;
+    s32 spC;
+    s16 *temp_r0;
+    ClamProj *temp_r3;
+
+    sp8 = y;
+    temp_r3 = TASK_DATA(TaskCreate(Task_80647B0, sizeof(ClamProj), 0x4040U, 0U, TaskDestructor_8064804));
+    temp_r3->unk0 = param5;
+    temp_r3->unk14 = 0;
+    temp_r3->unk18 = 0;
+    temp_r3->unk8 = 0;
+    temp_r3->qPos.x = x;
+    temp_r3->qPos.y = sp8;
+    temp_r3->region[0] = regionX;
+    temp_r3->region[1] = regionY;
+    temp_r3->unk1 = param4;
+
+    CpuFill16(0, &temp_r3->s.hitboxes[1].b, sizeof(temp_r3->s.hitboxes[1].b));
+    CpuFill16(0, &temp_r3->s.hitboxes[0].b, sizeof(temp_r3->s.hitboxes[0].b));
+    sub_8064304((ClamProj *)temp_r3);
+}
+
+void Task_80647B0(void)
+{
+    ClamProj *proj = TASK_DATA(gCurTask);
+
+    if (((u8)(gStageData.unk4 - 1) > 1U) && (gStageData.unk4 != 4)) {
+        sub_806437C(proj);
+    }
+    sub_8064564(proj);
+    sub_8064490(proj);
+    if (sub_8064420(proj) == 1) {
+        TaskDestroy(gCurTask);
+    }
+}
+
+void TaskDestructor_8064804(Task *t)
+{
+    ClamProj *proj = TASK_DATA(t);
+    VramFree(proj->s.tiles);
 }
