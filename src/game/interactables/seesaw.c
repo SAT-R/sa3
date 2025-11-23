@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/player.h"
@@ -31,7 +32,7 @@ void sub_803724C(void);
 void sub_8037130(struct Task *t);
 void sub_8036F0C(Sprite *s, Sprite *s2);
 s32 sub_8037144(Player *p, Sprite *s, s16 arg2, s32 arg3, s32 arg4, s32 arg5);
-s32 sub_8036BC4(s32 arg0, u8 arg1);
+u32 sub_8036BC4(u8 arg0, u8 arg1);
 
 bool32 sub_8036E34(Player *p);
 
@@ -317,4 +318,82 @@ void sub_80368E4(u8 arg0)
     }
 
     sub_8036BC4(arg0, 1U);
+}
+
+u32 sub_8036BC4(u8 arg0, u8 arg1)
+{
+    s32 sp4;
+    s32 sp8;
+    s32 spC = 0;
+    s32 sp10;
+    s32 temp_r1_4;
+    s16 worldX, worldY;
+    s32 temp_r5;
+    s32 temp_r6;
+    s16 var_r0;
+    s32 unk70;
+    u32 var_r1;
+    u8 var_r6;
+    s16 w;
+    s32 sinVal;
+    s32 qSinVal;
+    s32 r0;
+
+    Player *p;
+    Seesaw *seesaw = TASK_DATA(gCurTask);
+    MapEntity *me = seesaw->base.me;
+    Sprite *s2 = &seesaw->s2;
+
+    worldX = TO_WORLD_POS_RAW((seesaw->base.meX * TILE_WIDTH), seesaw->base.regionX);
+    worldY = TO_WORLD_POS_RAW(me->y * TILE_WIDTH, seesaw->base.regionY);
+    seesaw->unk76 += Q(32. / 256.);
+    if (seesaw->unk76 > Q(6)) {
+        seesaw->unk76 = Q(6);
+    }
+    seesaw->unk70 += seesaw->unk76;
+
+    for (var_r6 = 0; var_r6 < 2; var_r6++) {
+        p = GET_SP_PLAYER_V1(var_r6);
+        sub_8020CE0(s2, I(seesaw->unk6C), I(seesaw->unk70), 0U, p);
+    }
+
+    temp_r5 = I(seesaw->unk6C);
+    w = (temp_r5 - worldX);
+    sinVal = ((w * SIN(seesaw->unk68)) << 2);
+    qSinVal = Q(worldY + (sinVal >> 16));
+
+    if (seesaw->unk70 >= qSinVal) {
+        seesaw->unk70 = qSinVal;
+        if (arg1 != 0) {
+            if (((arg0 != 0) && (worldX < temp_r5)) || ((arg0 == 0) && (worldX > temp_r5))) {
+                seesaw->unk76 = -Q(6);
+                seesaw->unk74 = (worldX > I(seesaw->unk6C)) ? +160 : -160;
+            }
+        } else {
+            if (((arg0 != 0) && (worldX > temp_r5)) || ((arg0 == 0) && (worldX < temp_r5))) {
+                spC = 1;
+            }
+        }
+    } else {
+        seesaw->unk6C += seesaw->unk74;
+        if (worldX > I(seesaw->unk6C)) {
+            var_r0 = worldX - I(seesaw->unk6C);
+        } else {
+            var_r0 = I(seesaw->unk6C) - worldX;
+        }
+
+        if (var_r0 > 30) {
+            if (worldX > I(seesaw->unk6C)) {
+                seesaw->unk6C = Q(worldX - 30);
+            } else {
+                seesaw->unk6C = Q(worldX + 30);
+            }
+        }
+    }
+    unk70 = I(seesaw->unk70);
+    temp_r1_4 = TO_WORLD_POS_RAW((seesaw->base.me->y * TILE_WIDTH), seesaw->base.regionY);
+    if (unk70 > (temp_r1_4 + 4)) {
+        seesaw->unk70 = Q(temp_r1_4) + Q(4);
+    }
+    return spC;
 }
