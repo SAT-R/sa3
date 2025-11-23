@@ -2,19 +2,21 @@
 #include "core.h"
 #include "malloc_vram.h"
 #include "game/camera.h"
+#include "game/enemy_unknown.h"
 #include "game/entity.h"
+#include "game/stage.h"
 
 typedef struct Juggling {
     /* 0x00 */ MapEntity *me;
     /* 0x04 */ u8 id;
     /* 0x05 */ u8 meX;
-    /* 0x06 */ s8 unk6;
-    /* 0x07 */ s8 unk7;
+    /* 0x06 */ u8 unk6;
+    /* 0x06 */ u8 unk7;
     /* 0x08 */ s8 unk8;
     /* 0x09 */ s8 unk9;
     /* 0x0A */ u16 region[2];
-    /* 0x0E */ s16 unkE;
-    /* 0x10 */ s16 unk10;
+    /* 0x0E */ u16 unkE;
+    /* 0x10 */ u16 unk10;
     /* 0x10 */ s16 unk12;
     /* 0x10 */ void *vram;
     /* 0x18 */ s32 unk18;
@@ -37,7 +39,15 @@ typedef struct Juggling {
 
 void Task_Juggling(void);
 void sub_805E344(Juggling *enemy);
+void sub_805E5A0(Juggling *enemy);
+void sub_805E624(Juggling *enemy);
+void sub_805E6E0(Juggling *enemy);
+void Task_805E8B8(void);
+void sub_805E918(Juggling *enemy);
+bool32 sub_805E950(Juggling *enemy);
+bool32 sub_805E9D4(Juggling *enemy);
 void TaskDestructor_Juggling(struct Task *t);
+s32 sub_805EA24(s32 *arg0, s32 *arg1, u16 arg2, u16 arg3, u8 *arg4, s32 arg5, void *arg6);
 
 extern const TileInfo2 gUnknown_080D1F6C[2];
 
@@ -125,7 +135,7 @@ void sub_805E344(Juggling *enemy)
 
     enemy->vram = vram;
     s = &enemy->s2;
-    enemy->s2.tiles = vram;
+    s->tiles = vram;
     vram += (9 * TILE_SIZE_4BPP);
     s->anim = gUnknown_080D1F6C[1].anim;
     variant = gUnknown_080D1F6C[1].variant;
@@ -157,4 +167,77 @@ void sub_805E344(Juggling *enemy)
     s->frameFlags = 0x1000;
     s->hitboxes[0].index = -1;
     UpdateSpriteAnimation((Sprite *)s);
+}
+
+void Task_Juggling(void)
+{
+    Sprite2 *s;
+    s32 temp_r2;
+    s32 var_r1;
+    u16 temp_r0;
+    u16 temp_r1;
+
+    Juggling *enemy = TASK_DATA(gCurTask);
+
+    sub_805CD70((Vec2_32 *)&enemy->posX, NULL, enemy->region, &enemy->unk8);
+    if (((u8)(gStageData.unk4 - 1) > 1U) && (gStageData.unk4 != 4)) {
+        sub_805E918(enemy);
+        sub_805E624(enemy);
+    }
+    temp_r0 = enemy->unkE;
+    temp_r1 = enemy->unk10;
+    temp_r2 = temp_r0 - temp_r1;
+    if (temp_r2 >= 0) {
+        if (temp_r2 < 0x800) {
+            goto block_7;
+        }
+    } else if ((temp_r1 - temp_r0) < 0x800) {
+    block_7:
+        var_r1 = 0;
+        if (enemy->unk6 == 0 && enemy->unk7 == 0) {
+            var_r1 = 1;
+        }
+        if (var_r1 != 0) {
+            enemy->unkE = 0;
+            enemy->unk10 = 0x800;
+        }
+    }
+
+    if (sub_805E9D4(enemy) == 1) {
+        gCurTask->main = Task_805E8B8;
+        return;
+    }
+
+    if (sub_805E950(enemy) == 1) {
+        sub_805E5A0(enemy);
+    }
+
+    sub_805E6E0(enemy);
+    if ((enemy->posX <= enemy->unk3C) || (enemy->posX >= enemy->unk40)) {
+        s = &enemy->s;
+
+        if (s->frameFlags & 0x400) {
+            s->frameFlags &= ~0x400;
+        } else {
+            s->frameFlags |= 0x400;
+        }
+    }
+}
+
+void sub_805E5A0(Juggling *enemy)
+{
+    if (enemy->unk6 == 0) {
+        u16 unkE = enemy->unkE;
+        if (unkE == 0) {
+            enemy->unkD8 = sub_805EA24(&enemy->unk28, &enemy->posY, enemy->region[0], enemy->region[1], &enemy->unk6, unkE, enemy->vram);
+            enemy->unk6 = 1;
+            enemy->unkE = 0x800;
+            return;
+        }
+    }
+    if ((enemy->unk7 == 0) && (enemy->unk10 == 0)) {
+        enemy->unkD4 = sub_805EA24(&enemy->unk30, &enemy->posY, enemy->region[0], enemy->region[1], &enemy->unk7, 1, enemy->vram + 0x200);
+        enemy->unk7 = 1;
+        enemy->unk10 = 0x800;
+    }
 }
