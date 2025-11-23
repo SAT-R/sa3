@@ -417,8 +417,6 @@ void sub_8036D94()
 
 void sub_8036DE8()
 {
-    u16 temp_r0;
-
     Seesaw *seesaw = TASK_DATA(gCurTask);
 
     sub_80368E4(0);
@@ -432,4 +430,48 @@ void sub_8036DE8()
     }
 
     sub_8036FBC();
+}
+
+u32 sub_8036E34(Player *p)
+{
+    s16 worldX, worldY;
+    s16 dx;
+    s32 var_r3;
+
+    u32 result = 0;
+    Seesaw *seesaw = TASK_DATA(gCurTask);
+    MapEntity *me = seesaw->base.me;
+    Sprite *s = &seesaw->s;
+    s32 temp_r5 = seesaw->unk68;
+    s32 sinVal;
+    s16 r1;
+
+    worldX = TO_WORLD_POS_RAW(seesaw->base.meX * TILE_WIDTH, seesaw->base.regionX);
+    worldY = TO_WORLD_POS_RAW(me->y * TILE_WIDTH, seesaw->base.regionY);
+
+    dx = I(p->qWorldX) - worldX;
+    if (ABS(dx) > 32) {
+        ResolvePlayerSpriteCollision(s, p);
+        return FALSE;
+    }
+
+    sinVal = SIN(temp_r5);
+    r1 = ((dx * sinVal * 4) >> 16);
+    temp_r5 = worldY + r1;
+    var_r3 = I(p->qWorldY) + p->unk25;
+
+    if (p->charFlags.anim0 == 92 || p->charFlags.anim0 == 93) {
+        if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
+            var_r3 -= 32;
+        } else {
+            var_r3 += 32;
+        }
+    }
+
+    if ((var_r3 > temp_r5) && (var_r3 < (temp_r5 + 8)) && (p->qSpeedAirY >= 0)) {
+        p->qWorldY = (var_r3 - p->unk25) << 8;
+        result = 1;
+    }
+
+    return result;
 }
