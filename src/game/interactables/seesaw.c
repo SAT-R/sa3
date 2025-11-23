@@ -27,14 +27,14 @@ typedef struct Seesaw {
 } Seesaw;
 
 void CreateEntity_Seesaw(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+void sub_8036FBC(void);
+u32 sub_8036BC4(u8 arg0, u8 arg1);
+bool32 sub_8036E34(Player *p);
+void sub_8036F0C(Sprite *s, Sprite *s2);
+void sub_8037130(struct Task *t);
+s32 sub_8037144(Player *p, Sprite *s, s16 arg2, s32 arg3, s32 arg4, s32 arg5);
 void sub_8037224(void);
 void sub_803724C(void);
-void sub_8037130(struct Task *t);
-void sub_8036F0C(Sprite *s, Sprite *s2);
-s32 sub_8037144(Player *p, Sprite *s, s16 arg2, s32 arg3, s32 arg4, s32 arg5);
-u32 sub_8036BC4(u8 arg0, u8 arg1);
-
-bool32 sub_8036E34(Player *p);
 
 void CreateEntity_Seesaw(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -396,4 +396,40 @@ u32 sub_8036BC4(u8 arg0, u8 arg1)
         seesaw->unk70 = Q(temp_r1_4) + Q(4);
     }
     return spC;
+}
+
+void sub_8036D94()
+{
+    Seesaw *seesaw = TASK_DATA(gCurTask);
+
+    sub_80368E4(1);
+
+    seesaw->unk68 -= 20;
+    seesaw->unk68 &= 0x3FF;
+
+    if ((seesaw->unk68 > 512) && (seesaw->unk68 < 940)) {
+        seesaw->unk68 = 940;
+        gCurTask->main = sub_803724C;
+    }
+
+    sub_8036FBC();
+}
+
+void sub_8036DE8()
+{
+    u16 temp_r0;
+
+    Seesaw *seesaw = TASK_DATA(gCurTask);
+
+    sub_80368E4(0);
+
+    seesaw->unk68 += 20;
+    seesaw->unk68 &= 0x3FF;
+
+    if ((seesaw->unk68 > 84) && (seesaw->unk68 < 512)) {
+        seesaw->unk68 = 84;
+        gCurTask->main = sub_8037224;
+    }
+
+    sub_8036FBC();
 }
