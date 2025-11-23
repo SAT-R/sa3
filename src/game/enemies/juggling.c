@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "malloc_vram.h"
 #include "game/camera.h"
 #include "game/entity.h"
 
@@ -14,7 +15,8 @@ typedef struct Juggling {
     /* 0x0A */ u16 region[2];
     /* 0x0E */ s16 unkE;
     /* 0x10 */ s16 unk10;
-    /* 0x12 */ u8 filler12[0x6];
+    /* 0x10 */ s16 unk12;
+    /* 0x10 */ void *vram;
     /* 0x18 */ s32 unk18;
     /* 0x1C */ s32 unk1C;
     /* 0x20 */ s32 posX;
@@ -36,6 +38,8 @@ typedef struct Juggling {
 void Task_Juggling(void);
 void sub_805E344(Juggling *enemy);
 void TaskDestructor_Juggling(struct Task *t);
+
+extern const TileInfo2 gUnknown_080D1F6C[2];
 
 void CreateEntity_Juggling(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -87,4 +91,70 @@ void CreateEntity_Juggling(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     sub_805E344(enemy);
 
     SET_MAP_ENTITY_INITIALIZED(me);
+}
+
+void sub_805E344(Juggling *enemy)
+{
+    Sprite2 *s;
+    u8 *vram;
+    u8 variant;
+
+    vram = VramMalloc(0x30U);
+    s = &enemy->s;
+    s->tiles = vram;
+    vram += (16 * TILE_SIZE_4BPP);
+    s->anim = gUnknown_080D1F6C[0].anim;
+    s->variant = gUnknown_080D1F6C[0].variant;
+    s->prevVariant = -1;
+    s->x = TO_WORLD_POS_RAW(I(enemy->posX), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->posY), enemy->region[1]) - gCamera.y;
+    s->oamFlags = SPRITE_OAM_ORDER(19);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = 0x1000;
+
+    if (enemy->unk9 < 0) {
+        s->frameFlags |= 0x1000;
+        SPRITE_FLAG_SET(s, X_FLIP);
+    }
+
+    s->hitboxes[0].index = -1;
+    UpdateSpriteAnimation((Sprite *)s);
+
+    enemy->vram = vram;
+    s = &enemy->s2;
+    enemy->s2.tiles = vram;
+    vram += (9 * TILE_SIZE_4BPP);
+    s->anim = gUnknown_080D1F6C[1].anim;
+    variant = gUnknown_080D1F6C[1].variant;
+    s->variant = variant;
+    s->prevVariant = -1;
+    s->x = TO_WORLD_POS_RAW(I(enemy->unk28), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->unk2C), enemy->region[1]) - gCamera.y;
+    s->oamFlags = SPRITE_OAM_ORDER(18);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = 0x1000;
+    s->hitboxes[0].index = -1;
+    UpdateSpriteAnimation((Sprite *)s);
+
+    s = &enemy->s3;
+    s->tiles = vram;
+    s->anim = gUnknown_080D1F6C[1].anim;
+    s->variant = gUnknown_080D1F6C[1].variant;
+    s->prevVariant = -1;
+    s->x = TO_WORLD_POS_RAW(I(enemy->unk30), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->unk34), enemy->region[1]) - gCamera.y;
+    s->oamFlags = SPRITE_OAM_ORDER(18);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = 0x1000;
+    s->hitboxes[0].index = -1;
+    UpdateSpriteAnimation((Sprite *)s);
 }
