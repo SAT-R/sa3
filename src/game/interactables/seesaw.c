@@ -14,7 +14,7 @@ typedef struct Seesaw {
     /* 0x0C */ Sprite s;
     /* 0x34 */ SpriteTransform tf;
     /* 0x40 */ Sprite s2;
-    /* 0x68 */ s16 unk68;
+    /* 0x68 */ u16 unk68;
     /* 0x6A */ s16 unk6A;
     /* 0x6C */ s32 unk6C;
     /* 0x70 */ s32 unk70;
@@ -37,7 +37,7 @@ bool32 sub_8036E34(Player *p);
 
 void CreateEntity_Seesaw(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    Seesaw *entity;
+    Seesaw *seesaw;
     Sprite *s2;
     Sprite *s;
 #ifndef NON_MATCHING
@@ -56,35 +56,35 @@ void CreateEntity_Seesaw(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     } else {
         t = TaskCreate(sub_803724C, sizeof(Seesaw), 0x2100U, 0U, sub_8037130);
     }
-    entity = TASK_DATA(t);
-    s = &entity->s;
-    s2 = &entity->s2;
-    tf = &entity->tf;
-    entity->base.regionX = regionX;
-    entity->base.regionY = regionY;
-    entity->base.me = me;
-    entity->base.meX = me->x;
-    entity->base.id = id;
-    entity->unk78[0] = 0;
-    entity->unk78[1] = 0;
+    seesaw = TASK_DATA(t);
+    s = &seesaw->s;
+    s2 = &seesaw->s2;
+    tf = &seesaw->tf;
+    seesaw->base.regionX = regionX;
+    seesaw->base.regionY = regionY;
+    seesaw->base.me = me;
+    seesaw->base.meX = me->x;
+    seesaw->base.id = id;
+    seesaw->unk78[0] = 0;
+    seesaw->unk78[1] = 0;
 
     if (temp_r0 != 0) {
-        entity->unk68 = 0x54;
+        seesaw->unk68 = 0x54;
     } else {
-        entity->unk68 = 0x3AC;
+        seesaw->unk68 = 0x3AC;
     }
-    entity->unk74 = 0;
-    entity->unk76 = 0;
+    seesaw->unk74 = 0;
+    seesaw->unk76 = 0;
     s->x = TO_WORLD_POS_RAW(me->x * TILE_WIDTH, regionX);
     s->y = TO_WORLD_POS_RAW(me->y * TILE_WIDTH, regionY);
 
     if (temp_r0 != 0) {
-        entity->unk6C = Q(s->x + 24);
+        seesaw->unk6C = Q(s->x + 24);
     } else {
-        entity->unk6C = Q(s->x - 24);
+        seesaw->unk6C = Q(s->x - 24);
     }
 
-    entity->unk70 = Q(s->y + 5);
+    seesaw->unk70 = Q(s->y + 5);
     s2->x = s->x;
     s2->y = s->y;
     tf->scaleX = Q(1);
@@ -96,37 +96,29 @@ void CreateEntity_Seesaw(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
 s32 sub_8036584(u8 arg0)
 {
-    Seesaw *entity;
+    Seesaw *seesaw;
     Sprite *s;
     s32 sp18 = 0;
     s16 sp1C;
     s16 sp20;
     u8 i;
     Player *p;
-    s16 temp_r7;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    s32 temp_r5;
     s32 var_r4;
-    u16 temp_r8;
+    s16 qTempSpeedAirY;
+    s32 qTempWorldY;
     u32 temp_r0;
     u32 temp_r1;
-    u32 temp_r1_2;
     u32 temp_r1_3;
     u32 temp_r2;
     u32 temp_r3;
-    u32 var_r1;
-    u8 *temp_r0_2;
-    u8 temp_r0_3;
-    u8 temp_r0_4;
     MapEntity *me;
 
-    entity = TASK_DATA(gCurTask);
-    me = entity->base.me;
-    s = &entity->s;
+    seesaw = TASK_DATA(gCurTask);
+    me = seesaw->base.me;
+    s = &seesaw->s;
 
-    sp1C = (s32)(u16)((entity->base.meX * 8) + (entity->base.regionX << 8));
-    sp20 = (s32)(u16)((me->y * 8) + (entity->base.regionY << 8));
+    sp1C = (s32)(u16)((seesaw->base.meX * 8) + (seesaw->base.regionX << 8));
+    sp20 = (s32)(u16)((me->y * 8) + (seesaw->base.regionY << 8));
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         p = GET_SP_PLAYER_V1(i);
@@ -134,13 +126,13 @@ s32 sub_8036584(u8 arg0)
         if (temp_r0 == 0) {
             temp_r3 = sub_8020874(s, sp1C, sp20, 0, p, 0, 0);
             if (temp_r3 == 0) {
-                if (entity->unk78[i]) {
+                if (seesaw->unk78[i]) {
                     temp_r1 = p->moveState;
                     if ((0x20 & temp_r1) && (p->sprColliding == s)) {
                         p->moveState = temp_r1 & ~0x20;
                         p->sprColliding = (Sprite *)NULL;
                     }
-                    entity->unk78[i] = 0;
+                    seesaw->unk78[i] = 0;
                 }
             } else {
                 temp_r2 = p->moveState;
@@ -148,7 +140,7 @@ s32 sub_8036584(u8 arg0)
                     if (arg0 != 0) {
                         if (0x80000 & temp_r3) {
                             if (0x10 & p->keyInput) {
-                                p->qWorldX += 0x100;
+                                p->qWorldX += Q(1);
                                 p->moveState = temp_r2 | MOVESTATE_40;
                             }
                             p->qWorldX += (s16)(temp_r3 & 0xFF00);
@@ -168,7 +160,7 @@ s32 sub_8036584(u8 arg0)
                     } else {
                     block_24:
                         if (sub_8036E34(p) == 1) {
-                            entity->unk78[i] = 1;
+                            seesaw->unk78[i] = 1;
                             p->moveState |= MOVESTATE_COLLIDING_ENT;
                             p->sprColliding = s;
                             if (p->moveState & MOVESTATE_800000) {
@@ -181,25 +173,24 @@ s32 sub_8036584(u8 arg0)
                     }
                 } else {
                 block_29:
-                    if (entity->unk78[i] != 0) {
+                    if (seesaw->unk78[i] != 0) {
                         if (((arg0 != 0) && (sp1C > I(p->qWorldX))) || ((arg0 == 0) && (sp1C < I(p->qWorldX)))) {
-                            temp_r8 = (u16)p->qSpeedAirY;
-                            temp_r5 = p->qWorldY;
-                            temp_r7 = (s16)sp1C;
-                            if (0x10000 & sub_8020950(s, (s32)temp_r7, sp20, p, 0U)) {
+                            qTempSpeedAirY = p->qSpeedAirY;
+                            qTempWorldY = p->qWorldY;
+                            if (0x10000 & sub_8020950(s, sp1C, sp20, p, 0U)) {
                                 p->moveState |= 4;
-                                p->qSpeedAirY = (s16)temp_r8;
-                                p->qWorldY = temp_r5;
+                                p->qSpeedAirY = qTempSpeedAirY;
+                                p->qWorldY = qTempWorldY;
                                 sp18 = 1;
                             }
-                            if (((sub_8020700(s, (s32)temp_r7, sp20, 0, p, 0) == 1) && (p->moveState & 0x20) && (p->sprColliding == s))
+                            if (((sub_8020700(s, sp1C, sp20, 0, p, 0) == 1) && (p->moveState & 0x20) && (p->sprColliding == s))
                                 || ((p->moveState & 4) && ((s32)p->qSpeedAirY > 0))) {
-                                sp18 |= sub_8037144(p, s, (s16)sp1C, sp20, (s32)(u16)entity->unk68, 0x30);
+                                sp18 |= sub_8037144(p, s, (s16)sp1C, sp20, (s32)(u16)seesaw->unk68, 0x30);
                             } else {
                                 ResolvePlayerSpriteCollision(s, p);
                             }
                         } else {
-                            if (sub_8037144(p, s, (s16)sp1C, sp20, (s32)(u16)entity->unk68, 0x30) == 0) {
+                            if (sub_8037144(p, s, (s16)sp1C, sp20, (s32)(u16)seesaw->unk68, 0x30) == 0) {
                                 temp_r1_3 = p->moveState;
                                 if ((((MOVESTATE_JUMPING & temp_r1_3) != MOVESTATE_JUMPING) || ((s32)p->qSpeedAirY <= 0))
                                     && (temp_r1_3 & MOVESTATE_IN_AIR)
@@ -221,7 +212,109 @@ s32 sub_8036584(u8 arg0)
         }
     }
 
-    temp_r4 = sp18 | sub_8036BC4(arg0, 0U);
-    sp18 = temp_r4;
-    return temp_r4;
+    sp18 |= sub_8036BC4(arg0, 0U);
+
+    return sp18;
+}
+
+void sub_80368E4(u8 arg0)
+{
+    s16 worldX, worldY;
+    Sprite *s;
+    s16 var_r0;
+    u32 coll;
+    u8 i;
+
+    Player *p;
+    Seesaw *seesaw = TASK_DATA(gCurTask);
+    MapEntity *me = seesaw->base.me;
+
+    s = &seesaw->s;
+    worldX = TO_WORLD_POS_RAW(seesaw->base.meX * TILE_WIDTH, seesaw->base.regionX);
+    worldY = TO_WORLD_POS_RAW(me->y * TILE_WIDTH, seesaw->base.regionY);
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        p = GET_SP_PLAYER_V1(i);
+        if (!sub_802C0D4(p)) {
+            coll = sub_8020874(s, worldX, worldY, 0, p, 0, 0);
+            if (coll == 0) {
+                if (seesaw->unk78[i] != 0) {
+                    if ((MOVESTATE_COLLIDING_ENT & p->moveState) && (p->sprColliding == s)) {
+                        p->moveState &= ~MOVESTATE_COLLIDING_ENT;
+                        p->sprColliding = NULL;
+                    }
+                    seesaw->unk78[i] = 0;
+                }
+            } else {
+                if (!(p->moveState & MOVESTATE_COLLIDING_ENT) || (p->sprColliding != s)) {
+                    if (arg0 != 0) {
+                        if (0x80000 & coll) {
+                            if (0x10 & p->keyInput) {
+                                p->qWorldX += 0x100;
+                                p->moveState |= MOVESTATE_40;
+                            }
+                            p->qWorldX += (s16)(coll & 0xFF00);
+                            p->qSpeedGround = 0;
+                            p->qSpeedAirX = 0;
+                        } else {
+                            goto block_24;
+                        }
+                    } else if (0x40000 & coll) {
+                        if (DPAD_LEFT & p->keyInput) {
+                            p->qWorldX -= Q(1);
+                            p->moveState |= MOVESTATE_40;
+                        }
+                        p->qWorldX += (s16)(coll & 0xFF00);
+                        p->qSpeedGround = 0;
+                        p->qSpeedAirX = 0;
+                    } else {
+                    block_24:
+                        if (sub_8036E34(p) == 1) {
+                            seesaw->unk78[i] = 1;
+                            p->moveState |= MOVESTATE_COLLIDING_ENT;
+                            p->sprColliding = s;
+                            if (p->moveState & MOVESTATE_800000) {
+                                SetPlayerCallback(p, Player_80077CC);
+                            } else {
+                                SetPlayerCallback(p, Player_8005380);
+                            }
+                            goto block_29;
+                        }
+                    }
+                } else {
+                block_29:
+                    if (seesaw->unk78[i] != 0) {
+                        if (arg0 != 0) {
+                            if (worldX < I(p->qWorldX)) {
+                                goto block_34;
+                            }
+                            goto block_38;
+                        }
+                        if (worldX > I(p->qWorldX)) {
+                        block_34:
+                            if (sub_8037144(p, s, worldX, worldY, seesaw->unk68, 0x30) == 1) {
+                                ResolvePlayerSpriteCollision(s, p);
+                                var_r0 = I(p->qWorldX) - worldX;
+                                p->qSpeedAirY = ((s32)(0 - (ABS(var_r0) << 10)) >> 5) - Q(5);
+                                p->charFlags.unk2C_04 = 1;
+                                SetPlayerCallback(p, Player_8006F98);
+                                Player_PlaySong(p, 0x250U);
+                            }
+                        } else {
+                        block_38:
+                            if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s)) {
+                                p->qWorldY += Q(16);
+                                if (sub_8037144(p, s, worldX, worldY, seesaw->unk68, 0x30) == 0) {
+                                    p->qWorldY -= Q(16);
+                                    ResolvePlayerSpriteCollision(s, p);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    sub_8036BC4(arg0, 1U);
 }
