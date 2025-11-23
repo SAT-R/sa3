@@ -71,9 +71,9 @@ void CreateEntity_Seesaw(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     seesaw->unk78[1] = 0;
 
     if (temp_r0 != 0) {
-        seesaw->unk68 = 0x54;
+        seesaw->unk68 = 84;
     } else {
-        seesaw->unk68 = 0x3AC;
+        seesaw->unk68 = 1024 - 84;
     }
     seesaw->unk74 = 0;
     seesaw->unk76 = 0;

@@ -124,6 +124,7 @@ SECTIONS {
         asm/enemy_unknown_code.o(.text);
         asm/enemy_uutsubo.o(.text);
         src/game/enemies/gaogao.o(.text);
+        src/game/enemies/juggling.o(.text);
         asm/enemy_juggling.o(.text);
         asm/enemy_bu_bu.o(.text);
         src/game/enemies/guard.o(.text);
