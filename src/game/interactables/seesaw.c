@@ -1,6 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "trig.h"
+#include "malloc_vram.h"
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/player.h"
@@ -31,10 +32,10 @@ void sub_8036FBC(void);
 u32 sub_8036BC4(u8 arg0, u8 arg1);
 bool32 sub_8036E34(Player *p);
 void sub_8036F0C(Sprite *s, Sprite *s2);
-void sub_8037130(struct Task *t);
-s32 sub_8037144(Player *p, Sprite *s, s16 arg2, s32 arg3, s32 arg4, s32 arg5);
-void sub_8037224(void);
-void sub_803724C(void);
+void TaskDestructor_Seesaw(struct Task *t);
+s32 sub_8037144(Player *p, Sprite *s, s16 worldX, s16 worldY, u16 arg4, s16 arg5);
+void Task_SeesawInitA(void);
+void Task_SeesawInitB(void);
 
 void CreateEntity_Seesaw(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -53,9 +54,9 @@ void CreateEntity_Seesaw(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     temp_r1_2 = me->d.sData[4];
     temp_r0 = (u32)((0 - temp_r1_2) | temp_r1_2) >> 0x1F;
     if (temp_r0 != 0) {
-        t = TaskCreate(sub_8037224, sizeof(Seesaw), 0x2100U, 0U, sub_8037130);
+        t = TaskCreate(Task_SeesawInitA, sizeof(Seesaw), 0x2100U, 0U, TaskDestructor_Seesaw);
     } else {
-        t = TaskCreate(sub_803724C, sizeof(Seesaw), 0x2100U, 0U, sub_8037130);
+        t = TaskCreate(Task_SeesawInitB, sizeof(Seesaw), 0x2100U, 0U, TaskDestructor_Seesaw);
     }
     seesaw = TASK_DATA(t);
     s = &seesaw->s;
@@ -409,7 +410,7 @@ void sub_8036D94()
 
     if ((seesaw->unk68 > 512) && (seesaw->unk68 < 940)) {
         seesaw->unk68 = 940;
-        gCurTask->main = sub_803724C;
+        gCurTask->main = Task_SeesawInitB;
     }
 
     sub_8036FBC();
@@ -426,7 +427,7 @@ void sub_8036DE8()
 
     if ((seesaw->unk68 > 84) && (seesaw->unk68 < 512)) {
         seesaw->unk68 = 84;
-        gCurTask->main = sub_8037224;
+        gCurTask->main = Task_SeesawInitA;
     }
 
     sub_8036FBC();
@@ -474,4 +475,189 @@ u32 sub_8036E34(Player *p)
     }
 
     return result;
+}
+
+void sub_8036F0C(Sprite *s, Sprite *s2)
+{
+    s32 tilesBall;
+    u16 anim;
+    u8 variantA, variantB;
+    u32 var_r0;
+    s32 tileCount;
+    u8 *vram;
+
+    if (gStageData.zone == 6) {
+        anim = 0x3C8;
+        variantA = 0;
+        variantB = 3;
+        tilesBall = 40;
+        tileCount = 44;
+    } else {
+        anim = 0x375;
+        variantA = 0;
+        variantB = 3;
+        tilesBall = 48;
+        tileCount = 52;
+    }
+
+    vram = VramMalloc(tileCount);
+
+    s->tiles = vram;
+    s->oamFlags = SPRITE_OAM_ORDER(24);
+    s->anim = anim;
+    s->variant = variantA;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = 0x1000;
+    s2->tiles = vram + (tilesBall * TILE_SIZE_4BPP);
+    s2->oamFlags = SPRITE_OAM_ORDER(23);
+    s2->anim = anim;
+    s2->variant = variantB;
+    s2->qAnimDelay = 0;
+    s2->prevVariant = -1;
+    s2->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s2->palId = 0;
+    s2->frameFlags = 0x1000;
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+}
+
+void sub_8036FBC()
+{
+    MapEntity *me;
+    Player *p;
+    Sprite *s;
+    s16 worldX;
+    s16 worldY;
+    u16 var_r0_3;
+    u32 temp_r2;
+    s16 i;
+    u8 variant;
+
+    Seesaw *seesaw = TASK_DATA(gCurTask);
+
+    s = &seesaw->s;
+    me = seesaw->base.me;
+    worldX = TO_WORLD_POS_RAW(seesaw->base.meX * TILE_WIDTH, seesaw->base.regionX);
+    worldY = TO_WORLD_POS_RAW(me->y * TILE_WIDTH, seesaw->base.regionY);
+
+    if (IsWorldPtActive(worldX, worldY) == 0) {
+        for (i = 0; i < 2; i++) {
+            p = GET_SP_PLAYER_V1(i);
+            ResolvePlayerSpriteCollision(s, p);
+        }
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, seesaw->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    temp_r2 = 0x3FF & seesaw->unk68;
+    if (temp_r2 > 0x200U) {
+        SPRITE_FLAG_CLEAR(s, X_FLIP);
+    } else {
+        SPRITE_FLAG_SET(s, X_FLIP);
+    }
+
+    if (temp_r2 > 0x200U) {
+        s32 v = 0x400 - temp_r2;
+        if (v < 0) {
+            var_r0_3 = temp_r2 - 0x400;
+        } else {
+            var_r0_3 = v;
+        }
+    } else {
+        var_r0_3 = temp_r2;
+    }
+    variant = 0;
+    if (var_r0_3 > 27) {
+        if (var_r0_3 < 56) {
+            variant = 1;
+        } else {
+            variant = 2;
+        }
+    }
+
+    s->variant = variant;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &seesaw->s2;
+    s->x = I(seesaw->unk6C) - gCamera.x;
+    s->y = I(seesaw->unk70) - gCamera.y;
+    DisplaySprite(s);
+}
+
+void TaskDestructor_Seesaw(struct Task *t)
+{
+    Seesaw *seesaw = TASK_DATA(t);
+    VramFree(seesaw->s.tiles);
+}
+
+s32 sub_8037144(Player *p, Sprite *s, s16 worldX, s16 worldY, u16 arg4, s16 arg5)
+{
+    s16 temp_r2;
+    s32 var_r1;
+    s32 res;
+    s32 temp_r3;
+    s32 var_r0;
+    s32 var_r8;
+    s16 temp_r1;
+    s32 sinVal;
+
+    var_r8 = 0;
+    temp_r2 = I(p->qWorldX) - worldX;
+
+    if (ABS(temp_r2) >= arg5) {
+        ResolvePlayerSpriteCollision(s, p);
+        return 0;
+    }
+
+    sinVal = SIN(arg4);
+    temp_r1 = ((temp_r2 * sinVal * 4) >> 16);
+    temp_r3 = worldY + temp_r1;
+
+    if (MOVESTATE_2 & p->moveState) {
+        var_r0 = Q(temp_r3 - 0xB);
+    } else {
+        var_r0 = Q(temp_r3 - 0x10);
+    }
+
+    if ((p->qWorldY >= var_r0)
+        || ((((MOVESTATE_COLLIDING_ENT | MOVESTATE_IN_AIR) & p->moveState) == MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s))) {
+        var_r8 = 1;
+        p->qWorldY = var_r0;
+        res = sub_80517FC(I(p->qWorldY), I(p->qWorldX), p->unk27, 8, NULL, sub_805217C);
+        if (res < 0) {
+            p->qWorldY += Q(res);
+        }
+        p->moveState = (p->moveState | 0x20) & ~4;
+        p->sprColliding = s;
+    }
+    return var_r8;
+}
+
+void Task_SeesawInitA(void)
+{
+    Seesaw *seesaw = TASK_DATA(gCurTask);
+
+    if (sub_8036584(1)) {
+        gCurTask->main = sub_8036D94;
+    }
+
+    sub_8036FBC();
+}
+
+void Task_SeesawInitB(void)
+{
+    Seesaw *seesaw = TASK_DATA(gCurTask);
+
+    if (sub_8036584(0)) {
+        gCurTask->main = sub_8036DE8;
+    }
+
+    sub_8036FBC();
 }
