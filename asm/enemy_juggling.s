@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start sub_805E624
 sub_805E624: @ 0x0805E624
 	push {r4, r5, r6, r7, lr}
@@ -110,6 +108,7 @@ _0805E6C8:
 	bx r0
 	.align 2, 0
 _0805E6DC: .4byte 0xFFFFF800
+.endif
 
 	thumb_func_start sub_805E6E0
 sub_805E6E0: @ 0x0805E6E0
