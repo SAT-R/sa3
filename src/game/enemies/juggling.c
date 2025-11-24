@@ -43,8 +43,8 @@ typedef struct JugglingPin {
     /* 0x10 */ u16 unk10;
     /* 0x12 */ u16 unk12;
     /* 0x14 */ void *vram;
-    /* 0x14 */ void *unk18;
-    /* 0x14 */ void *unk1C;
+    /* 0x14 */ s32 *unk18;
+    /* 0x14 */ s32 *unk1C;
     /* 0x20 */ Vec2_32 qPos;
     /* 0x28 */ Sprite2 s;
 } JugglingPin;
@@ -568,7 +568,6 @@ void Task_805EB34()
     }
 }
 
-#if 0
 u32 sub_805EB68(JugglingPin *proj)
 {
     s32 temp_r0;
@@ -588,4 +587,19 @@ u32 sub_805EB68(JugglingPin *proj)
         return FALSE;
     }
 }
-#endif
+
+AnimCmdResult sub_805EBB4(JugglingPin *proj)
+{
+    AnimCmdResult acmdRes;
+
+    Sprite2 *s = &proj->s;
+    s->x = TO_WORLD_POS_RAW(I(proj->qPos.x), proj->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(proj->qPos.y), proj->region[1]) - gCamera.y;
+
+    acmdRes = UpdateSpriteAnimation((Sprite *)s);
+    DisplaySprite((Sprite *)s);
+
+    return acmdRes;
+}
+
+void TaskDestructor_JugglingPin(struct Task *t) { }
