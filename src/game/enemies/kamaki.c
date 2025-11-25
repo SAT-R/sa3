@@ -1,6 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_vram.h"
+#include "module_unclear.h"
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/stage.h"
@@ -32,10 +33,7 @@ typedef struct KamakiProj {
     /* 0x0A */ s16 unkA;
     /* 0x0C */ s16 unkC;
     /* 0x0E */ u16 unkE;
-    /* 0x10 */ s32 qLeft;
-    /* 0x14 */ s32 qTop;
-    /* 0x18 */ s32 qRight;
-    /* 0x1C */ s32 qBottom;
+    /* 0x10 */ Vec2_32 qUnk10[2];
     /* 0x20 */ SpriteTransform tf[2];
     /* 0x34 */ Sprite2 s;
     /* 0x64 */ Sprite2 s2;
@@ -53,6 +51,11 @@ void sub_805CD70(Vec2_32 *qVal, Vec2_32 *param1, u16 region[2], s8 *param3);
 void sub_805CE14(Vec2_32 *qVal, Vec2_32 *param1, u16 region[2], s8 *param3);
 bool32 sub_8065104(Kamaki *enemy);
 AnimCmdResult sub_8065084(Kamaki *enemy);
+bool32 sub_8065164(KamakiProj *proj, u8 param1);
+bool32 sub_8064EA0(KamakiProj *proj);
+void sub_8064F80(KamakiProj *proj);
+void sub_8064FCC(KamakiProj *proj);
+void sub_8065028(KamakiProj *proj);
 void TaskDestructor_Kamaki(struct Task *t);
 
 extern const TileInfo2 gUnknown_080D215C[4];
@@ -251,11 +254,11 @@ void sub_8064C18(s32 arg0, s32 arg1, u16 arg2, u16 arg3, u8 arg4, u8 arg5)
     proj->unk0 = arg5;
     temp_r1_2 = Q(gUnknown_080D217C[arg4]);
     var_r0 = (temp_r1_2 - Q(8));
-    proj->qLeft = var_r0 + arg0;
+    proj->qUnk10[0].x = var_r0 + arg0;
     var_r0 = Q(8);
     temp_r1_2 += var_r0;
     arg0 += temp_r1_2;
-    proj->qRight = arg0;
+    proj->qUnk10[1].x = arg0;
 
     if (arg5 != 0) {
         var_r0 = +Q(32);
@@ -265,8 +268,8 @@ void sub_8064C18(s32 arg0, s32 arg1, u16 arg2, u16 arg3, u8 arg4, u8 arg5)
         var_r0 += arg1;
     }
 
-    proj->qTop = var_r0;
-    proj->qBottom = var_r0;
+    proj->qUnk10[0].y = var_r0;
+    proj->qUnk10[1].y = var_r0;
     CpuFill16(0, &proj->s.hitboxes[1].b, sizeof(proj->s.hitboxes[1].b));
     CpuFill16(0, &proj->s2.hitboxes[1].b, sizeof(proj->s.hitboxes[1].b));
     sub_8064D04(proj);
@@ -286,8 +289,8 @@ void sub_8064D04(KamakiProj *proj)
     s->anim = gUnknown_080D215C[3].anim;
     s->variant = gUnknown_080D215C[3].variant;
     s->prevVariant = -1;
-    s->x = I(proj->qLeft) - gCamera.x;
-    s->y = I(proj->qTop) - gCamera.y;
+    s->x = I(proj->qUnk10[0].x) - gCamera.x;
+    s->y = I(proj->qUnk10[0].y) - gCamera.y;
     s->oamFlags = 0x4C0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -309,8 +312,8 @@ void sub_8064D04(KamakiProj *proj)
     s->anim = gUnknown_080D215C[3].anim;
     s->variant = gUnknown_080D215C[3].variant;
     s->prevVariant = -1;
-    s->x = I(proj->qRight) - gCamera.x;
-    s->y = I(proj->qBottom) - gCamera.y;
+    s->x = I(proj->qUnk10[1].x) - gCamera.x;
+    s->y = I(proj->qUnk10[1].y) - gCamera.y;
     s->oamFlags = 0x4C0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -325,4 +328,68 @@ void sub_8064D04(KamakiProj *proj)
     tf2->qScaleY = Q(1);
     TransformSprite((Sprite *)s, tf2);
     UpdateSpriteAnimation((Sprite *)s);
+}
+
+void Task_8064E10(void)
+{
+    KamakiProj *proj = TASK_DATA(gCurTask);
+    u8 var_r5 = 0;
+
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        sub_8064F80(proj);
+        proj->unk6 += Q(0.25);
+        proj->unk8 += Q(0.25);
+    }
+
+    sub_8064EA0(proj);
+
+    if (sub_8065164(proj, 0) == 1) {
+        var_r5++;
+    } else {
+        sub_8064FCC(proj);
+    }
+
+    if (sub_8065164(proj, 1) == 1) {
+        var_r5++;
+    } else {
+        sub_8065028(proj);
+    }
+
+    if (var_r5 == 2) {
+        TaskDestroy(gCurTask);
+    }
+}
+
+bool32 sub_8064EA0(KamakiProj *proj)
+{
+    Sprite2 *s;
+    u8 i;
+    u8 var_sl;
+    Player *p = NULL;
+    s32 worldY, worldX;
+
+    for (var_sl = 0; var_sl < 2; var_sl++) {
+        worldX = I(proj->qUnk10[var_sl].x);
+        worldY = I(proj->qUnk10[var_sl].y);
+
+        worldX = TO_WORLD_POS_RAW(worldX, proj->unk2);
+        worldY = TO_WORLD_POS_RAW(worldY, proj->unk4);
+
+        s = &proj->s2;
+        if (var_sl == 0) {
+            s--;
+        }
+
+        for (i = 0; i < 2; i++) {
+            p = GET_SP_PLAYER_V0(i);
+            if (!sub_802C080(p) && (sub_8020700((Sprite *)s, worldX, worldY, 1, p, 0) != 0)) {
+                if (p->framesInvincible == 0) {
+                    sub_8020CE0((Sprite *)s, worldX, worldY, 1U, p);
+                }
+                return TRUE;
+            }
+        }
+    }
+
+    return FALSE;
 }
