@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start sub_8064A60
 sub_8064A60: @ 0x08064A60
 	push {r4, r5, r6, lr}
@@ -121,6 +119,7 @@ _08064B44: .4byte gStageData
 _08064B48: .4byte gUnknown_080D215C
 _08064B4C: .4byte gCurTask
 _08064B50: .4byte sub_8064B54
+.endif
 
 	thumb_func_start sub_8064B54
 sub_8064B54: @ 0x08064B54

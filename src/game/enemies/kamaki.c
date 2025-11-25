@@ -25,6 +25,7 @@ typedef struct Kamaki {
 void Task_Kamaki(void);
 void sub_80648EC(Kamaki *enemy);
 void sub_8064A60(void);
+void sub_8064B54(void);
 void sub_8064C18(s32 arg0, s32 arg1, u16 arg2, u16 arg3, u32 arg4, s32 arg5);
 void sub_805CD70(Vec2_32 *qVal, Vec2_32 *param1, u16 region[2], s8 *param3);
 void sub_805CE14(Vec2_32 *qVal, Vec2_32 *param1, u16 region[2], s8 *param3);
@@ -32,7 +33,7 @@ bool32 sub_8065104(Kamaki *enemy);
 AnimCmdResult sub_8065084(Kamaki *enemy);
 void TaskDestructor_Kamaki(struct Task *t);
 
-extern const TileInfo2 gUnknown_080D215C[2];
+extern const TileInfo2 gUnknown_080D215C[4];
 
 void CreateEntity_Kamaki(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -105,7 +106,6 @@ void sub_80648EC(Kamaki *enemy)
 
 void Task_Kamaki(void)
 {
-    u16 temp_r0;
     AnimCmdResult temp_r2;
 
     Kamaki *enemy = TASK_DATA(gCurTask);
@@ -135,6 +135,42 @@ void Task_Kamaki(void)
             s->prevVariant = -1;
             enemy->unkE[1] = 0;
             gCurTask->main = sub_8064A60;
+        }
+    }
+}
+
+void sub_8064A60(void)
+{
+    Sprite2 *s;
+    AnimCmdResult acmdRes;
+    u16 temp_r0;
+
+    Kamaki *enemy = TASK_DATA(gCurTask);
+
+    if (enemy->unk4 != 0) {
+        sub_805CE14(&enemy->qPos, &enemy->qUnk, enemy->region, (s8 *)&enemy->unk7);
+    } else {
+        sub_805CD70(&enemy->qPos, &enemy->qUnk, enemy->region, (s8 *)&enemy->unk7);
+    }
+    if (sub_8065104(enemy) == 1) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    acmdRes = sub_8065084(enemy);
+
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        if (++enemy->unkE[1] == 0x61) {
+            s32 v = (u32)(-(enemy->s.frameFlags & 0x400)) >> 0x1F;
+            sub_8064C18(enemy->qPos.x, enemy->qPos.y, enemy->region[0], enemy->region[1], v, enemy->unk4);
+        }
+        if (acmdRes == ACMD_RESULT__ENDED) {
+            s = &enemy->s;
+            s->anim = gUnknown_080D215C[2].anim;
+            s->variant = gUnknown_080D215C[2].variant;
+            s->prevVariant = -1;
+            enemy->unkE[1] = 0;
+            gCurTask->main = sub_8064B54;
         }
     }
 }
