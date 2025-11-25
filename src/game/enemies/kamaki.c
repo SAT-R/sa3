@@ -4,6 +4,7 @@
 #include "module_unclear.h"
 #include "game/camera.h"
 #include "game/entity.h"
+#include "game/enemy_unknown.h"
 #include "game/stage.h"
 
 #define NUM_PROJECTILES 2
@@ -53,7 +54,7 @@ void sub_8064F80(KamakiProj *proj);
 AnimCmdResult sub_8064FCC(KamakiProj *proj);
 AnimCmdResult sub_8065028(KamakiProj *proj);
 AnimCmdResult sub_8065084(Kamaki *enemy);
-bool32 sub_80650C8(Kamaki *enemy);
+bool32 sub_80650C8(Kamaki *enemy, EnemyUnknownStruc0 *strc);
 bool32 sub_8065104(Kamaki *enemy);
 bool32 sub_8065164(KamakiProj *proj, u8 param1);
 void TaskDestructor_Kamaki(struct Task *t);
@@ -473,4 +474,69 @@ AnimCmdResult sub_8065084(Kamaki *enemy)
     DisplaySprite((Sprite *)s);
 
     return acmdRes;
+}
+
+bool32 sub_80650C8(Kamaki *enemy, EnemyUnknownStruc0 *strc)
+{
+    strc->me = NULL;
+    strc->meX = 0;
+    strc->unk4 = 0;
+    strc->spr = (Sprite *)&enemy->s;
+    strc->posX = enemy->qUnk.x;
+    strc->posY = enemy->qUnk.y;
+    if (enemy->unk4 != 0) {
+        strc->posY = enemy->qUnk.y + Q(16);
+    }
+    strc->regionX = enemy->region[0];
+    strc->regionY = enemy->region[1];
+    return sub_805C63C(strc);
+}
+
+bool32 sub_8065104(Kamaki *enemy)
+{
+    EnemyUnknownStruc0 strc;
+
+    strc.unk4 = sub_80650C8(enemy, &strc);
+    strc.spr = (Sprite *)&enemy->s;
+    strc.posX = enemy->qPos.x;
+    strc.posY = enemy->qPos.y;
+
+    if (enemy->unk4 != 0) {
+        strc.posY += Q(16);
+    }
+    strc.regionX = (u16)enemy->region[0];
+    strc.regionY = (u16)enemy->region[1];
+    strc.me = enemy->me;
+    strc.meX = (u8)enemy->meX;
+    return sub_805C280(&strc);
+}
+
+void TaskDestructor_Kamaki(struct Task *t)
+{
+    Kamaki *enemy = TASK_DATA(t);
+    VramFree(enemy->s.tiles);
+}
+
+bool32 sub_8065164(KamakiProj *proj, u8 param1)
+{
+    s32 worldX, worldY;
+    s16 screenX, screenY;
+
+    worldX = TO_WORLD_POS_RAW(I(proj->qUnk10[param1].x), proj->region[0]);
+    screenX = worldX - gCamera.x;
+
+    worldY = TO_WORLD_POS_RAW(I(proj->qUnk10[param1].y), proj->region[1]);
+    screenY = worldY - gCamera.y;
+
+    if ((screenX < 0 || screenX > DISPLAY_WIDTH) || (screenY > DISPLAY_HEIGHT)) {
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+void TaskDestructor_80651BC(Task *t)
+{
+    KamakiProj *proj = TASK_DATA(t);
+    VramFree(proj->s[0].tiles);
 }
