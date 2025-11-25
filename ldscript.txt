@@ -122,6 +122,7 @@ SECTIONS {
         src/game/enemies/takkon.o(.text);
         src/game/enemies/jousun.o(.text);
         asm/enemy_unknown_code.o(.text);
+        src/game/enemies/uutsubo.o(.text);
         asm/enemy_uutsubo.o(.text);
         src/game/enemies/gaogao.o(.text);
         src/game/enemies/juggling.o(.text);
