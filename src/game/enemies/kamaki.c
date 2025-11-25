@@ -6,6 +6,8 @@
 #include "game/entity.h"
 #include "game/stage.h"
 
+#define NUM_PROJECTILES 2
+
 typedef struct Kamaki {
     /* 0x00 */ MapEntity *me;
     /* 0x08 */ u8 unk4;
@@ -26,17 +28,14 @@ typedef struct Kamaki {
 typedef struct KamakiProj {
     /* 0x00 */ u8 unk0;
     /* 0x01 */ u8 unk1;
-    /* 0x02 */ u16 unk2;
-    /* 0x04 */ u16 unk4;
-    /* 0x06 */ u16 unk6;
-    /* 0x08 */ u16 unk8;
+    /* 0x0A */ u16 region[2];
+    /* 0x08 */ u16 rotations[NUM_PROJECTILES];
     /* 0x0A */ s16 unkA;
     /* 0x0C */ s16 unkC;
     /* 0x0E */ u16 unkE;
-    /* 0x10 */ Vec2_32 qUnk10[2];
-    /* 0x20 */ SpriteTransform tf[2];
-    /* 0x34 */ Sprite2 s;
-    /* 0x64 */ Sprite2 s2;
+    /* 0x10 */ Vec2_32 qUnk10[NUM_PROJECTILES];
+    /* 0x20 */ SpriteTransform tf[NUM_PROJECTILES];
+    /* 0x34 */ Sprite2 s[NUM_PROJECTILES];
 } KamakiProj; /* 0x98 */
 
 void Task_Kamaki(void);
@@ -49,13 +48,14 @@ void sub_8064C18(s32 arg0, s32 arg1, u16 arg2, u16 arg3, u8 arg4, u8 arg5);
 void sub_8064D04(KamakiProj *proj);
 void sub_805CD70(Vec2_32 *qVal, Vec2_32 *param1, u16 region[2], s8 *param3);
 void sub_805CE14(Vec2_32 *qVal, Vec2_32 *param1, u16 region[2], s8 *param3);
-bool32 sub_8065104(Kamaki *enemy);
-AnimCmdResult sub_8065084(Kamaki *enemy);
-bool32 sub_8065164(KamakiProj *proj, u8 param1);
 bool32 sub_8064EA0(KamakiProj *proj);
 void sub_8064F80(KamakiProj *proj);
-void sub_8064FCC(KamakiProj *proj);
-void sub_8065028(KamakiProj *proj);
+AnimCmdResult sub_8064FCC(KamakiProj *proj);
+AnimCmdResult sub_8065028(KamakiProj *proj);
+AnimCmdResult sub_8065084(Kamaki *enemy);
+bool32 sub_80650C8(Kamaki *enemy);
+bool32 sub_8065104(Kamaki *enemy);
+bool32 sub_8065164(KamakiProj *proj, u8 param1);
 void TaskDestructor_Kamaki(struct Task *t);
 
 extern const TileInfo2 gUnknown_080D215C[4];
@@ -244,13 +244,13 @@ void sub_8064C18(s32 arg0, s32 arg1, u16 arg2, u16 arg3, u8 arg4, u8 arg5)
 #endif
 
     proj = TASK_DATA(TaskCreate(Task_8064E10, sizeof(KamakiProj), 0x4040U, 0U, TaskDestructor_80651BC));
-    proj->unk2 = arg2;
-    proj->unk4 = arg3;
+    proj->region[0] = arg2;
+    proj->region[1] = arg3;
     proj->unkC = +Q(5);
     proj->unkA = -Q(5);
     proj->unkE = 0;
-    proj->unk6 = 0;
-    proj->unk8 = 0;
+    proj->rotations[0] = 0;
+    proj->rotations[1] = 0;
     proj->unk0 = arg5;
     temp_r1_2 = Q(gUnknown_080D217C[arg4]);
     var_r0 = (temp_r1_2 - Q(8));
@@ -270,8 +270,8 @@ void sub_8064C18(s32 arg0, s32 arg1, u16 arg2, u16 arg3, u8 arg4, u8 arg5)
 
     proj->qUnk10[0].y = var_r0;
     proj->qUnk10[1].y = var_r0;
-    CpuFill16(0, &proj->s.hitboxes[1].b, sizeof(proj->s.hitboxes[1].b));
-    CpuFill16(0, &proj->s2.hitboxes[1].b, sizeof(proj->s.hitboxes[1].b));
+    CpuFill16(0, &proj->s[0].hitboxes[1].b, sizeof(proj->s[0].hitboxes[1].b));
+    CpuFill16(0, &proj->s[1].hitboxes[1].b, sizeof(proj->s[1].hitboxes[1].b));
     sub_8064D04(proj);
 }
 
@@ -283,8 +283,8 @@ void sub_8064D04(KamakiProj *proj)
 
     vram = VramMalloc(0x10U);
     tf = &proj->tf[0];
-    s = &proj->s;
-    proj->s.tiles = vram;
+    s = &proj->s[0];
+    s->tiles = vram;
     vram += (gUnknown_080D215C[3].numTiles * TILE_SIZE_4BPP);
     s->anim = gUnknown_080D215C[3].anim;
     s->variant = gUnknown_080D215C[3].variant;
@@ -307,7 +307,7 @@ void sub_8064D04(KamakiProj *proj)
     UpdateSpriteAnimation((Sprite *)s);
 
     tf2 = &proj->tf[1];
-    s = &proj->s2;
+    s = &proj->s[1];
     s->tiles = vram;
     s->anim = gUnknown_080D215C[3].anim;
     s->variant = gUnknown_080D215C[3].variant;
@@ -337,8 +337,8 @@ void Task_8064E10(void)
 
     if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
         sub_8064F80(proj);
-        proj->unk6 += Q(0.25);
-        proj->unk8 += Q(0.25);
+        proj->rotations[0] += Q(0.25);
+        proj->rotations[1] += Q(0.25);
     }
 
     sub_8064EA0(proj);
@@ -368,19 +368,20 @@ bool32 sub_8064EA0(KamakiProj *proj)
     Player *p = NULL;
     s32 worldY, worldX;
 
-    for (var_sl = 0; var_sl < 2; var_sl++) {
+    for (var_sl = 0; var_sl < NUM_PROJECTILES; var_sl++) {
         worldX = I(proj->qUnk10[var_sl].x);
         worldY = I(proj->qUnk10[var_sl].y);
 
-        worldX = TO_WORLD_POS_RAW(worldX, proj->unk2);
-        worldY = TO_WORLD_POS_RAW(worldY, proj->unk4);
+        worldX = TO_WORLD_POS_RAW(worldX, proj->region[0]);
+        worldY = TO_WORLD_POS_RAW(worldY, proj->region[1]);
 
-        s = &proj->s2;
         if (var_sl == 0) {
-            s--;
+            s = &proj->s[0];
+        } else {
+            s = &proj->s[1];
         }
 
-        for (i = 0; i < 2; i++) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             p = GET_SP_PLAYER_V0(i);
             if (!sub_802C080(p) && sub_8020700((Sprite *)s, worldX, worldY, 1, p, 0)) {
                 if (p->framesInvincible == 0) {
@@ -417,4 +418,59 @@ void sub_8064F80(KamakiProj *proj)
     proj->qUnk10[0].x -= Q(0.5);
     proj->qUnk10[0].y += temp_r1;
     proj->qUnk10[1].y += temp_r1;
+}
+
+AnimCmdResult sub_8064FCC(KamakiProj *proj)
+{
+    SpriteTransform *tf;
+    AnimCmdResult temp_r5;
+    Sprite2 *s;
+
+    s = &proj->s[0];
+    s->x = TO_WORLD_POS_RAW(I(proj->qUnk10[0].x), proj->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(proj->qUnk10[0].y), proj->region[1]) - gCamera.y;
+    tf = &proj->tf[0];
+    tf->rotation = proj->rotations[0];
+    tf->x = s->x;
+    tf->y = s->y;
+    TransformSprite((Sprite *)s, tf);
+    temp_r5 = UpdateSpriteAnimation((Sprite *)s);
+    DisplaySprite((Sprite *)s);
+
+    return temp_r5;
+}
+
+AnimCmdResult sub_8065028(KamakiProj *proj)
+{
+    Sprite2 *s;
+    SpriteTransform *tf;
+    AnimCmdResult acmdRes;
+
+    s = &proj->s[1];
+    s->x = TO_WORLD_POS_RAW(I(proj->qUnk10[1].x), proj->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(proj->qUnk10[1].y), proj->region[1]) - gCamera.y;
+    tf = &proj->tf[1];
+    tf->rotation = proj->rotations[1];
+    tf->x = s->x;
+    tf->y = s->y;
+    TransformSprite((Sprite *)s, tf);
+    acmdRes = UpdateSpriteAnimation((Sprite *)s);
+    DisplaySprite((Sprite *)s);
+
+    return acmdRes;
+}
+
+AnimCmdResult sub_8065084(Kamaki *enemy)
+{
+    Sprite2 *s;
+    SpriteTransform *tf;
+    AnimCmdResult acmdRes;
+
+    s = &enemy->s;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+    acmdRes = UpdateSpriteAnimation((Sprite *)s);
+    DisplaySprite((Sprite *)s);
+
+    return acmdRes;
 }
