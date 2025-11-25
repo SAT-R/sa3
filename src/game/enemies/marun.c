@@ -118,8 +118,8 @@ void InitSprite(Marun *enemy)
     enemy->transform.rotation = 0;
     transform->x = s->x;
     transform->y = s->y;
-    transform->scaleX = Q(1);
-    transform->scaleY = Q(1);
+    transform->qScaleX = Q(1);
+    transform->qScaleY = Q(1);
 
     TransformSprite(s, transform);
     UpdateSpriteAnimation(s);

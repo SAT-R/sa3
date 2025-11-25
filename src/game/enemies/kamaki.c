@@ -298,8 +298,8 @@ void sub_8064D04(KamakiProj *proj)
     tf->rotation = 0;
     tf->x = s->x;
     tf->y = s->y;
-    tf->scaleX = Q(1);
-    tf->scaleY = Q(1);
+    tf->qScaleX = Q(1);
+    tf->qScaleY = Q(1);
     TransformSprite((Sprite *)s, tf);
     UpdateSpriteAnimation((Sprite *)s);
 
@@ -321,8 +321,8 @@ void sub_8064D04(KamakiProj *proj)
     tf2->rotation = 0x100;
     tf2->x = s->x;
     tf2->y = s->y;
-    tf2->scaleX = Q(1);
-    tf2->scaleY = Q(1);
+    tf2->qScaleX = Q(1);
+    tf2->qScaleY = Q(1);
     TransformSprite((Sprite *)s, tf2);
     UpdateSpriteAnimation((Sprite *)s);
 }

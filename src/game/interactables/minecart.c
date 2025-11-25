@@ -411,8 +411,8 @@ void sub_804831C(Minecart *cart)
     s->frameFlags = SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(ROT_SCALE_ENABLE, 1);
 
     transform->rotation = 0;
-    transform->scaleX = Q(1);
-    transform->scaleY = Q(1);
+    transform->qScaleX = Q(1);
+    transform->qScaleY = Q(1);
 
     UpdateSpriteAnimation(s);
     TransformSprite(s, transform);

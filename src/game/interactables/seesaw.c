@@ -89,8 +89,8 @@ void CreateEntity_Seesaw(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     seesaw->unk70 = Q(s->y + 5);
     s2->x = s->x;
     s2->y = s->y;
-    tf->scaleX = Q(1);
-    tf->scaleY = Q(1);
+    tf->qScaleX = Q(1);
+    tf->qScaleY = Q(1);
     tf->rotation = 0;
     SET_MAP_ENTITY_INITIALIZED(me);
     sub_8036F0C(s, s2);

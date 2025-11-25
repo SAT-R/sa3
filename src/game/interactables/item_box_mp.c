@@ -226,8 +226,8 @@ void sub_804ED44(ItemBoxMP *itembox)
     UpdateSpriteAnimation(s);
 
     itembox->transform.rotation = 0;
-    itembox->transform.scaleX = Q(1);
-    itembox->transform.scaleY = Q(1);
+    itembox->transform.qScaleX = Q(1);
+    itembox->transform.qScaleY = Q(1);
     itembox->transform.x = 0;
     itembox->transform.y = 0;
 }
@@ -259,7 +259,7 @@ void sub_804EE08(u8 param0)
 
     if (r2 != 0) {
         if ((r2 & 0xFE00) == 0) {
-            itembox->transform.scaleY = r2;
+            itembox->transform.qScaleY = r2;
             itembox->transform.x = screenX;
             itembox->transform.y = screenY;
 

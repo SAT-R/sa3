@@ -217,8 +217,8 @@ typedef struct {
     // TODO:
     //     Does "scaleX" and "scaleY" fit as names?
     //     It's 0x100 or Q_8_8(1.0) for 1x, Q_8_8(2.0) for 2x, etc.
-    /* 0x02 */ s16 scaleX;
-    /* 0x04 */ s16 scaleY;
+    /* 0x02 */ s16 qScaleX;
+    /* 0x04 */ s16 qScaleY;
     /* 0x06 */ s16 x;
     /* 0x08 */ s16 y;
 } SpriteTransform; /* size 0xA */
