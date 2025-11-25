@@ -382,7 +382,7 @@ bool32 sub_8064EA0(KamakiProj *proj)
 
         for (i = 0; i < 2; i++) {
             p = GET_SP_PLAYER_V0(i);
-            if (!sub_802C080(p) && (sub_8020700((Sprite *)s, worldX, worldY, 1, p, 0) != 0)) {
+            if (!sub_802C080(p) && sub_8020700((Sprite *)s, worldX, worldY, 1, p, 0)) {
                 if (p->framesInvincible == 0) {
                     sub_8020CE0((Sprite *)s, worldX, worldY, 1U, p);
                 }
@@ -392,4 +392,29 @@ bool32 sub_8064EA0(KamakiProj *proj)
     }
 
     return FALSE;
+}
+
+void sub_8064F80(KamakiProj *proj)
+{
+    s32 var_r1;
+    s16 temp_r1;
+    s16 temp_r0;
+    s32 var_r3;
+    u16 unkE;
+
+    if (proj->unk0 != 0) {
+        var_r1 = proj->unkE;
+        proj->unkE -= 0x10;
+        var_r3 = +0x1F0;
+        temp_r1 = (var_r1 + var_r3);
+    } else {
+        var_r1 = proj->unkE;
+        proj->unkE += 0x10;
+        var_r3 = -0x1F0;
+        temp_r1 = (var_r1 + var_r3);
+    }
+    proj->qUnk10[1].x += Q(0.5);
+    proj->qUnk10[0].x -= Q(0.5);
+    proj->qUnk10[0].y += temp_r1;
+    proj->qUnk10[1].y += temp_r1;
 }

@@ -8,49 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_8064F80
-sub_8064F80: @ 0x08064F80
-	push {lr}
-	adds r2, r0, #0
-	ldrb r0, [r2]
-	cmp r0, #0
-	beq _08064F98
-	ldrh r1, [r2, #0xe]
-	adds r0, r1, #0
-	subs r0, #0x10
-	strh r0, [r2, #0xe]
-	movs r3, #0xf8
-	lsls r3, r3, #1
-	b _08064FA2
-_08064F98:
-	ldrh r1, [r2, #0xe]
-	adds r0, r1, #0
-	adds r0, #0x10
-	strh r0, [r2, #0xe]
-	ldr r3, _08064FC8 @ =0xFFFFFE10
-_08064FA2:
-	adds r0, r1, r3
-	lsls r0, r0, #0x10
-	lsrs r1, r0, #0x10
-	ldr r0, [r2, #0x18]
-	adds r0, #0x80
-	str r0, [r2, #0x18]
-	ldr r0, [r2, #0x10]
-	subs r0, #0x80
-	str r0, [r2, #0x10]
-	lsls r1, r1, #0x10
-	asrs r1, r1, #0x10
-	ldr r0, [r2, #0x14]
-	adds r0, r0, r1
-	str r0, [r2, #0x14]
-	ldr r0, [r2, #0x1c]
-	adds r0, r0, r1
-	str r0, [r2, #0x1c]
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08064FC8: .4byte 0xFFFFFE10
-
 	thumb_func_start sub_8064FCC
 sub_8064FCC: @ 0x08064FCC
 	push {r4, r5, lr}
