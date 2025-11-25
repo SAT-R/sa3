@@ -36,7 +36,7 @@ typedef struct KamakiProj {
     /* 0x14 */ s32 qTop;
     /* 0x18 */ s32 qRight;
     /* 0x1C */ s32 qBottom;
-    /* 0x20 */ u8 unk20[0x18];
+    /* 0x20 */ SpriteTransform tf[2];
     /* 0x34 */ Sprite2 s;
     /* 0x64 */ Sprite2 s2;
 } KamakiProj; /* 0x98 */
@@ -270,4 +270,59 @@ void sub_8064C18(s32 arg0, s32 arg1, u16 arg2, u16 arg3, u8 arg4, u8 arg5)
     CpuFill16(0, &proj->s.hitboxes[1].b, sizeof(proj->s.hitboxes[1].b));
     CpuFill16(0, &proj->s2.hitboxes[1].b, sizeof(proj->s.hitboxes[1].b));
     sub_8064D04(proj);
+}
+
+void sub_8064D04(KamakiProj *proj)
+{
+    Sprite2 *s;
+    u8 *vram;
+    SpriteTransform *tf, *tf2;
+
+    vram = VramMalloc(0x10U);
+    tf = &proj->tf[0];
+    s = &proj->s;
+    proj->s.tiles = vram;
+    vram += (gUnknown_080D215C[3].numTiles * TILE_SIZE_4BPP);
+    s->anim = gUnknown_080D215C[3].anim;
+    s->variant = gUnknown_080D215C[3].variant;
+    s->prevVariant = -1;
+    s->x = I(proj->qLeft) - gCamera.x;
+    s->y = I(proj->qTop) - gCamera.y;
+    s->oamFlags = 0x4C0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x6A;
+    s->hitboxes[0].index = -1;
+    tf->rotation = 0;
+    tf->x = s->x;
+    tf->y = s->y;
+    tf->scaleX = Q(1);
+    tf->scaleY = Q(1);
+    TransformSprite((Sprite *)s, tf);
+    UpdateSpriteAnimation((Sprite *)s);
+
+    tf2 = &proj->tf[1];
+    s = &proj->s2;
+    s->tiles = vram;
+    s->anim = gUnknown_080D215C[3].anim;
+    s->variant = gUnknown_080D215C[3].variant;
+    s->prevVariant = -1;
+    s->x = I(proj->qRight) - gCamera.x;
+    s->y = I(proj->qBottom) - gCamera.y;
+    s->oamFlags = 0x4C0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x6B;
+    s->hitboxes[0].index = -1;
+    tf2->rotation = 0x100;
+    tf2->x = s->x;
+    tf2->y = s->y;
+    tf2->scaleX = Q(1);
+    tf2->scaleY = Q(1);
+    TransformSprite((Sprite *)s, tf2);
+    UpdateSpriteAnimation((Sprite *)s);
 }
