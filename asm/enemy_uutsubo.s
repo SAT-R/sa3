@@ -5,177 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
-	thumb_func_start sub_805D314
-sub_805D314: @ 0x0805D314
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	ldr r0, _0805D394 @ =gCurTask
-	mov r8, r0
-	ldr r0, [r0]
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r5, r4, r0
-	adds r0, r5, #0
-	bl sub_805DADC
-	adds r7, r0, #0
-	ldr r0, _0805D398 @ =gStageData
-	ldrb r1, [r0, #4]
-	subs r0, r1, #1
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #1
-	bls _0805D3DA
-	cmp r1, #4
-	beq _0805D3DA
-	ldr r1, _0805D39C @ =0x03000060
-	adds r6, r4, r1
-	ldr r0, _0805D3A0 @ =0x03000018
-	adds r2, r4, r0
-	adds r0, r5, #0
-	adds r1, r6, #0
-	movs r3, #0
-	bl sub_805D708
-	cmp r7, #0
-	bne _0805D36E
-	ldr r0, _0805D3A4 @ =0x0300008F
-	adds r1, r4, r0
-	movs r0, #0xff
-	strb r0, [r1]
-	ldr r0, _0805D3A8 @ =0x0300008C
-	adds r1, r4, r0
-	movs r0, #0xff
-	strh r0, [r1]
-	ldr r1, _0805D3AC @ =0x0300008A
-	adds r0, r4, r1
-	strh r7, [r0]
-_0805D36E:
-	ldrh r0, [r5, #0x16]
-	cmp r0, #0x7f
-	bhi _0805D3B4
-	adds r0, #1
-	strh r0, [r5, #0x16]
-	ldr r0, _0805D3B0 @ =0x03000074
-	adds r1, r4, r0
-	adds r0, r5, #0
-	adds r2, r6, #0
-	bl sub_805D9C0
-	cmp r0, #1
-	bne _0805D3DA
-	mov r1, r8
-	ldr r0, [r1]
-	bl TaskDestroy
-	b _0805D3DA
-	.align 2, 0
-_0805D394: .4byte gCurTask
-_0805D398: .4byte gStageData
-_0805D39C: .4byte 0x03000060
-_0805D3A0: .4byte 0x03000018
-_0805D3A4: .4byte 0x0300008F
-_0805D3A8: .4byte 0x0300008C
-_0805D3AC: .4byte 0x0300008A
-_0805D3B0: .4byte 0x03000074
-_0805D3B4:
-	movs r0, #0
-	strh r0, [r5, #0x16]
-	strh r0, [r5, #0x18]
-	movs r3, #0
-	mov r6, r8
-	ldr r5, _0805D3E4 @ =sub_805D3EC
-	ldr r0, _0805D3E8 @ =0x0300001A
-	adds r1, r4, r0
-	movs r2, #0
-_0805D3C6:
-	lsls r0, r3, #1
-	adds r0, r1, r0
-	strh r2, [r0]
-	adds r0, r3, #1
-	lsls r0, r0, #0x18
-	lsrs r3, r0, #0x18
-	cmp r3, #4
-	bls _0805D3C6
-	ldr r0, [r6]
-	str r5, [r0, #8]
-_0805D3DA:
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0805D3E4: .4byte sub_805D3EC
-_0805D3E8: .4byte 0x0300001A
-
-	thumb_func_start sub_805D3EC
-sub_805D3EC: @ 0x0805D3EC
-	push {r4, r5, r6, lr}
-	sub sp, #4
-	ldr r6, _0805D43C @ =gCurTask
-	ldr r0, [r6]
-	ldrh r5, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r5, r0
-	ldr r0, _0805D440 @ =gStageData
-	ldrb r1, [r0, #4]
-	subs r0, r1, #1
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #1
-	bls _0805D450
-	cmp r1, #4
-	beq _0805D450
-	adds r0, r4, #0
-	bl sub_805D5F0
-	cmp r0, #1
-	bne _0805D450
-	adds r0, r4, #0
-	bl sub_805DADC
-	movs r1, #0
-	strb r1, [r4, #6]
-	mov r0, sp
-	strh r1, [r0]
-	ldr r0, _0805D444 @ =0x03000008
-	adds r1, r5, r0
-	ldr r2, _0805D448 @ =0x01000005
-	mov r0, sp
-	bl CpuSet
-	ldr r1, [r6]
-	ldr r0, _0805D44C @ =sub_805DDCC
-	str r0, [r1, #8]
-	b _0805D470
-	.align 2, 0
-_0805D43C: .4byte gCurTask
-_0805D440: .4byte gStageData
-_0805D444: .4byte 0x03000008
-_0805D448: .4byte 0x01000005
-_0805D44C: .4byte sub_805DDCC
-_0805D450:
-	adds r0, r4, #0
-	bl sub_805DADC
-	adds r1, r4, #0
-	adds r1, #0x74
-	adds r2, r4, #0
-	adds r2, #0x60
-	adds r0, r4, #0
-	bl sub_805D9C0
-	cmp r0, #1
-	bne _0805D470
-	ldr r0, _0805D478 @ =gCurTask
-	ldr r0, [r0]
-	bl TaskDestroy
-_0805D470:
-	add sp, #4
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0805D478: .4byte gCurTask
-
+.if 01
 	thumb_func_start sub_805D47C
 sub_805D47C: @ 0x0805D47C
 	push {r4, r5, r6, r7, lr}
@@ -375,6 +205,7 @@ _0805D5D6:
 	pop {r4, r5, r6, r7}
 	pop {r1}
 	bx r1
+.endif
 
 	thumb_func_start sub_805D5F0
 sub_805D5F0: @ 0x0805D5F0
@@ -1212,7 +1043,7 @@ CreateEntity_Uutsubo_1: @ 0x0805DBFC
 	mov r8, r0
 	lsls r5, r5, #0x18
 	lsrs r5, r5, #0x18
-	ldr r0, _0805DC68 @ =sub_805DDCC
+	ldr r0, _0805DC68 @ =Task_805DDCC
 	movs r2, #0x84
 	lsls r2, r2, #6
 	ldr r1, _0805DC6C @ =sub_805DEC4
@@ -1246,7 +1077,7 @@ CreateEntity_Uutsubo_1: @ 0x0805DBFC
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0805DC68: .4byte sub_805DDCC
+_0805DC68: .4byte Task_805DDCC
 _0805DC6C: .4byte sub_805DEC4
 
 	thumb_func_start CreateEntity_Uutsubo_0
@@ -1268,7 +1099,7 @@ CreateEntity_Uutsubo_0: @ 0x0805DC70
 	mov r8, r0
 	lsls r5, r5, #0x18
 	lsrs r5, r5, #0x18
-	ldr r0, _0805DCDC @ =sub_805DDCC
+	ldr r0, _0805DCDC @ =Task_805DDCC
 	movs r2, #0x84
 	lsls r2, r2, #6
 	ldr r1, _0805DCE0 @ =sub_805DEC4
@@ -1302,7 +1133,7 @@ CreateEntity_Uutsubo_0: @ 0x0805DC70
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0805DCDC: .4byte sub_805DDCC
+_0805DCDC: .4byte Task_805DDCC
 _0805DCE0: .4byte sub_805DEC4
 
 	thumb_func_start CreateEntity_Uutsubo_2
@@ -1324,7 +1155,7 @@ CreateEntity_Uutsubo_2: @ 0x0805DCE4
 	mov r8, r0
 	lsls r5, r5, #0x18
 	lsrs r5, r5, #0x18
-	ldr r0, _0805DD50 @ =sub_805DDCC
+	ldr r0, _0805DD50 @ =Task_805DDCC
 	movs r2, #0x84
 	lsls r2, r2, #6
 	ldr r1, _0805DD54 @ =sub_805DEC4
@@ -1358,7 +1189,7 @@ CreateEntity_Uutsubo_2: @ 0x0805DCE4
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0805DD50: .4byte sub_805DDCC
+_0805DD50: .4byte Task_805DDCC
 _0805DD54: .4byte sub_805DEC4
 
 	thumb_func_start CreateEntity_Uutsubo_3
@@ -1380,7 +1211,7 @@ CreateEntity_Uutsubo_3: @ 0x0805DD58
 	mov r8, r0
 	lsls r5, r5, #0x18
 	lsrs r5, r5, #0x18
-	ldr r0, _0805DDC4 @ =sub_805DDCC
+	ldr r0, _0805DDC4 @ =Task_805DDCC
 	movs r2, #0x84
 	lsls r2, r2, #6
 	ldr r1, _0805DDC8 @ =sub_805DEC4
@@ -1414,11 +1245,11 @@ CreateEntity_Uutsubo_3: @ 0x0805DD58
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0805DDC4: .4byte sub_805DDCC
+_0805DDC4: .4byte Task_805DDCC
 _0805DDC8: .4byte sub_805DEC4
 
-	thumb_func_start sub_805DDCC
-sub_805DDCC: @ 0x0805DDCC
+	thumb_func_start Task_805DDCC
+Task_805DDCC: @ 0x0805DDCC
 	push {r4, r5, lr}
 	ldr r5, _0805DE04 @ =gCurTask
 	ldr r0, [r5]
