@@ -19,7 +19,7 @@ typedef struct Uutsubo {
     /* 0x05 */ u8 meX;
     /* 0x06 */ u8 unk6;
     /* 0x07 */ u8 unk7;
-    /* 0x08 */ s16 unk8[NUM_BODY_SEGMENTS];
+    /* 0x08 */ u16 unk8[NUM_BODY_SEGMENTS];
     /* 0x12 */ u16 region[2];
     /* 0x12 */ u16 unk16[2];
     /* 0x1A */ s16 unk1A[NUM_BODY_SEGMENTS];
@@ -50,6 +50,12 @@ void Task_805D3EC(void);
 void Task_805DDCC(void);
 
 extern const TileInfo2 gUnknown_080D1F4C[2];
+
+typedef struct Stack_805D47C {
+    Vec2_32 sp0;
+    Vec2_32 sp8;
+    s32 result;
+} Stack_805D47C;
 
 void CreateEntity_Uutsubo_Shared(Uutsubo *enemy, MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -216,101 +222,84 @@ void Task_805D3EC(void)
     }
 }
 
-#if 0
-void sub_805D47C(Uutsubo *enemy) {
-    s32 sp4;
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-    Vec2_32 *temp_r3_2;
-    Vec2_32 *temp_r4_2;
-    Vec2_32 *var_r0;
-    Vec2_32 *var_r1_2;
-    u16 temp_r0_2;
-    s32 *temp_r4_3;
-    s32 *temp_r7;
-    s32 temp_r0_4;
-    s32 temp_r0_5;
-    s32 temp_r0_6;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s32 temp_r2_3;
-    s32 temp_r3;
-    s32 temp_r5;
-    s32 temp_r5_2;
+// (58.55%) https://decomp.me/scratch/YB6m6
+NONMATCH("asm/non_matching/game/enemies/uutsubo__sub_805D47C.inc", bool32 sub_805D47C(Uutsubo *enemy))
+{
+    Stack_805D47C stack;
     s32 var_r1;
     s32 var_r3;
     s32 var_r3_2;
     s32 var_r4;
-    u16 *temp_r0_3;
     u16 *var_sb;
     u16 temp_r0;
     u8 i;
     u8 var_r2_2;
     u16 unk8;
 
-    sp8 = enemy->qUnk28.x - Q(TO_WORLD_POS(0, enemy->region[0]));
-    spC = enemy->qUnk28.y - Q(TO_WORLD_POS(0, enemy->region[1]));
-    enemy->qPos.y = enemy->qHeadPos.y + (((spC - enemy->qHeadPos.y) >> 6) * (enemy->unk8[0] >> 6));
-    enemy->qPos.x = enemy->qHeadPos.x + (((sp8 - enemy->qHeadPos.x) >> 6) * (enemy->unk8[0] >> 6));
+    stack.sp8.x = enemy->qUnk28.x - Q(TO_WORLD_POS(0, enemy->region[0]));
+    stack.sp8.y = enemy->qUnk28.y - Q(TO_WORLD_POS(0, enemy->region[1]));
+    stack.sp0.x = enemy->qHeadPos.x;
+    stack.sp0.y = enemy->qHeadPos.y;
+    enemy->qPos.y = enemy->qHeadPos.y + (((stack.sp8.y - enemy->qHeadPos.y) >> 6) * (enemy->unk8[0] >> 6));
+    enemy->qPos.x = enemy->qHeadPos.x + (((stack.sp8.x - enemy->qHeadPos.x) >> 6) * (enemy->unk8[0] >> 6));
     enemy->unk8[0] += 0x80;
     if ((enemy->unk8[0] >> 0x6) < 0x40) {
         if (enemy->tf.rotation == 0) {
-            var_r1 = enemy->qPos.x - enemy->qHeadPos.x;
-            if (var_r1 < 0) {
-                var_r1 = enemy->qHeadPos.x - enemy->qPos.x;
-            }
+            var_r1 = ABS(enemy->qPos.x - enemy->qHeadPos.x);
+
             if (var_r1 < Q(58)) {
                 var_r3 = enemy->qPos.y;
-                if (enemy->tf.rotation != 0) {
+                if (enemy->qPos.y != 0) {
                     goto block_6;
                 }
-                goto block_11;
+                stack.result = 0;
+            } else {
+                stack.result = 1;
             }
-            goto block_10;
-        }
-block_6:
-        temp_r2_3 = enemy->qPos.y - enemy->qHeadPos.y;
-        if (temp_r2_3 >= 0) {
-            if (temp_r2_3 > 0x39FF) {
-                sp10 = 1;
+        } else {
+        block_6:
+            if (ABS(enemy->qHeadPos.y - stack.sp0.y) > 0x39FF) {
+                stack.result = 1;
+            } else {
+                stack.result = 0;
             }
-        } else if ((s32) (enemy->qHeadPos.y - enemy->qPos.y) > 0x39FF) {
-            sp10 = 1;
         }
-block_11:
-        sp10 = 0;
     } else {
-block_10:
-        sp10 = 1;
+        stack.result = 1;
     }
+
     enemy->qBodyPositions[0].x = enemy->qPos.x;
     enemy->qBodyPositions[0].y = enemy->qPos.y;
-    
-    for(i = 0; i < 5-1; i++)
-    {
+
+    for (i = 0; i < 5 - 1; i++) {
+        register s32 var_r0 asm("r0");
+        register s32 var_r1 asm("r1");
         if (i == 0) {
             var_r3_2 = 14;
         } else {
-            var_r3_2 = 10;            
+            var_r3_2 = 10;
         }
         if (enemy->tf.rotation == 0) {
-            var_r4 = enemy->qBodyPositions[i].x - enemy->qBodyPositions[i + 1].x;
+            var_r0 = enemy->qBodyPositions[i].x;
+            var_r1 = enemy->qBodyPositions[i + 1].x;
+            var_r4 = var_r0 - var_r1;
         } else {
-            var_r4 = enemy->qBodyPositions[i].y - enemy->qBodyPositions[i + 1].y;
+            var_r0 = enemy->qBodyPositions[i].y;
+            var_r1 = enemy->qBodyPositions[i + 1].y;
+            var_r4 = var_r0 - var_r1;
         }
         if (var_r4 < 0) {
-            var_r4 = enemy->qBodyPositions[i].x - enemy->qBodyPositions[i + 1].x;
+            var_r4 = var_r0 - var_r1;
         }
         if (var_r4 >= Q(var_r3_2)) {
-            enemy->qBodyPositions[i].y = enemy->qHeadPos.y;
-            enemy->qBodyPositions[i].x = enemy->qHeadPos.x;
-            enemy->qBodyPositions[i].x += ((u16) enemy->unk8[i] >> 6) * ((s32) (spC - enemy->qHeadPos.y) >> 6);
-            enemy->qBodyPositions[i].x += ((u16) enemy->unk8[i] >> 6) * ((s32) (sp8 - enemy->qHeadPos.x) >> 6);
-            enemy->unk8[i] = (u16) enemy->unk8[i] + 0x80;
+            stack.sp0.x = enemy->qHeadPos.x;
+            stack.sp0.y = enemy->qHeadPos.y;
+            enemy->qBodyPositions[i + 2].x += ((u16)enemy->unk8[i] >> 6) * ((s32)(stack.sp8.y - enemy->qHeadPos.y) >> 6);
+            enemy->qBodyPositions[i + 2].x += ((u16)enemy->unk8[i] >> 6) * ((s32)(stack.sp8.x - enemy->qHeadPos.x) >> 6);
+            enemy->unk8[i] += 0x80;
         }
     }
+
+    return stack.result;
 }
-#endif
+END_NONMATCH
