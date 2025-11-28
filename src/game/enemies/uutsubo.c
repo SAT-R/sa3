@@ -303,3 +303,57 @@ NONMATCH("asm/non_matching/game/enemies/uutsubo__sub_805D47C.inc", bool32 sub_80
     return stack.result;
 }
 END_NONMATCH
+
+// (48.52%) https://decomp.me/scratch/nPgUO
+NONMATCH("asm/non_matching/game/enemies/uutsubo__sub_805D5F0.inc", bool32 sub_805D5F0(Uutsubo *enemy))
+{
+    s32 sp14;
+    Vec2_32 *temp_r3_3;
+    s16 *temp_r5_3;
+    s16 temp_r0;
+    s16 temp_r1_2;
+    s32 *temp_r4_2;
+    s32 temp_r3;
+    s32 temp_r3_2;
+    s32 temp_r5;
+    s32 temp_r5_2;
+    s32 temp_r6;
+    u16 temp_r1;
+    u32 temp_r4;
+    u8 var_r3;
+    u8 var_r8;
+
+    var_r8 = 0;
+    temp_r5 = enemy->qHeadPos.x;
+    temp_r3 = enemy->qHeadPos.y;
+    temp_r4 = enemy->unk8[0] >> 6;
+    enemy->qPos.y = temp_r3 + (temp_r4 * ((s32)((enemy->qUnk28.y - Q(TO_WORLD_POS(0, enemy->region[1]))) - temp_r3) >> 6));
+    enemy->qPos.x = temp_r5 + (temp_r4 * ((s32)((enemy->qUnk28.x - Q(TO_WORLD_POS(0, enemy->region[0]))) - temp_r5) >> 6));
+    enemy->unk8[0] -= 64;
+    if ((enemy->unk8[0] >> 6) > 0x3FU) {
+        enemy->unk8[0] = 0;
+        var_r8 = 1;
+    }
+    enemy->qBodyPositions[0].x = enemy->qPos.x;
+
+    for (var_r3 = 0; var_r3 < 4; var_r3++) {
+        enemy->qBodyPositions[(var_r3 + 1)].y = enemy->qHeadPos.y;
+        enemy->qBodyPositions[(var_r3 + 1)].x = enemy->qHeadPos.x;
+        enemy->qBodyPositions[(var_r3 + 1)].y
+            += ((u16)enemy->unk8[(var_r3 + 1)] >> 6) * ((s32)((enemy->qUnk28.y - (enemy->region[1] << 0x10)) - temp_r5_2) >> 6);
+        enemy->qBodyPositions[(var_r3 + 1)].x
+            += ((u16)enemy->unk8[(var_r3 + 1)] >> 6) * ((s32)((enemy->qUnk28.x - (enemy->region[0] << 0x10)) - temp_r6) >> 6);
+        enemy->unk8[(var_r3 + 1)] = enemy->unk8[(var_r3 + 1)] - 64;
+        if ((enemy->unk8[(var_r3 + 1)] >> 6) > 0x3FU) {
+            enemy->unk8[(var_r3 + 1)] = 0;
+            var_r8 += 1;
+        }
+    }
+
+    if (var_r8 == 5) {
+        return TRUE;
+    }
+
+    return FALSE;
+}
+END_NONMATCH
