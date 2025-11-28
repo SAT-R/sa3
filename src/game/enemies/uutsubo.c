@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "malloc_vram.h"
 #include "game/camera.h"
 #include "game/entity.h"
@@ -22,7 +23,7 @@ typedef struct Uutsubo {
     /* 0x08 */ u16 unk8[NUM_BODY_SEGMENTS];
     /* 0x12 */ u16 region[2];
     /* 0x12 */ u16 unk16[2];
-    /* 0x1A */ s16 unk1A[NUM_BODY_SEGMENTS];
+    /* 0x1A */ u16 unk1A[NUM_BODY_SEGMENTS];
     /* 0x24 */ u16 unk24;
     /* 0x26 */ u8 filler26[0x2];
     /* 0x60 */ Vec2_32 qUnk28;
@@ -304,7 +305,7 @@ NONMATCH("asm/non_matching/game/enemies/uutsubo__sub_805D47C.inc", bool32 sub_80
 }
 END_NONMATCH
 
-// (48.52%) https://decomp.me/scratch/nPgUO
+// (48.36%) https://decomp.me/scratch/nPgUO
 NONMATCH("asm/non_matching/game/enemies/uutsubo__sub_805D5F0.inc", bool32 sub_805D5F0(Uutsubo *enemy))
 {
     s32 sp14;
@@ -340,9 +341,9 @@ NONMATCH("asm/non_matching/game/enemies/uutsubo__sub_805D5F0.inc", bool32 sub_80
         enemy->qBodyPositions[(var_r3 + 1)].y = enemy->qHeadPos.y;
         enemy->qBodyPositions[(var_r3 + 1)].x = enemy->qHeadPos.x;
         enemy->qBodyPositions[(var_r3 + 1)].y
-            += ((u16)enemy->unk8[(var_r3 + 1)] >> 6) * ((s32)((enemy->qUnk28.y - (enemy->region[1] << 0x10)) - temp_r5_2) >> 6);
+            += ((u16)enemy->unk8[(var_r3 + 1)] >> 6) * ((s32)((enemy->qUnk28.y - (enemy->region[1] << 0x10)) - enemy->qHeadPos.y) >> 6);
         enemy->qBodyPositions[(var_r3 + 1)].x
-            += ((u16)enemy->unk8[(var_r3 + 1)] >> 6) * ((s32)((enemy->qUnk28.x - (enemy->region[0] << 0x10)) - temp_r6) >> 6);
+            += ((u16)enemy->unk8[(var_r3 + 1)] >> 6) * ((s32)((enemy->qUnk28.x - (enemy->region[0] << 0x10)) - enemy->qHeadPos.x) >> 6);
         enemy->unk8[(var_r3 + 1)] = enemy->unk8[(var_r3 + 1)] - 64;
         if ((enemy->unk8[(var_r3 + 1)] >> 6) > 0x3FU) {
             enemy->unk8[(var_r3 + 1)] = 0;
@@ -357,3 +358,56 @@ NONMATCH("asm/non_matching/game/enemies/uutsubo__sub_805D5F0.inc", bool32 sub_80
     return FALSE;
 }
 END_NONMATCH
+
+void sub_805D708(Uutsubo *enemy, Vec2_32 *param2, u16 *param3, s32 param4)
+{
+    s32 var_r3;
+    s32 var_r4;
+    u8 i;
+
+    if (enemy->unk16[1] < 0x100U) {
+        enemy->unk16[1] += 2;
+    } else {
+        enemy->unk16[1] = 0;
+    }
+    if (enemy->tf.rotation == 0) {
+        enemy->qPos.x -= COS_24_8((((*param3 * 8) & 0xFF) * 4));
+        enemy->qPos.y += SIN_24_8((((*param3 * 4) & 0xFF) * 4));
+    } else {
+        enemy->qPos.x += SIN_24_8((((*param3 * 4) & 0xFF) * 4));
+        enemy->qPos.y -= COS_24_8((((*param3 * 8) & 0xFF) * 4));
+    }
+
+    enemy->qBodyPositions[0].x = enemy->qPos.x;
+    enemy->qBodyPositions[0].y = enemy->qPos.y;
+
+    for (i = 0; i < 4; i++) {
+        if (i == 0) {
+            var_r3 = 7;
+        } else {
+            var_r3 = 5;
+        }
+
+        if (enemy->tf.rotation == 0) {
+            var_r4 = ABS(enemy->qBodyPositions[i].x - enemy->qBodyPositions[i + 1].x);
+        } else {
+            var_r4 = ABS(enemy->qBodyPositions[i].y - enemy->qBodyPositions[i + 1].y);
+        }
+
+        if (var_r4 >= Q(var_r3)) {
+            if (enemy->unk1A[(i + 1)] < 0x100U) {
+                enemy->unk1A[(i + 1)] += 2;
+            } else {
+                enemy->unk1A[(i + 1)] = 0;
+            }
+
+            if (enemy->tf.rotation == 0) {
+                enemy->qBodyPositions[(i + 1)].x -= COS_24_8((((enemy->unk1A[(i + 1)] - ((i + 1) * 2)) * 8) & 0xFF) * 4) >> (i + 1);
+                enemy->qBodyPositions[(i + 1)].y += SIN_24_8((((enemy->unk1A[(i + 1)] - ((i + 1) * 2)) * 4) & 0xFF) * 4) >> (i + 1);
+            } else {
+                enemy->qBodyPositions[(i + 1)].x += SIN_24_8((((enemy->unk1A[(i + 1)] - ((i + 1) * 2)) * 4) & 0xFF) * 4) >> (i + 1);
+                enemy->qBodyPositions[(i + 1)].y -= COS_24_8((((enemy->unk1A[(i + 1)] - ((i + 1) * 2)) * 8) & 0xFF) * 4) >> (i + 1);
+            }
+        }
+    }
+}
