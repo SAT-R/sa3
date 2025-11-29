@@ -3,6 +3,7 @@
 #include "malloc_vram.h"
 #include "game/camera.h"
 #include "game/entity.h"
+#include "game/stage.h"
 
 #define HSEN_COUNT_A 2
 #define HSEN_COUNT_B 4
@@ -28,7 +29,14 @@ typedef struct Hariisen {
 
 void Task_HariisenMain();
 void sub_806132C(Hariisen *enemy);
+void Task_806152C(void);
+bool32 sub_806172C(Hariisen *enemy);
+void sub_8061AC8(Hariisen *enemy);
+void sub_8061BD4(Hariisen *enemy);
+void sub_806253C(Hariisen *enemy);
 void TaskDestructor_Hariisen(Task *);
+bool32 sub_80617E0(Hariisen *enemy, u8 param1);
+bool32 sub_8062580(Hariisen *enemy);
 
 extern const TileInfo2 gUnknown_080D2044[5];
 
@@ -75,14 +83,10 @@ void CreateEntity_Hariisen(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
 void sub_806132C(Hariisen *enemy)
 {
-    Sprite2 *s;
-    u8 *temp_r0;
-    u8 *vram;
-    u8 *temp_r5_2;
+    u8 *vram = VramMalloc(18);
+    Sprite2 *s = &enemy->s;
 
-    vram = VramMalloc(18);
-    s = &enemy->s;
-    enemy->s.tiles = vram;
+    s->tiles = vram;
     vram += (gUnknown_080D2044[0].numTiles * TILE_SIZE_4BPP);
     s->anim = gUnknown_080D2044[0].anim;
     s->variant = gUnknown_080D2044[0].variant;
@@ -130,4 +134,37 @@ void sub_806132C(Hariisen *enemy)
     s->frameFlags = 0x1000;
     s->hitboxes[0].index = -1;
     UpdateSpriteAnimation((Sprite *)s);
+}
+
+void Task_HariisenMain()
+{
+    Sprite2 *s;
+    s32 temp_r6;
+    u32 *temp_r1_2;
+    u32 *temp_r1_3;
+
+    Hariisen *enemy = TASK_DATA(gCurTask);
+
+    temp_r6 = sub_80617E0(enemy, 0U);
+
+    sub_8061AC8(enemy);
+    sub_806253C(enemy);
+    sub_8061BD4(enemy);
+
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        if ((sub_806172C(enemy) == 1) && (temp_r6 == 1)) {
+            s = &enemy->s;
+            s->anim = gUnknown_080D2044[1].anim;
+            s->variant = gUnknown_080D2044[1].variant;
+            s->frameFlags |= 0x40000;
+            enemy->s2.frameFlags |= 0x40000;
+            enemy->s3.frameFlags |= 0x40000;
+            gCurTask->main = Task_806152C;
+            return;
+        }
+    }
+
+    if (sub_8062580(enemy) == 1) {
+        TaskDestroy(gCurTask);
+    }
 }
