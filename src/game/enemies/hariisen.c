@@ -27,30 +27,29 @@ typedef struct Hariisen {
 
 void Task_HariisenMain();
 void sub_806132C(Hariisen *enemy);
-void TaskDestructor_Hariisen(Task*);
+void TaskDestructor_Hariisen(Task *);
 
-void CreateEntity_Hariisen(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
+void CreateEntity_Hariisen(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
     Hariisen *enemy;
     u8 i;
 
     enemy = TASK_DATA(TaskCreate(Task_HariisenMain, sizeof(Hariisen), 0x2100U, 0U, TaskDestructor_Hariisen));
     enemy->id = id;
     enemy->me = me;
-    enemy->meX = (u8) me->x;
+    enemy->meX = (u8)me->x;
     enemy->region[0] = regionX;
     enemy->region[1] = regionY;
     enemy->qPos.x = Q(me->x * TILE_WIDTH);
     enemy->qPos.y = Q(me->y * TILE_WIDTH);
 
-    for(i = 0; i < HSEN_COUNT_A; i++)
-    {
+    for (i = 0; i < HSEN_COUNT_A; i++) {
         enemy->qUnk2C[i].x = 0;
         enemy->qUnk2C[i].y = 0;
         enemy->unk10[i] = 0;
     }
-    
-    for(i = 0; i < HSEN_COUNT_B; i++)
-    {
+
+    for (i = 0; i < HSEN_COUNT_B; i++) {
         enemy->qUnk3C[i].x = 0;
         enemy->qUnk3C[i].y = 0;
         enemy->unk14[i] = 0;
@@ -62,7 +61,7 @@ void CreateEntity_Hariisen(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
     enemy->unkC = 0;
     enemy->unkE = 0;
 
-    CpuFill16(0, &enemy->s .hitboxes[1].b, sizeof(enemy->s.hitboxes[1].b));
+    CpuFill16(0, &enemy->s.hitboxes[1].b, sizeof(enemy->s.hitboxes[1].b));
     CpuFill16(0, &enemy->s2.hitboxes[1].b, sizeof(enemy->s2.hitboxes[1].b));
     CpuFill16(0, &enemy->s3.hitboxes[1].b, sizeof(enemy->s3.hitboxes[1].b));
 
