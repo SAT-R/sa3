@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "malloc_vram.h"
 #include "game/camera.h"
 #include "game/entity.h"
 
@@ -29,6 +30,8 @@ void Task_HariisenMain();
 void sub_806132C(Hariisen *enemy);
 void TaskDestructor_Hariisen(Task *);
 
+extern const TileInfo2 gUnknown_080D2044[5];
+
 void CreateEntity_Hariisen(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     Hariisen *enemy;
@@ -37,7 +40,7 @@ void CreateEntity_Hariisen(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     enemy = TASK_DATA(TaskCreate(Task_HariisenMain, sizeof(Hariisen), 0x2100U, 0U, TaskDestructor_Hariisen));
     enemy->id = id;
     enemy->me = me;
-    enemy->meX = (u8)me->x;
+    enemy->meX = me->x;
     enemy->region[0] = regionX;
     enemy->region[1] = regionY;
     enemy->qPos.x = Q(me->x * TILE_WIDTH);
@@ -68,4 +71,63 @@ void CreateEntity_Hariisen(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     sub_806132C(enemy);
 
     SET_MAP_ENTITY_INITIALIZED(me);
+}
+
+void sub_806132C(Hariisen *enemy)
+{
+    Sprite2 *s;
+    u8 *temp_r0;
+    u8 *vram;
+    u8 *temp_r5_2;
+
+    vram = VramMalloc(18);
+    s = &enemy->s;
+    enemy->s.tiles = vram;
+    vram += (gUnknown_080D2044[0].numTiles * TILE_SIZE_4BPP);
+    s->anim = gUnknown_080D2044[0].anim;
+    s->variant = gUnknown_080D2044[0].variant;
+    s->prevVariant = -1;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+    s->oamFlags = 0x480;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x1000;
+    s->hitboxes[0].index = -1;
+    UpdateSpriteAnimation((Sprite *)s);
+
+    s = &enemy->s2;
+    s->tiles = vram;
+    vram += (gUnknown_080D2044[3].numTiles * TILE_SIZE_4BPP);
+    s->anim = gUnknown_080D2044[3].anim;
+    s->variant = gUnknown_080D2044[3].variant;
+    s->prevVariant = -1;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+    s->oamFlags = 0x4C0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x1000;
+    s->hitboxes[0].index = -1;
+    UpdateSpriteAnimation((Sprite *)s);
+
+    s = &enemy->s3;
+    s->tiles = vram;
+    s->anim = gUnknown_080D2044[4].anim;
+    s->variant = gUnknown_080D2044[4].variant;
+    s->prevVariant = -1;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+    s->oamFlags = 0x4C0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x1000;
+    s->hitboxes[0].index = -1;
+    UpdateSpriteAnimation((Sprite *)s);
 }
