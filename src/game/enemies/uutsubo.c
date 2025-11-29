@@ -51,7 +51,8 @@ bool32 sub_805D8D4(Uutsubo *enemy);
 bool32 sub_805D9C0(Uutsubo *enemy, Sprite2 *s, Vec2_32 *param2);
 AnimCmdResult sub_805DADC(Uutsubo *enemy);
 void Task_805DDCC(void);
-void sub_805DEC4(struct Task *t);
+void sub_805DE34(void);
+void TaskDestructor_Uutsubo(struct Task *t);
 bool32 sub_805DE9C(Uutsubo *enemy, Sprite2 *s, Vec2_32 *arg2, EnemyUnknownStruc0 *strc);
 
 extern const TileInfo2 gUnknown_080D1F4C[2];
@@ -604,7 +605,7 @@ void CreateEntity_Uutsubo_1(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     Uutsubo *enemy;
 
-    enemy = TASK_DATA(TaskCreate(Task_805DDCC, sizeof(Uutsubo), 0x2100U, 0U, sub_805DEC4));
+    enemy = TASK_DATA(TaskCreate(Task_805DDCC, sizeof(Uutsubo), 0x2100U, 0U, TaskDestructor_Uutsubo));
     CreateEntity_Uutsubo_Shared(enemy, me, regionX, regionY, id);
     sub_805D188(enemy, UUTYPE_B);
     SET_MAP_ENTITY_INITIALIZED(me);
@@ -614,7 +615,7 @@ void CreateEntity_Uutsubo_0(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     Uutsubo *enemy;
 
-    enemy = TASK_DATA(TaskCreate(Task_805DDCC, sizeof(Uutsubo), 0x2100U, 0U, sub_805DEC4));
+    enemy = TASK_DATA(TaskCreate(Task_805DDCC, sizeof(Uutsubo), 0x2100U, 0U, TaskDestructor_Uutsubo));
     CreateEntity_Uutsubo_Shared(enemy, me, regionX, regionY, id);
     sub_805D188(enemy, UUTYPE_A);
     SET_MAP_ENTITY_INITIALIZED(me);
@@ -624,7 +625,7 @@ void CreateEntity_Uutsubo_2(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     Uutsubo *enemy;
 
-    enemy = TASK_DATA(TaskCreate(Task_805DDCC, sizeof(Uutsubo), 0x2100U, 0U, sub_805DEC4));
+    enemy = TASK_DATA(TaskCreate(Task_805DDCC, sizeof(Uutsubo), 0x2100U, 0U, TaskDestructor_Uutsubo));
     CreateEntity_Uutsubo_Shared(enemy, me, regionX, regionY, id);
     sub_805D188(enemy, UUTYPE_C);
     SET_MAP_ENTITY_INITIALIZED(me);
@@ -634,8 +635,61 @@ void CreateEntity_Uutsubo_3(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     Uutsubo *enemy;
 
-    enemy = TASK_DATA(TaskCreate(Task_805DDCC, sizeof(Uutsubo), 0x2100U, 0U, sub_805DEC4));
+    enemy = TASK_DATA(TaskCreate(Task_805DDCC, sizeof(Uutsubo), 0x2100U, 0U, TaskDestructor_Uutsubo));
     CreateEntity_Uutsubo_Shared(enemy, me, regionX, regionY, id);
     sub_805D188(enemy, UUTYPE_D);
     SET_MAP_ENTITY_INITIALIZED(me);
+}
+
+void Task_805DDCC(void)
+{
+    Uutsubo *enemy = TASK_DATA(gCurTask);
+
+    sub_805DADC(enemy);
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        if (sub_805D8D4(enemy) == 1) {
+            gCurTask->main = sub_805DE34;
+            return;
+        }
+    }
+
+    if (sub_805D9C0(enemy, &enemy->s, &enemy->qPos) == TRUE) {
+        TaskDestroy(gCurTask);
+    }
+}
+
+void sub_805DE34(void)
+{
+    Uutsubo *enemy = TASK_DATA(gCurTask);
+
+    sub_805DADC(enemy);
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        if (sub_805D47C(enemy) == 1) {
+            gCurTask->main = sub_805D314;
+            return;
+        }
+    }
+
+    if (sub_805D9C0(enemy, &enemy->s, &enemy->qPos) == TRUE) {
+        TaskDestroy(gCurTask);
+    }
+}
+
+u32 sub_805DE9C(Uutsubo *enemy, Sprite2 *s, Vec2_32 *arg2, EnemyUnknownStruc0 *strc)
+{
+    strc->me = NULL;
+    strc->meX = 0;
+    strc->unk4 = 0;
+    strc->spr = (Sprite *)s;
+    strc->posX = arg2->x;
+    strc->posY = arg2->y;
+    strc->regionX = enemy->region[0];
+    strc->regionY = enemy->region[1];
+    return sub_805C63C(strc);
+}
+
+void TaskDestructor_Uutsubo(struct Task *t)
+{
+    Uutsubo *enemy = TASK_DATA(t);
+    VramFree(enemy->s2.tiles);
 }
