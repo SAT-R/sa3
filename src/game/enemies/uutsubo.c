@@ -475,15 +475,14 @@ bool32 sub_805D9C0(Uutsubo *enemy, Sprite2 *unused_s, Vec2_32 *param2)
     Sprite2 *s;
     Vec2_16 sp28;
     Vec2_32 *qPos;
-    u16 temp_r1;
     u32 res;
     SpriteTransform *tf = &enemy->tf;
-    u8 var_r7 = 0;
+    u8 i = 0;
     Vec2_16 *pSP28 = &sp28;
 
-    for (var_r7 = 0; var_r7 < 4; var_r7++) {
-        if (var_r7 == 2 || var_r7 == 3) {
-            qPos = &enemy->qBodyPositions[var_r7];
+    for (i = 0; i < 4; i++) {
+        if (i == 2 || i == 3) {
+            qPos = &enemy->qBodyPositions[i];
             s = &enemy->s2;
             strc.unk4 = sub_805DE9C(enemy, s, qPos, &strc);
             strc.spr = (Sprite *)s;
@@ -525,4 +524,77 @@ bool32 sub_805D9C0(Uutsubo *enemy, Sprite2 *unused_s, Vec2_32 *param2)
     strc.spr->y -= pSP28->y;
 
     return res;
+}
+
+// TODO: Fake-matches
+AnimCmdResult sub_805DADC(Uutsubo *enemy)
+{
+    Vec2_16 worldPos;
+    Vec2_16 *pWorldPos = &worldPos;
+    AnimCmdResult acmdRes;
+    Sprite2 *s;
+    SpriteTransform *tf;
+    u8 i;
+    s32 v;
+
+    {
+#ifndef NON_MATCHING
+        s32 x = TO_WORLD_POS(0, enemy->region[0]) - gCamera.x;
+        asm("strh %0, [%1]" ::"r"(x), "r"(&pWorldPos->x));
+#else
+        pWorldPos->x = (TO_WORLD_POS(0, enemy->region[0]) - gCamera.x);
+#endif
+        pWorldPos->y = (TO_WORLD_POS(0, enemy->region[1]) - gCamera.y);
+    }
+
+    s = &enemy->s;
+    s->x = I(enemy->qPos.x) + worldPos.x;
+
+#ifndef NON_MATCHING
+    asm("ldr    r1, [%0, #0x64]\n"
+        "asr    r1, r1, #8\n"
+        "mov r0, %1\n"
+        "ldrh r0, [r0, #2]\n"
+        "add r0, r1\n"
+        "strh r0, [%2, #0x12]\n" ::"r"(enemy),
+        "r"(&worldPos), "r"(s)
+        : "r0", "r1");
+#else
+    s->y = I(enemy->qPos.y) + pWorldPos->y;
+#endif
+
+    if (s->frameFlags & 0x20) {
+        tf = &enemy->tf;
+        tf->x = s->x;
+        tf->y = s->y;
+        TransformSprite((Sprite *)s, tf);
+    }
+    acmdRes = UpdateSpriteAnimation((Sprite *)s);
+    DisplaySprite((Sprite *)s);
+
+    for (i = 1; i < 5; i++) {
+        s = &enemy->s2;
+        s->x = I(enemy->qBodyPositions[i].x) + worldPos.x;
+        s->y = I(enemy->qBodyPositions[i].y) + worldPos.y;
+
+        if (s->frameFlags & 0x20) {
+            tf = &enemy->tf;
+            tf->x = s->x;
+            tf->y = s->y;
+            TransformSprite((Sprite *)s, tf);
+        }
+        DisplaySprite((Sprite *)s);
+    }
+
+    s = &enemy->s2;
+    s->x = I(enemy->qHeadPos.x) + worldPos.x;
+    s->y = I(enemy->qHeadPos.y) + worldPos.y;
+    if (s->frameFlags & 0x20) {
+        tf = &enemy->tf;
+        tf->x = s->x;
+        tf->y = s->y;
+        TransformSprite((Sprite *)s, tf);
+    }
+    DisplaySprite((Sprite *)s);
+    return acmdRes;
 }
