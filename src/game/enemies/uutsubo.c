@@ -3,6 +3,7 @@
 #include "trig.h"
 #include "malloc_vram.h"
 #include "game/camera.h"
+#include "game/enemy_unknown.h"
 #include "game/entity.h"
 #include "game/stage.h"
 
@@ -45,6 +46,7 @@ void sub_805D188(Uutsubo *enemy, u8 type);
 void sub_805D298(Sprite2 *arg0, SpriteTransform *tf, u8 type);
 bool32 sub_805D5F0(Uutsubo *enemy);
 void sub_805D708(Uutsubo *enemy, Vec2_32 *param2, u16 *param3, s32 param4);
+bool32 sub_805D8D4(Uutsubo *enemy);
 bool32 sub_805D9C0(Uutsubo *enemy, Sprite2 *s, Vec2_32 *param2);
 AnimCmdResult sub_805DADC(Uutsubo *enemy);
 void Task_805D3EC(void);
@@ -410,4 +412,44 @@ void sub_805D708(Uutsubo *enemy, Vec2_32 *param2, u16 *param3, s32 param4)
             }
         }
     }
+}
+
+bool32 sub_805D8D4(Uutsubo *enemy)
+{
+    Player *p;
+    s32 dx, dy;
+    u8 i;
+    s32 max;
+
+    for (i = 0, max = Q(5); i < 2; i++) {
+        p = sub_805CD20(i);
+        if (p == NULL)
+            break;
+
+        if (enemy->tf.rotation == 0) {
+            dy = p->qWorldY - (enemy->region[1] << 0x10);
+            if (ABS(dy - enemy->qPos.y) <= max) {
+                if ((!(enemy->s.frameFlags & 0x400) && ((p->qWorldX - Q(TO_WORLD_POS(0, enemy->region[0]))) <= enemy->qPos.x))
+                    || ((enemy->s.frameFlags & 0x400) && (p->qWorldX - Q(TO_WORLD_POS(0, enemy->region[0])) >= enemy->qPos.x))) {
+                    enemy->qUnk28.x = p->qWorldX;
+                    enemy->qUnk28.y = p->qWorldY;
+                    return TRUE;
+                }
+            }
+        } else {
+            dx = p->qWorldX - Q(TO_WORLD_POS(0, enemy->region[0]));
+            if (ABS(dx - enemy->qPos.x) <= max) {
+                u32 rot = enemy->tf.rotation;
+                if (((rot == 0x100) && ((p->qWorldY - Q(TO_WORLD_POS(0, enemy->region[1]))) <= enemy->qPos.y))
+                    || ((rot == 0x300) && ((p->qWorldY - Q(TO_WORLD_POS(0, enemy->region[1]))) >= enemy->qPos.y))) {
+                blk:
+                    enemy->qUnk28.x = p->qWorldX;
+                    enemy->qUnk28.y = p->qWorldY;
+                    return TRUE;
+                }
+            }
+        }
+    }
+
+    return FALSE;
 }
