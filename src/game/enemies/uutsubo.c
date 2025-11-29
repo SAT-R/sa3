@@ -44,13 +44,14 @@ void CreateEntity_Uutsubo_Shared(Uutsubo *enemy, MapEntity *me, u16 regionX, u16
 
 void sub_805D188(Uutsubo *enemy, u8 type);
 void sub_805D298(Sprite2 *arg0, SpriteTransform *tf, u8 type);
+void Task_805D3EC(void);
 bool32 sub_805D5F0(Uutsubo *enemy);
 void sub_805D708(Uutsubo *enemy, Vec2_32 *param2, u16 *param3, s32 param4);
 bool32 sub_805D8D4(Uutsubo *enemy);
 bool32 sub_805D9C0(Uutsubo *enemy, Sprite2 *s, Vec2_32 *param2);
 AnimCmdResult sub_805DADC(Uutsubo *enemy);
-void Task_805D3EC(void);
 void Task_805DDCC(void);
+bool32 sub_805DE9C(Uutsubo *enemy, Sprite2 *s, Vec2_32 *arg2, EnemyUnknownStruc0 *strc);
 
 extern const TileInfo2 gUnknown_080D1F4C[2];
 
@@ -59,6 +60,20 @@ typedef struct Stack_805D47C {
     Vec2_32 sp8;
     s32 result;
 } Stack_805D47C;
+
+typedef struct {
+    MapEntity *me;
+    bool32 unk4;
+    s8 meX;
+    u8 filler9[0x3];
+    u16 regionX;
+    u16 regionY;
+    s32 posX;
+    s32 posY;
+    s32 unk18;
+    Sprite *spr;
+    u8 filler20[0x8];
+} EnemyUnknownStruc0__;
 
 void CreateEntity_Uutsubo_Shared(Uutsubo *enemy, MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -452,4 +467,62 @@ bool32 sub_805D8D4(Uutsubo *enemy)
     }
 
     return FALSE;
+}
+
+bool32 sub_805D9C0(Uutsubo *enemy, Sprite2 *unused_s, Vec2_32 *param2)
+{
+    EnemyUnknownStruc0 strc;
+    Sprite2 *s;
+    Vec2_16 sp28;
+    Vec2_32 *qPos;
+    u16 temp_r1;
+    u32 res;
+    SpriteTransform *tf = &enemy->tf;
+    u8 var_r7 = 0;
+    Vec2_16 *pSP28 = &sp28;
+
+    for (var_r7 = 0; var_r7 < 4; var_r7++) {
+        if (var_r7 == 2 || var_r7 == 3) {
+            qPos = &enemy->qBodyPositions[var_r7];
+            s = &enemy->s2;
+            strc.unk4 = sub_805DE9C(enemy, s, qPos, &strc);
+            strc.spr = (Sprite *)s;
+            strc.posX = qPos->x;
+            strc.posY = qPos->y;
+            strc.regionX = enemy->region[0];
+            strc.regionY = enemy->region[1];
+            strc.me = enemy->me;
+            strc.meX = enemy->meX;
+        }
+    }
+
+    qPos = &enemy->qPos;
+    s = &enemy->s;
+    strc.unk4 = sub_805DE9C(enemy, s, qPos, &strc);
+    strc.spr = (Sprite *)&enemy->s;
+    strc.posX = Q(s->x + gCamera.x);
+    strc.posY = Q(s->y + gCamera.y);
+    strc.regionX = 0U;
+    strc.regionY = 0U;
+    strc.me = enemy->me;
+    strc.meX = enemy->meX;
+
+    pSP28->x = 0U;
+    pSP28->y = 0U;
+
+    if (tf->rotation == 0x100) {
+        pSP28->x = 20;
+        pSP28->y = 22;
+    } else if (tf->rotation == 0x300) {
+        pSP28->x = 10;
+        pSP28->y = 50;
+    }
+
+    strc.spr->x += pSP28->x;
+    strc.spr->y += pSP28->y;
+    res = sub_805C280(&strc);
+    strc.spr->x -= pSP28->x;
+    strc.spr->y -= pSP28->y;
+
+    return res;
 }
