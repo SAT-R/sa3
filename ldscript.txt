@@ -97,6 +97,7 @@ SECTIONS {
         src/game/interactables/127_and_128.o(.text);
         src/game/interactables/toy_balloon.o(.text);
         src/game/interactables/pendulum.o(.text);
+        src/game/interactables/pendulum.o(.text);
         src/game/interactables/spring_platform.o(.text);
         src/game/interactables/134.o(.text);
         src/game/interactables/135.o(.text);
@@ -130,6 +131,7 @@ SECTIONS {
         src/game/enemies/yadokk.o(.text);
         src/game/enemies/ginpe.o(.text);
         src/game/enemies/yukigasen.o(.text);
+        src/game/enemies/hariisen.o(.text);
         asm/enemy_hariisen.o(.text);
         asm/enemy_muukaden.o(.text);
         src/game/enemies/marun.o(.text);
