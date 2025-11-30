@@ -59,7 +59,7 @@ void Task_806152C(void)
                 enemy->unkA = 0;
                 enemy->unkC[0] = 0;
                 enemy->unkC[1] = 0;
-                gCurTask->main = sub_80624E4;
+                gCurTask->main = Task_80624E4;
                 return;
             }
         }
@@ -359,4 +359,42 @@ void sub_8061D3C(Stack_806152C arg0)
     CpuFill16(0, &proj->s2.hitboxes[1].b, sizeof(proj->s.hitboxes[1].b));
 
     sub_8061E5C(proj);
+}
+
+void sub_8061E5C(HariisenProj *enemy)
+{
+    u8 *vram = VramMalloc(2U);
+    Sprite2 *s = &enemy->s;
+
+    s->tiles = vram;
+    vram += (gUnknown_080D2044[3].numTiles * TILE_SIZE_4BPP);
+    s->anim = gUnknown_080D2044[3].anim;
+    s->variant = gUnknown_080D2044[3].variant;
+    s->prevVariant = -1;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+    s->oamFlags = 0x4C0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x1000;
+    s->hitboxes[0].index = -1;
+    UpdateSpriteAnimation((Sprite *)s);
+
+    s = &enemy->s2;
+    s->tiles = vram;
+    s->anim = gUnknown_080D2044[4].anim;
+    s->variant = gUnknown_080D2044[4].variant;
+    s->prevVariant = -1;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+    s->oamFlags = 0x4C0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x1000;
+    s->hitboxes[0].index = -1;
+    UpdateSpriteAnimation((Sprite *)s);
 }

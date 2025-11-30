@@ -5,126 +5,7 @@
 .syntax unified
 .arm
 
-.if 01
-	thumb_func_start sub_8061E5C
-sub_8061E5C: @ 0x08061E5C
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #4
-	adds r7, r0, #0
-	movs r0, #2
-	bl VramMalloc
-	adds r5, r0, #0
-	adds r3, r7, #0
-	adds r3, #0x5c
-	str r5, [r7, #0x5c]
-	ldr r4, _08061F48 @ =gUnknown_080D2044
-	ldr r0, [r4, #0x1c]
-	lsls r0, r0, #5
-	adds r5, r5, r0
-	ldrh r0, [r4, #0x18]
-	movs r2, #0
-	strh r0, [r3, #0xc]
-	ldrb r0, [r4, #0x1a]
-	strb r0, [r3, #0x1a]
-	movs r0, #0xff
-	strb r0, [r3, #0x1b]
-	ldr r1, [r7, #0x24]
-	asrs r1, r1, #8
-	ldrh r0, [r7, #6]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	ldr r6, _08061F4C @ =gCamera
-	ldr r0, [r6]
-	subs r1, r1, r0
-	strh r1, [r3, #0x10]
-	ldr r1, [r7, #0x28]
-	asrs r1, r1, #8
-	ldrh r0, [r7, #8]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	ldr r0, [r6, #4]
-	subs r1, r1, r0
-	strh r1, [r3, #0x12]
-	movs r0, #0x98
-	lsls r0, r0, #3
-	strh r0, [r3, #0x14]
-	strh r2, [r3, #0xe]
-	strh r2, [r3, #0x16]
-	movs r0, #0x10
-	mov sl, r0
-	mov r0, sl
-	strb r0, [r3, #0x1c]
-	movs r0, #0
-	strb r0, [r3, #0x1f]
-	movs r0, #0x80
-	lsls r0, r0, #5
-	mov sb, r0
-	str r0, [r3, #8]
-	movs r0, #1
-	rsbs r0, r0, #0
-	mov r8, r0
-	str r0, [r3, #0x20]
-	adds r0, r3, #0
-	str r2, [sp]
-	bl UpdateSpriteAnimation
-	adds r3, r7, #0
-	adds r3, #0x8c
-	str r5, [r3]
-	ldrh r0, [r4, #0x20]
-	strh r0, [r3, #0xc]
-	adds r4, #0x22
-	ldrb r0, [r4]
-	strb r0, [r3, #0x1a]
-	movs r0, #1
-	rsbs r0, r0, #0
-	strb r0, [r3, #0x1b]
-	ldr r1, [r7, #0x24]
-	asrs r1, r1, #8
-	ldrh r0, [r7, #6]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	ldr r0, [r6]
-	subs r1, r1, r0
-	strh r1, [r3, #0x10]
-	ldr r1, [r7, #0x28]
-	asrs r1, r1, #8
-	ldrh r0, [r7, #8]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	ldr r0, [r6, #4]
-	subs r1, r1, r0
-	strh r1, [r3, #0x12]
-	movs r0, #0x98
-	lsls r0, r0, #3
-	strh r0, [r3, #0x14]
-	ldr r2, [sp]
-	strh r2, [r3, #0xe]
-	strh r2, [r3, #0x16]
-	mov r0, sl
-	strb r0, [r3, #0x1c]
-	movs r0, #0
-	strb r0, [r3, #0x1f]
-	mov r0, sb
-	str r0, [r3, #8]
-	mov r0, r8
-	str r0, [r3, #0x20]
-	adds r0, r3, #0
-	bl UpdateSpriteAnimation
-	add sp, #4
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08061F48: .4byte gUnknown_080D2044
-_08061F4C: .4byte gCamera
+.if 0
 .endif
 
 	thumb_func_start sub_8061F50
@@ -883,8 +764,8 @@ _080624C8:
 	.align 2, 0
 _080624E0: .4byte 0xFFFFFBFF
 
-	thumb_func_start sub_80624E4
-sub_80624E4: @ 0x080624E4
+	thumb_func_start Task_80624E4
+Task_80624E4: @ 0x080624E4
 	push {r4, r5, r6, lr}
 	ldr r6, _08062514 @ =gCurTask
 	ldr r0, [r6]

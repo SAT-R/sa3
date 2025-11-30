@@ -55,7 +55,7 @@ bool32 sub_80619EC(Hariisen *enemy);
 bool32 sub_8061AC8(Hariisen *enemy);
 void sub_8061E5C(HariisenProj *enemy);
 AnimCmdResult sub_8061BD4(Hariisen *enemy);
-void sub_80624E4(void);
+void Task_80624E4(void);
 AnimCmdResult sub_806253C(Hariisen *enemy);
 void TaskDestructor_Hariisen(Task *);
 bool32 sub_80617E0(Hariisen *enemy, u8 param1);
