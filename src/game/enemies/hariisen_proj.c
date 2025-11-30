@@ -336,15 +336,15 @@ void sub_8061D3C(Stack_806152C arg0)
     HariisenProj *proj;
     u8 i;
 
-    proj = TASK_DATA(TaskCreate(sub_80625FC, sizeof(HariisenProj), 0x4040U, 0U, sub_8062638));
-    for (i = 0; i < 2; i++) {
+    proj = TASK_DATA(TaskCreate(Task_HariisenProjInit, sizeof(HariisenProj), 0x4040U, 0U, TaskDestructor_HariisenProj));
+    for (i = 0; i < HSEN_COUNT_A; i++) {
         proj->qUnk2C[i].x = 0;
         proj->qUnk2C[i].y = 0;
         proj->unk0[i] = 1;
         proj->unkC[i] = arg0.unkC[0][i];
     }
 
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < HSEN_COUNT_B; i++) {
         proj->qUnk3C[i].x = 0;
         proj->qUnk3C[i].y = 0;
         proj->unk2[i] = 1;

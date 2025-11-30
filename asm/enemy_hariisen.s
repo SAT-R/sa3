@@ -1026,8 +1026,8 @@ TaskDestructor_Hariisen: @ 0x080625E8
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_80625FC
-sub_80625FC: @ 0x080625FC
+	thumb_func_start Task_HariisenProjInit
+Task_HariisenProjInit: @ 0x080625FC
 	push {r4, r5, lr}
 	ldr r5, _08062634 @ =gCurTask
 	ldr r0, [r5]
@@ -1054,8 +1054,8 @@ _0806262C:
 	.align 2, 0
 _08062634: .4byte gCurTask
 
-	thumb_func_start sub_8062638
-sub_8062638: @ 0x08062638
+	thumb_func_start TaskDestructor_HariisenProj
+TaskDestructor_HariisenProj: @ 0x08062638
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
