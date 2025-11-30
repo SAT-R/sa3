@@ -63,20 +63,6 @@ typedef struct Stack_805D47C {
     s32 result;
 } Stack_805D47C;
 
-typedef struct {
-    MapEntity *me;
-    bool32 unk4;
-    s8 meX;
-    u8 filler9[0x3];
-    u16 regionX;
-    u16 regionY;
-    s32 posX;
-    s32 posY;
-    s32 unk18;
-    Sprite *spr;
-    u8 filler20[0x8];
-} EnemyUnknownStruc0__;
-
 void CreateEntity_Uutsubo_Shared(Uutsubo *enemy, MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     u8 i;
