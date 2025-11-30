@@ -29,6 +29,7 @@ typedef struct Hariisen {
 void Task_HariisenMain();
 void sub_806132C(Hariisen *enemy);
 void Task_806152C(void);
+void sub_80616A0(void);
 bool32 sub_806172C(Hariisen *enemy);
 bool32 sub_80619EC(Hariisen *enemy);
 void sub_8061AC8(Hariisen *enemy);
@@ -233,3 +234,27 @@ NONMATCH("asm/non_matching/game/enemies/hariisen__Task_806152C.inc", void Task_8
     }
 }
 END_NONMATCH
+
+void sub_80616A0(void)
+{
+    Hariisen *enemy = TASK_DATA(gCurTask);
+
+    sub_806253C(enemy);
+    sub_8061AC8(enemy);
+
+    if (gStageData.unk4 != 1 && gStageData.unk4 != 2 && gStageData.unk4 != 4) {
+        if ((enemy->unkA >= 300) || (++enemy->unkA >= 300)) {
+            sub_8061BD4(enemy);
+
+            if (sub_80617E0(enemy, 0U) == 1) {
+                enemy->unkA = 0;
+                gCurTask->main = Task_HariisenMain;
+                return;
+            }
+        }
+
+        if (sub_8062580(enemy) == 1) {
+            TaskDestroy(gCurTask);
+        }
+    }
+}
