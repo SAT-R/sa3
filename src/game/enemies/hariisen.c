@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "malloc_vram.h"
 #include "game/camera.h"
 #include "game/enemy_unknown.h"
@@ -43,6 +44,8 @@ bool32 sub_8062580(Hariisen *enemy);
 void sub_8061D3C(Vec2_32 arg0, Vec2_16 arg2, u16 *arg3, u16 *arg4);
 
 extern const TileInfo2 gUnknown_080D2044[5];
+extern const u16 gUnknown_080D20AC[2];
+extern const u16 gUnknown_080D20B0[4];
 
 typedef struct Stack_806152C {
     Vec2_32 unk4;
@@ -290,6 +293,88 @@ bool32 sub_806172C(Hariisen *enemy)
             }
         }
 #endif
+    }
+
+    return FALSE;
+}
+
+bool32 sub_80617E0(Hariisen *enemy, u8 param1)
+{
+    Vec2_32 sp00[2];
+    s32 var_r1;
+    u32 var_r2;
+    u16 theta;
+    u8 i;
+    s32 var_sl = 6;
+    u8 var_sb;
+
+    var_sb = 0;
+    for (i = 0; i < 2; i++) {
+        sp00[0].x = 0;
+        sp00[0].y = 0;
+        theta = gUnknown_080D20AC[i];
+        sp00[1].x = (SIN_24_8(((theta & 0xFF) * 4)) * 16) + (SIN_24_8(((theta & 0xFF) * 4)) << 1);
+        sp00[1].y = (COS_24_8(((theta & 0xFF) * 4)) * 16) + (COS_24_8(((theta & 0xFF) * 4)) << 1);
+        if (i != 0) {
+            sp00[1].y += 0x100;
+        }
+        enemy->qUnk2C[i].y = sp00[0].y;
+        enemy->qUnk2C[i].x = sp00[0].x;
+        enemy->qUnk2C[i].y += ((sp00[1].y - sp00[0].y) >> var_sl) * ((enemy->unk10[i]) >> 6);
+        enemy->qUnk2C[i].x += ((sp00[1].x - sp00[0].x) >> var_sl) * ((enemy->unk10[i]) >> 6);
+
+        if (param1 == 1) {
+            var_r2 = 0x48;
+            var_r1 = 1;
+        } else {
+            var_r2 = 0x40;
+            var_r1 = 4;
+        }
+
+        if ((u32)(enemy->unk10[i] >> 6) < var_r2) {
+            enemy->unk10[i] += (1 << (var_r1 + 3));
+        } else {
+            enemy->unk10[i] = var_r2 << 6;
+            var_sb += 1;
+        }
+    }
+
+    for (i = 0; i < 4; i++) {
+        sp00[0].x = 0;
+        sp00[0].y = 0;
+        theta = gUnknown_080D20B0[i];
+        sp00[1].x = (SIN_24_8(((theta & 0xFF) * 4)) << 3) + (SIN_24_8(((theta & 0xFF) * 4)) << 2);
+        sp00[1].y = (COS_24_8(((theta & 0xFF) * 4)) << 3) + (COS_24_8(((theta & 0xFF) * 4)) << 2);
+
+        if (i < 2) {
+            sp00[1].x += 0x200;
+        }
+        if ((i == 0) || (i == 3)) {
+            sp00[1].y += 0x200;
+        }
+
+        enemy->qUnk3C[i].y = sp00[0].y;
+        enemy->qUnk3C[i].x = sp00[0].x;
+        enemy->qUnk3C[i].y += ((sp00[1].y - sp00[0].y) >> var_sl) * (enemy->unk14[i] >> 6);
+        enemy->qUnk3C[i].x += ((sp00[1].x - sp00[0].x) >> var_sl) * (enemy->unk14[i] >> 6);
+        if (param1 == 1) {
+            var_r2 = 0x54;
+            var_r1 = 1;
+        } else {
+            var_r2 = 0x40;
+            var_r1 = 4;
+        }
+
+        if ((enemy->unk14[i] >> 6) < var_r2) {
+            enemy->unk14[i] += (1 << (var_r1 + 3));
+        } else {
+            enemy->unk14[i] = var_r2 << 6;
+            var_sb += 1;
+        }
+    }
+
+    if (var_sb == 6) {
+        return TRUE;
     }
 
     return FALSE;
