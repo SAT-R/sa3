@@ -38,7 +38,7 @@ void sub_80616A0(void);
 bool32 sub_806172C(Hariisen *enemy);
 bool32 sub_80619EC(Hariisen *enemy);
 bool32 sub_8061AC8(Hariisen *enemy);
-void sub_8061BD4(Hariisen *enemy);
+AnimCmdResult sub_8061BD4(Hariisen *enemy);
 void sub_80624E4(void);
 AnimCmdResult sub_806253C(Hariisen *enemy);
 void TaskDestructor_Hariisen(Task *);
@@ -451,4 +451,59 @@ bool32 sub_8061AC8(Hariisen *enemy)
     }
 
     return FALSE;
+}
+
+AnimCmdResult sub_8061BD4(Hariisen *enemy) {
+    Sprite2 *s;
+    AnimCmdResult acmdRes;
+    u8 i;
+
+    for(i = 0; i < HSEN_COUNT_A; i++)
+    {
+        s = &enemy->s2;
+        s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+        s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+        s->x += I(enemy->qUnk2C[i].x);
+        s->y += I(enemy->qUnk2C[i].y);
+
+        if (i != 0) {
+            SPRITE_FLAG_CLEAR(s, Y_FLIP);
+            s->y += 2;
+        } else {
+            SPRITE_FLAG_SET(s, Y_FLIP);
+            s->y -= 2;
+        }
+
+        UpdateSpriteAnimation((Sprite *) s);
+        DisplaySprite((Sprite *) s);
+    }
+
+    for(i = 0; i < HSEN_COUNT_B; i++)
+    {
+        s = &enemy->s3;
+
+        if (i == 0) {
+            SPRITE_FLAG_SET(s, X_FLIP);
+            SPRITE_FLAG_SET(s, Y_FLIP);
+        } else if(i == 1) {
+            SPRITE_FLAG_SET(s, X_FLIP);
+            SPRITE_FLAG_CLEAR(s, Y_FLIP);
+        } else if(i == 2) {
+            SPRITE_FLAG_CLEAR(s, Y_FLIP);
+            SPRITE_FLAG_CLEAR(s, X_FLIP);
+        } else if(i == 3) {
+            SPRITE_FLAG_SET(s, Y_FLIP);
+            SPRITE_FLAG_CLEAR(s, X_FLIP);
+        }
+
+        s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+        s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+        s->x += I(enemy->qUnk3C[i].x);
+        s->y += I(enemy->qUnk3C[i].y);
+
+        acmdRes = UpdateSpriteAnimation((Sprite *) s);
+        DisplaySprite((Sprite *) s);
+    }
+    
+    return acmdRes;
 }
