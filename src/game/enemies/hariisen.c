@@ -31,6 +31,22 @@ typedef struct Hariisen {
     /* 0xBC */ Sprite2 s3;
 } Hariisen; /* 0xEC */
 
+typedef struct HariisenProj {
+    /* 0x00 */ u8 unk0[2];
+    /* 0x00 */ u8 unk2[2];
+    /* 0x04 */ u8 id;
+    /* 0x05 */ u8 meX;
+    /* 0x06 */ u16 region[2];
+    /* 0x10 */ u16 unkA;
+    /* 0x10 */ s32 unkC[2];
+    /* 0x14 */ s32 unk14[HSEN_COUNT_B];
+    /* 0x24 */ Vec2_32 qPos;
+    /* 0x2C */ Vec2_32 qUnk2C[HSEN_COUNT_A];
+    /* 0x3C */ Vec2_32 qUnk3C[HSEN_COUNT_B];
+    /* 0x5C */ Sprite2 s;
+    /* 0x8C */ Sprite2 s2;
+} HariisenProj; /* 0xBC */
+
 void Task_HariisenMain();
 void sub_806132C(Hariisen *enemy);
 void Task_806152C(void);
@@ -38,6 +54,7 @@ void sub_80616A0(void);
 bool32 sub_806172C(Hariisen *enemy);
 bool32 sub_80619EC(Hariisen *enemy);
 bool32 sub_8061AC8(Hariisen *enemy);
+void sub_8061E5C(HariisenProj *enemy);
 AnimCmdResult sub_8061BD4(Hariisen *enemy);
 void sub_80624E4(void);
 AnimCmdResult sub_806253C(Hariisen *enemy);
@@ -45,6 +62,9 @@ void TaskDestructor_Hariisen(Task *);
 bool32 sub_80617E0(Hariisen *enemy, u8 param1);
 bool32 sub_8062580(Hariisen *enemy);
 void sub_8061D3C(Vec2_32 arg0, Vec2_16 arg2, u16 *arg3, u16 *arg4);
+
+void sub_80625FC(void);
+void sub_8062638(struct Task *t);
 
 extern const TileInfo2 gUnknown_080D2044[5];
 extern const u16 gPalette_080D206C[16];
@@ -453,13 +473,13 @@ bool32 sub_8061AC8(Hariisen *enemy)
     return FALSE;
 }
 
-AnimCmdResult sub_8061BD4(Hariisen *enemy) {
+AnimCmdResult sub_8061BD4(Hariisen *enemy)
+{
     Sprite2 *s;
     AnimCmdResult acmdRes;
     u8 i;
 
-    for(i = 0; i < HSEN_COUNT_A; i++)
-    {
+    for (i = 0; i < HSEN_COUNT_A; i++) {
         s = &enemy->s2;
         s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
         s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
@@ -474,24 +494,23 @@ AnimCmdResult sub_8061BD4(Hariisen *enemy) {
             s->y -= 2;
         }
 
-        UpdateSpriteAnimation((Sprite *) s);
-        DisplaySprite((Sprite *) s);
+        UpdateSpriteAnimation((Sprite *)s);
+        DisplaySprite((Sprite *)s);
     }
 
-    for(i = 0; i < HSEN_COUNT_B; i++)
-    {
+    for (i = 0; i < HSEN_COUNT_B; i++) {
         s = &enemy->s3;
 
         if (i == 0) {
             SPRITE_FLAG_SET(s, X_FLIP);
             SPRITE_FLAG_SET(s, Y_FLIP);
-        } else if(i == 1) {
+        } else if (i == 1) {
             SPRITE_FLAG_SET(s, X_FLIP);
             SPRITE_FLAG_CLEAR(s, Y_FLIP);
-        } else if(i == 2) {
+        } else if (i == 2) {
             SPRITE_FLAG_CLEAR(s, Y_FLIP);
             SPRITE_FLAG_CLEAR(s, X_FLIP);
-        } else if(i == 3) {
+        } else if (i == 3) {
             SPRITE_FLAG_SET(s, Y_FLIP);
             SPRITE_FLAG_CLEAR(s, X_FLIP);
         }
@@ -501,9 +520,41 @@ AnimCmdResult sub_8061BD4(Hariisen *enemy) {
         s->x += I(enemy->qUnk3C[i].x);
         s->y += I(enemy->qUnk3C[i].y);
 
-        acmdRes = UpdateSpriteAnimation((Sprite *) s);
-        DisplaySprite((Sprite *) s);
+        acmdRes = UpdateSpriteAnimation((Sprite *)s);
+        DisplaySprite((Sprite *)s);
     }
-    
+
     return acmdRes;
 }
+
+// (75.13%) https://decomp.me/scratch/wIfg4
+NONMATCH("asm/non_matching/game/enemies/hariisen__sub_8061D3C.inc", void sub_8061D3C(Vec2_32 arg0, Vec2_16 arg2, u16 *arg3, u16 *arg4))
+{
+    HariisenProj *proj;
+    u8 i;
+
+    proj = TASK_DATA(TaskCreate(sub_80625FC, sizeof(HariisenProj), 0x4040U, 0U, sub_8062638));
+    for (i = 0; i < 2; i++) {
+        proj->qUnk2C[i].x = 0;
+        proj->qUnk2C[i].y = 0;
+        proj->unk0[i] = 1;
+        proj->unkC[i] = arg3[i];
+    }
+
+    for (i = 0; i < 4; i++) {
+        proj->qUnk3C[i].x = 0;
+        proj->qUnk3C[i].y = 0;
+        proj->unk2[i] = 1;
+        proj->unk14[i] = arg4[i];
+    }
+
+    proj->qPos.x = arg0.x;
+    proj->qPos.y = arg0.y;
+    proj->region[0] = arg2.x;
+    proj->region[1] = arg2.y;
+    CpuFill16(0, &proj->s.hitboxes[0].b, sizeof(proj->s.hitboxes[0].b));
+    CpuFill16(0, &proj->s2.hitboxes[0].b, sizeof(proj->s.hitboxes[0].b));
+
+    sub_8061E5C(proj);
+}
+END_NONMATCH
