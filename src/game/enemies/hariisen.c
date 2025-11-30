@@ -1,7 +1,9 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
 #include "trig.h"
 #include "malloc_vram.h"
+#include "code_z_1.h"
 #include "game/camera.h"
 #include "game/enemy_unknown.h"
 #include "game/entity.h"
@@ -16,7 +18,7 @@ typedef struct Hariisen {
     /* 0x05 */ u8 meX;
     /* 0x06 */ u16 region[2];
     /* 0x10 */ u16 unkA;
-    /* 0x10 */ Vec2_16 unkC;
+    /* 0x10 */ u16 unkC[2];
     /* 0x10 */ u16 unk10[HSEN_COUNT_A];
     /* 0x14 */ u16 unk14[HSEN_COUNT_B];
     /* 0x1C */ Vec2_32 qUnk1C;
@@ -44,8 +46,11 @@ bool32 sub_8062580(Hariisen *enemy);
 void sub_8061D3C(Vec2_32 arg0, Vec2_16 arg2, u16 *arg3, u16 *arg4);
 
 extern const TileInfo2 gUnknown_080D2044[5];
+extern const u16 gPalette_080D206C[16];
+extern const u16 gPalette_080D208C[16];
 extern const u16 gUnknown_080D20AC[2];
 extern const u16 gUnknown_080D20B0[4];
+extern const u8 gUnknown_080D20B8[12];
 
 typedef struct Stack_806152C {
     Vec2_32 unk4;
@@ -82,8 +87,8 @@ void CreateEntity_Hariisen(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     enemy->qUnk1C.x = enemy->qPos.x;
     enemy->qUnk1C.y = enemy->qPos.y;
     enemy->unkA = 0;
-    enemy->unkC.x = 0;
-    enemy->unkC.y = 0;
+    enemy->unkC[0] = 0;
+    enemy->unkC[1] = 0;
 
     CpuFill16(0, &enemy->s.hitboxes[1].b, sizeof(enemy->s.hitboxes[1].b));
     CpuFill16(0, &enemy->s2.hitboxes[1].b, sizeof(enemy->s2.hitboxes[1].b));
@@ -226,8 +231,8 @@ NONMATCH("asm/non_matching/game/enemies/hariisen__Task_806152C.inc", void Task_8
                 }
 
                 enemy->unkA = 0;
-                enemy->unkC.x = 0;
-                enemy->unkC.y = 0;
+                enemy->unkC[0] = 0;
+                enemy->unkC[1] = 0;
                 gCurTask->main = sub_80624E4;
                 return;
             }
@@ -305,7 +310,7 @@ bool32 sub_80617E0(Hariisen *enemy, u8 param1)
     u32 var_r2;
     u16 theta;
     u8 i;
-    s32 var_sl = 6;
+    s32 shift = 6;
     u8 var_sb;
 
     var_sb = 0;
@@ -320,8 +325,8 @@ bool32 sub_80617E0(Hariisen *enemy, u8 param1)
         }
         enemy->qUnk2C[i].y = sp00[0].y;
         enemy->qUnk2C[i].x = sp00[0].x;
-        enemy->qUnk2C[i].y += ((sp00[1].y - sp00[0].y) >> var_sl) * ((enemy->unk10[i]) >> 6);
-        enemy->qUnk2C[i].x += ((sp00[1].x - sp00[0].x) >> var_sl) * ((enemy->unk10[i]) >> 6);
+        enemy->qUnk2C[i].y += ((sp00[1].y - sp00[0].y) >> shift) * ((enemy->unk10[i]) >> 6);
+        enemy->qUnk2C[i].x += ((sp00[1].x - sp00[0].x) >> shift) * ((enemy->unk10[i]) >> 6);
 
         if (param1 == 1) {
             var_r2 = 0x48;
@@ -355,8 +360,9 @@ bool32 sub_80617E0(Hariisen *enemy, u8 param1)
 
         enemy->qUnk3C[i].y = sp00[0].y;
         enemy->qUnk3C[i].x = sp00[0].x;
-        enemy->qUnk3C[i].y += ((sp00[1].y - sp00[0].y) >> var_sl) * (enemy->unk14[i] >> 6);
-        enemy->qUnk3C[i].x += ((sp00[1].x - sp00[0].x) >> var_sl) * (enemy->unk14[i] >> 6);
+        enemy->qUnk3C[i].y += ((sp00[1].y - sp00[0].y) >> shift) * (enemy->unk14[i] >> 6);
+        enemy->qUnk3C[i].x += ((sp00[1].x - sp00[0].x) >> shift) * (enemy->unk14[i] >> 6);
+
         if (param1 == 1) {
             var_r2 = 0x54;
             var_r1 = 1;
@@ -375,6 +381,31 @@ bool32 sub_80617E0(Hariisen *enemy, u8 param1)
 
     if (var_sb == 6) {
         return TRUE;
+    }
+
+    return FALSE;
+}
+
+bool32 sub_80619EC(Hariisen *enemy)
+{
+    if (++enemy->unkC[0] > gUnknown_080D20B8[enemy->unkC[1]]) {
+        enemy->unkC[0] = 0;
+        if (gObjPalette[12 * 16 + 8] == gPalette_080D206C[8]) {
+            if (FLAGS_20000 & gFlags) {
+                CopyPalette(gPalette_080D208C, 12 * 16, 16);
+            } else {
+                DmaCopy16(3, gPalette_080D208C, &gObjPalette[12 * 16], sizeof(gPalette_080D208C));
+                gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
+            }
+            if (enemy->unkC[1] < 8) {
+                enemy->unkC[1]++;
+            }
+        } else if (FLAGS_20000 & gFlags) {
+            CopyPalette(gPalette_080D206C, 12 * 16, 16);
+        } else {
+            DmaCopy16(3, gPalette_080D206C, &gObjPalette[12 * 16], sizeof(gPalette_080D206C));
+            gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
+        }
     }
 
     return FALSE;

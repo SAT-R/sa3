@@ -1136,12 +1136,12 @@ gUnknown_080D2034:
 gUnknown_080D2044:
     .incbin "baserom.gba", 0x000D2044, 0x28
 
-    .global gUnknown_080D206C
-gUnknown_080D206C:
+    .global gPalette_080D206C
+gPalette_080D206C:
     .incbin "baserom.gba", 0x000D206C, 0x20
 
-    .global gUnknown_080D208C
-gUnknown_080D208C:
+    .global gPalette_080D208C
+gPalette_080D208C:
     .incbin "baserom.gba", 0x000D208C, 0x20
 
     .global gUnknown_080D20AC
