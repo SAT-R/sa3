@@ -8,6 +8,7 @@
 #include "game/enemy_unknown.h"
 #include "game/entity.h"
 #include "game/stage.h"
+#include "module_unclear.h"
 
 #define HSEN_COUNT_A 2
 #define HSEN_COUNT_B 4
@@ -36,7 +37,7 @@ void Task_806152C(void);
 void sub_80616A0(void);
 bool32 sub_806172C(Hariisen *enemy);
 bool32 sub_80619EC(Hariisen *enemy);
-void sub_8061AC8(Hariisen *enemy);
+bool32 sub_8061AC8(Hariisen *enemy);
 void sub_8061BD4(Hariisen *enemy);
 void sub_80624E4(void);
 AnimCmdResult sub_806253C(Hariisen *enemy);
@@ -390,6 +391,7 @@ bool32 sub_80619EC(Hariisen *enemy)
 {
     if (++enemy->unkC[0] > gUnknown_080D20B8[enemy->unkC[1]]) {
         enemy->unkC[0] = 0;
+
         if (gObjPalette[12 * 16 + 8] == gPalette_080D206C[8]) {
             if (FLAGS_20000 & gFlags) {
                 CopyPalette(gPalette_080D208C, 12 * 16, 16);
@@ -405,6 +407,46 @@ bool32 sub_80619EC(Hariisen *enemy)
         } else {
             DmaCopy16(3, gPalette_080D206C, &gObjPalette[12 * 16], sizeof(gPalette_080D206C));
             gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
+        }
+    }
+
+    return FALSE;
+}
+
+bool32 sub_8061AC8(Hariisen *enemy)
+{
+    Player *p;
+    Sprite2 *s;
+    s32 worldX, worldY;
+    u8 j;
+    s32 j2;
+    u8 i;
+
+    p = NULL;
+    for (j = 0; j < 6; j++) {
+        if (j < HSEN_COUNT_A) {
+            s = &enemy->s2;
+            worldX = I(enemy->qUnk2C[j].x) + I(enemy->qPos.x);
+            worldY = I(enemy->qUnk2C[j].y) + I(enemy->qPos.y);
+        } else {
+            s = &enemy->s3;
+            j2 = j - HSEN_COUNT_A;
+            worldX = I(enemy->qUnk3C[j2].x) + I(enemy->qPos.x);
+            worldY = I(enemy->qUnk3C[j2].y) + I(enemy->qPos.y);
+        }
+
+        worldX = TO_WORLD_POS_RAW(worldX, enemy->region[0]);
+        worldY = TO_WORLD_POS_RAW(worldY, enemy->region[1]);
+
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            p = GET_SP_PLAYER_V0(i);
+
+            if (!sub_802C080(p) && (sub_8020700((Sprite *)s, worldX, worldY, 1, p, 0) != 0)) {
+                if (p->framesInvincible == 0) {
+                    sub_8020CE0((Sprite *)s, worldX, worldY, 1U, p);
+                }
+                return TRUE;
+            }
         }
     }
 
