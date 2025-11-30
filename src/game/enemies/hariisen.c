@@ -2,6 +2,7 @@
 #include "core.h"
 #include "malloc_vram.h"
 #include "game/camera.h"
+#include "game/enemy_unknown.h"
 #include "game/entity.h"
 #include "game/stage.h"
 
@@ -257,4 +258,39 @@ void sub_80616A0(void)
             TaskDestroy(gCurTask);
         }
     }
+}
+
+bool32 sub_806172C(Hariisen *enemy)
+{
+    u8 i;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        Player *p = sub_805CD20(i);
+        if (p == NULL)
+            break;
+
+        {
+            s32 dy = p->qWorldY - Q(TO_WORLD_POS(0, enemy->region[1]));
+            if (ABS(dy - enemy->qPos.y) <= Q(DISPLAY_WIDTH / 2)) {
+                s32 dx = p->qWorldX - Q(TO_WORLD_POS(0, enemy->region[0]));
+                if (ABS(dx - enemy->qPos.x) <= Q(DISPLAY_WIDTH / 2)) {
+                    return TRUE;
+                }
+            }
+        }
+
+#ifndef NON_MATCHING
+        { // NOTE: This is just the exact same check as above.
+            s32 dy = p->qWorldY - Q(TO_WORLD_POS(0, enemy->region[1]));
+            if (ABS(dy - enemy->qPos.y) <= Q(DISPLAY_WIDTH / 2)) {
+                s32 dx = p->qWorldX - Q(TO_WORLD_POS(0, enemy->region[0]));
+                if (ABS(dx - enemy->qPos.x) <= Q(DISPLAY_WIDTH / 2)) {
+                    return TRUE;
+                }
+            }
+        }
+#endif
+    }
+
+    return FALSE;
 }
