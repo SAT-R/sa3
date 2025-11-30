@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start sub_8061E5C
 sub_8061E5C: @ 0x08061E5C
 	push {r4, r5, r6, r7, lr}
@@ -127,6 +125,7 @@ sub_8061E5C: @ 0x08061E5C
 	.align 2, 0
 _08061F48: .4byte gUnknown_080D2044
 _08061F4C: .4byte gCamera
+.endif
 
 	thumb_func_start sub_8061F50
 sub_8061F50: @ 0x08061F50
