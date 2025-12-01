@@ -25,14 +25,14 @@ typedef struct {
     /* 0x14 */ Vec2_32 qUnk14;
     /* 0x1C */ Vec2_32 qPos;
     /* 0x24 */ Vec2_32 qUnk24;
-    /* 0x2C */ s32 unk2C;
-    /* 0x30 */ s32 unk30;
-    /* 0x34 */ Sprite s;
+    /* 0x2C */ Sprite2 s;
 } BuBu /* size: 0x5C */;
 
 void Task_BuBuInit(void);
 void TaskDestructor_BuBu(struct Task *t);
 void sub_805ECC4(BuBu *enemy);
+
+extern const TileInfo2 gUnknown_080D1F8C[4];
 
 void CreateEntity_BuBu(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -74,9 +74,35 @@ void CreateEntity_BuBu(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         enemy->direction = +1;
     }
 
-    CpuFill16(0, &enemy->s.hitboxes[0].b.left, sizeof(enemy->s.hitboxes[1].b));
+    CpuFill16(0, &enemy->s.hitboxes[1].b.left, sizeof(enemy->s.hitboxes[1].b));
 
     sub_805ECC4(enemy);
 
     SET_MAP_ENTITY_INITIALIZED(me);
+}
+
+void sub_805ECC4(BuBu *enemy)
+{
+    u8 *vram = VramMalloc(0xCU);
+    Sprite2 *s = &enemy->s;
+
+    s->tiles = vram;
+    s->anim = gUnknown_080D1F8C[0].anim;
+    s->variant = gUnknown_080D1F8C[0].variant;
+    s->prevVariant = -1;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+    s->oamFlags = 0x480;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x1000;
+
+    if (enemy->direction < 0) {
+        s->frameFlags |= 0x400;
+    }
+
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    UpdateSpriteAnimation((Sprite *)s);
 }
