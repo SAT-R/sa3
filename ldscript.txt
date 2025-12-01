@@ -126,6 +126,7 @@ SECTIONS {
         src/game/enemies/uutsubo.o(.text);
         src/game/enemies/gaogao.o(.text);
         src/game/enemies/juggling.o(.text);
+        src/game/enemies/bu_bu.o(.text);
         asm/enemy_bu_bu.o(.text);
         src/game/enemies/guard.o(.text);
         src/game/enemies/yadokk.o(.text);
