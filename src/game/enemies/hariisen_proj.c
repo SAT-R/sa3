@@ -508,3 +508,189 @@ bool32 sub_80620EC(HariisenProj *proj)
 
     return FALSE;
 }
+
+bool32 sub_8062250(HariisenProj *proj)
+{
+    Player *p;
+    Sprite2 *s;
+    s32 worldX;
+    s32 worldY;
+    u8 var_sl;
+    u8 var_r1;
+    u8 i, pid;
+
+    p = NULL;
+    for (var_sl = 0; var_sl < 6; var_sl++) {
+        if (var_sl < HSEN_COUNT_A) {
+            s = &proj->s;
+            worldX = I(proj->qUnk2C[var_sl].x) + I(proj->qPos.x);
+            worldY = I(proj->qUnk2C[var_sl].y) + I(proj->qPos.y);
+            var_r1 = proj->unk0[var_sl];
+        } else {
+            s = &proj->s2;
+            worldX = I(proj->qUnk3C[var_sl - HSEN_COUNT_A].x) + I(proj->qPos.x);
+            worldY = I(proj->qUnk3C[var_sl - HSEN_COUNT_A].y) + I(proj->qPos.y);
+            var_r1 = proj->unk2[var_sl - HSEN_COUNT_A];
+        }
+
+        worldX = TO_WORLD_POS_RAW(worldX, proj->region[0]);
+        worldY = TO_WORLD_POS_RAW(worldY, proj->region[1]);
+
+        if (var_r1 != 0) {
+            for (pid = 0; pid < NUM_SINGLE_PLAYER_CHARS; pid++) {
+                p = GET_SP_PLAYER_V0(pid);
+                if (!sub_802C080(p) && sub_8020700((Sprite *)s, worldX, worldY, 1, p, 0)) {
+                    if (p->framesInvincible == 0) {
+                        sub_8020CE0((Sprite *)s, worldX, worldY, 1U, p);
+                    }
+
+                    return TRUE;
+                }
+            }
+        }
+    }
+
+    return FALSE;
+}
+
+AnimCmdResult sub_8062374(HariisenProj *proj)
+{
+    Sprite2 *s;
+    AnimCmdResult acmdRes;
+    u8 i;
+
+    acmdRes = ACMD_RESULT__RUNNING;
+    for (i = 0; i < HSEN_COUNT_A; i++) {
+        if (proj->unk0[i] != 0) {
+            s = &proj->s;
+            s->x = TO_WORLD_POS_RAW(I(proj->qPos.x), proj->region[0]) - gCamera.x;
+            s->y = TO_WORLD_POS_RAW(I(proj->qPos.y), proj->region[1]) - gCamera.y;
+            s->x += I(proj->qUnk2C[i].x);
+            s->y += I(proj->qUnk2C[i].y);
+            if (i != 0) {
+                SPRITE_FLAG_CLEAR(s, Y_FLIP);
+                s->y += 2;
+            } else {
+                SPRITE_FLAG_SET(s, Y_FLIP);
+                s->y -= 2;
+            }
+            acmdRes = UpdateSpriteAnimation((Sprite *)s);
+            DisplaySprite((Sprite *)s);
+        }
+    }
+
+    for (i = 0; i < HSEN_COUNT_B; i++) {
+        if (proj->unk2[i] != 0) {
+            s = &proj->s2;
+
+            if (i == 0) {
+                SPRITE_FLAG_SET(s, X_FLIP);
+                SPRITE_FLAG_SET(s, Y_FLIP);
+            } else if (i == 1) {
+                SPRITE_FLAG_SET(s, X_FLIP);
+                SPRITE_FLAG_CLEAR(s, Y_FLIP);
+            } else if (i == 2) {
+                SPRITE_FLAG_CLEAR(s, Y_FLIP);
+                SPRITE_FLAG_CLEAR(s, X_FLIP);
+            } else if (i == 3) {
+                SPRITE_FLAG_SET(s, Y_FLIP);
+                SPRITE_FLAG_CLEAR(s, X_FLIP);
+            }
+
+            s->x = TO_WORLD_POS_RAW(I(proj->qPos.x), proj->region[0]) - gCamera.x;
+            s->y = TO_WORLD_POS_RAW(I(proj->qPos.y), proj->region[1]) - gCamera.y;
+            s->x += I(proj->qUnk3C[i].x);
+            s->y += I(proj->qUnk3C[i].y);
+            acmdRes = UpdateSpriteAnimation((Sprite *)s);
+            DisplaySprite((Sprite *)s);
+        }
+    }
+
+    return acmdRes;
+}
+
+void Task_80624E4(void)
+{
+    Hariisen *enemy = TASK_DATA(gCurTask);
+    Sprite2 *s;
+
+    if (sub_806253C(enemy) == ACMD_RESULT__ENDED) {
+        s = &enemy->s;
+        s->anim = gUnknown_080D2044[0].anim;
+        s->variant = gUnknown_080D2044[0].variant;
+        gCurTask->main = sub_80616A0;
+        return;
+    }
+
+    if (sub_8062580(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
+    }
+}
+
+AnimCmdResult sub_806253C(Hariisen *enemy)
+{
+    Sprite2 *s;
+    AnimCmdResult acmdRes;
+
+    s = &enemy->s;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+    acmdRes = UpdateSpriteAnimation((Sprite *)s);
+    DisplaySprite((Sprite *)s);
+    return acmdRes;
+}
+
+bool32 sub_8062580(Hariisen *enemy)
+{
+    Sprite *s;
+    EnemyUnknownStruc0 unk;
+
+    unk.unk4 = sub_80625BC(enemy, &unk);
+    unk.spr = (Sprite *)&enemy->s;
+    unk.posX = enemy->qUnk1C.x;
+    unk.posY = enemy->qUnk1C.y;
+    unk.regionX = enemy->region[0];
+    unk.regionY = enemy->region[1];
+    unk.me = enemy->me;
+    unk.meX = enemy->meX;
+
+    return sub_805C280(&unk);
+}
+
+bool32 sub_80625BC(Hariisen *enemy, EnemyUnknownStruc0 *arg1)
+{
+    arg1->me = NULL;
+    arg1->meX = 0;
+    arg1->unk4 = 0;
+    arg1->spr = (Sprite *)&enemy->s;
+    arg1->posX = enemy->qPos.x;
+    arg1->posY = enemy->qPos.y;
+    arg1->regionX = enemy->region[0];
+    arg1->regionY = enemy->region[1];
+    return sub_805C63C(arg1);
+}
+
+void TaskDestructor_Hariisen(struct Task *t)
+{
+    Hariisen *enemy = TASK_DATA(t);
+    VramFree(enemy->s.tiles);
+}
+
+void Task_HariisenProjInit(void)
+{
+    HariisenProj *enemy = TASK_DATA(gCurTask);
+
+    sub_8061F50(enemy);
+    sub_8062374(enemy);
+    sub_8062250(enemy);
+
+    if (sub_80620EC(enemy) == TRUE) {
+        TaskDestroy(gCurTask);
+    }
+}
+
+void TaskDestructor_HariisenProj(struct Task *t)
+{
+    HariisenProj *proj = TASK_DATA(t);
+    VramFree(proj->s.tiles);
+}

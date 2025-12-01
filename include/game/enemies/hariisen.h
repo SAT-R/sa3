@@ -2,6 +2,7 @@
 #define GUARD_SA3_ENEMY_HARIISEN_H
 
 #include "game/entity.h"
+#include "game/enemy_unknown.h" // for EnemyUnknownStruc0
 
 #define HSEN_COUNT_A 2
 #define HSEN_COUNT_B 4
@@ -61,6 +62,7 @@ void TaskDestructor_Hariisen(Task *);
 bool32 sub_80617E0(Hariisen *enemy, u8 param1);
 bool32 sub_8061F50(HariisenProj *proj);
 bool32 sub_8062580(Hariisen *enemy);
+bool32 sub_80625BC(Hariisen *enemy, EnemyUnknownStruc0 *arg1);
 void sub_8061D3C(Stack_806152C arg0);
 
 void Task_HariisenProjInit(void);
