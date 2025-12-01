@@ -13,7 +13,7 @@
 typedef struct {
     /* 0x00 */ MapEntity *me;
     /* 0x04 */ u8 id;
-    /* 0x05 */ u8 spriteX;
+    /* 0x05 */ u8 meX;
     /* 0x06 */ u8 unk6;
     /* 0x07 */ u8 unk7;
     /* 0x08 */ u8 unk8;
@@ -25,18 +25,18 @@ typedef struct {
     /* 0x14 */ Vec2_32 qUnk14;
     /* 0x1C */ Vec2_32 qPos;
     /* 0x24 */ Vec2_32 qUnk24;
-    /* 0x2C */ s32 unk33;
-    /* 0x30 */ s32 unk35;
+    /* 0x2C */ s32 unk2C;
+    /* 0x30 */ s32 unk30;
     /* 0x34 */ Sprite s;
 } BuBu /* size: 0x5C */;
 
-void sub_805ED48(void);
-void sub_805F2AC(struct Task *t);
+void Task_BuBuInit(void);
+void TaskDestructor_BuBu(struct Task *t);
 void sub_805ECC4(BuBu *enemy);
 
 void CreateEntity_BuBu(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(sub_805ED48, sizeof(BuBu), 0x2100, 0, sub_805F2AC);
+    struct Task *t = TaskCreate(Task_BuBuInit, sizeof(BuBu), 0x2100, 0, TaskDestructor_BuBu);
 
     BuBu *enemy = TASK_DATA(t);
     s32 qX, qY, offsetX, offsetY;
@@ -45,7 +45,7 @@ void CreateEntity_BuBu(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     enemy->unk10 = 0;
     enemy->unk6 = 0;
     enemy->me = me;
-    enemy->spriteX = me->x;
+    enemy->meX = me->x;
     enemy->id = id;
     enemy->region[0] = regionX;
     enemy->region[1] = regionY;

@@ -72,8 +72,8 @@ _0805ED2E:
 _0805ED40: .4byte gUnknown_080D1F8C
 _0805ED44: .4byte gCamera
 
-	thumb_func_start sub_805ED48
-sub_805ED48: @ 0x0805ED48
+	thumb_func_start Task_BuBuInit
+Task_BuBuInit: @ 0x0805ED48
 	push {r4, lr}
 	ldr r0, _0805ED94 @ =gCurTask
 	ldr r0, [r0]
@@ -216,12 +216,12 @@ _0805EE5E:
 	strb r2, [r5, #6]
 	ldr r0, _0805EE7C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0805EE80 @ =sub_805ED48
+	ldr r0, _0805EE80 @ =Task_BuBuInit
 	b _0805EEA0
 	.align 2, 0
 _0805EE78: .4byte gUnknown_080D1F8C
 _0805EE7C: .4byte gCurTask
-_0805EE80: .4byte sub_805ED48
+_0805EE80: .4byte Task_BuBuInit
 _0805EE84:
 	adds r0, r5, #0
 	bl sub_805F1A0
@@ -594,7 +594,7 @@ _0805F130:
 	ldrb r0, [r1, #2]
 	strb r0, [r2, #0x1a]
 	ldr r1, [r7]
-	ldr r0, _0805F158 @ =sub_805ED48
+	ldr r0, _0805F158 @ =Task_BuBuInit
 	str r0, [r1, #8]
 _0805F148:
 	pop {r4, r5, r6, r7}
@@ -603,7 +603,7 @@ _0805F148:
 	.align 2, 0
 _0805F150: .4byte 0x0300002C
 _0805F154: .4byte gUnknown_080D1F8C
-_0805F158: .4byte sub_805ED48
+_0805F158: .4byte Task_BuBuInit
 
 	thumb_func_start sub_805F15C
 sub_805F15C: @ 0x0805F15C
@@ -794,8 +794,8 @@ sub_805F268: @ 0x0805F268
 	.align 2, 0
 _0805F2A8: .4byte gCamera
 
-	thumb_func_start sub_805F2AC
-sub_805F2AC: @ 0x0805F2AC
+	thumb_func_start TaskDestructor_BuBu
+TaskDestructor_BuBu: @ 0x0805F2AC
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
