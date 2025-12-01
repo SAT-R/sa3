@@ -400,7 +400,7 @@ void sub_8061E5C(HariisenProj *enemy)
 }
 
 // (99.78%) https://decomp.me/scratch/d0Gv6
-NONMATCH("asm/non_matching/game/enemies/hariisen__sub_8061F50.inc", u32 sub_8061F50(HariisenProj *proj))
+NONMATCH("asm/non_matching/game/enemies/hariisen__sub_8061F50.inc", bool32 sub_8061F50(HariisenProj *proj))
 {
     Vec2_32 sp00[2];
     u8 i;
@@ -445,7 +445,7 @@ NONMATCH("asm/non_matching/game/enemies/hariisen__sub_8061F50.inc", u32 sub_8061
             }
 
             // TODO: Is this a copy-paste bug?
-            //       My gut feeling says, this should be 2 and 3...
+            //       My gut feeling says this should be 2 and 3...
             if ((i == 0) || (i == 3)) {
                 sp00[1].y += 0x200;
             }
@@ -468,3 +468,43 @@ NONMATCH("asm/non_matching/game/enemies/hariisen__sub_8061F50.inc", u32 sub_8061
     return FALSE;
 }
 END_NONMATCH
+
+bool32 sub_80620EC(HariisenProj *proj)
+{
+    u8 i;
+    u8 total;
+    s16 screenX, screenY;
+
+    total = 0;
+    for (i = 0; i < HSEN_COUNT_A; i++) {
+        screenX = TO_WORLD_POS_RAW(I(proj->qPos.x), proj->region[0]) - gCamera.x;
+        screenX += I(proj->qUnk2C[i].x);
+        screenY = TO_WORLD_POS_RAW(I(proj->qPos.y), proj->region[1]) - gCamera.y;
+        screenY += I(proj->qUnk2C[i].y);
+
+        if ((ABS(proj->qUnk2C[i].y) >= Q(200)) || (screenX < 0 || screenX > DISPLAY_WIDTH) || (screenY < 0 || screenY > DISPLAY_HEIGHT)
+            || (proj->unk0[i] == 0)) {
+            proj->unk0[i] = 0;
+            total += 1;
+        }
+    }
+
+    for (i = 0; i < HSEN_COUNT_B; i++) {
+        screenX = TO_WORLD_POS_RAW(I(proj->qPos.x), proj->region[0]) - gCamera.x;
+        screenX += I(proj->qUnk3C[i].x);
+        screenY = TO_WORLD_POS_RAW(I(proj->qPos.y), proj->region[1]) - gCamera.y;
+        screenY += I(proj->qUnk3C[i].y);
+
+        if (((ABS(proj->qUnk3C[i].y) >= Q(140)) && (ABS(proj->qUnk3C[i].x) >= Q(140)))
+            || ((screenX < 0 || screenX > DISPLAY_WIDTH) || (screenY < 0 || screenY > DISPLAY_HEIGHT) || (proj->unk2[i] == 0))) {
+            proj->unk2[i] = 0;
+            total += 1;
+        }
+    }
+
+    if (total == 6) {
+        return TRUE;
+    }
+
+    return FALSE;
+}
