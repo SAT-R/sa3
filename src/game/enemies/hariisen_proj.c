@@ -398,3 +398,73 @@ void sub_8061E5C(HariisenProj *enemy)
     s->hitboxes[0].index = -1;
     UpdateSpriteAnimation((Sprite *)s);
 }
+
+// (99.78%) https://decomp.me/scratch/d0Gv6
+NONMATCH("asm/non_matching/game/enemies/hariisen__sub_8061F50.inc", u32 sub_8061F50(HariisenProj *proj))
+{
+    Vec2_32 sp00[2];
+    u8 i;
+    s32 r0;
+    s32 r1;
+
+    s32 shift = 6;
+
+    for (i = 0; i < HSEN_COUNT_A; i++) {
+        if (proj->unk0[i] != 0) {
+            sp00[0].x = 0;
+            sp00[0].y = 0;
+            sp00[1].x = (SIN_24_8((gUnknown_080D20AC[i] & 0xFF) * 4) << 4) + (SIN_24_8((gUnknown_080D20AC[i] & 0xFF) * 4) << 1);
+            sp00[1].y = (COS_24_8((gUnknown_080D20AC[i] & 0xFF) * 4) << 4) + (COS_24_8((gUnknown_080D20AC[i] & 0xFF) * 4) << 1);
+            if (i != 0) {
+                sp00[1].y += 0x100;
+            }
+            proj->qUnk2C[i].y = sp00[0].y;
+            proj->qUnk2C[i].x = sp00[0].x;
+            proj->qUnk2C[i].y += ((sp00[1].y - sp00[0].y) >> shift) * (proj->unkC[i] >> 6);
+            proj->qUnk2C[i].x += ((sp00[1].x - sp00[0].x) >> shift) * (proj->unkC[i] >> 6);
+            r0 = 3;
+#ifndef NON_MATCHING
+            asm("" ::"r"(r0));
+#endif
+            r1 = r0 << 8;
+            r0 = proj->unkC[i];
+            r0 += r1;
+            proj->unkC[i] = r0;
+        }
+    }
+
+    for (i = 0; i < HSEN_COUNT_B; i++) {
+        if (proj->unk2[i] != 0) {
+            sp00[0].x = 0;
+            sp00[0].y = 0;
+            sp00[1].x = (SIN_24_8((gUnknown_080D20B0[i] & 0xFF) * 4) << 3) + (SIN_24_8((gUnknown_080D20B0[i] & 0xFF) * 4) << 2);
+            sp00[1].y = (COS_24_8((gUnknown_080D20B0[i] & 0xFF) * 4) << 3) + (COS_24_8((gUnknown_080D20B0[i] & 0xFF) * 4) << 2);
+
+            if ((i == 0) || (i == 1)) {
+                sp00[1].x += 0x200;
+            }
+
+            // TODO: Is this a copy-paste bug?
+            //       My gut feeling says, this should be 2 and 3...
+            if ((i == 0) || (i == 3)) {
+                sp00[1].y += 0x200;
+            }
+
+            proj->qUnk3C[i].y = sp00[0].y;
+            proj->qUnk3C[i].x = sp00[0].x;
+            proj->qUnk3C[i].y += ((sp00[1].y - sp00[0].y) >> shift) * (proj->unk14[i] >> 6);
+            proj->qUnk3C[i].x += ((sp00[1].x - sp00[0].x) >> shift) * (proj->unk14[i] >> 6);
+            r0 = 3;
+#ifndef NON_MATCHING
+            asm("" ::"r"(r0));
+#endif
+            r1 = r0 << 8;
+            r0 = proj->unk14[i];
+            r0 += r1;
+            proj->unk14[i] = r0;
+        }
+    }
+
+    return FALSE;
+}
+END_NONMATCH
