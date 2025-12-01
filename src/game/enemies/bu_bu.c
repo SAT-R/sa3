@@ -137,3 +137,37 @@ void Task_BuBuInit()
         gCurTask->main = sub_805F094;
     }
 }
+
+void sub_805EE0C(void)
+{
+    BuBu *enemy = TASK_DATA(gCurTask);
+
+    if (sub_805F22C(enemy) == 1) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (sub_805F268(enemy) == ACMD_RESULT__ENDED) {
+        Sprite2 *s = &enemy->s;
+
+        if (SPRITE_FLAG_GET(s, X_FLIP)) {
+            SPRITE_FLAG_CLEAR(s, X_FLIP);
+        } else {
+            SPRITE_FLAG_SET(s, X_FLIP);
+        }
+
+        s->anim = gUnknown_080D1F8C[0].anim;
+        s->variant = gUnknown_080D1F8C[0].variant;
+
+        enemy->unk6 = 0;
+
+        gCurTask->main = Task_BuBuInit;
+    } else if (sub_805F1A0(enemy) == 1) {
+        Sprite2 *s = &enemy->s;
+
+        s->anim = gUnknown_080D1F8C[2].anim;
+        s->variant = gUnknown_080D1F8C[2].variant;
+
+        gCurTask->main = sub_805F094;
+    }
+}
