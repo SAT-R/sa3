@@ -24,13 +24,20 @@ typedef struct {
     /* 0x12 */ u16 unk12;
     /* 0x14 */ Vec2_32 qUnk14;
     /* 0x1C */ Vec2_32 qPos;
-    /* 0x24 */ Vec2_32 qUnk24;
+    /* 0x24 */ s32 qLeft;
+    /* 0x24 */ s32 qRight;
     /* 0x2C */ Sprite2 s;
 } BuBu /* size: 0x5C */;
 
 void Task_BuBuInit(void);
 void TaskDestructor_BuBu(struct Task *t);
 void sub_805ECC4(BuBu *enemy);
+void sub_805EE0C(void);
+void sub_805F094(void);
+void sub_805F15C(BuBu *enemy);
+bool32 sub_805F1A0(BuBu *enemy);
+bool32 sub_805F22C(BuBu *enemy);
+AnimCmdResult sub_805F268(BuBu *enemy);
 
 extern const TileInfo2 gUnknown_080D1F8C[4];
 
@@ -39,7 +46,7 @@ void CreateEntity_BuBu(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     struct Task *t = TaskCreate(Task_BuBuInit, sizeof(BuBu), 0x2100, 0, TaskDestructor_BuBu);
 
     BuBu *enemy = TASK_DATA(t);
-    s32 qX, qY, offsetX, offsetY;
+    s32 qX, qY, offsetX, offsetRight;
 
     enemy->unkE = 0;
     enemy->unk10 = 0;
@@ -60,11 +67,8 @@ void CreateEntity_BuBu(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     enemy->unkE = 0x5A;
 
-    offsetX = Q(me->d.sData[0] * TILE_WIDTH);
-    enemy->qUnk24.x = qX + offsetX;
-
-    offsetY = Q(me->d.uData[2] * TILE_WIDTH);
-    enemy->qUnk24.y = enemy->qUnk24.x + offsetY;
+    enemy->qLeft = qX + Q(me->d.sData[0] * TILE_WIDTH);
+    enemy->qRight = enemy->qLeft + Q(me->d.uData[2] * TILE_WIDTH);
 
     enemy->unk8 = 0;
 
@@ -105,4 +109,31 @@ void sub_805ECC4(BuBu *enemy)
 
     s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
     UpdateSpriteAnimation((Sprite *)s);
+}
+
+void Task_BuBuInit()
+{
+    BuBu *enemy = TASK_DATA(gCurTask);
+
+    sub_805CD70(&enemy->qPos, NULL, enemy->region, (s8 *)&enemy->unk8);
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        sub_805F15C(enemy);
+    }
+    if (sub_805F22C(enemy) == 1) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    sub_805F268(enemy);
+
+    if ((enemy->qPos.x <= enemy->qLeft) || (enemy->qPos.x >= enemy->qRight)) {
+        Sprite2 *s = &enemy->s;
+        s->anim = gUnknown_080D1F8C[1].anim;
+        s->variant = gUnknown_080D1F8C[1].variant;
+        gCurTask->main = sub_805EE0C;
+    } else if (sub_805F1A0(enemy) == TRUE) {
+        Sprite2 *s = &enemy->s;
+        s->anim = gUnknown_080D1F8C[2].anim;
+        s->variant = gUnknown_080D1F8C[2].variant;
+        gCurTask->main = sub_805F094;
+    }
 }
