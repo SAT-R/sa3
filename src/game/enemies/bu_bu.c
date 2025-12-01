@@ -41,6 +41,8 @@ bool32 sub_805F22C(BuBu *enemy);
 AnimCmdResult sub_805F268(BuBu *enemy);
 
 extern const TileInfo2 gUnknown_080D1F8C[4];
+extern const u8 gUnknown_080D1FAC[4];
+extern const TileInfo2 gUnknown_080D1FB0[2];
 
 void CreateEntity_BuBu(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -245,3 +247,35 @@ bool32 sub_805EEB4(BuBu *enemy)
         return FALSE;
     }
 }
+
+// NOTE: Unused
+// (94.17%) https://decomp.me/scratch/sd7x3
+NONMATCH("asm/non_matching/game/enemies/bubu__sub_805F024.inc", bool32 sub_805F024(BuBu *enemy))
+{
+    enemy->qPos.y -= Q(gUnknown_080D1FAC[enemy->unk6]);
+    if (enemy->qPos.y < enemy->qUnk14.y - Q(64)) {
+        enemy->qPos.y = enemy->qUnk14.y - Q(64);
+    }
+
+    if (enemy->qPos.y == enemy->qUnk14.y - Q(64)) {
+        if (enemy->unkE == 0) {
+            enemy->unkE = 90;
+            return TRUE;
+        }
+
+        enemy->unkE--;
+    }
+
+    if (enemy->unk10 < 6) {
+        enemy->unk10++;
+    } else {
+        if (++enemy->unk6 > 2U) {
+            enemy->unk6 = 2;
+        }
+
+        enemy->unk10 = 0;
+    }
+
+    return FALSE;
+}
+END_NONMATCH
