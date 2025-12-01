@@ -35,8 +35,10 @@ void sub_805ECC4(BuBu *enemy);
 void sub_805EE0C(void);
 bool32 sub_805EEB4(BuBu *enemy);
 void sub_805F094(void);
+void sub_805F104(void);
 void sub_805F15C(BuBu *enemy);
 bool32 sub_805F1A0(BuBu *enemy);
+bool32 sub_805F1E0(BuBu *enemy);
 bool32 sub_805F22C(BuBu *enemy);
 AnimCmdResult sub_805F268(BuBu *enemy);
 
@@ -279,3 +281,149 @@ NONMATCH("asm/non_matching/game/enemies/bubu__sub_805F024.inc", bool32 sub_805F0
     return FALSE;
 }
 END_NONMATCH
+
+void sub_805F094(void)
+{
+    BuBu *enemy = TASK_DATA(gCurTask);
+    Sprite2 *s;
+
+    sub_805CD70(&enemy->qPos, NULL, enemy->region, (s8 *)&enemy->unk8);
+    sub_805F268(enemy);
+
+    if (sub_805F22C(enemy) == 1) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (sub_805EEB4(enemy) == 1) {
+        s = &enemy->s;
+        s->anim = gUnknown_080D1F8C[3].anim;
+        s->variant = gUnknown_080D1F8C[3].variant;
+        gCurTask->main = sub_805F104;
+    }
+}
+
+void sub_805F104(void)
+{
+    BuBu *enemy = TASK_DATA(gCurTask);
+    Sprite2 *s;
+    AnimCmdResult acmdRes;
+
+    acmdRes = sub_805F268(enemy);
+
+    if (sub_805F22C(enemy) == 1) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (acmdRes == ACMD_RESULT__ENDED) {
+        s = &enemy->s;
+        s->anim = gUnknown_080D1F8C->anim;
+        s->variant = gUnknown_080D1F8C->variant;
+        gCurTask->main = Task_BuBuInit;
+    }
+}
+
+void sub_805F15C(BuBu *enemy)
+{
+    if (enemy->s.frameFlags & 0x400) {
+        if (enemy->qPos.x <= enemy->qRight) {
+            enemy->qPos.x += Q(1);
+
+            if (enemy->qPos.x > enemy->qRight) {
+                enemy->qPos.x = enemy->qRight;
+            }
+        }
+    } else {
+        if (enemy->qPos.x >= enemy->qLeft) {
+            enemy->qPos.x -= Q(1);
+
+            if (enemy->qPos.x < enemy->qLeft) {
+                enemy->qPos.x = enemy->qLeft;
+            }
+        }
+    }
+}
+
+bool32 sub_805F1A0(BuBu *enemy)
+{
+    u8 var_r3;
+
+    if (gTask_03001CFC != NULL) {
+        Strc3001CFC *strc = TASK_DATA(gTask_03001CFC);
+
+        for (var_r3 = 0; var_r3 < 32; var_r3++) {
+            if (strc->unk28[var_r3].unkC != 0) {
+                return TRUE;
+            }
+        }
+#ifndef BUG_FIX
+        return;
+#else
+        // TODO: Understand whether this is the correct return value fix!
+        return FALSE;
+#endif
+    }
+    return FALSE;
+}
+
+bool32 sub_805F1E0(BuBu *enemy)
+{
+    enemy->qPos.y += Q(1);
+
+    if (enemy->qPos.y < enemy->qUnk14.y) {
+        return FALSE;
+    } else {
+        enemy->qPos.y = enemy->qUnk14.y;
+        return TRUE;
+    }
+}
+
+bool32 sub_805F200(BuBu *enemy, EnemyUnknownStruc0 *arg1)
+{
+    arg1->me = NULL;
+    arg1->meX = 0;
+    arg1->unk4 = 0;
+    arg1->spr = (Sprite *)&enemy->s;
+    arg1->posX = enemy->qPos.x;
+    arg1->posY = enemy->qPos.y;
+    arg1->regionX = enemy->region[0];
+    arg1->regionY = enemy->region[1];
+    return sub_805C63C(arg1);
+}
+
+bool32 sub_805F22C(BuBu *enemy)
+{
+    Sprite *s;
+    EnemyUnknownStruc0 unk;
+
+    unk.unk4 = sub_805F200(enemy, &unk);
+    unk.spr = (Sprite *)&enemy->s;
+    unk.posX = enemy->qUnk14.x;
+    unk.posY = enemy->qUnk14.y;
+    unk.regionX = enemy->region[0];
+    unk.regionY = enemy->region[1];
+    unk.me = enemy->me;
+    unk.meX = enemy->meX;
+
+    return sub_805C280(&unk);
+}
+
+AnimCmdResult sub_805F268(BuBu *enemy)
+{
+    Sprite2 *s;
+    AnimCmdResult acmdRes;
+
+    s = &enemy->s;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+    acmdRes = UpdateSpriteAnimation((Sprite *)s);
+    DisplaySprite((Sprite *)s);
+    return acmdRes;
+}
+
+void TaskDestructor_BuBu(struct Task *t)
+{
+    BuBu *enemy = TASK_DATA(t);
+    VramFree(enemy->s.tiles);
+}
