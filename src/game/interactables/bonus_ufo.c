@@ -60,7 +60,7 @@ void CreateEntity_BonusUfo(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     ufo->base.regionX = regionX;
     ufo->base.regionY = regionY;
     ufo->base.me = me;
-    ufo->base.spriteX = me->x;
+    ufo->base.meX = me->x;
     ufo->base.id = id;
 
     // NOTE: 'i' is implicitly incremented here! (does not match otherwise)
@@ -104,7 +104,7 @@ void Task_BonusUfoMain(void)
     s32 qTop, qBottom;
     Player *p;
 
-    qWorldX = Q(TO_WORLD_POS(ufo->base.spriteX, ufo->base.regionX));
+    qWorldX = Q(TO_WORLD_POS(ufo->base.meX, ufo->base.regionX));
     qWorldY = Q(TO_WORLD_POS(me->y, ufo->base.regionY));
     qTop = qWorldY + Q(me->d.sData[1] * TILE_WIDTH);
     qBottom = qTop + Q(me->d.uData[3] * TILE_WIDTH);
@@ -169,7 +169,7 @@ void Task_804165C(void)
     s32 qWorldX, qWorldY;
 
     if (ufo->unkB2 == 0) {
-        qWorldX = Q(TO_WORLD_POS(ufo->base.spriteX, ufo->base.regionX));
+        qWorldX = Q(TO_WORLD_POS(ufo->base.meX, ufo->base.regionX));
         qWorldY = Q(TO_WORLD_POS(me->y, ufo->base.regionY));
 
         p = &gPlayers[gStageData.playerIndex];
@@ -314,11 +314,11 @@ bool16 sub_8041988(void)
     MapEntity *me = ufo->base.me;
     s16 worldX, worldY;
 
-    worldX = TO_WORLD_POS(ufo->base.spriteX, ufo->base.regionX);
+    worldX = TO_WORLD_POS(ufo->base.meX, ufo->base.regionX);
     worldY = TO_WORLD_POS(me->y, ufo->base.regionY);
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, ufo->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, ufo->base.meX);
         TaskDestroy(gCurTask);
         return FALSE;
     } else {

@@ -55,7 +55,7 @@ void CreateEntity_IceLauncher(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     launcher->base.regionX = regionX;
     launcher->base.regionY = regionY;
     launcher->base.me = me;
-    launcher->base.spriteX = me->x;
+    launcher->base.meX = me->x;
     launcher->base.id = id;
     launcher->unk3C = 0;
     launcher->worldX = TO_WORLD_POS(me->x, regionX);
@@ -178,7 +178,7 @@ void sub_804B168(void)
     worldX = launcher->worldX;
     worldY = launcher->worldY;
     if (!IsWorldPtActive(worldX, worldY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, launcher->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, launcher->base.meX);
         TaskDestroy(gCurTask);
         return;
     }

@@ -39,7 +39,7 @@ void CreateEntity_PlatformChaosAngel(MapEntity *me, u16 regionX, u16 regionY, u8
     platform->base.regionX = regionX;
     platform->base.regionY = regionY;
     platform->base.me = me;
-    platform->base.spriteX = me->x;
+    platform->base.meX = me->x;
     platform->base.id = id;
 
     platform->worldX = TO_WORLD_POS(me->x, regionX);
@@ -155,7 +155,7 @@ void sub_804DB08(void)
             ResolvePlayerSpriteCollision(s, p);
         }
 
-        me->x = platform->base.spriteX;
+        me->x = platform->base.meX;
         TaskDestroy(gCurTask);
         return;
     } else {

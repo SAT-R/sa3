@@ -50,7 +50,7 @@ void CreateEntity_DecoRock(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     deco->base.regionX = regionX;
     deco->base.regionY = regionY;
     deco->base.me = me;
-    deco->base.spriteX = me->x;
+    deco->base.meX = me->x;
     deco->base.id = id;
 
     deco->unk86 = 0;
@@ -89,7 +89,7 @@ void sub_8037388(void)
     u32 res;
     u8 i, j;
 
-    worldX = TO_WORLD_POS(deco->base.spriteX, deco->base.regionX);
+    worldX = TO_WORLD_POS(deco->base.meX, deco->base.regionX);
     worldY = TO_WORLD_POS(me->y, deco->base.regionY);
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
@@ -223,7 +223,7 @@ void sub_8037710(void)
     s32 screenX, screenY;
     s16 i;
 
-    worldX = TO_WORLD_POS(deco->base.spriteX, deco->base.regionX);
+    worldX = TO_WORLD_POS(deco->base.meX, deco->base.regionX);
     worldY = TO_WORLD_POS(me->y, deco->base.regionY);
 
     screenX = (worldX - gCamera.x);
@@ -242,7 +242,7 @@ void sub_8037710(void)
             ResolvePlayerSpriteCollision(s, p);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, deco->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, deco->base.meX);
         TaskDestroy(gCurTask);
     } else {
         UpdateSpriteAnimation(s);
@@ -259,14 +259,14 @@ void sub_8037828(void)
     s32 res;
     u8 i;
 
-    worldX = TO_WORLD_POS(deco->base.spriteX, deco->base.regionX);
+    worldX = TO_WORLD_POS(deco->base.meX, deco->base.regionX);
     worldY = TO_WORLD_POS(me->y, deco->base.regionY);
 
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
 
     if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, deco->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, deco->base.meX);
         TaskDestroy(gCurTask);
         return;
     }
@@ -334,7 +334,7 @@ void Task_80379F4(void)
     }
 
     if (deco->unk86 == 0) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, deco->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, deco->base.meX);
         TaskDestroy(gCurTask);
         return;
     }

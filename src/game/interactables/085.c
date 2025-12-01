@@ -44,7 +44,7 @@ void CreateEntity_Interactable085(MapEntity *me, u16 regionX, u16 regionY, u8 id
     ia->right = (me->d.uData[2] + me->d.uData[0]) << 3;
     ia->bottom = (me->d.uData[3] + me->d.uData[1]) << 3;
 
-    ia->base.spriteX = ((me->d.uData[4] >> 0) & 0x1);
+    ia->base.meX = ((me->d.uData[4] >> 0) & 0x1);
     ia->base.id = ((me->d.uData[4] >> 1) & 0x1);
     ia->unkC = 0;
     ia->unkD = 0;
@@ -89,7 +89,7 @@ void Task_Interactable085(void)
                     }
                 }
 
-                if (ia->base.spriteX != 0) {
+                if (ia->base.meX != 0) {
                     p->moveState &= ~MOVESTATE_FACING_LEFT;
                 } else {
                     p->moveState |= MOVESTATE_FACING_LEFT;

@@ -33,11 +33,11 @@ void Task_IA081_082(void)
     s32 qLeft, qTop, qRight, qBottom;
     s32 i;
 
-    worldX = TO_WORLD_POS(ia->base.spriteX, ia->base.regionX);
+    worldX = TO_WORLD_POS(ia->base.meX, ia->base.regionX);
     worldY = TO_WORLD_POS(me->y, ia->base.regionY);
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        me->x = ia->base.spriteX;
+        me->x = ia->base.meX;
         TaskDestroy(gCurTask);
         return;
     }
@@ -135,7 +135,7 @@ static void Create_Interactable081or082(u8 type, MapEntity *me, u16 regionX, u16
     ia->base.regionX = regionX;
     ia->base.regionY = regionY;
     ia->base.me = me;
-    ia->base.spriteX = me->x;
+    ia->base.meX = me->x;
     ia->base.id = id;
     SET_MAP_ENTITY_INITIALIZED(me);
 

@@ -50,7 +50,7 @@ void CreateEntity_Boulder(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     boulder->base.regionX = regionX;
     boulder->base.regionY = regionY;
     boulder->base.me = me;
-    boulder->base.spriteX = me->x;
+    boulder->base.meX = me->x;
     boulder->base.id = id;
 
     boulder->worldX = TO_WORLD_POS(me->x, regionX);
@@ -443,7 +443,7 @@ NONMATCH("asm/non_matching/game/interactables/boulder__sub_804A1E0.inc", void su
     // _0804A248
 
     if (!isOnScreen) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, boulder->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, boulder->base.meX);
         TaskDestroy(gCurTask);
         return;
     }

@@ -17,7 +17,7 @@ typedef struct {
     /* 0x00 */ MapEntity *me;
     /* 0x04 */ u16 regionX;
     /* 0x06 */ u16 regionY;
-    /* 0x08 */ u8 spriteX;
+    /* 0x08 */ u8 meX;
     /* 0x09 */ u8 id;
     /* 0x0A */ s16 worldX;
     /* 0x0C */ s16 worldY;
@@ -50,7 +50,7 @@ void CreateEntity_AirBubbles(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     bubbles->regionX = regionX;
     bubbles->regionY = regionY;
     bubbles->me = me;
-    bubbles->spriteX = me->x;
+    bubbles->meX = me->x;
     bubbles->id = id;
     bubbles->worldX = TO_WORLD_POS(me->x, regionX);
     bubbles->worldY = TO_WORLD_POS(me->y, regionY);
@@ -86,7 +86,7 @@ void Task_AirBubbles(void)
     worldY = bubbles->worldY;
 
     if (!sub_802C140(worldX, worldY, worldX - gCamera.x, worldY - gCamera.y)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, bubbles->spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, bubbles->meX);
         TaskDestroy(gCurTask);
         return;
     }

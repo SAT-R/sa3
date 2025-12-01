@@ -43,7 +43,7 @@ void CreateEntity_RotatingHandle(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     handle->base.regionX = regionX;
     handle->base.regionY = regionY;
     handle->base.me = me;
-    handle->base.spriteX = me->x;
+    handle->base.meX = me->x;
     handle->base.id = id;
 
     handle->unk38 = 0;
@@ -70,11 +70,11 @@ void sub_8032410(s16 param0)
     MapEntity *me = handle->base.me;
     s16 worldX, worldY;
 
-    worldX = TO_WORLD_POS(handle->base.spriteX, handle->base.regionX);
+    worldX = TO_WORLD_POS(handle->base.meX, handle->base.regionX);
     worldY = TO_WORLD_POS(me->y, handle->base.regionY);
 
     if (!param0 && !IsWorldPtActive(worldX, worldY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, handle->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, handle->base.meX);
         TaskDestroy(gCurTask);
         return;
     }
@@ -94,7 +94,7 @@ void Task_RotatingHandleInit(void)
     s32 worldX, worldY;
     u8 i;
 
-    worldX = TO_WORLD_POS(handle->base.spriteX, handle->base.regionX);
+    worldX = TO_WORLD_POS(handle->base.meX, handle->base.regionX);
     worldY = TO_WORLD_POS(me->y, handle->base.regionY);
 
     s->x = worldX - gCamera.x;
@@ -179,7 +179,7 @@ NONMATCH("asm/non_matching/game/interactables/rotating_handle__Task_80326D8.inc"
     s32 r6;
     u8 i;
 
-    worldX = TO_WORLD_POS(handle->base.spriteX, handle->base.regionX);
+    worldX = TO_WORLD_POS(handle->base.meX, handle->base.regionX);
     worldY = TO_WORLD_POS(me->y, handle->base.regionY);
 
     handle->unk38 = (handle->unk38 + handle->unk3A) & 0x3FF0;

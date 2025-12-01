@@ -38,7 +38,7 @@ void CreateEntity_PlatformPropelled(MapEntity *me, u16 regionX, u16 regionY, u8 
     platform->base.regionX = regionX;
     platform->base.regionY = regionY;
     platform->base.me = me;
-    platform->base.spriteX = me->x;
+    platform->base.meX = me->x;
     platform->base.id = id;
 
     platform->qWorldX = Q(TO_WORLD_POS(me->x, regionX));
@@ -198,7 +198,7 @@ void sub_80429D0(void)
     s32 screenX, screenY;
     s16 i;
 
-    worldX = TO_WORLD_POS(platform->base.spriteX, platform->base.regionX);
+    worldX = TO_WORLD_POS(platform->base.meX, platform->base.regionX);
     worldY = TO_WORLD_POS(me->y, platform->base.regionY);
     screenX = I(platform->qWorldX) - gCamera.x;
     s->x = screenX;
@@ -212,7 +212,7 @@ void sub_80429D0(void)
             ResolvePlayerSpriteCollision(s, p);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.meX);
 
         TaskDestroy(gCurTask);
         return;

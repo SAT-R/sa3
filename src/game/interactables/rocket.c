@@ -63,7 +63,7 @@ void CreateEntity_Rocket(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     rocket->base.regionX = regionX;
     rocket->base.regionY = regionY;
     rocket->base.me = me;
-    rocket->base.spriteX = me->x;
+    rocket->base.meX = me->x;
     rocket->base.id = id;
 
     rocket->worldX = TO_WORLD_POS(me->x, regionX);
@@ -173,7 +173,7 @@ NONMATCH("asm/non_matching/game/interactables/rocket__Task_RocketMain.inc", void
             }
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, rocket->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, rocket->base.meX);
         sub_8003E28(SE_ROCKET_ACCELERATING);
         TaskDestroy(gCurTask);
     } else {
@@ -346,7 +346,7 @@ NONMATCH("asm/non_matching/game/interactables/rocket__Task_8045F48.inc", void Ta
             }
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, rocket->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, rocket->base.meX);
         TaskDestroy(gCurTask);
         sub_8003E28(SE_ROCKET_ACCELERATING);
         return;
@@ -366,7 +366,7 @@ void Task_UpdateStarParticles(void)
     memcpy(arr, gUnknown_080D03B0, sizeof(arr));
 
     if (--rocket->unkC == 0) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, rocket->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, rocket->base.meX);
         TaskDestroy(gCurTask);
         return;
     } else {

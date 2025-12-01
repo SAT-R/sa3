@@ -36,7 +36,7 @@ void Task_Interactable127(void)
     worldY = ia->worldY;
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        me->x = ia->base.spriteX;
+        me->x = ia->base.meX;
         TaskDestroy(gCurTask);
         return;
     }
@@ -78,7 +78,7 @@ void Task_Interactable128(void)
     worldY = ia->worldY;
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        me->x = ia->base.spriteX;
+        me->x = ia->base.meX;
         TaskDestroy(gCurTask);
         return;
     }
@@ -117,9 +117,9 @@ void CreateEntity_Interactable127(MapEntity *me, u16 regionX, u16 regionY, u8 id
     ia->base.regionX = regionX;
     ia->base.regionY = regionY;
     ia->base.me = me;
-    ia->base.spriteX = me->x;
+    ia->base.meX = me->x;
     ia->base.id = id;
-    ia->worldX = TO_WORLD_POS(ia->base.spriteX, ia->base.regionX);
+    ia->worldX = TO_WORLD_POS(ia->base.meX, ia->base.regionX);
     ia->worldY = TO_WORLD_POS(me->y, ia->base.regionY);
 
     // This differentiates
@@ -137,9 +137,9 @@ void CreateEntity_Interactable128(MapEntity *me, u16 regionX, u16 regionY, u8 id
     ia->base.regionX = regionX;
     ia->base.regionY = regionY;
     ia->base.me = me;
-    ia->base.spriteX = me->x;
+    ia->base.meX = me->x;
     ia->base.id = id;
-    ia->worldX = TO_WORLD_POS(ia->base.spriteX, ia->base.regionX);
+    ia->worldX = TO_WORLD_POS(ia->base.meX, ia->base.regionX);
     ia->worldY = TO_WORLD_POS(me->y, ia->base.regionY);
     SET_MAP_ENTITY_INITIALIZED(me);
 }

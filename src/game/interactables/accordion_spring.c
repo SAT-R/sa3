@@ -43,7 +43,7 @@ void CreateEntity_AccordionSpring(MapEntity *me, u16 regionX, u16 regionY, u8 id
     spring->base.regionX = regionX;
     spring->base.regionY = regionY;
     spring->base.me = me;
-    spring->base.spriteX = me->x;
+    spring->base.meX = me->x;
     spring->base.id = id;
     spring->unk3C = 0;
     spring->unk3D = 0;
@@ -262,7 +262,7 @@ bool32 sub_803FA5C(void)
     worldY = spring->worldY;
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, spring->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spring->base.meX);
         TaskDestroy(gCurTask);
         return FALSE;
     } else {

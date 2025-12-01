@@ -57,7 +57,7 @@ void CreateEntity_ZoneWarp(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         warp->base.regionX = regionX;
         warp->base.regionY = regionY;
         warp->base.me = me;
-        warp->base.spriteX = me->x;
+        warp->base.meX = me->x;
         warp->base.id = id;
         warp->targetZone = zoneId;
 
@@ -77,7 +77,7 @@ void Task_ZoneWarpInit(void)
     Player *p = GET_SP_PLAYER_V0(PLAYER_1);
     s16 worldX, worldY;
 
-    worldX = TO_WORLD_POS(warp->base.spriteX, warp->base.regionX);
+    worldX = TO_WORLD_POS(warp->base.meX, warp->base.regionX);
     worldY = TO_WORLD_POS(me->y, warp->base.regionY);
 
     if (!sub_802C080(p) && (gStageData.playerIndex == 0)) {
@@ -109,7 +109,7 @@ void Task_802D8C8(void)
     s32 qWorldX, qWorldY;
 
     // TODO: Match directly using Q() ?
-    qWorldX16 = TO_WORLD_POS(warp->base.spriteX, warp->base.regionX);
+    qWorldX16 = TO_WORLD_POS(warp->base.meX, warp->base.regionX);
     qWorldY16 = TO_WORLD_POS(me->y, warp->base.regionY);
 
     qWorldX = Q(qWorldX16);
@@ -214,7 +214,7 @@ void Task_802DADC(void)
     MapEntity *me = warp->base.me;
     s16 worldX, worldY;
 
-    worldX = TO_WORLD_POS(warp->base.spriteX, warp->base.regionX);
+    worldX = TO_WORLD_POS(warp->base.meX, warp->base.regionX);
     worldY = TO_WORLD_POS(me->y, warp->base.regionY);
 
     p->qWorldY += p->qSpeedAirY;
@@ -236,14 +236,14 @@ void sub_802DB9C(void)
     MapEntity *me = warp->base.me;
     s16 worldX, worldY;
 
-    worldX = TO_WORLD_POS(warp->base.spriteX, warp->base.regionX);
+    worldX = TO_WORLD_POS(warp->base.meX, warp->base.regionX);
     worldY = TO_WORLD_POS(me->y, warp->base.regionY);
 
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, warp->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, warp->base.meX);
         TaskDestroy(gCurTask);
         return;
     } else {

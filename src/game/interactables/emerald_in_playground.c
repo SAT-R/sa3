@@ -33,7 +33,7 @@ void CreateEntity_EmeraldInPlayground(MapEntity *me, u16 regionX, u16 regionY, u
         emerald->base.regionX = regionX;
         emerald->base.regionY = regionY;
         emerald->base.me = me;
-        emerald->base.spriteX = me->x;
+        emerald->base.meX = me->x;
         emerald->base.id = id;
         emerald->worldX = TO_WORLD_POS(me->x, regionX);
         emerald->worldY = TO_WORLD_POS(me->y, regionY);
@@ -57,7 +57,7 @@ void sub_804F65C(void)
     worldX = emerald->worldX;
     worldY = emerald->worldY;
     if (!IsWorldPtActive(worldX, worldY)) {
-        me->x = emerald->base.spriteX;
+        me->x = emerald->base.meX;
         TaskDestroy(gCurTask);
         return;
     } else {

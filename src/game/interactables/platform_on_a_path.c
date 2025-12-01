@@ -47,7 +47,7 @@ void CreateEntity_PlatformOnAPath(MapEntity *me, u16 regionX, u16 regionY, u8 id
     platform->base.regionX = regionX;
     platform->base.regionY = regionY;
     platform->base.me = me;
-    platform->base.spriteX = me->x;
+    platform->base.meX = me->x;
     platform->base.id = id;
     platform->unk34 = FALSE;
 
@@ -245,7 +245,7 @@ void sub_8042520(void)
             ResolvePlayerSpriteCollision(s, p);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.meX);
         TaskDestroy(gCurTask);
         return;
     } else {

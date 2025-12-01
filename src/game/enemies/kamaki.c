@@ -1,0 +1,542 @@
+#include "global.h"
+#include "core.h"
+#include "malloc_vram.h"
+#include "module_unclear.h"
+#include "game/camera.h"
+#include "game/entity.h"
+#include "game/enemy_unknown.h"
+#include "game/stage.h"
+
+#define NUM_PROJECTILES 2
+
+typedef struct Kamaki {
+    /* 0x00 */ MapEntity *me;
+    /* 0x08 */ u8 unk4;
+    /* 0x05 */ u8 id;
+    /* 0x06 */ u8 meX;
+    /* 0x07 */ u8 unk7;
+    /* 0x08 */ s8 dir;
+    /* 0x0A */ u16 region[2];
+    /* 0x0E */ u16 unkE[2];
+    /* 0x12 */ s16 unk12;
+    /* 0x14 */ Vec2_32 qUnk;
+    /* 0x1C */ Vec2_32 qPos;
+    /* 0x24 */ s32 qLeft;
+    /* 0x28 */ s32 qRight;
+    /* 0x2C */ Sprite2 s;
+} Kamaki;
+
+typedef struct KamakiProj {
+    /* 0x00 */ u8 unk0;
+    /* 0x01 */ u8 unk1;
+    /* 0x0A */ u16 region[2];
+    /* 0x08 */ u16 rotations[NUM_PROJECTILES];
+    /* 0x0A */ s16 unkA;
+    /* 0x0C */ s16 unkC;
+    /* 0x0E */ u16 unkE;
+    /* 0x10 */ Vec2_32 qUnk10[NUM_PROJECTILES];
+    /* 0x20 */ SpriteTransform tf[NUM_PROJECTILES];
+    /* 0x34 */ Sprite2 s[NUM_PROJECTILES];
+} KamakiProj; /* 0x98 */
+
+void Task_Kamaki(void);
+void sub_80648EC(Kamaki *enemy);
+void sub_8064A60(void);
+void sub_8064B54(void);
+void Task_8064E10(void);
+void TaskDestructor_80651BC(struct Task *t);
+void sub_8064C18(s32 arg0, s32 arg1, u16 arg2, u16 arg3, u8 arg4, u8 arg5);
+void sub_8064D04(KamakiProj *proj);
+void sub_805CD70(Vec2_32 *qVal, Vec2_32 *param1, u16 region[2], s8 *param3);
+void sub_805CE14(Vec2_32 *qVal, Vec2_32 *param1, u16 region[2], s8 *param3);
+bool32 sub_8064EA0(KamakiProj *proj);
+void sub_8064F80(KamakiProj *proj);
+AnimCmdResult sub_8064FCC(KamakiProj *proj);
+AnimCmdResult sub_8065028(KamakiProj *proj);
+AnimCmdResult sub_8065084(Kamaki *enemy);
+bool32 sub_80650C8(Kamaki *enemy, EnemyUnknownStruc0 *strc);
+bool32 sub_8065104(Kamaki *enemy);
+bool32 sub_8065164(KamakiProj *proj, u8 param1);
+void TaskDestructor_Kamaki(struct Task *t);
+
+extern const TileInfo2 gUnknown_080D215C[4];
+extern const s16 gUnknown_080D217C[2];
+
+void CreateEntity_Kamaki(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    struct Task *t = TaskCreate(Task_Kamaki, sizeof(Kamaki), 0x2100U, 0U, TaskDestructor_Kamaki);
+    Kamaki *enemy = TASK_DATA(t);
+    enemy->me = me;
+    enemy->meX = me->x;
+    enemy->id = id;
+    enemy->region[0] = regionX;
+    enemy->region[1] = regionY;
+    enemy->qPos.x = Q(me->x * TILE_WIDTH);
+    enemy->qPos.y = Q(me->y * TILE_WIDTH);
+    enemy->qUnk.x = enemy->qPos.x;
+    enemy->qUnk.y = enemy->qPos.y;
+    enemy->qLeft = enemy->qUnk.x + Q(me->d.sData[0] * TILE_WIDTH);
+    enemy->qRight = enemy->qLeft + Q(me->d.uData[2] * TILE_WIDTH);
+    enemy->unk7 = 0;
+    enemy->unkE[0] = 0;
+    enemy->unkE[1] = 0;
+
+    if (8 & (u8)me->d.sData[4]) {
+        enemy->dir = -1;
+    } else {
+        enemy->dir = +1;
+    }
+
+    if ((me->d.uData[4] & 0x10) >> 4) {
+        enemy->unk4 = 1;
+    } else {
+        enemy->unk4 = 0;
+    }
+
+    CpuFill16(0, &enemy->s.hitboxes[1].b, sizeof(enemy->s.hitboxes[1].b));
+
+    sub_80648EC(enemy);
+
+    SET_MAP_ENTITY_INITIALIZED(me);
+}
+
+void sub_80648EC(Kamaki *enemy)
+{
+    u8 *vram = VramMalloc(0x10U);
+    Sprite2 *s;
+
+    s = &enemy->s;
+    s->tiles = vram;
+    s->anim = gUnknown_080D215C[0].anim;
+    s->variant = gUnknown_080D215C[0].variant;
+    s->prevVariant = -1;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+    s->oamFlags = 0x480;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x1000;
+
+    if (enemy->dir < 0) {
+        s->frameFlags |= 0x400;
+        s->frameFlags |= 0x1000;
+    }
+
+    if (enemy->unk4 != 0) {
+        s->frameFlags |= 0x800;
+    }
+    s->hitboxes[0].index = -1;
+    UpdateSpriteAnimation((Sprite *)s);
+}
+
+void Task_Kamaki(void)
+{
+    AnimCmdResult temp_r2;
+
+    Kamaki *enemy = TASK_DATA(gCurTask);
+    Sprite2 *s = &enemy->s;
+
+    if (enemy->unk4 != 0) {
+        sub_805CE14(&enemy->qPos, &enemy->qUnk, enemy->region, &enemy->unk7);
+    } else {
+        sub_805CD70(&enemy->qPos, &enemy->qUnk, enemy->region, &enemy->unk7);
+    }
+    if (sub_8065104(enemy) == 1) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    temp_r2 = sub_8065084(enemy);
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        if (temp_r2 == 0) {
+            enemy->unkE[0] = temp_r2;
+            s->prevVariant = -1;
+        }
+
+        if (++enemy->unkE[1] > 0x77U) {
+            Sprite2 *s = &enemy->s;
+            s->anim = gUnknown_080D215C[1].anim;
+            s->variant = gUnknown_080D215C[1].variant;
+            s->prevVariant = -1;
+            enemy->unkE[1] = 0;
+            gCurTask->main = sub_8064A60;
+        }
+    }
+}
+
+void sub_8064A60(void)
+{
+    Sprite2 *s;
+    AnimCmdResult acmdRes;
+    u16 temp_r0;
+
+    Kamaki *enemy = TASK_DATA(gCurTask);
+
+    if (enemy->unk4 != 0) {
+        sub_805CE14(&enemy->qPos, &enemy->qUnk, enemy->region, (s8 *)&enemy->unk7);
+    } else {
+        sub_805CD70(&enemy->qPos, &enemy->qUnk, enemy->region, (s8 *)&enemy->unk7);
+    }
+    if (sub_8065104(enemy) == 1) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    acmdRes = sub_8065084(enemy);
+
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        if (++enemy->unkE[1] == 0x61) {
+            u8 v = (u32)(-(enemy->s.frameFlags & 0x400)) >> 0x1F;
+            sub_8064C18(enemy->qPos.x, enemy->qPos.y, enemy->region[0], enemy->region[1], v, enemy->unk4);
+        }
+        if (acmdRes == ACMD_RESULT__ENDED) {
+            s = &enemy->s;
+            s->anim = gUnknown_080D215C[2].anim;
+            s->variant = gUnknown_080D215C[2].variant;
+            s->prevVariant = -1;
+            enemy->unkE[1] = 0;
+            gCurTask->main = sub_8064B54;
+        }
+    }
+}
+
+void sub_8064B54(void)
+{
+    Sprite2 *s;
+    AnimCmdResult acmdRes;
+    u16 temp_r0;
+
+    Kamaki *enemy = TASK_DATA(gCurTask);
+
+    if (enemy->unk4 != 0) {
+        sub_805CE14(&enemy->qPos, &enemy->qUnk, enemy->region, (s8 *)&enemy->unk7);
+    } else {
+        sub_805CD70(&enemy->qPos, &enemy->qUnk, enemy->region, (s8 *)&enemy->unk7);
+    }
+    if (sub_8065104(enemy) == 1) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    acmdRes = sub_8065084(enemy);
+
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        if (acmdRes == ACMD_RESULT__ENDED) {
+            s = &enemy->s;
+            s->anim = gUnknown_080D215C[0].anim;
+            s->variant = gUnknown_080D215C[0].variant;
+            s->prevVariant = -1;
+            enemy->unkE[0] = 0;
+            gCurTask->main = Task_Kamaki;
+        }
+    }
+}
+
+void sub_8064C18(s32 arg0, s32 arg1, u16 arg2, u16 arg3, u8 arg4, u8 arg5)
+{
+    s32 temp_r1_2;
+    KamakiProj *proj;
+#ifndef NON_MATCHING
+    register s32 var_r0 asm("r0");
+#else
+    s32 var_r0;
+#endif
+
+    proj = TASK_DATA(TaskCreate(Task_8064E10, sizeof(KamakiProj), 0x4040U, 0U, TaskDestructor_80651BC));
+    proj->region[0] = arg2;
+    proj->region[1] = arg3;
+    proj->unkC = +Q(5);
+    proj->unkA = -Q(5);
+    proj->unkE = 0;
+    proj->rotations[0] = 0;
+    proj->rotations[1] = 0;
+    proj->unk0 = arg5;
+    temp_r1_2 = Q(gUnknown_080D217C[arg4]);
+    var_r0 = (temp_r1_2 - Q(8));
+    proj->qUnk10[0].x = var_r0 + arg0;
+    var_r0 = Q(8);
+    temp_r1_2 += var_r0;
+    arg0 += temp_r1_2;
+    proj->qUnk10[1].x = arg0;
+
+    if (arg5 != 0) {
+        var_r0 = +Q(32);
+        var_r0 += arg1;
+    } else {
+        var_r0 = -Q(32);
+        var_r0 += arg1;
+    }
+
+    proj->qUnk10[0].y = var_r0;
+    proj->qUnk10[1].y = var_r0;
+    CpuFill16(0, &proj->s[0].hitboxes[1].b, sizeof(proj->s[0].hitboxes[1].b));
+    CpuFill16(0, &proj->s[1].hitboxes[1].b, sizeof(proj->s[1].hitboxes[1].b));
+    sub_8064D04(proj);
+}
+
+void sub_8064D04(KamakiProj *proj)
+{
+    Sprite2 *s;
+    u8 *vram;
+    SpriteTransform *tf, *tf2;
+
+    vram = VramMalloc(0x10U);
+    tf = &proj->tf[0];
+    s = &proj->s[0];
+    s->tiles = vram;
+    vram += (gUnknown_080D215C[3].numTiles * TILE_SIZE_4BPP);
+    s->anim = gUnknown_080D215C[3].anim;
+    s->variant = gUnknown_080D215C[3].variant;
+    s->prevVariant = -1;
+    s->x = I(proj->qUnk10[0].x) - gCamera.x;
+    s->y = I(proj->qUnk10[0].y) - gCamera.y;
+    s->oamFlags = 0x4C0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x6A;
+    s->hitboxes[0].index = -1;
+    tf->rotation = 0;
+    tf->x = s->x;
+    tf->y = s->y;
+    tf->qScaleX = Q(1);
+    tf->qScaleY = Q(1);
+    TransformSprite((Sprite *)s, tf);
+    UpdateSpriteAnimation((Sprite *)s);
+
+    tf2 = &proj->tf[1];
+    s = &proj->s[1];
+    s->tiles = vram;
+    s->anim = gUnknown_080D215C[3].anim;
+    s->variant = gUnknown_080D215C[3].variant;
+    s->prevVariant = -1;
+    s->x = I(proj->qUnk10[1].x) - gCamera.x;
+    s->y = I(proj->qUnk10[1].y) - gCamera.y;
+    s->oamFlags = 0x4C0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x6B;
+    s->hitboxes[0].index = -1;
+    tf2->rotation = 0x100;
+    tf2->x = s->x;
+    tf2->y = s->y;
+    tf2->qScaleX = Q(1);
+    tf2->qScaleY = Q(1);
+    TransformSprite((Sprite *)s, tf2);
+    UpdateSpriteAnimation((Sprite *)s);
+}
+
+void Task_8064E10(void)
+{
+    KamakiProj *proj = TASK_DATA(gCurTask);
+    u8 var_r5 = 0;
+
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        sub_8064F80(proj);
+        proj->rotations[0] += Q(0.25);
+        proj->rotations[1] += Q(0.25);
+    }
+
+    sub_8064EA0(proj);
+
+    if (sub_8065164(proj, 0) == 1) {
+        var_r5++;
+    } else {
+        sub_8064FCC(proj);
+    }
+
+    if (sub_8065164(proj, 1) == 1) {
+        var_r5++;
+    } else {
+        sub_8065028(proj);
+    }
+
+    if (var_r5 == 2) {
+        TaskDestroy(gCurTask);
+    }
+}
+
+bool32 sub_8064EA0(KamakiProj *proj)
+{
+    Sprite2 *s;
+    u8 i;
+    u8 var_sl;
+    Player *p = NULL;
+    s32 worldY, worldX;
+
+    for (var_sl = 0; var_sl < NUM_PROJECTILES; var_sl++) {
+        worldX = I(proj->qUnk10[var_sl].x);
+        worldY = I(proj->qUnk10[var_sl].y);
+
+        worldX = TO_WORLD_POS_RAW(worldX, proj->region[0]);
+        worldY = TO_WORLD_POS_RAW(worldY, proj->region[1]);
+
+        if (var_sl == 0) {
+            s = &proj->s[0];
+        } else {
+            s = &proj->s[1];
+        }
+
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            p = GET_SP_PLAYER_V0(i);
+            if (!sub_802C080(p) && sub_8020700((Sprite *)s, worldX, worldY, 1, p, 0)) {
+                if (p->framesInvincible == 0) {
+                    sub_8020CE0((Sprite *)s, worldX, worldY, 1U, p);
+                }
+                return TRUE;
+            }
+        }
+    }
+
+    return FALSE;
+}
+
+void sub_8064F80(KamakiProj *proj)
+{
+    s32 var_r1;
+    s16 temp_r1;
+    s16 temp_r0;
+    s32 var_r3;
+    u16 unkE;
+
+    if (proj->unk0 != 0) {
+        var_r1 = proj->unkE;
+        proj->unkE -= 0x10;
+        var_r3 = +0x1F0;
+        temp_r1 = (var_r1 + var_r3);
+    } else {
+        var_r1 = proj->unkE;
+        proj->unkE += 0x10;
+        var_r3 = -0x1F0;
+        temp_r1 = (var_r1 + var_r3);
+    }
+    proj->qUnk10[1].x += Q(0.5);
+    proj->qUnk10[0].x -= Q(0.5);
+    proj->qUnk10[0].y += temp_r1;
+    proj->qUnk10[1].y += temp_r1;
+}
+
+AnimCmdResult sub_8064FCC(KamakiProj *proj)
+{
+    SpriteTransform *tf;
+    AnimCmdResult temp_r5;
+    Sprite2 *s;
+
+    s = &proj->s[0];
+    s->x = TO_WORLD_POS_RAW(I(proj->qUnk10[0].x), proj->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(proj->qUnk10[0].y), proj->region[1]) - gCamera.y;
+    tf = &proj->tf[0];
+    tf->rotation = proj->rotations[0];
+    tf->x = s->x;
+    tf->y = s->y;
+    TransformSprite((Sprite *)s, tf);
+    temp_r5 = UpdateSpriteAnimation((Sprite *)s);
+    DisplaySprite((Sprite *)s);
+
+    return temp_r5;
+}
+
+AnimCmdResult sub_8065028(KamakiProj *proj)
+{
+    Sprite2 *s;
+    SpriteTransform *tf;
+    AnimCmdResult acmdRes;
+
+    s = &proj->s[1];
+    s->x = TO_WORLD_POS_RAW(I(proj->qUnk10[1].x), proj->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(proj->qUnk10[1].y), proj->region[1]) - gCamera.y;
+    tf = &proj->tf[1];
+    tf->rotation = proj->rotations[1];
+    tf->x = s->x;
+    tf->y = s->y;
+    TransformSprite((Sprite *)s, tf);
+    acmdRes = UpdateSpriteAnimation((Sprite *)s);
+    DisplaySprite((Sprite *)s);
+
+    return acmdRes;
+}
+
+AnimCmdResult sub_8065084(Kamaki *enemy)
+{
+    Sprite2 *s;
+    SpriteTransform *tf;
+    AnimCmdResult acmdRes;
+
+    s = &enemy->s;
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+    acmdRes = UpdateSpriteAnimation((Sprite *)s);
+    DisplaySprite((Sprite *)s);
+
+    return acmdRes;
+}
+
+bool32 sub_80650C8(Kamaki *enemy, EnemyUnknownStruc0 *strc)
+{
+    strc->me = NULL;
+    strc->meX = 0;
+    strc->unk4 = 0;
+    strc->spr = (Sprite *)&enemy->s;
+    strc->posX = enemy->qUnk.x;
+    strc->posY = enemy->qUnk.y;
+    if (enemy->unk4 != 0) {
+        strc->posY = enemy->qUnk.y + Q(16);
+    }
+    strc->regionX = enemy->region[0];
+    strc->regionY = enemy->region[1];
+    return sub_805C63C(strc);
+}
+
+bool32 sub_8065104(Kamaki *enemy)
+{
+    EnemyUnknownStruc0 strc;
+
+    strc.unk4 = sub_80650C8(enemy, &strc);
+    strc.spr = (Sprite *)&enemy->s;
+    strc.posX = enemy->qPos.x;
+    strc.posY = enemy->qPos.y;
+
+    if (enemy->unk4 != 0) {
+        strc.posY += Q(16);
+    }
+    strc.regionX = (u16)enemy->region[0];
+    strc.regionY = (u16)enemy->region[1];
+    strc.me = enemy->me;
+    strc.meX = (u8)enemy->meX;
+    return sub_805C280(&strc);
+}
+
+void TaskDestructor_Kamaki(struct Task *t)
+{
+    Kamaki *enemy = TASK_DATA(t);
+    VramFree(enemy->s.tiles);
+}
+
+bool32 sub_8065164(KamakiProj *proj, u8 param1)
+{
+    s32 worldX, worldY;
+    s16 screenX, screenY;
+
+    worldX = TO_WORLD_POS_RAW(I(proj->qUnk10[param1].x), proj->region[0]);
+    screenX = worldX - gCamera.x;
+
+    worldY = TO_WORLD_POS_RAW(I(proj->qUnk10[param1].y), proj->region[1]);
+    screenY = worldY - gCamera.y;
+
+    if ((screenX < 0 || screenX > DISPLAY_WIDTH) || (screenY > DISPLAY_HEIGHT)) {
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+void TaskDestructor_80651BC(Task *t)
+{
+    KamakiProj *proj = TASK_DATA(t);
+    VramFree(proj->s[0].tiles);
+}

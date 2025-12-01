@@ -53,7 +53,7 @@ void CreateEntity_AttachedPlatform(MapEntity *me, u16 regionX, u16 regionY, u8 i
     platform->base.regionX = regionX;
     platform->base.regionY = regionY;
     platform->base.me = me;
-    platform->base.spriteX = me->x;
+    platform->base.meX = me->x;
     platform->base.id = id;
 
     diameter = ((me->d.uData[3] * TILE_WIDTH) * 2) + 128;
@@ -212,7 +212,7 @@ void sub_803ECE4()
             ResolvePlayerSpriteCollision(s, p);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.meX);
         TaskDestroy(gCurTask);
         return;
     } else {

@@ -53,7 +53,7 @@ void CreateEntity_Platform(s16 kindA, s16 sharedKind, MapEntity *me, u16 regionX
     shared->base.regionX = regionX;
     shared->base.regionY = regionY;
     shared->base.me = me;
-    shared->base.spriteX = me->x;
+    shared->base.meX = me->x;
     shared->base.id = id;
 
     qWorldX = Q(TO_WORLD_POS(me->x, regionX));
@@ -361,7 +361,7 @@ bool16 sub_802F1B8(Sprite *s)
         s32 screenX, screenY;
 
         if (i == 0) {
-            screenX = TO_WORLD_POS(shared->base.spriteX, shared->base.regionX) - gCamera.x;
+            screenX = TO_WORLD_POS(shared->base.meX, shared->base.regionX) - gCamera.x;
             screenY = TO_WORLD_POS(me->y, shared->base.regionY) - gCamera.y;
         } else {
             screenX = I(shared->qWorldX) - gCamera.x;
@@ -380,7 +380,7 @@ bool16 sub_802F1B8(Sprite *s)
             ResolvePlayerSpriteCollision(s, p);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, shared->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, shared->base.meX);
         TaskDestroy(gCurTask);
         return TRUE;
     } else {

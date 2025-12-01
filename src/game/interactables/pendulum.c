@@ -54,7 +54,7 @@ void CreateEntity_Pendulum(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     pend->base.regionX = regionX;
     pend->base.regionY = regionY;
     pend->base.me = me;
-    pend->base.spriteX = me->x;
+    pend->base.meX = me->x;
     pend->base.id = id;
 
     pend->activePend = PEND_LEFT;
@@ -290,7 +290,7 @@ void sub_804C008(void)
             }
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, pend->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, pend->base.meX);
         TaskDestroy(gCurTask);
         return;
     }

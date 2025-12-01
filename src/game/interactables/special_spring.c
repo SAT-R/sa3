@@ -40,7 +40,7 @@ void CreateEntity_SpecialSpring(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     spring->base.regionX = regionX;
     spring->base.regionY = regionY;
     spring->base.me = me;
-    spring->base.spriteX = me->x;
+    spring->base.meX = me->x;
     spring->base.id = id;
 
     spring->worldX = TO_WORLD_POS(me->x, regionX);
@@ -65,7 +65,7 @@ void Task_SpecialSpring(void)
     Player *partner;
     s16 worldX, worldY;
 
-    worldX = TO_WORLD_POS(spring->base.spriteX, spring->base.regionX);
+    worldX = TO_WORLD_POS(spring->base.meX, spring->base.regionX);
     worldY = TO_WORLD_POS(me->y, spring->base.regionY);
 
     p = &gPlayers[gStageData.playerIndex];
@@ -170,7 +170,7 @@ void sub_8040FD8(void)
     worldY = spring->worldY;
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, spring->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spring->base.meX);
         TaskDestroy(gCurTask);
         return;
     } else {

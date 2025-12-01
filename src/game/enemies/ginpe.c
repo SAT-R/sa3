@@ -13,7 +13,7 @@
 typedef struct {
     /* 0x00 */ MapEntity *me;
     /* 0x04 */ u8 id;
-    /* 0x05 */ u8 spriteX;
+    /* 0x05 */ u8 meX;
     /* 0x06 */ u8 unk6;
     /* 0x07 */ s8 unk7;
     /* 0x08 */ s8 direction;
@@ -73,7 +73,7 @@ void CreateEntity_Ginpe(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s32 qX, qY;
 
     enemy->me = me;
-    enemy->spriteX = me->x;
+    enemy->meX = me->x;
     enemy->id = id;
     enemy->region[0] = regionX;
     enemy->region[1] = regionY;
@@ -319,7 +319,7 @@ bool32 sub_8060748(Ginpe *enemy, EnemyUnknownStruc0 *param1)
     Sprite *s;
 
     param1->me = NULL;
-    param1->spriteX = 0;
+    param1->meX = 0;
     param1->unk4 = 0;
 
     s = &enemy->s;
@@ -343,7 +343,7 @@ bool32 sub_8060774(Ginpe *enemy)
     unk.regionX = enemy->region[0];
     unk.regionY = enemy->region[1];
     unk.me = enemy->me;
-    unk.spriteX = enemy->spriteX;
+    unk.meX = enemy->meX;
 
     return sub_805C280(&unk);
 }
@@ -439,7 +439,7 @@ bool32 sub_8060940(GinpeProjectile *proj)
     unk.regionX = proj->region[0];
     unk.regionY = proj->region[1];
     unk.me = NULL;
-    unk.spriteX = 0;
+    unk.meX = 0;
 
     return sub_805C280(&unk);
 }

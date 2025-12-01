@@ -601,5 +601,4 @@ check_format:
 
 ctx.c: $(C_HEADERS)
 	@for header in $(C_HEADERS); do echo "#include \"$$header\""; done > ctx.h
-	$(CPP) -P $(CPPFLAGS) ctx.h -o ctx.c
-	@rm ctx.h
+	gcc -P -E -dD -undef -I ./tools/agbcc/include -I include $(CONTEXT_FLAGS) ctx.h | sed '/^\/\/ TODO: Remove M2C occurences EVERYWHERE once ctx is not needed anymore!/d' | sed '/#undef/d' | sed '/typedef unsigned long int int;/d' | sed 's/__attribute__((.*))//' | sed '/^#define __STDC/d' > ctx.c

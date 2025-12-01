@@ -27,7 +27,7 @@ void Task_WarpMain(void)
     if (gStageData.playerIndex == 0) {
         Warp *warp = TASK_DATA(gCurTask);
         MapEntity *me = warp->base.me;
-        u8 meX = warp->base.spriteX;
+        u8 meX = warp->base.meX;
         u16 regionX = warp->base.regionX;
         u16 regionY = warp->base.regionY;
         Player *p = &gPlayers[gStageData.playerIndex];
@@ -70,7 +70,7 @@ void Task_802E634(void)
 {
     Warp *warp = TASK_DATA(gCurTask);
     MapEntity *me = warp->base.me;
-    u8 meX = warp->base.spriteX;
+    u8 meX = warp->base.meX;
     u16 regionX = warp->base.regionX;
     u16 regionY = warp->base.regionY;
     Player *p = &gPlayers[gStageData.playerIndex];
@@ -183,7 +183,7 @@ void CreateEntity_Warp(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         warp->base.regionX = regionX;
         warp->base.regionY = regionY;
         warp->base.me = me;
-        warp->base.spriteX = me->x;
+        warp->base.meX = me->x;
         warp->base.id = i;
         warp->base.unk8 = 0;
     }

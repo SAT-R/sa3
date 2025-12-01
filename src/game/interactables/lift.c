@@ -38,14 +38,14 @@ void CreateEntity_Lift(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     lift->base.regionX = regionX;
     lift->base.regionY = regionY;
     lift->base.me = me;
-    lift->base.spriteX = me->x;
+    lift->base.meX = me->x;
     lift->base.id = id;
 
     lift->unk8C = Q(120);
     lift->unk8E[0] = 0;
     lift->unk8E[1] = 0;
 
-    lift->worldX = TO_WORLD_POS(lift->base.spriteX, lift->base.regionX);
+    lift->worldX = TO_WORLD_POS(lift->base.meX, lift->base.regionX);
     lift->worldY = TO_WORLD_POS(me->y, lift->base.regionY) - 32;
 
     SET_MAP_ENTITY_INITIALIZED(me);
@@ -279,7 +279,7 @@ NONMATCH("asm/non_matching/game/interactables/lift__sub_8033158.inc", void sub_8
     s->y = worldY - gCamera.y;
 
     if (((lift->unk8E[0] == 0) && (lift->unk8E[1] == 0)) && !sub_802C140(worldX, worldY + 0x20, s->x, s->y)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, lift->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, lift->base.meX);
         TaskDestroy(gCurTask);
         return;
     }

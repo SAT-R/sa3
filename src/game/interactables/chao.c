@@ -81,7 +81,7 @@ void CreateEntity_ChaoInStage(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     chao->base.regionX = regionX;
     chao->base.regionY = regionY;
     chao->base.me = me;
-    chao->base.spriteX = me->x;
+    chao->base.meX = me->x;
     chao->base.id = id;
 
     worldX = TO_WORLD_POS(me->x, regionX);
@@ -126,7 +126,7 @@ void CreateEntity_ChaoInPlayground(MapEntity *me, u16 regionX, u16 regionY, u8 i
     chao->base.regionX = regionX;
     chao->base.regionY = regionY;
     chao->base.me = me;
-    chao->base.spriteX = me->x;
+    chao->base.meX = me->x;
     chao->base.id = id;
 
     worldX = TO_WORLD_POS(me->x, regionX);
@@ -403,7 +403,7 @@ void sub_804E5CC(void)
     worldY = chao->worldY;
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        me->x = chao->base.spriteX;
+        me->x = chao->base.meX;
         TaskDestroy(gCurTask);
         return;
     }

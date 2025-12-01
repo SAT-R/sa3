@@ -45,7 +45,7 @@ void CreateEntity_Booster(u8 kind, MapEntity *me, u16 regionX, u16 regionY, u8 i
     booster->base.regionX = regionX;
     booster->base.regionY = regionY;
     booster->base.me = me;
-    booster->base.spriteX = me->x;
+    booster->base.meX = me->x;
     booster->base.id = id;
     booster->kind = kind;
 
@@ -68,7 +68,7 @@ void Task_Booster(void)
     s16 qGroundSpeed;
     s16 i;
 
-    worldX = TO_WORLD_POS(booster->base.spriteX, booster->base.regionX);
+    worldX = TO_WORLD_POS(booster->base.meX, booster->base.regionX);
     worldY = TO_WORLD_POS(me->y, booster->base.regionY);
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
@@ -189,14 +189,14 @@ static void UpdateSprite(void)
     MapEntity *me = booster->base.me;
     s16 worldX, worldY;
 
-    worldX = TO_WORLD_POS(booster->base.spriteX, booster->base.regionX);
+    worldX = TO_WORLD_POS(booster->base.meX, booster->base.regionX);
     worldY = TO_WORLD_POS(me->y, booster->base.regionY);
 
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, booster->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, booster->base.meX);
         TaskDestroy(gCurTask);
         return;
     } else {

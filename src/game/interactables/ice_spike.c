@@ -67,7 +67,7 @@ void CreateEntity_IceSpike(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     spike->base.regionX = regionX;
     spike->base.regionY = regionY;
     spike->base.me = me;
-    spike->base.spriteX = me->x;
+    spike->base.meX = me->x;
     spike->base.id = id;
 
     spike->base.qWorldX = Q(TO_WORLD_POS(me->x, regionX));
@@ -187,7 +187,7 @@ void Task_IceSpikeInit(void)
     }
 
     if (!sub_802C140(worldX, worldY, worldX - gCamera.x, worldY - gCamera.y)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, spike->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spike->base.meX);
 
         TaskDestroy(gCurTask);
         return;
@@ -259,7 +259,7 @@ void Task_8044160(void)
         }
     } else {
         if (!sub_802C140(worldX, worldY, s->x, s->y)) {
-            SET_MAP_ENTITY_NOT_INITIALIZED(me, spike->base.spriteX);
+            SET_MAP_ENTITY_NOT_INITIALIZED(me, spike->base.meX);
             TaskDestroy(gCurTask);
             return;
         }
@@ -277,7 +277,7 @@ void Task_8044350(void)
     spike->base.unk10 -= spike->base.unk19;
 
     if (spike->base.unk10 == 0) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, spike->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spike->base.meX);
         TaskDestroy(gCurTask);
         return;
     }

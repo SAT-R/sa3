@@ -71,7 +71,7 @@ NONMATCH("asm/non_matching/game/interactables/omochao__CreateEntity_Omochao.inc"
         omochao->base.regionX = regionX;
         omochao->base.regionY = regionY;
         omochao->base.me = me;
-        omochao->base.spriteX = me->x;
+        omochao->base.meX = me->x;
         omochao->base.id = id;
         omochao->textId = textId;
         omochao->unk60 = 0x10;
@@ -254,7 +254,7 @@ NONMATCH("asm/non_matching/game/interactables/omochao__OmochaoPickUp.inc", bool3
     s16 worldX, worldY;
     u8 i;
 
-    worldX = TO_WORLD_POS(omochao->base.spriteX, omochao->base.regionX);
+    worldX = TO_WORLD_POS(omochao->base.meX, omochao->base.regionX);
     worldY = TO_WORLD_POS(me->y, omochao->base.regionY);
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
@@ -342,11 +342,11 @@ bool32 sub_8038548(void)
     MapEntity *me = omochao->base.me;
     s16 worldX, worldY;
 
-    worldX = TO_WORLD_POS(omochao->base.spriteX, omochao->base.regionX);
+    worldX = TO_WORLD_POS(omochao->base.meX, omochao->base.regionX);
     worldY = TO_WORLD_POS(me->y, omochao->base.regionY);
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, omochao->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, omochao->base.meX);
         TaskDestroy(gCurTask);
         return FALSE;
     }

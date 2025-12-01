@@ -58,7 +58,7 @@ void CreateEntity_MultiplayerItemBox(MapEntity *me, u16 regionX, u16 regionY, u8
     itembox->base.regionX = regionX;
     itembox->base.regionY = regionY;
     itembox->base.me = me;
-    itembox->base.spriteX = me->x;
+    itembox->base.meX = me->x;
     itembox->base.id = id;
 
     itembox->worldX = TO_WORLD_POS(me->x, regionX);
@@ -93,7 +93,7 @@ void Task_ItemBoxMP(void)
 
     if (!IsWorldPtActive(worldX, worldY)) {
         MapEntity *me = itembox->base.me;
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, itembox->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, itembox->base.meX);
         TaskDestroy(gCurTask);
         return;
     }
@@ -226,8 +226,8 @@ void sub_804ED44(ItemBoxMP *itembox)
     UpdateSpriteAnimation(s);
 
     itembox->transform.rotation = 0;
-    itembox->transform.scaleX = Q(1);
-    itembox->transform.scaleY = Q(1);
+    itembox->transform.qScaleX = Q(1);
+    itembox->transform.qScaleY = Q(1);
     itembox->transform.x = 0;
     itembox->transform.y = 0;
 }
@@ -259,7 +259,7 @@ void sub_804EE08(u8 param0)
 
     if (r2 != 0) {
         if ((r2 & 0xFE00) == 0) {
-            itembox->transform.scaleY = r2;
+            itembox->transform.qScaleY = r2;
             itembox->transform.x = screenX;
             itembox->transform.y = screenY;
 

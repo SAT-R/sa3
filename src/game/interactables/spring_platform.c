@@ -45,7 +45,7 @@ void CreateEntity_SpringPlatform(u16 kind, MapEntity *me, u16 regionX, u16 regio
     spring->shared.base.regionX = regionX;
     spring->shared.base.regionY = regionY;
     spring->shared.base.me = me;
-    spring->shared.base.spriteX = me->x;
+    spring->shared.base.meX = me->x;
     spring->shared.base.id = id;
     spring->shared.qWorldX = qWorldX = Q(TO_WORLD_POS(me->x, regionX));
     spring->shared.qWorldY = qWorldY = Q(TO_WORLD_POS(me->y, regionY));
@@ -197,7 +197,7 @@ void Task_SpringPlatform(void)
     someY = spring->shared.somePosY;
     me = spring->shared.base.me;
     if (!sub_802C140(someX, someY, worldX, worldY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, spring->shared.base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spring->shared.base.meX);
         TaskDestroy(gCurTask);
         return;
     }

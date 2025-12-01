@@ -177,7 +177,7 @@ void sub_80467F0(void)
     s16 i;
 
     if (!IsWorldPtActive(ring->worldX, ring->worldY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, ring->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, ring->base.meX);
         TaskDestroy(gCurTask);
         return;
     }

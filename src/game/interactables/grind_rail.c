@@ -40,7 +40,7 @@ void CreateGrindRail(u8 railType, MapEntity *me, u16 regionX, u16 regionY, u8 id
     rail->base.regionX = regionX;
     rail->base.regionY = regionY;
     rail->base.me = me;
-    rail->base.spriteX = me->x;
+    rail->base.meX = me->x;
     rail->base.id = id;
 
     rail->unkC = me->d.uData[4] >> 6;
@@ -65,7 +65,7 @@ NONMATCH("asm/non_matching/game/interactables/grind_rail__Task_8039230.inc", voi
     s32 qRight, qBottom;
     s32 screenX, screenY;
 
-    qWorldX = Q(TO_WORLD_POS(rail->base.spriteX, rail->base.regionX));
+    qWorldX = Q(TO_WORLD_POS(rail->base.meX, rail->base.regionX));
     qWorldY = Q(TO_WORLD_POS(me->y, rail->base.regionY));
 
     qTop = qWorldY + Q(me->d.sData[1] * TILE_WIDTH);
@@ -77,7 +77,7 @@ NONMATCH("asm/non_matching/game/interactables/grind_rail__Task_8039230.inc", voi
     screenY = I(qWorldY) - gCamera.y;
 
     if (IS_OUT_OF_CAM_RANGE_TYPED(u32, screenX, screenY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, rail->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, rail->base.meX);
         TaskDestroy(gCurTask);
         return;
     }
@@ -282,11 +282,11 @@ void Task_Interactable073Main(void)
     s32 qTop, qBottom;
     s32 i;
 
-    worldX = TO_WORLD_POS(ia->base.spriteX, ia->base.regionX);
+    worldX = TO_WORLD_POS(ia->base.meX, ia->base.regionX);
     worldY = TO_WORLD_POS(me->y, ia->base.regionY);
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, ia->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, ia->base.meX);
         TaskDestroy(gCurTask);
         return;
     }
@@ -323,11 +323,11 @@ void Task_Interactable074Main(void)
     s32 qTop, qBottom;
     s32 i;
 
-    worldX = TO_WORLD_POS(ia->base.spriteX, ia->base.regionX);
+    worldX = TO_WORLD_POS(ia->base.meX, ia->base.regionX);
     worldY = TO_WORLD_POS(me->y, ia->base.regionY);
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, ia->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, ia->base.meX);
         TaskDestroy(gCurTask);
         return;
     }
@@ -371,7 +371,7 @@ void CreateEntity_Interactable073(MapEntity *me, u16 regionX, u16 regionY, u8 id
     ia->base.regionX = regionX;
     ia->base.regionY = regionY;
     ia->base.me = me;
-    ia->base.spriteX = me->x;
+    ia->base.meX = me->x;
     ia->base.id = id;
 
     SET_MAP_ENTITY_INITIALIZED(me);
@@ -385,7 +385,7 @@ void CreateEntity_Interactable074(MapEntity *me, u16 regionX, u16 regionY, u8 id
     ia->base.regionX = regionX;
     ia->base.regionY = regionY;
     ia->base.me = me;
-    ia->base.spriteX = me->x;
+    ia->base.meX = me->x;
     ia->base.id = id;
 
     SET_MAP_ENTITY_INITIALIZED(me);

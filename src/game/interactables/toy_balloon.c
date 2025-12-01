@@ -46,7 +46,7 @@ static void CreateEntity_ToyBalloon(u32 type, MapEntity *me, u16 regionX, u16 re
     balloon->base.regionX = regionX;
     balloon->base.regionY = regionY;
     balloon->base.me = me;
-    balloon->base.spriteX = me->x;
+    balloon->base.meX = me->x;
     balloon->base.id = id;
     balloon->destructDelay = 0;
     balloon->variant = (me->d.uData[4] >> 6);
@@ -105,14 +105,14 @@ static void ToyBalloon_Update(void)
     worldY = balloon->worldY;
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        me->x = balloon->base.spriteX;
+        me->x = balloon->base.meX;
         TaskDestroy(gCurTask);
         return;
     }
 
     // TODO: Merge the two ifs
     if ((balloon->destructDelay < 0) && (++balloon->destructDelay == 0)) {
-        me->x = balloon->base.spriteX;
+        me->x = balloon->base.meX;
         TaskDestroy(gCurTask);
         return;
     }

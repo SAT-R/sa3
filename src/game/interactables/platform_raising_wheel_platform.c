@@ -39,7 +39,7 @@ void CreateEntity_PlatformRaisingWheelPlatform(MapEntity *me, u16 regionX, u16 r
     platform->base.regionX = regionX;
     platform->base.regionY = regionY;
     platform->base.me = me;
-    platform->base.spriteX = me->x;
+    platform->base.meX = me->x;
     platform->base.id = id;
 
     i = GetFirstSetBitIndex(me->d.uData[4], 8);
@@ -148,7 +148,7 @@ void sub_8036304(void)
             ResolvePlayerSpriteCollision(s, p);
         }
 
-        me->x = platform->base.spriteX;
+        me->x = platform->base.meX;
         TaskDestroy(gCurTask);
         return;
     } else {

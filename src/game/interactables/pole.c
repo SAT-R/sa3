@@ -25,7 +25,7 @@ static void Task_Interactable094Main(void)
 
     s16 left, top, right, bottom, middle;
 
-    s16 worldX = TO_WORLD_POS(ia->base.spriteX, ia->base.regionX);
+    s16 worldX = TO_WORLD_POS(ia->base.meX, ia->base.regionX);
     s16 worldY = TO_WORLD_POS(me->y, ia->base.regionY);
     top = worldY + me->d.sData[1] * TILE_WIDTH;
     bottom = top + me->d.uData[3] * TILE_WIDTH;
@@ -45,7 +45,7 @@ static void Task_Interactable094Main(void)
             Player_StopSong(p, SE_290);
         }
 
-        me->x = ia->base.spriteX;
+        me->x = ia->base.meX;
         TaskDestroy(gCurTask);
         return;
     } else {
@@ -109,7 +109,7 @@ void CreateEntity_Pole(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     ia->base.regionX = regionX;
     ia->base.regionY = regionY;
     ia->base.me = me;
-    ia->base.spriteX = me->x;
+    ia->base.meX = me->x;
     ia->base.id = id;
     ia->unkC = (me->d.uData[4] > 0) ? TRUE : FALSE;
     ia->unkD[0] = 0;

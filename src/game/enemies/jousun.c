@@ -13,7 +13,7 @@
 typedef struct {
     /* 0x00 */ MapEntity *me;
     /* 0x04 */ u8 id;
-    /* 0x05 */ u8 spriteX;
+    /* 0x05 */ u8 meX;
     /* 0x06 */ u16 unk6;
     /* 0x08 */ u16 unk8;
     /* 0x0A */ u16 region[2];
@@ -362,7 +362,7 @@ void sub_805BF38(Jousun *enemy, MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s32 qX, qY;
 
     enemy->me = me;
-    enemy->spriteX = me->x;
+    enemy->meX = me->x;
     enemy->id = id;
     enemy->region[0] = regionX;
     enemy->region[1] = regionY;
@@ -399,7 +399,7 @@ bool32 sub_805BFC0(Jousun *enemy, EnemyUnknownStruc0 *param1)
     Sprite *s;
 
     param1->me = NULL;
-    param1->spriteX = 0;
+    param1->meX = 0;
     param1->unk4 = 0;
 
     s = &enemy->s;
@@ -423,7 +423,7 @@ bool32 sub_805BFEC(Jousun *enemy)
     unk.regionX = enemy->region[0];
     unk.regionY = enemy->region[1];
     unk.me = enemy->me;
-    unk.spriteX = enemy->spriteX;
+    unk.meX = enemy->meX;
 
     return sub_805C280(&unk);
 }

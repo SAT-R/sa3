@@ -54,7 +54,7 @@ void CreateDashRing(u8 kind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
     ring->base.regionX = regionX;
     ring->base.regionY = regionY;
     ring->base.me = me;
-    ring->base.spriteX = me->x;
+    ring->base.meX = me->x;
     ring->base.id = id;
     ring->kind = kind;
     ring->base.unk8 = 0;
@@ -310,7 +310,7 @@ NONMATCH("asm/non_matching/game/interactables/dash_ring__sub_80358A0.inc", void 
     s32 qRight, qBottom;
     s32 qWidth, qHeight;
 
-    qLeft = Q(TO_WORLD_POS(ring->base.spriteX, ring->base.regionX));
+    qLeft = Q(TO_WORLD_POS(ring->base.meX, ring->base.regionX));
     qTop = Q(TO_WORLD_POS(me->y, ring->base.regionY));
 
     ring->unk6C = ((gStageData.timer * ring->unk72) + ring->unk6E) & 0x3FF;
@@ -430,11 +430,11 @@ void sub_8035AC8(void)
     s16 worldX, worldY;
     s16 i;
 
-    worldX = TO_WORLD_POS(ring->base.spriteX, ring->base.regionX);
+    worldX = TO_WORLD_POS(ring->base.meX, ring->base.regionX);
     worldY = TO_WORLD_POS(me->y, ring->base.regionY);
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, ring->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, ring->base.meX);
         TaskDestroy(gCurTask);
         return;
     } else {

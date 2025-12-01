@@ -45,7 +45,7 @@ void CreateEntity_SlowChaosLift(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     lift->base.regionX = regionX;
     lift->base.regionY = regionY;
     lift->base.me = me;
-    lift->base.spriteX = me->x;
+    lift->base.meX = me->x;
     lift->base.id = id;
 
     lift->qWorldX = Q(TO_WORLD_POS(me->x, regionX));
@@ -316,7 +316,7 @@ static void UpdateAnimOrDestroy(void)
 #endif
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, lift->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, lift->base.meX);
         TaskDestroy(gCurTask);
         return;
     } else {

@@ -177,7 +177,7 @@ void CreateEntity_BonusCapsule(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     cap->base.regionY = regionY;
     cap->base.me = me;
 
-    cap->base.spriteX = me->x;
+    cap->base.meX = me->x;
     cap->base.id = id;
     cap->unkC = 0;
     cap->playerPos[0].x = 0;
@@ -962,7 +962,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803AAE8.inc", v
     Sprite *s = &cap->s;
     MapEntity *me = cap->base.me;
 
-    s32 worldX = TO_WORLD_POS(cap->base.spriteX, cap->base.regionX);
+    s32 worldX = TO_WORLD_POS(cap->base.meX, cap->base.regionX);
     s32 worldY = TO_WORLD_POS(me->y, cap->base.regionY);
     u32 resA, resB;
 
@@ -1351,7 +1351,7 @@ void sub_803B288(void)
     s16 worldX, worldY;
     u8 i;
 
-    worldX = TO_WORLD_POS(cap->base.spriteX, cap->base.regionX);
+    worldX = TO_WORLD_POS(cap->base.meX, cap->base.regionX);
     worldY = TO_WORLD_POS(me->y, cap->base.regionY);
 
     s->x = worldX - gCamera.x;
@@ -1615,7 +1615,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803B910.inc", v
     cap = TASK_DATA(gCurTask);
     me = cap->base.me;
 
-    worldX = TO_WORLD_POS(cap->base.spriteX, cap->base.regionX);
+    worldX = TO_WORLD_POS(cap->base.meX, cap->base.regionX);
     worldY = TO_WORLD_POS(me->y, cap->base.regionY);
 
     for (i = 0; i < (s32)ARRAY_COUNT(cap->spr5B0); i++) {

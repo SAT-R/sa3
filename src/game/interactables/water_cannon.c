@@ -68,7 +68,7 @@ void CreateEntity_WaterCannon(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     cannon->base.regionX = regionX;
     cannon->base.regionY = regionY;
     cannon->base.me = me;
-    cannon->base.spriteX = me->x;
+    cannon->base.meX = me->x;
     cannon->base.id = id;
     cannon->tiles = NULL;
     cannon->worldX = TO_WORLD_POS(me->x, regionX);
@@ -184,14 +184,14 @@ void sub_803F1D4(void)
     s16 worldX, worldY;
     u8 i;
 
-    worldX = TO_WORLD_POS(base->spriteX, base->regionX);
+    worldX = TO_WORLD_POS(base->meX, base->regionX);
     worldY = TO_WORLD_POS(me->y, base->regionY);
 
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, base->spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, base->meX);
         TaskDestroy(gCurTask);
         return;
     }

@@ -22,19 +22,19 @@ void Task_802E92C(void)
     MapEntity *me = ia->base.me;
     s16 worldX, worldY;
     s32 regionX, regionY;
-    u8 spriteX;
+    u8 meX;
     s16 i;
     Player *p;
 
-    spriteX = ia->base.spriteX;
+    meX = ia->base.meX;
     regionX = ia->base.regionX;
     regionY = ia->base.regionY;
 
-    worldX = TO_WORLD_POS(spriteX, regionX);
+    worldX = TO_WORLD_POS(meX, regionX);
     worldY = TO_WORLD_POS(me->y, regionY);
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        me->x = ia->base.spriteX;
+        me->x = ia->base.meX;
         TaskDestroy(gCurTask);
         return;
     }
@@ -66,7 +66,7 @@ void CreateEntity_Interactable015(MapEntity *me, u16 regionX, u16 regionY, u8 id
     ia->base.regionX = regionX;
     ia->base.regionY = regionY;
     ia->base.me = me;
-    ia->base.spriteX = me->x;
+    ia->base.meX = me->x;
     ia->base.id = id;
 
     ia->unkC = (me->d.uData[4] & 0x10) >> 4;

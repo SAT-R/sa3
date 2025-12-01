@@ -50,7 +50,7 @@ void CreateEntity_MazeEnter(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     maze->base.regionX = regionX;
     maze->base.regionY = regionY;
     maze->base.me = me;
-    maze->base.spriteX = me->x;
+    maze->base.meX = me->x;
     maze->base.id = id;
 
     i = GetFirstSetBitIndex(me->d.uData[4], 4);
@@ -84,7 +84,7 @@ NONMATCH("asm/non_matching/game/interactables/maze__CreateEntity_MazeCorner.inc"
     maze->base.regionX = regionX;
     maze->base.regionY = regionY;
     maze->base.me = me;
-    maze->base.spriteX = me->x;
+    maze->base.meX = me->x;
     maze->base.id = id;
 
     i = GetFirstSetBitIndex(me->d.uData[4], 4);
@@ -117,7 +117,7 @@ void CreateEntity_MazeExit(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     maze->base.regionX = regionX;
     maze->base.regionY = regionY;
     maze->base.me = me;
-    maze->base.spriteX = me->x;
+    maze->base.meX = me->x;
     maze->base.id = id;
 
     i = GetFirstSetBitIndex(me->d.uData[4], 4);
@@ -253,7 +253,7 @@ void sub_804D114(void)
     worldY = maze->worldY;
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, maze->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, maze->base.meX);
         TaskDestroy(gCurTask);
         return;
     }
@@ -396,11 +396,11 @@ void sub_804D3FC(void)
     MapEntity *me = maze->base.me;
     s16 worldX, worldY;
 
-    worldX = TO_WORLD_POS(maze->base.spriteX, maze->base.regionX);
+    worldX = TO_WORLD_POS(maze->base.meX, maze->base.regionX);
     worldY = TO_WORLD_POS(me->y, maze->base.regionY);
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, maze->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, maze->base.meX);
         TaskDestroy(gCurTask);
         return;
     }
@@ -520,7 +520,7 @@ void sub_804D6D8(void)
     s16 worldX, worldY;
     s16 i;
 
-    worldX = TO_WORLD_POS(maze->base.spriteX, maze->base.regionX);
+    worldX = TO_WORLD_POS(maze->base.meX, maze->base.regionX);
     worldY = TO_WORLD_POS(me->y, maze->base.regionY);
 
     if (!IsWorldPtActive(worldX, worldY)) {
@@ -530,7 +530,7 @@ void sub_804D6D8(void)
             ResolvePlayerSpriteCollision(s, p);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, maze->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, maze->base.meX);
         TaskDestroy(gCurTask);
         return;
     }

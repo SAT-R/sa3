@@ -15,7 +15,7 @@ typedef struct {
     /* 0x04 */ u8 unk4;
     /* 0x05 */ u8 unk5;
     /* 0x06 */ u8 id;
-    /* 0x07 */ u8 spriteX;
+    /* 0x07 */ u8 meX;
     /* 0x08 */ bool8 unk8;
     /* 0x09 */ u8 unk9;
     /* 0x0A */ s8 direction;
@@ -55,7 +55,7 @@ void CreateEntity_Marun(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     enemy->unk4 = 0;
     enemy->id = id;
     enemy->me = me;
-    enemy->spriteX = me->x;
+    enemy->meX = me->x;
     enemy->unk8 = FALSE;
     enemy->region[0] = regionX;
     enemy->region[1] = regionY;
@@ -118,8 +118,8 @@ void InitSprite(Marun *enemy)
     enemy->transform.rotation = 0;
     transform->x = s->x;
     transform->y = s->y;
-    transform->scaleX = Q(1);
-    transform->scaleY = Q(1);
+    transform->qScaleX = Q(1);
+    transform->qScaleY = Q(1);
 
     TransformSprite(s, transform);
     UpdateSpriteAnimation(s);
@@ -413,7 +413,7 @@ bool32 sub_8063D38(Marun *enemy)
     unk.regionX = enemy->region[0];
     unk.regionY = enemy->region[1];
     unk.me = enemy->me;
-    *(u8 *)((char *)&unk + 8) = enemy->spriteX;
+    *(u8 *)((char *)&unk + 8) = enemy->meX;
 
     result = sub_805C280(&unk);
 
@@ -474,7 +474,7 @@ bool32 sub_8063EDC(Marun *enemy, EnemyUnknownStruc0 *unk)
     Sprite *s;
 
     unk->me = NULL;
-    unk->spriteX = 0;
+    unk->meX = 0;
     unk->unk4 = 0;
 
     s = &enemy->s;

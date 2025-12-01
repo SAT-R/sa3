@@ -63,7 +63,7 @@ void CreateEntity_BreakableWall(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     wall->base.regionX = regionX;
     wall->base.regionY = regionY;
     wall->base.me = me;
-    wall->base.spriteX = me->x;
+    wall->base.meX = me->x;
     wall->base.id = id;
     wall->base.unk8 = 0;
 
@@ -294,7 +294,7 @@ void sub_8034D74(void)
     s16 worldX, worldY;
     s16 i;
 
-    worldX = TO_WORLD_POS(wall->base.spriteX, wall->base.regionX);
+    worldX = TO_WORLD_POS(wall->base.meX, wall->base.regionX);
     worldY = TO_WORLD_POS(me->y, wall->base.regionY);
 
     s->x = worldX - gCamera.x;
@@ -306,7 +306,7 @@ void sub_8034D74(void)
             ResolvePlayerSpriteCollision(s, p);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, wall->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, wall->base.meX);
         TaskDestroy(gCurTask);
         return;
     } else {
@@ -342,7 +342,7 @@ NONMATCH("asm/non_matching/game/interactables/breakable_wall__Task_8034E44.inc",
             }
         }
 
-        worldX = TO_WORLD_POS(wall->base.spriteX, wall->base.regionX);
+        worldX = TO_WORLD_POS(wall->base.meX, wall->base.regionX);
         worldX += (s32)(wall->s.hitboxes[0].b.right + ((wall->s.hitboxes[0].b.right & 0x80000000) >> 31)) >> 1;
 
         worldY = TO_WORLD_POS(me->y, wall->base.regionY);
@@ -359,7 +359,7 @@ NONMATCH("asm/non_matching/game/interactables/breakable_wall__Task_8034E44.inc",
 
     do {
     lbl_destroy_task:
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, wall->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, wall->base.meX);
         TaskDestroy(gCurTask);
         return;
     } while (0);

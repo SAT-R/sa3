@@ -48,7 +48,7 @@ static void CreateButtonPlatform(u16 sharedKind, MapEntity *me, u16 regionX, u16
     platform->base.regionX = regionX;
     platform->base.regionY = regionY;
     platform->base.me = me;
-    platform->base.spriteX = me->x;
+    platform->base.meX = me->x;
     platform->base.id = id;
 
 #ifndef BUG_FIX
@@ -113,7 +113,7 @@ static void Task_ButtonPlatformInit(void)
     s32 qPathMiddleX, qPathMiddleY;
 
     if (platform->isActive == TRUE) {
-        qWorldX = Q(TO_WORLD_POS(platform->base.spriteX, platform->base.regionX));
+        qWorldX = Q(TO_WORLD_POS(platform->base.meX, platform->base.regionX));
         qWorldY = Q(TO_WORLD_POS(me->y, platform->base.regionY));
 
         platform->theta = ((gStageData.timer + (platform->unk3C >> 2)) & 0xFF) << 2;
@@ -211,11 +211,11 @@ static void sub_8038988(void)
 
 #ifndef BUG_FIX
     s16 spawnX, spawnY;
-    spawnX = TO_WORLD_POS(platform->base.spriteX, platform->base.regionX);
+    spawnX = TO_WORLD_POS(platform->base.meX, platform->base.regionX);
     spawnY = TO_WORLD_POS(me->y, platform->base.regionY);
 #else
     s32 spawnX, spawnY;
-    spawnX = TO_WORLD_POS(platform->base.spriteX, platform->base.regionX);
+    spawnX = TO_WORLD_POS(platform->base.meX, platform->base.regionX);
     spawnY = TO_WORLD_POS(me->y, platform->base.regionY);
 
     // BUG: These are uninitialized usually
@@ -233,7 +233,7 @@ static void sub_8038988(void)
             ResolvePlayerSpriteCollision(s, p);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.meX);
         TaskDestroy(gCurTask);
         return;
     }

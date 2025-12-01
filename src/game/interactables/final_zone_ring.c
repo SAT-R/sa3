@@ -34,7 +34,7 @@ void CreateEntity_FinalZoneRing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         ring->base.regionX = regionX;
         ring->base.regionY = regionY;
         ring->base.me = me;
-        ring->base.spriteX = me->x;
+        ring->base.meX = me->x;
         ring->base.id = id;
         ring->worldX = TO_WORLD_POS(me->x, regionX);
         ring->worldY = TO_WORLD_POS(me->y, regionY);
@@ -98,7 +98,7 @@ void sub_804F4E4(void)
     worldY = ring->worldY;
 
     if (!IsWorldPtActive(worldX, worldY)) {
-        me->x = ring->base.spriteX;
+        me->x = ring->base.meX;
         TaskDestroy(gCurTask);
         return;
     }

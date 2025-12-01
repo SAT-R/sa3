@@ -53,7 +53,7 @@ void CreateSpikes(u8 kind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
     spikes->base.regionX = regionX;
     spikes->base.regionY = regionY;
     spikes->base.me = me;
-    spikes->base.spriteX = me->x;
+    spikes->base.meX = me->x;
     spikes->base.id = id;
     spikes->kind = kind;
 
@@ -84,7 +84,7 @@ void Task_Spikes7(void)
     s16 i;
     u8 kind = spikes->kind;
 
-    worldX = TO_WORLD_POS(spikes->base.spriteX, spikes->base.regionX);
+    worldX = TO_WORLD_POS(spikes->base.meX, spikes->base.regionX);
     worldY = TO_WORLD_POS(me->y, spikes->base.regionY);
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
@@ -202,7 +202,7 @@ void Task_Spikes_4_6(void)
 
     sub_8030F70();
 
-    worldX = TO_WORLD_POS(spikes->base.spriteX, spikes->base.regionX);
+    worldX = TO_WORLD_POS(spikes->base.meX, spikes->base.regionX);
     worldY = TO_WORLD_POS(me->y, spikes->base.regionY);
 
     if ((u16)(timer - 64) >= 60u) {
@@ -352,7 +352,7 @@ void sub_8030DEC(void)
     s16 worldX, worldY;
     s16 i;
 
-    worldX = TO_WORLD_POS(spikes->base.spriteX, spikes->base.regionX);
+    worldX = TO_WORLD_POS(spikes->base.meX, spikes->base.regionX);
     worldY = TO_WORLD_POS(me->y, spikes->base.regionY);
 
     if (!IsWorldPtActive(worldX, worldY)) {
@@ -361,7 +361,7 @@ void sub_8030DEC(void)
             ResolvePlayerSpriteCollision(s, p);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, spikes->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spikes->base.meX);
         TaskDestroy(gCurTask);
         return;
     } else {
@@ -418,12 +418,12 @@ void sub_8030F70(void)
     s16 worldX, worldY;
     s16 i;
 
-    worldX = TO_WORLD_POS(spikes->base.spriteX, spikes->base.regionX);
+    worldX = TO_WORLD_POS(spikes->base.meX, spikes->base.regionX);
     worldY = TO_WORLD_POS(me->y, spikes->base.regionY);
 
     if (!IsWorldPtActive(worldX, worldY)) {
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, spikes->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spikes->base.meX);
         TaskDestroy(gCurTask);
         return;
     }

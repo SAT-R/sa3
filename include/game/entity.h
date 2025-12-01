@@ -46,7 +46,7 @@ typedef struct {
     /* 0x06 */ u16 regionY;
     /* 0x08 */ u8 unk8; // only in SA3
     /* 0x09 */ u8 unk9; // only in SA3
-    /* 0x0A */ u8 spriteX;
+    /* 0x0A */ u8 meX;
     /* 0x0B */ u8 id;
 } SpriteBase;
 
@@ -58,7 +58,7 @@ typedef struct {
     /* 0x04 */ u16 regionX;
     /* 0x06 */ u16 regionY;
     /* 0x08 */ u16 unk8; // only in SA3
-    /* 0x0A */ u8 spriteX;
+    /* 0x0A */ u8 meX;
     /* 0x0B */ u8 id;
 } SpriteBase2;
 
@@ -71,7 +71,7 @@ typedef struct {
     /* 0x0E */ u16 regionY;
     /* 0x10 */ u16 unk10;
     /* 0x12 */ s16 unk12;
-    /* 0x14 */ u8 spriteX;
+    /* 0x14 */ u8 meX;
     /* 0x15 */ u8 id;
     /* 0x16 */ u8 unk16;
     /* 0x17 */ u8 unk17;
@@ -87,7 +87,7 @@ typedef struct {
     /* 0x08 */ u8 filler8[0x2];
     /* 0x0A */ u16 qSpeedAirX; // only in SA3
     /* 0x0A */ u16 qSpeedAirY; // only in SA3
-    /* 0x0E */ u8 spriteX;
+    /* 0x0E */ u8 meX;
     /* 0x0F */ u8 id;
 } SpriteBase4;
 
@@ -96,7 +96,7 @@ typedef struct {
     /* 0x00 */ MapEntity *me;
     /* 0x04 */ u16 regionX;
     /* 0x06 */ u16 regionY;
-    /* 0x08 */ u8 spriteX;
+    /* 0x08 */ u8 meX;
     /* 0x09 */ u8 id;
     /* 0x0A */ u8 unkA;
     /* 0x0B */ u8 unkB;
@@ -256,7 +256,7 @@ typedef struct {
 
 #define ENEMY_DESTROY_IF_OUT_OF_CAM_RANGE(_enemy, _mapEntity, _sprite)                                                                     \
     if (IS_OUT_OF_CAM_RANGE(_sprite->x, _sprite->y)) {                                                                                     \
-        SET_MAP_ENTITY_NOT_INITIALIZED(_mapEntity, _enemy->base.spriteX);                                                                  \
+        SET_MAP_ENTITY_NOT_INITIALIZED(_mapEntity, _enemy->base.meX);                                                                      \
         TaskDestroy(gCurTask);                                                                                                             \
         return;                                                                                                                            \
     }

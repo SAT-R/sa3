@@ -44,7 +44,7 @@ void CreateEntity_Ramp(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     ramp->base.regionX = regionX;
     ramp->base.regionY = regionY;
     ramp->base.me = me;
-    ramp->base.spriteX = me->x;
+    ramp->base.meX = me->x;
     ramp->base.id = id;
 
     ramp->worldX = TO_WORLD_POS(me->x, regionX);
@@ -384,7 +384,7 @@ void sub_80321D8(void)
             ResolvePlayerSpriteCollision(s, p);
         }
 
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, ramp->base.spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, ramp->base.meX);
         TaskDestroy(gCurTask);
         return;
     } else {
