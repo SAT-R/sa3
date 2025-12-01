@@ -33,6 +33,7 @@ void Task_BuBuInit(void);
 void TaskDestructor_BuBu(struct Task *t);
 void sub_805ECC4(BuBu *enemy);
 void sub_805EE0C(void);
+bool32 sub_805EEB4(BuBu *enemy);
 void sub_805F094(void);
 void sub_805F15C(BuBu *enemy);
 bool32 sub_805F1A0(BuBu *enemy);
@@ -169,5 +170,78 @@ void sub_805EE0C(void)
         s->variant = gUnknown_080D1F8C[2].variant;
 
         gCurTask->main = sub_805F094;
+    }
+}
+
+bool32 sub_805EEB4(BuBu *enemy)
+{
+    s32 mat0;
+    s32 mat1;
+    s32 mat2;
+    Strc3001CFC *strc;
+    s32 temp_r2;
+    s32 temp_sb;
+    u8 i;
+
+    mat0 = 0;
+    mat1 = 0;
+    mat2 = 0;
+    temp_sb = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]);
+    temp_r2 = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]);
+    if (gTask_03001CFC != NULL) {
+        if ((gStageData.unk4 == 1) || (gStageData.unk4 == 2) || (gStageData.unk4 == 4)) {
+#ifndef BUG_FIX
+            return;
+#else
+            // TODO: Understand whether this is the correct return value fix!
+            return FALSE;
+#endif
+        }
+
+        strc = TASK_DATA(gTask_03001CFC);
+        for (i = 0; i < 32; i++) {
+            if (strc->unk28[i].unkC != 0) {
+                mat0 = 1;
+                if (temp_sb - 8 >= I(strc->unk28[i].unk0)) {
+                    strc->unk28[i].unk8 += 0x40;
+                    if (strc->unk28[i].unk8 > +Q(3)) {
+                        strc->unk28[i].unk8 = +Q(3);
+                    }
+                } else if (temp_sb + 8 <= I(strc->unk28[i].unk0)) {
+                    strc->unk28[i].unk8 -= 0x40;
+                    if (strc->unk28[i].unk8 < -Q(3)) {
+                        strc->unk28[i].unk8 = -Q(3);
+                    }
+                } else {
+                    mat1 = 1;
+                }
+
+                if (temp_r2 - 8 >= I(strc->unk28[i].unk4)) {
+                    strc->unk28[i].unkA += 0x40;
+                    if (strc->unk28[i].unkA > +Q(3)) {
+                        strc->unk28[i].unkA = +Q(3);
+                    }
+                } else if (temp_r2 + 8 <= I(strc->unk28[i].unk4)) {
+                    strc->unk28[i].unkA -= 0x40;
+                    if (strc->unk28[i].unkA < -Q(3)) {
+                        strc->unk28[i].unkA = -Q(3);
+                    }
+                } else {
+                    mat2 = 1;
+                }
+
+                if ((mat1 == 1) && (mat2 == 1)) {
+                    sub_8029C54(I(strc->unk28[i].unk0), I(strc->unk28[i].unk4));
+                }
+            }
+        }
+
+        if (mat0 == 0) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    } else {
+        return FALSE;
     }
 }
