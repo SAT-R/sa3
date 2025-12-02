@@ -144,7 +144,7 @@ SECTIONS {
         asm/code_x.o(.text);
         src/lib/m4a/m4a0.o(.text);
         src/lib/m4a/m4a.o(.text);
-        asm/game_init.o(.text);
+        asm/core.o(.text);
         src/main.o(.text);
         src/task.o(.text);
         src/background.o(.text);

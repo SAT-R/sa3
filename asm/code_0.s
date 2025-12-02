@@ -10611,7 +10611,7 @@ _08005400:
 	strb r0, [r2]
 	adds r0, r4, #0
 	bl sub_8019A64
-	ldr r1, _08005430 @ =sub_8005434
+	ldr r1, _08005430 @ =Player_8005434
 	str r1, [r4]
 	adds r0, r4, #0
 	bl _call_via_r1
@@ -10620,10 +10620,10 @@ _08005428:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08005430: .4byte sub_8005434
+_08005430: .4byte Player_8005434
 
-	thumb_func_start sub_8005434
-sub_8005434: @ 0x08005434
+	thumb_func_start Player_8005434
+Player_8005434: @ 0x08005434
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	adds r0, #0x2b
