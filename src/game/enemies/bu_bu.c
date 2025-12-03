@@ -147,7 +147,7 @@ void sub_805EE0C(void)
 {
     BuBu *enemy = TASK_DATA(gCurTask);
 
-    if (sub_805F22C(enemy) == 1) {
+    if (sub_805F22C(enemy) == TRUE) {
         TaskDestroy(gCurTask);
         return;
     }
@@ -167,7 +167,7 @@ void sub_805EE0C(void)
         enemy->unk6 = 0;
 
         gCurTask->main = Task_BuBuInit;
-    } else if (sub_805F1A0(enemy) == 1) {
+    } else if (sub_805F1A0(enemy) == TRUE) {
         Sprite2 *s = &enemy->s;
 
         s->anim = gUnknown_080D1F8C[2].anim;
