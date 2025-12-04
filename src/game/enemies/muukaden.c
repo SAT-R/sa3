@@ -37,11 +37,13 @@ void Task_8062B90(void);
 void Task_8062C4C(void);
 void sub_8062CFC(Muukaden *enemy);
 bool32 sub_8062EF8(Muukaden *enemy, Vec2_32 *arg1, u8 arg2);
+bool32 sub_8062FC0(Muukaden *enemy);
 void sub_80631F8(Muukaden *enemy);
 void sub_8063260(Muukaden *enemy);
 void sub_8063514(Sprite2 *s, u16 *arg1, s32 arg2, u8 arg3);
-bool32 sub_80630AC(Muukaden *enemy, Sprite2 *s, Vec2_32 *param2);
+bool32 sub_80630AC(Muukaden *enemy, UNUSED Sprite2 *s, UNUSED Vec2_32 *param2);
 bool32 sub_8063324(Muukaden *enemy);
+bool32 sub_8063574(Muukaden *enemy, Sprite2 *sprCurr, Vec2_32 *qParam2, EnemyUnknownStruc0 *strc);
 
 extern TileInfo2 gUnknown_080D20C4[9];
 
@@ -469,4 +471,68 @@ bool32 sub_8062FC0(Muukaden *enemy)
     }
 
     return FALSE;
+}
+
+bool32 sub_80630AC(Muukaden *enemy, Sprite2 *s, Vec2_32 *param2)
+{
+    EnemyUnknownStruc0 strc;
+    Sprite2 *sprCurr;
+    Vec2_32 *qPos;
+    s32 var_r4;
+    u8 i;
+
+    for (i = 0; i < (enemy->unk7 - 1); i++) {
+        if ((i == 0) || (i == 3)) {
+            qPos = &enemy->qUnk3C[i];
+
+            sprCurr = &enemy->sprites[3];
+            strc.unk4 = sub_8063574(enemy, sprCurr, qPos, &strc);
+            strc.spr = (Sprite *)sprCurr;
+            strc.posX = qPos->x;
+            strc.posY = qPos->y;
+            strc.regionX = enemy->region[0];
+            strc.regionY = enemy->region[1];
+            strc.me = enemy->me;
+            strc.meX = enemy->meX;
+
+            sprCurr = &enemy->sprites[4];
+            strc.unk4 = sub_8063574(enemy, sprCurr, qPos, &strc);
+            strc.spr = (Sprite *)sprCurr;
+            strc.posX = qPos->x;
+            strc.posY = qPos->y;
+            strc.regionX = enemy->region[0];
+            strc.regionY = enemy->region[1];
+            strc.me = enemy->me;
+            strc.meX = enemy->meX;
+        }
+
+        qPos = &enemy->qUnk3C[i];
+        sprCurr = &enemy->sprites[1];
+        strc.unk4 = sub_8063574(enemy, sprCurr, &enemy->qUnk3C[i], &strc);
+        strc.spr = (Sprite *)sprCurr;
+        strc.posX = qPos->x;
+        strc.posY = qPos->y;
+        strc.regionX = enemy->region[0];
+        strc.regionY = enemy->region[1];
+        strc.me = enemy->me;
+        strc.meX = enemy->meX;
+    }
+
+    qPos = &enemy->qPos;
+    sprCurr = &enemy->sprites[0];
+    strc.unk4 = sub_8063574(enemy, sprCurr, &enemy->qPos, &strc);
+    strc.spr = (Sprite *)sprCurr;
+    strc.posX = Q(sprCurr->x + gCamera.x);
+    strc.posY = Q(sprCurr->y + gCamera.y);
+
+    if (strc.spr->frameFlags & 0x20) {
+        strc.spr->x += 10;
+        strc.spr->y += 30;
+    }
+
+    strc.regionX = 0U;
+    strc.regionY = 0U;
+    strc.me = enemy->me;
+    strc.meX = enemy->meX;
+    return sub_805C280((EnemyUnknownStruc0 *)&strc);
 }
