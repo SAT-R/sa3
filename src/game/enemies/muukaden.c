@@ -27,8 +27,7 @@ typedef struct Muukaden {
     /* 0x3C */ Vec2_32 qUnk3C[4];
     /* 0x5C */ Vec2_32 qUnk5C;
     /* 0x64 */ Vec2_32 qPos;
-    /* 0x6C */ u16 unk6C;
-    /* 0x6W */ u8 filler6E[0xA];
+    /* 0x6C */ SpriteTransform tf;
     /* 0x78 */ Sprite2 sprites[5];
 } Muukaden; /* 0x168 */
 
@@ -40,7 +39,8 @@ bool32 sub_8062EF8(Muukaden *enemy, Vec2_32 *arg1, u8 arg2);
 bool32 sub_8062FC0(Muukaden *enemy);
 void sub_80631F8(Muukaden *enemy);
 void sub_8063260(Muukaden *enemy);
-void sub_8063514(Sprite2 *s, u16 *arg1, s32 arg2, u8 arg3);
+void sub_8063514(Sprite2 *s, SpriteTransform *tf, s32 arg2, u8 arg3);
+void sub_806359C(Sprite2 *s, SpriteTransform *tf, Muukaden *enemy);
 bool32 sub_80630AC(Muukaden *enemy, UNUSED Sprite2 *s, UNUSED Vec2_32 *param2);
 bool32 sub_8063324(Muukaden *enemy);
 bool32 sub_8063574(Muukaden *enemy, Sprite2 *sprCurr, Vec2_32 *qParam2, EnemyUnknownStruc0 *strc);
@@ -65,7 +65,7 @@ NONMATCH("asm/non_matching/game/enemies/muukaden__CreateMuukaden.inc",
     enemy->unk18 = 0;
     enemy->unk1A = 0;
     enemy->unk7 = 0;
-    enemy->unk6C = 0;
+    enemy->tf.rotation = 0;
     enemy->qLeft = enemy->qUnk5C.x + Q(me->d.sData[0] * TILE_WIDTH);
     enemy->qRight = enemy->qLeft + Q(me->d.uData[2] * TILE_WIDTH);
     enemy->qTop = enemy->qUnk5C.y + Q(me->d.sData[1] * TILE_WIDTH);
@@ -102,12 +102,12 @@ END_NONMATCH
 
 void sub_8062800(Muukaden *enemy, u8 type)
 {
-    u16 *unk6C;
+    SpriteTransform *tf;
     Sprite2 *s;
     u8 *vram;
     u8 timer;
 
-    unk6C = &enemy->unk6C;
+    tf = &enemy->tf;
     timer = gStageData.timer & 7;
     vram = VramMalloc(0x40U);
     s = &enemy->sprites[1];
@@ -124,7 +124,7 @@ void sub_8062800(Muukaden *enemy, u8 type)
     s->animSpeed = 0x10;
     s->palId = 0;
     s->hitboxes[0].index = -1;
-    sub_8063514(s, unk6C, type, timer);
+    sub_8063514(s, tf, type, timer);
     UpdateSpriteAnimation((Sprite *)s);
 
     s = &enemy->sprites[0];
@@ -141,7 +141,7 @@ void sub_8062800(Muukaden *enemy, u8 type)
     s->animSpeed = 0x10;
     s->palId = 0;
     s->hitboxes[0].index = -1;
-    sub_8063514(s, unk6C, type, timer);
+    sub_8063514(s, tf, type, timer);
     UpdateSpriteAnimation((Sprite *)s);
 
     s = &enemy->sprites[2];
@@ -158,7 +158,7 @@ void sub_8062800(Muukaden *enemy, u8 type)
     s->animSpeed = 0x10;
     s->palId = 0;
     s->hitboxes[0].index = -1;
-    sub_8063514(s, unk6C, type, timer);
+    sub_8063514(s, tf, type, timer);
     UpdateSpriteAnimation((Sprite *)s);
 
     s = &enemy->sprites[3];
@@ -397,11 +397,11 @@ void sub_8062CFC(Muukaden *enemy)
 u32 sub_8062EF8(Muukaden *enemy, Vec2_32 *arg1, u8 arg2)
 {
 #ifndef NON_MATCHING
-    s32 forMatching = enemy->unk6C;
+    s32 forMatching = enemy->tf.rotation;
 #endif
     s32 var_r6 = 0;
 
-    if (enemy->unk6C != 0) {
+    if (enemy->tf.rotation != 0) {
         arg1->y -= Q(enemy->dir);
         if (enemy->qTop > arg1->y) {
             arg1->y = enemy->qTop;
@@ -444,7 +444,7 @@ bool32 sub_8062FC0(Muukaden *enemy)
             break;
         }
 
-        if (enemy->unk6C == 0) {
+        if (enemy->tf.rotation == 0) {
             qDy = p->qWorldY - Q(TO_WORLD_POS_RAW(0, enemy->region[1]));
 
             if (ABS(qDy - enemy->qPos.y) <= 0x500) {
@@ -460,8 +460,8 @@ bool32 sub_8062FC0(Muukaden *enemy)
             qDx = p->qWorldX - Q(TO_WORLD_POS_RAW(0, enemy->region[0]));
 
             if (ABS(qDx - enemy->qPos.x) <= 0x500) {
-                if (((enemy->unk6C != 0) && ((p->qWorldY - Q(TO_WORLD_POS_RAW(0, enemy->region[1]))) <= enemy->qPos.y))
-                    || ((enemy->unk6C == 0x300) && ((p->qWorldY - Q(TO_WORLD_POS_RAW(0, enemy->region[1]))) >= enemy->qPos.y))) {
+                if (((enemy->tf.rotation != 0) && ((p->qWorldY - Q(TO_WORLD_POS_RAW(0, enemy->region[1]))) <= enemy->qPos.y))
+                    || ((enemy->tf.rotation == 0x300) && ((p->qWorldY - Q(TO_WORLD_POS_RAW(0, enemy->region[1]))) >= enemy->qPos.y))) {
                     enemy->qUnk1C.x = p->qWorldX;
                     enemy->qUnk1C.y = p->qWorldY;
                     return TRUE;
@@ -535,4 +535,26 @@ bool32 sub_80630AC(Muukaden *enemy, Sprite2 *s, Vec2_32 *param2)
     strc.me = enemy->me;
     strc.meX = enemy->meX;
     return sub_805C280((EnemyUnknownStruc0 *)&strc);
+}
+
+void sub_80631F8(Muukaden *enemy)
+{
+    Sprite2 *s;
+    SpriteTransform *tf;
+
+    tf = &enemy->tf;
+    s = enemy->sprites;
+
+    s->x = TO_WORLD_POS_RAW(I(enemy->qPos.x), enemy->region[0]) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(enemy->qPos.y), enemy->region[1]) - gCamera.y;
+
+    sub_806359C(s, tf, enemy);
+
+    if (SPRITE_FLAG_GET(s, ROT_SCALE_ENABLE)) {
+        tf->x = s->x;
+        tf->y = s->y;
+        TransformSprite((Sprite *)s, tf);
+    }
+    UpdateSpriteAnimation((Sprite *)s);
+    DisplaySprite((Sprite *)s);
 }

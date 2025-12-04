@@ -6,59 +6,6 @@
 .arm
 
 .if 0
-.endif
-
-	thumb_func_start sub_80631F8
-sub_80631F8: @ 0x080631F8
-	push {r4, r5, lr}
-	adds r2, r0, #0
-	adds r5, r2, #0
-	adds r5, #0x6c
-	adds r4, r2, #0
-	adds r4, #0x78
-	ldr r1, [r2, #0x64]
-	asrs r1, r1, #8
-	ldrh r0, [r2, #0x14]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	ldr r3, _0806325C @ =gCamera
-	ldr r0, [r3]
-	subs r1, r1, r0
-	strh r1, [r4, #0x10]
-	ldr r1, [r2, #0x68]
-	asrs r1, r1, #8
-	ldrh r0, [r2, #0x16]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	ldr r0, [r3, #4]
-	subs r1, r1, r0
-	strh r1, [r4, #0x12]
-	adds r0, r4, #0
-	adds r1, r5, #0
-	bl sub_806359C
-	ldr r0, [r4, #8]
-	movs r1, #0x20
-	ands r0, r1
-	cmp r0, #0
-	beq _08063248
-	ldrh r0, [r4, #0x10]
-	strh r0, [r5, #6]
-	ldrh r0, [r4, #0x12]
-	strh r0, [r5, #8]
-	adds r0, r4, #0
-	adds r1, r5, #0
-	bl TransformSprite
-_08063248:
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	adds r0, r4, #0
-	bl DisplaySprite
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0806325C: .4byte gCamera
-
 	thumb_func_start sub_8063260
 sub_8063260: @ 0x08063260
 	push {r4, r5, r6, r7, lr}
@@ -158,6 +105,7 @@ _080632F0:
 	bx r1
 	.align 2, 0
 _08063320: .4byte gCamera
+.endif
 
 	thumb_func_start sub_8063324
 sub_8063324: @ 0x08063324
