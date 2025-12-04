@@ -8,326 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_8062800
-sub_8062800: @ 0x08062800
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #8
-	mov sl, r0
-	lsls r1, r1, #0x18
-	lsrs r1, r1, #0x18
-	str r1, [sp]
-	adds r0, #0x6c
-	str r0, [sp, #4]
-	ldr r0, _0806298C @ =gStageData
-	ldr r4, [r0, #0x1c]
-	movs r0, #7
-	ands r4, r0
-	movs r0, #0x40
-	bl VramMalloc
-	adds r6, r0, #0
-	mov r7, sl
-	adds r7, #0xa8
-	str r6, [r7]
-	ldr r5, _08062990 @ =gUnknown_080D20C4
-	ldr r0, [r5, #0xc]
-	lsls r0, r0, #5
-	adds r6, r6, r0
-	ldrh r0, [r5, #8]
-	movs r1, #0
-	mov r8, r1
-	strh r0, [r7, #0xc]
-	ldrb r0, [r5, #0xa]
-	strb r0, [r7, #0x1a]
-	movs r0, #0xff
-	strb r0, [r7, #0x1b]
-	mov r2, sl
-	ldr r1, [r2, #0x64]
-	asrs r1, r1, #8
-	ldrh r0, [r2, #0x14]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	ldr r0, _08062994 @ =gCamera
-	mov sb, r0
-	ldr r0, [r0]
-	subs r1, r1, r0
-	strh r1, [r7, #0x10]
-	ldr r1, [r2, #0x68]
-	asrs r1, r1, #8
-	ldrh r0, [r2, #0x16]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	mov r2, sb
-	ldr r0, [r2, #4]
-	subs r1, r1, r0
-	strh r1, [r7, #0x12]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r7, #0x14]
-	mov r1, r8
-	strh r1, [r7, #0xe]
-	strh r1, [r7, #0x16]
-	movs r2, #0x10
-	strb r2, [r7, #0x1c]
-	movs r0, #0
-	strb r0, [r7, #0x1f]
-	movs r1, #1
-	rsbs r1, r1, #0
-	str r1, [r7, #0x20]
-	adds r0, r7, #0
-	ldr r1, [sp, #4]
-	ldr r2, [sp]
-	adds r3, r4, #0
-	bl sub_8063514
-	adds r0, r7, #0
-	bl UpdateSpriteAnimation
-	subs r7, #0x30
-	mov r2, sl
-	str r6, [r2, #0x78]
-	ldr r0, [r5, #4]
-	lsls r0, r0, #5
-	adds r6, r6, r0
-	ldrh r0, [r5]
-	strh r0, [r7, #0xc]
-	ldrb r0, [r5, #2]
-	strb r0, [r7, #0x1a]
-	movs r0, #1
-	rsbs r0, r0, #0
-	strb r0, [r7, #0x1b]
-	ldr r1, [r2, #0x64]
-	asrs r1, r1, #8
-	ldrh r0, [r2, #0x14]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	mov r2, sb
-	ldr r0, [r2]
-	subs r1, r1, r0
-	strh r1, [r7, #0x10]
-	mov r0, sl
-	ldr r1, [r0, #0x68]
-	asrs r1, r1, #8
-	ldrh r0, [r0, #0x16]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	ldr r0, [r2, #4]
-	subs r1, r1, r0
-	strh r1, [r7, #0x12]
-	movs r1, #0x90
-	lsls r1, r1, #3
-	strh r1, [r7, #0x14]
-	mov r2, r8
-	strh r2, [r7, #0xe]
-	strh r2, [r7, #0x16]
-	movs r0, #0x10
-	strb r0, [r7, #0x1c]
-	movs r1, #0
-	strb r1, [r7, #0x1f]
-	movs r2, #1
-	rsbs r2, r2, #0
-	str r2, [r7, #0x20]
-	adds r0, r7, #0
-	ldr r1, [sp, #4]
-	ldr r2, [sp]
-	adds r3, r4, #0
-	bl sub_8063514
-	adds r0, r7, #0
-	bl UpdateSpriteAnimation
-	adds r7, #0x60
-	str r6, [r7]
-	ldr r0, [r5, #0x14]
-	lsls r0, r0, #5
-	adds r6, r6, r0
-	ldrh r0, [r5, #0x10]
-	strh r0, [r7, #0xc]
-	ldrb r0, [r5, #0x12]
-	strb r0, [r7, #0x1a]
-	movs r0, #1
-	rsbs r0, r0, #0
-	strb r0, [r7, #0x1b]
-	mov r0, sl
-	ldr r1, [r0, #0x64]
-	asrs r1, r1, #8
-	ldrh r0, [r0, #0x14]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	mov r2, sb
-	ldr r0, [r2]
-	subs r1, r1, r0
-	strh r1, [r7, #0x10]
-	mov r0, sl
-	ldr r1, [r0, #0x68]
-	asrs r1, r1, #8
-	ldrh r0, [r0, #0x16]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	ldr r0, [r2, #4]
-	subs r1, r1, r0
-	strh r1, [r7, #0x12]
-	movs r1, #0x90
-	lsls r1, r1, #3
-	strh r1, [r7, #0x14]
-	mov r2, r8
-	strh r2, [r7, #0xe]
-	strh r2, [r7, #0x16]
-	movs r0, #0x10
-	strb r0, [r7, #0x1c]
-	movs r1, #0
-	strb r1, [r7, #0x1f]
-	movs r2, #1
-	rsbs r2, r2, #0
-	str r2, [r7, #0x20]
-	adds r0, r7, #0
-	ldr r1, [sp, #4]
-	ldr r2, [sp]
-	adds r3, r4, #0
-	bl sub_8063514
-	adds r0, r7, #0
-	bl UpdateSpriteAnimation
-	movs r7, #0x84
-	lsls r7, r7, #1
-	add r7, sl
-	str r6, [r7]
-	movs r4, #0x80
-	lsls r4, r4, #1
-	adds r6, r6, r4
-	ldr r0, [sp]
-	cmp r0, #0
-	bne _08062998
-	ldrh r0, [r5, #0x28]
-	strh r0, [r7, #0xc]
-	adds r0, r5, #0
-	adds r0, #0x2a
-	b _080629A4
-	.align 2, 0
-_0806298C: .4byte gStageData
-_08062990: .4byte gUnknown_080D20C4
-_08062994: .4byte gCamera
-_08062998:
-	adds r0, r5, #0
-	adds r0, #0x40
-	ldrh r0, [r0]
-	strh r0, [r7, #0xc]
-	adds r0, r5, #0
-	adds r0, #0x42
-_080629A4:
-	ldrb r0, [r0]
-	strb r0, [r7, #0x1a]
-	movs r0, #0xff
-	strb r0, [r7, #0x1b]
-	mov r2, sl
-	ldr r1, [r2, #0x64]
-	asrs r1, r1, #8
-	ldrh r0, [r2, #0x14]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	ldr r2, _08062A10 @ =gCamera
-	ldr r0, [r2]
-	subs r1, r1, r0
-	movs r5, #0
-	movs r3, #0
-	strh r1, [r7, #0x10]
-	mov r4, sl
-	ldr r1, [r4, #0x68]
-	asrs r1, r1, #8
-	ldrh r0, [r4, #0x16]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	ldr r0, [r2, #4]
-	subs r1, r1, r0
-	strh r1, [r7, #0x12]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r7, #0x14]
-	strh r3, [r7, #0xe]
-	strh r3, [r7, #0x16]
-	movs r0, #0x10
-	strb r0, [r7, #0x1c]
-	strb r5, [r7, #0x1f]
-	subs r0, #0x11
-	str r0, [r7, #0x20]
-	movs r0, #0x80
-	lsls r0, r0, #5
-	str r0, [r7, #8]
-	adds r0, r7, #0
-	bl UpdateSpriteAnimation
-	movs r7, #0x9c
-	lsls r7, r7, #1
-	add r7, sl
-	str r6, [r7]
-	ldr r0, [sp]
-	cmp r0, #0
-	bne _08062A18
-	ldr r0, _08062A14 @ =gUnknown_080D20C4
-	ldrh r1, [r0, #0x28]
-	strh r1, [r7, #0xc]
-	adds r0, #0x2a
-	b _08062A24
-	.align 2, 0
-_08062A10: .4byte gCamera
-_08062A14: .4byte gUnknown_080D20C4
-_08062A18:
-	ldr r0, _08062A88 @ =gUnknown_080D20C4
-	adds r1, r0, #0
-	adds r1, #0x40
-	ldrh r1, [r1]
-	strh r1, [r7, #0xc]
-	adds r0, #0x42
-_08062A24:
-	ldrb r0, [r0]
-	strb r0, [r7, #0x1a]
-	movs r0, #0xff
-	strb r0, [r7, #0x1b]
-	mov r2, sl
-	ldr r1, [r2, #0x64]
-	asrs r1, r1, #8
-	ldrh r0, [r2, #0x14]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	ldr r2, _08062A8C @ =gCamera
-	ldr r0, [r2]
-	subs r1, r1, r0
-	movs r5, #0
-	movs r3, #0
-	strh r1, [r7, #0x10]
-	mov r4, sl
-	ldr r1, [r4, #0x68]
-	asrs r1, r1, #8
-	ldrh r0, [r4, #0x16]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	ldr r0, [r2, #4]
-	subs r1, r1, r0
-	strh r1, [r7, #0x12]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r7, #0x14]
-	strh r3, [r7, #0xe]
-	strh r3, [r7, #0x16]
-	movs r0, #0x10
-	strb r0, [r7, #0x1c]
-	strb r5, [r7, #0x1f]
-	subs r0, #0x11
-	str r0, [r7, #0x20]
-	movs r0, #0x80
-	lsls r0, r0, #5
-	str r0, [r7, #8]
-	adds r0, r7, #0
-	bl UpdateSpriteAnimation
-	add sp, #8
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08062A88: .4byte gUnknown_080D20C4
-_08062A8C: .4byte gCamera
-
 	thumb_func_start Task_Muukaden
 Task_Muukaden: @ 0x08062A90
 	push {r4, r5, lr}
@@ -748,7 +428,7 @@ _08062DC8:
 	adds r0, #0x40
 	ldrh r0, [r0]
 	strh r0, [r4, #0xc]
-	ldr r1, _08062DF8 @ =gUnknown_080D2106
+	ldr r1, _08062DF8 @ =gUnknown_080D20C4+0x42
 	ldrb r0, [r1]
 _08062DD4:
 	strb r0, [r4, #0x1a]
@@ -768,7 +448,7 @@ _08062DD4:
 	bl CpuSet
 	b _08062E12
 	.align 2, 0
-_08062DF8: .4byte gUnknown_080D2106
+_08062DF8: .4byte gUnknown_080D20C4+0x42
 _08062DFC: .4byte 0x01000002
 _08062E00:
 	mov r0, sp
@@ -806,7 +486,7 @@ _08062E34:
 	bne _08062E82
 	ldrb r0, [r4, #0x1a]
 	adds r1, r0, #0
-	ldr r0, _08062E68 @ =gUnknown_080D2106
+	ldr r0, _08062E68 @ =gUnknown_080D20C4+0x42
 	ldrb r0, [r0]
 	cmp r1, r0
 	bne _08062E82
@@ -826,7 +506,7 @@ _08062E4A:
 	ldrb r0, [r2, #0x1a]
 	b _08062E76
 	.align 2, 0
-_08062E68: .4byte gUnknown_080D2106
+_08062E68: .4byte gUnknown_080D20C4+0x42
 _08062E6C:
 	mov r1, r8
 	ldrh r0, [r1, #0x30]

@@ -1158,11 +1158,7 @@ gUnknown_080D20B8:
 
     .global gUnknown_080D20C4
 gUnknown_080D20C4:
-    .incbin "baserom.gba", 0x000D20C4, 0x42
-
-    .global gUnknown_080D2106
-gUnknown_080D2106:
-    .incbin "baserom.gba", 0x000D2106, 0x6
+    .incbin "baserom.gba", 0x000D20C4, 0x48
 
     .global gUnknown_080D210C
 gUnknown_080D210C:
