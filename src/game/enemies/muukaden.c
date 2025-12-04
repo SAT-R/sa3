@@ -38,7 +38,7 @@ void sub_8062CFC(Muukaden *enemy);
 bool32 sub_8062EF8(Muukaden *enemy, Vec2_32 *arg1, u8 arg2);
 bool32 sub_8062FC0(Muukaden *enemy);
 void sub_80631F8(Muukaden *enemy);
-void sub_8063260(Muukaden *enemy);
+bool32 sub_8063260(Muukaden *enemy);
 void sub_8063514(Sprite2 *s, SpriteTransform *tf, s32 arg2, u8 arg3);
 void sub_806359C(Sprite2 *s, SpriteTransform *tf, Muukaden *enemy);
 bool32 sub_80630AC(Muukaden *enemy, UNUSED Sprite2 *s, UNUSED Vec2_32 *param2);
@@ -557,4 +557,40 @@ void sub_80631F8(Muukaden *enemy)
     }
     UpdateSpriteAnimation((Sprite *)s);
     DisplaySprite((Sprite *)s);
+}
+
+bool32 sub_8063260(Muukaden *enemy)
+{
+    Sprite2 *s;
+    u8 var_r7;
+    u8 var_sl;
+    SpriteTransform *tf = &enemy->tf;
+
+    var_sl = 0;
+    for (var_r7 = 0; var_r7 < 4; var_r7++) {
+        if (var_r7 == var_sl) {
+            var_sl += 3;
+            s = &enemy->sprites[2];
+        } else {
+            s = &enemy->sprites[1];
+        }
+
+        s->x = TO_WORLD_POS_RAW(I(enemy->qUnk3C[var_r7].x), enemy->region[0]) - gCamera.x;
+        s->y = TO_WORLD_POS_RAW(I(enemy->qUnk3C[var_r7].y), enemy->region[1]) - gCamera.y;
+        sub_806359C(s, tf, enemy);
+
+        if (SPRITE_FLAG_GET(s, ROT_SCALE_ENABLE)) {
+            tf->x = s->x;
+            tf->y = s->y;
+            TransformSprite((Sprite *)s, tf);
+        }
+        DisplaySprite((Sprite *)s);
+    }
+
+    s = &enemy->sprites[2];
+    UpdateSpriteAnimation((Sprite *)s);
+    s = &enemy->sprites[1];
+    UpdateSpriteAnimation((Sprite *)s);
+
+    return TRUE;
 }
