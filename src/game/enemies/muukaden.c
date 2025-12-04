@@ -31,14 +31,15 @@ typedef struct Muukaden {
 } Muukaden; /* 0x168 */
 
 void Task_Muukaden(void);
+void Task_8062B90(void);
+void Task_8062C4C(void);
 void sub_8062CFC(Muukaden *enemy);
 bool32 sub_8062EF8(Muukaden *enemy, Vec2_32 *arg1, u8 arg2);
 void sub_80631F8(Muukaden *enemy);
 void sub_8063260(Muukaden *enemy);
 void sub_8063514(Sprite2 *s, u16 *arg1, s32 arg2, u8 arg3);
 bool32 sub_80630AC(Muukaden *enemy, Sprite2 *s, Vec2_32 *param2);
-void Task_8062B90(void);
-void Task_8062C4C(void);
+bool32 sub_8063324(Muukaden *enemy);
 
 extern TileInfo2 gUnknown_080D20C4[9];
 
@@ -317,5 +318,74 @@ void Task_8062C4C(void)
         enemy->dir = +1;
         enemy->unk7 = 0U;
         gCurTask->main = Task_Muukaden;
+    }
+}
+
+void sub_8062CFC(Muukaden *enemy)
+{
+    s32 sp4;
+    Sprite2 *s;
+    u8 i;
+
+    s = &enemy->sprites[3];
+    if (++enemy->unk1A >= 60) {
+        sp4 = sub_8063324(enemy);
+
+        if ((((s->anim == gUnknown_080D20C4[3].anim) && (s->variant == gUnknown_080D20C4[3].variant))
+             || ((s->anim == gUnknown_080D20C4[6].anim) && (s->variant == gUnknown_080D20C4[6].variant)))
+            && ((u32)enemy->unk1A > 0xB3U)) {
+            sp4 = 0;
+        }
+
+        for (i = 0; i < 2; i++) {
+            if (sp4 == 0) {
+                if (i != 0) {
+                    s = &enemy->sprites[4];
+                }
+                if (((s->anim == gUnknown_080D20C4[4].anim) && (s->variant == gUnknown_080D20C4[4].variant))
+                    || ((s->anim == gUnknown_080D20C4[7].anim) && (s->variant == gUnknown_080D20C4[7].variant))) {
+                    if ((s->anim == gUnknown_080D20C4[4].anim) && (s->variant == gUnknown_080D20C4[4].variant)) {
+                        s->anim = gUnknown_080D20C4[5].anim;
+                        s->variant = gUnknown_080D20C4[5].variant;
+                        s->prevVariant = -1;
+                    } else {
+                        s->anim = gUnknown_080D20C4[8].anim;
+                        s->variant = gUnknown_080D20C4[8].variant;
+                        s->prevVariant = -1;
+                    }
+                    if (i != 0) {
+                        CpuFill16(0, &enemy->sprites[3].hitboxes[1].b, sizeof(enemy->sprites[3].hitboxes[1].b));
+                    } else {
+                        CpuFill16(0, &enemy->sprites[4].hitboxes[1].b, sizeof(enemy->sprites[4].hitboxes[1].b));
+                    }
+                    enemy->unk1A = 0;
+                } else {
+                    if (((s->anim == gUnknown_080D20C4[5].anim) && (s->variant == gUnknown_080D20C4[5].variant))
+                        || ((s->anim == gUnknown_080D20C4[8].anim) && (s->variant == gUnknown_080D20C4[8].variant))) {
+                        if ((s->anim == gUnknown_080D20C4[5].anim) && (s->variant == gUnknown_080D20C4[5].variant)) {
+                            s->anim = gUnknown_080D20C4[3].anim;
+                            s->variant = gUnknown_080D20C4[3].variant;
+                        } else {
+                            s->anim = gUnknown_080D20C4[6].anim;
+                            s->variant = gUnknown_080D20C4[6].variant;
+                        }
+                        s->prevVariant = -1;
+                        enemy->unk1A = 60;
+                    } else {
+                        if (((s->anim == gUnknown_080D20C4[3].anim) && (s->variant == gUnknown_080D20C4[3].variant))
+                            || ((s->anim == gUnknown_080D20C4[6].anim) && (s->variant == gUnknown_080D20C4[6].variant))) {
+                            if ((s->anim == gUnknown_080D20C4[6].anim) && (s->variant == gUnknown_080D20C4[6].variant)) {
+                                s->anim = gUnknown_080D20C4[7].anim;
+                                s->variant = gUnknown_080D20C4[7].variant;
+                            } else {
+                                s->anim = gUnknown_080D20C4[4].anim;
+                                s->variant = gUnknown_080D20C4[4].variant;
+                            }
+                            s->prevVariant = -1;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
