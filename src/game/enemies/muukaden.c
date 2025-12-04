@@ -30,7 +30,15 @@ typedef struct Muukaden {
     /* 0x78 */ Sprite2 sprites[5];
 } Muukaden; /* 0x168 */
 
+void Task_Muukaden(void);
+void sub_8062CFC(Muukaden *enemy);
+bool32 sub_8062EF8(Muukaden *enemy, Vec2_32 *arg1, u8 arg2);
+void sub_80631F8(Muukaden *enemy);
+void sub_8063260(Muukaden *enemy);
 void sub_8063514(Sprite2 *s, u16 *arg1, s32 arg2, u8 arg3);
+bool32 sub_80630AC(Muukaden *enemy, Sprite2 *s, Vec2_32 *param2);
+void Task_8062B90(void);
+void Task_8062C4C(void);
 
 extern TileInfo2 gUnknown_080D20C4[9];
 
@@ -190,4 +198,124 @@ void sub_8062800(Muukaden *enemy, u8 type)
     s->hitboxes[0].index = -1;
     s->frameFlags = 0x1000;
     UpdateSpriteAnimation((Sprite *)s);
+}
+
+void Task_Muukaden(void)
+{
+    Vec2_32 *temp_r1;
+    u8 var_r4;
+    u16 temp_r0;
+    u32 var_r3;
+    u8 temp_r2;
+
+    Muukaden *enemy = TASK_DATA(gCurTask);
+
+    sub_80631F8(enemy);
+    sub_8063260(enemy);
+    sub_8062CFC(enemy);
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        sub_8062EF8(enemy, &enemy->qPos, 0U);
+    }
+    if (sub_80630AC(enemy, enemy->sprites, &enemy->qPos) == TRUE) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    for (var_r4 = 0; var_r4 < enemy->unk7 - 1; var_r4++) {
+        sub_8062EF8(enemy, &enemy->qUnk3C[var_r4], var_r4 + 1);
+    }
+
+    if (enemy->unk7 == 0) {
+        var_r3 = 5;
+    } else {
+        var_r3 = 10;
+    }
+
+    if (++enemy->unk18 > var_r3) {
+        enemy->unk18 = 0;
+        if (enemy->unk7 == 5) {
+            u8 dat3 = enemy->me->d.uData[4];
+            if (dat3 & 8) {
+                if (enemy->dir == -1) {
+                    gCurTask->main = Task_8062B90;
+                } else {
+                    gCurTask->main = Task_8062C4C;
+                }
+            } else {
+                if (enemy->dir == 1) {
+                    gCurTask->main = Task_8062B90;
+                } else {
+                    gCurTask->main = Task_8062C4C;
+                }
+            }
+        } else {
+            enemy->unk7++;
+        }
+    }
+}
+
+void Task_8062B90(void)
+{
+    Vec2_32 *temp_r1;
+    u8 var_r4;
+
+    Muukaden *enemy = TASK_DATA(gCurTask);
+    MapEntity *me;
+    bool32 var_r6 = FALSE;
+
+    sub_80631F8(enemy);
+    sub_8063260(enemy);
+    sub_8062CFC(enemy);
+
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        sub_8062EF8(enemy, &enemy->qPos, 0U);
+
+        for (var_r4 = 0; var_r4 < (enemy->unk7 - 1); var_r4++) {
+            var_r6 = sub_8062EF8(enemy, &enemy->qUnk3C[var_r4], var_r4 + 1);
+        }
+    }
+    if (sub_80630AC(enemy, &enemy->sprites[0], &enemy->qPos) == 1) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    me = enemy->me;
+    SET_MAP_ENTITY_INITIALIZED(me);
+
+    if (var_r6 == 1) {
+        enemy->dir = -1;
+        enemy->unk7 = 0U;
+        gCurTask->main = Task_Muukaden;
+    }
+}
+
+void Task_8062C4C(void)
+{
+    Vec2_32 *temp_r1;
+    u8 var_r4;
+
+    Muukaden *enemy = TASK_DATA(gCurTask);
+    MapEntity *me;
+    bool32 var_r6 = FALSE;
+
+    sub_80631F8(enemy);
+    sub_8063260(enemy);
+    sub_8062CFC(enemy);
+
+    if ((gStageData.unk4 != 1) && (gStageData.unk4 != 2) && (gStageData.unk4 != 4)) {
+        sub_8062EF8(enemy, &enemy->qPos, 0U);
+
+        for (var_r4 = 0; var_r4 < (enemy->unk7 - 1); var_r4++) {
+            var_r6 = sub_8062EF8(enemy, &enemy->qUnk3C[var_r4], var_r4 + 1);
+        }
+    }
+    if (sub_80630AC(enemy, &enemy->sprites[0], &enemy->qPos) == 1) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (var_r6 == 1) {
+        enemy->dir = +1;
+        enemy->unk7 = 0U;
+        gCurTask->main = Task_Muukaden;
+    }
 }
