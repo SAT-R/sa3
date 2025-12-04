@@ -7,6 +7,11 @@
 #include "game/entity.h"
 #include "game/stage.h"
 
+typedef enum UutsuboType {
+    MKTYPE_A,
+    MKTYPE_B,
+} UutsuboType;
+
 typedef struct Muukaden {
     /* 0x00 */ MapEntity *me;
     /* 0x04 */ u8 id;
@@ -32,6 +37,7 @@ typedef struct Muukaden {
 } Muukaden; /* 0x168 */
 
 void Task_Muukaden(void);
+void TaskDestructor_Muukaden(struct Task *t);
 void Task_8062B90(void);
 void Task_8062C4C(void);
 void sub_8062CFC(Muukaden *enemy);
@@ -39,7 +45,7 @@ bool32 sub_8062EF8(Muukaden *enemy, Vec2_32 *arg1, u8 arg2);
 bool32 sub_8062FC0(Muukaden *enemy);
 void sub_80631F8(Muukaden *enemy);
 bool32 sub_8063260(Muukaden *enemy);
-void sub_8063514(Sprite2 *s, SpriteTransform *tf, s32 arg2, u8 arg3);
+void sub_8063514(Sprite2 *s, SpriteTransform *tf, u8 type, u8 arg3);
 void sub_806359C(Sprite2 *s, SpriteTransform *tf, Muukaden *enemy);
 bool32 sub_80630AC(Muukaden *enemy, UNUSED Sprite2 *s, UNUSED Vec2_32 *param2);
 bool32 sub_8063324(Muukaden *enemy);
@@ -593,4 +599,135 @@ bool32 sub_8063260(Muukaden *enemy)
     UpdateSpriteAnimation((Sprite *)s);
 
     return TRUE;
+}
+
+bool32 sub_8063324(Muukaden *enemy)
+{
+    SpriteTransform *tf;
+    Sprite2 *s;
+    Vec2_32 *temp_r5;
+    s32 temp_r3;
+    s32 temp_r5_2;
+    s32 *temp_r4;
+    u8 temp_r0;
+    u8 var_r8;
+    u8 var_sb;
+
+    tf = &enemy->tf;
+    var_r8 = 0;
+    var_sb = 0;
+    if (UpdateSpriteAnimation((Sprite *)&enemy->sprites[3]) == ACMD_RESULT__ENDED) {
+        var_sb = 1;
+    }
+    if (UpdateSpriteAnimation((Sprite *)&enemy->sprites[4]) == ACMD_RESULT__ENDED) {
+        var_sb += 1;
+    }
+
+    for (var_r8 = 0; var_r8 < 4; var_r8 += 3) {
+        s = &enemy->sprites[3];
+        s->x = TO_WORLD_POS_RAW(I(enemy->qUnk3C[var_r8].x), enemy->region[0]) - gCamera.x;
+        s->y = TO_WORLD_POS_RAW(I(enemy->qUnk3C[var_r8].y), enemy->region[1]) - gCamera.y;
+        DisplaySprite((Sprite *)s);
+        s = &enemy->sprites[4];
+        s->x = TO_WORLD_POS_RAW(I(enemy->qUnk3C[var_r8].x), enemy->region[0]) - gCamera.x;
+        s->y = TO_WORLD_POS_RAW(I(enemy->qUnk3C[var_r8].y), enemy->region[1]) - gCamera.y;
+        if (tf->rotation != 0) {
+            s->frameFlags |= 0x400;
+            s->x++;
+        } else {
+            s->frameFlags |= 0x800;
+            s->y++;
+        }
+        DisplaySprite((Sprite *)s);
+    }
+    if (var_sb == 2) {
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+void CreateEntity_Muukaden_0(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    Muukaden *enemy;
+
+    enemy = TASK_DATA(TaskCreate(Task_Muukaden, sizeof(Muukaden), 0x2100U, 0U, TaskDestructor_Muukaden));
+    CreateMuukaden(enemy, me, regionX, regionY, id);
+    sub_8062800(enemy, MKTYPE_A);
+    SET_MAP_ENTITY_INITIALIZED(me);
+}
+
+void CreateEntity_Muukaden_1(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    Muukaden *enemy;
+
+    enemy = TASK_DATA(TaskCreate(Task_Muukaden, sizeof(Muukaden), 0x2100U, 0U, TaskDestructor_Muukaden));
+    CreateMuukaden(enemy, me, regionX, regionY, id);
+    sub_8062800(enemy, MKTYPE_B);
+    SET_MAP_ENTITY_INITIALIZED(me);
+}
+
+void sub_8063514(Sprite2 *s, SpriteTransform *tf, u8 type, u8 arg3)
+{
+    u32 var_r0;
+    u8 temp_r0;
+
+    s->frameFlags = 0x1000;
+    switch (type) {
+        case 0:
+            s->frameFlags |= 0x1000;
+            s->frameFlags |= 0x400;
+            tf->rotation = type;
+            return;
+        case 1:
+            if (arg3 != 0) {
+                s->frameFlags |= 0x60;
+                s->frameFlags |= (arg3 + 10);
+            } else {
+                s->frameFlags |= 0x6A;
+            }
+            tf->rotation = 0x100;
+            tf->x = s->x;
+            tf->y = s->y;
+            tf->qScaleX = Q(1);
+            tf->qScaleY = Q(1);
+            TransformSprite((Sprite *)s, tf);
+            return;
+    }
+}
+
+bool32 sub_8063574(Muukaden *enemy, Sprite2 *sprCurr, Vec2_32 *qParam2, EnemyUnknownStruc0 *strc)
+{
+    strc->me = NULL;
+    strc->meX = 0;
+    strc->unk4 = 0;
+    strc->spr = (Sprite *)sprCurr;
+    strc->posX = qParam2->x;
+    strc->posY = qParam2->y;
+    strc->regionX = enemy->region[0];
+    strc->regionY = enemy->region[1];
+    return sub_805C63C(strc);
+}
+
+void sub_806359C(Sprite2 *s, SpriteTransform *tf, Muukaden *enemy)
+{
+    if (tf->rotation != 0) {
+        if (enemy->dir < 0) {
+            tf->rotation = 0x300;
+        } else {
+            tf->rotation = 0x100;
+        }
+    } else {
+        if (enemy->dir < 0) {
+            s->frameFlags |= 0x400;
+        } else {
+            s->frameFlags &= ~0x400;
+        }
+    }
+}
+
+void TaskDestructor_Muukaden(Task *t)
+{
+    Muukaden *enemy = TASK_DATA(t);
+    VramFree(enemy->sprites[1].tiles);
 }
