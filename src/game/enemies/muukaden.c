@@ -1,7 +1,9 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "malloc_vram.h"
 #include "game/camera.h"
+#include "game/enemy_unknown.h"
 #include "game/entity.h"
 #include "game/stage.h"
 
@@ -12,11 +14,11 @@ typedef struct Muukaden {
     /* 0x06 */ u8 unk6;
     /* 0x07 */ u8 unk7;
     /* 0x08 */ s8 dir;
-    /* 0x07 */ s16 unkA[5];
+    /* 0x07 */ u16 unkA[5];
     /* 0x14 */ u16 region[2];
     /* 0x18 */ u16 unk18;
     /* 0x1A */ u16 unk1A;
-    /* 0x1C */ u8 filler1C[0x8];
+    /* 0x2C */ Vec2_32 qUnk1C;
     /* 0x24 */ s32 qLeft;
     /* 0x28 */ s32 qRight;
     /* 0x2C */ Vec2_32 qUnk2C;
@@ -388,4 +390,83 @@ void sub_8062CFC(Muukaden *enemy)
             }
         }
     }
+}
+
+u32 sub_8062EF8(Muukaden *enemy, Vec2_32 *arg1, u8 arg2)
+{
+#ifndef NON_MATCHING
+    s32 forMatching = enemy->unk6C;
+#endif
+    s32 var_r6 = 0;
+
+    if (enemy->unk6C != 0) {
+        arg1->y -= Q(enemy->dir);
+        if (enemy->qTop > arg1->y) {
+            arg1->y = enemy->qTop;
+            var_r6 = 1;
+        } else if (enemy->qBottom < arg1->y) {
+            arg1->y = enemy->qBottom;
+            var_r6 = 1;
+        } else {
+            arg1->x = enemy->qUnk5C.x + SIN_24_8(I(enemy->unkA[arg2]) * 4) * 2;
+            enemy->unkA[arg2] += 0x400;
+        }
+    } else {
+        arg1->x -= Q(enemy->dir);
+        if (enemy->qLeft > arg1->x) {
+            arg1->x = enemy->qLeft;
+            var_r6 = 1;
+        } else if (enemy->qRight < arg1->x) {
+            arg1->x = enemy->qRight;
+            var_r6 = 1;
+        } else {
+            arg1->y = enemy->qUnk5C.y + SIN_24_8(I(enemy->unkA[arg2]) * 4) * 2;
+            enemy->unkA[arg2] += 0x400;
+        }
+    }
+    if ((var_r6 == 1) && (arg2 == 4)) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+bool32 sub_8062FC0(Muukaden *enemy)
+{
+    Player *p;
+    s32 qDx, qDy;
+    u8 i;
+
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+        p = sub_805CD20(i);
+        if (p == NULL) {
+            break;
+        }
+
+        if (enemy->unk6C == 0) {
+            qDy = p->qWorldY - Q(TO_WORLD_POS_RAW(0, enemy->region[1]));
+
+            if (ABS(qDy - enemy->qPos.y) <= 0x500) {
+                if ((!(enemy->sprites[0].frameFlags & 0x400) && ((p->qWorldX - Q(TO_WORLD_POS_RAW(0, enemy->region[0]))) <= enemy->qPos.x))
+                    || ((enemy->sprites[0].frameFlags & 0x400)
+                        && ((p->qWorldX - Q(TO_WORLD_POS_RAW(0, enemy->region[0]))) >= enemy->qPos.x))) {
+                    enemy->qUnk1C.x = p->qWorldX;
+                    enemy->qUnk1C.y = p->qWorldY;
+                    return TRUE;
+                }
+            }
+        } else {
+            qDx = p->qWorldX - Q(TO_WORLD_POS_RAW(0, enemy->region[0]));
+
+            if (ABS(qDx - enemy->qPos.x) <= 0x500) {
+                if (((enemy->unk6C != 0) && ((p->qWorldY - Q(TO_WORLD_POS_RAW(0, enemy->region[1]))) <= enemy->qPos.y))
+                    || ((enemy->unk6C == 0x300) && ((p->qWorldY - Q(TO_WORLD_POS_RAW(0, enemy->region[1]))) >= enemy->qPos.y))) {
+                    enemy->qUnk1C.x = p->qWorldX;
+                    enemy->qUnk1C.y = p->qWorldY;
+                    return TRUE;
+                }
+            }
+        }
+    }
+
+    return FALSE;
 }
