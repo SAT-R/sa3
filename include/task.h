@@ -102,7 +102,7 @@ struct IwramNode {
 
 #define TASK_HEAP_SIZE ((0x881) * sizeof(uintptr_t))
 
-// TODO: DO NOT USE, unless ABSOLUTELY necessary for matching!!!
+// NOTE: DO NOT USE, unless ABSOLUTELY necessary for matching!!!
 #define TASK_GET_MEMBER(_taskType, _task, _memberType, _memberName)                                                                        \
     *(_memberType *)((unsigned char *)TASK_DATA(_task) + offsetof(_taskType, _memberName))
 #define TASK_SET_MEMBER(_taskType, _task, _memberType, _memberName, _value)                                                                \
@@ -112,7 +112,7 @@ extern struct Task gTasks[MAX_TASK_NUM];
 extern struct Task gEmptyTask;
 extern struct Task *gTaskPtrs[MAX_TASK_NUM];
 extern s32 gNumTasks;
-#if !USE_SA2_TASK_SYSTEM
+#if (ENGINE == ENGINE_3)
 extern struct Task *gNextTaskToCheckForDestruction;
 #endif
 extern struct Task *gNextTask;
