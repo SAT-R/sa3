@@ -48,9 +48,9 @@ typedef void *IwramData;
 #define TASK_x0004            0x0004
 #define TASK_USE_EWRAM        0x0010
 
-#define USE_SA2_TASK_SYSTEM ((GAME < GAME_SA3) && !defined(NON_MATCHING))
+#define USE_SA2_TASK_SYSTEM ((GAME == GAME_SA2) && !defined(NON_MATCHING))
 
-struct Task {
+typedef struct Task {
     /* 0x00 */ TaskPtr parent;
     /* 0x02 */ TaskPtr prev;
     /* 0x04 */ TaskPtr next;
@@ -74,7 +74,7 @@ struct Task {
 #if ENABLE_TASK_LOGGING
     const char *name;
 #endif
-};
+} Task;
 
 #if PLATFORM_GBA
 typedef u16 IwramNodePtr;
