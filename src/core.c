@@ -29,10 +29,13 @@ u16 gPhysicalInput = 0;
 
 void *gBgOffsetsHBlankPrimary = NULL;
 
-#if TEMP_BSS_SEC
 u16 gVramHeapMaxTileSlots = 0;
 u8 gNumHBlankCallbacks ALIGNED(4) = 0;
 union MultiSioData gMultiSioRecv[4] = {};
+#if (ENGINE == ENGINE_3)
+u8 gUnknown_03002BE0[] = { 0 }; // unused?
+u32 gUnknown_03002BF0 = 0;
+#endif
 u8 gNumHBlankIntrs = 0;
 struct BlendRegs gBldRegs ALIGNED(8) = {};
 u8 gOamFreeIndex = 0;
@@ -48,6 +51,9 @@ u16 SA2_LABEL(gUnknown_03001944) ALIGNED(4) = 0;
 u8 gNumVBlankIntrs ALIGNED(4) = 0;
 s16 SA2_LABEL(gUnknown_0300194C) ALIGNED(4) = 0;
 
+#if (ENGINE >= ENGINE_3)
+u8 gUnknown_03002C60 ALIGNED(4) = 0;
+#endif
 u32 gMultiSioStatusFlags = 0;
 bool8 gMultiSioEnabled = FALSE;
 
@@ -60,11 +66,16 @@ winreg_t gWinRegs[6] ALIGNED(16) = {};
 s32 gNumTasks = 0;
 u8 gBgSprites_Unknown2[4][4] = {};
 u16 gInput = 0;
+#if (ENGINE >= ENGINE_3)
+s32 gUnknown_030035A4 = 0;
+struct Task *gNextTaskToCheckForDestruction = NULL;
+#endif // (ENGINE >= ENGINE_3)
 u8 gRepeatedKeysTestCounter[] ALIGNED(16) = {};
 void *gBgOffsetsHBlankSecondary = NULL;
 u16 gBgCntRegs[] = {};
 u16 gRepeatedKeys ALIGNED(4) = 0;
 struct Task *gNextTask = NULL;
+#if TEMP_BSS_SEC
 #if (ENGINE == ENGINE_2)
 void *gBgOffsetsSecondary = NULL;
 #endif
@@ -203,6 +214,9 @@ void EngineInit(void)
     REG_WAITCNT = WAITCNT_PREFETCH_ENABLE | WAITCNT_WS0_S_1 | WAITCNT_WS0_N_3;
     gFlags = 0;
     gFlagsPreVBlank = 0;
+#if (ENGINE >= ENGINE_3)
+    gUnk_03002E94 = ~0;
+#endif
 
 #ifndef COLLECT_RINGS_ROM
     if ((REG_RCNT & 0xC000) != 0x8000) {

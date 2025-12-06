@@ -32,7 +32,7 @@ _080BE6BE:
 	b _080BEBAA
 _080BE6C6:
 	lsls r0, r6, #2
-	ldr r1, _080BE708 @ =gUnknown_030061C0
+	ldr r1, _080BE708 @ =gBgSprites
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0xc]
@@ -65,7 +65,7 @@ _080BE6E0:
 	b _080BE726
 	.align 2, 0
 _080BE704: .4byte sa2__gUnknown_03005390
-_080BE708: .4byte gUnknown_030061C0
+_080BE708: .4byte gBgSprites
 _080BE70C: .4byte gRefSpriteTables
 _080BE710:
 	ldr r7, _080BE89C @ =gRefSpriteTables

@@ -24,7 +24,7 @@ typedef void (*PlayerCallback)(Player *);
 #define GET_SP_PLAYER_V0(index) ((index == PLAYER_1) ? &gPlayers[gStageData.playerIndex] : &gPlayers[p->charFlags.partnerIndex])
 #define GET_SP_PLAYER_V1(index) ((index != PLAYER_1) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.playerIndex])
 
-typedef union PACKED {
+PACKED_UNION(StateNum, {
     u16 raw;
 
     // TODO: This is from old documentation.
@@ -35,7 +35,7 @@ typedef union PACKED {
         u8 subHighBit : 1;
         s8 highValue : 8;
     } split;
-} StateNum;
+});
 
 // SA3
 //

@@ -128,6 +128,10 @@ struct MultiSioArea {
 
 extern u32 gMultiSioRecvFuncBuf[0x40 / 4]; // Receive Data/Check Buffer Change Routine
                                            // RAM Execution Buffer
+#if (ENGINE == ENGINE_3)
+extern u8 gUnknown_03002BE0[0x10]; // unused?
+extern u32 gUnknown_03002BF0;
+#endif
 extern u32 gMultiSioIntrFuncBuf[0x120 / 4]; // Interrupt Routine RAM Execution Buffer
 
 extern struct MultiSioArea gMultiSioArea; // Multi-play Communication Work Area

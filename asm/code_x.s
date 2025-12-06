@@ -290,9 +290,9 @@ sub_80B1D30: @ 0x080B1D30
 	strh r2, [r0, #0xa]
 	strh r2, [r0, #0xc]
 	strh r2, [r0, #0xe]
-	ldr r2, _080B1D98 @ =sa2__gUnknown_03004D80
+	ldr r2, _080B1D98 @ =gBgSprites_Unknown1
 	strb r3, [r2, #2]
-	ldr r0, _080B1D9C @ =sa2__gUnknown_03002280
+	ldr r0, _080B1D9C @ =gBgSprites_Unknown2
 	strb r3, [r0, #8]
 	strb r3, [r0, #9]
 	movs r1, #0xff
@@ -314,8 +314,8 @@ _080B1D88: .4byte gBgCntRegs
 _080B1D8C: .4byte 0x0000D086
 _080B1D90: .4byte gBldRegs
 _080B1D94: .4byte gBgScrollRegs
-_080B1D98: .4byte sa2__gUnknown_03004D80
-_080B1D9C: .4byte sa2__gUnknown_03002280
+_080B1D98: .4byte gBgSprites_Unknown1
+_080B1D9C: .4byte gBgSprites_Unknown2
 
 	thumb_func_start sub_80B1DA0
 sub_80B1DA0: @ 0x080B1DA0

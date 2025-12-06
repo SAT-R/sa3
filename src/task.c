@@ -144,7 +144,7 @@ void TaskDestroy(struct Task *task)
                     gNextTask = TASK_NEXT(task);
                 }
 
-#if (GAME == GAME_SA3)
+#if !USE_SA2_TASK_SYSTEM
                 // can only happen in (implicitly) recursive TaskDestroy calls (from
                 // task->dtor) in TasksDestroyInPriorityRange
                 if (task == gNextTaskToCheckForDestruction) {

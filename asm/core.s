@@ -180,7 +180,7 @@ _080BBB2C:
 	ldr r0, _080BBE28 @ =0x040000D4
 	mov r7, sp
 	str r7, [r0]
-	ldr r1, _080BBE38 @ =sa2__gUnknown_03002280
+	ldr r1, _080BBE38 @ =gBgSprites_Unknown2
 	str r1, [r0, #4]
 	ldr r1, _080BBE3C @ =0x85000004
 	str r1, [r0, #8]
@@ -198,7 +198,7 @@ _080BBB66:
 	bne _080BBB66
 _080BBB6E:
 	movs r0, #0
-	ldr r2, _080BBE40 @ =sa2__gUnknown_03004D80
+	ldr r2, _080BBE40 @ =gBgSprites_Unknown1
 	str r0, [r2]
 	str r0, [sp]
 	ldr r0, _080BBE28 @ =0x040000D4
@@ -469,7 +469,7 @@ _080BBD3E:
 	movs r2, #0
 	ldr r5, _080BBED0 @ =gBgOffsetsBuffer
 	ldr r6, _080BBED4 @ =gBgOffsetsHBlankPrimary
-	ldr r7, _080BBED8 @ =gUnknown_030035BC
+	ldr r7, _080BBED8 @ =gBgOffsetsHBlankSecondary
 	ldr r4, _080BBEDC @ =gHBlankCopyTarget
 	mov ip, r4
 	ldr r0, _080BBEE0 @ =gHBlankCopySize
@@ -571,9 +571,9 @@ _080BBE28: .4byte 0x040000D4
 _080BBE2C: .4byte 0x85006000
 _080BBE30: .4byte 0x85000100
 _080BBE34: .4byte gBackgroundsCopyQueueCursor
-_080BBE38: .4byte sa2__gUnknown_03002280
+_080BBE38: .4byte gBgSprites_Unknown2
 _080BBE3C: .4byte 0x85000004
-_080BBE40: .4byte sa2__gUnknown_03004D80
+_080BBE40: .4byte gBgSprites_Unknown1
 _080BBE44: .4byte gBgScrollRegs
 _080BBE48: .4byte gSpriteOffset
 _080BBE4C: .4byte gDispCnt
@@ -611,7 +611,7 @@ _080BBEC8: .4byte gInputPlaybackData
 _080BBECC: .4byte gFrameCount
 _080BBED0: .4byte gBgOffsetsBuffer
 _080BBED4: .4byte gBgOffsetsHBlankPrimary
-_080BBED8: .4byte gUnknown_030035BC
+_080BBED8: .4byte gBgOffsetsHBlankSecondary
 _080BBEDC: .4byte gHBlankCopyTarget
 _080BBEE0: .4byte gHBlankCopySize
 _080BBEE4: .4byte gNumHBlankCallbacks
@@ -632,7 +632,7 @@ _080BBF0A:
 	movs r0, #0
 	ldr r4, _080BBFA8 @ =gUnknown_03006200
 	strb r0, [r4]
-	ldr r7, _080BBFAC @ =sa2__gUnknown_03001948
+	ldr r7, _080BBFAC @ =gNumVBlankIntrs
 	strb r0, [r7]
 	movs r0, #0
 	str r0, [sp]
@@ -708,7 +708,7 @@ _080BBF64:
 	b _080BBFE0
 	.align 2, 0
 _080BBFA8: .4byte gUnknown_03006200
-_080BBFAC: .4byte sa2__gUnknown_03001948
+_080BBFAC: .4byte gNumVBlankIntrs
 _080BBFB0: .4byte 0x040000D4
 _080BBFB4: .4byte gVBlankCallbacks
 _080BBFB8: .4byte 0x85000004
@@ -1192,7 +1192,7 @@ _080BC382:
 	ldr r0, [r0, #8]
 _080BC3D0:
 	movs r4, #0
-	ldr r0, _080BC46C @ =sa2__gUnknown_03001948
+	ldr r0, _080BC46C @ =gNumVBlankIntrs
 	ldrb r1, [r0]
 	cmp r4, r1
 	bhs _080BC3F4
@@ -1240,7 +1240,7 @@ _080BC3F4:
 	str r0, [r2, #8]
 	ldr r0, [r2, #8]
 _080BC42E:
-	ldr r1, _080BC46C @ =sa2__gUnknown_03001948
+	ldr r1, _080BC46C @ =gNumVBlankIntrs
 	ldrb r0, [r3]
 	strb r0, [r1]
 	b _080BC488
@@ -1258,14 +1258,14 @@ _080BC45C: .4byte 0x80000080
 _080BC460: .4byte 0x07000100
 _080BC464: .4byte 0x07000200
 _080BC468: .4byte 0x07000300
-_080BC46C: .4byte sa2__gUnknown_03001948
+_080BC46C: .4byte gNumVBlankIntrs
 _080BC470: .4byte sa2__gUnknown_030053A0
 _080BC474: .4byte gFlags
 _080BC478: .4byte 0x85000004
 _080BC47C: .4byte gUnknown_03006200
 _080BC480: .4byte gVBlankCallbacks
 _080BC484:
-	ldr r0, _080BC49C @ =sa2__gUnknown_03001948
+	ldr r0, _080BC49C @ =gNumVBlankIntrs
 	strb r1, [r0]
 _080BC488:
 	ldr r1, _080BC4A0 @ =sLastCalledVblankFuncId
@@ -1279,7 +1279,7 @@ _080BC492:
 	ldr r5, _080BC4A4 @ =sVblankFuncs
 	b _080BC4AE
 	.align 2, 0
-_080BC49C: .4byte sa2__gUnknown_03001948
+_080BC49C: .4byte gNumVBlankIntrs
 _080BC4A0: .4byte sLastCalledVblankFuncId
 _080BC4A4: .4byte sVblankFuncs
 _080BC4A8:
@@ -1332,7 +1332,7 @@ ClearOamBufferDma: @ 0x080BC4D0
 	lsls r3, r3, #2
 	adds r0, r2, r3
 	str r0, [r1]
-	ldr r0, _080BC518 @ =gUnknown_030035BC
+	ldr r0, _080BC518 @ =gBgOffsetsHBlankSecondary
 	str r2, [r0]
 	b _080BC528
 	.align 2, 0
@@ -1340,10 +1340,10 @@ _080BC508: .4byte gNumHBlankCallbacks
 _080BC50C: .4byte gFlags
 _080BC510: .4byte gBgOffsetsHBlankPrimary
 _080BC514: .4byte gBgOffsetsBuffer
-_080BC518: .4byte gUnknown_030035BC
+_080BC518: .4byte gBgOffsetsHBlankSecondary
 _080BC51C:
 	str r2, [r1]
-	ldr r1, _080BC59C @ =gUnknown_030035BC
+	ldr r1, _080BC59C @ =gBgOffsetsHBlankSecondary
 	movs r3, #0xa0
 	lsls r3, r3, #2
 	adds r0, r2, r3
@@ -1408,7 +1408,7 @@ _080BC528:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080BC59C: .4byte gUnknown_030035BC
+_080BC59C: .4byte gBgOffsetsHBlankSecondary
 _080BC5A0: .4byte 0x040000D4
 _080BC5A4: .4byte gOamBuffer
 _080BC5A8: .4byte 0x81000080
@@ -1548,7 +1548,7 @@ _080BC6D2:
 	bl CpuFastSet
 _080BC6EC:
 	movs r4, #0
-	ldr r0, _080BC75C @ =sa2__gUnknown_03001948
+	ldr r0, _080BC75C @ =gNumVBlankIntrs
 	ldrb r1, [r0]
 	cmp r4, r1
 	bhs _080BC710
@@ -1588,7 +1588,7 @@ _080BC710:
 	adds r1, r5, #0
 	bl CpuFastSet
 _080BC73E:
-	ldr r1, _080BC75C @ =sa2__gUnknown_03001948
+	ldr r1, _080BC75C @ =gNumVBlankIntrs
 	ldrb r0, [r4]
 	strb r0, [r1]
 	b _080BC778
@@ -1598,14 +1598,14 @@ _080BC74C: .4byte 0x0000FFFD
 _080BC750: .4byte gNumHBlankIntrs
 _080BC754: .4byte sLastCalledVblankFuncId
 _080BC758: .4byte gOamBuffer
-_080BC75C: .4byte sa2__gUnknown_03001948
+_080BC75C: .4byte gNumVBlankIntrs
 _080BC760: .4byte sa2__gUnknown_030053A0
 _080BC764: .4byte gFlags
 _080BC768: .4byte 0x01000004
 _080BC76C: .4byte gUnknown_03006200
 _080BC770: .4byte gVBlankCallbacks
 _080BC774:
-	ldr r0, _080BC78C @ =sa2__gUnknown_03001948
+	ldr r0, _080BC78C @ =gNumVBlankIntrs
 	strb r1, [r0]
 _080BC778:
 	ldr r1, _080BC790 @ =sLastCalledVblankFuncId
@@ -1619,7 +1619,7 @@ _080BC782:
 	ldr r5, _080BC794 @ =sVblankFuncs
 	b _080BC79E
 	.align 2, 0
-_080BC78C: .4byte sa2__gUnknown_03001948
+_080BC78C: .4byte gNumVBlankIntrs
 _080BC790: .4byte sLastCalledVblankFuncId
 _080BC794: .4byte sVblankFuncs
 _080BC798:
@@ -2400,7 +2400,7 @@ ClearOamBufferCpuSet: @ 0x080BCD5C
 	lsls r3, r3, #2
 	adds r0, r2, r3
 	str r0, [r1]
-	ldr r0, _080BCDA4 @ =gUnknown_030035BC
+	ldr r0, _080BCDA4 @ =gBgOffsetsHBlankSecondary
 	str r2, [r0]
 	b _080BCDB4
 	.align 2, 0
@@ -2408,10 +2408,10 @@ _080BCD94: .4byte gNumHBlankCallbacks
 _080BCD98: .4byte gFlags
 _080BCD9C: .4byte gBgOffsetsHBlankPrimary
 _080BCDA0: .4byte gBgOffsetsBuffer
-_080BCDA4: .4byte gUnknown_030035BC
+_080BCDA4: .4byte gBgOffsetsHBlankSecondary
 _080BCDA8:
 	str r2, [r1]
-	ldr r1, _080BCDE8 @ =gUnknown_030035BC
+	ldr r1, _080BCDE8 @ =gBgOffsetsHBlankSecondary
 	movs r3, #0xa0
 	lsls r3, r3, #2
 	adds r0, r2, r3
@@ -2442,7 +2442,7 @@ _080BCDB4:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080BCDE8: .4byte gUnknown_030035BC
+_080BCDE8: .4byte gBgOffsetsHBlankSecondary
 _080BCDEC: .4byte gOamBuffer
 _080BCDF0: .4byte 0x01000100
 _080BCDF4: .4byte gUnknown_03006200

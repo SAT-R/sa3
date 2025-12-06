@@ -41,9 +41,9 @@ _0804F76E:
 	ldrb r0, [r2, #3]
 	cmp r0, #7
 	beq _0804F7B4
-	ldr r3, _0804F878 @ =sa2__gUnknown_03004D80
+	ldr r3, _0804F878 @ =gBgSprites_Unknown1
 	strb r6, [r3]
-	ldr r0, _0804F87C @ =sa2__gUnknown_03002280
+	ldr r0, _0804F87C @ =gBgSprites_Unknown2
 	strb r6, [r0]
 	strb r6, [r0, #1]
 	movs r1, #0xff
@@ -156,8 +156,8 @@ _0804F868: .4byte gStageData
 _0804F86C: .4byte gDispCnt
 _0804F870: .4byte gBgCntRegs
 _0804F874: .4byte 0x00001F01
-_0804F878: .4byte sa2__gUnknown_03004D80
-_0804F87C: .4byte sa2__gUnknown_03002280
+_0804F878: .4byte gBgSprites_Unknown1
+_0804F87C: .4byte gBgSprites_Unknown2
 _0804F880: .4byte gUnknown_03001D80
 _0804F884: .4byte gUnknown_080D04A8
 _0804F888: .4byte gUnknown_080D06CC
@@ -270,9 +270,9 @@ _0804F958:
 	strh r0, [r1, #2]
 	ldr r0, _0804FA30 @ =0x00001A85
 	strh r0, [r1, #4]
-	ldr r3, _0804FA34 @ =sa2__gUnknown_03004D80
+	ldr r3, _0804FA34 @ =gBgSprites_Unknown1
 	strb r6, [r3]
-	ldr r0, _0804FA38 @ =sa2__gUnknown_03002280
+	ldr r0, _0804FA38 @ =gBgSprites_Unknown2
 	strb r6, [r0]
 	strb r6, [r0, #1]
 	movs r1, #0xff
@@ -362,8 +362,8 @@ _0804FA24: .4byte gBgCntRegs
 _0804FA28: .4byte 0x00001D0B
 _0804FA2C: .4byte 0x00001F02
 _0804FA30: .4byte 0x00001A85
-_0804FA34: .4byte sa2__gUnknown_03004D80
-_0804FA38: .4byte sa2__gUnknown_03002280
+_0804FA34: .4byte gBgSprites_Unknown1
+_0804FA38: .4byte gBgSprites_Unknown2
 _0804FA3C: .4byte 0x040000D4
 _0804FA40: .4byte 0x06004000
 _0804FA44: .4byte 0x85000010
@@ -379,9 +379,9 @@ _0804FA58:
 	ldr r1, _0804FB3C @ =gBgCntRegs
 	ldr r0, _0804FB40 @ =0x00001F02
 	strh r0, [r1, #2]
-	ldr r3, _0804FB44 @ =sa2__gUnknown_03004D80
+	ldr r3, _0804FB44 @ =gBgSprites_Unknown1
 	strb r6, [r3]
-	ldr r0, _0804FB48 @ =sa2__gUnknown_03002280
+	ldr r0, _0804FB48 @ =gBgSprites_Unknown2
 	strb r6, [r0]
 	strb r6, [r0, #1]
 	movs r1, #0xff
@@ -484,8 +484,8 @@ _0804FB08:
 	.align 2, 0
 _0804FB3C: .4byte gBgCntRegs
 _0804FB40: .4byte 0x00001F02
-_0804FB44: .4byte sa2__gUnknown_03004D80
-_0804FB48: .4byte sa2__gUnknown_03002280
+_0804FB44: .4byte gBgSprites_Unknown1
+_0804FB48: .4byte gBgSprites_Unknown2
 _0804FB4C: .4byte gUnknown_03001D80
 _0804FB50: .4byte gUnknown_080D04A8
 _0804FB54: .4byte gUnknown_03001E40
@@ -504,9 +504,9 @@ _0804FB6E:
 	strh r0, [r1, #2]
 	ldr r0, _0804FC58 @ =0x00001F01
 	strh r0, [r1, #4]
-	ldr r3, _0804FC5C @ =sa2__gUnknown_03004D80
+	ldr r3, _0804FC5C @ =gBgSprites_Unknown1
 	strb r6, [r3]
-	ldr r0, _0804FC60 @ =sa2__gUnknown_03002280
+	ldr r0, _0804FC60 @ =gBgSprites_Unknown2
 	strb r6, [r0]
 	strb r6, [r0, #1]
 	movs r1, #0xff
@@ -611,8 +611,8 @@ _0804FC24:
 	.align 2, 0
 _0804FC54: .4byte gBgCntRegs
 _0804FC58: .4byte 0x00001F01
-_0804FC5C: .4byte sa2__gUnknown_03004D80
-_0804FC60: .4byte sa2__gUnknown_03002280
+_0804FC5C: .4byte gBgSprites_Unknown1
+_0804FC60: .4byte gBgSprites_Unknown2
 _0804FC64: .4byte gUnknown_03001D80
 _0804FC68: .4byte gUnknown_080D04A8
 _0804FC6C: .4byte gUnknown_080D06CC
@@ -16610,9 +16610,9 @@ sub_8057AA0: @ 0x08057AA0
 	ldr r0, _08057B64 @ =0x85000010
 	str r0, [r2, #8]
 	ldr r0, [r2, #8]
-	ldr r4, _08057B68 @ =sa2__gUnknown_03004D80
+	ldr r4, _08057B68 @ =gBgSprites_Unknown1
 	strb r3, [r4]
-	ldr r0, _08057B6C @ =sa2__gUnknown_03002280
+	ldr r0, _08057B6C @ =gBgSprites_Unknown2
 	strb r3, [r0]
 	strb r3, [r0, #1]
 	movs r1, #0xff
@@ -16642,8 +16642,8 @@ _08057B58: .4byte sub_80580EC
 _08057B5C: .4byte 0x040000D4
 _08057B60: .4byte gBgCntRegs
 _08057B64: .4byte 0x85000010
-_08057B68: .4byte sa2__gUnknown_03004D80
-_08057B6C: .4byte sa2__gUnknown_03002280
+_08057B68: .4byte gBgSprites_Unknown1
+_08057B6C: .4byte gBgSprites_Unknown2
 
 	thumb_func_start sub_8057B70
 sub_8057B70: @ 0x08057B70
