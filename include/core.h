@@ -124,8 +124,8 @@ extern union MultiSioData gMultiSioRecv[4];
 extern u32 gMultiSioStatusFlags;
 extern bool8 gMultiSioEnabled;
 
-extern HBlankFunc gHBlankIntrs[4];
-extern HBlankFunc gHBlankCallbacks[4];
+extern HBlankIntrFunc gHBlankIntrs[4];
+extern HBlankIntrFunc gHBlankCallbacks[4];
 extern u8 gNumHBlankCallbacks;
 extern u8 gNumHBlankIntrs;
 
@@ -163,7 +163,7 @@ extern u16 gBgCntRegs[4];
 extern s16 gBgScrollRegs[4][2];
 
 // extern OamData gUnknown_030022C8;
-extern OamData gOamBuffer2[OAM_ENTRY_COUNT];
+extern OamData gOamMallocBuffer[OAM_ENTRY_COUNT];
 extern OamData gOamBuffer[OAM_ENTRY_COUNT];
 
 // NOTE(Jace): This could be u16[2][DISPLAY_HEIGHT][2] (or unsigned Vec2_16?)
@@ -173,32 +173,32 @@ extern Background *gBackgroundsCopyQueue[16];
 // This is used to buffer the xy-shift for each background scanline
 extern void *gBgOffsetsHBlank;
 
-extern u16 sa2__gUnknown_030017F0;
+extern u16 SA2_LABEL(gUnknown_030017F0);
 extern s16 sa2__gUnknown_030017F4[2];
 extern u8 sa2__gUnknown_03001850[32];
 // extern FuncType_030053A0 gUnknown_03001870[4];
 
 extern u8 gOamFreeIndex;
-extern u16 sa2__gUnknown_03001944;
+extern u16 SA2_LABEL(gUnknown_03001944);
 extern u8 sa2__gUnknown_03001948;
-extern u16 sa2__gUnknown_0300194C;
+extern u16 SA2_LABEL(gUnknown_0300194C);
 
 struct MapHeader **gTilemapsRef; // TODO: make this an array and add size
-extern u8 sa2__gUnknown_03002280[4][4]; // extern u8 gUnknown_03002280[4][4];
-extern u8 sa2__gUnknown_03004D80[16];
+extern u8 gBgSprites_Unknown2[4][4]; // extern u8 gUnknown_03002280[4][4];
+extern u8 gBgSprites_Unknown1[16];
 
 // extern u16 *gUnknown_030022AC;
 // extern void *gUnknown_030022C0;
 extern s16 gMosaicReg;
 // extern u8 gUnknown_030026F4;
 extern struct GraphicsData gVramGraphicsCopyQueue[32];
-extern u16 sa2__gUnknown_03002820;
+extern u16 SA2_LABEL(gUnknown_03002820);
 // extern u8 gUnknown_03002874;
 extern void *sa2__gUnknown_03002878;
 extern u8 gBackgroundsCopyQueueIndex;
 extern u8 sa2__gUnknown_03002A80;
 extern u8 gVramGraphicsCopyQueueIndex;
-extern u16 sa2__gUnknown_03002A8C;
+extern u16 SA2_LABEL(gUnknown_03002A8C);
 //  When paused, the previously-active OAM elements get moved to the end
 //  of the OAM. This is the index of the first currently-inactive element
 extern u8 gOamFirstPausedIndex;
@@ -206,15 +206,15 @@ extern u8 gOamFirstPausedIndex;
 extern Sprite *gUnknown_030061C0[16]; // extern Sprite *gUnknown_03004D10[16];
 // extern u8 gUnknown_03004D50;
 // extern void *gUnknown_03004D54;
-// extern u16 gUnknown_03004D58;
+// extern u16 SA2_LABEL(gUnknown_03004D58);
 extern u8 gVramGraphicsCopyCursor;
-extern u8 sa2__gUnknown_03004D60[0x20];
+extern u8 gOamMallocOrders_EndIndex[0x20];
 // extern u8 gUnknown_03005390;
-extern u16 sa2__gUnknown_03005394;
-extern u16 sa2__gUnknown_03005398;
+extern u16 SA2_LABEL(gUnknown_03005394);
+extern u16 SA2_LABEL(gUnknown_03005398);
 // extern FuncType_030053A0 gUnknown_030053A0[4];
 extern s32 gPseudoRandom;
-extern u8 sa2__gUnknown_03002710[128];
+extern u8 gOamMallocCopiedOrder[128];
 extern struct MultiBootParam gMultiBootParam;
 
 // Because the graphics in the queue only get copied if

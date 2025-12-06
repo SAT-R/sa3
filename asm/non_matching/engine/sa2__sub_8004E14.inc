@@ -61,7 +61,7 @@ _080BFF82:
 	adds r7, #8
 	str r7, [sp, #0x28]
 	ldrh r0, [r6]
-	ldr r2, _080C0280 @ =sa2__gUnknown_03001944
+	ldr r2, _080C0280 @ =SA2_LABEL(gUnknown_03001944)
 	ldrh r1, [r2]
 	adds r0, r0, r1
 	ldr r2, _080C0284 @ =0x000003FF
@@ -80,7 +80,7 @@ _080BFF82:
 	add r7, sp
 	mov r8, r7
 	ldrh r0, [r6]
-	ldr r3, _080C0280 @ =sa2__gUnknown_03001944
+	ldr r3, _080C0280 @ =SA2_LABEL(gUnknown_03001944)
 	ldrh r1, [r3]
 	adds r0, r0, r1
 	ands r0, r2
@@ -93,7 +93,7 @@ _080BFF82:
 	add r7, sp, #0xc
 	movs r5, #2
 	ldrsh r1, [r6, r5]
-	ldr r2, _080C028C @ =sa2__gUnknown_030017F0
+	ldr r2, _080C028C @ =SA2_LABEL(gUnknown_030017F0)
 	ldrh r0, [r2]
 	muls r0, r1, r0
 	asrs r0, r0, #8
@@ -103,7 +103,7 @@ _080BFF82:
 	mov sl, r3
 	movs r5, #4
 	ldrsh r1, [r6, r5]
-	ldr r2, _080C0290 @ =sa2__gUnknown_03005394
+	ldr r2, _080C0290 @ =SA2_LABEL(gUnknown_03005394)
 	ldrh r0, [r2]
 	muls r0, r1, r0
 	asrs r0, r0, #8
@@ -177,7 +177,7 @@ _080BFF82:
 	movs r2, #2
 	ldrsh r0, [r6, r2]
 	rsbs r0, r0, #0
-	ldr r3, _080C028C @ =sa2__gUnknown_030017F0
+	ldr r3, _080C028C @ =SA2_LABEL(gUnknown_030017F0)
 	ldrh r1, [r3]
 	muls r0, r1, r0
 	asrs r0, r0, #8
@@ -185,7 +185,7 @@ _080BFF82:
 _080C0098:
 	movs r4, #4
 	ldrsh r0, [r6, r4]
-	ldr r5, _080C0290 @ =sa2__gUnknown_03005394
+	ldr r5, _080C0290 @ =SA2_LABEL(gUnknown_03005394)
 	ldrh r4, [r5]
 	ldrh r2, [r6, #4]
 	mov r1, sp
@@ -255,7 +255,7 @@ _080C00BA:
 	strh r0, [r3]
 	add r0, sp, #0x18
 	mov r8, r0
-	ldr r1, _080C0280 @ =sa2__gUnknown_03001944
+	ldr r1, _080C0280 @ =SA2_LABEL(gUnknown_03001944)
 	ldrh r0, [r1]
 	movs r2, #0x80
 	lsls r2, r2, #1
@@ -266,7 +266,7 @@ _080C00BA:
 	ldrh r0, [r0]
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x16
-	ldr r5, _080C028C @ =sa2__gUnknown_030017F0
+	ldr r5, _080C028C @ =SA2_LABEL(gUnknown_030017F0)
 	ldrh r1, [r5]
 	adds r2, r0, #0
 	muls r2, r1, r2
@@ -275,7 +275,7 @@ _080C00BA:
 	ldrh r0, [r7]
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
-	ldr r3, _080C0294 @ =sa2__gUnknown_03005398
+	ldr r3, _080C0294 @ =SA2_LABEL(gUnknown_03005398)
 	movs r5, #0
 	ldrsh r1, [r3, r5]
 	muls r0, r1, r0
@@ -288,7 +288,7 @@ _080C00BA:
 	movs r2, #0x1a
 	add r2, sp
 	mov ip, r2
-	ldr r5, _080C0280 @ =sa2__gUnknown_03001944
+	ldr r5, _080C0280 @ =SA2_LABEL(gUnknown_03001944)
 	ldrh r0, [r5]
 	lsls r0, r0, #1
 	ldr r1, _080C0288 @ =gSineTable
@@ -297,7 +297,7 @@ _080C00BA:
 	ldrsh r0, [r0, r2]
 	rsbs r0, r0, #0
 	asrs r0, r0, #6
-	ldr r5, _080C028C @ =sa2__gUnknown_030017F0
+	ldr r5, _080C028C @ =SA2_LABEL(gUnknown_030017F0)
 	ldrh r1, [r5]
 	adds r2, r0, #0
 	muls r2, r1, r2
@@ -316,7 +316,7 @@ _080C00BA:
 	mov r1, ip
 	strh r0, [r1]
 	add r5, sp, #0x1c
-	ldr r2, _080C0280 @ =sa2__gUnknown_03001944
+	ldr r2, _080C0280 @ =SA2_LABEL(gUnknown_03001944)
 	ldrh r0, [r2]
 	lsls r0, r0, #1
 	ldr r7, _080C0288 @ =gSineTable
@@ -342,7 +342,7 @@ _080C00BA:
 	strh r0, [r5]
 	mov r4, sp
 	adds r4, #0x1e
-	ldr r7, _080C0280 @ =sa2__gUnknown_03001944
+	ldr r7, _080C0280 @ =SA2_LABEL(gUnknown_03001944)
 	ldrh r0, [r7]
 	movs r1, #0x80
 	lsls r1, r1, #1
@@ -353,7 +353,7 @@ _080C00BA:
 	ldrh r0, [r0]
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x16
-	ldr r7, _080C0290 @ =sa2__gUnknown_03005394
+	ldr r7, _080C0290 @ =SA2_LABEL(gUnknown_03005394)
 	ldrh r1, [r7]
 	adds r2, r0, #0
 	muls r2, r1, r2
@@ -386,7 +386,7 @@ _080C00BA:
 	ldrsh r2, [r6, r7]
 	muls r0, r2, r0
 	adds r1, r1, r0
-	ldr r0, _080C0298 @ =sa2__gUnknown_0300194C
+	ldr r0, _080C0298 @ =SA2_LABEL(gUnknown_0300194C)
 	movs r2, #0
 	ldrsh r0, [r0, r2]
 	lsls r0, r0, #8
@@ -406,7 +406,7 @@ _080C00BA:
 	ldrsh r2, [r6, r4]
 	muls r0, r2, r0
 	adds r1, r1, r0
-	ldr r0, _080C029C @ =sa2__gUnknown_03002820
+	ldr r0, _080C029C @ =SA2_LABEL(gUnknown_03002820)
 	movs r5, #0
 	ldrsh r0, [r0, r5]
 	lsls r0, r0, #8
@@ -427,14 +427,14 @@ _080C00BA:
 	.align 2, 0
 _080C0278: .4byte gRefSpriteTables
 _080C027C: .4byte gOamBuffer + 0x6
-_080C0280: .4byte sa2__gUnknown_03001944
+_080C0280: .4byte SA2_LABEL(gUnknown_03001944)
 _080C0284: .4byte 0x000003FF
 _080C0288: .4byte gSineTable
-_080C028C: .4byte sa2__gUnknown_030017F0
-_080C0290: .4byte sa2__gUnknown_03005394
-_080C0294: .4byte sa2__gUnknown_03005398
-_080C0298: .4byte sa2__gUnknown_0300194C
-_080C029C: .4byte sa2__gUnknown_03002820
+_080C028C: .4byte SA2_LABEL(gUnknown_030017F0)
+_080C0290: .4byte SA2_LABEL(gUnknown_03005394)
+_080C0294: .4byte SA2_LABEL(gUnknown_03005398)
+_080C0298: .4byte SA2_LABEL(gUnknown_0300194C)
+_080C029C: .4byte SA2_LABEL(gUnknown_03002820)
 _080C02A0:
 	mov r3, sb
 	ldrh r1, [r3, #4]

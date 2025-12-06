@@ -62,7 +62,7 @@ _080BFBEA:
 	adds r6, #8
 	str r6, [sp, #0x28]
 	ldrh r0, [r7]
-	ldr r2, _080BFE70 @ =sa2__gUnknown_03001944
+	ldr r2, _080BFE70 @ =SA2_LABEL(gUnknown_03001944)
 	ldrh r1, [r2]
 	adds r0, r0, r1
 	ldr r2, _080BFE74 @ =0x000003FF
@@ -81,7 +81,7 @@ _080BFBEA:
 	add r6, sp
 	mov r8, r6
 	ldrh r0, [r7]
-	ldr r3, _080BFE70 @ =sa2__gUnknown_03001944
+	ldr r3, _080BFE70 @ =SA2_LABEL(gUnknown_03001944)
 	ldrh r1, [r3]
 	adds r0, r0, r1
 	ands r0, r2
@@ -94,7 +94,7 @@ _080BFBEA:
 	add r6, sp, #0xc
 	movs r5, #2
 	ldrsh r1, [r7, r5]
-	ldr r2, _080BFE7C @ =sa2__gUnknown_030017F0
+	ldr r2, _080BFE7C @ =SA2_LABEL(gUnknown_030017F0)
 	ldrh r0, [r2]
 	muls r0, r1, r0
 	asrs r0, r0, #8
@@ -104,7 +104,7 @@ _080BFBEA:
 	mov sl, r3
 	movs r5, #4
 	ldrsh r1, [r7, r5]
-	ldr r2, _080BFE80 @ =sa2__gUnknown_03005394
+	ldr r2, _080BFE80 @ =SA2_LABEL(gUnknown_03005394)
 	ldrh r0, [r2]
 	muls r0, r1, r0
 	asrs r0, r0, #8
@@ -178,7 +178,7 @@ _080BFBEA:
 	movs r2, #2
 	ldrsh r0, [r7, r2]
 	rsbs r0, r0, #0
-	ldr r3, _080BFE7C @ =sa2__gUnknown_030017F0
+	ldr r3, _080BFE7C @ =SA2_LABEL(gUnknown_030017F0)
 	ldrh r1, [r3]
 	muls r0, r1, r0
 	asrs r0, r0, #8
@@ -186,7 +186,7 @@ _080BFBEA:
 _080BFD00:
 	movs r4, #4
 	ldrsh r0, [r7, r4]
-	ldr r5, _080BFE80 @ =sa2__gUnknown_03005394
+	ldr r5, _080BFE80 @ =SA2_LABEL(gUnknown_03005394)
 	ldrh r3, [r5]
 	ldrh r2, [r7, #4]
 	mov r1, sp
@@ -200,7 +200,7 @@ _080BFD00:
 	asrs r0, r0, #8
 	mov r5, sl
 	strh r0, [r5]
-	ldr r0, _080BFE80 @ =sa2__gUnknown_03005394
+	ldr r0, _080BFE80 @ =SA2_LABEL(gUnknown_03005394)
 	ldrh r3, [r0]
 _080BFD24:
 	mov r2, sp
@@ -256,7 +256,7 @@ _080BFD24:
 	asrs r0, r0, #8
 	strh r0, [r6]
 	add r5, sp, #0x18
-	ldr r1, _080BFE70 @ =sa2__gUnknown_03001944
+	ldr r1, _080BFE70 @ =SA2_LABEL(gUnknown_03001944)
 	ldrh r0, [r1]
 	movs r2, #0x80
 	lsls r2, r2, #1
@@ -267,14 +267,14 @@ _080BFD24:
 	ldrh r0, [r0]
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x16
-	ldr r6, _080BFE7C @ =sa2__gUnknown_030017F0
+	ldr r6, _080BFE7C @ =SA2_LABEL(gUnknown_030017F0)
 	ldrh r1, [r6]
 	muls r0, r1, r0
 	asrs r0, r0, #8
 	strh r0, [r5]
 	mov r2, sp
 	adds r2, #0x1a
-	ldr r1, _080BFE70 @ =sa2__gUnknown_03001944
+	ldr r1, _080BFE70 @ =SA2_LABEL(gUnknown_03001944)
 	ldrh r0, [r1]
 	lsls r0, r0, #1
 	adds r0, r0, r4
@@ -287,7 +287,7 @@ _080BFD24:
 	asrs r0, r0, #8
 	strh r0, [r2]
 	add r4, sp, #0x1c
-	ldr r6, _080BFE70 @ =sa2__gUnknown_03001944
+	ldr r6, _080BFE70 @ =SA2_LABEL(gUnknown_03001944)
 	ldrh r0, [r6]
 	lsls r0, r0, #1
 	ldr r1, _080BFE78 @ =gSineTable
@@ -309,7 +309,7 @@ _080BFD24:
 	ldrh r0, [r0]
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x16
-	ldr r6, _080BFE80 @ =sa2__gUnknown_03005394
+	ldr r6, _080BFE80 @ =SA2_LABEL(gUnknown_03005394)
 	ldrh r1, [r6]
 	muls r0, r1, r0
 	asrs r0, r0, #8
@@ -327,7 +327,7 @@ _080BFD24:
 	ldrsh r2, [r7, r6]
 	muls r0, r2, r0
 	adds r1, r1, r0
-	ldr r0, _080BFE84 @ =sa2__gUnknown_0300194C
+	ldr r0, _080BFE84 @ =SA2_LABEL(gUnknown_0300194C)
 	movs r2, #0
 	ldrsh r0, [r0, r2]
 	lsls r0, r0, #8
@@ -347,7 +347,7 @@ _080BFD24:
 	ldrsh r2, [r7, r5]
 	muls r0, r2, r0
 	adds r1, r1, r0
-	ldr r0, _080BFE88 @ =sa2__gUnknown_03002820
+	ldr r0, _080BFE88 @ =SA2_LABEL(gUnknown_03002820)
 	movs r6, #0
 	ldrsh r0, [r0, r6]
 	lsls r0, r0, #8
@@ -367,13 +367,13 @@ _080BFD24:
 	.align 2, 0
 _080BFE68: .4byte gRefSpriteTables
 _080BFE6C: .4byte gOamBuffer + 0x6
-_080BFE70: .4byte sa2__gUnknown_03001944
+_080BFE70: .4byte SA2_LABEL(gUnknown_03001944)
 _080BFE74: .4byte 0x000003FF
 _080BFE78: .4byte gSineTable
-_080BFE7C: .4byte sa2__gUnknown_030017F0
-_080BFE80: .4byte sa2__gUnknown_03005394
-_080BFE84: .4byte sa2__gUnknown_0300194C
-_080BFE88: .4byte sa2__gUnknown_03002820
+_080BFE7C: .4byte SA2_LABEL(gUnknown_030017F0)
+_080BFE80: .4byte SA2_LABEL(gUnknown_03005394)
+_080BFE84: .4byte SA2_LABEL(gUnknown_0300194C)
+_080BFE88: .4byte SA2_LABEL(gUnknown_03002820)
 _080BFE8C:
 	mov r2, sb
 	ldrh r1, [r2, #4]

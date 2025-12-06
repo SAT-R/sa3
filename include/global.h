@@ -16,9 +16,15 @@ typedef void (*VoidFn)(void);
 
 // helper macros
 
+// This macro is only needed while SA2 still has variables called gUnknown_XXXXXXX left
+#if ((GAME == GAME_SA1) || (GAME == GAME_SA3))
+#define SA2_LABEL(_label) sa2__##_label
+#else
+#define SA2_LABEL(_label) _label
+#endif
+
 #if (PORTABLE || (defined NON_MATCHING))
 #define BUG_FIX
-#define UB_FIX
 #endif
 
 #if (PORTABLE && !(defined NON_MATCHING))
@@ -314,7 +320,7 @@ typedef struct {
 } BgAffineReg;
 
 // TODO: Find better place for this
-typedef void (*HBlankFunc)(int_vcount vcount);
+typedef void (*HBlankIntrFunc)(int_vcount vcount);
 typedef void (*IntrFunc)(void);
 typedef void (*FuncType_030053A0)(void);
 typedef u32 (*SpriteUpdateFunc)(void);

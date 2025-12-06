@@ -200,7 +200,7 @@ void Task_802DA3C(void)
     TasksDestroyAll();
 
     gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
-    sa2__gUnknown_03005390 = 0;
+    gBgSpritesCount = 0;
     gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
 
     sub_8057AA0(gStageData.zone, 0, 0);

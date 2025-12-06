@@ -110,7 +110,7 @@ void Task_80465F4(void)
             TasksDestroyAll();
 
             gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
-            sa2__gUnknown_03005390 = 0;
+            gBgSpritesCount = 0;
             PAUSE_GRAPHICS_QUEUE();
 
             if (gStageData.playerIndex > p->charFlags.partnerIndex) {
