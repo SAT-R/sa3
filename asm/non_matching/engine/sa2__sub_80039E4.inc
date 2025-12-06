@@ -20,7 +20,7 @@
 	.align 2, 0
 _080BE6B0: .4byte 0x04000004
 _080BE6B4:
-	ldr r0, _080BE704 @ =gBgSpritesCount
+	ldr r0, _080BE704 @ =sa2__gUnknown_03005390
 	ldrb r1, [r0]
 	cmp r1, #0
 	bne _080BE6BE
@@ -64,7 +64,7 @@ _080BE6E0:
 	adds r7, r4, #0
 	b _080BE726
 	.align 2, 0
-_080BE704: .4byte gBgSpritesCount
+_080BE704: .4byte sa2__gUnknown_03005390
 _080BE708: .4byte gUnknown_030061C0
 _080BE70C: .4byte gRefSpriteTables
 _080BE710:
@@ -671,14 +671,14 @@ _080BEB9A:
 	ldr r4, [sp, #0x3c]
 	lsls r0, r4, #0x18
 	lsrs r6, r0, #0x18
-	ldr r5, _080BEBC8 @ =gBgSpritesCount
+	ldr r5, _080BEBC8 @ =sa2__gUnknown_03005390
 	ldrb r5, [r5]
 	cmp r6, r5
 	bhs _080BEBAA
 	b _080BE6C6
 _080BEBAA:
 	movs r0, #0
-	ldr r6, _080BEBC8 @ =gBgSpritesCount
+	ldr r6, _080BEBC8 @ =sa2__gUnknown_03005390
 	strb r0, [r6]
 _080BEBB0:
 	movs r0, #1
@@ -693,6 +693,6 @@ _080BEBB2:
 	bx r1
 	.align 2, 0
 _080BEBC4: .4byte 0x0000F3FF
-_080BEBC8: .4byte gBgSpritesCount
+_080BEBC8: .4byte sa2__gUnknown_03005390
 
 .syntax divided

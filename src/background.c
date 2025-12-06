@@ -79,7 +79,7 @@ void DrawBackground(Background *background)
 
 // Code copy-pasted from SA2
 // 2024, Nov. 7
-NONMATCH("asm/non_matching/engine/SA2_LABEL(sub_8002B20).inc", bool32 SA2_LABEL(sub_8002B20)(void))
+NONMATCH("asm/non_matching/engine/sa2__sub_8002B20.inc", bool32 sa2__sub_8002B20(void))
 {
     u16 sp00;
     s32 sp04 = 0;
@@ -906,8 +906,8 @@ NONMATCH("asm/non_matching/engine/background__sub_80BE46C.inc", void sub_80BE46C
 {
     const SpriteOffset *dims;
 
-    gUnknown_030061C0[gBgSpritesCount] = s;
-    gBgSpritesCount++;
+    gUnknown_030061C0[sa2__gUnknown_03005390] = s;
+    sa2__gUnknown_03005390++;
 
     if (s->frameNum != -1) {
         u32 bgId;
@@ -953,7 +953,7 @@ END_NONMATCH
 // Some VBlank function
 // VERY UNFINISHED !
 // (17.39%) https://decomp.me/scratch/YJZrk
-NONMATCH("asm/non_matching/engine/SA2_LABEL(sub_80039E4).inc", bool32 SA2_LABEL(sub_80039E4)(void))
+NONMATCH("asm/non_matching/engine/sa2__sub_80039E4.inc", bool32 sa2__sub_80039E4(void))
 {
     // tilesize (could be 32 and get optimized out?)
     s32 sp28 = 5;
@@ -967,11 +967,11 @@ NONMATCH("asm/non_matching/engine/SA2_LABEL(sub_80039E4).inc", bool32 SA2_LABEL(
 
 // TODO: once function matches this can be removed
 #if PORTABLE
-    gBgSpritesCount = 0;
+    sa2__gUnknown_03005390 = 0;
     return TRUE;
 #endif
 
-    if (gBgSpritesCount != 0) {
+    if (sa2__gUnknown_03005390 != 0) {
         OamDataShort oam;
         s32 r5;
         s32 sp08;
@@ -987,7 +987,7 @@ NONMATCH("asm/non_matching/engine/SA2_LABEL(sub_80039E4).inc", bool32 SA2_LABEL(
         s32 yPos; // =r5
         u16 oamX, oamY;
 
-        for (r5 = 0; r5 < gBgSpritesCount; r5++) {
+        for (r5 = 0; r5 < sa2__gUnknown_03005390; r5++) {
             // _08003A1A
             s = gUnknown_030061C0[r5];
             dims = &gRefSpriteTables->dimensions[s->anim][s->frameNum];
@@ -1111,7 +1111,7 @@ NONMATCH("asm/non_matching/engine/SA2_LABEL(sub_80039E4).inc", bool32 SA2_LABEL(
             }
         }
 
-        gBgSpritesCount = 0;
+        sa2__gUnknown_03005390 = 0;
     }
 
     return TRUE;
@@ -1149,7 +1149,7 @@ NONMATCH("asm/non_matching/engine/background__sub_80BECF8.inc", void sub_80BECF8
 END_NONMATCH
 
 // (54.19%) https://decomp.me/scratch/6n5R5
-NONMATCH("asm/non_matching/engine/SA2_LABEL(sub_8004010).inc", u32 SA2_LABEL(sub_8004010)(void))
+NONMATCH("asm/non_matching/engine/sa2__sub_8004010.inc", u32 sa2__sub_8004010(void))
 {
     u8 bgIndex = 0;
     u16 sp00[2];
@@ -1161,8 +1161,8 @@ NONMATCH("asm/non_matching/engine/SA2_LABEL(sub_8004010).inc", u32 SA2_LABEL(sub
 
     for (; bgIndex < 4; bgIndex++) {
 
-        if ((gBgSprites_Unknown2[bgIndex][1] == gBgSprites_Unknown2[bgIndex][3])
-            && (gBgSprites_Unknown2[bgIndex][0] == gBgSprites_Unknown2[bgIndex][2]))
+        if ((sa2__gUnknown_03002280[bgIndex][1] == sa2__gUnknown_03002280[bgIndex][3])
+            && (sa2__gUnknown_03002280[bgIndex][0] == sa2__gUnknown_03002280[bgIndex][2]))
             continue;
 
         { // _08004056
@@ -1171,31 +1171,31 @@ NONMATCH("asm/non_matching/engine/SA2_LABEL(sub_8004010).inc", u32 SA2_LABEL(sub
             target &= BGCNT_SCREENBASE_MASK;
             vramBgCtrl += target * 4;
 
-            r4 = gBgSprites_Unknown2[bgIndex][1];
+            r4 = sa2__gUnknown_03002280[bgIndex][1];
 
-            sp08 = gBgSprites_Unknown2[bgIndex][0];
+            sp08 = sa2__gUnknown_03002280[bgIndex][0];
 
             if ((bgIndex > 1) && (gDispCnt & (DISPCNT_MODE_2 | DISPCNT_MODE_1 | DISPCNT_MODE_0))) {
                 // _0800408E
                 spVramPtr = (u8 *)&vramBgCtrl[sp08];
                 bgSize_TxtOrAff = (0x10 << (gBgCntRegs[bgIndex] >> 14));
 
-                if (gBgSprites_Unknown2[bgIndex][3] == 0xFF) {
+                if (sa2__gUnknown_03002280[bgIndex][3] == 0xFF) {
                     // _080040A2
-                    u16 v = gBgSprites_Unknown1[bgIndex];
+                    u16 v = sa2__gUnknown_03004D80[bgIndex];
                     u32 value;
                     v |= v << 8;
 
-                    value = ((gBgSprites_Unknown2[bgIndex][3] - r4) * bgSize_TxtOrAff);
+                    value = ((sa2__gUnknown_03002280[bgIndex][3] - r4) * bgSize_TxtOrAff);
                     DmaFill16(3, v, (void *)&spVramPtr[bgSize_TxtOrAff], (((s32)(value + (value >> 31))) >> 1));
                 } else {
                     // _080040F8
                     // u8 i2 = i + 1;
-                    for (; r4 < gBgSprites_Unknown2[bgIndex][3]; r4++) {
-                        u16 v = gBgSprites_Unknown1[bgIndex];
+                    for (; r4 < sa2__gUnknown_03002280[bgIndex][3]; r4++) {
+                        u16 v = sa2__gUnknown_03004D80[bgIndex];
                         v |= v << 8;
 
-                        DmaFill16(3, v, &spVramPtr[bgIndex * r4], (s32)(bgIndex * 4 - gBgSprites_Unknown2[bgIndex][0] + 1));
+                        DmaFill16(3, v, &spVramPtr[bgIndex * r4], (s32)(bgIndex * 4 - sa2__gUnknown_03002280[bgIndex][0] + 1));
                     }
                 }
                 // then -> _0800422C
@@ -1207,27 +1207,27 @@ NONMATCH("asm/non_matching/engine/SA2_LABEL(sub_8004010).inc", u32 SA2_LABEL(sub
                 if ((u8)((gBgCntRegs[sp08] >> 14) - 2) <= 1)
                     tileSize = 64;
 
-                if (gBgSprites_Unknown2[bgIndex][2] == 0xFF) {
-                    u8 r1 = gBgSprites_Unknown1[bgIndex];
-                    p1p = &gBgSprites_Unknown2[bgIndex][tileSize];
+                if (sa2__gUnknown_03002280[bgIndex][2] == 0xFF) {
+                    u8 r1 = sa2__gUnknown_03004D80[bgIndex];
+                    p1p = &sa2__gUnknown_03002280[bgIndex][tileSize];
                     sp00[0] = r1;
 
 #if 0
                     // TODO: This crashes the game after selecting a stage right now.
-                    DmaFill16(3, sp00[0], &gBgSprites_Unknown2[bgIndex][tileSize],
-                              gBgSprites_Unknown2[bgIndex][3] - r4);
+                    DmaFill16(3, sp00[0], &sa2__gUnknown_03002280[bgIndex][tileSize],
+                              sa2__gUnknown_03002280[bgIndex][3] - r4);
 #endif
                 } else {
                     // _080041D8
-                    for (; r4 <= gBgSprites_Unknown2[bgIndex][3]; r4++) {
+                    for (; r4 <= sa2__gUnknown_03002280[bgIndex][3]; r4++) {
                         // _080041F6
-                        DmaFill16(3, gBgSprites_Unknown1[bgIndex], &gBgSprites_Unknown2[bgIndex][tileSize],
-                                  ARRAY_COUNT(gBgSprites_Unknown2[0]));
+                        DmaFill16(3, sa2__gUnknown_03004D80[bgIndex], &sa2__gUnknown_03002280[bgIndex][tileSize],
+                                  ARRAY_COUNT(sa2__gUnknown_03002280[0]));
                     }
                 }
             }
             // _0800422C
-            DmaFill32(3, 0, &gBgSprites_Unknown2[bgIndex], ARRAY_COUNT(gBgSprites_Unknown2[bgIndex]));
+            DmaFill32(3, 0, &sa2__gUnknown_03002280[bgIndex], ARRAY_COUNT(sa2__gUnknown_03002280[bgIndex]));
         }
     }
 

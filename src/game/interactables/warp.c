@@ -133,7 +133,7 @@ void Task_802E6F8(void)
         sub_8003D2C();
         TasksDestroyAll();
         gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
-        gBgSpritesCount = 0;
+        sa2__gUnknown_03005390 = 0;
         gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
     }
 

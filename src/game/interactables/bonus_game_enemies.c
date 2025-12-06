@@ -703,7 +703,7 @@ void Task_803CEE4(void)
                 TasksDestroyAll();
 
                 gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
-                gBgSpritesCount = 0;
+                sa2__gUnknown_03005390 = 0;
                 gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
 
                 sub_8002210((gStageData.zone * 10) + 2, 7);
@@ -887,7 +887,7 @@ void Task_803D248(void)
                 TasksDestroyAll();
 
                 gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
-                gBgSpritesCount = 0;
+                sa2__gUnknown_03005390 = 0;
                 gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
 
                 sub_8002210((gStageData.zone * 10) + 2, 7);
@@ -941,7 +941,7 @@ void Task_803D39C(void)
                 TasksDestroyAll();
 
                 gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
-                gBgSpritesCount = 0;
+                sa2__gUnknown_03005390 = 0;
                 gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
 
                 sub_8002210((gStageData.zone * 10) + 2, 7);

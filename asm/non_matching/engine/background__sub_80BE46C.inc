@@ -9,7 +9,7 @@
 	sub sp, #4
 	adds r6, r0, #0
 	ldr r2, _080BE4B8 @ =gUnknown_030061C0
-	ldr r1, _080BE4BC @ =gBgSpritesCount
+	ldr r1, _080BE4BC @ =sa2__gUnknown_03005390
 	ldrb r0, [r1]
 	lsls r0, r0, #2
 	adds r0, r0, r2
@@ -42,7 +42,7 @@ _080BE498:
 	b _080BE4D8
 	.align 2, 0
 _080BE4B8: .4byte gUnknown_030061C0
-_080BE4BC: .4byte gBgSpritesCount
+_080BE4BC: .4byte sa2__gUnknown_03005390
 _080BE4C0: .4byte gRefSpriteTables
 _080BE4C4:
 	ldr r0, _080BE584 @ =gRefSpriteTables

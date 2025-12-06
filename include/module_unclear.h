@@ -18,7 +18,7 @@ extern u8 gBackgroundsCopyQueueIndex;
 extern u8 sa2__gUnknown_03002A80;
 extern u8 gBackgroundsCopyQueueCursor;
 
-extern u8 gBgSpritesCount;
+extern u8 sa2__gUnknown_03005390;
 
 extern u8 gVramGraphicsCopyQueueIndex;
 extern u8 gVramGraphicsCopyCursor;

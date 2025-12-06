@@ -362,7 +362,7 @@ sub_805C280: @ 0x0805C280
 	ldr r0, [r7, #0x18]
 	mov sb, r0
 	ldr r0, _0805C330 @ =sub_805C198
-	ldr r1, _0805C334 @ =TaskDestructor_805D09C
+	ldr r1, _0805C334 @ =sub_805D09C
 	str r1, [sp]
 	movs r1, #0x40
 	ldr r2, _0805C338 @ =0x00004040
@@ -392,7 +392,7 @@ sub_805C280: @ 0x0805C280
 _0805C328: .4byte gCamera
 _0805C32C: .4byte gStageData
 _0805C330: .4byte sub_805C198
-_0805C334: .4byte TaskDestructor_805D09C
+_0805C334: .4byte sub_805D09C
 _0805C338: .4byte 0x00004040
 _0805C33C:
 	movs r0, #0x10
@@ -406,7 +406,7 @@ _0805C33C:
 	ldr r1, [r7, #0x18]
 	mov sb, r1
 	ldr r0, _0805C39C @ =sub_805C198
-	ldr r1, _0805C3A0 @ =TaskDestructor_805D09C
+	ldr r1, _0805C3A0 @ =sub_805D09C
 	str r1, [sp]
 	movs r1, #0x40
 	ldr r2, _0805C3A4 @ =0x00004040
@@ -443,7 +443,7 @@ _0805C394:
 	b _0805C4FA
 	.align 2, 0
 _0805C39C: .4byte sub_805C198
-_0805C3A0: .4byte TaskDestructor_805D09C
+_0805C3A0: .4byte sub_805D09C
 _0805C3A4: .4byte 0x00004040
 _0805C3A8: .4byte gStageData
 _0805C3AC:
@@ -476,7 +476,7 @@ _0805C3D0:
 	ldr r0, [r7, #0x18]
 	mov sb, r0
 	ldr r0, _0805C46C @ =sub_805C198
-	ldr r1, _0805C470 @ =TaskDestructor_805D09C
+	ldr r1, _0805C470 @ =sub_805D09C
 	str r1, [sp]
 	movs r1, #0x40
 	ldr r2, _0805C474 @ =0x00004040
@@ -543,7 +543,7 @@ _0805C3D0:
 	.align 2, 0
 _0805C468: .4byte gStageData
 _0805C46C: .4byte sub_805C198
-_0805C470: .4byte TaskDestructor_805D09C
+_0805C470: .4byte sub_805D09C
 _0805C474: .4byte 0x00004040
 _0805C478: .4byte gUnknown_03001DA0
 _0805C47C: .4byte Task_805C03C
@@ -553,7 +553,7 @@ _0805C484:
 	ldrh r5, [r7, #0xe]
 	ldr r7, [r7, #0x18]
 	ldr r0, _0805C4C8 @ =sub_805C198
-	ldr r1, _0805C4CC @ =TaskDestructor_805D09C
+	ldr r1, _0805C4CC @ =sub_805D09C
 	str r1, [sp]
 	movs r1, #0x40
 	ldr r2, _0805C4D0 @ =0x00004040
@@ -581,7 +581,7 @@ _0805C484:
 	b _0805C4FA
 	.align 2, 0
 _0805C4C8: .4byte sub_805C198
-_0805C4CC: .4byte TaskDestructor_805D09C
+_0805C4CC: .4byte sub_805D09C
 _0805C4D0: .4byte 0x00004040
 _0805C4D4:
 	ldr r3, [r7, #0x1c]
@@ -1939,7 +1939,7 @@ sub_805CEBC: @ 0x0805CEBC
 	lsrs r6, r6, #0x18
 	ldr r0, _0805CF2C @ =sub_805C198
 	ldr r2, _0805CF30 @ =0x00004040
-	ldr r1, _0805CF34 @ =TaskDestructor_805D09C
+	ldr r1, _0805CF34 @ =sub_805D09C
 	str r1, [sp]
 	movs r1, #0x40
 	movs r3, #0
@@ -1976,7 +1976,7 @@ _0805CF1C:
 	.align 2, 0
 _0805CF2C: .4byte sub_805C198
 _0805CF30: .4byte 0x00004040
-_0805CF34: .4byte TaskDestructor_805D09C
+_0805CF34: .4byte sub_805D09C
 
 	thumb_func_start sub_805CF38
 sub_805CF38: @ 0x0805CF38
@@ -2175,8 +2175,8 @@ sub_805D058: @ 0x0805D058
 	.align 2, 0
 _0805D098: .4byte gCamera
 
-	thumb_func_start TaskDestructor_805D09C
-TaskDestructor_805D09C: @ 0x0805D09C
+	thumb_func_start sub_805D09C
+sub_805D09C: @ 0x0805D09C
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
