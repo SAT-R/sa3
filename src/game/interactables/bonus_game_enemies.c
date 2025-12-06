@@ -334,7 +334,7 @@ void Task_BonusGameUIInit(void)
 
     if (--ui->unk12 == 0) {
         gDispCnt &= ~DISPCNT_BG0_ON;
-        gFlags &= ~FLAGS_4;
+        gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
 
         ui->unk12 = 180;
         gCurTask->main = Task_803C898;
@@ -389,7 +389,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__unfinished_sub_803C
     }
     // _0803C73A
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     // TODO: Cast properly
     gHBlankCopyTarget = (void *)&REG_BG0VOFS;

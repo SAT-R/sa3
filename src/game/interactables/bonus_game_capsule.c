@@ -538,7 +538,7 @@ void Task_BonusCapsuleMain(void)
 
     if (--cap->unk18 == 0) {
         gDispCnt &= ~DISPCNT_BG0_ON;
-        gFlags &= ~FLAGS_4;
+        gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
 
         cap->unk18 = ZONE_TIME_TO_INT(0, 3);
         gCurTask->main = Task_803A5D4;
@@ -644,7 +644,7 @@ void sub_803A3B4(s16 param0)
         sl = ((param0 - 32) * 15) / 4u;
     }
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     gHBlankCopyTarget = (void *)&REG_BG0VOFS;
     gHBlankCopySize = 2;

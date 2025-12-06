@@ -90,7 +90,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8006228.inc",
     int_vcount *cursor;
     s16 r1, r2, r4, r5, r7, r8;
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     if (bg >= 2) {
         gHBlankCopySize = 4;
@@ -215,7 +215,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80064A8.inc",
     int_vcount *cursor;
     s16 r1, r2, r4, r5, r7, r8;
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     if (bg >= 2) {
         gHBlankCopySize = 4;
@@ -377,7 +377,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_800724C.inc", void sa2__sub_800724C(u
     cursor2 = (int_vcount *)&sp00[4];
     memset(cursor2, 0, sizeof(sp00[4]));
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     if (bg >= 2) {
         gHBlankCopySize = 4;
@@ -588,7 +588,7 @@ void sa2__sub_80075D0(u8 bg, u8 param1, u8 param2, s16 param3, u16 param4, u16 p
     s16 r1;
     u16 sb = (param5 * param5);
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     if (bg >= 2) {
         gHBlankCopySize = 4;
@@ -663,7 +663,7 @@ void sa2__sub_8007738(u8 bg, int_vcount minY, int_vcount maxY, u16 param3, u8 pa
 {
     u16 *cursor;
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     gHBlankCopyTarget = (void *)&((u8 *)&REG_BG0HOFS)[bg * 4];
     gHBlankCopySize = 4;
@@ -687,7 +687,7 @@ void sa2__sub_8007858(u8 param0, int_vcount minY, int_vcount maxY, u16 param3, u
 {
     u16 *cursor;
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     gHBlankCopyTarget = (void *)&((u8 *)&REG_BG0HOFS)[param0 * 4];
     gHBlankCopySize = 4;
@@ -711,7 +711,7 @@ void sa2__sub_80078D4(u8 bg, int_vcount minY, int_vcount maxY, u16 offsetEven, u
 {
     s32 fillVal;
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     gHBlankCopyTarget = (void *)&((u8 *)&REG_BG0HOFS)[bg * 4];
     gHBlankCopySize = 4;
@@ -727,7 +727,7 @@ void sa2__sub_8007958(u8 bg, int_vcount minY, int_vcount maxY, s16 param3, s8 pa
 {
     u16 *cursor;
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     gHBlankCopyTarget = (void *)&((u8 *)&REG_BG0HOFS)[bg * 4];
     gHBlankCopySize = 4;
@@ -751,7 +751,7 @@ void sa2__sub_8007A08(u8 bg, u8 param1, u8 param2, u8 param3, u8 param4)
 {
     u8 *cursor;
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     if (bg >= 2) {
         gHBlankCopySize = 4;
@@ -807,7 +807,7 @@ void sa2__sub_8007AC0(u8 affineBg, int_vcount minY, int_vcount maxY)
     void **ptr;
     u32 bg = affineBg;
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     ptr = &gHBlankCopyTarget;
 

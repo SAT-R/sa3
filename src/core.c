@@ -168,26 +168,28 @@ const u8 *gInputPlaybackData = NULL;
 bool8 gExecSoundMain ALIGNED(4) = FALSE;
 s32 gPseudoRandom = 0;
 
-#if 0
-static void UpdateScreenDma(void);
-static void UpdateScreenCpuSet(void);
-static void ClearOamBufferCpuSet(void);
-static void ClearOamBufferDma(void);
-static void GetInput(void);
-static bool32 ProcessVramGraphicsCopyQueue(void);
+void UpdateScreenDma(void);
+void UpdateScreenCpuSet(void);
+void ClearOamBufferCpuSet(void);
+void ClearOamBufferDma(void);
+void GetInput(void);
+bool32 ProcessVramGraphicsCopyQueue(void);
 
-static void VBlankIntr(void);
-static void HBlankIntr(void);
-static void VCountIntr(void);
-static void Timer0Intr(void);
-static void Timer1Intr(void);
-static void Timer2Intr(void);
-static void Dma0Intr(void);
-static void Dma1Intr(void);
-static void Dma2Intr(void);
-static void Dma3Intr(void);
-static void KeypadIntr(void);
-static void GamepakIntr(void);
+void VBlankIntr(void);
+void HBlankIntr(void);
+void VCountIntr(void);
+void Timer0Intr(void);
+void Timer1Intr(void);
+void Timer2Intr(void);
+void Dma0Intr(void);
+void Dma1Intr(void);
+void Dma2Intr(void);
+#if (GAME == GAME_SA3)
+void sub_80C66DC(void);
+#endif
+void Dma3Intr(void);
+void KeypadIntr(void);
+void GamepakIntr(void);
 
 extern void IntrMain(void);
 
@@ -205,19 +207,24 @@ IntrFunc const gIntrTableTemplate[] = {
     Timer0Intr,
     Timer1Intr,
     Timer2Intr,
+#if (GAME == GAME_SA3)
+    sub_80C66DC,
+#endif
     Dma0Intr,
     Dma1Intr,
     Dma2Intr,
     Dma3Intr,
     KeypadIntr,
     GamepakIntr,
+#if (GAME != GAME_SA3)
     NULL,
+#endif
 };
 
 // Result of these:
 // FALSE: Not currently in vblank
 // TRUE:  Currently in VBlank /
-static VBlankProcessFunc const sVblankFuncs[] = {
+VBlankProcessFunc const sVblankFuncs[] = {
     ProcessVramGraphicsCopyQueue,
     SA2_LABEL(sub_8004010),
 #ifndef COLLECT_RINGS_ROM
@@ -226,6 +233,7 @@ static VBlankProcessFunc const sVblankFuncs[] = {
     SA2_LABEL(sub_8002B20),
 };
 
+#if 0
 void EngineInit(void)
 {
     s16 i;
@@ -235,7 +243,7 @@ void EngineInit(void)
     gFlags = 0;
     gFlagsPreVBlank = 0;
 #if (ENGINE >= ENGINE_3)
-    gUnk_03002E94 = ~0;
+    gUnknown_030035A4 = ~0;
 #endif
 
 #ifndef COLLECT_RINGS_ROM
@@ -592,7 +600,7 @@ static void ClearOamBufferDma(void)
 
     gFlags &= ~FLAGS_EXECUTE_HBLANK_CALLBACKS;
     if (!(gFlags & FLAGS_20)) {
-#if (GAME == GAME_SA1)
+#if ((GAME == GAME_SA1) || (GAME == GAME_SA3))
         if (gBgOffsetsHBlankPrimary == gBgOffsetsBuffer[0]) {
             gBgOffsetsHBlankPrimary = gBgOffsetsBuffer[1];
             gBgOffsetsHBlankSecondary = gBgOffsetsBuffer[0];
@@ -958,4 +966,5 @@ static void ClearOamBufferCpuSet(void)
 }
 #endif
 #endif
-#endif // code - 0
+
+#endif // temp

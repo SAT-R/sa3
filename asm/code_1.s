@@ -6749,7 +6749,7 @@ _08052B44:
 	movs r0, #0
 	strh r0, [r2]
 	ldr r1, _08052B78 @ =gIntrTable
-	ldr r0, _08052B7C @ =gUnknown_082B483C
+	ldr r0, _08052B7C @ =gIntrTableTemplate
 	ldr r0, [r0, #0xc]
 	str r0, [r1, #0xc]
 	movs r0, #1
@@ -6773,7 +6773,7 @@ _08052B62:
 	.align 2, 0
 _08052B74: .4byte 0x04000208
 _08052B78: .4byte gIntrTable
-_08052B7C: .4byte gUnknown_082B483C
+_08052B7C: .4byte gIntrTableTemplate
 _08052B80: .4byte gFlags
 
 	thumb_func_start sub_8052B84
@@ -6870,7 +6870,7 @@ sub_8052C18: @ 0x08052C18
 	movs r0, #0
 	strh r0, [r2]
 	ldr r1, _08052C48 @ =gIntrTable
-	ldr r0, _08052C4C @ =gUnknown_082B483C
+	ldr r0, _08052C4C @ =gIntrTableTemplate
 	ldr r0, [r0, #0xc]
 	str r0, [r1, #0xc]
 	movs r0, #1
@@ -6883,7 +6883,7 @@ sub_8052C18: @ 0x08052C18
 _08052C40: .4byte gFlags
 _08052C44: .4byte 0x04000208
 _08052C48: .4byte gIntrTable
-_08052C4C: .4byte gUnknown_082B483C
+_08052C4C: .4byte gIntrTableTemplate
 _08052C50: .4byte gCamera
 
 	thumb_func_start sub_8052C54

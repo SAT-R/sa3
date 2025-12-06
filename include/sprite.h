@@ -279,14 +279,12 @@ AnimCmdResult UpdateSpriteAnimation(Sprite *);
 void DisplaySprite(Sprite *s);
 void DisplaySprites(Sprite *s, Vec2_16 *positions, u16 count);
 void DrawBackground(Background *);
-u32 sub_8004010(void);
-u32 sub_80039E4(void);
-bool32 sub_8002B20(void);
+bool32 SA2_LABEL(sub_8002B20)(void);
+u32 SA2_LABEL(sub_80039E4)(void);
+u32 SA2_LABEL(sub_8004010)(void);
+s16 SA2_LABEL(sub_8004418)(s16 x, s16 y);
 void CopyOamBufferToOam(void);
 OamData *OamMalloc(u8 order);
-
-// SA2: sub_8004418
-s16 sa2__sub_8004418(s16 x, s16 y);
 
 // SA2
 //

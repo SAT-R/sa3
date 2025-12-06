@@ -5,6 +5,7 @@
 .syntax unified
 .arm
 
+.if 01
 	thumb_func_start EngineInit
 EngineInit: @ 0x080BB9EC
 	push {r4, r5, r6, r7, lr}
@@ -479,7 +480,7 @@ _080BBD3E:
 	ldr r4, _080BBEE8 @ =gNumHBlankIntrs
 	mov sl, r4
 	ldr r4, _080BBEEC @ =gIntrTable
-	ldr r3, _080BBEF0 @ =gUnknown_082B483C
+	ldr r3, _080BBEF0 @ =gIntrTableTemplate
 _080BBD84:
 	lsls r1, r2, #0x10
 	asrs r1, r1, #0x10
@@ -617,7 +618,7 @@ _080BBEE0: .4byte gHBlankCopySize
 _080BBEE4: .4byte gNumHBlankCallbacks
 _080BBEE8: .4byte gNumHBlankIntrs
 _080BBEEC: .4byte gIntrTable
-_080BBEF0: .4byte gUnknown_082B483C
+_080BBEF0: .4byte gIntrTableTemplate
 _080BBEF4: .4byte 0x85000140
 _080BBEF8: .4byte gHBlankCallbacks
 _080BBEFC: .4byte gHBlankIntrs
@@ -1895,8 +1896,8 @@ _080BC9D0: .4byte gInput
 _080BC9D4: .4byte gFrameCount
 _080BC9D8: .4byte REG_IF
 
-	thumb_func_start sub_80BC9DC
-sub_80BC9DC: @ 0x080BC9DC
+	thumb_func_start ProcessVramGraphicsCopyQueue
+ProcessVramGraphicsCopyQueue: @ 0x080BC9DC
 	push {r4, r5, r6, r7, lr}
 	ldr r2, _080BCA28 @ =gVramGraphicsCopyCursor
 	ldr r0, _080BCA2C @ =gVramGraphicsCopyQueueIndex
@@ -2448,3 +2449,4 @@ _080BCDF0: .4byte 0x01000100
 _080BCDF4: .4byte gNumVBlankCallbacks
 
 @ End of core.c (src/core.c)
+.endif
