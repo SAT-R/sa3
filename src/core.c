@@ -21,7 +21,6 @@ u32 gIntrMainBuf[] = {};
 struct Task gTasks[] = {};
 u16 SA2_LABEL(gUnknown_030017F0) ALIGNED(4) = 0;
 Vec2_16 gSpriteOffset ALIGNED(4) = {};
-#if TEMP_BSS_SEC
 Background *gBackgroundsCopyQueue[] ALIGNED(16) = {};
 u32 gFlags = 0;
 u8 gOamMallocOrders_StartIndex[] ALIGNED(16) = {};
@@ -30,6 +29,7 @@ u16 gPhysicalInput = 0;
 
 void *gBgOffsetsHBlankPrimary = NULL;
 
+#if TEMP_BSS_SEC
 u16 gVramHeapMaxTileSlots = 0;
 u8 gNumHBlankCallbacks ALIGNED(4) = 0;
 union MultiSioData gMultiSioRecv[4] = {};

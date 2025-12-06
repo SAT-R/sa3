@@ -45,13 +45,13 @@ _0803C73A:
 	movs r1, #4
 	orrs r0, r1
 	str r0, [r2]
-	ldr r1, _0803C844 @ =sa2__gUnknown_03002878
+	ldr r1, _0803C844 @ =gHBlankCopyTarget
 	ldr r0, _0803C848 @ =0x04000012
 	str r0, [r1]
-	ldr r1, _0803C84C @ =sa2__gUnknown_03002A80
+	ldr r1, _0803C84C @ =gHBlankCopySize
 	movs r0, #2
 	strb r0, [r1]
-	ldr r0, _0803C850 @ =gBgOffsetsHBlank
+	ldr r0, _0803C850 @ =gBgOffsetsHBlankPrimary
 	ldr r5, [r0]
 	movs r2, #0     @ r2 = i = 0
 	mov sb, r0
@@ -69,7 +69,7 @@ _0803C75A:
 	cmp r0, #0x9f
 	ble _0803C75A
 	movs r3, #0x48
-	mov r2, sb          @ r2 = gBgOffsetsHBlank
+	mov r2, sb          @ r2 = gBgOffsetsHBlankPrimary
 	ldr r5, [r2]
 	asrs r1, r7, #0x10
 	subs r0, r3, r1
@@ -178,10 +178,10 @@ _0803C82A:
 	.align 2, 0
 _0803C83C: .4byte 0xFFC00000
 _0803C840: .4byte gFlags
-_0803C844: .4byte sa2__gUnknown_03002878
+_0803C844: .4byte gHBlankCopyTarget
 _0803C848: .4byte 0x04000012
-_0803C84C: .4byte sa2__gUnknown_03002A80
-_0803C850: .4byte gBgOffsetsHBlank
+_0803C84C: .4byte gHBlankCopySize
+_0803C850: .4byte gBgOffsetsHBlankPrimary
 _0803C854:
 	mov r1, sb
 	ldr r5, [r1]

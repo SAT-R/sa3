@@ -29,46 +29,46 @@
 	str r0, [r1]
 	cmp r7, #1
 	bls _08006290
-	ldr r1, _0800627C @ =sa2__gUnknown_03002A80
+	ldr r1, _0800627C @ =gHBlankCopySize
 	strb r2, [r1]
 	movs r0, #1
 	ands r0, r7
 	cmp r0, #0
 	beq _08006284
-	ldr r0, _08006280 @ =gBgOffsetsHBlank
+	ldr r0, _08006280 @ =gBgOffsetsHBlankPrimary
 	ldr r0, [r0]
 	adds r3, r0, #2
 	b _080062B8
 	.align 2, 0
 _08006278: .4byte gFlags
-_0800627C: .4byte sa2__gUnknown_03002A80
-_08006280: .4byte gBgOffsetsHBlank
+_0800627C: .4byte gHBlankCopySize
+_08006280: .4byte gBgOffsetsHBlankPrimary
 _08006284:
-	ldr r0, _0800628C @ =gBgOffsetsHBlank
+	ldr r0, _0800628C @ =gBgOffsetsHBlankPrimary
 	ldr r3, [r0]
 	b _080062B8
 	.align 2, 0
-_0800628C: .4byte gBgOffsetsHBlank
+_0800628C: .4byte gBgOffsetsHBlankPrimary
 _08006290:
-	ldr r1, _080062A8 @ =sa2__gUnknown_03002A80
+	ldr r1, _080062A8 @ =gHBlankCopySize
 	movs r0, #2
 	strb r0, [r1]
-	ldr r0, _080062AC @ =gBgOffsetsHBlank
+	ldr r0, _080062AC @ =gBgOffsetsHBlankPrimary
 	ldr r3, [r0]
 	movs r0, #1
 	ands r0, r7
 	cmp r0, #0
 	beq _080062B8
-	ldr r1, _080062B0 @ =sa2__gUnknown_03002878
+	ldr r1, _080062B0 @ =gHBlankCopyTarget
 	ldr r0, _080062B4 @ =0x04000042
 	b _080062BC
 	.align 2, 0
-_080062A8: .4byte sa2__gUnknown_03002A80
-_080062AC: .4byte gBgOffsetsHBlank
-_080062B0: .4byte sa2__gUnknown_03002878
+_080062A8: .4byte gHBlankCopySize
+_080062AC: .4byte gBgOffsetsHBlankPrimary
+_080062B0: .4byte gHBlankCopyTarget
 _080062B4: .4byte 0x04000042
 _080062B8:
-	ldr r1, _08006320 @ =sa2__gUnknown_03002878
+	ldr r1, _08006320 @ =gHBlankCopyTarget
 	ldr r0, _08006324 @ =0x04000040
 _080062BC:
 	str r0, [r1]
@@ -98,10 +98,10 @@ _080062D6:
 _080062EA:
 	lsls r0, r4, #0x11
 	lsrs r7, r0, #0x10      @ r7 = ABS(r4) * 2;
-	ldr r4, _08006328 @ =sa2__gUnknown_03002A80
+	ldr r4, _08006328 @ =gHBlankCopySize
 	ldrb r0, [r4]
 	mov r4, sl              @ r4 = sl = param2
-	muls r4, r0, r4         @ r4 *= sa2__gUnknown_03002A80
+	muls r4, r0, r4         @ r4 *= gHBlankCopySize
 	adds r0, r4, #0
 	adds r3, r3, r0
 	adds r4, r2, #0
@@ -126,9 +126,9 @@ _0800630A:
 	movs r2, #0
 	b _08006364
 	.align 2, 0
-_08006320: .4byte sa2__gUnknown_03002878
+_08006320: .4byte gHBlankCopyTarget
 _08006324: .4byte 0x04000040
-_08006328: .4byte sa2__gUnknown_03002A80
+_08006328: .4byte gHBlankCopySize
 _0800632C:
 	adds r0, r6, #1
 	lsls r0, r0, #0x18
@@ -150,7 +150,7 @@ _0800632C:
 	lsls r0, r0, #0x10
 	lsrs r4, r0, #0x10
 	strb r6, [r3]
-	ldr r1, _08006378 @ =sa2__gUnknown_03002A80
+	ldr r1, _08006378 @ =gHBlankCopySize
 	ldrb r0, [r1]
 	adds r3, r3, r0
 	mov r0, ip              @ r0 = ip = param5
@@ -172,7 +172,7 @@ _08006370:
 	strb r6, [r3]
 	b _08006496
 	.align 2, 0
-_08006378: .4byte sa2__gUnknown_03002A80
+_08006378: .4byte gHBlankCopySize
 _0800637C:
 	strb r6, [r3]
 	adds r3, #1
@@ -200,7 +200,7 @@ _08006384:
 	lsrs r4, r0, #0x10
 	mov r0, ip              @ r0 = ip = param5
 	strb r0, [r3]
-	ldr r1, _080063D8 @ =sa2__gUnknown_03002A80
+	ldr r1, _080063D8 @ =gHBlankCopySize
 	ldrb r0, [r1]
 	adds r0, r0, r3
 	subs r3, r0, #1
@@ -224,7 +224,7 @@ _080063CC:
 	strb r2, [r3]
 	b _08006496
 	.align 2, 0
-_080063D8: .4byte sa2__gUnknown_03002A80
+_080063D8: .4byte gHBlankCopySize
 _080063DC:
 	rsbs r0, r1, #0
 	lsls r0, r0, #0x10
@@ -245,7 +245,7 @@ _080063F6:
 	adds r3, #1
 	mov r0, ip              @ r0 = ip = param5
 	strb r0, [r3]
-	ldr r1, _0800643C @ =sa2__gUnknown_03002A80
+	ldr r1, _0800643C @ =gHBlankCopySize
 	ldrb r0, [r1]
 	adds r0, r0, r3
 	subs r3, r0, #1
@@ -279,7 +279,7 @@ _08006436:
 	blt _080063F6
 	b _08006496
 	.align 2, 0
-_0800643C: .4byte sa2__gUnknown_03002A80
+_0800643C: .4byte gHBlankCopySize
 _08006440:
 	movs r2, #0
 	mov r1, r8
@@ -295,7 +295,7 @@ _08006450:
 	adds r3, #1
 	mov r0, ip              @ r0 = ip = param5
 	strb r0, [r3]
-	ldr r1, _080064A4 @ =sa2__gUnknown_03002A80
+	ldr r1, _080064A4 @ =gHBlankCopySize
 	ldrb r0, [r1]
 	adds r0, r0, r3
 	subs r3, r0, #1
@@ -337,7 +337,7 @@ _08006496:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080064A4: .4byte sa2__gUnknown_03002A80
+_080064A4: .4byte gHBlankCopySize
 
 	
 .syntax divided

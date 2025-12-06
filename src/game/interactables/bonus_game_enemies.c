@@ -392,10 +392,10 @@ NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__unfinished_sub_803C
     gFlags |= FLAGS_4;
 
     // TODO: Cast properly
-    sa2__gUnknown_03002878 = (void *)&REG_BG0VOFS;
-    sa2__gUnknown_03002A80 = 2;
+    gHBlankCopyTarget = (void *)&REG_BG0VOFS;
+    gHBlankCopySize = 2;
 
-    ptr = *(u16 **)gBgOffsetsHBlank;
+    ptr = *(u16 **)gBgOffsetsHBlankPrimary;
     for (i = 0; i < DISPLAY_HEIGHT; i += 2) {
         // _0803C75A
         *ptr++ = -i;
@@ -403,7 +403,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__unfinished_sub_803C
 
     r0 = 72 - r3;
     for (i = 0; i < 6; i++) {
-        //*((u16 *)gBgOffsetsHBlank[i]) = r0;
+        //*((u16 *)gBgOffsetsHBlankPrimary[i]) = r0;
     }
 }
 END_NONMATCH

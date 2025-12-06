@@ -646,16 +646,16 @@ void sub_803A3B4(s16 param0)
 
     gFlags |= FLAGS_4;
 
-    sa2__gUnknown_03002878 = (void *)&REG_BG0VOFS;
-    sa2__gUnknown_03002A80 = 2;
+    gHBlankCopyTarget = (void *)&REG_BG0VOFS;
+    gHBlankCopySize = 2;
 
-    offsets = (u16 *)gBgOffsetsHBlank;
+    offsets = (u16 *)gBgOffsetsHBlankPrimary;
 
     for (i = 0; i < DISPLAY_HEIGHT; i++) {
         *offsets++ = -i;
     }
 
-    offsets = (u16 *)gBgOffsetsHBlank;
+    offsets = (u16 *)gBgOffsetsHBlankPrimary;
     offsets = (u16 *)((void *)offsets + (40 - r5) * 2);
 
     for (i = 0; i < 4; i++) {
@@ -666,7 +666,7 @@ void sub_803A3B4(s16 param0)
         *offsets++ = (i % 4u) - (i - 16);
     }
 
-    offsets = (u16 *)gBgOffsetsHBlank;
+    offsets = (u16 *)gBgOffsetsHBlankPrimary;
     offsets = (u16 *)((void *)offsets + (r5 * 2 + 72));
 
     for (i = 0; i < 4; i++) {
@@ -674,7 +674,7 @@ void sub_803A3B4(s16 param0)
     }
 
     if (ip != 0) {
-        offsets = (u16 *)gBgOffsetsHBlank;
+        offsets = (u16 *)gBgOffsetsHBlankPrimary;
         offsets = (u16 *)((void *)offsets + (108 - r8) * 2);
 
         for (i = 0; i < 4; i++) {
@@ -685,7 +685,7 @@ void sub_803A3B4(s16 param0)
             *offsets++ = (i % 4u) - (i - 72);
         }
 
-        offsets = (u16 *)gBgOffsetsHBlank;
+        offsets = (u16 *)gBgOffsetsHBlankPrimary;
         offsets = (u16 *)((void *)offsets + (r8 * 2 + 208));
 
         for (i = 0; i < 4; i++) {
@@ -693,14 +693,14 @@ void sub_803A3B4(s16 param0)
         }
 
         if (ip != 1) {
-            offsets = (u16 *)gBgOffsetsHBlank;
+            offsets = (u16 *)gBgOffsetsHBlankPrimary;
             offsets = (u16 *)((void *)offsets + (58 - sb) * 2);
 
             for (i = (58 - sb); i < 58; i++) {
                 *offsets++ = sb - 32;
             }
 
-            offsets = (u16 *)gBgOffsetsHBlank;
+            offsets = (u16 *)gBgOffsetsHBlankPrimary;
             offsets = (u16 *)((void *)offsets + (138 - sl) * 2);
 
             for (i = (138 - sl); i < 138; i++) {
