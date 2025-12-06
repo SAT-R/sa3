@@ -222,7 +222,7 @@ _080BBB92:
 	bne _080BBB92
 _080BBB9A:
 	movs r1, #0
-	ldr r2, _080BBE48 @ =sa2__gUnknown_030017F4
+	ldr r2, _080BBE48 @ =gSpriteOffset
 	strh r1, [r2]
 	strh r1, [r2, #2]
 	movs r0, #0x80
@@ -283,7 +283,7 @@ _080BBC02:
 	strh r0, [r4]
 	ldr r0, _080BBE28 @ =0x040000D4
 	str r4, [r0]
-	ldr r2, _080BBE68 @ =gOamBuffer2
+	ldr r2, _080BBE68 @ =gOamMallocBuffer
 	str r2, [r0, #4]
 	ldr r1, _080BBE64 @ =0x81000200
 	str r1, [r0, #8]
@@ -306,7 +306,7 @@ _080BBC2C:
 	ldr r0, _080BBE28 @ =0x040000D4
 	mov r4, sp
 	str r4, [r0]
-	ldr r7, _080BBE6C @ =sa2__gUnknown_03001850
+	ldr r7, _080BBE6C @ =gOamMallocOrders_StartIndex
 	str r7, [r0, #4]
 	ldr r1, _080BBE70 @ =0x85000008
 	str r1, [r0, #8]
@@ -329,7 +329,7 @@ _080BBC56:
 	ldr r0, _080BBE28 @ =0x040000D4
 	mov r1, sp
 	str r1, [r0]
-	ldr r2, _080BBE74 @ =sa2__gUnknown_03004D60
+	ldr r2, _080BBE74 @ =gOamMallocOrders_EndIndex
 	str r2, [r0, #4]
 	ldr r1, _080BBE70 @ =0x85000008
 	str r1, [r0, #8]
@@ -575,7 +575,7 @@ _080BBE38: .4byte sa2__gUnknown_03002280
 _080BBE3C: .4byte 0x85000004
 _080BBE40: .4byte sa2__gUnknown_03004D80
 _080BBE44: .4byte gBgScrollRegs
-_080BBE48: .4byte sa2__gUnknown_030017F4
+_080BBE48: .4byte gSpriteOffset
 _080BBE4C: .4byte gDispCnt
 _080BBE50: .4byte gVramGraphicsCopyQueue
 _080BBE54: .4byte 0x85000060
@@ -583,10 +583,10 @@ _080BBE58: .4byte gOamFreeIndex
 _080BBE5C: .4byte gOamFirstPausedIndex
 _080BBE60: .4byte gOamBuffer
 _080BBE64: .4byte 0x81000200
-_080BBE68: .4byte gOamBuffer2
-_080BBE6C: .4byte sa2__gUnknown_03001850
+_080BBE68: .4byte gOamMallocBuffer
+_080BBE6C: .4byte gOamMallocOrders_StartIndex
 _080BBE70: .4byte 0x85000008
-_080BBE74: .4byte sa2__gUnknown_03004D60
+_080BBE74: .4byte gOamMallocOrders_EndIndex
 _080BBE78: .4byte gObjPalette
 _080BBE7C: .4byte 0x85000080
 _080BBE80: .4byte gBgPalette

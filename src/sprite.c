@@ -561,10 +561,10 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004E14.inc", void sa2__sub_8004E14(S
         us.unkC[0] = I(transform->qScaleX * sa2__gUnknown_030017F0);
         us.unkC[1] = I(transform->qScaleY * sa2__gUnknown_03005394);
 
-        affine[0] = I(Div(Q(256), us.unkC[0]) * us.qDirX);
-        affine[4] = I(Div(Q(256), us.unkC[0]) * us.qDirY);
-        affine[8] = I(Div(Q(256), us.unkC[1]) * -us.qDirY);
-        affine[12] = I(Div(Q(256), us.unkC[1]) * us.qDirX);
+        affine[0 * OAM_DATA_COUNT_AFFINE] = I(Div(Q(256), us.unkC[0]) * us.qDirX);
+        affine[1 * OAM_DATA_COUNT_AFFINE] = I(Div(Q(256), us.unkC[0]) * us.qDirY);
+        affine[2 * OAM_DATA_COUNT_AFFINE] = I(Div(Q(256), us.unkC[1]) * -us.qDirY);
+        affine[3 * OAM_DATA_COUNT_AFFINE] = I(Div(Q(256), us.unkC[1]) * us.qDirX);
 
         if (transform->qScaleX < 0) {
             us.unkC[0] = I(-transform->qScaleX * sa2__gUnknown_030017F0);
@@ -670,8 +670,8 @@ NONMATCH("asm/non_matching/engine/DisplaySprite.inc", void DisplaySprite(Sprite 
         y = sprite->y;
 
         if (sprite->frameFlags & SPRITE_FLAG_MASK_17) {
-            x -= sa2__gUnknown_030017F4[0];
-            y -= sa2__gUnknown_030017F4[1];
+            x -= gSpriteOffset.x;
+            y -= gSpriteOffset.y;
         }
 
         sprWidth = sprDims->width;
@@ -817,8 +817,8 @@ NONMATCH("asm/non_matching/engine/DisplaySprites.inc", void DisplaySprites(Sprit
         y = sprite->y;
 
         if (sprite->frameFlags & SPRITE_FLAG_MASK_17) {
-            x -= sa2__gUnknown_030017F4[0];
-            y -= sa2__gUnknown_030017F4[1];
+            x -= gSpriteOffset.x;
+            y -= gSpriteOffset.y;
         }
 
         sprWidth = sprDims->width;
@@ -939,18 +939,18 @@ OamData *OamMalloc(u8 order)
     if (gOamFreeIndex > OAM_ENTRY_COUNT - 1) {
         result = (OamData *)iwram_end;
     } else {
-        if (sa2__gUnknown_03001850[order] == 0xFF) {
-            gOamBuffer2[gOamFreeIndex].split.fractional = 0xFF;
-            sa2__gUnknown_03001850[order] = gOamFreeIndex;
-            sa2__gUnknown_03004D60[order] = gOamFreeIndex;
+        if (gOamMallocOrders_StartIndex[order] == 0xFF) {
+            gOamMallocBuffer[gOamFreeIndex].split.fractional = 0xFF;
+            gOamMallocOrders_StartIndex[order] = gOamFreeIndex;
+            gOamMallocOrders_EndIndex[order] = gOamFreeIndex;
         } else {
-            gOamBuffer2[gOamFreeIndex].split.fractional = 0xFF;
-            gOamBuffer2[sa2__gUnknown_03004D60[order]].split.fractional = gOamFreeIndex;
-            sa2__gUnknown_03004D60[order] = gOamFreeIndex;
+            gOamMallocBuffer[gOamFreeIndex].split.fractional = 0xFF;
+            gOamMallocBuffer[gOamMallocOrders_EndIndex[order]].split.fractional = gOamFreeIndex;
+            gOamMallocOrders_EndIndex[order] = gOamFreeIndex;
         }
 
         gOamFreeIndex++;
-        result = &gOamBuffer2[gOamFreeIndex - 1];
+        result = &gOamMallocBuffer[gOamFreeIndex - 1];
     }
 
     return result;
@@ -963,18 +963,18 @@ void CopyOamBufferToOam(void)
     s32 r3;
 
     for (r3 = 0; r3 < 32; r3++) {
-        s8 index = sa2__gUnknown_03001850[r3];
+        s8 index = gOamMallocOrders_StartIndex[r3];
 
         while (index != -1) {
             u8 newI;
-            u8 *byteArray = sa2__gUnknown_03002710;
-            DmaCopy16(3, &gOamBuffer2[index], dstOam, sizeof(OamDataShort));
+            u8 *byteArray = gOamMallocCopiedOrder;
+            DmaCopy16(3, &gOamMallocBuffer[index], dstOam, sizeof(OamDataShort));
             dstOam++;
 
             byteArray += index;
             newI = i++;
             *byteArray = newI;
-            index = gOamBuffer2[index].split.fractional;
+            index = gOamMallocBuffer[index].split.fractional;
         };
     }
 
@@ -1020,11 +1020,11 @@ void CopyOamBufferToOam(void)
 
     gOamFreeIndex = 0;
     if (gFlags & FLAGS_4000) {
-        CpuFill32(-1, sa2__gUnknown_03001850, sizeof(sa2__gUnknown_03001850));
-        CpuFill32(-1, sa2__gUnknown_03004D60, sizeof(sa2__gUnknown_03004D60));
+        CpuFill32(-1, gOamMallocOrders_StartIndex, sizeof(gOamMallocOrders_StartIndex));
+        CpuFill32(-1, gOamMallocOrders_EndIndex, sizeof(gOamMallocOrders_EndIndex));
     } else {
-        DmaFill32(3, -1, sa2__gUnknown_03001850, sizeof(sa2__gUnknown_03001850));
-        DmaFill32(3, -1, sa2__gUnknown_03004D60, sizeof(sa2__gUnknown_03004D60));
+        DmaFill32(3, -1, gOamMallocOrders_StartIndex, sizeof(gOamMallocOrders_StartIndex));
+        DmaFill32(3, -1, gOamMallocOrders_EndIndex, sizeof(gOamMallocOrders_EndIndex));
     }
 }
 

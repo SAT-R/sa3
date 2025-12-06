@@ -68,7 +68,7 @@ _080C0D06:
 	adds r3, r1, #0
 	cmp r0, #0
 	beq _080C0D3E
-	ldr r2, _080C0D80 @ =sa2__gUnknown_030017F4
+	ldr r2, _080C0D80 @ =gSpriteOffset
 	movs r4, #0
 	ldrsh r1, [r2, r4]
 	ldr r0, [sp]
@@ -113,7 +113,7 @@ _080C0D3E:
 	b _080C0DC8
 	.align 2, 0
 _080C0D7C: .4byte gRefSpriteTables
-_080C0D80: .4byte sa2__gUnknown_030017F4
+_080C0D80: .4byte gSpriteOffset
 _080C0D84:
 	movs r0, #0x80
 	lsls r0, r0, #4
