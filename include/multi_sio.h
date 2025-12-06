@@ -6,7 +6,11 @@
 // Optimize the following settings based on the software
 // specifications
 
+#if ((ENGINE == ENGINE_1) || (ENGINE == ENGINE_2))
+#define MULTI_SIO_BLOCK_SIZE 20 // Communication Data Block Size (Max. 24 Bytes)
+#else
 #define MULTI_SIO_BLOCK_SIZE 24 // Communication Data Block Size (Max. 24 Bytes)
+#endif
 
 #define MULTI_SIO_PLAYERS_MAX 4 // Maximum Number of Players
 

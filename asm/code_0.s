@@ -3674,7 +3674,7 @@ sub_8001D58: @ 0x08001D58
 	ldr r0, _08001DC8 @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r1, _08001DCC @ =sa2__gUnknown_03005390
+	ldr r1, _08001DCC @ =gBgSpritesCount
 	movs r0, #0
 	strb r0, [r1]
 	ldr r1, _08001DD0 @ =gVramGraphicsCopyCursor
@@ -3706,7 +3706,7 @@ _08001DBC: .4byte gDispCnt
 _08001DC0: .4byte 0x0000FFFF
 _08001DC4: .4byte gBackgroundsCopyQueueCursor
 _08001DC8: .4byte gBackgroundsCopyQueueIndex
-_08001DCC: .4byte sa2__gUnknown_03005390
+_08001DCC: .4byte gBgSpritesCount
 _08001DD0: .4byte gVramGraphicsCopyCursor
 _08001DD4: .4byte gVramGraphicsCopyQueueIndex
 _08001DD8: .4byte sub_8000918
@@ -6327,7 +6327,7 @@ _08003210:
 	ldr r0, _08003278 @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r0, _0800327C @ =sa2__gUnknown_03005390
+	ldr r0, _0800327C @ =gBgSpritesCount
 	strb r5, [r0]
 	ldr r1, _08003280 @ =gVramGraphicsCopyCursor
 	ldr r0, _08003284 @ =gVramGraphicsCopyQueueIndex
@@ -6344,7 +6344,7 @@ _0800326C: .4byte gUnknown_030010C0
 _08003270: .4byte 0x0000FFFF
 _08003274: .4byte gBackgroundsCopyQueueCursor
 _08003278: .4byte gBackgroundsCopyQueueIndex
-_0800327C: .4byte sa2__gUnknown_03005390
+_0800327C: .4byte gBgSpritesCount
 _08003280: .4byte gVramGraphicsCopyCursor
 _08003284: .4byte gVramGraphicsCopyQueueIndex
 
@@ -7142,7 +7142,7 @@ _080038CE:
 	ldr r0, _08003918 @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r0, _0800391C @ =sa2__gUnknown_03005390
+	ldr r0, _0800391C @ =gBgSpritesCount
 	strb r5, [r0]
 	ldr r1, _08003920 @ =gVramGraphicsCopyCursor
 	ldr r0, _08003924 @ =gVramGraphicsCopyQueueIndex
@@ -7155,7 +7155,7 @@ _0800390C: .4byte 0xFFFFFBFF
 _08003910: .4byte 0x0000FFFF
 _08003914: .4byte gBackgroundsCopyQueueCursor
 _08003918: .4byte gBackgroundsCopyQueueIndex
-_0800391C: .4byte sa2__gUnknown_03005390
+_0800391C: .4byte gBgSpritesCount
 _08003920: .4byte gVramGraphicsCopyCursor
 _08003924: .4byte gVramGraphicsCopyQueueIndex
 _08003928:
@@ -7184,7 +7184,7 @@ _08003950:
 	ldr r0, _08003990 @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r1, _08003994 @ =sa2__gUnknown_03005390
+	ldr r1, _08003994 @ =gBgSpritesCount
 	movs r0, #0
 	strb r0, [r1]
 	ldr r1, _08003998 @ =gVramGraphicsCopyCursor
@@ -7204,7 +7204,7 @@ _08003984: .4byte gPlayers
 _08003988: .4byte 0x0000FFFF
 _0800398C: .4byte gBackgroundsCopyQueueCursor
 _08003990: .4byte gBackgroundsCopyQueueIndex
-_08003994: .4byte sa2__gUnknown_03005390
+_08003994: .4byte gBgSpritesCount
 _08003998: .4byte gVramGraphicsCopyCursor
 _0800399C: .4byte gVramGraphicsCopyQueueIndex
 _080039A0: .4byte gStageData
@@ -8060,7 +8060,7 @@ sub_8004058: @ 0x08004058
 	ldr r0, _080040AC @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r1, _080040B0 @ =sa2__gUnknown_03005390
+	ldr r1, _080040B0 @ =gBgSpritesCount
 	movs r0, #0
 	strb r0, [r1]
 	ldr r1, _080040B4 @ =gVramGraphicsCopyCursor
@@ -8079,7 +8079,7 @@ _080040A0: .4byte 0x03000054
 _080040A4: .4byte 0x0000FFFF
 _080040A8: .4byte gBackgroundsCopyQueueCursor
 _080040AC: .4byte gBackgroundsCopyQueueIndex
-_080040B0: .4byte sa2__gUnknown_03005390
+_080040B0: .4byte gBgSpritesCount
 _080040B4: .4byte gVramGraphicsCopyCursor
 _080040B8: .4byte gVramGraphicsCopyQueueIndex
 
@@ -8726,7 +8726,7 @@ _0800458A:
 	ldr r0, _080045DC @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r1, _080045E0 @ =sa2__gUnknown_03005390
+	ldr r1, _080045E0 @ =gBgSpritesCount
 	movs r0, #0
 	strb r0, [r1]
 	ldr r1, _080045E4 @ =gVramGraphicsCopyCursor
@@ -8746,7 +8746,7 @@ _080045D0: .4byte gMultiSioRecv
 _080045D4: .4byte 0x0000FFFF
 _080045D8: .4byte gBackgroundsCopyQueueCursor
 _080045DC: .4byte gBackgroundsCopyQueueIndex
-_080045E0: .4byte sa2__gUnknown_03005390
+_080045E0: .4byte gBgSpritesCount
 _080045E4: .4byte gVramGraphicsCopyCursor
 _080045E8: .4byte gVramGraphicsCopyQueueIndex
 
@@ -8835,7 +8835,7 @@ _08004692:
 	ldr r0, _080046C8 @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r1, _080046CC @ =sa2__gUnknown_03005390
+	ldr r1, _080046CC @ =gBgSpritesCount
 	movs r0, #0
 	strb r0, [r1]
 	ldr r1, _080046D0 @ =gVramGraphicsCopyCursor
@@ -8849,7 +8849,7 @@ _080046BC: .4byte gStageData
 _080046C0: .4byte 0x0000FFFF
 _080046C4: .4byte gBackgroundsCopyQueueCursor
 _080046C8: .4byte gBackgroundsCopyQueueIndex
-_080046CC: .4byte sa2__gUnknown_03005390
+_080046CC: .4byte gBgSpritesCount
 _080046D0: .4byte gVramGraphicsCopyCursor
 _080046D4: .4byte gVramGraphicsCopyQueueIndex
 _080046D8:
@@ -18494,7 +18494,7 @@ _08009234:
 	ldr r0, _08009274 @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r1, _08009278 @ =sa2__gUnknown_03005390
+	ldr r1, _08009278 @ =gBgSpritesCount
 	movs r0, #0
 	strb r0, [r1]
 	ldr r1, _0800927C @ =gVramGraphicsCopyCursor
@@ -18510,7 +18510,7 @@ _08009268: .4byte gStageData
 _0800926C: .4byte 0x0000FFFF
 _08009270: .4byte gBackgroundsCopyQueueCursor
 _08009274: .4byte gBackgroundsCopyQueueIndex
-_08009278: .4byte sa2__gUnknown_03005390
+_08009278: .4byte gBgSpritesCount
 _0800927C: .4byte gVramGraphicsCopyCursor
 _08009280: .4byte gVramGraphicsCopyQueueIndex
 _08009284:
@@ -18524,7 +18524,7 @@ _08009284:
 	ldr r0, _080092BC @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r1, _080092C0 @ =sa2__gUnknown_03005390
+	ldr r1, _080092C0 @ =gBgSpritesCount
 	movs r0, #0
 	strb r0, [r1]
 	ldr r1, _080092C4 @ =gVramGraphicsCopyCursor
@@ -18539,7 +18539,7 @@ _08009284:
 _080092B4: .4byte 0x0000FFFF
 _080092B8: .4byte gBackgroundsCopyQueueCursor
 _080092BC: .4byte gBackgroundsCopyQueueIndex
-_080092C0: .4byte sa2__gUnknown_03005390
+_080092C0: .4byte gBgSpritesCount
 _080092C4: .4byte gVramGraphicsCopyCursor
 _080092C8: .4byte gVramGraphicsCopyQueueIndex
 _080092CC:
@@ -18965,7 +18965,7 @@ _080095FA:
 	ldr r0, _08009644 @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r1, _08009648 @ =sa2__gUnknown_03005390
+	ldr r1, _08009648 @ =gBgSpritesCount
 	movs r0, #0
 	strb r0, [r1]
 	ldr r1, _0800964C @ =gVramGraphicsCopyCursor
@@ -18981,7 +18981,7 @@ _08009638: .4byte gStageData
 _0800963C: .4byte 0x0000FFFF
 _08009640: .4byte gBackgroundsCopyQueueCursor
 _08009644: .4byte gBackgroundsCopyQueueIndex
-_08009648: .4byte sa2__gUnknown_03005390
+_08009648: .4byte gBgSpritesCount
 _0800964C: .4byte gVramGraphicsCopyCursor
 _08009650: .4byte gVramGraphicsCopyQueueIndex
 _08009654:
@@ -82344,7 +82344,7 @@ _08027F40:
 	ldr r0, _08027F90 @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r1, _08027F94 @ =sa2__gUnknown_03005390
+	ldr r1, _08027F94 @ =gBgSpritesCount
 	movs r0, #0
 	strb r0, [r1]
 	ldr r1, _08027F98 @ =gVramGraphicsCopyCursor
@@ -82359,7 +82359,7 @@ _08027F84: .4byte gUnknown_03000970
 _08027F88: .4byte 0x0000FFFF
 _08027F8C: .4byte gBackgroundsCopyQueueCursor
 _08027F90: .4byte gBackgroundsCopyQueueIndex
-_08027F94: .4byte sa2__gUnknown_03005390
+_08027F94: .4byte gBgSpritesCount
 _08027F98: .4byte gVramGraphicsCopyCursor
 _08027F9C: .4byte gVramGraphicsCopyQueueIndex
 _08027FA0:

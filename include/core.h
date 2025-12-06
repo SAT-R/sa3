@@ -9,6 +9,7 @@
 #include "sprite.h"
 #include "task.h"
 #include "tilemap.h"
+#include "multi_sio.h" // for MULTI_SIO_BLOCK_SIZE
 #include "input_recorder.h"
 #include "data/sprite_data.h"
 #include "animation_commands.h"
@@ -124,7 +125,9 @@ union MultiSioData {
     struct MultiSioData_0_3 pat3;
     struct MultiSioData_0_4 pat4;
     struct MultiSioData_0_5 pat5;
-}; /* size = MULTI_SIO_BLOCK_SIZE */
+
+    u8 raw[MULTI_SIO_BLOCK_SIZE];
+}; /* TODO: size = MULTI_SIO_BLOCK_SIZE */
 
 // TODO: Have we defined this somewhere else already?
 #define MAP_LAYER_COUNT 2
@@ -313,7 +316,7 @@ extern u8 gBgSprites_Unknown1[16];
 #else
 #define GFX_QUEUE_LOG_ADD(gfx)
 #endif
-#if ((ENGINE == ENGINE_1) || (EWNGINE == ENGINE_2))
+#if ((ENGINE == ENGINE_1) || (ENGINE == ENGINE_2))
 extern struct GraphicsData *gVramGraphicsCopyQueue[32];
 #else
 extern struct GraphicsData gVramGraphicsCopyQueue[32];

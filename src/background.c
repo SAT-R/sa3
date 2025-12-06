@@ -906,8 +906,8 @@ NONMATCH("asm/non_matching/engine/background__sub_80BE46C.inc", void sub_80BE46C
 {
     const SpriteOffset *dims;
 
-    gBgSprites[sa2__gUnknown_03005390] = s;
-    sa2__gUnknown_03005390++;
+    gBgSprites[gBgSpritesCount] = s;
+    gBgSpritesCount++;
 
     if (s->frameNum != -1) {
         u32 bgId;
@@ -967,11 +967,11 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80039E4.inc", bool32 sa2__sub_80039E4
 
 // TODO: once function matches this can be removed
 #if PORTABLE
-    sa2__gUnknown_03005390 = 0;
+    gBgSpritesCount = 0;
     return TRUE;
 #endif
 
-    if (sa2__gUnknown_03005390 != 0) {
+    if (gBgSpritesCount != 0) {
         OamDataShort oam;
         s32 r5;
         s32 sp08;
@@ -987,7 +987,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80039E4.inc", bool32 sa2__sub_80039E4
         s32 yPos; // =r5
         u16 oamX, oamY;
 
-        for (r5 = 0; r5 < sa2__gUnknown_03005390; r5++) {
+        for (r5 = 0; r5 < gBgSpritesCount; r5++) {
             // _08003A1A
             s = gBgSprites[r5];
             dims = &gRefSpriteTables->dimensions[s->anim][s->frameNum];
@@ -1111,7 +1111,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80039E4.inc", bool32 sa2__sub_80039E4
             }
         }
 
-        sa2__gUnknown_03005390 = 0;
+        gBgSpritesCount = 0;
     }
 
     return TRUE;
