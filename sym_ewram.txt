@@ -1,4 +1,4 @@
-. = 0x00001400; src/lib/m4a/m4a.o(ewram_data);
+src/lib/m4a/m4a.o(ewram_data);
 
 src/malloc_ewram.o(ewram_data);
 ewram_end = .;

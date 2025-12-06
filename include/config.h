@@ -18,7 +18,7 @@
 
 // TODO: Do SA1 and SA2 use the same engine ver?
 // TODO: Do SA3 and KATAM use the same engine ver?
-#define ENGINE GAME
+#define ENGINE ENGINE_3
 
 // TODO: Put somewhere else?
 #if PLATFORM_GBA
