@@ -191,7 +191,7 @@ struct MixerSource {
         } sound;
     } data;
 
-    void *wav; // The next peice of data to be loading
+    void *wav; // The next piece of data to be loading
     void *current; // The working pointer from wav
 
     struct MP2KTrack *track;
