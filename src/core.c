@@ -237,6 +237,8 @@ VBlankProcessFunc const sVblankFuncs[] = {
 // Multiboot area?
 extern u8 gUnknown_02035000[0xA000];
 extern void sub_80C4B48(void);
+extern void sub_80C6908(void);
+void sub_80BCB84(void); // inside core.c in SA3
 
 // (99.97%) https://decomp.me/scratch/hVNLQ
 NONMATCH("asm/non_matching/engine/EngineInit_sa3.inc", void EngineInit(void))
@@ -539,7 +541,6 @@ void EngineInit(void)
 }
 END_NONMATCH
 
-#if 0
 void EngineMainLoop(void)
 {
 #if !PLATFORM_WIN32
@@ -547,9 +548,15 @@ void EngineMainLoop(void)
 #endif
     {
         gExecSoundMain = FALSE;
+#if (ENGINE == ENGINE_3)
+        if (gFlags & FLAGS_40000) {
+            sub_80BCB84();
+        }
+#else
         if (!(gFlags & FLAGS_4000)) {
             m4aSoundMain();
         }
+#endif
 
         if (sLastCalledVblankFuncId == VBLANK_FUNC_ID_NONE) {
             GetInput();
@@ -557,6 +564,11 @@ void EngineMainLoop(void)
             if (gMultiSioEnabled) {
                 gMultiSioStatusFlags = MultiSioMain(&gMultiSioSend, gMultiSioRecv, 0);
             }
+#if (ENGINE == ENGINE_3)
+            else if ((gFlags & (FLAGS_80000 | FLAGS_10000)) == FLAGS_80000) {
+                sub_80C6908();
+            }
+#endif
 
             TasksExec();
         }
@@ -583,11 +595,17 @@ void EngineMainLoop(void)
                 ClearOamBufferDma();
             }
         }
+
         if (gFlags & FLAGS_PAUSE_GAME) {
             gFlags |= FLAGS_800;
         } else {
             gFlags &= ~FLAGS_800;
         }
+#if (ENGINE == ENGINE_3)
+        if (!(gFlags & FLAGS_4000)) {
+            m4aSoundMain();
+        }
+#endif
 
         // Wait for vblank to finish
         while (REG_DISPSTAT & DISPSTAT_VBLANK)
@@ -595,6 +613,7 @@ void EngineMainLoop(void)
     };
 }
 
+#if 0
 static void UpdateScreenDma(void)
 {
     u8 i, j = 0;
