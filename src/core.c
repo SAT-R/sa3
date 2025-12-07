@@ -751,9 +751,8 @@ void ClearOamBufferDma(void)
     gFlags &= ~FLAGS_EXECUTE_VBLANK_CALLBACKS;
 }
 
-#if 0
 #ifndef COLLECT_RINGS_ROM
-static void UpdateScreenCpuSet(void)
+void UpdateScreenCpuSet(void)
 {
     u8 i, j = 0;
     REG_DISPCNT = gDispCnt;
@@ -829,6 +828,7 @@ static void UpdateScreenCpuSet(void)
 }
 #endif
 
+#if 0
 static void VBlankIntr(void)
 {
     u16 keys;
