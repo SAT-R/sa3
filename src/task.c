@@ -174,7 +174,7 @@ void TaskDestroy(struct Task *task)
                 // can only happen in (implicitly) recursive TaskDestroy calls (from
                 // task->dtor) in TasksDestroyInPriorityRange
                 if (task == gNextTaskToCheckForDestruction) {
-                    gNextTaskToCheckForDestruction = (struct Task *)(task->next + IWRAM_START);
+                    gNextTaskToCheckForDestruction = (struct Task *)TASK_NEXT(task);
                 }
 #endif
 
@@ -446,14 +446,14 @@ void TasksDestroyInPriorityRange(u16 lbound, u16 rbound)
 {
     struct Task *cur = gTaskPtrs[0];
     TaskPtr curOffset = (TaskPtr)(TaskPtr32)cur;
-#ifndef NONMATCHING
+#ifndef NON_MATCHING
     asm("" ::: "r5");
 #endif
     while (curOffset != 0) {
         if (cur->priority >= lbound) {
             lbound = 0;
             while (cur->priority < rbound) {
-                gNextTaskToCheckForDestruction = (struct Task *)(cur->next + (IWRAM_START));
+                gNextTaskToCheckForDestruction = (struct Task *)TASK_NEXT(cur);
                 if (cur != gTaskPtrs[0] && cur != gTaskPtrs[1]) {
                     TaskDestroy(cur);
                 }
@@ -466,11 +466,15 @@ void TasksDestroyInPriorityRange(u16 lbound, u16 rbound)
                 --cur;
                 gNextTaskToCheckForDestruction += 0;
             }
+#ifndef NON_MATCHING
             gNextTaskToCheckForDestruction = (void *)(TaskPtr32)lbound; // NULL
+#else
+            gNextTaskToCheckForDestruction = NULL;
+#endif
             return;
         }
         curOffset = cur->next;
-        cur = (struct Task *)(curOffset + IWRAM_START);
+        cur = (struct Task *)TASK_PTR(curOffset);
     }
     gNextTaskToCheckForDestruction = NULL;
 }
@@ -486,7 +490,7 @@ static s32 IwramActiveNodeTotalSize(void)
         if (cur->state < 0) {
             activeSize -= cur->state;
         }
-        next = (void *)(cur->next + IWRAM_START);
+        next = (void *)TASK_NEXT(cur);
         if (next == (void *)IWRAM_START) {
             break;
         }

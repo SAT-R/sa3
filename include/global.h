@@ -5,10 +5,27 @@
 #include "config.h"
 #include "gba/gba.h"
 
+#if PLATFORM_GBA
+#define ENABLE_AUDIO TRUE
+#else
+#define ENABLE_AUDIO     TRUE
+#define ENABLE_VRAM_VIEW !TRUE
+#endif
+
 #define CONST_DATA __attribute__((section(".data")))
 
 // #include "types.h"
 // #include "variables.h"
+
+#if !PLATFORM_GBA
+#ifdef _WIN32
+void *Platform_malloc(size_t numBytes);
+void Platform_free(void *ptr);
+#define malloc(numBytes)    Platform_malloc(numBytes)
+#define calloc(count, size) Platform_malloc(count *size)
+#define free(numBytes)      Platform_free(numBytes)
+#endif
+#endif
 
 #define SIO_MULTI_CNT ((volatile struct SioMultiCnt *)REG_ADDR_SIOCNT)
 
@@ -67,6 +84,20 @@ typedef void (*VoidFn)(void);
 #define INCBIN_S32 INCBIN
 #endif // IDE support
 
+#if (GAME == GAME_SA1)
+#define INCBIN_MAP INCBIN_U8
+#else
+#define INCBIN_MAP INCBIN_U16
+#endif
+
+// Use STR(<macro>) to turn the macro's *content* into a string
+#define STR_(x) #x
+#define STR(x)  STR_(x)
+
+// NOTE: This has to be kept as-is.
+//       If casted it to be signed,
+//          dataIndex = (dataIndex + 1) % ARRAY_COUNT(data)
+//       wouldn't match.
 #define ARRAY_COUNT(array) (sizeof(array) / sizeof((array)[0]))
 
 // Converts a number to Q8.8 fixed-point format
