@@ -2,7 +2,20 @@
 
 #include "global.h"
 #include "core.h"
-#include "module_unclear.h"
+#include "game/player.h"
+//#include "module_unclear.h"
+
+// Multiplayer-related (used in IA item_box_mp.c)
+typedef struct {
+    /* 0x00 */ u8 filler0[0x4C];
+    /* 0x4C */ u8 unk4C;
+    /* 0x4D */ u8 unk4D;
+    /* 0x4E */ u8 filler4E[0x4];
+    /* 0x52 */ u16 unk52;
+    /* 0x54 */ u8 unk54;
+    /* 0x55 */ u8 unk55; // used to determine item type in MP itemboxes (15 + (unk55 & 0x1))
+    /* 0x56 */ u8 unk56;
+} Struct_03001060; /* size: ??? */
 
 void *ewram_end = 0;
 void *iwram_end = 0;
@@ -11,9 +24,11 @@ int gMaxLines = 0;
 
 u8 gUnknown_02035000[0xA000] = {};
 Struct_03001060 gUnknown_03001060 = {};
+Player gPlayers[4] = {};
 u8 gUnknown_03001D00 = 0;
+struct Task *gTask_03001CFC = NULL;
 
-void sub_80C460C() { }
+void sub_80C460C(const u16 *pal, u8 paletteOffset, u16 palSize) { }
 void sub_80C4B48() { }
 void SoundBiasReset() { }
 void Stop() { }
@@ -28,29 +43,29 @@ void sub_805CD70() { }
 void gStageData() { }
 void gCamera() { }
 void sub_805CD20() { }
-void sub_802C080() { }
-void sub_8020700() { }
-void sub_8020CE0() { }
-void sub_8052394() { }
-void sub_805217C() { }
-void sub_8029C54() { }
-void gTask_03001CFC() { }
+bool32 IsWorldPtActive(s32 worldX, s32 worldY) { return TRUE; }
+bool32 IsScreenPtActive(s32 screenX, s32 screenY) { return TRUE; }
+bool32 sub_802C080(Player *p) { return FALSE; }
+bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5) { return FALSE; }
+bool32 sub_8020CE0(Sprite *s, s32 worldX, s32 worldY, u16 param3, Player *p) { return FALSE; }
+s32 sub_8052394(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4, void *callback) { return 0; }
+u8 sub_805217C(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4) { return 0; }
+void sub_8029C54(s32 param0, s32 param1) { }
 void sub_805CE14() { }
 void sub_805C890() { }
 void CopyPalette() { }
-void sub_805203C() { }
+u8 sub_805203C(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4) { return 0; }
 void sub_807B6C8() { }
-void sub_807B6C8() { }
-void sub_802C0D4() { }
-void sub_8016F28() { }
-void sub_80110E8() { }
-void sub_8006824() { }
-void sub_8003E28() { }
-void sub_8020950() { }
-void sub_8019A64() { }
-void sub_80275B8() { }
+bool32 sub_802C0D4(Player *p) { return FALSE; }
+void sub_8016F28(Player *p) { }
+s32 sub_80110E8(u16 param0, Player *p, u8 *param2, u32 *param3) { return 0; }
+void sub_8006824(Player *p) { }
+void sub_8003E28(u16 song) { }
+u32 sub_8020950(Sprite *s, s32 worldX, s32 worldY, Player *p, u8 param4) { return 0; }
+void sub_8019A64(Player *p) { }
+void sub_80275B8(u32 level, u8 param1, u8 param2) { }
 void gSaveGame() { }
-void sub_802C140() { }
+bool32 sub_802C140(s32 worldX, s32 worldY, s32 screenX, s32 screenY) { return FALSE; }
 void sub_8004E20() { }
 void sub_8020A58() { }
 void sub_8016D04() { }
@@ -208,7 +223,6 @@ void sub_8029A18() { }
 void sub_80274F4() { }
 void sub_801226C() { }
 void sub_8012368() { }
-void IsScreenPtActive() { }
 void Task_800303C() { }
 void sub_8079FFC() { }
 void sub_807A074() { }
@@ -223,11 +237,11 @@ void sub_80296F8() { }
 void sub_80276A8() { }
 void sub_802954C() { }
 void sub_8012550() { }
-s32 sub_801246C(Player *) { }
-void sub_80213F0() { }
+s32 sub_801246C(Player *p) { return 0; }
+void sub_80213F0(Player *p) { }
 void sub_8004D30() { }
-void CreateCharacterSelect() { }
-void sub_8057AA0() { }
+void CreateCharacterSelect(u16 param0) { }
+void sub_8057AA0(u16 param0, u16 param1, u8 param2) { }
 void GameInit() { }
 void sub_807C670() { }
 void sub_807C728() { }

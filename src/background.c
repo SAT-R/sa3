@@ -700,7 +700,7 @@ s32 sa2__sub_80036E0(Sprite *s)
             // TODO: Fix types to make these const
             ret = animCmdTable_BG[~cmd->id]((void *)cmd, s);
             if (ret != 1) {
-#ifdef NON_MATCHING
+#ifndef NON_MATCHING
                 register const ACmd *newScript asm("r1");
 #else
                 ACmd *newScript;

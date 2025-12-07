@@ -185,7 +185,11 @@ NONMATCH("asm/non_matching/game/interactables/boss_trigger__Task_TriggerBossAndG
     // _0803E682
 
     {
+#ifndef NON_MATCHING
         register s32 x asm("r5") = I(camState->unk0);
+#else
+        s32 x = I(camState->unk0);
+#endif
         if ((gCamera.x >= x) && (gCamera.y >= I(camState->unk8)) && (gCamera.x + DISPLAY_WIDTH <= I(camState->unk4))
             && (gCamera.y + DISPLAY_HEIGHT <= I(camState->unkC))) {
             if (trig->unk3C > 4) {
