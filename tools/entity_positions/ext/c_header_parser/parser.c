@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "ArenaAlloc.h"
+#include "arena_alloc.h"
 
 #include "parser.h"
 #include "types.h"
