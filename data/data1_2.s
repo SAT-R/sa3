@@ -16,12 +16,12 @@ gUnknown_082B533C:
 
     .global gUnknown_082B5344
 gUnknown_082B5344:
-    .incbin "baserom.gba", 0x002B5344, 0x200
+    .incbin "baserom_sa3.gba", 0x002B5344, 0x200
 
     .global gUnknown_082B5544
 gUnknown_082B5544:
-    .incbin "baserom.gba", 0x002B5544, 0x4000
+    .incbin "baserom_sa3.gba", 0x002B5544, 0x4000
 
     .global gUnknown_082B9544
 gUnknown_082B9544:
-    .incbin "baserom.gba", 0x002B9544, 0x500
+    .incbin "baserom_sa3.gba", 0x002B9544, 0x500
