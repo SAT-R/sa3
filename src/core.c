@@ -539,7 +539,9 @@ void EngineInit(void)
     gUnknown_03002C60 = 0;
 #endif
 }
+#if (ENGINE == ENGINE_3)
 END_NONMATCH
+#endif
 
 void EngineMainLoop(void)
 {
