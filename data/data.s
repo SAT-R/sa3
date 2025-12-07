@@ -571,41 +571,41 @@ sBonusLifeIconVariants:
     .global gUnknown_080CFA58
 gUnknown_080CFA58:
     mPtr CreateGmerl1
-    .word -1, 0x1D40, 0, 0xC60
+    .int -1, 0x1D40, 0, 0xC60
     mPtr CreateGmerl1
-    .word -1, 0x1FE0, 0, 0xB40
+    .int -1, 0x1FE0, 0, 0xB40
     mPtr CreateGmerl1
-    .word -1, 0x32A0, 0, 0x660
+    .int -1, 0x32A0, 0, 0x660
     mPtr CreateGmerl1
-    .word -1, 0x0960, -1, -1
+    .int -1, 0x0960, -1, -1
     mPtr CreateBoss_8068B3C
-    .word -1, 0x0960, -1, -1
+    .int -1, 0x0960, -1, -1
     mPtr CreateBoss_806A90C
-    .word -1, -1, -1, -1
+    .int -1, -1, -1, -1
     mPtr CreateBoss_806D1A0
-    .word -1, -1, -1, -1
+    .int -1, -1, -1, -1
     mPtr CreateBoss_806EADC
-    .word -1, 0x8A0, -1, -1
+    .int -1, 0x8A0, -1, -1
     mPtr CreateBoss_8071A08
-    .word -1, 0x7E0, -1, -1
+    .int -1, 0x7E0, -1, -1
     mPtr CreateBoss_8073640
-    .word -1, 0x9C0, 0, 0x1E0
+    .int -1, 0x9C0, 0, 0x1E0
     mPtr CreateBoss_8074E88
-    .word -1, 0x6C0, -1, -1
+    .int -1, 0x6C0, -1, -1
     mPtr CreateBoss_80581C8
-    .word -1, -1, -1, -1
+    .int -1, -1, -1, -1
     mPtr NULL
-    .word 0, 0, 0, 0
+    .int 0, 0, 0, 0
     mPtr NULL
-    .word 0, 0, 0, 0
+    .int 0, 0, 0, 0
     mPtr NULL
-    .word 0, 0, 0, 0
+    .int 0, 0, 0, 0
     mPtr NULL
-    .word 0, 0, 0, 0
+    .int 0, 0, 0, 0
     mPtr NULL
-    .word 0, 0, 0, 0
+    .int 0, 0, 0, 0
     mPtr CreateGoalRing
-    .word -1, -1, -1, -1
+    .int -1, -1, -1, -1
 
     .global sUfoActs
 sUfoActs:
@@ -1706,13 +1706,13 @@ gUnknown_080D6C1C:
 
     .global sOptionsSlideInits
 sOptionsSlideInits:
-    .int OptionsSlideInit_PlayerData
-    .int OptionsSlideInit_Difficulty
-    .int OptionsSlideInit_TimeUp
-    .int OptionsSlideInit_Language
-    .int OptionsSlideInit_ButtonConfig
-    .int OptionsSlideInit_SoundTest
-    .int OptionsSlideInit_DeleteSaveData
+    mPtr OptionsSlideInit_PlayerData
+    mPtr OptionsSlideInit_Difficulty
+    mPtr OptionsSlideInit_TimeUp
+    mPtr OptionsSlideInit_Language
+    mPtr OptionsSlideInit_ButtonConfig
+    mPtr OptionsSlideInit_SoundTest
+    mPtr OptionsSlideInit_DeleteSaveData
 
     .global gUnknown_080D6E38
 gUnknown_080D6E38:
@@ -2399,9 +2399,12 @@ gUnknown_080D9B1C:
 
     .global gUnknown_080D9B5C
 gUnknown_080D9B5C:
-    .int gUnknown_080D99DC
-    .int gUnknown_080D9A1C, gUnknown_080D9A5C, gUnknown_080D9A9C, gUnknown_080D9ADC
-    .int gUnknown_080D9B1C
+    mPtr gUnknown_080D99DC
+    mPtr gUnknown_080D9A1C
+    mPtr gUnknown_080D9A5C
+    mPtr gUnknown_080D9A9C
+    mPtr gUnknown_080D9ADC
+    mPtr gUnknown_080D9B1C
 
     .global gCharacterSelectOrderLUT
 gCharacterSelectOrderLUT:
@@ -2697,23 +2700,31 @@ gUnknown_080DBA94:
 
     .global gUnknown_080DBAA4
 gUnknown_080DBAA4:
-    .int gUnknown_080DB99C, gUnknown_080DB9B4, gUnknown_080DB9D4, gUnknown_080DB9E4
+    mPtr gUnknown_080DB99C
+    mPtr gUnknown_080DB9B4
+    mPtr gUnknown_080DB9D4
+    mPtr gUnknown_080DB9E4
 
     .global gUnknown_080DBAB4
 gUnknown_080DBAB4:
-    .int gUnknown_080DBA44, gUnknown_080DBA54, gUnknown_080DBA54
+    mPtr gUnknown_080DBA44
+    mPtr gUnknown_080DBA54
+    mPtr gUnknown_080DBA54
 
     .global gUnknown_080DBAC0
 gUnknown_080DBAC0:
-    .int gUnknown_080DB9EC, gUnknown_080DBA04
+    mPtr gUnknown_080DB9EC
+    mPtr gUnknown_080DBA04
 
     .global gUnknown_080DBAC8
 gUnknown_080DBAC8:
-    .int gUnknown_080DBA24, gUnknown_080DBA34
+    mPtr gUnknown_080DBA24
+    mPtr gUnknown_080DBA34
 
     .global gUnknown_080DBAD0
 gUnknown_080DBAD0:
-    .int gUnknown_080DBA64, gUnknown_080DBA6C
+    mPtr gUnknown_080DBA64
+    mPtr gUnknown_080DBA6C
 
     .global gUnknown_080DBAD8
 gUnknown_080DBAD8:
