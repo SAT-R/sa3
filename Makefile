@@ -69,9 +69,8 @@ endif
 SHELL     := /bin/bash -o pipefail
 SHA1 	  := $(shell { command -v sha1sum || command -v shasum; } 2>/dev/null) -c
 
-DEFAULT_CC1 := tools/agbcc/bin/agbcc$(EXE)
 ifeq ($(PLATFORM),gba)
-CC1       := $(DEFAULT_CC1)
+CC1       := tools/agbcc/bin/agbcc$(EXE)
 CC1_OLD   := tools/agbcc/bin/old_agbcc$(EXE)
 else
 CC1       := $(PREFIX)gcc$(EXE)
@@ -87,16 +86,13 @@ FORMAT    := clang-format-13
 
 ### TOOLS ###
 GFX 	  := tools/gbagfx/gbagfx$(EXE)
-EPOS 	  := tools/entity_positions/epos$(EXE)
+ENT_POS   := tools/entity_positions/entity_positions$(EXE)
 AIF		  := tools/aif2pcm/aif2pcm$(EXE)
 MID2AGB   := tools/mid2agb/mid2agb$(EXE)
 SCANINC   := tools/scaninc/scaninc$(EXE)
 PREPROC	  := tools/preproc/preproc$(EXE)
 RAMSCRGEN := tools/ramscrgen/ramscrgen$(EXE)
 FIX 	  := tools/gbafix/gbafix$(EXE)
-ifeq ($(CREATE_PDB),1)
-CV2PDB    := ./cv2pdb.exe
-endif
 
 TOOLDIRS := $(filter-out tools/agbcc/ tools/BriBaSA_ex/, $(dir $(wildcard tools/*/Makefile)))
 TOOLBASE = $(TOOLDIRS:tools/%=%)
@@ -207,6 +203,10 @@ FORMAT_H_PATHS   := $(shell find . -name "*.h" ! -path '*/build/*' ! -path '*/ex
 CPPFLAGS ?= $(INCLUDE_CPP_ARGS) -D $(GAME_REGION)
 CC1FLAGS ?= -Wimplicit -Wparentheses -Werror
 
+ifneq ($(GAME_VARIANT), DEFAULT)
+	CPPFLAGS += -D $(GAME_VARIANT)
+endif
+
 # These have to(?) be defined this way, because
 # the C-preprocessor cannot resolve stuff like:
 # #if (PLATFORM == gba), where PLATFORM is defined via -D.
@@ -214,6 +214,12 @@ ifeq ($(PLATFORM),gba)
 	INCLUDE_SCANINC_ARGS += -I tools/agbcc/include
 	CPPFLAGS += -D PLATFORM_GBA=1 -D PLATFORM_SDL=0 -D PLATFORM_WIN32=0 -D CPU_ARCH_X86=0 -D CPU_ARCH_ARM=1 -nostdinc -I tools/agbcc/include
 	CC1FLAGS += -fhex-asm
+
+ifeq ($(BUILD_NAME), sa1)
+    # It seems this bug was introduced to GCC after SA1 released.
+    PROLOGUE_FIX := -fprologue-bugfix
+endif # BUILD_NAME == sa1
+
 else
 	CC1FLAGS += -Wstrict-overflow=1
 	ifeq ($(PLATFORM),sdl)
@@ -238,10 +244,6 @@ endif
 ifeq ($(PLATFORM),gba)
   ASFLAGS  += -mcpu=arm7tdmi -mthumb-interwork
   CC1FLAGS += -mthumb-interwork
-  ifeq ($(THUMB_SUPPORT),1)
-    ASFLAGS  += -mthumb-interwork
-    CC1FLAGS += -mthumb-interwork
-  endif
 else
   ifeq ($(PLATFORM), sdl)
     # for modern we are using a modern compiler
@@ -264,6 +266,12 @@ ifeq ($(PORTABLE),1)
   CPPFLAGS += -D PORTABLE=1
 else
   CPPFLAGS += -D PORTABLE=0
+endif
+
+ifeq ($(TAS_TESTING),1)
+  CPPFLAGS += -D TAS_TESTING=1
+else
+  CPPFLAGS += -D TAS_TESTING=0
 endif
 
 ifeq ($(NON_MATCHING),1)
@@ -344,15 +352,6 @@ ifneq ($(NODEP),1)
 export MACOSX_DEPLOYMENT_TARGET := 11
 endif
 
-# TODO: Find a better way to limit this to SA1!
-ifeq ($(BUILD_NAME), sa1)
-ifeq ($(CC1), $(DEFAULT_CC1))
-    PROLOGUE_FIX := -fprologue-bugfix
-else
-    PROLOGUE_FIX :=
-endif
-endif
-
 ifeq ($(PLATFORM),gba)
 # Use the old compiler for m4a, as it was prebuilt and statically linked to the original codebase
 # PROLOGUE_FIX has to be set to nothing, since -fprologue-bugfix does not work with oldagbcc
@@ -383,10 +382,10 @@ tool_libs:
 
 clean: tidy clean-tools
 #	@$(MAKE) clean -C tools/BriBaSA_ex
-	@$(MAKE) clean -C chao_garden
-	@$(MAKE) clean -C multi_boot/subgame_bootstrap
-	@$(MAKE) clean -C multi_boot/programs/subgame_loader
-	@$(MAKE) clean -C multi_boot/collect_rings
+#	@$(MAKE) clean -C chao_garden
+#	@$(MAKE) clean -C multi_boot/subgame_bootstrap
+#	@$(MAKE) clean -C multi_boot/programs/subgame_loader
+#	@$(MAKE) clean -C multi_boot/collect_rings
 	@$(MAKE) clean -C libagbsyscall PLATFORM=$(PLATFORM) CPU_ARCH=$(CPU_ARCH)
 
 	$(RM) $(SAMPLE_SUBDIR)/*.bin $(MID_SUBDIR)/*.s
@@ -397,7 +396,7 @@ clean-tools:
 
 tidy:
 	$(RM) -r build/*
-	$(RM) SDL2.dll
+	#$(RM) SDL2.dll
 	$(RM) $(BUILD_NAME)*.exe $(BUILD_NAME)*.elf $(BUILD_NAME)*.map $(BUILD_NAME)*.sdl $(BUILD_NAME)*.gba
 
 japan: ; @$(MAKE) GAME_REGION=JAPAN
@@ -433,16 +432,16 @@ data/mb_chao_garden_japan.gba.lz: data/mb_chao_garden_japan.gba
 	$(GFX) $< $@ -search 1
 
 %interactables.bin: %interactables.csv
-	$(EPOS) $< $@ -entities INTERACTABLES -header "./include/constants/interactables.h"
+	$(ENT_POS) $< $@ -entities INTERACTABLES -header "./include/constants/interactables.h"
 
 %itemboxes.bin: %itemboxes.csv
-	$(EPOS) $< $@ -entities ITEMS -header "./include/constants/items.h"
+	$(ENT_POS) $< $@ -entities ITEMS -header "./include/constants/items.h"
 
 %enemies.bin: %enemies.csv
-	$(EPOS) $< $@ -entities ENEMIES -header "./include/constants/enemies.h"
+	$(ENT_POS) $< $@ -entities ENEMIES -header "./include/constants/enemies.h"
 
 %rings.bin: %rings.csv
-	$(EPOS) $< $@ -entities RINGS
+	$(ENT_POS) $< $@ -entities RINGS
 
 %.gba.lz: %.gba 
 	$(GFX) $< $@
@@ -454,7 +453,7 @@ data/mb_chao_garden_japan.gba.lz: data/mb_chao_garden_japan.gba
 
 %.bin: %.aif ; $(AIF) $< $@
 
-$(ELF): $(OBJS) $(LDSCRIPT) libagbsyscall
+$(ELF): $(OBJS) libagbsyscall
 ifeq ($(PLATFORM),gba)
 	@echo "$(LD) -T $(LDSCRIPT) $(MAP_FLAG) $(MAP) <objects> <lib> -o $@"
 	@$(CPP) -P $(CPPFLAGS) $(LDSCRIPT) > $(OBJ_DIR)/$(LDSCRIPT)
@@ -473,9 +472,6 @@ else ifeq ($(PLATFORM),sdl)
 	cp $< $@
 else
 	$(OBJCOPY) -O pei-x86-64 $< $@
-ifeq ($(CREATE_PDB),1)
-	$(CV2PDB) $@
-endif
 endif
 
 # Build c sources, and ensure alignment
@@ -509,7 +505,7 @@ $(DATA_ASM_BUILDDIR)/%.o: $(DATA_ASM_SUBDIR)/%.s
 
 # Scan the ASM data dependencies to determine if any .inc files have changed
 $(DATA_ASM_BUILDDIR)/%.d: $(DATA_ASM_SUBDIR)/%.s
-	$(SCANINC) -M $@ $(INCLUDE_SCANINC_ARGS) -I "" $<
+	$(SCANINC) -M $@ $(INCLUDE_SCANINC_ARGS) $<
     
 ifneq ($(NODEP),1)
 -include $(addprefix $(OBJ_DIR)/,$(C_SRCS:.c=.d))
@@ -598,6 +594,8 @@ check_format:
 
 
 ### DECOMP TOOLS ###
+
+CONTEXT_FLAGS := -DM2C -DPLATFORM_GBA=1 -DGEN_CTX=1 -Dsize_t=int -D "offsetof(TYPE, MEMBER)"="((size_t)&((TYPE *)0)->MEMBER)"
 
 ctx.c: $(C_HEADERS)
 	@for header in $(C_HEADERS); do echo "#include \"$$header\""; done > ctx.h

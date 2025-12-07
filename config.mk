@@ -53,6 +53,7 @@ endif
 # Default game variables
 GAME_REVISION ?= 0
 GAME_REGION   ?= EUROPE
+GAME_VARIANT  ?= DEFAULT
 DEBUG         ?= 0
 
 # For gbafix
