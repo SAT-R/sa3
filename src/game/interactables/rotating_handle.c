@@ -167,7 +167,7 @@ void Task_RotatingHandleInit(void)
 NONMATCH("asm/non_matching/game/interactables/rotating_handle__Task_80326D8.inc", void Task_80326D8(void))
 {
     s32 sp08 = 0;
-#ifdef NON_MATCHING
+#ifndef NON_MATCHING
     register RotatingHandle *handle asm("r7") = TASK_DATA(gCurTask);
     register Sprite *s asm("r8") = &handle->s;
 #else

@@ -310,10 +310,10 @@ void sub_8039D60(Sprite *s, u8 i, void *inTiles)
 
 void Task_8039DC0(void)
 {
-    void *sp14 = &gUnknown_08E2E280;
-    void *sp10 = &gUnknown_08E2E550;
-    void *sp0C = &gUnknown_08E2DEF4;
-    void *sp08 = &gUnknown_08E2E134;
+    const u8 *sp14 = &gUnknown_08E2E280[0];
+    const u8 *sp10 = &gUnknown_08E2E550[0];
+    const u8 *sp0C = &gUnknown_08E2DEF4[0];
+    const u8 *sp08 = &gUnknown_08E2E134[0];
     void *fixedTiles = (OBJ_VRAM0 + 0x2800);
     Capsule *cap;
     Sprite *s;

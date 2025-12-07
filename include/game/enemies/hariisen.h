@@ -26,13 +26,11 @@ typedef struct Hariisen {
 } Hariisen; /* 0xEC */
 
 typedef struct HariisenProj {
-    /* 0x00 */ u8 unk0[2];
-    /* 0x00 */ u8 unk2[2];
-    /* 0x04 */ u8 id;
-    /* 0x05 */ u8 meX;
+    /* 0x00 */ u8 unk0[HSEN_COUNT_A];
+    /* 0x00 */ u8 unk2[HSEN_COUNT_B];
     /* 0x06 */ u16 region[2];
     /* 0x10 */ u16 unkA;
-    /* 0x10 */ s32 unkC[2];
+    /* 0x10 */ s32 unkC[HSEN_COUNT_A];
     /* 0x14 */ s32 unk14[HSEN_COUNT_B];
     /* 0x24 */ Vec2_32 qPos;
     /* 0x2C */ Vec2_32 qUnk2C[HSEN_COUNT_A];

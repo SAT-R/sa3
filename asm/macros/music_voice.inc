@@ -21,7 +21,8 @@
 	.else
 	.byte 0
 	.endif
-	.4byte \sample_data_pointer
+mAlignWord
+	mPtr \sample_data_pointer
 	.byte \attack
 	.byte \decay
 	.byte \sustain
@@ -39,8 +40,10 @@
 	.macro _voice_square_1 type, sweep, duty_cycle, attack, decay, sustain, release
 	.byte \type, 60, 0
 	.byte \sweep
+mAlignWord
 	.byte (\duty_cycle & 0x3)
 	.byte 0, 0, 0
+mAlignWord
 	.byte (\attack  & 0x7)
 	.byte (\decay   & 0x7)
 	.byte (\sustain & 0xF)
@@ -57,8 +60,10 @@
 
 	.macro _voice_square_2 type, duty_cycle, attack, decay, sustain, release
 	.byte \type, 60, 0, 0
+mAlignWord
 	.byte (\duty_cycle & 0x3)
 	.byte 0, 0, 0
+mAlignWord
 	.byte (\attack  & 0x7)
 	.byte (\decay   & 0x7)
 	.byte (\sustain & 0xF)
@@ -75,7 +80,8 @@
 
 	.macro _voice_programmable_wave type, wave_samples_pointer, attack, decay, sustain, release
 	.byte \type, 60, 0, 0
-	.4byte \wave_samples_pointer
+mAlignWord
+	mPtr \wave_samples_pointer
 	.byte (\attack  & 0x7)
 	.byte (\decay   & 0x7)
 	.byte (\sustain & 0xF)
@@ -92,8 +98,10 @@
 
 	.macro _voice_noise type, unk1, unk2, unk3, period, attack, decay, sustain, release
 	.byte \type, \unk1, \unk2, \unk3
+mAlignWord
 	.byte (\period & 0x1)
 	.byte 0, 0, 0
+mAlignWord
 	.byte (\attack  & 0x7)
 	.byte (\decay   & 0x7)
 	.byte (\sustain & 0xF)
@@ -102,24 +110,14 @@
 
 	.macro voice_keysplit voice_group_pointer, keysplit_table_pointer
 	.byte 0x40, 0, 0, 0
-	.4byte \voice_group_pointer
-	.4byte \keysplit_table_pointer
+mAlignWord
+	mPtr \voice_group_pointer
+	mPtr \keysplit_table_pointer
 	.endm
 
 	.macro voice_keysplit_all voice_group_pointer
 	.byte 0x80, 0, 0, 0
-	.4byte \voice_group_pointer
-	.4byte 0
-	.endm
-
-	.macro cry sample
-	.byte 0x20, 60, 0, 0
-	.4byte \sample
-	.byte 0xff, 0, 0xff, 0
-	.endm
-
-	.macro cry2 sample
-	.byte 0x30, 60, 0, 0
-	.4byte \sample
-	.byte 0xff, 0, 0xff, 0
+mAlignWord
+	mPtr \voice_group_pointer
+	mPtr 0
 	.endm

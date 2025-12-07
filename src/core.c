@@ -947,7 +947,7 @@ bool32 ProcessVramGraphicsCopyQueue(void)
                 }
             }
         }
-#ifdef BUG_FIX
+#if (defined(BUG_FIX) && (ENGINE != ENGINE_3))
         // NOTE: Technically not necessary, but it's a bit cleaner this way.
         if (graphics->size == 0) {
             gVramGraphicsCopyQueue[gVramGraphicsCopyCursor] = NULL;

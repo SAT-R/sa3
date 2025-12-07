@@ -103,7 +103,7 @@ gUnknown_080CE7C8:
     @ NOTE: Should likely belong to player.c!
     .global gPlayerCharacterIdleAnims
 gPlayerCharacterIdleAnims:
-    .2byte 0x0000, 0x00A3, 0x0146, 0x01E9, 0x028C
+    .short 0x0000, 0x00A3, 0x0146, 0x01E9, 0x028C
 
     @ TODO: Maybe sCharStateAnimInfo ?
     .global gUnknown_080CE7E2
@@ -510,11 +510,11 @@ gTileInfoAnimals:
 
     .global sSwitchesPositions
 sSwitchesPositions:
-    .2byte 144, 62
-    .2byte 112, 96
-    .2byte 90, 128
-    .2byte 176, 96
-    .2byte 198, 128
+    .short 144, 62
+    .short 112, 96
+    .short 90, 128
+    .short 176, 96
+    .short 198, 128
 
     .global gUnknown_080CF864
 gUnknown_080CF864:
@@ -789,7 +789,7 @@ gUnknown_080D0132:
     
     .global gUnknown_080D0144
 gUnknown_080D0144:
-    .2byte 0x0040, 0x0020, 0x0020
+    .short 0x0040, 0x0020, 0x0020
 
     .align 2 , 0
     .global gUnknown_080D014C
@@ -1931,7 +1931,7 @@ sSongNames:
 
     .global gUnknown_080D8A84
 gUnknown_080D8A84:
-    .2byte 0x462 @ ANIM_ASCII
+    .short 0x462 @ ANIM_ASCII
     .byte  0x00, 0x00
     .4byte 0
 
@@ -2069,27 +2069,27 @@ gUnknown_080D8F95:
 
     .global gAnnouncerSelect1st
 gAnnouncerSelect1st:
-    .2byte 0x1F5 @ VOICE__ANNOUNCER__SONIC_LOW
-    .2byte 0x1F7 @ VOICE__ANNOUNCER__TAILS_LOW
-    .2byte 0x1F9 @ VOICE__ANNOUNCER__KNUCKLES_LOW
-    .2byte 0x1FD @ VOICE__ANNOUNCER__CREAM_LOW
-    .2byte 0x1FB @ VOICE__ANNOUNCER__AMY_LOW
+    .short 0x1F5 @ VOICE__ANNOUNCER__SONIC_LOW
+    .short 0x1F7 @ VOICE__ANNOUNCER__TAILS_LOW
+    .short 0x1F9 @ VOICE__ANNOUNCER__KNUCKLES_LOW
+    .short 0x1FD @ VOICE__ANNOUNCER__CREAM_LOW
+    .short 0x1FB @ VOICE__ANNOUNCER__AMY_LOW
 
     .global gAnnouncerSelect2nd
 gAnnouncerSelect2nd:
-    .2byte 0x1F6 @ VOICE__ANNOUNCER__SONIC_HIGH
-    .2byte 0x1F8 @ VOICE__ANNOUNCER__TAILS_HIGH
-    .2byte 0x1FA @ VOICE__ANNOUNCER__KNUCKLES_HIGH
-    .2byte 0x1FE @ VOICE__ANNOUNCER__CREAM_HIGH
-    .2byte 0x1FC @ VOICE__ANNOUNCER__AMY_HIGH
+    .short 0x1F6 @ VOICE__ANNOUNCER__SONIC_HIGH
+    .short 0x1F8 @ VOICE__ANNOUNCER__TAILS_HIGH
+    .short 0x1FA @ VOICE__ANNOUNCER__KNUCKLES_HIGH
+    .short 0x1FE @ VOICE__ANNOUNCER__CREAM_HIGH
+    .short 0x1FC @ VOICE__ANNOUNCER__AMY_HIGH
 
     .global gCharacterSelectedVoices
 gCharacterSelectedVoices:
-    .2byte 0x265 @ VOICE__SONIC__OKAY
-    .2byte 0x269 @ VOICE__TAILS__OKAY
-    .2byte 0x272 @ VOICE__KNUCKLES__LETS_GO
-    .2byte 0x278 @ VOICE__CREAM__HERE_WE_GO
-    .2byte 0x274 @ VOICE__AMY__WOOHOO
+    .short 0x265 @ VOICE__SONIC__OKAY
+    .short 0x269 @ VOICE__TAILS__OKAY
+    .short 0x272 @ VOICE__KNUCKLES__LETS_GO
+    .short 0x278 @ VOICE__CREAM__HERE_WE_GO
+    .short 0x274 @ VOICE__AMY__WOOHOO
 
     .global gUnknown_080D902C
 gUnknown_080D902C:

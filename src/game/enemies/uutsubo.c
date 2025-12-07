@@ -278,8 +278,14 @@ NONMATCH("asm/non_matching/game/enemies/uutsubo__sub_805D47C.inc", bool32 sub_80
     enemy->qBodyPositions[0].y = enemy->qPos.y;
 
     for (i = 0; i < 5 - 1; i++) {
+#ifndef NON_MATCHING
         register s32 var_r0 asm("r0");
         register s32 var_r1 asm("r1");
+#else
+        s32 var_r0;
+        s32 var_r1;
+#endif
+
         if (i == 0) {
             var_r3_2 = 14;
         } else {

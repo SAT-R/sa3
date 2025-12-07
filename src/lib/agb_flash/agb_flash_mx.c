@@ -122,9 +122,9 @@ u16 ProgramFlashSector_MX(u16 sectorNum, void *src)
         return 0x80FF;
 
     dest = FLASH_BASE + (sectorNum << gFlash->sector.shift);
-    copySource = (u16 *)(((u32)&sub_80C7430) & ~1);
+    copySource = (u16 *)(((uintptr_t)&sub_80C7430) & ~1);
     copyDest = readFlash1Buffer;
-    remainingToCopy = (u16)((u32)sub_80C7454 - (u32)sub_80C7430);
+    remainingToCopy = (u16)((uintptr_t)sub_80C7454 - (uintptr_t)sub_80C7430);
 
     while (remainingToCopy) {
         *copyDest++ = *copySource++;

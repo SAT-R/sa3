@@ -1,3 +1,4 @@
+#include <string.h>
 #include "global.h"
 #include "malloc_vram.h"
 #include "sprite.h"
