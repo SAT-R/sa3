@@ -828,8 +828,7 @@ void UpdateScreenCpuSet(void)
 }
 #endif
 
-#if 0
-static void VBlankIntr(void)
+void VBlankIntr(void)
 {
     u16 keys;
     DmaStop(0);
@@ -871,8 +870,11 @@ static void VBlankIntr(void)
             REG_IE = 0;
             REG_IME = 0;
             REG_DISPSTAT = DISPCNT_MODE_0;
+#if (ENGINE != ENGINE_3)
+            // TODO: Maybe BUG_FIX?
             m4aMPlayAllStop();
             m4aSoundVSyncOff();
+#endif
             gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
             DmaStop(0);
             DmaStop(1);
@@ -888,6 +890,7 @@ static void VBlankIntr(void)
     REG_IF = INTR_FLAG_VBLANK;
 }
 
+#if 0
 // TODO: Fix ProcessVramGraphicsCopyQueue so no need to cast
 struct GraphicsData_Hack {
     uintptr_t src;
