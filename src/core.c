@@ -717,8 +717,7 @@ void UpdateScreenDma(void)
     }
 }
 
-#if 0
-static void ClearOamBufferDma(void)
+void ClearOamBufferDma(void)
 {
     gNumHBlankCallbacks = 0;
 
@@ -752,6 +751,7 @@ static void ClearOamBufferDma(void)
     gFlags &= ~FLAGS_EXECUTE_VBLANK_CALLBACKS;
 }
 
+#if 0
 #ifndef COLLECT_RINGS_ROM
 static void UpdateScreenCpuSet(void)
 {
