@@ -382,7 +382,7 @@ tool_libs:
 	@$(MAKE) -C tools/_shared
 
 clean: tidy clean-tools
-	@$(MAKE) clean -C tools/BriBaSA_ex
+#	@$(MAKE) clean -C tools/BriBaSA_ex
 	@$(MAKE) clean -C chao_garden
 	@$(MAKE) clean -C multi_boot/subgame_bootstrap
 	@$(MAKE) clean -C multi_boot/programs/subgame_loader
@@ -571,8 +571,8 @@ collect_rings: tools
 libagbsyscall:
 	@$(MAKE) -C libagbsyscall MODERN=0 PLATFORM=$(PLATFORM) CPU_ARCH=$(CPU_ARCH)
 
-bribasa:
-	@$(MAKE) -C tools/BriBaSA_ex
+#bribasa:
+#	@$(MAKE) -C tools/BriBaSA_ex
 
 $(TOOLDIRS): tool_libs
 	@$(MAKE) -C $@
