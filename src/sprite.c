@@ -956,7 +956,7 @@ OamData *OamMalloc(u8 order)
     return result;
 }
 
-void CopyOamBufferToOam(void)
+void ProcessOamBuffers(void)
 {
     OamData *dstOam = &gOamBuffer[0];
     u8 i = 0;

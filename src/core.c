@@ -613,8 +613,7 @@ void EngineMainLoop(void)
     };
 }
 
-#if 0
-static void UpdateScreenDma(void)
+void UpdateScreenDma(void)
 {
     u8 i, j = 0;
     REG_DISPCNT = gDispCnt;
@@ -718,6 +717,7 @@ static void UpdateScreenDma(void)
     }
 }
 
+#if 0
 static void ClearOamBufferDma(void)
 {
     gNumHBlankCallbacks = 0;
