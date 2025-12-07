@@ -1,3 +1,5 @@
+.include "asm/macros/c_decl.inc"
+.include "asm/macros/portable.inc"
 .include "asm/macros/function.inc"
 .include "constants/gba_constants.inc"
 
@@ -17,13 +19,14 @@ gAnimations: @ 0x0833009C
 
     .global gSpriteTables
 gSpriteTables: @ 0x0833186C
-    .4byte gAnimations
-    .4byte gSpriteDimensions
-    .4byte gSpriteOamData
-    .4byte gSpritePalettes
-    .4byte gObjTiles_4bpp
-    .4byte gObjTiles_8bpp
-    .4byte gUnknown_08358528 @ NOTE: Ref. to gUnknown_08358528 is SA3-only
+    mPtr gAnimations
+    mPtr gSpriteDimensions
+    mPtr gSpriteOamData
+    mPtr gSpritePalettes
+    mPtr gObjTiles_4bpp
+    mPtr gObjTiles_8bpp
+    mPtr gUnknown_08358528 
+@; NOTE: Ref. to gUnknown_08358528 is SA3-only
 
 @ OAM-Data referenced by gSpriteOamData
     .global gUnknown_08331888

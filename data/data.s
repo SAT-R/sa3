@@ -166,30 +166,30 @@ gUnknown_080CEECC:
 
     .global gUnknown_080CEED8
 gUnknown_080CEED8:
-    .4byte gPayload_08E2F418
-    .4byte gPayload_08E31880
-    .4byte gPayload_08E31880
-    .4byte gPayload_08E33C30
-    .4byte gPayload_08E33C30
-    .4byte gUnknown_08E360A4
-    .4byte gUnknown_08E360A4
-    .4byte gPayload_08E38464
-    .4byte gPayload_08E38464
-    .4byte gPayload_08E3A7F0
-    .4byte gPayload_08E3A7F0
-    .4byte gUnknown_08E3CB98
+    mPtr gPayload_08E2F418
+    mPtr gPayload_08E31880
+    mPtr gPayload_08E31880
+    mPtr gPayload_08E33C30
+    mPtr gPayload_08E33C30
+    mPtr gUnknown_08E360A4
+    mPtr gUnknown_08E360A4
+    mPtr gPayload_08E38464
+    mPtr gPayload_08E38464
+    mPtr gPayload_08E3A7F0
+    mPtr gPayload_08E3A7F0
+    mPtr gUnknown_08E3CB98
 
     .global gUnknown_080CEF08
 gUnknown_080CEF08:
-    .4byte gUnknown_08E6DBE4
-    .4byte gUnknown_08E74E1C
-    .4byte gUnknown_08E66DB4
-    .4byte gUnknown_08E62B0C
-    .4byte NULL
-    .4byte gPayload_08E3CB9C
-    .4byte gUnknown_08E44B9C
-    .4byte gUnknown_08E4CB9C
-    .4byte gUnknown_08E54B9C
+    mPtr gUnknown_08E6DBE4
+    mPtr gUnknown_08E74E1C
+    mPtr gUnknown_08E66DB4
+    mPtr gUnknown_08E62B0C
+    mPtr NULL
+    mPtr gPayload_08E3CB9C
+    mPtr gUnknown_08E44B9C
+    mPtr gUnknown_08E4CB9C
+    mPtr gUnknown_08E54B9C
 
     .global gUnknown_080CEF2C
 gUnknown_080CEF2C:
@@ -205,40 +205,40 @@ gUnknown_080CEF58:
 
     .global gSpriteInits_Enemies
 gSpriteInits_Enemies: @ 0x080CF07C
-    .4byte CreateEntity_Spinner
-    .4byte CreateEntity_Akatento
-    .4byte CreateEntity_Aotento
-    .4byte CreateEntity_Condor
-    .4byte CreateEntity_GekoGeko
-    .4byte CreateEntity_Buzzer
-    .4byte CreateEntity_Minimole
-    .4byte CreateEntity_Ape_0
-    .4byte CreateEntity_Ape_1
-    .4byte CreateEntity_Takkon
-    .4byte CreateEntity_Jousun_Right
-    .4byte CreateEntity_Jousun_Left
-    .4byte CreateEntity_Uutsubo_0
-    .4byte CreateEntity_Uutsubo_1
-    .4byte CreateEntity_Uutsubo_2
-    .4byte CreateEntity_Uutsubo_3
-    .4byte CreateEntity_Guard
-    .4byte CreateEntity_Juggling
-    .4byte CreateEntity_GaoGao
-    .4byte CreateEntity_BuBu
-    .4byte CreateEntity_Ginpe
-    .4byte CreateEntity_Yadokk
-    .4byte CreateEntity_Yukigasen_Right
-    .4byte CreateEntity_Yukigasen_Left
-    .4byte CreateEntity_Yukigasen_Right_HighCooldown
-    .4byte CreateEntity_Yukigasen_Left_HighCooldown
-    .4byte CreateEntity_Hariisen
-    .4byte CreateEntity_Clam
-    .4byte CreateEntity_Kyacchaa
-    .4byte CreateEntity_Kamaki
-    .4byte CreateEntity_GuruGuru
-    .4byte CreateEntity_Marun
-    .4byte CreateEntity_Muukaden_0
-    .4byte CreateEntity_Muukaden_1
+    mPtr CreateEntity_Spinner
+    mPtr CreateEntity_Akatento
+    mPtr CreateEntity_Aotento
+    mPtr CreateEntity_Condor
+    mPtr CreateEntity_GekoGeko
+    mPtr CreateEntity_Buzzer
+    mPtr CreateEntity_Minimole
+    mPtr CreateEntity_Ape_0
+    mPtr CreateEntity_Ape_1
+    mPtr CreateEntity_Takkon
+    mPtr CreateEntity_Jousun_Right
+    mPtr CreateEntity_Jousun_Left
+    mPtr CreateEntity_Uutsubo_0
+    mPtr CreateEntity_Uutsubo_1
+    mPtr CreateEntity_Uutsubo_2
+    mPtr CreateEntity_Uutsubo_3
+    mPtr CreateEntity_Guard
+    mPtr CreateEntity_Juggling
+    mPtr CreateEntity_GaoGao
+    mPtr CreateEntity_BuBu
+    mPtr CreateEntity_Ginpe
+    mPtr CreateEntity_Yadokk
+    mPtr CreateEntity_Yukigasen_Right
+    mPtr CreateEntity_Yukigasen_Left
+    mPtr CreateEntity_Yukigasen_Right_HighCooldown
+    mPtr CreateEntity_Yukigasen_Left_HighCooldown
+    mPtr CreateEntity_Hariisen
+    mPtr CreateEntity_Clam
+    mPtr CreateEntity_Kyacchaa
+    mPtr CreateEntity_Kamaki
+    mPtr CreateEntity_GuruGuru
+    mPtr CreateEntity_Marun
+    mPtr CreateEntity_Muukaden_0
+    mPtr CreateEntity_Muukaden_1
 
     .global gUnknown_080CF104
 gUnknown_080CF104:
@@ -246,179 +246,179 @@ gUnknown_080CF104:
 
     .global gSpriteInits_Interactables
 gSpriteInits_Interactables:
-    .4byte CreateEntity_Toggle_PlayerLayer_Swap
-    .4byte CreateEntity_Toggle_PlayerLayer_Front
-    .4byte CreateEntity_Toggle_PlayerLayer_Back
-    .4byte CreateEntity_ZoneWarp        @ 003 - ActRing and ZoneWarp are 2 IAs
-    .4byte CreateEntity_Warp            @ 004
-    .4byte CreateEntity_Spring_Up
-    .4byte CreateEntity_Spring_Down
-    .4byte CreateEntity_Spring_Left
-    .4byte CreateEntity_Spring_Right
-    .4byte CreateEntity_Spring_UpLeft
-    .4byte CreateEntity_Spring_DownLeft
-    .4byte CreateEntity_Spring_UpRight
-    .4byte CreateEntity_Spring_DownRight
-    .4byte CreateEntity_Spring_Small_UpRight
-    .4byte CreateEntity_Spring_Small_UpLeft
-    .4byte CreateEntity_Interactable015
-    .4byte CreateEntity_Platform_0_0
-    .4byte CreateEntity_Platform_0_1
-    .4byte CreateEntity_Platform_0_2
-    .4byte CreateEntity_Platform_0_3
-    .4byte CreateEntity_Platform_1_0
-    .4byte CreateEntity_Platform_1_1
-    .4byte CreateEntity_Platform_1_2
-    .4byte CreateEntity_Platform_1_3
-    .4byte CreateEntity_Platform_2_0
-    .4byte CreateEntity_Platform_2_1
-    .4byte CreateEntity_Platform_2_2
-    .4byte CreateEntity_Platform_2_3
-    .4byte CreateEntity_BlueButton @ 028 - Same code as 071
-    .4byte CreateEntity_Spikes_Up               @ 029
-    .4byte CreateEntity_Spikes_Down             @ 030
-    .4byte CreateEntity_Spikes_Left             @ 031
-    .4byte CreateEntity_Spikes_Right            @ 032
-    .4byte CreateEntity_Spikes_HidingUp         @ 033
-    .4byte CreateEntity_Spikes_HidingDown       @ 034
-    .4byte CreateEntity_Booster_Default         @ 035
-    .4byte CreateEntity_Booster_TiltLeft_Small  @ 036
-    .4byte CreateEntity_Booster_TiltRight_Small @ 037
-    .4byte CreateEntity_Booster_TiltLeft_Big    @ 038
-    .4byte CreateEntity_Booster_TiltRight_Big   @ 039
-    .4byte CreateEntity_Booster_Wall            @ 040
-    .4byte CreateEntity_TrampolineA
-    .4byte CreateEntity_TrampolineB
-    .4byte CreateEntity_Ramp
-    .4byte CreateEntity_RotatingHandle
-    .4byte CreateEntity_Lift
-    .4byte CreateEntity_Interactable046
-    .4byte CreateEntity_Interactable047
-    .4byte CreateEntity_Interactable048
-    .4byte CreateEntity_Interactable049
-    .4byte CreateEntity_Interactable050
-    .4byte CreateEntity_Interactable051
-    .4byte CreateEntity_Interactable052
-    .4byte CreateEntity_Interactable053
-    .4byte CreateEntity_Checkpoint
-    .4byte CreateEntity_GoalRing
-    .4byte CreateEntity_BouncyBar
-    .4byte CreateEntity_BreakableWall
-    .4byte CreateEntity_DashRing0
-    .4byte CreateEntity_DashRing1
-    .4byte CreateEntity_Interactable060
-    .4byte CreateEntity_PlatformRaisingWheel
-    .4byte CreateEntity_PlatformRaisingWheelPlatform
-    .4byte CreateEntity_Seesaw
-    .4byte CreateEntity_DecoRock
-    .4byte CreateEntity_FlatSpring
-    .4byte CreateEntity_Omochao
-    .4byte CreateEntity_ButtonPlatformA
-    .4byte CreateEntity_ButtonPlatformB
-    .4byte CreateEntity_PlatformCrumblingA
-    .4byte CreateEntity_PlatformCrumblingB
-    .4byte CreateEntity_RedButton @ 071 - Same code as 028
-    .4byte CreateEntity_GrindRail0 @ 072 Grind Rail
-    .4byte CreateEntity_Interactable073
-    .4byte CreateEntity_Interactable074
-    .4byte CreateEntity_BonusCapsule
-    .4byte CreateEntity_Interactable073 @ 076 Grind Rail
-    .4byte CreateEntity_GrindRail1 @ 077 Grind Rail
-    .4byte CreateEntity_GrindRail2
-    .4byte CreateEntity_GrindRail3 @ 079 Grind Rail
-    .4byte CreateEntity_GrindRail4 @ 080 Grind Rail
-    .4byte CreateEntity_Interactable081
-    .4byte CreateEntity_Interactable082
-    .4byte CreateEntity_BonusGameUI
-    .4byte CreateEntity_SlowChaosLift
-    .4byte CreateEntity_Interactable085
-    .4byte CreateEntity_Interactable085 @ 086
-    .4byte CreateEntity_TriggerBossOrGoal
-    .4byte CreateEntity_AttachedPlatform
-    .4byte CreateEntity_WaterCannon
-    .4byte CreateEntity_Interactable090
-    .4byte CreateEntity_AccordionSpring
-    .4byte CreateEntity_BungeeCord
-    .4byte CreateEntity_Interactable093
-    .4byte CreateEntity_Pole
-    .4byte CreateEntity_WaterfallResist 
-    .4byte CreateEntity_ActRing         @ 096 - ActRing and ZoneWarp are 2 IAs
-    .4byte CreateEntity_SpecialSpring
-    .4byte CreateEntity_FactoryRing
-    .4byte CreateEntity_BonusUfo
-    .4byte CreateEntity_DeathCrusher
-    .4byte CreateEntity_PlatformOnAPath
-    .4byte CreateEntity_PlatformPropelled
-    .4byte CreateEntity_PlatformMaybeFalling
-    .4byte CreateEntity_Suction
-    .4byte CreateEntity_AirBubbles
-    .4byte CreateEntity_IceSpike
-    .4byte CreateEntity_PlatformSquare
-    .4byte CreateEntity_SunsetBridge
-    .4byte CreateEntity_PlatformSpiked
-    .4byte CreateEntity_SpringInABox
-    .4byte CreateEntity_Rocket
-    .4byte CreateEntity_FerrisWheel
-    .4byte CreateEntity_WindupBlock
-    .4byte CreateEntity_Minecart
-    .4byte CreateEntity_PandaCart
-    .4byte CreateEntity_Interactable116
-    .4byte CreateEntity_Interactable117
-    .4byte CreateEntity_Interactable118
-    .4byte CreateEntity_Interactable119
-    .4byte CreateEntity_Gondola         @ In Chaos Angel
-    .4byte CreateEntity_Boulder
-    .4byte CreateEntity_UfoPlatform
-    .4byte CreateEntity_ClosingWall
-    .4byte CreateEntity_IceLauncher
-    .4byte CreateEntity_Interactable125
-    .4byte CreateEntity_Interactable126
-    .4byte CreateEntity_Interactable127
-    .4byte CreateEntity_Interactable128
-    .4byte CreateEntity_Interactable129
-    .4byte CreateEntity_Interactable130
-    .4byte CreateEntity_Pendulum
-    .4byte CreateEntity_SpringPlatformA
-    .4byte CreateEntity_SpringPlatformB
-    .4byte CreateEntity_Interactable134
-    .4byte CreateEntity_Interactable135
-    .4byte CreateEntity_MazeEnter
-    .4byte CreateEntity_MazeCorner
-    .4byte CreateEntity_MazeExit
-    .4byte CreateEntity_PlatformChaosAngel
-    .4byte CreateEntity_ChaoInStage
-    .4byte CreateEntity_SpecialKey
-    .4byte CreateEntity_FinalZoneRing
-    .4byte CreateEntity_ChaoInPlayground
-    .4byte CreateEntity_EmeraldInPlayground
+    mPtr CreateEntity_Toggle_PlayerLayer_Swap
+    mPtr CreateEntity_Toggle_PlayerLayer_Front
+    mPtr CreateEntity_Toggle_PlayerLayer_Back
+    mPtr CreateEntity_ZoneWarp        @ 003 - ActRing and ZoneWarp are 2 IAs
+    mPtr CreateEntity_Warp            @ 004
+    mPtr CreateEntity_Spring_Up
+    mPtr CreateEntity_Spring_Down
+    mPtr CreateEntity_Spring_Left
+    mPtr CreateEntity_Spring_Right
+    mPtr CreateEntity_Spring_UpLeft
+    mPtr CreateEntity_Spring_DownLeft
+    mPtr CreateEntity_Spring_UpRight
+    mPtr CreateEntity_Spring_DownRight
+    mPtr CreateEntity_Spring_Small_UpRight
+    mPtr CreateEntity_Spring_Small_UpLeft
+    mPtr CreateEntity_Interactable015
+    mPtr CreateEntity_Platform_0_0
+    mPtr CreateEntity_Platform_0_1
+    mPtr CreateEntity_Platform_0_2
+    mPtr CreateEntity_Platform_0_3
+    mPtr CreateEntity_Platform_1_0
+    mPtr CreateEntity_Platform_1_1
+    mPtr CreateEntity_Platform_1_2
+    mPtr CreateEntity_Platform_1_3
+    mPtr CreateEntity_Platform_2_0
+    mPtr CreateEntity_Platform_2_1
+    mPtr CreateEntity_Platform_2_2
+    mPtr CreateEntity_Platform_2_3
+    mPtr CreateEntity_BlueButton @ 028 - Same code as 071
+    mPtr CreateEntity_Spikes_Up               @ 029
+    mPtr CreateEntity_Spikes_Down             @ 030
+    mPtr CreateEntity_Spikes_Left             @ 031
+    mPtr CreateEntity_Spikes_Right            @ 032
+    mPtr CreateEntity_Spikes_HidingUp         @ 033
+    mPtr CreateEntity_Spikes_HidingDown       @ 034
+    mPtr CreateEntity_Booster_Default         @ 035
+    mPtr CreateEntity_Booster_TiltLeft_Small  @ 036
+    mPtr CreateEntity_Booster_TiltRight_Small @ 037
+    mPtr CreateEntity_Booster_TiltLeft_Big    @ 038
+    mPtr CreateEntity_Booster_TiltRight_Big   @ 039
+    mPtr CreateEntity_Booster_Wall            @ 040
+    mPtr CreateEntity_TrampolineA
+    mPtr CreateEntity_TrampolineB
+    mPtr CreateEntity_Ramp
+    mPtr CreateEntity_RotatingHandle
+    mPtr CreateEntity_Lift
+    mPtr CreateEntity_Interactable046
+    mPtr CreateEntity_Interactable047
+    mPtr CreateEntity_Interactable048
+    mPtr CreateEntity_Interactable049
+    mPtr CreateEntity_Interactable050
+    mPtr CreateEntity_Interactable051
+    mPtr CreateEntity_Interactable052
+    mPtr CreateEntity_Interactable053
+    mPtr CreateEntity_Checkpoint
+    mPtr CreateEntity_GoalRing
+    mPtr CreateEntity_BouncyBar
+    mPtr CreateEntity_BreakableWall
+    mPtr CreateEntity_DashRing0
+    mPtr CreateEntity_DashRing1
+    mPtr CreateEntity_Interactable060
+    mPtr CreateEntity_PlatformRaisingWheel
+    mPtr CreateEntity_PlatformRaisingWheelPlatform
+    mPtr CreateEntity_Seesaw
+    mPtr CreateEntity_DecoRock
+    mPtr CreateEntity_FlatSpring
+    mPtr CreateEntity_Omochao
+    mPtr CreateEntity_ButtonPlatformA
+    mPtr CreateEntity_ButtonPlatformB
+    mPtr CreateEntity_PlatformCrumblingA
+    mPtr CreateEntity_PlatformCrumblingB
+    mPtr CreateEntity_RedButton @ 071 - Same code as 028
+    mPtr CreateEntity_GrindRail0 @ 072 Grind Rail
+    mPtr CreateEntity_Interactable073
+    mPtr CreateEntity_Interactable074
+    mPtr CreateEntity_BonusCapsule
+    mPtr CreateEntity_Interactable073 @ 076 Grind Rail
+    mPtr CreateEntity_GrindRail1 @ 077 Grind Rail
+    mPtr CreateEntity_GrindRail2
+    mPtr CreateEntity_GrindRail3 @ 079 Grind Rail
+    mPtr CreateEntity_GrindRail4 @ 080 Grind Rail
+    mPtr CreateEntity_Interactable081
+    mPtr CreateEntity_Interactable082
+    mPtr CreateEntity_BonusGameUI
+    mPtr CreateEntity_SlowChaosLift
+    mPtr CreateEntity_Interactable085
+    mPtr CreateEntity_Interactable085 @ 086
+    mPtr CreateEntity_TriggerBossOrGoal
+    mPtr CreateEntity_AttachedPlatform
+    mPtr CreateEntity_WaterCannon
+    mPtr CreateEntity_Interactable090
+    mPtr CreateEntity_AccordionSpring
+    mPtr CreateEntity_BungeeCord
+    mPtr CreateEntity_Interactable093
+    mPtr CreateEntity_Pole
+    mPtr CreateEntity_WaterfallResist 
+    mPtr CreateEntity_ActRing         @ 096 - ActRing and ZoneWarp are 2 IAs
+    mPtr CreateEntity_SpecialSpring
+    mPtr CreateEntity_FactoryRing
+    mPtr CreateEntity_BonusUfo
+    mPtr CreateEntity_DeathCrusher
+    mPtr CreateEntity_PlatformOnAPath
+    mPtr CreateEntity_PlatformPropelled
+    mPtr CreateEntity_PlatformMaybeFalling
+    mPtr CreateEntity_Suction
+    mPtr CreateEntity_AirBubbles
+    mPtr CreateEntity_IceSpike
+    mPtr CreateEntity_PlatformSquare
+    mPtr CreateEntity_SunsetBridge
+    mPtr CreateEntity_PlatformSpiked
+    mPtr CreateEntity_SpringInABox
+    mPtr CreateEntity_Rocket
+    mPtr CreateEntity_FerrisWheel
+    mPtr CreateEntity_WindupBlock
+    mPtr CreateEntity_Minecart
+    mPtr CreateEntity_PandaCart
+    mPtr CreateEntity_Interactable116
+    mPtr CreateEntity_Interactable117
+    mPtr CreateEntity_Interactable118
+    mPtr CreateEntity_Interactable119
+    mPtr CreateEntity_Gondola         @ In Chaos Angel
+    mPtr CreateEntity_Boulder
+    mPtr CreateEntity_UfoPlatform
+    mPtr CreateEntity_ClosingWall
+    mPtr CreateEntity_IceLauncher
+    mPtr CreateEntity_Interactable125
+    mPtr CreateEntity_Interactable126
+    mPtr CreateEntity_Interactable127
+    mPtr CreateEntity_Interactable128
+    mPtr CreateEntity_Interactable129
+    mPtr CreateEntity_Interactable130
+    mPtr CreateEntity_Pendulum
+    mPtr CreateEntity_SpringPlatformA
+    mPtr CreateEntity_SpringPlatformB
+    mPtr CreateEntity_Interactable134
+    mPtr CreateEntity_Interactable135
+    mPtr CreateEntity_MazeEnter
+    mPtr CreateEntity_MazeCorner
+    mPtr CreateEntity_MazeExit
+    mPtr CreateEntity_PlatformChaosAngel
+    mPtr CreateEntity_ChaoInStage
+    mPtr CreateEntity_SpecialKey
+    mPtr CreateEntity_FinalZoneRing
+    mPtr CreateEntity_ChaoInPlayground
+    mPtr CreateEntity_EmeraldInPlayground
 
     .global gSpriteInits_InteractablesMultiplayer
 gSpriteInits_InteractablesMultiplayer: @ 0x080CF354
-    .4byte CreateEntity_Toggle_PlayerLayer_Swap @ 000
-    .4byte CreateEntity_Toggle_PlayerLayer_Front @ 001
-    .4byte CreateEntity_Toggle_PlayerLayer_Back @ 002
-    .4byte CreateEntity_Interactable015 @ 003
-    .4byte CreateEntity_Spring_Up @ 004
-    .4byte CreateEntity_Spring_Left @ 005
-    .4byte CreateEntity_Spring_Right @ 006
-    .4byte CreateEntity_Spring_Small_UpRight @ 007
-    .4byte CreateEntity_Platform_0_0 @ 008
-    .4byte CreateEntity_Platform_0_3 @ 009
-    .4byte CreateEntity_Platform_1_0 @ 010
-    .4byte CreateEntity_Platform_1_3 @ 011
-    .4byte CreateEntity_Ramp @ 012
-    .4byte CreateEntity_Spikes_Up @ 013
-    .4byte CreateEntity_Booster_Default @ 014
-    .4byte CreateEntity_GrindRail0 @ 015
-    .4byte CreateEntity_Interactable073 @ 016
-    .4byte CreateEntity_Interactable074 @ 017
-    .4byte CreateEntity_Interactable073 @ 018
-    .4byte CreateEntity_GrindRail1 @ 019
-    .4byte CreateEntity_GrindRail2 @ 020
-    .4byte CreateEntity_GrindRail3 @ 021
-    .4byte CreateEntity_GrindRail4 @ 022
-    .4byte CreateEntity_MultiplayerItemBox @ 023
-    .4byte CreateEntity_MultiplayerChao @ 024
+    mPtr CreateEntity_Toggle_PlayerLayer_Swap @ 000
+    mPtr CreateEntity_Toggle_PlayerLayer_Front @ 001
+    mPtr CreateEntity_Toggle_PlayerLayer_Back @ 002
+    mPtr CreateEntity_Interactable015 @ 003
+    mPtr CreateEntity_Spring_Up @ 004
+    mPtr CreateEntity_Spring_Left @ 005
+    mPtr CreateEntity_Spring_Right @ 006
+    mPtr CreateEntity_Spring_Small_UpRight @ 007
+    mPtr CreateEntity_Platform_0_0 @ 008
+    mPtr CreateEntity_Platform_0_3 @ 009
+    mPtr CreateEntity_Platform_1_0 @ 010
+    mPtr CreateEntity_Platform_1_3 @ 011
+    mPtr CreateEntity_Ramp @ 012
+    mPtr CreateEntity_Spikes_Up @ 013
+    mPtr CreateEntity_Booster_Default @ 014
+    mPtr CreateEntity_GrindRail0 @ 015
+    mPtr CreateEntity_Interactable073 @ 016
+    mPtr CreateEntity_Interactable074 @ 017
+    mPtr CreateEntity_Interactable073 @ 018
+    mPtr CreateEntity_GrindRail1 @ 019
+    mPtr CreateEntity_GrindRail2 @ 020
+    mPtr CreateEntity_GrindRail3 @ 021
+    mPtr CreateEntity_GrindRail4 @ 022
+    mPtr CreateEntity_MultiplayerItemBox @ 023
+    mPtr CreateEntity_MultiplayerChao @ 024
 
     .global gUnknown_080CF3B8
 gUnknown_080CF3B8:
@@ -570,24 +570,42 @@ sBonusLifeIconVariants:
 
     .global gUnknown_080CFA58
 gUnknown_080CFA58:
-    .4byte CreateGmerl1, -1, 0x1D40, 0, 0xC60
-    .4byte CreateGmerl1, -1, 0x1FE0, 0, 0xB40
-    .4byte CreateGmerl1, -1, 0x32A0, 0, 0x660
-    .4byte CreateGmerl1, -1, 0x0960, -1, -1
-    .4byte CreateBoss_8068B3C, -1, 0x0960, -1, -1
-    .4byte CreateBoss_806A90C, -1, -1, -1, -1
-    .4byte CreateBoss_806D1A0, -1, -1, -1, -1
-    .4byte CreateBoss_806EADC, -1, 0x8A0, -1, -1
-    .4byte CreateBoss_8071A08, -1, 0x7E0, -1, -1
-    .4byte CreateBoss_8073640, -1, 0x9C0, 0, 0x1E0
-    .4byte CreateBoss_8074E88, -1, 0x6C0, -1, -1
-    .4byte CreateBoss_80581C8, -1, -1, -1, -1
-    .4byte NULL, 0, 0, 0, 0
-    .4byte NULL, 0, 0, 0, 0
-    .4byte NULL, 0, 0, 0, 0
-    .4byte NULL, 0, 0, 0, 0
-    .4byte NULL, 0, 0, 0, 0
-    .4byte CreateGoalRing, -1, -1, -1, -1
+    mPtr CreateGmerl1
+    .word -1, 0x1D40, 0, 0xC60
+    mPtr CreateGmerl1
+    .word -1, 0x1FE0, 0, 0xB40
+    mPtr CreateGmerl1
+    .word -1, 0x32A0, 0, 0x660
+    mPtr CreateGmerl1
+    .word -1, 0x0960, -1, -1
+    mPtr CreateBoss_8068B3C
+    .word -1, 0x0960, -1, -1
+    mPtr CreateBoss_806A90C
+    .word -1, -1, -1, -1
+    mPtr CreateBoss_806D1A0
+    .word -1, -1, -1, -1
+    mPtr CreateBoss_806EADC
+    .word -1, 0x8A0, -1, -1
+    mPtr CreateBoss_8071A08
+    .word -1, 0x7E0, -1, -1
+    mPtr CreateBoss_8073640
+    .word -1, 0x9C0, 0, 0x1E0
+    mPtr CreateBoss_8074E88
+    .word -1, 0x6C0, -1, -1
+    mPtr CreateBoss_80581C8
+    .word -1, -1, -1, -1
+    mPtr NULL
+    .word 0, 0, 0, 0
+    mPtr NULL
+    .word 0, 0, 0, 0
+    mPtr NULL
+    .word 0, 0, 0, 0
+    mPtr NULL
+    .word 0, 0, 0, 0
+    mPtr NULL
+    .word 0, 0, 0, 0
+    mPtr CreateGoalRing
+    .word -1, -1, -1, -1
 
     .global sUfoActs
 sUfoActs:
@@ -1935,7 +1953,7 @@ sSongNames:
 gUnknown_080D8A84:
     .short 0x462 @ ANIM_ASCII
     .byte  0x00, 0x00
-    .4byte 0
+    mPtr 0
 
     .global gUnknown_080D8A8C
 gUnknown_080D8A8C:
@@ -2265,11 +2283,11 @@ gUnknown_080D953C:
 
     .global gUnknown_080D9564
 gUnknown_080D9564:
-    .4byte gUnknown_080D9474
-    .4byte gUnknown_080D94A4
-    .4byte gUnknown_080D94E4
-    .4byte gUnknown_080D950C
-    .4byte gUnknown_080D953C
+    mPtr gUnknown_080D9474
+    mPtr gUnknown_080D94A4
+    mPtr gUnknown_080D94E4
+    mPtr gUnknown_080D950C
+    mPtr gUnknown_080D953C
 
     .global gUnknown_080D9578
 gUnknown_080D9578:

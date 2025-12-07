@@ -1,3 +1,5 @@
+.include "asm/macros/c_decl.inc"
+.include "asm/macros/portable.inc"
 .include "asm/macros/function.inc"
 .include "constants/gba_constants.inc"
 .include "constants/misc_constants.inc"
@@ -11,12 +13,12 @@
 
     .global gUnknown_08E2EAB8
 gUnknown_08E2EAB8:
-    .4byte gUnknown_08E7BC8C
-    .4byte gUnknown_08E7BE90
-    .4byte gUnknown_08E7C22C
-    .4byte gUnknown_08E7C6F0
-    .4byte gUnknown_08E7CC44
-    .4byte gUnknown_08E7CE78
+    mPtr gUnknown_08E7BC8C
+    mPtr gUnknown_08E7BE90
+    mPtr gUnknown_08E7C22C
+    mPtr gUnknown_08E7C6F0
+    mPtr gUnknown_08E7CC44
+    mPtr gUnknown_08E7CE78
 
     .global gUnknown_08E2EAD0
 gUnknown_08E2EAD0:
@@ -24,7 +26,7 @@ gUnknown_08E2EAD0:
 
     .global gUnknown_08E2EAF4
 gUnknown_08E2EAF4:
-    .4byte 1326, 1324, 1325, 67
+    .word 1326, 1324, 1325, 67
 
     .global gUnknown_08E2EB04
 gUnknown_08E2EB04:
@@ -36,170 +38,170 @@ gUnknown_08E2EB18:
     
     .global gUnknown_08E2EB9C
 gUnknown_08E2EB9C:
-    .4byte gUnknown_080CFBD4
-    .4byte gUnknown_080CFBF8
+    mPtr gUnknown_080CFBD4
+    mPtr gUnknown_080CFBF8
     
     .global gUnknown_08E2EBA4
 gUnknown_08E2EBA4:
-    .4byte gUnknown_080CFC0A
-    .4byte gUnknown_080CFC2E
+    mPtr gUnknown_080CFC0A
+    mPtr gUnknown_080CFC2E
 
     .global gUnknown_08E2EBAC
 gUnknown_08E2EBAC:
-    .4byte gUnknown_080CFC40
-    .4byte gUnknown_080CFC70
-    .4byte gUnknown_080CFC8E
-    .4byte gUnknown_080CFCB2
-    .4byte gUnknown_080CFCD0
-    .4byte gUnknown_080CFCE8
-    .4byte gUnknown_080CFD06
-    .4byte gUnknown_080CFD42
-    .4byte gUnknown_080CFD60
-    .4byte gUnknown_080CFD78
+    mPtr gUnknown_080CFC40
+    mPtr gUnknown_080CFC70
+    mPtr gUnknown_080CFC8E
+    mPtr gUnknown_080CFCB2
+    mPtr gUnknown_080CFCD0
+    mPtr gUnknown_080CFCE8
+    mPtr gUnknown_080CFD06
+    mPtr gUnknown_080CFD42
+    mPtr gUnknown_080CFD60
+    mPtr gUnknown_080CFD78
 
     .global gUnknown_08E2EBD4
 gUnknown_08E2EBD4:
-    .4byte gUnknown_080CFDBA
-    .4byte gUnknown_080CFDDE
+    mPtr gUnknown_080CFDBA
+    mPtr gUnknown_080CFDDE
 
     .global gUnknown_08E2EBDC
 gUnknown_08E2EBDC:
-    .4byte gUnknown_080CFDF0
-    .4byte gUnknown_080CFE14
+    mPtr gUnknown_080CFDF0
+    mPtr gUnknown_080CFE14
 
     .global gUnknown_08E2EBE4
 gUnknown_08E2EBE4:
-    .4byte gUnknown_080CFE26
-    .4byte gUnknown_080CFE44
-    .4byte gUnknown_080CFE56
-    .4byte gUnknown_080CFE6E
-    .4byte gUnknown_080CFE8C
-    .4byte gUnknown_080CFEAA
-    .4byte gUnknown_080CFEC8
-    .4byte gUnknown_080CFEEC
-    .4byte gUnknown_080CFF0A
-    .4byte gUnknown_080CFF22
-    .4byte gUnknown_080CFF46
-    .4byte gUnknown_080CFF5E
-    .4byte gUnknown_080CFF7C
-    .4byte gUnknown_080CFF8E
-    .4byte gUnknown_080CFFAC
-    .4byte gUnknown_080CFFC4
-    .4byte gUnknown_080CFFD6
-    .4byte gUnknown_080CFFF4
-    .4byte gUnknown_080D0006
-    .4byte gUnknown_080D0018
-    .4byte gUnknown_080D002A
-    .4byte gUnknown_080D0054
-    .4byte gUnknown_080D0072
-    .4byte gUnknown_080D008A
-    .4byte gUnknown_080D00B4
-    .4byte gUnknown_080D00CC
-    .4byte gUnknown_080D00DE
-    .4byte gUnknown_080D00FC
+    mPtr gUnknown_080CFE26
+    mPtr gUnknown_080CFE44
+    mPtr gUnknown_080CFE56
+    mPtr gUnknown_080CFE6E
+    mPtr gUnknown_080CFE8C
+    mPtr gUnknown_080CFEAA
+    mPtr gUnknown_080CFEC8
+    mPtr gUnknown_080CFEEC
+    mPtr gUnknown_080CFF0A
+    mPtr gUnknown_080CFF22
+    mPtr gUnknown_080CFF46
+    mPtr gUnknown_080CFF5E
+    mPtr gUnknown_080CFF7C
+    mPtr gUnknown_080CFF8E
+    mPtr gUnknown_080CFFAC
+    mPtr gUnknown_080CFFC4
+    mPtr gUnknown_080CFFD6
+    mPtr gUnknown_080CFFF4
+    mPtr gUnknown_080D0006
+    mPtr gUnknown_080D0018
+    mPtr gUnknown_080D002A
+    mPtr gUnknown_080D0054
+    mPtr gUnknown_080D0072
+    mPtr gUnknown_080D008A
+    mPtr gUnknown_080D00B4
+    mPtr gUnknown_080D00CC
+    mPtr gUnknown_080D00DE
+    mPtr gUnknown_080D00FC
 
     .global gUnknown_08E2EC54
 gUnknown_08E2EC54:
-    .4byte gUnknown_080D010E
-    .4byte gUnknown_080D0132
+    mPtr gUnknown_080D010E
+    mPtr gUnknown_080D0132
 
     .global sPlatformPathTable
 sPlatformPathTable:
-    .4byte gUnknown_08E2EB9C
-    .4byte gUnknown_08E2EBA4
-    .4byte gUnknown_08E2EBAC
-    .4byte gUnknown_08E2EBD4
-    .4byte gUnknown_08E2EBDC
-    .4byte gUnknown_08E2EBE4
-    .4byte gUnknown_08E2EC54
+    mPtr gUnknown_08E2EB9C
+    mPtr gUnknown_08E2EBA4
+    mPtr gUnknown_08E2EBAC
+    mPtr gUnknown_08E2EBD4
+    mPtr gUnknown_08E2EBDC
+    mPtr gUnknown_08E2EBE4
+    mPtr gUnknown_08E2EC54
 
     .global gUnknown_08E2EC78
 gUnknown_08E2EC78:
-    .4byte gUnknown_080D1B64
-    .4byte gUnknown_080D1B70
-    .4byte gUnknown_080D1B7C
-    .4byte gUnknown_080D1B88
-    .4byte gUnknown_080D1B94
-    .4byte gUnknown_080D1BA0
-    .4byte gUnknown_080D1BAC
-    .4byte gUnknown_080D1BB8
+    mPtr gUnknown_080D1B64
+    mPtr gUnknown_080D1B70
+    mPtr gUnknown_080D1B7C
+    mPtr gUnknown_080D1B88
+    mPtr gUnknown_080D1B94
+    mPtr gUnknown_080D1BA0
+    mPtr gUnknown_080D1BAC
+    mPtr gUnknown_080D1BB8
 
     .global gUnknown_08E2EC98
 gUnknown_08E2EC98:
-    .4byte gUnknown_080D22C8
-    .4byte gUnknown_080D23E8
-    .4byte gUnknown_080D2834
-    .4byte gUnknown_080D2D44
-    .4byte gUnknown_080D2F88
-    .4byte gUnknown_080D3804
-    .4byte gUnknown_080D3DD8
-    .4byte NULL
-    .4byte gUnknown_080D50F8
-    .4byte NULL
-    .4byte NULL
-    .4byte gUnknown_080D51A0
-    .4byte NULL
-    .4byte NULL
-    .4byte NULL
-    .4byte NULL
-    .4byte NULL
-    .4byte NULL
-    .4byte NULL
-    .4byte NULL
-    .4byte gUnknown_080D523C
-    .4byte NULL
-    .4byte NULL
-    .4byte NULL
-    .4byte NULL
-    .4byte NULL
+    mPtr gUnknown_080D22C8
+    mPtr gUnknown_080D23E8
+    mPtr gUnknown_080D2834
+    mPtr gUnknown_080D2D44
+    mPtr gUnknown_080D2F88
+    mPtr gUnknown_080D3804
+    mPtr gUnknown_080D3DD8
+    mPtr NULL
+    mPtr gUnknown_080D50F8
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_080D51A0
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_080D523C
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
 
     .global gUnknown_08E2ED00
 gUnknown_08E2ED00:
-    .4byte sub_807C670
-    .4byte sub_807C728
-    .4byte sub_807C8AC
-    .4byte sub_807C9C0
-    .4byte sub_807CA38
-    .4byte sub_807CB78
+    mPtr sub_807C670
+    mPtr sub_807C728
+    mPtr sub_807C8AC
+    mPtr sub_807C9C0
+    mPtr sub_807CA38
+    mPtr sub_807CB78
 
     .global gUnknown_08E2ED18
 gUnknown_08E2ED18:
-    .4byte sub_8081B18
-    .4byte sub_807DCD8
-    .4byte sub_807DE20
-    .4byte sub_807E214
-    .4byte sub_807E54C
-    .4byte sub_807E99C
-    .4byte NULL
-    .4byte NULL
-    .4byte NULL
-    .4byte NULL
-    .4byte sub_807EBB8
-    .4byte sub_807ECFC
+    mPtr sub_8081B18
+    mPtr sub_807DCD8
+    mPtr sub_807DE20
+    mPtr sub_807E214
+    mPtr sub_807E54C
+    mPtr sub_807E99C
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr sub_807EBB8
+    mPtr sub_807ECFC
 
     .global gUnknown_08E2ED48
 gUnknown_08E2ED48:
-    .4byte sub_807FEB4
-    .4byte sub_808007C
+    mPtr sub_807FEB4
+    mPtr sub_808007C
 
     .global gUnknown_08E2ED50
 gUnknown_08E2ED50:
-    .4byte sub_80870B0
-    .4byte sub_8083BE4
-    .4byte sub_8083F8C
-    .4byte sub_808439C
-    .4byte sub_808491C
-    .4byte sub_8084B2C
-    .4byte sub_8084C50
-    .4byte sub_8084BEC
-    .4byte -1
-    .4byte -1
-    .4byte -1
-    .4byte -1
-    .4byte -1
-    .4byte -1
-    .4byte -1
-    .4byte -1
+    mPtr sub_80870B0
+    mPtr sub_8083BE4
+    mPtr sub_8083F8C
+    mPtr sub_808439C
+    mPtr sub_808491C
+    mPtr sub_8084B2C
+    mPtr sub_8084C50
+    mPtr sub_8084BEC
+    mPtr -1
+    mPtr -1
+    mPtr -1
+    mPtr -1
+    mPtr -1
+    mPtr -1
+    mPtr -1
+    mPtr -1
     .incbin "baserom_sa3.gba", 0x00E2ED90, 0xC0
 
     .global gUnknown_08E2EE50
@@ -212,56 +214,56 @@ gUnknown_08E2EEF0:
 
     .global gUnknown_08E2EF10
 gUnknown_08E2EF10:
-    .4byte gUnknown_080D9578
-    .4byte gUnknown_080D95D8
-    .4byte gUnknown_080D9598
-    .4byte gUnknown_080D95B8
-    .4byte gUnknown_080D95F8
-    .4byte gUnknown_080DBB98
-    .4byte gUnknown_080DBC18
-    .4byte gUnknown_080DBBD8
-    .4byte gUnknown_080DBC58
-    .4byte gUnknown_080DBB78
-    .4byte gUnknown_080DBBF8
-    .4byte gUnknown_080DBBB8
-    .4byte gUnknown_080DBC38
+    mPtr gUnknown_080D9578
+    mPtr gUnknown_080D95D8
+    mPtr gUnknown_080D9598
+    mPtr gUnknown_080D95B8
+    mPtr gUnknown_080D95F8
+    mPtr gUnknown_080DBB98
+    mPtr gUnknown_080DBC18
+    mPtr gUnknown_080DBBD8
+    mPtr gUnknown_080DBC58
+    mPtr gUnknown_080DBB78
+    mPtr gUnknown_080DBBF8
+    mPtr gUnknown_080DBBB8
+    mPtr gUnknown_080DBC38
 
     .global gUnknown_08E2EF44
 gUnknown_08E2EF44:
-    .4byte gUnknown_080DBCB2
-    .4byte gUnknown_080DBCB5
-    .4byte gUnknown_080DBCB7
-    .4byte gUnknown_080DBCB9
+    mPtr gUnknown_080DBCB2
+    mPtr gUnknown_080DBCB5
+    mPtr gUnknown_080DBCB7
+    mPtr gUnknown_080DBCB9
 
     .global gUnknown_08E2EF54
 gUnknown_08E2EF54:
-    .4byte gUnknown_080DBAB4
-    .4byte gUnknown_080DBAC0
-    .4byte gUnknown_080DBAD0
-    .4byte gUnknown_080DBAC8
+    mPtr gUnknown_080DBAB4
+    mPtr gUnknown_080DBAC0
+    mPtr gUnknown_080DBAD0
+    mPtr gUnknown_080DBAC8
 
     .global gUnknown_08E2EF64
 gUnknown_08E2EF64:
-    .4byte gPalette_080DBD90
-    .4byte gPalette_080DBDD0
-    .4byte gPalette_080DBE10
-    .4byte gUnknown_080DBFE8
-    .4byte gUnknown_080DBFE8
-    .4byte gUnknown_080DBFE8
-    .4byte gUnknown_080DBFE8
-    .4byte gUnknown_080DBFE8
-    .4byte gUnknown_080DBFE8
-    .4byte gUnknown_080DBFE8
+    mPtr gPalette_080DBD90
+    mPtr gPalette_080DBDD0
+    mPtr gPalette_080DBE10
+    mPtr gUnknown_080DBFE8
+    mPtr gUnknown_080DBFE8
+    mPtr gUnknown_080DBFE8
+    mPtr gUnknown_080DBFE8
+    mPtr gUnknown_080DBFE8
+    mPtr gUnknown_080DBFE8
+    mPtr gUnknown_080DBFE8
 
     .global gUnknown_08E2EF8C
 gUnknown_08E2EF8C:
-    .4byte gUnknown_080DC4B4
-    .4byte gUnknown_080DD164
-    .4byte gUnknown_080DDEF4
-    .4byte gUnknown_080DEDD4
-    .4byte gUnknown_080DFC64
-    .4byte gUnknown_080E0D94
-    .4byte gUnknown_080E1E04
+    mPtr gUnknown_080DC4B4
+    mPtr gUnknown_080DD164
+    mPtr gUnknown_080DDEF4
+    mPtr gUnknown_080DEDD4
+    mPtr gUnknown_080DFC64
+    mPtr gUnknown_080E0D94
+    mPtr gUnknown_080E1E04
 
     .global gUnknown_08E2EFA8
 gUnknown_08E2EFA8:
@@ -272,7 +274,8 @@ gUnknown_08E2EFA8:
 
     .global gUnknown_08E2F410
 gUnknown_08E2F410:
-    .4byte nullsub_80B7AAC, sub_80B75E4
+    mPtr nullsub_80B7AAC
+    mPtr sub_80B75E4
 
     .global gPayload_08E2F418
 gPayload_08E2F418:
@@ -392,9 +395,9 @@ gUnknown_08E7E678:
 
     .global gUnknown_08E7EA78
 gUnknown_08E7EA78:
-    .4byte gUnknown_08E7D278
-    .4byte gUnknown_08E7D678
-    .4byte gUnknown_08E7DA78
-    .4byte gUnknown_08E7DE78
-    .4byte gUnknown_08E7E278
-    .4byte gUnknown_08E7E678
+    mPtr gUnknown_08E7D278
+    mPtr gUnknown_08E7D678
+    mPtr gUnknown_08E7DA78
+    mPtr gUnknown_08E7DE78
+    mPtr gUnknown_08E7E278
+    mPtr gUnknown_08E7E678
