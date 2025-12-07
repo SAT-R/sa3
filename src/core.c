@@ -264,11 +264,11 @@ void EngineInit(void)
     if ((REG_RCNT & 0xC000) != 0x8000) {
         gFlags = FLAGS_200;
 
-#if (ENGINE == ENGINE_3)
+#if (ENGINE != ENGINE_3)
+        DmaCopy16(3, (void *)OBJ_VRAM0, EWRAM_START + 0x3B000, 0x5000);
+#else
         DmaCopy16(3, (void *)BG_SCREEN_ADDR(24), gUnknown_02035000, sizeof(gUnknown_02035000));
         DmaWait(3);
-#else
-        DmaCopy16(3, (void *)OBJ_VRAM0, EWRAM_START + 0x3B000, 0x5000);
 #endif
     }
 #endif
@@ -278,10 +278,10 @@ void EngineInit(void)
     if (gInput == (START_BUTTON | SELECT_BUTTON | B_BUTTON | A_BUTTON)) {
         gFlags |= FLAGS_SKIP_INTRO;
     } else {
-#if (ENGINE == ENGINE_3)
-        gFlags = 0;
-#else
+#if (ENGINE != ENGINE_3)
         gFlags &= ~FLAGS_SKIP_INTRO;
+#else
+        gFlags = 0;
 #endif
     }
 
@@ -302,20 +302,20 @@ void EngineInit(void)
     DmaWait(3);
 #endif
 
-#if (ENGINE == ENGINE_3)
-    sLastCalledVblankFuncId = VBLANK_FUNC_ID_NONE;
-
-    gBackgroundsCopyQueueIndex = gBackgroundsCopyQueueCursor = 0;
-    gBgSpritesCount = 0;
-    gVramGraphicsCopyCursor = 0;
-    gVramGraphicsCopyQueueIndex = gVramGraphicsCopyCursor = 0;
-#else
+#if (ENGINE != ENGINE_3)
     sLastCalledVblankFuncId = VBLANK_FUNC_ID_NONE;
     gBackgroundsCopyQueueCursor = 0;
     gBackgroundsCopyQueueIndex = 0;
     gBgSpritesCount = 0;
     gVramGraphicsCopyCursor = 0;
     gVramGraphicsCopyQueueIndex = 0;
+#else
+    sLastCalledVblankFuncId = VBLANK_FUNC_ID_NONE;
+
+    gBackgroundsCopyQueueIndex = gBackgroundsCopyQueueCursor = 0;
+    gBgSpritesCount = 0;
+    gVramGraphicsCopyCursor = 0;
+    gVramGraphicsCopyQueueIndex = gVramGraphicsCopyCursor = 0;
 #endif
     DmaFill32(3, 0, gBgSprites_Unknown2, sizeof(gBgSprites_Unknown2));
 #if (ENGINE == ENGINE_3)
@@ -509,14 +509,14 @@ void EngineInit(void)
     INTR_VECTOR = IntrMain;
 #endif
 
-#if (ENGINE == ENGINE_3)
+#if (ENGINE != ENGINE_3)
+    REG_IME = INTR_FLAG_VBLANK;
     REG_IE = INTR_FLAG_VBLANK;
     REG_DISPSTAT = DISPSTAT_HBLANK_INTR | DISPSTAT_VBLANK_INTR;
-    REG_IME = INTR_FLAG_VBLANK;
 #else
-    REG_IME = INTR_FLAG_VBLANK;
     REG_IE = INTR_FLAG_VBLANK;
     REG_DISPSTAT = DISPSTAT_HBLANK_INTR | DISPSTAT_VBLANK_INTR;
+    REG_IME = INTR_FLAG_VBLANK;
 #endif
 
     // Setup multi sio
@@ -548,13 +548,13 @@ void EngineMainLoop(void)
 #endif
     {
         gExecSoundMain = FALSE;
-#if (ENGINE == ENGINE_3)
-        if (gFlags & FLAGS_40000) {
-            sub_80BCB84();
-        }
-#else
+#if (ENGINE != ENGINE_3)
         if (!(gFlags & FLAGS_4000)) {
             m4aSoundMain();
+        }
+#else
+        if (gFlags & FLAGS_40000) {
+            sub_80BCB84();
         }
 #endif
 
@@ -890,7 +890,6 @@ void VBlankIntr(void)
     REG_IF = INTR_FLAG_VBLANK;
 }
 
-#if 0
 // TODO: Fix ProcessVramGraphicsCopyQueue so no need to cast
 struct GraphicsData_Hack {
     uintptr_t src;
@@ -900,7 +899,7 @@ struct GraphicsData_Hack {
 
 #define COPY_CHUNK_SIZE 1024
 
-static bool32 ProcessVramGraphicsCopyQueue(void)
+bool32 ProcessVramGraphicsCopyQueue(void)
 {
     u32 offset;
 #ifndef NON_MATCHING
@@ -910,7 +909,11 @@ static bool32 ProcessVramGraphicsCopyQueue(void)
 #endif
 
     while (gVramGraphicsCopyCursor != gVramGraphicsCopyQueueIndex) {
+#if (ENGINE != ENGINE_3)
         graphics = (void *)gVramGraphicsCopyQueue[gVramGraphicsCopyCursor];
+#else
+        graphics = (void *)&gVramGraphicsCopyQueue[gVramGraphicsCopyCursor];
+#endif
 
         if (graphics->size != 0) {
             for (offset = 0; graphics->size > 0; offset += COPY_CHUNK_SIZE) {
@@ -1014,6 +1017,7 @@ void GetInput(void)
     }
 }
 
+#if 0
 static void HBlankIntr(void)
 {
     u8 i;
