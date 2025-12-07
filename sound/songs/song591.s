@@ -1,10 +1,12 @@
-	.include "MPlayDef.s"
+	.include "asm/macros/c_decl.inc"
+	.include "asm/macros/portable.inc"
+	.include "sound/MPlayDef.s"
 
-	.section .rodata
+	mSectionRodata
 
 	@********************** Track  1 **********************@
 
-	.align 2
+	mAlignWord
 	.global song591_1
 song591_1:	@ 0x082B1B40
 	.byte	KEYSH	, 0
@@ -57,15 +59,16 @@ song591_1:	@ 0x082B1B40
 	.byte	W01
 	.byte		c_v+24
 	.byte	FINE
-
-	.align 2
+    
+	mAlignWord
 	.global song591
 song591:	@ 0x082B1B84
 	.byte	1		@ trackCount
 	.byte	0		@ blockCount
 	.byte	25		@ priority
 	.byte	128		@ reverb
-
+    
+	mAlignWord
 	.word	voicegroup003		@ voicegroup/tone
 
 	.word	song591_1		@ track
