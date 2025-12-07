@@ -168,28 +168,28 @@ const u8 *gInputPlaybackData = NULL;
 bool8 gExecSoundMain ALIGNED(4) = FALSE;
 s32 gPseudoRandom = 0;
 
-void UpdateScreenDma(void);
-void UpdateScreenCpuSet(void);
-void ClearOamBufferCpuSet(void);
-void ClearOamBufferDma(void);
+static void UpdateScreenDma(void);
+static void UpdateScreenCpuSet(void);
+static void ClearOamBufferCpuSet(void);
+static void ClearOamBufferDma(void);
 void GetInput(void);
 bool32 ProcessVramGraphicsCopyQueue(void);
 
-void VBlankIntr(void);
-void HBlankIntr(void);
-void VCountIntr(void);
-void Timer0Intr(void);
-void Timer1Intr(void);
-void Timer2Intr(void);
-void Dma0Intr(void);
-void Dma1Intr(void);
-void Dma2Intr(void);
+static void VBlankIntr(void);
+static void HBlankIntr(void);
+static void VCountIntr(void);
+static void Timer0Intr(void);
+static void Timer1Intr(void);
+static void Timer2Intr(void);
+static void Dma0Intr(void);
+static void Dma1Intr(void);
+static void Dma2Intr(void);
 #if (GAME == GAME_SA3)
 void sub_80C66DC(void);
 #endif
-void Dma3Intr(void);
-void KeypadIntr(void);
-void GamepakIntr(void);
+static void Dma3Intr(void);
+static void KeypadIntr(void);
+static void GamepakIntr(void);
 
 extern void IntrMain(void);
 
@@ -1017,7 +1017,43 @@ void GetInput(void)
     }
 }
 
-#if 0
+#if (ENGINE == ENGINE_3)
+void sub_80BCB84(void)
+{
+    volatile u16 sp0;
+    volatile u16 sp2;
+    volatile u32 sp4;
+    volatile u16 sp8;
+
+    m4aMPlayAllStop();
+    m4aSoundVSyncOff();
+    sp4 = gFlagsPreVBlank;
+    gFlagsPreVBlank |= 0x8000;
+    sp0 = REG_DISPCNT;
+    sp8 = REG_DISPSTAT;
+    REG_DISPCNT = 0x80U;
+    REG_KEYCNT = 0x8304;
+    REG_IME = 0;
+    REG_DISPSTAT = 0;
+    sp2 = REG_IE;
+    REG_IE = 0x1000;
+    REG_IE |= 0x2000;
+    REG_IME = 1;
+    SoundBiasReset();
+    Stop();
+    SoundBiasSet();
+    REG_IME = 0;
+    REG_IE = sp2;
+    REG_IME = 1;
+    REG_DISPSTAT = sp8;
+    VBlankIntrWait();
+    REG_DISPCNT = sp0;
+    gFlagsPreVBlank = sp4;
+    gFlags &= ~FLAGS_40000;
+    m4aSoundVSyncOn();
+}
+#endif // (ENGINE == ENGINE_3)
+
 static void HBlankIntr(void)
 {
     u8 i;
@@ -1033,28 +1069,21 @@ static void HBlankIntr(void)
 }
 
 static void VCountIntr(void) { REG_IF = INTR_FLAG_VCOUNT; }
-
 static void Dma0Intr(void) { REG_IF = INTR_FLAG_DMA0; }
-
 static void Dma1Intr(void) { REG_IF = INTR_FLAG_DMA1; }
-
 static void Dma2Intr(void) { REG_IF = INTR_FLAG_DMA2; }
-
 static void Dma3Intr(void) { REG_IF = INTR_FLAG_DMA3; }
-
 static void Timer0Intr(void) { REG_IF = INTR_FLAG_TIMER0; }
-
 static void Timer1Intr(void) { REG_IF = INTR_FLAG_TIMER1; }
-
 static void Timer2Intr(void) { REG_IF = INTR_FLAG_TIMER2; }
-
+#if (ENGINE == ENGINE_3)
+static void Timer3Intr(void) { REG_IF = INTR_FLAG_TIMER3; }
+#endif
 static void KeypadIntr(void) { REG_IF = INTR_FLAG_KEYPAD; }
-
 static void GamepakIntr(void) { REG_IF = INTR_FLAG_GAMEPAK; }
+static void DummyFunc(void) { }
 
-void DummyFunc(void) { }
-
-#if (GAME == GAME_SA1)
+#if ((GAME == GAME_SA1) || (GAME == GAME_SA3))
 static void ClearOamBufferCpuSet(void)
 {
     gNumHBlankCallbacks = 0;
@@ -1097,5 +1126,3 @@ static void ClearOamBufferCpuSet(void)
 }
 #endif
 #endif
-
-#endif // temp

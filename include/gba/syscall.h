@@ -54,4 +54,11 @@ void SoundBiasReset(void);
 
 void SoundBiasSet(void);
 
+#if PLATFORM_GBA
+// Turn hardware into very low power mode.
+#define Stop() asm("svc #3");
+#else
+void Stop(void);
+#endif
+
 #endif // GUARD_GBA_SYSCALL_H
