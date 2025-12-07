@@ -30,6 +30,6 @@ song220:	@ 0x082AFE64
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup002		@ voicegroup/tone
+	mPtr	voicegroup002		@ voicegroup/tone
 
-	.word	song220_1		@ track
+	mPtr	song220_1		@ track

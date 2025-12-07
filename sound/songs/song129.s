@@ -26,6 +26,6 @@ song129:	@ 0x082AF698
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup001		@ voicegroup/tone
+	mPtr	voicegroup001		@ voicegroup/tone
 
-	.word	song129_1		@ track
+	mPtr	song129_1		@ track

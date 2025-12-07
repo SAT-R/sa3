@@ -34,6 +34,6 @@ song139:	@ 0x082AF7B4
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup000		@ voicegroup/tone
+	mPtr	voicegroup000		@ voicegroup/tone
 
-	.word	song139_1		@ track
+	mPtr	song139_1		@ track

@@ -34,6 +34,6 @@ song106:	@ 0x082AF074
 	.byte	128		@ reverb
 
 	mAlignWord
-	.word	voicegroup000		@ voicegroup/tone
+	mPtr	voicegroup000		@ voicegroup/tone
 
-	.word	song106_1		@ track
+	mPtr	song106_1		@ track

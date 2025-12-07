@@ -266,9 +266,9 @@ song084:	@ 0x082ACA14
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup011		@ voicegroup/tone
+	mPtr	voicegroup011		@ voicegroup/tone
 
-	.word	song084_1		@ track
-	.word	song084_2		@ track
-	.word	song084_3		@ track
-	.word	song084_4		@ track
+	mPtr	song084_1		@ track
+	mPtr	song084_2		@ track
+	mPtr	song084_3		@ track
+	mPtr	song084_4		@ track

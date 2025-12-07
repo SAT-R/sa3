@@ -68,7 +68,7 @@ song609_1_1:
 	.byte			En4, v100
 	.byte	W05
 	.byte	GOTO	
-		.word	song609_1_1
+		mPtr	song609_1_1
 	.byte	FINE
     
 	mAlignWord
@@ -80,6 +80,6 @@ song609:	@ 0x082B1F88
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song609_1		@ track
+	mPtr	song609_1		@ track

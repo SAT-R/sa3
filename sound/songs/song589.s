@@ -33,6 +33,6 @@ song589:	@ 0x082B1B10
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song589_1		@ track
+	mPtr	song589_1		@ track

@@ -135,7 +135,7 @@ song532_1_1:
 	.byte	W24
 	.byte	W72
 	.byte	GOTO	
-		.word	song532_1_1
+		mPtr	song532_1_1
 	.byte	W23
 	.byte		EOT	, Fs3
 	.byte	W01
@@ -150,6 +150,6 @@ song532:	@ 0x082B0DAC
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song532_1		@ track
+	mPtr	song532_1		@ track

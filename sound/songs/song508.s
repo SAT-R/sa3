@@ -27,6 +27,6 @@ song508:	@ 0x082B07B4
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup004		@ voicegroup/tone
+	mPtr	voicegroup004		@ voicegroup/tone
 
-	.word	song508_1		@ track
+	mPtr	song508_1		@ track

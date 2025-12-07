@@ -35,7 +35,7 @@ song222_1_1:
 	.byte	W72
 	.byte	W24
 	.byte	GOTO	
-		.word	song222_1_1
+		mPtr	song222_1_1
 	.byte	W64
 	.byte	W01
 	.byte		EOT	, An3
@@ -51,6 +51,6 @@ song222:	@ 0x082AFF44
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup002		@ voicegroup/tone
+	mPtr	voicegroup002		@ voicegroup/tone
 
-	.word	song222_1		@ track
+	mPtr	song222_1		@ track

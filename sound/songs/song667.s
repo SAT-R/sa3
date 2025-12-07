@@ -25,7 +25,7 @@ song667_1_1:
 	.byte	W92
 	.byte	W03
 	.byte	GOTO	
-		.word	song667_1_1
+		mPtr	song667_1_1
 	.byte	FINE
 
 	@********************** Track  2 **********************@
@@ -51,7 +51,7 @@ song667_2_1:
 	.byte		N68	, En5, v060
 	.byte	W92
 	.byte	GOTO	
-		.word	song667_2_1
+		mPtr	song667_2_1
 	.byte	FINE
     
 	mAlignWord
@@ -63,7 +63,7 @@ song667:	@ 0x082B2438
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song667_1		@ track
-	.word	song667_2		@ track
+	mPtr	song667_1		@ track
+	mPtr	song667_2		@ track

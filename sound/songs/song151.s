@@ -33,6 +33,6 @@ song151:	@ 0x082AFA08
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup000		@ voicegroup/tone
+	mPtr	voicegroup000		@ voicegroup/tone
 
-	.word	song151_1		@ track
+	mPtr	song151_1		@ track

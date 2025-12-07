@@ -62,7 +62,7 @@ song665:	@ 0x082B2338
 	.byte	128		@ reverb
 
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song665_1		@ track
-	.word	song665_2		@ track
+	mPtr	song665_1		@ track
+	mPtr	song665_2		@ track

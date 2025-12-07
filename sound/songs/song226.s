@@ -109,6 +109,6 @@ song226:	@ 0x082B0070
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup002		@ voicegroup/tone
+	mPtr	voicegroup002		@ voicegroup/tone
 
-	.word	song226_1		@ track
+	mPtr	song226_1		@ track

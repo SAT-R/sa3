@@ -28,6 +28,6 @@ song507:	@ 0x082B0798
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup004		@ voicegroup/tone
+	mPtr	voicegroup004		@ voicegroup/tone
 
-	.word	song507_1		@ track
+	mPtr	song507_1		@ track

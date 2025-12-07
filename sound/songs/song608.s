@@ -72,6 +72,6 @@ song608:	@ 0x082B1F18
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song608_1		@ track
+	mPtr	song608_1		@ track

@@ -146,6 +146,6 @@ song125:	@ 0x082AF580
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup001		@ voicegroup/tone
+	mPtr	voicegroup001		@ voicegroup/tone
 
-	.word	song125_1		@ track
+	mPtr	song125_1		@ track

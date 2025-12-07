@@ -60,7 +60,7 @@ song610_1_1:
 	.byte		c_v-23
 	.byte	W01
 	.byte	GOTO	
-		.word	song610_1_1
+		mPtr	song610_1_1
 	.byte	BEND	, c_v-29
 	.byte	W19
 	.byte	FINE
@@ -74,6 +74,6 @@ song610:	@ 0x082B1FDC
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song610_1		@ track
+	mPtr	song610_1		@ track

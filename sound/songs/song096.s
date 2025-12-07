@@ -717,14 +717,14 @@ song096:	@ 0x082AEA10
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup023		@ voicegroup/tone
+	mPtr	voicegroup023		@ voicegroup/tone
 
-	.word	song096_1		@ track
-	.word	song096_2		@ track
-	.word	song096_3		@ track
-	.word	song096_4		@ track
-	.word	song096_5		@ track
-	.word	song096_6		@ track
-	.word	song096_7		@ track
-	.word	song096_8		@ track
-	.word	song096_9		@ track
+	mPtr	song096_1		@ track
+	mPtr	song096_2		@ track
+	mPtr	song096_3		@ track
+	mPtr	song096_4		@ track
+	mPtr	song096_5		@ track
+	mPtr	song096_6		@ track
+	mPtr	song096_7		@ track
+	mPtr	song096_8		@ track
+	mPtr	song096_9		@ track

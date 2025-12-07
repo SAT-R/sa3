@@ -62,6 +62,6 @@ song673:	@ 0x082B25C8
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song673_1		@ track
+	mPtr	song673_1		@ track

@@ -30,6 +30,6 @@ song588:	@ 0x082B1AE8
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song588_1		@ track
+	mPtr	song588_1		@ track

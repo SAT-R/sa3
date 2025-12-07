@@ -555,11 +555,11 @@ song091:	@ 0x082AE2A8
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup022		@ voicegroup/tone
+	mPtr	voicegroup022		@ voicegroup/tone
 
-	.word	song091_1		@ track
-	.word	song091_2		@ track
-	.word	song091_3		@ track
-	.word	song091_4		@ track
-	.word	song091_5		@ track
-	.word	song091_6		@ track
+	mPtr	song091_1		@ track
+	mPtr	song091_2		@ track
+	mPtr	song091_3		@ track
+	mPtr	song091_4		@ track
+	mPtr	song091_5		@ track
+	mPtr	song091_6		@ track

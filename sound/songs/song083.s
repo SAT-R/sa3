@@ -234,9 +234,9 @@ song083:	@ 0x082AC8B4
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup019		@ voicegroup/tone
+	mPtr	voicegroup019		@ voicegroup/tone
 
-	.word	song083_1		@ track
-	.word	song083_2		@ track
-	.word	song083_3		@ track
-	.word	song083_4		@ track
+	mPtr	song083_1		@ track
+	mPtr	song083_2		@ track
+	mPtr	song083_3		@ track
+	mPtr	song083_4		@ track

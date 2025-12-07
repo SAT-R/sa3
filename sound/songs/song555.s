@@ -53,7 +53,7 @@ song555:	@ 0x082B1314
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song555_1		@ track
-	.word	song555_2		@ track
+	mPtr	song555_1		@ track
+	mPtr	song555_2		@ track

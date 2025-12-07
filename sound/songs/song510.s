@@ -27,6 +27,6 @@ song510:	@ 0x082B07EC
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup004		@ voicegroup/tone
+	mPtr	voicegroup004		@ voicegroup/tone
 
-	.word	song510_1		@ track
+	mPtr	song510_1		@ track

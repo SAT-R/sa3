@@ -44,7 +44,7 @@ song557_1_1:
 	.byte			Dn2, v068
 	.byte	W07
 	.byte	GOTO	
-		.word	song557_1_1
+		mPtr	song557_1_1
 	.byte	FINE
     
 	mAlignWord
@@ -56,6 +56,6 @@ song557:	@ 0x082B13AC
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song557_1		@ track
+	mPtr	song557_1		@ track

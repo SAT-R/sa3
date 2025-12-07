@@ -35,6 +35,6 @@ song521:	@ 0x082B0A40
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song521_1		@ track
+	mPtr	song521_1		@ track

@@ -117,10 +117,10 @@ song666:	@ 0x082B23D4
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song666_1		@ track
-	.word	song666_2		@ track
-	.word	song666_3		@ track
-	.word	song666_4		@ track
-	.word	song666_5		@ track
+	mPtr	song666_1		@ track
+	mPtr	song666_2		@ track
+	mPtr	song666_3		@ track
+	mPtr	song666_4		@ track
+	mPtr	song666_5		@ track

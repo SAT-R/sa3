@@ -85,7 +85,7 @@ song138:	@ 0x082AF788
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup000		@ voicegroup/tone
+	mPtr	voicegroup000		@ voicegroup/tone
 
-	.word	song138_1		@ track
-	.word	song138_2		@ track
+	mPtr	song138_1		@ track
+	mPtr	song138_2		@ track

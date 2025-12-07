@@ -27,6 +27,6 @@ song636:	@ 0x082B22B0
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup004		@ voicegroup/tone
+	mPtr	voicegroup004		@ voicegroup/tone
 
-	.word	song636_1		@ track
+	mPtr	song636_1		@ track

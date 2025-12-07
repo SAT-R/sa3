@@ -25,7 +25,7 @@ song547_1_1:
 	.byte	W24
 	.byte	W72
 	.byte	GOTO	
-		.word	song547_1_1
+		mPtr	song547_1_1
 	.byte	W23
 	.byte		EOT	, Dn3
 	.byte	W01
@@ -40,6 +40,6 @@ song547:	@ 0x082B1164
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song547_1		@ track
+	mPtr	song547_1		@ track

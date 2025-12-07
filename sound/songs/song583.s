@@ -24,7 +24,7 @@ song583_1_1:
 	.byte	W44
 	.byte	W03
 	.byte	GOTO	
-		.word	song583_1_1
+		mPtr	song583_1_1
 	.byte	W01
 	.byte	W01
 	.byte		EOT	, Gs5
@@ -39,6 +39,6 @@ song583:	@ 0x082B1A24
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song583_1		@ track
+	mPtr	song583_1		@ track

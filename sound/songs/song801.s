@@ -77,29 +77,29 @@ song801_1_1:
 	.byte	W24
 	.byte	PEND
 	.byte	PATT	
-		.word	song801_1_1
+		mPtr	song801_1_1
 	.byte	PATT	
-		.word	song801_1_1
+		mPtr	song801_1_1
 	.byte	PATT	
-		.word	song801_1_1
+		mPtr	song801_1_1
 	.byte	PATT	
-		.word	song801_1_1
+		mPtr	song801_1_1
 	.byte	PATT	
-		.word	song801_1_1
+		mPtr	song801_1_1
 	.byte	PATT	
-		.word	song801_1_1
+		mPtr	song801_1_1
 	.byte	PATT	
-		.word	song801_1_1
+		mPtr	song801_1_1
 	.byte	PATT	
-		.word	song801_1_1
+		mPtr	song801_1_1
 	.byte	PATT	
-		.word	song801_1_1
+		mPtr	song801_1_1
 	.byte	PATT	
-		.word	song801_1_1
+		mPtr	song801_1_1
 	.byte	PATT	
-		.word	song801_1_1
+		mPtr	song801_1_1
 	.byte	PATT	
-		.word	song801_1_1
+		mPtr	song801_1_1
 	.byte		N23	, Ds1, v076
 	.byte		N14	, Ds2, v124
 	.byte	W15
@@ -196,7 +196,7 @@ song801_1_1:
 	.byte		N23	, En2, v124
 	.byte	W24
 	.byte	GOTO	
-		.word	song801_1_2
+		mPtr	song801_1_2
 	.byte		N23	, Ds1, v076
 	.byte		N14	, Ds2, v124
 	.byte	W15
@@ -268,7 +268,7 @@ song801_2_4:
 	.byte		N20	
 	.byte	W08
 	.byte	PATT	
-		.word	song801_2_1
+		mPtr	song801_2_1
 song801_2_2:
 	.byte		N11	, Ds3, v127
 	.byte	W16
@@ -288,27 +288,27 @@ song801_2_2:
 	.byte	W08
 	.byte	PEND
 	.byte	PATT	
-		.word	song801_2_1
+		mPtr	song801_2_1
 	.byte	PATT	
-		.word	song801_2_2
+		mPtr	song801_2_2
 	.byte	PATT	
-		.word	song801_2_1
+		mPtr	song801_2_1
 	.byte	PATT	
-		.word	song801_2_2
+		mPtr	song801_2_2
 	.byte	PATT	
-		.word	song801_2_1
+		mPtr	song801_2_1
 	.byte	PATT	
-		.word	song801_2_2
+		mPtr	song801_2_2
 	.byte	PATT	
-		.word	song801_2_1
+		mPtr	song801_2_1
 	.byte	PATT	
-		.word	song801_2_2
+		mPtr	song801_2_2
 	.byte	PATT	
-		.word	song801_2_1
+		mPtr	song801_2_1
 	.byte	PATT	
-		.word	song801_2_2
+		mPtr	song801_2_2
 	.byte	PATT	
-		.word	song801_2_1
+		mPtr	song801_2_1
 	.byte		N11	, Ds3, v127
 	.byte	W16
 	.byte		N07	, Ds2
@@ -378,9 +378,9 @@ song801_2_2:
 	.byte		N07	
 	.byte	W08
 	.byte	PATT	
-		.word	song801_2_3
+		mPtr	song801_2_3
 	.byte	GOTO	
-		.word	song801_2_4
+		mPtr	song801_2_4
 	.byte		N10	, Ds2, v127
 	.byte	W16
 	.byte		N07	, Ds3
@@ -507,7 +507,7 @@ song801_3_1:
 	.byte		EOT	
 	.byte	W01
 	.byte	GOTO	
-		.word	song801_3_1
+		mPtr	song801_3_1
 	.byte	FINE
 
 	@********************** Track  4 **********************@
@@ -579,7 +579,7 @@ song801_4_1:
 	.byte	W96
 	.byte	W48
 	.byte	GOTO	
-		.word	song801_4_1
+		mPtr	song801_4_1
 	.byte	FINE
 
 	@********************** Track  5 **********************@
@@ -681,7 +681,7 @@ song801_5_1:
 	.byte		EOT	
 	.byte	W01
 	.byte	GOTO	
-		.word	song801_5_1
+		mPtr	song801_5_1
 	.byte	FINE
 
 	@********************** Track  6 **********************@
@@ -817,7 +817,7 @@ song801_6_1:
 	.byte	W96
 	.byte	W48
 	.byte	GOTO	
-		.word	song801_6_1
+		mPtr	song801_6_1
 	.byte	FINE
 
 	@********************** Track  7 **********************@
@@ -935,7 +935,7 @@ song801_7_3:
 	.byte	W08
 	.byte	PEND
 	.byte	PATT	
-		.word	song801_7_1
+		mPtr	song801_7_1
 song801_7_4:
 	.byte		N08	, As4, v088
 	.byte	W08
@@ -963,25 +963,25 @@ song801_7_4:
 	.byte	W08
 	.byte	PEND
 	.byte	PATT	
-		.word	song801_7_2
+		mPtr	song801_7_2
 	.byte	PATT	
-		.word	song801_7_3
+		mPtr	song801_7_3
 	.byte	PATT	
-		.word	song801_7_1
+		mPtr	song801_7_1
 	.byte	PATT	
-		.word	song801_7_4
+		mPtr	song801_7_4
 	.byte	PATT	
-		.word	song801_7_2
+		mPtr	song801_7_2
 	.byte	PATT	
-		.word	song801_7_3
+		mPtr	song801_7_3
 	.byte	PATT	
-		.word	song801_7_1
+		mPtr	song801_7_1
 	.byte	PATT	
-		.word	song801_7_4
+		mPtr	song801_7_4
 	.byte	PATT	
-		.word	song801_7_2
+		mPtr	song801_7_2
 	.byte	PATT	
-		.word	song801_7_3
+		mPtr	song801_7_3
 	.byte		N06	, As2, v092
 	.byte	W06
 	.byte			Cs3, v084
@@ -1111,11 +1111,11 @@ song801_7_4:
 	.byte			Cs3, v096
 	.byte	W06
 	.byte	PATT	
-		.word	song801_7_1
+		mPtr	song801_7_1
 	.byte	PATT	
-		.word	song801_7_5
+		mPtr	song801_7_5
 	.byte	GOTO	
-		.word	song801_7_6
+		mPtr	song801_7_6
 	.byte		N08	, Ds4, v060
 	.byte	W08
 	.byte			As3, v056
@@ -1139,12 +1139,12 @@ song801:	@ 0x082B2C98
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup025		@ voicegroup/tone
+	mPtr	voicegroup025		@ voicegroup/tone
 
-	.word	song801_1		@ track
-	.word	song801_2		@ track
-	.word	song801_3		@ track
-	.word	song801_4		@ track
-	.word	song801_5		@ track
-	.word	song801_6		@ track
-	.word	song801_7		@ track
+	mPtr	song801_1		@ track
+	mPtr	song801_2		@ track
+	mPtr	song801_3		@ track
+	mPtr	song801_4		@ track
+	mPtr	song801_5		@ track
+	mPtr	song801_6		@ track
+	mPtr	song801_7		@ track

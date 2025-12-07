@@ -1,3 +1,5 @@
+.include "asm/macros/c_decl.inc"
+.include "asm/macros/portable.inc"
 .include "asm/macros/function.inc"
 .include "constants/gba_constants.inc"
 .include "constants/misc_constants.inc"
@@ -791,7 +793,7 @@ gUnknown_080D0132:
 gUnknown_080D0144:
     .short 0x0040, 0x0020, 0x0020
 
-    .align 2 , 0
+    mAlignWord
     .global gUnknown_080D014C
 gUnknown_080D014C:
     .incbin "baserom_sa3.gba", 0x000D014C, 0x1C0
@@ -1725,12 +1727,12 @@ gUnknown_080D6F0C:
     .global gStringSelectStage
 gStringSelectStage:
     .ascii "SELECT STAGE\0"
-    .align 2, 0
+    mAlignWord
 
     .global gStringZoneNActN
 gStringZoneNActN:
     .ascii "ZONE %d  ACT %d\0"
-    .align 2, 0
+    mAlignWord
 
     .global gStringPressABtn
 gStringPressABtn:
@@ -1739,7 +1741,7 @@ gStringPressABtn:
     .global gStringPleaseWait
 gStringPleaseWait:
     .ascii "PLEASE WAIT\0"
-    .align 2, 0
+    mAlignWord
 
     .global gUnknown_080D6F5C
 gUnknown_080D6F5C:
@@ -2177,33 +2179,33 @@ gUnknown_080D93AC:
 
     .global gUnknown_080D93D4
 gUnknown_080D93D4:
-    .word gUnknown_080D902C
-    .word gUnknown_080D9164
-    .word gUnknown_080D907C
-    .word gUnknown_080D90FC
-    .word gUnknown_080D91CC
-    .word gUnknown_080D924C
+    mPtr gUnknown_080D902C
+    mPtr gUnknown_080D9164
+    mPtr gUnknown_080D907C
+    mPtr gUnknown_080D90FC
+    mPtr gUnknown_080D91CC
+    mPtr gUnknown_080D924C
 
     .global gUnknown_080D93EC
 gUnknown_080D93EC:
-    .word gUnknown_080D9054
-    .word gUnknown_080D91AC
-    .word gUnknown_080D90C4
-    .word gUnknown_080D9134
-    .word gUnknown_080D921C
-    .word gUnknown_080D9264
+    mPtr gUnknown_080D9054
+    mPtr gUnknown_080D91AC
+    mPtr gUnknown_080D90C4
+    mPtr gUnknown_080D9134
+    mPtr gUnknown_080D921C
+    mPtr gUnknown_080D9264
 
     .global gUnknown_080D9404
 gUnknown_080D9404:
-    .word gUnknown_080D927C
-    .word gUnknown_080D92AC
-    .word gUnknown_080D92D4
-    .word gUnknown_080D930C
-    .word gUnknown_080D9324
-    .word gUnknown_080D933C
-    .word gUnknown_080D9364
-    .word gUnknown_080D9394
-    .word gUnknown_080D93AC
+    mPtr gUnknown_080D927C
+    mPtr gUnknown_080D92AC
+    mPtr gUnknown_080D92D4
+    mPtr gUnknown_080D930C
+    mPtr gUnknown_080D9324
+    mPtr gUnknown_080D933C
+    mPtr gUnknown_080D9364
+    mPtr gUnknown_080D9394
+    mPtr gUnknown_080D93AC
 
     .global gUnknown_080D9428
 gUnknown_080D9428:

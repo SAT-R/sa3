@@ -33,6 +33,6 @@ song670:	@ 0x082B24FC
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song670_1		@ track
+	mPtr	song670_1		@ track

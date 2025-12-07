@@ -260,13 +260,13 @@ song081:	@ 0x082AC5C8
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup020		@ voicegroup/tone
+	mPtr	voicegroup020		@ voicegroup/tone
 
-	.word	song081_1		@ track
-	.word	song081_2		@ track
-	.word	song081_3		@ track
-	.word	song081_4		@ track
-	.word	song081_5		@ track
-	.word	song081_6		@ track
-	.word	song081_7		@ track
-	.word	song081_8		@ track
+	mPtr	song081_1		@ track
+	mPtr	song081_2		@ track
+	mPtr	song081_3		@ track
+	mPtr	song081_4		@ track
+	mPtr	song081_5		@ track
+	mPtr	song081_6		@ track
+	mPtr	song081_7		@ track
+	mPtr	song081_8		@ track

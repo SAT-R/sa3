@@ -27,7 +27,7 @@ song541_1_1:
 	.byte	W24
 	.byte	W72
 	.byte	GOTO	
-		.word	song541_1_1
+		mPtr	song541_1_1
 	.byte	W23
 	.byte		EOT	, Fs3
 	.byte	FINE
@@ -41,6 +41,6 @@ song541:	@ 0x082B100C
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song541_1		@ track
+	mPtr	song541_1		@ track

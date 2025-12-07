@@ -69,7 +69,7 @@ song519:	@ 0x082B09E0
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song519_1		@ track
-	.word	song519_2		@ track
+	mPtr	song519_1		@ track
+	mPtr	song519_2		@ track

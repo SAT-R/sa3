@@ -202,7 +202,7 @@ song575:	@ 0x082B1864
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song575_1		@ track
-	.word	song575_2		@ track
+	mPtr	song575_1		@ track
+	mPtr	song575_2		@ track

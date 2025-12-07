@@ -78,7 +78,7 @@ song089_2_1:
 	.byte		N05	
 	.byte	W06
 	.byte	PATT	
-		.word	song089_2_1
+		mPtr	song089_2_1
 	.byte		N11	, Fs1, v108
 	.byte	W12
 	.byte		N18	
@@ -658,7 +658,7 @@ song089_10_1:
 	.byte	W06
 	.byte	PEND
 	.byte	PATT	
-		.word	song089_10_1
+		mPtr	song089_10_1
 	.byte		N05	, Cn5, v096
 	.byte	W06
 	.byte		N05	
@@ -731,16 +731,16 @@ song089:	@ 0x082ADF94
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup016		@ voicegroup/tone
+	mPtr	voicegroup016		@ voicegroup/tone
 
-	.word	song089_1		@ track
-	.word	song089_2		@ track
-	.word	song089_3		@ track
-	.word	song089_4		@ track
-	.word	song089_5		@ track
-	.word	song089_6		@ track
-	.word	song089_7		@ track
-	.word	song089_8		@ track
-	.word	song089_9		@ track
-	.word	song089_10		@ track
-	.word	song089_11		@ track
+	mPtr	song089_1		@ track
+	mPtr	song089_2		@ track
+	mPtr	song089_3		@ track
+	mPtr	song089_4		@ track
+	mPtr	song089_5		@ track
+	mPtr	song089_6		@ track
+	mPtr	song089_7		@ track
+	mPtr	song089_8		@ track
+	mPtr	song089_9		@ track
+	mPtr	song089_10		@ track
+	mPtr	song089_11		@ track

@@ -136,7 +136,7 @@ song075_1_1:
 	.byte	W06
 	.byte	PEND
 	.byte	PATT	
-		.word	song075_1_1
+		mPtr	song075_1_1
 	.byte		N06	, Cn4, v124
 	.byte	W06
 	.byte			Cs3
@@ -282,7 +282,7 @@ song075_2_1:
 	.byte	W06
 	.byte	PEND
 	.byte	PATT	
-		.word	song075_2_1
+		mPtr	song075_2_1
 	.byte		N06	, Cn4, v124
 	.byte	W06
 	.byte			Cs3
@@ -371,7 +371,7 @@ song075_3_1:
 	.byte	W06
 	.byte	PEND
 	.byte	PATT	
-		.word	song075_3_1
+		mPtr	song075_3_1
 	.byte	W06
 	.byte		N11	, Cs1, v116
 	.byte	W12
@@ -390,8 +390,8 @@ song075:	@ 0x082A5128
 	.byte	128		@ reverb
 
 	mAlignWord
-	.word	voicegroup020		@ voicegroup/tone
+	mPtr	voicegroup020		@ voicegroup/tone
 
-	.word	song075_1		@ track
-	.word	song075_2		@ track
-	.word	song075_3		@ track
+	mPtr	song075_1		@ track
+	mPtr	song075_2		@ track
+	mPtr	song075_3		@ track

@@ -71,7 +71,7 @@ song539:	@ 0x082B0F5C
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song539_1		@ track
-	.word	song539_2		@ track
+	mPtr	song539_1		@ track
+	mPtr	song539_2		@ track

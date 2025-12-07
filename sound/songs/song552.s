@@ -41,6 +41,6 @@ song552:	@ 0x082B1270
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song552_1		@ track
+	mPtr	song552_1		@ track

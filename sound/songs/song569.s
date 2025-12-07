@@ -73,6 +73,6 @@ song569:	@ 0x082B166C
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song569_1		@ track
+	mPtr	song569_1		@ track

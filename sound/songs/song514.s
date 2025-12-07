@@ -69,6 +69,6 @@ song514:	@ 0x082B08C4
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song514_1		@ track
+	mPtr	song514_1		@ track

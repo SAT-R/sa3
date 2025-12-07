@@ -30,6 +30,6 @@ song135:	@ 0x082AF72C
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup001		@ voicegroup/tone
+	mPtr	voicegroup001		@ voicegroup/tone
 
-	.word	song135_1		@ track
+	mPtr	song135_1		@ track

@@ -147,6 +147,6 @@ song277:	@ 0x082B04E0
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup002		@ voicegroup/tone
+	mPtr	voicegroup002		@ voicegroup/tone
 
-	.word	song277_1		@ track
+	mPtr	song277_1		@ track

@@ -31,7 +31,7 @@ song114_1:	@ 0x082AF2E0
 song114_1_1:
 	.byte	W96
 	.byte	GOTO	
-		.word	song114_1_1
+		mPtr	song114_1_1
 	.byte	W12
 	.byte		EOT	, Bn3
 	.byte	FINE
@@ -45,6 +45,6 @@ song114:	@ 0x082AF310
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup001		@ voicegroup/tone
+	mPtr	voicegroup001		@ voicegroup/tone
 
-	.word	song114_1		@ track
+	mPtr	song114_1		@ track

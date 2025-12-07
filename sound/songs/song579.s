@@ -50,7 +50,7 @@ song579_1:	@ 0x082B1930
 song579_1_1:
 	.byte	W72
 	.byte	GOTO	
-		.word	song579_1_1
+		mPtr	song579_1_1
 	.byte	W19
 	.byte		EOT	, Gn3
 	.byte	FINE
@@ -64,6 +64,6 @@ song579:	@ 0x082B1970
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song579_1		@ track
+	mPtr	song579_1		@ track

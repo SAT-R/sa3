@@ -326,9 +326,9 @@ song082:	@ 0x082AC794
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup019		@ voicegroup/tone
+	mPtr	voicegroup019		@ voicegroup/tone
 
-	.word	song082_1		@ track
-	.word	song082_2		@ track
-	.word	song082_3		@ track
-	.word	song082_4		@ track
+	mPtr	song082_1		@ track
+	mPtr	song082_2		@ track
+	mPtr	song082_3		@ track
+	mPtr	song082_4		@ track

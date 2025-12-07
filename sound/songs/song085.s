@@ -200,9 +200,9 @@ song085:	@ 0x082ACB1C
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup011		@ voicegroup/tone
+	mPtr	voicegroup011		@ voicegroup/tone
 
-	.word	song085_1		@ track
-	.word	song085_2		@ track
-	.word	song085_3		@ track
-	.word	song085_4		@ track
+	mPtr	song085_1		@ track
+	mPtr	song085_2		@ track
+	mPtr	song085_3		@ track
+	mPtr	song085_4		@ track

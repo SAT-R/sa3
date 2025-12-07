@@ -31,7 +31,7 @@ song826_1:	@ 0x082B4704
 song826_1_1:
 	.byte	W96
 	.byte	GOTO	
-		.word	song826_1_1
+		mPtr	song826_1_1
 	.byte	W12
 	.byte		EOT	, Bn3
 	.byte	FINE
@@ -45,6 +45,6 @@ song826:	@ 0x082B4734
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup027		@ voicegroup/tone
+	mPtr	voicegroup027		@ voicegroup/tone
 
-	.word	song826_1		@ track
+	mPtr	song826_1		@ track

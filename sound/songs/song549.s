@@ -47,7 +47,7 @@ song549:	@ 0x082B11C0
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song549_1		@ track
-	.word	song549_2		@ track
+	mPtr	song549_1		@ track
+	mPtr	song549_2		@ track

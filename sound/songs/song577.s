@@ -32,6 +32,6 @@ song577:	@ 0x082B18DC
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song577_1		@ track
+	mPtr	song577_1		@ track

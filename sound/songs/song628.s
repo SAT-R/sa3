@@ -27,6 +27,6 @@ song628:	@ 0x082B21D0
 	.byte	128		@ reverb
 
 	mAlignWord
-	.word	voicegroup004		@ voicegroup/tone
+	mPtr	voicegroup004		@ voicegroup/tone
 
-	.word	song628_1		@ track
+	mPtr	song628_1		@ track

@@ -30,6 +30,6 @@ song144:	@ 0x082AF8D4
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup001		@ voicegroup/tone
+	mPtr	voicegroup001		@ voicegroup/tone
 
-	.word	song144_1		@ track
+	mPtr	song144_1		@ track

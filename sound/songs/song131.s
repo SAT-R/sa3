@@ -110,6 +110,6 @@ song131:	@ 0x082AF70C
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup001		@ voicegroup/tone
+	mPtr	voicegroup001		@ voicegroup/tone
 
-	.word	song131_1		@ track
+	mPtr	song131_1		@ track

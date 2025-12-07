@@ -32,6 +32,6 @@ song121:	@ 0x082AF4A0
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup001		@ voicegroup/tone
+	mPtr	voicegroup001		@ voicegroup/tone
 
-	.word	song121_1		@ track
+	mPtr	song121_1		@ track

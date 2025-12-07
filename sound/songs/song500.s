@@ -29,6 +29,6 @@ song500:	@ 0x082B06D4
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup004		@ voicegroup/tone
+	mPtr	voicegroup004		@ voicegroup/tone
 
-	.word	song500_1		@ track
+	mPtr	song500_1		@ track

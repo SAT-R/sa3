@@ -26,6 +26,6 @@ song102:	@ 0x082AEFA8
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup001		@ voicegroup/tone
+	mPtr	voicegroup001		@ voicegroup/tone
 
-	.word	song102_1		@ track
+	mPtr	song102_1		@ track

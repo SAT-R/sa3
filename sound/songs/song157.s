@@ -60,6 +60,6 @@ song157:	@ 0x082AFC7C
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup001		@ voicegroup/tone
+	mPtr	voicegroup001		@ voicegroup/tone
 
-	.word	song157_1		@ track
+	mPtr	song157_1		@ track

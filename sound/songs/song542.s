@@ -49,6 +49,6 @@ song542:	@ 0x082B1044
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song542_1		@ track
+	mPtr	song542_1		@ track

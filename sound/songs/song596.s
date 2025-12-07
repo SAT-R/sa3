@@ -53,7 +53,7 @@ song596:	@ 0x082B1C70
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song596_1		@ track
-	.word	song596_2		@ track
+	mPtr	song596_1		@ track
+	mPtr	song596_2		@ track

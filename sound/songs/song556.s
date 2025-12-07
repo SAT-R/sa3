@@ -55,7 +55,7 @@ song556:	@ 0x082B135C
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song556_1		@ track
-	.word	song556_2		@ track
+	mPtr	song556_1		@ track
+	mPtr	song556_2		@ track

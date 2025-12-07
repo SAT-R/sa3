@@ -102,7 +102,7 @@ song522_1_1:
 	.byte	W92
 	.byte	W03
 	.byte	GOTO	
-		.word	song522_1_1
+		mPtr	song522_1_1
 	.byte	W01
 	.byte		EOT	, Gs5
 	.byte	FINE
@@ -116,6 +116,6 @@ song522:	@ 0x082B0AC0
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song522_1		@ track
+	mPtr	song522_1		@ track

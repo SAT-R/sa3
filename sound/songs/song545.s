@@ -70,7 +70,7 @@ song545:	@ 0x082B10EC
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song545_1		@ track
-	.word	song545_2		@ track
+	mPtr	song545_1		@ track
+	mPtr	song545_2		@ track

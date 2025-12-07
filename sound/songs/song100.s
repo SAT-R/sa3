@@ -103,9 +103,9 @@ song100:	@ 0x082AEF80
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup021		@ voicegroup/tone
+	mPtr	voicegroup021		@ voicegroup/tone
 
-	.word	song100_1		@ track
-	.word	song100_2		@ track
-	.word	song100_3		@ track
-	.word	song100_4		@ track
+	mPtr	song100_1		@ track
+	mPtr	song100_2		@ track
+	mPtr	song100_3		@ track
+	mPtr	song100_4		@ track

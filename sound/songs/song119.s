@@ -30,6 +30,6 @@ song119:	@ 0x082AF414
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup000		@ voicegroup/tone
+	mPtr	voicegroup000		@ voicegroup/tone
 
-	.word	song119_1		@ track
+	mPtr	song119_1		@ track

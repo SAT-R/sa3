@@ -71,7 +71,7 @@ song227_1_1:
 	.byte		c_v+19
 	.byte	W01
 	.byte	GOTO	
-		.word	song227_1_1
+		mPtr	song227_1_1
 	.byte	BEND	, c_v+16
 	.byte	W01
 	.byte		c_v+13
@@ -114,6 +114,6 @@ song227:	@ 0x082B00F0
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup002		@ voicegroup/tone
+	mPtr	voicegroup002		@ voicegroup/tone
 
-	.word	song227_1		@ track
+	mPtr	song227_1		@ track

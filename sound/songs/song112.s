@@ -89,6 +89,6 @@ song112:	@ 0x082AF22C
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup001		@ voicegroup/tone
+	mPtr	voicegroup001		@ voicegroup/tone
 
-	.word	song112_1		@ track
+	mPtr	song112_1		@ track

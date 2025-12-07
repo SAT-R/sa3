@@ -111,7 +111,7 @@ song088_2_1:
 	.byte		N12	, En1, v052
 	.byte	W12
 	.byte	PATT	
-		.word	song088_2_1
+		mPtr	song088_2_1
 	.byte	FINE
 
 	@********************** Track  3 **********************@
@@ -402,13 +402,13 @@ song088:	@ 0x082ADBC0
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup012		@ voicegroup/tone
+	mPtr	voicegroup012		@ voicegroup/tone
 
-	.word	song088_1		@ track
-	.word	song088_2		@ track
-	.word	song088_3		@ track
-	.word	song088_4		@ track
-	.word	song088_5		@ track
-	.word	song088_6		@ track
-	.word	song088_7		@ track
-	.word	song088_8		@ track
+	mPtr	song088_1		@ track
+	mPtr	song088_2		@ track
+	mPtr	song088_3		@ track
+	mPtr	song088_4		@ track
+	mPtr	song088_5		@ track
+	mPtr	song088_6		@ track
+	mPtr	song088_7		@ track
+	mPtr	song088_8		@ track

@@ -33,6 +33,6 @@ song537:	@ 0x082B0EA0
 	.byte	128		@ reverb
 
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song537_1		@ track
+	mPtr	song537_1		@ track

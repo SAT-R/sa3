@@ -55,7 +55,7 @@ song534:	@ 0x082B0E28
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song534_1		@ track
-	.word	song534_2		@ track
+	mPtr	song534_1		@ track
+	mPtr	song534_2		@ track

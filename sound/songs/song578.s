@@ -63,6 +63,6 @@ song578:	@ 0x082B1924
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song578_1		@ track
+	mPtr	song578_1		@ track

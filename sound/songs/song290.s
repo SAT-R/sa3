@@ -114,7 +114,7 @@ song290_1_1:
 	.byte	W30
 	.byte	W48
 	.byte	GOTO	
-		.word	song290_1_1
+		mPtr	song290_1_1
 	.byte	W07
 	.byte		EOT	, Fn4
 	.byte	FINE
@@ -128,6 +128,6 @@ song290:	@ 0x082B06B4
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup002		@ voicegroup/tone
+	mPtr	voicegroup002		@ voicegroup/tone
 
-	.word	song290_1		@ track
+	mPtr	song290_1		@ track

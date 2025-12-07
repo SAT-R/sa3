@@ -34,6 +34,6 @@ song810:	@ 0x082B4248
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup025		@ voicegroup/tone
+	mPtr	voicegroup025		@ voicegroup/tone
 
-	.word	song810_1		@ track
+	mPtr	song810_1		@ track

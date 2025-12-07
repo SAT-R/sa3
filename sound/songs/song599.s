@@ -24,7 +24,7 @@ song599_1_1:
 	.byte	W90
 	.byte	W72
 	.byte	GOTO	
-		.word	song599_1_1
+		mPtr	song599_1_1
 	.byte	W18
 	.byte		EOT	, Cs4
 	.byte	FINE
@@ -38,6 +38,6 @@ song599:	@ 0x082B1D2C
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song599_1		@ track
+	mPtr	song599_1		@ track

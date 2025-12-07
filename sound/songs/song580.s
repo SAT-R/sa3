@@ -45,7 +45,7 @@ song580:	@ 0x082B19A4
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song580_1		@ track
-	.word	song580_2		@ track
+	mPtr	song580_1		@ track
+	mPtr	song580_2		@ track

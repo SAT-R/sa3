@@ -151,9 +151,9 @@ song099:	@ 0x082AEF00
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup021		@ voicegroup/tone
+	mPtr	voicegroup021		@ voicegroup/tone
 
-	.word	song099_1		@ track
-	.word	song099_2		@ track
-	.word	song099_3		@ track
-	.word	song099_4		@ track
+	mPtr	song099_1		@ track
+	mPtr	song099_2		@ track
+	mPtr	song099_3		@ track
+	mPtr	song099_4		@ track

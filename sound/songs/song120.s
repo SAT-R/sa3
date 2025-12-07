@@ -83,7 +83,7 @@ song120_1_1:
 	.byte		N05	
 	.byte	W06
 	.byte	GOTO	
-		.word	song120_1_1
+		mPtr	song120_1_1
 	.byte	FINE
     
 	mAlignWord
@@ -95,6 +95,6 @@ song120:	@ 0x082AF47C
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup001		@ voicegroup/tone
+	mPtr	voicegroup001		@ voicegroup/tone
 
-	.word	song120_1		@ track
+	mPtr	song120_1		@ track

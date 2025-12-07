@@ -101,7 +101,7 @@ song540_1_1:
 	.byte	W24
 	.byte	W72
 	.byte	GOTO	
-		.word	song540_1_1
+		mPtr	song540_1_1
 	.byte	W23
 	.byte		EOT	, Fs3
 	.byte	FINE
@@ -115,6 +115,6 @@ song540:	@ 0x082B0FDC
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song540_1		@ track
+	mPtr	song540_1		@ track

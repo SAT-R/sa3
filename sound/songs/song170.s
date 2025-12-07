@@ -154,6 +154,6 @@ song170:	@ 0x082AFE40
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup002		@ voicegroup/tone
+	mPtr	voicegroup002		@ voicegroup/tone
 
-	.word	song170_1		@ track
+	mPtr	song170_1		@ track

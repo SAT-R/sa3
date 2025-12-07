@@ -30,6 +30,6 @@ song111:	@ 0x082AF1C8
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup001		@ voicegroup/tone
+	mPtr	voicegroup001		@ voicegroup/tone
 
-	.word	song111_1		@ track
+	mPtr	song111_1		@ track

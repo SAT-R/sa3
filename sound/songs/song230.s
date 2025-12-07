@@ -108,6 +108,6 @@ song230:	@ 0x082B0194
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup002		@ voicegroup/tone
+	mPtr	voicegroup002		@ voicegroup/tone
 
-	.word	song230_1		@ track
+	mPtr	song230_1		@ track

@@ -74,8 +74,8 @@ song668:	@ 0x082B2494
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song668_1		@ track
-	.word	song668_2		@ track
-	.word	song668_3		@ track
+	mPtr	song668_1		@ track
+	mPtr	song668_2		@ track
+	mPtr	song668_3		@ track

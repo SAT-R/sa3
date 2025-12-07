@@ -24,7 +24,7 @@ song567_1_1:
 	.byte	W90
 	.byte	W72
 	.byte	GOTO	
-		.word	song567_1_1
+		mPtr	song567_1_1
 	.byte	W18
 	.byte		EOT	, Dn1
 	.byte	FINE
@@ -47,7 +47,7 @@ song567_2_1:
 	.byte	W90
 	.byte	W72
 	.byte	GOTO	
-		.word	song567_2_1
+		mPtr	song567_2_1
 	.byte	W18
 	.byte		EOT	, En2
 	.byte	FINE
@@ -61,7 +61,7 @@ song567:	@ 0x082B15D8
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song567_1		@ track
-	.word	song567_2		@ track
+	mPtr	song567_1		@ track
+	mPtr	song567_2		@ track

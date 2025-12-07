@@ -28,6 +28,6 @@ song581:	@ 0x082B19C4
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song581_1		@ track
+	mPtr	song581_1		@ track

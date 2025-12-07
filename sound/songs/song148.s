@@ -59,6 +59,6 @@ song148:	@ 0x082AF920
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup001		@ voicegroup/tone
+	mPtr	voicegroup001		@ voicegroup/tone
 
-	.word	song148_1		@ track
+	mPtr	song148_1		@ track

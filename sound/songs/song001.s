@@ -580,11 +580,11 @@ song001:	@ 0x08264E28
 	.byte	128		@ reverb
 
 	mAlignWord
-	.word	voicegroup009		@ voicegroup/tone
+	mPtr	voicegroup009		@ voicegroup/tone
 
-	.word	song001_1		@ track
-	.word	song001_2		@ track
-	.word	song001_3		@ track
-	.word	song001_4		@ track
-	.word	song001_5		@ track
-	.word	song001_6		@ track
+	mPtr	song001_1		@ track
+	mPtr	song001_2		@ track
+	mPtr	song001_3		@ track
+	mPtr	song001_4		@ track
+	mPtr	song001_5		@ track
+	mPtr	song001_6		@ track

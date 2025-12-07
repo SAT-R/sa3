@@ -28,6 +28,6 @@ song515:	@ 0x082B08E4
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song515_1		@ track
+	mPtr	song515_1		@ track

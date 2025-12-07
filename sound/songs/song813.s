@@ -74,6 +74,6 @@ song813:	@ 0x082B43E4
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup025		@ voicegroup/tone
+	mPtr	voicegroup025		@ voicegroup/tone
 
-	.word	song813_1		@ track
+	mPtr	song813_1		@ track

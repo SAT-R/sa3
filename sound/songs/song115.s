@@ -74,6 +74,6 @@ song115:	@ 0x082AF36C
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup000		@ voicegroup/tone
+	mPtr	voicegroup000		@ voicegroup/tone
 
-	.word	song115_1		@ track
+	mPtr	song115_1		@ track

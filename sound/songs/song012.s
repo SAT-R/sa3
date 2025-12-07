@@ -112,19 +112,19 @@ song012_1_4:
 	.byte	W18
 	.byte	PEND
 	.byte	PATT	
-		.word	song012_1_1
+		mPtr	song012_1_1
 	.byte	PATT	
-		.word	song012_1_2
+		mPtr	song012_1_2
 	.byte	PATT	
-		.word	song012_1_3
+		mPtr	song012_1_3
 	.byte	PATT	
-		.word	song012_1_4
+		mPtr	song012_1_4
 	.byte	W96
 	.byte	W96
 	.byte	W96
 	.byte	W96
 	.byte	GOTO	
-		.word	song012_1_5
+		mPtr	song012_1_5
 	.byte	FINE
 
 	@********************** Track  2 **********************@
@@ -206,7 +206,7 @@ song012_2_1:
 	.byte		N05	, Bn3, v124
 	.byte	W12
 	.byte	PATT	
-		.word	song012_2_1
+		mPtr	song012_2_1
 	.byte	W96
 	.byte	W96
 	.byte	W96
@@ -277,7 +277,7 @@ song012_2_1:
 	.byte		N06	, Cs3, v024
 	.byte	W12
 	.byte	GOTO	
-		.word	song012_2_2
+		mPtr	song012_2_2
 	.byte	FINE
 
 	@********************** Track  3 **********************@
@@ -388,7 +388,7 @@ song012_3_1:
 	.byte	W06
 	.byte	PEND
 	.byte	PATT	
-		.word	song012_3_1
+		mPtr	song012_3_1
 song012_3_2:
 	.byte		N03	, Gn3, v024
 	.byte	W06
@@ -424,7 +424,7 @@ song012_3_2:
 	.byte	W06
 	.byte	PEND
 	.byte	PATT	
-		.word	song012_3_2
+		mPtr	song012_3_2
 song012_3_3:
 	.byte		N03	, Fs3, v024
 	.byte	W06
@@ -460,7 +460,7 @@ song012_3_3:
 	.byte	W06
 	.byte	PEND
 	.byte	PATT	
-		.word	song012_3_3
+		mPtr	song012_3_3
 	.byte		N03	, Gn3, v036
 	.byte	W06
 	.byte			An3, v056
@@ -656,7 +656,7 @@ song012_3_4:
 	.byte			Gs3, v036
 	.byte	W06
 	.byte	PATT	
-		.word	song012_3_4
+		mPtr	song012_3_4
 	.byte		N03	, Fs3, v036
 	.byte	W06
 	.byte			Gs3, v056
@@ -810,7 +810,7 @@ song012_3_4:
 	.byte			Bn4, v036
 	.byte	W06
 	.byte	GOTO	
-		.word	song012_3_5
+		mPtr	song012_3_5
 	.byte	FINE
 
 	@********************** Track  4 **********************@
@@ -926,7 +926,7 @@ song012_4_1:
 	.byte	W04
 	.byte	PEND
 	.byte	PATT	
-		.word	song012_4_1
+		mPtr	song012_4_1
 song012_4_2:
 	.byte	W02
 	.byte		N03	, Gn3, v024
@@ -963,7 +963,7 @@ song012_4_2:
 	.byte	W04
 	.byte	PEND
 	.byte	PATT	
-		.word	song012_4_2
+		mPtr	song012_4_2
 song012_4_3:
 	.byte	W02
 	.byte		N03	, Fs3, v024
@@ -1000,7 +1000,7 @@ song012_4_3:
 	.byte	W04
 	.byte	PEND
 	.byte	PATT	
-		.word	song012_4_3
+		mPtr	song012_4_3
 	.byte	W02
 	.byte		N03	, Gn3, v036
 	.byte	W06
@@ -1202,7 +1202,7 @@ song012_4_4:
 	.byte			Gs3, v036
 	.byte	W04
 	.byte	PATT	
-		.word	song012_4_4
+		mPtr	song012_4_4
 	.byte	W02
 	.byte		N03	, Fs3, v036
 	.byte	W06
@@ -1367,7 +1367,7 @@ song012_4_4:
 	.byte			Gs3
 	.byte	W06
 	.byte	GOTO	
-		.word	song012_4_5
+		mPtr	song012_4_5
 	.byte	FINE
 
 	@********************** Track  5 **********************@
@@ -1490,7 +1490,7 @@ song012_5_1:
 	.byte	W48
 	.byte	W03
 	.byte	GOTO	
-		.word	song012_5_1
+		mPtr	song012_5_1
 	.byte	FINE
 
 	@********************** Track  6 **********************@
@@ -1538,7 +1538,7 @@ song012_6_2:
 	.byte	W84
 	.byte	PEND
 	.byte	PATT	
-		.word	song012_6_1
+		mPtr	song012_6_1
 	.byte		N06	, Fn1, v104
 	.byte	W12
 	.byte			Fn1, v124
@@ -1548,9 +1548,9 @@ song012_6_2:
 	.byte			As1, v124
 	.byte	W84
 	.byte	PATT	
-		.word	song012_6_2
+		mPtr	song012_6_2
 	.byte	PATT	
-		.word	song012_6_1
+		mPtr	song012_6_1
 	.byte		N18	, Gs1, v120
 	.byte	W36
 	.byte			Fs1, v127
@@ -1570,7 +1570,7 @@ song012_6_2:
 	.byte	W24
 	.byte	W96
 	.byte	GOTO	
-		.word	song012_6_3
+		mPtr	song012_6_3
 	.byte	FINE
 
 	@********************** Track  7 **********************@
@@ -1605,7 +1605,7 @@ song012_7_1:
 	.byte	W18
 	.byte	PEND
 	.byte	PATT	
-		.word	song012_7_1
+		mPtr	song012_7_1
 song012_7_2:
 	.byte		N04	, Cn5, v124
 	.byte	W06
@@ -1623,39 +1623,39 @@ song012_7_2:
 	.byte	W36
 	.byte	PEND
 	.byte	PATT	
-		.word	song012_7_1
+		mPtr	song012_7_1
 	.byte	PATT	
-		.word	song012_7_1
+		mPtr	song012_7_1
 	.byte	PATT	
-		.word	song012_7_1
+		mPtr	song012_7_1
 	.byte	PATT	
-		.word	song012_7_2
+		mPtr	song012_7_2
 	.byte	PATT	
-		.word	song012_7_1
+		mPtr	song012_7_1
 	.byte	PATT	
-		.word	song012_7_1
+		mPtr	song012_7_1
 	.byte	PATT	
-		.word	song012_7_1
+		mPtr	song012_7_1
 	.byte	PATT	
-		.word	song012_7_2
+		mPtr	song012_7_2
 	.byte	PATT	
-		.word	song012_7_1
+		mPtr	song012_7_1
 	.byte	PATT	
-		.word	song012_7_1
+		mPtr	song012_7_1
 	.byte	PATT	
-		.word	song012_7_1
+		mPtr	song012_7_1
 	.byte	PATT	
-		.word	song012_7_2
+		mPtr	song012_7_2
 	.byte	PATT	
-		.word	song012_7_1
+		mPtr	song012_7_1
 	.byte	PATT	
-		.word	song012_7_1
+		mPtr	song012_7_1
 	.byte	PATT	
-		.word	song012_7_1
+		mPtr	song012_7_1
 	.byte	PATT	
-		.word	song012_7_2
+		mPtr	song012_7_2
 	.byte	GOTO	
-		.word	song012_7_3
+		mPtr	song012_7_3
 	.byte	FINE
 
 	@********************** Track  8 **********************@
@@ -1692,7 +1692,7 @@ song012_8_1:
 	.byte	W30
 	.byte	PEND
 	.byte	PATT	
-		.word	song012_8_1
+		mPtr	song012_8_1
 song012_8_2:
 	.byte	W18
 	.byte		N04	, Cn5, v124
@@ -1711,39 +1711,39 @@ song012_8_2:
 	.byte	W18
 	.byte	PEND
 	.byte	PATT	
-		.word	song012_8_1
+		mPtr	song012_8_1
 	.byte	PATT	
-		.word	song012_8_1
+		mPtr	song012_8_1
 	.byte	PATT	
-		.word	song012_8_1
+		mPtr	song012_8_1
 	.byte	PATT	
-		.word	song012_8_2
+		mPtr	song012_8_2
 	.byte	PATT	
-		.word	song012_8_1
+		mPtr	song012_8_1
 	.byte	PATT	
-		.word	song012_8_1
+		mPtr	song012_8_1
 	.byte	PATT	
-		.word	song012_8_1
+		mPtr	song012_8_1
 	.byte	PATT	
-		.word	song012_8_2
+		mPtr	song012_8_2
 	.byte	PATT	
-		.word	song012_8_1
+		mPtr	song012_8_1
 	.byte	PATT	
-		.word	song012_8_1
+		mPtr	song012_8_1
 	.byte	PATT	
-		.word	song012_8_1
+		mPtr	song012_8_1
 	.byte	PATT	
-		.word	song012_8_2
+		mPtr	song012_8_2
 	.byte	PATT	
-		.word	song012_8_1
+		mPtr	song012_8_1
 	.byte	PATT	
-		.word	song012_8_1
+		mPtr	song012_8_1
 	.byte	PATT	
-		.word	song012_8_1
+		mPtr	song012_8_1
 	.byte	PATT	
-		.word	song012_8_2
+		mPtr	song012_8_2
 	.byte	GOTO	
-		.word	song012_8_3
+		mPtr	song012_8_3
 	.byte	FINE
 
 	@********************** Track  9 **********************@
@@ -1808,7 +1808,7 @@ song012_9_1:
 	.byte		N11	
 	.byte	W12
 	.byte	GOTO	
-		.word	song012_9_1
+		mPtr	song012_9_1
 	.byte	FINE
     
 	mAlignWord
@@ -1820,14 +1820,14 @@ song012:	@ 0x0826B534
 	.byte	128		@ reverb
 
 	mAlignWord
-	.word	voicegroup016		@ voicegroup/tone
+	mPtr	voicegroup016		@ voicegroup/tone
 
-	.word	song012_1		@ track
-	.word	song012_2		@ track
-	.word	song012_3		@ track
-	.word	song012_4		@ track
-	.word	song012_5		@ track
-	.word	song012_6		@ track
-	.word	song012_7		@ track
-	.word	song012_8		@ track
-	.word	song012_9		@ track
+	mPtr	song012_1		@ track
+	mPtr	song012_2		@ track
+	mPtr	song012_3		@ track
+	mPtr	song012_4		@ track
+	mPtr	song012_5		@ track
+	mPtr	song012_6		@ track
+	mPtr	song012_7		@ track
+	mPtr	song012_8		@ track
+	mPtr	song012_9		@ track

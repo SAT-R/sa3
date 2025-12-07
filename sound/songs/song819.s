@@ -85,7 +85,7 @@ song819:	@ 0x082B448C
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup025		@ voicegroup/tone
+	mPtr	voicegroup025		@ voicegroup/tone
 
-	.word	song819_1		@ track
-	.word	song819_2		@ track
+	mPtr	song819_1		@ track
+	mPtr	song819_2		@ track

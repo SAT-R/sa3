@@ -129,6 +129,6 @@ song223:	@ 0x082AFFCC
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup002		@ voicegroup/tone
+	mPtr	voicegroup002		@ voicegroup/tone
 
-	.word	song223_1		@ track
+	mPtr	song223_1		@ track

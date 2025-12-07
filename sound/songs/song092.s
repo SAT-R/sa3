@@ -436,13 +436,13 @@ song092:	@ 0x082AE4D8
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup016		@ voicegroup/tone
+	mPtr	voicegroup016		@ voicegroup/tone
 
-	.word	song092_1		@ track
-	.word	song092_2		@ track
-	.word	song092_3		@ track
-	.word	song092_4		@ track
-	.word	song092_5		@ track
-	.word	song092_6		@ track
-	.word	song092_7		@ track
-	.word	song092_8		@ track
+	mPtr	song092_1		@ track
+	mPtr	song092_2		@ track
+	mPtr	song092_3		@ track
+	mPtr	song092_4		@ track
+	mPtr	song092_5		@ track
+	mPtr	song092_6		@ track
+	mPtr	song092_7		@ track
+	mPtr	song092_8		@ track

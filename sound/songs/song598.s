@@ -24,7 +24,7 @@ song598_1_1:
 	.byte	W90
 	.byte	W72
 	.byte	GOTO	
-		.word	song598_1_1
+		mPtr	song598_1_1
 	.byte	W18
 	.byte		EOT	, Cs1
 	.byte	FINE
@@ -47,7 +47,7 @@ song598_2_1:
 	.byte	W90
 	.byte	W72
 	.byte	GOTO	
-		.word	song598_2_1
+		mPtr	song598_2_1
 	.byte	W18
 	.byte		EOT	, En2
 	.byte	FINE
@@ -61,7 +61,7 @@ song598:	@ 0x082B1CF8
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.word	song598_1		@ track
-	.word	song598_2		@ track
+	mPtr	song598_1		@ track
+	mPtr	song598_2		@ track

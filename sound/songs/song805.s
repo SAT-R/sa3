@@ -431,12 +431,12 @@ song805:	@ 0x082B4208
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup025		@ voicegroup/tone
+	mPtr	voicegroup025		@ voicegroup/tone
 
-	.word	song805_1		@ track
-	.word	song805_2		@ track
-	.word	song805_3		@ track
-	.word	song805_4		@ track
-	.word	song805_5		@ track
-	.word	song805_6		@ track
-	.word	song805_7		@ track
+	mPtr	song805_1		@ track
+	mPtr	song805_2		@ track
+	mPtr	song805_3		@ track
+	mPtr	song805_4		@ track
+	mPtr	song805_5		@ track
+	mPtr	song805_6		@ track
+	mPtr	song805_7		@ track

@@ -85,7 +85,7 @@ song150:	@ 0x082AF9DC
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup000		@ voicegroup/tone
+	mPtr	voicegroup000		@ voicegroup/tone
 
-	.word	song150_1		@ track
-	.word	song150_2		@ track
+	mPtr	song150_1		@ track
+	mPtr	song150_2		@ track

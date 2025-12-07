@@ -1,3 +1,5 @@
+.include "asm/macros/c_decl.inc"
+.include "asm/macros/portable.inc"
 .include "asm/macros/function.inc"
 .include "constants/gba_constants.inc"
 
@@ -6,9 +8,9 @@
     .global gUnknown_082B5308
 gUnknown_082B5308: @ SA2: gUnknown_080984F8
     .ascii "MultiSio4Sio32Load010528\0"
-    .align 2, 0
+    mAlignWord
     .ascii "Sio32MultiLoad010214\0"
-    .align 2, 0
+    mAlignWord
 
     .global gUnknown_082B533C
 gUnknown_082B533C:

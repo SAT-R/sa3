@@ -24,7 +24,7 @@ song231_1_1:
 	.byte	W72
 	.byte	W96
 	.byte	GOTO	
-		.word	song231_1_1
+		mPtr	song231_1_1
 	.byte	W13
 	.byte		EOT	, Fn3
 	.byte	FINE
@@ -38,6 +38,6 @@ song231:	@ 0x082B01C4
 	.byte	128		@ reverb
     
 	mAlignWord
-	.word	voicegroup002		@ voicegroup/tone
+	mPtr	voicegroup002		@ voicegroup/tone
 
-	.word	song231_1		@ track
+	mPtr	song231_1		@ track
