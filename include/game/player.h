@@ -4,6 +4,18 @@
 #include "sprite.h"
 #include "game/entity.h" // SpriteBase
 
+typedef enum {
+    SONIC, // 0
+#if (GAME > GAME_SA1)
+    CREAM, // 1
+#endif
+    TAILS, // 2
+    KNUCKLES, // 3
+    AMY, // 4
+    PLAYERCHAR_COUNT, // 5
+    PLAYERCHAR_NONE = 0xFF,
+} eCharacter;
+
 #define NUM_SINGLE_PLAYER_CHARS 2
 #define NUM_MULTI_PLAYER_CHARS  4
 
