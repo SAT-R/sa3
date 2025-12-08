@@ -100,4 +100,15 @@ typedef struct {
 
 extern StageData gStageData;
 
+typedef enum {
+    ACT_TYPE_ACT_1 = 0x01,
+    ACT_TYPE_ACT_2 = 0x02,
+    ACT_TYPE_ACT_3 = 0x04,
+    ACT_TYPE_BOSS = 0x08,
+    ACT_TYPE_MINIGAME_CAPSULE = 0x10,
+    ACT_TYPE_MINIGAME_ENEMIES = 0x20,
+    ACT_TYPE_40 = 0x40,
+    ACT_TYPE_80 = 0x80,
+} eActType;
+
 #endif // GUARD_SA3_GAME_STAGE_H

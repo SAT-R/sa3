@@ -296,3 +296,66 @@ NONMATCH("asm/non_matching/engine/sub_8000538.inc", void sub_8000538(u16 stageId
     }
 }
 END_NONMATCH
+
+bool16 GetZoneAndActTypeFromStageID(s16 stageID, u8 *zone, u8 *actType)
+{
+#ifdef BUG_FIX
+    u8 dummyZone, dummyAct;
+    if (zone == NULL) {
+        zone = &dummyZone;
+    }
+    if (actType == NULL) {
+        actType = &dummyAct;
+    }
+#endif
+    if (stageID == STAGE_ALTAR_EMERALD) {
+        *zone = 7;
+        *actType = ACT_TYPE_BOSS;
+        return TRUE;
+    } else if (stageID == STAGE_NONAGGRESSION) {
+        *zone = 8;
+        *actType = ACT_TYPE_BOSS;
+        return TRUE;
+    } else {
+        *zone = (stageID - 1) / 10;
+
+        switch ((u8)((stageID - 1) % 10)) {
+            case 2: {
+                *actType = ACT_TYPE_ACT_1;
+                return TRUE;
+            }
+            case 3: {
+                *actType = ACT_TYPE_ACT_2;
+                return TRUE;
+            }
+            case 4: {
+                *actType = ACT_TYPE_ACT_3;
+                return TRUE;
+            }
+            case 6: {
+                *actType = ACT_TYPE_BOSS;
+                return TRUE;
+            }
+            case 7: {
+                *actType = ACT_TYPE_MINIGAME_CAPSULE;
+                return TRUE;
+            }
+            case 8: {
+                *actType = ACT_TYPE_MINIGAME_ENEMIES;
+                return TRUE;
+            }
+            case 9: {
+                *actType = ACT_TYPE_40;
+                return TRUE;
+            }
+
+            default:
+            case 0:
+            case 1:
+            case 5: {
+                return FALSE;
+            }
+        }
+    }
+    return FALSE;
+}

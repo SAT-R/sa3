@@ -94,7 +94,6 @@ void sub_80C4C60() { }
 s32 sub_8001FD4() { return 0; }
 bool16 sub_80020F0() { return FALSE; }
 void sub_802616C() { }
-bool16 GetZoneAndActTypeFromStageID(s16 stageId, u8 *zone, u8 *actType) { }
 
 void sub_80C4E24() { }
 void sub_80C610C() { }
