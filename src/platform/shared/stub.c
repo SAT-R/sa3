@@ -31,7 +31,6 @@ u8 gUnknown_03001D00 = 0;
 struct Task *gTask_03001CFC = NULL;
 StageData gStageData = {};
 
-void sub_80003B8() { }
 void CreateGameIntroState() { }
 void sub_8001DDC() { }
 void sub_8001E48() { }
@@ -91,6 +90,12 @@ void sub_80C4EB0() { }
 void sub_80C59E8() { }
 void sub_8052418() { }
 void sub_80C4C60() { }
+
+s32 sub_8001FD4() { return 0; }
+bool16 sub_80020F0() { return FALSE; }
+void sub_802616C() { }
+bool16 GetZoneAndActTypeFromStageID(s16 stageId, u8 *zone, u8 *actType) { }
+
 void sub_80C4E24() { }
 void sub_80C610C() { }
 void sub_8003DC4() { }

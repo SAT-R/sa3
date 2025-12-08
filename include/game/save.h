@@ -76,9 +76,20 @@ typedef struct {
     u16 playerName[MAX_PLAYER_NAME_LENGTH];
 } VsRecords2;
 
-typedef struct {
+#if (GAME == GAME_SA1) || (GAME == GAME_SA2)
+typedef struct TimeRecords {
     u16 table[NUM_COURSE_ZONES][ACTS_PER_ZONE][TIME_RECORDS_PER_COURSE];
 } TimeRecords;
+#elif (GAME == GAME_SA3)
+typedef struct TimeRecord {
+    u8 character1; // 0x00 | Main Character
+    u8 character2; // 0x01 | Partner Character
+    u16 time; // 0x02 | Time; default: 36000 (= 1/60s * 60s * 10m)
+} TimeRecord;
+typedef struct TimeRecords {
+    TimeRecord table[NUM_COURSE_ZONES][4][5]; // [Zone][Act][Rank]
+} TimeRecords;
+#endif
 
 #define NUM_TIME_RECORD_ROWS (NUM_COURSE_ZONES * ACTS_PER_ZONE * NUM_CHARACTERS * TIME_RECORDS_PER_COURSE)
 

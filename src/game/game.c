@@ -53,7 +53,7 @@ void sub_80001EC(void)
     gStageData.unk8 = 0;
     gTask_03001CFC = NULL;
     maxTileSlots = &gVramHeapMaxTileSlots;
-    vram = OBJ_VRAM0 + 0x4D80;
+    vram = OBJ_VRAM0 + (620 * TILE_SIZE_4BPP);
     tileSlots = 1616 / VRAM_TILE_SLOTS_PER_SEGMENT;
     *maxTileSlots = tileSlots;
     gVramHeapStartAddr = vram;
@@ -216,6 +216,82 @@ NONMATCH("asm/non_matching/engine/sub_8000414.inc", void sub_8000414(u16 stageId
             if (sub_80020F0()) {
                 sub_8001FD4();
             }
+        }
+    }
+}
+END_NONMATCH
+
+// (96.96%) https://decomp.me/scratch/AejIb
+NONMATCH("asm/non_matching/engine/sub_8000538.inc", void sub_8000538(u16 stageId))
+{
+    u8 zone;
+    u8 actType;
+    u16 levelTimer;
+    s32 sp8;
+    u8 rank;
+    s32 var_r3;
+    s32 var_r5;
+    u8 var_ip;
+    u8 var_r6;
+
+    levelTimer = (u32)gStageData.levelTimer;
+    if (!GetZoneAndActTypeFromStageID(stageId, &zone, &actType)) {
+        return;
+    }
+    switch (actType) {
+        case 1:
+            var_r5 = 0;
+            break;
+        case 2:
+            var_r5 = 1;
+            break;
+        case 4:
+            var_r5 = 2;
+            break;
+        case 8:
+            var_r5 = 3;
+            break;
+        default:
+            var_r5 = 0xFF;
+            break;
+    }
+    if (var_r5 != 0xFF) {
+        if (levelTimer <= gMedalTimes[stageId][0]) {
+            var_r3 = 0;
+        } else {
+            if (levelTimer <= gMedalTimes[stageId][1]) {
+                var_r3 = 1;
+            } else {
+                var_r3 = 2;
+            }
+        }
+
+        gSaveGame.collectedMedals[zone][var_r5] |= 1 << (2 - var_r3);
+    }
+
+    for (var_r6 = 0; var_r6 < 5; var_r6++) {
+        if (gSaveGame.timeRecords.table[zone][var_r5][var_r6].time > levelTimer) {
+            rank = var_r6;
+            for (var_ip = 0; var_r6 < 4; var_r6++, var_ip++) {
+                gSaveGame.timeRecords.table[zone][var_r5][(4 - var_ip)].character1
+                    = gSaveGame.timeRecords.table[zone][var_r5][(3 - var_ip)].character1;
+                gSaveGame.timeRecords.table[zone][var_r5][(4 - var_ip)].character2
+                    = gSaveGame.timeRecords.table[zone][var_r5][(3 - var_ip)].character2;
+                gSaveGame.timeRecords.table[zone][var_r5][(4 - var_ip)].time = gSaveGame.timeRecords.table[zone][var_r5][(3 - var_ip)].time;
+            }
+
+            gSaveGame.timeRecords.table[zone][var_r5][rank].character1 = gPlayers[PLAYER_1].charFlags.character;
+            gSaveGame.timeRecords.table[zone][var_r5][rank].character2 = gPlayers[PLAYER_2].charFlags.character;
+            gSaveGame.timeRecords.table[zone][var_r5][rank].time = stageId;
+            break;
+        }
+    }
+
+    sub_802616C(60);
+
+    if (((gStageData.gameMode != 5) || (gStageData.playerIndex == 0))) {
+        if (sub_80020F0()) {
+            sub_8001FD4();
         }
     }
 }
