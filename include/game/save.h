@@ -102,9 +102,9 @@ typedef struct {
     /* 0x33 */ u8 unlockFlags;
     /* 0x34 */ u16 unk34;
     /* 0x36 */ u8 unk36; /* Live count? */
-    /* 0x37 */ u8 collectedMedals[9][ACTS_PER_ZONE]; // 0x37 | (struct MedalCollection)
-                                                     // xxxxxGSBb Medals collected for
-                                                     // completion time in each [Zone][Act]
+    /* 0x37 */ u8 collectedMedals[9][4]; // 0x37 | (struct MedalCollection)
+                                         // xxxxxGSBb Medals collected for
+                                         // completion time in each [Zone][Act]
     /* 0x5B */ u8 unk5B;
     /* 0x5C */ u8 unk5C;
     /* 0x5D */ u8 unk5D;

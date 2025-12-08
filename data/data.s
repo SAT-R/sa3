@@ -928,8 +928,8 @@ gUnknown_080D1750:
 gUnknown_080D191C:
     .incbin "baserom_sa3.gba", 0x000D191C, 0x124
 
-    .global gUnknown_080D1A40
-gUnknown_080D1A40:
+    .global gMedalTimes
+gMedalTimes:
     .incbin "baserom_sa3.gba", 0x000D1A40, 0x124
 
     .global gUnknown_080D1B64

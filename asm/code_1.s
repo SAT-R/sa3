@@ -7606,7 +7606,7 @@ _08053190:
 	ldr r0, _08053268 @ =gStageData
 	adds r2, r0, #0
 	adds r2, #0xae
-	ldr r1, _0805326C @ =gUnknown_080D1A40
+	ldr r1, _0805326C @ =gMedalTimes
 	ldrh r0, [r0, #0xe]
 	lsls r0, r0, #2
 	adds r0, r0, r1
@@ -7621,7 +7621,7 @@ _08053190:
 _08053260: .4byte 0x0300021C
 _08053264: .4byte 0x0000FFF0
 _08053268: .4byte gStageData
-_0805326C: .4byte gUnknown_080D1A40
+_0805326C: .4byte gMedalTimes
 _08053270:
 	movs r0, #0x57      @ MUS_BOSS_CLEAR
 	bl m4aSongNumStart
@@ -10978,7 +10978,7 @@ _08054CF8:
 	str r1, [r7, #0x20]
 	ldr r2, _08054D7C @ =gStageData
 	ldrb r0, [r2, #0xe]
-	ldr r2, _08054D80 @ =gUnknown_080D1A40
+	ldr r2, _08054D80 @ =gMedalTimes
 	lsls r1, r0, #2
 	adds r0, r1, r2
 	ldr r3, [sp, #8]
@@ -10990,7 +10990,7 @@ _08054CF8:
 	.align 2, 0
 _08054D78: .4byte 0x00000596
 _08054D7C: .4byte gStageData
-_08054D80: .4byte gUnknown_080D1A40
+_08054D80: .4byte gMedalTimes
 _08054D84:
 	adds r0, r2, #2
 	adds r0, r1, r0
@@ -12625,7 +12625,7 @@ _0805586E:
 	str r0, [r7, #0x20]
 	ldr r0, _08055B40 @ =gStageData
 	ldrb r0, [r0, #0xe]
-	ldr r2, _08055B44 @ =gUnknown_080D1A40
+	ldr r2, _08055B44 @ =gMedalTimes
 	lsls r1, r0, #2
 	adds r0, r1, r2
 	ldr r3, [sp, #0xc]
@@ -12641,7 +12641,7 @@ _08055B34: .4byte 0x00000596
 _08055B38: .4byte gUnknown_080CE4B2
 _08055B3C: .4byte gUnknown_080CE438
 _08055B40: .4byte gStageData
-_08055B44: .4byte gUnknown_080D1A40
+_08055B44: .4byte gMedalTimes
 _08055B48:
 	adds r0, r2, #2
 	adds r0, r1, r0

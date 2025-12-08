@@ -4,6 +4,7 @@
 #include "malloc_vram.h"
 #include "module_unclear.h"
 #include "data/sprite_tables.h"
+#include "game/save.h"
 #include "game/stage.h"
 #include "game/stage/tilemap_table.h"
 
@@ -13,6 +14,7 @@ void sub_8000390(void);
 void sub_80003B8(void);
 void sub_8001E48(void);
 void sub_8001E84(void);
+bool16 GetZoneAndActTypeFromStageID(s16 stageId, u8 *zone, u8 *actType);
 void sub_8027960(u16 param0); // either no param or unused
 void sub_8052D8C(void);
 void sub_808AF44(s16 param0);
@@ -21,10 +23,15 @@ void CreateGameIntroState(u16 state);
 void sub_808723C(s16 param0, u8 param1);
 void sub_808ADF0(u8 param0);
 bool16 sub_8001E94(void);
+s32 sub_8001FD4(void);
+bool16 sub_80020F0(void);
 void sub_8001DDC(s32 param0);
+void sub_802616C(u8 param0);
 
 // ref to this inside sOptionsSlideInits[]
 void OptionsSlideInit_Language(u16 param0, void *vram, s32 param2, s32 param3);
+
+extern u16 gMedalTimes[][2];
 
 void GameInit(void)
 {
@@ -105,7 +112,7 @@ void sub_8000340(u16 arg0)
 void LaunchOptionsMenu(u16 arg0)
 {
     sub_80003B8();
-    sub_808AF44((s16)arg0);
+    sub_808AF44(arg0);
 }
 
 void sub_8000378(void) { sub_80003B8(); }
@@ -127,6 +134,89 @@ void sub_80003B8(void)
     gTilemapsRef = (Tilemap **)&gTilemaps;
     gRefSpriteTables = &gSpriteTables;
     gBgPalette[1] = RGB16(31, 31, 31);
-    gBgPalette[1 * 16 + 1] = RGB16(0, 31, 0);
+    gBgPalette[(1 * 16) + 1] = RGB16(0, 31, 0);
     gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
 }
+
+// (98.95) https://decomp.me/scratch/jbM4q
+NONMATCH("asm/non_matching/engine/sub_8000414.inc", void sub_8000414(u16 stageId))
+{
+    u8 zone;
+    u8 actType;
+    s32 zoneAcc;
+    u32 var_r4;
+    u8 var_r5;
+    u32 levelTimer;
+    s32 contZone;
+
+    levelTimer = gStageData.levelTimer;
+
+    if (GetZoneAndActTypeFromStageID(stageId, &zone, &actType)) {
+        SaveGame *save = &gSaveGame;
+        save->unlockedStages[zone] |= actType;
+
+        if (actType == 8) {
+            if (save->unlockedZones < zone + 2) {
+                save->unlockedZones = zone + 2;
+
+                if (save->unlockedZones > 9) {
+                    save->unlockedZones = 9;
+                }
+
+                contZone = save->continueZone;
+                zoneAcc = save->unlockedZones;
+                if ((zoneAcc - 2) > 6) {
+                    zoneAcc = ZONE_1;
+                    save->continueZone = zoneAcc;
+                } else if ((zoneAcc - 2) > 5) {
+                    zoneAcc = ZONE_7;
+                    save->continueZone = zoneAcc;
+                } else if ((zoneAcc - 2) >= (s32)contZone) {
+                    zoneAcc += (u8)-1;
+                    save->continueZone = zoneAcc;
+                }
+            }
+        }
+
+        switch (actType) {
+            case 1:
+                var_r5 = 0;
+                break;
+            case 2:
+                var_r5 = 1;
+                break;
+            case 4:
+                var_r5 = 2;
+                break;
+            case 8:
+                var_r5 = 3;
+                break;
+            default:
+                var_r5 = -1;
+                break;
+        }
+        if (var_r5 != (u8)-1) {
+            if (levelTimer <= gMedalTimes[stageId][0]) {
+                var_r4 = 0;
+            } else {
+                if (levelTimer <= gMedalTimes[stageId][1]) {
+                    var_r4 = 1;
+                } else {
+                    var_r4 = 2;
+                }
+            }
+            if (gStageData.unk20 != 0) {
+                var_r4 = 2;
+            }
+            save->collectedMedals[zone][var_r5] |= 1 << (2 - var_r4);
+        }
+        sub_802616C(60);
+
+        if ((gStageData.gameMode != 5) || (gStageData.playerIndex == 0)) {
+            if (sub_80020F0()) {
+                sub_8001FD4();
+            }
+        }
+    }
+}
+END_NONMATCH
