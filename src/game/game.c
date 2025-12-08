@@ -1,6 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "flags.h"
+#include "malloc_ewram.h"
 #include "malloc_vram.h"
 #include "module_unclear.h"
 #include "data/sprite_tables.h"
@@ -371,16 +372,20 @@ void sub_8000804(u16 arg3)
     VsRecords *records;
 
     switch (gStageData.unkB8) {
-        case 0:
+        case 0: {
             var_r4 = 1 & gStageData.playerIndex;
-            break;
-        case 1:
+        } break;
+
+        case 1: {
             var_r4 = gStageData.unkB8 & ~gStageData.playerIndex;
-            break;
-        case 2:
+        } break;
+
+        case 2: {
             var_r4 = 2;
-            break;
-        default:
+        } break;
+
+        default: {
+        }
             return;
     }
 
@@ -390,6 +395,7 @@ void sub_8000804(u16 arg3)
                 gSaveGame.vsWins++;
             }
         } break;
+
         case 1: {
             if (gSaveGame.vsLosses < 99) {
                 gSaveGame.vsLosses++;
@@ -401,31 +407,33 @@ void sub_8000804(u16 arg3)
                 gSaveGame.vsDraws++;
             }
         } break;
-        default:
+
+        default: {
             return;
+        }
     }
 
     for (var_r1_2 = 3; var_r1_2 >= 0; var_r1_2--) {
         if ((((s32)gUnknown_03001060.filler0[7] >> var_r1_2) & 1) && ((1 & gStageData.playerIndex) != (var_r1_2 & 1))) {
             records = sub_8001C30(gUnknown_03001060.unkC[var_r1_2], gUnknown_03001060.unk1C[var_r1_2]);
             switch (var_r4) {
-                case 0:
+                case 0: {
                     if (records->losses < 99) {
                         records->losses++;
                     }
-                    break;
+                } break;
 
-                case 1:
+                case 1: {
                     if (records->wins < 99) {
                         records->wins++;
                     }
-                    break;
+                } break;
 
-                case 2:
+                case 2: {
                     if (records->draws < 99) {
                         records->draws++;
                     }
-                    break;
+                } break;
             }
         }
     }

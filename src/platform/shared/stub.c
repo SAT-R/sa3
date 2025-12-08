@@ -36,6 +36,7 @@ void sub_8001DDC() { }
 void sub_8001E48() { }
 void sub_8001E94() { }
 void sub_8001E84() { }
+void Task_8001FB0(void) { }
 void sub_808723C() { }
 void sub_8052D8C() { }
 void sub_808ADF0() { }
@@ -94,6 +95,7 @@ void sub_80C4C60() { }
 s32 sub_8001FD4() { return 0; }
 bool16 sub_80020F0() { return FALSE; }
 void sub_802616C() { }
+void *sub_8001C30(u32 param0, u16 *param1) { return NULL; }
 
 void sub_80C4E24() { }
 void sub_80C610C() { }
