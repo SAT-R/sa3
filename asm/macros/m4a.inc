@@ -1,10 +1,12 @@
 	.macro song label, music_player, unknown
+    mAlignWord
 	mPtr \label
 	.short \music_player
 	.short \unknown
 	.endm
 
 	.macro music_player info_struct, track_struct, unknown_1, unknown_2
+    mAlignWord
 	mPtr \info_struct
 	mPtr \track_struct
 	.byte \unknown_1

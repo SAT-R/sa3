@@ -1,14 +1,17 @@
 	.macro voice_directsound base_midi_key, pan, sample_data_pointer, attack, decay, sustain, release
+mAlignWord
 	.byte 0
 	_voice_directsound \base_midi_key, \pan, \sample_data_pointer, \attack, \decay, \sustain, \release
 	.endm
 
 	.macro voice_directsound_no_resample base_midi_key, pan, sample_data_pointer, attack, decay, sustain, release
+mAlignWord
 	.byte 8
 	_voice_directsound \base_midi_key, \pan, \sample_data_pointer, \attack, \decay, \sustain, \release
 	.endm
 
 	.macro voice_directsound_alt base_midi_key, pan, sample_data_pointer, attack, decay, sustain, release
+mAlignWord
 	.byte 16
 	_voice_directsound \base_midi_key, \pan, \sample_data_pointer, \attack, \decay, \sustain, \release
 	.endm
@@ -30,10 +33,12 @@ mAlignWord
 	.endm
 
 	.macro voice_square_1 sweep, duty_cycle, attack, decay, sustain, release
+mAlignWord
 	_voice_square_1 1, \sweep, \duty_cycle, \attack, \decay, \sustain, \release
 	.endm
 
 	.macro voice_square_1_alt sweep, duty_cycle, attack, decay, sustain, release
+mAlignWord
 	_voice_square_1 9, \sweep, \duty_cycle, \attack, \decay, \sustain, \release
 	.endm
 
@@ -51,14 +56,17 @@ mAlignWord
 	.endm
 
 	.macro voice_square_2 duty_cycle, attack, decay, sustain, release
+mAlignWord
 	_voice_square_2 2, \duty_cycle, \attack, \decay, \sustain, \release
 	.endm
 
 	.macro voice_square_2_alt duty_cycle, attack, decay, sustain, release
+mAlignWord
 	_voice_square_2 10, \duty_cycle, \attack, \decay, \sustain, \release
 	.endm
 
 	.macro _voice_square_2 type, duty_cycle, attack, decay, sustain, release
+mAlignWord
 	.byte \type, 60, 0, 0
 mAlignWord
 	.byte (\duty_cycle & 0x3)
@@ -79,6 +87,7 @@ mAlignWord
 	.endm
 
 	.macro _voice_programmable_wave type, wave_samples_pointer, attack, decay, sustain, release
+mAlignWord
 	.byte \type, 60, 0, 0
 mAlignWord
 	mPtr \wave_samples_pointer
@@ -97,6 +106,7 @@ mAlignWord
 	.endm
 
 	.macro _voice_noise type, unk1, unk2, unk3, period, attack, decay, sustain, release
+mAlignWord
 	.byte \type, \unk1, \unk2, \unk3
 mAlignWord
 	.byte (\period & 0x1)
@@ -109,6 +119,7 @@ mAlignWord
 	.endm
 
 	.macro voice_keysplit voice_group_pointer, keysplit_table_pointer
+mAlignWord
 	.byte 0x40, 0, 0, 0
 mAlignWord
 	mPtr \voice_group_pointer
@@ -116,6 +127,7 @@ mAlignWord
 	.endm
 
 	.macro voice_keysplit_all voice_group_pointer
+mAlignWord
 	.byte 0x80, 0, 0, 0
 mAlignWord
 	mPtr \voice_group_pointer

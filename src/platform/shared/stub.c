@@ -1,8 +1,11 @@
+
+#include <windows.h>
 /* General module of stub of functions that have not been decompiled */
 
 #include "global.h"
 #include "core.h"
 #include "game/player.h"
+#include "constants/songs.h"
 //#include "module_unclear.h"
 
 // Multiplayer-related (used in IA item_box_mp.c)

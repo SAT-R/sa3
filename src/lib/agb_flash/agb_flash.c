@@ -58,16 +58,23 @@ void SwitchFlashBank(u8 bankNum)
 }
 #endif
 
+#if PLATFORM_GBA
 #define DELAY()                                                                                                                            \
     do {                                                                                                                                   \
         vu16 i;                                                                                                                            \
         for (i = 20000; i != 0; i--)                                                                                                       \
             ;                                                                                                                              \
     } while (0)
+#else
+#define DELAY()
+#endif
 
 u16 ReadFlashId(void)
 {
     u16 flashId;
+#if PORTABLE
+    flashId = 0;
+#else // !PORTABLE
     u16 readFlash1Buffer[0x20];
     u8 (*readFlash1)(u8 *);
 
@@ -91,6 +98,7 @@ u16 ReadFlashId(void)
     FLASH_WRITE(0x5555, 0xF0);
 #endif
     DELAY();
+#endif // PORTABLE
 
     return flashId;
 }

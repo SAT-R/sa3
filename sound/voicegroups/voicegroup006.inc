@@ -1,4 +1,4 @@
-	.align 2
+	mAlignWord
 	@********************** Voicegroup **********************@
 
 	.global voicegroup006

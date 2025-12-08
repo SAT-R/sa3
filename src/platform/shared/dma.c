@@ -129,7 +129,7 @@ void DmaWait(int dmaNum)
     while (ctrlRegs[dmaNum * 3] & (DMA_ENABLE << 16))
         ;
 #else
-    while (ctrlRegs[dmaNum] & (DMA_ENABLE << 16))
-        ;
+//    while (ctrlRegs[dmaNum] & (DMA_ENABLE << 16))
+//        ;
 #endif
 }
