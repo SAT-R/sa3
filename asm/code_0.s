@@ -4002,8 +4002,8 @@ _08002204:
 	.align 2, 0
 _0800220C: .4byte gSaveGame
 
-	thumb_func_start sub_8002210
-sub_8002210: @ 0x08002210
+	thumb_func_start WarpToMap
+WarpToMap: @ 0x08002210
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -6952,7 +6952,7 @@ _080039B2:
 	adds r0, r0, r1
 	asrs r0, r0, #0x10
 	movs r1, #4
-	bl sub_8002210
+	bl WarpToMap
 	b _08003A08
 _080039DA:
 	ldrb r1, [r2, #9]
@@ -6965,7 +6965,7 @@ _080039DA:
 	asrs r0, r0, #0x10
 	ldrb r1, [r2, #0xa]
 	subs r1, #2
-	bl sub_8002210
+	bl WarpToMap
 	b _08003A08
 _080039F4:
 	movs r0, #1
@@ -72642,7 +72642,7 @@ _080235FE:
 	ble _080235FE
 	movs r0, #0xb
 	movs r1, #1
-	bl sub_8002210
+	bl WarpToMap
 	pop {r4, r5, r6}
 	pop {r0}
 	bx r0
@@ -80125,7 +80125,7 @@ _08027042:
 	movs r1, #0xe
 	ldrsh r0, [r4, r1]
 	ldrb r1, [r4, #0xb]
-	bl sub_8002210
+	bl WarpToMap
 	b _08027470
 	.align 2, 0
 _08027060: .4byte gStageData

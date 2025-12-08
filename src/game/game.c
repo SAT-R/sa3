@@ -127,6 +127,6 @@ void sub_80003B8(void)
     gTilemapsRef = (Tilemap **)&gTilemaps;
     gRefSpriteTables = &gSpriteTables;
     gBgPalette[1] = RGB16(31, 31, 31);
-    gBgPalette[0x11] = 0x3E0;
+    gBgPalette[1 * 16 + 1] = RGB16(0, 31, 0);
     gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
 }

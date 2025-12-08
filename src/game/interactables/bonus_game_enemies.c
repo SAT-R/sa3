@@ -706,7 +706,7 @@ void Task_803CEE4(void)
                 gBgSpritesCount = 0;
                 gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
 
-                sub_8002210((gStageData.zone * 10) + 2, 7);
+                WarpToMap((gStageData.zone * 10) + 2, 7);
                 return;
             }
         } else {
@@ -890,7 +890,7 @@ void Task_803D248(void)
                 gBgSpritesCount = 0;
                 gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
 
-                sub_8002210((gStageData.zone * 10) + 2, 7);
+                WarpToMap((gStageData.zone * 10) + 2, 7);
                 return;
             }
         } else {
@@ -944,7 +944,7 @@ void Task_803D39C(void)
                 gBgSpritesCount = 0;
                 gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
 
-                sub_8002210((gStageData.zone * 10) + 2, 7);
+                WarpToMap((gStageData.zone * 10) + 2, 7);
                 return;
             }
         } else {

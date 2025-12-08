@@ -7105,7 +7105,7 @@ sub_8052D8C: @ 0x08052D8C
 	movs r1, #0xe
 	ldrsh r0, [r5, r1]
 	movs r1, #0
-	bl sub_8002210
+	bl WarpToMap
 	pop {r4, r5, r6, r7}
 	pop {r0}
 	bx r0
@@ -9878,7 +9878,7 @@ _08054478: .4byte gCurTask
 _0805447C:
 	movs r0, #0x47
 	movs r1, #0
-	bl sub_8002210
+	bl WarpToMap
 _08054484:
 	pop {r4}
 	pop {r0}
@@ -11881,7 +11881,7 @@ _080554C0:
 	movs r1, #0
 	strb r1, [r0]
 	movs r0, #0x48
-	bl sub_8002210
+	bl WarpToMap
 	b _080555F0
 	.align 2, 0
 _080554F8: .4byte gPlayers
@@ -11989,7 +11989,7 @@ _080555B4:
 	asrs r0, r0, #0x10
 	ldrb r1, [r2, #0xa]
 	subs r1, #2
-	bl sub_8002210
+	bl WarpToMap
 _080555F0:
 	pop {r4}
 	pop {r0}
@@ -14218,7 +14218,7 @@ sub_80567A0: @ 0x080567A0
 	asrs r0, r0, #0x10
 	ldrb r1, [r2, #0xa]
 	subs r1, #2
-	bl sub_8002210
+	bl WarpToMap
 _080567F4:
 	pop {r0}
 	bx r0
@@ -14542,7 +14542,7 @@ sub_8056A58: @ 0x08056A58
 	movs r1, #0xc
 	ldrsh r0, [r4, r1]
 	movs r1, #0
-	bl sub_8002210
+	bl WarpToMap
 	pop {r4}
 	pop {r0}
 	bx r0
@@ -17440,6 +17440,6 @@ _080581BA:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #0
-	bl sub_8002210
+	bl WarpToMap
 	pop {r0}
 	bx r0

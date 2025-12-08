@@ -143,7 +143,7 @@ void Task_802E6F8(void)
                 sub_80275B8(gStageData.zone * 10 + 2, 0, 0);
             }
 
-            sub_8002210(gStageData.zone * 10 + 2, 0);
+            WarpToMap(gStageData.zone * 10 + 2, 0);
         } break;
 
         case 1: {
@@ -165,7 +165,7 @@ void Task_802E6F8(void)
             gBldRegs.bldAlpha = 0;
             gBldRegs.bldY = 16;
 
-            sub_8002210(1, 2);
+            WarpToMap(1, 2);
         } break;
     }
 }
@@ -195,11 +195,11 @@ void sub_802E87C(void)
 {
     switch (gStageData.gameMode) {
         case GAME_MODE_SINGLE_PLAYER: {
-            sub_8002210(11, 0);
+            WarpToMap(11, 0);
         } break;
 
         case GAME_MODE_5: {
-            sub_8002210(11, 0);
+            WarpToMap(11, 0);
         } break;
     }
 }

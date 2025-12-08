@@ -37,7 +37,7 @@ typedef struct {
 extern Struct_03001060 gUnknown_03001060;
 
 bool32 sub_8001E58(void);
-void sub_8002210(s16 level, u16);
+void WarpToMap(s16 level, u16);
 void Task_800303C(void); // Player-related (Player.unk90.main gets set to this in goal_ring IA)
 void sub_8003D2C(void);
 void sub_8003DC4(u16 param0);

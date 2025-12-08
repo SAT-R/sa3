@@ -11308,7 +11308,7 @@ _080B7520:
 	lsls r0, r0, #1
 	adds r0, #2
 	movs r1, #4
-	bl sub_8002210
+	bl WarpToMap
 	b _080B7596
 	.align 2, 0
 _080B7534: .4byte gStageData

@@ -71111,7 +71111,7 @@ _08088008:
 	ldrb r2, [r4, #0xa]
 	adds r0, r0, r2
 	movs r1, #0
-	bl sub_8002210
+	bl WarpToMap
 	movs r0, #0
 	strb r0, [r4, #1]
 	b _0808807E
@@ -98411,7 +98411,7 @@ _080955EC:
 	asrs r0, r0, #0x10
 _08095606:
 	movs r1, #0
-	bl sub_8002210
+	bl WarpToMap
 	strb r5, [r4, #1]
 	b _0809566A
 	.align 2, 0
@@ -104889,7 +104889,7 @@ _080987D4:
 _08098884:
 	movs r0, #1
 	movs r1, #0
-	bl sub_8002210
+	bl WarpToMap
 	pop {r3, r4, r5}
 	mov r8, r3
 	mov sb, r4
@@ -105050,7 +105050,7 @@ _080989D4:
 	adds r0, r0, r1
 	asrs r0, r0, #0x10
 	movs r1, #0
-	bl sub_8002210
+	bl WarpToMap
 	movs r0, #1
 _080989EE:
 	pop {r3, r4, r5}
@@ -105209,7 +105209,7 @@ _08098A3A:
 	bl sub_80003B8
 	movs r0, #2
 	movs r1, #0
-	bl sub_8002210
+	bl WarpToMap
 	movs r0, #1
 	pop {r3, r4, r5}
 	mov r8, r3
@@ -105492,7 +105492,7 @@ _08098D74:
 	bl sub_80003B8
 	movs r0, #1
 	movs r1, #0
-	bl sub_8002210
+	bl WarpToMap
 	movs r0, #1
 	b _08098DD6
 	.align 2, 0
@@ -125738,7 +125738,7 @@ _080A2D60:
 	bl sub_8001E58
 	movs r0, #2
 	movs r1, #0
-	bl sub_8002210
+	bl WarpToMap
 _080A2D76:
 	pop {r0}
 	bx r0
@@ -139250,7 +139250,7 @@ sub_80A9684: @ 0x080A9684
 	movs r1, #0xe
 	ldrsh r0, [r5, r1]
 	movs r1, #1
-	bl sub_8002210
+	bl WarpToMap
 	pop {r3, r4}
 	mov r8, r3
 	mov sb, r4
@@ -143247,7 +143247,7 @@ _080AB6F8:
 	adds r0, r0, r1
 	asrs r0, r0, #0x10
 	movs r1, #4
-	bl sub_8002210
+	bl WarpToMap
 	b _080AB760
 	.align 2, 0
 _080AB734: .4byte 0x0000FFFF
@@ -150128,7 +150128,7 @@ _080AED14:
 	asrs r0, r0, #0x10
 	ldrb r1, [r2, #0xa]
 	subs r1, #2
-	bl sub_8002210
+	bl WarpToMap
 _080AED5A:
 	pop {r4, r5}
 	pop {r0}
