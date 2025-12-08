@@ -1,8 +1,11 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
 #include "malloc_vram.h"
 #include "module_unclear.h"
+#include "data/sprite_tables.h"
 #include "game/stage.h"
+#include "game/stage/tilemap_table.h"
 
 void sub_80001EC(void);
 void Task_8000284(void);
@@ -116,3 +119,14 @@ void sub_8000390(void)
 }
 
 void sub_80003AC(void) { sub_80003B8(); }
+
+void sub_80003B8(void)
+{
+    gDispCnt = DISPCNT_BG2_ON | DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP;
+    gBgCntRegs[2] = BGCNT_SCREENBASE(30) | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(1);
+    gTilemapsRef = (Tilemap **)&gTilemaps;
+    gRefSpriteTables = &gSpriteTables;
+    gBgPalette[1] = RGB16(31, 31, 31);
+    gBgPalette[0x11] = 0x3E0;
+    gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+}

@@ -3,6 +3,7 @@
 #include "global.h"
 #include "core.h"
 #include "game/player.h"
+#include "game/stage.h"
 #include "constants/songs.h"
 //#include "module_unclear.h"
 
@@ -28,6 +29,19 @@ Struct_03001060 gUnknown_03001060 = {};
 Player gPlayers[4] = {};
 u8 gUnknown_03001D00 = 0;
 struct Task *gTask_03001CFC = NULL;
+StageData gStageData = {};
+
+void sub_80003B8() { }
+void CreateGameIntroState() { }
+void sub_8001DDC() { }
+void sub_8001E48() { }
+void sub_8001E94() { }
+void sub_8001E84() { }
+void sub_808723C() { }
+void sub_8052D8C() { }
+void sub_808ADF0() { }
+void sub_808AF44() { }
+void sub_808ECB8() { }
 
 void sub_80C460C(const u16 *pal, u8 paletteOffset, u16 palSize) { }
 void sub_80C4B48() { }
@@ -41,7 +55,6 @@ void sub_805C63C() { }
 void sub_805C280() { }
 void sub_805CD70() { }
 // void gPlayers() { }
-void gStageData() { }
 void gCamera() { }
 void sub_805CD20() { }
 bool32 IsWorldPtActive(s32 worldX, s32 worldY) { return TRUE; }
@@ -243,7 +256,6 @@ void sub_80213F0(Player *p) { }
 void sub_8004D30() { }
 void CreateCharacterSelect(u16 param0) { }
 void sub_8057AA0(u16 param0, u16 param1, u8 param2) { }
-void GameInit() { }
 void sub_807C670() { }
 void sub_807C728() { }
 void sub_807C8AC() { }

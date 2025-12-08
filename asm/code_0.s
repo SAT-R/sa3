@@ -8,46 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_80003B8
-sub_80003B8: @ 0x080003B8
-	ldr r1, _080003EC @ =gDispCnt
-	movs r2, #0xa2
-	lsls r2, r2, #5
-	adds r0, r2, #0
-	strh r0, [r1]
-	ldr r1, _080003F0 @ =gBgCntRegs
-	ldr r0, _080003F4 @ =0x00001E01
-	strh r0, [r1, #4]
-	ldr r1, _080003F8 @ =gTilemapsRef
-	ldr r0, _080003FC @ =gTilemaps
-	str r0, [r1]
-	ldr r1, _08000400 @ =gRefSpriteTables
-	ldr r0, _08000404 @ =gSpriteTables
-	str r0, [r1]
-	ldr r1, _08000408 @ =gBgPalette
-	ldr r0, _0800040C @ =0x00007FFF
-	strh r0, [r1, #2]
-	movs r0, #0xf8
-	lsls r0, r0, #2
-	strh r0, [r1, #0x22]
-	ldr r2, _08000410 @ =gFlags
-	ldr r0, [r2]
-	movs r1, #1
-	orrs r0, r1
-	str r0, [r2]
-	bx lr
-	.align 2, 0
-_080003EC: .4byte gDispCnt
-_080003F0: .4byte gBgCntRegs
-_080003F4: .4byte 0x00001E01
-_080003F8: .4byte gTilemapsRef
-_080003FC: .4byte gTilemaps
-_08000400: .4byte gRefSpriteTables
-_08000404: .4byte gSpriteTables
-_08000408: .4byte gBgPalette
-_0800040C: .4byte 0x00007FFF
-_08000410: .4byte gFlags
-
 	thumb_func_start sub_8000414
 sub_8000414: @ 0x08000414
 	push {r4, r5, r6, r7, lr}
