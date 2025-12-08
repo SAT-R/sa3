@@ -25,7 +25,11 @@ extern u8 gVramGraphicsCopyCursor;
 
 // Multiplayer-related (used in IA item_box_mp.c)
 typedef struct {
-    /* 0x00 */ u8 filler0[0x4C];
+    /* 0x00 */ u8 filler0[7];
+    /* 0x4C */ u8 unk7;
+    /* 0x00 */ u8 filler8[0x4];
+    /* 0x4C */ u32 unkC[4];
+    /* 0x00 */ u16 unk1C[4][6];
     /* 0x4C */ u8 unk4C;
     /* 0x4D */ u8 unk4D;
     /* 0x4E */ u8 filler4E[0x4];

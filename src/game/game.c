@@ -25,6 +25,7 @@ void sub_808ADF0(u8 param0);
 bool16 sub_8001E94(void);
 s32 sub_8001FD4(void);
 bool16 sub_80020F0(void);
+VsRecords *sub_8001C30(u32 param0, u16 *param1);
 void sub_8001DDC(s32 param0);
 void sub_802616C(u8 param0);
 
@@ -358,4 +359,74 @@ bool16 GetZoneAndActTypeFromStageID(s16 stageID, u8 *zone, u8 *actType)
         }
     }
     return FALSE;
+}
+
+void sub_8000804(u16 arg3)
+{
+    s32 var_r4;
+    s8 var_r1_2;
+    u32 temp_r0_2;
+    u8 *var_r1;
+    u8 *medal;
+    VsRecords *records;
+
+    switch (gStageData.unkB8) {
+        case 0:
+            var_r4 = 1 & gStageData.playerIndex;
+            break;
+        case 1:
+            var_r4 = gStageData.unkB8 & ~gStageData.playerIndex;
+            break;
+        case 2:
+            var_r4 = 2;
+            break;
+        default:
+            return;
+    }
+
+    switch (var_r4) {
+        case 0: {
+            if (gSaveGame.vsWins < 99) {
+                gSaveGame.vsWins++;
+            }
+        } break;
+        case 1: {
+            if (gSaveGame.vsLosses < 99) {
+                gSaveGame.vsLosses++;
+            }
+        } break;
+
+        case 2: {
+            if (gSaveGame.vsDraws < 99) {
+                gSaveGame.vsDraws++;
+            }
+        } break;
+        default:
+            return;
+    }
+
+    for (var_r1_2 = 3; var_r1_2 >= 0; var_r1_2--) {
+        if ((((s32)gUnknown_03001060.filler0[7] >> var_r1_2) & 1) && ((1 & gStageData.playerIndex) != (var_r1_2 & 1))) {
+            records = sub_8001C30(gUnknown_03001060.unkC[var_r1_2], gUnknown_03001060.unk1C[var_r1_2]);
+            switch (var_r4) {
+                case 0:
+                    if (records->losses < 99) {
+                        records->losses++;
+                    }
+                    break;
+
+                case 1:
+                    if (records->wins < 99) {
+                        records->wins++;
+                    }
+                    break;
+
+                case 2:
+                    if (records->draws < 99) {
+                        records->draws++;
+                    }
+                    break;
+            }
+        }
+    }
 }
