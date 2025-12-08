@@ -12,6 +12,9 @@
 #define ENABLE_VRAM_VIEW !TRUE
 #endif
 
+// NOTE: Highest bit set
+#define UNDEF_PTR (void *)((uintptr_t)__INTPTR_MAX__ + 1)
+
 #define CONST_DATA __attribute__((section(".data")))
 
 // #include "types.h"

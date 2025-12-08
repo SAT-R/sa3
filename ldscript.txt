@@ -21,6 +21,7 @@ SECTIONS {
     ALIGN(4) {
         asm/rom_header.o(.text);
         asm/crt0.o(.text);
+        src/game/game.o(.text);
         asm/code_0.o(.text);
         src/game/interactables/zone_warp.o(.text);
         src/game/interactables/spring.o(.text);

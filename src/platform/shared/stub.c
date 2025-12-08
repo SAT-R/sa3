@@ -1,5 +1,3 @@
-
-#include <windows.h>
 /* General module of stub of functions that have not been decompiled */
 
 #include "global.h"

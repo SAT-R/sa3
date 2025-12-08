@@ -124158,18 +124158,18 @@ sub_80A2098: @ 0x080A2098
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_80A209C
-sub_80A209C: @ 0x080A209C
+	thumb_func_start CreateGameIntroState
+CreateGameIntroState: @ 0x080A209C
 	push {r4, lr}
 	sub sp, #4
 	lsls r0, r0, #0x10
 	lsrs r4, r0, #0x10
-	ldr r0, _080A20D4 @ =sub_80A2534
+	ldr r0, _080A20D4 @ =Task_GameIntroInit
 	movs r1, #0xb8
 	lsls r1, r1, #1
 	movs r2, #0x80
 	lsls r2, r2, #5
-	ldr r3, _080A20D8 @ =sub_80A2CFC
+	ldr r3, _080A20D8 @ =TaskDestructor_GameIntro
 	str r3, [sp]
 	movs r3, #0
 	bl TaskCreate
@@ -124188,8 +124188,8 @@ sub_80A209C: @ 0x080A209C
 	movs r0, #0
 	b _080A20E8
 	.align 2, 0
-_080A20D4: .4byte sub_80A2534
-_080A20D8: .4byte sub_80A2CFC
+_080A20D4: .4byte Task_GameIntroInit
+_080A20D8: .4byte TaskDestructor_GameIntro
 _080A20DC: .4byte 0xFFFF0000
 _080A20E0: .4byte gStageData
 _080A20E4:
@@ -124725,8 +124725,8 @@ _080A24E4:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_80A2534
-sub_80A2534: @ 0x080A2534
+	thumb_func_start Task_GameIntroInit
+Task_GameIntroInit: @ 0x080A2534
 	push {r4, r5, r6, lr}
 	sub sp, #0x10
 	ldr r0, _080A2654 @ =gCurTask
@@ -125681,8 +125681,8 @@ _080A2CF2:
 	.align 2, 0
 _080A2CF8: .4byte gCurTask
 
-	thumb_func_start sub_80A2CFC
-sub_80A2CFC: @ 0x080A2CFC
+	thumb_func_start TaskDestructor_GameIntro
+TaskDestructor_GameIntro: @ 0x080A2CFC
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	ldr r1, _080A2D28 @ =0x0300012C
@@ -126150,7 +126150,7 @@ _080A30B2:
 	cmp r0, #0
 	bne _080A30F4
 	movs r0, #2
-	bl sub_80A209C
+	bl CreateGameIntroState
 	b _080A30FA
 	.align 2, 0
 _080A30E4: .4byte gCurTask
@@ -126159,7 +126159,7 @@ _080A30EC: .4byte gWinRegs
 _080A30F0: .4byte gBgScrollRegs
 _080A30F4:
 	movs r0, #4
-	bl sub_80A209C
+	bl CreateGameIntroState
 _080A30FA:
 	ldr r0, _080A3108 @ =gCurTask
 	ldr r0, [r0]
@@ -127755,11 +127755,11 @@ _080A3E04:
 	cmp r0, #0
 	beq _080A3E12
 	movs r0, #5
-	bl sub_80A209C
+	bl CreateGameIntroState
 	b _080A3E18
 _080A3E12:
 	movs r0, #3
-	bl sub_80A209C
+	bl CreateGameIntroState
 _080A3E18:
 	ldr r0, _080A3E24 @ =gCurTask
 	ldr r0, [r0]
@@ -149337,7 +149337,7 @@ sub_80AE6D8: @ 0x080AE6D8
 	ldrb r0, [r0]
 	strb r0, [r1]
 	movs r0, #0
-	bl sub_80A209C
+	bl CreateGameIntroState
 	pop {r0}
 	bx r0
 	.align 2, 0
