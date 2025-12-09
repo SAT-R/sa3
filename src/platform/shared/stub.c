@@ -31,6 +31,7 @@ u8 gUnknown_03001D00 = 0;
 struct Task *gTask_03001CFC = NULL;
 StageData gStageData = {};
 
+void sub_8000D68() { }
 void CreateGameIntroState() { }
 void sub_8001DDC() { }
 void sub_8001E48() { }

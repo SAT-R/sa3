@@ -2120,6 +2120,7 @@ sub_80040D8: @ 0x080040D8
 _08004170: .4byte gPlayers
 _08004174: .4byte 0x05000054
 
+@ InitializePlayer ?
 	thumb_func_start sub_8004178
 sub_8004178: @ 0x08004178
 	push {r4, r5, r6, r7, lr}

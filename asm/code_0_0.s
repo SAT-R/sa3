@@ -6,11 +6,8 @@
 .arm
 
 .if 0
-.endif
-
-@ VERY similar to sub_8000974
-	thumb_func_start sub_8000B6C
-sub_8000B6C: @ 0x08000B6C
+	thumb_func_start CompleteSave
+CompleteSave: @ 0x08000B6C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -267,6 +264,7 @@ _08000D58: .4byte 0x00008CA0
 _08000D5C: .4byte 0x0000035E
 _08000D60: .4byte 0x00000365
 _08000D64: .4byte 0x00000366
+.endif
 
 	thumb_func_start sub_8000D68
 sub_8000D68: @ 0x08000D68
@@ -2446,10 +2444,10 @@ sub_8001DDC: @ 0x08001DDC
 	adds r4, r0, #0
 	ldr r0, _08001E00 @ =gSaveGame
 	adds r1, r4, #0
-	bl sub_8000974
+	bl ClearSave
 	ldr r0, _08001E04 @ =gUnknown_03000980
 	adds r1, r4, #0
-	bl sub_8000974
+	bl ClearSave
 	ldr r0, _08001E08 @ =gSaveSectorData
 	adds r1, r4, #0
 	bl sub_8001040
@@ -2498,7 +2496,7 @@ _08001E44: .4byte gFlags
 sub_8001E48: @ 0x08001E48
 	push {lr}
 	ldr r0, _08001E54 @ =gSaveGame
-	bl sub_8000B6C
+	bl CompleteSave
 	pop {r0}
 	bx r0
 	.align 2, 0

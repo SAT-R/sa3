@@ -56,24 +56,24 @@ typedef struct {
 
 // Used in struc_30008A0
 typedef struct {
-    u32 playerId;
-    u16 playerName[MAX_PLAYER_NAME_LENGTH];
+    /* 0x00 */ u32 playerId;
+    /* 0x04 */ u16 playerName[MAX_PLAYER_NAME_LENGTH];
 
-    bool8 slotFilled;
+    /* 0x10 */ bool8 slotFilled;
 
-    u8 wins;
-    u8 losses;
-    u8 draws;
+    /* 0x11 */ u8 wins;
+    /* 0x12 */ u8 losses;
+    /* 0x13 */ u8 draws;
 } VsRecords;
 
 // Used in struc_3000CF0
 typedef struct {
-    u8 unk0;
-    u8 wins;
-    u8 draws;
-    u8 losses;
-    u32 unk4;
-    u16 playerName[MAX_PLAYER_NAME_LENGTH];
+    /* 0x00 */ u8 unk0;
+    /* 0x01 */ u8 wins;
+    /* 0x02 */ u8 draws;
+    /* 0x03 */ u8 losses;
+    /* 0x04 */ u32 unk4;
+    /* 0x08 */ u16 playerName[MAX_PLAYER_NAME_LENGTH];
 } VsRecords2;
 
 #if (GAME == GAME_SA1) || (GAME == GAME_SA2)

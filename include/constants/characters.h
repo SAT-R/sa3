@@ -22,6 +22,10 @@ typedef enum {
 #define MAIN_CHARACTERS                                                                                                                    \
     (CHARACTER_BIT(CHARACTER_SONIC) | CHARACTER_BIT(CHARACTER_CREAM) | CHARACTER_BIT(CHARACTER_TAILS) | CHARACTER_BIT(CHARACTER_KNUCKLES))
 
-#define NEWGAME_CHARACTER_BITS (CHARACTER_BIT(CHARACTER_SONIC) | CHARACTER_BIT(CHARACTER_TAILS))
+#define NEWGAME_CHARACTERS (CHARACTER_BIT(CHARACTER_SONIC) | CHARACTER_BIT(CHARACTER_TAILS))
+
+#define ALL_CHARACTERS                                                                                                                     \
+    (CHARACTER_BIT(CHARACTER_SONIC) | CHARACTER_BIT(CHARACTER_CREAM) | CHARACTER_BIT(CHARACTER_TAILS) | CHARACTER_BIT(CHARACTER_KNUCKLES)  \
+     | CHARACTER_BIT(CHARACTER_AMY))
 
 #endif

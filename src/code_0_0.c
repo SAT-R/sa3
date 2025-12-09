@@ -30,7 +30,7 @@ void Task_8000918(void)
     (*pTask)->main = Task_8001FB0;
 }
 
-void sub_8000974(SaveGame *save, u32 index)
+void ClearSave(SaveGame *save, u32 index)
 {
     s16 i, j;
     save->id = index;
@@ -38,7 +38,7 @@ void sub_8000974(SaveGame *save, u32 index)
         save->playerName[i] = -1;
     }
 
-    save->unlockedCharacters = NEWGAME_CHARACTER_BITS;
+    save->unlockedCharacters = NEWGAME_CHARACTERS;
     save->unlockedZones = ZONE_1 + 1;
     save->continueZone = 0;
 
@@ -106,4 +106,84 @@ void sub_8000974(SaveGame *save, u32 index)
     save->language = 1;
 
     sub_8000D68(save);
+}
+
+void CompleteSave(SaveGame *save)
+{
+    s16 i, j;
+
+    save->id = 0;
+
+    for (i = 0; i < (s32)ARRAY_COUNT(save->playerName); i++) {
+        save->playerName[i] = 0xFFFF;
+    }
+
+    save->unlockedCharacters = ALL_CHARACTERS;
+    save->unlockedZones = 9;
+    save->continueZone = ZONE_1;
+
+    for (i = 0; i < (s32)ARRAY_COUNT(save->chaoCount); i++) {
+        save->chaoCount[i] = 0x3FF;
+    }
+
+    for (i = 0; i < (s32)ARRAY_COUNT(save->specialKeys); i++) {
+        save->specialKeys[i] = 9;
+    }
+
+    for (i = 0; i < (s32)ARRAY_COUNT(save->unlockedStages); i++) {
+        save->unlockedStages[i] = 0x7F; // = (ZoneCompletion) { 1, 1, 1, 1, 1, 1, 1 };
+    }
+
+    save->collectedEmeralds = 0x7F;
+    save->unlockFlags = 0x7F;
+    save->unk34 = 0x31;
+    save->unk36 = 9;
+
+    save->unk5B = 0;
+    save->unk5C = 0;
+    save->unk5D = 0;
+
+    save->vsWins = 0;
+    save->vsLosses = 0;
+    save->vsDraws = 0;
+
+    {
+        VsRecords *vsRecs = &gSaveGame.vsRecords[0];
+        for (i = 0; i < (s32)ARRAY_COUNT(gSaveGame.vsRecords); i++, vsRecs++) {
+            vsRecs->slotFilled = 0;
+            vsRecs->wins = 0;
+            vsRecs->losses = 0;
+            vsRecs->draws = 0;
+            vsRecs->playerId = 0;
+
+            for (j = 0; j < (s32)ARRAY_COUNT(vsRecs->playerName); j++) {
+                vsRecs->playerName[j] = 0;
+            }
+        }
+    }
+
+    {
+        TimeRecord *timeRecs = &save->timeRecords.table[0][0][0];
+        for (i = 0; i < (s16)(sizeof(save->timeRecords) / sizeof(save->timeRecords.table[0][0][0])); i++, timeRecs++) {
+            timeRecs->character1 = PLAYERCHAR_NONE;
+            timeRecs->character2 = PLAYERCHAR_NONE;
+            timeRecs->time = MAX_COURSE_TIME;
+        }
+    }
+
+    {
+        for (i = 0; i < (s32)ARRAY_COUNT(save->collectedMedals); i++) {
+            for (j = 0; j < (s32)ARRAY_COUNT(save->collectedMedals[0]); j++) {
+                save->collectedMedals[i][j] = 0x07; // =  (MedalCollection) { 1, 1, 1 };
+            }
+        }
+    }
+
+    save->buttonConfig.jump = A_BUTTON;
+    save->buttonConfig.attack = B_BUTTON;
+    save->buttonConfig.trick = R_BUTTON;
+
+    save->difficulty = DIFFICULTY_NORMAL;
+    save->disableTimeLimit = FALSE;
+    save->language = 1;
 }
