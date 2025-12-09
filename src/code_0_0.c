@@ -1,5 +1,8 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
+#include "lib/m4a/m4a.h"
+#include "lib/agb_flash/agb_flash.h"
 #include "malloc_ewram.h"
 #include "malloc_vram.h"
 #include "game/save.h"
@@ -333,4 +336,84 @@ void ValidateSaveSector(SaveSectorData *sector, u32 id)
     sector->language = 1;
 
     sector->checksum = GetSaveSectorChecksum(sector);
+}
+
+u32 sub_8001120(u32 param0, SaveSectorData *sector)
+{
+    u16 _param0 = param0;
+    u16 bfrIE;
+    u16 bfrIME;
+    u16 bfrDispstat;
+
+    u32 result;
+
+    m4aMPlayAllStop();
+    m4aSoundVSyncOff();
+
+    gFlags |= FLAGS_8000;
+    bfrIE = REG_IE;
+    bfrIME = REG_IME;
+    bfrDispstat = REG_DISPSTAT;
+
+    REG_IE = 0;
+    REG_IME = 0;
+    REG_DISPSTAT = 0;
+
+    gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
+    DmaStop(0);
+    DmaStop(1);
+    DmaStop(2);
+    DmaStop(3);
+
+    result = ProgramFlashSectorAndVerifyNBytes(_param0, sector, sizeof(*sector));
+
+    REG_IE = bfrIE;
+    REG_IME = bfrIME;
+    REG_DISPSTAT = bfrDispstat;
+
+    m4aSoundVSyncOn();
+
+    gFlags &= ~FLAGS_8000;
+
+    return result;
+}
+
+u16 sub_8001224(s16 param0)
+{
+	u16 bfrIE;
+	u16 bfrIME;
+	u16 bfrDispstat;
+    
+	u16 result;
+    
+	m4aMPlayAllStop();
+	m4aSoundVSyncOff();
+
+    gFlags |= FLAGS_8000;
+    bfrIE = REG_IE;
+    bfrIME = REG_IME;
+    bfrDispstat = REG_DISPSTAT;
+    
+    REG_IE = 0;
+    REG_IME = 0;
+    
+    REG_DISPSTAT = 0;
+    
+    gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
+    DmaStop(0);
+    DmaStop(1);
+    DmaStop(2);
+    DmaStop(3);
+
+    result = EraseFlashSector(param0);
+    
+    REG_IE = bfrIE;
+    REG_IME = bfrIME;
+    REG_DISPSTAT = bfrDispstat;
+    
+    m4aSoundVSyncOn();
+    
+    gFlags &= ~FLAGS_8000;
+    
+    return result;
 }
