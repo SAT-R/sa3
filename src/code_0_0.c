@@ -6,7 +6,7 @@
 #include "constants/characters.h"
 #include "constants/zones.h"
 
-void sub_8000D68(SaveGame *save);
+void ValidateSave(SaveGame *save);
 void Task_8001FB0(void);
 
 void Task_8000918(void)
@@ -105,7 +105,7 @@ void ClearSave(SaveGame *save, u32 index)
     save->disableTimeLimit = FALSE;
     save->language = 1;
 
-    sub_8000D68(save);
+    ValidateSave(save);
 }
 
 void CompleteSave(SaveGame *save)
@@ -186,4 +186,111 @@ void CompleteSave(SaveGame *save)
     save->difficulty = DIFFICULTY_NORMAL;
     save->disableTimeLimit = FALSE;
     save->language = 1;
+}
+
+void ValidateSave(SaveGame *save)
+{
+    s16 i, j, k;
+
+    // Set to 'TRUE' if an invalid customKey was set.
+    bool32 customButtonsAreInvalid = FALSE;
+
+    for (i = 0; i < (s16)(s32)ARRAY_COUNT(save->playerName); i++) {
+        if ((save->playerName[i] >= 270) && save->playerName[i] != 0xFFFF) {
+            save->playerName[i] = 0x00F1;
+        }
+    }
+
+    save->unlockedCharacters &= ALL_CHARACTERS;
+
+    if (save->unlockedZones > 9)
+        save->unlockedZones = 9; // NONAGGRESSION+1
+
+    if (save->continueZone > ZONE_7)
+        save->continueZone = ZONE_1;
+
+    for (i = 0; i < (s32)ARRAY_COUNT(save->chaoCount); i++) {
+        save->chaoCount[i] &= 0x3FF;
+    }
+
+    for (i = 0; i < (s32)ARRAY_COUNT(save->unlockedStages); i++) {
+        save->unlockedStages[i] &= 0x7F; // = (ZoneCompletion) { 1, 1, 1, 1, 1, 1, 1 };
+    }
+
+    save->collectedEmeralds &= 0x7F;
+    save->unlockFlags &= 0x07;
+    save->unk34 &= 0x0031;
+
+    save->unk5B = 0;
+    save->unk5C = 0;
+    save->unk5D = 0;
+    save->unk63 = 0;
+
+    for (i = 0; i < (s32)ARRAY_COUNT(save->vsRecords); i++) {
+        for (j = 0; j < (s32)ARRAY_COUNT(save->vsRecords[0].playerName); j++) {
+            if (!(save->vsRecords[i].playerName[j] < 270) && (save->vsRecords[i].playerName[j] != 0xFFFF))
+                save->vsRecords[i].playerName[j] = 0xF1;
+        }
+
+        if (save->vsRecords[i].slotFilled > 1)
+            save->vsRecords[i].slotFilled = 1;
+    }
+
+#define Zone i
+#define Act  j
+#define Rank k
+    {
+        for (Zone = 0; Zone < (s32)ARRAY_COUNT(save->timeRecords.table); Zone++) {
+            for (Act = 0; Act < (s32)ARRAY_COUNT(save->timeRecords.table[0]); Act++) {
+                for (Rank = 0; Rank < (s32)ARRAY_COUNT(save->timeRecords.table[0][0]); Rank++) {
+                    if (!(save->timeRecords.table[Zone][Act][Rank].character1 < MAX_PLAYER_NAME_LENGTH - 1)) {
+                        save->timeRecords.table[Zone][Act][Rank].character1 = PLAYERCHAR_NONE;
+                    }
+
+                    if (!(save->timeRecords.table[Zone][Act][Rank].character2 < MAX_PLAYER_NAME_LENGTH - 1)) {
+                        save->timeRecords.table[Zone][Act][Rank].character2 = PLAYERCHAR_NONE;
+                    }
+
+                    if (!(save->timeRecords.table[Zone][Act][Rank].time <= MAX_COURSE_TIME)) {
+                        save->timeRecords.table[Zone][Act][Rank].time = MAX_COURSE_TIME;
+                    }
+                }
+            }
+        }
+    }
+#undef Rank
+#undef Act
+#undef Zone
+
+    if (((u16)(save->buttonConfig.jump - 1) > A_BUTTON) && save->buttonConfig.jump != R_BUTTON) {
+        customButtonsAreInvalid = TRUE;
+    }
+
+    if (((u16)(save->buttonConfig.attack - 1) > A_BUTTON) && save->buttonConfig.attack != R_BUTTON) {
+        customButtonsAreInvalid = TRUE;
+    }
+
+    if (((u16)(save->buttonConfig.trick - 1) > A_BUTTON) && save->buttonConfig.trick != R_BUTTON) {
+        customButtonsAreInvalid = TRUE;
+    }
+
+    if ((u16)(save->buttonConfig.jump | save->buttonConfig.attack | save->buttonConfig.trick) != (A_BUTTON | B_BUTTON | R_BUTTON)) {
+        customButtonsAreInvalid = TRUE;
+    }
+
+    if (customButtonsAreInvalid) {
+        // Set standard key-layout.
+        save->buttonConfig.jump = A_BUTTON;
+        save->buttonConfig.attack = B_BUTTON;
+        save->buttonConfig.trick = R_BUTTON;
+    }
+
+    if (save->difficulty > 2)
+        save->difficulty = 0;
+
+    if (save->disableTimeLimit > 1)
+        save->disableTimeLimit = 0;
+
+    if (save->language > 5)
+        save->language = 1;
 }
