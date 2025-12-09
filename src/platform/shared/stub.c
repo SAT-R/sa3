@@ -32,6 +32,7 @@ struct Task *gTask_03001CFC = NULL;
 StageData gStageData = {};
 
 void sub_8000D68() { }
+u32 GetSaveSectorChecksum() { return 0; }
 void CreateGameIntroState() { }
 void sub_8001DDC() { }
 void sub_8001E48() { }

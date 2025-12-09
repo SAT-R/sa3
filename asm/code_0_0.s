@@ -6,10 +6,8 @@
 .arm
 
 .if 0
-.endif
-
-	thumb_func_start sub_8001040
-sub_8001040: @ 0x08001040
+	thumb_func_start ValidateSaveSector
+ValidateSaveSector: @ 0x08001040
 	push {r4, r5, lr}
 	sub sp, #4
 	adds r5, r0, #0
@@ -98,7 +96,7 @@ _0800109C:
 	adds r0, r5, r2
 	strb r3, [r0]
 	adds r0, r5, #0
-	bl sub_800212C
+	bl GetSaveSectorChecksum
 	movs r2, #0xda
 	lsls r2, r2, #2
 	adds r1, r5, r2
@@ -115,6 +113,7 @@ _08001110: .4byte 0x00008CA0
 _08001114: .4byte 0x00000361
 _08001118: .4byte 0x00000362
 _0800111C: .4byte 0x00000366
+.endif
 
 	thumb_func_start sub_8001120
 sub_8001120: @ 0x08001120
@@ -842,7 +841,7 @@ _08001690:
 	adds r0, r6, r1
 	strb r2, [r0]
 	adds r0, r6, #0
-	bl sub_800212C
+	bl GetSaveSectorChecksum
 	movs r2, #0xda
 	lsls r2, r2, #2
 	adds r1, r6, r2
@@ -1809,7 +1808,7 @@ sub_8001DDC: @ 0x08001DDC
 	bl ClearSave
 	ldr r0, _08001E08 @ =gSaveSectorData
 	adds r1, r4, #0
-	bl sub_8001040
+	bl ValidateSaveSector
 	pop {r4}
 	pop {r0}
 	bx r0
@@ -2136,7 +2135,7 @@ _0800204C:
 	beq _08002060
 	adds r0, r4, #0
 	movs r1, #0
-	bl sub_8001040
+	bl ValidateSaveSector
 _08002060:
 	adds r0, r5, #0
 	adds r1, r4, #0
@@ -2177,7 +2176,7 @@ _08002094:
 	cmp r1, r0
 	bne _080020C0
 	adds r0, r5, #0
-	bl sub_800212C
+	bl GetSaveSectorChecksum
 	ldr r1, [r7]
 	cmp r1, r0
 	bne _080020C0
@@ -2248,8 +2247,8 @@ _08002126:
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_800212C
-sub_800212C: @ 0x0800212C
+	thumb_func_start GetSaveSectorChecksum
+GetSaveSectorChecksum: @ 0x0800212C
 	push {r4, lr}
 	adds r3, r0, #0
 	movs r2, #0

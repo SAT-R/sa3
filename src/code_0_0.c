@@ -8,6 +8,7 @@
 
 void ValidateSave(SaveGame *save);
 void Task_8001FB0(void);
+u32 GetSaveSectorChecksum(SaveSectorData *sector);
 
 void Task_8000918(void)
 {
@@ -293,4 +294,43 @@ void ValidateSave(SaveGame *save)
 
     if (save->language > 5)
         save->language = 1;
+}
+
+void ValidateSaveSector(SaveSectorData *sector, u32 id)
+{
+    s16 i;
+
+    CPU_FILL(0, sector, sizeof(SaveSectorData), 32);
+
+    sector->magicNumber = SAVEMAGIC_SA3;
+    sector->id = id;
+
+    for (i = 0; i <= 5; i++) {
+        sector->playerName[i] = 0xFFFF;
+    }
+
+    sector->v18 = 0;
+    sector->unlockedCharacters = NEWGAME_CHARACTERS;
+    sector->unlockedZones = ZONE_1 + 1;
+    sector->continueZone = ZONE_1;
+    sector->v1C = 0;
+
+    {
+        TimeRecord *record = &sector->timeRecords.table[0][0][0];
+        for (i = 0; i < (s32)ARRAY_COUNT_3D(sector->timeRecords.table); i++, record++) {
+            record->character1 = PLAYERCHAR_NONE;
+            record->character2 = PLAYERCHAR_NONE;
+            record->time = MAX_COURSE_TIME;
+        }
+    }
+
+    sector->buttonConfig.jump = (u8)A_BUTTON;
+    sector->buttonConfig.attack = (u8)B_BUTTON;
+    sector->buttonConfig.trick = (u8)(R_BUTTON >> 6);
+
+    sector->difficulty = 0;
+    sector->disableTimeLimit = 0;
+    sector->language = 1;
+
+    sector->checksum = GetSaveSectorChecksum(sector);
 }

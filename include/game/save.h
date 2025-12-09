@@ -12,6 +12,8 @@
 
 #define PLAYER_NAME_END_CHAR 0xFFFF
 
+#define SAVEMAGIC_SA3 0x47544E4C
+
 #define CHAO_COLLECTED_BIT(num) (1 << (num))
 #define CHAO_COLLECTED_ALL      0x3FF
 
@@ -180,17 +182,15 @@ typedef struct {
 
     VsRecords2 vsRecords[10]; // 0x68
 
-    TimeRecords timeRecords[7][4][5]; // 0x130
+    TimeRecords timeRecords; // 0x130
 
-    u8 buttonConfig[3];
-    u8 v363; // padding?
+    ButtonConfigPacked buttonConfig;
     u8 difficulty;
     bool8 disableTimeLimit;
     u8 language;
     u8 v367; // INVESTIGATE: v367 might be unused.
 
-    u32 v368; // v368 | Checksum? In sub_800212C() this value is calculated and show that
-              // it HAS to be the last member of the struct
+    u32 checksum;
 } SaveSectorData;
 
 extern SaveSectorData gSaveSectorData;

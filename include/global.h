@@ -101,7 +101,9 @@ typedef void (*VoidFn)(void);
 //       If casted it to be signed,
 //          dataIndex = (dataIndex + 1) % ARRAY_COUNT(data)
 //       wouldn't match.
-#define ARRAY_COUNT(array) (sizeof(array) / sizeof((array)[0]))
+#define ARRAY_COUNT(array)  (sizeof(array) / sizeof((array)[0]))
+#define ARRAY_COUNT_2D(arr) ((u16)(sizeof(arr) / sizeof((arr)[0][0])))
+#define ARRAY_COUNT_3D(arr) ((u16)(sizeof(arr) / sizeof((arr)[0][0][0])))
 
 // Converts a number to Q8.8 fixed-point format
 #define Q_8_8(n) ((s16)((n)*256))
