@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start sub_800132C
 sub_800132C: @ 0x0800132C
 	push {r4, r5, r6, r7, lr}
@@ -511,6 +509,7 @@ _080016DC: .4byte 0x00000362
 _080016E0: .4byte 0x00000365
 _080016E4: .4byte 0x00000366
 _080016E8: .4byte 0x00000367
+.endif
 
 	thumb_func_start sub_80016EC
 sub_80016EC: @ 0x080016EC

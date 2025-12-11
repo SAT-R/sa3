@@ -312,11 +312,11 @@ void ValidateSaveSector(SaveSectorData *sector, u32 id)
         sector->playerName[i] = 0xFFFF;
     }
 
-    sector->v18 = 0;
+    sector->unk18 = 0;
     sector->unlockedCharacters = NEWGAME_CHARACTERS;
     sector->unlockedZones = ZONE_1 + 1;
     sector->continueZone = ZONE_1;
-    sector->v1C = 0;
+    sector->unk1C = 0;
 
     {
         TimeRecord *record = &sector->timeRecords.table[0][0][0];
@@ -414,4 +414,122 @@ u16 sub_8001224(s16 param0)
     gFlags &= ~FLAGS_8000;
 
     return result;
+}
+
+void sub_800132C(SaveSectorData *sector, SaveGame *save)
+{
+    s16 i;
+    s16 j;
+    s16 k;
+
+    sector->magicNumber = 0x47544E4C;
+    sector->unk4 += 1;
+    sector->id = save->id;
+
+    for (i = 0; i < 6; i++) {
+        sector->playerName[i] = save->playerName[i];
+    }
+
+    sector->unk18 = 0;
+    sector->unlockedCharacters = save->unlockedCharacters;
+    sector->unlockedZones = save->unlockedZones;
+    sector->continueZone = save->continueZone;
+    sector->unk1C = 0;
+
+    for (i = 0; i < 7; i++) {
+        sector->chaoCount[i] = save->chaoCount[i];
+    }
+
+    for (i = 0; i < 7; i++) {
+        sector->specialKeys[i] = save->specialKeys[i];
+    }
+
+    for (i = 0; i < 9; i++) {
+        sector->unlockedStages[i] = save->unlockedStages[i];
+    }
+
+    for (i = 0; i < 9; i++) {
+        for (j = 0; j < 4; j++) {
+            sector->collectedMedals[i][j] = save->collectedMedals[i][j];
+        }
+    }
+
+    sector->collectedEmeralds = save->collectedEmeralds;
+    sector->unk62 = save->unk34;
+    sector->unlockFlags = save->unlockFlags;
+    sector->vsWins = save->vsWins;
+    sector->vsDraws = save->vsDraws;
+    sector->vsLosses = save->vsLosses;
+    sector->unk67 = 0;
+
+    for (i = 0; i < 10; i++) {
+        sector->vsRecords[i].slotFilled = save->vsRecords[i].slotFilled;
+        sector->vsRecords[i].wins = save->vsRecords[i].wins;
+        sector->vsRecords[i].draws = save->vsRecords[i].draws;
+        sector->vsRecords[i].losses = save->vsRecords[i].losses;
+
+        sector->vsRecords[i].playerId = save->vsRecords[i].playerId;
+
+        for (j = 0; j < 6; j++) {
+            sector->vsRecords[i].playerName[j] = save->vsRecords[i].playerName[j];
+        }
+    }
+
+#define Zone i
+#define Act  j
+#define Rank k
+    for (Zone = 0; Zone < (s32)ARRAY_COUNT(save->timeRecords.table); Zone++) {
+        for (Act = 0; Act < (s32)ARRAY_COUNT(save->timeRecords.table[0]); Act++) {
+            for (Rank = 0; Rank < (s32)ARRAY_COUNT(save->timeRecords.table[0][0]); Rank++) {
+                sector->timeRecords.table[Zone][Act][Rank].character1 = save->timeRecords.table[Zone][Act][Rank].character1;
+                sector->timeRecords.table[Zone][Act][Rank].character2 = save->timeRecords.table[Zone][Act][Rank].character2;
+                sector->timeRecords.table[Zone][Act][Rank].time = save->timeRecords.table[Zone][Act][Rank].time;
+            }
+        }
+    }
+#undef Rank
+#undef Act
+#undef Zone
+
+    switch (save->buttonConfig.jump) {
+        case A_BUTTON:
+            sector->buttonConfig.jump = 1;
+            break;
+        case B_BUTTON:
+            sector->buttonConfig.attack = 1;
+            break;
+        case R_BUTTON:
+            sector->buttonConfig.trick = 1;
+            break;
+    }
+
+    switch (save->buttonConfig.attack) {
+        case A_BUTTON:
+            sector->buttonConfig.jump = 2;
+            break;
+        case B_BUTTON:
+            sector->buttonConfig.attack = 2;
+            break;
+        case R_BUTTON:
+            sector->buttonConfig.trick = 2;
+            break;
+    }
+
+    switch (save->buttonConfig.trick) {
+        case A_BUTTON:
+            sector->buttonConfig.jump = 4;
+            break;
+        case B_BUTTON:
+            sector->buttonConfig.attack = 4;
+            break;
+        case R_BUTTON:
+            sector->buttonConfig.trick = 4;
+            break;
+    }
+
+    sector->difficulty = save->difficulty;
+    sector->disableTimeLimit = save->disableTimeLimit;
+    sector->language = save->language;
+    sector->unk367 = 0;
+    sector->checksum = GetSaveSectorChecksum(sector);
 }

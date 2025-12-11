@@ -70,11 +70,11 @@ typedef struct {
 
 // Used in struc_3000CF0
 typedef struct {
-    /* 0x00 */ u8 unk0;
+    /* 0x00 */ u8 slotFilled;
     /* 0x01 */ u8 wins;
     /* 0x02 */ u8 draws;
     /* 0x03 */ u8 losses;
-    /* 0x04 */ u32 unk4;
+    /* 0x04 */ u32 playerId;
     /* 0x08 */ u16 playerName[MAX_PLAYER_NAME_LENGTH];
 } VsRecords2;
 
@@ -150,19 +150,19 @@ extern SaveGame *gLoadedSaveGame;
 // .sav file...
 typedef struct {
     /* 0x000 */ u32 magicNumber; // default: 0x47544E4C ("LNTG")
-    /* 0x004 */ u32 v4;
+    /* 0x004 */ u32 unk4;
 
     // @NOTE This contains mostly the same information as struc_3000530, but
     // some values are missing or in a different order.
     /* 0x008 */ u32 id; // | 0x08
     /* 0x00C */ u16 playerName[MAX_PLAYER_NAME_LENGTH];
-    /* 0x018 */ u8 v18; // Don't know why this byte is here, but it's correct
+    /* 0x018 */ u8 unk18; // Don't know why this byte is here, but it's correct
 
     /* 0x019 */ u8 unlockedCharacters; // 0x19 |
     /* 0x01A */ u8 unlockedZones; // 0x1A |
     /* 0x01B */ u8 continueZone; // 0x1B | Zone the player continues at on startup after character
                                  // select (0 to 6)
-    /* 0x01C */ u8 v1C;
+    /* 0x01C */ u8 unk1C;
 
     /* 0x01D */ u16 chaoCount[7]; // | v1D - 0x2B
     /* 0x02C */ u8 specialKeys[7]; // Each counter counts for 1 Act | 0x2C - 0x32
@@ -173,24 +173,23 @@ typedef struct {
     //       struct struc_3000530, why?
     /* 0x03D */ u8 unlockFlags;
     /* 0x03E */ u8 collectedMedals[9][4];
-    u16 v62; // v34?: struc_3000530
-    u8 vsWins; // v60?: struc_3000530
-
-    u8 vsLosses;
-    u8 vsDraws;
-    u8 v67;
+    /* 0x062 */ u16 unk62; // v34?: struc_3000530
+    /* 0x064 */ u8 vsWins; // v60?: struc_3000530
+    /* 0x065 */ u8 vsDraws;
+    /* 0x066 */ u8 vsLosses;
+    u8 unk67;
 
     VsRecords2 vsRecords[10]; // 0x68
 
-    TimeRecords timeRecords; // 0x130
+    /* 0x130 */ TimeRecords timeRecords; // 0x130
 
-    ButtonConfigPacked buttonConfig;
-    u8 difficulty;
-    bool8 disableTimeLimit;
-    u8 language;
-    u8 v367; // INVESTIGATE: v367 might be unused.
+    /* 0x360 */ ButtonConfigPacked buttonConfig;
+    /* 0x364 */ u8 difficulty;
+    /* 0x365 */ bool8 disableTimeLimit;
+    /* 0x366 */ u8 language;
+    /* 0x367 */ u8 unk367; // INVESTIGATE: v367 might be unused.
 
-    u32 checksum;
+    /* 0x368 */ u32 checksum;
 } SaveSectorData;
 
 extern SaveSectorData gSaveSectorData;
