@@ -338,7 +338,7 @@ void ValidateSaveSector(SaveSectorData *sector, u32 id)
     sector->checksum = GetSaveSectorChecksum(sector);
 }
 
-u32 sub_8001120(u16 param0, SaveSectorData *sector)
+u32 SaveSectorWrite(u16 sectorNum, SaveSectorData *sector)
 {
     u16 bfrIE;
     u16 bfrIME;
@@ -364,7 +364,7 @@ u32 sub_8001120(u16 param0, SaveSectorData *sector)
     DmaStop(2);
     DmaStop(3);
 
-    result = ProgramFlashSectorAndVerifyNBytes(param0, sector, sizeof(*sector));
+    result = ProgramFlashSectorAndVerifyNBytes(sectorNum, sector, sizeof(*sector));
 
     REG_IE = bfrIE;
     REG_IME = bfrIME;
@@ -377,7 +377,7 @@ u32 sub_8001120(u16 param0, SaveSectorData *sector)
     return result;
 }
 
-u16 sub_8001224(s16 param0)
+u16 SaveSectorErase(s16 sectorNum)
 {
     u16 bfrIE;
     u16 bfrIME;
@@ -403,7 +403,7 @@ u16 sub_8001224(s16 param0)
     DmaStop(2);
     DmaStop(3);
 
-    result = EraseFlashSector(param0);
+    result = EraseFlashSector(sectorNum);
 
     REG_IE = bfrIE;
     REG_IME = bfrIME;
@@ -532,4 +532,118 @@ void sub_800132C(SaveSectorData *sector, SaveGame *save)
     sector->language = save->language;
     sector->unk367 = 0;
     sector->checksum = GetSaveSectorChecksum(sector);
+}
+
+void sub_80016EC(SaveGame *save, SaveSectorData *sector)
+{
+    s16 i;
+    s16 j;
+    s16 k;
+
+    save->id = sector->id;
+
+    for (i = 0; i < 6; i++) {
+        save->playerName[i] = sector->playerName[i];
+    }
+    save->unk36 = 0;
+    save->unlockedCharacters = sector->unlockedCharacters;
+    save->unlockedZones = sector->unlockedZones;
+    save->continueZone = sector->continueZone;
+    save->unk5B = 0;
+    save->unk5C = 0;
+    save->unk5D = 0;
+
+    for (i = 0; i < 7; i++) {
+        save->chaoCount[i] = sector->chaoCount[i];
+    }
+
+    for (i = 0; i < 7; i++) {
+        save->specialKeys[i] = sector->specialKeys[i];
+    }
+
+    for (i = 0; i < 9; i++) {
+        save->unlockedStages[i] = sector->unlockedStages[i];
+    }
+
+    for (i = 0; i < 9; i++) {
+        for (j = 0; j < 4; j++) {
+            save->collectedMedals[i][j] = sector->collectedMedals[i][j];
+        }
+    }
+    save->collectedEmeralds = sector->collectedEmeralds;
+    save->unk34 = sector->unk62;
+    save->unlockFlags = sector->unlockFlags;
+    save->vsWins = sector->vsWins;
+    save->vsDraws = sector->vsDraws;
+    save->vsLosses = sector->vsLosses;
+    save->unk63 = 0;
+
+    for (i = 0; i < (s32)ARRAY_COUNT(save->vsRecords); i++) {
+        save->vsRecords[i].slotFilled = sector->vsRecords[i].slotFilled;
+        save->vsRecords[i].wins = sector->vsRecords[i].wins;
+        save->vsRecords[i].draws = sector->vsRecords[i].draws;
+        save->vsRecords[i].losses = sector->vsRecords[i].losses;
+        save->vsRecords[i].playerId = sector->vsRecords[i].playerId;
+
+        for (j = 0; j < (s32)ARRAY_COUNT(save->vsRecords->playerName); j++) {
+            save->vsRecords[i].playerName[j] = sector->vsRecords[i].playerName[j];
+        }
+    }
+
+#define Zone i
+#define Act  j
+#define Rank k
+    for (Zone = 0; Zone < 7; Zone++) {
+        for (Act = 0; Act < 4; Act++) {
+            for (Rank = 0; Rank < 5; Rank++) {
+                save->timeRecords.table[Zone][Act][Rank].character1 = sector->timeRecords.table[Zone][Act][Rank].character1;
+                save->timeRecords.table[Zone][Act][Rank].character2 = sector->timeRecords.table[Zone][Act][Rank].character2;
+                save->timeRecords.table[Zone][Act][Rank].time = sector->timeRecords.table[Zone][Act][Rank].time;
+            }
+        }
+    }
+#undef Rank
+#undef Act
+#undef Zone
+
+    switch (sector->buttonConfig.jump) {
+        case 1:
+            save->buttonConfig.jump = A_BUTTON;
+            break;
+        case 2:
+            save->buttonConfig.attack = A_BUTTON;
+            break;
+        case 4:
+            save->buttonConfig.trick = A_BUTTON;
+            break;
+    }
+
+    switch (sector->buttonConfig.attack) {
+        case 1:
+            save->buttonConfig.jump = B_BUTTON;
+            break;
+        case 2:
+            save->buttonConfig.attack = B_BUTTON;
+            break;
+        case 4:
+            save->buttonConfig.trick = B_BUTTON;
+            break;
+    }
+
+    switch (sector->buttonConfig.trick) {
+        case 1:
+            save->buttonConfig.jump = R_BUTTON;
+            break;
+        case 2:
+            save->buttonConfig.attack = R_BUTTON;
+            break;
+        case 4:
+            save->buttonConfig.trick = R_BUTTON;
+            break;
+    }
+
+    save->difficulty = sector->difficulty;
+    save->disableTimeLimit = sector->disableTimeLimit;
+    save->language = sector->language;
+    save->unk367 = 0;
 }
