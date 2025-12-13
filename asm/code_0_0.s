@@ -266,7 +266,7 @@ _08001E1E:
 	lsls r4, r0, #0x10
 	asrs r4, r4, #0x10
 	adds r0, r4, #0
-	bl SaveSectorErase
+	bl EraseSaveSector
 	adds r4, #1
 	lsls r4, r4, #0x10
 	lsrs r0, r4, #0x10
@@ -518,14 +518,14 @@ sub_8001FD4: @ 0x08001FD4
 	bl CpuSet
 	adds r0, r6, #0
 	adds r1, r5, #0
-	bl SaveSectorPack
+	bl PackSaveSector
 	bl sub_8001A90
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	cmp r0, #0
 	blt _08002018
 	adds r1, r6, #0
-	bl SaveSectorWrite
+	bl WriteSaveSector
 	b _0800201C
 	.align 2, 0
 _08002008: .4byte gSaveGame
@@ -571,7 +571,7 @@ _0800204C:
 _08002060:
 	adds r0, r5, #0
 	adds r1, r4, #0
-	bl SaveSectorUnpack
+	bl UnpackSaveSector
 	adds r0, r5, #0
 	bl ValidateSave
 	ldr r2, _08002080 @ =0x040000DA
@@ -619,7 +619,7 @@ _080020BC: .4byte 0x47544E4C
 _080020C0:
 	lsls r0, r4, #0x10
 	asrs r0, r0, #0x10
-	bl SaveSectorErase
+	bl EraseSaveSector
 	cmp r4, #0
 	bne _080020D0
 	movs r4, #0xf

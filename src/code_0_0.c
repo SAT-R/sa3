@@ -3,6 +3,7 @@
 #include "flags.h"
 #include "lib/m4a/m4a.h"
 #include "lib/agb_flash/agb_flash.h"
+#include "lib/agb_flash/flash_internal.h"
 #include "malloc_ewram.h"
 #include "malloc_vram.h"
 #include "game/save.h"
@@ -34,10 +35,10 @@ void Task_8000918(void)
     (*pTask)->main = Task_8001FB0;
 }
 
-void ClearSave(SaveGame *save, u32 index)
+void ClearSave(SaveGame *save, u32 playerId)
 {
     s16 i, j;
-    save->id = index;
+    save->playerId = playerId;
     for (i = 0; i < (s32)ARRAY_COUNT(save->playerName); i++) {
         save->playerName[i] = -1;
     }
@@ -116,7 +117,7 @@ void CompleteSave(SaveGame *save)
 {
     s16 i, j;
 
-    save->id = 0;
+    save->playerId = 0;
 
     for (i = 0; i < (s32)ARRAY_COUNT(save->playerName); i++) {
         save->playerName[i] = 0xFFFF;
@@ -299,14 +300,14 @@ void ValidateSave(SaveGame *save)
         save->language = 1;
 }
 
-void ValidateSaveSector(SaveSectorData *sector, u32 id)
+void ValidateSaveSector(SaveSectorData *sector, u32 playerId)
 {
     s16 i;
 
     CPU_FILL(0, sector, sizeof(SaveSectorData), 32);
 
-    sector->magicNumber = SAVEMAGIC_SA3;
-    sector->id = id;
+    sector->header.magicNumber = SAVEMAGIC_SA3;
+    sector->playerId = playerId;
 
     for (i = 0; i <= 5; i++) {
         sector->playerName[i] = 0xFFFF;
@@ -338,7 +339,7 @@ void ValidateSaveSector(SaveSectorData *sector, u32 id)
     sector->checksum = GetSaveSectorChecksum(sector);
 }
 
-u32 SaveSectorWrite(u16 sectorNum, SaveSectorData *sector)
+u32 WriteSaveSector(u16 sectorNum, SaveSectorData *sector)
 {
     u16 bfrIE;
     u16 bfrIME;
@@ -377,7 +378,7 @@ u32 SaveSectorWrite(u16 sectorNum, SaveSectorData *sector)
     return result;
 }
 
-u16 SaveSectorErase(s16 sectorNum)
+u16 EraseSaveSector(s16 sectorNum)
 {
     u16 bfrIE;
     u16 bfrIME;
@@ -416,15 +417,15 @@ u16 SaveSectorErase(s16 sectorNum)
     return result;
 }
 
-void SaveSectorPack(SaveSectorData *sector, SaveGame *save)
+void PackSaveSector(SaveSectorData *sector, SaveGame *save)
 {
     s16 i;
     s16 j;
     s16 k;
 
-    sector->magicNumber = 0x47544E4C;
-    sector->unk4 += 1;
-    sector->id = save->id;
+    sector->header.magicNumber = 0x47544E4C;
+    sector->header.sectorId += 1;
+    sector->playerId = save->playerId;
 
     for (i = 0; i < 6; i++) {
         sector->playerName[i] = save->playerName[i];
@@ -534,13 +535,13 @@ void SaveSectorPack(SaveSectorData *sector, SaveGame *save)
     sector->checksum = GetSaveSectorChecksum(sector);
 }
 
-void SaveSectorUnpack(SaveGame *save, SaveSectorData *sector)
+void UnpackSaveSector(SaveGame *save, SaveSectorData *sector)
 {
     s16 i;
     s16 j;
     s16 k;
 
-    save->id = sector->id;
+    save->playerId = sector->playerId;
 
     for (i = 0; i < (s32)ARRAY_COUNT(save->playerName); i++) {
         save->playerName[i] = sector->playerName[i];
@@ -650,7 +651,7 @@ void SaveSectorUnpack(SaveGame *save, SaveSectorData *sector)
 
 s16 sub_8001A90(void)
 {
-    u32 sp00[16][2];
+    SaveSectorHeader headers[SECTORS_PER_BANK];
     s16 sectorId;
     s16 var_sl;
     u32 var_r8;
@@ -664,18 +665,18 @@ s16 sub_8001A90(void)
         return -1;
     }
 
-    for (sectorId = 0; sectorId < 16; sectorId++) {
-        ReadFlash(sectorId, 0U, &sp00[sectorId], 8U);
+    for (sectorId = 0; sectorId < SECTORS_PER_BANK; sectorId++) {
+        ReadFlash(sectorId, 0U, &headers[sectorId], sizeof(headers[0]));
 
-        if (sp00[sectorId][0] != SAVEMAGIC_SA3) {
+        if (headers[sectorId].magicNumber != SAVEMAGIC_SA3) {
             return sectorId;
         }
 
-        if (sp00[sectorId][1] > var_sb) {
-            var_sb = sp00[sectorId][1];
+        if (headers[sectorId].sectorId > var_sb) {
+            var_sb = headers[sectorId].sectorId;
         }
-        if (sp00[sectorId][1] < var_r8) {
-            var_r8 = sp00[sectorId][1];
+        if (headers[sectorId].sectorId < var_r8) {
+            var_r8 = headers[sectorId].sectorId;
             var_sl = sectorId;
         }
     }
@@ -686,8 +687,8 @@ s16 sub_8001A90(void)
         var_r8 = var_sb;
 
         for (sectorId = 0; sectorId < 16; sectorId++) {
-            if ((sp00[sectorId][1] > -0x100) && (sp00[sectorId][1] <= var_r8)) {
-                var_r8 = sp00[sectorId][1];
+            if ((headers[sectorId].sectorId > -0x100) && (headers[sectorId].sectorId <= var_r8)) {
+                var_r8 = headers[sectorId].sectorId;
                 var_sl = sectorId;
             }
         }
@@ -698,7 +699,7 @@ s16 sub_8001A90(void)
 
 s16 sub_8001B60(void)
 {
-    u32 sp00[16][2];
+    SaveSectorHeader headers[SECTORS_PER_BANK];
     s16 sectorId;
     s16 var_sl;
     u32 var_r8;
@@ -711,19 +712,19 @@ s16 sub_8001B60(void)
         return -2;
     }
 
-    for (sectorId = 0; sectorId < 16; sectorId++) {
-        ReadFlash(sectorId, 0U, &sp00[sectorId], 8U);
+    for (sectorId = 0; sectorId < SECTORS_PER_BANK; sectorId++) {
+        ReadFlash(sectorId, 0U, &headers[sectorId], sizeof(headers[16]));
 
-        if (sp00[sectorId][0] != SAVEMAGIC_SA3) {
+        if (headers[sectorId].magicNumber != SAVEMAGIC_SA3) {
             continue;
         }
 
-        if (sp00[sectorId][1] > var_r8) {
-            var_r8 = sp00[sectorId][1];
+        if (headers[sectorId].sectorId > var_r8) {
+            var_r8 = headers[sectorId].sectorId;
             var_sl = sectorId;
         }
-        if (sp00[sectorId][1] < var_sb) {
-            var_sb = sp00[sectorId][1];
+        if (headers[sectorId].sectorId < var_sb) {
+            var_sb = headers[sectorId].sectorId;
         }
     }
 
@@ -733,8 +734,8 @@ s16 sub_8001B60(void)
         var_r8 = 0;
 
         for (sectorId = 0; sectorId < 16; sectorId++) {
-            if ((sp00[sectorId][1] < -0x100) && (sp00[sectorId][1] >= var_r8)) {
-                var_r8 = sp00[sectorId][1];
+            if ((headers[sectorId].sectorId < -0x100) && (headers[sectorId].sectorId >= var_r8)) {
+                var_r8 = headers[sectorId].sectorId;
                 var_sl = sectorId;
             }
         }

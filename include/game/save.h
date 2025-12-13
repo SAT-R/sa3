@@ -100,7 +100,7 @@ typedef struct TimeRecords {
 
 // 0x03000530
 typedef struct {
-    /* 0x00 */ u32 id;
+    /* 0x00 */ u32 playerId;
     /* 0x04 */ u16 playerName[MAX_PLAYER_NAME_LENGTH];
     /* 0x10 */ u8 unlockedCharacters; // 0x10 | Bitfield determining access to playable characters
     /* 0x11 */ u8 unlockedZones; // 0x11 | Up to the index of this value all Zones are
@@ -144,17 +144,21 @@ extern SaveGame gSaveGame;
 // TODO: From SA2. Find out whether the pointer exists in SA3
 extern SaveGame *gLoadedSaveGame;
 
+typedef struct SaveSectorHeader {
+    /* 0x000 */ u32 magicNumber; // default: 0x47544E4C ("LNTG")
+    /* 0x004 */ u32 sectorId;
+} SaveSectorHeader;
+
 /*        0x03000CF0 | Check out types and sizes for accuracy */
 // It seems like this is like STRUCT_3000530, but prepared to be stored in savefile.
 // They might've done it for security reasons, but strangely it's not excrypted, even in
 // .sav file...
 typedef struct {
-    /* 0x000 */ u32 magicNumber; // default: 0x47544E4C ("LNTG")
-    /* 0x004 */ u32 unk4;
+    SaveSectorHeader header;
 
     // @NOTE This contains mostly the same information as struc_3000530, but
     // some values are missing or in a different order.
-    /* 0x008 */ u32 id; // | 0x08
+    /* 0x008 */ u32 playerId; // | 0x08
     /* 0x00C */ u16 playerName[MAX_PLAYER_NAME_LENGTH];
     /* 0x018 */ u8 unk18; // Don't know why this byte is here, but it's correct
 
