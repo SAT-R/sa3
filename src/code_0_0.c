@@ -7,12 +7,20 @@
 #include "malloc_ewram.h"
 #include "malloc_vram.h"
 #include "game/save.h"
+#include "gba/defines.h"
 #include "constants/characters.h"
 #include "constants/zones.h"
 
 void ValidateSave(SaveGame *save);
 void Task_8001FB0(void);
 u32 GetSaveSectorChecksum(SaveSectorData *sector);
+
+// TODO: Name likely inaccurate
+typedef struct SaveManager {
+    VoidFn fn;
+    u16 color;
+    u8 unk6;
+} SaveManager;
 
 void Task_8000918(void)
 {
@@ -747,29 +755,26 @@ s16 sub_8001B60(void)
 
 VsRecords *sub_8001C30(u32 playerId, u16 *playerName)
 {
-    VsRecords *temp_r3;
-    VsRecords *var_r5;
-    s8 j;
-    s8 i;
-    u8 temp_r0_6;
-    u8 temp_r1_3;
+    VsRecords *nextRecord;
+    VsRecords *currRecord;
+    s8 i, j;
 
     for (i = 0; i < 10; i++) {
-        var_r5 = &gSaveGame.vsRecords[i];
+        currRecord = &gSaveGame.vsRecords[i];
 
-        if (!var_r5->slotFilled) {
+        if (!currRecord->slotFilled) {
             break;
         }
 
-        if (var_r5->playerId != playerId)
+        if (currRecord->playerId != playerId)
             continue;
 
-        for (j = 0; j < 6 && var_r5->playerName[j] == playerName[j]; j++) {
+        for (j = 0; j < 6 && currRecord->playerName[j] == playerName[j]; j++) {
             ;
         }
 
         if (j == 6) {
-            return var_r5;
+            return currRecord;
         }
     }
 
@@ -778,28 +783,58 @@ VsRecords *sub_8001C30(u32 playerId, u16 *playerName)
     }
 
     for (--i; i >= 0; --i) {
-        temp_r3 = &gSaveGame.vsRecords[i + 1];
-        var_r5 = &gSaveGame.vsRecords[i];
-        temp_r3->playerId = var_r5->playerId;
-        for (j = 0; j < (s32)ARRAY_COUNT(temp_r3->playerName); j++) {
-            temp_r3->playerName[j] = var_r5->playerName[j];
+        nextRecord = &gSaveGame.vsRecords[i + 1];
+        currRecord = &gSaveGame.vsRecords[i];
+        nextRecord->playerId = currRecord->playerId;
+        for (j = 0; j < (s32)ARRAY_COUNT(nextRecord->playerName); j++) {
+            nextRecord->playerName[j] = currRecord->playerName[j];
         }
-        temp_r3->slotFilled = var_r5->slotFilled;
-        temp_r3->wins = var_r5->wins;
-        temp_r3->losses = var_r5->losses;
-        temp_r3->draws = var_r5->draws;
+        nextRecord->slotFilled = currRecord->slotFilled;
+        nextRecord->wins = currRecord->wins;
+        nextRecord->losses = currRecord->losses;
+        nextRecord->draws = currRecord->draws;
     }
 
-    var_r5 = &gSaveGame.vsRecords[0];
-    var_r5->playerId = playerId;
+    currRecord = &gSaveGame.vsRecords[0];
+    currRecord->playerId = playerId;
     for (i = 0; i < 6; i++) {
-        var_r5[0].playerName[i] = playerName[i];
+        currRecord[0].playerName[i] = playerName[i];
     }
 
-    var_r5->slotFilled = 1;
-    var_r5->wins = 0;
-    var_r5->losses = 0;
-    var_r5->draws = 0;
+    currRecord->slotFilled = 1;
+    currRecord->wins = 0;
+    currRecord->losses = 0;
+    currRecord->draws = 0;
 
-    return var_r5;
+    return currRecord;
+}
+
+void sub_8001D58(VoidFn voidFn, u16 color)
+{
+    struct Task *t;
+    SaveManager *mgr;
+
+    gDispCnt &= ~(DISPCNT_OBJ_ON | DISPCNT_WIN0_ON | DISPCNT_WIN1_ON | DISPCNT_OBJWIN_ON | //
+                  DISPCNT_BG0_ON | DISPCNT_BG1_ON | DISPCNT_BG2_ON | DISPCNT_BG3_ON);
+
+    REG_DISPCNT = gDispCnt;
+    BG_PLTT[0] = color;
+
+    TasksDestroyAll();
+    PAUSE_BACKGROUNDS_QUEUE();
+    gBgSpritesCount = 0;
+    PAUSE_GRAPHICS_QUEUE();
+
+    t = TaskCreate(Task_8000918, sizeof(SaveManager), 0x1000, 0, NULL);
+    mgr = TASK_DATA(t);
+    mgr->fn = voidFn;
+    mgr->color = color;
+    mgr->unk6 = 0;
+}
+
+void sub_8001DDC(u32 playerId)
+{
+    ClearSave(&gSaveGame, playerId);
+    ClearSave(&gUnknown_03000980, playerId);
+    ValidateSaveSector(&gSaveSectorData, playerId);
 }
