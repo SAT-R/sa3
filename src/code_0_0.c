@@ -757,9 +757,7 @@ VsRecords *sub_8001C30(u32 playerId, u16 *playerName)
     for (i = 0; i < 10; i++) {
         var_r5 = &gSaveGame.vsRecords[i];
 
-        // TODO: This might be a @BUG.
-        //       It's only checking the 0th index, not the i'th!
-        if (!var_r5[0].slotFilled) {
+        if (!var_r5->slotFilled) {
             break;
         }
 
