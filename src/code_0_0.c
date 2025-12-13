@@ -416,7 +416,7 @@ u16 SaveSectorErase(s16 sectorNum)
     return result;
 }
 
-void sub_800132C(SaveSectorData *sector, SaveGame *save)
+void SaveSectorPack(SaveSectorData *sector, SaveGame *save)
 {
     s16 i;
     s16 j;
@@ -534,7 +534,7 @@ void sub_800132C(SaveSectorData *sector, SaveGame *save)
     sector->checksum = GetSaveSectorChecksum(sector);
 }
 
-void sub_80016EC(SaveGame *save, SaveSectorData *sector)
+void SaveSectorUnpack(SaveGame *save, SaveSectorData *sector)
 {
     s16 i;
     s16 j;
@@ -542,7 +542,7 @@ void sub_80016EC(SaveGame *save, SaveSectorData *sector)
 
     save->id = sector->id;
 
-    for (i = 0; i < 6; i++) {
+    for (i = 0; i < (s32)ARRAY_COUNT(save->playerName); i++) {
         save->playerName[i] = sector->playerName[i];
     }
     save->unk36 = 0;
@@ -553,20 +553,20 @@ void sub_80016EC(SaveGame *save, SaveSectorData *sector)
     save->unk5C = 0;
     save->unk5D = 0;
 
-    for (i = 0; i < 7; i++) {
+    for (i = 0; i < (s32)ARRAY_COUNT(save->chaoCount); i++) {
         save->chaoCount[i] = sector->chaoCount[i];
     }
 
-    for (i = 0; i < 7; i++) {
+    for (i = 0; i < (s32)ARRAY_COUNT(save->specialKeys); i++) {
         save->specialKeys[i] = sector->specialKeys[i];
     }
 
-    for (i = 0; i < 9; i++) {
+    for (i = 0; i < (s32)ARRAY_COUNT(save->unlockedStages); i++) {
         save->unlockedStages[i] = sector->unlockedStages[i];
     }
 
-    for (i = 0; i < 9; i++) {
-        for (j = 0; j < 4; j++) {
+    for (i = 0; i < (s32)ARRAY_COUNT(save->collectedMedals); i++) {
+        for (j = 0; j < (s32)ARRAY_COUNT(save->collectedMedals[0]); j++) {
             save->collectedMedals[i][j] = sector->collectedMedals[i][j];
         }
     }
@@ -646,4 +646,99 @@ void sub_80016EC(SaveGame *save, SaveSectorData *sector)
     save->disableTimeLimit = sector->disableTimeLimit;
     save->language = sector->language;
     save->unk367 = 0;
+}
+
+s16 sub_8001A90(void)
+{
+    u32 sp00[16][2];
+    s16 sectorId;
+    s16 var_sl;
+    u32 var_r8;
+    u32 var_sb;
+
+    var_sb = 0;
+    var_r8 = -1U;
+    var_sl = -1;
+
+    if (gFlags & FLAGS_NO_FLASH_MEMORY) {
+        return -1;
+    }
+
+    for (sectorId = 0; sectorId < 16; sectorId++) {
+        ReadFlash(sectorId, 0U, &sp00[sectorId], 8U);
+
+        if (sp00[sectorId][0] != SAVEMAGIC_SA3) {
+            return sectorId;
+        }
+
+        if (sp00[sectorId][1] > var_sb) {
+            var_sb = sp00[sectorId][1];
+        }
+        if (sp00[sectorId][1] < var_r8) {
+            var_r8 = sp00[sectorId][1];
+            var_sl = sectorId;
+        }
+    }
+
+    if (var_sb != -1) {
+        return var_sl;
+    } else {
+        var_r8 = var_sb;
+
+        for (sectorId = 0; sectorId < 16; sectorId++) {
+            if ((sp00[sectorId][1] > -0x100) && (sp00[sectorId][1] <= var_r8)) {
+                var_r8 = sp00[sectorId][1];
+                var_sl = sectorId;
+            }
+        }
+    }
+
+    return var_sl;
+}
+
+s16 sub_8001B60(void)
+{
+    u32 sp00[16][2];
+    s16 sectorId;
+    s16 var_sl;
+    u32 var_r8;
+    u32 var_sb;
+
+    var_r8 = 0;
+    var_sb = -1U;
+    var_sl = -1;
+    if (gFlags & FLAGS_NO_FLASH_MEMORY) {
+        return -2;
+    }
+
+    for (sectorId = 0; sectorId < 16; sectorId++) {
+        ReadFlash(sectorId, 0U, &sp00[sectorId], 8U);
+
+        if (sp00[sectorId][0] != SAVEMAGIC_SA3) {
+            continue;
+        }
+
+        if (sp00[sectorId][1] > var_r8) {
+            var_r8 = sp00[sectorId][1];
+            var_sl = sectorId;
+        }
+        if (sp00[sectorId][1] < var_sb) {
+            var_sb = sp00[sectorId][1];
+        }
+    }
+
+    if (var_r8 != -1) {
+        return var_sl;
+    } else {
+        var_r8 = 0;
+
+        for (sectorId = 0; sectorId < 16; sectorId++) {
+            if ((sp00[sectorId][1] < -0x100) && (sp00[sectorId][1] >= var_r8)) {
+                var_r8 = sp00[sectorId][1];
+                var_sl = sectorId;
+            }
+        }
+    }
+
+    return var_sl;
 }
