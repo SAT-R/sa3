@@ -7,11 +7,15 @@
 #include "malloc_ewram.h"
 #include "malloc_vram.h"
 #include "game/save.h"
+#include "game/stage.h"
 #include "gba/defines.h"
 #include "constants/characters.h"
 #include "constants/zones.h"
 
 void ValidateSave(SaveGame *save);
+s32 sub_8001FD4(void);
+s32 sub_8002024(void);
+bool16 sub_80020F0(void);
 void Task_8001FB0(void);
 u32 GetSaveSectorChecksum(SaveSectorData *sector);
 
@@ -834,7 +838,36 @@ void sub_8001D58(VoidFn voidFn, u16 color)
 
 void sub_8001DDC(u32 playerId)
 {
-    ClearSave(&gLoadedSaveGame, playerId);
+    ClearSave(LOADED_SAVE, playerId);
     ClearSave(&gUnknown_03000980, playerId);
     ValidateSaveSector(&gSaveSectorData, playerId);
 }
+
+void sub_8001E0C()
+{
+    if (!(gFlags & FLAGS_NO_FLASH_MEMORY)) {
+        s16 i;
+
+        for (i = 0; i < SECTORS_PER_BANK; i++) {
+            EraseSaveSector(i);
+        }
+
+        sub_8001FD4();
+        sub_8002024();
+    }
+}
+
+void CallCompleteSave(void) { CompleteSave(LOADED_SAVE); }
+
+s32 sub_8001E58()
+{
+    if (gStageData.gameMode != GAME_MODE_5 || gStageData.playerIndex == PLAYER_1) {
+        if (sub_80020F0()) {
+            return sub_8001FD4();
+        }
+    }
+
+    return 0;
+}
+
+s16 sub_8001E84(void) { return sub_8002024(); }

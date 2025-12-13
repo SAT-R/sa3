@@ -36,7 +36,7 @@ void sub_8000D68() { }
 u32 GetSaveSectorChecksum() { return 0; }
 void CreateGameIntroState() { }
 void sub_8001DDC() { }
-void sub_8001E48() { }
+void CallCompleteSave() { }
 void sub_8001E94() { }
 void sub_8001E84() { }
 void Task_8001FB0(void) { }

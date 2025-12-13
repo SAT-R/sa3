@@ -13,7 +13,7 @@ void sub_80001EC(void);
 void Task_8000284(void);
 void sub_8000390(void);
 void sub_80003B8(void);
-void sub_8001E48(void);
+void CallCompleteSave(void);
 void sub_8001E84(void);
 bool16 GetZoneAndActTypeFromStageID(s16 stageId, u8 *zone, u8 *actType);
 void sub_8027960(u16 param0); // either no param or unused
@@ -62,7 +62,7 @@ void sub_80001EC(void)
     sub_8001DDC(0U);
 
     if (gFlags & 0x100) {
-        sub_8001E48();
+        CallCompleteSave();
         TaskCreate(Task_8000284, 0U, 0x100U, 0U, NULL);
     } else if (sub_8001E94()) {
         sub_8001E84();
@@ -154,28 +154,27 @@ NONMATCH("asm/non_matching/engine/sub_8000414.inc", void sub_8000414(u16 stageId
     levelTimer = gStageData.levelTimer;
 
     if (GetZoneAndActTypeFromStageID(stageId, &zone, &actType)) {
-        SaveGame *save = &gLoadedSaveGame;
-        save->unlockedStages[zone] |= actType;
+        LOADED_SAVE->unlockedStages[zone] |= actType;
 
         if (actType == 8) {
-            if (save->unlockedZones < zone + 2) {
-                save->unlockedZones = zone + 2;
+            if (LOADED_SAVE->unlockedZones < zone + 2) {
+                LOADED_SAVE->unlockedZones = zone + 2;
 
-                if (save->unlockedZones > 9) {
-                    save->unlockedZones = 9;
+                if (LOADED_SAVE->unlockedZones > 9) {
+                    LOADED_SAVE->unlockedZones = 9;
                 }
 
-                contZone = save->continueZone;
-                zoneAcc = save->unlockedZones;
+                contZone = LOADED_SAVE->continueZone;
+                zoneAcc = LOADED_SAVE->unlockedZones;
                 if ((zoneAcc - 2) > 6) {
                     zoneAcc = ZONE_1;
-                    save->continueZone = zoneAcc;
+                    LOADED_SAVE->continueZone = zoneAcc;
                 } else if ((zoneAcc - 2) > 5) {
                     zoneAcc = ZONE_7;
-                    save->continueZone = zoneAcc;
+                    LOADED_SAVE->continueZone = zoneAcc;
                 } else if ((zoneAcc - 2) >= (s32)contZone) {
                     zoneAcc += (u8)-1;
-                    save->continueZone = zoneAcc;
+                    LOADED_SAVE->continueZone = zoneAcc;
                 }
             }
         }
@@ -210,7 +209,7 @@ NONMATCH("asm/non_matching/engine/sub_8000414.inc", void sub_8000414(u16 stageId
             if (gStageData.unk20 != 0) {
                 var_r4 = 2;
             }
-            save->collectedMedals[zone][var_r5] |= 1 << (2 - var_r4);
+            LOADED_SAVE->collectedMedals[zone][var_r5] |= 1 << (2 - var_r4);
         }
         sub_802616C(60);
 
