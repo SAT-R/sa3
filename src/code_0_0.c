@@ -19,9 +19,11 @@ bool16 sub_80020F0(void);
 void Task_8001FB0(void);
 u32 GetSaveSectorChecksum(SaveSectorData *sector);
 
+extern void sub_802616C(u8 param0);
+
 // TODO: Name likely inaccurate
 typedef struct SaveManager {
-    VoidFn fn;
+    VoidFn func;
     u16 color;
     u8 unk6;
 } SaveManager;
@@ -351,7 +353,7 @@ void ValidateSaveSector(SaveSectorData *sector, u32 playerId)
     sector->checksum = GetSaveSectorChecksum(sector);
 }
 
-u32 WriteSaveSector(u16 sectorNum, SaveSectorData *sector)
+s32 WriteSaveSector(s16 sectorNum, SaveSectorData *sector)
 {
     u16 bfrIE;
     u16 bfrIME;
@@ -831,7 +833,7 @@ void sub_8001D58(VoidFn voidFn, u16 color)
 
     t = TaskCreate(Task_8000918, sizeof(SaveManager), 0x1000, 0, NULL);
     mgr = TASK_DATA(t);
-    mgr->fn = voidFn;
+    mgr->func = voidFn;
     mgr->color = color;
     mgr->unk6 = 0;
 }
@@ -871,3 +873,90 @@ s32 sub_8001E58()
 }
 
 s16 sub_8001E84(void) { return sub_8002024(); }
+
+bool16 sub_8001E94(void)
+{
+    SaveSectorHeader headers[SECTORS_PER_BANK];
+    s16 i;
+
+    if (gFlags & FLAGS_NO_FLASH_MEMORY) {
+        return FALSE;
+    }
+
+    for (i = 0; i < (s32)ARRAY_COUNT(headers); i++) {
+        ReadFlash(i, 0, &headers[i], 8);
+
+        if (headers[i].magicNumber == SAVEMAGIC_SA3) {
+            return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
+void sub_8001EEC(u8 param0)
+{
+    LOADED_SAVE->unlockedCharacters |= param0;
+
+    sub_802616C(60);
+
+    if ((gStageData.gameMode == GAME_MODE_5) && (gStageData.playerIndex != PLAYER_1)) {
+        return;
+    }
+
+    if (sub_80020F0()) {
+        sub_8001FD4();
+    }
+}
+
+/*	Sets a "Chao-Bit", which represents it being collected.
+The zone is identified automatically.
+(The one you hang around in when executing this function is being chosen) */
+void SetChaoFlag(u16 chaoIndex) { SetBit(LOADED_SAVE->chaoCount[gStageData.zone], chaoIndex); }
+
+/*	Gets a "Chao-Bit", which represents it (not) being collected. */
+u16 GetChaoFlag(u16 ZoneIndex, u16 chaoIndex) { return CheckBit(LOADED_SAVE->chaoCount[ZoneIndex], chaoIndex); }
+
+s16 GetChaoCount(u16 zoneIndex)
+{
+    s16 chaoCount = 0;
+    s16 index = 0;
+    u16 *pChaoCount = (u16 *)&LOADED_SAVE->chaoCount[zoneIndex];
+
+    for (; index < CHAO_COUNT_PER_ZONE; index++) {
+        if ((*pChaoCount >> index) & 1) {
+            chaoCount += 1;
+        }
+    }
+
+    return chaoCount;
+}
+
+void Task_8001FB0(void)
+{
+    SaveManager *mgr = TASK_DATA(gCurTask);
+
+    VoidFn func = mgr->func;
+
+    TaskDestroy(gCurTask);
+
+    func();
+}
+
+s32 sub_8001FD4(void)
+{
+    SaveGame *saveA = LOADED_SAVE;
+    SaveGame *saveB = &gUnknown_03000980;
+    SaveSectorData *sector = &gSaveSectorData;
+    s16 temp_r0;
+
+    ValidateSave(saveA);
+    CpuCopy32(saveA, saveB, sizeof(SaveGame));
+    PackSaveSector(sector, saveB);
+    temp_r0 = sub_8001A90();
+    if (temp_r0 < 0) {
+        return -1;
+    } else {
+        return WriteSaveSector(temp_r0, &gSaveSectorData);
+    }
+}
