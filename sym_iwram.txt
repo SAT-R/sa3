@@ -21,7 +21,7 @@ src/lib/agb_flash/agb_flash.o(.bss);
 *tools/agbcc/lib/libc.a:syscalls.o(.bss);
 
 
-. = 0x00000530; gSaveGame = .;
+. = 0x00000530; gLoadedSaveGame = .;
 
 . = 0x000008A0; gStageData = .;
 

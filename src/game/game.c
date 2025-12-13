@@ -154,7 +154,7 @@ NONMATCH("asm/non_matching/engine/sub_8000414.inc", void sub_8000414(u16 stageId
     levelTimer = gStageData.levelTimer;
 
     if (GetZoneAndActTypeFromStageID(stageId, &zone, &actType)) {
-        SaveGame *save = &gSaveGame;
+        SaveGame *save = &gLoadedSaveGame;
         save->unlockedStages[zone] |= actType;
 
         if (actType == 8) {
@@ -268,23 +268,24 @@ NONMATCH("asm/non_matching/engine/sub_8000538.inc", void sub_8000538(u16 stageId
             }
         }
 
-        gSaveGame.collectedMedals[zone][var_r5] |= 1 << (2 - var_r3);
+        LOADED_SAVE->collectedMedals[zone][var_r5] |= 1 << (2 - var_r3);
     }
 
     for (var_r6 = 0; var_r6 < 5; var_r6++) {
-        if (gSaveGame.timeRecords.table[zone][var_r5][var_r6].time > levelTimer) {
+        if (LOADED_SAVE->timeRecords.table[zone][var_r5][var_r6].time > levelTimer) {
             rank = var_r6;
             for (var_ip = 0; var_r6 < 4; var_r6++, var_ip++) {
-                gSaveGame.timeRecords.table[zone][var_r5][(4 - var_ip)].character1
-                    = gSaveGame.timeRecords.table[zone][var_r5][(3 - var_ip)].character1;
-                gSaveGame.timeRecords.table[zone][var_r5][(4 - var_ip)].character2
-                    = gSaveGame.timeRecords.table[zone][var_r5][(3 - var_ip)].character2;
-                gSaveGame.timeRecords.table[zone][var_r5][(4 - var_ip)].time = gSaveGame.timeRecords.table[zone][var_r5][(3 - var_ip)].time;
+                LOADED_SAVE->timeRecords.table[zone][var_r5][(4 - var_ip)].character1
+                    = LOADED_SAVE->timeRecords.table[zone][var_r5][(3 - var_ip)].character1;
+                LOADED_SAVE->timeRecords.table[zone][var_r5][(4 - var_ip)].character2
+                    = LOADED_SAVE->timeRecords.table[zone][var_r5][(3 - var_ip)].character2;
+                LOADED_SAVE->timeRecords.table[zone][var_r5][(4 - var_ip)].time
+                    = LOADED_SAVE->timeRecords.table[zone][var_r5][(3 - var_ip)].time;
             }
 
-            gSaveGame.timeRecords.table[zone][var_r5][rank].character1 = gPlayers[PLAYER_1].charFlags.character;
-            gSaveGame.timeRecords.table[zone][var_r5][rank].character2 = gPlayers[PLAYER_2].charFlags.character;
-            gSaveGame.timeRecords.table[zone][var_r5][rank].time = stageId;
+            LOADED_SAVE->timeRecords.table[zone][var_r5][rank].character1 = gPlayers[PLAYER_1].charFlags.character;
+            LOADED_SAVE->timeRecords.table[zone][var_r5][rank].character2 = gPlayers[PLAYER_2].charFlags.character;
+            LOADED_SAVE->timeRecords.table[zone][var_r5][rank].time = stageId;
             break;
         }
     }
@@ -391,20 +392,20 @@ void sub_8000804(u16 arg3)
 
     switch (var_r4) {
         case 0: {
-            if (gSaveGame.vsWins < 99) {
-                gSaveGame.vsWins++;
+            if (LOADED_SAVE->vsWins < 99) {
+                LOADED_SAVE->vsWins++;
             }
         } break;
 
         case 1: {
-            if (gSaveGame.vsLosses < 99) {
-                gSaveGame.vsLosses++;
+            if (LOADED_SAVE->vsLosses < 99) {
+                LOADED_SAVE->vsLosses++;
             }
         } break;
 
         case 2: {
-            if (gSaveGame.vsDraws < 99) {
-                gSaveGame.vsDraws++;
+            if (LOADED_SAVE->vsDraws < 99) {
+                LOADED_SAVE->vsDraws++;
             }
         } break;
 

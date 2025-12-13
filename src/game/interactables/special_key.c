@@ -33,7 +33,7 @@ void CreateEntity_SpecialKey(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     bits = GetSoleSetBitIndex(bits, 8);
 
     if ((gStageData.gameMode == GAME_MODE_SINGLE_PLAYER) && (gStageData.flagSpKey == 0)) {
-        if (gSaveGame.chaoCount[gStageData.zone] == CHAO_COLLECTED_ALL) {
+        if (LOADED_SAVE->chaoCount[gStageData.zone] == CHAO_COLLECTED_ALL) {
             if ((bits & 1) == (gStageData.unk86 & 1)) {
                 struct Task *t = TaskCreate(Task_SpecialKey, sizeof(SpecialKey), 0x2100, 0, TaskDestructor_SpecialKey);
                 SpecialKey *key = TASK_DATA(t);

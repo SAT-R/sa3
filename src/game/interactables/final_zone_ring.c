@@ -26,7 +26,7 @@ void InitFinalZoneRingSprite(Sprite *s);
 
 void CreateEntity_FinalZoneRing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    if (gSaveGame.unlockedZones > ZONE_FINAL) {
+    if (LOADED_SAVE->unlockedZones > ZONE_FINAL) {
         struct Task *t = TaskCreate(Task_FinalZoneRing, sizeof(FinalZoneRing), 0x2100, 0, TaskDestructor_FinalZoneRing);
         FinalZoneRing *ring = TASK_DATA(t);
         Sprite *s;

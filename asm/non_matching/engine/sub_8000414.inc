@@ -17,7 +17,7 @@
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	beq _0800052C
-	ldr r3, _0800047C @ =gSaveGame
+	ldr r3, _0800047C @ =gLoadedSaveGame
 	mov r0, sp
 	adds r1, r3, #0
 	adds r1, #0x29
@@ -53,7 +53,7 @@ _0800046A:
 	b _0800048E
 	.align 2, 0
 _08000478: .4byte gStageData
-_0800047C: .4byte gSaveGame
+_0800047C: .4byte gLoadedSaveGame
 _08000480:
 	cmp r1, #5
 	ble _08000488

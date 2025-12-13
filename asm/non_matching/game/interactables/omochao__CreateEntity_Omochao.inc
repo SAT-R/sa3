@@ -27,7 +27,7 @@
 	mov r0, sb
 	cmp r0, #0x2c
 	bne _08037E44
-	ldr r0, _08037EF4 @ =gSaveGame
+	ldr r0, _08037EF4 @ =gLoadedSaveGame
 	ldrb r0, [r0, #0x11]
 	cmp r0, #7
 	bls _08037ED6
@@ -119,7 +119,7 @@ _08037ED6:
 	bx r0
 	.align 2, 0
 _08037EF0: .4byte gStageData
-_08037EF4: .4byte gSaveGame
+_08037EF4: .4byte gLoadedSaveGame
 _08037EF8: .4byte Task_OmochaoInit
 _08037EFC: .4byte TaskDestructor_Omochao
 _08037F00: .4byte 0x0300000C

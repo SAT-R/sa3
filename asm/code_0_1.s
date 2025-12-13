@@ -542,7 +542,7 @@ _08003472:
 	ldrb r1, [r4, #0xa]
 	cmp r1, #0xa
 	bne _080034B4
-	ldr r0, _080034B0 @ =gSaveGame
+	ldr r0, _080034B0 @ =gLoadedSaveGame
 	adds r1, r0, #0
 	adds r1, #0x32
 	ldrb r1, [r1]
@@ -564,7 +564,7 @@ _08003472:
 _080034A4: .4byte gStageData
 _080034A8: .4byte gPressedKeys
 _080034AC: .4byte gPlayers
-_080034B0: .4byte gSaveGame
+_080034B0: .4byte gLoadedSaveGame
 _080034B4:
 	ldrb r0, [r4, #9]
 	cmp r0, #6
@@ -579,10 +579,10 @@ _080034B4:
 	bne _080034D4
 _080034CA:
 	movs r7, #2
-	ldr r2, _080034D0 @ =gSaveGame
+	ldr r2, _080034D0 @ =gLoadedSaveGame
 	b _08003516
 	.align 2, 0
-_080034D0: .4byte gSaveGame
+_080034D0: .4byte gLoadedSaveGame
 _080034D4:
 	movs r3, #0xe
 	ldrsh r0, [r4, r3]
@@ -598,12 +598,12 @@ _080034D4:
 	cmp r0, #1
 	bhi _080034FC
 	movs r7, #1
-	ldr r2, _080034F8 @ =gSaveGame
+	ldr r2, _080034F8 @ =gLoadedSaveGame
 	b _08003516
 	.align 2, 0
-_080034F8: .4byte gSaveGame
+_080034F8: .4byte gLoadedSaveGame
 _080034FC:
-	ldr r2, _080035E0 @ =gSaveGame
+	ldr r2, _080035E0 @ =gLoadedSaveGame
 	add r1, sp, #4
 	adds r0, r2, #0
 	adds r0, #0x29
@@ -718,7 +718,7 @@ _080035D4:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080035E0: .4byte gSaveGame
+_080035E0: .4byte gLoadedSaveGame
 _080035E4: .4byte gUnknown_080CE54C
 _080035E8: .4byte 0x00000366
 _080035EC: .4byte ewram_end
@@ -6145,7 +6145,7 @@ _08006094:
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 _0800609A:
-	ldr r2, _080060C8 @ =gSaveGame
+	ldr r2, _080060C8 @ =gLoadedSaveGame
 	lsls r1, r0, #2
 	adds r1, r1, r0
 	lsls r1, r1, #2
@@ -6167,7 +6167,7 @@ _0800609A:
 	bl sub_8003DF0
 	b _08006116
 	.align 2, 0
-_080060C8: .4byte gSaveGame
+_080060C8: .4byte gLoadedSaveGame
 _080060CC: .4byte gStageData
 _080060D0:
 	movs r0, #0x5f
@@ -63773,7 +63773,7 @@ _08021D54:
 	beq _08021D9C
 	movs r0, #1
 	str r0, [sp, #4]
-	ldr r0, _08021D98 @ =gSaveGame
+	ldr r0, _08021D98 @ =gLoadedSaveGame
 	adds r0, #0x22
 	ldrb r2, [r2, #9]
 	adds r0, r0, r2
@@ -63800,7 +63800,7 @@ _08021D54:
 	mov r8, r4
 	b _08021DA6
 	.align 2, 0
-_08021D98: .4byte gSaveGame
+_08021D98: .4byte gLoadedSaveGame
 _08021D9C:
 	movs r3, #0
 	str r3, [sp, #4]
@@ -63843,7 +63843,7 @@ _08021DCA:
 	bl UpdateSpriteAnimation
 	adds r0, r4, #0
 	bl DisplaySprite
-	ldr r0, _08021EE0 @ =gSaveGame
+	ldr r0, _08021EE0 @ =gLoadedSaveGame
 	adds r0, #0x32
 	ldrb r0, [r0]
 	ldr r1, _08021EE4 @ =gStageData
@@ -63953,7 +63953,7 @@ _08021ED0:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08021EE0: .4byte gSaveGame
+_08021EE0: .4byte gLoadedSaveGame
 _08021EE4: .4byte gStageData
 
 	thumb_func_start sub_8021EE8
@@ -66773,7 +66773,7 @@ _0802355A:
 	ble _0802349C
 	movs r4, #0
 	mov sb, r4
-	ldr r6, _080235C8 @ =gSaveGame + 0x32
+	ldr r6, _080235C8 @ =gLoadedSaveGame + 0x32
 _08023576:
 	ldrb r0, [r6]
 	mov r2, sb
@@ -66817,7 +66817,7 @@ _080235AA:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080235C8: .4byte gSaveGame + 0x32
+_080235C8: .4byte gLoadedSaveGame + 0x32
 
 	thumb_func_start sub_80235CC
 sub_80235CC: @ 0x080235CC
@@ -66973,7 +66973,7 @@ sub_80236C8: @ 0x080236C8
 	ldr r0, _08023724 @ =0x06012000
 	str r0, [r4, #0x24]
 	strb r1, [r4, #0x1f]
-	ldr r0, _08023728 @ =gSaveGame
+	ldr r0, _08023728 @ =gLoadedSaveGame
 	ldr r1, _0802372C @ =0x00000366
 	adds r0, r0, r1
 	ldrb r0, [r0]
@@ -66994,7 +66994,7 @@ _0802370E:
 	bx r0
 	.align 2, 0
 _08023724: .4byte 0x06012000
-_08023728: .4byte gSaveGame
+_08023728: .4byte gLoadedSaveGame
 _0802372C: .4byte 0x00000366
 _08023730: .4byte gUnknown_08E7EA78
 
@@ -67485,7 +67485,7 @@ _08023AD8:
 	strb r1, [r4, #2]
 	movs r1, #0
 	movs r7, #1
-	ldr r0, _08023B94 @ =gSaveGame
+	ldr r0, _08023B94 @ =gLoadedSaveGame
 	mov ip, r0
 	adds r5, r4, #6
 	mov sl, r5
@@ -67524,12 +67524,12 @@ _08023AF6:
 	strb r0, [r4, #3]
 	ldrb r0, [r5, #0x11]
 	strb r0, [r4, #4]
-	ldr r1, _08023BA8 @ =gSaveGame + 0x36
+	ldr r1, _08023BA8 @ =gLoadedSaveGame + 0x36
 	ldrb r0, [r1]
 	strb r0, [r4, #5]
 	movs r1, #0
 	mov r3, sl
-	ldr r5, _08023BAC @ =gSaveGame + 0x29
+	ldr r5, _08023BAC @ =gLoadedSaveGame + 0x29
 _08023B38:
 	lsls r0, r1, #0x10
 	asrs r0, r0, #0x10
@@ -67577,13 +67577,13 @@ _08023B80:
 	bx r1
 	.align 2, 0
 _08023B90: .4byte gMultiSioSend
-_08023B94: .4byte gSaveGame
+_08023B94: .4byte gLoadedSaveGame
 _08023B98: .4byte 0x00000365
 _08023B9C: .4byte gMultiSioStatusFlags
 _08023BA0: .4byte gMultiSioRecv
 _08023BA4: .4byte 0x00006C01
-_08023BA8: .4byte gSaveGame + 0x36
-_08023BAC: .4byte gSaveGame + 0x29
+_08023BA8: .4byte gLoadedSaveGame + 0x36
+_08023BAC: .4byte gLoadedSaveGame + 0x29
 
 	thumb_func_start sub_8023BB0
 sub_8023BB0: @ 0x08023BB0
@@ -67746,7 +67746,7 @@ _08023CEC:
 	ldr r0, _08023D54 @ =0x00006C01
 	cmp r1, r0
 	bne _08023D48
-	ldr r1, _08023D58 @ =gSaveGame
+	ldr r1, _08023D58 @ =gLoadedSaveGame
 	ldrb r0, [r5, #3]
 	strb r0, [r1, #0x10]
 	ldrb r0, [r5, #4]
@@ -67799,7 +67799,7 @@ _08023D4E:
 	bx r1
 	.align 2, 0
 _08023D54: .4byte 0x00006C01
-_08023D58: .4byte gSaveGame
+_08023D58: .4byte gLoadedSaveGame
 _08023D5C: .4byte gStageData
 
 	thumb_func_start sub_8023D60
@@ -71160,7 +71160,7 @@ sub_80256E0: @ 0x080256E0
 	movs r0, #0
 	strh r0, [r2]
 	strb r1, [r2, #2]
-	ldr r1, _08025710 @ =gSaveGame
+	ldr r1, _08025710 @ =gLoadedSaveGame
 	ldr r0, [r1]
 	str r0, [r2, #4]
 	ldrh r0, [r1, #4]
@@ -71178,7 +71178,7 @@ sub_80256E0: @ 0x080256E0
 	bx lr
 	.align 2, 0
 _0802570C: .4byte gMultiSioSend
-_08025710: .4byte gSaveGame
+_08025710: .4byte gLoadedSaveGame
 
 	thumb_func_start sub_8025714
 sub_8025714: @ 0x08025714
@@ -72218,7 +72218,7 @@ sub_8025EEC: @ 0x08025EEC
 	str r0, [r1]
 	ldr r0, _08026024 @ =gStageData
 	mov sb, r0
-	ldr r0, _08026028 @ =gSaveGame
+	ldr r0, _08026028 @ =gLoadedSaveGame
 	ldr r1, _0802602C @ =0x00000366
 	adds r0, r0, r1
 	ldrb r0, [r0]
@@ -72353,7 +72353,7 @@ sub_8025EEC: @ 0x08025EEC
 _0802601C: .4byte gTilemapsRef
 _08026020: .4byte gTilemaps
 _08026024: .4byte gStageData
-_08026028: .4byte gSaveGame
+_08026028: .4byte gLoadedSaveGame
 _0802602C: .4byte 0x00000366
 _08026030: .4byte sub_8026080
 _08026034: .4byte 0x0300008C
@@ -75653,7 +75653,7 @@ _080279F8: .4byte 0x85000010
 _080279FC: .4byte gBgSprites_Unknown1
 _08027A00: .4byte gBgSprites_Unknown2
 _08027A04:
-	ldr r0, _08027AB0 @ =gSaveGame
+	ldr r0, _08027AB0 @ =gLoadedSaveGame
 	ldr r2, _08027AB4 @ =0x00000366
 	adds r0, r0, r2
 	ldrb r5, [r0]
@@ -75735,7 +75735,7 @@ _08027AA4:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08027AB0: .4byte gSaveGame
+_08027AB0: .4byte gLoadedSaveGame
 _08027AB4: .4byte 0x00000366
 _08027AB8: .4byte sub_80283CC
 _08027ABC: .4byte 0x030000F0
@@ -76044,7 +76044,7 @@ sub_8027D3C: @ 0x08027D3C
 	ldrb r0, [r4]
 	cmp r0, #4
 	bne _08027DBC
-	ldr r0, _08027D94 @ =gSaveGame
+	ldr r0, _08027D94 @ =gLoadedSaveGame
 	ldr r1, _08027D98 @ =0x00000366
 	adds r0, r0, r1
 	ldrb r0, [r0]
@@ -76063,7 +76063,7 @@ _08027D84: .4byte 0x04000208
 _08027D88: .4byte gIntrTable
 _08027D8C: .4byte Sio32MultiLoadIntr
 _08027D90: .4byte 0x030000DE
-_08027D94: .4byte gSaveGame
+_08027D94: .4byte gLoadedSaveGame
 _08027D98: .4byte 0x00000366
 _08027D9C: .4byte gMultiSioStatusFlags
 _08027DA0: .4byte gUnknown_08E5F6B0
@@ -76203,7 +76203,7 @@ _08027E9A:
 	strb r0, [r2]
 _08027EAE:
 	ldr r0, _08027F0C @ =gMultiSioSend
-	ldr r1, _08027F10 @ =gSaveGame
+	ldr r1, _08027F10 @ =gLoadedSaveGame
 	ldr r3, _08027F14 @ =0x00000366
 	adds r1, r1, r3
 	ldrb r1, [r1]
@@ -76245,7 +76245,7 @@ _08027F00: .4byte gMultiSioStatusFlags
 _08027F04: .4byte 0x030000DE
 _08027F08: .4byte sub_8027D3C
 _08027F0C: .4byte gMultiSioSend
-_08027F10: .4byte gSaveGame
+_08027F10: .4byte gLoadedSaveGame
 _08027F14: .4byte 0x00000366
 _08027F18: .4byte gMultiSioRecv
 _08027F1C: .4byte 0x00006001
@@ -76347,7 +76347,7 @@ sub_8027FD4: @ 0x08027FD4
 	mov r0, sp
 	movs r2, #0x24
 	bl memcpy
-	ldr r0, _080280A0 @ =gSaveGame
+	ldr r0, _080280A0 @ =gLoadedSaveGame
 	ldr r1, _080280A4 @ =0x00000366
 	adds r0, r0, r1
 	ldrb r0, [r0]
@@ -76432,7 +76432,7 @@ sub_8027FD4: @ 0x08027FD4
 	.align 2, 0
 _08028098: .4byte 0x06010000
 _0802809C: .4byte gUnknown_080CEF2C
-_080280A0: .4byte gSaveGame
+_080280A0: .4byte gLoadedSaveGame
 _080280A4: .4byte 0x00000366
 _080280A8: .4byte 0x00000596
 
@@ -76480,7 +76480,7 @@ sub_80280AC: @ 0x080280AC
 	str r0, [r2, #0xc]
 	strh r4, [r2, #0x18]
 	strh r4, [r2, #0x1a]
-	ldr r1, _08028154 @ =gSaveGame
+	ldr r1, _08028154 @ =gLoadedSaveGame
 	ldr r0, _08028158 @ =0x00000366
 	adds r1, r1, r0
 	ldr r3, _0802815C @ =0x00000177
@@ -76513,7 +76513,7 @@ _08028144: .4byte 0x0600F000
 _08028148: .4byte 0x00000189
 _0802814C: .4byte 0x06008000
 _08028150: .4byte 0x0600E000
-_08028154: .4byte gSaveGame
+_08028154: .4byte gLoadedSaveGame
 _08028158: .4byte 0x00000366
 _0802815C: .4byte 0x00000177
 
@@ -76604,7 +76604,7 @@ sub_8028160: @ 0x08028160
 	str r0, [r2, #0xc]
 	strh r4, [r2, #0x18]
 	strh r4, [r2, #0x1a]
-	ldr r1, _0802831C @ =gSaveGame
+	ldr r1, _0802831C @ =gLoadedSaveGame
 	ldr r3, _08028320 @ =0x00000366
 	adds r1, r1, r3
 	ldr r3, _08028324 @ =0x0000018D
@@ -76721,7 +76721,7 @@ _0802830C: .4byte 0x0600C000
 _08028310: .4byte 0x0600F000
 _08028314: .4byte 0x06008000
 _08028318: .4byte 0x0600E000
-_0802831C: .4byte gSaveGame
+_0802831C: .4byte gLoadedSaveGame
 _08028320: .4byte 0x00000366
 _08028324: .4byte 0x0000018D
 _08028328: .4byte gWinRegs
@@ -77229,7 +77229,7 @@ sub_8028708: @ 0x08028708
 	bl m4aSoundVSyncOn
 	bl sub_8028688
 	ldr r1, _08028764 @ =gStageData
-	ldr r0, _08028768 @ =gSaveGame
+	ldr r0, _08028768 @ =gLoadedSaveGame
 	ldr r2, _0802876C @ =0x00000366
 	adds r0, r0, r2
 	ldrb r0, [r0]
@@ -77248,7 +77248,7 @@ _08028758: .4byte gMultiSioEnabled
 _0802875C: .4byte gFlags
 _08028760: .4byte 0xFFFFBFFF
 _08028764: .4byte gStageData
-_08028768: .4byte gSaveGame
+_08028768: .4byte gLoadedSaveGame
 _0802876C: .4byte 0x00000366
 
 	thumb_func_start sub_8028770

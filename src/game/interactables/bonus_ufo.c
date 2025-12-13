@@ -117,7 +117,7 @@ void Task_BonusUfoMain(void)
         zone = 0;
     }
 
-    if (((ufo->unkB1 == 7) && ((gSaveGame.unlockedStages[zone] & 0x7) == 7)) || ((ufo->unkB1 == 8) && !(gStageData.unkBE[zone] & 0x1))
+    if (((ufo->unkB1 == 7) && ((LOADED_SAVE->unlockedStages[zone] & 0x7) == 7)) || ((ufo->unkB1 == 8) && !(gStageData.unkBE[zone] & 0x1))
         || ((ufo->unkB1 == 9) && !(gStageData.unkBE[zone] & 0x2))) {
         if (!(p->moveState & (MOVESTATE_1000000 | MOVESTATE_200 | MOVESTATE_100 | MOVESTATE_IN_AIR))) {
             s16 anim0 = p->charFlags.anim0;
@@ -142,9 +142,9 @@ void Task_BonusUfoMain(void)
                 ufo->unkB3 = 1;
 
                 if (ufo->unkB1 == ACT_BOSS) {
-                    if (CheckBit(gSaveGame.unlockedStages[zone], ACT_1)) {
+                    if (CheckBit(LOADED_SAVE->unlockedStages[zone], ACT_1)) {
                         ufo->unkB0 = 8;
-                    } else if ((gSaveGame.unlockedStages[zone] & ACT_MASK_DEFAULT_UNLOCKED) == ACT_MASK_DEFAULT_UNLOCKED) {
+                    } else if ((LOADED_SAVE->unlockedStages[zone] & ACT_MASK_DEFAULT_UNLOCKED) == ACT_MASK_DEFAULT_UNLOCKED) {
                         ufo->unkB0 = 4;
                     }
                 } else {

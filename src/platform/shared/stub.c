@@ -30,6 +30,7 @@ Player gPlayers[4] = {};
 u8 gUnknown_03001D00 = 0;
 struct Task *gTask_03001CFC = NULL;
 StageData gStageData = {};
+SaveGame gLoadedSaveGame = {};
 
 void sub_8000D68() { }
 u32 GetSaveSectorChecksum() { return 0; }
@@ -80,7 +81,6 @@ void sub_8003E28(u16 song) { }
 u32 sub_8020950(Sprite *s, s32 worldX, s32 worldY, Player *p, u8 param4) { return 0; }
 void sub_8019A64(Player *p) { }
 void sub_80275B8(u32 level, u8 param1, u8 param2) { }
-void gSaveGame() { }
 bool32 sub_802C140(s32 worldX, s32 worldY, s32 screenX, s32 screenY) { return FALSE; }
 void sub_8004E20() { }
 void sub_8020A58() { }

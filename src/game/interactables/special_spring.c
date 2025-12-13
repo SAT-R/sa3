@@ -76,9 +76,9 @@ void Task_SpecialSpring(void)
 
         if (mask) {
             if (mask & 0x10000) {
-                u8 spKeys = gSaveGame.specialKeys[gStageData.zone];
+                u8 spKeys = LOADED_SAVE->specialKeys[gStageData.zone];
                 if ((spKeys > 0) && (gStageData.gameMode == GAME_MODE_SINGLE_PLAYER)) {
-                    gSaveGame.specialKeys[gStageData.zone] = spKeys - 1;
+                    LOADED_SAVE->specialKeys[gStageData.zone] = spKeys - 1;
                     SetPlayerCallback(p, Player_UseSpecialSpringWithKey);
 
                     partner = &gPlayers[p->charFlags.partnerIndex];
@@ -138,7 +138,7 @@ static void InitSprites(SpecialSpring *spring)
     s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
     UpdateSpriteAnimation(s);
 
-    if ((gSaveGame.collectedEmeralds >> gStageData.zone) & 0x1) {
+    if ((LOADED_SAVE->collectedEmeralds >> gStageData.zone) & 0x1) {
         s = &spring->sprCompletionCrown;
         s->tiles = ALLOC_TILES_VARIANT(ANIM_ACT_RING, 3);
         s->anim = ANIM_ACT_RING;

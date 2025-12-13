@@ -11246,7 +11246,7 @@ sub_80B7470: @ 0x080B7470
 	ldrb r1, [r0]
 	movs r0, #0x7f
 	ands r0, r1
-	ldr r2, _080B7500 @ =gSaveGame
+	ldr r2, _080B7500 @ =gLoadedSaveGame
 	cmp r0, #0x7f
 	bne _080B74B8
 	adds r3, r2, #0
@@ -11292,7 +11292,7 @@ _080B74C8:
 _080B74F4: .4byte gCurTask
 _080B74F8: .4byte gStageData
 _080B74FC: .4byte 0x0300027E
-_080B7500: .4byte gSaveGame
+_080B7500: .4byte gLoadedSaveGame
 _080B7504: .4byte 0x0000027F
 _080B7508: .4byte 0x0000FFFF
 _080B750C: .4byte gBackgroundsCopyQueueCursor

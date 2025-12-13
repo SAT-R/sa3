@@ -80,8 +80,8 @@ void ClearSave(SaveGame *save, u32 playerId)
     save->vsDraws = 0;
 
     {
-        VsRecords *records = &gSaveGame.vsRecords[0];
-        for (i = 0; i < (s32)ARRAY_COUNT(gSaveGame.vsRecords); i++, records++) {
+        VsRecords *records = &LOADED_SAVE->vsRecords[0];
+        for (i = 0; i < (s32)ARRAY_COUNT(LOADED_SAVE->vsRecords); i++, records++) {
             records->slotFilled = FALSE;
             records->wins = 0;
             records->losses = 0;
@@ -161,8 +161,8 @@ void CompleteSave(SaveGame *save)
     save->vsDraws = 0;
 
     {
-        VsRecords *vsRecs = &gSaveGame.vsRecords[0];
-        for (i = 0; i < (s32)ARRAY_COUNT(gSaveGame.vsRecords); i++, vsRecs++) {
+        VsRecords *vsRecs = &LOADED_SAVE->vsRecords[0];
+        for (i = 0; i < (s32)ARRAY_COUNT(LOADED_SAVE->vsRecords); i++, vsRecs++) {
             vsRecs->slotFilled = 0;
             vsRecs->wins = 0;
             vsRecs->losses = 0;
@@ -760,7 +760,7 @@ VsRecords *sub_8001C30(u32 playerId, u16 *playerName)
     s8 i, j;
 
     for (i = 0; i < 10; i++) {
-        currRecord = &gSaveGame.vsRecords[i];
+        currRecord = &LOADED_SAVE->vsRecords[i];
 
         if (!currRecord->slotFilled) {
             break;
@@ -783,8 +783,8 @@ VsRecords *sub_8001C30(u32 playerId, u16 *playerName)
     }
 
     for (--i; i >= 0; --i) {
-        nextRecord = &gSaveGame.vsRecords[i + 1];
-        currRecord = &gSaveGame.vsRecords[i];
+        nextRecord = &LOADED_SAVE->vsRecords[i + 1];
+        currRecord = &LOADED_SAVE->vsRecords[i];
         nextRecord->playerId = currRecord->playerId;
         for (j = 0; j < (s32)ARRAY_COUNT(nextRecord->playerName); j++) {
             nextRecord->playerName[j] = currRecord->playerName[j];
@@ -795,7 +795,7 @@ VsRecords *sub_8001C30(u32 playerId, u16 *playerName)
         nextRecord->draws = currRecord->draws;
     }
 
-    currRecord = &gSaveGame.vsRecords[0];
+    currRecord = &LOADED_SAVE->vsRecords[0];
     currRecord->playerId = playerId;
     for (i = 0; i < 6; i++) {
         currRecord[0].playerName[i] = playerName[i];
@@ -834,7 +834,7 @@ void sub_8001D58(VoidFn voidFn, u16 color)
 
 void sub_8001DDC(u32 playerId)
 {
-    ClearSave(&gSaveGame, playerId);
+    ClearSave(&gLoadedSaveGame, playerId);
     ClearSave(&gUnknown_03000980, playerId);
     ValidateSaveSector(&gSaveSectorData, playerId);
 }

@@ -49,7 +49,7 @@ void CreateEntity_ZoneWarp(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         zoneId++;
     }
 
-    if (gSaveGame.unlockedZones - 1 >= zoneId) {
+    if (LOADED_SAVE->unlockedZones - 1 >= zoneId) {
         struct Task *t = TaskCreate(Task_ZoneWarpInit, sizeof(ZoneWarp), 0x2100, 0, TaskDestructor_ZoneWarp);
         ZoneWarp *warp = TASK_DATA(t);
         Sprite *s = &warp->s;

@@ -36,8 +36,8 @@ enum eLanguage { JAPANESE = 0, ENGLISH = 1, GERMAN = 2, FRENCH = 3, SPANISH = 4,
 #define ACT_COMPLETE_BIT__BONUS_CAPSULE 0x10
 #define ACT_COMPLETE_BIT__BONUS_ENEMIES 0x20
 #define ARE_STAGE_ACTS_COMPLETE(zone)                                                                                                      \
-    ((gSaveGame.unlockedStages[zone] & (ACT_COMPLETE_BIT__ACT_1 | ACT_COMPLETE_BIT__ACT_2 | ACT_COMPLETE_BIT__ACT_3)) == 0x7)
-#define IS_ACT_COMPLETE(zone, act) (gSaveGame.unlockedStages[zone] & ACT_COMPLETE_BIT__##act)
+    ((LOADED_SAVE->unlockedStages[zone] & (ACT_COMPLETE_BIT__ACT_1 | ACT_COMPLETE_BIT__ACT_2 | ACT_COMPLETE_BIT__ACT_3)) == 0x7)
+#define IS_ACT_COMPLETE(zone, act) (LOADED_SAVE->unlockedStages[zone] & ACT_COMPLETE_BIT__##act)
 // TODO: Does using the bitmap match?
 typedef struct {
     u8 Act1 : 1;
@@ -139,11 +139,11 @@ typedef struct {
     /* 0x367 */ u8 unk367;
 } SaveGame;
 
-extern SaveGame gSaveGame;
+extern SaveGame gLoadedSaveGame;
 extern SaveGame gUnknown_03000980;
 
 // TODO: From SA2. Find out whether the pointer exists in SA3
-extern SaveGame *gLoadedSaveGame;
+// extern SaveGame *gLoadedSaveGame;
 
 typedef struct SaveSectorHeader {
     /* 0x000 */ u32 magicNumber; // default: 0x47544E4C ("LNTG")
@@ -198,6 +198,12 @@ typedef struct {
 } SaveSectorData;
 
 extern SaveSectorData gSaveSectorData;
+
+#if ((GAME == GAME_SA1) || (GAME == GAME_SA3))
+#define LOADED_SAVE (&gLoadedSaveGame)
+#elif (GAME == GAME_SA2)
+#define LOADED_SAVE (gLoadedSaveGame)
+#endif
 
 #define MULTIPLAYER_RESULT_WIN  0
 #define MULTIPLAYER_RESULT_LOSS 1

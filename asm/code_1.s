@@ -11842,7 +11842,7 @@ _0805548C:
 	movs r4, #0
 	cmp r0, #0
 	bne _080554C0
-	ldr r1, _080554FC @ =gSaveGame
+	ldr r1, _080554FC @ =gLoadedSaveGame
 	adds r0, r1, #0
 	adds r0, #0x32
 	ldrb r0, [r0]
@@ -11885,7 +11885,7 @@ _080554C0:
 	b _080555F0
 	.align 2, 0
 _080554F8: .4byte gPlayers
-_080554FC: .4byte gSaveGame
+_080554FC: .4byte gLoadedSaveGame
 _08055500: .4byte 0x0000FFFF
 _08055504: .4byte gBackgroundsCopyQueueCursor
 _08055508: .4byte gBackgroundsCopyQueueIndex
@@ -11928,7 +11928,7 @@ _0805555C:
 	bne _080555B4
 	cmp r2, #0xf
 	bne _0805557A
-	ldr r0, _080555AC @ =gSaveGame
+	ldr r0, _080555AC @ =gLoadedSaveGame
 	ldrb r1, [r0, #0x10]
 	movs r0, #8
 	ands r0, r1
@@ -11937,7 +11937,7 @@ _0805555C:
 _0805557A:
 	cmp r2, #0x23
 	bne _0805558A
-	ldr r0, _080555AC @ =gSaveGame
+	ldr r0, _080555AC @ =gLoadedSaveGame
 	ldrb r1, [r0, #0x10]
 	movs r0, #0x10
 	ands r0, r1
@@ -11946,7 +11946,7 @@ _0805557A:
 _0805558A:
 	cmp r2, #0x37
 	bne _080555B4
-	ldr r0, _080555AC @ =gSaveGame
+	ldr r0, _080555AC @ =gLoadedSaveGame
 	ldrb r1, [r0, #0x10]
 	movs r0, #2
 	ands r0, r1
@@ -11960,7 +11960,7 @@ _0805559A:
 	b _080555F0
 	.align 2, 0
 _080555A8: .4byte gPlayers
-_080555AC: .4byte gSaveGame
+_080555AC: .4byte gLoadedSaveGame
 _080555B0: .4byte gCurTask
 _080555B4:
 	bl sub_8003D2C
@@ -12753,7 +12753,7 @@ _08055C1C:
 	lsrs r1, r0, #0x18
 _08055C22:
 	movs r4, #0
-	ldr r5, _08055C3C @ =gSaveGame
+	ldr r5, _08055C3C @ =gLoadedSaveGame
 	lsls r0, r1, #2
 	adds r0, r0, r1
 	lsls r2, r0, #2
@@ -12766,7 +12766,7 @@ _08055C22:
 	lsls r3, r3, #1
 	b _08055C52
 	.align 2, 0
-_08055C3C: .4byte gSaveGame
+_08055C3C: .4byte gLoadedSaveGame
 _08055C40:
 	adds r0, r4, #1
 	lsls r0, r0, #0x18
@@ -12996,7 +12996,7 @@ _08055DD4:
 	lsls r0, r0, #0x1c
 	lsrs r0, r0, #0x1c
 	ldrb r1, [r2, #9]
-	ldr r2, _08055E4C @ =gSaveGame
+	ldr r2, _08055E4C @ =gLoadedSaveGame
 	adds r2, #0x32
 	ldrb r2, [r2]
 	bl sub_80B1AF4
@@ -13013,7 +13013,7 @@ _08055E3C: .4byte gVramGraphicsCopyCursor
 _08055E40: .4byte gVramGraphicsCopyQueueIndex
 _08055E44: .4byte gStageData
 _08055E48: .4byte gPlayers
-_08055E4C: .4byte gSaveGame
+_08055E4C: .4byte gLoadedSaveGame
 
 	thumb_func_start sub_8055E50
 sub_8055E50: @ 0x08055E50
@@ -13435,7 +13435,7 @@ sub_80561A8: @ 0x080561A8
 	ands r0, r1
 	cmp r0, #0
 	bne _080561E0
-	ldr r1, _080561DC @ =gSaveGame
+	ldr r1, _080561DC @ =gLoadedSaveGame
 	adds r0, r1, #0
 	adds r0, #0x32
 	ldrb r0, [r0]
@@ -13453,7 +13453,7 @@ sub_80561A8: @ 0x080561A8
 	b _080561E2
 	.align 2, 0
 _080561D8: .4byte gPlayers
-_080561DC: .4byte gSaveGame
+_080561DC: .4byte gLoadedSaveGame
 _080561E0:
 	movs r0, #0
 _080561E2:
@@ -14945,7 +14945,7 @@ _08056DAC:
 _08056DB0:
 	mov ip, r1
 _08056DB2:
-	ldr r1, _0805701C @ =gSaveGame
+	ldr r1, _0805701C @ =gLoadedSaveGame
 	lsls r0, r7, #2
 	adds r0, r6, r0
 	adds r1, #0x37
@@ -15029,7 +15029,7 @@ _08056E0E:
 	bl VramMalloc
 	adds r2, r0, #0
 	ldr r7, [sp, #0xc]
-	ldr r0, _0805701C @ =gSaveGame
+	ldr r0, _0805701C @ =gLoadedSaveGame
 	ldr r3, _08057040 @ =0x00000366
 	adds r0, r0, r3
 	ldrb r0, [r0]
@@ -15250,7 +15250,7 @@ _08057006:
 	bx r0
 	.align 2, 0
 _08057018: .4byte gStageData
-_0805701C: .4byte gSaveGame
+_0805701C: .4byte gLoadedSaveGame
 _08057020: .4byte gDispCnt
 _08057024: .4byte gWinRegs
 _08057028: .4byte 0x00007FFF
@@ -15383,7 +15383,7 @@ _08057098:
 	movs r1, #1
 	orrs r0, r1
 	str r0, [r2]
-	ldr r0, _08057210 @ =gSaveGame
+	ldr r0, _08057210 @ =gLoadedSaveGame
 	ldr r1, _08057214 @ =0x00000366
 	adds r0, r0, r1
 	ldrb r0, [r0]
@@ -15473,7 +15473,7 @@ _08057200: .4byte gUnknown_086AB768
 _08057204: .4byte gBgPalette + 0xE0
 _08057208: .4byte 0x80000090
 _0805720C: .4byte gFlags
-_08057210: .4byte gSaveGame
+_08057210: .4byte gLoadedSaveGame
 _08057214: .4byte 0x00000366
 _08057218: .4byte 0x03000048
 _0805721C: .4byte gUnknown_080D1D88
@@ -16661,7 +16661,7 @@ sub_8057B70: @ 0x08057B70
 	lsls r0, r0, #0x12
 	mov r1, sb
 	adds r7, r1, r0
-	ldr r0, _08057C54 @ =gSaveGame
+	ldr r0, _08057C54 @ =gLoadedSaveGame
 	ldr r2, _08057C58 @ =0x00000366
 	adds r0, r0, r2
 	ldrb r0, [r0]
@@ -16758,7 +16758,7 @@ _08057B9C:
 	bx r0
 	.align 2, 0
 _08057C50: .4byte gCurTask
-_08057C54: .4byte gSaveGame
+_08057C54: .4byte gLoadedSaveGame
 _08057C58: .4byte 0x00000366
 _08057C5C: .4byte gUnknown_080D1D88
 _08057C60: .4byte 0x0300001C

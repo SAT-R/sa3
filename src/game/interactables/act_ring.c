@@ -55,7 +55,7 @@ void CreateEntity_ActRing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     ring->act = act;
     ring->unk60 = 0;
     ring->unk62 = me->d.uData[4] >> 7;
-    ring->wasCompletedBefore = GetBit(gSaveGame.unlockedStages[gStageData.zone], act);
+    ring->wasCompletedBefore = GetBit(LOADED_SAVE->unlockedStages[gStageData.zone], act);
 
     {
         Sprite *s = &ring->s0;

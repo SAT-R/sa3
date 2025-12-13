@@ -78,7 +78,7 @@ _080005B4:
 	bhi _080005C4
 	movs r3, #1
 _080005C4:
-	ldr r1, _08000718 @ =gSaveGame
+	ldr r1, _08000718 @ =gLoadedSaveGame
 	mov r0, sp
 	ldrb r2, [r0]
 	lsls r2, r2, #2
@@ -101,7 +101,7 @@ _080005E0:
 	mov r8, sp
 	ldr r7, _0800071C @ =gPlayers
 	str r7, [sp, #0x10]
-	ldr r4, _08000718 @ =gSaveGame
+	ldr r4, _08000718 @ =gLoadedSaveGame
 _080005F2:
 	lsls r1, r6, #2
 	ldr r0, [sp, #8]
@@ -112,7 +112,7 @@ _080005F2:
 	adds r0, r0, r2
 	lsls r0, r0, #4
 	adds r1, r1, r0
-	ldr r0, _08000718 @ =gSaveGame
+	ldr r0, _08000718 @ =gLoadedSaveGame
 	adds r1, r1, r0
 	movs r7, #0x97
 	lsls r7, r7, #1
@@ -210,7 +210,7 @@ _080006AE:
 	adds r0, r0, r1
 	lsls r0, r0, #4
 	adds r0, r2, r0
-	ldr r1, _08000718 @ =gSaveGame
+	ldr r1, _08000718 @ =gLoadedSaveGame
 	adds r0, r0, r1
 	ldr r1, [sp, #0x10]
 	adds r1, #0x2a
@@ -226,7 +226,7 @@ _080006AE:
 	adds r1, r1, r0
 	lsls r1, r1, #4
 	adds r1, r2, r1
-	ldr r4, _08000718 @ =gSaveGame
+	ldr r4, _08000718 @ =gLoadedSaveGame
 	adds r1, r1, r4
 	ldr r7, [sp, #0x10]
 	adds r3, #0x4e
@@ -243,7 +243,7 @@ _080006AE:
 	adds r0, r0, r1
 	lsls r0, r0, #4
 	adds r2, r2, r0
-	ldr r0, _08000718 @ =gSaveGame
+	ldr r0, _08000718 @ =gLoadedSaveGame
 	adds r2, r2, r0
 	movs r1, #0x97
 	lsls r1, r1, #1
@@ -253,7 +253,7 @@ _080006AE:
 	strh r3, [r2]
 	b _08000730
 	.align 2, 0
-_08000718: .4byte gSaveGame
+_08000718: .4byte gLoadedSaveGame
 _0800071C: .4byte gPlayers
 _08000720: .4byte 0x0000012D
 _08000724:
