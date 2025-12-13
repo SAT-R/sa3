@@ -140,6 +140,7 @@ typedef struct {
 } SaveGame;
 
 extern SaveGame gSaveGame;
+extern SaveGame gUnknown_03000980;
 
 // TODO: From SA2. Find out whether the pointer exists in SA3
 extern SaveGame *gLoadedSaveGame;

@@ -653,13 +653,13 @@ s16 sub_8001A90(void)
 {
     SaveSectorHeader headers[SECTORS_PER_BANK];
     s16 sectorId;
-    s16 var_sl;
+    s16 outSectorId;
     u32 var_r8;
     u32 var_sb;
 
     var_sb = 0;
     var_r8 = -1U;
-    var_sl = -1;
+    outSectorId = -1;
 
     if (gFlags & FLAGS_NO_FLASH_MEMORY) {
         return -1;
@@ -675,44 +675,46 @@ s16 sub_8001A90(void)
         if (headers[sectorId].sectorId > var_sb) {
             var_sb = headers[sectorId].sectorId;
         }
+
         if (headers[sectorId].sectorId < var_r8) {
             var_r8 = headers[sectorId].sectorId;
-            var_sl = sectorId;
+            outSectorId = sectorId;
         }
     }
 
     if (var_sb != -1) {
-        return var_sl;
+        return outSectorId;
     } else {
         var_r8 = var_sb;
 
         for (sectorId = 0; sectorId < 16; sectorId++) {
             if ((headers[sectorId].sectorId > -0x100) && (headers[sectorId].sectorId <= var_r8)) {
                 var_r8 = headers[sectorId].sectorId;
-                var_sl = sectorId;
+                outSectorId = sectorId;
             }
         }
     }
 
-    return var_sl;
+    return outSectorId;
 }
 
 s16 sub_8001B60(void)
 {
     SaveSectorHeader headers[SECTORS_PER_BANK];
     s16 sectorId;
-    s16 var_sl;
+    s16 outSectorId;
     u32 var_r8;
     u32 var_sb;
 
     var_r8 = 0;
     var_sb = -1U;
-    var_sl = -1;
+    outSectorId = -1;
+
     if (gFlags & FLAGS_NO_FLASH_MEMORY) {
         return -2;
     }
 
-    for (sectorId = 0; sectorId < SECTORS_PER_BANK; sectorId++) {
+    for (sectorId = 0; sectorId < (s32)ARRAY_COUNT(headers); sectorId++) {
         ReadFlash(sectorId, 0U, &headers[sectorId], sizeof(headers[16]));
 
         if (headers[sectorId].magicNumber != SAVEMAGIC_SA3) {
@@ -721,25 +723,85 @@ s16 sub_8001B60(void)
 
         if (headers[sectorId].sectorId > var_r8) {
             var_r8 = headers[sectorId].sectorId;
-            var_sl = sectorId;
+            outSectorId = sectorId;
         }
+
         if (headers[sectorId].sectorId < var_sb) {
             var_sb = headers[sectorId].sectorId;
         }
     }
 
-    if (var_r8 != -1) {
-        return var_sl;
-    } else {
+    if (var_r8 == -1) {
         var_r8 = 0;
 
         for (sectorId = 0; sectorId < 16; sectorId++) {
             if ((headers[sectorId].sectorId < -0x100) && (headers[sectorId].sectorId >= var_r8)) {
                 var_r8 = headers[sectorId].sectorId;
-                var_sl = sectorId;
+                outSectorId = sectorId;
             }
         }
     }
 
-    return var_sl;
+    return outSectorId;
+}
+
+VsRecords *sub_8001C30(u32 playerId, u16 *playerName)
+{
+    VsRecords *temp_r3;
+    VsRecords *var_r5;
+    s8 j;
+    s8 i;
+    u8 temp_r0_6;
+    u8 temp_r1_3;
+
+    for (i = 0; i < 10; i++) {
+        var_r5 = &gSaveGame.vsRecords[i];
+
+        // TODO: This might be a @BUG.
+        //       It's only checking the 0th index, not the i'th!
+        if (!var_r5[0].slotFilled) {
+            break;
+        }
+
+        if (var_r5->playerId != playerId)
+            continue;
+
+        for (j = 0; j < 6 && var_r5->playerName[j] == playerName[j]; j++) {
+            ;
+        }
+
+        if (j == 6) {
+            return var_r5;
+        }
+    }
+
+    if (i == 10) {
+        i = 9;
+    }
+
+    for (--i; i >= 0; --i) {
+        temp_r3 = &gSaveGame.vsRecords[i + 1];
+        var_r5 = &gSaveGame.vsRecords[i];
+        temp_r3->playerId = var_r5->playerId;
+        for (j = 0; j < (s32)ARRAY_COUNT(temp_r3->playerName); j++) {
+            temp_r3->playerName[j] = var_r5->playerName[j];
+        }
+        temp_r3->slotFilled = var_r5->slotFilled;
+        temp_r3->wins = var_r5->wins;
+        temp_r3->losses = var_r5->losses;
+        temp_r3->draws = var_r5->draws;
+    }
+
+    var_r5 = &gSaveGame.vsRecords[0];
+    var_r5->playerId = playerId;
+    for (i = 0; i < 6; i++) {
+        var_r5[0].playerName[i] = playerName[i];
+    }
+
+    var_r5->slotFilled = 1;
+    var_r5->wins = 0;
+    var_r5->losses = 0;
+    var_r5->draws = 0;
+
+    return var_r5;
 }
