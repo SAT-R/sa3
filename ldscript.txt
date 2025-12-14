@@ -23,7 +23,8 @@ SECTIONS {
         asm/crt0.o(.text);
         src/game/game.o(.text);
         src/code_0_0.o(.text);
-        asm/code_0_0.o(.text);
+        src/code_0_1.o(.text);
+        asm/game_over.o(.text);
         asm/code_0_1.o(.text);
         src/game/interactables/zone_warp.o(.text);
         src/game/interactables/spring.o(.text);
