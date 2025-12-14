@@ -2,7 +2,9 @@
 
 #include "global.h"
 #include "core.h"
+#include "game/camera.h"
 #include "game/player.h"
+#include "game/save.h"
 #include "game/stage.h"
 #include "constants/songs.h"
 //#include "module_unclear.h"
@@ -31,15 +33,12 @@ u8 gUnknown_03001D00 = 0;
 struct Task *gTask_03001CFC = NULL;
 StageData gStageData = {};
 SaveGame gLoadedSaveGame = {};
+SaveGame gUnknown_03000980 = {};
+SaveSectorData gSaveSectorData = {};
+struct Camera gCamera = {};
 
 void sub_8000D68() { }
-u32 GetSaveSectorChecksum() { return 0; }
 void CreateGameIntroState() { }
-void sub_8001DDC() { }
-void CallCompleteSave() { }
-void sub_8001E94() { }
-void sub_8001E84() { }
-void Task_8001FB0(void) { }
 void sub_808723C() { }
 void sub_8052D8C() { }
 void sub_808ADF0() { }
@@ -57,8 +56,6 @@ void sub_80C66DC() { }
 void sub_805C63C() { }
 void sub_805C280() { }
 void sub_805CD70() { }
-// void gPlayers() { }
-void gCamera() { }
 void sub_805CD20() { }
 bool32 IsWorldPtActive(s32 worldX, s32 worldY) { return TRUE; }
 bool32 IsScreenPtActive(s32 screenX, s32 screenY) { return TRUE; }
@@ -67,6 +64,7 @@ bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5)
 bool32 sub_8020CE0(Sprite *s, s32 worldX, s32 worldY, u16 param3, Player *p) { return FALSE; }
 s32 sub_8052394(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4, void *callback) { return 0; }
 u8 sub_805217C(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4) { return 0; }
+void TaskDestructor_8029774(struct Task *t) { }
 void sub_8029C54(s32 param0, s32 param1) { }
 void sub_805CE14() { }
 void sub_805C890() { }
@@ -94,10 +92,7 @@ void sub_80C59E8() { }
 void sub_8052418() { }
 void sub_80C4C60() { }
 
-s32 sub_8001FD4() { return 0; }
-bool16 sub_80020F0() { return FALSE; }
 void sub_802616C() { }
-void *sub_8001C30(u32 param0, u16 *param1) { return NULL; }
 
 void sub_80C4E24() { }
 void sub_80C610C() { }
@@ -233,13 +228,9 @@ void ResolvePlayerSpriteCollision() { }
 void sub_8008E38() { }
 void sub_8019A58() { }
 void sub_8020874() { }
-void sub_8001E58() { }
 void sub_8023734() { }
-void GetChaoCount() { }
 void sub_80236C8() { }
 void sub_80299FC() { }
-void GetChaoFlag() { }
-void SetChaoFlag() { }
 void sub_80239A8() { }
 void sub_8029A18() { }
 void sub_80274F4() { }

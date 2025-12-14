@@ -17,6 +17,7 @@ void ValidateSaveSector(SaveSectorData *sector, u32 playerId);
 void UnpackSaveSector(SaveGame *save, SaveSectorData *sector);
 u16 EraseSaveSector(s16 sectorId);
 s16 sub_8001B60(void);
+void sub_8001D58(VoidFn voidFn, u16 color);
 void Task_8001FB0(void);
 s32 sub_8001FD4(void);
 s16 sub_8002024(void);
@@ -25,6 +26,7 @@ u32 GetSaveSectorChecksum(SaveSectorData *sector);
 s16 sub_8002084(s16 sectorId, SaveSectorData *sector);
 
 extern void sub_802616C(u8 param0);
+extern void sub_8003F40(void);
 extern void TaskDestructor_8029774(struct Task *t);
 
 // TODO: Name likely inaccurate
@@ -928,7 +930,7 @@ s16 GetChaoCount(u16 zoneIndex)
 {
     s16 chaoCount = 0;
     s16 i;
-    
+
     for (i = 0; i < CHAO_COUNT_PER_ZONE; i++) {
         if (GetBit(LOADED_SAVE->chaoCount[zoneIndex], i)) {
             chaoCount += 1;
@@ -997,8 +999,7 @@ s16 sub_8002084(s16 sectorId, SaveSectorData *sector)
     u16 _sectorId = sectorId;
     s16 i;
 
-    for(i = 0; i < SECTORS_PER_BANK; i++)
-    {
+    for (i = 0; i < SECTORS_PER_BANK; i++) {
         ReadFlash(_sectorId, 0, sector, sizeof(SaveSectorData));
 
         if ((sector->header.magicNumber == SAVEMAGIC_SA3) && (sector->checksum == GetSaveSectorChecksum(sector))) {
@@ -1012,7 +1013,6 @@ s16 sub_8002084(s16 sectorId, SaveSectorData *sector)
         } else {
             _sectorId--;
         }
-
     }
 
     return -1;
@@ -1087,4 +1087,53 @@ void sub_800214C(void)
         gStageData.buttonConfig.attack = LOADED_SAVE->buttonConfig.attack;
         gStageData.buttonConfig.trick = LOADED_SAVE->buttonConfig.trick;
     }
+}
+
+void WarpToMap(s16 level, u16 arg1)
+{
+    StageData *stageData = &gStageData;
+    s16 zone;
+    u32 act;
+
+    if (level < 73) {
+        if (level < 71) {
+            zone = ((level - 1) / 10);
+            act = (zone * 10) + 1;
+            act = level - act;
+            act++;
+#ifndef NON_MATCHING
+            // stageData->act is a byte anyway, so the cast is redundant.
+            act <<= 16;
+            act >>= 16;
+#endif
+
+            if ((level != 1) && (level != 11)) {
+                stageData->zone = zone;
+                stageData->act = act;
+            } else {
+                stageData->act = 1;
+            }
+        } else {
+            stageData->zone = level - 64;
+            stageData->act = 1;
+        }
+
+        stageData->currMapIndex = level;
+    }
+
+    stageData->entryIndex = arg1;
+    stageData->unk1 = gLoadedSaveGame.difficulty;
+    stageData->unk0 = gLoadedSaveGame.language;
+    if ((gStageData.zone < 7) && ((gStageData.act == 1 || gStageData.act == 2) || (gStageData.act == 8) || (gStageData.act == 9))) {
+        stageData->unk2 = 1;
+    } else {
+        stageData->unk2 = gLoadedSaveGame.disableTimeLimit;
+    }
+    stageData->unkB6 = 0;
+    stageData->unkB7 = 0;
+    stageData->unkB8 = 0;
+    stageData->unkB9 = 0;
+    stageData->unk8C = 0;
+
+    sub_8001D58(sub_8003F40, RGB_WHITE);
 }
