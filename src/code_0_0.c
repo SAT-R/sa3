@@ -27,6 +27,8 @@ s16 sub_8002084(s16 sectorId, SaveSectorData *sector);
 
 extern void sub_802616C(u8 param0);
 extern void sub_8003F40(void);
+extern void sub_8003F8C(void);
+extern void sub_8003FC8(void);
 extern void TaskDestructor_8029774(struct Task *t);
 
 // TODO: Name likely inaccurate
@@ -1051,6 +1053,8 @@ u32 GetSaveSectorChecksum(SaveSectorData *sector)
     return checkSum;
 }
 
+// --- This might be the split point of the module ? ---
+
 void sub_800214C(void)
 {
     Player *players = &gPlayers[0];
@@ -1122,12 +1126,12 @@ void WarpToMap(s16 level, u16 arg1)
     }
 
     stageData->entryIndex = arg1;
-    stageData->unk1 = gLoadedSaveGame.difficulty;
-    stageData->unk0 = gLoadedSaveGame.language;
+    stageData->unk1 = LOADED_SAVE->difficulty;
+    stageData->unk0 = LOADED_SAVE->language;
     if ((gStageData.zone < 7) && ((gStageData.act == 1 || gStageData.act == 2) || (gStageData.act == 8) || (gStageData.act == 9))) {
         stageData->unk2 = 1;
     } else {
-        stageData->unk2 = gLoadedSaveGame.disableTimeLimit;
+        stageData->unk2 = LOADED_SAVE->disableTimeLimit;
     }
     stageData->unkB6 = 0;
     stageData->unkB7 = 0;
@@ -1136,4 +1140,79 @@ void WarpToMap(s16 level, u16 arg1)
     stageData->unk8C = 0;
 
     sub_8001D58(sub_8003F40, RGB_WHITE);
+}
+
+void sub_80022E8(s16 level)
+{
+    StageData *stageData = &gStageData;
+    s16 zone;
+    u32 act;
+
+    if (stageData->gameMode != GAME_MODE_MP_SINGLE_PACK) {
+        if (level < 73) {
+            if (level > 70) {
+                stageData->zone = (u16)level - 63;
+                stageData->act = 3;
+                stageData->currMapIndex = level;
+            } else {
+                zone = (level - 1) / 10;
+                act = (((zone * 10) + 1));
+                act = (level - act);
+                act++;
+                stageData->zone = zone;
+                stageData->act = act;
+                stageData->currMapIndex = level;
+            }
+        }
+        stageData->unk1 = LOADED_SAVE->difficulty;
+        stageData->unk0 = LOADED_SAVE->language;
+        stageData->unk2 = 0;
+        stageData->entryIndex = 0;
+    } else {
+        stageData->zone = 0;
+        stageData->act = 0;
+        stageData->currMapIndex = 0;
+    }
+    stageData->unkB6 = 0;
+    stageData->unkB7 = 0;
+    stageData->unkB8 = 0;
+    stageData->unkB9 = 0;
+
+    sub_8001D58(&sub_8003F8C, RGB_BLACK);
+}
+
+void sub_8002388(void)
+{
+    Player *p;
+    s16 i;
+
+    gStageData.unkB7 = 0;
+    gStageData.unkB6 = 0;
+
+#ifndef BUG_FIX
+    // p is uninitialized here
+    // TODO: Should we move this into the loop inside an if (i == 0) block?
+    p->framesInvincible = 0;
+#endif // BUG_FIX
+
+    for (i = 0; i < 4; i++) {
+        p = &gPlayers[i];
+        p->unkC4[0] = NULL;
+        p->unkC4[1] = NULL;
+        p->unkC4[2] = NULL;
+        p->unkD0 = NULL;
+        p->unkD4 = 0;
+        p->unkD8 = 0;
+        p->unkDC = 0;
+        p->qCamOffsetX = 0;
+        p->qCamOffsetY = 0;
+        p->qSpeedGround = 0;
+        p->unk60 = 0;
+        p->unk5E = 0;
+        p->qWorldX = Q(gStageData.respawnX);
+        p->qWorldY = Q(gStageData.respawnY);
+    }
+
+    m4aMPlayAllStop();
+    sub_8003FC8();
 }

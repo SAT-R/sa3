@@ -38,6 +38,9 @@ SaveSectorData gSaveSectorData = {};
 struct Camera gCamera = {};
 
 void sub_8000D68() { }
+void sub_8003F40() { }
+void sub_8003F8C() { }
+void sub_8003FC8() { }
 void CreateGameIntroState() { }
 void sub_808723C() { }
 void sub_8052D8C() { }
@@ -100,7 +103,6 @@ void sub_8003DC4() { }
 void sub_8020E3C() { }
 void ScreenFadeUpdateValues() { }
 void UpdateScreenFade() { }
-void WarpToMap() { }
 void sub_8051F54() { }
 void Player_80072D8(Player *p) { }
 void Player_800EB4C(Player *p) { }
