@@ -707,7 +707,7 @@ s16 sub_8001A90(void)
     } else {
         var_r8 = var_sb;
 
-        for (sectorId = 0; sectorId < 16; sectorId++) {
+        for (sectorId = 0; sectorId < SECTORS_PER_BANK; sectorId++) {
             if ((headers[sectorId].sectorId > -0x100) && (headers[sectorId].sectorId <= var_r8)) {
                 var_r8 = headers[sectorId].sectorId;
                 outSectorId = sectorId;
@@ -754,7 +754,7 @@ s16 sub_8001B60(void)
     if (var_r8 == -1) {
         var_r8 = 0;
 
-        for (sectorId = 0; sectorId < 16; sectorId++) {
+        for (sectorId = 0; sectorId < SECTORS_PER_BANK; sectorId++) {
             if ((headers[sectorId].sectorId < -0x100) && (headers[sectorId].sectorId >= var_r8)) {
                 var_r8 = headers[sectorId].sectorId;
                 outSectorId = sectorId;
@@ -923,14 +923,14 @@ void SetChaoFlag(u16 chaoIndex) { SetBit(LOADED_SAVE->chaoCount[gStageData.zone]
 /*	Gets a "Chao-Bit", which represents it (not) being collected. */
 u16 GetChaoFlag(u16 ZoneIndex, u16 chaoIndex) { return CheckBit(LOADED_SAVE->chaoCount[ZoneIndex], chaoIndex); }
 
+/* Gets the number of Chao collected in Zone 'zoneIndex' */
 s16 GetChaoCount(u16 zoneIndex)
 {
     s16 chaoCount = 0;
-    s16 index = 0;
-    u16 *pChaoCount = (u16 *)&LOADED_SAVE->chaoCount[zoneIndex];
-
-    for (; index < CHAO_COUNT_PER_ZONE; index++) {
-        if ((*pChaoCount >> index) & 1) {
+    s16 i;
+    
+    for (i = 0; i < CHAO_COUNT_PER_ZONE; i++) {
+        if (GetBit(LOADED_SAVE->chaoCount[zoneIndex], i)) {
             chaoCount += 1;
         }
     }
@@ -995,9 +995,10 @@ s16 sub_8002024(void)
 s16 sub_8002084(s16 sectorId, SaveSectorData *sector)
 {
     u16 _sectorId = sectorId;
+    s16 i;
 
-    s16 i = 0;
-    do {
+    for(i = 0; i < SECTORS_PER_BANK; i++)
+    {
         ReadFlash(_sectorId, 0, sector, sizeof(SaveSectorData));
 
         if ((sector->header.magicNumber == SAVEMAGIC_SA3) && (sector->checksum == GetSaveSectorChecksum(sector))) {
@@ -1012,8 +1013,7 @@ s16 sub_8002084(s16 sectorId, SaveSectorData *sector)
             _sectorId--;
         }
 
-        i++;
-    } while (i < 16);
+    }
 
     return -1;
 }
@@ -1056,10 +1056,10 @@ void sub_800214C(void)
     Player *players = &gPlayers[0];
     s16 i;
 
-    if (gStageData.gameMode != 7) {
+    if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
         gStageData.lives = 2;
 
-        for (i = 0; i < 7; i++) {
+        for (i = 0; i < (s32)ARRAY_COUNT(gStageData.unkBE); i++) {
             gStageData.unkBE[i] = 0;
         }
     } else {
