@@ -6,6 +6,7 @@
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/player.h"
+#include "game/player_callbacks.h"
 #include "game/stage.h"
 #include "game/interactables/platform_shared.h"
 
@@ -167,7 +168,7 @@ void Task_80452AC(void)
                 }
 
                 if ((sub_801226C(p) < 0) && (!sub_802C080(p))) {
-                    sub_8008E38(p);
+                    Player_8008E38(p);
                 }
             } else if (res & 0x20000) {
                 p->qWorldY += +Q(1);
@@ -175,7 +176,7 @@ void Task_80452AC(void)
                 p->qSpeedAirY = 0;
 
                 if ((sub_8012368(p) < 0) && (!sub_802C080(p))) {
-                    sub_8008E38(p);
+                    Player_8008E38(p);
                 }
             } else if (res & 0x40000) {
                 p->qWorldX += Q((s16)res >> 8);
@@ -196,7 +197,7 @@ void Task_80452AC(void)
                 }
 
                 if ((sub_801246C(p) < 0) && (!sub_802C080(p))) {
-                    sub_8008E38(p);
+                    Player_8008E38(p);
                 }
             } else if (res & 0x80000) {
                 p->qWorldX += Q((s16)res >> 8);
@@ -217,7 +218,7 @@ void Task_80452AC(void)
                 }
 
                 if ((sub_8012550(p) < 0) && (!sub_802C080(p))) {
-                    sub_8008E38(p);
+                    Player_8008E38(p);
                 }
             }
         }

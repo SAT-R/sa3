@@ -6,6 +6,7 @@
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/player.h"
+#include "game/player_callbacks.h"
 #include "game/stage.h"
 
 #include "constants/animations.h"

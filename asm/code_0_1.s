@@ -971,7 +971,7 @@ _08004538:
 	adds r0, r4, #0
 	bl Player_800DB30
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 _08004544:
 	pop {r4}
 	pop {r0}
@@ -2912,7 +2912,7 @@ _08005400:
 	ands r0, r1
 	strb r0, [r2]
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldr r1, _08005430 @ =Player_8005434
 	str r1, [r4]
 	adds r0, r4, #0
@@ -4001,7 +4001,7 @@ _08005C00:
 	adds r0, r0, r1
 	bl sub_8016F28
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldr r0, [r4, #4]
 	ldr r1, _08005CB0 @ =0xFFFEFFFF
 	ands r0, r1
@@ -4208,7 +4208,7 @@ _08005DD8:
 	adds r0, r0, r1
 	bl sub_8016F28
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldr r0, [r4, #4]
 	ldr r1, _08005E78 @ =0xFFFEFFFF
 	ands r0, r1
@@ -4309,7 +4309,7 @@ _08005EB4:
 	add r0, sl
 	bl sub_8016F28
 	adds r0, r7, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldr r0, [r7, #4]
 	ldr r1, _08005FA4 @ =0xFFFEFFFF
 	ands r0, r1
@@ -5444,8 +5444,8 @@ _08006818: .4byte 0xFFFFBFFF
 _0800681C: .4byte gSineTable
 _08006820: .4byte sub_800DF10
 
-	thumb_func_start sub_8006824
-sub_8006824: @ 0x08006824
+	thumb_func_start Player_8006824
+Player_8006824: @ 0x08006824
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r0, _080068A8 @ =gStageData
@@ -7300,7 +7300,7 @@ _080076D2:
 	movs r1, #0x70
 	bl Player_PlaySong
 	adds r0, r4, #0
-	bl sub_8019A58
+	bl Player_BoostEngage
 	ldr r1, _08007710 @ =Player_8007714
 	str r1, [r4]
 	adds r0, r4, #0
@@ -7345,7 +7345,7 @@ _08007736:
 	ldr r0, _08007750 @ =Player_800DB30
 	str r0, [r4]
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	b _080077C0
 	.align 2, 0
 _0800774C: .4byte 0xFFFF7FFF
@@ -10132,7 +10132,7 @@ Player_8008CD0: @ 0x08008CD0
 	ands r0, r1
 	str r0, [r4, #4]
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	adds r0, r4, #0
 	bl Player_Flyer_SoundStop
 	movs r0, #0x18
@@ -10300,8 +10300,8 @@ _08008E0C:
 _08008E30: .4byte 0xD7FFFFDD
 _08008E34: .4byte Player_800E1E4
 
-	thumb_func_start sub_8008E38
-sub_8008E38: @ 0x08008E38
+	thumb_func_start Player_8008E38
+Player_8008E38: @ 0x08008E38
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -14183,7 +14183,7 @@ _0800AD44:
 	adds r0, r5, #0
 	bl sub_8016F28
 	adds r0, r5, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldr r3, _0800AE00 @ =gStageData
 	movs r0, #8
 	strb r0, [r3, #4]
@@ -14301,7 +14301,7 @@ _0800AE34:
 	adds r0, r5, #0
 	bl sub_8016F28
 	adds r0, r5, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldr r1, _0800AEEC @ =gCamera
 	ldr r0, [r1]
 	str r0, [r1, #0x18]
@@ -16054,7 +16054,7 @@ _0800BBC0:
 	ands r0, r1
 	str r0, [r2, #0x14]
 	adds r0, r5, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	adds r0, r5, #0
 	bl sub_8016F28
 	adds r0, r5, #0
@@ -16222,7 +16222,7 @@ _0800BD00:
 	ands r0, r1
 	strb r0, [r2]
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	adds r0, r4, #0
 	bl sub_8016F28
 	adds r0, r4, #0
@@ -16627,7 +16627,7 @@ sub_800C064: @ 0x0800C064
 	movs r0, #0
 	strb r0, [r1]
 	adds r0, r5, #0
-	bl sub_8019A58
+	bl Player_BoostEngage
 	ldr r0, [r5, #4]
 	movs r1, #1
 	ands r0, r1
@@ -19936,7 +19936,7 @@ _0800DA16:
 	ands r0, r1
 	strb r0, [r2]
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	movs r0, #0
 	strh r0, [r4, #0x1c]
 	ldr r0, [r4, #4]
@@ -20127,7 +20127,7 @@ Player_800DB7C: @ 0x0800DB7C
 	adds r0, r4, #0
 	bl sub_8016F28
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldr r1, _0800DBE0 @ =0x00000257
 	adds r0, r4, #0
 	bl Player_PlaySong
@@ -20157,7 +20157,7 @@ Player_800DBE8: @ 0x0800DBE8
 	adds r0, r4, #0
 	bl sub_8016F28
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	movs r0, #0
 	strh r0, [r4, #0x1c]
 	strh r0, [r4, #0x18]
@@ -20944,7 +20944,7 @@ _0800E250:
 	ands r0, r1
 	strb r0, [r2]
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldr r1, _0800E278 @ =sub_800C494
 	str r1, [r4]
 	adds r0, r4, #0
@@ -22274,7 +22274,7 @@ _0800EC88:
 	orrs r0, r1
 	str r0, [r4, #4]
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldr r1, _0800ECDC @ =sub_800ECE0
 	str r1, [r4]
 	adds r0, r4, #0
@@ -23116,7 +23116,7 @@ _0800F31C: .4byte gStageData
 _0800F320: .4byte sub_8010F38
 _0800F324:
 	adds r0, r5, #0
-	bl sub_8019A58
+	bl Player_BoostEngage
 _0800F32A:
 	ldrh r0, [r5, #0x36]
 	cmp r0, #0
@@ -23192,7 +23192,7 @@ sub_800F378: @ 0x0800F378
 	orrs r0, r1
 	strb r0, [r2]
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	movs r0, #0x70
 	bl m4aSongNumStart
 	ldr r5, _0800F3E4 @ =sub_800F3E8
@@ -23341,7 +23341,7 @@ sub_800F4A4: @ 0x0800F4A4
 	b _0800F4E8
 _0800F4E2:
 	adds r0, r5, #0
-	bl sub_8019A58
+	bl Player_BoostEngage
 _0800F4E8:
 	ldr r0, _0800F508 @ =gStageData
 	ldrh r1, [r5, #0x1e]
@@ -23443,7 +23443,7 @@ _0800F57E:
 	b _0800F5A8
 _0800F5A2:
 	adds r0, r4, #0
-	bl sub_8019A58
+	bl Player_BoostEngage
 _0800F5A8:
 	ldrb r0, [r5, #5]
 	subs r0, #1
@@ -23490,7 +23490,7 @@ sub_800F5C8: @ 0x0800F5C8
 	b _0800F606
 _0800F600:
 	adds r0, r4, #0
-	bl sub_8019A58
+	bl Player_BoostEngage
 _0800F606:
 	adds r0, r4, #0
 	adds r0, #0x4a
@@ -23543,7 +23543,7 @@ sub_800F634: @ 0x0800F634
 	b _0800F670
 _0800F66A:
 	adds r0, r4, #0
-	bl sub_8019A58
+	bl Player_BoostEngage
 _0800F670:
 	ldrh r6, [r5, #8]
 	movs r1, #8
@@ -25699,7 +25699,7 @@ _0801062C:
 	adds r0, r5, #0
 	bl Player_PlaySong
 	adds r0, r5, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldr r4, _08010670 @ =sub_80106E0
 	adds r0, r5, #0
 	adds r1, r4, #0
@@ -25945,7 +25945,7 @@ sub_801080C: @ 0x0801080C
 	b _0801083E
 _08010838:
 	adds r0, r4, #0
-	bl sub_8019A58
+	bl Player_BoostEngage
 _0801083E:
 	ldr r1, _08010860 @ =gStageData
 	ldrb r0, [r1, #4]
@@ -25994,7 +25994,7 @@ sub_801086C: @ 0x0801086C
 	b _080108A4
 _0801089E:
 	adds r0, r4, #0
-	bl sub_8019A58
+	bl Player_BoostEngage
 _080108A4:
 	adds r0, r4, #0
 	bl sub_800FE44
@@ -26557,7 +26557,7 @@ _08010CF2:
 _08010D18: .4byte sub_800F2B0
 _08010D1C:
 	adds r0, r4, #0
-	bl sub_8019A58
+	bl Player_BoostEngage
 _08010D22:
 	pop {r4}
 	pop {r0}
@@ -26840,7 +26840,7 @@ sub_8010F0C: @ 0x08010F0C
 	b _08010F2E
 _08010F28:
 	adds r0, r3, #0
-	bl sub_8019A58
+	bl Player_BoostEngage
 _08010F2E:
 	pop {r4}
 	pop {r0}
@@ -26874,7 +26874,7 @@ sub_8010F38: @ 0x08010F38
 	b _08010F6A
 _08010F64:
 	adds r0, r4, #0
-	bl sub_8019A58
+	bl Player_BoostEngage
 _08010F6A:
 	ldrh r0, [r4, #0x36]
 	cmp r0, #0
@@ -33960,7 +33960,7 @@ _0801442A:
 	cmp r1, r0
 	bgt _080144AE
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	b _080144AE
 	.align 2, 0
 _08014438: .4byte gUnknown_080CECC6
@@ -33998,7 +33998,7 @@ _08014454:
 	cmp r1, r0
 	blt _080144AE
 	adds r0, r4, #0
-	bl sub_8019A58
+	bl Player_BoostEngage
 	ldrb r1, [r5]
 	movs r0, #0x1c
 	ands r0, r1
@@ -34167,7 +34167,7 @@ _080145A6:
 	cmp r0, #7
 	beq _08014642
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	movs r2, #0x2b
 	adds r2, r2, r4
 	mov r8, r2
@@ -34211,7 +34211,7 @@ _08014604:
 	cmp r0, #0
 	bne _08014616
 	adds r0, r4, #0
-	bl sub_8008E38
+	bl Player_8008E38
 	b _0801465E
 _08014616:
 	cmp r3, #4
@@ -35055,7 +35055,7 @@ _08014C28:
 	b _08014D62
 _08014C3E:
 	adds r0, r5, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	adds r0, r5, #0
 	bl sub_80193A4
 	ldr r0, [r5, #4]
@@ -35656,7 +35656,7 @@ _080150D0:
 	subs r5, r0, #1
 _080150D6:
 	adds r0, r4, #0
-	bl sub_8008E38
+	bl Player_8008E38
 	movs r0, #1
 	mov sb, r0
 _080150E0:
@@ -45226,8 +45226,8 @@ _08019A50:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_8019A58
-sub_8019A58: @ 0x08019A58
+	thumb_func_start Player_BoostEngage
+Player_BoostEngage: @ 0x08019A58
 	adds r0, #0x2b
 	ldrb r1, [r0]
 	movs r2, #0x80
@@ -45235,8 +45235,8 @@ sub_8019A58: @ 0x08019A58
 	strb r1, [r0]
 	bx lr
 
-	thumb_func_start sub_8019A64
-sub_8019A64: @ 0x08019A64
+	thumb_func_start Player_BoostDisengage
+Player_BoostDisengage: @ 0x08019A64
 	adds r3, r0, #0
 	adds r3, #0x2b
 	ldrb r2, [r3]
@@ -46449,7 +46449,7 @@ _0801A41E:
 	strh r1, [r5, #0x18]
 	strh r1, [r5, #0x1a]
 	adds r0, r5, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	adds r0, r5, #0
 	adds r0, #0xe0
 	ldr r2, [r0]
@@ -46532,7 +46532,7 @@ _0801A4CA:
 	strh r1, [r5, #0x18]
 	strh r1, [r5, #0x1a]
 	adds r0, r5, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldr r0, [r5, #4]
 	ldr r1, _0801A4FC @ =0x00040004
 	orrs r0, r1
@@ -47211,7 +47211,7 @@ sub_801A9EC: @ 0x0801A9EC
 	movs r0, #1
 	strb r0, [r1]
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldr r0, [r4, #4]
 	ldr r1, _0801AA4C @ =0x00040004
 	orrs r0, r1
@@ -47431,7 +47431,7 @@ _0801ABC0:
 	adds r0, r5, #0
 	bl sub_8016F28
 	adds r0, r5, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldr r0, [r5, #4]
 	ldr r1, _0801ABFC @ =0x00040004
 	orrs r0, r1
@@ -47721,7 +47721,7 @@ _0801AE14:
 	movs r4, #1
 	strb r4, [r0]
 	adds r0, r5, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldr r0, [r5, #4]
 	ands r0, r4
 	cmp r0, #0
@@ -47829,7 +47829,7 @@ _0801AEE2:
 	movs r0, #0xd9
 	strh r0, [r5, #0x30]
 	adds r0, r5, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	adds r0, r5, #0
 	adds r0, #0x26
 	strb r4, [r0]
@@ -47841,7 +47841,7 @@ _0801AEE2:
 	adds r0, r5, r1
 	strb r4, [r0]
 	adds r0, r5, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldrb r1, [r6]
 	movs r0, #4
 	orrs r0, r1
@@ -49819,7 +49819,7 @@ _0801BDF4:
 	movs r0, #0xce
 	strh r0, [r5, #0x30]
 	adds r0, r5, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldr r0, [r5, #4]
 	ldr r1, _0801BE38 @ =0x00040004
 	orrs r0, r1
@@ -49870,7 +49870,7 @@ _0801BE5C:
 	movs r0, #0xce
 	strh r0, [r4, #0x30]
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldr r0, [r4, #4]
 	ldr r1, _0801BE98 @ =0x20040004
 	orrs r0, r1
@@ -49920,7 +49920,7 @@ _0801BEC0:
 	strh r0, [r5, #0x1a]
 	strh r2, [r5, #0x18]
 	adds r0, r5, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldr r0, [r5, #4]
 	ldr r1, _0801BF00 @ =0x00040004
 	orrs r0, r1
@@ -49967,7 +49967,7 @@ _0801BF28:
 	movs r0, #0xd5
 	strh r0, [r5, #0x30]
 	adds r0, r5, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldr r0, [r5, #4]
 	ldr r1, _0801BF64 @ =0x00040004
 	orrs r0, r1
@@ -50014,7 +50014,7 @@ _0801BF8C:
 	movs r0, #0xd6
 	strh r0, [r5, #0x30]
 	adds r0, r5, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldr r0, [r5, #4]
 	ldr r1, _0801BFCC @ =0x00040004
 	orrs r0, r1
@@ -50463,7 +50463,7 @@ sub_801C2D8: @ 0x0801C2D8
 	movs r0, #0xf
 	strh r0, [r1]
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldrb r1, [r5]
 	movs r0, #4
 	orrs r0, r1
@@ -51777,7 +51777,7 @@ _0801CD20:
 	adds r5, r4, r1
 	strb r0, [r5]
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldrb r1, [r5]
 	movs r0, #4
 	orrs r0, r1
@@ -52244,7 +52244,7 @@ _0801D0A6:
 	adds r5, r4, r0
 	strb r1, [r5]
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldrb r1, [r5]
 	movs r0, #4
 	orrs r0, r1
@@ -55211,7 +55211,7 @@ sub_801E828: @ 0x0801E828
 	movs r0, #1
 	strb r0, [r1]
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	movs r0, #0xa4
 	lsls r0, r0, #1
 	adds r1, r4, r0
@@ -55255,7 +55255,7 @@ sub_801E888: @ 0x0801E888
 	movs r0, #1
 	strb r0, [r1]
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	movs r1, #0xa4
 	lsls r1, r1, #1
 	adds r0, r4, r1
@@ -55291,7 +55291,7 @@ sub_801E8E0: @ 0x0801E8E0
 	movs r0, #1
 	strb r0, [r1]
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 	ldr r0, [r4, #4]
 	ldr r1, _0801E924 @ =0x00040004
 	orrs r0, r1
@@ -83925,7 +83925,7 @@ _0802C754: .4byte 0x00000101
 _0802C758: .4byte 0x0000FFFF
 _0802C75C:
 	adds r0, r4, #0
-	bl sub_8019A64
+	bl Player_BoostDisengage
 _0802C762:
 	adds r0, r4, #0
 	movs r1, #0x96      @ SE_ITEMBOX

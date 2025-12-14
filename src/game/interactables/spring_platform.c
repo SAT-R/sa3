@@ -170,7 +170,7 @@ void Task_SpringPlatform(void)
                         r0 = -r2;
 
                     if ((r0 < 13) && !sub_802C080(p)) {
-                        sub_8008E38(p);
+                        Player_8008E38(p);
                     }
                 } else {
                     p->qWorldX += Q((s16)res >> 8);
@@ -178,11 +178,11 @@ void Task_SpringPlatform(void)
 
                 if (sub_801246C(p) < 0) {
                     if (!sub_802C080(p)) {
-                        sub_8008E38(p);
+                        Player_8008E38(p);
                     }
                 } else if (sub_8012550(p) < 0) {
                     if (!sub_802C080(p)) {
-                        sub_8008E38(p);
+                        Player_8008E38(p);
                     }
                 }
                 p->qSpeedAirX = 0;

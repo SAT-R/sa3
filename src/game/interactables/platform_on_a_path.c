@@ -6,6 +6,7 @@
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/player.h"
+#include "game/player_callbacks.h"
 #include "game/stage.h"
 
 #include "constants/animations.h"
@@ -159,7 +160,7 @@ void Task_PlatformOnPath(void)
 
                 if ((platform->qWorld.y != platform->qTarget.y) && (platform->qWorld.y > platform->qTarget.y) && (sub_801226C(p) < 0)
                     && (sub_802C080(p) == 0)) {
-                    sub_8008E38(p);
+                    Player_8008E38(p);
                 }
             } else if (res & 0x20000) {
                 p->qWorldY += Q_8_8(res);

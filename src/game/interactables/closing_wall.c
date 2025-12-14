@@ -5,6 +5,7 @@
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/player.h"
+#include "game/player_callbacks.h"
 #include "game/stage.h"
 
 #include "constants/animations.h"
@@ -142,7 +143,7 @@ NONMATCH("asm/non_matching/game/interactables/closing_wall__Task_ClosingWall.inc
                     // _0804ABD2
                     if (wall->unk5E < 38) {
                         if (!sub_802C080(p)) {
-                            sub_8008E38(p);
+                            Player_8008E38(p);
                         }
                     }
                 }

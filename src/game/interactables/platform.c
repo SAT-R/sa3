@@ -201,7 +201,7 @@ void Task_Platform()
                         if (((sp10 == +1) && (qInitialWorldY > Q(2))) || ((sp10 != +1) && (qInitialWorldY > Q(0)))) {
                             if (sub_801226C(p) < 0) {
                                 if (!sub_802C080(p)) {
-                                    sub_8008E38(p);
+                                    Player_8008E38(p);
                                 }
                             }
                         }
@@ -262,7 +262,7 @@ void Task_Platform()
                     if (!sub_802C080(p)) {
                         if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
                             if (sub_8012368(p) < 0) {
-                                sub_8008E38(p);
+                                Player_8008E38(p);
                             } else if (!(p->moveState & MOVESTATE_IN_AIR)) {
                                 Player_8012FE0(p);
 
@@ -320,12 +320,12 @@ void Task_Platform()
 
                     if ((p->charFlags.anim0 == 238) || (p->charFlags.anim0 == 239) || (p->charFlags.anim0 == 244)
                         || (p->charFlags.anim0 == 245)) {
-                        sub_8008E38(p);
+                        Player_8008E38(p);
                     }
 
                     if ((sub_801246C(p) < 0) || (sub_8012550(p) < 0)) {
                         if (!sub_802C080(p)) {
-                            sub_8008E38(p);
+                            Player_8008E38(p);
                         }
                     }
                 }
@@ -456,7 +456,7 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F368.inc", void 
 
                 if (sub_801226C(p) < 0) {
                     if (!sub_802C080(p)) {
-                        sub_8008E38(p);
+                        Player_8008E38(p);
                     }
                 }
             } else if (!platform2->flags_3) {
@@ -472,7 +472,7 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F368.inc", void 
                 if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
                     if (sub_8012368(p) < 0) {
                         if (!sub_802C080(p)) {
-                            sub_8008E38(p);
+                            Player_8008E38(p);
                         }
                     } else if ((p->charFlags.anim0 == 238) || (p->charFlags.anim0 == 239) || (p->charFlags.anim0 == 244)
                                || (p->charFlags.anim0 == 245)) {
@@ -496,18 +496,18 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F368.inc", void 
                 if ((p->charFlags.anim0 == 238) || (p->charFlags.anim0 == 239) || (p->charFlags.anim0 == 244)
                     || (p->charFlags.anim0 == 245)) {
                     if (!sub_802C080(p)) {
-                        sub_8008E38(p);
+                        Player_8008E38(p);
                     }
                 }
 
                 if (sub_801246C(p) < 0) {
                     if (!sub_802C080(p)) {
-                        sub_8008E38(p);
+                        Player_8008E38(p);
                     }
                 }
 
                 if ((sub_8012550(p) < 0) && !sub_802C080(p)) {
-                    sub_8008E38(p);
+                    Player_8008E38(p);
                 }
             }
         }
@@ -587,7 +587,7 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F698.inc", void 
 
                 if (sub_801226C(p) < 0) {
                     if (!sub_802C080(p)) {
-                        sub_8008E38(p);
+                        Player_8008E38(p);
                     }
                 }
             } else if (!platform2->flags_3) {
@@ -603,7 +603,7 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F698.inc", void 
                 if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
                     if (sub_8012368(p) < 0) {
                         if (!sub_802C080(p)) {
-                            sub_8008E38(p);
+                            Player_8008E38(p);
                         }
                     } else if ((p->charFlags.anim0 == 238) || (p->charFlags.anim0 == 239) || (p->charFlags.anim0 == 244)
                                || (p->charFlags.anim0 == 245)) {
@@ -627,18 +627,18 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F698.inc", void 
                 if ((p->charFlags.anim0 == 238) || (p->charFlags.anim0 == 239) || (p->charFlags.anim0 == 244)
                     || (p->charFlags.anim0 == 245)) {
                     if (!sub_802C080(p)) {
-                        sub_8008E38(p);
+                        Player_8008E38(p);
                     }
                 }
 
                 if (sub_801246C(p) < 0) {
                     if (!sub_802C080(p)) {
-                        sub_8008E38(p);
+                        Player_8008E38(p);
                     }
                 }
 
                 if ((sub_8012550(p) < 0) && !sub_802C080(p)) {
-                    sub_8008E38(p);
+                    Player_8008E38(p);
                 }
             }
         }

@@ -188,7 +188,7 @@ NONMATCH("asm/non_matching/game/interactables/death_crusher__Task_DeathCrusher.i
 
                     if (sub_801226C(p) < 0) {
                         if (!sub_802C080(p)) {
-                            sub_8008E38(p);
+                            Player_8008E38(p);
                         }
                     }
                 } else if (res & 0x20000) {
@@ -198,7 +198,7 @@ NONMATCH("asm/non_matching/game/interactables/death_crusher__Task_DeathCrusher.i
 
                     if (sub_8012368(p) < 0) {
                         if (!sub_802C080(p)) {
-                            sub_8008E38(p);
+                            Player_8008E38(p);
                         }
                     }
                 }

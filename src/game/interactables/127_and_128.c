@@ -103,7 +103,7 @@ void Task_Interactable128(void)
                 && (p->qWorldY < qBottom)) {
                 sub_8016F28(p);
                 Player_StopSong(p, SE_PANDA_CART);
-                sub_8006824(p);
+                Player_8006824(p);
             }
         }
     }

@@ -101,7 +101,7 @@ void Task_UfoPlatform(void)
                 p->qWorldY += Q_8_8(res);
 
                 if (sub_801226C(p) < 0) {
-                    sub_8008E38(p);
+                    Player_8008E38(p);
                 } else if (p->callback != Player_800B81C) {
                     Player_800DE64(p);
                 }
@@ -110,7 +110,7 @@ void Task_UfoPlatform(void)
                 p->qSpeedAirY = 0;
 
                 if (sub_8012368(p) < 0) {
-                    sub_8008E38(p);
+                    Player_8008E38(p);
                 }
             }
 
