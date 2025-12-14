@@ -17,14 +17,15 @@ void ValidateSaveSector(SaveSectorData *sector, u32 playerId);
 void UnpackSaveSector(SaveGame *save, SaveSectorData *sector);
 u16 EraseSaveSector(s16 sectorId);
 s16 sub_8001B60(void);
+void Task_8001FB0(void);
 s32 sub_8001FD4(void);
 s16 sub_8002024(void);
 bool16 sub_80020F0(void);
-void Task_8001FB0(void);
 u32 GetSaveSectorChecksum(SaveSectorData *sector);
 s16 sub_8002084(s16 sectorId, SaveSectorData *sector);
 
 extern void sub_802616C(u8 param0);
+extern void TaskDestructor_8029774(struct Task *t);
 
 // TODO: Name likely inaccurate
 typedef struct SaveManager {
@@ -1048,4 +1049,42 @@ u32 GetSaveSectorChecksum(SaveSectorData *sector)
     }
 
     return checkSum;
+}
+
+void sub_800214C(void)
+{
+    Player *players = &gPlayers[0];
+    s16 i;
+
+    if (gStageData.gameMode != 7) {
+        gStageData.lives = 2;
+
+        for (i = 0; i < 7; i++) {
+            gStageData.unkBE[i] = 0;
+        }
+    } else {
+        gStageData.lives = 0;
+        gStageData.unk8E = -1;
+        gStageData.task98 = NULL;
+        TaskDestructor_8029774(NULL);
+    }
+
+    {
+        Player *p = &players[PLAYER_1];
+        for (i = 0; i < 4; i++, p++) {
+            p->unkC4[0] = NULL;
+            p->unkC4[1] = NULL;
+            p->unkC4[2] = NULL;
+        }
+    }
+
+    if (gStageData.gameMode == 1 || gStageData.gameMode == 2) {
+        gStageData.buttonConfig.jump = A_BUTTON;
+        gStageData.buttonConfig.attack = B_BUTTON;
+        gStageData.buttonConfig.trick = R_BUTTON;
+    } else {
+        gStageData.buttonConfig.jump = LOADED_SAVE->buttonConfig.jump;
+        gStageData.buttonConfig.attack = LOADED_SAVE->buttonConfig.attack;
+        gStageData.buttonConfig.trick = LOADED_SAVE->buttonConfig.trick;
+    }
 }

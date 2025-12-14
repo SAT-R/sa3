@@ -79191,7 +79191,7 @@ _08029720:
 	ldr r0, _08029764 @ =sub_8029648
 	movs r2, #0xe0
 	lsls r2, r2, #8
-	ldr r1, _08029768 @ =sub_8029774
+	ldr r1, _08029768 @ =TaskDestructor_8029774
 	str r1, [sp]
 	movs r1, #4
 	movs r3, #0
@@ -79224,12 +79224,12 @@ _0802975C:
 	bx r0
 	.align 2, 0
 _08029764: .4byte sub_8029648
-_08029768: .4byte sub_8029774
+_08029768: .4byte TaskDestructor_8029774
 _0802976C: .4byte gStageData
 _08029770: .4byte 0x00000337
 
-	thumb_func_start sub_8029774
-sub_8029774: @ 0x08029774
+	thumb_func_start TaskDestructor_8029774
+TaskDestructor_8029774: @ 0x08029774
 	push {r4, lr}
 	ldr r0, _080297AC @ =gStageData
 	adds r0, #0xa8
