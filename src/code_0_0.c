@@ -13,11 +13,16 @@
 #include "constants/zones.h"
 
 void ValidateSave(SaveGame *save);
+void ValidateSaveSector(SaveSectorData *sector, u32 playerId);
+void UnpackSaveSector(SaveGame *save, SaveSectorData *sector);
+u16 EraseSaveSector(s16 sectorId);
+s16 sub_8001B60(void);
 s32 sub_8001FD4(void);
-s32 sub_8002024(void);
+s16 sub_8002024(void);
 bool16 sub_80020F0(void);
 void Task_8001FB0(void);
 u32 GetSaveSectorChecksum(SaveSectorData *sector);
+s16 sub_8002084(s16 sectorId, SaveSectorData *sector);
 
 extern void sub_802616C(u8 param0);
 
@@ -353,7 +358,7 @@ void ValidateSaveSector(SaveSectorData *sector, u32 playerId)
     sector->checksum = GetSaveSectorChecksum(sector);
 }
 
-s32 WriteSaveSector(s16 sectorNum, SaveSectorData *sector)
+s32 WriteSaveSector(s16 sectorId, SaveSectorData *sector)
 {
     u16 bfrIE;
     u16 bfrIME;
@@ -379,7 +384,7 @@ s32 WriteSaveSector(s16 sectorNum, SaveSectorData *sector)
     DmaStop(2);
     DmaStop(3);
 
-    result = ProgramFlashSectorAndVerifyNBytes(sectorNum, sector, sizeof(*sector));
+    result = ProgramFlashSectorAndVerifyNBytes(sectorId, sector, sizeof(*sector));
 
     REG_IE = bfrIE;
     REG_IME = bfrIME;
@@ -392,7 +397,7 @@ s32 WriteSaveSector(s16 sectorNum, SaveSectorData *sector)
     return result;
 }
 
-u16 EraseSaveSector(s16 sectorNum)
+u16 EraseSaveSector(s16 sectorId)
 {
     u16 bfrIE;
     u16 bfrIME;
@@ -418,7 +423,7 @@ u16 EraseSaveSector(s16 sectorNum)
     DmaStop(2);
     DmaStop(3);
 
-    result = EraseFlashSector(sectorNum);
+    result = EraseFlashSector(sectorId);
 
     REG_IE = bfrIE;
     REG_IME = bfrIME;
@@ -945,18 +950,102 @@ void Task_8001FB0(void)
 
 s32 sub_8001FD4(void)
 {
-    SaveGame *saveA = LOADED_SAVE;
-    SaveGame *saveB = &gUnknown_03000980;
+    SaveGame *srcSave = LOADED_SAVE;
+    SaveGame *dstSave = &gUnknown_03000980;
     SaveSectorData *sector = &gSaveSectorData;
-    s16 temp_r0;
 
-    ValidateSave(saveA);
-    CpuCopy32(saveA, saveB, sizeof(SaveGame));
-    PackSaveSector(sector, saveB);
-    temp_r0 = sub_8001A90();
-    if (temp_r0 < 0) {
-        return -1;
-    } else {
-        return WriteSaveSector(temp_r0, &gSaveSectorData);
+    ValidateSave(srcSave);
+    CpuCopy32(srcSave, dstSave, sizeof(SaveGame));
+    PackSaveSector(sector, dstSave);
+
+    {
+        s16 sectorId = sub_8001A90();
+        if (sectorId < 0) {
+            return -1;
+        } else {
+            return WriteSaveSector(sectorId, sector);
+        }
     }
+}
+
+s16 sub_8002024(void)
+{
+    SaveGame *dstSave = LOADED_SAVE;
+    SaveGame *srcSave = &gUnknown_03000980;
+    SaveSectorData *sector = &gSaveSectorData;
+    s16 sectorId;
+
+    sectorId = sub_8001B60();
+    if (sectorId < 0) {
+        return -1;
+    }
+
+    if (sub_8002084(sectorId, sector)) {
+        ValidateSaveSector(sector, 0);
+    }
+
+    UnpackSaveSector(srcSave, sector);
+    ValidateSave(srcSave);
+    CpuCopy32(srcSave, dstSave, sizeof(SaveGame));
+
+    return 0;
+}
+
+s16 sub_8002084(s16 sectorId, SaveSectorData *sector)
+{
+    u16 _sectorId = sectorId;
+
+    s16 i = 0;
+    do {
+        ReadFlash(_sectorId, 0, sector, sizeof(SaveSectorData));
+
+        if ((sector->header.magicNumber == SAVEMAGIC_SA3) && (sector->checksum == GetSaveSectorChecksum(sector))) {
+            return 0;
+        }
+
+        EraseSaveSector(_sectorId);
+
+        if (_sectorId == 0) {
+            _sectorId = 15;
+        } else {
+            _sectorId--;
+        }
+
+        i++;
+    } while (i < 16);
+
+    return -1;
+}
+
+u16 sub_80020F0()
+{
+    u16 *p1 = (u16 *)LOADED_SAVE;
+    u16 *p2 = (u16 *)&gUnknown_03000980;
+
+    s16 i = 0;
+    s32 size = sizeof(SaveGame) / sizeof(u16);
+
+    for (; i < size; i++, p1++, p2++) {
+        if (*p1 != *p2) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+u32 GetSaveSectorChecksum(SaveSectorData *sector)
+{
+    u8 *ptr = (u8 *)sector;
+
+    u32 checkSum = 0;
+    u32 i = 0;
+
+    u32 size = (sizeof(SaveSectorData) - sizeof(sector->checksum));
+
+    for (; i < size; i += sizeof(u32)) {
+        checkSum += *((u32 *)(ptr + i));
+    }
+
+    return checkSum;
 }
