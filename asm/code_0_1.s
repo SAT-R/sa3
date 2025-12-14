@@ -84798,7 +84798,7 @@ _0802CE1A:
 	strb r0, [r7, #7]
 	ldr r0, _0802CE44 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0802CE48 @ =sub_802D660
+	ldr r0, _0802CE48 @ =Task_802D660
 	str r0, [r1, #8]
 _0802CE26:
 	pop {r3}
@@ -84813,7 +84813,7 @@ _0802CE38: .4byte 0x00196225
 _0802CE3C: .4byte 0x3C6EF35F
 _0802CE40: .4byte gPlayers
 _0802CE44: .4byte gCurTask
-_0802CE48: .4byte sub_802D660
+_0802CE48: .4byte Task_802D660
 
 	thumb_func_start sub_802CE4C
 sub_802CE4C: @ 0x0802CE4C
@@ -85877,8 +85877,8 @@ _0802D64E:
 	.align 2, 0
 _0802D65C: .4byte 0xFFFFFF00
 
-	thumb_func_start sub_802D660
-sub_802D660: @ 0x0802D660
+	thumb_func_start Task_802D660
+Task_802D660: @ 0x0802D660
 	push {lr}
 	ldr r3, _0802D684 @ =gCurTask
 	ldr r0, [r3]

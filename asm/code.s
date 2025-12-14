@@ -24213,9 +24213,14 @@ _080718F4:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080718FC:
-	.byte 0x70, 0x47, 0x00, 0x00
-	.byte 0x70, 0x47, 0x00, 0x00
+
+    thumb_func_start sub_080718FC
+sub_080718FC:
+    bx lr
+
+    thumb_func_start sub_08071900
+sub_08071900:
+    bx lr
 
 	thumb_func_start sub_8071904
 sub_8071904: @ 0x08071904
@@ -24364,8 +24369,16 @@ sub_80719C8: @ 0x080719C8
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08071A00:
-	.byte 0x70, 0x47, 0x00, 0x00, 0x70, 0x47, 0x00, 0x00
+
+    thumb_func_start sub_08071A00
+sub_08071A00:
+    bx lr
+	.align 2, 0
+
+    thumb_func_start sub_08071A04
+sub_08071A04:
+    bx lr
+	.align 2, 0
 
     @ Called on init of Boss 5
 	thumb_func_start CreateBoss_8071A08
@@ -36470,9 +36483,16 @@ _080778C0:
 	pop {r4, r5, r6}
 	pop {r0}
 	bx r0
-_080778C8:
-	.byte 0x70, 0x47, 0x00, 0x00, 0x70, 0x47, 0x00, 0x00
-
+    .align 2 , 0
+    
+    thumb_func_start sub_080778C8
+sub_080778C8:
+    bx lr
+	
+    thumb_func_start sub_080778CC
+sub_080778CC:
+    bx lr
+	
 	thumb_func_start sub_80778D0
 sub_80778D0: @ 0x080778D0
 	push {lr}
@@ -36573,10 +36593,17 @@ _08077974: .4byte 0x0000FFFF
 sub_8077978: @ 0x08077978
 	bx lr
 	.align 2, 0
-_0807797C:
-	.byte 0x70, 0x47, 0x00, 0x00
-	.byte 0x70, 0x47, 0x00, 0x00
 
+    thumb_func_start sub_0807797C
+sub_0807797C:
+    bx lr
+	.align 2, 0
+	
+    thumb_func_start sub_08077980
+sub_08077980:
+    bx lr
+	.align 2, 0
+	
 	thumb_func_start sub_8077984
 sub_8077984: @ 0x08077984
 	push {r4, r5, r6, r7, lr}
@@ -36664,8 +36691,12 @@ sub_8077A14: @ 0x08077A14
 	bx lr
 	.align 2, 0
 _08077A20: .4byte 0x030000B8
-_08077A24:
-	.byte 0x70, 0x47, 0x00, 0x00
+	.align 2, 0
+
+    thumb_func_start sub_08077A24
+sub_08077A24:
+	bx lr
+	.align 2, 0
 
 	thumb_func_start sub_8077A28
 sub_8077A28: @ 0x08077A28
@@ -57932,9 +57963,16 @@ _08081B14: .4byte gUnknown_080D5C20
 sub_8081B18: @ 0x08081B18
 	bx lr
 	.align 2, 0
-_08081B1C:
-	.byte 0x70, 0x47, 0x00, 0x00
-	.byte 0x70, 0x47, 0x00, 0x00
+
+	thumb_func_start sub_8081B1C
+sub_8081B1C: @ 0x08081B1C
+	bx lr
+	.align 2, 0
+
+	thumb_func_start sub_8081B20
+sub_8081B20: @ 0x08081B20
+	bx lr
+	.align 2, 0
 
 	thumb_func_start sub_8081B24
 sub_8081B24: @ 0x08081B24
@@ -69217,8 +69255,12 @@ _080870D0:
 	bx r0
 	.align 2, 0
 _080870DC: .4byte gUnknown_080D5D18
-_080870E0:
-	.byte 0x00, 0x20, 0x70, 0x47
+
+    thumb_func_start sub_080870E0
+sub_080870E0:
+    movs r0, #0
+    bx lr
+	.align 2, 0
 
 	thumb_func_start sub_80870E4
 sub_80870E4: @ 0x080870E4
@@ -75488,8 +75530,12 @@ _0808A24E:
 	bx r0
 	.align 2, 0
 _0808A254: .4byte gCurTask
-_0808A258:
-	.byte 0x70, 0x47, 0x00, 0x00
+    .align 2 , 0
+
+    thumb_func_start sub_0808A258
+sub_0808A258:
+	bx lr
+    .align 2 , 0
 
 	thumb_func_start CreateTitleScreen
 CreateTitleScreen: @ 0x0808A25C
@@ -85280,8 +85326,12 @@ _0808EF84: .4byte gBackgroundsCopyQueueIndex
 _0808EF88: .4byte gBgSpritesCount
 _0808EF8C: .4byte gVramGraphicsCopyCursor
 _0808EF90: .4byte gVramGraphicsCopyQueueIndex
-_0808EF94:
-	.byte 0x70, 0x47, 0x00, 0x00
+	.align 2, 0
+
+	thumb_func_start sub_808EF94
+sub_808EF94: @ 0x0808EF94
+	bx lr
+	.align 2, 0
 
 	thumb_func_start sub_808EF98
 sub_808EF98: @ 0x0808EF98
@@ -106122,8 +106172,11 @@ _08099296:
 	.align 2, 0
 _0809929C: .4byte gCurTask
 _080992A0: .4byte sub_8098DE4
-_080992A4:
-	.byte 0x70, 0x47, 0x00, 0x00
+	.align 2, 0
+
+    thumb_func_start sub_080992A4
+sub_080992A4:
+	bx lr
 
 	thumb_func_start sub_80992A8
 sub_80992A8: @ 0x080992A8
