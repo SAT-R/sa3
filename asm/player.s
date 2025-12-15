@@ -6,121 +6,6 @@
 .arm
 
 .if 0
-.endif
-
-	thumb_func_start sub_80042F4
-sub_80042F4: @ 0x080042F4
-	push {r4, lr}
-	adds r3, r0, #0
-	adds r4, r1, #0
-	adds r0, #0x25
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, r4
-	beq _080043B0
-	adds r0, r3, #0
-	adds r0, #0x26
-	ldrb r2, [r0]
-	ldr r0, [r3, #4]
-	movs r1, #0x80
-	lsls r1, r1, #9
-	ands r0, r1
-	cmp r0, #0
-	beq _0800432A
-	adds r0, r2, #0
-	adds r0, #0x40
-	lsls r0, r0, #0x18
-	rsbs r0, r0, #0
-	lsrs r2, r0, #0x18
-	adds r0, r2, #0
-	subs r0, #0x40
-	lsls r0, r0, #0x18
-	lsrs r2, r0, #0x18
-_0800432A:
-	adds r0, r2, #0
-	adds r0, #0x20
-	cmp r0, #0
-	ble _0800433E
-	cmp r2, #0
-	beq _0800433A
-	subs r0, #1
-	b _08004342
-_0800433A:
-	movs r2, #0x20
-	b _0800434A
-_0800433E:
-	cmp r2, #0
-	beq _08004348
-_08004342:
-	lsls r0, r0, #0x18
-	lsrs r2, r0, #0x18
-	b _0800434A
-_08004348:
-	movs r2, #0x1f
-_0800434A:
-	lsrs r0, r2, #6
-	cmp r0, #1
-	beq _0800438C
-	cmp r0, #1
-	bgt _0800435A
-	cmp r0, #0
-	beq _08004364
-	b _080043B0
-_0800435A:
-	cmp r0, #2
-	beq _08004378
-	cmp r0, #3
-	beq _0800439E
-	b _080043B0
-_08004364:
-	adds r0, r3, #0
-	adds r0, #0x25
-	movs r1, #0
-	ldrsb r1, [r0, r1]
-	subs r1, r4, r1
-	lsls r1, r1, #8
-	ldr r0, [r3, #0x14]
-	subs r0, r0, r1
-	str r0, [r3, #0x14]
-	b _080043B0
-_08004378:
-	adds r0, r3, #0
-	adds r0, #0x25
-	movs r1, #0
-	ldrsb r1, [r0, r1]
-	subs r1, r4, r1
-	lsls r1, r1, #8
-	ldr r0, [r3, #0x14]
-	adds r0, r0, r1
-	str r0, [r3, #0x14]
-	b _080043B0
-_0800438C:
-	adds r0, r3, #0
-	adds r0, #0x25
-	movs r1, #0
-	ldrsb r1, [r0, r1]
-	subs r1, r4, r1
-	lsls r1, r1, #8
-	ldr r0, [r3, #0x10]
-	adds r0, r0, r1
-	b _080043AE
-_0800439E:
-	adds r0, r3, #0
-	adds r0, #0x25
-	movs r1, #0
-	ldrsb r1, [r0, r1]
-	subs r1, r4, r1
-	lsls r1, r1, #8
-	ldr r0, [r3, #0x10]
-	subs r0, r0, r1
-_080043AE:
-	str r0, [r3, #0x10]
-_080043B0:
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
 
 	thumb_func_start sub_80043B8
 sub_80043B8: @ 0x080043B8
@@ -182,6 +67,7 @@ _08004404:
 	.align 2, 0
 _08004420: .4byte gPlayers
 _08004424: .4byte 0x0000FFFF
+.endif
 
 	thumb_func_start sub_8004428
 sub_8004428: @ 0x08004428
