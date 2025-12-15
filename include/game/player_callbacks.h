@@ -3,6 +3,23 @@
 
 #include "game/player.h"
 
+bool32 Player_PlaySong(Player *p, u16 song);
+void Player_StopSong(Player *, u16 song);
+
+// Some collision function
+s32 sub_80110E8(u16, Player *, u8 *, u32 *);
+s32 sub_801226C(Player *);
+s32 sub_8012368(Player *);
+s32 sub_801246C(Player *);
+s32 sub_8012550(Player *);
+void Player_8012FE0(Player *);
+
+void Player_80149E4(Player *p);
+void sub_8016D04(Player *p); // Player_RestoreAir? (it's only called by Air Bubbles)
+void sub_8016F28(Player *p);
+void Player_BoostModeEngage(Player *p);
+void Player_BoostModeDisengage(Player *p);
+
 extern void Player_8004FC4(Player *p); // unused
 extern void Player_Flyer_SoundStop(Player *p);
 extern void Player_800522C(Player *p);

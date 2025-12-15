@@ -5,9 +5,7 @@
 #include "game/entity.h" // for MapEntity struct
 #include "game/player.h"
 
-/* The variable and function declarations in here do not yet have a corresponding module
- * yet
- */
+/* The variable and function declarations in here do not have a corresponding module yet */
 
 // Appears to be multiplayer-only?
 
@@ -52,22 +50,6 @@ void sub_8004D30(void);
 void sub_8004DD8(s32 qWorldX, s32 qWorldY);
 // TODO: param2 type
 u16 sub_8004E20(s16, s16, u16 *param2);
-bool32 Player_PlaySong(Player *p, u16 song);
-void Player_StopSong(Player *, u16 song);
-
-// Some collision function
-s32 sub_80110E8(u16, Player *, u8 *, u32 *);
-s32 sub_801226C(Player *);
-s32 sub_8012368(Player *);
-s32 sub_801246C(Player *);
-s32 sub_8012550(Player *);
-void Player_8012FE0(Player *);
-
-void Player_80149E4(Player *p);
-void sub_8016D04(Player *p); // Player_RestoreAir? (it's only called by Air Bubbles)
-void sub_8016F28(Player *p);
-void Player_BoostModeEngage(Player *p);
-void Player_BoostModeDisengage(Player *p);
 
 extern bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5);
 

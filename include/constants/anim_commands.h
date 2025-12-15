@@ -1,4 +1,5 @@
 #ifndef GUARD_CONST_ANIM_COMMANDS_H
+#define GUARD_CONST_ANIM_COMMANDS_H
 
 #define ANIM_CMD__TILES        -1
 #define ANIM_CMD__PALETTE      -2
@@ -31,7 +32,7 @@
 #define CMD_12(a)                     ANIM_CMD__12, a,
 #define SHOW_FRAME(duration, frameId) duration, frameId,
 
-#if (__BYTE_ORDER__ == __ORDER_BIG_ENDIAN__)
+#if (defined(__BYTE_ORDER__) && (__BYTE_ORDER__ == __ORDER_BIG_ENDIAN__))
 #undef PALETTE
 #undef HITBOX
 #undef TRANSLATE
@@ -43,5 +44,4 @@
 #define CHANGE_ANIM(anim, variant) ANIM_CMD__CHANGE_ANIM, (((u16)anim << 16) | ((u16)variant << 0)),
 #endif
 
-#define GUARD_CONST_ANIM_COMMANDS_H
 #endif

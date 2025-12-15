@@ -11,6 +11,7 @@
 #include "game/chao.h"
 #include "game/entity.h"
 #include "game/player.h"
+#include "game/player_callbacks.h"
 #include "game/screen_fade.h"
 #include "game/stage.h"
 
