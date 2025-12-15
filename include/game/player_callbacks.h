@@ -173,8 +173,18 @@ extern void Player_800EB5C(Player *p);
 extern void Player_800ED14(Player *p);
 extern void Player_800ED34(Player *p);
 extern void Player_800ED80(Player *p);
+extern void sub_8014258(Player*);
+extern void sub_80142CC(Player*);
+extern void sub_80143E0(Player*);
+extern void sub_80144B4(Player*);
 extern void Player_8014550(Player *p);
 extern void Player_801479C(Player *p);
+extern void sub_80153BC(Player*);
+extern void sub_8015A44(Player*);
+extern void sub_80180D8(Player*);
+extern void sub_801816C(Player*);
+extern void sub_80193A4(Player*);
+extern void sub_80193CC(Player*);
 extern void Player_801D73C(Player *p);
 extern void Player_801DF18(Player *p);
 

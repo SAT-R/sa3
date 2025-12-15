@@ -131,7 +131,10 @@ struct Player {
         u16 state1; // 0x36-0x37
     } charFlags;
 
-    u8 Padding38[0x0D];
+    u8 Padding38[0xA];
+    
+    s16 unk42;
+    s16 unk44;
 
     u16 Spindash_Velocity; // 0x46
 
@@ -235,7 +238,7 @@ struct Player {
 
 typedef struct PlayerUnkC4 {
     u32 unk0;
-    u16 playerId;
+    s16 playerId;
 } PlayerUnkC4;
 
 extern Player gPlayers[NUM_MULTI_PLAYER_CHARS];
