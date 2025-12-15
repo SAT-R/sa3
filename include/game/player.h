@@ -212,8 +212,7 @@ struct Player {
     u16 unkC2;
 
     struct Task *unkC4[0x03];
-    struct Task *unkD0; // Points to something while the "Tag-Action" is toggled (not
-                        // anymore once released)
+    struct Task *taskTagAction;
     u32 unkD4;
     u32 unkD8;
     u32 unkDC;

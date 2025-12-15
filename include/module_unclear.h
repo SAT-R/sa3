@@ -66,8 +66,8 @@ void Player_8012FE0(Player *);
 void Player_80149E4(Player *p);
 void sub_8016D04(Player *p); // Player_RestoreAir? (it's only called by Air Bubbles)
 void sub_8016F28(Player *p);
-void Player_BoostEngage(Player *p);
-void Player_BoostDisengage(Player *p);
+void Player_BoostModeEngage(Player *p);
+void Player_BoostModeDisengage(Player *p);
 
 extern bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5);
 

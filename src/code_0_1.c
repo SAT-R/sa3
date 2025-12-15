@@ -150,12 +150,12 @@ void sub_8002388(void)
     p->framesInvincible = 0;
 #endif // BUG_FIX
 
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < (s32)ARRAY_COUNT(gPlayers); i++) {
         p = &gPlayers[i];
         p->unkC4[0] = NULL;
         p->unkC4[1] = NULL;
         p->unkC4[2] = NULL;
-        p->unkD0 = NULL;
+        p->taskTagAction = NULL;
         p->unkD4 = 0;
         p->unkD8 = 0;
         p->unkDC = 0;

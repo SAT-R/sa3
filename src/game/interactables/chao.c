@@ -346,8 +346,8 @@ void Task_804E41C(void)
 
         TaskDestroy(gCurTask);
 
-        if (p->unk56 <= 5) {
-            sub_8029A18(75);
+        if (p->unk56 < 6) {
+            sub_8029A18(MUS_DROWNING);
         }
     }
 }

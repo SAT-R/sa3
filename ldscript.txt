@@ -25,7 +25,11 @@ SECTIONS {
         src/code_0_0.o(.text);
         src/code_0_1.o(.text);
         asm/game_over.o(.text);
-        asm/code_0_1.o(.text);
+        asm/player.o(.text);
+        asm/code_0_2.o(.text);
+        asm/game__sa1_sa2_shared__rings_manager.o(.text);
+        asm/code_0_3.o(.text);
+        asm/itembox.o(.text);
         src/game/interactables/zone_warp.o(.text);
         src/game/interactables/spring.o(.text);
         src/game/interactables/toggle_player_layer.o(.text);

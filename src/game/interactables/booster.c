@@ -96,7 +96,7 @@ void Task_Booster(void)
                 p->qCamOffsetY = Q(0);
 
                 if ((gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) && (p->unkC & 0x1) && !(p->moveState & MOVESTATE_800000)) {
-                    Player_BoostEngage(p);
+                    Player_BoostModeEngage(p);
 
                     qGroundSpeed = Q(12);
                 } else {
