@@ -211,7 +211,7 @@ struct Player {
     u16 unkC0;
     u16 unkC2;
 
-    struct Task *unkC4[0x03];
+    struct Task *unkC4[0x03]; // -> (PlayerUnkC4 *)
     struct Task *taskTagAction;
     u32 unkD4;
     u32 unkD8;
@@ -233,7 +233,17 @@ struct Player {
     u8 Padding8[0x8];
 };
 
+typedef struct PlayerUnkC4 {
+    u32 unk0;
+    u16 playerId;
+} PlayerUnkC4;
+
 extern Player gPlayers[NUM_MULTI_PLAYER_CHARS];
+
+typedef struct Struc_3001150 {
+    u8 filler0[0x470];
+} Struc_3001150;
+Struc_3001150 gUnknown_03001150;
 
 void sub_80213F0(Player *p);
 bool32 sub_802C080(Player *p); // Player_Hurt ?

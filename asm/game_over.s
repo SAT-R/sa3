@@ -695,7 +695,7 @@ _080029C6:
 	bhi _08002A00
 	ldrb r4, [r5, #6]
 	adds r0, r4, #0
-	bl sub_8004178
+	bl InitializePlayer
 	ldr r1, _080029FC @ =gPlayers
 	lsls r0, r4, #2
 	adds r0, r0, r4
@@ -707,7 +707,7 @@ _080029C6:
 	ldrb r0, [r0]
 	lsls r0, r0, #0x1e
 	lsrs r0, r0, #0x1e
-	bl sub_8004178
+	bl InitializePlayer
 	b _08002A1C
 	.align 2, 0
 _080029F0: .4byte gStageData
@@ -722,7 +722,7 @@ _08002A06:
 	lsls r4, r2, #0x10
 	asrs r4, r4, #0x10
 	adds r0, r4, #0
-	bl sub_8004178
+	bl InitializePlayer
 	adds r4, #1
 	lsls r4, r4, #0x10
 	lsrs r2, r4, #0x10
@@ -826,7 +826,7 @@ _08002AC6:
 	cmp r1, #0
 	beq _08002B2A
 	adds r0, r4, #0
-	bl sub_8004178
+	bl InitializePlayer
 	lsls r0, r4, #2
 	adds r0, r0, r4
 	lsls r0, r0, #2

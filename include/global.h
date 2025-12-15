@@ -1,6 +1,10 @@
 #ifndef GUARD_GLOBAL_H
 #define GUARD_GLOBAL_H
 
+#ifdef M2C
+#include <stdint.h>
+#endif
+
 // TODO/BUG: genctx.py generates a cycle-error, when this is #included, but config.h doesn't include global.h?
 #include "config.h"
 #include "gba/gba.h"
