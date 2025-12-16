@@ -7427,7 +7427,7 @@ _080530B8:
 	cmp r0, #0
 	beq _080530FC
 	ldr r0, _08053108 @ =gPlayers
-	bl sub_8004F9C
+	bl DemoPlayFree @ apparently never called?
 	bl sub_8003D2C
 	ldr r1, _0805310C @ =0x0000FFFF
 	movs r0, #0

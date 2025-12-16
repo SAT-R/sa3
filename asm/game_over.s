@@ -482,7 +482,7 @@ _08002776:
 	bl sub_8052E30
 	ldr r0, _080027F0 @ =gPlayers
 	ldrb r1, [r4, #9]
-	bl sub_8004F48
+	bl DemoPlayAlloc
 	b _08002816
 	.align 2, 0
 _080027D8: .4byte gPseudoRandom
@@ -498,7 +498,7 @@ _080027F4:
 	bl sub_8053030
 	ldr r0, _08002808 @ =gPlayers
 	ldrb r1, [r4, #9]
-	bl sub_8004F48
+	bl DemoPlayAlloc
 	b _08002826
 	.align 2, 0
 _08002808: .4byte gPlayers

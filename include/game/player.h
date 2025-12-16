@@ -68,7 +68,7 @@ struct Player {
     */
     u32 moveState; // 0x04
 
-    u32 unk8; // 0x08 | bitfield?
+    u32 unk8; // 0x08 | bitfield? also a moveState ?
 
     u32 unkC; // Bitfield
 
@@ -226,7 +226,7 @@ struct Player {
     //    SpriteInfo* spriteInfo; // 0xE0 | the information is 0x3C bytes long
     u32 unkE4;
 
-    u8 Padding7[0x54];
+    u8 PaddingE8[0x54];
 
     u8 unk13C;
     u8 unk13D;
@@ -245,7 +245,9 @@ typedef struct PlayerUnkC4 {
 extern Player gPlayers[NUM_MULTI_PLAYER_CHARS];
 
 typedef struct Struc_3001150 {
-    u8 filler0[0x470];
+    u8 filler0[0x1C];
+    u8 filler1C[0x4];
+    u8 filler20[0x450];
 } Struc_3001150;
 Struc_3001150 gUnknown_03001150;
 

@@ -44,7 +44,7 @@ void sub_0800C338(Player *arg0);                    /* static */
 void sub_0800E218(Player *arg0);                    /* static */
 void sub_0800E27C(Player *p);                       /* static */
 void sub_0800F004(Player *arg0);                    /* static */
-void sub_8004550();                                 /* static */
+void Task_8004550();                                 /* static */
 void sub_8004B14();                                 /* static */
 void sub_8004BD0(Player *arg0, s32 arg1, s32 arg2); /* static */
 void sub_8005130(Player *arg0, s32 arg1, s32 arg2); /* static */
@@ -531,7 +531,7 @@ extern ? gUnknown_080CF468;
 extern ? gUnknown_080CF470;
 extern ? gUnknown_080D05A8;
 extern ? gUnknown_080D1750;
-extern ? gUnknown_08E2EAB8;
+extern ? gDemoRecordings;
 extern ? gUnknown_08E2EAD0;
 extern ? gUnknown_08E2EAF4;
 extern ? gUnknown_08E2EB04;
@@ -543,6 +543,8 @@ extern ? sub_8002388;
 #include "core.h"
 #include "trig.h"
 #include "module_unclear.h"
+#include "malloc_ewram.h"
+#include "lib/m4a/m4a.h"
 #include "game/camera.h"
 #include "game/player.h"
 #include "game/player_callbacks.h"
@@ -568,12 +570,22 @@ void sub_8017584(Player *p);
 void sub_8019718(Player *p);
 void sub_80203D4(Player *p);
 void sub_80B7914(Struc_3001150 *strc);
+void sub_80B794C(Struc_3001150 *strc);
+bool32 sub_80B7AA4(Struc_3001150 *strc);
+void sub_80B8E24(void *strc, Player *p, s32 param2, s32 param3);
 void TaskDestructor_8004D2C(struct Task *t);
 
 void sub_8004B14();
 void Player_8007930(Player *);
+void sub_801320C(Player *p, PlayerSprite *spriteData);
+void sub_80136DC(s16 param0);
+void sub_8013A68(s16 param0);
+void sub_8014670(Player *p);
+void sub_8017618(Player *p);
 void sub_8023634();
+void sub_8026254(Player *p);
 void sub_80268B8(s16);
+
 void sub_80B7968(Struc_3001150 *, Player *);
 u16 sub_80B7A94(Struc_3001150 *);
 extern u16 gUnknown_080D05A8[][2];
@@ -758,7 +770,7 @@ void sub_80044CC(Player *p)
     }
 }
 
-void sub_8004550(void)
+void Task_8004550(void)
 {
     s16 i;
 
@@ -1135,238 +1147,219 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8004BD0.inc", void sub_8004BD0
 }
 END_NONMATCH
 
-#if 0
-void sub_8004CC8(s16 arg0) {
-    Player *temp_r7;
+void sub_8004CC8(s16 playerId)
+{
+    Player *p;
     Task **temp_r0;
     Task **temp_r0_2;
     Task **temp_r6;
     Task **temp_r6_2;
-    s16 temp_r5;
 
-    temp_r5 = arg0;
-    temp_r7 = &gPlayers[temp_r5];
-    temp_r6 = temp_r7->unkC4;
-    TaskDestroy(temp_r6->unk0);
-    temp_r6->unk0 = NULL;
-    temp_r6_2 = temp_r6 + 4;
-    TaskDestroy(temp_r6->unk4);
-    temp_r6->unk4 = NULL;
-    TaskDestroy(temp_r6_2->unk4);
-    temp_r6_2->unk4 = NULL;
-    temp_r0 = &temp_r7->taskTagAction;
-    temp_r0->unk0 = NULL;
-    temp_r0_2 = temp_r0 + 4;
-    temp_r0->unk4 = 0;
-    temp_r0_2->unk4 = 0;
-    (temp_r0_2 + 4)->unk4 = 0;
-    if (temp_r5 != 0) {
+    p = &gPlayers[playerId];
+    TaskDestroy(p->unkC4[0]);
+    p->unkC4[0] = NULL;
+    TaskDestroy(p->unkC4[1]);
+    p->unkC4[1] = NULL;
+    TaskDestroy(p->unkC4[2]);
+    p->unkC4[2] = NULL;
+
+    p->taskTagAction = NULL;
+    p->unkD4 = 0;
+    p->unkD8 = 0;
+    p->unkDC = 0;
+
+    if (playerId != PLAYER_1) {
         sub_80B794C(&gUnknown_03001150);
     }
 }
 
-void TaskDestructor_8004D2C(Task *arg0) {
+void TaskDestructor_8004D2C(Task *t) { }
 
-}
-
-void sub_8004D30(void) {
+void sub_8004D30(void)
+{
+    Player *p = &gPlayers[gStageData.playerIndex];
     gMultiSioSend.pat0.unk0 = 0x68FC;
-    gPlayers[gStageData.playerIndex].unkC4[0]->main = sub_8004550;
+    p->unkC4[0]->main = Task_8004550;
 }
 
-void sub_8004D68(s32 arg0, s32 arg1) {
-    Player *var_r5;
-    s32 temp_r1;
-    u32 temp_r0;
-    u32 var_r8;
+void sub_8004D68(s32 x, s32 y)
+{
+    Player *p;
+    s16 i;
 
-    var_r5 = gPlayers;
-    var_r8 = 0;
-    do {
-        temp_r1 = 0x1C & var_r5->unk2B;
-        if (((temp_r1 == 8) || (temp_r1 == 0x14)) && (sub_80B7AA4(&gUnknown_03001150) != 0)) {
-            sub_80B8E24(&gUnknown_03001150 + 0x1C, var_r5, arg0, arg1);
+    p = &gPlayers[PLAYER_1];
+    for (i = 0; i < 4; i++, p++) {
+        if (((p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 5)) && sub_80B7AA4(&gUnknown_03001150)) {
+            sub_80B8E24(&gUnknown_03001150.filler1C[0], p, x, y);
         }
-        temp_r0 = (var_r8 << 0x10) + 0x10000;
-        var_r5 += 0x150;
-        var_r8 = temp_r0 >> 0x10;
-    } while ((s32) ((s32) temp_r0 >> 0x10) <= 3);
-    sub_8004428(arg0, arg1);
+    }
+    sub_8004428(x, y);
 }
 
-void sub_8004DD8(s32 qWorldX, s32 qWorldY) {
-    Player *var_r4;
-    s32 temp_r1;
-    u32 temp_r0;
-    u32 var_r5;
+void sub_8004DD8(s32 qWorldX, s32 qWorldY)
+{
+    Player *p;
+    s16 i;
 
-    var_r4 = gPlayers;
-    var_r5 = 0;
-    do {
-        temp_r1 = 0x1C & var_r4->unk2B;
-        if ((temp_r1 == 4) || (temp_r1 == 0x10)) {
-            sub_8005130(var_r4, qWorldX, qWorldY);
+    p = &gPlayers[PLAYER_1];
+    for (i = 0; i < 4; i++, p++) {
+        if ((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 4)) {
+            sub_8005130(p, qWorldX, qWorldY);
         }
-        temp_r0 = (var_r5 << 0x10) + 0x10000;
-        var_r4 += 0x150;
-        var_r5 = temp_r0 >> 0x10;
-    } while ((s32) ((s32) temp_r0 >> 0x10) <= 3);
+    }
 }
 
-u16 sub_8004E20(s16 arg0, s16 arg1, u16 *param2) {
+bool16 sub_8004E20(s16 arg0, s16 arg1, u16 *param2)
+{
     s16 temp_r3;
     s16 temp_r4;
     u16 *var_r2;
     u32 temp_r0;
-    u32 var_r6;
-    u8 temp_r1;
+    s16 var_r6;
+    s32 max;
+    s16 temp_r1;
 
     temp_r1 = gStageData.unk84;
     if (temp_r1 == 0) {
-        goto block_12;
+        return FALSE;
     }
+
     var_r2 = gStageData.unk80;
-    var_r6 = 0;
-    if ((s32) temp_r1 > 0) {
-        temp_r4 = (s16) (u16) arg0;
-loop_5:
-        if (((s32) var_r2->unk0 < (s32) temp_r4) && ((s32) var_r2->unk4 > (s32) temp_r4)) {
+    for (var_r6 = 0; var_r6 < temp_r1; var_r6++, var_r2 += 4) {
+        if ((var_r2[0] < arg0) && (var_r2[2] > arg0)) {
             if (param2 != NULL) {
-                *param2 = var_r2->unk2;
+                *param2 = var_r2[1];
             }
-            temp_r3 = (s16) (u16) arg1;
-            if (((s32) var_r2->unk2 >= (s32) temp_r3) || ((s32) var_r2->unk6 <= (s32) temp_r3)) {
-                goto block_11;
+
+            if ((var_r2[1] < arg1) && (var_r2[3] > arg1)) {
+                return TRUE;
             }
-            return 1U;
         }
-block_11:
-        temp_r0 = (var_r6 << 0x10) + 0x10000;
-        var_r2 += 8;
-        var_r6 = temp_r0 >> 0x10;
-        if ((s32) ((s32) temp_r0 >> 0x10) >= (s32) temp_r1) {
-            goto block_12;
-        }
-        goto loop_5;
     }
-block_12:
-    return 0U;
+
+    return FALSE;
 }
 
-u32 Player_PlaySong(Player *p, u16 song) {
+bool32 Player_PlaySong(Player *p, u16 song)
+{
     if ((&gPlayers[gStageData.playerIndex] == p) && (gStageData.gameMode != 2)) {
         m4aSongNumStart(song);
-        return 1U;
+        return TRUE;
     }
-    return 0U;
+    return FALSE;
 }
 
-s32 Player_PlayOrContinueSong(Player *arg0, u16 arg1) {
+s32 Player_PlayOrContinueSong(Player *arg0, u16 arg1)
+{
     if ((&gPlayers[gStageData.playerIndex] == arg0) && (gStageData.gameMode != 2)) {
         m4aSongNumStartOrContinue(arg1);
-        return 1;
+        return TRUE;
     }
-    return 0;
+    return FALSE;
 }
 
-void Player_StopSong(Player *arg0, u16 song) {
+void Player_StopSong(Player *arg0, u16 song)
+{
     if ((&gPlayers[gStageData.playerIndex] == arg0) && (gStageData.gameMode != 2)) {
         m4aSongNumStop(song);
     }
 }
 
-void sub_8004F48(void *arg0, s32 arg1) {
-    void *temp_r4;
-    void *temp_r5;
+extern u8 *gDemoRecordings[];
+void DemoPlayAlloc(Player *p, s16 demoIndex)
+{
+    const s32 BUFFER_SIZE = 0x1000;
 
-    temp_r5 = *(((s32) (arg1 << 0x10) >> 0xE) + &gUnknown_08E2EAB8);
-    temp_r4 = EwramMalloc(0x1000U);
-    subroutine_arg0 = 0;
-    CpuSet(&subroutine_arg0, temp_r4, 0x01000800U);
-    LZ77UnCompWram(temp_r5, temp_r4);
-    arg0->unk144 = temp_r4;
-    arg0->unk140 = temp_r4;
+    void *compressedInput = gDemoRecordings[demoIndex];
+    void *inputBuffer = EwramMalloc(BUFFER_SIZE);
+    CpuFill16(0, inputBuffer, BUFFER_SIZE);
+    LZ77UnCompWram(compressedInput, inputBuffer);
+
+    p->demoplayInput_Start = p->demoplayInput_Current = inputBuffer;
 }
 
-void sub_8004F9C(void *arg0) {
-    void *temp_r0;
+// // DemoPlayAlloc gets called on demo creation, but DemoPlayFree is not called when it is done.
+void DemoPlayFree(Player *p)
+{
+    u16 *inputBuffer = p->demoplayInput_Start;
 
-    temp_r0 = arg0->unk140;
-    if (temp_r0 != NULL) {
-        EwramFree(temp_r0);
+    if (inputBuffer) {
+        EwramFree(inputBuffer);
     }
-    arg0->unk140 = NULL;
-    arg0->unk144 = 0;
+
+    p->demoplayInput_Start = NULL;
+    p->demoplayInput_Current = NULL;
 }
 
-void Player_8004FC4(Player *p) {
-    u16 **temp_r1;
+void Player_8004FC4(Player *p)
+{
+    u16 prevInput;
+    u16 newInput;
     u16 *temp_r0;
-    u16 temp_r0_2;
-    u16 temp_r3;
 
-    temp_r1 = &p->demoplayInput_Current;
-    temp_r0 = *temp_r1;
-    temp_r3 = *temp_r0;
-    *temp_r1 = temp_r0 + 2;
-    if (p->moveState & 0x08000000) {
+    temp_r0 = p->demoplayInput_Current;
+    newInput = *p->demoplayInput_Current;
+    p->demoplayInput_Current = temp_r0 += 1;
+
+    if (p->moveState & MOVESTATE_IGNORE_INPUT) {
         p->keyInput = 0;
         p->keyInput2 = 0;
-        return;
+    } else {
+        prevInput = p->keyInput;
+        p->keyInput = newInput;
+        p->keyInput2 = newInput & ~prevInput;
     }
-    temp_r0_2 = p->keyInput;
-    p->keyInput = temp_r3;
-    p->keyInput2 = temp_r3 & ~temp_r0_2;
 }
 
-void Player_Flyer_SoundStop(Player *p) {
-    u32 temp_r0;
-
-    temp_r0 = (u32) (p->unk2A << 0x1C) >> 0x1C;
-    switch (temp_r0) {                              /* irregular */
-    case 2:
-        if ((&gPlayers[gStageData.playerIndex] == p) && (gStageData.gameMode != 2)) {
-            m4aSongNumStop(0x78U);
+void Player_Flyer_SoundStop(Player *p)
+{
+    switch (p->charFlags.character) {
+        case CHARACTER_TAILS:
+            if ((&gPlayers[gStageData.playerIndex] == p) && (gStageData.gameMode != 2)) {
+                m4aSongNumStop(0x78U);
+                return;
+            }
             return;
-        }
-        return;
-    case 1:
-        if ((&gPlayers[gStageData.playerIndex] == p) && (gStageData.gameMode != 2)) {
-            m4aSongNumStop(0xE3U);
-        }
-        break;
+        case CHARACTER_CREAM:
+            if ((&gPlayers[gStageData.playerIndex] == p) && (gStageData.gameMode != 2)) {
+                m4aSongNumStop(0xE3U);
+            }
+            break;
     }
 }
 
-void Task_8005068(void) {
-    Player *temp_r4;
-    u16 temp_r1;
+void Task_8005068(void)
+{
+    PlayerUnkC4 *temp_r1 = TASK_DATA(gCurTask);
+    Player *p = &gPlayers[temp_r1->playerId];
 
-    temp_r1 = gCurTask->data;
-    temp_r4 = &gPlayers[temp_r1->unk4];
-    if ((0x1C & temp_r4->unk2B) != 0x14) {
-        sub_801320C(temp_r4, temp_r4->spriteData);
-        sub_80136DC(temp_r1->unk4);
-        if (gStageData.gameMode != 7) {
-            sub_8013A68(temp_r1->unk4);
+    if (p->charFlags.someIndex != 5) {
+        sub_801320C(p, p->spriteData);
+        sub_80136DC(temp_r1->playerId);
+        if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+            sub_8013A68(temp_r1->playerId);
         }
-        sub_8014670(temp_r4);
-        if (gStageData.gameMode != 7) {
-            sub_8017618(temp_r4);
+        sub_8014670(p);
+        if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+            sub_8017618(p);
         }
     }
 }
 
-void Task_80050E0(void) {
-    Player *temp_r2;
+void Task_80050E0(void)
+{
+    PlayerUnkC4 *temp_r1 = TASK_DATA(gCurTask);
+    Player *p;
 
-    temp_r2 = &gPlayers[gCurTask->data->unk4];
-    temp_r2->unk8 = temp_r2->moveState;
-    if (((u32) gStageData.gameMode > 4U) && ((0x1C & temp_r2->unk2B) == 4)) {
-        sub_8026254(temp_r2);
+    p = &gPlayers[temp_r1->playerId];
+    p->unk8 = p->moveState;
+
+    if (((u32)gStageData.gameMode > GAME_MODE_BOSS_TIME_ATTACK) && (p->charFlags.someIndex == 1)) {
+        sub_8026254(p);
     }
 }
 
+#if 0
 void sub_8005130(Player *arg0, s32 arg1, s32 arg2) {
     s32 temp_r3;
     s32 temp_r4;

@@ -11,8 +11,8 @@
 @ TODO: Should be part of libc or libgcc
 .space 0x100
 
-    .global gUnknown_08E2EAB8
-gUnknown_08E2EAB8:
+    .global gDemoRecordings
+gDemoRecordings:
     mPtr gUnknown_08E7BC8C
     mPtr gUnknown_08E7BE90
     mPtr gUnknown_08E7C22C
