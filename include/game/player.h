@@ -132,7 +132,7 @@ struct Player {
     } charFlags;
 
     u8 Padding38[0xA];
-    
+
     s16 unk42;
     s16 unk44;
 

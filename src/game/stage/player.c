@@ -570,11 +570,11 @@ void sub_80B7914(Struc_3001150 *strc);
 void TaskDestructor_8004D2C(struct Task *t);
 
 void sub_8004B14();
-void Player_8007930(Player*);
+void Player_8007930(Player *);
 void sub_8023634();
 void sub_80268B8(s16);
-void sub_80B7968(Struc_3001150*, Player*);
-u16 sub_80B7A94(Struc_3001150*);
+void sub_80B7968(Struc_3001150 *, Player *);
+u16 sub_80B7A94(Struc_3001150 *);
 extern u16 gUnknown_080D05A8[][2];
 
 void InitializePlayer(s16 playerId)
@@ -791,7 +791,6 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
     u16 temp_r0_8;
     u16 temp_r2_5;
     u16 temp_r6_4;
-    
 
     PlayerUnkC4 *strc = TASK_DATA(gCurTask);
 
@@ -803,124 +802,124 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
     sub_80142CC(p);
     sub_80144B4(p);
     switch (p->charFlags.someIndex - 1) {
-    case 0:
-        sub_8004B14();
+        case 0:
+            sub_8004B14();
 
-        if (gStageData.currMapIndex == 11) {
-            if (4 & p->keyInput2) {
-                sub_8003D2C();
-                TasksDestroyAll();
-                PAUSE_BACKGROUNDS_QUEUE();
-                gBgSpritesCount = 0;
-                PAUSE_GRAPHICS_QUEUE();
-                sub_8023634();
-                return;
-            }
-        }
-        break;
-    case 1:
-    case 4:
-        partner = &gPlayers[p->charFlags.partnerIndex];
-        
-        if (MOVESTATE_1000000 & p->moveState) {
-            if (p->unk44 > 30) {
-                s32 qX;
-                if (SPRITE_FLAG_GET(&partner->spriteData->s, X_FLIP)) {
-                    qX = partner->qWorldX + Q(10);
-                } else {
-                    qX = partner->qWorldX - Q(10);
-                    asm("");
-                }
-                p->qWorldX = qX;
-                p->qWorldY = partner->qWorldY;
-                
-                if (partner->moveState & MOVESTATE_GRAVITY_SWITCHED) {
-                    p->moveState |= MOVESTATE_GRAVITY_SWITCHED;
-                } else {
-                    p->moveState &= ~MOVESTATE_GRAVITY_SWITCHED;
-                }
-            }
-
-            p->keyInput = 0;
-            p->keyInput2 = 0;
-            break;
-        } else {    
-            if (p->charFlags.someIndex == 5) {
-                return;
-            }
-    
-            if (gStageData.gameMode != 1 && gStageData.gameMode != 2 ) {
-                if(p->charFlags.partnerIndex != gStageData.playerIndex) {
-                    p->charFlags.someIndex = 5;
+            if (gStageData.currMapIndex == 11) {
+                if (4 & p->keyInput2) {
+                    sub_8003D2C();
+                    TasksDestroyAll();
+                    PAUSE_BACKGROUNDS_QUEUE();
+                    gBgSpritesCount = 0;
+                    PAUSE_GRAPHICS_QUEUE();
+                    sub_8023634();
                     return;
                 }
             }
-    
-            temp_r6_4 = p->keyInput;
-            if ((gStageData.unk4 != 9) && (gStageData.unk4 != 4)) {
-                if (MOVESTATE_2000000 & p->moveState) {
-                    p->keyInput  = partner->keyInput;
-                    p->keyInput2 = partner->keyInput2;
-                } else {
-                    if (gStageData.zone != 8) {
-                        sub_80B7968(&gUnknown_03001150, p);
-                        p->keyInput = sub_80B7A94(&gUnknown_03001150);
+            break;
+        case 1:
+        case 4:
+            partner = &gPlayers[p->charFlags.partnerIndex];
+
+            if (MOVESTATE_1000000 & p->moveState) {
+                if (p->unk44 > 30) {
+                    s32 qX;
+                    if (SPRITE_FLAG_GET(&partner->spriteData->s, X_FLIP)) {
+                        qX = partner->qWorldX + Q(10);
                     } else {
-                        p->keyInput = 0;
-    
-                        if (p->qWorldY < partner->qWorldY - Q(32)) {
-                            p->keyInput |= DPAD_DOWN;
-                        } else if (p->qWorldY > partner->qWorldY + Q(32)) {
-                            p->keyInput |= DPAD_UP;
-                        }
-                        
-                        if (p->qWorldX < partner->qWorldX - Q(32)) {
-                            p->keyInput |= DPAD_RIGHT;
-                        } else if (p->qWorldX > partner->qWorldX + Q(32)) {
-                            p->keyInput |= DPAD_LEFT;
-                        }
+                        qX = partner->qWorldX - Q(10);
+                        asm("");
                     }
-                    
-                    p->keyInput2 = (temp_r6_4 ^ p->keyInput) & p->keyInput;
+                    p->qWorldX = qX;
+                    p->qWorldY = partner->qWorldY;
+
+                    if (partner->moveState & MOVESTATE_GRAVITY_SWITCHED) {
+                        p->moveState |= MOVESTATE_GRAVITY_SWITCHED;
+                    } else {
+                        p->moveState &= ~MOVESTATE_GRAVITY_SWITCHED;
+                    }
+                }
+
+                p->keyInput = 0;
+                p->keyInput2 = 0;
+                break;
+            } else {
+                if (p->charFlags.someIndex == 5) {
+                    return;
+                }
+
+                if (gStageData.gameMode != 1 && gStageData.gameMode != 2) {
+                    if (p->charFlags.partnerIndex != gStageData.playerIndex) {
+                        p->charFlags.someIndex = 5;
+                        return;
+                    }
+                }
+
+                temp_r6_4 = p->keyInput;
+                if ((gStageData.unk4 != 9) && (gStageData.unk4 != 4)) {
+                    if (MOVESTATE_2000000 & p->moveState) {
+                        p->keyInput = partner->keyInput;
+                        p->keyInput2 = partner->keyInput2;
+                    } else {
+                        if (gStageData.zone != 8) {
+                            sub_80B7968(&gUnknown_03001150, p);
+                            p->keyInput = sub_80B7A94(&gUnknown_03001150);
+                        } else {
+                            p->keyInput = 0;
+
+                            if (p->qWorldY < partner->qWorldY - Q(32)) {
+                                p->keyInput |= DPAD_DOWN;
+                            } else if (p->qWorldY > partner->qWorldY + Q(32)) {
+                                p->keyInput |= DPAD_UP;
+                            }
+
+                            if (p->qWorldX < partner->qWorldX - Q(32)) {
+                                p->keyInput |= DPAD_RIGHT;
+                            } else if (p->qWorldX > partner->qWorldX + Q(32)) {
+                                p->keyInput |= DPAD_LEFT;
+                            }
+                        }
+
+                        p->keyInput2 = (temp_r6_4 ^ p->keyInput) & p->keyInput;
+                    }
                 }
             }
-        }
-        break;
-    case 2:
-        sub_80268B8((s16) strc->playerId);
-        partner = &gPlayers[p->charFlags.partnerIndex];
+            break;
+        case 2:
+            sub_80268B8((s16)strc->playerId);
+            partner = &gPlayers[p->charFlags.partnerIndex];
 
-        if (MOVESTATE_800000 & partner->moveState) {
-            if(!(partner->moveState & MOVESTATE_100)) {
-                s32 qX = partner->qWorldX;
-                p->qWorldX = qX;
-                
-                if (partner->moveState & 1) {
-                    p->qWorldX = qX - Q(10);
-                    p->qWorldY = partner->qWorldY;
-                } else {
-                    p->qWorldX = qX + Q(10);
-                    p->qWorldY = partner->qWorldY;
+            if (MOVESTATE_800000 & partner->moveState) {
+                if (!(partner->moveState & MOVESTATE_100)) {
+                    s32 qX = partner->qWorldX;
+                    p->qWorldX = qX;
+
+                    if (partner->moveState & 1) {
+                        p->qWorldX = qX - Q(10);
+                        p->qWorldY = partner->qWorldY;
+                    } else {
+                        p->qWorldX = qX + Q(10);
+                        p->qWorldY = partner->qWorldY;
+                    }
                 }
             }
-        }
-        break;
-    case 3:
-        temp_r2_5 = *p->demoplayInput_Current;
-        p->demoplayInput_Current++;
+            break;
+        case 3:
+            temp_r2_5 = *p->demoplayInput_Current;
+            p->demoplayInput_Current++;
 
-        if (p->moveState & MOVESTATE_IGNORE_INPUT) {
-            p->keyInput = 0;
-            p->keyInput2 = 0;
-        } else {
-            temp_r0_8 = p->keyInput;
-            p->keyInput = temp_r2_5;
-            p->keyInput2 = p->keyInput & ~temp_r0_8;
-        }
-        break;
+            if (p->moveState & MOVESTATE_IGNORE_INPUT) {
+                p->keyInput = 0;
+                p->keyInput2 = 0;
+            } else {
+                temp_r0_8 = p->keyInput;
+                p->keyInput = temp_r2_5;
+                p->keyInput2 = p->keyInput & ~temp_r0_8;
+            }
+            break;
 
-    default:
-        return;
+        default:
+            return;
     }
 
     if (gStageData.gameMode != 7) {
@@ -931,7 +930,7 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
                     p->callback(p);
                 }
                 if (gStageData.unk4 == 3) {
-                    if ((u32) gStageData.gameMode > 5U) {
+                    if ((u32)gStageData.gameMode > 5U) {
                         sub_8015A44(p);
                     }
                 }
@@ -948,7 +947,8 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
                         partner = &gPlayers[p->charFlags.partnerIndex];
                         if (!(partner->moveState & MOVESTATE_100) || ((partner->charFlags.someIndex) == 2)) {
                             partner->unk44 = 0;
-                            partner->moveState = (partner->moveState & ~(MOVESTATE_COLLIDING_ENT | MOVESTATE_100 | MOVESTATE_10000000)) | MOVESTATE_1000000;
+                            partner->moveState = (partner->moveState & ~(MOVESTATE_COLLIDING_ENT | MOVESTATE_100 | MOVESTATE_10000000))
+                                | MOVESTATE_1000000;
                             partner->sprColliding = NULL;
                             Player_8007930(partner);
                             if (gStageData.unkBD == 0) {
@@ -966,7 +966,7 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
                     partner = &gPlayers[p->charFlags.partnerIndex];
                     sub_80193A4(p);
                     p->unk42 = 0;
-                    
+
                     if (partner->moveState & MOVESTATE_100) {
                         sub_8016F28(p);
                         sub_8016F28(partner);
@@ -988,10 +988,10 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
                         sub_80193CC(p);
                         p->unk42 = 0;
                     }
-                }                
+                }
             }
         }
-        
+
         if (p->moveState & 0x200) {
             if ((p->unk5C != 0) && (--p->unk5C == 0)) {
                 if (gStageData.act == 7) {
@@ -1010,306 +1010,10 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
             sub_8015A44(p);
         }
     }
-
 }
 END_NONMATCH
 
 #if 0
-void Task_80045EC(void) {
-    Player *temp_r2_2;
-    Player *temp_r2_4;
-    Player *temp_r4;
-    Player *temp_r5;
-    Player *var_r4;
-    s16 temp_r4_2;
-    s16 temp_r6;
-    s16 temp_r6_2;
-    s16 temp_r7;
-    s32 temp_r1_2;
-    s32 temp_r1_7;
-    s32 temp_r1_8;
-    s32 temp_r2;
-    s32 temp_r2_3;
-    s32 temp_r3_2;
-    s32 temp_r3_3;
-    s32 var_r0;
-    s32 var_r0_4;
-    s32 var_r0_5;
-    u16 **temp_r1_10;
-    u16 *temp_r0_7;
-    u16 temp_r0_3;
-    u16 temp_r0_6;
-    u16 temp_r0_8;
-    u16 temp_r1;
-    u16 temp_r1_6;
-    u16 temp_r2_5;
-    u16 temp_r6_4;
-    u16 var_r0_2;
-    u16 var_r0_3;
-    u32 temp_r0;
-    u32 temp_r0_2;
-    u32 temp_r1_5;
-    u32 temp_r1_9;
-    u32 temp_r6_3;
-    u8 *temp_r1_3;
-    u8 *temp_r1_4;
-    u8 temp_r0_4;
-    u8 temp_r0_5;
-    u8 temp_r3;
-
-    temp_r1 = gCurTask->data;
-    temp_r5 = &gPlayers[temp_r1->unk4];
-    if (gStageData.gameMode != 7) {
-        sub_8014258(temp_r5);
-        sub_80143E0(temp_r5);
-    }
-    sub_80142CC(temp_r5);
-    sub_80144B4(temp_r5);
-    temp_r0 = ((u32) (temp_r5->unk2B << 0x1B) >> 0x1D) - 1;
-    switch (temp_r0) {                              /* irregular */
-    case 0:
-        sub_8004B14();
-        if (gStageData.currMapIndex != 0xB) {
-            goto block_53;
-        }
-        if (!(4 & temp_r5->keyInput2)) {
-block_53:
-            if (gStageData.gameMode == 7) {
-                if ((0x1C & temp_r5->unk2B) == 4) {
-                    if (!(temp_r5->moveState & 0x10000000)) {
-                        temp_r5->callback(temp_r5);
-                    }
-                    sub_8015A44(temp_r5);
-                }
-            } else {
-                sub_80153BC(temp_r5);
-                if (gStageData.zone != 8) {
-                    temp_r1_2 = 0x1C & temp_r5->unk2B;
-                    if ((temp_r1_2 == 4) || (temp_r1_2 == 8) || (temp_r1_2 == 0x10)) {
-                        if (!(temp_r5->moveState & 0x10000000)) {
-                            temp_r5->callback(temp_r5);
-                        }
-                        if (gStageData.unk4 != 3) {
-
-                        } else {
-                            if ((u32) gStageData.gameMode > 5U) {
-                                sub_8015A44(temp_r5);
-                            }
-                            goto block_67;
-                        }
-                    } else {
-                        goto block_67;
-                    }
-                } else {
-                    if (!(temp_r5->moveState & 0x10000000)) {
-                        temp_r5->callback(temp_r5);
-                    }
-block_67:
-                    if (gStageData.unk4 != 3) {
-
-                    } else {
-                        temp_r0_2 = temp_r5->moveState;
-                        temp_r6 = temp_r0_2 & 0x100;
-                        if (temp_r6 != 0) {
-
-                        } else {
-                            temp_r7 = 0x400000 & temp_r0_2;
-                            if (temp_r7 != 0) {
-                                sub_80180D8(temp_r5);
-                                temp_r1_3 = &temp_r5->Padding38[0xA];
-                                temp_r0_3 = *temp_r1_3 + 1;
-                                *temp_r1_3 = temp_r0_3;
-                                if ((s16) temp_r0_3 != 0x1E) {
-
-                                } else {
-                                    temp_r4 = &gPlayers[(u32) (temp_r5->unk2B << 0x1E) >> 0x1E];
-                                    if ((temp_r4->moveState & 0x100) && ((0x1C & temp_r4->unk2B) != 8)) {
-
-                                    } else {
-                                        temp_r4->Padding38[0xC] = temp_r6;
-                                        temp_r4->moveState = (temp_r4->moveState & 0xEFFFFEDF) | 0x01000000;
-                                        temp_r4->sprColliding = (Sprite *) temp_r6;
-                                        Player_8007930(temp_r4);
-                                        if (gStageData.unkBD == 0) {
-                                            gStageData.unkBD = 1;
-                                        } else if ((0x1C & temp_r4->unk2B) == 4) {
-                                            gCamera.unk18 = (s32) temp_r6;
-                                            gCamera.unk10 = (s32) temp_r6;
-                                            temp_r2 = gStageData.currMapIndex * 4;
-                                            gCamera.unk1C = (s32) *(temp_r2 + &gUnknown_080D05A8);
-                                            gCamera.unk14 = (s32) *(temp_r2 + (&gUnknown_080D05A8 + 2));
-                                        }
-                                    }
-                                }
-                            } else {
-                                temp_r6_2 = 0x800000 & temp_r0_2;
-                                if (temp_r6_2 != 0) {
-                                    var_r4 = &gPlayers[(u32) (temp_r5->unk2B << 0x1E) >> 0x1E];
-                                    sub_80193A4(temp_r5);
-                                    temp_r5->Padding38[0xA] = temp_r7;
-                                    goto block_85;
-                                }
-                                temp_r4_2 = 0x01000000 & temp_r0_2;
-                                if (temp_r4_2 != 0) {
-                                    var_r4 = &gPlayers[(u32) (temp_r5->unk2B << 0x1E) >> 0x1E];
-                                    sub_8016F28(temp_r5);
-                                    sub_801816C(temp_r5);
-                                    temp_r5->moveState &= ~0x20;
-                                    temp_r5->sprColliding = (Sprite *) temp_r6_2;
-                                    temp_r5->Padding38[0xA] = temp_r6_2;
-block_85:
-                                    if (var_r4->moveState & 0x100) {
-                                        sub_8016F28(temp_r5);
-                                        sub_8016F28(var_r4);
-                                    }
-                                } else {
-                                    sub_80193CC(temp_r5);
-                                    temp_r5->Padding38[0xA] = temp_r4_2;
-                                }
-                            }
-                        }
-                    }
-                }
-                if (temp_r5->moveState & 0x200) {
-                    temp_r1_4 = &temp_r5->unk5C;
-                    temp_r0_4 = *temp_r1_4;
-                    if (temp_r0_4 != 0) {
-                        temp_r0_5 = temp_r0_4 - 1;
-                        *temp_r1_4 = temp_r0_5;
-                        if ((temp_r0_5 << 0x18) == 0) {
-                            if (gStageData.act == 7) {
-                                Player_800613C(temp_r5);
-                                return;
-                            }
-                            Player_8005E80(temp_r5);
-                            return;
-                        }
-                    }
-                }
-                return;
-            }
-        } else {
-            sub_8003D2C();
-            TasksDestroyInPriorityRange(0U, 0xFFFFU);
-            gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
-            gBgSpritesCount = 0;
-            gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
-            sub_8023634();
-            return;
-        }
-        break;
-    case 1:
-    case 4:
-        temp_r3 = temp_r5->unk2B;
-        temp_r6_3 = temp_r3 << 0x1E;
-        temp_r2_2 = &gPlayers[temp_r6_3 >> 0x1E];
-        temp_r1_5 = temp_r5->moveState;
-        if (0x01000000 & temp_r1_5) {
-            if ((s32) temp_r5->Padding38[0xC] <= 0x1E) {
-
-            } else {
-                if (temp_r2_2->spriteData->s.frameFlags & 0x400) {
-                    var_r0 = temp_r2_2->qWorldX + 0xA00;
-                } else {
-                    var_r0 = temp_r2_2->qWorldX + 0xFFFFF600;
-                }
-                temp_r5->qWorldX = var_r0;
-                temp_r5->qWorldY = temp_r2_2->qWorldY;
-                if (temp_r2_2->moveState & 0x10000) {
-                    temp_r5->moveState = temp_r1_5 | 0x10000;
-                } else {
-                    temp_r5->moveState = 0xFFFEFFFF & temp_r1_5;
-                }
-            }
-block_51:
-            temp_r5->keyInput = 0;
-            temp_r5->keyInput2 = 0;
-            goto block_53;
-        }
-        if ((0x1C & temp_r3) == 0x14) {
-            return;
-        }
-        if (((u32) (u8) (gStageData.gameMode - 1) > 1U) && ((temp_r6_3 >> 0x1E) != gStageData.playerIndex)) {
-            temp_r5->unk2B = (u8) ((-0x1D & temp_r3) | 0x14);
-            return;
-        }
-        temp_r6_4 = temp_r5->keyInput;
-        if (gStageData.unk4 == 9) {
-
-        } else if (gStageData.unk4 == 4) {
-
-        } else {
-            temp_r1_6 = 0x02000000 & temp_r1_5;
-            if (temp_r1_6 != 0) {
-                temp_r5->keyInput = temp_r2_2->keyInput;
-                temp_r5->keyInput2 = temp_r2_2->keyInput2;
-            } else {
-                if (gStageData.zone != 8) {
-                    sub_80B7968(&gUnknown_03001150, temp_r5);
-                    var_r0_2 = sub_80B7A94(&gUnknown_03001150);
-                    goto block_42;
-                }
-                temp_r5->keyInput = temp_r1_6;
-                temp_r3_2 = temp_r2_2->qWorldY;
-                temp_r1_7 = temp_r5->qWorldY;
-                if (temp_r1_7 < (s32) (temp_r3_2 + 0xFFFFE000)) {
-                    var_r0_3 = 0x80;
-                    goto block_36;
-                }
-                if (temp_r1_7 > (s32) (temp_r3_2 + 0x2000)) {
-                    var_r0_3 = 0x40;
-block_36:
-                    temp_r5->keyInput = var_r0_3;
-                }
-                temp_r2_3 = temp_r2_2->qWorldX;
-                temp_r1_8 = temp_r5->qWorldX;
-                if (temp_r1_8 < (s32) (temp_r2_3 + 0xFFFFE000)) {
-                    var_r0_4 = 0x10;
-                    goto block_41;
-                }
-                if (temp_r1_8 > (s32) (temp_r2_3 + 0x2000)) {
-                    var_r0_4 = 0x20;
-block_41:
-                    var_r0_2 = var_r0_4 | temp_r5->keyInput;
-block_42:
-                    temp_r5->keyInput = var_r0_2;
-                }
-                temp_r0_6 = temp_r5->keyInput;
-                temp_r5->keyInput2 = (temp_r6_4 ^ temp_r0_6) & temp_r0_6;
-            }
-        }
-        goto block_53;
-    case 2:
-        sub_80268B8(temp_r1->unk4);
-        temp_r2_4 = &gPlayers[(u32) (temp_r5->unk2B << 0x1E) >> 0x1E];
-        temp_r1_9 = temp_r2_4->moveState;
-        if ((0x800000 & temp_r1_9) && !(temp_r1_9 & 0x100)) {
-            temp_r3_3 = temp_r2_4->qWorldX;
-            temp_r5->qWorldX = temp_r3_3;
-            if (temp_r2_4->moveState & 1) {
-                var_r0_5 = temp_r3_3 + 0xFFFFF600;
-            } else {
-                var_r0_5 = temp_r3_3 + 0xA00;
-            }
-            temp_r5->qWorldX = var_r0_5;
-            temp_r5->qWorldY = temp_r2_4->qWorldY;
-        }
-        goto block_53;
-    case 3:
-        temp_r1_10 = &temp_r5->demoplayInput_Current;
-        temp_r0_7 = *temp_r1_10;
-        temp_r2_5 = *temp_r0_7;
-        *temp_r1_10 = temp_r0_7 + 2;
-        if (temp_r5->moveState & 0x08000000) {
-            goto block_51;
-        }
-        temp_r0_8 = temp_r5->keyInput;
-        temp_r5->keyInput = temp_r2_5;
-        temp_r5->keyInput2 = temp_r2_5 & ~temp_r0_8;
-        goto block_53;
-    }
-}
-
 void sub_8004B14(void) {
     Player *temp_r3;
     s32 var_r1;
