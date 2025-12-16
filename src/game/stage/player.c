@@ -541,6 +541,7 @@ extern ? sub_8002388;
 
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "module_unclear.h"
 #include "game/camera.h"
 #include "game/player.h"
@@ -1074,57 +1075,57 @@ void sub_8004B14(void)
     }
 }
 
-#if 0
-void sub_8004BD0(Player *arg0, s32 arg1, s32 arg2) {
-    s32 *sp0;
-    s32 temp_r2;
+// (71.60%) https://decomp.me/scratch/JzXgk
+NONMATCH("asm/non_matching/game/stage/player__sub_8004BD0.inc", void sub_8004BD0(Player *p, s32 arg1, s32 arg2))
+{
+    ECharacters partnerChar;
     s32 temp_r3;
     s32 temp_r4;
     s32 temp_r7;
     s32 temp_r7_2;
     s32 var_r3;
-    u16 var_r1;
+    s16 var_r1;
     u32 temp_r1;
 
-    temp_r2 = 0xF & gPlayers[(u32) (arg0->unk2B << 0x1E) >> 0x1E].unk2A;
-    if (temp_r2 == 1) {
-        temp_r3 = arg0->qWorldX;
-        temp_r7 = arg0->qWorldY;
-        temp_r1 = arg0->moveState;
-        if (0x10000 & temp_r1) {
-            if (temp_r7 >= arg2) {
-                if (!(temp_r2 & temp_r1)) {
-                    goto block_7;
-                }
-                goto block_9;
-            }
-        } else if (temp_r7 <= arg2) {
-            if (temp_r2 & temp_r1) {
-block_7:
+    partnerChar = gPlayers[p->charFlags.partnerIndex].charFlags.character;
+    if (partnerChar == CHARACTER_CREAM) {
+        temp_r3 = p->qWorldX;
+        temp_r7 = p->qWorldY;
+        if ((MOVESTATE_GRAVITY_SWITCHED & p->moveState) && (temp_r7 >= arg2)) {
+            if (!(MOVESTATE_FACING_LEFT & p->moveState)) {
                 if (temp_r3 >= arg1) {
                     goto block_10;
                 }
             } else {
-block_9:
+                goto block_9;
+            }
+        } else if (temp_r7 <= arg2) {
+            if (MOVESTATE_FACING_LEFT & p->moveState) {
+            block_7:
+                if (temp_r3 >= arg1) {
+                    goto block_10;
+                }
+            } else {
+            block_9:
                 if (temp_r3 <= arg1) {
-block_10:
-                    temp_r4 = (s32) (arg1 - temp_r3) >> 8;
-                    var_r3 = (s32) (arg2 - temp_r7) >> 8;
-                    temp_r7_2 = (temp_r4 * temp_r4) + (var_r3 * var_r3);
-                    if (temp_r7_2 <= 0x1900) {
-                        sp0 = arg0 + 0xB8;
-                        if ((u32) arg0->unkB8 >= (u32) temp_r7_2) {
-                            if (temp_r1 & 0x10000) {
-                                var_r3 = 0 - var_r3;
+                block_10:
+                    temp_r4 = I(arg1 - temp_r3);
+                    var_r3 = I(arg2 - temp_r7);
+                    temp_r7_2 = SQUARE(temp_r4) + SQUARE(var_r3);
+                    if (temp_r7_2 <= Q(SQUARE(5))) {
+                        if (p->unkB8 >= temp_r7_2) {
+                            if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
+                                var_r3 = -var_r3;
                             }
-                            var_r1 = (u16) sa2__sub_8004418((s16) var_r3, (s16) temp_r4);
-                            if (arg0->moveState & 0x10000) {
-                                var_r1 = (0x400 - (s16) var_r1) & 0x3FF;
+
+                            var_r1 = (u16)sa2__sub_8004418(var_r3, temp_r4);
+                            if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
+                                var_r1 = (0x400 - var_r1) & 0x3FF;
                             }
-                            arg0->unkA8 = arg1;
-                            (arg0 + 0xA8)->unk4 = arg2;
-                            *sp0 = temp_r7_2;
-                            arg0->unkC0 = var_r1;
+                            p->unkA8 = arg1;
+                            p->unkAC = arg2;
+                            p->unkB8 = temp_r7_2;
+                            p->unkC0 = var_r1;
                         }
                     }
                 }
@@ -1132,7 +1133,9 @@ block_10:
         }
     }
 }
+END_NONMATCH
 
+#if 0
 void sub_8004CC8(s16 arg0) {
     Player *temp_r7;
     Task **temp_r0;
