@@ -66,9 +66,8 @@ struct Player {
         0x00000004: In Air
         0x00000006: Jumping (-> 0x7 = Jumping & face left)
     */
-    u32 moveState; // 0x04
-
-    u32 unk8; // 0x08 | bitfield? also a moveState ?
+    /* 0x04 */ u32 moveState;
+    /* 0x08 */ u32 moveState2; // TODO: More specific name!
 
     u32 unkC; // Bitfield
 
