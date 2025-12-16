@@ -1,544 +1,3 @@
-#if 0
-? memcpy(s32 *, s8 *, s32);                         /* extern */
-? sub_8001D58(? *, s32);                            /* extern */
-? sub_8002414();                                    /* extern */
-? sub_8002508();                                    /* extern */
-? sub_8023634();                                    /* extern */
-? sub_8026254(Player *);                            /* extern */
-? sub_80268B8(s16);                                 /* extern */
-? sub_80274AC(u16, u16);                            /* extern */
-? sub_802785C();                                    /* extern */
-? sub_8027878(u8);                                  /* extern */
-? sub_80278DC();                                    /* extern */
-? sub_80293E8(Player *);                            /* extern */
-? sub_802AE64(Player *, s16);                       /* extern */
-u8 sub_8031BAC(Player *);                           /* extern */
-? sub_80533F4(u32);                                 /* extern */
-? sub_8056120(s16);                                 /* extern */
-? sub_8056168();                                    /* extern */
-? sub_808723C(s32, s32);                            /* extern */
-? sub_80B7914(? *);                                 /* extern */
-? sub_80B794C(? *);                                 /* extern */
-? sub_80B7968(? *, Player *);                       /* extern */
-u16 sub_80B7A94(? *);                               /* extern */
-s32 sub_80B7AA4(? *);                               /* extern */
-? sub_80B8E24(void *, Player *, s32, s32);          /* extern */
-void Player_8005434(Player *p);                     /* static */
-void Player_8007930(Player *arg0);                  /* static */
-void Player_800FA1C(Player *p);                     /* static */
-void Player_801080C(Player *p);                     /* static */
-void Player_801086C(Player *p);                     /* static */
-void Player_80108B8(Player *p);                     /* static */
-void Player_80108FC(Player *p);                     /* static */
-void Player_8010AA0(Player *p);                     /* static */
-void Player_8010F88(Player *p);                     /* static */
-void TaskDestructor_8004D2C(Task *);                /* static */
-void TaskDestructor_8019A78(Task *);                /* static */
-void Task_80045EC();                                /* static */
-void Task_8005068();                                /* static */
-void Task_80050E0();                                /* static */
-void Task_80198A8();                                /* static */
-void sub_0800C104(Player *arg0);                    /* static */
-void sub_0800C1FC(Player *arg0);                    /* static */
-void sub_0800C338(Player *arg0);                    /* static */
-void sub_0800E218(Player *arg0);                    /* static */
-void sub_0800E27C(Player *p);                       /* static */
-void sub_0800F004(Player *arg0);                    /* static */
-void Task_8004550();                                 /* static */
-void sub_8004B14();                                 /* static */
-void sub_8004BD0(Player *arg0, s32 arg1, s32 arg2); /* static */
-void sub_8005130(Player *arg0, s32 arg1, s32 arg2); /* static */
-void sub_80051CC(Player *arg0, s32 arg1, s32 arg2); /* static */
-void sub_80055B8(Player *p);                        /* static */
-void sub_8005800(Player *arg0);                     /* static */
-void sub_80059A0(Player *arg0, u16 arg1);           /* static */
-u8 sub_8005A24(Player *arg0, s32);                  /* static */
-u8 sub_8005B04(Player *arg0);                       /* static */
-u8 sub_8005B78(Player *arg0);                       /* static */
-void sub_80063B4(Player *arg0, s32 arg1);           /* static */
-void sub_800913C(Player *p);                        /* static */
-void sub_8009518(Player *arg0);                     /* static */
-void sub_80095E8(Player *p);                        /* static */
-void sub_8009780(Player *p);                        /* static */
-void sub_80099FC(Player *p);                        /* static */
-void sub_8009D74(Player *arg0);                     /* static */
-void sub_800A2B8(Player *p);                        /* static */
-void sub_800A540(Player *p);                        /* static */
-void sub_800A62C(Player *p);                        /* static */
-void sub_800ACAC(Player *p);                        /* static */
-void sub_800B0B0(Player *arg0);                     /* static */
-void sub_800BBA0(Player *p);                        /* static */
-void sub_800BF78(Player *arg0);                     /* static */
-void sub_800C064(Player *arg0);                     /* static */
-void sub_800C494(Player *p);                        /* static */
-void sub_800C540(Player *p);                        /* static */
-void sub_800C5D0(Player *arg0);                     /* static */
-void sub_800C684(Player *p);                        /* static */
-void sub_800C714(Player *arg0);                     /* static */
-void sub_800C7B8(Player *p);                        /* static */
-void sub_800C87C(Player *p);                        /* static */
-void sub_800C910(Player *p);                        /* static */
-void sub_800C9C4(Player *p);                        /* static */
-void sub_800CBE8(Player *p);                        /* static */
-void sub_800CE30(Player *p);                        /* static */
-void sub_800CF08(Player *arg0);                     /* static */
-void sub_800CF60(Player *p);                        /* static */
-void sub_800D238(Player *p);                        /* static */
-void sub_800D32C(Player *p);                        /* static */
-void sub_800D500(Player *p);                        /* static */
-void sub_800D5F4(Player *p);                        /* static */
-void sub_800D7C8(Player *arg0);                     /* static */
-void sub_800D81C(Player *arg0);                     /* static */
-void sub_800D8DC(Player *p);                        /* static */
-void sub_800D9F4(Player *p);                        /* static */
-void sub_800DA60(Player *p);                        /* static */
-void sub_800DC50(Player *p);                        /* static */
-void sub_800DF10(Player *p);                        /* static */
-void sub_800DF5C(Player *p);                        /* static */
-void sub_800DF9C(Player *p);                        /* static */
-void sub_800DFA0(Player *p);                        /* static */
-void sub_800DFEC(Player *p);                        /* static */
-void sub_800E01C(Player *p);                        /* static */
-void sub_800E084(Player *p);                        /* static */
-void sub_800E0CC(Player *p);                        /* static */
-void sub_800E150(Player *p);                        /* static */
-void sub_800E198(Player *p);                        /* static */
-void sub_800E2C8(Player *p);                        /* static */
-void sub_800E508(void *arg0);                       /* static */
-void sub_800E724(Player *arg0);                     /* static */
-void sub_800E764(Player *p);                        /* static */
-void sub_800E7BC(Player *arg0);                     /* static */
-void sub_800E808(Player *p);                        /* static */
-void sub_800E880(Player *p);                        /* static */
-void sub_800E924(Player *p);                        /* static */
-void sub_800E968(Player *p);                        /* static */
-void sub_800EAAC(Player *p);                        /* static */
-void sub_800EAEC(Player *p);                        /* static */
-void sub_800EB14(Player *p);                        /* static */
-void sub_800EBD8(Player *p);                        /* static */
-void sub_800EC20(Player *p);                        /* static */
-void sub_800EC68(Player *arg0);                     /* static */
-void sub_800ECE0(Player *p);                        /* static */
-void sub_800ED4C(Player *p);                        /* static */
-void sub_800EDC8(Player *p);                        /* static */
-void sub_800EE38(Player *p);                        /* static */
-void sub_800EE64(Player *p);                        /* static */
-void sub_800EEC4(Player *p);                        /* static */
-void sub_800EF18(Player *arg0);                     /* static */
-void sub_800EF50(Player *arg0);                     /* static */
-void sub_800EFB0(Player *arg0);                     /* static */
-void sub_800F068(Player *arg0);                     /* static */
-void sub_800F074(Player *arg0);                     /* static */
-void sub_800F080(Player *arg0);                     /* static */
-void sub_800F08C(Player *arg0);                     /* static */
-void sub_800F098(Player *arg0);                     /* static */
-void sub_800F0A4(Player *arg0);                     /* static */
-void sub_800F0B0(Player *arg0);                     /* static */
-void sub_800F0BC(Player *arg0);                     /* static */
-void sub_800F0E8(Player *arg0);                     /* static */
-void sub_800F12C(Player *arg0);                     /* static */
-void sub_800F170(Player *arg0);                     /* static */
-void sub_800F1C4(Player *arg0);                     /* static */
-void sub_800F228(Player *p);                        /* static */
-void sub_800F22C(Player *p);                        /* static */
-void sub_800F2B0(Player *p);                        /* static */
-void sub_800F378(Player *p);                        /* static */
-void sub_800F3E8(Player *p);                        /* static */
-void sub_800F4A4(Player *p);                        /* static */
-void sub_800F55C(Player *p);                        /* static */
-void sub_800F5C8(Player *p);                        /* static */
-void sub_800F634(Player *p);                        /* static */
-void sub_800F6C8(Player *p);                        /* static */
-void sub_800F734(Player *p);                        /* static */
-void sub_800F7C0(Player *p);                        /* static */
-void sub_800F838(Player *p);                        /* static */
-void sub_800F920(Player *p);                        /* static */
-void sub_800F9C0(Player *p);                        /* static */
-void sub_800FABC(Player *arg0);                     /* static */
-void sub_800FD60(Player *arg0);                     /* static */
-void sub_8010008();                                 /* static */
-void sub_8010430(Player *arg0);                     /* static */
-void sub_80106E0(Player *p);                        /* static */
-void sub_80107B4(Player *p);                        /* static */
-void sub_8010960(Player *p);                        /* static */
-void sub_801098C(Player *p);                        /* static */
-void sub_80109C0(Player *p);                        /* static */
-void sub_80109FC(Player *p);                        /* static */
-void sub_8010A3C(Player *p);                        /* static */
-void sub_8010AE4(Player *p);                        /* static */
-void sub_8010B3C(Player *p);                        /* static */
-void sub_8010B7C(Player *p);                        /* static */
-void sub_8010BBC(Player *p);                        /* static */
-void sub_8010C04(Player *p);                        /* static */
-void sub_8010C98(Player *p);                        /* static */
-void sub_8010CD0(Player *p);                        /* static */
-void sub_8010D28(Player *p);                        /* static */
-void sub_8010D70(Player *p);                        /* static */
-void sub_8010DC4(Player *p);                        /* static */
-void sub_8010E04(Player *arg0);                     /* static */
-void sub_8010E4C(Player *arg0);                     /* static */
-void sub_8010E94(Player *arg0);                     /* static */
-void sub_8010ED0(Player *arg0);                     /* static */
-void sub_8010F34(Task *);                           /* static */
-void sub_8010F38(Player *p);                        /* static */
-void sub_8010FE0(Player *p);                        /* static */
-s32 sub_80114CC(Player *arg0);                      /* static */
-s16 sub_80116A4(u16 arg0, Player *arg1);            /* static */
-s16 sub_8011978(u16 arg0, void *arg1, s32 arg2);    /* static */
-s32 sub_8011BFC(u8 arg0, Player *arg1);             /* static */
-void sub_8011D08(Player *arg0);                     /* static */
-void sub_8011E70(Player *arg0);                     /* static */
-void sub_8011FB8(Player *arg0);                     /* static */
-void sub_8012118(Player *arg0);                     /* static */
-void sub_80126B8(Player *arg0);                     /* static */
-void sub_8012804(Player *arg0);                     /* static */
-void sub_8012930(Player *arg0);                     /* static */
-void sub_8012A6C(Player *arg0);                     /* static */
-s32 sub_8012E18(u16 arg0, Player *arg1, u8 *arg2, ? *); /* static */
-s16 sub_8012EA8(Player *);                          /* static */
-void sub_8012EB8(Player *arg0);                     /* static */
-void sub_8012F10(Player *arg0);                     /* static */
-void sub_8012FA0(Player *arg0);                     /* static */
-void sub_8012FC0(Player *arg0);                     /* static */
-void sub_8012FF0(Player *arg0);                     /* static */
-void sub_801300C(s16 arg0);                         /* static */
-void sub_801310C(s16 arg0);                         /* static */
-void sub_801320C(Player *arg0, PlayerSprite *arg1); /* static */
-void sub_801350C(Player *arg0, ? arg3);             /* static */
-void sub_80136DC(s16 arg0);                         /* static */
-void sub_8013A68(s16 arg0);                         /* static */
-void sub_8013F4C(Player *arg0);                     /* static */
-void sub_801409C(Player *arg0);                     /* static */
-void sub_80141EC(Player *arg0, u32 arg1, u32 arg2); /* static */
-void sub_8014230(Player *arg0, void *arg1);         /* static */
-void sub_8014258(Player *arg0);                     /* static */
-void sub_80142CC(Player *arg0);                     /* static */
-void sub_80143E0(Player *arg0);                     /* static */
-void sub_80144B4(Player *arg0);                     /* static */
-void sub_8014670(Player *arg0);                     /* static */
-s16 sub_801480C(Player *arg0);                      /* static */
-void sub_8014940(Player *arg0);                     /* static */
-s32 sub_8014A60(Player *arg0);                      /* static */
-s32 sub_8014AF8(Player *arg0);                      /* static */
-s16 sub_8014BC4(Player *arg0);                      /* static */
-s32 sub_8014D70(Player *arg0);                      /* static */
-void sub_8014E70(Player *arg0);                     /* static */
-void sub_8014FA4(Player *arg0);                     /* static */
-s16 sub_8015064(Player *arg0, ? arg3);              /* static */
-void sub_8015144(Player *arg0);                     /* static */
-void sub_80151C4(Player *arg0);                     /* static */
-void sub_8015228(Player *arg0, ? arg3);             /* static */
-void sub_80153BC(Player *arg0);                     /* static */
-s32 sub_8015568(Player *arg0);                      /* static */
-void sub_8015A44(Player *arg0, ? arg3);             /* static */
-void sub_8015C90(Player *arg0, s32 arg1);           /* static */
-void sub_8016D30(Player *arg0);                     /* static */
-s32 sub_8016D88(Player *arg0);                      /* static */
-void sub_8016E00(Player *arg0);                     /* static */
-void sub_8016E50(Player *arg0);                     /* static */
-void sub_8016E70(Player *arg0);                     /* static */
-void sub_8016EB0(Player *arg0);                     /* static */
-s32 sub_8016EDC(Player *arg0);                      /* static */
-s32 sub_8016FA8(Player *arg0);                      /* static */
-void sub_8017004(Player *arg0);                     /* static */
-s32 sub_8017058(Player *arg0);                      /* static */
-void sub_80170A0(Player *arg0);                     /* static */
-void sub_8017134(Player *arg0);                     /* static */
-void sub_80171C0(Player *arg0);                     /* static */
-void sub_8017258(Player *arg0);                     /* static */
-void sub_80172F0(Player *arg0, s16 arg1);           /* static */
-void sub_8017364(Player *arg0);                     /* static */
-void sub_80173F0(Player *arg0);                     /* static */
-void sub_8017584(Player *arg0);                     /* static */
-void sub_8017618(Player *arg0, ? arg3);             /* static */
-void sub_801782C(Player *arg0, s8 arg1);            /* static */
-void sub_8017914(Player *arg0);                     /* static */
-void sub_8017D18(Player *arg0);                     /* static */
-void sub_8017DB4(Player *arg0);                     /* static */
-void sub_80180D8(Player *arg0);                     /* static */
-void sub_801816C(Player *arg0);                     /* static */
-void sub_8018238();                                 /* static */
-void sub_80182D4();                                 /* static */
-void sub_801839C();                                 /* static */
-void sub_80184F8();                                 /* static */
-void sub_8018550();                                 /* static */
-void sub_801862C();                                 /* static */
-void sub_80186A0();                                 /* static */
-void sub_8018814();                                 /* static */
-void sub_8018984();                                 /* static */
-void sub_8018AF8();                                 /* static */
-void sub_8018C6C();                                 /* static */
-void sub_8018DDC();                                 /* static */
-void sub_8018F90();                                 /* static */
-void sub_80190C8();                                 /* static */
-void sub_8019150();                                 /* static */
-void sub_80191C8();                                 /* static */
-void sub_8019240();                                 /* static */
-void sub_8019318(Task *);                           /* static */
-void sub_801932C(Task *);                           /* static */
-void sub_8019340(Task *);                           /* static */
-void sub_8019354(Task *);                           /* static */
-void sub_8019368(Task *);                           /* static */
-void sub_8019390(Task *);                           /* static */
-void sub_80193A4(Player *arg0);                     /* static */
-void sub_80193CC(Player *arg0);                     /* static */
-void sub_80193E8(Task *);                           /* static */
-void sub_80193EC(Task *);                           /* static */
-void sub_8019400(Task *);                           /* static */
-void sub_8019428(Task *);                           /* static */
-void sub_8019464(Task *);                           /* static */
-void sub_801948C(Task *);                           /* static */
-void sub_80194A0(Task *);                           /* static */
-void sub_80194B4(Task *);                           /* static */
-void sub_80194C8(Task *);                           /* static */
-void sub_80194DC(Task *);                           /* static */
-void sub_8019504(Task *);                           /* static */
-void sub_801952C();                                 /* static */
-void sub_801957C();                                 /* static */
-void sub_80195CC();                                 /* static */
-void sub_8019628();                                 /* static */
-void sub_8019698();                                 /* static */
-void sub_8019718(Player *arg0);                     /* static */
-void sub_8019858(Player *arg0);                     /* static */
-void sub_8019A7C();                                 /* static */
-void sub_8019AB4(u16 arg0, u16 arg1);               /* static */
-void sub_8019B4C(Player *p);                        /* static */
-void sub_8019C24(Player *p);                        /* static */
-void sub_8019CF0(Player *p);                        /* static */
-void sub_8019DA0(Player *p);                        /* static */
-void sub_8019E94(Player *p);                        /* static */
-void sub_8019F80(Player *p);                        /* static */
-void sub_8019FF8(Player *p);                        /* static */
-void sub_801A05C(Player *p);                        /* static */
-void sub_801A0C0(Player *p);                        /* static */
-void sub_801A120(Player *p);                        /* static */
-void sub_801A17C(Player *p);                        /* static */
-void sub_801A1D4(Player *p);                        /* static */
-void sub_801A224(Player *p);                        /* static */
-void sub_801A280(Player *p);                        /* static */
-void sub_801A2DC(Player *p);                        /* static */
-void sub_801A330(Player *p);                        /* static */
-void sub_801A38C(Player *p);                        /* static */
-void sub_801A3DC(Player *p);                        /* static */
-void sub_801A46C(Player *p);                        /* static */
-void sub_801A504(Player *p);                        /* static */
-void sub_801A5A0(Player *p);                        /* static */
-void sub_801A644(Player *p);                        /* static */
-void sub_801A6E0(Player *p);                        /* static */
-void sub_801A7FC(Player *arg0);                     /* static */
-void sub_801A87C(Player *p);                        /* static */
-void sub_801A930(Player *p);                        /* static */
-void sub_801A9EC(Player *p);                        /* static */
-void sub_801AA54(Player *p);                        /* static */
-void sub_801AA78(Player *p);                        /* static */
-void sub_801AAEC(Player *p);                        /* static */
-void sub_801AB10(Player *p);                        /* static */
-void sub_801AB34(Player *p);                        /* static */
-void sub_801AB58(Player *p);                        /* static */
-void sub_801AB7C(Player *p);                        /* static */
-void sub_801ABA0(Player *p);                        /* static */
-void sub_801AC04(Player *p);                        /* static */
-void sub_801AC58(Player *arg0, u16 arg1);           /* static */
-void sub_801ACBC(Player *arg0, u16 arg1);           /* static */
-void sub_801AD10(Player *p);                        /* static */
-void sub_801AD64(Player *p);                        /* static */
-void sub_801ADC0(Player *arg0);                     /* static */
-void sub_801ADF4(Player *p);                        /* static */
-void sub_801AE70(Player *p);                        /* static */
-void sub_801AF50(Player *p);                        /* static */
-void sub_801AFEC(Player *p);                        /* static */
-void sub_801B11C(Player *p);                        /* static */
-void sub_801B1B0(Player *p);                        /* static */
-void sub_801B258(Player *p);                        /* static */
-void sub_801B2E4(Player *p);                        /* static */
-void sub_801B458(Player *arg0);                     /* static */
-void sub_801B4CC(Player *p);                        /* static */
-void sub_801B58C(Player *arg0);                     /* static */
-void sub_801B608(Player *p);                        /* static */
-void sub_801B6A8(Player *arg0);                     /* static */
-void sub_801B71C(Player *p);                        /* static */
-void sub_801B824(Player *p);                        /* static */
-void sub_801B8DC(Player *p);                        /* static */
-void sub_801B9A8(Player *arg0);                     /* static */
-void sub_801BA2C(Player *p);                        /* static */
-void sub_801BAFC(Player *arg0);                     /* static */
-void sub_801BC48(Player *arg0);                     /* static */
-void sub_801BCCC(Player *p);                        /* static */
-void sub_801BD1C(Player *p);                        /* static */
-void sub_801BD84(Player *p);                        /* static */
-void sub_801BDD8(Player *p);                        /* static */
-void sub_801BE40(Player *arg0);                     /* static */
-void sub_801BEA0(Player *p);                        /* static */
-void sub_801BF08(Player *p);                        /* static */
-void sub_801BF6C(Player *p);                        /* static */
-void sub_801BFD4(Player *p);                        /* static */
-void sub_801C00C(Player *arg0);                     /* static */
-void sub_801C068(Player *arg0);                     /* static */
-void sub_801C098(Player *arg0);                     /* static */
-void sub_801C14C(Player *arg0);                     /* static */
-void sub_801C1D4(Player *arg0);                     /* static */
-void sub_801C234(Player *p);                        /* static */
-void sub_801C2D8(Player *p);                        /* static */
-void sub_801C348(Player *p);                        /* static */
-void sub_801C414(Player *p);                        /* static */
-s32 sub_801C884(Player *arg0);                      /* static */
-void sub_801C934(Player *p);                        /* static */
-void sub_801CA00(Player *p);                        /* static */
-void sub_801CB68(Player *p);                        /* static */
-void sub_801CC14(Player *p);                        /* static */
-void sub_801CD50(Player *p);                        /* static */
-void sub_801CE94(Player *arg0);                     /* static */
-void sub_801CF4C(Player *arg0);                     /* static */
-void sub_801CFFC(Player *p);                        /* static */
-void sub_801D16C(Player *arg0);                     /* static */
-void sub_801D1D0(Player *arg0);                     /* static */
-s32 sub_801D2FC(Player *arg0);                      /* static */
-void sub_801D3F0(Player *arg0);                     /* static */
-void sub_801D5CC(Player *p);                        /* static */
-void sub_801D684(Player *p);                        /* static */
-void sub_801D7B0(Player *p);                        /* static */
-void sub_801D804(Player *p);                        /* static */
-void sub_801D84C(Player *p);                        /* static */
-void sub_801D8A8(Player *p);                        /* static */
-void sub_801D8E8(Player *p);                        /* static */
-void sub_801D950(Player *p);                        /* static */
-void sub_801D978(Player *arg0);                     /* static */
-void sub_801D9D0(Player *p);                        /* static */
-void sub_801DA04(Player *p);                        /* static */
-void sub_801DA74(Player *p);                        /* static */
-void sub_801DAD8(Player *p);                        /* static */
-void sub_801DB20(Player *p);                        /* static */
-void sub_801DB70(Player *p);                        /* static */
-void sub_801DBD0(Player *p);                        /* static */
-void sub_801DC34(Player *p);                        /* static */
-void sub_801DC60(Player *arg0);                     /* static */
-void sub_801DCDC(Player *p);                        /* static */
-void sub_801DD00(Player *p);                        /* static */
-void sub_801DD2C(Player *p);                        /* static */
-void sub_801DD68(Player *arg0);                     /* static */
-void sub_801DDF4(Player *p);                        /* static */
-void sub_801DE1C(Player *arg0);                     /* static */
-void sub_801DE94(Player *p);                        /* static */
-void sub_801DEE4(Player *arg0);                     /* static */
-void sub_801DF80(Player *p);                        /* static */
-void sub_801DFC4(Player *p);                        /* static */
-void sub_801E038(Player *p);                        /* static */
-void sub_801E0AC(Player *p);                        /* static */
-void sub_801E120(Player *p);                        /* static */
-void sub_801E250(Player *p);                        /* static */
-void sub_801E2E4(Player *p);                        /* static */
-void sub_801E358(Player *p);                        /* static */
-void sub_801E3D8(Player *p);                        /* static */
-void sub_801E44C(Player *p);                        /* static */
-void sub_801E4C0(Player *p);                        /* static */
-void sub_801E5E0(Player *p);                        /* static */
-void sub_801E65C(Player *p);                        /* static */
-void sub_801E69C(Player *p);                        /* static */
-void sub_801E6F4(Player *p);                        /* static */
-void sub_801E758(Player *p);                        /* static */
-void sub_801E7BC(Player *p);                        /* static */
-void sub_801E828(Player *p);                        /* static */
-void sub_801E888(Player *p);                        /* static */
-void sub_801E8E0(Player *p);                        /* static */
-void sub_801E92C(Player *p);                        /* static */
-void sub_801E980(Player *p);                        /* static */
-void sub_801E9E0(Player *p);                        /* static */
-void sub_801EA44(Player *p);                        /* static */
-void sub_801EA9C(Player *p);                        /* static */
-void sub_801EAF4(Player *p);                        /* static */
-void sub_801EB44(Player *p);                        /* static */
-void sub_801EB94(Player *p);                        /* static */
-void sub_801EBC0(u16 arg0, Player *arg1);           /* static */
-void sub_801ECAC(Player *arg0);                     /* static */
-void sub_801EDB4();                                 /* static */
-void sub_801EE74();                                 /* static */
-void sub_801EEE8();                                 /* static */
-void sub_801EF6C();                                 /* static */
-void sub_801EFE8();                                 /* static */
-void sub_801F064();                                 /* static */
-void sub_801F0DC();                                 /* static */
-void sub_801F184();                                 /* static */
-void sub_801F258();                                 /* static */
-void sub_801F2FC();                                 /* static */
-void sub_801F418();                                 /* static */
-void sub_801F4B4();                                 /* static */
-void sub_801F534();                                 /* static */
-void sub_801F5B4();                                 /* static */
-void sub_801F630();                                 /* static */
-void sub_801F6D8();                                 /* static */
-void sub_801F740();                                 /* static */
-void sub_801F7E0();                                 /* static */
-void sub_801F848();                                 /* static */
-void sub_801F8D8();                                 /* static */
-void sub_801F970();                                 /* static */
-void sub_801F9D4();                                 /* static */
-void sub_801FA64();                                 /* static */
-void sub_801FAFC();                                 /* static */
-void sub_801FBA8();                                 /* static */
-void sub_801FC2C();                                 /* static */
-void sub_801FCD8();                                 /* static */
-void sub_801FDAC();                                 /* static */
-void sub_801FED0();                                 /* static */
-void sub_801FFA8();                                 /* static */
-void sub_8020038();                                 /* static */
-void sub_8020130(u16 arg0, ? arg3);                 /* static */
-void sub_8020284();                                 /* static */
-void sub_80203D4(Player *arg0);                     /* static */
-void sub_8020434(Task *);                           /* static */
-void sub_8020444(Player *arg0);                     /* static */
-void sub_8020488(Player *arg0);                     /* static */
-void sub_802051C(Player *);                         /* static */
-void sub_8020530(Player *);                         /* static */
-void sub_8020544(Player *);                         /* static */
-void sub_8020558(Player *);                         /* static */
-void sub_802056C();                                 /* static */
-void sub_80205F4();                                 /* static */
-void sub_8020660();                                 /* static */
-void sub_80206B0();                                 /* static */
-s32 sub_80210BC(Player *arg0, u16 arg1, Player *arg2, u16 arg3); /* static */
-extern ? gMedalTimes;
-extern ? gUnknown_030010D0;
-extern ? gUnknown_0300110C;
-extern ? gUnknown_03001150;
-extern ? gUnknown_03001B00;
-extern ? gUnknown_03001BF0;
-extern ? gUnknown_03001CF0;
-extern ? gUnknown_080CE5B8;
-extern s8 gUnknown_080CE5CA;
-extern s8 gUnknown_080CE5DE;
-extern s8 gUnknown_080CE5E8;
-extern s8 gUnknown_080CE5F2;
-extern ? gUnknown_080CE5FC;
-extern ? gUnknown_080CE60C;
-extern ? gUnknown_080CE61C;
-extern s8 gUnknown_080CE63C;
-extern s8 gUnknown_080CE644;
-extern s8 gUnknown_080CE6A8;
-extern ? gUnknown_080CE6B8;
-extern s8 gUnknown_080CE6CC;
-extern s8 gUnknown_080CE7A4;
-extern ? gUnknown_080CE7A8;
-extern ? gUnknown_080CE7B0;
-extern ? gUnknown_080CE7B8;
-extern ? gUnknown_080CE7C0;
-extern s8 gUnknown_080CE7C8;
-extern ? gUnknown_080CE7E2;
-extern ? gUnknown_080CECB2;
-extern ? gUnknown_080CECC6;
-extern s8 gUnknown_080CECD0;
-extern s8 gUnknown_080CECE4;
-extern ? gUnknown_080CF468;
-extern ? gUnknown_080CF470;
-extern ? gUnknown_080D05A8;
-extern ? gUnknown_080D1750;
-extern ? gDemoRecordings;
-extern ? gUnknown_08E2EAD0;
-extern ? gUnknown_08E2EAF4;
-extern ? gUnknown_08E2EB04;
-extern ? gUnknown_08E2EB18;
-extern ? sub_8002388;
-#endif
-
 #include "global.h"
 #include "core.h"
 #include "trig.h"
@@ -551,6 +10,7 @@ extern ? sub_8002388;
 #include "game/stage.h"
 #include "constants/animations.h"
 #include "constants/move_states.h"
+#include "constants/songs.h"
 #include "constants/zones.h"
 
 void sub_8003D2C(void);
@@ -562,6 +22,7 @@ void sub_8005130(Player *arg0, s32 arg1, s32 arg2);
 void sub_80051CC(Player *arg0, s32 arg1, s32 arg2);
 void Player_800522C(Player *p);
 void Player_8005380(Player *p);
+void Player_80055B8(Player *p);
 void sub_8012FA0(Player *);
 void sub_8012FC0(Player *);
 void sub_801300C(s16 playerId);
@@ -590,16 +51,24 @@ void sub_80136DC(s16 param0);
 void sub_8013A68(s16 param0);
 void sub_8014670(Player *p);
 void Player_801479C(Player *p);
-void sub_8015144(Player *p);
+bool16 sub_801480C(Player *);
 void Player_80149E4(Player *p);
+bool16 sub_8014A60(Player *);
+void sub_8014AF8(Player *);
+bool16 sub_8014BC4(Player *);
+bool16 sub_8015064(Player *p);
+void sub_8015144(Player *p);
+void sub_8015228(Player *);
+bool32 sub_8015568(Player *);
+void sub_8016E00(Player *);
+bool16 sub_8016EDC(Player *);
+void sub_8016D30(Player *p);
+void sub_8016E50(Player *p);
+void sub_8016EB0(Player *p);
 void sub_8017618(Player *p);
 void sub_8023634();
 void sub_8026254(Player *p);
 void sub_80268B8(s16);
-bool16 sub_8015064(Player *p);
-void sub_8016D30(Player *p);
-void sub_8016E50(Player *p);
-void sub_8016EB0(Player *p);
 
 void sub_80B7968(Struc_3001150 *, Player *);
 u16 sub_80B7A94(Struc_3001150 *);
@@ -1554,47 +1023,82 @@ void Player_8005380(Player *p)
     Player_8005434(p);
 }
 
-#if 0
-void Player_8005434(Player *p) {
-    Player *temp_r5;
+void Player_8005434(Player *p)
+{
+    Player *partner;
 
-    temp_r5 = &gPlayers[(u32) (p->unk2B << 0x1E) >> 0x1E];
-    if (((p->moveState & 0x224) != 0x200) && ((sub_8014BC4(p) << 0x10) == 0) && ((sub_8014A60(p) << 0x10) == 0) && ((sub_8016EDC(p) << 0x10) == 0) && (sub_8015568(p) == 0) && (sub_8015228(p), sub_8005800(p), ((sub_801480C(p) << 0x10) == 0)) && (sub_8015144(p), sub_8014AF8(p), ((sub_8015064(p) << 0x10) == 0)) && (Player_801479C(p), sub_8016D30(p), sub_8012EB8(p), sub_8016E00(p), ((sub_8015064(p) << 0x10) == 0))) {
-        if (p->qSpeedGround != 0) {
-            p->callback = Player_8005528;
-            return;
-        }
-        if (((0x1C0F & p->unk2A) == 0x804) && !(0xF & temp_r5->unk2A) && (p->charFlags.anim0 == 0)) {
-            p->charFlags.anim0 = 0xF9;
+    partner = &gPlayers[p->charFlags.partnerIndex];
+    if (((p->moveState & 0x224) != 0x200) && !sub_8014BC4(p) && !sub_8014A60(p) && !sub_8016EDC(p) && !sub_8015568(p)) {
+        sub_8015228(p);
+        sub_8005800(p);
+
+        if (!sub_801480C(p)) {
+            sub_8015144(p);
+            sub_8014AF8(p);
+
+            if (!sub_8015064(p)) {
+                Player_801479C(p);
+                sub_8016D30(p);
+                sub_8012EB8(p);
+                sub_8016E00(p);
+
+                if (!sub_8015064(p)) {
+                    if (p->qSpeedGround != 0) {
+                        p->callback = Player_8005528;
+                        return;
+                    }
+
+                    // TODO/BUG(?): Only triggered by Amy.
+                    if (((p->charFlags.someIndex == 2) && (p->charFlags.character == CHARACTER_AMY))
+                        && ((partner->charFlags.character == CHARACTER_SONIC) && (p->charFlags.anim0 == 0))) {
+                        p->charFlags.anim0 = 249;
+                    }
+                }
+            }
         }
     }
 }
 
-void Player_8005528(Player *p) {
+void Player_8005528(Player *p)
+{
     u8 *temp_r0;
     u8 *temp_r0_2;
 
-    if ((gStageData.gameMode != 7) && (p->moveState & 0x1000)) {
-        Player_StopSong(p, 0x119U);
+    if (gStageData.gameMode != 7) {
+        if (p->moveState & 0x1000) {
+            u16 song;
+#ifndef NON_MATCHING
+            Player *p0;
+            asm("mov %0, %1" : "=r"(p0) : "r"(p));
+#else
+            Player *p0 = p;
+#endif
+            song = 0x119;
+            Player_StopSong(p0, song);
+        }
     }
-    p->moveState &= 0xDC510BA1;
-    p->unk2B = (u8) (-0x21 & p->unk2B);
-    p->unk2F = 0;
-    temp_r0 = &p->filler6A[0x2F];
-    temp_r0->unk0 = 0;
-    temp_r0->unk1 = 0;
-    temp_r0[1].unk4 = 0;
+
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
+                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
+                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+
+    p->charFlags.someFlag0 = 0;
+    p->charFlags.state0_highValue = 0;
+    p->unk99 = 0;
+    p->unk9A = 0;
+    p->qCamOffsetY = 0;
+
     sub_8012FA0(p);
     p->charFlags.anim0 = 8;
-    temp_r0_2 = &p->unk5A;
-    *temp_r0_2 = 0;
-    *(temp_r0_2 - 8) = 0;
-    p->unk2D = (u8) (-0x10 & p->unk2D);
-    p->callback = sub_80055B8;
-    sub_80055B8(p);
+    p->unk5A = 0;
+    p->idleAndCamCounter = 0;
+    p->charFlags.unk2D_0 = 0;
+    p->callback = Player_80055B8;
+    Player_80055B8(p);
 }
 
-void sub_80055B8(Player *p) {
+#if 0
+void Player_80055B8(Player *p) {
     Player *temp_r5;
     u16 *var_r1;
     u16 var_r0;
@@ -1647,8 +1151,8 @@ void sub_80056CC(Player *arg0) {
     arg0->unk5A = 0;
     arg0->idleAndCamCounter = 0x1E;
     arg0->unk2D = (u8) (-0x10 & arg0->unk2D);
-    arg0->callback = sub_80055B8;
-    sub_80055B8(arg0);
+    arg0->callback = Player_80055B8;
+    Player_80055B8(arg0);
 }
 
 void sub_8005778(Player *arg0) {
