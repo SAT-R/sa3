@@ -86,8 +86,7 @@ struct Player {
 
     u16 keyInput; // 0x1E
     u16 keyInput2; // 0x20
-
-    u8 Padding2[0x02];
+    u16 unk22;
 
     u8 unk24;
     s8 unk25;
@@ -173,7 +172,9 @@ struct Player {
     u16 unk5E;
     u16 unk60;
 
-    u8 filler62[0x4];
+    s16 unk62;
+    u8 filler64[0x2];
+
     u16 unk66;
     u8 unk68;
     u8 unk69;

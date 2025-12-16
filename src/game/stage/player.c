@@ -1013,46 +1013,68 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
 }
 END_NONMATCH
 
-#if 0
-void sub_8004B14(void) {
-    Player *temp_r3;
+// TODO: Fake-match!
+void sub_8004B14(void)
+{
+    Player *p;
+#ifndef NON_MATCHING
+    register u32 var_r0 asm("r0");
+    register s32 var_r1 asm("r1");
+#else
+    u32 var_r0;
     s32 var_r1;
-    u16 temp_r0;
-    u16 temp_r0_2;
-    u16 temp_r1;
+#endif
     u16 var_r4;
-    u8 temp_r2;
+    u8 var_r2;
+    u32 input;
 
-    temp_r3 = &gPlayers[gCurTask->data->unk4];
+    PlayerUnkC4 *strc = TASK_DATA(gCurTask);
+
+    p = &gPlayers[strc->playerId];
     if (gStageData.unk4 != 9) {
-        temp_r1 = temp_r3->moveState & 0x08000000;
-        if (temp_r1 != 0) {
-            temp_r3->keyInput = 0;
-            temp_r3->keyInput2 = 0;
-            temp_r3->unk22 = (u16) gInput;
-            return;
-        }
-        temp_r0 = temp_r3->unk22;
-        if (temp_r0 != 0) {
-            var_r4 = temp_r0;
-            temp_r3->unk22 = temp_r1;
+        if (p->moveState & MOVESTATE_IGNORE_INPUT) {
+            p->keyInput = 0;
+            p->keyInput2 = 0;
+            p->unk22 = gInput;
         } else {
-            var_r4 = temp_r3->keyInput;
-        }
-        temp_r3->keyInput = gInput;
-        if ((gStageData.gameMode == 6) && (temp_r3->filler62[0] != 0)) {
-            var_r1 = ((u32) gStageData.timer >> 6) & 3;
-            if (var_r1 == 0) {
-                var_r1 = 1;
+            if (p->unk22) {
+                var_r4 = p->unk22;
+                p->unk22 = 0;
+            } else {
+                var_r4 = p->keyInput;
             }
-            temp_r2 = ((u32) (0xF0 & gInput) >> 4) << var_r1;
-            temp_r3->keyInput = (0xFF0F & gInput) | (((temp_r2 | ((u32) (temp_r2 << 0x18) >> 0x1C)) * 0x10) & 0xF0);
+            input = gInput;
+            p->keyInput = input;
+            if ((gStageData.gameMode == 6) && (p->unk62 != 0)) {
+                u32 dpadAny;
+                u32 dpad;
+#ifndef NON_MATCHING
+                asm("mov %0, #0xF0" : "=r"(dpadAny));
+#else
+                dpadAny = DPAD_ANY;
+#endif
+                dpad = (input & dpadAny) >> 4;
+
+                var_r0 = ((gStageData.timer));
+                var_r1 = var_r0 >> 6;
+                var_r1 = var_r1 % 4u;
+                if (var_r1 == 0) {
+                    var_r1 = 1;
+                }
+
+                var_r2 = dpad << var_r1;
+                p->keyInput = (var_r2 | (var_r2 >> 4));
+                var_r1 = ((u16) ~(DPAD_ANY)&input);
+                var_r1 |= (((var_r2 | (var_r2 >> 4)) << 4) & DPAD_ANY);
+                p->keyInput = var_r1;
+            }
+
+            p->keyInput2 = (var_r4 ^ p->keyInput) & p->keyInput;
         }
-        temp_r0_2 = temp_r3->keyInput;
-        temp_r3->keyInput2 = (var_r4 ^ temp_r0_2) & temp_r0_2;
     }
 }
 
+#if 0
 void sub_8004BD0(Player *arg0, s32 arg1, s32 arg2) {
     s32 *sp0;
     s32 temp_r2;
