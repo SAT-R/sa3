@@ -152,10 +152,10 @@ struct Player {
 
     u16 boostEffectCounter; // 0x50
 
-    u16 idleAndCamCounter; // 0x52 | counter until idle-animation
+    s16 idleAndCamCounter; // 0x52 | counter until idle-animation
                            // or camera-movement when looking up/down (starts at 0x28)
 
-    u8 filler54[0x2];
+    u16 unk54; // 0x54
 
     s8 unk56;
     u8 unk57;
