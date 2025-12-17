@@ -8,164 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_8005B78
-sub_8005B78: @ 0x08005B78
-	push {r4, r5, lr}
-	adds r2, r0, #0
-	adds r0, #0x90
-	ldr r5, [r0]
-	ldr r3, [r2, #4]
-	movs r4, #1
-	ands r4, r3
-	ldrh r1, [r2, #0x1e]
-	movs r0, #0x10
-	ands r0, r1
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x14
-	cmp r4, r0
-	beq _08005BAE
-	cmp r4, #0
-	beq _08005B9E
-	ldrh r0, [r2, #0x1c]
-	subs r0, r0, r5
-	b _08005BA2
-_08005B9E:
-	ldrh r0, [r2, #0x1c]
-	adds r0, r0, r5
-_08005BA2:
-	strh r0, [r2, #0x1c]
-	movs r4, #8
-	adds r0, r2, #0
-	bl sub_8012FA0
-	b _08005BC6
-_08005BAE:
-	movs r0, #0x80
-	lsls r0, r0, #0x10
-	ands r3, r0
-	cmp r3, #0
-	beq _08005BC0
-	ldr r0, _08005BBC @ =sub_800E084
-	b _08005BC2
-	.align 2, 0
-_08005BBC: .4byte sub_800E084
-_08005BC0:
-	ldr r0, _08005BD0 @ =sub_800D9F4
-_08005BC2:
-	str r0, [r2]
-	movs r4, #8
-_08005BC6:
-	lsls r0, r4, #0x18
-	asrs r0, r0, #0x18
-	pop {r4, r5}
-	pop {r1}
-	bx r1
-	.align 2, 0
-_08005BD0: .4byte sub_800D9F4
-
-	thumb_func_start Player_8005BD4
-Player_8005BD4: @ 0x08005BD4
-	push {r4, r5, r6, lr}
-	adds r4, r0, #0
-	ldr r2, [r4, #4]
-	movs r1, #4
-	adds r0, r2, #0
-	ands r0, r1
-	rsbs r0, r0, #0
-	asrs r6, r0, #0x1f
-	ands r6, r1
-	ldr r0, _08005C98 @ =gStageData
-	ldrb r0, [r0, #3]
-	cmp r0, #7
-	beq _08005C00
-	movs r0, #0x80
-	lsls r0, r0, #5
-	ands r2, r0
-	cmp r2, #0
-	beq _08005C00
-	adds r0, r4, #0
-	ldr r1, _08005C9C @ =0x00000119
-	bl Player_StopSong
-_08005C00:
-	ldr r0, [r4, #4]
-	ldr r1, _08005CA0 @ =0xDC510BA1
-	ands r0, r1
-	str r0, [r4, #4]
-	adds r5, r4, #0
-	adds r5, #0x2b
-	ldrb r1, [r5]
-	movs r0, #0x21
-	rsbs r0, r0, #0
-	ands r0, r1
-	strb r0, [r5]
-	adds r1, r4, #0
-	adds r1, #0x2f
-	movs r0, #0
-	strb r0, [r1]
-	adds r1, #0x6a
-	strb r0, [r1]
-	adds r1, #1
-	strb r0, [r1]
-	adds r1, #4
-	strh r0, [r1]
-	ldr r0, [r4, #4]
-	ldr r1, _08005CA4 @ =0xEFFFFFFF
-	ands r0, r1
-	ldr r1, _08005CA8 @ =0x08000200
-	orrs r0, r1
-	orrs r0, r6
-	str r0, [r4, #4]
-	adds r1, r4, #0
-	adds r1, #0x5c
-	movs r0, #0x78
-	strb r0, [r1]
-	ldr r1, _08005C98 @ =gStageData
-	movs r0, #5
-	strb r0, [r1, #4]
-	adds r0, r4, #0
-	bl sub_8012FA0
-	adds r2, r4, #0
-	adds r2, #0x2d
-	ldrb r1, [r2]
-	movs r0, #0x10
-	rsbs r0, r0, #0
-	ands r0, r1
-	strb r0, [r2]
-	adds r0, r4, #0
-	bl sub_8016F28
-	ldrb r1, [r5]
-	lsls r1, r1, #0x1e
-	lsrs r1, r1, #0x1e
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	ldr r1, _08005CAC @ =gPlayers
-	adds r0, r0, r1
-	bl sub_8016F28
-	adds r0, r4, #0
-	bl Player_BoostModeDisengage
-	ldr r0, [r4, #4]
-	ldr r1, _08005CB0 @ =0xFFFEFFFF
-	ands r0, r1
-	str r0, [r4, #4]
-	ldr r1, _08005CB4 @ =Player_8005CB8
-	str r1, [r4]
-	adds r0, r4, #0
-	bl _call_via_r1
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08005C98: .4byte gStageData
-_08005C9C: .4byte 0x00000119
-_08005CA0: .4byte 0xDC510BA1
-_08005CA4: .4byte 0xEFFFFFFF
-_08005CA8: .4byte 0x08000200
-_08005CAC: .4byte gPlayers
-_08005CB0: .4byte 0xFFFEFFFF
-_08005CB4: .4byte Player_8005CB8
-
 	thumb_func_start Player_8005CB8
 Player_8005CB8: @ 0x08005CB8
 	push {r4, r5, lr}
@@ -16042,8 +15884,8 @@ _0800D9EE:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_800D9F4
-sub_800D9F4: @ 0x0800D9F4
+	thumb_func_start Player_800D9F4
+Player_800D9F4: @ 0x0800D9F4
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r0, [r4, #4]
@@ -16863,8 +16705,8 @@ sub_800E04C: @ 0x0800E04C
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_800E084
-sub_800E084: @ 0x0800E084
+	thumb_func_start Player_800E084
+Player_800E084: @ 0x0800E084
 	push {r4, lr}
 	ldr r1, [r0, #4]
 	ldr r2, _0800E0C0 @ =0xFDFFFFBF
