@@ -28,16 +28,16 @@ void Player_80055B8(Player *p);
 void sub_8005800(Player *p);
 void sub_80059A0(Player *, u16);
 s8 sub_8005A24(Player *p, s32 unused);
-u8 sub_8005B04(Player *);
+u8 sub_8005B04(Player *p);
 s8 sub_8005B78(Player *p);
-void Player_8007930(Player *);
+void Player_8007930(Player *p);
 void sub_800D7C8(Player *p);
 void Player_800D9F4(Player *p);
 void Player_800DB30(Player *p);
 void Player_800E084(Player *p);
 
-void sub_8012FA0(Player *);
-void sub_8012FC0(Player *);
+void sub_8012FA0(Player *p);
+void sub_8012FC0(Player *p);
 void sub_801300C(s16 playerId);
 void sub_801310C(s16 playerId);
 void sub_8013F4C(Player *p);
@@ -52,25 +52,26 @@ void sub_80B8E24(void *strc, Player *p, s32 param2, s32 param3);
 void TaskDestructor_8004D2C(struct Task *t);
 
 void sub_8012EB8(Player *p);
-void sub_8012FA0(Player *);
+void sub_8012FA0(Player *p);
 void sub_801320C(Player *p, PlayerSprite *spriteData);
 void sub_801350C(Player *p);
 void sub_80136DC(s16 param0);
 void sub_8013A68(s16 param0);
 void sub_8014670(Player *p);
 void Player_801479C(Player *p);
-bool16 sub_801480C(Player *);
+bool16 sub_801480C(Player *p);
+void sub_8014940(Player *p);
 void Player_80149E4(Player *p);
-bool16 sub_8014A60(Player *);
-void sub_8014AF8(Player *);
-bool16 sub_8014BC4(Player *);
-void sub_8014E70(Player *);
+bool16 sub_8014A60(Player *p);
+void sub_8014AF8(Player *p);
+bool16 sub_8014BC4(Player *p);
+void sub_8014E70(Player *p);
 bool16 sub_8015064(Player *p);
 void sub_8015144(Player *p);
-void sub_8015228(Player *);
-bool32 sub_8015568(Player *);
-void sub_8016E00(Player *);
-bool16 sub_8016EDC(Player *);
+void sub_8015228(Player *p);
+bool32 sub_8015568(Player *p);
+void sub_8016E00(Player *p);
+bool16 sub_8016EDC(Player *p);
 void sub_8016D30(Player *p);
 void sub_8016E50(Player *p);
 void sub_8016EB0(Player *p);
@@ -954,7 +955,7 @@ void Player_80052C8(Player *p)
     s16 *var_r1;
     s16 var_r0_2;
     u32 temp_r0;
-    void (*var_r0)(Player *);
+    void (*var_r0)(Player * p);
 
     if (!sub_8015064(p)) {
         if (!(p->moveState & 4)) {
@@ -1345,7 +1346,7 @@ s8 sub_8005A24(Player *p, s32 unused)
     u16 temp_r3;
     s16 var_r6;
     u8 result;
-    void (*var_r0)(Player *);
+    void (*var_r0)(Player * p);
     s16 qSpeed;
 
     result = 0xFF;
@@ -1418,7 +1419,7 @@ s8 sub_8005B78(Player *p)
     s8 result;
     s32 temp_r5;
     u32 temp_r3;
-    void (*var_r0_2)(Player *);
+    void (*var_r0_2)(Player * p);
 
     temp_r5 = p->unk90;
     if ((MOVESTATE_FACING_LEFT & p->moveState) != ((DPAD_RIGHT & p->keyInput) >> 4)) {
@@ -1463,7 +1464,9 @@ void Player_8005BD4(Player *p)
         }
     }
 
-    p->moveState &= 0xDC510BA1;
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
+                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
+                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.state0_highValue = 0;
     p->unk99 = 0;
@@ -1479,38 +1482,37 @@ void Player_8005BD4(Player *p)
     sub_8016F28(p);
     sub_8016F28(&gPlayers[p->charFlags.partnerIndex]);
     Player_BoostModeDisengage(p);
-    p->moveState &= ~0x10000;
+    p->moveState &= ~MOVESTATE_GRAVITY_SWITCHED;
     p->callback = Player_8005CB8;
     Player_8005CB8(p);
 }
-#if 0
-void Player_8005CB8(Player *p) {
-    s16 temp_r0;
-    s16 temp_r0_2;
+
+void Player_8005CB8(Player *p)
+{
     s32 var_r1;
     s32 var_r2;
+    s16 screenX = I(p->qWorldX) - gCamera.x;
 
-    if ((u32) p < (u32) &gPlayers[(u32) (p->unk2B << 0x1E) >> 0x1E]) {
+    if ((uintptr_t)p < (uintptr_t)&gPlayers[p->charFlags.partnerIndex]) {
         var_r2 = 0x96;
         var_r1 = 0x82;
     } else {
         var_r2 = 0x6E;
         var_r1 = 0x5A;
     }
-    temp_r0 = (s16) (u16) (((s32) p->qWorldX >> 8) - gCamera.x);
-    if ((s32) temp_r0 < var_r1) {
+
+    if ((s32)screenX < var_r1) {
         p->keyInput2 = 0x10;
         p->keyInput = 0x10;
-    } else if ((s32) temp_r0 > var_r2) {
+    } else if ((s32)screenX > var_r2) {
         p->keyInput = 0x20;
         p->keyInput2 = 0x20;
     } else {
         p->keyInput = 0;
         p->keyInput2 = 0;
         if (!(p->moveState & 4)) {
-            temp_r0_2 = p->qSpeedGround;
-            if (temp_r0_2 == 0) {
-                p->charFlags.anim0 = temp_r0_2;
+            if (p->qSpeedGround == 0) {
+                p->charFlags.anim0 = 0;
             }
         }
     }
@@ -1538,6 +1540,7 @@ void Player_8005CB8(Player *p) {
     }
 }
 
+#if 0
 void Player_8005DAC(Player *p) {
     u32 temp_r2;
     u8 *temp_r1;
@@ -1852,7 +1855,7 @@ block_15:
 void Player_800657C(Player *p) {
     PlayerSprite *temp_r2;
     u8 *temp_r1;
-    void (*var_r0)(Player *);
+    void (*var_r0)(Player *p);
 
     if ((gStageData.gameMode != 7) && (p->moveState & 0x1000)) {
         Player_StopSong(p, 0x119U);
@@ -2790,7 +2793,7 @@ void Player_8007B00(Player *p) {
     u16 temp_r0;
     u32 temp_r1_3;
     u8 *temp_r1;
-    void (*var_r0)(Player *);
+    void (*var_r0)(Player *p);
 
     temp_r4 = &gPlayers[(u32) (p->unk2B << 0x1E) >> 0x1E];
     p->unk27 = temp_r4->unk27;
@@ -2853,7 +2856,7 @@ void Player_8007C28(Player *p) {
     u32 var_r0_3;
     u32 var_r0_4;
     u8 *temp_r2;
-    void (*var_r0)(Player *);
+    void (*var_r0)(Player *p);
 
     temp_r4 = &gPlayers[(u32) (p->unk2B << 0x1E) >> 0x1E];
     var_r5 = 0;
@@ -3077,8 +3080,8 @@ void Player_8008080(Player *p) {
     u16 *var_r1;
     u16 temp_r6;
     u16 var_r0_2;
-    void (*var_r0)(Player *);
-    void (*var_r0_3)(Player *);
+    void (*var_r0)(Player *p);
+    void (*var_r0_3)(Player *p);
 
     temp_r7 = &p->spriteData->s;
     temp_r6 = p->charFlags.anim2 - *(((u32) (p->unk2A << 0x1C) >> 0x1B) + gPlayerCharacterIdleAnims);
@@ -3245,8 +3248,8 @@ void Player_8008354(Player *p) {
     u16 *var_r1;
     u16 temp_r6;
     u16 var_r0_2;
-    void (*var_r0)(Player *);
-    void (*var_r0_3)(Player *);
+    void (*var_r0)(Player *p);
+    void (*var_r0_3)(Player *p);
 
     temp_r7 = &p->spriteData->s;
     temp_r6 = p->charFlags.anim2 - *(((u32) (p->unk2A << 0x1C) >> 0x1B) + gPlayerCharacterIdleAnims);
@@ -6856,7 +6859,7 @@ void sub_800C9C4(Player *p) {
     u32 temp_r0;
     u32 temp_r1;
     u32 var_r0;
-    void (*temp_r6)(Player *);
+    void (*temp_r6)(Player *p);
 
     temp_r5 = &gPlayers[(u32) (p->unk2B << 0x1E) >> 0x1E];
     if (p->moveState & 0x10000) {
@@ -7280,7 +7283,7 @@ void sub_800D238(Player *p) {
     u16 temp_r0;
     u32 temp_r0_2;
     u32 temp_r3;
-    void (*var_r0)(Player *);
+    void (*var_r0)(Player *p);
 
     var_r6 = 0;
     temp_r3 = p->moveState & 0xFFFEFFFF;
@@ -7422,7 +7425,7 @@ void sub_800D500(Player *p) {
     u16 temp_r0;
     u32 temp_r0_2;
     u32 temp_r3;
-    void (*var_r0)(Player *);
+    void (*var_r0)(Player *p);
 
     var_r6 = 0;
     temp_r3 = p->moveState & 0xFFFEFFFF;
@@ -7587,7 +7590,7 @@ void sub_800D81C(Player *arg0) {
     }
 }
 
-void SetPlayerCallback(Player *p, void (*callback)(Player *)) {
+void SetPlayerCallback(Player *p, void (*callback)(Player *p)) {
     p->callback = callback;
 }
 
@@ -8347,7 +8350,7 @@ void sub_800E764(Player *p) {
     u16 *temp_r1;
     u16 temp_r0;
     u32 temp_r0_2;
-    void (*var_r0)(Player *);
+    void (*var_r0)(Player *p);
 
     temp_r1 = &p->idleAndCamCounter;
     temp_r0 = *temp_r1 - 1;
@@ -9400,7 +9403,7 @@ void sub_800F920(Player *p) {
     u16 temp_r0_2;
     u16 temp_r2;
     u8 temp_r0;
-    void (*var_r1)(Player *);
+    void (*var_r1)(Player *p);
     void *temp_r5;
     void *temp_r6;
 
@@ -9802,7 +9805,7 @@ block_33:
 
 void Player_800FE44(Player *arg0) {
     u8 temp_r4;
-    void (*var_r1)(Player *);
+    void (*var_r1)(Player *p);
     void *temp_r2;
 
     temp_r4 = 0xF & arg0->unk2A;
@@ -10112,7 +10115,7 @@ block_12:
 
 void sub_801038C(Player *arg0, u8 arg1) {
     u8 temp_r5;
-    void (*var_r1)(Player *);
+    void (*var_r1)(Player *p);
 
     temp_r5 = arg1;
     if ((s32) arg0->framesInvulnerable <= 0) {
@@ -13215,7 +13218,7 @@ void sub_8013F4C(Player *arg0) {
     s32 var_r2;
     u8 *temp_r4;
     u8 *var_r1_2;
-    void (*var_r1)(Player *);
+    void (*var_r1)(Player *p);
     void *temp_r0;
     void *temp_r0_10;
     void *temp_r0_11;
@@ -13692,7 +13695,7 @@ s16 sub_801480C(Player *arg0) {
     u32 temp_r1_2;
     u8 temp_r6;
     u8 var_r5;
-    void (*var_r1)(Player *);
+    void (*var_r1)(Player *p);
 
     var_r5 = arg0->unk26;
     if (!(gStageData.buttonConfig.jump & arg0->keyInput2)) {
@@ -14294,7 +14297,7 @@ void sub_8015228(Player *arg0, ? arg3) {
     u8 *var_r4;
     u8 temp_r0_2;
     u8 temp_r4;
-    void (*var_r1)(Player *);
+    void (*var_r1)(Player *p);
 
     temp_r0 = (s32) arg0->qWorldX >> 8;
     temp_r5 = (s32) arg0->qWorldY >> 8;
@@ -14454,7 +14457,7 @@ s32 sub_8015568(Player *arg0) {
     u32 temp_r1_7;
     u32 var_r1;
     u8 *temp_r0_2;
-    void (*var_r1_2)(Player *);
+    void (*var_r1_2)(Player *p);
 
     if (gStageData.gameMode == 7) {
         goto block_83;
@@ -14916,7 +14919,7 @@ s32 sub_8015E0C(Player *arg0) {
     u32 temp_r1_9;
     u32 temp_r2_2;
     u8 *var_r0;
-    void (*var_r1)(Player *);
+    void (*var_r1)(Player *p);
 
     if (gStageData.buttonConfig.attack & arg0->keyInput2) {
         temp_r0 = (u32) (arg0->unk2A << 0x1C) >> 0x1C;
@@ -15298,7 +15301,7 @@ s32 sub_80167A4(Player *arg0) {
     u32 temp_r1_6;
     u32 temp_r1_7;
     u32 temp_r1_8;
-    void (*var_r1)(Player *);
+    void (*var_r1)(Player *p);
 
     if (!(gStageData.buttonConfig.jump & arg0->keyInput2)) {
         goto block_93;
@@ -15542,7 +15545,7 @@ void sub_8016D30(Player *arg0) {
 
 s32 sub_8016D88(Player *arg0) {
     u32 temp_r1;
-    void (*var_r1)(Player *);
+    void (*var_r1)(Player *p);
 
     if ((arg0->charFlags.anim0 == 2) && (gStageData.buttonConfig.jump & arg0->keyInput2)) {
         if (gStageData.gameMode != 7) {
@@ -19250,7 +19253,7 @@ block_10:
 void sub_801B608(Player *p) {
     s16 temp_r0;
     u32 var_r0;
-    void (*var_r1)(Player *);
+    void (*var_r1)(Player *p);
 
     if (!(gStageData.buttonConfig.jump & p->keyInput)) {
         p->charFlags.anim0 = 0xD3;
@@ -19308,7 +19311,7 @@ void sub_801B71C(Player *p) {
     u32 temp_r1;
     u8 *temp_r2;
     u8 temp_r0;
-    void (*var_r1)(Player *);
+    void (*var_r1)(Player *p);
 
     temp_r2 = &p->Padding8[4];
     if ((s16) *temp_r2 != 0) {
@@ -19811,7 +19814,7 @@ void sub_801C110(void *arg0) {
 
 void sub_801C14C(Player *arg0) {
     u32 temp_r1;
-    void (*var_r1)(Player *);
+    void (*var_r1)(Player *p);
 
     if (!(arg0->moveState & 0x80) && (arg0->unk14C != 0)) {
         temp_r1 = arg0->unkC & 0x180;
@@ -19986,7 +19989,7 @@ void sub_801C4A0(Player *arg0) {
     u32 temp_r0;
     u8 *temp_r2;
     u8 *temp_r7;
-    void (*var_r1_4)(Player *);
+    void (*var_r1_4)(Player *p);
 
     if ((s32) (s8) arg0->Padding8[1] < 0) {
         arg0->charFlags.anim0 = 0xE9;
@@ -21167,7 +21170,7 @@ void sub_801DB20(Player *p) {
 }
 
 void sub_801DB70(Player *p) {
-    void (*temp_r1)(Player *);
+    void (*temp_r1)(Player *p);
 
     if ((sub_8015064() << 0x10) == 0) {
         sub_8016E50(p);
@@ -21505,7 +21508,7 @@ void sub_801E120(Player *p) {
 }
 
 void sub_801E250(Player *p) {
-    void (*temp_r1)(Player *);
+    void (*temp_r1)(Player *p);
 
     if ((sub_8015064() << 0x10) == 0) {
         sub_8016E50(p);
@@ -21662,7 +21665,7 @@ void sub_801E4C0(Player *p) {
     u16 temp_r0;
     u32 temp_r1_2;
     u32 var_r0;
-    void (*var_r1)(Player *);
+    void (*var_r1)(Player *p);
 
     temp_r0 = (u16) p->qSpeedAirX;
     temp_r1 = p->qSpeedAirX;
