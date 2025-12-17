@@ -7,6 +7,7 @@
 #include "game/camera.h"
 #include "game/player.h"
 #include "game/player_callbacks.h"
+#include "game/save.h"
 #include "game/stage.h"
 #include "constants/animations.h"
 #include "constants/move_states.h"
@@ -32,6 +33,7 @@ u8 sub_8005B04(Player *p);
 s8 sub_8005B78(Player *p);
 void Player_8007930(Player *p);
 void sub_800D7C8(Player *p);
+void sub_800D8DC(Player *p);
 void Player_800D9F4(Player *p);
 void Player_800DB30(Player *p);
 void Player_800E084(Player *p);
@@ -76,12 +78,15 @@ void sub_8016D30(Player *p);
 void sub_8016E50(Player *p);
 void sub_8016EB0(Player *p);
 void sub_8017618(Player *p);
+void sub_801EBC0(s32, Player *p);
 void sub_8023634();
 void sub_8026254(Player *p);
 void sub_80268B8(s16);
 
 void sub_80B7968(Struc_3001150 *, Player *);
 u16 sub_80B7A94(Struc_3001150 *);
+extern u16 gMedalTimes[][2];
+extern u16 gUnknown_080CE5CA[10];
 extern u16 gUnknown_080D05A8[][2];
 
 void InitializePlayer(s16 playerId)
@@ -1540,27 +1545,41 @@ void Player_8005CB8(Player *p)
     }
 }
 
-#if 0
-void Player_8005DAC(Player *p) {
+void Player_8005DAC(Player *p)
+{
     u32 temp_r2;
     u8 *temp_r1;
+    u32 r6 = ((-((s32)p->moveState & 0x4)) >> 31) & 4;
 
-    temp_r2 = p->moveState;
-    if ((gStageData.gameMode != 7) && (temp_r2 & 0x1000)) {
-        Player_StopSong(p, 0x119U);
+    if (gStageData.gameMode != 7) {
+        if (p->moveState & 0x1000) {
+            u16 song;
+#ifndef NON_MATCHING
+            Player *p0;
+            asm("mov %0, %1" : "=r"(p0) : "r"(p));
+#else
+            Player *p0 = p;
+#endif
+            song = 0x119;
+            Player_StopSong(p0, song);
+        }
     }
-    p->moveState &= 0xDC510BA1;
-    p->unk2B = (u8) (-0x21 & p->unk2B);
-    p->unk2F = 0;
-    temp_r1 = &p->filler6A[0x2F];
-    temp_r1->unk0 = 0;
-    temp_r1->unk1 = 0;
-    temp_r1[1].unk4 = 0;
-    p->moveState = (p->moveState & 0xEFFFFFFF) | 0x08000200 | (((s32) (0 - (temp_r2 & 4)) >> 0x1F) & 4);
+
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
+                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
+                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->charFlags.someFlag0 = 0;
+    p->charFlags.state0_highValue = 0;
+    p->unk99 = 0;
+    p->unk9A = 0;
+    p->qCamOffsetY = 0;
+    p->moveState &= ~MOVESTATE_10000000;
+    p->moveState |= (MOVESTATE_IGNORE_INPUT | MOVESTATE_200);
+    p->moveState |= r6;
     sub_8016F28(p);
-    sub_8016F28(&gPlayers[(u32) (p->unk2B << 0x1E) >> 0x1E]);
+    sub_8016F28(&gPlayers[p->charFlags.partnerIndex]);
     Player_BoostModeDisengage(p);
-    p->moveState &= 0xFFFEFFFF;
+    p->moveState &= ~MOVESTATE_GRAVITY_SWITCHED;
     gStageData.unk4 = 5;
     p->unk5C = 0x78;
     sub_8012FA0(p);
@@ -1568,6 +1587,123 @@ void Player_8005DAC(Player *p) {
     sub_800D8DC(p);
 }
 
+void Player_8005E80(Player *p)
+{
+    u16 sp00[ARRAY_COUNT(gUnknown_080CE5CA) / 2][2];
+    s16 *temp_r0_2;
+    s16 temp_r2;
+    u8 *temp_r0;
+    u8 var_r0;
+#ifndef NON_MATCHING
+    register s32 r1 asm("r1");
+    register u32 gameMode asm("r2");
+#else
+    s32 r1;
+    u32 gameMode;
+#endif
+    u16 time;
+    StageData *pStageData;
+
+    memcpy(&sp00[0][0], &gUnknown_080CE5CA, 0x14);
+    if (gStageData.gameMode != 7) {
+        if (p->moveState & 0x1000) {
+            u16 song;
+#ifndef NON_MATCHING
+            Player *p0;
+            asm("mov %0, %1" : "=r"(p0) : "r"(p));
+#else
+            Player *p0 = p;
+#endif
+            song = 0x119;
+            Player_StopSong(p0, song);
+        }
+    }
+
+    p->moveState &= 0xDC510BA1;
+    p->charFlags.someFlag0 = 0;
+    p->charFlags.state0_highValue = 0;
+    p->unk99 = 0;
+    p->unk9A = 0;
+    p->qCamOffsetY = 0;
+    sub_8016F28(p);
+    sub_8016F28(&gPlayers[p->charFlags.partnerIndex]);
+    Player_BoostModeDisengage(p);
+    p->moveState &= ~0x10000;
+    p->unk13C = 0;
+    p->unk13D = 0;
+    p->moveState &= ~0x20;
+    p->sprColliding = NULL;
+    p->qCamOffsetY = -0x320;
+    if (p->charFlags.someIndex == 2) {
+        p->qWorldX = Q(gCamera.x + 100);
+        p->qWorldY = Q(gCamera.y + 120);
+        p->unk27 = gPlayers[p->charFlags.partnerIndex].unk27;
+    }
+
+    gameMode = gStageData.gameMode;
+    if (gameMode == 6) {
+        r1 = gStageData.unk5;
+        r1 >>= (gStageData.playerIndex * 2);
+        r1 &= 3;
+        if (r1 == 0) {
+            p->charFlags.anim0 = 0x9E;
+        } else {
+            p->charFlags.anim0 = gameMode;
+        }
+    } else if ((gStageData.levelTimer <= gMedalTimes[gStageData.currMapIndex][0]) && (gStageData.unk20 == 0)) {
+        p->charFlags.anim0 = 0x9E;
+        Player_PlaySong(p, sp00[p->charFlags.character][1]);
+    } else {
+        p->charFlags.anim0 = 0x9D;
+        Player_PlaySong(p, sp00[p->charFlags.character][0]);
+    }
+
+    if ((gStageData.gameMode != 7) && (p->charFlags.character == CHARACTER_CREAM)) {
+        if ((gStageData.gameMode != 6) || (p->charFlags.anim0 == 0x9E)) {
+            p->moveState &= ~1;
+            if (p->charFlags.anim0 == 0x9D) {
+                sub_801EBC0(6U, p);
+            } else {
+                sub_801EBC0(7U, p);
+            }
+        }
+    }
+    if (gStageData.gameMode == 6) {
+        p->idleAndCamCounter = 0x1E;
+        p->callback = Player_800D944;
+        Player_800D944(p);
+        return;
+    }
+    sub_80299FC();
+    if (gStageData.gameMode == 3 || gStageData.gameMode == 4) {
+        u8 zone = gStageData.zone;
+        if (gStageData.act == 7) {
+            var_r0 = 3;
+        } else {
+            var_r0 = gStageData.act - 3;
+        }
+
+        if (LOADED_SAVE->timeRecords.table[zone][var_r0][0].time > gStageData.levelTimer) {
+            sub_8003DF0(0x60U);
+        } else {
+            sub_8003DF0(0x5FU);
+        }
+    } else if (gStageData.zone == 7) {
+        sub_8003DF0(0x58U);
+    } else {
+        u8 map = gStageData.currMapIndex;
+        if ((gStageData.levelTimer <= gMedalTimes[map][0]) && (gStageData.unk20 == 0)) {
+            sub_8003DF0(0x54U);
+        } else {
+            sub_8003DF0(0x55U);
+        }
+    }
+    p->idleAndCamCounter = 0x1E;
+    p->callback = Player_800D944;
+    Player_800D944(p);
+}
+
+#if 0
 void Player_8005E80(Player *p) {
     s16 *temp_r0_2;
     u16 temp_r2;

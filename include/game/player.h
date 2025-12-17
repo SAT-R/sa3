@@ -27,7 +27,7 @@ typedef enum {
 // Declared beforehand because it's used inside Player struct
 struct Player;
 typedef struct Player Player;
-typedef void (*PlayerCallback)(Player *);
+typedef void (*PlayerCallback)(Player *p);
 
 #define PLAYER_1                0
 #define PLAYER_2                1
