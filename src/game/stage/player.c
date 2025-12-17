@@ -23,6 +23,10 @@ void sub_80051CC(Player *arg0, s32 arg1, s32 arg2);
 void Player_800522C(Player *p);
 void Player_8005380(Player *p);
 void Player_80055B8(Player *p);
+void sub_80059A0(Player *, u16);
+u8 sub_8005A24(Player *, s32);
+u8 sub_8005B04(Player *);
+u8 sub_8005B78(Player *);
 void sub_800D7C8(Player *p);
 void sub_8012FA0(Player *);
 void sub_8012FC0(Player *);
@@ -57,6 +61,7 @@ void Player_80149E4(Player *p);
 bool16 sub_8014A60(Player *);
 void sub_8014AF8(Player *);
 bool16 sub_8014BC4(Player *);
+void sub_8014E70(Player *);
 bool16 sub_8015064(Player *p);
 void sub_8015144(Player *p);
 void sub_8015228(Player *);
@@ -1199,105 +1204,135 @@ void sub_8005778(Player *p)
     }
 }
 
-#if 0
-void sub_8005800(Player *arg0) {
+void sub_8005800(Player *p)
+{
     s16 temp_r0;
-    s16 temp_r0_3;
+    s16 anim;
     s16 var_r0_2;
-    s8 temp_r0_2;
     s8 temp_r1_3;
-    u16 temp_r1;
-    u16 temp_r2;
-    u32 temp_r1_2;
-    u32 temp_r1_4;
-    u8 var_r0;
-    u8 var_r5;
+    s8 var_r5;
 
-    var_r5 = 0xFF;
-    if ((arg0->unk4E == 0) && (temp_r1 = arg0->keyInput, ((0x30 & temp_r1) != 0))) {
-        temp_r0 = arg0->qSpeedGround;
-        if ((s32) temp_r0 > 0) {
-            if (0x10 & temp_r1) {
-                sub_80059A0(arg0, 0U);
+    var_r5 = -1;
+    if ((p->unk4E == 0) && (0x30 & p->keyInput) != 0) {
+        if (p->qSpeedGround > 0) {
+            if (DPAD_RIGHT & p->keyInput) {
+                sub_80059A0(p, 0U);
             } else {
-                var_r0 = sub_8005A24(arg0, 0);
-                goto block_12;
+                var_r5 = sub_8005A24(p, 0);
             }
-        } else if ((s32) temp_r0 < 0) {
-            if (0x20 & temp_r1) {
-                sub_80059A0(arg0, 1U);
+        } else if (p->qSpeedGround < 0) {
+            if (DPAD_LEFT & p->keyInput) {
+                sub_80059A0(p, 1U);
             } else {
-                var_r0 = sub_8005A24(arg0, 1);
-                goto block_12;
+                var_r5 = sub_8005A24(p, 1);
             }
         } else {
-            var_r0 = sub_8005B78(arg0);
-            goto block_12;
+            var_r5 = sub_8005B78(p);
         }
     } else {
-        var_r0 = sub_8005B04(arg0);
-block_12:
-        var_r5 = var_r0;
+        var_r5 = sub_8005B04(p);
     }
     if (gStageData.gameMode != 7) {
-        temp_r1_2 = arg0->moveState;
-        if (0x800000 & temp_r1_2) {
-            if ((u32) ((u32) (arg0->unk2E << 0x1C) >> 0x1C) > 3U) {
-                arg0->qSpeedGround = 0x700;
-                if (temp_r1_2 & 1) {
-                    arg0->qSpeedGround = -0x700;
+        if (0x800000 & p->moveState) {
+            if (p->charFlags.state0_subCount > 3U) {
+                p->qSpeedGround = Q(7);
+                if (p->moveState & MOVESTATE_FACING_LEFT) {
+                    p->qSpeedGround = -p->qSpeedGround;
                 }
-                arg0->unk2E = (u8) ((-0x10 & arg0->unk2E) | 3);
+                p->charFlags.state0_subCount = 3;
             }
-            temp_r0_2 = (s8) var_r5;
-            switch (temp_r0_2) {                    /* irregular */
-            default:
-                var_r5 = 0x12;
-                break;
-            case 0:
-                var_r5 = 3;
-                break;
-            case 8:
-                var_r5 = 9;
-                break;
+
+            switch (var_r5) {
+                case 16:
+                case 17:
+                    var_r5 = 0x12;
+                    break;
+                case 0:
+                    var_r5 = 3;
+                    break;
+                case 8:
+                    var_r5 = 9;
+                    break;
             }
         }
-        temp_r1_3 = (s8) var_r5;
-        if (temp_r1_3 != -1) {
-            arg0->charFlags.anim0 = (s16) temp_r1_3;
+
+        if (var_r5 != -1) {
+            p->charFlags.anim0 = var_r5;
         }
     }
-    sub_8014E70(arg0);
+    sub_8014E70(p);
     if (gStageData.gameMode != 7) {
-        temp_r1_4 = arg0->moveState;
-        if (((0x44 & temp_r1_4) == 0x40) && !((arg0->unk26 + 0x20) & 0xC0)) {
-            temp_r2 = arg0->keyInput;
-            if (((0x10 & temp_r2) && !(0x10 & arg0->keyInput2)) || ((0x20 & temp_r2) && !(0x20 & arg0->keyInput2))) {
-                if (!(0x800000 & temp_r1_4)) {
+        if (((0x44 & p->moveState) == 0x40) && !((p->unk26 + 0x20) & 0xC0)) {
+            if (((0x10 & p->keyInput) && !(0x10 & p->keyInput2)) || ((0x20 & p->keyInput) && !(0x20 & p->keyInput2))) {
+                if (!(0x800000 & p->moveState)) {
                     var_r0_2 = 0x21;
-                    goto block_50;
+                    p->charFlags.anim0 = var_r0_2;
                 }
             } else {
                 var_r0_2 = 0;
-                goto block_50;
+                p->charFlags.anim0 = var_r0_2;
             }
         } else {
-            temp_r0_3 = arg0->charFlags.anim0;
-            if ((temp_r0_3 != 0) && (temp_r0_3 != 0x11) && (temp_r0_3 != 0x10) && (temp_r0_3 != 3) && (temp_r0_3 != 0xE) && (temp_r0_3 != 0xF) && (temp_r0_3 != 0x12)) {
-                if (0x800000 & temp_r1_4) {
-                    var_r0_2 = 9;
+            anim = p->charFlags.anim0;
+            if ((anim != 0) && (anim != 0x11) && (anim != 0x10) && (anim != 3) && (anim != 0xE) && (anim != 0xF) && (anim != 0x12)) {
+                if (0x800000 & p->moveState) {
+                    p->charFlags.anim0 = 9;
                 } else {
-                    var_r0_2 = 8;
+                    p->charFlags.anim0 = 8;
                 }
-block_50:
-                arg0->charFlags.anim0 = var_r0_2;
             }
         }
-        if (arg0->unk8 & 0x40) {
-            arg0->moveState = -0x41 & temp_r1_4;
+        if (p->moveState2 & 0x40) {
+            p->moveState = -0x41 & p->moveState;
         }
     }
 }
+
+void sub_80059A0(Player *p, u16 arg1)
+{
+    s16 temp_r4;
+#ifndef NON_MATCHING
+    register s32 r0 asm("r0");
+#endif
+    s32 temp_r5;
+    s32 temp_r6;
+
+    temp_r6 = p->unk90;
+    if (p->moveState & MOVESTATE_800000) {
+        p->charFlags.anim0 = 9;
+    } else {
+        p->charFlags.anim0 = 8;
+    }
+
+    r0 = arg1 << 0x10;
+    temp_r5 = r0;
+#ifndef NON_MATCHING
+    asm("" ::"r"(r0));
+#endif
+    if (temp_r5 == 0) {
+        temp_r4 = +p->qSpeedGround;
+    } else {
+        temp_r4 = -p->qSpeedGround;
+    }
+
+    if (temp_r4 < p->unk8C) {
+        temp_r4 += temp_r6;
+        if (temp_r4 > p->unk8C) {
+            temp_r4 = (u16)p->unk8C;
+        }
+    } else {
+        p->boostEffectCounter += temp_r6;
+    }
+    if (temp_r5 == 0) {
+        p->qSpeedGround = +temp_r4;
+        p->moveState &= ~MOVESTATE_FACING_LEFT;
+    } else {
+        p->qSpeedGround = -temp_r4;
+        p->moveState |= MOVESTATE_FACING_LEFT;
+    }
+}
+
+#if 0
 
 void sub_80059A0(Player *arg0, u16 arg1) {
     s16 temp_r4;
