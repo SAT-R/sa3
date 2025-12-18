@@ -129,7 +129,9 @@ struct Player {
         u16 state1; // 0x36-0x37
     } charFlags;
 
-    u8 Padding38[0xA];
+    s32 qUnk38;
+    s32 qUnk3C;
+    u8 Padding40[0x2];
 
     s16 unk42;
     s16 unk44;
@@ -225,7 +227,11 @@ struct Player {
     //    SpriteInfo* spriteInfo; // 0xE0 | the information is 0x3C bytes long
     u32 unkE4;
 
-    u8 PaddingE8[0x54];
+    u8 PaddingE8[0x4];
+    s32 qUnkEC;
+    s32 qUnkF0;
+    u16 palette[16];
+    u8 Padding114[0x28];
 
     u8 unk13C;
     u8 unk13D;

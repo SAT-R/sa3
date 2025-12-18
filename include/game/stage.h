@@ -5,10 +5,12 @@
 #include "game/player_controls.h"
 
 typedef struct {
-    u8 filler0[0x16];
-    u16 unk16; // bitfield
-    u8 filler18[0x38];
-    Player *player;
+    /* 0x00 */ s32 qWorldX;
+    /* 0x04 */ s32 qWorldY;
+    /* 0x08 */ u8 filler8[0xE];
+    /* 0x16 */ u16 unk16; // bitfield
+    /* 0x18 */ u8 filler18[0x38];
+    /* 0x50 */ Player *player;
 } StageDataTask98; /* size: ??? */
 
 // NOTE: If you want to change this value to something greater than 8,

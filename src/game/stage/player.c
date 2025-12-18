@@ -18,6 +18,7 @@ void sub_8003D2C(void);
 void Task_80045EC(void); // -> PlayerUnkC4
 void sub_8004B14();
 void sub_8004BD0(Player *arg0, s32 arg1, s32 arg2);
+void TaskDestructor_8004D2C(struct Task *t);
 void Task_8005068(void); // -> PlayerUnkC4
 void Task_80050E0(void); // -> PlayerUnkC4
 void sub_8005130(Player *arg0, s32 arg1, s32 arg2);
@@ -63,7 +64,6 @@ void sub_80B7914(Struc_3001150 *strc);
 void sub_80B794C(Struc_3001150 *strc);
 bool32 sub_80B7AA4(Struc_3001150 *strc);
 void sub_80B8E24(void *strc, Player *p, s32 param2, s32 param3);
-void TaskDestructor_8004D2C(struct Task *t);
 
 void sub_801320C(Player *p, PlayerSprite *spriteData);
 void sub_801350C(Player *p);
@@ -3150,133 +3150,135 @@ void Player_8007898(Player *p)
     }
 }
 
-#if 0
-void Player_8007930(Player *arg0) {
-    Player *temp_r6;
+void Player_8007930(Player *p)
+{
+    PlayerUnkC4 *unkC4 = TASK_DATA(gCurTask);
+    Player *partner;
     Task *temp_r0_2;
     s16 temp_r1_3;
-    s16 temp_r2;
-    s16 var_r0;
+    s16 colorId;
     s32 temp_r2_2;
-    s32 temp_r2_3;
-    s32 var_r2;
-    s32 var_r5;
+    s32 screenY;
+    s32 screenX;
     u16 temp_r1_2;
     u16 temp_r1_4;
     u32 temp_r1;
     void *temp_r0;
 
-    temp_r6 = &gPlayers[(u32) (arg0->unk2B << 0x1E) >> 0x1E];
-    temp_r1 = arg0->moveState & 0xFDFFFEFF;
-    arg0->moveState = temp_r1;
-    temp_r2 = temp_r6->moveState & 0x01000000;
-    if (temp_r2 != 0) {
-        arg0->moveState = temp_r1 & 0xFEFFFFFF;
-        arg0->callback = Player_8005380;
+    partner = &gPlayers[p->charFlags.partnerIndex];
+    p->moveState &= 0xFDFFFEFF;
+    if (partner->moveState & MOVESTATE_1000000) {
+        p->moveState &= ~0x1000000;
+        p->callback = Player_8005380;
         return;
     }
-    arg0->moveState = (temp_r1 & ~0x40) | 0x01000000;
-    arg0->charFlags.anim0 = 0xB;
-    arg0->qSpeedGround = temp_r2;
-    arg0->qSpeedAirX = temp_r2;
-    arg0->qSpeedAirY = temp_r2;
-    temp_r0 = arg0 + 0x42;
-    arg0->unk42 = temp_r2;
-    temp_r0->unk2 = temp_r2;
-    (temp_r0 + 2)->unk5A = temp_r2;
-    arg0->unk27 = temp_r6->unk27;
-    arg0->moveState = (arg0->moveState & 0xFFFEFFFE) | (temp_r6->moveState & 0x10001);
-    var_r0 = 0;
-    do {
-        temp_r1_3 = var_r0;
-        *(arg0 + 0xF4 + (temp_r1_3 * 2)) = gObjPalette[(gCurTask->data->unk4 * 0x10) + temp_r1_3];
-        temp_r1_2 = temp_r1_3 + 1;
-        var_r0 = (s16) temp_r1_2;
-    } while ((s32) (s16) temp_r1_2 <= 0xF);
-    sub_8016F28(arg0);
-    temp_r2_2 = 0x1C & arg0->unk2B;
-    if ((temp_r2_2 == 8) || (temp_r2_2 == 0x14) || (temp_r2_2 == 0x10)) {
-        var_r5 = ((s32) arg0->qWorldX >> 8) - gCamera.x;
-        var_r2 = ((s32) arg0->qWorldY >> 8) - gCamera.y;
-    } else {
-        var_r5 = ((s32) temp_r6->qWorldX >> 8) - gCamera.x;
-        var_r2 = ((s32) temp_r6->qWorldY >> 8) - gCamera.y;
+    p->moveState &= ~0x40;
+    p->moveState |= MOVESTATE_1000000;
+    p->charFlags.anim0 = 0xB;
+    p->qSpeedGround = 0;
+    p->qSpeedAirX = 0;
+    p->qSpeedAirY = 0;
+    p->unk42 = 0;
+    p->unk44 = 0;
+    p->qCamOffsetY = 0;
+    p->unk27 = partner->unk27;
+    p->moveState = (p->moveState & 0xFFFEFFFE) | (partner->moveState & 0x10001);
+
+    for (colorId = 0; colorId < 16; colorId++) {
+        p->palette[colorId] = gObjPalette[unkC4->playerId * 16 + colorId];
     }
-    arg0->unk38 = temp_r6->qWorldX;
-    arg0->unk3C = (s32) temp_r6->qWorldY;
-    if (((u32) (var_r5 + 0x20) <= 0x130U) && (var_r2 >= -0x20) && (var_r2 <= 0xC0)) {
-        arg0->Padding7[8] = (s32) arg0->qWorldY;
-        arg0->callback = Player_8007B00;
-        Player_8007B00(arg0);
+
+    sub_8016F28(p);
+    if ((p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 5) || (p->charFlags.someIndex == 4)) {
+        screenX = I(p->qWorldX) - gCamera.x;
+        screenY = I(p->qWorldY) - gCamera.y;
     } else {
-        arg0->callback = Player_8007C28;
-        Player_8007C28(arg0);
+        screenX = I(partner->qWorldX) - gCamera.x;
+        screenY = I(partner->qWorldY) - gCamera.y;
     }
-    temp_r0_2 = gStageData.task98;
-    if ((temp_r0_2 != NULL) && ((temp_r1_4 = temp_r0_2->data, temp_r2_3 = ((s32) temp_r1_4->unk4 >> 8) - gCamera.y, ((u32) ((((s32) temp_r1_4->unk0 >> 8) - gCamera.x) + 0x20) > 0x130U)) || (temp_r2_3 < -0x20) || (temp_r2_3 > 0xC0))) {
-        temp_r1_4->unk0 = (s32) (temp_r6->qWorldX + 0xFFFF6A00);
-        temp_r1_4->unk4 = (s32) temp_r6->qWorldY;
+    p->qUnk38 = partner->qWorldX;
+    p->qUnk3C = partner->qWorldY;
+
+    // TODO: cam-range!
+    if (((u32)(screenX + 32) <= (DISPLAY_WIDTH + 32) + 32) && (screenY >= -32) && (screenY <= (DISPLAY_HEIGHT + 32))) {
+        p->qUnkF0 = p->qWorldY;
+        p->callback = Player_8007B00;
+        Player_8007B00(p);
+    } else {
+        p->callback = Player_8007C28;
+        Player_8007C28(p);
+    }
+
+    if (gStageData.task98 != NULL) {
+        StageDataTask98 *task98 = TASK_DATA(gStageData.task98);
+        screenX = I(task98->qWorldX) - gCamera.x;
+        screenY = I(task98->qWorldY) - gCamera.y;
+
+        // TODO: cam-range!
+        if ((((u32)(screenX + 32) > (DISPLAY_WIDTH + 32) + 32)) || (screenY < -32) || (screenY > (DISPLAY_HEIGHT + 32))) {
+            task98->qWorldX = partner->qWorldX - Q(150);
+            task98->qWorldY = partner->qWorldY;
+        }
     }
 }
 
-void Player_8007B00(Player *p) {
-    Player *temp_r4;
-    s16 temp_r1_2;
+void Player_8007B00(Player *p)
+{
+    Player *partner;
+    s16 temp_r0;
+    s32 temp_r1_2;
+    s16 *temp_r1;
     s32 temp_r3;
     s32 temp_r4_2;
-    s32 temp_r6;
+    s32 qWorldY;
     s32 var_r1;
     s32 var_r2;
-    u16 temp_r0;
     u32 temp_r1_3;
-    u8 *temp_r1;
-    void (*var_r0)(Player *p);
+    s32 qWorldX;
 
-    temp_r4 = &gPlayers[(u32) (p->unk2B << 0x1E) >> 0x1E];
-    p->unk27 = temp_r4->unk27;
-    p->moveState = (p->moveState & 0xFFFEFFFE) | (temp_r4->moveState & 0x10001);
-    if (!(temp_r4->moveState & 0x01000000)) {
-        p->unk38 = (s32) temp_r4->qWorldX;
-        p->unk3C = (s32) temp_r4->qWorldY;
+    partner = &gPlayers[p->charFlags.partnerIndex];
+    p->unk27 = partner->unk27;
+    p->moveState = (p->moveState & 0xFFFEFFFE) | (partner->moveState & 0x10001);
+    if (!(partner->moveState & MOVESTATE_1000000)) {
+        p->qUnk38 = partner->qWorldX;
+        p->qUnk3C = partner->qWorldY;
     }
-    temp_r6 = p->unk3C;
-    temp_r1 = &p->Padding38[0xC];
-    temp_r0 = *temp_r1 + 1;
-    *temp_r1 = temp_r0;
-    if ((s32) (s16) temp_r0 <= 0x1E) {
-        temp_r3 = p->Padding7[8];
-        if (temp_r3 < temp_r6) {
-            var_r2 = temp_r3 + 0xFFFFE000;
+    qWorldX = p->qUnk38;
+    qWorldY = p->qUnk3C;
+
+    if (++p->unk44 <= 0x1E) {
+        s32 qUnkF0 = p->qUnkF0;
+
+        if (qUnkF0 < qWorldY) {
+            var_r2 = qUnkF0 - Q(32);
         } else {
-            var_r2 = temp_r6 + 0xFFFFE000;
+            var_r2 = qWorldY - Q(32);
         }
-        temp_r1_2 = *(((s16) *temp_r1 << 5) + gSineTable);
-        if ((s32) (s16) *temp_r1 > 0xF) {
-            var_r1 = (s32) (temp_r1_2 * (var_r2 - temp_r6)) >> 0xE;
-            p->qWorldY = temp_r6;
+        temp_r1_2 = SIN(p->unk44 * 16);
+        if (p->unk44 > 0xF) {
+            var_r1 = (temp_r1_2 * (var_r2 - qWorldY)) >> 0xE;
+            p->qWorldY = qWorldY;
         } else {
-            var_r1 = (s32) (temp_r1_2 * (var_r2 - temp_r3)) >> 0xE;
-            p->qWorldY = temp_r3;
+            var_r1 = (temp_r1_2 * (var_r2 - qUnkF0)) >> 0xE;
+            p->qWorldY = qUnkF0;
         }
         p->qWorldY += var_r1;
-        temp_r4_2 = p->qWorldX + temp_r4->qSpeedAirX;
-        p->qWorldX = temp_r4_2;
-        p->qWorldX = temp_r4_2 + ((s32) (p->unk38 - temp_r4_2) / (s32) (0x1E - (s16) *temp_r1));
-        return;
-    }
-    p->qWorldX = temp_r4->qWorldX;
-    p->qWorldY = temp_r4->qWorldY;
-    temp_r1_3 = temp_r4->moveState;
-    if (!(0x400000 & temp_r1_3)) {
-        if (!(temp_r1_3 & 0x800000)) {
-            var_r0 = Player_8005380;
-        } else {
-            var_r0 = Player_8007DF4;
+        p->qWorldX += partner->qSpeedAirX;
+        p->qWorldX += ((qWorldX - p->qWorldX) / (30 - p->unk44));
+    } else {
+        p->qWorldX = partner->qWorldX;
+        p->qWorldY = partner->qWorldY;
+        if (!(MOVESTATE_400000 & partner->moveState)) {
+            if (!(partner->moveState & MOVESTATE_800000)) {
+                p->callback = Player_8005380;
+            } else {
+                p->callback = Player_8007DF4;
+            }
         }
-        p->callback = var_r0;
     }
 }
 
+#if 0
 void Player_8007C28(Player *p) {
     Player *temp_r4;
     s32 temp_r0_2;
