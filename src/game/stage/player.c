@@ -56,6 +56,7 @@ void sub_80268B8(s16);
 void sub_80B7968(Struc_3001150 *, Player *);
 u16 sub_80B7A94(Struc_3001150 *);
 extern u16 gMedalTimes[][2];
+extern s16 gUnknown_080CE5B8[9]; // Spindash accel related
 extern u16 gUnknown_080CE5CA[10];
 extern u16 gUnknown_080D05A8[][2];
 
@@ -3911,69 +3912,62 @@ void Player_800872C(Player *p)
     Player_80087CC(p);
 }
 
-#if 0
-void Player_80087CC(Player *p) {
+// (92.40%) https://decomp.me/scratch/z8Vt4
+NONMATCH("asm/non_matching/game/stage/player__Player_80087CC.inc", void Player_80087CC(Player *p))
+{
     Sprite *temp_r8;
     s16 temp_r1;
-    s16 var_r1;
-    s32 temp_r0;
-    s32 temp_r0_4;
-    u16 *temp_r0_2;
+    s32 var_r1;
+    s16 temp_r0;
     u16 temp_r0_3;
     u16 temp_r7;
-    u16 var_r4;
-    u16 var_r4_2;
-    u32 temp_r2;
-    u32 temp_r4;
-    u32 var_r2;
+    s16 qVelocity;
 
     temp_r8 = &p->spriteData->s;
-    temp_r7 = p->charFlags.anim2 - *(((u32) (p->unk2A << 0x1C) >> 0x1B) + gPlayerCharacterIdleAnims);
+    temp_r7 = p->charFlags.anim2 - gPlayerCharacterIdleAnims[p->charFlags.character];
     if (!(0x80 & p->keyInput)) {
-        temp_r2 = p->moveState & ~0x10;
-        p->moveState = temp_r2;
-        temp_r0 = (s32) (p->Spindash_Velocity << 0x10) >> 0x18;
-        var_r4 = (u16) temp_r0;
-        if ((s32) (s16) temp_r0 > 8) {
-            var_r4 = 8;
+        p->moveState &= ~0x10;
+        qVelocity = (s32)(p->Spindash_Velocity << 0x10) >> 0x18;
+        if (qVelocity > 8) {
+            qVelocity = 8;
         }
-        var_r1 = *(((s32) (var_r4 << 0x10) >> 0xF) + &gUnknown_080CE5B8);
-        if (temp_r2 & 1) {
-            var_r1 = 0 - var_r1;
+
+        var_r1 = gUnknown_080CE5B8[qVelocity];
+        if (p->moveState & 1) {
+            var_r1 = -var_r1;
         }
         p->qSpeedGround = var_r1;
         p->callback = Player_800891C;
         Player_PlaySong(p, 0x6EU);
         return;
     }
-    temp_r0_2 = &p->Spindash_Velocity;
-    var_r4_2 = *temp_r0_2;
-    temp_r1 = (s16) var_r4_2;
+
+    qVelocity = p->Spindash_Velocity;
+    temp_r1 = (s16)qVelocity;
     if (temp_r1 != 0) {
-        temp_r0_3 = temp_r1 - ((s32) (var_r4_2 << 0x10) >> 0x15);
-        temp_r0_4 = temp_r0_3 << 0x10;
-        var_r4_2 = temp_r0_3;
-        if (temp_r0_4 <= 0) {
-            var_r4_2 = 0;
+        temp_r0 = temp_r1 - (qVelocity >> 5);
+        qVelocity = temp_r0;
+        if (temp_r0 << 0x10 <= 0) {
+            qVelocity = 0;
         }
     }
-    if (gStageData.buttonConfig.jump & p->keyInput2) {
-        temp_r4 = (u32) ((var_r4_2 << 0x10) + 0x02000000) >> 0x10;
-        var_r2 = temp_r4;
-        if ((s32) (s16) temp_r4 < 0x800) {
-            var_r2 = 0x800;
+    if (p->keyInput2 & gStageData.buttonConfig.jump) {
+        qVelocity += Q(2);
+        temp_r0 = qVelocity;
+        if (temp_r0 < Q(8)) {
+            qVelocity = Q(8);
         }
-        var_r4_2 = (u16) var_r2;
+
         p->charFlags.state1 = 1;
-        p->unk2B = (u8) (p->unk2B | 0x40);
-        Player_PlaySong(p, 0x6DU);
+        p->charFlags.someFlag1 = 1;
+        Player_PlaySong(p, SE_SPIN_ATTACK);
     }
-    *temp_r0_2 = var_r4_2;
-    if ((temp_r7 == 0xA) && (p->charFlags.state1 == 1) && (temp_r8->frameFlags & 0x4000)) {
+    p->Spindash_Velocity = qVelocity;
+    if ((temp_r7 == 10) && (p->charFlags.state1 == 1) && (temp_r8->frameFlags & 0x4000)) {
         p->charFlags.state1 = 0;
     }
     sub_8015144(p);
-    if ((sub_8015064(p) << 0x10) == 0) {
+    if (!sub_8015064(p)) {
         Player_801479C(p);
         sub_8016D30(p);
         sub_8014E70(p);
@@ -3984,7 +3978,9 @@ void Player_80087CC(Player *p) {
         }
     }
 }
+END_NONMATCH
 
+#if 0
 void Player_800891C(Player *p) {
     PlayerSprite *temp_r2;
     u32 temp_r1;
