@@ -185,7 +185,8 @@ struct Player {
 
     s32 qUnk70;
     s32 qUnk74;
-    u8 filler78[0x14];
+    u8 unk78;
+    u8 filler79[0x13];
 
     // x8C and v90 are speed-related
     s32 unk8C; // max speed?

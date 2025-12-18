@@ -3528,7 +3528,7 @@ void Player_8008080(Player *p)
             temp_r2->s.frameFlags &= 0xFFFFBFFF;
         }
     } else if ((DPAD_ANY & p->keyInput) != DPAD_DOWN) {
-        if (p->moveState & 0x800000) {
+        if (p->moveState & MOVESTATE_800000) {
             p->callback = Player_80077CC;
         } else {
             p->callback = Player_8005380;
@@ -3874,15 +3874,13 @@ void Player_800872C(Player *p)
 {
     if (gStageData.gameMode != 7) {
         if (p->moveState & 0x1000) {
-            u16 song;
 #ifndef NON_MATCHING
             Player *p0;
             asm("mov %0, %1" : "=r"(p0) : "r"(p));
 #else
             Player *p0 = p;
 #endif
-            song = 0x119;
-            Player_StopSong(p0, song);
+            Player_StopSong(p0, SE_281);
         }
     }
 
@@ -3917,7 +3915,7 @@ NONMATCH("asm/non_matching/game/stage/player__Player_80087CC.inc", void Player_8
 {
     Sprite *temp_r8;
     s16 temp_r1;
-    s32 var_r1;
+    s32 qSpeed;
     s16 temp_r0;
     u16 temp_r0_3;
     u16 temp_r7;
@@ -3926,17 +3924,18 @@ NONMATCH("asm/non_matching/game/stage/player__Player_80087CC.inc", void Player_8
     temp_r8 = &p->spriteData->s;
     temp_r7 = p->charFlags.anim2 - gPlayerCharacterIdleAnims[p->charFlags.character];
     if (!(0x80 & p->keyInput)) {
+        s16 velocityLutIndex;
         p->moveState &= ~0x10;
-        qVelocity = (s32)(p->Spindash_Velocity << 0x10) >> 0x18;
-        if (qVelocity > 8) {
-            qVelocity = 8;
+        velocityLutIndex = (s32)(p->Spindash_Velocity << 0x10) >> 0x18;
+        if (velocityLutIndex > 8) {
+            velocityLutIndex = 8;
         }
 
-        var_r1 = gUnknown_080CE5B8[qVelocity];
+        qSpeed = gUnknown_080CE5B8[velocityLutIndex];
         if (p->moveState & 1) {
-            var_r1 = -var_r1;
+            qSpeed = -qSpeed;
         }
-        p->qSpeedGround = var_r1;
+        p->qSpeedGround = qSpeed;
         p->callback = Player_800891C;
         Player_PlaySong(p, 0x6EU);
         return;
@@ -3980,36 +3979,47 @@ NONMATCH("asm/non_matching/game/stage/player__Player_80087CC.inc", void Player_8
 }
 END_NONMATCH
 
-#if 0
-void Player_800891C(Player *p) {
+void Player_800891C(Player *p)
+{
     PlayerSprite *temp_r2;
-    u32 temp_r1;
-    u8 *temp_r1_2;
+    s16 temp_r1_2;
+    u8 *temp_r1;
+    u32 moveState = (p->moveState & 0x24);
 
-    temp_r1 = p->moveState;
-    if ((0x24 & temp_r1) || !(0x800 & temp_r1)) {
-        if ((gStageData.gameMode != 7) && (temp_r1 & 0x1000)) {
-            Player_StopSong(p, 0x119U);
+    if (moveState || !(p->moveState & 0x800)) {
+        if (gStageData.gameMode != 7) {
+            if (p->moveState & MOVESTATE_1000) {
+#ifndef NON_MATCHING
+                Player *p0;
+                asm("mov %0, %1" : "=r"(p0) : "r"(p));
+#else
+                Player *p0 = p;
+#endif
+                Player_StopSong(p0, SE_281);
+            }
         }
-        p->moveState &= 0xDC510BA1;
-        p->unk2B = (u8) (-0x21 & p->unk2B);
-        p->unk2F = 0;
-        temp_r1_2 = &p->filler6A[0x2F];
-        temp_r1_2->unk0 = 0;
-        temp_r1_2->unk1 = 0;
-        temp_r1_2[1].unk4 = 0;
-        p->moveState |= 2;
+
+        p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
+                          | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
+                          | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+        p->charFlags.someFlag0 = 0;
+        p->charFlags.state0_highValue = 0;
+        p->unk99 = 0;
+        p->unk9A = 0;
+        p->qCamOffsetY = 0;
+        p->moveState |= MOVESTATE_2;
         sub_8012FC0(p);
         sub_8016F28(p);
-        p->charFlags.anim0 = 0xB;
-        temp_r2 = p->spriteData;
-        temp_r2->s.frameFlags &= 0xFFFFBFFF;
-        p->filler78[0] = 0;
+        p->charFlags.anim0 = 11;
+        p->spriteData->s.frameFlags &= ~0x4000;
+        p->unk78 = 0;
+
         p->callback = Player_80089CC;
         Player_80089CC(p);
     }
 }
 
+#if 0
 void Player_80089CC(Player *p) {
     s16 temp_r1_2;
     s16 var_r0;
