@@ -3363,71 +3363,119 @@ void Player_8007DF4(Player *p)
     }
 }
 
-#if 0
-
-void Player_8007DF4(Player *p) {
-    Player *temp_r3;
-    s16 *temp_r1;
-    s32 temp_r2;
-    s32 var_r1;
-    u32 temp_r1_2;
-
-    temp_r3 = &gPlayers[(u32) (p->unk2B << 0x1E) >> 0x1E];
-    p->unk27 = temp_r3->unk27;
-    p->moveState = (p->moveState & 0xFFFEFFFE) | (temp_r3->moveState & 0x10001);
-    temp_r2 = temp_r3->qWorldX;
-    p->qWorldX = temp_r2;
-    if (temp_r3->moveState & 1) {
-        var_r1 = 0xFFFFF600;
-    } else {
-        var_r1 = 0xA00;
-    }
-    p->qWorldX = temp_r2 + var_r1;
-    p->qWorldY = temp_r3->qWorldY;
-    temp_r1 = &p->unk44;
-    *temp_r1 = (u16) *temp_r1 + 1;
-    temp_r1_2 = temp_r3->moveState;
-    if (0x02000000 & temp_r1_2) {
-        sub_800BF78(temp_r3);
-        p->moveState &= 0xFE7FFFFF;
-        Player_StopSong(p, SE_TAGACTION_BUILDUP);
-        return;
-    }
-    if (!(temp_r1_2 & 0x800000)) {
-        p->qWorldX = temp_r3->qWorldX;
-        p->qWorldY = temp_r3->qWorldY;
-        p->callback = Player_8005380;
-    }
-}
-
-void Player_8007EAC(Player *p) {
+void Player_8007EAC(Player *p)
+{
+    PlayerSprite *temp_r2;
+    s16 temp_r1_2;
     s32 var_r5;
-    u32 temp_r0;
     u8 *temp_r1;
 
-    if ((gStageData.gameMode != 7) && (p->moveState & 0x1000)) {
-        Player_StopSong(p, 0x119U);
+    if (gStageData.gameMode != 7) {
+        if (p->moveState & 0x1000) {
+#ifndef NON_MATCHING
+            Player *p0;
+            asm("mov %0, %1" : "=r"(p0) : "r"(p));
+#else
+            Player *p0 = p;
+#endif
+            Player_StopSong(p0, SE_281);
+        }
     }
-    p->moveState &= 0xDC510BA1;
-    p->unk2B = (u8) (-0x21 & p->unk2B);
-    p->unk2F = 0;
-    temp_r1 = &p->filler6A[0x2F];
-    temp_r1->unk0 = 0;
-    temp_r1->unk1 = 0;
-    temp_r1[1].unk4 = 0;
-    temp_r0 = (p->moveState & 0xDFFFFFFF) | 0x800004;
-    p->moveState = temp_r0;
+
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
+                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
+                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->charFlags.someFlag0 = 0;
+    p->charFlags.state0_highValue = 0;
+    p->unk99 = 0;
+    p->unk9A = 0;
+    p->qCamOffsetY = 0;
+    p->moveState &= 0xDFFFFFFF;
+    p->moveState |= 0x800004;
     p->charFlags.anim0 = 0x15;
-    var_r5 = 0x4E0;
-    if (temp_r0 & 0x80) {
+    if (p->moveState & 0x80) {
         var_r5 = 0x2A0;
+    } else {
+        var_r5 = 0x4E0;
     }
     sub_8012FA0(p);
     sub_80063B4(p, var_r5);
+
     p->callback = Player_8007F4C;
     Player_8007F4C(p);
 }
 
+void Player_8007F4C(Player *p)
+{
+    s16 var_r5;
+
+    var_r5 = -Q(3);
+    if (p->moveState & MOVESTATE_80) {
+        var_r5 = -Q(1.5);
+    }
+    if (!sub_8017058(p) && sub_8014BC4(p)) {
+        if ((p->qSpeedAirY < var_r5) && !(p->keyInput & gStageData.buttonConfig.jump)) {
+            p->qSpeedAirY = var_r5;
+            p->callback = sub_800EEC4;
+        } else if (p->qSpeedAirY > 0) {
+            p->callback = sub_800EEC4;
+        }
+        sub_801350C(p);
+        sub_8014940(p);
+        if (!sub_8015064(p)) {
+            sub_8016E50(p);
+            sub_8016D30(p);
+            sub_8016EB0(p);
+            Player_80149E4(p);
+            sub_8017004(p);
+        }
+    }
+}
+
+void Player_8007FE8(Player *p)
+{
+    PlayerSprite *temp_r2;
+    s16 temp_r1_2;
+    s32 var_r5;
+    u8 *temp_r1;
+    s32 r5 = p->moveState & 0x800000;
+
+    if (gStageData.gameMode != 7) {
+        if (p->moveState & 0x1000) {
+#ifndef NON_MATCHING
+            Player *p0;
+            asm("mov %0, %1" : "=r"(p0) : "r"(p));
+#else
+            Player *p0 = p;
+#endif
+            Player_StopSong(p0, SE_281);
+        }
+    }
+
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
+                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
+                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->charFlags.someFlag0 = 0;
+    p->charFlags.state0_highValue = 0;
+    p->unk99 = 0;
+    p->unk9A = 0;
+    p->qCamOffsetY = 0;
+    p->moveState |= r5;
+
+    if (p->moveState & 0x800000) {
+        p->charFlags.anim0 = 5;
+    } else {
+        p->charFlags.anim0 = 2;
+    }
+
+    p->qSpeedGround = 0;
+    p->qCamOffsetY = 0;
+    p->idleAndCamCounter = 0x28;
+    p->callback = Player_8008080;
+    Player_8008080(p);
+}
+
+#if 0
 void Player_8007F4C(Player *p) {
     s16 var_r5;
 

@@ -25,7 +25,10 @@ extern void Player_Flyer_SoundStop(Player *p);
 extern void Player_800522C(Player *p);
 extern void Player_80052C8(Player *p);
 extern void Player_8005380(Player *p);
+extern void Player_8005434(Player *p);
 extern void Player_8005528(Player *p);
+extern void Player_80055B8(Player *p);
+extern void sub_8005800(Player *p);
 extern void Player_8005BD4(Player *p); // Goal Ring related
 extern void Player_8005CB8(Player *p);
 extern void Player_8005DAC(Player *p);
@@ -34,6 +37,7 @@ extern void Player_800613C(Player *p); // Goal Ring touch
 extern void Player_80061D8(Player *p);
 extern void Player_8006250(Player *p); // Rocket
 extern void Player_8006310(Player *p); // Rocket
+extern void Player_8007930(Player *p);
 extern void Player_8006424(Player *p);
 extern void Player_80064D4(Player *p);
 extern void Player_800657C(Player *p);
@@ -128,10 +132,14 @@ extern void Player_800BCE0(Player *p);
 extern void Player_800BD88(Player *p);
 extern void Player_800BE60(Player *p);
 extern void Player_800BEE8(Player *p);
+extern void sub_800BF78(Player *p);
+extern void sub_800D7C8(Player *p);
+extern void sub_800D8DC(Player *p);
 extern void Player_800D880(Player *p);
 extern void Player_800D944(Player *p);
 extern void Player_800D978(Player *p); // GrindRail-related
 extern void Player_800D9B4(Player *p); // GrindRail-related
+extern void Player_800D9F4(Player *p);
 extern void SetPlayerCallback(Player *p, PlayerCallback callback);
 extern void Player_800DAF4(Player *p);
 extern void Player_800DB30(Player *p);
@@ -140,6 +148,10 @@ extern void Player_800DBE8(Player *p);
 extern void Player_800DCB4(Player *p);
 extern void Player_800DD0C(Player *p);
 extern void Player_800DD28(Player *p);
+extern void sub_800DF5C(Player *p);
+extern void sub_800DFA0(Player *p);
+extern void Player_800E084(Player *p);
+extern void sub_800E150(Player *p);
 extern void Player_800DD44(Player *p);
 extern void Player_800DDB4(Player *p); // Player_InMazeAccelerated(?)
 extern void Player_800DDD0(Player *p);
@@ -173,19 +185,50 @@ extern void Player_800EB5C(Player *p);
 extern void Player_800ED14(Player *p);
 extern void Player_800ED34(Player *p);
 extern void Player_800ED80(Player *p);
+extern void sub_800EDC8(Player *p);
+extern void sub_800EE38(Player *p);
+extern void sub_800EE64(Player *p);
+extern void sub_800EEC4(Player *p);
+extern void sub_800EF18(Player *p);
+extern void sub_8012EB8(Player *p);
+extern void sub_8012FA0(Player *p);
+extern void sub_8012FC0(Player *p);
+extern void Player_8012FE0(Player *p);
+extern void sub_8012FF0(Player *p);
+extern void sub_801350C(Player *p);
 extern void sub_8014258(Player *);
 extern void sub_80142CC(Player *);
 extern void sub_80143E0(Player *);
 extern void sub_80144B4(Player *);
 extern void Player_8014550(Player *p);
+extern void sub_8014670(Player *p);
 extern void Player_801479C(Player *p);
+extern void sub_8014940(Player *p);
+extern void Player_80149E4(Player *p);
+extern void sub_8014AF8(Player *p);
+extern void sub_8014E70(Player *p);
+extern void sub_8015144(Player *p);
+extern void sub_8015228(Player *p);
 extern void sub_80153BC(Player *);
 extern void sub_8015A44(Player *);
+extern void sub_8016D30(Player *p);
+extern void sub_8016E00(Player *p);
+extern void sub_8016E50(Player *p);
+extern void sub_8016EB0(Player *p);
+extern void sub_8017004(Player *p);
+extern void sub_8017584(Player *p);
+extern void sub_8017618(Player *p);
+extern void sub_8019718(Player *p);
+extern void sub_80203D4(Player *p);
 extern void sub_80180D8(Player *);
 extern void sub_801816C(Player *);
 extern void sub_80193A4(Player *);
 extern void sub_80193CC(Player *);
 extern void Player_801D73C(Player *p);
 extern void Player_801DF18(Player *p);
+
+extern u16 gMedalTimes[][2];
+extern u16 gUnknown_080CE5CA[10];
+extern u16 gUnknown_080D05A8[][2];
 
 #endif // GUARD_SA3_PLAYER_CALLBACKS_H
