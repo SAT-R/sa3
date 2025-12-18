@@ -23,73 +23,30 @@ void Task_8005068(void); // -> PlayerUnkC4
 void Task_80050E0(void); // -> PlayerUnkC4
 void sub_8005130(Player *arg0, s32 arg1, s32 arg2);
 void sub_80051CC(Player *arg0, s32 arg1, s32 arg2);
-void Player_800522C(Player *p);
-void Player_8005380(Player *p);
-void Player_8005434(Player *p);
-void Player_80055B8(Player *p);
-void sub_8005800(Player *p);
 void sub_80059A0(Player *, u16);
 s8 sub_8005A24(Player *p, s32 unused);
 u8 sub_8005B04(Player *p);
 s8 sub_8005B78(Player *p);
 void sub_80063B4(Player *p, s32 param1);
-void Player_8007930(Player *p);
-void sub_800D7C8(Player *p);
-void sub_800D8DC(Player *p);
-void Player_800D9F4(Player *p);
-void Player_800DB30(Player *p);
-void sub_800DF5C(Player *p);
-void sub_800DFA0(Player *p);
-void Player_800E084(Player *p);
-void sub_800E150(Player *p);
-void sub_800EDC8(Player *p);
-void sub_800EE64(Player *p);
-void sub_800EE38(Player *p);
-void sub_800EE64(Player *p);
-void sub_800EF18(Player *p);
-void sub_8012EB8(Player *p);
-void sub_8012FA0(Player *p);
-void sub_8012FC0(Player *p);
-void Player_8012FE0(Player *p);
-void sub_8012FF0(Player *p);
 void sub_801300C(s16 playerId);
 void sub_801310C(s16 playerId);
 void sub_8013F4C(Player *p);
 void sub_80141EC(Player *p, u8 param1, u8 param2);
-void sub_8017004(Player *p);
-void sub_8017584(Player *p);
-void sub_8019718(Player *p);
-void sub_80203D4(Player *p);
 void sub_80B7914(Struc_3001150 *strc);
 void sub_80B794C(Struc_3001150 *strc);
 bool32 sub_80B7AA4(Struc_3001150 *strc);
 void sub_80B8E24(void *strc, Player *p, s32 param2, s32 param3);
 
 void sub_801320C(Player *p, PlayerSprite *spriteData);
-void sub_801350C(Player *p);
 void sub_80136DC(s16 param0);
 void sub_8013A68(s16 param0);
-void sub_8014670(Player *p);
-void Player_801479C(Player *p);
-bool16 sub_801480C(Player *p);
-void sub_8014940(Player *p);
-void Player_80149E4(Player *p);
 bool16 sub_8014A60(Player *p);
-void sub_8014AF8(Player *p);
 bool16 sub_8014BC4(Player *p);
 bool16 sub_8014D70(Player *p);
-void sub_8014E70(Player *p);
 bool16 sub_8015064(Player *p);
-void sub_8015144(Player *p);
-void sub_8015228(Player *p);
 bool32 sub_8015568(Player *p);
-void sub_8016E00(Player *p);
 bool16 sub_8016EDC(Player *p);
-void sub_8016D30(Player *p);
-void sub_8016E50(Player *p);
-void sub_8016EB0(Player *p);
 bool32 sub_8017058(Player *p);
-void sub_8017618(Player *p);
 void sub_801EBC0(s32, Player *p);
 void sub_8023634();
 void sub_8026254(Player *p);
@@ -3278,90 +3235,73 @@ void Player_8007B00(Player *p)
     }
 }
 
-#if 0
-void Player_8007C28(Player *p) {
-    Player *temp_r4;
+void Player_8007C28(Player *p)
+{
+    Player *partner;
     s32 temp_r0_2;
     s32 temp_r0_3;
-    s32 temp_r1;
-    s32 temp_r2_2;
-    s32 temp_r2_3;
     s32 var_r0_2;
     s32 var_r2;
     s32 var_r4;
     s32 var_r5;
-    u16 temp_r0;
-    u32 temp_r1_2;
     u32 var_r0_3;
     u32 var_r0_4;
-    u8 *temp_r2;
-    void (*var_r0)(Player *p);
+    void (*var_r0)(Player *);
 
-    temp_r4 = &gPlayers[(u32) (p->unk2B << 0x1E) >> 0x1E];
+    partner = &gPlayers[p->charFlags.partnerIndex];
     var_r5 = 0;
-    p->unk27 = temp_r4->unk27;
-    p->moveState = (p->moveState & 0xFFFEFFFE) | (temp_r4->moveState & 0x10001);
-    if (!(temp_r4->moveState & 0x01000000)) {
-        p->unk38 = (s32) temp_r4->qWorldX;
-        p->unk3C = (s32) temp_r4->qWorldY;
+    p->unk27 = partner->unk27;
+    p->moveState = (p->moveState & ~(MOVESTATE_GRAVITY_SWITCHED | MOVESTATE_FACING_LEFT))
+        | (partner->moveState & (MOVESTATE_GRAVITY_SWITCHED | MOVESTATE_FACING_LEFT));
+    if (!(partner->moveState & MOVESTATE_1000000)) {
+        p->qUnk38 = partner->qWorldX;
+        p->qUnk3C = partner->qWorldY;
     }
-    temp_r1 = p->unk38;
-    if ((s32) p->qWorldX < temp_r1) {
+
+    if (p->qWorldX < p->qUnk38) {
         var_r5 = 1;
     }
-    p->qWorldX = temp_r1;
-    p->qWorldY = p->unk3C;
-    temp_r2 = &p->Padding38[0xC];
-    temp_r0 = *temp_r2 + 1;
-    *temp_r2 = temp_r0;
-    if ((s32) (s16) temp_r0 > 0x1E) {
-        temp_r1_2 = temp_r4->moveState;
-        if (!(0x400000 & temp_r1_2)) {
-            if (!(temp_r1_2 & 0x800000)) {
-                var_r0 = Player_8005380;
-            } else {
-                var_r0 = Player_8007DF4;
-            }
-            p->callback = var_r0;
-        }
-    } else {
-        p->qWorldY -= (s32) (*(((s16) *temp_r2 << 5) + gSineTable) << 0x10) >> 0x11;
+    p->qWorldX = p->qUnk38;
+    p->qWorldY = p->qUnk3C;
+    if (++p->unk44 <= 30) {
+        p->qWorldY -= SIN(p->unk44 * 16) >> 1;
         if (var_r5 != 0) {
-            var_r0_2 = p->qWorldX - ((0x1E - (s16) *temp_r2) * 0x500);
+            p->qWorldX = p->qWorldX - ((30 - p->unk44) * Q(5));
         } else {
-            var_r0_2 = p->qWorldX + ((0x1E - (s16) *temp_r2) * 0x500);
+            p->qWorldX = p->qWorldX + ((30 - p->unk44) * Q(5));
         }
-        p->qWorldX = var_r0_2;
-        temp_r2_2 = p->qWorldX;
-        if (temp_r2_2 < 0) {
-            var_r0_3 = 0;
-            goto block_12;
+
+        if (p->qWorldX < 0) {
+            p->qWorldX = 0;
+        } else {
+            var_r0_3 = Q(gUnknown_080D05A8[gStageData.currMapIndex][0]) - 1;
+
+            if (p->qWorldX > var_r0_3) {
+                p->qWorldX = var_r0_3;
+            }
         }
-        var_r0_3 = (*((gStageData.currMapIndex * 4) + &gUnknown_080D05A8) << 8) - 1;
-        if ((u32) temp_r2_2 > var_r0_3) {
-block_12:
-            p->qWorldX = (s32) var_r0_3;
+
+        if (p->qWorldY < 0) {
+            p->qWorldY = 0;
+        } else {
+            var_r0_4 = Q(gUnknown_080D05A8[gStageData.currMapIndex][1]) - 1;
+
+            if (p->qWorldY > var_r0_4) {
+                p->qWorldY = var_r0_4;
+            }
         }
-        temp_r2_3 = p->qWorldY;
-        if (temp_r2_3 < 0) {
-            var_r0_4 = 0;
-            goto block_16;
-        }
-        var_r0_4 = (*((gStageData.currMapIndex * 4) + (&gUnknown_080D05A8 + 2)) << 8) - 1;
-        if ((u32) temp_r2_3 > var_r0_4) {
-block_16:
-            p->qWorldY = (s32) var_r0_4;
-        }
-        if ((s32) p->qWorldX < 0) {
+
+        if (p->qWorldX < 0) {
             p->qWorldX = 0;
         }
-        if ((0x1C & p->unk2B) == 4) {
-            var_r4 = ((s32) p->qWorldX >> 8) - 0x78;
-            var_r2 = ((s32) p->qWorldY >> 8) - 0x50;
+
+        if (p->charFlags.someIndex == 1) {
+            var_r4 = I(p->qWorldX) - (DISPLAY_WIDTH / 2);
+            var_r2 = I(p->qWorldY) - (DISPLAY_HEIGHT / 2);
             if (var_r4 < 0) {
                 var_r4 = 0;
             } else {
-                temp_r0_2 = *((gStageData.currMapIndex * 4) + &gUnknown_080D05A8) - 0xF1;
+                temp_r0_2 = gUnknown_080D05A8[gStageData.currMapIndex][0] - 0xF1;
                 if (var_r4 > temp_r0_2) {
                     var_r4 = temp_r0_2;
                 }
@@ -3369,7 +3309,7 @@ block_16:
             if (var_r2 < 0) {
                 var_r2 = 0;
             } else {
-                temp_r0_3 = *((gStageData.currMapIndex * 4) + (&gUnknown_080D05A8 + 2)) - 0xA1;
+                temp_r0_3 = gUnknown_080D05A8[gStageData.currMapIndex][1] - 0xA1;
                 if (var_r2 > temp_r0_3) {
                     var_r2 = temp_r0_3;
                 }
@@ -3379,9 +3319,18 @@ block_16:
             gCamera.y = var_r2;
             gCamera.unk2C = var_r2;
         }
+    } else {
+        if (!(MOVESTATE_400000 & partner->moveState)) {
+            if (!(partner->moveState & MOVESTATE_800000)) {
+                p->callback = Player_8005380;
+            } else {
+                p->callback = Player_8007DF4;
+            }
+        }
     }
 }
 
+#if 0
 void Player_8007DF4(Player *p) {
     Player *temp_r3;
     s32 temp_r2;
