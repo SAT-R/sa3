@@ -256,7 +256,7 @@ typedef struct Struc_3001150 {
 } Struc_3001150;
 Struc_3001150 gUnknown_03001150;
 
-extern bool16 sub_801480C(Player *p);
+extern s16 sub_801480C(Player *p);
 void sub_80213F0(Player *p);
 bool32 sub_802C080(Player *p); // Player_Hurt ?
 bool32 sub_802C0D4(Player *p);
