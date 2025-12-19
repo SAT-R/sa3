@@ -131,15 +131,11 @@ struct Player {
 
     s32 qUnk38;
     s32 qUnk3C;
-    u8 Padding40[0x2];
-
+    s16 unk40;
     s16 unk42;
     s16 unk44;
-
     u16 Spindash_Velocity; // 0x46
-
-    u8 Padding5[0x2];
-
+    s16 unk48;
     s16 framesInvulnerable; // 0x4A
     s16 framesInvincible; // 0x4C
 
@@ -161,21 +157,16 @@ struct Player {
 
     s8 unk56;
     u8 unk57;
-
-    u8 filler58[0x2];
-
+    u8 unk58;
+    u8 unk59;
     u8 unk5A;
     u8 unk5B;
-
     u8 unk5C;
     u8 unk5D;
-
     u16 unk5E;
     u16 unk60;
-
     s16 unk62;
-    u8 filler64[0x2];
-
+    u16 unk64;
     u16 unk66;
     u8 unk68;
     u8 unk69;

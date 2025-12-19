@@ -94,7 +94,8 @@ typedef struct {
     /* 0xB7 */ u8 unkB7;
     /* 0xB8 */ u8 unkB8;
     /* 0xB9 */ u8 unkB9;
-    /* 0xBA */ u8 fillerBA[2];
+    /* 0xBA */ u8 unkBA;
+    /* 0xBB */ u8 unkBB;
     /* 0xBC */ u8 unkBC; // bitfield
     /* 0xBD */ u8 unkBD;
     /* 0xBE */ u8 unkBE[7];

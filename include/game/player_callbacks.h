@@ -161,6 +161,7 @@ extern void Player_800DDD0(Player *p);
 extern void Player_800DE48(Player *p);
 extern void Player_800DE64(Player *p);
 extern void Player_800DEC4(Player *p);
+extern void sub_800DF9C(Player *p);
 extern void sub_800E01C(Player *p);
 extern void Player_800E1E4(Player *p);
 extern void Player_800E348(Player *p);

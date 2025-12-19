@@ -37,6 +37,10 @@ void sub_80B7914(Struc_3001150 *strc);
 void sub_80B794C(Struc_3001150 *strc);
 bool32 sub_80B7AA4(Struc_3001150 *strc);
 void sub_80B8E24(void *strc, Player *p, s32 param2, s32 param3);
+void sub_8001D58(VoidFn voidFn, u16 color);
+void sub_8002414();
+void sub_808723C(s16 param0, u8 param1);
+extern void sub_8002388(void);
 
 void sub_801320C(Player *p, PlayerSprite *spriteData);
 void sub_80136DC(s16 param0);
@@ -4371,258 +4375,148 @@ void Player_HitWithoutRings(Player *p)
     sub_800913C(p);
 }
 
-#if 0
-void sub_800913C(Player *p) {
-    s8 *sp0;
-    ? *temp_r0_20;
-    ? *temp_r0_4;
-    Player *temp_r3;
-    Player *temp_r3_2;
-    Player *temp_r3_3;
-    s16 *temp_r7;
-    s32 temp_r0_36;
-    s32 temp_r0_37;
-    s8 *temp_r2_2;
-    u16 *temp_r1_2;
-    u16 *temp_r1_3;
+#define SUB_800913C_PSET(_player)                                                                                                          \
+    (_player)->moveState = MOVESTATE_IGNORE_INPUT;                                                                                         \
+    (_player)->qWorldX = Q(gStageData.respawnX);                                                                                           \
+    (_player)->qWorldY = Q(gStageData.respawnY);                                                                                           \
+    (_player)->qSpeedAirX = 0;                                                                                                             \
+    (_player)->qSpeedAirY = 0;                                                                                                             \
+    (_player)->qSpeedGround = 0;                                                                                                           \
+    (_player)->charFlags.boostIsActive = 0;                                                                                                \
+    (_player)->boostEffectCounter = 0;                                                                                                     \
+    (_player)->unk27 = 1;                                                                                                                  \
+    (_player)->unk40 = 0;                                                                                                                  \
+    (_player)->unk42 = 0;                                                                                                                  \
+    (_player)->unk44 = 0;                                                                                                                  \
+    (_player)->Spindash_Velocity = 0;                                                                                                      \
+    (_player)->unk48 = 0;                                                                                                                  \
+    (_player)->framesInvulnerable = 0;                                                                                                     \
+    (_player)->framesInvincible = 0;                                                                                                       \
+    (_player)->unk4E = 0;                                                                                                                  \
+    (_player)->boostEffectCounter = 0;                                                                                                     \
+    (_player)->idleAndCamCounter = 0;                                                                                                      \
+    (_player)->unk54 = 0;                                                                                                                  \
+    (_player)->unk59 = 0;                                                                                                                  \
+    (_player)->unk5A = 0;                                                                                                                  \
+    (_player)->unk5B = 0;                                                                                                                  \
+    (_player)->unk5E = 0;                                                                                                                  \
+    (_player)->unk60 = 0;                                                                                                                  \
+    (_player)->unk62 = 0;                                                                                                                  \
+    (_player)->unk64 = 0;                                                                                                                  \
+    (_player)->unk66 = 0;                                                                                                                  \
+    (_player)->unk68 = 0;
+
+void sub_800913C(Player *p)
+{
+    Player *partner;
     u32 temp_r0;
-    u8 *temp_r0_19;
-    u8 *temp_r0_3;
-    u8 *temp_r1;
-    u8 *temp_r7_2;
-    u8 temp_r0_2;
-    u8 temp_r2;
-    void *temp_r0_10;
-    void *temp_r0_11;
-    void *temp_r0_12;
-    void *temp_r0_13;
-    void *temp_r0_14;
-    void *temp_r0_15;
-    void *temp_r0_16;
-    void *temp_r0_17;
-    void *temp_r0_18;
-    void *temp_r0_21;
-    void *temp_r0_22;
-    void *temp_r0_23;
-    void *temp_r0_24;
-    void *temp_r0_25;
-    void *temp_r0_26;
-    void *temp_r0_27;
-    void *temp_r0_28;
-    void *temp_r0_29;
-    void *temp_r0_30;
-    void *temp_r0_31;
-    void *temp_r0_32;
-    void *temp_r0_33;
-    void *temp_r0_34;
-    void *temp_r0_35;
-    void *temp_r0_5;
-    void *temp_r0_6;
-    void *temp_r0_7;
-    void *temp_r0_8;
-    void *temp_r0_9;
 
     sub_8016E50(p);
     sub_8016D30(p);
-    if ((s32) (((s32) p->qWorldY >> 8) - gCamera.y) > 0xD0) {
+    if (I(p->qWorldY) - gCamera.y > 0xD0) {
         p->qSpeedAirY = 0;
     }
-    temp_r7 = &p->framesInvulnerable;
-    if ((s32) *temp_r7 > 0) {
+
+    if (p->framesInvulnerable > 0) {
         return;
     }
-    temp_r2 = p->unk2B;
-    temp_r3 = &gPlayers[(u32) (temp_r2 << 0x1E) >> 0x1E];
-    if ((0x1C & temp_r2) == 8) {
-        if (((s32) temp_r3->framesInvulnerable > 0) && (gStageData.gameMode == 0)) {
+
+    partner = &gPlayers[p->charFlags.partnerIndex];
+    if (p->charFlags.someIndex == 2) {
+        if (((s32)partner->framesInvulnerable > 0) && (gStageData.gameMode == 0)) {
             return;
         }
-        if ((gStageData.gameMode == 0) && (gStageData.lives == 0) && (temp_r3->moveState & 0x100)) {
+        if ((gStageData.gameMode == 0) && (gStageData.lives == 0) && (partner->moveState & 0x100)) {
             return;
         }
         p->qSpeedGround = 0;
         p->qSpeedAirY = 0;
         p->qSpeedAirX = 0;
-        p->qWorldX = temp_r3->qWorldX;
-        p->qWorldY = temp_r3->qWorldY;
-        temp_r1 = &p->unk27;
-        temp_r1->unk0 = temp_r3->unk27;
-        *temp_r7 = 0x78;
-        temp_r1->unk2F = 0xE;
-        temp_r1[0x2F].unk1 = 0x3C;
-        temp_r0 = p->moveState & 0xFFFFFEFF;
+        p->qWorldX = partner->qWorldX;
+        p->qWorldY = partner->qWorldY;
+        p->unk27 = partner->unk27;
+        p->framesInvulnerable = 0x78;
+        p->unk56 = 0xE;
+        p->unk57 = 0x3C;
+        temp_r0 = p->moveState & ~MOVESTATE_100;
         p->moveState = temp_r0;
-        p->moveState = (temp_r0 & 0xFFFEFFFF) | (temp_r3->moveState & 0x10000);
+        p->moveState = (temp_r0 & ~MOVESTATE_GRAVITY_SWITCHED) | (partner->moveState & MOVESTATE_GRAVITY_SWITCHED);
         p->callback = Player_8005380;
         return;
     }
+
     if (gStageData.gameMode == 3) {
         sub_8003D2C();
-        TasksDestroyInPriorityRange(0U, 0xFFFFU);
-        gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
-        gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+        PAUSE_GRAPHICS_QUEUE();
         sub_808723C(0, 2);
         return;
     }
+
     if (gStageData.gameMode == 4) {
         sub_8003D2C();
-        TasksDestroyInPriorityRange(0U, 0xFFFFU);
-        gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
-        gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+        PAUSE_GRAPHICS_QUEUE();
         sub_808723C(0, 3);
         return;
     }
-    if ((u32) gStageData.gameMode <= 5U) {
-        temp_r0_2 = gStageData.lives;
-        if (temp_r0_2 == 0) {
+
+    if ((u32)gStageData.gameMode <= 5U) {
+        if (gStageData.lives == 0) {
             if (gStageData.act != 9) {
                 sub_8002414();
             }
             goto block_22;
-        }
-        if (gStageData.act == 9) {
-block_22:
+        } else if (gStageData.act == 9) {
+        block_22:
             p->callback = sub_800DF9C;
             return;
         }
-        gStageData.lives = temp_r0_2 - 1;
-        if (((u32) gStageData.zone <= 6U) && ((u32) gStageData.act > 2U) && ((u32) gStageData.act <= 6U)) {
+        gStageData.lives--;
+        if (((u32)gStageData.zone < 7) && ((u32)gStageData.act > 2U) && ((u32)gStageData.act < 7)) {
             gStageData.flagSpKey = 0;
         }
-        temp_r3_2 = &gPlayers[(u32) (p->unk2B << 0x1E) >> 0x1E];
-        if ((0x1C & temp_r3_2->unk2B) == 8) {
-            temp_r3_2->framesInvulnerable = 0;
+        partner = &gPlayers[p->charFlags.partnerIndex];
+        if (partner->charFlags.someIndex == 2) {
+            partner->framesInvulnerable = 0;
         }
         sub_8001D58(&sub_8002388, 0);
         return;
     }
     if (gStageData.unk4 == 5) {
-        *temp_r7 = 0x1E;
+        p->framesInvulnerable = ZONE_TIME_TO_INT(0, 0.5);
         return;
     }
-    p->moveState = 0x08000000;
-    p->qWorldX = gStageData.respawnX << 8;
-    p->qWorldY = gStageData.respawnY << 8;
-    p->qSpeedAirX = 0;
-    p->qSpeedAirY = 0;
-    p->qSpeedGround = 0;
-    p->unk2B = (u8) (0x7F & p->unk2B);
-    temp_r1_2 = &p->boostEffectCounter;
-    *temp_r1_2 = 0;
-    temp_r0_3 = &p->unk27;
-    temp_r0_3->unk0 = 1;
-    temp_r0_3->unk19 = 0;
-    temp_r0_4 = &temp_r0_3[0x19].unk2;
-    temp_r0_4->unk0 = 0;
-    temp_r0_5 = temp_r0_4 + 2;
-    temp_r0_4->unk2 = 0;
-    temp_r0_6 = temp_r0_5 + 2;
-    temp_r0_5->unk2 = 0;
-    temp_r0_7 = temp_r0_6 + 2;
-    temp_r0_6->unk2 = 0;
-    *temp_r7 = 0;
-    temp_r0_8 = temp_r0_7 + 4;
-    temp_r0_7->unk4 = 0;
-    temp_r0_9 = temp_r0_8 + 2;
-    temp_r0_8->unk2 = 0;
-    *temp_r1_2 = 0;
-    temp_r0_10 = temp_r0_9 + 4;
-    temp_r0_9->unk4 = 0;
-    temp_r0_11 = temp_r0_10 + 2;
-    temp_r0_10->unk2 = 0;
-    temp_r0_12 = temp_r0_11 + 5;
-    temp_r0_11->unk5 = 0;
-    temp_r0_13 = temp_r0_12 + 1;
-    temp_r0_12->unk1 = 0;
-    temp_r0_14 = temp_r0_13 + 1;
-    temp_r0_13->unk1 = 0;
-    temp_r0_15 = temp_r0_14 + 3;
-    temp_r0_14->unk3 = 0;
-    temp_r0_16 = temp_r0_15 + 2;
-    temp_r0_15->unk2 = 0;
-    temp_r0_17 = temp_r0_16 + 2;
-    temp_r0_16->unk2 = 0;
-    temp_r0_18 = temp_r0_17 + 2;
-    temp_r0_17->unk2 = 0;
-    temp_r0_18->unk2 = 0;
-    (temp_r0_18 + 2)->unk2 = 0;
-    temp_r2_2 = &p->unk56;
-    sp0 = temp_r2_2;
-    *temp_r2_2 = 0xE;
-    temp_r7_2 = &p->unk57;
-    *temp_r7_2 = 0x3C;
+
+    SUB_800913C_PSET(p);
+    p->unk56 = 14;
+    p->unk57 = 60;
+
     gStageData.unkBD = 1;
     p->callback = Player_800522C;
-    if ((0x1C & p->unk2B) == 4) {
+    if (p->charFlags.someIndex == 1) {
         gStageData.rings = 1;
     }
-    gStageData.fillerBA[1] = 7;
+    gStageData.unkBB = 7;
     MPlayStop(&gMPlayInfo_SE1);
     MPlayStop(&gMPlayInfo_SE2);
     MPlayStop(&gMPlayInfo_SE3);
-    temp_r3_3 = &gPlayers[(u32) (p->unk2B << 0x1E) >> 0x1E];
-    if ((0x1C & temp_r3_3->unk2B) == 8) {
-        temp_r3_3->moveState = 0x08000000;
-        temp_r3_3->qWorldX = gStageData.respawnX << 8;
-        temp_r3_3->qWorldY = gStageData.respawnY << 8;
-        temp_r3_3->qSpeedAirX = 0;
-        temp_r3_3->qSpeedAirY = 0;
-        temp_r3_3->qSpeedGround = 0;
-        temp_r3_3->unk2B = (u8) (0x7F & temp_r3_3->unk2B);
-        temp_r1_3 = &temp_r3_3->boostEffectCounter;
-        *temp_r1_3 = 0;
-        temp_r0_19 = &temp_r3_3->unk27;
-        temp_r0_19->unk0 = 1;
-        temp_r0_19->unk19 = 0;
-        temp_r0_20 = &temp_r0_19[0x19].unk2;
-        temp_r0_20->unk0 = 0;
-        temp_r0_21 = temp_r0_20 + 2;
-        temp_r0_20->unk2 = 0;
-        temp_r0_22 = temp_r0_21 + 2;
-        temp_r0_21->unk2 = 0;
-        temp_r0_23 = temp_r0_22 + 2;
-        temp_r0_22->unk2 = 0;
-        temp_r0_24 = temp_r0_23 + 2;
-        temp_r0_23->unk2 = 0;
-        temp_r0_25 = temp_r0_24 + 2;
-        temp_r0_24->unk2 = 0;
-        temp_r0_26 = temp_r0_25 + 2;
-        temp_r0_25->unk2 = 0;
-        *temp_r1_3 = 0;
-        temp_r0_27 = temp_r0_26 + 4;
-        temp_r0_26->unk4 = 0;
-        temp_r0_28 = temp_r0_27 + 2;
-        temp_r0_27->unk2 = 0;
-        temp_r0_29 = temp_r0_28 + 5;
-        temp_r0_28->unk5 = 0;
-        temp_r0_30 = temp_r0_29 + 1;
-        temp_r0_29->unk1 = 0;
-        temp_r0_31 = temp_r0_30 + 1;
-        temp_r0_30->unk1 = 0;
-        temp_r0_32 = temp_r0_31 + 3;
-        temp_r0_31->unk3 = 0;
-        temp_r0_33 = temp_r0_32 + 2;
-        temp_r0_32->unk2 = 0;
-        temp_r0_34 = temp_r0_33 + 2;
-        temp_r0_33->unk2 = 0;
-        temp_r0_35 = temp_r0_34 + 2;
-        temp_r0_34->unk2 = 0;
-        temp_r0_35->unk2 = 0;
-        (temp_r0_35 + 2)->unk2 = 0;
-        *sp0 = 0xE;
-        *temp_r7_2 = 0x3C;
-        temp_r3_3->callback = Player_800522C;
+    partner = &gPlayers[p->charFlags.partnerIndex];
+    if (partner->charFlags.someIndex == 2) {
+        SUB_800913C_PSET(partner);
+        p->unk56 = 14; // TODO: Should these not be set to partner->?
+        p->unk57 = 60;
+        partner->callback = Player_800522C;
     }
-    temp_r0_36 = gStageData.respawnX - 0x78;
-    gCamera.unk28 = temp_r0_36;
-    gCamera.x = temp_r0_36;
-    temp_r0_37 = gStageData.respawnY - 0x50;
-    gCamera.unk2C = temp_r0_37;
-    gCamera.y = temp_r0_37;
+    gCamera.x = gCamera.unk28 = gStageData.respawnX - (DISPLAY_WIDTH / 2);
+    gCamera.y = gCamera.unk2C = gStageData.respawnY - (DISPLAY_HEIGHT / 2);
 }
 
+#if 0
 void sub_8009518(Player *arg0) {
     s16 *var_r1;
     s16 var_r0;
