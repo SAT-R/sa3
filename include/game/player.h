@@ -157,7 +157,7 @@ struct Player {
     s16 idleAndCamCounter; // 0x52 | counter until idle-animation
                            // or camera-movement when looking up/down (starts at 0x28)
 
-    u16 unk54; // 0x54
+    /* 0x54 */ s16 unk54;
 
     s8 unk56;
     u8 unk57;
@@ -229,7 +229,7 @@ struct Player {
     u32 unkE4;
 
     Vec2_16 unkE8;
-    s8 unkEC;
+    u8 unkEC;
     s32 qUnkF0;
     u16 palette[16];
     u8 Padding114[0x28];
