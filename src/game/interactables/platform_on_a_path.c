@@ -160,7 +160,7 @@ void Task_PlatformOnPath(void)
 
                 if ((platform->qWorld.y != platform->qTarget.y) && (platform->qWorld.y > platform->qTarget.y) && (sub_801226C(p) < 0)
                     && (sub_802C080(p) == 0)) {
-                    Player_HitWithoutRings(p);
+                    Player_HitWithoutRingsUpdate(p);
                 }
             } else if (res & 0x20000) {
                 p->qWorldY += Q_8_8(res);

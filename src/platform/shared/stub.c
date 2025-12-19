@@ -81,7 +81,7 @@ void Player_8007898(Player *p) { }
 void Player_800891C(Player *p) { }
 void Player_8008A8C(Player *p) { }
 void Player_8008CD0(Player *p) { }
-void Player_HitWithoutRings(Player *p) { }
+void Player_HitWithoutRingsUpdate(Player *p) { }
 void Player_80098D8(Player *p) { }
 void Player_8009B4C(Player *p) { }
 void Player_8009BF0(Player *p) { }

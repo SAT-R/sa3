@@ -143,7 +143,7 @@ NONMATCH("asm/non_matching/game/interactables/closing_wall__Task_ClosingWall.inc
                     // _0804ABD2
                     if (wall->unk5E < 38) {
                         if (!sub_802C080(p)) {
-                            Player_HitWithoutRings(p);
+                            Player_HitWithoutRingsUpdate(p);
                         }
                     }
                 }

@@ -245,7 +245,7 @@ _0804ABD2:
 	cmp r0, #0
 	bne _0804AAD2_inner_continue
 	adds r0, r6, #0
-	bl Player_HitWithoutRings
+	bl Player_HitWithoutRingsUpdate
 _0804AAD2_inner_continue:
 	ldr r3, [sp, #0x24]
 	movs r4, #0x80

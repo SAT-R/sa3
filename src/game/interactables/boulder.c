@@ -100,7 +100,7 @@ void Task_Boulder(void)
             res = sub_8020874(s, I(boulder->qWorldX), I(boulder->qWorldY), 0, p, 0, 0);
             if (res) {
                 if (!(p->moveState & (MOVESTATE_1000000))) {
-                    Player_HitWithoutRings(p);
+                    Player_HitWithoutRingsUpdate(p);
                 }
             }
         }

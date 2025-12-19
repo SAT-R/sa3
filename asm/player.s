@@ -8,165 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_8008FE4
-sub_8008FE4: @ 0x08008FE4
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	sub sp, #0xc
-	adds r6, r0, #0
-	ldr r1, _08009118 @ =gCharVoicesLifeLost
-	mov r0, sp
-	movs r2, #0xa
-	bl memcpy
-	ldr r0, _0800911C @ =gStageData
-	ldrb r0, [r0, #3]
-	cmp r0, #7
-	beq _08009016
-	ldr r0, [r6, #4]
-	movs r1, #0x80
-	lsls r1, r1, #5
-	ands r0, r1
-	cmp r0, #0
-	beq _08009016
-	adds r0, r6, #0
-	ldr r1, _08009120 @ =0x00000119
-	bl Player_StopSong
-_08009016:
-	ldr r0, [r6, #4]
-	ldr r1, _08009124 @ =0xDC510BA1
-	ands r0, r1
-	str r0, [r6, #4]
-	movs r0, #0x2b
-	adds r0, r0, r6
-	mov r8, r0
-	ldrb r1, [r0]
-	movs r0, #0x21
-	rsbs r0, r0, #0
-	ands r0, r1
-	mov r1, r8
-	strb r0, [r1]
-	adds r0, r6, #0
-	adds r0, #0x2f
-	movs r4, #0
-	strb r4, [r0]
-	adds r0, #0x6a
-	strb r4, [r0]
-	adds r0, #1
-	strb r4, [r0]
-	adds r7, r6, #0
-	adds r7, #0x9e
-	movs r5, #0
-	strh r4, [r7]
-	ldr r0, [r6, #4]
-	movs r1, #0x22
-	rsbs r1, r1, #0
-	ands r0, r1
-	ldr r1, _08009128 @ =0xEFFFFFFF
-	ands r0, r1
-	movs r2, #0x80
-	lsls r2, r2, #1
-	mov sb, r2
-	orrs r0, r2
-	str r0, [r6, #4]
-	adds r0, r6, #0
-	bl Player_8012FE0
-	movs r0, #0x67
-	strh r0, [r6, #0x30]
-	movs r1, #0x9e
-	lsls r1, r1, #1
-	adds r0, r6, r1
-	strb r5, [r0]
-	ldr r2, _0800912C @ =0x0000013D
-	adds r0, r6, r2
-	strb r5, [r0]
-	adds r0, r6, #0
-	adds r0, #0x4c
-	strh r4, [r0]
-	strh r4, [r6, #0x18]
-	strh r4, [r6, #0x1a]
-	strh r4, [r7]
-	adds r1, r6, #0
-	adds r1, #0x4a
-	movs r0, #0x78
-	strh r0, [r1]
-	adds r0, r6, #0
-	bl sub_8016F28
-	ldr r0, [r6, #4]
-	ldr r1, _08009130 @ =0xFDFFFFFF
-	ands r0, r1
-	str r0, [r6, #4]
-	adds r0, r6, #0
-	movs r1, #0x77
-	bl Player_PlaySong
-	adds r0, r6, #0
-	adds r0, #0x2a
-	ldrb r0, [r0]
-	lsls r0, r0, #0x1c
-	lsrs r0, r0, #0x1b
-	add r0, sp
-	ldrh r1, [r0]
-	adds r0, r6, #0
-	bl Player_PlaySong
-	ldr r4, _0800911C @ =gStageData
-	ldrb r0, [r4, #3]
-	cmp r0, #4
-	bls _080090FE
-	mov r0, r8
-	ldrb r1, [r0]
-	movs r0, #0x1c
-	ands r0, r1
-	cmp r0, #4
-	bne _080090FE
-	lsls r1, r1, #0x1e
-	lsrs r1, r1, #0x1e
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	ldr r1, _08009134 @ =gPlayers
-	adds r1, r0, r1
-	ldr r0, [r1, #4]
-	mov r2, sb
-	ands r0, r2
-	cmp r0, #0
-	bne _080090EA
-	adds r0, r1, #0
-	bl sub_8009518
-_080090EA:
-	bl sub_80278DC
-	ldrb r0, [r4, #3]
-	cmp r0, #5
-	bne _080090FE
-	adds r0, r4, #0
-	adds r0, #0xb4
-	ldrb r0, [r0]
-	bl sub_8027878
-_080090FE:
-	ldr r1, _08009138 @ =sub_800913C
-	str r1, [r6]
-	adds r0, r6, #0
-	bl _call_via_r1
-	add sp, #0xc
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08009118: .4byte gCharVoicesLifeLost
-_0800911C: .4byte gStageData
-_08009120: .4byte 0x00000119
-_08009124: .4byte 0xDC510BA1
-_08009128: .4byte 0xEFFFFFFF
-_0800912C: .4byte 0x0000013D
-_08009130: .4byte 0xFDFFFFFF
-_08009134: .4byte gPlayers
-_08009138: .4byte sub_800913C
-
 	thumb_func_start sub_800913C
 sub_800913C: @ 0x0800913C
 	push {r4, r5, r6, r7, lr}
@@ -23717,7 +23558,7 @@ _08014604:
 	cmp r0, #0
 	bne _08014616
 	adds r0, r4, #0
-	bl Player_HitWithoutRings
+	bl Player_HitWithoutRingsUpdate
 	b _0801465E
 _08014616:
 	cmp r3, #4
@@ -23922,7 +23763,7 @@ _08014788:
 	movs r1, #0x9d
 	bl Player_PlaySong
 	adds r0, r4, #0
-	bl sub_8008FE4
+	bl Player_HitWithoutRings
 _08014796:
 	pop {r4, r5}
 	pop {r0}
@@ -25162,7 +25003,7 @@ _080150D0:
 	subs r5, r0, #1
 _080150D6:
 	adds r0, r4, #0
-	bl Player_HitWithoutRings
+	bl Player_HitWithoutRingsUpdate
 	movs r0, #1
 	mov sb, r0
 _080150E0:

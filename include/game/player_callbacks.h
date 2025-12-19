@@ -45,7 +45,7 @@ extern void Player_8006654(Player *p);
 extern void Player_800673C(Player *p);
 extern void Player_80068EC(Player *p);
 extern void Player_8006824(Player *p);
-extern void Player_HitWithoutRings(Player *p);
+extern void Player_HitWithoutRingsUpdate(Player *p);
 extern void Player_80069E4(Player *p);
 extern void Player_8006AE4(Player *p);
 extern void Player_8006C70(Player *p);

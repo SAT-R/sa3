@@ -272,7 +272,7 @@ _08041D70:
 	cmp r0, #0
 	bne _08041DF0
 	adds r0, r5, #0
-	bl Player_HitWithoutRings
+	bl Player_HitWithoutRingsUpdate
 	b _08041DF0
 _08041DBA:
 	movs r0, #0x80
@@ -298,7 +298,7 @@ _08041DBA:
 	cmp r0, #0
 	bne _08041DF0
 	adds r0, r5, #0
-	bl Player_HitWithoutRings
+	bl Player_HitWithoutRingsUpdate
 _08041DF0:
 	movs r0, #0xc0
 	lsls r0, r0, #0xc
