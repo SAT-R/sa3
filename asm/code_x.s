@@ -11981,7 +11981,7 @@ _080B7A74: .4byte 0x0002CFFF
 _080B7A78: .4byte 0x0001DFFF
 _080B7A7C:
 	mov r0, r8
-	bl Player_8008E38
+	bl Player_HitWithoutRings
 	str r4, [r7, #0x10]
 _080B7A84:
 	add sp, #4

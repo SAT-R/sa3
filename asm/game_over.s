@@ -1053,7 +1053,7 @@ _08002C9C:
 	cmp r0, #8
 	beq _08002CD0
 	adds r0, r4, #0
-	bl Player_8008E38
+	bl Player_HitWithoutRings
 	adds r0, r5, #0
 	adds r0, #0x2b
 	ldrb r1, [r0]
@@ -1064,7 +1064,7 @@ _08002C9C:
 	b _08002DC0
 _08002CBA:
 	adds r0, r5, #0
-	bl Player_8008E38
+	bl Player_HitWithoutRings
 	b _08002DC0
 	.align 2, 0
 _08002CC4: .4byte gStageData
@@ -1076,7 +1076,7 @@ _08002CD0:
 	cmp r0, #0
 	bne _08002CF8
 	adds r0, r4, #0
-	bl Player_8008E38
+	bl Player_HitWithoutRings
 	adds r0, r5, #0
 	adds r0, #0x2b
 	ldrb r1, [r0]
@@ -1091,7 +1091,7 @@ _08002CD0:
 _08002CF4: .4byte gStageData
 _08002CF8:
 	adds r0, r5, #0
-	bl Player_8008E38
+	bl Player_HitWithoutRings
 	ldr r0, [r5, #4]
 	orrs r0, r6
 	str r0, [r5, #4]

@@ -161,7 +161,7 @@ void Task_803DED0(void)
                 p->qWorldY += lift->qUnk6A;
 
                 if (!(p->moveState & MOVESTATE_200) && (sub_801226C(p) < 0)) {
-                    Player_8008E38(p);
+                    Player_HitWithoutRings(p);
                 } else {
                     cond = TRUE;
                 }
@@ -266,7 +266,7 @@ void Task_803E0D8(void)
                 p->qWorldY += lift->qUnk6A;
 
                 if (sub_801226C(p) < 0) {
-                    Player_8008E38(p);
+                    Player_HitWithoutRings(p);
                 } else {
                     cond = TRUE;
                 }

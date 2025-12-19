@@ -52,11 +52,14 @@ void sub_801EBC0(s32, Player *p);
 void sub_8023634();
 void sub_8026254(Player *p);
 void sub_80268B8(s16);
+void sub_8027878(u8);
+void sub_80278DC(void);
 
 void sub_80B7968(Struc_3001150 *, Player *);
 u16 sub_80B7A94(Struc_3001150 *);
 extern u16 gMedalTimes[][2];
 extern s16 gUnknown_080CE5B8[9]; // Spindash accel related
+extern u16 gCharVoicesLifeLost[NUM_CHARACTERS];
 extern u16 gUnknown_080CE5CA[10];
 extern u16 gUnknown_080D05A8[][2];
 
@@ -4239,62 +4242,63 @@ void Player_8008CD0(Player *p)
     Player_800E1E4(p);
 }
 
-#if 0
-void Player_8008E38(Player *p) {
-    Player *temp_r4;
-    s16 *temp_r0_2;
-    s16 *var_r1;
-    s16 var_r0;
-    s16 var_r0_2;
-    u8 *temp_r0;
-    u8 temp_r1;
+void Player_HitWithoutRings(Player *p)
+{
+    s16 sp00[5];
+    Player *partner;
 
-    memcpy(&subroutine_arg0, &gUnknown_080CE5DE, 0xA);
-    if ((gStageData.gameMode != 7) && (p->moveState & 0x1000)) {
-        Player_StopSong(p, 0x119U);
+    memcpy(&sp00, &gCharVoicesLifeLost[0], sizeof(gCharVoicesLifeLost));
+
+    if (gStageData.gameMode != 7) {
+        if (p->moveState & MOVESTATE_1000) {
+#ifndef NON_MATCHING
+            Player *p0;
+            asm("mov %0, %1" : "=r"(p0) : "r"(p));
+#else
+            Player *p0 = p;
+#endif
+            Player_StopSong(p0, SE_281);
+        }
     }
-    p->moveState &= 0xDC510BA1;
-    p->unk2B = (u8) (-0x21 & p->unk2B);
-    p->unk2F = 0;
-    temp_r0 = &p->filler6A[0x2F];
-    temp_r0->unk0 = 0;
-    temp_r0->unk1 = 0;
-    temp_r0_2 = &p->qCamOffsetY;
-    *temp_r0_2 = 0;
-    p->moveState = (p->moveState & ~0x21 & 0xEFFFFFFF) | 0x100;
+
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
+                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
+                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->charFlags.someFlag0 = 0;
+    p->charFlags.state0_highValue = 0;
+    p->unk99 = 0;
+    p->unk9A = 0;
+    p->qCamOffsetY = 0;
+
+    p->moveState &= ~(MOVESTATE_COLLIDING_ENT | MOVESTATE_FACING_LEFT);
+    p->moveState &= 0xEFFFFFFF;
+    p->moveState |= 0x100;
     Player_8012FE0(p);
     p->charFlags.anim0 = 0x67;
     p->unk13C = 0;
     p->unk13D = 0;
     p->framesInvincible = 0;
     p->qSpeedAirX = 0;
-    var_r0 = 0xFFFFFB20;
-    if (p->moveState & 0x80) {
-        var_r0 = 0xFFFFFD60;
-    }
-    p->qSpeedAirY = var_r0;
-    *temp_r0_2 = 0;
-    if ((gStageData.levelTimer == 0x8C9F) && (gStageData.unk2 == 0)) {
-        var_r1 = &p->framesInvulnerable;
-        var_r0_2 = 0x258;
-    } else if ((p->moveState & 0x80) && (gStageData.gameMode == 0)) {
-        var_r1 = &p->framesInvulnerable;
-        var_r0_2 = 0xB4;
+    p->qSpeedAirY = (p->moveState & 0x80) ? -Q(2.625) : -Q(4.875);
+    p->qCamOffsetY = 0;
+
+    if ((gStageData.levelTimer == (MAX_COURSE_TIME - 1)) && (gStageData.unk2 == 0)) {
+        p->framesInvulnerable = ZONE_TIME_TO_INT(0, 10);
+    } else if ((p->moveState & MOVESTATE_80) && (gStageData.gameMode == 0)) {
+        p->framesInvulnerable = ZONE_TIME_TO_INT(0, 3);
     } else {
-        var_r1 = &p->framesInvulnerable;
-        var_r0_2 = 0x78;
+        p->framesInvulnerable = ZONE_TIME_TO_INT(0, 2);
     }
-    *var_r1 = var_r0_2;
+
     sub_8016F28(p);
     p->moveState &= 0xFDFFFFFF;
-    Player_PlaySong(p, 0x77U);
-    Player_PlaySong(p, *(((u32) (p->unk2A << 0x1C) >> 0x1B) + sp));
-    if ((u32) gStageData.gameMode > 4U) {
-        temp_r1 = p->unk2B;
-        if ((0x1C & temp_r1) == 4) {
-            temp_r4 = &gPlayers[(u32) (temp_r1 << 0x1E) >> 0x1E];
-            if (!(temp_r4->moveState & 0x100)) {
-                sub_8009518(temp_r4);
+    Player_PlaySong(p, SE_HIT_WITH_NO_RINGS);
+    Player_PlaySong(p, sp00[p->charFlags.character]);
+    if (gStageData.gameMode > 4U) {
+        if (p->charFlags.someIndex == 1) {
+            partner = &gPlayers[p->charFlags.partnerIndex];
+            if (!(partner->moveState & MOVESTATE_100)) {
+                sub_8009518(partner);
             }
             sub_80278DC();
             if (gStageData.gameMode == 5) {
@@ -4306,13 +4310,14 @@ void Player_8008E38(Player *p) {
     sub_800913C(p);
 }
 
+#if 0
 void sub_8008FE4(Player *arg0) {
     Player *temp_r1_2;
     s16 *temp_r7;
     u8 *temp_r0;
     u8 temp_r1;
 
-    memcpy(&subroutine_arg0, &gUnknown_080CE5DE, 0xA);
+    memcpy(&subroutine_arg0, &gCharVoicesLifeLost, 0xA);
     if ((gStageData.gameMode != 7) && (arg0->moveState & 0x1000)) {
         Player_StopSong(arg0, 0x119U);
     }
@@ -13989,7 +13994,7 @@ void Player_8014550(Player *p) {
                     goto block_18;
                 }
                 if (gStageData.rings == 0) {
-                    Player_8008E38(p);
+                    Player_HitWithoutRings(p);
                     return;
                 }
                 if (temp_r3 == 4) {
@@ -14613,7 +14618,7 @@ s16 sub_8015064(Player *arg0, ? arg3) {
         } else {
             var_r5 = (gCamera.unk14 << 8) - 1;
         }
-        Player_8008E38(arg0);
+        Player_HitWithoutRings(arg0);
         var_sb = 1;
     }
     var_r0_2 = (gCamera.unk18 + 0xC) << 8;

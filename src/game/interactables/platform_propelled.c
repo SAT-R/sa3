@@ -130,7 +130,7 @@ void Task_PlatformPropelled(void)
 
                 if (sub_8012368(p) < 0) {
                     if (!sub_802C080(p)) {
-                        Player_8008E38(p);
+                        Player_HitWithoutRings(p);
                     }
                 } else {
                     if ((p->charFlags.anim0 == 238) || (p->charFlags.anim0 == 239) || (p->charFlags.anim0 == 244)

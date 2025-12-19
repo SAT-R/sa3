@@ -34,9 +34,9 @@ gUnknown_080CE5B8:
 gUnknown_080CE5CA:
     .incbin "baserom_sa3.gba", 0x000CE5CA, 0x14
 
-    .global gUnknown_080CE5DE
-gUnknown_080CE5DE:
-    .incbin "baserom_sa3.gba", 0x000CE5DE, 0xA
+    .global gCharVoicesLifeLost
+gCharVoicesLifeLost:
+    .short 0x267, 0x27A, 0x26B, 0x270, 0x276
 
     .global gUnknown_080CE5E8
 gUnknown_080CE5E8:

@@ -25182,7 +25182,7 @@ _08072040:
 	ands r2, r0
 	cmp r2, #0
 	bne _08072090
-	ldr r1, _0807208C @ =Player_8008E38
+	ldr r1, _0807208C @ =Player_HitWithoutRings
 	adds r0, r3, #0
 	bl SetPlayerCallback
 	b _080720B2
@@ -25190,10 +25190,10 @@ _08072040:
 _08072080: .4byte gStageData
 _08072084: .4byte gPlayers
 _08072088: .4byte gCamera
-_0807208C: .4byte Player_8008E38
+_0807208C: .4byte Player_HitWithoutRings
 _08072090:
 	ldr r2, [r3]
-	ldr r1, _080720D8 @ =Player_8008E38
+	ldr r1, _080720D8 @ =Player_HitWithoutRings
 	cmp r2, r1
 	beq _080720B2
 	ldr r0, _080720DC @ =sub_800913C
@@ -25225,7 +25225,7 @@ _080720CA:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080720D8: .4byte Player_8008E38
+_080720D8: .4byte Player_HitWithoutRings
 _080720DC: .4byte sub_800913C
 _080720E0: .4byte sub_800DF9C
 
@@ -45344,7 +45344,7 @@ sub_807BC04: @ 0x0807BC04
 	bne _0807BC98
 	movs r0, #0xa0
 	bl sub_807FB7C
-	ldr r1, _0807BC94 @ =Player_8008E38
+	ldr r1, _0807BC94 @ =Player_HitWithoutRings
 	adds r0, r4, #0
 	bl SetPlayerCallback
 	b _0807BCBA
@@ -45353,10 +45353,10 @@ _0807BC84: .4byte gCurTask
 _0807BC88: .4byte gUnknown_08E2ED00
 _0807BC8C: .4byte gStageData
 _0807BC90: .4byte gPlayers
-_0807BC94: .4byte Player_8008E38
+_0807BC94: .4byte Player_HitWithoutRings
 _0807BC98:
 	ldr r1, [r4]
-	ldr r5, _0807BCC0 @ =Player_8008E38
+	ldr r5, _0807BCC0 @ =Player_HitWithoutRings
 	cmp r1, r5
 	beq _0807BCBA
 	ldr r0, _0807BCC4 @ =sub_800913C
@@ -45375,7 +45375,7 @@ _0807BCBA:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0807BCC0: .4byte Player_8008E38
+_0807BCC0: .4byte Player_HitWithoutRings
 _0807BCC4: .4byte sub_800913C
 _0807BCC8: .4byte sub_800DF9C
 
