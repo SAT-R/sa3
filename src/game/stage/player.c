@@ -4564,113 +4564,61 @@ void sub_8009518(Player *p)
     sub_80095E8(p);
 }
 
-#if 0
-void sub_80095E8(Player *p) {
-    ? *temp_r0_2;
-    s16 *temp_r7;
-    s8 *temp_r1;
-    u16 *temp_r2;
-    u8 *temp_r0;
-    void *temp_r0_10;
-    void *temp_r0_11;
-    void *temp_r0_12;
-    void *temp_r0_13;
-    void *temp_r0_14;
-    void *temp_r0_15;
-    void *temp_r0_16;
-    void *temp_r0_3;
-    void *temp_r0_4;
-    void *temp_r0_5;
-    void *temp_r0_6;
-    void *temp_r0_7;
-    void *temp_r0_8;
-    void *temp_r0_9;
+void sub_80095E8(Player* p) {
+    Player* partner;
+    u32 temp_r0;
 
-    temp_r7 = &p->framesInvulnerable;
-    if ((s32) *temp_r7 > 0) {
+    if (p->framesInvulnerable > 0) {
         return;
     }
-    if ((u32) (u8) (gStageData.gameMode - 3) <= 1U) {
+    
+    //partner = &gPlayers[p->charFlags.partnerIndex];
+    
+    if (gStageData.gameMode == GAME_MODE_TIME_ATTACK || gStageData.gameMode == GAME_MODE_BOSS_TIME_ATTACK) {
         sub_8003D2C();
-        TasksDestroyInPriorityRange(0U, 0xFFFFU);
-        gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
-        gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+        PAUSE_GRAPHICS_QUEUE();
         sub_808723C(0, 2);
         return;
     }
-    if ((u8) gStageData.gameMode != 6) {
+
+    if (gStageData.gameMode != 6) {
         if ((gStageData.lives == 0) && (gStageData.act != 9)) {
             sub_8002414();
             p->callback = sub_800DF9C;
             return;
+        } else {
+            gStageData.lives--;
+            sub_8001D58(sub_8002388, 0);
+            return;
         }
-        gStageData.lives -= 1;
-        sub_8001D58(&sub_8002388, 0);
-        return;
     }
+    
     MPlayStop(&gMPlayInfo_SE1);
     MPlayStop(&gMPlayInfo_SE2);
     MPlayStop(&gMPlayInfo_SE3);
-    if ((0x1C & p->unk2B) == 4) {
+    
+    if (p->charFlags.someIndex == 1) {
         gStageData.rings = 1;
     }
-    gStageData.fillerBA[1] = 7;
-    p->moveState = 0x08000000;
-    p->qWorldX = gStageData.respawnX << 8;
-    p->qWorldY = gStageData.respawnY << 8;
-    p->qSpeedAirX = 0;
-    p->qSpeedAirY = 0;
-    p->qSpeedGround = 0;
-    p->unk2B = (u8) (0x7F & p->unk2B);
-    temp_r2 = &p->boostEffectCounter;
-    *temp_r2 = 0;
-    temp_r0 = &p->unk27;
-    temp_r0->unk0 = 1;
-    temp_r0->unk19 = 0;
-    temp_r0_2 = &temp_r0[0x19].unk2;
-    temp_r0_2->unk0 = 0;
-    temp_r0_3 = temp_r0_2 + 2;
-    temp_r0_2->unk2 = 0;
-    temp_r0_4 = temp_r0_3 + 2;
-    temp_r0_3->unk2 = 0;
-    temp_r0_5 = temp_r0_4 + 2;
-    temp_r0_4->unk2 = 0;
-    *temp_r7 = 0;
-    temp_r0_6 = temp_r0_5 + 4;
-    temp_r0_5->unk4 = 0;
-    temp_r0_7 = temp_r0_6 + 2;
-    temp_r0_6->unk2 = 0;
-    *temp_r2 = 0;
-    temp_r0_8 = temp_r0_7 + 4;
-    temp_r0_7->unk4 = 0;
-    temp_r0_9 = temp_r0_8 + 2;
-    temp_r0_8->unk2 = 0;
-    temp_r0_10 = temp_r0_9 + 5;
-    temp_r0_9->unk5 = 0;
-    temp_r0_11 = temp_r0_10 + 1;
-    temp_r0_10->unk1 = 0;
-    temp_r0_12 = temp_r0_11 + 1;
-    temp_r0_11->unk1 = 0;
-    temp_r0_13 = temp_r0_12 + 3;
-    temp_r0_12->unk3 = 0;
-    temp_r0_14 = temp_r0_13 + 2;
-    temp_r0_13->unk2 = 0;
-    temp_r0_15 = temp_r0_14 + 2;
-    temp_r0_14->unk2 = 0;
-    temp_r0_16 = temp_r0_15 + 2;
-    temp_r0_15->unk2 = 0;
-    temp_r0_16->unk2 = 0;
-    (temp_r0_16 + 2)->unk2 = 0;
-    temp_r1 = &p->unk56;
-    temp_r1->unk0 = 0xE;
-    temp_r1->unk1 = 0x3C;
+    
+    gStageData.unkBB = 7;
+
+    SUB_800913C_PSET(p);
+
+    p->unk56 = 14;
+    p->unk57 = 60;
     gStageData.unkBD = 1;
+    
     p->callback = Player_800522C;
-    gCamera.x = (s32) gStageData.respawnX;
-    gCamera.y = (s32) gStageData.respawnY;
+
+    gCamera.x = gStageData.respawnX;
+    gCamera.y = gStageData.respawnY;
 }
 
+#if 0
 void sub_8009780(Player *p) {
     PlayerSprite *temp_r2;
     u8 *temp_r0;
