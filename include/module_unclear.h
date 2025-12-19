@@ -25,7 +25,9 @@ extern u8 gVramGraphicsCopyCursor;
 typedef struct {
     /* 0x00 */ u8 filler0[7];
     /* 0x4C */ u8 unk7;
-    /* 0x00 */ u8 filler8[0x4];
+    /* 0x4C */ u8 unk8;
+    /* 0x4C */ u8 unk9;
+    /* 0x00 */ u8 fillerA[0x2];
     /* 0x4C */ u32 unkC[4];
     /* 0x00 */ u16 unk1C[4][6];
     /* 0x4C */ u8 unk4C;

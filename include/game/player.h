@@ -185,7 +185,7 @@ struct Player {
 
     s32 qUnk70;
     s32 qUnk74;
-    u8 unk78;
+    s8 unk78;
     u8 filler79[0x13];
 
     // x8C and v90 are speed-related
@@ -228,8 +228,8 @@ struct Player {
     //    SpriteInfo* spriteInfo; // 0xE0 | the information is 0x3C bytes long
     u32 unkE4;
 
-    u8 PaddingE8[0x4];
-    s32 qUnkEC;
+    Vec2_16 unkE8;
+    s8 unkEC;
     s32 qUnkF0;
     u16 palette[16];
     u8 Padding114[0x28];

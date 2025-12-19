@@ -4019,49 +4019,38 @@ void Player_800891C(Player *p)
     }
 }
 
-#if 0
-void Player_80089CC(Player *p) {
-    s16 temp_r1_2;
-    s16 var_r0;
-    u16 temp_r0;
-    u32 temp_r1;
-    u8 *temp_r1_3;
+void Player_80089CC(Player *p)
+{
+    u32 moveState = p->moveState;
 
-    temp_r1 = p->moveState;
-    if (((0x24 & temp_r1) || !(temp_r1 & 0x800)) && ((sub_8014BC4(p) << 0x10) == 0)) {
-        temp_r0 = (u16) p->qSpeedGround;
-        temp_r1_2 = p->qSpeedGround;
-        if ((s32) temp_r1_2 > 0) {
-            var_r0 = temp_r0 - 8;
-            goto block_7;
+    if ((((MOVESTATE_COLLIDING_ENT | MOVESTATE_IN_AIR) & p->moveState) || !(moveState & MOVESTATE_800)) && !sub_8014BC4(p)) {
+        if (p->qSpeedGround > 0) {
+            p->qSpeedGround = p->qSpeedGround - 8;
+        } else if (p->qSpeedGround < 0) {
+            p->qSpeedGround = p->qSpeedGround + 8;
         }
-        if ((s32) temp_r1_2 < 0) {
-            var_r0 = temp_r0 + 8;
-block_7:
-            p->qSpeedGround = var_r0;
-        }
-        if ((u32) (u16) ((u16) p->qSpeedGround + 0x7F) <= 0xFEU) {
+        if ((u16)(p->qSpeedGround + Q(0.5) - 1) < Q(1) - 1) {
             p->qSpeedGround = 0;
         }
+
         if (p->qSpeedGround == 0) {
             Player_8005380(p);
-            return;
-        }
-        sub_8015144(p);
-        if ((sub_8015064(p) << 0x10) == 0) {
-            Player_801479C(p);
-            if (p->moveState & 4) {
-                sub_8016E50(p);
-            }
-            sub_8016D30(p);
-            sub_8014E70(p);
-            temp_r1_3 = p->filler78;
-            if ((s8) *temp_r1_3 != 0) {
-                *temp_r1_3 -= 1;
-                goto block_18;
-            }
-            if ((sub_801480C(p) << 0x10) == 0) {
-block_18:
+        } else {
+            sub_8015144(p);
+            if (!sub_8015064(p)) {
+                Player_801479C(p);
+                if (p->moveState & MOVESTATE_IN_AIR) {
+                    sub_8016E50(p);
+                }
+                sub_8016D30(p);
+                sub_8014E70(p);
+
+                if (p->unk78 != 0) {
+                    p->unk78 -= 1;
+                } else if (sub_801480C(p)) {
+                    return;
+                }
+
                 sub_8012EB8(p);
                 sub_8016E00(p);
             }
@@ -4069,29 +4058,25 @@ block_18:
     }
 }
 
-void Player_8008A8C(Player *p) {
-    s16 *temp_r2;
+// (90.44%) https://decomp.me/scratch/FrTJ0
+NONMATCH("asm/non_matching/game/stage/player__Player_8008A8C.inc", void Player_8008A8C(Player *p))
+{
+    Vec2_16 *temp_r1;
+    Vec2_16 *temp_r1_2;
     s16 temp_r0;
-    s32 *var_r3_2;
     s32 temp_r2_2;
     s32 var_r0;
     s32 var_r1_2;
     s32 var_r3;
     u32 temp_r0_2;
-    u8 *temp_r1;
-    u8 *temp_r1_2;
     u8 temp_r0_3;
     u8 temp_r0_4;
     u8 var_r1;
-    u8 var_r6;
+    s32 var_r6;
 
-    var_r6 = saved_reg_r8;
-    temp_r2 = &p->idleAndCamCounter;
-    temp_r0 = (u16) *temp_r2 + 1;
-    *temp_r2 = temp_r0;
-    if ((s32) temp_r0 > 0x1F) {
+    if (++p->idleAndCamCounter > 0x1F) {
         p->qCamOffsetY = 0;
-        temp_r0_2 = (p->moveState & 0xDDFFFFBF) | 4;
+        temp_r0_2 = (p->moveState & ~(0x22000040)) | 4;
         p->moveState = temp_r0_2;
         if (temp_r0_2 & 0x800000) {
             sub_800E150(p);
@@ -4101,54 +4086,54 @@ void Player_8008A8C(Player *p) {
         sub_800DF10(p);
         return;
     }
-    if (gUnknown_03001060.unk7 != gUnknown_03001060.filler8[0]) {
+    if (gUnknown_03001060.unk7 != gUnknown_03001060.unk8) {
         return;
     }
-    var_r1 = 0;
-    if (p == gPlayers) {
-        var_r6 = 0;
-    } else {
-loop_8:
-        var_r1 += 1;
-        if ((u32) var_r1 <= 3U) {
-            if (p == &gPlayers[var_r1]) {
-                var_r6 = var_r1;
-            } else {
-                goto loop_8;
-            }
+
+    //    var_r6 = 0;
+    for (var_r1 = 0; var_r1 < 4; var_r1++) {
+        if (p == &gPlayers[var_r1]) {
+            var_r6 = var_r1;
+            break;
         }
     }
+
     var_r3 = (2 & var_r6) | (1 & ~(var_r6 & 1));
-    if (!(((s32) gUnknown_03001060.unk7 >> var_r3) & 1)) {
+    if (!((gUnknown_03001060.unk7 >> var_r3) & 1)) {
         var_r3 &= 1;
     }
-    if (((s32) gUnknown_03001060.filler8[0] >> var_r3) & 1) {
-        if ((((s32) gUnknown_03001060.filler8[1] >> (var_r3 + 4)) & 1) && (((s32) gUnknown_03001060.filler8[1] >> (var_r6 + 4)) & 1)) {
+    if ((gUnknown_03001060.unk8 >> var_r3) & 1) {
+        if (((gUnknown_03001060.unk9 >> (var_r3 + 4)) & 1) && ((gUnknown_03001060.unk9 >> (var_r6 + 4)) & 1)) {
             temp_r2_2 = var_r3 * 0x150;
-            temp_r1 = p->PaddingE8;
-            temp_r1->unk0 = (s16) ((s32) *(temp_r2_2 + &gPlayers->qWorldX) >> 8);
-            temp_r1->unk2 = (s16) ((s32) *(temp_r2_2 + &gPlayers->qWorldY) >> 8);
-            var_r3_2 = &p->qUnkEC;
-            temp_r0_3 = (-0x10 & *var_r3_2) | (((s32) gUnknown_03001060.filler8[1] >> var_r3) & 1);
-            *var_r3_2 = temp_r0_3;
-            var_r1_2 = (gPlayers[var_r3].unk6 & 1) * 0x10;
+            p->unkE8.x = I(gPlayers[var_r3].qWorldX);
+            p->unkE8.y = I(gPlayers[var_r3].qWorldY);
+            temp_r0_3 = GetBit(gUnknown_03001060.unk9, var_r3) | (-0x10 & p->unkEC);
+            p->unkEC = temp_r0_3;
+            var_r1_2 = ((gPlayers[var_r3].moveState >> 16) & 0x1) << 4;
             var_r0 = temp_r0_3 & 0xF;
         } else {
-            temp_r1_2 = p->PaddingE8;
-            temp_r1_2->unk0 = (s16) ((s32) p->qWorldX >> 8);
-            temp_r1_2->unk2 = (s16) ((s32) p->qWorldY >> 8);
-            var_r3_2 = &p->qUnkEC;
-            temp_r0_4 = (-0x10 & *var_r3_2) | (0xF & p->unk27);
-            *var_r3_2 = temp_r0_4;
-            var_r1_2 = (p->unk6 & 1) * 0x10;
-            var_r0 = temp_r0_4 & 0xF;
+            u8 unk27, *pUnkEC;
+            u8 unkEC;
+            s32 mask;
+            p->unkE8.x = I(p->qWorldX);
+            p->unkE8.y = I(p->qWorldY);
+            unk27 = p->unk27;
+            pUnkEC = &p->unkEC;
+            unk27 = (0xF & unk27);
+            unkEC = *pUnkEC;
+            mask = -0x10;
+            p->unkEC = (unkEC & mask) | unk27;
+            var_r1_2 = ((p->moveState >> 16) & 0x1) << 4;
+            var_r0 = p->unkEC & 0xF;
         }
-        *var_r3_2 = (s8) (var_r0 | var_r1_2);
+        p->unkEC = (s8)(var_r0 | var_r1_2);
     }
-    *temp_r2 = 0;
+    p->idleAndCamCounter = 0;
     p->callback = Player_800ED80;
 }
+END_NONMATCH
 
+#if 0
 void Player_8008C1C(Player *p) {
     s32 *temp_r1;
     s32 temp_r1_2;
