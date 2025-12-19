@@ -1777,7 +1777,7 @@ _08066DA0:
 	cmp r5, #1
 	bne _08066DEA
 	adds r0, r4, #0
-	bl sub_8009850
+	bl Player_8009850
 	mov r1, r8
 	ldr r0, [r1, #8]
 	movs r1, #0x80
