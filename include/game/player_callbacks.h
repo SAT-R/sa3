@@ -87,6 +87,7 @@ extern void Player_8008C1C(Player *p);
 extern void Player_8008CD0(Player *p);
 extern void sub_800913C(Player *p);
 extern void sub_8009518(Player *p);
+extern void sub_80095E8(Player *p);
 extern void Player_80098D8(Player *p); // Grinding-related
 extern void Player_8009B4C(Player *p);
 extern void Player_8009BF0(Player *p); // ButtonSpring ver. of Player_8009D04

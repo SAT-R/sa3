@@ -4287,6 +4287,7 @@ void Player_HitWithoutRingsUpdate(Player *p)
     p->qCamOffsetY = 0;
 
     if ((gStageData.levelTimer == (MAX_COURSE_TIME - 1)) && (gStageData.unk2 == 0)) {
+        // TODO: You get longer invulnerability when you reached the max timer?
         p->framesInvulnerable = ZONE_TIME_TO_INT(0, 10);
     } else if ((p->moveState & MOVESTATE_80) && (gStageData.gameMode == 0)) {
         p->framesInvulnerable = ZONE_TIME_TO_INT(0, 3);
@@ -4516,42 +4517,54 @@ void sub_800913C(Player *p)
     gCamera.y = gCamera.unk2C = gStageData.respawnY - (DISPLAY_HEIGHT / 2);
 }
 
-#if 0
-void sub_8009518(Player *arg0) {
-    s16 *var_r1;
-    s16 var_r0;
-    u8 *temp_r0;
+void sub_8009518(Player *p)
+{
+    Player *partner;
 
-    if ((gStageData.gameMode != 7) && (arg0->moveState & 0x1000)) {
-        Player_StopSong(arg0, 0x119U);
+    if (gStageData.gameMode != 7) {
+        if (p->moveState & MOVESTATE_1000) {
+#ifndef NON_MATCHING
+            Player *p0;
+            asm("mov %0, %1" : "=r"(p0) : "r"(p));
+#else
+            Player *p0 = p;
+#endif
+            Player_StopSong(p0, SE_281);
+        }
     }
-    arg0->moveState &= 0xDC510BA1;
-    arg0->unk2B = (u8) (-0x21 & arg0->unk2B);
-    arg0->unk2F = 0;
-    temp_r0 = &arg0->filler6A[0x2F];
-    temp_r0->unk0 = 0;
-    temp_r0->unk1 = 0;
-    temp_r0[1].unk4 = 0;
-    sub_8016F28(arg0);
-    arg0->moveState = (arg0->moveState & 0xEDFFFFFF & ~0x21) | 0x100;
-    arg0->charFlags.anim0 = 0xA2;
-    arg0->unk13C = 0;
-    arg0->unk13D = 0;
-    arg0->framesInvincible = 0;
-    arg0->qSpeedAirX = 0;
-    arg0->qSpeedAirY = 0;
-    if ((gStageData.levelTimer == 0x8C9F) && (gStageData.unk2 == 0)) {
-        var_r1 = &arg0->framesInvulnerable;
-        var_r0 = 0x258;
+
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
+                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
+                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->charFlags.someFlag0 = 0;
+    p->charFlags.state0_highValue = 0;
+    p->unk99 = 0;
+    p->unk9A = 0;
+    p->qCamOffsetY = 0;
+    sub_8016F28(p);
+
+    p->moveState &= 0xEDFFFFFF;
+    p->moveState &= ~(MOVESTATE_COLLIDING_ENT | MOVESTATE_FACING_LEFT);
+    p->moveState |= 0x100;
+    p->charFlags.anim0 = 0xA2;
+    p->unk13C = 0;
+    p->unk13D = 0;
+    p->framesInvincible = 0;
+    p->qSpeedAirX = 0;
+    p->qSpeedAirY = 0;
+
+    if ((gStageData.levelTimer == (MAX_COURSE_TIME - 1)) && (gStageData.unk2 == 0)) {
+        // TODO: You get longer invulnerability when you reached the max timer?
+        p->framesInvulnerable = ZONE_TIME_TO_INT(0, 10);
     } else {
-        var_r1 = &arg0->framesInvulnerable;
-        var_r0 = 0x78;
+        p->framesInvulnerable = ZONE_TIME_TO_INT(0, 2);
     }
-    *var_r1 = var_r0;
-    arg0->callback = sub_80095E8;
-    sub_80095E8(arg0);
+
+    p->callback = sub_80095E8;
+    sub_80095E8(p);
 }
 
+#if 0
 void sub_80095E8(Player *p) {
     ? *temp_r0_2;
     s16 *temp_r7;
