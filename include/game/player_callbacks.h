@@ -104,6 +104,7 @@ extern void sub_800A2B8(Player *p);
 extern void Player_800A3C0(Player *p);
 extern void Player_800A438(Player *p);
 extern void Player_800A4C8(Player *p);
+extern void sub_800A540(Player *p);
 extern void Player_800A5B0(Player *p);
 extern void Player_800A690(Player *p);
 extern void Player_800A724(Player *p);
