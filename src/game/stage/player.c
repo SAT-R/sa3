@@ -5347,86 +5347,67 @@ void sub_800B0B0(Player *p)
     }
 }
 
-#if 0
-void Player_800B128(Player *p) {
-    s16 *temp_r5;
-    s16 temp_r0_9;
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r0_5;
-    s32 temp_r0_6;
-    s32 temp_r0_7;
-    s32 temp_r0_8;
-    s32 temp_r6;
-    s32 temp_r7;
+void Player_800B128(Player *p)
+{
+    s32 qSomeX;
+    s32 qSomeY;
 
-    temp_r6 = p->qUnk70;
-    temp_r7 = p->qUnk74;
-    temp_r0 = p->qWorldX;
-    if (temp_r0 > temp_r6) {
-        temp_r0_2 = temp_r0 + 0xFFFFFB00;
-        p->qWorldX = temp_r0_2;
-        if (temp_r0_2 < temp_r6) {
-            p->qWorldX = temp_r6;
+    qSomeX = p->qUnk70;
+    qSomeY = p->qUnk74;
+    if (p->qWorldX > qSomeX) {
+        p->qWorldX -= Q(5);
+        if (p->qWorldX < qSomeX) {
+            p->qWorldX = qSomeX;
             goto block_3;
         }
     } else {
-block_3:
-        temp_r0_3 = p->qWorldX;
-        if (temp_r0_3 < temp_r6) {
-            temp_r0_4 = temp_r0_3 + 0x500;
-            p->qWorldX = temp_r0_4;
-            if (temp_r0_4 > temp_r6) {
-                p->qWorldX = temp_r6;
+    block_3:
+        if (p->qWorldX < qSomeX) {
+            p->qWorldX += Q(5);
+            if (p->qWorldX > qSomeX) {
+                p->qWorldX = qSomeX;
             }
         }
     }
-    temp_r0_5 = p->qWorldY;
-    if (temp_r0_5 > temp_r7) {
-        temp_r0_6 = temp_r0_5 + 0xFFFFFB00;
-        p->qWorldY = temp_r0_6;
-        if (temp_r0_6 < temp_r7) {
-            p->qWorldY = temp_r7;
+
+    if (p->qWorldY > qSomeY) {
+        p->qWorldY -= Q(5);
+
+        if (p->qWorldY < qSomeY) {
+            p->qWorldY = qSomeY;
             goto block_9;
         }
     } else {
-block_9:
-        temp_r0_7 = p->qWorldY;
-        if (temp_r0_7 < temp_r7) {
-            temp_r0_8 = temp_r0_7 + 0x500;
-            p->qWorldY = temp_r0_8;
-            if (temp_r0_8 > temp_r7) {
-                p->qWorldY = temp_r7;
+    block_9:
+        if (p->qWorldY < qSomeY) {
+            p->qWorldY += Q(5);
+            if (p->qWorldY > qSomeY) {
+                p->qWorldY = qSomeY;
             }
         }
     }
-    temp_r5 = &p->idleAndCamCounter;
-    temp_r0_9 = (u16) *temp_r5 - 1;
-    *temp_r5 = temp_r0_9;
-    if ((temp_r0_9 << 0x10) == 0) {
+
+    if (--p->idleAndCamCounter == 0) {
         sub_8003DF0(0x252U);
-        *temp_r5 = 0xA;
-        p->qWorldX = temp_r6;
-        p->qWorldY = temp_r7;
+        p->idleAndCamCounter = 0xA;
+        p->qWorldX = qSomeX;
+        p->qWorldY = qSomeY;
         p->callback = Player_800E564;
         Player_800E564(p);
     }
 }
 
-void Player_800B1B8(Player *p) {
+void Player_800B1B8(Player *p)
+{
     u32 temp_r0;
     u8 *temp_r2;
 
     p->moveState &= 0xFDFFFFF9;
     sub_8012FA0(p);
     p->charFlags.anim0 = 0x8D;
-    temp_r0 = (u32) (p->unk2B << 0x1E) >> 0x1E;
-    *((temp_r0 * 0x150) + &gPlayers->moveState) = *((temp_r0 * 0x150) + &gPlayers->moveState) & 0xFDFFFFFF;
-    p->unk2D = (u8) (-0x10 & p->unk2D);
-    temp_r2 = (p + 0x2D) - 1;
-    *temp_r2 &= -5;
+    gPlayers[p->charFlags.partnerIndex].moveState &= 0xFDFFFFFF;
+    p->charFlags.unk2D_0 = 0;
+    p->charFlags.unk2C_04 = 0;
     p->qSpeedGround = 0;
     p->qSpeedAirX = 0;
     p->qSpeedAirY = 0;
@@ -5434,6 +5415,7 @@ void Player_800B1B8(Player *p) {
     Player_800B240(p);
 }
 
+#if 0
 void Player_800B240(Player *p) {
     u16 temp_r1;
     u16 temp_r1_2;
