@@ -249,6 +249,7 @@
 #define SE_527                  0x20F
 #define SE_CREAM__CHEESE_ATTACK 0x210
 
+#define SE_TAILS__538        0x21A
 #define SE_TAILS__SWIM       0x21B
 #define SE_TAGACTION_CHARGED 0x21B
 #define SE_TAGACTION_BUILDUP 0x21C

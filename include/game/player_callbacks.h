@@ -94,6 +94,7 @@ extern void Player_8009B4C(Player *p);
 extern void Player_8009BF0(Player *p); // ButtonSpring ver. of Player_8009D04
 extern void Player_8009C94(Player *p);
 extern void Player_8009D04(Player *p);
+extern void sub_8009D74(Player *p);
 extern void Player_8009E8C(Player *p);
 extern void Player_8009F7C(Player *p, s16 someX, s16 someY);
 extern void Player_800A094(Player *p);
@@ -157,6 +158,8 @@ extern void sub_800DFA0(Player *p);
 void sub_800DFEC(Player *p);
 extern void Player_800E084(Player *p);
 extern void sub_800E150(Player *p);
+extern void sub_800E198(Player *p);
+extern void sub_800D81C(Player *p);
 extern void Player_800DD44(Player *p);
 extern void Player_800DDB4(Player *p); // Player_InMazeAccelerated(?)
 extern void Player_800DDD0(Player *p);
@@ -215,7 +218,9 @@ extern void sub_8014940(Player *p);
 extern void Player_80149E4(Player *p);
 extern void sub_8014AF8(Player *p);
 extern void sub_8014E70(Player *p);
+extern void sub_8014FA4(Player *p);
 extern void sub_8015144(Player *p);
+extern void sub_80151C4(Player *p);
 extern void sub_8015228(Player *p);
 extern void sub_80153BC(Player *);
 extern void sub_8015A44(Player *);
