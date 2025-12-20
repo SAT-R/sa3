@@ -280,6 +280,7 @@
 #define SE_WINDUP_BLOCK_PUSH 0x25D
 #define SE_MINECART_ROLL     0x25E
 #define SE_607               0x25F
+#define SE_608               0x260
 
 #define SE_GONDOLA 0x261
 
