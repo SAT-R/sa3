@@ -121,6 +121,9 @@ typedef struct Strc3001CFC {
 } Strc3001CFC; /* 0x2B4 */
 extern struct Task *gTask_03001CFC; // -> Strc3001CFC
 
+s32 sub_8011BFC(u8, Player *p);
 extern void sub_8029C54(s32 param0, s32 param1);
+
+void sub_80533F4(u32 character); // related to Special Springs
 
 #endif // GUARD_SA3_MODULE_UNCLEAR_H
