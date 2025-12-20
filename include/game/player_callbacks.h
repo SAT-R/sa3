@@ -100,6 +100,7 @@ extern void Player_8009F7C(Player *p, s16 someX, s16 someY);
 extern void Player_800A094(Player *p);
 extern void Player_800A168(Player *p);
 extern void Player_800A218(Player *p);
+extern void sub_800A2B8(Player *p);
 extern void Player_800A3C0(Player *p);
 extern void Player_800A438(Player *p);
 extern void Player_800A4C8(Player *p);
