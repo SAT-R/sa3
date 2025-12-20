@@ -202,6 +202,7 @@ extern void Player_800EB4C(Player *p);
 extern void Player_800EB58(Player *p); // nullsub
 extern void Player_800EB5C(Player *p);
 extern void sub_800EC20(Player *p);
+extern void sub_800EC68(Player *p);
 extern void Player_800ED14(Player *p);
 extern void Player_800ED34(Player *p);
 extern void Player_800ED80(Player *p);
