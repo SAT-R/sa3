@@ -142,7 +142,7 @@ static void Task_BouncyBarLaunch(void)
 
     UpdateSprite();
 
-    if ((activePlayer->callback != Player_800EAA8) || sub_802C0D4(activePlayer)) {
+    if ((activePlayer->callback != Player_nullsub_800EAA8) || sub_802C0D4(activePlayer)) {
         bar->unk35 = 0;
         gCurTask->main = Task_BouncyBarIdle;
     } else {
