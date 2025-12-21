@@ -57,6 +57,19 @@ typedef struct {
     /* 0x0C */ Sprite s;
 } PlayerSprite; /* size: 0xF0 ? */
 
+typedef struct PlayerUnkC4 {
+    u32 unk0;
+    s16 playerId;
+} PlayerUnkC4;
+
+typedef struct PlayerUnk148 {
+    u8 filler0[0x7];
+    u8 unk7;
+    u8 filler8[0x3];
+    u8 unkB;
+    u16 unkC;
+} PlayerUnk148;
+
 struct Player {
     // Code (Character Movement) to be executed
     PlayerCallback callback; // 0x00
@@ -231,13 +244,9 @@ struct Player {
     u16 *demoplayInput_Start;
     u16 *demoplayInput_Current;
 
-    u8 Padding8[0x8];
+    PlayerUnk148 *unk148;
+    u8 unk14C;
 };
-
-typedef struct PlayerUnkC4 {
-    u32 unk0;
-    s16 playerId;
-} PlayerUnkC4;
 
 extern Player gPlayers[NUM_MULTI_PLAYER_CHARS];
 
