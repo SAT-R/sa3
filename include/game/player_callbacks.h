@@ -168,6 +168,7 @@ extern void Player_800D978(Player *p); // GrindRail-related
 extern void Player_800D9B4(Player *p); // GrindRail-related
 extern void Player_800D9F4(Player *p);
 extern void SetPlayerCallback(Player *p, PlayerCallback callback);
+extern void sub_800DA60(Player *p);
 extern void Player_800DAF4(Player *p);
 extern void Player_800DB30(Player *p);
 extern void Player_800DB7C(Player *p);
@@ -182,6 +183,8 @@ void sub_800DFEC(Player *p);
 extern void Player_800E084(Player *p);
 extern void sub_800E150(Player *p);
 extern void sub_800E198(Player *p);
+extern void sub_800E968(Player *p);
+extern void sub_800D5F4(Player *p);
 extern void sub_800D81C(Player *p);
 extern void Player_800DD44(Player *p);
 extern void Player_800DDB4(Player *p); // Player_InMazeAccelerated(?)
@@ -214,6 +217,7 @@ extern void sub_800E724(Player *p);
 void sub_800E7BC(Player *);
 extern void sub_800E808(Player *p);
 extern void sub_800E880(Player *p);
+extern void sub_800E924(Player *p);
 extern void Player_800E9A4(Player *p);
 extern void Player_800EA0C(Player *p);
 extern void Player_800EAA8(Player *p);
@@ -284,7 +288,11 @@ void sub_80170A0(Player *p);
 extern void sub_80173F0(Player *p);
 extern void sub_8017584(Player *p);
 extern void sub_8017618(Player *p);
+void sub_8017DB4(Player *);
 extern void sub_8019718(Player *p);
+extern void sub_8017134(Player *p);
+extern void sub_80171C0(Player *p);
+extern void sub_8017258(Player *p);
 extern void sub_8017914(Player *p);
 extern void Player_8017D18(Player *p);
 extern void sub_80180D8(Player *);
