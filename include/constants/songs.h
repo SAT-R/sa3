@@ -253,6 +253,8 @@
 #define SE_TAILS__SWIM       0x21B
 #define SE_TAGACTION_CHARGED 0x21B
 #define SE_TAGACTION_BUILDUP 0x21C
+#define SE_541               0x21D
+#define SE_542               0x21E
 
 #define SE_BOULDER          0x246
 #define SE_LIFT             0x247
