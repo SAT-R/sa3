@@ -5,83 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
-	thumb_func_start sub_800D19C
-sub_800D19C: @ 0x0800D19C
-	push {r4, lr}
-	adds r4, r0, #0
-	ldr r0, _0800D220 @ =gStageData
-	ldrb r0, [r0, #3]
-	cmp r0, #7
-	beq _0800D1BC
-	ldr r0, [r4, #4]
-	movs r1, #0x80
-	lsls r1, r1, #5
-	ands r0, r1
-	cmp r0, #0
-	beq _0800D1BC
-	adds r0, r4, #0
-	ldr r1, _0800D224 @ =0x00000119
-	bl Player_StopSong
-_0800D1BC:
-	ldr r0, [r4, #4]
-	ldr r1, _0800D228 @ =0xDC510BA1
-	ands r0, r1
-	str r0, [r4, #4]
-	adds r2, r4, #0
-	adds r2, #0x2b
-	ldrb r1, [r2]
-	movs r0, #0x21
-	rsbs r0, r0, #0
-	ands r0, r1
-	strb r0, [r2]
-	adds r0, r4, #0
-	adds r0, #0x2f
-	movs r2, #0
-	strb r2, [r0]
-	adds r0, #0x6a
-	strb r2, [r0]
-	adds r0, #1
-	strb r2, [r0]
-	adds r0, #4
-	strh r2, [r0]
-	ldr r0, [r4, #4]
-	ldr r1, _0800D22C @ =0x22000004
-	orrs r0, r1
-	str r0, [r4, #4]
-	movs r0, #0xb
-	strh r0, [r4, #0x30]
-	adds r0, r4, #0
-	adds r0, #0xe0
-	ldr r3, [r0]
-	ldr r0, [r3, #0x14]
-	ldr r1, _0800D230 @ =0xFFFFBFFF
-	ands r0, r1
-	str r0, [r3, #0x14]
-	adds r1, r4, #0
-	adds r1, #0x52
-	movs r0, #0xf
-	strh r0, [r1]
-	strh r2, [r4, #0x1c]
-	strh r2, [r4, #0x18]
-	strh r2, [r4, #0x1a]
-	ldr r1, _0800D234 @ =sub_800D500
-	str r1, [r4]
-	adds r0, r4, #0
-	bl _call_via_r1
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0800D220: .4byte gStageData
-_0800D224: .4byte 0x00000119
-_0800D228: .4byte 0xDC510BA1
-_0800D22C: .4byte 0x22000004
-_0800D230: .4byte 0xFFFFBFFF
-_0800D234: .4byte sub_800D500
-
+.if 01
 	thumb_func_start sub_800D238
 sub_800D238: @ 0x0800D238
 	push {r4, r5, r6, lr}
@@ -202,6 +126,7 @@ _0800D31E:
 	bx r0
 	.align 2, 0
 _0800D328: .4byte sub_800D32C
+.endif
 
 	thumb_func_start sub_800D32C
 sub_800D32C: @ 0x0800D32C

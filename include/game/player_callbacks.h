@@ -158,6 +158,7 @@ void sub_800CF60(Player *);
 void sub_0800E218(Player *);
 extern void sub_800EF50(Player *);
 extern void sub_800EFB0(Player *);
+extern void sub_800D500(Player *);
 extern void sub_800D7C8(Player *p);
 extern void sub_800D8DC(Player *p);
 extern void Player_800D880(Player *p);
