@@ -63,12 +63,14 @@ typedef struct PlayerUnkC4 {
 } PlayerUnkC4;
 
 typedef struct PlayerUnk148 {
-    u8 filler0[0x4];
+    s16 unk0;
+    s16 unk2;
     u8 unk4;
     u8 unk5;
     u8 unk6;
     u8 unk7;
-    u8 filler8[0x3];
+    s16 unk8;
+    u8 unkA;
     u8 unkB;
     s16 unkC;
 } PlayerUnk148;

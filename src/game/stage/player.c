@@ -8810,7 +8810,7 @@ void sub_800F378(Player *p)
     p->charFlags.anim0 = gUnknown_080CE5FC[temp_r2->unk4];
     p->qSpeedAirX = gUnknown_080CE61C[temp_r2->unk4][0];
     p->qSpeedAirY = gUnknown_080CE61C[temp_r2->unk4][1];
-    temp_r2->filler0[6] = 0;
+    temp_r2->unk6 = 0;
     p->unk14C |= 1;
     Player_BoostModeDisengage(p);
     m4aSongNumStart(0x70U);
@@ -8876,8 +8876,8 @@ void sub_800F3E8(Player *arg0)
     }
 }
 
-#if 0
-void sub_800F4A4(Player *arg0) {
+void sub_800F4A4(Player *p)
+{
     PlayerUnk148 *temp_r1;
     PlayerUnk148 *temp_r4;
     s16 temp_r0;
@@ -8887,150 +8887,141 @@ void sub_800F4A4(Player *arg0) {
     u16 temp_r2;
 
     var_r6 = 0;
-    temp_r4 = arg0->unk148;
-    sub_8010E04(arg0);
-    sub_800FD60(arg0);
-    sub_8010E94(arg0);
-    sub_800FABC(arg0);
-    temp_r1 = arg0->unk148;
-    if ((s16) temp_r1->unkC != 0) {
-        temp_r1->unkC -= 1;
-    } else {
-        Player_BoostModeEngage(arg0);
-    }
-    temp_r0 = gStageData.buttonConfig.trick & arg0->keyInput;
-    if (temp_r0 != 0) {
-        temp_r2 = temp_r4->unk0;
-        temp_r0_2 = temp_r2 + 1;
-        temp_r4->unk0 = temp_r0_2;
-        if ((s32) (temp_r0_2 << 0x10) > 0x01E00000) {
-            temp_r4->unk0 = temp_r2;
+    temp_r4 = p->unk148;
+    sub_8010E04(p);
+    sub_800FD60(p);
+    sub_8010E94(p);
+    sub_800FABC(p);
+
+    BoostEngage_inline(p);
+
+    if (p->keyInput & gStageData.buttonConfig.trick) {
+        if (++temp_r4->unk0 > 480) {
+            temp_r4->unk0--;
         }
         goto block_13;
+    } else {
+        if (temp_r4->unk0 < 120) {
+            temp_r4->unk2 = 0;
+            SetPlayerCallback(p, sub_800F2B0);
+        } else {
+            if (temp_r4->unk0 <= 0xEF) {
+                temp_r4->unk2 = 60;
+                goto block_14;
+            } else if (temp_r4->unk0 < 0x168) {
+                temp_r4->unk2 = 0x78;
+                goto block_14;
+            } else {
+                temp_r4->unk2 = 0xF0;
+                var_r6 = 1;
+            }
+        }
     }
-    temp_r1_2 = (s16) temp_r4->unk0;
-    if ((s32) temp_r1_2 <= 0x77) {
-        temp_r4->unk2 = temp_r0;
-        SetPlayerCallback(arg0, sub_800F2B0);
-        goto block_13;
-    }
-    if ((s32) temp_r1_2 <= 0xEF) {
-        temp_r4->unk2 = 0x3C;
-        goto block_14;
-    }
-    if ((s32) temp_r1_2 <= 0x167) {
-        temp_r4->unk2 = 0x78;
-        goto block_14;
-    }
-    temp_r4->unk2 = 0xF0;
-    var_r6 = 1;
 block_13:
     if (var_r6 != 0) {
-block_14:
-        SetPlayerCallback(arg0, sub_80109C0);
+    block_14:
+        SetPlayerCallback(p, Player_80109C0);
     }
 }
 
-void sub_800F55C(Player *arg0) {
+void sub_800F55C(Player *p)
+{
     PlayerUnk148 *temp_r1;
     PlayerUnk148 *temp_r5;
     u8 temp_r0;
 
-    temp_r5 = arg0->unk148;
-    sub_8010E04(arg0);
-    if (arg0->qSpeedAirX != 0) {
-        arg0->qSpeedAirX = (u16) arg0->qSpeedAirX + 0x20;
+    temp_r5 = p->unk148;
+    sub_8010E04(p);
+    if (p->qSpeedAirX != 0) {
+        p->qSpeedAirX = (u16)p->qSpeedAirX + 0x20;
     }
-    sub_8010E94(arg0);
-    sub_800FABC(arg0);
-    temp_r1 = arg0->unk148;
-    if ((s16) temp_r1->unkC != 0) {
-        temp_r1->unkC -= 1;
-    } else {
-        Player_BoostModeEngage(arg0);
-    }
-    temp_r0 = temp_r5->filler0[5] - 1;
-    temp_r5->filler0[5] = temp_r0;
-    if ((temp_r0 << 0x18) == 0) {
-        SetPlayerCallback(arg0, sub_800F2B0);
+    sub_8010E94(p);
+    sub_800FABC(p);
+
+    BoostEngage_inline(p);
+
+    if (--temp_r5->unk5 == 0) {
+        SetPlayerCallback(p, sub_800F2B0);
     }
 }
 
-void sub_800F5C8(Player *arg0) {
+void sub_800F5C8(Player *p)
+{
     PlayerUnk148 *temp_r1_2;
     u8 *temp_r1;
     u8 *temp_r2;
 
-    temp_r1 = &arg0->unk26;
+    temp_r1 = &p->unk26;
     *temp_r1 -= 0x10;
-    sub_8010E04(arg0);
-    sub_8010E94(arg0);
-    sub_800FABC(arg0);
-    temp_r1_2 = arg0->unk148;
-    if ((s16) temp_r1_2->unkC != 0) {
+    sub_8010E04(p);
+    sub_8010E94(p);
+    sub_800FABC(p);
+    temp_r1_2 = p->unk148;
+    if ((s16)temp_r1_2->unkC != 0) {
         temp_r1_2->unkC -= 1;
     } else {
-        Player_BoostModeEngage(arg0);
+        Player_BoostModeEngage(p);
     }
-    if ((s32) arg0->framesInvulnerable <= 0x3C) {
-        temp_r2 = &arg0->unk14C;
+    if ((s32)p->framesInvulnerable <= 0x3C) {
+        temp_r2 = &p->unk14C;
         *temp_r2 &= 0xFD;
-        SetPlayerCallback(arg0, sub_800F2B0);
+        SetPlayerCallback(p, sub_800F2B0);
     }
 }
 
-void sub_800F634(Player *arg0) {
+void sub_800F634(Player *p)
+{
     PlayerUnk148 *temp_r1;
     PlayerUnk148 *temp_r5;
     s32 var_r3;
     u16 temp_r0;
     u8 *temp_r2;
 
-    temp_r5 = arg0->unk148;
-    sub_8010E4C(arg0);
-    sub_8010ED0(arg0);
-    sub_800FABC(arg0);
-    temp_r1 = arg0->unk148;
-    if ((s16) temp_r1->unkC != 0) {
-        temp_r1->unkC -= 1;
-    } else {
-        Player_BoostModeEngage(arg0);
-    }
-    if (temp_r5->filler8[0] == 0) {
-        temp_r2 = &arg0->unk14C;
-        *temp_r2 &= 0xF7;
-        SetPlayerCallback(arg0, sub_800F2B0);
+    temp_r5 = p->unk148;
+    sub_8010E4C(p);
+    sub_8010ED0(p);
+    sub_800FABC(p);
+
+    BoostEngage_inline(p);
+
+    if (temp_r5->unk8 == 0) {
+        p->unk14C &= 0xF7;
+        SetPlayerCallback(p, sub_800F2B0);
         return;
     }
     var_r3 = 1;
-    if ((gStageData.buttonConfig.jump | 0xF0 | gStageData.buttonConfig.attack) & arg0->keyInput2) {
+    if ((DPAD_ANY | gStageData.buttonConfig.jump | gStageData.buttonConfig.attack) & p->keyInput2) {
         var_r3 = 5;
     }
-    temp_r0 = temp_r5->unk8 - var_r3;
-    temp_r5->unk8 = temp_r0;
-    if ((s32) (temp_r0 << 0x10) <= 0) {
+
+    temp_r5->unk8 -= var_r3;
+    if (temp_r5->unk8 <= 0) {
         temp_r5->unk8 = 0U;
     }
 }
 
-void sub_800F6C8(Player *arg0) {
+void sub_800F6C8(Player *p)
+{
     PlayerUnk148 *temp_r2;
     u8 *temp_r2_2;
 
-    temp_r2 = arg0->unk148;
-    if (arg0->qSpeedAirX != 0) {
-        arg0->qSpeedAirX = 0 - *((temp_r2->filler0[4] * 4) + &gUnknown_080CE61C);
+    temp_r2 = p->unk148;
+    if (p->qSpeedAirX != 0) {
+        s32 qSpeedAirY = -gUnknown_080CE61C[temp_r2->unk4][0];
+        p->qSpeedAirX = qSpeedAirY;
     }
-    if (arg0->qSpeedAirY != 0) {
-        arg0->qSpeedAirY = 0 - *((temp_r2->filler0[4] * 4) + (&gUnknown_080CE61C + 2));
+    if (p->qSpeedAirY != 0) {
+        s32 qSpeedAirY = gUnknown_080CE61C[temp_r2->unk4][1];
+        p->qSpeedAirY = -qSpeedAirY;
     }
-    temp_r2_2 = &arg0->unk14C;
-    *temp_r2_2 &= 0xFE;
-    SetPlayerCallback(arg0, sub_800F734);
-    sub_800F734(arg0);
+
+    p->unk14C &= 0xFE;
+    SetPlayerCallback(p, sub_800F734);
+    sub_800F734(p);
 }
 
-void sub_800F734(Player *arg0) {
+void sub_800F734(Player *p)
+{
     PlayerUnk148 *temp_r5;
     s16 temp_r0_2;
     s16 temp_r0_3;
@@ -9041,73 +9032,67 @@ void sub_800F734(Player *arg0) {
     u16 temp_r0;
     u16 temp_r0_4;
 
-    temp_r5 = arg0->unk148;
-    sub_8010E04(arg0);
-    temp_r0 = (u16) arg0->qSpeedAirX;
-    temp_r1 = arg0->qSpeedAirX;
-    if (temp_r1 != 0) {
-        if ((s32) temp_r1 < 0) {
-            temp_r0_2 = temp_r0 + 0x64;
-            arg0->qSpeedAirX = temp_r0_2;
-            if ((s32) (temp_r0_2 << 0x10) >= 0) {
-                goto block_5;
+    temp_r5 = p->unk148;
+    sub_8010E04(p);
+
+    if (p->qSpeedAirX != 0) {
+        if (p->qSpeedAirX < 0) {
+            p->qSpeedAirX += 0x64;
+            if (p->qSpeedAirX >= 0) {
+                p->qSpeedAirX = 0;
             }
         } else {
-            temp_r0_3 = temp_r0 - 0x64;
-            arg0->qSpeedAirX = temp_r0_3;
-            if ((s32) (temp_r0_3 << 0x10) <= 0) {
-block_5:
-                arg0->qSpeedAirX = 0;
+            p->qSpeedAirX -= 0x64;
+            if (p->qSpeedAirX <= 0) {
+                p->qSpeedAirX = 0;
             }
         }
     }
-    temp_r0_4 = (u16) arg0->qSpeedAirY;
-    temp_r1_2 = arg0->qSpeedAirY;
-    if (temp_r1_2 != 0) {
-        if ((s32) temp_r1_2 < 0) {
-            temp_r0_5 = temp_r0_4 + 0x64;
-            arg0->qSpeedAirY = temp_r0_5;
-            if ((s32) (temp_r0_5 << 0x10) >= 0) {
-                goto block_11;
+
+    if (p->qSpeedAirY != 0) {
+        if (p->qSpeedAirY < 0) {
+            p->qSpeedAirY += 0x64;
+            if (p->qSpeedAirY >= 0) {
+                p->qSpeedAirY = 0;
             }
         } else {
-            temp_r0_6 = temp_r0_4 - 0x64;
-            arg0->qSpeedAirY = temp_r0_6;
-            if ((s32) (temp_r0_6 << 0x10) <= 0) {
-block_11:
-                arg0->qSpeedAirY = 0;
+            p->qSpeedAirY -= 0x64;
+            if (p->qSpeedAirY <= 0) {
+                p->qSpeedAirY = 0;
             }
         }
     }
-    if ((s32) arg0->unk18 == 0) {
+
+    if (p->qSpeedAirX == 0 && p->qSpeedAirY == 0) {
         temp_r5->unkC = 8;
-        SetPlayerCallback(arg0, sub_800F2B0);
+        SetPlayerCallback(p, sub_800F2B0);
     }
-    sub_8010E94(arg0);
-    sub_800FABC(arg0);
+    sub_8010E94(p);
+    sub_800FABC(p);
 }
 
-void sub_800F7C0(Player *arg0) {
+void sub_800F7C0(Player *arg0)
+{
     PlayerUnk148 *temp_r4;
     s16 *temp_r0;
 
     temp_r4 = arg0->unk148;
     Player_800D880(arg0);
-    arg0->charFlags.anim0 = 0x12C;
-    arg0->unk2A = (u8) ((-0x10 & arg0->unk2A) | 2);
-    temp_r0 = &arg0->framesInvincible;
-    *temp_r0 = 0;
-    *(temp_r0 - 2) = 0;
-    arg0->qWorldX = gCamera.x << 8;
-    arg0->qWorldY = (gCamera.y + 0x68) << 8;
+    arg0->charFlags.anim0 = 300;
+    arg0->charFlags.character = TAILS;
+    arg0->framesInvincible = 0;
+    arg0->framesInvulnerable = 0;
+    arg0->qWorldX = Q(gCamera.x);
+    arg0->qWorldY = Q(gCamera.y + 104);
     arg0->qSpeedAirX = 0;
     arg0->qSpeedAirY = 0;
-    *temp_r4 = 0;
+    temp_r4->unk0 = 0;
     arg0->unk14C = 0;
     SetPlayerCallback(arg0, Player_80108B8);
     Player_80108B8(arg0);
 }
 
+#if 0
 void sub_800F838(Player *arg0) {
     PlayerUnk148 *temp_r4;
     s16 temp_r1_2;
@@ -10215,7 +10200,7 @@ void sub_801098C(Player *arg0) {
     sub_800F4A4(arg0);
 }
 
-void sub_80109C0(Player *arg0) {
+void Player_80109C0(Player *arg0) {
     arg0->charFlags.anim0 = 0x123;
     arg0->qSpeedAirX = -0x200;
     arg0->qSpeedAirY = 0;
