@@ -6898,111 +6898,110 @@ void sub_800CF08(Player *p)
     p->callback = sub_800CF60;
 }
 
-#if 0
-void sub_800CF60(Player *p) {
-    Player *temp_r3;
-    s16 var_r0_3;
-    s32 var_r0_4;
+// TODO: Fake-match!
+void sub_800CF60(Player *p)
+{
+    Player *partner;
     s32 var_r0_5;
     s32 var_r2;
     s32 var_r2_2;
     s32 var_r5;
     u16 temp_r1;
     u16 var_r0_2;
-    u32 temp_r0;
-    u32 temp_r0_2;
     u32 temp_r0_3;
-    u32 temp_r1_2;
     u32 temp_r2;
     u32 var_r0;
 
-    temp_r3 = &gPlayers[(u32) (p->unk2B << 0x1E) >> 0x1E];
+    partner = GET_SP_PLAYER_V1(PLAYER_2);
     var_r5 = 0;
-    if (temp_r3->moveState & 1) {
-        var_r0 = p->moveState | 1;
+    if (partner->moveState & 1) {
+        p->moveState = p->moveState | 1;
     } else {
-        var_r0 = p->moveState & ~1;
+        p->moveState = p->moveState & ~1;
     }
-    p->moveState = var_r0;
+
     temp_r2 = p->moveState & 0xFFFEFFFF;
     p->moveState = temp_r2;
-    p->moveState = temp_r2 | (temp_r3->moveState & 0x10000);
-    if ((u32) gStageData.gameMode <= 4U) {
-        var_r2 = 2;
-        if (temp_r3->charFlags.anim0 == 0xE8) {
-            goto block_7;
+    p->moveState = temp_r2 | (partner->moveState & 0x10000);
+    if ((u32)gStageData.gameMode <= 4U) {
+        if (partner->charFlags.anim0 == 0xE8) {
+            var_r2 = 1;
+        } else {
+            var_r2 = 2;
         }
     } else {
-        var_r2 = 2;
-        if (temp_r3->charFlags.anim2 == 0x203) {
-block_7:
+        if (partner->charFlags.anim2 == 0x203) {
             var_r2 = 1;
+        } else {
+            var_r2 = 2;
         }
     }
-    if (var_r2 == 1) {
-        temp_r0 = (u32) (p->unk2A << 0x1C) >> 0x1C;
-        switch (temp_r0) {                          /* switch 1; irregular */
-        case 0:                                     /* switch 1 */
-            p->charFlags.anim0 = 0xB0;
-            var_r0_2 = 0x5F;
-block_20:
-            p->charFlags.anim2 = var_r0_2;
-            break;
-        case 1:                                     /* switch 1 */
-            p->charFlags.anim0 = 0xC9;
-            var_r0_2 = 0x102;
-            goto block_20;
-        case 2:                                     /* switch 1 */
-            p->charFlags.anim0 = 0xE1;
-            var_r0_2 = 0x1A5;
-            goto block_20;
-        case 4:                                     /* switch 1 */
-            p->charFlags.anim0 = 0x10B;
-            var_r0_2 = 0x2EB;
-            goto block_20;
+
+    var_r0_5 = var_r2;
+    if (var_r0_5 == 1) {
+        switch (p->charFlags.character) {
+            case SONIC:
+                p->charFlags.anim0 = 0xB0;
+                p->charFlags.anim2 = 0x5F;
+                break;
+            case CREAM:
+                p->charFlags.anim0 = 0xC9;
+                p->charFlags.anim2 = 0x102;
+                break;
+            case TAILS:
+                p->charFlags.anim0 = 0xE1;
+                p->charFlags.anim2 = 0x1A5;
+                break;
+            case AMY:
+                p->charFlags.anim0 = 0x10B;
+                p->charFlags.anim2 = 0x2EB;
+                break;
         }
-        p->charFlags.state1 = temp_r3->charFlags.state1;
-    } else if (var_r2 == 2) {
-        temp_r0_2 = (u32) (p->unk2A << 0x1C) >> 0x1C;
-        switch (temp_r0_2) {                        /* irregular */
-        case 0:
-            var_r0_3 = 0xAF;
-block_34:
-            p->charFlags.anim0 = var_r0_3;
-            break;
-        case 1:
-            var_r0_3 = 0xC8;
-            goto block_34;
-        case 2:
-            var_r0_3 = 0xE0;
-            goto block_34;
-        case 4:
-            var_r0_3 = 0x10A;
-            goto block_34;
+        p->charFlags.state1 = partner->charFlags.state1;
+    } else if (var_r0_5 == 2) {
+        switch (p->charFlags.character) {
+            case SONIC:
+                p->charFlags.anim0 = 0xAF;
+                break;
+            case CREAM:
+                p->charFlags.anim0 = 0xC8;
+                break;
+            case TAILS:
+                p->charFlags.anim0 = 0xE0;
+                break;
+            case AMY:
+                p->charFlags.anim0 = 0x10A;
+                break;
         }
     }
-    if (((u32) gStageData.gameMode <= 4U) || ((0x1C & p->unk2B) == 8) || ((0x1C & temp_r3->unk2B) == 8)) {
-        if ((u32) (u16) ((u16) temp_r3->charFlags.anim0 - 0xE7) > 1U) {
+    if (((u32)gStageData.gameMode < 5) || ((p->charFlags.someIndex) == 2) || (partner->charFlags.someIndex == 2)) {
+        if (partner->charFlags.anim0 != 231 && partner->charFlags.anim0 != 232) {
+#ifndef NON_MATCHING
+            // NOTE: Weirdly the fake-match compile only matches with var_r5 as input, not as output variable.
+            asm("mov %0, #1" ::"r"(var_r5));
+#else
+            var_r5 = 1;
+#endif
             goto block_44;
         }
-        goto block_43;
-    }
-    temp_r1 = temp_r3->charFlags.anim2;
-    if (((u32) (u16) (temp_r1 + 0xFFFFFDFE) > 1U) && (temp_r1 != 0x1F4)) {
-        var_r5 = 1;
+    } else {
+        temp_r1 = partner->charFlags.anim2;
+        if (((u32)(u16)(temp_r1 - 514) > 1U) && (temp_r1 != 0x1F4)) {
+            var_r5 = 1;
+        }
     }
 block_43:
     if (var_r5 != 0) {
-block_44:
+    block_44:
         if (p->moveState & 0x10000) {
-            var_r0_4 = p->qWorldY + 0x900;
+            p->qWorldY += +0x900;
         } else {
-            var_r0_4 = p->qWorldY + 0xFFFFF700;
+            p->qWorldY += -0x900;
         }
-        p->qWorldY = var_r0_4;
+
         p->qSpeedAirX = 0;
         p->qSpeedAirY = 0;
-        temp_r3->moveState &= 0xFDFFFFFF;
+        partner->moveState &= 0xFDFFFFFF;
         Player_8012FE0(p);
         p->charFlags.anim0 = 0x18;
         temp_r0_3 = (p->moveState & 0xDDFFFFBF) | 4;
@@ -7016,14 +7015,13 @@ block_44:
         return;
     }
     if (sub_80110E8(3U, p, NULL, NULL) < 0) {
-        temp_r1_2 = p->moveState;
-        if (0x10000 & temp_r1_2) {
-            var_r2_2 = 0x900;
+        if (0x10000 & p->moveState) {
+            p->qWorldY += 0x900;
         } else {
-            var_r2_2 = 0xFFFFF700;
+            p->qWorldY += -0x900;
         }
-        p->qWorldY += var_r2_2;
-        if (1 & temp_r1_2) {
+
+        if (1 & p->moveState) {
             var_r0_5 = p->qWorldX + 0x1000;
         } else {
             var_r0_5 = p->qWorldX + 0xFFFFF000;
@@ -7035,6 +7033,7 @@ block_44:
     sub_8015064(p);
 }
 
+#if 0
 void sub_800D19C(Player *arg0) {
     PlayerSprite *temp_r3;
     u8 *temp_r0;
