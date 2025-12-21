@@ -7056,30 +7056,25 @@ void sub_800D19C(Player *p)
     sub_800D500(p);
 }
 
-#if 0
-void sub_800D238(Player *p) {
-    s16 *temp_r1;
-    s16 temp_r0;
+void sub_800D238(Player* p) {
     s32 var_r6;
+    u16 temp_r0;
     u32 temp_r0_2;
     u32 temp_r3;
-    void (*var_r0)(Player *);
+    void (*var_r0)(Player*);
 
     var_r6 = 0;
-    temp_r3 = p->moveState & 0xFFFEFFFF;
-    p->moveState = temp_r3;
-    p->moveState = temp_r3 | (*((((u32) (p->unk2B << 0x1E) >> 0x1E) * 0x150) + &gPlayers->moveState) & 0x10000);
-    temp_r1 = &p->idleAndCamCounter;
-    temp_r0 = (u16) *temp_r1 - 1;
-    *temp_r1 = temp_r0;
-    if ((temp_r0 << 0x10) == 0) {
+    p->moveState &= ~MOVESTATE_GRAVITY_SWITCHED;
+    p->moveState |= gPlayers[p->charFlags.partnerIndex].moveState & 0x10000;
+    if (--p->idleAndCamCounter == 0) {
         temp_r0_2 = p->moveState | 4;
         p->moveState = temp_r0_2;
-        if (temp_r0_2 & 0x10000) {
-            if (sub_80519EC((s32) p->qWorldY >> 8, (s32) p->qWorldX >> 8, (s32) p->unk27, 8, NULL, sub_805217C) <= 0x27) {
-                goto block_7;
+        if (temp_r0_2 & MOVESTATE_GRAVITY_SWITCHED) {
+            if (sub_80519EC(I(p->qWorldY), I(p->qWorldX), (s32) p->unk27, 8, NULL, sub_805217C) >= 40) {
+                goto block_6;
+            } else {
+                goto block_7;                
             }
-            goto block_6;
         }
         if (sub_80519EC((s32) p->qWorldY >> 8, (s32) p->qWorldX >> 8, (s32) p->unk27, -8, NULL, sub_805217C) <= 0x27) {
             var_r6 = 1;
@@ -7103,6 +7098,7 @@ block_7:
     }
 }
 
+#if 0
 void sub_800D32C(Player *p) {
     PlayerSprite *temp_r2;
     s16 *temp_r2_2;
