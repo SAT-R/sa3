@@ -256,6 +256,8 @@
 #define SE_541               0x21D
 #define SE_542               0x21E
 
+#define SE_578 0x242
+
 #define SE_BOULDER          0x246
 #define SE_LIFT             0x247
 #define SE_BUTTON_HIT       0x248

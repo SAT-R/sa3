@@ -79,6 +79,7 @@ extern s16 gUnknown_080CE5F2[5];
 extern s16 gUnknown_080CE5FC[8];
 extern u16 gUnknown_080CE60C[8];
 extern s16 gUnknown_080CE61C[8][2];
+extern s16 gUnknown_080CE63C[4];
 
 static inline void SongStopCheck_inline(Player *p, u16 song)
 {
@@ -9092,8 +9093,8 @@ void sub_800F7C0(Player *arg0)
     Player_80108B8(arg0);
 }
 
-#if 0
-void sub_800F838(Player *arg0) {
+void sub_800F838(Player *arg0)
+{
     PlayerUnk148 *temp_r4;
     s16 temp_r1_2;
     s32 temp_r1;
@@ -9111,31 +9112,28 @@ void sub_800F838(Player *arg0) {
     sub_800FABC(arg0);
     if ((gStageData.gameMode == 5) && (gStageData.playerIndex != 0)) {
         temp_r1 = (gStageData.buttonConfig.jump | gStageData.buttonConfig.attack | gStageData.buttonConfig.trick) & arg0->keyInput;
-        var_r6 = (u32) ((0 - temp_r1) | temp_r1) >> 0x1F;
+        var_r6 = (u32)((0 - temp_r1) | temp_r1) >> 0x1F;
     } else if ((gStageData.buttonConfig.jump | gStageData.buttonConfig.attack) & arg0->keyInput) {
         var_r6 = 1;
     }
     if (var_r6 != 0) {
-        temp_r2 = temp_r4->unk0;
-        temp_r0 = temp_r2 + 1;
-        temp_r4->unk0 = temp_r0;
-        if ((s32) (temp_r0 << 0x10) > 0x01E00000) {
-            temp_r4->unk0 = temp_r2;
+        if (++temp_r4->unk0 > 0x01E0) {
+            temp_r4->unk0--;
         }
         goto block_15;
     }
-    temp_r1_2 = (s16) temp_r4->unk0;
-    if ((s32) temp_r1_2 <= 0x77) {
-        temp_r4->unk2 = (s16) var_r6;
+    temp_r1_2 = (s16)temp_r4->unk0;
+    if ((s32)temp_r1_2 <= 0x77) {
+        temp_r4->unk2 = (s16)var_r6;
         SetPlayerCallback(arg0, Player_80108FC);
         goto block_15;
     }
-    if ((s32) temp_r1_2 <= 0xEF) {
+    if ((s32)temp_r1_2 <= 0xEF) {
         temp_r4->unk2 = 0x3C;
         var_r7 = 2;
         goto block_16;
     }
-    if ((s32) temp_r1_2 <= 0x167) {
+    if ((s32)temp_r1_2 <= 0x167) {
         temp_r4->unk2 = 0x78;
         var_r7 = 3;
         goto block_16;
@@ -9144,14 +9142,16 @@ void sub_800F838(Player *arg0) {
     var_r7 = 4;
 block_15:
     if (var_r7 != 0) {
-block_16:
+    block_16:
         arg0->unk26 = var_r7;
         SetPlayerCallback(arg0, Player_8010AA0);
     }
     sub_8010430(arg0);
 }
 
-void sub_800F920(Player *arg0) {
+void sub_800F920(Player *arg0)
+{
+    s16 sp[4];
     PlayerUnk148 *temp_r5;
     PlayerUnk148 *temp_r6;
     u16 temp_r0_2;
@@ -9159,38 +9159,37 @@ void sub_800F920(Player *arg0) {
     u8 temp_r0;
     void (*var_r1)(Player *);
 
-    memcpy(&subroutine_arg0, &gUnknown_080CE63C, 8);
+    memcpy(&sp[0], &gUnknown_080CE63C, 8);
     temp_r5 = gPlayers->unk148;
     temp_r6 = arg0->unk148;
     sub_8010E04(arg0);
     sub_8010E94(arg0);
     sub_800FABC(arg0);
-    temp_r0 = arg0->unk26;
-    switch (temp_r0) {                              /* irregular */
-    default:
-        temp_r5->unk2 = (u16) *(((temp_r0 - 2) * 2) + sp);
-        temp_r6->filler8[0] = 1;
-        m4aSongNumStart(0x21FU);
-        var_r1 = sub_8010FE0;
-block_7:
-        SetPlayerCallback(arg0, var_r1);
-        break;
-    case 0:
-        var_r1 = Player_8010F88;
-        goto block_7;
-    case 1:
-        temp_r2 = temp_r5->unk0;
-        temp_r0_2 = temp_r2 + 1;
-        temp_r5->unk0 = temp_r0_2;
-        if ((s32) (temp_r0_2 << 0x10) > 0x01E00000) {
-            temp_r5->unk0 = temp_r2;
-        }
-        break;
+
+    switch (arg0->unk26) {
+        case 2:
+        case 3:
+        case 4:
+            temp_r5->unk2 = sp[arg0->unk26 - 2];
+            // TODO: Weird cast!
+            *(u8 *)&temp_r6->unk8 = 1;
+            m4aSongNumStart(0x21FU);
+            SetPlayerCallback(arg0, sub_8010FE0);
+            break;
+        case 0:
+            SetPlayerCallback(arg0, Player_8010F88);
+            break;
+        case 1:
+            if (++temp_r5->unk0 > 0x01E0) {
+                temp_r5->unk0--;
+            }
+            break;
     }
     sub_8010430(arg0);
 }
 
-void sub_800F9C0(Player *arg0) {
+void sub_800F9C0(Player *arg0)
+{
     PlayerUnk148 *temp_r2;
     u8 *temp_r2_2;
 
@@ -9199,16 +9198,18 @@ void sub_800F9C0(Player *arg0) {
     arg0->qSpeedAirX = 0;
     arg0->qSpeedAirY = 0;
     if (temp_r2->unk0 == 0) {
-        temp_r2->unk0 = 0xF0;
-        temp_r2->filler0[2] = 0;
-        m4aSongNumStart(0x242U);
+        temp_r2->unk0 = 240;
+        // TODO: Weird cast!
+        *(u8 *)&temp_r2->unk2 = 0;
+        m4aSongNumStart(SE_578);
     }
-    temp_r2_2 = &arg0->unk14C;
-    *temp_r2_2 |= 8;
+
+    arg0->unk14C |= 8;
     SetPlayerCallback(arg0, Player_800FA1C);
     Player_800FA1C(arg0);
 }
 
+#if 0
 void Player_800FA1C(Player *arg0) {
     PlayerUnk148 *temp_r4;
     s16 temp_r1_2;
@@ -9228,16 +9229,16 @@ void Player_800FA1C(Player *arg0) {
         var_r2 = 1;
         temp_r1 = arg0->keyInput;
         if (0x20 & temp_r1) {
-            if (temp_r4->filler0[2] == 0) {
+            if (temp_r4->unk2 == 0) {
                 goto block_7;
             }
-        } else if ((0x10 & temp_r1) && (temp_r4->filler0[2] == 1)) {
+        } else if ((0x10 & temp_r1) && (temp_r4->unk2 == 1)) {
 block_7:
-            temp_r4->filler0[2] += 1;
+            temp_r4->unk2 += 1;
         }
-        if (temp_r4->filler0[2] == 2) {
-            var_r2 = 0x30000U >> 0x10;
-            temp_r4->filler0[2] = 0;
+        if (temp_r4->unk2 == 2) {
+            var_r2 = 0x3;
+            temp_r4->unk2 = 0;
         }
         temp_r1_2 = (u16) temp_r4->unk0 - (s16) var_r2;
         temp_r4->unk0 = temp_r1_2;
@@ -10303,7 +10304,7 @@ void sub_8010BBC(Player *arg0) {
     arg0->charFlags.anim0 = 0x111;
     arg0->qSpeedAirX = -0x400;
     arg0->qSpeedAirY = 0;
-    m4aSongNumStart(0x242U);
+    m4aSongNumStart(SE_578);
     temp_r2 = &arg0->unk14C;
     *temp_r2 |= 2;
     SetPlayerCallback(arg0, sub_800F5C8);
@@ -10320,7 +10321,7 @@ void sub_8010C04(Player *arg0) {
     arg0->qSpeedAirY = 0;
     temp_r2->unk8 = 0xF0;
     temp_r2->filler8[2] = 0;
-    m4aSongNumStart(0x242U);
+    m4aSongNumStart(SE_578);
     temp_r2_2 = &arg0->unk14C;
     *temp_r2_2 |= 8;
     SetPlayerCallback(arg0, sub_800F634);
@@ -10375,7 +10376,7 @@ void sub_8010D28(Player *arg0) {
     arg0->charFlags.anim0 = 0x131;
     arg0->qSpeedAirX = -0x400;
     arg0->qSpeedAirY = 0;
-    m4aSongNumStart(0x242U);
+    m4aSongNumStart(SE_578);
     temp_r2 = &arg0->unk14C;
     *temp_r2 |= 2;
     SetPlayerCallback(arg0, sub_8010D70);
