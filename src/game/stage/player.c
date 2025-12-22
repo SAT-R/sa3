@@ -9399,131 +9399,85 @@ void sub_800FC30(Player *p)
         p->charFlags.anim0 = (!playerNotSonic) ? 0x10E : 0x12C;
     }
 }
-#if 0
-void sub_800FD60(Player *p) {
-    s16 temp_r2_2;
-    s16 temp_r2_4;
-    s16 var_r0;
-    s16 var_r0_2;
-    s16 var_r0_3;
-    s16 var_r0_4;
-    s16 var_r0_5;
-    s16 var_r0_6;
-    s16 var_r0_7;
-    s16 var_r0_8;
-    u16 temp_r0;
-    u16 temp_r0_2;
-    u16 temp_r2;
-    u16 temp_r2_3;
 
-    temp_r2 = p->keyInput;
-    if (0x40 & temp_r2) {
-        var_r0 = (u16) p->qSpeedAirY - 0x40;
-        goto block_13;
-    }
-    if (0x80 & temp_r2) {
-        var_r0 = (u16) p->qSpeedAirY + 0x40;
-        goto block_13;
-    }
-    temp_r0 = (u16) p->qSpeedAirY;
-    temp_r2_2 = p->qSpeedAirY;
-    if (temp_r2_2 != 0) {
-        if ((s32) temp_r2_2 < 0) {
-            var_r0_2 = temp_r0 + 0x10;
-        } else {
-            var_r0_2 = temp_r0 - 0x10;
+void sub_800FD60(Player *p)
+{
+    if (DPAD_UP & p->keyInput) {
+        p->qSpeedAirY -= 0x40;
+    } else if (DPAD_DOWN & p->keyInput) {
+        p->qSpeedAirY += 0x40;
+    } else {
+        if (p->qSpeedAirY != 0) {
+            if (p->qSpeedAirY < 0) {
+                p->qSpeedAirY += 0x10;
+            } else {
+                p->qSpeedAirY -= 0x10;
+            }
         }
-        p->qSpeedAirY = var_r0_2;
+
+        if (ABS(p->qSpeedAirY) < 0x40) {
+            p->qSpeedAirY = 0;
+        }
     }
-    var_r0_3 = p->qSpeedAirY;
-    if ((s32) var_r0_3 < 0) {
-        var_r0_3 = 0 - var_r0_3;
-    }
-    if ((s32) var_r0_3 <= 0x3F) {
-        var_r0 = 0;
-block_13:
-        p->qSpeedAirY = var_r0;
-    }
-    var_r0_4 = p->qSpeedAirY;
-    if ((s32) var_r0_4 < 0) {
-        var_r0_4 = 0 - var_r0_4;
-    }
-    if ((s32) var_r0_4 > 0x180) {
-        if ((s32) p->qSpeedAirY < 0) {
+
+    if (ABS(p->qSpeedAirY) > 0x180) {
+        if (p->qSpeedAirY < 0) {
             p->qSpeedAirY = -0x180;
         } else {
-            p->qSpeedAirY = 0x180;
+            p->qSpeedAirY = +0x180;
         }
     }
-    temp_r2_3 = p->keyInput;
-    if (0x20 & temp_r2_3) {
-        var_r0_5 = (u16) p->qSpeedAirX - 0x40;
-        goto block_33;
-    }
-    if (0x10 & temp_r2_3) {
-        var_r0_5 = (u16) p->qSpeedAirX + 0x40;
-        goto block_33;
-    }
-    temp_r0_2 = (u16) p->qSpeedAirX;
-    temp_r2_4 = p->qSpeedAirX;
-    if (temp_r2_4 != 0) {
-        if ((s32) temp_r2_4 < 0) {
-            var_r0_6 = temp_r0_2 + 0x10;
-        } else {
-            var_r0_6 = temp_r0_2 - 0x10;
+
+    if (DPAD_LEFT & p->keyInput) {
+        p->qSpeedAirX -= Q(0.25);
+    } else if (DPAD_RIGHT & p->keyInput) {
+        p->qSpeedAirX += Q(0.25);
+    } else {
+        if (p->qSpeedAirX != 0) {
+            if (p->qSpeedAirX < 0) {
+                p->qSpeedAirX += 0x10;
+            } else {
+                p->qSpeedAirX -= 0x10;
+            }
         }
-        p->qSpeedAirX = var_r0_6;
+
+        if (ABS(p->qSpeedAirX) <= 0x3F) {
+            p->qSpeedAirX = 0;
+        }
     }
-    var_r0_7 = p->qSpeedAirX;
-    if ((s32) var_r0_7 < 0) {
-        var_r0_7 = 0 - var_r0_7;
-    }
-    if ((s32) var_r0_7 <= 0x3F) {
-        var_r0_5 = 0;
-block_33:
-        p->qSpeedAirX = var_r0_5;
-    }
-    var_r0_8 = p->qSpeedAirX;
-    if ((s32) var_r0_8 < 0) {
-        var_r0_8 = 0 - var_r0_8;
-    }
-    if ((s32) var_r0_8 > 0x180) {
-        if ((s32) p->qSpeedAirX < 0) {
+
+    if (ABS(p->qSpeedAirX) > 0x180) {
+        if (p->qSpeedAirX < 0) {
             p->qSpeedAirX = -0x180;
-            return;
+        } else {
+            p->qSpeedAirX = +0x180;
         }
-        p->qSpeedAirX = 0x180;
     }
 }
 
-void Player_800FE44(Player *arg0) {
+void Player_800FE44(Player *p) {
     PlayerUnk148 *temp_r2;
-    u8 temp_r4;
-    void (*var_r1)(Player *);
 
-    temp_r4 = 0xF & arg0->unk2A;
-    if (temp_r4 == 0) {
-        temp_r2 = arg0->unk148;
+    if (p->charFlags.character == SONIC) {
+        temp_r2 = p->unk148;
         if (gStageData.gameMode != 5) {
-            if ((gStageData.buttonConfig.trick & arg0->keyInput2) || (temp_r2->a.unkB != 0)) {
-                temp_r2->a.unkB = temp_r4;
-                var_r1 = sub_801098C;
-                goto block_9;
+            if ((p->keyInput2 & gStageData.buttonConfig.trick) || (temp_r2->a.unkB != 0)) {
+                temp_r2->a.unkB = 0;
+                SetPlayerCallback(p, sub_801098C);
             }
         } else {
-            temp_r2->a.unkB = temp_r4;
+            temp_r2->a.unkB = 0;
         }
     } else if (gStageData.gameMode != 5) {
         if (gPlayers->charFlags.anim0 == 0x122) {
-            var_r1 = sub_80109FC;
-block_9:
-            SetPlayerCallback(arg0, var_r1);
+            SetPlayerCallback(p, sub_80109FC);
         }
-    } else if ((gStageData.buttonConfig.jump | gStageData.buttonConfig.attack | gStageData.buttonConfig.trick) & arg0->keyInput2) {
-        SetPlayerCallback(arg0, sub_8010DC4);
+    } else if ((gStageData.buttonConfig.jump | gStageData.buttonConfig.attack | gStageData.buttonConfig.trick) & p->keyInput2) {
+        SetPlayerCallback(p, sub_8010DC4);
     }
 }
 
+#if 0
 void Player_800FED8(Player *arg0) {
     u16 temp_r2;
     u8 var_r3;
