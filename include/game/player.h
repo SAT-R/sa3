@@ -64,7 +64,7 @@ typedef struct PlayerUnkC4 {
 
 // TODO: Could these be the character flags in SA3?
 //       unk2 and unk8 are sometimes used as byte, sometimes as s16...
-typedef struct PlayerUnk148 {
+typedef struct PlayerUnk148_A {
     s16 unk0;
     s16 unk2;
     u8 unk4;
@@ -75,6 +75,24 @@ typedef struct PlayerUnk148 {
     u8 unkA;
     u8 unkB;
     s16 unkC;
+} PlayerUnk148_A;
+typedef struct PlayerUnk148_B {
+    s16 unk0;
+    u8 unk2;
+    u8 unk3;
+    u8 unk4;
+    u8 unk5;
+    u8 unk6;
+    u8 unk7;
+    u8 unk8;
+    u8 unk9;
+    u8 unkA;
+    u8 unkB;
+    s16 unkC;
+} PlayerUnk148_B;
+typedef union PlayerUnk148 {
+    PlayerUnk148_A a;
+    PlayerUnk148_B b;
 } PlayerUnk148;
 
 struct Player {
