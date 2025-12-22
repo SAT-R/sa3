@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start sub_800FABC
 sub_800FABC: @ 0x0800FABC
 	push {r4, r5, lr}
@@ -211,6 +209,7 @@ _0800FC28:
 	pop {r0}
 	bx r0
 	.align 2, 0
+.endif
 
 	thumb_func_start sub_800FC30
 sub_800FC30: @ 0x0800FC30
