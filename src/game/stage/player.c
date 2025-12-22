@@ -9245,218 +9245,161 @@ void Player_800FA1C(Player *p)
     sub_8010430(p);
 }
 
-#if 0
-void sub_800FABC(Player *p) {
+void sub_800FABC(Player *p)
+{
     s16 temp_r0_2;
     s16 temp_r0_3;
     s16 var_r2;
     s32 temp_r0;
     s32 temp_r4;
     s32 var_r0;
-    u16 var_r3;
+    s16 var_r3;
 
     if (gStageData.gameMode == 5) {
-        if ((gStageData.playerIndex == 0) && (0xF & p->unk2A)) {
+        if ((gStageData.playerIndex == 0) && (p->charFlags.character != SONIC)) {
             p->qWorldX += 0x1000;
             return;
         }
-        if ((gStageData.playerIndex != 1) || (0xF & p->unk2A)) {
+        if ((gStageData.playerIndex != 1) || (p->charFlags.character != SONIC)) {
             goto block_6;
         }
     } else {
-block_6:
+    block_6:
         temp_r4 = p->qWorldX;
         var_r3 = (temp_r4 >> 8) - gCamera.x;
         if (gStageData.gameMode == 5) {
-            var_r2 = (s16) var_r3;
-            if ((s32) var_r2 < 0) {
-                var_r2 = 0 - var_r2;
-            }
-            if ((s32) var_r2 > 0x1E0) {
+            if (ABS(var_r3) > 0x1E0) {
                 temp_r0 = temp_r4 + 0xFFF5B000;
                 p->qWorldX = temp_r0;
                 var_r3 = (temp_r0 >> 8) - gCamera.x;
             }
         }
-        temp_r0_2 = (s16) var_r3;
-        if ((s32) temp_r0_2 <= 7) {
+        temp_r0_2 = (s16)var_r3;
+        if ((s32)temp_r0_2 <= 7) {
             var_r0 = gCamera.x + 8;
             goto block_15;
         }
-        if ((s32) temp_r0_2 > 0xE8) {
+        if ((s32)temp_r0_2 > 0xE8) {
             var_r0 = gCamera.x + 0xE8;
-block_15:
+        block_15:
             p->qWorldX = var_r0 << 8;
         }
-        temp_r0_3 = ((s32) p->qWorldY >> 8) - gCamera.y;
-        if ((s32) temp_r0_3 <= 7) {
-            p->qWorldY = (gCamera.y + 8) << 8;
+        temp_r0_3 = ((s32)p->qWorldY >> 8) - gCamera.y;
+        if ((s32)temp_r0_3 <= 7) {
+            p->qWorldY = Q(gCamera.y + 8);
             return;
         }
-        if ((s32) temp_r0_3 > 0xA0) {
-            p->qWorldY = (gCamera.y + 0xA0) << 8;
+        if ((s32)temp_r0_3 > 0xA0) {
+            p->qWorldY = Q(gCamera.y + DISPLAY_HEIGHT);
         }
     }
 }
 
-void sub_800FB94(Player *arg0, u8 arg1) {
+void sub_800FB94(Player *p, u8 arg1)
+{
     s16 temp_r0;
-    s16 temp_r0_2;
-    s32 var_r0;
-    s32 var_r0_2;
-
-    if ((gStageData.gameMode != 5) || (((gStageData.playerIndex != 0) || !(0xF & arg0->unk2A)) && ((gStageData.playerIndex != 1) || (0xF & arg0->unk2A)))) {
+    if ((gStageData.gameMode != 5)
+        || (((gStageData.playerIndex != PLAYER_1) || (p->charFlags.character == SONIC))
+            && ((gStageData.playerIndex != PLAYER_2) || (p->charFlags.character != SONIC)))) {
         if (arg1 == 0) {
-            temp_r0 = ((s32) arg0->qWorldX >> 8) - gCamera.x;
-            if ((s32) temp_r0 <= 7) {
-                var_r0 = gCamera.x + 8;
-                goto block_10;
-            }
-            if ((s32) temp_r0 > 0xF0) {
-                var_r0 = gCamera.x + 0xF0;
-block_10:
-                arg0->qWorldX = var_r0 << 8;
+            temp_r0 = (p->qWorldX >> 8) - gCamera.x;
+            if (temp_r0 <= 7) {
+                p->qWorldX = Q(gCamera.x + 8);
+            } else if (temp_r0 > DISPLAY_WIDTH) {
+                p->qWorldX = Q(gCamera.x + DISPLAY_WIDTH);
             }
         } else {
-            temp_r0_2 = ((s32) arg0->qWorldY >> 8) - gCamera.y;
-            if ((s32) temp_r0_2 <= 7) {
-                var_r0_2 = gCamera.y + 8;
-                goto block_15;
-            }
-            if ((s32) temp_r0_2 > 0xA0) {
-                var_r0_2 = gCamera.y + 0xA0;
-block_15:
-                arg0->qWorldY = var_r0_2 << 8;
+            temp_r0 = (p->qWorldY >> 8) - gCamera.y;
+            if (temp_r0 <= 7) {
+                p->qWorldY = Q(gCamera.y + 8);
+            } else if (temp_r0 > DISPLAY_HEIGHT) {
+                p->qWorldY = Q(gCamera.y + DISPLAY_HEIGHT);
             }
         }
     }
 }
 
-void sub_800FC30(Player *arg0) {
-    s16 temp_r0_3;
-    s16 temp_r1_3;
-    s16 temp_r1_5;
-    s16 var_r0_3;
-    s16 var_r0_4;
-    s16 var_r0_7;
-    s16 var_r0_8;
-    s16 var_r0_9;
+void sub_800FC30(Player *p)
+{
+    s32 temp_r0_3;
+    s32 temp_r1_3;
+    s32 temp_r1_5;
+    s32 var_r0_3;
+    s32 var_r0_4;
+    s32 var_r0_7;
+    s32 var_r0_8;
+    s32 var_r0_9;
     s16 var_r1;
-    s32 temp_r1;
-    u16 temp_r0;
     u16 temp_r0_2;
     u16 temp_r1_2;
     u16 temp_r1_4;
-    u16 var_r0;
-    u16 var_r0_2;
-    u16 var_r0_5;
-    u16 var_r0_6;
-    u32 temp_r3;
+    s16 var_r0;
+    s16 var_r0_2;
+    s16 var_r0_5;
+    s16 var_r0_6;
+    bool32 playerNotSonic = (p->charFlags.character == SONIC) ? FALSE : TRUE;
 
-    temp_r1 = 0xF & arg0->unk2A;
-    temp_r3 = (u32) ((0 - temp_r1) | temp_r1) >> 0x1F;
-    temp_r1_2 = arg0->keyInput;
-    if (0x40 & temp_r1_2) {
-        var_r0 = arg0->qSpeedAirY - 0x40;
-        goto block_13;
-    }
-    if (0x80 & temp_r1_2) {
-        var_r0 = arg0->qSpeedAirY + 0x40;
-        goto block_13;
-    }
-    temp_r0 = arg0->qSpeedAirY;
-    temp_r1_3 = (s16) arg0->qSpeedAirY;
-    if (temp_r1_3 != 0) {
-        if ((s32) temp_r1_3 < 0) {
-            var_r0_2 = temp_r0 + 0x10;
-        } else {
-            var_r0_2 = temp_r0 - 0x10;
-        }
-        arg0->qSpeedAirY = var_r0_2;
-    }
-    var_r0_3 = (s16) arg0->qSpeedAirY;
-    if ((s32) var_r0_3 < 0) {
-        var_r0_3 = 0 - var_r0_3;
-    }
-    if ((s32) var_r0_3 <= 0x3F) {
-        var_r0 = 0;
-block_13:
-        arg0->qSpeedAirY = var_r0;
-    }
-    var_r0_4 = (s16) arg0->qSpeedAirY;
-    if ((s32) var_r0_4 < 0) {
-        var_r0_4 = 0 - var_r0_4;
-    }
-    if ((s32) var_r0_4 > 0x200) {
-        if ((s32) (s16) arg0->qSpeedAirY < 0) {
-            arg0->qSpeedAirY = 0xFE00;
-        } else {
-            arg0->qSpeedAirY = 0x200;
-        }
-    }
-    temp_r1_4 = arg0->keyInput;
-    if (0x20 & temp_r1_4) {
-        var_r0_5 = arg0->qSpeedAirX - 0x40;
-        goto block_33;
-    }
-    if (0x10 & temp_r1_4) {
-        var_r0_5 = arg0->qSpeedAirX + 0x40;
-        goto block_33;
-    }
-    temp_r0_2 = arg0->qSpeedAirX;
-    temp_r1_5 = (s16) arg0->qSpeedAirX;
-    if (temp_r1_5 != 0) {
-        if ((s32) temp_r1_5 < 0) {
-            var_r0_6 = temp_r0_2 + 0x10;
-        } else {
-            var_r0_6 = temp_r0_2 - 0x10;
-        }
-        arg0->qSpeedAirX = var_r0_6;
-    }
-    var_r0_7 = (s16) arg0->qSpeedAirX;
-    if ((s32) var_r0_7 < 0) {
-        var_r0_7 = 0 - var_r0_7;
-    }
-    if ((s32) var_r0_7 <= 0x3F) {
-        var_r0_5 = 0;
-block_33:
-        arg0->qSpeedAirX = var_r0_5;
-    }
-    var_r0_8 = (s16) arg0->qSpeedAirX;
-    if ((s32) var_r0_8 < 0) {
-        var_r0_8 = 0 - var_r0_8;
-    }
-    if ((s32) var_r0_8 > 0x200) {
-        if ((s32) (s16) arg0->qSpeedAirX < 0) {
-            arg0->qSpeedAirX = 0xFE00;
-        } else {
-            arg0->qSpeedAirX = 0x200;
-        }
-    }
-    temp_r0_3 = (s16) arg0->qSpeedAirY;
-    if ((s32) temp_r0_3 < 0) {
-        var_r0_9 = 0x12D;
-        if (temp_r3 == 0) {
-            var_r1 = 0x10F;
-            goto block_48;
-        }
-    } else if ((s32) temp_r0_3 > 0) {
-        var_r0_9 = 0x12E;
-        if (temp_r3 == 0) {
-            var_r1 = 0x110;
-            goto block_48;
-        }
+    if (0x40 & p->keyInput) {
+        p->qSpeedAirY -= 0x40;
+    } else if (0x80 & p->keyInput) {
+        p->qSpeedAirY += 0x40;
     } else {
-        var_r0_9 = 0x12C;
-        if (temp_r3 == 0) {
-            var_r1 = 0x10E;
-block_48:
-            var_r0_9 = var_r1;
+        if (p->qSpeedAirY != 0) {
+            if (p->qSpeedAirY < 0) {
+                p->qSpeedAirY += 0x10;
+            } else {
+                p->qSpeedAirY -= 0x10;
+            }
+        }
+
+        if (ABS(p->qSpeedAirY) < 0x40) {
+            p->qSpeedAirY = 0;
         }
     }
-    arg0->charFlags.anim0 = var_r0_9;
-}
 
+    if (ABS(p->qSpeedAirY) > Q(2)) {
+        if (p->qSpeedAirY < 0) {
+            p->qSpeedAirY = -Q(2);
+        } else {
+            p->qSpeedAirY = +Q(2);
+        }
+    }
+
+    if (0x20 & p->keyInput) {
+        p->qSpeedAirX -= 0x40;
+    } else if (0x10 & p->keyInput) {
+        p->qSpeedAirX += 0x40;
+    } else {
+        if (p->qSpeedAirX != 0) {
+            if (p->qSpeedAirX < 0) {
+                p->qSpeedAirX += 0x10;
+            } else {
+                p->qSpeedAirX -= 0x10;
+            }
+        }
+
+        if (ABS(p->qSpeedAirX) < 0x40) {
+            p->qSpeedAirX = 0;
+        }
+    }
+
+    if (ABS(p->qSpeedAirX) > Q(2)) {
+        if (p->qSpeedAirX < 0) {
+            p->qSpeedAirX = -Q(2);
+        } else {
+            p->qSpeedAirX = +Q(2);
+        }
+    }
+    temp_r0_3 = (s16)p->qSpeedAirY;
+    if ((s32)temp_r0_3 < 0) {
+        p->charFlags.anim0 = (!playerNotSonic) ? 0x10F : 0x12D;
+    } else if ((s32)temp_r0_3 > 0) {
+        p->charFlags.anim0 = (!playerNotSonic) ? 0x110 : 0x12E;
+    } else {
+        p->charFlags.anim0 = (!playerNotSonic) ? 0x10E : 0x12C;
+    }
+}
+#if 0
 void sub_800FD60(Player *p) {
     s16 temp_r2_2;
     s16 temp_r2_4;
