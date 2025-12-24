@@ -736,7 +736,7 @@ _0804FD42:
 	str r0, [r1, #0x38]
 	movs r4, #0
 	ldr r0, _0804FD88 @ =0x0000FFFC
-	ldr r3, _0804FD8C @ =gUnknown_03001D76
+	ldr r3, _0804FD8C @ =gCamera+0x66
 	strh r0, [r3]
 	adds r1, r5, #0
 	ldrb r0, [r1, #3]
@@ -756,7 +756,7 @@ _0804FD42:
 	b _0804FDD4
 	.align 2, 0
 _0804FD88: .4byte 0x0000FFFC
-_0804FD8C: .4byte gUnknown_03001D76
+_0804FD8C: .4byte gCamera+0x66
 _0804FD90: .4byte sub_80516CC
 _0804FD94:
 	ldrb r0, [r5, #0xa]

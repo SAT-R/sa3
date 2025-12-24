@@ -63,6 +63,8 @@ struct Camera {
     /* 0x62 */ s16 unk62;
     /* 0x64 */ s16 unk64;
     /* 0x66 */ u8 spectatorTarget;
+    /* 0x67 */ u8 unk67[3];
+    /* 0x6A */ s16 unk6A;
 }; /* size ??? */
 
 extern struct Camera gCamera;

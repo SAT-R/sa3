@@ -51,7 +51,6 @@ src/lib/agb_flash/agb_flash.o(.bss);
 . = 0x00001CFC; gTask_03001CFC = .; /* (struct Task*)Strc3001CFC */
 . = 0x00001D00; gUnknown_03001D00 = .;
 . = 0x00001D10; gCamera = .;
-. = 0x00001D76; gUnknown_03001D76 = .;
 . = 0x00001D80; gUnknown_03001D80 = .;
 . = 0x00001DA0; gUnknown_03001DA0 = .;
 . = 0x00001DC0; gUnknown_03001DC0 = .;
