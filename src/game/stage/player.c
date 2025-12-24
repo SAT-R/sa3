@@ -70,7 +70,7 @@ extern void sub_802785C(void);
 extern void sub_8056120(s16 param0);
 extern void sub_8056168(void);
 
-s32 sub_8010184(Sprite *s, s32 offsetX, s32 offsetY, s16 hbIndex, Player *p);
+bool32 sub_8010184(Sprite *s, s32 offsetX, s32 offsetY, s16 hbIndex, Player *p);
 
 extern u16 gMedalTimes[][2];
 extern u8 gUnknown_080CF468[];
@@ -9639,7 +9639,7 @@ NONMATCH("asm/non_matching/game/stage/player__Task_8010008.inc", void Task_80100
 }
 END_NONMATCH
 
-s32 sub_8010184(Sprite *s, s32 offsetX, s32 offsetY, s16 hbIndex, Player *p)
+bool32 sub_8010184(Sprite *s, s32 offsetX, s32 offsetY, s16 hbIndex, Player *p)
 {
     Sprite *sprite = &p->spriteData->s;
 
@@ -9655,74 +9655,23 @@ s32 sub_8010184(Sprite *s, s32 offsetX, s32 offsetY, s16 hbIndex, Player *p)
     return FALSE;
 }
 
-#if 0
-s32 sub_8010288(s32 arg0, s32 arg1, s32 arg2, u16 arg3, void *arg4) {
-    s32 temp_r0_3;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s32 temp_r2_3;
-    s8 temp_r3;
-    s8 temp_r4;
-    s8 temp_r4_2;
-    s8 temp_r5_2;
-    void *temp_r0;
-    void *temp_r0_2;
-    void *temp_r3_2;
-    void *temp_r5;
+bool32 sub_8010288(Sprite *s, s32 offsetX, s32 offsetY, s16 hbIndex, Player *p)
+{
+    Sprite *sprite = &p->spriteData->s;
 
-    temp_r0 = arg4->unkE0;
-    temp_r0_2 = temp_r0 + 0xC;
-    if (!(arg4->unk4 & 0x100)) {
-        temp_r0_3 = arg3 << 0x10;
-        temp_r2 = temp_r0_3 >> 0xD;
-        if ((*(arg0 + 0x20 + temp_r2) != -1) && (temp_r0_2->unk28 != -1)) {
-            temp_r5 = arg0 + temp_r2;
-            temp_r3 = temp_r5->unk24;
-            temp_r2_2 = arg1 + temp_r3;
-            temp_r4 = temp_r0->unk38;
-            temp_r1 = ((s32) arg4->unk10 >> 8) + gCamera.unk6A + temp_r4;
-            if (temp_r2_2 <= temp_r1) {
-                if ((s32) (temp_r2_2 + ((s8) temp_r5->unk26 - temp_r3)) < temp_r1) {
-                    if (temp_r2_2 >= temp_r1) {
-                        goto block_6;
-                    }
-                    goto block_12;
-                }
-                goto block_7;
+    if (!(p->moveState & MOVESTATE_100)) {
+        if ((s->hitboxes[hbIndex].index != -1) && (sprite->hitboxes[1].index != -1)) {
+            if (HB_COLLISION(offsetX, offsetY, s->hitboxes[hbIndex].b, I(p->qWorldX) + gCamera.unk6A, I(p->qWorldY),
+                             sprite->hitboxes[1].b)) {
+                return TRUE;
             }
-block_6:
-            if ((s32) (temp_r1 + ((s8) temp_r0->unk3A - temp_r4)) >= temp_r2_2) {
-block_7:
-                temp_r3_2 = arg0 + (temp_r0_3 >> 0xD);
-                temp_r4_2 = temp_r3_2->unk25;
-                temp_r2_3 = arg2 + temp_r4_2;
-                temp_r5_2 = temp_r0_2->unk2D;
-                temp_r1_2 = ((s32) arg4->unk14 >> 8) + temp_r5_2;
-                if (temp_r2_3 <= temp_r1_2) {
-                    if ((s32) (temp_r2_3 + ((s8) temp_r3_2->unk27 - temp_r4_2)) < temp_r1_2) {
-                        if (temp_r2_3 >= temp_r1_2) {
-                            goto block_10;
-                        }
-                        goto block_12;
-                    }
-                    goto block_11;
-                }
-block_10:
-                if ((s32) (temp_r1_2 + ((s8) temp_r0_2->unk2F - temp_r5_2)) >= temp_r2_3) {
-block_11:
-                    return 1;
-                }
-                goto block_12;
-            }
-            goto block_12;
         }
     }
-block_12:
-    return 0;
+
+    return FALSE;
 }
 
+#if 0
 void sub_801038C(Player *arg0, u8 arg1) {
     u8 temp_r5;
     void (*var_r1)(Player *);
