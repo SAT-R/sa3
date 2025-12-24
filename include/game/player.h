@@ -89,9 +89,21 @@ typedef struct PlayerUnk148_B {
     u8 unkB;
     s16 unkC;
 } PlayerUnk148_B;
+typedef struct PlayerUnk148_C {
+    s16 unk0;
+    u8 unk2;
+    u8 unk3;
+    u8 *tiles;
+    u8 unk8;
+    u8 unk9;
+    u8 unkA;
+    u8 unkB;
+    s16 unkC;
+} PlayerUnk148_C;
 typedef union PlayerUnk148 {
     PlayerUnk148_A a;
     PlayerUnk148_B b;
+    PlayerUnk148_C c;
 } PlayerUnk148;
 
 struct Player {
