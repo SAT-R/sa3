@@ -10360,65 +10360,66 @@ void sub_8010FE0(Player *p)
     sub_8010430(p);
 }
 
-#if 0
-s32 sub_8011024(u16 arg0, Player *arg1, u8 *arg2, u32 *arg3) {
-    u32 sp4;
+s32 sub_8011024(s16 arg0, Player *arg1, u8 *arg2, u32 *arg3)
+{
+    u8 dummyArg2;
+    u32 dummyArg3;
     s32 temp_r2;
-    u16 temp_r4;
+    u16 tempArg0;
     u16 var_r0;
-    u32 *var_r5;
-    u8 *var_r7;
-    u8 temp_r3;
-    u8 var_r0_2;
+    s32 tempArg2;
 
-    var_r7 = arg2;
-    var_r5 = arg3;
-    temp_r4 = arg0;
-    if (var_r7 == NULL) {
-        var_r7 = &subroutine_arg0;
+    tempArg0 = arg0;
+    if (arg2 == NULL) {
+        arg2 = &dummyArg2;
     }
-    if (var_r5 == NULL) {
-        var_r5 = &sp4;
+    if (arg3 == NULL) {
+        arg3 = &dummyArg3;
     }
-    if ((temp_r4 != 2) && ((sub_80114CC(arg1) << 0x10) != 0)) {
-        *var_r7 = 0;
-        *var_r5 = 0;
-        arg1->qSpeedGround = (s16) (u16) arg1->qSpeedAirX;
-        if (arg1->moveState & 2) {
+    if ((tempArg0 != 2) && sub_80114CC(arg1)) {
+        *arg2 = 0;
+        *arg3 = 0;
+        arg1->qSpeedGround = arg1->qSpeedAirX;
+
+        if (arg1->moveState & MOVESTATE_2) {
             SetPlayerCallback(arg1, Player_800891C);
         } else {
             SetPlayerCallback(arg1, Player_8005380);
         }
         return 0;
     }
-    switch (temp_r4) {                              /* irregular */
-    case 0:
-        var_r0 = 0;
-block_20:
-        temp_r2 = sub_80110E8(var_r0, arg1, var_r7, var_r5);
-        temp_r3 = *var_r7;
-        if (1 & temp_r3) {
-            var_r0_2 = 0;
-            goto block_26;
-        }
-        if (arg1->moveState & 0x10000) {
-            var_r0_2 = -0x80 - temp_r3;
-block_26:
-            *var_r7 = var_r0_2;
-        }
-        return temp_r2;
-    case 1:
-        var_r0 = 1;
-        goto block_20;
-    case 2:
-        var_r0 = 2;
-        goto block_20;
-    case 3:
-        var_r0 = 3;
-        goto block_20;
+    switch (tempArg0) {
+        case 0:
+            var_r0 = 0;
+            temp_r2 = sub_80110E8(var_r0, arg1, arg2, arg3);
+            break;
+        case 1:
+            var_r0 = 1;
+            temp_r2 = sub_80110E8(var_r0, arg1, arg2, arg3);
+            break;
+        case 2:
+            var_r0 = 2;
+            temp_r2 = sub_80110E8(var_r0, arg1, arg2, arg3);
+            break;
+        case 3:
+            var_r0 = 3;
+            temp_r2 = sub_80110E8(var_r0, arg1, arg2, arg3);
+            break;
+        default:
+            return 0;
     }
+
+    tempArg2 = *arg2;
+    if (1 & tempArg2) {
+        *arg2 = 0;
+    } else if (arg1->moveState & 0x10000) {
+        s32 v = (0 - 128) - tempArg2;
+        *arg2 = v;
+    }
+    return temp_r2;
 }
 
+#if 0
 s32 sub_80110E8(u16 arg0, Player *arg1, u8 *arg2, u32 *arg3) {
     u8 *sp10;
     u32 *sp14;
