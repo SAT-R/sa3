@@ -100,10 +100,17 @@ typedef struct PlayerUnk148_C {
     u8 unkB;
     s16 unkC;
 } PlayerUnk148_C;
+typedef struct PlayerUnk148_D {
+    u8 unk0[0x8];
+    u16 unk8;
+    s16 someAnim0;
+    Sprite s;
+} PlayerUnk148_D;
 typedef union PlayerUnk148 {
     PlayerUnk148_A a;
     PlayerUnk148_B b;
     PlayerUnk148_C c;
+    PlayerUnk148_D d;
 } PlayerUnk148;
 
 struct Player {

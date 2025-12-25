@@ -9671,143 +9671,149 @@ bool32 sub_8010288(Sprite *s, s32 offsetX, s32 offsetY, s16 hbIndex, Player *p)
     return FALSE;
 }
 
-#if 0
-void sub_801038C(Player *arg0, u8 arg1) {
-    u8 temp_r5;
-    void (*var_r1)(Player *);
-
-    temp_r5 = arg1;
-    if ((s32) arg0->framesInvulnerable <= 0) {
-        arg0->unk48 = 1;
-        if (!(0xF & arg0->unk2A)) {
-            if (temp_r5 == 1) {
-                if (8 & arg0->unk14C) {
-                    arg0->unk148->a.unk8 = 0;
+void sub_801038C(Player *p, u8 arg1)
+{
+    if (p->framesInvulnerable <= 0) {
+        p->unk48 = 1;
+        if (p->charFlags.character == SONIC) {
+            PlayerUnk148 *unk148 = p->unk148;
+            if (arg1 == 1) {
+                if (8 & p->unk14C) {
+                    unk148->a.unk8 = 0;
                     return;
                 }
-                arg0->framesInvulnerable = 0x78;
-                var_r1 = sub_8010BBC;
-                goto block_11;
+                p->framesInvulnerable = 120;
+
+                SetPlayerCallback(p, sub_8010BBC);
+            } else {
+                SetPlayerCallback(p, sub_8010C04);
             }
-            var_r1 = sub_8010C04;
-            goto block_11;
-        }
-        if (temp_r5 == 1) {
-            if (8 & arg0->unk14C) {
-                arg0->unk148->a.unk0 = 0;
+        } else {
+            PlayerUnk148 *unk148 = p->unk148;
+            PlayerUnk148_A *unk148_A = &unk148->a;
+
+            if (arg1 == 1) {
+                if (8 & p->unk14C) {
+                    unk148_A->unk0 = 0;
+                    return;
+                }
+                p->framesInvulnerable = 120;
+                SetPlayerCallback(p, sub_8010D28);
                 return;
+            } else {
+                SetPlayerCallback(p, sub_800F9C0);
             }
-            arg0->framesInvulnerable = 0x78;
-            var_r1 = sub_8010D28;
-block_11:
-            SetPlayerCallback(arg0, var_r1);
-            return;
         }
-        SetPlayerCallback(arg0, sub_800F9C0);
     }
 }
 
-void sub_8010430(Player *p) {
+void sub_8010430(Player *p)
+{
     PlayerUnk148 *temp_r5;
-    s16 *temp_r4;
     s16 temp_r0_2;
+    Sprite *s;
     s32 var_r0_2;
     s32 var_r8;
     s8 var_r0;
-    u16 temp_r0;
 
     temp_r5 = p->unk148;
-    temp_r4 = &temp_r5->a.unkC;
+    s = &temp_r5->d.s;
     var_r8 = 0;
-    if ((gStageData.gameMode == 5) && (gStageData.playerIndex == 0)) {
-        temp_r0 = p->charFlags.state1;
-        switch ((u32) temp_r0) {                    /* switch 3; irregular */
-        case 0:                                     /* switch 3 */
-            temp_r4->unkC = 0x4F8;
-            temp_r4->unk1A = 0;
-            break;
-        case 2:                                     /* switch 3 */
-            temp_r4->unkC = 0x4F8;
-            temp_r4->unk1A = 9;
-            break;
-        case 3:                                     /* switch 3 */
-            temp_r4->unkC = 0x4F8;
-            temp_r4->unk1A = 0xA;
-            break;
-        case 1:                                     /* switch 3 */
-            temp_r4->unkC = 0x4F8;
-            temp_r4->unk1A = 1;
-            break;
-        case 4:                                     /* switch 3 */
-            temp_r4->unkC = 0x4F8;
-            temp_r4->unk1A = 0xB;
-            break;
-        case 5:                                     /* switch 3 */
-            temp_r4->unkC = 0x4F8;
-            temp_r4->unk1A = 0xC;
-            break;
+    if ((gStageData.gameMode == 5) && (gStageData.playerIndex == PLAYER_1)) {
+        switch (p->charFlags.state1) {
+            case 0:
+                s->anim = ANIM_EGGMAN_SIDE;
+                s->variant = 0;
+                break;
+            case 2:
+                s->anim = ANIM_EGGMAN_SIDE;
+                s->variant = 9;
+                break;
+            case 3:
+                s->anim = ANIM_EGGMAN_SIDE;
+                s->variant = 0xA;
+                break;
+            case 1:
+                s->anim = ANIM_EGGMAN_SIDE;
+                s->variant = 1;
+                break;
+            case 4:
+                s->anim = ANIM_EGGMAN_SIDE;
+                s->variant = 0xB;
+                break;
+            case 5:
+                s->anim = ANIM_EGGMAN_SIDE;
+                s->variant = 0xC;
+                break;
         }
-    } else if (p->charFlags.anim0 != temp_r5->a.unkA) {
-        temp_r0_2 = (u16) p->charFlags.anim0 + 0xFFFFFED4;
-        switch (temp_r0_2) {                        /* switch 2 */
-        case 0:                                     /* switch 2 */
-            temp_r4->unkC = 0x4F8;
-            temp_r4->unk1A = 0;
-            break;
-        case 1:                                     /* switch 2 */
-            temp_r4->unkC = 0x4F8;
-            var_r0 = 9;
-block_22:
-            temp_r4->unk1A = var_r0;
-            break;
-        case 2:                                     /* switch 2 */
-            temp_r4->unkC = 0x4F8;
-            var_r0 = 0xA;
-            goto block_22;
-        case 3:                                     /* switch 2 */
-            temp_r4->unkC = 0x4F8;
-            var_r0 = 1;
-            goto block_22;
-        case 4:                                     /* switch 2 */
-            temp_r4->unkC = 0x4F8;
-            var_r0 = 0xB;
-            goto block_22;
-        case 5:                                     /* switch 2 */
-            temp_r4->unkC = 0x4F8;
-            var_r0 = 2;
-            goto block_22;
-        case 6:                                     /* switch 2 */
-            temp_r4->unkC = 0x4F8;
-            var_r0 = 0xC;
-            goto block_22;
-        case 7:                                     /* switch 2 */
-            temp_r4->unkC = 0x4F8;
-            var_r0 = 6;
-            goto block_22;
+    } else if (p->charFlags.anim0 != temp_r5->d.someAnim0) {
+        switch (p->charFlags.anim0) {
+            case 300:
+                s->anim = ANIM_EGGMAN_SIDE;
+                s->variant = 0;
+                break;
+            case 301:
+                s->anim = ANIM_EGGMAN_SIDE;
+                var_r0 = 9;
+                s->variant = var_r0;
+                break;
+            case 302:
+                s->anim = ANIM_EGGMAN_SIDE;
+                var_r0 = 0xA;
+                s->variant = var_r0;
+                break;
+            case 303:
+                s->anim = ANIM_EGGMAN_SIDE;
+                var_r0 = 1;
+                s->variant = var_r0;
+                break;
+            case 304:
+                s->anim = ANIM_EGGMAN_SIDE;
+                var_r0 = 0xB;
+                s->variant = var_r0;
+                break;
+            case 305:
+                s->anim = ANIM_EGGMAN_SIDE;
+                var_r0 = 2;
+                s->variant = var_r0;
+                break;
+            case 306:
+                s->anim = ANIM_EGGMAN_SIDE;
+                var_r0 = 0xC;
+                s->variant = var_r0;
+                break;
+            case 307:
+                s->anim = ANIM_EGGMAN_SIDE;
+                var_r0 = 6;
+                s->variant = var_r0;
+                break;
         }
-        temp_r5->unkA = (u16) p->charFlags.anim0;
+        temp_r5->d.someAnim0 = p->charFlags.anim0;
     }
-    temp_r4->unk10 = (s16) (((s32) p->qWorldX >> 8) - gCamera.x);
-    temp_r4->unk12 = (s16) (((s32) p->qWorldY >> 8) - gCamera.y);
+
+    s->x = (I(p->qWorldX) - gCamera.x);
+    s->y = (I(p->qWorldY) - gCamera.y);
+
     if (gStageData.unk4 == 1) {
-        if (gStageData.unk4 & gStageData.unkBC) {
-            var_r0_2 = temp_r4->unk8 | 0x80;
+        if (gStageData.unkBC & 1) {
+            s->frameFlags |= SPRITE_FLAG(OBJ_MODE, 1);
         } else {
-            var_r0_2 = temp_r4->unk8 & ~0x80;
+            s->frameFlags &= ~SPRITE_FLAG(OBJ_MODE, 1);
         }
-        temp_r4->unk8 = var_r0_2;
+
         if (2 & gStageData.unkBC) {
             var_r8 = 1;
         }
     } else {
-        temp_r4->unk8 = (s32) (temp_r4->unk8 & ~0x80);
+        s->frameFlags &= ~0x80;
     }
-    UpdateSpriteAnimation((Sprite *) temp_r4);
+    UpdateSpriteAnimation(s);
     if (var_r8 == 0) {
-        DisplaySprite((Sprite *) temp_r4);
+        DisplaySprite(s);
     }
 }
 
+#if 0
 void sub_80105F0(Player *arg0) {
     s16 *temp_r1;
     s16 *var_r1_2;
