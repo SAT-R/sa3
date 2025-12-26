@@ -149,7 +149,8 @@ struct Player {
     u8 unk27; // SA2: Player.unk38 (layer?)
 
     struct {
-        u16 padding0; // 0x28
+        u8 unk28;
+        u8 unk29;
         u8 character : 4; // CHARACTER_SONIC, ..., CHARACTER_AMY | 0x2A
         u8 padding1 : 4; // 0x2A
 

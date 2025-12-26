@@ -10541,202 +10541,61 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
 }
 END_NONMATCH
 
-#if 0
-s32 sub_80110E8(u16 arg0, Player *arg1, u8 *arg2, u32 *arg3) {
-    u8 *sp10;
-    u32 *sp14;
-    s32 sp18;
-    s16 temp_r0;
-    s16 temp_r0_2;
-    s16 temp_r7;
-    s16 temp_r7_2;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 var_r0;
-    s32 var_r1;
-    s32 var_r1_2;
-    s32 var_r3;
-    s32 var_r3_2;
-    s32 var_r5;
-    s32 var_r8;
-    s8 *temp_r1_2;
-    s8 *temp_r1_3;
-    s8 *temp_r6_3;
-    s8 *temp_r6_4;
-    u16 temp_r1;
-    u32 temp_r2;
-    u32 temp_r3;
-    u8 *temp_r1_4;
-    u8 *temp_r5;
-    u8 *temp_r5_2;
-    u8 *temp_r5_3;
-    u8 *temp_r5_4;
-    u8 *temp_r5_5;
-    u8 *temp_r6;
-    u8 *temp_r6_2;
-    u8 var_r2;
-    u8 var_r2_2;
-    u8 var_r2_3;
-    u8 var_r2_4;
-    u8 var_r2_5;
+// (96.80%) https://decomp.me/scratch/344V6
+NONMATCH("asm/non_matching/game/stage/player__sub_801139C.inc", s16 sub_801139C(Player *p))
+{
+    s32 param;
+    u8 var_r0_2;
+    s8 var_r3;
+    s16 result = 0;
 
-    var_r8 = saved_reg_r8;
-    var_r5 = saved_reg_r8;
-    sp10 = arg2;
-    sp14 = arg3;
-    temp_r1 = arg0;
-    if (arg2 == NULL) {
-        sp10 = &subroutine_arg0 + 8;
-    }
-    if (sp14 == NULL) {
-        sp14 = &subroutine_arg0 + 0xC;
-    }
-    temp_r3 = (u32) (arg1->qWorldX << 8) >> 0x10;
-    temp_r2 = (u32) (arg1->qWorldY << 8) >> 0x10;
-    switch (temp_r1) {                              /* irregular */
-    case 2:
-        temp_r0 = (s16) temp_r2;
-        temp_r1_2 = &arg1->unk25;
-        temp_r7 = (s16) temp_r3;
-        temp_r6 = &arg1->unk24;
-        temp_r5 = &arg1->unk27;
-        var_r2 = *temp_r5;
-        if ((s32) arg1->qSpeedAirY <= 0x2FF) {
-            var_r2 |= 0x80;
-        }
-        var_r8 = sub_80517FC(temp_r0 - *temp_r1_2, (temp_r7 - 2) - (s8) *temp_r6, (s32) var_r2, -8, &subroutine_arg0 + 9, sub_805217C);
-        var_r1_2 = temp_r7 + 2 + (s8) *temp_r6;
-        var_r2_2 = *temp_r5;
-        if ((s32) arg1->qSpeedAirY <= 0x2FF) {
-            var_r2_2 |= 0x80;
-        }
-        var_r0 = temp_r0 - *temp_r1_2;
-        var_r3 = -8;
-block_34:
-        var_r5 = sub_80517FC(var_r0, var_r1_2, (s32) var_r2_2, var_r3, M2C_ERROR(/* Unable to find stack arg 0x0 in block */), M2C_ERROR(/* Unable to find stack arg 0x4 in block */));
-        break;
-    case 3:
-        temp_r0_2 = (s16) temp_r2;
-        temp_r1_3 = &arg1->unk25;
-        temp_r7_2 = (s16) temp_r3;
-        temp_r6_2 = &arg1->unk24;
-        temp_r5_2 = &arg1->unk27;
-        var_r2_3 = *temp_r5_2;
-        if ((s32) arg1->qSpeedAirY < 0) {
-            var_r2_3 |= 0x80;
-        }
-        var_r8 = sub_80517FC(*temp_r1_3 + temp_r0_2, (temp_r7_2 - 2) - (s8) *temp_r6_2, (s32) var_r2_3, 8, &subroutine_arg0 + 9, sub_805217C);
-        var_r3_2 = temp_r0_2 + *temp_r1_3;
-        var_r1_2 = temp_r7_2 + 2 + (s8) *temp_r6_2;
-        var_r2_2 = *temp_r5_2;
-        if ((s32) arg1->qSpeedAirY < 0) {
-            var_r2_2 |= 0x80;
-        }
-block_33:
-        var_r0 = var_r3_2;
-        var_r3 = 8;
-        goto block_34;
-    case 0:
-        temp_r0_3 = (s16) temp_r3 - 2;
-        temp_r5_3 = &arg1->unk24;
-        sp18 = (s32) (s16) temp_r2;
-        temp_r6_3 = &arg1->unk25;
-        temp_r5_4 = &arg1->unk27;
-        var_r2_4 = *temp_r5_4;
-        if ((s32) arg1->qSpeedAirY <= 0x2FF) {
-            var_r2_4 |= 0x80;
-        }
-        var_r8 = sub_80517FC(temp_r0_3 - (s8) *temp_r5_3, sp18 - *temp_r6_3, (s32) var_r2_4, -8, &subroutine_arg0 + 9, sub_805203C);
-        var_r1_2 = sp18 + *temp_r6_3;
-        var_r2_2 = *temp_r5_4;
-        if ((s32) arg1->qSpeedAirY <= 0x2FF) {
-            var_r2_2 |= 0x80;
-        }
-        var_r0 = temp_r0_3 - (s8) *temp_r5_3;
-        var_r3 = -8;
-        goto block_34;
-    case 1:
-        temp_r0_4 = (s16) temp_r3 + 2;
-        temp_r1_4 = &arg1->unk24;
-        sp18 = (s32) (s16) temp_r2;
-        temp_r6_4 = &arg1->unk25;
-        temp_r5_5 = &arg1->unk27;
-        var_r2_5 = *temp_r5_5;
-        if ((s32) arg1->qSpeedAirY <= 0x2FF) {
-            var_r2_5 |= 0x80;
-        }
-        var_r8 = sub_80517FC(temp_r0_4 + (s8) *temp_r1_4, sp18 - *temp_r6_4, (s32) var_r2_5, 8, &subroutine_arg0 + 9, sub_805203C);
-        var_r3_2 = temp_r0_4 + (s8) *temp_r1_4;
-        var_r1_2 = sp18 + *temp_r6_4;
-        var_r2_2 = *temp_r5_5;
-        if ((s32) arg1->qSpeedAirY <= 0x2FF) {
-            var_r2_2 |= 0x80;
-        }
-        goto block_33;
-    }
-    if (var_r8 < var_r5) {
-        var_r1 = var_r8;
-        *sp10 = subroutine_arg0.unk9;
-        *sp14 = (u32) var_r5;
+    if (0x20 & p->moveState) {
+        p->charFlags.unk29 = 0;
+        p->charFlags.unk28 = 0;
     } else {
-        var_r1 = var_r5;
-        *sp10 = subroutine_arg0.unkA;
-        *sp14 = (u32) var_r8;
-    }
-    return var_r1;
-}
+        var_r3 = p->unk26;
+        if (p->moveState & 0x10000) {
+            var_r3 = ((s32)(0 - ((var_r3 << 0x18) + 0x40000000)) >> 0x18) - 0x40;
+        }
 
-s16 sub_801139C(Player *arg0) {
-    s32 temp_r2_2;
-    s8 temp_r0;
-    u16 var_r0;
-    u32 temp_r0_2;
-    u32 temp_r2;
-    u32 var_r0_2;
-    u8 var_r3;
-
-    temp_r2 = arg0->moveState;
-    if (0x20 & temp_r2) {
-        arg0->unk29 = 0;
-        *((arg0 + 0x29) - 1) = 0;
-        return 0;
-    }
-    var_r3 = arg0->unk26;
-    if (temp_r2 & 0x10000) {
-        var_r3 = ((s32) (0 - ((var_r3 << 0x18) + 0x40000000)) >> 0x18) - 0x40;
-    }
-    temp_r0 = (s8) var_r3;
-    temp_r2_2 = temp_r0 + 0x20;
-    if (temp_r2_2 > 0) {
-        if ((s32) temp_r0 <= 0) {
-            var_r0_2 = temp_r2_2 << 0x18;
+        if (var_r3 + 0x20 > 0) {
+            if (var_r3 <= 0) {
+                var_r0_2 = var_r3 + 0x20;
+            } else {
+                var_r0_2 = (var_r3 + 0x1F);
+            }
+        } else if (var_r3 > 0) {
+            var_r0_2 = var_r3 + 0x20;
         } else {
-            goto block_9;
+            var_r0_2 = (var_r3 + 0x1F);
         }
-    } else if ((s32) temp_r0 > 0) {
-        var_r0_2 = temp_r2_2 << 0x18;
-    } else {
-block_9:
-        var_r0_2 = (temp_r0 + 0x1F) << 0x18;
-    }
-    temp_r0_2 = (u32) (var_r0_2 >> 0x18) >> 6;
-    switch (temp_r0_2) {                            /* irregular */
-    case 0:
-        var_r0 = 0;
-block_21:
-        return sub_80116A4(var_r0);
-    case 1:
-        var_r0 = 2;
-        goto block_21;
-    case 2:
-        var_r0 = 1;
-        goto block_21;
-    case 3:
-        var_r0 = 3;
-        goto block_21;
-    }
-}
 
+        switch (var_r0_2 >> 6) {
+            case 0:
+                param = 0;
+                break;
+            case 1:
+                param = 2;
+                break;
+            case 2:
+                param = 1;
+                break;
+            case 3:
+                param = 3;
+                break;
+            default:
+                return 0;
+        }
+
+        result = sub_80116A4(param, p);
+        return result;
+    }
+
+    return 0;
+}
+END_NONMATCH
+
+#if 0
 s16 sub_8011434(void *arg0) {
     s32 temp_r2;
     s32 temp_r2_2;
@@ -10883,7 +10742,7 @@ block_34:
     return 0;
 }
 
-s16 sub_80116A4(u16 arg0, Player *arg1) {
+s16 sub_80116A4(s16 arg0, Player *p) {
     s32 sp8;
     s32 spC;
     s32 sp10;
@@ -10917,20 +10776,20 @@ s16 sub_80116A4(u16 arg0, Player *arg1) {
     u8 *var_sl;
     u8 var_r0_4;
 
-    spC = arg1->qWorldX;
-    sp10 = arg1->qWorldY;
-    sp14 = (s32) arg1->unk27;
+    spC = p->qWorldX;
+    sp10 = p->qWorldY;
+    sp14 = (s32) p->unk27;
     sp8 = (s32) arg0;
     temp_r0 = (s16) arg0;
     switch (temp_r0) {                              /* irregular */
     case 3:
         temp_r5 = spC >> 8;
         temp_r4 = sp10 >> 8;
-        temp_r2 = arg1 + 0x28;
+        temp_r2 = p + 0x28;
         sp20 = temp_r2;
-        sp18 = sub_80517FC(temp_r5 + (s8) arg1->unk25, temp_r4 + 2 + arg1->unk24, sp14, 8, temp_r2, sub_805203C);
-        var_r6 = arg1 + 0x24 + 5;
-        var_r3 = sub_80517FC(temp_r5 + (s8) arg1->unk25, (temp_r4 - 2) - arg1->unk24, sp14, 8, var_r6, sub_805203C);
+        sp18 = sub_80517FC(temp_r5 + (s8) p->unk25, temp_r4 + 2 + p->unk24, sp14, 8, temp_r2, sub_805203C);
+        var_r6 = p + 0x24 + 5;
+        var_r3 = sub_80517FC(temp_r5 + (s8) p->unk25, (temp_r4 - 2) - p->unk24, sp14, 8, var_r6, sub_805203C);
         var_r4 = sp20;
 block_13:
         var_r2 = var_r3;
@@ -10950,9 +10809,9 @@ block_13:
                 goto block_52;
             }
             if (!((s16) sp8 & 2)) {
-                var_r0_2 = arg1->qSpeedAirX;
+                var_r0_2 = p->qSpeedAirX;
             } else {
-                var_r0_2 = arg1->qSpeedAirY;
+                var_r0_2 = p->qSpeedAirY;
             }
             if ((s32) var_r0_2 < 0) {
                 var_r0_2 = 0 - var_r0_2;
@@ -10988,14 +10847,14 @@ block_43:
             var_r0_4 = *var_r6;
         }
         if (!((s16) sp8 & 2)) {
-            arg1->qWorldY = sp10;
+            p->qWorldY = sp10;
         } else {
-            arg1->qWorldX = spC;
+            p->qWorldX = spC;
         }
         if (!(1 & var_r0_4)) {
-            arg1->unk26 = var_r0_4;
-            if (arg1->moveState & 0x10000) {
-                arg1->unk26 = ((u32) (0 - ((arg1->unk26 + 0x40) << 0x18)) >> 0x18) - 0x40;
+            p->unk26 = var_r0_4;
+            if (p->moveState & 0x10000) {
+                p->unk26 = ((u32) (0 - ((p->unk26 + 0x40) << 0x18)) >> 0x18) - 0x40;
             }
         }
 block_52:
@@ -11004,22 +10863,22 @@ block_52:
     case 0:
         temp_r5_2 = sp10 >> 8;
         temp_r4_2 = spC >> 8;
-        temp_r2_2 = arg1 + 0x28;
+        temp_r2_2 = p + 0x28;
         sp1C = temp_r2_2;
-        sp18 = sub_80517FC(temp_r5_2 + (s8) arg1->unk25, (temp_r4_2 - 2) - arg1->unk24, sp14, 8, temp_r2_2, sub_805217C);
-        var_r6 = arg1 + 0x24 + 5;
-        var_r3 = sub_80517FC(temp_r5_2 + (s8) arg1->unk25, temp_r4_2 + 2 + arg1->unk24, sp14, 8, var_r6, sub_805217C);
+        sp18 = sub_80517FC(temp_r5_2 + (s8) p->unk25, (temp_r4_2 - 2) - p->unk24, sp14, 8, temp_r2_2, sub_805217C);
+        var_r6 = p + 0x24 + 5;
+        var_r3 = sub_80517FC(temp_r5_2 + (s8) p->unk25, temp_r4_2 + 2 + p->unk24, sp14, 8, var_r6, sub_805217C);
         var_r4 = sp1C;
         goto block_13;
     case 1:
         temp_r5_3 = sp10 >> 8;
         temp_r4_3 = spC >> 8;
-        temp_r2_3 = arg1 + 0x28;
+        temp_r2_3 = p + 0x28;
         var_sl = temp_r2_3;
-        sp18 = sub_80517FC(temp_r5_3 - (s8) arg1->unk25, temp_r4_3 + 2 + arg1->unk24, sp14, -8, temp_r2_3, sub_805217C);
-        var_r5 = temp_r5_3 - (s8) arg1->unk25;
-        var_r4_2 = (temp_r4_3 - 2) - arg1->unk24;
-        var_r6 = arg1 + 0x24 + 5;
+        sp18 = sub_80517FC(temp_r5_3 - (s8) p->unk25, temp_r4_3 + 2 + p->unk24, sp14, -8, temp_r2_3, sub_805217C);
+        var_r5 = temp_r5_3 - (s8) p->unk25;
+        var_r4_2 = (temp_r4_3 - 2) - p->unk24;
+        var_r6 = p + 0x24 + 5;
         var_r2_2 = sub_805217C;
 block_11:
         var_r3 = sub_80517FC(var_r5, var_r4_2, sp14, -8, M2C_ERROR(/* Unable to find stack arg 0x0 in block */), var_r2_2);
@@ -11028,12 +10887,12 @@ block_11:
     case 2:
         temp_r5_4 = spC >> 8;
         temp_r4_4 = sp10 >> 8;
-        temp_r2_4 = arg1 + 0x28;
+        temp_r2_4 = p + 0x28;
         var_sl = temp_r2_4;
-        sp18 = sub_80517FC(temp_r5_4 - (s8) arg1->unk25, (temp_r4_4 - 2) - arg1->unk24, sp14, -8, temp_r2_4, sub_805203C);
-        var_r5 = temp_r5_4 - (s8) arg1->unk25;
-        var_r4_2 = temp_r4_4 + 2 + arg1->unk24;
-        var_r6 = arg1 + 0x24 + 5;
+        sp18 = sub_80517FC(temp_r5_4 - (s8) p->unk25, (temp_r4_4 - 2) - p->unk24, sp14, -8, temp_r2_4, sub_805203C);
+        var_r5 = temp_r5_4 - (s8) p->unk25;
+        var_r4_2 = temp_r4_4 + 2 + p->unk24;
+        var_r6 = p + 0x24 + 5;
         var_r2_2 = sub_805203C;
         goto block_11;
     }

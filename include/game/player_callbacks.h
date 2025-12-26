@@ -298,6 +298,7 @@ extern void sub_8010F38(Player *p);
 extern void Player_8010F88(Player *p);
 extern void sub_8010FE0(Player *p);
 extern bool16 sub_80114CC(Player *p);
+extern s16 sub_80116A4(s16 arg0, Player *p);
 extern void sub_8011D08(Player *p);
 extern void sub_8011E70(Player *p);
 extern void sub_8011FB8(Player *p);
