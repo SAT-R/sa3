@@ -10419,6 +10419,128 @@ s32 sub_8011024(s16 arg0, Player *arg1, u8 *arg2, u32 *arg3)
     return temp_r2;
 }
 
+// (88.55%) https://decomp.me/scratch/X0l5n
+NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(u16 arg0, Player *p, u8 *arg2, u32 *arg3))
+{
+    u8 sp08;
+    u8 sp09;
+    u8 sp0A;
+    u32 sp0C;
+    s32 sp18;
+    s16 temp_r7;
+    s32 temp_r0_4;
+    s32 var_r0;
+    s32 var_r1;
+    s32 var_r1_2;
+    s32 var_r3;
+    s32 var_r3_2;
+    s32 var_r5;
+    s32 var_r8;
+    u16 temp_r1;
+    s16 worldX;
+    s16 worldY;
+    u32 var_r2;
+    u8 var_r2_2;
+    s32 px;
+    s32 py;
+
+    if (arg2 == NULL) {
+        arg2 = &sp08;
+    }
+    if (arg3 == NULL) {
+        arg3 = &sp0C;
+    }
+    worldX = I(p->qWorldX);
+    worldY = I(p->qWorldY);
+    switch (arg0) {
+        case 0:
+            px = worldX - 2;
+            px -= p->unk24;
+            py = worldY - p->unk25;
+            var_r2 = p->unk27;
+            if (p->qSpeedAirY < Q(3)) {
+                var_r2 |= 0x80;
+            }
+            var_r8 = sub_80517FC(px, py, var_r2, -8, &sp09, sub_805203C);
+
+            px = worldX - 2;
+            px -= p->unk24;
+            py = worldY + p->unk25;
+            var_r2_2 = p->unk27;
+            if (p->qSpeedAirY < Q(3)) {
+                var_r2_2 |= 0x80;
+            }
+            var_r5 = sub_80517FC(px, py, var_r2_2, -8, &sp0A, sub_805203C);
+            break;
+        case 1:
+            temp_r0_4 = worldX + 2;
+            px = temp_r0_4 + p->unk24;
+            py = worldY - p->unk25;
+            var_r2_2 = p->unk27;
+            if (p->qSpeedAirY < Q(3)) {
+                var_r2_2 |= 0x80;
+            }
+            var_r8 = sub_80517FC(py, px, var_r2_2, +8, &sp09, sub_805203C);
+            px = temp_r0_4 + p->unk24;
+            py = worldY + p->unk25;
+            var_r2 = p->unk27;
+            if (p->qSpeedAirY < Q(3)) {
+                var_r2 |= 0x80;
+            }
+            var_r5 = sub_80517FC(px, py, var_r2, +8, &sp0A, sub_805217C);
+            break;
+        case 2:
+            py = worldY - p->unk25;
+            px = (worldX - 2);
+            px -= p->unk24;
+            var_r2 = p->unk27;
+            if (p->qSpeedAirY < Q(3)) {
+                var_r2 |= 0x80;
+            }
+            var_r8 = sub_80517FC(py, px, var_r2, -8, &sp09, sub_805217C);
+            py = worldY - p->unk25;
+            px = worldX + 2;
+            px += p->unk24;
+            var_r2 = p->unk27;
+            if (p->qSpeedAirY < Q(3)) {
+                var_r2 |= 0x80;
+            }
+            var_r5 = sub_80517FC(py, px, var_r2, -8, &sp0A, sub_805217C);
+            break;
+        case 3:
+            py = worldY + p->unk25;
+            px = worldX;
+            px = (px - 2);
+            px -= p->unk24;
+            var_r2 = p->unk27;
+            if (p->qSpeedAirY < 0) {
+                var_r2 |= 0x80;
+            }
+            var_r8 = sub_80517FC(py, px, var_r2, +8, &sp09, sub_805217C);
+            py = worldY + p->unk25;
+            px = worldX + 2;
+            px += p->unk24;
+            var_r2 = p->unk27;
+            if (p->qSpeedAirY < 0) {
+                var_r2 |= 0x80;
+            }
+
+            var_r5 = sub_80517FC(py, px, var_r2, +8, &sp0A, sub_805217C);
+            break;
+    }
+    if (var_r8 < var_r5) {
+        var_r1 = var_r8;
+        *arg2 = sp09;
+        *arg3 = var_r5;
+    } else {
+        var_r1 = var_r5;
+        *arg2 = sp0A;
+        *arg3 = var_r8;
+    }
+    return var_r1;
+}
+END_NONMATCH
+
 #if 0
 s32 sub_80110E8(u16 arg0, Player *arg1, u8 *arg2, u32 *arg3) {
     u8 *sp10;
