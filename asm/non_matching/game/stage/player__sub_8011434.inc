@@ -40,7 +40,7 @@ _08011472:
 	adds r2, #0x20
 	cmp r2, #0
 	ble _08011486
-	cmp r0, #0sub_80116A4
+	cmp r0, #0
 	bgt _0801148E
 	lsls r0, r2, #0x18
 	b _08011492
