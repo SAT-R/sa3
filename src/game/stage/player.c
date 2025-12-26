@@ -10541,6 +10541,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
 }
 END_NONMATCH
 
+// NOTE: Basically identical to sub_8011434()!
 // (96.80%) https://decomp.me/scratch/344V6
 NONMATCH("asm/non_matching/game/stage/player__sub_801139C.inc", s16 sub_801139C(Player *p))
 {
@@ -10595,58 +10596,62 @@ NONMATCH("asm/non_matching/game/stage/player__sub_801139C.inc", s16 sub_801139C(
 }
 END_NONMATCH
 
-#if 0
-s16 sub_8011434(void *arg0) {
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s8 temp_r0;
-    u16 var_r0;
-    u32 temp_r0_2;
-    u32 var_r0_2;
-    u8 var_r3;
+// NOTE: Basically identical to sub_801139C()!
+/// (96.80%) https://decomp.me/scratch/keBUN
+NONMATCH("asm/non_matching/game/stage/player__sub_8011434.inc", s16 sub_8011434(Player *p))
+{
+    s32 param;
+    u8 var_r0_2;
+    s8 var_r3;
+    s16 result = 0;
 
-    temp_r2 = arg0->unk4;
-    if (0x20 & temp_r2) {
-        arg0->unk29 = 0;
-        *((arg0 + 0x29) - 1) = 0;
-        return 0;
-    }
-    var_r3 = arg0->unk26;
-    if (temp_r2 & 0x10000) {
-        var_r3 = ((s32) (0 - ((var_r3 << 0x18) + 0x40000000)) >> 0x18) - 0x40;
-    }
-    temp_r0 = (s8) var_r3;
-    temp_r2_2 = temp_r0 + 0x20;
-    if (temp_r2_2 > 0) {
-        if ((s32) temp_r0 <= 0) {
-            var_r0_2 = temp_r2_2 << 0x18;
-        } else {
-            goto block_9;
-        }
-    } else if ((s32) temp_r0 > 0) {
-        var_r0_2 = temp_r2_2 << 0x18;
+    if (0x20 & p->moveState) {
+        p->charFlags.unk29 = 0;
+        p->charFlags.unk28 = 0;
     } else {
-block_9:
-        var_r0_2 = (temp_r0 + 0x1F) << 0x18;
-    }
-    temp_r0_2 = (u32) (var_r0_2 >> 0x18) >> 6;
-    switch (temp_r0_2) {                            /* irregular */
-    case 0:
-        var_r0 = 0;
-block_21:
-        return sub_8011978(var_r0);
-    case 1:
-        var_r0 = 2;
-        goto block_21;
-    case 2:
-        var_r0 = 1;
-        goto block_21;
-    case 3:
-        var_r0 = 3;
-        goto block_21;
-    }
-}
+        var_r3 = p->unk26;
+        if (p->moveState & 0x10000) {
+            var_r3 = ((s32)(0 - ((var_r3 << 0x18) + 0x40000000)) >> 0x18) - 0x40;
+        }
 
+        if (var_r3 + 0x20 > 0) {
+            if (var_r3 <= 0) {
+                var_r0_2 = var_r3 + 0x20;
+            } else {
+                var_r0_2 = (var_r3 + 0x1F);
+            }
+        } else if (var_r3 > 0) {
+            var_r0_2 = var_r3 + 0x20;
+        } else {
+            var_r0_2 = (var_r3 + 0x1F);
+        }
+
+        switch (var_r0_2 >> 6) {
+            case 0:
+                param = 0;
+                break;
+            case 1:
+                param = 2;
+                break;
+            case 2:
+                param = 1;
+                break;
+            case 3:
+                param = 3;
+                break;
+            default:
+                return 0;
+        }
+
+        result = sub_8011978(param, p);
+        return result;
+    }
+
+    return 0;
+}
+END_NONMATCH
+
+#if 0
 s32 sub_80114CC(Player *arg0) {
     s16 temp_r1_2;
     s16 temp_r6;
