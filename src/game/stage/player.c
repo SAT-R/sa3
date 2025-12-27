@@ -10840,123 +10840,89 @@ block_43:
 }
 END_NONMATCH
 
-#if 0
-s16 sub_8011978(u16 arg0, void *arg1, s32 arg2) {
+// (87.57%) https://decomp.me/scratch/0sHHf
+NONMATCH("asm/non_matching/game/stage/player__sub_8011978.inc", s16 sub_8011978(s16 arg0, Player *p))
+{
     s32 sp8;
     s32 spC;
     s32 sp10;
     s32 sp14;
-    s8 *sp18;
-    s16 temp_r0;
-    s16 temp_r1_2;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    s32 temp_r4_3;
-    s32 temp_r4_4;
-    s32 temp_r5;
-    s32 temp_r5_2;
-    s32 temp_r5_3;
-    s32 temp_r5_4;
-    s32 var_r0;
     s32 var_r0_2;
-    s32 var_r1;
-    s32 var_r1_2;
     s32 var_r2;
-    s32 var_r3;
-    s32 var_r4;
-    s32 var_r5;
-    u8 *var_r0_3;
-    u8 temp_r0_2;
     u8 temp_r1;
+    u8 var_r6;
+    u8 var_r0_n;
 
-    var_r2 = arg2;
-    spC = arg1->unk10;
-    sp10 = arg1->unk14;
-    temp_r1 = arg1->unk27;
-    sp8 = (s32) arg0;
-    temp_r0 = (s16) arg0;
-    switch (temp_r0) {                              /* irregular */
-    case 3:
-        temp_r5 = spC >> 8;
-        temp_r4 = sp10 >> 8;
-        sp14 = sub_80517FC(temp_r5 + (s8) (u8) arg1->unk25, temp_r4 + 2 + (s8) arg1->unk24, (s32) temp_r1, 8, arg1 + 0x28, sub_805203C);
-        var_r5 = temp_r5 + arg1->unk25;
-        var_r4 = (temp_r4 - 2) - (s8) arg1->unk24;
-block_12:
-        var_r0 = var_r5;
-        var_r1 = var_r4;
-        var_r3 = 8;
-block_13:
-        var_r2 = sub_80517FC(var_r0, var_r1, (s32) temp_r1, var_r3, M2C_ERROR(/* Unable to find stack arg 0x0 in block */), M2C_ERROR(/* Unable to find stack arg 0x4 in block */));
-        break;
-    case 0:
-        temp_r5_2 = sp10 >> 8;
-        temp_r4_2 = spC >> 8;
-        sp14 = sub_80517FC(temp_r5_2 + arg1->unk25, (temp_r4_2 - 2) - (s8) arg1->unk24, (s32) temp_r1, 8, arg1 + 0x28, sub_805217C);
-        var_r5 = temp_r5_2 + arg1->unk25;
-        var_r4 = temp_r4_2 + 2 + (s8) arg1->unk24;
-        goto block_12;
-    case 1:
-        temp_r5_3 = sp10 >> 8;
-        temp_r4_3 = spC >> 8;
-        sp14 = sub_80517FC(temp_r5_3 - arg1->unk25, temp_r4_3 + 2 + (s8) arg1->unk24, (s32) temp_r1, -8, arg1 + 0x28, sub_805217C);
-        var_r0 = temp_r5_3 - arg1->unk25;
-        var_r1 = (temp_r4_3 - 2) - (s8) arg1->unk24;
-        var_r3 = -8;
-        goto block_13;
-    case 2:
-        temp_r5_4 = spC >> 8;
-        sp18 = arg1 + 0x25;
-        temp_r4_4 = sp10 >> 8;
-        sp14 = sub_80517FC(temp_r5_4 - arg1->unk25, (temp_r4_4 - 2) - (s8) arg1->unk24, (s32) temp_r1, -8, arg1 + 0x28, sub_805203C);
-        var_r0 = temp_r5_4 - *sp18;
-        var_r1 = temp_r4_4 + 2 + (s8) arg1->unk24;
-        var_r3 = -8;
-        goto block_13;
+    spC = p->qWorldX;
+    sp10 = p->qWorldY;
+    temp_r1 = p->unk27;
+    sp8 = (u16)arg0;
+    switch (arg0) {
+        case 0:
+            sp14 = sub_80517FC(I(sp10) + p->unk25, +I(spC) - 2 - p->unk24, temp_r1, +8, &p->charFlags.unk28, sub_805217C);
+            var_r2 = sub_80517FC(I(sp10) + p->unk25, +I(spC) + 2 + p->unk24, temp_r1, +8, &p->charFlags.unk29, sub_805217C);
+            break;
+        case 1:
+            sp14 = sub_80517FC(I(sp10) - p->unk25, +2 + I(spC) + p->unk24, temp_r1, -8, &p->charFlags.unk28, sub_805217C);
+            var_r2 = sub_80517FC(I(sp10) - p->unk25, -2 + I(spC) - p->unk24, temp_r1, -8, &p->charFlags.unk29, sub_805217C);
+            break;
+        case 2:
+            sp14 = sub_80517FC(I(spC) - p->unk25, +I(sp10) - 2 - p->unk24, temp_r1, -8, &p->charFlags.unk28, sub_805203C);
+            var_r2 = sub_80517FC(I(spC) - p->unk25, +I(sp10) + 2 + p->unk24, temp_r1, -8, &p->charFlags.unk29, sub_805203C);
+            break;
+        case 3:
+            sp14 = sub_80517FC(I(spC) + p->unk25, +2 + I(sp10) + p->unk24, temp_r1, +8, &p->charFlags.unk28, sub_805203C);
+            var_r2 = sub_80517FC(I(spC) + p->unk25, -2 - p->unk24 + I(sp10), temp_r1, +8, &p->charFlags.unk29, sub_805203C);
+            break;
     }
+
     var_r0_2 = var_r2;
-    if (var_r2 > sp14) {
+
+    if (var_r0_2 > sp14) {
         var_r0_2 = sp14;
     }
     if (var_r0_2 != 0) {
-        temp_r1_2 = (s16) sp8;
-        switch (temp_r1_2) {                        /* switch 1; irregular */
-        case 0:                                     /* switch 1 */
-            sp10 += var_r0_2 << 8;
-            break;
-        case 1:                                     /* switch 1 */
-            sp10 -= var_r0_2 << 8;
-            break;
-        case 2:                                     /* switch 1 */
-            var_r1_2 = spC - (var_r0_2 << 8);
-block_28:
-            spC = var_r1_2;
-            break;
-        case 3:                                     /* switch 1 */
-            var_r1_2 = spC + (var_r0_2 << 8);
-            goto block_28;
+        switch (arg0) {
+            case 0:
+                sp10 += Q(var_r0_2);
+                break;
+            case 1:
+                sp10 -= Q(var_r0_2);
+                break;
+            case 2:
+                spC -= Q(var_r0_2);
+                break;
+            case 3:
+                spC += Q(var_r0_2);
+                break;
         }
     }
-    if (sp14 < var_r2) {
-        var_r0_3 = arg1 + 0x28;
+
+    if (sp14 < var_r0_2) {
+        var_r0_n = p->charFlags.unk28;
     } else {
-        var_r0_3 = arg1 + 0x29;
+        var_r0_n = p->charFlags.unk29;
     }
-    temp_r0_2 = *var_r0_3;
-    if (!((s16) sp8 & 2)) {
-        arg1->unk14 = sp10;
+    var_r6 = var_r0_n;
+
+    if (!(arg0 & 2)) {
+        p->qWorldY = sp10;
     } else {
-        arg1->unk10 = spC;
+        p->qWorldX = spC;
     }
-    if (!(1 & temp_r0_2)) {
-        arg1->unk26 = temp_r0_2;
-        if (arg1->unk4 & 0x10000) {
-            arg1->unk26 = (u8) (((u32) (0 - ((arg1->unk26 + 0x40) << 0x18)) >> 0x18) - 0x40);
+    if (!(1 & var_r6)) {
+        p->unk26 = var_r6;
+        if (p->moveState & 0x10000) {
+            var_r6 = p->unk26;
+            var_r6 = ((u32)(0 - ((var_r6 + 0x40) << 0x18)) >> 0x18);
+            p->unk26 = var_r6 - 0x40;
         }
     }
     return 0;
 }
+END_NONMATCH
 
+#if 0
 s32 sub_8011BFC(u8 arg0, Player *p) {
     s32 temp_r4;
     s32 temp_r5;
