@@ -10651,102 +10651,70 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8011434.inc", s16 sub_8011434(
 }
 END_NONMATCH
 
-#if 0
-s32 sub_80114CC(Player *arg0) {
-    s16 temp_r1_2;
+u16 sub_80114CC(Player *p)
+{
+    s16 sp00;
     s16 temp_r6;
-    s16 var_r1;
-    s16 var_r1_2;
-    s16 var_r1_3;
-    s32 temp_r2;
-    s32 var_r1_4;
-    u16 temp_r0;
-    u32 temp_r1;
-    u32 temp_r1_3;
-    u32 temp_r2_2;
-    u32 var_r0;
+    u32 mask;
 
-    if (gCamera.unk69 == 0) {
-        goto block_34;
+    if (gCamera.unk67[2] == 0) {
+        return 0U;
     }
-    temp_r2 = (s32) arg0->qWorldY >> 8;
-    sub_8004E20((s16) ((s32) (arg0->qWorldX << 8) >> 0x10), (s16) (arg0->unk25 + temp_r2), &subroutine_arg0);
-    temp_r6 = (u16) temp_r2 & ~3;
-    temp_r0 = (subroutine_arg0 - arg0->unk25) & ~3;
-    subroutine_arg0 = temp_r0;
-    if (((temp_r6 << 0x10) == (temp_r0 << 0x10)) && ((s32) arg0->qSpeedAirY >= 0) && ((u32) (u8) (arg0->unk26 + 0x18) <= 0x30U)) {
-        if (!(arg0->moveState & 4)) {
-            var_r1 = arg0->qSpeedGround;
-            if ((s32) var_r1 < 0) {
-                var_r1 = 0 - var_r1;
-            }
-            if ((s32) var_r1 <= 0x3FF) {
-                goto block_24;
-            }
-            goto block_16;
-        }
-        var_r1_2 = arg0->qSpeedAirX;
-        if ((s32) var_r1_2 < 0) {
-            var_r1_2 = 0 - var_r1_2;
-        }
-        if ((s32) var_r1_2 > 0x3FF) {
-            var_r1_3 = arg0->qSpeedAirY;
-            if ((s32) var_r1_3 < 0) {
-                var_r1_3 = 0 - var_r1_3;
-            }
-            if ((s32) var_r1_3 <= 0x180) {
-block_16:
-                sub_80116A4(0U, arg0);
-                if ((s32) arg0->qWorldY >= (s32) ((s16) subroutine_arg0 << 8)) {
-                    temp_r1 = arg0->moveState;
-                    if (!(temp_r1 & 0x1000)) {
-                        arg0->moveState = temp_r1 | 0x1000;
-                        sub_8017364(arg0);
-                        Player_PlaySong(arg0, 0x119U);
+    temp_r6 = I(p->qWorldY);
+    sub_8004E20(I(p->qWorldX), (p->unk25 + I(p->qWorldY)), &sp00);
+    mask = ~3;
+    temp_r6 = (u16)temp_r6 & mask;
+    sp00 = (sp00 - p->unk25) & mask;
+    if ((temp_r6 == sp00) && (p->qSpeedAirY >= 0)) {
+        if ((u8)(p->unk26 + 24) <= 48) {
+            if ((!(p->moveState & 4) && (ABS(p->qSpeedGround) >= Q(4)))
+                || ((p->moveState & 4) && ((ABS(p->qSpeedAirX) >= Q(4)) && (ABS(p->qSpeedAirY) <= Q(1.5))))) {
+                sub_80116A4(0, p);
+                if (p->qWorldY >= Q(sp00)) {
+                    if (!(p->moveState & 0x1000)) {
+                        p->moveState = p->moveState | 0x1000;
+                        sub_8017364(p);
+                        Player_PlaySong(p, SE_281);
                     }
-                    Player_PlayOrContinueSong(arg0, 0x119);
-                    arg0->qWorldY = (s16) subroutine_arg0 << 8;
-                    arg0->unk26 = 0;
-                    arg0->moveState &= ~4;
-                    return 1;
+                    Player_PlayOrContinueSong(p, SE_281);
+                    p->qWorldY = Q(sp00);
+                    p->unk26 = 0;
+                    p->moveState &= ~4;
+                    return 1U;
                 }
-                if (arg0->moveState & 0x1000) {
-                    Player_StopSong(arg0, 0x119U);
+                if (p->moveState & 0x1000) {
+                    Player_StopSong(p, SE_281);
                 }
-                var_r0 = arg0->moveState;
-                var_r1_4 = 0xFFFFEFFF;
-                goto block_23;
+
+                p->moveState &= ~0x1000;
+                return 0;
             }
-            goto block_24;
         }
-        goto block_24;
     }
-block_24:
-    temp_r1_2 = temp_r6;
-    if (((s32) temp_r1_2 >= (s32) (s16) subroutine_arg0) && ((s32) temp_r1_2 <= (s32) ((s16) subroutine_arg0 + 8)) && (temp_r2_2 = arg0->unkC, ((0x180000 & temp_r2_2) != 0))) {
-        if (arg0->moveState & 4) {
-            if (temp_r2_2 & 0x80000) {
-                SetPlayerCallback(arg0, sub_801A504);
+
+    if ((temp_r6 >= sp00) && (temp_r6 <= (sp00 + 8)) && ((0x180000 & p->unkC) != 0)) {
+        if (p->moveState & MOVESTATE_IN_AIR) {
+            if (p->unkC & 0x80000) {
+                SetPlayerCallback(p, sub_801A504);
             } else {
-                SetPlayerCallback(arg0, sub_801C234);
+                SetPlayerCallback(p, sub_801C234);
             }
         }
-        Player_StopSong(arg0, 0x119U);
-        var_r0 = arg0->moveState | 0x1000;
-        var_r1_4 = -5;
-block_23:
-        arg0->moveState = var_r0 & var_r1_4;
+        Player_StopSong(p, SE_281);
+        p->moveState |= 0x1000;
+        p->moveState &= ~4;
+        return 0U;
     } else {
-        temp_r1_3 = arg0->moveState;
-        if (0x1000 & temp_r1_3) {
-            arg0->moveState = temp_r1_3 & 0xFFFFEFFF;
-            Player_StopSong(arg0, 0x119U);
+        if (0x1000 & p->moveState) {
+            p->moveState &= ~0x1000;
+            Player_StopSong(p, SE_281);
         }
+
+        return 0U;
     }
-block_34:
-    return 0;
 }
 
+#if 0
 s16 sub_80116A4(s16 arg0, Player *p) {
     s32 sp8;
     s32 spC;
