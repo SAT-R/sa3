@@ -143,7 +143,7 @@ struct Player {
     u16 keyInput2; // 0x20
     u16 unk22;
 
-    u8 unk24;
+    s8 unk24;
     s8 unk25;
     u8 unk26; // maybe a bitfield (upper 2 bits is 1 value)
     u8 unk27; // SA2: Player.unk38 (layer?)

@@ -10714,167 +10714,133 @@ u16 sub_80114CC(Player *p)
     }
 }
 
-#if 0
-s16 sub_80116A4(s16 arg0, Player *p) {
-    s32 sp8;
+// NOTE: INCOMPLETE!
+// (97.56%) https://decomp.me/scratch/KnAcj
+NONMATCH("asm/non_matching/game/stage/player__sub_80116A4.inc", s16 sub_80116A4(s16 arg0, Player *p))
+{
     s32 spC;
     s32 sp10;
     s32 sp14;
     s32 sp18;
-    u8 *sp1C;
-    u8 *sp20;
-    s16 temp_r0;
-    s16 var_r0;
-    s16 var_r0_2;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    s32 temp_r4_3;
-    s32 temp_r4_4;
-    s32 temp_r5;
-    s32 temp_r5_2;
-    s32 temp_r5_3;
-    s32 temp_r5_4;
+    s32 var_r0;
     s32 var_r0_3;
     s32 var_r2;
     s32 var_r3;
-    s32 var_r4_2;
-    s32 var_r5;
-    u8 (*var_r2_2)(s32, s32, s32, s32, void *);
-    u8 *temp_r2;
-    u8 *temp_r2_2;
-    u8 *temp_r2_3;
-    u8 *temp_r2_4;
-    u8 *var_r4;
-    u8 *var_r6;
-    u8 *var_sl;
-    u8 var_r0_4;
+    u8 var_r0_n;
+    u8 var_r6;
+    s32 a, b;
+    s32 ispC;
+    s32 isp10;
 
     spC = p->qWorldX;
     sp10 = p->qWorldY;
-    sp14 = (s32) p->unk27;
-    sp8 = (s32) arg0;
-    temp_r0 = (s16) arg0;
-    switch (temp_r0) {                              /* irregular */
-    case 3:
-        temp_r5 = spC >> 8;
-        temp_r4 = sp10 >> 8;
-        temp_r2 = p + 0x28;
-        sp20 = temp_r2;
-        sp18 = sub_80517FC(temp_r5 + (s8) p->unk25, temp_r4 + 2 + p->unk24, sp14, 8, temp_r2, sub_805203C);
-        var_r6 = p + 0x24 + 5;
-        var_r3 = sub_80517FC(temp_r5 + (s8) p->unk25, (temp_r4 - 2) - p->unk24, sp14, 8, var_r6, sub_805203C);
-        var_r4 = sp20;
-block_13:
-        var_r2 = var_r3;
-        if (var_r3 > sp18) {
-            var_r2 = sp18;
-        }
-        if (var_r2 != 0) {
-            if (var_r2 < 0) {
-                if (var_r2 >= -0xE) {
-                    var_r0 = (s16) sp8;
-                    switch (var_r0) {               /* switch 2; irregular */
-                    case 3:                         /* switch 2 */
-                        goto block_41;
-                    }
-                    goto block_43;
+    sp14 = (s32)p->unk27;
+    switch (arg0) {
+        case 0:
+            isp10 = I(sp10);
+            a = isp10 + p->unk25;
+            ispC = I(spC);
+            b = ispC - 2;
+            b -= p->unk24;
+            sp18 = sub_80517FC(a, b, sp14, 8, &p->charFlags.unk28, sub_805217C);
+            var_r3 = sub_80517FC(isp10 + p->unk25, (ispC += 2) + p->unk24, sp14, 8, &p->charFlags.unk29, sub_805217C);
+            break;
+        case 1:
+            sp18 = sub_80517FC(I(sp10) - p->unk25, +I(spC) + 2 + p->unk24, sp14, -8, &p->charFlags.unk28, sub_805217C);
+            var_r3 = sub_80517FC(I(sp10) - p->unk25, -2 - p->unk24 + I(spC), sp14, -8, &p->charFlags.unk29, sub_805217C);
+            break;
+        case 2:
+            sp18 = sub_80517FC(I(spC) - p->unk25, -2 - p->unk24 + I(sp10), sp14, -8, &p->charFlags, sub_805203C);
+            var_r3 = sub_80517FC(I(spC) - p->unk25, +2 + I(sp10) + p->unk24, sp14, -8, &p->charFlags.unk29, sub_805203C);
+            break;
+        case 3:
+            sp18 = sub_80517FC(I(spC) + p->unk25, +2 + I(sp10) + p->unk24, sp14, 8, &p->charFlags.unk28, sub_805203C);
+            var_r3 = sub_80517FC(I(spC) + p->unk25, -2 - p->unk24 + I(sp10), sp14, 8, &p->charFlags.unk29, sub_805203C);
+            break;
+        default:
+            return 0;
+    }
+
+    var_r2 = var_r3;
+    if (var_r3 > sp18) {
+        var_r2 = sp18;
+    }
+    if (var_r2 != 0) {
+        if (var_r2 < 0) {
+            if (var_r2 >= -14) {
+                switch (arg0) {
+                    case 0:
+                        sp10 += Q(var_r2);
+                        break;
+                    case 1:
+                        sp10 -= Q(var_r2);
+                        break;
+                    case 2:
+                        spC -= Q(var_r2);
+                        break;
+                    case 3:
+                        spC += Q(var_r2);
+                        break;
                 }
-                goto block_52;
-            }
-            if (!((s16) sp8 & 2)) {
-                var_r0_2 = p->qSpeedAirX;
             } else {
-                var_r0_2 = p->qSpeedAirY;
+                return 0;
             }
-            if ((s32) var_r0_2 < 0) {
-                var_r0_2 = 0 - var_r0_2;
+        } else {
+            if (!((s16)arg0 & 2)) {
+                var_r0 = p->qSpeedAirX;
+            } else {
+                var_r0 = p->qSpeedAirY;
             }
-            var_r0_3 = (var_r0_2 >> 8) + 3;
-            if (var_r0_3 > 0xB) {
-                var_r0_3 = 0xB;
+            var_r0_3 = I(ABS(var_r0)) + 3;
+            if (var_r0_3 > 11) {
+                var_r0_3 = 11;
             }
             if (var_r2 <= var_r0_3) {
-                var_r0 = (s16) sp8;
-                switch (var_r0) {                   /* switch 1; irregular */
-                case 1:                             /* switch 1 */
-                case 1:                             /* switch 2 */
-                    sp10 -= var_r2 << 8;
-                    break;
-                case 2:                             /* switch 1 */
-                case 2:                             /* switch 2 */
-                    spC -= var_r2 << 8;
-                    break;
-                case 3:                             /* switch 1 */
-block_41:
-                    spC += var_r2 << 8;
-                    break;
+                switch (arg0) {
+                    case 0:
+                        sp10 += Q(var_r2);
+                        break;
+                    case 1:
+                        sp10 -= Q(var_r2);
+                        break;
+                    case 2:
+                        spC -= Q(var_r2);
+                        break;
+                    case 3:
+                        spC += Q(var_r2);
+                        break;
                 }
-                goto block_43;
-            }
-            return 1;
-        }
-block_43:
-        if (sp18 < var_r3) {
-            var_r0_4 = *var_r4;
-        } else {
-            var_r0_4 = *var_r6;
-        }
-        if (!((s16) sp8 & 2)) {
-            p->qWorldY = sp10;
-        } else {
-            p->qWorldX = spC;
-        }
-        if (!(1 & var_r0_4)) {
-            p->unk26 = var_r0_4;
-            if (p->moveState & 0x10000) {
-                p->unk26 = ((u32) (0 - ((p->unk26 + 0x40) << 0x18)) >> 0x18) - 0x40;
+            } else {
+                return 1;
             }
         }
-block_52:
-    default:
-        return 0;
-    case 0:
-        temp_r5_2 = sp10 >> 8;
-        temp_r4_2 = spC >> 8;
-        temp_r2_2 = p + 0x28;
-        sp1C = temp_r2_2;
-        sp18 = sub_80517FC(temp_r5_2 + (s8) p->unk25, (temp_r4_2 - 2) - p->unk24, sp14, 8, temp_r2_2, sub_805217C);
-        var_r6 = p + 0x24 + 5;
-        var_r3 = sub_80517FC(temp_r5_2 + (s8) p->unk25, temp_r4_2 + 2 + p->unk24, sp14, 8, var_r6, sub_805217C);
-        var_r4 = sp1C;
-        goto block_13;
-    case 1:
-        temp_r5_3 = sp10 >> 8;
-        temp_r4_3 = spC >> 8;
-        temp_r2_3 = p + 0x28;
-        var_sl = temp_r2_3;
-        sp18 = sub_80517FC(temp_r5_3 - (s8) p->unk25, temp_r4_3 + 2 + p->unk24, sp14, -8, temp_r2_3, sub_805217C);
-        var_r5 = temp_r5_3 - (s8) p->unk25;
-        var_r4_2 = (temp_r4_3 - 2) - p->unk24;
-        var_r6 = p + 0x24 + 5;
-        var_r2_2 = sub_805217C;
-block_11:
-        var_r3 = sub_80517FC(var_r5, var_r4_2, sp14, -8, M2C_ERROR(/* Unable to find stack arg 0x0 in block */), var_r2_2);
-        var_r4 = var_sl;
-        goto block_13;
-    case 2:
-        temp_r5_4 = spC >> 8;
-        temp_r4_4 = sp10 >> 8;
-        temp_r2_4 = p + 0x28;
-        var_sl = temp_r2_4;
-        sp18 = sub_80517FC(temp_r5_4 - (s8) p->unk25, (temp_r4_4 - 2) - p->unk24, sp14, -8, temp_r2_4, sub_805203C);
-        var_r5 = temp_r5_4 - (s8) p->unk25;
-        var_r4_2 = temp_r4_4 + 2 + p->unk24;
-        var_r6 = p + 0x24 + 5;
-        var_r2_2 = sub_805203C;
-        goto block_11;
     }
-    /* bug: did not emit code for node #33; contents below: */
-    /* bug: did not emit code for node #34; contents below: */
-    /* bug: did not emit code for node #38; contents below: */
-    sp10 += var_r2 << 8;
-}
+block_43:
+    if (sp18 < var_r3) {
+        var_r0_n = p->charFlags.unk28;
+    } else {
+        var_r0_n = p->charFlags.unk29;
+    }
+    var_r6 = var_r0_n;
+    if (!((s16)arg0 & 2)) {
+        p->qWorldY = sp10;
+    } else {
+        p->qWorldX = spC;
+    }
+    if (!(1 & var_r6)) {
+        p->unk26 = var_r6;
+        if (p->moveState & 0x10000) {
+            var_r6 = p->unk26;
+            var_r6 = ((u32)(0 - ((var_r6 + 0x40) << 0x18)) >> 0x18);
+            p->unk26 = var_r6 - 0x40;
+        }
+    }
 
+    return 0;
+}
+END_NONMATCH
+
+#if 0
 s16 sub_8011978(u16 arg0, void *arg1, s32 arg2) {
     s32 sp8;
     s32 spC;
