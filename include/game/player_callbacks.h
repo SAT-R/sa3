@@ -336,6 +336,7 @@ extern void sub_8015A44(Player *);
 extern void sub_8016D30(Player *p);
 extern void sub_8016E00(Player *p);
 extern void sub_8016E50(Player *p);
+extern void sub_8016E70(Player *);
 extern void sub_8016EB0(Player *p);
 extern void sub_8017004(Player *p);
 void sub_80170A0(Player *p);
