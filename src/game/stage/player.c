@@ -10922,6 +10922,54 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8011978.inc", s16 sub_8011978(
 }
 END_NONMATCH
 
+// (94.17%) https://decomp.me/scratch/EeIHZ
+NONMATCH("asm/non_matching/game/stage/player__sub_8011BFC.inc", s32 sub_8011BFC(u8 arg0, Player *p))
+{
+    s32 worldY;
+    s32 worldX;
+    s8 var_r0;
+    s8 var_r0_2;
+    s32 var_r1;
+    s32 var_r3;
+    u8 var_r2;
+    s32 temp;
+    s32 r1;
+    s32 r2;
+
+    worldX = I(p->qWorldX);
+    worldY = I(p->qWorldY);
+    p->charFlags.unk29 = arg0;
+    var_r3 = (s8)arg0;
+    p->charFlags.unk28 = arg0;
+    var_r0 = (arg0 + 0x20);
+    arg0 += (((var_r0 > 0) && (var_r3 > 0)) || ((var_r0 <= 0) && (var_r3 <= 0))) ? 0x1F : 0x20;
+
+    switch (arg0 >> 6) {
+        case 0: {
+            s32 p0 = +2 + worldY;
+            return sub_80517FC(p0 + p->unk24, worldX, p->unk27, +8, NULL, sub_805217C);
+        } break;
+
+        case 2: {
+            s32 p0 = -2 + worldY;
+            return sub_80517FC(p0 - p->unk24, worldX, p->unk27, -8, NULL, sub_805217C);
+        } break;
+
+        case 1: {
+            s32 p0 = -2 + worldX;
+            return sub_80517FC(p0 - p->unk24, worldY, p->unk27, -8, NULL, sub_805203C);
+        } break;
+
+        case 3: {
+            s32 p0 = worldX + 2;
+            return sub_80517FC(p0 + p->unk24, worldY, p->unk27, +8, NULL, sub_805203C);
+        } break;
+        default:
+            return 0;
+    }
+}
+END_NONMATCH
+
 #if 0
 s32 sub_8011BFC(u8 arg0, Player *p) {
     s32 temp_r4;
