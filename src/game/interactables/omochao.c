@@ -284,8 +284,8 @@ NONMATCH("asm/non_matching/game/interactables/omochao__OmochaoPickUp.inc", bool3
                 omochao->s.anim = gUnknown_080CF690[p->charFlags.character];
                 omochao->s.variant = 0;
 
-                omochao->s.oamFlags = p->spriteData->s.oamFlags + SPRITE_OAM_ORDER(1);
-                omochao->s.frameFlags = p->spriteData->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
+                omochao->s.oamFlags = p->spriteDataBody->s.oamFlags + SPRITE_OAM_ORDER(1);
+                omochao->s.frameFlags = p->spriteDataBody->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
 
                 if (!(p->moveState & MOVESTATE_FACING_LEFT)) {
                     SPRITE_FLAG_SET(&omochao->s, X_FLIP);

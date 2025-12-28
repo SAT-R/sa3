@@ -271,7 +271,7 @@ struct Player {
     u32 unkD8;
     u32 unkDC;
 
-    PlayerSprite *spriteData; // body
+    PlayerSprite *spriteDataBody;
     PlayerSprite *spriteDataLimbs;
 
     Vec2_16 unkE8;
