@@ -46,7 +46,7 @@ extern void sub_8002388(void);
 void Task_8010008(void);
 void TaskDestructor_8010F34(struct Task *t);
 
-void sub_801320C(Player *p, PlayerSprite *spriteDataBody);
+void sub_801320C(Player *p, PlayerSpriteInfo *spriteDataBody);
 void sub_80136DC(s16 param0);
 void sub_8013A68(s16 param0);
 bool16 sub_8014A60(Player *p);
@@ -1772,7 +1772,7 @@ void Player_8006310(Player *p)
 
 void sub_80063B4(Player *p, s32 arg1)
 {
-    PlayerSprite *playerSprite;
+    PlayerSpriteInfo *playerSprite;
     u8 temp_r2;
 
     temp_r2 = p->unk26 - 0x40;
@@ -1807,7 +1807,7 @@ void Player_8006424(Player *p)
     }
 
     {
-        PlayerSprite *playerSprite = p->spriteDataBody;
+        PlayerSpriteInfo *playerSprite = p->spriteDataBody;
         playerSprite->s.frameFlags &= ~0x4000;
     }
     Player_PlaySong(p, 0x71);
@@ -1817,7 +1817,7 @@ void Player_8006424(Player *p)
 
 void Player_80064D4(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 var_r5;
     s16 temp_r0;
     u16 var_r0;
@@ -1850,7 +1850,7 @@ void Player_80064D4(Player *p)
 
 void Player_800657C(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u8 *temp_r1;
     void (*var_r0)(Player * p);
 
@@ -1892,7 +1892,7 @@ void sub_800DF10(Player *);
 
 void Player_8006654(Player *p)
 {
-    PlayerSprite *playerSprite;
+    PlayerSpriteInfo *playerSprite;
     u8 *temp_r1;
     u8 v;
 
@@ -1923,7 +1923,7 @@ void Player_8006654(Player *p)
 
 void Player_800673C(Player *p)
 {
-    PlayerSprite *playerSprite;
+    PlayerSpriteInfo *playerSprite;
     u8 *temp_r1;
     u8 v;
 
@@ -1954,7 +1954,7 @@ void Player_800673C(Player *p)
 
 void Player_8006824(Player *p)
 {
-    PlayerSprite *playerSprite;
+    PlayerSpriteInfo *playerSprite;
     s16 var_r0;
     s16 var_r1;
     s32 var_r1_2;
@@ -1995,7 +1995,7 @@ void Player_8006824(Player *p)
 
 void Player_80068EC(Player *p)
 {
-    PlayerSprite *playerSprite;
+    PlayerSpriteInfo *playerSprite;
     s16 var_r0;
     s16 var_r1;
     s32 var_r1_2;
@@ -2040,7 +2040,7 @@ void Player_80068EC(Player *p)
 
 void Player_80069E4(Player *p)
 {
-    PlayerSprite *playerSprite;
+    PlayerSpriteInfo *playerSprite;
     s16 var_r0;
     s16 var_r1;
     s32 var_r1_2;
@@ -2108,7 +2108,7 @@ void Player_8006AE4(Player *p)
     }
 
     {
-        PlayerSprite *playerSprite = p->spriteDataBody;
+        PlayerSpriteInfo *playerSprite = p->spriteDataBody;
         playerSprite->s.frameFlags &= ~0x4000;
     }
 
@@ -2118,7 +2118,7 @@ void Player_8006AE4(Player *p)
 
 void Player_8006B8C(Player *p)
 {
-    PlayerSprite *playerSprite;
+    PlayerSpriteInfo *playerSprite;
     s16 var_r0;
     s16 var_r1;
     s32 var_r1_2;
@@ -2161,7 +2161,7 @@ void Player_8006B8C(Player *p)
 
 void Player_8006C70(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u16 temp_r0;
     u16 var_r0;
     u32 temp_r1;
@@ -2190,7 +2190,7 @@ void Player_8006C70(Player *p)
 
 void Player_8006CF0(Player *p)
 {
-    PlayerSprite *playerSprite;
+    PlayerSpriteInfo *playerSprite;
     s16 var_r0;
     s16 var_r1;
     s32 var_r1_2;
@@ -2229,7 +2229,7 @@ void Player_8006CF0(Player *p)
 
 void Player_8006DB8(Player *p)
 {
-    PlayerSprite *playerSprite;
+    PlayerSpriteInfo *playerSprite;
     s16 var_r0;
     s16 var_r1;
     s32 var_r1_2;
@@ -2296,7 +2296,7 @@ void Player_8006E70(Player *p)
 
 void Player_8006F08(Player *p)
 {
-    PlayerSprite *playerSprite;
+    PlayerSpriteInfo *playerSprite;
     s16 var_r0;
     s16 var_r1;
     s32 var_r1_2;
@@ -2329,7 +2329,7 @@ void Player_8006F08(Player *p)
 
 void Player_8006F98(Player *p)
 {
-    PlayerSprite *playerSprite;
+    PlayerSpriteInfo *playerSprite;
     s32 var_r5;
     u8 v;
 
@@ -2364,7 +2364,7 @@ void Player_8006F98(Player *p)
 
 void Player_8007044(Player *p)
 {
-    PlayerSprite *playerSprite;
+    PlayerSpriteInfo *playerSprite;
     s32 var_r5;
     u8 v;
 
@@ -2406,7 +2406,7 @@ void Player_8007044(Player *p)
 
 void Player_8007110(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u8 *temp_r0;
 
     SongStopCheck_inline(p, SE_281);
@@ -2433,7 +2433,7 @@ void Player_8007110(Player *p)
 
 void Player_80071A8(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u8 *temp_r0;
 
     SongStopCheck_inline(p, SE_281);
@@ -2459,7 +2459,7 @@ void Player_80071A8(Player *p)
 
 void Player_8007240(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u8 *temp_r0;
 
     SongStopCheck_inline(p, SE_281);
@@ -2485,7 +2485,7 @@ void Player_8007240(Player *p)
 
 void Player_80072D8(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u8 *temp_r0;
 
     SongStopCheck_inline(p, SE_281);
@@ -2510,7 +2510,7 @@ void Player_80072D8(Player *p)
 
 void Player_8007368(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 var_r0;
     s32 var_r1;
     u32 temp_r0;
@@ -2573,7 +2573,7 @@ void Player_8007430(Player *p)
 
 void Player_80074B8(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 var_r0;
     s32 var_r1;
     u32 temp_r0;
@@ -2652,7 +2652,7 @@ void Player_8007560(Player *p)
 
 void Player_8007620(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 temp_r1_2;
     u8 *temp_r1;
 
@@ -2689,7 +2689,7 @@ void Player_8007620(Player *p)
 
 void Player_8007714(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 theta;
     u8 *temp_r1;
 
@@ -2720,7 +2720,7 @@ void Player_8007714(Player *p)
 
 void Player_80077CC(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 temp_r1_2;
     u8 *temp_r1;
     u32 moveState = (p->moveState & 0x24);
@@ -3035,7 +3035,7 @@ void Player_8007DF4(Player *p)
 
 void Player_8007EAC(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 temp_r1_2;
     s32 var_r5;
     u8 *temp_r1;
@@ -3094,7 +3094,7 @@ void Player_8007F4C(Player *p)
 
 void Player_8007FE8(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 temp_r1_2;
     s32 var_r5;
     u8 *temp_r1;
@@ -3127,7 +3127,7 @@ void Player_8007FE8(Player *p)
 
 void Player_8008080(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     Sprite *s;
     s16 temp_r1;
     s16 temp_r6_2;
@@ -3248,7 +3248,7 @@ block_48:
 
 void Player_80082BC(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 temp_r1_2;
     s32 var_r5;
     u8 *temp_r1;
@@ -3281,7 +3281,7 @@ void Player_80082BC(Player *p)
 
 void Player_8008354(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     Sprite *s;
     s16 temp_r1;
     s16 temp_r6_2;
@@ -3607,7 +3607,7 @@ END_NONMATCH
 
 void Player_800891C(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 temp_r1_2;
     u8 *temp_r1;
     u32 moveState = (p->moveState & 0x24);
@@ -4191,7 +4191,7 @@ void sub_80095E8(Player *p)
 void Player_8009780(Player *p)
 {
     u16 sp00[NUM_CHARACTERS];
-    PlayerSprite *playerSprite;
+    PlayerSpriteInfo *playerSprite;
 
     memcpy(&sp00, &gUnknown_080CE5E8, 0xA);
 
@@ -4357,7 +4357,7 @@ void sub_80099FC(Player *p)
 
 void Player_8009B4C(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u32 temp_r1;
 
     sub_8009D74(p);
@@ -4458,7 +4458,7 @@ void Player_8009D04(Player *p)
 
 void sub_8009D74(Player *p)
 {
-    PlayerSprite *temp_r2_2;
+    PlayerSpriteInfo *temp_r2_2;
     s16 qSpeedFactorX;
     s32 temp_r6;
     s16 qSpeedFactorY;
@@ -4512,7 +4512,7 @@ void sub_8009D74(Player *p)
 
 void Player_8009E8C(Player *p)
 {
-    PlayerSprite *temp_r2_2;
+    PlayerSpriteInfo *temp_r2_2;
     s16 qSpeedFactorX;
     s32 temp_r6;
     s16 qSpeedFactorY;
@@ -4560,9 +4560,9 @@ void Player_8009E8C(Player *p)
 
 void Player_8009F7C(Player *p, s16 someX, s16 someY)
 {
-    PlayerSprite **temp_r5;
-    PlayerSprite *temp_r1_2;
-    PlayerSprite *temp_r1_4;
+    PlayerSpriteInfo **temp_r5;
+    PlayerSpriteInfo *temp_r1_2;
+    PlayerSpriteInfo *temp_r1_4;
     u32 moveState;
     u32 temp_r1_3;
     u8 *temp_r0;
@@ -4606,7 +4606,7 @@ void Player_8009F7C(Player *p, s16 someX, s16 someY)
 
 void Player_800A094(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u8 *temp_r1;
 
     SongStopCheck_inline(p, SE_281);
@@ -4639,7 +4639,7 @@ void Player_800A094(Player *p)
 
 void Player_800A168(Player *p)
 {
-    PlayerSprite *temp_r2_2;
+    PlayerSpriteInfo *temp_r2_2;
     u8 *temp_r1;
     u8 *temp_r2;
 
@@ -4666,7 +4666,7 @@ void Player_800A168(Player *p)
 
 void Player_800A218(Player *p)
 {
-    PlayerSprite *temp_r2_2;
+    PlayerSpriteInfo *temp_r2_2;
     u8 *temp_r1;
     u8 *temp_r2;
     u32 moveState = p->moveState & MOVESTATE_2;
@@ -4750,7 +4750,7 @@ void sub_800A2B8(Player *p)
 
 void Player_800A3C0(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u8 *temp_r2_2;
 
     sub_8012FA0(p);
@@ -4797,7 +4797,7 @@ void Player_800A438(Player *p)
 
 void Player_800A4C8(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u8 *temp_r2_2;
 
     sub_8012FA0(p);
@@ -4839,7 +4839,7 @@ void sub_800A540(Player *p)
 
 void Player_800A5B0(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u8 *temp_r2_2;
 
     sub_8012FA0(p);
@@ -4887,7 +4887,7 @@ void sub_800A62C(Player *p)
 
 void Player_800A690(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u8 *temp_r2_2;
 
     Player_8012FE0(p);
@@ -4948,7 +4948,7 @@ void Player_800A724(Player *p)
 
 void Player_800A7CC(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u8 *temp_r2_2;
 
     Player_8012FE0(p);
@@ -5009,7 +5009,7 @@ void Player_800A860(Player *p)
 
 void Player_800A90C(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u8 *temp_r2_2;
 
     u8 tempUnk26 = p->unk26;
@@ -5033,14 +5033,14 @@ void Player_800A90C(Player *p)
 
 void Player_800A98C(Player *p)
 {
-    PlayerSprite *temp_r2_3;
-    PlayerSprite *temp_r2_4;
-    PlayerSprite *temp_r2_5;
-    PlayerSprite *temp_r2_6;
-    PlayerSprite *var_r2;
-    PlayerSprite **temp_r3;
-    PlayerSprite **temp_r3_2;
-    PlayerSprite **temp_r3_3;
+    PlayerSpriteInfo *temp_r2_3;
+    PlayerSpriteInfo *temp_r2_4;
+    PlayerSpriteInfo *temp_r2_5;
+    PlayerSpriteInfo *temp_r2_6;
+    PlayerSpriteInfo *var_r2;
+    PlayerSpriteInfo **temp_r3;
+    PlayerSpriteInfo **temp_r3_2;
+    PlayerSpriteInfo **temp_r3_3;
     s16 *temp_r1;
     s32 var_r1_2;
     s32 var_r1_3;
@@ -5087,7 +5087,7 @@ void Player_800A98C(Player *p)
 
 void Player_800AAC0(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u8 *temp_r2_2;
 
     sub_8012FC0(p);
@@ -5144,7 +5144,7 @@ void Player_800AB48(Player *p)
 
 void Player_UseSpecialSpringWithKey(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u8 *temp_r0;
     u8 *temp_r2_2;
 
@@ -5302,7 +5302,7 @@ void Player_800AEF4(Player *p)
 
 void sub_800AF98(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u8 *temp_r2_2;
 
     sub_8012FC0(p);
@@ -5570,7 +5570,7 @@ void Player_800B3FC(Player *p)
 
 void sub_800B530(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     sub_8012FC0(p);
     p->moveState = (p->moveState & 0xFDFFFFDF) | 0x20000006;
@@ -5786,7 +5786,7 @@ void Player_800B81C(Player *p)
 
 void Player_IceLauncherLaunch(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u8 *temp_r2_2;
 
     sub_8012FC0(p);
@@ -5919,7 +5919,7 @@ void Player_800BA78(Player *p)
 
 void Player_800BB34(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 temp_r0;
     s16 var_r0;
 
@@ -5942,7 +5942,7 @@ void Player_800BB34(Player *p)
 
 void sub_800BBA0(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u8 *temp_r0;
     u8 *temp_r2_2;
 
@@ -5970,9 +5970,9 @@ void sub_800BBA0(Player *p)
 
 void Player_800BC38(Player *p)
 {
-    PlayerSprite *temp_r1;
-    PlayerSprite *temp_r1_3;
-    PlayerSprite **temp_r5;
+    PlayerSpriteInfo *temp_r1;
+    PlayerSpriteInfo *temp_r1_3;
+    PlayerSpriteInfo **temp_r5;
     u32 temp_r1_2;
     void *temp_r2;
 
@@ -6069,7 +6069,7 @@ void Player_800BD88(Player *p)
 
 void Player_800BE60(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u8 *temp_r0;
     u8 *temp_r2_2;
 
@@ -6450,7 +6450,7 @@ void sub_800C540(Player *p)
 
 void sub_800C5D0(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 var_r0;
     s32 var_r1;
     s32 qSpeed;
@@ -6518,7 +6518,7 @@ void sub_800C684(Player *p)
 
 void sub_800C714(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s32 var_r3;
     u8 temp_r1;
 
@@ -6544,7 +6544,7 @@ void sub_800C714(Player *p)
 
 void sub_800C7B8(Player *p)
 {
-    PlayerSprite *spriteSprite;
+    PlayerSpriteInfo *spriteSprite;
     u32 temp_r1;
 
     if (!sub_8014BC4(p)) {
@@ -6585,7 +6585,7 @@ void sub_800C7B8(Player *p)
 
 void sub_800C87C(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 var_r0;
     u8 *temp_r1;
 
@@ -6615,7 +6615,7 @@ void sub_800C87C(Player *p)
 
 void sub_800C910(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 var_r0;
     u8 *temp_r1;
 
@@ -6723,7 +6723,7 @@ END_NONMATCH
 
 void sub_800CB5C(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     SongStopCheck_inline(p, SE_281);
 
@@ -6786,7 +6786,7 @@ void sub_800CBE8(Player *p)
 void sub_800CCB0(Player *p)
 {
     Player *partner;
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u32 temp_r0_2;
     u8 *temp_r0;
 
@@ -6815,7 +6815,7 @@ void sub_800CCB0(Player *p)
 
 void sub_800CD68(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 var_r0;
     s32 character_r0;
     s32 character_r5;
@@ -7066,7 +7066,7 @@ block_43:
 
 void sub_800D19C(Player *p)
 {
-    PlayerSprite *temp_r3;
+    PlayerSpriteInfo *temp_r3;
     u8 *temp_r0;
 
     SongStopCheck_inline(p, 0x119U);
@@ -7135,7 +7135,7 @@ void sub_800D238(Player *p)
 
 void sub_800D32C(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 temp_r1;
     s16 var_r3;
     s32 var_r1;
@@ -7188,7 +7188,7 @@ void sub_800D32C(Player *p)
 void sub_800D424(Player *p)
 {
     Player *temp_r5;
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u32 temp_r1_2;
     u32 temp_r1_3;
     u32 var_r1;
@@ -7276,7 +7276,7 @@ void sub_800D500(Player *p)
 
 void sub_800D5F4(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 temp_r1;
     s16 var_r3;
     s32 var_r1;
@@ -7328,7 +7328,7 @@ void sub_800D5F4(Player *p)
 void sub_800D6EC(Player *p)
 {
     Player *temp_r5;
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u32 temp_r1_2;
     u32 temp_r1_3;
     u32 var_r1;
@@ -7419,7 +7419,7 @@ void SetPlayerCallback(Player *p, void (*callback)(Player *)) { p->callback = ca
 
 void Player_800D880(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u32 temp_r1_2;
     u32 temp_r1_3;
     u32 var_r1;
@@ -7500,7 +7500,7 @@ void Player_800D9B4(Player *p)
 
 void Player_800D9F4(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u16 var_r0;
 
     p->moveState &= 0xFDFFFFBF;
@@ -7861,7 +7861,7 @@ void sub_800E0CC(Player *p)
 
 void sub_800E150(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     p->moveState = (p->moveState & 0xFDFFFFFD) | 0x800000;
     p->charFlags.anim0 = 0x15;
@@ -8068,7 +8068,7 @@ void Player_800E4E0(Player *p)
 
 void sub_800E508(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u8 *temp_r2_2;
 
     sub_8012FC0(p);
@@ -8144,7 +8144,7 @@ void Player_800E604(Player *p)
 
 void Player_800E67C(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     p->moveState = (p->moveState & 0xDDFFFFDF) | 6;
     Player_8012FF0(p);
@@ -8269,7 +8269,7 @@ void sub_800E880(Player *p)
 
 void sub_0800E8E0(Player *arg0)
 {
-    PlayerSprite *temp_r3;
+    PlayerSpriteInfo *temp_r3;
 
     arg0->moveState |= 0x22000000;
     arg0->charFlags.anim0 = 0xB;
@@ -8311,7 +8311,7 @@ void sub_800E968(Player *p)
 
 void Player_800E9A4(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u32 temp_r1;
 
     sub_8009D74(p);
@@ -8333,7 +8333,7 @@ void Player_800E9A4(Player *p)
 
 void Player_800EA0C(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u32 temp_r1;
 
     sub_8009D74(p);
@@ -8553,7 +8553,7 @@ void sub_800EE38(Player *p)
 
 void sub_800EE64(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     if (!sub_8017058(p) && !sub_8014BC4(p)) {
         if ((p->charFlags.state1 == 0) && (p->qSpeedAirY >= 0)) {
@@ -8738,7 +8738,7 @@ void sub_800F170(Player *p)
 
 void sub_800F1C4(Player *p)
 {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     sub_8012FC0(p);
     p->moveState &= 0xFDFFFFDF;
@@ -12216,7 +12216,7 @@ void sub_8013000(Player *p) { sub_801139C(p); }
 void sub_801300C(s16 playerId)
 {
     Player *p;
-    PlayerSprite *playerSprite;
+    PlayerSpriteInfo *playerSprite;
     Sprite *s;
     u8 priority;
 
@@ -12283,7 +12283,7 @@ void sub_801310C(s16 playerIndex)
     s32 var_r0;
     s32 var_r0_2;
     void *var_r0_4;
-    PlayerSprite *temp_r3;
+    PlayerSpriteInfo *temp_r3;
     u8 prio;
     Sprite *s;
     u8 *tiles;
@@ -12541,7 +12541,7 @@ block_27:
 
 void sub_80136DC(u16 arg0) {
     Player *temp_r6;
-    PlayerSprite *temp_r0;
+    PlayerSpriteInfo *temp_r0;
     Sprite *temp_r5;
     s16 temp_r0_2;
     s16 temp_r0_3;
@@ -15491,7 +15491,7 @@ void sub_8017134(Player *p) {
 }
 
 void sub_80171C0(Player *p) {
-    PlayerSprite **temp_r3;
+    PlayerSpriteInfo **temp_r3;
     s32 temp_r1;
     u16 temp_r4;
 
@@ -15519,7 +15519,7 @@ void sub_80171C0(Player *p) {
 }
 
 void sub_8017258(Player *p) {
-    PlayerSprite **temp_r3;
+    PlayerSpriteInfo **temp_r3;
     s32 temp_r1;
     u16 temp_r4;
 
@@ -15697,7 +15697,7 @@ void sub_8017584(Player *p) {
 }
 
 void sub_8017618(Player *p) {
-    PlayerSprite **temp_r2;
+    PlayerSpriteInfo **temp_r2;
     s32 temp_r7;
     s32 var_r0_2;
     s32 var_r8;
@@ -17610,7 +17610,7 @@ void sub_8019AB4(u16 arg0, u16 arg1) {
 }
 
 void sub_8019B4C(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 temp_r0;
     s16 temp_r0_2;
     s16 temp_r0_3;
@@ -17658,7 +17658,7 @@ block_11:
 }
 
 void sub_8019C24(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 temp_r0;
     s16 temp_r0_2;
     u32 temp_r0_3;
@@ -17699,7 +17699,7 @@ void sub_8019C24(Player *arg0) {
 }
 
 void sub_8019CF0(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 *temp_r1;
     s16 *temp_r1_2;
     s16 temp_r0_2;
@@ -17872,7 +17872,7 @@ void sub_8019F80(Player *arg0) {
 }
 
 void sub_8019FF8(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 var_r0;
     u32 temp_r1;
 
@@ -17895,7 +17895,7 @@ void sub_8019FF8(Player *arg0) {
 }
 
 void sub_801A05C(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 var_r0;
     u32 temp_r1;
 
@@ -17918,7 +17918,7 @@ void sub_801A05C(Player *arg0) {
 }
 
 void sub_801A0C0(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     Player_800D880(arg0);
     temp_r2 = arg0->spriteDataBody;
@@ -17934,7 +17934,7 @@ void sub_801A0C0(Player *arg0) {
 }
 
 void sub_801A120(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     Player_800D880(arg0);
     temp_r2 = arg0->spriteDataBody;
@@ -17950,7 +17950,7 @@ void sub_801A120(Player *arg0) {
 }
 
 void sub_801A17C(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     Player_800D880(arg0);
     temp_r2 = arg0->spriteDataBody;
@@ -18067,7 +18067,7 @@ void sub_801A38C(Player *arg0) {
 }
 
 void sub_801A3DC(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 var_r0;
     u32 temp_r0;
     u32 temp_r1;
@@ -18103,7 +18103,7 @@ block_7:
 }
 
 void sub_801A46C(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u32 temp_r0;
     u32 temp_r1;
 
@@ -18359,7 +18359,7 @@ void sub_801A930(Player *arg0) {
 }
 
 void sub_801A9EC(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     Player_800D880(arg0);
     temp_r2 = arg0->spriteDataBody;
@@ -18468,7 +18468,7 @@ void sub_801AC04(Player *arg0) {
 }
 
 void sub_801AC58(Player *arg0, u16 arg1) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 var_r0;
 
     Player_800D880(arg0);
@@ -18492,7 +18492,7 @@ void sub_801AC58(Player *arg0, u16 arg1) {
 }
 
 void sub_801ACBC(Player *arg0, u16 arg1) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 var_r0;
 
     Player_800D880(arg0);
@@ -18824,7 +18824,7 @@ void sub_801B1B0(Player *arg0) {
 }
 
 void sub_801B258(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     u32 temp_r1;
 
     sub_8014940(arg0);
@@ -19334,7 +19334,7 @@ block_9:
 }
 
 void sub_801BCCC(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     Player_800D880(arg0);
     temp_r2 = arg0->spriteDataBody;
@@ -19348,7 +19348,7 @@ void sub_801BCCC(Player *arg0) {
 }
 
 void sub_801BD1C(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     Player_800D880(arg0);
     temp_r2 = arg0->spriteDataBody;
@@ -19364,7 +19364,7 @@ void sub_801BD1C(Player *arg0) {
 }
 
 void sub_801BD84(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     Player_800D880(arg0);
     arg0->moveState |= 0x8006;
@@ -19627,7 +19627,7 @@ void sub_801C2D8(Player *arg0) {
 }
 
 void sub_801C348(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 temp_r0;
     s16 temp_r0_2;
     s16 temp_r0_3;
@@ -20733,7 +20733,7 @@ void Player_801D73C(Player *arg0) {
 }
 
 void sub_801D7B0(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     Player_800D880(arg0);
     temp_r2 = arg0->spriteDataBody;
@@ -20748,7 +20748,7 @@ void sub_801D7B0(Player *arg0) {
 }
 
 void sub_801D804(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     Player_800D880(arg0);
     temp_r2 = arg0->spriteDataBody;
@@ -20761,7 +20761,7 @@ void sub_801D804(Player *arg0) {
 }
 
 void sub_801D84C(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     Player_800D880(arg0);
     temp_r2 = arg0->spriteDataBody;
@@ -20792,7 +20792,7 @@ void sub_801D8A8(Player *arg0) {
 }
 
 void sub_801D8E8(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     arg0->unk148 = 3;
     arg0->charFlags.anim0 = 0xEE;
@@ -20813,7 +20813,7 @@ void sub_801D950(Player *arg0) {
 }
 
 void sub_801D978(Player *p) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     Player_800D880(p);
     temp_r2 = p->spriteDataBody;
@@ -21020,7 +21020,7 @@ void sub_801DDF4(Player *arg0) {
 }
 
 void sub_801DE1C(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s32 var_r0;
     u32 temp_r0;
 
@@ -21093,7 +21093,7 @@ void sub_801DF80(Player *arg0) {
 }
 
 void sub_801DFC4(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 var_r0;
 
     Player_800D880(arg0);
@@ -21116,7 +21116,7 @@ void sub_801DFC4(Player *arg0) {
 }
 
 void sub_801E038(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
     s16 var_r0;
 
     Player_800D880(arg0);
@@ -21379,8 +21379,8 @@ void sub_801E44C(Player *arg0) {
 }
 
 void sub_801E4C0(Player *arg0) {
-    PlayerSprite *temp_r2;
-    PlayerSprite *temp_r2_2;
+    PlayerSpriteInfo *temp_r2;
+    PlayerSpriteInfo *temp_r2_2;
     s16 temp_r0_2;
     s16 temp_r0_3;
     s16 temp_r1;
@@ -21488,7 +21488,7 @@ void sub_801E65C(Player *arg0) {
 }
 
 void sub_801E69C(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     Player_800D880(arg0);
     temp_r2 = arg0->spriteDataBody;
@@ -21505,7 +21505,7 @@ void sub_801E69C(Player *arg0) {
 }
 
 void sub_801E6F4(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     Player_800D880(arg0);
     temp_r2 = arg0->spriteDataBody;
@@ -21521,7 +21521,7 @@ void sub_801E6F4(Player *arg0) {
 }
 
 void sub_801E758(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     Player_800D880(arg0);
     temp_r2 = arg0->spriteDataBody;
@@ -21537,7 +21537,7 @@ void sub_801E758(Player *arg0) {
 }
 
 void sub_801E7BC(Player *arg0) {
-    PlayerSprite *temp_r2;
+    PlayerSpriteInfo *temp_r2;
 
     Player_800D880(arg0);
     arg0->moveState |= 0x8004;
@@ -23217,7 +23217,7 @@ void sub_80206B0(void) {
 }
 
 u32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5) {
-    PlayerSprite *temp_r3;
+    PlayerSpriteInfo *temp_r3;
     Sprite *temp_r6;
     s16 temp_r1;
     s32 temp_r1_2;
@@ -23314,7 +23314,7 @@ block_22:
 u32 sub_8020874(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5, u8 p6) {
     ? spC;
     s32 sp10;
-    PlayerSprite *temp_r3;
+    PlayerSpriteInfo *temp_r3;
     Sprite *temp_r6;
     s16 temp_r1;
     u16 temp_r2;
@@ -23673,7 +23673,7 @@ block_17:
 }
 
 u32 sub_8020E3C(Sprite *s, s32 param1, s32 param2, s16 param3, Player *p) {
-    PlayerSprite *temp_r0;
+    PlayerSpriteInfo *temp_r0;
     Sprite *temp_r0_2;
     s32 temp_r0_3;
     s32 temp_r1;
@@ -23849,8 +23849,8 @@ s32 sub_80210BC(Player *arg0, u16 arg1, Player *arg2, u16 arg3) {
     ? sp4;
     s32 sp8;
     s32 spC;
-    PlayerSprite *temp_r3;
-    PlayerSprite *temp_r6;
+    PlayerSpriteInfo *temp_r3;
+    PlayerSpriteInfo *temp_r6;
     s16 temp_r0;
     s16 temp_r3_2;
     s32 temp_r0_2;

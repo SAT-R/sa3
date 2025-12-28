@@ -55,7 +55,7 @@ PACKED_UNION(StateNum, {
 typedef struct {
     /* 0x00 */ SpriteTransform tf;
     /* 0x0C */ Sprite s;
-} PlayerSprite; /* size: 0xF0 ? */
+} PlayerSpriteInfo; /* size: 0xF0 ? */
 
 typedef struct PlayerUnkC4 {
     u32 unk0;
@@ -271,8 +271,8 @@ struct Player {
     u32 unkD8;
     u32 unkDC;
 
-    PlayerSprite *spriteDataBody;
-    PlayerSprite *spriteDataLimbs;
+    PlayerSpriteInfo *spriteDataBody;
+    PlayerSpriteInfo *spriteDataLimbs;
 
     Vec2_16 unkE8;
     u8 unkEC;
