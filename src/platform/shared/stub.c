@@ -48,9 +48,7 @@ void sub_8003F40() { }
 void sub_8003F8C() { }
 void sub_8003FC8() { }
 void Stop() { }
-void sub_8012368() { }
 void sub_8012550() { }
-s32 sub_801246C(Player *p) { return 0; }
 void Player_8012FE0(Player *p) { }
 void Player_8014550(Player *p) { }
 void Player_801479C(Player *p) { }

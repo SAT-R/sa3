@@ -288,7 +288,10 @@ struct Player {
     u16 *demoplayInput_Start;
     u16 *demoplayInput_Current;
 
-    PlayerUnk148 *unk148;
+    union {
+        PlayerUnk148 *ptr;
+        u8 arr_u8[4];
+    } unk148;
     u8 unk14C;
 };
 

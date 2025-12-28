@@ -107,8 +107,8 @@ static inline void SongStopCheck_inline(Player *p, u16 song)
 
 static inline void BoostEngage_inline(Player *p)
 {
-    if (p->unk148->a.unkC != 0) {
-        p->unk148->a.unkC -= 1;
+    if (p->unk148.ptr->a.unkC != 0) {
+        p->unk148.ptr->a.unkC -= 1;
     } else {
         Player_BoostModeEngage(p);
     }
@@ -8760,7 +8760,7 @@ void sub_800F22C(Player *p)
     s16 *temp_r0;
     PlayerUnk148 *unk148;
 
-    unk148 = p->unk148;
+    unk148 = p->unk148.ptr;
     Player_800D880(p);
     gStageData.rings = 0x32;
     p->charFlags.anim0 = 270;
@@ -8785,7 +8785,7 @@ void sub_800F2B0(Player *p)
     u8 *temp_r0;
     u16 var_r0;
 
-    unk148 = p->unk148;
+    unk148 = p->unk148.ptr;
     Player_800D880(p);
     p->charFlags.anim0 = 0x10E;
     p->qSpeedAirX = 0;
@@ -8821,7 +8821,7 @@ void sub_800F378(Player *p)
     PlayerUnk148 *temp_r2;
     u8 *temp_r2_2;
 
-    temp_r2 = p->unk148;
+    temp_r2 = p->unk148.ptr;
     p->charFlags.anim0 = gUnknown_080CE5FC[temp_r2->a.unk4];
     p->qSpeedAirX = gUnknown_080CE61C[temp_r2->a.unk4][0];
     p->qSpeedAirY = gUnknown_080CE61C[temp_r2->a.unk4][1];
@@ -8843,7 +8843,7 @@ void sub_800F3E8(Player *arg0)
     u8 *temp_r2;
     u8 temp_r0_7;
 
-    unk148 = arg0->unk148;
+    unk148 = arg0->unk148.ptr;
     sub_8010E4C(arg0);
     sub_8010ED0(arg0);
     sub_800FABC(arg0);
@@ -8902,7 +8902,7 @@ void sub_800F4A4(Player *p)
     u16 temp_r2;
 
     var_r6 = 0;
-    temp_r4 = p->unk148;
+    temp_r4 = p->unk148.ptr;
     sub_8010E04(p);
     sub_800FD60(p);
     sub_8010E94(p);
@@ -8945,7 +8945,7 @@ void sub_800F55C(Player *p)
     PlayerUnk148 *temp_r5;
     u8 temp_r0;
 
-    temp_r5 = p->unk148;
+    temp_r5 = p->unk148.ptr;
     sub_8010E04(p);
     if (p->qSpeedAirX != 0) {
         p->qSpeedAirX = (u16)p->qSpeedAirX + 0x20;
@@ -8971,7 +8971,7 @@ void sub_800F5C8(Player *p)
     sub_8010E04(p);
     sub_8010E94(p);
     sub_800FABC(p);
-    temp_r1_2 = p->unk148;
+    temp_r1_2 = p->unk148.ptr;
     if ((s16)temp_r1_2->a.unkC != 0) {
         temp_r1_2->a.unkC -= 1;
     } else {
@@ -8992,7 +8992,7 @@ void sub_800F634(Player *p)
     u16 temp_r0;
     u8 *temp_r2;
 
-    temp_r5 = p->unk148;
+    temp_r5 = p->unk148.ptr;
     sub_8010E4C(p);
     sub_8010ED0(p);
     sub_800FABC(p);
@@ -9020,7 +9020,7 @@ void sub_800F6C8(Player *p)
     PlayerUnk148 *temp_r2;
     u8 *temp_r2_2;
 
-    temp_r2 = p->unk148;
+    temp_r2 = p->unk148.ptr;
     if (p->qSpeedAirX != 0) {
         s32 qSpeedAirY = -gUnknown_080CE61C[temp_r2->a.unk4][0];
         p->qSpeedAirX = qSpeedAirY;
@@ -9047,7 +9047,7 @@ void sub_800F734(Player *p)
     u16 temp_r0;
     u16 temp_r0_4;
 
-    temp_r5 = p->unk148;
+    temp_r5 = p->unk148.ptr;
     sub_8010E04(p);
 
     if (p->qSpeedAirX != 0) {
@@ -9091,7 +9091,7 @@ void sub_800F7C0(Player *arg0)
     PlayerUnk148 *temp_r4;
     s16 *temp_r0;
 
-    temp_r4 = arg0->unk148;
+    temp_r4 = arg0->unk148.ptr;
     Player_800D880(arg0);
     arg0->charFlags.anim0 = 300;
     arg0->charFlags.character = TAILS;
@@ -9119,7 +9119,7 @@ void sub_800F838(Player *arg0)
 
     var_r7 = 0;
     var_r6 = 0;
-    temp_r4 = gPlayers->unk148;
+    temp_r4 = gPlayers->unk148.ptr;
     sub_8010E04(arg0);
     sub_800FD60(arg0);
     sub_8010E94(arg0);
@@ -9174,8 +9174,8 @@ void sub_800F920(Player *arg0)
     void (*var_r1)(Player *);
 
     memcpy(&sp[0], &gUnknown_080CE63C, 8);
-    temp_r5 = gPlayers->unk148;
-    temp_r6 = arg0->unk148;
+    temp_r5 = gPlayers->unk148.ptr;
+    temp_r6 = arg0->unk148.ptr;
     sub_8010E04(arg0);
     sub_8010E94(arg0);
     sub_800FABC(arg0);
@@ -9206,7 +9206,7 @@ void sub_800F9C0(Player *arg0)
     PlayerUnk148 *temp_r2;
     u8 *temp_r2_2;
 
-    temp_r2 = arg0->unk148;
+    temp_r2 = arg0->unk148.ptr;
     arg0->charFlags.anim0 = 0x133;
     arg0->qSpeedAirX = 0;
     arg0->qSpeedAirY = 0;
@@ -9229,7 +9229,7 @@ void Player_800FA1C(Player *p)
     s16 var_r2;
     u8 *temp_r2;
 
-    temp_r4 = p->unk148;
+    temp_r4 = p->unk148.ptr;
     sub_8010E4C(p);
     sub_8010ED0(p);
     sub_800FABC(p);
@@ -9475,7 +9475,7 @@ void Player_800FE44(Player *p)
     PlayerUnk148 *temp_r2;
 
     if (p->charFlags.character == SONIC) {
-        temp_r2 = p->unk148;
+        temp_r2 = p->unk148.ptr;
         if (gStageData.gameMode != 5) {
             if ((p->keyInput2 & gStageData.buttonConfig.trick) || (temp_r2->a.unkB != 0)) {
                 temp_r2->a.unkB = 0;
@@ -9484,7 +9484,7 @@ void Player_800FE44(Player *p)
         } else {
             temp_r2->a.unkB = 0;
         }
-    } else if (gStageData.gameMode != 5) {
+    } else if (gStageData.gameMode != GAME_MODE_5) {
         if (gPlayers->charFlags.anim0 == 0x122) {
             SetPlayerCallback(p, sub_80109FC);
         }
@@ -9496,7 +9496,7 @@ void Player_800FE44(Player *p)
 void Player_800FED8(Player *p)
 {
     u8 var_r3 = 0;
-    PlayerUnk148 *unk148 = p->unk148;
+    PlayerUnk148 *unk148 = p->unk148.ptr;
 
     if (!(p->keyInput & gStageData.buttonConfig.trick)
         && ((gStageData.buttonConfig.jump | gStageData.buttonConfig.attack) & p->keyInput2)) {
@@ -9529,7 +9529,7 @@ void sub_800FF68(Player *p)
     struct Task *t;
     Strc_800FF68 *strc;
 
-    temp_r6 = p->unk148;
+    temp_r6 = p->unk148.ptr;
     t = TaskCreate(Task_8010008, sizeof(Strc_800FF68), 0x2100U, 0U, TaskDestructor_8010F34);
 
     strc = TASK_DATA(t);
@@ -9561,7 +9561,7 @@ void sub_800FF68(Player *p)
 NONMATCH("asm/non_matching/game/stage/player__Task_8010008.inc", void Task_8010008(void))
 {
     Player *p0 = &gPlayers[PLAYER_1];
-    PlayerUnk148 *unk148 = p0->unk148;
+    PlayerUnk148 *unk148 = p0->unk148.ptr;
     struct Task **t = &gCurTask;
     Strc_800FF68 *strc = TASK_DATA(*t);
     Sprite *s = &strc->s;
@@ -9676,7 +9676,7 @@ void sub_801038C(Player *p, u8 arg1)
     if (p->framesInvulnerable <= 0) {
         p->unk48 = 1;
         if (p->charFlags.character == SONIC) {
-            PlayerUnk148 *unk148 = p->unk148;
+            PlayerUnk148 *unk148 = p->unk148.ptr;
             if (arg1 == 1) {
                 if (8 & p->unk14C) {
                     unk148->a.unk8 = 0;
@@ -9689,7 +9689,7 @@ void sub_801038C(Player *p, u8 arg1)
                 SetPlayerCallback(p, sub_8010C04);
             }
         } else {
-            PlayerUnk148 *unk148 = p->unk148;
+            PlayerUnk148 *unk148 = p->unk148.ptr;
             PlayerUnk148_A *unk148_A = &unk148->a;
 
             if (arg1 == 1) {
@@ -9716,7 +9716,7 @@ void sub_8010430(Player *p)
     s32 var_r8;
     s8 var_r0;
 
-    temp_r5 = p->unk148;
+    temp_r5 = p->unk148.ptr;
     s = &temp_r5->d.s;
     var_r8 = 0;
     if ((gStageData.gameMode == 5) && (gStageData.playerIndex == PLAYER_1)) {
@@ -9861,7 +9861,7 @@ void sub_80106E0(Player *arg0)
     s32 var_r2;
     u8 prevLives;
 
-    temp_r5 = arg0->unk148;
+    temp_r5 = arg0->unk148.ptr;
     if (gCamera.unk6A != 0) {
         var_r0 = arg0->qWorldX + Q(gCamera.unk6A) + Q(4.5);
         var_r1 = 0;
@@ -9927,7 +9927,7 @@ void Player_801080C(Player *p)
     sub_8010E04(p);
     sub_8010E94(p);
     sub_800FABC(p);
-    temp_r1 = p->unk148;
+    temp_r1 = p->unk148.ptr;
     if (temp_r1->a.unkC != 0) {
         temp_r1->a.unkC--;
     } else {
@@ -9948,7 +9948,7 @@ void Player_801086C(Player *p)
     sub_800FC30(p);
     sub_8010E94(p);
     sub_800FABC(p);
-    temp_r1 = p->unk148;
+    temp_r1 = p->unk148.ptr;
     if (temp_r1->a.unkC != 0) {
         temp_r1->a.unkC = (u16)temp_r1->a.unkC - 1;
     } else {
@@ -10002,7 +10002,7 @@ void sub_801098C(Player *p)
 {
     PlayerUnk148 *unk148;
 
-    unk148 = p->unk148;
+    unk148 = p->unk148.ptr;
     p->charFlags.anim0 = 0x122;
     unk148->a.unk0 = 0;
     unk148->a.unk2 = 0;
@@ -10012,7 +10012,7 @@ void sub_801098C(Player *p)
 
 void Player_80109C0(Player *p)
 {
-    PlayerUnk148 *unk148 = p->unk148;
+    PlayerUnk148 *unk148 = p->unk148.ptr;
 
     p->charFlags.anim0 = 0x123;
     p->qSpeedAirX = -0x200;
@@ -10024,7 +10024,7 @@ void Player_80109C0(Player *p)
 
 void sub_80109FC(Player *p)
 {
-    p->unk148->b.unk8 = 0;
+    p->unk148.ptr->b.unk8 = 0;
     p->unk14C |= 4;
     sub_800FF68(p);
     SetPlayerCallback(p, sub_8010A3C);
@@ -10056,7 +10056,7 @@ lbl:
 
 void Player_8010AA0(Player *p)
 {
-    PlayerUnk148 *unk148 = p->unk148;
+    PlayerUnk148 *unk148 = p->unk148.ptr;
 
     p->charFlags.anim0 = 304;
     unk148->b.unk8 = 1;
@@ -10073,7 +10073,7 @@ void sub_8010AE4(Player *p)
     s16 temp_r1;
     u8 *temp_r2;
 
-    unk148 = p->unk148;
+    unk148 = p->unk148.ptr;
     sub_8010E04(p);
     if (p->qSpeedAirX != 0) {
         p->qSpeedAirX -= Q(0.25);
@@ -10092,7 +10092,7 @@ void sub_8010B3C(Player *p)
 {
     u8 *temp_r2;
 
-    p->unk148->b.unk8 = 0;
+    p->unk148.ptr->b.unk8 = 0;
     p->unk14C &= 0xFB;
     p->qSpeedAirX = -0x800;
     p->qSpeedAirY = 0;
@@ -10131,7 +10131,7 @@ void sub_8010C04(Player *p)
     PlayerUnk148 *temp_r2;
     u8 *temp_r2_2;
 
-    temp_r2 = p->unk148;
+    temp_r2 = p->unk148.ptr;
     p->charFlags.anim0 = 0x124;
     p->qSpeedAirX = 0;
     p->qSpeedAirY = 0;
@@ -10177,7 +10177,7 @@ void sub_8010CD0(Player *arg0)
     }
     sub_8010E94(arg0);
     sub_800FABC(arg0);
-    temp_r1 = arg0->unk148;
+    temp_r1 = arg0->unk148.ptr;
     if (temp_r1->a.unkC != 0) {
         temp_r1->a.unkC--;
         return;
@@ -10218,7 +10218,7 @@ void sub_8010DC4(Player *arg0)
 {
     PlayerUnk148 *temp_r2;
 
-    temp_r2 = gPlayers->unk148;
+    temp_r2 = gPlayers->unk148.ptr;
     arg0->unk26 = 1;
     temp_r2->a.unk0 = 0;
     temp_r2->a.unk2 = 0;
@@ -10291,7 +10291,7 @@ void sub_8010F0C(Player *p)
 {
     PlayerUnk148 *unk148;
 
-    unk148 = p->unk148;
+    unk148 = p->unk148.ptr;
     if ((s16)unk148->a.unkC != 0) {
         unk148->a.unkC -= 1;
         return;
@@ -10309,7 +10309,7 @@ void sub_8010F38(Player *p)
     sub_8010E04(p);
     sub_8010E94(p);
     sub_800FABC(p);
-    unk148 = p->unk148;
+    unk148 = p->unk148.ptr;
     if (unk148->a.unkC != 0) {
         unk148->a.unkC--;
     } else {
@@ -10328,8 +10328,8 @@ void Player_8010F88(Player *arg0)
     PlayerUnk148 *temp_r5;
     PlayerUnk148 *temp_r6;
 
-    temp_r5 = gPlayers->unk148;
-    temp_r6 = arg0->unk148;
+    temp_r5 = gPlayers->unk148.ptr;
+    temp_r6 = arg0->unk148.ptr;
     sub_8010E04(arg0);
     sub_8010E94(arg0);
     sub_800FABC(arg0);
@@ -10348,7 +10348,7 @@ void sub_8010FE0(Player *p)
     PlayerUnk148 *unk148;
     u8 temp_r0;
 
-    unk148 = p->unk148;
+    unk148 = p->unk148.ptr;
     sub_8010E04(p);
     sub_8010E94(p);
     sub_800FABC(p);
@@ -11520,83 +11520,102 @@ NONMATCH("asm/non_matching/game/stage/player__sub_801246C.inc", s32 sub_801246C(
 }
 END_NONMATCH
 
-#if 0
-s32 sub_8012550(Player *arg0) {
+// (91.03%) https://decomp.me/scratch/K83Y8
+NONMATCH("asm/non_matching/game/stage/player__sub_8012550.inc", s32 sub_8012550(Player *p))
+{
     s32 sp8;
     s32 spC;
     s32 sp10;
     s32 sp14;
     s32 temp_r0;
     s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r1;
-    s8 *temp_r2;
+    s32 var_r0;
+    s8 *temp_r7;
     u8 temp_r5;
     u8 var_r2;
     u8 var_r2_2;
+    s32 worldX, worldY;
+    s32 worldX2, worldY2;
+    s32 r2;
 
-    temp_r5 = arg0->unk27;
-    temp_r0_2 = arg0->qWorldX;
-    sp8 = temp_r0_2;
-    temp_r1 = arg0->qWorldY;
-    spC = temp_r1;
-    sp10 = (s32) arg0->qSpeedAirX;
-    sp14 = (s32) arg0->qSpeedAirY;
-    temp_r2 = &arg0->unk25;
+    temp_r5 = p->unk27;
+    sp8 = p->qWorldX;
+    spC = p->qWorldY;
+    sp10 = p->qSpeedAirX;
+    sp14 = p->qSpeedAirY;
+    worldX = -3 - p->unk25 + I(sp8);
+    worldY = I(spC);
     var_r2 = temp_r5;
-    if ((s32) arg0->qSpeedAirY <= 0x2FF) {
+    if (p->qSpeedAirY < Q(3)) {
         var_r2 = 0x80 | temp_r5;
     }
-    temp_r0_3 = sub_80517FC(((temp_r1 >> 8) - 3) - *temp_r2, temp_r0_2 >> 8, (s32) var_r2, -8, NULL, sub_805217C);
-    if (temp_r0_3 <= 0) {
-        arg0->qWorldY -= temp_r0_3 << 8;
+    temp_r0 = sub_80517FC(worldX, worldY, var_r2, -8, NULL, sub_805203C);
+    if (temp_r0 <= 0) {
+        p->qWorldY -= Q(temp_r0);
     }
+    worldX2 = +I(p->qWorldY);
+    worldX2 += +3;
+    worldX2 += p->unk25;
+    worldY2 = I(p->qWorldX);
     var_r2_2 = temp_r5;
-    if ((s32) arg0->qSpeedAirY < 0) {
+    if (p->qSpeedAirY < Q(0)) {
         var_r2_2 |= 0x80;
     }
-    temp_r0_4 = sub_80517FC(((s32) arg0->qWorldY >> 8) + 3 + *temp_r2, (s32) arg0->qWorldX >> 8, (s32) var_r2_2, 8, NULL, sub_805217C);
-    if (temp_r0_4 <= 0) {
-        arg0->qWorldY += temp_r0_4 << 8;
+    temp_r0 = sub_80517FC(worldX2, worldY2, var_r2_2, 8, NULL, sub_805203C);
+    if (temp_r0 <= 0) {
+        p->qWorldY += Q(temp_r0);
     }
-    temp_r0 = sub_8011024(1U, arg0, NULL, NULL);
-    arg0->qWorldX = sp8;
-    arg0->qWorldY = spC;
-    arg0->qSpeedAirX = (s16) subroutine_arg0.unk10;
-    arg0->qSpeedAirY = (s16) subroutine_arg0.unk14;
-    return temp_r0;
+
+    var_r0 = sub_8011024(1, p, NULL, NULL);
+
+    p->qWorldX = sp8;
+    p->qWorldY = spC;
+    p->qSpeedAirX = sp10;
+    p->qSpeedAirY = sp14;
+    return var_r0;
+}
+END_NONMATCH
+
+// NOTE: Fake-match!
+void sub_8012634(Player *p)
+{
+    s16 qSpeedAirX = p->qSpeedAirX;
+    s16 qSpeedAirY = p->qSpeedAirY;
+    u16 zero = 0;
+
+    if (p->moveState & 0x20) {
+        // TODO/NOTE/BUG(?): Weird cast!
+        *(u8 *)((uintptr_t)&p->unk148 + 2) &= 0xFB;
+        p->charFlags.unk29 = zero;
+        p->charFlags.unk28 = zero;
+        return;
+    }
+
+    zero = ArcTan2(qSpeedAirX, qSpeedAirY) >> 8;
+    zero = zero;
+    zero = ((zero - 0x20) & 0xC0);
+    zero = zero >> 6;
+
+    switch (zero) {
+        case 0:
+            sub_80126B8(p);
+            return;
+        case 1:
+            sub_8012930(p);
+            return;
+        case 2:
+            sub_8012804(p);
+            return;
+        case 3:
+            sub_8012A6C(p);
+            return;
+    }
 }
 
-void sub_8012634(Player *arg0) {
-    u32 temp_r2;
-
-    if (arg0->moveState & 0x20) {
-        arg0->unk14A = (u8) (0xFB & arg0->unk14A);
-        arg0->unk29 = 0;
-        *((arg0 + 0x29) - 1) = 0;
-        return;
-    }
-    temp_r2 = (u32) ((((u32) (ArcTan2((s16) arg0->qSpeedAirX, (s16) arg0->qSpeedAirY) << 0x10) >> 0x18) - 0x20) & 0xC0) >> 6;
-    switch (temp_r2) {                              /* irregular */
-    case 0:
-        sub_80126B8(arg0);
-        return;
-    case 1:
-        sub_8012930(arg0);
-        return;
-    case 2:
-        sub_8012804(arg0);
-        return;
-    case 3:
-        sub_8012A6C(arg0);
-        return;
-    }
-}
-
-void sub_80126B8(Player *arg0) {
+#if 0
+void sub_80126B8(Player *p) {
     u8 sp8;
-    ? spC;
+    u32 spC;
     s32 temp_r0;
     s32 temp_r0_2;
     s32 var_r0;
@@ -11606,49 +11625,49 @@ void sub_80126B8(Player *arg0) {
     u8 var_r2;
     u8 var_r2_2;
 
-    temp_r5 = arg0->unk27;
+    temp_r5 = p->unk27;
     var_r2 = temp_r5;
-    if ((s32) arg0->qSpeedAirY <= 0x2FF) {
+    if ((s32) p->qSpeedAirY <= 0x2FF) {
         var_r2 = 0x80 | temp_r5;
     }
-    temp_r0 = sub_80517FC((((s32) arg0->qWorldX >> 8) - 3) - (s8) arg0->unk24, (s32) arg0->qWorldY >> 8, (s32) var_r2, -8, NULL, sub_805203C);
+    temp_r0 = sub_80517FC((((s32) p->qWorldX >> 8) - 3) - (s8) p->unk24, (s32) p->qWorldY >> 8, (s32) var_r2, -8, NULL, sub_805203C);
     if (temp_r0 <= 0) {
-        arg0->qWorldX -= temp_r0 << 8;
-        if ((s32) arg0->qSpeedAirX < 0) {
-            arg0->unk14A = (u8) (0x40 | arg0->unk14A);
+        p->qWorldX -= temp_r0 << 8;
+        if ((s32) p->qSpeedAirX < 0) {
+            p->unk14A = (u8) (0x40 | p->unk14A);
         }
-        arg0->qSpeedAirX = 0;
+        p->qSpeedAirX = 0;
     }
     var_r2_2 = temp_r5;
-    if ((s32) arg0->qSpeedAirY <= 0x2FF) {
+    if ((s32) p->qSpeedAirY <= 0x2FF) {
         var_r2_2 |= 0x80;
     }
-    temp_r0_2 = sub_80517FC(((s32) arg0->qWorldX >> 8) + 3 + (s8) arg0->unk24, (s32) arg0->qWorldY >> 8, (s32) var_r2_2, 8, NULL, sub_805203C);
+    temp_r0_2 = sub_80517FC(((s32) p->qWorldX >> 8) + 3 + (s8) p->unk24, (s32) p->qWorldY >> 8, (s32) var_r2_2, 8, NULL, sub_805203C);
     if (temp_r0_2 <= 0) {
-        arg0->qWorldX += temp_r0_2 << 8;
-        if ((s32) arg0->qSpeedAirX > 0) {
-            arg0->unk14A = (u8) (0x40 | arg0->unk14A);
+        p->qWorldX += temp_r0_2 << 8;
+        if ((s32) p->qSpeedAirX > 0) {
+            p->unk14A = (u8) (0x40 | p->unk14A);
         }
-        arg0->qSpeedAirX = 0;
+        p->qSpeedAirX = 0;
     }
     var_r2_3 = 1;
-    if (arg0->moveState & 0x10000) {
+    if (p->moveState & 0x10000) {
         var_r2_3 = 0;
     }
     if (var_r2_3 == 0) {
-        var_r0 = sub_8011024(2U, arg0, &sp8);
+        var_r0 = sub_8011024(2U, p, &sp8);
     } else {
-        var_r0 = sub_8011024(3U, arg0, &sp8);
+        var_r0 = sub_8011024(3U, p, &sp8);
     }
     var_r2_4 = var_r0;
     if (var_r2_4 <= 0) {
-        if (arg0->moveState & 0x10000) {
+        if (p->moveState & 0x10000) {
             var_r2_4 = 0 - var_r2_4;
         }
-        arg0->qWorldY += var_r2_4 << 8;
-        arg0->unk26 = sp8;
-        arg0->qSpeedAirY = 0;
-        arg0->unk14A = (u8) (0xFB & arg0->unk14A);
+        p->qWorldY += var_r2_4 << 8;
+        p->unk26 = sp8;
+        p->qSpeedAirY = 0;
+        p->unk14A = (u8) (0xFB & p->unk14A);
     }
 }
 
@@ -18095,7 +18114,7 @@ void sub_801A6E0(Player *arg0) {
     u16 temp_r1_2;
     u8 temp_r0;
 
-    temp_r1 = &arg0->unk148;
+    temp_r1 = &arg0->unk148.ptr;
     if ((s16) *temp_r1 != 0) {
         *temp_r1 = (u16) (*temp_r1 - 1);
         if (gStageData.buttonConfig.attack & arg0->keyInput) {
@@ -20144,7 +20163,7 @@ void sub_801CF4C(Player *arg0) {
     u32 temp_r2;
     u8 var_r4;
 
-    var_r4 = arg0->unk148;
+    var_r4 = arg0->unk148.ptr;
     temp_r2 = arg0->moveState & ~0x41;
     arg0->moveState = temp_r2;
     temp_r1 = (s8) var_r4;
@@ -20168,7 +20187,7 @@ void sub_801CFA4(Player *arg0) {
     u32 temp_r2;
     u8 var_r4;
 
-    var_r4 = arg0->unk148;
+    var_r4 = arg0->unk148.ptr;
     temp_r2 = arg0->moveState & ~0x41;
     arg0->moveState = temp_r2;
     temp_r1 = (s8) var_r4;
@@ -20275,7 +20294,7 @@ void sub_801D16C(Player *arg0) {
     u32 temp_r2;
     u8 var_r4;
 
-    var_r4 = arg0->unk148;
+    var_r4 = arg0->unk148.ptr;
     temp_r2 = arg0->moveState & ~0x41;
     arg0->moveState = temp_r2;
     temp_r1 = (s8) var_r4;
@@ -20311,7 +20330,7 @@ void sub_801D1D0(Player *arg0) {
     if ((s32) var_r3 < 0) {
         var_r3 = 0 - var_r3;
     }
-    var_r2 = arg0->unk148;
+    var_r2 = arg0->unk148.ptr;
     if ((s32) var_r3 <= 0x2FF) {
         var_r3 += 6;
     } else if (((s32) var_r3 <= 0xEFF) && !(0x7F & var_r2)) {
@@ -21140,7 +21159,7 @@ void sub_801E2E4(Player *arg0) {
     u8 temp_r0_2;
     u8 temp_r0_3;
 
-    temp_r1 = &arg0->unk148;
+    temp_r1 = &arg0->unk148.ptr;
     temp_r0 = *temp_r1 - 1;
     *temp_r1 = temp_r0;
     if ((temp_r0 << 0x10) == 0) {
@@ -21171,7 +21190,7 @@ void sub_801E358(Player *arg0) {
     u8 temp_r0_2;
     u8 temp_r0_3;
 
-    temp_r1 = &arg0->unk148;
+    temp_r1 = &arg0->unk148.ptr;
     temp_r0 = *temp_r1 - 1;
     *temp_r1 = temp_r0;
     if ((temp_r0 << 0x10) == 0) {
@@ -21204,7 +21223,7 @@ void sub_801E3D8(Player *arg0) {
     s16 var_r0_2;
     u16 temp_r0;
 
-    temp_r1 = &arg0->unk148;
+    temp_r1 = &arg0->unk148.ptr;
     temp_r0 = *temp_r1 - 1;
     *temp_r1 = temp_r0;
     if ((temp_r0 << 0x10) == 0) {
@@ -21236,7 +21255,7 @@ void sub_801E44C(Player *arg0) {
     s16 var_r0;
     u16 temp_r0;
 
-    temp_r5 = &arg0->unk148;
+    temp_r5 = &arg0->unk148.ptr;
     temp_r0 = *temp_r5 - 1;
     *temp_r5 = temp_r0;
     if ((s16) temp_r0 == 1) {
@@ -21516,7 +21535,7 @@ void sub_801E980(Player *arg0) {
 void sub_801E9E0(Player *arg0) {
     PlayerUnk148 **temp_r0;
 
-    temp_r0 = &arg0->unk148;
+    temp_r0 = &arg0->unk148.ptr;
     *temp_r0 = (u16) (*temp_r0 - 1);
     if ((sub_8015064(arg0) << 0x10) == 0) {
         sub_8014E70(arg0);
@@ -21564,7 +21583,7 @@ void sub_801EA9C(Player *arg0) {
 void sub_801EAF4(Player *arg0) {
     PlayerUnk148 **temp_r5;
 
-    temp_r5 = &arg0->unk148;
+    temp_r5 = &arg0->unk148.ptr;
     *temp_r5 = (u16) (*temp_r5 - 1);
     if ((sub_8015064(arg0) << 0x10) == 0) {
         sub_8016D30(arg0);
