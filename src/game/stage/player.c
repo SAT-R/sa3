@@ -12342,10 +12342,11 @@ void sub_801310C(s16 playerIndex)
     }
 }
 
-void sub_801320C(Player* p, PlayerSpriteInfo* spriteInfoBody) {
-    Player* temp_r2_3;
-    Player* temp_r6;
-    Sprite* s;
+void sub_801320C(Player *p, PlayerSpriteInfo *spriteInfoBody)
+{
+    Player *temp_r2_3;
+    Player *temp_r6;
+    Sprite *s;
     s16 temp_r0_3;
     s16 temp_r1;
     s32 temp_r0;
@@ -12353,7 +12354,7 @@ void sub_801320C(Player* p, PlayerSpriteInfo* spriteInfoBody) {
     s32 var_r7;
     u16 temp_r1_4;
     u16 temp_r2;
-    u16* temp_r0_2;
+    u16 *temp_r0_2;
     u32 temp_r0_4;
     u32 temp_r1_3;
     u32 temp_r1_5;
@@ -12372,35 +12373,34 @@ void sub_801320C(Player* p, PlayerSpriteInfo* spriteInfoBody) {
         }
         temp_r0_3 = p->charFlags.anim0;
         switch (temp_r0_3) {
-        case 8:
-            p->charFlags.anim2 = gPlayerCharacterIdleAnims[p->charFlags.character] + 8;
-            var_r0 = p->charFlags.state0_subCount;
-            p->charFlags.state1 = (u16) var_r0;
-            sub_8014230(p, s);
-            break;
-        case 250:
-            p->charFlags.anim2 = 0x2BD;
-            var_r0 = MIN(4, p->charFlags.state0_subCount);
-            p->charFlags.state1 = var_r0;
-            sub_8014230(p, s);
-            break;
-        case 9:
-            p->charFlags.anim2 = gPlayerCharacterIdleAnims[p->charFlags.character] + 9;
-            var_r0 = MIN(3, p->charFlags.state0_subCount);
-            p->charFlags.state1 = var_r0;
-            sub_8014230(p, s);
-            break;
-        default:
-            if ((p->charFlags.anim0 <= 0xA4) && (p->charFlags.anim0 != -1)) {
-                p->charFlags.anim2 = gUnknown_080CE7E2[p->charFlags.anim0][0] + gPlayerCharacterIdleAnims[p->charFlags.character];
-            }
-            break;
+            case 8:
+                p->charFlags.anim2 = gPlayerCharacterIdleAnims[p->charFlags.character] + 8;
+                var_r0 = p->charFlags.state0_subCount;
+                p->charFlags.state1 = (u16)var_r0;
+                sub_8014230(p, s);
+                break;
+            case 250:
+                p->charFlags.anim2 = 0x2BD;
+                var_r0 = MIN(4, p->charFlags.state0_subCount);
+                p->charFlags.state1 = var_r0;
+                sub_8014230(p, s);
+                break;
+            case 9:
+                p->charFlags.anim2 = gPlayerCharacterIdleAnims[p->charFlags.character] + 9;
+                var_r0 = MIN(3, p->charFlags.state0_subCount);
+                p->charFlags.state1 = var_r0;
+                sub_8014230(p, s);
+                break;
+            default:
+                if ((p->charFlags.anim0 <= 0xA4) && (p->charFlags.anim0 != -1)) {
+                    p->charFlags.anim2 = gUnknown_080CE7E2[p->charFlags.anim0][0] + gPlayerCharacterIdleAnims[p->charFlags.character];
+                }
+                break;
         }
     }
     if (p->charFlags.someIndex == 3) {
         if ((p->charFlags.anim2 == gPlayerCharacterIdleAnims[p->charFlags.character] + 8)
-         || (p->charFlags.anim2 == gPlayerCharacterIdleAnims[p->charFlags.character] + 9))
-        {
+            || (p->charFlags.anim2 == gPlayerCharacterIdleAnims[p->charFlags.character] + 9)) {
             sub_8014230(p, s);
         } else {
             s->animSpeed = 0x10;
@@ -12409,7 +12409,7 @@ void sub_801320C(Player* p, PlayerSpriteInfo* spriteInfoBody) {
     if ((p->charFlags.someFlag1) || (s->anim != p->charFlags.anim2) || (s->variant != p->charFlags.state1)) {
         p->charFlags.someFlag1 = 0;
         s->anim = p->charFlags.anim2;
-        s->variant = (u8) p->charFlags.state1;
+        s->variant = (u8)p->charFlags.state1;
         s->prevVariant = -1;
         s->hitboxes[0].index = -1;
         s->hitboxes[1].index = -1;
@@ -12418,8 +12418,8 @@ void sub_801320C(Player* p, PlayerSpriteInfo* spriteInfoBody) {
     var_r7 = 0;
     temp_r6 = &gPlayers[p->charFlags.partnerIndex];
     if (temp_r6->charFlags.someIndex != 5) {
-        if ( ((s->anim == gPlayerCharacterIdleAnims[p->charFlags.character] + 0x5C)
-           || (s->anim == gPlayerCharacterIdleAnims[p->charFlags.character] + 0x5D) )
+        if (((s->anim == gPlayerCharacterIdleAnims[p->charFlags.character] + 0x5C)
+             || (s->anim == gPlayerCharacterIdleAnims[p->charFlags.character] + 0x5D))
             && ((temp_r1_4 = temp_r6->charFlags.anim2, (temp_r1_4 == 0x15F)) || (temp_r1_4 == 0x19D) || (temp_r1_4 == 0x160))) {
             var_r7 = 1;
         }
@@ -12440,7 +12440,7 @@ void sub_801320C(Player* p, PlayerSpriteInfo* spriteInfoBody) {
             p->moveState = (-2 & p->moveState) | (temp_r2_3->moveState & 1) | p->moveState;
             if (var_r7 == 2) {
                 p->charFlags.state1 = temp_r2_3->charFlags.state1;
-                s->variant = (u8) temp_r2_3->charFlags.state1;
+                s->variant = (u8)temp_r2_3->charFlags.state1;
             }
             if (var_r7 == 3) {
                 if (temp_r2_3->moveState & 1) {
@@ -12452,7 +12452,7 @@ void sub_801320C(Player* p, PlayerSpriteInfo* spriteInfoBody) {
             }
         }
     }
-    p->charFlags.anim1 = (s16) (u16) p->charFlags.anim0;
+    p->charFlags.anim1 = (s16)(u16)p->charFlags.anim0;
 }
 
 #if 0
