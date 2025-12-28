@@ -66,8 +66,8 @@ void Task_Interactable116(void)
                 worldX = I(p->qWorldX);
                 worldY = I(p->qWorldY);
 
-                unk24 = p->unk24;
-                unk25 = p->unk25;
+                unk24 = p->spriteOffsetX;
+                unk25 = p->spriteOffsetY;
                 if (((ia->left <= (worldX + unk24)) && (ia->right >= (worldX - unk24)))
                     && ((ia->top <= (worldY + unk25)) && (ia->bottom >= (worldY - unk25)))) {
                     s32 res;

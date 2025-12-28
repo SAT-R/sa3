@@ -459,7 +459,7 @@ u32 sub_8036E34(Player *p)
     sinVal = SIN(temp_r5);
     r1 = ((dx * sinVal * 4) >> 16);
     temp_r5 = worldY + r1;
-    var_r3 = I(p->qWorldY) + p->unk25;
+    var_r3 = I(p->qWorldY) + p->spriteOffsetY;
 
     if (p->charFlags.anim0 == 92 || p->charFlags.anim0 == 93) {
         if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
@@ -470,7 +470,7 @@ u32 sub_8036E34(Player *p)
     }
 
     if ((var_r3 > temp_r5) && (var_r3 < (temp_r5 + 8)) && (p->qSpeedAirY >= 0)) {
-        p->qWorldY = (var_r3 - p->unk25) << 8;
+        p->qWorldY = (var_r3 - p->spriteOffsetY) << 8;
         result = 1;
     }
 

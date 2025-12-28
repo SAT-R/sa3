@@ -143,10 +143,10 @@ NONMATCH("asm/non_matching/game/interactables/grind_rail__Task_8039230.inc", voi
                     }
 
                     if (!(p->moveState & MOVESTATE_GRAVITY_SWITCHED)) {
-                        res = sub_80519EC(I(p->qWorldY) + p->unk25, I(p->qWorldX), 0, +8, &sp08[0], sub_805217C);
+                        res = sub_80519EC(I(p->qWorldY) + p->spriteOffsetY, I(p->qWorldX), 0, +8, &sp08[0], sub_805217C);
                         if (res >= r1) {
                             if (!(p->moveState & MOVESTATE_GRAVITY_SWITCHED)) {
-                                p->layer = TRUE;
+                                p->layer = PLAYER_LAYER_BACK;
                                 continue;
                             }
                         } else {
@@ -155,7 +155,7 @@ NONMATCH("asm/non_matching/game/interactables/grind_rail__Task_8039230.inc", voi
                     }
                     // _08039490
 
-                    res = sub_80519EC(I(p->qWorldY) - p->unk25, I(p->qWorldX), 0, -8, &sp08[0], sub_805217C);
+                    res = sub_80519EC(I(p->qWorldY) - p->spriteOffsetY, I(p->qWorldX), 0, -8, &sp08[0], sub_805217C);
                     if (res < r1) {
                         // _080394B8
                     skip_other_check:

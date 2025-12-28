@@ -179,7 +179,7 @@ NONMATCH("asm/non_matching/game/interactables/ramp__sub_8031C10.inc", void sub_8
                             dx = 39;
 
                         x = ramp->worldY + gUnknown_080CF51C[ramp->unk38][dx];
-                        p->qWorldY = Q(x - p->unk25);
+                        p->qWorldY = Q(x - p->spriteOffsetY);
                     } else {
                         // _08031E74
                         p->moveState &= ~MOVESTATE_COLLIDING_ENT;
@@ -229,7 +229,7 @@ NONMATCH("asm/non_matching/game/interactables/ramp__sub_8031C10.inc", void sub_8
                     dx = 39;
 
                 x = ramp->worldY + gUnknown_080CF51C[ramp->unk38][dx];
-                p->qWorldY = Q(x - p->unk25);
+                p->qWorldY = Q(x - p->spriteOffsetY);
             }
             // _08031F86
 
@@ -286,7 +286,7 @@ bool32 sub_803205C(Ramp *ramp, Player *p)
     dx = I(p->qWorldX);
     dy = I(p->qWorldY);
 
-    r0 = p->unk25 + I(p->qWorldY);
+    r0 = p->spriteOffsetY + I(p->qWorldY);
 
     dx -= ramp->worldX;
     dy = r0 - ramp->worldY;
@@ -327,7 +327,7 @@ bool32 sub_803205C(Ramp *ramp, Player *p)
         }
     }
 
-    p->qWorldY = Q(ramp->worldY + r2_8 - p->unk25);
+    p->qWorldY = Q(ramp->worldY + r2_8 - p->spriteOffsetY);
 
     if (p->qSpeedAirY > 0) {
         p->qSpeedAirY = 0;

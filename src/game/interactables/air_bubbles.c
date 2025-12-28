@@ -197,7 +197,7 @@ NONMATCH("asm/non_matching/game/interactables/air_bubbles__Task_BigAirBubble.inc
         p = bubble->ps[0];
 
         {
-            s8 sp0C[4] = { -p->unk24, -p->unk25, +p->unk24, +p->unk25 };
+            s8 sp0C[4] = { -p->spriteOffsetX, -p->spriteOffsetY, +p->spriteOffsetX, +p->spriteOffsetY };
 
             if (!sub_802C080(p) && (p->moveState & MOVESTATE_IN_AIR)) {
                 if (sub_8020A58(s, 0, worldX, worldY, &sp0C, p, r8)) {

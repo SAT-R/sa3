@@ -177,7 +177,7 @@ void sub_80042F4(Player *p, s32 arg1)
     s32 var_r0;
     u8 var_r2;
 
-    if (p->unk25 != arg1) {
+    if (p->spriteOffsetY != arg1) {
         var_r2 = p->unk26;
         if (p->moveState & 0x10000) {
             var_r2 += 0x40;
@@ -201,16 +201,16 @@ void sub_80042F4(Player *p, s32 arg1)
 
         switch (var_r2 >> 6) {
             case 0:
-                p->qWorldY -= Q(arg1 - p->unk25);
+                p->qWorldY -= Q(arg1 - p->spriteOffsetY);
                 return;
             case 2:
-                p->qWorldY += Q(arg1 - p->unk25);
+                p->qWorldY += Q(arg1 - p->spriteOffsetY);
                 return;
             case 1:
-                p->qWorldX += Q(arg1 - p->unk25);
+                p->qWorldX += Q(arg1 - p->spriteOffsetY);
                 break;
             case 3:
-                p->qWorldX -= Q(arg1 - p->unk25);
+                p->qWorldX -= Q(arg1 - p->spriteOffsetY);
                 break;
         }
     }
@@ -3964,7 +3964,7 @@ void Player_HitWithoutRings(Player *p)
     (_player)->qSpeedGround = 0;                                                                                                           \
     (_player)->charFlags.boostIsActive = 0;                                                                                                \
     (_player)->boostEffectCounter = 0;                                                                                                     \
-    (_player)->layer = 1;                                                                                                                  \
+    (_player)->layer = PLAYER_LAYER_BACK;                                                                                                  \
     (_player)->unk40 = 0;                                                                                                                  \
     (_player)->unk42 = 0;                                                                                                                  \
     (_player)->unk44 = 0;                                                                                                                  \
@@ -4281,7 +4281,7 @@ void Player_80098D8(Player *p)
         p->qSpeedGround = p->qSpeedAirX;
     }
 
-    p->layer = 0;
+    p->layer = PLAYER_LAYER_FRONT;
     p->charFlags.unk2D_0 = p->unkA4;
     p->charFlags.unk2C_04 = 0;
     p->unk5A = 0;
@@ -4322,14 +4322,14 @@ void sub_80099FC(Player *p)
         if ((sub_801480C(p) << 0x10) != 0) {
             p->moveState &= 0xFFFDFFFF;
             Player_StopSong(p, 0x72U);
-            p->layer = 1;
+            p->layer = PLAYER_LAYER_BACK;
             p->charFlags.unk2C_01 = 0;
             return;
         } else {
             sub_800D81C(p);
             sub_8012EB8(p);
             if ((p->qSpeedGround == 0) && (p->unk26 == 0)) {
-                p->layer = 1;
+                p->layer = PLAYER_LAYER_BACK;
                 p->charFlags.unk2C_01 = 0;
                 Player_StopSong(p, 0x72U);
                 p->moveState &= 0xFFFDFFFF;
@@ -4344,7 +4344,7 @@ void sub_80099FC(Player *p)
     sub_8014BC4(p);
     if (MOVESTATE_20000 & p->moveState) {
         if (p->moveState & MOVESTATE_800000) {
-            p->layer = 1;
+            p->layer = PLAYER_LAYER_BACK;
             Player_StopSong(p, 0x72U);
             p->moveState &= ~MOVESTATE_20000;
             p->moveState |= 4;
@@ -4726,7 +4726,7 @@ void sub_800A2B8(Player *p)
         p->qSpeedAirX = p->qSpeedGround;
         theta = ((((var_r5 << 16) >> 6) + 0x1000) / 288);
         cosValue = COS(theta & 0x3FF);
-        cosValueB = (0x26 - p->unk25);
+        cosValueB = (0x26 - p->spriteOffsetY);
         v = cosValue;
         v *= cosValueB;
         v >>= 6;
@@ -7478,7 +7478,7 @@ void Player_800D944(Player *p)
 void Player_800D978(Player *p)
 {
     p->moveState &= 0xFFFDFFFF;
-    p->layer = 1;
+    p->layer = PLAYER_LAYER_BACK;
     Player_StopSong(p, SE_GRINDING);
 
     p->charFlags.unk2D_0 = 0;
@@ -7488,7 +7488,7 @@ void Player_800D978(Player *p)
 void Player_800D9B4(Player *p)
 {
     p->moveState &= 0xFFFDFFFF;
-    p->layer = 1;
+    p->layer = PLAYER_LAYER_BACK;
     Player_StopSong(p, SE_GRINDING);
 
     if ((u32)(u16)((u16)p->charFlags.anim0 - 0xB1) <= 1U) {
@@ -10455,8 +10455,8 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
     switch (arg0) {
         case 0:
             px = worldX - 2;
-            px -= p->unk24;
-            py = worldY - p->unk25;
+            px -= p->spriteOffsetX;
+            py = worldY - p->spriteOffsetY;
             var_r2 = p->layer;
             if (p->qSpeedAirY < Q(3)) {
                 var_r2 |= 0x80;
@@ -10464,8 +10464,8 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
             var_r8 = sub_80517FC(px, py, var_r2, -8, &sp09, sub_805203C);
 
             px = worldX - 2;
-            px -= p->unk24;
-            py = worldY + p->unk25;
+            px -= p->spriteOffsetX;
+            py = worldY + p->spriteOffsetY;
             var_r2_2 = p->layer;
             if (p->qSpeedAirY < Q(3)) {
                 var_r2_2 |= 0x80;
@@ -10474,15 +10474,15 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
             break;
         case 1:
             temp_r0_4 = worldX + 2;
-            px = temp_r0_4 + p->unk24;
-            py = worldY - p->unk25;
+            px = temp_r0_4 + p->spriteOffsetX;
+            py = worldY - p->spriteOffsetY;
             var_r2_2 = p->layer;
             if (p->qSpeedAirY < Q(3)) {
                 var_r2_2 |= 0x80;
             }
             var_r8 = sub_80517FC(py, px, var_r2_2, +8, &sp09, sub_805203C);
-            px = temp_r0_4 + p->unk24;
-            py = worldY + p->unk25;
+            px = temp_r0_4 + p->spriteOffsetX;
+            py = worldY + p->spriteOffsetY;
             var_r2 = p->layer;
             if (p->qSpeedAirY < Q(3)) {
                 var_r2 |= 0x80;
@@ -10490,17 +10490,17 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
             var_r5 = sub_80517FC(px, py, var_r2, +8, &sp0A, sub_805217C);
             break;
         case 2:
-            py = worldY - p->unk25;
+            py = worldY - p->spriteOffsetY;
             px = (worldX - 2);
-            px -= p->unk24;
+            px -= p->spriteOffsetX;
             var_r2 = p->layer;
             if (p->qSpeedAirY < Q(3)) {
                 var_r2 |= 0x80;
             }
             var_r8 = sub_80517FC(py, px, var_r2, -8, &sp09, sub_805217C);
-            py = worldY - p->unk25;
+            py = worldY - p->spriteOffsetY;
             px = worldX + 2;
-            px += p->unk24;
+            px += p->spriteOffsetX;
             var_r2 = p->layer;
             if (p->qSpeedAirY < Q(3)) {
                 var_r2 |= 0x80;
@@ -10508,18 +10508,18 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
             var_r5 = sub_80517FC(py, px, var_r2, -8, &sp0A, sub_805217C);
             break;
         case 3:
-            py = worldY + p->unk25;
+            py = worldY + p->spriteOffsetY;
             px = worldX;
             px = (px - 2);
-            px -= p->unk24;
+            px -= p->spriteOffsetX;
             var_r2 = p->layer;
             if (p->qSpeedAirY < 0) {
                 var_r2 |= 0x80;
             }
             var_r8 = sub_80517FC(py, px, var_r2, +8, &sp09, sub_805217C);
-            py = worldY + p->unk25;
+            py = worldY + p->spriteOffsetY;
             px = worldX + 2;
-            px += p->unk24;
+            px += p->spriteOffsetX;
             var_r2 = p->layer;
             if (p->qSpeedAirY < 0) {
                 var_r2 |= 0x80;
@@ -10661,10 +10661,10 @@ u16 sub_80114CC(Player *p)
         return 0U;
     }
     temp_r6 = I(p->qWorldY);
-    sub_8004E20(I(p->qWorldX), (p->unk25 + I(p->qWorldY)), &sp00);
+    sub_8004E20(I(p->qWorldX), (p->spriteOffsetY + I(p->qWorldY)), &sp00);
     mask = ~3;
     temp_r6 = (u16)temp_r6 & mask;
-    sp00 = (sp00 - p->unk25) & mask;
+    sp00 = (sp00 - p->spriteOffsetY) & mask;
     if ((temp_r6 == sp00) && (p->qSpeedAirY >= 0)) {
         if ((u8)(p->unk26 + 24) <= 48) {
             if ((!(p->moveState & 4) && (ABS(p->qSpeedGround) >= Q(4)))
@@ -10737,24 +10737,24 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80116A4.inc", s16 sub_80116A4(
     switch (arg0) {
         case 0:
             isp10 = I(sp10);
-            a = isp10 + p->unk25;
+            a = isp10 + p->spriteOffsetY;
             ispC = I(spC);
             b = ispC - 2;
-            b -= p->unk24;
+            b -= p->spriteOffsetX;
             sp18 = sub_80517FC(a, b, sp14, 8, &p->charFlags.unk28, sub_805217C);
-            var_r3 = sub_80517FC(isp10 + p->unk25, (ispC += 2) + p->unk24, sp14, 8, &p->charFlags.unk29, sub_805217C);
+            var_r3 = sub_80517FC(isp10 + p->spriteOffsetY, (ispC += 2) + p->spriteOffsetX, sp14, 8, &p->charFlags.unk29, sub_805217C);
             break;
         case 1:
-            sp18 = sub_80517FC(I(sp10) - p->unk25, +I(spC) + 2 + p->unk24, sp14, -8, &p->charFlags.unk28, sub_805217C);
-            var_r3 = sub_80517FC(I(sp10) - p->unk25, -2 - p->unk24 + I(spC), sp14, -8, &p->charFlags.unk29, sub_805217C);
+            sp18 = sub_80517FC(I(sp10) - p->spriteOffsetY, +I(spC) + 2 + p->spriteOffsetX, sp14, -8, &p->charFlags.unk28, sub_805217C);
+            var_r3 = sub_80517FC(I(sp10) - p->spriteOffsetY, -2 - p->spriteOffsetX + I(spC), sp14, -8, &p->charFlags.unk29, sub_805217C);
             break;
         case 2:
-            sp18 = sub_80517FC(I(spC) - p->unk25, -2 - p->unk24 + I(sp10), sp14, -8, &p->charFlags, sub_805203C);
-            var_r3 = sub_80517FC(I(spC) - p->unk25, +2 + I(sp10) + p->unk24, sp14, -8, &p->charFlags.unk29, sub_805203C);
+            sp18 = sub_80517FC(I(spC) - p->spriteOffsetY, -2 - p->spriteOffsetX + I(sp10), sp14, -8, &p->charFlags, sub_805203C);
+            var_r3 = sub_80517FC(I(spC) - p->spriteOffsetY, +2 + I(sp10) + p->spriteOffsetX, sp14, -8, &p->charFlags.unk29, sub_805203C);
             break;
         case 3:
-            sp18 = sub_80517FC(I(spC) + p->unk25, +2 + I(sp10) + p->unk24, sp14, 8, &p->charFlags.unk28, sub_805203C);
-            var_r3 = sub_80517FC(I(spC) + p->unk25, -2 - p->unk24 + I(sp10), sp14, 8, &p->charFlags.unk29, sub_805203C);
+            sp18 = sub_80517FC(I(spC) + p->spriteOffsetY, +2 + I(sp10) + p->spriteOffsetX, sp14, 8, &p->charFlags.unk28, sub_805203C);
+            var_r3 = sub_80517FC(I(spC) + p->spriteOffsetY, -2 - p->spriteOffsetX + I(sp10), sp14, 8, &p->charFlags.unk29, sub_805203C);
             break;
         default:
             return 0;
@@ -10858,20 +10858,20 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8011978.inc", s16 sub_8011978(
     sp8 = (u16)arg0;
     switch (arg0) {
         case 0:
-            sp14 = sub_80517FC(I(sp10) + p->unk25, +I(spC) - 2 - p->unk24, temp_r1, +8, &p->charFlags.unk28, sub_805217C);
-            var_r2 = sub_80517FC(I(sp10) + p->unk25, +I(spC) + 2 + p->unk24, temp_r1, +8, &p->charFlags.unk29, sub_805217C);
+            sp14 = sub_80517FC(I(sp10) + p->spriteOffsetY, +I(spC) - 2 - p->spriteOffsetX, temp_r1, +8, &p->charFlags.unk28, sub_805217C);
+            var_r2 = sub_80517FC(I(sp10) + p->spriteOffsetY, +I(spC) + 2 + p->spriteOffsetX, temp_r1, +8, &p->charFlags.unk29, sub_805217C);
             break;
         case 1:
-            sp14 = sub_80517FC(I(sp10) - p->unk25, +2 + I(spC) + p->unk24, temp_r1, -8, &p->charFlags.unk28, sub_805217C);
-            var_r2 = sub_80517FC(I(sp10) - p->unk25, -2 + I(spC) - p->unk24, temp_r1, -8, &p->charFlags.unk29, sub_805217C);
+            sp14 = sub_80517FC(I(sp10) - p->spriteOffsetY, +2 + I(spC) + p->spriteOffsetX, temp_r1, -8, &p->charFlags.unk28, sub_805217C);
+            var_r2 = sub_80517FC(I(sp10) - p->spriteOffsetY, -2 + I(spC) - p->spriteOffsetX, temp_r1, -8, &p->charFlags.unk29, sub_805217C);
             break;
         case 2:
-            sp14 = sub_80517FC(I(spC) - p->unk25, +I(sp10) - 2 - p->unk24, temp_r1, -8, &p->charFlags.unk28, sub_805203C);
-            var_r2 = sub_80517FC(I(spC) - p->unk25, +I(sp10) + 2 + p->unk24, temp_r1, -8, &p->charFlags.unk29, sub_805203C);
+            sp14 = sub_80517FC(I(spC) - p->spriteOffsetY, +I(sp10) - 2 - p->spriteOffsetX, temp_r1, -8, &p->charFlags.unk28, sub_805203C);
+            var_r2 = sub_80517FC(I(spC) - p->spriteOffsetY, +I(sp10) + 2 + p->spriteOffsetX, temp_r1, -8, &p->charFlags.unk29, sub_805203C);
             break;
         case 3:
-            sp14 = sub_80517FC(I(spC) + p->unk25, +2 + I(sp10) + p->unk24, temp_r1, +8, &p->charFlags.unk28, sub_805203C);
-            var_r2 = sub_80517FC(I(spC) + p->unk25, -2 - p->unk24 + I(sp10), temp_r1, +8, &p->charFlags.unk29, sub_805203C);
+            sp14 = sub_80517FC(I(spC) + p->spriteOffsetY, +2 + I(sp10) + p->spriteOffsetX, temp_r1, +8, &p->charFlags.unk28, sub_805203C);
+            var_r2 = sub_80517FC(I(spC) + p->spriteOffsetY, -2 - p->spriteOffsetX + I(sp10), temp_r1, +8, &p->charFlags.unk29, sub_805203C);
             break;
     }
 
@@ -10946,22 +10946,22 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8011BFC.inc", s32 sub_8011BFC(
     switch (arg0 >> 6) {
         case 0: {
             s32 p0 = +2 + worldY;
-            return sub_80517FC(p0 + p->unk24, worldX, p->layer, +8, NULL, sub_805217C);
+            return sub_80517FC(p0 + p->spriteOffsetX, worldX, p->layer, +8, NULL, sub_805217C);
         } break;
 
         case 2: {
             s32 p0 = -2 + worldY;
-            return sub_80517FC(p0 - p->unk24, worldX, p->layer, -8, NULL, sub_805217C);
+            return sub_80517FC(p0 - p->spriteOffsetX, worldX, p->layer, -8, NULL, sub_805217C);
         } break;
 
         case 1: {
             s32 p0 = -2 + worldX;
-            return sub_80517FC(p0 - p->unk24, worldY, p->layer, -8, NULL, sub_805203C);
+            return sub_80517FC(p0 - p->spriteOffsetX, worldY, p->layer, -8, NULL, sub_805203C);
         } break;
 
         case 3: {
             s32 p0 = worldX + 2;
-            return sub_80517FC(p0 + p->unk24, worldY, p->layer, +8, NULL, sub_805203C);
+            return sub_80517FC(p0 + p->spriteOffsetX, worldY, p->layer, +8, NULL, sub_805203C);
         } break;
         default:
             return 0;
@@ -10998,7 +10998,7 @@ void sub_8011D08(Player *p)
     s32 worldX, worldY;
 
     temp_r5 = p->layer;
-    worldX = -3 - p->unk24 + I(p->qWorldX);
+    worldX = -3 - p->spriteOffsetX + I(p->qWorldX);
     worldY = I(p->qWorldY);
     var_r2 = temp_r5;
     if ((s32)p->qSpeedAirY < Q(3)) {
@@ -11013,7 +11013,7 @@ void sub_8011D08(Player *p)
     }
     temp_r0_2 = I(p->qWorldX);
     temp_r0_2 += 3;
-    var_r1 = p->unk24;
+    var_r1 = p->spriteOffsetX;
     var_r3 = temp_r0_2 + var_r1;
     worldY = I(p->qWorldY);
     var_r2_2 = temp_r5;
@@ -11094,7 +11094,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8011E70.inc", void sub_8011E70
         return;
     }
 
-    worldX = -3 - p->unk24 + I(p->qWorldX);
+    worldX = -3 - p->spriteOffsetX + I(p->qWorldX);
     worldY = I(p->qWorldY);
     var_r2 = temp_r6;
     if (p->qSpeedAirY < Q(3)) {
@@ -11109,7 +11109,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8011E70.inc", void sub_8011E70
     }
     temp_r0 = I(p->qWorldX);
     temp_r0 += 3;
-    worldX = temp_r0 + p->unk24;
+    worldX = temp_r0 + p->spriteOffsetX;
     worldY = I(p->qWorldY);
     var_r2_2 = temp_r6;
     if (p->qSpeedAirY < Q(3)) {
@@ -11166,12 +11166,12 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8011FB8.inc", void sub_8011FB8
 
     temp_r0 = p->layer;
     if (p->moveState & 0x10000) {
-        var_r0 = -3 - p->unk24 + I(p->qWorldX);
+        var_r0 = -3 - p->spriteOffsetX + I(p->qWorldX);
         var_r1 = I(p->qWorldY);
         var_r2 = temp_r0;
         temp_r0_2 = sub_80517FC(var_r0, var_r1, var_r2, -8, NULL, sub_805203C);
     } else {
-        var_r0 = -3 - p->unk24 + I(p->qWorldX);
+        var_r0 = -3 - p->spriteOffsetX + I(p->qWorldX);
         var_r1 = I(p->qWorldY);
         var_r2 = temp_r0;
         if (p->qSpeedAirY < Q(3)) {
@@ -11249,12 +11249,12 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8012118.inc", void sub_8012118
 
     temp_r0 = p->layer;
     if (p->moveState & 0x10000) {
-        var_r0 = +3 + p->unk24 + I(p->qWorldX);
+        var_r0 = +3 + p->spriteOffsetX + I(p->qWorldX);
         var_r1 = I(p->qWorldY);
         var_r2 = temp_r0;
         temp_r0_2 = sub_80517FC(var_r0, var_r1, var_r2, +8, NULL, sub_805203C);
     } else {
-        var_r0 = +3 + p->unk24 + I(p->qWorldX);
+        var_r0 = +3 + p->spriteOffsetX + I(p->qWorldX);
         var_r1 = I(p->qWorldY);
         var_r2 = temp_r0;
         if (p->qSpeedAirY < Q(3)) {
@@ -11333,7 +11333,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_801226C.inc", s32 sub_801226C(
     spC = p->qWorldY;
     sp10 = p->qSpeedAirX;
     sp14 = p->qSpeedAirY;
-    worldX = -3 - p->unk24 + I(sp8);
+    worldX = -3 - p->spriteOffsetX + I(sp8);
     worldY = I(spC);
     var_r2 = temp_r5;
     if (p->qSpeedAirY < Q(3)) {
@@ -11343,7 +11343,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_801226C.inc", s32 sub_801226C(
     if (temp_r0 <= 0) {
         p->qWorldX -= Q(temp_r0);
     }
-    worldX2 = +3 + I(p->qWorldX) + p->unk24;
+    worldX2 = +3 + I(p->qWorldX) + p->spriteOffsetX;
     worldY2 = I(p->qWorldY);
     var_r2_2 = temp_r5;
     if (p->qSpeedAirY < Q(3)) {
@@ -11390,7 +11390,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8012368.inc", s32 sub_8012368(
     spC = p->qWorldY;
     sp10 = p->qSpeedAirX;
     sp14 = p->qSpeedAirY;
-    worldX = -3 - p->unk24 + I(sp8);
+    worldX = -3 - p->spriteOffsetX + I(sp8);
     worldY = I(spC);
     var_r2 = temp_r5;
     if (p->qSpeedAirY < Q(3)) {
@@ -11400,7 +11400,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8012368.inc", s32 sub_8012368(
     if (temp_r0 <= 0) {
         p->qWorldX -= Q(temp_r0);
     }
-    worldX2 = +3 + I(p->qWorldX) + p->unk24;
+    worldX2 = +3 + I(p->qWorldX) + p->spriteOffsetX;
     worldY2 = I(p->qWorldY);
     var_r2_2 = temp_r5;
     if (p->qSpeedAirY < Q(3)) {
@@ -11440,11 +11440,11 @@ static inline void test(Player *p, s32 qSpeedCap, u8 unk27, bool32 negative)
     u8 mask;
 
     if (negative) {
-        worldX = -3 - p->unk25 + I(p->qWorldX);
+        worldX = -3 - p->spriteOffsetY + I(p->qWorldX);
         worldY = I(p->qWorldY);
     } else {
         worldX = +I(p->qWorldY);
-        worldX += +3 + p->unk25;
+        worldX += +3 + p->spriteOffsetY;
         worldY = I(p->qWorldX);
     }
 
@@ -11496,7 +11496,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_801246C.inc", s32 sub_801246C(
     if ((s32)p->qSpeedAirY < Q(3)) {
         var_r2 = 0x80 | unk27;
     }
-    temp_r0_3 = sub_80517FC(((temp_r1 >> 8) - 3) - p->unk25, temp_r0_2 >> 8, var_r2, -8, NULL, sub_805217C);
+    temp_r0_3 = sub_80517FC(((temp_r1 >> 8) - 3) - p->spriteOffsetY, temp_r0_2 >> 8, var_r2, -8, NULL, sub_805217C);
     if (temp_r0_3 <= 0) {
         p->qWorldY -= temp_r0_3 << 8;
     }
@@ -11505,7 +11505,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_801246C.inc", s32 sub_801246C(
     if ((s32)p->qSpeedAirY < 0) {
         var_r2_2 |= 0x80;
     }
-    temp_r0_4 = sub_80517FC(((s32)p->qWorldY >> 8) + 3 + p->unk25, (s32)p->qWorldX >> 8, (s32)var_r2_2, 8, NULL, sub_805217C);
+    temp_r0_4 = sub_80517FC(((s32)p->qWorldY >> 8) + 3 + p->spriteOffsetY, (s32)p->qWorldX >> 8, (s32)var_r2_2, 8, NULL, sub_805217C);
     if (temp_r0_4 <= 0) {
         p->qWorldY += temp_r0_4 << 8;
     }
@@ -11543,7 +11543,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8012550.inc", s32 sub_8012550(
     spC = p->qWorldY;
     sp10 = p->qSpeedAirX;
     sp14 = p->qSpeedAirY;
-    worldX = -3 - p->unk25 + I(sp8);
+    worldX = -3 - p->spriteOffsetY + I(sp8);
     worldY = I(spC);
     var_r2 = temp_r5;
     if (p->qSpeedAirY < Q(3)) {
@@ -11555,7 +11555,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8012550.inc", s32 sub_8012550(
     }
     worldX2 = +I(p->qWorldY);
     worldX2 += +3;
-    worldX2 += p->unk25;
+    worldX2 += p->spriteOffsetY;
     worldY2 = I(p->qWorldX);
     var_r2_2 = temp_r5;
     if (p->qSpeedAirY < Q(0)) {
@@ -11634,7 +11634,7 @@ void sub_80126B8(Player *p)
     u32 unk27 = p->layer;
 #endif
 
-    worldX = -3 - p->unk24 + I(p->qWorldX);
+    worldX = -3 - p->spriteOffsetX + I(p->qWorldX);
     worldY = I(p->qWorldY);
 
     var_r2 = unk27;
@@ -11655,7 +11655,7 @@ void sub_80126B8(Player *p)
 
     worldX2 = I(p->qWorldX);
     worldX2 += 3;
-    worldX3 = worldX2 + p->unk24;
+    worldX3 = worldX2 + p->spriteOffsetX;
     worldY3 = I(p->qWorldY);
 
     var_r2 = unk27;
@@ -11717,7 +11717,7 @@ void sub_8012804(Player *p)
     u32 unk27 = p->layer;
 #endif
 
-    worldX = -3 - p->unk24 + I(p->qWorldX);
+    worldX = -3 - p->spriteOffsetX + I(p->qWorldX);
     worldY = I(p->qWorldY);
 
     var_r2 = unk27;
@@ -11738,7 +11738,7 @@ void sub_8012804(Player *p)
 
     worldX2 = I(p->qWorldX);
     worldX2 += 3;
-    worldX3 = worldX2 + p->unk24;
+    worldX3 = worldX2 + p->spriteOffsetX;
     worldY3 = I(p->qWorldY);
 
     var_r2 = unk27;
@@ -11796,7 +11796,7 @@ void sub_8012930(Player *p)
 #endif
 
     pUnk27 = &p->layer;
-    worldX = -2 - p->unk24 + I(p->qWorldX);
+    worldX = -2 - p->spriteOffsetX + I(p->qWorldX);
     worldY = I(p->qWorldY);
     unk27 = *pUnk27;
     if ((s32)p->qSpeedAirY <= 0x2FF) {
@@ -11879,7 +11879,7 @@ void sub_8012A6C(Player *p)
 
     pUnk27 = &p->layer;
     worldX = I(p->qWorldX) + 2;
-    worldX2 = worldX + p->unk24;
+    worldX2 = worldX + p->spriteOffsetX;
     worldY = I(p->qWorldY);
     unk27 = *pUnk27;
     if (p->qSpeedAirY < Q(3)) {
@@ -11937,38 +11937,36 @@ void sub_8012A6C(Player *p)
     }
 }
 
-#if 0
-void sub_8012BA4(Player *arg0) {
-    s32 var_r3;
-    u32 temp_r1;
-    u32 temp_r3;
+void sub_8012BA4(Player *p)
+{
+    s32 worldY;
 
-    temp_r3 = arg0->moveState;
-    if (!(2 & temp_r3)) {
-        arg0->unk24 = 6;
-        arg0->unk25 = 0xE;
+    if (!(MOVESTATE_2 & p->moveState)) {
+        p->spriteOffsetX = 6;
+        p->spriteOffsetY = 14;
     } else {
-        temp_r1 = -3 & temp_r3;
-        arg0->moveState = temp_r1;
-        arg0->charFlags.anim0 = 0;
-        var_r3 = (s8) arg0->unk25 - 0xE;
-        if (temp_r1 & 0x10000) {
-            var_r3 = 0 - var_r3;
+        p->moveState &= ~MOVESTATE_2;
+        p->charFlags.anim0 = 0;
+        worldY = p->spriteOffsetY - 14;
+        if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
+            worldY = -worldY;
         }
-        if ((s32) ((arg0->unk26 + 0x40) << 0x18) <= 0) {
-            var_r3 = 0 - var_r3;
+        if ((s8)(p->unk26 + 0x40) <= 0) {
+            worldY = -worldY;
         }
-        arg0->unk24 = 6;
-        arg0->unk25 = 0xE;
-        arg0->qWorldY += var_r3 << 8;
+        p->spriteOffsetX = 6;
+        p->spriteOffsetY = 14;
+        p->qWorldY += Q(worldY);
     }
-    arg0->moveState &= ~0x46;
-    arg0->unk2F = 0;
-    if ((s32) arg0->charFlags.anim0 > 0xE6) {
-        arg0->charFlags.anim0 = 0;
+    p->moveState &= ~(MOVESTATE_40 | MOVESTATE_IN_AIR | MOVESTATE_2);
+    p->charFlags.state0_highValue = 0;
+
+    if (p->charFlags.anim0 > 230) {
+        p->charFlags.anim0 = 0;
     }
 }
 
+#if 0
 void sub_8012C34(Player *arg0) {
     ? sp4;
     s32 var_r0;
@@ -12173,24 +12171,24 @@ void sub_8012F94(Player *arg0, u8 arg1, s8 arg2) {
 
 void sub_8012FA0(Player *p) {
     sub_80042F4(p, 0xE);
-    p->unk24 = 6;
-    p->unk25 = 0xE;
+    p->spriteOffsetX = 6;
+    p->spriteOffsetY = 0xE;
 }
 
 void sub_8012FC0(Player *p) {
     sub_80042F4(p, 9);
-    p->unk24 = 6;
-    p->unk25 = 9;
+    p->spriteOffsetX = 6;
+    p->spriteOffsetY = 9;
 }
 
 void Player_8012FE0(Player *p) {
-    p->unk24 = 6;
-    p->unk25 = 0xE;
+    p->spriteOffsetX = 6;
+    p->spriteOffsetY = 0xE;
 }
 
 void sub_8012FF0(Player *p) {
-    p->unk24 = 6;
-    p->unk25 = 9;
+    p->spriteOffsetX = 6;
+    p->spriteOffsetY = 9;
 }
 
 void sub_8013000(void) {
@@ -12496,21 +12494,21 @@ void sub_801350C(Player *p) {
         }
         temp_r3 = p->moveState & 0x10000;
         if (temp_r3 != 0) {
-            var_r0 = sub_80519EC(((s32) p->qWorldY >> 8) - (s8) (u8) p->unk25, (s32) p->qWorldX >> 8, (s32) p->layer, -8, NULL, sub_805217C);
+            var_r0 = sub_80519EC(((s32) p->qWorldY >> 8) - (s8) (u8) p->spriteOffsetY, (s32) p->qWorldX >> 8, (s32) p->layer, -8, NULL, sub_805217C);
         } else {
-            var_r0 = sub_80519EC(((s32) p->qWorldY >> 8) + (s8) (u8) p->unk25, (s32) p->qWorldX >> 8, (s32) p->layer, 8, (void *) temp_r3, sub_805217C);
+            var_r0 = sub_80519EC(((s32) p->qWorldY >> 8) + (s8) (u8) p->spriteOffsetY, (s32) p->qWorldX >> 8, (s32) p->layer, 8, (void *) temp_r3, sub_805217C);
         }
         if (var_r0 <= 0x20) {
             goto block_27;
         }
     } else if ((temp_r2 == 0x15) && ((s32) p->qSpeedAirY > 0)) {
         if (p->moveState & 0x10000) {
-            var_r0_2 = ((s32) p->qWorldY >> 8) - (s8) (u8) p->unk25;
+            var_r0_2 = ((s32) p->qWorldY >> 8) - (s8) (u8) p->spriteOffsetY;
             var_r1 = (s32) p->qWorldX >> 8;
             var_r2 = p->layer;
             var_r3 = -8;
         } else {
-            var_r0_2 = ((s32) p->qWorldY >> 8) + (s8) (u8) p->unk25;
+            var_r0_2 = ((s32) p->qWorldY >> 8) + (s8) (u8) p->spriteOffsetY;
             var_r1 = (s32) p->qWorldX >> 8;
             var_r2 = p->layer;
             var_r3 = 8;
@@ -13263,7 +13261,7 @@ void Player_8014550(Player *p) {
 
     if (((u32) (u8) (gStageData.unk4 - 5) > 1U) && (temp_r0 = &p->framesInvulnerable, ((s32) temp_r0->unk0 <= 0)) && ((s32) temp_r0->unk2 <= 0)) {
         if (p->moveState & 0x20000) {
-            p->layer = 1;
+            p->layer = PLAYER_LAYER_BACK;
             Player_StopSong(p, 0x72U);
             p->moveState &= 0xFFFDFFFF;
         }
@@ -14023,18 +14021,18 @@ void sub_8015228(Player *p) {
     if ((s32) var_r0 > 0x7F) {
         return;
     }
-    temp_r7 = &p->unk25;
+    temp_r7 = &p->spriteOffsetY;
     temp_r3 = &p->layer;
     if (sub_80517FC(temp_r5 + *temp_r7, temp_r0, (s32) *temp_r3, 8, NULL, sub_805217C) <= 8) {
         return;
     }
     if (p->moveState & 0x10000) {
-        temp_r4 = &p->unk24;
+        temp_r4 = &p->spriteOffsetX;
         var_sl = sub_80517FC(temp_r5 - *temp_r7, (temp_r0 - 2) - (s8) *temp_r4, (s32) *temp_r3, -8, &sp8, sub_805217C);
         var_r4 = &subroutine_arg0 + 9;
         var_r0_2 = sub_80517FC(temp_r5 - *temp_r7, temp_r0 + 2 + (s8) *temp_r4, (s32) *temp_r3, -8, var_r4, sub_805217C);
     } else {
-        temp_r4_2 = &p->unk24;
+        temp_r4_2 = &p->spriteOffsetX;
         var_sl = sub_80517FC(temp_r5 + *temp_r7, (temp_r0 - 2) - (s8) *temp_r4_2, (s32) *temp_r3, 8, &sp8, sub_805217C);
         var_r4 = &subroutine_arg0 + 9;
         var_r0_2 = sub_80517FC(temp_r5 + *temp_r7, temp_r0 + 2 + (s8) *temp_r4_2, (s32) *temp_r3, 8, var_r4, sub_805217C);
@@ -14534,7 +14532,7 @@ void sub_8015C90(Player *arg0, s32 arg1) {
         var_r5 = arg0 + 0x2A;
     }
     if (arg0->moveState & 0x20000) {
-        arg0->layer = 1;
+        arg0->layer = PLAYER_LAYER_BACK;
         Player_StopSong(arg0, 0x72U);
         arg0->moveState &= 0xFFFDFFFF;
     }
@@ -23245,9 +23243,9 @@ u32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5) {
         goto block_22;
     }
     if (temp_r1 == 0) {
-        temp_r3_2 = p->unk24;
+        temp_r3_2 = p->spriteOffsetX;
         subroutine_arg0.unk0 = (u8) (0 - temp_r3_2);
-        temp_r2_2 = (u8) p->unk25;
+        temp_r2_2 = (u8) p->spriteOffsetY;
         subroutine_arg0.unk1 = (u8) (0 - temp_r2_2);
         subroutine_arg0.unk2 = temp_r3_2;
         subroutine_arg0.unk3 = temp_r2_2;
@@ -23325,9 +23323,9 @@ u32 sub_8020874(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5, u8
         return 0U;
     }
     if (temp_r1 == 0) {
-        temp_r3_2 = p->unk24;
+        temp_r3_2 = p->spriteOffsetX;
         spC.unk0 = (u8) (0 - temp_r3_2);
-        temp_r2_2 = (u8) p->unk25;
+        temp_r2_2 = (u8) p->spriteOffsetY;
         spC.unk1 = (u8) (0 - temp_r2_2);
         spC.unk2 = temp_r3_2;
         spC.unk3 = temp_r2_2;
@@ -23355,9 +23353,9 @@ u32 sub_8020950(Sprite *s, s32 worldX, s32 worldY, Player *p, u8 param4) {
     void *temp_r0_2;
 
     var_r7 = (u8) (s32) param4;
-    temp_r4 = p->unk24;
+    temp_r4 = p->spriteOffsetX;
     sp10 = 0 - temp_r4;
-    temp_r3 = (u8) p->unk25;
+    temp_r3 = (u8) p->spriteOffsetY;
     temp_r0_2 = &subroutine_arg0 + 0x11;
     subroutine_arg0.unk11 = (s8) (0 - temp_r3);
     temp_r0_2->unk1 = temp_r4;
@@ -23600,9 +23598,9 @@ u32 sub_8020CE0(Sprite *s, s32 worldX, s32 worldY, u16 param3, Player *p) {
     void *temp_r3_3;
 
     temp_r7 = &p->spriteData->s;
-    temp_r4 = p->unk24;
+    temp_r4 = p->spriteOffsetX;
     sp4 = 0 - temp_r4;
-    temp_r3 = (u8) p->unk25;
+    temp_r3 = (u8) p->spriteOffsetY;
     temp_r0 = &subroutine_arg0 + 5;
     subroutine_arg0.unk5 = (s8) (0 - temp_r3);
     temp_r0->unk1 = temp_r4;

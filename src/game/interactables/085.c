@@ -65,10 +65,10 @@ void Task_Interactable085(void)
 
         if (!sub_802C080(p) && !(p->moveState & MOVESTATE_IN_AIR) && (p->callback != Player_800A438) && (p->callback != Player_8008A8C)
             && (p->callback != Player_800ED80)) {
-            rect[0] = -p->unk24;
-            rect[1] = -p->unk25;
-            rect[2] = +p->unk24;
-            rect[3] = +p->unk25;
+            rect[0] = -p->spriteOffsetX;
+            rect[1] = -p->spriteOffsetY;
+            rect[2] = +p->spriteOffsetX;
+            rect[3] = +p->spriteOffsetY;
 
             if (RECT_COLLISION(ia->worldX, ia->worldY, ia, I(p->qWorldX), I(p->qWorldY), (Rect8 *)&rect)) {
                 bool32 isExpectedCallback = FALSE;

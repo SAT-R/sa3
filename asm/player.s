@@ -6,87 +6,6 @@
 .arm
 
 .if 01
-	thumb_func_start sub_8012BA4
-sub_8012BA4: @ 0x08012BA4
-	push {lr}
-	adds r2, r0, #0
-	ldr r3, [r2, #4]
-	movs r0, #2
-	ands r0, r3
-	cmp r0, #0
-	bne _08012BC4
-	adds r0, r2, #0
-	adds r0, #0x24
-	movs r1, #6
-	strb r1, [r0]
-	adds r1, r2, #0
-	adds r1, #0x25
-	movs r0, #0xe
-	strb r0, [r1]
-	b _08012C12
-_08012BC4:
-	movs r1, #3
-	rsbs r1, r1, #0
-	ands r1, r3
-	str r1, [r2, #4]
-	movs r0, #0
-	strh r0, [r2, #0x30]
-	movs r0, #0x25
-	adds r0, r0, r2
-	mov ip, r0
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	adds r3, r0, #0
-	subs r3, #0xe
-	movs r0, #0x80
-	lsls r0, r0, #9
-	ands r1, r0
-	cmp r1, #0
-	beq _08012BEC
-	rsbs r3, r3, #0
-_08012BEC:
-	adds r0, r2, #0
-	adds r0, #0x26
-	ldrb r0, [r0]
-	adds r0, #0x40
-	lsls r0, r0, #0x18
-	cmp r0, #0
-	bgt _08012BFC
-	rsbs r3, r3, #0
-_08012BFC:
-	adds r1, r2, #0
-	adds r1, #0x24
-	movs r0, #6
-	strb r0, [r1]
-	movs r0, #0xe
-	mov r1, ip
-	strb r0, [r1]
-	lsls r1, r3, #8
-	ldr r0, [r2, #0x14]
-	adds r0, r0, r1
-	str r0, [r2, #0x14]
-_08012C12:
-	ldr r0, [r2, #4]
-	movs r1, #0x47
-	rsbs r1, r1, #0
-	ands r0, r1
-	str r0, [r2, #4]
-	adds r0, r2, #0
-	adds r0, #0x2f
-	movs r1, #0
-	strb r1, [r0]
-	movs r3, #0x30
-	ldrsh r0, [r2, r3]
-	cmp r0, #0xe6
-	ble _08012C2E
-	strh r1, [r2, #0x30]
-_08012C2E:
-	pop {r0}
-	bx r0
-	.align 2, 0
-.endif
-
 	thumb_func_start sub_8012C34
 sub_8012C34: @ 0x08012C34
 	push {r4, lr}
@@ -188,6 +107,7 @@ _08012CEA:
 	bx r0
 	.align 2, 0
 _08012CF4: .4byte Player_8005380
+.endif
 
 	thumb_func_start sub_8012CF8
 sub_8012CF8: @ 0x08012CF8

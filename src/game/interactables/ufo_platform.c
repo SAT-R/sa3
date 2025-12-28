@@ -90,7 +90,7 @@ void Task_UfoPlatform(void)
             }
 
             p->qWorldX = ufo->qWorldX;
-            p->qWorldY = ufo->qWorldY - Q(p->unk25 + 12);
+            p->qWorldY = ufo->qWorldY - Q(p->spriteOffsetY + 12);
 
             r7 += I(p->qSpeedGround);
         } else if (!sub_802C0D4(p)) {

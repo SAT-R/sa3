@@ -271,7 +271,7 @@ void sub_80450D8(SunsetBridge *bridge, Player *p)
     sinVal = Q(x * 2) / r2;
     v = (SIN(sinVal) * bridge->unk22) >> 6;
     y = bridge->qWorldY + I(v * bridge->unk6C);
-    p->qWorldY = y - Q(p->unk25);
+    p->qWorldY = y - Q(p->spriteOffsetY);
 }
 
 void TaskDestructor_SunsetBridge(struct Task *t)

@@ -143,9 +143,9 @@ struct Player {
     u16 keyInput2; // 0x20
     u16 unk22;
 
-    s8 unk24;
-    s8 unk25;
-    u8 unk26; // maybe a bitfield (upper 2 bits is 1 value)
+    /* 0x24 */ s8 spriteOffsetX;
+    /* 0x25 */ s8 spriteOffsetY;
+    /* 0x26 */ u8 unk26; // maybe a bitfield (upper 2 bits is 1 value)
     /* 0x27 */ u8 layer;
 
     struct {

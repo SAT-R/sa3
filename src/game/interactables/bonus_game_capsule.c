@@ -1943,7 +1943,7 @@ void sub_803C010(u32 param0)
 NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803C094.inc",
          s32 sub_803C094(Sprite *s, u8 hbIndex, s32 worldX, s32 worldY, Player *p, s32 playerX))
 {
-    s8 sp0C[] = { -p->unk24, -p->unk25, +p->unk24, +p->unk25 };
+    s8 sp0C[] = { -p->spriteOffsetX, -p->spriteOffsetY, +p->spriteOffsetX, +p->spriteOffsetY };
 
     if (!HITBOX_IS_ACTIVE(s->hitboxes[hbIndex]) || (p->moveState & MOVESTATE_100)) {
         return 0;

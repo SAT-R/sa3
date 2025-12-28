@@ -270,10 +270,10 @@ void Task_Spikes_4_6(void)
                                 p->moveState |= MOVESTATE_COLLIDING_ENT;
                                 p->sprColliding = s;
                             }
-                            p->qWorldY = Q(gCamera.y + s->y + s->hitboxes[0].b.top - p->unk25);
+                            p->qWorldY = Q(gCamera.y + s->y + s->hitboxes[0].b.top - p->spriteOffsetY);
                             p->qSpeedAirY = 0;
                         } else {
-                            p->qWorldY = Q(gCamera.y + s->y + s->hitboxes[0].b.bottom + p->unk25);
+                            p->qWorldY = Q(gCamera.y + s->y + s->hitboxes[0].b.bottom + p->spriteOffsetY);
                             p->qSpeedAirY = 0;
                         }
                     } else if (res & 0xC0000) {
