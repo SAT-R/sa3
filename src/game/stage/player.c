@@ -12213,148 +12213,135 @@ void Player_8012FF0(Player *p)
 
 void sub_8013000(Player *p) { sub_801139C(p); }
 
-#if 0
-void sub_801300C(u16 arg0) {
-    Player *temp_r6;
-    PlayerSprite *temp_r5;
-    Sprite *temp_r4;
-    s16 temp_r1;
-    s16 temp_r2;
-    u16 temp_r7;
-    u8 *var_r0;
-    u8 var_r0_2;
+void sub_801300C(s16 playerId)
+{
+    Player *p;
+    PlayerSprite *playerSprite;
+    Sprite *s;
+    u8 priority;
 
-    temp_r7 = arg0;
-    temp_r2 = (s16) arg0;
-    temp_r6 = &gPlayers[temp_r2];
-    temp_r5 = temp_r6->spriteData;
-    temp_r4 = &temp_r5->s;
-    if ((u32) gStageData.gameMode <= 5U) {
-        if (temp_r2 == 0) {
-            var_r0 = (u8 *)0x06010000;
+    p = &gPlayers[playerId];
+    playerSprite = p->spriteData;
+    s = &playerSprite->s;
+
+    if (gStageData.gameMode < 6) {
+        if (playerId == 0) {
+            playerSprite->s.tiles = (u8 *)OBJ_VRAM0;
         } else {
-            var_r0 = (u8 *)0x06010800;
+            playerSprite->s.tiles = (u8 *)(OBJ_VRAM0 + 0x800);
         }
-        goto block_17;
-    }
-    if (gStageData.gameMode == 6) {
-        switch (temp_r2) {                          /* irregular */
-        case 0:
-            var_r0 = (u8 *)0x06010000;
-            goto block_17;
-        case 1:
-            var_r0 = (u8 *)0x06010800;
-            goto block_17;
-        case 2:
-            var_r0 = (u8 *)0x06011000;
-            goto block_17;
-        case 3:
-            var_r0 = (u8 *)0x06011800;
-            goto block_17;
+    } else if (gStageData.gameMode == 6) {
+        switch (playerId) {
+            case 0:
+                playerSprite->s.tiles = OBJ_VRAM0;
+                break;
+            case 1:
+                playerSprite->s.tiles = (OBJ_VRAM0 + 0x800);
+                break;
+            case 2:
+                playerSprite->s.tiles = (OBJ_VRAM0 + 0x1000);
+                break;
+            case 3:
+                playerSprite->s.tiles = (OBJ_VRAM0 + 0x1800);
+                break;
         }
     } else {
-        var_r0 = (temp_r2 << 0xB) + 0x06010000;
-block_17:
-        temp_r5->s.tiles = var_r0;
+        playerSprite->s.tiles = OBJ_VRAM0 + (playerId << 0xB);
     }
-    temp_r1 = (s16) temp_r7;
-    temp_r4->frameFlags = temp_r1 | 0x1020;
-    temp_r4->anim = temp_r6->charFlags.anim2;
-    temp_r4->x = (s16) ((s32) temp_r6->qWorldX >> 8);
-    temp_r4->y = (s16) ((s32) temp_r6->qWorldY >> 8);
-    if (gStageData.playerIndex == temp_r1) {
-        var_r0_2 = 0x10;
+
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    s->frameFlags |= playerId | SPRITE_FLAG(ROT_SCALE_ENABLE, 1);
+    s->anim = p->charFlags.anim2;
+    s->x = I(p->qWorldX);
+    s->y = I(p->qWorldY);
+
+    if (gStageData.playerIndex == playerId) {
+        priority = 16;
     } else {
-        var_r0_2 = temp_r7 + 0x11;
+        priority = 17 + playerId;
     }
-    temp_r4->oamFlags = var_r0_2 << 6;
-    temp_r4->qAnimDelay = 0;
-    temp_r4->prevAnim = 0xFFFF;
-    temp_r4->variant = (u8) temp_r6->charFlags.state1;
-    temp_r4->prevVariant = 0xFF;
-    temp_r4->animSpeed = 0x10;
-    temp_r4->palId = (u8) temp_r7;
-    temp_r4->hitboxes[0].index = -1;
-    temp_r4->unk28 = -1;
-    temp_r5->unk0 = 0;
-    temp_r5->unk2 = 0x100;
-    temp_r5->base.regionX = 0x100;
-    temp_r5->base.regionY = 0;
-    temp_r5->unk8 = 0;
+
+    s->oamFlags = SPRITE_OAM_ORDER(priority);
+    s->qAnimDelay = 0;
+    s->prevAnim = 0xFFFF;
+    s->variant = p->charFlags.state1;
+    s->prevVariant = 0xFF;
+    s->animSpeed = 0x10;
+    s->palId = playerId;
+    s->hitboxes[0].index = -1;
+    s->hitboxes[1].index = -1;
+    playerSprite->tf.rotation = 0;
+    playerSprite->tf.qScaleX = Q(1);
+    playerSprite->tf.qScaleY = Q(1);
+    playerSprite->tf.x = 0;
+    playerSprite->tf.y = 0;
 }
 
-void sub_801310C(u16 arg0) {
-    Player *temp_r1;
+void sub_801310C(s16 playerIndex)
+{
+    Player *p;
     s32 var_r0;
     s32 var_r0_2;
-    s32 var_r0_4;
-    u16 temp_r4;
-    u32 *temp_r0;
-    u32 temp_r0_2;
-    u32 temp_r3;
-    u8 var_r0_3;
-    void *temp_r2;
+    void *var_r0_4;
+    PlayerSprite *temp_r3;
+    u8 prio;
+    Sprite *s;
+    u8 *tiles;
 
-    temp_r4 = arg0;
-    temp_r1 = &gPlayers[(s16) arg0];
-    temp_r0 = &temp_r1->unkE4;
-    temp_r3 = *temp_r0;
-    temp_r2 = temp_r3 + 0xC;
-    temp_r0_2 = (u32) (*(temp_r0 - 0xBA) << 0x1C) >> 0x1C;
-    switch (temp_r0_2) {                            /* irregular */
-    case 1:
-        if ((u32) gStageData.gameMode <= 5U) {
-            var_r0 = 0x06011800;
-            goto block_7;
-        }
-        if (gStageData.gameMode == 6) {
-            var_r0 = 0x06013000;
-block_7:
-            temp_r3->unkC = var_r0;
-        }
-        temp_r2->unkC = 0xAE;
-        temp_r2->unk1A = 1;
-        var_r0_2 = 2;
-block_15:
-        temp_r2->unk8 = var_r0_2;
-        temp_r2->unk8 = (s32) (temp_r2->unk8 | 0x41020);
-        temp_r2->unk10 = (s16) ((s32) temp_r1->qWorldX >> 8);
-        temp_r2->unk12 = (s16) ((s32) temp_r1->qWorldY >> 8);
-        if (gStageData.playerIndex == (s16) temp_r4) {
-            var_r0_3 = 0x10;
-        } else {
-            var_r0_3 = temp_r4 + 0x11;
-        }
-        temp_r2->unk14 = (s16) (var_r0_3 << 6);
-        temp_r2->unk16 = 0;
-        temp_r2->unk1B = 0xFF;
-        temp_r2->unk1C = 0x10;
-        temp_r2->unk1F = (s8) temp_r4;
-        temp_r2->unk20 = -1;
-        temp_r2->unk28 = -1;
-        temp_r3->unk0 = 0;
-        temp_r3->unk2 = 0x100;
-        temp_r3->unk4 = 0x100;
-        temp_r3->unk6 = 0;
-        temp_r3->unk8 = 0;
-        return;
-    case 2:
-        if ((u32) gStageData.gameMode <= 5U) {
-            var_r0_4 = 0x06011000;
-            goto block_13;
-        }
-        if (gStageData.gameMode == 6) {
-            var_r0_4 = 0x06012800;
-block_13:
-            temp_r3->unkC = var_r0_4;
-        }
-        temp_r2->unkC = 0x151;
-        temp_r2->unk1A = 1;
-        var_r0_2 = 3;
-        goto block_15;
+    p = &gPlayers[playerIndex];
+    temp_r3 = p->spriteDataLimbs;
+    s = &temp_r3->s;
+
+    switch (p->charFlags.character) {
+        case CREAM:
+            if (gStageData.gameMode < 6) {
+                s->tiles = OBJ_VRAM0 + 0x1800;
+            } else if (gStageData.gameMode == 6) {
+                s->tiles = OBJ_VRAM0 + 0x3000;
+            }
+
+            s->anim = 0xAE;
+            s->variant = 1;
+            s->frameFlags = SPRITE_FLAG(ROT_SCALE, 2);
+            goto block_15;
+            break;
+        case TAILS:
+            if ((u32)gStageData.gameMode < 6) {
+                s->tiles = OBJ_VRAM0 + 0x1000;
+            } else if (gStageData.gameMode == 6) {
+                s->tiles = OBJ_VRAM0 + 0x2800;
+            }
+            s->anim = 0x151;
+            s->variant = 1;
+            s->frameFlags = SPRITE_FLAG(ROT_SCALE, 3);
+        block_15:
+            s->frameFlags |= MOVESTATE_1000;
+            s->frameFlags |= (MOVESTATE_40000 | MOVESTATE_COLLIDING_ENT);
+            s->x = I(p->qWorldX);
+            s->y = I(p->qWorldY);
+            if (gStageData.playerIndex == playerIndex) {
+                prio = 16;
+            } else {
+                prio = 17 + playerIndex;
+            }
+            s->oamFlags = SPRITE_OAM_ORDER(prio);
+            s->qAnimDelay = 0;
+            s->prevVariant = 0xFF;
+            s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+            s->palId = (s8)playerIndex;
+            s->hitboxes[0].index = -1;
+            s->hitboxes[1].index = -1;
+
+            temp_r3->tf.rotation = 0;
+            temp_r3->tf.qScaleX = 0x100;
+            temp_r3->tf.qScaleY = 0x100;
+            temp_r3->tf.x = 0;
+            temp_r3->tf.y = 0;
+            break;
     }
 }
 
+#if 0
 void sub_801320C(Player *arg0, s32 arg1) {
     Player *temp_r2_3;
     Player *temp_r6;

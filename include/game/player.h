@@ -53,7 +53,7 @@ PACKED_UNION(StateNum, {
 //
 // Pointed to by Player::unkE0
 typedef struct {
-    /* 0x00 */ SpriteBase base; // maybe SpriteTransform instead?
+    /* 0x00 */ SpriteTransform tf;
     /* 0x0C */ Sprite s;
 } PlayerSprite; /* size: 0xF0 ? */
 
@@ -271,10 +271,8 @@ struct Player {
     u32 unkD8;
     u32 unkDC;
 
-    PlayerSprite *spriteData;
-
-    //    SpriteInfo* spriteInfo; // 0xE0 | the information is 0x3C bytes long
-    u32 unkE4;
+    PlayerSprite *spriteData; // body
+    PlayerSprite *spriteDataLimbs;
 
     Vec2_16 unkE8;
     u8 unkEC;
