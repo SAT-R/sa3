@@ -22,7 +22,7 @@
 void GameStart(void);
 
 // rodata
-extern const AnimId gPlayerCharacterIdleAnims[NUM_CHARACTERS];
+extern const s16 gPlayerCharacterIdleAnims[NUM_CHARACTERS];
 
 // NOTE: Proc type should be the same as SetStageSpawnPosInternal!
 // extern void SetStageSpawnPos(u32 character, u32 level, u32 p2, Player *player);

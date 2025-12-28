@@ -320,6 +320,8 @@ extern void sub_8012FC0(Player *p);
 extern void Player_8012FE0(Player *p);
 extern void Player_8012FF0(Player *p);
 extern void sub_801350C(Player *p);
+extern void sub_801409C(Player *p);
+extern void sub_8014230(Player *p, Sprite *s);
 extern void sub_8014258(Player *);
 extern void sub_80142CC(Player *);
 extern void sub_80143E0(Player *);

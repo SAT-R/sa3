@@ -41,8 +41,6 @@ void Task_WindupBlock(void);
 void TaskDestructor_WindupBlock(struct Task *t);
 void sub_804783C(WindupBlock *block);
 
-extern const AnimId gPlayerCharacterIdleAnims[NUM_CHARACTERS];
-
 // TODO: Would "Charge Launcher" be a better name for this entity?
 
 void CreateEntity_WindupBlock(MapEntity *me, u16 regionX, u16 regionY, u8 id)
