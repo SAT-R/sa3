@@ -11366,8 +11366,10 @@ NONMATCH("asm/non_matching/game/stage/player__sub_801226C.inc", s32 sub_801226C(
 }
 END_NONMATCH
 
-#if 0
-s32 sub_8012368(Player *arg0) {
+// Very close to sub_801226C
+// (88.39%) https://decomp.me/scratch/vRdzU
+NONMATCH("asm/non_matching/game/stage/player__sub_8012368.inc", s32 sub_8012368(Player *p))
+{
     s32 sp8;
     s32 spC;
     s32 sp10;
@@ -11375,50 +11377,59 @@ s32 sub_8012368(Player *arg0) {
     s32 temp_r0;
     s32 temp_r0_2;
     s32 var_r0;
-    s32 var_r2_3;
-    u8 *temp_r7;
+    s8 *temp_r7;
     u8 temp_r5;
     u8 var_r2;
     u8 var_r2_2;
+    s32 worldX, worldY;
+    s32 worldX2, worldY2;
+    s32 r2;
 
-    temp_r5 = arg0->unk27;
-    sp8 = arg0->qWorldX;
-    spC = arg0->qWorldY;
-    sp10 = (s32) arg0->qSpeedAirX;
-    sp14 = (s32) arg0->qSpeedAirY;
-    temp_r7 = &arg0->unk24;
+    temp_r5 = p->unk27;
+    sp8 = p->qWorldX;
+    spC = p->qWorldY;
+    sp10 = p->qSpeedAirX;
+    sp14 = p->qSpeedAirY;
+    worldX = -3 - p->unk24 + I(sp8);
+    worldY = I(spC);
     var_r2 = temp_r5;
-    if ((s32) arg0->qSpeedAirY <= 0x2FF) {
+    if (p->qSpeedAirY < Q(3)) {
         var_r2 = 0x80 | temp_r5;
     }
-    temp_r0 = sub_80517FC(((sp8 >> 8) - 3) - (s8) *temp_r7, spC >> 8, (s32) var_r2, -8, NULL, sub_805203C);
+    temp_r0 = sub_80517FC(worldX, worldY, var_r2, -8, NULL, sub_805203C);
     if (temp_r0 <= 0) {
-        arg0->qWorldX -= temp_r0 << 8;
+        p->qWorldX -= Q(temp_r0);
     }
+    worldX2 = +3 + I(p->qWorldX) + p->unk24;
+    worldY2 = I(p->qWorldY);
     var_r2_2 = temp_r5;
-    if ((s32) arg0->qSpeedAirY <= 0x2FF) {
+    if (p->qSpeedAirY < Q(3)) {
         var_r2_2 |= 0x80;
     }
-    temp_r0_2 = sub_80517FC(((s32) arg0->qWorldX >> 8) + 3 + (s8) *temp_r7, (s32) arg0->qWorldY >> 8, (s32) var_r2_2, 8, NULL, sub_805203C);
-    if (temp_r0_2 <= 0) {
-        arg0->qWorldX += temp_r0_2 << 8;
+    temp_r0 = sub_80517FC(worldX2, worldY2, var_r2_2, 8, NULL, sub_805203C);
+    if (temp_r0 <= 0) {
+        p->qWorldX += Q(temp_r0);
     }
-    var_r2_3 = 1;
-    if (arg0->moveState & 0x10000) {
-        var_r2_3 = 0;
+
+    r2 = TRUE;
+    if (p->moveState & 0x10000) {
+        r2 = FALSE;
     }
-    if (var_r2_3 == 0) {
-        var_r0 = sub_8011024(2U, arg0, NULL, NULL);
+    if (!r2) {
+        var_r0 = sub_8011024(2, p, NULL, NULL);
     } else {
-        var_r0 = sub_8011024(3U, arg0, NULL, NULL);
+        r2 = FALSE;
+        var_r0 = sub_8011024(3, p, NULL, NULL);
     }
-    arg0->qWorldX = sp8;
-    arg0->qWorldY = spC;
-    arg0->qSpeedAirX = (s16) subroutine_arg0.unk10;
-    arg0->qSpeedAirY = (s16) subroutine_arg0.unk14;
+    p->qWorldX = sp8;
+    p->qWorldY = spC;
+    p->qSpeedAirX = sp10;
+    p->qSpeedAirY = sp14;
     return var_r0;
 }
+END_NONMATCH
 
+#if 0
 s32 sub_801246C(Player *arg0) {
     s32 sp8;
     s32 spC;
