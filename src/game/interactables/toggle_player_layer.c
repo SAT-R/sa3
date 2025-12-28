@@ -53,21 +53,21 @@ void Task_Toggle_PlayerLayer(void)
                     && (worldY <= I(p->qWorldY)) && (worldY + me->d.uData[3] * TILE_WIDTH >= I(p->qWorldY))) {
                     switch (layer->base.unk9) {
                         case LAYER_TYPE_FRONT: {
-                            p->unk27 = layer->base.unk9;
+                            p->layer = layer->base.unk9;
                         } break;
 
                         case LAYER_TYPE_BACK: {
-                            p->unk27 = layer->base.unk9;
+                            p->layer = layer->base.unk9;
                         } break;
 
                         case LAYER_TYPE_SWAP: {
                             u32 newLayer = LAYER_TYPE_FRONT;
 
-                            if (p->unk27 == LAYER_TYPE_FRONT) {
+                            if (p->layer == LAYER_TYPE_FRONT) {
                                 newLayer = LAYER_TYPE_BACK;
                             }
 
-                            p->unk27 = newLayer;
+                            p->layer = newLayer;
                         } break;
                     }
                 }

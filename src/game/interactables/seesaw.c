@@ -196,7 +196,7 @@ s32 sub_8036584(u8 arg0)
                                 temp_r1_3 = p->moveState;
                                 if ((((MOVESTATE_JUMPING & temp_r1_3) != MOVESTATE_JUMPING) || ((s32)p->qSpeedAirY <= 0))
                                     && (temp_r1_3 & MOVESTATE_IN_AIR)
-                                    && ((sub_8052418((s32)p->qWorldY >> 8, (s32)p->qWorldX >> 8, (s32)p->unk27, 8, sub_8051F54) <= 4)
+                                    && ((sub_8052418((s32)p->qWorldY >> 8, (s32)p->qWorldX >> 8, (s32)p->layer, 8, sub_8051F54) <= 4)
                                         || ((p->moveState & MOVESTATE_IN_AIR) && ((s32)p->qSpeedAirY < 0)))) {
                                     var_r4 = 0;
                                 } else {
@@ -630,7 +630,7 @@ s32 sub_8037144(Player *p, Sprite *s, s16 worldX, s16 worldY, u16 arg4, s16 arg5
         || ((((MOVESTATE_COLLIDING_ENT | MOVESTATE_IN_AIR) & p->moveState) == MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s))) {
         var_r8 = 1;
         p->qWorldY = var_r0;
-        res = sub_80517FC(I(p->qWorldY), I(p->qWorldX), p->unk27, 8, NULL, sub_805217C);
+        res = sub_80517FC(I(p->qWorldY), I(p->qWorldX), p->layer, 8, NULL, sub_805217C);
         if (res < 0) {
             p->qWorldY += Q(res);
         }

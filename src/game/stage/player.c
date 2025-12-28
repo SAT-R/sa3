@@ -1578,7 +1578,7 @@ void Player_8005E80(Player *p)
     if (p->charFlags.someIndex == 2) {
         p->qWorldX = Q(gCamera.x + 100);
         p->qWorldY = Q(gCamera.y + 120);
-        p->unk27 = gPlayers[p->charFlags.partnerIndex].unk27;
+        p->layer = gPlayers[p->charFlags.partnerIndex].layer;
     }
 
     gameMode = gStageData.gameMode;
@@ -2808,7 +2808,7 @@ void Player_8007930(Player *p)
     p->unk42 = 0;
     p->unk44 = 0;
     p->qCamOffsetY = 0;
-    p->unk27 = partner->unk27;
+    p->layer = partner->layer;
     p->moveState = (p->moveState & 0xFFFEFFFE) | (partner->moveState & 0x10001);
 
     for (colorId = 0; colorId < 16; colorId++) {
@@ -2864,7 +2864,7 @@ void Player_8007B00(Player *p)
     s32 qWorldX;
 
     partner = GET_SP_PLAYER_V0(PLAYER_2);
-    p->unk27 = partner->unk27;
+    p->layer = partner->layer;
     p->moveState = (p->moveState & 0xFFFEFFFE) | (partner->moveState & 0x10001);
     if (!(partner->moveState & MOVESTATE_1000000)) {
         p->qUnk38 = partner->qWorldX;
@@ -2920,7 +2920,7 @@ void Player_8007C28(Player *p)
 
     partner = GET_SP_PLAYER_V0(PLAYER_2);
     var_r5 = 0;
-    p->unk27 = partner->unk27;
+    p->layer = partner->layer;
     p->moveState = (p->moveState & ~(MOVESTATE_GRAVITY_SWITCHED | MOVESTATE_FACING_LEFT))
         | (partner->moveState & (MOVESTATE_GRAVITY_SWITCHED | MOVESTATE_FACING_LEFT));
     if (!(partner->moveState & MOVESTATE_1000000)) {
@@ -3008,7 +3008,7 @@ void Player_8007DF4(Player *p)
     s32 var_r1;
 
     partner = GET_SP_PLAYER_V0(PLAYER_2);
-    p->unk27 = partner->unk27;
+    p->layer = partner->layer;
     p->moveState = (p->moveState & 0xFFFEFFFE) | (partner->moveState & 0x10001);
     temp_r2 = partner->qWorldX;
     p->qWorldX = temp_r2;
@@ -3733,7 +3733,7 @@ NONMATCH("asm/non_matching/game/stage/player__Player_8008A8C.inc", void Player_8
             s32 mask;
             p->unkE8.x = I(p->qWorldX);
             p->unkE8.y = I(p->qWorldY);
-            unk27 = p->unk27;
+            unk27 = p->layer;
             pUnkEC = &p->unkEC;
             unk27 = (0xF & unk27);
             unkEC = *pUnkEC;
@@ -3753,7 +3753,7 @@ void Player_8008C1C(Player *p)
 {
     p->qWorldX = Q((u16)p->unkE8.x);
     p->qWorldY = Q((u16)p->unkE8.y);
-    p->unk27 = (u8)((u32)(p->unkEC << 0x1C) >> 0x1C);
+    p->layer = (u8)((u32)(p->unkEC << 0x1C) >> 0x1C);
 
     if (0xF0 & p->unkEC) {
         p->moveState |= MOVESTATE_GRAVITY_SWITCHED;
@@ -3964,7 +3964,7 @@ void Player_HitWithoutRings(Player *p)
     (_player)->qSpeedGround = 0;                                                                                                           \
     (_player)->charFlags.boostIsActive = 0;                                                                                                \
     (_player)->boostEffectCounter = 0;                                                                                                     \
-    (_player)->unk27 = 1;                                                                                                                  \
+    (_player)->layer = 1;                                                                                                                  \
     (_player)->unk40 = 0;                                                                                                                  \
     (_player)->unk42 = 0;                                                                                                                  \
     (_player)->unk44 = 0;                                                                                                                  \
@@ -4014,7 +4014,7 @@ void sub_800913C(Player *p)
         p->qSpeedAirX = 0;
         p->qWorldX = partner->qWorldX;
         p->qWorldY = partner->qWorldY;
-        p->unk27 = partner->unk27;
+        p->layer = partner->layer;
         p->framesInvulnerable = 0x78;
         p->unk56 = 0xE;
         p->unk57 = 0x3C;
@@ -4281,7 +4281,7 @@ void Player_80098D8(Player *p)
         p->qSpeedGround = p->qSpeedAirX;
     }
 
-    p->unk27 = 0;
+    p->layer = 0;
     p->charFlags.unk2D_0 = p->unkA4;
     p->charFlags.unk2C_04 = 0;
     p->unk5A = 0;
@@ -4322,14 +4322,14 @@ void sub_80099FC(Player *p)
         if ((sub_801480C(p) << 0x10) != 0) {
             p->moveState &= 0xFFFDFFFF;
             Player_StopSong(p, 0x72U);
-            p->unk27 = 1;
+            p->layer = 1;
             p->charFlags.unk2C_01 = 0;
             return;
         } else {
             sub_800D81C(p);
             sub_8012EB8(p);
             if ((p->qSpeedGround == 0) && (p->unk26 == 0)) {
-                p->unk27 = 1;
+                p->layer = 1;
                 p->charFlags.unk2C_01 = 0;
                 Player_StopSong(p, 0x72U);
                 p->moveState &= 0xFFFDFFFF;
@@ -4344,7 +4344,7 @@ void sub_80099FC(Player *p)
     sub_8014BC4(p);
     if (MOVESTATE_20000 & p->moveState) {
         if (p->moveState & MOVESTATE_800000) {
-            p->unk27 = 1;
+            p->layer = 1;
             Player_StopSong(p, 0x72U);
             p->moveState &= ~MOVESTATE_20000;
             p->moveState |= 4;
@@ -6120,7 +6120,7 @@ void sub_800BF78(Player *p)
 
     temp_r0 = &gPlayers[p->charFlags.partnerIndex];
     temp_r4 = temp_r0->charFlags.character;
-    temp_r0->unk27 = p->unk27;
+    temp_r0->layer = p->layer;
     temp_r0->moveState = (temp_r0->moveState & 0xFFFEFFFF) | (p->moveState & 0x10000);
     if (p->moveState & 4) {
 #ifndef NON_MATCHING
@@ -7105,13 +7105,13 @@ void sub_800D238(Player *p)
         temp_r0_2 = p->moveState | 4;
         p->moveState = temp_r0_2;
         if (temp_r0_2 & MOVESTATE_GRAVITY_SWITCHED) {
-            if (sub_80519EC(I(p->qWorldY), I(p->qWorldX), (s32)p->unk27, 8, NULL, sub_805217C) >= 40) {
+            if (sub_80519EC(I(p->qWorldY), I(p->qWorldX), (s32)p->layer, 8, NULL, sub_805217C) >= 40) {
                 goto block_6;
             } else {
                 goto block_7;
             }
         }
-        if (sub_80519EC((s32)p->qWorldY >> 8, (s32)p->qWorldX >> 8, (s32)p->unk27, -8, NULL, sub_805217C) <= 0x27) {
+        if (sub_80519EC((s32)p->qWorldY >> 8, (s32)p->qWorldX >> 8, (s32)p->layer, -8, NULL, sub_805217C) <= 0x27) {
             var_r6 = 1;
         }
     block_6:
@@ -7245,13 +7245,13 @@ void sub_800D500(Player *p)
         temp_r0_2 = p->moveState | 4;
         p->moveState = temp_r0_2;
         if (temp_r0_2 & 0x10000) {
-            if (sub_80519EC(I(p->qWorldY), I(p->qWorldX), p->unk27, 8, NULL, sub_805217C) >= 40) {
+            if (sub_80519EC(I(p->qWorldY), I(p->qWorldX), p->layer, 8, NULL, sub_805217C) >= 40) {
                 goto block_6;
             } else {
                 goto block_7;
             }
         }
-        if (sub_80519EC((s32)p->qWorldY >> 8, (s32)p->qWorldX >> 8, (s32)p->unk27, -8, NULL, sub_805217C) <= 0x27) {
+        if (sub_80519EC((s32)p->qWorldY >> 8, (s32)p->qWorldX >> 8, (s32)p->layer, -8, NULL, sub_805217C) <= 0x27) {
             var_r6 = 1;
         }
     block_6:
@@ -7478,7 +7478,7 @@ void Player_800D944(Player *p)
 void Player_800D978(Player *p)
 {
     p->moveState &= 0xFFFDFFFF;
-    p->unk27 = 1;
+    p->layer = 1;
     Player_StopSong(p, SE_GRINDING);
 
     p->charFlags.unk2D_0 = 0;
@@ -7488,7 +7488,7 @@ void Player_800D978(Player *p)
 void Player_800D9B4(Player *p)
 {
     p->moveState &= 0xFFFDFFFF;
-    p->unk27 = 1;
+    p->layer = 1;
     Player_StopSong(p, SE_GRINDING);
 
     if ((u32)(u16)((u16)p->charFlags.anim0 - 0xB1) <= 1U) {
@@ -10457,7 +10457,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
             px = worldX - 2;
             px -= p->unk24;
             py = worldY - p->unk25;
-            var_r2 = p->unk27;
+            var_r2 = p->layer;
             if (p->qSpeedAirY < Q(3)) {
                 var_r2 |= 0x80;
             }
@@ -10466,7 +10466,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
             px = worldX - 2;
             px -= p->unk24;
             py = worldY + p->unk25;
-            var_r2_2 = p->unk27;
+            var_r2_2 = p->layer;
             if (p->qSpeedAirY < Q(3)) {
                 var_r2_2 |= 0x80;
             }
@@ -10476,14 +10476,14 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
             temp_r0_4 = worldX + 2;
             px = temp_r0_4 + p->unk24;
             py = worldY - p->unk25;
-            var_r2_2 = p->unk27;
+            var_r2_2 = p->layer;
             if (p->qSpeedAirY < Q(3)) {
                 var_r2_2 |= 0x80;
             }
             var_r8 = sub_80517FC(py, px, var_r2_2, +8, &sp09, sub_805203C);
             px = temp_r0_4 + p->unk24;
             py = worldY + p->unk25;
-            var_r2 = p->unk27;
+            var_r2 = p->layer;
             if (p->qSpeedAirY < Q(3)) {
                 var_r2 |= 0x80;
             }
@@ -10493,7 +10493,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
             py = worldY - p->unk25;
             px = (worldX - 2);
             px -= p->unk24;
-            var_r2 = p->unk27;
+            var_r2 = p->layer;
             if (p->qSpeedAirY < Q(3)) {
                 var_r2 |= 0x80;
             }
@@ -10501,7 +10501,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
             py = worldY - p->unk25;
             px = worldX + 2;
             px += p->unk24;
-            var_r2 = p->unk27;
+            var_r2 = p->layer;
             if (p->qSpeedAirY < Q(3)) {
                 var_r2 |= 0x80;
             }
@@ -10512,7 +10512,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
             px = worldX;
             px = (px - 2);
             px -= p->unk24;
-            var_r2 = p->unk27;
+            var_r2 = p->layer;
             if (p->qSpeedAirY < 0) {
                 var_r2 |= 0x80;
             }
@@ -10520,7 +10520,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
             py = worldY + p->unk25;
             px = worldX + 2;
             px += p->unk24;
-            var_r2 = p->unk27;
+            var_r2 = p->layer;
             if (p->qSpeedAirY < 0) {
                 var_r2 |= 0x80;
             }
@@ -10733,7 +10733,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80116A4.inc", s16 sub_80116A4(
 
     spC = p->qWorldX;
     sp10 = p->qWorldY;
-    sp14 = (s32)p->unk27;
+    sp14 = (s32)p->layer;
     switch (arg0) {
         case 0:
             isp10 = I(sp10);
@@ -10854,7 +10854,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8011978.inc", s16 sub_8011978(
 
     spC = p->qWorldX;
     sp10 = p->qWorldY;
-    temp_r1 = p->unk27;
+    temp_r1 = p->layer;
     sp8 = (u16)arg0;
     switch (arg0) {
         case 0:
@@ -10946,22 +10946,22 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8011BFC.inc", s32 sub_8011BFC(
     switch (arg0 >> 6) {
         case 0: {
             s32 p0 = +2 + worldY;
-            return sub_80517FC(p0 + p->unk24, worldX, p->unk27, +8, NULL, sub_805217C);
+            return sub_80517FC(p0 + p->unk24, worldX, p->layer, +8, NULL, sub_805217C);
         } break;
 
         case 2: {
             s32 p0 = -2 + worldY;
-            return sub_80517FC(p0 - p->unk24, worldX, p->unk27, -8, NULL, sub_805217C);
+            return sub_80517FC(p0 - p->unk24, worldX, p->layer, -8, NULL, sub_805217C);
         } break;
 
         case 1: {
             s32 p0 = -2 + worldX;
-            return sub_80517FC(p0 - p->unk24, worldY, p->unk27, -8, NULL, sub_805203C);
+            return sub_80517FC(p0 - p->unk24, worldY, p->layer, -8, NULL, sub_805203C);
         } break;
 
         case 3: {
             s32 p0 = worldX + 2;
-            return sub_80517FC(p0 + p->unk24, worldY, p->unk27, +8, NULL, sub_805203C);
+            return sub_80517FC(p0 + p->unk24, worldY, p->layer, +8, NULL, sub_805203C);
         } break;
         default:
             return 0;
@@ -10997,7 +10997,7 @@ void sub_8011D08(Player *p)
     u8 var_r2_2;
     s32 worldX, worldY;
 
-    temp_r5 = p->unk27;
+    temp_r5 = p->layer;
     worldX = -3 - p->unk24 + I(p->qWorldX);
     worldY = I(p->qWorldY);
     var_r2 = temp_r5;
@@ -11087,7 +11087,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8011E70.inc", void sub_8011E70
     s32 var_r2_m;
     s32 var_r2_n;
 
-    temp_r6 = p->unk27;
+    temp_r6 = p->layer;
     temp_r5 = p->moveState & 0x80000;
     if (temp_r5 != 0) {
         sub_8016E70(p);
@@ -11164,7 +11164,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8011FB8.inc", void sub_8011FB8
     u8 var_r2;
     u32 moveState;
 
-    temp_r0 = p->unk27;
+    temp_r0 = p->layer;
     if (p->moveState & 0x10000) {
         var_r0 = -3 - p->unk24 + I(p->qWorldX);
         var_r1 = I(p->qWorldY);
@@ -11247,7 +11247,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8012118.inc", void sub_8012118
     u8 var_r2;
     u32 moveState;
 
-    temp_r0 = p->unk27;
+    temp_r0 = p->layer;
     if (p->moveState & 0x10000) {
         var_r0 = +3 + p->unk24 + I(p->qWorldX);
         var_r1 = I(p->qWorldY);
@@ -11328,7 +11328,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_801226C.inc", s32 sub_801226C(
     s32 worldX, worldY;
     s32 worldX2, worldY2;
 
-    temp_r5 = p->unk27;
+    temp_r5 = p->layer;
     sp8 = p->qWorldX;
     spC = p->qWorldY;
     sp10 = p->qSpeedAirX;
@@ -11385,7 +11385,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8012368.inc", s32 sub_8012368(
     s32 worldX2, worldY2;
     s32 r2;
 
-    temp_r5 = p->unk27;
+    temp_r5 = p->layer;
     sp8 = p->qWorldX;
     spC = p->qWorldY;
     sp10 = p->qSpeedAirX;
@@ -11480,7 +11480,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_801246C.inc", s32 sub_801246C(
     u8 var_r2;
     u8 var_r2_2;
 
-    unk27 = p->unk27;
+    unk27 = p->layer;
     temp_r0_2 = p->qWorldX;
     sp8 = temp_r0_2;
     temp_r1 = p->qWorldY;
@@ -11538,7 +11538,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8012550.inc", s32 sub_8012550(
     s32 worldX2, worldY2;
     s32 r2;
 
-    temp_r5 = p->unk27;
+    temp_r5 = p->layer;
     sp8 = p->qWorldX;
     spC = p->qWorldY;
     sp10 = p->qSpeedAirX;
@@ -11627,11 +11627,11 @@ void sub_80126B8(Player *p)
 #ifndef NON_MATCHING
     register s32 temp_r0 asm("r0");
     register s32 off asm("r2");
-    register u32 unk27 asm("r5") = p->unk27;
+    register u32 unk27 asm("r5") = p->layer;
 #else
     s32 temp_r0;
     s32 off;
-    u32 unk27 = p->unk27;
+    u32 unk27 = p->layer;
 #endif
 
     worldX = -3 - p->unk24 + I(p->qWorldX);
@@ -11710,11 +11710,11 @@ void sub_8012804(Player *p)
 #ifndef NON_MATCHING
     register s32 temp_r0 asm("r0");
     register s32 off asm("r2");
-    register u32 unk27 asm("r5") = p->unk27;
+    register u32 unk27 asm("r5") = p->layer;
 #else
     s32 temp_r0;
     s32 off;
-    u32 unk27 = p->unk27;
+    u32 unk27 = p->layer;
 #endif
 
     worldX = -3 - p->unk24 + I(p->qWorldX);
@@ -11795,7 +11795,7 @@ void sub_8012930(Player *p)
     s32 res;
 #endif
 
-    pUnk27 = &p->unk27;
+    pUnk27 = &p->layer;
     worldX = -2 - p->unk24 + I(p->qWorldX);
     worldY = I(p->qWorldY);
     unk27 = *pUnk27;
@@ -11877,7 +11877,7 @@ void sub_8012A6C(Player *p)
     s32 res;
 #endif
 
-    pUnk27 = &p->unk27;
+    pUnk27 = &p->layer;
     worldX = I(p->qWorldX) + 2;
     worldX2 = worldX + p->unk24;
     worldY = I(p->qWorldY);
@@ -12496,9 +12496,9 @@ void sub_801350C(Player *p) {
         }
         temp_r3 = p->moveState & 0x10000;
         if (temp_r3 != 0) {
-            var_r0 = sub_80519EC(((s32) p->qWorldY >> 8) - (s8) (u8) p->unk25, (s32) p->qWorldX >> 8, (s32) p->unk27, -8, NULL, sub_805217C);
+            var_r0 = sub_80519EC(((s32) p->qWorldY >> 8) - (s8) (u8) p->unk25, (s32) p->qWorldX >> 8, (s32) p->layer, -8, NULL, sub_805217C);
         } else {
-            var_r0 = sub_80519EC(((s32) p->qWorldY >> 8) + (s8) (u8) p->unk25, (s32) p->qWorldX >> 8, (s32) p->unk27, 8, (void *) temp_r3, sub_805217C);
+            var_r0 = sub_80519EC(((s32) p->qWorldY >> 8) + (s8) (u8) p->unk25, (s32) p->qWorldX >> 8, (s32) p->layer, 8, (void *) temp_r3, sub_805217C);
         }
         if (var_r0 <= 0x20) {
             goto block_27;
@@ -12507,12 +12507,12 @@ void sub_801350C(Player *p) {
         if (p->moveState & 0x10000) {
             var_r0_2 = ((s32) p->qWorldY >> 8) - (s8) (u8) p->unk25;
             var_r1 = (s32) p->qWorldX >> 8;
-            var_r2 = p->unk27;
+            var_r2 = p->layer;
             var_r3 = -8;
         } else {
             var_r0_2 = ((s32) p->qWorldY >> 8) + (s8) (u8) p->unk25;
             var_r1 = (s32) p->qWorldX >> 8;
-            var_r2 = p->unk27;
+            var_r2 = p->layer;
             var_r3 = 8;
         }
         temp_r2_2 = sub_80519EC(var_r0_2, var_r1, (s32) var_r2, var_r3, M2C_ERROR(/* Unable to find stack arg 0x0 in block */), M2C_ERROR(/* Unable to find stack arg 0x4 in block */));
@@ -13263,7 +13263,7 @@ void Player_8014550(Player *p) {
 
     if (((u32) (u8) (gStageData.unk4 - 5) > 1U) && (temp_r0 = &p->framesInvulnerable, ((s32) temp_r0->unk0 <= 0)) && ((s32) temp_r0->unk2 <= 0)) {
         if (p->moveState & 0x20000) {
-            p->unk27 = 1;
+            p->layer = 1;
             Player_StopSong(p, 0x72U);
             p->moveState &= 0xFFFDFFFF;
         }
@@ -14024,7 +14024,7 @@ void sub_8015228(Player *p) {
         return;
     }
     temp_r7 = &p->unk25;
-    temp_r3 = &p->unk27;
+    temp_r3 = &p->layer;
     if (sub_80517FC(temp_r5 + *temp_r7, temp_r0, (s32) *temp_r3, 8, NULL, sub_805217C) <= 8) {
         return;
     }
@@ -14534,7 +14534,7 @@ void sub_8015C90(Player *arg0, s32 arg1) {
         var_r5 = arg0 + 0x2A;
     }
     if (arg0->moveState & 0x20000) {
-        arg0->unk27 = 1;
+        arg0->layer = 1;
         Player_StopSong(arg0, 0x72U);
         arg0->moveState &= 0xFFFDFFFF;
     }
@@ -19908,7 +19908,7 @@ s32 sub_801C884(Player *arg0) {
     u8 var_r1;
 
     if (arg0->moveState & 1) {
-        var_r2 = sub_80517FC((((s32) arg0->qWorldX >> 8) - 2) - (s8) arg0->unk24, (s32) arg0->qWorldY >> 8, (s32) arg0->unk27, -8, &sp8, sub_805203C);
+        var_r2 = sub_80517FC((((s32) arg0->qWorldX >> 8) - 2) - (s8) arg0->unk24, (s32) arg0->qWorldY >> 8, (s32) arg0->layer, -8, &sp8, sub_805203C);
         var_r1 = sp8;
         if (1 & var_r1) {
             var_r1_2 = arg0 + 0x26;
@@ -19917,7 +19917,7 @@ s32 sub_801C884(Player *arg0) {
         }
         goto block_4;
     }
-    var_r2 = sub_80517FC(((s32) arg0->qWorldX >> 8) + 2 + (s8) arg0->unk24, (s32) arg0->qWorldY >> 8, (s32) arg0->unk27, 8, &sp8, sub_805203C);
+    var_r2 = sub_80517FC(((s32) arg0->qWorldX >> 8) + 2 + (s8) arg0->unk24, (s32) arg0->qWorldY >> 8, (s32) arg0->layer, 8, &sp8, sub_805203C);
     var_r1 = sp8;
     if (!(1 & var_r1)) {
 block_4:
@@ -20556,12 +20556,12 @@ void sub_801D3F0(Player *arg0) {
         }
         temp_r3 = arg0->moveState & 0x10000;
         if (temp_r3 != 0) {
-            if (sub_80517FC((((s32) arg0->qWorldY >> 8) - 1) - (s8) (u8) arg0->unk25, (((s32) arg0->qWorldX >> 8) - 1) - (s8) arg0->unk24, (s32) arg0->unk27, -8, NULL, sub_805217C) < 0) {
+            if (sub_80517FC((((s32) arg0->qWorldY >> 8) - 1) - (s8) (u8) arg0->unk25, (((s32) arg0->qWorldX >> 8) - 1) - (s8) arg0->unk24, (s32) arg0->layer, -8, NULL, sub_805217C) < 0) {
                 goto block_14;
             }
             goto block_9;
         }
-        if (sub_80517FC(((s32) arg0->qWorldY >> 8) + 1 + (s8) (u8) arg0->unk25, (((s32) arg0->qWorldX >> 8) - 1) - (s8) arg0->unk24, (s32) arg0->unk27, 8, (void *) temp_r3, sub_805217C) >= 0) {
+        if (sub_80517FC(((s32) arg0->qWorldY >> 8) + 1 + (s8) (u8) arg0->unk25, (((s32) arg0->qWorldX >> 8) - 1) - (s8) arg0->unk24, (s32) arg0->layer, 8, (void *) temp_r3, sub_805217C) >= 0) {
 block_9:
             var_r0 = arg0->qWorldX - (temp_r0 << 8);
             goto block_16;
@@ -20573,7 +20573,7 @@ block_9:
     if (temp_r0_2 == sp8) {
         if (temp_r0_2 != 0) {
             temp_r3_2 = arg0->moveState & 0x10000;
-            if ((temp_r3_2 == 0) && (sub_80517FC(((s32) arg0->qWorldY >> 8) + 1 + (s8) (u8) arg0->unk25, ((s32) arg0->qWorldX >> 8) + 1 + (s8) arg0->unk24, (s32) arg0->unk27, 8, (void *) temp_r3_2, sub_805217C) < 0)) {
+            if ((temp_r3_2 == 0) && (sub_80517FC(((s32) arg0->qWorldY >> 8) + 1 + (s8) (u8) arg0->unk25, ((s32) arg0->qWorldX >> 8) + 1 + (s8) arg0->unk24, (s32) arg0->layer, 8, (void *) temp_r3_2, sub_805217C) < 0)) {
                 goto block_14;
             }
             var_r0 = arg0->qWorldX + (temp_r0_2 << 8);
@@ -23288,7 +23288,7 @@ block_17:
         temp_r6_3 = (s8) subroutine_arg0.unk1;
         temp_r1_3 = var_r5 + temp_r6_3;
         if (temp_r2_4 <= temp_r1_3) {
-            if ((s32) (temp_r2_4 + ((s8) temp_r3_4->unk27 - temp_r4_2)) < temp_r1_3) {
+            if ((s32) (temp_r2_4 + ((s8) temp_r3_4->layer - temp_r4_2)) < temp_r1_3) {
                 if (temp_r2_4 >= temp_r1_3) {
                     goto block_20;
                 }
@@ -23475,7 +23475,7 @@ block_10:
     temp_r1_2 = var_r7 + temp_r0_4;
     spC = (s32) temp_r0_4;
     if (temp_r2_2 <= temp_r1_2) {
-        if ((s32) (temp_r2_2 + ((s8) temp_r3_2->unk27 - temp_r4_2)) < temp_r1_2) {
+        if ((s32) (temp_r2_2 + ((s8) temp_r3_2->layer - temp_r4_2)) < temp_r1_2) {
             if (temp_r2_2 < temp_r1_2) {
                 goto block_52;
             }
@@ -23499,7 +23499,7 @@ block_16:
         var_r5 = (worldX + temp_r5) - (param4->unk2 + temp_r0);
         var_r0 = 0x80000;
     }
-    if ((s32) (sp4 + ((s32) ((s8) *((temp_r0_5 + 2) - 1) + (s8) temp_r1_3->unk27) >> 1)) > var_r7) {
+    if ((s32) (sp4 + ((s32) ((s8) *((temp_r0_5 + 2) - 1) + (s8) temp_r1_3->layer) >> 1)) > var_r7) {
         var_r3 = (sp4 + (sp0 + (temp_r1 >> 0xD))->unk25) - (var_r7 + param4->unk3);
         temp_r1_4 = p->moveState;
         var_r7_2 = temp_r1_4;
@@ -23516,7 +23516,7 @@ block_16:
         }
         goto block_28;
     }
-    var_r3 = (sp4 + (s8) (sp0 + (temp_r1 >> 0xD))->unk27) - (var_r7 + spC);
+    var_r3 = (sp4 + (s8) (sp0 + (temp_r1 >> 0xD))->layer) - (var_r7 + spC);
     temp_r1_5 = p->moveState;
     var_r7_2 = temp_r1_5;
     if (temp_r1_5 & 0x10000) {
@@ -23645,7 +23645,7 @@ block_12:
                 temp_r5 = subroutine_arg0.unk1;
                 temp_r1_2 = (s16) var_r5 + temp_r5;
                 if (temp_r2_3 <= temp_r1_2) {
-                    if ((s32) (temp_r2_3 + ((s8) temp_r3_3->unk27 - temp_r4_3)) < temp_r1_2) {
+                    if ((s32) (temp_r2_3 + ((s8) temp_r3_3->layer - temp_r4_3)) < temp_r1_2) {
                         if (temp_r2_3 >= temp_r1_2) {
                             goto block_15;
                         }
@@ -23713,7 +23713,7 @@ block_7:
                 temp_r5_2 = temp_r0_2->unk2D;
                 temp_r1_2 = ((s32) p->qWorldY >> 8) + temp_r5_2;
                 if (temp_r2_3 <= temp_r1_2) {
-                    if ((s32) (temp_r2_3 + ((s8) temp_r3_2->unk27 - temp_r4_2)) < temp_r1_2) {
+                    if ((s32) (temp_r2_3 + ((s8) temp_r3_2->layer - temp_r4_2)) < temp_r1_2) {
                         if (temp_r2_3 >= temp_r1_2) {
                             goto block_10;
                         }
@@ -23784,7 +23784,7 @@ s32 sub_8020F30(void *arg0, u16 arg1, void *arg2, u16 arg3) {
         subroutine_arg0.unk0 = (u8) temp_r2_4->unk24;
         subroutine_arg0.unk1 = (u8) temp_r2_4->unk25;
         subroutine_arg0.unk2 = (u8) temp_r2_4->unk26;
-        subroutine_arg0.unk3 = (u8) temp_r2_4->unk27;
+        subroutine_arg0.unk3 = (u8) temp_r2_4->layer;
     }
     temp_r0 = (s16) temp_r2;
     if (temp_r0 == 0) {
@@ -23799,7 +23799,7 @@ s32 sub_8020F30(void *arg0, u16 arg1, void *arg2, u16 arg3) {
         sp4.unk0 = (u8) temp_r2_6->unk24;
         sp4.unk1 = (u8) temp_r2_6->unk25;
         sp4.unk2 = (u8) temp_r2_6->unk26;
-        sp4.unk3 = (u8) temp_r2_6->unk27;
+        sp4.unk3 = (u8) temp_r2_6->layer;
     }
     temp_r3_5 = sp4.unk0;
     temp_r2_7 = ((s32) arg0->unk10 >> 8) + temp_r3_5;
@@ -23904,7 +23904,7 @@ s32 sub_80210BC(Player *arg0, u16 arg1, Player *arg2, u16 arg3) {
             subroutine_arg0.unk0 = (u8) temp_r2_4->unk24;
             subroutine_arg0.unk1 = (u8) temp_r2_4->unk25;
             subroutine_arg0.unk2 = (u8) temp_r2_4->unk26;
-            subroutine_arg0.unk3 = (u8) temp_r2_4->unk27;
+            subroutine_arg0.unk3 = (u8) temp_r2_4->layer;
         }
         temp_r0 = (s16) temp_r2;
         if (temp_r0 != 0) {
@@ -23912,7 +23912,7 @@ s32 sub_80210BC(Player *arg0, u16 arg1, Player *arg2, u16 arg3) {
             sp4.unk0 = (u8) temp_r2_5->unk24;
             sp4.unk1 = (u8) temp_r2_5->unk25;
             sp4.unk2 = (u8) temp_r2_5->unk26;
-            sp4.unk3 = (u8) temp_r2_5->unk27;
+            sp4.unk3 = (u8) temp_r2_5->layer;
         } else {
             goto block_11;
         }

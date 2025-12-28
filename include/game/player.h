@@ -146,7 +146,7 @@ struct Player {
     s8 unk24;
     s8 unk25;
     u8 unk26; // maybe a bitfield (upper 2 bits is 1 value)
-    u8 unk27; // SA2: Player.unk38 (layer?)
+    /* 0x27 */ u8 layer;
 
     struct {
         u8 unk28;

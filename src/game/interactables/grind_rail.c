@@ -132,7 +132,7 @@ NONMATCH("asm/non_matching/game/interactables/grind_rail__Task_8039230.inc", voi
                     s32 res;
                     s16 r1;
 
-                    p->unk27 = 0;
+                    p->layer = PLAYER_LAYER_FRONT;
 
                     if ((p->charFlags.anim0 == 231) //
                         || (p->charFlags.anim0 == 232) //
@@ -146,7 +146,7 @@ NONMATCH("asm/non_matching/game/interactables/grind_rail__Task_8039230.inc", voi
                         res = sub_80519EC(I(p->qWorldY) + p->unk25, I(p->qWorldX), 0, +8, &sp08[0], sub_805217C);
                         if (res >= r1) {
                             if (!(p->moveState & MOVESTATE_GRAVITY_SWITCHED)) {
-                                p->unk27 = TRUE;
+                                p->layer = TRUE;
                                 continue;
                             }
                         } else {
@@ -177,7 +177,7 @@ NONMATCH("asm/non_matching/game/interactables/grind_rail__Task_8039230.inc", voi
                         SetPlayerCallback(p, Player_80098D8);
                         return;
                     } else {
-                        p->unk27 = TRUE;
+                        p->layer = PLAYER_LAYER_BACK;
                     }
                 }
             }
@@ -308,7 +308,7 @@ void Task_Interactable073Main(void)
                     SetPlayerCallback(p, Player_800D978);
                 }
 
-                p->unk27 = 1;
+                p->layer = PLAYER_LAYER_BACK;
             }
         }
     }
