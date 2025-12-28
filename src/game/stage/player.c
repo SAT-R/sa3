@@ -11694,178 +11694,250 @@ void sub_80126B8(Player *p)
     }
 }
 
+// NOTE: Fake-match!
+void sub_8012804(Player *p)
+{
+    u8 sp8;
+    u32 spC;
+    u32 *pSpC;
+    s32 var_r0;
+    s32 var_r2_3;
+    s32 var_r2_4;
+    u8 var_r2;
+    s32 worldX, worldY;
+    s32 worldX2, worldY2;
+    s32 worldX3, worldY3;
+#ifndef NON_MATCHING
+    register s32 temp_r0 asm("r0");
+    register s32 off asm("r2");
+    register u32 unk27 asm("r5") = p->unk27;
+#else
+    s32 temp_r0;
+    s32 off;
+    u32 unk27 = p->unk27;
+#endif
+
+    worldX = -3 - p->unk24 + I(p->qWorldX);
+    worldY = I(p->qWorldY);
+
+    var_r2 = unk27;
+    if ((s32)p->qSpeedAirY <= 0x2FF) {
+        var_r2 = 0x80;
+        var_r2 |= unk27;
+    }
+    temp_r0 = sub_80517FC(worldX, worldY, (s32)var_r2, -8, NULL, sub_805203C);
+    off = temp_r0;
+    if (off <= 0) {
+        temp_r0 = Q(off);
+        p->qWorldX -= temp_r0;
+        if ((s32)p->qSpeedAirX < 0) {
+            p->unk148.arr_u8[2] |= 0x40;
+        }
+        p->qSpeedAirX = 0;
+    }
+
+    worldX2 = I(p->qWorldX);
+    worldX2 += 3;
+    worldX3 = worldX2 + p->unk24;
+    worldY3 = I(p->qWorldY);
+
+    var_r2 = unk27;
+    if ((s32)p->qSpeedAirY <= 0x2FF) {
+        var_r2 |= 0x80;
+    }
+    temp_r0 = sub_80517FC(worldX3, worldY3, var_r2, 8, NULL, sub_805203C);
+    off = temp_r0;
+    if (off <= 0) {
+        temp_r0 = Q(off);
+        p->qWorldX += temp_r0;
+        if (p->qSpeedAirX > 0) {
+            p->unk148.arr_u8[2] |= 0x40;
+        }
+        p->qSpeedAirX = 0;
+    }
+    pSpC = &spC;
+
+    if (!(p->moveState & 0x10000)) {
+        var_r0 = sub_8011024(2, p, &sp8, pSpC);
+    } else {
+        var_r0 = sub_8011024(3, p, &sp8, pSpC);
+    }
+    var_r2_4 = var_r0;
+    if (var_r2_4 <= 0) {
+        if (p->moveState & 0x10000) {
+            var_r2_4 = -var_r2_4;
+        }
+        p->qWorldY -= Q(var_r2_4);
+        p->qSpeedAirY = 0;
+    }
+}
+
+// NOTE: Fake-match!
+void sub_8012930(Player *p)
+{
+    u8 sp8;
+    u32 spC;
+    u32 *pSpC, *pSpC2;
+    s32 var_r0;
+    s32 var_r0_2;
+    s32 var_r2_2;
+    s32 var_r2_3;
+    s32 var_r2_4;
+    u8 unk27;
+    u8 *pUnk27;
+    s32 worldX, worldY;
+    u32 mask;
+#ifndef NON_MATCHING
+    register s32 temp_r0 asm("r0");
+    register s32 res asm("r2");
+#else
+    s32 temp_r0;
+    s32 res;
+#endif
+
+    pUnk27 = &p->unk27;
+    worldX = -2 - p->unk24 + I(p->qWorldX);
+    worldY = I(p->qWorldY);
+    unk27 = *pUnk27;
+    if ((s32)p->qSpeedAirY <= 0x2FF) {
+        unk27 |= 0x80;
+    }
+    temp_r0 = sub_80517FC(worldX, worldY, unk27, -8, NULL, sub_805203C);
+    res = temp_r0;
+    if (res <= 0) {
+        temp_r0 = Q(res);
+        p->qWorldX -= temp_r0;
+        if ((s32)p->qSpeedAirX < 0) {
+            p->unk148.arr_u8[2] |= 0x40;
+        }
+        p->qSpeedAirX = 0;
+    }
+
+    mask = p->moveState & 0x10000;
+    pSpC = &spC;
+
+    if (!mask) {
+        var_r0 = sub_8011024(2, p, &sp8, pSpC);
+    } else {
+        var_r0 = sub_8011024(3, p, &sp8, pSpC);
+    }
+    var_r2_2 = var_r0;
+    if (var_r2_2 <= 0) {
+        if (p->moveState & 0x10000) {
+            var_r2_2 = 0 - var_r2_2;
+        }
+        p->qWorldY -= var_r2_2 << 8;
+        if ((s32)p->qSpeedAirY < 0) {
+            p->qSpeedAirY = 0;
+        }
+    } else if ((s32)p->qSpeedAirY >= 0) {
+        pSpC2 = &spC;
+        var_r2_3 = 1;
+        if (p->moveState & 0x10000) {
+            var_r2_3 = 0;
+        }
+        if (var_r2_3 == 0) {
+            var_r0_2 = sub_8011024(2, p, &sp8, pSpC2);
+        } else {
+            var_r0_2 = sub_8011024(3, p, &sp8, pSpC2);
+        }
+        var_r2_4 = var_r0_2;
+        if (var_r2_4 <= 0) {
+            if (p->moveState & 0x10000) {
+                var_r2_4 = 0 - var_r2_4;
+            }
+            p->qWorldY += var_r2_4 << 8;
+            p->unk26 = sp8;
+            p->qSpeedAirY = 0;
+            p->unk148.arr_u8[2] &= 0xFB;
+        }
+    }
+}
+
+void sub_8012A6C(Player *p)
+{
+    u8 sp8;
+    u32 spC;
+    u32 *pSpC, *pSpC2;
+    s32 var_r0;
+    s32 var_r0_2;
+    s32 var_r2_2;
+    s32 var_r2_3;
+    s32 var_r2_4;
+    u8 unk27;
+    u8 *pUnk27;
+    s32 worldX, worldY;
+    s32 worldX2;
+    u32 mask;
+#ifndef NON_MATCHING
+    register s32 temp_r0 asm("r0");
+    register s32 res asm("r2");
+#else
+    s32 temp_r0;
+    s32 res;
+#endif
+
+    pUnk27 = &p->unk27;
+    worldX = I(p->qWorldX) + 2;
+    worldX2 = worldX + p->unk24;
+    worldY = I(p->qWorldY);
+    unk27 = *pUnk27;
+    if (p->qSpeedAirY < Q(3)) {
+        unk27 |= 0x80;
+    }
+    temp_r0 = sub_80517FC(worldX2, worldY, unk27, +8, NULL, sub_805203C);
+    res = temp_r0;
+    if (res <= 0) {
+        temp_r0 = Q(res);
+        p->qWorldX += temp_r0;
+        if (p->qSpeedAirX > 0) {
+            p->unk148.arr_u8[2] |= 0x40;
+        }
+        p->qSpeedAirX = 0;
+    }
+
+    mask = p->moveState & 0x10000;
+    pSpC = &spC;
+
+    if (!mask) {
+        var_r0 = sub_8011024(2, p, &sp8, pSpC);
+    } else {
+        var_r0 = sub_8011024(3, p, &sp8, pSpC);
+    }
+    var_r2_2 = var_r0;
+    if (var_r2_2 <= 0) {
+        if (p->moveState & 0x10000) {
+            var_r2_2 = 0 - var_r2_2;
+        }
+        p->qWorldY -= var_r2_2 << 8;
+        if (p->qSpeedAirY < 0) {
+            p->qSpeedAirY = 0;
+        }
+    } else if (p->qSpeedAirY >= 0) {
+        pSpC2 = &spC;
+        var_r2_3 = 1;
+        if (p->moveState & 0x10000) {
+            var_r2_3 = 0;
+        }
+        if (var_r2_3 == 0) {
+            var_r0_2 = sub_8011024(2, p, &sp8, pSpC2);
+        } else {
+            var_r0_2 = sub_8011024(3, p, &sp8, pSpC2);
+        }
+        var_r2_4 = var_r0_2;
+        if (var_r2_4 <= 0) {
+            if (p->moveState & 0x10000) {
+                var_r2_4 = 0 - var_r2_4;
+            }
+            p->qWorldY += var_r2_4 << 8;
+            p->unk26 = sp8;
+            p->qSpeedAirY = 0;
+            p->unk148.arr_u8[2] &= 0xFB;
+        }
+    }
+}
+
 #if 0
-void sub_8012804(Player *arg0) {
-    u8 sp8;
-    ? spC;
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 var_r0;
-    s32 var_r2_3;
-    u8 temp_r5;
-    u8 var_r2;
-    u8 var_r2_2;
-
-    temp_r5 = arg0->unk27;
-    var_r2 = temp_r5;
-    if ((s32) arg0->qSpeedAirY <= 0x2FF) {
-        var_r2 = 0x80 | temp_r5;
-    }
-    temp_r0 = sub_80517FC((((s32) arg0->qWorldX >> 8) - 3) - (s8) arg0->unk24, (s32) arg0->qWorldY >> 8, (s32) var_r2, -8, NULL, sub_805203C);
-    if (temp_r0 <= 0) {
-        arg0->qWorldX -= temp_r0 << 8;
-        if ((s32) arg0->qSpeedAirX < 0) {
-            arg0->unk14A = (u8) (0x40 | arg0->unk14A);
-        }
-        arg0->qSpeedAirX = 0;
-    }
-    var_r2_2 = temp_r5;
-    if ((s32) arg0->qSpeedAirY <= 0x2FF) {
-        var_r2_2 |= 0x80;
-    }
-    temp_r0_2 = sub_80517FC(((s32) arg0->qWorldX >> 8) + 3 + (s8) arg0->unk24, (s32) arg0->qWorldY >> 8, (s32) var_r2_2, 8, NULL, sub_805203C);
-    if (temp_r0_2 <= 0) {
-        arg0->qWorldX += temp_r0_2 << 8;
-        if ((s32) arg0->qSpeedAirX > 0) {
-            arg0->unk14A = (u8) (0x40 | arg0->unk14A);
-        }
-        arg0->qSpeedAirX = 0;
-    }
-    if (!(arg0->moveState & 0x10000)) {
-        var_r0 = sub_8011024(2U, arg0, &sp8);
-    } else {
-        var_r0 = sub_8011024(3U, arg0, &sp8);
-    }
-    var_r2_3 = var_r0;
-    if (var_r2_3 <= 0) {
-        if (arg0->moveState & 0x10000) {
-            var_r2_3 = 0 - var_r2_3;
-        }
-        arg0->qWorldY -= var_r2_3 << 8;
-        arg0->qSpeedAirY = 0;
-    }
-}
-
-void sub_8012930(Player *arg0) {
-    u8 sp8;
-    u32 spC;
-    s32 temp_r0;
-    s32 var_r0;
-    s32 var_r0_2;
-    s32 var_r2_2;
-    s32 var_r2_3;
-    s32 var_r2_4;
-    u8 var_r2;
-
-    var_r2 = arg0->unk27;
-    if ((s32) arg0->qSpeedAirY <= 0x2FF) {
-        var_r2 |= 0x80;
-    }
-    temp_r0 = sub_80517FC((((s32) arg0->qWorldX >> 8) - 2) - (s8) arg0->unk24, (s32) arg0->qWorldY >> 8, (s32) var_r2, -8, NULL, sub_805203C);
-    if (temp_r0 <= 0) {
-        arg0->qWorldX -= temp_r0 << 8;
-        if ((s32) arg0->qSpeedAirX < 0) {
-            arg0->unk14A = (u8) (0x40 | arg0->unk14A);
-        }
-        arg0->qSpeedAirX = 0;
-    }
-    if (!(arg0->moveState & 0x10000)) {
-        var_r0 = sub_8011024(2U, arg0, &sp8, &spC);
-    } else {
-        var_r0 = sub_8011024(3U, arg0, &sp8, &spC);
-    }
-    var_r2_2 = var_r0;
-    if (var_r2_2 <= 0) {
-        if (arg0->moveState & 0x10000) {
-            var_r2_2 = 0 - var_r2_2;
-        }
-        arg0->qWorldY -= var_r2_2 << 8;
-        if ((s32) arg0->qSpeedAirY < 0) {
-            arg0->qSpeedAirY = 0;
-        }
-    } else if ((s32) arg0->qSpeedAirY >= 0) {
-        var_r2_3 = 1;
-        if (arg0->moveState & 0x10000) {
-            var_r2_3 = 0;
-        }
-        if (var_r2_3 == 0) {
-            var_r0_2 = sub_8011024(2U, arg0, &sp8, &spC);
-        } else {
-            var_r0_2 = sub_8011024(3U, arg0, &sp8, &spC);
-        }
-        var_r2_4 = var_r0_2;
-        if (var_r2_4 <= 0) {
-            if (arg0->moveState & 0x10000) {
-                var_r2_4 = 0 - var_r2_4;
-            }
-            arg0->qWorldY += var_r2_4 << 8;
-            arg0->unk26 = sp8;
-            arg0->qSpeedAirY = 0;
-            arg0->unk14A = (u8) (0xFB & arg0->unk14A);
-        }
-    }
-}
-
-void sub_8012A6C(Player *arg0) {
-    u8 sp8;
-    u32 spC;
-    s32 temp_r0;
-    s32 var_r0;
-    s32 var_r0_2;
-    s32 var_r2_2;
-    s32 var_r2_3;
-    s32 var_r2_4;
-    u8 var_r2;
-
-    var_r2 = arg0->unk27;
-    if ((s32) arg0->qSpeedAirY <= 0x2FF) {
-        var_r2 |= 0x80;
-    }
-    temp_r0 = sub_80517FC(((s32) arg0->qWorldX >> 8) + 2 + (s8) arg0->unk24, (s32) arg0->qWorldY >> 8, (s32) var_r2, 8, NULL, sub_805203C);
-    if (temp_r0 <= 0) {
-        arg0->qWorldX += temp_r0 << 8;
-        if ((s32) arg0->qSpeedAirX > 0) {
-            arg0->unk14A = (u8) (0x40 | arg0->unk14A);
-        }
-        arg0->qSpeedAirX = 0;
-    }
-    if (!(arg0->moveState & 0x10000)) {
-        var_r0 = sub_8011024(2U, arg0, &sp8, &spC);
-    } else {
-        var_r0 = sub_8011024(3U, arg0, &sp8, &spC);
-    }
-    var_r2_2 = var_r0;
-    if (var_r2_2 <= 0) {
-        if (arg0->moveState & 0x10000) {
-            var_r2_2 = 0 - var_r2_2;
-        }
-        arg0->qWorldY -= var_r2_2 << 8;
-        if ((s32) arg0->qSpeedAirY < 0) {
-            arg0->qSpeedAirY = 0;
-        }
-    } else if ((s32) arg0->qSpeedAirY >= 0) {
-        var_r2_3 = 1;
-        if (arg0->moveState & 0x10000) {
-            var_r2_3 = 0;
-        }
-        if (var_r2_3 == 0) {
-            var_r0_2 = sub_8011024(2U, arg0, &sp8, &spC);
-        } else {
-            var_r0_2 = sub_8011024(3U, arg0, &sp8, &spC);
-        }
-        var_r2_4 = var_r0_2;
-        if (var_r2_4 <= 0) {
-            if (arg0->moveState & 0x10000) {
-                var_r2_4 = 0 - var_r2_4;
-            }
-            arg0->qWorldY += var_r2_4 << 8;
-            arg0->unk26 = sp8;
-            arg0->qSpeedAirY = 0;
-            arg0->unk14A = (u8) (0xFB & arg0->unk14A);
-        }
-    }
-}
-
 void sub_8012BA4(Player *arg0) {
     s32 var_r3;
     u32 temp_r1;
