@@ -11429,8 +11429,44 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8012368.inc", s32 sub_8012368(
 }
 END_NONMATCH
 
-#if 0
-s32 sub_801246C(Player *arg0) {
+// NOTE: There has GOT to be a way to make inlines work!
+//       I cannot explain not being able to match all these functions, otherwise...
+static inline void test(Player *p, s32 qSpeedCap, u8 unk27, bool32 negative)
+{
+    s32 worldX;
+    s32 worldY;
+    s32 res;
+    s32 delta;
+    u8 mask;
+
+    if (negative) {
+        worldX = -3 - p->unk25 + I(p->qWorldX);
+        worldY = I(p->qWorldY);
+    } else {
+        worldX = +I(p->qWorldY);
+        worldX += +3 + p->unk25;
+        worldY = I(p->qWorldX);
+    }
+
+    mask = unk27;
+    if (p->qSpeedAirY <= qSpeedCap - 1) {
+        mask |= 0x80;
+    }
+
+    if (negative) {
+        delta = -8;
+    } else {
+        delta = +8;
+    }
+    res = sub_80517FC(worldX, worldY, mask, delta, NULL, sub_805217C);
+    if (res <= 0) {
+        p->qWorldY -= Q(res);
+    }
+}
+
+// (77.20%) https://decomp.me/scratch/ldMnN
+NONMATCH("asm/non_matching/game/stage/player__sub_801246C.inc", s32 sub_801246C(Player *p))
+{
     s32 sp8;
     s32 spC;
     s32 sp10;
@@ -11440,43 +11476,51 @@ s32 sub_801246C(Player *arg0) {
     s32 temp_r0_3;
     s32 temp_r0_4;
     s32 temp_r1;
-    s8 *temp_r2;
-    u8 temp_r5;
+    u8 unk27;
     u8 var_r2;
     u8 var_r2_2;
 
-    temp_r5 = arg0->unk27;
-    temp_r0_2 = arg0->qWorldX;
+    unk27 = p->unk27;
+    temp_r0_2 = p->qWorldX;
     sp8 = temp_r0_2;
-    temp_r1 = arg0->qWorldY;
+    temp_r1 = p->qWorldY;
     spC = temp_r1;
-    sp10 = (s32) arg0->qSpeedAirX;
-    sp14 = (s32) arg0->qSpeedAirY;
-    temp_r2 = &arg0->unk25;
-    var_r2 = temp_r5;
-    if ((s32) arg0->qSpeedAirY <= 0x2FF) {
-        var_r2 = 0x80 | temp_r5;
+    sp10 = (s32)p->qSpeedAirX;
+    sp14 = (s32)p->qSpeedAirY;
+
+#if 01
+    test(p, Q(3), unk27, TRUE);
+    test(p, Q(0), unk27, FALSE);
+#else
+    var_r2 = unk27;
+    if ((s32)p->qSpeedAirY < Q(3)) {
+        var_r2 = 0x80 | unk27;
     }
-    temp_r0_3 = sub_80517FC(((temp_r1 >> 8) - 3) - *temp_r2, temp_r0_2 >> 8, (s32) var_r2, -8, NULL, sub_805217C);
+    temp_r0_3 = sub_80517FC(((temp_r1 >> 8) - 3) - p->unk25, temp_r0_2 >> 8, var_r2, -8, NULL, sub_805217C);
     if (temp_r0_3 <= 0) {
-        arg0->qWorldY -= temp_r0_3 << 8;
+        p->qWorldY -= temp_r0_3 << 8;
     }
-    var_r2_2 = temp_r5;
-    if ((s32) arg0->qSpeedAirY < 0) {
+
+    var_r2_2 = unk27;
+    if ((s32)p->qSpeedAirY < 0) {
         var_r2_2 |= 0x80;
     }
-    temp_r0_4 = sub_80517FC(((s32) arg0->qWorldY >> 8) + 3 + *temp_r2, (s32) arg0->qWorldX >> 8, (s32) var_r2_2, 8, NULL, sub_805217C);
+    temp_r0_4 = sub_80517FC(((s32)p->qWorldY >> 8) + 3 + p->unk25, (s32)p->qWorldX >> 8, (s32)var_r2_2, 8, NULL, sub_805217C);
     if (temp_r0_4 <= 0) {
-        arg0->qWorldY += temp_r0_4 << 8;
+        p->qWorldY += temp_r0_4 << 8;
     }
-    temp_r0 = sub_8011024(0U, arg0, NULL, NULL);
-    arg0->qWorldX = sp8;
-    arg0->qWorldY = spC;
-    arg0->qSpeedAirX = (s16) subroutine_arg0.unk10;
-    arg0->qSpeedAirY = (s16) subroutine_arg0.unk14;
+#endif
+
+    temp_r0 = sub_8011024(0, p, NULL, NULL);
+    p->qWorldX = sp8;
+    p->qWorldY = spC;
+    p->qSpeedAirX = sp10;
+    p->qSpeedAirY = sp14;
     return temp_r0;
 }
+END_NONMATCH
 
+#if 0
 s32 sub_8012550(Player *arg0) {
     s32 sp8;
     s32 spC;
