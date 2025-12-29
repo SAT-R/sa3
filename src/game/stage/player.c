@@ -13244,74 +13244,98 @@ void Player_8014550(Player *p)
     }
 }
 
-#if 0
-void sub_8014670(Player *p) {
-    s16 *temp_r1;
-    s16 *temp_r1_2;
-    s16 *temp_r1_5;
-    s16 temp_r0;
-    u16 *temp_r1_3;
-    u16 *temp_r1_4;
-    u16 *temp_r2_2;
-    u8 *temp_r2;
-
+void sub_8014670(Player *p)
+{
     if (gStageData.unk4 == 3) {
         if (p->charFlags.anim0 != 0x66) {
-            temp_r1 = &p->framesInvulnerable;
-            if ((s32) *temp_r1 > 0) {
-                *temp_r1 = (u16) *temp_r1 - 1;
+            if (p->framesInvulnerable > 0) {
+                p->framesInvulnerable--;
             }
         }
-        temp_r1_2 = &p->framesInvincible;
-        if ((s32) *temp_r1_2 > 0) {
-            temp_r0 = (u16) *temp_r1_2 - 1;
-            *temp_r1_2 = temp_r0;
-            if ((temp_r0 << 0x10) == 0) {
-                temp_r2 = &p->unk13C;
-                *temp_r2 &= 0xBF;
+
+        if (p->framesInvincible > 0) {
+            if (--p->framesInvincible == 0) {
+                p->unk13C &= 0xBF;
             }
         }
-        temp_r1_3 = &p->unk5E;
-        if ((s32) (s16) *temp_r1_3 > 0) {
-            *temp_r1_3 -= 1;
+
+        if (p->unk5E > 0) {
+            p->unk5E--;
         }
-        temp_r1_4 = &p->unk60;
-        if ((s32) (s16) *temp_r1_4 > 0) {
-            *temp_r1_4 -= 1;
+
+        if (p->unk60 > 0) {
+            p->unk60--;
         }
-        temp_r1_5 = &p->unk62;
-        if ((s32) *temp_r1_5 > 0) {
-            *temp_r1_5 = (u16) *temp_r1_5 - 1;
+
+        if (p->unk62 > 0) {
+            p->unk62--;
         }
-        temp_r2_2 = &p->unk66;
-        if ((s32) (s16) *temp_r2_2 > 0) {
-            *temp_r2_2 -= 1;
+
+        if (p->unk66 > 0) {
+            p->unk66--;
         }
     }
 }
 
-void sub_8014710(Player *arg0) {
+// NOTE: Same link as Player_801479C
+// (87.52%) https://decomp.me/scratch/gwcRp
+NONMATCH("asm/non_matching/game/stage/player__sub_8014710.inc", void sub_8014710(Player *arg0))
+{
     u8 temp_r0;
 
-    if (((0x1C & arg0->unk2B) == 4) && (gStageData.unk4 == 3) && !(arg0->unkC & 0x40000) && !(arg0->moveState & 0x100)) {
-        if (((s8) arg0->unk57 == 0) || (temp_r0 = arg0->unk57 - 1, arg0->unk57 = temp_r0, ((temp_r0 << 0x18) == 0))) {
-            if ((s8) arg0->unk56 == 0) {
-                goto block_10;
+    if (arg0->charFlags.someIndex == 1) {
+        bool32 var_r5 = FALSE;
+
+        if ((gStageData.unk4 == 3) && !(arg0->unkC & 0x40000) && !(arg0->moveState & MOVESTATE_100)) {
+            if ((arg0->unk57 == 0) || (--arg0->unk57 == 0)) {
+                if (arg0->unk56 == 0) {
+                    var_r5 = TRUE;
+                    asm("");
+                } else {
+                    arg0->unk56 -= 1;
+                    arg0->unk57 = 0x78;
+                    sub_801782C(arg0, arg0->unk56);
+                }
             }
-            arg0->unk56 -= 1;
-            arg0->unk57 = 0x78;
-            sub_801782C(arg0, (s8) arg0->unk56);
-            goto block_9;
-        }
-block_9:
-        if (0 != 0) {
-block_10:
-            Player_PlaySong(arg0, 0x9DU);
-            Player_HitWithoutRings(arg0);
+
+            if (var_r5) {
+                Player_PlaySong(arg0, SE_157);
+                Player_HitWithoutRings(arg0);
+            }
         }
     }
 }
+END_NONMATCH
 
+// NOTE: Same link as sub_8014710
+// (87.52%) https://decomp.me/scratch/gwcRp
+NONMATCH("asm/non_matching/game/stage/player__Player_801479C.inc", void Player_801479C(Player *p))
+{
+    u8 *pUnk26;
+    u8 unk26;
+    s32 unk88;
+    u8 temp_r3_2;
+    s32 *pUnk88 = &p->unk88;
+    s32 qSpeed;
+
+    if (p->qSpeedGround > p->unk88) {
+        p->qSpeedGround = +p->unk88;
+    } else if (p->qSpeedGround < p->unk88) {
+        p->qSpeedGround = -p->unk88;
+    }
+
+    qSpeed = p->qSpeedGround;
+    pUnk26 = &p->unk26;
+
+    p->qSpeedAirX = Q_MUL(COS_24_8((unk26 = *pUnk26) * 4), qSpeed);
+    if (!(p->moveState & MOVESTATE_IN_AIR)) {
+        p->qSpeedAirY = 0;
+    }
+    p->qSpeedAirY += Q_MUL(SIN_24_8(unk26 * 4), qSpeed);
+}
+END_NONMATCH
+
+#if 0
 void Player_801479C(Player *p) {
     s16 temp_r1;
     s16 temp_r3;
@@ -15745,7 +15769,7 @@ block_42:
     }
 }
 
-void sub_801782C(Player *arg0, u16 arg1) {
+void sub_801782C(Player *arg0, s16 arg1) {
     s32 sp4;
     s16 temp_r1;
     s32 temp_r4;

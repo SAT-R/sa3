@@ -215,15 +215,15 @@ struct Player {
     /* 0x54 */ s16 unk54;
 
     s8 unk56;
-    u8 unk57;
+    s8 unk57;
     u8 unk58;
     u8 unk59;
     u8 unk5A;
     u8 unk5B;
     u8 unk5C;
     u8 unk5D;
-    u16 unk5E;
-    u16 unk60;
+    s16 unk5E;
+    s16 unk60;
     s16 unk62;
     u16 unk64;
     s16 unk66;
