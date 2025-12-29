@@ -13185,48 +13185,26 @@ void sub_80143E0(Player *p)
     }
 }
 
-#if 0
-void sub_80144B4(Player *arg0) {
-    s16 var_r3;
-    s32 var_r0_2;
-    s32 var_r1;
-    s8 *var_r2;
-    s8 var_r0;
+void sub_80144B4(Player *p)
+{
+    s32 qSpeedGround = ABS(p->qSpeedGround);
 
-    var_r3 = arg0->qSpeedGround;
-    if ((s32) var_r3 < 0) {
-        var_r3 = 0 - var_r3;
-    }
-    if ((s32) var_r3 <= 0x140) {
-        var_r2 = arg0 + 0x2E;
-        var_r0 = -0x10 & arg0->unk2E;
+    if (qSpeedGround <= Q(1.25)) {
+        p->charFlags.state0_subCount = 0;
+    } else if (qSpeedGround <= Q(2.5)) {
+        p->charFlags.state0_subCount = 1;
+    } else if (qSpeedGround <= Q(4)) {
+        p->charFlags.state0_subCount = 2;
+    } else if ((qSpeedGround <= Q(7)) || (p->moveState & MOVESTATE_800000)) {
+        p->charFlags.state0_subCount = 3;
+    } else if (qSpeedGround <= Q(9)) {
+        p->charFlags.state0_subCount = 4;
     } else {
-        if ((s32) var_r3 <= 0x280) {
-            var_r2 = arg0 + 0x2E;
-            var_r0_2 = -0x10 & arg0->unk2E;
-            var_r1 = 1;
-        } else if ((s32) var_r3 <= 0x400) {
-            var_r2 = arg0 + 0x2E;
-            var_r0_2 = -0x10 & arg0->unk2E;
-            var_r1 = 2;
-        } else if (((s32) var_r3 <= 0x700) || (arg0->moveState & 0x800000)) {
-            var_r2 = arg0 + 0x2E;
-            var_r0_2 = -0x10 & arg0->unk2E;
-            var_r1 = 3;
-        } else if ((s32) var_r3 <= 0x900) {
-            var_r2 = arg0 + 0x2E;
-            var_r0_2 = -0x10 & arg0->unk2E;
-            var_r1 = 4;
-        } else {
-            var_r2 = arg0 + 0x2E;
-            var_r0_2 = -0x10 & arg0->unk2E;
-            var_r1 = 5;
-        }
-        var_r0 = var_r0_2 | var_r1;
+        p->charFlags.state0_subCount = 5;
     }
-    *var_r2 = var_r0;
 }
 
+#if 0
 void Player_8014550(Player *p) {
     s16 *temp_r0;
     s32 temp_r3;
