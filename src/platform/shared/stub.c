@@ -48,8 +48,6 @@ void sub_8003F40() { }
 void sub_8003F8C() { }
 void sub_8003FC8() { }
 void Stop() { }
-void sub_8012550() { }
-void Player_8012FE0(Player *p) { }
 void Player_8014550(Player *p) { }
 void Player_801479C(Player *p) { }
 void Player_80149E4(Player *p) { }
@@ -67,6 +65,7 @@ bool32 sub_8020CE0(Sprite *s, s32 worldX, s32 worldY, u16 param3, Player *p) { r
 void sub_8020E3C() { }
 void /* 0x080213B0 */ ResolvePlayerSpriteCollision() { }
 void sub_80213F0(Player *p) { }
+
 void /* 0x080213FC */ UpdateScreenFade() { }
 void /* 0x080214F0 */ ScreenFadeUpdateValues() { }
 void sub_80236C8() { }

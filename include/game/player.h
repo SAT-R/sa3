@@ -163,12 +163,14 @@ struct Player {
         u8 unk2C_01 : 1; // 0x2C
         u8 unk2C_02 : 1; // 0x2C
         u8 unk2C_04 : 1;
-        u8 unk2C_padding_08 : 3;
+        u8 unk2C_08 : 1;
+        u8 unk2C_10 : 1;
+        u8 unk2C_20 : 1;
         u8 unk2C_40 : 1; // 0x2C
         u8 unk2C_80 : 1; // 0x2C
 
-        u8 unk2D_0 : 4; // 0x2D
-        u8 unk2D_padding : 4; // 0x2D
+        /* 0x2D */ u8 unk2D_0 : 4;
+        /* 0x2D */ u8 boostSpeedIndex : 4; // TODO: Name is speculative
 
         // StateNum state0;    // 0x2E-0x2F
         u8 state0_subCount : 4;

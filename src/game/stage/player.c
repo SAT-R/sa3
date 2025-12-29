@@ -13065,56 +13065,45 @@ void sub_80141EC(Player *p, u8 param1, u8 param2)
     }
 }
 
-#if 0
-void sub_8014230(Player *arg0, void *arg1) {
-    s16 temp_r0;
-    s32 var_r0;
+void sub_8014230(Player *p, Sprite2 *s)
+{
+    s32 speed;
 
-    temp_r0 = arg0->qSpeedGround;
-    var_r0 = (temp_r0 >> 5) + (temp_r0 >> 6);
-    if (var_r0 < 0) {
-        var_r0 = 0 - var_r0;
-    }
-    if (var_r0 > 7) {
-        if (var_r0 > 0x80) {
-            var_r0 = 0x80;
+    speed = p->qSpeedGround;
+    speed = (speed >> 5) + (speed >> 6);
+    speed = ABS(speed);
+    if (speed > 7) {
+        if (speed > SPRITE_ANIM_SPEED(8)) {
+            speed = SPRITE_ANIM_SPEED(8);
         }
     } else {
-        var_r0 = 8;
+        speed = 8;
     }
-    arg1->unk1C = (s8) var_r0;
+    s->animSpeed = speed;
 }
 
-void sub_8014258(Player *arg0) {
-    s8 *var_r2;
-    s8 var_r0;
-    u16 temp_r3;
+void sub_8014258(Player *p)
+{
+    u16 rings = gStageData.rings;
 
-    temp_r3 = gStageData.rings;
-    if (arg0->unkC & 1) {
-        if ((u32) temp_r3 > 0x95U) {
-            var_r2 = arg0 + 0x2D;
-            var_r0 = (0xF & arg0->unk2D) | 0x40;
-        } else if ((u32) temp_r3 > 0x63U) {
-            var_r2 = arg0 + 0x2D;
-            var_r0 = (0xF & arg0->unk2D) | 0x30;
-        } else if ((u32) temp_r3 > 0x31U) {
-            var_r2 = arg0 + 0x2D;
-            var_r0 = (0xF & arg0->unk2D) | 0x20;
-        } else if ((u32) temp_r3 > 0xAU) {
-            var_r2 = arg0 + 0x2D;
-            var_r0 = (0xF & arg0->unk2D) | 0x10;
+    if (p->unkC & 1) {
+        if (rings > 149) {
+            p->charFlags.boostSpeedIndex = 4;
+        } else if (rings > 99) {
+            p->charFlags.boostSpeedIndex = 3;
+        } else if (rings > 49) {
+            p->charFlags.boostSpeedIndex = 2;
+        } else if (rings > 10) {
+            p->charFlags.boostSpeedIndex = 1;
         } else {
-            goto block_9;
+            p->charFlags.boostSpeedIndex = 0;
         }
     } else {
-block_9:
-        var_r2 = arg0 + 0x2D;
-        var_r0 = 0xF & arg0->unk2D;
+        p->charFlags.boostSpeedIndex = 0;
     }
-    *var_r2 = var_r0;
 }
 
+#if 0
 void sub_80142CC(Player *arg0) {
     s32 *temp_r1;
     s32 *temp_r4;
