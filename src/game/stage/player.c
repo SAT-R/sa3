@@ -13204,56 +13204,47 @@ void sub_80144B4(Player *p)
     }
 }
 
-#if 0
-void Player_8014550(Player *p) {
-    s16 *temp_r0;
-    s32 temp_r3;
-    u16 temp_r1;
-    u16 temp_r6;
-    u8 *temp_r5;
-    u8 temp_r2;
+void Player_8014550(Player *p)
+{
+    u16 rings;
 
-    if (((u32) (u8) (gStageData.unk4 - 5) > 1U) && (temp_r0 = &p->framesInvulnerable, ((s32) temp_r0->unk0 <= 0)) && ((s32) temp_r0->unk2 <= 0)) {
-        if (p->moveState & 0x20000) {
+    if (!(gStageData.unk4 == 5 || gStageData.unk4 == 6) && ((p->framesInvulnerable <= 0)) && (p->framesInvincible <= 0)) {
+        if (p->moveState & MOVESTATE_20000) {
             p->layer = PLAYER_LAYER_BACK;
-            Player_StopSong(p, 0x72U);
-            p->moveState &= 0xFFFDFFFF;
+            Player_StopSong(p, SE_GRINDING);
+            p->moveState &= ~MOVESTATE_20000;
         }
+
         p->qCamOffsetY = 0;
+
         if (gStageData.gameMode != 7) {
             Player_BoostModeDisengage(p);
-            temp_r3 = 0x1C & p->unk2B;
-            if ((temp_r3 != 8) && ((u32) (u8) (gStageData.act - 1) > 1U) && (gStageData.act != 8) && (gStageData.act != 9)) {
-                temp_r5 = &p->unk13C;
-                temp_r2 = *temp_r5;
-                temp_r1 = 0x30 & temp_r2;
-                if (temp_r1 != 0) {
-                    *temp_r5 = 0xCF & temp_r2;
-                    goto block_18;
-                }
-                if (gStageData.rings == 0) {
+            if ((p->charFlags.someIndex != 2) && (gStageData.act != ACT_SPECIAL && gStageData.act != ACT_OVERWORLD)
+                && (gStageData.act != ACT_BONUS_CAPSULE) && (gStageData.act != ACT_BONUS_ENEMIES)) {
+                if (0x30 & p->unk13C) {
+                    p->unk13C &= 0xCF;
+                } else if (gStageData.rings == 0) {
                     Player_HitWithoutRingsUpdate(p);
                     return;
-                }
-                if (temp_r3 == 4) {
-                    temp_r6 = gStageData.rings;
-                    gStageData.rings = temp_r1;
-                    sub_802AE64(p, (s16) temp_r6);
-                    if (((u32) gStageData.gameMode > 4U) && ((0x1C & p->unk2B) == 4)) {
-                        sub_80274AC(temp_r6, gStageData.rings);
+                } else if (p->charFlags.someIndex == 1) {
+                    rings = gStageData.rings;
+                    gStageData.rings = 0;
+                    sub_802AE64(p, rings);
+                    if ((gStageData.gameMode > 4) && (p->charFlags.someIndex == 1)) {
+                        sub_80274AC(rings, gStageData.rings);
                     }
                 }
-                goto block_18;
             }
         }
-block_18:
-        p->moveState &= ~0x20;
+
+        p->moveState &= ~MOVESTATE_COLLIDING_ENT;
         p->sprColliding = NULL;
         SetPlayerCallback(p, Player_8008CD0);
-        temp_r0->unk0 = 0x78;
+        p->framesInvulnerable = 120;
     }
 }
 
+#if 0
 void sub_8014670(Player *p) {
     s16 *temp_r1;
     s16 *temp_r1_2;

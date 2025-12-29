@@ -378,6 +378,8 @@ extern void sub_801D978(Player *p);
 extern void Player_801DF18(Player *p);
 extern void sub_801E7BC(Player *);
 extern void sub_80203D4(Player *p);
+extern void sub_80274AC(u16, u16);
+extern void sub_802AE64(Player *, s16);
 
 extern u16 gMedalTimes[][2];
 extern u16 gUnknown_080CE5CA[10];
