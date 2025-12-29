@@ -3635,7 +3635,7 @@ void Player_800891C(Player *p)
         sub_8016F28(p);
         p->charFlags.anim0 = 11;
         p->spriteInfoBody->s.frameFlags &= ~0x4000;
-        p->unk78 = 0;
+        p->unk78[0] = 0;
 
         p->callback = Player_80089CC;
         Player_80089CC(p);
@@ -3668,8 +3668,8 @@ void Player_80089CC(Player *p)
                 sub_8016D30(p);
                 sub_8014E70(p);
 
-                if (p->unk78 != 0) {
-                    p->unk78 -= 1;
+                if (p->unk78[0] != 0) {
+                    p->unk78[0] -= 1;
                 } else if (sub_801480C(p)) {
                     return;
                 }
@@ -12904,6 +12904,88 @@ void sub_8013D70(s32 levelIndex, s32 arg1)
     } else {
         p->spriteInfoLimbs = NULL;
     }
+}
+
+void sub_8013F4C(Player *p)
+{
+    s32 temp_r0_12;
+    s32 var_r2;
+    s8 *temp_r4;
+    s32 *var_r1_2;
+    void (*var_r1)(Player *);
+    void *temp_r1;
+    void *temp_r1_2;
+    void *temp_r1_3;
+    void *temp_r1_5;
+
+    p->qWorldX = gStageData.respawnX << 8;
+    p->qWorldY = gStageData.respawnY << 8;
+    if ((gStageData.gameMode != 7) && (gStageData.zone == 8)) {
+        if (p == gPlayers) {
+            var_r1 = sub_800F22C;
+        } else {
+            var_r1 = sub_800F7C0;
+        }
+        p->callback = var_r1;
+    } else {
+        p->callback = Player_800522C;
+    }
+    p->qSpeedAirX = 0;
+    p->qSpeedAirY = 0;
+    p->moveState = 0x08000000;
+    if (((gStageData.currMapIndex == 0xB) && (gStageData.entryIndex == 0))
+        || ((gStageData.currMapIndex == 1) && (gStageData.entryIndex == 1))) {
+        p->moveState |= 1;
+    }
+    temp_r1 = p + 0x24;
+    p->spriteOffsetX = 6;
+    p->spriteOffsetY = 0xE;
+    p->layer = PLAYER_LAYER_BACK;
+    p->unk88 = Q(9.5);
+    p->unk8C = Q(7.5);
+    p->unk90 = 8;
+    p->unk94 = 0x40;
+    p->charFlags.anim0 = 0;
+    p->charFlags.anim1 = -1;
+    p->charFlags.anim2 = -1;
+    p->charFlags.state1 = -1;
+    p->unk40 = 0;
+    p->unk42 = 0;
+    p->unk44 = 0;
+    p->Spindash_Velocity = 0;
+    p->unk48 = 0;
+    p->framesInvulnerable = 0;
+    p->framesInvincible = 0;
+    p->unk4E = 0;
+    p->idleAndCamCounter = 360;
+    p->unk54 = 0;
+    p->unk58 = 0x3C;
+    p->unk59 = 0xA;
+    p->unk56 = 0xE;
+    p->unk57 = 0x3C;
+    p->boostEffectCounter = 0;
+    p->unk5E = 0;
+    p->unk5A = 0;
+    p->unk5B = 0;
+    p->unk5C = 0;
+    p->unkA0 = 0x100;
+    p->unkA2 = 0x100;
+
+    if (gStageData.gameMode != 7) {
+        sub_8014258(p);
+    }
+
+#ifndef NON_MATCHING
+    var_r1_2 = (s32 *)&p->unk78[0];
+    var_r2 = sizeof(p->unk78) / sizeof(*var_r1_2);
+    while (var_r2-- != 0) {
+        *var_r1_2 = 0;
+        var_r1_2++;
+    }
+#else
+    memset(p->unk78, 0, sizeof(p->unk78));
+#endif
+    p->unk78[0] = 0x7F;
 }
 
 #if 0
