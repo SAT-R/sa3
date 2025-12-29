@@ -170,7 +170,7 @@ struct Player {
         u8 unk2C_80 : 1; // 0x2C
 
         /* 0x2D */ u8 unk2D_0 : 4;
-        /* 0x2D */ u8 boostSpeedIndex : 4; // TODO: Name is speculative
+        /* 0x2D */ u8 ringSpeedFactor : 4; // The more rings to have, the faster you accelerate.
 
         // StateNum state0;    // 0x2E-0x2F
         u8 state0_subCount : 4;
@@ -207,7 +207,7 @@ struct Player {
     */
     s16 unk4E;
 
-    u16 boostEffectCounter; // 0x50
+    s16 boostEffectCounter; // 0x50
 
     s16 idleAndCamCounter; // 0x52 | counter until idle-animation
                            // or camera-movement when looking up/down (starts at 0x28)

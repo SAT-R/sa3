@@ -15,6 +15,16 @@
 #include "constants/songs.h"
 #include "constants/zones.h"
 
+typedef enum ERingSpeedFactor {
+    RSF_0,
+    RSF_1,
+    RSF_2,
+    RSF_3,
+    RSF_4,
+
+    RSF_COUNT
+} ERingSpeedFactor;
+
 void sub_8003D2C(void);
 void Task_80045EC(void); // -> PlayerUnkC4
 void sub_8004B14();
@@ -87,7 +97,8 @@ extern s16 gUnknown_080CE63C[4];
 extern s32 gUnknown_080CE644[25];
 extern s16 gUnknown_080CE6A8[4][2];
 extern u16 gUnknown_080CE7E2[][2];
-extern s16 gUnknown_080CECB2[][2];
+extern s16 gUnknown_080CECB2[RSF_COUNT][2];
+extern s16 gUnknown_080CECC6[RSF_COUNT];
 extern u16 gUnknown_080D05A8[][2];
 extern Vec2_16 *gUnknown_080D1750[];
 
@@ -13089,24 +13100,24 @@ void sub_8014258(Player *p)
 
     if (p->unkC & 1) {
         if (rings > 149) {
-            p->charFlags.boostSpeedIndex = 4;
+            p->charFlags.ringSpeedFactor = RSF_4;
         } else if (rings > 99) {
-            p->charFlags.boostSpeedIndex = 3;
+            p->charFlags.ringSpeedFactor = RSF_3;
         } else if (rings > 49) {
-            p->charFlags.boostSpeedIndex = 2;
+            p->charFlags.ringSpeedFactor = RSF_2;
         } else if (rings > 10) {
-            p->charFlags.boostSpeedIndex = 1;
+            p->charFlags.ringSpeedFactor = RSF_1;
         } else {
-            p->charFlags.boostSpeedIndex = 0;
+            p->charFlags.ringSpeedFactor = RSF_0;
         }
     } else {
-        p->charFlags.boostSpeedIndex = 0;
+        p->charFlags.ringSpeedFactor = 0;
     }
 }
 
 void sub_80142CC(Player *arg0)
 {
-    u8 boostSpeedIndex = arg0->charFlags.boostSpeedIndex;
+    u8 ringSpeedFactor = arg0->charFlags.ringSpeedFactor;
 
     if (gStageData.gameMode != 7) {
         if ((arg0->charFlags.boostIsActive) && (arg0->unkC & 1) && !(0x800000 & arg0->moveState)) {
@@ -13120,8 +13131,8 @@ void sub_80142CC(Player *arg0)
             arg0->unk88 = Q(9.5);
         }
 
-        arg0->unk90 = gUnknown_080CECB2[boostSpeedIndex][0];
-        arg0->unk94 = gUnknown_080CECB2[boostSpeedIndex][1];
+        arg0->unk90 = gUnknown_080CECB2[ringSpeedFactor][0];
+        arg0->unk94 = gUnknown_080CECB2[ringSpeedFactor][1];
 
         if ((s16)arg0->unk5E != 0) {
             arg0->unk90 *= 2;
@@ -13142,48 +13153,39 @@ void sub_80142CC(Player *arg0)
     }
 }
 
-#if 0
-void sub_80143E0(Player *arg0) {
-    s16 var_r1;
-    s16 var_r1_2;
-    u8 temp_r2;
+void sub_80143E0(Player *p)
+{
+    if (p->unkC & 1) {
+        if (p->charFlags.boostIsActive) {
+            if (!(p->moveState & MOVESTATE_IN_AIR)) {
+                p->boostEffectCounter = gUnknown_080CECC6[p->charFlags.ringSpeedFactor];
+                if (ABS(p->qSpeedGround) < Q(4.75)) {
+                    Player_BoostModeDisengage(p);
+                }
+            }
+        } else if (!(p->moveState & MOVESTATE_IN_AIR)) {
+            if (ABS(p->qSpeedGround) >= p->unk8C) {
+                s16 boostEffectCounter = p->boostEffectCounter;
+                s16 newCounter = gUnknown_080CECC6[p->charFlags.ringSpeedFactor];
+                if (boostEffectCounter >= newCounter) {
+                    Player_BoostModeEngage(p);
 
-    if (arg0->unkC & 1) {
-        temp_r2 = 0x80 & arg0->unk2B;
-        if (temp_r2 != 0) {
-            if (!(arg0->moveState & 4)) {
-                arg0->boostEffectCounter = *((((u8) arg0->unk2D >> 4) * 2) + &gUnknown_080CECC6);
-                var_r1 = arg0->qSpeedGround;
-                if ((s32) var_r1 < 0) {
-                    var_r1 = 0 - var_r1;
-                }
-                if ((s32) var_r1 <= 0x4BF) {
-                    Player_BoostModeDisengage(arg0);
-                }
-            }
-        } else if (!(arg0->moveState & 4)) {
-            var_r1_2 = arg0->qSpeedGround;
-            if ((s32) var_r1_2 < 0) {
-                var_r1_2 = 0 - var_r1_2;
-            }
-            if ((s32) var_r1_2 >= (s32) arg0->unk8C) {
-                if ((s32) (s16) arg0->boostEffectCounter >= (s32) *((((u8) arg0->unk2D >> 4) * 2) + &gUnknown_080CECC6)) {
-                    Player_BoostModeEngage(arg0);
-                    if ((0x1C & arg0->unk2B) == 4) {
+                    if (p->charFlags.someIndex == 1) {
                         gCamera.unk20 = 0x400;
-                        Player_PlaySong(arg0, 0xDDU);
+                        Player_PlaySong(p, SE_CHAR_BOOST);
                     }
                 }
             } else {
-                goto block_14;
+                p->boostEffectCounter = 0;
             }
         } else {
-block_14:
-            arg0->boostEffectCounter = (u16) temp_r2;
+        block_14:
+            p->boostEffectCounter = 0;
         }
     }
 }
 
+#if 0
 void sub_80144B4(Player *arg0) {
     s16 var_r3;
     s32 var_r0_2;
