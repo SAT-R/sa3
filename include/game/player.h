@@ -54,7 +54,7 @@ PACKED_UNION(StateNum, {
 // Pointed to by Player::unkE0
 typedef struct {
     /* 0x00 */ SpriteTransform tf;
-    /* 0x0C */ Sprite s;
+    /* 0x0C */ Sprite2 s;
 } PlayerSpriteInfo; /* size: 0xF0 ? */
 
 typedef struct PlayerUnkC4 {

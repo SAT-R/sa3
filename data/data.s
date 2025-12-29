@@ -920,6 +920,7 @@ gUnknown_080D1348:
 gUnknown_080D146C:
     .incbin "baserom_sa3.gba", 0x000D146C, 0x2E4
 
+    @ Respawn positions.
     .global gUnknown_080D1750
 gUnknown_080D1750:
     .incbin "baserom_sa3.gba", 0x000D1750, 0x1CC
