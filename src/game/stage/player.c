@@ -87,6 +87,7 @@ extern s16 gUnknown_080CE63C[4];
 extern s32 gUnknown_080CE644[25];
 extern s16 gUnknown_080CE6A8[4][2];
 extern u16 gUnknown_080CE7E2[][2];
+extern s16 gUnknown_080CECB2[][2];
 extern u16 gUnknown_080D05A8[][2];
 extern Vec2_16 *gUnknown_080D1750[];
 
@@ -13103,63 +13104,45 @@ void sub_8014258(Player *p)
     }
 }
 
-#if 0
-void sub_80142CC(Player *arg0) {
-    s32 *temp_r1;
-    s32 *temp_r4;
-    s32 *temp_r5;
-    s32 *var_r2;
-    s32 temp_r2_2;
-    s32 var_r0;
-    u32 temp_r2;
-    u8 *var_r1;
-    void *temp_r1_2;
+void sub_80142CC(Player *arg0)
+{
+    u8 boostSpeedIndex = arg0->charFlags.boostSpeedIndex;
 
     if (gStageData.gameMode != 7) {
-        temp_r2 = arg0->moveState;
-        if ((0x80 & arg0->unk2B) && (arg0->unkC & 1) && !(0x800000 & temp_r2)) {
-            var_r2 = &arg0->unk8C;
-            *var_r2 = 0xA00;
-            var_r1 = &arg0->filler79[0xF];
-            var_r0 = 0xC00;
-        } else if (temp_r2 & 2) {
-            var_r2 = &arg0->unk8C;
-            *var_r2 = 0xA00;
-            var_r1 = &arg0->filler79[0xF];
-            var_r0 = 0xC00;
+        if ((arg0->charFlags.boostIsActive) && (arg0->unkC & 1) && !(0x800000 & arg0->moveState)) {
+            arg0->unk8C = Q(10);
+            arg0->unk88 = Q(12);
+        } else if (arg0->moveState & 2) {
+            arg0->unk8C = Q(10);
+            arg0->unk88 = Q(12);
         } else {
-            var_r2 = &arg0->unk8C;
-            *var_r2 = 0x780;
-            var_r1 = &arg0->filler79[0xF];
-            var_r0 = 0x980;
+            arg0->unk8C = Q(7.5);
+            arg0->unk88 = Q(9.5);
         }
-        *var_r1 = var_r0;
-        temp_r4 = &arg0->unk90;
-        temp_r2_2 = ((u8) arg0->unk2D >> 4) * 4;
-        *temp_r4 = (s32) *(temp_r2_2 + &gUnknown_080CECB2);
-        temp_r5 = &arg0->unk94;
-        *temp_r5 = (s32) *(temp_r2_2 + (&gUnknown_080CECB2 + 2));
-        if ((s16) arg0->unk5E != 0) {
-            *temp_r4 *= 2;
-            *temp_r5 *= 2;
+
+        arg0->unk90 = gUnknown_080CECB2[boostSpeedIndex][0];
+        arg0->unk94 = gUnknown_080CECB2[boostSpeedIndex][1];
+
+        if ((s16)arg0->unk5E != 0) {
+            arg0->unk90 *= 2;
+            arg0->unk94 *= 2;
             return;
         }
-        if ((gStageData.gameMode == 6) && ((s16) arg0->unk60 != 0)) {
-            *var_r2 = (s32) *var_r2 >> 2;
-            *var_r1 = (s32) ((s32) *var_r1 >> 2);
-            *temp_r4 = (s32) *temp_r4 >> 1;
-            *temp_r5 = (s32) *temp_r5 >> 1;
+        if ((gStageData.gameMode == 6) && ((s16)arg0->unk60 != 0)) {
+            arg0->unk8C >>= 2;
+            arg0->unk88 >>= 2;
+            arg0->unk90 >>= 1;
+            arg0->unk94 >>= 1;
         }
     } else {
-        temp_r1 = &arg0->unk8C;
-        *temp_r1 = 0x780;
-        temp_r1_2 = temp_r1 - 4;
-        temp_r1_2->unk0 = 0x980;
-        temp_r1_2->unk8 = 0xC;
-        (temp_r1_2 + 8)->unk4 = 0x40;
+        arg0->unk8C = 0x780;
+        arg0->unk88 = 0x980;
+        arg0->unk90 = 0xC;
+        arg0->unk94 = 0x40;
     }
 }
 
+#if 0
 void sub_80143E0(Player *arg0) {
     s16 var_r1;
     s16 var_r1_2;
