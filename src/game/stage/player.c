@@ -12455,82 +12455,251 @@ void sub_801320C(Player *p, PlayerSpriteInfo *spriteInfoBody)
     p->charFlags.anim1 = (s16)(u16)p->charFlags.anim0;
 }
 
-#if 0
-void sub_801350C(Player *p) {
-    Sprite *temp_r0;
+void sub_801350C(Player *p)
+{
+    Sprite *s;
     s32 temp_r2_2;
     s32 temp_r3;
     s32 var_r0;
-    s32 var_r0_2;
-    s32 var_r1;
-    s32 var_r3;
     u16 temp_r2;
-    u16 temp_r2_3;
-    u16 temp_r6;
     u16 temp_r7;
-    u8 var_r2;
+    u16 anim2;
 
-    temp_r0 = &p->spriteInfoBody->s;
-    temp_r2 = (u16) p->charFlags.anim0;
+    s = &p->spriteInfoBody->s;
+    temp_r2 = p->charFlags.anim0;
+    anim2 = p->charFlags.anim2;
     temp_r7 = p->charFlags.state1;
-    temp_r6 = p->charFlags.anim2 - *(((u32) (p->unk2A << 0x1C) >> 0x1B) + gPlayerCharacterIdleAnims);
-    if ((u32) (u16) (temp_r2 - 0x13) <= 1U) {
-        if ((temp_r7 == 0) && (temp_r0->frameFlags & 0x4000) && ((u32) (u16) (temp_r6 - 0x13) <= 1U)) {
+    anim2 -= gPlayerCharacterIdleAnims[p->charFlags.character];
+    if (p->charFlags.anim0 == 19 || p->charFlags.anim0 == 20) {
+        if ((temp_r7 == 0) && (s->frameFlags & 0x4000) && (anim2 == 19 || anim2 == 20)) {
             p->charFlags.state1 = 1;
             p->moveState |= 2;
             Player_8012FF0(p);
             return;
         }
-        if ((s32) p->qSpeedAirY <= 0) {
+        if ((s32)p->qSpeedAirY <= 0) {
             return;
         }
         if (temp_r7 != 1) {
             return;
         }
-        if ((u32) (u16) (temp_r6 - 0x13) > 1U) {
-            return;
+        if (anim2 == 19 || anim2 == 20) {
+            temp_r3 = p->moveState & MOVESTATE_GRAVITY_SWITCHED;
+            if (temp_r3 != 0) {
+                var_r0 = sub_80519EC(I(p->qWorldY) - p->spriteOffsetY, I(p->qWorldX), p->layer, -8, NULL, sub_805217C);
+            } else {
+                var_r0 = sub_80519EC(I(p->qWorldY) + p->spriteOffsetY, I(p->qWorldX), p->layer, +8, NULL, sub_805217C);
+            }
+            if (var_r0 <= 32) {
+                p->charFlags.state1 = 2;
+                return;
+            }
         }
-        temp_r3 = p->moveState & 0x10000;
-        if (temp_r3 != 0) {
-            var_r0 = sub_80519EC(((s32) p->qWorldY >> 8) - (s8) (u8) p->spriteOffsetY, (s32) p->qWorldX >> 8, (s32) p->layer, -8, NULL, sub_805217C);
-        } else {
-            var_r0 = sub_80519EC(((s32) p->qWorldY >> 8) + (s8) (u8) p->spriteOffsetY, (s32) p->qWorldX >> 8, (s32) p->layer, 8, (void *) temp_r3, sub_805217C);
-        }
-        if (var_r0 <= 0x20) {
-            goto block_27;
-        }
-    } else if ((temp_r2 == 0x15) && ((s32) p->qSpeedAirY > 0)) {
+    } else if ((p->charFlags.anim0 == 0x15) && ((s32)p->qSpeedAirY > 0)) {
         if (p->moveState & 0x10000) {
-            var_r0_2 = ((s32) p->qWorldY >> 8) - (s8) (u8) p->spriteOffsetY;
-            var_r1 = (s32) p->qWorldX >> 8;
-            var_r2 = p->layer;
-            var_r3 = -8;
+            temp_r2_2 = sub_80519EC(I(p->qWorldY) - p->spriteOffsetY, I(p->qWorldX), p->layer, -8, NULL, sub_805217C);
         } else {
-            var_r0_2 = ((s32) p->qWorldY >> 8) + (s8) (u8) p->spriteOffsetY;
-            var_r1 = (s32) p->qWorldX >> 8;
-            var_r2 = p->layer;
-            var_r3 = 8;
+            temp_r2_2 = sub_80519EC(I(p->qWorldY) + p->spriteOffsetY, I(p->qWorldX), p->layer, +8, NULL, sub_805217C);
         }
-        temp_r2_2 = sub_80519EC(var_r0_2, var_r1, (s32) var_r2, var_r3, M2C_ERROR(/* Unable to find stack arg 0x0 in block */), M2C_ERROR(/* Unable to find stack arg 0x4 in block */));
-        if ((temp_r6 == 0x15) && (temp_r7 == 0)) {
+        if ((anim2 == 0x15) && (temp_r7 == 0)) {
             p->charFlags.state1 = 1;
             return;
         }
-        if ((p->charFlags.state1 == 1) && (temp_r6 == 0x15) && (temp_r0->frameFlags & 0x4000)) {
-block_27:
+        if ((p->charFlags.state1 == 1) && (anim2 == 0x15) && (s->frameFlags & 0x4000)) {
             p->charFlags.state1 = 2;
             return;
         }
         if (temp_r2_2 <= 0x20) {
-            temp_r2_3 = p->moveState & 0x800000;
-            if (temp_r2_3 == 0) {
-                p->charFlags.anim2 = *(((u32) (p->unk2A << 0x1C) >> 0x1B) + gPlayerCharacterIdleAnims) + 0x17;
-                p->charFlags.state1 = temp_r2_3;
+            if (!(p->moveState & 0x800000)) {
+                p->charFlags.anim2 = 0x17 + gPlayerCharacterIdleAnims[p->charFlags.character];
+                p->charFlags.state1 = 0;
             }
         }
     }
 }
 
+// (99.81%) https://decomp.me/scratch/7XgDy
+NONMATCH("asm/non_matching/game/stage/player__sub_80136DC.inc", void sub_80136DC(s16 playerId))
+{
+    Player *p;
+    PlayerSpriteInfo *temp_r0;
+    Sprite *s;
+    s16 temp_r0_3;
+    s16 temp_r1_2;
+    s16 var_r0_2;
+#ifndef NON_MATCHING
+    register s32 r0 asm("r0");
+    register u32 temp_r2 asm("r2");
+    register u32 temp_r3 asm("r3");
+    register s32 var_r7 asm("r7");
+#else
+    s32 r0;
+    u32 temp_r2;
+    u32 temp_r3;
+    s32 var_r7;
+#endif
+    u16 var_ip;
+    u16 var_r1;
+    u32 temp_r1_4;
+    u32 temp_r2_2;
+    u32 var_r0;
+    u32 var_r0_3;
+    u32 var_r0_4;
+    u16 var_sb;
+    SpriteTransform *tf;
+    CamCoord camX, camY;
+
+    p = &gPlayers[playerId];
+    temp_r0 = p->spriteInfoBody;
+    s = &temp_r0->s;
+    tf = &temp_r0->tf;
+    camX = gCamera.x;
+    camY = gCamera.y;
+    var_ip = 0;
+    s->x = I(p->qWorldX) - camX;
+    s->y = I(p->qWorldY) - camY;
+    tf->x = I(p->qWorldX) - camX;
+    tf->y = I(p->qWorldY) - camY;
+    if (gStageData.gameMode == 7) {
+        if (gStageData.playerIndex != playerId) {
+            s->frameFlags = s->frameFlags | 0x200;
+        } else {
+            s->frameFlags = s->frameFlags & 0xFFFFFDFF;
+        }
+    }
+    if (p->charFlags.someIndex == 3) {
+        var_r1 = p->charFlags.anim2;
+        var_sb = p->charFlags.state1;
+        if (var_r1 - gPlayerCharacterIdleAnims[p->charFlags.character] <= 0xA4) {
+            var_r1 -= gPlayerCharacterIdleAnims[p->charFlags.character];
+        }
+        if ((var_r1 != 8) && (var_r1 != 0x6F) && (var_r1 != 0x8C) && (var_r1 != 0x8D) && (var_r1 != 0x2BD) && (var_r1 != 0x73)
+            && (var_r1 != 0x2BD)) {
+            if ((var_r1 == 0x519) && (var_sb == 0)) {
+                var_ip = 1;
+            }
+        } else {
+            var_ip = 1;
+        }
+    } else if ((p->charFlags.anim0 == 8) || (p->charFlags.anim0 == 0x6F) || (p->charFlags.anim0 == 0x8C) || (p->charFlags.anim0 == 0x8D)
+               || (p->charFlags.anim0 == 0xFA) || (p->charFlags.anim0 == 0xB1) || (p->charFlags.anim0 == 0xB2)
+               || (p->charFlags.anim0 == 0x111)) {
+        var_ip = 1;
+    }
+
+    if (var_ip != 0) {
+        s32 tfX, tfY;
+        tf->rotation = p->unk26 * 4;
+        s->frameFlags &= ~(0xC00);
+        s->frameFlags &= ~0x1F;
+        s->frameFlags |= ((s16)playerId | 0x20);
+        if (!(p->moveState & 1)) {
+            tf->qScaleX = -0x100;
+        } else {
+            tf->qScaleX = 0x100;
+        }
+
+        if (p->moveState & 0x10000) {
+            tf->qScaleX = 0 - (u16)tf->qScaleX;
+        }
+        if (tf->qScaleX < 0) {
+            tf->x--;
+        }
+        if (p->moveState & 0x10000) {
+            s32 rot;
+            tf->qScaleY = 0x100;
+            rot = tf->rotation;
+            rot += 0x100;
+            temp_r2 = -0x100;
+#ifndef NON_MATCHING
+            asm("mov %0, %1\n" : "=r"(r0) : "r"(temp_r2));
+#else
+            r0 = temp_r2;
+#endif
+            r0 -= rot;
+            r0 &= 0x3FF;
+            tf->rotation = r0;
+        } else {
+            tf->qScaleY = 0x100;
+        }
+        tfX = I(tf->qScaleX * p->unkA0);
+        tfY = I(tf->qScaleY * p->unkA2);
+        tf->qScaleX = tfX;
+        tf->qScaleY = tfY;
+        s->frameFlags &= 0xFFFFCFFF;
+        if ((p->charFlags.anim0 != 0x6F) && (p->charFlags.anim0 != 0xB1) && (p->charFlags.anim0 != 0xB2)) {
+            s->frameFlags |= 0x1000;
+        }
+        UpdateSpriteAnimation(s);
+        TransformSprite(s, tf);
+    } else {
+        tf->rotation = 0;
+        s->frameFlags &= ~0x3F;
+
+        if (!(p->moveState & 1)) {
+            s->frameFlags |= 0x400;
+        } else {
+            s->frameFlags &= ~0x400;
+            s->x++;
+        }
+        if (p->moveState & 0x10000) {
+            s->frameFlags |= 0x800;
+        } else {
+            s->frameFlags &= ~0x800;
+        }
+
+        if (p->charFlags.anim0 == 0x67) {
+            s->frameFlags &= 0xFFFFCFFF;
+        } else if ((p->charFlags.anim2 - gPlayerCharacterIdleAnims[p->charFlags.character]) != 0x8E) {
+            s->frameFlags &= 0xFFFFCFFF;
+            s->frameFlags |= 0x1000;
+        }
+        UpdateSpriteAnimation(s);
+    }
+    var_r7 = 1;
+    {
+        u32 ms_r2 = p->moveState;
+        u32 ms = (0x100 & ms_r2);
+        temp_r3 = ms_r2;
+        if (!ms) {
+            if ((gStageData.gameMode != 7) || (gStageData.levelTimer != 0)) {
+                temp_r3 &= 0x04000000;
+                if ((temp_r3)) {
+                    var_r7 = 0;
+                } else {
+                    ms_r2 &= 0x200;
+                    if (!ms_r2) {
+                        if ((p->framesInvulnerable != 0) && (gStageData.timer & 2)) {
+                            var_r7 = 0;
+                        }
+
+                        if (p->unk66 != 0) {
+                            if ((p != &gPlayers[gStageData.playerIndex]) || (gStageData.timer & 2)) {
+                                var_r7 = 0;
+                            }
+                        }
+                    }
+                    if (gStageData.unk4 == 5) {
+                        var_r7 = 1;
+                    }
+                }
+            }
+        }
+    }
+
+    if (var_r7 != 0) {
+        DisplaySprite(s);
+    }
+
+    if (gStageData.gameMode != 7) {
+        if ((((playerId == gStageData.playerIndex)) && (gStageData.zone != 8)) || ((gStageData.zone == 8) && (playerId == 0))) {
+            sub_8019858(p);
+        }
+    }
+}
+END_NONMATCH
+
+#if 0
 void sub_80136DC(u16 arg0) {
     Player *temp_r6;
     PlayerSpriteInfo *temp_r0;

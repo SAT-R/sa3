@@ -224,7 +224,7 @@ struct Player {
     u16 unk60;
     s16 unk62;
     u16 unk64;
-    u16 unk66;
+    s16 unk66;
     u8 unk68;
     u8 unk69;
     u8 filler6A[0x2];
@@ -250,7 +250,8 @@ struct Player {
     /* 0x9C */ s16 qCamOffsetX;
     /* 0x9E */ s16 qCamOffsetY;
 
-    u8 PaddingA0[0x4];
+    /* 0xA0 */ s16 unkA0;
+    /* 0xA2 */ s16 unkA2;
 
     u8 unkA4;
     u8 PaddingA5[0x3];

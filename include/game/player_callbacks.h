@@ -363,6 +363,7 @@ extern void sub_80180D8(Player *);
 extern void sub_801816C(Player *);
 extern void sub_80193A4(Player *);
 extern void sub_80193CC(Player *);
+extern void sub_8019858(Player *);
 extern void sub_8019C24(Player *);
 extern void sub_801A17C(Player *);
 extern void sub_801A3DC(Player *);
