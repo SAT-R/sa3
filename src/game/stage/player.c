@@ -97,6 +97,7 @@ extern s16 gUnknown_080CE61C[8][2];
 extern s16 gUnknown_080CE63C[4];
 extern s32 gUnknown_080CE644[25];
 extern s16 gUnknown_080CE6A8[4][2];
+extern s16 gUnknown_080CE6B8[RSF_COUNT][2];
 extern u16 gUnknown_080CE7E2[][2];
 extern s16 gUnknown_080CECB2[RSF_COUNT][2];
 extern s16 gUnknown_080CECC6[RSF_COUNT];
@@ -14232,6 +14233,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015A44.inc", void sub_8015A44
     s16 dx;
     s16 dy;
     s16 i;
+    s32 param2;
 
 #ifndef NON_MATCHING
     register Player *partner asm("sl") = GET_SP_PLAYER_V1(PLAYER_2);
@@ -14281,13 +14283,13 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015A44.inc", void sub_8015A44
         if (ABS(dy) > 0x40) {
             continue;
         }
-        if (sub_80210BC(playerLoop, 1, p, 1)) {
+        if ((param2 = sub_80210BC(playerLoop, 1, p, 1))) {
             if (gStageData.gameMode != 7) {
-                sub_8015C90(p);
+                sub_8015C90(p, param2);
                 break;
             } else if (p->charFlags.anim0 != 0xA) {
                 if (playerLoop->charFlags.anim0 == 0xA) {
-                    sub_8015C90(p);
+                    sub_8015C90(p, param2);
                     playerLoop->framesInvulnerable = 120;
 
                     if (gStageData.gameMode == 7) {
@@ -14302,7 +14304,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015A44.inc", void sub_8015A44
                         break;
                     }
                 } else {
-                    sub_8015C90(p);
+                    sub_8015C90(p, param2);
                     break;
                 }
             } else if (playerLoop->charFlags.anim0 != 0xA) {
@@ -14319,15 +14321,15 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015A44.inc", void sub_8015A44
                 }
                 break;
             } else {
-                sub_8015C90(p);
+                sub_8015C90(p, param2);
                 break;
             }
-        } else if (sub_80210BC(playerLoop, 1, p, 0)) {
+        } else if ((param2 = sub_80210BC(playerLoop, 1, p, 0))) {
             if (gStageData.gameMode != 7) {
                 if (playerLoop != partner) {
                     Player_8014550(p);
                 } else {
-                    sub_8015C90(p);
+                    sub_8015C90(p, param2);
                 }
             } else {
                 Player_8014550(p);
@@ -14338,8 +14340,8 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015A44.inc", void sub_8015A44
             }
 
             break;
-        } else if (sub_80210BC(playerLoop, 0, p, 1)) {
-            sub_8015C90(p);
+        } else if ((param2 = sub_80210BC(playerLoop, 0, p, 1))) {
+            sub_8015C90(p, param2);
             playerLoop->framesInvulnerable = 120;
             if (gStageData.gameMode == 7) {
                 if ((gStageData.unk8E == i) || (gStageData.unk8E == gStageData.playerIndex)) {
@@ -14350,63 +14352,70 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015A44.inc", void sub_8015A44
             }
 
             break;
-        } else if (sub_80210BC(playerLoop, 0, p, 0)) {
-            sub_8015C90(p);
+        } else if ((param2 = sub_80210BC(playerLoop, 0, p, 0))) {
+            sub_8015C90(p, param2);
             break;
         }
     }
 }
 END_NONMATCH
 
-#if 0
-void sub_8015C90(Player *arg0, s32 arg1) {
+// (96.29%) https://decomp.me/scratch/Hbq4u
+NONMATCH("asm/non_matching/game/stage/player__sub_8015C90.inc", void sub_8015C90(Player *p, u32 param2))
+{
     s16 temp_r0;
     s16 temp_r0_2;
-    s32 temp_r1;
+    s16 *temp_r1;
+    s32 temp_r1_2;
     u16 var_r0;
     u8 *var_r5;
 
-    arg0->framesInvulnerable = 4;
-    if (0xC0000 & arg1) {
-        if (0x40000 & arg1) {
-            var_r0 = *(((u32) (*((arg0 + 0x4A) - 0x20) << 0x1C) >> 0x1A) + &gUnknown_080CE6B8);
+    temp_r1 = &p->framesInvulnerable;
+    p->framesInvulnerable = 4;
+    if (0xC0000 & param2) {
+        if (0x40000 & param2) {
+            p->qSpeedAirX = +gUnknown_080CE6B8[p->charFlags.character][0];
         } else {
-            var_r0 = 0 - *(((u32) (arg0->unk2A << 0x1C) >> 0x1A) + &gUnknown_080CE6B8);
+            p->qSpeedAirX = -gUnknown_080CE6B8[p->charFlags.character][0];
         }
-        arg0->qSpeedAirX = var_r0;
     }
-    if (!(0x20000 & arg1)) {
-        arg0->qSpeedAirY = 0 - *(((u32) (arg0->unk2A << 0x1C) >> 0x1A) + (&gUnknown_080CE6B8 + 2));
-        var_r5 = arg0 + 0x2A;
+    if (!(0x20000 & param2)) {
+        p->qSpeedAirY = -gUnknown_080CE6B8[p->charFlags.character][1];
     } else {
-        arg0->qSpeedAirY = 0;
-        var_r5 = arg0 + 0x2A;
+        p->qSpeedAirY = 0;
     }
-    if (arg0->moveState & 0x20000) {
-        arg0->layer = PLAYER_LAYER_BACK;
-        Player_StopSong(arg0, 0x72U);
-        arg0->moveState &= 0xFFFDFFFF;
+    if (p->moveState & 0x20000) {
+        p->layer = 1;
+        Player_StopSong(p, 0x72U);
+        p->moveState &= 0xFFFDFFFF;
     }
-    temp_r1 = 0xF & *var_r5;
-    if (temp_r1 == 3) {
-        temp_r0 = arg0->charFlags.anim0;
-        if (((s32) temp_r0 <= 0xF2) && ((s32) temp_r0 >= 0xF0)) {
-            goto block_18;
-        }
-        goto block_17;
-    }
-    if ((temp_r1 != 1) || (temp_r0_2 = arg0->charFlags.anim0, ((s32) temp_r0_2 > 0xC4)) || ((s32) temp_r0_2 < 0xC1)) {
-block_17:
-        if (arg0->charFlags.anim0 == 0x85) {
-            goto block_18;
-        }
-    } else {
-block_18:
-        arg0->charFlags.anim0 = 0x18;
-    }
-    SetPlayerCallback(arg0, Player_800DAF4);
-}
 
+    if (p->charFlags.character == KNUCKLES) {
+        temp_r0 = p->charFlags.anim0;
+        if ((temp_r0 < 0xF3)) {
+            if (temp_r0 >= 0xF0) {
+                p->charFlags.anim0 = 0x18;
+            } else {
+                if (p->charFlags.anim0 == 0x85) {
+                    p->charFlags.anim0 = 0x18;
+                }
+            }
+        } else {
+            goto block_17;
+        }
+    } else if ((p->charFlags.character != CREAM) || ((p->charFlags.anim0 > 0xC4)) || (p->charFlags.anim0 < 0xC1)) {
+    block_17:
+        if (p->charFlags.anim0 == 0x85) {
+            p->charFlags.anim0 = 0x18;
+        }
+    } else {
+        p->charFlags.anim0 = 0x18;
+    }
+    SetPlayerCallback(p, Player_800DAF4);
+}
+END_NONMATCH
+
+#if 0
 s32 sub_8015D7C(void *arg0) {
     s32 sp0;
     s16 temp_r1;

@@ -401,7 +401,7 @@ extern void sub_80203D4(Player *p);
 extern void sub_80274AC(u16, u16);
 extern void sub_802AE64(Player *, s16);
 
-extern void sub_8015C90(Player *p);
+extern void sub_8015C90(Player *p, u32 param2);
 extern s32 sub_80210BC(Player *p, s32 param1, Player *param2, s32 param3);
 extern void sub_80293E8(Player *p);
 
