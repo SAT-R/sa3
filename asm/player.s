@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start sub_8015E0C
 sub_8015E0C: @ 0x08015E0C
 	push {r4, r5, r6, lr}
@@ -1190,6 +1188,7 @@ _0801679E:
 	pop {r4, r5, r6}
 	pop {r1}
 	bx r1
+.endif
 
 	thumb_func_start sub_80167A4
 sub_80167A4: @ 0x080167A4
