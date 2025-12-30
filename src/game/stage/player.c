@@ -13905,71 +13905,75 @@ void sub_80151C4(Player *p)
     }
 }
 
-#if 0
-void sub_8015228(Player *p) {
-    u8 sp8;
+void sub_8015228(Player *p)
+{
+    u8 sp8, sp9;
     s16 var_r0;
-    s32 temp_r0;
-    s32 temp_r5;
+    s32 worldX;
+    s32 worldY;
     s32 var_r0_2;
     s32 var_sl;
+    s8 *temp_r4;
+    s8 *temp_r4_2;
     s8 *temp_r7;
-    u8 *temp_r3;
-    u8 *temp_r4;
-    u8 *temp_r4_2;
-    u8 *var_r4;
-    u8 temp_r0_2;
+    u8 worldX_2;
     u8 temp_r4_3;
+    u8 *temp_r3;
+    u8 *var_r4;
     void (*var_r1)(Player *);
 
-    temp_r0 = (s32) p->qWorldX >> 8;
-    temp_r5 = (s32) p->qWorldY >> 8;
+    worldX = I(p->qWorldX);
+    worldY = I(p->qWorldY);
     if (gStageData.gameMode == 7) {
         return;
     }
-    var_r0 = p->qSpeedGround;
-    if ((s32) var_r0 < 0) {
-        var_r0 = 0 - var_r0;
-    }
-    if ((s32) var_r0 > 0x7F) {
+
+    if (ABS(p->qSpeedGround) >= Q(0.5)) {
         return;
     }
-    temp_r7 = &p->spriteOffsetY;
-    temp_r3 = &p->layer;
-    if (sub_80517FC(temp_r5 + *temp_r7, temp_r0, (s32) *temp_r3, 8, NULL, sub_805217C) <= 8) {
+
+    if (sub_80517FC(worldY + p->spriteOffsetY, worldX, p->layer, 8, NULL, sub_805217C) < 9) {
         return;
     }
     if (p->moveState & 0x10000) {
-        temp_r4 = &p->spriteOffsetX;
-        var_sl = sub_80517FC(temp_r5 - *temp_r7, (temp_r0 - 2) - (s8) *temp_r4, (s32) *temp_r3, -8, &sp8, sub_805217C);
-        var_r4 = &subroutine_arg0 + 9;
-        var_r0_2 = sub_80517FC(temp_r5 - *temp_r7, temp_r0 + 2 + (s8) *temp_r4, (s32) *temp_r3, -8, var_r4, sub_805217C);
+        {
+            s32 y = worldY - p->spriteOffsetY;
+            s32 v = worldX - 2;
+            var_sl = sub_80517FC(y, v - p->spriteOffsetX, p->layer, -8, &sp8, sub_805217C);
+        }
+        {
+            s32 y = worldY - p->spriteOffsetY;
+            s32 v = worldX + 2;
+            var_r0_2 = sub_80517FC(y, v + p->spriteOffsetX, p->layer, -8, &sp9, sub_805217C);
+        }
     } else {
-        temp_r4_2 = &p->spriteOffsetX;
-        var_sl = sub_80517FC(temp_r5 + *temp_r7, (temp_r0 - 2) - (s8) *temp_r4_2, (s32) *temp_r3, 8, &sp8, sub_805217C);
-        var_r4 = &subroutine_arg0 + 9;
-        var_r0_2 = sub_80517FC(temp_r5 + *temp_r7, temp_r0 + 2 + (s8) *temp_r4_2, (s32) *temp_r3, 8, var_r4, sub_805217C);
+        {
+            s32 y = worldY + p->spriteOffsetY;
+            s32 v = worldX - 2;
+            var_sl = sub_80517FC(y, v - p->spriteOffsetX, p->layer, 8, &sp8, sub_805217C);
+        }
+        {
+            s32 y = worldY + p->spriteOffsetY;
+            s32 v = worldX + 2;
+            var_r0_2 = sub_80517FC(y, v + p->spriteOffsetX, p->layer, 8, &sp9, sub_805217C);
+        }
     }
-    if ((var_sl > 8) && (var_r0_2 == 0) && ((temp_r4_3 = *var_r4, (temp_r4_3 == 0xFF)) || (temp_r4_3 == 1) || (temp_r4_3 == 0x7F) || (temp_r4_3 == 0x81))) {
+    if ((var_sl > 8) && (var_r0_2 == 0) && ((sp9 == 0xFF) || (sp9 == 1) || (sp9 == 0x7F) || (sp9 == 0x81))) {
         if (p->moveState & 1) {
-            var_r1 = sub_800DFEC;
+            SetPlayerCallback(p, sub_800DFEC);
         } else {
-            goto block_26;
+            SetPlayerCallback(p, sub_800E01C);
         }
-        goto block_27;
-    }
-    if ((var_sl == 0) && (var_r0_2 > 8) && ((temp_r0_2 = sp8, (temp_r0_2 == 0xFF)) || (temp_r0_2 == 1) || (temp_r0_2 == 0x7F) || (temp_r0_2 == 0x81))) {
+    } else if ((var_sl == 0) && (var_r0_2 > 8) && ((sp8 == 0xFF) || (sp8 == 1) || (sp8 == 0x7F) || (sp8 == 0x81))) {
         if (p->moveState & 1) {
-block_26:
-            var_r1 = sub_800E01C;
-block_27:
-            SetPlayerCallback(p, var_r1);
-            return;
+            SetPlayerCallback(p, sub_800E01C);
+        } else {
+            SetPlayerCallback(p, sub_800DFEC);
         }
-        SetPlayerCallback(p, sub_800DFEC);
     }
 }
 
+#if 0
 void sub_80153BC(Player *arg0) {
     s32 var_r5;
     s8 *temp_r1_3;
