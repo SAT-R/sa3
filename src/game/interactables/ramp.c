@@ -8,6 +8,7 @@
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/player.h"
+#include "game/interactables/ramp.h"
 #include "game/player_callbacks.h"
 #include "game/stage.h"
 
@@ -66,8 +67,8 @@ void CreateEntity_Ramp(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     sub_803213C(ramp->unk38, ramp->unk39, s);
 }
 
-// Unused. Doesn't look like it's an inline
-u32 sub_8031BAC(Player *p)
+// Used by player.c
+u8 sub_8031BAC(Player *p)
 {
     if (!(p->moveState & MOVESTATE_COLLIDING_ENT) || (p->sprColliding == NULL) || (p->sprColliding->anim != ANIM_RAMP)
         || (p->sprColliding->variant > 1)) {

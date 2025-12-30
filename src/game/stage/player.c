@@ -6,6 +6,7 @@
 #include "lib/m4a/m4a.h"
 #include "game/camera.h"
 #include "game/interactables/ice_launcher.h"
+#include "game/interactables/ramp.h"
 #include "game/player.h"
 #include "game/player_callbacks.h"
 #include "game/save.h"
@@ -13335,92 +13336,65 @@ NONMATCH("asm/non_matching/game/stage/player__Player_801479C.inc", void Player_8
 }
 END_NONMATCH
 
-#if 0
-void Player_801479C(Player *p) {
-    s16 temp_r1;
-    s16 temp_r3;
-    s16 temp_r4_2;
-    s32 temp_r4;
-    u8 *temp_r0;
-    u8 temp_r3_2;
-
-    temp_r0 = &p->filler79[0xF];
-    temp_r4 = *temp_r0;
-    temp_r3 = (s16) *temp_r0;
-    if ((s32) p->qSpeedGround > (s32) temp_r3) {
-        p->qSpeedGround = (s16) temp_r4;
-    } else if ((s64) (p->qSpeedGround + temp_r3) < 0) {
-        p->qSpeedGround = 0 - temp_r4;
-    }
-    temp_r4_2 = p->qSpeedGround;
-    temp_r3_2 = p->unk26;
-    p->qSpeedAirX = (s16) ((s32) (temp_r4_2 * ((s32) (*((temp_r3_2 * 8) + 0x200 + gSineTable) << 0x10) >> 0x16)) >> 8);
-    temp_r1 = p->moveState & 4;
-    if (temp_r1 == 0) {
-        p->qSpeedAirY = temp_r1;
-    }
-    p->qSpeedAirY = ((s32) (temp_r4_2 * ((s32) (*((temp_r3_2 * 8) + gSineTable) << 0x10) >> 0x16)) >> 8) + (u16) p->qSpeedAirY;
-}
-
-s16 sub_801480C(Player *p) {
+s16 sub_801480C(Player *p)
+{
     u32 temp_r1;
-    u32 temp_r1_2;
     u8 temp_r6;
     u8 var_r5;
-    void (*var_r1)(Player *);
+    void (*callback)(Player *);
 
     var_r5 = p->unk26;
-    if (!(gStageData.buttonConfig.jump & p->keyInput2)) {
-        goto block_29;
-    }
-    temp_r6 = sub_8031BAC(p);
-    if (temp_r6 == 2) {
-        goto block_29;
-    }
-    if (p->moveState & 0x10000) {
-        var_r5 = ((u32) (0 - ((var_r5 + 0x40) << 0x18)) >> 0x18) - 0x40;
-    }
-    if (sub_8012E54((u8) (var_r5 + 0x80), p) > 3) {
-        if (gStageData.gameMode != 7) {
-            if (p->moveState & 0x800000) {
-                if (temp_r6 != 0) {
-                    p->qWorldY += 0xFFFFFE00;
-                }
-                var_r1 = Player_8007EAC;
-            } else {
-                temp_r1 = p->unkC;
-                if (0x40 & temp_r1) {
-                    if (temp_r6 != 0) {
-                        p->qWorldY += 0xFFFFFE00;
+    if (p->keyInput2 & gStageData.buttonConfig.jump) {
+        temp_r6 = sub_8031BAC(p);
+        if (temp_r6 != 2) {
+            if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
+                var_r5 = ((u32)(0 - ((var_r5 + 0x40) << 0x18)) >> 0x18);
+                var_r5 = var_r5 - 0x40;
+            }
+            if (sub_8012E54((u8)(var_r5 + 0x80), p) > 3) {
+                if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+                    if (p->moveState & MOVESTATE_800000) {
+                        if (temp_r6 != 0) {
+                            p->qWorldY -= Q(2);
+                        }
+                        callback = Player_8007EAC;
+                    } else {
+                        temp_r1 = p->unkC;
+                        if (0x40 & temp_r1) {
+                            if (temp_r6 != 0) {
+                                p->qWorldY -= Q(2);
+                            }
+                            callback = Player_8006250;
+                        } else if (((temp_r1 & 6) == 4) && (DPAD_DOWN & p->keyInput)) {
+                            callback = sub_801DFC4;
+                        } else {
+                            if (temp_r6 != 0) {
+                                p->qWorldY -= Q(2);
+                            }
+                            callback = Player_8006310;
+                        }
                     }
-                    var_r1 = Player_8006250;
-                } else if (((temp_r1 & 6) == 4) && (0x80 & p->keyInput)) {
-                    var_r1 = sub_801DFC4;
+                    SetPlayerCallback(p, callback);
                 } else {
                     if (temp_r6 != 0) {
-                        p->qWorldY += 0xFFFFFE00;
+                        p->qWorldY -= Q(2);
                     }
-                    var_r1 = Player_8006310;
+                    SetPlayerCallback(p, Player_8006250);
                 }
+
+                if (MOVESTATE_COLLIDING_ENT & p->moveState) {
+                    p->moveState &= ~MOVESTATE_COLLIDING_ENT;
+                    p->sprColliding = NULL;
+                }
+                return TRUE;
             }
-            SetPlayerCallback(p, var_r1);
-        } else {
-            if (temp_r6 != 0) {
-                p->qWorldY += 0xFFFFFE00;
-            }
-            SetPlayerCallback(p, Player_8006250);
         }
-        temp_r1_2 = p->moveState;
-        if (0x20 & temp_r1_2) {
-            p->moveState = temp_r1_2 & ~0x20;
-            p->sprColliding = NULL;
-        }
-        return 1;
     }
-block_29:
-    return 0;
+
+    return FALSE;
 }
 
+#if 0
 void sub_8014940(Player *p) {
     s32 temp_r0_2;
     s32 temp_r0_3;
