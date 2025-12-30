@@ -98,6 +98,7 @@ extern s16 gUnknown_080CE63C[4];
 extern s32 gUnknown_080CE644[25];
 extern s16 gUnknown_080CE6A8[4][2];
 extern s16 gUnknown_080CE6B8[RSF_COUNT][2];
+extern PlayerCallback gUnknown_080CE6CC[54];
 extern u16 gUnknown_080CE7E2[][2];
 extern s16 gUnknown_080CECB2[RSF_COUNT][2];
 extern s16 gUnknown_080CECC6[RSF_COUNT];
@@ -14414,6 +14415,27 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015C90.inc", void sub_8015C90
     SetPlayerCallback(p, Player_800DAF4);
 }
 END_NONMATCH
+
+s32 Player_8015D7C(Player *p)
+{
+    PlayerCallback callbacks[ARRAY_COUNT(gUnknown_080CE6CC)];
+    s16 i;
+
+    if ((gStageData.gameMode != GAME_MODE_MP_MULTI_PACK) || (gStageData.unk4 != 3) || (p->moveState & 0x59000200)
+        || (gCamera.unk1C != gUnknown_080D05A8[gStageData.currMapIndex][0])
+        || (gCamera.unk14 != gUnknown_080D05A8[gStageData.currMapIndex][1])) {
+        return FALSE;
+    }
+    memcpy(&callbacks, &gUnknown_080CE6CC, sizeof(callbacks));
+
+    for (i = 0; callbacks[i] != NULL; i++) {
+        if (p->callback == callbacks[i]) {
+            return FALSE;
+        }
+    }
+
+    return TRUE;
+}
 
 #if 0
 s32 Player_8015D7C(void *arg0) {
