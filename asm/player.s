@@ -5,11 +5,10 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
+.if 01
 
-	thumb_func_start sub_8015D7C
-sub_8015D7C: @ 0x08015D7C
+	thumb_func_start Player_8015D7C
+Player_8015D7C: @ 0x08015D7C
 	push {r4, r5, lr}
 	sub sp, #0xd8
 	adds r5, r0, #0
@@ -83,6 +82,7 @@ _08015E00:
 	bx r1
 	.align 2, 0
 _08015E08: .4byte gUnknown_080CE6CC
+.endif
 
 	thumb_func_start sub_8015E0C
 sub_8015E0C: @ 0x08015E0C

@@ -10777,7 +10777,7 @@ sub_80267E8: @ 0x080267E8
 	ldr r0, _08026848 @ =gPlayers
 	adds r4, r4, r0
 	adds r0, r4, #0
-	bl sub_8015D7C
+	bl Player_8015D7C
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	mov r2, sp
@@ -10827,7 +10827,7 @@ sub_8026850: @ 0x08026850
 	ldr r0, _080268B0 @ =gPlayers
 	adds r4, r4, r0
 	adds r0, r4, #0
-	bl sub_8015D7C
+	bl Player_8015D7C
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	mov r2, sp

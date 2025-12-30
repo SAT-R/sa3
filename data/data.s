@@ -76,7 +76,60 @@ gUnknown_080CE6B8:
 
     .global gUnknown_080CE6CC
 gUnknown_080CE6CC:
-    .incbin "baserom_sa3.gba", 0x000CE6CC, 0xD8
+    mPtr Player_8005BD4
+    mPtr Player_8005CB8
+    mPtr Player_8005DAC
+    mPtr sub_800D8DC
+    mPtr Player_8005E80
+    mPtr Player_800D944
+    mPtr Player_800613C
+    mPtr Player_80061D8
+    mPtr Player_800A168
+    mPtr sub_800DF9C
+    mPtr Player_HitWithoutRingsUpdate
+    mPtr sub_800913C
+    mPtr sub_8009518
+    mPtr sub_80095E8
+    mPtr Player_800AAC0
+    mPtr Player_800AB48
+    mPtr Player_800E348
+    mPtr Player_800E370
+    mPtr Player_800E398
+    mPtr Player_800E3C4
+    mPtr sub_800AF98
+    mPtr Player_800E3EC
+    mPtr Player_800B004
+    mPtr Player_800E468
+    mPtr Player_800E490
+    mPtr Player_800E4B8
+    mPtr Player_800E4E0
+    mPtr Player_800B128
+    mPtr Player_800E564
+    mPtr Player_800ED14
+    mPtr Player_800ED34
+    mPtr Player_800ED4C
+    mPtr Player_800DD0C
+    mPtr Player_800DD28
+    mPtr Player_800B5A4
+    mPtr Player_800DD44
+    mPtr Player_800DDB4
+    mPtr Player_800B628
+    mPtr Player_800DDD0
+    mPtr Player_800DE48
+    mPtr Player_800B6C4
+    mPtr Player_800B748
+    mPtr Player_IceLauncherLaunch
+    mPtr Player_800B920
+    mPtr Player_800DEC4
+    mPtr Player_CollideGroundAfterIceLauncher
+    mPtr Player_800B81C
+    mPtr Player_nullsub_800EAA8
+    mPtr Player_800E604
+    mPtr Player_800DB7C
+    mPtr Player_800DCB4
+    mPtr Player_800DBE8
+    mPtr sub_800DC50
+    mPtr 0
 
     .global gUnknown_080CE7A4
 gUnknown_080CE7A4:

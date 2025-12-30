@@ -8525,18 +8525,18 @@ void Player_800ED14(Player *p)
 {
     sub_8016F28(p);
     p->charFlags.anim0 = 0xA3;
-    p->callback = sub_800ED4C;
-    sub_800ED4C(p);
+    p->callback = Player_800ED4C;
+    Player_800ED4C(p);
 }
 
 void Player_800ED34(Player *p)
 {
     p->charFlags.anim0 = 0xA4;
-    p->callback = sub_800ED4C;
-    sub_800ED4C(p);
+    p->callback = Player_800ED4C;
+    Player_800ED4C(p);
 }
 
-void sub_800ED4C(Player *p) { }
+void Player_800ED4C(Player *p) { }
 
 void sub_800ED50(Player *arg0)
 {
@@ -14416,7 +14416,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015C90.inc", void sub_8015C90
 END_NONMATCH
 
 #if 0
-s32 sub_8015D7C(void *arg0) {
+s32 Player_8015D7C(void *arg0) {
     s32 sp0;
     s16 temp_r1;
     s16 var_r1;
