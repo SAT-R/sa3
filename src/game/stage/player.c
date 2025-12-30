@@ -13640,225 +13640,225 @@ bool16 sub_8014D70(Player *p)
     return 0;
 }
 
-#if 0
-void sub_8014E70(Player *p) {
-    s16 temp_r0;
-    s16 temp_r0_3;
-    s16 temp_r0_4;
-    s16 temp_r2_2;
-    s16 var_r1;
-    s16 var_r3;
-    s32 temp_r0_2;
+void sub_8014E70(Player *p)
+{
     s32 temp_r1;
     s32 temp_r2;
     s32 var_r0;
     s32 var_r8;
-    u32 temp_r0_5;
-    u32 temp_r1_2;
-    u32 var_r2;
-    u8 *temp_r0_6;
-    u8 *temp_r6;
+    s8 var_r2;
     u8 var_r4;
+    s16 i;
 
     var_r8 = 0;
-    var_r3 = 0;
-loop_1:
-    var_r2 = 0x40;
-    temp_r0 = p->qSpeedGround;
-    if (temp_r0 != 0) {
-        if ((s32) temp_r0 > 0) {
-            goto block_5;
+    for (i = 0; i < 2; i++) {
+        var_r2 = 0x40;
+        if (p->qSpeedGround != 0) {
+            if (p->qSpeedGround > 0) {
+                var_r2 = 0xC0;
+            }
+        } else if (!(p->moveState & 1)) {
+            var_r2 = -0x40;
         }
-    } else if (!(p->moveState & 1)) {
-block_5:
-        var_r2 = 0xC0;
-    }
-    temp_r0_2 = var_r3 << 0x10;
-    if (temp_r0_2 != 0) {
-        var_r1 = p->qSpeedGround;
-        if ((s32) var_r1 < 0) {
-            var_r1 = 0 - var_r1;
+
+        if (i != 0) {
+            if (ABS(p->qSpeedGround) <= Q(3)) {
+                var_r2 += 0x80;
+            } else {
+                continue;
+            }
         }
-        if ((s32) var_r1 <= 0x300) {
-            var_r2 = (u32) ((var_r2 << 0x18) + 0x80000000) >> 0x18;
-            goto block_11;
-        }
-    } else {
-block_11:
-        temp_r6 = &p->unk26;
-        var_r4 = *temp_r6 + var_r2;
+
+        var_r4 = p->unk26;
+        var_r4 += var_r2;
         if (p->moveState & 0x10000) {
-            var_r4 = ((u32) (0 - ((var_r4 + 0x40) << 0x18)) >> 0x18) - 0x40;
+            var_r4 += 0x40;
+            var_r4 = ((-(var_r4 << 0x18)) >> 0x18);
+            var_r4 -= 0x40;
         }
-        temp_r2 = sub_8011BFC(var_r4, p) << 8;
+        temp_r2 = Q(sub_8011BFC(var_r4, p));
+
         if (temp_r2 <= 0) {
             var_r8 = 1;
-            temp_r1 = (s32) ((var_r4 + 0x20) & 0xC0) >> 6;
-            switch (temp_r1) {                      /* irregular */
-            case 0:
-                p->qWorldY += temp_r2;
-                *temp_r6 = (u8) temp_r1;
-                temp_r0_3 = var_r3;
-                if (temp_r0_3 == 0) {
-                    p->qSpeedAirY = temp_r0_3;
-                    p->qSpeedGround = temp_r0_3;
-                }
-                break;
-            case 1:
-                var_r0 = p->qWorldX - temp_r2;
-block_28:
-                p->qWorldX = var_r0;
-                temp_r2_2 = var_r3;
-                if (temp_r2_2 == 0) {
-                    temp_r1_2 = p->moveState;
-                    if (!(0x800000 & temp_r1_2)) {
-                        p->moveState = temp_r1_2 | 0x40;
+            temp_r1 = (s32)((var_r4 + 0x20) & 0xC0) >> 6;
+            switch (temp_r1) {
+                case 0:
+                    p->qWorldY += temp_r2;
+                    p->unk26 = (u8)temp_r1;
+                    if (i == 0) {
+                        p->qSpeedAirY = 0;
+                        p->qSpeedGround = 0;
                     }
-                    p->qSpeedAirX = temp_r2_2;
-                    p->qSpeedGround = temp_r2_2;
-                }
-                break;
-            case 2:
-                p->qWorldY -= temp_r2;
-                *temp_r6 = 0;
-                temp_r0_4 = var_r3;
-                if (temp_r0_4 == 0) {
-                    p->qSpeedAirY = temp_r0_4;
-                    p->qSpeedAirX = temp_r0_4;
-                    p->qSpeedGround = temp_r0_4;
-                }
-                p->moveState |= 4;
-                break;
-            case 3:
-                var_r0 = p->qWorldX + temp_r2;
-                goto block_28;
+                    break;
+                case 1:
+                    var_r0 = p->qWorldX - temp_r2;
+                    goto block_28;
+                case 2:
+                    p->qWorldY -= temp_r2;
+                    p->unk26 = 0;
+                    if (i == 0) {
+                        p->qSpeedAirY = 0;
+                        p->qSpeedAirX = 0;
+                        p->qSpeedGround = 0;
+                    }
+                    p->moveState |= 4;
+                    break;
+                case 3:
+                    var_r0 = p->qWorldX + temp_r2;
+                block_28:
+                    p->qWorldX = var_r0;
+                    if (i == 0) {
+                        if (!(0x800000 & p->moveState)) {
+                            p->moveState |= 0x40;
+                        }
+                        p->qSpeedAirX = 0;
+                        p->qSpeedGround = 0;
+                    }
+                    break;
             }
         }
     }
-    temp_r0_5 = temp_r0_2 + 0x10000;
-    var_r3 = (s16) (temp_r0_5 >> 0x10);
-    if ((s32) ((s32) temp_r0_5 >> 0x10) <= 1) {
-        goto loop_1;
-    }
+
     if (var_r8 != 0) {
-        temp_r0_6 = &p->unk99;
-        temp_r0_6->unk0 = 0;
-        temp_r0_6->unk1 = 0;
+        p->unk99 = 0;
+        p->unk9A = 0;
     }
 }
 
-void sub_8014FA4(Player *p) {
+void sub_8014FA4(Player *p)
+{
+    u8 sp00[2];
     s32 temp_r0;
     s32 temp_r2;
     s32 var_r0;
     s32 var_r2;
     struct _anonymous *temp_r4;
-    u8 *temp_r0_2;
     u8 temp_r7;
+    u8 *temp_r0_2;
+    u8 *temp_r6;
+    s32 qSpeedGround;
+    s32 qSpeedX;
+    s32 qSpeedY;
 
     var_r2 = 0x40;
     if (!(p->moveState & 1)) {
         var_r2 = 0xC0;
     }
     temp_r7 = p->unk26 + var_r2;
-    temp_r4 = &p->charFlags;
-    subroutine_arg0.unk0 = (u8) *temp_r4;
-    subroutine_arg0.unk1 = (u8) p->unk29;
-    temp_r2 = sub_8011BFC(temp_r7, p) << 8;
-    *temp_r4 = (u8) subroutine_arg0.unk0;
-    p->unk29 = (u8) subroutine_arg0.unk1;
+    sp00[0] = p->charFlags.unk28;
+    sp00[1] = p->charFlags.unk29;
+    temp_r2 = Q(sub_8011BFC(temp_r7, p));
+    p->charFlags.unk28 = sp00[0];
+    p->charFlags.unk29 = sp00[1];
     if (temp_r2 <= 0) {
-        temp_r0 = (s32) ((temp_r7 + 0x20) & 0xC0) >> 6;
-        switch (temp_r0) {                          /* irregular */
-        case 0:
-            p->qWorldY += temp_r2;
-            p->qSpeedAirY = 0 - p->qSpeedAirY;
-            break;
-        case 1:
-            var_r0 = p->qWorldX - temp_r2;
-block_14:
-            p->qWorldX = var_r0;
-block_15:
-            p->qSpeedAirX = 0 - p->qSpeedAirX;
-            break;
-        case 2:
-            p->qWorldY -= temp_r2;
-            p->qSpeedAirY = 0 - p->qSpeedAirY;
-            goto block_15;
-        case 3:
-            var_r0 = p->qWorldX + temp_r2;
-            goto block_14;
+        temp_r0 = (s32)((temp_r7 + 0x20) & 0xC0) >> 6;
+        switch (temp_r0) {
+            case 0:
+                p->qWorldY += temp_r2;
+                qSpeedY = p->qSpeedAirY;
+                p->qSpeedAirY = -qSpeedY;
+                break;
+            case 1:
+                p->qWorldX -= temp_r2;
+                qSpeedX = p->qSpeedAirX;
+                p->qSpeedAirX = -qSpeedX;
+                break;
+            case 2:
+                p->qWorldY -= temp_r2;
+                qSpeedY = p->qSpeedAirY;
+                p->qSpeedAirY = -qSpeedY;
+                qSpeedX = p->qSpeedAirX;
+                p->qSpeedAirX = -qSpeedX;
+                break;
+            case 3:
+                p->qWorldX += temp_r2;
+                qSpeedX = p->qSpeedAirX;
+                p->qSpeedAirX = -qSpeedX;
+                break;
         }
-        p->qSpeedGround = 0 - p->qSpeedGround;
-        temp_r0_2 = &p->unk99;
-        temp_r0_2->unk0 = 0;
-        temp_r0_2->unk1 = 0;
+        qSpeedGround = p->qSpeedGround;
+        p->qSpeedGround = -qSpeedGround;
+        p->unk99 = 0;
+        p->unk9A = 0;
     }
 }
 
-s16 sub_8015064(Player *p) {
+// (88.35%) https://decomp.me/scratch/Ao5NW
+NONMATCH("asm/non_matching/game/stage/player__sub_8015064.inc", s16 sub_8015064(Player *p))
+{
     s16 var_r0;
-    s16 var_sb;
+    s16 result;
     s32 temp_r1;
     s32 temp_r1_2;
-    s32 temp_r6;
+    s32 qWorldX;
     s32 var_r0_2;
     s32 var_r0_3;
-    s32 var_r5;
+    s32 qWorldY;
     u32 temp_r0;
+    s32 camUnk10, camUnk14;
+    struct Camera *cam = &gCamera;
 
-    temp_r6 = p->qWorldX;
-    var_r5 = p->qWorldY;
-    var_sb = 0;
-    if (p->moveState & 0x100) {
-        return 1;
+    qWorldX = p->qWorldX;
+    qWorldY = p->qWorldY;
+    result = 0;
+
+    if (p->moveState & MOVESTATE_100) {
+        return TRUE;
     }
+
     if ((sub_8016FA8(p) << 0x10) != 0) {
-        temp_r0 = p->moveState | 0x100;
-        p->moveState = temp_r0;
-        if (temp_r0 & 0x80) {
-            var_r0 = -0x2A0;
+        p->moveState |= MOVESTATE_100;
+        if (p->moveState & 0x80) {
+            p->qSpeedAirY = -0x2A0;
         } else {
-            var_r0 = -0x4E0;
+            p->qSpeedAirY = -0x4E0;
         }
-        p->qSpeedAirY = var_r0;
+
         if (p->moveState & 0x10000) {
-            var_r5 = gCamera.unk10 << 8;
+            qWorldY = Q(cam->unk10);
         } else {
-            var_r5 = (gCamera.unk14 << 8) - 1;
+            qWorldY = Q(cam->unk14) - 1;
         }
         Player_HitWithoutRingsUpdate(p);
-        var_sb = 1;
+        result = 1;
     }
-    var_r0_2 = (gCamera.unk18 + 0xC) << 8;
-    if (temp_r6 >= var_r0_2) {
-        temp_r1 = (gCamera.unk1C << 8) + 0xFFFFF4FF;
-        var_r0_2 = temp_r6;
+
+    camUnk10 = cam->unk10;
+    camUnk14 = cam->unk14;
+
+    var_r0_2 = Q(cam->unk18 + 12);
+    if (qWorldX >= var_r0_2) {
+        temp_r1 = Q(cam->unk1C) - Q(11) - 1;
+        var_r0_2 = qWorldX;
         if (var_r0_2 > temp_r1) {
             var_r0_2 = temp_r1;
         }
     }
-    var_r0_3 = gCamera.unk10 << 8;
-    if (var_r5 >= var_r0_3) {
-        temp_r1_2 = (gCamera.unk14 << 8) - 1;
-        var_r0_3 = var_r5;
+
+    var_r0_3 = Q(camUnk10);
+    if (qWorldY >= var_r0_3) {
+        temp_r1_2 = Q(camUnk14) - 1;
+        var_r0_3 = qWorldY;
         if (var_r0_3 > temp_r1_2) {
             var_r0_3 = temp_r1_2;
         }
     }
-    if (var_r0_2 != temp_r6) {
+    if (var_r0_2 != qWorldX) {
         p->qSpeedAirX = 0;
         p->qSpeedGround = 0;
     }
-    if (var_r0_3 != var_r5) {
+    if (var_r0_3 != qWorldY) {
         p->qSpeedAirY = 0;
         p->qSpeedGround = 0;
     }
     p->qWorldX = var_r0_2;
     p->qWorldY = var_r0_3;
-    return var_sb;
-}
 
+    return result;
+}
+END_NONMATCH
+
+#if 0
 void sub_8015144(Player *p) {
     s16 temp_r4;
     s16 var_r0;
