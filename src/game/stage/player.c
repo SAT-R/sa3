@@ -14589,272 +14589,164 @@ bool32 sub_8015E0C(Player *p)
     return 0;
 }
 
-#if 0
-s32 sub_80167A4(Player *arg0) {
-    Player *temp_r4;
-    Player *temp_r4_2;
-    Player *temp_r4_4;
-    Player *temp_r4_5;
-    Player *temp_r4_6;
-    Player *temp_r4_7;
-    Player *temp_r6;
-    s16 temp_r4_3;
-    s16 temp_r6_2;
-    u32 temp_r0;
-    u32 temp_r0_2;
-    u32 temp_r0_3;
-    u32 temp_r0_4;
-    u32 temp_r0_5;
-    u32 temp_r1;
-    u32 temp_r1_2;
-    u32 temp_r1_3;
-    u32 temp_r1_4;
-    u32 temp_r1_5;
-    u32 temp_r1_6;
-    u32 temp_r1_7;
-    u32 temp_r1_8;
-    void (*var_r1)(Player *);
+bool32 sub_80167A4(Player *p)
+{
+    Player *partner;
 
-    if (!(gStageData.buttonConfig.jump & arg0->keyInput2)) {
-        goto block_93;
+    if (!(p->keyInput2 & gStageData.buttonConfig.jump)) {
+        return 0;
     }
-    temp_r0 = (u32) (arg0->unk2A << 0x1C) >> 0x1C;
-    switch (temp_r0) {                              /* irregular */
-    case 0:
-        if ((arg0->unkC & 0x180) != 0x100) {
-block_93:
-            return 0;
-        }
-        temp_r4 = &gPlayers[(u32) (arg0->unk2B << 0x1E) >> 0x1E];
-        sub_80193A4(arg0);
-        Player_StopSong(arg0, SE_TAGACTION_BUILDUP);
-        if (arg0->moveState & 0x400000) {
-            arg0->unk42 = 0;
-            arg0->moveState &= 0xFFBFFFFF;
-        }
-        temp_r1 = arg0->moveState;
-        if (0x800000 & temp_r1) {
-            arg0->moveState = temp_r1 & 0xFF7FFFFF;
-            temp_r4->qWorldX = arg0->qWorldX;
-            temp_r4->qWorldY = arg0->qWorldY;
-            temp_r4->moveState &= 0xFEFFFFFF;
-        }
-        if (arg0->unkB8 != -1U) {
-            SetPlayerCallback(arg0, Player_8007620);
-            Player_8007620(arg0);
-        } else {
-            SetPlayerCallback(arg0, sub_8019B4C);
-            sub_8019B4C(arg0);
-        }
-block_92:
-        return 1;
-    case 1:
-        temp_r4_2 = &gPlayers[(u32) (arg0->unk2B << 0x1E) >> 0x1E];
-        sub_80193A4(arg0);
-        Player_StopSong(arg0, SE_TAGACTION_BUILDUP);
-        if (arg0->moveState & 0x400000) {
-            arg0->unk42 = 0;
-            arg0->moveState &= 0xFFBFFFFF;
-        }
-        temp_r1_2 = arg0->moveState;
-        if (0x800000 & temp_r1_2) {
-            arg0->moveState = temp_r1_2 & 0xFF7FFFFF;
-            temp_r4_2->qWorldX = arg0->qWorldX;
-            temp_r4_2->qWorldY = arg0->qWorldY;
-            temp_r4_2->moveState &= 0xFEFFFFFF;
-        }
-        temp_r0_2 = arg0->unkC & 0x180;
-        switch (temp_r0_2) {                        /* switch 1; irregular */
-        case 0x80:                                  /* switch 1 */
-            var_r1 = sub_801A9EC;
-block_91:
-            SetPlayerCallback(arg0, var_r1);
-            goto block_92;
-        case 0x100:                                 /* switch 1 */
-            if (arg0->moveState & 0x80) {
-                goto block_93;
+    switch (p->charFlags.character) {
+        case SONIC: {
+            if ((p->unkC & 0x180) != 0x100) {
+                return 0;
             }
-            var_r1 = sub_801ABA0;
-            goto block_91;
-        case 0x180:                                 /* switch 1 */
-            if (arg0->moveState & 0x80) {
-                goto block_93;
+            sub_8015568__shared_inline(p);
+
+            if (p->unkB8 != -1U) {
+                SetPlayerCallback(p, Player_8007620);
+                Player_8007620(p);
+            } else {
+                SetPlayerCallback(p, sub_8019B4C);
+                sub_8019B4C(p);
             }
-            var_r1 = sub_801ABA0;
-            goto block_91;
-        }
-        break;
-    case 2:
-        temp_r4_3 = arg0->moveState & 0x80;
-        if (temp_r4_3 == 0) {
-            temp_r6 = &gPlayers[(u32) (arg0->unk2B << 0x1E) >> 0x1E];
-            sub_80193A4(arg0);
-            Player_StopSong(arg0, SE_TAGACTION_BUILDUP);
-            if (arg0->moveState & 0x400000) {
-                arg0->unk42 = temp_r4_3;
-                arg0->moveState &= 0xFFBFFFFF;
+
+            return 1;
+        } break;
+
+        case CREAM: {
+            sub_8015568__shared_inline(p);
+
+            switch (p->unkC & 0x180) { /* switch 1; irregular */
+                case 0x80:
+                    SetPlayerCallback(p, sub_801A9EC);
+                    return 1;
+                case 0x100:
+                    if (p->moveState & 0x80) {
+                        return 0;
+                    }
+                    SetPlayerCallback(p, sub_801ABA0);
+                    return 1;
+                case 0x180:
+                    if (p->moveState & 0x80) {
+                        return 0;
+                    }
+                    SetPlayerCallback(p, sub_801ABA0);
+                    return 1;
             }
-            temp_r1_3 = arg0->moveState;
-            if (0x800000 & temp_r1_3) {
-                arg0->moveState = temp_r1_3 & 0xFF7FFFFF;
-                temp_r6->qWorldX = arg0->qWorldX;
-                temp_r6->qWorldY = arg0->qWorldY;
-                temp_r6->moveState &= 0xFEFFFFFF;
-            }
-            temp_r1_4 = arg0->unkC & 0x180;
-            switch (temp_r1_4) {                    /* switch 2; irregular */
-            case 0x0:                               /* switch 2 */
-                var_r1 = sub_801BDD8;
-                goto block_91;
-            case 0x80:                              /* switch 2 */
-                var_r1 = sub_801ADF4;
-                goto block_91;
-            case 0x100:                             /* switch 2 */
-                if (arg0->unkB8 != -1U) {
-                    SetPlayerCallback(arg0, Player_8007620);
-                    Player_8007620(arg0);
-                } else {
-                    SetPlayerCallback(arg0, sub_801BEA0);
-                    sub_801BEA0(arg0);
+        } break;
+
+        case TAILS: {
+            if (p->moveState & 0x80) {
+                if (0x200000 & p->unkC) {
+                    sub_8015568__shared_inline(p);
+
+                    SetPlayerCallback(p, sub_801BF6C);
+                    return 1;
+                } else if (!(p->unkC & 0x400000)) {
+                    return 0;
                 }
-                goto block_92;
-            case 0x180:                             /* switch 2 */
-                var_r1 = sub_801BF08;
-                goto block_91;
-            }
-        } else {
-            temp_r0_3 = arg0->unkC;
-            temp_r6_2 = 0x200000 & temp_r0_3;
-            if (temp_r6_2 != 0) {
-                temp_r4_4 = &gPlayers[(u32) (arg0->unk2B << 0x1E) >> 0x1E];
-                sub_80193A4(arg0);
-                Player_StopSong(arg0, SE_TAGACTION_BUILDUP);
-                if (arg0->moveState & 0x400000) {
-                    arg0->unk42 = 0;
-                    arg0->moveState &= 0xFFBFFFFF;
+                sub_8015568__shared_inline(p);
+                SetPlayerCallback(p, sub_801AE70);
+                return 1;
+            } else {
+                sub_8015568__shared_inline(p);
+
+                switch (p->unkC & 0x180) {
+                    case 0x0:
+                        SetPlayerCallback(p, sub_801BDD8);
+                        return 1;
+                    case 0x80:
+                        SetPlayerCallback(p, sub_801ADF4);
+                        return 1;
+                    case 0x100:
+                        if (p->unkB8 != -1U) {
+                            SetPlayerCallback(p, Player_8007620);
+                            Player_8007620(p);
+                        } else {
+                            SetPlayerCallback(p, sub_801BEA0);
+                            sub_801BEA0(p);
+                        }
+                        return 1;
+                    case 0x180:
+                        SetPlayerCallback(p, sub_801BF08);
+                        return 1;
                 }
-                temp_r1_5 = arg0->moveState;
-                if (0x800000 & temp_r1_5) {
-                    arg0->moveState = temp_r1_5 & 0xFF7FFFFF;
-                    temp_r4_4->qWorldX = arg0->qWorldX;
-                    temp_r4_4->qWorldY = arg0->qWorldY;
-                    temp_r4_4->moveState &= 0xFEFFFFFF;
-                }
-                var_r1 = sub_801BF6C;
-                goto block_91;
             }
-            if (!(temp_r0_3 & 0x400000)) {
-                goto block_93;
+        } break;
+
+        case KNUCKLES: {
+            sub_8015568__shared_inline(p);
+            if (p->moveState & 0x80) {
+                SetPlayerCallback(p, sub_801D950);
+                return 1;
             }
-            temp_r4_5 = &gPlayers[(u32) (arg0->unk2B << 0x1E) >> 0x1E];
-            sub_80193A4(arg0);
-            Player_StopSong(arg0, SE_TAGACTION_BUILDUP);
-            if (arg0->moveState & 0x400000) {
-                arg0->unk42 = temp_r6_2;
-                arg0->moveState &= 0xFFBFFFFF;
+
+            switch (p->unkC & 0x180) { /* switch 3; irregular */
+                case 0x80:
+                    SetPlayerCallback(p, sub_801D8A8);
+                    return 1;
+                case 0x100:
+                    SetPlayerCallback(p, sub_801C348);
+                    return 1;
+                case 0x180:
+                    SetPlayerCallback(p, sub_801C2D8);
+                    return 1;
             }
-            temp_r1_6 = arg0->moveState;
-            if (0x800000 & temp_r1_6) {
-                arg0->moveState = temp_r1_6 & 0xFF7FFFFF;
-                temp_r4_5->qWorldX = arg0->qWorldX;
-                temp_r4_5->qWorldY = arg0->qWorldY;
-                temp_r4_5->moveState &= 0xFEFFFFFF;
+        } break;
+
+        case AMY: {
+            sub_8015568__shared_inline(p);
+
+            switch (p->unkC & 0x180) { /* switch 4; irregular */
+                case 0x80:
+                    SetPlayerCallback(p, sub_801E828);
+                    return 1;
+                case 0x100:
+                    SetPlayerCallback(p, sub_801E038);
+                    return 1;
+                case 0x180:
+                    SetPlayerCallback(p, sub_801E8E0);
+                    return 1;
             }
-            var_r1 = sub_801AE70;
-            goto block_91;
-        }
-        break;
-    case 3:
-        temp_r4_6 = &gPlayers[(u32) (arg0->unk2B << 0x1E) >> 0x1E];
-        sub_80193A4(arg0);
-        Player_StopSong(arg0, SE_TAGACTION_BUILDUP);
-        if (arg0->moveState & 0x400000) {
-            arg0->unk42 = 0;
-            arg0->moveState &= 0xFFBFFFFF;
-        }
-        temp_r1_7 = arg0->moveState;
-        if (0x800000 & temp_r1_7) {
-            arg0->moveState = temp_r1_7 & 0xFF7FFFFF;
-            temp_r4_6->qWorldX = arg0->qWorldX;
-            temp_r4_6->qWorldY = arg0->qWorldY;
-            temp_r4_6->moveState &= 0xFEFFFFFF;
-        }
-        if (arg0->moveState & 0x80) {
-            var_r1 = sub_801D950;
-            goto block_91;
-        }
-        temp_r0_4 = arg0->unkC & 0x180;
-        switch (temp_r0_4) {                        /* switch 3; irregular */
-        case 0x80:                                  /* switch 3 */
-            var_r1 = sub_801D8A8;
-            goto block_91;
-        case 0x100:                                 /* switch 3 */
-            var_r1 = sub_801C348;
-            goto block_91;
-        case 0x180:                                 /* switch 3 */
-            var_r1 = sub_801C2D8;
-            goto block_91;
-        }
-        break;
-    case 4:
-        temp_r4_7 = &gPlayers[(u32) (arg0->unk2B << 0x1E) >> 0x1E];
-        sub_80193A4(arg0);
-        Player_StopSong(arg0, SE_TAGACTION_BUILDUP);
-        if (arg0->moveState & 0x400000) {
-            arg0->unk42 = 0;
-            arg0->moveState &= 0xFFBFFFFF;
-        }
-        temp_r1_8 = arg0->moveState;
-        if (0x800000 & temp_r1_8) {
-            arg0->moveState = temp_r1_8 & 0xFF7FFFFF;
-            temp_r4_7->qWorldX = arg0->qWorldX;
-            temp_r4_7->qWorldY = arg0->qWorldY;
-            temp_r4_7->moveState &= 0xFEFFFFFF;
-        }
-        temp_r0_5 = arg0->unkC & 0x180;
-        switch (temp_r0_5) {                        /* switch 4; irregular */
-        case 0x80:                                  /* switch 4 */
-            var_r1 = sub_801E828;
-            goto block_91;
-        case 0x100:                                 /* switch 4 */
-            var_r1 = sub_801E038;
-            goto block_91;
-        case 0x180:                                 /* switch 4 */
-            var_r1 = sub_801E8E0;
-            goto block_91;
-        }
-        break;
+        } break;
     }
+
+    return 0;
 }
 
-void sub_8016D04(Player *p) {
+void sub_8016D04(Player *p)
+{
     SetPlayerCallback(p, sub_800BBA0);
-    Player_PlaySong(p, 0x9EU);
-    p->unk56 = 0xE;
-    p->unk57 = 0x78;
+    Player_PlaySong(p, SE_158);
+    p->unk56 = 14;
+    p->unk57 = 120;
 }
 
-void sub_8016D30(Player *p) {
-    s32 var_r0;
-    u16 var_r3;
+void sub_8016D30(Player *p)
+{
+    s16 qSpeedAirY;
 
     p->qWorldX += p->qSpeedAirX;
+
     if ((p->moveState ^ p->moveState2) & 0x10000) {
-        p->qSpeedAirY = 0 - (u16) p->qSpeedAirY;
+        p->qSpeedAirY = -p->qSpeedAirY;
     }
-    var_r3 = (u16) p->qSpeedAirY;
-    if ((s32) p->qSpeedAirY > 0xF00) {
-        var_r3 = 0xF00;
+
+    qSpeedAirY = p->qSpeedAirY;
+    if (p->qSpeedAirY > Q(15)) {
+        qSpeedAirY = Q(15);
     }
-    p->qSpeedAirY = (s16) var_r3;
+    p->qSpeedAirY = qSpeedAirY;
+
     if (p->moveState & 0x10000) {
-        var_r0 = p->qWorldY - p->qSpeedAirY;
+        p->qWorldY = p->qWorldY - p->qSpeedAirY;
     } else {
-        var_r0 = p->qWorldY + p->qSpeedAirY;
+        p->qWorldY = p->qWorldY + p->qSpeedAirY;
     }
-    p->qWorldY = var_r0;
 }
 
+#if 0
 s32 sub_8016D88(Player *arg0) {
     u32 temp_r1;
     void (*var_r1)(Player *);
