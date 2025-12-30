@@ -332,7 +332,7 @@ extern void sub_8014670(Player *p);
 extern void Player_801479C(Player *p);
 extern void sub_8014940(Player *p);
 extern void Player_80149E4(Player *p);
-extern void sub_8014AF8(Player *p);
+extern bool32 sub_8014AF8(Player *p);
 extern s16 sub_8014BC4(Player *p);
 extern void sub_8014E70(Player *p);
 extern void sub_8014FA4(Player *p);
