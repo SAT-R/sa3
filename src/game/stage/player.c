@@ -13858,62 +13858,54 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015064.inc", s16 sub_8015064(
 }
 END_NONMATCH
 
-#if 0
-void sub_8015144(Player *p) {
-    s16 temp_r4;
-    s16 var_r0;
-    s32 temp_r0;
-    s32 var_r1;
-    u8 temp_r3;
+void sub_8015144(Player *p)
+{
+    s32 sinValue;
+    s32 var_r0;
+    s32 qSpeed;
 
-    temp_r3 = p->unk26;
-    if ((s32) (u8) (temp_r3 + 0x60) <= 0xBF) {
+    var_r0 = (p->unk26 + 0x60) & 0xFF;
+    if (var_r0 < (u8)-0x40) {
         if (!(p->moveState & 2)) {
+            qSpeed = (SIN_24_8(p->unk26 * 4) * 3) >> 5;
             if (p->qSpeedGround != 0) {
-                var_r0 = (u16) p->qSpeedGround + ((s32) (((s32) (*((temp_r3 * 8) + gSineTable) << 0x10) >> 0x16) * 3) >> 5);
-                goto block_11;
+                p->qSpeedGround += qSpeed;
             }
         } else {
-            temp_r4 = p->qSpeedGround;
-            if (temp_r4 != 0) {
-                temp_r0 = ((s32) (*((temp_r3 * 8) + gSineTable) << 0x10) >> 0x16) * 0x3C;
-                var_r1 = temp_r0 >> 8;
-                if ((s32) temp_r4 > 0) {
-                    if (var_r1 <= 0) {
-                        goto block_9;
+            if (p->qSpeedGround != 0) {
+                sinValue = SIN_24_8(p->unk26 * 4) * 60;
+                qSpeed = I(sinValue);
+
+                if (p->qSpeedGround > 0) {
+                    if (qSpeed <= 0) {
+                        qSpeed = I(sinValue) >> 2;
                     }
-                } else if (var_r1 >= 0) {
-block_9:
-                    var_r1 = temp_r0 >> 0xA;
+                } else if (qSpeed >= 0) {
+                    qSpeed = I(sinValue) >> 2;
                 }
-                var_r0 = (u16) p->qSpeedGround + var_r1;
-block_11:
-                p->qSpeedGround = var_r0;
+
+                p->qSpeedGround += qSpeed;
             }
         }
     }
 }
 
-void sub_80151C4(Player *p) {
-    s16 temp_r2;
-    s16 var_r0;
-    u16 temp_r1;
+void sub_80151C4(Player *p)
+{
+    p->qSpeedGround += ((SIN_24_8(p->unk26 * 4) * 5) >> 5);
 
-    temp_r2 = ((s32) (((s32) (*((p->unk26 * 8) + gSineTable) << 0x10) >> 0x16) * 5) >> 5) + (u16) p->qSpeedGround;
-    p->qSpeedGround = temp_r2;
-    temp_r1 = p->keyInput;
-    if (0x20 & temp_r1) {
-        if ((u32) (temp_r2 << 0x10) > 0x01000000U) {
-            var_r0 = temp_r2 - 8;
-            goto block_6;
+    if (DPAD_LEFT & p->keyInput) {
+        if (p->qSpeedGround < 0 || p->qSpeedGround > Q(1)) {
+            p->qSpeedGround -= Q(8. / 256.);
         }
-    } else if ((0x10 & temp_r1) && ((u32) ((temp_r2 + 0x100) << 0x10) > 0x01000000U)) {
-        var_r0 = temp_r2 + 8;
-block_6:
-        p->qSpeedGround = var_r0;
+    } else if (DPAD_RIGHT & p->keyInput) {
+        if ((p->qSpeedGround + Q(1)) < Q(0) || (p->qSpeedGround + Q(1)) > Q(1)) {
+            p->qSpeedGround += Q(8. / 256.);
+        }
     }
 }
 
+#if 0
 void sub_8015228(Player *p) {
     u8 sp8;
     s16 var_r0;
