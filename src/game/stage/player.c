@@ -14226,145 +14226,139 @@ bool32 sub_8015568(Player *p)
     return 0;
 }
 
-#if 0
-void sub_8015A44(Player *arg0) {
-    Player *temp_r4;
-    s16 temp_r7;
-    s16 var_r0;
-    s16 var_sb;
-    s32 temp_r0;
-    s32 temp_r1;
-    s32 var_r2;
-    u32 temp_r0_5;
-    u32 temp_r1_2;
-    u32 var_r0_2;
-    u8 temp_r0_2;
-    u8 temp_r0_3;
-    u8 temp_r0_4;
-    u8 temp_r1_3;
-    u8 temp_r2;
+// (90.11%) https://decomp.me/scratch/TR6YA
+NONMATCH("asm/non_matching/game/stage/player__sub_8015A44.inc", void sub_8015A44(Player *p))
+{
+    s16 dx;
+    s16 dy;
+    s16 i;
 
-    temp_r2 = arg0->unk2B;
-    temp_r0 = 0x1C & temp_r2;
-    if (temp_r0 == 8) {
-        return;
-    }
-    if (temp_r0 == 0x14) {
+#ifndef NON_MATCHING
+    register Player *partner asm("sl") = GET_SP_PLAYER_V1(PLAYER_2);
+#else
+    Player *partner = GET_SP_PLAYER_V1(PLAYER_2);
+#endif
+    if ((p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 5)) {
         return;
     }
     if (gStageData.unk4 != 3) {
         return;
     }
-    if (arg0->framesInvulnerable != 0) {
+    if (p->framesInvulnerable != 0) {
         return;
     }
-    if (arg0->moveState & 0x01000000) {
+    if (p->moveState & 0x01000000) {
         return;
     }
-    var_sb = 0;
-loop_11:
-    temp_r7 = var_sb;
-    temp_r4 = &gPlayers[temp_r7];
-    if (temp_r4 == arg0) {
-        goto block_63;
-    }
-    temp_r1 = 0x1C & temp_r4->unk2B;
-    if (temp_r1 == 0x14) {
-        goto block_63;
-    }
-    if (temp_r1 == 8) {
-        goto block_63;
-    }
-    temp_r1_2 = temp_r4->moveState;
-    if (0x01000000 & temp_r1_2) {
-        goto block_63;
-    }
-    if (arg0->moveState & 0x20000000) {
-        goto block_63;
-    }
-    if (temp_r1_2 & 0x20000000) {
-        goto block_63;
-    }
-    var_r2 = (s32) ((arg0->qWorldX - temp_r4->qWorldX) << 8) >> 0x10;
-    if (var_r2 < 0) {
-        var_r2 = 0 - var_r2;
-    }
-    if (var_r2 > 0x40) {
-        goto block_63;
-    }
-    var_r0 = (s16) ((u32) ((arg0->qWorldY - temp_r4->qWorldY) << 8) >> 0x10);
-    if ((s32) var_r0 < 0) {
-        var_r0 = 0 - var_r0;
-    }
-    if ((s32) var_r0 > 0x40) {
-        goto block_63;
-    }
-    if (sub_80210BC(temp_r4, 1U, arg0, 1U) != 0) {
-        if (gStageData.gameMode != 7) {
-            goto block_62;
+
+    for (i = 0; i < 4; i++) {
+        Player *playerLoop = &gPlayers[i];
+        if (playerLoop == p) {
+            continue;
         }
-        if (arg0->charFlags.anim0 != 0xA) {
-            if (temp_r4->charFlags.anim0 != 0xA) {
-                goto block_62;
-            }
-            sub_8015C90(arg0);
-            temp_r4->framesInvulnerable = 0x78;
+
+        if (playerLoop->charFlags.someIndex == 5) {
+            continue;
+        }
+        if (playerLoop->charFlags.someIndex == 2) {
+            continue;
+        }
+
+        if (0x01000000 & playerLoop->moveState) {
+            continue;
+        }
+        if (p->moveState & 0x20000000) {
+            continue;
+        }
+        if (playerLoop->moveState & 0x20000000) {
+            continue;
+        }
+        dx = I(p->qWorldX - playerLoop->qWorldX);
+        dy = I(p->qWorldY - playerLoop->qWorldY);
+        if (ABS(dx) > 0x40) {
+            continue;
+        }
+        if (ABS(dy) > 0x40) {
+            continue;
+        }
+        if (sub_80210BC(playerLoop, 1, p, 1)) {
             if (gStageData.gameMode != 7) {
-                return;
+                sub_8015C90(p);
+                break;
+            } else if (p->charFlags.anim0 != 0xA) {
+                if (playerLoop->charFlags.anim0 == 0xA) {
+                    sub_8015C90(p);
+                    playerLoop->framesInvulnerable = 120;
+
+                    if (gStageData.gameMode == 7) {
+
+#if 01
+                        goto line158;
+#else
+                        sub_80276A8(gStageData.playerIndex);
+                        sub_80293E8(p);
+#endif
+                    } else {
+                        break;
+                    }
+                } else {
+                    sub_8015C90(p);
+                    break;
+                }
+            } else if (playerLoop->charFlags.anim0 != 0xA) {
+                Player_8014550(p);
+                if ((gStageData.unk8E == i) || (gStageData.unk8E == gStageData.playerIndex)) {
+                    sub_80276A8(i);
+                    sub_80293E8(playerLoop);
+                }
+                break;
+            line158:
+                if ((gStageData.unk8E == i) || (gStageData.unk8E == gStageData.playerIndex)) {
+                    sub_80276A8(gStageData.playerIndex);
+                    sub_80293E8(p);
+                }
+                break;
+            } else {
+                sub_8015C90(p);
+                break;
             }
-            temp_r1_3 = gStageData.unk8E;
-            if ((temp_r1_3 == var_sb) || (temp_r1_3 == gStageData.playerIndex)) {
-                goto block_60;
+        } else if (sub_80210BC(playerLoop, 1, p, 0)) {
+            if (gStageData.gameMode != 7) {
+                if (playerLoop != partner) {
+                    Player_8014550(p);
+                } else {
+                    sub_8015C90(p);
+                }
+            } else {
+                Player_8014550(p);
+                if ((gStageData.unk8E == i) || (gStageData.unk8E == gStageData.playerIndex)) {
+                    sub_80276A8(i);
+                    sub_80293E8(playerLoop);
+                }
             }
-        } else if (temp_r4->charFlags.anim0 != 0xA) {
-            Player_8014550(arg0);
-            temp_r0_2 = gStageData.unk8E;
-            if ((temp_r0_2 == temp_r7) || (temp_r0_2 == gStageData.playerIndex)) {
-                var_r0_2 = var_sb << 0x18;
-                goto block_54;
+
+            break;
+        } else if (sub_80210BC(playerLoop, 0, p, 1)) {
+            sub_8015C90(p);
+            playerLoop->framesInvulnerable = 120;
+            if (gStageData.gameMode == 7) {
+                if ((gStageData.unk8E == i) || (gStageData.unk8E == gStageData.playerIndex)) {
+                blk:
+                    sub_80276A8(gStageData.playerIndex);
+                    sub_80293E8(p);
+                }
             }
-        } else {
-            goto block_62;
-        }
-    } else if (sub_80210BC(temp_r4, 1U, arg0, 0U) != 0) {
-        if (gStageData.gameMode != 7) {
-            if (temp_r4 != &gPlayers[(u32) (temp_r2 << 0x1E) >> 0x1E]) {
-                Player_8014550(arg0);
-                return;
-            }
-            goto block_62;
-        }
-        Player_8014550(arg0);
-        temp_r0_3 = gStageData.unk8E;
-        if ((temp_r0_3 == temp_r7) || (temp_r0_3 == gStageData.playerIndex)) {
-            var_r0_2 = var_sb << 0x18;
-block_54:
-            sub_80276A8((u8) (var_r0_2 >> 0x18));
-            sub_80293E8(temp_r4);
-        }
-    } else if (sub_80210BC(temp_r4, 0U, arg0, 1U) != 0) {
-        sub_8015C90(arg0);
-        temp_r4->framesInvulnerable = 0x78;
-        if ((gStageData.gameMode == 7) && ((temp_r0_4 = gStageData.unk8E, (temp_r0_4 == temp_r7)) || (temp_r0_4 == gStageData.playerIndex))) {
-block_60:
-            sub_80276A8(gStageData.playerIndex);
-            sub_80293E8(arg0);
-        }
-    } else {
-        if (sub_80210BC(temp_r4, 0U, arg0, 0U) != 0) {
-block_62:
-            sub_8015C90(arg0);
-            return;
-        }
-block_63:
-        temp_r0_5 = (var_sb << 0x10) + 0x10000;
-        var_sb = (s16) (temp_r0_5 >> 0x10);
-        if ((s32) ((s32) temp_r0_5 >> 0x10) <= 3) {
-            goto loop_11;
+
+            break;
+        } else if (sub_80210BC(playerLoop, 0, p, 0)) {
+            sub_8015C90(p);
+            break;
         }
     }
 }
+END_NONMATCH
 
+#if 0
 void sub_8015C90(Player *arg0, s32 arg1) {
     s16 temp_r0;
     s16 temp_r0_2;
