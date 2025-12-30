@@ -14004,10 +14004,11 @@ void sub_80153BC(Player *p)
     sub_8014710(p);
 }
 
-#if 0
-s16 sub_8015460(Player *arg0) {
-    s16 var_r5;
+s32 sub_8015460(Player *p)
+{
+    s16 sp00;
     s32 temp_r1;
+    s32 var_r5;
     u16 temp_r1_2;
     u16 var_r0;
     u16 var_r0_2;
@@ -14015,61 +14016,56 @@ s16 sub_8015460(Player *arg0) {
     u32 temp_r1_4;
 
     var_r5 = 0;
-    sub_8004E20((s16) ((s32) (arg0->qWorldX << 8) >> 0x10), (s16) ((s8) arg0->unk25 + ((s32) arg0->qWorldY >> 8)), &subroutine_arg0);
-    temp_r1 = subroutine_arg0 << 8;
-    if (((s32) arg0->qWorldY > temp_r1) || ((s32) arg0->qSpeedAirY > 0)) {
-        arg0->qSpeedAirY = (u16) arg0->qSpeedAirY - 0x10;
+    sub_8004E20(I(p->qWorldX), I(p->qWorldY) + p->spriteOffsetY, &sp00);
+    if ((p->qWorldY > Q(sp00)) || (p->qSpeedAirY > 0)) {
+        p->qSpeedAirY -= Q(16. / 256.);
     } else {
-        arg0->qWorldY = temp_r1;
-        arg0->qSpeedAirY = 0;
+        p->qWorldY = Q(sp00);
+        p->qSpeedAirY = 0;
     }
-    temp_r1_2 = arg0->keyInput;
-    if (0x10 & temp_r1_2) {
-        temp_r1_3 = arg0->moveState;
-        if (1 & temp_r1_3) {
-            arg0->moveState = temp_r1_3 & ~1;
+
+    if (DPAD_RIGHT & p->keyInput) {
+        if (1 & p->moveState) {
+            p->moveState &= ~1;
             var_r0 = 0;
-            goto block_12;
-        }
-        if ((s32) (s16) arg0->qSpeedAirX <= 0xFF) {
-            var_r0_2 = arg0->qSpeedAirX + 8;
-            goto block_15;
-        }
-        goto block_16;
-    }
-    if (0x20 & temp_r1_2) {
-        temp_r1_4 = arg0->moveState;
-        var_r0 = temp_r1_4 & 1;
-        if (var_r0 == 0) {
-            arg0->moveState = temp_r1_4 | 1;
-block_12:
-            arg0->qSpeedAirX = var_r0;
+            p->qSpeedAirX = var_r0;
             var_r5 = 3;
+        } else if (p->qSpeedAirX < +Q(1)) {
+            p->qSpeedAirX += 8;
+            var_r5 = 1;
         } else {
-            if ((s32) (s16) arg0->qSpeedAirX > 0xFFFFFF00) {
-                var_r0_2 = arg0->qSpeedAirX - 8;
-block_15:
-                arg0->qSpeedAirX = var_r0_2;
-            }
-block_16:
             var_r5 = 1;
         }
-    } else if (0x40 & temp_r1_2) {
-        arg0->qSpeedAirX = (u16) ((s32) (arg0->qSpeedAirX << 0x10) >> 0x11);
-        if (arg0->qSpeedAirY != 0) {
-            arg0->qSpeedAirY = (u16) arg0->qSpeedAirY - 0x20;
+    } else if (DPAD_LEFT & p->keyInput) {
+        if (!(p->moveState & 1)) {
+            p->moveState |= 1;
+            p->qSpeedAirX = 0;
+            var_r5 = 3;
+        } else {
+            if (p->qSpeedAirX > -Q(1)) {
+                p->qSpeedAirX -= Q(8. / 256.);
+            }
+
+            var_r5 = 1;
+        }
+    } else if (DPAD_UP & p->keyInput) {
+        p->qSpeedAirX >>= 1;
+        if (p->qSpeedAirY != 0) {
+            p->qSpeedAirY -= Q(32. / 256.);
         }
         var_r5 = 2;
-    } else if (0x80 & temp_r1_2) {
+    } else if (DPAD_DOWN & p->keyInput) {
         var_r5 = 4;
     } else {
-        arg0->qSpeedAirX = (u16) ((s32) (arg0->qSpeedAirX << 0x10) >> 0x11);
+        p->qSpeedAirX >>= 1;
     }
-    Player_80149E4(arg0);
-    arg0->moveState &= ~0x40;
+
+    Player_80149E4(p);
+    p->moveState &= ~MOVESTATE_40;
     return var_r5;
 }
 
+#if 0
 s32 sub_8015568(Player *arg0) {
     Player *temp_r5;
     Player *temp_r5_2;
