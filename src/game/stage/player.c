@@ -13973,39 +13973,38 @@ void sub_8015228(Player *p)
     }
 }
 
-#if 0
-void sub_80153BC(Player *arg0) {
+void sub_80153BC(Player *p)
+{
+    u16 param2;
     s32 var_r5;
     s8 *temp_r1_3;
     u32 temp_r1;
     u32 temp_r1_2;
 
     var_r5 = 0;
-    if ((sub_8004E20((s16) ((s32) (arg0->qWorldX << 8) >> 0x10), (s16) ((s32) (arg0->qWorldY << 8) >> 0x10), &subroutine_arg0) << 0x10) != 0) {
-        temp_r1 = arg0->moveState;
-        if (!(temp_r1 & 0x80)) {
+    if ((sub_8004E20(I(p->qWorldX), I(p->qWorldY), &param2) << 0x10) != 0) {
+        if (!(p->moveState & MOVESTATE_80)) {
             var_r5 = 1;
-            arg0->qSpeedAirX = (s16) ((s32) ((u16) arg0->qSpeedAirX << 0x10) >> 0x12);
-            arg0->qSpeedAirY = (s16) ((s32) ((u16) arg0->qSpeedAirY << 0x10) >> 0x12);
+            p->qSpeedAirX >>= 2;
+            p->qSpeedAirY >>= 2;
         }
-        arg0->moveState = temp_r1 | 0x80;
+        p->moveState |= MOVESTATE_80;
     } else {
-        temp_r1_2 = arg0->moveState;
-        if (0x80 & temp_r1_2) {
+        if (MOVESTATE_80 & p->moveState) {
             var_r5 = 1;
         }
-        arg0->moveState = temp_r1_2 & ~0x80;
-        temp_r1_3 = &arg0->unk56;
-        temp_r1_3->unk0 = 0xE;
-        temp_r1_3->unk1 = 0x78;
+        p->moveState &= ~MOVESTATE_80;
+        p->unk56 = 0xE;
+        p->unk57 = 0x78;
     }
-    if ((var_r5 != 0) && (gStageData.unk4 == 3) && !(arg0->moveState & 0x100)) {
-        sub_80172F0(arg0, subroutine_arg0);
-        Player_PlaySong(arg0, 0x9CU);
+    if ((var_r5 != 0) && (gStageData.unk4 == 3) && !(p->moveState & 0x100)) {
+        sub_80172F0(p, param2);
+        Player_PlaySong(p, SE_156);
     }
-    sub_8014710(arg0);
+    sub_8014710(p);
 }
 
+#if 0
 s16 sub_8015460(Player *arg0) {
     s16 var_r5;
     s32 temp_r1;
@@ -15474,7 +15473,7 @@ void sub_80172F0(Player *arg0, u16 arg1) {
     temp_r4->unk1C = 0x10;
     temp_r4->unk1F = 0;
     temp_r4->unk20 = -1;
-    temp_r4->unk28 = (s16) ((s32) arg0->qWorldX >> 8);
+    temp_r4->unk28 = I(arg0->qWorldX);
     temp_r4->unk2A = arg1;
 }
 
