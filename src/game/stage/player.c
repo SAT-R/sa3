@@ -69,6 +69,8 @@ bool16 sub_8016EDC(Player *p);
 bool32 sub_8017058(Player *p);
 void Task_80182D4(void);
 void Task_801839C_E0(void);
+void TaskDestructor_8019400(Task *t);
+void Task_8019698(void);
 void TaskDestructor_8019368(struct Task *t);
 void sub_801EBC0(s32, Player *p);
 void sub_8023634();
@@ -137,7 +139,9 @@ typedef struct Strc_PlayerUnk2C {
     /* 0x2A */ s16 unk2A;
 } Strc_PlayerStrc2C; /* 0x2C */
 
-typedef struct Strc_PlayerUnk30 {
+// NOTE/TODO: It's possible every single Strc_PlayerStrc30 task creates its own version
+//            of the struct, with different layouts.
+typedef struct Strc_PlayerStrc30 {
     /* 0x00 */ Sprite s;
     /* 0x28 */ Player *p;
     /* 0x2C */ s16 someY;
@@ -15385,38 +15389,42 @@ void sub_801782C(Player *p, s16 arg1)
     }
 }
 
-#if 0
-void sub_8017914(Player *p) {
+void sub_8017914(Player *p)
+{
     s16 var_r0;
-    u16 temp_r0;
+    Strc_PlayerStrc30 *temp_r0;
+    Sprite *s;
 
-    temp_r0 = TaskCreate(sub_8019698, 0x30U, 0x3100U, 0U, sub_8019400)->data;
-    temp_r0->unk28 = p;
+    temp_r0 = TASK_DATA(TaskCreate(Task_8019698, 0x30U, 0x3100U, 0U, TaskDestructor_8019400));
+    temp_r0->p = p;
+    s = &temp_r0->s;
     if (gStageData.zone == 6) {
-        temp_r0->unk0 = VramMalloc(0xFU);
-        var_r0 = 0x3E8;
+        s->tiles = VramMalloc(0xFU);
+        s->anim = 0x3E8;
+        s->variant = 0;
     } else {
-        temp_r0->unk0 = VramMalloc(0xFU);
-        var_r0 = 0x3CA;
+        s->tiles = VramMalloc(0xFU);
+        s->anim = 0x3CA;
+        s->variant = 0;
     }
-    temp_r0->unkC = var_r0;
-    temp_r0->unk1A = 0;
-    temp_r0->unk8 = 0x1000;
+    s->frameFlags = 0x1000;
     if (p->moveState & 1) {
-        temp_r0->unk8 = (s32) (0x400 | 0x1000);
+        s->frameFlags = 0x400;
+        s->frameFlags |= 0x1000;
     }
-    temp_r0->unk10 = 0;
-    temp_r0->unk12 = 0;
-    temp_r0->unk14 = 0;
-    temp_r0->unk16 = 0;
-    temp_r0->unk18 = 0xFFFF;
-    temp_r0->unk1B = 0xFF;
-    temp_r0->unk1C = 0x10;
-    temp_r0->unk1F = 0;
-    temp_r0->unk20 = -1;
+    s->x = 0;
+    s->y = 0;
+    s->oamFlags = 0;
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
     Player_PlaySong(p, 0x11AU);
 }
 
+#if 0
 void sub_80179BC(void *arg0) {
     Task *temp_r0;
     Task *temp_r5;
@@ -16785,7 +16793,7 @@ void TaskDestructor_80193EC(Task *arg0) {
     VramFree(*arg0->data);
 }
 
-void sub_8019400(Task *arg0) {
+void TaskDestructor_8019400(Task *arg0) {
     VramFree(*arg0->data);
 }
 
@@ -16917,7 +16925,7 @@ void sub_8019628(void) {
     }
 }
 
-void sub_8019698(void) {
+void Task_8019698(void) {
     Player *temp_r4;
     u16 temp_r1;
 

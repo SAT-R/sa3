@@ -8,89 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_8017914
-sub_8017914: @ 0x08017914
-	push {r4, r5, lr}
-	sub sp, #4
-	adds r5, r0, #0
-	ldr r0, _08017950 @ =sub_8019698
-	movs r2, #0xc4
-	lsls r2, r2, #6
-	ldr r1, _08017954 @ =sub_8019400
-	str r1, [sp]
-	movs r1, #0x30
-	movs r3, #0
-	bl TaskCreate
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r0, r0, r1
-	str r5, [r0, #0x28]
-	adds r4, r0, #0
-	ldr r0, _08017958 @ =gStageData
-	ldrb r0, [r0, #9]
-	cmp r0, #6
-	bne _0801795C
-	movs r0, #0xf
-	bl VramMalloc
-	str r0, [r4]
-	movs r1, #0
-	movs r0, #0xfa
-	lsls r0, r0, #2
-	b _08017968
-	.align 2, 0
-_08017950: .4byte sub_8019698
-_08017954: .4byte sub_8019400
-_08017958: .4byte gStageData
-_0801795C:
-	movs r0, #0xf
-	bl VramMalloc
-	str r0, [r4]
-	movs r1, #0
-	ldr r0, _080179B4 @ =0x000003CA
-_08017968:
-	strh r0, [r4, #0xc]
-	strb r1, [r4, #0x1a]
-	movs r2, #0x80
-	lsls r2, r2, #5
-	str r2, [r4, #8]
-	ldr r0, [r5, #4]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _08017984
-	movs r0, #0x80
-	lsls r0, r0, #3
-	orrs r0, r2
-	str r0, [r4, #8]
-_08017984:
-	movs r1, #0
-	movs r0, #0
-	strh r0, [r4, #0x10]
-	strh r0, [r4, #0x12]
-	strh r0, [r4, #0x14]
-	strh r0, [r4, #0x16]
-	ldr r0, _080179B8 @ =0x0000FFFF
-	strh r0, [r4, #0x18]
-	movs r0, #0xff
-	strb r0, [r4, #0x1b]
-	movs r0, #0x10
-	strb r0, [r4, #0x1c]
-	strb r1, [r4, #0x1f]
-	subs r0, #0x11
-	str r0, [r4, #0x20]
-	movs r1, #0x8d
-	lsls r1, r1, #1
-	adds r0, r5, #0
-	bl Player_PlaySong
-	add sp, #4
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080179B4: .4byte 0x000003CA
-_080179B8: .4byte 0x0000FFFF
-
 	thumb_func_start sub_80179BC
 sub_80179BC: @ 0x080179BC
 	push {r4, r5, r6, lr}
@@ -3521,8 +3438,8 @@ TaskDestructor_80193EC: @ 0x080193EC
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8019400
-sub_8019400: @ 0x08019400
+	thumb_func_start TaskDestructor_8019400
+TaskDestructor_8019400: @ 0x08019400
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
@@ -3890,8 +3807,8 @@ _08019690:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_8019698
-sub_8019698: @ 0x08019698
+	thumb_func_start Task_8019698
+Task_8019698: @ 0x08019698
 	push {r4, r5, r6, lr}
 	ldr r6, _080196C4 @ =gCurTask
 	ldr r0, [r6]
