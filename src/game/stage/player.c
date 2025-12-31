@@ -14884,14 +14884,16 @@ bool16 sub_8016EDC(Player *arg0)
     return 0;
 }
 
+// TODO: Implementation of sub_8015568__shared_inline() ?
+//       Unlikely, because it's called a lot, instead of not getting called ever.
 void sub_8016F28(Player *p)
 {
-    Player *temp_r5;
+    Player *partner;
     u32 temp_r1;
 
-    temp_r5 = GET_SP_PLAYER_V1(PLAYER_2);
+    partner = GET_SP_PLAYER_V1(PLAYER_2);
     sub_80193A4(p);
-    Player_StopSong(p, 0x21CU);
+    Player_StopSong(p, SE_TAGACTION_BUILDUP);
     if (p->moveState & 0x400000) {
         p->unk42 = 0;
         p->moveState &= 0xFFBFFFFF;
@@ -14899,9 +14901,9 @@ void sub_8016F28(Player *p)
     temp_r1 = p->moveState;
     if (0x800000 & temp_r1) {
         p->moveState = temp_r1 & 0xFF7FFFFF;
-        temp_r5->qWorldX = p->qWorldX;
-        temp_r5->qWorldY = p->qWorldY;
-        temp_r5->moveState &= 0xFEFFFFFF;
+        partner->qWorldX = p->qWorldX;
+        partner->qWorldY = p->qWorldY;
+        partner->moveState &= 0xFEFFFFFF;
     }
 }
 
@@ -15209,7 +15211,7 @@ void Player_InitializeShieldSprite(Player *p)
         s->prevAnim = -1;
         s->variant = sTileInfoShields[0].variant;
         s->prevVariant = -1;
-        s->animSpeed = 0x10;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
         s->palId = 0;
         s->hitboxes[0].index = -1;
 
@@ -15217,6 +15219,123 @@ void Player_InitializeShieldSprite(Player *p)
         p->unk13D = 0;
     }
 }
+
+// (92.20%) https://decomp.me/scratch/3gRhu
+NONMATCH("asm/non_matching/game/stage/player__sub_8017618.inc", void sub_8017618(Player *p))
+{
+    PlayerSpriteInfo **temp_r2;
+    u8 temp_r7;
+    bool32 shouldRender;
+    u8 var_r5;
+    Sprite *s;
+
+    shouldRender = FALSE;
+    if (gStageData.gameMode > 5U) {
+        return;
+    }
+    if (gStageData.unk4 == 5 || gStageData.unk4 == 6) {
+        return;
+    }
+    if (gStageData.unk85 != 0) {
+        p->unk13D = 0;
+        return;
+    }
+    if (gStageData.act == 7) {
+        return;
+    }
+
+    var_r5 = 0x40 & p->unk13C;
+    if (var_r5 == 0) {
+        var_r5 = 0x20 & p->unk13C;
+        if (var_r5 == 0) {
+            var_r5 = 0x10 & p->unk13C;
+            if ((var_r5 == 0) && (p->unkC & 0x40000) && ((p->moveState & 0x180) == 0x80)) {
+                var_r5 = 0x80;
+            }
+        }
+    }
+
+    temp_r7 = (0xF & p->unk13C);
+    temp_r7++;
+    p->unk13C = (0xF0 & p->unk13C) | (temp_r7 & 0xF);
+
+    if (var_r5 == 0) {
+        p->unk13C = 0;
+        p->unk13D = 0;
+        return;
+    }
+
+    s = &p->sprShield;
+    if (p->unk13D != var_r5) {
+        switch (var_r5) {
+            case 0x40:
+                s->anim = sTileInfoShields[2].anim;
+                s->variant = sTileInfoShields[2].variant;
+                s->prevAnim = -1;
+                s->prevVariant = -1;
+                p->unk13D = var_r5;
+                break;
+            case 0x20:
+                s->anim = sTileInfoShields[1].anim;
+                s->variant = sTileInfoShields[1].variant;
+                Player_PlaySong(p, SE_SHIELD_ACTIVATE);
+                s->prevAnim = -1;
+                s->prevVariant = -1;
+                p->unk13D = var_r5;
+                break;
+            case 0x10:
+                s->anim = sTileInfoShields[0].anim;
+                s->variant = sTileInfoShields[0].variant;
+                Player_PlaySong(p, SE_SHIELD_ACTIVATE);
+                s->prevAnim = -1;
+                s->prevVariant = -1;
+                p->unk13D = var_r5;
+                break;
+            case 0x80:
+                s->anim = sTileInfoShields[3].anim;
+                s->variant = sTileInfoShields[3].variant;
+                Player_PlaySong(p, SE_SHIELD_ACTIVATE);
+                s->prevAnim = -1;
+                s->prevVariant = -1;
+                p->unk13D = var_r5;
+                break;
+            default:
+                return;
+        }
+    }
+    {
+        s->x = I(p->qWorldX) - gCamera.x;
+        s->y = I(p->qWorldY) - gCamera.y;
+        s->oamFlags = ((u16)p->spriteInfoBody->s.oamFlags - 0x40);
+        s->frameFlags = (s->frameFlags & 0xFFFFCFFF);
+        s->frameFlags = (p->spriteInfoBody->s.frameFlags & 0x3000);
+        UpdateSpriteAnimation((Sprite *)s);
+        if (p == gPlayers) {
+            if (temp_r7 & 2) {
+                shouldRender = TRUE;
+            }
+        } else if (!(temp_r7 & 2)) {
+            shouldRender = TRUE;
+        }
+        if (gStageData.unk4 == 1) {
+            if (gStageData.unkBC & 1) {
+                s->frameFlags |= 0x80;
+            } else {
+                s->frameFlags &= ~0x80;
+            }
+            if (MOVESTATE_2 & gStageData.unkBC) {
+                return;
+            }
+        } else {
+            s->frameFlags &= ~0x80;
+        }
+
+        if (shouldRender != 0) {
+            DisplaySprite(s);
+        }
+    }
+}
+END_NONMATCH
 
 #if 0
 void sub_8017618(Player *p) {
