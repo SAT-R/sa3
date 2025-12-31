@@ -280,13 +280,20 @@
 #define ANIM_ITEM_BOX_TYPE 1315
 #define ANIM_ITEM_BOX      1316
 
+#define ANIM_GRINDING                     1329
+#define SA2_ANIM_SPINDASH_DUST_EFFECT     1330
+#define SA2_ANIM_SPINDASH_DUST_EFFECT_BIG 1331
+
 #define ANIM_RING                  1333
 #define ANIM_RING_COLLECT_EFFECT   1334
 #define ANIM_ITEM_BOX_CLOUD_EFFECT 1338 // Also used for enemies
 #define ANIM_CONDOR_PROJ_EXPLOSION 1339
 
-#define ANIM_ICE_SHIVER  1344
-#define ANIM_SPECIAL_KEY 1348
+#define ANIM_ICE_SHIVER   1344
+#define ANIM_ICE_SHIVER_2 1345
+#define ANIM_MINI_SPARKLE 1346
+#define ANIM_1347         1347
+#define ANIM_SPECIAL_KEY  1348
 
 #define ANIM_LIFE_ICONS 1423
 #define ANIM_ZONEX_NAME 1424 /* Substate-Index == Zone number */

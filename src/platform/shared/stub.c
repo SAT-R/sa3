@@ -48,8 +48,6 @@ void sub_8003F40() { }
 void sub_8003F8C() { }
 void sub_8003FC8() { }
 void Stop() { }
-void sub_8016D04() { }
-void sub_8016F28(Player *p) { }
 void /* 0x08019A58 */ Player_BoostModeEngage(Player *p) { }
 void /* 0x08019A64 */ Player_BoostModeDisengage(Player *p) { }
 void Player_801D73C(Player *p) { }

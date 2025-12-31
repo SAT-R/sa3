@@ -8,355 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_80170A0
-sub_80170A0: @ 0x080170A0
-	push {r4, r5, lr}
-	sub sp, #4
-	adds r5, r0, #0
-	ldr r0, _08017124 @ =sub_8018238
-	movs r2, #0xc4
-	lsls r2, r2, #6
-	ldr r1, _08017128 @ =sub_8019318
-	str r1, [sp]
-	movs r1, #0x30
-	movs r3, #0
-	bl TaskCreate
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	str r5, [r4, #0x28]
-	movs r0, #0x14
-	bl VramMalloc
-	str r0, [r4]
-	movs r2, #0x80
-	lsls r2, r2, #5
-	str r2, [r4, #8]
-	ldr r0, [r5, #4]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	bne _080170E2
-	movs r0, #0x80
-	lsls r0, r0, #3
-	orrs r0, r2
-	str r0, [r4, #8]
-_080170E2:
-	ldr r0, [r5, #4]
-	movs r1, #0x80
-	lsls r1, r1, #9
-	ands r0, r1
-	cmp r0, #0
-	beq _080170F8
-	ldr r0, [r4, #8]
-	movs r1, #0x80
-	lsls r1, r1, #4
-	orrs r0, r1
-	str r0, [r4, #8]
-_080170F8:
-	movs r2, #0
-	movs r1, #0
-	ldr r0, _0801712C @ =0x00000533
-	strh r0, [r4, #0xc]
-	strh r1, [r4, #0x10]
-	strh r1, [r4, #0x12]
-	strh r1, [r4, #0x14]
-	strh r1, [r4, #0x16]
-	ldr r0, _08017130 @ =0x0000FFFF
-	strh r0, [r4, #0x18]
-	strb r2, [r4, #0x1a]
-	movs r0, #0xff
-	strb r0, [r4, #0x1b]
-	movs r0, #0x10
-	strb r0, [r4, #0x1c]
-	strb r2, [r4, #0x1f]
-	subs r0, #0x11
-	str r0, [r4, #0x20]
-	add sp, #4
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08017124: .4byte sub_8018238
-_08017128: .4byte sub_8019318
-_0801712C: .4byte 0x00000533
-_08017130: .4byte 0x0000FFFF
-
-	thumb_func_start sub_8017134
-sub_8017134: @ 0x08017134
-	push {r4, r5, lr}
-	sub sp, #4
-	adds r5, r0, #0
-	ldr r0, _080171A0 @ =sub_801952C
-	movs r2, #0xc4
-	lsls r2, r2, #6
-	ldr r1, _080171A4 @ =sub_801932C
-	str r1, [sp]
-	movs r1, #0x2c
-	movs r3, #0
-	bl TaskCreate
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	movs r0, #4
-	bl VramMalloc
-	str r0, [r4]
-	movs r0, #0x80
-	lsls r0, r0, #5
-	str r0, [r4, #8]
-	movs r2, #0
-	movs r1, #0
-	ldr r0, _080171A8 @ =0x00000534
-	strh r0, [r4, #0xc]
-	strh r1, [r4, #0x10]
-	strh r1, [r4, #0x12]
-	strh r1, [r4, #0x14]
-	strh r1, [r4, #0x16]
-	ldr r0, _080171AC @ =0x0000FFFF
-	strh r0, [r4, #0x18]
-	strb r2, [r4, #0x1a]
-	movs r0, #0xff
-	strb r0, [r4, #0x1b]
-	movs r0, #0x10
-	strb r0, [r4, #0x1c]
-	strb r2, [r4, #0x1f]
-	subs r0, #0x11
-	str r0, [r4, #0x20]
-	ldr r0, [r5, #0x10]
-	asrs r0, r0, #8
-	strh r0, [r4, #0x28]
-	ldr r0, [r5, #4]
-	movs r1, #0x80
-	lsls r1, r1, #9
-	ands r0, r1
-	cmp r0, #0
-	beq _080171B0
-	ldr r0, [r5, #0x14]
-	asrs r0, r0, #8
-	subs r0, #0xe
-	b _080171B6
-	.align 2, 0
-_080171A0: .4byte sub_801952C
-_080171A4: .4byte sub_801932C
-_080171A8: .4byte 0x00000534
-_080171AC: .4byte 0x0000FFFF
-_080171B0:
-	ldr r0, [r5, #0x14]
-	asrs r0, r0, #8
-	adds r0, #0xe
-_080171B6:
-	strh r0, [r4, #0x2a]
-	add sp, #4
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-
-	thumb_func_start sub_80171C0
-sub_80171C0: @ 0x080171C0
-	push {r4, r5, lr}
-	sub sp, #4
-	adds r5, r0, #0
-	ldr r0, _08017248 @ =sub_801952C
-	movs r2, #0xc4
-	lsls r2, r2, #6
-	ldr r1, _0801724C @ =sub_8019340
-	str r1, [sp]
-	movs r1, #0x2c
-	movs r3, #0
-	bl TaskCreate
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	movs r0, #0x14
-	bl VramMalloc
-	str r0, [r4]
-	adds r3, r5, #0
-	adds r3, #0xe0
-	ldr r0, [r3]
-	ldr r1, [r0, #0x14]
-	movs r0, #0xc0
-	lsls r0, r0, #6
-	ands r1, r0
-	str r1, [r4, #8]
-	movs r2, #0x1c
-	ldrsh r0, [r5, r2]
-	cmp r0, #0
-	ble _08017208
-	movs r0, #0x80
-	lsls r0, r0, #3
-	orrs r1, r0
-	str r1, [r4, #8]
-_08017208:
-	movs r2, #0
-	movs r1, #0
-	ldr r0, _08017250 @ =0x00000531
-	strh r0, [r4, #0xc]
-	strh r1, [r4, #0x10]
-	strh r1, [r4, #0x12]
-	ldr r0, [r3]
-	ldrh r0, [r0, #0x20]
-	adds r0, #0x40
-	strh r0, [r4, #0x14]
-	strh r1, [r4, #0x16]
-	ldr r0, _08017254 @ =0x0000FFFF
-	strh r0, [r4, #0x18]
-	strb r2, [r4, #0x1a]
-	movs r0, #0xff
-	strb r0, [r4, #0x1b]
-	movs r0, #0x10
-	strb r0, [r4, #0x1c]
-	strb r2, [r4, #0x1f]
-	subs r0, #0x11
-	str r0, [r4, #0x20]
-	ldr r0, [r5, #0x10]
-	asrs r0, r0, #8
-	strh r0, [r4, #0x28]
-	ldr r0, [r5, #0x14]
-	asrs r0, r0, #8
-	adds r0, #0xe
-	strh r0, [r4, #0x2a]
-	add sp, #4
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08017248: .4byte sub_801952C
-_0801724C: .4byte sub_8019340
-_08017250: .4byte 0x00000531
-_08017254: .4byte 0x0000FFFF
-
-	thumb_func_start sub_8017258
-sub_8017258: @ 0x08017258
-	push {r4, r5, lr}
-	sub sp, #4
-	adds r5, r0, #0
-	ldr r0, _080172E0 @ =sub_801952C
-	movs r2, #0xc4
-	lsls r2, r2, #6
-	ldr r1, _080172E4 @ =sub_8019340
-	str r1, [sp]
-	movs r1, #0x2c
-	movs r3, #0
-	bl TaskCreate
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	movs r0, #0x19
-	bl VramMalloc
-	str r0, [r4]
-	adds r3, r5, #0
-	adds r3, #0xe0
-	ldr r0, [r3]
-	ldr r1, [r0, #0x14]
-	movs r0, #0xc0
-	lsls r0, r0, #6
-	ands r1, r0
-	str r1, [r4, #8]
-	movs r2, #0x1c
-	ldrsh r0, [r5, r2]
-	cmp r0, #0
-	ble _080172A0
-	movs r0, #0x80
-	lsls r0, r0, #3
-	orrs r1, r0
-	str r1, [r4, #8]
-_080172A0:
-	movs r2, #0
-	movs r1, #0
-	ldr r0, _080172E8 @ =0x00000543
-	strh r0, [r4, #0xc]
-	strh r1, [r4, #0x10]
-	strh r1, [r4, #0x12]
-	ldr r0, [r3]
-	ldrh r0, [r0, #0x20]
-	adds r0, #0x40
-	strh r0, [r4, #0x14]
-	strh r1, [r4, #0x16]
-	ldr r0, _080172EC @ =0x0000FFFF
-	strh r0, [r4, #0x18]
-	strb r2, [r4, #0x1a]
-	movs r0, #0xff
-	strb r0, [r4, #0x1b]
-	movs r0, #0x10
-	strb r0, [r4, #0x1c]
-	strb r2, [r4, #0x1f]
-	subs r0, #0x11
-	str r0, [r4, #0x20]
-	ldr r0, [r5, #0x10]
-	asrs r0, r0, #8
-	strh r0, [r4, #0x28]
-	ldr r0, [r5, #0x14]
-	asrs r0, r0, #8
-	adds r0, #0xe
-	strh r0, [r4, #0x2a]
-	add sp, #4
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080172E0: .4byte sub_801952C
-_080172E4: .4byte sub_8019340
-_080172E8: .4byte 0x00000543
-_080172EC: .4byte 0x0000FFFF
-
-	thumb_func_start sub_80172F0
-sub_80172F0: @ 0x080172F0
-	push {r4, r5, r6, lr}
-	sub sp, #4
-	adds r6, r0, #0
-	lsls r5, r1, #0x10
-	lsrs r5, r5, #0x10
-	ldr r0, _08017354 @ =sub_801957C
-	movs r2, #0xc4
-	lsls r2, r2, #6
-	ldr r1, _08017358 @ =sub_8019354
-	str r1, [sp]
-	movs r1, #0x2c
-	movs r3, #0
-	bl TaskCreate
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r4, r0
-	movs r0, #0xc
-	bl VramMalloc
-	str r0, [r4]
-	movs r1, #0
-	str r1, [r4, #8]
-	movs r2, #0
-	ldr r0, _0801735C @ =0x000003CB
-	strh r0, [r4, #0xc]
-	strh r1, [r4, #0x10]
-	strh r1, [r4, #0x12]
-	strh r1, [r4, #0x14]
-	strh r1, [r4, #0x16]
-	ldr r0, _08017360 @ =0x0000FFFF
-	strh r0, [r4, #0x18]
-	strb r2, [r4, #0x1a]
-	movs r0, #0xff
-	strb r0, [r4, #0x1b]
-	movs r0, #0x10
-	strb r0, [r4, #0x1c]
-	strb r2, [r4, #0x1f]
-	subs r0, #0x11
-	str r0, [r4, #0x20]
-	ldr r0, [r6, #0x10]
-	asrs r0, r0, #8
-	strh r0, [r4, #0x28]
-	strh r5, [r4, #0x2a]
-	add sp, #4
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08017354: .4byte sub_801957C
-_08017358: .4byte sub_8019354
-_0801735C: .4byte 0x000003CB
-_08017360: .4byte 0x0000FFFF
-
 	thumb_func_start sub_8017364
 sub_8017364: @ 0x08017364
 	push {r4, r5, r6, r7, lr}
@@ -440,7 +91,7 @@ sub_80173F0: @ 0x080173F0
 	ldr r0, _08017558 @ =sub_801839C
 	movs r2, #0xc4
 	lsls r2, r2, #6
-	ldr r1, _0801755C @ =sub_8019318
+	ldr r1, _0801755C @ =TaskDestructor_8019318
 	str r1, [sp]
 	movs r1, #0xe0
 	movs r3, #0
@@ -608,7 +259,7 @@ _080174F0:
 	bx r0
 	.align 2, 0
 _08017558: .4byte sub_801839C
-_0801755C: .4byte sub_8019318
+_0801755C: .4byte TaskDestructor_8019318
 _08017560: .4byte 0x0300007C
 _08017564: .4byte 0x03000004
 _08017568: .4byte 0x0000038F
@@ -1324,7 +975,7 @@ sub_8017AF4: @ 0x08017AF4
 	push {r4, r5, lr}
 	sub sp, #4
 	adds r5, r0, #0
-	ldr r0, _08017B60 @ =sub_801952C
+	ldr r0, _08017B60 @ =Task_801952C_2C
 	movs r2, #0xc4
 	lsls r2, r2, #6
 	ldr r1, _08017B64 @ =sub_8019428
@@ -1374,7 +1025,7 @@ sub_8017AF4: @ 0x08017AF4
 	subs r0, #0xe
 	b _08017B76
 	.align 2, 0
-_08017B60: .4byte sub_801952C
+_08017B60: .4byte Task_801952C_2C
 _08017B64: .4byte sub_8019428
 _08017B68: .4byte 0x00000534
 _08017B6C: .4byte 0x0000FFFF
@@ -2232,8 +1883,8 @@ _0801822C: .4byte gUnknown_08E2EB04
 _08018230: .4byte 0x0000FFFF
 _08018234: .4byte sub_8019628
 
-	thumb_func_start sub_8018238
-sub_8018238: @ 0x08018238
+	thumb_func_start Task_8018238_30
+Task_8018238_30: @ 0x08018238
 	push {r4, lr}
 	ldr r2, _08018268 @ =gCurTask
 	ldr r0, [r2]
@@ -4452,8 +4103,8 @@ _08019304:
 	.align 2, 0
 _08019314: .4byte gCamera
 
-	thumb_func_start sub_8019318
-sub_8019318: @ 0x08019318
+	thumb_func_start TaskDestructor_8019318
+TaskDestructor_8019318: @ 0x08019318
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
@@ -4464,8 +4115,8 @@ sub_8019318: @ 0x08019318
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_801932C
-sub_801932C: @ 0x0801932C
+	thumb_func_start TaskDestructor_801932C
+TaskDestructor_801932C: @ 0x0801932C
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
@@ -4476,8 +4127,8 @@ sub_801932C: @ 0x0801932C
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8019340
-sub_8019340: @ 0x08019340
+	thumb_func_start TaskDestructor_8019340
+TaskDestructor_8019340: @ 0x08019340
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
@@ -4773,8 +4424,8 @@ sub_8019518: @ 0x08019518
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_801952C
-sub_801952C: @ 0x0801952C
+	thumb_func_start Task_801952C_2C
+Task_801952C_2C: @ 0x0801952C
 	push {r4, lr}
 	ldr r0, _08019550 @ =gCurTask
 	ldr r2, [r0]

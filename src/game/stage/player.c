@@ -3,6 +3,7 @@
 #include "trig.h"
 #include "module_unclear.h"
 #include "malloc_ewram.h"
+#include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "game/camera.h"
 #include "game/interactables/ice_launcher.h"
@@ -14907,121 +14908,175 @@ bool32 sub_8017058(Player *p)
     return 1;
 }
 
-#if 0
-void sub_80170A0(Player *p) {
-    u16 temp_r1;
+typedef struct Strc_PlayerUnk2C {
+    /* 0x00 */ Sprite s;
+    /* 0x28 */ s16 unk28;
+    /* 0x2A */ s16 unk2A;
+} Strc_PlayerStrc2C; /* 0x30 */
+void Task_801952C_2C(void);
+void sub_801957C(void);
+void TaskDestructor_801932C(struct Task *t);
+void TaskDestructor_8019340(struct Task *t);
+void sub_8019354(struct Task *t);
 
-    temp_r1 = TaskCreate(sub_8018238, 0x30U, 0x3100U, 0U, sub_8019318)->data;
-    temp_r1->unk28 = p;
-    temp_r1->unk0 = VramMalloc(0x14U);
-    temp_r1->unk8 = 0x1000;
+typedef struct Strc_PlayerUnk30 {
+    /* 0x00 */ Sprite s;
+    /* 0x28 */ Player *p;
+    /* 0x2C */ u8 unk2C[4];
+} Strc_PlayerStrc30; /* 0x30 */
+void Task_8018238_30(void);
+void TaskDestructor_8019318(struct Task *t);
+
+void sub_80170A0(Player *p)
+{
+    Strc_PlayerStrc30 *strc;
+    Sprite *s;
+
+    strc = TASK_DATA(TaskCreate(Task_8018238_30, sizeof(Strc_PlayerStrc30), 0x3100U, 0U, TaskDestructor_8019318));
+    strc->p = p;
+    s = &strc->s;
+    s->tiles = VramMalloc(0x14U);
+    s->frameFlags = 0x1000;
     if (!(p->moveState & 1)) {
-        temp_r1->unk8 = (s32) (0x400 | 0x1000);
+        s->frameFlags |= 0x400;
+        s->frameFlags |= 0x1000;
     }
     if (p->moveState & 0x10000) {
-        temp_r1->unk8 = (s32) (temp_r1->unk8 | 0x800);
+        s->frameFlags |= 0x800;
     }
-    temp_r1->unkC = 0x533;
-    temp_r1->unk10 = 0;
-    temp_r1->unk12 = 0;
-    temp_r1->unk14 = 0;
-    temp_r1->unk16 = 0;
-    temp_r1->unk18 = 0xFFFF;
-    temp_r1->unk1A = 0;
-    temp_r1->unk1B = 0xFF;
-    temp_r1->unk1C = 0x10;
-    temp_r1->unk1F = 0;
-    temp_r1->unk20 = -1;
+    s->anim = 0x533;
+    s->x = 0;
+    s->y = 0;
+    s->oamFlags = 0;
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->variant = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
 }
 
-void sub_8017134(Player *p) {
+void sub_8017134(Player *p)
+{
     s16 var_r0;
-    u16 temp_r4;
+    Strc_PlayerStrc2C *strc;
+    Sprite *s;
 
-    temp_r4 = TaskCreate(sub_801952C, 0x2CU, 0x3100U, 0U, sub_801932C)->data;
-    temp_r4->unk0 = VramMalloc(4U);
-    temp_r4->unk8 = 0x1000;
-    temp_r4->unkC = 0x534;
-    temp_r4->unk10 = 0;
-    temp_r4->unk12 = 0;
-    temp_r4->unk14 = 0;
-    temp_r4->unk16 = 0;
-    temp_r4->unk18 = 0xFFFF;
-    temp_r4->unk1A = 0;
-    temp_r4->unk1B = 0xFF;
-    temp_r4->unk1C = 0x10;
-    temp_r4->unk1F = 0;
-    temp_r4->unk20 = -1;
-    temp_r4->unk28 = (s16) ((s32) p->qWorldX >> 8);
+    strc = TASK_DATA(TaskCreate(Task_801952C_2C, sizeof(Strc_PlayerStrc2C), 0x3100U, 0U, TaskDestructor_801932C));
+    s = &strc->s;
+    s->tiles = VramMalloc(4U);
+    s->frameFlags = 0x1000;
+    s->anim = 0x534;
+    s->x = 0;
+    s->y = 0;
+    s->oamFlags = 0;
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->variant = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+
+    strc->unk28 = I(p->qWorldX);
     if (p->moveState & 0x10000) {
-        var_r0 = ((s32) p->qWorldY >> 8) - 0xE;
+        strc->unk2A = I(p->qWorldY) - 14;
     } else {
-        var_r0 = ((s32) p->qWorldY >> 8) + 0xE;
+        strc->unk2A = I(p->qWorldY) + 14;
     }
-    temp_r4->unk2A = var_r0;
 }
 
-void sub_80171C0(Player *p) {
-    PlayerSpriteInfo **temp_r3;
-    s32 temp_r1;
-    u16 temp_r4;
+void sub_80171C0(Player *p)
+{
+    Strc_PlayerStrc2C *strc;
+    Sprite *s;
+    Sprite2 *s2;
 
-    temp_r4 = TaskCreate(sub_801952C, 0x2CU, 0x3100U, 0U, sub_8019340)->data;
-    temp_r4->unk0 = VramMalloc(0x14U);
-    temp_r3 = &p->spriteInfoBody;
-    temp_r1 = (*temp_r3)->s.frameFlags & 0x3000;
-    temp_r4->unk8 = temp_r1;
-    if ((s32) p->qSpeedGround > 0) {
-        temp_r4->unk8 = (s32) (temp_r1 | 0x400);
+    strc = TASK_DATA(TaskCreate(Task_801952C_2C, sizeof(Strc_PlayerStrc2C), 0x3100U, 0U, TaskDestructor_8019340));
+    s = &strc->s;
+    s->tiles = VramMalloc(20);
+    s->frameFlags = p->spriteInfoBody->s.frameFlags & 0x3000;
+    if (p->qSpeedGround > 0) {
+        s->frameFlags |= 0x400;
     }
-    temp_r4->unkC = 0x531;
-    temp_r4->unk10 = 0;
-    temp_r4->unk12 = 0;
-    temp_r4->unk14 = (s16) ((u16) (*temp_r3)->s.oamFlags + 0x40);
-    temp_r4->unk16 = 0;
-    temp_r4->unk18 = 0xFFFF;
-    temp_r4->unk1A = 0;
-    temp_r4->unk1B = 0xFF;
-    temp_r4->unk1C = 0x10;
-    temp_r4->unk1F = 0;
-    temp_r4->unk20 = -1;
-    temp_r4->unk28 = (s16) ((s32) p->qWorldX >> 8);
-    temp_r4->unk2A = (s16) (((s32) p->qWorldY >> 8) + 0xE);
+    s->anim = 0x531;
+    s->x = 0;
+    s->y = 0;
+    s->oamFlags = p->spriteInfoBody->s.oamFlags + 0x40;
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->variant = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+
+    strc->unk28 = I(p->qWorldX);
+    strc->unk2A = I(p->qWorldY) + 14;
 }
 
-void sub_8017258(Player *p) {
-    PlayerSpriteInfo **temp_r3;
-    s32 temp_r1;
-    u16 temp_r4;
+void sub_8017258(Player *p)
+{
+    Strc_PlayerStrc2C *strc;
+    Sprite *s;
+    Sprite2 *s2;
 
-    temp_r4 = TaskCreate(sub_801952C, 0x2CU, 0x3100U, 0U, sub_8019340)->data;
-    temp_r4->unk0 = VramMalloc(0x19U);
-    temp_r3 = &p->spriteInfoBody;
-    temp_r1 = (*temp_r3)->s.frameFlags & 0x3000;
-    temp_r4->unk8 = temp_r1;
-    if ((s32) p->qSpeedGround > 0) {
-        temp_r4->unk8 = (s32) (temp_r1 | 0x400);
+    strc = TASK_DATA(TaskCreate(Task_801952C_2C, sizeof(Strc_PlayerStrc2C), 0x3100U, 0U, TaskDestructor_8019340));
+    s = &strc->s;
+    s->tiles = VramMalloc(25);
+    s->frameFlags = p->spriteInfoBody->s.frameFlags & 0x3000;
+    if (p->qSpeedGround > 0) {
+        s->frameFlags |= 0x400;
     }
-    temp_r4->unkC = 0x543;
-    temp_r4->unk10 = 0;
-    temp_r4->unk12 = 0;
-    temp_r4->unk14 = (s16) ((u16) (*temp_r3)->s.oamFlags + 0x40);
-    temp_r4->unk16 = 0;
-    temp_r4->unk18 = 0xFFFF;
-    temp_r4->unk1A = 0;
-    temp_r4->unk1B = 0xFF;
-    temp_r4->unk1C = 0x10;
-    temp_r4->unk1F = 0;
-    temp_r4->unk20 = -1;
-    temp_r4->unk28 = (s16) ((s32) p->qWorldX >> 8);
-    temp_r4->unk2A = (s16) (((s32) p->qWorldY >> 8) + 0xE);
+    s->anim = 0x543;
+    s->x = 0;
+    s->y = 0;
+    s->oamFlags = p->spriteInfoBody->s.oamFlags + 0x40;
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->variant = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+
+    strc->unk28 = I(p->qWorldX);
+    strc->unk2A = I(p->qWorldY) + 14;
 }
 
+void sub_80172F0(Player *p, s16 newY)
+{
+    s16 var_r0;
+    Strc_PlayerStrc2C *strc;
+    Sprite *s;
+
+    strc = TASK_DATA(TaskCreate(sub_801957C, sizeof(Strc_PlayerStrc2C), 0x3100U, 0U, sub_8019354));
+    s = &strc->s;
+    s->tiles = VramMalloc(12);
+    s->frameFlags = 0x0000;
+    s->anim = 0x3CB;
+    s->x = 0;
+    s->y = 0;
+    s->oamFlags = 0;
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->variant = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+
+    strc->unk28 = I(p->qWorldX);
+    strc->unk2A = newY;
+}
+
+#if 0
 void sub_80172F0(Player *arg0, u16 arg1) {
     u16 temp_r4;
 
     temp_r4 = TaskCreate(sub_801957C, 0x2CU, 0x3100U, 0U, sub_8019354)->data;
-    temp_r4->unk0 = VramMalloc(0xCU);
+    temp_r4->unk0 = VramMalloc(12);
     temp_r4->unk8 = 0;
     temp_r4->unkC = 0x3CB;
     temp_r4->unk10 = 0;
@@ -16657,7 +16712,7 @@ void sub_801932C(Task *arg0) {
     VramFree(*arg0->data);
 }
 
-void sub_8019340(Task *arg0) {
+void TaskDestructor_801932C(Task *arg0) {
     VramFree(*arg0->data);
 }
 
