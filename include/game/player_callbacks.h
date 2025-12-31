@@ -362,7 +362,7 @@ extern void sub_8017134(Player *p);
 extern void sub_80171C0(Player *p);
 extern void sub_8017258(Player *p);
 extern void sub_80172F0(Player *, s16 newY);
-extern void sub_8017364(Player *p);
+extern void Player_8017364(Player *p);
 extern void sub_801782C(Player *, s16);
 extern void sub_8017914(Player *p);
 extern void Player_8017D18(Player *p);

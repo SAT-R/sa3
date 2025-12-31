@@ -151,6 +151,7 @@
 #define ANIM_PLATFORM_CRUMBLE_6        967
 #define ANIM_SEESAW_3                  968
 #define ANIM_WINDUP_BLOCK_7            969
+#define ANIM_WATER_RUNNING_PARTICLES   972
 #define ANIM_PLATFORM_TS               974
 #define ANIM_TOY_BALLOON_POPPED        976
 #define ANIM_OMOCHAO0                  977

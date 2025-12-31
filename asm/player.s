@@ -8,268 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_8017364
-sub_8017364: @ 0x08017364
-	push {r4, r5, r6, r7, lr}
-	sub sp, #4
-	adds r5, r0, #0
-	adds r4, r5, #0
-	adds r4, #0xd8
-	ldr r6, [r4]
-	cmp r6, #0
-	bne _080173DC
-	ldr r0, _080173E4 @ =sub_80182D4
-	movs r2, #0xc4
-	lsls r2, r2, #6
-	ldr r1, _080173E8 @ =sub_8019368
-	str r1, [sp]
-	movs r1, #0x30
-	movs r3, #0
-	bl TaskCreate
-	str r0, [r4]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	str r5, [r4, #0x28]
-	ldr r0, [r5, #0x14]
-	asrs r0, r0, #8
-	movs r7, #0
-	strh r0, [r4, #0x2c]
-	movs r0, #0xc
-	bl VramMalloc
-	str r0, [r4]
-	movs r2, #0x80
-	lsls r2, r2, #5
-	str r2, [r4, #8]
-	ldr r0, [r5, #4]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	bne _080173BA
-	movs r0, #0x80
-	lsls r0, r0, #3
-	orrs r0, r2
-	str r0, [r4, #8]
-_080173BA:
-	movs r0, #0xf3
-	lsls r0, r0, #2
-	strh r0, [r4, #0xc]
-	strh r6, [r4, #0x10]
-	strh r6, [r4, #0x12]
-	strh r6, [r4, #0x14]
-	strh r6, [r4, #0x16]
-	ldr r0, _080173EC @ =0x0000FFFF
-	strh r0, [r4, #0x18]
-	strb r7, [r4, #0x1a]
-	movs r0, #0xff
-	strb r0, [r4, #0x1b]
-	movs r0, #0x10
-	strb r0, [r4, #0x1c]
-	strb r7, [r4, #0x1f]
-	subs r0, #0x11
-	str r0, [r4, #0x20]
-_080173DC:
-	add sp, #4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080173E4: .4byte sub_80182D4
-_080173E8: .4byte sub_8019368
-_080173EC: .4byte 0x0000FFFF
-
-	thumb_func_start sub_80173F0
-sub_80173F0: @ 0x080173F0
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #4
-	mov r8, r0
-	ldr r0, _08017558 @ =sub_801839C
-	movs r2, #0xc4
-	lsls r2, r2, #6
-	ldr r1, _0801755C @ =TaskDestructor_8019318
-	str r1, [sp]
-	movs r1, #0xe0
-	movs r3, #0
-	bl TaskCreate
-	ldrh r5, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r7, r5, r0
-	movs r0, #0xd
-	bl VramMalloc
-	adds r6, r0, #0
-	str r6, [r7]
-	mov r1, r8
-	ldr r0, [r1, #0x10]
-	asrs r0, r0, #8
-	ldr r2, _08017560 @ =0x0300007C
-	adds r1, r5, r2
-	movs r4, #0
-	strh r0, [r1]
-	mov r1, r8
-	ldr r0, [r1, #0x14]
-	asrs r0, r0, #8
-	adds r2, #2
-	adds r1, r5, r2
-	strh r0, [r1]
-	ldr r0, _08017564 @ =0x03000004
-	adds r1, r5, r0
-	str r6, [r1]
-	movs r2, #0x80
-	lsls r2, r2, #5
-	str r2, [r1, #8]
-	ldr r0, _08017568 @ =0x0000038F
-	strh r0, [r1, #0xc]
-	strh r4, [r1, #0x10]
-	strh r4, [r1, #0x12]
-	strh r4, [r1, #0x14]
-	strh r4, [r1, #0x16]
-	ldr r0, _0801756C @ =0x0000FFFF
-	strh r0, [r1, #0x18]
-	movs r0, #1
-	strb r0, [r1, #0x1a]
-	movs r0, #0xff
-	strb r0, [r1, #0x1b]
-	movs r2, #0x10
-	mov sl, r2
-	mov r0, sl
-	strb r0, [r1, #0x1c]
-	movs r2, #0
-	strb r2, [r1, #0x1f]
-	movs r0, #1
-	rsbs r0, r0, #0
-	mov sb, r0
-	str r0, [r1, #0x20]
-	adds r0, r1, #0
-	bl UpdateSpriteAnimation
-	ldr r1, _08017570 @ =0x03000080
-	adds r0, r5, r1
-	strh r4, [r0]
-	ldr r2, _08017574 @ =0x03000082
-	adds r0, r5, r2
-	strh r4, [r0]
-	adds r1, #0x30
-	adds r0, r5, r1
-	strh r4, [r0]
-	adds r2, #0x30
-	adds r0, r5, r2
-	strh r4, [r0]
-	ldr r0, _08017578 @ =0x0300002C
-	adds r1, r5, r0
-	movs r2, #0x90
-	lsls r2, r2, #1
-	adds r6, r6, r2
-	str r6, [r1]
-	movs r6, #0x80
-	lsls r6, r6, #5
-	str r6, [r1, #8]
-	ldr r0, _08017568 @ =0x0000038F
-	strh r0, [r1, #0xc]
-	strh r4, [r1, #0x10]
-	strh r4, [r1, #0x12]
-	strh r4, [r1, #0x14]
-	strh r4, [r1, #0x16]
-	movs r0, #1
-	rsbs r0, r0, #0
-	strh r0, [r1, #0x18]
-	movs r0, #2
-	strb r0, [r1, #0x1a]
-	subs r0, #3
-	strb r0, [r1, #0x1b]
-	mov r2, sl
-	strb r2, [r1, #0x1c]
-	strb r4, [r1, #0x1f]
-	mov r6, sb
-	str r6, [r1, #0x20]
-	adds r0, r1, #0
-	bl UpdateSpriteAnimation
-	mov r1, r8
-	ldrh r0, [r1, #0x1a]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x16
-	ldrh r1, [r1, #0x18]
-	lsls r1, r1, #0x10
-	asrs r1, r1, #0x16
-	bl sa2__sub_8004418
-	lsls r0, r0, #0x10
-	lsrs r5, r0, #0x10
-	movs r2, #1
-	mov r8, r4
-	ldr r6, _0801757C @ =gSineTable
-	mov sl, r6
-	ldr r0, _08017580 @ =0x000003FF
-	mov sb, r0
-_080174F0:
-	lsls r2, r2, #0x10
-	asrs r3, r2, #0x10
-	lsls r4, r3, #2
-	adds r0, r7, #0
-	adds r0, #0x80
-	adds r0, r0, r4
-	mov r1, r8
-	strh r1, [r0]
-	adds r0, r7, #0
-	adds r0, #0x82
-	adds r0, r0, r4
-	strh r1, [r0]
-	adds r1, r7, #0
-	adds r1, #0xb0
-	adds r1, r1, r4
-	movs r6, #0x80
-	lsls r6, r6, #1
-	adds r0, r5, r6
-	lsls r0, r0, #1
-	add r0, sl
-	movs r6, #0
-	ldrsh r0, [r0, r6]
-	asrs r2, r2, #0x12
-	adds r2, #8
-	asrs r0, r2
-	strh r0, [r1]
-	adds r1, r7, #0
-	adds r1, #0xb2
-	adds r1, r1, r4
-	lsls r0, r5, #1
-	add r0, sl
-	movs r4, #0
-	ldrsh r0, [r0, r4]
-	asrs r0, r2
-	strh r0, [r1]
-	adds r5, #0xe0
-	mov r6, sb
-	ands r5, r6
-	adds r3, #1
-	lsls r3, r3, #0x10
-	lsrs r2, r3, #0x10
-	asrs r3, r3, #0x10
-	cmp r3, #0xb
-	ble _080174F0
-	add sp, #4
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08017558: .4byte sub_801839C
-_0801755C: .4byte TaskDestructor_8019318
-_08017560: .4byte 0x0300007C
-_08017564: .4byte 0x03000004
-_08017568: .4byte 0x0000038F
-_0801756C: .4byte 0x0000FFFF
-_08017570: .4byte 0x03000080
-_08017574: .4byte 0x03000082
-_08017578: .4byte 0x0300002C
-_0801757C: .4byte gSineTable
-_08017580: .4byte 0x000003FF
-
 	thumb_func_start sub_8017584
 sub_8017584: @ 0x08017584
 	push {r4, lr}
@@ -1967,8 +1705,8 @@ _080182CE:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_80182D4
-sub_80182D4: @ 0x080182D4
+	thumb_func_start Task_80182D4
+Task_80182D4: @ 0x080182D4
 	push {r4, r5, r6, lr}
 	ldr r6, _08018324 @ =gCurTask
 	ldr r0, [r6]
@@ -2065,8 +1803,8 @@ _0801838C:
 _08018394: .4byte gCamera
 _08018398: .4byte 0xFFFFFBFF
 
-	thumb_func_start sub_801839C
-sub_801839C: @ 0x0801839C
+	thumb_func_start Task_801839C_E0
+Task_801839C_E0: @ 0x0801839C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -4151,8 +3889,8 @@ sub_8019354: @ 0x08019354
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8019368
-sub_8019368: @ 0x08019368
+	thumb_func_start TaskDestructor_8019368
+TaskDestructor_8019368: @ 0x08019368
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0

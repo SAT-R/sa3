@@ -270,8 +270,8 @@ struct Player {
 
     struct Task *unkC4[0x03]; // -> (PlayerUnkC4 *)
     struct Task *taskTagAction;
-    u32 unkD4;
-    u32 unkD8;
+    struct Task *unkD4;
+    struct Task *unkD8; // taskEffect?
     u32 unkDC;
 
     PlayerSpriteInfo *spriteInfoBody;
