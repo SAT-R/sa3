@@ -3049,8 +3049,8 @@ _080191BE:
 	.align 2, 0
 _080191C4: .4byte gCamera
 
-	thumb_func_start sub_80191C8
-sub_80191C8: @ 0x080191C8
+	thumb_func_start Task_80191C8
+Task_80191C8: @ 0x080191C8
 	push {r4, lr}
 	ldr r0, _080191EC @ =gCurTask
 	ldr r2, [r0]
@@ -3292,8 +3292,8 @@ sub_801937C: @ 0x0801937C
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8019390
-sub_8019390: @ 0x08019390
+	thumb_func_start TaskDestructor_8019390
+TaskDestructor_8019390: @ 0x08019390
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0

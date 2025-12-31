@@ -56,6 +56,8 @@ void sub_808723C(s16 param0, u8 param1);
 extern void sub_8002388(void);
 
 void Task_8010008(void);
+void Task_80191C8(void);
+void TaskDestructor_8019390(struct Task *t);
 void TaskDestructor_8010F34(struct Task *t);
 
 void sub_801320C(Player *p, PlayerSpriteInfo *spriteInfoBody);
@@ -15424,41 +15426,41 @@ void sub_8017914(Player *p)
     Player_PlaySong(p, 0x11AU);
 }
 
-#if 0
-void sub_80179BC(void *arg0) {
+void sub_80179BC(Player *p)
+{
     Task *temp_r0;
-    Task *temp_r5;
     s32 temp_r1;
-    u16 temp_r1_2;
+    Strc_PlayerStrc30 *temp_r1_2;
+    Sprite *s;
 
-    temp_r1 = 0x1C & arg0->unk2B;
-    if ((temp_r1 != 0) && (temp_r1 != 0x14)) {
-        temp_r5 = arg0->unkDC;
-        if (temp_r5 == NULL) {
-            temp_r0 = TaskCreate(sub_80191C8, 0x30U, 0x3100U, 0U, sub_8019390);
-            arg0->unkDC = temp_r0;
-            temp_r1_2 = temp_r0->data;
-            temp_r1_2->unk28 = arg0;
-            temp_r1_2->unk0 = VramMalloc(8U);
-            temp_r1_2->unk8 = 0x1000;
-            if (arg0->unk4 & 0x10000) {
-                temp_r1_2->unk8 = (s32) (0x800 | 0x1000);
+    if ((p->charFlags.someIndex != 0) && (p->charFlags.someIndex != 5)) {
+        if (p->unkDC == NULL) {
+            p->unkDC = TaskCreate(Task_80191C8, 0x30U, 0x3100U, 0U, TaskDestructor_8019390);
+            temp_r1_2 = TASK_DATA(p->unkDC);
+            temp_r1_2->p = p;
+            s = &temp_r1_2->s;
+            s->tiles = VramMalloc(8U);
+            s->frameFlags = 0x1000;
+            if (p->moveState & 0x10000) {
+                s->frameFlags |= 0x800;
+                s->frameFlags |= 0x1000;
             }
-            temp_r1_2->unkC = 0x5E3;
-            temp_r1_2->unk10 = (s16) temp_r5;
-            temp_r1_2->unk12 = (s16) temp_r5;
-            temp_r1_2->unk14 = (s16) temp_r5;
-            temp_r1_2->unk16 = (s16) temp_r5;
-            temp_r1_2->unk18 = 0xFFFF;
-            temp_r1_2->unk1A = 0;
-            temp_r1_2->unk1B = 0xFF;
-            temp_r1_2->unk1C = 0x10;
-            temp_r1_2->unk1F = 0;
-            temp_r1_2->unk20 = -1;
+            s->anim = 0x5E3;
+            s->x = 0;
+            s->y = 0;
+            s->oamFlags = 0;
+            s->qAnimDelay = 0;
+            s->prevAnim = -1;
+            s->variant = 0;
+            s->prevVariant = -1;
+            s->animSpeed = 0x10;
+            s->palId = 0;
+            s->hitboxes[0].index = -1;
         }
     }
 }
 
+#if 0
 void sub_8017A58(void *arg0) {
     s32 temp_r1;
     s32 var_r0;
@@ -16671,7 +16673,7 @@ void sub_8019150(void) {
     DisplaySprite((Sprite *) temp_r1);
 }
 
-void sub_80191C8(void) {
+void Task_80191C8(void) {
     s32 temp_r1_2;
     s32 var_r0;
     u16 temp_r1;
@@ -16757,7 +16759,7 @@ void sub_801937C(void *arg0) {
     VramFree(*arg0->unk6);
 }
 
-void sub_8019390(Task *arg0) {
+void TaskDestructor_8019390(Task *arg0) {
     VramFree(*arg0->data);
 }
 
