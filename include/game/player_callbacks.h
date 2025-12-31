@@ -355,7 +355,7 @@ extern bool32 sub_8016FA8(Player *p);
 extern void sub_8017004(Player *p);
 void sub_80170A0(Player *p);
 extern void sub_80173F0(Player *p);
-extern void sub_8017584(Player *p);
+extern void Player_InitializeShieldSprite(Player *p);
 extern void sub_8017618(Player *p);
 void sub_8017DB4(Player *);
 extern void sub_8017134(Player *p);

@@ -24,9 +24,12 @@ gDemoRecordings:
 gUnknown_08E2EAD0:
     .incbin "baserom_sa3.gba", 0x00E2EAD0, 0x24
 
-    .global gUnknown_08E2EAF4
-gUnknown_08E2EAF4:
-    .word 1326, 1324, 1325, 67
+    .global sTileInfoShields
+sTileInfoShields:
+    .short 1326, 0
+    .short 1324, 0
+    .short 1325, 0
+    .short   67, 0
 
     .global gUnknown_08E2EB04
 gUnknown_08E2EB04:
@@ -289,8 +292,8 @@ gPayload_08E31880:
 gPayload_08E33C30:
     .incbin "baserom_sa3.gba", 0x00E33C30, 0x2474
 
-    .global gUnknown_08E360A4
-gUnknown_08E360A4:
+    .global gPayload_08E360A4
+gPayload_08E360A4:
     .incbin "baserom_sa3.gba", 0x00E360A4, 0x23C0
 
     .global gPayload_08E38464
@@ -301,8 +304,8 @@ gPayload_08E38464:
 gPayload_08E3A7F0:
     .incbin "baserom_sa3.gba", 0x00E3A7F0, 0x23A8
     
-    .global gUnknown_08E3CB98
-gUnknown_08E3CB98:
+    .global gPayload_08E3CB98
+gPayload_08E3CB98:
     .incbin "baserom_sa3.gba", 0x00E3CB98, 0x4
 
     .global gPayload_08E3CB9C

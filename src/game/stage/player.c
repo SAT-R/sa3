@@ -113,6 +113,13 @@ extern PlayerSpriteInfo gUnknown_030010D0; // Tails
 extern PlayerSpriteInfo gUnknown_0300110C; // Cream
 extern PlayerSpriteInfo gUnknown_03001B00[4];
 
+typedef struct {
+    AnimId anim;
+    u16 variant;
+} TileInfoShield;
+
+extern TileInfoShield sTileInfoShields[];
+
 typedef struct Strc_800FF68 {
     /* 0x00 */ s32 qWorldX;
     /* 0x04 */ s32 qWorldY;
@@ -243,7 +250,7 @@ void InitializePlayer(s16 playerId)
         sub_80B7914(&gUnknown_03001150);
 
         if ((u32)gStageData.gameMode < 6) {
-            sub_8017584(player);
+            Player_InitializeShieldSprite(player);
         }
     }
 }
@@ -15171,7 +15178,7 @@ void sub_80173F0(Player *p)
     UpdateSpriteAnimation(s);
     theta = sa2__sub_8004418(p->qSpeedAirY >> 6, p->qSpeedAirX >> 6);
 
-    for (var_r2 = 1; var_r2 < 12; var_r2++) {
+    for (var_r2 = 1; var_r2 < (s32)ARRAY_COUNT(strc->unk80); var_r2++) {
         var_r2 = var_r2;
         strc->unk80[var_r2][0] = 0;
         strc->unk80[var_r2][1] = 0;
@@ -15181,36 +15188,37 @@ void sub_80173F0(Player *p)
     }
 }
 
-#if 0
-void sub_8017584(Player *p) {
-    s32 var_r0;
-    u8 *temp_r1;
+void Player_InitializeShieldSprite(Player *p)
+{
+    Sprite *s;
 
-    if ((gStageData.act != 7) && ((u32) gStageData.gameMode <= 5U)) {
+    if ((gStageData.act != 7) && ((u32)gStageData.gameMode <= 5U)) {
         if (p == gPlayers) {
-            var_r0 = 0x06012800;
+            p->sprShield.tiles = OBJ_VRAM0 + 0x2800;
         } else {
-            var_r0 = 0x06013000;
+            p->sprShield.tiles = OBJ_VRAM0 + 0x3000;
         }
-        p->Padding114[0].unk0 = var_r0;
-        temp_r1 = p->Padding114;
-        temp_r1->unk8 = 0x1000;
-        temp_r1->unkC = (u16) gUnknown_08E2EAF4.unk0;
-        temp_r1->unk10 = 0;
-        temp_r1->unk12 = 0;
-        temp_r1->unk14 = 0;
-        temp_r1->unk16 = 0;
-        temp_r1->unk18 = 0xFFFF;
-        temp_r1->unk1A = (s8) gUnknown_08E2EAF4.unk2;
-        temp_r1->unk1B = 0xFF;
-        temp_r1->unk1C = 0x10;
-        temp_r1->unk1F = 0;
-        temp_r1->unk20 = -1;
+
+        s = &p->sprShield;
+        s->frameFlags = 0x1000;
+        s->anim = sTileInfoShields[0].anim;
+        s->x = 0;
+        s->y = 0;
+        s->oamFlags = 0;
+        s->qAnimDelay = 0;
+        s->prevAnim = -1;
+        s->variant = sTileInfoShields[0].variant;
+        s->prevVariant = -1;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+
         p->unk13C = 0;
         p->unk13D = 0;
     }
 }
 
+#if 0
 void sub_8017618(Player *p) {
     PlayerSpriteInfo **temp_r2;
     s32 temp_r7;
@@ -15261,27 +15269,27 @@ void sub_8017618(Player *p) {
     if (p->unk13D != var_r5) {
         switch (var_r5) {                           /* irregular */
         case 0x40:
-            temp_r4->unkC = (u16) gUnknown_08E2EAF4.unk8;
-            temp_r4->unk1A = (s8) gUnknown_08E2EAF4.unkA;
+            temp_r4->unkC = (u16) sTileInfoShields.unk8;
+            temp_r4->unk1A = (s8) sTileInfoShields.unkA;
 block_29:
             temp_r4->unk18 = 0xFFFF;
             temp_r4->unk1B = 0xFF;
             p->unk13D = var_r5;
             goto block_30;
         case 0x20:
-            temp_r4->unkC = (u16) gUnknown_08E2EAF4.unk4;
-            var_r0 = gUnknown_08E2EAF4.unk6;
+            temp_r4->unkC = (u16) sTileInfoShields.unk4;
+            var_r0 = sTileInfoShields.unk6;
 block_27:
             temp_r4->unk1A = (s8) var_r0;
             Player_PlaySong(p, 0x97U);
             goto block_29;
         case 0x10:
-            temp_r4->unkC = (u16) gUnknown_08E2EAF4.unk0;
-            var_r0 = gUnknown_08E2EAF4.unk2;
+            temp_r4->unkC = (u16) sTileInfoShields.unk0;
+            var_r0 = sTileInfoShields.unk2;
             goto block_27;
         case 0x80:
-            temp_r4->unkC = (u16) gUnknown_08E2EAF4.unkC;
-            temp_r4->unk1A = (s8) gUnknown_08E2EAF4.unkE;
+            temp_r4->unkC = (u16) sTileInfoShields.unkC;
+            temp_r4->unk1A = (s8) sTileInfoShields.unkE;
             Player_PlaySong(p, 0x97U);
             goto block_29;
         }

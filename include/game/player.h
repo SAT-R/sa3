@@ -281,7 +281,7 @@ struct Player {
     u8 unkEC;
     s32 qUnkF0;
     u16 palette[16];
-    u8 Padding114[0x28];
+    Sprite sprShield;
 
     u8 unk13C;
     u8 unk13D;

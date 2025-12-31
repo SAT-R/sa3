@@ -224,13 +224,13 @@ gUnknown_080CEED8:
     mPtr gPayload_08E31880
     mPtr gPayload_08E33C30
     mPtr gPayload_08E33C30
-    mPtr gUnknown_08E360A4
-    mPtr gUnknown_08E360A4
+    mPtr gPayload_08E360A4
+    mPtr gPayload_08E360A4
     mPtr gPayload_08E38464
     mPtr gPayload_08E38464
     mPtr gPayload_08E3A7F0
     mPtr gPayload_08E3A7F0
-    mPtr gUnknown_08E3CB98
+    mPtr gPayload_08E3CB98
 
     .global gUnknown_080CEF08
 gUnknown_080CEF08:

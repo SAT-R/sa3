@@ -8,79 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_8017584
-sub_8017584: @ 0x08017584
-	push {r4, lr}
-	mov ip, r0
-	ldr r1, _080175A8 @ =gStageData
-	ldrb r0, [r1, #0xa]
-	cmp r0, #7
-	beq _08017600
-	ldrb r0, [r1, #3]
-	cmp r0, #5
-	bhi _08017600
-	ldr r0, _080175AC @ =gPlayers
-	cmp ip, r0
-	bne _080175B4
-	movs r1, #0x8a
-	lsls r1, r1, #1
-	add r1, ip
-	ldr r0, _080175B0 @ =0x06012800
-	b _080175BC
-	.align 2, 0
-_080175A8: .4byte gStageData
-_080175AC: .4byte gPlayers
-_080175B0: .4byte 0x06012800
-_080175B4:
-	movs r1, #0x8a
-	lsls r1, r1, #1
-	add r1, ip
-	ldr r0, _08017608 @ =0x06013000
-_080175BC:
-	str r0, [r1]
-	movs r1, #0x8a
-	lsls r1, r1, #1
-	add r1, ip
-	movs r0, #0x80
-	lsls r0, r0, #5
-	str r0, [r1, #8]
-	ldr r4, _0801760C @ =gUnknown_08E2EAF4
-	ldrh r2, [r4]
-	movs r3, #0
-	movs r0, #0
-	strh r2, [r1, #0xc]
-	strh r0, [r1, #0x10]
-	strh r0, [r1, #0x12]
-	strh r0, [r1, #0x14]
-	strh r0, [r1, #0x16]
-	ldr r0, _08017610 @ =0x0000FFFF
-	strh r0, [r1, #0x18]
-	ldrh r0, [r4, #2]
-	strb r0, [r1, #0x1a]
-	movs r0, #0xff
-	strb r0, [r1, #0x1b]
-	movs r0, #0x10
-	strb r0, [r1, #0x1c]
-	strb r3, [r1, #0x1f]
-	subs r0, #0x11
-	str r0, [r1, #0x20]
-	movs r0, #0x9e
-	lsls r0, r0, #1
-	add r0, ip
-	strb r3, [r0]
-	ldr r0, _08017614 @ =0x0000013D
-	add r0, ip
-	strb r3, [r0]
-_08017600:
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08017608: .4byte 0x06013000
-_0801760C: .4byte gUnknown_08E2EAF4
-_08017610: .4byte 0x0000FFFF
-_08017614: .4byte 0x0000013D
-
 	thumb_func_start sub_8017618
 sub_8017618: @ 0x08017618
 	push {r4, r5, r6, r7, lr}
@@ -206,24 +133,24 @@ _080176F8:
 	beq _0801773C
 	b _08017820
 _08017702:
-	ldr r0, _08017710 @ =gUnknown_08E2EAF4
+	ldr r0, _08017710 @ =sTileInfoShields
 	ldrh r1, [r0, #8]
 	strh r1, [r4, #0xc]
 	ldrh r0, [r0, #0xa]
 	strb r0, [r4, #0x1a]
 	b _0801774E
 	.align 2, 0
-_08017710: .4byte gUnknown_08E2EAF4
+_08017710: .4byte sTileInfoShields
 _08017714:
-	ldr r0, _08017720 @ =gUnknown_08E2EAF4
+	ldr r0, _08017720 @ =sTileInfoShields
 	ldrh r1, [r0, #4]
 	strh r1, [r4, #0xc]
 	ldrh r0, [r0, #6]
 	b _0801772C
 	.align 2, 0
-_08017720: .4byte gUnknown_08E2EAF4
+_08017720: .4byte sTileInfoShields
 _08017724:
-	ldr r0, _08017738 @ =gUnknown_08E2EAF4
+	ldr r0, _08017738 @ =sTileInfoShields
 	ldrh r1, [r0]
 	strh r1, [r4, #0xc]
 	ldrh r0, [r0, #2]
@@ -234,9 +161,9 @@ _0801772C:
 	bl Player_PlaySong
 	b _0801774E
 	.align 2, 0
-_08017738: .4byte gUnknown_08E2EAF4
+_08017738: .4byte sTileInfoShields
 _0801773C:
-	ldr r0, _080177AC @ =gUnknown_08E2EAF4
+	ldr r0, _080177AC @ =sTileInfoShields
 	ldrh r1, [r0, #0xc]
 	strh r1, [r4, #0xc]
 	ldrh r0, [r0, #0xe]
@@ -293,7 +220,7 @@ _0801775C:
 	mov r8, r0
 	b _080177D0
 	.align 2, 0
-_080177AC: .4byte gUnknown_08E2EAF4
+_080177AC: .4byte sTileInfoShields
 _080177B0: .4byte 0x0000FFFF
 _080177B4: .4byte 0x0000013D
 _080177B8: .4byte gCamera
