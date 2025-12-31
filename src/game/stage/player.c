@@ -14863,72 +14863,51 @@ void sub_8016F28(Player *p)
     }
 }
 
-#if 0
-void sub_8016F28(Player *p) {
-    Player *temp_r5;
-    u32 temp_r1;
+u32 sub_8016FA8(Player *p)
+{
+    struct Camera *cam = &gCamera;
+    s32 qWorldY = p->qWorldY;
 
-    temp_r5 = &gPlayers[(u32) (p->unk2B << 0x1E) >> 0x1E];
-    sub_80193A4(p);
-    Player_StopSong(p, SE_TAGACTION_BUILDUP);
-    if (p->moveState & 0x400000) {
-        p->unk42 = 0;
-        p->moveState &= 0xFFBFFFFF;
-    }
-    temp_r1 = p->moveState;
-    if (0x800000 & temp_r1) {
-        p->moveState = temp_r1 & 0xFF7FFFFF;
-        temp_r5->qWorldX = p->qWorldX;
-        temp_r5->qWorldY = p->qWorldY;
-        temp_r5->moveState &= 0xFEFFFFFF;
-    }
-}
-
-s32 sub_8016FA8(Player *arg0) {
-    s32 temp_r4;
-
-    temp_r4 = arg0->qWorldY;
-    if ((arg0 == &gPlayers[gStageData.playerIndex]) || (gStageData.unk4 != 1)) {
-        if (arg0->moveState & 0x10000) {
-            if (temp_r4 <= (s32) (gCamera.unk10 << 8)) {
-                goto block_4;
+    if ((p == &gPlayers[gStageData.playerIndex]) || (gStageData.unk4 != 1)) {
+        if (p->moveState & 0x10000) {
+            if (qWorldY <= Q(cam->unk10)) {
+                return 1U;
             }
-            goto block_6;
+            return 0U;
         }
-        if (temp_r4 < (s32) ((gCamera.unk14 << 8) - 1)) {
-            goto block_6;
+        if (qWorldY < (Q(cam->unk14) - 1)) {
+            return 0U;
         }
-block_4:
-        return 1;
+        return 1U;
     }
-block_6:
-    return 0;
+    return 0U;
 }
 
-void sub_8017004(Player *p) {
-    u32 temp_r1;
-
-    temp_r1 = p->moveState;
-    if ((0x24 & temp_r1) == 0x20) {
-        if ((gStageData.gameMode != 7) && (temp_r1 & 0x800000)) {
+void sub_8017004(Player *p)
+{
+    if ((0x24 & p->moveState) == 0x20) {
+        if ((gStageData.gameMode != 7) && (p->moveState & 0x800000)) {
             SetPlayerCallback(p, Player_80077CC);
         } else {
             SetPlayerCallback(p, Player_8005380);
         }
-        p->qSpeedGround = (s16) (u16) p->qSpeedAirX;
+        p->qSpeedGround = p->qSpeedAirX;
         p->unk26 = 0;
     }
 }
 
-s32 sub_8017058(Player *arg0) {
-    u32 temp_r1;
+bool32 sub_8017058(Player *p)
+{
+    s32 moveState;
 
-    if ((gStageData.gameMode == 7) || (temp_r1 = arg0->moveState, ((0x8000 & temp_r1) != 0)) || (temp_r1 & 0x800000) || ((sub_8015E0C(arg0) == 0) && (sub_80167A4(arg0) == 0))) {
+    if ((gStageData.gameMode == 7) || (moveState = p->moveState, (p->moveState & 0x8000)) || (p->moveState & 0x800000)
+        || (!sub_8015E0C(p) && !sub_80167A4(p))) {
         return 0;
     }
     return 1;
 }
 
+#if 0
 void sub_80170A0(Player *p) {
     u16 temp_r1;
 
