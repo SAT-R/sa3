@@ -14746,37 +14746,37 @@ void sub_8016D30(Player *p)
     }
 }
 
-#if 0
-s32 sub_8016D88(Player *arg0) {
-    u32 temp_r1;
-    void (*var_r1)(Player *);
-
-    if ((arg0->charFlags.anim0 == 2) && (gStageData.buttonConfig.jump & arg0->keyInput2)) {
+// (85.85%) https://decomp.me/scratch/OJETZ
+NONMATCH("asm/non_matching/game/stage/player__sub_8016D88.inc", bool16 sub_8016D88(Player *p))
+{
+    if ((p->charFlags.anim0 == 2) && (p->keyInput2 & gStageData.buttonConfig.jump)) {
         if (gStageData.gameMode != 7) {
-            temp_r1 = arg0->unkC & 6;
-            switch (temp_r1) {                      /* irregular */
-            case 2:
-                var_r1 = Player_800872C;
-block_12:
-                SetPlayerCallback(arg0, var_r1);
-                goto block_15;
-            case 4:
-                var_r1 = sub_801DFC4;
-                goto block_12;
-            case 6:
-                var_r1 = sub_801E65C;
-                goto block_12;
+            switch (p->unkC & 6) {
+                case 2:
+                    SetPlayerCallback(p, Player_800872C);
+                    break;
+                case 4:
+                    SetPlayerCallback(p, sub_801DFC4);
+                    break;
+                case 6:
+                    SetPlayerCallback(p, sub_801E65C);
+                    break;
+                default:
+                    return 0;
             }
         } else {
-            SetPlayerCallback(arg0, Player_800872C);
-block_15:
+            SetPlayerCallback(p, Player_800872C);
             return 1;
         }
     } else {
         return 0;
     }
-}
 
+    return 1;
+}
+END_NONMATCH
+
+#if 0
 void sub_8016E00(Player *p) {
     s16 *temp_r4;
     s16 var_r0;
