@@ -53,15 +53,37 @@ void sub_8001D58(VoidFn voidFn, u16 color);
 void sub_8002414();
 void sub_808723C(s16 param0, u8 param1);
 extern void sub_8002388(void);
+void TaskDestructor_8004D2C(struct Task *t);
 
 void Task_8010008(void);
+void TaskDestructor_8010F34(struct Task *t);
+void Task_8018238_30(void);
+void Task_80186A0_CC(void);
+void sub_8018984(void);
+void Task_8018AF8(void);
+void Task_801952C_2C(void);
+void Task_80184F8_30_2(void);
+void sub_8018C6C(void);
+void sub_8018814(void);
+void sub_8018DDC(void);
 void Task_80191C8(void);
+void TaskDestructor_80194B4(Task *t);
+void sub_80194DC(Task *t);
+void sub_801957C(void);
+
+void TaskDestructor_8019318(struct Task *t);
+void TaskDestructor_801932C(struct Task *t);
+void TaskDestructor_8019340(struct Task *t);
+void TaskDestructor_8019354(struct Task *t);
 void TaskDestructor_8019368(struct Task *t);
 void TaskDestructor_8019390(struct Task *t);
+void TaskDestructor_80193EC(struct Task *t);
 void TaskDestructor_8019400(Task *t);
 void TaskDestructor_8019428(struct Task *t);
-void TaskDestructor_8004D2C(struct Task *t);
-void TaskDestructor_8010F34(struct Task *t);
+void TaskDestructor_801948C(struct Task *t);
+void TaskDestructor_80194B4(struct Task *t);
+void TaskDestructor_80194C8(struct Task *t);
+void TaskDestructor_8019504(struct Task *t);
 
 void sub_801320C(Player *p, PlayerSpriteInfo *spriteInfoBody);
 void sub_80136DC(s16 param0);
@@ -72,9 +94,12 @@ s16 sub_8015064(Player *p);
 bool32 sub_8015568(Player *p);
 bool16 sub_8016EDC(Player *p);
 bool32 sub_8017058(Player *p);
+extern void Task_8019240(void);
 void Task_80182D4(void);
 void Task_801839C_E0(void);
-extern void Task_8019240(void);
+void Task_8018550(void);
+void sub_801862C(void);
+void TaskDestructor_80194A0(struct Task *t);
 void Task_8019698(void);
 void sub_801EBC0(s32, Player *p);
 void sub_8023634();
@@ -162,6 +187,29 @@ typedef struct Strc_PlayerStrc30_2 {
     /* 0x28 */ Player *p;
 } Strc_PlayerStrc30_2; /* 0x30 */
 
+typedef struct Strc_PlayerStrc50 {
+    /* 0x00 */ Sprite s;
+    /* 0x28 */ Player *p;
+    u8 unk2C;
+    u8 unk2D;
+    s16 unk2E[8][2];
+} Strc_PlayerStrc50;
+
+typedef struct PlayerStrcCC_Sprite {
+    Sprite s;
+    u8 unk28;
+    u8 filler29[0x7];
+} PlayerStrcCC_Sprite;
+
+typedef struct Strc_PlayerStrcCC {
+    /* 0x00 */ u8 *vram;
+    /* 0x04 */ u16 unk4;
+    /* 0x06 */ u16 unk6;
+    /* 0x08 */ Player *p;
+    /* 0x0C */ PlayerStrcCC_Sprite sprites[4];
+    /* 0xA8 */
+} Strc_PlayerStrcCC;
+
 typedef struct Strc_PlayerUnkE0 {
     /* 0x00 */ void *vram;
     /* 0x04 */ Sprite s;
@@ -181,16 +229,6 @@ typedef struct Strc_03001CF0 {
 } Strc_03001CF0;
 
 extern Strc_03001CF0 gUnknown_03001CF0;
-
-void Task_8018238_30(void);
-void Task_801952C_2C(void);
-void Task_80184F8_30_2(void);
-void sub_801957C(void);
-void TaskDestructor_8019318(struct Task *t);
-void TaskDestructor_801932C(struct Task *t);
-void TaskDestructor_8019340(struct Task *t);
-void TaskDestructor_8019354(struct Task *t);
-void TaskDestructor_80193EC(struct Task *t);
 
 static inline void SongStopCheck_inline(Player *p, u16 song)
 {
@@ -8773,7 +8811,7 @@ void sub_800F068(Player *p) { p->callback = Player_8007368; }
 
 void sub_800F074(Player *p) { p->callback = sub_801A3DC; }
 
-void sub_800F080(Player *p) { p->callback = sub_801A17C; }
+void sub_800F080(Player *p) { p->callback = Player_Sonic_BoundAttack; }
 
 void sub_800F08C(Player *p) { p->callback = sub_801A46C; }
 
@@ -14524,18 +14562,18 @@ bool32 sub_8015E0C(Player *p)
                     return 1;
                 }
 
-                switch (0xF0 & p->keyInput) {
+                switch (DPAD_ANY & p->keyInput) {
                     case DPAD_UP:
                         if (0x10000 & p->unkC) {
                             sub_8015568__shared_inline(p);
-                            SetPlayerCallback(p, sub_801A120);
+                            SetPlayerCallback(p, Player_Sonic_TrickUp);
                             return 1;
                         }
                         break;
                     case DPAD_DOWN:
                         if (0x20000 & p->unkC) {
                             sub_8015568__shared_inline(p);
-                            SetPlayerCallback(p, sub_801A17C);
+                            SetPlayerCallback(p, Player_Sonic_BoundAttack);
                             return 1;
                         }
                         break;
@@ -15556,311 +15594,276 @@ void sub_8017B80(Player *p)
     s->hitboxes[0].index = -1;
 }
 
+void sub_8017BFC(Player *p)
+{
+    struct Task *t;
+    Strc_PlayerStrc50 *strc;
+    Sprite *s;
+    s16 i;
+
+    t = TaskCreate(Task_8018550, sizeof(Strc_PlayerStrc50), 0x3100U, 0U, TaskDestructor_801948C);
+    strc = TASK_DATA(t);
+    strc->p = p;
+    strc->s.tiles = VramMalloc(16);
+    strc->s.frameFlags = 0x1000;
+    strc->s.anim = CHAR_ANIM_ATK_DOWN_B;
+    strc->s.x = 0;
+    strc->s.y = 0;
+    strc->s.oamFlags = 0x600;
+    strc->s.qAnimDelay = 0;
+    strc->s.prevAnim = 0xFFFF;
+    strc->s.variant = 3;
+    strc->s.prevVariant = 0xFF;
+    strc->s.animSpeed = 0x10;
+    strc->s.palId = 0;
+    strc->s.hitboxes[0].index = -1;
+    strc->unk2C = 0;
+    strc->unk2D = 0;
+
+    for (i = 0; i < (s32)ARRAY_COUNT(strc->unk2E); i++) {
+        strc->unk2E[i][0] = I(p->qWorldX);
+        strc->unk2E[i][1] = I(p->qWorldY);
+    }
+}
+
+void sub_8017CA8(Player *p)
+{
+    s16 var_r0;
+    Strc_PlayerStrc2C_2 *strc;
+    Sprite *s;
+
+    strc = TASK_DATA(TaskCreate(sub_801862C, sizeof(Strc_PlayerStrc2C_2), 0x3100U, 0U, TaskDestructor_80194A0));
+    strc->p = p;
+    s = &strc->s;
+    s->tiles = VramMalloc(8);
+    s->frameFlags = 0x1000;
+    s->anim = ANIM_1343;
+    s->x = 0;
+    s->y = 0;
+    s->oamFlags = 0x3C0;
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->variant = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+}
+
+void Player_8017D18(Player *p)
+{
+    Strc_PlayerStrcCC *strc;
+    void *tiles;
+    Sprite *s;
+    s16 i;
+
+    strc = TASK_DATA(TaskCreate(Task_80186A0_CC, sizeof(Strc_PlayerStrcCC), 0x3100U, 0U, TaskDestructor_80194B4));
+    strc->p = p;
+    strc->unk4 = 0;
+
+    strc->vram = VramMalloc(0x10U);
+    tiles = strc->vram;
+
+    for (i = 0; i < 4; i++) {
+        strc->sprites[i].unk28 = 0;
+
+        s = &strc->sprites[i].s;
+        s->tiles = tiles;
+        s->frameFlags = 0x1000;
+        s->anim = ANIM_HEART;
+        s->x = 0;
+        s->y = 0;
+        s->oamFlags = 0x500;
+        s->qAnimDelay = 0;
+        s->prevAnim = 0xFFFF;
+        s->variant = 0;
+        s->prevVariant = 0xFF;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+        tiles += 0x80;
+    }
+}
+
+void sub_8017DB4(Player *p)
+{
+    Strc_PlayerStrcCC *strc;
+    void *tiles;
+    Sprite *s;
+    s16 i;
+
+    strc = TASK_DATA(TaskCreate(sub_8018984, sizeof(Strc_PlayerStrcCC), 0x3100U, 0U, TaskDestructor_8019504));
+    strc->p = p;
+    strc->unk4 = 0;
+
+    strc->vram = VramMalloc(0x10U);
+    tiles = strc->vram;
+
+    for (i = 0; i < 4; i++) {
+        strc->sprites[i].unk28 = 0;
+
+        s = &strc->sprites[i].s;
+        s->tiles = tiles;
+        s->frameFlags = 0x1000;
+        s->anim = ANIM_HEART;
+        s->x = 0;
+        s->y = 0;
+        s->oamFlags = 0x500;
+        s->qAnimDelay = 0;
+        s->prevAnim = 0xFFFF;
+        s->variant = 0;
+        s->prevVariant = 0xFF;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+        tiles += 0x80;
+    }
+}
+
+void Player_8017E50(Player *p)
+{
+    Strc_PlayerStrcCC *strc;
+    void *tiles;
+    Sprite *s;
+    s16 i;
+
+    strc = TASK_DATA(TaskCreate(Task_8018AF8, sizeof(Strc_PlayerStrcCC), 0x3100U, 0U, TaskDestructor_80194C8));
+    strc->p = p;
+    strc->unk4 = 0;
+    strc->unk6 = p->moveState & 1;
+
+    strc->vram = VramMalloc(0x10U);
+    tiles = strc->vram;
+
+    for (i = 0; i < 4; i++) {
+        strc->sprites[i].unk28 = 0;
+
+        s = &strc->sprites[i].s;
+        s->tiles = tiles;
+        s->frameFlags = 0x1000;
+        s->anim = ANIM_HEART;
+        s->x = 0;
+        s->y = 0;
+        s->oamFlags = 0x500;
+        s->qAnimDelay = 0;
+        s->prevAnim = 0xFFFF;
+        s->variant = 0;
+        s->prevVariant = 0xFF;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+        tiles += 0x80;
+    }
+}
+
+void sub_8017EF4(Player *p)
+{
+    Strc_PlayerStrcCC *strc;
+    void *tiles;
+    Sprite *s;
+    s16 i;
+
+    strc = TASK_DATA(TaskCreate(sub_8018C6C, sizeof(Strc_PlayerStrcCC), 0x3100U, 0U, sub_80194DC));
+    strc->p = p;
+    strc->unk4 = 0;
+    strc->unk6 = p->moveState & 1;
+
+    strc->vram = VramMalloc(0x10U);
+    tiles = strc->vram;
+
+    for (i = 0; i < 4; i++) {
+        strc->sprites[i].unk28 = 0;
+
+        s = &strc->sprites[i].s;
+        s->tiles = tiles;
+        s->frameFlags = 0x1000;
+        s->anim = ANIM_HEART;
+        s->x = 0;
+        s->y = 0;
+        s->oamFlags = 0x500;
+        s->qAnimDelay = 0;
+        s->prevAnim = 0xFFFF;
+        s->variant = 0;
+        s->prevVariant = 0xFF;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+        tiles += 0x80;
+    }
+}
+
+void sub_8017F98(Player *p)
+{
+    Strc_PlayerStrcCC *strc;
+    void *tiles;
+    Sprite *s;
+    s16 i;
+
+    strc = TASK_DATA(TaskCreate(sub_8018814, sizeof(Strc_PlayerStrcCC), 0x3100U, 0U, TaskDestructor_80194B4));
+    strc->p = p;
+    strc->unk4 = 0;
+
+    strc->vram = VramMalloc(0x10U);
+    tiles = strc->vram;
+
+    for (i = 0; i < 4; i++) {
+        strc->sprites[i].unk28 = 0;
+
+        s = &strc->sprites[i].s;
+        s->tiles = tiles;
+        s->frameFlags = 0x1000;
+        s->anim = ANIM_HEART;
+        s->x = 0;
+        s->y = 0;
+        s->oamFlags = 0x500;
+        s->qAnimDelay = 0;
+        s->prevAnim = 0xFFFF;
+        s->variant = 0;
+        s->prevVariant = 0xFF;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+        tiles += 0x80;
+    }
+}
+
+void sub_8018034(Player *p)
+{
+    Strc_PlayerStrcCC *strc;
+    void *tiles;
+    Sprite *s;
+    s16 i;
+
+    strc = TASK_DATA(TaskCreate(sub_8018DDC, sizeof(Strc_PlayerStrcCC), 0x3100U, 0U, sub_80194DC));
+    strc->p = p;
+    strc->unk4 = 0;
+    strc->unk6 = p->moveState & 1;
+
+    strc->vram = VramMalloc(0x10U);
+    tiles = strc->vram;
+
+    for (i = 0; i < 4; i++) {
+        strc->sprites[i].unk28 = 0;
+
+        s = &strc->sprites[i].s;
+        s->tiles = tiles;
+        s->frameFlags = 0x1000;
+        s->anim = ANIM_HEART;
+        s->x = 0;
+        s->y = 0;
+        s->oamFlags = 0x500;
+        s->qAnimDelay = 0;
+        s->prevAnim = 0xFFFF;
+        s->variant = 0;
+        s->prevVariant = 0xFF;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+        tiles += 0x80;
+    }
+}
+
 #if 0
-void sub_8017BFC(Player *arg0) {
-    s16 temp_r1_2;
-    s16 var_r0;
-    s32 temp_r2;
-    u16 temp_r1;
-    u16 temp_r5;
-
-    temp_r5 = TaskCreate(sub_8018550, 0x50U, 0x3100U, 0U, sub_801948C)->data;
-    temp_r5->unk28 = arg0;
-    temp_r5->unk0 = VramMalloc(0x10U);
-    temp_r5->unk8 = 0x1000;
-    temp_r5->unkC = 0x6B;
-    temp_r5->unk10 = 0;
-    temp_r5->unk12 = 0;
-    temp_r5->unk14 = 0x600;
-    temp_r5->unk16 = 0;
-    temp_r5->unk18 = 0xFFFF;
-    temp_r5->unk1A = 3;
-    temp_r5->unk1B = 0xFF;
-    temp_r5->unk1C = 0x10;
-    temp_r5->unk1F = 0;
-    temp_r5->unk20 = -1;
-    temp_r5->unk2C = 0;
-    temp_r5->unk2D = 0;
-    var_r0 = 0;
-    do {
-        temp_r1_2 = var_r0;
-        temp_r2 = temp_r1_2 * 4;
-        *(temp_r5 + 0x2E + temp_r2) = (s16) ((s32) arg0->qWorldX >> 8);
-        *(temp_r5 + 0x30 + temp_r2) = (s16) ((s32) arg0->qWorldY >> 8);
-        temp_r1 = temp_r1_2 + 1;
-        var_r0 = (s16) temp_r1;
-    } while ((s32) (s16) temp_r1 <= 7);
-}
-
-void sub_8017CA8(Player *arg0) {
-    u16 temp_r4;
-
-    temp_r4 = TaskCreate(sub_801862C, 0x2CU, 0x3100U, 0U, sub_80194A0)->data;
-    temp_r4->unk28 = arg0;
-    temp_r4->unk0 = VramMalloc(8U);
-    temp_r4->unk8 = 0x1000;
-    temp_r4->unkC = 0x53F;
-    temp_r4->unk10 = 0;
-    temp_r4->unk12 = 0;
-    temp_r4->unk14 = 0x3C0;
-    temp_r4->unk16 = 0;
-    temp_r4->unk18 = 0xFFFF;
-    temp_r4->unk1A = 0;
-    temp_r4->unk1B = 0xFF;
-    temp_r4->unk1C = 0x10;
-    temp_r4->unk1F = 0;
-    temp_r4->unk20 = -1;
-}
-
-void Player_8017D18(Player *p) {
-    s16 temp_r2_2;
-    s16 var_r0;
-    s32 temp_r1_2;
-    u16 temp_r1;
-    u16 temp_r2;
-    void *temp_r0;
-    void *temp_r1_3;
-    void *var_r4;
-
-    temp_r1 = TaskCreate(sub_80186A0, 0xCCU, 0x3100U, 0U, sub_80194B4)->data;
-    temp_r1->unk8 = p;
-    temp_r1->unk4 = 0;
-    temp_r0 = VramMalloc(0x10U);
-    temp_r1->unk0 = temp_r0;
-    var_r4 = temp_r0;
-    var_r0 = 0;
-    do {
-        temp_r2_2 = var_r0;
-        temp_r1_2 = temp_r2_2 * 0x30;
-        (temp_r1 + temp_r1_2)->unk34 = 0;
-        temp_r1_3 = temp_r1 + (temp_r1_2 + 0xC);
-        temp_r1_3->unk0 = var_r4;
-        temp_r1_3->unk8 = 0x1000;
-        temp_r1_3->unkC = 0x525;
-        temp_r1_3->unk10 = 0;
-        temp_r1_3->unk12 = 0;
-        temp_r1_3->unk14 = 0x500;
-        temp_r1_3->unk16 = 0;
-        temp_r1_3->unk18 = 0xFFFF;
-        temp_r1_3->unk1A = 0;
-        temp_r1_3->unk1B = 0xFF;
-        temp_r1_3->unk1C = 0x10;
-        temp_r1_3->unk1F = 0;
-        temp_r1_3->unk20 = -1;
-        var_r4 += 0x80;
-        temp_r2 = temp_r2_2 + 1;
-        var_r0 = (s16) temp_r2;
-    } while ((s32) (s16) temp_r2 <= 3);
-}
-
-void sub_8017DB4(Player *arg0) {
-    s16 temp_r2_2;
-    s16 var_r0;
-    s32 temp_r1_2;
-    u16 temp_r1;
-    u16 temp_r2;
-    void *temp_r0;
-    void *temp_r1_3;
-    void *var_r4;
-
-    temp_r1 = TaskCreate(sub_8018984, 0xCCU, 0x3100U, 0U, sub_8019504)->data;
-    temp_r1->unk8 = arg0;
-    temp_r1->unk4 = 0;
-    temp_r0 = VramMalloc(0x10U);
-    temp_r1->unk0 = temp_r0;
-    var_r4 = temp_r0;
-    var_r0 = 0;
-    do {
-        temp_r2_2 = var_r0;
-        temp_r1_2 = temp_r2_2 * 0x30;
-        (temp_r1 + temp_r1_2)->unk34 = 0;
-        temp_r1_3 = temp_r1 + (temp_r1_2 + 0xC);
-        temp_r1_3->unk0 = var_r4;
-        temp_r1_3->unk8 = 0x1000;
-        temp_r1_3->unkC = 0x525;
-        temp_r1_3->unk10 = 0;
-        temp_r1_3->unk12 = 0;
-        temp_r1_3->unk14 = 0x500;
-        temp_r1_3->unk16 = 0;
-        temp_r1_3->unk18 = 0xFFFF;
-        temp_r1_3->unk1A = 0;
-        temp_r1_3->unk1B = 0xFF;
-        temp_r1_3->unk1C = 0x10;
-        temp_r1_3->unk1F = 0;
-        temp_r1_3->unk20 = -1;
-        var_r4 += 0x80;
-        temp_r2 = temp_r2_2 + 1;
-        var_r0 = (s16) temp_r2;
-    } while ((s32) (s16) temp_r2 <= 3);
-}
-
-void sub_8017E50(Player *arg0) {
-    s16 temp_r2_2;
-    s16 var_r0;
-    s32 temp_r1_2;
-    u16 temp_r1;
-    u16 temp_r2;
-    void *temp_r0;
-    void *temp_r1_3;
-    void *var_r4;
-
-    temp_r1 = TaskCreate(sub_8018AF8, 0xCCU, 0x3100U, 0U, sub_80194C8)->data;
-    temp_r1->unk8 = arg0;
-    temp_r1->unk4 = 0;
-    temp_r1->unk6 = (s16) (arg0->moveState & 1);
-    temp_r0 = VramMalloc(0x10U);
-    temp_r1->unk0 = temp_r0;
-    var_r4 = temp_r0;
-    var_r0 = 0;
-    do {
-        temp_r2_2 = var_r0;
-        temp_r1_2 = temp_r2_2 * 0x30;
-        (temp_r1 + temp_r1_2)->unk34 = 0;
-        temp_r1_3 = temp_r1 + (temp_r1_2 + 0xC);
-        temp_r1_3->unk0 = var_r4;
-        temp_r1_3->unk8 = 0x1000;
-        temp_r1_3->unkC = 0x525;
-        temp_r1_3->unk10 = 0;
-        temp_r1_3->unk12 = 0;
-        temp_r1_3->unk14 = 0x500;
-        temp_r1_3->unk16 = 0;
-        temp_r1_3->unk18 = 0xFFFF;
-        temp_r1_3->unk1A = 0;
-        temp_r1_3->unk1B = 0xFF;
-        temp_r1_3->unk1C = 0x10;
-        temp_r1_3->unk1F = 0;
-        temp_r1_3->unk20 = -1;
-        var_r4 += 0x80;
-        temp_r2 = temp_r2_2 + 1;
-        var_r0 = (s16) temp_r2;
-    } while ((s32) (s16) temp_r2 <= 3);
-}
-
-void sub_8017EF4(Player *arg0) {
-    s16 temp_r2_2;
-    s16 var_r0;
-    s32 temp_r1_2;
-    u16 temp_r1;
-    u16 temp_r2;
-    void *temp_r0;
-    void *temp_r1_3;
-    void *var_r4;
-
-    temp_r1 = TaskCreate(sub_8018C6C, 0xCCU, 0x3100U, 0U, sub_80194DC)->data;
-    temp_r1->unk8 = arg0;
-    temp_r1->unk4 = 0;
-    temp_r1->unk6 = (s16) (arg0->moveState & 1);
-    temp_r0 = VramMalloc(0x10U);
-    temp_r1->unk0 = temp_r0;
-    var_r4 = temp_r0;
-    var_r0 = 0;
-    do {
-        temp_r2_2 = var_r0;
-        temp_r1_2 = temp_r2_2 * 0x30;
-        (temp_r1 + temp_r1_2)->unk34 = 0;
-        temp_r1_3 = temp_r1 + (temp_r1_2 + 0xC);
-        temp_r1_3->unk0 = var_r4;
-        temp_r1_3->unk8 = 0x1000;
-        temp_r1_3->unkC = 0x525;
-        temp_r1_3->unk10 = 0;
-        temp_r1_3->unk12 = 0;
-        temp_r1_3->unk14 = 0x500;
-        temp_r1_3->unk16 = 0;
-        temp_r1_3->unk18 = 0xFFFF;
-        temp_r1_3->unk1A = 0;
-        temp_r1_3->unk1B = 0xFF;
-        temp_r1_3->unk1C = 0x10;
-        temp_r1_3->unk1F = 0;
-        temp_r1_3->unk20 = -1;
-        var_r4 += 0x80;
-        temp_r2 = temp_r2_2 + 1;
-        var_r0 = (s16) temp_r2;
-    } while ((s32) (s16) temp_r2 <= 3);
-}
-
-void sub_8017F98(Player *arg0) {
-    s16 temp_r2_2;
-    s16 var_r0;
-    s32 temp_r1_2;
-    u16 temp_r1;
-    u16 temp_r2;
-    void *temp_r0;
-    void *temp_r1_3;
-    void *var_r4;
-
-    temp_r1 = TaskCreate(sub_8018814, 0xCCU, 0x3100U, 0U, sub_80194B4)->data;
-    temp_r1->unk8 = arg0;
-    temp_r1->unk4 = 0;
-    temp_r0 = VramMalloc(0x10U);
-    temp_r1->unk0 = temp_r0;
-    var_r4 = temp_r0;
-    var_r0 = 0;
-    do {
-        temp_r2_2 = var_r0;
-        temp_r1_2 = temp_r2_2 * 0x30;
-        (temp_r1 + temp_r1_2)->unk34 = 0;
-        temp_r1_3 = temp_r1 + (temp_r1_2 + 0xC);
-        temp_r1_3->unk0 = var_r4;
-        temp_r1_3->unk8 = 0x1000;
-        temp_r1_3->unkC = 0x525;
-        temp_r1_3->unk10 = 0;
-        temp_r1_3->unk12 = 0;
-        temp_r1_3->unk14 = 0x500;
-        temp_r1_3->unk16 = 0;
-        temp_r1_3->unk18 = 0xFFFF;
-        temp_r1_3->unk1A = 0;
-        temp_r1_3->unk1B = 0xFF;
-        temp_r1_3->unk1C = 0x10;
-        temp_r1_3->unk1F = 0;
-        temp_r1_3->unk20 = -1;
-        var_r4 += 0x80;
-        temp_r2 = temp_r2_2 + 1;
-        var_r0 = (s16) temp_r2;
-    } while ((s32) (s16) temp_r2 <= 3);
-}
-
-void sub_8018034(Player *arg0) {
-    s16 temp_r2_2;
-    s16 var_r0;
-    s32 temp_r1_2;
-    u16 temp_r1;
-    u16 temp_r2;
-    void *temp_r0;
-    void *temp_r1_3;
-    void *var_r4;
-
-    temp_r1 = TaskCreate(sub_8018DDC, 0xCCU, 0x3100U, 0U, sub_80194DC)->data;
-    temp_r1->unk8 = arg0;
-    temp_r1->unk4 = 0;
-    temp_r1->unk6 = (s16) (arg0->moveState & 1);
-    temp_r0 = VramMalloc(0x10U);
-    temp_r1->unk0 = temp_r0;
-    var_r4 = temp_r0;
-    var_r0 = 0;
-    do {
-        temp_r2_2 = var_r0;
-        temp_r1_2 = temp_r2_2 * 0x30;
-        (temp_r1 + temp_r1_2)->unk34 = 0;
-        temp_r1_3 = temp_r1 + (temp_r1_2 + 0xC);
-        temp_r1_3->unk0 = var_r4;
-        temp_r1_3->unk8 = 0x1000;
-        temp_r1_3->unkC = 0x525;
-        temp_r1_3->unk10 = 0;
-        temp_r1_3->unk12 = 0;
-        temp_r1_3->unk14 = 0x500;
-        temp_r1_3->unk16 = 0;
-        temp_r1_3->unk18 = 0xFFFF;
-        temp_r1_3->unk1A = 0;
-        temp_r1_3->unk1B = 0xFF;
-        temp_r1_3->unk1C = 0x10;
-        temp_r1_3->unk1F = 0;
-        temp_r1_3->unk20 = -1;
-        var_r4 += 0x80;
-        temp_r2 = temp_r2_2 + 1;
-        var_r0 = (s16) temp_r2;
-    } while ((s32) (s16) temp_r2 <= 3);
-}
-
 void sub_80180D8(Player *arg0) {
     Task **temp_r4;
     Task *temp_r0;
@@ -16075,7 +16078,7 @@ void Task_80184F8_30_2(void) {
     DisplaySprite((Sprite *) temp_r1);
 }
 
-void sub_8018550(void) {
+void Task_8018550(void) {
     s32 temp_r0;
     s32 temp_r1;
     s32 temp_r7;
@@ -16127,7 +16130,7 @@ void sub_801862C(void) {
     DisplaySprite((Sprite *) temp_r1);
 }
 
-void sub_80186A0(void) {
+void Task_80186A0_CC(void) {
     Sprite *temp_r4_2;
     s16 temp_r1_2;
     s16 var_r0;
@@ -16348,7 +16351,7 @@ void sub_8018984(void) {
     } while ((s32) ((s32) temp_r0_4 >> 0x10) <= 3);
 }
 
-void sub_8018AF8(void) {
+void Task_8018AF8(void) {
     Sprite *temp_r4_2;
     s16 var_r0;
     s16 var_r2;
@@ -16836,19 +16839,19 @@ void sub_8019478(void *arg0) {
     VramFree(*arg0->unk6);
 }
 
-void sub_801948C(Task *arg0) {
+void TaskDestructor_801948C(Task *arg0) {
     VramFree(*arg0->data);
 }
 
-void sub_80194A0(Task *arg0) {
+void TaskDestructor_80194A0(Task *arg0) {
     VramFree(*arg0->data);
 }
 
-void sub_80194B4(Task *arg0) {
+void TaskDestructor_80194B4(Task *arg0) {
     VramFree(*arg0->data);
 }
 
-void sub_80194C8(Task *arg0) {
+void TaskDestructor_80194C8(Task *arg0) {
     VramFree(*arg0->data);
 }
 
@@ -16860,7 +16863,7 @@ void sub_80194F0(void *arg0) {
     VramFree(*arg0->unk6);
 }
 
-void sub_8019504(Task *arg0) {
+void TaskDestructor_8019504(Task *arg0) {
     VramFree(*arg0->data);
 }
 
@@ -17503,7 +17506,7 @@ void sub_801A0C0(Player *arg0) {
     sub_801A280(arg0);
 }
 
-void sub_801A120(Player *arg0) {
+void Player_Sonic_TrickUp(Player *arg0) {
     PlayerSpriteInfo *temp_r2;
 
     Player_800D880(arg0);
@@ -17519,7 +17522,7 @@ void sub_801A120(Player *arg0) {
     sub_8019F80(arg0);
 }
 
-void sub_801A17C(Player *arg0) {
+void Player_Sonic_BoundAttack(Player *arg0) {
     PlayerSpriteInfo *temp_r2;
 
     Player_800D880(arg0);
@@ -21085,7 +21088,7 @@ void sub_801E6F4(Player *arg0) {
     arg0->charFlags.anim0 = 0x103;
     arg0->unk148 = 0x10;
     arg0->unk5B = 0xA;
-    sub_8017E50(arg0);
+    Player_8017E50(arg0);
     SetPlayerCallback(arg0, sub_801E2E4);
     sub_801E2E4(arg0);
 }

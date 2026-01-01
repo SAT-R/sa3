@@ -15,6 +15,8 @@
 
 #define CHAR_ANIM_SPIN_ATTACK 43
 
+#define CHAR_ANIM_ATK_DOWN_B 107
+
 #define CHAR_ANIM_POLE_DANCE 133
 
 // Rescued animals
@@ -282,6 +284,7 @@
 
 #define ANIM_ITEM_BOX_TYPE 1315
 #define ANIM_ITEM_BOX      1316
+#define ANIM_HEART         1317
 
 #define ANIM_GRINDING                 1329
 #define ANIM_SPINDASH_DUST_EFFECT     1330
@@ -292,6 +295,7 @@
 #define ANIM_ITEM_BOX_CLOUD_EFFECT    1338 // Also used for enemies
 #define ANIM_CONDOR_PROJ_EXPLOSION    1339
 
+#define ANIM_1343         1343
 #define ANIM_ICE_SHIVER   1344
 #define ANIM_ICE_SHIVER_2 1345
 #define ANIM_MINI_SPARKLE 1346
