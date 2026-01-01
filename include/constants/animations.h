@@ -294,6 +294,7 @@
 #define ANIM_RING_COLLECT_EFFECT      1334
 #define ANIM_ITEM_BOX_CLOUD_EFFECT    1338 // Also used for enemies
 #define ANIM_CONDOR_PROJ_EXPLOSION    1339
+#define ANIM_TAG_ACTION_CHARGE        1340
 
 #define ANIM_1343         1343
 #define ANIM_ICE_SHIVER   1344

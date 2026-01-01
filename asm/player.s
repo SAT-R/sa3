@@ -8,79 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_80180D8
-sub_80180D8: @ 0x080180D8
-	push {r4, r5, lr}
-	sub sp, #4
-	adds r5, r0, #0
-	adds r4, r5, #0
-	adds r4, #0xd0
-	ldr r0, [r4]
-	cmp r0, #0
-	bne _08018156
-	ldr r0, _08018114 @ =sub_8018F90
-	movs r2, #0xc4
-	lsls r2, r2, #6
-	ldr r1, _08018118 @ =sub_80193E8
-	str r1, [sp]
-	movs r1, #0x30
-	movs r3, #0
-	bl TaskCreate
-	str r0, [r4]
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r0, r0, r1
-	str r5, [r0, #0x28]
-	adds r3, r0, #0
-	ldr r0, _0801811C @ =gStageData
-	ldrb r0, [r0, #3]
-	cmp r0, #5
-	bhi _08018124
-	ldr r0, _08018120 @ =0x06014580
-	b _08018126
-	.align 2, 0
-_08018114: .4byte sub_8018F90
-_08018118: .4byte sub_80193E8
-_0801811C: .4byte gStageData
-_08018120: .4byte 0x06014580
-_08018124:
-	ldr r0, _08018160 @ =0x060145A0
-_08018126:
-	str r0, [r3]
-	movs r0, #0x80
-	lsls r0, r0, #5
-	str r0, [r3, #8]
-	movs r2, #0
-	movs r1, #0
-	ldr r0, _08018164 @ =0x0000053C
-	strh r0, [r3, #0xc]
-	strh r1, [r3, #0x10]
-	strh r1, [r3, #0x12]
-	movs r0, #0xf0
-	lsls r0, r0, #2
-	strh r0, [r3, #0x14]
-	strh r1, [r3, #0x16]
-	ldr r0, _08018168 @ =0x0000FFFF
-	strh r0, [r3, #0x18]
-	strb r2, [r3, #0x1a]
-	movs r0, #0xff
-	strb r0, [r3, #0x1b]
-	movs r0, #0x10
-	strb r0, [r3, #0x1c]
-	strb r2, [r3, #0x1f]
-	subs r0, #0x11
-	str r0, [r3, #0x20]
-_08018156:
-	add sp, #4
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08018160: .4byte 0x060145A0
-_08018164: .4byte 0x0000053C
-_08018168: .4byte 0x0000FFFF
-
 	thumb_func_start sub_801816C
 sub_801816C: @ 0x0801816C
 	push {r4, r5, r6, r7, lr}
@@ -96,7 +23,7 @@ sub_801816C: @ 0x0801816C
 	movs r6, #0
 	ldr r0, _08018224 @ =gPlayers
 	mov r8, r1
-	ldr r3, _08018228 @ =sub_8018F90
+	ldr r3, _08018228 @ =Task_TagActionInit
 	adds r7, r5, #0
 	adds r7, #0x2a
 	cmp r5, r0
@@ -179,7 +106,7 @@ _08018218:
 	bx r0
 	.align 2, 0
 _08018224: .4byte gPlayers
-_08018228: .4byte sub_8018F90
+_08018228: .4byte Task_TagActionInit
 _0801822C: .4byte gUnknown_08E2EB04
 _08018230: .4byte 0x0000FFFF
 _08018234: .4byte sub_8019628
@@ -1941,8 +1868,8 @@ _08018F7E:
 	.align 2, 0
 _08018F8C: .4byte 0xFFFFF7FF
 
-	thumb_func_start sub_8018F90
-sub_8018F90: @ 0x08018F90
+	thumb_func_start Task_TagActionInit
+Task_TagActionInit: @ 0x08018F90
 	push {r4, r5, lr}
 	ldr r0, _08018FCC @ =gCurTask
 	ldr r5, [r0]
@@ -2528,8 +2455,8 @@ _080193E0:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_80193E8
-sub_80193E8: @ 0x080193E8
+	thumb_func_start TaskDestructor_TagAction
+TaskDestructor_TagAction: @ 0x080193E8
 	bx lr
 	.align 2, 0
 

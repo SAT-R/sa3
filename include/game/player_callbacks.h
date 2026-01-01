@@ -366,7 +366,7 @@ extern void Player_8017364(Player *p);
 extern void sub_801782C(Player *, s16);
 extern void sub_8017914(Player *p);
 extern void Player_8017D18(Player *p);
-extern void sub_80180D8(Player *);
+extern void Player_InitializeTagAction(Player *);
 extern void sub_801816C(Player *);
 extern void sub_80193A4(Player *);
 extern void sub_80193CC(Player *);

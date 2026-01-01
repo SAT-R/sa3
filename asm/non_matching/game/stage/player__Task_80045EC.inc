@@ -439,7 +439,7 @@ _08004946:
 	cmp r7, #0
 	beq _08004A08
 	adds r0, r5, #0
-	bl sub_80180D8
+	bl Player_InitializeTagAction
 	adds r1, r5, #0
 	adds r1, #0x42
 	ldrh r0, [r1]

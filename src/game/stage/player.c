@@ -66,6 +66,7 @@ void Task_80184F8_30_2(void);
 void sub_8018C6C(void);
 void sub_8018814(void);
 void sub_8018DDC(void);
+void Task_TagActionInit(void);
 void Task_80191C8(void);
 void TaskDestructor_80194B4(Task *t);
 void sub_80194DC(Task *t);
@@ -77,6 +78,7 @@ void TaskDestructor_8019340(struct Task *t);
 void TaskDestructor_8019354(struct Task *t);
 void TaskDestructor_8019368(struct Task *t);
 void TaskDestructor_8019390(struct Task *t);
+void TaskDestructor_TagAction(struct Task *t);
 void TaskDestructor_80193EC(struct Task *t);
 void TaskDestructor_8019400(Task *t);
 void TaskDestructor_8019428(struct Task *t);
@@ -631,7 +633,7 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
         if (gStageData.unk4 == 3) {
             if (!(p->moveState & MOVESTATE_100)) {
                 if (MOVESTATE_400000 & p->moveState) {
-                    sub_80180D8(p);
+                    Player_InitializeTagAction(p);
                     if (++p->unk42 == 30) {
                         partner = GET_SP_PLAYER_V0(PLAYER_2);
                         if (!(partner->moveState & MOVESTATE_100) || ((partner->charFlags.someIndex) == 2)) {
@@ -15863,40 +15865,39 @@ void sub_8018034(Player *p)
     }
 }
 
-#if 0
-void sub_80180D8(Player *arg0) {
-    Task **temp_r4;
-    Task *temp_r0;
+void Player_InitializeTagAction(Player* p) {
+    Task* temp_r0;
     s32 var_r0;
-    u16 temp_r0_2;
+    Strc_PlayerStrc30 *strc;
+    Sprite* s;
 
-    temp_r4 = &arg0->taskTagAction;
-    if (*temp_r4 == NULL) {
-        temp_r0 = TaskCreate(sub_8018F90, 0x30U, 0x3100U, 0U, sub_80193E8);
-        *temp_r4 = temp_r0;
-        temp_r0_2 = temp_r0->data;
-        temp_r0_2->unk28 = arg0;
-        if ((u32) gStageData.gameMode <= 5U) {
-            var_r0 = 0x06014580;
+    if (p->taskTagAction == NULL) {
+        p->taskTagAction = TaskCreate(Task_TagActionInit, sizeof(Strc_PlayerStrc30), 0x3100U, 0U, TaskDestructor_TagAction);
+        strc = TASK_DATA(p->taskTagAction);
+        strc->p = p;
+        s = &strc->s;
+        if (gStageData.gameMode < 6) {
+            s->tiles = OBJ_VRAM0 + 0x4580;
         } else {
-            var_r0 = 0x060145A0;
+            s->tiles = OBJ_VRAM0 + 0x45A0;
         }
-        temp_r0_2->unk0 = var_r0;
-        temp_r0_2->unk8 = 0x1000;
-        temp_r0_2->unkC = 0x53C;
-        temp_r0_2->unk10 = 0;
-        temp_r0_2->unk12 = 0;
-        temp_r0_2->unk14 = 0x3C0;
-        temp_r0_2->unk16 = 0;
-        temp_r0_2->unk18 = 0xFFFF;
-        temp_r0_2->unk1A = 0;
-        temp_r0_2->unk1B = 0xFF;
-        temp_r0_2->unk1C = 0x10;
-        temp_r0_2->unk1F = 0;
-        temp_r0_2->unk20 = -1;
+
+        s->frameFlags = 0x1000;
+        s->anim = ANIM_TAG_ACTION_CHARGE;
+        s->x = 0;
+        s->y = 0;
+        s->oamFlags = 0x3C0;
+        s->qAnimDelay = 0;
+        s->prevAnim = -1;
+        s->variant = 0;
+        s->prevVariant = -1;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
     }
 }
 
+#if 0
 void sub_801816C(Player *arg0) {
     s32 temp_r1_2;
     u16 temp_r1_3;
@@ -15919,7 +15920,7 @@ loop_3:
                 }
             }
         }
-        temp_r0_2 = (u32) TaskCreate(sub_8018F90, 0x30U, 0x3100U, 0U, NULL);
+        temp_r0_2 = (u32) TaskCreate(Task_TagActionInit, 0x30U, 0x3100U, 0U, NULL);
         *temp_r1 = temp_r0_2;
         temp_r1_3 = temp_r0_2->unk6;
         temp_r1_3->unk28 = arg0;
@@ -16577,7 +16578,7 @@ void sub_8018DDC(void) {
     } while ((s32) ((s32) temp_r0_2 >> 0x10) <= 3);
 }
 
-void sub_8018F90(void) {
+void Task_TagActionInit(void) {
     s32 temp_r1_2;
     s32 temp_r2;
     s32 var_r0;
@@ -16803,7 +16804,7 @@ void sub_80193CC(Player *arg0) {
     }
 }
 
-void sub_80193E8(Task *arg0) {
+void TaskDestructor_TagAction(Task *arg0) {
 
 }
 
