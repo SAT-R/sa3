@@ -218,7 +218,7 @@ typedef struct Strc_PlayerUnkE0 {
     /* 0x00 */ void *vram;
     /* 0x04 */ Sprite s;
     /* 0x2C */ Sprite s2;
-    /* 0x54 */ u8 filler54[0x28];
+    /* 0x54 */ Vec2_16 unk54[10];
     /* 0x7C */ s16 unk7C;
     /* 0x7E */ s16 unk7E;
     /* 0x84 */ s16 unk80[12][2];
@@ -16003,6 +16003,40 @@ void Task_80182D4(void)
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
+
+// (96.91%) https://decomp.me/scratch/8K6dv
+NONMATCH("asm/non_matching/game/stage/player__Task_801839C_E0.inc", void Task_801839C_E0(void))
+{
+    Sprite *s;
+    s16 i;
+    Strc_PlayerUnkE0 *strc = TASK_DATA(gCurTask);
+
+    for (i = 0; i < 12; i++) {
+        strc->unk80[i][0] += strc->unkB0[i][0];
+        strc->unk80[i][1] += strc->unkB0[i][1];
+    }
+
+    s = &strc->s;
+    s->x = (strc->unk7C - gCamera.x) + (strc->unk80[0][0] >> 4);
+    s->y = (strc->unk7E - gCamera.y) + (strc->unk80[0][1] >> 4);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &strc->s2;
+    s->x = (strc->unk7C - gCamera.x) + (strc->unk80[1][0] >> 4);
+    s->y = (strc->unk7E - gCamera.y) + (strc->unk80[1][1] >> 4);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    for (i = 0; i < 10; i++) {
+        Vec2_16 *pos = &strc->unk54[i];
+        pos->x = strc->unk7C - gCamera.x + (strc->unk80[i + 2][0] >> 4);
+        pos->y = strc->unk7E - gCamera.y + (strc->unk80[i + 2][1] >> 4);
+    }
+
+    DisplaySprites(s, strc->unk54, ARRAY_COUNT(strc->unk54));
+}
+END_NONMATCH
 
 #if 0
 void Task_801839C_E0(void) {
