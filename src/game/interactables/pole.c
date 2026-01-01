@@ -37,9 +37,9 @@ static void Task_Interactable094Main(void)
         p = &gPlayers[gStageData.playerIndex];
 
 #ifdef BUG_FIX
-        if (p->charFlags.anim0 != ANIM_CHAR_133)
+        if (p->charFlags.anim0 != CHAR_ANIM_POLE_DANCE)
 #else
-        if (p->callback != (void *)ANIM_CHAR_133)
+        if (p->callback != (void *)CHAR_ANIM_POLE_DANCE)
 #endif
         {
             Player_StopSong(p, SE_290);
@@ -61,7 +61,7 @@ static void Task_Interactable094Main(void)
 
                     if ((pWorldX > left) && (pWorldX < right) && (pWorldY > top) && (pWorldY < bottom)) {
                         if (ia->unkC) {
-                            if (p->charFlags.anim0 == ANIM_CHAR_133) {
+                            if (p->charFlags.anim0 == CHAR_ANIM_POLE_DANCE) {
                                 Player_StopSong(p, SE_290);
                                 Player_800E6CC(p);
 
@@ -71,7 +71,7 @@ static void Task_Interactable094Main(void)
                             }
 
                         } else if (((middle - (TILE_WIDTH / 2)) <= pWorldX) && ((middle + (TILE_WIDTH / 2)) >= pWorldX)) {
-                            if (p->charFlags.anim0 != ANIM_CHAR_133) {
+                            if (p->charFlags.anim0 != CHAR_ANIM_POLE_DANCE) {
                                 sub_8016F28(p);
                                 SetPlayerCallback(p, Player_800A5B0);
                                 p->qWorldX = Q(middle);

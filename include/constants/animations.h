@@ -13,7 +13,9 @@
 #define ANIM_KNUCKLES_IDLE 489
 #define ANIM_AMY_IDLE      652
 
-#define ANIM_CHAR_133 133
+#define CHAR_ANIM_SPIN_ATTACK 43
+
+#define CHAR_ANIM_POLE_DANCE 133
 
 // Rescued animals
 #define ANIM_ANIMAL 840
@@ -281,14 +283,14 @@
 #define ANIM_ITEM_BOX_TYPE 1315
 #define ANIM_ITEM_BOX      1316
 
-#define ANIM_GRINDING                     1329
-#define SA2_ANIM_SPINDASH_DUST_EFFECT     1330
-#define SA2_ANIM_SPINDASH_DUST_EFFECT_BIG 1331
-
-#define ANIM_RING                  1333
-#define ANIM_RING_COLLECT_EFFECT   1334
-#define ANIM_ITEM_BOX_CLOUD_EFFECT 1338 // Also used for enemies
-#define ANIM_CONDOR_PROJ_EXPLOSION 1339
+#define ANIM_GRINDING                 1329
+#define ANIM_SPINDASH_DUST_EFFECT     1330
+#define ANIM_SPINDASH_DUST_EFFECT_BIG 1331
+#define ANIM_SMALL_DUST_PARTICLE      1332
+#define ANIM_RING                     1333
+#define ANIM_RING_COLLECT_EFFECT      1334
+#define ANIM_ITEM_BOX_CLOUD_EFFECT    1338 // Also used for enemies
+#define ANIM_CONDOR_PROJ_EXPLOSION    1339
 
 #define ANIM_ICE_SHIVER   1344
 #define ANIM_ICE_SHIVER_2 1345
