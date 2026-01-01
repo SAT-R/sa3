@@ -66,8 +66,9 @@ void Task_80184F8_30_2(void);
 void sub_8018C6C(void);
 void sub_8018814(void);
 void sub_8018DDC(void);
-void Task_TagActionInit(void);
 void Task_80191C8(void);
+void Task_TagActionInit(void);
+void Task_8019628(void);
 void TaskDestructor_80194B4(Task *t);
 void sub_80194DC(Task *t);
 void sub_801957C(void);
@@ -153,6 +154,7 @@ typedef struct {
 
 extern TileInfoShield sTileInfoShields[];
 extern u16 gUnknown_08E2EAD0[][3];
+extern u16 gUnknown_08E2EB04[NUM_CHARACTERS][2];
 
 typedef struct Strc_800FF68 {
     /* 0x00 */ s32 qWorldX;
@@ -15865,11 +15867,12 @@ void sub_8018034(Player *p)
     }
 }
 
-void Player_InitializeTagAction(Player* p) {
-    Task* temp_r0;
+void Player_InitializeTagAction(Player *p)
+{
+    Task *temp_r0;
     s32 var_r0;
     Strc_PlayerStrc30 *strc;
-    Sprite* s;
+    Sprite *s;
 
     if (p->taskTagAction == NULL) {
         p->taskTagAction = TaskCreate(Task_TagActionInit, sizeof(Strc_PlayerStrc30), 0x3100U, 0U, TaskDestructor_TagAction);
@@ -15897,85 +15900,81 @@ void Player_InitializeTagAction(Player* p) {
     }
 }
 
-#if 0
-void sub_801816C(Player *arg0) {
-    s32 temp_r1_2;
-    u16 temp_r1_3;
-    u32 *temp_r1;
-    u32 temp_r0;
-    u32 temp_r0_2;
-    u32 var_r6;
+void sub_801816C(Player *p)
+{
+    Strc_PlayerStrc30 *strc;
+    Sprite *s;
+    s16 i;
 
-    temp_r1 = &arg0->unkD4;
-    if (*temp_r1 == 0) {
-        var_r6 = 0;
-        if (arg0 != gPlayers) {
-loop_3:
-            temp_r0 = (var_r6 << 0x10) + 0x10000;
-            var_r6 = temp_r0 >> 0x10;
-            temp_r1_2 = (s32) temp_r0 >> 0x10;
-            if (temp_r1_2 <= 3) {
-                if (arg0 != &gPlayers[temp_r1_2]) {
-                    goto loop_3;
-                }
+    if (p->unkD4 == NULL) {
+        for (i = 0; i < 4; i++) {
+            if (p == &gPlayers[i]) {
+                break;
             }
         }
-        temp_r0_2 = (u32) TaskCreate(Task_TagActionInit, 0x30U, 0x3100U, 0U, NULL);
-        *temp_r1 = temp_r0_2;
-        temp_r1_3 = temp_r0_2->unk6;
-        temp_r1_3->unk28 = arg0;
-        temp_r1_3->unk0 = 0;
-        temp_r1_3->unk8 = 0x80000;
-        temp_r1_3->unkC = (u16) *(((u32) (arg0->unk2A << 0x1C) >> 0x1A) + &gUnknown_08E2EB04);
-        temp_r1_3->unk10 = 0;
-        temp_r1_3->unk12 = 0;
-        temp_r1_3->unk14 = 0;
-        temp_r1_3->unk16 = 0;
-        temp_r1_3->unk18 = 0xFFFF;
-        temp_r1_3->unk1A = (s8) *(((u32) (arg0->unk2A << 0x1C) >> 0x1A) + (&gUnknown_08E2EB04 + 2));
-        temp_r1_3->unk1B = 0xFF;
-        temp_r1_3->unk1C = 0x10;
-        temp_r1_3->unk1F = (s8) var_r6;
-        temp_r1_3->unk20 = -1;
-        (*temp_r1)->unk8 = sub_8019628;
+
+        p->unkD4 = TaskCreate(Task_TagActionInit, sizeof(Strc_PlayerStrc30), 0x3100U, 0U, NULL);
+        strc = TASK_DATA(p->unkD4);
+        s = &strc->s;
+        strc->p = p;
+        s->tiles = NULL;
+        s->frameFlags = 0x80000;
+        s->anim = gUnknown_08E2EB04[p->charFlags.character][0];
+        s->x = 0;
+        s->y = 0;
+        s->oamFlags = 0;
+        s->qAnimDelay = 0;
+        s->prevAnim = -1;
+        s->variant = gUnknown_08E2EB04[p->charFlags.character][1];
+        s->prevVariant = -1;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = i;
+        s->hitboxes[0].index = -1;
+
+        p->unkD4->main = Task_8019628;
     }
 }
 
-void sub_8018238(void) {
+void Task_8018238_30(void)
+{
+    Player *p;
     s16 temp_r0;
     s16 temp_r2;
-    s16 var_r0;
     s16 var_r0_2;
-    u16 temp_r1;
-    void *temp_r3;
+    u16 var_r0;
+    s32 velocity;
 
-    temp_r1 = gCurTask->data;
-    temp_r3 = temp_r1->unk28;
-    temp_r0 = temp_r3->unk30;
-    if (((temp_r0 != 0xA) && (temp_r0 != 0xF7)) || (temp_r3->unk4 & 0x200)) {
+    Strc_PlayerStrc30 *strc = TASK_DATA(gCurTask);
+
+    p = strc->p;
+    if (((p->charFlags.anim0 != 0xA) && (p->charFlags.anim0 != 0xF7)) || (p->moveState & 0x200)) {
         TaskDestroy(gCurTask);
         return;
     }
-    if ((s32) temp_r3->unk46 <= 0xFF) {
-        var_r0 = 0x532;
+
+    velocity = p->Spindash_Velocity;
+    if (velocity < Q(1)) {
+        strc->s.anim = 0x532;
+        strc->s.variant = 0;
     } else {
-        var_r0 = 0x533;
+        strc->s.anim = 0x533;
+        strc->s.variant = 0;
     }
-    temp_r1->unkC = var_r0;
-    temp_r1->unk1A = 0;
-    temp_r1->unk10 = (s16) (((s32) temp_r3->unk10 >> 8) - gCamera.x);
-    temp_r2 = ((s32) temp_r3->unk14 >> 8) - gCamera.y;
-    temp_r1->unk12 = temp_r2;
-    if (temp_r3->unk4 & 0x10000) {
-        var_r0_2 = temp_r2 - 9;
+
+    strc->s.x = I(p->qWorldX) - gCamera.x;
+    strc->s.y = I(p->qWorldY) - gCamera.y;
+
+    if (p->moveState & 0x10000) {
+        strc->s.y -= 9;
     } else {
-        var_r0_2 = temp_r2 + 9;
+        strc->s.y += 9;
     }
-    temp_r1->unk12 = var_r0_2;
-    UpdateSpriteAnimation((Sprite *) temp_r1);
-    DisplaySprite((Sprite *) temp_r1);
+
+    UpdateSpriteAnimation(&strc->s);
+    DisplaySprite(&strc->s);
 }
 
+#if 0
 void Task_80182D4(void) {
     Player *temp_r5;
     s32 temp_r0;
@@ -16916,7 +16915,7 @@ void Task_80195CC(void) {
     DisplaySprite((Sprite *) temp_r1);
 }
 
-void sub_8019628(void) {
+void Task_8019628(void) {
     s32 temp_r2;
     s32 temp_r5;
     u16 temp_r0;

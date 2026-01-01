@@ -193,7 +193,7 @@ struct Player {
     s16 unk40;
     s16 unk42;
     s16 unk44;
-    u16 Spindash_Velocity; // 0x46
+    s16 Spindash_Velocity; // 0x46
     s16 unk48;
     s16 framesInvulnerable; // 0x4A
     s16 framesInvincible; // 0x4C
