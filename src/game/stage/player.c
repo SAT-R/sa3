@@ -16038,80 +16038,23 @@ NONMATCH("asm/non_matching/game/stage/player__Task_801839C_E0.inc", void Task_80
 }
 END_NONMATCH
 
-#if 0
-void Task_801839C_E0(void) {
-    Vec2_16 *sp0;
-    u16 *sp4;
-    Sprite *temp_r6;
-    Sprite *temp_r6_2;
-    s16 temp_r2_2;
-    s16 temp_r3_3;
-    s16 var_r0;
-    s16 var_r0_2;
-    s32 temp_r2_3;
-    s32 temp_r3;
-    u16 *temp_r1_2;
-    u16 *temp_r1_3;
-    u16 temp_r1;
-    u16 temp_r2;
-    u16 temp_r3_2;
-    void *temp_r4;
+void Task_80184F8_30_2(void)
+{
+    Strc_PlayerStrc30_2 *strc = TASK_DATA(gCurTask);
+    Sprite *s = &strc->s;
+    Player *p = strc->p;
 
-    temp_r1 = gCurTask->data;
-    var_r0 = 0;
-    do {
-        temp_r2_2 = var_r0;
-        temp_r3 = temp_r2_2 * 4;
-        temp_r1_2 = temp_r1 + 0x80 + temp_r3;
-        *temp_r1_2 += *(temp_r1 + 0xB0 + temp_r3);
-        temp_r1_3 = temp_r1 + 0x82 + temp_r3;
-        *temp_r1_3 += *(temp_r1 + 0xB2 + temp_r3);
-        temp_r2 = temp_r2_2 + 1;
-        var_r0 = (s16) temp_r2;
-    } while ((s32) (s16) temp_r2 <= 0xB);
-    temp_r6 = temp_r1 + 4;
-    temp_r6->x = (temp_r1->unk7C - gCamera.x) + ((s32) (temp_r1->unk80 << 0x10) >> 0x14);
-    temp_r6->y = (temp_r1->unk7E - gCamera.y) + ((s32) (temp_r1->unk82 << 0x10) >> 0x14);
-    UpdateSpriteAnimation(temp_r6);
-    DisplaySprite(temp_r6);
-    temp_r6_2 = temp_r6 + 0x28;
-    temp_r6_2->x = (temp_r1->unk7C - gCamera.x) + ((s32) (temp_r1->unk84 << 0x10) >> 0x14);
-    temp_r6_2->y = (temp_r1->unk7E - gCamera.y) + ((s32) (temp_r1->unk86 << 0x10) >> 0x14);
-    UpdateSpriteAnimation(temp_r6_2);
-    DisplaySprite(temp_r6_2);
-    var_r0_2 = 0;
-    sp0 = temp_r1 + 0x54;
-    sp4 = temp_r1 + 0x7E;
-    do {
-        temp_r3_3 = var_r0_2;
-        temp_r4 = temp_r1 + ((temp_r3_3 * 4) + 0x54);
-        temp_r2_3 = (s32) ((var_r0_2 << 0x10) + 0x20000) >> 0xE;
-        temp_r4->unk0 = (s16) ((temp_r1->unk7C - gCamera.x) + ((s32) (*(temp_r1 + 0x80 + temp_r2_3) << 0x10) >> 0x14));
-        temp_r4->unk2 = (s16) ((*sp4 - gCamera.y) + ((s32) (*(temp_r2_3 + (temp_r1 + 0x82)) << 0x10) >> 0x14));
-        temp_r3_2 = temp_r3_3 + 1;
-        var_r0_2 = (s16) temp_r3_2;
-    } while ((s32) (s16) temp_r3_2 <= 9);
-    DisplaySprites(temp_r6_2, sp0, 0xAU);
-}
-
-void Task_80184F8_30_2(void) {
-    u16 temp_r0;
-    u16 temp_r1;
-    void *temp_r4;
-
-    temp_r1 = gCurTask->data;
-    temp_r4 = temp_r1->unk2C;
-    temp_r0 = temp_r1->unk28 + 1;
-    temp_r1->unk28 = temp_r0;
-    if ((s32) (s16) temp_r0 > 0x27) {
+    if (++strc->someY > 0x27) {
         TaskDestroy(gCurTask);
         return;
     }
-    temp_r1->unk10 = (s16) (((s32) temp_r4->unk10 >> 8) - gCamera.x);
-    temp_r1->unk12 = (s16) ((((s32) temp_r4->unk14 >> 8) - gCamera.y) - (((s32) (temp_r0 << 0x10) >> 0x11) + 0x10));
-    DisplaySprite((Sprite *) temp_r1);
+
+    s->x = I(p->qWorldX) - gCamera.x;
+    s->y = I(p->qWorldY) - gCamera.y - 16 - (strc->someY >> 1);
+    DisplaySprite(s);
 }
 
+#if 0
 void Task_8018550(void) {
     s32 temp_r0;
     s32 temp_r1;

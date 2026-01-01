@@ -8,52 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start Task_80184F8_30_2
-Task_80184F8_30_2: @ 0x080184F8
-	push {r4, r5, lr}
-	ldr r0, _08018520 @ =gCurTask
-	ldr r2, [r0]
-	ldrh r1, [r2, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r3, r1, r0
-	ldr r4, [r3, #0x2c]
-	ldrh r0, [r3, #0x28]
-	adds r0, #1
-	strh r0, [r3, #0x28]
-	lsls r5, r0, #0x10
-	asrs r0, r5, #0x10
-	cmp r0, #0x27
-	ble _08018524
-	adds r0, r2, #0
-	bl TaskDestroy
-	b _08018546
-	.align 2, 0
-_08018520: .4byte gCurTask
-_08018524:
-	ldr r0, [r4, #0x10]
-	asrs r0, r0, #8
-	ldr r2, _0801854C @ =gCamera
-	ldr r1, [r2]
-	subs r0, r0, r1
-	strh r0, [r3, #0x10]
-	ldr r1, [r4, #0x14]
-	asrs r1, r1, #8
-	ldr r0, [r2, #4]
-	subs r1, r1, r0
-	asrs r0, r5, #0x11
-	adds r0, #0x10
-	subs r1, r1, r0
-	strh r1, [r3, #0x12]
-	adds r0, r3, #0
-	bl DisplaySprite
-_08018546:
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801854C: .4byte gCamera
-
 	thumb_func_start Task_8018550
 Task_8018550: @ 0x08018550
 	push {r4, r5, r6, r7, lr}
