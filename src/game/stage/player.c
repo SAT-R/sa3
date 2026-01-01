@@ -15974,37 +15974,37 @@ void Task_8018238_30(void)
     DisplaySprite(&strc->s);
 }
 
-#if 0
-void Task_80182D4(void) {
-    Player *temp_r5;
-    s32 temp_r0;
-    s32 temp_r3;
-    s32 var_r0;
-    u16 temp_r1;
-    u32 temp_r2;
+void Task_80182D4(void)
+{
+    Player *p;
+    Sprite *s;
+    struct Task **t = &gCurTask;
+    Strc_PlayerStrc30 *strc = TASK_DATA(*t);
 
-    temp_r1 = gCurTask->data;
-    temp_r5 = temp_r1->unk28;
-    temp_r2 = temp_r5->moveState;
-    if (((0x01041000 & temp_r2) != 0x1000) || (temp_r3 = (s32) (temp_r5->qWorldY << 8) >> 0x10, temp_r0 = temp_r1->unk2C - 8, (temp_r3 < temp_r0)) || (temp_r3 > (s32) (temp_r0 + 0x10))) {
-        Player_StopSong(temp_r5, 0x119U);
-        temp_r5->unkD8 = 0;
-        TaskDestroy(gCurTask);
+    s = &strc->s;
+    ;
+    p = strc->p;
+    if (((0x01041000 & p->moveState) != 0x1000) || ((s16)I(p->qWorldY) < (strc->someY - 8)) || ((s16)I(p->qWorldY) > (strc->someY + 8))) {
+        Player_StopSong(p, 0x119U);
+        p->unkD8 = NULL;
+        TaskDestroy(*t);
         return;
     }
-    if (temp_r2 & 1) {
-        temp_r1->unk10 = (s16) (((s32) temp_r5->qWorldX >> 8) - gCamera.x);
-        var_r0 = temp_r1->unk8 | 0x400;
+
+    if (p->moveState & 1) {
+        s->x = I(p->qWorldX) - gCamera.x;
+        s->frameFlags |= 0x400;
     } else {
-        temp_r1->unk10 = (s16) (((s32) temp_r5->qWorldX >> 8) - gCamera.x);
-        var_r0 = temp_r1->unk8 & 0xFFFFFBFF;
+        s->x = I(p->qWorldX) - gCamera.x;
+        s->frameFlags &= ~0x400;
     }
-    temp_r1->unk8 = var_r0;
-    temp_r1->unk12 = (s16) ((s8) temp_r5->unk25 + (((s32) temp_r5->qWorldY >> 8) - gCamera.y) + 2);
-    UpdateSpriteAnimation((Sprite *) temp_r1);
-    DisplaySprite((Sprite *) temp_r1);
+
+    s->y = I(p->qWorldY) - gCamera.y + p->spriteOffsetY + 2;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
 
+#if 0
 void Task_801839C_E0(void) {
     Vec2_16 *sp0;
     u16 *sp4;
