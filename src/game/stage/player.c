@@ -16506,9 +16506,11 @@ void sub_8018DDC()
 
 static inline void AdvanceVariant(Player *p)
 {
-    Strc_PlayerStrc30 *strcTag = TASK_DATA(p->taskTagAction);
-    strcTag->s.variant = 1;
-    p->taskTagAction->main = sub_8019150;
+    if (p->taskTagAction != NULL) {
+        Strc_PlayerStrc30 *strcTag = TASK_DATA(p->taskTagAction);
+        strcTag->s.variant = 1;
+        p->taskTagAction->main = sub_8019150;
+    }
 }
 
 void Task_TagActionInit(void)
@@ -16525,13 +16527,11 @@ void Task_TagActionInit(void)
     p = strc->p;
 
     moveState = p->moveState;
-    mask = 0x100;
+    mask = MOVESTATE_100;
     mask &= moveState;
 
     if (mask) {
-        if (p->taskTagAction != NULL) {
-            AdvanceVariant(p);
-        }
+        AdvanceVariant(p);
         return;
     }
 
@@ -16578,30 +16578,28 @@ void Task_TagActionInit(void)
     }
 }
 
-#if 0
-void sub_80190C8(void) {
-    Player *temp_r3;
-    u16 temp_r1;
+void sub_80190C8(void)
+{
     void *temp_r0;
-    void *temp_r2;
+    Player *p;
+    Player *partner;
+    Strc_PlayerStrc30 *strc = TASK_DATA(gCurTask);
+    Sprite *s = &strc->s;
 
-    temp_r1 = gCurTask->data;
-    temp_r2 = temp_r1->unk28;
-    temp_r3 = &gPlayers[(u32) (temp_r2->unk2B << 0x1E) >> 0x1E];
-    if (temp_r2->unk4 & 0x100) {
-        temp_r0 = temp_r2->unkD0;
-        if (temp_r0 != NULL) {
-            temp_r0->unk6->unk1A = 1;
-            temp_r2->unkD0->unk8 = sub_8019150;
-        }
+    p = strc->p;
+    partner = GET_SP_PLAYER_V1(PLAYER_2);
+
+    if (p->moveState & 0x100) {
+        AdvanceVariant(p);
     } else {
-        temp_r1->unk10 = (s16) (((s32) temp_r3->qWorldX >> 8) - gCamera.x);
-        temp_r1->unk12 = (s16) (((s32) temp_r3->qWorldY >> 8) - gCamera.y);
-        UpdateSpriteAnimation((Sprite *) temp_r1);
-        DisplaySprite((Sprite *) temp_r1);
+        s->x = I(partner->qWorldX) - gCamera.x;
+        s->y = I(partner->qWorldY) - gCamera.y;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
     }
 }
 
+#if 0
 void sub_8019150(void) {
     s32 temp_r2;
     s32 var_r2;
