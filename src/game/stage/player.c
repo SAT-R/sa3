@@ -62,7 +62,7 @@ void Task_80186A0_CC(void);
 void sub_8018984(void);
 void Task_8018AF8(void);
 void Task_801952C_2C(void);
-void Task_80184F8_30_2(void);
+void Task_80184F8(void);
 void sub_8018C6C(void);
 void sub_8018814(void);
 void sub_8018DDC(void);
@@ -137,6 +137,7 @@ extern s32 gUnknown_080CE644[25];
 extern s16 gUnknown_080CE6A8[4][2];
 extern s16 gUnknown_080CE6B8[RSF_COUNT][2];
 extern PlayerCallback gUnknown_080CE6CC[54];
+extern u8 gUnknown_080CE7A4[4];
 extern u16 gUnknown_080CE7E2[][2];
 extern s16 gUnknown_080CECB2[RSF_COUNT][2];
 extern s16 gUnknown_080CECC6[RSF_COUNT];
@@ -194,9 +195,9 @@ typedef struct Strc_PlayerStrc30_2 {
 typedef struct Strc_PlayerStrc50 {
     /* 0x00 */ Sprite s;
     /* 0x28 */ Player *p;
-    u8 unk2C;
-    u8 unk2D;
-    s16 unk2E[8][2];
+    /* 0x2C */ s8 unk2C;
+    /* 0x2D */ s8 unk2D;
+    /* 0x2E */ s16 unk2E[8][2];
 } Strc_PlayerStrc50;
 
 typedef struct PlayerStrcCC_Sprite {
@@ -15419,7 +15420,7 @@ void sub_801782C(Player *p, s16 arg1)
         if ((arg1 == 5) && (&gPlayers[gStageData.playerIndex] == p)) {
             gUnknown_03001CF0.unk4 = 0x10;
         }
-        strc = TASK_DATA(TaskCreate(Task_80184F8_30_2, sizeof(Strc_PlayerStrc30_2), 0x3100U, 0U, TaskDestructor_80193EC));
+        strc = TASK_DATA(TaskCreate(Task_80184F8, sizeof(Strc_PlayerStrc30_2), 0x3100U, 0U, TaskDestructor_80193EC));
         strc->p = p;
         strc->someY = 0;
         s = &strc->s;
@@ -16038,7 +16039,7 @@ NONMATCH("asm/non_matching/game/stage/player__Task_801839C_E0.inc", void Task_80
 }
 END_NONMATCH
 
-void Task_80184F8_30_2(void)
+void Task_80184F8(void)
 {
     Strc_PlayerStrc30_2 *strc = TASK_DATA(gCurTask);
     Sprite *s = &strc->s;
@@ -16052,6 +16053,40 @@ void Task_80184F8_30_2(void)
     s->x = I(p->qWorldX) - gCamera.x;
     s->y = I(p->qWorldY) - gCamera.y - 16 - (strc->someY >> 1);
     DisplaySprite(s);
+}
+
+void Task_8018550(void)
+{
+    u8 sp[ARRAY_COUNT(gUnknown_080CE7A4)];
+    s32 index, index0;
+    Strc_PlayerStrc50 *strc;
+    Sprite *s;
+    Player *p;
+
+    memcpy(sp, gUnknown_080CE7A4, sizeof(sp));
+
+    strc = TASK_DATA(gCurTask);
+    s = &strc->s;
+    p = strc->p;
+    strc->unk2C = (u8)((strc->unk2C + 1) & 3);
+
+    if ((p->charFlags.anim0 != 170) || ((u32)p->charFlags.state1 > 1U)) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    strc->unk2D = (u8)((strc->unk2D + 1) & 7);
+    strc->unk2E[strc->unk2D][0] = I(p->qWorldX);
+    strc->unk2E[strc->unk2D][1] = I(p->qWorldY);
+
+    if ((p->charFlags.state1 == 1) && (p->qSpeedAirY >= 0)) {
+        index0 = sp[strc->unk2C] - 8;
+        index = ((u8)strc->unk2D - index0) & 7;
+        s->x = strc->unk2E[index][0] - gCamera.x;
+        s->y = strc->unk2E[index][1] - gCamera.y;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
 }
 
 #if 0
