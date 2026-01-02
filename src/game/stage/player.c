@@ -281,6 +281,15 @@ static inline void sub_8015568__shared_inline(Player *p)
     }
 }
 
+static inline void AdvanceVariant(Player *p)
+{
+    if (p->taskTagAction != NULL) {
+        Strc_PlayerStrc30 *strcTag = TASK_DATA(p->taskTagAction);
+        strcTag->s.variant = 1;
+        p->taskTagAction->main = sub_8019150;
+    }
+}
+
 void InitializePlayer(s16 playerId)
 {
     Player *player;
@@ -15483,7 +15492,7 @@ void sub_8017914(Player *p)
     s->animSpeed = 0x10;
     s->palId = 0;
     s->hitboxes[0].index = -1;
-    Player_PlaySong(p, 0x11AU);
+    Player_PlaySong(p, SE_282);
 }
 
 void sub_80179BC(Player *p)
@@ -16505,15 +16514,6 @@ void sub_8018DDC()
     }
 }
 
-static inline void AdvanceVariant(Player *p)
-{
-    if (p->taskTagAction != NULL) {
-        Strc_PlayerStrc30 *strcTag = TASK_DATA(p->taskTagAction);
-        strcTag->s.variant = 1;
-        p->taskTagAction->main = sub_8019150;
-    }
-}
-
 void Task_TagActionInit(void)
 {
     s16 partnerChar;
@@ -16832,101 +16832,97 @@ void sub_8019518(Task *t)
     VramFree(strc->vram);
 }
 
-#if 0
-void sub_801952C(void) {
-    u16 temp_r1;
+void Task_801952C_2C(void)
+{
+    Strc_PlayerStrc2C *strc = TASK_DATA(gCurTask);
+    Sprite *s = &strc->s;
 
-    temp_r1 = gCurTask->data;
-    if (temp_r1->unk8 & 0x4000) {
+    if (s->frameFlags & 0x4000) {
         TaskDestroy(gCurTask);
         return;
     }
-    temp_r1->unk10 = (s16) (temp_r1->unk28 - gCamera.x);
-    temp_r1->unk12 = (s16) (temp_r1->unk2A - gCamera.y);
-    UpdateSpriteAnimation((Sprite *) temp_r1);
-    DisplaySprite((Sprite *) temp_r1);
+    s->x = strc->unk28 - gCamera.x;
+    s->y = strc->unk2A - gCamera.y;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
 
-void sub_801957C(void) {
-    u16 temp_r1;
+void sub_801957C(void)
+{
+    Strc_PlayerStrc2C *strc = TASK_DATA(gCurTask);
+    Sprite *s = &strc->s;
 
-    temp_r1 = gCurTask->data;
-    if (temp_r1->unk8 & 0x4000) {
+    if (s->frameFlags & 0x4000) {
         TaskDestroy(gCurTask);
         return;
     }
-    temp_r1->unk10 = (s16) (temp_r1->unk28 - gCamera.x);
-    temp_r1->unk12 = (s16) (temp_r1->unk2A - gCamera.y);
-    UpdateSpriteAnimation((Sprite *) temp_r1);
-    DisplaySprite((Sprite *) temp_r1);
+    s->x = strc->unk28 - gCamera.x;
+    s->y = strc->unk2A - gCamera.y;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
 
-void Task_80195CC(void) {
-    u16 temp_r1;
-    void *temp_r3;
+void Task_80195CC(void)
+{
+    Strc_PlayerStrc2C_2 *strc = TASK_DATA(gCurTask);
+    Sprite *s = &strc->s;
+    Player *p = strc->p;
 
-    temp_r1 = gCurTask->data;
-    temp_r3 = temp_r1->unk28;
-    if ((temp_r1->unk8 & 0x4000) || (temp_r3->unk30 != 0xA7)) {
+    if ((s->frameFlags & 0x4000) || (p->charFlags.anim0 != 167)) {
         TaskDestroy(gCurTask);
         return;
     }
-    temp_r1->unk10 = (s16) (((s32) temp_r3->unk10 >> 8) - gCamera.x);
-    temp_r1->unk12 = (s16) (((s32) temp_r3->unk14 >> 8) - gCamera.y);
-    UpdateSpriteAnimation((Sprite *) temp_r1);
-    DisplaySprite((Sprite *) temp_r1);
+    s->x = I(p->qWorldX) - gCamera.x;
+    s->y = I(p->qWorldY) - gCamera.y;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
 
-void Task_8019628(void) {
-    s32 temp_r2;
-    s32 temp_r5;
-    u16 temp_r0;
-    void *temp_r0_2;
-    void *temp_r1;
+void Task_8019628(void)
+{
+    Strc_PlayerStrc30 *strc = TASK_DATA(gCurTask);
+    Sprite *s = &strc->s;
+    Player *p = strc->p;
 
-    temp_r0 = gCurTask->data;
-    temp_r1 = temp_r0->unk28;
-    temp_r2 = temp_r1->unk4;
-    if (0x100 & temp_r2) {
-        temp_r0_2 = temp_r1->unkD0;
-        if (temp_r0_2 != NULL) {
-            temp_r0_2->unk6->unk1A = 1;
-            temp_r1->unkD0->unk8 = sub_8019150;
-        }
+    if (0x100 & p->moveState) {
+        AdvanceVariant(p);
     } else {
-        temp_r5 = 0x01000000 & temp_r2;
-        if (temp_r5 == 0) {
-            TaskDestroy(temp_r1->unkD4);
-            temp_r1->unkD4 = (Task *) temp_r5;
+        if (!(MOVESTATE_1000000 & p->moveState)) {
+            TaskDestroy(p->unkD4);
+            p->unkD4 = NULL;
             return;
         }
-        UpdateSpriteAnimation((Sprite *) temp_r0);
-        DisplaySprite((Sprite *) temp_r0);
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
     }
 }
 
-void Task_8019698(void) {
+void Task_8019698(void)
+{
     Player *temp_r4;
-    u16 temp_r1;
+    Strc_PlayerStrc30 *strc = TASK_DATA(gCurTask);
+    Sprite *s = &strc->s;
 
-    temp_r1 = gCurTask->data;
-    temp_r4 = temp_r1->unk28;
+    temp_r4 = strc->p;
     if (temp_r4->callback != Player_800BD88) {
         Player_StopSong(temp_r4, 0x11AU);
         TaskDestroy(gCurTask);
         return;
     }
     Player_PlayOrContinueSong(temp_r4, 0x11A);
-    temp_r1->unk10 = (s16) (((s32) temp_r4->qWorldX >> 8) - gCamera.x);
-    temp_r1->unk12 = (s16) (((s32) temp_r4->qWorldY >> 8) - gCamera.y);
-    UpdateSpriteAnimation((Sprite *) temp_r1);
-    DisplaySprite((Sprite *) temp_r1);
+    s->x = ((s32)temp_r4->qWorldX >> 8) - gCamera.x;
+    s->y = ((s32)temp_r4->qWorldY >> 8) - gCamera.y;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
 
-void sub_8019704(void *arg0) {
-    VramFree(*arg0->unk6);
+void TaskDestructor_8019704(struct Task *t)
+{
+    Strc_PlayerUnkE0 *strc = TASK_DATA(t);
+    VramFree(strc->vram);
 }
 
+#if 0
 void sub_8019718(Player *p) {
     u16 temp_r1;
     u32 temp_r0;
@@ -16948,7 +16944,7 @@ block_6:
             temp_r1 = temp_r0->unk6;
             temp_r3 = temp_r1 + 0xC;
             if (((u32) gStageData.gameMode <= 5U) || (gStageData.gameMode == 6)) {
-                temp_r1->unkC = 0x06012000;
+                temp_r1->unkC = OBJ_VRAM0 + 0x2000;
             }
             temp_r3->unk8 = 0x2000;
             temp_r3->unkC = 0;
@@ -21398,11 +21394,11 @@ void sub_801EDB4(void) {
     temp_r3->unk19 = 0;
     temp_r5 = temp_r3 + 0x20;
     if ((u32) gStageData.gameMode <= 5U) {
-        var_r0 = 0x06014000;
+        var_r0 = OBJ_VRAM0 + 0x4000;
         goto block_4;
     }
     if (gStageData.gameMode == 6) {
-        var_r0 = 0x06014020;
+        var_r0 = OBJ_VRAM0 + 0x4020;
 block_4:
         temp_r3->unk20 = var_r0;
     }
