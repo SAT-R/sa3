@@ -71,6 +71,11 @@ void sub_8019150(void);
 void Task_80191C8(void);
 void Task_TagActionInit(void);
 void Task_8019628(void);
+void Task_AfterImages();
+void sub_8019A7C();
+void sub_8019AB4(u16, s32);
+void Player_InitializeAfterImagesTask(Player *p);
+void TaskDestructor_AfterImages(Task *);
 void TaskDestructor_80194B4(Task *t);
 void sub_80194DC(Task *t);
 void sub_801957C(void);
@@ -123,46 +128,10 @@ extern void sub_8056168(void);
 
 bool32 sub_8010184(Sprite *s, s32 offsetX, s32 offsetY, s16 hbIndex, Player *p);
 
-extern u16 gMedalTimes[][2];
-extern u8 gUnknown_080CF468[];
-extern s16 gUnknown_080CF470[][2];
-extern s16 gUnknown_080CE5B8[9]; // Spindash accel related
-extern u16 gCharVoicesLifeLost[NUM_CHARACTERS];
-extern u16 gUnknown_080CE5CA[10];
-extern u16 gUnknown_080CE5E8[NUM_CHARACTERS];
-extern s16 gUnknown_080CE5F2[5];
-extern s16 gUnknown_080CE5FC[8];
-extern u16 gUnknown_080CE60C[8];
-extern s16 gUnknown_080CE61C[8][2];
-extern s16 gUnknown_080CE63C[4];
-extern s32 gUnknown_080CE644[25];
-extern s16 gUnknown_080CE6A8[4][2];
-extern s16 gUnknown_080CE6B8[RSF_COUNT][2];
-extern PlayerCallback gUnknown_080CE6CC[54];
-extern u8 gUnknown_080CE7A4[4];
-extern s8 gUnknown_080CE7A8[][2];
-extern s8 gUnknown_080CE7B0[][2];
-extern s8 gUnknown_080CE7B8[][2];
-extern s8 gUnknown_080CE7C0[][2];
-extern s8 gUnknown_080CE7C8[][2];
-extern u16 gUnknown_080CE7E2[][2];
-extern s16 gUnknown_080CECB2[RSF_COUNT][2];
-extern s16 gUnknown_080CECC6[RSF_COUNT];
-extern u16 gUnknown_080D05A8[][2];
-extern Vec2_16 *gUnknown_080D1750[];
-
-extern PlayerSpriteInfo gUnknown_030010D0; // Tails
-extern PlayerSpriteInfo gUnknown_0300110C; // Cream
-extern PlayerSpriteInfo gUnknown_03001B00[4];
-
 typedef struct {
     AnimId anim;
     u16 variant;
 } TileInfoShield;
-
-extern TileInfoShield sTileInfoShields[];
-extern u16 gUnknown_08E2EAD0[][3];
-extern u16 gUnknown_08E2EB04[NUM_CHARACTERS][2];
 
 typedef struct Strc_800FF68 {
     /* 0x00 */ s32 qWorldX;
@@ -236,6 +205,32 @@ typedef struct Strc_PlayerUnkE0 {
     /* 0xB4 */ s16 unkB0[12][2];
 } Strc_PlayerUnkE0;
 
+typedef struct AfterImages {
+    /* 0x00 */ SpriteTransform tf;
+    /* 0x0C */ Sprite2 s;
+    /* 0x3C */ u8 unk3C;
+    /* 0x3C */ u8 filler3D[3];
+} AfterImages;
+
+typedef struct SomeSubStruct_3001BF0 {
+    /* 0x00 */ s32 qWorldX;
+    /* 0x04 */ s32 qWorldY;
+    /* 0x08 */ u32 frameFlags;
+    /* 0x0C */ u32 moveState;
+    /* 0x10 */ s16 anim2;
+    /* 0x12 */ s16 unk12;
+    /* 0x14 */ s8 state1;
+    /* 0x15 */ s8 animSpeed;
+} SomeSubStruct_3001BF0; /* size: 0x18 */
+typedef struct Strc_03001BF0 {
+    SomeSubStruct_3001BF0 unk0[8];
+    Player *unkC0;
+    u8 index;
+} Strc_03001BF0;
+
+extern Strc_03001BF0 gUnknown_03001BF0;
+extern u16 gUnknown_080CE7E2[][2];
+
 typedef struct Strc_03001CF0 {
     u8 unk0;
     u8 filler1[3];
@@ -244,6 +239,42 @@ typedef struct Strc_03001CF0 {
 } Strc_03001CF0;
 
 extern Strc_03001CF0 gUnknown_03001CF0;
+
+extern u16 gMedalTimes[][2];
+extern u8 gUnknown_080CF468[];
+extern s16 gUnknown_080CF470[][2];
+extern s16 gUnknown_080CE5B8[9]; // Spindash accel related
+extern u16 gCharVoicesLifeLost[NUM_CHARACTERS];
+extern u16 gUnknown_080CE5CA[10];
+extern u16 gUnknown_080CE5E8[NUM_CHARACTERS];
+extern s16 gUnknown_080CE5F2[5];
+extern s16 gUnknown_080CE5FC[8];
+extern u16 gUnknown_080CE60C[8];
+extern s16 gUnknown_080CE61C[8][2];
+extern s16 gUnknown_080CE63C[4];
+extern s32 gUnknown_080CE644[25];
+extern s16 gUnknown_080CE6A8[4][2];
+extern s16 gUnknown_080CE6B8[RSF_COUNT][2];
+extern PlayerCallback gUnknown_080CE6CC[54];
+extern u8 gUnknown_080CE7A4[4];
+extern s8 gUnknown_080CE7A8[][2];
+extern s8 gUnknown_080CE7B0[][2];
+extern s8 gUnknown_080CE7B8[][2];
+extern s8 gUnknown_080CE7C0[][2];
+extern s8 gUnknown_080CE7C8[][2];
+extern u16 gUnknown_080CE7E2[][2];
+extern s16 gUnknown_080CECB2[RSF_COUNT][2];
+extern s16 gUnknown_080CECC6[RSF_COUNT];
+extern u16 gUnknown_080D05A8[][2];
+extern Vec2_16 *gUnknown_080D1750[];
+
+extern PlayerSpriteInfo gUnknown_030010D0; // Tails
+extern PlayerSpriteInfo gUnknown_0300110C; // Cream
+extern PlayerSpriteInfo gUnknown_03001B00[4];
+
+extern TileInfoShield sTileInfoShields[];
+extern u16 gUnknown_08E2EAD0[][3];
+extern u16 gUnknown_08E2EB04[NUM_CHARACTERS][2];
 
 static inline void SongStopCheck_inline(Player *p, u16 song)
 {
@@ -333,9 +364,9 @@ void InitializePlayer(s16 playerId)
         sub_801310C(playerId);
         if (playerId == gStageData.playerIndex) {
             if (gStageData.currMapIndex != 72) {
-                sub_8019718(player);
+                Player_InitializeAfterImagesTask(player);
             } else {
-                sub_8019718(&gPlayers[PLAYER_1]);
+                Player_InitializeAfterImagesTask(&gPlayers[PLAYER_1]);
             }
         }
 
@@ -12868,7 +12899,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80136DC.inc", void sub_80136DC
 
     if (gStageData.gameMode != 7) {
         if ((((playerId == gStageData.playerIndex)) && (gStageData.zone != 8)) || ((gStageData.zone == 8) && (playerId == 0))) {
-            sub_8019858(p);
+            Player_8019858(p);
         }
     }
 }
@@ -16922,81 +16953,89 @@ void TaskDestructor_8019704(struct Task *t)
     VramFree(strc->vram);
 }
 
-#if 0
-void sub_8019718(Player *p) {
-    u16 temp_r1;
+void Player_InitializeAfterImagesTask(Player *p)
+{
+    AfterImages *strc;
     u32 temp_r0;
-    void *temp_r3;
+    Sprite2 *s;
+    SpriteTransform *tf;
 
     if (gStageData.gameMode == 6) {
-        gStageData.unk9C = 0;
+        gStageData.task9C = NULL;
         return;
     }
-    if (gStageData.zone != 8) {
-        if (&gPlayers[gStageData.playerIndex] == p) {
-            goto block_6;
-        }
-    } else if (p == gPlayers) {
-block_6:
-        if (gStageData.unk9C == 0) {
-            temp_r0 = (u32) TaskCreate(Task_80198A8, 0x40U, 0x4000U, 0U, TaskDestructor_8019A78);
-            gStageData.unk9C = temp_r0;
-            temp_r1 = temp_r0->unk6;
-            temp_r3 = temp_r1 + 0xC;
-            if (((u32) gStageData.gameMode <= 5U) || (gStageData.gameMode == 6)) {
-                temp_r1->unkC = OBJ_VRAM0 + 0x2000;
+
+    if (((gStageData.zone != 8) && (&gPlayers[gStageData.playerIndex] != p)))
+        return;
+
+    if ((gStageData.zone != 8) || (p == &gPlayers[PLAYER_1])) {
+        if (gStageData.task9C == 0) {
+            gStageData.task9C = TaskCreate(Task_AfterImages, sizeof(AfterImages), 0x4000U, 0U, TaskDestructor_AfterImages);
+            strc = TASK_DATA(gStageData.task9C);
+            s = &strc->s;
+            if ((gStageData.gameMode <= 5U)) {
+                s->tiles = OBJ_VRAM0 + 0x2000;
+            } else if (gStageData.gameMode == 6) {
+                s->tiles = OBJ_VRAM0 + 0x2000;
             }
-            temp_r3->unk8 = 0x2000;
-            temp_r3->unkC = 0;
-            temp_r3->unk10 = 0;
-            temp_r3->unk12 = 0;
-            temp_r3->unk14 = 0x480;
-            temp_r3->unk16 = 0;
-            temp_r3->unk18 = 0xFFFF;
-            temp_r3->unk1A = 0;
-            temp_r3->unk1B = 0xFF;
-            temp_r3->unk1C = 0x10;
-            temp_r3->unk1F = 2;
-            temp_r3->unk20 = -1;
-            temp_r3->unk28 = -1;
-            temp_r1->unk0 = 0;
-            temp_r1->unk2 = 0x100;
-            temp_r1->unk4 = 0x100;
-            temp_r1->unk6 = 0;
-            temp_r1->unk8 = 0;
-            temp_r1->unk3C = 2;
+            s->frameFlags = 0x2000;
+            s->anim = 0;
+            s->x = 0;
+            s->y = 0;
+            s->oamFlags = 0x480;
+            s->qAnimDelay = 0;
+            s->prevAnim = -1;
+            s->variant = 0;
+            s->prevVariant = -1;
+            s->animSpeed = 0x10;
+            s->palId = 2;
+            s->hitboxes[0].index = -1;
+            s->hitboxes[1].index = -1;
+            tf = &strc->tf;
+            tf->rotation = 0;
+            tf->qScaleX = Q(1);
+            tf->qScaleY = Q(1);
+            tf->x = 0;
+            tf->y = 0;
+            strc->unk3C = 2;
+
             if (gStageData.zone != 8) {
-                sub_8019AB4((u16) (*(((u32) (p->unk2A << 0x1C) >> 0x1B) + gPlayerCharacterIdleAnims) + gUnknown_080CE7E2.unk21C), 0x10U);
+                sub_8019AB4((u16)(gUnknown_080CE7E2[135][0] + gPlayerCharacterIdleAnims[p->charFlags.character]), 0x10);
             } else {
-                sub_8019AB4(0x521U, 0x10U);
+                sub_8019AB4(1313, 0x10);
             }
+
             gUnknown_03001BF0.unkC0 = p;
-            gUnknown_03001BF0.unkC4 = 0;
+            gUnknown_03001BF0.index = 0;
             sub_8019A7C();
         }
     }
 }
 
-void sub_8019858(Player *arg0) {
-    u16 *temp_r5;
-    void *temp_r3;
-    void *temp_r6;
+void Player_8019858(Player *p)
+{
+    PlayerSpriteInfo *psiBody;
+    SpriteTransform *tf;
+    SomeSubStruct_3001BF0 *temp_r3;
+    Sprite2 *s;
 
-    temp_r3 = (gUnknown_03001BF0.unkC4 * 0x18) + &gUnknown_03001BF0;
-    temp_r5 = arg0->spriteInfoBody;
-    temp_r6 = temp_r5 + 0xC;
-    gUnknown_03001BF0.unkC4 = (u8) ((gUnknown_03001BF0.unkC4 + 1) & 7);
-    temp_r3->unk0 = (s32) arg0->qWorldX;
-    temp_r3->unk4 = (s32) arg0->qWorldY;
-    temp_r3->unk8 = (s32) temp_r6->unk8;
-    temp_r3->unkC = (s32) arg0->moveState;
-    temp_r3->unk10 = (u16) arg0->charFlags.anim2;
-    temp_r3->unk12 = (u16) *temp_r5;
-    temp_r3->unk14 = (s8) arg0->charFlags.state1;
-    temp_r3->unk15 = (u8) temp_r6->unk1C;
+    temp_r3 = &gUnknown_03001BF0.unk0[gUnknown_03001BF0.index];
+    psiBody = p->spriteInfoBody;
+    tf = &psiBody->tf;
+    s = &psiBody->s;
+    gUnknown_03001BF0.index = (u8)((gUnknown_03001BF0.index + 1) & 7);
+    temp_r3->qWorldX = p->qWorldX;
+    temp_r3->qWorldY = p->qWorldY;
+    temp_r3->frameFlags = s->frameFlags;
+    temp_r3->moveState = p->moveState;
+    temp_r3->anim2 = p->charFlags.anim2;
+    temp_r3->unk12 = tf->rotation;
+    temp_r3->state1 = p->charFlags.state1;
+    temp_r3->animSpeed = s->animSpeed;
 }
 
-void Task_80198A8(void) {
+#if 0
+void Task_AfterImages(void) {
     Sprite *temp_r4;
     u16 temp_r2;
     u16 var_r0_2;
@@ -17092,7 +17131,7 @@ void Player_BoostModeDisengage(Player *p) {
     p->boostEffectCounter = 0;
 }
 
-void TaskDestructor_8019A78(Task *t) {
+void TaskDestructor_AfterImages(Task *t) {
 
 }
 

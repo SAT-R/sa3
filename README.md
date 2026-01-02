@@ -27,5 +27,5 @@ Since that is included through linking with agbcc's LibC binary, you HAVE to upd
 
 **Provide assets**
 
-You must have a copy of the Sonic Advance 3 ROM mentioned above named `baserom.gba` in the repository's root directory.
+You must have a copy of the Sonic Advance 3 ROM mentioned above named `baserom_sa3.gba` in the repository's root directory.
 

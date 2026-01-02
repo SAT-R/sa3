@@ -80,7 +80,7 @@ typedef struct {
     /* 0x90 */ struct Task *task90;
     /* 0x94 */ u32 unk94;
     /* 0x98 */ struct Task *task98; // -> StageDataTask98 *
-    /* 0x9C */ u32 unk9C;
+    /* 0x9C */ struct Task *task9C; // -> AfterImages *
     /* 0xA0 */ u32 unkA0;
     /* 0xA4 */ u32 unkA4;
     /* 0xA8 */ u32 unkA8;
