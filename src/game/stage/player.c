@@ -66,6 +66,8 @@ void Task_80184F8(void);
 void sub_8018C6C(void);
 void sub_8018814(void);
 void sub_8018DDC(void);
+void sub_80190C8(void);
+void sub_8019150(void);
 void Task_80191C8(void);
 void Task_TagActionInit(void);
 void Task_8019628(void);
@@ -138,6 +140,10 @@ extern s16 gUnknown_080CE6A8[4][2];
 extern s16 gUnknown_080CE6B8[RSF_COUNT][2];
 extern PlayerCallback gUnknown_080CE6CC[54];
 extern u8 gUnknown_080CE7A4[4];
+extern s8 gUnknown_080CE7A8[][2];
+extern s8 gUnknown_080CE7B0[][2];
+extern s8 gUnknown_080CE7B8[][2];
+extern s8 gUnknown_080CE7C0[][2];
 extern u16 gUnknown_080CE7E2[][2];
 extern s16 gUnknown_080CECB2[RSF_COUNT][2];
 extern s16 gUnknown_080CECC6[RSF_COUNT];
@@ -203,13 +209,16 @@ typedef struct Strc_PlayerStrc50 {
 typedef struct PlayerStrcCC_Sprite {
     Sprite s;
     u8 unk28;
-    u8 filler29[0x7];
+    u8 filler29[0x1];
+    s16 worldX;
+    s16 worldY;
+    u8 filler2E[0x2];
 } PlayerStrcCC_Sprite;
 
 typedef struct Strc_PlayerStrcCC {
     /* 0x00 */ u8 *vram;
-    /* 0x04 */ u16 unk4;
-    /* 0x06 */ u16 unk6;
+    /* 0x04 */ s16 unk4;
+    /* 0x06 */ s16 unk6;
     /* 0x08 */ Player *p;
     /* 0x0C */ PlayerStrcCC_Sprite sprites[4];
     /* 0xA8 */
@@ -16089,569 +16098,487 @@ void Task_8018550(void)
     }
 }
 
-#if 0
-void Task_8018550(void) {
-    s32 temp_r0;
-    s32 temp_r1;
-    s32 temp_r7;
-    u16 temp_r3;
-    void *temp_r4;
+void sub_801862C(void)
+{
+    Strc_PlayerStrc2C_2 *strc = TASK_DATA(gCurTask);
+    Sprite *s = &strc->s;
+    Player *p = strc->p;
 
-    memcpy(&subroutine_arg0, &gUnknown_080CE7A4, 4);
-    temp_r3 = gCurTask->data;
-    temp_r4 = temp_r3->unk28;
-    temp_r3->unk2C = (u8) ((temp_r3->unk2C + 1) & 3);
-    if ((temp_r4->unk30 != 0xAA) || ((u32) temp_r4->unk36 > 1U)) {
+    if (p->charFlags.anim0 != (ANIM_CREAM_IDLE + 77) && p->charFlags.anim0 != (ANIM_CREAM_IDLE + 78)
+        && p->charFlags.anim0 != (ANIM_CREAM_IDLE + 79) && p->charFlags.anim0 != (ANIM_CREAM_IDLE + 80)) {
         TaskDestroy(gCurTask);
         return;
     }
-    temp_r3->unk2D = (u8) ((temp_r3->unk2D + 1) & 7);
-    temp_r0 = temp_r3 + 0x2E;
-    *(((s8) temp_r3->unk2D * 4) + temp_r0) = (s16) ((s32) temp_r4->unk10 >> 8);
-    temp_r7 = temp_r3 + 0x30;
-    *(temp_r7 + ((s8) temp_r3->unk2D * 4)) = (s16) ((s32) temp_r4->unk14 >> 8);
-    if ((temp_r4->unk36 == 1) && ((s32) temp_r4->unk1A >= 0)) {
-        temp_r1 = ((temp_r3->unk2D - (*((s8) temp_r3->unk2C + sp) - 8)) & 7) * 4;
-        temp_r3->unk10 = (s16) (*(temp_r0 + temp_r1) - gCamera.x);
-        temp_r3->unk12 = (s16) (*(temp_r7 + temp_r1) - gCamera.y);
-        UpdateSpriteAnimation((Sprite *) temp_r3);
-        DisplaySprite((Sprite *) temp_r3);
-    }
-}
 
-void sub_801862C(void) {
-    s32 var_r0;
-    u16 temp_r1;
-    void *temp_r3;
+    s->x = I(p->qWorldX) - gCamera.x;
+    s->y = I(p->qWorldY) - gCamera.y;
 
-    temp_r1 = gCurTask->data;
-    temp_r3 = temp_r1->unk28;
-    if ((u32) (u16) (temp_r3->unk30 - 0xF0) > 3U) {
-        TaskDestroy(gCurTask);
-        return;
-    }
-    temp_r1->unk10 = (s16) (((s32) temp_r3->unk10 >> 8) - gCamera.x);
-    temp_r1->unk12 = (s16) (((s32) temp_r3->unk14 >> 8) - gCamera.y);
-    if (temp_r3->unk4 & 1) {
-        var_r0 = temp_r1->unk8 & 0xFFFFFBFF;
+    if (p->moveState & MOVESTATE_FACING_LEFT) {
+        s->frameFlags &= ~0x400;
     } else {
-        var_r0 = temp_r1->unk8 | 0x400;
+        s->frameFlags |= 0x400;
     }
-    temp_r1->unk8 = var_r0;
-    UpdateSpriteAnimation((Sprite *) temp_r1);
-    DisplaySprite((Sprite *) temp_r1);
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
 
-void Task_80186A0_CC(void) {
-    Sprite *temp_r4_2;
-    s16 temp_r1_2;
-    s16 var_r0;
-    s16 var_r2;
-    s32 temp_r0_3;
-    s32 temp_r3;
-    s32 temp_r4;
-    u16 temp_r0;
-    u16 temp_r1;
-    u16 temp_r1_3;
-    u16 var_r0_2;
-    u32 temp_r0_2;
-    u32 temp_r0_4;
-    u32 temp_r5;
-    u32 var_r0_3;
-    void *temp_r2;
-    void *temp_r7;
+void Task_80186A0_CC()
+{
+    Player *p;
+    PlayerStrcCC_Sprite *temp_r2;
+    PlayerStrcCC_Sprite *temp_r4_2;
+    s16 spriteIndex;
+    s16 temp_r1;
+    s16 i;
+    u32 oldUnk4;
+    Strc_PlayerStrcCC *strc = TASK_DATA(gCurTask);
 
-    temp_r1 = gCurTask->data;
-    temp_r7 = temp_r1->unk8;
-    temp_r1_2 = temp_r7->unk30;
-    if ((temp_r1_2 != 0xFE) && (temp_r1_2 != 0x10C)) {
+    p = strc->p;
+    temp_r1 = p->charFlags.anim0;
+    if ((temp_r1 != 0xFE) && (temp_r1 != 0x10C)) {
         TaskDestroy(gCurTask);
         return;
     }
-    temp_r0 = temp_r1->unk4;
-    temp_r1_3 = temp_r0 + 1;
-    temp_r1->unk4 = temp_r1_3;
-    if (((u32) (u16) (temp_r0 - 8) <= 6U) && (temp_r1_3 & 1)) {
-        temp_r0_2 = ((s16) temp_r1->unk4 - 9) << 0xF;
-        temp_r5 = temp_r0_2 >> 0x10;
-        temp_r0_3 = (s32) temp_r0_2 >> 0x10;
-        temp_r4 = temp_r0_3 * 2;
-        temp_r2 = temp_r1 + ((temp_r0_3 * 0x30) + 0xC);
+
+    strc->unk4++;
+    if ((strc->unk4 >= 9 && strc->unk4 < 16) && (strc->unk4 & 1)) {
+        spriteIndex = (strc->unk4 - 9) >> 1;
+        temp_r2 = &strc->sprites[spriteIndex];
         temp_r2->unk28 = 1;
-        temp_r3 = (s32) temp_r7->unk10 >> 8;
-        temp_r2->unk2A = (s16) temp_r3;
-        temp_r2->unk2C = (u16) ((s32) temp_r7->unk14 >> 8);
-        if (temp_r7->unk4 & 1) {
-            var_r0 = temp_r3 + (s8) *(temp_r4 + &gUnknown_080CE7A8);
+        temp_r2->worldX = I(p->qWorldX);
+        temp_r2->worldY = I(p->qWorldY);
+
+        if (p->moveState & 1) {
+            temp_r2->worldX += gUnknown_080CE7A8[spriteIndex][0];
         } else {
-            var_r0 = temp_r3 - (s8) *(temp_r4 + &gUnknown_080CE7A8);
+            temp_r2->worldX -= gUnknown_080CE7A8[spriteIndex][0];
         }
-        temp_r2->unk2A = var_r0;
-        if (temp_r7->unk4 & 0x10000) {
-            var_r0_2 = temp_r2->unk2C - *(((s32) (temp_r5 << 0x10) >> 0xF) + (&gUnknown_080CE7A8 + 1));
+
+        if (p->moveState & 0x10000) {
+            temp_r2->worldY -= gUnknown_080CE7A8[spriteIndex][1];
         } else {
-            var_r0_2 = (s8) *(((s32) (temp_r5 << 0x10) >> 0xF) + (&gUnknown_080CE7A8 + 1)) + temp_r2->unk2C;
+            temp_r2->worldY += gUnknown_080CE7A8[spriteIndex][1];
         }
-        temp_r2->unk2C = var_r0_2;
     }
-    var_r2 = 0;
-    do {
-        temp_r4_2 = temp_r1 + ((var_r2 * 0x30) + 0xC);
+
+    for (i = 0; i < (s32)ARRAY_COUNT(strc->sprites); i++) {
+        temp_r4_2 = &strc->sprites[i];
         if (temp_r4_2->unk28 != 0) {
-            temp_r4_2->x = temp_r4_2->unk2A - gCamera.x;
-            temp_r4_2->y = temp_r4_2->unk2C - gCamera.y;
-            if (temp_r7->unk4 & 0x10000) {
-                var_r0_3 = temp_r4_2->frameFlags | 0x800;
+            Sprite *s = &temp_r4_2->s;
+
+            s->x = temp_r4_2->worldX - gCamera.x;
+            s->y = temp_r4_2->worldY - gCamera.y;
+
+            if (p->moveState & 0x10000) {
+                s->frameFlags |= 0x800;
             } else {
-                var_r0_3 = temp_r4_2->frameFlags & 0xFFFFF7FF;
+                s->frameFlags &= ~0x800;
             }
-            temp_r4_2->frameFlags = var_r0_3;
-            UpdateSpriteAnimation(temp_r4_2);
-            DisplaySprite(temp_r4_2);
-            if (temp_r4_2->frameFlags & 0x4000) {
-                temp_r4_2->unk28 = 0U;
+
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+
+            if (s->frameFlags & 0x4000) {
+                temp_r4_2->unk28 = 0;
             }
         }
-        temp_r0_4 = (var_r2 << 0x10) + 0x10000;
-        var_r2 = (s16) (temp_r0_4 >> 0x10);
-    } while ((s32) ((s32) temp_r0_4 >> 0x10) <= 3);
+    }
 }
 
-void sub_8018814(void) {
-    Sprite *temp_r4_2;
-    s16 var_r0;
-    s16 var_r2;
-    s32 temp_r0_3;
-    s32 temp_r3;
-    s32 temp_r4;
-    u16 temp_r0;
-    u16 temp_r1;
-    u16 temp_r1_2;
-    u16 var_r0_2;
-    u32 temp_r0_2;
-    u32 temp_r0_4;
-    u32 temp_r5;
-    u32 var_r0_3;
-    void *temp_r2;
-    void *temp_r7;
+void sub_8018814()
+{
+    Player *p;
+    PlayerStrcCC_Sprite *temp_r2;
+    PlayerStrcCC_Sprite *temp_r4_2;
+    s16 spriteIndex;
+    s16 temp_r1;
+    s16 i;
+    u32 oldUnk4;
+    Strc_PlayerStrcCC *strc = TASK_DATA(gCurTask);
 
-    temp_r1 = gCurTask->data;
-    temp_r7 = temp_r1->unk8;
-    if (temp_r7->unk30 != 0x102) {
+    p = strc->p;
+    temp_r1 = p->charFlags.anim0;
+    if ((temp_r1 != 0x102)) {
         TaskDestroy(gCurTask);
         return;
     }
-    temp_r0 = temp_r1->unk4;
-    temp_r1_2 = temp_r0 + 1;
-    temp_r1->unk4 = temp_r1_2;
-    if (((u32) (u16) (temp_r0 - 2) <= 6U) && (temp_r1_2 & 1)) {
-        temp_r0_2 = ((s16) temp_r1->unk4 - 3) << 0xF;
-        temp_r5 = temp_r0_2 >> 0x10;
-        temp_r0_3 = (s32) temp_r0_2 >> 0x10;
-        temp_r4 = temp_r0_3 * 2;
-        temp_r2 = temp_r1 + ((temp_r0_3 * 0x30) + 0xC);
+
+    strc->unk4++;
+    if ((strc->unk4 >= 3 && strc->unk4 < 10) && (strc->unk4 & 1)) {
+        spriteIndex = (strc->unk4 - 3) >> 1;
+        temp_r2 = &strc->sprites[spriteIndex];
         temp_r2->unk28 = 1;
-        temp_r3 = (s32) temp_r7->unk10 >> 8;
-        temp_r2->unk2A = (s16) temp_r3;
-        temp_r2->unk2C = (u16) ((s32) temp_r7->unk14 >> 8);
-        if (temp_r7->unk4 & 1) {
-            var_r0 = temp_r3 + (s8) *(temp_r4 + &gUnknown_080CE7A8);
+        temp_r2->worldX = I(p->qWorldX);
+        temp_r2->worldY = I(p->qWorldY);
+
+        if (p->moveState & 1) {
+            temp_r2->worldX += gUnknown_080CE7A8[spriteIndex][0];
         } else {
-            var_r0 = temp_r3 - (s8) *(temp_r4 + &gUnknown_080CE7A8);
+            temp_r2->worldX -= gUnknown_080CE7A8[spriteIndex][0];
         }
-        temp_r2->unk2A = var_r0;
-        if (temp_r7->unk4 & 0x10000) {
-            var_r0_2 = temp_r2->unk2C - *(((s32) (temp_r5 << 0x10) >> 0xF) + (&gUnknown_080CE7A8 + 1));
+
+        if (p->moveState & 0x10000) {
+            temp_r2->worldY -= gUnknown_080CE7A8[spriteIndex][1];
         } else {
-            var_r0_2 = (s8) *(((s32) (temp_r5 << 0x10) >> 0xF) + (&gUnknown_080CE7A8 + 1)) + temp_r2->unk2C;
+            temp_r2->worldY += gUnknown_080CE7A8[spriteIndex][1];
         }
-        temp_r2->unk2C = var_r0_2;
     }
-    var_r2 = 0;
-    do {
-        temp_r4_2 = temp_r1 + ((var_r2 * 0x30) + 0xC);
+
+    for (i = 0; i < (s32)ARRAY_COUNT(strc->sprites); i++) {
+        temp_r4_2 = &strc->sprites[i];
         if (temp_r4_2->unk28 != 0) {
-            temp_r4_2->x = temp_r4_2->unk2A - gCamera.x;
-            temp_r4_2->y = temp_r4_2->unk2C - gCamera.y;
-            if (temp_r7->unk4 & 0x10000) {
-                var_r0_3 = temp_r4_2->frameFlags | 0x800;
+            Sprite *s = &temp_r4_2->s;
+
+            s->x = temp_r4_2->worldX - gCamera.x;
+            s->y = temp_r4_2->worldY - gCamera.y;
+
+            if (p->moveState & 0x10000) {
+                s->frameFlags |= 0x800;
             } else {
-                var_r0_3 = temp_r4_2->frameFlags & 0xFFFFF7FF;
+                s->frameFlags &= ~0x800;
             }
-            temp_r4_2->frameFlags = var_r0_3;
-            UpdateSpriteAnimation(temp_r4_2);
-            DisplaySprite(temp_r4_2);
-            if (temp_r4_2->frameFlags & 0x4000) {
-                temp_r4_2->unk28 = 0U;
+
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+
+            if (s->frameFlags & 0x4000) {
+                temp_r4_2->unk28 = 0;
             }
         }
-        temp_r0_4 = (var_r2 << 0x10) + 0x10000;
-        var_r2 = (s16) (temp_r0_4 >> 0x10);
-    } while ((s32) ((s32) temp_r0_4 >> 0x10) <= 3);
+    }
 }
 
-void sub_8018984(void) {
-    Sprite *temp_r4_2;
-    s16 var_r0;
-    s16 var_r2;
-    s32 temp_r0_3;
-    s32 temp_r3;
-    s32 temp_r4;
-    u16 temp_r0;
-    u16 temp_r1;
-    u16 temp_r1_2;
-    u16 var_r0_2;
-    u32 temp_r0_2;
-    u32 temp_r0_4;
-    u32 temp_r5;
-    u32 var_r0_3;
-    void *temp_r2;
-    void *temp_r7;
+void sub_8018984()
+{
+    Player *p;
+    PlayerStrcCC_Sprite *temp_r2;
+    PlayerStrcCC_Sprite *temp_r4_2;
+    s16 spriteIndex;
+    s16 temp_r1;
+    s16 i;
+    u32 oldUnk4;
+    Strc_PlayerStrcCC *strc = TASK_DATA(gCurTask);
 
-    temp_r1 = gCurTask->data;
-    temp_r7 = temp_r1->unk8;
-    if (temp_r7->unk30 != 0x10D) {
+    p = strc->p;
+    if (p->charFlags.anim0 != 0x10D) {
         TaskDestroy(gCurTask);
         return;
     }
-    temp_r0 = temp_r1->unk4;
-    temp_r1_2 = temp_r0 + 1;
-    temp_r1->unk4 = temp_r1_2;
-    if (((u32) (u16) (temp_r0 - 0x10) <= 6U) && (temp_r1_2 & 1)) {
-        temp_r0_2 = ((s16) temp_r1->unk4 - 0x11) << 0xF;
-        temp_r5 = temp_r0_2 >> 0x10;
-        temp_r0_3 = (s32) temp_r0_2 >> 0x10;
-        temp_r4 = temp_r0_3 * 2;
-        temp_r2 = temp_r1 + ((temp_r0_3 * 0x30) + 0xC);
+
+    strc->unk4++;
+    if ((strc->unk4 >= 17 && strc->unk4 < 24) && (strc->unk4 & 1)) {
+        spriteIndex = (strc->unk4 - 17) >> 1;
+        temp_r2 = &strc->sprites[spriteIndex];
         temp_r2->unk28 = 1;
-        temp_r3 = (s32) temp_r7->unk10 >> 8;
-        temp_r2->unk2A = (s16) temp_r3;
-        temp_r2->unk2C = (u16) ((s32) temp_r7->unk14 >> 8);
-        if (temp_r7->unk4 & 1) {
-            var_r0 = temp_r3 + (s8) *(temp_r4 + &gUnknown_080CE7B0);
+        temp_r2->worldX = I(p->qWorldX);
+        temp_r2->worldY = I(p->qWorldY);
+
+        if (p->moveState & 1) {
+            temp_r2->worldX += gUnknown_080CE7B0[spriteIndex][0];
         } else {
-            var_r0 = temp_r3 - (s8) *(temp_r4 + &gUnknown_080CE7B0);
+            temp_r2->worldX -= gUnknown_080CE7B0[spriteIndex][0];
         }
-        temp_r2->unk2A = var_r0;
-        if (temp_r7->unk4 & 0x10000) {
-            var_r0_2 = temp_r2->unk2C - *(((s32) (temp_r5 << 0x10) >> 0xF) + (&gUnknown_080CE7B0 + 1));
+
+        if (p->moveState & 0x10000) {
+            temp_r2->worldY -= gUnknown_080CE7B0[spriteIndex][1];
         } else {
-            var_r0_2 = (s8) *(((s32) (temp_r5 << 0x10) >> 0xF) + (&gUnknown_080CE7B0 + 1)) + temp_r2->unk2C;
+            temp_r2->worldY += gUnknown_080CE7B0[spriteIndex][1];
         }
-        temp_r2->unk2C = var_r0_2;
     }
-    var_r2 = 0;
-    do {
-        temp_r4_2 = temp_r1 + ((var_r2 * 0x30) + 0xC);
+
+    for (i = 0; i < (s32)ARRAY_COUNT(strc->sprites); i++) {
+        temp_r4_2 = &strc->sprites[i];
         if (temp_r4_2->unk28 != 0) {
-            temp_r4_2->x = temp_r4_2->unk2A - gCamera.x;
-            temp_r4_2->y = temp_r4_2->unk2C - gCamera.y;
-            if (temp_r7->unk4 & 0x10000) {
-                var_r0_3 = temp_r4_2->frameFlags | 0x800;
+            Sprite *s = &temp_r4_2->s;
+
+            s->x = temp_r4_2->worldX - gCamera.x;
+            s->y = temp_r4_2->worldY - gCamera.y;
+
+            if (p->moveState & 0x10000) {
+                s->frameFlags |= 0x800;
             } else {
-                var_r0_3 = temp_r4_2->frameFlags & 0xFFFFF7FF;
+                s->frameFlags &= ~0x800;
             }
-            temp_r4_2->frameFlags = var_r0_3;
-            UpdateSpriteAnimation(temp_r4_2);
-            DisplaySprite(temp_r4_2);
-            if (temp_r4_2->frameFlags & 0x4000) {
-                temp_r4_2->unk28 = 0U;
+
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+
+            if (s->frameFlags & 0x4000) {
+                temp_r4_2->unk28 = 0;
             }
         }
-        temp_r0_4 = (var_r2 << 0x10) + 0x10000;
-        var_r2 = (s16) (temp_r0_4 >> 0x10);
-    } while ((s32) ((s32) temp_r0_4 >> 0x10) <= 3);
+    }
 }
 
-void Task_8018AF8(void) {
-    Sprite *temp_r4_2;
-    s16 var_r0;
-    s16 var_r2;
-    s32 temp_r0_4;
-    s32 temp_r3;
-    s32 temp_r4;
-    u16 temp_r0_2;
-    u16 temp_r1;
-    u16 temp_r1_2;
-    u16 var_r0_2;
-    u32 temp_r0_3;
-    u32 temp_r0_5;
-    u32 temp_r5;
-    u32 var_r0_3;
-    void *temp_r0;
-    void *temp_r2;
+void Task_8018AF8()
+{
+    PlayerStrcCC_Sprite *temp_r2;
+    PlayerStrcCC_Sprite *temp_r4_2;
+    s16 spriteIndex;
+    s16 temp_r1;
+    s16 i;
+    u32 oldUnk4;
+    Strc_PlayerStrcCC *strc = TASK_DATA(gCurTask);
+    Player *p = strc->p;
 
-    temp_r1 = gCurTask->data;
-    temp_r0 = temp_r1->unk8;
-    if (temp_r0->unk30 != 0x103) {
+    if ((p->charFlags.anim0 != 0x103)) {
         TaskDestroy(gCurTask);
         return;
     }
-    temp_r0_2 = temp_r1->unk4;
-    temp_r1_2 = temp_r0_2 + 1;
-    temp_r1->unk4 = temp_r1_2;
-    if (((u32) (u16) (temp_r0_2 - 8) <= 6U) && (temp_r1_2 & 1)) {
-        temp_r0_3 = ((s16) temp_r1->unk4 - 9) << 0xF;
-        temp_r5 = temp_r0_3 >> 0x10;
-        temp_r0_4 = (s32) temp_r0_3 >> 0x10;
-        temp_r4 = temp_r0_4 * 2;
-        temp_r2 = temp_r1 + ((temp_r0_4 * 0x30) + 0xC);
+
+    strc->unk4++;
+    if ((strc->unk4 >= 9 && strc->unk4 < 16) && (strc->unk4 & 1)) {
+        spriteIndex = (strc->unk4 - 9) >> 1;
+        temp_r2 = &strc->sprites[spriteIndex];
         temp_r2->unk28 = 1;
-        temp_r3 = (s32) temp_r0->unk10 >> 8;
-        temp_r2->unk2A = (s16) temp_r3;
-        temp_r2->unk2C = (u16) ((s32) temp_r0->unk14 >> 8);
-        if (temp_r1->unk6 != 0) {
-            var_r0 = temp_r3 + (s8) *(temp_r4 + &gUnknown_080CE7B8);
+        temp_r2->worldX = I(p->qWorldX);
+        temp_r2->worldY = I(p->qWorldY);
+
+        if (strc->unk6) {
+            temp_r2->worldX += gUnknown_080CE7B8[spriteIndex][0];
         } else {
-            var_r0 = temp_r3 - (s8) *(temp_r4 + &gUnknown_080CE7B8);
+            temp_r2->worldX -= gUnknown_080CE7B8[spriteIndex][0];
         }
-        temp_r2->unk2A = var_r0;
-        if (temp_r0->unk4 & 0x10000) {
-            var_r0_2 = temp_r2->unk2C - *(((s32) (temp_r5 << 0x10) >> 0xF) + (&gUnknown_080CE7B8 + 1));
+
+        if (p->moveState & 0x10000) {
+            temp_r2->worldY -= gUnknown_080CE7B8[spriteIndex][1];
         } else {
-            var_r0_2 = (s8) *(((s32) (temp_r5 << 0x10) >> 0xF) + (&gUnknown_080CE7B8 + 1)) + temp_r2->unk2C;
+            temp_r2->worldY += gUnknown_080CE7B8[spriteIndex][1];
         }
-        temp_r2->unk2C = var_r0_2;
     }
-    var_r2 = 0;
-    do {
-        temp_r4_2 = temp_r1 + ((var_r2 * 0x30) + 0xC);
+
+    for (i = 0; i < (s32)ARRAY_COUNT(strc->sprites); i++) {
+        temp_r4_2 = &strc->sprites[i];
         if (temp_r4_2->unk28 != 0) {
-            temp_r4_2->x = temp_r4_2->unk2A - gCamera.x;
-            temp_r4_2->y = temp_r4_2->unk2C - gCamera.y;
-            if (temp_r0->unk4 & 0x10000) {
-                var_r0_3 = temp_r4_2->frameFlags | 0x800;
+            Sprite *s = &temp_r4_2->s;
+
+            s->x = temp_r4_2->worldX - gCamera.x;
+            s->y = temp_r4_2->worldY - gCamera.y;
+
+            if (p->moveState & 0x10000) {
+                s->frameFlags |= 0x800;
             } else {
-                var_r0_3 = temp_r4_2->frameFlags & 0xFFFFF7FF;
+                s->frameFlags &= ~0x800;
             }
-            temp_r4_2->frameFlags = var_r0_3;
-            UpdateSpriteAnimation(temp_r4_2);
-            DisplaySprite(temp_r4_2);
-            if (temp_r4_2->frameFlags & 0x4000) {
-                temp_r4_2->unk28 = 0U;
+
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+
+            if (s->frameFlags & 0x4000) {
+                temp_r4_2->unk28 = 0;
             }
         }
-        temp_r0_5 = (var_r2 << 0x10) + 0x10000;
-        var_r2 = (s16) (temp_r0_5 >> 0x10);
-    } while ((s32) ((s32) temp_r0_5 >> 0x10) <= 3);
+    }
 }
 
-void sub_8018C6C(void) {
-    Sprite *temp_r4_2;
-    s16 var_r0;
-    s16 var_r2;
-    s32 temp_r0_4;
-    s32 temp_r3;
-    s32 temp_r4;
-    u16 temp_r0_2;
-    u16 temp_r1;
-    u16 temp_r1_2;
-    u16 var_r0_2;
-    u32 temp_r0_3;
-    u32 temp_r0_5;
-    u32 temp_r5;
-    u32 var_r0_3;
-    void *temp_r0;
-    void *temp_r2;
+void sub_8018C6C()
+{
+    PlayerStrcCC_Sprite *temp_r2;
+    PlayerStrcCC_Sprite *temp_r4_2;
+    s16 spriteIndex;
+    s16 temp_r1;
+    s16 i;
+    u32 oldUnk4;
+    Strc_PlayerStrcCC *strc = TASK_DATA(gCurTask);
+    Player *p = strc->p;
 
-    temp_r1 = gCurTask->data;
-    temp_r0 = temp_r1->unk8;
-    if (temp_r0->unk30 != 0x104) {
+    if ((p->charFlags.anim0 != 0x104)) {
         TaskDestroy(gCurTask);
         return;
     }
-    temp_r0_2 = temp_r1->unk4;
-    temp_r1_2 = temp_r0_2 + 1;
-    temp_r1->unk4 = temp_r1_2;
-    if (((u32) (u16) (temp_r0_2 - 0xC) <= 6U) && (temp_r1_2 & 1)) {
-        temp_r0_3 = ((s16) temp_r1->unk4 - 0xD) << 0xF;
-        temp_r5 = temp_r0_3 >> 0x10;
-        temp_r0_4 = (s32) temp_r0_3 >> 0x10;
-        temp_r4 = temp_r0_4 * 2;
-        temp_r2 = temp_r1 + ((temp_r0_4 * 0x30) + 0xC);
+
+    strc->unk4++;
+    if ((strc->unk4 >= 13 && strc->unk4 < 20) && (strc->unk4 & 1)) {
+        spriteIndex = (strc->unk4 - 13) >> 1;
+        temp_r2 = &strc->sprites[spriteIndex];
         temp_r2->unk28 = 1;
-        temp_r3 = (s32) temp_r0->unk10 >> 8;
-        temp_r2->unk2A = (s16) temp_r3;
-        temp_r2->unk2C = (u16) ((s32) temp_r0->unk14 >> 8);
-        if (temp_r1->unk6 != 0) {
-            var_r0 = temp_r3 + (s8) *(temp_r4 + &gUnknown_080CE7B8);
+        temp_r2->worldX = I(p->qWorldX);
+        temp_r2->worldY = I(p->qWorldY);
+
+        if (strc->unk6) {
+            temp_r2->worldX += gUnknown_080CE7B8[spriteIndex][0];
         } else {
-            var_r0 = temp_r3 - (s8) *(temp_r4 + &gUnknown_080CE7B8);
+            temp_r2->worldX -= gUnknown_080CE7B8[spriteIndex][0];
         }
-        temp_r2->unk2A = var_r0;
-        if (temp_r0->unk4 & 0x10000) {
-            var_r0_2 = temp_r2->unk2C - *(((s32) (temp_r5 << 0x10) >> 0xF) + (&gUnknown_080CE7B8 + 1));
+
+        if (p->moveState & 0x10000) {
+            temp_r2->worldY -= gUnknown_080CE7B8[spriteIndex][1];
         } else {
-            var_r0_2 = (s8) *(((s32) (temp_r5 << 0x10) >> 0xF) + (&gUnknown_080CE7B8 + 1)) + temp_r2->unk2C;
+            temp_r2->worldY += gUnknown_080CE7B8[spriteIndex][1];
         }
-        temp_r2->unk2C = var_r0_2;
     }
-    var_r2 = 0;
-    do {
-        temp_r4_2 = temp_r1 + ((var_r2 * 0x30) + 0xC);
+
+    for (i = 0; i < (s32)ARRAY_COUNT(strc->sprites); i++) {
+        temp_r4_2 = &strc->sprites[i];
         if (temp_r4_2->unk28 != 0) {
-            temp_r4_2->x = temp_r4_2->unk2A - gCamera.x;
-            temp_r4_2->y = temp_r4_2->unk2C - gCamera.y;
-            if (temp_r0->unk4 & 0x10000) {
-                var_r0_3 = temp_r4_2->frameFlags | 0x800;
+            Sprite *s = &temp_r4_2->s;
+
+            s->x = temp_r4_2->worldX - gCamera.x;
+            s->y = temp_r4_2->worldY - gCamera.y;
+
+            if (p->moveState & 0x10000) {
+                s->frameFlags |= 0x800;
             } else {
-                var_r0_3 = temp_r4_2->frameFlags & 0xFFFFF7FF;
+                s->frameFlags &= ~0x800;
             }
-            temp_r4_2->frameFlags = var_r0_3;
-            UpdateSpriteAnimation(temp_r4_2);
-            DisplaySprite(temp_r4_2);
-            if (temp_r4_2->frameFlags & 0x4000) {
-                temp_r4_2->unk28 = 0U;
+
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+
+            if (s->frameFlags & 0x4000) {
+                temp_r4_2->unk28 = 0;
             }
         }
-        temp_r0_5 = (var_r2 << 0x10) + 0x10000;
-        var_r2 = (s16) (temp_r0_5 >> 0x10);
-    } while ((s32) ((s32) temp_r0_5 >> 0x10) <= 3);
+    }
 }
 
-void sub_8018DDC(void) {
-    Sprite *temp_r4_3;
-    Task *temp_r4;
-    s16 temp_r1_2;
-    s16 var_r0;
-    s16 var_r2;
-    s32 temp_r3_2;
-    s32 temp_r4_2;
-    u16 temp_r1;
-    u16 temp_r1_3;
-    u16 var_r0_2;
-    u32 temp_r0_2;
-    u32 temp_r5;
-    u32 var_r0_3;
-    void *temp_r0;
-    void *temp_r2;
-    void *temp_r3;
+void sub_8018DDC()
+{
+    PlayerStrcCC_Sprite *temp_r2;
+    PlayerStrcCC_Sprite *temp_r4_2;
+    s16 spriteIndex;
+    s16 temp_r1;
+    s16 i;
+    u32 oldUnk4;
+    Strc_PlayerStrcCC *strc = TASK_DATA(gCurTask);
+    Player *p = strc->p;
+    PlayerSpriteInfo *psiBody = p->spriteInfoBody;
 
-    temp_r4 = gCurTask;
-    temp_r1 = temp_r4->data;
-    temp_r0 = temp_r1->unk8;
-    temp_r3 = temp_r0->unkE0;
-    if ((temp_r3->unk18 == 0x2F7) && (temp_r3->unk26 == 2)) {
-        TaskDestroy(temp_r4);
-        return;
-    }
-    temp_r1_2 = temp_r0->unk30;
-    if ((temp_r1_2 != 0x100) && (temp_r1_2 != 0x108)) {
+    if ((psiBody->s.anim == 0x2F7 && psiBody->s.variant == 2)) {
         TaskDestroy(gCurTask);
         return;
     }
-    temp_r1_3 = temp_r1->unk4 + 1;
-    temp_r1->unk4 = temp_r1_3;
-    if (((s32) (s16) temp_r1_3 > 9) && (temp_r1_3 & 4)) {
-        temp_r5 = (u32) (((s16) temp_r1->unk4 - 0xA) & 0xF) >> 2;
-        temp_r4_2 = temp_r5 * 2;
-        temp_r2 = temp_r1 + ((temp_r5 * 0x30) + 0xC);
-        temp_r2->unk28 = 1;
-        temp_r3_2 = (s32) temp_r0->unk10 >> 8;
-        temp_r2->unk2A = (s16) temp_r3_2;
-        temp_r2->unk2C = (u16) ((s32) temp_r0->unk14 >> 8);
-        if (temp_r1->unk6 != 0) {
-            var_r0 = temp_r3_2 + (s8) *(temp_r4_2 + &gUnknown_080CE7C0);
-        } else {
-            var_r0 = temp_r3_2 - (s8) *(temp_r4_2 + &gUnknown_080CE7C0);
-        }
-        temp_r2->unk2A = var_r0;
-        if (temp_r0->unk4 & 0x10000) {
-            var_r0_2 = temp_r2->unk2C - *((temp_r5 * 2) + (&gUnknown_080CE7C0 + 1));
-        } else {
-            var_r0_2 = (s8) *((temp_r5 * 2) + (&gUnknown_080CE7C0 + 1)) + temp_r2->unk2C;
-        }
-        temp_r2->unk2C = var_r0_2;
-        temp_r2->unk18 = 0xFFFF;
-        temp_r2->unk1B = 0xFF;
-        temp_r2->unk8 = (s32) (temp_r2->unk8 & 0xFFFFBFFF);
-    }
-    var_r2 = 0;
-    do {
-        temp_r4_3 = temp_r1 + ((var_r2 * 0x30) + 0xC);
-        if (temp_r4_3->unk28 != 0) {
-            temp_r4_3->x = temp_r4_3->unk2A - gCamera.x;
-            temp_r4_3->y = temp_r4_3->unk2C - gCamera.y;
-            if (temp_r0->unk4 & 0x10000) {
-                var_r0_3 = temp_r4_3->frameFlags | 0x800;
-            } else {
-                var_r0_3 = temp_r4_3->frameFlags & 0xFFFFF7FF;
-            }
-            temp_r4_3->frameFlags = var_r0_3;
-            UpdateSpriteAnimation(temp_r4_3);
-            DisplaySprite(temp_r4_3);
-            if (temp_r4_3->frameFlags & 0x4000) {
-                temp_r4_3->unk28 = 0U;
-            }
-        }
-        temp_r0_2 = (var_r2 << 0x10) + 0x10000;
-        var_r2 = (s16) (temp_r0_2 >> 0x10);
-    } while ((s32) ((s32) temp_r0_2 >> 0x10) <= 3);
-}
 
-void Task_TagActionInit(void) {
-    s32 temp_r1_2;
-    s32 temp_r2;
-    s32 var_r0;
-    s32 var_r1;
-    u16 temp_r1;
-    u32 temp_r2_2;
-    void *temp_r0;
-    void *temp_r3;
-
-    temp_r1 = gCurTask->data;
-    temp_r3 = temp_r1->unk28;
-    temp_r2 = temp_r3->unk4;
-    if (0x100 & temp_r2) {
-        temp_r0 = temp_r3->unkD0;
-        if (temp_r0 == NULL) {
-            return;
-        }
-        temp_r0->unk6->unk1A = 1;
-        temp_r3->unkD0->unk8 = sub_8019150;
+    if ((p->charFlags.anim0 != 0x100 && p->charFlags.anim0 != 0x108)) {
+        TaskDestroy(gCurTask);
         return;
     }
-    temp_r1_2 = temp_r1->unk8;
-    if (0x4000 & temp_r1_2) {
+
+    strc->unk4++;
+    if (strc->unk4 > 9 && (strc->unk4 & 4)) {
+        s16 spriteIndex = ((u32)(strc->unk4 - 10) & 0xF) >> 2;
+        temp_r2 = &strc->sprites[spriteIndex];
+        temp_r2->unk28 = 1;
+        temp_r2->worldX = I(p->qWorldX);
+        temp_r2->worldY = I(p->qWorldY);
+
+        if (strc->unk6) {
+            temp_r2->worldX += gUnknown_080CE7C0[spriteIndex][0];
+        } else {
+            temp_r2->worldX -= gUnknown_080CE7C0[spriteIndex][0];
+        }
+
+        if (p->moveState & 0x10000) {
+            temp_r2->worldY -= gUnknown_080CE7C0[spriteIndex][1];
+        } else {
+            temp_r2->worldY += gUnknown_080CE7C0[spriteIndex][1];
+        }
+
+        temp_r2->s.prevAnim = -1;
+        temp_r2->s.prevVariant = -1;
+        temp_r2->s.frameFlags &= ~0x4000;
+    }
+
+    for (i = 0; i < (s32)ARRAY_COUNT(strc->sprites); i++) {
+        temp_r4_2 = &strc->sprites[i];
+        if (temp_r4_2->unk28 != 0) {
+            Sprite *s = &temp_r4_2->s;
+
+            s->x = temp_r4_2->worldX - gCamera.x;
+            s->y = temp_r4_2->worldY - gCamera.y;
+
+            if (p->moveState & 0x10000) {
+                s->frameFlags |= 0x800;
+            } else {
+                s->frameFlags &= ~0x800;
+            }
+
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+
+            if (s->frameFlags & 0x4000) {
+                temp_r4_2->unk28 = 0;
+            }
+        }
+    }
+}
+
+static inline void AdvanceVariant(Player *p)
+{
+    Strc_PlayerStrc30 *strcTag = TASK_DATA(p->taskTagAction);
+    strcTag->s.variant = 1;
+    p->taskTagAction->main = sub_8019150;
+}
+
+void Task_TagActionInit(void)
+{
+    Sprite *s;
+    Strc_PlayerStrc30 *strc;
+    s16 partnerChar;
+    Player *p;
+    u32 moveState;
+    u32 mask;
+
+    strc = TASK_DATA(gCurTask);
+    s = &strc->s;
+    p = strc->p;
+
+    moveState = p->moveState;
+    mask = 0x100;
+    mask &= moveState;
+
+    if (mask) {
+        if (p->taskTagAction != NULL) {
+            AdvanceVariant(p);
+        }
+        return;
+    }
+
+    if (0x4000 & s->frameFlags) {
+        Player *partner;
         gCurTask->main = sub_80190C8;
-        temp_r2_2 = (u32) (gPlayers[(u32) (temp_r3->unk2B << 0x1E) >> 0x1E].unk2A << 0x1C) >> 0x1C;
-        if ((u32) gStageData.gameMode <= 5U) {
-            var_r0 = 0x06014580;
+        partner = GET_SP_PLAYER_V1(PLAYER_2);
+        partnerChar = partner->charFlags.character;
+        if (gStageData.gameMode < 6) {
+            s->tiles = OBJ_VRAM0 + 0x4580;
         } else {
-            var_r0 = 0x060145A0;
+            s->tiles = OBJ_VRAM0 + 0x45A0;
         }
-        temp_r1->unk0 = var_r0;
-        temp_r1->unk8 = 0x1000;
-        temp_r1->unk10 = 0;
-        temp_r1->unk12 = 0;
-        temp_r1->unk14 = 0x600;
-        temp_r1->unk16 = 0;
-        temp_r1->unk18 = 0xFFFF;
-        temp_r1->unk1B = 0xFF;
-        temp_r1->unk1C = 0x10;
-        temp_r1->unk1F = 0;
-        temp_r1->unk20 = -1;
-        if ((temp_r2_2 == 0) || (temp_r2_2 == 3) || (temp_r2_2 == 4)) {
-            temp_r1->unkC = 0x53D;
-            temp_r1->unk1A = 0;
-            return;
+
+        s->frameFlags = 0x1000;
+        s->x = 0;
+        s->y = 0;
+        s->oamFlags = 0x600;
+        s->qAnimDelay = 0;
+        s->prevAnim = -1;
+        s->prevVariant = -1;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+
+        if ((partnerChar == SONIC) || (partnerChar == KNUCKLES) || (partnerChar == AMY)) {
+            s->anim = 0x53D;
+            s->variant = 0;
+        } else {
+            s->anim = 0x53D;
+            s->variant = 1;
         }
-        temp_r1->unkC = 0x53D;
-        temp_r1->unk1A = 1;
-        return;
-    }
-    if (temp_r2 & 1) {
-        var_r1 = temp_r1_2 & 0xFFFFFBFF;
     } else {
-        var_r1 = temp_r1_2 | 0x400;
+        if (p->moveState & 1) {
+            s->frameFlags &= ~0x400;
+        } else {
+            s->frameFlags |= 0x400;
+        }
+
+        s->x = I(p->qWorldX) - gCamera.x;
+        s->y = I(p->qWorldY) - gCamera.y;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
     }
-    temp_r1->unk8 = var_r1;
-    temp_r1->unk10 = (s16) (((s32) temp_r3->unk10 >> 8) - gCamera.x);
-    temp_r1->unk12 = (s16) (((s32) temp_r3->unk14 >> 8) - gCamera.y);
-    UpdateSpriteAnimation((Sprite *) temp_r1);
-    DisplaySprite((Sprite *) temp_r1);
 }
 
+#if 0
 void sub_80190C8(void) {
     Player *temp_r3;
     u16 temp_r1;
