@@ -16682,163 +16682,157 @@ NONMATCH("asm/non_matching/game/stage/player__Task_8019240.inc", void Task_80192
 }
 END_NONMATCH
 
+void TaskDestructor_8019318(Task *t)
+{
+    Strc_PlayerUnkE0 *strc = TASK_DATA(t);
+    VramFree(strc->vram);
+}
+
+void TaskDestructor_801932C(Task *t)
+{
+    Strc_PlayerStrc2C *strc = TASK_DATA(t);
+    VramFree(strc->s.tiles);
+}
+
+void TaskDestructor_8019340(Task *t)
+{
+    Strc_PlayerStrc2C *strc = TASK_DATA(t);
+    VramFree(strc->s.tiles);
+}
+
+void TaskDestructor_8019354(Task *t)
+{
+    Strc_PlayerStrc2C *strc = TASK_DATA(t);
+    VramFree(strc->s.tiles);
+}
+
+void TaskDestructor_8019368(Task *t)
+{
+    Strc_PlayerUnkE0 *strc = TASK_DATA(t);
+    VramFree(strc->vram);
+}
+
+void sub_801937C(Task *t)
+{
+    Strc_PlayerStrc30 *strc = TASK_DATA(t);
+    VramFree(strc->s.tiles);
+}
+
+void TaskDestructor_8019390(Task *t)
+{
+    Strc_PlayerStrc30 *strc = TASK_DATA(t);
+    VramFree(strc->s.tiles);
+}
+
+void sub_80193A4(Player *p) { AdvanceVariant(p); }
+
+void sub_80193CC(Player *p)
+{
+    if (p->taskTagAction != NULL) {
+        TaskDestroy(p->taskTagAction);
+        p->taskTagAction = NULL;
+    }
+}
+
+void TaskDestructor_TagAction(Task *t) { }
+
+void TaskDestructor_80193EC(Task *t)
+{
+    Strc_PlayerUnkE0 *strc = TASK_DATA(t);
+    VramFree(strc->vram);
+}
+
+void TaskDestructor_8019400(Task *t)
+{
+    Strc_PlayerUnkE0 *strc = TASK_DATA(t);
+    VramFree(strc->vram);
+}
+
+void sub_8019414(Task *t)
+{
+    Strc_PlayerUnkE0 *strc = TASK_DATA(t);
+    VramFree(strc->vram);
+}
+
+void TaskDestructor_8019428(Task *t)
+{
+    Strc_PlayerUnkE0 *strc = TASK_DATA(t);
+    VramFree(strc->vram);
+}
+
+void sub_801943C(Task *t)
+{
+    Strc_PlayerUnkE0 *strc = TASK_DATA(t);
+    VramFree(strc->vram);
+}
+
+void sub_8019450(Task *t)
+{
+    Strc_PlayerUnkE0 *strc = TASK_DATA(t);
+    VramFree(strc->vram);
+}
+
+void TaskDestructor_8019464(Task *t)
+{
+    Strc_PlayerUnkE0 *strc = TASK_DATA(t);
+    VramFree(strc->vram);
+}
+
+void sub_8019478(Task *t)
+{
+    Strc_PlayerUnkE0 *strc = TASK_DATA(t);
+    VramFree(strc->vram);
+}
+
+void TaskDestructor_801948C(Task *t)
+{
+    Strc_PlayerUnkE0 *strc = TASK_DATA(t);
+    VramFree(strc->vram);
+}
+
+void TaskDestructor_80194A0(Task *t)
+{
+    Strc_PlayerUnkE0 *strc = TASK_DATA(t);
+    VramFree(strc->vram);
+}
+
+void TaskDestructor_80194B4(Task *t)
+{
+    Strc_PlayerUnkE0 *strc = TASK_DATA(t);
+    VramFree(strc->vram);
+}
+
+void TaskDestructor_80194C8(Task *t)
+{
+    Strc_PlayerUnkE0 *strc = TASK_DATA(t);
+    VramFree(strc->vram);
+}
+
+void sub_80194DC(Task *t)
+{
+    Strc_PlayerUnkE0 *strc = TASK_DATA(t);
+    VramFree(strc->vram);
+}
+
+void sub_80194F0(Task *t)
+{
+    Strc_PlayerUnkE0 *strc = TASK_DATA(t);
+    VramFree(strc->vram);
+}
+
+void TaskDestructor_8019504(Task *t)
+{
+    Strc_PlayerUnkE0 *strc = TASK_DATA(t);
+    VramFree(strc->vram);
+}
+
+void sub_8019518(Task *t)
+{
+    Strc_PlayerUnkE0 *strc = TASK_DATA(t);
+    VramFree(strc->vram);
+}
+
 #if 0
-void Task_8019240(void) {
-    void *sp10;
-    s16 temp_r4_3;
-    s16 temp_r6;
-    s16 var_r1;
-    s32 temp_r1_2;
-    u16 temp_r0;
-    u16 temp_r1;
-    u16 temp_r4;
-    u16 temp_r4_2;
-
-    memcpy(&subroutine_arg0, &gUnknown_080CE7C8, 0x10);
-    temp_r1 = gCurTask->data;
-    sp10 = temp_r1->unk28;
-    temp_r0 = temp_r1->unk2C - 1;
-    temp_r1->unk2C = temp_r0;
-    if ((temp_r0 << 0x10) == 0) {
-        sub_8003DF0(0x75U);
-        TaskDestroy(gCurTask);
-        return;
-    }
-    temp_r4 = temp_r1->unk2C;
-    UpdateSpriteAnimation((Sprite *) temp_r1);
-    var_r1 = 0; 
-    temp_r6 = (s16) temp_r4;
-    do {
-        temp_r4_3 = var_r1;
-        temp_r1_2 = temp_r4_3 + ((1 & temp_r6) * 4);
-        temp_r1->unk10 = (s16) (((s32) ((temp_r6 * (s8) (&subroutine_arg0)[temp_r1_2]) << 0x16) >> 0x18) + (((s32) sp10->unk10 >> 8) - gCamera.x));
-        temp_r1->unk12 = (s16) (((s32) ((temp_r6 * (&subroutine_arg0)[temp_r1_2]) << 0x16) >> 0x18) + (((s32) sp10->unk14 >> 8) - gCamera.y) + 8);
-        DisplaySprite((Sprite *) temp_r1);
-        temp_r4_2 = temp_r4_3 + 1;
-        var_r1 = (s16) temp_r4_2;
-    } while ((s32) (s16) temp_r4_2 <= 3);
-}
-
-void sub_8019318(Task *arg0) {
-    VramFree(*arg0->data);
-}
-
-void sub_801932C(Task *arg0) {
-    VramFree(*arg0->data);
-}
-
-void TaskDestructor_801932C(Task *arg0) {
-    VramFree(*arg0->data);
-}
-
-void TaskDestructor_8019354(Task *arg0) {
-    VramFree(*arg0->data);
-}
-
-void TaskDestructor_8019368(Task *arg0) {
-    VramFree(*arg0->data);
-}
-
-void sub_801937C(void *arg0) {
-    VramFree(*arg0->unk6);
-}
-
-void TaskDestructor_8019390(Task *arg0) {
-    VramFree(*arg0->data);
-}
-
-void sub_80193A4(Player *arg0) {
-    Task **temp_r2;
-    Task *temp_r0;
-
-    temp_r2 = &arg0->taskTagAction;
-    temp_r0 = *temp_r2;
-    if (temp_r0 != NULL) {
-        temp_r0->data->unk1A = 1;
-        (*temp_r2)->main = sub_8019150;
-    }
-}
-
-void sub_80193CC(Player *arg0) {
-    Task **temp_r4;
-    Task *temp_r0;
-
-    temp_r4 = &arg0->taskTagAction;
-    temp_r0 = *temp_r4;
-    if (temp_r0 != NULL) {
-        TaskDestroy(temp_r0);
-        *temp_r4 = NULL;
-    }
-}
-
-void TaskDestructor_TagAction(Task *arg0) {
-
-}
-
-void TaskDestructor_80193EC(Task *arg0) {
-    VramFree(*arg0->data);
-}
-
-void TaskDestructor_8019400(Task *arg0) {
-    VramFree(*arg0->data);
-}
-
-void sub_8019414(void *arg0) {
-    VramFree(*arg0->unk6);
-}
-
-void TaskDestructor_8019428(Task *arg0) {
-    VramFree(*arg0->data);
-}
-
-void sub_801943C(void *arg0) {
-    VramFree(*arg0->unk6);
-}
-
-void sub_8019450(void *arg0) {
-    VramFree(*arg0->unk6);
-}
-
-void TaskDestructor_8019464(Task *arg0) {
-    VramFree(*arg0->data);
-}
-
-void sub_8019478(void *arg0) {
-    VramFree(*arg0->unk6);
-}
-
-void TaskDestructor_801948C(Task *arg0) {
-    VramFree(*arg0->data);
-}
-
-void TaskDestructor_80194A0(Task *arg0) {
-    VramFree(*arg0->data);
-}
-
-void TaskDestructor_80194B4(Task *arg0) {
-    VramFree(*arg0->data);
-}
-
-void TaskDestructor_80194C8(Task *arg0) {
-    VramFree(*arg0->data);
-}
-
-void sub_80194DC(Task *arg0) {
-    VramFree(*arg0->data);
-}
-
-void sub_80194F0(void *arg0) {
-    VramFree(*arg0->unk6);
-}
-
-void TaskDestructor_8019504(Task *arg0) {
-    VramFree(*arg0->data);
-}
-
-void sub_8019518(void *arg0) {
-    VramFree(*arg0->unk6);
-}
-
 void sub_801952C(void) {
     u16 temp_r1;
 
@@ -17102,7 +17096,7 @@ void Player_BoostModeDisengage(Player *p) {
     p->boostEffectCounter = 0;
 }
 
-void TaskDestructor_8019A78(Task *arg0) {
+void TaskDestructor_8019A78(Task *t) {
 
 }
 
@@ -22597,7 +22591,7 @@ void sub_80203D4(Player *p) {
     }
 }
 
-void sub_8020434(Task *arg0) {
+void sub_8020434(Task *t) {
     gStageData.task98 = NULL;
 }
 
