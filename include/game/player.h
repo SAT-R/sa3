@@ -176,7 +176,7 @@ struct Player {
         u8 state0_subCount : 4;
         u8 state0_other : 3; // TODO: name
         u8 state0_subHighBit : 1;
-        s8 state0_highValue : 8;
+        u8 state0_highValue : 8;
 
         // NOTE: In rotating_handle.c:Task_80326D8 anim0 is divided by 86
         // TODO: Find meaning of that value!
