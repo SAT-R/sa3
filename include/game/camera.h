@@ -51,7 +51,7 @@ struct Camera {
 
     /* 0x38 */ s32 unk38;
     /* 0x3c */ s32 unk3C;
-    /* 0x40 */ s16 unk40;
+    /* 0x40 */ s32 unk40;
     /* 0x44 */ s32 unk44;
     /* 0x48 */ s32 unk48;
     /* 0x4c */ s32 unk4C;
