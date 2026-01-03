@@ -75,7 +75,7 @@ void Task_AfterImages();
 void sub_8019A7C();
 void sub_8019AB4(u16, s32);
 void Player_InitializeAfterImagesTask(Player *p);
-void TaskDestructor_AfterImages(Task *);
+void TaskDestructor_AfterImages(Task *t);
 void TaskDestructor_80194B4(Task *t);
 void sub_80194DC(Task *t);
 void sub_801957C(void);
@@ -218,7 +218,7 @@ typedef struct SomeSubStruct_3001BF0 {
     /* 0x08 */ u32 frameFlags;
     /* 0x0C */ u32 moveState;
     /* 0x10 */ s16 anim2;
-    /* 0x12 */ s16 unk12;
+    /* 0x12 */ s16 rotation;
     /* 0x14 */ s8 state1;
     /* 0x15 */ s8 animSpeed;
 } SomeSubStruct_3001BF0; /* size: 0x18 */
@@ -17029,27 +17029,19 @@ void Player_8019858(Player *p)
     temp_r3->frameFlags = s->frameFlags;
     temp_r3->moveState = p->moveState;
     temp_r3->anim2 = p->charFlags.anim2;
-    temp_r3->unk12 = tf->rotation;
+    temp_r3->rotation = tf->rotation;
     temp_r3->state1 = p->charFlags.state1;
     temp_r3->animSpeed = s->animSpeed;
 }
 
-#if 0
-void Task_AfterImages(void) {
-    Sprite *temp_r4;
-    u16 temp_r2;
-    u16 var_r0_2;
-    u32 temp_r1;
-    u32 temp_r2_3;
-    u32 var_r0_3;
-    u32 var_r2;
-    u8 temp_r1_2;
-    u8 temp_r2_2;
-    u8 var_r0;
-    void *temp_r5;
+void Task_AfterImages(void)
+{
+    SomeSubStruct_3001BF0 *subStrc;
+    AfterImages *afterImgs = TASK_DATA(gCurTask);
+    Sprite2 *s;
+    u32 unkVal;
 
-    temp_r2 = gCurTask->data;
-    if (!(0x80 & gUnknown_03001BF0.unkC0->unk2B)) {
+    if (!gUnknown_03001BF0.unkC0->charFlags.boostIsActive) {
         return;
     }
     if (gStageData.unk85 != 0) {
@@ -17058,83 +17050,76 @@ void Task_AfterImages(void) {
     if ((gStageData.zone == 8) && (gPlayers->moveState & 0x100)) {
         return;
     }
-    temp_r2_2 = temp_r2->unk3C;
-    temp_r5 = (((gUnknown_03001BF0.unkC4 - (temp_r2_2 - 8)) & 7 & 6) * 0x18) + &gUnknown_03001BF0;
-    if (temp_r2_2 == 6) {
-        var_r0 = 2;
+
+    subStrc = &gUnknown_03001BF0.unk0[((gUnknown_03001BF0.index + 8 - afterImgs->unk3C) % 8u & 6)];
+    if (afterImgs->unk3C == 6) {
+        afterImgs->unk3C = 2;
     } else {
-        var_r0 = temp_r2_2 + 2;
+        afterImgs->unk3C += 2;
     }
-    temp_r2->unk3C = var_r0;
-    temp_r4 = temp_r2 + 0xC;
-    temp_r4->anim = temp_r5->unk10;
-    temp_r4->variant = temp_r5->unk14;
-    temp_r4->animSpeed = temp_r5->unk15;
-    temp_r4->frameFlags = temp_r5->unk8 | 0x40000;
-    temp_r4->x = ((s32) temp_r5->unk0 >> 8) - gCamera.x;
-    temp_r4->y = ((s32) temp_r5->unk4 >> 8) - gCamera.y;
-    temp_r2->unk0 = (u16) temp_r5->unk12;
-    temp_r2->unk6 = (u16) temp_r4->x;
-    temp_r2->unk8 = (u16) temp_r4->y;
-    UpdateSpriteAnimation(temp_r4);
-    temp_r1 = temp_r4->frameFlags;
-    if (0x20 & temp_r1) {
-        temp_r4->frameFlags = temp_r1 & ~0x1F;
-        temp_r1_2 = gNextFreeAffineIndex;
-        gNextFreeAffineIndex = temp_r1_2 + 1;
-        temp_r4->frameFlags |= (u8) (temp_r1_2 | 0x20);
-        if (temp_r5->unkC & 1) {
-            var_r0_2 = 0x100;
+
+    s = &afterImgs->s;
+    s->anim = subStrc->anim2;
+    s->variant = subStrc->state1;
+    s->animSpeed = subStrc->animSpeed;
+    s->frameFlags = subStrc->frameFlags | 0x40000;
+    s->x = I(subStrc->qWorldX) - gCamera.x;
+    s->y = I(subStrc->qWorldY) - gCamera.y;
+    afterImgs->tf.rotation = (u16)subStrc->rotation;
+    afterImgs->tf.x = s->x;
+    afterImgs->tf.y = s->y;
+    UpdateSpriteAnimation((Sprite *)s);
+
+    if (0x20 & s->frameFlags) {
+        s->frameFlags = s->frameFlags & ~0x1F;
+        s->frameFlags |= (u8)(gNextFreeAffineIndex++ | 0x20);
+        if (subStrc->moveState & 1) {
+            afterImgs->tf.qScaleX = +Q(1);
         } else {
-            var_r0_2 = 0xFF00;
+            afterImgs->tf.qScaleX = -Q(1);
         }
-        temp_r2->unk2 = var_r0_2;
-        if (temp_r5->unkC & 0x10000) {
-            temp_r2->unk2 = (u16) (0 - temp_r2->unk2);
+
+        if (subStrc->moveState & 0x10000) {
+            afterImgs->tf.qScaleX = -afterImgs->tf.qScaleX;
         }
-        TransformSprite(temp_r4, (SpriteTransform *) temp_r2);
+        TransformSprite((Sprite *)s, &afterImgs->tf);
     } else {
-        temp_r2_3 = -0x40 & temp_r1;
-        temp_r4->frameFlags = temp_r2_3;
-        if (temp_r5->unkC & 0x10000) {
-            var_r2 = temp_r2_3 | 0x800;
+        s->frameFlags &= ~0x3F;
+        if (subStrc->moveState & 0x10000) {
+            s->frameFlags |= 0x800;
         } else {
-            var_r2 = temp_r2_3 & 0xFFFFF7FF;
+            s->frameFlags &= ~0x800;
         }
-        temp_r4->frameFlags = var_r2;
     }
     if (gStageData.unk4 == 1) {
-        if (gStageData.unk4 & gStageData.unkBC) {
-            var_r0_3 = temp_r4->frameFlags | 0x80;
+        if (gStageData.unkBC & 1) {
+            s->frameFlags |= 0x80;
         } else {
-            var_r0_3 = temp_r4->frameFlags & ~0x80;
+            s->frameFlags &= ~0x80;
         }
-        temp_r4->frameFlags = var_r0_3;
         if (2 & gStageData.unkBC) {
-            return;
+            unkVal = 0;
         }
-        goto block_28;
+    } else {
+        s->frameFlags &= ~0x80;
+        unkVal = 1;
     }
-    temp_r4->frameFlags &= ~0x80;
-block_28:
-    if (1 != 0) {
-        DisplaySprite(temp_r4);
+    if (unkVal != 0) {
+        DisplaySprite((Sprite *)s);
     }
 }
 
-void Player_BoostModeEngage(Player *p) {
-    p->unk2B = (u8) (p->unk2B | 0x80);
-}
+void Player_BoostModeEngage(Player *p) { p->charFlags.boostIsActive = TRUE; }
 
-void Player_BoostModeDisengage(Player *p) {
-    p->unk2B = (u8) (0x7F & p->unk2B);
+void Player_BoostModeDisengage(Player *p)
+{
+    p->charFlags.boostIsActive = FALSE;
     p->boostEffectCounter = 0;
 }
 
-void TaskDestructor_AfterImages(Task *t) {
+void TaskDestructor_AfterImages(struct Task *t) { }
 
-}
-
+#if 0
 void sub_8019A7C(void) {
     ? *var_r1;
     u32 temp_r0;

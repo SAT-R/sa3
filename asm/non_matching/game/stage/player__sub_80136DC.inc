@@ -457,7 +457,7 @@ _08013A44:
 	bne _08013A52
 _08013A4C:
 	adds r0, r6, #0
-	bl sub_8019858
+	bl Player_8019858
 _08013A52:
 	pop {r3, r4}
 	mov r8, r3
