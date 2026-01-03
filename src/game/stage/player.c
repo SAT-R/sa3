@@ -1,7 +1,9 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
 #include "trig.h"
 #include "module_unclear.h"
+#include "code_z_1.h"
 #include "malloc_ewram.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
@@ -13,6 +15,7 @@
 #include "game/save.h"
 #include "game/stage.h"
 #include "constants/animations.h"
+#include "constants/anim_commands.h" // for ANIM_CMD__PALETTE
 #include "constants/move_states.h"
 #include "constants/songs.h"
 #include "constants/zones.h"
@@ -73,7 +76,7 @@ void Task_TagActionInit(void);
 void Task_8019628(void);
 void Task_AfterImages();
 void sub_8019A7C();
-void sub_8019AB4(u16, s32);
+void sub_8019AB4(u16, u16);
 void Player_InitializeAfterImagesTask(Player *p);
 void TaskDestructor_AfterImages(Task *t);
 void TaskDestructor_80194B4(Task *t);
@@ -17136,29 +17139,70 @@ void sub_8019A7C(void)
     }
 }
 
-#if 0
-void sub_8019AB4(u16 arg0, u16 arg1) {
-    s32 temp_r1;
-    u16 temp_r4;
-    u32 temp_r5;
-    void *temp_r2;
+#ifndef NON_MATCHING
+void sub_8019AB4(u16 animId, u16 insertOffset)
+{
+    s32 palId;
+    u16 destOffset;
+    u32 numColors;
+    const s32 *cmd;
+    u32 cmdId;
+#ifndef NON_MATCHING
+    // NOTE: This #ifdef is a bit unnecessary,
+    //       since other platforms use the ACmd implementation, but we'll keep it for now.
+    register u32 flags asm("r3");
+#else
+    u32 flags;
+#endif
 
-    temp_r2 = **(((u32) (arg0 << 0x10) >> 0xE) + gAnimations);
-    if (temp_r2->unk0 == -2) {
-        temp_r1 = temp_r2->unk4;
-        temp_r5 = (temp_r2 + 4)->unk4;
-        temp_r4 = (temp_r5 >> 0x10) + arg1;
-        if (0x20000 & gFlags) {
-            CopyPalette(gRefSpriteTables->palettes + (temp_r1 << 5), (u8) temp_r4, (u16) (u8) temp_r5);
+    cmd = (s32 *)*gAnimations[animId];
+    cmdId = *cmd, cmd++;
+    if (cmdId == ANIM_CMD__PALETTE) {
+        palId = *cmd, cmd++;
+        numColors = *cmd;
+        destOffset = (numColors >> 16);
+        destOffset += insertOffset;
+        numColors &= 0xFF;
+        flags = gFlags;
+        if (FLAGS_20000 & flags) {
+            CopyPalette(&gRefSpriteTables->palettes[palId * 16], destOffset, numColors);
             return;
         }
-        (void *)0x040000D4->unk0 = (void *) (gRefSpriteTables->palettes + (temp_r1 << 5));
-        (void *)0x040000D4->unk4 = &gObjPalette[temp_r4];
-        (void *)0x040000D4->unk8 = (s32) (((u32) ((u8) temp_r5 * 2) >> 1) | 0x80000000);
-        gFlags |= 2;
+
+        DmaCopy16(3, &gRefSpriteTables->palettes[palId * 16], &gObjPalette[destOffset], numColors << 1);
+
+        flags |= FLAGS_UPDATE_SPRITE_PALETTES;
+        gFlags = flags;
     }
 }
+#else
+// This should be kept for Big Endian platforms...
+void sub_8019AB4(u16 animId, u16 insertOffset)
+{
+    s32 palId;
+    u16 destOffset;
+    u32 numColors;
+    const ACmd *cmd;
+    u32 cmdId;
 
+    cmd = *gAnimations[animId];
+    if (cmd->pal.cmdId == ANIM_CMD__PALETTE) {
+        palId = cmd->pal.palId;
+        numColors = cmd->pal.numColors;
+        destOffset = cmd->pal.insertOffset + insertOffset;
+        if (FLAGS_20000 & gFlags) {
+            CopyPalette(&gRefSpriteTables->palettes[palId * 16], destOffset, numColors);
+            return;
+        }
+
+        DmaCopy16(3, &gRefSpriteTables->palettes[palId * 16], &gObjPalette[destOffset], numColors << 1);
+
+        gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
+    }
+}
+#endif
+
+#if 0
 void sub_8019B4C(Player *arg0) {
     PlayerSpriteInfo *temp_r2;
     s16 temp_r0;
