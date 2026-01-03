@@ -116,6 +116,8 @@ void TaskDestructor_80194A0(struct Task *t);
 void Task_8019698(void);
 void sub_8019CF0(Player *p);
 void sub_801A224(Player *p);
+void sub_801D5CC(Player *p);
+void sub_801DAD8(Player *p);
 void sub_801EBC0(s32, Player *p);
 void sub_8023634();
 void sub_8026254(Player *p);
@@ -19077,8 +19079,8 @@ void sub_801C2D8(Player *p)
     sub_801CFFC(p);
 }
 
-#if 0
-void sub_801C348(Player *arg0) {
+void sub_801C348(Player *p)
+{
     PlayerSpriteInfo *temp_r2;
     s16 temp_r0;
     s16 temp_r0_2;
@@ -19086,69 +19088,64 @@ void sub_801C348(Player *arg0) {
     s16 temp_r1;
     s16 var_r0;
 
-    Player_800D880(arg0);
-    temp_r2 = arg0->spriteInfoBody;
+    Player_800D880(p);
+    temp_r2 = p->spriteInfoBody;
     temp_r2->s.frameFlags &= 0xFFFFBFFF;
-    arg0->moveState |= 6;
-    Player_8012FF0(arg0);
-    arg0->charFlags.anim0 = 0xED;
-    arg0->charFlags.state1 = 0;
-    arg0->unk26 = 0;
-    if (arg0->moveState & 1) {
-        if ((s32) arg0->qSpeedAirX > 0xFFFFFC00) {
-            temp_r0 = (u16) arg0->qSpeedAirX + 0xFFFFFC00;
-            arg0->qSpeedAirX = temp_r0;
-            temp_r1 = temp_r0;
-            if ((s32) temp_r1 < 0xFFFFFA00) {
-                var_r0 = -0x600;
-                goto block_11;
-            }
-            if ((s32) temp_r1 > 0xFFFFFC00) {
-                arg0->qSpeedAirX = 0xFFFFFC00;
+    p->moveState |= 6;
+    Player_8012FF0(p);
+    p->charFlags.anim0 = 0xED;
+    p->charFlags.state1 = 0;
+    p->unk26 = 0;
+
+    if (p->moveState & 1) {
+        if (p->qSpeedAirX > -Q(4)) {
+            p->qSpeedAirX -= Q(4);
+            if (p->qSpeedAirX < -Q(6)) {
+                p->qSpeedAirX = -Q(6);
+            } else if (p->qSpeedAirX > -Q(4)) {
+                p->qSpeedAirX = -Q(4);
             }
         }
-    } else if ((s32) arg0->qSpeedAirX <= 0x3FF) {
-        temp_r0_2 = (u16) arg0->qSpeedAirX + 0x400;
-        arg0->qSpeedAirX = temp_r0_2;
-        temp_r0_3 = temp_r0_2;
-        if ((s32) temp_r0_3 > 0x600) {
-            arg0->qSpeedAirX = 0x600;
-        } else if ((s32) temp_r0_3 <= 0x3FF) {
-            var_r0 = 0x400;
-block_11:
-            arg0->qSpeedAirX = var_r0;
+    } else if (p->qSpeedAirX <= 0x3FF) {
+        p->qSpeedAirX += Q(4);
+        if (p->qSpeedAirX > Q(6)) {
+            p->qSpeedAirX = Q(6);
+        } else if (p->qSpeedAirX < Q(4)) {
+            p->qSpeedAirX = Q(4);
         }
     }
-    arg0->qSpeedAirY = 0;
-    arg0->idleAndCamCounter = 0x10;
-    SetPlayerCallback(arg0, sub_801D5CC);
-    sub_801D5CC(arg0);
+
+    p->qSpeedAirY = 0;
+    p->idleAndCamCounter = 0x10;
+    SetPlayerCallback(p, sub_801D5CC);
+    sub_801D5CC(p);
 }
 
-void sub_801C414(Player *arg0) {
-    s32 var_r1;
-
-    if (arg0->spriteInfoBody->s.frameFlags & 0x4000) {
-        if (arg0->moveState & 0x10000) {
-            var_r1 = 0x300;
+void sub_801C414(Player *p)
+{
+    if (p->spriteInfoBody->s.frameFlags & 0x4000) {
+        if (p->moveState & 0x10000) {
+            p->qWorldY += Q(3);
         } else {
-            var_r1 = 0xFFFFFD00;
+            p->qWorldY -= Q(3);
         }
-        arg0->qWorldY += var_r1;
-        arg0->qSpeedAirY = -0x300;
-        arg0->charFlags.state1 += 1;
-        Player_PlaySong(arg0, 0x215U);
-        arg0->sprColliding = NULL;
-        arg0->moveState = (arg0->moveState & ~0x20) | 4;
-        SetPlayerCallback(arg0, sub_801DAD8);
+        p->qSpeedAirY = -Q(3);
+        p->charFlags.state1 += 1;
+        Player_PlaySong(p, SE_533);
+        p->sprColliding = NULL;
+        p->moveState = (p->moveState & ~MOVESTATE_COLLIDING_ENT);
+        p->moveState |= MOVESTATE_IN_AIR;
+        SetPlayerCallback(p, sub_801DAD8);
         return;
     }
-    if ((sub_8015064(arg0) << 0x10) == 0) {
-        sub_8012EB8(arg0);
-        sub_8016E00(arg0);
+
+    if (!sub_8015064(p)) {
+        sub_8012EB8(p);
+        sub_8016E00(p);
     }
 }
 
+#if 0
 void sub_801C4A0(Player *arg0) {
     s32 sp4;
     s16 temp_r3;
