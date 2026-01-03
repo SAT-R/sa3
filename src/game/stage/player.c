@@ -76,7 +76,7 @@ void Task_TagActionInit(void);
 void Task_8019628(void);
 void Task_AfterImages();
 void sub_8019A7C();
-void sub_8019AB4(u16, u16);
+void RetrieveInitialAnimationPalette(u16 animId, u16 insertOffset);
 void Player_InitializeAfterImagesTask(Player *p);
 void TaskDestructor_AfterImages(Task *t);
 void TaskDestructor_80194B4(Task *t);
@@ -114,6 +114,7 @@ void Task_8018550(void);
 void sub_801862C(void);
 void TaskDestructor_80194A0(struct Task *t);
 void Task_8019698(void);
+void sub_8019CF0(Player *p);
 void sub_801EBC0(s32, Player *p);
 void sub_8023634();
 void sub_8026254(Player *p);
@@ -17003,9 +17004,9 @@ void Player_InitializeAfterImagesTask(Player *p)
             strc->unk3C = 2;
 
             if (gStageData.zone != 8) {
-                sub_8019AB4((u16)(gUnknown_080CE7E2[135][0] + gPlayerCharacterIdleAnims[p->charFlags.character]), 0x10);
+                RetrieveInitialAnimationPalette((u16)(gUnknown_080CE7E2[135][0] + gPlayerCharacterIdleAnims[p->charFlags.character]), 0x10);
             } else {
-                sub_8019AB4(1313, 0x10);
+                RetrieveInitialAnimationPalette(1313, 0x10);
             }
 
             gUnknown_03001BF0.unkC0 = p;
@@ -17140,7 +17141,7 @@ void sub_8019A7C(void)
 }
 
 #ifndef NON_MATCHING
-void sub_8019AB4(u16 animId, u16 insertOffset)
+void RetrieveInitialAnimationPalette(u16 animId, u16 insertOffset)
 {
     s32 palId;
     u16 destOffset;
@@ -17177,7 +17178,7 @@ void sub_8019AB4(u16 animId, u16 insertOffset)
 }
 #else
 // This should be kept for Big Endian platforms...
-void sub_8019AB4(u16 animId, u16 insertOffset)
+void RetrieveInitialAnimationPalette(u16 animId, u16 insertOffset)
 {
     s32 palId;
     u16 destOffset;
@@ -17202,55 +17203,42 @@ void sub_8019AB4(u16 animId, u16 insertOffset)
 }
 #endif
 
-#if 0
-void sub_8019B4C(Player *arg0) {
-    PlayerSpriteInfo *temp_r2;
-    s16 temp_r0;
-    s16 temp_r0_2;
-    s16 temp_r0_3;
-    s16 temp_r1;
-    s16 var_r0;
+void sub_8019B4C(Player *p)
+{
+    Player_800D880(p);
+    p->spriteInfoBody->s.frameFlags &= ~0x4000;
+    p->moveState |= (MOVESTATE_IN_AIR | MOVESTATE_2);
+    Player_8012FF0(p);
+    p->charFlags.anim0 = 171;
+    p->charFlags.state1 = 0;
+    p->unk26 = 0;
 
-    Player_800D880(arg0);
-    temp_r2 = arg0->spriteInfoBody;
-    temp_r2->s.frameFlags &= 0xFFFFBFFF;
-    arg0->moveState |= 6;
-    Player_8012FF0(arg0);
-    arg0->charFlags.anim0 = 0xAB;
-    arg0->charFlags.state1 = 0;
-    arg0->unk26 = 0;
-    if (arg0->moveState & 1) {
-        if ((s32) arg0->qSpeedAirX > 0xFFFFFC00) {
-            temp_r0 = (u16) arg0->qSpeedAirX + 0xFFFFFC00;
-            arg0->qSpeedAirX = temp_r0;
-            temp_r1 = temp_r0;
-            if ((s32) temp_r1 < 0xFFFFFA00) {
-                var_r0 = -0x600;
-                goto block_11;
-            }
-            if ((s32) temp_r1 > 0xFFFFFC00) {
-                arg0->qSpeedAirX = 0xFFFFFC00;
+    if (p->moveState & 1) {
+        if (p->qSpeedAirX > -Q(4)) {
+            p->qSpeedAirX -= Q(4);
+            if (p->qSpeedAirX < -Q(6)) {
+                p->qSpeedAirX = -Q(6);
+            } else if (p->qSpeedAirX > -Q(4)) {
+                p->qSpeedAirX = -Q(4);
             }
         }
-    } else if ((s32) arg0->qSpeedAirX <= 0x3FF) {
-        temp_r0_2 = (u16) arg0->qSpeedAirX + 0x400;
-        arg0->qSpeedAirX = temp_r0_2;
-        temp_r0_3 = temp_r0_2;
-        if ((s32) temp_r0_3 > 0x600) {
-            arg0->qSpeedAirX = 0x600;
-        } else if ((s32) temp_r0_3 <= 0x3FF) {
-            var_r0 = 0x400;
-block_11:
-            arg0->qSpeedAirX = var_r0;
+    } else if (p->qSpeedAirX < +Q(4)) {
+        p->qSpeedAirX += Q(4);
+
+        if (p->qSpeedAirX > +Q(6)) {
+            p->qSpeedAirX = +Q(6);
+        } else if (p->qSpeedAirX < +Q(4)) {
+            p->qSpeedAirX = +Q(4);
         }
     }
-    arg0->qSpeedAirY = -0x180;
-    arg0->idleAndCamCounter = 4;
-    Player_PlaySong(arg0, 0x70U);
-    SetPlayerCallback(arg0, sub_8019CF0);
-    sub_8019CF0(arg0);
+    p->qSpeedAirY = -Q(1.5);
+    p->idleAndCamCounter = 4;
+    Player_PlaySong(p, 0x70U);
+    SetPlayerCallback(p, sub_8019CF0);
+    sub_8019CF0(p);
 }
 
+#if 0
 void sub_8019C24(Player *arg0) {
     PlayerSpriteInfo *temp_r2;
     s16 temp_r0;
