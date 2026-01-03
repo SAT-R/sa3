@@ -294,7 +294,10 @@ struct Player {
         u8 arr_u8[4];
         s16 arr_s16[2];
     } unk148;
-    u8 unk14C;
+    union {
+        u8 arr_u8[4];
+        s16 arr_s16[2];
+    } unk14C;
 };
 
 extern Player gPlayers[NUM_MULTI_PLAYER_CHARS];

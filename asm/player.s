@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start sub_801AC58
 sub_801AC58: @ 0x0801AC58
 	push {r4, r5, lr}
@@ -462,6 +460,7 @@ _0801AFE2:
 	bx r0
 	.align 2, 0
 _0801AFE8: .4byte Player_800DB30
+.endif
 
 	thumb_func_start sub_801AFEC
 sub_801AFEC: @ 0x0801AFEC

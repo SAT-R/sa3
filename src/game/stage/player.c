@@ -9003,7 +9003,7 @@ void sub_800F22C(Player *p)
     p->qWorldY = Q(gCamera.y + 104);
     p->qSpeedAirX = 0;
     p->qSpeedAirY = 0;
-    p->unk14C = 0;
+    p->unk14C.arr_u8[0] = 0;
     SetPlayerCallback(p, Player_801080C);
     Player_801080C(p);
 }
@@ -9055,14 +9055,14 @@ void sub_800F378(Player *p)
     p->qSpeedAirX = gUnknown_080CE61C[temp_r2->a.unk4][0];
     p->qSpeedAirY = gUnknown_080CE61C[temp_r2->a.unk4][1];
     temp_r2->a.unk6 = 0;
-    p->unk14C |= 1;
+    p->unk14C.arr_u8[0] |= 1;
     Player_BoostModeDisengage(p);
     m4aSongNumStart(0x70U);
     SetPlayerCallback(p, sub_800F3E8);
     sub_800F3E8(p);
 }
 
-void sub_800F3E8(Player *arg0)
+void sub_800F3E8(Player *p)
 {
     PlayerUnk148 *unk148;
     s16 temp_r1;
@@ -9072,36 +9072,36 @@ void sub_800F3E8(Player *arg0)
     u8 *temp_r2;
     u8 temp_r0_7;
 
-    unk148 = arg0->unk148.ptr;
-    sub_8010E4C(arg0);
-    sub_8010ED0(arg0);
-    sub_800FABC(arg0);
-    temp_r0 = arg0->qSpeedAirX;
-    temp_r1 = arg0->qSpeedAirX;
+    unk148 = p->unk148.ptr;
+    sub_8010E4C(p);
+    sub_8010ED0(p);
+    sub_800FABC(p);
+    temp_r0 = p->qSpeedAirX;
+    temp_r1 = p->qSpeedAirX;
     if (temp_r1 != 0) {
         if ((s32)temp_r1 < 0) {
-            arg0->qSpeedAirX += 0x64;
-            if (arg0->qSpeedAirX >= 0) {
-                arg0->qSpeedAirX = 0;
+            p->qSpeedAirX += 0x64;
+            if (p->qSpeedAirX >= 0) {
+                p->qSpeedAirX = 0;
             }
         } else {
-            arg0->qSpeedAirX -= 0x64;
-            if (arg0->qSpeedAirX <= 0) {
-                arg0->qSpeedAirX = 0;
+            p->qSpeedAirX -= 0x64;
+            if (p->qSpeedAirX <= 0) {
+                p->qSpeedAirX = 0;
             }
         }
     }
 
-    if (arg0->qSpeedAirY != 0) {
-        if (arg0->qSpeedAirY < 0) {
-            arg0->qSpeedAirY += 0x64;
-            if (arg0->qSpeedAirY >= 0) {
-                arg0->qSpeedAirY = 0;
+    if (p->qSpeedAirY != 0) {
+        if (p->qSpeedAirY < 0) {
+            p->qSpeedAirY += 0x64;
+            if (p->qSpeedAirY >= 0) {
+                p->qSpeedAirY = 0;
             }
         } else {
-            arg0->qSpeedAirY -= 0x64;
-            if (arg0->qSpeedAirY <= 0) {
-                arg0->qSpeedAirY = 0;
+            p->qSpeedAirY -= 0x64;
+            if (p->qSpeedAirY <= 0) {
+                p->qSpeedAirY = 0;
             }
         }
     }
@@ -9109,13 +9109,13 @@ void sub_800F3E8(Player *arg0)
     unk148->a.unk6 += 1;
     switch (unk148->a.unk6) {
         case 8:
-            arg0->charFlags.anim0 = gUnknown_080CE60C[unk148->a.unk4];
+            p->charFlags.anim0 = gUnknown_080CE60C[unk148->a.unk4];
             return;
         case 20:
             unk148->a.unk6 = 0;
             unk148->a.unkC = 8;
-            arg0->unk14C &= 0xFE;
-            SetPlayerCallback(arg0, sub_800F2B0);
+            p->unk14C.arr_u8[0] &= 0xFE;
+            SetPlayerCallback(p, sub_800F2B0);
             return;
     }
 }
@@ -9207,7 +9207,7 @@ void sub_800F5C8(Player *p)
         Player_BoostModeEngage(p);
     }
     if ((s32)p->framesInvulnerable <= 0x3C) {
-        temp_r2 = &p->unk14C;
+        temp_r2 = &p->unk14C.arr_u8[0];
         *temp_r2 &= 0xFD;
         SetPlayerCallback(p, sub_800F2B0);
     }
@@ -9229,7 +9229,7 @@ void sub_800F634(Player *p)
     BoostEngage_inline(p);
 
     if (temp_r5->a.unk8 == 0) {
-        p->unk14C &= 0xF7;
+        p->unk14C.arr_u8[0] &= 0xF7;
         SetPlayerCallback(p, sub_800F2B0);
         return;
     }
@@ -9259,7 +9259,7 @@ void sub_800F6C8(Player *p)
         p->qSpeedAirY = -qSpeedAirY;
     }
 
-    p->unk14C &= 0xFE;
+    p->unk14C.arr_u8[0] &= 0xFE;
     SetPlayerCallback(p, sub_800F734);
     sub_800F734(p);
 }
@@ -9315,28 +9315,28 @@ void sub_800F734(Player *p)
     sub_800FABC(p);
 }
 
-void sub_800F7C0(Player *arg0)
+void sub_800F7C0(Player *p)
 {
     PlayerUnk148 *temp_r4;
     s16 *temp_r0;
 
-    temp_r4 = arg0->unk148.ptr;
-    Player_800D880(arg0);
-    arg0->charFlags.anim0 = 300;
-    arg0->charFlags.character = TAILS;
-    arg0->framesInvincible = 0;
-    arg0->framesInvulnerable = 0;
-    arg0->qWorldX = Q(gCamera.x);
-    arg0->qWorldY = Q(gCamera.y + 104);
-    arg0->qSpeedAirX = 0;
-    arg0->qSpeedAirY = 0;
+    temp_r4 = p->unk148.ptr;
+    Player_800D880(p);
+    p->charFlags.anim0 = 300;
+    p->charFlags.character = TAILS;
+    p->framesInvincible = 0;
+    p->framesInvulnerable = 0;
+    p->qWorldX = Q(gCamera.x);
+    p->qWorldY = Q(gCamera.y + 104);
+    p->qSpeedAirX = 0;
+    p->qSpeedAirY = 0;
     temp_r4->a.unk0 = 0;
-    arg0->unk14C = 0;
-    SetPlayerCallback(arg0, Player_80108B8);
-    Player_80108B8(arg0);
+    p->unk14C.arr_u8[0] = 0;
+    SetPlayerCallback(p, Player_80108B8);
+    Player_80108B8(p);
 }
 
-void sub_800F838(Player *arg0)
+void sub_800F838(Player *p)
 {
     PlayerUnk148 *temp_r4;
     s16 temp_r1_2;
@@ -9349,14 +9349,14 @@ void sub_800F838(Player *arg0)
     var_r7 = 0;
     var_r6 = 0;
     temp_r4 = gPlayers->unk148.ptr;
-    sub_8010E04(arg0);
-    sub_800FD60(arg0);
-    sub_8010E94(arg0);
-    sub_800FABC(arg0);
+    sub_8010E04(p);
+    sub_800FD60(p);
+    sub_8010E94(p);
+    sub_800FABC(p);
     if ((gStageData.gameMode == 5) && (gStageData.playerIndex != 0)) {
-        temp_r1 = (gStageData.buttonConfig.jump | gStageData.buttonConfig.attack | gStageData.buttonConfig.trick) & arg0->keyInput;
+        temp_r1 = (gStageData.buttonConfig.jump | gStageData.buttonConfig.attack | gStageData.buttonConfig.trick) & p->keyInput;
         var_r6 = (u32)((0 - temp_r1) | temp_r1) >> 0x1F;
-    } else if ((gStageData.buttonConfig.jump | gStageData.buttonConfig.attack) & arg0->keyInput) {
+    } else if ((gStageData.buttonConfig.jump | gStageData.buttonConfig.attack) & p->keyInput) {
         var_r6 = 1;
     }
     if (var_r6 != 0) {
@@ -9368,7 +9368,7 @@ void sub_800F838(Player *arg0)
     temp_r1_2 = (s16)temp_r4->a.unk0;
     if ((s32)temp_r1_2 <= 0x77) {
         temp_r4->a.unk2 = (s16)var_r6;
-        SetPlayerCallback(arg0, Player_80108FC);
+        SetPlayerCallback(p, Player_80108FC);
         goto block_15;
     }
     if ((s32)temp_r1_2 <= 0xEF) {
@@ -9386,13 +9386,13 @@ void sub_800F838(Player *arg0)
 block_15:
     if (var_r7 != 0) {
     block_16:
-        arg0->unk26 = var_r7;
-        SetPlayerCallback(arg0, Player_8010AA0);
+        p->unk26 = var_r7;
+        SetPlayerCallback(p, Player_8010AA0);
     }
-    sub_8010430(arg0);
+    sub_8010430(p);
 }
 
-void sub_800F920(Player *arg0)
+void sub_800F920(Player *p)
 {
     s16 sp[4];
     PlayerUnk148 *temp_r5;
@@ -9404,22 +9404,22 @@ void sub_800F920(Player *arg0)
 
     memcpy(&sp[0], &gUnknown_080CE63C, 8);
     temp_r5 = gPlayers->unk148.ptr;
-    temp_r6 = arg0->unk148.ptr;
-    sub_8010E04(arg0);
-    sub_8010E94(arg0);
-    sub_800FABC(arg0);
+    temp_r6 = p->unk148.ptr;
+    sub_8010E04(p);
+    sub_8010E94(p);
+    sub_800FABC(p);
 
-    switch (arg0->unk26) {
+    switch (p->unk26) {
         case 2:
         case 3:
         case 4:
-            temp_r5->a.unk2 = sp[arg0->unk26 - 2];
+            temp_r5->a.unk2 = sp[p->unk26 - 2];
             temp_r6->b.unk8 = 1;
             m4aSongNumStart(0x21FU);
-            SetPlayerCallback(arg0, sub_8010FE0);
+            SetPlayerCallback(p, sub_8010FE0);
             break;
         case 0:
-            SetPlayerCallback(arg0, Player_8010F88);
+            SetPlayerCallback(p, Player_8010F88);
             break;
         case 1:
             if (++temp_r5->a.unk0 > 0x01E0) {
@@ -9427,27 +9427,27 @@ void sub_800F920(Player *arg0)
             }
             break;
     }
-    sub_8010430(arg0);
+    sub_8010430(p);
 }
 
-void sub_800F9C0(Player *arg0)
+void sub_800F9C0(Player *p)
 {
     PlayerUnk148 *temp_r2;
     u8 *temp_r2_2;
 
-    temp_r2 = arg0->unk148.ptr;
-    arg0->charFlags.anim0 = 0x133;
-    arg0->qSpeedAirX = 0;
-    arg0->qSpeedAirY = 0;
+    temp_r2 = p->unk148.ptr;
+    p->charFlags.anim0 = 0x133;
+    p->qSpeedAirX = 0;
+    p->qSpeedAirY = 0;
     if (temp_r2->b.unk0 == 0) {
         temp_r2->b.unk0 = 240;
         temp_r2->b.unk2 = 0;
         m4aSongNumStart(SE_578);
     }
 
-    arg0->unk14C |= 8;
-    SetPlayerCallback(arg0, Player_800FA1C);
-    Player_800FA1C(arg0);
+    p->unk14C.arr_u8[0] |= 8;
+    SetPlayerCallback(p, Player_800FA1C);
+    Player_800FA1C(p);
 }
 
 void Player_800FA1C(Player *p)
@@ -9463,7 +9463,7 @@ void Player_800FA1C(Player *p)
     sub_8010ED0(p);
     sub_800FABC(p);
     if (temp_r4->a.unk0 == 0) {
-        temp_r2 = &p->unk14C;
+        temp_r2 = &p->unk14C.arr_u8[0];
         *temp_r2 &= 0xF7;
         SetPlayerCallback(p, Player_80108FC);
     } else {
@@ -9856,7 +9856,7 @@ NONMATCH("asm/non_matching/game/stage/player__Task_8010008.inc", void Task_80100
             return;
         }
     } else if (!((gStageData.buttonConfig.jump | gStageData.buttonConfig.attack | gStageData.buttonConfig.trick) & p->keyInput)
-               || (0xA & p->unk14C)) {
+               || (0xA & p->unk14C.arr_u8[0])) {
         TaskDestroy(*t);
         return;
     }
@@ -9907,7 +9907,7 @@ void sub_801038C(Player *p, u8 arg1)
         if (p->charFlags.character == SONIC) {
             PlayerUnk148 *unk148 = p->unk148.ptr;
             if (arg1 == 1) {
-                if (8 & p->unk14C) {
+                if (8 & p->unk14C.arr_u8[0]) {
                     unk148->a.unk8 = 0;
                     return;
                 }
@@ -9922,7 +9922,7 @@ void sub_801038C(Player *p, u8 arg1)
             PlayerUnk148_A *unk148_A = &unk148->a;
 
             if (arg1 == 1) {
-                if (8 & p->unk14C) {
+                if (8 & p->unk14C.arr_u8[0]) {
                     unk148_A->unk0 = 0;
                     return;
                 }
@@ -10254,7 +10254,7 @@ void Player_80109C0(Player *p)
 void sub_80109FC(Player *p)
 {
     p->unk148.ptr->b.unk8 = 0;
-    p->unk14C |= 4;
+    p->unk14C.arr_u8[0] |= 4;
     sub_800FF68(p);
     SetPlayerCallback(p, sub_8010A3C);
     sub_8010A3C(p);
@@ -10275,7 +10275,7 @@ void sub_8010A3C(Player *p)
         }
     }
 
-    p->unk14C &= 0xFB;
+    p->unk14C.arr_u8[0] &= 0xFB;
     SetPlayerCallback(p, Player_80108FC);
 
 lbl:
@@ -10309,7 +10309,7 @@ void sub_8010AE4(Player *p)
     } else {
         // NOTE: union variant b might not  be correct!
         unk148->b.unk8 = 0;
-        p->unk14C &= 0xFB;
+        p->unk14C.arr_u8[0] &= 0xFB;
         SetPlayerCallback(p, Player_80108FC);
     }
     sub_8010E94(p);
@@ -10322,7 +10322,7 @@ void sub_8010B3C(Player *p)
     u8 *temp_r2;
 
     p->unk148.ptr->b.unk8 = 0;
-    p->unk14C &= 0xFB;
+    p->unk14C.arr_u8[0] &= 0xFB;
     p->qSpeedAirX = -0x800;
     p->qSpeedAirY = 0;
     SetPlayerCallback(p, sub_8010B7C);
@@ -10350,7 +10350,7 @@ void sub_8010BBC(Player *p)
     p->qSpeedAirX = -0x400;
     p->qSpeedAirY = 0;
     m4aSongNumStart(SE_578);
-    p->unk14C |= 2;
+    p->unk14C.arr_u8[0] |= 2;
     SetPlayerCallback(p, sub_800F5C8);
     sub_800F5C8(p);
 }
@@ -10367,7 +10367,7 @@ void sub_8010C04(Player *p)
     temp_r2->a.unk8 = 0xF0;
     temp_r2->a.unkA = 0;
     m4aSongNumStart(SE_578);
-    p->unk14C |= 8;
+    p->unk14C.arr_u8[0] |= 8;
     SetPlayerCallback(p, sub_800F634);
     sub_800F634(p);
 }
@@ -10383,77 +10383,77 @@ void sub_8010C58(Player *p)
 
 void sub_8010C88(Player *p) { SetPlayerCallback(p, sub_800F6C8); }
 
-void sub_8010C98(Player *arg0)
+void sub_8010C98(Player *p)
 {
     u8 *temp_r2;
 
-    arg0->unk14C &= 0xFE;
-    arg0->qSpeedAirX = -0x800;
-    arg0->qSpeedAirY = 0;
-    SetPlayerCallback(arg0, sub_8010CD0);
-    sub_8010CD0(arg0);
+    p->unk14C.arr_u8[0] &= 0xFE;
+    p->qSpeedAirX = -0x800;
+    p->qSpeedAirY = 0;
+    SetPlayerCallback(p, sub_8010CD0);
+    sub_8010CD0(p);
 }
 
-void sub_8010CD0(Player *arg0)
+void sub_8010CD0(Player *p)
 {
     PlayerUnk148 *temp_r1;
 
-    sub_8010E04(arg0);
-    if (arg0->qSpeedAirX != 0) {
-        arg0->qSpeedAirX += Q(0.5);
+    sub_8010E04(p);
+    if (p->qSpeedAirX != 0) {
+        p->qSpeedAirX += Q(0.5);
     } else {
-        SetPlayerCallback(arg0, sub_800F2B0);
+        SetPlayerCallback(p, sub_800F2B0);
     }
-    sub_8010E94(arg0);
-    sub_800FABC(arg0);
-    temp_r1 = arg0->unk148.ptr;
+    sub_8010E94(p);
+    sub_800FABC(p);
+    temp_r1 = p->unk148.ptr;
     if (temp_r1->a.unkC != 0) {
         temp_r1->a.unkC--;
         return;
     }
-    Player_BoostModeEngage(arg0);
+    Player_BoostModeEngage(p);
 }
 
-void sub_8010D28(Player *arg0)
+void sub_8010D28(Player *p)
 {
     u8 *temp_r2;
 
-    arg0->charFlags.anim0 = 0x131;
-    arg0->qSpeedAirX = -0x400;
-    arg0->qSpeedAirY = 0;
+    p->charFlags.anim0 = 0x131;
+    p->qSpeedAirX = -0x400;
+    p->qSpeedAirY = 0;
     m4aSongNumStart(SE_578);
-    arg0->unk14C |= 2;
-    SetPlayerCallback(arg0, sub_8010D70);
-    sub_8010D70(arg0);
+    p->unk14C.arr_u8[0] |= 2;
+    SetPlayerCallback(p, sub_8010D70);
+    sub_8010D70(p);
 }
 
-void sub_8010D70(Player *arg0)
+void sub_8010D70(Player *p)
 {
     u8 *temp_r1;
     u8 *temp_r2;
 
-    arg0->unk26 -= 0x10;
-    sub_8010E04(arg0);
-    sub_8010E94(arg0);
-    sub_800FABC(arg0);
-    if ((s32)arg0->framesInvulnerable <= 0x3C) {
-        arg0->unk14C &= 0xFD;
-        SetPlayerCallback(arg0, Player_80108FC);
+    p->unk26 -= 0x10;
+    sub_8010E04(p);
+    sub_8010E94(p);
+    sub_800FABC(p);
+    if ((s32)p->framesInvulnerable <= 0x3C) {
+        p->unk14C.arr_u8[0] &= 0xFD;
+        SetPlayerCallback(p, Player_80108FC);
     }
-    sub_8010430(arg0);
+    sub_8010430(p);
 }
 
-void sub_8010DC4(Player *arg0)
+void sub_8010DC4(Player *p)
 {
     PlayerUnk148 *temp_r2;
 
     temp_r2 = gPlayers->unk148.ptr;
-    arg0->unk26 = 1;
+    p->unk26 = 1;
     temp_r2->a.unk0 = 0;
     temp_r2->a.unk2 = 0;
-    sub_800FF68(arg0);
-    SetPlayerCallback(arg0, sub_800F838);
-    sub_800F838(arg0);
+    sub_800FF68(p);
+    SetPlayerCallback(p, sub_800F838);
+    sub_800F838(p);
 }
 
 void sub_8010E04(Player *p)
@@ -12982,7 +12982,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8013A68.inc", void sub_8013A68
 
     if (temp_r5->charFlags.character == CREAM) {
         temp_r1_2 = temp_r5->unk26;
-        temp_r5->unk14C = temp_r1_2;
+        temp_r5->unk14C.arr_u8[0] = temp_r1_2;
         tf->rotation = temp_r1_2 * 4;
         s->frameFlags = (s->frameFlags & ~0x1F) | 0x24;
 
