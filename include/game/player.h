@@ -292,6 +292,7 @@ struct Player {
     union {
         PlayerUnk148 *ptr;
         u8 arr_u8[4];
+        s16 arr_s16[2];
     } unk148;
     u8 unk14C;
 };
