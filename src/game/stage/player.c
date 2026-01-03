@@ -17119,29 +17119,24 @@ void Player_BoostModeDisengage(Player *p)
 
 void TaskDestructor_AfterImages(struct Task *t) { }
 
-#if 0
-void sub_8019A7C(void) {
-    ? *var_r1;
-    u32 temp_r0;
-    u32 var_r3;
+void sub_8019A7C(void)
+{
+    SomeSubStruct_3001BF0 *var_r1 = &gUnknown_03001BF0.unk0[0];
+    s16 i;
 
-    var_r1 = &gUnknown_03001BF0;
-    var_r3 = 0;
-    do {
-        var_r1->unk0 = 0;
-        var_r1->unk4 = 0;
-        var_r1->unk8 = 0;
-        var_r1->unkC = 0;
-        var_r1->unk10 = 0;
-        var_r1->unk12 = 0;
-        var_r1->unk14 = 0;
-        var_r1->unk15 = 0x10;
-        temp_r0 = (var_r3 << 0x10) + 0x10000;
-        var_r1 += 0x18;
-        var_r3 = temp_r0 >> 0x10;
-    } while ((s32) ((s32) temp_r0 >> 0x10) <= 7);
+    for (i = 0; i < (s32)ARRAY_COUNT(gUnknown_03001BF0.unk0); i++, var_r1++) {
+        var_r1->qWorldX = 0;
+        var_r1->qWorldY = 0;
+        var_r1->frameFlags = 0;
+        var_r1->moveState = 0;
+        var_r1->anim2 = 0;
+        var_r1->rotation = 0;
+        var_r1->state1 = 0;
+        var_r1->animSpeed = 0x10;
+    }
 }
 
+#if 0
 void sub_8019AB4(u16 arg0, u16 arg1) {
     s32 temp_r1;
     u16 temp_r4;
