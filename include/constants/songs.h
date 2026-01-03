@@ -125,10 +125,11 @@
 #define SE_DPAD_SELECT          0x6C
 
 // @TODO: Look up official names for moves!
-#define SE_SPIN_ATTACK  0x6D
-#define SE_SPIN_RELEASE 0x6E
-#define SE_GROUND_SLIDE 0x6F
-
+#define SE_SPIN_ATTACK                0x6D
+#define SE_SPIN_RELEASE               0x6E
+#define SE_GROUND_SLIDE               0x6F
+#define SE_112                        0x70
+#define SE_113                        0x71
 #define SE_GRINDING                   0x72
 #define SE_STOPPING                   0x73
 #define SE_JUMP                       0x74
@@ -182,9 +183,11 @@
 
 /* Dummy Entries from 0xAB to 0xDB */
 
-#define SE_220        0xDC
-#define SE_CHAR_BOOST 0xDD
-
+#define SE_220           0xDC
+#define SE_CHAR_BOOST    0xDD
+#define SE_222           0xDE
+#define SE_223           0xDF
+#define SE_224           0xE0
 #define MUS_DUMMY__225   0xE1
 #define SE_226           0xE2
 #define SE_CREAM__FLYING 0xE3
@@ -248,13 +251,21 @@
 #define SE_526                  0x20E
 #define SE_527                  0x20F
 #define SE_CREAM__CHEESE_ATTACK 0x210
-
-#define SE_TAILS__538        0x21A
-#define SE_TAILS__SWIM       0x21B
-#define SE_TAGACTION_CHARGED 0x21B
-#define SE_TAGACTION_BUILDUP 0x21C
-#define SE_541               0x21D
-#define SE_542               0x21E
+#define SE_529                  0x211
+#define SE_530                  0x212
+#define SE_531                  0x213
+#define SE_532                  0x214
+#define SE_533                  0x215
+#define SE_534                  0x216
+#define SE_535                  0x217
+#define SE_536                  0x218
+#define SE_537                  0x219
+#define SE_538                  0x21A
+#define SE_TAILS__SWIM          0x21B
+#define SE_TAGACTION_CHARGED    0x21B
+#define SE_TAGACTION_BUILDUP    0x21C
+#define SE_541                  0x21D
+#define SE_542                  0x21E
 
 #define SE_578 0x242
 

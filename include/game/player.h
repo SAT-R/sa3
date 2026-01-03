@@ -218,7 +218,7 @@ struct Player {
     s8 unk57;
     u8 unk58;
     u8 unk59;
-    u8 unk5A;
+    u8 unk5A; // TODO: unk5A might be an s8 ?
     u8 unk5B;
     u8 unk5C;
     u8 unk5D;
