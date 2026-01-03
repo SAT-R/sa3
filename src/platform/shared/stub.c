@@ -48,8 +48,6 @@ void sub_8003F40() { }
 void sub_8003F8C() { }
 void sub_8003FC8() { }
 void Stop() { }
-void /* 0x08019A58 */ Player_BoostModeEngage(Player *p) { }
-void /* 0x08019A64 */ Player_BoostModeDisengage(Player *p) { }
 void Player_801D73C(Player *p) { }
 void Player_801DF18(Player *p) { }
 bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5) { return FALSE; }

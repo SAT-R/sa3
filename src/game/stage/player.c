@@ -19145,6 +19145,211 @@ void sub_801C414(Player *p)
     }
 }
 
+void sub_801C4A0(Player *p)
+{
+    u8 sp0;
+    s32 sp4;
+    s32 var_r0;
+    s32 var_r0_3;
+    s32 var_r4;
+    s32 var_r6;
+    s32 var_r6_2;
+
+    if ((s8)p->unk148.arr_u8[1] >= 0) {
+        if (0x20 & p->moveState) {
+            goto block_52;
+        }
+        p->qSpeedGround = 0;
+        p->qSpeedAirX = 0;
+        p->qSpeedAirY = 0;
+        if (p->charFlags.anim0 != 0xEE) {
+            p->charFlags.anim0 = 0xEF;
+        }
+
+        if ((0x40 & p->keyInput) && (p->charFlags.anim2 == 0x23C)) {
+            p->moveState = p->moveState & 0xDFFFFFFF;
+            p->unk5B = (p->unk5B + 1) & 0xF;
+            var_r6_2 = (s8)(u8)p->spriteOffsetY << 8;
+            if (p->moveState & 0x10000) {
+                var_r6_2 = -var_r6_2;
+            }
+            p->qWorldY -= var_r6_2;
+            sp4 = (s32)0;
+            var_r4 = sub_801C884(p);
+            p->qWorldY += var_r6_2;
+            if (var_r4 > 2) {
+                sub_801DE1C(p);
+                return;
+            }
+            if (var_r4 > 0) {
+                p->unk26 = sp0;
+                p->qSpeedGround = 0;
+                p->qSpeedAirX = 0;
+                p->qSpeedAirY = 0;
+                p->charFlags.anim0 = 0xE9;
+                Player_8012FE0(p);
+                p->qWorldY += 0xFFFFFB00;
+                var_r0 = p->moveState | 4;
+                p->moveState = var_r0 & 0xDFFFFFFF;
+                SetPlayerCallback(p, sub_801D9D0);
+                sub_801D9D0(p);
+                return;
+            }
+            p->charFlags.anim0 = 0xEF;
+            p->charFlags.state1 = (u16)0;
+            if (p->unk5B == 1) {
+                Player_StopSong(p, 0x7DU);
+                Player_PlaySong(p, 0x7DU);
+            }
+            if (var_r4 < 0) {
+                return;
+            }
+            if (p->moveState & 0x10000) {
+                p->qWorldY += Q(9);
+                var_r4 = sub_8011024(3, p, &sp0, NULL);
+                p->qWorldY -= Q(9);
+            } else {
+                p->qWorldY -= Q(9);
+                var_r4 = sub_8011024(2, p, &sp0, NULL);
+                p->qWorldY += Q(9);
+            }
+            if (var_r4 < 0) {
+                if (p->moveState & 0x10000) {
+                    p->qWorldY += (var_r4 + 1) << 8;
+                } else {
+                    p->qWorldY -= (var_r4 + 1) << 8;
+                }
+                var_r4 = 0;
+            } else {
+                s32 qSpeedAirY;
+                if (p->moveState & 0x80) {
+                    qSpeedAirY = Q(0.50);
+                } else {
+                    qSpeedAirY = Q(0.75);
+                }
+                p->qSpeedAirY = -qSpeedAirY;
+                var_r4 = 0;
+            }
+        } else if ((p->keyInput & 0x80) && (p->charFlags.anim2 == 0x23C)) {
+            p->moveState = p->moveState & 0xDFFFFFFF;
+            p->unk5B = (p->unk5B + 1) & 0xF;
+            var_r6_2 = Q(p->spriteOffsetY);
+            if (p->moveState & 0x10000) {
+                var_r6_2 = -var_r6_2;
+            }
+            p->qWorldY += var_r6_2;
+            var_r4 = sub_801C884(p);
+            p->qWorldY -= var_r6_2;
+            if (var_r4 > 0) {
+                p->charFlags.anim0 = 0xE9;
+                Player_8012FE0(p);
+                p->qWorldY -= Q(5);
+                p->moveState |= 4;
+
+                p->moveState &= 0xDFFFFFFF;
+                SetPlayerCallback(p, sub_801D9D0);
+                sub_801D9D0(p);
+                return;
+            } else {
+                if (p->moveState & 0x10000) {
+                    var_r4 = sub_8011024(2, p, &sp0, NULL);
+                } else {
+                    var_r4 = sub_8011024(3, p, &sp0, NULL);
+                }
+
+                if (var_r4 < 0) {
+                    if (!(p->moveState & 0x10000)) {
+                        goto block_50;
+                    } else {
+                        var_r0_3 = p->qWorldY - Q(var_r4);
+                        goto block_51;
+                    }
+                } else {
+                    p->charFlags.anim0 = 0xEF;
+                    p->charFlags.state1 = 1;
+                    {
+                        s32 qSpeedAirY;
+                        if (p->moveState & 0x80) {
+                            qSpeedAirY = Q(0.50);
+                        } else {
+                            qSpeedAirY = Q(0.75);
+                        }
+                        p->qSpeedAirY = +qSpeedAirY;
+
+                        if (p->unk5B == 1) {
+                            Player_StopSong(p, 0x7DU);
+                            Player_PlaySong(p, 0x7DU);
+                        }
+                        goto block_47;
+                    }
+                }
+            }
+            var_r4 = 1;
+        } else {
+            p->unk5B = 0;
+            var_r4 = sub_801C884(p);
+        }
+
+        if (var_r4 <= 0) {
+        block_47:
+            if (!(0xC0 & p->keyInput) || (p->charFlags.anim2 == 0x23B)) {
+                var_r4 = sub_8011024(3, p, &sp0, NULL);
+                if (var_r4 < 0) {
+                block_50:
+                    var_r0_3 = p->qWorldY + (var_r4 << 8);
+                block_51:
+                    p->qWorldY = var_r0_3;
+                    p->unk26 = sp0;
+                    p->qSpeedGround = 0;
+                    p->qSpeedAirX = 0;
+                    p->qSpeedAirY = 0;
+                block_52:
+                    p->charFlags.anim0 = 0xE9;
+                    Player_8012FE0(p);
+                    p->qWorldY += 0xFFFFFB00;
+                    var_r0 = p->moveState | 4;
+
+                    p->moveState = var_r0 & 0xDFFFFFFF;
+                    SetPlayerCallback(p, sub_801D9D0);
+                    sub_801D9D0(p);
+                    return;
+                }
+                if ((p->charFlags.anim2 != 0x23B) || (p->spriteInfoBody->s.frameFlags & 0x4000)) {
+                    p->charFlags.anim0 = 0xEF;
+                    p->charFlags.anim1 = -1;
+                }
+            }
+        } else {
+            goto block_52;
+        }
+
+        if (p->keyInput2 & gStageData.buttonConfig.jump) {
+            if ((p->unkC & 0x1800) == 0x1000) {
+                if (p->moveState & 1) {
+                    if (0x20 & p->keyInput) {
+                        SetPlayerCallback(p, sub_801DE94);
+                    } else {
+                        SetPlayerCallback(p, Player_800657C);
+                    }
+                } else if (0x10 & p->keyInput) {
+                    SetPlayerCallback(p, sub_801DE94);
+                } else {
+                    SetPlayerCallback(p, Player_800657C);
+                }
+            } else {
+                SetPlayerCallback(p, Player_800657C);
+            }
+        }
+    } else {
+        p->charFlags.anim0 = 0xE9;
+        Player_8012FE0(p);
+        p->qWorldY += 0xFFFFFB00;
+        p->moveState = (p->moveState | 4) & 0xDFFFFFFF;
+        SetPlayerCallback(p, sub_801D9D0);
+        sub_801D9D0(p);
+    }
+}
+
 #if 0
 void sub_801C4A0(Player *arg0) {
     s32 sp4;

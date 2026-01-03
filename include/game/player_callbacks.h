@@ -463,6 +463,10 @@ void sub_801C14C(Player *p);
 void sub_801C1D4(Player *p);
 void sub_801CB68(Player *p);
 void sub_801CFFC(Player *p);
+s32 sub_801C884(Player *);
+void sub_801D9D0(Player *p);
+void sub_801DE1C(Player *);
+void sub_801DE94(Player *p);
 
 extern void sub_8019B4C(Player *p);
 
