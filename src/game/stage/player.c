@@ -272,6 +272,8 @@ extern s8 gUnknown_080CE7C8[][2];
 extern u16 gUnknown_080CE7E2[][2];
 extern s16 gUnknown_080CECB2[RSF_COUNT][2];
 extern s16 gUnknown_080CECC6[RSF_COUNT];
+extern s16 gUnknown_080CECD0[NUM_CHARACTERS][2];
+extern s16 gUnknown_080CECE4[NUM_CHARACTERS][2];
 extern u16 gUnknown_080D05A8[][2];
 extern Vec2_16 *gUnknown_080D1750[];
 
@@ -19622,6 +19624,55 @@ void sub_801CCB4(Player *p)
     Player_BoostModeDisengage(p);
     p->unk148.arr_u8[2] |= 4;
     p->moveState |= 0x40004;
+}
+
+// TODO: Fake-match!
+void sub_801CD50(Player *p)
+{
+    u16 sp00[5][2];
+    u16 sp14[5][2];
+    Player *partner;
+    s32 var_r7 = 0;
+
+    memcpy(&sp00, &gUnknown_080CECD0, 0x14);
+    memcpy(&sp14, &gUnknown_080CECE4, 0x14);
+    sub_801D1D0(p);
+    if (!sub_801D2FC(p)) {
+        sub_801CE94(p);
+    }
+
+    if (MOVESTATE_2000000 & p->moveState) {
+        partner = GET_SP_PLAYER_V1(PLAYER_2);
+        if ((gStageData.gameMode < 5) || ((p->charFlags.someIndex) == 2) || ((partner->charFlags.someIndex) == 2)) {
+            if ((partner->charFlags.anim0 != sp00[partner->charFlags.character][0])
+                && (partner->charFlags.anim0 != sp00[partner->charFlags.character][1])) {
+                var_r7 = 1;
+            }
+        } else {
+            if ((partner->charFlags.anim2 != sp14[partner->charFlags.character][0])
+                && (partner->charFlags.anim2 != sp14[partner->charFlags.character][1])) {
+                var_r7 = 1;
+            }
+        }
+
+        if (var_r7 != 0) {
+#ifndef NON_MATCHING
+            asm("" ::"r"(var_r7));
+#endif
+
+            p->moveState &= 0xDDFBFFFF;
+            Player_8012FE0(p);
+            p->charFlags.anim0 = 24;
+            Player_800DAF4(p);
+            return;
+        }
+    } else if ((p->unkC & 0x400) && (p->unkB8 != -1U) && (p->keyInput & gStageData.buttonConfig.attack)) {
+        Player_8007620(p);
+        return;
+    }
+block_18:
+    sub_8016D30(p);
+    sub_8015064(p);
 }
 
 #if 0
