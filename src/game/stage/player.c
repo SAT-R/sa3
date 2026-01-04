@@ -21342,111 +21342,109 @@ void sub_801EE74(void)
     sub_801EEE8();
 }
 
-#if 0
-void sub_801EEE8(void) {
-    s32 var_r1;
-    s32 var_r1_2;
-    u16 temp_r1;
-    u16 var_r0;
-    void *temp_r0;
-    void *temp_r2;
+void sub_801EEE8(void)
+{
+    StageDataTask98 *strc = TASK_DATA(gCurTask);
 
-    temp_r1 = gCurTask->data;
-    temp_r2 = temp_r1->unk50;
-    if (temp_r2->unk4 & 1) {
-        var_r1 = 0x1800;
+    if (strc->player->moveState & 1) {
+        strc->qWorldX2 = (s32)(strc->player->qWorldX + Q(24));
     } else {
-        var_r1 = 0xFFFFE800;
+        strc->qWorldX2 = (s32)(strc->player->qWorldX - Q(24));
     }
-    temp_r1->unk8 = (s32) (temp_r2->unk10 + var_r1);
-    temp_r0 = temp_r1->unk50;
-    if (temp_r0->unk4 & 0x10000) {
-        var_r1_2 = 0x1800;
+
+    if (strc->player->moveState & 0x10000) {
+        strc->qWorldY2 = (s32)(strc->player->qWorldY + Q(24));
     } else {
-        var_r1_2 = 0xFFFFE800;
+        strc->qWorldY2 = (s32)(strc->player->qWorldY - Q(24));
     }
-    temp_r1->unkC = (s32) (temp_r0->unk14 + var_r1_2);
-    if ((s32) temp_r0->unk10 < (s32) temp_r1->unk0) {
-        var_r0 = 1 | temp_r1->unk16;
+
+    if (strc->player->qWorldX < (s32)strc->qWorldX) {
+        strc->unk16 |= 1;
     } else {
-        var_r0 = 0xFFFE & temp_r1->unk16;
+        strc->unk16 &= ~1;
     }
-    temp_r1->unk16 = var_r0;
-    sub_8020130(1U);
-    sub_8020284();
+
+    sub_8020130(1);
+    Task_8020284();
 }
 
-void sub_801EF6C(void) {
-    u16 temp_r3;
-    void *temp_r3_2;
+void sub_801EF6C(void)
+{
+    StageDataTask98 *strc = TASK_DATA(gCurTask);
+    Sprite2 *s;
 
-    temp_r3 = gCurTask->data;
-    temp_r3->unk8 = (s32) temp_r3->unk0;
-    temp_r3->unkC = (s32) temp_r3->unk4;
-    temp_r3->unk10 = 0;
-    temp_r3->unk12 = 0;
-    temp_r3->unk16 = (u16) ((0xFFFB & temp_r3->unk16) | 2);
-    temp_r3->unk18 = 1;
-    temp_r3->unk19 = 4;
-    temp_r3->unk1A = 0;
-    temp_r3_2 = temp_r3 + 0x20;
-    temp_r3_2->unkC = (u16) gUnknown_08E2EB18.unk10;
-    temp_r3_2->unk1A = (s8) gUnknown_08E2EB18.unk12;
-    temp_r3_2->unk16 = 0;
-    temp_r3_2->unk18 = 0xFFFF;
-    temp_r3_2->unk1B = 0xFF;
-    temp_r3_2->unk20 = -1;
-    temp_r3_2->unk28 = -1;
+    strc->qWorldX2 = strc->qWorldX;
+    strc->qWorldY2 = strc->qWorldY;
+    strc->unk10 = 0;
+    strc->unk12 = 0;
+    strc->unk16 = (u16)((0xFFFB & strc->unk16) | 2);
+    strc->unk18 = 1;
+    strc->unk19 = 4;
+    strc->unk1A = 0;
+
+    s = &strc->s;
+    s->anim = gUnknown_08E2EB18[4][0];
+    s->variant = gUnknown_08E2EB18[4][1];
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->prevVariant = -1;
+    s->hitboxes[0].index = -1;
+    s->hitboxes[1].index = -1;
     gCurTask->main = sub_801EFE8;
     sub_801EFE8();
 }
 
-void sub_801EFE8(void) {
-    s32 temp_r2;
-    u16 temp_r1;
-    u16 var_r0;
-    void *temp_r3;
+void sub_801EFE8(void)
+{
+    u32 theta;
+    s32 v, v2;
+    Player *player;
+    StageDataTask98 *strc;
+    s32 qX;
 
-    temp_r1 = gCurTask->data;
-    temp_r1->unk1B = (u8) ((temp_r1->unk1B + 1) & 0x3F);
-    temp_r3 = temp_r1->unk50;
-    temp_r2 = temp_r1->unk1B * 0x10;
-    temp_r1->unk8 = (s32) (temp_r3->unk10 + ((s16) gSineTable[temp_r2 + 0x100] >> 1));
-    temp_r1->unkC = (s32) (temp_r3->unk14 + ((s16) gSineTable[temp_r2] >> 1));
-    if (temp_r3->unk4 & 1) {
-        var_r0 = 1 | temp_r1->unk16;
+    strc = TASK_DATA(gCurTask);
+    strc->unk1B = (strc->unk1B + 1) % 64u;
+    theta = strc->unk1B;
+    player = strc->player;
+
+    strc->qWorldX2 = (player->qWorldX + ((v = COS(theta *= 16)) >> 1));
+    strc->qWorldY2 = (player->qWorldY + ((v2 = SIN(theta)) >> 1));
+
+    if (player->moveState & 1) {
+        strc->unk16 |= 1;
     } else {
-        var_r0 = 0xFFFE & temp_r1->unk16;
+        strc->unk16 &= ~1;
     }
-    temp_r1->unk16 = var_r0;
-    sub_8020130(4U);
-    sub_8020284();
+    sub_8020130(4);
+    Task_8020284();
 }
 
-void Task_801F064(void) {
-    u16 temp_r3;
-    void *temp_r3_2;
+void Task_801F064(void)
+{
+    StageDataTask98 *strc = TASK_DATA(gCurTask);
+    Sprite2 *s;
 
-    temp_r3 = gCurTask->data;
-    temp_r3->unk8 = (s32) temp_r3->unk0;
-    temp_r3->unkC = (s32) temp_r3->unk4;
-    temp_r3->unk10 = 0;
-    temp_r3->unk12 = 0;
-    temp_r3->unk16 = (u16) ((0xFFFD & temp_r3->unk16) | 4);
-    temp_r3->unk18 = 0xF;
-    temp_r3->unk19 = 0xC;
-    temp_r3->unk1A = 0x1E;
-    temp_r3_2 = temp_r3 + 0x20;
-    temp_r3_2->unkC = (u16) gUnknown_08E2EB18.unk30;
-    temp_r3_2->unk1A = (s8) gUnknown_08E2EB18.unk32;
-    temp_r3_2->unk16 = 0;
-    temp_r3_2->unk18 = 0xFFFF;
-    temp_r3_2->unk1B = 0xFF;
-    temp_r3_2->unk20 = -1;
-    temp_r3_2->unk28 = -1;
+    strc->qWorldX2 = strc->qWorldX;
+    strc->qWorldY2 = strc->qWorldY;
+    strc->unk10 = 0;
+    strc->unk12 = 0;
+    strc->unk16 = (u16)((0xFFFD & strc->unk16) | 4);
+    strc->unk18 = 15;
+    strc->unk19 = 12;
+    strc->unk1A = 30;
+
+    s = &strc->s;
+    s->anim = gUnknown_08E2EB18[12][0];
+    s->variant = gUnknown_08E2EB18[12][1];
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->prevVariant = -1;
+    s->hitboxes[0].index = -1;
+    s->hitboxes[1].index = -1;
     gCurTask->main = sub_80205F4;
 }
 
+#if 0
 void sub_801F0DC(void) {
     s32 temp_r1_2;
     u16 temp_r1;
@@ -21506,7 +21504,7 @@ void sub_801F184(void) {
     }
     temp_r1->unkC = (s32) (temp_r2_2->unk14 + var_r1_2);
     sub_8020130(1U);
-    sub_8020284();
+    Task_8020284();
     temp_r0 = temp_r1->unk1A - 1;
     temp_r1->unk1A = temp_r0;
     if ((temp_r0 << 0x18) == 0) {
@@ -21604,7 +21602,7 @@ void sub_801F2FC(void) {
     } else {
         sub_8020130(6U);
     }
-    sub_8020284();
+    Task_8020284();
     temp_r0_2 = temp_r1->unk8;
     temp_r1_2 = temp_r1->unk0;
     temp_r2_2 = temp_r0_2 - temp_r1_2;
@@ -21666,7 +21664,7 @@ void sub_801F418(void) {
         var_r0_2 = 0xFFFE & temp_r1->unk16;
     }
     temp_r1->unk16 = var_r0_2;
-    sub_8020284();
+    Task_8020284();
     temp_r1_2 = temp_r1->unk50;
     if (temp_r1_2->unk30 != 0xBE) {
         if ((temp_r1_2->unkC & 0x18) == 0x10) {
@@ -21779,7 +21777,7 @@ void sub_801F630(void) {
     }
     temp_r1->unk16 = var_r0;
     sub_8020130(2U);
-    sub_8020284();
+    Task_8020284();
     temp_r0 = temp_r1->unk1A - 1;
     temp_r1->unk1A = temp_r0;
     if ((temp_r0 << 0x18) == 0) {
@@ -21844,7 +21842,7 @@ void sub_801F740(void) {
     }
     temp_r1->unk16 = var_r0;
     sub_8020130(1U);
-    sub_8020284();
+    Task_8020284();
     temp_r0_2 = temp_r1->unk1A - 1;
     temp_r1->unk1A = temp_r0_2;
     if ((temp_r0_2 << 0x18) == 0) {
@@ -21891,7 +21889,7 @@ void sub_801F848(void) {
     }
     temp_r1->unk16 = var_r0;
     sub_8020130(1U);
-    sub_8020284();
+    Task_8020284();
     temp_r0 = temp_r1->unk1A - 1;
     temp_r1->unk1A = temp_r0;
     if ((temp_r0 << 0x18) == 0) {
@@ -21943,7 +21941,7 @@ void sub_801F970(void) {
     }
     temp_r1->unk16 = var_r0;
     sub_8020130(2U);
-    sub_8020284();
+    Task_8020284();
     temp_r0 = temp_r1->unk1A - 1;
     temp_r1->unk1A = temp_r0;
     if ((temp_r0 << 0x18) == 0) {
@@ -21972,7 +21970,7 @@ void sub_801F9D4(void) {
         var_r0_2 = temp_r1->unk50->unk10 + ((0xF - temp_r1->unk1A) * 0x600);
     }
     temp_r1->unk0 = var_r0_2;
-    sub_8020284();
+    Task_8020284();
     if (temp_r1->unk1A == 0) {
         gCurTask->main = sub_801EE74;
     }
@@ -22024,7 +22022,7 @@ void sub_801FAFC(void) {
     }
     temp_r1->unk16 = var_r0;
     sub_8020130(2U);
-    sub_8020284();
+    Task_8020284();
     temp_r0 = temp_r1->unk1A - 1;
     temp_r1->unk1A = temp_r0;
     if ((temp_r0 << 0x18) == 0) {
@@ -22058,7 +22056,7 @@ void sub_801FBA8(void) {
     temp_r3 = temp_r1->unk50;
     temp_r1->unk0 = (s32) (temp_r3->unk10 + ((0xF - temp_r1->unk1A) * temp_r1->unk8));
     temp_r1->unk4 = (s32) (temp_r3->unk14 + ((0xF - temp_r1->unk1A) * temp_r1->unkC));
-    sub_8020284();
+    Task_8020284();
     if (temp_r1->unk1A == 0) {
         gCurTask->main = sub_801EE74;
     }
@@ -22125,7 +22123,7 @@ void sub_801FCD8(void) {
     }
     temp_r1->unk16 = var_r0_3;
     sub_8020130(1U);
-    sub_8020284();
+    Task_8020284();
     temp_r0 = temp_r1->unk50;
     if ((s16) temp_r0->unk54 != 0) {
         temp_r0->unk54 = (u16) (temp_r0->unk54 - 1);
@@ -22216,7 +22214,7 @@ void sub_801FED0(void) {
     }
     temp_r1->unk16 = var_r0;
     sub_8020130(2U);
-    sub_8020284();
+    Task_8020284();
     temp_r0 = temp_r1->unk1A - 1;
     temp_r1->unk1A = temp_r0;
     if ((temp_r0 << 0x18) == 0) {
@@ -22279,7 +22277,7 @@ void sub_8020038(void) {
 
     temp_r4 = gCurTask->data;
     sub_8020130(1U);
-    sub_8020284();
+    Task_8020284();
     temp_r2 = temp_r4->unk50;
     if (temp_r2->unk4 & 1) {
         var_r0 = temp_r2->unk10 + 0x1800;
@@ -22413,7 +22411,8 @@ block_25:
     }
 }
 
-void sub_8020284(void) {
+// -> StageDataTask98
+void Task_8020284(void) {
     Sprite *temp_r4;
     s32 temp_r1_3;
     u16 temp_r1;
@@ -22567,7 +22566,7 @@ void sub_802056C(void) {
     temp_r1->unk8 = (s32) (temp_r2->unk10 + var_r1);
     temp_r1->unkC = (s32) (temp_r1->unk50->unk14 + 0xFFFFE800);
     sub_8020130(1U);
-    sub_8020284();
+    Task_8020284();
     temp_r0 = temp_r1->unk1A - 1;
     temp_r1->unk1A = temp_r0;
     if ((temp_r0 << 0x18) == 0) {
@@ -22602,7 +22601,7 @@ void sub_80205F4(void) {
         }
         gStageData.task98->main = var_r0;
     }
-    sub_8020284();
+    Task_8020284();
 }
 
 void sub_8020660(void) {
@@ -22622,7 +22621,7 @@ void sub_8020660(void) {
     temp_r1->unkC = (s32) temp_r1_2->unk14;
     temp_r1->unk0 = (s32) temp_r1_2->unk10;
     temp_r1->unk4 = (s32) temp_r1_2->unk14;
-    sub_8020284();
+    Task_8020284();
 }
 
 void sub_80206B0(void) {
@@ -22642,7 +22641,7 @@ void sub_80206B0(void) {
     temp_r1->unkC = (s32) temp_r1_2->unk14;
     temp_r1->unk0 = (s32) temp_r1_2->unk10;
     temp_r1->unk4 = (s32) temp_r1_2->unk14;
-    sub_8020284();
+    Task_8020284();
 }
 
 u32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5) {

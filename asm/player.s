@@ -6,256 +6,6 @@
 .arm
 
 .if 01
-	thumb_func_start sub_801EEE8
-sub_801EEE8: @ 0x0801EEE8
-	push {lr}
-	ldr r0, _0801EF0C @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r3, r1, r0
-	ldr r2, [r3, #0x50]
-	ldr r0, [r2, #4]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _0801EF10
-	ldr r0, [r2, #0x10]
-	movs r1, #0xc0
-	lsls r1, r1, #5
-	b _0801EF14
-	.align 2, 0
-_0801EF0C: .4byte gCurTask
-_0801EF10:
-	ldr r0, [r2, #0x10]
-	ldr r1, _0801EF30 @ =0xFFFFE800
-_0801EF14:
-	adds r0, r0, r1
-	str r0, [r3, #8]
-	ldr r0, [r3, #0x50]
-	ldr r1, [r0, #4]
-	movs r2, #0x80
-	lsls r2, r2, #9
-	ands r1, r2
-	adds r2, r0, #0
-	cmp r1, #0
-	beq _0801EF34
-	ldr r0, [r2, #0x14]
-	movs r1, #0xc0
-	lsls r1, r1, #5
-	b _0801EF38
-	.align 2, 0
-_0801EF30: .4byte 0xFFFFE800
-_0801EF34:
-	ldr r0, [r2, #0x14]
-	ldr r1, _0801EF4C @ =0xFFFFE800
-_0801EF38:
-	adds r0, r0, r1
-	str r0, [r3, #0xc]
-	ldr r1, [r2, #0x10]
-	ldr r0, [r3]
-	cmp r1, r0
-	bge _0801EF50
-	ldrh r1, [r3, #0x16]
-	movs r0, #1
-	orrs r0, r1
-	b _0801EF56
-	.align 2, 0
-_0801EF4C: .4byte 0xFFFFE800
-_0801EF50:
-	ldrh r1, [r3, #0x16]
-	ldr r0, _0801EF68 @ =0x0000FFFE
-	ands r0, r1
-_0801EF56:
-	strh r0, [r3, #0x16]
-	movs r0, #1
-	bl sub_8020130
-	bl sub_8020284
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801EF68: .4byte 0x0000FFFE
-
-	thumb_func_start sub_801EF6C
-sub_801EF6C: @ 0x0801EF6C
-	push {r4, r5, r6, lr}
-	ldr r6, _0801EFD0 @ =gCurTask
-	ldr r0, [r6]
-	ldrh r3, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r1, r3, r1
-	ldr r0, [r1]
-	str r0, [r1, #8]
-	ldr r0, [r1, #4]
-	str r0, [r1, #0xc]
-	movs r5, #0
-	movs r4, #0
-	strh r4, [r1, #0x10]
-	strh r4, [r1, #0x12]
-	ldrh r2, [r1, #0x16]
-	ldr r0, _0801EFD4 @ =0x0000FFFB
-	ands r0, r2
-	movs r2, #2
-	orrs r0, r2
-	strh r0, [r1, #0x16]
-	movs r0, #1
-	strb r0, [r1, #0x18]
-	movs r0, #4
-	strb r0, [r1, #0x19]
-	strb r5, [r1, #0x1a]
-	ldr r0, _0801EFD8 @ =0x03000020
-	adds r3, r3, r0
-	ldr r1, _0801EFDC @ =gUnknown_08E2EB18
-	ldrh r0, [r1, #0x10]
-	strh r0, [r3, #0xc]
-	ldrh r0, [r1, #0x12]
-	strb r0, [r3, #0x1a]
-	strh r4, [r3, #0x16]
-	ldr r0, _0801EFE0 @ =0x0000FFFF
-	strh r0, [r3, #0x18]
-	movs r0, #0xff
-	strb r0, [r3, #0x1b]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r3, #0x20]
-	str r0, [r3, #0x28]
-	ldr r1, [r6]
-	ldr r0, _0801EFE4 @ =sub_801EFE8
-	str r0, [r1, #8]
-	bl _call_via_r0
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801EFD0: .4byte gCurTask
-_0801EFD4: .4byte 0x0000FFFB
-_0801EFD8: .4byte 0x03000020
-_0801EFDC: .4byte gUnknown_08E2EB18
-_0801EFE0: .4byte 0x0000FFFF
-_0801EFE4: .4byte sub_801EFE8
-
-	thumb_func_start sub_801EFE8
-sub_801EFE8: @ 0x0801EFE8
-	push {r4, r5, r6, lr}
-	ldr r0, _0801F040 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r5, r1, r0
-	ldrb r0, [r5, #0x1b]
-	adds r0, #1
-	movs r1, #0x3f
-	ands r0, r1
-	strb r0, [r5, #0x1b]
-	ldrb r2, [r5, #0x1b]
-	ldr r3, [r5, #0x50]
-	ldr r4, _0801F044 @ =gSineTable
-	lsls r2, r2, #4
-	adds r1, #0xc1
-	adds r0, r2, r1
-	lsls r0, r0, #1
-	adds r0, r0, r4
-	movs r6, #0
-	ldrsh r1, [r0, r6]
-	asrs r1, r1, #1
-	ldr r0, [r3, #0x10]
-	adds r0, r0, r1
-	str r0, [r5, #8]
-	lsls r2, r2, #1
-	adds r2, r2, r4
-	movs r0, #0
-	ldrsh r1, [r2, r0]
-	asrs r1, r1, #1
-	ldr r0, [r3, #0x14]
-	adds r0, r0, r1
-	str r0, [r5, #0xc]
-	ldr r0, [r3, #4]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _0801F048
-	ldrh r1, [r5, #0x16]
-	movs r0, #1
-	orrs r0, r1
-	b _0801F04E
-	.align 2, 0
-_0801F040: .4byte gCurTask
-_0801F044: .4byte gSineTable
-_0801F048:
-	ldrh r1, [r5, #0x16]
-	ldr r0, _0801F060 @ =0x0000FFFE
-	ands r0, r1
-_0801F04E:
-	strh r0, [r5, #0x16]
-	movs r0, #4
-	bl sub_8020130
-	bl sub_8020284
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801F060: .4byte 0x0000FFFE
-
-	thumb_func_start Task_801F064
-Task_801F064: @ 0x0801F064
-	push {r4, r5, lr}
-	ldr r5, _0801F0C4 @ =gCurTask
-	ldr r0, [r5]
-	ldrh r3, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r1, r3, r1
-	ldr r0, [r1]
-	str r0, [r1, #8]
-	ldr r0, [r1, #4]
-	str r0, [r1, #0xc]
-	movs r4, #0
-	strh r4, [r1, #0x10]
-	strh r4, [r1, #0x12]
-	ldrh r2, [r1, #0x16]
-	ldr r0, _0801F0C8 @ =0x0000FFFD
-	ands r0, r2
-	movs r2, #4
-	orrs r0, r2
-	strh r0, [r1, #0x16]
-	movs r0, #0xf
-	strb r0, [r1, #0x18]
-	movs r0, #0xc
-	strb r0, [r1, #0x19]
-	movs r0, #0x1e
-	strb r0, [r1, #0x1a]
-	ldr r0, _0801F0CC @ =0x03000020
-	adds r3, r3, r0
-	ldr r1, _0801F0D0 @ =gUnknown_08E2EB18
-	ldrh r0, [r1, #0x30]
-	strh r0, [r3, #0xc]
-	ldrh r0, [r1, #0x32]
-	strb r0, [r3, #0x1a]
-	strh r4, [r3, #0x16]
-	ldr r0, _0801F0D4 @ =0x0000FFFF
-	strh r0, [r3, #0x18]
-	movs r0, #0xff
-	strb r0, [r3, #0x1b]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r3, #0x20]
-	str r0, [r3, #0x28]
-	ldr r1, [r5]
-	ldr r0, _0801F0D8 @ =sub_80205F4
-	str r0, [r1, #8]
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801F0C4: .4byte gCurTask
-_0801F0C8: .4byte 0x0000FFFD
-_0801F0CC: .4byte 0x03000020
-_0801F0D0: .4byte gUnknown_08E2EB18
-_0801F0D4: .4byte 0x0000FFFF
-_0801F0D8: .4byte sub_80205F4
 .endif
 
 	thumb_func_start sub_801F0DC
@@ -391,7 +141,7 @@ _0801F1D4:
 	str r0, [r4, #0xc]
 	movs r0, #1
 	bl sub_8020130
-	bl sub_8020284
+	bl Task_8020284
 	ldrb r0, [r4, #0x1a]
 	subs r0, #1
 	strb r0, [r4, #0x1a]
@@ -598,7 +348,7 @@ _0801F36C:
 	movs r0, #6
 	bl sub_8020130
 _0801F372:
-	bl sub_8020284
+	bl Task_8020284
 	ldr r0, [r4, #8]
 	ldr r1, [r4]
 	subs r2, r0, r1
@@ -729,7 +479,7 @@ _0801F468:
 	ands r0, r1
 _0801F46E:
 	strh r0, [r4, #0x16]
-	bl sub_8020284
+	bl Task_8020284
 	ldr r1, [r4, #0x50]
 	movs r2, #0x30
 	ldrsh r0, [r1, r2]
@@ -990,7 +740,7 @@ _0801F67A:
 	strh r0, [r4, #0x16]
 	movs r0, #2
 	bl sub_8020130
-	bl sub_8020284
+	bl Task_8020284
 	ldrb r0, [r4, #0x1a]
 	subs r0, #1
 	strb r0, [r4, #0x1a]
@@ -1145,7 +895,7 @@ _0801F7AE:
 	strh r0, [r4, #0x16]
 	movs r0, #1
 	bl sub_8020130
-	bl sub_8020284
+	bl Task_8020284
 	ldrb r0, [r4, #0x1a]
 	subs r0, #1
 	strb r0, [r4, #0x1a]
@@ -1267,7 +1017,7 @@ _0801F8A6:
 	strh r0, [r5, #0x16]
 	movs r0, #1
 	bl sub_8020130
-	bl sub_8020284
+	bl Task_8020284
 	ldrb r0, [r5, #0x1a]
 	subs r0, #1
 	strb r0, [r5, #0x1a]
@@ -1391,7 +1141,7 @@ _0801F99E:
 	strh r0, [r4, #0x16]
 	movs r0, #2
 	bl sub_8020130
-	bl sub_8020284
+	bl Task_8020284
 	ldrb r0, [r4, #0x1a]
 	subs r0, #1
 	strb r0, [r4, #0x1a]
@@ -1472,7 +1222,7 @@ _0801FA30:
 	adds r0, r0, r1
 _0801FA42:
 	str r0, [r4]
-	bl sub_8020284
+	bl Task_8020284
 	ldrb r0, [r4, #0x1a]
 	cmp r0, #0
 	bne _0801FA56
@@ -1592,7 +1342,7 @@ _0801FB2A:
 	strh r0, [r5, #0x16]
 	movs r0, #2
 	bl sub_8020130
-	bl sub_8020284
+	bl Task_8020284
 	ldrb r0, [r5, #0x1a]
 	subs r0, #1
 	strb r0, [r5, #0x1a]
@@ -1696,7 +1446,7 @@ _0801FBD6:
 	ldr r0, [r3, #0x14]
 	adds r0, r0, r1
 	str r0, [r4, #4]
-	bl sub_8020284
+	bl Task_8020284
 	ldrb r0, [r4, #0x1a]
 	cmp r0, #0
 	bne _0801FC18
@@ -1863,7 +1613,7 @@ _0801FD4A:
 	strh r0, [r4, #0x16]
 	movs r0, #1
 	bl sub_8020130
-	bl sub_8020284
+	bl Task_8020284
 	ldr r0, [r4, #0x50]
 	adds r1, r0, #0
 	adds r1, #0x54
@@ -2094,7 +1844,7 @@ _0801FF1A:
 	strh r0, [r4, #0x16]
 	movs r0, #2
 	bl sub_8020130
-	bl sub_8020284
+	bl Task_8020284
 	ldrb r0, [r4, #0x1a]
 	subs r0, #1
 	strb r0, [r4, #0x1a]
@@ -2240,7 +1990,7 @@ sub_8020038: @ 0x08020038
 	adds r4, r1, r0
 	movs r0, #1
 	bl sub_8020130
-	bl sub_8020284
+	bl Task_8020284
 	ldr r2, [r4, #0x50]
 	ldr r0, [r2, #4]
 	movs r1, #1
@@ -2542,8 +2292,8 @@ _08020276:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_8020284
-sub_8020284: @ 0x08020284
+	thumb_func_start Task_8020284
+Task_8020284: @ 0x08020284
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _08020304 @ =gCurTask
 	ldr r0, [r0]
@@ -2971,7 +2721,7 @@ _08020598:
 	str r0, [r4, #0xc]
 	movs r0, #1
 	bl sub_8020130
-	bl sub_8020284
+	bl Task_8020284
 	ldrb r0, [r4, #0x1a]
 	subs r0, #1
 	strb r0, [r4, #0x1a]
@@ -3055,7 +2805,7 @@ _0802064C:
 _0802064E:
 	str r0, [r2, #8]
 _08020650:
-	bl sub_8020284
+	bl Task_8020284
 	pop {r4}
 	pop {r0}
 	bx r0
@@ -3098,7 +2848,7 @@ _0802068E:
 	str r0, [r2]
 	ldr r0, [r1, #0x14]
 	str r0, [r2, #4]
-	bl sub_8020284
+	bl Task_8020284
 	pop {r0}
 	bx r0
 	.align 2, 0
@@ -3140,7 +2890,7 @@ _080206DE:
 	str r0, [r2]
 	ldr r0, [r1, #0x14]
 	str r0, [r2, #4]
-	bl sub_8020284
+	bl Task_8020284
 	pop {r0}
 	bx r0
 	.align 2, 0
