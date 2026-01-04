@@ -479,6 +479,24 @@ void sub_801DE94(Player *p);
 void sub_801DEE4(Player *p);
 void sub_801DF80(Player *p);
 
+void sub_801CD50(Player *p);
+void Player_801D1D0(Player *p); /* extern */
+void sub_8012BA4(Player *); /* extern */
+void sub_8012F94(Player *p, s8 spriteOffsetX, s8 spriteOffsetY); /* extern */
+void sub_801C414(Player *p); /* extern */
+void sub_801CCB4(Player *); /* extern */
+void sub_801CD50(Player *p); /* extern */
+void sub_801DC60(Player *); /* extern */
+void sub_801DD68(Player *); /* extern */
+void sub_801DDF4(Player *p); /* extern */
+void sub_801D684(Player *p); /* static */
+void sub_801DA04(Player *p); /* static */
+void sub_801DA74(Player *p); /* static */
+void sub_801DB20(Player *p); /* static */
+void sub_801DB70(Player *p); /* static */
+void sub_801DBD0(Player *p); /* static */
+void sub_801DC34(Player *p); /* static */
+
 extern void sub_8019B4C(Player *p);
 
 extern void sub_8015C90(Player *p, u32 param2);
