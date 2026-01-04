@@ -20635,6 +20635,71 @@ void sub_801E0AC(Player *p)
     sub_801E4C0(p);
 }
 
+// (86.11%) https://decomp.me/scratch/ULYRr
+NONMATCH("asm/non_matching/game/stage/player__sub_801E120.inc", void sub_801E120(Player *p))
+{
+    s16 temp_r0;
+    s32 var_r2;
+    s16 qSpindashVelocity;
+
+    if (!(DPAD_DOWN & p->keyInput)) {
+        temp_r0 = I(p->Spindash_Velocity);
+        qSpindashVelocity = temp_r0;
+        if (temp_r0 > 8) {
+            qSpindashVelocity = 8;
+        }
+        var_r2 = gUnknown_080CE5B8[qSpindashVelocity];
+        if (p->moveState & 1) {
+            var_r2 = -var_r2;
+        }
+        p->qSpeedGround = var_r2;
+        SetPlayerCallback(p, Player_8005380);
+        Player_PlaySong(p, 0x6EU);
+    } else {
+        qSpindashVelocity = p->Spindash_Velocity;
+        if (p->Spindash_Velocity != 0) {
+            qSpindashVelocity = qSpindashVelocity - (qSpindashVelocity >> 5);
+
+            if (qSpindashVelocity <= 0) {
+                qSpindashVelocity = 0;
+            }
+        }
+
+        if (p->keyInput2 & gStageData.buttonConfig.jump) {
+            qSpindashVelocity += Q(2);
+            var_r2 = qSpindashVelocity;
+            // TODO: Is this a bug?
+            if (var_r2 < 0x800) {
+                var_r2 = 0x800;
+            }
+            qSpindashVelocity = var_r2;
+            p->charFlags.someFlag1 = 1;
+            Player_PlaySong(p, 0x211U);
+        }
+        p->Spindash_Velocity = qSpindashVelocity;
+    }
+    if (p->moveState & 4) {
+        if (!sub_8015064(p)) {
+            sub_8016E50(p);
+            sub_8016D30(p);
+            sub_8014E70(p);
+            sub_8016EB0(p);
+            Player_80149E4(p);
+            sub_8017004(p);
+        }
+    } else {
+        sub_8015144(p);
+        if (!sub_8015064(p)) {
+            Player_801479C(p);
+            sub_8016D30(p);
+            sub_8014E70(p);
+            sub_8012EB8(p);
+            sub_8016E00(p);
+        }
+    }
+}
+END_NONMATCH
+
 #if 0
 void sub_801E120(Player *arg0) {
     s16 temp_r1;

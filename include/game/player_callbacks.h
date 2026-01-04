@@ -509,6 +509,13 @@ void sub_801DB20(Player *p); /* static */
 void sub_801DB70(Player *p); /* static */
 void sub_801DBD0(Player *p); /* static */
 void sub_801DC34(Player *p); /* static */
+void sub_801EA44(Player *p); /* extern */
+void sub_801EA9C(Player *p); /* extern */
+void sub_801EB94(Player *p); /* extern */
+void sub_801E120(Player *p); /* static */
+void sub_801E4C0(Player *p); /* static */
+
+void sub_801E2E4(Player *p);
 
 extern void sub_8019B4C(Player *p);
 
