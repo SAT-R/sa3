@@ -7,13 +7,20 @@
 typedef struct {
     /* 0x00 */ s32 qWorldX;
     /* 0x04 */ s32 qWorldY;
-    /* 0x08 */ u8 filler8[0xE];
+    /* 0x08 */ s32 qWorldX2;
+    /* 0x0C */ s32 qWorldY2;
+    /* 0x10 */ u16 unk10;
+    /* 0x12 */ u16 unk12;
+    /* 0x14 */ u16 unk14;
     /* 0x16 */ u16 unk16; // bitfield
-    u8 unk18;
-    u8 filler19[0x3];
-    u8 unk1C;
-    u8 unk1D;
-    u8 filler1D[0x32];
+    /* 0x18 */ u8 unk18;
+    /* 0x19 */ u8 unk19;
+    /* 0x1A */ u8 unk1A;
+    /* 0x1B */ u8 unk1B;
+    /* 0x1C */ u8 unk1C;
+    /* 0x1D */ u8 unk1D;
+    /* 0x1E */ u8 filler1E[0x2];
+    /* 0x20 */ Sprite2 s;
     /* 0x50 */ Player *player;
     /* 0x54 */ Player *unk54;
 } StageDataTask98; /* size: ??? */

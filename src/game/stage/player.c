@@ -283,6 +283,7 @@ extern PlayerSpriteInfo gUnknown_03001B00[4];
 extern TileInfoShield sTileInfoShields[];
 extern u16 gUnknown_08E2EAD0[][3];
 extern u16 gUnknown_08E2EB04[NUM_CHARACTERS][2];
+extern u16 gUnknown_08E2EB18[][2];
 
 static inline void SongStopCheck_inline(Player *p, u16 song)
 {
@@ -21279,140 +21280,69 @@ void sub_801ECAC(Player *p)
     }
 }
 
-#if 0
-void sub_801ECAC(Player *arg0) {
-    Player *temp_r0;
-    Player *temp_r0_2;
-    Player *temp_r4;
-    Task *temp_r6;
-    s32 var_r1;
-    s32 var_r1_2;
-    s8 temp_r0_3;
-    u16 temp_r1;
-    u8 var_r1_3;
+void sub_801EDB4(void)
+{
+    StageDataTask98 *strc;
+    Sprite2 *s;
 
-    temp_r6 = gStageData.task98;
-    temp_r1 = temp_r6->data;
-    temp_r4 = temp_r1->unk50;
-    if ((temp_r4 != arg0) && (arg0 != NULL)) {
-        if ((0xF & arg0->unk2A) == 1) {
-            if (temp_r1->unk54 != NULL) {
-                temp_r4->unk54 = 0;
-            }
-            temp_r1->unk54 = NULL;
-        } else {
-            temp_r1->unk54 = temp_r4;
-        }
-        temp_r1->unk50 = arg0;
-        temp_r0 = temp_r1->unk54;
-        if ((temp_r0 != NULL) && ((0x1C & temp_r0->unk2B) == 0x14)) {
-            temp_r0_2 = temp_r1->unk50;
-            if (temp_r0_2->moveState & 1) {
-                var_r1 = 0x1800;
-            } else {
-                var_r1 = 0xFFFFE800;
-            }
-            temp_r1->unk0 = (s32) (temp_r0_2->qWorldX + var_r1);
-            if (temp_r0_2->moveState & 0x10000) {
-                var_r1_2 = 0x1800;
-            } else {
-                var_r1_2 = 0xFFFFE800;
-            }
-            temp_r1->unk4 = (s32) (temp_r0_2->qWorldY + var_r1_2);
-        }
-        temp_r1->unk18 = 0xF;
-        temp_r0_3 = arg0->moveState & 1;
-        if (temp_r0_3 != 0) {
-            temp_r1->unk1C = 1;
-        } else {
-            temp_r1->unk1C = temp_r0_3;
-        }
-        temp_r1->unk1D = (u8) arg0->unk26;
-        if ((u32) gStageData.gameMode > 4U) {
-            var_r1_3 = 0;
-            if (gPlayers != arg0) {
-loop_22:
-                var_r1_3 += 1;
-                if ((u32) var_r1_3 <= 3U) {
-                    if (&gPlayers[var_r1_3] != arg0) {
-                        goto loop_22;
-                    }
-                }
-            }
-            if (var_r1_3 == gStageData.playerIndex) {
-                sub_80276A8(var_r1_3);
-            }
-        }
-        temp_r6->main = Task_801F064;
+    strc = TASK_DATA(gCurTask);
+    strc->qWorldX2 = (s32)(strc->qWorldX + Q(24));
+    strc->qWorldY2 = (s32)(strc->qWorldY - Q(24));
+    strc->unk10 = 0;
+    strc->unk12 = 0;
+    strc->unk14 = 0x100;
+    strc->unk16 = 0;
+    strc->unk1A = 0x3C;
+    strc->unk1B = 0;
+    strc->unk19 = 0;
+    s = &strc->s;
+    if (gStageData.gameMode < 6) {
+        s->tiles = OBJ_VRAM0 + 0x4000;
+    } else if (gStageData.gameMode == 6) {
+        s->tiles = OBJ_VRAM0 + 0x4020;
     }
-}
-
-void sub_801EDB4(void) {
-    s32 var_r0;
-    u16 temp_r3;
-    void *temp_r5;
-
-    temp_r3 = gCurTask->data;
-    temp_r3->unk8 = (s32) (temp_r3->unk0 + 0x1800);
-    temp_r3->unkC = (s32) (temp_r3->unk4 + 0xFFFFE800);
-    temp_r3->unk10 = 0;
-    temp_r3->unk12 = 0;
-    temp_r3->unk14 = 0x100;
-    temp_r3->unk16 = 0;
-    temp_r3->unk1A = 0x3C;
-    temp_r3->unk1B = 0;
-    temp_r3->unk19 = 0;
-    temp_r5 = temp_r3 + 0x20;
-    if ((u32) gStageData.gameMode <= 5U) {
-        var_r0 = OBJ_VRAM0 + 0x4000;
-        goto block_4;
-    }
-    if (gStageData.gameMode == 6) {
-        var_r0 = OBJ_VRAM0 + 0x4020;
-block_4:
-        temp_r3->unk20 = var_r0;
-    }
-    temp_r5->unk8 = 0x1000;
-    temp_r5->unkC = (u16) gUnknown_08E2EB18.unk0;
-    temp_r5->unk10 = (s16) ((s32) temp_r3->unk50->unk10 >> 8);
-    temp_r5->unk12 = (s16) ((s32) temp_r3->unk50->unk14 >> 8);
-    temp_r5->unk14 = 0x540;
-    temp_r5->unk16 = 0;
-    temp_r5->unk18 = 0xFFFF;
-    temp_r5->unk1A = (s8) gUnknown_08E2EB18.unk2;
-    temp_r5->unk1B = 0xFF;
-    temp_r5->unk1C = 0x10;
-    temp_r5->unk1F = 0;
-    temp_r5->unk20 = -1;
-    temp_r5->unk28 = -1;
+    s->frameFlags = 0x1000;
+    s->anim = gUnknown_08E2EB18[0][0];
+    s->x = I(strc->player->qWorldX);
+    s->y = I(strc->player->qWorldY);
+    s->oamFlags = 0x540;
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->variant = gUnknown_08E2EB18[0][1];
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->hitboxes[1].index = -1;
     gCurTask->main = sub_802056C;
 }
 
-void sub_801EE74(void) {
-    u16 temp_r2;
-    void *temp_r2_2;
+void sub_801EE74(void)
+{
+    StageDataTask98 *strc = TASK_DATA(gCurTask);
+    Sprite2 *s;
+    strc->qWorldX2 = strc->qWorldX;
+    strc->qWorldY2 = strc->qWorldY;
+    strc->unk10 = 0;
+    strc->unk12 = 0;
+    strc->unk16 = (u16)(0xFFF9 & strc->unk16);
+    strc->unk18 = 0;
+    strc->unk19 = 0;
+    strc->unk1A = 0;
 
-    temp_r2 = gCurTask->data;
-    temp_r2->unk8 = (s32) temp_r2->unk0;
-    temp_r2->unkC = (s32) temp_r2->unk4;
-    temp_r2->unk10 = 0;
-    temp_r2->unk12 = 0;
-    temp_r2->unk16 = (u16) (0xFFF9 & temp_r2->unk16);
-    temp_r2->unk18 = 0;
-    temp_r2->unk19 = 0;
-    temp_r2->unk1A = 0;
-    temp_r2_2 = temp_r2 + 0x20;
-    temp_r2_2->unkC = (u16) gUnknown_08E2EB18.unk0;
-    temp_r2_2->unk1A = (s8) gUnknown_08E2EB18.unk2;
-    temp_r2_2->unk16 = 0;
-    temp_r2_2->unk18 = 0xFFFF;
-    temp_r2_2->unk1B = 0xFF;
-    temp_r2_2->unk20 = -1;
-    temp_r2_2->unk28 = -1;
+    s = &strc->s;
+    s->anim = gUnknown_08E2EB18[0][0];
+    s->variant = gUnknown_08E2EB18[0][1];
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->prevVariant = -1;
+    s->hitboxes[0].index = -1;
+    s->hitboxes[1].index = -1;
     gCurTask->main = sub_801EEE8;
     sub_801EEE8();
 }
 
+#if 0
 void sub_801EEE8(void) {
     s32 var_r1;
     s32 var_r1_2;
@@ -22625,7 +22555,6 @@ void sub_802056C(void) {
     s32 var_r1;
     u16 temp_r1;
     u8 temp_r0;
-    void (*var_r0)();
     void *temp_r2;
 
     temp_r1 = gCurTask->data;
@@ -22643,11 +22572,10 @@ void sub_802056C(void) {
     temp_r1->unk1A = temp_r0;
     if ((temp_r0 << 0x18) == 0) {
         if ((temp_r1->unk50->unkC & 0x18) == 0x10) {
-            var_r0 = sub_801EF6C;
+            gCurTask->main = sub_801EF6C;
         } else {
-            var_r0 = sub_801EE74;
+            gCurTask->main = sub_801EE74;
         }
-        gCurTask->main = var_r0;
     }
 }
 
