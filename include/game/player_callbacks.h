@@ -467,7 +467,7 @@ void sub_801CE94(Player *p);
 void sub_801CFFC(Player *p);
 void sub_801CF4C(Player *p);
 void sub_801D16C(Player *p);
-void sub_801D1D0(Player *p);
+void Player_801D1D0(Player *p);
 bool16 sub_801D2FC(Player *p);
 void sub_801D9D0(Player *p);
 void sub_801DCDC(Player *p);

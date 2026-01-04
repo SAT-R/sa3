@@ -19637,7 +19637,7 @@ void sub_801CD50(Player *p)
 
     memcpy(&sp00, &gUnknown_080CECD0, 0x14);
     memcpy(&sp14, &gUnknown_080CECE4, 0x14);
-    sub_801D1D0(p);
+    Player_801D1D0(p);
     if (!sub_801D2FC(p)) {
         sub_801CE94(p);
     }
@@ -19858,33 +19858,84 @@ void sub_801D16C(Player *p)
     }
 }
 
-#if 0
-void sub_801D16C(Player *arg0) {
-    s8 temp_r1;
-    u32 temp_r2;
-    u8 var_r4;
+// (98.60%) https://decomp.me/scratch/DkLi0
+NONMATCH("asm/non_matching/game/stage/player__Player_801D1D0.inc", void Player_801D1D0(Player *p))
+{
+    u32 var_r0;
+    s8 var_r2;
+    s32 max;
+    s32 qVariant;
+#ifndef NON_MATCHING
+    register s32 qSpeedGround asm("r3");
+#else
+    s32 qSpeedGround;
+#endif
 
-    var_r4 = arg0->unk148.ptr;
-    temp_r2 = arg0->moveState & ~0x41;
-    arg0->moveState = temp_r2;
-    temp_r1 = (s8) var_r4;
-    if (!(temp_r1 & 0x7F)) {
-        arg0->charFlags.anim0 = 0xEC;
-        if (var_r4 == 0x80) {
-            arg0->moveState = temp_r2 | 1;
+    qSpeedGround = ABS(p->qSpeedGround);
+
+    var_r2 = p->unk148.arr_u8[0];
+    if (qSpeedGround < Q(3)) {
+        qSpeedGround += 6;
+    } else if ((qSpeedGround < Q(15)) && !(0x7F & var_r2)) {
+        qSpeedGround += 3;
+    }
+
+    if (p->moveState & 0x80) {
+        max = Q(3);
+        if (qSpeedGround > max) {
+            qSpeedGround -= 9;
+            if (qSpeedGround < max) {
+                qSpeedGround = max;
+            }
+        }
+    }
+    if (((p->unk148.arr_u8[0] + 0x40) << 0x18) <= 0) {
+        p->qSpeedGround = -qSpeedGround;
+    } else {
+        p->qSpeedGround = +qSpeedGround;
+    }
+
+    if (0x20 & p->keyInput) {
+        if ((u8)var_r2 != 0x80) {
+            if (var_r2 < 0) {
+                var_r2 = -var_r2;
+            }
+            var_r2 += 2;
+        }
+    } else if (0x10 & p->keyInput) {
+        if (var_r2 != 0) {
+            if (var_r2 > 0) {
+                var_r2 = -var_r2;
+            }
+            var_r2 += 2;
         }
     } else {
-        if ((s32) temp_r1 < 0) {
-            var_r4 = 0 - temp_r1;
+        if (0x7F & var_r2) {
+            var_r2 += 2;
         }
-        arg0->charFlags.anim0 = 0xE8;
-        arg0->charFlags.anim2 = 0x203;
-        arg0->charFlags.state1 = (u16) ((u32) (var_r4 & 0x7F) >> 5);
-        SetPlayerCallback(arg0, sub_801CD50);
+    }
+    p->unk148.arr_u8[0] = var_r2;
+
+    var_r0 = (u8)var_r2;
+    qVariant = COS_24_8((var_r0)*4);
+    p->qSpeedAirX = Q_MUL(qVariant, qSpeedGround);
+
+    if (p->qSpeedAirY < Q(0.5)) {
+        p->qSpeedAirY += 24;
+    } else {
+        p->qSpeedAirY -= 24;
+    }
+
+    if (gCamera.unk40 > 0) {
+        gCamera.unk40 -= 2;
+    } else if (gCamera.unk40 < 0) {
+        gCamera.unk40 += 4;
     }
 }
+END_NONMATCH
 
-void sub_801D1D0(Player *arg0) {
+#if 0
+void Player_801D1D0(Player *arg0) {
     s16 var_r3;
     s32 var_r0_3;
     s8 temp_r0;
@@ -20392,7 +20443,7 @@ void sub_801DBD0(Player *arg0) {
 }
 
 void sub_801DC34(Player *arg0) {
-    sub_801D1D0();
+    Player_801D1D0();
     if ((sub_801D2FC(arg0) << 0x10) == 0) {
         sub_801DC60(arg0);
     }
@@ -20438,7 +20489,7 @@ void sub_801DCDC(Player *arg0) {
 }
 
 void sub_801DD00(Player *arg0) {
-    sub_801D1D0();
+    Player_801D1D0();
     if ((sub_801D2FC(arg0) << 0x10) == 0) {
         sub_801D0E8(arg0);
     }
