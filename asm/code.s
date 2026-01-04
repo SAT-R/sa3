@@ -1912,7 +1912,7 @@ _08066E98:
 	adds r0, #2
 	strh r5, [r0]
 	adds r0, r4, #0
-	bl sub_80213F0
+	bl Call__Player_8014550
 _08066EC6:
 	adds r0, r6, #1
 	lsls r0, r0, #0x18
@@ -34792,7 +34792,7 @@ _08076C16:
 	bl Player_8005380
 _08076C3C:
 	adds r0, r5, #0
-	bl sub_80213F0
+	bl Call__Player_8014550
 _08076C42:
 	mov r0, sb
 	adds r0, #1
@@ -48006,7 +48006,7 @@ _0807D002:
 	cmp r0, #0
 	beq _0807D0EE
 	adds r0, r4, #0
-	bl sub_80213F0
+	bl Call__Player_8014550
 	b _0807D0EE
 _0807D0CC:
 	ldr r0, [r4, #0x14]
@@ -48096,7 +48096,7 @@ _0807D13C:
 	cmp r0, #0
 	bne _0807D182
 	adds r0, r4, #0
-	bl sub_80213F0
+	bl Call__Player_8014550
 _0807D182:
 	movs r0, #2
 	ldr r1, [sp, #8]
@@ -48109,7 +48109,7 @@ _0807D182:
 	cmp r0, #0
 	bne _0807D19E
 	adds r0, r4, #0
-	bl sub_80213F0
+	bl Call__Player_8014550
 _0807D19E:
 	ldr r2, [sp, #0x14]
 	ldr r3, [sp, #4]

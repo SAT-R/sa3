@@ -23512,7 +23512,7 @@ void ResolvePlayerSpriteCollision(Sprite *s, Player *p) {
     }
 }
 
-void sub_80213F0(Player *p) {
+void Call__Player_8014550(Player *p) {
     Player_8014550(p);
 }
 #endif

@@ -57,7 +57,7 @@ void sub_8020A58() { }
 bool32 sub_8020CE0(Sprite *s, s32 worldX, s32 worldY, u16 param3, Player *p) { return FALSE; }
 void sub_8020E3C() { }
 void /* 0x080213B0 */ ResolvePlayerSpriteCollision() { }
-void sub_80213F0(Player *p) { }
+void Call__Player_8014550(Player *p) { }
 
 void /* 0x080213FC */ UpdateScreenFade() { }
 void /* 0x080214F0 */ ScreenFadeUpdateValues() { }

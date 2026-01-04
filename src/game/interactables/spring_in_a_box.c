@@ -164,7 +164,7 @@ void Task_80458FC(void)
             u32 res = sub_8045A5C(spring, spring->ps[i]);
             if (res & 0x10000) {
                 if (s->variant == 1) {
-                    sub_80213F0(spring->ps[i]);
+                    Call__Player_8014550(spring->ps[i]);
                 } else {
                     spring->ps[i]->qSpeedAirY = -Q(6) - (spring->unk10 * 32);
                     spring->ps[i]->charFlags.unk2C_04 = 1;

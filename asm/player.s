@@ -8813,8 +8813,8 @@ _080213E8:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_80213F0
-sub_80213F0: @ 0x080213F0
+	thumb_func_start Call__Player_8014550
+Call__Player_8014550: @ 0x080213F0
 	push {lr}
 	bl Player_8014550
 	pop {r0}
