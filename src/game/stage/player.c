@@ -13415,6 +13415,7 @@ void Player_8014550(Player *p)
 
         if (gStageData.gameMode != 7) {
             Player_BoostModeDisengage(p);
+
             if ((p->charFlags.someIndex != 2) && (gStageData.act != ACT_SPECIAL && gStageData.act != ACT_OVERWORLD)
                 && (gStageData.act != ACT_BONUS_CAPSULE) && (gStageData.act != ACT_BONUS_ENEMIES)) {
                 if (0x30 & p->unk13C) {
@@ -19756,90 +19757,108 @@ void sub_801CFA4(Player *p)
     }
 }
 
-#if 0
-void sub_801CFFC(Player *arg0) {
-    s16 *temp_r1;
+void sub_801CFFC(Player *p)
+{
     s16 temp_r0;
     s16 temp_r0_3;
     s16 temp_r0_4;
     s16 temp_r2;
+    s16 *temp_r1;
+    s8 *temp_r0_2;
     u32 temp_r1_2;
-    u8 *temp_r0_2;
+    u8 *temp_r5;
 
-    if ((sub_8015064(arg0) << 0x10) == 0) {
-        sub_8016D30(arg0);
-        Player_80149E4(arg0);
-        sub_8017004(arg0);
-        if (!(arg0->moveState & 0x100)) {
-            temp_r1 = &arg0->idleAndCamCounter;
-            temp_r0 = (u16) *temp_r1 - 1;
-            *temp_r1 = temp_r0;
-            temp_r2 = temp_r0;
-            if (temp_r2 == 0) {
-                *temp_r1 = 0xE;
-                arg0->moveState &= ~2;
-                temp_r0_2 = &arg0->unk24;
-                temp_r0_2->unk0 = 6;
-                temp_r0_2->unk1 = 6;
-                temp_r0_3 = (u16) arg0->qSpeedAirY + 0x180;
-                arg0->qSpeedAirY = temp_r0_3;
-                if ((s32) (temp_r0_3 << 0x10) < 0) {
-                    arg0->qSpeedAirY = temp_r2;
+    if ((sub_8015064(p) << 0x10) == 0) {
+        sub_8016D30(p);
+        Player_80149E4(p);
+        sub_8017004(p);
+        if (!(p->moveState & 0x100)) {
+            if (--p->idleAndCamCounter == 0) {
+                p->idleAndCamCounter = 0xE;
+                p->moveState &= ~2;
+                p->spriteOffsetX = 6;
+                p->spriteOffsetY = 6;
+                p->qSpeedAirY += Q(1.5);
+                if (p->qSpeedAirY < 0) {
+                    p->qSpeedAirY = 0;
                 }
-                arg0->qSpeedGround = 0x300;
-                temp_r1_2 = arg0->moveState;
+                p->qSpeedGround = Q(3);
+                temp_r1_2 = p->moveState;
                 if (temp_r1_2 & 0x80) {
-                    arg0->qSpeedGround = (s16) (0x300 >> 1);
+                    p->qSpeedGround >>= 1;
                 }
                 if (temp_r1_2 & 1) {
-                    temp_r0_4 = 0 - (u16) arg0->qSpeedGround;
-                    arg0->qSpeedGround = temp_r0_4;
-                    arg0->qSpeedAirX = temp_r0_4;
-                    arg0->unk148 = 0x80;
+                    p->qSpeedAirX = p->qSpeedGround = -p->qSpeedGround;
+                    p->unk148.arr_u8[0] = 0x80;
                 } else {
-                    arg0->qSpeedAirX = (s16) (u16) arg0->qSpeedGround;
-                    arg0->unk148 = 0;
+                    p->qSpeedAirX = p->qSpeedGround;
+                    p->unk148.arr_u8[0] = 0;
                 }
-                arg0->charFlags.anim0 = 0xEC;
-                arg0->unk26 = 0;
-                arg0->unk14A = 0U;
-                Player_BoostModeDisengage(arg0);
-                arg0->unk14A = (u8) (4 | arg0->unk14A);
-                arg0->moveState |= 0x40004;
-                SetPlayerCallback(arg0, sub_801DCDC);
+                p->charFlags.anim0 = 0xEC;
+                p->unk26 = 0;
+                p->unk148.arr_u8[2] = 0;
+                Player_BoostModeDisengage(p);
+                p->unk148.arr_u8[2] |= 4;
+                p->moveState |= 0x40004;
+                SetPlayerCallback(p, sub_801DCDC);
             }
         }
     }
 }
 
-void sub_801D0E8(Player *arg0) {
-    u32 temp_r4;
+void sub_801D0E8(Player *p)
+{
     u32 var_r5;
 
     var_r5 = 0;
-    if (gStageData.buttonConfig.jump & arg0->keyInput2) {
-        var_r5 = (u32) (0 - (arg0->moveState & 0x02000000)) >> 0x1F;
+    if (p->keyInput2 & gStageData.buttonConfig.jump) {
+        var_r5 = (u32)(0 - (p->moveState & 0x02000000)) >> 0x1F;
     }
-    temp_r4 = arg0->moveState;
-    if (!(gStageData.buttonConfig.jump & arg0->keyInput) && !(0x02000000 & temp_r4)) {
+
+    if (!(p->keyInput & gStageData.buttonConfig.jump) && !(0x02000000 & p->moveState)) {
         var_r5 = 1;
     }
-    if (0x80 & temp_r4) {
+    if (0x80 & p->moveState) {
         var_r5 = 1;
     }
     if (var_r5 != 0) {
-        if ((s32) arg0->qSpeedAirX <= 0) {
-            arg0->moveState = temp_r4 | 1;
+        if (p->qSpeedAirX <= 0) {
+            p->moveState = p->moveState | 1;
         } else {
-            arg0->moveState = temp_r4 & ~1;
+            p->moveState = p->moveState & ~1;
         }
-        arg0->qSpeedAirX = (s16) ((s32) ((u16) arg0->qSpeedAirX << 0x10) >> 0x12);
-        SetPlayerCallback(arg0, sub_801DF80);
+        p->qSpeedAirX >>= 2;
+        SetPlayerCallback(p, sub_801DF80);
         return;
     }
-    sub_801D16C(arg0);
+    sub_801D16C(p);
 }
 
+void sub_801D16C(Player *p)
+{
+    u32 temp_r2;
+    s8 var_r4;
+
+    var_r4 = p->unk148.arr_u8[0];
+    p->moveState &= ~0x41;
+    if (!(var_r4 & 0x7F)) {
+        p->charFlags.anim0 = 0xEC;
+
+        if ((u8)var_r4 == 0x80) {
+            p->moveState |= 1;
+        }
+    } else {
+        if (var_r4 < 0) {
+            var_r4 = 0 - var_r4;
+        }
+        p->charFlags.anim0 = 0xE8;
+        p->charFlags.anim2 = 0x203;
+        p->charFlags.state1 = (u16)((u32)(var_r4 & 0x7F) >> 5);
+        SetPlayerCallback(p, sub_801CD50);
+    }
+}
+
+#if 0
 void sub_801D16C(Player *arg0) {
     s8 temp_r1;
     u32 temp_r2;
