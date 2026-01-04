@@ -9,8 +9,13 @@ typedef struct {
     /* 0x04 */ s32 qWorldY;
     /* 0x08 */ u8 filler8[0xE];
     /* 0x16 */ u16 unk16; // bitfield
-    /* 0x18 */ u8 filler18[0x38];
+    u8 unk18;
+    u8 filler19[0x3];
+    u8 unk1C;
+    u8 unk1D;
+    u8 filler1D[0x32];
     /* 0x50 */ Player *player;
+    u32 unk54;
 } StageDataTask98; /* size: ??? */
 
 // NOTE: If you want to change this value to something greater than 8,
