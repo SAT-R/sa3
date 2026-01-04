@@ -21219,6 +21219,66 @@ void sub_801EBC0(s16 arg0, Player *p)
     }
 }
 
+void sub_801ECAC(Player *p)
+{
+    Player *refPlayer;
+    Task *t;
+    s32 var_r1;
+    s32 var_r1_2;
+    u8 i;
+    StageDataTask98 *temp_r3;
+
+    t = gStageData.task98;
+    temp_r3 = TASK_DATA(t);
+    refPlayer = temp_r3->player;
+    if ((refPlayer != p) && (p != NULL)) {
+        if (p->charFlags.character == 1) {
+            if (temp_r3->unk54 != NULL) {
+                refPlayer->unk54 = 0;
+            }
+            temp_r3->unk54 = NULL;
+            temp_r3->player = p;
+        } else {
+            temp_r3->unk54 = refPlayer;
+            temp_r3->player = p;
+        }
+
+        if ((temp_r3->unk54 != NULL) && (temp_r3->unk54->charFlags.someIndex == 5)) {
+            Player *temp_r0_2 = temp_r3->player;
+            if (temp_r0_2->moveState & 1) {
+                temp_r3->qWorldX = (temp_r3->player->qWorldX + Q(24));
+            } else {
+                temp_r3->qWorldX = (temp_r3->player->qWorldX - Q(24));
+            }
+
+            if (temp_r3->player->moveState & 0x10000) {
+                temp_r3->qWorldY = temp_r3->player->qWorldY + Q(24);
+            } else {
+                temp_r3->qWorldY = temp_r3->player->qWorldY - Q(24);
+            }
+        }
+        temp_r3->unk18 = 0xF;
+        if (p->moveState & 1) {
+            temp_r3->unk1C = 1;
+        } else {
+            temp_r3->unk1C = 0;
+        }
+        temp_r3->unk1D = p->unk26;
+        if (gStageData.gameMode > 4U) {
+            for (i = 0; i < 4; i++) {
+                if (&gPlayers[i] == p) {
+                    break;
+                }
+            }
+            if (i == gStageData.playerIndex) {
+                sub_80276A8(i);
+            }
+        }
+
+        t->main = Task_801F064;
+    }
+}
+
 #if 0
 void sub_801ECAC(Player *arg0) {
     Player *temp_r0;
@@ -21283,7 +21343,7 @@ loop_22:
                 sub_80276A8(var_r1_3);
             }
         }
-        temp_r6->main = sub_801F064;
+        temp_r6->main = Task_801F064;
     }
 }
 
@@ -21433,7 +21493,7 @@ void sub_801EFE8(void) {
     sub_8020284();
 }
 
-void sub_801F064(void) {
+void Task_801F064(void) {
     u16 temp_r3;
     void *temp_r3_2;
 

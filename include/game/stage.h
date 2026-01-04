@@ -15,7 +15,7 @@ typedef struct {
     u8 unk1D;
     u8 filler1D[0x32];
     /* 0x50 */ Player *player;
-    u32 unk54;
+    /* 0x54 */ Player *unk54;
 } StageDataTask98; /* size: ??? */
 
 // NOTE: If you want to change this value to something greater than 8,
