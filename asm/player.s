@@ -6,64 +6,6 @@
 .arm
 
 .if 0
-.endif
-
-	thumb_func_start Task_80205F4
-Task_80205F4: @ 0x080205F4
-	push {r4, lr}
-	ldr r0, _08020638 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	movs r0, #0
-	bl sub_8020130
-	ldrb r0, [r4, #0x1a]
-	subs r0, #1
-	strb r0, [r4, #0x1a]
-	lsls r0, r0, #0x18
-	cmp r0, #0
-	bne _08020650
-	ldr r3, [r4, #0x50]
-	ldr r0, _0802063C @ =gStageData
-	adds r0, #0x98
-	ldr r2, [r0]
-	adds r0, r3, #0
-	adds r0, #0x2a
-	ldrb r1, [r0]
-	movs r0, #0xf
-	ands r0, r1
-	cmp r0, #1
-	bne _0802064C
-	ldr r0, [r3, #0xc]
-	movs r1, #0x18
-	ands r0, r1
-	cmp r0, #0x10
-	beq _08020644
-	ldr r0, _08020640 @ =Task_801EE74
-	b _0802064E
-	.align 2, 0
-_08020638: .4byte gCurTask
-_0802063C: .4byte gStageData
-_08020640: .4byte Task_801EE74
-_08020644:
-	ldr r0, _08020648 @ =sub_801EF6C
-	b _0802064E
-	.align 2, 0
-_08020648: .4byte sub_801EF6C
-_0802064C:
-	ldr r0, _0802065C @ =Task_801FC2C
-_0802064E:
-	str r0, [r2, #8]
-_08020650:
-	bl sub_8020284
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0802065C: .4byte Task_801FC2C
-
 	thumb_func_start Task_8020660
 Task_8020660: @ 0x08020660
 	push {lr}
@@ -106,8 +48,8 @@ _0802068E:
 	.align 2, 0
 _080206AC: .4byte 0x0000FFFE
 
-	thumb_func_start sub_80206B0
-sub_80206B0: @ 0x080206B0
+	thumb_func_start Task_80206B0
+Task_80206B0: @ 0x080206B0
 	push {lr}
 	ldr r0, _080206D4 @ =gCurTask
 	ldr r0, [r0]
@@ -147,6 +89,7 @@ _080206DE:
 	bx r0
 	.align 2, 0
 _080206FC: .4byte 0x0000FFFE
+.endif
 
 @ bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5);
 	thumb_func_start sub_8020700

@@ -21669,7 +21669,7 @@ void Task_801F534()
     s->prevVariant = -1;
     s->hitboxes[0].index = -1;
     s->hitboxes[1].index = -1;
-    gCurTask->main = sub_80206B0;
+    gCurTask->main = Task_80206B0;
 }
 
 void Task_801F5B4()
@@ -22434,76 +22434,72 @@ void Task_802056C(void)
     }
 }
 
-#if 0
-// -> Cheese
-void Task_80205F4(void) {
-    u16 temp_r4;
-    u8 temp_r0;
-    void (*var_r0)();
-    void *temp_r3;
+void Task_80205F4()
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
 
-    temp_r4 = gCurTask->data;
-    sub_8020130(0U);
-    temp_r0 = temp_r4->unk1A - 1;
-    temp_r4->unk1A = temp_r0;
-    if ((temp_r0 << 0x18) == 0) {
-        temp_r3 = temp_r4->unk50;
-        if ((0xF & temp_r3->unk2A) == 1) {
-            if ((temp_r3->unkC & 0x18) != 0x10) {
-                var_r0 = Task_801EE74;
+    sub_8020130(0);
+
+    if (--cheese->unk1A == 0) {
+        Player *player = cheese->player;
+        struct Task *taskCheese = gStageData.taskCheese;
+
+        if (player->charFlags.character == CREAM) {
+            if ((player->unkC & 0x18) != 0x10) {
+                taskCheese->main = Task_801EE74;
             } else {
-                var_r0 = sub_801EF6C;
+                taskCheese->main = sub_801EF6C;
             }
         } else {
-            var_r0 = Task_801FC2C;
+            taskCheese->main = Task_801FC2C;
         }
-        gStageData.taskCheese->main = var_r0;
     }
+
     sub_8020284();
 }
 
-// -> Cheese
-void Task_8020660(void) {
-    u16 temp_r1;
+void Task_8020660()
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
+    Player *player;
+    s32 temp_r0;
     u16 var_r0;
-    void *temp_r1_2;
 
-    temp_r1 = gCurTask->data;
-    if (temp_r1->unk50->unk4 & 1) {
-        var_r0 = 1 | temp_r1->unk16;
+    if (cheese->player->moveState & 1) {
+        cheese->moveState |= CMS_FACING_LEFT;
     } else {
-        var_r0 = 0xFFFE & temp_r1->unk16;
+        cheese->moveState &= ~CMS_FACING_LEFT;
     }
-    temp_r1->unk16 = var_r0;
-    temp_r1_2 = temp_r1->unk50;
-    temp_r1->unk8 = (s32) temp_r1_2->unk10;
-    temp_r1->unkC = (s32) temp_r1_2->unk14;
-    temp_r1->unk0 = (s32) temp_r1_2->unk10;
-    temp_r1->unk4 = (s32) temp_r1_2->unk14;
+
+    player = cheese->player;
+    cheese->qWorldX2 = player->qWorldX;
+    cheese->qWorldY2 = player->qWorldY;
+    cheese->qWorldX = player->qWorldX;
+    cheese->qWorldY = player->qWorldY;
     sub_8020284();
 }
 
-// -> Cheese
-void sub_80206B0(void) {
-    u16 temp_r1;
-    u16 var_r0;
-    void *temp_r1_2;
+void Task_80206B0()
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
+    Player *player;
+    s32 temp_r0;
 
-    temp_r1 = gCurTask->data;
-    if (temp_r1->unk50->unk4 & 1) {
-        var_r0 = 1 | temp_r1->unk16;
+    if (cheese->player->moveState & 1) {
+        cheese->moveState |= CMS_FACING_LEFT;
     } else {
-        var_r0 = 0xFFFE & temp_r1->unk16;
+        cheese->moveState &= ~CMS_FACING_LEFT;
     }
-    temp_r1->unk16 = var_r0;
-    temp_r1_2 = temp_r1->unk50;
-    temp_r1->unk8 = (s32) temp_r1_2->unk10;
-    temp_r1->unkC = (s32) temp_r1_2->unk14;
-    temp_r1->unk0 = (s32) temp_r1_2->unk10;
-    temp_r1->unk4 = (s32) temp_r1_2->unk14;
+
+    player = cheese->player;
+    cheese->qWorldX2 = player->qWorldX;
+    cheese->qWorldY2 = player->qWorldY;
+    cheese->qWorldX = player->qWorldX;
+    cheese->qWorldY = player->qWorldY;
     sub_8020284();
 }
 
+#if 0
 u32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5) {
     PlayerSpriteInfo *temp_r3;
     Sprite *temp_r6;
