@@ -22552,40 +22552,31 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8020700.inc",
 }
 END_NONMATCH
 
-#if 0
-u32 sub_8020874(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5, u8 p6) {
-    ? spC;
-    s32 sp10;
-    PlayerSpriteInfo *temp_r3;
-    Sprite *temp_r6;
-    s16 temp_r1;
-    u16 temp_r2;
-    u8 temp_r2_2;
-    u8 temp_r3_2;
+u32 sub_8020874(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5, u8 p6)
+{
+    u8 spC[4];
+    Sprite2 *temp_r6 = &p->spriteInfoBody->s;
 
-    sp10 = worldY;
-    temp_r2 = (u16) p3;
-    temp_r3 = p->spriteInfoBody;
-    temp_r6 = &temp_r3->s;
-    if ((p->moveState & 0x100) || (*(s->hitboxes + ((s32) (temp_r2 << 0x10) >> 0xD)) == -1) || (temp_r1 = (s16) (u16) (s32) p5, (temp_r3->s.hitboxes[temp_r1].index == -1))) {
+    if ((p->moveState & 0x100) || (s->hitboxes[p3].index == -1) || (p->spriteInfoBody->s.hitboxes[p5].index == -1)) {
         return 0U;
     }
-    if (temp_r1 == 0) {
-        temp_r3_2 = p->spriteOffsetX;
-        spC.unk0 = (u8) (0 - temp_r3_2);
-        temp_r2_2 = (u8) p->spriteOffsetY;
-        spC.unk1 = (u8) (0 - temp_r2_2);
-        spC.unk2 = temp_r3_2;
-        spC.unk3 = temp_r2_2;
+
+    if (p5 == 0) {
+        spC[0] = -p->spriteOffsetX;
+        spC[1] = -p->spriteOffsetY;
+        spC[2] = +p->spriteOffsetX;
+        spC[3] = +p->spriteOffsetY;
     } else {
-        spC.unk0 = (u8) temp_r6->hitboxes[temp_r1].b.left;
-        spC.unk1 = (u8) temp_r6->hitboxes[temp_r1].b.top;
-        spC.unk2 = (u8) temp_r6->hitboxes[temp_r1].b.right;
-        spC.unk3 = (u8) temp_r6->hitboxes[temp_r1].b.bottom;
+        spC[0] = temp_r6->hitboxes[p5].b.left;
+        spC[1] = temp_r6->hitboxes[p5].b.top;
+        spC[2] = temp_r6->hitboxes[p5].b.right;
+        spC[3] = temp_r6->hitboxes[p5].b.bottom;
     }
-    return sub_8020A58(s, (s16) temp_r2, worldX, sp10, &spC, p, (u8) (s32) (u8) (s32) p6);
+
+    return sub_8020A58(s, p3, worldX, worldY, &spC, p, p6);
 }
 
+#if 0
 u32 sub_8020950(Sprite *s, s32 worldX, s32 worldY, Player *p, u8 param4) {
     s32 spC;
     s8 sp10;
