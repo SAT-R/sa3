@@ -1,19 +1,23 @@
 #ifndef GUARD_SA3_GAME_STAGE_H
 #define GUARD_SA3_GAME_STAGE_H
 
+#include "global.h" // for BitValue()
 #include "game/player.h" // for Player type
 #include "game/player_controls.h"
 
+// CMS: "Cheese Move State"
+#define CMS_FACING_LEFT BitValue(0)
+#define CMS_INVISIBLE   BitValue(3)
 // Initialized in sub_80203D4()
 typedef struct {
     /* 0x00 */ s32 qWorldX;
     /* 0x04 */ s32 qWorldY;
     /* 0x08 */ s32 qWorldX2;
     /* 0x0C */ s32 qWorldY2;
-    /* 0x10 */ u16 unk10;
-    /* 0x12 */ u16 unk12;
+    /* 0x10 */ s16 unk10;
+    /* 0x12 */ s16 unk12;
     /* 0x14 */ s16 unk14;
-    /* 0x16 */ u16 unk16; // bitfield
+    /* 0x16 */ u16 moveState; // see CMS values above!
     /* 0x18 */ u8 unk18;
     /* 0x19 */ u8 unk19;
     /* 0x1A */ u8 unk1A;

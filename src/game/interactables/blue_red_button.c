@@ -98,7 +98,7 @@ void Task_BlueRedButton(void)
     worldY = TO_WORLD_POS(me->y, button->base.regionY);
 
     if ((s->variant == 3) || (s->variant == 7) || (s->variant == 15) || (s->variant == 19)) {
-        if (cheese->unk16 & 0x4) {
+        if (cheese->moveState & 0x4) {
             sub_8004DD8(Q(worldX), Q(worldY));
         }
     }
@@ -153,7 +153,7 @@ void Task_BlueRedButton(void)
             Player *p2 = cheese->player;
 
             if ((p2->charFlags.someIndex == 1) || (p2->charFlags.someIndex == 4)) {
-                if (((cheese->unk16 & 0x6) == 0x6) && (sub_805C510(s) == TRUE)) {
+                if (((cheese->moveState & 0x6) == 0x6) && (sub_805C510(s) == TRUE)) {
                     if (button->kind == BUTTON_KIND_BLUE) {
                         APPLY_BLUE_BUTTON(me, button, s);
                     } else {
