@@ -18,6 +18,7 @@
 #include "constants/anim_commands.h" // for ANIM_CMD__PALETTE
 #include "constants/move_states.h"
 #include "constants/songs.h"
+#include "constants/vram_hardcoded.h"
 #include "constants/zones.h"
 
 typedef enum ERingSpeedFactor {
@@ -21297,9 +21298,9 @@ void Task_801EDB4(void)
     strc->unk19 = 0;
     s = &strc->s;
     if (gStageData.gameMode < 6) {
-        s->tiles = OBJ_VRAM0 + VRAM_RESERVED_CHEESE;
+        s->tiles = VRAM_RESERVED_CHEESE;
     } else if (gStageData.gameMode == 6) {
-        s->tiles = OBJ_VRAM0 + VRAM_RESERVED_CHEESE_GAME_MODE_6;
+        s->tiles = VRAM_RESERVED_CHEESE_GAME_MODE_6;
     }
     s->frameFlags = 0x1000;
     s->anim = gCheeseTileInfo[0][0];
