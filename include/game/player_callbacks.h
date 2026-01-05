@@ -451,7 +451,7 @@ extern void Task_801FC2C(void);
 extern void Task_801FCD8(void);
 extern void Task_801FDAC(void);
 extern void Task_801FED0(void);
-extern void sub_8020038(void);
+extern void Task_8020038(void);
 extern void sub_8020130(s16);
 extern void sub_8020284(void);
 extern void sub_802056C(void);

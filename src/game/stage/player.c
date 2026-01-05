@@ -21852,7 +21852,7 @@ void Task_801F8D8(void)
     temp_r1->prevVariant = -1;
     temp_r1->hitboxes[0].index = -1;
     temp_r1->hitboxes[1].index = -1;
-    Player_PlaySong(cheese->player, 0x210U);
+    Player_PlaySong(cheese->player, SE_CREAM__CHEESE_ATTACK);
     gCurTask->main = Task_801F970;
 }
 
@@ -22072,13 +22072,13 @@ void Task_801FDAC()
         s->anim = anim;
         s->variant = variant;
         s->qAnimDelay = 0;
-        s->prevAnim = 0xFFFF;
-        s->prevVariant = 0xFF;
+        s->prevAnim = -1;
+        s->prevVariant = -1;
         s->hitboxes[0].index = -1;
         s->hitboxes[1].index = -1;
-        gCurTask->main = sub_8020038;
+        gCurTask->main = Task_8020038;
     } else {
-        charIndex = cheese->player->charFlags.character * 4 + 14;
+        charIndex = (cheese->player->charFlags.character * 4 + 14);
         anim = gCheeseTileInfo[charIndex][0];
         variant = gCheeseTileInfo[charIndex][1];
         cheese->qWorldX2 = cheese->player->unkB0;
@@ -22091,145 +22091,126 @@ void Task_801FDAC()
         s->anim = anim;
         s->variant = variant;
         s->qAnimDelay = 0;
-        s->prevAnim = 0xFFFF;
-        s->prevVariant = 0xFF;
+        s->prevAnim = -1;
+        s->prevVariant = -1;
         s->hitboxes[0].index = -1;
         s->hitboxes[1].index = -1;
-        Player_PlaySong(cheese->player, 0x210U);
+        Player_PlaySong(cheese->player, SE_CREAM__CHEESE_ATTACK);
         gCurTask->main = Task_801FED0;
     }
 }
 
+void Task_801FED0()
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
+
+    if (cheese->player->unkBC != -1U) {
+        cheese->qWorldX2 = cheese->player->unkB0;
+        cheese->qWorldY2 = cheese->player->unkB4;
+    }
+    if (cheese->qWorldX2 < cheese->qWorldX) {
+        cheese->unk16 |= 1;
+    } else {
+        cheese->unk16 &= ~1;
+    }
+
+    sub_8020130(2);
+    sub_8020284();
+
+    if (--cheese->unk1A == 0) {
+        cheese->unk16 &= 0xFFFD;
+        gCurTask->main = (void (*)())Task_801FC2C;
+        return;
+    }
+
+    if (cheese->player->unk54 != 0) {
+        cheese->player->unk54--;
+    }
+
+    if (cheese->unk54->unk54 != 0) {
+        cheese->unk54->unk54--;
+    }
+
+    if (cheese->player->unk54 == 0) {
+        cheese->unk54->unk54 = 0;
+        cheese->unk16 &= 0xFFF9;
+        sub_801ECAC(cheese->unk54);
+    }
+}
+
+void Task_801FFA8(void)
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
+    AnimId anim;
+    u16 variant;
+    Sprite2 *s;
+    s16 charIndex;
+
+    charIndex = (cheese->player->charFlags.character * 4 + 16);
+    anim = gCheeseTileInfo[charIndex][0];
+    variant = gCheeseTileInfo[charIndex][1];
+    cheese->unk16 &= ~2;
+    cheese->unk18 = 11;
+    cheese->unk19 = (u8)charIndex;
+    cheese->unk1A = 0x1E;
+    s = &cheese->s;
+    s->anim = anim;
+    s->variant = variant;
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->prevVariant = -1;
+    s->hitboxes[0].index = -1;
+    s->hitboxes[1].index = -1;
+    gCurTask->main = Task_8020038;
+    Task_8020038();
+}
+
+void Task_8020038(void)
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
+
+    sub_8020130(1);
+    sub_8020284();
+
+    if (cheese->player->moveState & 1) {
+        cheese->qWorldX2 = cheese->player->qWorldX + Q(24);
+    } else {
+        cheese->qWorldX2 = cheese->player->qWorldX - Q(24);
+    }
+
+    if (cheese->player->moveState & 0x10000) {
+        cheese->qWorldY2 = cheese->player->qWorldY + Q(24);
+    } else {
+        cheese->qWorldY2 = cheese->player->qWorldY - Q(24);
+    }
+
+    if (cheese->player->qWorldX < cheese->qWorldX) {
+        cheese->unk16 = 1 | cheese->unk16;
+    } else {
+        cheese->unk16 = 0xFFFE & cheese->unk16;
+    }
+
+    if (--cheese->unk1A == 0) {
+        gCurTask->main = Task_801FC2C;
+        return;
+    }
+
+    if (cheese->player->unk54 != 0) {
+        cheese->player->unk54--;
+    }
+
+    if (cheese->unk54->unk54 != 0) {
+        cheese->unk54->unk54--;
+    }
+
+    if (cheese->player->unk54 == 0) {
+        cheese->unk54->unk54 = 0;
+        cheese->unk16 &= 0xFFFB;
+        sub_801ECAC(cheese->unk54);
+    }
+}
 #if 0
 // -> Cheese
-void Task_801FED0(void) {
-    Player *temp_r0_3;
-    s16 temp_r1_2;
-    u16 temp_r1;
-    u16 var_r0;
-    u8 temp_r0;
-    void *temp_r0_2;
-    void *temp_r2;
-
-    temp_r1 = gCurTask->data;
-    temp_r2 = temp_r1->unk50;
-    if (temp_r2->unkBC != -1) {
-        temp_r1->unk8 = (s32) temp_r2->unkB0;
-        temp_r1->unkC = (s32) temp_r2->unkB4;
-    }
-    if ((s32) temp_r1->unk8 < (s32) temp_r1->unk0) {
-        var_r0 = 1 | temp_r1->unk16;
-    } else {
-        var_r0 = 0xFFFE & temp_r1->unk16;
-    }
-    temp_r1->unk16 = var_r0;
-    sub_8020130(2U);
-    sub_8020284();
-    temp_r0 = temp_r1->unk1A - 1;
-    temp_r1->unk1A = temp_r0;
-    if ((temp_r0 << 0x18) == 0) {
-        temp_r1->unk16 = (u16) (0xFFFD & temp_r1->unk16);
-        gCurTask->main = Task_801FC2C;
-        return;
-    }
-    temp_r0_2 = temp_r1->unk50;
-    if ((s16) temp_r0_2->unk54 != 0) {
-        temp_r0_2->unk54 = (u16) (temp_r0_2->unk54 - 1);
-    }
-    temp_r0_3 = temp_r1->unk54;
-    if ((s16) temp_r0_3->unk54 != 0) {
-        temp_r0_3->unk54 -= 1;
-    }
-    temp_r1_2 = (s16) temp_r1->unk50->unk54;
-    if (temp_r1_2 == 0) {
-        temp_r1->unk54->unk54 = (u16) temp_r1_2;
-        temp_r1->unk16 = (u16) (0xFFF9 & temp_r1->unk16);
-        sub_801ECAC(temp_r1->unk54);
-    }
-}
-
-void sub_801FFA8(void) {
-    s32 temp_r1;
-    u16 temp_r5;
-    u32 temp_r3;
-    void *temp_r5_2;
-
-    temp_r5 = gCurTask->data;
-    temp_r3 = (u32) (((u32) (temp_r5->unk50->unk2A << 0x1C) >> 0xA) + 0x100000) >> 0x10;
-    temp_r1 = temp_r3 * 4;
-    temp_r5->unk16 = (u16) (0xFFFD & temp_r5->unk16);
-    temp_r5->unk18 = 0xB;
-    temp_r5->unk19 = (s8) temp_r3;
-    temp_r5->unk1A = 0x1E;
-    temp_r5_2 = temp_r5 + 0x20;
-    temp_r5_2->unkC = (u16) *(temp_r1 + &gCheeseTileInfo);
-    temp_r5_2->unk1A = (s8) *(temp_r1 + (&gCheeseTileInfo + 2));
-    temp_r5_2->unk16 = 0;
-    temp_r5_2->unk18 = 0xFFFF;
-    temp_r5_2->unk1B = 0xFF;
-    temp_r5_2->unk20 = -1;
-    temp_r5_2->unk28 = -1;
-    gCurTask->main = sub_8020038;
-    sub_8020038();
-}
-
-void sub_8020038(void) {
-    Player *temp_r0_4;
-    s16 temp_r1;
-    s32 var_r0;
-    s32 var_r0_2;
-    u16 temp_r4;
-    u16 var_r0_3;
-    u8 temp_r0_2;
-    void *temp_r0;
-    void *temp_r0_3;
-    void *temp_r2;
-
-    temp_r4 = gCurTask->data;
-    sub_8020130(1U);
-    sub_8020284();
-    temp_r2 = temp_r4->unk50;
-    if (temp_r2->unk4 & 1) {
-        var_r0 = temp_r2->unk10 + 0x1800;
-    } else {
-        var_r0 = temp_r2->unk10 + 0xFFFFE800;
-    }
-    temp_r4->unk8 = var_r0;
-    temp_r0 = temp_r4->unk50;
-    if (temp_r0->unk4 & 0x10000) {
-        var_r0_2 = temp_r0->unk14 + 0x1800;
-    } else {
-        var_r0_2 = temp_r0->unk14 + 0xFFFFE800;
-    }
-    temp_r4->unkC = var_r0_2;
-    if ((s32) temp_r0->unk10 < (s32) temp_r4->unk0) {
-        var_r0_3 = 1 | temp_r4->unk16;
-    } else {
-        var_r0_3 = 0xFFFE & temp_r4->unk16;
-    }
-    temp_r4->unk16 = var_r0_3;
-    temp_r0_2 = temp_r4->unk1A - 1;
-    temp_r4->unk1A = temp_r0_2;
-    if ((temp_r0_2 << 0x18) == 0) {
-        gCurTask->main = Task_801FC2C;
-        return;
-    }
-    temp_r0_3 = temp_r4->unk50;
-    if ((s16) temp_r0_3->unk54 != 0) {
-        temp_r0_3->unk54 = (u16) (temp_r0_3->unk54 - 1);
-    }
-    temp_r0_4 = temp_r4->unk54;
-    if ((s16) temp_r0_4->unk54 != 0) {
-        temp_r0_4->unk54 -= 1;
-    }
-    temp_r1 = (s16) temp_r4->unk50->unk54;
-    if (temp_r1 == 0) {
-        temp_r4->unk54->unk54 = (u16) temp_r1;
-        temp_r4->unk16 = (u16) (0xFFFB & temp_r4->unk16);
-        sub_801ECAC(temp_r4->unk54);
-    }
-}
-
 void sub_8020130(u16 arg0, ? arg3) {
     Player *temp_r2_2;
     s16 temp_r0_2;
@@ -22437,7 +22418,7 @@ void sub_8020488(Player *arg0) {
             var_r0 = Task_801FA64;
         }
     } else if (arg0->unkBC == -1U) {
-        var_r0 = sub_801FFA8;
+        var_r0 = Task_801FFA8;
     } else {
         var_r0 = Task_801FDAC;
     }
