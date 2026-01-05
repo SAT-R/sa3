@@ -21281,7 +21281,7 @@ void sub_801ECAC(Player *p)
     }
 }
 
-void Task_801EDB4(void)
+void Task_CheeseInit(void)
 {
     Cheese *cheese;
     Sprite2 *s;
@@ -22341,89 +22341,74 @@ void sub_8020284()
     }
 }
 
-#if 0
 // -> Cheese
-void sub_80203D4(Player *p) {
-    Task *temp_r0;
-    Task *temp_r5;
-    u16 temp_r1;
+void sub_80203D4(Player *p)
+{
+    Cheese *cheese;
 
-    temp_r5 = gStageData.taskCheese;
-    if ((temp_r5 == NULL) && ((0xF & p->unk2A) == 1)) {
-        temp_r0 = TaskCreate(Task_801EDB4, sizeof(Cheese), 0x3010U, 0U, TaskDestructor_8020434);
-        gStageData.taskCheese = temp_r0;
-        temp_r1 = temp_r0->data;
-        temp_r1->unk0 = (s32) p->qWorldX;
-        temp_r1->unk4 = (s32) p->qWorldY;
-        temp_r1->unk50 = p;
-        temp_r1->unk54 = temp_r5;
+    if ((gStageData.taskCheese == NULL) && (p->charFlags.character == CREAM)) {
+        gStageData.taskCheese = TaskCreate(Task_CheeseInit, sizeof(Cheese), 0x3010U, 0U, TaskDestructor_Cheese);
+        cheese = TASK_DATA(gStageData.taskCheese);
+        cheese->qWorldX = p->qWorldX;
+        cheese->qWorldY = p->qWorldY;
+        cheese->player = p;
+        cheese->unk54 = NULL;
     }
 }
 
-void TaskDestructor_8020434(Task *t) {
-    gStageData.taskCheese = NULL;
-}
+void TaskDestructor_Cheese(Task *t) { gStageData.taskCheese = NULL; }
 
-void sub_8020444(Player *arg0) {
-    void (*var_r0)();
+void sub_8020444(Player *p)
+{
+    struct Task *t = gStageData.taskCheese;
 
-    if ((0xF & arg0->unk2A) == 1) {
-        if ((arg0->unkC & 0x18) != 0x10) {
-            var_r0 = Task_801EE74;
+    if (p->charFlags.character == CREAM) {
+        if ((p->unkC & 0x18) != 0x10) {
+            t->main = Task_801EE74;
         } else {
-            var_r0 = sub_801EF6C;
+            t->main = sub_801EF6C;
         }
     } else {
-        var_r0 = Task_801FC2C;
+        t->main = Task_801FC2C;
     }
-    gStageData.taskCheese->main = var_r0;
 }
 
-void sub_8020488(Player *arg0) {
-    s32 temp_r2;
-    void (*var_r0)();
+void sub_8020488(Player *p)
+{
+    struct Task *t = gStageData.taskCheese;
 
-    if ((0xF & arg0->unk2A) == 1) {
-        temp_r2 = arg0->unkC & 0x18;
-        if (temp_r2 != 8) {
-            if (arg0->unkBC == -1U) {
-                if (temp_r2 != 0x10) {
-                    var_r0 = Task_801F6D8;
+    if (p->charFlags.character == CREAM) {
+        if ((p->unkC & 0x18) != 8) {
+            if (p->unkBC == -1U) {
+                if ((p->unkC & 0x18) != 0x10) {
+                    t->main = Task_801F6D8;
                 } else {
-                    var_r0 = Task_801F7E0;
+                    t->main = Task_801F7E0;
                 }
             } else {
-                var_r0 = Task_801F5B4;
+                t->main = Task_801F5B4;
             }
-        } else if (arg0->moveState & 4) {
-            var_r0 = Task_801F8D8;
+        } else if (p->moveState & CMS_4) {
+            t->main = Task_801F8D8;
         } else {
-            var_r0 = Task_801FA64;
+            t->main = Task_801FA64;
         }
-    } else if (arg0->unkBC == -1U) {
-        var_r0 = Task_801FFA8;
+    } else if (p->unkBC == -1U) {
+        t->main = Task_801FFA8;
     } else {
-        var_r0 = Task_801FDAC;
+        t->main = Task_801FDAC;
     }
-    gStageData.taskCheese->main = var_r0;
 }
 
-void sub_802051C(void) {
-    gStageData.taskCheese->main = Task_801F0DC;
-}
+void sub_802051C(Player *p) { gStageData.taskCheese->main = Task_801F0DC; }
 
-void sub_8020530(void) {
-    gStageData.taskCheese->main = sub_801F258;
-}
+void sub_8020530(Player *p) { gStageData.taskCheese->main = sub_801F258; }
 
-void sub_8020544(void) {
-    gStageData.taskCheese->main = Task_801F4B4;
-}
+void sub_8020544(Player *p) { gStageData.taskCheese->main = Task_801F4B4; }
 
-void sub_8020558(void) {
-    gStageData.taskCheese->main = Task_801F534;
-}
+void sub_8020558(Player *p) { gStageData.taskCheese->main = Task_801F534; }
 
+#if 0
 // -> Cheese
 void sub_802056C(void) {
     s32 var_r1;

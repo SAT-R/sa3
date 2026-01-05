@@ -454,6 +454,7 @@ extern void Task_801FED0(void);
 extern void Task_8020038(void);
 extern void sub_8020130(s16);
 extern void sub_8020284(void);
+extern void TaskDestructor_Cheese(struct Task *t);
 extern void sub_802056C(void);
 extern void sub_80205F4(void);
 extern void Task_8020660(void);

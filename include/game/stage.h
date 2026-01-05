@@ -7,6 +7,8 @@
 
 // CMS: "Cheese Move State"
 #define CMS_FACING_LEFT BitValue(0)
+#define CMS_2           BitValue(1)
+#define CMS_4           BitValue(2)
 #define CMS_INVISIBLE   BitValue(3)
 // Initialized in sub_80203D4()
 typedef struct {
