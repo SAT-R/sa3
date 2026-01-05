@@ -84,9 +84,9 @@ void CreateBlueOrRedButton(u16 kind, MapEntity *me, u16 regionX, u16 regionY, u8
 
 void Task_BlueRedButton(void)
 {
-    struct Task *stageTask = gStageData.task98;
+    struct Task *stageTask = gStageData.taskCheese;
     MapEntity *me;
-    StageDataTask98 *stg98 = TASK_DATA(stageTask);
+    Cheese *stg98 = TASK_DATA(stageTask);
     BlueRedButton *button = TASK_DATA(gCurTask);
     Sprite *s = &button->s;
     Player *p;

@@ -432,6 +432,7 @@ extern void sub_801ECAC(Player *p);
 extern void sub_801EEE8(void);
 extern void sub_801EFE8(void);
 extern void Task_801F064(void);
+extern void Task_801F184(void);
 extern void sub_8020130(s16);
 extern void Task_8020284(void);
 extern void sub_802056C(void);

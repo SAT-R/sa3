@@ -4,6 +4,7 @@
 #include "game/player.h" // for Player type
 #include "game/player_controls.h"
 
+// Initialized in sub_80203D4()
 typedef struct {
     /* 0x00 */ s32 qWorldX;
     /* 0x04 */ s32 qWorldY;
@@ -23,7 +24,7 @@ typedef struct {
     /* 0x20 */ Sprite2 s;
     /* 0x50 */ Player *player;
     /* 0x54 */ Player *unk54;
-} StageDataTask98; /* size: ??? */
+} Cheese; /* size: 0x58 */
 
 // NOTE: If you want to change this value to something greater than 8,
 //       make sure that Entities like ButtonPlatform retrieve the Timer ID
@@ -91,7 +92,7 @@ typedef struct {
     /* 0x8F */ u8 unk8F;
     /* 0x90 */ struct Task *task90;
     /* 0x94 */ u32 unk94;
-    /* 0x98 */ struct Task *task98; // -> StageDataTask98 *
+    /* 0x98 */ struct Task *taskCheese; // -> Cheese *, set to NULL in TaskDestructor
     /* 0x9C */ struct Task *task9C; // -> AfterImages *
     /* 0xA0 */ u32 unkA0;
     /* 0xA4 */ u32 unkA4;

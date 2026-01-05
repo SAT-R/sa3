@@ -35,8 +35,8 @@ sTileInfoShields:
 gUnknown_08E2EB04:
     .incbin "baserom_sa3.gba", 0x00E2EB04, 0x14
 
-    .global gUnknown_08E2EB18
-gUnknown_08E2EB18:
+    .global gCheeseTileData
+gCheeseTileData:
     .incbin "baserom_sa3.gba", 0x00E2EB18, 0x84
     
     .global gUnknown_08E2EB9C

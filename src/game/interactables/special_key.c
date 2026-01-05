@@ -63,7 +63,7 @@ void CreateEntity_SpecialKey(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 void Task_SpecialKey(void)
 {
     SpecialKey *key = TASK_DATA(gCurTask);
-    StageDataTask98 *task98 = TASK_DATA(gStageData.task98);
+    Cheese *taskCheese = TASK_DATA(gStageData.taskCheese);
     Sprite *s;
     Player *p;
     s16 worldX, worldY;
@@ -74,7 +74,7 @@ void Task_SpecialKey(void)
 
     p = &gPlayers[gStageData.playerIndex];
 
-    if (task98->unk16 & 0x4) {
+    if (taskCheese->unk16 & 0x4) {
         sub_8004DD8(Q(worldX), Q(worldY));
     }
 
@@ -85,8 +85,8 @@ void Task_SpecialKey(void)
         gStageData.flagSpKey = 1;
         sub_8003DF0(SE_SPECIAL_KEY);
     } else {
-        Player *p2 = task98->player;
-        if (((p2->charFlags.someIndex == 1) || (p2->charFlags.someIndex == 4)) && ((task98->unk16 & 0x6) == 0x6)
+        Player *p2 = taskCheese->player;
+        if (((p2->charFlags.someIndex == 1) || (p2->charFlags.someIndex == 4)) && ((taskCheese->unk16 & 0x6) == 0x6)
             && (sub_805C510(s) == TRUE)) {
             TaskDestroy(gCurTask);
             gStageData.flagSpKey = 1;
