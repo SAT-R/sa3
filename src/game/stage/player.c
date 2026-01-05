@@ -22573,7 +22573,7 @@ u32 sub_8020874(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5, u8
         spC[3] = temp_r6->hitboxes[p5].b.bottom;
     }
 
-    return sub_8020A58(s, p3, worldX, worldY, &spC, p, p6);
+    return sub_8020A58(s, p3, worldX, worldY, (Rect8 *)&spC, p, p6);
 }
 
 u32 sub_8020950(Sprite *s, s32 worldX, s32 worldY, Player *p, u8 param4)
@@ -22599,7 +22599,7 @@ u32 sub_8020950(Sprite *s, s32 worldX, s32 worldY, Player *p, u8 param4)
         param4 = 1;
     }
 
-    temp_r0 = sub_8020A58(s, 0, worldX, worldY, &spC, p, param4);
+    temp_r0 = sub_8020A58(s, 0, worldX, worldY, (Rect8 *)&spC, p, param4);
     if (temp_r0 != 0) {
         if (0x10000 & temp_r0) {
             p->moveState |= MOVESTATE_COLLIDING_ENT;

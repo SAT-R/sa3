@@ -1954,6 +1954,6 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803C094.inc",
         p->moveState |= MOVESTATE_IN_AIR;
     }
 
-    return sub_8020A58(s, hbIndex, worldX, worldY, sp0C, p, 0);
+    return sub_8020A58(s, hbIndex, worldX, worldY, (Rect8 *)sp0C, p, 0);
 }
 END_NONMATCH
