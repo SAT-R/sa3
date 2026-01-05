@@ -21318,7 +21318,7 @@ void Task_801EDB4(void)
     gCurTask->main = sub_802056C;
 }
 
-void sub_801EE74(void)
+void Task_801EE74(void)
 {
     Cheese *strc = TASK_DATA(gCurTask);
     Sprite2 *s;
@@ -21366,7 +21366,7 @@ void sub_801EEE8(void)
     }
 
     sub_8020130(1);
-    Task_8020284();
+    sub_8020284();
 }
 
 void sub_801EF6C(void)
@@ -21417,7 +21417,7 @@ void sub_801EFE8(void)
         strc->unk16 &= ~1;
     }
     sub_8020130(4);
-    Task_8020284();
+    sub_8020284();
 }
 
 void Task_801F064(void)
@@ -21481,726 +21481,628 @@ void Task_801F0DC(void)
     gCurTask->main = Task_801F184;
 }
 
-#if 0
-// -> Cheese
-void Task_801F184(void) {
-    s32 var_r1;
-    s32 var_r1_2;
-    u16 temp_r1;
-    u8 temp_r0;
-    void (*var_r0)();
-    void *temp_r2;
-    void *temp_r2_2;
-    void *temp_r2_3;
+void Task_801F184(void)
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
 
-    temp_r1 = gCurTask->data;
-    temp_r2 = temp_r1->unk50;
-    if (temp_r2->unk4 & 1) {
-        var_r1 = 0x1800;
+    if (cheese->player->moveState & 1) {
+        cheese->qWorldX2 = cheese->player->qWorldX + Q(24);
     } else {
-        var_r1 = 0xFFFFE800;
+        cheese->qWorldX2 = cheese->player->qWorldX - Q(24);
     }
-    temp_r1->unk8 = (s32) (temp_r2->unk10 + var_r1);
-    temp_r2_2 = temp_r1->unk50;
-    if (temp_r2_2->unk4 & 0x10000) {
-        var_r1_2 = 0x1800;
+
+    if (cheese->player->moveState & 0x10000) {
+        cheese->qWorldY2 = cheese->player->qWorldY + Q(24);
     } else {
-        var_r1_2 = 0xFFFFE800;
+        cheese->qWorldY2 = cheese->player->qWorldY - Q(24);
     }
-    temp_r1->unkC = (s32) (temp_r2_2->unk14 + var_r1_2);
-    sub_8020130(1U);
-    Task_8020284();
-    temp_r0 = temp_r1->unk1A - 1;
-    temp_r1->unk1A = temp_r0;
-    if ((temp_r0 << 0x18) == 0) {
-        temp_r2_3 = temp_r1->unk50;
-        if ((0xF & temp_r2_3->unk2A) != 1) {
-            var_r0 = sub_801FC2C;
-            goto block_14;
-        }
-        if (temp_r2_3->unk4 & 0x100) {
-            temp_r1->unk1A = 0x3CU;
-            return;
-        }
-        if ((temp_r2_3->unkC & 0x18) == 0x10) {
-            var_r0 = sub_801EF6C;
+
+    sub_8020130(1);
+    sub_8020284();
+    if (--cheese->unk1A == 0) {
+        if (cheese->player->charFlags.character != CREAM) {
+            gCurTask->main = Task_801FC2C;
+        } else if (cheese->player->moveState & 0x100) {
+            cheese->unk1A = 0x3C;
+        } else if ((cheese->player->unkC & 0x18) == 0x10) {
+            gCurTask->main = sub_801EF6C;
         } else {
-            var_r0 = sub_801EE74;
+            gCurTask->main = Task_801EE74;
         }
-block_14:
-        gCurTask->main = var_r0;
     }
 }
 
-// -> Cheese
-void sub_801F258(void) {
-    s32 var_r1;
-    s32 var_r5;
-    u16 temp_r1;
-    void *temp_r2;
-    void *temp_r4;
+void sub_801F258()
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
+    Sprite2 *s;
+    u32 frameFlags;
 
-    temp_r1 = gCurTask->data;
-    var_r5 = 0;
-    temp_r4 = temp_r1->unk50;
-    temp_r1->unk8 = (s32) temp_r4->unk10;
-    if (temp_r4->unk4 & 0x10000) {
-        var_r1 = 0x1000;
+    frameFlags = 0;
+    cheese->qWorldX2 = cheese->player->qWorldX;
+    if (cheese->player->moveState & 0x10000) {
+        cheese->qWorldY2 = cheese->player->qWorldY + Q(16);
     } else {
-        var_r1 = 0xFFFFF000;
+        cheese->qWorldY2 = cheese->player->qWorldY - Q(16);
     }
-    temp_r1->unkC = (s32) (temp_r4->unk14 + var_r1);
-    temp_r1->unk1A = 0x18;
-    temp_r1->unk10 = 0;
-    temp_r1->unk12 = 0;
-    temp_r1->unk18 = 5;
-    temp_r1->unk19 = 7;
-    temp_r1->unk16 = (u16) (0xFFF9 & temp_r1->unk16);
-    temp_r2 = temp_r1 + 0x20;
-    if (temp_r1->unk50->unk4 & 1) {
-        var_r5 = 0x400;
+    cheese->unk1A = 0x18;
+    cheese->unk10 = 0;
+    cheese->unk12 = 0;
+    cheese->unk18 = 5;
+    cheese->unk19 = 7;
+    cheese->unk16 &= 0xFFF9;
+    s = &cheese->s;
+    if (cheese->player->moveState & 1) {
+        frameFlags = 0x400;
     }
-    temp_r2->unk8 = var_r5;
-    temp_r2->unkC = (u16) gCheeseTileInfo.unk0;
-    temp_r2->unk1A = (s8) gCheeseTileInfo.unk2;
-    temp_r2->unk16 = 0;
-    temp_r2->unk18 = 0xFFFF;
-    temp_r2->unk1B = 0xFF;
-    temp_r2->unk20 = -1;
-    temp_r2->unk28 = -1;
-    gCurTask->main = sub_801F2FC;
+    s->frameFlags = frameFlags;
+    s->anim = gCheeseTileInfo[0][0];
+    s->variant = (u8)gCheeseTileInfo[0][1];
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->prevVariant = -1;
+    s->hitboxes[0].index = -1;
+    s->hitboxes[1].index = -1;
+    gCurTask->main = Task_801F2FC;
 }
 
-void sub_801F2FC(void) {
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r2_2;
-    s32 temp_r2_3;
-    s32 var_r0;
-    u16 temp_r1;
-    u16 var_r0_2;
-    u8 temp_r0;
-    void (*var_r0_3)();
-    void *temp_r1_4;
-    void *temp_r2;
+void Task_801F2FC()
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
+    Player *player = cheese->player;
 
-    temp_r1 = gCurTask->data;
-    temp_r2 = temp_r1->unk50;
-    temp_r1->unk8 = (s32) temp_r2->unk10;
-    if (temp_r2->unk4 & 0x10000) {
-        var_r0 = temp_r2->unk14 + 0xC00;
+    cheese->qWorldX2 = player->qWorldX;
+    if (player->moveState & MOVESTATE_GRAVITY_SWITCHED) {
+        cheese->qWorldY2 = player->qWorldY + Q(12);
     } else {
-        var_r0 = temp_r2->unk14 + 0xFFFFF400;
+        cheese->qWorldY2 = player->qWorldY - Q(12);
     }
-    temp_r1->unkC = var_r0;
-    if (temp_r1->unk50->unk4 & 1) {
-        var_r0_2 = 1 | temp_r1->unk16;
+    if (cheese->player->moveState & 1) {
+        cheese->unk16 |= 1;
     } else {
-        var_r0_2 = 0xFFFE & temp_r1->unk16;
+        cheese->unk16 &= ~1;
     }
-    temp_r1->unk16 = var_r0_2;
-    temp_r0 = temp_r1->unk1A;
-    if (temp_r0 != 0) {
-        temp_r1->unk1A = (u8) (temp_r0 - 1);
-        sub_8020130(4U);
-    } else {
-        sub_8020130(6U);
-    }
-    Task_8020284();
-    temp_r0_2 = temp_r1->unk8;
-    temp_r1_2 = temp_r1->unk0;
-    temp_r2_2 = temp_r0_2 - temp_r1_2;
-    if (temp_r2_2 >= 0) {
-        if (temp_r2_2 > 0x3FE) {
 
+    if (cheese->unk1A != 0) {
+        cheese->unk1A--;
+        sub_8020130(4);
+    } else {
+        sub_8020130(6);
+    }
+
+    sub_8020284();
+
+    if ((ABS(cheese->qWorldX2 - cheese->qWorldX) < (Q(4) - 1)) && (ABS(cheese->qWorldY2 - cheese->qWorldY) < (Q(5) - 1))) {
+        cheese->s.anim = gCheeseTileInfo[7][0];
+        cheese->s.variant = gCheeseTileInfo[7][1];
+        gCurTask->main = Task_801F418;
+    }
+
+    if (cheese->player->charFlags.anim0 != 0xBE) {
+        if ((cheese->player->unkC & 0x18) == 0x10) {
+            gCurTask->main = sub_801EF6C;
         } else {
-            goto block_13;
+            gCurTask->main = Task_801EE74;
         }
-    } else if ((s32) (temp_r1_2 - temp_r0_2) <= 0x3FE) {
-block_13:
-        temp_r0_3 = temp_r1->unkC;
-        temp_r1_3 = temp_r1->unk4;
-        temp_r2_3 = temp_r0_3 - temp_r1_3;
-        if (temp_r2_3 >= 0) {
-            if (temp_r2_3 > 0x4FE) {
-
-            } else {
-                goto block_17;
-            }
-        } else if ((s32) (temp_r1_3 - temp_r0_3) <= 0x4FE) {
-block_17:
-            temp_r1->unk2C = (u16) gCheeseTileInfo.unk1C;
-            temp_r1->unk3A = (s8) gCheeseTileInfo.unk1E;
-            gCurTask->main = sub_801F418;
-        }
-    }
-    temp_r1_4 = temp_r1->unk50;
-    if (temp_r1_4->unk30 != 0xBE) {
-        if ((temp_r1_4->unkC & 0x18) == 0x10) {
-            var_r0_3 = sub_801EF6C;
-        } else {
-            var_r0_3 = sub_801EE74;
-        }
-        gCurTask->main = var_r0_3;
     }
 }
 
-void sub_801F418(void) {
-    s32 var_r0;
-    u16 temp_r1;
-    u16 var_r0_2;
-    void (*var_r0_3)();
-    void *temp_r1_2;
-    void *temp_r2;
+void Task_801F418(void)
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
+    Player *player = cheese->player;
 
-    temp_r1 = gCurTask->data;
-    temp_r2 = temp_r1->unk50;
-    temp_r1->unk0 = (s32) temp_r2->unk10;
-    if (temp_r2->unk4 & 0x10000) {
-        var_r0 = temp_r2->unk14 + 0xC00;
+    cheese->qWorldX = player->qWorldX;
+
+    if (player->moveState & 0x10000) {
+        cheese->qWorldY = player->qWorldY + Q(12);
     } else {
-        var_r0 = temp_r2->unk14 + 0xFFFFF400;
+        cheese->qWorldY = player->qWorldY - Q(12);
     }
-    temp_r1->unk4 = var_r0;
-    if (temp_r1->unk50->unk4 & 1) {
-        var_r0_2 = 1 | temp_r1->unk16;
+
+    if (cheese->player->moveState & 1) {
+        cheese->unk16 |= 1;
     } else {
-        var_r0_2 = 0xFFFE & temp_r1->unk16;
+        cheese->unk16 &= ~1;
     }
-    temp_r1->unk16 = var_r0_2;
-    Task_8020284();
-    temp_r1_2 = temp_r1->unk50;
-    if (temp_r1_2->unk30 != 0xBE) {
-        if ((temp_r1_2->unkC & 0x18) == 0x10) {
-            var_r0_3 = sub_801EF6C;
+
+    sub_8020284();
+    if (cheese->player->charFlags.anim0 != 0xBE) {
+        if ((cheese->player->unkC & 0x18) == 0x10) {
+            gCurTask->main = sub_801EF6C;
         } else {
-            var_r0_3 = sub_801EE74;
+            gCurTask->main = Task_801EE74;
         }
-        gCurTask->main = var_r0_3;
     }
 }
 
-// -> Cheese
-void sub_801F4B4(void) {
-    u16 temp_r3;
-    void *temp_r2;
-    void *temp_r3_2;
+void Task_801F4B4(void)
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
+    Player *player = cheese->player;
+    Sprite2 *s;
 
-    temp_r3 = gCurTask->data;
-    temp_r2 = temp_r3->unk50;
-    temp_r3->unk8 = (s32) temp_r2->unk10;
-    temp_r3->unkC = (s32) temp_r2->unk14;
-    temp_r3->unk0 = (s32) temp_r2->unk10;
-    temp_r3->unk4 = (s32) temp_r2->unk14;
-    temp_r3->unk10 = 0;
-    temp_r3->unk12 = 0;
-    temp_r3->unk18 = 4;
-    temp_r3->unk19 = 9;
-    temp_r3->unk16 = (u16) (0xFFF9 & temp_r3->unk16);
-    temp_r3_2 = temp_r3 + 0x20;
-    temp_r3_2->unk8 = 0x1000;
-    temp_r3_2->unkC = (u16) gCheeseTileInfo.unk24;
-    temp_r3_2->unk1A = (s8) gCheeseTileInfo.unk26;
-    temp_r3_2->unk16 = 0;
-    temp_r3_2->unk18 = 0xFFFF;
-    temp_r3_2->unk1B = 0xFF;
-    temp_r3_2->unk20 = -1;
-    temp_r3_2->unk28 = -1;
-    gCurTask->main = sub_8020660;
+    cheese->qWorldX2 = player->qWorldX;
+    cheese->qWorldY2 = player->qWorldY;
+    cheese->qWorldX = player->qWorldX;
+    cheese->qWorldY = player->qWorldY;
+    cheese->unk10 = 0;
+    cheese->unk12 = 0;
+    cheese->unk18 = 4;
+    cheese->unk19 = 9;
+    cheese->unk16 &= 0xFFF9;
+
+    s = &cheese->s;
+    s->frameFlags = 0x1000;
+    s->anim = gCheeseTileInfo[9][0];
+    s->variant = gCheeseTileInfo[9][1];
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->prevVariant = -1;
+    s->hitboxes[0].index = -1;
+    s->hitboxes[1].index = -1;
+    gCurTask->main = Task_8020660;
 }
 
-// -> Cheese
-void sub_801F534(void) {
-    u16 temp_r3;
-    void *temp_r2;
-    void *temp_r3_2;
+void Task_801F534()
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
+    Player *player = cheese->player;
+    Sprite2 *s;
 
-    temp_r3 = gCurTask->data;
-    temp_r2 = temp_r3->unk50;
-    temp_r3->unk8 = (s32) temp_r2->unk10;
-    temp_r3->unkC = (s32) temp_r2->unk14;
-    temp_r3->unk0 = (s32) temp_r2->unk10;
-    temp_r3->unk4 = (s32) temp_r2->unk14;
-    temp_r3->unk10 = 0;
-    temp_r3->unk12 = 0;
-    temp_r3->unk18 = 4;
-    temp_r3->unk19 = 0xA;
-    temp_r3->unk16 = (u16) (0xFFF9 & temp_r3->unk16);
-    temp_r3_2 = temp_r3 + 0x20;
-    temp_r3_2->unk8 = 0x1000;
-    temp_r3_2->unkC = (u16) gCheeseTileInfo.unk28;
-    temp_r3_2->unk1A = (s8) gCheeseTileInfo.unk2A;
-    temp_r3_2->unk16 = 0;
-    temp_r3_2->unk18 = 0xFFFF;
-    temp_r3_2->unk1B = 0xFF;
-    temp_r3_2->unk20 = -1;
-    temp_r3_2->unk28 = -1;
+    cheese->qWorldX2 = player->qWorldX;
+    cheese->qWorldY2 = player->qWorldY;
+    cheese->qWorldX = player->qWorldX;
+    cheese->qWorldY = player->qWorldY;
+    cheese->unk10 = 0;
+    cheese->unk12 = 0;
+    cheese->unk18 = 4;
+    cheese->unk19 = 0xA;
+    cheese->unk16 &= 0xFFF9;
+
+    s = &cheese->s;
+    s->frameFlags = 0x1000;
+    s->anim = gCheeseTileInfo[10][0];
+    s->variant = gCheeseTileInfo[10][1];
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->prevVariant = -1;
+    s->hitboxes[0].index = -1;
+    s->hitboxes[1].index = -1;
     gCurTask->main = sub_80206B0;
 }
 
-void sub_801F5B4(void) {
-    Player *temp_r0;
-    u16 temp_r3;
-    void *temp_r3_2;
+void Task_801F5B4()
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
+    Player *player = cheese->player;
+    Sprite2 *s;
 
-    temp_r3 = gCurTask->data;
-    temp_r0 = temp_r3->unk50;
-    temp_r3->unk8 = (s32) temp_r0->unkB0;
-    temp_r3->unkC = (s32) temp_r0->unkB4;
-    temp_r3->unk16 = (u16) (temp_r3->unk16 | 2);
-    temp_r3->unk18 = 9;
-    temp_r3->unk19 = 2;
-    temp_r3->unk1A = 0x1E;
-    temp_r3_2 = temp_r3 + 0x20;
-    temp_r3_2->unkC = (u16) gCheeseTileInfo.unk8;
-    temp_r3_2->unk1A = (s8) gCheeseTileInfo.unkA;
-    temp_r3_2->unk16 = 0;
-    temp_r3_2->unk18 = 0xFFFF;
-    temp_r3_2->unk1B = 0xFF;
-    temp_r3_2->unk20 = -1;
-    temp_r3_2->unk28 = -1;
-    Player_PlaySong(temp_r3->unk50, 0x210U);
-    gCurTask->main = sub_801F630;
+    cheese->qWorldX2 = (s32)player->unkB0;
+    cheese->qWorldY2 = (s32)player->unkB4;
+    cheese->unk16 |= 2;
+    cheese->unk18 = 9;
+    cheese->unk19 = 2;
+    cheese->unk1A = 0x1E;
+
+    s = &cheese->s;
+    s->anim = gCheeseTileInfo[2][0];
+    s->variant = gCheeseTileInfo[2][1];
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->prevVariant = -1;
+    s->hitboxes[0].index = -1;
+    s->hitboxes[1].index = -1;
+    Player_PlaySong(cheese->player, SE_CREAM__CHEESE_ATTACK);
+    gCurTask->main = Task_801F630;
 }
 
-void sub_801F630(void) {
-    u16 temp_r1;
-    u16 var_r0;
-    u8 temp_r0;
-    void (*var_r0_2)();
-    void *temp_r2;
+void Task_801F630()
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
+    Player *player = cheese->player;
 
-    temp_r1 = gCurTask->data;
-    temp_r2 = temp_r1->unk50;
-    if (temp_r2->unkBC != -1) {
-        temp_r1->unk8 = (s32) temp_r2->unkB0;
-        temp_r1->unkC = (s32) temp_r2->unkB4;
+    if (player->unkBC != -1U) {
+        cheese->qWorldX2 = player->unkB0;
+        cheese->qWorldY2 = player->unkB4;
     }
-    if ((s32) temp_r1->unk8 < (s32) temp_r1->unk0) {
-        var_r0 = 1 | temp_r1->unk16;
+    if (cheese->qWorldX2 < cheese->qWorldX) {
+        cheese->unk16 |= 1;
     } else {
-        var_r0 = 0xFFFE & temp_r1->unk16;
+        cheese->unk16 &= ~1;
     }
-    temp_r1->unk16 = var_r0;
-    sub_8020130(2U);
-    Task_8020284();
-    temp_r0 = temp_r1->unk1A - 1;
-    temp_r1->unk1A = temp_r0;
-    if ((temp_r0 << 0x18) == 0) {
-        temp_r1->unk16 = (u16) (0xFFFD & temp_r1->unk16);
-        if ((temp_r1->unk50->unkC & 0x18) == 0x10) {
-            var_r0_2 = sub_801EF6C;
+
+    sub_8020130(2);
+    sub_8020284();
+
+    if (--cheese->unk1A == 0) {
+        cheese->unk16 &= 0xFFFD;
+        if ((cheese->player->unkC & 0x18) == 0x10) {
+            gCurTask->main = sub_801EF6C;
         } else {
-            var_r0_2 = sub_801EE74;
+            gCurTask->main = Task_801EE74;
         }
-        gCurTask->main = var_r0_2;
     }
 }
 
-void sub_801F6D8(void) {
-    u16 temp_r2;
-    void *temp_r2_2;
+void Task_801F6D8()
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
+    Sprite2 *s;
 
-    temp_r2 = gCurTask->data;
-    temp_r2->unk16 = (u16) (0xFFFD & temp_r2->unk16);
-    temp_r2->unk18 = 0xB;
-    temp_r2->unk19 = 3;
-    temp_r2->unk1A = 0x1E;
-    temp_r2_2 = temp_r2 + 0x20;
-    temp_r2_2->unkC = (u16) gCheeseTileInfo.unkC;
-    temp_r2_2->unk1A = (s8) gCheeseTileInfo.unkE;
-    temp_r2_2->unk16 = 0;
-    temp_r2_2->unk18 = 0xFFFF;
-    temp_r2_2->unk1B = 0xFF;
-    temp_r2_2->unk20 = -1;
-    temp_r2_2->unk28 = -1;
-    gCurTask->main = sub_801F740;
+    cheese->unk16 &= 0xFFFD;
+    cheese->unk18 = 0xB;
+    cheese->unk19 = 3;
+    cheese->unk1A = 0x1E;
+
+    s = &cheese->s;
+    s->anim = gCheeseTileInfo[3][0];
+    s->variant = gCheeseTileInfo[3][1];
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->prevVariant = -1;
+    s->hitboxes[0].index = -1;
+    s->hitboxes[1].index = -1;
+    gCurTask->main = Task_801F740;
 }
 
-void sub_801F740(void) {
-    s32 var_r1;
-    s32 var_r1_2;
-    u16 temp_r1;
-    u16 var_r0;
-    u8 temp_r0_2;
-    void *temp_r0;
-    void *temp_r2;
+void Task_801F740()
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
 
-    temp_r1 = gCurTask->data;
-    temp_r2 = temp_r1->unk50;
-    if (temp_r2->unk4 & 1) {
-        var_r1 = 0x1800;
+    if (cheese->player->moveState & 1) {
+        cheese->qWorldX2 = cheese->player->qWorldX + Q(24);
     } else {
-        var_r1 = 0xFFFFE800;
+        cheese->qWorldX2 = cheese->player->qWorldX - Q(24);
     }
-    temp_r1->unk8 = (s32) (temp_r2->unk10 + var_r1);
-    temp_r0 = temp_r1->unk50;
-    if (temp_r0->unk4 & 0x10000) {
-        var_r1_2 = 0x1800;
+
+    if (cheese->player->moveState & MOVESTATE_GRAVITY_SWITCHED) {
+        cheese->qWorldY2 = cheese->player->qWorldY + Q(24);
     } else {
-        var_r1_2 = 0xFFFFE800;
+        cheese->qWorldY2 = cheese->player->qWorldY - Q(24);
     }
-    temp_r1->unkC = (s32) (temp_r0->unk14 + var_r1_2);
-    if ((s32) temp_r0->unk10 < (s32) temp_r1->unk0) {
-        var_r0 = 1 | temp_r1->unk16;
+
+    if (cheese->player->qWorldX < cheese->qWorldX) {
+        cheese->unk16 |= 1;
     } else {
-        var_r0 = 0xFFFE & temp_r1->unk16;
+        cheese->unk16 &= ~1;
     }
-    temp_r1->unk16 = var_r0;
-    sub_8020130(1U);
-    Task_8020284();
-    temp_r0_2 = temp_r1->unk1A - 1;
-    temp_r1->unk1A = temp_r0_2;
-    if ((temp_r0_2 << 0x18) == 0) {
-        gCurTask->main = sub_801EE74;
+
+    sub_8020130(1);
+    sub_8020284();
+
+    if (--cheese->unk1A == 0) {
+        gCurTask->main = Task_801EE74;
     }
 }
 
-void sub_801F7E0(void) {
-    u16 temp_r2;
-    void *temp_r2_2;
+void Task_801F7E0(void)
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
+    Sprite2 *s;
 
-    temp_r2 = gCurTask->data;
-    temp_r2->unk16 = (u16) (0xFFFD & temp_r2->unk16);
-    temp_r2->unk18 = 0xB;
-    temp_r2->unk19 = 3;
-    temp_r2->unk1A = 0x1E;
-    temp_r2_2 = temp_r2 + 0x20;
-    temp_r2_2->unkC = (u16) gCheeseTileInfo.unkC;
-    temp_r2_2->unk1A = (s8) gCheeseTileInfo.unkE;
-    temp_r2_2->unk16 = 0;
-    temp_r2_2->unk18 = 0xFFFF;
-    temp_r2_2->unk1B = 0xFF;
-    temp_r2_2->unk20 = -1;
-    temp_r2_2->unk28 = -1;
-    gCurTask->main = sub_801F848;
+    cheese->unk16 &= 0xFFFD;
+    cheese->unk18 = 0xB;
+    cheese->unk19 = 3;
+    cheese->unk1A = 0x1E;
+
+    s = &cheese->s;
+    s->anim = gCheeseTileInfo[3][0];
+    s->variant = gCheeseTileInfo[3][1];
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->prevVariant = -1;
+    s->hitboxes[0].index = -1;
+    s->hitboxes[1].index = -1;
+    gCurTask->main = Task_801F848;
 }
 
-void sub_801F848(void) {
-    s32 temp_r2;
-    u16 temp_r1;
-    u16 var_r0;
-    u8 temp_r0;
-    void *temp_r3;
+void Task_801F848(void)
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
+    Player *player;
+    s32 v, v2;
+    u32 theta;
+    s32 qX;
 
-    temp_r1 = gCurTask->data;
-    temp_r3 = temp_r1->unk50;
-    temp_r2 = temp_r1->unk1B * 0x10;
-    temp_r1->unk8 = (s32) (temp_r3->unk10 + ((s16) gSineTable[temp_r2 + 0x100] >> 1));
-    temp_r1->unkC = (s32) (temp_r3->unk14 + ((s16) gSineTable[temp_r2] >> 1));
-    if (temp_r3->unk4 & 1) {
-        var_r0 = 1 | temp_r1->unk16;
+    //    cheese->unk1B = (cheese->unk1B + 1) % 64u;
+    theta = cheese->unk1B;
+    player = cheese->player;
+
+    cheese->qWorldX2 = (player->qWorldX + ((v = COS(theta *= 16)) >> 1));
+    cheese->qWorldY2 = (player->qWorldY + ((v2 = SIN(theta)) >> 1));
+
+    if (player->moveState & 1) {
+        cheese->unk16 |= 1;
     } else {
-        var_r0 = 0xFFFE & temp_r1->unk16;
+        cheese->unk16 &= ~1;
     }
-    temp_r1->unk16 = var_r0;
-    sub_8020130(1U);
-    Task_8020284();
-    temp_r0 = temp_r1->unk1A - 1;
-    temp_r1->unk1A = temp_r0;
-    if ((temp_r0 << 0x18) == 0) {
+    sub_8020130(1);
+    sub_8020284();
+
+    if (--cheese->unk1A == 0) {
         gCurTask->main = sub_801EF6C;
     }
 }
 
-void sub_801F8D8(void) {
-    Player *temp_r2;
+void Task_801F8D8(void)
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
+    Player *player = cheese->player;
+    Sprite2 *temp_r1;
     s32 var_r1;
-    u16 temp_r1;
-    void *temp_r1_2;
 
-    temp_r1 = gCurTask->data;
-    temp_r2 = temp_r1->unk50;
-    if (temp_r2->moveState & 1) {
-        var_r1 = 0xFFFFE800;
+    if (player->moveState & 1) {
+        cheese->qWorldX2 = player->qWorldX - Q(24);
     } else {
-        var_r1 = 0x1800;
+        cheese->qWorldX2 = player->qWorldX + Q(24);
     }
-    temp_r1->unk8 = (s32) (temp_r2->qWorldX + var_r1);
-    temp_r1->unkC = (s32) temp_r1->unk50->qWorldY;
-    temp_r1->unk16 = (u16) (2 | temp_r1->unk16);
-    temp_r1->unk18 = 9;
-    temp_r1->unk19 = 8;
-    temp_r1->unk1A = 0xA;
-    temp_r1_2 = temp_r1 + 0x20;
-    temp_r1_2->unkC = (u16) gCheeseTileInfo.unk20;
-    temp_r1_2->unk1A = (s8) gCheeseTileInfo.unk22;
-    temp_r1_2->unk16 = 0;
-    temp_r1_2->unk18 = 0xFFFF;
-    temp_r1_2->unk1B = 0xFF;
-    temp_r1_2->unk20 = -1;
-    temp_r1_2->unk28 = -1;
-    Player_PlaySong(temp_r1->unk50, 0x210U);
-    gCurTask->main = sub_801F970;
+
+    cheese->qWorldY2 = cheese->player->qWorldY;
+    cheese->unk16 |= 2;
+    cheese->unk18 = 9;
+    cheese->unk19 = 8;
+    cheese->unk1A = 0xA;
+
+    temp_r1 = &cheese->s;
+    temp_r1->anim = gCheeseTileInfo[8][0];
+    temp_r1->variant = (u8)gCheeseTileInfo[8][1];
+    temp_r1->qAnimDelay = 0;
+    temp_r1->prevAnim = -1;
+    temp_r1->prevVariant = -1;
+    temp_r1->hitboxes[0].index = -1;
+    temp_r1->hitboxes[1].index = -1;
+    Player_PlaySong(cheese->player, 0x210U);
+    gCurTask->main = Task_801F970;
 }
 
-void sub_801F970(void) {
-    u16 temp_r1;
-    u16 var_r0;
-    u8 temp_r0;
+void Task_801F970()
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
 
-    temp_r1 = gCurTask->data;
-    if (temp_r1->unk50->unk4 & 1) {
-        var_r0 = 1 | temp_r1->unk16;
+    if (cheese->player->moveState & 1) {
+        cheese->unk16 |= 1;
     } else {
-        var_r0 = 0xFFFE & temp_r1->unk16;
+        cheese->unk16 &= ~1;
     }
-    temp_r1->unk16 = var_r0;
-    sub_8020130(2U);
-    Task_8020284();
-    temp_r0 = temp_r1->unk1A - 1;
-    temp_r1->unk1A = temp_r0;
-    if ((temp_r0 << 0x18) == 0) {
-        temp_r1->unk1A = 0xFU;
-        gCurTask->main = sub_801F9D4;
+
+    sub_8020130(2);
+    sub_8020284();
+
+    if (--cheese->unk1A == 0) {
+        cheese->unk1A = 0xF;
+        gCurTask->main = Task_801F9D4;
     }
 }
 
-void sub_801F9D4(void) {
+void Task_801F9D4(void)
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
     s32 var_r0_2;
-    u16 temp_r1;
     u16 var_r0;
 
-    temp_r1 = gCurTask->data;
-    if (temp_r1->unk50->unk4 & 1) {
-        var_r0 = 1 | temp_r1->unk16;
+    if (cheese->player->moveState & 1) {
+        cheese->unk16 |= 1;
     } else {
-        var_r0 = 0xFFFE & temp_r1->unk16;
+        cheese->unk16 &= ~1;
     }
-    temp_r1->unk16 = var_r0;
-    sub_8020130(0U);
-    temp_r1->unk1A = (u8) (temp_r1->unk1A - 1);
-    if (temp_r1->unk1C != 0) {
-        var_r0_2 = temp_r1->unk50->unk10 - ((0xF - temp_r1->unk1A) * 0x600);
+
+    sub_8020130(0);
+    cheese->unk1A -= 1;
+    if (cheese->unk1C != 0) {
+        cheese->qWorldX = cheese->player->qWorldX - ((0xF - cheese->unk1A) * 0x600);
     } else {
-        var_r0_2 = temp_r1->unk50->unk10 + ((0xF - temp_r1->unk1A) * 0x600);
+        cheese->qWorldX = cheese->player->qWorldX + ((0xF - cheese->unk1A) * 0x600);
     }
-    temp_r1->unk0 = var_r0_2;
-    Task_8020284();
-    if (temp_r1->unk1A == 0) {
-        gCurTask->main = sub_801EE74;
+
+    sub_8020284();
+    if (cheese->unk1A == 0) {
+        gCurTask->main = Task_801EE74;
     }
 }
 
-void sub_801FA64(void) {
-    Player *temp_r2;
-    s32 var_r1;
-    u16 temp_r1;
-    void *temp_r1_2;
+void Task_801FA64(void)
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
+    Sprite2 *s;
 
-    temp_r1 = gCurTask->data;
-    temp_r2 = temp_r1->unk50;
-    if (temp_r2->moveState & 1) {
-        var_r1 = 0xFFFFE800;
+    if (cheese->player->moveState & 1) {
+        cheese->qWorldX2 = cheese->player->qWorldX - Q(24);
     } else {
-        var_r1 = 0x1800;
+        cheese->qWorldX2 = cheese->player->qWorldX + Q(24);
     }
-    temp_r1->unk8 = (s32) (temp_r2->qWorldX + var_r1);
-    temp_r1->unkC = (s32) temp_r1->unk50->qWorldY;
-    temp_r1->unk16 = (u16) (2 | temp_r1->unk16);
-    temp_r1->unk18 = 9;
-    temp_r1->unk19 = 8;
-    temp_r1->unk1A = 0xA;
-    temp_r1_2 = temp_r1 + 0x20;
-    temp_r1_2->unkC = (u16) gCheeseTileInfo.unk20;
-    temp_r1_2->unk1A = (s8) gCheeseTileInfo.unk22;
-    temp_r1_2->unk16 = 0;
-    temp_r1_2->unk18 = 0xFFFF;
-    temp_r1_2->unk1B = 0xFF;
-    temp_r1_2->unk20 = -1;
-    temp_r1_2->unk28 = -1;
-    Player_PlaySong(temp_r1->unk50, 0x210U);
-    gCurTask->main = sub_801FAFC;
+
+    cheese->qWorldY2 = cheese->player->qWorldY;
+    cheese->unk16 |= 2;
+    cheese->unk18 = 9;
+    cheese->unk19 = 8;
+    cheese->unk1A = 0xA;
+    s = &cheese->s;
+    s->anim = gCheeseTileInfo[8][0];
+    s->variant = (u8)gCheeseTileInfo[8][1];
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->prevVariant = -1;
+    s->hitboxes[0].index = -1;
+    s->hitboxes[1].index = -1;
+    Player_PlaySong(cheese->player, SE_CREAM__CHEESE_ATTACK);
+    gCurTask->main = Task_801FAFC;
 }
 
-void sub_801FAFC(void) {
-    s32 temp_r1_2;
-    s32 temp_r6;
-    u16 temp_r1;
-    u16 var_r0;
-    u8 temp_r0;
+void Task_801FAFC()
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
 
-    temp_r1 = gCurTask->data;
-    if (temp_r1->unk50->unk4 & 1) {
-        var_r0 = 1 | temp_r1->unk16;
+    if (cheese->player->moveState & 1) {
+        cheese->unk16 |= 1;
     } else {
-        var_r0 = 0xFFFE & temp_r1->unk16;
+        cheese->unk16 &= ~1;
     }
-    temp_r1->unk16 = var_r0;
-    sub_8020130(2U);
-    Task_8020284();
-    temp_r0 = temp_r1->unk1A - 1;
-    temp_r1->unk1A = temp_r0;
-    if ((temp_r0 << 0x18) == 0) {
-        temp_r6 = (s32) (*((temp_r1->unk1D * 8) + 0x200 + gSineTable) * 2) / 20;
-        temp_r1->unk8 = temp_r6;
-        temp_r1_2 = (s32) (*((temp_r1->unk1D * 8) + gSineTable) * 2) / 20;
-        temp_r1->unkC = temp_r1_2;
-        if (temp_r1->unk1C != 0) {
-            temp_r1->unk8 = (s32) (0 - temp_r6);
-            temp_r1->unkC = (s32) (0 - temp_r1_2);
+
+    sub_8020130(2);
+    sub_8020284();
+
+    if (--cheese->unk1A == 0) {
+        cheese->qWorldX2 = (((COS(cheese->unk1D * 4)) * 2) / 5) >> 2;
+        cheese->qWorldY2 = (((SIN(cheese->unk1D * 4)) * 2) / 5) >> 2;
+        if (cheese->unk1C != 0) {
+            cheese->qWorldX2 = -cheese->qWorldX2;
+            cheese->qWorldY2 = -cheese->qWorldY2;
         }
-        temp_r1->unk1A = 0xFU;
-        gCurTask->main = sub_801FBA8;
+        cheese->unk1A = 0xF;
+        gCurTask->main = Task_801FBA8;
     }
 }
 
-void sub_801FBA8(void) {
-    u16 temp_r1;
-    u16 var_r0;
-    void *temp_r3;
+void Task_801FBA8(void)
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
 
-    temp_r1 = gCurTask->data;
-    if (temp_r1->unk50->unk4 & 1) {
-        var_r0 = 1 | temp_r1->unk16;
+    if (cheese->player->moveState & 1) {
+        cheese->unk16 |= 1;
     } else {
-        var_r0 = 0xFFFE & temp_r1->unk16;
+        cheese->unk16 &= ~1;
     }
-    temp_r1->unk16 = var_r0;
-    sub_8020130(0U);
-    temp_r1->unk1A = (u8) (temp_r1->unk1A - 1);
-    temp_r3 = temp_r1->unk50;
-    temp_r1->unk0 = (s32) (temp_r3->unk10 + ((0xF - temp_r1->unk1A) * temp_r1->unk8));
-    temp_r1->unk4 = (s32) (temp_r3->unk14 + ((0xF - temp_r1->unk1A) * temp_r1->unkC));
-    Task_8020284();
-    if (temp_r1->unk1A == 0) {
-        gCurTask->main = sub_801EE74;
+
+    sub_8020130(0);
+    cheese->unk1A -= 1;
+    cheese->qWorldX = cheese->player->qWorldX + (cheese->qWorldX2 * (15 - cheese->unk1A));
+    cheese->qWorldY = cheese->player->qWorldY + (cheese->qWorldY2 * (15 - cheese->unk1A));
+    sub_8020284();
+    if (cheese->unk1A == 0) {
+        gCurTask->main = Task_801EE74;
     }
 }
 
-void sub_801FC2C(void) {
-    s32 temp_r1;
-    u16 temp_r5;
-    u32 temp_r4;
-    void *temp_r5_2;
+void Task_801FC2C(void)
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
+    Sprite2 *s;
+    u16 charIndex;
+    u16 anim;
+    u16 variant;
 
-    temp_r5 = gCurTask->data;
-    temp_r4 = (u32) (((u32) (temp_r5->unk50->unk2A << 0x1C) >> 0xA) + 0xD0000) >> 0x10;
-    temp_r1 = temp_r4 * 4;
-    temp_r5->unk8 = (s32) temp_r5->unk0;
-    temp_r5->unkC = (s32) temp_r5->unk4;
-    temp_r5->unk10 = 0;
-    temp_r5->unk12 = 0;
-    temp_r5->unk16 = (u16) ((0xFFFD & temp_r5->unk16) | 4);
-    temp_r5->unk18 = 0;
-    temp_r5->unk19 = (s8) temp_r4;
-    temp_r5->unk1A = 0;
-    temp_r5_2 = temp_r5 + 0x20;
-    temp_r5_2->unkC = (u16) *(temp_r1 + &gCheeseTileInfo);
-    temp_r5_2->unk1A = (s8) *(temp_r1 + (&gCheeseTileInfo + 2));
-    temp_r5_2->unk16 = 0;
-    temp_r5_2->unk18 = 0xFFFF;
-    temp_r5_2->unk1B = 0xFF;
-    temp_r5_2->unk20 = -1;
-    temp_r5_2->unk28 = -1;
-    gCurTask->main = sub_801FCD8;
+    charIndex = (cheese->player->charFlags.character * 4 + 0xD);
+    anim = gCheeseTileInfo[charIndex][0];
+    variant = gCheeseTileInfo[charIndex][1];
+
+    cheese->qWorldX2 = cheese->qWorldX;
+    cheese->qWorldY2 = cheese->qWorldY;
+    cheese->unk10 = 0;
+    cheese->unk12 = 0;
+    cheese->unk16 = (0xFFFD & cheese->unk16) | 4;
+    cheese->unk18 = 0;
+    cheese->unk19 = (u8)charIndex;
+    cheese->unk1A = 0;
+
+    s = &cheese->s;
+    s->anim = anim;
+    s->variant = variant;
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->prevVariant = -1;
+    s->hitboxes[0].index = -1;
+    s->hitboxes[1].index = -1;
+    gCurTask->main = Task_801FCD8;
 }
 
-void sub_801FCD8(void) {
-    Player *temp_r0_2;
-    s16 temp_r1_2;
+void Task_801FCD8()
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
+    s16 *temp_r1;
+    s16 *temp_r1_2;
+    s16 temp_r1_3;
     s32 var_r0;
     s32 var_r0_2;
-    u16 temp_r1;
     u16 var_r0_3;
-    void *temp_r0;
-    void *temp_r2;
-    void *temp_r2_2;
 
-    temp_r1 = gCurTask->data;
-    temp_r2 = temp_r1->unk50;
-    if (temp_r2->unk4 & 1) {
-        var_r0 = temp_r2->unk10 + 0x1800;
+    if (cheese->player->moveState & 1) {
+        cheese->qWorldX2 = cheese->player->qWorldX + Q(24);
     } else {
-        var_r0 = temp_r2->unk10 + 0xFFFFE800;
+        cheese->qWorldX2 = cheese->player->qWorldX - Q(24);
     }
-    temp_r1->unk8 = var_r0;
-    temp_r2_2 = temp_r1->unk50;
-    if (temp_r2_2->unk4 & 0x10000) {
-        var_r0_2 = temp_r2_2->unk14 + 0x1800;
+
+    if (cheese->player->moveState & 0x10000) {
+        cheese->qWorldY2 = cheese->player->qWorldY + Q(24);
     } else {
-        var_r0_2 = temp_r2_2->unk14 + 0xFFFFE800;
+        cheese->qWorldY2 = cheese->player->qWorldY - Q(24);
     }
-    temp_r1->unkC = var_r0_2;
-    if ((s32) temp_r1->unk50->unk10 < (s32) temp_r1->unk0) {
-        var_r0_3 = 1 | temp_r1->unk16;
+
+    if (cheese->player->qWorldX < cheese->qWorldX) {
+        cheese->unk16 |= 1;
     } else {
-        var_r0_3 = 0xFFFE & temp_r1->unk16;
+        cheese->unk16 &= ~1;
     }
-    temp_r1->unk16 = var_r0_3;
-    sub_8020130(1U);
-    Task_8020284();
-    temp_r0 = temp_r1->unk50;
-    if ((s16) temp_r0->unk54 != 0) {
-        temp_r0->unk54 = (u16) (temp_r0->unk54 - 1);
+
+    sub_8020130(1);
+    sub_8020284();
+
+    if (cheese->player->unk54 != 0) {
+        cheese->player->unk54--;
     }
-    temp_r0_2 = temp_r1->unk54;
-    if ((s16) temp_r0_2->unk54 != 0) {
-        temp_r0_2->unk54 -= 1;
+
+    if (cheese->unk54->unk54 != 0) {
+        cheese->unk54->unk54--;
     }
-    temp_r1_2 = (s16) temp_r1->unk50->unk54;
-    if (temp_r1_2 == 0) {
-        temp_r1->unk54->unk54 = (u16) temp_r1_2;
-        temp_r1->unk16 = (u16) (0xFFFB & temp_r1->unk16);
-        sub_801ECAC(temp_r1->unk54);
+
+    if (cheese->player->unk54 == 0) {
+        cheese->unk54->unk54 = 0;
+        cheese->unk16 &= 0xFFFB;
+        sub_801ECAC(cheese->unk54);
     }
 }
 
-void sub_801FDAC(void) {
-    Player *temp_r3;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    u16 temp_r0;
-    u32 temp_r5;
-    u32 temp_r5_2;
-    void (*var_r0)();
-    void *temp_r3_2;
-    void *temp_r3_3;
+void Task_801FDAC()
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
+    AnimId anim;
+    u16 variant;
+    Sprite2 *s;
+    s16 charIndex;
 
-    temp_r0 = gCurTask->data;
-    temp_r3 = temp_r0->unk50;
-    if (temp_r3->unkBC == -1U) {
-        temp_r5 = (u32) (((u32) (temp_r3->unk2A << 0x1C) >> 0xA) + 0x100000) >> 0x10;
-        temp_r1 = temp_r5 * 4;
-        temp_r0->unk16 = (u16) (0xFFFD & temp_r0->unk16);
-        temp_r0->unk18 = 0xB;
-        temp_r0->unk19 = (s8) temp_r5;
-        temp_r0->unk1A = 0x1E;
-        temp_r3_2 = temp_r0 + 0x20;
-        temp_r3_2->unkC = (u16) *(temp_r1 + &gCheeseTileInfo);
-        temp_r3_2->unk1A = (s8) *(temp_r1 + (&gCheeseTileInfo + 2));
-        temp_r3_2->unk16 = 0;
-        temp_r3_2->unk18 = 0xFFFF;
-        temp_r3_2->unk1B = 0xFF;
-        temp_r3_2->unk20 = -1;
-        temp_r3_2->unk28 = -1;
-        var_r0 = sub_8020038;
+    if (cheese->player->unkBC == -1U) {
+        charIndex = (cheese->player->charFlags.character * 4 + 16);
+        anim = gCheeseTileInfo[charIndex][0];
+        variant = gCheeseTileInfo[charIndex][1];
+        cheese->unk16 &= 0xFFFD;
+        cheese->unk18 = 0xB;
+        cheese->unk19 = (u8)charIndex;
+        cheese->unk1A = 0x1E;
+        s = &cheese->s;
+        s->anim = anim;
+        s->variant = variant;
+        s->qAnimDelay = 0;
+        s->prevAnim = 0xFFFF;
+        s->prevVariant = 0xFF;
+        s->hitboxes[0].index = -1;
+        s->hitboxes[1].index = -1;
+        gCurTask->main = sub_8020038;
     } else {
-        temp_r5_2 = (u32) (((u32) (temp_r3->unk2A << 0x1C) >> 0xA) + 0xE0000) >> 0x10;
-        temp_r1_2 = temp_r5_2 * 4;
-        temp_r0->unk8 = (s32) temp_r3->unkB0;
-        temp_r0->unkC = (s32) temp_r3->unkB4;
-        temp_r0->unk16 = (u16) (2 | temp_r0->unk16);
-        temp_r0->unk18 = 9;
-        temp_r0->unk19 = (s8) temp_r5_2;
-        temp_r0->unk1A = 0x1E;
-        temp_r3_3 = temp_r0 + 0x20;
-        temp_r3_3->unkC = (u16) *(temp_r1_2 + &gCheeseTileInfo);
-        temp_r3_3->unk1A = (s8) *(temp_r1_2 + (&gCheeseTileInfo + 2));
-        temp_r3_3->unk16 = 0;
-        temp_r3_3->unk18 = 0xFFFF;
-        temp_r3_3->unk1B = 0xFF;
-        temp_r3_3->unk20 = -1;
-        temp_r3_3->unk28 = -1;
-        Player_PlaySong(temp_r0->unk50, 0x210U);
-        var_r0 = sub_801FED0;
+        charIndex = cheese->player->charFlags.character * 4 + 14;
+        anim = gCheeseTileInfo[charIndex][0];
+        variant = gCheeseTileInfo[charIndex][1];
+        cheese->qWorldX2 = cheese->player->unkB0;
+        cheese->qWorldY2 = cheese->player->unkB4;
+        cheese->unk16 |= 2;
+        cheese->unk18 = 9;
+        cheese->unk19 = (u8)charIndex;
+        cheese->unk1A = 0x1E;
+        s = &cheese->s;
+        s->anim = anim;
+        s->variant = variant;
+        s->qAnimDelay = 0;
+        s->prevAnim = 0xFFFF;
+        s->prevVariant = 0xFF;
+        s->hitboxes[0].index = -1;
+        s->hitboxes[1].index = -1;
+        Player_PlaySong(cheese->player, 0x210U);
+        gCurTask->main = Task_801FED0;
     }
-    gCurTask->main = var_r0;
 }
 
-void sub_801FED0(void) {
+#if 0
+// -> Cheese
+void Task_801FED0(void) {
     Player *temp_r0_3;
     s16 temp_r1_2;
     u16 temp_r1;
@@ -22222,12 +22124,12 @@ void sub_801FED0(void) {
     }
     temp_r1->unk16 = var_r0;
     sub_8020130(2U);
-    Task_8020284();
+    sub_8020284();
     temp_r0 = temp_r1->unk1A - 1;
     temp_r1->unk1A = temp_r0;
     if ((temp_r0 << 0x18) == 0) {
         temp_r1->unk16 = (u16) (0xFFFD & temp_r1->unk16);
-        gCurTask->main = sub_801FC2C;
+        gCurTask->main = Task_801FC2C;
         return;
     }
     temp_r0_2 = temp_r1->unk50;
@@ -22285,7 +22187,7 @@ void sub_8020038(void) {
 
     temp_r4 = gCurTask->data;
     sub_8020130(1U);
-    Task_8020284();
+    sub_8020284();
     temp_r2 = temp_r4->unk50;
     if (temp_r2->unk4 & 1) {
         var_r0 = temp_r2->unk10 + 0x1800;
@@ -22309,7 +22211,7 @@ void sub_8020038(void) {
     temp_r0_2 = temp_r4->unk1A - 1;
     temp_r4->unk1A = temp_r0_2;
     if ((temp_r0_2 << 0x18) == 0) {
-        gCurTask->main = sub_801FC2C;
+        gCurTask->main = Task_801FC2C;
         return;
     }
     temp_r0_3 = temp_r4->unk50;
@@ -22420,7 +22322,7 @@ block_25:
 }
 
 // -> Cheese
-void Task_8020284(void) {
+void sub_8020284(void) {
     Sprite *temp_r4;
     s32 temp_r1_3;
     u16 temp_r1;
@@ -22503,12 +22405,12 @@ void sub_8020444(Player *arg0) {
 
     if ((0xF & arg0->unk2A) == 1) {
         if ((arg0->unkC & 0x18) != 0x10) {
-            var_r0 = sub_801EE74;
+            var_r0 = Task_801EE74;
         } else {
             var_r0 = sub_801EF6C;
         }
     } else {
-        var_r0 = sub_801FC2C;
+        var_r0 = Task_801FC2C;
     }
     gStageData.taskCheese->main = var_r0;
 }
@@ -22522,22 +22424,22 @@ void sub_8020488(Player *arg0) {
         if (temp_r2 != 8) {
             if (arg0->unkBC == -1U) {
                 if (temp_r2 != 0x10) {
-                    var_r0 = sub_801F6D8;
+                    var_r0 = Task_801F6D8;
                 } else {
-                    var_r0 = sub_801F7E0;
+                    var_r0 = Task_801F7E0;
                 }
             } else {
-                var_r0 = sub_801F5B4;
+                var_r0 = Task_801F5B4;
             }
         } else if (arg0->moveState & 4) {
-            var_r0 = sub_801F8D8;
+            var_r0 = Task_801F8D8;
         } else {
-            var_r0 = sub_801FA64;
+            var_r0 = Task_801FA64;
         }
     } else if (arg0->unkBC == -1U) {
         var_r0 = sub_801FFA8;
     } else {
-        var_r0 = sub_801FDAC;
+        var_r0 = Task_801FDAC;
     }
     gStageData.taskCheese->main = var_r0;
 }
@@ -22551,11 +22453,11 @@ void sub_8020530(void) {
 }
 
 void sub_8020544(void) {
-    gStageData.taskCheese->main = sub_801F4B4;
+    gStageData.taskCheese->main = Task_801F4B4;
 }
 
 void sub_8020558(void) {
-    gStageData.taskCheese->main = sub_801F534;
+    gStageData.taskCheese->main = Task_801F534;
 }
 
 // -> Cheese
@@ -22575,14 +22477,14 @@ void sub_802056C(void) {
     temp_r1->unk8 = (s32) (temp_r2->unk10 + var_r1);
     temp_r1->unkC = (s32) (temp_r1->unk50->unk14 + 0xFFFFE800);
     sub_8020130(1U);
-    Task_8020284();
+    sub_8020284();
     temp_r0 = temp_r1->unk1A - 1;
     temp_r1->unk1A = temp_r0;
     if ((temp_r0 << 0x18) == 0) {
         if ((temp_r1->unk50->unkC & 0x18) == 0x10) {
             gCurTask->main = sub_801EF6C;
         } else {
-            gCurTask->main = sub_801EE74;
+            gCurTask->main = Task_801EE74;
         }
     }
 }
@@ -22602,20 +22504,20 @@ void sub_80205F4(void) {
         temp_r3 = temp_r4->unk50;
         if ((0xF & temp_r3->unk2A) == 1) {
             if ((temp_r3->unkC & 0x18) != 0x10) {
-                var_r0 = sub_801EE74;
+                var_r0 = Task_801EE74;
             } else {
                 var_r0 = sub_801EF6C;
             }
         } else {
-            var_r0 = sub_801FC2C;
+            var_r0 = Task_801FC2C;
         }
         gStageData.taskCheese->main = var_r0;
     }
-    Task_8020284();
+    sub_8020284();
 }
 
 // -> Cheese
-void sub_8020660(void) {
+void Task_8020660(void) {
     u16 temp_r1;
     u16 var_r0;
     void *temp_r1_2;
@@ -22632,7 +22534,7 @@ void sub_8020660(void) {
     temp_r1->unkC = (s32) temp_r1_2->unk14;
     temp_r1->unk0 = (s32) temp_r1_2->unk10;
     temp_r1->unk4 = (s32) temp_r1_2->unk14;
-    Task_8020284();
+    sub_8020284();
 }
 
 // -> Cheese
@@ -22653,7 +22555,7 @@ void sub_80206B0(void) {
     temp_r1->unkC = (s32) temp_r1_2->unk14;
     temp_r1->unk0 = (s32) temp_r1_2->unk10;
     temp_r1->unk4 = (s32) temp_r1_2->unk14;
-    Task_8020284();
+    sub_8020284();
 }
 
 u32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5) {

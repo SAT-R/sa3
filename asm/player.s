@@ -5,1718 +5,11 @@
 .syntax unified
 .arm
 
-.if 01
+.if 0
 .endif
 
-	thumb_func_start Task_801F184
-Task_801F184: @ 0x0801F184
-	push {r4, lr}
-	ldr r0, _0801F1A8 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	ldr r2, [r4, #0x50]
-	ldr r0, [r2, #4]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _0801F1AC
-	ldr r0, [r2, #0x10]
-	movs r1, #0xc0
-	lsls r1, r1, #5
-	b _0801F1B0
-	.align 2, 0
-_0801F1A8: .4byte gCurTask
-_0801F1AC:
-	ldr r0, [r2, #0x10]
-	ldr r1, _0801F1CC @ =0xFFFFE800
-_0801F1B0:
-	adds r0, r0, r1
-	str r0, [r4, #8]
-	ldr r2, [r4, #0x50]
-	ldr r0, [r2, #4]
-	movs r1, #0x80
-	lsls r1, r1, #9
-	ands r0, r1
-	cmp r0, #0
-	beq _0801F1D0
-	ldr r0, [r2, #0x14]
-	movs r1, #0xc0
-	lsls r1, r1, #5
-	b _0801F1D4
-	.align 2, 0
-_0801F1CC: .4byte 0xFFFFE800
-_0801F1D0:
-	ldr r0, [r2, #0x14]
-	ldr r1, _0801F208 @ =0xFFFFE800
-_0801F1D4:
-	adds r0, r0, r1
-	str r0, [r4, #0xc]
-	movs r0, #1
-	bl sub_8020130
-	bl Task_8020284
-	ldrb r0, [r4, #0x1a]
-	subs r0, #1
-	strb r0, [r4, #0x1a]
-	lsls r0, r0, #0x18
-	cmp r0, #0
-	bne _0801F248
-	ldr r2, [r4, #0x50]
-	adds r0, r2, #0
-	adds r0, #0x2a
-	ldrb r1, [r0]
-	movs r0, #0xf
-	ands r0, r1
-	cmp r0, #1
-	beq _0801F214
-	ldr r0, _0801F20C @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0801F210 @ =sub_801FC2C
-	b _0801F246
-	.align 2, 0
-_0801F208: .4byte 0xFFFFE800
-_0801F20C: .4byte gCurTask
-_0801F210: .4byte sub_801FC2C
-_0801F214:
-	ldr r0, [r2, #4]
-	movs r1, #0x80
-	lsls r1, r1, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _0801F226
-	movs r0, #0x3c
-	strb r0, [r4, #0x1a]
-	b _0801F248
-_0801F226:
-	ldr r0, [r2, #0xc]
-	movs r1, #0x18
-	ands r0, r1
-	cmp r0, #0x10
-	bne _0801F240
-	ldr r0, _0801F238 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0801F23C @ =sub_801EF6C
-	b _0801F246
-	.align 2, 0
-_0801F238: .4byte gCurTask
-_0801F23C: .4byte sub_801EF6C
-_0801F240:
-	ldr r0, _0801F250 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0801F254 @ =sub_801EE74
-_0801F246:
-	str r0, [r1, #8]
-_0801F248:
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801F250: .4byte gCurTask
-_0801F254: .4byte sub_801EE74
-
-	thumb_func_start sub_801F258
-sub_801F258: @ 0x0801F258
-	push {r4, r5, r6, lr}
-	ldr r2, _0801F284 @ =gCurTask
-	ldr r0, [r2]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r3, r1, r0
-	movs r5, #0
-	ldr r4, [r3, #0x50]
-	ldr r0, [r4, #0x10]
-	str r0, [r3, #8]
-	ldr r0, [r4, #4]
-	movs r1, #0x80
-	lsls r1, r1, #9
-	ands r0, r1
-	adds r6, r2, #0
-	cmp r0, #0
-	beq _0801F288
-	ldr r0, [r4, #0x14]
-	movs r1, #0x80
-	lsls r1, r1, #5
-	b _0801F28C
-	.align 2, 0
-_0801F284: .4byte gCurTask
-_0801F288:
-	ldr r0, [r4, #0x14]
-	ldr r1, _0801F2E8 @ =0xFFFFF000
-_0801F28C:
-	adds r0, r0, r1
-	str r0, [r3, #0xc]
-	movs r4, #0
-	movs r0, #0x18
-	strb r0, [r3, #0x1a]
-	strh r4, [r3, #0x10]
-	strh r4, [r3, #0x12]
-	movs r0, #5
-	strb r0, [r3, #0x18]
-	movs r0, #7
-	strb r0, [r3, #0x19]
-	ldrh r1, [r3, #0x16]
-	ldr r0, _0801F2EC @ =0x0000FFF9
-	ands r0, r1
-	strh r0, [r3, #0x16]
-	adds r2, r3, #0
-	adds r2, #0x20
-	ldr r0, [r3, #0x50]
-	ldr r0, [r0, #4]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _0801F2BE
-	movs r5, #0x80
-	lsls r5, r5, #3
-_0801F2BE:
-	str r5, [r2, #8]
-	ldr r1, _0801F2F0 @ =gCheeseTileInfo
-	ldrh r0, [r1]
-	strh r0, [r2, #0xc]
-	ldrh r0, [r1, #2]
-	strb r0, [r2, #0x1a]
-	strh r4, [r2, #0x16]
-	ldr r0, _0801F2F4 @ =0x0000FFFF
-	strh r0, [r2, #0x18]
-	movs r0, #0xff
-	strb r0, [r2, #0x1b]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r2, #0x20]
-	str r0, [r2, #0x28]
-	ldr r1, [r6]
-	ldr r0, _0801F2F8 @ =sub_801F2FC
-	str r0, [r1, #8]
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801F2E8: .4byte 0xFFFFF000
-_0801F2EC: .4byte 0x0000FFF9
-_0801F2F0: .4byte gCheeseTileInfo
-_0801F2F4: .4byte 0x0000FFFF
-_0801F2F8: .4byte sub_801F2FC
-
-	thumb_func_start sub_801F2FC
-sub_801F2FC: @ 0x0801F2FC
-	push {r4, lr}
-	ldr r0, _0801F328 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	ldr r2, [r4, #0x50]
-	ldr r0, [r2, #0x10]
-	str r0, [r4, #8]
-	ldr r0, [r2, #4]
-	movs r1, #0x80
-	lsls r1, r1, #9
-	ands r0, r1
-	cmp r0, #0
-	beq _0801F32C
-	ldr r0, [r2, #0x14]
-	movs r1, #0xc0
-	lsls r1, r1, #4
-	adds r0, r0, r1
-	b _0801F332
-	.align 2, 0
-_0801F328: .4byte gCurTask
-_0801F32C:
-	ldr r0, [r2, #0x14]
-	ldr r2, _0801F348 @ =0xFFFFF400
-	adds r0, r0, r2
-_0801F332:
-	str r0, [r4, #0xc]
-	ldr r0, [r4, #0x50]
-	ldr r0, [r0, #4]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _0801F34C
-	ldrh r1, [r4, #0x16]
-	movs r0, #1
-	orrs r0, r1
-	b _0801F352
-	.align 2, 0
-_0801F348: .4byte 0xFFFFF400
-_0801F34C:
-	ldrh r1, [r4, #0x16]
-	ldr r0, _0801F368 @ =0x0000FFFE
-	ands r0, r1
-_0801F352:
-	strh r0, [r4, #0x16]
-	ldrb r0, [r4, #0x1a]
-	cmp r0, #0
-	beq _0801F36C
-	subs r0, #1
-	strb r0, [r4, #0x1a]
-	movs r0, #4
-	bl sub_8020130
-	b _0801F372
-	.align 2, 0
-_0801F368: .4byte 0x0000FFFE
-_0801F36C:
-	movs r0, #6
-	bl sub_8020130
-_0801F372:
-	bl Task_8020284
-	ldr r0, [r4, #8]
-	ldr r1, [r4]
-	subs r2, r0, r1
-	cmp r2, #0
-	blt _0801F38C
-	ldr r0, _0801F388 @ =0x000003FE
-	cmp r2, r0
-	ble _0801F394
-	b _0801F3CE
-	.align 2, 0
-_0801F388: .4byte 0x000003FE
-_0801F38C:
-	subs r1, r1, r0
-	ldr r0, _0801F3A8 @ =0x000003FE
-	cmp r1, r0
-	bgt _0801F3CE
-_0801F394:
-	ldr r0, [r4, #0xc]
-	ldr r1, [r4, #4]
-	subs r2, r0, r1
-	cmp r2, #0
-	blt _0801F3B0
-	ldr r0, _0801F3AC @ =0x000004FE
-	cmp r2, r0
-	ble _0801F3B8
-	b _0801F3CE
-	.align 2, 0
-_0801F3A8: .4byte 0x000003FE
-_0801F3AC: .4byte 0x000004FE
-_0801F3B0:
-	subs r1, r1, r0
-	ldr r0, _0801F3EC @ =0x000004FE
-	cmp r1, r0
-	bgt _0801F3CE
-_0801F3B8:
-	ldr r1, _0801F3F0 @ =gCheeseTileInfo
-	ldrh r0, [r1, #0x1c]
-	strh r0, [r4, #0x2c]
-	ldrh r0, [r1, #0x1e]
-	adds r1, r4, #0
-	adds r1, #0x3a
-	strb r0, [r1]
-	ldr r0, _0801F3F4 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0801F3F8 @ =sub_801F418
-	str r0, [r1, #8]
-_0801F3CE:
-	ldr r1, [r4, #0x50]
-	movs r2, #0x30
-	ldrsh r0, [r1, r2]
-	cmp r0, #0xbe
-	beq _0801F408
-	ldr r0, [r1, #0xc]
-	movs r1, #0x18
-	ands r0, r1
-	cmp r0, #0x10
-	bne _0801F400
-	ldr r0, _0801F3F4 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0801F3FC @ =sub_801EF6C
-	b _0801F406
-	.align 2, 0
-_0801F3EC: .4byte 0x000004FE
-_0801F3F0: .4byte gCheeseTileInfo
-_0801F3F4: .4byte gCurTask
-_0801F3F8: .4byte sub_801F418
-_0801F3FC: .4byte sub_801EF6C
-_0801F400:
-	ldr r0, _0801F410 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0801F414 @ =sub_801EE74
-_0801F406:
-	str r0, [r1, #8]
-_0801F408:
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801F410: .4byte gCurTask
-_0801F414: .4byte sub_801EE74
-
-	thumb_func_start sub_801F418
-sub_801F418: @ 0x0801F418
-	push {r4, lr}
-	ldr r0, _0801F444 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	ldr r2, [r4, #0x50]
-	ldr r0, [r2, #0x10]
-	str r0, [r4]
-	ldr r0, [r2, #4]
-	movs r1, #0x80
-	lsls r1, r1, #9
-	ands r0, r1
-	cmp r0, #0
-	beq _0801F448
-	ldr r0, [r2, #0x14]
-	movs r1, #0xc0
-	lsls r1, r1, #4
-	adds r0, r0, r1
-	b _0801F44E
-	.align 2, 0
-_0801F444: .4byte gCurTask
-_0801F448:
-	ldr r0, [r2, #0x14]
-	ldr r2, _0801F464 @ =0xFFFFF400
-	adds r0, r0, r2
-_0801F44E:
-	str r0, [r4, #4]
-	ldr r0, [r4, #0x50]
-	ldr r0, [r0, #4]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _0801F468
-	ldrh r1, [r4, #0x16]
-	movs r0, #1
-	orrs r0, r1
-	b _0801F46E
-	.align 2, 0
-_0801F464: .4byte 0xFFFFF400
-_0801F468:
-	ldrh r1, [r4, #0x16]
-	ldr r0, _0801F490 @ =0x0000FFFE
-	ands r0, r1
-_0801F46E:
-	strh r0, [r4, #0x16]
-	bl Task_8020284
-	ldr r1, [r4, #0x50]
-	movs r2, #0x30
-	ldrsh r0, [r1, r2]
-	cmp r0, #0xbe
-	beq _0801F4A4
-	ldr r0, [r1, #0xc]
-	movs r1, #0x18
-	ands r0, r1
-	cmp r0, #0x10
-	bne _0801F49C
-	ldr r0, _0801F494 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0801F498 @ =sub_801EF6C
-	b _0801F4A2
-	.align 2, 0
-_0801F490: .4byte 0x0000FFFE
-_0801F494: .4byte gCurTask
-_0801F498: .4byte sub_801EF6C
-_0801F49C:
-	ldr r0, _0801F4AC @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0801F4B0 @ =sub_801EE74
-_0801F4A2:
-	str r0, [r1, #8]
-_0801F4A4:
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801F4AC: .4byte gCurTask
-_0801F4B0: .4byte sub_801EE74
-
-	thumb_func_start sub_801F4B4
-sub_801F4B4: @ 0x0801F4B4
-	push {r4, r5, lr}
-	ldr r5, _0801F51C @ =gCurTask
-	ldr r0, [r5]
-	ldrh r3, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r1, r3, r1
-	ldr r2, [r1, #0x50]
-	ldr r0, [r2, #0x10]
-	str r0, [r1, #8]
-	ldr r0, [r2, #0x14]
-	str r0, [r1, #0xc]
-	ldr r0, [r2, #0x10]
-	str r0, [r1]
-	ldr r0, [r2, #0x14]
-	str r0, [r1, #4]
-	movs r4, #0
-	strh r4, [r1, #0x10]
-	strh r4, [r1, #0x12]
-	movs r0, #4
-	strb r0, [r1, #0x18]
-	movs r0, #9
-	strb r0, [r1, #0x19]
-	ldrh r2, [r1, #0x16]
-	ldr r0, _0801F520 @ =0x0000FFF9
-	ands r0, r2
-	strh r0, [r1, #0x16]
-	ldr r0, _0801F524 @ =0x03000020
-	adds r3, r3, r0
-	movs r0, #0x80
-	lsls r0, r0, #5
-	str r0, [r3, #8]
-	ldr r1, _0801F528 @ =gCheeseTileInfo
-	ldrh r0, [r1, #0x24]
-	strh r0, [r3, #0xc]
-	ldrh r0, [r1, #0x26]
-	strb r0, [r3, #0x1a]
-	strh r4, [r3, #0x16]
-	ldr r0, _0801F52C @ =0x0000FFFF
-	strh r0, [r3, #0x18]
-	movs r0, #0xff
-	strb r0, [r3, #0x1b]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r3, #0x20]
-	str r0, [r3, #0x28]
-	ldr r1, [r5]
-	ldr r0, _0801F530 @ =sub_8020660
-	str r0, [r1, #8]
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801F51C: .4byte gCurTask
-_0801F520: .4byte 0x0000FFF9
-_0801F524: .4byte 0x03000020
-_0801F528: .4byte gCheeseTileInfo
-_0801F52C: .4byte 0x0000FFFF
-_0801F530: .4byte sub_8020660
-
-	thumb_func_start sub_801F534
-sub_801F534: @ 0x0801F534
-	push {r4, r5, lr}
-	ldr r5, _0801F59C @ =gCurTask
-	ldr r0, [r5]
-	ldrh r3, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r1, r3, r1
-	ldr r2, [r1, #0x50]
-	ldr r0, [r2, #0x10]
-	str r0, [r1, #8]
-	ldr r0, [r2, #0x14]
-	str r0, [r1, #0xc]
-	ldr r0, [r2, #0x10]
-	str r0, [r1]
-	ldr r0, [r2, #0x14]
-	str r0, [r1, #4]
-	movs r4, #0
-	strh r4, [r1, #0x10]
-	strh r4, [r1, #0x12]
-	movs r0, #4
-	strb r0, [r1, #0x18]
-	movs r0, #0xa
-	strb r0, [r1, #0x19]
-	ldrh r2, [r1, #0x16]
-	ldr r0, _0801F5A0 @ =0x0000FFF9
-	ands r0, r2
-	strh r0, [r1, #0x16]
-	ldr r0, _0801F5A4 @ =0x03000020
-	adds r3, r3, r0
-	movs r0, #0x80
-	lsls r0, r0, #5
-	str r0, [r3, #8]
-	ldr r1, _0801F5A8 @ =gCheeseTileInfo
-	ldrh r0, [r1, #0x28]
-	strh r0, [r3, #0xc]
-	ldrh r0, [r1, #0x2a]
-	strb r0, [r3, #0x1a]
-	strh r4, [r3, #0x16]
-	ldr r0, _0801F5AC @ =0x0000FFFF
-	strh r0, [r3, #0x18]
-	movs r0, #0xff
-	strb r0, [r3, #0x1b]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r3, #0x20]
-	str r0, [r3, #0x28]
-	ldr r1, [r5]
-	ldr r0, _0801F5B0 @ =sub_80206B0
-	str r0, [r1, #8]
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801F59C: .4byte gCurTask
-_0801F5A0: .4byte 0x0000FFF9
-_0801F5A4: .4byte 0x03000020
-_0801F5A8: .4byte gCheeseTileInfo
-_0801F5AC: .4byte 0x0000FFFF
-_0801F5B0: .4byte sub_80206B0
-
-	thumb_func_start sub_801F5B4
-sub_801F5B4: @ 0x0801F5B4
-	push {r4, r5, lr}
-	ldr r5, _0801F61C @ =gCurTask
-	ldr r0, [r5]
-	ldrh r3, [r0, #6]
-	movs r2, #0xc0
-	lsls r2, r2, #0x12
-	adds r2, r3, r2
-	ldr r0, [r2, #0x50]
-	adds r1, r0, #0
-	adds r1, #0xb0
-	ldr r1, [r1]
-	str r1, [r2, #8]
-	adds r0, #0xb4
-	ldr r0, [r0]
-	str r0, [r2, #0xc]
-	ldrh r0, [r2, #0x16]
-	movs r1, #2
-	movs r4, #0
-	orrs r0, r1
-	strh r0, [r2, #0x16]
-	movs r0, #9
-	strb r0, [r2, #0x18]
-	strb r1, [r2, #0x19]
-	movs r0, #0x1e
-	strb r0, [r2, #0x1a]
-	ldr r0, _0801F620 @ =0x03000020
-	adds r3, r3, r0
-	ldr r1, _0801F624 @ =gCheeseTileInfo
-	ldrh r0, [r1, #8]
-	strh r0, [r3, #0xc]
-	ldrh r0, [r1, #0xa]
-	strb r0, [r3, #0x1a]
-	strh r4, [r3, #0x16]
-	ldr r0, _0801F628 @ =0x0000FFFF
-	strh r0, [r3, #0x18]
-	movs r0, #0xff
-	strb r0, [r3, #0x1b]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r3, #0x20]
-	str r0, [r3, #0x28]
-	ldr r0, [r2, #0x50]
-	movs r1, #0x84
-	lsls r1, r1, #2
-	bl Player_PlaySong
-	ldr r1, [r5]
-	ldr r0, _0801F62C @ =sub_801F630
-	str r0, [r1, #8]
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801F61C: .4byte gCurTask
-_0801F620: .4byte 0x03000020
-_0801F624: .4byte gCheeseTileInfo
-_0801F628: .4byte 0x0000FFFF
-_0801F62C: .4byte sub_801F630
-
-	thumb_func_start sub_801F630
-sub_801F630: @ 0x0801F630
-	push {r4, lr}
-	ldr r0, _0801F670 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	ldr r2, [r4, #0x50]
-	adds r0, r2, #0
-	adds r0, #0xbc
-	ldr r1, [r0]
-	movs r0, #1
-	rsbs r0, r0, #0
-	cmp r1, r0
-	beq _0801F65E
-	adds r0, r2, #0
-	adds r0, #0xb0
-	ldr r0, [r0]
-	str r0, [r4, #8]
-	adds r0, r2, #0
-	adds r0, #0xb4
-	ldr r0, [r0]
-	str r0, [r4, #0xc]
-_0801F65E:
-	ldr r1, [r4, #8]
-	ldr r0, [r4]
-	cmp r1, r0
-	bge _0801F674
-	ldrh r1, [r4, #0x16]
-	movs r0, #1
-	orrs r0, r1
-	b _0801F67A
-	.align 2, 0
-_0801F670: .4byte gCurTask
-_0801F674:
-	ldrh r1, [r4, #0x16]
-	ldr r0, _0801F6B0 @ =0x0000FFFE
-	ands r0, r1
-_0801F67A:
-	strh r0, [r4, #0x16]
-	movs r0, #2
-	bl sub_8020130
-	bl Task_8020284
-	ldrb r0, [r4, #0x1a]
-	subs r0, #1
-	strb r0, [r4, #0x1a]
-	lsls r0, r0, #0x18
-	cmp r0, #0
-	bne _0801F6C8
-	ldrh r1, [r4, #0x16]
-	ldr r0, _0801F6B4 @ =0x0000FFFD
-	ands r0, r1
-	strh r0, [r4, #0x16]
-	ldr r0, [r4, #0x50]
-	ldr r0, [r0, #0xc]
-	movs r1, #0x18
-	ands r0, r1
-	cmp r0, #0x10
-	bne _0801F6C0
-	ldr r0, _0801F6B8 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0801F6BC @ =sub_801EF6C
-	b _0801F6C6
-	.align 2, 0
-_0801F6B0: .4byte 0x0000FFFE
-_0801F6B4: .4byte 0x0000FFFD
-_0801F6B8: .4byte gCurTask
-_0801F6BC: .4byte sub_801EF6C
-_0801F6C0:
-	ldr r0, _0801F6D0 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0801F6D4 @ =sub_801EE74
-_0801F6C6:
-	str r0, [r1, #8]
-_0801F6C8:
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801F6D0: .4byte gCurTask
-_0801F6D4: .4byte sub_801EE74
-
-	thumb_func_start sub_801F6D8
-sub_801F6D8: @ 0x0801F6D8
-	push {r4, lr}
-	ldr r4, _0801F728 @ =gCurTask
-	ldr r0, [r4]
-	ldrh r2, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r1, r2, r1
-	ldrh r3, [r1, #0x16]
-	ldr r0, _0801F72C @ =0x0000FFFD
-	ands r0, r3
-	movs r3, #0
-	strh r0, [r1, #0x16]
-	movs r0, #0xb
-	strb r0, [r1, #0x18]
-	movs r0, #3
-	strb r0, [r1, #0x19]
-	movs r0, #0x1e
-	strb r0, [r1, #0x1a]
-	ldr r0, _0801F730 @ =0x03000020
-	adds r2, r2, r0
-	ldr r1, _0801F734 @ =gCheeseTileInfo
-	ldrh r0, [r1, #0xc]
-	strh r0, [r2, #0xc]
-	ldrh r0, [r1, #0xe]
-	strb r0, [r2, #0x1a]
-	strh r3, [r2, #0x16]
-	ldr r0, _0801F738 @ =0x0000FFFF
-	strh r0, [r2, #0x18]
-	movs r0, #0xff
-	strb r0, [r2, #0x1b]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r2, #0x20]
-	str r0, [r2, #0x28]
-	ldr r1, [r4]
-	ldr r0, _0801F73C @ =sub_801F740
-	str r0, [r1, #8]
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801F728: .4byte gCurTask
-_0801F72C: .4byte 0x0000FFFD
-_0801F730: .4byte 0x03000020
-_0801F734: .4byte gCheeseTileInfo
-_0801F738: .4byte 0x0000FFFF
-_0801F73C: .4byte sub_801F740
-
-	thumb_func_start sub_801F740
-sub_801F740: @ 0x0801F740
-	push {r4, lr}
-	ldr r0, _0801F764 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	ldr r2, [r4, #0x50]
-	ldr r0, [r2, #4]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _0801F768
-	ldr r0, [r2, #0x10]
-	movs r1, #0xc0
-	lsls r1, r1, #5
-	b _0801F76C
-	.align 2, 0
-_0801F764: .4byte gCurTask
-_0801F768:
-	ldr r0, [r2, #0x10]
-	ldr r1, _0801F788 @ =0xFFFFE800
-_0801F76C:
-	adds r0, r0, r1
-	str r0, [r4, #8]
-	ldr r0, [r4, #0x50]
-	ldr r1, [r0, #4]
-	movs r2, #0x80
-	lsls r2, r2, #9
-	ands r1, r2
-	adds r2, r0, #0
-	cmp r1, #0
-	beq _0801F78C
-	ldr r0, [r2, #0x14]
-	movs r1, #0xc0
-	lsls r1, r1, #5
-	b _0801F790
-	.align 2, 0
-_0801F788: .4byte 0xFFFFE800
-_0801F78C:
-	ldr r0, [r2, #0x14]
-	ldr r1, _0801F7A4 @ =0xFFFFE800
-_0801F790:
-	adds r0, r0, r1
-	str r0, [r4, #0xc]
-	ldr r1, [r2, #0x10]
-	ldr r0, [r4]
-	cmp r1, r0
-	bge _0801F7A8
-	ldrh r1, [r4, #0x16]
-	movs r0, #1
-	orrs r0, r1
-	b _0801F7AE
-	.align 2, 0
-_0801F7A4: .4byte 0xFFFFE800
-_0801F7A8:
-	ldrh r1, [r4, #0x16]
-	ldr r0, _0801F7D4 @ =0x0000FFFE
-	ands r0, r1
-_0801F7AE:
-	strh r0, [r4, #0x16]
-	movs r0, #1
-	bl sub_8020130
-	bl Task_8020284
-	ldrb r0, [r4, #0x1a]
-	subs r0, #1
-	strb r0, [r4, #0x1a]
-	lsls r0, r0, #0x18
-	cmp r0, #0
-	bne _0801F7CE
-	ldr r0, _0801F7D8 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0801F7DC @ =sub_801EE74
-	str r0, [r1, #8]
-_0801F7CE:
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801F7D4: .4byte 0x0000FFFE
-_0801F7D8: .4byte gCurTask
-_0801F7DC: .4byte sub_801EE74
-
-	thumb_func_start sub_801F7E0
-sub_801F7E0: @ 0x0801F7E0
-	push {r4, lr}
-	ldr r4, _0801F830 @ =gCurTask
-	ldr r0, [r4]
-	ldrh r2, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r1, r2, r1
-	ldrh r3, [r1, #0x16]
-	ldr r0, _0801F834 @ =0x0000FFFD
-	ands r0, r3
-	movs r3, #0
-	strh r0, [r1, #0x16]
-	movs r0, #0xb
-	strb r0, [r1, #0x18]
-	movs r0, #3
-	strb r0, [r1, #0x19]
-	movs r0, #0x1e
-	strb r0, [r1, #0x1a]
-	ldr r0, _0801F838 @ =0x03000020
-	adds r2, r2, r0
-	ldr r1, _0801F83C @ =gCheeseTileInfo
-	ldrh r0, [r1, #0xc]
-	strh r0, [r2, #0xc]
-	ldrh r0, [r1, #0xe]
-	strb r0, [r2, #0x1a]
-	strh r3, [r2, #0x16]
-	ldr r0, _0801F840 @ =0x0000FFFF
-	strh r0, [r2, #0x18]
-	movs r0, #0xff
-	strb r0, [r2, #0x1b]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r2, #0x20]
-	str r0, [r2, #0x28]
-	ldr r1, [r4]
-	ldr r0, _0801F844 @ =sub_801F848
-	str r0, [r1, #8]
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801F830: .4byte gCurTask
-_0801F834: .4byte 0x0000FFFD
-_0801F838: .4byte 0x03000020
-_0801F83C: .4byte gCheeseTileInfo
-_0801F840: .4byte 0x0000FFFF
-_0801F844: .4byte sub_801F848
-
-	thumb_func_start sub_801F848
-sub_801F848: @ 0x0801F848
-	push {r4, r5, r6, lr}
-	ldr r0, _0801F898 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r5, r1, r0
-	ldrb r2, [r5, #0x1b]
-	ldr r3, [r5, #0x50]
-	ldr r4, _0801F89C @ =gSineTable
-	lsls r2, r2, #4
-	movs r1, #0x80
-	lsls r1, r1, #1
-	adds r0, r2, r1
-	lsls r0, r0, #1
-	adds r0, r0, r4
-	movs r6, #0
-	ldrsh r1, [r0, r6]
-	asrs r1, r1, #1
-	ldr r0, [r3, #0x10]
-	adds r0, r0, r1
-	str r0, [r5, #8]
-	lsls r2, r2, #1
-	adds r2, r2, r4
-	movs r0, #0
-	ldrsh r1, [r2, r0]
-	asrs r1, r1, #1
-	ldr r0, [r3, #0x14]
-	adds r0, r0, r1
-	str r0, [r5, #0xc]
-	ldr r0, [r3, #4]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _0801F8A0
-	ldrh r1, [r5, #0x16]
-	movs r0, #1
-	orrs r0, r1
-	b _0801F8A6
-	.align 2, 0
-_0801F898: .4byte gCurTask
-_0801F89C: .4byte gSineTable
-_0801F8A0:
-	ldrh r1, [r5, #0x16]
-	ldr r0, _0801F8CC @ =0x0000FFFE
-	ands r0, r1
-_0801F8A6:
-	strh r0, [r5, #0x16]
-	movs r0, #1
-	bl sub_8020130
-	bl Task_8020284
-	ldrb r0, [r5, #0x1a]
-	subs r0, #1
-	strb r0, [r5, #0x1a]
-	lsls r0, r0, #0x18
-	cmp r0, #0
-	bne _0801F8C6
-	ldr r0, _0801F8D0 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0801F8D4 @ =sub_801EF6C
-	str r0, [r1, #8]
-_0801F8C6:
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801F8CC: .4byte 0x0000FFFE
-_0801F8D0: .4byte gCurTask
-_0801F8D4: .4byte sub_801EF6C
-
-	thumb_func_start sub_801F8D8
-sub_801F8D8: @ 0x0801F8D8
-	push {r4, lr}
-	ldr r0, _0801F8F8 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	ldr r2, [r4, #0x50]
-	ldr r0, [r2, #4]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _0801F900
-	ldr r0, [r2, #0x10]
-	ldr r1, _0801F8FC @ =0xFFFFE800
-	b _0801F906
-	.align 2, 0
-_0801F8F8: .4byte gCurTask
-_0801F8FC: .4byte 0xFFFFE800
-_0801F900:
-	ldr r0, [r2, #0x10]
-	movs r1, #0xc0
-	lsls r1, r1, #5
-_0801F906:
-	adds r0, r0, r1
-	str r0, [r4, #8]
-	ldr r0, [r4, #0x50]
-	ldr r0, [r0, #0x14]
-	str r0, [r4, #0xc]
-	ldrh r1, [r4, #0x16]
-	movs r0, #2
-	movs r3, #0
-	orrs r0, r1
-	strh r0, [r4, #0x16]
-	movs r0, #9
-	strb r0, [r4, #0x18]
-	movs r0, #8
-	strb r0, [r4, #0x19]
-	movs r0, #0xa
-	strb r0, [r4, #0x1a]
-	adds r1, r4, #0
-	adds r1, #0x20
-	ldr r2, _0801F960 @ =gCheeseTileInfo
-	ldrh r0, [r2, #0x20]
-	strh r0, [r1, #0xc]
-	ldrh r0, [r2, #0x22]
-	strb r0, [r1, #0x1a]
-	strh r3, [r1, #0x16]
-	ldr r0, _0801F964 @ =0x0000FFFF
-	strh r0, [r1, #0x18]
-	movs r0, #0xff
-	strb r0, [r1, #0x1b]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r1, #0x20]
-	str r0, [r1, #0x28]
-	ldr r0, [r4, #0x50]
-	movs r1, #0x84
-	lsls r1, r1, #2
-	bl Player_PlaySong
-	ldr r0, _0801F968 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0801F96C @ =sub_801F970
-	str r0, [r1, #8]
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801F960: .4byte gCheeseTileInfo
-_0801F964: .4byte 0x0000FFFF
-_0801F968: .4byte gCurTask
-_0801F96C: .4byte sub_801F970
-
-	thumb_func_start sub_801F970
-sub_801F970: @ 0x0801F970
-	push {r4, lr}
-	ldr r0, _0801F994 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	ldr r0, [r4, #0x50]
-	ldr r0, [r0, #4]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _0801F998
-	ldrh r1, [r4, #0x16]
-	movs r0, #1
-	orrs r0, r1
-	b _0801F99E
-	.align 2, 0
-_0801F994: .4byte gCurTask
-_0801F998:
-	ldrh r1, [r4, #0x16]
-	ldr r0, _0801F9C8 @ =0x0000FFFE
-	ands r0, r1
-_0801F99E:
-	strh r0, [r4, #0x16]
-	movs r0, #2
-	bl sub_8020130
-	bl Task_8020284
-	ldrb r0, [r4, #0x1a]
-	subs r0, #1
-	strb r0, [r4, #0x1a]
-	lsls r0, r0, #0x18
-	cmp r0, #0
-	bne _0801F9C2
-	movs r0, #0xf
-	strb r0, [r4, #0x1a]
-	ldr r0, _0801F9CC @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0801F9D0 @ =sub_801F9D4
-	str r0, [r1, #8]
-_0801F9C2:
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801F9C8: .4byte 0x0000FFFE
-_0801F9CC: .4byte gCurTask
-_0801F9D0: .4byte sub_801F9D4
-
-	thumb_func_start sub_801F9D4
-sub_801F9D4: @ 0x0801F9D4
-	push {r4, lr}
-	ldr r0, _0801F9F8 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	ldr r0, [r4, #0x50]
-	ldr r0, [r0, #4]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _0801F9FC
-	ldrh r1, [r4, #0x16]
-	movs r0, #1
-	orrs r0, r1
-	b _0801FA02
-	.align 2, 0
-_0801F9F8: .4byte gCurTask
-_0801F9FC:
-	ldrh r1, [r4, #0x16]
-	ldr r0, _0801FA2C @ =0x0000FFFE
-	ands r0, r1
-_0801FA02:
-	strh r0, [r4, #0x16]
-	movs r0, #0
-	bl sub_8020130
-	ldrb r0, [r4, #0x1a]
-	subs r0, #1
-	strb r0, [r4, #0x1a]
-	ldrb r0, [r4, #0x1c]
-	cmp r0, #0
-	beq _0801FA30
-	ldr r2, [r4, #0x50]
-	ldrb r1, [r4, #0x1a]
-	movs r0, #0xf
-	subs r0, r0, r1
-	lsls r1, r0, #1
-	adds r1, r1, r0
-	lsls r1, r1, #9
-	ldr r0, [r2, #0x10]
-	subs r0, r0, r1
-	b _0801FA42
-	.align 2, 0
-_0801FA2C: .4byte 0x0000FFFE
-_0801FA30:
-	ldr r2, [r4, #0x50]
-	ldrb r1, [r4, #0x1a]
-	movs r0, #0xf
-	subs r0, r0, r1
-	lsls r1, r0, #1
-	adds r1, r1, r0
-	lsls r1, r1, #9
-	ldr r0, [r2, #0x10]
-	adds r0, r0, r1
-_0801FA42:
-	str r0, [r4]
-	bl Task_8020284
-	ldrb r0, [r4, #0x1a]
-	cmp r0, #0
-	bne _0801FA56
-	ldr r0, _0801FA5C @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0801FA60 @ =sub_801EE74
-	str r0, [r1, #8]
-_0801FA56:
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801FA5C: .4byte gCurTask
-_0801FA60: .4byte sub_801EE74
-
-	thumb_func_start sub_801FA64
-sub_801FA64: @ 0x0801FA64
-	push {r4, lr}
-	ldr r0, _0801FA84 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	ldr r2, [r4, #0x50]
-	ldr r0, [r2, #4]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _0801FA8C
-	ldr r0, [r2, #0x10]
-	ldr r1, _0801FA88 @ =0xFFFFE800
-	b _0801FA92
-	.align 2, 0
-_0801FA84: .4byte gCurTask
-_0801FA88: .4byte 0xFFFFE800
-_0801FA8C:
-	ldr r0, [r2, #0x10]
-	movs r1, #0xc0
-	lsls r1, r1, #5
-_0801FA92:
-	adds r0, r0, r1
-	str r0, [r4, #8]
-	ldr r0, [r4, #0x50]
-	ldr r0, [r0, #0x14]
-	str r0, [r4, #0xc]
-	ldrh r1, [r4, #0x16]
-	movs r0, #2
-	movs r3, #0
-	orrs r0, r1
-	strh r0, [r4, #0x16]
-	movs r0, #9
-	strb r0, [r4, #0x18]
-	movs r0, #8
-	strb r0, [r4, #0x19]
-	movs r0, #0xa
-	strb r0, [r4, #0x1a]
-	adds r1, r4, #0
-	adds r1, #0x20
-	ldr r2, _0801FAEC @ =gCheeseTileInfo
-	ldrh r0, [r2, #0x20]
-	strh r0, [r1, #0xc]
-	ldrh r0, [r2, #0x22]
-	strb r0, [r1, #0x1a]
-	strh r3, [r1, #0x16]
-	ldr r0, _0801FAF0 @ =0x0000FFFF
-	strh r0, [r1, #0x18]
-	movs r0, #0xff
-	strb r0, [r1, #0x1b]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r1, #0x20]
-	str r0, [r1, #0x28]
-	ldr r0, [r4, #0x50]
-	movs r1, #0x84
-	lsls r1, r1, #2
-	bl Player_PlaySong
-	ldr r0, _0801FAF4 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0801FAF8 @ =sub_801FAFC
-	str r0, [r1, #8]
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801FAEC: .4byte gCheeseTileInfo
-_0801FAF0: .4byte 0x0000FFFF
-_0801FAF4: .4byte gCurTask
-_0801FAF8: .4byte sub_801FAFC
-
-	thumb_func_start sub_801FAFC
-sub_801FAFC: @ 0x0801FAFC
-	push {r4, r5, r6, lr}
-	ldr r0, _0801FB20 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r5, r1, r0
-	ldr r0, [r5, #0x50]
-	ldr r0, [r0, #4]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _0801FB24
-	ldrh r1, [r5, #0x16]
-	movs r0, #1
-	orrs r0, r1
-	b _0801FB2A
-	.align 2, 0
-_0801FB20: .4byte gCurTask
-_0801FB24:
-	ldrh r1, [r5, #0x16]
-	ldr r0, _0801FB98 @ =0x0000FFFE
-	ands r0, r1
-_0801FB2A:
-	strh r0, [r5, #0x16]
-	movs r0, #2
-	bl sub_8020130
-	bl Task_8020284
-	ldrb r0, [r5, #0x1a]
-	subs r0, #1
-	strb r0, [r5, #0x1a]
-	lsls r0, r0, #0x18
-	cmp r0, #0
-	bne _0801FB90
-	ldr r4, _0801FB9C @ =gSineTable
-	ldrb r0, [r5, #0x1d]
-	lsls r0, r0, #3
-	movs r1, #0x80
-	lsls r1, r1, #2
-	adds r0, r0, r1
-	adds r0, r0, r4
-	movs r1, #0
-	ldrsh r0, [r0, r1]
-	lsls r0, r0, #1
-	movs r1, #5
-	bl __divsi3
-	asrs r6, r0, #2
-	str r6, [r5, #8]
-	ldrb r0, [r5, #0x1d]
-	lsls r0, r0, #3
-	adds r0, r0, r4
-	movs r1, #0
-	ldrsh r0, [r0, r1]
-	lsls r0, r0, #1
-	movs r1, #5
-	bl __divsi3
-	asrs r1, r0, #2
-	str r1, [r5, #0xc]
-	ldrb r0, [r5, #0x1c]
-	cmp r0, #0
-	beq _0801FB84
-	rsbs r0, r6, #0
-	str r0, [r5, #8]
-	rsbs r0, r1, #0
-	str r0, [r5, #0xc]
-_0801FB84:
-	movs r0, #0xf
-	strb r0, [r5, #0x1a]
-	ldr r0, _0801FBA0 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0801FBA4 @ =sub_801FBA8
-	str r0, [r1, #8]
-_0801FB90:
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801FB98: .4byte 0x0000FFFE
-_0801FB9C: .4byte gSineTable
-_0801FBA0: .4byte gCurTask
-_0801FBA4: .4byte sub_801FBA8
-
-	thumb_func_start sub_801FBA8
-sub_801FBA8: @ 0x0801FBA8
-	push {r4, lr}
-	ldr r0, _0801FBCC @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	ldr r0, [r4, #0x50]
-	ldr r0, [r0, #4]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _0801FBD0
-	ldrh r1, [r4, #0x16]
-	movs r0, #1
-	orrs r0, r1
-	b _0801FBD6
-	.align 2, 0
-_0801FBCC: .4byte gCurTask
-_0801FBD0:
-	ldrh r1, [r4, #0x16]
-	ldr r0, _0801FC20 @ =0x0000FFFE
-	ands r0, r1
-_0801FBD6:
-	strh r0, [r4, #0x16]
-	movs r0, #0
-	bl sub_8020130
-	ldrb r0, [r4, #0x1a]
-	subs r0, #1
-	strb r0, [r4, #0x1a]
-	ldr r3, [r4, #0x50]
-	ldrb r0, [r4, #0x1a]
-	movs r2, #0xf
-	subs r0, r2, r0
-	ldr r1, [r4, #8]
-	muls r1, r0, r1
-	ldr r0, [r3, #0x10]
-	adds r0, r0, r1
-	str r0, [r4]
-	ldrb r0, [r4, #0x1a]
-	subs r2, r2, r0
-	ldr r0, [r4, #0xc]
-	adds r1, r0, #0
-	muls r1, r2, r1
-	ldr r0, [r3, #0x14]
-	adds r0, r0, r1
-	str r0, [r4, #4]
-	bl Task_8020284
-	ldrb r0, [r4, #0x1a]
-	cmp r0, #0
-	bne _0801FC18
-	ldr r0, _0801FC24 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0801FC28 @ =sub_801EE74
-	str r0, [r1, #8]
-_0801FC18:
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801FC20: .4byte 0x0000FFFE
-_0801FC24: .4byte gCurTask
-_0801FC28: .4byte sub_801EE74
-
-	thumb_func_start sub_801FC2C
-sub_801FC2C: @ 0x0801FC2C
-	push {r4, r5, r6, lr}
-	mov r6, sl
-	mov r5, sb
-	mov r4, r8
-	push {r4, r5, r6}
-	ldr r0, _0801FCC0 @ =gCurTask
-	mov sl, r0
-	ldr r0, [r0]
-	ldrh r5, [r0, #6]
-	movs r3, #0xc0
-	lsls r3, r3, #0x12
-	adds r3, r5, r3
-	ldr r0, [r3, #0x50]
-	adds r0, #0x2a
-	ldrb r4, [r0]
-	lsls r4, r4, #0x1c
-	lsrs r4, r4, #0xa
-	movs r1, #0xd0
-	lsls r1, r1, #0xc
-	adds r4, r4, r1
-	lsrs r4, r4, #0x10
-	ldr r0, _0801FCC4 @ =gCheeseTileInfo
-	lsls r1, r4, #2
-	adds r2, r1, r0
-	ldrh r2, [r2]
-	mov sb, r2
-	adds r0, #2
-	adds r1, r1, r0
-	ldrh r1, [r1]
-	mov r8, r1
-	ldr r0, [r3]
-	str r0, [r3, #8]
-	ldr r0, [r3, #4]
-	str r0, [r3, #0xc]
-	movs r6, #0
-	movs r2, #0
-	strh r2, [r3, #0x10]
-	strh r2, [r3, #0x12]
-	ldrh r1, [r3, #0x16]
-	ldr r0, _0801FCC8 @ =0x0000FFFD
-	ands r0, r1
-	movs r1, #4
-	orrs r0, r1
-	strh r0, [r3, #0x16]
-	strb r6, [r3, #0x18]
-	strb r4, [r3, #0x19]
-	strb r6, [r3, #0x1a]
-	ldr r0, _0801FCCC @ =0x03000020
-	adds r5, r5, r0
-	mov r1, sb
-	strh r1, [r5, #0xc]
-	mov r0, r8
-	strb r0, [r5, #0x1a]
-	strh r2, [r5, #0x16]
-	ldr r0, _0801FCD0 @ =0x0000FFFF
-	strh r0, [r5, #0x18]
-	movs r0, #0xff
-	strb r0, [r5, #0x1b]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r5, #0x20]
-	str r0, [r5, #0x28]
-	mov r0, sl
-	ldr r1, [r0]
-	ldr r0, _0801FCD4 @ =sub_801FCD8
-	str r0, [r1, #8]
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801FCC0: .4byte gCurTask
-_0801FCC4: .4byte gCheeseTileInfo
-_0801FCC8: .4byte 0x0000FFFD
-_0801FCCC: .4byte 0x03000020
-_0801FCD0: .4byte 0x0000FFFF
-_0801FCD4: .4byte sub_801FCD8
-
-	thumb_func_start sub_801FCD8
-sub_801FCD8: @ 0x0801FCD8
-	push {r4, lr}
-	ldr r0, _0801FCFC @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	ldr r2, [r4, #0x50]
-	ldr r0, [r2, #4]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _0801FD00
-	ldr r0, [r2, #0x10]
-	movs r1, #0xc0
-	lsls r1, r1, #5
-	adds r0, r0, r1
-	b _0801FD06
-	.align 2, 0
-_0801FCFC: .4byte gCurTask
-_0801FD00:
-	ldr r0, [r2, #0x10]
-	ldr r2, _0801FD20 @ =0xFFFFE800
-	adds r0, r0, r2
-_0801FD06:
-	str r0, [r4, #8]
-	ldr r2, [r4, #0x50]
-	ldr r0, [r2, #4]
-	movs r1, #0x80
-	lsls r1, r1, #9
-	ands r0, r1
-	cmp r0, #0
-	beq _0801FD24
-	ldr r0, [r2, #0x14]
-	movs r3, #0xc0
-	lsls r3, r3, #5
-	adds r0, r0, r3
-	b _0801FD2A
-	.align 2, 0
-_0801FD20: .4byte 0xFFFFE800
-_0801FD24:
-	ldr r0, [r2, #0x14]
-	ldr r1, _0801FD40 @ =0xFFFFE800
-	adds r0, r0, r1
-_0801FD2A:
-	str r0, [r4, #0xc]
-	ldr r0, [r4, #0x50]
-	ldr r1, [r0, #0x10]
-	ldr r0, [r4]
-	cmp r1, r0
-	bge _0801FD44
-	ldrh r1, [r4, #0x16]
-	movs r0, #1
-	orrs r0, r1
-	b _0801FD4A
-	.align 2, 0
-_0801FD40: .4byte 0xFFFFE800
-_0801FD44:
-	ldrh r1, [r4, #0x16]
-	ldr r0, _0801FDA4 @ =0x0000FFFE
-	ands r0, r1
-_0801FD4A:
-	strh r0, [r4, #0x16]
-	movs r0, #1
-	bl sub_8020130
-	bl Task_8020284
-	ldr r0, [r4, #0x50]
-	adds r1, r0, #0
-	adds r1, #0x54
-	ldrh r2, [r1]
-	movs r3, #0
-	ldrsh r0, [r1, r3]
-	cmp r0, #0
-	beq _0801FD6A
-	subs r0, r2, #1
-	strh r0, [r1]
-_0801FD6A:
-	ldr r0, [r4, #0x54]
-	adds r1, r0, #0
-	adds r1, #0x54
-	ldrh r2, [r1]
-	movs r3, #0
-	ldrsh r0, [r1, r3]
-	cmp r0, #0
-	beq _0801FD7E
-	subs r0, r2, #1
-	strh r0, [r1]
-_0801FD7E:
-	ldr r0, [r4, #0x50]
-	adds r0, #0x54
-	movs r2, #0
-	ldrsh r1, [r0, r2]
-	cmp r1, #0
-	bne _0801FD9E
-	ldr r0, [r4, #0x54]
-	adds r0, #0x54
-	strh r1, [r0]
-	ldrh r1, [r4, #0x16]
-	ldr r0, _0801FDA8 @ =0x0000FFFB
-	ands r0, r1
-	strh r0, [r4, #0x16]
-	ldr r0, [r4, #0x54]
-	bl sub_801ECAC
-_0801FD9E:
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801FDA4: .4byte 0x0000FFFE
-_0801FDA8: .4byte 0x0000FFFB
-
-	thumb_func_start sub_801FDAC
-sub_801FDAC: @ 0x0801FDAC
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	ldr r0, _0801FE2C @ =gCurTask
-	mov sb, r0
-	ldr r0, [r0]
-	ldrh r0, [r0, #6]
-	mov ip, r0
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	mov r1, ip
-	adds r4, r1, r0
-	ldr r3, [r4, #0x50]
-	adds r0, r3, #0
-	adds r0, #0xbc
-	ldr r0, [r0]
-	movs r1, #1
-	rsbs r1, r1, #0
-	mov r8, r1
-	cmp r0, r8
-	bne _0801FE44
-	adds r0, r3, #0
-	adds r0, #0x2a
-	ldrb r0, [r0]
-	lsls r0, r0, #0x1c
-	lsrs r0, r0, #0xa
-	movs r1, #0x80
-	lsls r1, r1, #0xd
-	adds r0, r0, r1
-	lsrs r5, r0, #0x10
-	ldr r0, _0801FE30 @ =gCheeseTileInfo
-	lsls r1, r5, #2
-	adds r2, r1, r0
-	ldrh r7, [r2]
-	adds r0, #2
-	adds r1, r1, r0
-	ldrh r6, [r1]
-	ldrh r1, [r4, #0x16]
-	ldr r0, _0801FE34 @ =0x0000FFFD
-	ands r0, r1
-	movs r1, #0
-	strh r0, [r4, #0x16]
-	movs r0, #0xb
-	strb r0, [r4, #0x18]
-	strb r5, [r4, #0x19]
-	movs r0, #0x1e
-	strb r0, [r4, #0x1a]
-	ldr r3, _0801FE38 @ =0x03000020
-	add r3, ip
-	strh r7, [r3, #0xc]
-	strb r6, [r3, #0x1a]
-	strh r1, [r3, #0x16]
-	ldr r0, _0801FE3C @ =0x0000FFFF
-	strh r0, [r3, #0x18]
-	movs r0, #0xff
-	strb r0, [r3, #0x1b]
-	mov r0, r8
-	str r0, [r3, #0x20]
-	str r0, [r3, #0x28]
-	mov r0, sb
-	ldr r1, [r0]
-	ldr r0, _0801FE40 @ =sub_8020038
-	b _0801FEB0
-	.align 2, 0
-_0801FE2C: .4byte gCurTask
-_0801FE30: .4byte gCheeseTileInfo
-_0801FE34: .4byte 0x0000FFFD
-_0801FE38: .4byte 0x03000020
-_0801FE3C: .4byte 0x0000FFFF
-_0801FE40: .4byte sub_8020038
-_0801FE44:
-	adds r0, r3, #0
-	adds r0, #0x2a
-	ldrb r0, [r0]
-	lsls r0, r0, #0x1c
-	lsrs r0, r0, #0xa
-	movs r1, #0xe0
-	lsls r1, r1, #0xc
-	adds r0, r0, r1
-	lsrs r5, r0, #0x10
-	ldr r0, _0801FEC0 @ =gCheeseTileInfo
-	lsls r1, r5, #2
-	adds r2, r1, r0
-	ldrh r7, [r2]
-	adds r0, #2
-	adds r1, r1, r0
-	ldrh r6, [r1]
-	adds r0, r3, #0
-	adds r0, #0xb0
-	ldr r0, [r0]
-	str r0, [r4, #8]
-	adds r0, r3, #0
-	adds r0, #0xb4
-	ldr r0, [r0]
-	str r0, [r4, #0xc]
-	ldrh r1, [r4, #0x16]
-	movs r0, #2
-	movs r2, #0
-	orrs r0, r1
-	strh r0, [r4, #0x16]
-	movs r0, #9
-	strb r0, [r4, #0x18]
-	strb r5, [r4, #0x19]
-	movs r0, #0x1e
-	strb r0, [r4, #0x1a]
-	ldr r3, _0801FEC4 @ =0x03000020
-	add r3, ip
-	strh r7, [r3, #0xc]
-	strb r6, [r3, #0x1a]
-	strh r2, [r3, #0x16]
-	ldr r0, _0801FEC8 @ =0x0000FFFF
-	strh r0, [r3, #0x18]
-	movs r0, #0xff
-	strb r0, [r3, #0x1b]
-	mov r0, r8
-	str r0, [r3, #0x20]
-	str r0, [r3, #0x28]
-	ldr r0, [r4, #0x50]
-	movs r1, #0x84
-	lsls r1, r1, #2
-	bl Player_PlaySong
-	mov r0, sb
-	ldr r1, [r0]
-	ldr r0, _0801FECC @ =sub_801FED0
-_0801FEB0:
-	str r0, [r1, #8]
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801FEC0: .4byte gCheeseTileInfo
-_0801FEC4: .4byte 0x03000020
-_0801FEC8: .4byte 0x0000FFFF
-_0801FECC: .4byte sub_801FED0
-
-	thumb_func_start sub_801FED0
-sub_801FED0: @ 0x0801FED0
+	thumb_func_start Task_801FED0
+Task_801FED0: @ 0x0801FED0
 	push {r4, lr}
 	ldr r0, _0801FF10 @ =gCurTask
 	ldr r0, [r0]
@@ -1759,7 +52,7 @@ _0801FF1A:
 	strh r0, [r4, #0x16]
 	movs r0, #2
 	bl sub_8020130
-	bl Task_8020284
+	bl sub_8020284
 	ldrb r0, [r4, #0x1a]
 	subs r0, #1
 	strb r0, [r4, #0x1a]
@@ -1772,14 +65,14 @@ _0801FF1A:
 	strh r0, [r4, #0x16]
 	ldr r0, _0801FF4C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0801FF50 @ =sub_801FC2C
+	ldr r0, _0801FF50 @ =Task_801FC2C
 	str r0, [r1, #8]
 	b _0801FF9C
 	.align 2, 0
 _0801FF44: .4byte 0x0000FFFE
 _0801FF48: .4byte 0x0000FFFD
 _0801FF4C: .4byte gCurTask
-_0801FF50: .4byte sub_801FC2C
+_0801FF50: .4byte Task_801FC2C
 _0801FF54:
 	ldr r0, [r4, #0x50]
 	adds r1, r0, #0
@@ -1905,7 +198,7 @@ sub_8020038: @ 0x08020038
 	adds r4, r1, r0
 	movs r0, #1
 	bl sub_8020130
-	bl Task_8020284
+	bl sub_8020284
 	ldr r2, [r4, #0x50]
 	ldr r0, [r2, #4]
 	movs r1, #1
@@ -1970,13 +263,13 @@ _080200B6:
 	bne _080200DC
 	ldr r0, _080200D4 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080200D8 @ =sub_801FC2C
+	ldr r0, _080200D8 @ =Task_801FC2C
 	str r0, [r1, #8]
 	b _08020124
 	.align 2, 0
 _080200D0: .4byte 0x0000FFFE
 _080200D4: .4byte gCurTask
-_080200D8: .4byte sub_801FC2C
+_080200D8: .4byte Task_801FC2C
 _080200DC:
 	ldr r0, [r4, #0x50]
 	adds r1, r0, #0
@@ -2207,8 +500,8 @@ _08020276:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start Task_8020284
-Task_8020284: @ 0x08020284
+	thumb_func_start sub_8020284
+sub_8020284: @ 0x08020284
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _08020304 @ =gCurTask
 	ldr r0, [r0]
@@ -2455,24 +748,24 @@ sub_8020444: @ 0x08020444
 	ands r0, r1
 	cmp r0, #0x10
 	beq _08020474
-	ldr r0, _08020470 @ =sub_801EE74
+	ldr r0, _08020470 @ =Task_801EE74
 	b _0802047E
 	.align 2, 0
 _0802046C: .4byte gStageData
-_08020470: .4byte sub_801EE74
+_08020470: .4byte Task_801EE74
 _08020474:
 	ldr r0, _08020478 @ =sub_801EF6C
 	b _0802047E
 	.align 2, 0
 _08020478: .4byte sub_801EF6C
 _0802047C:
-	ldr r0, _08020484 @ =sub_801FC2C
+	ldr r0, _08020484 @ =Task_801FC2C
 _0802047E:
 	str r0, [r2, #8]
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08020484: .4byte sub_801FC2C
+_08020484: .4byte Task_801FC2C
 
 	thumb_func_start sub_8020488
 sub_8020488: @ 0x08020488
@@ -2502,36 +795,36 @@ sub_8020488: @ 0x08020488
 	bne _080204D0
 	cmp r2, #0x10
 	beq _080204C8
-	ldr r0, _080204C4 @ =sub_801F6D8
+	ldr r0, _080204C4 @ =Task_801F6D8
 	b _0802050E
 	.align 2, 0
 _080204C0: .4byte gStageData
-_080204C4: .4byte sub_801F6D8
+_080204C4: .4byte Task_801F6D8
 _080204C8:
-	ldr r0, _080204CC @ =sub_801F7E0
+	ldr r0, _080204CC @ =Task_801F7E0
 	b _0802050E
 	.align 2, 0
-_080204CC: .4byte sub_801F7E0
+_080204CC: .4byte Task_801F7E0
 _080204D0:
-	ldr r0, _080204D4 @ =sub_801F5B4
+	ldr r0, _080204D4 @ =Task_801F5B4
 	b _0802050E
 	.align 2, 0
-_080204D4: .4byte sub_801F5B4
+_080204D4: .4byte Task_801F5B4
 _080204D8:
 	ldr r0, [r3, #4]
 	movs r1, #4
 	ands r0, r1
 	cmp r0, #0
 	beq _080204EC
-	ldr r0, _080204E8 @ =sub_801F8D8
+	ldr r0, _080204E8 @ =Task_801F8D8
 	b _0802050E
 	.align 2, 0
-_080204E8: .4byte sub_801F8D8
+_080204E8: .4byte Task_801F8D8
 _080204EC:
-	ldr r0, _080204F0 @ =sub_801FA64
+	ldr r0, _080204F0 @ =Task_801FA64
 	b _0802050E
 	.align 2, 0
-_080204F0: .4byte sub_801FA64
+_080204F0: .4byte Task_801FA64
 _080204F4:
 	adds r0, r3, #0
 	adds r0, #0xbc
@@ -2545,14 +838,14 @@ _080204F4:
 	.align 2, 0
 _08020508: .4byte sub_801FFA8
 _0802050C:
-	ldr r0, _08020518 @ =sub_801FDAC
+	ldr r0, _08020518 @ =Task_801FDAC
 _0802050E:
 	str r0, [r4, #8]
 	pop {r4}
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08020518: .4byte sub_801FDAC
+_08020518: .4byte Task_801FDAC
 
 	thumb_func_start sub_802051C
 sub_802051C: @ 0x0802051C
@@ -2583,24 +876,24 @@ sub_8020544: @ 0x08020544
 	ldr r0, _08020550 @ =gStageData
 	adds r0, #0x98
 	ldr r1, [r0]
-	ldr r0, _08020554 @ =sub_801F4B4
+	ldr r0, _08020554 @ =Task_801F4B4
 	str r0, [r1, #8]
 	bx lr
 	.align 2, 0
 _08020550: .4byte gStageData
-_08020554: .4byte sub_801F4B4
+_08020554: .4byte Task_801F4B4
 
 	thumb_func_start sub_8020558
 sub_8020558: @ 0x08020558
 	ldr r0, _08020564 @ =gStageData
 	adds r0, #0x98
 	ldr r1, [r0]
-	ldr r0, _08020568 @ =sub_801F534
+	ldr r0, _08020568 @ =Task_801F534
 	str r0, [r1, #8]
 	bx lr
 	.align 2, 0
 _08020564: .4byte gStageData
-_08020568: .4byte sub_801F534
+_08020568: .4byte Task_801F534
 
 	thumb_func_start sub_802056C
 sub_802056C: @ 0x0802056C
@@ -2636,7 +929,7 @@ _08020598:
 	str r0, [r4, #0xc]
 	movs r0, #1
 	bl sub_8020130
-	bl Task_8020284
+	bl sub_8020284
 	ldrb r0, [r4, #0x1a]
 	subs r0, #1
 	strb r0, [r4, #0x1a]
@@ -2660,7 +953,7 @@ _080205D8: .4byte sub_801EF6C
 _080205DC:
 	ldr r0, _080205EC @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080205F0 @ =sub_801EE74
+	ldr r0, _080205F0 @ =Task_801EE74
 _080205E2:
 	str r0, [r1, #8]
 _080205E4:
@@ -2669,7 +962,7 @@ _080205E4:
 	bx r0
 	.align 2, 0
 _080205EC: .4byte gCurTask
-_080205F0: .4byte sub_801EE74
+_080205F0: .4byte Task_801EE74
 
 	thumb_func_start sub_80205F4
 sub_80205F4: @ 0x080205F4
@@ -2704,31 +997,31 @@ sub_80205F4: @ 0x080205F4
 	ands r0, r1
 	cmp r0, #0x10
 	beq _08020644
-	ldr r0, _08020640 @ =sub_801EE74
+	ldr r0, _08020640 @ =Task_801EE74
 	b _0802064E
 	.align 2, 0
 _08020638: .4byte gCurTask
 _0802063C: .4byte gStageData
-_08020640: .4byte sub_801EE74
+_08020640: .4byte Task_801EE74
 _08020644:
 	ldr r0, _08020648 @ =sub_801EF6C
 	b _0802064E
 	.align 2, 0
 _08020648: .4byte sub_801EF6C
 _0802064C:
-	ldr r0, _0802065C @ =sub_801FC2C
+	ldr r0, _0802065C @ =Task_801FC2C
 _0802064E:
 	str r0, [r2, #8]
 _08020650:
-	bl Task_8020284
+	bl sub_8020284
 	pop {r4}
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0802065C: .4byte sub_801FC2C
+_0802065C: .4byte Task_801FC2C
 
-	thumb_func_start sub_8020660
-sub_8020660: @ 0x08020660
+	thumb_func_start Task_8020660
+Task_8020660: @ 0x08020660
 	push {lr}
 	ldr r0, _08020684 @ =gCurTask
 	ldr r0, [r0]
@@ -2763,7 +1056,7 @@ _0802068E:
 	str r0, [r2]
 	ldr r0, [r1, #0x14]
 	str r0, [r2, #4]
-	bl Task_8020284
+	bl sub_8020284
 	pop {r0}
 	bx r0
 	.align 2, 0
@@ -2805,7 +1098,7 @@ _080206DE:
 	str r0, [r2]
 	ldr r0, [r1, #0x14]
 	str r0, [r2, #4]
-	bl Task_8020284
+	bl sub_8020284
 	pop {r0}
 	bx r0
 	.align 2, 0
