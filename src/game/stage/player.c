@@ -283,7 +283,7 @@ extern PlayerSpriteInfo gUnknown_03001B00[4];
 extern TileInfoShield sTileInfoShields[];
 extern u16 gUnknown_08E2EAD0[][3];
 extern u16 gUnknown_08E2EB04[NUM_CHARACTERS][2];
-extern u16 gCheeseTileData[][2];
+extern u16 gCheeseTileInfo[][2];
 
 static inline void SongStopCheck_inline(Player *p, u16 song)
 {
@@ -21302,13 +21302,13 @@ void Task_801EDB4(void)
         s->tiles = OBJ_VRAM0 + 0x4020;
     }
     s->frameFlags = 0x1000;
-    s->anim = gCheeseTileData[0][0];
+    s->anim = gCheeseTileInfo[0][0];
     s->x = I(strc->player->qWorldX);
     s->y = I(strc->player->qWorldY);
     s->oamFlags = 0x540;
     s->qAnimDelay = 0;
     s->prevAnim = -1;
-    s->variant = gCheeseTileData[0][1];
+    s->variant = gCheeseTileInfo[0][1];
     s->prevVariant = -1;
     s->animSpeed = 0x10;
     s->palId = 0;
@@ -21331,8 +21331,8 @@ void sub_801EE74(void)
     strc->unk1A = 0;
 
     s = &strc->s;
-    s->anim = gCheeseTileData[0][0];
-    s->variant = gCheeseTileData[0][1];
+    s->anim = gCheeseTileInfo[0][0];
+    s->variant = gCheeseTileInfo[0][1];
     s->qAnimDelay = 0;
     s->prevAnim = -1;
     s->prevVariant = -1;
@@ -21383,8 +21383,8 @@ void sub_801EF6C(void)
     strc->unk1A = 0;
 
     s = &strc->s;
-    s->anim = gCheeseTileData[4][0];
-    s->variant = gCheeseTileData[4][1];
+    s->anim = gCheeseTileInfo[4][0];
+    s->variant = gCheeseTileInfo[4][1];
     s->qAnimDelay = 0;
     s->prevAnim = -1;
     s->prevVariant = -1;
@@ -21434,8 +21434,8 @@ void Task_801F064(void)
     strc->unk1A = 30;
 
     s = &strc->s;
-    s->anim = gCheeseTileData[12][0];
-    s->variant = gCheeseTileData[12][1];
+    s->anim = gCheeseTileInfo[12][0];
+    s->variant = gCheeseTileInfo[12][1];
     s->qAnimDelay = 0;
     s->prevAnim = -1;
     s->prevVariant = -1;
@@ -21456,8 +21456,8 @@ void Task_801F0DC(void)
 
     player = strc->player;
     temp_r6 = 15 + (player->charFlags.character * 4);
-    anim = gCheeseTileData[temp_r6][0];
-    variant = gCheeseTileData[temp_r6][1];
+    anim = gCheeseTileInfo[temp_r6][0];
+    variant = gCheeseTileInfo[temp_r6][1];
     strc->unk10 = 0;
     strc->unk12 = 0;
     strc->unk18 = 4;
@@ -21560,8 +21560,8 @@ void sub_801F258(void) {
         var_r5 = 0x400;
     }
     temp_r2->unk8 = var_r5;
-    temp_r2->unkC = (u16) gCheeseTileData.unk0;
-    temp_r2->unk1A = (s8) gCheeseTileData.unk2;
+    temp_r2->unkC = (u16) gCheeseTileInfo.unk0;
+    temp_r2->unk1A = (s8) gCheeseTileInfo.unk2;
     temp_r2->unk16 = 0;
     temp_r2->unk18 = 0xFFFF;
     temp_r2->unk1B = 0xFF;
@@ -21630,8 +21630,8 @@ block_13:
             }
         } else if ((s32) (temp_r1_3 - temp_r0_3) <= 0x4FE) {
 block_17:
-            temp_r1->unk2C = (u16) gCheeseTileData.unk1C;
-            temp_r1->unk3A = (s8) gCheeseTileData.unk1E;
+            temp_r1->unk2C = (u16) gCheeseTileInfo.unk1C;
+            temp_r1->unk3A = (s8) gCheeseTileInfo.unk1E;
             gCurTask->main = sub_801F418;
         }
     }
@@ -21700,8 +21700,8 @@ void sub_801F4B4(void) {
     temp_r3->unk16 = (u16) (0xFFF9 & temp_r3->unk16);
     temp_r3_2 = temp_r3 + 0x20;
     temp_r3_2->unk8 = 0x1000;
-    temp_r3_2->unkC = (u16) gCheeseTileData.unk24;
-    temp_r3_2->unk1A = (s8) gCheeseTileData.unk26;
+    temp_r3_2->unkC = (u16) gCheeseTileInfo.unk24;
+    temp_r3_2->unk1A = (s8) gCheeseTileInfo.unk26;
     temp_r3_2->unk16 = 0;
     temp_r3_2->unk18 = 0xFFFF;
     temp_r3_2->unk1B = 0xFF;
@@ -21729,8 +21729,8 @@ void sub_801F534(void) {
     temp_r3->unk16 = (u16) (0xFFF9 & temp_r3->unk16);
     temp_r3_2 = temp_r3 + 0x20;
     temp_r3_2->unk8 = 0x1000;
-    temp_r3_2->unkC = (u16) gCheeseTileData.unk28;
-    temp_r3_2->unk1A = (s8) gCheeseTileData.unk2A;
+    temp_r3_2->unkC = (u16) gCheeseTileInfo.unk28;
+    temp_r3_2->unk1A = (s8) gCheeseTileInfo.unk2A;
     temp_r3_2->unk16 = 0;
     temp_r3_2->unk18 = 0xFFFF;
     temp_r3_2->unk1B = 0xFF;
@@ -21753,8 +21753,8 @@ void sub_801F5B4(void) {
     temp_r3->unk19 = 2;
     temp_r3->unk1A = 0x1E;
     temp_r3_2 = temp_r3 + 0x20;
-    temp_r3_2->unkC = (u16) gCheeseTileData.unk8;
-    temp_r3_2->unk1A = (s8) gCheeseTileData.unkA;
+    temp_r3_2->unkC = (u16) gCheeseTileInfo.unk8;
+    temp_r3_2->unk1A = (s8) gCheeseTileInfo.unkA;
     temp_r3_2->unk16 = 0;
     temp_r3_2->unk18 = 0xFFFF;
     temp_r3_2->unk1B = 0xFF;
@@ -21808,8 +21808,8 @@ void sub_801F6D8(void) {
     temp_r2->unk19 = 3;
     temp_r2->unk1A = 0x1E;
     temp_r2_2 = temp_r2 + 0x20;
-    temp_r2_2->unkC = (u16) gCheeseTileData.unkC;
-    temp_r2_2->unk1A = (s8) gCheeseTileData.unkE;
+    temp_r2_2->unkC = (u16) gCheeseTileInfo.unkC;
+    temp_r2_2->unk1A = (s8) gCheeseTileInfo.unkE;
     temp_r2_2->unk16 = 0;
     temp_r2_2->unk18 = 0xFFFF;
     temp_r2_2->unk1B = 0xFF;
@@ -21867,8 +21867,8 @@ void sub_801F7E0(void) {
     temp_r2->unk19 = 3;
     temp_r2->unk1A = 0x1E;
     temp_r2_2 = temp_r2 + 0x20;
-    temp_r2_2->unkC = (u16) gCheeseTileData.unkC;
-    temp_r2_2->unk1A = (s8) gCheeseTileData.unkE;
+    temp_r2_2->unkC = (u16) gCheeseTileInfo.unkC;
+    temp_r2_2->unk1A = (s8) gCheeseTileInfo.unkE;
     temp_r2_2->unk16 = 0;
     temp_r2_2->unk18 = 0xFFFF;
     temp_r2_2->unk1B = 0xFF;
@@ -21924,8 +21924,8 @@ void sub_801F8D8(void) {
     temp_r1->unk19 = 8;
     temp_r1->unk1A = 0xA;
     temp_r1_2 = temp_r1 + 0x20;
-    temp_r1_2->unkC = (u16) gCheeseTileData.unk20;
-    temp_r1_2->unk1A = (s8) gCheeseTileData.unk22;
+    temp_r1_2->unkC = (u16) gCheeseTileInfo.unk20;
+    temp_r1_2->unk1A = (s8) gCheeseTileInfo.unk22;
     temp_r1_2->unk16 = 0;
     temp_r1_2->unk18 = 0xFFFF;
     temp_r1_2->unk1B = 0xFF;
@@ -22003,8 +22003,8 @@ void sub_801FA64(void) {
     temp_r1->unk19 = 8;
     temp_r1->unk1A = 0xA;
     temp_r1_2 = temp_r1 + 0x20;
-    temp_r1_2->unkC = (u16) gCheeseTileData.unk20;
-    temp_r1_2->unk1A = (s8) gCheeseTileData.unk22;
+    temp_r1_2->unkC = (u16) gCheeseTileInfo.unk20;
+    temp_r1_2->unk1A = (s8) gCheeseTileInfo.unk22;
     temp_r1_2->unk16 = 0;
     temp_r1_2->unk18 = 0xFFFF;
     temp_r1_2->unk1B = 0xFF;
@@ -22087,8 +22087,8 @@ void sub_801FC2C(void) {
     temp_r5->unk19 = (s8) temp_r4;
     temp_r5->unk1A = 0;
     temp_r5_2 = temp_r5 + 0x20;
-    temp_r5_2->unkC = (u16) *(temp_r1 + &gCheeseTileData);
-    temp_r5_2->unk1A = (s8) *(temp_r1 + (&gCheeseTileData + 2));
+    temp_r5_2->unkC = (u16) *(temp_r1 + &gCheeseTileInfo);
+    temp_r5_2->unk1A = (s8) *(temp_r1 + (&gCheeseTileInfo + 2));
     temp_r5_2->unk16 = 0;
     temp_r5_2->unk18 = 0xFFFF;
     temp_r5_2->unk1B = 0xFF;
@@ -22168,8 +22168,8 @@ void sub_801FDAC(void) {
         temp_r0->unk19 = (s8) temp_r5;
         temp_r0->unk1A = 0x1E;
         temp_r3_2 = temp_r0 + 0x20;
-        temp_r3_2->unkC = (u16) *(temp_r1 + &gCheeseTileData);
-        temp_r3_2->unk1A = (s8) *(temp_r1 + (&gCheeseTileData + 2));
+        temp_r3_2->unkC = (u16) *(temp_r1 + &gCheeseTileInfo);
+        temp_r3_2->unk1A = (s8) *(temp_r1 + (&gCheeseTileInfo + 2));
         temp_r3_2->unk16 = 0;
         temp_r3_2->unk18 = 0xFFFF;
         temp_r3_2->unk1B = 0xFF;
@@ -22186,8 +22186,8 @@ void sub_801FDAC(void) {
         temp_r0->unk19 = (s8) temp_r5_2;
         temp_r0->unk1A = 0x1E;
         temp_r3_3 = temp_r0 + 0x20;
-        temp_r3_3->unkC = (u16) *(temp_r1_2 + &gCheeseTileData);
-        temp_r3_3->unk1A = (s8) *(temp_r1_2 + (&gCheeseTileData + 2));
+        temp_r3_3->unkC = (u16) *(temp_r1_2 + &gCheeseTileInfo);
+        temp_r3_3->unk1A = (s8) *(temp_r1_2 + (&gCheeseTileInfo + 2));
         temp_r3_3->unk16 = 0;
         temp_r3_3->unk18 = 0xFFFF;
         temp_r3_3->unk1B = 0xFF;
@@ -22259,8 +22259,8 @@ void sub_801FFA8(void) {
     temp_r5->unk19 = (s8) temp_r3;
     temp_r5->unk1A = 0x1E;
     temp_r5_2 = temp_r5 + 0x20;
-    temp_r5_2->unkC = (u16) *(temp_r1 + &gCheeseTileData);
-    temp_r5_2->unk1A = (s8) *(temp_r1 + (&gCheeseTileData + 2));
+    temp_r5_2->unkC = (u16) *(temp_r1 + &gCheeseTileInfo);
+    temp_r5_2->unk1A = (s8) *(temp_r1 + (&gCheeseTileInfo + 2));
     temp_r5_2->unk16 = 0;
     temp_r5_2->unk18 = 0xFFFF;
     temp_r5_2->unk1B = 0xFF;

@@ -173,7 +173,7 @@ _0801F28C:
 	lsls r5, r5, #3
 _0801F2BE:
 	str r5, [r2, #8]
-	ldr r1, _0801F2F0 @ =gCheeseTileData
+	ldr r1, _0801F2F0 @ =gCheeseTileInfo
 	ldrh r0, [r1]
 	strh r0, [r2, #0xc]
 	ldrh r0, [r1, #2]
@@ -196,7 +196,7 @@ _0801F2BE:
 	.align 2, 0
 _0801F2E8: .4byte 0xFFFFF000
 _0801F2EC: .4byte 0x0000FFF9
-_0801F2F0: .4byte gCheeseTileData
+_0801F2F0: .4byte gCheeseTileInfo
 _0801F2F4: .4byte 0x0000FFFF
 _0801F2F8: .4byte sub_801F2FC
 
@@ -299,7 +299,7 @@ _0801F3B0:
 	cmp r1, r0
 	bgt _0801F3CE
 _0801F3B8:
-	ldr r1, _0801F3F0 @ =gCheeseTileData
+	ldr r1, _0801F3F0 @ =gCheeseTileInfo
 	ldrh r0, [r1, #0x1c]
 	strh r0, [r4, #0x2c]
 	ldrh r0, [r1, #0x1e]
@@ -327,7 +327,7 @@ _0801F3CE:
 	b _0801F406
 	.align 2, 0
 _0801F3EC: .4byte 0x000004FE
-_0801F3F0: .4byte gCheeseTileData
+_0801F3F0: .4byte gCheeseTileInfo
 _0801F3F4: .4byte gCurTask
 _0801F3F8: .4byte sub_801F418
 _0801F3FC: .4byte sub_801EF6C
@@ -461,7 +461,7 @@ sub_801F4B4: @ 0x0801F4B4
 	movs r0, #0x80
 	lsls r0, r0, #5
 	str r0, [r3, #8]
-	ldr r1, _0801F528 @ =gCheeseTileData
+	ldr r1, _0801F528 @ =gCheeseTileInfo
 	ldrh r0, [r1, #0x24]
 	strh r0, [r3, #0xc]
 	ldrh r0, [r1, #0x26]
@@ -485,7 +485,7 @@ sub_801F4B4: @ 0x0801F4B4
 _0801F51C: .4byte gCurTask
 _0801F520: .4byte 0x0000FFF9
 _0801F524: .4byte 0x03000020
-_0801F528: .4byte gCheeseTileData
+_0801F528: .4byte gCheeseTileInfo
 _0801F52C: .4byte 0x0000FFFF
 _0801F530: .4byte sub_8020660
 
@@ -523,7 +523,7 @@ sub_801F534: @ 0x0801F534
 	movs r0, #0x80
 	lsls r0, r0, #5
 	str r0, [r3, #8]
-	ldr r1, _0801F5A8 @ =gCheeseTileData
+	ldr r1, _0801F5A8 @ =gCheeseTileInfo
 	ldrh r0, [r1, #0x28]
 	strh r0, [r3, #0xc]
 	ldrh r0, [r1, #0x2a]
@@ -547,7 +547,7 @@ sub_801F534: @ 0x0801F534
 _0801F59C: .4byte gCurTask
 _0801F5A0: .4byte 0x0000FFF9
 _0801F5A4: .4byte 0x03000020
-_0801F5A8: .4byte gCheeseTileData
+_0801F5A8: .4byte gCheeseTileInfo
 _0801F5AC: .4byte 0x0000FFFF
 _0801F5B0: .4byte sub_80206B0
 
@@ -580,7 +580,7 @@ sub_801F5B4: @ 0x0801F5B4
 	strb r0, [r2, #0x1a]
 	ldr r0, _0801F620 @ =0x03000020
 	adds r3, r3, r0
-	ldr r1, _0801F624 @ =gCheeseTileData
+	ldr r1, _0801F624 @ =gCheeseTileInfo
 	ldrh r0, [r1, #8]
 	strh r0, [r3, #0xc]
 	ldrh r0, [r1, #0xa]
@@ -607,7 +607,7 @@ sub_801F5B4: @ 0x0801F5B4
 	.align 2, 0
 _0801F61C: .4byte gCurTask
 _0801F620: .4byte 0x03000020
-_0801F624: .4byte gCheeseTileData
+_0801F624: .4byte gCheeseTileInfo
 _0801F628: .4byte 0x0000FFFF
 _0801F62C: .4byte sub_801F630
 
@@ -717,7 +717,7 @@ sub_801F6D8: @ 0x0801F6D8
 	strb r0, [r1, #0x1a]
 	ldr r0, _0801F730 @ =0x03000020
 	adds r2, r2, r0
-	ldr r1, _0801F734 @ =gCheeseTileData
+	ldr r1, _0801F734 @ =gCheeseTileInfo
 	ldrh r0, [r1, #0xc]
 	strh r0, [r2, #0xc]
 	ldrh r0, [r1, #0xe]
@@ -741,7 +741,7 @@ sub_801F6D8: @ 0x0801F6D8
 _0801F728: .4byte gCurTask
 _0801F72C: .4byte 0x0000FFFD
 _0801F730: .4byte 0x03000020
-_0801F734: .4byte gCheeseTileData
+_0801F734: .4byte gCheeseTileInfo
 _0801F738: .4byte 0x0000FFFF
 _0801F73C: .4byte sub_801F740
 
@@ -852,7 +852,7 @@ sub_801F7E0: @ 0x0801F7E0
 	strb r0, [r1, #0x1a]
 	ldr r0, _0801F838 @ =0x03000020
 	adds r2, r2, r0
-	ldr r1, _0801F83C @ =gCheeseTileData
+	ldr r1, _0801F83C @ =gCheeseTileInfo
 	ldrh r0, [r1, #0xc]
 	strh r0, [r2, #0xc]
 	ldrh r0, [r1, #0xe]
@@ -876,7 +876,7 @@ sub_801F7E0: @ 0x0801F7E0
 _0801F830: .4byte gCurTask
 _0801F834: .4byte 0x0000FFFD
 _0801F838: .4byte 0x03000020
-_0801F83C: .4byte gCheeseTileData
+_0801F83C: .4byte gCheeseTileInfo
 _0801F840: .4byte 0x0000FFFF
 _0801F844: .4byte sub_801F848
 
@@ -996,7 +996,7 @@ _0801F906:
 	strb r0, [r4, #0x1a]
 	adds r1, r4, #0
 	adds r1, #0x20
-	ldr r2, _0801F960 @ =gCheeseTileData
+	ldr r2, _0801F960 @ =gCheeseTileInfo
 	ldrh r0, [r2, #0x20]
 	strh r0, [r1, #0xc]
 	ldrh r0, [r2, #0x22]
@@ -1022,7 +1022,7 @@ _0801F906:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0801F960: .4byte gCheeseTileData
+_0801F960: .4byte gCheeseTileInfo
 _0801F964: .4byte 0x0000FFFF
 _0801F968: .4byte gCurTask
 _0801F96C: .4byte sub_801F970
@@ -1197,7 +1197,7 @@ _0801FA92:
 	strb r0, [r4, #0x1a]
 	adds r1, r4, #0
 	adds r1, #0x20
-	ldr r2, _0801FAEC @ =gCheeseTileData
+	ldr r2, _0801FAEC @ =gCheeseTileInfo
 	ldrh r0, [r2, #0x20]
 	strh r0, [r1, #0xc]
 	ldrh r0, [r2, #0x22]
@@ -1223,7 +1223,7 @@ _0801FA92:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0801FAEC: .4byte gCheeseTileData
+_0801FAEC: .4byte gCheeseTileInfo
 _0801FAF0: .4byte 0x0000FFFF
 _0801FAF4: .4byte gCurTask
 _0801FAF8: .4byte sub_801FAFC
@@ -1401,7 +1401,7 @@ sub_801FC2C: @ 0x0801FC2C
 	lsls r1, r1, #0xc
 	adds r4, r4, r1
 	lsrs r4, r4, #0x10
-	ldr r0, _0801FCC4 @ =gCheeseTileData
+	ldr r0, _0801FCC4 @ =gCheeseTileInfo
 	lsls r1, r4, #2
 	adds r2, r1, r0
 	ldrh r2, [r2]
@@ -1455,7 +1455,7 @@ sub_801FC2C: @ 0x0801FC2C
 	bx r0
 	.align 2, 0
 _0801FCC0: .4byte gCurTask
-_0801FCC4: .4byte gCheeseTileData
+_0801FCC4: .4byte gCheeseTileInfo
 _0801FCC8: .4byte 0x0000FFFD
 _0801FCCC: .4byte 0x03000020
 _0801FCD0: .4byte 0x0000FFFF
@@ -1607,7 +1607,7 @@ sub_801FDAC: @ 0x0801FDAC
 	lsls r1, r1, #0xd
 	adds r0, r0, r1
 	lsrs r5, r0, #0x10
-	ldr r0, _0801FE30 @ =gCheeseTileData
+	ldr r0, _0801FE30 @ =gCheeseTileInfo
 	lsls r1, r5, #2
 	adds r2, r1, r0
 	ldrh r7, [r2]
@@ -1642,7 +1642,7 @@ sub_801FDAC: @ 0x0801FDAC
 	b _0801FEB0
 	.align 2, 0
 _0801FE2C: .4byte gCurTask
-_0801FE30: .4byte gCheeseTileData
+_0801FE30: .4byte gCheeseTileInfo
 _0801FE34: .4byte 0x0000FFFD
 _0801FE38: .4byte 0x03000020
 _0801FE3C: .4byte 0x0000FFFF
@@ -1657,7 +1657,7 @@ _0801FE44:
 	lsls r1, r1, #0xc
 	adds r0, r0, r1
 	lsrs r5, r0, #0x10
-	ldr r0, _0801FEC0 @ =gCheeseTileData
+	ldr r0, _0801FEC0 @ =gCheeseTileInfo
 	lsls r1, r5, #2
 	adds r2, r1, r0
 	ldrh r7, [r2]
@@ -1710,7 +1710,7 @@ _0801FEB0:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0801FEC0: .4byte gCheeseTileData
+_0801FEC0: .4byte gCheeseTileInfo
 _0801FEC4: .4byte 0x03000020
 _0801FEC8: .4byte 0x0000FFFF
 _0801FECC: .4byte sub_801FED0
@@ -1846,7 +1846,7 @@ sub_801FFA8: @ 0x0801FFA8
 	lsls r1, r1, #0xd
 	adds r3, r3, r1
 	lsrs r3, r3, #0x10
-	ldr r0, _08020024 @ =gCheeseTileData
+	ldr r0, _08020024 @ =gCheeseTileInfo
 	lsls r1, r3, #2
 	adds r2, r1, r0
 	ldrh r6, [r2]
@@ -1888,7 +1888,7 @@ sub_801FFA8: @ 0x0801FFA8
 	bx r0
 	.align 2, 0
 _08020020: .4byte gCurTask
-_08020024: .4byte gCheeseTileData
+_08020024: .4byte gCheeseTileInfo
 _08020028: .4byte 0x0000FFFD
 _0802002C: .4byte 0x03000020
 _08020030: .4byte 0x0000FFFF
