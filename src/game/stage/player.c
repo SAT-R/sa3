@@ -22499,102 +22499,60 @@ void Task_80206B0()
     sub_8020284();
 }
 
-#if 0
-u32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5) {
+// (89.89%) https://decomp.me/scratch/6n3JH
+NONMATCH("asm/non_matching/game/stage/player__sub_8020700.inc",
+         bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 hbIndex, Player *p, s16 p5))
+{
+    u8 sp00[4];
     PlayerSpriteInfo *temp_r3;
-    Sprite *temp_r6;
-    s16 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r2;
-    s32 temp_r2_3;
-    s32 temp_r2_4;
-    s32 var_r5;
-    s8 temp_r4;
-    s8 temp_r4_2;
-    s8 temp_r6_2;
-    s8 temp_r6_3;
-    u8 temp_r2_2;
-    u8 temp_r3_2;
-    void *temp_r3_3;
-    void *temp_r3_4;
+    Sprite2 *sprPlayer;
+    s32 playerWorldX, playerWorldY;
 
     temp_r3 = p->spriteInfoBody;
-    temp_r6 = &temp_r3->s;
+    sprPlayer = &temp_r3->s;
     if (p->moveState & 0x100) {
-        goto block_22;
+        return 0U;
     }
-    temp_r2 = (u16) p3 << 0x10;
-    if (*(s->hitboxes + (temp_r2 >> 0xD)) == -1) {
-        goto block_22;
-    }
-    temp_r1 = (s16) (u16) (s32) p5;
-    if (temp_r3->s.hitboxes[temp_r1].index == -1) {
-        goto block_22;
-    }
-    if (temp_r1 == 0) {
-        temp_r3_2 = p->spriteOffsetX;
-        subroutine_arg0.unk0 = (u8) (0 - temp_r3_2);
-        temp_r2_2 = (u8) p->spriteOffsetY;
-        subroutine_arg0.unk1 = (u8) (0 - temp_r2_2);
-        subroutine_arg0.unk2 = temp_r3_2;
-        subroutine_arg0.unk3 = temp_r2_2;
-    } else {
-        subroutine_arg0.unk0 = (u8) temp_r6->hitboxes[temp_r1].b.left;
-        subroutine_arg0.unk1 = (u8) temp_r6->hitboxes[temp_r1].b.top;
-        subroutine_arg0.unk2 = (u8) temp_r6->hitboxes[temp_r1].b.right;
-        subroutine_arg0.unk3 = (u8) temp_r6->hitboxes[temp_r1].b.bottom;
-    }
-    var_r5 = (s32) p->qWorldY >> 8;
-    if ((u32) (u16) ((u16) p->charFlags.anim0 - 0x5C) <= 1U) {
-        if (p->moveState & 0x10000) {
-            var_r5 -= 0x20;
-        } else {
-            var_r5 += 0x20;
-        }
-    }
-    temp_r3_3 = s + (temp_r2 >> 0xD);
-    temp_r4 = temp_r3_3->unk24;
-    temp_r1_2 = worldX + temp_r4;
-    temp_r6_2 = (s8) subroutine_arg0.unk0;
-    temp_r2_3 = ((s32) p->qWorldX >> 8) + temp_r6_2;
-    if (temp_r1_2 <= temp_r2_3) {
-        if ((s32) (temp_r1_2 + ((s8) temp_r3_3->unk26 - temp_r4)) < temp_r2_3) {
-            if (temp_r1_2 >= temp_r2_3) {
-                goto block_16;
-            }
-            goto block_22;
-        }
-        goto block_17;
-    }
-block_16:
-    if ((s32) (temp_r2_3 + ((s8) subroutine_arg0.unk2 - temp_r6_2)) >= temp_r1_2) {
-block_17:
-        temp_r3_4 = s + (temp_r2 >> 0xD);
-        temp_r4_2 = temp_r3_4->unk25;
-        temp_r2_4 = worldY + temp_r4_2;
-        temp_r6_3 = (s8) subroutine_arg0.unk1;
-        temp_r1_3 = var_r5 + temp_r6_3;
-        if (temp_r2_4 <= temp_r1_3) {
-            if ((s32) (temp_r2_4 + ((s8) temp_r3_4->layer - temp_r4_2)) < temp_r1_3) {
-                if (temp_r2_4 >= temp_r1_3) {
-                    goto block_20;
-                }
-                goto block_22;
-            }
-            goto block_21;
-        }
-block_20:
-        if ((s32) (temp_r1_3 + ((s8) subroutine_arg0.unk3 - temp_r6_3)) >= temp_r2_4) {
-block_21:
-            return 1U;
-        }
-        goto block_22;
-    }
-block_22:
-    return 0U;
-}
 
+    if (s->hitboxes[hbIndex].index == -1) {
+        return 0U;
+    }
+
+    if (temp_r3->s.hitboxes[p5].index == -1) {
+        return 0U;
+    }
+
+    if (p5 == 0) {
+        sp00[0] = -p->spriteOffsetX;
+        sp00[1] = -p->spriteOffsetY;
+        sp00[2] = +p->spriteOffsetX;
+        sp00[3] = +p->spriteOffsetY;
+    } else {
+        sp00[0] = sprPlayer->hitboxes[p5].b.left;
+        sp00[1] = sprPlayer->hitboxes[p5].b.top;
+        sp00[2] = sprPlayer->hitboxes[p5].b.right;
+        sp00[3] = sprPlayer->hitboxes[p5].b.bottom;
+    }
+
+    playerWorldX = I(p->qWorldX);
+    playerWorldY = I(p->qWorldY);
+    if (p->charFlags.anim0 == 92 || p->charFlags.anim0 == 93) {
+        if (p->moveState & 0x10000) {
+            playerWorldY -= 32;
+        } else {
+            playerWorldY += 32;
+        }
+    }
+
+    if (RECT_COLLISION(worldX, worldY, &s->hitboxes[hbIndex].b, playerWorldX, playerWorldY, (Rect8 *)&sp00)) {
+        return TRUE;
+    }
+
+    return FALSE;
+}
+END_NONMATCH
+
+#if 0
 u32 sub_8020874(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5, u8 p6) {
     ? spC;
     s32 sp10;
