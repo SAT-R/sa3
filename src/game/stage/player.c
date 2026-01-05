@@ -22576,61 +22576,50 @@ u32 sub_8020874(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5, u8
     return sub_8020A58(s, p3, worldX, worldY, &spC, p, p6);
 }
 
-#if 0
-u32 sub_8020950(Sprite *s, s32 worldX, s32 worldY, Player *p, u8 param4) {
-    s32 spC;
+u32 sub_8020950(Sprite *s, s32 worldX, s32 worldY, Player *p, u8 param4)
+{
+    u8 spC[4] = { -p->spriteOffsetX, -p->spriteOffsetY, +p->spriteOffsetX, +p->spriteOffsetY };
     s8 sp10;
-    s16 temp_r0_3;
     s32 var_r4;
-    u16 temp_r1_2;
     u32 temp_r0;
     u32 temp_r1;
-    u32 temp_r1_3;
-    u8 temp_r3;
-    u8 temp_r4;
-    u8 var_r7;
-    void *temp_r0_2;
 
-    var_r7 = (u8) (s32) param4;
-    temp_r4 = p->spriteOffsetX;
-    sp10 = 0 - temp_r4;
-    temp_r3 = (u8) p->spriteOffsetY;
-    temp_r0_2 = &subroutine_arg0 + 0x11;
-    subroutine_arg0.unk11 = (s8) (0 - temp_r3);
-    temp_r0_2->unk1 = temp_r4;
-    (temp_r0_2 + 1)->unk1 = temp_r3;
-    memcpy(&spC, &sp10, 4);
     var_r4 = 0;
-    if ((s->hitboxes[0].index == -1) || (temp_r1 = p->moveState, ((0x100 & temp_r1) != 0))) {
+    if ((s->hitboxes[0].index == -1) || (MOVESTATE_100 & p->moveState)) {
         return 0U;
     }
-    if ((0x20 & temp_r1) && (p->sprColliding == s)) {
+    if ((MOVESTATE_COLLIDING_ENT & p->moveState) && (p->sprColliding == s)) {
         var_r4 = 1;
-        p->moveState = (temp_r1 & ~0x20) | 4;
+        p->moveState &= ~MOVESTATE_COLLIDING_ENT;
+        p->moveState |= MOVESTATE_IN_AIR;
     }
-    temp_r1_2 = (u16) p->charFlags.anim0;
-    if (((u32) (u16) (temp_r1_2 - 0xCE) <= 2U) || (temp_r0_3 = (s16) temp_r1_2, (temp_r0_3 == 0xBC)) || (temp_r0_3 == 0xBD) || (temp_r0_3 == 0xBE)) {
-        var_r7 = 1;
+
+    if (p->charFlags.anim0 == 206 || p->charFlags.anim0 == 207 || p->charFlags.anim0 == 208 || (p->charFlags.anim0 == 188)
+        || (p->charFlags.anim0 == 189) || (p->charFlags.anim0 == 190)) {
+        param4 = 1;
     }
-    temp_r0 = sub_8020A58(s, 0, worldX, worldY, &spC, p, (u8) (s32) var_r7);
+
+    temp_r0 = sub_8020A58(s, 0, worldX, worldY, &spC, p, param4);
     if (temp_r0 != 0) {
         if (0x10000 & temp_r0) {
-            p->moveState = (p->moveState | 0x20) & ~4;
+            p->moveState |= MOVESTATE_COLLIDING_ENT;
+            p->moveState &= ~MOVESTATE_IN_AIR;
             p->sprColliding = s;
             if ((var_r4 == 0) && (s == NULL)) {
-                p->qSpeedGround = (s16) (u16) p->qSpeedAirX;
+                p->qSpeedGround = p->qSpeedAirX;
             }
         }
     } else if (var_r4 != 0) {
-        temp_r1_3 = p->moveState;
-        if (!(0x20 & temp_r1_3)) {
-            p->moveState = (temp_r1_3 & ~0x40) | 4;
-            p->sprColliding = (Sprite *) temp_r0;
+        if (!(MOVESTATE_COLLIDING_ENT & p->moveState)) {
+            p->moveState &= ~MOVESTATE_40;
+            p->moveState |= MOVESTATE_IN_AIR;
+            p->sprColliding = 0;
         }
     }
     return temp_r0;
 }
 
+#if 0
 u32 sub_8020A58(Sprite *s, s16 param1, s32 worldX, s32 worldY, void *param4, Player *p, u8 param6) {
     Sprite *sp0;
     s32 sp4;
