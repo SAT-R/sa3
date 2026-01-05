@@ -8,77 +8,8 @@
 .if 0
 .endif
 
-	thumb_func_start sub_802056C
-sub_802056C: @ 0x0802056C
-	push {r4, lr}
-	ldr r0, _08020590 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	ldr r2, [r4, #0x50]
-	ldr r0, [r2, #4]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _08020594
-	ldr r0, [r2, #0x10]
-	movs r1, #0xc0
-	lsls r1, r1, #5
-	b _08020598
-	.align 2, 0
-_08020590: .4byte gCurTask
-_08020594:
-	ldr r0, [r2, #0x10]
-	ldr r1, _080205D0 @ =0xFFFFE800
-_08020598:
-	adds r0, r0, r1
-	str r0, [r4, #8]
-	ldr r0, [r4, #0x50]
-	ldr r0, [r0, #0x14]
-	ldr r1, _080205D0 @ =0xFFFFE800
-	adds r0, r0, r1
-	str r0, [r4, #0xc]
-	movs r0, #1
-	bl sub_8020130
-	bl sub_8020284
-	ldrb r0, [r4, #0x1a]
-	subs r0, #1
-	strb r0, [r4, #0x1a]
-	lsls r0, r0, #0x18
-	cmp r0, #0
-	bne _080205E4
-	ldr r0, [r4, #0x50]
-	ldr r0, [r0, #0xc]
-	movs r1, #0x18
-	ands r0, r1
-	cmp r0, #0x10
-	bne _080205DC
-	ldr r0, _080205D4 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _080205D8 @ =sub_801EF6C
-	b _080205E2
-	.align 2, 0
-_080205D0: .4byte 0xFFFFE800
-_080205D4: .4byte gCurTask
-_080205D8: .4byte sub_801EF6C
-_080205DC:
-	ldr r0, _080205EC @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _080205F0 @ =Task_801EE74
-_080205E2:
-	str r0, [r1, #8]
-_080205E4:
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080205EC: .4byte gCurTask
-_080205F0: .4byte Task_801EE74
-
-	thumb_func_start sub_80205F4
-sub_80205F4: @ 0x080205F4
+	thumb_func_start Task_80205F4
+Task_80205F4: @ 0x080205F4
 	push {r4, lr}
 	ldr r0, _08020638 @ =gCurTask
 	ldr r0, [r0]
