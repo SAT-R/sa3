@@ -21297,9 +21297,9 @@ void Task_801EDB4(void)
     strc->unk19 = 0;
     s = &strc->s;
     if (gStageData.gameMode < 6) {
-        s->tiles = OBJ_VRAM0 + 0x4000;
+        s->tiles = OBJ_VRAM0 + VRAM_RESERVED_CHEESE;
     } else if (gStageData.gameMode == 6) {
-        s->tiles = OBJ_VRAM0 + 0x4020;
+        s->tiles = OBJ_VRAM0 + VRAM_RESERVED_CHEESE_GAME_MODE_6;
     }
     s->frameFlags = 0x1000;
     s->anim = gCheeseTileInfo[0][0];
@@ -22483,7 +22483,7 @@ void sub_80203D4(Player *p) {
 
     temp_r5 = gStageData.taskCheese;
     if ((temp_r5 == NULL) && ((0xF & p->unk2A) == 1)) {
-        temp_r0 = TaskCreate(Task_801EDB4, 0x58U, 0x3010U, 0U, TaskDestructor_8020434);
+        temp_r0 = TaskCreate(Task_801EDB4, sizeof(Cheese), 0x3010U, 0U, TaskDestructor_8020434);
         gStageData.taskCheese = temp_r0;
         temp_r1 = temp_r0->data;
         temp_r1->unk0 = (s32) p->qWorldX;
