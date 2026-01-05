@@ -22209,6 +22209,85 @@ void Task_8020038(void)
         sub_801ECAC(cheese->unk54);
     }
 }
+
+// TODO: Fake-match!
+void sub_8020130(s16 param0)
+{
+    Cheese *cheese = TASK_DATA(gCurTask);
+    s32 var_r1_2;
+    s16 rotation;
+    s32 qWorldX2;
+    s32 qWorldY2;
+    s16 temp_r3;
+    s16 temp_r1_2;
+
+    s32 dx;
+    s32 dy;
+#ifndef NON_MATCHING
+    register s32 v0 asm("r0");
+#else
+    s32 v0;
+#endif
+
+    qWorldX2 = cheese->qWorldX2;
+    qWorldY2 = cheese->qWorldY2;
+    rotation = 0;
+    if ((gStageData.unk85 != 0) && (gStageData.act != ACT_BONUS_CAPSULE) && (gStageData.act != ACT_BONUS_ENEMIES)
+        && (gStageData.unk4 != 9)) {
+        return;
+    }
+
+    dx = I(qWorldX2 - cheese->qWorldX);
+    dy = I(qWorldY2 - cheese->qWorldY);
+    if ((dx != 0) || (dy != 0)) {
+        rotation = (u16)sa2__sub_8004418(dy, dx);
+    }
+
+    if (ABS(dx) > ABS(dy)) {
+        v0 = dx;
+    } else {
+        v0 = dy;
+    }
+    var_r1_2 = (ABS(v0) << 5) * param0;
+
+    if (var_r1_2 > 0x7FFF) {
+        var_r1_2 = 0x7FFF;
+    } else {
+        v0 = param0 << 7;
+        var_r1_2 = MAX(v0, var_r1_2);
+    }
+    cheese->unk14 = var_r1_2;
+
+    temp_r3 = Q_MUL(COS_24_8(rotation), cheese->unk14);
+    cheese->qWorldX += temp_r3;
+    temp_r1_2 = Q_MUL(SIN_24_8(rotation), cheese->unk14);
+    cheese->qWorldY += (s32)temp_r1_2;
+    if (temp_r3 < 0) {
+        if (qWorldX2 > cheese->qWorldX) {
+            cheese->qWorldX = qWorldX2;
+        }
+    } else {
+        if (qWorldX2 < cheese->qWorldX) {
+            cheese->qWorldX = qWorldX2;
+        }
+    }
+    if (temp_r1_2 < 0) {
+        if (qWorldY2 > (s32)cheese->qWorldY) {
+            cheese->qWorldY = qWorldY2;
+        }
+    } else if (qWorldY2 < (s32)cheese->qWorldY) {
+        cheese->qWorldY = qWorldY2;
+    }
+
+    if (cheese->player->moveState & 0x100) {
+        if (cheese->unk54 != NULL) {
+            sub_801EBC0(0, cheese->unk54);
+            return;
+        }
+        sub_801EBC0(4, cheese->player);
+    }
+}
+
 #if 0
 // -> Cheese
 void sub_8020130(u16 arg0, ? arg3) {

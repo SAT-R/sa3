@@ -12,7 +12,7 @@ typedef struct {
     /* 0x0C */ s32 qWorldY2;
     /* 0x10 */ u16 unk10;
     /* 0x12 */ u16 unk12;
-    /* 0x14 */ u16 unk14;
+    /* 0x14 */ s16 unk14;
     /* 0x16 */ u16 unk16; // bitfield
     /* 0x18 */ u8 unk18;
     /* 0x19 */ u8 unk19;
