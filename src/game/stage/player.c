@@ -22793,180 +22793,81 @@ bool32 sub_8020CE0(Sprite *s, s32 worldX, s32 worldY, s16 hbIndex, Player *p)
     return FALSE;
 }
 
-#if 0
-u32 sub_8020E3C(Sprite *s, s32 param1, s32 param2, s16 param3, Player *p) {
-    PlayerSpriteInfo *temp_r0;
-    Sprite *temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s32 temp_r2_3;
-    s8 temp_r4;
-    s8 temp_r4_2;
-    s8 temp_r5;
-    s8 temp_r5_2;
-    void *temp_r3;
-    void *temp_r3_2;
+bool32 sub_8020E3C(Sprite *s, s32 worldX, s32 worldY, s16 hbIndex, Player *p)
+{
+    PlayerSpriteInfo *psiBody = p->spriteInfoBody; // r7
+    Sprite2 *sprBody = &psiBody->s;
+    s32 playerWorldX;
+    s32 playerWorldY;
 
-    temp_r0 = p->spriteInfoBody;
-    temp_r0_2 = &temp_r0->s;
     if (!(p->moveState & 0x100)) {
-        temp_r0_3 = (u16) param3 << 0x10;
-        temp_r2 = temp_r0_3 >> 0xD;
-        if ((*(s->hitboxes + temp_r2) != -1) && (temp_r0_2->unk28 != -1)) {
-            temp_r3 = s + temp_r2;
-            temp_r4 = temp_r3->unk24;
-            temp_r2_2 = param1 + temp_r4;
-            temp_r5 = temp_r0->unk38;
-            temp_r1 = ((s32) p->qWorldX >> 8) + temp_r5;
-            if (temp_r2_2 <= temp_r1) {
-                if ((s32) (temp_r2_2 + ((s8) temp_r3->unk26 - temp_r4)) < temp_r1) {
-                    if (temp_r2_2 >= temp_r1) {
-                        goto block_6;
-                    }
-                    goto block_12;
-                }
-                goto block_7;
+        if ((s->hitboxes[hbIndex].index != -1) && (sprBody->hitboxes[1].index != -1)) {
+            if (HB_COLLISION(worldX, worldY, s->hitboxes[hbIndex].b, I(p->qWorldX), I(p->qWorldY), sprBody->hitboxes[1].b)) {
+                return 1U;
             }
-block_6:
-            if ((s32) (temp_r1 + ((s8) temp_r0->unk3A - temp_r5)) >= temp_r2_2) {
-block_7:
-                temp_r3_2 = s + (temp_r0_3 >> 0xD);
-                temp_r4_2 = temp_r3_2->unk25;
-                temp_r2_3 = param2 + temp_r4_2;
-                temp_r5_2 = temp_r0_2->unk2D;
-                temp_r1_2 = ((s32) p->qWorldY >> 8) + temp_r5_2;
-                if (temp_r2_3 <= temp_r1_2) {
-                    if ((s32) (temp_r2_3 + ((s8) temp_r3_2->layer - temp_r4_2)) < temp_r1_2) {
-                        if (temp_r2_3 >= temp_r1_2) {
-                            goto block_10;
-                        }
-                        goto block_12;
-                    }
-                    goto block_11;
-                }
-block_10:
-                if ((s32) (temp_r1_2 + ((s8) temp_r0_2->unk2F - temp_r5_2)) >= temp_r2_3) {
-block_11:
-                    return 1U;
-                }
-                goto block_12;
-            }
-            goto block_12;
         }
     }
-block_12:
-    return 0U;
+
+    return FALSE;
 }
 
-s32 sub_8020F30(void *arg0, u16 arg1, void *arg2, u16 arg3) {
-    ? sp4;
-    s16 temp_r0;
-    s16 temp_r3_2;
-    s32 temp_r1;
-    s32 temp_r2_2;
-    s32 temp_r2_7;
-    s32 temp_r2_8;
-    s32 temp_r3;
-    s32 temp_r3_6;
-    s32 temp_r4;
-    s8 temp_r1_2;
-    s8 temp_r3_5;
-    s8 temp_r4_2;
-    s8 temp_r4_3;
-    u16 temp_r2;
-    u8 temp_r2_3;
-    u8 temp_r2_5;
-    u8 temp_r3_3;
-    u8 temp_r3_4;
-    void *temp_r2_4;
-    void *temp_r2_6;
+bool32 sub_8020F30(Player *playerA, s16 hbIndexA, Player *playerB, s16 hbIndexB)
+{
+    u8 sp0[4];
+    u8 sp4[4];
+    PlayerSpriteInfo *temp_r3;
+    PlayerSpriteInfo *temp_r4;
+    Sprite2 *temp_r0;
+    Sprite2 *sprBodyB;
 
-    temp_r2 = arg1;
-    temp_r4 = arg2->unkE0;
-    temp_r3 = arg0->unkE0;
-    if (arg2->unk4 & 0x100) {
-        goto block_21;
+    temp_r4 = playerB->spriteInfoBody;
+    sprBodyB = &temp_r4->s;
+    temp_r3 = playerA->spriteInfoBody;
+    temp_r0 = &temp_r3->s;
+    if (playerB->moveState & 0x100) {
+        return FALSE;
     }
-    if (*(temp_r3 + 0x2C + ((s32) (temp_r2 << 0x10) >> 0xD)) == -1) {
-        goto block_21;
+    if (temp_r0->hitboxes[hbIndexA].index == -1) {
+        return FALSE;
     }
-    temp_r3_2 = (s16) arg3;
-    temp_r2_2 = temp_r3_2 * 8;
-    if (*(temp_r4 + 0x2C + temp_r2_2) == -1) {
-        goto block_21;
+
+    if (temp_r4->s.hitboxes[hbIndexB].index == -1) {
+        return FALSE;
     }
-    if (temp_r3_2 == 0) {
-        temp_r3_3 = arg2->unk24;
-        subroutine_arg0.unk0 = (u8) (0 - temp_r3_3);
-        temp_r2_3 = arg2->unk25;
-        subroutine_arg0.unk1 = (u8) (0 - temp_r2_3);
-        subroutine_arg0.unk2 = temp_r3_3;
-        subroutine_arg0.unk3 = temp_r2_3;
+
+    if (hbIndexB == 0) {
+        sp0[0] = -playerB->spriteOffsetX;
+        sp0[1] = -playerB->spriteOffsetY;
+        sp0[2] = +playerB->spriteOffsetX;
+        sp0[3] = +playerB->spriteOffsetY;
     } else {
-        temp_r2_4 = temp_r4 + 0xC + temp_r2_2;
-        subroutine_arg0.unk0 = (u8) temp_r2_4->unk24;
-        subroutine_arg0.unk1 = (u8) temp_r2_4->unk25;
-        subroutine_arg0.unk2 = (u8) temp_r2_4->unk26;
-        subroutine_arg0.unk3 = (u8) temp_r2_4->layer;
+        sp0[0] = sprBodyB->hitboxes[hbIndexB].b.left;
+        sp0[1] = sprBodyB->hitboxes[hbIndexB].b.top;
+        sp0[2] = sprBodyB->hitboxes[hbIndexB].b.right;
+        sp0[3] = sprBodyB->hitboxes[hbIndexB].b.bottom;
     }
-    temp_r0 = (s16) temp_r2;
-    if (temp_r0 == 0) {
-        temp_r3_4 = arg0->unk24;
-        sp4.unk0 = (u8) (0 - temp_r3_4);
-        temp_r2_5 = arg0->unk25;
-        sp4.unk1 = (u8) (0 - temp_r2_5);
-        sp4.unk2 = temp_r3_4;
-        sp4.unk3 = temp_r2_5;
+
+    if (hbIndexA == 0) {
+        sp4[0] = -playerA->spriteOffsetX;
+        sp4[1] = -playerA->spriteOffsetY;
+        sp4[2] = +playerA->spriteOffsetX;
+        sp4[3] = +playerA->spriteOffsetY;
     } else {
-        temp_r2_6 = temp_r3 + 0xC + (temp_r0 * 8);
-        sp4.unk0 = (u8) temp_r2_6->unk24;
-        sp4.unk1 = (u8) temp_r2_6->unk25;
-        sp4.unk2 = (u8) temp_r2_6->unk26;
-        sp4.unk3 = (u8) temp_r2_6->layer;
+        sp4[0] = temp_r0->hitboxes[hbIndexA].b.left;
+        sp4[1] = temp_r0->hitboxes[hbIndexA].b.top;
+        sp4[2] = temp_r0->hitboxes[hbIndexA].b.right;
+        sp4[3] = temp_r0->hitboxes[hbIndexA].b.bottom;
     }
-    temp_r3_5 = sp4.unk0;
-    temp_r2_7 = ((s32) arg0->unk10 >> 8) + temp_r3_5;
-    temp_r4_2 = (s8) subroutine_arg0.unk0;
-    temp_r1 = ((s32) arg2->unk10 >> 8) + temp_r4_2;
-    if (temp_r2_7 <= temp_r1) {
-        if ((s32) (temp_r2_7 + (sp4.unk2 - temp_r3_5)) < temp_r1) {
-            if (temp_r2_7 >= temp_r1) {
-                goto block_15;
-            }
-            goto block_21;
-        }
-        goto block_16;
+
+    if (HB_COLLISION(I(playerA->qWorldX), I(playerA->qWorldY), ((Rect8) { sp4[0], sp4[1], sp4[2], sp4[3] }), I(playerB->qWorldX),
+                     I(playerB->qWorldY), ((Rect8) { sp0[0], sp0[1], sp0[2], sp0[3] }))) {
+        return TRUE;
     }
-block_15:
-    if ((s32) (temp_r1 + ((s8) subroutine_arg0.unk2 - temp_r4_2)) >= temp_r2_7) {
-block_16:
-        temp_r4_3 = sp4.unk1;
-        temp_r3_6 = ((s32) arg0->unk14 >> 8) + temp_r4_3;
-        temp_r1_2 = (s8) subroutine_arg0.unk1;
-        temp_r2_8 = ((s32) arg2->unk14 >> 8) + temp_r1_2;
-        if (temp_r3_6 <= temp_r2_8) {
-            if ((s32) (temp_r3_6 + (sp4.unk3 - temp_r4_3)) < temp_r2_8) {
-                if (temp_r3_6 >= temp_r2_8) {
-                    goto block_19;
-                }
-                goto block_21;
-            }
-            goto block_20;
-        }
-block_19:
-        if ((s32) (temp_r2_8 + ((s8) subroutine_arg0.unk3 - temp_r1_2)) >= temp_r3_6) {
-block_20:
-            return 1;
-        }
-        goto block_21;
-    }
-block_21:
-    return 0;
+
+    return FALSE;
 }
 
+#if 0
 s32 sub_80210BC(Player *arg0, u16 arg1, Player *arg2, u16 arg3) {
     ? sp4;
     s32 sp8;
