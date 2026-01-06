@@ -6,13 +6,11 @@
 .arm
 
 .if 0
-.endif
-
 @ Input:
     @ R0 = s
     @ R1 = worldX (not Q)
     @ R2 = worldY (not Q)
-    @ R3 = (u16) param3
+    @ R3 = (s16) param3
 	thumb_func_start sub_8020CE0
 sub_8020CE0: @ 0x08020CE0
 	push {r4, r5, r6, r7, lr}
@@ -195,6 +193,7 @@ _08020E2A:
 	pop {r1}
 	bx r1
 	.align 2, 0
+.endif
 
 	thumb_func_start sub_8020E3C
 sub_8020E3C: @ 0x08020E3C
