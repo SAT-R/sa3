@@ -22811,6 +22811,7 @@ bool32 sub_8020E3C(Sprite *s, s32 worldX, s32 worldY, s16 hbIndex, Player *p)
     return FALSE;
 }
 
+// (44.61%) https://decomp.me/scratch/6ySXq
 bool32 sub_8020F30(Player *playerA, s16 hbIndexA, Player *playerB, s16 hbIndexB)
 {
     u8 sp0[4];
@@ -22867,224 +22868,151 @@ bool32 sub_8020F30(Player *playerA, s16 hbIndexA, Player *playerB, s16 hbIndexB)
     return FALSE;
 }
 
-#if 0
-s32 sub_80210BC(Player *arg0, u16 arg1, Player *arg2, u16 arg3) {
-    ? sp4;
-    s32 sp8;
-    s32 spC;
-    PlayerSpriteInfo *temp_r3;
-    PlayerSpriteInfo *temp_r6;
-    s16 temp_r0;
-    s16 temp_r3_2;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r2_2;
-    s32 temp_r2_8;
-    s32 temp_r2_9;
-    s32 temp_r6_2;
-    s32 temp_r7;
+s32 sub_80210BC(Player *playerA, s16 hbIndexA, Player *playerB, s16 hbIndexB)
+{
+    s8 rectB[4];
+    s8 rectA[4];
+    Sprite2 *sprBodyA;
+    Sprite2 *sprBodyB;
+    s32 playerAWorldX;
+    s32 playerBWorldX;
+    s32 playerAWorldY;
+    s32 playerBWorldY;
     s32 var_r0;
-    s32 var_r0_2;
-    s32 var_r0_3;
-    s32 var_r0_4;
-    s32 var_r0_5;
-    s32 var_r1;
-    s32 var_r2;
-    s32 var_r3;
-    s32 var_r4;
-    s32 var_r4_2;
-    s8 temp_r0_4;
-    s8 temp_r0_5;
-    s8 temp_r3_6;
-    s8 temp_r3_7;
-    s8 temp_r3_8;
-    s8 temp_r5;
-    u16 temp_r2;
-    u8 temp_r2_3;
-    u8 temp_r2_6;
-    u8 temp_r2_7;
-    u8 temp_r3_3;
-    u8 temp_r3_4;
-    u8 temp_r3_5;
-    void *temp_r2_4;
-    void *temp_r2_5;
+    s32 dy;
+    s32 dx;
+    s32 result;
+    s32 byteMaskFF00;
 
-    temp_r2 = arg1;
-    temp_r6 = arg2->spriteInfoBody;
-    temp_r3 = arg0->spriteInfoBody;
-    var_r4 = 0;
-    if ((arg2->moveState & 0x100) || (*(temp_r3 + 0x2C + ((s32) (temp_r2 << 0x10) >> 0xD)) == -1) || (temp_r3_2 = (s16) arg3, temp_r2_2 = temp_r3_2 * 8, (*(temp_r6 + 0x2C + temp_r2_2) == -1))) {
-        return 0;
+    sprBodyB = &playerB->spriteInfoBody->s;
+    sprBodyA = &playerA->spriteInfoBody->s;
+    result = 0;
+
+    if (playerB->moveState & 0x100) {
+        return result;
     }
+    if (sprBodyA->hitboxes[hbIndexA].index == -1) {
+        return result;
+    }
+
+    if (sprBodyB->hitboxes[hbIndexB].index == -1) {
+        return result;
+    }
+
     if (gStageData.gameMode != 7) {
-        if (temp_r3_2 == 0) {
-            temp_r3_3 = arg2->unk24;
-            subroutine_arg0.unk0 = (u8) (0 - temp_r3_3);
-            temp_r2_3 = arg2->unk25;
-            subroutine_arg0.unk1 = (u8) (0 - temp_r2_3);
-            subroutine_arg0.unk2 = temp_r3_3;
-            subroutine_arg0.unk3 = temp_r2_3;
+        if (hbIndexB == 0) {
+            rectB[0] = -playerB->spriteOffsetX;
+            rectB[1] = -playerB->spriteOffsetY;
+            rectB[2] = +playerB->spriteOffsetX;
+            rectB[3] = +playerB->spriteOffsetY;
         } else {
-            temp_r2_4 = temp_r2_2 + (temp_r6 + 0xC);
-            subroutine_arg0.unk0 = (u8) temp_r2_4->unk24;
-            subroutine_arg0.unk1 = (u8) temp_r2_4->unk25;
-            subroutine_arg0.unk2 = (u8) temp_r2_4->unk26;
-            subroutine_arg0.unk3 = (u8) temp_r2_4->layer;
+            rectB[0] = sprBodyB->hitboxes[hbIndexB].b.left;
+            rectB[1] = sprBodyB->hitboxes[hbIndexB].b.top;
+            rectB[2] = sprBodyB->hitboxes[hbIndexB].b.right;
+            rectB[3] = sprBodyB->hitboxes[hbIndexB].b.bottom;
         }
-        temp_r0 = (s16) temp_r2;
-        if (temp_r0 != 0) {
-            temp_r2_5 = temp_r3 + 0xC + (temp_r0 * 8);
-            sp4.unk0 = (u8) temp_r2_5->unk24;
-            sp4.unk1 = (u8) temp_r2_5->unk25;
-            sp4.unk2 = (u8) temp_r2_5->unk26;
-            sp4.unk3 = (u8) temp_r2_5->layer;
-        } else {
-            goto block_11;
-        }
-    } else {
-        temp_r3_4 = arg2->unk24;
-        subroutine_arg0.unk0 = (u8) (0 - temp_r3_4);
-        temp_r2_6 = arg2->unk25;
-        subroutine_arg0.unk1 = (u8) (0 - temp_r2_6);
-        subroutine_arg0.unk2 = temp_r3_4;
-        subroutine_arg0.unk3 = temp_r2_6;
-block_11:
-        temp_r3_5 = arg0->unk24;
-        sp4.unk0 = (u8) (0 - temp_r3_5);
-        temp_r2_7 = arg0->unk25;
-        sp4.unk1 = (u8) (0 - temp_r2_7);
-        sp4.unk2 = temp_r3_5;
-        sp4.unk3 = temp_r2_7;
-    }
-    temp_r7 = (s32) arg2->qWorldX >> 8;
-    temp_r0_2 = (s32) arg2->qWorldY >> 8;
-    temp_r6_2 = (s32) arg0->qWorldX >> 8;
-    temp_r0_3 = (s32) arg0->qWorldY >> 8;
-    temp_r3_6 = sp4.unk0;
-    temp_r2_8 = temp_r6_2 + temp_r3_6;
-    temp_r0_4 = (s8) subroutine_arg0.unk0;
-    sp8 = (s32) temp_r0_4;
-    temp_r1 = temp_r7 + temp_r0_4;
-    if (temp_r2_8 <= temp_r1) {
-        if ((s32) (temp_r2_8 + (sp4.unk2 - temp_r3_6)) < temp_r1) {
-            if (temp_r2_8 < temp_r1) {
 
-            } else {
-                goto block_16;
-            }
+        if (hbIndexA != 0) {
+            rectA[0] = sprBodyA->hitboxes[hbIndexA].b.left;
+            rectA[1] = sprBodyA->hitboxes[hbIndexA].b.top;
+            rectA[2] = sprBodyA->hitboxes[hbIndexA].b.right;
+            rectA[3] = sprBodyA->hitboxes[hbIndexA].b.bottom;
         } else {
-            goto block_18;
+            rectA[0] = -playerA->spriteOffsetX;
+            rectA[1] = -playerA->spriteOffsetY;
+            rectA[2] = +playerA->spriteOffsetX;
+            rectA[3] = +playerA->spriteOffsetY;
         }
     } else {
-block_16:
-        if ((s32) (temp_r1 + ((s8) subroutine_arg0.unk2 - sp8)) < temp_r2_8) {
+        rectB[0] = -playerB->spriteOffsetX;
+        rectB[1] = -playerB->spriteOffsetY;
+        rectB[2] = +playerB->spriteOffsetX;
+        rectB[3] = +playerB->spriteOffsetY;
 
+        rectA[0] = -playerA->spriteOffsetX;
+        rectA[1] = -playerA->spriteOffsetY;
+        rectA[2] = +playerA->spriteOffsetX;
+        rectA[3] = +playerA->spriteOffsetY;
+    }
+
+    playerBWorldX = I(playerB->qWorldX);
+    playerBWorldY = I(playerB->qWorldY);
+    playerAWorldX = I(playerA->qWorldX);
+    playerAWorldY = I(playerA->qWorldY);
+
+    if (HB_COLLISION(playerAWorldX, playerAWorldY, ((Rect8) { rectA[0], rectA[1], rectA[2], rectA[3] }), playerBWorldX, playerBWorldY,
+                     ((Rect8) { rectB[0], rectB[1], rectB[2], rectB[3] }))) {
+        s32 middleX = playerAWorldX + ((rectA[0] + rectA[2]) >> 1);
+        s32 middleY = playerAWorldY + ((rectA[1] + rectA[3]) >> 1);
+        if ((middleX) <= playerBWorldX) {
+            dx = (playerAWorldX + rectA[2]) - (playerBWorldX + rectB[0]);
+            var_r0 = 0x40000;
         } else {
-block_18:
-            temp_r3_7 = sp4.unk1;
-            temp_r2_9 = temp_r0_3 + temp_r3_7;
-            temp_r0_5 = (s8) subroutine_arg0.unk1;
-            sp8 = (s32) temp_r0_5;
-            temp_r1_2 = temp_r0_5 + temp_r0_2;
-            if (temp_r2_9 <= temp_r1_2) {
-                if ((s32) (temp_r2_9 + (sp4.unk3 - temp_r3_7)) < temp_r1_2) {
-                    if (temp_r2_9 < temp_r1_2) {
+            dx = (playerAWorldX + rectA[0]) - (playerBWorldX + rectB[2]);
+            var_r0 = 0x80000;
+        }
+        result |= var_r0;
 
-                    } else {
-                        goto block_22;
-                    }
-                } else {
-                    goto block_24;
-                }
+        if (middleY > playerBWorldY) {
+            dy = (rectA[1] + playerAWorldY) - (rectB[3] + playerBWorldY);
+            if ((playerB->moveState & 0x10000)) {
+                result = result | 0x20000;
             } else {
-block_22:
-                if ((s32) (temp_r1_2 + ((s8) subroutine_arg0.unk3 - sp8)) < temp_r2_9) {
-
-                } else {
-block_24:
-                    temp_r5 = sp4.unk0;
-                    temp_r3_8 = sp4.unk2;
-                    spC = ((s32) (sp4.unk1 + (s8) (u8) sp4.unk3) >> 1) + temp_r0_3;
-                    if ((s32) (temp_r6_2 + ((s32) (temp_r5 + temp_r3_8) >> 1)) <= temp_r7) {
-                        var_r3 = (temp_r6_2 + temp_r3_8) - (temp_r7 + (s8) subroutine_arg0.unk0);
-                        var_r0 = 0x40000;
-                    } else {
-                        var_r3 = (temp_r6_2 + temp_r5) - (temp_r7 + (s8) subroutine_arg0.unk2);
-                        var_r0 = 0x80000;
-                    }
-                    if (spC > temp_r0_2) {
-                        var_r2 = (sp4.unk1 + temp_r0_3) - ((s8) subroutine_arg0.unk3 + temp_r0_2);
-                        if (!(arg2->moveState & 0x10000)) {
-                            goto block_31;
-                        }
-                        goto block_32;
-                    }
-                    var_r2 = (sp4.unk3 + temp_r0_3) - ((s8) subroutine_arg0.unk1 + temp_r0_2);
-                    if (arg2->moveState & 0x10000) {
-block_31:
-                        var_r4_2 = var_r0 | 0x10000;
-                    } else {
-block_32:
-                        var_r4_2 = var_r0 | 0x20000;
-                    }
-                    var_r1 = var_r3;
-                    if (var_r3 < 0) {
-                        var_r1 = 0 - var_r3;
-                    }
-                    var_r0_2 = var_r2;
-                    if (var_r2 < 0) {
-                        var_r0_2 = 0 - var_r2;
-                    }
-                    if (var_r1 < var_r0_2) {
-                        var_r0_3 = 0xC0000;
-                    } else {
-                        var_r0_3 = 0x30000;
-                    }
-                    var_r4 = (var_r4_2 & var_r0_3) | (((var_r3 << 8) & 0xFF00) | (u8) var_r2);
-                    if (0xC0000 & var_r4) {
-                        if (!(var_r4 & 0xFF00)) {
-                            var_r0_4 = 0xFFF300FF;
-                            goto block_44;
-                        }
-                    } else {
-                        var_r0_4 = 0xFFFF00FF;
-block_44:
-                        var_r4 &= var_r0_4;
-                    }
-                    if (0x30000 & var_r4) {
-                        if (!(0xFF & var_r4)) {
-                            var_r0_5 = 0xFFFCFF00;
-                            goto block_49;
-                        }
-                    } else {
-                        var_r0_5 = 0xFFFFFF00;
-block_49:
-                        var_r4 &= var_r0_5;
-                    }
-                }
+                result = result | 0x10000;
+            }
+        } else {
+            dy = (rectA[3] + playerAWorldY) - (rectB[1] + playerBWorldY);
+            if (playerB->moveState & 0x10000) {
+                result = result | 0x10000;
+            } else {
+                result = result | 0x20000;
             }
         }
+
+        if (ABS(dx) < ABS(dy)) {
+            result = (result & 0xC0000) | (((dx << 8) & (byteMaskFF00 = 0xFF00)) | (dy & 0xFF));
+        } else {
+            result = (result & 0x30000) | (((dx << 8) & (byteMaskFF00 = 0xFF00)) | (dy & 0xFF));
+        }
+
+        if (0xC0000 & result) {
+#ifndef NON_MATCHING
+            register s32 var_r0 asm("r0") = result;
+#else
+            var_r0 = result;
+#endif
+            var_r0 &= byteMaskFF00;
+            if (!(var_r0)) {
+                result &= 0xFFF300FF;
+            }
+        } else {
+            result &= 0xFFFF00FF;
+        }
+        if (0x30000 & result) {
+            if (!(0xFF & result)) {
+                result &= 0xFFFCFF00;
+            }
+        } else {
+            result &= 0xFFFFFF00;
+        }
     }
-    return var_r4;
+    return result;
 }
 
-void ResolvePlayerSpriteCollision(Sprite *s, Player *p) {
+void ResolvePlayerSpriteCollision(Sprite *s, Player *p)
+{
     s32 temp_r3;
     u32 temp_r1;
 
     if (s->hitboxes[0].index != -1) {
-        temp_r1 = p->moveState;
-        temp_r3 = 0x100 & temp_r1;
-        if ((temp_r3 == 0) && (0x20 & temp_r1) && (p->sprColliding == s)) {
-            p->moveState = (temp_r1 & ~0x20) | 4;
-            p->sprColliding = (Sprite *) temp_r3;
+        if (!(MOVESTATE_100 & p->moveState)) {
+            if ((MOVESTATE_COLLIDING_ENT & p->moveState) && (p->sprColliding == s)) {
+                p->moveState &= ~MOVESTATE_COLLIDING_ENT;
+                p->moveState |= MOVESTATE_IN_AIR;
+                p->sprColliding = NULL;
+            }
         }
     }
 }
 
-void Call__Player_8014550(Player *p) {
-    Player_8014550(p);
-}
-#endif
+void Call__Player_8014550(Player *p) { Player_8014550(p); }

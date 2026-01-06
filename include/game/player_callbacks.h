@@ -562,7 +562,7 @@ void sub_801E2E4(Player *p);
 extern void sub_8019B4C(Player *p);
 
 extern void sub_8015C90(Player *p, u32 param2);
-extern s32 sub_80210BC(Player *p, s32 param1, Player *param2, s32 param3);
+s32 sub_80210BC(Player *playerA, s16 hbIndexA, Player *playerB, s16 hbIndexB);
 extern void sub_80293E8(Player *p);
 
 extern u16 gMedalTimes[][2];
