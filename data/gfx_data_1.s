@@ -48,11 +48,3 @@ gObjTiles_4bpp: @ 0x0876CE98
     .global gObjTiles_8bpp
 gObjTiles_8bpp:
     .incbin "baserom_sa3.gba", 0x00DFE6F8, 0x11100
-    
-@    .global gTempLabel_SpriteDimensionsData
-@gTempLabel_SpriteDimensionsData:
-@    .incbin "baserom_sa3.gba", 0x00E0F7F8, 0x1CF2C
-@    
-@    .global gSpriteDimensions
-@gSpriteDimensions:
-@    .incbin "baserom_sa3.gba", 0x00E2C724, 1524 * 0x4

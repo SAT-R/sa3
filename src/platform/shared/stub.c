@@ -48,27 +48,19 @@ void sub_8003F40() { }
 void sub_8003F8C() { }
 void sub_8003FC8() { }
 void Stop() { }
-void Player_801D73C(Player *p) { }
-void Player_801DF18(Player *p) { }
-bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5) { return FALSE; }
-void sub_8020874() { }
-u32 sub_8020950(Sprite *s, s32 worldX, s32 worldY, Player *p, u8 param4) { return 0; }
-void sub_8020A58() { }
-bool32 sub_8020CE0(Sprite *s, s32 worldX, s32 worldY, u16 param3, Player *p) { return FALSE; }
-void sub_8020E3C() { }
-void /* 0x080213B0 */ ResolvePlayerSpriteCollision() { }
-void Call__Player_8014550(Player *p) { }
 
 void /* 0x080213FC */ UpdateScreenFade() { }
 void /* 0x080214F0 */ ScreenFadeUpdateValues() { }
+void sub_8023634() { }
 void sub_80236C8() { }
 void sub_8023734() { }
 void sub_80239A8() { }
 void sub_802616C() { }
 void sub_80274F4() { }
-void sub_80276F4() { }
-void sub_80276A8() { }
+void sub_80293E8() { }
 void sub_802954C() { }
+void sub_80276A8() { }
+void sub_80276F4() { }
 void sub_80296F8() { }
 void sub_80299FC() { }
 void sub_8029A18() { }
@@ -147,6 +139,10 @@ void /* 0x08093954 */ OptionsSlideInit_SoundTest() { }
 void /* 0x08097C54 */ CreateCharacterSelect(u16 param0) { }
 void /* 0x080A209C */ CreateGameIntroState() { }
 void sub_80B75E4() { }
+void sub_80B7914() { }
+void sub_80B794C() { }
+void sub_80B7968() { }
+u16 sub_80B7A94() { return 0; }
 void nullsub_80B7AAC() { }
 void /* 0x080C4564 */ CopyPalette() { }
 void sub_80C460C(const u16 *pal, u8 paletteOffset, u16 palSize) { }
@@ -161,3 +157,23 @@ void sub_80C66DC() { }
 void sub_80C6908() { }
 void /* 0x080C7558 */ SoundBiasReset() { }
 void /* 0x080C7560 */ SoundBiasSet() { }
+
+void sub_8002414() { }
+void sub_80268B8() { }
+void sub_80B7AA4() { }
+void sub_80B8E24() { }
+void sub_8026254() { }
+void sub_8027878() { }
+void sub_80278DC() { }
+void sub_80533F4() { }
+void sub_8002508() { }
+void sub_8056120() { }
+void sub_8056168() { }
+void sub_802785C() { }
+void sub_802AE64() { }
+void sub_80274AC() { }
+void gUnknown_03001BF0() { }
+void gUnknown_03001CF0() { }
+void gUnknown_0300110C() { }
+void gUnknown_030010D0() { }
+void gUnknown_03001B00() { }
