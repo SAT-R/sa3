@@ -33,10 +33,10 @@ gSpriteTables: @ 0x0833186C
 @; NOTE: Ref. to gUnknown_08358528 is SA3-only
 
 @ OAM-Data referenced by gSpriteOamData
-    .global gUnknown_08331888
-gUnknown_08331888:
-    .incbin "baserom_sa3.gba", 0x00331888, 0x20FF0
-
-    .global gSpriteOamData
-gSpriteOamData: @ 0x08352878
-    .incbin "baserom_sa3.gba", 0x00352878, 1524 * 0x4
+@    .global spriteOamData_Data
+@spriteOamData_Data:
+@    .incbin "baserom_sa3.gba", 0x00331888, 0x20FF0
+@
+@    .global gSpriteOamData
+@gSpriteOamData: @ 0x08352878
+@    .incbin "baserom_sa3.gba", 0x00352878, 1524 * 0x4
