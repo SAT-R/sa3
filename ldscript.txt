@@ -593,7 +593,9 @@ SECTIONS {
         *libc.a:ef_pow.o(.rodata);
         *libc.a:s_rint.o(.rodata);
 
-        data/data2.o(.rodata);
+        data/gfx_data_0.o(.rodata);
+        src/data/obj_palettes.o(.rodata);
+        data/gfx_data_1.o(.rodata);
         data/ia_bonus_capsule.o(.rodata);
         *libgcc.a:_divdi3.o(.rodata);
         *libgcc.a:_divsi3.o(.rodata);
