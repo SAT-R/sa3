@@ -14,7 +14,6 @@
 #endif
 #else
 // For "Decomp Credits"
-#define NUM_SPRITE_ANIMATIONS
 #if (GAME == GAME_SA2)
 #define NUM_SPRITE_ANIMATIONS (1133 + 1)
 #elif (GAME == GAME_SA3)
