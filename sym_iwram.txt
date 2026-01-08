@@ -55,7 +55,7 @@ src/lib/agb_flash/agb_flash.o(.bss);
 . = 0x00001DA0; gUnknown_03001DA0 = .;
 . = 0x00001DC0; gUnknown_03001DC0 = .;
 . = 0x00001E40; gUnknown_03001E40 = .;
-. = 0x00001E80; gUnknown_03001E80 = .;
+. = 0x00001E80; gRefCollision = .;
 . = 0x00001E94; gRngPrevValue = .;
 . = 0x00001E98; gRngValue = .;
 . = 0x00001E9C; gUnknown_03001E9C = .;

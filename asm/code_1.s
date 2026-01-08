@@ -660,8 +660,8 @@ _0804FCBE:
 	adds r5, r0, #0
 	cmp r1, #7
 	beq _0804FCE8
-	ldr r0, _0804FCE0 @ =gUnknown_03001E80
-	ldr r1, _0804FCE4 @ =gUnknown_080D1100
+	ldr r0, _0804FCE0 @ =gRefCollision
+	ldr r1, _0804FCE4 @ =gCollisionTable
 	add r1, sb
 	ldr r1, [r1]
 	str r1, [r0]
@@ -670,10 +670,10 @@ _0804FCBE:
 _0804FCD4: .4byte gTilemaps
 _0804FCD8: .4byte gUnknown_03001D80
 _0804FCDC: .4byte gStageData
-_0804FCE0: .4byte gUnknown_03001E80
-_0804FCE4: .4byte gUnknown_080D1100
+_0804FCE0: .4byte gRefCollision
+_0804FCE4: .4byte gCollisionTable
 _0804FCE8:
-	ldr r1, _0804FD28 @ =gUnknown_03001E80
+	ldr r1, _0804FD28 @ =gRefCollision
 	ldr r0, _0804FD2C @ =gUnknown_085D8C64
 	str r0, [r1]
 _0804FCEE:
@@ -709,7 +709,7 @@ _0804FD0E:
 	str r0, [r2, #0x1c]
 	b _0804FD42
 	.align 2, 0
-_0804FD28: .4byte gUnknown_03001E80
+_0804FD28: .4byte gRefCollision
 _0804FD2C: .4byte gUnknown_085D8C64
 _0804FD30: .4byte gUnknown_080D05A8
 _0804FD34:
@@ -5042,7 +5042,7 @@ sub_8051E5C: @ 0x08051E5C
 	adds r7, r2, #0
 	cmp r3, #0
 	blt _08051E84
-	ldr r0, _08051E80 @ =gUnknown_03001E80
+	ldr r0, _08051E80 @ =gRefCollision
 	ldr r0, [r0]
 	ldr r0, [r0, #0x1c]
 	subs r1, r0, #1
@@ -5052,14 +5052,14 @@ sub_8051E5C: @ 0x08051E5C
 	adds r0, r1, #0
 	b _08051E86
 	.align 2, 0
-_08051E80: .4byte gUnknown_03001E80
+_08051E80: .4byte gRefCollision
 _08051E84:
 	movs r0, #0
 _08051E86:
 	adds r3, r0, #0
 	cmp r4, #0
 	blt _08051EA4
-	ldr r0, _08051EA0 @ =gUnknown_03001E80
+	ldr r0, _08051EA0 @ =gRefCollision
 	ldr r0, [r0]
 	ldr r0, [r0, #0x20]
 	subs r0, #1
@@ -5069,7 +5069,7 @@ _08051E86:
 	adds r1, r0, #0
 	b _08051EA6
 	.align 2, 0
-_08051EA0: .4byte gUnknown_03001E80
+_08051EA0: .4byte gRefCollision
 _08051EA4:
 	movs r1, #0
 _08051EA6:
@@ -5093,7 +5093,7 @@ _08051EA6:
 	beq _08051ECE
 	subs r2, r6, r2
 _08051ECE:
-	ldr r0, _08051F40 @ =gUnknown_03001E80
+	ldr r0, _08051F40 @ =gRefCollision
 	ldr r4, [r0]
 	lsls r0, r3, #3
 	ldr r1, [r4]
@@ -5152,7 +5152,7 @@ _08051F1C:
 	b _08051F46
 	.align 2, 0
 _08051F3C: .4byte 0x000003FF
-_08051F40: .4byte gUnknown_03001E80
+_08051F40: .4byte gRefCollision
 _08051F44:
 	adds r0, r2, #0
 _08051F46:
@@ -5175,7 +5175,7 @@ sub_8051F54: @ 0x08051F54
 	adds r7, r2, #0
 	cmp r4, #0
 	blt _08051F7C
-	ldr r0, _08051F78 @ =gUnknown_03001E80
+	ldr r0, _08051F78 @ =gRefCollision
 	ldr r0, [r0]
 	ldr r0, [r0, #0x1c]
 	subs r1, r0, #1
@@ -5185,14 +5185,14 @@ sub_8051F54: @ 0x08051F54
 	adds r0, r1, #0
 	b _08051F7E
 	.align 2, 0
-_08051F78: .4byte gUnknown_03001E80
+_08051F78: .4byte gRefCollision
 _08051F7C:
 	movs r0, #0
 _08051F7E:
 	adds r4, r0, #0
 	cmp r3, #0
 	blt _08051F9C
-	ldr r0, _08051F98 @ =gUnknown_03001E80
+	ldr r0, _08051F98 @ =gRefCollision
 	ldr r0, [r0]
 	ldr r0, [r0, #0x20]
 	subs r1, r0, #1
@@ -5202,7 +5202,7 @@ _08051F7E:
 	adds r0, r1, #0
 	b _08051F9E
 	.align 2, 0
-_08051F98: .4byte gUnknown_03001E80
+_08051F98: .4byte gRefCollision
 _08051F9C:
 	movs r0, #0
 _08051F9E:
@@ -5227,7 +5227,7 @@ _08051F9E:
 	beq _08051FC8
 	subs r2, r6, r2
 _08051FC8:
-	ldr r0, _08052028 @ =gUnknown_03001E80
+	ldr r0, _08052028 @ =gRefCollision
 	ldr r4, [r0]
 	lsls r0, r3, #3
 	ldr r1, [r4]
@@ -5277,7 +5277,7 @@ _08052006:
 	b _0805202E
 	.align 2, 0
 _08052024: .4byte 0x000003FF
-_08052028: .4byte gUnknown_03001E80
+_08052028: .4byte gRefCollision
 _0805202C:
 	adds r0, r2, #0
 _0805202E:
@@ -5303,7 +5303,7 @@ sub_805203C: @ 0x0805203C
 	mov sl, r3
 	cmp r4, #0
 	blt _08052068
-	ldr r0, _08052064 @ =gUnknown_03001E80
+	ldr r0, _08052064 @ =gRefCollision
 	ldr r0, [r0]
 	ldr r0, [r0, #0x1c]
 	subs r1, r0, #1
@@ -5313,14 +5313,14 @@ sub_805203C: @ 0x0805203C
 	adds r0, r1, #0
 	b _0805206A
 	.align 2, 0
-_08052064: .4byte gUnknown_03001E80
+_08052064: .4byte gRefCollision
 _08052068:
 	movs r0, #0
 _0805206A:
 	adds r4, r0, #0
 	cmp r5, #0
 	blt _08052088
-	ldr r0, _08052084 @ =gUnknown_03001E80
+	ldr r0, _08052084 @ =gRefCollision
 	ldr r0, [r0]
 	ldr r0, [r0, #0x20]
 	subs r0, #1
@@ -5330,7 +5330,7 @@ _0805206A:
 	adds r1, r0, #0
 	b _0805208A
 	.align 2, 0
-_08052084: .4byte gUnknown_03001E80
+_08052084: .4byte gRefCollision
 _08052088:
 	movs r1, #0
 _0805208A:
@@ -5354,7 +5354,7 @@ _0805208A:
 	beq _080520B2
 	subs r3, r7, r3
 _080520B2:
-	ldr r2, _08052128 @ =gUnknown_03001E80
+	ldr r2, _08052128 @ =gRefCollision
 	ldr r5, [r2]
 	lsls r0, r6, #3
 	ldr r1, [r5]
@@ -5415,7 +5415,7 @@ _08052104:
 	b _0805212E
 	.align 2, 0
 _08052124: .4byte 0x000003FF
-_08052128: .4byte gUnknown_03001E80
+_08052128: .4byte gRefCollision
 _0805212C:
 	adds r0, r3, #0
 _0805212E:
@@ -5477,7 +5477,7 @@ sub_805217C: @ 0x0805217C
 	mov sl, r3
 	cmp r5, #0
 	blt _080521A8
-	ldr r0, _080521A4 @ =gUnknown_03001E80
+	ldr r0, _080521A4 @ =gRefCollision
 	ldr r0, [r0]
 	ldr r0, [r0, #0x1c]
 	subs r1, r0, #1
@@ -5487,14 +5487,14 @@ sub_805217C: @ 0x0805217C
 	adds r0, r1, #0
 	b _080521AA
 	.align 2, 0
-_080521A4: .4byte gUnknown_03001E80
+_080521A4: .4byte gRefCollision
 _080521A8:
 	movs r0, #0
 _080521AA:
 	adds r5, r0, #0
 	cmp r4, #0
 	blt _080521C8
-	ldr r0, _080521C4 @ =gUnknown_03001E80
+	ldr r0, _080521C4 @ =gRefCollision
 	ldr r0, [r0]
 	ldr r0, [r0, #0x20]
 	subs r1, r0, #1
@@ -5504,7 +5504,7 @@ _080521AA:
 	adds r0, r1, #0
 	b _080521CA
 	.align 2, 0
-_080521C4: .4byte gUnknown_03001E80
+_080521C4: .4byte gRefCollision
 _080521C8:
 	movs r0, #0
 _080521CA:
@@ -5529,7 +5529,7 @@ _080521CA:
 	beq _080521F4
 	subs r3, r6, r3
 _080521F4:
-	ldr r2, _08052258 @ =gUnknown_03001E80
+	ldr r2, _08052258 @ =gRefCollision
 	ldr r5, [r2]
 	lsls r0, r7, #3
 	ldr r1, [r5]
@@ -5581,7 +5581,7 @@ _08052236:
 	b _0805225E
 	.align 2, 0
 _08052254: .4byte 0x000003FF
-_08052258: .4byte gUnknown_03001E80
+_08052258: .4byte gRefCollision
 _0805225C:
 	adds r0, r3, #0
 _0805225E:
@@ -5686,7 +5686,7 @@ _080522FC:
 	str r1, [r6, #8]
 	adds r5, r1, #0
 _08052316:
-	ldr r0, _08052358 @ =gUnknown_03001E80
+	ldr r0, _08052358 @ =gRefCollision
 	ldr r4, [r0]
 	mov r1, sb
 	lsls r0, r1, #2
@@ -5719,7 +5719,7 @@ _08052316:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08052358: .4byte gUnknown_03001E80
+_08052358: .4byte gRefCollision
 
 	thumb_func_start sub_805235C
 sub_805235C: @ 0x0805235C

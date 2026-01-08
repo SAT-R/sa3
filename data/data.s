@@ -923,11 +923,157 @@ gUnknown_080D05A8:
     .incbin "baserom_sa3.gba", 0x000D05A8, 0x124
 
 @ Pointer-Array
+@ (73*2) * sizeof(uintptr_t) @; 73 = Stage count, 2 = procedures per stage
 @ [i][0] = StageBackground Init
 @ [i][1] = StageBackground Update
     .global gUnknown_080D06CC
 gUnknown_080D06CC:
-    .incbin "baserom_sa3.gba", 0x000D06CC, (73*2) * 4 // 73 = Stage count, 2 = procedures per stage
+    mPtr NULL
+    mPtr NULL
+    mPtr sub_805068C
+    mPtr sub_80512D8
+    mPtr sub_8050628
+    mPtr sub_805130C
+    mPtr sub_805068C
+    mPtr sub_80506E8
+    mPtr sub_805068C
+    mPtr sub_80506E8
+    mPtr sub_805068C
+    mPtr sub_80506E8
+    mPtr NULL
+    mPtr NULL
+    mPtr sub_805146C
+    mPtr sub_80514A0
+    mPtr sub_8050570
+    mPtr sub_805129C
+    mPtr sub_80505CC
+    mPtr sub_80512AC
+    mPtr NULL
+    mPtr NULL
+    mPtr sub_8050440
+    mPtr sub_80512F4
+    mPtr sub_8050628
+    mPtr sub_8051344
+    mPtr sub_8050804
+    mPtr sub_80514C0
+    mPtr sub_8050804
+    mPtr sub_80514C0
+    mPtr sub_8050804
+    mPtr sub_80514C0
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr sub_8050570
+    mPtr sub_805129C
+    mPtr sub_80505CC
+    mPtr sub_80512AC
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr sub_8050628
+    mPtr sub_805137C
+    mPtr sub_8050864
+    mPtr sub_80508D4
+    mPtr sub_8050864
+    mPtr sub_80508D4
+    mPtr sub_8050864
+    mPtr sub_80508D4
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr sub_8050570
+    mPtr sub_805129C
+    mPtr sub_80505CC
+    mPtr sub_80512AC
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr sub_8050628
+    mPtr sub_80513B4
+    mPtr sub_80509B4
+    mPtr sub_8050A0C
+    mPtr sub_80509B4
+    mPtr sub_8050A0C
+    mPtr sub_80509B4
+    mPtr sub_8050A0C
+    mPtr NULL
+    mPtr NULL
+    mPtr sub_80511E4
+    mPtr sub_8051514
+    mPtr sub_8050570
+    mPtr sub_805129C
+    mPtr sub_80505CC
+    mPtr sub_80512AC
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr sub_8050628
+    mPtr sub_80513EC
+    mPtr sub_8050B14
+    mPtr sub_8050B84
+    mPtr sub_8050B14
+    mPtr sub_8050B84
+    mPtr sub_8050B14
+    mPtr sub_8050B84
+    mPtr NULL
+    mPtr NULL
+    mPtr sub_8050CA4
+    mPtr sub_8051534
+    mPtr sub_8050570
+    mPtr sub_805129C
+    mPtr sub_80505CC
+    mPtr sub_80512AC
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr sub_8050628
+    mPtr sub_80513FC
+    mPtr sub_805120C
+    mPtr sub_8050D40
+    mPtr sub_805120C
+    mPtr sub_8050D40
+    mPtr sub_805120C
+    mPtr sub_8050D40
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr sub_8050570
+    mPtr sub_805129C
+    mPtr sub_80505CC
+    mPtr sub_80512AC
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr sub_8050628
+    mPtr sub_8051418
+    mPtr sub_8050E18
+    mPtr sub_8051558
+    mPtr sub_8050E18
+    mPtr sub_80515A0
+    mPtr sub_8050E18
+    mPtr sub_8050E78
+    mPtr NULL
+    mPtr NULL
+    mPtr sub_8051250
+    mPtr sub_80515FC
+    mPtr sub_8050570
+    mPtr sub_805129C
+    mPtr sub_80505CC
+    mPtr sub_80512AC
+    mPtr NULL
+    mPtr NULL
+    mPtr sub_8051634
+    mPtr sub_8051660
+    mPtr sub_8051094
+    mPtr sub_8051664
 
     .global gUnknown_080D0914
 gUnknown_080D0914:
@@ -957,8 +1103,8 @@ gUnknown_080D098C:
 gTilemaps:
     .incbin "baserom_sa3.gba", 0x000D09AC, 0x754
 
-    .global gUnknown_080D1100
-gUnknown_080D1100:
+    .global gCollisionTable
+gCollisionTable:
     .incbin "baserom_sa3.gba", 0x000D1100, 0x124
 
     .global gUnknown_080D1224
