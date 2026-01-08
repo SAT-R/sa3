@@ -1,0 +1,945 @@
+extern struct MapHeader *zone_1_act_dummy_fg0;
+extern struct MapHeader *zone_1_act_dummy_fg1;
+extern struct MapHeader *zone_1_act_dummy_bg0;
+extern struct MapHeader *zone_1_act_dummy_bg1;
+extern struct MapHeader *zone_1_act_special_fg0;
+extern struct MapHeader *zone_1_act_special_fg1;
+extern struct MapHeader *zone_1_act_special_bg0;
+extern struct MapHeader *zone_1_act_special_bg1;
+extern struct MapHeader *zone_1_act_hub_fg0;
+extern struct MapHeader *zone_1_act_hub_fg1;
+extern struct MapHeader *zone_1_act_hub_bg0;
+extern struct MapHeader *zone_1_act_hub_bg1;
+extern struct MapHeader *zone_1_act_1_fg0;
+extern struct MapHeader *zone_1_act_1_fg1;
+extern struct MapHeader *zone_1_act_1_bg0;
+extern struct MapHeader *zone_1_act_1_bg1;
+extern struct MapHeader *zone_1_act_2_fg0;
+extern struct MapHeader *zone_1_act_2_fg1;
+extern struct MapHeader *zone_1_act_2_bg0;
+extern struct MapHeader *zone_1_act_2_bg1;
+extern struct MapHeader *zone_1_act_3_fg0;
+extern struct MapHeader *zone_1_act_3_fg1;
+extern struct MapHeader *zone_1_act_3_bg0;
+extern struct MapHeader *zone_1_act_3_bg1;
+extern struct MapHeader *zone_1_act_4_fg0;
+extern struct MapHeader *zone_1_act_4_fg1;
+extern struct MapHeader *zone_1_act_4_bg0;
+extern struct MapHeader *zone_1_act_4_bg1;
+extern struct MapHeader *zone_1_act_boss_fg0;
+extern struct MapHeader *zone_1_act_boss_fg1;
+extern struct MapHeader *zone_1_act_boss_bg0;
+extern struct MapHeader *zone_1_act_boss_bg1;
+extern struct MapHeader *zone_1_act_bonus_capsule_fg0;
+extern struct MapHeader *zone_1_act_bonus_capsule_fg1;
+extern struct MapHeader *zone_1_act_bonus_capsule_bg0;
+extern struct MapHeader *zone_1_act_bonus_capsule_bg1;
+extern struct MapHeader *zone_1_act_bonus_enemy_fg0;
+extern struct MapHeader *zone_1_act_bonus_enemy_fg1;
+extern struct MapHeader *zone_1_act_bonus_enemy_bg0;
+extern struct MapHeader *zone_1_act_bonus_enemy_bg1;
+extern struct MapHeader *zone_2_act_dummy_fg0;
+extern struct MapHeader *zone_2_act_dummy_fg1;
+extern struct MapHeader *zone_2_act_dummy_bg0;
+extern struct MapHeader *zone_2_act_dummy_bg1;
+extern struct MapHeader *zone_2_act_special_fg0;
+extern struct MapHeader *zone_2_act_special_fg1;
+extern struct MapHeader *zone_2_act_special_bg0;
+extern struct MapHeader *zone_2_act_special_bg1;
+extern struct MapHeader *zone_2_act_hub_fg0;
+extern struct MapHeader *zone_2_act_hub_fg1;
+extern struct MapHeader *zone_2_act_hub_bg0;
+extern struct MapHeader *zone_2_act_hub_bg1;
+extern struct MapHeader *zone_2_act_1_fg0;
+extern struct MapHeader *zone_2_act_1_fg1;
+extern struct MapHeader *zone_2_act_1_bg0;
+extern struct MapHeader *zone_2_act_1_bg1;
+extern struct MapHeader *zone_2_act_2_fg0;
+extern struct MapHeader *zone_2_act_2_fg1;
+extern struct MapHeader *zone_2_act_2_bg0;
+extern struct MapHeader *zone_2_act_2_bg1;
+extern struct MapHeader *zone_2_act_3_fg0;
+extern struct MapHeader *zone_2_act_3_fg1;
+extern struct MapHeader *zone_2_act_3_bg0;
+extern struct MapHeader *zone_2_act_3_bg1;
+extern struct MapHeader *zone_2_act_4_fg0;
+extern struct MapHeader *zone_2_act_4_fg1;
+extern struct MapHeader *zone_2_act_4_bg0;
+extern struct MapHeader *zone_2_act_4_bg1;
+extern struct MapHeader *zone_2_act_boss_fg0;
+extern struct MapHeader *zone_2_act_boss_fg1;
+extern struct MapHeader *zone_2_act_boss_bg0;
+extern struct MapHeader *zone_2_act_boss_bg1;
+extern struct MapHeader *zone_2_act_bonus_capsule_fg0;
+extern struct MapHeader *zone_2_act_bonus_capsule_fg1;
+extern struct MapHeader *zone_2_act_bonus_capsule_bg0;
+extern struct MapHeader *zone_2_act_bonus_capsule_bg1;
+extern struct MapHeader *zone_2_act_bonus_enemy_fg0;
+extern struct MapHeader *zone_2_act_bonus_enemy_fg1;
+extern struct MapHeader *zone_2_act_bonus_enemy_bg0;
+extern struct MapHeader *zone_2_act_bonus_enemy_bg1;
+extern struct MapHeader *zone_3_act_dummy_fg0;
+extern struct MapHeader *zone_3_act_dummy_fg1;
+extern struct MapHeader *zone_3_act_dummy_bg0;
+extern struct MapHeader *zone_3_act_dummy_bg1;
+extern struct MapHeader *zone_3_act_special_fg0;
+extern struct MapHeader *zone_3_act_special_fg1;
+extern struct MapHeader *zone_3_act_special_bg0;
+extern struct MapHeader *zone_3_act_special_bg1;
+extern struct MapHeader *zone_3_act_hub_fg0;
+extern struct MapHeader *zone_3_act_hub_fg1;
+extern struct MapHeader *zone_3_act_hub_bg0;
+extern struct MapHeader *zone_3_act_hub_bg1;
+extern struct MapHeader *zone_3_act_1_fg0;
+extern struct MapHeader *zone_3_act_1_fg1;
+extern struct MapHeader *zone_3_act_1_bg0;
+extern struct MapHeader *zone_3_act_1_bg1;
+extern struct MapHeader *zone_3_act_2_fg0;
+extern struct MapHeader *zone_3_act_2_fg1;
+extern struct MapHeader *zone_3_act_2_bg0;
+extern struct MapHeader *zone_3_act_2_bg1;
+extern struct MapHeader *zone_3_act_3_fg0;
+extern struct MapHeader *zone_3_act_3_fg1;
+extern struct MapHeader *zone_3_act_3_bg0;
+extern struct MapHeader *zone_3_act_3_bg1;
+extern struct MapHeader *zone_3_act_4_fg0;
+extern struct MapHeader *zone_3_act_4_fg1;
+extern struct MapHeader *zone_3_act_4_bg0;
+extern struct MapHeader *zone_3_act_4_bg1;
+extern struct MapHeader *zone_3_act_boss_fg0;
+extern struct MapHeader *zone_3_act_boss_fg1;
+extern struct MapHeader *zone_3_act_boss_bg0;
+extern struct MapHeader *zone_3_act_boss_bg1;
+extern struct MapHeader *zone_3_act_bonus_capsule_fg0;
+extern struct MapHeader *zone_3_act_bonus_capsule_fg1;
+extern struct MapHeader *zone_3_act_bonus_capsule_bg0;
+extern struct MapHeader *zone_3_act_bonus_capsule_bg1;
+extern struct MapHeader *zone_3_act_bonus_enemy_fg0;
+extern struct MapHeader *zone_3_act_bonus_enemy_fg1;
+extern struct MapHeader *zone_3_act_bonus_enemy_bg0;
+extern struct MapHeader *zone_3_act_bonus_enemy_bg1;
+extern struct MapHeader *zone_4_act_dummy_fg0;
+extern struct MapHeader *zone_4_act_dummy_fg1;
+extern struct MapHeader *zone_4_act_dummy_bg0;
+extern struct MapHeader *zone_4_act_dummy_bg1;
+extern struct MapHeader *zone_4_act_special_fg0;
+extern struct MapHeader *zone_4_act_special_fg1;
+extern struct MapHeader *zone_4_act_special_bg0;
+extern struct MapHeader *zone_4_act_special_bg1;
+extern struct MapHeader *zone_4_act_hub_fg0;
+extern struct MapHeader *zone_4_act_hub_fg1;
+extern struct MapHeader *zone_4_act_hub_bg0;
+extern struct MapHeader *zone_4_act_hub_bg1;
+extern struct MapHeader *zone_4_act_1_fg0;
+extern struct MapHeader *zone_4_act_1_fg1;
+extern struct MapHeader *zone_4_act_1_bg0;
+extern struct MapHeader *zone_4_act_1_bg1;
+extern struct MapHeader *zone_4_act_2_fg0;
+extern struct MapHeader *zone_4_act_2_fg1;
+extern struct MapHeader *zone_4_act_2_bg0;
+extern struct MapHeader *zone_4_act_2_bg1;
+extern struct MapHeader *zone_4_act_3_fg0;
+extern struct MapHeader *zone_4_act_3_fg1;
+extern struct MapHeader *zone_4_act_3_bg0;
+extern struct MapHeader *zone_4_act_3_bg1;
+extern struct MapHeader *zone_4_act_4_fg0;
+extern struct MapHeader *zone_4_act_4_fg1;
+extern struct MapHeader *zone_4_act_4_bg0;
+extern struct MapHeader *zone_4_act_4_bg1;
+extern struct MapHeader *zone_4_act_boss_fg0;
+extern struct MapHeader *zone_4_act_boss_fg1;
+extern struct MapHeader *zone_4_act_boss_bg0;
+extern struct MapHeader *zone_4_act_boss_bg1;
+extern struct MapHeader *zone_4_act_bonus_capsule_fg0;
+extern struct MapHeader *zone_4_act_bonus_capsule_fg1;
+extern struct MapHeader *zone_4_act_bonus_capsule_bg0;
+extern struct MapHeader *zone_4_act_bonus_capsule_bg1;
+extern struct MapHeader *zone_4_act_bonus_enemy_fg0;
+extern struct MapHeader *zone_4_act_bonus_enemy_fg1;
+extern struct MapHeader *zone_4_act_bonus_enemy_bg0;
+extern struct MapHeader *zone_4_act_bonus_enemy_bg1;
+extern struct MapHeader *zone_5_act_dummy_fg0;
+extern struct MapHeader *zone_5_act_dummy_fg1;
+extern struct MapHeader *zone_5_act_dummy_bg0;
+extern struct MapHeader *zone_5_act_dummy_bg1;
+extern struct MapHeader *zone_5_act_special_fg0;
+extern struct MapHeader *zone_5_act_special_fg1;
+extern struct MapHeader *zone_5_act_special_bg0;
+extern struct MapHeader *zone_5_act_special_bg1;
+extern struct MapHeader *zone_5_act_hub_fg0;
+extern struct MapHeader *zone_5_act_hub_fg1;
+extern struct MapHeader *zone_5_act_hub_bg0;
+extern struct MapHeader *zone_5_act_hub_bg1;
+extern struct MapHeader *zone_5_act_1_fg0;
+extern struct MapHeader *zone_5_act_1_fg1;
+extern struct MapHeader *zone_5_act_1_bg0;
+extern struct MapHeader *zone_5_act_1_bg1;
+extern struct MapHeader *zone_5_act_2_fg0;
+extern struct MapHeader *zone_5_act_2_fg1;
+extern struct MapHeader *zone_5_act_2_bg0;
+extern struct MapHeader *zone_5_act_2_bg1;
+extern struct MapHeader *zone_5_act_3_fg0;
+extern struct MapHeader *zone_5_act_3_fg1;
+extern struct MapHeader *zone_5_act_3_bg0;
+extern struct MapHeader *zone_5_act_3_bg1;
+extern struct MapHeader *zone_5_act_4_fg0;
+extern struct MapHeader *zone_5_act_4_fg1;
+extern struct MapHeader *zone_5_act_4_bg0;
+extern struct MapHeader *zone_5_act_4_bg1;
+extern struct MapHeader *zone_5_act_boss_fg0;
+extern struct MapHeader *zone_5_act_boss_fg1;
+extern struct MapHeader *zone_5_act_boss_bg0;
+extern struct MapHeader *zone_5_act_boss_bg1;
+extern struct MapHeader *zone_5_act_bonus_capsule_fg0;
+extern struct MapHeader *zone_5_act_bonus_capsule_fg1;
+extern struct MapHeader *zone_5_act_bonus_capsule_bg0;
+extern struct MapHeader *zone_5_act_bonus_capsule_bg1;
+extern struct MapHeader *zone_5_act_bonus_enemy_fg0;
+extern struct MapHeader *zone_5_act_bonus_enemy_fg1;
+extern struct MapHeader *zone_5_act_bonus_enemy_bg0;
+extern struct MapHeader *zone_5_act_bonus_enemy_bg1;
+extern struct MapHeader *zone_6_act_dummy_fg0;
+extern struct MapHeader *zone_6_act_dummy_fg1;
+extern struct MapHeader *zone_6_act_dummy_bg0;
+extern struct MapHeader *zone_6_act_dummy_bg1;
+extern struct MapHeader *zone_6_act_special_fg0;
+extern struct MapHeader *zone_6_act_special_fg1;
+extern struct MapHeader *zone_6_act_special_bg0;
+extern struct MapHeader *zone_6_act_special_bg1;
+extern struct MapHeader *zone_6_act_hub_fg0;
+extern struct MapHeader *zone_6_act_hub_fg1;
+extern struct MapHeader *zone_6_act_hub_bg0;
+extern struct MapHeader *zone_6_act_hub_bg1;
+extern struct MapHeader *zone_6_act_1_fg0;
+extern struct MapHeader *zone_6_act_1_fg1;
+extern struct MapHeader *zone_6_act_1_bg0;
+extern struct MapHeader *zone_6_act_1_bg1;
+extern struct MapHeader *zone_6_act_2_fg0;
+extern struct MapHeader *zone_6_act_2_fg1;
+extern struct MapHeader *zone_6_act_2_bg0;
+extern struct MapHeader *zone_6_act_2_bg1;
+extern struct MapHeader *zone_6_act_3_fg0;
+extern struct MapHeader *zone_6_act_3_fg1;
+extern struct MapHeader *zone_6_act_3_bg0;
+extern struct MapHeader *zone_6_act_3_bg1;
+extern struct MapHeader *zone_6_act_4_fg0;
+extern struct MapHeader *zone_6_act_4_fg1;
+extern struct MapHeader *zone_6_act_4_bg0;
+extern struct MapHeader *zone_6_act_4_bg1;
+extern struct MapHeader *zone_6_act_boss_fg0;
+extern struct MapHeader *zone_6_act_boss_fg1;
+extern struct MapHeader *zone_6_act_boss_bg0;
+extern struct MapHeader *zone_6_act_boss_bg1;
+extern struct MapHeader *zone_6_act_bonus_capsule_fg0;
+extern struct MapHeader *zone_6_act_bonus_capsule_fg1;
+extern struct MapHeader *zone_6_act_bonus_capsule_bg0;
+extern struct MapHeader *zone_6_act_bonus_capsule_bg1;
+extern struct MapHeader *zone_6_act_bonus_enemy_fg0;
+extern struct MapHeader *zone_6_act_bonus_enemy_fg1;
+extern struct MapHeader *zone_6_act_bonus_enemy_bg0;
+extern struct MapHeader *zone_6_act_bonus_enemy_bg1;
+extern struct MapHeader *zone_7_act_dummy_fg0;
+extern struct MapHeader *zone_7_act_dummy_fg1;
+extern struct MapHeader *zone_7_act_dummy_bg0;
+extern struct MapHeader *zone_7_act_dummy_bg1;
+extern struct MapHeader *zone_7_act_special_fg0;
+extern struct MapHeader *zone_7_act_special_fg1;
+extern struct MapHeader *zone_7_act_special_bg0;
+extern struct MapHeader *zone_7_act_special_bg1;
+extern struct MapHeader *zone_7_act_hub_fg0;
+extern struct MapHeader *zone_7_act_hub_fg1;
+extern struct MapHeader *zone_7_act_hub_bg0;
+extern struct MapHeader *zone_7_act_hub_bg1;
+extern struct MapHeader *zone_7_act_1_fg0;
+extern struct MapHeader *zone_7_act_1_fg1;
+extern struct MapHeader *zone_7_act_1_bg0;
+extern struct MapHeader *zone_7_act_1_bg1;
+extern struct MapHeader *zone_7_act_2_fg0;
+extern struct MapHeader *zone_7_act_2_fg1;
+extern struct MapHeader *zone_7_act_2_bg0;
+extern struct MapHeader *zone_7_act_2_bg1;
+extern struct MapHeader *zone_7_act_3_fg0;
+extern struct MapHeader *zone_7_act_3_fg1;
+extern struct MapHeader *zone_7_act_3_bg0;
+extern struct MapHeader *zone_7_act_3_bg1;
+extern struct MapHeader *zone_7_act_4_fg0;
+extern struct MapHeader *zone_7_act_4_fg1;
+extern struct MapHeader *zone_7_act_4_bg0;
+extern struct MapHeader *zone_7_act_4_bg1;
+extern struct MapHeader *zone_7_act_boss_fg0;
+extern struct MapHeader *zone_7_act_boss_fg1;
+extern struct MapHeader *zone_7_act_boss_bg0;
+extern struct MapHeader *zone_7_act_boss_bg1;
+extern struct MapHeader *zone_7_act_bonus_capsule_fg0;
+extern struct MapHeader *zone_7_act_bonus_capsule_fg1;
+extern struct MapHeader *zone_7_act_bonus_capsule_bg0;
+extern struct MapHeader *zone_7_act_bonus_capsule_bg1;
+extern struct MapHeader *zone_7_act_bonus_enemy_fg0;
+extern struct MapHeader *zone_7_act_bonus_enemy_fg1;
+extern struct MapHeader *zone_7_act_bonus_enemy_bg0;
+extern struct MapHeader *zone_7_act_bonus_enemy_bg1;
+extern struct MapHeader *zone_final_act_dummy_fg0;
+extern struct MapHeader *zone_final_act_dummy_fg1;
+extern struct MapHeader *zone_final_act_dummy_bg0;
+extern struct MapHeader *zone_final_act_dummy_bg1;
+extern struct MapHeader *zone_final_act_altar_emerald_fg0;
+extern struct MapHeader *zone_final_act_altar_emerald_fg1;
+extern struct MapHeader *zone_final_act_altar_emerald_bg0;
+extern struct MapHeader *zone_final_act_altar_emerald_bg1;
+extern struct MapHeader *zone_final_act_nonaggression_fg0;
+extern struct MapHeader *zone_final_act_nonaggression_fg1;
+extern struct MapHeader *zone_final_act_nonaggression_bg0;
+extern struct MapHeader *zone_final_act_nonaggression_bg1;
+extern struct MapHeader *unknown_292;
+extern struct MapHeader *unknown_293;
+extern struct MapHeader *unknown_294;
+extern struct MapHeader *unknown_295;
+extern struct MapHeader *unknown_296;
+extern struct MapHeader *unknown_297;
+extern struct MapHeader *unknown_298;
+extern struct MapHeader *unknown_299;
+extern struct MapHeader *unknown_300;
+extern struct MapHeader *unknown_301;
+extern struct MapHeader *unknown_302;
+extern struct MapHeader *unknown_303;
+extern struct MapHeader *unknown_304;
+extern struct MapHeader *master_emerald_altar;
+extern struct MapHeader *altar_emerald_bg_copy;
+extern struct MapHeader *unknown_307;
+extern struct MapHeader *unknown_308;
+extern struct MapHeader *unknown_309;
+extern struct MapHeader *unknown_310;
+extern struct MapHeader *unknown_311;
+extern struct MapHeader *unknown_312;
+extern struct MapHeader *unknown_313;
+extern struct MapHeader *unknown_314;
+extern struct MapHeader *unknown_315;
+extern struct MapHeader *unknown_316;
+extern struct MapHeader *unknown_317;
+extern struct MapHeader *unknown_318;
+extern struct MapHeader *unknown_319;
+extern struct MapHeader *unknown_320;
+extern struct MapHeader *unknown_321;
+extern struct MapHeader *unknown_322;
+extern struct MapHeader *unknown_323;
+extern struct MapHeader *unknown_324;
+extern struct MapHeader *unknown_325;
+extern struct MapHeader *unknown_326;
+extern struct MapHeader *unknown_327;
+extern struct MapHeader *unknown_328;
+extern struct MapHeader *unknown_329;
+extern struct MapHeader *unknown_330;
+extern struct MapHeader *unknown_331;
+extern struct MapHeader *unknown_332;
+extern struct MapHeader *unknown_333;
+extern struct MapHeader *unknown_334;
+extern struct MapHeader *unknown_335;
+extern struct MapHeader *unknown_336;
+extern struct MapHeader *unknown_337;
+extern struct MapHeader *unknown_338;
+extern struct MapHeader *unknown_339;
+extern struct MapHeader *unknown_340;
+extern struct MapHeader *unknown_341;
+extern struct MapHeader *unknown_342;
+extern struct MapHeader *unknown_343;
+extern struct MapHeader *unknown_344;
+extern struct MapHeader *unknown_345;
+extern struct MapHeader *unknown_346;
+extern struct MapHeader *unknown_347;
+extern struct MapHeader *unknown_348;
+extern struct MapHeader *unknown_349;
+extern struct MapHeader *unknown_350;
+extern struct MapHeader *unknown_351;
+extern struct MapHeader *unknown_352;
+extern struct MapHeader *unknown_353;
+extern struct MapHeader *unknown_354;
+extern struct MapHeader *unknown_355;
+extern struct MapHeader *unknown_356;
+extern struct MapHeader *unknown_357;
+extern struct MapHeader *unknown_358;
+extern struct MapHeader *unknown_359;
+extern struct MapHeader *unknown_360;
+extern struct MapHeader *unknown_361;
+extern struct MapHeader *unknown_362;
+extern struct MapHeader *unknown_363;
+extern struct MapHeader *unknown_364;
+extern struct MapHeader *unknown_365;
+extern struct MapHeader *unknown_366;
+extern struct MapHeader *unknown_367;
+extern struct MapHeader *unknown_368;
+extern struct MapHeader *unknown_369;
+extern struct MapHeader *unknown_370;
+extern struct MapHeader *unknown_371;
+extern struct MapHeader *unknown_372;
+extern struct MapHeader *unknown_373;
+extern struct MapHeader *unknown_374;
+extern struct MapHeader *unknown_375;
+extern struct MapHeader *unknown_376;
+extern struct MapHeader *unknown_377;
+extern struct MapHeader *unknown_378;
+extern struct MapHeader *unknown_379;
+extern struct MapHeader *unknown_380;
+extern struct MapHeader *unknown_381;
+extern struct MapHeader *unknown_382;
+extern struct MapHeader *unknown_383;
+extern struct MapHeader *unknown_384;
+extern struct MapHeader *unknown_385;
+extern struct MapHeader *unknown_386;
+extern struct MapHeader *unknown_387;
+extern struct MapHeader *unknown_388;
+extern struct MapHeader *unknown_389;
+extern struct MapHeader *unknown_390;
+extern struct MapHeader *unknown_391;
+extern struct MapHeader *unknown_392;
+extern struct MapHeader *unknown_393;
+extern struct MapHeader *unknown_394;
+extern struct MapHeader *unknown_395;
+extern struct MapHeader *unknown_396;
+extern struct MapHeader *notification_please_wait_jp;
+extern struct MapHeader *notification_please_wait_en;
+extern struct MapHeader *notification_please_wait_de;
+extern struct MapHeader *notification_please_wait_fr;
+extern struct MapHeader *notification_please_wait_es;
+extern struct MapHeader *notification_please_wait_it;
+extern struct MapHeader *notification_unlocked_knuckles_jp;
+extern struct MapHeader *notification_unlocked_knuckles_en;
+extern struct MapHeader *notification_unlocked_knuckles_de;
+extern struct MapHeader *notification_unlocked_knuckles_fr;
+extern struct MapHeader *notification_unlocked_knuckles_es;
+extern struct MapHeader *notification_unlocked_knuckles_it;
+extern struct MapHeader *notification_unlocked_cream_jp;
+extern struct MapHeader *notification_unlocked_cream_en;
+extern struct MapHeader *notification_unlocked_cream_de;
+extern struct MapHeader *notification_unlocked_cream_fr;
+extern struct MapHeader *notification_unlocked_cream_es;
+extern struct MapHeader *notification_unlocked_cream_it;
+extern struct MapHeader *notification_unlocked_amy_jp;
+extern struct MapHeader *notification_unlocked_amy_en;
+extern struct MapHeader *notification_unlocked_amy_de;
+extern struct MapHeader *notification_unlocked_amy_fr;
+extern struct MapHeader *notification_unlocked_amy_es;
+extern struct MapHeader *notification_unlocked_amy_it;
+extern struct MapHeader *unknown_421;
+extern struct MapHeader *unknown_422;
+extern struct MapHeader *unknown_423;
+extern struct MapHeader *unknown_424;
+extern struct MapHeader *unknown_425;
+extern struct MapHeader *unknown_426;
+extern struct MapHeader *unknown_427;
+extern struct MapHeader *unknown_428;
+extern struct MapHeader *unknown_429;
+extern struct MapHeader *unknown_430;
+extern struct MapHeader *unknown_431;
+extern struct MapHeader *unknown_432;
+extern struct MapHeader *unknown_433;
+extern struct MapHeader *unknown_434;
+extern struct MapHeader *unknown_435;
+extern struct MapHeader *unknown_436;
+extern struct MapHeader *unknown_437;
+extern struct MapHeader *unknown_438;
+extern struct MapHeader *unknown_439;
+extern struct MapHeader *unknown_440;
+extern struct MapHeader *unknown_441;
+extern struct MapHeader *unknown_442;
+extern struct MapHeader *unknown_443;
+extern struct MapHeader *unknown_444;
+extern struct MapHeader *unknown_445;
+extern struct MapHeader *unknown_446;
+extern struct MapHeader *notification_chao_map_jp;
+extern struct MapHeader *notification_chao_map_en;
+extern struct MapHeader *notification_chao_map_de;
+extern struct MapHeader *notification_chao_map_fr;
+extern struct MapHeader *notification_chao_map_es;
+extern struct MapHeader *notification_chao_map_it;
+extern struct MapHeader *unknown_453;
+extern struct MapHeader *unknown_454;
+extern struct MapHeader *instructions_bonus_capsule_jp;
+extern struct MapHeader *instructions_bonus_capsule_en;
+extern struct MapHeader *instructions_bonus_capsule_de;
+extern struct MapHeader *instructions_bonus_capsule_fr;
+extern struct MapHeader *instructions_bonus_capsule_es;
+extern struct MapHeader *instructions_bonus_capsule_it;
+extern struct MapHeader *instructions_bonus_enemies_jp;
+extern struct MapHeader *instructions_bonus_enemies_en;
+extern struct MapHeader *instructions_bonus_enemies_de;
+extern struct MapHeader *instructions_bonus_enemies_fr;
+extern struct MapHeader *instructions_bonus_enemies_es;
+extern struct MapHeader *instructions_bonus_enemies_it;
+extern struct MapHeader *hyper_eggrobo;
+extern struct MapHeader *unknown_laser_beam;
+#include "global.h"
+#include "core.h"
+
+#include "constants/tilemaps.h"
+
+const Tilemap * const gTilemaps[] = {
+    [0] = (Tilemap *)&NULL,
+    [1] = (Tilemap *)&NULL,
+    [2] = (Tilemap *)&NULL,
+    [3] = (Tilemap *)&NULL,
+    [4] = (Tilemap *)&zone_1_act_special_fg0,
+    [5] = (Tilemap *)&zone_1_act_special_fg1,
+    [6] = (Tilemap *)&zone_1_act_special_bg0,
+    [7] = (Tilemap *)&NULL,
+    [8] = (Tilemap *)&zone_1_act_hub_fg0,
+    [9] = (Tilemap *)&zone_1_act_hub_fg1,
+    [10] = (Tilemap *)&zone_1_act_hub_bg0,
+    [11] = (Tilemap *)&NULL,
+    [12] = (Tilemap *)&zone_1_act_1_fg0,
+    [13] = (Tilemap *)&zone_1_act_1_fg1,
+    [14] = (Tilemap *)&zone_1_act_1_bg0,
+    [15] = (Tilemap *)&zone_1_act_1_bg1,
+    [16] = (Tilemap *)&zone_1_act_2_fg0,
+    [17] = (Tilemap *)&zone_1_act_2_fg1,
+    [18] = (Tilemap *)&zone_1_act_1_bg0,
+    [19] = (Tilemap *)&zone_1_act_1_bg1,
+    [20] = (Tilemap *)&zone_1_act_3_fg0,
+    [21] = (Tilemap *)&zone_1_act_3_fg1,
+    [22] = (Tilemap *)&zone_1_act_1_bg0,
+    [23] = (Tilemap *)&zone_1_act_1_bg1,
+    [24] = (Tilemap *)&NULL,
+    [25] = (Tilemap *)&NULL,
+    [26] = (Tilemap *)&NULL,
+    [27] = (Tilemap *)&NULL,
+    [28] = (Tilemap *)&zone_1_act_boss_fg0,
+    [29] = (Tilemap *)&zone_1_act_boss_fg1,
+    [30] = (Tilemap *)&zone_1_act_1_bg0,
+    [31] = (Tilemap *)&NULL,
+    [32] = (Tilemap *)&zone_1_act_bonus_capsule_fg0,
+    [33] = (Tilemap *)&zone_1_act_bonus_capsule_fg1,
+    [34] = (Tilemap *)&zone_1_act_bonus_capsule_bg0,
+    [35] = (Tilemap *)&NULL,
+    [36] = (Tilemap *)&zone_1_act_bonus_enemy_fg00,
+    [37] = (Tilemap *)&zone_1_act_bonus_enemy_fg11,
+    [38] = (Tilemap *)&zone_1_act_bonus_capsule_bg0,
+    [39] = (Tilemap *)&NULL3,
+    [40] = (Tilemap *)&NULL0,
+    [41] = (Tilemap *)&NULL1,
+    [42] = (Tilemap *)&NULL,
+    [43] = (Tilemap *)&NULL3,
+    [44] = (Tilemap *)&zone_2_act_special_fg00,
+    [45] = (Tilemap *)&zone_2_act_special_fg11,
+    [46] = (Tilemap *)&zone_2_act_special_bg0,
+    [47] = (Tilemap *)&NULL3,
+    [48] = (Tilemap *)&zone_2_act_hub_fg0,
+    [49] = (Tilemap *)&zone_2_act_hub_fg1,
+    [50] = (Tilemap *)&zone_2_act_hub_bg0,
+    [51] = (Tilemap *)&NULL,
+    [52] = (Tilemap *)&zone_2_act_1_fg0,
+    [53] = (Tilemap *)&zone_2_act_1_fg1,
+    [54] = (Tilemap *)&zone_2_act_1_bg0,
+    [55] = (Tilemap *)&zone_2_act_1_bg1,
+    [56] = (Tilemap *)&zone_2_act_2_fg0,
+    [57] = (Tilemap *)&zone_2_act_2_fg1,
+    [58] = (Tilemap *)&zone_2_act_1_bg0,
+    [59] = (Tilemap *)&zone_2_act_1_bg1,
+    [60] = (Tilemap *)&zone_2_act_3_fg0,
+    [61] = (Tilemap *)&zone_2_act_3_fg1,
+    [62] = (Tilemap *)&zone_2_act_1_bg0,
+    [63] = (Tilemap *)&zone_2_act_1_bg1,
+    [64] = (Tilemap *)&NULL,
+    [65] = (Tilemap *)&NULL,
+    [66] = (Tilemap *)&NULL,
+    [67] = (Tilemap *)&NULL,
+    [68] = (Tilemap *)&zone_2_act_boss_fg0,
+    [69] = (Tilemap *)&zone_2_act_boss_fg1,
+    [70] = (Tilemap *)&zone_2_act_1_bg0,
+    [71] = (Tilemap *)&NULL,
+    [72] = (Tilemap *)&zone_1_act_bonus_capsule_fg0,
+    [73] = (Tilemap *)&zone_1_act_bonus_capsule_fg1,
+    [74] = (Tilemap *)&zone_1_act_bonus_capsule_bg0,
+    [75] = (Tilemap *)&NULL,
+    [76] = (Tilemap *)&zone_2_act_bonus_enemy_fg0,
+    [77] = (Tilemap *)&zone_2_act_bonus_enemy_fg1,
+    [78] = (Tilemap *)&zone_1_act_bonus_capsule_bg0,
+    [79] = (Tilemap *)&NULL,
+    [80] = (Tilemap *)&NULL,
+    [81] = (Tilemap *)&NULL,
+    [82] = (Tilemap *)&NULL,
+    [83] = (Tilemap *)&NULL,
+    [84] = (Tilemap *)&NULL,
+    [85] = (Tilemap *)&NULL,
+    [86] = (Tilemap *)&NULL,
+    [87] = (Tilemap *)&NULL,
+    [88] = (Tilemap *)&zone_3_act_hub_fg0,
+    [89] = (Tilemap *)&zone_3_act_hub_fg1,
+    [90] = (Tilemap *)&zone_3_act_hub_bg0,
+    [91] = (Tilemap *)&NULL,
+    [92] = (Tilemap *)&zone_3_act_1_fg0,
+    [93] = (Tilemap *)&zone_3_act_1_fg1,
+    [94] = (Tilemap *)&zone_3_act_1_bg0,
+    [95] = (Tilemap *)&zone_3_act_1_bg1,
+    [96] = (Tilemap *)&zone_3_act_2_fg0,
+    [97] = (Tilemap *)&zone_3_act_2_fg1,
+    [98] = (Tilemap *)&zone_3_act_1_bg0,
+    [99] = (Tilemap *)&zone_3_act_1_bg1,
+    [100] = (Tilemap *)&zone_3_act_3_fg0,
+    [101] = (Tilemap *)&zone_3_act_3_fg1,
+    [102] = (Tilemap *)&zone_3_act_1_bg0,
+    [103] = (Tilemap *)&zone_3_act_1_bg1,
+    [104] = (Tilemap *)&NULL,
+    [105] = (Tilemap *)&NULL,
+    [106] = (Tilemap *)&NULL,
+    [107] = (Tilemap *)&NULL,
+    [108] = (Tilemap *)&zone_3_act_boss_fg0,
+    [109] = (Tilemap *)&zone_3_act_boss_fg1,
+    [110] = (Tilemap *)&zone_3_act_1_bg0,
+    [111] = (Tilemap *)&NULL,
+    [112] = (Tilemap *)&zone_1_act_bonus_capsule_fg0,
+    [113] = (Tilemap *)&zone_1_act_bonus_capsule_fg1,
+    [114] = (Tilemap *)&zone_1_act_bonus_capsule_bg0,
+    [115] = (Tilemap *)&NULL,
+    [116] = (Tilemap *)&zone_3_act_bonus_enemy_fg0,
+    [117] = (Tilemap *)&zone_3_act_bonus_enemy_fg1,
+    [118] = (Tilemap *)&zone_1_act_bonus_capsule_bg0,
+    [119] = (Tilemap *)&NULL,
+    [120] = (Tilemap *)&NULL,
+    [121] = (Tilemap *)&NULL,
+    [122] = (Tilemap *)&NULL,
+    [123] = (Tilemap *)&NULL,
+    [124] = (Tilemap *)&NULL,
+    [125] = (Tilemap *)&NULL,
+    [126] = (Tilemap *)&NULL,
+    [127] = (Tilemap *)&NULL,
+    [128] = (Tilemap *)&zone_4_act_hub_fg0,
+    [129] = (Tilemap *)&zone_4_act_hub_fg1,
+    [130] = (Tilemap *)&zone_4_act_hub_bg0,
+    [131] = (Tilemap *)&NULL,
+    [132] = (Tilemap *)&zone_4_act_1_fg0,
+    [133] = (Tilemap *)&zone_4_act_1_fg1,
+    [134] = (Tilemap *)&zone_4_act_1_bg0,
+    [135] = (Tilemap *)&zone_4_act_1_bg1,
+    [136] = (Tilemap *)&zone_4_act_2_fg0,
+    [137] = (Tilemap *)&zone_4_act_2_fg1,
+    [138] = (Tilemap *)&zone_4_act_1_bg0,
+    [139] = (Tilemap *)&zone_4_act_1_bg1,
+    [140] = (Tilemap *)&zone_4_act_3_fg0,
+    [141] = (Tilemap *)&zone_4_act_3_fg1,
+    [142] = (Tilemap *)&zone_4_act_1_bg0,
+    [143] = (Tilemap *)&zone_4_act_1_bg1,
+    [144] = (Tilemap *)&NULL,
+    [145] = (Tilemap *)&NULL,
+    [146] = (Tilemap *)&NULL,
+    [147] = (Tilemap *)&NULL,
+    [148] = (Tilemap *)&zone_4_act_boss_fg0,
+    [149] = (Tilemap *)&zone_4_act_boss_fg1,
+    [150] = (Tilemap *)&zone_4_act_1_bg0,
+    [151] = (Tilemap *)&NULL,
+    [152] = (Tilemap *)&zone_1_act_bonus_capsule_fg0,
+    [153] = (Tilemap *)&zone_1_act_bonus_capsule_fg1,
+    [154] = (Tilemap *)&zone_1_act_bonus_capsule_bg0,
+    [155] = (Tilemap *)&NULL,
+    [156] = (Tilemap *)&zone_4_act_bonus_enemy_fg0,
+    [157] = (Tilemap *)&zone_4_act_bonus_enemy_fg1,
+    [158] = (Tilemap *)&zone_1_act_bonus_capsule_bg0,
+    [159] = (Tilemap *)&NULL,
+    [160] = (Tilemap *)&NULL,
+    [161] = (Tilemap *)&NULL,
+    [162] = (Tilemap *)&NULL,
+    [163] = (Tilemap *)&NULL,
+    [164] = (Tilemap *)&NULL,
+    [165] = (Tilemap *)&NULL,
+    [166] = (Tilemap *)&NULL,
+    [167] = (Tilemap *)&NULL,
+    [168] = (Tilemap *)&zone_5_act_hub_fg0,
+    [169] = (Tilemap *)&zone_5_act_hub_fg1,
+    [170] = (Tilemap *)&zone_5_act_hub_bg0,
+    [171] = (Tilemap *)&NULL,
+    [172] = (Tilemap *)&zone_5_act_1_fg0,
+    [173] = (Tilemap *)&zone_5_act_1_fg1,
+    [174] = (Tilemap *)&zone_5_act_1_bg0,
+    [175] = (Tilemap *)&zone_5_act_1_bg1,
+    [176] = (Tilemap *)&zone_5_act_2_fg0,
+    [177] = (Tilemap *)&zone_5_act_2_fg1,
+    [178] = (Tilemap *)&zone_5_act_1_bg0,
+    [179] = (Tilemap *)&zone_5_act_1_bg1,
+    [180] = (Tilemap *)&zone_5_act_3_fg0,
+    [181] = (Tilemap *)&zone_5_act_3_fg1,
+    [182] = (Tilemap *)&zone_5_act_1_bg0,
+    [183] = (Tilemap *)&zone_5_act_1_bg1,
+    [184] = (Tilemap *)&NULL,
+    [185] = (Tilemap *)&NULL,
+    [186] = (Tilemap *)&NULL,
+    [187] = (Tilemap *)&NULL,
+    [188] = (Tilemap *)&zone_5_act_boss_fg0,
+    [189] = (Tilemap *)&zone_5_act_boss_fg1,
+    [190] = (Tilemap *)&zone_5_act_boss_bg0,
+    [191] = (Tilemap *)&NULL,
+    [192] = (Tilemap *)&zone_1_act_bonus_capsule_fg0,
+    [193] = (Tilemap *)&zone_1_act_bonus_capsule_fg1,
+    [194] = (Tilemap *)&zone_1_act_bonus_capsule_bg0,
+    [195] = (Tilemap *)&NULL,
+    [196] = (Tilemap *)&zone_5_act_bonus_enemy_fg0,
+    [197] = (Tilemap *)&zone_5_act_bonus_enemy_fg1,
+    [198] = (Tilemap *)&zone_1_act_bonus_capsule_bg0,
+    [199] = (Tilemap *)&NULL,
+    [200] = (Tilemap *)&NULL,
+    [201] = (Tilemap *)&NULL,
+    [202] = (Tilemap *)&NULL,
+    [203] = (Tilemap *)&NULL,
+    [204] = (Tilemap *)&NULL,
+    [205] = (Tilemap *)&NULL,
+    [206] = (Tilemap *)&NULL,
+    [207] = (Tilemap *)&NULL,
+    [208] = (Tilemap *)&zone_6_act_hub_fg0,
+    [209] = (Tilemap *)&zone_6_act_hub_fg1,
+    [210] = (Tilemap *)&zone_6_act_hub_bg0,
+    [211] = (Tilemap *)&NULL,
+    [212] = (Tilemap *)&zone_6_act_1_fg0,
+    [213] = (Tilemap *)&zone_6_act_1_fg1,
+    [214] = (Tilemap *)&zone_6_act_1_bg0,
+    [215] = (Tilemap *)&zone_6_act_1_bg1,
+    [216] = (Tilemap *)&zone_6_act_2_fg0,
+    [217] = (Tilemap *)&zone_6_act_2_fg1,
+    [218] = (Tilemap *)&zone_6_act_1_bg0,
+    [219] = (Tilemap *)&zone_6_act_1_bg1,
+    [220] = (Tilemap *)&zone_6_act_3_fg0,
+    [221] = (Tilemap *)&zone_6_act_3_fg1,
+    [222] = (Tilemap *)&zone_6_act_1_bg0,
+    [223] = (Tilemap *)&zone_6_act_1_bg1,
+    [224] = (Tilemap *)&NULL,
+    [225] = (Tilemap *)&NULL,
+    [226] = (Tilemap *)&NULL,
+    [227] = (Tilemap *)&NULL,
+    [228] = (Tilemap *)&zone_6_act_boss_fg0,
+    [229] = (Tilemap *)&zone_6_act_boss_fg1,
+    [230] = (Tilemap *)&zone_6_act_1_bg0,
+    [231] = (Tilemap *)&NULL,
+    [232] = (Tilemap *)&zone_1_act_bonus_capsule_fg0,
+    [233] = (Tilemap *)&zone_1_act_bonus_capsule_fg1,
+    [234] = (Tilemap *)&zone_1_act_bonus_capsule_bg0,
+    [235] = (Tilemap *)&NULL,
+    [236] = (Tilemap *)&zone_6_act_bonus_enemy_fg0,
+    [237] = (Tilemap *)&zone_6_act_bonus_enemy_fg1,
+    [238] = (Tilemap *)&zone_1_act_bonus_capsule_bg0,
+    [239] = (Tilemap *)&NULL,
+    [240] = (Tilemap *)&NULL,
+    [241] = (Tilemap *)&NULL,
+    [242] = (Tilemap *)&NULL,
+    [243] = (Tilemap *)&NULL,
+    [244] = (Tilemap *)&NULL,
+    [245] = (Tilemap *)&NULL,
+    [246] = (Tilemap *)&NULL,
+    [247] = (Tilemap *)&NULL,
+    [248] = (Tilemap *)&zone_7_act_hub_fg0,
+    [249] = (Tilemap *)&zone_7_act_hub_fg1,
+    [250] = (Tilemap *)&zone_7_act_hub_bg0,
+    [251] = (Tilemap *)&NULL,
+    [252] = (Tilemap *)&zone_7_act_1_fg0,
+    [253] = (Tilemap *)&zone_7_act_1_fg1,
+    [254] = (Tilemap *)&zone_7_act_1_bg0,
+    [255] = (Tilemap *)&zone_7_act_1_bg1,
+    [256] = (Tilemap *)&zone_7_act_2_fg0,
+    [257] = (Tilemap *)&zone_7_act_2_fg1,
+    [258] = (Tilemap *)&zone_7_act_1_bg0,
+    [259] = (Tilemap *)&zone_7_act_1_bg1,
+    [260] = (Tilemap *)&zone_7_act_3_fg0,
+    [261] = (Tilemap *)&zone_7_act_3_fg1,
+    [262] = (Tilemap *)&zone_7_act_1_bg0,
+    [263] = (Tilemap *)&zone_7_act_1_bg1,
+    [264] = (Tilemap *)&NULL,
+    [265] = (Tilemap *)&NULL,
+    [266] = (Tilemap *)&NULL,
+    [267] = (Tilemap *)&NULL,
+    [268] = (Tilemap *)&zone_7_act_boss_fg0,
+    [269] = (Tilemap *)&zone_7_act_boss_fg1,
+    [270] = (Tilemap *)&zone_7_act_1_bg0,
+    [271] = (Tilemap *)&zone_7_act_boss_bg1,
+    [272] = (Tilemap *)&zone_1_act_bonus_capsule_fg0,
+    [273] = (Tilemap *)&zone_1_act_bonus_capsule_fg1,
+    [274] = (Tilemap *)&zone_1_act_bonus_capsule_bg0,
+    [275] = (Tilemap *)&NULL,
+    [276] = (Tilemap *)&zone_7_act_bonus_enemy_fg0,
+    [277] = (Tilemap *)&zone_7_act_bonus_enemy_fg1,
+    [278] = (Tilemap *)&zone_1_act_bonus_capsule_bg0,
+    [279] = (Tilemap *)&NULL,
+    [280] = (Tilemap *)&NULL,
+    [281] = (Tilemap *)&NULL,
+    [282] = (Tilemap *)&NULL,
+    [283] = (Tilemap *)&NULL,
+    [284] = (Tilemap *)&zone_final_act_altar_emerald_fg0,
+    [285] = (Tilemap *)&zone_final_act_altar_emerald_fg1,
+    [286] = (Tilemap *)&zone_final_act_altar_emerald_bg0,
+    [287] = (Tilemap *)&NULL,
+    [288] = (Tilemap *)&zone_final_act_nonaggression_fg0,
+    [289] = (Tilemap *)&zone_final_act_nonaggression_fg1,
+    [290] = (Tilemap *)&zone_final_act_nonaggression_bg0,
+    [291] = (Tilemap *)&zone_final_act_nonaggression_bg1,
+    [TM_UNKNOWN_292] = (Tilemap *)&unknown_292,
+    [TM_UNKNOWN_293] = (Tilemap *)&unknown_293,
+    [TM_UNKNOWN_294] = (Tilemap *)&unknown_294,
+    [TM_UNKNOWN_295] = (Tilemap *)&unknown_295,
+    [TM_UNKNOWN_296] = (Tilemap *)&unknown_296,
+    [TM_UNKNOWN_297] = (Tilemap *)&unknown_297,
+    [TM_UNKNOWN_298] = (Tilemap *)&unknown_298,
+    [TM_UNKNOWN_299] = (Tilemap *)&unknown_299,
+    [TM_UNKNOWN_300] = (Tilemap *)&unknown_300,
+    [TM_UNKNOWN_301] = (Tilemap *)&unknown_301,
+    [TM_UNKNOWN_302] = (Tilemap *)&unknown_302,
+    [TM_UNKNOWN_303] = (Tilemap *)&unknown_303,
+    [TM_UNKNOWN_304] = (Tilemap *)&unknown_304,
+    [TM_MASTER_EMERALD_ALTAR] = (Tilemap *)&master_emerald_altar,
+    [TM_ALTAR_EMERALD_BG_COPY] = (Tilemap *)&zone_final_act_altar_emerald_bg0,
+    [TM_UNKNOWN_307] = (Tilemap *)&unknown_307,
+    [TM_UNKNOWN_308] = (Tilemap *)&unknown_308,
+    [TM_UNKNOWN_309] = (Tilemap *)&unknown_309,
+    [TM_UNKNOWN_310] = (Tilemap *)&unknown_310,
+    [TM_UNKNOWN_311] = (Tilemap *)&unknown_311,
+    [TM_UNKNOWN_312] = (Tilemap *)&unknown_312,
+    [TM_UNKNOWN_313] = (Tilemap *)&unknown_313,
+    [TM_UNKNOWN_314] = (Tilemap *)&unknown_314,
+    [TM_UNKNOWN_315] = (Tilemap *)&unknown_315,
+    [TM_UNKNOWN_316] = (Tilemap *)&unknown_316,
+    [TM_UNKNOWN_317] = (Tilemap *)&unknown_317,
+    [TM_UNKNOWN_318] = (Tilemap *)&unknown_318,
+    [TM_UNKNOWN_319] = (Tilemap *)&unknown_319,
+    [TM_UNKNOWN_320] = (Tilemap *)&unknown_320,
+    [TM_UNKNOWN_321] = (Tilemap *)&unknown_321,
+    [TM_UNKNOWN_322] = (Tilemap *)&unknown_322,
+    [TM_UNKNOWN_323] = (Tilemap *)&unknown_323,
+    [TM_UNKNOWN_324] = (Tilemap *)&unknown_324,
+    [TM_UNKNOWN_325] = (Tilemap *)&unknown_325,
+    [TM_UNKNOWN_326] = (Tilemap *)&unknown_326,
+    [TM_UNKNOWN_327] = (Tilemap *)&unknown_327,
+    [TM_UNKNOWN_328] = (Tilemap *)&unknown_328,
+    [TM_UNKNOWN_329] = (Tilemap *)&unknown_329,
+    [TM_UNKNOWN_330] = (Tilemap *)&unknown_330,
+    [TM_UNKNOWN_331] = (Tilemap *)&unknown_331,
+    [TM_UNKNOWN_332] = (Tilemap *)&unknown_332,
+    [TM_UNKNOWN_333] = (Tilemap *)&unknown_333,
+    [TM_UNKNOWN_334] = (Tilemap *)&unknown_334,
+    [TM_UNKNOWN_335] = (Tilemap *)&unknown_335,
+    [TM_UNKNOWN_336] = (Tilemap *)&unknown_336,
+    [TM_UNKNOWN_337] = (Tilemap *)&unknown_337,
+    [TM_UNKNOWN_338] = (Tilemap *)&unknown_338,
+    [TM_UNKNOWN_339] = (Tilemap *)&unknown_339,
+    [TM_UNKNOWN_340] = (Tilemap *)&unknown_340,
+    [TM_UNKNOWN_341] = (Tilemap *)&unknown_341,
+    [TM_UNKNOWN_342] = (Tilemap *)&unknown_342,
+    [TM_UNKNOWN_343] = (Tilemap *)&unknown_343,
+    [TM_UNKNOWN_344] = (Tilemap *)&unknown_344,
+    [TM_UNKNOWN_345] = (Tilemap *)&unknown_345,
+    [TM_UNKNOWN_346] = (Tilemap *)&unknown_346,
+    [TM_UNKNOWN_347] = (Tilemap *)&unknown_347,
+    [TM_UNKNOWN_348] = (Tilemap *)&unknown_348,
+    [TM_UNKNOWN_349] = (Tilemap *)&unknown_349,
+    [TM_UNKNOWN_350] = (Tilemap *)&unknown_350,
+    [TM_UNKNOWN_351] = (Tilemap *)&unknown_351,
+    [TM_UNKNOWN_352] = (Tilemap *)&unknown_352,
+    [TM_UNKNOWN_353] = (Tilemap *)&unknown_353,
+    [TM_UNKNOWN_354] = (Tilemap *)&unknown_354,
+    [TM_UNKNOWN_355] = (Tilemap *)&unknown_355,
+    [TM_UNKNOWN_356] = (Tilemap *)&unknown_356,
+    [TM_UNKNOWN_357] = (Tilemap *)&unknown_357,
+    [TM_UNKNOWN_358] = (Tilemap *)&unknown_358,
+    [TM_UNKNOWN_359] = (Tilemap *)&unknown_359,
+    [TM_UNKNOWN_360] = (Tilemap *)&unknown_360,
+    [TM_UNKNOWN_361] = (Tilemap *)&unknown_361,
+    [TM_UNKNOWN_362] = (Tilemap *)&unknown_362,
+    [TM_UNKNOWN_363] = (Tilemap *)&unknown_363,
+    [TM_UNKNOWN_364] = (Tilemap *)&unknown_364,
+    [TM_UNKNOWN_365] = (Tilemap *)&unknown_365,
+    [TM_UNKNOWN_366] = (Tilemap *)&unknown_366,
+    [TM_UNKNOWN_367] = (Tilemap *)&unknown_367,
+    [TM_UNKNOWN_368] = (Tilemap *)&unknown_368,
+    [TM_UNKNOWN_369] = (Tilemap *)&unknown_369,
+    [TM_UNKNOWN_370] = (Tilemap *)&unknown_370,
+    [TM_UNKNOWN_371] = (Tilemap *)&unknown_371,
+    [TM_UNKNOWN_372] = (Tilemap *)&unknown_372,
+    [TM_UNKNOWN_373] = (Tilemap *)&unknown_373,
+    [TM_UNKNOWN_374] = (Tilemap *)&unknown_374,
+    [TM_UNKNOWN_375] = (Tilemap *)&unknown_375,
+    [TM_UNKNOWN_376] = (Tilemap *)&unknown_376,
+    [TM_UNKNOWN_377] = (Tilemap *)&unknown_377,
+    [TM_UNKNOWN_378] = (Tilemap *)&unknown_378,
+    [TM_UNKNOWN_379] = (Tilemap *)&unknown_379,
+    [TM_UNKNOWN_380] = (Tilemap *)&unknown_380,
+    [TM_UNKNOWN_381] = (Tilemap *)&unknown_381,
+    [TM_UNKNOWN_382] = (Tilemap *)&unknown_382,
+    [TM_UNKNOWN_383] = (Tilemap *)&unknown_383,
+    [TM_UNKNOWN_384] = (Tilemap *)&unknown_384,
+    [TM_UNKNOWN_385] = (Tilemap *)&unknown_385,
+    [TM_UNKNOWN_386] = (Tilemap *)&unknown_386,
+    [TM_UNKNOWN_387] = (Tilemap *)&unknown_387,
+    [TM_UNKNOWN_388] = (Tilemap *)&unknown_388,
+    [TM_UNKNOWN_389] = (Tilemap *)&unknown_389,
+    [TM_UNKNOWN_390] = (Tilemap *)&unknown_390,
+    [TM_UNKNOWN_391] = (Tilemap *)&unknown_391,
+    [TM_UNKNOWN_392] = (Tilemap *)&unknown_392,
+    [TM_UNKNOWN_393] = (Tilemap *)&unknown_393,
+    [TM_UNKNOWN_394] = (Tilemap *)&unknown_394,
+    [TM_UNKNOWN_395] = (Tilemap *)&unknown_395,
+    [TM_UNKNOWN_396] = (Tilemap *)&unknown_396,
+    [TM_NOTIFICATION_PLEASE_WAIT_JP] = (Tilemap *)&notification_please_wait_jp,
+    [TM_NOTIFICATION_PLEASE_WAIT_EN] = (Tilemap *)&notification_please_wait_en,
+    [TM_NOTIFICATION_PLEASE_WAIT_DE] = (Tilemap *)&notification_please_wait_de,
+    [TM_NOTIFICATION_PLEASE_WAIT_FR] = (Tilemap *)&notification_please_wait_fr,
+    [TM_NOTIFICATION_PLEASE_WAIT_ES] = (Tilemap *)&notification_please_wait_es,
+    [TM_NOTIFICATION_PLEASE_WAIT_IT] = (Tilemap *)&notification_please_wait_it,
+    [TM_NOTIFICATION_UNLOCKED_KNUCKLES_JP] = (Tilemap *)&notification_unlocked_knuckles_jp,
+    [TM_NOTIFICATION_UNLOCKED_KNUCKLES_EN] = (Tilemap *)&notification_unlocked_knuckles_en,
+    [TM_NOTIFICATION_UNLOCKED_KNUCKLES_DE] = (Tilemap *)&notification_unlocked_knuckles_de,
+    [TM_NOTIFICATION_UNLOCKED_KNUCKLES_FR] = (Tilemap *)&notification_unlocked_knuckles_fr,
+    [TM_NOTIFICATION_UNLOCKED_KNUCKLES_ES] = (Tilemap *)&notification_unlocked_knuckles_es,
+    [TM_NOTIFICATION_UNLOCKED_KNUCKLES_IT] = (Tilemap *)&notification_unlocked_knuckles_it,
+    [TM_NOTIFICATION_UNLOCKED_CREAM_JP] = (Tilemap *)&notification_unlocked_cream_jp,
+    [TM_NOTIFICATION_UNLOCKED_CREAM_EN] = (Tilemap *)&notification_unlocked_cream_en,
+    [TM_NOTIFICATION_UNLOCKED_CREAM_DE] = (Tilemap *)&notification_unlocked_cream_de,
+    [TM_NOTIFICATION_UNLOCKED_CREAM_FR] = (Tilemap *)&notification_unlocked_cream_fr,
+    [TM_NOTIFICATION_UNLOCKED_CREAM_ES] = (Tilemap *)&notification_unlocked_cream_es,
+    [TM_NOTIFICATION_UNLOCKED_CREAM_IT] = (Tilemap *)&notification_unlocked_cream_it,
+    [TM_NOTIFICATION_UNLOCKED_AMY_JP] = (Tilemap *)&notification_unlocked_amy_jp,
+    [TM_NOTIFICATION_UNLOCKED_AMY_EN] = (Tilemap *)&notification_unlocked_amy_en,
+    [TM_NOTIFICATION_UNLOCKED_AMY_DE] = (Tilemap *)&notification_unlocked_amy_de,
+    [TM_NOTIFICATION_UNLOCKED_AMY_FR] = (Tilemap *)&notification_unlocked_amy_fr,
+    [TM_NOTIFICATION_UNLOCKED_AMY_ES] = (Tilemap *)&notification_unlocked_amy_es,
+    [TM_NOTIFICATION_UNLOCKED_AMY_IT] = (Tilemap *)&notification_unlocked_amy_it,
+    [TM_UNKNOWN_421] = (Tilemap *)&unknown_421,
+    [TM_UNKNOWN_422] = (Tilemap *)&unknown_422,
+    [TM_UNKNOWN_423] = (Tilemap *)&unknown_423,
+    [TM_UNKNOWN_424] = (Tilemap *)&unknown_424,
+    [TM_UNKNOWN_425] = (Tilemap *)&unknown_425,
+    [TM_UNKNOWN_426] = (Tilemap *)&unknown_426,
+    [TM_UNKNOWN_427] = (Tilemap *)&unknown_427,
+    [TM_UNKNOWN_428] = (Tilemap *)&unknown_428,
+    [TM_UNKNOWN_429] = (Tilemap *)&unknown_429,
+    [TM_UNKNOWN_430] = (Tilemap *)&unknown_430,
+    [TM_UNKNOWN_431] = (Tilemap *)&unknown_431,
+    [TM_UNKNOWN_432] = (Tilemap *)&unknown_432,
+    [TM_UNKNOWN_433] = (Tilemap *)&unknown_433,
+    [TM_UNKNOWN_434] = (Tilemap *)&unknown_434,
+    [TM_UNKNOWN_435] = (Tilemap *)&unknown_435,
+    [TM_UNKNOWN_436] = (Tilemap *)&unknown_436,
+    [TM_UNKNOWN_437] = (Tilemap *)&unknown_437,
+    [TM_UNKNOWN_438] = (Tilemap *)&unknown_438,
+    [TM_UNKNOWN_439] = (Tilemap *)&unknown_439,
+    [TM_UNKNOWN_440] = (Tilemap *)&unknown_440,
+    [TM_UNKNOWN_441] = (Tilemap *)&unknown_441,
+    [TM_UNKNOWN_442] = (Tilemap *)&unknown_442,
+    [TM_UNKNOWN_443] = (Tilemap *)&unknown_443,
+    [TM_UNKNOWN_444] = (Tilemap *)&unknown_444,
+    [TM_UNKNOWN_445] = (Tilemap *)&unknown_445,
+    [TM_UNKNOWN_446] = (Tilemap *)&unknown_446,
+    [TM_NOTIFICATION_CHAO_MAP_JP] = (Tilemap *)&notification_chao_map_jp,
+    [TM_NOTIFICATION_CHAO_MAP_EN] = (Tilemap *)&notification_chao_map_en,
+    [TM_NOTIFICATION_CHAO_MAP_DE] = (Tilemap *)&notification_chao_map_de,
+    [TM_NOTIFICATION_CHAO_MAP_FR] = (Tilemap *)&notification_chao_map_fr,
+    [TM_NOTIFICATION_CHAO_MAP_ES] = (Tilemap *)&notification_chao_map_es,
+    [TM_NOTIFICATION_CHAO_MAP_IT] = (Tilemap *)&notification_chao_map_it,
+    [TM_UNKNOWN_453] = (Tilemap *)&unknown_453,
+    [TM_UNKNOWN_454] = (Tilemap *)&unknown_454,
+    [TM_INSTRUCTIONS_BONUS_CAPSULE_JP] = (Tilemap *)&instructions_bonus_capsule_jp,
+    [TM_INSTRUCTIONS_BONUS_CAPSULE_EN] = (Tilemap *)&instructions_bonus_capsule_en,
+    [TM_INSTRUCTIONS_BONUS_CAPSULE_DE] = (Tilemap *)&instructions_bonus_capsule_de,
+    [TM_INSTRUCTIONS_BONUS_CAPSULE_FR] = (Tilemap *)&instructions_bonus_capsule_fr,
+    [TM_INSTRUCTIONS_BONUS_CAPSULE_ES] = (Tilemap *)&instructions_bonus_capsule_es,
+    [TM_INSTRUCTIONS_BONUS_CAPSULE_IT] = (Tilemap *)&instructions_bonus_capsule_it,
+    [TM_INSTRUCTIONS_BONUS_ENEMIES_JP] = (Tilemap *)&instructions_bonus_enemies_jp,
+    [TM_INSTRUCTIONS_BONUS_ENEMIES_EN] = (Tilemap *)&instructions_bonus_enemies_en,
+    [TM_INSTRUCTIONS_BONUS_ENEMIES_DE] = (Tilemap *)&instructions_bonus_enemies_de,
+    [TM_INSTRUCTIONS_BONUS_ENEMIES_FR] = (Tilemap *)&instructions_bonus_enemies_fr,
+    [TM_INSTRUCTIONS_BONUS_ENEMIES_ES] = (Tilemap *)&instructions_bonus_enemies_es,
+    [TM_INSTRUCTIONS_BONUS_ENEMIES_IT] = (Tilemap *)&instructions_bonus_enemies_it,
+    [TM_HYPER_EGGROBO] = (Tilemap *)&hyper_eggrobo,
+    [TM_UNKNOWN_LASER_BEAM] = (Tilemap *)&zone_final_act_nonaggression_bg1,
+};
