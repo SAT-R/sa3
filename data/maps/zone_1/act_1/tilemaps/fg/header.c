@@ -52,12 +52,13 @@ ALIGNED(4) const struct MapHeader zone_1_act_1_fg1 =
     .mapHeight = 34,
 };
 
-const Collision CollHeader_zone_1_act_1_fg = {
-    CollHeightMap_zone_1_act_1_fg, CollTileRot_zone_1_act_1_fg,
-    Metatiles_zone_1_act_1_fg,
-    Map_zone_1_act_1_fg0, Map_zone_1_act_1_fg1,
-    CollFlags_zone_1_act_1_fg,
-    136, 34,
-    13056, 3264
-};
-
+const Collision CollHeader_zone_1_act_1_fg = { CollHeightMap_zone_1_act_1_fg,
+                                               CollTileRot_zone_1_act_1_fg,
+                                               Metatiles_zone_1_act_1_fg,
+                                               Map_zone_1_act_1_fg0,
+                                               Map_zone_1_act_1_fg1,
+                                               CollFlags_zone_1_act_1_fg,
+                                               136,
+                                               34,
+                                               13056,
+                                               3264 };

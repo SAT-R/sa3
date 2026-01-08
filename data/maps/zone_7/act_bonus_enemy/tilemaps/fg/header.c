@@ -52,12 +52,13 @@ ALIGNED(4) const struct MapHeader zone_7_act_bonus_enemy_fg1 =
     .mapHeight = 11,
 };
 
-const Collision CollHeader_zone_7_act_bonus_enemy_fg = {
-    CollHeightMap_zone_7_act_bonus_enemy_fg, CollTileRot_zone_7_act_bonus_enemy_fg,
-    Metatiles_zone_7_act_bonus_enemy_fg,
-    Map_zone_7_act_bonus_enemy_fg0, Map_zone_7_act_bonus_enemy_fg1,
-    CollFlags_zone_7_act_bonus_enemy_fg,
-    11, 11,
-    1056, 1056
-};
-
+const Collision CollHeader_zone_7_act_bonus_enemy_fg = { CollHeightMap_zone_7_act_bonus_enemy_fg,
+                                                         CollTileRot_zone_7_act_bonus_enemy_fg,
+                                                         Metatiles_zone_7_act_bonus_enemy_fg,
+                                                         Map_zone_7_act_bonus_enemy_fg0,
+                                                         Map_zone_7_act_bonus_enemy_fg1,
+                                                         CollFlags_zone_7_act_bonus_enemy_fg,
+                                                         11,
+                                                         11,
+                                                         1056,
+                                                         1056 };

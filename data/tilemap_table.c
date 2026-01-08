@@ -472,7 +472,7 @@ extern struct MapHeader *unknown_laser_beam;
 
 #include "constants/tilemaps.h"
 
-const Tilemap * const gTilemaps[] = {
+const Tilemap *const gTilemaps[] = {
     [0] = (Tilemap *)&NULL,
     [1] = (Tilemap *)&NULL,
     [2] = (Tilemap *)&NULL,

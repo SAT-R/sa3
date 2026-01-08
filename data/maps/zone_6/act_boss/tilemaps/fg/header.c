@@ -52,12 +52,13 @@ ALIGNED(4) const struct MapHeader zone_6_act_boss_fg1 =
     .mapHeight = 5,
 };
 
-const Collision CollHeader_zone_6_act_boss_fg = {
-    CollHeightMap_zone_6_act_boss_fg, CollTileRot_zone_6_act_boss_fg,
-    Metatiles_zone_6_act_boss_fg,
-    Map_zone_6_act_boss_fg0, Map_zone_6_act_boss_fg1,
-    CollFlags_zone_6_act_boss_fg,
-    26, 5,
-    2496, 480
-};
-
+const Collision CollHeader_zone_6_act_boss_fg = { CollHeightMap_zone_6_act_boss_fg,
+                                                  CollTileRot_zone_6_act_boss_fg,
+                                                  Metatiles_zone_6_act_boss_fg,
+                                                  Map_zone_6_act_boss_fg0,
+                                                  Map_zone_6_act_boss_fg1,
+                                                  CollFlags_zone_6_act_boss_fg,
+                                                  26,
+                                                  5,
+                                                  2496,
+                                                  480 };

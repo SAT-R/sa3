@@ -52,12 +52,13 @@ ALIGNED(4) const struct MapHeader zone_final_act_altar_emerald_fg1 =
     .mapHeight = 3,
 };
 
-const Collision CollHeader_zone_final_act_altar_emerald_fg = {
-    CollHeightMap_zone_final_act_altar_emerald_fg, CollTileRot_zone_final_act_altar_emerald_fg,
-    Metatiles_zone_final_act_altar_emerald_fg,
-    Map_zone_final_act_altar_emerald_fg0, Map_zone_final_act_altar_emerald_fg1,
-    CollFlags_zone_final_act_altar_emerald_fg,
-    25, 3,
-    2400, 288
-};
-
+const Collision CollHeader_zone_final_act_altar_emerald_fg = { CollHeightMap_zone_final_act_altar_emerald_fg,
+                                                               CollTileRot_zone_final_act_altar_emerald_fg,
+                                                               Metatiles_zone_final_act_altar_emerald_fg,
+                                                               Map_zone_final_act_altar_emerald_fg0,
+                                                               Map_zone_final_act_altar_emerald_fg1,
+                                                               CollFlags_zone_final_act_altar_emerald_fg,
+                                                               25,
+                                                               3,
+                                                               2400,
+                                                               288 };
