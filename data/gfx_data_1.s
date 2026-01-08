@@ -5,10 +5,6 @@
 
 .section .rodata
 
-    .global gUnknown_08358528
-gUnknown_08358528:
-    .incbin "baserom_sa3.gba", 0x00358528, 0x28073C
-
     .global gUnknown_085D8C64
 gUnknown_085D8C64:
     .incbin "baserom_sa3.gba", 0x005D8C64, 0xAA954

@@ -599,6 +599,7 @@ SECTIONS {
         src/data/sprite_tables.o(.rodata);
         src/data/sprite_oam_data.o(.rodata);
         src/data/obj_palettes.o(.rodata);
+        data/gfx_tilemap_data.o(.rodata);
         data/gfx_data_1.o(.rodata);
         src/data/sprite_dimensions.o(.rodata);
         data/ia_bonus_capsule.o(.rodata);
