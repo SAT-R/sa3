@@ -5,11 +5,10 @@ const u16 Palette_zone_1_act_bonus_capsule_fg[] = INCBIN_U16("data/maps/zone_1/a
 const u8 Tileset_zone_1_act_bonus_capsule_fg[] = INCBIN_U8("data/maps/zone_1/act_bonus_capsule/tilemaps/fg/tileset.4bpp");
 const u8 CollHeightMap_zone_1_act_bonus_capsule_fg[] = INCBIN_U8("data/maps/zone_1/act_bonus_capsule/tilemaps/fg/height_map.coll");
 const u8 CollTileRot_zone_1_act_bonus_capsule_fg[] = INCBIN_U8("data/maps/zone_1/act_bonus_capsule/tilemaps/fg/tile_rot.coll");
-const u16 CollFlags_zone_1_act_bonus_capsule_fg[] = INCBIN_U8("data/maps/zone_1/act_bonus_capsule/tilemaps/fg/flags.coll");
+const u16 CollFlags_zone_1_act_bonus_capsule_fg[] = INCBIN_U16("data/maps/zone_1/act_bonus_capsule/tilemaps/fg/flags.coll");
 const u16 Metatiles_zone_1_act_bonus_capsule_fg[] = INCBIN_U16("data/maps/zone_1/act_bonus_capsule/tilemaps/fg/metatiles.tilemap2");
 
 const u16 Map_zone_1_act_bonus_capsule_fg0[] = INCBIN_U16("data/maps/zone_1/act_bonus_capsule/tilemaps/fg/map_front.bin");
-
 const u16 Map_zone_1_act_bonus_capsule_fg1[] = INCBIN_U16("data/maps/zone_1/act_bonus_capsule/tilemaps/fg/map_back.bin");
 
 ALIGNED(4) const struct MapHeader zone_1_act_bonus_capsule_fg0 = 
