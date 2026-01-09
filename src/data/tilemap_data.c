@@ -113,11 +113,9 @@
 #include "../../data/maps/zone_1/act_1/tilemaps/fg/header.c"
 // 0x0838FD70 (16) | 0x083589CC -> 0x083FCA40,
 #include "../../data/maps/zone_1/act_2/tilemaps/fg/header.c"
-#if 0
-// 0x0838FD94 (17) | 0x083589CC -> 0x083FCA40,
-#include "../../data/maps/zone_1/act_2/tilemaps/fg/header.c"
 // 0x083949E0 (20) | 0x083589CC -> 0x08491508,
 #include "../../data/maps/zone_1/act_3/tilemaps/fg/header.c"
+#if 0
 // 0x083AA250 (4) | 0x08394A4C -> 0x08491508,
 #include "../../data/maps/zone_1/act_special/tilemaps/fg/header.c"
 // 0x083AA274 (5) | 0x08394A4C -> 0x08491508,

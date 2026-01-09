@@ -7,6 +7,6 @@
 
 @ --- This is after the tilemap-data ---
 
-    .global gUnknown_0838B978
-gUnknown_0838B978: @ --> 0x085D8C64
-    .incbin "baserom_sa3.gba", 0x0038FDDC, 0x248E88
+    .global gUnknown_08394A4C
+gUnknown_08394A4C: @ --> 0x085D8C64
+    .incbin "baserom_sa3.gba", 0x00394A4C, 0x244218
