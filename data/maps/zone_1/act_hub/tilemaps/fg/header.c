@@ -1,20 +1,22 @@
 #include "global.h"
 #include "core.h"
 
-const u16 Palette_zone_1_act_hub_fg[] = INCBIN_U16("data/maps/zone_1/act_hub/tilemaps/fg/palette.gbapal");
-const u8 Tileset_zone_1_act_hub_fg[] = INCBIN_U8("data/maps/zone_1/act_hub/tilemaps/fg/tileset.4bpp");
-const u8 CollHeightMap_zone_1_act_hub_fg[] = INCBIN_U8("data/maps/zone_1/act_hub/tilemaps/fg/height_map.coll");
-const u8 CollTileRot_zone_1_act_hub_fg[] = INCBIN_U8("data/maps/zone_1/act_hub/tilemaps/fg/tile_rot.coll");
-const u16 CollFlags_zone_1_act_hub_fg[] = INCBIN_U8("data/maps/zone_1/act_hub/tilemaps/fg/flags.coll");
-const u16 Metatiles_zone_1_act_hub_fg[] = INCBIN_U16("data/maps/zone_1/act_hub/tilemaps/fg/metatiles.tilemap2");
+extern const u16 Palette_zone_1_act_hub_fg[];// = INCBIN_U16("data/maps/zone_1/act_hub/tilemaps/fg/palette.gbapal");
+extern const u8 Tileset_zone_1_act_hub_fg[];// = INCBIN_U8("data/maps/zone_1/act_hub/tilemaps/fg/tileset.4bpp");
+extern const u8 CollHeightMap_zone_1_act_hub_fg[];// = INCBIN_U8("data/maps/zone_1/act_hub/tilemaps/fg/height_map.coll");
+extern const u8 CollTileRot_zone_1_act_hub_fg[];// = INCBIN_U8("data/maps/zone_1/act_hub/tilemaps/fg/tile_rot.coll");
+extern const u16 CollFlags_zone_1_act_hub_fg[];// = INCBIN_U8("data/maps/zone_1/act_hub/tilemaps/fg/flags.coll");
+extern const u16 Metatiles_zone_1_act_hub_fg[];// = INCBIN_U16("data/maps/zone_1/act_hub/tilemaps/fg/metatiles.tilemap2");
 
-const u16 Map_zone_1_act_hub_fg0[] = INCBIN_U16("data/maps/zone_1/act_hub/tilemaps/fg/map_back.bin");
+const u16 Map_zone_1_act_hub_fg0[] = INCBIN_U16("data/maps/zone_1/act_hub/tilemaps/fg/map_front.bin");
+const u16 Map_zone_1_act_hub_fg1[] = INCBIN_U16("data/maps/zone_1/act_hub/tilemaps/fg/map_back.bin");
 
-const u16 Map_zone_1_act_hub_fg1[] = INCBIN_U16("data/maps/zone_1/act_hub/tilemaps/fg/map_front.bin");
-
+#if 01
+asm(".incbin \"baserom_sa3.gba\", 0x00358960, (0x24*2 + 0x24)");
+#else
 ALIGNED(4) const struct MapHeader zone_1_act_hub_fg0 = 
 {
-    .h = {
+    .tileset = {
         .xTiles = 12,
         .yTiles = 12,
         .animTileSize = 0x00,
@@ -34,7 +36,7 @@ ALIGNED(4) const struct MapHeader zone_1_act_hub_fg0 =
 
 ALIGNED(4) const struct MapHeader zone_1_act_hub_fg1 = 
 {
-    .h = {
+    .tileset = {
         .xTiles = 12,
         .yTiles = 12,
         .animTileSize = 0x00,
@@ -62,3 +64,4 @@ const Collision CollHeader_zone_1_act_hub_fg = { CollHeightMap_zone_1_act_hub_fg
                                                  9,
                                                  2880,
                                                  864 };
+#endif

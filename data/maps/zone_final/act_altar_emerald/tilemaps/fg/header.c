@@ -8,13 +8,13 @@ const u8 CollTileRot_zone_final_act_altar_emerald_fg[] = INCBIN_U8("data/maps/zo
 const u16 CollFlags_zone_final_act_altar_emerald_fg[] = INCBIN_U8("data/maps/zone_final/act_altar_emerald/tilemaps/fg/flags.coll");
 const u16 Metatiles_zone_final_act_altar_emerald_fg[] = INCBIN_U16("data/maps/zone_final/act_altar_emerald/tilemaps/fg/metatiles.tilemap2");
 
-const u16 Map_zone_final_act_altar_emerald_fg0[] = INCBIN_U16("data/maps/zone_final/act_altar_emerald/tilemaps/fg/map_back.bin");
+const u16 Map_zone_final_act_altar_emerald_fg0[] = INCBIN_U16("data/maps/zone_final/act_altar_emerald/tilemaps/fg/map_front.bin");
 
-const u16 Map_zone_final_act_altar_emerald_fg1[] = INCBIN_U16("data/maps/zone_final/act_altar_emerald/tilemaps/fg/map_front.bin");
+const u16 Map_zone_final_act_altar_emerald_fg1[] = INCBIN_U16("data/maps/zone_final/act_altar_emerald/tilemaps/fg/map_back.bin");
 
 ALIGNED(4) const struct MapHeader zone_final_act_altar_emerald_fg0 = 
 {
-    .h = {
+    .tileset = {
         .xTiles = 12,
         .yTiles = 12,
         .animTileSize = 0x240,
@@ -34,7 +34,7 @@ ALIGNED(4) const struct MapHeader zone_final_act_altar_emerald_fg0 =
 
 ALIGNED(4) const struct MapHeader zone_final_act_altar_emerald_fg1 = 
 {
-    .h = {
+    .tileset = {
         .xTiles = 12,
         .yTiles = 12,
         .animTileSize = 0x240,

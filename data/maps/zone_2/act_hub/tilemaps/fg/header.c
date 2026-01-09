@@ -14,7 +14,7 @@ const u16 Map_zone_2_act_hub_fg1[] = INCBIN_U16("data/maps/zone_2/act_hub/tilema
 
 ALIGNED(4) const struct MapHeader zone_2_act_hub_fg0 = 
 {
-    .h = {
+    .tileset = {
         .xTiles = 12,
         .yTiles = 12,
         .animTileSize = 0x00,
@@ -34,7 +34,7 @@ ALIGNED(4) const struct MapHeader zone_2_act_hub_fg0 =
 
 ALIGNED(4) const struct MapHeader zone_2_act_hub_fg1 = 
 {
-    .h = {
+    .tileset = {
         .xTiles = 12,
         .yTiles = 12,
         .animTileSize = 0x00,

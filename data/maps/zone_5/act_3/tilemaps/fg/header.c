@@ -14,7 +14,7 @@ const u16 Map_zone_5_act_3_fg1[] = INCBIN_U16("data/maps/zone_5/act_3/tilemaps/f
 
 ALIGNED(4) const struct MapHeader zone_5_act_3_fg0 = 
 {
-    .h = {
+    .tileset = {
         .xTiles = 12,
         .yTiles = 12,
         .animTileSize = 0x80,
@@ -34,7 +34,7 @@ ALIGNED(4) const struct MapHeader zone_5_act_3_fg0 =
 
 ALIGNED(4) const struct MapHeader zone_5_act_3_fg1 = 
 {
-    .h = {
+    .tileset = {
         .xTiles = 12,
         .yTiles = 12,
         .animTileSize = 0x80,

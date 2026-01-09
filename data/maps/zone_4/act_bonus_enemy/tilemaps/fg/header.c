@@ -14,7 +14,7 @@ const u16 Map_zone_4_act_bonus_enemy_fg1[] = INCBIN_U16("data/maps/zone_4/act_bo
 
 ALIGNED(4) const struct MapHeader zone_4_act_bonus_enemy_fg0 = 
 {
-    .h = {
+    .tileset = {
         .xTiles = 12,
         .yTiles = 12,
         .animTileSize = 0x00,
@@ -34,7 +34,7 @@ ALIGNED(4) const struct MapHeader zone_4_act_bonus_enemy_fg0 =
 
 ALIGNED(4) const struct MapHeader zone_4_act_bonus_enemy_fg1 = 
 {
-    .h = {
+    .tileset = {
         .xTiles = 12,
         .yTiles = 12,
         .animTileSize = 0x00,

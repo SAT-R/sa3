@@ -82303,7 +82303,7 @@ static const SpriteOffset spriteDim_8E2C6F4[4] = {
 
 
 // 0x08E2C724
-const SpriteOffset *const gSpriteDimensions[1524] = {
+const SpriteOffset *const gSpriteDimensions[NUM_SPRITE_ANIMATIONS] = {
   /* 000 */  spriteDim_8E0F7F8,
   /* 001 */  spriteDim_8E0F894,
   /* 002 */  spriteDim_8E0F8D0,

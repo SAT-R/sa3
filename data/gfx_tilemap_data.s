@@ -5,11 +5,8 @@
 
 .section .rodata
 
-@ This data in only referenced by the SpriteTables struct in SA3 and KATAM.
-    .global gUnknown_08358528
-gUnknown_08358528:
-    .incbin "data/spr_table_unk18_data.bin"
+@ --- This is after the tilemap-data ---
 
-    .global gUnknown_08358960
-gUnknown_08358960:
-    .incbin "baserom_sa3.gba", 0x00358960, 0x280304
+    .global gUnknown_08360BCC
+gUnknown_08360BCC: @ --> 0x085D8C64
+    .incbin "baserom_sa3.gba", 0x0038B978, 0x24D2EC
