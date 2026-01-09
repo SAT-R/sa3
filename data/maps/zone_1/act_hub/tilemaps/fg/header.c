@@ -1,12 +1,12 @@
 #include "global.h"
 #include "core.h"
 
-extern const u16 Palette_zone_1_act_hub_fg[];// = INCBIN_U16("data/maps/zone_1/act_hub/tilemaps/fg/palette.gbapal");
-extern const u8 Tileset_zone_1_act_hub_fg[];// = INCBIN_U8("data/maps/zone_1/act_hub/tilemaps/fg/tileset.4bpp");
-extern const u8 CollHeightMap_zone_1_act_hub_fg[];// = INCBIN_U8("data/maps/zone_1/act_hub/tilemaps/fg/height_map.coll");
-extern const u8 CollTileRot_zone_1_act_hub_fg[];// = INCBIN_U8("data/maps/zone_1/act_hub/tilemaps/fg/tile_rot.coll");
-extern const u16 CollFlags_zone_1_act_hub_fg[];// = INCBIN_U8("data/maps/zone_1/act_hub/tilemaps/fg/flags.coll");
-extern const u16 Metatiles_zone_1_act_hub_fg[];// = INCBIN_U16("data/maps/zone_1/act_hub/tilemaps/fg/metatiles.tilemap2");
+extern const u16 Palette_zone_1_act_hub_fg[]; // = INCBIN_U16("data/maps/zone_1/act_hub/tilemaps/fg/palette.gbapal");
+extern const u8 Tileset_zone_1_act_hub_fg[]; // = INCBIN_U8("data/maps/zone_1/act_hub/tilemaps/fg/tileset.4bpp");
+extern const u8 CollHeightMap_zone_1_act_hub_fg[]; // = INCBIN_U8("data/maps/zone_1/act_hub/tilemaps/fg/height_map.coll");
+extern const u8 CollTileRot_zone_1_act_hub_fg[]; // = INCBIN_U8("data/maps/zone_1/act_hub/tilemaps/fg/tile_rot.coll");
+extern const u16 CollFlags_zone_1_act_hub_fg[]; // = INCBIN_U8("data/maps/zone_1/act_hub/tilemaps/fg/flags.coll");
+extern const u16 Metatiles_zone_1_act_hub_fg[]; // = INCBIN_U16("data/maps/zone_1/act_hub/tilemaps/fg/metatiles.tilemap2");
 
 const u16 Map_zone_1_act_hub_fg0[] = INCBIN_U16("data/maps/zone_1/act_hub/tilemaps/fg/map_front.bin");
 const u16 Map_zone_1_act_hub_fg1[] = INCBIN_U16("data/maps/zone_1/act_hub/tilemaps/fg/map_back.bin");
