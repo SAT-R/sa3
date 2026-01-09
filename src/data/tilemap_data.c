@@ -115,11 +115,9 @@
 #include "../../data/maps/zone_1/act_2/tilemaps/fg/header.c"
 // 0x083949E0 (20) | 0x083589CC -> 0x08491508,
 #include "../../data/maps/zone_1/act_3/tilemaps/fg/header.c"
-#if 0
 // 0x083AA250 (4) | 0x08394A4C -> 0x08491508,
 #include "../../data/maps/zone_1/act_special/tilemaps/fg/header.c"
-// 0x083AA274 (5) | 0x08394A4C -> 0x08491508,
-#include "../../data/maps/zone_1/act_special/tilemaps/fg/header.c"
+#if 0
 // 0x083FC9D4 (32) | 0x083AA2BC -> 0x00000024,
 #include "../../data/maps/zone_1/act_bonus_capsule/tilemaps/fg/header.c"
 // zone_2_act_bonus_capsule_fg0 shares the pointer with zone_1_act_bonus_capsule_fg0.
