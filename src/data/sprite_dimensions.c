@@ -1,9 +1,7 @@
 #include "data/sprite_data.h"
 
-#define STATIC
-
 // 0 - 0x08E0F7F8
-STATIC const SpriteOffset spriteDim_8E0F7F8[13] = {
+static const SpriteOffset spriteDim_8E0F7F8[13] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -111,7 +109,7 @@ STATIC const SpriteOffset spriteDim_8E0F7F8[13] = {
 };
 
 // 1 - 0x08E0F894
-STATIC const SpriteOffset spriteDim_8E0F894[5] = {
+static const SpriteOffset spriteDim_8E0F894[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -155,7 +153,7 @@ STATIC const SpriteOffset spriteDim_8E0F894[5] = {
 };
 
 // 2 - 0x08E0F8D0
-STATIC const SpriteOffset spriteDim_8E0F8D0[4] = {
+static const SpriteOffset spriteDim_8E0F8D0[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -191,7 +189,7 @@ STATIC const SpriteOffset spriteDim_8E0F8D0[4] = {
 };
 
 // 3 - 0x08E0F900
-STATIC const SpriteOffset spriteDim_8E0F900[3] = {
+static const SpriteOffset spriteDim_8E0F900[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -219,7 +217,7 @@ STATIC const SpriteOffset spriteDim_8E0F900[3] = {
 };
 
 // 4 - 0x08E0F924
-STATIC const SpriteOffset spriteDim_8E0F924[3] = {
+static const SpriteOffset spriteDim_8E0F924[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -247,7 +245,7 @@ STATIC const SpriteOffset spriteDim_8E0F924[3] = {
 };
 
 // 5 - 0x08E0F948
-STATIC const SpriteOffset spriteDim_8E0F948[3] = {
+static const SpriteOffset spriteDim_8E0F948[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -275,7 +273,7 @@ STATIC const SpriteOffset spriteDim_8E0F948[3] = {
 };
 
 // 6 - 0x08E0F96C
-STATIC const SpriteOffset spriteDim_8E0F96C[15] = {
+static const SpriteOffset spriteDim_8E0F96C[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -399,7 +397,7 @@ STATIC const SpriteOffset spriteDim_8E0F96C[15] = {
 };
 
 // 7 - 0x08E0FA20
-STATIC const SpriteOffset spriteDim_8E0FA20[11] = {
+static const SpriteOffset spriteDim_8E0FA20[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -491,7 +489,7 @@ STATIC const SpriteOffset spriteDim_8E0FA20[11] = {
 };
 
 // 8 - 0x08E0FAA4
-STATIC const SpriteOffset spriteDim_8E0FAA4[40] = {
+static const SpriteOffset spriteDim_8E0FAA4[40] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -815,7 +813,7 @@ STATIC const SpriteOffset spriteDim_8E0FAA4[40] = {
 };
 
 // 9 - 0x08E0FC84
-STATIC const SpriteOffset spriteDim_8E0FC84[24] = {
+static const SpriteOffset spriteDim_8E0FC84[24] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -1011,7 +1009,7 @@ STATIC const SpriteOffset spriteDim_8E0FC84[24] = {
 };
 
 // 10 - 0x08E0FDA4
-STATIC const SpriteOffset spriteDim_8E0FDA4[8] = {
+static const SpriteOffset spriteDim_8E0FDA4[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -1079,7 +1077,7 @@ STATIC const SpriteOffset spriteDim_8E0FDA4[8] = {
 };
 
 // 11 - 0x08E0FE04
-STATIC const SpriteOffset spriteDim_8E0FE04[4] = {
+static const SpriteOffset spriteDim_8E0FE04[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -1115,7 +1113,7 @@ STATIC const SpriteOffset spriteDim_8E0FE04[4] = {
 };
 
 // 12 - 0x08E0FE34
-STATIC const SpriteOffset spriteDim_8E0FE34[2] = {
+static const SpriteOffset spriteDim_8E0FE34[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -1135,7 +1133,7 @@ STATIC const SpriteOffset spriteDim_8E0FE34[2] = {
 };
 
 // 13 - 0x08E0FE4C
-STATIC const SpriteOffset spriteDim_8E0FE4C[4] = {
+static const SpriteOffset spriteDim_8E0FE4C[4] = {
     {
        .oamIndex     = 16384,
        .numSubframes = 2,
@@ -1171,7 +1169,7 @@ STATIC const SpriteOffset spriteDim_8E0FE4C[4] = {
 };
 
 // 14 - 0x08E0FE7C
-STATIC const SpriteOffset spriteDim_8E0FE7C[3] = {
+static const SpriteOffset spriteDim_8E0FE7C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -1199,7 +1197,7 @@ STATIC const SpriteOffset spriteDim_8E0FE7C[3] = {
 };
 
 // 15 - 0x08E0FEA0
-STATIC const SpriteOffset spriteDim_8E0FEA0[4] = {
+static const SpriteOffset spriteDim_8E0FEA0[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -1235,7 +1233,7 @@ STATIC const SpriteOffset spriteDim_8E0FEA0[4] = {
 };
 
 // 16 - 0x08E0FED0
-STATIC const SpriteOffset spriteDim_8E0FED0[3] = {
+static const SpriteOffset spriteDim_8E0FED0[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -1263,7 +1261,7 @@ STATIC const SpriteOffset spriteDim_8E0FED0[3] = {
 };
 
 // 17 - 0x08E0FEF4
-STATIC const SpriteOffset spriteDim_8E0FEF4[7] = {
+static const SpriteOffset spriteDim_8E0FEF4[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -1323,7 +1321,7 @@ STATIC const SpriteOffset spriteDim_8E0FEF4[7] = {
 };
 
 // 18 - 0x08E0FF48
-STATIC const SpriteOffset spriteDim_8E0FF48[5] = {
+static const SpriteOffset spriteDim_8E0FF48[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -1367,7 +1365,7 @@ STATIC const SpriteOffset spriteDim_8E0FF48[5] = {
 };
 
 // 19 - 0x08E0FF84
-STATIC const SpriteOffset spriteDim_8E0FF84[14] = {
+static const SpriteOffset spriteDim_8E0FF84[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -1483,7 +1481,7 @@ STATIC const SpriteOffset spriteDim_8E0FF84[14] = {
 };
 
 // 20 - 0x08E1002C
-STATIC const SpriteOffset spriteDim_8E1002C[14] = {
+static const SpriteOffset spriteDim_8E1002C[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -1599,7 +1597,7 @@ STATIC const SpriteOffset spriteDim_8E1002C[14] = {
 };
 
 // 21 - 0x08E100D4
-STATIC const SpriteOffset spriteDim_8E100D4[12] = {
+static const SpriteOffset spriteDim_8E100D4[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -1699,7 +1697,7 @@ STATIC const SpriteOffset spriteDim_8E100D4[12] = {
 };
 
 // 22 - 0x08E10164
-STATIC const SpriteOffset spriteDim_8E10164[3] = {
+static const SpriteOffset spriteDim_8E10164[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -1727,7 +1725,7 @@ STATIC const SpriteOffset spriteDim_8E10164[3] = {
 };
 
 // 23 - 0x08E10188
-STATIC const SpriteOffset spriteDim_8E10188[4] = {
+static const SpriteOffset spriteDim_8E10188[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -1763,7 +1761,7 @@ STATIC const SpriteOffset spriteDim_8E10188[4] = {
 };
 
 // 24 - 0x08E101B8
-STATIC const SpriteOffset spriteDim_8E101B8[5] = {
+static const SpriteOffset spriteDim_8E101B8[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -1807,7 +1805,7 @@ STATIC const SpriteOffset spriteDim_8E101B8[5] = {
 };
 
 // 25 - 0x08E101F4
-STATIC const SpriteOffset spriteDim_8E101F4[15] = {
+static const SpriteOffset spriteDim_8E101F4[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -1931,7 +1929,7 @@ STATIC const SpriteOffset spriteDim_8E101F4[15] = {
 };
 
 // 33 - 0x08E102A8
-STATIC const SpriteOffset spriteDim_8E102A8[9] = {
+static const SpriteOffset spriteDim_8E102A8[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -2007,7 +2005,7 @@ STATIC const SpriteOffset spriteDim_8E102A8[9] = {
 };
 
 // 34 - 0x08E10314
-STATIC const SpriteOffset spriteDim_8E10314[10] = {
+static const SpriteOffset spriteDim_8E10314[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -2091,7 +2089,7 @@ STATIC const SpriteOffset spriteDim_8E10314[10] = {
 };
 
 // 35 - 0x08E1038C
-STATIC const SpriteOffset spriteDim_8E1038C[10] = {
+static const SpriteOffset spriteDim_8E1038C[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -2175,7 +2173,7 @@ STATIC const SpriteOffset spriteDim_8E1038C[10] = {
 };
 
 // 36 - 0x08E10404
-STATIC const SpriteOffset spriteDim_8E10404[2] = {
+static const SpriteOffset spriteDim_8E10404[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -2195,7 +2193,7 @@ STATIC const SpriteOffset spriteDim_8E10404[2] = {
 };
 
 // 37 - 0x08E1041C
-STATIC const SpriteOffset spriteDim_8E1041C[17] = {
+static const SpriteOffset spriteDim_8E1041C[17] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -2335,7 +2333,7 @@ STATIC const SpriteOffset spriteDim_8E1041C[17] = {
 };
 
 // 38 - 0x08E104E8
-STATIC const SpriteOffset spriteDim_8E104E8[20] = {
+static const SpriteOffset spriteDim_8E104E8[20] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -2499,7 +2497,7 @@ STATIC const SpriteOffset spriteDim_8E104E8[20] = {
 };
 
 // 42 - 0x08E105D8
-STATIC const SpriteOffset spriteDim_8E105D8[14] = {
+static const SpriteOffset spriteDim_8E105D8[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -2611,7 +2609,7 @@ STATIC const SpriteOffset spriteDim_8E105D8[14] = {
 };
 
 // 43 - 0x08E10680
-STATIC const SpriteOffset spriteDim_8E10680[20] = {
+static const SpriteOffset spriteDim_8E10680[20] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -2774,7 +2772,7 @@ STATIC const SpriteOffset spriteDim_8E10680[20] = {
 };
 
 // 56 - 0x08E10770
-STATIC const SpriteOffset spriteDim_8E10770[12] = {
+static const SpriteOffset spriteDim_8E10770[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -2874,7 +2872,7 @@ STATIC const SpriteOffset spriteDim_8E10770[12] = {
 };
 
 // 57 - 0x08E10800
-STATIC const SpriteOffset spriteDim_8E10800[7] = {
+static const SpriteOffset spriteDim_8E10800[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -2934,7 +2932,7 @@ STATIC const SpriteOffset spriteDim_8E10800[7] = {
 };
 
 // 67 - 0x08E10854
-STATIC const SpriteOffset spriteDim_8E10854[3] = {
+static const SpriteOffset spriteDim_8E10854[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -2962,7 +2960,7 @@ STATIC const SpriteOffset spriteDim_8E10854[3] = {
 };
 
 // 80 - 0x08E10878
-STATIC const SpriteOffset spriteDim_8E10878[15] = {
+static const SpriteOffset spriteDim_8E10878[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -3086,7 +3084,7 @@ STATIC const SpriteOffset spriteDim_8E10878[15] = {
 };
 
 // 81 - 0x08E1092C
-STATIC const SpriteOffset spriteDim_8E1092C[20] = {
+static const SpriteOffset spriteDim_8E1092C[20] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -3250,7 +3248,7 @@ STATIC const SpriteOffset spriteDim_8E1092C[20] = {
 };
 
 // 89 - 0x08E10A1C
-STATIC const SpriteOffset spriteDim_8E10A1C[12] = {
+static const SpriteOffset spriteDim_8E10A1C[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -3350,7 +3348,7 @@ STATIC const SpriteOffset spriteDim_8E10A1C[12] = {
 };
 
 // 91 - 0x08E10AAC
-STATIC const SpriteOffset spriteDim_8E10AAC[13] = {
+static const SpriteOffset spriteDim_8E10AAC[13] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -3458,7 +3456,7 @@ STATIC const SpriteOffset spriteDim_8E10AAC[13] = {
 };
 
 // 92 - 0x08E10B48
-STATIC const SpriteOffset spriteDim_8E10B48[6] = {
+static const SpriteOffset spriteDim_8E10B48[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -3510,7 +3508,7 @@ STATIC const SpriteOffset spriteDim_8E10B48[6] = {
 };
 
 // 93 - 0x08E10B90
-STATIC const SpriteOffset spriteDim_8E10B90[2] = {
+static const SpriteOffset spriteDim_8E10B90[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -3530,7 +3528,7 @@ STATIC const SpriteOffset spriteDim_8E10B90[2] = {
 };
 
 // 94 - 0x08E10BA8
-STATIC const SpriteOffset spriteDim_8E10BA8[4] = {
+static const SpriteOffset spriteDim_8E10BA8[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -3566,7 +3564,7 @@ STATIC const SpriteOffset spriteDim_8E10BA8[4] = {
 };
 
 // 95 - 0x08E10BD8
-STATIC const SpriteOffset spriteDim_8E10BD8[4] = {
+static const SpriteOffset spriteDim_8E10BD8[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -3602,7 +3600,7 @@ STATIC const SpriteOffset spriteDim_8E10BD8[4] = {
 };
 
 // 96 - 0x08E10C08
-STATIC const SpriteOffset spriteDim_8E10C08[14] = {
+static const SpriteOffset spriteDim_8E10C08[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -3715,7 +3713,7 @@ STATIC const SpriteOffset spriteDim_8E10C08[14] = {
 };
 
 // 98 - 0x08E10CB0
-STATIC const SpriteOffset spriteDim_8E10CB0[13] = {
+static const SpriteOffset spriteDim_8E10CB0[13] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -3823,7 +3821,7 @@ STATIC const SpriteOffset spriteDim_8E10CB0[13] = {
 };
 
 // 99 - 0x08E10D4C
-STATIC const SpriteOffset spriteDim_8E10D4C[15] = {
+static const SpriteOffset spriteDim_8E10D4C[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -3947,7 +3945,7 @@ STATIC const SpriteOffset spriteDim_8E10D4C[15] = {
 };
 
 // 100 - 0x08E10E00
-STATIC const SpriteOffset spriteDim_8E10E00[16] = {
+static const SpriteOffset spriteDim_8E10E00[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -4079,7 +4077,7 @@ STATIC const SpriteOffset spriteDim_8E10E00[16] = {
 };
 
 // 101 - 0x08E10EC0
-STATIC const SpriteOffset spriteDim_8E10EC0[4] = {
+static const SpriteOffset spriteDim_8E10EC0[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -4113,7 +4111,7 @@ STATIC const SpriteOffset spriteDim_8E10EC0[4] = {
 };
 
 // 102 - 0x08E10EF0
-STATIC const SpriteOffset spriteDim_8E10EF0[14] = {
+static const SpriteOffset spriteDim_8E10EF0[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -4229,7 +4227,7 @@ STATIC const SpriteOffset spriteDim_8E10EF0[14] = {
 };
 
 // 103 - 0x08E10F98
-STATIC const SpriteOffset spriteDim_8E10F98[5] = {
+static const SpriteOffset spriteDim_8E10F98[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -4273,7 +4271,7 @@ STATIC const SpriteOffset spriteDim_8E10F98[5] = {
 };
 
 // 104 - 0x08E10FD4
-STATIC const SpriteOffset spriteDim_8E10FD4[11] = {
+static const SpriteOffset spriteDim_8E10FD4[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -4365,7 +4363,7 @@ STATIC const SpriteOffset spriteDim_8E10FD4[11] = {
 };
 
 // 105 - 0x08E11058
-STATIC const SpriteOffset spriteDim_8E11058[11] = {
+static const SpriteOffset spriteDim_8E11058[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -4457,7 +4455,7 @@ STATIC const SpriteOffset spriteDim_8E11058[11] = {
 };
 
 // 106 - 0x08E110DC
-STATIC const SpriteOffset spriteDim_8E110DC[11] = {
+static const SpriteOffset spriteDim_8E110DC[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -4549,7 +4547,7 @@ STATIC const SpriteOffset spriteDim_8E110DC[11] = {
 };
 
 // 107 - 0x08E11160
-STATIC const SpriteOffset spriteDim_8E11160[20] = {
+static const SpriteOffset spriteDim_8E11160[20] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -4713,7 +4711,7 @@ STATIC const SpriteOffset spriteDim_8E11160[20] = {
 };
 
 // 108 - 0x08E11250
-STATIC const SpriteOffset spriteDim_8E11250[12] = {
+static const SpriteOffset spriteDim_8E11250[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -4813,7 +4811,7 @@ STATIC const SpriteOffset spriteDim_8E11250[12] = {
 };
 
 // 112 - 0x08E112E0
-STATIC const SpriteOffset spriteDim_8E112E0[14] = {
+static const SpriteOffset spriteDim_8E112E0[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -4928,7 +4926,7 @@ STATIC const SpriteOffset spriteDim_8E112E0[14] = {
     },
 };
 
-STATIC const SpriteOffset spriteDim_8E11388[2] = {
+static const SpriteOffset spriteDim_8E11388[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -4948,7 +4946,7 @@ STATIC const SpriteOffset spriteDim_8E11388[2] = {
 };
 
 // 113 - 0x08E113A0
-STATIC const SpriteOffset spriteDim_8E113A0[25] = {
+static const SpriteOffset spriteDim_8E113A0[25] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -5152,7 +5150,7 @@ STATIC const SpriteOffset spriteDim_8E113A0[25] = {
 };
 
 // 115 - 0x08E114CC
-STATIC const SpriteOffset spriteDim_8E114CC[13] = {
+static const SpriteOffset spriteDim_8E114CC[13] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -5260,7 +5258,7 @@ STATIC const SpriteOffset spriteDim_8E114CC[13] = {
 };
 
 // 116 - 0x08E11568
-STATIC const SpriteOffset spriteDim_8E11568[3] = {
+static const SpriteOffset spriteDim_8E11568[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -5288,7 +5286,7 @@ STATIC const SpriteOffset spriteDim_8E11568[3] = {
 };
 
 // 117 - 0x08E1158C
-STATIC const SpriteOffset spriteDim_8E1158C[34] = {
+static const SpriteOffset spriteDim_8E1158C[34] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -5564,7 +5562,7 @@ STATIC const SpriteOffset spriteDim_8E1158C[34] = {
 };
 
 // 119 - 0x08E11724
-STATIC const SpriteOffset spriteDim_8E11724[8] = {
+static const SpriteOffset spriteDim_8E11724[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -5632,7 +5630,7 @@ STATIC const SpriteOffset spriteDim_8E11724[8] = {
 };
 
 // 120 - 0x08E11784
-STATIC const SpriteOffset spriteDim_8E11784[12] = {
+static const SpriteOffset spriteDim_8E11784[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -5725,7 +5723,7 @@ STATIC const SpriteOffset spriteDim_8E11784[12] = {
 };
 
 // 121 - 0x08E11814
-STATIC const SpriteOffset spriteDim_8E11814[12] = {
+static const SpriteOffset spriteDim_8E11814[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -5818,7 +5816,7 @@ STATIC const SpriteOffset spriteDim_8E11814[12] = {
 };
 
 // 122 - 0x08E118A4
-STATIC const SpriteOffset spriteDim_8E118A4[3] = {
+static const SpriteOffset spriteDim_8E118A4[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -5846,7 +5844,7 @@ STATIC const SpriteOffset spriteDim_8E118A4[3] = {
 };
 
 // 125 - 0x08E118C8
-STATIC const SpriteOffset spriteDim_8E118C8[8] = {
+static const SpriteOffset spriteDim_8E118C8[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -5914,7 +5912,7 @@ STATIC const SpriteOffset spriteDim_8E118C8[8] = {
 };
 
 // 127 - 0x08E11928
-STATIC const SpriteOffset spriteDim_8E11928[9] = {
+static const SpriteOffset spriteDim_8E11928[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -5990,7 +5988,7 @@ STATIC const SpriteOffset spriteDim_8E11928[9] = {
 };
 
 // 129 - 0x08E11994
-STATIC const SpriteOffset spriteDim_8E11994[11] = {
+static const SpriteOffset spriteDim_8E11994[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -6082,7 +6080,7 @@ STATIC const SpriteOffset spriteDim_8E11994[11] = {
 };
 
 // 130 - 0x08E11A18
-STATIC const SpriteOffset spriteDim_8E11A18[16] = {
+static const SpriteOffset spriteDim_8E11A18[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -6214,7 +6212,7 @@ STATIC const SpriteOffset spriteDim_8E11A18[16] = {
 };
 
 // 131 - 0x08E11AD8
-STATIC const SpriteOffset spriteDim_8E11AD8[8] = {
+static const SpriteOffset spriteDim_8E11AD8[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -6282,7 +6280,7 @@ STATIC const SpriteOffset spriteDim_8E11AD8[8] = {
 };
 
 // 133 - 0x08E11B38
-STATIC const SpriteOffset spriteDim_8E11B38[8] = {
+static const SpriteOffset spriteDim_8E11B38[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -6350,7 +6348,7 @@ STATIC const SpriteOffset spriteDim_8E11B38[8] = {
 };
 
 // 136 - 0x08E11B98
-STATIC const SpriteOffset spriteDim_8E11B98[3] = {
+static const SpriteOffset spriteDim_8E11B98[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -6378,7 +6376,7 @@ STATIC const SpriteOffset spriteDim_8E11B98[3] = {
 };
 
 // 137 - 0x08E11BBC
-STATIC const SpriteOffset spriteDim_8E11BBC[10] = {
+static const SpriteOffset spriteDim_8E11BBC[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -6462,7 +6460,7 @@ STATIC const SpriteOffset spriteDim_8E11BBC[10] = {
 };
 
 // 138 - 0x08E11C34
-STATIC const SpriteOffset spriteDim_8E11C34[5] = {
+static const SpriteOffset spriteDim_8E11C34[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -6506,7 +6504,7 @@ STATIC const SpriteOffset spriteDim_8E11C34[5] = {
 };
 
 // 139 - 0x08E11C70
-STATIC const SpriteOffset spriteDim_8E11C70[5] = {
+static const SpriteOffset spriteDim_8E11C70[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -6550,7 +6548,7 @@ STATIC const SpriteOffset spriteDim_8E11C70[5] = {
 };
 
 // 140 - 0x08E11CAC
-STATIC const SpriteOffset spriteDim_8E11CAC[3] = {
+static const SpriteOffset spriteDim_8E11CAC[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -6578,7 +6576,7 @@ STATIC const SpriteOffset spriteDim_8E11CAC[3] = {
 };
 
 // 141 - 0x08E11CD0
-STATIC const SpriteOffset spriteDim_8E11CD0[10] = {
+static const SpriteOffset spriteDim_8E11CD0[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -6662,7 +6660,7 @@ STATIC const SpriteOffset spriteDim_8E11CD0[10] = {
 };
 
 // 142 - 0x08E11D48
-STATIC const SpriteOffset spriteDim_8E11D48[10] = {
+static const SpriteOffset spriteDim_8E11D48[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -6746,7 +6744,7 @@ STATIC const SpriteOffset spriteDim_8E11D48[10] = {
 };
 
 // 143 - 0x08E11DC0
-STATIC const SpriteOffset spriteDim_8E11DC0[1] = {
+static const SpriteOffset spriteDim_8E11DC0[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -6758,7 +6756,7 @@ STATIC const SpriteOffset spriteDim_8E11DC0[1] = {
 };
 
 // 144 - 0x08E11DCC
-STATIC const SpriteOffset spriteDim_8E11DCC[8] = {
+static const SpriteOffset spriteDim_8E11DCC[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -6825,7 +6823,7 @@ STATIC const SpriteOffset spriteDim_8E11DCC[8] = {
 };
 
 // 146 - 0x08E11E2C
-STATIC const SpriteOffset spriteDim_8E11E2C[3] = {
+static const SpriteOffset spriteDim_8E11E2C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -6853,7 +6851,7 @@ STATIC const SpriteOffset spriteDim_8E11E2C[3] = {
 };
 
 // 147 - 0x08E11E50
-STATIC const SpriteOffset spriteDim_8E11E50[15] = {
+static const SpriteOffset spriteDim_8E11E50[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -6977,7 +6975,7 @@ STATIC const SpriteOffset spriteDim_8E11E50[15] = {
 };
 
 // 148 - 0x08E11F04
-STATIC const SpriteOffset spriteDim_8E11F04[6] = {
+static const SpriteOffset spriteDim_8E11F04[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -7029,7 +7027,7 @@ STATIC const SpriteOffset spriteDim_8E11F04[6] = {
 };
 
 // 149 - 0x08E11F4C
-STATIC const SpriteOffset spriteDim_8E11F4C[6] = {
+static const SpriteOffset spriteDim_8E11F4C[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -7081,7 +7079,7 @@ STATIC const SpriteOffset spriteDim_8E11F4C[6] = {
 };
 
 // 150 - 0x08E11F94
-STATIC const SpriteOffset spriteDim_8E11F94[8] = {
+static const SpriteOffset spriteDim_8E11F94[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -7149,7 +7147,7 @@ STATIC const SpriteOffset spriteDim_8E11F94[8] = {
 };
 
 // 152 - 0x08E11FF4
-STATIC const SpriteOffset spriteDim_8E11FF4[21] = {
+static const SpriteOffset spriteDim_8E11FF4[21] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -7321,7 +7319,7 @@ STATIC const SpriteOffset spriteDim_8E11FF4[21] = {
 };
 
 // 153 - 0x08E120F0
-STATIC const SpriteOffset spriteDim_8E120F0[22] = {
+static const SpriteOffset spriteDim_8E120F0[22] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -7501,7 +7499,7 @@ STATIC const SpriteOffset spriteDim_8E120F0[22] = {
 };
 
 // 154 - 0x08E121F8
-STATIC const SpriteOffset spriteDim_8E121F8[11] = {
+static const SpriteOffset spriteDim_8E121F8[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -7592,7 +7590,7 @@ STATIC const SpriteOffset spriteDim_8E121F8[11] = {
 };
 
 // 156 - 0x08E1227C
-STATIC const SpriteOffset spriteDim_8E1227C[2] = {
+static const SpriteOffset spriteDim_8E1227C[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -7612,7 +7610,7 @@ STATIC const SpriteOffset spriteDim_8E1227C[2] = {
 };
 
 // 157 - 0x08E12294
-STATIC const SpriteOffset spriteDim_8E12294[35] = {
+static const SpriteOffset spriteDim_8E12294[35] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -7896,7 +7894,7 @@ STATIC const SpriteOffset spriteDim_8E12294[35] = {
 };
 
 // 158 - 0x08E12438
-STATIC const SpriteOffset spriteDim_8E12438[39] = {
+static const SpriteOffset spriteDim_8E12438[39] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -8212,7 +8210,7 @@ STATIC const SpriteOffset spriteDim_8E12438[39] = {
 };
 
 // 161 - 0x08E1260C
-STATIC const SpriteOffset spriteDim_8E1260C[45] = {
+static const SpriteOffset spriteDim_8E1260C[45] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -8576,7 +8574,7 @@ STATIC const SpriteOffset spriteDim_8E1260C[45] = {
 };
 
 // 162 - 0x08E12828
-STATIC const SpriteOffset spriteDim_8E12828[9] = {
+static const SpriteOffset spriteDim_8E12828[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -8652,7 +8650,7 @@ STATIC const SpriteOffset spriteDim_8E12828[9] = {
 };
 
 // 163 - 0x08E12894
-STATIC const SpriteOffset spriteDim_8E12894[13] = {
+static const SpriteOffset spriteDim_8E12894[13] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -8760,7 +8758,7 @@ STATIC const SpriteOffset spriteDim_8E12894[13] = {
 };
 
 // 164 - 0x08E12930
-STATIC const SpriteOffset spriteDim_8E12930[7] = {
+static const SpriteOffset spriteDim_8E12930[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -8820,7 +8818,7 @@ STATIC const SpriteOffset spriteDim_8E12930[7] = {
 };
 
 // 165 - 0x08E12984
-STATIC const SpriteOffset spriteDim_8E12984[6] = {
+static const SpriteOffset spriteDim_8E12984[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -8872,7 +8870,7 @@ STATIC const SpriteOffset spriteDim_8E12984[6] = {
 };
 
 // 166 - 0x08E129CC
-STATIC const SpriteOffset spriteDim_8E129CC[4] = {
+static const SpriteOffset spriteDim_8E129CC[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -8908,7 +8906,7 @@ STATIC const SpriteOffset spriteDim_8E129CC[4] = {
 };
 
 // 167 - 0x08E129FC
-STATIC const SpriteOffset spriteDim_8E129FC[7] = {
+static const SpriteOffset spriteDim_8E129FC[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -8968,7 +8966,7 @@ STATIC const SpriteOffset spriteDim_8E129FC[7] = {
 };
 
 // 168 - 0x08E12A50
-STATIC const SpriteOffset spriteDim_8E12A50[4] = {
+static const SpriteOffset spriteDim_8E12A50[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -9004,7 +9002,7 @@ STATIC const SpriteOffset spriteDim_8E12A50[4] = {
 };
 
 // 169 - 0x08E12A80
-STATIC const SpriteOffset spriteDim_8E12A80[21] = {
+static const SpriteOffset spriteDim_8E12A80[21] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -9176,7 +9174,7 @@ STATIC const SpriteOffset spriteDim_8E12A80[21] = {
 };
 
 // 170 - 0x08E12B7C
-STATIC const SpriteOffset spriteDim_8E12B7C[13] = {
+static const SpriteOffset spriteDim_8E12B7C[13] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -9284,7 +9282,7 @@ STATIC const SpriteOffset spriteDim_8E12B7C[13] = {
 };
 
 // 171 - 0x08E12C18
-STATIC const SpriteOffset spriteDim_8E12C18[57] = {
+static const SpriteOffset spriteDim_8E12C18[57] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -9744,7 +9742,7 @@ STATIC const SpriteOffset spriteDim_8E12C18[57] = {
 };
 
 // 172 - 0x08E12EC4
-STATIC const SpriteOffset spriteDim_8E12EC4[36] = {
+static const SpriteOffset spriteDim_8E12EC4[36] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -10036,7 +10034,7 @@ STATIC const SpriteOffset spriteDim_8E12EC4[36] = {
 };
 
 // 173 - 0x08E13074
-STATIC const SpriteOffset spriteDim_8E13074[8] = {
+static const SpriteOffset spriteDim_8E13074[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -10104,7 +10102,7 @@ STATIC const SpriteOffset spriteDim_8E13074[8] = {
 };
 
 // 174 - 0x08E130D4
-STATIC const SpriteOffset spriteDim_8E130D4[12] = {
+static const SpriteOffset spriteDim_8E130D4[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -10204,7 +10202,7 @@ STATIC const SpriteOffset spriteDim_8E130D4[12] = {
 };
 
 // 175 - 0x08E13164
-STATIC const SpriteOffset spriteDim_8E13164[2] = {
+static const SpriteOffset spriteDim_8E13164[2] = {
     {
        .oamIndex     = 16384,
        .numSubframes = 1,
@@ -10224,7 +10222,7 @@ STATIC const SpriteOffset spriteDim_8E13164[2] = {
 };
 
 // 176 - 0x08E1317C
-STATIC const SpriteOffset spriteDim_8E1317C[5] = {
+static const SpriteOffset spriteDim_8E1317C[5] = {
     {
        .oamIndex     = 16384,
        .numSubframes = 2,
@@ -10268,7 +10266,7 @@ STATIC const SpriteOffset spriteDim_8E1317C[5] = {
 };
 
 // 177 - 0x08E131B8
-STATIC const SpriteOffset spriteDim_8E131B8[3] = {
+static const SpriteOffset spriteDim_8E131B8[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -10296,7 +10294,7 @@ STATIC const SpriteOffset spriteDim_8E131B8[3] = {
 };
 
 // 178 - 0x08E131DC
-STATIC const SpriteOffset spriteDim_8E131DC[4] = {
+static const SpriteOffset spriteDim_8E131DC[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -10332,7 +10330,7 @@ STATIC const SpriteOffset spriteDim_8E131DC[4] = {
 };
 
 // 179 - 0x08E1320C
-STATIC const SpriteOffset spriteDim_8E1320C[5] = {
+static const SpriteOffset spriteDim_8E1320C[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -10376,7 +10374,7 @@ STATIC const SpriteOffset spriteDim_8E1320C[5] = {
 };
 
 // 180 - 0x08E13248
-STATIC const SpriteOffset spriteDim_8E13248[15] = {
+static const SpriteOffset spriteDim_8E13248[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -10500,7 +10498,7 @@ STATIC const SpriteOffset spriteDim_8E13248[15] = {
 };
 
 // 181 - 0x08E132FC
-STATIC const SpriteOffset spriteDim_8E132FC[5] = {
+static const SpriteOffset spriteDim_8E132FC[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -10544,7 +10542,7 @@ STATIC const SpriteOffset spriteDim_8E132FC[5] = {
 };
 
 // 182 - 0x08E13338
-STATIC const SpriteOffset spriteDim_8E13338[14] = {
+static const SpriteOffset spriteDim_8E13338[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -10660,7 +10658,7 @@ STATIC const SpriteOffset spriteDim_8E13338[14] = {
 };
 
 // 183 - 0x08E133E0
-STATIC const SpriteOffset spriteDim_8E133E0[14] = {
+static const SpriteOffset spriteDim_8E133E0[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -10776,7 +10774,7 @@ STATIC const SpriteOffset spriteDim_8E133E0[14] = {
 };
 
 // 184 - 0x08E13488
-STATIC const SpriteOffset spriteDim_8E13488[12] = {
+static const SpriteOffset spriteDim_8E13488[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -10876,7 +10874,7 @@ STATIC const SpriteOffset spriteDim_8E13488[12] = {
 };
 
 // 185 - 0x08E13518
-STATIC const SpriteOffset spriteDim_8E13518[4] = {
+static const SpriteOffset spriteDim_8E13518[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -10912,7 +10910,7 @@ STATIC const SpriteOffset spriteDim_8E13518[4] = {
 };
 
 // 186 - 0x08E13548
-STATIC const SpriteOffset spriteDim_8E13548[4] = {
+static const SpriteOffset spriteDim_8E13548[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -10948,7 +10946,7 @@ STATIC const SpriteOffset spriteDim_8E13548[4] = {
 };
 
 // 187 - 0x08E13578
-STATIC const SpriteOffset spriteDim_8E13578[5] = {
+static const SpriteOffset spriteDim_8E13578[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -10992,7 +10990,7 @@ STATIC const SpriteOffset spriteDim_8E13578[5] = {
 };
 
 // 188 - 0x08E135B4
-STATIC const SpriteOffset spriteDim_8E135B4[13] = {
+static const SpriteOffset spriteDim_8E135B4[13] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -11100,7 +11098,7 @@ STATIC const SpriteOffset spriteDim_8E135B4[13] = {
 };
 
 // 189 - 0x08E13650
-STATIC const SpriteOffset spriteDim_8E13650[10] = {
+static const SpriteOffset spriteDim_8E13650[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -11184,7 +11182,7 @@ STATIC const SpriteOffset spriteDim_8E13650[10] = {
 };
 
 // 190 - 0x08E136C8
-STATIC const SpriteOffset spriteDim_8E136C8[5] = {
+static const SpriteOffset spriteDim_8E136C8[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -11228,7 +11226,7 @@ STATIC const SpriteOffset spriteDim_8E136C8[5] = {
 };
 
 // 192 - 0x08E13704
-STATIC const SpriteOffset spriteDim_8E13704[15] = {
+static const SpriteOffset spriteDim_8E13704[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -11352,7 +11350,7 @@ STATIC const SpriteOffset spriteDim_8E13704[15] = {
 };
 
 // 196 - 0x08E137B8
-STATIC const SpriteOffset spriteDim_8E137B8[9] = {
+static const SpriteOffset spriteDim_8E137B8[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -11428,7 +11426,7 @@ STATIC const SpriteOffset spriteDim_8E137B8[9] = {
 };
 
 // 197 - 0x08E13824
-STATIC const SpriteOffset spriteDim_8E13824[8] = {
+static const SpriteOffset spriteDim_8E13824[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -11496,7 +11494,7 @@ STATIC const SpriteOffset spriteDim_8E13824[8] = {
 };
 
 // 198 - 0x08E13884
-STATIC const SpriteOffset spriteDim_8E13884[8] = {
+static const SpriteOffset spriteDim_8E13884[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -11564,7 +11562,7 @@ STATIC const SpriteOffset spriteDim_8E13884[8] = {
 };
 
 // 199 - 0x08E138E4
-STATIC const SpriteOffset spriteDim_8E138E4[3] = {
+static const SpriteOffset spriteDim_8E138E4[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -11592,7 +11590,7 @@ STATIC const SpriteOffset spriteDim_8E138E4[3] = {
 };
 
 // 200 - 0x08E13908
-STATIC const SpriteOffset spriteDim_8E13908[15] = {
+static const SpriteOffset spriteDim_8E13908[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -11716,7 +11714,7 @@ STATIC const SpriteOffset spriteDim_8E13908[15] = {
 };
 
 // 201 - 0x08E139BC
-STATIC const SpriteOffset spriteDim_8E139BC[16] = {
+static const SpriteOffset spriteDim_8E139BC[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -11848,7 +11846,7 @@ STATIC const SpriteOffset spriteDim_8E139BC[16] = {
 };
 
 // 203 - 0x08E13A7C
-STATIC const SpriteOffset spriteDim_8E13A7C[15] = {
+static const SpriteOffset spriteDim_8E13A7C[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -11972,7 +11970,7 @@ STATIC const SpriteOffset spriteDim_8E13A7C[15] = {
 };
 
 // 204 - 0x08E13B30
-STATIC const SpriteOffset spriteDim_8E13B30[16] = {
+static const SpriteOffset spriteDim_8E13B30[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -12104,7 +12102,7 @@ STATIC const SpriteOffset spriteDim_8E13B30[16] = {
 };
 
 // 205 - 0x08E13BF0
-STATIC const SpriteOffset spriteDim_8E13BF0[13] = {
+static const SpriteOffset spriteDim_8E13BF0[13] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -12212,7 +12210,7 @@ STATIC const SpriteOffset spriteDim_8E13BF0[13] = {
 };
 
 // 207 - 0x08E13C8C
-STATIC const SpriteOffset spriteDim_8E13C8C[18] = {
+static const SpriteOffset spriteDim_8E13C8C[18] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -12360,7 +12358,7 @@ STATIC const SpriteOffset spriteDim_8E13C8C[18] = {
 };
 
 // 209 - 0x08E13D64
-STATIC const SpriteOffset spriteDim_8E13D64[15] = {
+static const SpriteOffset spriteDim_8E13D64[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -12484,7 +12482,7 @@ STATIC const SpriteOffset spriteDim_8E13D64[15] = {
 };
 
 // 210 - 0x08E13E18
-STATIC const SpriteOffset spriteDim_8E13E18[17] = {
+static const SpriteOffset spriteDim_8E13E18[17] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -12624,7 +12622,7 @@ STATIC const SpriteOffset spriteDim_8E13E18[17] = {
 };
 
 // 220 - 0x08E13EE4
-STATIC const SpriteOffset spriteDim_8E13EE4[7] = {
+static const SpriteOffset spriteDim_8E13EE4[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -12684,7 +12682,7 @@ STATIC const SpriteOffset spriteDim_8E13EE4[7] = {
 };
 
 // 238 - 0x08E13F38
-STATIC const SpriteOffset spriteDim_8E13F38[10] = {
+static const SpriteOffset spriteDim_8E13F38[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -12768,7 +12766,7 @@ STATIC const SpriteOffset spriteDim_8E13F38[10] = {
 };
 
 // 239 - 0x08E13FB0
-STATIC const SpriteOffset spriteDim_8E13FB0[1] = {
+static const SpriteOffset spriteDim_8E13FB0[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -12780,7 +12778,7 @@ STATIC const SpriteOffset spriteDim_8E13FB0[1] = {
 };
 
 // 240 - 0x08E13FBC
-STATIC const SpriteOffset spriteDim_8E13FBC[15] = {
+static const SpriteOffset spriteDim_8E13FBC[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -12904,7 +12902,7 @@ STATIC const SpriteOffset spriteDim_8E13FBC[15] = {
 };
 
 // 241 - 0x08E14070
-STATIC const SpriteOffset spriteDim_8E14070[14] = {
+static const SpriteOffset spriteDim_8E14070[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -13020,7 +13018,7 @@ STATIC const SpriteOffset spriteDim_8E14070[14] = {
 };
 
 // 244 - 0x08E14118
-STATIC const SpriteOffset spriteDim_8E14118[11] = {
+static const SpriteOffset spriteDim_8E14118[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -13112,7 +13110,7 @@ STATIC const SpriteOffset spriteDim_8E14118[11] = {
 };
 
 // 252 - 0x08E1419C
-STATIC const SpriteOffset spriteDim_8E1419C[12] = {
+static const SpriteOffset spriteDim_8E1419C[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -13212,7 +13210,7 @@ STATIC const SpriteOffset spriteDim_8E1419C[12] = {
 };
 
 // 254 - 0x08E1422C
-STATIC const SpriteOffset spriteDim_8E1422C[12] = {
+static const SpriteOffset spriteDim_8E1422C[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -13311,7 +13309,7 @@ STATIC const SpriteOffset spriteDim_8E1422C[12] = {
 };
 
 // 255 - 0x08E142BC
-STATIC const SpriteOffset spriteDim_8E142BC[8] = {
+static const SpriteOffset spriteDim_8E142BC[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -13379,7 +13377,7 @@ STATIC const SpriteOffset spriteDim_8E142BC[8] = {
 };
 
 // 256 - 0x08E1431C
-STATIC const SpriteOffset spriteDim_8E1431C[2] = {
+static const SpriteOffset spriteDim_8E1431C[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -13399,7 +13397,7 @@ STATIC const SpriteOffset spriteDim_8E1431C[2] = {
 };
 
 // 257 - 0x08E14334
-STATIC const SpriteOffset spriteDim_8E14334[4] = {
+static const SpriteOffset spriteDim_8E14334[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -13435,7 +13433,7 @@ STATIC const SpriteOffset spriteDim_8E14334[4] = {
 };
 
 // 258 - 0x08E14364
-STATIC const SpriteOffset spriteDim_8E14364[4] = {
+static const SpriteOffset spriteDim_8E14364[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -13471,7 +13469,7 @@ STATIC const SpriteOffset spriteDim_8E14364[4] = {
 };
 
 // 259 - 0x08E14394
-STATIC const SpriteOffset spriteDim_8E14394[9] = {
+static const SpriteOffset spriteDim_8E14394[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -13547,7 +13545,7 @@ STATIC const SpriteOffset spriteDim_8E14394[9] = {
 };
 
 // 264 - 0x08E14400
-STATIC const SpriteOffset spriteDim_8E14400[4] = {
+static const SpriteOffset spriteDim_8E14400[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -13583,7 +13581,7 @@ STATIC const SpriteOffset spriteDim_8E14400[4] = {
 };
 
 // 265 - 0x08E14430
-STATIC const SpriteOffset spriteDim_8E14430[15] = {
+static const SpriteOffset spriteDim_8E14430[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -13703,7 +13701,7 @@ STATIC const SpriteOffset spriteDim_8E14430[15] = {
 };
 
 // 266 - 0x08E144E4
-STATIC const SpriteOffset spriteDim_8E144E4[5] = {
+static const SpriteOffset spriteDim_8E144E4[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -13747,7 +13745,7 @@ STATIC const SpriteOffset spriteDim_8E144E4[5] = {
 };
 
 // 267 - 0x08E14520
-STATIC const SpriteOffset spriteDim_8E14520[18] = {
+static const SpriteOffset spriteDim_8E14520[18] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -13895,7 +13893,7 @@ STATIC const SpriteOffset spriteDim_8E14520[18] = {
 };
 
 // 268 - 0x08E145F8
-STATIC const SpriteOffset spriteDim_8E145F8[12] = {
+static const SpriteOffset spriteDim_8E145F8[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -13995,7 +13993,7 @@ STATIC const SpriteOffset spriteDim_8E145F8[12] = {
 };
 
 // 269 - 0x08E14688
-STATIC const SpriteOffset spriteDim_8E14688[16] = {
+static const SpriteOffset spriteDim_8E14688[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -14127,7 +14125,7 @@ STATIC const SpriteOffset spriteDim_8E14688[16] = {
 };
 
 // 271 - 0x08E14748
-STATIC const SpriteOffset spriteDim_8E14748[12] = {
+static const SpriteOffset spriteDim_8E14748[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -14227,7 +14225,7 @@ STATIC const SpriteOffset spriteDim_8E14748[12] = {
 };
 
 // 275 - 0x08E147D8
-STATIC const SpriteOffset spriteDim_8E147D8[15] = {
+static const SpriteOffset spriteDim_8E147D8[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -14350,7 +14348,7 @@ STATIC const SpriteOffset spriteDim_8E147D8[15] = {
     },
 };
 
-STATIC const SpriteOffset spriteDim_8E1488C[9] = {
+static const SpriteOffset spriteDim_8E1488C[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -14426,7 +14424,7 @@ STATIC const SpriteOffset spriteDim_8E1488C[9] = {
 };
 
 // 282 - 0x08E148F8
-STATIC const SpriteOffset spriteDim_8E148F8[8] = {
+static const SpriteOffset spriteDim_8E148F8[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -14494,7 +14492,7 @@ STATIC const SpriteOffset spriteDim_8E148F8[8] = {
 };
 
 // 283 - 0x08E14958
-STATIC const SpriteOffset spriteDim_8E14958[12] = {
+static const SpriteOffset spriteDim_8E14958[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -14586,7 +14584,7 @@ STATIC const SpriteOffset spriteDim_8E14958[12] = {
 };
 
 // 284 - 0x08E149E8
-STATIC const SpriteOffset spriteDim_8E149E8[12] = {
+static const SpriteOffset spriteDim_8E149E8[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -14678,7 +14676,7 @@ STATIC const SpriteOffset spriteDim_8E149E8[12] = {
 };
 
 // 285 - 0x08E14A78
-STATIC const SpriteOffset spriteDim_8E14A78[3] = {
+static const SpriteOffset spriteDim_8E14A78[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -14706,7 +14704,7 @@ STATIC const SpriteOffset spriteDim_8E14A78[3] = {
 };
 
 // 288 - 0x08E14A9C
-STATIC const SpriteOffset spriteDim_8E14A9C[8] = {
+static const SpriteOffset spriteDim_8E14A9C[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -14774,7 +14772,7 @@ STATIC const SpriteOffset spriteDim_8E14A9C[8] = {
 };
 
 // 290 - 0x08E14AFC
-STATIC const SpriteOffset spriteDim_8E14AFC[9] = {
+static const SpriteOffset spriteDim_8E14AFC[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -14850,7 +14848,7 @@ STATIC const SpriteOffset spriteDim_8E14AFC[9] = {
 };
 
 // 292 - 0x08E14B68
-STATIC const SpriteOffset spriteDim_8E14B68[11] = {
+static const SpriteOffset spriteDim_8E14B68[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -14942,7 +14940,7 @@ STATIC const SpriteOffset spriteDim_8E14B68[11] = {
 };
 
 // 293 - 0x08E14BEC
-STATIC const SpriteOffset spriteDim_8E14BEC[16] = {
+static const SpriteOffset spriteDim_8E14BEC[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -15074,7 +15072,7 @@ STATIC const SpriteOffset spriteDim_8E14BEC[16] = {
 };
 
 // 294 - 0x08E14CAC
-STATIC const SpriteOffset spriteDim_8E14CAC[8] = {
+static const SpriteOffset spriteDim_8E14CAC[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -15142,7 +15140,7 @@ STATIC const SpriteOffset spriteDim_8E14CAC[8] = {
 };
 
 // 296 - 0x08E14D0C
-STATIC const SpriteOffset spriteDim_8E14D0C[8] = {
+static const SpriteOffset spriteDim_8E14D0C[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -15210,7 +15208,7 @@ STATIC const SpriteOffset spriteDim_8E14D0C[8] = {
 };
 
 // 299 - 0x08E14D6C
-STATIC const SpriteOffset spriteDim_8E14D6C[3] = {
+static const SpriteOffset spriteDim_8E14D6C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -15238,7 +15236,7 @@ STATIC const SpriteOffset spriteDim_8E14D6C[3] = {
 };
 
 // 300 - 0x08E14D90
-STATIC const SpriteOffset spriteDim_8E14D90[10] = {
+static const SpriteOffset spriteDim_8E14D90[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -15322,7 +15320,7 @@ STATIC const SpriteOffset spriteDim_8E14D90[10] = {
 };
 
 // 301 - 0x08E14E08
-STATIC const SpriteOffset spriteDim_8E14E08[5] = {
+static const SpriteOffset spriteDim_8E14E08[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -15366,7 +15364,7 @@ STATIC const SpriteOffset spriteDim_8E14E08[5] = {
 };
 
 // 302 - 0x08E14E44
-STATIC const SpriteOffset spriteDim_8E14E44[5] = {
+static const SpriteOffset spriteDim_8E14E44[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -15410,7 +15408,7 @@ STATIC const SpriteOffset spriteDim_8E14E44[5] = {
 };
 
 // 303 - 0x08E14E80
-STATIC const SpriteOffset spriteDim_8E14E80[3] = {
+static const SpriteOffset spriteDim_8E14E80[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -15438,7 +15436,7 @@ STATIC const SpriteOffset spriteDim_8E14E80[3] = {
 };
 
 // 304 - 0x08E14EA4
-STATIC const SpriteOffset spriteDim_8E14EA4[13] = {
+static const SpriteOffset spriteDim_8E14EA4[13] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -15546,7 +15544,7 @@ STATIC const SpriteOffset spriteDim_8E14EA4[13] = {
 };
 
 // 305 - 0x08E14F40
-STATIC const SpriteOffset spriteDim_8E14F40[10] = {
+static const SpriteOffset spriteDim_8E14F40[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -15630,7 +15628,7 @@ STATIC const SpriteOffset spriteDim_8E14F40[10] = {
 };
 
 // 306 - 0x08E14FB8
-STATIC const SpriteOffset spriteDim_8E14FB8[1] = {
+static const SpriteOffset spriteDim_8E14FB8[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -15642,7 +15640,7 @@ STATIC const SpriteOffset spriteDim_8E14FB8[1] = {
 };
 
 // 307 - 0x08E14FC4
-STATIC const SpriteOffset spriteDim_8E14FC4[8] = {
+static const SpriteOffset spriteDim_8E14FC4[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -15709,7 +15707,7 @@ STATIC const SpriteOffset spriteDim_8E14FC4[8] = {
 };
 
 // 309 - 0x08E15024
-STATIC const SpriteOffset spriteDim_8E15024[3] = {
+static const SpriteOffset spriteDim_8E15024[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -15737,7 +15735,7 @@ STATIC const SpriteOffset spriteDim_8E15024[3] = {
 };
 
 // 310 - 0x08E15048
-STATIC const SpriteOffset spriteDim_8E15048[15] = {
+static const SpriteOffset spriteDim_8E15048[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -15861,7 +15859,7 @@ STATIC const SpriteOffset spriteDim_8E15048[15] = {
 };
 
 // 311 - 0x08E150FC
-STATIC const SpriteOffset spriteDim_8E150FC[6] = {
+static const SpriteOffset spriteDim_8E150FC[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -15913,7 +15911,7 @@ STATIC const SpriteOffset spriteDim_8E150FC[6] = {
 };
 
 // 312 - 0x08E15144
-STATIC const SpriteOffset spriteDim_8E15144[6] = {
+static const SpriteOffset spriteDim_8E15144[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -15965,7 +15963,7 @@ STATIC const SpriteOffset spriteDim_8E15144[6] = {
 };
 
 // 313 - 0x08E1518C
-STATIC const SpriteOffset spriteDim_8E1518C[8] = {
+static const SpriteOffset spriteDim_8E1518C[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -16033,7 +16031,7 @@ STATIC const SpriteOffset spriteDim_8E1518C[8] = {
 };
 
 // 315 - 0x08E151EC
-STATIC const SpriteOffset spriteDim_8E151EC[23] = {
+static const SpriteOffset spriteDim_8E151EC[23] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -16221,7 +16219,7 @@ STATIC const SpriteOffset spriteDim_8E151EC[23] = {
 };
 
 // 316 - 0x08E15300
-STATIC const SpriteOffset spriteDim_8E15300[20] = {
+static const SpriteOffset spriteDim_8E15300[20] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -16384,7 +16382,7 @@ STATIC const SpriteOffset spriteDim_8E15300[20] = {
     },
 };
 
-STATIC const SpriteOffset spriteDim_8E153F0[9] = {
+static const SpriteOffset spriteDim_8E153F0[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -16458,7 +16456,7 @@ STATIC const SpriteOffset spriteDim_8E153F0[9] = {
 };
 
 // 319 - 0x08E1545C
-STATIC const SpriteOffset spriteDim_8E1545C[2] = {
+static const SpriteOffset spriteDim_8E1545C[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -16478,7 +16476,7 @@ STATIC const SpriteOffset spriteDim_8E1545C[2] = {
 };
 
 // 320 - 0x08E15474
-STATIC const SpriteOffset spriteDim_8E15474[23] = {
+static const SpriteOffset spriteDim_8E15474[23] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -16666,7 +16664,7 @@ STATIC const SpriteOffset spriteDim_8E15474[23] = {
 };
 
 // 321 - 0x08E15588
-STATIC const SpriteOffset spriteDim_8E15588[28] = {
+static const SpriteOffset spriteDim_8E15588[28] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -16894,7 +16892,7 @@ STATIC const SpriteOffset spriteDim_8E15588[28] = {
 };
 
 // 324 - 0x08E156D8
-STATIC const SpriteOffset spriteDim_8E156D8[46] = {
+static const SpriteOffset spriteDim_8E156D8[46] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -17266,7 +17264,7 @@ STATIC const SpriteOffset spriteDim_8E156D8[46] = {
 };
 
 // 325 - 0x08E15900
-STATIC const SpriteOffset spriteDim_8E15900[7] = {
+static const SpriteOffset spriteDim_8E15900[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -17326,7 +17324,7 @@ STATIC const SpriteOffset spriteDim_8E15900[7] = {
 };
 
 // 326 - 0x08E15954
-STATIC const SpriteOffset spriteDim_8E15954[16] = {
+static const SpriteOffset spriteDim_8E15954[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -17458,7 +17456,7 @@ STATIC const SpriteOffset spriteDim_8E15954[16] = {
 };
 
 // 327 - 0x08E15A14
-STATIC const SpriteOffset spriteDim_8E15A14[6] = {
+static const SpriteOffset spriteDim_8E15A14[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -17510,7 +17508,7 @@ STATIC const SpriteOffset spriteDim_8E15A14[6] = {
 };
 
 // 328 - 0x08E15A5C
-STATIC const SpriteOffset spriteDim_8E15A5C[13] = {
+static const SpriteOffset spriteDim_8E15A5C[13] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -17618,7 +17616,7 @@ STATIC const SpriteOffset spriteDim_8E15A5C[13] = {
 };
 
 // 329 - 0x08E15AF8
-STATIC const SpriteOffset spriteDim_8E15AF8[4] = {
+static const SpriteOffset spriteDim_8E15AF8[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -17654,7 +17652,7 @@ STATIC const SpriteOffset spriteDim_8E15AF8[4] = {
 };
 
 // 330 - 0x08E15B28
-STATIC const SpriteOffset spriteDim_8E15B28[11] = {
+static const SpriteOffset spriteDim_8E15B28[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -17746,7 +17744,7 @@ STATIC const SpriteOffset spriteDim_8E15B28[11] = {
 };
 
 // 331 - 0x08E15BAC
-STATIC const SpriteOffset spriteDim_8E15BAC[14] = {
+static const SpriteOffset spriteDim_8E15BAC[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -17862,7 +17860,7 @@ STATIC const SpriteOffset spriteDim_8E15BAC[14] = {
 };
 
 // 332 - 0x08E15C54
-STATIC const SpriteOffset spriteDim_8E15C54[35] = {
+static const SpriteOffset spriteDim_8E15C54[35] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -18146,7 +18144,7 @@ STATIC const SpriteOffset spriteDim_8E15C54[35] = {
 };
 
 // 333 - 0x08E15DF8
-STATIC const SpriteOffset spriteDim_8E15DF8[43] = {
+static const SpriteOffset spriteDim_8E15DF8[43] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -18494,7 +18492,7 @@ STATIC const SpriteOffset spriteDim_8E15DF8[43] = {
 };
 
 // 334 - 0x08E15FFC
-STATIC const SpriteOffset spriteDim_8E15FFC[53] = {
+static const SpriteOffset spriteDim_8E15FFC[53] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -18922,7 +18920,7 @@ STATIC const SpriteOffset spriteDim_8E15FFC[53] = {
 };
 
 // 335 - 0x08E16278
-STATIC const SpriteOffset spriteDim_8E16278[24] = {
+static const SpriteOffset spriteDim_8E16278[24] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -19118,7 +19116,7 @@ STATIC const SpriteOffset spriteDim_8E16278[24] = {
 };
 
 // 336 - 0x08E16398
-STATIC const SpriteOffset spriteDim_8E16398[8] = {
+static const SpriteOffset spriteDim_8E16398[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -19186,7 +19184,7 @@ STATIC const SpriteOffset spriteDim_8E16398[8] = {
 };
 
 // 337 - 0x08E163F8
-STATIC const SpriteOffset spriteDim_8E163F8[12] = {
+static const SpriteOffset spriteDim_8E163F8[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -19286,7 +19284,7 @@ STATIC const SpriteOffset spriteDim_8E163F8[12] = {
 };
 
 // 338 - 0x08E16488
-STATIC const SpriteOffset spriteDim_8E16488[2] = {
+static const SpriteOffset spriteDim_8E16488[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -19306,7 +19304,7 @@ STATIC const SpriteOffset spriteDim_8E16488[2] = {
 };
 
 // 339 - 0x08E164A0
-STATIC const SpriteOffset spriteDim_8E164A0[4] = {
+static const SpriteOffset spriteDim_8E164A0[4] = {
     {
        .oamIndex     = 16384,
        .numSubframes = 2,
@@ -19342,7 +19340,7 @@ STATIC const SpriteOffset spriteDim_8E164A0[4] = {
 };
 
 // 340 - 0x08E164D0
-STATIC const SpriteOffset spriteDim_8E164D0[3] = {
+static const SpriteOffset spriteDim_8E164D0[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -19370,7 +19368,7 @@ STATIC const SpriteOffset spriteDim_8E164D0[3] = {
 };
 
 // 341 - 0x08E164F4
-STATIC const SpriteOffset spriteDim_8E164F4[4] = {
+static const SpriteOffset spriteDim_8E164F4[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -19406,7 +19404,7 @@ STATIC const SpriteOffset spriteDim_8E164F4[4] = {
 };
 
 // 342 - 0x08E16524
-STATIC const SpriteOffset spriteDim_8E16524[6] = {
+static const SpriteOffset spriteDim_8E16524[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -19458,7 +19456,7 @@ STATIC const SpriteOffset spriteDim_8E16524[6] = {
 };
 
 // 343 - 0x08E1656C
-STATIC const SpriteOffset spriteDim_8E1656C[5] = {
+static const SpriteOffset spriteDim_8E1656C[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -19502,7 +19500,7 @@ STATIC const SpriteOffset spriteDim_8E1656C[5] = {
 };
 
 // 344 - 0x08E165A8
-STATIC const SpriteOffset spriteDim_8E165A8[4] = {
+static const SpriteOffset spriteDim_8E165A8[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -19538,7 +19536,7 @@ STATIC const SpriteOffset spriteDim_8E165A8[4] = {
 };
 
 // 345 - 0x08E165D8
-STATIC const SpriteOffset spriteDim_8E165D8[16] = {
+static const SpriteOffset spriteDim_8E165D8[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -19670,7 +19668,7 @@ STATIC const SpriteOffset spriteDim_8E165D8[16] = {
 };
 
 // 346 - 0x08E16698
-STATIC const SpriteOffset spriteDim_8E16698[16] = {
+static const SpriteOffset spriteDim_8E16698[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -19802,7 +19800,7 @@ STATIC const SpriteOffset spriteDim_8E16698[16] = {
 };
 
 // 347 - 0x08E16758
-STATIC const SpriteOffset spriteDim_8E16758[12] = {
+static const SpriteOffset spriteDim_8E16758[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -19902,7 +19900,7 @@ STATIC const SpriteOffset spriteDim_8E16758[12] = {
 };
 
 // 348 - 0x08E167E8
-STATIC const SpriteOffset spriteDim_8E167E8[4] = {
+static const SpriteOffset spriteDim_8E167E8[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -19938,7 +19936,7 @@ STATIC const SpriteOffset spriteDim_8E167E8[4] = {
 };
 
 // 349 - 0x08E16818
-STATIC const SpriteOffset spriteDim_8E16818[3] = {
+static const SpriteOffset spriteDim_8E16818[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -19966,7 +19964,7 @@ STATIC const SpriteOffset spriteDim_8E16818[3] = {
 };
 
 // 350 - 0x08E1683C
-STATIC const SpriteOffset spriteDim_8E1683C[5] = {
+static const SpriteOffset spriteDim_8E1683C[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -20010,7 +20008,7 @@ STATIC const SpriteOffset spriteDim_8E1683C[5] = {
 };
 
 // 351 - 0x08E16878
-STATIC const SpriteOffset spriteDim_8E16878[11] = {
+static const SpriteOffset spriteDim_8E16878[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -20102,7 +20100,7 @@ STATIC const SpriteOffset spriteDim_8E16878[11] = {
 };
 
 // 352 - 0x08E168FC
-STATIC const SpriteOffset spriteDim_8E168FC[8] = {
+static const SpriteOffset spriteDim_8E168FC[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -20170,7 +20168,7 @@ STATIC const SpriteOffset spriteDim_8E168FC[8] = {
 };
 
 // 355 - 0x08E1695C
-STATIC const SpriteOffset spriteDim_8E1695C[11] = {
+static const SpriteOffset spriteDim_8E1695C[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -20262,7 +20260,7 @@ STATIC const SpriteOffset spriteDim_8E1695C[11] = {
 };
 
 // 356 - 0x08E169E0
-STATIC const SpriteOffset spriteDim_8E169E0[8] = {
+static const SpriteOffset spriteDim_8E169E0[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -20330,7 +20328,7 @@ STATIC const SpriteOffset spriteDim_8E169E0[8] = {
 };
 
 // 357 - 0x08E16A40
-STATIC const SpriteOffset spriteDim_8E16A40[16] = {
+static const SpriteOffset spriteDim_8E16A40[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -20462,7 +20460,7 @@ STATIC const SpriteOffset spriteDim_8E16A40[16] = {
 };
 
 // 358 - 0x08E16B00
-STATIC const SpriteOffset spriteDim_8E16B00[23] = {
+static const SpriteOffset spriteDim_8E16B00[23] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -20650,7 +20648,7 @@ STATIC const SpriteOffset spriteDim_8E16B00[23] = {
 };
 
 // 359 - 0x08E16C14
-STATIC const SpriteOffset spriteDim_8E16C14[10] = {
+static const SpriteOffset spriteDim_8E16C14[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -20734,7 +20732,7 @@ STATIC const SpriteOffset spriteDim_8E16C14[10] = {
 };
 
 // 360 - 0x08E16C8C
-STATIC const SpriteOffset spriteDim_8E16C8C[10] = {
+static const SpriteOffset spriteDim_8E16C8C[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -20818,7 +20816,7 @@ STATIC const SpriteOffset spriteDim_8E16C8C[10] = {
 };
 
 // 361 - 0x08E16D04
-STATIC const SpriteOffset spriteDim_8E16D04[9] = {
+static const SpriteOffset spriteDim_8E16D04[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -20894,7 +20892,7 @@ STATIC const SpriteOffset spriteDim_8E16D04[9] = {
 };
 
 // 362 - 0x08E16D70
-STATIC const SpriteOffset spriteDim_8E16D70[2] = {
+static const SpriteOffset spriteDim_8E16D70[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -20914,7 +20912,7 @@ STATIC const SpriteOffset spriteDim_8E16D70[2] = {
 };
 
 // 363 - 0x08E16D88
-STATIC const SpriteOffset spriteDim_8E16D88[9] = {
+static const SpriteOffset spriteDim_8E16D88[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -20990,7 +20988,7 @@ STATIC const SpriteOffset spriteDim_8E16D88[9] = {
 };
 
 // 364 - 0x08E16DF4
-STATIC const SpriteOffset spriteDim_8E16DF4[34] = {
+static const SpriteOffset spriteDim_8E16DF4[34] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -21266,7 +21264,7 @@ STATIC const SpriteOffset spriteDim_8E16DF4[34] = {
 };
 
 // 368 - 0x08E16F8C
-STATIC const SpriteOffset spriteDim_8E16F8C[15] = {
+static const SpriteOffset spriteDim_8E16F8C[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -21390,7 +21388,7 @@ STATIC const SpriteOffset spriteDim_8E16F8C[15] = {
 };
 
 // 369 - 0x08E17040
-STATIC const SpriteOffset spriteDim_8E17040[8] = {
+static const SpriteOffset spriteDim_8E17040[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -21458,7 +21456,7 @@ STATIC const SpriteOffset spriteDim_8E17040[8] = {
 };
 
 // 379 - 0x08E170A0
-STATIC const SpriteOffset spriteDim_8E170A0[16] = {
+static const SpriteOffset spriteDim_8E170A0[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -21590,7 +21588,7 @@ STATIC const SpriteOffset spriteDim_8E170A0[16] = {
 };
 
 // 382 - 0x08E17160
-STATIC const SpriteOffset spriteDim_8E17160[12] = {
+static const SpriteOffset spriteDim_8E17160[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -21690,7 +21688,7 @@ STATIC const SpriteOffset spriteDim_8E17160[12] = {
 };
 
 // 383 - 0x08E171F0
-STATIC const SpriteOffset spriteDim_8E171F0[17] = {
+static const SpriteOffset spriteDim_8E171F0[17] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -21830,7 +21828,7 @@ STATIC const SpriteOffset spriteDim_8E171F0[17] = {
 };
 
 // 393 - 0x08E172BC
-STATIC const SpriteOffset spriteDim_8E172BC[9] = {
+static const SpriteOffset spriteDim_8E172BC[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -21906,7 +21904,7 @@ STATIC const SpriteOffset spriteDim_8E172BC[9] = {
 };
 
 // 394 - 0x08E17328
-STATIC const SpriteOffset spriteDim_8E17328[2] = {
+static const SpriteOffset spriteDim_8E17328[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -21926,7 +21924,7 @@ STATIC const SpriteOffset spriteDim_8E17328[2] = {
 };
 
 // 395 - 0x08E17340
-STATIC const SpriteOffset spriteDim_8E17340[9] = {
+static const SpriteOffset spriteDim_8E17340[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -22002,7 +22000,7 @@ STATIC const SpriteOffset spriteDim_8E17340[9] = {
 };
 
 // 396 - 0x08E173AC
-STATIC const SpriteOffset spriteDim_8E173AC[11] = {
+static const SpriteOffset spriteDim_8E173AC[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -22094,7 +22092,7 @@ STATIC const SpriteOffset spriteDim_8E173AC[11] = {
 };
 
 // 397 - 0x08E17430
-STATIC const SpriteOffset spriteDim_8E17430[4] = {
+static const SpriteOffset spriteDim_8E17430[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -22130,7 +22128,7 @@ STATIC const SpriteOffset spriteDim_8E17430[4] = {
 };
 
 // 411, 416 - 0x08E17460
-STATIC const SpriteOffset spriteDim_8E17460[16] = {
+static const SpriteOffset spriteDim_8E17460[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -22261,7 +22259,7 @@ STATIC const SpriteOffset spriteDim_8E17460[16] = {
     },
 };
 
-STATIC const SpriteOffset spriteDim_8E17520[2] = {
+static const SpriteOffset spriteDim_8E17520[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -22281,7 +22279,7 @@ STATIC const SpriteOffset spriteDim_8E17520[2] = {
 };
 
 // 415, 436 - 0x08E17538
-STATIC const SpriteOffset spriteDim_8E17538[13] = {
+static const SpriteOffset spriteDim_8E17538[13] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -22389,7 +22387,7 @@ STATIC const SpriteOffset spriteDim_8E17538[13] = {
 };
 
 // 420 - 0x08E175D4
-STATIC const SpriteOffset spriteDim_8E175D4[4] = {
+static const SpriteOffset spriteDim_8E175D4[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -22425,7 +22423,7 @@ STATIC const SpriteOffset spriteDim_8E175D4[4] = {
 };
 
 // 421 - 0x08E17604
-STATIC const SpriteOffset spriteDim_8E17604[4] = {
+static const SpriteOffset spriteDim_8E17604[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -22461,7 +22459,7 @@ STATIC const SpriteOffset spriteDim_8E17604[4] = {
 };
 
 // 422 - 0x08E17634
-STATIC const SpriteOffset spriteDim_8E17634[16] = {
+static const SpriteOffset spriteDim_8E17634[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -22593,7 +22591,7 @@ STATIC const SpriteOffset spriteDim_8E17634[16] = {
 };
 
 // 424 - 0x08E176F4
-STATIC const SpriteOffset spriteDim_8E176F4[13] = {
+static const SpriteOffset spriteDim_8E176F4[13] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -22701,7 +22699,7 @@ STATIC const SpriteOffset spriteDim_8E176F4[13] = {
 };
 
 // 425 - 0x08E17790
-STATIC const SpriteOffset spriteDim_8E17790[16] = {
+static const SpriteOffset spriteDim_8E17790[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -22833,7 +22831,7 @@ STATIC const SpriteOffset spriteDim_8E17790[16] = {
 };
 
 // 426 - 0x08E17850
-STATIC const SpriteOffset spriteDim_8E17850[16] = {
+static const SpriteOffset spriteDim_8E17850[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -22965,7 +22963,7 @@ STATIC const SpriteOffset spriteDim_8E17850[16] = {
 };
 
 // 427 - 0x08E17910
-STATIC const SpriteOffset spriteDim_8E17910[4] = {
+static const SpriteOffset spriteDim_8E17910[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -23001,7 +22999,7 @@ STATIC const SpriteOffset spriteDim_8E17910[4] = {
 };
 
 // 428 - 0x08E17940
-STATIC const SpriteOffset spriteDim_8E17940[15] = {
+static const SpriteOffset spriteDim_8E17940[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -23125,7 +23123,7 @@ STATIC const SpriteOffset spriteDim_8E17940[15] = {
 };
 
 // 429 - 0x08E179F4
-STATIC const SpriteOffset spriteDim_8E179F4[5] = {
+static const SpriteOffset spriteDim_8E179F4[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -23169,7 +23167,7 @@ STATIC const SpriteOffset spriteDim_8E179F4[5] = {
 };
 
 // 430 - 0x08E17A30
-STATIC const SpriteOffset spriteDim_8E17A30[15] = {
+static const SpriteOffset spriteDim_8E17A30[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -23293,7 +23291,7 @@ STATIC const SpriteOffset spriteDim_8E17A30[15] = {
 };
 
 // 431 - 0x08E17AE4
-STATIC const SpriteOffset spriteDim_8E17AE4[21] = {
+static const SpriteOffset spriteDim_8E17AE4[21] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -23465,7 +23463,7 @@ STATIC const SpriteOffset spriteDim_8E17AE4[21] = {
 };
 
 // 432 - 0x08E17BE0
-STATIC const SpriteOffset spriteDim_8E17BE0[21] = {
+static const SpriteOffset spriteDim_8E17BE0[21] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -23637,7 +23635,7 @@ STATIC const SpriteOffset spriteDim_8E17BE0[21] = {
 };
 
 // 433 - 0x08E17CDC
-STATIC const SpriteOffset spriteDim_8E17CDC[10] = {
+static const SpriteOffset spriteDim_8E17CDC[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -23721,7 +23719,7 @@ STATIC const SpriteOffset spriteDim_8E17CDC[10] = {
 };
 
 // 434 - 0x08E17D54
-STATIC const SpriteOffset spriteDim_8E17D54[12] = {
+static const SpriteOffset spriteDim_8E17D54[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -23821,7 +23819,7 @@ STATIC const SpriteOffset spriteDim_8E17D54[12] = {
 };
 
 // 438 - 0x08E17DE4
-STATIC const SpriteOffset spriteDim_8E17DE4[14] = {
+static const SpriteOffset spriteDim_8E17DE4[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -23936,7 +23934,7 @@ STATIC const SpriteOffset spriteDim_8E17DE4[14] = {
     },
 };
 
-STATIC const SpriteOffset spriteDim_8E17E8C[3] = {
+static const SpriteOffset spriteDim_8E17E8C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -23964,7 +23962,7 @@ STATIC const SpriteOffset spriteDim_8E17E8C[3] = {
 };
 
 // 445 - 0x08E17EB0
-STATIC const SpriteOffset spriteDim_8E17EB0[8] = {
+static const SpriteOffset spriteDim_8E17EB0[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -24032,7 +24030,7 @@ STATIC const SpriteOffset spriteDim_8E17EB0[8] = {
 };
 
 // 446 - 0x08E17F10
-STATIC const SpriteOffset spriteDim_8E17F10[12] = {
+static const SpriteOffset spriteDim_8E17F10[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -24128,7 +24126,7 @@ STATIC const SpriteOffset spriteDim_8E17F10[12] = {
 };
 
 // 447 - 0x08E17FA0
-STATIC const SpriteOffset spriteDim_8E17FA0[12] = {
+static const SpriteOffset spriteDim_8E17FA0[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -24220,7 +24218,7 @@ STATIC const SpriteOffset spriteDim_8E17FA0[12] = {
 };
 
 // 448 - 0x08E18030
-STATIC const SpriteOffset spriteDim_8E18030[3] = {
+static const SpriteOffset spriteDim_8E18030[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -24248,7 +24246,7 @@ STATIC const SpriteOffset spriteDim_8E18030[3] = {
 };
 
 // 451 - 0x08E18054
-STATIC const SpriteOffset spriteDim_8E18054[8] = {
+static const SpriteOffset spriteDim_8E18054[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -24316,7 +24314,7 @@ STATIC const SpriteOffset spriteDim_8E18054[8] = {
 };
 
 // 453 - 0x08E180B4
-STATIC const SpriteOffset spriteDim_8E180B4[9] = {
+static const SpriteOffset spriteDim_8E180B4[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -24392,7 +24390,7 @@ STATIC const SpriteOffset spriteDim_8E180B4[9] = {
 };
 
 // 455 - 0x08E18120
-STATIC const SpriteOffset spriteDim_8E18120[11] = {
+static const SpriteOffset spriteDim_8E18120[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -24484,7 +24482,7 @@ STATIC const SpriteOffset spriteDim_8E18120[11] = {
 };
 
 // 456 - 0x08E181A4
-STATIC const SpriteOffset spriteDim_8E181A4[16] = {
+static const SpriteOffset spriteDim_8E181A4[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -24616,7 +24614,7 @@ STATIC const SpriteOffset spriteDim_8E181A4[16] = {
 };
 
 // 457 - 0x08E18264
-STATIC const SpriteOffset spriteDim_8E18264[8] = {
+static const SpriteOffset spriteDim_8E18264[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -24684,7 +24682,7 @@ STATIC const SpriteOffset spriteDim_8E18264[8] = {
 };
 
 // 459 - 0x08E182C4
-STATIC const SpriteOffset spriteDim_8E182C4[8] = {
+static const SpriteOffset spriteDim_8E182C4[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -24752,7 +24750,7 @@ STATIC const SpriteOffset spriteDim_8E182C4[8] = {
 };
 
 // 462 - 0x08E18324
-STATIC const SpriteOffset spriteDim_8E18324[3] = {
+static const SpriteOffset spriteDim_8E18324[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -24780,7 +24778,7 @@ STATIC const SpriteOffset spriteDim_8E18324[3] = {
 };
 
 // 463 - 0x08E18348
-STATIC const SpriteOffset spriteDim_8E18348[10] = {
+static const SpriteOffset spriteDim_8E18348[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -24864,7 +24862,7 @@ STATIC const SpriteOffset spriteDim_8E18348[10] = {
 };
 
 // 464 - 0x08E183C0
-STATIC const SpriteOffset spriteDim_8E183C0[5] = {
+static const SpriteOffset spriteDim_8E183C0[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -24908,7 +24906,7 @@ STATIC const SpriteOffset spriteDim_8E183C0[5] = {
 };
 
 // 465 - 0x08E183FC
-STATIC const SpriteOffset spriteDim_8E183FC[5] = {
+static const SpriteOffset spriteDim_8E183FC[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -24952,7 +24950,7 @@ STATIC const SpriteOffset spriteDim_8E183FC[5] = {
 };
 
 // 466 - 0x08E18438
-STATIC const SpriteOffset spriteDim_8E18438[3] = {
+static const SpriteOffset spriteDim_8E18438[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -24980,7 +24978,7 @@ STATIC const SpriteOffset spriteDim_8E18438[3] = {
 };
 
 // 467 - 0x08E1845C
-STATIC const SpriteOffset spriteDim_8E1845C[16] = {
+static const SpriteOffset spriteDim_8E1845C[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -25112,7 +25110,7 @@ STATIC const SpriteOffset spriteDim_8E1845C[16] = {
 };
 
 // 468 - 0x08E1851C
-STATIC const SpriteOffset spriteDim_8E1851C[10] = {
+static const SpriteOffset spriteDim_8E1851C[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -25196,7 +25194,7 @@ STATIC const SpriteOffset spriteDim_8E1851C[10] = {
 };
 
 // 469 - 0x08E18594
-STATIC const SpriteOffset spriteDim_8E18594[1] = {
+static const SpriteOffset spriteDim_8E18594[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -25208,7 +25206,7 @@ STATIC const SpriteOffset spriteDim_8E18594[1] = {
 };
 
 // 470 - 0x08E185A0
-STATIC const SpriteOffset spriteDim_8E185A0[8] = {
+static const SpriteOffset spriteDim_8E185A0[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -25276,7 +25274,7 @@ STATIC const SpriteOffset spriteDim_8E185A0[8] = {
 };
 
 // 472 - 0x08E18600
-STATIC const SpriteOffset spriteDim_8E18600[3] = {
+static const SpriteOffset spriteDim_8E18600[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -25304,7 +25302,7 @@ STATIC const SpriteOffset spriteDim_8E18600[3] = {
 };
 
 // 473 - 0x08E18624
-STATIC const SpriteOffset spriteDim_8E18624[15] = {
+static const SpriteOffset spriteDim_8E18624[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -25428,7 +25426,7 @@ STATIC const SpriteOffset spriteDim_8E18624[15] = {
 };
 
 // 474 - 0x08E186D8
-STATIC const SpriteOffset spriteDim_8E186D8[6] = {
+static const SpriteOffset spriteDim_8E186D8[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -25480,7 +25478,7 @@ STATIC const SpriteOffset spriteDim_8E186D8[6] = {
 };
 
 // 475 - 0x08E18720
-STATIC const SpriteOffset spriteDim_8E18720[6] = {
+static const SpriteOffset spriteDim_8E18720[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -25532,7 +25530,7 @@ STATIC const SpriteOffset spriteDim_8E18720[6] = {
 };
 
 // 476 - 0x08E18768
-STATIC const SpriteOffset spriteDim_8E18768[8] = {
+static const SpriteOffset spriteDim_8E18768[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -25600,7 +25598,7 @@ STATIC const SpriteOffset spriteDim_8E18768[8] = {
 };
 
 // 477 - 0x08E187C8
-STATIC const SpriteOffset spriteDim_8E187C8[22] = {
+static const SpriteOffset spriteDim_8E187C8[22] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -25780,7 +25778,7 @@ STATIC const SpriteOffset spriteDim_8E187C8[22] = {
 };
 
 // 478 - 0x08E188D0
-STATIC const SpriteOffset spriteDim_8E188D0[23] = {
+static const SpriteOffset spriteDim_8E188D0[23] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -25968,7 +25966,7 @@ STATIC const SpriteOffset spriteDim_8E188D0[23] = {
 };
 
 // 479 - 0x08E189E4
-STATIC const SpriteOffset spriteDim_8E189E4[19] = {
+static const SpriteOffset spriteDim_8E189E4[19] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -26124,7 +26122,7 @@ STATIC const SpriteOffset spriteDim_8E189E4[19] = {
 };
 
 // 480 - 0x08E18AC8
-STATIC const SpriteOffset spriteDim_8E18AC8[5] = {
+static const SpriteOffset spriteDim_8E18AC8[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -26167,7 +26165,7 @@ STATIC const SpriteOffset spriteDim_8E18AC8[5] = {
 };
 
 // 482 - 0x08E18B04
-STATIC const SpriteOffset spriteDim_8E18B04[2] = {
+static const SpriteOffset spriteDim_8E18B04[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -26187,7 +26185,7 @@ STATIC const SpriteOffset spriteDim_8E18B04[2] = {
 };
 
 // 483 - 0x08E18B1C
-STATIC const SpriteOffset spriteDim_8E18B1C[25] = {
+static const SpriteOffset spriteDim_8E18B1C[25] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -26391,7 +26389,7 @@ STATIC const SpriteOffset spriteDim_8E18B1C[25] = {
 };
 
 // 484 - 0x08E18C48
-STATIC const SpriteOffset spriteDim_8E18C48[42] = {
+static const SpriteOffset spriteDim_8E18C48[42] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -26731,7 +26729,7 @@ STATIC const SpriteOffset spriteDim_8E18C48[42] = {
 };
 
 // 487 - 0x08E18E40
-STATIC const SpriteOffset spriteDim_8E18E40[47] = {
+static const SpriteOffset spriteDim_8E18E40[47] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -27111,7 +27109,7 @@ STATIC const SpriteOffset spriteDim_8E18E40[47] = {
 };
 
 // 488 - 0x08E19074
-STATIC const SpriteOffset spriteDim_8E19074[14] = {
+static const SpriteOffset spriteDim_8E19074[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -27227,7 +27225,7 @@ STATIC const SpriteOffset spriteDim_8E19074[14] = {
 };
 
 // 489 - 0x08E1911C
-STATIC const SpriteOffset spriteDim_8E1911C[14] = {
+static const SpriteOffset spriteDim_8E1911C[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -27343,7 +27341,7 @@ STATIC const SpriteOffset spriteDim_8E1911C[14] = {
 };
 
 // 490 - 0x08E191C4
-STATIC const SpriteOffset spriteDim_8E191C4[3] = {
+static const SpriteOffset spriteDim_8E191C4[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -27371,7 +27369,7 @@ STATIC const SpriteOffset spriteDim_8E191C4[3] = {
 };
 
 // 491 - 0x08E191E8
-STATIC const SpriteOffset spriteDim_8E191E8[4] = {
+static const SpriteOffset spriteDim_8E191E8[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -27407,7 +27405,7 @@ STATIC const SpriteOffset spriteDim_8E191E8[4] = {
 };
 
 // 492 - 0x08E19218
-STATIC const SpriteOffset spriteDim_8E19218[4] = {
+static const SpriteOffset spriteDim_8E19218[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -27443,7 +27441,7 @@ STATIC const SpriteOffset spriteDim_8E19218[4] = {
 };
 
 // 493 - 0x08E19248
-STATIC const SpriteOffset spriteDim_8E19248[3] = {
+static const SpriteOffset spriteDim_8E19248[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -27471,7 +27469,7 @@ STATIC const SpriteOffset spriteDim_8E19248[3] = {
 };
 
 // 494 - 0x08E1926C
-STATIC const SpriteOffset spriteDim_8E1926C[3] = {
+static const SpriteOffset spriteDim_8E1926C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -27499,7 +27497,7 @@ STATIC const SpriteOffset spriteDim_8E1926C[3] = {
 };
 
 // 495 - 0x08E19290
-STATIC const SpriteOffset spriteDim_8E19290[31] = {
+static const SpriteOffset spriteDim_8E19290[31] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -27751,7 +27749,7 @@ STATIC const SpriteOffset spriteDim_8E19290[31] = {
 };
 
 // 496 - 0x08E19404
-STATIC const SpriteOffset spriteDim_8E19404[8] = {
+static const SpriteOffset spriteDim_8E19404[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -27819,7 +27817,7 @@ STATIC const SpriteOffset spriteDim_8E19404[8] = {
 };
 
 // 497 - 0x08E19464
-STATIC const SpriteOffset spriteDim_8E19464[40] = {
+static const SpriteOffset spriteDim_8E19464[40] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -28143,7 +28141,7 @@ STATIC const SpriteOffset spriteDim_8E19464[40] = {
 };
 
 // 498 - 0x08E19644
-STATIC const SpriteOffset spriteDim_8E19644[24] = {
+static const SpriteOffset spriteDim_8E19644[24] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -28339,7 +28337,7 @@ STATIC const SpriteOffset spriteDim_8E19644[24] = {
 };
 
 // 499 - 0x08E19764
-STATIC const SpriteOffset spriteDim_8E19764[8] = {
+static const SpriteOffset spriteDim_8E19764[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -28407,7 +28405,7 @@ STATIC const SpriteOffset spriteDim_8E19764[8] = {
 };
 
 // 500 - 0x08E197C4
-STATIC const SpriteOffset spriteDim_8E197C4[4] = {
+static const SpriteOffset spriteDim_8E197C4[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -28443,7 +28441,7 @@ STATIC const SpriteOffset spriteDim_8E197C4[4] = {
 };
 
 // 501 - 0x08E197F4
-STATIC const SpriteOffset spriteDim_8E197F4[2] = {
+static const SpriteOffset spriteDim_8E197F4[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -28463,7 +28461,7 @@ STATIC const SpriteOffset spriteDim_8E197F4[2] = {
 };
 
 // 502 - 0x08E1980C
-STATIC const SpriteOffset spriteDim_8E1980C[4] = {
+static const SpriteOffset spriteDim_8E1980C[4] = {
     {
        .oamIndex     = 16384,
        .numSubframes = 2,
@@ -28499,7 +28497,7 @@ STATIC const SpriteOffset spriteDim_8E1980C[4] = {
 };
 
 // 503 - 0x08E1983C
-STATIC const SpriteOffset spriteDim_8E1983C[3] = {
+static const SpriteOffset spriteDim_8E1983C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -28527,7 +28525,7 @@ STATIC const SpriteOffset spriteDim_8E1983C[3] = {
 };
 
 // 504 - 0x08E19860
-STATIC const SpriteOffset spriteDim_8E19860[4] = {
+static const SpriteOffset spriteDim_8E19860[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -28563,7 +28561,7 @@ STATIC const SpriteOffset spriteDim_8E19860[4] = {
 };
 
 // 505 - 0x08E19890
-STATIC const SpriteOffset spriteDim_8E19890[4] = {
+static const SpriteOffset spriteDim_8E19890[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -28599,7 +28597,7 @@ STATIC const SpriteOffset spriteDim_8E19890[4] = {
 };
 
 // 506 - 0x08E198C0
-STATIC const SpriteOffset spriteDim_8E198C0[4] = {
+static const SpriteOffset spriteDim_8E198C0[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -28635,7 +28633,7 @@ STATIC const SpriteOffset spriteDim_8E198C0[4] = {
 };
 
 // 507 - 0x08E198F0
-STATIC const SpriteOffset spriteDim_8E198F0[5] = {
+static const SpriteOffset spriteDim_8E198F0[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -28679,7 +28677,7 @@ STATIC const SpriteOffset spriteDim_8E198F0[5] = {
 };
 
 // 508 - 0x08E1992C
-STATIC const SpriteOffset spriteDim_8E1992C[14] = {
+static const SpriteOffset spriteDim_8E1992C[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -28795,7 +28793,7 @@ STATIC const SpriteOffset spriteDim_8E1992C[14] = {
 };
 
 // 509 - 0x08E199D4
-STATIC const SpriteOffset spriteDim_8E199D4[14] = {
+static const SpriteOffset spriteDim_8E199D4[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -28911,7 +28909,7 @@ STATIC const SpriteOffset spriteDim_8E199D4[14] = {
 };
 
 // 510 - 0x08E19A7C
-STATIC const SpriteOffset spriteDim_8E19A7C[12] = {
+static const SpriteOffset spriteDim_8E19A7C[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -29011,7 +29009,7 @@ STATIC const SpriteOffset spriteDim_8E19A7C[12] = {
 };
 
 // 511 - 0x08E19B0C
-STATIC const SpriteOffset spriteDim_8E19B0C[3] = {
+static const SpriteOffset spriteDim_8E19B0C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -29039,7 +29037,7 @@ STATIC const SpriteOffset spriteDim_8E19B0C[3] = {
 };
 
 // 512 - 0x08E19B30
-STATIC const SpriteOffset spriteDim_8E19B30[4] = {
+static const SpriteOffset spriteDim_8E19B30[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -29075,7 +29073,7 @@ STATIC const SpriteOffset spriteDim_8E19B30[4] = {
 };
 
 // 513 - 0x08E19B60
-STATIC const SpriteOffset spriteDim_8E19B60[5] = {
+static const SpriteOffset spriteDim_8E19B60[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -29119,7 +29117,7 @@ STATIC const SpriteOffset spriteDim_8E19B60[5] = {
 };
 
 // 514 - 0x08E19B9C
-STATIC const SpriteOffset spriteDim_8E19B9C[2] = {
+static const SpriteOffset spriteDim_8E19B9C[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -29139,7 +29137,7 @@ STATIC const SpriteOffset spriteDim_8E19B9C[2] = {
 };
 
 // 515 - 0x08E19BB4
-STATIC const SpriteOffset spriteDim_8E19BB4[4] = {
+static const SpriteOffset spriteDim_8E19BB4[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -29175,7 +29173,7 @@ STATIC const SpriteOffset spriteDim_8E19BB4[4] = {
 };
 
 // 516 - 0x08E19BE4
-STATIC const SpriteOffset spriteDim_8E19BE4[11] = {
+static const SpriteOffset spriteDim_8E19BE4[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -29267,7 +29265,7 @@ STATIC const SpriteOffset spriteDim_8E19BE4[11] = {
 };
 
 // 517 - 0x08E19C68
-STATIC const SpriteOffset spriteDim_8E19C68[2] = {
+static const SpriteOffset spriteDim_8E19C68[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -29287,7 +29285,7 @@ STATIC const SpriteOffset spriteDim_8E19C68[2] = {
 };
 
 // 518 - 0x08E19C80
-STATIC const SpriteOffset spriteDim_8E19C80[15] = {
+static const SpriteOffset spriteDim_8E19C80[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -29411,7 +29409,7 @@ STATIC const SpriteOffset spriteDim_8E19C80[15] = {
 };
 
 // 520 - 0x08E19D34
-STATIC const SpriteOffset spriteDim_8E19D34[23] = {
+static const SpriteOffset spriteDim_8E19D34[23] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -29599,7 +29597,7 @@ STATIC const SpriteOffset spriteDim_8E19D34[23] = {
 };
 
 // 522 - 0x08E19E48
-STATIC const SpriteOffset spriteDim_8E19E48[9] = {
+static const SpriteOffset spriteDim_8E19E48[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -29675,7 +29673,7 @@ STATIC const SpriteOffset spriteDim_8E19E48[9] = {
 };
 
 // 523 - 0x08E19EB4
-STATIC const SpriteOffset spriteDim_8E19EB4[8] = {
+static const SpriteOffset spriteDim_8E19EB4[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -29743,7 +29741,7 @@ STATIC const SpriteOffset spriteDim_8E19EB4[8] = {
 };
 
 // 524 - 0x08E19F14
-STATIC const SpriteOffset spriteDim_8E19F14[8] = {
+static const SpriteOffset spriteDim_8E19F14[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -29811,7 +29809,7 @@ STATIC const SpriteOffset spriteDim_8E19F14[8] = {
 };
 
 // 525 - 0x08E19F74
-STATIC const SpriteOffset spriteDim_8E19F74[2] = {
+static const SpriteOffset spriteDim_8E19F74[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -29831,7 +29829,7 @@ STATIC const SpriteOffset spriteDim_8E19F74[2] = {
 };
 
 // 526 - 0x08E19F8C
-STATIC const SpriteOffset spriteDim_8E19F8C[8] = {
+static const SpriteOffset spriteDim_8E19F8C[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -29899,7 +29897,7 @@ STATIC const SpriteOffset spriteDim_8E19F8C[8] = {
 };
 
 // 527 - 0x08E19FEC
-STATIC const SpriteOffset spriteDim_8E19FEC[11] = {
+static const SpriteOffset spriteDim_8E19FEC[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -29991,7 +29989,7 @@ STATIC const SpriteOffset spriteDim_8E19FEC[11] = {
 };
 
 // 531 - 0x08E1A070
-STATIC const SpriteOffset spriteDim_8E1A070[14] = {
+static const SpriteOffset spriteDim_8E1A070[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -30105,7 +30103,7 @@ STATIC const SpriteOffset spriteDim_8E1A070[14] = {
 };
 
 // 543 - 0x08E1A118
-STATIC const SpriteOffset spriteDim_8E1A118[4] = {
+static const SpriteOffset spriteDim_8E1A118[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -30141,7 +30139,7 @@ STATIC const SpriteOffset spriteDim_8E1A118[4] = {
 };
 
 // 544 - 0x08E1A148
-STATIC const SpriteOffset spriteDim_8E1A148[12] = {
+static const SpriteOffset spriteDim_8E1A148[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -30241,7 +30239,7 @@ STATIC const SpriteOffset spriteDim_8E1A148[12] = {
 };
 
 // 545 - 0x08E1A1D8
-STATIC const SpriteOffset spriteDim_8E1A1D8[12] = {
+static const SpriteOffset spriteDim_8E1A1D8[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -30341,7 +30339,7 @@ STATIC const SpriteOffset spriteDim_8E1A1D8[12] = {
 };
 
 // 546 - 0x08E1A268
-STATIC const SpriteOffset spriteDim_8E1A268[7] = {
+static const SpriteOffset spriteDim_8E1A268[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -30401,7 +30399,7 @@ STATIC const SpriteOffset spriteDim_8E1A268[7] = {
 };
 
 // 564 - 0x08E1A2BC
-STATIC const SpriteOffset spriteDim_8E1A2BC[6] = {
+static const SpriteOffset spriteDim_8E1A2BC[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -30453,7 +30451,7 @@ STATIC const SpriteOffset spriteDim_8E1A2BC[6] = {
 };
 
 // 565 - 0x08E1A304
-STATIC const SpriteOffset spriteDim_8E1A304[2] = {
+static const SpriteOffset spriteDim_8E1A304[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -30473,7 +30471,7 @@ STATIC const SpriteOffset spriteDim_8E1A304[2] = {
 };
 
 // 566 - 0x08E1A31C
-STATIC const SpriteOffset spriteDim_8E1A31C[6] = {
+static const SpriteOffset spriteDim_8E1A31C[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -30525,7 +30523,7 @@ STATIC const SpriteOffset spriteDim_8E1A31C[6] = {
 };
 
 // 567 - 0x08E1A364
-STATIC const SpriteOffset spriteDim_8E1A364[6] = {
+static const SpriteOffset spriteDim_8E1A364[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -30577,7 +30575,7 @@ STATIC const SpriteOffset spriteDim_8E1A364[6] = {
 };
 
 // 569 - 0x08E1A3AC
-STATIC const SpriteOffset spriteDim_8E1A3AC[20] = {
+static const SpriteOffset spriteDim_8E1A3AC[20] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -30740,7 +30738,7 @@ STATIC const SpriteOffset spriteDim_8E1A3AC[20] = {
 };
 
 // 570 - 0x08E1A49C
-STATIC const SpriteOffset spriteDim_8E1A49C[25] = {
+static const SpriteOffset spriteDim_8E1A49C[25] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -30943,7 +30941,7 @@ STATIC const SpriteOffset spriteDim_8E1A49C[25] = {
 };
 
 // 571 - 0x08E1A5C8
-STATIC const SpriteOffset spriteDim_8E1A5C8[3] = {
+static const SpriteOffset spriteDim_8E1A5C8[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -30971,7 +30969,7 @@ STATIC const SpriteOffset spriteDim_8E1A5C8[3] = {
 };
 
 // 572 - 0x08E1A5EC
-STATIC const SpriteOffset spriteDim_8E1A5EC[14] = {
+static const SpriteOffset spriteDim_8E1A5EC[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -31087,7 +31085,7 @@ STATIC const SpriteOffset spriteDim_8E1A5EC[14] = {
 };
 
 // 578 - 0x08E1A694
-STATIC const SpriteOffset spriteDim_8E1A694[12] = {
+static const SpriteOffset spriteDim_8E1A694[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -31187,7 +31185,7 @@ STATIC const SpriteOffset spriteDim_8E1A694[12] = {
 };
 
 // 580 - 0x08E1A724
-STATIC const SpriteOffset spriteDim_8E1A724[13] = {
+static const SpriteOffset spriteDim_8E1A724[13] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -31295,7 +31293,7 @@ STATIC const SpriteOffset spriteDim_8E1A724[13] = {
 };
 
 // 581 - 0x08E1A7C0
-STATIC const SpriteOffset spriteDim_8E1A7C0[7] = {
+static const SpriteOffset spriteDim_8E1A7C0[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -31355,7 +31353,7 @@ STATIC const SpriteOffset spriteDim_8E1A7C0[7] = {
 };
 
 // 582 - 0x08E1A814
-STATIC const SpriteOffset spriteDim_8E1A814[2] = {
+static const SpriteOffset spriteDim_8E1A814[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -31375,7 +31373,7 @@ STATIC const SpriteOffset spriteDim_8E1A814[2] = {
 };
 
 // 587 - 0x08E1A82C
-STATIC const SpriteOffset spriteDim_8E1A82C[10] = {
+static const SpriteOffset spriteDim_8E1A82C[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -31456,7 +31454,7 @@ STATIC const SpriteOffset spriteDim_8E1A82C[10] = {
 };
 
 // 588 - 0x08E1A8A4
-STATIC const SpriteOffset spriteDim_8E1A8A4[11] = {
+static const SpriteOffset spriteDim_8E1A8A4[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -31548,7 +31546,7 @@ STATIC const SpriteOffset spriteDim_8E1A8A4[11] = {
 };
 
 // 589 - 0x08E1A928
-STATIC const SpriteOffset spriteDim_8E1A928[16] = {
+static const SpriteOffset spriteDim_8E1A928[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -31680,7 +31678,7 @@ STATIC const SpriteOffset spriteDim_8E1A928[16] = {
 };
 
 // 590 - 0x08E1A9E8
-STATIC const SpriteOffset spriteDim_8E1A9E8[4] = {
+static const SpriteOffset spriteDim_8E1A9E8[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -31714,7 +31712,7 @@ STATIC const SpriteOffset spriteDim_8E1A9E8[4] = {
 };
 
 // 591 - 0x08E1AA18
-STATIC const SpriteOffset spriteDim_8E1AA18[14] = {
+static const SpriteOffset spriteDim_8E1AA18[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -31830,7 +31828,7 @@ STATIC const SpriteOffset spriteDim_8E1AA18[14] = {
 };
 
 // 592 - 0x08E1AAC0
-STATIC const SpriteOffset spriteDim_8E1AAC0[5] = {
+static const SpriteOffset spriteDim_8E1AAC0[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -31874,7 +31872,7 @@ STATIC const SpriteOffset spriteDim_8E1AAC0[5] = {
 };
 
 // 597 - 0x08E1AAFC
-STATIC const SpriteOffset spriteDim_8E1AAFC[13] = {
+static const SpriteOffset spriteDim_8E1AAFC[13] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -31982,7 +31980,7 @@ STATIC const SpriteOffset spriteDim_8E1AAFC[13] = {
 };
 
 // 601 - 0x08E1AB98
-STATIC const SpriteOffset spriteDim_8E1AB98[14] = {
+static const SpriteOffset spriteDim_8E1AB98[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -32097,7 +32095,7 @@ STATIC const SpriteOffset spriteDim_8E1AB98[14] = {
     },
 };
 
-STATIC const SpriteOffset spriteDim_8E1AC40[2] = {
+static const SpriteOffset spriteDim_8E1AC40[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -32117,7 +32115,7 @@ STATIC const SpriteOffset spriteDim_8E1AC40[2] = {
 };
 
 // 608 - 0x08E1AC58
-STATIC const SpriteOffset spriteDim_8E1AC58[8] = {
+static const SpriteOffset spriteDim_8E1AC58[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -32185,7 +32183,7 @@ STATIC const SpriteOffset spriteDim_8E1AC58[8] = {
 };
 
 // 609 - 0x08E1ACB8
-STATIC const SpriteOffset spriteDim_8E1ACB8[12] = {
+static const SpriteOffset spriteDim_8E1ACB8[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -32278,7 +32276,7 @@ STATIC const SpriteOffset spriteDim_8E1ACB8[12] = {
 };
 
 // 610 - 0x08E1AD48
-STATIC const SpriteOffset spriteDim_8E1AD48[12] = {
+static const SpriteOffset spriteDim_8E1AD48[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -32371,7 +32369,7 @@ STATIC const SpriteOffset spriteDim_8E1AD48[12] = {
 };
 
 // 611 - 0x08E1ADD8
-STATIC const SpriteOffset spriteDim_8E1ADD8[3] = {
+static const SpriteOffset spriteDim_8E1ADD8[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -32399,7 +32397,7 @@ STATIC const SpriteOffset spriteDim_8E1ADD8[3] = {
 };
 
 // 614 - 0x08E1ADFC
-STATIC const SpriteOffset spriteDim_8E1ADFC[8] = {
+static const SpriteOffset spriteDim_8E1ADFC[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -32467,7 +32465,7 @@ STATIC const SpriteOffset spriteDim_8E1ADFC[8] = {
 };
 
 // 616 - 0x08E1AE5C
-STATIC const SpriteOffset spriteDim_8E1AE5C[9] = {
+static const SpriteOffset spriteDim_8E1AE5C[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -32543,7 +32541,7 @@ STATIC const SpriteOffset spriteDim_8E1AE5C[9] = {
 };
 
 // 618 - 0x08E1AEC8
-STATIC const SpriteOffset spriteDim_8E1AEC8[11] = {
+static const SpriteOffset spriteDim_8E1AEC8[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -32635,7 +32633,7 @@ STATIC const SpriteOffset spriteDim_8E1AEC8[11] = {
 };
 
 // 619 - 0x08E1AF4C
-STATIC const SpriteOffset spriteDim_8E1AF4C[16] = {
+static const SpriteOffset spriteDim_8E1AF4C[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -32767,7 +32765,7 @@ STATIC const SpriteOffset spriteDim_8E1AF4C[16] = {
 };
 
 // 620 - 0x08E1B00C
-STATIC const SpriteOffset spriteDim_8E1B00C[8] = {
+static const SpriteOffset spriteDim_8E1B00C[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -32835,7 +32833,7 @@ STATIC const SpriteOffset spriteDim_8E1B00C[8] = {
 };
 
 // 622 - 0x08E1B06C
-STATIC const SpriteOffset spriteDim_8E1B06C[8] = {
+static const SpriteOffset spriteDim_8E1B06C[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -32903,7 +32901,7 @@ STATIC const SpriteOffset spriteDim_8E1B06C[8] = {
 };
 
 // 625 - 0x08E1B0CC
-STATIC const SpriteOffset spriteDim_8E1B0CC[3] = {
+static const SpriteOffset spriteDim_8E1B0CC[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -32931,7 +32929,7 @@ STATIC const SpriteOffset spriteDim_8E1B0CC[3] = {
 };
 
 // 626 - 0x08E1B0F0
-STATIC const SpriteOffset spriteDim_8E1B0F0[10] = {
+static const SpriteOffset spriteDim_8E1B0F0[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -33015,7 +33013,7 @@ STATIC const SpriteOffset spriteDim_8E1B0F0[10] = {
 };
 
 // 627 - 0x08E1B168
-STATIC const SpriteOffset spriteDim_8E1B168[5] = {
+static const SpriteOffset spriteDim_8E1B168[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -33059,7 +33057,7 @@ STATIC const SpriteOffset spriteDim_8E1B168[5] = {
 };
 
 // 628 - 0x08E1B1A4
-STATIC const SpriteOffset spriteDim_8E1B1A4[5] = {
+static const SpriteOffset spriteDim_8E1B1A4[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -33103,7 +33101,7 @@ STATIC const SpriteOffset spriteDim_8E1B1A4[5] = {
 };
 
 // 629 - 0x08E1B1E0
-STATIC const SpriteOffset spriteDim_8E1B1E0[3] = {
+static const SpriteOffset spriteDim_8E1B1E0[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -33131,7 +33129,7 @@ STATIC const SpriteOffset spriteDim_8E1B1E0[3] = {
 };
 
 // 630 - 0x08E1B204
-STATIC const SpriteOffset spriteDim_8E1B204[9] = {
+static const SpriteOffset spriteDim_8E1B204[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -33207,7 +33205,7 @@ STATIC const SpriteOffset spriteDim_8E1B204[9] = {
 };
 
 // 631 - 0x08E1B270
-STATIC const SpriteOffset spriteDim_8E1B270[10] = {
+static const SpriteOffset spriteDim_8E1B270[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -33291,7 +33289,7 @@ STATIC const SpriteOffset spriteDim_8E1B270[10] = {
 };
 
 // 632 - 0x08E1B2E8
-STATIC const SpriteOffset spriteDim_8E1B2E8[1] = {
+static const SpriteOffset spriteDim_8E1B2E8[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -33303,7 +33301,7 @@ STATIC const SpriteOffset spriteDim_8E1B2E8[1] = {
 };
 
 // 633 - 0x08E1B2F4
-STATIC const SpriteOffset spriteDim_8E1B2F4[8] = {
+static const SpriteOffset spriteDim_8E1B2F4[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -33370,7 +33368,7 @@ STATIC const SpriteOffset spriteDim_8E1B2F4[8] = {
 };
 
 // 635 - 0x08E1B354
-STATIC const SpriteOffset spriteDim_8E1B354[3] = {
+static const SpriteOffset spriteDim_8E1B354[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -33398,7 +33396,7 @@ STATIC const SpriteOffset spriteDim_8E1B354[3] = {
 };
 
 // 636 - 0x08E1B378
-STATIC const SpriteOffset spriteDim_8E1B378[15] = {
+static const SpriteOffset spriteDim_8E1B378[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -33522,7 +33520,7 @@ STATIC const SpriteOffset spriteDim_8E1B378[15] = {
 };
 
 // 637 - 0x08E1B42C
-STATIC const SpriteOffset spriteDim_8E1B42C[6] = {
+static const SpriteOffset spriteDim_8E1B42C[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -33574,7 +33572,7 @@ STATIC const SpriteOffset spriteDim_8E1B42C[6] = {
 };
 
 // 638 - 0x08E1B474
-STATIC const SpriteOffset spriteDim_8E1B474[6] = {
+static const SpriteOffset spriteDim_8E1B474[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -33626,7 +33624,7 @@ STATIC const SpriteOffset spriteDim_8E1B474[6] = {
 };
 
 // 639 - 0x08E1B4BC
-STATIC const SpriteOffset spriteDim_8E1B4BC[8] = {
+static const SpriteOffset spriteDim_8E1B4BC[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -33694,7 +33692,7 @@ STATIC const SpriteOffset spriteDim_8E1B4BC[8] = {
 };
 
 // 641 - 0x08E1B51C
-STATIC const SpriteOffset spriteDim_8E1B51C[23] = {
+static const SpriteOffset spriteDim_8E1B51C[23] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -33882,7 +33880,7 @@ STATIC const SpriteOffset spriteDim_8E1B51C[23] = {
 };
 
 // 642 - 0x08E1B630
-STATIC const SpriteOffset spriteDim_8E1B630[19] = {
+static const SpriteOffset spriteDim_8E1B630[19] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -34037,7 +34035,7 @@ STATIC const SpriteOffset spriteDim_8E1B630[19] = {
     },
 };
 
-STATIC const SpriteOffset spriteDim_8E1B714[7] = {
+static const SpriteOffset spriteDim_8E1B714[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -34096,7 +34094,7 @@ STATIC const SpriteOffset spriteDim_8E1B714[7] = {
 };
 
 // 645 - 0x08E1B768
-STATIC const SpriteOffset spriteDim_8E1B768[2] = {
+static const SpriteOffset spriteDim_8E1B768[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -34116,7 +34114,7 @@ STATIC const SpriteOffset spriteDim_8E1B768[2] = {
 };
 
 // 646 - 0x08E1B780
-STATIC const SpriteOffset spriteDim_8E1B780[23] = {
+static const SpriteOffset spriteDim_8E1B780[23] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -34304,7 +34302,7 @@ STATIC const SpriteOffset spriteDim_8E1B780[23] = {
 };
 
 // 647 - 0x08E1B894
-STATIC const SpriteOffset spriteDim_8E1B894[36] = {
+static const SpriteOffset spriteDim_8E1B894[36] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -34596,7 +34594,7 @@ STATIC const SpriteOffset spriteDim_8E1B894[36] = {
 };
 
 // 650 - 0x08E1BA44
-STATIC const SpriteOffset spriteDim_8E1BA44[39] = {
+static const SpriteOffset spriteDim_8E1BA44[39] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -34912,7 +34910,7 @@ STATIC const SpriteOffset spriteDim_8E1BA44[39] = {
 };
 
 // 651 - 0x08E1BC18
-STATIC const SpriteOffset spriteDim_8E1BC18[6] = {
+static const SpriteOffset spriteDim_8E1BC18[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -34964,7 +34962,7 @@ STATIC const SpriteOffset spriteDim_8E1BC18[6] = {
 };
 
 // 652 - 0x08E1BC60
-STATIC const SpriteOffset spriteDim_8E1BC60[12] = {
+static const SpriteOffset spriteDim_8E1BC60[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -35064,7 +35062,7 @@ STATIC const SpriteOffset spriteDim_8E1BC60[12] = {
 };
 
 // 653 - 0x08E1BCF0
-STATIC const SpriteOffset spriteDim_8E1BCF0[9] = {
+static const SpriteOffset spriteDim_8E1BCF0[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -35140,7 +35138,7 @@ STATIC const SpriteOffset spriteDim_8E1BCF0[9] = {
 };
 
 // 654 - 0x08E1BD5C
-STATIC const SpriteOffset spriteDim_8E1BD5C[7] = {
+static const SpriteOffset spriteDim_8E1BD5C[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -35200,7 +35198,7 @@ STATIC const SpriteOffset spriteDim_8E1BD5C[7] = {
 };
 
 // 655 - 0x08E1BDB0
-STATIC const SpriteOffset spriteDim_8E1BDB0[4] = {
+static const SpriteOffset spriteDim_8E1BDB0[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -35236,7 +35234,7 @@ STATIC const SpriteOffset spriteDim_8E1BDB0[4] = {
 };
 
 // 656 - 0x08E1BDE0
-STATIC const SpriteOffset spriteDim_8E1BDE0[6] = {
+static const SpriteOffset spriteDim_8E1BDE0[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -35288,7 +35286,7 @@ STATIC const SpriteOffset spriteDim_8E1BDE0[6] = {
 };
 
 // 657 - 0x08E1BE28
-STATIC const SpriteOffset spriteDim_8E1BE28[4] = {
+static const SpriteOffset spriteDim_8E1BE28[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -35324,7 +35322,7 @@ STATIC const SpriteOffset spriteDim_8E1BE28[4] = {
 };
 
 // 658 - 0x08E1BE58
-STATIC const SpriteOffset spriteDim_8E1BE58[25] = {
+static const SpriteOffset spriteDim_8E1BE58[25] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -35528,7 +35526,7 @@ STATIC const SpriteOffset spriteDim_8E1BE58[25] = {
 };
 
 // 659 - 0x08E1BF84
-STATIC const SpriteOffset spriteDim_8E1BF84[15] = {
+static const SpriteOffset spriteDim_8E1BF84[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -35652,7 +35650,7 @@ STATIC const SpriteOffset spriteDim_8E1BF84[15] = {
 };
 
 // 660 - 0x08E1C038
-STATIC const SpriteOffset spriteDim_8E1C038[55] = {
+static const SpriteOffset spriteDim_8E1C038[55] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -36096,7 +36094,7 @@ STATIC const SpriteOffset spriteDim_8E1C038[55] = {
 };
 
 // 661 - 0x08E1C2CC
-STATIC const SpriteOffset spriteDim_8E1C2CC[24] = {
+static const SpriteOffset spriteDim_8E1C2CC[24] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -36292,7 +36290,7 @@ STATIC const SpriteOffset spriteDim_8E1C2CC[24] = {
 };
 
 // 662 - 0x08E1C3EC
-STATIC const SpriteOffset spriteDim_8E1C3EC[3] = {
+static const SpriteOffset spriteDim_8E1C3EC[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -36320,7 +36318,7 @@ STATIC const SpriteOffset spriteDim_8E1C3EC[3] = {
 };
 
 // 663 - 0x08E1C410
-STATIC const SpriteOffset spriteDim_8E1C410[4] = {
+static const SpriteOffset spriteDim_8E1C410[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -36356,7 +36354,7 @@ STATIC const SpriteOffset spriteDim_8E1C410[4] = {
 };
 
 // 664 - 0x08E1C440
-STATIC const SpriteOffset spriteDim_8E1C440[2] = {
+static const SpriteOffset spriteDim_8E1C440[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -36376,7 +36374,7 @@ STATIC const SpriteOffset spriteDim_8E1C440[2] = {
 };
 
 // 665 - 0x08E1C458
-STATIC const SpriteOffset spriteDim_8E1C458[4] = {
+static const SpriteOffset spriteDim_8E1C458[4] = {
     {
        .oamIndex     = 16384,
        .numSubframes = 1,
@@ -36412,7 +36410,7 @@ STATIC const SpriteOffset spriteDim_8E1C458[4] = {
 };
 
 // 666 - 0x08E1C488
-STATIC const SpriteOffset spriteDim_8E1C488[3] = {
+static const SpriteOffset spriteDim_8E1C488[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -36440,7 +36438,7 @@ STATIC const SpriteOffset spriteDim_8E1C488[3] = {
 };
 
 // 667 - 0x08E1C4AC
-STATIC const SpriteOffset spriteDim_8E1C4AC[4] = {
+static const SpriteOffset spriteDim_8E1C4AC[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -36476,7 +36474,7 @@ STATIC const SpriteOffset spriteDim_8E1C4AC[4] = {
 };
 
 // 668 - 0x08E1C4DC
-STATIC const SpriteOffset spriteDim_8E1C4DC[3] = {
+static const SpriteOffset spriteDim_8E1C4DC[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -36504,7 +36502,7 @@ STATIC const SpriteOffset spriteDim_8E1C4DC[3] = {
 };
 
 // 669 - 0x08E1C500
-STATIC const SpriteOffset spriteDim_8E1C500[7] = {
+static const SpriteOffset spriteDim_8E1C500[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -36564,7 +36562,7 @@ STATIC const SpriteOffset spriteDim_8E1C500[7] = {
 };
 
 // 670 - 0x08E1C554
-STATIC const SpriteOffset spriteDim_8E1C554[4] = {
+static const SpriteOffset spriteDim_8E1C554[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -36600,7 +36598,7 @@ STATIC const SpriteOffset spriteDim_8E1C554[4] = {
 };
 
 // 671 - 0x08E1C584
-STATIC const SpriteOffset spriteDim_8E1C584[15] = {
+static const SpriteOffset spriteDim_8E1C584[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -36724,7 +36722,7 @@ STATIC const SpriteOffset spriteDim_8E1C584[15] = {
 };
 
 // 672 - 0x08E1C638
-STATIC const SpriteOffset spriteDim_8E1C638[15] = {
+static const SpriteOffset spriteDim_8E1C638[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -36848,7 +36846,7 @@ STATIC const SpriteOffset spriteDim_8E1C638[15] = {
 };
 
 // 673 - 0x08E1C6EC
-STATIC const SpriteOffset spriteDim_8E1C6EC[12] = {
+static const SpriteOffset spriteDim_8E1C6EC[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -36948,7 +36946,7 @@ STATIC const SpriteOffset spriteDim_8E1C6EC[12] = {
 };
 
 // 674 - 0x08E1C77C
-STATIC const SpriteOffset spriteDim_8E1C77C[3] = {
+static const SpriteOffset spriteDim_8E1C77C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -36976,7 +36974,7 @@ STATIC const SpriteOffset spriteDim_8E1C77C[3] = {
 };
 
 // 675 - 0x08E1C7A0
-STATIC const SpriteOffset spriteDim_8E1C7A0[4] = {
+static const SpriteOffset spriteDim_8E1C7A0[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -37012,7 +37010,7 @@ STATIC const SpriteOffset spriteDim_8E1C7A0[4] = {
 };
 
 // 676 - 0x08E1C7D0
-STATIC const SpriteOffset spriteDim_8E1C7D0[5] = {
+static const SpriteOffset spriteDim_8E1C7D0[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -37056,7 +37054,7 @@ STATIC const SpriteOffset spriteDim_8E1C7D0[5] = {
 };
 
 // 677 - 0x08E1C80C
-STATIC const SpriteOffset spriteDim_8E1C80C[7] = {
+static const SpriteOffset spriteDim_8E1C80C[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -37116,7 +37114,7 @@ STATIC const SpriteOffset spriteDim_8E1C80C[7] = {
 };
 
 // 681 - 0x08E1C860
-STATIC const SpriteOffset spriteDim_8E1C860[22] = {
+static const SpriteOffset spriteDim_8E1C860[22] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -37296,7 +37294,7 @@ STATIC const SpriteOffset spriteDim_8E1C860[22] = {
 };
 
 // 683 - 0x08E1C968
-STATIC const SpriteOffset spriteDim_8E1C968[18] = {
+static const SpriteOffset spriteDim_8E1C968[18] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -37444,7 +37442,7 @@ STATIC const SpriteOffset spriteDim_8E1C968[18] = {
 };
 
 // 685 - 0x08E1CA40
-STATIC const SpriteOffset spriteDim_8E1CA40[9] = {
+static const SpriteOffset spriteDim_8E1CA40[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -37520,7 +37518,7 @@ STATIC const SpriteOffset spriteDim_8E1CA40[9] = {
 };
 
 // 686 - 0x08E1CAAC
-STATIC const SpriteOffset spriteDim_8E1CAAC[9] = {
+static const SpriteOffset spriteDim_8E1CAAC[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -37596,7 +37594,7 @@ STATIC const SpriteOffset spriteDim_8E1CAAC[9] = {
 };
 
 // 687 - 0x08E1CB18
-STATIC const SpriteOffset spriteDim_8E1CB18[6] = {
+static const SpriteOffset spriteDim_8E1CB18[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -37648,7 +37646,7 @@ STATIC const SpriteOffset spriteDim_8E1CB18[6] = {
 };
 
 // 688 - 0x08E1CB60
-STATIC const SpriteOffset spriteDim_8E1CB60[2] = {
+static const SpriteOffset spriteDim_8E1CB60[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -37668,7 +37666,7 @@ STATIC const SpriteOffset spriteDim_8E1CB60[2] = {
 };
 
 // 689 - 0x08E1CB78
-STATIC const SpriteOffset spriteDim_8E1CB78[15] = {
+static const SpriteOffset spriteDim_8E1CB78[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -37792,7 +37790,7 @@ STATIC const SpriteOffset spriteDim_8E1CB78[15] = {
 };
 
 // 690 - 0x08E1CC2C
-STATIC const SpriteOffset spriteDim_8E1CC2C[18] = {
+static const SpriteOffset spriteDim_8E1CC2C[18] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -37940,7 +37938,7 @@ STATIC const SpriteOffset spriteDim_8E1CC2C[18] = {
 };
 
 // 695 - 0x08E1CD04
-STATIC const SpriteOffset spriteDim_8E1CD04[17] = {
+static const SpriteOffset spriteDim_8E1CD04[17] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -38080,7 +38078,7 @@ STATIC const SpriteOffset spriteDim_8E1CD04[17] = {
 };
 
 // 696 - 0x08E1CDD0
-STATIC const SpriteOffset spriteDim_8E1CDD0[15] = {
+static const SpriteOffset spriteDim_8E1CDD0[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -38204,7 +38202,7 @@ STATIC const SpriteOffset spriteDim_8E1CDD0[15] = {
 };
 
 // 700 - 0x08E1CE84
-STATIC const SpriteOffset spriteDim_8E1CE84[10] = {
+static const SpriteOffset spriteDim_8E1CE84[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -38288,7 +38286,7 @@ STATIC const SpriteOffset spriteDim_8E1CE84[10] = {
 };
 
 // 701 - 0x08E1CEFC
-STATIC const SpriteOffset spriteDim_8E1CEFC[44] = {
+static const SpriteOffset spriteDim_8E1CEFC[44] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -38643,7 +38641,7 @@ STATIC const SpriteOffset spriteDim_8E1CEFC[44] = {
     },
 };
 
-STATIC const SpriteOffset spriteDim_8E1D10C[10] = {
+static const SpriteOffset spriteDim_8E1D10C[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -38727,7 +38725,7 @@ STATIC const SpriteOffset spriteDim_8E1D10C[10] = {
 };
 
 // 704 - 0x08E1D184
-STATIC const SpriteOffset spriteDim_8E1D184[6] = {
+static const SpriteOffset spriteDim_8E1D184[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -38779,7 +38777,7 @@ STATIC const SpriteOffset spriteDim_8E1D184[6] = {
 };
 
 // 709 - 0x08E1D1CC
-STATIC const SpriteOffset spriteDim_8E1D1CC[9] = {
+static const SpriteOffset spriteDim_8E1D1CC[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -38855,7 +38853,7 @@ STATIC const SpriteOffset spriteDim_8E1D1CC[9] = {
 };
 
 // 725 - 0x08E1D238
-STATIC const SpriteOffset spriteDim_8E1D238[12] = {
+static const SpriteOffset spriteDim_8E1D238[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -38955,7 +38953,7 @@ STATIC const SpriteOffset spriteDim_8E1D238[12] = {
 };
 
 // 726 - 0x08E1D2C8
-STATIC const SpriteOffset spriteDim_8E1D2C8[17] = {
+static const SpriteOffset spriteDim_8E1D2C8[17] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -39095,7 +39093,7 @@ STATIC const SpriteOffset spriteDim_8E1D2C8[17] = {
 };
 
 // 733 - 0x08E1D394
-STATIC const SpriteOffset spriteDim_8E1D394[13] = {
+static const SpriteOffset spriteDim_8E1D394[13] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -39203,7 +39201,7 @@ STATIC const SpriteOffset spriteDim_8E1D394[13] = {
 };
 
 // 738 - 0x08E1D430
-STATIC const SpriteOffset spriteDim_8E1D430[18] = {
+static const SpriteOffset spriteDim_8E1D430[18] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -39351,7 +39349,7 @@ STATIC const SpriteOffset spriteDim_8E1D430[18] = {
 };
 
 // 741 - 0x08E1D508
-STATIC const SpriteOffset spriteDim_8E1D508[13] = {
+static const SpriteOffset spriteDim_8E1D508[13] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -39459,7 +39457,7 @@ STATIC const SpriteOffset spriteDim_8E1D508[13] = {
 };
 
 // 743 - 0x08E1D5A4
-STATIC const SpriteOffset spriteDim_8E1D5A4[13] = {
+static const SpriteOffset spriteDim_8E1D5A4[13] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -39567,7 +39565,7 @@ STATIC const SpriteOffset spriteDim_8E1D5A4[13] = {
 };
 
 // 744 - 0x08E1D640
-STATIC const SpriteOffset spriteDim_8E1D640[8] = {
+static const SpriteOffset spriteDim_8E1D640[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -39635,7 +39633,7 @@ STATIC const SpriteOffset spriteDim_8E1D640[8] = {
 };
 
 // 745 - 0x08E1D6A0
-STATIC const SpriteOffset spriteDim_8E1D6A0[2] = {
+static const SpriteOffset spriteDim_8E1D6A0[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -39655,7 +39653,7 @@ STATIC const SpriteOffset spriteDim_8E1D6A0[2] = {
 };
 
 // 746 - 0x08E1D6B8
-STATIC const SpriteOffset spriteDim_8E1D6B8[4] = {
+static const SpriteOffset spriteDim_8E1D6B8[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -39691,7 +39689,7 @@ STATIC const SpriteOffset spriteDim_8E1D6B8[4] = {
 };
 
 // 747 - 0x08E1D6E8
-STATIC const SpriteOffset spriteDim_8E1D6E8[4] = {
+static const SpriteOffset spriteDim_8E1D6E8[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -39727,7 +39725,7 @@ STATIC const SpriteOffset spriteDim_8E1D6E8[4] = {
 };
 
 // 748 - 0x08E1D718
-STATIC const SpriteOffset spriteDim_8E1D718[13] = {
+static const SpriteOffset spriteDim_8E1D718[13] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -39835,7 +39833,7 @@ STATIC const SpriteOffset spriteDim_8E1D718[13] = {
 };
 
 // 750 - 0x08E1D7B4
-STATIC const SpriteOffset spriteDim_8E1D7B4[15] = {
+static const SpriteOffset spriteDim_8E1D7B4[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -39959,7 +39957,7 @@ STATIC const SpriteOffset spriteDim_8E1D7B4[15] = {
 };
 
 // 751 - 0x08E1D868
-STATIC const SpriteOffset spriteDim_8E1D868[16] = {
+static const SpriteOffset spriteDim_8E1D868[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -40091,7 +40089,7 @@ STATIC const SpriteOffset spriteDim_8E1D868[16] = {
 };
 
 // 752 - 0x08E1D928
-STATIC const SpriteOffset spriteDim_8E1D928[18] = {
+static const SpriteOffset spriteDim_8E1D928[18] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -40239,7 +40237,7 @@ STATIC const SpriteOffset spriteDim_8E1D928[18] = {
 };
 
 // 754 - 0x08E1DA00
-STATIC const SpriteOffset spriteDim_8E1DA00[14] = {
+static const SpriteOffset spriteDim_8E1DA00[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -40355,7 +40353,7 @@ STATIC const SpriteOffset spriteDim_8E1DA00[14] = {
 };
 
 // 755 - 0x08E1DAA8
-STATIC const SpriteOffset spriteDim_8E1DAA8[5] = {
+static const SpriteOffset spriteDim_8E1DAA8[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -40399,7 +40397,7 @@ STATIC const SpriteOffset spriteDim_8E1DAA8[5] = {
 };
 
 // 756 - 0x08E1DAE4
-STATIC const SpriteOffset spriteDim_8E1DAE4[14] = {
+static const SpriteOffset spriteDim_8E1DAE4[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -40515,7 +40513,7 @@ STATIC const SpriteOffset spriteDim_8E1DAE4[14] = {
 };
 
 // 757 - 0x08E1DB8C
-STATIC const SpriteOffset spriteDim_8E1DB8C[12] = {
+static const SpriteOffset spriteDim_8E1DB8C[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -40615,7 +40613,7 @@ STATIC const SpriteOffset spriteDim_8E1DB8C[12] = {
 };
 
 // 758 - 0x08E1DC1C
-STATIC const SpriteOffset spriteDim_8E1DC1C[21] = {
+static const SpriteOffset spriteDim_8E1DC1C[21] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -40787,7 +40785,7 @@ STATIC const SpriteOffset spriteDim_8E1DC1C[21] = {
 };
 
 // 759 - 0x08E1DD18
-STATIC const SpriteOffset spriteDim_8E1DD18[16] = {
+static const SpriteOffset spriteDim_8E1DD18[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -40919,7 +40917,7 @@ STATIC const SpriteOffset spriteDim_8E1DD18[16] = {
 };
 
 // 760 - 0x08E1DDD8
-STATIC const SpriteOffset spriteDim_8E1DDD8[12] = {
+static const SpriteOffset spriteDim_8E1DDD8[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -41019,7 +41017,7 @@ STATIC const SpriteOffset spriteDim_8E1DDD8[12] = {
 };
 
 // 764 - 0x08E1DE68
-STATIC const SpriteOffset spriteDim_8E1DE68[14] = {
+static const SpriteOffset spriteDim_8E1DE68[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -41134,7 +41132,7 @@ STATIC const SpriteOffset spriteDim_8E1DE68[14] = {
     },
 };
 
-STATIC const SpriteOffset spriteDim_8E1DF10[2] = {
+static const SpriteOffset spriteDim_8E1DF10[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -41154,7 +41152,7 @@ STATIC const SpriteOffset spriteDim_8E1DF10[2] = {
 };
 
 // 771 - 0x08E1DF28
-STATIC const SpriteOffset spriteDim_8E1DF28[8] = {
+static const SpriteOffset spriteDim_8E1DF28[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -41222,7 +41220,7 @@ STATIC const SpriteOffset spriteDim_8E1DF28[8] = {
 };
 
 // 772 - 0x08E1DF88
-STATIC const SpriteOffset spriteDim_8E1DF88[12] = {
+static const SpriteOffset spriteDim_8E1DF88[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -41316,7 +41314,7 @@ STATIC const SpriteOffset spriteDim_8E1DF88[12] = {
 };
 
 // 773 - 0x08E1E018
-STATIC const SpriteOffset spriteDim_8E1E018[12] = {
+static const SpriteOffset spriteDim_8E1E018[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -41410,7 +41408,7 @@ STATIC const SpriteOffset spriteDim_8E1E018[12] = {
 };
 
 // 774 - 0x08E1E0A8
-STATIC const SpriteOffset spriteDim_8E1E0A8[3] = {
+static const SpriteOffset spriteDim_8E1E0A8[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -41438,7 +41436,7 @@ STATIC const SpriteOffset spriteDim_8E1E0A8[3] = {
 };
 
 // 777 - 0x08E1E0CC
-STATIC const SpriteOffset spriteDim_8E1E0CC[8] = {
+static const SpriteOffset spriteDim_8E1E0CC[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -41506,7 +41504,7 @@ STATIC const SpriteOffset spriteDim_8E1E0CC[8] = {
 };
 
 // 779 - 0x08E1E12C
-STATIC const SpriteOffset spriteDim_8E1E12C[9] = {
+static const SpriteOffset spriteDim_8E1E12C[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -41582,7 +41580,7 @@ STATIC const SpriteOffset spriteDim_8E1E12C[9] = {
 };
 
 // 781 - 0x08E1E198
-STATIC const SpriteOffset spriteDim_8E1E198[11] = {
+static const SpriteOffset spriteDim_8E1E198[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -41674,7 +41672,7 @@ STATIC const SpriteOffset spriteDim_8E1E198[11] = {
 };
 
 // 782 - 0x08E1E21C
-STATIC const SpriteOffset spriteDim_8E1E21C[16] = {
+static const SpriteOffset spriteDim_8E1E21C[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -41806,7 +41804,7 @@ STATIC const SpriteOffset spriteDim_8E1E21C[16] = {
 };
 
 // 783 - 0x08E1E2DC
-STATIC const SpriteOffset spriteDim_8E1E2DC[8] = {
+static const SpriteOffset spriteDim_8E1E2DC[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -41874,7 +41872,7 @@ STATIC const SpriteOffset spriteDim_8E1E2DC[8] = {
 };
 
 // 785 - 0x08E1E33C
-STATIC const SpriteOffset spriteDim_8E1E33C[8] = {
+static const SpriteOffset spriteDim_8E1E33C[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -41942,7 +41940,7 @@ STATIC const SpriteOffset spriteDim_8E1E33C[8] = {
 };
 
 // 788 - 0x08E1E39C
-STATIC const SpriteOffset spriteDim_8E1E39C[3] = {
+static const SpriteOffset spriteDim_8E1E39C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -41970,7 +41968,7 @@ STATIC const SpriteOffset spriteDim_8E1E39C[3] = {
 };
 
 // 789 - 0x08E1E3C0
-STATIC const SpriteOffset spriteDim_8E1E3C0[10] = {
+static const SpriteOffset spriteDim_8E1E3C0[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -42054,7 +42052,7 @@ STATIC const SpriteOffset spriteDim_8E1E3C0[10] = {
 };
 
 // 790 - 0x08E1E438
-STATIC const SpriteOffset spriteDim_8E1E438[5] = {
+static const SpriteOffset spriteDim_8E1E438[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -42098,7 +42096,7 @@ STATIC const SpriteOffset spriteDim_8E1E438[5] = {
 };
 
 // 791 - 0x08E1E474
-STATIC const SpriteOffset spriteDim_8E1E474[5] = {
+static const SpriteOffset spriteDim_8E1E474[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -42142,7 +42140,7 @@ STATIC const SpriteOffset spriteDim_8E1E474[5] = {
 };
 
 // 792 - 0x08E1E4B0
-STATIC const SpriteOffset spriteDim_8E1E4B0[3] = {
+static const SpriteOffset spriteDim_8E1E4B0[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -42170,7 +42168,7 @@ STATIC const SpriteOffset spriteDim_8E1E4B0[3] = {
 };
 
 // 793 - 0x08E1E4D4
-STATIC const SpriteOffset spriteDim_8E1E4D4[12] = {
+static const SpriteOffset spriteDim_8E1E4D4[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -42270,7 +42268,7 @@ STATIC const SpriteOffset spriteDim_8E1E4D4[12] = {
 };
 
 // 794 - 0x08E1E564
-STATIC const SpriteOffset spriteDim_8E1E564[10] = {
+static const SpriteOffset spriteDim_8E1E564[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -42354,7 +42352,7 @@ STATIC const SpriteOffset spriteDim_8E1E564[10] = {
 };
 
 // 795 - 0x08E1E5DC
-STATIC const SpriteOffset spriteDim_8E1E5DC[1] = {
+static const SpriteOffset spriteDim_8E1E5DC[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -42366,7 +42364,7 @@ STATIC const SpriteOffset spriteDim_8E1E5DC[1] = {
 };
 
 // 796 - 0x08E1E5E8
-STATIC const SpriteOffset spriteDim_8E1E5E8[8] = {
+static const SpriteOffset spriteDim_8E1E5E8[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -42434,7 +42432,7 @@ STATIC const SpriteOffset spriteDim_8E1E5E8[8] = {
 };
 
 // 798 - 0x08E1E648
-STATIC const SpriteOffset spriteDim_8E1E648[3] = {
+static const SpriteOffset spriteDim_8E1E648[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -42462,7 +42460,7 @@ STATIC const SpriteOffset spriteDim_8E1E648[3] = {
 };
 
 // 799 - 0x08E1E66C
-STATIC const SpriteOffset spriteDim_8E1E66C[15] = {
+static const SpriteOffset spriteDim_8E1E66C[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -42586,7 +42584,7 @@ STATIC const SpriteOffset spriteDim_8E1E66C[15] = {
 };
 
 // 800 - 0x08E1E720
-STATIC const SpriteOffset spriteDim_8E1E720[6] = {
+static const SpriteOffset spriteDim_8E1E720[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -42638,7 +42636,7 @@ STATIC const SpriteOffset spriteDim_8E1E720[6] = {
 };
 
 // 801 - 0x08E1E768
-STATIC const SpriteOffset spriteDim_8E1E768[6] = {
+static const SpriteOffset spriteDim_8E1E768[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -42690,7 +42688,7 @@ STATIC const SpriteOffset spriteDim_8E1E768[6] = {
 };
 
 // 802 - 0x08E1E7B0
-STATIC const SpriteOffset spriteDim_8E1E7B0[8] = {
+static const SpriteOffset spriteDim_8E1E7B0[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -42758,7 +42756,7 @@ STATIC const SpriteOffset spriteDim_8E1E7B0[8] = {
 };
 
 // 804 - 0x08E1E810
-STATIC const SpriteOffset spriteDim_8E1E810[21] = {
+static const SpriteOffset spriteDim_8E1E810[21] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -42930,7 +42928,7 @@ STATIC const SpriteOffset spriteDim_8E1E810[21] = {
 };
 
 // 805 - 0x08E1E90C
-STATIC const SpriteOffset spriteDim_8E1E90C[17] = {
+static const SpriteOffset spriteDim_8E1E90C[17] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -43069,7 +43067,7 @@ STATIC const SpriteOffset spriteDim_8E1E90C[17] = {
     },
 };
 
-STATIC const SpriteOffset spriteDim_8E1E9D8[8] = {
+static const SpriteOffset spriteDim_8E1E9D8[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -43136,7 +43134,7 @@ STATIC const SpriteOffset spriteDim_8E1E9D8[8] = {
 };
 
 // 808 - 0x08E1EA38
-STATIC const SpriteOffset spriteDim_8E1EA38[2] = {
+static const SpriteOffset spriteDim_8E1EA38[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -43156,7 +43154,7 @@ STATIC const SpriteOffset spriteDim_8E1EA38[2] = {
 };
 
 // 809 - 0x08E1EA50
-STATIC const SpriteOffset spriteDim_8E1EA50[25] = {
+static const SpriteOffset spriteDim_8E1EA50[25] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -43360,7 +43358,7 @@ STATIC const SpriteOffset spriteDim_8E1EA50[25] = {
 };
 
 // 810 - 0x08E1EB7C
-STATIC const SpriteOffset spriteDim_8E1EB7C[40] = {
+static const SpriteOffset spriteDim_8E1EB7C[40] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -43684,7 +43682,7 @@ STATIC const SpriteOffset spriteDim_8E1EB7C[40] = {
 };
 
 // 813 - 0x08E1ED5C
-STATIC const SpriteOffset spriteDim_8E1ED5C[53] = {
+static const SpriteOffset spriteDim_8E1ED5C[53] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -44112,7 +44110,7 @@ STATIC const SpriteOffset spriteDim_8E1ED5C[53] = {
 };
 
 // 814 - 0x08E1EFD8
-STATIC const SpriteOffset spriteDim_8E1EFD8[11] = {
+static const SpriteOffset spriteDim_8E1EFD8[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -44204,7 +44202,7 @@ STATIC const SpriteOffset spriteDim_8E1EFD8[11] = {
 };
 
 // 815 - 0x08E1F05C
-STATIC const SpriteOffset spriteDim_8E1F05C[7] = {
+static const SpriteOffset spriteDim_8E1F05C[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -44264,7 +44262,7 @@ STATIC const SpriteOffset spriteDim_8E1F05C[7] = {
 };
 
 // 816 - 0x08E1F0B0
-STATIC const SpriteOffset spriteDim_8E1F0B0[2] = {
+static const SpriteOffset spriteDim_8E1F0B0[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -44284,7 +44282,7 @@ STATIC const SpriteOffset spriteDim_8E1F0B0[2] = {
 };
 
 // 817 - 0x08E1F0C8
-STATIC const SpriteOffset spriteDim_8E1F0C8[10] = {
+static const SpriteOffset spriteDim_8E1F0C8[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -44368,7 +44366,7 @@ STATIC const SpriteOffset spriteDim_8E1F0C8[10] = {
 };
 
 // 818 - 0x08E1F140
-STATIC const SpriteOffset spriteDim_8E1F140[14] = {
+static const SpriteOffset spriteDim_8E1F140[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -44484,7 +44482,7 @@ STATIC const SpriteOffset spriteDim_8E1F140[14] = {
 };
 
 // 819 - 0x08E1F1E8
-STATIC const SpriteOffset spriteDim_8E1F1E8[8] = {
+static const SpriteOffset spriteDim_8E1F1E8[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -44552,7 +44550,7 @@ STATIC const SpriteOffset spriteDim_8E1F1E8[8] = {
 };
 
 // 820 - 0x08E1F248
-STATIC const SpriteOffset spriteDim_8E1F248[3] = {
+static const SpriteOffset spriteDim_8E1F248[3] = {
     {
        .oamIndex     = 16384,
        .numSubframes = 4,
@@ -44580,7 +44578,7 @@ STATIC const SpriteOffset spriteDim_8E1F248[3] = {
 };
 
 // 821 - 0x08E1F26C
-STATIC const SpriteOffset spriteDim_8E1F26C[3] = {
+static const SpriteOffset spriteDim_8E1F26C[3] = {
     {
        .oamIndex     = 16384,
        .numSubframes = 4,
@@ -44608,7 +44606,7 @@ STATIC const SpriteOffset spriteDim_8E1F26C[3] = {
 };
 
 // 822 - 0x08E1F290
-STATIC const SpriteOffset spriteDim_8E1F290[9] = {
+static const SpriteOffset spriteDim_8E1F290[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -44684,7 +44682,7 @@ STATIC const SpriteOffset spriteDim_8E1F290[9] = {
 };
 
 // 823 - 0x08E1F2FC
-STATIC const SpriteOffset spriteDim_8E1F2FC[20] = {
+static const SpriteOffset spriteDim_8E1F2FC[20] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -44848,7 +44846,7 @@ STATIC const SpriteOffset spriteDim_8E1F2FC[20] = {
 };
 
 // 824 - 0x08E1F3EC
-STATIC const SpriteOffset spriteDim_8E1F3EC[27] = {
+static const SpriteOffset spriteDim_8E1F3EC[27] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -45067,7 +45065,7 @@ STATIC const SpriteOffset spriteDim_8E1F3EC[27] = {
 };
 
 // 825 - 0x08E1F530
-STATIC const SpriteOffset spriteDim_8E1F530[32] = {
+static const SpriteOffset spriteDim_8E1F530[32] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -45327,7 +45325,7 @@ STATIC const SpriteOffset spriteDim_8E1F530[32] = {
 };
 
 // 826 - 0x08E1F6B0
-STATIC const SpriteOffset spriteDim_8E1F6B0[3] = {
+static const SpriteOffset spriteDim_8E1F6B0[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -45355,7 +45353,7 @@ STATIC const SpriteOffset spriteDim_8E1F6B0[3] = {
 };
 
 // 827 - 0x08E1F6D4
-STATIC const SpriteOffset spriteDim_8E1F6D4[2] = {
+static const SpriteOffset spriteDim_8E1F6D4[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -45375,7 +45373,7 @@ STATIC const SpriteOffset spriteDim_8E1F6D4[2] = {
 };
 
 // 828 - 0x08E1F6EC
-STATIC const SpriteOffset spriteDim_8E1F6EC[6] = {
+static const SpriteOffset spriteDim_8E1F6EC[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -45427,7 +45425,7 @@ STATIC const SpriteOffset spriteDim_8E1F6EC[6] = {
 };
 
 // 829 - 0x08E1F734
-STATIC const SpriteOffset spriteDim_8E1F734[3] = {
+static const SpriteOffset spriteDim_8E1F734[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -45455,7 +45453,7 @@ STATIC const SpriteOffset spriteDim_8E1F734[3] = {
 };
 
 // 830 - 0x08E1F758
-STATIC const SpriteOffset spriteDim_8E1F758[2] = {
+static const SpriteOffset spriteDim_8E1F758[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -45475,7 +45473,7 @@ STATIC const SpriteOffset spriteDim_8E1F758[2] = {
 };
 
 // 831 - 0x08E1F770
-STATIC const SpriteOffset spriteDim_8E1F770[6] = {
+static const SpriteOffset spriteDim_8E1F770[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -45527,7 +45525,7 @@ STATIC const SpriteOffset spriteDim_8E1F770[6] = {
 };
 
 // 832 - 0x08E1F7B8
-STATIC const SpriteOffset spriteDim_8E1F7B8[3] = {
+static const SpriteOffset spriteDim_8E1F7B8[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -45555,7 +45553,7 @@ STATIC const SpriteOffset spriteDim_8E1F7B8[3] = {
 };
 
 // 833 - 0x08E1F7DC
-STATIC const SpriteOffset spriteDim_8E1F7DC[2] = {
+static const SpriteOffset spriteDim_8E1F7DC[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -45575,7 +45573,7 @@ STATIC const SpriteOffset spriteDim_8E1F7DC[2] = {
 };
 
 // 834 - 0x08E1F7F4
-STATIC const SpriteOffset spriteDim_8E1F7F4[7] = {
+static const SpriteOffset spriteDim_8E1F7F4[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -45635,7 +45633,7 @@ STATIC const SpriteOffset spriteDim_8E1F7F4[7] = {
 };
 
 // 835 - 0x08E1F848
-STATIC const SpriteOffset spriteDim_8E1F848[3] = {
+static const SpriteOffset spriteDim_8E1F848[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -45663,7 +45661,7 @@ STATIC const SpriteOffset spriteDim_8E1F848[3] = {
 };
 
 // 836 - 0x08E1F86C
-STATIC const SpriteOffset spriteDim_8E1F86C[2] = {
+static const SpriteOffset spriteDim_8E1F86C[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -45683,7 +45681,7 @@ STATIC const SpriteOffset spriteDim_8E1F86C[2] = {
 };
 
 // 837 - 0x08E1F884
-STATIC const SpriteOffset spriteDim_8E1F884[5] = {
+static const SpriteOffset spriteDim_8E1F884[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -45727,7 +45725,7 @@ STATIC const SpriteOffset spriteDim_8E1F884[5] = {
 };
 
 // 838 - 0x08E1F8C0
-STATIC const SpriteOffset spriteDim_8E1F8C0[4] = {
+static const SpriteOffset spriteDim_8E1F8C0[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -45763,7 +45761,7 @@ STATIC const SpriteOffset spriteDim_8E1F8C0[4] = {
 };
 
 // 839 - 0x08E1F8F0
-STATIC const SpriteOffset spriteDim_8E1F8F0[3] = {
+static const SpriteOffset spriteDim_8E1F8F0[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -45791,7 +45789,7 @@ STATIC const SpriteOffset spriteDim_8E1F8F0[3] = {
 };
 
 // 840 - 0x08E1F914
-STATIC const SpriteOffset spriteDim_8E1F914[3] = {
+static const SpriteOffset spriteDim_8E1F914[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -45819,7 +45817,7 @@ STATIC const SpriteOffset spriteDim_8E1F914[3] = {
 };
 
 // 841 - 0x08E1F938
-STATIC const SpriteOffset spriteDim_8E1F938[3] = {
+static const SpriteOffset spriteDim_8E1F938[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -45847,7 +45845,7 @@ STATIC const SpriteOffset spriteDim_8E1F938[3] = {
 };
 
 // 842 - 0x08E1F95C
-STATIC const SpriteOffset spriteDim_8E1F95C[3] = {
+static const SpriteOffset spriteDim_8E1F95C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -45875,7 +45873,7 @@ STATIC const SpriteOffset spriteDim_8E1F95C[3] = {
 };
 
 // 843 - 0x08E1F980
-STATIC const SpriteOffset spriteDim_8E1F980[3] = {
+static const SpriteOffset spriteDim_8E1F980[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -45903,7 +45901,7 @@ STATIC const SpriteOffset spriteDim_8E1F980[3] = {
 };
 
 // 844 - 0x08E1F9A4
-STATIC const SpriteOffset spriteDim_8E1F9A4[3] = {
+static const SpriteOffset spriteDim_8E1F9A4[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -45931,7 +45929,7 @@ STATIC const SpriteOffset spriteDim_8E1F9A4[3] = {
 };
 
 // 845 - 0x08E1F9C8
-STATIC const SpriteOffset spriteDim_8E1F9C8[3] = {
+static const SpriteOffset spriteDim_8E1F9C8[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -45959,7 +45957,7 @@ STATIC const SpriteOffset spriteDim_8E1F9C8[3] = {
 };
 
 // 846 - 0x08E1F9EC
-STATIC const SpriteOffset spriteDim_8E1F9EC[3] = {
+static const SpriteOffset spriteDim_8E1F9EC[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -45987,7 +45985,7 @@ STATIC const SpriteOffset spriteDim_8E1F9EC[3] = {
 };
 
 // 847 - 0x08E1FA10
-STATIC const SpriteOffset spriteDim_8E1FA10[3] = {
+static const SpriteOffset spriteDim_8E1FA10[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -46015,7 +46013,7 @@ STATIC const SpriteOffset spriteDim_8E1FA10[3] = {
 };
 
 // 848 - 0x08E1FA34
-STATIC const SpriteOffset spriteDim_8E1FA34[3] = {
+static const SpriteOffset spriteDim_8E1FA34[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -46043,7 +46041,7 @@ STATIC const SpriteOffset spriteDim_8E1FA34[3] = {
 };
 
 // 849 - 0x08E1FA58
-STATIC const SpriteOffset spriteDim_8E1FA58[3] = {
+static const SpriteOffset spriteDim_8E1FA58[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -46071,7 +46069,7 @@ STATIC const SpriteOffset spriteDim_8E1FA58[3] = {
 };
 
 // 850 - 0x08E1FA7C
-STATIC const SpriteOffset spriteDim_8E1FA7C[3] = {
+static const SpriteOffset spriteDim_8E1FA7C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -46099,7 +46097,7 @@ STATIC const SpriteOffset spriteDim_8E1FA7C[3] = {
 };
 
 // 851 - 0x08E1FAA0
-STATIC const SpriteOffset spriteDim_8E1FAA0[3] = {
+static const SpriteOffset spriteDim_8E1FAA0[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -46127,7 +46125,7 @@ STATIC const SpriteOffset spriteDim_8E1FAA0[3] = {
 };
 
 // 852 - 0x08E1FAC4
-STATIC const SpriteOffset spriteDim_8E1FAC4[3] = {
+static const SpriteOffset spriteDim_8E1FAC4[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -46155,7 +46153,7 @@ STATIC const SpriteOffset spriteDim_8E1FAC4[3] = {
 };
 
 // 853 - 0x08E1FAE8
-STATIC const SpriteOffset spriteDim_8E1FAE8[3] = {
+static const SpriteOffset spriteDim_8E1FAE8[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -46183,7 +46181,7 @@ STATIC const SpriteOffset spriteDim_8E1FAE8[3] = {
 };
 
 // 854 - 0x08E1FB0C
-STATIC const SpriteOffset spriteDim_8E1FB0C[1] = {
+static const SpriteOffset spriteDim_8E1FB0C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -46195,7 +46193,7 @@ STATIC const SpriteOffset spriteDim_8E1FB0C[1] = {
 };
 
 // 855 - 0x08E1FB18
-STATIC const SpriteOffset spriteDim_8E1FB18[2] = {
+static const SpriteOffset spriteDim_8E1FB18[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -46215,7 +46213,7 @@ STATIC const SpriteOffset spriteDim_8E1FB18[2] = {
 };
 
 // 856 - 0x08E1FB30
-STATIC const SpriteOffset spriteDim_8E1FB30[2] = {
+static const SpriteOffset spriteDim_8E1FB30[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -46235,7 +46233,7 @@ STATIC const SpriteOffset spriteDim_8E1FB30[2] = {
 };
 
 // 857 - 0x08E1FB48
-STATIC const SpriteOffset spriteDim_8E1FB48[19] = {
+static const SpriteOffset spriteDim_8E1FB48[19] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -46389,7 +46387,7 @@ STATIC const SpriteOffset spriteDim_8E1FB48[19] = {
 };
 
 // 858 - 0x08E1FC2C
-STATIC const SpriteOffset spriteDim_8E1FC2C[14] = {
+static const SpriteOffset spriteDim_8E1FC2C[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -46505,7 +46503,7 @@ STATIC const SpriteOffset spriteDim_8E1FC2C[14] = {
 };
 
 // 859 - 0x08E1FCD4
-STATIC const SpriteOffset spriteDim_8E1FCD4[5] = {
+static const SpriteOffset spriteDim_8E1FCD4[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -46549,7 +46547,7 @@ STATIC const SpriteOffset spriteDim_8E1FCD4[5] = {
 };
 
 // 860 - 0x08E1FD10
-STATIC const SpriteOffset spriteDim_8E1FD10[5] = {
+static const SpriteOffset spriteDim_8E1FD10[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -46593,7 +46591,7 @@ STATIC const SpriteOffset spriteDim_8E1FD10[5] = {
 };
 
 // 861 - 0x08E1FD4C
-STATIC const SpriteOffset spriteDim_8E1FD4C[7] = {
+static const SpriteOffset spriteDim_8E1FD4C[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -46653,7 +46651,7 @@ STATIC const SpriteOffset spriteDim_8E1FD4C[7] = {
 };
 
 // 862 - 0x08E1FDA0
-STATIC const SpriteOffset spriteDim_8E1FDA0[3] = {
+static const SpriteOffset spriteDim_8E1FDA0[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -46681,7 +46679,7 @@ STATIC const SpriteOffset spriteDim_8E1FDA0[3] = {
 };
 
 // 863 - 0x08E1FDC4
-STATIC const SpriteOffset spriteDim_8E1FDC4[9] = {
+static const SpriteOffset spriteDim_8E1FDC4[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -46757,7 +46755,7 @@ STATIC const SpriteOffset spriteDim_8E1FDC4[9] = {
 };
 
 // 864 - 0x08E1FE30
-STATIC const SpriteOffset spriteDim_8E1FE30[5] = {
+static const SpriteOffset spriteDim_8E1FE30[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -46794,7 +46792,7 @@ STATIC const SpriteOffset spriteDim_8E1FE30[5] = {
 };
 
 // 865 - 0x08E1FE6C
-STATIC const SpriteOffset spriteDim_8E1FE6C[9] = {
+static const SpriteOffset spriteDim_8E1FE6C[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -46870,7 +46868,7 @@ STATIC const SpriteOffset spriteDim_8E1FE6C[9] = {
 };
 
 // 866 - 0x08E1FED8
-STATIC const SpriteOffset spriteDim_8E1FED8[20] = {
+static const SpriteOffset spriteDim_8E1FED8[20] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -47019,7 +47017,7 @@ STATIC const SpriteOffset spriteDim_8E1FED8[20] = {
 };
 
 // 867 - 0x08E1FFC8
-STATIC const SpriteOffset spriteDim_8E1FFC8[6] = {
+static const SpriteOffset spriteDim_8E1FFC8[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -47070,7 +47068,7 @@ STATIC const SpriteOffset spriteDim_8E1FFC8[6] = {
 };
 
 // 868 - 0x08E20010
-STATIC const SpriteOffset spriteDim_8E20010[18] = {
+static const SpriteOffset spriteDim_8E20010[18] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -47218,7 +47216,7 @@ STATIC const SpriteOffset spriteDim_8E20010[18] = {
 };
 
 // 869 - 0x08E200E8
-STATIC const SpriteOffset spriteDim_8E200E8[4] = {
+static const SpriteOffset spriteDim_8E200E8[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -47253,7 +47251,7 @@ STATIC const SpriteOffset spriteDim_8E200E8[4] = {
 };
 
 // 870 - 0x08E20118
-STATIC const SpriteOffset spriteDim_8E20118[2] = {
+static const SpriteOffset spriteDim_8E20118[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -47273,7 +47271,7 @@ STATIC const SpriteOffset spriteDim_8E20118[2] = {
 };
 
 // 871 - 0x08E20130
-STATIC const SpriteOffset spriteDim_8E20130[2] = {
+static const SpriteOffset spriteDim_8E20130[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -47293,7 +47291,7 @@ STATIC const SpriteOffset spriteDim_8E20130[2] = {
 };
 
 // 872 - 0x08E20148
-STATIC const SpriteOffset spriteDim_8E20148[63] = {
+static const SpriteOffset spriteDim_8E20148[63] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -47801,7 +47799,7 @@ STATIC const SpriteOffset spriteDim_8E20148[63] = {
 };
 
 // 873 - 0x08E2043C
-STATIC const SpriteOffset spriteDim_8E2043C[5] = {
+static const SpriteOffset spriteDim_8E2043C[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -47845,7 +47843,7 @@ STATIC const SpriteOffset spriteDim_8E2043C[5] = {
 };
 
 // 874 - 0x08E20478
-STATIC const SpriteOffset spriteDim_8E20478[6] = {
+static const SpriteOffset spriteDim_8E20478[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -47897,7 +47895,7 @@ STATIC const SpriteOffset spriteDim_8E20478[6] = {
 };
 
 // 875 - 0x08E204C0
-STATIC const SpriteOffset spriteDim_8E204C0[7] = {
+static const SpriteOffset spriteDim_8E204C0[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -47957,7 +47955,7 @@ STATIC const SpriteOffset spriteDim_8E204C0[7] = {
 };
 
 // 876 - 0x08E20514
-STATIC const SpriteOffset spriteDim_8E20514[3] = {
+static const SpriteOffset spriteDim_8E20514[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -47984,7 +47982,7 @@ STATIC const SpriteOffset spriteDim_8E20514[3] = {
 };
 
 // 877 - 0x08E20538
-STATIC const SpriteOffset spriteDim_8E20538[12] = {
+static const SpriteOffset spriteDim_8E20538[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -48084,7 +48082,7 @@ STATIC const SpriteOffset spriteDim_8E20538[12] = {
 };
 
 // 878 - 0x08E205C8
-STATIC const SpriteOffset spriteDim_8E205C8[9] = {
+static const SpriteOffset spriteDim_8E205C8[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -48160,7 +48158,7 @@ STATIC const SpriteOffset spriteDim_8E205C8[9] = {
 };
 
 // 879 - 0x08E20634
-STATIC const SpriteOffset spriteDim_8E20634[15] = {
+static const SpriteOffset spriteDim_8E20634[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -48284,7 +48282,7 @@ STATIC const SpriteOffset spriteDim_8E20634[15] = {
 };
 
 // 880 - 0x08E206E8
-STATIC const SpriteOffset spriteDim_8E206E8[31] = {
+static const SpriteOffset spriteDim_8E206E8[31] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -48517,7 +48515,7 @@ STATIC const SpriteOffset spriteDim_8E206E8[31] = {
 };
 
 // 881 - 0x08E2085C
-STATIC const SpriteOffset spriteDim_8E2085C[8] = {
+static const SpriteOffset spriteDim_8E2085C[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -48573,7 +48571,7 @@ STATIC const SpriteOffset spriteDim_8E2085C[8] = {
 };
 
 // 882 - 0x08E208BC
-STATIC const SpriteOffset spriteDim_8E208BC[3] = {
+static const SpriteOffset spriteDim_8E208BC[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -48601,7 +48599,7 @@ STATIC const SpriteOffset spriteDim_8E208BC[3] = {
 };
 
 // 883 - 0x08E208E0
-STATIC const SpriteOffset spriteDim_8E208E0[16] = {
+static const SpriteOffset spriteDim_8E208E0[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -48733,7 +48731,7 @@ STATIC const SpriteOffset spriteDim_8E208E0[16] = {
 };
 
 // 884 - 0x08E209A0
-STATIC const SpriteOffset spriteDim_8E209A0[4] = {
+static const SpriteOffset spriteDim_8E209A0[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -48769,7 +48767,7 @@ STATIC const SpriteOffset spriteDim_8E209A0[4] = {
 };
 
 // 885 - 0x08E209D0
-STATIC const SpriteOffset spriteDim_8E209D0[4] = {
+static const SpriteOffset spriteDim_8E209D0[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -48805,7 +48803,7 @@ STATIC const SpriteOffset spriteDim_8E209D0[4] = {
 };
 
 // 886 - 0x08E20A00
-STATIC const SpriteOffset spriteDim_8E20A00[9] = {
+static const SpriteOffset spriteDim_8E20A00[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -48863,7 +48861,7 @@ STATIC const SpriteOffset spriteDim_8E20A00[9] = {
 };
 
 // 887 - 0x08E20A6C
-STATIC const SpriteOffset spriteDim_8E20A6C[1] = {
+static const SpriteOffset spriteDim_8E20A6C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -48875,7 +48873,7 @@ STATIC const SpriteOffset spriteDim_8E20A6C[1] = {
 };
 
 // 888 - 0x08E20A78
-STATIC const SpriteOffset spriteDim_8E20A78[1] = {
+static const SpriteOffset spriteDim_8E20A78[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -48887,7 +48885,7 @@ STATIC const SpriteOffset spriteDim_8E20A78[1] = {
 };
 
 // 889 - 0x08E20A84
-STATIC const SpriteOffset spriteDim_8E20A84[1] = {
+static const SpriteOffset spriteDim_8E20A84[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -48899,7 +48897,7 @@ STATIC const SpriteOffset spriteDim_8E20A84[1] = {
 };
 
 // 890 - 0x08E20A90
-STATIC const SpriteOffset spriteDim_8E20A90[1] = {
+static const SpriteOffset spriteDim_8E20A90[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -48911,7 +48909,7 @@ STATIC const SpriteOffset spriteDim_8E20A90[1] = {
 };
 
 // 891 - 0x08E20A9C
-STATIC const SpriteOffset spriteDim_8E20A9C[1] = {
+static const SpriteOffset spriteDim_8E20A9C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -48923,7 +48921,7 @@ STATIC const SpriteOffset spriteDim_8E20A9C[1] = {
 };
 
 // 892 - 0x08E20AA8
-STATIC const SpriteOffset spriteDim_8E20AA8[1] = {
+static const SpriteOffset spriteDim_8E20AA8[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -48935,7 +48933,7 @@ STATIC const SpriteOffset spriteDim_8E20AA8[1] = {
 };
 
 // 893 - 0x08E20AB4
-STATIC const SpriteOffset spriteDim_8E20AB4[1] = {
+static const SpriteOffset spriteDim_8E20AB4[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -48947,7 +48945,7 @@ STATIC const SpriteOffset spriteDim_8E20AB4[1] = {
 };
 
 // 894 - 0x08E20AC0
-STATIC const SpriteOffset spriteDim_8E20AC0[6] = {
+static const SpriteOffset spriteDim_8E20AC0[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -48999,7 +48997,7 @@ STATIC const SpriteOffset spriteDim_8E20AC0[6] = {
 };
 
 // 895 - 0x08E20B08
-STATIC const SpriteOffset spriteDim_8E20B08[8] = {
+static const SpriteOffset spriteDim_8E20B08[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -49055,7 +49053,7 @@ STATIC const SpriteOffset spriteDim_8E20B08[8] = {
 };
 
 // 896 - 0x08E20B68
-STATIC const SpriteOffset spriteDim_8E20B68[12] = {
+static const SpriteOffset spriteDim_8E20B68[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -49155,7 +49153,7 @@ STATIC const SpriteOffset spriteDim_8E20B68[12] = {
 };
 
 // 897 - 0x08E20BF8
-STATIC const SpriteOffset spriteDim_8E20BF8[1] = {
+static const SpriteOffset spriteDim_8E20BF8[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -49167,7 +49165,7 @@ STATIC const SpriteOffset spriteDim_8E20BF8[1] = {
 };
 
 // 898 - 0x08E20C04
-STATIC const SpriteOffset spriteDim_8E20C04[1] = {
+static const SpriteOffset spriteDim_8E20C04[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -49179,7 +49177,7 @@ STATIC const SpriteOffset spriteDim_8E20C04[1] = {
 };
 
 // 899 - 0x08E20C10
-STATIC const SpriteOffset spriteDim_8E20C10[8] = {
+static const SpriteOffset spriteDim_8E20C10[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -49235,7 +49233,7 @@ STATIC const SpriteOffset spriteDim_8E20C10[8] = {
 };
 
 // 900 - 0x08E20C70
-STATIC const SpriteOffset spriteDim_8E20C70[1] = {
+static const SpriteOffset spriteDim_8E20C70[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -49247,7 +49245,7 @@ STATIC const SpriteOffset spriteDim_8E20C70[1] = {
 };
 
 // 901 - 0x08E20C7C
-STATIC const SpriteOffset spriteDim_8E20C7C[2] = {
+static const SpriteOffset spriteDim_8E20C7C[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -49267,7 +49265,7 @@ STATIC const SpriteOffset spriteDim_8E20C7C[2] = {
 };
 
 // 902 - 0x08E20C94
-STATIC const SpriteOffset spriteDim_8E20C94[2] = {
+static const SpriteOffset spriteDim_8E20C94[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -49287,7 +49285,7 @@ STATIC const SpriteOffset spriteDim_8E20C94[2] = {
 };
 
 // 903 - 0x08E20CAC
-STATIC const SpriteOffset spriteDim_8E20CAC[4] = {
+static const SpriteOffset spriteDim_8E20CAC[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -49323,7 +49321,7 @@ STATIC const SpriteOffset spriteDim_8E20CAC[4] = {
 };
 
 // 904 - 0x08E20CDC
-STATIC const SpriteOffset spriteDim_8E20CDC[1] = {
+static const SpriteOffset spriteDim_8E20CDC[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -49335,7 +49333,7 @@ STATIC const SpriteOffset spriteDim_8E20CDC[1] = {
 };
 
 // 905 - 0x08E20CE8
-STATIC const SpriteOffset spriteDim_8E20CE8[4] = {
+static const SpriteOffset spriteDim_8E20CE8[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -49371,7 +49369,7 @@ STATIC const SpriteOffset spriteDim_8E20CE8[4] = {
 };
 
 // 906 - 0x08E20D18
-STATIC const SpriteOffset spriteDim_8E20D18[1] = {
+static const SpriteOffset spriteDim_8E20D18[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -49383,7 +49381,7 @@ STATIC const SpriteOffset spriteDim_8E20D18[1] = {
 };
 
 // 907 - 0x08E20D24
-STATIC const SpriteOffset spriteDim_8E20D24[12] = {
+static const SpriteOffset spriteDim_8E20D24[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -49483,7 +49481,7 @@ STATIC const SpriteOffset spriteDim_8E20D24[12] = {
 };
 
 // 908 - 0x08E20DB4
-STATIC const SpriteOffset spriteDim_8E20DB4[2] = {
+static const SpriteOffset spriteDim_8E20DB4[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -49503,7 +49501,7 @@ STATIC const SpriteOffset spriteDim_8E20DB4[2] = {
 };
 
 // 909 - 0x08E20DCC
-STATIC const SpriteOffset spriteDim_8E20DCC[1] = {
+static const SpriteOffset spriteDim_8E20DCC[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -49515,7 +49513,7 @@ STATIC const SpriteOffset spriteDim_8E20DCC[1] = {
 };
 
 // 910 - 0x08E20DD8
-STATIC const SpriteOffset spriteDim_8E20DD8[1] = {
+static const SpriteOffset spriteDim_8E20DD8[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -49527,7 +49525,7 @@ STATIC const SpriteOffset spriteDim_8E20DD8[1] = {
 };
 
 // 911 - 0x08E20DE4
-STATIC const SpriteOffset spriteDim_8E20DE4[20] = {
+static const SpriteOffset spriteDim_8E20DE4[20] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -49691,7 +49689,7 @@ STATIC const SpriteOffset spriteDim_8E20DE4[20] = {
 };
 
 // 912 - 0x08E20ED4
-STATIC const SpriteOffset spriteDim_8E20ED4[8] = {
+static const SpriteOffset spriteDim_8E20ED4[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -49759,7 +49757,7 @@ STATIC const SpriteOffset spriteDim_8E20ED4[8] = {
 };
 
 // 913 - 0x08E20F34
-STATIC const SpriteOffset spriteDim_8E20F34[27] = {
+static const SpriteOffset spriteDim_8E20F34[27] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -49979,7 +49977,7 @@ STATIC const SpriteOffset spriteDim_8E20F34[27] = {
 };
 
 // 914 - 0x08E21078
-STATIC const SpriteOffset spriteDim_8E21078[8] = {
+static const SpriteOffset spriteDim_8E21078[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -50047,7 +50045,7 @@ STATIC const SpriteOffset spriteDim_8E21078[8] = {
 };
 
 // 915 - 0x08E210D8
-STATIC const SpriteOffset spriteDim_8E210D8[7] = {
+static const SpriteOffset spriteDim_8E210D8[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -50107,7 +50105,7 @@ STATIC const SpriteOffset spriteDim_8E210D8[7] = {
 };
 
 // 916 - 0x08E2112C
-STATIC const SpriteOffset spriteDim_8E2112C[2] = {
+static const SpriteOffset spriteDim_8E2112C[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -50127,7 +50125,7 @@ STATIC const SpriteOffset spriteDim_8E2112C[2] = {
 };
 
 // 917 - 0x08E21144
-STATIC const SpriteOffset spriteDim_8E21144[12] = {
+static const SpriteOffset spriteDim_8E21144[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -50227,7 +50225,7 @@ STATIC const SpriteOffset spriteDim_8E21144[12] = {
 };
 
 // 918 - 0x08E211D4
-STATIC const SpriteOffset spriteDim_8E211D4[14] = {
+static const SpriteOffset spriteDim_8E211D4[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -50343,7 +50341,7 @@ STATIC const SpriteOffset spriteDim_8E211D4[14] = {
 };
 
 // 919 - 0x08E2127C
-STATIC const SpriteOffset spriteDim_8E2127C[4] = {
+static const SpriteOffset spriteDim_8E2127C[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -50379,7 +50377,7 @@ STATIC const SpriteOffset spriteDim_8E2127C[4] = {
 };
 
 // 920 - 0x08E212AC
-STATIC const SpriteOffset spriteDim_8E212AC[2] = {
+static const SpriteOffset spriteDim_8E212AC[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -50399,7 +50397,7 @@ STATIC const SpriteOffset spriteDim_8E212AC[2] = {
 };
 
 // 921 - 0x08E212C4
-STATIC const SpriteOffset spriteDim_8E212C4[1] = {
+static const SpriteOffset spriteDim_8E212C4[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -50411,7 +50409,7 @@ STATIC const SpriteOffset spriteDim_8E212C4[1] = {
 };
 
 // 922 - 0x08E212D0
-STATIC const SpriteOffset spriteDim_8E212D0[26] = {
+static const SpriteOffset spriteDim_8E212D0[26] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -50623,7 +50621,7 @@ STATIC const SpriteOffset spriteDim_8E212D0[26] = {
 };
 
 // 923 - 0x08E21408
-STATIC const SpriteOffset spriteDim_8E21408[4] = {
+static const SpriteOffset spriteDim_8E21408[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -50659,7 +50657,7 @@ STATIC const SpriteOffset spriteDim_8E21408[4] = {
 };
 
 // 924 - 0x08E21438
-STATIC const SpriteOffset spriteDim_8E21438[4] = {
+static const SpriteOffset spriteDim_8E21438[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -50695,7 +50693,7 @@ STATIC const SpriteOffset spriteDim_8E21438[4] = {
 };
 
 // 925 - 0x08E21468
-STATIC const SpriteOffset spriteDim_8E21468[6] = {
+static const SpriteOffset spriteDim_8E21468[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -50747,7 +50745,7 @@ STATIC const SpriteOffset spriteDim_8E21468[6] = {
 };
 
 // 926 - 0x08E214B0
-STATIC const SpriteOffset spriteDim_8E214B0[7] = {
+static const SpriteOffset spriteDim_8E214B0[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -50807,7 +50805,7 @@ STATIC const SpriteOffset spriteDim_8E214B0[7] = {
 };
 
 // 927 - 0x08E21504
-STATIC const SpriteOffset spriteDim_8E21504[3] = {
+static const SpriteOffset spriteDim_8E21504[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -50835,7 +50833,7 @@ STATIC const SpriteOffset spriteDim_8E21504[3] = {
 };
 
 // 928 - 0x08E21528
-STATIC const SpriteOffset spriteDim_8E21528[4] = {
+static const SpriteOffset spriteDim_8E21528[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 9,
@@ -50855,7 +50853,7 @@ STATIC const SpriteOffset spriteDim_8E21528[4] = {
 };
 
 // 929 - 0x08E21558
-STATIC const SpriteOffset spriteDim_8E21558[6] = {
+static const SpriteOffset spriteDim_8E21558[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -50907,7 +50905,7 @@ STATIC const SpriteOffset spriteDim_8E21558[6] = {
 };
 
 // 930 - 0x08E215A0
-STATIC const SpriteOffset spriteDim_8E215A0[1] = {
+static const SpriteOffset spriteDim_8E215A0[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -50919,7 +50917,7 @@ STATIC const SpriteOffset spriteDim_8E215A0[1] = {
 };
 
 // 931 - 0x08E215AC
-STATIC const SpriteOffset spriteDim_8E215AC[8] = {
+static const SpriteOffset spriteDim_8E215AC[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -50987,7 +50985,7 @@ STATIC const SpriteOffset spriteDim_8E215AC[8] = {
 };
 
 // 932 - 0x08E2160C
-STATIC const SpriteOffset spriteDim_8E2160C[2] = {
+static const SpriteOffset spriteDim_8E2160C[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -51007,7 +51005,7 @@ STATIC const SpriteOffset spriteDim_8E2160C[2] = {
 };
 
 // 933 - 0x08E21624
-STATIC const SpriteOffset spriteDim_8E21624[1] = {
+static const SpriteOffset spriteDim_8E21624[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -51017,7 +51015,7 @@ STATIC const SpriteOffset spriteDim_8E21624[1] = {
 };
 
 // 934 - 0x08E21630
-STATIC const SpriteOffset spriteDim_8E21630[4] = {
+static const SpriteOffset spriteDim_8E21630[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -51053,7 +51051,7 @@ STATIC const SpriteOffset spriteDim_8E21630[4] = {
 };
 
 // 935 - 0x08E21660
-STATIC const SpriteOffset spriteDim_8E21660[12] = {
+static const SpriteOffset spriteDim_8E21660[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -51153,7 +51151,7 @@ STATIC const SpriteOffset spriteDim_8E21660[12] = {
 };
 
 // 936 - 0x08E216F0
-STATIC const SpriteOffset spriteDim_8E216F0[20] = {
+static const SpriteOffset spriteDim_8E216F0[20] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -51302,7 +51300,7 @@ STATIC const SpriteOffset spriteDim_8E216F0[20] = {
 };
 
 // 937 - 0x08E217E0
-STATIC const SpriteOffset spriteDim_8E217E0[2] = {
+static const SpriteOffset spriteDim_8E217E0[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -51322,7 +51320,7 @@ STATIC const SpriteOffset spriteDim_8E217E0[2] = {
 };
 
 // 938 - 0x08E217F8
-STATIC const SpriteOffset spriteDim_8E217F8[12] = {
+static const SpriteOffset spriteDim_8E217F8[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -51422,7 +51420,7 @@ STATIC const SpriteOffset spriteDim_8E217F8[12] = {
 };
 
 // 939 - 0x08E21888
-STATIC const SpriteOffset spriteDim_8E21888[5] = {
+static const SpriteOffset spriteDim_8E21888[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -51466,7 +51464,7 @@ STATIC const SpriteOffset spriteDim_8E21888[5] = {
 };
 
 // 940 - 0x08E218C4
-STATIC const SpriteOffset spriteDim_8E218C4[13] = {
+static const SpriteOffset spriteDim_8E218C4[13] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -51574,7 +51572,7 @@ STATIC const SpriteOffset spriteDim_8E218C4[13] = {
 };
 
 // 941 - 0x08E21960
-STATIC const SpriteOffset spriteDim_8E21960[8] = {
+static const SpriteOffset spriteDim_8E21960[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -51618,7 +51616,7 @@ STATIC const SpriteOffset spriteDim_8E21960[8] = {
 };
 
 // 942 - 0x08E219C0
-STATIC const SpriteOffset spriteDim_8E219C0[3] = {
+static const SpriteOffset spriteDim_8E219C0[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -51646,7 +51644,7 @@ STATIC const SpriteOffset spriteDim_8E219C0[3] = {
 };
 
 // 943 - 0x08E219E4
-STATIC const SpriteOffset spriteDim_8E219E4[2] = {
+static const SpriteOffset spriteDim_8E219E4[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -51666,7 +51664,7 @@ STATIC const SpriteOffset spriteDim_8E219E4[2] = {
 };
 
 // 944 - 0x08E219FC
-STATIC const SpriteOffset spriteDim_8E219FC[1] = {
+static const SpriteOffset spriteDim_8E219FC[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -51678,7 +51676,7 @@ STATIC const SpriteOffset spriteDim_8E219FC[1] = {
 };
 
 // 945 - 0x08E21A08
-STATIC const SpriteOffset spriteDim_8E21A08[3] = {
+static const SpriteOffset spriteDim_8E21A08[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -51706,7 +51704,7 @@ STATIC const SpriteOffset spriteDim_8E21A08[3] = {
 };
 
 // 946 - 0x08E21A2C
-STATIC const SpriteOffset spriteDim_8E21A2C[6] = {
+static const SpriteOffset spriteDim_8E21A2C[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -51758,7 +51756,7 @@ STATIC const SpriteOffset spriteDim_8E21A2C[6] = {
 };
 
 // 947 - 0x08E21A74
-STATIC const SpriteOffset spriteDim_8E21A74[4] = {
+static const SpriteOffset spriteDim_8E21A74[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -51794,7 +51792,7 @@ STATIC const SpriteOffset spriteDim_8E21A74[4] = {
 };
 
 // 948 - 0x08E21AA4
-STATIC const SpriteOffset spriteDim_8E21AA4[16] = {
+static const SpriteOffset spriteDim_8E21AA4[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -51910,7 +51908,7 @@ STATIC const SpriteOffset spriteDim_8E21AA4[16] = {
 };
 
 // 949 - 0x08E21B64
-STATIC const SpriteOffset spriteDim_8E21B64[1] = {
+static const SpriteOffset spriteDim_8E21B64[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -51922,7 +51920,7 @@ STATIC const SpriteOffset spriteDim_8E21B64[1] = {
 };
 
 // 950 - 0x08E21B70
-STATIC const SpriteOffset spriteDim_8E21B70[1] = {
+static const SpriteOffset spriteDim_8E21B70[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -51934,7 +51932,7 @@ STATIC const SpriteOffset spriteDim_8E21B70[1] = {
 };
 
 // 951 - 0x08E21B7C
-STATIC const SpriteOffset spriteDim_8E21B7C[12] = {
+static const SpriteOffset spriteDim_8E21B7C[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -52034,7 +52032,7 @@ STATIC const SpriteOffset spriteDim_8E21B7C[12] = {
 };
 
 // 952 - 0x08E21C0C
-STATIC const SpriteOffset spriteDim_8E21C0C[12] = {
+static const SpriteOffset spriteDim_8E21C0C[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -52134,7 +52132,7 @@ STATIC const SpriteOffset spriteDim_8E21C0C[12] = {
 };
 
 // 953 - 0x08E21C9C
-STATIC const SpriteOffset spriteDim_8E21C9C[8] = {
+static const SpriteOffset spriteDim_8E21C9C[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -52190,7 +52188,7 @@ STATIC const SpriteOffset spriteDim_8E21C9C[8] = {
 };
 
 // 954 - 0x08E21CFC
-STATIC const SpriteOffset spriteDim_8E21CFC[8] = {
+static const SpriteOffset spriteDim_8E21CFC[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -52246,7 +52244,7 @@ STATIC const SpriteOffset spriteDim_8E21CFC[8] = {
 };
 
 // 955 - 0x08E21D5C
-STATIC const SpriteOffset spriteDim_8E21D5C[6] = {
+static const SpriteOffset spriteDim_8E21D5C[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -52298,7 +52296,7 @@ STATIC const SpriteOffset spriteDim_8E21D5C[6] = {
 };
 
 // 956 - 0x08E21DA4
-STATIC const SpriteOffset spriteDim_8E21DA4[6] = {
+static const SpriteOffset spriteDim_8E21DA4[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -52350,7 +52348,7 @@ STATIC const SpriteOffset spriteDim_8E21DA4[6] = {
 };
 
 // 957 - 0x08E21DEC
-STATIC const SpriteOffset spriteDim_8E21DEC[1] = {
+static const SpriteOffset spriteDim_8E21DEC[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -52362,7 +52360,7 @@ STATIC const SpriteOffset spriteDim_8E21DEC[1] = {
 };
 
 // 958 - 0x08E21DF8
-STATIC const SpriteOffset spriteDim_8E21DF8[1] = {
+static const SpriteOffset spriteDim_8E21DF8[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -52374,7 +52372,7 @@ STATIC const SpriteOffset spriteDim_8E21DF8[1] = {
 };
 
 // 959 - 0x08E21E04
-STATIC const SpriteOffset spriteDim_8E21E04[1] = {
+static const SpriteOffset spriteDim_8E21E04[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -52386,7 +52384,7 @@ STATIC const SpriteOffset spriteDim_8E21E04[1] = {
 };
 
 // 960 - 0x08E21E10
-STATIC const SpriteOffset spriteDim_8E21E10[4] = {
+static const SpriteOffset spriteDim_8E21E10[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -52414,7 +52412,7 @@ STATIC const SpriteOffset spriteDim_8E21E10[4] = {
 };
 
 // 961 - 0x08E21E40
-STATIC const SpriteOffset spriteDim_8E21E40[1] = {
+static const SpriteOffset spriteDim_8E21E40[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -52426,7 +52424,7 @@ STATIC const SpriteOffset spriteDim_8E21E40[1] = {
 };
 
 // 962 - 0x08E21E4C
-STATIC const SpriteOffset spriteDim_8E21E4C[1] = {
+static const SpriteOffset spriteDim_8E21E4C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -52438,7 +52436,7 @@ STATIC const SpriteOffset spriteDim_8E21E4C[1] = {
 };
 
 // 963 - 0x08E21E58
-STATIC const SpriteOffset spriteDim_8E21E58[1] = {
+static const SpriteOffset spriteDim_8E21E58[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -52450,7 +52448,7 @@ STATIC const SpriteOffset spriteDim_8E21E58[1] = {
 };
 
 // 964 - 0x08E21E64
-STATIC const SpriteOffset spriteDim_8E21E64[1] = {
+static const SpriteOffset spriteDim_8E21E64[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -52462,7 +52460,7 @@ STATIC const SpriteOffset spriteDim_8E21E64[1] = {
 };
 
 // 965 - 0x08E21E70
-STATIC const SpriteOffset spriteDim_8E21E70[1] = {
+static const SpriteOffset spriteDim_8E21E70[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 8,
@@ -52471,7 +52469,7 @@ STATIC const SpriteOffset spriteDim_8E21E70[1] = {
 };
 
 // 966 - 0x08E21E7C
-STATIC const SpriteOffset spriteDim_8E21E7C[8] = {
+static const SpriteOffset spriteDim_8E21E7C[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -52527,7 +52525,7 @@ STATIC const SpriteOffset spriteDim_8E21E7C[8] = {
 };
 
 // 967 - 0x08E21EDC
-STATIC const SpriteOffset spriteDim_8E21EDC[6] = {
+static const SpriteOffset spriteDim_8E21EDC[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -52579,7 +52577,7 @@ STATIC const SpriteOffset spriteDim_8E21EDC[6] = {
 };
 
 // 968 - 0x08E21F24
-STATIC const SpriteOffset spriteDim_8E21F24[4] = {
+static const SpriteOffset spriteDim_8E21F24[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -52615,7 +52613,7 @@ STATIC const SpriteOffset spriteDim_8E21F24[4] = {
 };
 
 // 969 - 0x08E21F54
-STATIC const SpriteOffset spriteDim_8E21F54[4] = {
+static const SpriteOffset spriteDim_8E21F54[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -52651,7 +52649,7 @@ STATIC const SpriteOffset spriteDim_8E21F54[4] = {
 };
 
 // 970 - 0x08E21F84
-STATIC const SpriteOffset spriteDim_8E21F84[3] = {
+static const SpriteOffset spriteDim_8E21F84[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -52679,7 +52677,7 @@ STATIC const SpriteOffset spriteDim_8E21F84[3] = {
 };
 
 // 971 - 0x08E21FA8
-STATIC const SpriteOffset spriteDim_8E21FA8[4] = {
+static const SpriteOffset spriteDim_8E21FA8[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -52715,7 +52713,7 @@ STATIC const SpriteOffset spriteDim_8E21FA8[4] = {
 };
 
 // 972 - 0x08E21FD8
-STATIC const SpriteOffset spriteDim_8E21FD8[3] = {
+static const SpriteOffset spriteDim_8E21FD8[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -52743,7 +52741,7 @@ STATIC const SpriteOffset spriteDim_8E21FD8[3] = {
 };
 
 // 973 - 0x08E21FFC
-STATIC const SpriteOffset spriteDim_8E21FFC[3] = {
+static const SpriteOffset spriteDim_8E21FFC[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -52771,7 +52769,7 @@ STATIC const SpriteOffset spriteDim_8E21FFC[3] = {
 };
 
 // 974 - 0x08E22020
-STATIC const SpriteOffset spriteDim_8E22020[1] = {
+static const SpriteOffset spriteDim_8E22020[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -52783,7 +52781,7 @@ STATIC const SpriteOffset spriteDim_8E22020[1] = {
 };
 
 // 975 - 0x08E2202C
-STATIC const SpriteOffset spriteDim_8E2202C[6] = {
+static const SpriteOffset spriteDim_8E2202C[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -52835,7 +52833,7 @@ STATIC const SpriteOffset spriteDim_8E2202C[6] = {
 };
 
 // 976 - 0x08E22074
-STATIC const SpriteOffset spriteDim_8E22074[4] = {
+static const SpriteOffset spriteDim_8E22074[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -52871,7 +52869,7 @@ STATIC const SpriteOffset spriteDim_8E22074[4] = {
 };
 
 // 977 - 0x08E220A4
-STATIC const SpriteOffset spriteDim_8E220A4[4] = {
+static const SpriteOffset spriteDim_8E220A4[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -52907,7 +52905,7 @@ STATIC const SpriteOffset spriteDim_8E220A4[4] = {
 };
 
 // 978 - 0x08E220D4
-STATIC const SpriteOffset spriteDim_8E220D4[5] = {
+static const SpriteOffset spriteDim_8E220D4[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -52951,7 +52949,7 @@ STATIC const SpriteOffset spriteDim_8E220D4[5] = {
 };
 
 // 979 - 0x08E22110
-STATIC const SpriteOffset spriteDim_8E22110[5] = {
+static const SpriteOffset spriteDim_8E22110[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -52995,7 +52993,7 @@ STATIC const SpriteOffset spriteDim_8E22110[5] = {
 };
 
 // 980 - 0x08E2214C
-STATIC const SpriteOffset spriteDim_8E2214C[5] = {
+static const SpriteOffset spriteDim_8E2214C[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -53039,7 +53037,7 @@ STATIC const SpriteOffset spriteDim_8E2214C[5] = {
 };
 
 // 981 - 0x08E22188
-STATIC const SpriteOffset spriteDim_8E22188[5] = {
+static const SpriteOffset spriteDim_8E22188[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -53083,7 +53081,7 @@ STATIC const SpriteOffset spriteDim_8E22188[5] = {
 };
 
 // 982 - 0x08E221C4
-STATIC const SpriteOffset spriteDim_8E221C4[5] = {
+static const SpriteOffset spriteDim_8E221C4[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -53127,7 +53125,7 @@ STATIC const SpriteOffset spriteDim_8E221C4[5] = {
 };
 
 // 983 - 0x08E22200
-STATIC const SpriteOffset spriteDim_8E22200[27] = {
+static const SpriteOffset spriteDim_8E22200[27] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -53347,7 +53345,7 @@ STATIC const SpriteOffset spriteDim_8E22200[27] = {
 };
 
 // 984 - 0x08E22344
-STATIC const SpriteOffset spriteDim_8E22344[5] = {
+static const SpriteOffset spriteDim_8E22344[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -53391,7 +53389,7 @@ STATIC const SpriteOffset spriteDim_8E22344[5] = {
 };
 
 // 985 - 0x08E22380
-STATIC const SpriteOffset spriteDim_8E22380[2] = {
+static const SpriteOffset spriteDim_8E22380[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -53411,7 +53409,7 @@ STATIC const SpriteOffset spriteDim_8E22380[2] = {
 };
 
 // 986 - 0x08E22398
-STATIC const SpriteOffset spriteDim_8E22398[1] = {
+static const SpriteOffset spriteDim_8E22398[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -53423,7 +53421,7 @@ STATIC const SpriteOffset spriteDim_8E22398[1] = {
 };
 
 // 987 - 0x08E223A4
-STATIC const SpriteOffset spriteDim_8E223A4[20] = {
+static const SpriteOffset spriteDim_8E223A4[20] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -53572,7 +53570,7 @@ STATIC const SpriteOffset spriteDim_8E223A4[20] = {
 };
 
 // 988 - 0x08E22494
-STATIC const SpriteOffset spriteDim_8E22494[4] = {
+static const SpriteOffset spriteDim_8E22494[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -53607,7 +53605,7 @@ STATIC const SpriteOffset spriteDim_8E22494[4] = {
 };
 
 // 989 - 0x08E224C4
-STATIC const SpriteOffset spriteDim_8E224C4[6] = {
+static const SpriteOffset spriteDim_8E224C4[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -53659,7 +53657,7 @@ STATIC const SpriteOffset spriteDim_8E224C4[6] = {
 };
 
 // 990 - 0x08E2250C
-STATIC const SpriteOffset spriteDim_8E2250C[6] = {
+static const SpriteOffset spriteDim_8E2250C[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -53711,7 +53709,7 @@ STATIC const SpriteOffset spriteDim_8E2250C[6] = {
 };
 
 // 991 - 0x08E22554
-STATIC const SpriteOffset spriteDim_8E22554[6] = {
+static const SpriteOffset spriteDim_8E22554[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -53762,7 +53760,7 @@ STATIC const SpriteOffset spriteDim_8E22554[6] = {
     },
 };
 
-STATIC const SpriteOffset spriteDim_8E2259C[6] = {
+static const SpriteOffset spriteDim_8E2259C[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -53814,7 +53812,7 @@ STATIC const SpriteOffset spriteDim_8E2259C[6] = {
 };
 
 // 994 - 0x08E225E4
-STATIC const SpriteOffset spriteDim_8E225E4[6] = {
+static const SpriteOffset spriteDim_8E225E4[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -53866,7 +53864,7 @@ STATIC const SpriteOffset spriteDim_8E225E4[6] = {
 };
 
 // 995 - 0x08E2262C
-STATIC const SpriteOffset spriteDim_8E2262C[21] = {
+static const SpriteOffset spriteDim_8E2262C[21] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -54024,7 +54022,7 @@ STATIC const SpriteOffset spriteDim_8E2262C[21] = {
 };
 
 // 996 - 0x08E22728
-STATIC const SpriteOffset spriteDim_8E22728[8] = {
+static const SpriteOffset spriteDim_8E22728[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -54092,7 +54090,7 @@ STATIC const SpriteOffset spriteDim_8E22728[8] = {
 };
 
 // 997 - 0x08E22788
-STATIC const SpriteOffset spriteDim_8E22788[2] = {
+static const SpriteOffset spriteDim_8E22788[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -54112,7 +54110,7 @@ STATIC const SpriteOffset spriteDim_8E22788[2] = {
 };
 
 // 998 - 0x08E227A0
-STATIC const SpriteOffset spriteDim_8E227A0[1] = {
+static const SpriteOffset spriteDim_8E227A0[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -54124,7 +54122,7 @@ STATIC const SpriteOffset spriteDim_8E227A0[1] = {
 };
 
 // 999 - 0x08E227AC
-STATIC const SpriteOffset spriteDim_8E227AC[3] = {
+static const SpriteOffset spriteDim_8E227AC[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -54152,7 +54150,7 @@ STATIC const SpriteOffset spriteDim_8E227AC[3] = {
 };
 
 // 1000 - 0x08E227D0
-STATIC const SpriteOffset spriteDim_8E227D0[3] = {
+static const SpriteOffset spriteDim_8E227D0[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -54180,7 +54178,7 @@ STATIC const SpriteOffset spriteDim_8E227D0[3] = {
 };
 
 // 1001 - 0x08E227F4
-STATIC const SpriteOffset spriteDim_8E227F4[26] = {
+static const SpriteOffset spriteDim_8E227F4[26] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -54392,7 +54390,7 @@ STATIC const SpriteOffset spriteDim_8E227F4[26] = {
 };
 
 // 1002 - 0x08E2292C
-STATIC const SpriteOffset spriteDim_8E2292C[26] = {
+static const SpriteOffset spriteDim_8E2292C[26] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -54604,7 +54602,7 @@ STATIC const SpriteOffset spriteDim_8E2292C[26] = {
 };
 
 // 1003 - 0x08E22A64
-STATIC const SpriteOffset spriteDim_8E22A64[26] = {
+static const SpriteOffset spriteDim_8E22A64[26] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -54816,7 +54814,7 @@ STATIC const SpriteOffset spriteDim_8E22A64[26] = {
 };
 
 // 1004 - 0x08E22B9C
-STATIC const SpriteOffset spriteDim_8E22B9C[7] = {
+static const SpriteOffset spriteDim_8E22B9C[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -54876,7 +54874,7 @@ STATIC const SpriteOffset spriteDim_8E22B9C[7] = {
 };
 
 // 1005 - 0x08E22BF0
-STATIC const SpriteOffset spriteDim_8E22BF0[8] = {
+static const SpriteOffset spriteDim_8E22BF0[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -54944,7 +54942,7 @@ STATIC const SpriteOffset spriteDim_8E22BF0[8] = {
 };
 
 // 1006 - 0x08E22C50
-STATIC const SpriteOffset spriteDim_8E22C50[34] = {
+static const SpriteOffset spriteDim_8E22C50[34] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -55220,7 +55218,7 @@ STATIC const SpriteOffset spriteDim_8E22C50[34] = {
 };
 
 // 1007 - 0x08E22DE8
-STATIC const SpriteOffset spriteDim_8E22DE8[4] = {
+static const SpriteOffset spriteDim_8E22DE8[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 7,
@@ -55256,7 +55254,7 @@ STATIC const SpriteOffset spriteDim_8E22DE8[4] = {
 };
 
 // 1008 - 0x08E22E18
-STATIC const SpriteOffset spriteDim_8E22E18[1] = {
+static const SpriteOffset spriteDim_8E22E18[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 14,
@@ -55267,7 +55265,7 @@ STATIC const SpriteOffset spriteDim_8E22E18[1] = {
 };
 
 // 1009 - 0x08E22E24
-STATIC const SpriteOffset spriteDim_8E22E24[4] = {
+static const SpriteOffset spriteDim_8E22E24[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -55303,7 +55301,7 @@ STATIC const SpriteOffset spriteDim_8E22E24[4] = {
 };
 
 // 1010 - 0x08E22E54
-STATIC const SpriteOffset spriteDim_8E22E54[1] = {
+static const SpriteOffset spriteDim_8E22E54[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -55315,7 +55313,7 @@ STATIC const SpriteOffset spriteDim_8E22E54[1] = {
 };
 
 // 1011 - 0x08E22E60
-STATIC const SpriteOffset spriteDim_8E22E60[1] = {
+static const SpriteOffset spriteDim_8E22E60[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 7,
@@ -55327,7 +55325,7 @@ STATIC const SpriteOffset spriteDim_8E22E60[1] = {
 };
 
 // 1012 - 0x08E22E6C
-STATIC const SpriteOffset spriteDim_8E22E6C[1] = {
+static const SpriteOffset spriteDim_8E22E6C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -55339,7 +55337,7 @@ STATIC const SpriteOffset spriteDim_8E22E6C[1] = {
 };
 
 // 1013 - 0x08E22E78
-STATIC const SpriteOffset spriteDim_8E22E78[1] = {
+static const SpriteOffset spriteDim_8E22E78[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -55351,7 +55349,7 @@ STATIC const SpriteOffset spriteDim_8E22E78[1] = {
 };
 
 // 1014 - 0x08E22E84
-STATIC const SpriteOffset spriteDim_8E22E84[32] = {
+static const SpriteOffset spriteDim_8E22E84[32] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -55595,7 +55593,7 @@ STATIC const SpriteOffset spriteDim_8E22E84[32] = {
 };
 
 // 1015 - 0x08E23004
-STATIC const SpriteOffset spriteDim_8E23004[6] = {
+static const SpriteOffset spriteDim_8E23004[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -55647,7 +55645,7 @@ STATIC const SpriteOffset spriteDim_8E23004[6] = {
 };
 
 // 1016 - 0x08E2304C
-STATIC const SpriteOffset spriteDim_8E2304C[3] = {
+static const SpriteOffset spriteDim_8E2304C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -55673,7 +55671,7 @@ STATIC const SpriteOffset spriteDim_8E2304C[3] = {
 };
 
 // 1017 - 0x08E23070
-STATIC const SpriteOffset spriteDim_8E23070[24] = {
+static const SpriteOffset spriteDim_8E23070[24] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -55869,7 +55867,7 @@ STATIC const SpriteOffset spriteDim_8E23070[24] = {
 };
 
 // 1018 - 0x08E23190
-STATIC const SpriteOffset spriteDim_8E23190[29] = {
+static const SpriteOffset spriteDim_8E23190[29] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -56091,7 +56089,7 @@ STATIC const SpriteOffset spriteDim_8E23190[29] = {
 };
 
 // 1019 - 0x08E232EC
-STATIC const SpriteOffset spriteDim_8E232EC[27] = {
+static const SpriteOffset spriteDim_8E232EC[27] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -56298,7 +56296,7 @@ STATIC const SpriteOffset spriteDim_8E232EC[27] = {
 };
 
 // 1020 - 0x08E23430
-STATIC const SpriteOffset spriteDim_8E23430[27] = {
+static const SpriteOffset spriteDim_8E23430[27] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -56504,7 +56502,7 @@ STATIC const SpriteOffset spriteDim_8E23430[27] = {
 };
 
 // 1021 - 0x08E23574
-STATIC const SpriteOffset spriteDim_8E23574[27] = {
+static const SpriteOffset spriteDim_8E23574[27] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -56710,7 +56708,7 @@ STATIC const SpriteOffset spriteDim_8E23574[27] = {
 };
 
 // 1022 - 0x08E236B8
-STATIC const SpriteOffset spriteDim_8E236B8[27] = {
+static const SpriteOffset spriteDim_8E236B8[27] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -56916,7 +56914,7 @@ STATIC const SpriteOffset spriteDim_8E236B8[27] = {
 };
 
 // 1023 - 0x08E237FC
-STATIC const SpriteOffset spriteDim_8E237FC[17] = {
+static const SpriteOffset spriteDim_8E237FC[17] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -57030,7 +57028,7 @@ STATIC const SpriteOffset spriteDim_8E237FC[17] = {
 };
 
 // 1024 - 0x08E238C8
-STATIC const SpriteOffset spriteDim_8E238C8[4] = {
+static const SpriteOffset spriteDim_8E238C8[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -57062,7 +57060,7 @@ STATIC const SpriteOffset spriteDim_8E238C8[4] = {
 };
 
 // 1025 - 0x08E238F8
-STATIC const SpriteOffset spriteDim_8E238F8[4] = {
+static const SpriteOffset spriteDim_8E238F8[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -57092,7 +57090,7 @@ STATIC const SpriteOffset spriteDim_8E238F8[4] = {
 };
 
 // 1026 - 0x08E23928
-STATIC const SpriteOffset spriteDim_8E23928[14] = {
+static const SpriteOffset spriteDim_8E23928[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -57184,7 +57182,7 @@ STATIC const SpriteOffset spriteDim_8E23928[14] = {
 };
 
 // 1027 - 0x08E239D0
-STATIC const SpriteOffset spriteDim_8E239D0[9] = {
+static const SpriteOffset spriteDim_8E239D0[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -57254,7 +57252,7 @@ STATIC const SpriteOffset spriteDim_8E239D0[9] = {
 };
 
 // 1028 - 0x08E23A3C
-STATIC const SpriteOffset spriteDim_8E23A3C[237] = {
+static const SpriteOffset spriteDim_8E23A3C[237] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -59150,7 +59148,7 @@ STATIC const SpriteOffset spriteDim_8E23A3C[237] = {
 };
 
 // 1029 - 0x08E24558
-STATIC const SpriteOffset spriteDim_8E24558[12] = {
+static const SpriteOffset spriteDim_8E24558[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -59250,7 +59248,7 @@ STATIC const SpriteOffset spriteDim_8E24558[12] = {
 };
 
 // 1030 - 0x08E245E8
-STATIC const SpriteOffset spriteDim_8E245E8[9] = {
+static const SpriteOffset spriteDim_8E245E8[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 7,
@@ -59309,7 +59307,7 @@ STATIC const SpriteOffset spriteDim_8E245E8[9] = {
 };
 
 // 1031 - 0x08E24654
-STATIC const SpriteOffset spriteDim_8E24654[6] = {
+static const SpriteOffset spriteDim_8E24654[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -59353,7 +59351,7 @@ STATIC const SpriteOffset spriteDim_8E24654[6] = {
 };
 
 // 1032 - 0x08E2469C
-STATIC const SpriteOffset spriteDim_8E2469C[1] = {
+static const SpriteOffset spriteDim_8E2469C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 10,
@@ -59365,7 +59363,7 @@ STATIC const SpriteOffset spriteDim_8E2469C[1] = {
 };
 
 // 1033 - 0x08E246A8
-STATIC const SpriteOffset spriteDim_8E246A8[3] = {
+static const SpriteOffset spriteDim_8E246A8[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -59391,7 +59389,7 @@ STATIC const SpriteOffset spriteDim_8E246A8[3] = {
 };
 
 // 1034 - 0x08E246CC
-STATIC const SpriteOffset spriteDim_8E246CC[1] = {
+static const SpriteOffset spriteDim_8E246CC[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -59402,7 +59400,7 @@ STATIC const SpriteOffset spriteDim_8E246CC[1] = {
 };
 
 // 1035 - 0x08E246D8
-STATIC const SpriteOffset spriteDim_8E246D8[1] = {
+static const SpriteOffset spriteDim_8E246D8[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -59412,7 +59410,7 @@ STATIC const SpriteOffset spriteDim_8E246D8[1] = {
     },
 };
 
-STATIC const SpriteOffset spriteDim_8E246E4[32] = {
+static const SpriteOffset spriteDim_8E246E4[32] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -59662,7 +59660,7 @@ STATIC const SpriteOffset spriteDim_8E246E4[32] = {
 };
 
 // 1038 - 0x08E24864
-STATIC const SpriteOffset spriteDim_8E24864[3] = {
+static const SpriteOffset spriteDim_8E24864[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -59686,7 +59684,7 @@ STATIC const SpriteOffset spriteDim_8E24864[3] = {
 };
 
 // 1039 - 0x08E24888
-STATIC const SpriteOffset spriteDim_8E24888[2] = {
+static const SpriteOffset spriteDim_8E24888[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 10,
@@ -59703,7 +59701,7 @@ STATIC const SpriteOffset spriteDim_8E24888[2] = {
 };
 
 // 1040 - 0x08E248A0
-STATIC const SpriteOffset spriteDim_8E248A0[4] = {
+static const SpriteOffset spriteDim_8E248A0[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -59732,7 +59730,7 @@ STATIC const SpriteOffset spriteDim_8E248A0[4] = {
 };
 
 // 1041 - 0x08E248D0
-STATIC const SpriteOffset spriteDim_8E248D0[81] = {
+static const SpriteOffset spriteDim_8E248D0[81] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -60384,7 +60382,7 @@ STATIC const SpriteOffset spriteDim_8E248D0[81] = {
 };
 
 // 1042 - 0x08E24C9C
-STATIC const SpriteOffset spriteDim_8E24C9C[2] = {
+static const SpriteOffset spriteDim_8E24C9C[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -60404,7 +60402,7 @@ STATIC const SpriteOffset spriteDim_8E24C9C[2] = {
 };
 
 // 1043 - 0x08E24CB4
-STATIC const SpriteOffset spriteDim_8E24CB4[10] = {
+static const SpriteOffset spriteDim_8E24CB4[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -60488,7 +60486,7 @@ STATIC const SpriteOffset spriteDim_8E24CB4[10] = {
 };
 
 // 1044 - 0x08E24D2C
-STATIC const SpriteOffset spriteDim_8E24D2C[1] = {
+static const SpriteOffset spriteDim_8E24D2C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -60500,7 +60498,7 @@ STATIC const SpriteOffset spriteDim_8E24D2C[1] = {
 };
 
 // 1045 - 0x08E24D38
-STATIC const SpriteOffset spriteDim_8E24D38[1] = {
+static const SpriteOffset spriteDim_8E24D38[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -60511,7 +60509,7 @@ STATIC const SpriteOffset spriteDim_8E24D38[1] = {
 };
 
 // 1046 - 0x08E24D44
-STATIC const SpriteOffset spriteDim_8E24D44[2] = {
+static const SpriteOffset spriteDim_8E24D44[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -60529,7 +60527,7 @@ STATIC const SpriteOffset spriteDim_8E24D44[2] = {
 };
 
 // 1047 - 0x08E24D5C
-STATIC const SpriteOffset spriteDim_8E24D5C[2] = {
+static const SpriteOffset spriteDim_8E24D5C[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -60547,7 +60545,7 @@ STATIC const SpriteOffset spriteDim_8E24D5C[2] = {
 };
 
 // 1048 - 0x08E24D74
-STATIC const SpriteOffset spriteDim_8E24D74[2] = {
+static const SpriteOffset spriteDim_8E24D74[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -60565,7 +60563,7 @@ STATIC const SpriteOffset spriteDim_8E24D74[2] = {
 };
 
 // 1049 - 0x08E24D8C
-STATIC const SpriteOffset spriteDim_8E24D8C[2] = {
+static const SpriteOffset spriteDim_8E24D8C[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -60583,7 +60581,7 @@ STATIC const SpriteOffset spriteDim_8E24D8C[2] = {
 };
 
 // 1050 - 0x08E24DA4
-STATIC const SpriteOffset spriteDim_8E24DA4[2] = {
+static const SpriteOffset spriteDim_8E24DA4[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -60601,7 +60599,7 @@ STATIC const SpriteOffset spriteDim_8E24DA4[2] = {
 };
 
 // 1051 - 0x08E24DBC
-STATIC const SpriteOffset spriteDim_8E24DBC[1] = {
+static const SpriteOffset spriteDim_8E24DBC[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -60612,7 +60610,7 @@ STATIC const SpriteOffset spriteDim_8E24DBC[1] = {
 };
 
 // 1052 - 0x08E24DC8
-STATIC const SpriteOffset spriteDim_8E24DC8[1] = {
+static const SpriteOffset spriteDim_8E24DC8[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -60623,7 +60621,7 @@ STATIC const SpriteOffset spriteDim_8E24DC8[1] = {
 };
 
 // 1053 - 0x08E24DD4
-STATIC const SpriteOffset spriteDim_8E24DD4[1] = {
+static const SpriteOffset spriteDim_8E24DD4[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -60634,7 +60632,7 @@ STATIC const SpriteOffset spriteDim_8E24DD4[1] = {
 };
 
 // 1054 - 0x08E24DE0
-STATIC const SpriteOffset spriteDim_8E24DE0[1] = {
+static const SpriteOffset spriteDim_8E24DE0[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -60645,7 +60643,7 @@ STATIC const SpriteOffset spriteDim_8E24DE0[1] = {
 };
 
 // 1055 - 0x08E24DEC
-STATIC const SpriteOffset spriteDim_8E24DEC[1] = {
+static const SpriteOffset spriteDim_8E24DEC[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -60656,7 +60654,7 @@ STATIC const SpriteOffset spriteDim_8E24DEC[1] = {
 };
 
 // 1056 - 0x08E24DF8
-STATIC const SpriteOffset spriteDim_8E24DF8[1] = {
+static const SpriteOffset spriteDim_8E24DF8[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -60667,7 +60665,7 @@ STATIC const SpriteOffset spriteDim_8E24DF8[1] = {
 };
 
 // 1057 - 0x08E24E04
-STATIC const SpriteOffset spriteDim_8E24E04[1] = {
+static const SpriteOffset spriteDim_8E24E04[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -60678,7 +60676,7 @@ STATIC const SpriteOffset spriteDim_8E24E04[1] = {
 };
 
 // 1058 - 0x08E24E10
-STATIC const SpriteOffset spriteDim_8E24E10[1] = {
+static const SpriteOffset spriteDim_8E24E10[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -60689,7 +60687,7 @@ STATIC const SpriteOffset spriteDim_8E24E10[1] = {
 };
 
 // 1059 - 0x08E24E1C
-STATIC const SpriteOffset spriteDim_8E24E1C[1] = {
+static const SpriteOffset spriteDim_8E24E1C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -60700,7 +60698,7 @@ STATIC const SpriteOffset spriteDim_8E24E1C[1] = {
 };
 
 // 1060 - 0x08E24E28
-STATIC const SpriteOffset spriteDim_8E24E28[5] = {
+static const SpriteOffset spriteDim_8E24E28[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -60738,7 +60736,7 @@ STATIC const SpriteOffset spriteDim_8E24E28[5] = {
 };
 
 // 1061 - 0x08E24E64
-STATIC const SpriteOffset spriteDim_8E24E64[5] = {
+static const SpriteOffset spriteDim_8E24E64[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -60776,7 +60774,7 @@ STATIC const SpriteOffset spriteDim_8E24E64[5] = {
 };
 
 // 1062 - 0x08E24EA0
-STATIC const SpriteOffset spriteDim_8E24EA0[5] = {
+static const SpriteOffset spriteDim_8E24EA0[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -60814,7 +60812,7 @@ STATIC const SpriteOffset spriteDim_8E24EA0[5] = {
 };
 
 // 1063 - 0x08E24EDC
-STATIC const SpriteOffset spriteDim_8E24EDC[5] = {
+static const SpriteOffset spriteDim_8E24EDC[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -60852,7 +60850,7 @@ STATIC const SpriteOffset spriteDim_8E24EDC[5] = {
 };
 
 // 1064 - 0x08E24F18
-STATIC const SpriteOffset spriteDim_8E24F18[5] = {
+static const SpriteOffset spriteDim_8E24F18[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -60890,7 +60888,7 @@ STATIC const SpriteOffset spriteDim_8E24F18[5] = {
 };
 
 // 1065 - 0x08E24F54
-STATIC const SpriteOffset spriteDim_8E24F54[4] = {
+static const SpriteOffset spriteDim_8E24F54[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -60922,7 +60920,7 @@ STATIC const SpriteOffset spriteDim_8E24F54[4] = {
 };
 
 // 1066 - 0x08E24F84
-STATIC const SpriteOffset spriteDim_8E24F84[4] = {
+static const SpriteOffset spriteDim_8E24F84[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -60954,7 +60952,7 @@ STATIC const SpriteOffset spriteDim_8E24F84[4] = {
 };
 
 // 1067 - 0x08E24FB4
-STATIC const SpriteOffset spriteDim_8E24FB4[4] = {
+static const SpriteOffset spriteDim_8E24FB4[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -60986,7 +60984,7 @@ STATIC const SpriteOffset spriteDim_8E24FB4[4] = {
 };
 
 // 1068 - 0x08E24FE4
-STATIC const SpriteOffset spriteDim_8E24FE4[4] = {
+static const SpriteOffset spriteDim_8E24FE4[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -61018,7 +61016,7 @@ STATIC const SpriteOffset spriteDim_8E24FE4[4] = {
 };
 
 // 1069 - 0x08E25014
-STATIC const SpriteOffset spriteDim_8E25014[4] = {
+static const SpriteOffset spriteDim_8E25014[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -61050,7 +61048,7 @@ STATIC const SpriteOffset spriteDim_8E25014[4] = {
 };
 
 // 1070 - 0x08E25044
-STATIC const SpriteOffset spriteDim_8E25044[3] = {
+static const SpriteOffset spriteDim_8E25044[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -61074,7 +61072,7 @@ STATIC const SpriteOffset spriteDim_8E25044[3] = {
 };
 
 // 1071 - 0x08E25068
-STATIC const SpriteOffset spriteDim_8E25068[3] = {
+static const SpriteOffset spriteDim_8E25068[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -61098,7 +61096,7 @@ STATIC const SpriteOffset spriteDim_8E25068[3] = {
 };
 
 // 1072 - 0x08E2508C
-STATIC const SpriteOffset spriteDim_8E2508C[3] = {
+static const SpriteOffset spriteDim_8E2508C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -61122,7 +61120,7 @@ STATIC const SpriteOffset spriteDim_8E2508C[3] = {
 };
 
 // 1073 - 0x08E250B0
-STATIC const SpriteOffset spriteDim_8E250B0[3] = {
+static const SpriteOffset spriteDim_8E250B0[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -61146,7 +61144,7 @@ STATIC const SpriteOffset spriteDim_8E250B0[3] = {
 };
 
 // 1074 - 0x08E250D4
-STATIC const SpriteOffset spriteDim_8E250D4[3] = {
+static const SpriteOffset spriteDim_8E250D4[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -61170,7 +61168,7 @@ STATIC const SpriteOffset spriteDim_8E250D4[3] = {
 };
 
 // 1075 - 0x08E250F8
-STATIC const SpriteOffset spriteDim_8E250F8[2] = {
+static const SpriteOffset spriteDim_8E250F8[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 7,
@@ -61190,7 +61188,7 @@ STATIC const SpriteOffset spriteDim_8E250F8[2] = {
 };
 
 // 1076 - 0x08E25110
-STATIC const SpriteOffset spriteDim_8E25110[1] = {
+static const SpriteOffset spriteDim_8E25110[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -61202,7 +61200,7 @@ STATIC const SpriteOffset spriteDim_8E25110[1] = {
 };
 
 // 1077 - 0x08E2511C
-STATIC const SpriteOffset spriteDim_8E2511C[1] = {
+static const SpriteOffset spriteDim_8E2511C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 7,
@@ -61214,7 +61212,7 @@ STATIC const SpriteOffset spriteDim_8E2511C[1] = {
 };
 
 // 1078 - 0x08E25128
-STATIC const SpriteOffset spriteDim_8E25128[1] = {
+static const SpriteOffset spriteDim_8E25128[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 7,
@@ -61226,7 +61224,7 @@ STATIC const SpriteOffset spriteDim_8E25128[1] = {
 };
 
 // 1079 - 0x08E25134
-STATIC const SpriteOffset spriteDim_8E25134[1] = {
+static const SpriteOffset spriteDim_8E25134[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -61238,7 +61236,7 @@ STATIC const SpriteOffset spriteDim_8E25134[1] = {
 };
 
 // 1080 - 0x08E25140
-STATIC const SpriteOffset spriteDim_8E25140[2] = {
+static const SpriteOffset spriteDim_8E25140[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 12,
@@ -61256,7 +61254,7 @@ STATIC const SpriteOffset spriteDim_8E25140[2] = {
 };
 
 // 1081 - 0x08E25158
-STATIC const SpriteOffset spriteDim_8E25158[2] = {
+static const SpriteOffset spriteDim_8E25158[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 12,
@@ -61274,7 +61272,7 @@ STATIC const SpriteOffset spriteDim_8E25158[2] = {
 };
 
 // 1082 - 0x08E25170
-STATIC const SpriteOffset spriteDim_8E25170[2] = {
+static const SpriteOffset spriteDim_8E25170[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 10,
@@ -61292,7 +61290,7 @@ STATIC const SpriteOffset spriteDim_8E25170[2] = {
 };
 
 // 1083 - 0x08E25188
-STATIC const SpriteOffset spriteDim_8E25188[2] = {
+static const SpriteOffset spriteDim_8E25188[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 10,
@@ -61310,7 +61308,7 @@ STATIC const SpriteOffset spriteDim_8E25188[2] = {
 };
 
 // 1084 - 0x08E251A0
-STATIC const SpriteOffset spriteDim_8E251A0[2] = {
+static const SpriteOffset spriteDim_8E251A0[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 12,
@@ -61328,7 +61326,7 @@ STATIC const SpriteOffset spriteDim_8E251A0[2] = {
 };
 
 // 1085 - 0x08E251B8
-STATIC const SpriteOffset spriteDim_8E251B8[9] = {
+static const SpriteOffset spriteDim_8E251B8[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 7,
@@ -61387,7 +61385,7 @@ STATIC const SpriteOffset spriteDim_8E251B8[9] = {
 };
 
 // 1086 - 0x08E25224
-STATIC const SpriteOffset spriteDim_8E25224[9] = {
+static const SpriteOffset spriteDim_8E25224[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 7,
@@ -61446,7 +61444,7 @@ STATIC const SpriteOffset spriteDim_8E25224[9] = {
 };
 
 // 1087 - 0x08E25290
-STATIC const SpriteOffset spriteDim_8E25290[9] = {
+static const SpriteOffset spriteDim_8E25290[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 7,
@@ -61505,7 +61503,7 @@ STATIC const SpriteOffset spriteDim_8E25290[9] = {
 };
 
 // 1088 - 0x08E252FC
-STATIC const SpriteOffset spriteDim_8E252FC[9] = {
+static const SpriteOffset spriteDim_8E252FC[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 7,
@@ -61564,7 +61562,7 @@ STATIC const SpriteOffset spriteDim_8E252FC[9] = {
 };
 
 // 1089 - 0x08E25368
-STATIC const SpriteOffset spriteDim_8E25368[9] = {
+static const SpriteOffset spriteDim_8E25368[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 7,
@@ -61623,7 +61621,7 @@ STATIC const SpriteOffset spriteDim_8E25368[9] = {
 };
 
 // 1090 - 0x08E253D4
-STATIC const SpriteOffset spriteDim_8E253D4[5] = {
+static const SpriteOffset spriteDim_8E253D4[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -61659,7 +61657,7 @@ STATIC const SpriteOffset spriteDim_8E253D4[5] = {
 };
 
 // 1091 - 0x08E25410
-STATIC const SpriteOffset spriteDim_8E25410[5] = {
+static const SpriteOffset spriteDim_8E25410[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -61695,7 +61693,7 @@ STATIC const SpriteOffset spriteDim_8E25410[5] = {
 };
 
 // 1092 - 0x08E2544C
-STATIC const SpriteOffset spriteDim_8E2544C[5] = {
+static const SpriteOffset spriteDim_8E2544C[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -61731,7 +61729,7 @@ STATIC const SpriteOffset spriteDim_8E2544C[5] = {
 };
 
 // 1093 - 0x08E25488
-STATIC const SpriteOffset spriteDim_8E25488[5] = {
+static const SpriteOffset spriteDim_8E25488[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -61767,7 +61765,7 @@ STATIC const SpriteOffset spriteDim_8E25488[5] = {
 };
 
 // 1094 - 0x08E254C4
-STATIC const SpriteOffset spriteDim_8E254C4[5] = {
+static const SpriteOffset spriteDim_8E254C4[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -61803,7 +61801,7 @@ STATIC const SpriteOffset spriteDim_8E254C4[5] = {
 };
 
 // 1095 - 0x08E25500
-STATIC const SpriteOffset spriteDim_8E25500[1] = {
+static const SpriteOffset spriteDim_8E25500[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -61815,7 +61813,7 @@ STATIC const SpriteOffset spriteDim_8E25500[1] = {
 };
 
 // 1096 - 0x08E2550C
-STATIC const SpriteOffset spriteDim_8E2550C[1] = {
+static const SpriteOffset spriteDim_8E2550C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -61827,7 +61825,7 @@ STATIC const SpriteOffset spriteDim_8E2550C[1] = {
 };
 
 // 1097 - 0x08E25518
-STATIC const SpriteOffset spriteDim_8E25518[1] = {
+static const SpriteOffset spriteDim_8E25518[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -61839,7 +61837,7 @@ STATIC const SpriteOffset spriteDim_8E25518[1] = {
 };
 
 // 1098 - 0x08E25524
-STATIC const SpriteOffset spriteDim_8E25524[1] = {
+static const SpriteOffset spriteDim_8E25524[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -61851,7 +61849,7 @@ STATIC const SpriteOffset spriteDim_8E25524[1] = {
 };
 
 // 1099 - 0x08E25530
-STATIC const SpriteOffset spriteDim_8E25530[1] = {
+static const SpriteOffset spriteDim_8E25530[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -61863,7 +61861,7 @@ STATIC const SpriteOffset spriteDim_8E25530[1] = {
 };
 
 // 1100 - 0x08E2553C
-STATIC const SpriteOffset spriteDim_8E2553C[3] = {
+static const SpriteOffset spriteDim_8E2553C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 8,
@@ -61886,7 +61884,7 @@ STATIC const SpriteOffset spriteDim_8E2553C[3] = {
 };
 
 // 1101 - 0x08E25560
-STATIC const SpriteOffset spriteDim_8E25560[1] = {
+static const SpriteOffset spriteDim_8E25560[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 10,
@@ -61897,7 +61895,7 @@ STATIC const SpriteOffset spriteDim_8E25560[1] = {
 };
 
 // 1102 - 0x08E2556C
-STATIC const SpriteOffset spriteDim_8E2556C[1] = {
+static const SpriteOffset spriteDim_8E2556C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 8,
@@ -61908,7 +61906,7 @@ STATIC const SpriteOffset spriteDim_8E2556C[1] = {
 };
 
 // 1103 - 0x08E25578
-STATIC const SpriteOffset spriteDim_8E25578[1] = {
+static const SpriteOffset spriteDim_8E25578[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 10,
@@ -61919,7 +61917,7 @@ STATIC const SpriteOffset spriteDim_8E25578[1] = {
 };
 
 // 1104 - 0x08E25584
-STATIC const SpriteOffset spriteDim_8E25584[1] = {
+static const SpriteOffset spriteDim_8E25584[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 10,
@@ -61930,7 +61928,7 @@ STATIC const SpriteOffset spriteDim_8E25584[1] = {
 };
 
 // 1105 - 0x08E25590
-STATIC const SpriteOffset spriteDim_8E25590[8] = {
+static const SpriteOffset spriteDim_8E25590[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -61993,7 +61991,7 @@ STATIC const SpriteOffset spriteDim_8E25590[8] = {
 };
 
 // 1106 - 0x08E255F0
-STATIC const SpriteOffset spriteDim_8E255F0[3] = {
+static const SpriteOffset spriteDim_8E255F0[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -62017,7 +62015,7 @@ STATIC const SpriteOffset spriteDim_8E255F0[3] = {
 };
 
 // 1107 - 0x08E25614
-STATIC const SpriteOffset spriteDim_8E25614[3] = {
+static const SpriteOffset spriteDim_8E25614[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -62041,7 +62039,7 @@ STATIC const SpriteOffset spriteDim_8E25614[3] = {
 };
 
 // 1108 - 0x08E25638
-STATIC const SpriteOffset spriteDim_8E25638[3] = {
+static const SpriteOffset spriteDim_8E25638[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -62065,7 +62063,7 @@ STATIC const SpriteOffset spriteDim_8E25638[3] = {
 };
 
 // 1109 - 0x08E2565C
-STATIC const SpriteOffset spriteDim_8E2565C[3] = {
+static const SpriteOffset spriteDim_8E2565C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -62089,7 +62087,7 @@ STATIC const SpriteOffset spriteDim_8E2565C[3] = {
 };
 
 // 1110 - 0x08E25680
-STATIC const SpriteOffset spriteDim_8E25680[3] = {
+static const SpriteOffset spriteDim_8E25680[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -62113,7 +62111,7 @@ STATIC const SpriteOffset spriteDim_8E25680[3] = {
 };
 
 // 1111 - 0x08E256A4
-STATIC const SpriteOffset spriteDim_8E256A4[2] = {
+static const SpriteOffset spriteDim_8E256A4[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 8,
@@ -62130,7 +62128,7 @@ STATIC const SpriteOffset spriteDim_8E256A4[2] = {
 };
 
 // 1112 - 0x08E256BC
-STATIC const SpriteOffset spriteDim_8E256BC[2] = {
+static const SpriteOffset spriteDim_8E256BC[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 10,
@@ -62147,7 +62145,7 @@ STATIC const SpriteOffset spriteDim_8E256BC[2] = {
 };
 
 // 1113 - 0x08E256D4
-STATIC const SpriteOffset spriteDim_8E256D4[2] = {
+static const SpriteOffset spriteDim_8E256D4[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 8,
@@ -62164,7 +62162,7 @@ STATIC const SpriteOffset spriteDim_8E256D4[2] = {
 };
 
 // 1114 - 0x08E256EC
-STATIC const SpriteOffset spriteDim_8E256EC[2] = {
+static const SpriteOffset spriteDim_8E256EC[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 10,
@@ -62181,7 +62179,7 @@ STATIC const SpriteOffset spriteDim_8E256EC[2] = {
 };
 
 // 1115 - 0x08E25704
-STATIC const SpriteOffset spriteDim_8E25704[2] = {
+static const SpriteOffset spriteDim_8E25704[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 10,
@@ -62198,7 +62196,7 @@ STATIC const SpriteOffset spriteDim_8E25704[2] = {
 };
 
 // 1116 - 0x08E2571C
-STATIC const SpriteOffset spriteDim_8E2571C[4] = {
+static const SpriteOffset spriteDim_8E2571C[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -62234,7 +62232,7 @@ STATIC const SpriteOffset spriteDim_8E2571C[4] = {
 };
 
 // 1117 - 0x08E2574C
-STATIC const SpriteOffset spriteDim_8E2574C[64] = {
+static const SpriteOffset spriteDim_8E2574C[64] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -62718,7 +62716,7 @@ STATIC const SpriteOffset spriteDim_8E2574C[64] = {
 };
 
 // 1118 - 0x08E25A4C
-STATIC const SpriteOffset spriteDim_8E25A4C[4] = {
+static const SpriteOffset spriteDim_8E25A4C[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -62752,7 +62750,7 @@ STATIC const SpriteOffset spriteDim_8E25A4C[4] = {
 };
 
 // 1120 - 0x08E25A7C
-STATIC const SpriteOffset spriteDim_8E25A7C[1] = {
+static const SpriteOffset spriteDim_8E25A7C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -62764,7 +62762,7 @@ STATIC const SpriteOffset spriteDim_8E25A7C[1] = {
 };
 
 // 1121 - 0x08E25A88
-STATIC const SpriteOffset spriteDim_8E25A88[6] = {
+static const SpriteOffset spriteDim_8E25A88[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -62804,7 +62802,7 @@ STATIC const SpriteOffset spriteDim_8E25A88[6] = {
 };
 
 // 1122 - 0x08E25AD0
-STATIC const SpriteOffset spriteDim_8E25AD0[94] = {
+static const SpriteOffset spriteDim_8E25AD0[94] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -63560,7 +63558,7 @@ STATIC const SpriteOffset spriteDim_8E25AD0[94] = {
 };
 
 // 1123 - 0x08E25F38
-STATIC const SpriteOffset spriteDim_8E25F38[8] = {
+static const SpriteOffset spriteDim_8E25F38[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -63612,7 +63610,7 @@ STATIC const SpriteOffset spriteDim_8E25F38[8] = {
 };
 
 // 1124 - 0x08E25F98
-STATIC const SpriteOffset spriteDim_8E25F98[5] = {
+static const SpriteOffset spriteDim_8E25F98[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -63656,7 +63654,7 @@ STATIC const SpriteOffset spriteDim_8E25F98[5] = {
 };
 
 // 1125 - 0x08E25FD4
-STATIC const SpriteOffset spriteDim_8E25FD4[5] = {
+static const SpriteOffset spriteDim_8E25FD4[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -63690,7 +63688,7 @@ STATIC const SpriteOffset spriteDim_8E25FD4[5] = {
 };
 
 // 1126 - 0x08E26010
-STATIC const SpriteOffset spriteDim_8E26010[1] = {
+static const SpriteOffset spriteDim_8E26010[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -63700,7 +63698,7 @@ STATIC const SpriteOffset spriteDim_8E26010[1] = {
 };
 
 // 1127 - 0x08E2601C
-STATIC const SpriteOffset spriteDim_8E2601C[1] = {
+static const SpriteOffset spriteDim_8E2601C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -63710,7 +63708,7 @@ STATIC const SpriteOffset spriteDim_8E2601C[1] = {
 };
 
 // 1128 - 0x08E26028
-STATIC const SpriteOffset spriteDim_8E26028[1] = {
+static const SpriteOffset spriteDim_8E26028[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -63720,7 +63718,7 @@ STATIC const SpriteOffset spriteDim_8E26028[1] = {
 };
 
 // 1129 - 0x08E26034
-STATIC const SpriteOffset spriteDim_8E26034[1] = {
+static const SpriteOffset spriteDim_8E26034[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -63730,7 +63728,7 @@ STATIC const SpriteOffset spriteDim_8E26034[1] = {
 };
 
 // 1130 - 0x08E26040
-STATIC const SpriteOffset spriteDim_8E26040[1] = {
+static const SpriteOffset spriteDim_8E26040[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -63740,7 +63738,7 @@ STATIC const SpriteOffset spriteDim_8E26040[1] = {
 };
 
 // 1131 - 0x08E2604C
-STATIC const SpriteOffset spriteDim_8E2604C[1] = {
+static const SpriteOffset spriteDim_8E2604C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -63750,7 +63748,7 @@ STATIC const SpriteOffset spriteDim_8E2604C[1] = {
 };
 
 // 1132 - 0x08E26058
-STATIC const SpriteOffset spriteDim_8E26058[1] = {
+static const SpriteOffset spriteDim_8E26058[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -63760,7 +63758,7 @@ STATIC const SpriteOffset spriteDim_8E26058[1] = {
 };
 
 // 1133 - 0x08E26064
-STATIC const SpriteOffset spriteDim_8E26064[2] = {
+static const SpriteOffset spriteDim_8E26064[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -63777,7 +63775,7 @@ STATIC const SpriteOffset spriteDim_8E26064[2] = {
 };
 
 // 1134 - 0x08E2607C
-STATIC const SpriteOffset spriteDim_8E2607C[5] = {
+static const SpriteOffset spriteDim_8E2607C[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -63814,7 +63812,7 @@ STATIC const SpriteOffset spriteDim_8E2607C[5] = {
 };
 
 // 1135 - 0x08E260B8
-STATIC const SpriteOffset spriteDim_8E260B8[1] = {
+static const SpriteOffset spriteDim_8E260B8[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -63826,7 +63824,7 @@ STATIC const SpriteOffset spriteDim_8E260B8[1] = {
 };
 
 // 1137 - 0x08E260C4
-STATIC const SpriteOffset spriteDim_8E260C4[7] = {
+static const SpriteOffset spriteDim_8E260C4[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -63886,7 +63884,7 @@ STATIC const SpriteOffset spriteDim_8E260C4[7] = {
 };
 
 // 1138 - 0x08E26118
-STATIC const SpriteOffset spriteDim_8E26118[3] = {
+static const SpriteOffset spriteDim_8E26118[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -63908,7 +63906,7 @@ STATIC const SpriteOffset spriteDim_8E26118[3] = {
 };
 
 // 1139 - 0x08E2613C
-STATIC const SpriteOffset spriteDim_8E2613C[4] = {
+static const SpriteOffset spriteDim_8E2613C[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -63936,7 +63934,7 @@ STATIC const SpriteOffset spriteDim_8E2613C[4] = {
 };
 
 // 1140 - 0x08E2616C
-STATIC const SpriteOffset spriteDim_8E2616C[3] = {
+static const SpriteOffset spriteDim_8E2616C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -63958,7 +63956,7 @@ STATIC const SpriteOffset spriteDim_8E2616C[3] = {
 };
 
 // 1141 - 0x08E26190
-STATIC const SpriteOffset spriteDim_8E26190[4] = {
+static const SpriteOffset spriteDim_8E26190[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -63994,7 +63992,7 @@ STATIC const SpriteOffset spriteDim_8E26190[4] = {
 };
 
 // 1142 - 0x08E261C0
-STATIC const SpriteOffset spriteDim_8E261C0[3] = {
+static const SpriteOffset spriteDim_8E261C0[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -64022,7 +64020,7 @@ STATIC const SpriteOffset spriteDim_8E261C0[3] = {
 };
 
 // 1143 - 0x08E261E4
-STATIC const SpriteOffset spriteDim_8E261E4[68] = {
+static const SpriteOffset spriteDim_8E261E4[68] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -64570,7 +64568,7 @@ STATIC const SpriteOffset spriteDim_8E261E4[68] = {
 };
 
 // 1144 - 0x08E26514
-STATIC const SpriteOffset spriteDim_8E26514[27] = {
+static const SpriteOffset spriteDim_8E26514[27] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -64790,7 +64788,7 @@ STATIC const SpriteOffset spriteDim_8E26514[27] = {
 };
 
 // 1145 - 0x08E26658
-STATIC const SpriteOffset spriteDim_8E26658[8] = {
+static const SpriteOffset spriteDim_8E26658[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -64858,7 +64856,7 @@ STATIC const SpriteOffset spriteDim_8E26658[8] = {
 };
 
 // 1146 - 0x08E266B8
-STATIC const SpriteOffset spriteDim_8E266B8[1] = {
+static const SpriteOffset spriteDim_8E266B8[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -64870,7 +64868,7 @@ STATIC const SpriteOffset spriteDim_8E266B8[1] = {
 };
 
 // 1153 - 0x08E266C4
-STATIC const SpriteOffset spriteDim_8E266C4[16] = {
+static const SpriteOffset spriteDim_8E266C4[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -64970,7 +64968,7 @@ STATIC const SpriteOffset spriteDim_8E266C4[16] = {
 };
 
 // 1154 - 0x08E26784
-STATIC const SpriteOffset spriteDim_8E26784[1] = {
+static const SpriteOffset spriteDim_8E26784[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 8,
@@ -64982,7 +64980,7 @@ STATIC const SpriteOffset spriteDim_8E26784[1] = {
 };
 
 // 1155 - 0x08E26790
-STATIC const SpriteOffset spriteDim_8E26790[3] = {
+static const SpriteOffset spriteDim_8E26790[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -65010,7 +65008,7 @@ STATIC const SpriteOffset spriteDim_8E26790[3] = {
 };
 
 // 1156 - 0x08E267B4
-STATIC const SpriteOffset spriteDim_8E267B4[24] = {
+static const SpriteOffset spriteDim_8E267B4[24] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -65206,7 +65204,7 @@ STATIC const SpriteOffset spriteDim_8E267B4[24] = {
 };
 
 // 1157 - 0x08E268D4
-STATIC const SpriteOffset spriteDim_8E268D4[4] = {
+static const SpriteOffset spriteDim_8E268D4[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -65242,7 +65240,7 @@ STATIC const SpriteOffset spriteDim_8E268D4[4] = {
 };
 
 // 1158 - 0x08E26904
-STATIC const SpriteOffset spriteDim_8E26904[3] = {
+static const SpriteOffset spriteDim_8E26904[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -65270,7 +65268,7 @@ STATIC const SpriteOffset spriteDim_8E26904[3] = {
 };
 
 // 1159 - 0x08E26928
-STATIC const SpriteOffset spriteDim_8E26928[21] = {
+static const SpriteOffset spriteDim_8E26928[21] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -65442,7 +65440,7 @@ STATIC const SpriteOffset spriteDim_8E26928[21] = {
 };
 
 // 1160 - 0x08E26A24
-STATIC const SpriteOffset spriteDim_8E26A24[1] = {
+static const SpriteOffset spriteDim_8E26A24[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -65454,7 +65452,7 @@ STATIC const SpriteOffset spriteDim_8E26A24[1] = {
 };
 
 // 1161 - 0x08E26A30
-STATIC const SpriteOffset spriteDim_8E26A30[11] = {
+static const SpriteOffset spriteDim_8E26A30[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -65525,7 +65523,7 @@ STATIC const SpriteOffset spriteDim_8E26A30[11] = {
 };
 
 // 1162 - 0x08E26AB4
-STATIC const SpriteOffset spriteDim_8E26AB4[11] = {
+static const SpriteOffset spriteDim_8E26AB4[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -65595,7 +65593,7 @@ STATIC const SpriteOffset spriteDim_8E26AB4[11] = {
 };
 
 // 1163 - 0x08E26B38
-STATIC const SpriteOffset spriteDim_8E26B38[9] = {
+static const SpriteOffset spriteDim_8E26B38[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -65671,7 +65669,7 @@ STATIC const SpriteOffset spriteDim_8E26B38[9] = {
 };
 
 // 1164 - 0x08E26BA4
-STATIC const SpriteOffset spriteDim_8E26BA4[5] = {
+static const SpriteOffset spriteDim_8E26BA4[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -65715,7 +65713,7 @@ STATIC const SpriteOffset spriteDim_8E26BA4[5] = {
 };
 
 // 1165 - 0x08E26BE0
-STATIC const SpriteOffset spriteDim_8E26BE0[2] = {
+static const SpriteOffset spriteDim_8E26BE0[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -65735,7 +65733,7 @@ STATIC const SpriteOffset spriteDim_8E26BE0[2] = {
 };
 
 // 1166 - 0x08E26BF8
-STATIC const SpriteOffset spriteDim_8E26BF8[6] = {
+static const SpriteOffset spriteDim_8E26BF8[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -65787,7 +65785,7 @@ STATIC const SpriteOffset spriteDim_8E26BF8[6] = {
 };
 
 // 1167 - 0x08E26C40
-STATIC const SpriteOffset spriteDim_8E26C40[16] = {
+static const SpriteOffset spriteDim_8E26C40[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -65919,7 +65917,7 @@ STATIC const SpriteOffset spriteDim_8E26C40[16] = {
 };
 
 // 1168 - 0x08E26D00
-STATIC const SpriteOffset spriteDim_8E26D00[6] = {
+static const SpriteOffset spriteDim_8E26D00[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -65971,7 +65969,7 @@ STATIC const SpriteOffset spriteDim_8E26D00[6] = {
 };
 
 // 1169 - 0x08E26D48
-STATIC const SpriteOffset spriteDim_8E26D48[16] = {
+static const SpriteOffset spriteDim_8E26D48[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -66103,7 +66101,7 @@ STATIC const SpriteOffset spriteDim_8E26D48[16] = {
 };
 
 // 1170 - 0x08E26E08
-STATIC const SpriteOffset spriteDim_8E26E08[1] = {
+static const SpriteOffset spriteDim_8E26E08[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -66115,7 +66113,7 @@ STATIC const SpriteOffset spriteDim_8E26E08[1] = {
 };
 
 // 1171 - 0x08E26E14
-STATIC const SpriteOffset spriteDim_8E26E14[12] = {
+static const SpriteOffset spriteDim_8E26E14[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -66215,7 +66213,7 @@ STATIC const SpriteOffset spriteDim_8E26E14[12] = {
 };
 
 // 1172 - 0x08E26EA4
-STATIC const SpriteOffset spriteDim_8E26EA4[2] = {
+static const SpriteOffset spriteDim_8E26EA4[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -66235,7 +66233,7 @@ STATIC const SpriteOffset spriteDim_8E26EA4[2] = {
 };
 
 // 1173 - 0x08E26EBC
-STATIC const SpriteOffset spriteDim_8E26EBC[12] = {
+static const SpriteOffset spriteDim_8E26EBC[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -66335,7 +66333,7 @@ STATIC const SpriteOffset spriteDim_8E26EBC[12] = {
 };
 
 // 1174 - 0x08E26F4C
-STATIC const SpriteOffset spriteDim_8E26F4C[7] = {
+static const SpriteOffset spriteDim_8E26F4C[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -66395,7 +66393,7 @@ STATIC const SpriteOffset spriteDim_8E26F4C[7] = {
 };
 
 // 1175 - 0x08E26FA0
-STATIC const SpriteOffset spriteDim_8E26FA0[12] = {
+static const SpriteOffset spriteDim_8E26FA0[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -66495,7 +66493,7 @@ STATIC const SpriteOffset spriteDim_8E26FA0[12] = {
 };
 
 // 1176 - 0x08E27030
-STATIC const SpriteOffset spriteDim_8E27030[3] = {
+static const SpriteOffset spriteDim_8E27030[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -66523,7 +66521,7 @@ STATIC const SpriteOffset spriteDim_8E27030[3] = {
 };
 
 // 1177 - 0x08E27054
-STATIC const SpriteOffset spriteDim_8E27054[11] = {
+static const SpriteOffset spriteDim_8E27054[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -66615,7 +66613,7 @@ STATIC const SpriteOffset spriteDim_8E27054[11] = {
 };
 
 // 1178 - 0x08E270D8
-STATIC const SpriteOffset spriteDim_8E270D8[11] = {
+static const SpriteOffset spriteDim_8E270D8[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -66707,7 +66705,7 @@ STATIC const SpriteOffset spriteDim_8E270D8[11] = {
 };
 
 // 1179 - 0x08E2715C
-STATIC const SpriteOffset spriteDim_8E2715C[4] = {
+static const SpriteOffset spriteDim_8E2715C[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -66743,7 +66741,7 @@ STATIC const SpriteOffset spriteDim_8E2715C[4] = {
 };
 
 // 1180 - 0x08E2718C
-STATIC const SpriteOffset spriteDim_8E2718C[7] = {
+static const SpriteOffset spriteDim_8E2718C[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -66803,7 +66801,7 @@ STATIC const SpriteOffset spriteDim_8E2718C[7] = {
 };
 
 // 1181 - 0x08E271E0
-STATIC const SpriteOffset spriteDim_8E271E0[9] = {
+static const SpriteOffset spriteDim_8E271E0[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -66879,7 +66877,7 @@ STATIC const SpriteOffset spriteDim_8E271E0[9] = {
 };
 
 // 1182 - 0x08E2724C
-STATIC const SpriteOffset spriteDim_8E2724C[8] = {
+static const SpriteOffset spriteDim_8E2724C[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -66947,7 +66945,7 @@ STATIC const SpriteOffset spriteDim_8E2724C[8] = {
 };
 
 // 1183 - 0x08E272AC
-STATIC const SpriteOffset spriteDim_8E272AC[14] = {
+static const SpriteOffset spriteDim_8E272AC[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -67063,7 +67061,7 @@ STATIC const SpriteOffset spriteDim_8E272AC[14] = {
 };
 
 // 1184 - 0x08E27354
-STATIC const SpriteOffset spriteDim_8E27354[1] = {
+static const SpriteOffset spriteDim_8E27354[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -67075,7 +67073,7 @@ STATIC const SpriteOffset spriteDim_8E27354[1] = {
 };
 
 // 1185 - 0x08E27360
-STATIC const SpriteOffset spriteDim_8E27360[8] = {
+static const SpriteOffset spriteDim_8E27360[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -67143,7 +67141,7 @@ STATIC const SpriteOffset spriteDim_8E27360[8] = {
 };
 
 // 1186 - 0x08E273C0
-STATIC const SpriteOffset spriteDim_8E273C0[8] = {
+static const SpriteOffset spriteDim_8E273C0[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -67211,7 +67209,7 @@ STATIC const SpriteOffset spriteDim_8E273C0[8] = {
 };
 
 // 1187 - 0x08E27420
-STATIC const SpriteOffset spriteDim_8E27420[7] = {
+static const SpriteOffset spriteDim_8E27420[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -67271,7 +67269,7 @@ STATIC const SpriteOffset spriteDim_8E27420[7] = {
 };
 
 // 1188 - 0x08E27474
-STATIC const SpriteOffset spriteDim_8E27474[1] = {
+static const SpriteOffset spriteDim_8E27474[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -67283,7 +67281,7 @@ STATIC const SpriteOffset spriteDim_8E27474[1] = {
 };
 
 // 1189 - 0x08E27480
-STATIC const SpriteOffset spriteDim_8E27480[7] = {
+static const SpriteOffset spriteDim_8E27480[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -67343,7 +67341,7 @@ STATIC const SpriteOffset spriteDim_8E27480[7] = {
 };
 
 // 1190 - 0x08E274D4
-STATIC const SpriteOffset spriteDim_8E274D4[2] = {
+static const SpriteOffset spriteDim_8E274D4[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -67363,7 +67361,7 @@ STATIC const SpriteOffset spriteDim_8E274D4[2] = {
 };
 
 // 1191 - 0x08E274EC
-STATIC const SpriteOffset spriteDim_8E274EC[10] = {
+static const SpriteOffset spriteDim_8E274EC[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -67447,7 +67445,7 @@ STATIC const SpriteOffset spriteDim_8E274EC[10] = {
 };
 
 // 1192 - 0x08E27564
-STATIC const SpriteOffset spriteDim_8E27564[12] = {
+static const SpriteOffset spriteDim_8E27564[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -67547,7 +67545,7 @@ STATIC const SpriteOffset spriteDim_8E27564[12] = {
 };
 
 // 1193 - 0x08E275F4
-STATIC const SpriteOffset spriteDim_8E275F4[4] = {
+static const SpriteOffset spriteDim_8E275F4[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -67583,7 +67581,7 @@ STATIC const SpriteOffset spriteDim_8E275F4[4] = {
 };
 
 // 1194 - 0x08E27624
-STATIC const SpriteOffset spriteDim_8E27624[4] = {
+static const SpriteOffset spriteDim_8E27624[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -67619,7 +67617,7 @@ STATIC const SpriteOffset spriteDim_8E27624[4] = {
 };
 
 // 1195 - 0x08E27654
-STATIC const SpriteOffset spriteDim_8E27654[1] = {
+static const SpriteOffset spriteDim_8E27654[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -67631,7 +67629,7 @@ STATIC const SpriteOffset spriteDim_8E27654[1] = {
 };
 
 // 1196 - 0x08E27660
-STATIC const SpriteOffset spriteDim_8E27660[3] = {
+static const SpriteOffset spriteDim_8E27660[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -67659,7 +67657,7 @@ STATIC const SpriteOffset spriteDim_8E27660[3] = {
 };
 
 // 1197 - 0x08E27684
-STATIC const SpriteOffset spriteDim_8E27684[8] = {
+static const SpriteOffset spriteDim_8E27684[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -67727,7 +67725,7 @@ STATIC const SpriteOffset spriteDim_8E27684[8] = {
 };
 
 // 1198 - 0x08E276E4
-STATIC const SpriteOffset spriteDim_8E276E4[1] = {
+static const SpriteOffset spriteDim_8E276E4[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -67739,7 +67737,7 @@ STATIC const SpriteOffset spriteDim_8E276E4[1] = {
 };
 
 // 1199 - 0x08E276F0
-STATIC const SpriteOffset spriteDim_8E276F0[6] = {
+static const SpriteOffset spriteDim_8E276F0[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -67791,7 +67789,7 @@ STATIC const SpriteOffset spriteDim_8E276F0[6] = {
 };
 
 // 1200 - 0x08E27738
-STATIC const SpriteOffset spriteDim_8E27738[2] = {
+static const SpriteOffset spriteDim_8E27738[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -67811,7 +67809,7 @@ STATIC const SpriteOffset spriteDim_8E27738[2] = {
 };
 
 // 1201 - 0x08E27750
-STATIC const SpriteOffset spriteDim_8E27750[5] = {
+static const SpriteOffset spriteDim_8E27750[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -67855,7 +67853,7 @@ STATIC const SpriteOffset spriteDim_8E27750[5] = {
 };
 
 // 1202 - 0x08E2778C
-STATIC const SpriteOffset spriteDim_8E2778C[7] = {
+static const SpriteOffset spriteDim_8E2778C[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -67915,7 +67913,7 @@ STATIC const SpriteOffset spriteDim_8E2778C[7] = {
 };
 
 // 1203 - 0x08E277E0
-STATIC const SpriteOffset spriteDim_8E277E0[11] = {
+static const SpriteOffset spriteDim_8E277E0[11] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -68007,7 +68005,7 @@ STATIC const SpriteOffset spriteDim_8E277E0[11] = {
 };
 
 // 1204 - 0x08E27864
-STATIC const SpriteOffset spriteDim_8E27864[7] = {
+static const SpriteOffset spriteDim_8E27864[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -68067,7 +68065,7 @@ STATIC const SpriteOffset spriteDim_8E27864[7] = {
 };
 
 // 1205 - 0x08E278B8
-STATIC const SpriteOffset spriteDim_8E278B8[9] = {
+static const SpriteOffset spriteDim_8E278B8[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -68143,7 +68141,7 @@ STATIC const SpriteOffset spriteDim_8E278B8[9] = {
 };
 
 // 1206 - 0x08E27924
-STATIC const SpriteOffset spriteDim_8E27924[1] = {
+static const SpriteOffset spriteDim_8E27924[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -68155,7 +68153,7 @@ STATIC const SpriteOffset spriteDim_8E27924[1] = {
 };
 
 // 1207 - 0x08E27930
-STATIC const SpriteOffset spriteDim_8E27930[1] = {
+static const SpriteOffset spriteDim_8E27930[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -68167,7 +68165,7 @@ STATIC const SpriteOffset spriteDim_8E27930[1] = {
 };
 
 // 1208 - 0x08E2793C
-STATIC const SpriteOffset spriteDim_8E2793C[6] = {
+static const SpriteOffset spriteDim_8E2793C[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -68219,7 +68217,7 @@ STATIC const SpriteOffset spriteDim_8E2793C[6] = {
 };
 
 // 1212 - 0x08E27984
-STATIC const SpriteOffset spriteDim_8E27984[4] = {
+static const SpriteOffset spriteDim_8E27984[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -68255,7 +68253,7 @@ STATIC const SpriteOffset spriteDim_8E27984[4] = {
 };
 
 // 1213 - 0x08E279B4
-STATIC const SpriteOffset spriteDim_8E279B4[6] = {
+static const SpriteOffset spriteDim_8E279B4[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -68307,7 +68305,7 @@ STATIC const SpriteOffset spriteDim_8E279B4[6] = {
 };
 
 // 1216 - 0x08E279FC
-STATIC const SpriteOffset spriteDim_8E279FC[1] = {
+static const SpriteOffset spriteDim_8E279FC[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -68319,7 +68317,7 @@ STATIC const SpriteOffset spriteDim_8E279FC[1] = {
 };
 
 // 1217 - 0x08E27A08
-STATIC const SpriteOffset spriteDim_8E27A08[1] = {
+static const SpriteOffset spriteDim_8E27A08[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -68331,7 +68329,7 @@ STATIC const SpriteOffset spriteDim_8E27A08[1] = {
 };
 
 // 1218 - 0x08E27A14
-STATIC const SpriteOffset spriteDim_8E27A14[1] = {
+static const SpriteOffset spriteDim_8E27A14[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -68343,7 +68341,7 @@ STATIC const SpriteOffset spriteDim_8E27A14[1] = {
 };
 
 // 1219 - 0x08E27A20
-STATIC const SpriteOffset spriteDim_8E27A20[1] = {
+static const SpriteOffset spriteDim_8E27A20[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -68355,7 +68353,7 @@ STATIC const SpriteOffset spriteDim_8E27A20[1] = {
 };
 
 // 1220 - 0x08E27A2C
-STATIC const SpriteOffset spriteDim_8E27A2C[5] = {
+static const SpriteOffset spriteDim_8E27A2C[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -68399,7 +68397,7 @@ STATIC const SpriteOffset spriteDim_8E27A2C[5] = {
 };
 
 // 1221 - 0x08E27A68
-STATIC const SpriteOffset spriteDim_8E27A68[10] = {
+static const SpriteOffset spriteDim_8E27A68[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -68483,7 +68481,7 @@ STATIC const SpriteOffset spriteDim_8E27A68[10] = {
 };
 
 // 1222 - 0x08E27AE0
-STATIC const SpriteOffset spriteDim_8E27AE0[6] = {
+static const SpriteOffset spriteDim_8E27AE0[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -68535,7 +68533,7 @@ STATIC const SpriteOffset spriteDim_8E27AE0[6] = {
 };
 
 // 1225 - 0x08E27B28
-STATIC const SpriteOffset spriteDim_8E27B28[4] = {
+static const SpriteOffset spriteDim_8E27B28[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -68571,7 +68569,7 @@ STATIC const SpriteOffset spriteDim_8E27B28[4] = {
 };
 
 // 1226 - 0x08E27B58
-STATIC const SpriteOffset spriteDim_8E27B58[5] = {
+static const SpriteOffset spriteDim_8E27B58[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -68615,7 +68613,7 @@ STATIC const SpriteOffset spriteDim_8E27B58[5] = {
 };
 
 // 1227 - 0x08E27B94
-STATIC const SpriteOffset spriteDim_8E27B94[5] = {
+static const SpriteOffset spriteDim_8E27B94[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -68659,7 +68657,7 @@ STATIC const SpriteOffset spriteDim_8E27B94[5] = {
 };
 
 // 1228 - 0x08E27BD0
-STATIC const SpriteOffset spriteDim_8E27BD0[6] = {
+static const SpriteOffset spriteDim_8E27BD0[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -68711,7 +68709,7 @@ STATIC const SpriteOffset spriteDim_8E27BD0[6] = {
 };
 
 // 1229 - 0x08E27C18
-STATIC const SpriteOffset spriteDim_8E27C18[7] = {
+static const SpriteOffset spriteDim_8E27C18[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -68771,7 +68769,7 @@ STATIC const SpriteOffset spriteDim_8E27C18[7] = {
 };
 
 // 1230 - 0x08E27C6C
-STATIC const SpriteOffset spriteDim_8E27C6C[2] = {
+static const SpriteOffset spriteDim_8E27C6C[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -68791,7 +68789,7 @@ STATIC const SpriteOffset spriteDim_8E27C6C[2] = {
 };
 
 // 1231 - 0x08E27C84
-STATIC const SpriteOffset spriteDim_8E27C84[1] = {
+static const SpriteOffset spriteDim_8E27C84[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -68803,7 +68801,7 @@ STATIC const SpriteOffset spriteDim_8E27C84[1] = {
 };
 
 // 1232 - 0x08E27C90
-STATIC const SpriteOffset spriteDim_8E27C90[1] = {
+static const SpriteOffset spriteDim_8E27C90[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -68815,7 +68813,7 @@ STATIC const SpriteOffset spriteDim_8E27C90[1] = {
 };
 
 // 1233 - 0x08E27C9C
-STATIC const SpriteOffset spriteDim_8E27C9C[5] = {
+static const SpriteOffset spriteDim_8E27C9C[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 9,
@@ -68859,7 +68857,7 @@ STATIC const SpriteOffset spriteDim_8E27C9C[5] = {
 };
 
 // 1234 - 0x08E27CD8
-STATIC const SpriteOffset spriteDim_8E27CD8[1] = {
+static const SpriteOffset spriteDim_8E27CD8[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -68871,7 +68869,7 @@ STATIC const SpriteOffset spriteDim_8E27CD8[1] = {
 };
 
 // 1235 - 0x08E27CE4
-STATIC const SpriteOffset spriteDim_8E27CE4[1] = {
+static const SpriteOffset spriteDim_8E27CE4[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -68883,7 +68881,7 @@ STATIC const SpriteOffset spriteDim_8E27CE4[1] = {
 };
 
 // 1236 - 0x08E27CF0
-STATIC const SpriteOffset spriteDim_8E27CF0[60] = {
+static const SpriteOffset spriteDim_8E27CF0[60] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -69367,7 +69365,7 @@ STATIC const SpriteOffset spriteDim_8E27CF0[60] = {
 };
 
 // 1239 - 0x08E27FC0
-STATIC const SpriteOffset spriteDim_8E27FC0[4] = {
+static const SpriteOffset spriteDim_8E27FC0[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -69403,7 +69401,7 @@ STATIC const SpriteOffset spriteDim_8E27FC0[4] = {
 };
 
 // 1240 - 0x08E27FF0
-STATIC const SpriteOffset spriteDim_8E27FF0[1] = {
+static const SpriteOffset spriteDim_8E27FF0[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -69415,7 +69413,7 @@ STATIC const SpriteOffset spriteDim_8E27FF0[1] = {
 };
 
 // 1241 - 0x08E27FFC
-STATIC const SpriteOffset spriteDim_8E27FFC[1] = {
+static const SpriteOffset spriteDim_8E27FFC[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -69427,7 +69425,7 @@ STATIC const SpriteOffset spriteDim_8E27FFC[1] = {
 };
 
 // 1242 - 0x08E28008
-STATIC const SpriteOffset spriteDim_8E28008[4] = {
+static const SpriteOffset spriteDim_8E28008[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -69463,7 +69461,7 @@ STATIC const SpriteOffset spriteDim_8E28008[4] = {
 };
 
 // 1243 - 0x08E28038
-STATIC const SpriteOffset spriteDim_8E28038[2] = {
+static const SpriteOffset spriteDim_8E28038[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -69482,7 +69480,7 @@ STATIC const SpriteOffset spriteDim_8E28038[2] = {
 };
 
 // 1244 - 0x08E28050
-STATIC const SpriteOffset spriteDim_8E28050[6] = {
+static const SpriteOffset spriteDim_8E28050[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -69534,7 +69532,7 @@ STATIC const SpriteOffset spriteDim_8E28050[6] = {
 };
 
 // 1247 - 0x08E28098
-STATIC const SpriteOffset spriteDim_8E28098[1] = {
+static const SpriteOffset spriteDim_8E28098[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -69546,7 +69544,7 @@ STATIC const SpriteOffset spriteDim_8E28098[1] = {
 };
 
 // 1248 - 0x08E280A4
-STATIC const SpriteOffset spriteDim_8E280A4[1] = {
+static const SpriteOffset spriteDim_8E280A4[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -69558,7 +69556,7 @@ STATIC const SpriteOffset spriteDim_8E280A4[1] = {
 };
 
 // 1249 - 0x08E280B0
-STATIC const SpriteOffset spriteDim_8E280B0[1] = {
+static const SpriteOffset spriteDim_8E280B0[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -69570,7 +69568,7 @@ STATIC const SpriteOffset spriteDim_8E280B0[1] = {
 };
 
 // 1250 - 0x08E280BC
-STATIC const SpriteOffset spriteDim_8E280BC[1] = {
+static const SpriteOffset spriteDim_8E280BC[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -69582,7 +69580,7 @@ STATIC const SpriteOffset spriteDim_8E280BC[1] = {
 };
 
 // 1251 - 0x08E280C8
-STATIC const SpriteOffset spriteDim_8E280C8[1] = {
+static const SpriteOffset spriteDim_8E280C8[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -69594,7 +69592,7 @@ STATIC const SpriteOffset spriteDim_8E280C8[1] = {
 };
 
 // 1252 - 0x08E280D4
-STATIC const SpriteOffset spriteDim_8E280D4[10] = {
+static const SpriteOffset spriteDim_8E280D4[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -69678,7 +69676,7 @@ STATIC const SpriteOffset spriteDim_8E280D4[10] = {
 };
 
 // 1253 - 0x08E2814C
-STATIC const SpriteOffset spriteDim_8E2814C[6] = {
+static const SpriteOffset spriteDim_8E2814C[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -69730,7 +69728,7 @@ STATIC const SpriteOffset spriteDim_8E2814C[6] = {
 };
 
 // 1256 - 0x08E28194
-STATIC const SpriteOffset spriteDim_8E28194[7] = {
+static const SpriteOffset spriteDim_8E28194[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -69790,7 +69788,7 @@ STATIC const SpriteOffset spriteDim_8E28194[7] = {
 };
 
 // 1257 - 0x08E281E8
-STATIC const SpriteOffset spriteDim_8E281E8[7] = {
+static const SpriteOffset spriteDim_8E281E8[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -69850,7 +69848,7 @@ STATIC const SpriteOffset spriteDim_8E281E8[7] = {
 };
 
 // 1258 - 0x08E2823C
-STATIC const SpriteOffset spriteDim_8E2823C[1] = {
+static const SpriteOffset spriteDim_8E2823C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -69862,7 +69860,7 @@ STATIC const SpriteOffset spriteDim_8E2823C[1] = {
 };
 
 // 1259 - 0x08E28248
-STATIC const SpriteOffset spriteDim_8E28248[5] = {
+static const SpriteOffset spriteDim_8E28248[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -69906,7 +69904,7 @@ STATIC const SpriteOffset spriteDim_8E28248[5] = {
 };
 
 // 1260 - 0x08E28284
-STATIC const SpriteOffset spriteDim_8E28284[5] = {
+static const SpriteOffset spriteDim_8E28284[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -69950,7 +69948,7 @@ STATIC const SpriteOffset spriteDim_8E28284[5] = {
 };
 
 // 1261 - 0x08E282C0
-STATIC const SpriteOffset spriteDim_8E282C0[5] = {
+static const SpriteOffset spriteDim_8E282C0[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -69994,7 +69992,7 @@ STATIC const SpriteOffset spriteDim_8E282C0[5] = {
 };
 
 // 1264 - 0x08E282FC
-STATIC const SpriteOffset spriteDim_8E282FC[2] = {
+static const SpriteOffset spriteDim_8E282FC[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -70014,7 +70012,7 @@ STATIC const SpriteOffset spriteDim_8E282FC[2] = {
 };
 
 // 1265 - 0x08E28314
-STATIC const SpriteOffset spriteDim_8E28314[10] = {
+static const SpriteOffset spriteDim_8E28314[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -70098,7 +70096,7 @@ STATIC const SpriteOffset spriteDim_8E28314[10] = {
 };
 
 // 1266 - 0x08E2838C
-STATIC const SpriteOffset spriteDim_8E2838C[1] = {
+static const SpriteOffset spriteDim_8E2838C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -70110,7 +70108,7 @@ STATIC const SpriteOffset spriteDim_8E2838C[1] = {
 };
 
 // 1267 - 0x08E28398
-STATIC const SpriteOffset spriteDim_8E28398[6] = {
+static const SpriteOffset spriteDim_8E28398[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -70162,7 +70160,7 @@ STATIC const SpriteOffset spriteDim_8E28398[6] = {
 };
 
 // 1270 - 0x08E283E0
-STATIC const SpriteOffset spriteDim_8E283E0[7] = {
+static const SpriteOffset spriteDim_8E283E0[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -70222,7 +70220,7 @@ STATIC const SpriteOffset spriteDim_8E283E0[7] = {
 };
 
 // 1271 - 0x08E28434
-STATIC const SpriteOffset spriteDim_8E28434[12] = {
+static const SpriteOffset spriteDim_8E28434[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -70322,7 +70320,7 @@ STATIC const SpriteOffset spriteDim_8E28434[12] = {
 };
 
 // 1272 - 0x08E284C4
-STATIC const SpriteOffset spriteDim_8E284C4[23] = {
+static const SpriteOffset spriteDim_8E284C4[23] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -70510,7 +70508,7 @@ STATIC const SpriteOffset spriteDim_8E284C4[23] = {
 };
 
 // 1273 - 0x08E285D8
-STATIC const SpriteOffset spriteDim_8E285D8[23] = {
+static const SpriteOffset spriteDim_8E285D8[23] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -70698,7 +70696,7 @@ STATIC const SpriteOffset spriteDim_8E285D8[23] = {
 };
 
 // 1274 - 0x08E286EC
-STATIC const SpriteOffset spriteDim_8E286EC[2] = {
+static const SpriteOffset spriteDim_8E286EC[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -70718,7 +70716,7 @@ STATIC const SpriteOffset spriteDim_8E286EC[2] = {
 };
 
 // 1275 - 0x08E28704
-STATIC const SpriteOffset spriteDim_8E28704[2] = {
+static const SpriteOffset spriteDim_8E28704[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -70738,7 +70736,7 @@ STATIC const SpriteOffset spriteDim_8E28704[2] = {
 };
 
 // 1276 - 0x08E2871C
-STATIC const SpriteOffset spriteDim_8E2871C[2] = {
+static const SpriteOffset spriteDim_8E2871C[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -70758,7 +70756,7 @@ STATIC const SpriteOffset spriteDim_8E2871C[2] = {
 };
 
 // 1277 - 0x08E28734
-STATIC const SpriteOffset spriteDim_8E28734[3] = {
+static const SpriteOffset spriteDim_8E28734[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -70786,7 +70784,7 @@ STATIC const SpriteOffset spriteDim_8E28734[3] = {
 };
 
 // 1278 - 0x08E28758
-STATIC const SpriteOffset spriteDim_8E28758[12] = {
+static const SpriteOffset spriteDim_8E28758[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -70886,7 +70884,7 @@ STATIC const SpriteOffset spriteDim_8E28758[12] = {
 };
 
 // 1279 - 0x08E287E8
-STATIC const SpriteOffset spriteDim_8E287E8[1] = {
+static const SpriteOffset spriteDim_8E287E8[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -70898,7 +70896,7 @@ STATIC const SpriteOffset spriteDim_8E287E8[1] = {
 };
 
 // 1280 - 0x08E287F4
-STATIC const SpriteOffset spriteDim_8E287F4[2] = {
+static const SpriteOffset spriteDim_8E287F4[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -70918,7 +70916,7 @@ STATIC const SpriteOffset spriteDim_8E287F4[2] = {
 };
 
 // 1281 - 0x08E2880C
-STATIC const SpriteOffset spriteDim_8E2880C[6] = {
+static const SpriteOffset spriteDim_8E2880C[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -70970,7 +70968,7 @@ STATIC const SpriteOffset spriteDim_8E2880C[6] = {
 };
 
 // 1284 - 0x08E28854
-STATIC const SpriteOffset spriteDim_8E28854[15] = {
+static const SpriteOffset spriteDim_8E28854[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -71094,7 +71092,7 @@ STATIC const SpriteOffset spriteDim_8E28854[15] = {
 };
 
 // 1286 - 0x08E28908
-STATIC const SpriteOffset spriteDim_8E28908[7] = {
+static const SpriteOffset spriteDim_8E28908[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -71154,7 +71152,7 @@ STATIC const SpriteOffset spriteDim_8E28908[7] = {
 };
 
 // 1287 - 0x08E2895C
-STATIC const SpriteOffset spriteDim_8E2895C[6] = {
+static const SpriteOffset spriteDim_8E2895C[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -71206,7 +71204,7 @@ STATIC const SpriteOffset spriteDim_8E2895C[6] = {
 };
 
 // 1288 - 0x08E289A4
-STATIC const SpriteOffset spriteDim_8E289A4[6] = {
+static const SpriteOffset spriteDim_8E289A4[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -71258,7 +71256,7 @@ STATIC const SpriteOffset spriteDim_8E289A4[6] = {
 };
 
 // 1289 - 0x08E289EC
-STATIC const SpriteOffset spriteDim_8E289EC[8] = {
+static const SpriteOffset spriteDim_8E289EC[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -71326,7 +71324,7 @@ STATIC const SpriteOffset spriteDim_8E289EC[8] = {
 };
 
 // 1290 - 0x08E28A4C
-STATIC const SpriteOffset spriteDim_8E28A4C[8] = {
+static const SpriteOffset spriteDim_8E28A4C[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -71394,7 +71392,7 @@ STATIC const SpriteOffset spriteDim_8E28A4C[8] = {
 };
 
 // 1291 - 0x08E28AAC
-STATIC const SpriteOffset spriteDim_8E28AAC[19] = {
+static const SpriteOffset spriteDim_8E28AAC[19] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -71550,7 +71548,7 @@ STATIC const SpriteOffset spriteDim_8E28AAC[19] = {
 };
 
 // 1292 - 0x08E28B90
-STATIC const SpriteOffset spriteDim_8E28B90[6] = {
+static const SpriteOffset spriteDim_8E28B90[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -71600,7 +71598,7 @@ STATIC const SpriteOffset spriteDim_8E28B90[6] = {
 };
 
 // 1293 - 0x08E28BD8
-STATIC const SpriteOffset spriteDim_8E28BD8[2] = {
+static const SpriteOffset spriteDim_8E28BD8[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -71620,7 +71618,7 @@ STATIC const SpriteOffset spriteDim_8E28BD8[2] = {
 };
 
 // 1294 - 0x08E28BF0
-STATIC const SpriteOffset spriteDim_8E28BF0[10] = {
+static const SpriteOffset spriteDim_8E28BF0[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -71704,7 +71702,7 @@ STATIC const SpriteOffset spriteDim_8E28BF0[10] = {
 };
 
 // 1295 - 0x08E28C68
-STATIC const SpriteOffset spriteDim_8E28C68[16] = {
+static const SpriteOffset spriteDim_8E28C68[16] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -71836,7 +71834,7 @@ STATIC const SpriteOffset spriteDim_8E28C68[16] = {
 };
 
 // 1296 - 0x08E28D28
-STATIC const SpriteOffset spriteDim_8E28D28[7] = {
+static const SpriteOffset spriteDim_8E28D28[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -71896,7 +71894,7 @@ STATIC const SpriteOffset spriteDim_8E28D28[7] = {
 };
 
 // 1297 - 0x08E28D7C
-STATIC const SpriteOffset spriteDim_8E28D7C[7] = {
+static const SpriteOffset spriteDim_8E28D7C[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -71956,7 +71954,7 @@ STATIC const SpriteOffset spriteDim_8E28D7C[7] = {
 };
 
 // 1298 - 0x08E28DD0
-STATIC const SpriteOffset spriteDim_8E28DD0[3] = {
+static const SpriteOffset spriteDim_8E28DD0[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -71984,7 +71982,7 @@ STATIC const SpriteOffset spriteDim_8E28DD0[3] = {
 };
 
 // 1299 - 0x08E28DF4
-STATIC const SpriteOffset spriteDim_8E28DF4[3] = {
+static const SpriteOffset spriteDim_8E28DF4[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -72012,7 +72010,7 @@ STATIC const SpriteOffset spriteDim_8E28DF4[3] = {
 };
 
 // 1300 - 0x08E28E18
-STATIC const SpriteOffset spriteDim_8E28E18[6] = {
+static const SpriteOffset spriteDim_8E28E18[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -72064,7 +72062,7 @@ STATIC const SpriteOffset spriteDim_8E28E18[6] = {
 };
 
 // 1301 - 0x08E28E60
-STATIC const SpriteOffset spriteDim_8E28E60[8] = {
+static const SpriteOffset spriteDim_8E28E60[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -72132,7 +72130,7 @@ STATIC const SpriteOffset spriteDim_8E28E60[8] = {
 };
 
 // 1302 - 0x08E28EC0
-STATIC const SpriteOffset spriteDim_8E28EC0[13] = {
+static const SpriteOffset spriteDim_8E28EC0[13] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -72240,7 +72238,7 @@ STATIC const SpriteOffset spriteDim_8E28EC0[13] = {
 };
 
 // 1303 - 0x08E28F5C
-STATIC const SpriteOffset spriteDim_8E28F5C[3] = {
+static const SpriteOffset spriteDim_8E28F5C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -72268,7 +72266,7 @@ STATIC const SpriteOffset spriteDim_8E28F5C[3] = {
 };
 
 // 1305 - 0x08E28F80
-STATIC const SpriteOffset spriteDim_8E28F80[72] = {
+static const SpriteOffset spriteDim_8E28F80[72] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -72848,7 +72846,7 @@ STATIC const SpriteOffset spriteDim_8E28F80[72] = {
 };
 
 // 1306 - 0x08E292E0
-STATIC const SpriteOffset spriteDim_8E292E0[6] = {
+static const SpriteOffset spriteDim_8E292E0[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -72900,7 +72898,7 @@ STATIC const SpriteOffset spriteDim_8E292E0[6] = {
 };
 
 // 1307 - 0x08E29328
-STATIC const SpriteOffset spriteDim_8E29328[20] = {
+static const SpriteOffset spriteDim_8E29328[20] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -73064,7 +73062,7 @@ STATIC const SpriteOffset spriteDim_8E29328[20] = {
 };
 
 // 1308 - 0x08E29418
-STATIC const SpriteOffset spriteDim_8E29418[26] = {
+static const SpriteOffset spriteDim_8E29418[26] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -73276,7 +73274,7 @@ STATIC const SpriteOffset spriteDim_8E29418[26] = {
 };
 
 // 1309 - 0x08E29550
-STATIC const SpriteOffset spriteDim_8E29550[12] = {
+static const SpriteOffset spriteDim_8E29550[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -73376,7 +73374,7 @@ STATIC const SpriteOffset spriteDim_8E29550[12] = {
 };
 
 // 1310 - 0x08E295E0
-STATIC const SpriteOffset spriteDim_8E295E0[12] = {
+static const SpriteOffset spriteDim_8E295E0[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -73476,7 +73474,7 @@ STATIC const SpriteOffset spriteDim_8E295E0[12] = {
 };
 
 // 1311 - 0x08E29670
-STATIC const SpriteOffset spriteDim_8E29670[6] = {
+static const SpriteOffset spriteDim_8E29670[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -73526,7 +73524,7 @@ STATIC const SpriteOffset spriteDim_8E29670[6] = {
 };
 
 // 1312 - 0x08E296B8
-STATIC const SpriteOffset spriteDim_8E296B8[2] = {
+static const SpriteOffset spriteDim_8E296B8[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -73546,7 +73544,7 @@ STATIC const SpriteOffset spriteDim_8E296B8[2] = {
 };
 
 // 1314 - 0x08E296D0
-STATIC const SpriteOffset spriteDim_8E296D0[14] = {
+static const SpriteOffset spriteDim_8E296D0[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -73662,7 +73660,7 @@ STATIC const SpriteOffset spriteDim_8E296D0[14] = {
 };
 
 // 1315 - 0x08E29778
-STATIC const SpriteOffset spriteDim_8E29778[22] = {
+static const SpriteOffset spriteDim_8E29778[22] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -73842,7 +73840,7 @@ STATIC const SpriteOffset spriteDim_8E29778[22] = {
 };
 
 // 1316 - 0x08E29880
-STATIC const SpriteOffset spriteDim_8E29880[2] = {
+static const SpriteOffset spriteDim_8E29880[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -73862,7 +73860,7 @@ STATIC const SpriteOffset spriteDim_8E29880[2] = {
 };
 
 // 1317 - 0x08E29898
-STATIC const SpriteOffset spriteDim_8E29898[5] = {
+static const SpriteOffset spriteDim_8E29898[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -73905,7 +73903,7 @@ STATIC const SpriteOffset spriteDim_8E29898[5] = {
 };
 
 // 1318 - 0x08E298D4
-STATIC const SpriteOffset spriteDim_8E298D4[5] = {
+static const SpriteOffset spriteDim_8E298D4[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -73947,7 +73945,7 @@ STATIC const SpriteOffset spriteDim_8E298D4[5] = {
 };
 
 // 1319 - 0x08E29910
-STATIC const SpriteOffset spriteDim_8E29910[5] = {
+static const SpriteOffset spriteDim_8E29910[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -73989,7 +73987,7 @@ STATIC const SpriteOffset spriteDim_8E29910[5] = {
 };
 
 // 1320 - 0x08E2994C
-STATIC const SpriteOffset spriteDim_8E2994C[6] = {
+static const SpriteOffset spriteDim_8E2994C[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -74041,7 +74039,7 @@ STATIC const SpriteOffset spriteDim_8E2994C[6] = {
 };
 
 // 1321 - 0x08E29994
-STATIC const SpriteOffset spriteDim_8E29994[7] = {
+static const SpriteOffset spriteDim_8E29994[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -74101,7 +74099,7 @@ STATIC const SpriteOffset spriteDim_8E29994[7] = {
 };
 
 // 1322 - 0x08E299E8
-STATIC const SpriteOffset spriteDim_8E299E8[4] = {
+static const SpriteOffset spriteDim_8E299E8[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -74137,7 +74135,7 @@ STATIC const SpriteOffset spriteDim_8E299E8[4] = {
 };
 
 // 1323 - 0x08E29A18
-STATIC const SpriteOffset spriteDim_8E29A18[4] = {
+static const SpriteOffset spriteDim_8E29A18[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -74173,7 +74171,7 @@ STATIC const SpriteOffset spriteDim_8E29A18[4] = {
 };
 
 // 1324 - 0x08E29A48
-STATIC const SpriteOffset spriteDim_8E29A48[8] = {
+static const SpriteOffset spriteDim_8E29A48[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -74241,7 +74239,7 @@ STATIC const SpriteOffset spriteDim_8E29A48[8] = {
 };
 
 // 1325 - 0x08E29AA8
-STATIC const SpriteOffset spriteDim_8E29AA8[18] = {
+static const SpriteOffset spriteDim_8E29AA8[18] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -74389,7 +74387,7 @@ STATIC const SpriteOffset spriteDim_8E29AA8[18] = {
 };
 
 // 1326 - 0x08E29B80
-STATIC const SpriteOffset spriteDim_8E29B80[6] = {
+static const SpriteOffset spriteDim_8E29B80[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -74441,7 +74439,7 @@ STATIC const SpriteOffset spriteDim_8E29B80[6] = {
 };
 
 // 1327 - 0x08E29BC8
-STATIC const SpriteOffset spriteDim_8E29BC8[6] = {
+static const SpriteOffset spriteDim_8E29BC8[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -74493,7 +74491,7 @@ STATIC const SpriteOffset spriteDim_8E29BC8[6] = {
 };
 
 // 1328 - 0x08E29C10
-STATIC const SpriteOffset spriteDim_8E29C10[6] = {
+static const SpriteOffset spriteDim_8E29C10[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -74539,7 +74537,7 @@ STATIC const SpriteOffset spriteDim_8E29C10[6] = {
 };
 
 // 1329 - 0x08E29C58
-STATIC const SpriteOffset spriteDim_8E29C58[8] = {
+static const SpriteOffset spriteDim_8E29C58[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -74607,7 +74605,7 @@ STATIC const SpriteOffset spriteDim_8E29C58[8] = {
 };
 
 // 1330 - 0x08E29CB8
-STATIC const SpriteOffset spriteDim_8E29CB8[8] = {
+static const SpriteOffset spriteDim_8E29CB8[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -74675,7 +74673,7 @@ STATIC const SpriteOffset spriteDim_8E29CB8[8] = {
 };
 
 // 1331 - 0x08E29D18
-STATIC const SpriteOffset spriteDim_8E29D18[4] = {
+static const SpriteOffset spriteDim_8E29D18[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -74711,7 +74709,7 @@ STATIC const SpriteOffset spriteDim_8E29D18[4] = {
 };
 
 // 1332 - 0x08E29D48
-STATIC const SpriteOffset spriteDim_8E29D48[8] = {
+static const SpriteOffset spriteDim_8E29D48[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -74779,7 +74777,7 @@ STATIC const SpriteOffset spriteDim_8E29D48[8] = {
 };
 
 // 1333 - 0x08E29DA8
-STATIC const SpriteOffset spriteDim_8E29DA8[4] = {
+static const SpriteOffset spriteDim_8E29DA8[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -74815,7 +74813,7 @@ STATIC const SpriteOffset spriteDim_8E29DA8[4] = {
 };
 
 // 1334 - 0x08E29DD8
-STATIC const SpriteOffset spriteDim_8E29DD8[4] = {
+static const SpriteOffset spriteDim_8E29DD8[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -74851,7 +74849,7 @@ STATIC const SpriteOffset spriteDim_8E29DD8[4] = {
 };
 
 // 1335 - 0x08E29E08
-STATIC const SpriteOffset spriteDim_8E29E08[6] = {
+static const SpriteOffset spriteDim_8E29E08[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -74901,7 +74899,7 @@ STATIC const SpriteOffset spriteDim_8E29E08[6] = {
 };
 
 // 1336 - 0x08E29E50
-STATIC const SpriteOffset spriteDim_8E29E50[4] = {
+static const SpriteOffset spriteDim_8E29E50[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -74937,7 +74935,7 @@ STATIC const SpriteOffset spriteDim_8E29E50[4] = {
 };
 
 // 1337 - 0x08E29E80
-STATIC const SpriteOffset spriteDim_8E29E80[4] = {
+static const SpriteOffset spriteDim_8E29E80[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -74973,7 +74971,7 @@ STATIC const SpriteOffset spriteDim_8E29E80[4] = {
 };
 
 // 1338 - 0x08E29EB0
-STATIC const SpriteOffset spriteDim_8E29EB0[4] = {
+static const SpriteOffset spriteDim_8E29EB0[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75009,7 +75007,7 @@ STATIC const SpriteOffset spriteDim_8E29EB0[4] = {
 };
 
 // 1339 - 0x08E29EE0
-STATIC const SpriteOffset spriteDim_8E29EE0[6] = {
+static const SpriteOffset spriteDim_8E29EE0[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75061,7 +75059,7 @@ STATIC const SpriteOffset spriteDim_8E29EE0[6] = {
 };
 
 // 1340 - 0x08E29F28
-STATIC const SpriteOffset spriteDim_8E29F28[9] = {
+static const SpriteOffset spriteDim_8E29F28[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -75137,7 +75135,7 @@ STATIC const SpriteOffset spriteDim_8E29F28[9] = {
 };
 
 // 1341 - 0x08E29F94
-STATIC const SpriteOffset spriteDim_8E29F94[10] = {
+static const SpriteOffset spriteDim_8E29F94[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75221,7 +75219,7 @@ STATIC const SpriteOffset spriteDim_8E29F94[10] = {
 };
 
 // 1342 - 0x08E2A00C
-STATIC const SpriteOffset spriteDim_8E2A00C[5] = {
+static const SpriteOffset spriteDim_8E2A00C[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75265,7 +75263,7 @@ STATIC const SpriteOffset spriteDim_8E2A00C[5] = {
 };
 
 // 1343 - 0x08E2A048
-STATIC const SpriteOffset spriteDim_8E2A048[4] = {
+static const SpriteOffset spriteDim_8E2A048[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75301,7 +75299,7 @@ STATIC const SpriteOffset spriteDim_8E2A048[4] = {
 };
 
 // 1344 - 0x08E2A078
-STATIC const SpriteOffset spriteDim_8E2A078[1] = {
+static const SpriteOffset spriteDim_8E2A078[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75313,7 +75311,7 @@ STATIC const SpriteOffset spriteDim_8E2A078[1] = {
 };
 
 // 1345 - 0x08E2A084
-STATIC const SpriteOffset spriteDim_8E2A084[1] = {
+static const SpriteOffset spriteDim_8E2A084[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -75325,7 +75323,7 @@ STATIC const SpriteOffset spriteDim_8E2A084[1] = {
 };
 
 // 1346 - 0x08E2A090
-STATIC const SpriteOffset spriteDim_8E2A090[5] = {
+static const SpriteOffset spriteDim_8E2A090[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75369,7 +75367,7 @@ STATIC const SpriteOffset spriteDim_8E2A090[5] = {
 };
 
 // 1347 - 0x08E2A0CC
-STATIC const SpriteOffset spriteDim_8E2A0CC[7] = {
+static const SpriteOffset spriteDim_8E2A0CC[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -75429,7 +75427,7 @@ STATIC const SpriteOffset spriteDim_8E2A0CC[7] = {
 };
 
 // 1348 - 0x08E2A120
-STATIC const SpriteOffset spriteDim_8E2A120[6] = {
+static const SpriteOffset spriteDim_8E2A120[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75481,7 +75479,7 @@ STATIC const SpriteOffset spriteDim_8E2A120[6] = {
 };
 
 // 1349 - 0x08E2A168
-STATIC const SpriteOffset spriteDim_8E2A168[2] = {
+static const SpriteOffset spriteDim_8E2A168[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -75497,7 +75495,7 @@ STATIC const SpriteOffset spriteDim_8E2A168[2] = {
 };
 
 // 1350 - 0x08E2A180
-STATIC const SpriteOffset spriteDim_8E2A180[1] = {
+static const SpriteOffset spriteDim_8E2A180[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75507,7 +75505,7 @@ STATIC const SpriteOffset spriteDim_8E2A180[1] = {
 };
 
 // 1351 - 0x08E2A18C
-STATIC const SpriteOffset spriteDim_8E2A18C[1] = {
+static const SpriteOffset spriteDim_8E2A18C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75517,7 +75515,7 @@ STATIC const SpriteOffset spriteDim_8E2A18C[1] = {
 };
 
 // 1352 - 0x08E2A198
-STATIC const SpriteOffset spriteDim_8E2A198[1] = {
+static const SpriteOffset spriteDim_8E2A198[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75527,7 +75525,7 @@ STATIC const SpriteOffset spriteDim_8E2A198[1] = {
 };
 
 // 1353 - 0x08E2A1A4
-STATIC const SpriteOffset spriteDim_8E2A1A4[1] = {
+static const SpriteOffset spriteDim_8E2A1A4[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75537,7 +75535,7 @@ STATIC const SpriteOffset spriteDim_8E2A1A4[1] = {
 };
 
 // 1354 - 0x08E2A1B0
-STATIC const SpriteOffset spriteDim_8E2A1B0[1] = {
+static const SpriteOffset spriteDim_8E2A1B0[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75547,7 +75545,7 @@ STATIC const SpriteOffset spriteDim_8E2A1B0[1] = {
 };
 
 // 1367 - 0x08E2A1BC
-STATIC const SpriteOffset spriteDim_8E2A1BC[1] = {
+static const SpriteOffset spriteDim_8E2A1BC[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75557,7 +75555,7 @@ STATIC const SpriteOffset spriteDim_8E2A1BC[1] = {
 };
 
 // 1368 - 0x08E2A1C8
-STATIC const SpriteOffset spriteDim_8E2A1C8[1] = {
+static const SpriteOffset spriteDim_8E2A1C8[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75567,7 +75565,7 @@ STATIC const SpriteOffset spriteDim_8E2A1C8[1] = {
 };
 
 // 1369 - 0x08E2A1D4
-STATIC const SpriteOffset spriteDim_8E2A1D4[1] = {
+static const SpriteOffset spriteDim_8E2A1D4[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75577,7 +75575,7 @@ STATIC const SpriteOffset spriteDim_8E2A1D4[1] = {
 };
 
 // 1370 - 0x08E2A1E0
-STATIC const SpriteOffset spriteDim_8E2A1E0[1] = {
+static const SpriteOffset spriteDim_8E2A1E0[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75587,7 +75585,7 @@ STATIC const SpriteOffset spriteDim_8E2A1E0[1] = {
 };
 
 // 1380 - 0x08E2A1EC
-STATIC const SpriteOffset spriteDim_8E2A1EC[5] = {
+static const SpriteOffset spriteDim_8E2A1EC[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75631,7 +75629,7 @@ STATIC const SpriteOffset spriteDim_8E2A1EC[5] = {
 };
 
 // 1381 - 0x08E2A228
-STATIC const SpriteOffset spriteDim_8E2A228[5] = {
+static const SpriteOffset spriteDim_8E2A228[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75675,7 +75673,7 @@ STATIC const SpriteOffset spriteDim_8E2A228[5] = {
 };
 
 // 1382 - 0x08E2A264
-STATIC const SpriteOffset spriteDim_8E2A264[9] = {
+static const SpriteOffset spriteDim_8E2A264[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75749,7 +75747,7 @@ STATIC const SpriteOffset spriteDim_8E2A264[9] = {
 };
 
 // 1383 - 0x08E2A2D0
-STATIC const SpriteOffset spriteDim_8E2A2D0[7] = {
+static const SpriteOffset spriteDim_8E2A2D0[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75808,7 +75806,7 @@ STATIC const SpriteOffset spriteDim_8E2A2D0[7] = {
 };
 
 // 1384 - 0x08E2A324
-STATIC const SpriteOffset spriteDim_8E2A324[7] = {
+static const SpriteOffset spriteDim_8E2A324[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75868,7 +75866,7 @@ STATIC const SpriteOffset spriteDim_8E2A324[7] = {
 };
 
 // 1385 - 0x08E2A378
-STATIC const SpriteOffset spriteDim_8E2A378[6] = {
+static const SpriteOffset spriteDim_8E2A378[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -75920,7 +75918,7 @@ STATIC const SpriteOffset spriteDim_8E2A378[6] = {
 };
 
 // 1386 - 0x08E2A3C0
-STATIC const SpriteOffset spriteDim_8E2A3C0[10] = {
+static const SpriteOffset spriteDim_8E2A3C0[10] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -76004,7 +76002,7 @@ STATIC const SpriteOffset spriteDim_8E2A3C0[10] = {
 };
 
 // 1387 - 0x08E2A438
-STATIC const SpriteOffset spriteDim_8E2A438[6] = {
+static const SpriteOffset spriteDim_8E2A438[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -76056,7 +76054,7 @@ STATIC const SpriteOffset spriteDim_8E2A438[6] = {
 };
 
 // 1388 - 0x08E2A480
-STATIC const SpriteOffset spriteDim_8E2A480[9] = {
+static const SpriteOffset spriteDim_8E2A480[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -76132,7 +76130,7 @@ STATIC const SpriteOffset spriteDim_8E2A480[9] = {
 };
 
 // 1389 - 0x08E2A4EC
-STATIC const SpriteOffset spriteDim_8E2A4EC[4] = {
+static const SpriteOffset spriteDim_8E2A4EC[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -76168,7 +76166,7 @@ STATIC const SpriteOffset spriteDim_8E2A4EC[4] = {
 };
 
 // 1390 - 0x08E2A51C
-STATIC const SpriteOffset spriteDim_8E2A51C[3] = {
+static const SpriteOffset spriteDim_8E2A51C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -76196,7 +76194,7 @@ STATIC const SpriteOffset spriteDim_8E2A51C[3] = {
 };
 
 // 1391 - 0x08E2A540
-STATIC const SpriteOffset spriteDim_8E2A540[3] = {
+static const SpriteOffset spriteDim_8E2A540[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -76224,7 +76222,7 @@ STATIC const SpriteOffset spriteDim_8E2A540[3] = {
 };
 
 // 1392 - 0x08E2A564
-STATIC const SpriteOffset spriteDim_8E2A564[1] = {
+static const SpriteOffset spriteDim_8E2A564[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -76236,7 +76234,7 @@ STATIC const SpriteOffset spriteDim_8E2A564[1] = {
 };
 
 // 1393 - 0x08E2A570
-STATIC const SpriteOffset spriteDim_8E2A570[1] = {
+static const SpriteOffset spriteDim_8E2A570[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 10,
@@ -76248,7 +76246,7 @@ STATIC const SpriteOffset spriteDim_8E2A570[1] = {
 };
 
 // 1394 - 0x08E2A57C
-STATIC const SpriteOffset spriteDim_8E2A57C[1] = {
+static const SpriteOffset spriteDim_8E2A57C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -76260,7 +76258,7 @@ STATIC const SpriteOffset spriteDim_8E2A57C[1] = {
 };
 
 // 1395 - 0x08E2A588
-STATIC const SpriteOffset spriteDim_8E2A588[1] = {
+static const SpriteOffset spriteDim_8E2A588[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -76272,7 +76270,7 @@ STATIC const SpriteOffset spriteDim_8E2A588[1] = {
 };
 
 // 1396 - 0x08E2A594
-STATIC const SpriteOffset spriteDim_8E2A594[7] = {
+static const SpriteOffset spriteDim_8E2A594[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -76332,7 +76330,7 @@ STATIC const SpriteOffset spriteDim_8E2A594[7] = {
 };
 
 // 1397 - 0x08E2A5E8
-STATIC const SpriteOffset spriteDim_8E2A5E8[2] = {
+static const SpriteOffset spriteDim_8E2A5E8[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -76352,7 +76350,7 @@ STATIC const SpriteOffset spriteDim_8E2A5E8[2] = {
 };
 
 // 1398 - 0x08E2A600
-STATIC const SpriteOffset spriteDim_8E2A600[5] = {
+static const SpriteOffset spriteDim_8E2A600[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -76396,7 +76394,7 @@ STATIC const SpriteOffset spriteDim_8E2A600[5] = {
 };
 
 // 1399 - 0x08E2A63C
-STATIC const SpriteOffset spriteDim_8E2A63C[6] = {
+static const SpriteOffset spriteDim_8E2A63C[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -76446,7 +76444,7 @@ STATIC const SpriteOffset spriteDim_8E2A63C[6] = {
 };
 
 // 1400 - 0x08E2A684
-STATIC const SpriteOffset spriteDim_8E2A684[5] = {
+static const SpriteOffset spriteDim_8E2A684[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -76490,7 +76488,7 @@ STATIC const SpriteOffset spriteDim_8E2A684[5] = {
 };
 
 // 1401 - 0x08E2A6C0
-STATIC const SpriteOffset spriteDim_8E2A6C0[7] = {
+static const SpriteOffset spriteDim_8E2A6C0[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -76550,7 +76548,7 @@ STATIC const SpriteOffset spriteDim_8E2A6C0[7] = {
 };
 
 // 1402 - 0x08E2A714
-STATIC const SpriteOffset spriteDim_8E2A714[3] = {
+static const SpriteOffset spriteDim_8E2A714[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -76578,7 +76576,7 @@ STATIC const SpriteOffset spriteDim_8E2A714[3] = {
 };
 
 // 1403 - 0x08E2A738
-STATIC const SpriteOffset spriteDim_8E2A738[3] = {
+static const SpriteOffset spriteDim_8E2A738[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -76606,7 +76604,7 @@ STATIC const SpriteOffset spriteDim_8E2A738[3] = {
 };
 
 // 1404 - 0x08E2A75C
-STATIC const SpriteOffset spriteDim_8E2A75C[5] = {
+static const SpriteOffset spriteDim_8E2A75C[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -76650,7 +76648,7 @@ STATIC const SpriteOffset spriteDim_8E2A75C[5] = {
 };
 
 // 1405 - 0x08E2A798
-STATIC const SpriteOffset spriteDim_8E2A798[6] = {
+static const SpriteOffset spriteDim_8E2A798[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -76702,7 +76700,7 @@ STATIC const SpriteOffset spriteDim_8E2A798[6] = {
 };
 
 // 1406 - 0x08E2A7E0
-STATIC const SpriteOffset spriteDim_8E2A7E0[3] = {
+static const SpriteOffset spriteDim_8E2A7E0[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -76730,7 +76728,7 @@ STATIC const SpriteOffset spriteDim_8E2A7E0[3] = {
 };
 
 // 1407 - 0x08E2A804
-STATIC const SpriteOffset spriteDim_8E2A804[5] = {
+static const SpriteOffset spriteDim_8E2A804[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -76774,7 +76772,7 @@ STATIC const SpriteOffset spriteDim_8E2A804[5] = {
 };
 
 // 1408 - 0x08E2A840
-STATIC const SpriteOffset spriteDim_8E2A840[1] = {
+static const SpriteOffset spriteDim_8E2A840[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -76786,7 +76784,7 @@ STATIC const SpriteOffset spriteDim_8E2A840[1] = {
 };
 
 // 1409 - 0x08E2A84C
-STATIC const SpriteOffset spriteDim_8E2A84C[7] = {
+static const SpriteOffset spriteDim_8E2A84C[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -76846,7 +76844,7 @@ STATIC const SpriteOffset spriteDim_8E2A84C[7] = {
 };
 
 // 1410 - 0x08E2A8A0
-STATIC const SpriteOffset spriteDim_8E2A8A0[5] = {
+static const SpriteOffset spriteDim_8E2A8A0[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -76890,7 +76888,7 @@ STATIC const SpriteOffset spriteDim_8E2A8A0[5] = {
 };
 
 // 1411 - 0x08E2A8DC
-STATIC const SpriteOffset spriteDim_8E2A8DC[4] = {
+static const SpriteOffset spriteDim_8E2A8DC[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -76926,7 +76924,7 @@ STATIC const SpriteOffset spriteDim_8E2A8DC[4] = {
 };
 
 // 1412 - 0x08E2A90C
-STATIC const SpriteOffset spriteDim_8E2A90C[4] = {
+static const SpriteOffset spriteDim_8E2A90C[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -76962,7 +76960,7 @@ STATIC const SpriteOffset spriteDim_8E2A90C[4] = {
 };
 
 // 1413 - 0x08E2A93C
-STATIC const SpriteOffset spriteDim_8E2A93C[4] = {
+static const SpriteOffset spriteDim_8E2A93C[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -76998,7 +76996,7 @@ STATIC const SpriteOffset spriteDim_8E2A93C[4] = {
 };
 
 // 1414 - 0x08E2A96C
-STATIC const SpriteOffset spriteDim_8E2A96C[4] = {
+static const SpriteOffset spriteDim_8E2A96C[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -77034,7 +77032,7 @@ STATIC const SpriteOffset spriteDim_8E2A96C[4] = {
 };
 
 // 1415 - 0x08E2A99C
-STATIC const SpriteOffset spriteDim_8E2A99C[2] = {
+static const SpriteOffset spriteDim_8E2A99C[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -77054,7 +77052,7 @@ STATIC const SpriteOffset spriteDim_8E2A99C[2] = {
 };
 
 // 1416 - 0x08E2A9B4
-STATIC const SpriteOffset spriteDim_8E2A9B4[2] = {
+static const SpriteOffset spriteDim_8E2A9B4[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 7,
@@ -77074,7 +77072,7 @@ STATIC const SpriteOffset spriteDim_8E2A9B4[2] = {
 };
 
 // 1417 - 0x08E2A9CC
-STATIC const SpriteOffset spriteDim_8E2A9CC[2] = {
+static const SpriteOffset spriteDim_8E2A9CC[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -77094,7 +77092,7 @@ STATIC const SpriteOffset spriteDim_8E2A9CC[2] = {
 };
 
 // 1418 - 0x08E2A9E4
-STATIC const SpriteOffset spriteDim_8E2A9E4[2] = {
+static const SpriteOffset spriteDim_8E2A9E4[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -77114,7 +77112,7 @@ STATIC const SpriteOffset spriteDim_8E2A9E4[2] = {
 };
 
 // 1419 - 0x08E2A9FC
-STATIC const SpriteOffset spriteDim_8E2A9FC[2] = {
+static const SpriteOffset spriteDim_8E2A9FC[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -77134,7 +77132,7 @@ STATIC const SpriteOffset spriteDim_8E2A9FC[2] = {
 };
 
 // 1420 - 0x08E2AA14
-STATIC const SpriteOffset spriteDim_8E2AA14[3] = {
+static const SpriteOffset spriteDim_8E2AA14[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -77156,7 +77154,7 @@ STATIC const SpriteOffset spriteDim_8E2AA14[3] = {
 };
 
 // 1421 - 0x08E2AA38
-STATIC const SpriteOffset spriteDim_8E2AA38[1] = {
+static const SpriteOffset spriteDim_8E2AA38[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -77166,7 +77164,7 @@ STATIC const SpriteOffset spriteDim_8E2AA38[1] = {
 };
 
 // 1422 - 0x08E2AA44
-STATIC const SpriteOffset spriteDim_8E2AA44[4] = {
+static const SpriteOffset spriteDim_8E2AA44[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -77194,7 +77192,7 @@ STATIC const SpriteOffset spriteDim_8E2AA44[4] = {
 };
 
 // 1423 - 0x08E2AA74
-STATIC const SpriteOffset spriteDim_8E2AA74[7] = {
+static const SpriteOffset spriteDim_8E2AA74[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -77243,7 +77241,7 @@ STATIC const SpriteOffset spriteDim_8E2AA74[7] = {
 };
 
 // 1424 - 0x08E2AAC8
-STATIC const SpriteOffset spriteDim_8E2AAC8[7] = {
+static const SpriteOffset spriteDim_8E2AAC8[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -77295,7 +77293,7 @@ STATIC const SpriteOffset spriteDim_8E2AAC8[7] = {
 };
 
 // 1425 - 0x08E2AB1C
-STATIC const SpriteOffset spriteDim_8E2AB1C[8] = {
+static const SpriteOffset spriteDim_8E2AB1C[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -77363,7 +77361,7 @@ STATIC const SpriteOffset spriteDim_8E2AB1C[8] = {
 };
 
 // 1426 - 0x08E2AB7C
-STATIC const SpriteOffset spriteDim_8E2AB7C[6] = {
+static const SpriteOffset spriteDim_8E2AB7C[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -77415,7 +77413,7 @@ STATIC const SpriteOffset spriteDim_8E2AB7C[6] = {
 };
 
 // 1427 - 0x08E2ABC4
-STATIC const SpriteOffset spriteDim_8E2ABC4[3] = {
+static const SpriteOffset spriteDim_8E2ABC4[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -77442,7 +77440,7 @@ STATIC const SpriteOffset spriteDim_8E2ABC4[3] = {
 };
 
 // 1428 - 0x08E2ABE8
-STATIC const SpriteOffset spriteDim_8E2ABE8[1] = {
+static const SpriteOffset spriteDim_8E2ABE8[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -77454,7 +77452,7 @@ STATIC const SpriteOffset spriteDim_8E2ABE8[1] = {
 };
 
 // 1429 - 0x08E2ABF4
-STATIC const SpriteOffset spriteDim_8E2ABF4[14] = {
+static const SpriteOffset spriteDim_8E2ABF4[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -77570,7 +77568,7 @@ STATIC const SpriteOffset spriteDim_8E2ABF4[14] = {
 };
 
 // 1430 - 0x08E2AC9C
-STATIC const SpriteOffset spriteDim_8E2AC9C[27] = {
+static const SpriteOffset spriteDim_8E2AC9C[27] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -77736,7 +77734,7 @@ STATIC const SpriteOffset spriteDim_8E2AC9C[27] = {
 };
 
 // 1431 - 0x08E2ADE0
-STATIC const SpriteOffset spriteDim_8E2ADE0[15] = {
+static const SpriteOffset spriteDim_8E2ADE0[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -77845,7 +77843,7 @@ STATIC const SpriteOffset spriteDim_8E2ADE0[15] = {
 };
 
 // 1432 - 0x08E2AE94
-STATIC const SpriteOffset spriteDim_8E2AE94[21] = {
+static const SpriteOffset spriteDim_8E2AE94[21] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -77953,7 +77951,7 @@ STATIC const SpriteOffset spriteDim_8E2AE94[21] = {
 };
 
 // 1433 - 0x08E2AF90
-STATIC const SpriteOffset spriteDim_8E2AF90[2] = {
+static const SpriteOffset spriteDim_8E2AF90[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 7,
@@ -77973,7 +77971,7 @@ STATIC const SpriteOffset spriteDim_8E2AF90[2] = {
 };
 
 // 1434 - 0x08E2AFA8
-STATIC const SpriteOffset spriteDim_8E2AFA8[5] = {
+static const SpriteOffset spriteDim_8E2AFA8[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -78015,7 +78013,7 @@ STATIC const SpriteOffset spriteDim_8E2AFA8[5] = {
 };
 
 // 1435 - 0x08E2AFE4
-STATIC const SpriteOffset spriteDim_8E2AFE4[5] = {
+static const SpriteOffset spriteDim_8E2AFE4[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -78057,7 +78055,7 @@ STATIC const SpriteOffset spriteDim_8E2AFE4[5] = {
 };
 
 // 1436 - 0x08E2B020
-STATIC const SpriteOffset spriteDim_8E2B020[6] = {
+static const SpriteOffset spriteDim_8E2B020[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -78107,7 +78105,7 @@ STATIC const SpriteOffset spriteDim_8E2B020[6] = {
 };
 
 // 1437 - 0x08E2B068
-STATIC const SpriteOffset spriteDim_8E2B068[8] = {
+static const SpriteOffset spriteDim_8E2B068[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -78173,7 +78171,7 @@ STATIC const SpriteOffset spriteDim_8E2B068[8] = {
 };
 
 // 1438 - 0x08E2B0C8
-STATIC const SpriteOffset spriteDim_8E2B0C8[2] = {
+static const SpriteOffset spriteDim_8E2B0C8[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 10,
@@ -78193,7 +78191,7 @@ STATIC const SpriteOffset spriteDim_8E2B0C8[2] = {
 };
 
 // 1439 - 0x08E2B0E0
-STATIC const SpriteOffset spriteDim_8E2B0E0[4] = {
+static const SpriteOffset spriteDim_8E2B0E0[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -78229,7 +78227,7 @@ STATIC const SpriteOffset spriteDim_8E2B0E0[4] = {
 };
 
 // 1440 - 0x08E2B110
-STATIC const SpriteOffset spriteDim_8E2B110[3] = {
+static const SpriteOffset spriteDim_8E2B110[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -78256,7 +78254,7 @@ STATIC const SpriteOffset spriteDim_8E2B110[3] = {
 };
 
 // 1441 - 0x08E2B134
-STATIC const SpriteOffset spriteDim_8E2B134[2] = {
+static const SpriteOffset spriteDim_8E2B134[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 14,
@@ -78269,7 +78267,7 @@ STATIC const SpriteOffset spriteDim_8E2B134[2] = {
 };
 
 // 1442 - 0x08E2B14C
-STATIC const SpriteOffset spriteDim_8E2B14C[1] = {
+static const SpriteOffset spriteDim_8E2B14C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -78281,7 +78279,7 @@ STATIC const SpriteOffset spriteDim_8E2B14C[1] = {
 };
 
 // 1443 - 0x08E2B158
-STATIC const SpriteOffset spriteDim_8E2B158[3] = {
+static const SpriteOffset spriteDim_8E2B158[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -78309,7 +78307,7 @@ STATIC const SpriteOffset spriteDim_8E2B158[3] = {
 };
 
 // 1444 - 0x08E2B17C
-STATIC const SpriteOffset spriteDim_8E2B17C[3] = {
+static const SpriteOffset spriteDim_8E2B17C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -78337,7 +78335,7 @@ STATIC const SpriteOffset spriteDim_8E2B17C[3] = {
 };
 
 // 1445 - 0x08E2B1A0
-STATIC const SpriteOffset spriteDim_8E2B1A0[3] = {
+static const SpriteOffset spriteDim_8E2B1A0[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -78365,7 +78363,7 @@ STATIC const SpriteOffset spriteDim_8E2B1A0[3] = {
 };
 
 // 1446 - 0x08E2B1C4
-STATIC const SpriteOffset spriteDim_8E2B1C4[3] = {
+static const SpriteOffset spriteDim_8E2B1C4[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -78393,7 +78391,7 @@ STATIC const SpriteOffset spriteDim_8E2B1C4[3] = {
 };
 
 // 1447 - 0x08E2B1E8
-STATIC const SpriteOffset spriteDim_8E2B1E8[3] = {
+static const SpriteOffset spriteDim_8E2B1E8[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -78421,7 +78419,7 @@ STATIC const SpriteOffset spriteDim_8E2B1E8[3] = {
 };
 
 // 1448 - 0x08E2B20C
-STATIC const SpriteOffset spriteDim_8E2B20C[3] = {
+static const SpriteOffset spriteDim_8E2B20C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -78449,7 +78447,7 @@ STATIC const SpriteOffset spriteDim_8E2B20C[3] = {
 };
 
 // 1449 - 0x08E2B230
-STATIC const SpriteOffset spriteDim_8E2B230[5] = {
+static const SpriteOffset spriteDim_8E2B230[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -78487,7 +78485,7 @@ STATIC const SpriteOffset spriteDim_8E2B230[5] = {
 };
 
 // 1450 - 0x08E2B26C
-STATIC const SpriteOffset spriteDim_8E2B26C[2] = {
+static const SpriteOffset spriteDim_8E2B26C[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -78507,7 +78505,7 @@ STATIC const SpriteOffset spriteDim_8E2B26C[2] = {
 };
 
 // 1451 - 0x08E2B284
-STATIC const SpriteOffset spriteDim_8E2B284[1] = {
+static const SpriteOffset spriteDim_8E2B284[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -78519,7 +78517,7 @@ STATIC const SpriteOffset spriteDim_8E2B284[1] = {
 };
 
 // 1452 - 0x08E2B290
-STATIC const SpriteOffset spriteDim_8E2B290[6] = {
+static const SpriteOffset spriteDim_8E2B290[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -78569,7 +78567,7 @@ STATIC const SpriteOffset spriteDim_8E2B290[6] = {
 };
 
 // 1453 - 0x08E2B2D8
-STATIC const SpriteOffset spriteDim_8E2B2D8[4] = {
+static const SpriteOffset spriteDim_8E2B2D8[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -78605,7 +78603,7 @@ STATIC const SpriteOffset spriteDim_8E2B2D8[4] = {
 };
 
 // 1454 - 0x08E2B308
-STATIC const SpriteOffset spriteDim_8E2B308[4] = {
+static const SpriteOffset spriteDim_8E2B308[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -78641,7 +78639,7 @@ STATIC const SpriteOffset spriteDim_8E2B308[4] = {
 };
 
 // 1455 - 0x08E2B338
-STATIC const SpriteOffset spriteDim_8E2B338[4] = {
+static const SpriteOffset spriteDim_8E2B338[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -78677,7 +78675,7 @@ STATIC const SpriteOffset spriteDim_8E2B338[4] = {
 };
 
 // 1456 - 0x08E2B368
-STATIC const SpriteOffset spriteDim_8E2B368[4] = {
+static const SpriteOffset spriteDim_8E2B368[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -78713,7 +78711,7 @@ STATIC const SpriteOffset spriteDim_8E2B368[4] = {
 };
 
 // 1457 - 0x08E2B398
-STATIC const SpriteOffset spriteDim_8E2B398[4] = {
+static const SpriteOffset spriteDim_8E2B398[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -78749,7 +78747,7 @@ STATIC const SpriteOffset spriteDim_8E2B398[4] = {
 };
 
 // 1458 - 0x08E2B3C8
-STATIC const SpriteOffset spriteDim_8E2B3C8[4] = {
+static const SpriteOffset spriteDim_8E2B3C8[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -78785,7 +78783,7 @@ STATIC const SpriteOffset spriteDim_8E2B3C8[4] = {
 };
 
 // 1459 - 0x08E2B3F8
-STATIC const SpriteOffset spriteDim_8E2B3F8[3] = {
+static const SpriteOffset spriteDim_8E2B3F8[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -78813,7 +78811,7 @@ STATIC const SpriteOffset spriteDim_8E2B3F8[3] = {
 };
 
 // 1460 - 0x08E2B41C
-STATIC const SpriteOffset spriteDim_8E2B41C[3] = {
+static const SpriteOffset spriteDim_8E2B41C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -78841,7 +78839,7 @@ STATIC const SpriteOffset spriteDim_8E2B41C[3] = {
 };
 
 // 1461 - 0x08E2B440
-STATIC const SpriteOffset spriteDim_8E2B440[3] = {
+static const SpriteOffset spriteDim_8E2B440[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -78869,7 +78867,7 @@ STATIC const SpriteOffset spriteDim_8E2B440[3] = {
 };
 
 // 1462 - 0x08E2B464
-STATIC const SpriteOffset spriteDim_8E2B464[3] = {
+static const SpriteOffset spriteDim_8E2B464[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -78897,7 +78895,7 @@ STATIC const SpriteOffset spriteDim_8E2B464[3] = {
 };
 
 // 1463 - 0x08E2B488
-STATIC const SpriteOffset spriteDim_8E2B488[3] = {
+static const SpriteOffset spriteDim_8E2B488[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -78925,7 +78923,7 @@ STATIC const SpriteOffset spriteDim_8E2B488[3] = {
 };
 
 // 1464 - 0x08E2B4AC
-STATIC const SpriteOffset spriteDim_8E2B4AC[2] = {
+static const SpriteOffset spriteDim_8E2B4AC[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -78945,7 +78943,7 @@ STATIC const SpriteOffset spriteDim_8E2B4AC[2] = {
 };
 
 // 1465 - 0x08E2B4C4
-STATIC const SpriteOffset spriteDim_8E2B4C4[6] = {
+static const SpriteOffset spriteDim_8E2B4C4[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -78997,7 +78995,7 @@ STATIC const SpriteOffset spriteDim_8E2B4C4[6] = {
 };
 
 // 1466 - 0x08E2B50C
-STATIC const SpriteOffset spriteDim_8E2B50C[4] = {
+static const SpriteOffset spriteDim_8E2B50C[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -79031,7 +79029,7 @@ STATIC const SpriteOffset spriteDim_8E2B50C[4] = {
 };
 
 // 1467 - 0x08E2B53C
-STATIC const SpriteOffset spriteDim_8E2B53C[5] = {
+static const SpriteOffset spriteDim_8E2B53C[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -79075,7 +79073,7 @@ STATIC const SpriteOffset spriteDim_8E2B53C[5] = {
 };
 
 // 1468 - 0x08E2B578
-STATIC const SpriteOffset spriteDim_8E2B578[14] = {
+static const SpriteOffset spriteDim_8E2B578[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -79191,7 +79189,7 @@ STATIC const SpriteOffset spriteDim_8E2B578[14] = {
 };
 
 // 1469 - 0x08E2B620
-STATIC const SpriteOffset spriteDim_8E2B620[5] = {
+static const SpriteOffset spriteDim_8E2B620[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -79235,7 +79233,7 @@ STATIC const SpriteOffset spriteDim_8E2B620[5] = {
 };
 
 // 1470 - 0x08E2B65C
-STATIC const SpriteOffset spriteDim_8E2B65C[17] = {
+static const SpriteOffset spriteDim_8E2B65C[17] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -79375,7 +79373,7 @@ STATIC const SpriteOffset spriteDim_8E2B65C[17] = {
 };
 
 // 1471 - 0x08E2B728
-STATIC const SpriteOffset spriteDim_8E2B728[4] = {
+static const SpriteOffset spriteDim_8E2B728[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -79411,7 +79409,7 @@ STATIC const SpriteOffset spriteDim_8E2B728[4] = {
 };
 
 // 1472 - 0x08E2B758
-STATIC const SpriteOffset spriteDim_8E2B758[15] = {
+static const SpriteOffset spriteDim_8E2B758[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -79535,7 +79533,7 @@ STATIC const SpriteOffset spriteDim_8E2B758[15] = {
 };
 
 // 1473 - 0x08E2B80C
-STATIC const SpriteOffset spriteDim_8E2B80C[5] = {
+static const SpriteOffset spriteDim_8E2B80C[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -79579,7 +79577,7 @@ STATIC const SpriteOffset spriteDim_8E2B80C[5] = {
 };
 
 // 1474 - 0x08E2B848
-STATIC const SpriteOffset spriteDim_8E2B848[9] = {
+static const SpriteOffset spriteDim_8E2B848[9] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -79655,7 +79653,7 @@ STATIC const SpriteOffset spriteDim_8E2B848[9] = {
 };
 
 // 1475 - 0x08E2B8B4
-STATIC const SpriteOffset spriteDim_8E2B8B4[5] = {
+static const SpriteOffset spriteDim_8E2B8B4[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -79699,7 +79697,7 @@ STATIC const SpriteOffset spriteDim_8E2B8B4[5] = {
 };
 
 // 1476 - 0x08E2B8F0
-STATIC const SpriteOffset spriteDim_8E2B8F0[14] = {
+static const SpriteOffset spriteDim_8E2B8F0[14] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -79815,7 +79813,7 @@ STATIC const SpriteOffset spriteDim_8E2B8F0[14] = {
 };
 
 // 1477 - 0x08E2B998
-STATIC const SpriteOffset spriteDim_8E2B998[5] = {
+static const SpriteOffset spriteDim_8E2B998[5] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -79859,7 +79857,7 @@ STATIC const SpriteOffset spriteDim_8E2B998[5] = {
 };
 
 // 1478 - 0x08E2B9D4
-STATIC const SpriteOffset spriteDim_8E2B9D4[7] = {
+static const SpriteOffset spriteDim_8E2B9D4[7] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -79919,7 +79917,7 @@ STATIC const SpriteOffset spriteDim_8E2B9D4[7] = {
 };
 
 // 1479 - 0x08E2BA28
-STATIC const SpriteOffset spriteDim_8E2BA28[12] = {
+static const SpriteOffset spriteDim_8E2BA28[12] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -80019,7 +80017,7 @@ STATIC const SpriteOffset spriteDim_8E2BA28[12] = {
 };
 
 // 1480 - 0x08E2BAB8
-STATIC const SpriteOffset spriteDim_8E2BAB8[3] = {
+static const SpriteOffset spriteDim_8E2BAB8[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -80047,7 +80045,7 @@ STATIC const SpriteOffset spriteDim_8E2BAB8[3] = {
 };
 
 // 1481 - 0x08E2BADC
-STATIC const SpriteOffset spriteDim_8E2BADC[6] = {
+static const SpriteOffset spriteDim_8E2BADC[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -80099,7 +80097,7 @@ STATIC const SpriteOffset spriteDim_8E2BADC[6] = {
 };
 
 // 1482 - 0x08E2BB24
-STATIC const SpriteOffset spriteDim_8E2BB24[6] = {
+static const SpriteOffset spriteDim_8E2BB24[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -80151,7 +80149,7 @@ STATIC const SpriteOffset spriteDim_8E2BB24[6] = {
 };
 
 // 1483 - 0x08E2BB6C
-STATIC const SpriteOffset spriteDim_8E2BB6C[1] = {
+static const SpriteOffset spriteDim_8E2BB6C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 7,
@@ -80163,7 +80161,7 @@ STATIC const SpriteOffset spriteDim_8E2BB6C[1] = {
 };
 
 // 1484 - 0x08E2BB78
-STATIC const SpriteOffset spriteDim_8E2BB78[2] = {
+static const SpriteOffset spriteDim_8E2BB78[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -80183,7 +80181,7 @@ STATIC const SpriteOffset spriteDim_8E2BB78[2] = {
 };
 
 // 1485 - 0x08E2BB90
-STATIC const SpriteOffset spriteDim_8E2BB90[1] = {
+static const SpriteOffset spriteDim_8E2BB90[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -80195,7 +80193,7 @@ STATIC const SpriteOffset spriteDim_8E2BB90[1] = {
 };
 
 // 1486 - 0x08E2BB9C
-STATIC const SpriteOffset spriteDim_8E2BB9C[1] = {
+static const SpriteOffset spriteDim_8E2BB9C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -80207,7 +80205,7 @@ STATIC const SpriteOffset spriteDim_8E2BB9C[1] = {
 };
 
 // 1487 - 0x08E2BBA8
-STATIC const SpriteOffset spriteDim_8E2BBA8[1] = {
+static const SpriteOffset spriteDim_8E2BBA8[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -80219,7 +80217,7 @@ STATIC const SpriteOffset spriteDim_8E2BBA8[1] = {
 };
 
 // 1488 - 0x08E2BBB4
-STATIC const SpriteOffset spriteDim_8E2BBB4[1] = {
+static const SpriteOffset spriteDim_8E2BBB4[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -80231,7 +80229,7 @@ STATIC const SpriteOffset spriteDim_8E2BBB4[1] = {
 };
 
 // 1489 - 0x08E2BBC0
-STATIC const SpriteOffset spriteDim_8E2BBC0[2] = {
+static const SpriteOffset spriteDim_8E2BBC0[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -80251,7 +80249,7 @@ STATIC const SpriteOffset spriteDim_8E2BBC0[2] = {
 };
 
 // 1490 - 0x08E2BBD8
-STATIC const SpriteOffset spriteDim_8E2BBD8[39] = {
+static const SpriteOffset spriteDim_8E2BBD8[39] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -80567,7 +80565,7 @@ STATIC const SpriteOffset spriteDim_8E2BBD8[39] = {
 };
 
 // 1491 - 0x08E2BDAC
-STATIC const SpriteOffset spriteDim_8E2BDAC[45] = {
+static const SpriteOffset spriteDim_8E2BDAC[45] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -80931,7 +80929,7 @@ STATIC const SpriteOffset spriteDim_8E2BDAC[45] = {
 };
 
 // 1492 - 0x08E2BFC8
-STATIC const SpriteOffset spriteDim_8E2BFC8[4] = {
+static const SpriteOffset spriteDim_8E2BFC8[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -80967,7 +80965,7 @@ STATIC const SpriteOffset spriteDim_8E2BFC8[4] = {
 };
 
 // 1493 - 0x08E2BFF8
-STATIC const SpriteOffset spriteDim_8E2BFF8[8] = {
+static const SpriteOffset spriteDim_8E2BFF8[8] = {
     {
        .oamIndex     = 0,
        .numSubframes = 4,
@@ -81035,7 +81033,7 @@ STATIC const SpriteOffset spriteDim_8E2BFF8[8] = {
 };
 
 // 1494 - 0x08E2C058
-STATIC const SpriteOffset spriteDim_8E2C058[3] = {
+static const SpriteOffset spriteDim_8E2C058[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -81063,7 +81061,7 @@ STATIC const SpriteOffset spriteDim_8E2C058[3] = {
 };
 
 // 1495 - 0x08E2C07C
-STATIC const SpriteOffset spriteDim_8E2C07C[4] = {
+static const SpriteOffset spriteDim_8E2C07C[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -81099,7 +81097,7 @@ STATIC const SpriteOffset spriteDim_8E2C07C[4] = {
 };
 
 // 1496 - 0x08E2C0AC
-STATIC const SpriteOffset spriteDim_8E2C0AC[2] = {
+static const SpriteOffset spriteDim_8E2C0AC[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -81119,7 +81117,7 @@ STATIC const SpriteOffset spriteDim_8E2C0AC[2] = {
 };
 
 // 1497 - 0x08E2C0C4
-STATIC const SpriteOffset spriteDim_8E2C0C4[1] = {
+static const SpriteOffset spriteDim_8E2C0C4[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 9,
@@ -81131,7 +81129,7 @@ STATIC const SpriteOffset spriteDim_8E2C0C4[1] = {
 };
 
 // 1498 - 0x08E2C0D0
-STATIC const SpriteOffset spriteDim_8E2C0D0[3] = {
+static const SpriteOffset spriteDim_8E2C0D0[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -81159,7 +81157,7 @@ STATIC const SpriteOffset spriteDim_8E2C0D0[3] = {
 };
 
 // 1499 - 0x08E2C0F4
-STATIC const SpriteOffset spriteDim_8E2C0F4[4] = {
+static const SpriteOffset spriteDim_8E2C0F4[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -81195,7 +81193,7 @@ STATIC const SpriteOffset spriteDim_8E2C0F4[4] = {
 };
 
 // 1500 - 0x08E2C124
-STATIC const SpriteOffset spriteDim_8E2C124[2] = {
+static const SpriteOffset spriteDim_8E2C124[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -81215,7 +81213,7 @@ STATIC const SpriteOffset spriteDim_8E2C124[2] = {
 };
 
 // 1501 - 0x08E2C13C
-STATIC const SpriteOffset spriteDim_8E2C13C[2] = {
+static const SpriteOffset spriteDim_8E2C13C[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -81235,7 +81233,7 @@ STATIC const SpriteOffset spriteDim_8E2C13C[2] = {
 };
 
 // 1502 - 0x08E2C154
-STATIC const SpriteOffset spriteDim_8E2C154[2] = {
+static const SpriteOffset spriteDim_8E2C154[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -81255,7 +81253,7 @@ STATIC const SpriteOffset spriteDim_8E2C154[2] = {
 };
 
 // 1503 - 0x08E2C16C
-STATIC const SpriteOffset spriteDim_8E2C16C[3] = {
+static const SpriteOffset spriteDim_8E2C16C[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -81283,7 +81281,7 @@ STATIC const SpriteOffset spriteDim_8E2C16C[3] = {
 };
 
 // 1504 - 0x08E2C190
-STATIC const SpriteOffset spriteDim_8E2C190[1] = {
+static const SpriteOffset spriteDim_8E2C190[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 5,
@@ -81295,7 +81293,7 @@ STATIC const SpriteOffset spriteDim_8E2C190[1] = {
 };
 
 // 1505 - 0x08E2C19C
-STATIC const SpriteOffset spriteDim_8E2C19C[4] = {
+static const SpriteOffset spriteDim_8E2C19C[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -81331,7 +81329,7 @@ STATIC const SpriteOffset spriteDim_8E2C19C[4] = {
 };
 
 // 1506 - 0x08E2C1CC
-STATIC const SpriteOffset spriteDim_8E2C1CC[2] = {
+static const SpriteOffset spriteDim_8E2C1CC[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -81347,7 +81345,7 @@ STATIC const SpriteOffset spriteDim_8E2C1CC[2] = {
 };
 
 // 1507 - 0x08E2C1E4
-STATIC const SpriteOffset spriteDim_8E2C1E4[6] = {
+static const SpriteOffset spriteDim_8E2C1E4[6] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -81399,7 +81397,7 @@ STATIC const SpriteOffset spriteDim_8E2C1E4[6] = {
 };
 
 // 1508 - 0x08E2C22C
-STATIC const SpriteOffset spriteDim_8E2C22C[15] = {
+static const SpriteOffset spriteDim_8E2C22C[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -81523,7 +81521,7 @@ STATIC const SpriteOffset spriteDim_8E2C22C[15] = {
 };
 
 // 1509 - 0x08E2C2E0
-STATIC const SpriteOffset spriteDim_8E2C2E0[15] = {
+static const SpriteOffset spriteDim_8E2C2E0[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -81647,7 +81645,7 @@ STATIC const SpriteOffset spriteDim_8E2C2E0[15] = {
 };
 
 // 1510 - 0x08E2C394
-STATIC const SpriteOffset spriteDim_8E2C394[15] = {
+static const SpriteOffset spriteDim_8E2C394[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -81771,7 +81769,7 @@ STATIC const SpriteOffset spriteDim_8E2C394[15] = {
 };
 
 // 1511 - 0x08E2C448
-STATIC const SpriteOffset spriteDim_8E2C448[15] = {
+static const SpriteOffset spriteDim_8E2C448[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -81895,7 +81893,7 @@ STATIC const SpriteOffset spriteDim_8E2C448[15] = {
 };
 
 // 1512 - 0x08E2C4FC
-STATIC const SpriteOffset spriteDim_8E2C4FC[15] = {
+static const SpriteOffset spriteDim_8E2C4FC[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -82019,7 +82017,7 @@ STATIC const SpriteOffset spriteDim_8E2C4FC[15] = {
 };
 
 // 1513 - 0x08E2C5B0
-STATIC const SpriteOffset spriteDim_8E2C5B0[2] = {
+static const SpriteOffset spriteDim_8E2C5B0[2] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -82039,7 +82037,7 @@ STATIC const SpriteOffset spriteDim_8E2C5B0[2] = {
 };
 
 // 1514 - 0x08E2C5C8
-STATIC const SpriteOffset spriteDim_8E2C5C8[1] = {
+static const SpriteOffset spriteDim_8E2C5C8[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -82051,7 +82049,7 @@ STATIC const SpriteOffset spriteDim_8E2C5C8[1] = {
 };
 
 // 1515 - 0x08E2C5D4
-STATIC const SpriteOffset spriteDim_8E2C5D4[1] = {
+static const SpriteOffset spriteDim_8E2C5D4[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -82063,7 +82061,7 @@ STATIC const SpriteOffset spriteDim_8E2C5D4[1] = {
 };
 
 // 1516 - 0x08E2C5E0
-STATIC const SpriteOffset spriteDim_8E2C5E0[3] = {
+static const SpriteOffset spriteDim_8E2C5E0[3] = {
     {
        .oamIndex     = 0,
        .numSubframes = 2,
@@ -82085,7 +82083,7 @@ STATIC const SpriteOffset spriteDim_8E2C5E0[3] = {
 };
 
 // 1517 - 0x08E2C604
-STATIC const SpriteOffset spriteDim_8E2C604[1] = {
+static const SpriteOffset spriteDim_8E2C604[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 7,
@@ -82097,7 +82095,7 @@ STATIC const SpriteOffset spriteDim_8E2C604[1] = {
 };
 
 // 1518 - 0x08E2C610
-STATIC const SpriteOffset spriteDim_8E2C610[1] = {
+static const SpriteOffset spriteDim_8E2C610[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 3,
@@ -82109,7 +82107,7 @@ STATIC const SpriteOffset spriteDim_8E2C610[1] = {
 };
 
 // 1519 - 0x08E2C61C
-STATIC const SpriteOffset spriteDim_8E2C61C[1] = {
+static const SpriteOffset spriteDim_8E2C61C[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -82121,7 +82119,7 @@ STATIC const SpriteOffset spriteDim_8E2C61C[1] = {
 };
 
 // 1520 - 0x08E2C628
-STATIC const SpriteOffset spriteDim_8E2C628[1] = {
+static const SpriteOffset spriteDim_8E2C628[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 8,
@@ -82133,7 +82131,7 @@ STATIC const SpriteOffset spriteDim_8E2C628[1] = {
 };
 
 // 1521 - 0x08E2C634
-STATIC const SpriteOffset spriteDim_8E2C634[1] = {
+static const SpriteOffset spriteDim_8E2C634[1] = {
     {
        .oamIndex     = 0,
        .numSubframes = 6,
@@ -82145,7 +82143,7 @@ STATIC const SpriteOffset spriteDim_8E2C634[1] = {
 };
 
 // 1522 - 0x08E2C640
-STATIC const SpriteOffset spriteDim_8E2C640[15] = {
+static const SpriteOffset spriteDim_8E2C640[15] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
@@ -82268,7 +82266,7 @@ STATIC const SpriteOffset spriteDim_8E2C640[15] = {
 };
 
 // 1523 - 0x08E2C6F4
-STATIC const SpriteOffset spriteDim_8E2C6F4[4] = {
+static const SpriteOffset spriteDim_8E2C6F4[4] = {
     {
        .oamIndex     = 0,
        .numSubframes = 1,
