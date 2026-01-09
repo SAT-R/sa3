@@ -137,11 +137,9 @@
 #include "../../data/maps/zone_2/act_hub/tilemaps/fg/header.c"
 // 0x0845338C (52) | 0x083FD000 -> 0x084CA1B8,
 #include "../../data/maps/zone_2/act_1/tilemaps/fg/header.c"
-#if 0
-// 0x084533B0 (53) | 0x083FD000 -> 0x084CA1B8,
-#include "../../data/maps/zone_2/act_1/tilemaps/fg/header.c"
 // 0x08455BA0 (56) | 0x083FD000 -> 0x084CC9FC,
 #include "../../data/maps/zone_2/act_2/tilemaps/fg/header.c"
+#if 0
 // 0x08458468 (61) | 0x083FD000 -> 0x084CC9FC,
 #include "../../data/maps/zone_2/act_3/tilemaps/fg/header.c"
 // 0x08458504 (44) | 0x08394A4C -> 0x00000024,
