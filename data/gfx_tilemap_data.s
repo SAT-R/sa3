@@ -5,6 +5,7 @@
 
 .section .rodata
 
+@    0x083fcc40   CollHeader_zone_1_act_bonus_enemy_fg
 @ --- This is after the tilemap-data ---
 
     .global gUnknown_083B44BC
