@@ -141,9 +141,9 @@
 #include "../../data/maps/zone_2/act_2/tilemaps/fg/header.c"
 // 0x08458468 (61) | 0x083FD000 -> 0x084CC9FC,
 #include "../../data/maps/zone_2/act_3/tilemaps/fg/header.c"
-#if 0
 // 0x08458504 (44) | 0x08394A4C -> 0x00000024,
 #include "../../data/maps/zone_2/act_special/tilemaps/fg/header.c"
+#if 0
 // 0x08458728 (76) | 0x083AA2BC -> 0x00000024,
 #include "../../data/maps/zone_2/act_bonus_enemy/tilemaps/fg/header.c"
 // 0x0845874C (77) | 0x083AA2BC -> 0x00000024,

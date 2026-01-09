@@ -10,7 +10,6 @@ const u16 CollFlags_zone_1_act_special_fg[] = INCBIN_U16("data/maps/zone_1/act_s
 const u16 Metatiles_zone_1_act_special_fg[] = INCBIN_U16("data/maps/zone_1/act_special/tilemaps/fg/metatiles.tilemap2");
 
 const u16 Map_zone_1_act_special_fg0[] = INCBIN_U16("data/maps/zone_1/act_special/tilemaps/fg/map_front.bin");
-
 const u16 Map_zone_1_act_special_fg1[] = INCBIN_U16("data/maps/zone_1/act_special/tilemaps/fg/map_back.bin");
 
 ALIGNED(4) const struct MapHeader zone_1_act_special_fg0 = 
