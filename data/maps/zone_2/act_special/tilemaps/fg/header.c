@@ -1,8 +1,8 @@
 #include "global.h"
 #include "core.h"
 
-extern const u16 Palette_zone_1_act_special_fg[];
-extern const u8 Tileset_zone_1_act_special_fg[];
+extern const u16 Palette_zone_1_act_special_fg[0x100];
+extern const u8 Tileset_zone_1_act_special_fg[0x8000];
 extern const u8 Tileset_AnimTiles_zone_1_act_special_fg[];
 extern const u8 CollHeightMap_zone_1_act_special_fg[];
 extern const u8 CollTileRot_zone_1_act_special_fg[];
