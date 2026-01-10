@@ -185,19 +185,17 @@
 #include "../../data/maps/zone_6/act_3/tilemaps/fg/header.c"
 // 0x0856CFC8 (236) | 0x083AA2BC -> 0x00000024,
 #include "../../data/maps/zone_6/act_bonus_enemy/tilemaps/fg/header.c"
-#if 0
 // 0x0856D534 (248) | 0x083AA2BC -> 0x085C8FC8,
 #include "../../data/maps/zone_7/act_hub/tilemaps/fg/header.c"
 // 0x085A4858 (253) | 0x0856D5A0 -> 0x085C8FC8,
 #include "../../data/maps/zone_7/act_1/tilemaps/fg/header.c"
 // 0x085AE124 (256) | 0x0856D5A0 -> 0x083FCA40,
 #include "../../data/maps/zone_7/act_2/tilemaps/fg/header.c"
-// 0x085AE148 (257) | 0x0856D5A0 -> 0x083FCA40,
-#include "../../data/maps/zone_7/act_2/tilemaps/fg/header.c"
 // 0x085B08A0 (260) | 0x0856D5A0 -> 0x083FCA40,
 #include "../../data/maps/zone_7/act_3/tilemaps/fg/header.c"
 // 0x085B0B14 (277) | 0x083AA2BC -> 0x0850C924,
 #include "../../data/maps/zone_7/act_bonus_enemy/tilemaps/fg/header.c"
+#if 0
 // 0x085BD8B8 (284) | 0x085B0B5C -> 0x0850C924,
 #include "../../data/maps/zone_final/act_altar_emerald/tilemaps/fg/header.c"
 // 0x085C82D0 (289) | 0x085BD924 -> 0x00000024,
