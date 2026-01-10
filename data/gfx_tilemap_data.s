@@ -9,5 +9,5 @@
 @ --- This is after tilemap_data.c ---
 
     .global gUnknown_08458570
-gUnknown_08458570:                 @ --> 0x085D8C64
-    .incbin "baserom_sa3.gba", 0x4919B4, 0x1472B0
+gUnknown_08458570:                 @ --> 0x005D8C64
+    .incbin "baserom_sa3.gba", 0x4c5478, 0x1137EC
