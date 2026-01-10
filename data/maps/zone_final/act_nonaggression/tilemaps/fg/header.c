@@ -1,4 +1,4 @@
- #include "global.h"
+#include "global.h"
 #include "core.h"
 
 const u16 Palette_zone_final_act_nonaggression_fg[] = INCBIN_U16("data/maps/zone_final/act_nonaggression/tilemaps/fg/palette.gbapal");

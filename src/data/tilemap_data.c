@@ -199,9 +199,9 @@
 #include "../../data/maps/zone_final/act_altar_emerald/tilemaps/fg/header.c"
 // 0x085C82D0 (289) | 0x085BD924 -> 0x00000024,
 #include "../../data/maps/zone_final/act_nonaggression/tilemaps/fg/header.c"
-#if 0
 // 0x085C8444 (28) | 0x083589CC -> 0x00000024,
 #include "../../data/maps/zone_1/act_boss/tilemaps/fg/header.c"
+#if 0
 // 0x085C8468 (29) | 0x083589CC -> 0x00000024,
 #include "../../data/maps/zone_1/act_boss/tilemaps/fg/header.c"
 // 0x085C8668 (68) | 0x083FD000 -> 0x00000024,

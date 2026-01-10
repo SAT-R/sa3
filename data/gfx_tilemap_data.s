@@ -8,6 +8,6 @@
 @    0x083fcc40   CollHeader_zone_1_act_bonus_enemy_fg
 @ --- This is after tilemap_data.c ---
 
-    .global gUnknown_085BD924
-gUnknown_085BD924:                 @ --> 0x005D8C64
-    .incbin "baserom_sa3.gba", 0x5c8318, 0x1094C
+    .global gUnknown_085C84B0
+gUnknown_085C84B0:                 @ --> 0x005D8C64
+    .incbin "baserom_sa3.gba", 0x5C84B0, 0x107B4
