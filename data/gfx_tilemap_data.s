@@ -10,4 +10,4 @@
 
     .global gUnknown_08458570
 gUnknown_08458570:                 @ --> 0x085D8C64
-    .incbin "baserom_sa3.gba", 0x491508, 0x14775C
+    .incbin "baserom_sa3.gba", 0x4919B4, 0x1472B0

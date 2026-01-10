@@ -9,7 +9,6 @@ const u16 CollFlags_zone_3_act_bonus_capsule_fg[] = INCBIN_U8("data/maps/zone_3/
 const u16 Metatiles_zone_3_act_bonus_capsule_fg[] = INCBIN_U16("data/maps/zone_3/act_bonus_capsule/tilemaps/fg/metatiles.tilemap2");
 
 const u16 Map_zone_3_act_bonus_capsule_fg0[] = INCBIN_U16("data/maps/zone_3/act_bonus_capsule/tilemaps/fg/map_front.bin");
-
 const u16 Map_zone_3_act_bonus_capsule_fg1[] = INCBIN_U16("data/maps/zone_3/act_bonus_capsule/tilemaps/fg/map_back.bin");
 
 ALIGNED(4) const struct MapHeader zone_3_act_bonus_capsule_fg0 = 
