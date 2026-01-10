@@ -163,9 +163,9 @@
 #include "../../data/maps/zone_4/act_2/tilemaps/fg/header.c"
 // 0x084CC990 (140) | 0x084919B4 -> 0x00000024,
 #include "../../data/maps/zone_4/act_3/tilemaps/fg/header.c"
-#if 0
 // 0x084CCB80 (157) | 0x083AA2BC -> 0x00000024,
 #include "../../data/maps/zone_4/act_bonus_enemy/tilemaps/fg/header.c"
+#if 0
 // 0x084CCF6C (169) | 0x083AA2BC -> 0x084CCFB4,
 #include "../../data/maps/zone_5/act_hub/tilemaps/fg/header.c"
 // 0x08500C8C (172) | 0x084CCFB4 -> 0x084CCFB4,
