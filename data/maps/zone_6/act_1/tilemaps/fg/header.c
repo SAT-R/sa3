@@ -2,7 +2,8 @@
 #include "core.h"
 
 const u16 Palette_zone_6_act_1_fg[] = INCBIN_U16("data/maps/zone_6/act_1/tilemaps/fg/palette.gbapal");
-const u8 Tileset_zone_6_act_1_fg[] = INCBIN_U8("data/maps/zone_6/act_1/tilemaps/fg/tileset.4bpp");
+const u8 Tileset_zone_6_act_1_fg[]
+    = INCBIN_U8("data/maps/zone_6/act_1/tilemaps/fg/tileset.4bpp", "data/maps/zone_6/act_1/tilemaps/fg/tileset_anim.4bpp");
 const u8 CollHeightMap_zone_6_act_1_fg[] = INCBIN_U8("data/maps/zone_6/act_1/tilemaps/fg/height_map.coll");
 const u8 CollTileRot_zone_6_act_1_fg[] = INCBIN_U8("data/maps/zone_6/act_1/tilemaps/fg/tile_rot.coll");
 const u16 CollFlags_zone_6_act_1_fg[] = INCBIN_U16("data/maps/zone_6/act_1/tilemaps/fg/flags.coll");
@@ -21,7 +22,7 @@ ALIGNED(4) const struct MapHeader zone_6_act_1_fg0 =
         .animFrameCount = 8,
         .animDelay = 3,
         .tiles = Tileset_zone_6_act_1_fg,
-        .tilesSize = sizeof(Tileset_zone_6_act_1_fg) - (8 * 0x640),
+        .tilesSize = sizeof(Tileset_zone_6_act_1_fg) - ((8-1) * 0x640),
         .palette = Palette_zone_6_act_1_fg,
         .palOffset = 0,
         .palLength = sizeof(Palette_zone_6_act_1_fg) / sizeof(u16),
@@ -41,7 +42,7 @@ ALIGNED(4) const struct MapHeader zone_6_act_1_fg1 =
         .animFrameCount = 8,
         .animDelay = 3,
         .tiles = Tileset_zone_6_act_1_fg,
-        .tilesSize = sizeof(Tileset_zone_6_act_1_fg) - (8 * 0x640),
+        .tilesSize = sizeof(Tileset_zone_6_act_1_fg) - ((8-1) * 0x640),
         .palette = Palette_zone_6_act_1_fg,
         .palOffset = 0,
         .palLength = sizeof(Palette_zone_6_act_1_fg) / sizeof(u16),

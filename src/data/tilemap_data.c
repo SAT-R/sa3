@@ -177,19 +177,15 @@
 #include "../../data/maps/zone_5/act_bonus_enemy/tilemaps/fg/header.c"
 // 0x0850CDE4 (208) | 0x083AA2BC -> 0x085065CC,
 #include "../../data/maps/zone_6/act_hub/tilemaps/fg/header.c"
-#if 0
-// 0x0850CE08 (209) | 0x083AA2BC -> 0x085065CC,
-#include "../../data/maps/zone_6/act_hub/tilemaps/fg/header.c"
 // 0x08567498 (212) | 0x0850CE50 -> 0x0850C718,
 #include "../../data/maps/zone_6/act_1/tilemaps/fg/header.c"
 // 0x0856A980 (217) | 0x0850CE50 -> 0x0850C718,
 #include "../../data/maps/zone_6/act_2/tilemaps/fg/header.c"
 // 0x0856CDA4 (220) | 0x0850CE50 -> 0x00000024,
 #include "../../data/maps/zone_6/act_3/tilemaps/fg/header.c"
-// 0x0856CDC8 (221) | 0x0850CE50 -> 0x00000024,
-#include "../../data/maps/zone_6/act_3/tilemaps/fg/header.c"
 // 0x0856CFC8 (236) | 0x083AA2BC -> 0x00000024,
 #include "../../data/maps/zone_6/act_bonus_enemy/tilemaps/fg/header.c"
+#if 0
 // 0x0856D534 (248) | 0x083AA2BC -> 0x085C8FC8,
 #include "../../data/maps/zone_7/act_hub/tilemaps/fg/header.c"
 // 0x085A4858 (253) | 0x0856D5A0 -> 0x085C8FC8,
