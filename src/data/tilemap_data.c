@@ -175,9 +175,9 @@
 #include "../../data/maps/zone_5/act_3/tilemaps/fg/header.c"
 // 0x0850C8B8 (196) | 0x083AA2BC -> 0x085065CC,
 #include "../../data/maps/zone_5/act_bonus_enemy/tilemaps/fg/header.c"
-#if 0
 // 0x0850CDE4 (208) | 0x083AA2BC -> 0x085065CC,
 #include "../../data/maps/zone_6/act_hub/tilemaps/fg/header.c"
+#if 0
 // 0x0850CE08 (209) | 0x083AA2BC -> 0x085065CC,
 #include "../../data/maps/zone_6/act_hub/tilemaps/fg/header.c"
 // 0x08567498 (212) | 0x0850CE50 -> 0x0850C718,
