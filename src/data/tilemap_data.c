@@ -195,9 +195,9 @@
 #include "../../data/maps/zone_7/act_3/tilemaps/fg/header.c"
 // 0x085B0B14 (277) | 0x083AA2BC -> 0x0850C924,
 #include "../../data/maps/zone_7/act_bonus_enemy/tilemaps/fg/header.c"
-#if 0
 // 0x085BD8B8 (284) | 0x085B0B5C -> 0x0850C924,
 #include "../../data/maps/zone_final/act_altar_emerald/tilemaps/fg/header.c"
+#if 0
 // 0x085C82D0 (289) | 0x085BD924 -> 0x00000024,
 #include "../../data/maps/zone_final/act_nonaggression/tilemaps/fg/header.c"
 // 0x085C8444 (28) | 0x083589CC -> 0x00000024,
