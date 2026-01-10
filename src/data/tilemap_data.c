@@ -145,11 +145,9 @@
 #include "../../data/maps/zone_2/act_special/tilemaps/fg/header.c"
 // 0x08458728 (76) | 0x083AA2BC -> 0x00000024,
 #include "../../data/maps/zone_2/act_bonus_enemy/tilemaps/fg/header.c"
-#if 0
-// 0x0845874C (77) | 0x083AA2BC -> 0x00000024,
-#include "../../data/maps/zone_2/act_bonus_enemy/tilemaps/fg/header.c"
 // 0x08458BCC (88) | 0x083AA2BC -> 0x085C89C8,
 #include "../../data/maps/zone_3/act_hub/tilemaps/fg/header.c"
+#if 0
 // 0x08458BF0 (89) | 0x083AA2BC -> 0x085C89C8,
 #include "../../data/maps/zone_3/act_hub/tilemaps/fg/header.c"
 // 0x0848AB14 (92) | 0x08458C38 -> 0x085C89C8,
