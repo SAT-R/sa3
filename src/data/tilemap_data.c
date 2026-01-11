@@ -216,6 +216,7 @@
 // extra_boss_big_laser shares the pointer with zone_final_act_nonaggression_bg1.
 // 0x085C95C0 (271) | -> 0x5CAF3C
 #include "../../graphics/tilemaps/extra_boss_big_laser/header.c"
+#include "../../data/maps/zone_2/unknown/_85D8C64/header.c"
 #if 0
 // 0x085DC7A4 (14) | 0x085D97E4 -> 0x0856A9C8,
 // zone_1_act_2_bg0 shares the pointer with zone_1_act_1_bg0.

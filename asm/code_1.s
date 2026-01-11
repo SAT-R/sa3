@@ -674,7 +674,7 @@ _0804FCE0: .4byte gRefCollision
 _0804FCE4: .4byte gCollisionTable
 _0804FCE8:
 	ldr r1, _0804FD28 @ =gRefCollision
-	ldr r0, _0804FD2C @ =gUnknown_085D8C64
+	ldr r0, _0804FD2C @ =CollHeader_85D8C64_fg
 	str r0, [r1]
 _0804FCEE:
 	ldrh r0, [r5, #0x28]
@@ -710,7 +710,7 @@ _0804FD0E:
 	b _0804FD42
 	.align 2, 0
 _0804FD28: .4byte gRefCollision
-_0804FD2C: .4byte gUnknown_085D8C64
+_0804FD2C: .4byte CollHeader_85D8C64_fg
 _0804FD30: .4byte gUnknown_080D05A8
 _0804FD34:
 	movs r0, #0xa8
