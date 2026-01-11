@@ -184,8 +184,8 @@
 #define TM_INSTRUCTIONS_BONUS_ENEMIES_ES     465
 #define TM_INSTRUCTIONS_BONUS_ENEMIES_IT     466
 #define TM_HYPER_EGGROBO                     467
-#define TM_UNKNOWN_LASER_BEAM                468
+#define TM_EXTRA_BOSS_LASER                  468
 
-//#define TM_COUNT                                      469
+#define TM_COUNT 469
 
 #endif // GUARD_TILEMAPS

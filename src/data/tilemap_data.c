@@ -201,16 +201,11 @@
 #include "../../data/maps/zone_final/act_nonaggression/tilemaps/fg/header.c"
 // 0x085C8444 (28) | 0x083589CC -> 0x00000024,
 #include "../../data/maps/zone_1/act_boss/tilemaps/fg/header.c"
-#if 0
-// 0x085C8468 (29) | 0x083589CC -> 0x00000024,
-#include "../../data/maps/zone_1/act_boss/tilemaps/fg/header.c"
 // 0x085C8668 (68) | 0x083FD000 -> 0x00000024,
 #include "../../data/maps/zone_2/act_boss/tilemaps/fg/header.c"
 // 0x085C8800 (109) | 0x08458C38 -> 0x00000024,
 #include "../../data/maps/zone_3/act_boss/tilemaps/fg/header.c"
 // 0x085C895C (148) | 0x084919B4 -> 0x0850CE50,
-#include "../../data/maps/zone_4/act_boss/tilemaps/fg/header.c"
-// 0x085C8980 (149) | 0x084919B4 -> 0x0850CE50,
 #include "../../data/maps/zone_4/act_boss/tilemaps/fg/header.c"
 // 0x085C8F5C (188) | 0x084CCFB4 -> 0x0850CE50,
 #include "../../data/maps/zone_5/act_boss/tilemaps/fg/header.c"
@@ -218,11 +213,11 @@
 #include "../../data/maps/zone_6/act_boss/tilemaps/fg/header.c"
 // 0x085C9554 (268) | 0x0856D5A0 -> 0x08567504,
 #include "../../data/maps/zone_7/act_boss/tilemaps/fg/header.c"
-// 0x085C9578 (269) | 0x0856D5A0 -> 0x08567504,
-#include "../../data/maps/zone_7/act_boss/tilemaps/fg/header.c"
-// unknown_laser_beam shares the pointer with zone_final_act_nonaggression_bg1.
+// extra_boss_big_laser shares the pointer with zone_final_act_nonaggression_bg1.
+// 0x085C95C0 (271) |
+#include "../../graphics/tilemaps/extra_boss_big_laser/header.c"
+#if 0
 // 0x085DC7A4 (14) | 0x085D97E4 -> 0x0856A9C8,
-#include "../../data/maps/zone_1/act_1/tilemaps/fg/header.c"
 // zone_1_act_2_bg0 shares the pointer with zone_1_act_1_bg0.
 // zone_1_act_3_bg0 shares the pointer with zone_1_act_2_bg0.
 // zone_1_act_boss_bg0 shares the pointer with zone_1_act_3_bg0.
