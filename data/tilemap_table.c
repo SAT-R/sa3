@@ -941,5 +941,5 @@ const Tilemap *const gTilemaps[] = {
     [TM_INSTRUCTIONS_BONUS_ENEMIES_ES] = (Tilemap *)&instructions_bonus_enemies_es,
     [TM_INSTRUCTIONS_BONUS_ENEMIES_IT] = (Tilemap *)&instructions_bonus_enemies_it,
     [TM_HYPER_EGGROBO] = (Tilemap *)&hyper_eggrobo,
-    [TM_UNKNOWN_LASER_BEAM] = (Tilemap *)&zone_final_act_nonaggression_bg1,
+    [TM_EXTRA_BOSS_LASER] = (Tilemap *)&zone_final_act_nonaggression_bg1,
 };
