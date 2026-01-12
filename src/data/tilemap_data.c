@@ -219,8 +219,10 @@
 #include "../../graphics/tilemaps/_85D97C8/header.c"
 #include "../../data/maps/zone_1/act_1/tilemaps/bg0/header.c"
 #include "../../data/maps/zone_1/act_1/tilemaps/bg1/header.c"
-#if 0
 // 0x085DC7A4 (14) | 0x085D97E4 -> 0x0856A9C8,
+#include "../../data/maps/zone_2/act_1/tilemaps/bg0/header.c"
+#include "../../data/maps/zone_2/act_1/tilemaps/bg1/header.c"
+#if 0
 // zone_1_act_2_bg0 shares the pointer with zone_1_act_1_bg0.
 // zone_1_act_3_bg0 shares the pointer with zone_1_act_2_bg0.
 // zone_1_act_boss_bg0 shares the pointer with zone_1_act_3_bg0.
