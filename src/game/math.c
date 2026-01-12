@@ -55,7 +55,7 @@ typedef struct {
 
 bool8 sa2__sub_8085D98(UNK_8085DEC *thing, UNK_8085DEC *target);
 
-#define RAND_CONST 0x37119371;
+#define RAND_CONST               0x37119371;
 #define Q_6_10_MUL(qValA, qValB) ((qValA * qValB) >> 10)
 
 NONMATCH("asm/non_matching/game/math/sa2__unused_sub_80832FC.inc", void sa2__sub_80832FC()) { }
