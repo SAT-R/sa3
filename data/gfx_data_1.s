@@ -7,7 +7,7 @@
 
     .global gUnknown_085EC4C4
 gUnknown_085EC4C4:
-    .incbin "baserom_sa3.gba", 0x005EC4C4, 0x970F4
+    .incbin "baserom_sa3.gba", 0x005F2E58, 0x90760
 
     .global gUnknown_086835B8
 gUnknown_086835B8:

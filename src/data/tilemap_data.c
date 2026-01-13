@@ -230,43 +230,17 @@
 #include "../../data/maps/zone_4/act_1/tilemaps/bg0/header.c"
 // 0x085EB7AC (135) | 0x085E85AC -> 0x00000024,
 #include "../../data/maps/zone_4/act_1/tilemaps/bg1/header.c"
-#if 0
-// zone_1_act_2_bg0 shares the pointer with zone_1_act_1_bg0.
-// zone_1_act_3_bg0 shares the pointer with zone_1_act_2_bg0.
-// zone_1_act_boss_bg0 shares the pointer with zone_1_act_3_bg0.
-// zone_1_act_2_bg1 shares the pointer with zone_1_act_1_bg1.
-// zone_1_act_3_bg1 shares the pointer with zone_1_act_2_bg1.
-// zone_2_act_2_bg0 shares the pointer with zone_2_act_1_bg0.
-// zone_2_act_3_bg0 shares the pointer with zone_2_act_2_bg0.
-// zone_2_act_boss_bg0 shares the pointer with zone_2_act_3_bg0.
-// 0x085E2D18 (55) | 0x085E2138 -> 0x085C923C,
-// zone_2_act_2_bg1 shares the pointer with zone_2_act_1_bg1.
-// zone_2_act_3_bg1 shares the pointer with zone_2_act_2_bg1.
-// zone_3_act_2_bg0 shares the pointer with zone_3_act_1_bg0.
-// zone_3_act_3_bg0 shares the pointer with zone_3_act_2_bg0.
-// zone_3_act_boss_bg0 shares the pointer with zone_3_act_3_bg0.
-// zone_3_act_2_bg1 shares the pointer with zone_3_act_1_bg1.
-// zone_3_act_3_bg1 shares the pointer with zone_3_act_2_bg1.
-// zone_4_act_2_bg0 shares the pointer with zone_4_act_1_bg0.
-// zone_4_act_3_bg0 shares the pointer with zone_4_act_2_bg0.
-// zone_4_act_boss_bg0 shares the pointer with zone_4_act_3_bg0.
-// zone_4_act_2_bg1 shares the pointer with zone_4_act_1_bg1.
-// zone_4_act_3_bg1 shares the pointer with zone_4_act_2_bg1.
-// zone_5_act_2_bg0 shares the pointer with zone_5_act_1_bg0.
-// zone_5_act_3_bg0 shares the pointer with zone_5_act_2_bg0.
+// (174) | 0x085EC4C4 -> ...
+#include "../../data/maps/zone_5/act_1/tilemaps/bg0/header.c"
 // 0x085F1220 (175) | 0x085EF3A0 -> 0x0856D5A0,
-#include "../../data/maps/zone_5/act_1/tilemaps/fg/header.c"
-// zone_5_act_2_bg1 shares the pointer with zone_5_act_1_bg1.
-// zone_5_act_3_bg1 shares the pointer with zone_5_act_2_bg1.
+#include "../../data/maps/zone_5/act_1/tilemaps/bg1/header.c"
 // 0x085F2E3C (190) | 0x085F123C -> 0x085A48A0,
-#include "../../data/maps/zone_5/act_boss/tilemaps/fg/header.c"
+#include "../../data/maps/zone_5/act_boss/tilemaps/bg/header.c"
+#if 0
 // 0x085F50B8 (214) | 0x085F2E58 -> 0x085A48A0,
-#include "../../data/maps/zone_6/act_1/tilemaps/fg/header.c"
-// zone_6_act_2_bg0 shares the pointer with zone_6_act_1_bg0.
-// zone_6_act_3_bg0 shares the pointer with zone_6_act_2_bg0.
-// zone_6_act_boss_bg0 shares the pointer with zone_6_act_3_bg0.
+#include "../../data/maps/zone_6/act_1/tilemaps/bg0/header.c"
 // 0x085F6474 (215) | 0x085F50D4 -> 0x085AE190,
-#include "../../data/maps/zone_6/act_1/tilemaps/fg/header.c"
+#include "../../data/maps/zone_6/act_1/tilemaps/bg1/header.c"
 // zone_6_act_2_bg1 shares the pointer with zone_6_act_1_bg1.
 // zone_6_act_3_bg1 shares the pointer with zone_6_act_2_bg1.
 // 0x085F99D0 (254) | 0x085F6490 -> 0x085B090C,
