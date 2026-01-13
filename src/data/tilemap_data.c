@@ -236,11 +236,11 @@
 #include "../../data/maps/zone_5/act_1/tilemaps/bg1/header.c"
 // 0x085F2E3C (190) | 0x085F123C -> 0x085A48A0,
 #include "../../data/maps/zone_5/act_boss/tilemaps/bg/header.c"
-#if 0
 // 0x085F50B8 (214) | 0x085F2E58 -> 0x085A48A0,
 #include "../../data/maps/zone_6/act_1/tilemaps/bg0/header.c"
 // 0x085F6474 (215) | 0x085F50D4 -> 0x085AE190,
 #include "../../data/maps/zone_6/act_1/tilemaps/bg1/header.c"
+#if 0
 // zone_6_act_2_bg1 shares the pointer with zone_6_act_1_bg1.
 // zone_6_act_3_bg1 shares the pointer with zone_6_act_2_bg1.
 // 0x085F99D0 (254) | 0x085F6490 -> 0x085B090C,
