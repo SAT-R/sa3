@@ -6,7 +6,7 @@ const u8 Tiles_zone_7_act_boss_bg1[] = INCBIN_U8("data/maps/zone_7/act_boss/tile
 const u16 Tilemap_zone_7_act_boss_bg1[] = INCBIN_U16("data/maps/zone_7/act_boss/tilemaps/bg/tilemap.tilemap2");
 
 const Tilemap zone_7_act_boss_bg1 = {
-    .xTiles = 64,
+    .xTiles = 32,
     .yTiles = 64,
     .animTileSize = 0x00,
     .animFrameCount = 0,

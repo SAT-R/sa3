@@ -242,14 +242,9 @@
 #include "../../data/maps/zone_6/act_1/tilemaps/bg1/header.c"
 // 0x085F99D0 (254) | 0x085F6490 -> 0x085B090C,
 #include "../../data/maps/zone_7/act_1/tilemaps/bg0/header.c"
-#if 0
-// zone_7_act_2_bg0 shares the pointer with zone_7_act_1_bg0.
-// zone_7_act_3_bg0 shares the pointer with zone_7_act_2_bg0.
-// zone_7_act_boss_bg0 shares the pointer with zone_7_act_3_bg0.
-// zone_7_act_2_bg1 shares the pointer with zone_7_act_1_bg1.
-// zone_7_act_3_bg1 shares the pointer with zone_7_act_2_bg1.
 // 0x085FDD28 (271) | 0x085FBA28 -> 0x085C95C0,
-#include "../../data/maps/zone_7/act_boss/tilemaps/fg/header.c"
+#include "../../data/maps/zone_7/act_boss/tilemaps/bg/header.c"
+#if 0
 // 0x08600E04 (286) | 0x085FDD44 -> 0x085C95C0,
 #include "../../data/maps/zone_final/act_altar_emerald/tilemaps/fg/header.c"
 // altar_emerald_bg_copy shares the pointer with zone_final_act_altar_emerald_bg0.
