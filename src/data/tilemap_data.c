@@ -305,7 +305,6 @@
 #include "../../graphics/tilemaps/notification_chao_map_fr/header.c"
 // 0x086375AC (449) | 0x0863624C -> 0x086375C8,
 #include "../../graphics/tilemaps/notification_chao_map_de/header.c"
-#if 0
 // 0x086389C8 (452) | 0x086375C8 -> 0x086389E4,
 #include "../../graphics/tilemaps/notification_chao_map_it/header.c"
 // 0x08639CA4 (451) | 0x086389E4 -> 0x08639CC0,
@@ -326,6 +325,7 @@
 #include "../../graphics/tilemaps/unknown_446/header.c"
 // 0x086441C4 (445) | 0x08642CC4 -> 0x086441E0,
 #include "../../graphics/tilemaps/unknown_445/header.c"
+#if 0
 // 0x0864C0E0 (434) | 0x086441E0 -> 0x0864C0FC,
 #include "../../graphics/tilemaps/unknown_434/header.c"
 // 0x08653FFC (435) | 0x0864C0FC -> 0x08654018,
