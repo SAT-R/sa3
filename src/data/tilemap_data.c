@@ -214,7 +214,7 @@
 // 0x085C9554 (268) | 0x0856D5A0 -> 0x08567504,
 #include "../../data/maps/zone_7/act_boss/tilemaps/fg/header.c"
 // 0x085C95C0 (271) | -> 0x5CAF3C
-#include "../../data/maps/zone_final/act_nonaggression/tilemaps/bg/header.c"
+#include "../../data/maps/zone_final/act_nonaggression/tilemaps/bg1/header.c"
 #include "../../data/maps/zone_2/unknown/_85D8C64/header.c"
 #include "../../graphics/tilemaps/_85D97C8/header.c"
 #include "../../data/maps/zone_1/act_1/tilemaps/bg0/header.c"
@@ -243,23 +243,24 @@
 // 0x085F99D0 (254) | 0x085F6490 -> 0x085B090C,
 #include "../../data/maps/zone_7/act_1/tilemaps/bg0/header.c"
 // 0x085FDD28 (271) | 0x085FBA28 -> 0x085C95C0,
-#include "../../data/maps/zone_7/act_boss/tilemaps/bg/header.c"
-#if 0
+#include "../../data/maps/zone_7/act_boss/tilemaps/bg0/header.c"
+#include "../../data/maps/zone_7/act_boss/tilemaps/bg1/header.c"
 // 0x08600E04 (286) | 0x085FDD44 -> 0x085C95C0,
-#include "../../data/maps/zone_final/act_altar_emerald/tilemaps/fg/header.c"
+#include "../../data/maps/zone_final/act_altar_emerald/tilemaps/bg/header.c"
 // altar_emerald_bg_copy shares the pointer with zone_final_act_altar_emerald_bg0.
 // 0x08606480 (290) | 0x08600E20 -> 0x085C95C0,
-#include "../../data/maps/zone_final/act_nonaggression/tilemaps/fg/header.c"
+#include "../../data/maps/zone_final/act_nonaggression/tilemaps/bg0/header.c"
 // 0x0860961C (10) | 0x0860649C -> 0x083FCA40,
-#include "../../data/maps/zone_1/act_hub/tilemaps/fg/header.c"
+#include "../../data/maps/zone_1/act_hub/tilemaps/bg/header.c"
+#if 0
 // 0x0860C7B8 (50) | 0x08609638 -> 0x083FCA40,
-#include "../../data/maps/zone_2/act_hub/tilemaps/fg/header.c"
+#include "../../data/maps/zone_2/act_hub/tilemaps/bg/header.c"
 // 0x08612AF0 (130) | 0x0860F970 -> 0x083FCA40,
-#include "../../data/maps/zone_4/act_hub/tilemaps/fg/header.c"
+#include "../../data/maps/zone_4/act_hub/tilemaps/bg/header.c"
 // 0x08615C8C (170) | 0x08612B0C -> 0x085B0B5C,
-#include "../../data/maps/zone_5/act_hub/tilemaps/fg/header.c"
+#include "../../data/maps/zone_5/act_hub/tilemaps/bg/header.c"
 // 0x0861BFC4 (250) | 0x08618E44 -> 0x085B0B5C,
-#include "../../data/maps/zone_7/act_hub/tilemaps/fg/header.c"
+#include "../../data/maps/zone_7/act_hub/tilemaps/bg/header.c"
 // 0x0861D2F0 (455) | 0x0861BFE0 -> 0x0861D30C,
 #include "../../graphics/tilemaps/instructions_bonus_capsule_jp/header.c"
 // 0x0861E77C (456) | 0x0861D30C -> 0x0861E798,

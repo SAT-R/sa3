@@ -1,12 +1,12 @@
 #include "global.h"
 #include "core.h"
 
-const u16 Palette_zone_7_act_boss_bg1[] = INCBIN_U16("data/maps/zone_7/act_boss/tilemaps/bg/palette.gbapal");
-const u8 Tiles_zone_7_act_boss_bg1[] = INCBIN_U8("data/maps/zone_7/act_boss/tilemaps/bg/tiles.4bpp");
-const u16 Tilemap_zone_7_act_boss_bg1[] = INCBIN_U16("data/maps/zone_7/act_boss/tilemaps/bg/tilemap.tilemap2");
+const u16 Palette_zone_7_act_boss_bg1[] = INCBIN_U16("data/maps/zone_7/act_boss/tilemaps/bg1/palette.gbapal");
+const u8 Tiles_zone_7_act_boss_bg1[] = INCBIN_U8("data/maps/zone_7/act_boss/tilemaps/bg1/tiles.4bpp");
+const u16 Tilemap_zone_7_act_boss_bg1[] = INCBIN_U16("data/maps/zone_7/act_boss/tilemaps/bg1/tilemap.tilemap2");
 
 const Tilemap zone_7_act_boss_bg1 = {
-    .xTiles = 32,
+    .xTiles = 64,
     .yTiles = 64,
     .animTileSize = 0x00,
     .animFrameCount = 0,
