@@ -262,7 +262,6 @@
 #include "../../data/maps/zone_6/act_hub/tilemaps/bg/header.c"
 // 0x0861BFC4 (250) | 0x08618E44 -> 0x085B0B5C,
 #include "../../data/maps/zone_7/act_hub/tilemaps/bg/header.c"
-#if 0
 // 0x0861D2F0 (455) | 0x0861BFE0 -> 0x0861D30C,
 #include "../../graphics/tilemaps/instructions_bonus_capsule_jp/header.c"
 // 0x0861E77C (456) | 0x0861D30C -> 0x0861E798,
@@ -276,20 +275,7 @@
 // 0x08623FEC (459) | 0x086229BC -> 0x08624008,
 #include "../../graphics/tilemaps/instructions_bonus_capsule_es/header.c"
 // 0x08625A08 (34) | 0x08624008 -> 0x085BD924,
-#include "../../data/maps/zone_1/act_bonus_capsule/tilemaps/fg/header.c"
-// zone_1_act_bonus_enemy_bg0 shares the pointer with zone_1_act_bonus_capsule_bg0.
-// zone_2_act_bonus_capsule_bg0 shares the pointer with zone_1_act_bonus_enemy_bg0.
-// zone_2_act_bonus_enemy_bg0 shares the pointer with zone_2_act_bonus_capsule_bg0.
-// zone_3_act_bonus_capsule_bg0 shares the pointer with zone_2_act_bonus_enemy_bg0.
-// zone_3_act_bonus_enemy_bg0 shares the pointer with zone_3_act_bonus_capsule_bg0.
-// zone_4_act_bonus_capsule_bg0 shares the pointer with zone_3_act_bonus_enemy_bg0.
-// zone_4_act_bonus_enemy_bg0 shares the pointer with zone_4_act_bonus_capsule_bg0.
-// zone_5_act_bonus_capsule_bg0 shares the pointer with zone_4_act_bonus_enemy_bg0.
-// zone_5_act_bonus_enemy_bg0 shares the pointer with zone_5_act_bonus_capsule_bg0.
-// zone_6_act_bonus_capsule_bg0 shares the pointer with zone_5_act_bonus_enemy_bg0.
-// zone_6_act_bonus_enemy_bg0 shares the pointer with zone_6_act_bonus_capsule_bg0.
-// zone_7_act_bonus_capsule_bg0 shares the pointer with zone_6_act_bonus_enemy_bg0.
-// zone_7_act_bonus_enemy_bg0 shares the pointer with zone_7_act_bonus_capsule_bg0.
+#include "../../data/maps/zone_1/act_bonus_capsule/tilemaps/bg/header.c"
 // 0x08626504 (461) | 0x08625A24 -> 0x08626520,
 #include "../../graphics/tilemaps/instructions_bonus_enemies_jp/header.c"
 // 0x08626F40 (462) | 0x08626520 -> 0x08626F5C,
@@ -309,7 +295,8 @@
 // 0x08630384 (467) | 0x0862E1E4 -> 0x086303A0,
 #include "../../graphics/tilemaps/hyper_eggrobo/header.c"
 // 0x08631620 (46) | 0x086303A0 -> 0x082BBB24,
-#include "../../data/maps/zone_2/act_special/tilemaps/fg/header.c"
+#include "../../data/maps/zone_2/act_special/tilemaps/bg/header.c"
+#if 0
 // 0x08633CD8 (447) | 0x08632AB8 -> 0x08633CF4,
 #include "../../graphics/tilemaps/notification_chao_map_jp/header.c"
 // 0x08634F14 (448) | 0x08633CF4 -> 0x08634F30,
