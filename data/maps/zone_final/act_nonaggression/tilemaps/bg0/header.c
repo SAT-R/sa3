@@ -2,7 +2,8 @@
 #include "core.h"
 
 const u16 Palette_zone_final_act_nonaggression_bg0[] = INCBIN_U16("data/maps/zone_final/act_nonaggression/tilemaps/bg0/palette.gbapal");
-const u8 Tiles_zone_final_act_nonaggression_bg0[] = INCBIN_U8("data/maps/zone_final/act_nonaggression/tilemaps/bg0/tiles.4bpp");
+// File named "tileset_*.4bpp" for Makefile rule in graphics.mk that adds -ignore_trailing parameter to GFX command.
+const u8 Tiles_zone_final_act_nonaggression_bg0[] = INCBIN_U8("data/maps/zone_final/act_nonaggression/tilemaps/bg0/tileset_0.4bpp");
 const u16 Tilemap_zone_final_act_nonaggression_bg0[] = INCBIN_U16("data/maps/zone_final/act_nonaggression/tilemaps/bg0/tilemap.tilemap2");
 
 const Tilemap zone_final_act_nonaggression_bg0 = {
