@@ -252,15 +252,17 @@
 #include "../../data/maps/zone_final/act_nonaggression/tilemaps/bg0/header.c"
 // 0x0860961C (10) | 0x0860649C -> 0x083FCA40,
 #include "../../data/maps/zone_1/act_hub/tilemaps/bg/header.c"
-#if 0
 // 0x0860C7B8 (50) | 0x08609638 -> 0x083FCA40,
 #include "../../data/maps/zone_2/act_hub/tilemaps/bg/header.c"
+#include "../../data/maps/zone_3/act_hub/tilemaps/bg/header.c"
 // 0x08612AF0 (130) | 0x0860F970 -> 0x083FCA40,
 #include "../../data/maps/zone_4/act_hub/tilemaps/bg/header.c"
 // 0x08615C8C (170) | 0x08612B0C -> 0x085B0B5C,
 #include "../../data/maps/zone_5/act_hub/tilemaps/bg/header.c"
+#include "../../data/maps/zone_6/act_hub/tilemaps/bg/header.c"
 // 0x0861BFC4 (250) | 0x08618E44 -> 0x085B0B5C,
 #include "../../data/maps/zone_7/act_hub/tilemaps/bg/header.c"
+#if 0
 // 0x0861D2F0 (455) | 0x0861BFE0 -> 0x0861D30C,
 #include "../../graphics/tilemaps/instructions_bonus_capsule_jp/header.c"
 // 0x0861E77C (456) | 0x0861D30C -> 0x0861E798,
