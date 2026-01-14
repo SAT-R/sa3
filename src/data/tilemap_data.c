@@ -296,7 +296,7 @@
 #include "../../graphics/tilemaps/hyper_eggrobo/header.c"
 // 0x08631620 (46) | 0x086303A0 -> 0x082BBB24,
 #include "../../data/maps/zone_2/act_special/tilemaps/bg/header.c"
-#if 0
+#include "../../graphics/tilemaps/_8632A9C/header.c"
 // 0x08633CD8 (447) | 0x08632AB8 -> 0x08633CF4,
 #include "../../graphics/tilemaps/notification_chao_map_jp/header.c"
 // 0x08634F14 (448) | 0x08633CF4 -> 0x08634F30,
@@ -305,6 +305,7 @@
 #include "../../graphics/tilemaps/notification_chao_map_fr/header.c"
 // 0x086375AC (449) | 0x0863624C -> 0x086375C8,
 #include "../../graphics/tilemaps/notification_chao_map_de/header.c"
+#if 0
 // 0x086389C8 (452) | 0x086375C8 -> 0x086389E4,
 #include "../../graphics/tilemaps/notification_chao_map_it/header.c"
 // 0x08639CA4 (451) | 0x086389E4 -> 0x08639CC0,
