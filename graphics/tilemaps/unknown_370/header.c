@@ -3,7 +3,7 @@
 
 const u16 Palette_unknown_370[] = INCBIN_U16("graphics/tilemaps/unknown_370/palette.gbapal");
 const u8 Tiles_unknown_370[] = INCBIN_U8("graphics/tilemaps/unknown_370/tiles.4bpp");
-const u16 Tilemap_unknown_370[] = INCBIN_U16("graphics/tilemaps/unknown_370/tilemap.tilemap2");
+const u16 Tilemap_unknown_370[] = INCBIN_U16("graphics/tilemaps/unknown_370/tilemap.tilemap1");
 
 const Tilemap unknown_370 = {
     .xTiles = 16,

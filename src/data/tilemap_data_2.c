@@ -27,7 +27,6 @@
 #include "../../graphics/tilemaps/unknown_348/header.c"
 // 0x086A520C (349) | 0x086A47CC -> 0x086A5228,
 #include "../../graphics/tilemaps/unknown_349/header.c"
-#if 0
 // 0x086A5978 (350) | 0x086A5228 -> 0x086A5994,
 #include "../../graphics/tilemaps/unknown_350/header.c"
 // 0x086A63D4 (351) | 0x086A5994 -> 0x086A63F0,
@@ -78,6 +77,7 @@
 #include "../../graphics/tilemaps/unknown_373/header.c"
 // 0x086C8CF0 (374) | 0x086C5580 -> 0x086C8D0C,
 #include "../../graphics/tilemaps/unknown_374/header.c"
+#if 0
 // 0x086CA06C (403) | 0x086C8D0C -> 0x086CA088,
 #include "../../graphics/tilemaps/notification_unlocked_knuckles_jp/header.c"
 // 0x086CB248 (405) | 0x086CA088 -> 0x086CB264,

@@ -15371,7 +15371,7 @@ _08057098:
 	subs r0, #0x44
 	strh r0, [r1, #2]
 	ldr r1, _080571FC @ =0x040000D4
-	ldr r0, _08057200 @ =gUnknown_086AB768
+	ldr r0, _08057200 @ =Palette_unknown_354 + 0xE0
 	str r0, [r1]
 	ldr r0, _08057204 @ =gBgPalette + 0xE0
 	str r0, [r1, #4]
@@ -15469,7 +15469,7 @@ _080571F0: .4byte gBgCntRegs
 _080571F4: .4byte 0x00001408
 _080571F8: .4byte gBgScrollRegs
 _080571FC: .4byte 0x040000D4
-_08057200: .4byte gUnknown_086AB768
+_08057200: .4byte Palette_unknown_354 + 0xE0
 _08057204: .4byte gBgPalette + 0xE0
 _08057208: .4byte 0x80000090
 _0805720C: .4byte gFlags
@@ -16991,7 +16991,7 @@ _08057E30:
 	mov r8, r1
 	strh r0, [r6, #4]
 	ldr r1, _08057EA8 @ =0x040000D4
-	ldr r0, _08057EAC @ =gUnknown_086AB768
+	ldr r0, _08057EAC @ =Palette_unknown_354 + 0xE0
 	str r0, [r1]
 	ldr r2, _08057EB0 @ =gBgPalette + 0xE0
 	str r2, [r1, #4]
@@ -17041,7 +17041,7 @@ _08057E92:
 _08057EA0: .4byte gWinRegs
 _08057EA4: .4byte 0x0000445C
 _08057EA8: .4byte 0x040000D4
-_08057EAC: .4byte gUnknown_086AB768
+_08057EAC: .4byte Palette_unknown_354 + 0xE0
 _08057EB0: .4byte gBgPalette + 0xE0
 _08057EB4: .4byte 0x80000090
 _08057EB8: .4byte gFlags
