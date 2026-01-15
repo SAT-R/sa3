@@ -259,6 +259,7 @@ SECTIONS {
 
     /* data */
         data/data.o(.rodata);
+        data/data_1_1.o(.rodata);
         src/game/math.o(.rodata);
         data/data_x.o(.rodata);
         src/lib/m4a/m4a_tables.o(.rodata);

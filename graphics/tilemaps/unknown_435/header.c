@@ -2,8 +2,8 @@
 #include "core.h"
 
 const u16 Palette_unknown_435[] = INCBIN_U16("graphics/tilemaps/unknown_435/palette.gbapal");
-const u8 Tiles_unknown_435[] = INCBIN_U8("graphics/tilemaps/unknown_435/tiles.4bpp");
-const u16 Tilemap_unknown_435[] = INCBIN_U16("graphics/tilemaps/unknown_435/tilemap.tilemap2");
+const u8 Tiles_unknown_435[] = INCBIN_U8("graphics/tilemaps/unknown_435/tileset_0.8bpp");
+const u16 Tilemap_unknown_435[] = INCBIN_U16("graphics/tilemaps/unknown_435/tilemap.tilemap1");
 
 const Tilemap unknown_435 = {
     .xTiles = 128,
