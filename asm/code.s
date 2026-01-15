@@ -125408,7 +125408,7 @@ _080A2A50:
 _080A2A56:
 	lsls r0, r1, #0x10
 	asrs r0, r0, #0xa
-	ldr r1, _080A2A90 @ =gUnknown_086EE0A8
+	ldr r1, _080A2A90 @ =Palette_unknown_424
 	adds r6, r0, r1
 	movs r0, #0
 _080A2A60:
@@ -125436,7 +125436,7 @@ _080A2A60:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080A2A90: .4byte gUnknown_086EE0A8
+_080A2A90: .4byte Palette_unknown_424
 _080A2A94: .4byte gBgPalette
 _080A2A98: .4byte gFlags
 
