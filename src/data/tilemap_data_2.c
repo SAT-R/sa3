@@ -163,7 +163,6 @@
 #include "../../graphics/tilemaps/unknown_308/header.c"
 // 0x087341D4 (305) | 0x08731EB4 -> 0x08733230,
 #include "../../graphics/tilemaps/master_emerald_altar/header.c"
-#if 0
 // 0x08735090 (320) | 0x087341F0 -> 0x087350AC,
 #include "../../graphics/tilemaps/unknown_320/header.c"
 // 0x0873821C (321) | 0x087350AC -> 0x08738238,
@@ -264,4 +263,3 @@
 #include "../../graphics/tilemaps/notification_please_wait_es/header.c"
 // 0x08768F94 (402) | 0x08768BA0 -> 0x08768FB0,
 #include "../../graphics/tilemaps/notification_please_wait_it/header.c"
-#endif

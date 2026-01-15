@@ -5,9 +5,9 @@
 
 .section .rodata
 
-    .global gUnknown_087341F0
-gUnknown_087341F0:
-    .incbin "baserom_sa3.gba", 0x007341F0, 0x38CA8
+    .global gUnknown_08768FB0
+gUnknown_08768FB0:
+    .incbin "baserom_sa3.gba", 0x00768FB0, 0x3EE8
 
     .global gObjTiles_4bpp
 gObjTiles_4bpp: @ 0x0876CE98
