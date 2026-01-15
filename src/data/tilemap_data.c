@@ -325,7 +325,6 @@
 #include "../../graphics/tilemaps/unknown_446/header.c"
 // 0x086441C4 (445) | 0x08642CC4 -> 0x086441E0,
 #include "../../graphics/tilemaps/unknown_445/header.c"
-#if 0
 // 0x0864C0E0 (434) | 0x086441E0 -> 0x0864C0FC,
 #include "../../graphics/tilemaps/unknown_434/header.c"
 // 0x08653FFC (435) | 0x0864C0FC -> 0x08654018,
@@ -354,6 +353,7 @@
 #include "../../graphics/tilemaps/unknown_433/header.c"
 // 0x0868359C (427) | 0x08682ECC -> 0x086835B8,
 #include "../../graphics/tilemaps/unknown_427/header.c"
+#if 0
 // 0x0868F250 (292) | 0x0868C2A0 -> 0x0868F26C,
 #include "../../graphics/tilemaps/unknown_292/header.c"
 // 0x08691DE0 (293) | 0x0868F26C -> 0x08691DFC,
