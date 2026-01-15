@@ -601,6 +601,8 @@ SECTIONS {
         src/data/obj_palettes.o(.rodata);
         data/empty_unknown_data.o(.rodata);
         src/data/tilemap_data.o(.rodata);
+        data/data_unk.o(.rodata);
+        src/data/tilemap_data_2.o(.rodata);
         data/gfx_data_1.o(.rodata);
         src/data/sprite_dimensions.o(.rodata);
         data/ia_bonus_capsule.o(.rodata);
