@@ -1,7 +1,6 @@
 
 // 0x0868F250 (292) | 0x0868C2A0 -> 0x0868F26C,
 #include "../../graphics/tilemaps/unknown_292/header.c"
-#if 0
 // 0x08691DE0 (293) | 0x0868F26C -> 0x08691DFC,
 #include "../../graphics/tilemaps/unknown_293/header.c"
 // 0x08692C8C (294) | 0x08691DFC -> 0x08692CA8,
@@ -28,6 +27,7 @@
 #include "../../graphics/tilemaps/unknown_348/header.c"
 // 0x086A520C (349) | 0x086A47CC -> 0x086A5228,
 #include "../../graphics/tilemaps/unknown_349/header.c"
+#if 0
 // 0x086A5978 (350) | 0x086A5228 -> 0x086A5994,
 #include "../../graphics/tilemaps/unknown_350/header.c"
 // 0x086A63D4 (351) | 0x086A5994 -> 0x086A63F0,
