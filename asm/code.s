@@ -138874,11 +138874,11 @@ sub_80A93C8: @ 0x080A93C8
 	ldrb r0, [r4]
 	cmp r0, #0
 	beq _080A9410
-	ldr r0, _080A9408 @ =gUnknown_08712E34
+	ldr r0, _080A9408 @ =Palette_unknown_318
 	mov r1, sp
 	movs r2, #0x80
 	bl CpuFastSet
-	ldr r0, _080A940C @ =gUnknown_0871A7D8
+	ldr r0, _080A940C @ =Palette_unknown_319
 	add r1, sp, #0x200
 	movs r2, #0x80
 	bl CpuFastSet
@@ -138886,14 +138886,14 @@ sub_80A93C8: @ 0x080A93C8
 	.align 2, 0
 _080A9400: .4byte 0xFFFFFBF8
 _080A9404: .4byte gCurTask
-_080A9408: .4byte gUnknown_08712E34
-_080A940C: .4byte gUnknown_0871A7D8
+_080A9408: .4byte Palette_unknown_318
+_080A940C: .4byte Palette_unknown_319
 _080A9410:
-	ldr r0, _080A94D8 @ =gUnknown_0872217C
+	ldr r0, _080A94D8 @ =Palette_unknown_307
 	mov r1, sp
 	movs r2, #0x80
 	bl CpuFastSet
-	ldr r0, _080A94DC @ =gUnknown_0872A018
+	ldr r0, _080A94DC @ =Palette_unknown_308
 	add r1, sp, #0x200
 	movs r2, #0x80
 	bl CpuFastSet
@@ -138990,8 +138990,8 @@ _080A9458:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080A94D8: .4byte gUnknown_0872217C
-_080A94DC: .4byte gUnknown_0872A018
+_080A94D8: .4byte Palette_unknown_307
+_080A94DC: .4byte Palette_unknown_308
 _080A94E0: .4byte 0x00000404
 _080A94E4: .4byte gCurTask
 _080A94E8: .4byte sub_80A94EC
@@ -139014,11 +139014,11 @@ sub_80A94EC: @ 0x080A94EC
 	ldrb r0, [r7]
 	cmp r0, #0
 	beq _080A9534
-	ldr r0, _080A952C @ =gUnknown_08712E34
+	ldr r0, _080A952C @ =Palette_unknown_318
 	mov r1, sp
 	movs r2, #0x80
 	bl CpuFastSet
-	ldr r0, _080A9530 @ =gUnknown_0871A7D8
+	ldr r0, _080A9530 @ =Palette_unknown_319
 	add r1, sp, #0x200
 	movs r2, #0x80
 	bl CpuFastSet
@@ -139026,14 +139026,14 @@ sub_80A94EC: @ 0x080A94EC
 	.align 2, 0
 _080A9524: .4byte 0xFFFFFBFC
 _080A9528: .4byte gCurTask
-_080A952C: .4byte gUnknown_08712E34
-_080A9530: .4byte gUnknown_0871A7D8
+_080A952C: .4byte Palette_unknown_318
+_080A9530: .4byte Palette_unknown_319
 _080A9534:
-	ldr r0, _080A9584 @ =gUnknown_0872217C
+	ldr r0, _080A9584 @ =Palette_unknown_307
 	mov r1, sp
 	movs r2, #0x80
 	bl CpuFastSet
-	ldr r0, _080A9588 @ =gUnknown_0872A018
+	ldr r0, _080A9588 @ =Palette_unknown_308
 	add r1, sp, #0x200
 	movs r2, #0x80
 	bl CpuFastSet
@@ -139068,8 +139068,8 @@ _080A9558:
 	bl sub_80ABD44
 	b _080A9664
 	.align 2, 0
-_080A9584: .4byte gUnknown_0872217C
-_080A9588: .4byte gUnknown_0872A018
+_080A9584: .4byte Palette_unknown_307
+_080A9588: .4byte Palette_unknown_308
 _080A958C: .4byte 0x0000FFFF
 _080A9590: .4byte gBackgroundsCopyQueueCursor
 _080A9594: .4byte gBackgroundsCopyQueueIndex
@@ -139488,7 +139488,7 @@ sub_80A98B0: @ 0x080A98B0
 	strh r1, [r0, #2]
 	cmp r4, #0
 	beq _080A9904
-	ldr r0, _080A98FC @ =gUnknown_08712E34
+	ldr r0, _080A98FC @ =Palette_unknown_318
 	ldr r3, _080A9900 @ =0x03000004
 	adds r1, r2, r3
 	movs r2, #0x80
@@ -139498,10 +139498,10 @@ sub_80A98B0: @ 0x080A98B0
 _080A98F0: .4byte sub_80A93C8
 _080A98F4: .4byte 0x00000E04
 _080A98F8: .4byte sub_80A9B6C
-_080A98FC: .4byte gUnknown_08712E34
+_080A98FC: .4byte Palette_unknown_318
 _080A9900: .4byte 0x03000004
 _080A9904:
-	ldr r0, _080A9918 @ =gUnknown_0872217C
+	ldr r0, _080A9918 @ =Palette_unknown_307
 	ldr r3, _080A991C @ =0x03000004
 	adds r1, r2, r3
 	movs r2, #0x80
@@ -139512,7 +139512,7 @@ _080A9910:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080A9918: .4byte gUnknown_0872217C
+_080A9918: .4byte Palette_unknown_307
 _080A991C: .4byte 0x03000004
 
 	thumb_func_start sub_80A9920

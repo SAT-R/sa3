@@ -5,25 +5,9 @@
 
 .section .rodata
 
-    .global gUnknown_086EFEC4
-gUnknown_086EFEC4:
-    .incbin "baserom_sa3.gba", 0x006EFAC4, 0x23370
-
-    .global gUnknown_08712E34
-gUnknown_08712E34:
-    .incbin "baserom_sa3.gba", 0x00712E34, 0x79A4
-
-    .global gUnknown_0871A7D8
-gUnknown_0871A7D8:
-    .incbin "baserom_sa3.gba", 0x0071A7D8, 0x79A4
-
-    .global gUnknown_0872217C
-gUnknown_0872217C:
-    .incbin "baserom_sa3.gba", 0x0072217C, 0x7E9C
-
-    .global gUnknown_0872A018
-gUnknown_0872A018:
-    .incbin "baserom_sa3.gba", 0x0072A018, 0x42E80
+    .global gUnknown_08731EB4
+gUnknown_08731EB4:
+    .incbin "baserom_sa3.gba", 0x00731EB4, 0x3AFE4
 
     .global gObjTiles_4bpp
 gObjTiles_4bpp: @ 0x0876CE98
