@@ -73,8 +73,51 @@ bool32 sub_802C140(s32 worldX, s32 worldY, s32 screenX, s32 screenY) { return FA
 bool32 /* 0x0802C198 */ IsWorldPtActive(s32 worldX, s32 worldY) { return TRUE; }
 bool32 /* 0x0802C1D0 */ IsScreenPtActive(s32 screenX, s32 screenY) { return TRUE; }
 void sub_802C1F8() { }
-void sub_80519EC() { }
+void sub_8050440() { }
+void sub_8050570() { }
+void sub_80505CC() { }
+void sub_8050628() { }
+void sub_805068C() { }
+void sub_80506E8() { }
+void sub_8050804() { }
+void sub_8050864() { }
+void sub_80508D4() { }
+void sub_80509B4() { }
+void sub_8050A0C() { }
+void sub_8050B14() { }
+void sub_8050B84() { }
+void sub_8050CA4() { }
+void sub_8050D40() { }
+void sub_8050E18() { }
+void sub_8050E78() { }
+void sub_8051094() { }
+void sub_80511E4() { }
+void sub_805120C() { }
+void sub_8051250() { }
+void sub_805129C() { }
+void sub_80512AC() { }
+void sub_80512D8() { }
+void sub_80512F4() { }
+void sub_805130C() { }
+void sub_8051344() { }
+void sub_805137C() { }
+void sub_80513B4() { }
+void sub_80513EC() { }
+void sub_80513FC() { }
+void sub_8051418() { }
+void sub_8051514() { }
+void sub_8051534() { }
+void sub_8051558() { }
+void sub_80515A0() { }
+void sub_8051634() { }
+void sub_8051664() { }
+void sub_805146C() { }
+void sub_80514A0() { }
+void sub_80514C0() { }
+void sub_80515FC() { }
+void sub_8051660() { }
 void sub_80517FC() { }
+void sub_80519EC() { }
 void sub_8051F54() { }
 u8 sub_805203C(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4) { return 0; }
 u8 sub_805217C(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4) { return 0; }
@@ -126,8 +169,18 @@ void sub_8084BEC() { }
 void sub_8084C50() { }
 void sub_80870B0() { }
 void sub_808723C() { }
+void sub_8087B80() { }
+void sub_8088440() { }
+void sub_80885CC() { }
+void sub_8088770() { }
 void sub_808ADF0() { }
 void sub_808AF44() { }
+void sub_808C390() { }
+void sub_808C424() { }
+void sub_808C514() { }
+void sub_808C5D4() { }
+void sub_808C704() { }
+void sub_808CE88() { }
 void sub_808ECB8() { }
 void /* 0x0808EF9C */ OptionsSlideInit_PlayerData() { }
 void /* 0x0808F664 */ OptionsSlideInit_Difficulty() { }
