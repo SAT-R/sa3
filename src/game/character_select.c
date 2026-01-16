@@ -66,8 +66,9 @@ void Task_CharacterSelectInit(void);
 void TaskDestructor_CharacterSelect(struct Task *t);
 void sub_8097D90(CharacterSelect *cs);
 void sub_8097E5C(CharacterSelect *cs);
-void sub_8098080(CharacterSelect *cs);
+void CharSelect_InitBackgrounds(CharacterSelect *cs);
 
+extern u16 gUnknown_080D8CDC[];
 extern const TileInfo2 gUnknown_080D8D00[2];
 extern const TileInfo2 gUnknown_080D8D08[6][8];
 extern TileInfo2 gUnknown_080D8E80[];
@@ -118,7 +119,7 @@ void CreateCharacterSelect(u8 inputIndex)
     }
 
     sub_8097D90(cs);
-    sub_8098080(cs);
+    CharSelect_InitBackgrounds(cs);
     sub_8097E5C(cs);
 
     m4aMPlayAllStop();
@@ -320,3 +321,70 @@ NONMATCH("asm/non_matching/game/char_select__sub_8097E5C.inc", void sub_8097E5C(
     cs->unk1C = vram;
 }
 END_NONMATCH
+
+void CharSelect_InitBackgrounds(CharacterSelect *cs)
+{
+    Background *bgA;
+    Background *bgB;
+    Background *bgC;
+
+    gBgCntRegs[0] = 0x4E07;
+    gBgScrollRegs[0][0] = 0;
+    gBgScrollRegs[0][1] = 0;
+    bgA = &cs->bg1B4;
+    bgA->graphics.dest = (void *)BG_SCREEN_ADDR(8);
+    bgA->graphics.anim = 0;
+    bgA->layoutVram = (void *)BG_SCREEN_ADDR(14);
+    bgA->unk18 = 0;
+    bgA->unk1A = 0;
+    bgA->tilemapId = gUnknown_080D8CDC[0];
+    bgA->unk1E = 0;
+    bgA->unk20 = 0;
+    bgA->unk22 = 0;
+    bgA->unk24 = 0;
+    bgA->targetTilesX = 45;
+    bgA->targetTilesY = 20;
+    cs->bg1B4.paletteOffset = 0;
+    bgA->flags = 0;
+    DrawBackground(bgA);
+
+    gBgCntRegs[1] = 0x30E;
+    gBgScrollRegs[1][0] = 0;
+    gBgScrollRegs[1][1] = 0;
+    bgB = &cs->bg1F4;
+    bgB->graphics.dest = (void *)BG_SCREEN_ADDR(24);
+    bgB->graphics.anim = 0;
+    bgB->layoutVram = (void *)BG_SCREEN_ADDR(3);
+    bgB->unk18 = 0;
+    bgB->unk1A = 0;
+    bgB->tilemapId = gUnknown_080D8CDC[11];
+    bgB->unk1E = 0;
+    bgB->unk20 = 0;
+    bgB->unk22 = 0;
+    bgB->unk24 = 0;
+    bgB->targetTilesX = 16;
+    bgB->targetTilesY = 16;
+    cs->bg1F4.paletteOffset = 0;
+    bgB->flags = 1;
+    DrawBackground(bgB);
+
+    gBgCntRegs[2] = 0x1B89;
+    gBgScrollRegs[2][0] = 0;
+    gBgScrollRegs[2][1] = 0;
+    bgC = &cs->bg234;
+    bgC->graphics.dest = (void *)BG_SCREEN_ADDR(16);
+    bgC->graphics.anim = 0;
+    bgC->layoutVram = (void *)BG_SCREEN_ADDR(27);
+    bgC->unk18 = 0;
+    bgC->unk1A = 0;
+    bgC->tilemapId = gUnknown_080D8CDC[cs->unk5 + 5];
+    bgC->unk1E = 0;
+    bgC->unk20 = 0;
+    bgC->unk22 = 0;
+    bgC->unk24 = 0;
+    bgC->targetTilesX = 16;
+    bgC->targetTilesY = 16;
+    cs->bg234.paletteOffset = 0;
+    bgC->flags = 6;
+    DrawBackground(bgC);
+}
