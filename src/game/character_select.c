@@ -27,7 +27,7 @@ typedef struct CharacterSelect {
     /* 0x16 */ s16 qUnk16;
     /* 0x18 */ s16 qUnk18;
     /* 0x1A */ u8 filler1A[0x2];
-    /* 0x1C */ s32 unk1C;
+    /* 0x1C */ void *unk1C;
     /* 0x20 */ s32 unk20;
     /* 0x24 */ s32 qUnk24;
     /* 0x28 */ s32 qUnk28;
@@ -55,7 +55,8 @@ typedef struct CharacterSelect {
     /* 0xEC */ Sprite sprEC;
     /* 0x114 */ Sprite spr114;
     /* 0x13C */ Sprite spr13C;
-    /* 0x164 */ u8 filler164[0x50];
+    /* 0x164 */ Sprite spr164;
+    /* 0x18C */ Sprite spr18C;
     /* 0x1B4 */ Background bg1B4;
     /* 0x1F4 */ Background bg1F4;
     /* 0x234 */ Background bg234;
@@ -66,6 +67,13 @@ void TaskDestructor_CharacterSelect(struct Task *t);
 void sub_8097D90(CharacterSelect *cs);
 void sub_8097E5C(CharacterSelect *cs);
 void sub_8098080(CharacterSelect *cs);
+
+extern const TileInfo2 gUnknown_080D8D00[2];
+extern const TileInfo2 gUnknown_080D8D08[6][8];
+extern TileInfo2 gUnknown_080D8E80[];
+extern TileInfo2 gUnknown_080D8EF8;
+extern const TileInfo2 gUnknown_080D8F08[2];
+extern const u8 gUnknown_080D8F18[8];
 
 void CreateCharacterSelect(u8 inputIndex)
 {
@@ -178,3 +186,137 @@ void sub_8097D90(CharacterSelect *cs)
     cs->unkC[PLAYER_1] = gPlayers[playerIndex].charFlags.character;
     cs->unkC[PLAYER_2] = gPlayers[partnerIndex].charFlags.character;
 }
+
+// (99.57%) https://decomp.me/scratch/KvZA5
+NONMATCH("asm/non_matching/game/char_select__sub_8097E5C.inc", void sub_8097E5C(CharacterSelect *cs))
+{
+    TileInfo2 *ti;
+#ifndef NON_MATCHING
+    register Sprite *s asm("r0");
+#else
+    Sprite *s;
+#endif
+    u16 language;
+    void *vram = OBJ_VRAM0;
+    s32 index, index2;
+    s32 unk5;
+
+    s = &cs->sprC4;
+    s->tiles = vram;
+    vram += 0x5A0;
+    s->anim = gUnknown_080D8D00[0].anim;
+    s->variant = gUnknown_080D8D00[0].variant;
+    s->prevVariant = 0xFF;
+    s->x = (s16)((s32)cs->qUnk2C >> 8);
+    s->y = (s16)((s32)cs->qUnk30 >> 8);
+    s->oamFlags = 0x40;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    s = &cs->spr9C;
+    s->tiles = vram;
+    vram += 0x640;
+    s->anim = gUnknown_080D8D08[cs->language][0].anim;
+    s->variant = gUnknown_080D8D08[cs->language][0].variant;
+    s->prevVariant = -1;
+    s->x = I(cs->qUnk24);
+    s->y = I(cs->qUnk28);
+    s->oamFlags = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    s = &cs->spr18C;
+    s->tiles = vram;
+    vram += 0x80;
+    s->anim = 0x574;
+    s->variant = 5;
+    s->prevVariant = -1;
+    s->x = (DISPLAY_WIDTH / 2);
+    s->y = I(cs->qUnk68);
+    s->oamFlags = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    s = &cs->spr74;
+    cs->spr74.tiles = vram;
+    vram += 0x200;
+    s->anim = gUnknown_080D8F08[0].anim;
+    s->variant = gUnknown_080D8F08[0].variant;
+    s->prevVariant = -1;
+    s->x = I(cs->qUnk5C);
+    s->y = I(cs->qUnk60);
+    s->oamFlags = -0x40;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    s = &cs->sprEC;
+    language = (cs->language == 0) ? 0 : 1;
+    index2 = (gUnknown_080D8F18[cs->unk5]);
+    s->tiles = vram;
+    vram += 0x1C0;
+    s->anim = gUnknown_080D8E80[language * sizeof(TileInfo2) + index2].anim;
+    s->variant = gUnknown_080D8E80[language * sizeof(TileInfo2) + index2].variant;
+    s->prevVariant = -1;
+    s->x = I(cs->qUnk64);
+    s->y = I(cs->qUnk68);
+    s->oamFlags = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    s = &cs->spr13C;
+    language = (cs->language == 0) ? 0 : 1;
+    index2 = (gUnknown_080D8F18[cs->unk5]);
+    s->tiles = vram;
+    vram += 0x1C0;
+    s->anim = gUnknown_080D8E80[language * sizeof(TileInfo2) + index2].anim;
+    s->variant = gUnknown_080D8E80[language * sizeof(TileInfo2) + index2].variant;
+    s->prevVariant = -1;
+    s->x = I(cs->qUnk6C);
+    s->y = I(cs->qUnk70);
+    s->oamFlags = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    s = &cs->spr114;
+    s->tiles = vram;
+    vram += 0x300;
+    s->anim = gUnknown_080D8EF8.anim;
+    s->variant = gUnknown_080D8EF8.variant;
+    s->prevVariant = -1;
+    s->x = I(cs->qUnk64);
+    s->y = I(cs->qUnk68);
+    s->oamFlags = 0x40;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    cs->unk1C = vram;
+}
+END_NONMATCH
