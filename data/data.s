@@ -1098,7 +1098,3 @@ gUnknown_080D096C:
     .global gUnknown_080D098C
 gUnknown_080D098C:
     .incbin "baserom_sa3.gba", 0x000D098C, 0x20
-
-    .global gTilemaps
-gTilemaps:
-    .incbin "baserom_sa3.gba", 0x000D09AC, 0x754

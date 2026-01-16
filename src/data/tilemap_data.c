@@ -216,7 +216,7 @@
 // 0x085C95C0 (271) | -> 0x5CAF3C
 #include "../../data/maps/zone_final/act_nonaggression/tilemaps/bg1/header.c"
 #include "../../data/maps/zone_2/unknown/_85D8C64/header.c"
-#include "../../graphics/tilemaps/_85D97C8/header.c"
+#include "../../data/maps/zone_1/act_special/tilemaps/bg0/header.c"
 #include "../../data/maps/zone_1/act_1/tilemaps/bg0/header.c"
 #include "../../data/maps/zone_1/act_1/tilemaps/bg1/header.c"
 // 0x085DC7A4 (14) | 0x085D97E4 -> 0x0856A9C8,
