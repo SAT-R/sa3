@@ -709,7 +709,12 @@ gUnknown_080D66D8:
 
     .global gUnknown_080D6758
 gUnknown_080D6758:
-    .incbin "baserom_sa3.gba", 0x000D6758, 0x18
+    mPtr sub_8088770
+    mPtr sub_8087B80
+    mPtr sub_8087B80
+    mPtr sub_8087B80
+    mPtr sub_8088440
+    mPtr sub_80885CC
 
     .global gUnknown_080D6770
 gUnknown_080D6770:
@@ -819,7 +824,13 @@ sOptionsSlideInits:
 
     .global gUnknown_080D6E38
 gUnknown_080D6E38:
-    .incbin "baserom_sa3.gba", 0x000D6E38, 0x1C
+    mPtr sub_808C390
+    mPtr sub_808C424
+    mPtr sub_808C424
+    mPtr sub_808C514
+    mPtr sub_808C5D4
+    mPtr sub_808CE88
+    mPtr sub_808C704
 
     .global gUnknown_080D6E54
 gUnknown_080D6E54:

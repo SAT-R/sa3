@@ -1,6 +1,8 @@
 #include "global.h"
 #include "core.h"
 
+#include "constants/tilemaps.h"
+
 extern struct MapHeader zone_1_act_dummy_fg0;
 extern struct MapHeader zone_1_act_dummy_fg1;
 extern struct MapHeader zone_1_act_dummy_bg0;
@@ -470,10 +472,6 @@ extern struct MapHeader instructions_bonus_enemies_es;
 extern struct MapHeader instructions_bonus_enemies_it;
 extern struct MapHeader hyper_eggrobo;
 extern struct MapHeader unknown_laser_beam;
-#include "global.h"
-#include "core.h"
-
-#include "constants/tilemaps.h"
 
 const Tilemap *const gTilemaps[] = {
     [0] = NULL,
