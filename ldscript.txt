@@ -148,6 +148,9 @@ SECTIONS {
         src/game/enemies/guruguru.o(.text);
         src/game/enemies/kyacchaa.o(.text);
         asm/code.o(.text);
+        src/game/character_select.o(.text);
+        asm/character_select.o(.text);
+        asm/code_2.o(.text);
         src/game/math.o(.text);
         asm/code_x.o(.text);
         src/lib/m4a/m4a0.o(.text);

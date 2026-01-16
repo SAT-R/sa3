@@ -2642,7 +2642,7 @@ _0802C138:
 	bx r0
 	.align 2, 0
 
-@ TODO/MATCHING: It doesn't look like it here, but maybe this gets s16 params?
+@ TODO/MATCHING: It does not look like it here, but maybe this gets s16 params?
 @                It gets called with s16s in some places. (e.g. Task_BigAirBubble)
 	thumb_func_start sub_802C140
 sub_802C140: @ 0x0802C140
