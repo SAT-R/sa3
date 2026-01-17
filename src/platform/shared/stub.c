@@ -189,7 +189,6 @@ void /* 0x08090390 */ OptionsSlideInit_DeleteSaveData() { }
 void /* 0x08090A1C */ OptionsSlideInit_TimeUp() { }
 void /* 0x08090F70 */ OptionsSlideInit_ButtonConfig() { }
 void /* 0x08093954 */ OptionsSlideInit_SoundTest() { }
-void /* 0x08097C54 */ CreateCharacterSelect(u16 param0) { }
 void /* 0x080A209C */ CreateGameIntroState() { }
 void sub_80B75E4() { }
 void sub_80B7914() { }

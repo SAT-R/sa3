@@ -14,14 +14,14 @@ typedef struct CharacterSelect {
     /* 0x04 */ u8 unk4;
     /* 0x05 */ u8 unk5;
     /* 0x06 */ u8 unk6;
-    /* 0x07 */ u8 inputIndex;
+    /* 0x07 */ u8 createIndex;
     /* 0x08 */ u8 unk8;
     /* 0x09 */ u8 unk9;
     /* 0x09 */ u8 language;
     /* 0x0B */ u8 unkB;
     /* 0x0C */ u8 unkC[2];
     /* 0x0E */ u16 unkE;
-    /* 0x10 */ u16 unk10;
+    /* 0x10 */ u16 qFadeBrightness;
     /* 0x12 */ u16 unk12;
     /* 0x14 */ u16 unk14;
     /* 0x16 */ s16 qUnk16;
@@ -66,6 +66,18 @@ void Task_CharacterSelectInit(void);
 void TaskDestructor_CharacterSelect(struct Task *t);
 void sub_8097D90(CharacterSelect *cs);
 void sub_8097E5C(CharacterSelect *cs);
+void sub_809AD74(CharacterSelect *cs);
+void sub_809ADF0(CharacterSelect *cs);
+void sub_809AE50(CharacterSelect *cs);
+void sub_809B13C(CharacterSelect *cs);
+void sub_809B284(CharacterSelect *cs);
+void sub_809B69C(CharacterSelect *cs);
+void sub_809B6C0(CharacterSelect *cs);
+void Task_80983E8(void);
+void Task_8098DE4(void);
+s16 sub_8023E04(void);
+s16 sub_8024074(u8);
+void sub_802613C(void);
 void CharSelect_InitBackgrounds(CharacterSelect *cs);
 
 extern u16 gUnknown_080D8CDC[];
@@ -76,7 +88,7 @@ extern TileInfo2 gUnknown_080D8EF8;
 extern const TileInfo2 gUnknown_080D8F08[2];
 extern const u8 gUnknown_080D8F18[8];
 
-void CreateCharacterSelect(u8 inputIndex)
+void CreateCharacterSelect(u8 createIndex)
 {
     s32 sp4;
     struct Task *t;
@@ -104,17 +116,17 @@ void CreateCharacterSelect(u8 inputIndex)
     gBgSprites_Unknown2[0][3] = 0x40;
 
     cs = TASK_DATA(t);
-    if (inputIndex == 4) {
+    if (createIndex == 4) {
         cs->unk8 = 1;
         if (gStageData.gameMode == 0) {
-            cs->inputIndex = 0U;
+            cs->createIndex = 0U;
         } else if (gStageData.gameMode == 5) {
-            cs->inputIndex = 1U;
+            cs->createIndex = 1U;
         } else if (gStageData.gameMode == 3 || gStageData.gameMode == 4) {
-            cs->inputIndex = 3U;
+            cs->createIndex = 3U;
         }
     } else {
-        cs->inputIndex = inputIndex;
+        cs->createIndex = createIndex;
         cs->unk8 = 0;
     }
 
@@ -155,7 +167,7 @@ void sub_8097D90(CharacterSelect *cs)
     cs->unk0 = 0;
     cs->unk9 = 0;
     cs->unkE = 1;
-    cs->unk10 = 0;
+    cs->qFadeBrightness = 0;
     cs->unk12 = 0;
     cs->qUnk18 = Q(16);
     cs->qUnk24 = Q(120);
@@ -384,7 +396,121 @@ void CharSelect_InitBackgrounds(CharacterSelect *cs)
     bgC->unk24 = 0;
     bgC->targetTilesX = 16;
     bgC->targetTilesY = 16;
-    cs->bg234.paletteOffset = 0;
+    bgC->paletteOffset = 0;
     bgC->flags = 6;
     DrawBackground(bgC);
+}
+
+void Task_80981A8(void)
+{
+    s16 var_r3;
+    s16 var_r0;
+    struct Task *t;
+    s16 playerIndex;
+
+    CharacterSelect *cs = TASK_DATA(gCurTask);
+
+    playerIndex = gStageData.playerIndex;
+    if (playerIndex == 0) {
+        var_r0 = sub_8024074(0U);
+    } else {
+        var_r0 = sub_8023E04();
+    }
+
+    cs->unk9 |= (var_r0 & 0x10);
+    if (var_r0 < 0) {
+        sub_802613C();
+        return;
+    }
+
+    if (cs->createIndex == 1) {
+        gPlayers[PLAYER_1].charFlags.character = SONIC;
+        gPlayers[PLAYER_1].charFlags.partnerIndex = PLAYER_2;
+        gPlayers[PLAYER_2].charFlags.character = TAILS;
+        gPlayers[PLAYER_2].charFlags.partnerIndex = PLAYER_1;
+
+        for (var_r3 = 0; var_r3 < 2; var_r3++) {
+            if (playerIndex == var_r3) {
+                gPlayers[var_r3].charFlags.someIndex = 1;
+            } else {
+                gPlayers[var_r3].charFlags.someIndex = 3;
+                gPlayers[var_r3].charFlags.padding1 = var_r3;
+            }
+        }
+    } else if (cs->createIndex == 2) {
+        gPlayers[PLAYER_1].charFlags.character = SONIC;
+        gPlayers[PLAYER_1].charFlags.partnerIndex = PLAYER_3;
+        gPlayers[PLAYER_2].charFlags.character = SONIC;
+        gPlayers[PLAYER_2].charFlags.partnerIndex = PLAYER_4;
+        gPlayers[PLAYER_3].charFlags.character = TAILS;
+        gPlayers[PLAYER_3].charFlags.partnerIndex = PLAYER_1;
+        gPlayers[PLAYER_4].charFlags.character = TAILS;
+        gPlayers[PLAYER_4].charFlags.partnerIndex = PLAYER_2;
+
+        for (var_r3 = 0; var_r3 < NUM_MULTI_PLAYER_CHARS; var_r3++) {
+            if (playerIndex == var_r3) {
+                gPlayers[var_r3].charFlags.someIndex = 1;
+            } else {
+                gPlayers[var_r3].charFlags.someIndex = 3;
+                gPlayers[var_r3].charFlags.padding1 = var_r3;
+            }
+        }
+    }
+    gCurTask->main = Task_80983E8;
+}
+
+void Task_80983E8(void)
+{
+    CharacterSelect *cs = TASK_DATA(gCurTask);
+    s16 var_r0;
+    u8 playerIndex;
+
+    playerIndex = gStageData.playerIndex;
+
+    if ((cs->createIndex != 0) && (cs->createIndex != 3)) {
+        if (playerIndex == 0) {
+            var_r0 = sub_8024074(0);
+        } else {
+            var_r0 = sub_8023E04();
+        }
+
+        cs->unk9 |= 0x10 & var_r0;
+        if (var_r0 < 0) {
+            sub_802613C();
+            return;
+        }
+    }
+
+    if (cs->unkE != 0) {
+        gDispCnt |= DISPCNT_WIN0_ON;
+        gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+        gWinRegs[4] |= 0x3F;
+        gWinRegs[5] |= 0x1F;
+        gBldRegs.bldCnt = 0x3FFF;
+        gBldRegs.bldY = 0x10;
+        cs->qFadeBrightness = 0x1000;
+        cs->unkE = 0;
+    }
+    sub_809B13C(cs);
+
+    if (cs->createIndex == 0 || cs->createIndex == 3 || (cs->createIndex == 1 && playerIndex == 0)
+        || (cs->createIndex == 2 && playerIndex <= 1)) {
+        sub_809B284(cs);
+        sub_809AD74(cs);
+    }
+
+    sub_809ADF0(cs);
+    sub_809AE50(cs);
+    sub_809B69C(cs);
+    sub_809B6C0(cs);
+
+    if (gBldRegs.bldY != 0) {
+        gBldRegs.bldY = I(cs->qFadeBrightness);
+        cs->qFadeBrightness -= Q(1.0);
+    } else {
+        cs->unkE = 1;
+        gBldRegs.bldY = 0;
+        gCurTask->main = Task_8098DE4;
+    }
 }
