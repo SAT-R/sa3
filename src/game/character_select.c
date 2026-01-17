@@ -64,16 +64,28 @@ typedef struct CharacterSelect {
 
 void Task_CharacterSelectInit(void);
 void TaskDestructor_CharacterSelect(struct Task *t);
+void sub_808723C(s16 param0, u8 param1);
 void sub_8097D90(CharacterSelect *cs);
 void sub_8097E5C(CharacterSelect *cs);
+void sub_80986AC(CharacterSelect *cs);
+bool32 sub_80988B0(CharacterSelect *cs);
+bool32 sub_8098A00(CharacterSelect *cs);
+bool32 sub_8098B50(CharacterSelect *cs);
+bool32 sub_8098CFC(CharacterSelect *cs);
 void sub_809AD74(CharacterSelect *cs);
 void sub_809ADF0(CharacterSelect *cs);
 void sub_809AE50(CharacterSelect *cs);
+void sub_809AFC0(CharacterSelect *cs);
 void sub_809B13C(CharacterSelect *cs);
+void sub_809B148(CharacterSelect *cs);
+void sub_809B184(CharacterSelect *cs);
+void sub_809B1E4(CharacterSelect *cs);
+void sub_809B234(CharacterSelect *cs);
 void sub_809B284(CharacterSelect *cs);
 void sub_809B69C(CharacterSelect *cs);
 void sub_809B6C0(CharacterSelect *cs);
 void Task_80983E8(void);
+void Task_8098600(void);
 void Task_8098DE4(void);
 s16 sub_8023E04(void);
 s16 sub_8024074(u8);
@@ -489,7 +501,7 @@ void Task_80983E8(void)
         gWinRegs[5] |= 0x1F;
         gBldRegs.bldCnt = 0x3FFF;
         gBldRegs.bldY = 0x10;
-        cs->qFadeBrightness = 0x1000;
+        cs->qFadeBrightness = Q(16);
         cs->unkE = 0;
     }
     sub_809B13C(cs);
@@ -513,4 +525,94 @@ void Task_80983E8(void)
         gBldRegs.bldY = 0;
         gCurTask->main = Task_8098DE4;
     }
+}
+
+void sub_8098508(void)
+{
+    CharacterSelect *cs = TASK_DATA(gCurTask);
+
+    if (cs->unkE != 0) {
+        gDispCnt |= DISPCNT_WIN0_ON;
+        gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+        gWinRegs[4] |= 0x3F;
+        gWinRegs[5] |= 0x1F;
+        gBldRegs.bldCnt = 0x3FFF;
+        cs->unkE = 0;
+        cs->qFadeBrightness = 0;
+    }
+
+    sub_809ADF0(cs);
+    sub_809B6C0(cs);
+
+    if (cs->unkB > 0x13U) {
+        sub_809AFC0(cs);
+    } else {
+        sub_809AE50(cs);
+    }
+
+    if (cs->unkB == 1) {
+        sub_809AD74(cs);
+    }
+
+    if (cs->unkB == 5) {
+        sub_809B234(cs);
+        sub_809B1E4(cs);
+    } else if (cs->unkB == 8) {
+        sub_809B184(cs);
+        sub_809B148(cs);
+    }
+
+    if (gBldRegs.bldY < 16) {
+        gBldRegs.bldY = I(cs->qFadeBrightness);
+        cs->qFadeBrightness += Q(1);
+    } else {
+        gBldRegs.bldY = 0x10;
+        cs->qUnk3C = Q(310);
+        cs->qUnk34 = Q(310);
+        cs->unkB = 0x1D;
+        gCurTask->main = Task_8098600;
+    }
+}
+
+void Task_8098600()
+{
+    CharacterSelect *cs = TASK_DATA(gCurTask);
+    s32 var_r0;
+
+    switch (cs->unk2) {
+        case 2:
+            if (cs->unk8 != 0) {
+                sub_80986AC(cs);
+                return;
+            }
+            if (gStageData.gameMode == 0) {
+                var_r0 = sub_80988B0(cs);
+            } else if (gStageData.gameMode == 5) {
+                var_r0 = sub_8098A00(cs);
+            } else if (gStageData.gameMode == 3 || gStageData.gameMode == 4) {
+                var_r0 = sub_8098B50(cs);
+            } else {
+                case 3:
+                    var_r0 = sub_8098CFC(cs);
+            }
+
+            if (var_r0 == 1) {
+                return;
+            }
+
+            break;
+        case 4:
+            sub_802613C();
+            break;
+
+        default:
+            MultiSioStop();
+            MultiSioInit(0U);
+            gMultiSioEnabled = 0;
+            sub_808723C(1, 0);
+            break;
+    }
+
+    TaskDestroy(gCurTask);
 }
