@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "module_unclear.h"
 #include "lib/m4a/m4a.h"
 #include "game/save.h"
 #include "game/stage.h"
@@ -575,7 +576,7 @@ void sub_8098508(void)
     }
 }
 
-void Task_8098600()
+void Task_8098600(void)
 {
     CharacterSelect *cs = TASK_DATA(gCurTask);
     s32 var_r0;
@@ -615,4 +616,55 @@ void Task_8098600()
     }
 
     TaskDestroy(gCurTask);
+}
+
+void sub_80986AC(CharacterSelect *cs) {
+    u8 var_r1;
+    u8 var_r6;
+
+    sub_80003B8();
+
+    if (gStageData.gameMode == GAME_MODE_5) {
+        s16 playerIndex = gStageData.playerIndex;
+        s16 partnerIndex = (playerIndex + 1);
+        partnerIndex &= 1;
+
+        if (playerIndex == PLAYER_1) {
+            var_r6 = gUnknown_080D8F18[cs->unk5];
+            var_r1 = gUnknown_080D8F18[cs->unk6];
+        } else {
+            var_r6 = gUnknown_080D8F18[cs->unk6];
+            var_r1 = gUnknown_080D8F18[cs->unk5];
+        }
+        
+        gPlayers[playerIndex].callback = NULL;
+        gPlayers[playerIndex].charFlags.partnerIndex = partnerIndex;
+        gPlayers[playerIndex].charFlags.character = var_r6;
+        gPlayers[playerIndex].charFlags.someIndex = 1;
+        gPlayers[partnerIndex].callback = NULL;
+        gPlayers[partnerIndex].charFlags.someIndex = 3;
+        gPlayers[partnerIndex].charFlags.padding1 = partnerIndex;
+        gPlayers[partnerIndex].charFlags.partnerIndex = playerIndex;
+        gPlayers[partnerIndex].charFlags.character = var_r1;
+        gPlayers[PLAYER_3].callback = NULL;
+        gPlayers[PLAYER_3].charFlags.someIndex = 0;
+        gPlayers[PLAYER_4].callback = NULL;
+        gPlayers[PLAYER_4].charFlags.someIndex = 0;
+    } else {
+        gStageData.playerIndex = 0;
+        gPlayers[PLAYER_1].callback = NULL;
+        gPlayers[PLAYER_1].charFlags.partnerIndex = PLAYER_2;
+        gPlayers[PLAYER_1].charFlags.character = gUnknown_080D8F18[cs->unk5];
+        gPlayers[PLAYER_1].charFlags.someIndex = 1;
+        gPlayers[PLAYER_2].callback = NULL;
+        gPlayers[PLAYER_2].charFlags.partnerIndex = PLAYER_1;
+        gPlayers[PLAYER_2].charFlags.character = gUnknown_080D8F18[cs->unk6];
+        gPlayers[PLAYER_2].charFlags.someIndex = 2;
+        gPlayers[PLAYER_3].callback = NULL;
+        gPlayers[PLAYER_3].charFlags.someIndex = 0;
+        gPlayers[PLAYER_4].callback = NULL;
+        gPlayers[PLAYER_4].charFlags.someIndex = 0;
+    }
+
+    WarpToMap(COURSE_INDEX(ZONE_1, ACT_SONIC_FACTORY), 0U);
 }

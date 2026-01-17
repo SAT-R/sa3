@@ -40,6 +40,8 @@ typedef struct {
 } Struct_03001060; /* size: ??? */
 extern Struct_03001060 gUnknown_03001060;
 
+extern void sub_80003B8(void);
+
 bool32 sub_8001E58(void);
 void WarpToMap(s16 level, u16);
 void Task_800303C(void); // Player-related (Player.unk90.main gets set to this in goal_ring IA)
@@ -93,7 +95,7 @@ void sub_8053128(s16, s16);
 bool32 sub_805C510(Sprite *s);
 bool8 sub_8079FFC(void);
 bool8 sub_807A074(void);
-void CreateCharacterSelect(u16);
+void CreateCharacterSelect(u8);
 
 void sub_80C07E0(Sprite *s);
 void sub_80C460C(const u16 *pal, u8 paletteOffset, u16 palSize);
