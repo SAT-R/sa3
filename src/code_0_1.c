@@ -81,8 +81,8 @@ void WarpToMap(s16 level, u16 arg1)
     }
 
     stageData->entryIndex = arg1;
-    stageData->unk1 = LOADED_SAVE->difficulty;
-    stageData->unk0 = LOADED_SAVE->language;
+    stageData->difficulty = LOADED_SAVE->difficulty;
+    stageData->language = LOADED_SAVE->language;
     if ((gStageData.zone < 7) && ((gStageData.act == 1 || gStageData.act == 2) || (gStageData.act == 8) || (gStageData.act == 9))) {
         stageData->unk2 = 1;
     } else {
@@ -119,8 +119,8 @@ void sub_80022E8(s16 level)
                 stageData->currMapIndex = level;
             }
         }
-        stageData->unk1 = LOADED_SAVE->difficulty;
-        stageData->unk0 = LOADED_SAVE->language;
+        stageData->difficulty = LOADED_SAVE->difficulty;
+        stageData->language = LOADED_SAVE->language;
         stageData->unk2 = 0;
         stageData->entryIndex = 0;
     } else {

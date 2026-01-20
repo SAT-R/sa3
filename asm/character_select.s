@@ -815,7 +815,7 @@ _08098F00:
 	bl sub_809B5D0
 	ldr r0, _08098F54 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08098F58 @ =sub_8099300
+	ldr r0, _08098F58 @ =Task_8099300
 	b _08098FE0
 	.align 2, 0
 _08098F40: .4byte gPressedKeys
@@ -824,7 +824,7 @@ _08098F48: .4byte gLoadedSaveGame
 _08098F4C: .4byte gUnknown_080D946D
 _08098F50: .4byte gCharacterSelectedVoices
 _08098F54: .4byte gCurTask
-_08098F58: .4byte sub_8099300
+_08098F58: .4byte Task_8099300
 _08098F5C:
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
@@ -847,11 +847,11 @@ _08098F7C:
 	bl sub_809B5D0
 	ldr r0, _08098F8C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08098F90 @ =sub_8099300
+	ldr r0, _08098F90 @ =Task_8099300
 	b _08098FE0
 	.align 2, 0
 _08098F8C: .4byte gCurTask
-_08098F90: .4byte sub_8099300
+_08098F90: .4byte Task_8099300
 _08098F94:
 	ldrb r1, [r4, #3]
 	subs r0, r2, #1
@@ -895,7 +895,7 @@ _08098FD4:
 _08098FDA:
 	ldr r0, _08098FE8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08098FEC @ =sub_8098FF0
+	ldr r0, _08098FEC @ =Task_8098FF0
 _08098FE0:
 	str r0, [r1, #8]
 _08098FE2:
@@ -904,10 +904,10 @@ _08098FE2:
 	bx r0
 	.align 2, 0
 _08098FE8: .4byte gCurTask
-_08098FEC: .4byte sub_8098FF0
+_08098FEC: .4byte Task_8098FF0
 
-	thumb_func_start sub_8098FF0
-sub_8098FF0: @ 0x08098FF0
+	thumb_func_start Task_8098FF0
+Task_8098FF0: @ 0x08098FF0
 	push {r4, r5, lr}
 	ldr r0, _08099020 @ =gCurTask
 	ldr r0, [r0]
@@ -986,7 +986,7 @@ _08099090:
 	bl sub_80990B0
 	ldr r0, _080990A8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080990AC @ =sub_8099200
+	ldr r0, _080990AC @ =Task_8099200
 	str r0, [r1, #8]
 _080990A2:
 	pop {r4, r5}
@@ -994,7 +994,7 @@ _080990A2:
 	bx r0
 	.align 2, 0
 _080990A8: .4byte gCurTask
-_080990AC: .4byte sub_8099200
+_080990AC: .4byte Task_8099200
 
 	thumb_func_start sub_80990B0
 sub_80990B0: @ 0x080990B0
@@ -1152,8 +1152,8 @@ _080991F4: .4byte gObjPalette + 0xC0
 _080991F8: .4byte 0x80000010
 _080991FC: .4byte gFlags
 
-	thumb_func_start sub_8099200
-sub_8099200: @ 0x08099200
+	thumb_func_start Task_8099200
+Task_8099200: @ 0x08099200
 	push {r4, lr}
 	ldr r0, _0809922C @ =gCurTask
 	ldr r0, [r0]
@@ -1287,8 +1287,8 @@ _080992F8:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_8099300
-sub_8099300: @ 0x08099300
+	thumb_func_start Task_8099300
+Task_8099300: @ 0x08099300
 	push {r4, r5, lr}
 	sub sp, #4
 	ldr r0, _08099330 @ =gCurTask
@@ -1455,7 +1455,7 @@ _0809942C:
 _0809945A:
 	ldr r0, _08099474 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08099478 @ =sub_809947C
+	ldr r0, _08099478 @ =Task_809947C
 	str r0, [r1, #8]
 _08099462:
 	add sp, #4
@@ -1466,10 +1466,10 @@ _08099462:
 _0809946C: .4byte gPlayers
 _08099470: .4byte gUnknown_080D8F18
 _08099474: .4byte gCurTask
-_08099478: .4byte sub_809947C
+_08099478: .4byte Task_809947C
 
-	thumb_func_start sub_809947C
-sub_809947C: @ 0x0809947C
+	thumb_func_start Task_809947C
+Task_809947C: @ 0x0809947C
 	push {r4, r5, r6, lr}
 	ldr r0, _080994A8 @ =gCurTask
 	ldr r0, [r0]
@@ -1701,7 +1701,7 @@ _08099642:
 	bl DrawBackground
 	ldr r0, _08099678 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0809967C @ =sub_8099680
+	ldr r0, _0809967C @ =Task_8099680
 	str r0, [r1, #8]
 _0809966E:
 	pop {r4, r5, r6}
@@ -1710,10 +1710,10 @@ _0809966E:
 	.align 2, 0
 _08099674: .4byte gUnknown_080D8CDC
 _08099678: .4byte gCurTask
-_0809967C: .4byte sub_8099680
+_0809967C: .4byte Task_8099680
 
-	thumb_func_start sub_8099680
-sub_8099680: @ 0x08099680
+	thumb_func_start Task_8099680
+Task_8099680: @ 0x08099680
 	push {r4, r5, lr}
 	ldr r0, _080996AC @ =gCurTask
 	ldr r0, [r0]
@@ -1805,7 +1805,7 @@ _0809970E:
 	strb r0, [r4, #0xb]
 	ldr r0, _08099750 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08099754 @ =sub_8099758
+	ldr r0, _08099754 @ =Task_8099758
 	str r0, [r1, #8]
 _08099748:
 	pop {r4, r5}
@@ -1813,10 +1813,10 @@ _08099748:
 	bx r0
 	.align 2, 0
 _08099750: .4byte gCurTask
-_08099754: .4byte sub_8099758
+_08099754: .4byte Task_8099758
 
-	thumb_func_start sub_8099758
-sub_8099758: @ 0x08099758
+	thumb_func_start Task_8099758
+Task_8099758: @ 0x08099758
 	push {r4, r5, r6, lr}
 	ldr r0, _080997D4 @ =gCurTask
 	ldr r0, [r0]
@@ -1929,12 +1929,12 @@ _08099824:
 	strb r0, [r4, #0xb]
 	ldr r0, _08099848 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0809984C @ =sub_809AABC
+	ldr r0, _0809984C @ =Task_809AABC
 	b _08099956
 	.align 2, 0
 _08099844: .4byte gPressedKeys
 _08099848: .4byte gCurTask
-_0809984C: .4byte sub_809AABC
+_0809984C: .4byte Task_809AABC
 _08099850:
 	ldr r0, _0809986C @ =gRepeatedKeys
 	ldrh r1, [r0]
@@ -1995,11 +1995,11 @@ _080998CC: .4byte gCharacterSelectedVoices
 _080998D0:
 	ldr r0, _080998D8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080998DC @ =sub_8099C9C
+	ldr r0, _080998DC @ =Task_8099C9C
 	b _08099956
 	.align 2, 0
 _080998D8: .4byte gCurTask
-_080998DC: .4byte sub_8099C9C
+_080998DC: .4byte Task_8099C9C
 _080998E0:
 	lsls r0, r2, #0x18
 	lsrs r0, r0, #0x18
@@ -2015,11 +2015,11 @@ _080998E0:
 	strb r0, [r4, #0xb]
 	ldr r0, _08099900 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08099904 @ =sub_8099C9C
+	ldr r0, _08099904 @ =Task_8099C9C
 	b _08099956
 	.align 2, 0
 _08099900: .4byte gCurTask
-_08099904: .4byte sub_8099C9C
+_08099904: .4byte Task_8099C9C
 _08099908:
 	ldrb r2, [r4, #3]
 	subs r0, r1, #1
@@ -2064,7 +2064,7 @@ _0809994A:
 _08099950:
 	ldr r0, _08099960 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08099964 @ =sub_8099968
+	ldr r0, _08099964 @ =Task_8099968
 _08099956:
 	str r0, [r1, #8]
 _08099958:
@@ -2073,10 +2073,10 @@ _08099958:
 	bx r0
 	.align 2, 0
 _08099960: .4byte gCurTask
-_08099964: .4byte sub_8099968
+_08099964: .4byte Task_8099968
 
-	thumb_func_start sub_8099968
-sub_8099968: @ 0x08099968
+	thumb_func_start Task_8099968
+Task_8099968: @ 0x08099968
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _08099994 @ =gCurTask
 	ldr r0, [r0]
@@ -2309,7 +2309,7 @@ _08099B3A:
 	bl DrawBackground
 	ldr r0, _08099B70 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08099B74 @ =sub_8099B78
+	ldr r0, _08099B74 @ =Task_8099B78
 	str r0, [r1, #8]
 _08099B66:
 	pop {r4, r5, r6, r7}
@@ -2318,10 +2318,10 @@ _08099B66:
 	.align 2, 0
 _08099B6C: .4byte gUnknown_080D8CDC
 _08099B70: .4byte gCurTask
-_08099B74: .4byte sub_8099B78
+_08099B74: .4byte Task_8099B78
 
-	thumb_func_start sub_8099B78
-sub_8099B78: @ 0x08099B78
+	thumb_func_start Task_8099B78
+Task_8099B78: @ 0x08099B78
 	push {r4, r5, lr}
 	ldr r0, _08099BA4 @ =gCurTask
 	ldr r0, [r0]
@@ -2401,7 +2401,7 @@ _08099BEE:
 	strb r0, [r4, #0xb]
 	ldr r0, _08099C2C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08099C30 @ =sub_8099758
+	ldr r0, _08099C30 @ =Task_8099758
 	str r0, [r1, #8]
 _08099C26:
 	pop {r4, r5}
@@ -2409,7 +2409,7 @@ _08099C26:
 	bx r0
 	.align 2, 0
 _08099C2C: .4byte gCurTask
-_08099C30: .4byte sub_8099758
+_08099C30: .4byte Task_8099758
 
 	thumb_func_start sub_8099C34
 sub_8099C34: @ 0x08099C34
@@ -2474,8 +2474,8 @@ _08099C96:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8099C9C
-sub_8099C9C: @ 0x08099C9C
+	thumb_func_start Task_8099C9C
+Task_8099C9C: @ 0x08099C9C
 	push {r4, r5, r6, lr}
 	ldr r0, _08099CC8 @ =gCurTask
 	ldr r0, [r0]
@@ -2660,7 +2660,7 @@ _08099DF8:
 _08099E2A:
 	ldr r0, _08099E3C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08099E40 @ =sub_8099EC8
+	ldr r0, _08099E40 @ =Task_8099EC8
 	str r0, [r1, #8]
 _08099E32:
 	pop {r4, r5, r6}
@@ -2669,10 +2669,10 @@ _08099E32:
 	.align 2, 0
 _08099E38: .4byte gPlayers
 _08099E3C: .4byte gCurTask
-_08099E40: .4byte sub_8099EC8
+_08099E40: .4byte Task_8099EC8
 
-	thumb_func_start sub_8099E44
-sub_8099E44: @ 0x08099E44
+	thumb_func_start Task_8099E44
+Task_8099E44: @ 0x08099E44
 	push {r4, r5, r6, lr}
 	ldr r6, _08099EC0 @ =gCurTask
 	ldr r0, [r6]
@@ -2726,7 +2726,7 @@ _08099E98:
 	cmp r5, #4
 	bne _08099EBA
 	ldr r1, [r6]
-	ldr r0, _08099EC4 @ =sub_8099EC8
+	ldr r0, _08099EC4 @ =Task_8099EC8
 	str r0, [r1, #8]
 _08099EBA:
 	pop {r4, r5, r6}
@@ -2734,10 +2734,10 @@ _08099EBA:
 	bx r0
 	.align 2, 0
 _08099EC0: .4byte gCurTask
-_08099EC4: .4byte sub_8099EC8
+_08099EC4: .4byte Task_8099EC8
 
-	thumb_func_start sub_8099EC8
-sub_8099EC8: @ 0x08099EC8
+	thumb_func_start Task_8099EC8
+Task_8099EC8: @ 0x08099EC8
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _08099F2C @ =gCurTask
 	ldr r0, [r0]
@@ -2889,7 +2889,7 @@ _08099FE4:
 	str r0, [r4, #0x58]
 	ldr r0, _0809A010 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0809A014 @ =sub_809A018
+	ldr r0, _0809A014 @ =Task_809A018
 	str r0, [r1, #8]
 _0809A00A:
 	pop {r4, r5, r6, r7}
@@ -2897,10 +2897,10 @@ _0809A00A:
 	bx r0
 	.align 2, 0
 _0809A010: .4byte gCurTask
-_0809A014: .4byte sub_809A018
+_0809A014: .4byte Task_809A018
 
-	thumb_func_start sub_809A018
-sub_809A018: @ 0x0809A018
+	thumb_func_start Task_809A018
+Task_809A018: @ 0x0809A018
 	push {r4, r5, r6, lr}
 	ldr r0, _0809A084 @ =gCurTask
 	ldr r0, [r0]
@@ -3015,15 +3015,15 @@ _0809A0FC:
 	bne _0809A118
 	ldr r0, _0809A110 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0809A114 @ =sub_809A130
+	ldr r0, _0809A114 @ =Task_809A130
 	b _0809A11E
 	.align 2, 0
 _0809A110: .4byte gCurTask
-_0809A114: .4byte sub_809A130
+_0809A114: .4byte Task_809A130
 _0809A118:
 	ldr r0, _0809A128 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0809A12C @ =sub_809A1C4
+	ldr r0, _0809A12C @ =Task_809A1C4
 _0809A11E:
 	str r0, [r1, #8]
 _0809A120:
@@ -3032,10 +3032,10 @@ _0809A120:
 	bx r0
 	.align 2, 0
 _0809A128: .4byte gCurTask
-_0809A12C: .4byte sub_809A1C4
+_0809A12C: .4byte Task_809A1C4
 
-	thumb_func_start sub_809A130
-sub_809A130: @ 0x0809A130
+	thumb_func_start Task_809A130
+Task_809A130: @ 0x0809A130
 	push {r4, r5, lr}
 	ldr r0, _0809A15C @ =gCurTask
 	ldr r0, [r0]
@@ -3095,7 +3095,7 @@ _0809A184:
 	beq _0809A1B6
 	ldr r0, _0809A1BC @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0809A1C0 @ =sub_809A1C4
+	ldr r0, _0809A1C0 @ =Task_809A1C4
 	str r0, [r1, #8]
 _0809A1B6:
 	pop {r4, r5}
@@ -3103,10 +3103,10 @@ _0809A1B6:
 	bx r0
 	.align 2, 0
 _0809A1BC: .4byte gCurTask
-_0809A1C0: .4byte sub_809A1C4
+_0809A1C0: .4byte Task_809A1C4
 
-	thumb_func_start sub_809A1C4
-sub_809A1C4: @ 0x0809A1C4
+	thumb_func_start Task_809A1C4
+Task_809A1C4: @ 0x0809A1C4
 	push {r4, r5, lr}
 	ldr r0, _0809A20C @ =gCurTask
 	ldr r0, [r0]
@@ -3247,8 +3247,8 @@ _0809A2DC: .4byte gPressedKeys
 _0809A2E0: .4byte gCurTask
 _0809A2E4: .4byte sub_8098508
 
-	thumb_func_start sub_809A2E8
-sub_809A2E8: @ 0x0809A2E8
+	thumb_func_start Task_809A2E8
+Task_809A2E8: @ 0x0809A2E8
 	push {r4, r5, lr}
 	ldr r5, _0809A378 @ =gCurTask
 	ldr r0, [r5]
@@ -3313,7 +3313,7 @@ _0809A330:
 	adds r0, r4, #0
 	bl sub_809A50C
 	ldr r1, [r5]
-	ldr r0, _0809A38C @ =sub_809A3BC
+	ldr r0, _0809A38C @ =Task_809A3BC
 	str r0, [r1, #8]
 	b _0809A3B6
 	.align 2, 0
@@ -3322,7 +3322,7 @@ _0809A37C: .4byte gDispCnt
 _0809A380: .4byte gWinRegs
 _0809A384: .4byte gBldRegs
 _0809A388: .4byte 0x00003FBF
-_0809A38C: .4byte sub_809A3BC
+_0809A38C: .4byte Task_809A3BC
 _0809A390:
 	ldrh r0, [r4, #0x10]
 	lsrs r0, r0, #8
@@ -3346,8 +3346,8 @@ _0809A3B6:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_809A3BC
-sub_809A3BC: @ 0x0809A3BC
+	thumb_func_start Task_809A3BC
+Task_809A3BC: @ 0x0809A3BC
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	ldr r0, _0809A458 @ =gCurTask
@@ -3486,7 +3486,7 @@ _0809A4C8:
 _0809A4E2:
 	ldr r0, _0809A504 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0809A508 @ =sub_809A6C0
+	ldr r0, _0809A508 @ =Task_809A6C0
 	str r0, [r1, #8]
 	add sp, #4
 	pop {r4, r5, r6}
@@ -3498,7 +3498,7 @@ _0809A4F8: .4byte gUnknown_08E2EE50
 _0809A4FC: .4byte gObjPalette + 0xE0
 _0809A500: .4byte 0x80000010
 _0809A504: .4byte gCurTask
-_0809A508: .4byte sub_809A6C0
+_0809A508: .4byte Task_809A6C0
 
 	thumb_func_start sub_809A50C
 sub_809A50C: @ 0x0809A50C
@@ -3701,8 +3701,8 @@ sub_809A644: @ 0x0809A644
 _0809A6B8: .4byte gUnknown_080D8EF8
 _0809A6BC: .4byte gUnknown_080D8D08
 
-	thumb_func_start sub_809A6C0
-sub_809A6C0: @ 0x0809A6C0
+	thumb_func_start Task_809A6C0
+Task_809A6C0: @ 0x0809A6C0
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _0809A728 @ =gCurTask
 	ldr r0, [r0]
@@ -3845,7 +3845,7 @@ _0809A7E0:
 	strh r7, [r6, #4]
 	ldr r0, _0809A800 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0809A804 @ =sub_8099758
+	ldr r0, _0809A804 @ =Task_8099758
 	str r0, [r1, #8]
 _0809A7FA:
 	pop {r4, r5, r6, r7}
@@ -3853,7 +3853,7 @@ _0809A7FA:
 	bx r0
 	.align 2, 0
 _0809A800: .4byte gCurTask
-_0809A804: .4byte sub_8099758
+_0809A804: .4byte Task_8099758
 
 	thumb_func_start sub_809A808
 sub_809A808: @ 0x0809A808
@@ -4130,8 +4130,8 @@ _0809AA1C: .4byte 0x0600D800
 _0809AA20: .4byte gUnknown_080D8CDC
 _0809AA24: .4byte 0x0000025E
 
-	thumb_func_start sub_809AA28
-sub_809AA28: @ 0x0809AA28
+	thumb_func_start Task_809AA28
+Task_809AA28: @ 0x0809AA28
 	push {r4, r5, r6, lr}
 	ldr r6, _0809AAAC @ =gCurTask
 	ldr r0, [r6]
@@ -4199,8 +4199,8 @@ _0809AAB0: .4byte 0x0300009C
 _0809AAB4: .4byte gUnknown_080D8D08
 _0809AAB8: .4byte Task_8098DE4
 
-	thumb_func_start sub_809AABC
-sub_809AABC: @ 0x0809AABC
+	thumb_func_start Task_809AABC
+Task_809AABC: @ 0x0809AABC
 	push {r4, r5, lr}
 	ldr r0, _0809AB5C @ =gCurTask
 	ldr r0, [r0]
@@ -4309,13 +4309,13 @@ _0809AB86:
 	str r0, [r4, #0x70]
 	ldr r0, _0809ABC0 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0809ABC4 @ =sub_809AA28
+	ldr r0, _0809ABC4 @ =Task_809AA28
 	str r0, [r1, #8]
 	b _0809AC3C
 	.align 2, 0
 _0809ABBC: .4byte gUnknown_080D8CDC
 _0809ABC0: .4byte gCurTask
-_0809ABC4: .4byte sub_809AA28
+_0809ABC4: .4byte Task_809AA28
 _0809ABC8:
 	ldrb r0, [r4, #7]
 	cmp r0, #1
@@ -4365,12 +4365,12 @@ _0809AC0E:
 _0809AC24:
 	ldr r0, _0809AC30 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0809AC34 @ =sub_8099680
+	ldr r0, _0809AC34 @ =Task_8099680
 	str r0, [r1, #8]
 	b _0809AC3C
 	.align 2, 0
 _0809AC30: .4byte gCurTask
-_0809AC34: .4byte sub_8099680
+_0809AC34: .4byte Task_8099680
 _0809AC38:
 	lsls r0, r2, #0x18
 	lsrs r0, r0, #0x18

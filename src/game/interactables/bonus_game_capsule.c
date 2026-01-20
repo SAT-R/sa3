@@ -165,7 +165,7 @@ void CreateEntity_BonusCapsule(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     cap->random = gPseudoRandom;
 
-    r3 = gStageData.unk1;
+    r3 = gStageData.difficulty;
     r3 += gStageData.zone;
     r3 += gStageData.lives;
     r3 += gPlayers[gStageData.playerIndex].charFlags.character;
@@ -573,22 +573,22 @@ void Task_BonusCapsuleMain(void)
             if (r2 != 0) {
                 s = &cap->sprTimer[r2];
 
-                s->x = arr[gStageData.unk0][0][0];
-                s->y = arr[gStageData.unk0][0][1] + r4;
+                s->x = arr[gStageData.language][0][0];
+                s->y = arr[gStageData.language][0][1] + r4;
                 s->frameFlags = 0;
                 UpdateSpriteAnimation(s);
                 DisplaySprite(s);
 
                 s = &cap->sprTimer[r6];
-                s->x = arr[gStageData.unk0][1][0];
-                s->y = arr[gStageData.unk0][1][1] + r4;
+                s->x = arr[gStageData.language][1][0];
+                s->y = arr[gStageData.language][1][1] + r4;
                 s->frameFlags = 0;
                 UpdateSpriteAnimation(s);
                 DisplaySprite(s);
             } else {
                 s = &cap->sprTimer[r6];
-                s->x = arr[gStageData.unk0][0][0] + 6;
-                s->y = arr[gStageData.unk0][0][1] + r4;
+                s->x = arr[gStageData.language][0][0] + 6;
+                s->y = arr[gStageData.language][0][1] + r4;
                 s->frameFlags = 0;
                 UpdateSpriteAnimation(s);
                 DisplaySprite(s);

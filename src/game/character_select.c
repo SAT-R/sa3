@@ -73,6 +73,7 @@ bool32 sub_80988B0(CharacterSelect *cs);
 bool32 sub_8098A00(CharacterSelect *cs);
 bool32 sub_8098B50(CharacterSelect *cs);
 bool32 sub_8098CFC(CharacterSelect *cs);
+void sub_8099C34(CharacterSelect *cs);
 void sub_809AD74(CharacterSelect *cs);
 void sub_809ADF0(CharacterSelect *cs);
 void sub_809AE50(CharacterSelect *cs);
@@ -618,7 +619,8 @@ void Task_8098600(void)
     TaskDestroy(gCurTask);
 }
 
-void sub_80986AC(CharacterSelect *cs) {
+void sub_80986AC(CharacterSelect *cs)
+{
     u8 var_r1;
     u8 var_r6;
 
@@ -636,7 +638,7 @@ void sub_80986AC(CharacterSelect *cs) {
             var_r6 = gUnknown_080D8F18[cs->unk6];
             var_r1 = gUnknown_080D8F18[cs->unk5];
         }
-        
+
         gPlayers[playerIndex].callback = NULL;
         gPlayers[playerIndex].charFlags.partnerIndex = partnerIndex;
         gPlayers[playerIndex].charFlags.character = var_r6;
@@ -668,3 +670,41 @@ void sub_80986AC(CharacterSelect *cs) {
 
     WarpToMap(COURSE_INDEX(ZONE_1, ACT_SONIC_FACTORY), 0U);
 }
+
+#if 0
+bool32 sub_80988B0(CharacterSelect *cs) {
+    u8 temp_r1;
+    u8 temp_r4;
+
+    gStageData.playerIndex = 0;
+    sub_800214C();
+    gStageData.difficulty = gLoadedSaveGame.difficulty;
+    gPlayers->callback = NULL;
+    temp_r1 = (-4 & gPlayers->unk2B) | 1;
+    gPlayers->unk2B = temp_r1;
+    gPlayers->unk2A = (u8) ((-0x10 & gPlayers->unk2A) | (0xF & gUnknown_080D8F18[cs->unk5]));
+    gPlayers->unk2B = (u8) ((temp_r1 & ~0x1C) | 4);
+    gPlayers[1].callback = NULL;
+    temp_r4 = -4 & gPlayers->unk17B;
+    gPlayers->unk17B = temp_r4;
+    gPlayers->unk17A = (u8) ((-0x10 & gPlayers->unk17A) | (0xF & gUnknown_080D8F18[cs->unk6]));
+    gPlayers->unk17B = (u8) ((temp_r4 & ~0x1C) | 8);
+    gPlayers[2].callback = NULL;
+    gPlayers->unk2CB = (u8) (-0x1D & gPlayers->unk2CB);
+    gPlayers[3].callback = NULL;
+    gPlayers->unk41B = (u8) (-0x1D & gPlayers->unk41B);
+
+    (void *)0x040000D4->unk0 = &gUnknown_082B5344;
+    (void *)0x040000D4->unk4 = 0x06017EC0;
+    (void *)0x040000D4->unk8 = 0x800000A0;
+
+    sub_80003B8((void *)0x040000D4->unk8);
+    if (!(1 & gLoadedSaveGame.unk34)) {
+        sub_80AD824();
+        return FALSE;
+    }
+
+    WarpToMap((s16) ((s32) ((gLoadedSaveGame.continueZone * 0xA0000) + 0x20000) >> 0x10), 0U);
+    return TRUE;
+}
+#endif
