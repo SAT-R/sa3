@@ -43,6 +43,7 @@ extern Struct_03001060 gUnknown_03001060;
 extern void sub_80003B8(void);
 
 bool32 sub_8001E58(void);
+void sub_800214C(void);
 void WarpToMap(s16 level, u16);
 void Task_800303C(void); // Player-related (Player.unk90.main gets set to this in goal_ring IA)
 void sub_8003D2C(void);

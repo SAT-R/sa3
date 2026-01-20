@@ -93,6 +93,7 @@ s16 sub_8023E04(void);
 s16 sub_8024074(u8);
 void sub_802613C(void);
 void CharSelect_InitBackgrounds(CharacterSelect *cs);
+void sub_80AD824(void);
 
 extern u16 gUnknown_080D8CDC[];
 extern const TileInfo2 gUnknown_080D8D00[2];
@@ -101,6 +102,7 @@ extern TileInfo2 gUnknown_080D8E80[];
 extern TileInfo2 gUnknown_080D8EF8;
 extern const TileInfo2 gUnknown_080D8F08[2];
 extern const u8 gUnknown_080D8F18[8];
+extern const u8 gUnknown_082B5344[0x140];
 
 void CreateCharacterSelect(u8 createIndex)
 {
@@ -671,40 +673,81 @@ void sub_80986AC(CharacterSelect *cs)
     WarpToMap(COURSE_INDEX(ZONE_1, ACT_SONIC_FACTORY), 0U);
 }
 
-#if 0
-bool32 sub_80988B0(CharacterSelect *cs) {
-    u8 temp_r1;
-    u8 temp_r4;
-
+bool32 sub_80988B0(CharacterSelect *cs)
+{
     gStageData.playerIndex = 0;
     sub_800214C();
     gStageData.difficulty = gLoadedSaveGame.difficulty;
-    gPlayers->callback = NULL;
-    temp_r1 = (-4 & gPlayers->unk2B) | 1;
-    gPlayers->unk2B = temp_r1;
-    gPlayers->unk2A = (u8) ((-0x10 & gPlayers->unk2A) | (0xF & gUnknown_080D8F18[cs->unk5]));
-    gPlayers->unk2B = (u8) ((temp_r1 & ~0x1C) | 4);
-    gPlayers[1].callback = NULL;
-    temp_r4 = -4 & gPlayers->unk17B;
-    gPlayers->unk17B = temp_r4;
-    gPlayers->unk17A = (u8) ((-0x10 & gPlayers->unk17A) | (0xF & gUnknown_080D8F18[cs->unk6]));
-    gPlayers->unk17B = (u8) ((temp_r4 & ~0x1C) | 8);
-    gPlayers[2].callback = NULL;
-    gPlayers->unk2CB = (u8) (-0x1D & gPlayers->unk2CB);
-    gPlayers[3].callback = NULL;
-    gPlayers->unk41B = (u8) (-0x1D & gPlayers->unk41B);
 
-    (void *)0x040000D4->unk0 = &gUnknown_082B5344;
-    (void *)0x040000D4->unk4 = 0x06017EC0;
-    (void *)0x040000D4->unk8 = 0x800000A0;
+    gPlayers[PLAYER_1].callback = NULL;
+    gPlayers[PLAYER_1].charFlags.partnerIndex = PLAYER_2;
+    gPlayers[PLAYER_1].charFlags.character = gUnknown_080D8F18[cs->unk5];
+    gPlayers[PLAYER_1].charFlags.someIndex = 1;
+    gPlayers[PLAYER_2].callback = NULL;
+    gPlayers[PLAYER_2].charFlags.partnerIndex = PLAYER_1;
+    gPlayers[PLAYER_2].charFlags.character = gUnknown_080D8F18[cs->unk6];
+    gPlayers[PLAYER_2].charFlags.someIndex = 2;
+    gPlayers[PLAYER_3].callback = NULL;
+    gPlayers[PLAYER_3].charFlags.someIndex = 0;
+    gPlayers[PLAYER_4].callback = NULL;
+    gPlayers[PLAYER_4].charFlags.someIndex = 0;
 
-    sub_80003B8((void *)0x040000D4->unk8);
-    if (!(1 & gLoadedSaveGame.unk34)) {
+    DmaCopy16(3, &gUnknown_082B5344, OBJ_VRAM0 + 0x7EC0, 0x140);
+
+    sub_80003B8();
+
+    if ((1 & gLoadedSaveGame.unk34)) {
+        WarpToMap(LEVEL_INDEX(gLoadedSaveGame.continueZone, ACT_HUB), 0U);
+        return TRUE;
+    } else {
         sub_80AD824();
         return FALSE;
     }
+}
 
-    WarpToMap((s16) ((s32) ((gLoadedSaveGame.continueZone * 0xA0000) + 0x20000) >> 0x10), 0U);
+bool32 sub_8098A00(CharacterSelect *cs)
+{
+    Player *players;
+    Player *player;
+    Player *partner;
+    s16 playerIndex;
+    s16 partnerIndex;
+    u8 character;
+    s32 var_r1;
+    u8 var_r6;
+
+    playerIndex = gStageData.playerIndex;
+    partnerIndex = (playerIndex + 1) & 1;
+    if (playerIndex == 0) {
+        var_r6 = gUnknown_080D8F18[cs->unk5];
+        character = gUnknown_080D8F18[cs->unk6];
+    } else {
+        var_r6 = gUnknown_080D8F18[cs->unk6];
+        character = gUnknown_080D8F18[cs->unk5];
+    }
+    sub_800214C();
+    gStageData.difficulty = gLoadedSaveGame.difficulty;
+
+    players = &gPlayers[0];
+    player = &players[playerIndex];
+    player->callback = NULL;
+    player->charFlags.partnerIndex = partnerIndex;
+    player->charFlags.character = var_r6;
+    player->charFlags.someIndex = 1;
+
+    partner = &gPlayers[partnerIndex];
+    partner->callback = NULL;
+    partner->charFlags.someIndex = 3;
+    partner->charFlags.padding1 = partnerIndex;
+    partner->charFlags.partnerIndex = playerIndex;
+    partner->charFlags.character = character;
+
+    gPlayers[PLAYER_3].callback = NULL;
+    gPlayers[PLAYER_3].charFlags.someIndex = 0;
+    gPlayers[PLAYER_4].callback = NULL;
+    gPlayers[PLAYER_4].charFlags.someIndex = 0;
+    sub_80003B8();
+    WarpToMap(2, 0U);
+
     return TRUE;
 }
-#endif
