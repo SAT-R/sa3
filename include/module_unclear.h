@@ -97,6 +97,7 @@ bool32 sub_805C510(Sprite *s);
 bool8 sub_8079FFC(void);
 bool8 sub_807A074(void);
 void CreateCharacterSelect(u8);
+void sub_80961E4(u8 param0);
 
 void sub_80C07E0(Sprite *s);
 void sub_80C460C(const u16 *pal, u8 paletteOffset, u16 palSize);

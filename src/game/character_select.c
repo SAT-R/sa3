@@ -677,7 +677,7 @@ bool32 sub_80988B0(CharacterSelect *cs)
 {
     gStageData.playerIndex = 0;
     sub_800214C();
-    gStageData.difficulty = gLoadedSaveGame.difficulty;
+    gStageData.difficulty = LOADED_SAVE->difficulty;
 
     gPlayers[PLAYER_1].callback = NULL;
     gPlayers[PLAYER_1].charFlags.partnerIndex = PLAYER_2;
@@ -696,8 +696,8 @@ bool32 sub_80988B0(CharacterSelect *cs)
 
     sub_80003B8();
 
-    if ((1 & gLoadedSaveGame.unk34)) {
-        WarpToMap(LEVEL_INDEX(gLoadedSaveGame.continueZone, ACT_HUB), 0U);
+    if ((1 & LOADED_SAVE->unk34)) {
+        WarpToMap(LEVEL_INDEX(LOADED_SAVE->continueZone, ACT_HUB), 0U);
         return TRUE;
     } else {
         sub_80AD824();
@@ -726,7 +726,7 @@ bool32 sub_8098A00(CharacterSelect *cs)
         character = gUnknown_080D8F18[cs->unk5];
     }
     sub_800214C();
-    gStageData.difficulty = gLoadedSaveGame.difficulty;
+    gStageData.difficulty = LOADED_SAVE->difficulty;
 
     players = &gPlayers[0];
     player = &players[playerIndex];
@@ -747,7 +747,57 @@ bool32 sub_8098A00(CharacterSelect *cs)
     gPlayers[PLAYER_4].callback = NULL;
     gPlayers[PLAYER_4].charFlags.someIndex = 0;
     sub_80003B8();
-    WarpToMap(2, 0U);
+    WarpToMap(LEVEL_INDEX(ZONE_1, ACT_HUB), 0U);
 
     return TRUE;
+}
+
+bool32 sub_8098B50(CharacterSelect *cs)
+{
+    u8 temp_r1;
+    u8 temp_r1_2;
+    u8 temp_r1_3;
+    u8 temp_r1_4;
+
+    gStageData.playerIndex = PLAYER_1;
+
+    gPlayers[PLAYER_1].callback = NULL;
+    gPlayers[PLAYER_1].charFlags.partnerIndex = 1;
+    gPlayers[PLAYER_1].charFlags.character = gUnknown_080D8F18[cs->unk5];
+    gPlayers[PLAYER_1].charFlags.someIndex = 1;
+    gPlayers[PLAYER_2].callback = NULL;
+    gPlayers[PLAYER_2].charFlags.partnerIndex = 0;
+    gPlayers[PLAYER_2].charFlags.character = gUnknown_080D8F18[cs->unk6];
+    gPlayers[PLAYER_2].charFlags.someIndex = 2;
+    gPlayers[PLAYER_3].callback = NULL;
+    gPlayers[PLAYER_3].charFlags.someIndex = 0;
+    gPlayers[PLAYER_4].callback = NULL;
+    gPlayers[PLAYER_4].charFlags.someIndex = 0;
+
+    if (gStageData.gameMode == GAME_MODE_TIME_ATTACK) {
+        sub_800214C();
+
+        // TODO:
+        // This looks like a macro, otherwise it wouldn't be identical to the above block...
+        gPlayers[PLAYER_1].callback = NULL;
+        gPlayers[PLAYER_1].charFlags.partnerIndex = 1;
+        gPlayers[PLAYER_1].charFlags.character = gUnknown_080D8F18[cs->unk5];
+        gPlayers[PLAYER_1].charFlags.someIndex = 1;
+        gPlayers[PLAYER_2].callback = NULL;
+        gPlayers[PLAYER_2].charFlags.partnerIndex = 0;
+        gPlayers[PLAYER_2].charFlags.character = gUnknown_080D8F18[cs->unk6];
+        gPlayers[PLAYER_2].charFlags.someIndex = 2;
+        gPlayers[PLAYER_3].callback = NULL;
+        gPlayers[PLAYER_3].charFlags.someIndex = 0;
+        gPlayers[PLAYER_4].callback = NULL;
+        gPlayers[PLAYER_4].charFlags.someIndex = 0;
+
+        sub_80003B8();
+        sub_80961E4(1);
+    } else if (gStageData.gameMode == 4) {
+        sub_80003B8();
+        sub_80961E4(2);
+    }
+
+    return FALSE;
 }
