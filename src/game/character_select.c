@@ -73,6 +73,7 @@ bool32 sub_80988B0(CharacterSelect *cs);
 bool32 sub_8098A00(CharacterSelect *cs);
 bool32 sub_8098B50(CharacterSelect *cs);
 bool32 sub_8098CFC(CharacterSelect *cs);
+void sub_80990B0(CharacterSelect *cs);
 void sub_80992A8(CharacterSelect *cs);
 void sub_8099C34(CharacterSelect *cs);
 void sub_809AD74(CharacterSelect *cs);
@@ -85,13 +86,17 @@ void sub_809B184(CharacterSelect *cs);
 void sub_809B1E4(CharacterSelect *cs);
 void sub_809B234(CharacterSelect *cs);
 void sub_809B284(CharacterSelect *cs);
+void sub_809B2E4(CharacterSelect *cs);
 void sub_809B5D0(CharacterSelect *cs);
+bool32 sub_809B638(CharacterSelect *cs);
+bool32 sub_809B668(CharacterSelect *cs);
 void sub_809B69C(CharacterSelect *cs);
 void sub_809B6C0(CharacterSelect *cs);
 void Task_80983E8(void);
 void Task_8098600(void);
 void Task_8098DE4(void);
 void Task_8098FF0(void);
+void Task_8099200(void);
 void Task_8099300(void);
 s16 sub_8023E04(void);
 s16 sub_8024074(u8);
@@ -950,55 +955,58 @@ void Task_8098DE4(void)
     }
 }
 
-#if 0
-void sub_8098FF0(u16 arg2) {
+void Task_8098FF0()
+{
+#ifndef BUG_FIX
     s16 var_r0;
-    u16 temp_r1;
-    u16 var_r2;
-    u8 temp_r0;
+#else
+    s16 var_r0 = 0;
+#endif
     u8 var_r5;
+    s32 playerIndex;
 
-    temp_r1 = gCurTask->data;
+    CharacterSelect *cs = TASK_DATA(gCurTask);
+
     var_r5 = 0;
-    temp_r0 = temp_r1->unk7;
-    switch (temp_r0) {                              /* irregular */
-    case 1:
-        if (gStageData.playerIndex == 0) {
-            var_r0 = sub_8024074(temp_r1->unk4);
-        } else {
-            var_r0 = sub_8023E04();
+    playerIndex = gStageData.playerIndex;
+    if ((cs->createIndex != 0) && (cs->createIndex != 3)) {
+        if (cs->createIndex == 1) {
+            if (playerIndex == 0) {
+                var_r0 = sub_8024074(cs->unk4);
+            } else {
+                var_r0 = sub_8023E04();
+            }
+            cs->unk9 |= 0x10 & (u16)var_r0;
         }
-        var_r2 = (u16) var_r0;
-        temp_r1->unk9 = (u8) ((0x10 & var_r2) | temp_r1->unk9);
-        /* fallthrough */
-    default:
-        if ((s32) (M2C_ERROR(/* Read from unset register $r2 */) << 0x10) < 0) {
+
+        if (var_r0 < 0) {
             sub_802613C();
             return;
         }
-    case 0:
-    case 3:
-        sub_809B13C((CharacterSelect *) temp_r1);
-        sub_809ADF0((CharacterSelect *) temp_r1);
-        sub_809AE50((CharacterSelect *) temp_r1);
-        sub_809B69C((CharacterSelect *) temp_r1);
-        sub_809B6C0((CharacterSelect *) temp_r1);
-        sub_809B234((CharacterSelect *) temp_r1);
-        sub_809B2E4(temp_r1);
-        if (temp_r1->unk1 == 0) {
-            var_r5 = sub_809B638(temp_r1);
+    }
+    {
+        sub_809B13C(cs);
+        sub_809ADF0(cs);
+        sub_809AE50(cs);
+        sub_809B69C(cs);
+        sub_809B6C0(cs);
+        sub_809B234(cs);
+        sub_809B2E4(cs);
+
+        if (cs->unk1 == 0) {
+            var_r5 = sub_809B638(cs);
         }
-        if (temp_r1->unk1 == 1) {
-            var_r5 = sub_809B668(temp_r1);
+        if (cs->unk1 == 1) {
+            var_r5 = sub_809B668(cs);
         }
         if (var_r5 != 0) {
-            sub_80990B0(temp_r1);
-            gCurTask->main = sub_8099200;
+            sub_80990B0(cs);
+            gCurTask->main = Task_8099200;
         }
-        return;
     }
 }
 
+#if 0
 void sub_80990B0(void *arg0) {
     Background *temp_r2;
     u16 *var_r0_2;

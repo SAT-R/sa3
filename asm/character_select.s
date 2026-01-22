@@ -8,8 +8,6 @@
 @ --- Start of Character Select ---
 
 .if 0
-.endif
-
 	thumb_func_start Task_8098FF0
 Task_8098FF0: @ 0x08098FF0
 	push {r4, r5, lr}
@@ -99,6 +97,7 @@ _080990A2:
 	.align 2, 0
 _080990A8: .4byte gCurTask
 _080990AC: .4byte Task_8099200
+.endif
 
 	thumb_func_start sub_80990B0
 sub_80990B0: @ 0x080990B0
