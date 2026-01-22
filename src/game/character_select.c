@@ -73,6 +73,7 @@ bool32 sub_80988B0(CharacterSelect *cs);
 bool32 sub_8098A00(CharacterSelect *cs);
 bool32 sub_8098B50(CharacterSelect *cs);
 bool32 sub_8098CFC(CharacterSelect *cs);
+void sub_80992A8(CharacterSelect *cs);
 void sub_8099C34(CharacterSelect *cs);
 void sub_809AD74(CharacterSelect *cs);
 void sub_809ADF0(CharacterSelect *cs);
@@ -84,11 +85,14 @@ void sub_809B184(CharacterSelect *cs);
 void sub_809B1E4(CharacterSelect *cs);
 void sub_809B234(CharacterSelect *cs);
 void sub_809B284(CharacterSelect *cs);
+void sub_809B5D0(CharacterSelect *cs);
 void sub_809B69C(CharacterSelect *cs);
 void sub_809B6C0(CharacterSelect *cs);
 void Task_80983E8(void);
 void Task_8098600(void);
 void Task_8098DE4(void);
+void Task_8098FF0(void);
+void Task_8099300(void);
 s16 sub_8023E04(void);
 s16 sub_8024074(u8);
 void sub_802613C(void);
@@ -102,7 +106,9 @@ extern TileInfo2 gUnknown_080D8E80[];
 extern TileInfo2 gUnknown_080D8EF8;
 extern const TileInfo2 gUnknown_080D8F08[2];
 extern const u8 gUnknown_080D8F18[8];
+extern u8 gUnknown_080D946D[NUM_CHARACTERS];
 extern const u8 gUnknown_082B5344[0x140];
+extern const u16 gCharacterSelectedVoices[NUM_CHARACTERS];
 
 void CreateCharacterSelect(u8 createIndex)
 {
@@ -834,139 +840,117 @@ bool32 sub_8098CFC(CharacterSelect *cs)
     return FALSE;
 }
 
-#if 0
-void sub_8098DE4(u16 arg2) {
+void Task_8098DE4(void)
+{
     s16 temp_r0_4;
     s16 temp_r2;
     s16 temp_r2_2;
     s16 var_r0;
     s32 var_r3;
-    s8 var_r0_3;
-    u16 temp_r1;
-    u16 var_r6;
+#ifndef BUG_FIX
+    s16 var_r6;
+#else
+    // TODO: Maybe a different init value?
+    s16 var_r6 = 0;
+#endif
     u8 temp_r0;
     u8 temp_r0_2;
     u8 temp_r0_3;
-    u8 temp_r1_2;
+    s32 temp_r1;
     u8 temp_r3;
     u8 temp_r5;
+    u8 var_r0_3;
     void (*var_r0_2)(u16);
+    CharacterSelect *cs = TASK_DATA(gCurTask);
 
-    var_r6 = saved_reg_r6;
-    temp_r1 = gCurTask->data;
     temp_r5 = gStageData.playerIndex;
-    sub_809B13C((CharacterSelect *) temp_r1);
-    sub_809ADF0((CharacterSelect *) temp_r1);
-    sub_809AE50((CharacterSelect *) temp_r1);
-    sub_809B69C((CharacterSelect *) temp_r1);
-    sub_809B6C0((CharacterSelect *) temp_r1);
-    temp_r0 = temp_r1->unk7;
-    switch (temp_r0) {                              /* irregular */
-    case 1:
-        if (temp_r5 != 0) {
-            if ((temp_r0 == 2) && ((u32) temp_r5 <= 1U)) {
-                goto block_6;
-            }
-        } else {
-        case 0:
-        case 3:
-block_6:
-            sub_809B284((CharacterSelect *) temp_r1);
-            sub_809AD74((CharacterSelect *) temp_r1);
-        }
-        break;
+    sub_809B13C(cs);
+    sub_809ADF0(cs);
+    sub_809AE50(cs);
+    sub_809B69C(cs);
+    sub_809B6C0(cs);
+
+    if (cs->createIndex == 0 || cs->createIndex == 3 || (cs->createIndex == 1 && temp_r5 == 0)
+        || (((cs->createIndex == 2) && ((u32)temp_r5 <= 1U)))) {
+        sub_809B284(cs);
+        sub_809AD74(cs);
     }
-    gDispCnt &= 0xFDFF;
-    temp_r0_2 = temp_r1->unk7;
-    switch (temp_r0_2) {                            /* switch 1; irregular */
-    case 1:                                         /* switch 1 */
-        if (temp_r5 == 0) {
-            var_r0 = sub_8024074(temp_r1->unk4);
-        } else {
-            var_r0 = sub_8023E04();
+    gDispCnt &= ~DISPCNT_BG1_ON;
+
+    if (cs->createIndex != 0) {
+        if (cs->createIndex != 3) {
+            if (cs->createIndex == 1) {
+                if (temp_r5 == 0) {
+                    var_r6 = sub_8024074(cs->unk4);
+                } else {
+                    var_r6 = sub_8023E04();
+                }
+                cs->unk9 |= 0x10 & var_r6;
+            }
+            if (var_r6 < 0) {
+                sub_802613C();
+                return;
+            }
         }
-        var_r6 = (u16) var_r0;
-        temp_r1->unk9 = (u8) ((0x10 & var_r6) | temp_r1->unk9);
-        /* fallthrough */
-    default:                                        /* switch 1 */
-        if ((s32) (var_r6 << 0x10) < 0) {
-            sub_802613C();
+    }
+
+    if (((cs->createIndex == 0) || (cs->createIndex == 3)) || ((cs->createIndex == 1) && (temp_r5 == 0))
+        || ((cs->createIndex == 2) && ((u32)temp_r5 <= 1U))) {
+        if (((cs->createIndex == 0) || (cs->createIndex == 3)) && (B_BUTTON & gPressedKeys)) {
+            m4aSongNumStart(SE_ABORT);
+            cs->unk2 = 3;
+            cs->unkB = 2;
+            gCurTask->main = sub_8098508;
+            return;
+        } else {
+            if (DPAD_SIDEWAYS & gRepeatedKeys) {
+                m4aSongNumStart(SE_CHARSELECT_SLIDE);
+                sub_80992A8(cs);
+                gCurTask->main = Task_8098FF0;
+            } else if (A_BUTTON & gPressedKeys) {
+                s32 unlockIndex = gUnknown_080D8F18[cs->unk5];
+                if (LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[unlockIndex]) {
+                    m4aSongNumStart(gCharacterSelectedVoices[cs->unk5]);
+                    sub_809B5D0(cs);
+                    gCurTask->main = Task_8099300;
+                }
+            }
+        }
+    } else if (cs->createIndex == 1) {
+        temp_r2 = (s16)var_r6;
+        if ((temp_r2 & 0x10) || (0x10 & cs->unk9)) {
+            sub_809B5D0(cs);
+            gCurTask->main = Task_8099300;
             return;
         }
-    case 3:                                         /* switch 1 */
-        temp_r0_3 = temp_r1->unk7;
-        if (temp_r0_3 != 0) {
-            if ((temp_r0_3 == 3) || ((temp_r0_3 == 1) && (temp_r5 == 0)) || ((temp_r0_3 == 2) && ((u32) temp_r5 <= 1U))) {
-                if ((temp_r0_3 == 0) || (temp_r0_3 == 3)) {
-                    goto block_24;
+        temp_r1 = cs->unk3;
+        if ((temp_r1 != temp_r2 - 1) && ((s32)temp_r2 > 0) && ((s32)temp_r2 <= 5)) {
+            temp_r2_2 = temp_r2 - 1;
+            if (temp_r1 < (s32)temp_r2_2) {
+                if ((temp_r1 < 2) && ((s32)(temp_r1 + 2) < (s32)temp_r2_2)) {
+                    var_r3 = 2;
+                } else {
+                    var_r3 = 1;
                 }
-                goto block_26;
-            }
-            if (temp_r0_3 == 1) {
-                temp_r2 = (s16) var_r6;
-                if ((temp_r2 & 0x10) || (0x10 & temp_r1->unk9)) {
-                    sub_809B5D0(temp_r1);
-                    var_r0_2 = sub_8099300;
-                    goto block_50;
-                }
-                temp_r1_2 = temp_r1->unk3;
-                temp_r0_4 = temp_r2 - 1;
-                if ((temp_r1_2 != temp_r0_4) && ((s32) temp_r2 > 0) && ((s32) temp_r2 <= 5)) {
-                    temp_r2_2 = temp_r0_4;
-                    if ((s32) temp_r1_2 < (s32) temp_r2_2) {
-                        var_r3 = 1;
-                        if (((s32) temp_r1_2 <= 1) && ((s32) (temp_r1_2 + 2) < (s32) temp_r2_2)) {
-                            var_r3 = 2;
-                        }
-                    } else {
-                        var_r3 = 2;
-                        if (((s32) temp_r1_2 > 2) && ((s32) (temp_r1_2 - 2) > (s32) temp_r2_2)) {
-                            var_r3 = 1;
-                        }
-                    }
-                    if (var_r3 == 1) {
-                        var_r0_3 = 0;
-                    } else {
-                        var_r0_3 = 1;
-                    }
-                    temp_r1->unk1 = var_r0_3;
-                    temp_r1->unk4 = (u8) (var_r6 - 1);
-                    goto block_49;
+            } else {
+                if ((temp_r1 > 2) && ((s32)(temp_r1 - 2) > (s32)temp_r2_2)) {
+                    var_r3 = 1;
+                } else {
+                    var_r3 = 2;
                 }
             }
-        } else {
-        case 0:                                     /* switch 1 */
-block_24:
-            if (2 & gPressedKeys) {
-                m4aSongNumStart(0x6BU);
-                temp_r1->unk2 = 3;
-                temp_r1->unkB = 2;
-                var_r0_2 = sub_8098508;
-                goto block_50;
+            if (var_r3 == 1) {
+                cs->unk1 = 0;
+            } else {
+                cs->unk1 = 1;
             }
-block_26:
-            if (0x30 & gRepeatedKeys) {
-                m4aSongNumStart(0x67U);
-                sub_80992A8(temp_r1);
-block_49:
-                var_r0_2 = sub_8098FF0;
-                goto block_50;
-            }
-            if (1 & gPressedKeys) {
-                temp_r3 = temp_r1->unk5;
-                if (*(gUnknown_080D8F18[temp_r3] + &gUnknown_080D946D) & gLoadedSaveGame.unlockedCharacters) {
-                    m4aSongNumStart(*((temp_r3 * 2) + &gCharacterSelectedVoices));
-                    sub_809B5D0(temp_r1);
-                    var_r0_2 = sub_8099300;
-block_50:
-                    gCurTask->main = var_r0_2;
-                }
-            }
+            cs->unk4 = var_r6 - 1;
+            gCurTask->main = Task_8098FF0;
         }
-        return;
     }
 }
 
+#if 0
 void sub_8098FF0(u16 arg2) {
     s16 var_r0;
     u16 temp_r1;
@@ -1143,7 +1127,7 @@ void sub_80992A8(void *arg0) {
     }
 }
 
-void sub_8099300(u16 arg2) {
+void Task_8099300(u16 arg2) {
     Player *temp_r1_2;
     Sprite *temp_r0_2;
     u16 temp_r1;
