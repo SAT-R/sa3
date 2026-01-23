@@ -83,11 +83,12 @@ void sub_809ADF0(CharacterSelect *cs);
 void sub_809AE50(CharacterSelect *cs);
 void sub_809AFC0(CharacterSelect *cs);
 void sub_809B13C(CharacterSelect *cs);
-void sub_809B148(CharacterSelect *cs);
-void sub_809B184(CharacterSelect *cs);
+bool32 sub_809B148(CharacterSelect *cs);
+bool32 sub_809B184(CharacterSelect *cs);
 void sub_809B1E4(CharacterSelect *cs);
 void sub_809B234(CharacterSelect *cs);
 void sub_809B284(CharacterSelect *cs);
+void sub_809B2AC(CharacterSelect *cs);
 void sub_809B2E4(CharacterSelect *cs);
 void sub_809B5D0(CharacterSelect *cs);
 bool32 sub_809B638(CharacterSelect *cs);
@@ -96,19 +97,24 @@ void sub_809B69C(CharacterSelect *cs);
 void sub_809B6C0(CharacterSelect *cs);
 void Task_80983E8(void);
 void Task_8098600(void);
+void Task_809947C(void);
+void sub_809AF08(CharacterSelect *cs);
 void Task_8098DE4(void);
 void Task_8098FF0(void);
 void Task_8099200(void);
 void Task_8099300(void);
+void sub_809BF3C(void *param0, void *param1, void *param2, void *param3, s32 param4);
 s16 sub_8023E04(void);
 s16 sub_8024074(u8);
+bool32 sub_80240B4(u8);
+bool32 sub_80240F4();
 void sub_802613C(void);
 void CharSelect_InitBackgrounds(CharacterSelect *cs);
 void sub_80AD824(void);
 
 extern u16 gUnknown_080D8CDC[];
 extern const TileInfo2 gUnknown_080D8D00[2];
-extern const TileInfo2 gUnknown_080D8D08[6][8];
+extern const TileInfo2 gUnknown_080D8D08[6 * 8];
 extern TileInfo2 gUnknown_080D8E80[];
 extern TileInfo2 gUnknown_080D8EF8;
 extern const TileInfo2 gUnknown_080D8F08[2];
@@ -264,8 +270,8 @@ NONMATCH("asm/non_matching/game/char_select__sub_8097E5C.inc", void sub_8097E5C(
     s = &cs->spr9C;
     s->tiles = vram;
     vram += 0x640;
-    s->anim = gUnknown_080D8D08[cs->language][0].anim;
-    s->variant = gUnknown_080D8D08[cs->language][0].variant;
+    s->anim = gUnknown_080D8D08[cs->language].anim;
+    s->variant = gUnknown_080D8D08[cs->language].variant;
     s->prevVariant = -1;
     s->x = I(cs->qUnk24);
     s->y = I(cs->qUnk28);
@@ -1059,83 +1065,146 @@ void sub_80990B0(CharacterSelect *cs)
     gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
 }
 
-#if 0
-void sub_8099200(u16 arg2) {
+void Task_8099200(void)
+{
+#ifndef BUG_FIX
     s16 var_r0;
-    u16 temp_r1;
-    u8 temp_r0;
+#else
+    s16 var_r0 = 0;
+#endif
+    u8 var_r5;
+    s32 playerIndex;
 
-    temp_r1 = gCurTask->data;
-    temp_r0 = temp_r1->unk7;
-    switch (temp_r0) {                              /* irregular */
-    case 1:
-        if (gStageData.playerIndex == 0) {
-            var_r0 = sub_8024074(temp_r1->unk4);
-        } else {
-            var_r0 = sub_8023E04();
+    CharacterSelect *cs = TASK_DATA(gCurTask);
+
+    var_r5 = 0;
+    playerIndex = gStageData.playerIndex;
+    if ((cs->createIndex != 0) && (cs->createIndex != 3)) {
+        if (cs->createIndex == 1) {
+            if (playerIndex == 0) {
+                var_r0 = sub_8024074(cs->unk4);
+            } else {
+                var_r0 = sub_8023E04();
+            }
+            cs->unk9 |= 0x10 & (u16)var_r0;
         }
-        temp_r1->unk9 = (u8) ((0x10 & (u16) var_r0) | temp_r1->unk9);
-        /* fallthrough */
-    default:
-        if ((s32) (M2C_ERROR(/* Read from unset register $r2 */) << 0x10) < 0) {
+
+        if (var_r0 < 0) {
             sub_802613C();
             return;
         }
-    case 0:
-    case 3:
-        sub_809B13C((CharacterSelect *) temp_r1);
-        sub_809ADF0((CharacterSelect *) temp_r1);
-        sub_809AE50((CharacterSelect *) temp_r1);
-        sub_809B69C((CharacterSelect *) temp_r1);
-        sub_809B6C0((CharacterSelect *) temp_r1);
-        sub_809B2AC(temp_r1);
-        sub_809B148((CharacterSelect *) temp_r1);
-        if (M2C_ERROR(/* Read from unset register $r0 */) == 1) {
-            sub_809B184((CharacterSelect *) temp_r1);
-            if (M2C_ERROR(/* Read from unset register $r0 */) == 1) {
-                temp_r1->unk5C = 0;
-                gCurTask->main = sub_8098DE4;
+    }
+    {
+        sub_809B13C(cs);
+        sub_809ADF0(cs);
+        sub_809AE50(cs);
+        sub_809B69C(cs);
+        sub_809B6C0(cs);
+        sub_809B2AC(cs);
+
+        if ((sub_809B148(cs) == TRUE) && (sub_809B184(cs) == TRUE)) {
+            cs->qUnk5C = 0;
+            gCurTask->main = Task_8098DE4;
+        }
+    }
+}
+
+void sub_080992A4(void) { }
+
+void sub_80992A8(CharacterSelect *cs)
+{
+    cs->unk4 = cs->unk3;
+
+    if (DPAD_RIGHT & gRepeatedKeys) {
+        if (cs->unk4 > 3U) {
+            cs->unk4 = 0;
+        } else {
+            cs->unk4++;
+        }
+
+        cs->unk1 = 0;
+        cs->unkB = 6;
+    }
+
+    if (DPAD_LEFT & gRepeatedKeys) {
+        if (cs->unk4 == 0) {
+            cs->unk4 = 4;
+        } else {
+            cs->unk4--;
+        }
+
+        cs->unk1 = 1;
+        cs->unkB = 7;
+    }
+}
+
+void Task_8099300()
+{
+#ifndef BUG_FIX
+    s16 var_r0;
+#else
+    s16 var_r0 = 0;
+#endif
+    Player *temp_r1;
+    Sprite *s;
+    u8 temp_r0;
+    u8 temp_r2;
+    s32 playerIndex;
+    CharacterSelect *cs = TASK_DATA(gCurTask);
+
+    playerIndex = gStageData.playerIndex;
+    if ((cs->createIndex != 0) && (cs->createIndex != 3)) {
+        if (cs->createIndex == 1) {
+            if (playerIndex == 0) {
+                var_r0 = sub_80240B4(cs->unk3);
+            } else {
+                var_r0 = sub_80240F4();
+            }
+            cs->unk9 |= 0x10 & (u16)var_r0;
+        }
+
+        if (var_r0 < 0) {
+            sub_802613C();
+            return;
+        }
+    }
+
+    {
+        u8 language;
+        sub_809ADF0(cs);
+        sub_809AE50(cs);
+        sub_809AF08(cs);
+        sub_809B69C(cs);
+        sub_809B6C0(cs);
+
+        if (cs->unkB < 13) {
+            gDispCnt |= 0x200;
+            if (cs->unkB < 13) {
+                cs->unkB = 0xC;
+                cs->qUnk34 = cs->qUnk3C;
+                cs->qUnk38 = cs->qUnk40;
+                cs->unk5 = cs->unk3;
+                sub_809BF3C(&cs->unk5, &cs->unkB, &cs->qUnk34, &cs->qUnk38, cs->unk20);
+                cs->qUnk4C = 0x12C00;
             }
         }
-        return;
-    }
-}
+        s = &cs->spr9C;
+        temp_r2 = cs->unkB - 11;
+        s->anim = gUnknown_080D8D08[temp_r2 + cs->language * 8].anim;
+        s->variant = gUnknown_080D8D08[temp_r2 + cs->language * 8].variant;
+        UpdateSpriteAnimation(s);
 
-void sub_080992A4(void) {
-
-}
-
-void sub_80992A8(void *arg0) {
-    u8 temp_r0;
-    u8 temp_r4;
-    u8 var_r0;
-    u8 var_r0_2;
-
-    temp_r4 = arg0->unk3;
-    arg0->unk4 = temp_r4;
-    if (0x10 & gRepeatedKeys) {
-        if ((u32) temp_r4 > 3U) {
-            var_r0 = 0;
-        } else {
-            var_r0 = temp_r4 + 1;
+        if (gStageData.gameMode == 0 || gStageData.gameMode == 3 || gStageData.gameMode == 4) {
+            gPlayers->charFlags.character = gUnknown_080D8F18[cs->unk5];
+            gCurTask->main = Task_809947C;
+        } else if (gStageData.gameMode == 5) {
+            gPlayers[gStageData.playerIndex].charFlags.character = gUnknown_080D8F18[cs->unk5];
+            gCurTask->main = Task_809947C;
         }
-        arg0->unk4 = var_r0;
-        arg0->unk1 = 0;
-        arg0->unkB = 6;
-    }
-    if (0x20 & gRepeatedKeys) {
-        temp_r0 = arg0->unk4;
-        if (temp_r0 == 0) {
-            var_r0_2 = 4;
-        } else {
-            var_r0_2 = temp_r0 - 1;
-        }
-        arg0->unk4 = var_r0_2;
-        arg0->unk1 = 1;
-        arg0->unkB = 7;
     }
 }
 
+#if 0
 void Task_8099300(u16 arg2) {
     Player *temp_r1_2;
     Sprite *temp_r0_2;
@@ -1191,7 +1260,7 @@ void Task_8099300(u16 arg2) {
         case 4:                                     /* switch 1 */
             gPlayers->unk2A = (u8) ((-0x10 & gPlayers->unk2A) | (0xF & gUnknown_080D8F18[temp_r1->unk5]));
 block_18:
-            gCurTask->main = sub_809947C;
+            gCurTask->main = Task_809947C;
             break;
         case 5:                                     /* switch 1 */
             temp_r1_2 = &gPlayers[gStageData.playerIndex];
@@ -1202,7 +1271,7 @@ block_18:
     }
 }
 
-void sub_809947C(u16 arg2) {
+void Task_809947C(u16 arg2) {
     Background *temp_r2;
     u16 *var_r0_2;
     u16 temp_r1;
