@@ -1,5 +1,7 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
+#include "code_z_1.h" // CopyPalette
 #include "module_unclear.h"
 #include "lib/m4a/m4a.h"
 #include "game/save.h"
@@ -114,6 +116,8 @@ extern const u8 gUnknown_080D8F18[8];
 extern u8 gUnknown_080D946D[NUM_CHARACTERS];
 extern const u8 gUnknown_082B5344[0x140];
 extern const u16 gCharacterSelectedVoices[NUM_CHARACTERS];
+extern const u16 gUnknown_08E2EE50[10][16];
+extern const u16 gUnknown_08E2EEF0[16];
 
 void CreateCharacterSelect(u8 createIndex)
 {
@@ -1006,59 +1010,56 @@ void Task_8098FF0()
     }
 }
 
-#if 0
-void sub_80990B0(void *arg0) {
-    Background *temp_r2;
+void sub_80990B0(CharacterSelect *cs)
+{
+    Background *bg;
     u16 *var_r0_2;
     u16 var_r0;
     u8 temp_r5;
 
-    temp_r2 = arg0 + 0x234;
-    temp_r5 = gUnknown_080D8F18[arg0->unk5];
-    temp_r2->graphics.dest = (void *)0x06008000;
-    temp_r2->graphics.anim = 0;
-    temp_r2->layoutVram = (u16 *)0x0600D800;
-    temp_r2->unk18 = 0;
-    temp_r2->unk1A = 0;
-    if (!(*(temp_r5 + &gUnknown_080D946D) & gLoadedSaveGame.unlockedCharacters)) {
-        var_r0 = gUnknown_080D8CDC->unk20;
+    bg = &cs->bg234;
+    temp_r5 = gUnknown_080D8F18[cs->unk5];
+    bg->graphics.dest = (void *)(BG_VRAM + 0x8000);
+    bg->graphics.anim = 0;
+    bg->layoutVram = (void *)(BG_VRAM + 0xD800);
+    bg->unk18 = 0;
+    bg->unk1A = 0;
+
+    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r5])) {
+        bg->tilemapId = gUnknown_080D8CDC[16];
     } else {
-        var_r0 = gUnknown_080D8CDC[temp_r5 + 5];
+        bg->tilemapId = gUnknown_080D8CDC[temp_r5 + 5];
     }
-    temp_r2->tilemapId = var_r0;
-    temp_r2->unk1E = 0;
-    temp_r2->unk20 = 0;
-    temp_r2->unk22 = 0;
-    temp_r2->unk24 = 0;
-    temp_r2->targetTilesX = 0x10;
-    temp_r2->targetTilesY = 0x10;
-    temp_r2->paletteOffset = 0;
-    temp_r2->flags = 6;
-    DrawBackground(temp_r2);
-    arg0->unk40 = 0x5000;
-    arg0->unkB = 4;
-    if (!(*(temp_r5 + &gUnknown_080D946D) & gLoadedSaveGame.unlockedCharacters)) {
-        if (0x20000 & gFlags) {
-            var_r0_2 = &gUnknown_08E2EEF0;
-            goto block_9;
+
+    bg->unk1E = 0;
+    bg->unk20 = 0;
+    bg->unk22 = 0;
+    bg->unk24 = 0;
+    bg->targetTilesX = 16;
+    bg->targetTilesY = 16;
+    bg->paletteOffset = 0;
+    bg->flags = 6;
+    DrawBackground(bg);
+
+    cs->qUnk40 = 0x5000;
+    cs->unkB = 4;
+    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r5])) {
+        if (FLAGS_20000 & gFlags) {
+            CopyPalette(&gUnknown_08E2EEF0[0], 0x60U, 16);
+        } else {
+            DmaCopy16(3, &gUnknown_08E2EEF0[0], &gObjPalette[3 * (16 * sizeof(u16))], 0x20U);
+            gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
         }
-        (void *)0x040000D4->unk0 = &gUnknown_08E2EEF0;
-        (void *)0x040000D4->unk4 = &gObjPalette[0x60];
-        (void *)0x040000D4->unk8 = 0x80000010;
-        gFlags |= 2;
-    } else if (0x20000 & gFlags) {
-        var_r0_2 = (temp_r5 << 5) + &gUnknown_08E2EE50;
-block_9:
-        CopyPalette(var_r0_2, 0x60U, 0x10U);
+    } else if (FLAGS_20000 & gFlags) {
+        CopyPalette(&gUnknown_08E2EE50[temp_r5][0], 3 * (16 * sizeof(u16)), ARRAY_COUNT(gUnknown_08E2EE50[temp_r5]));
     } else {
-        (void *)0x040000D4->unk0 = (u16 *) ((temp_r5 << 5) + &gUnknown_08E2EE50);
-        (void *)0x040000D4->unk4 = &gObjPalette[0x60];
-        (void *)0x040000D4->unk8 = 0x80000010;
-        gFlags |= 2;
+        DmaCopy16(3, &gUnknown_08E2EE50[temp_r5][0], &gObjPalette[3 * (16 * sizeof(u16))], (16 * sizeof(u16)));
+        gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
     }
-    gFlags |= 2;
+    gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
 }
 
+#if 0
 void sub_8099200(u16 arg2) {
     s16 var_r0;
     u16 temp_r1;
@@ -1260,7 +1261,7 @@ loop_11:
         temp_r5 = gUnknown_080D8F18[temp_r1->unk6];
         temp_r1->unk3C = 0x13600;
         temp_r1->unk40 = 0x5000;
-        if (!(*(temp_r5 + &gUnknown_080D946D) & gLoadedSaveGame.unlockedCharacters)) {
+        if (!(*(temp_r5 + &gUnknown_080D946D) & LOADED_SAVE->unlockedCharacters)) {
             if (0x20000 & gFlags) {
                 var_r0_2 = &gUnknown_08E2EEF0;
                 goto block_20;
@@ -1287,7 +1288,7 @@ block_20:
         temp_r2->layoutVram = (u16 *)0x0600D800;
         temp_r2->unk18 = 0;
         temp_r2->unk1A = 0;
-        if (!(*(temp_r5 + &gUnknown_080D946D) & gLoadedSaveGame.unlockedCharacters)) {
+        if (!(*(temp_r5 + &gUnknown_080D946D) & LOADED_SAVE->unlockedCharacters)) {
             var_r0_3 = gUnknown_080D8CDC->unk20;
         } else {
             var_r0_3 = gUnknown_080D8CDC[temp_r5 + 5];
@@ -1470,7 +1471,7 @@ block_49:
                     var_r0_2 = sub_8099968;
                     goto block_50;
                 }
-                if ((1 & gPressedKeys) && (temp_r3 = temp_r1->unk6, ((*(gUnknown_080D8F18[temp_r3] + &gUnknown_080D946D) & gLoadedSaveGame.unlockedCharacters) != 0))) {
+                if ((1 & gPressedKeys) && (temp_r3 = temp_r1->unk6, ((*(gUnknown_080D8F18[temp_r3] + &gUnknown_080D946D) & LOADED_SAVE->unlockedCharacters) != 0))) {
                     m4aSongNumStart(*((temp_r3 * 2) + &gCharacterSelectedVoices));
                     temp_r1->unkB = 0x14;
                     if (gUnknown_080D8F18[temp_r1->unk5] == gUnknown_080D8F18[temp_r1->unk6]) {
@@ -1547,7 +1548,7 @@ void sub_8099968(u16 arg2) {
         temp_r1->unkB = 4;
         temp_r1->unk4C = 0x14000;
         temp_r5 = gUnknown_080D8F18[temp_r1->unk6];
-        if (!(*(temp_r5 + &gUnknown_080D946D) & gLoadedSaveGame.unlockedCharacters)) {
+        if (!(*(temp_r5 + &gUnknown_080D946D) & LOADED_SAVE->unlockedCharacters)) {
             if (0x20000 & gFlags) {
                 var_r0_2 = &gUnknown_08E2EEF0;
                 goto block_21;
@@ -1574,7 +1575,7 @@ block_21:
         temp_r2->layoutVram = (u16 *)0x0600D800;
         temp_r2->unk18 = 0;
         temp_r2->unk1A = 0;
-        if (!(*(temp_r5 + &gUnknown_080D946D) & gLoadedSaveGame.unlockedCharacters)) {
+        if (!(*(temp_r5 + &gUnknown_080D946D) & LOADED_SAVE->unlockedCharacters)) {
             var_r0_3 = gUnknown_080D8CDC->unk20;
         } else {
             var_r0_3 = gUnknown_080D8CDC[temp_r5 + 5];
@@ -2107,7 +2108,7 @@ void sub_809A50C(void *arg0) {
     temp_r3->layoutVram = (u16 *)0x06001800;
     temp_r3->unk18 = 0;
     temp_r3->unk1A = 0;
-    if (!(*(temp_r4 + &gUnknown_080D946D) & gLoadedSaveGame.unlockedCharacters)) {
+    if (!(*(temp_r4 + &gUnknown_080D946D) & LOADED_SAVE->unlockedCharacters)) {
         var_r0 = gUnknown_080D8CDC->unk20;
     } else {
         var_r0 = gUnknown_080D8CDC[temp_r4 + 0xA];
@@ -2406,7 +2407,7 @@ void sub_809AABC(u16 arg2) {
         temp_r3->layoutVram = (u16 *)0x0600D800;
         temp_r3->unk18 = 0;
         temp_r3->unk1A = 0;
-        if (!(*(temp_r5_2 + &gUnknown_080D946D) & gLoadedSaveGame.unlockedCharacters)) {
+        if (!(*(temp_r5_2 + &gUnknown_080D946D) & LOADED_SAVE->unlockedCharacters)) {
             var_r0 = gUnknown_080D8CDC->unk20;
         } else {
             var_r0 = gUnknown_080D8CDC[temp_r5_2 + 5];
@@ -2631,7 +2632,7 @@ void sub_809AE50(CharacterSelect *cs) {
     temp_r3 = (u32) ((0 - temp_r1) | temp_r1) >> 0x1F;
     temp_r2 = gUnknown_080D8F18[cs->unk5];
     temp_r4_2 = &cs->sprEC;
-    if (!(*(temp_r2 + &gUnknown_080D946D) & gLoadedSaveGame.unlockedCharacters)) {
+    if (!(*(temp_r2 + &gUnknown_080D946D) & LOADED_SAVE->unlockedCharacters)) {
         var_r0_2 = (temp_r3 * 8) + 6;
     } else {
         var_r0_2 = temp_r2 + (temp_r3 * 8);
@@ -2675,7 +2676,7 @@ void sub_809AF08(void *arg0) {
     temp_r3 = (u32) ((0 - temp_r1) | temp_r1) >> 0x1F;
     temp_r2 = gUnknown_080D8F18[arg0->unk6];
     temp_r4_2 = arg0 + 0x13C;
-    if (!(*(temp_r2 + &gUnknown_080D946D) & gLoadedSaveGame.unlockedCharacters)) {
+    if (!(*(temp_r2 + &gUnknown_080D946D) & LOADED_SAVE->unlockedCharacters)) {
         var_r0_2 = (temp_r3 * 8) + 6;
     } else {
         var_r0_2 = temp_r2 + (temp_r3 * 8);

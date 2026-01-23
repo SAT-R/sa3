@@ -208,11 +208,11 @@ gUnknown_08E2ED50:
     .incbin "baserom_sa3.gba", 0x00E2ED90, 0xC0
 
     .global gUnknown_08E2EE50
-gUnknown_08E2EE50:
+gUnknown_08E2EE50: @ palette
     .incbin "baserom_sa3.gba", 0x00E2EE50, 0xA0
 
     .global gUnknown_08E2EEF0
-gUnknown_08E2EEF0:
+gUnknown_08E2EEF0: @ palette
     .incbin "baserom_sa3.gba", 0x00E2EEF0, 0x20
 
     .global gUnknown_08E2EF10
