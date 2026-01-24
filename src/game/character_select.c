@@ -103,6 +103,7 @@ void Task_8098DE4(void);
 void Task_8098FF0(void);
 void Task_8099200(void);
 void Task_8099300(void);
+void sub_8099680(void);
 void sub_809BF3C(void *param0, void *param1, void *param2, void *param3, s32 param4);
 s16 sub_8023E04(void);
 s16 sub_8024074(u8);
@@ -1204,179 +1205,99 @@ void Task_8099300()
     }
 }
 
-#if 0
-void Task_8099300(u16 arg2) {
-    Player *temp_r1_2;
-    Sprite *temp_r0_2;
-    u16 temp_r1;
-    u16 var_r0;
-    u16 var_r2;
-    u8 temp_r0;
-    u8 temp_r2;
-
-    temp_r1 = gCurTask->data;
-    temp_r0 = temp_r1->unk7;
-    switch (temp_r0) {                              /* irregular */
-    case 1:
-        if (gStageData.playerIndex == 0) {
-            var_r0 = sub_80240B4(temp_r1->unk3);
-        } else {
-            var_r0 = sub_80240F4();
-        }
-        var_r2 = var_r0;
-        temp_r1->unk9 = (u8) ((0x10 & var_r2) | temp_r1->unk9);
-        /* fallthrough */
-    default:
-        if ((s32) (M2C_ERROR(/* Read from unset register $r2 */) << 0x10) < 0) {
-            sub_802613C();
-            return;
-        }
-    case 0:
-    case 3:
-        sub_809ADF0((CharacterSelect *) temp_r1);
-        sub_809AE50((CharacterSelect *) temp_r1);
-        sub_809AF08(temp_r1);
-        sub_809B69C((CharacterSelect *) temp_r1);
-        sub_809B6C0((CharacterSelect *) temp_r1);
-        if ((u32) temp_r1->unkB <= 0xCU) {
-            gDispCnt |= 0x200;
-            if ((u32) temp_r1->unkB <= 0xCU) {
-                temp_r1->unkB = 0xCU;
-                temp_r1->unk34 = (s32) temp_r1->unk3C;
-                temp_r1->unk38 = (s32) temp_r1->unk40;
-                temp_r1->unk5 = (u8) temp_r1->unk3;
-                sub_809BF3C(temp_r1 + 5, temp_r1 + 0xB, temp_r1 + 0x34, temp_r1 + 0x38, temp_r1->unk20);
-                temp_r1->unk4C = 0x12C00;
-            }
-        }
-        temp_r0_2 = temp_r1 + 0x9C;
-        temp_r2 = temp_r1->unkB - 0xB;
-        temp_r0_2->anim = (*gUnknown_080D8D08)[temp_r2 + (temp_r1->unkA * 8)].anim;
-        temp_r0_2->variant = (*gUnknown_080D8D08)[temp_r2 + (temp_r1->unkA * 8)].variant;
-        UpdateSpriteAnimation(temp_r0_2);
-        switch (gStageData.gameMode) {              /* switch 1; irregular */
-        case 0:                                     /* switch 1 */
-        case 3:                                     /* switch 1 */
-        case 4:                                     /* switch 1 */
-            gPlayers->unk2A = (u8) ((-0x10 & gPlayers->unk2A) | (0xF & gUnknown_080D8F18[temp_r1->unk5]));
-block_18:
-            gCurTask->main = Task_809947C;
-            break;
-        case 5:                                     /* switch 1 */
-            temp_r1_2 = &gPlayers[gStageData.playerIndex];
-            temp_r1_2->unk2A = (u8) ((-0x10 & temp_r1_2->unk2A) | (0xF & gUnknown_080D8F18[temp_r1->unk5]));
-            goto block_18;
-        }
-        return;
-    }
-}
-
-void Task_809947C(u16 arg2) {
-    Background *temp_r2;
+// (96.04%) https://decomp.me/scratch/f1JNY
+NONMATCH("asm/non_matching/game/char_select__sub_809947C.inc", void Task_809947C())
+{
+    Background *bg;
     u16 *var_r0_2;
-    u16 temp_r1;
-    u16 var_r0;
+    s16 var_r0;
     u16 var_r0_3;
+    u16 var_r2;
     u8 temp_r0;
     u8 temp_r0_2;
     u8 temp_r0_3;
     u8 temp_r5;
     u8 var_r1;
+    CharacterSelect *cs = TASK_DATA(gCurTask);
 
-    temp_r1 = gCurTask->data;
-    temp_r0 = temp_r1->unk7;
-    switch (temp_r0) {                              /* irregular */
-    case 1:
-        if (gStageData.playerIndex == 0) {
-            var_r0 = sub_80240B4(temp_r1->unk3);
-        } else {
-            var_r0 = sub_80240F4();
+    s32 playerIndex = gStageData.playerIndex;
+    if (cs->createIndex != 0 && cs->createIndex != 3) {
+        if (cs->createIndex == 1) {
+            if (playerIndex == 0) {
+                var_r0 = sub_80240B4(cs->unk3);
+            } else {
+                var_r0 = sub_80240F4();
+            }
+
+            cs->unk9 |= 0x10 & var_r0;
         }
-        temp_r1->unk9 = (u8) ((0x10 & var_r0) | temp_r1->unk9);
-        /* fallthrough */
-    default:
-        if ((s32) (M2C_ERROR(/* Read from unset register $r2 */) << 0x10) < 0) {
+
+        if (var_r0 < 0) {
             sub_802613C();
             return;
         }
-    case 0:
-    case 3:
-        sub_809ADF0((CharacterSelect *) temp_r1);
-        sub_809AE50((CharacterSelect *) temp_r1);
-        sub_809AF08(temp_r1);
-        sub_809B69C((CharacterSelect *) temp_r1);
-        sub_809B6C0((CharacterSelect *) temp_r1);
-        temp_r1->unk3 = 0U;
-        var_r1 = 0;
-        if (temp_r1->unk5 == 0) {
-loop_10:
-            temp_r1->unk3 = (u8) (temp_r1->unk3 + 1);
-loop_11:
-            var_r1 += 1;
-            if ((u32) var_r1 <= 3U) {
-                temp_r0_2 = temp_r1->unk3;
-                if (temp_r0_2 != temp_r1->unk5) {
-                    if ((u32) temp_r0_2 > 4U) {
-                        goto loop_11;
-                    }
-                } else {
-                    goto loop_10;
-                }
-            }
-        }
-        temp_r0_3 = temp_r1->unk3;
-        temp_r1->unk4 = temp_r0_3;
-        temp_r1->unk6 = temp_r0_3;
-        temp_r5 = gUnknown_080D8F18[temp_r1->unk6];
-        temp_r1->unk3C = 0x13600;
-        temp_r1->unk40 = 0x5000;
-        if (!(*(temp_r5 + &gUnknown_080D946D) & LOADED_SAVE->unlockedCharacters)) {
-            if (0x20000 & gFlags) {
-                var_r0_2 = &gUnknown_08E2EEF0;
-                goto block_20;
-            }
-            (void *)0x040000D4->unk0 = &gUnknown_08E2EEF0;
-            (void *)0x040000D4->unk4 = &gObjPalette[0x70];
-            (void *)0x040000D4->unk8 = 0x80000010;
-            gFlags |= 2;
-        } else if (0x20000 & gFlags) {
-            var_r0_2 = (temp_r5 << 5) + &gUnknown_08E2EE50;
-block_20:
-            CopyPalette(var_r0_2, 0x70U, 0x10U);
-        } else {
-            (void *)0x040000D4->unk0 = (u16 *) ((temp_r5 << 5) + &gUnknown_08E2EE50);
-            (void *)0x040000D4->unk4 = &gObjPalette[0x70];
-            (void *)0x040000D4->unk8 = 0x80000010;
-            gFlags |= 2;
-        }
-        gFlags |= 2;
-        temp_r1->unk157 = 0xFF;
-        temp_r2 = temp_r1 + 0x234;
-        temp_r2->graphics.dest = (void *)0x06008000;
-        temp_r2->graphics.anim = 0;
-        temp_r2->layoutVram = (u16 *)0x0600D800;
-        temp_r2->unk18 = 0;
-        temp_r2->unk1A = 0;
-        if (!(*(temp_r5 + &gUnknown_080D946D) & LOADED_SAVE->unlockedCharacters)) {
-            var_r0_3 = gUnknown_080D8CDC->unk20;
-        } else {
-            var_r0_3 = gUnknown_080D8CDC[temp_r5 + 5];
-        }
-        temp_r2->tilemapId = var_r0_3;
-        temp_r2->unk1E = 0;
-        temp_r2->unk20 = 0;
-        temp_r2->unk22 = 0;
-        temp_r2->unk24 = 0;
-        temp_r2->targetTilesX = 0x10;
-        temp_r2->targetTilesY = 0x10;
-        temp_r2->paletteOffset = 0;
-        temp_r2->flags = 6;
-        DrawBackground(temp_r2);
-        gCurTask->main = sub_8099680;
-        return;
     }
-}
 
+    sub_809ADF0(cs);
+    sub_809AE50(cs);
+    sub_809AF08(cs);
+    sub_809B69C(cs);
+    sub_809B6C0(cs);
+
+    cs->unk3 = 0;
+    for (var_r1 = 0; var_r1 < 4; var_r1++) {
+        if (cs->unk3 == cs->unk5) {
+            cs->unk3++;
+        } else {
+            break;
+        }
+    }
+
+    cs->unk4 = cs->unk3;
+    cs->unk6 = cs->unk3;
+    temp_r5 = gUnknown_080D8F18[cs->unk6];
+    cs->qUnk3C = Q(310);
+    cs->qUnk40 = Q(80);
+    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r5])) {
+        if (FLAGS_20000 & gFlags) {
+            CopyPalette(&gUnknown_08E2EEF0[0], 0x70U, 0x10U);
+        } else {
+            DmaCopy16(3, &gUnknown_08E2EEF0[0], &gObjPalette[0x70], 32);
+            gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
+        }
+    } else if (FLAGS_20000 & gFlags) {
+        CopyPalette(&gUnknown_08E2EE50[temp_r5][0], 0x70U, 0x10U);
+    } else {
+        DmaCopy16(3, &gUnknown_08E2EE50[temp_r5], &gObjPalette[0x70], 32);
+        gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
+    }
+    gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
+    cs->spr13C.prevVariant = 0xFF;
+    bg = &cs->bg234;
+    bg->graphics.dest = (void *)(VRAM + 0x8000);
+    bg->graphics.anim = 0;
+    bg->layoutVram = (u16 *)(VRAM + 0xD800);
+    bg->unk18 = 0;
+    bg->unk1A = 0;
+    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r5])) {
+        bg->tilemapId = gUnknown_080D8CDC[16];
+    } else {
+        bg->tilemapId = gUnknown_080D8CDC[temp_r5 + 5];
+    }
+    bg->unk1E = 0;
+    bg->unk20 = 0;
+    bg->unk22 = 0;
+    bg->unk24 = 0;
+    bg->targetTilesX = 0x10;
+    bg->targetTilesY = 0x10;
+    bg->paletteOffset = 0;
+    bg->flags = 6;
+    DrawBackground(bg);
+    gCurTask->main = sub_8099680;
+}
+END_NONMATCH
+
+#if 0
 void sub_8099680(u16 arg2) {
     u16 temp_r1;
     u16 var_r0;
