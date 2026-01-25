@@ -104,6 +104,9 @@ void Task_8098FF0(void);
 void Task_8099200(void);
 void Task_8099300(void);
 void sub_8099680(void);
+bool32 sub_809AC44(CharacterSelect *cs, u8 param1);
+bool32 sub_809B32C(CharacterSelect *cs, u8 param1);
+bool32 sub_809B3C4(CharacterSelect *cs, u8 param1);
 void sub_809BF3C(void *param0, void *param1, void *param2, void *param3, s32 param4);
 s16 sub_8023E04(void);
 s16 sub_8024074(u8);
@@ -112,6 +115,11 @@ bool32 sub_80240F4();
 void sub_802613C(void);
 void CharSelect_InitBackgrounds(CharacterSelect *cs);
 void sub_80AD824(void);
+void sub_809B41C(CharacterSelect *cs);
+void Task_8099758(void);
+
+extern bool32 sub_8023E80(void);
+extern bool32 sub_8024188(u8);
 
 extern u16 gUnknown_080D8CDC[];
 extern const TileInfo2 gUnknown_080D8D00[2];
@@ -971,6 +979,7 @@ void Task_8098FF0()
 #ifndef BUG_FIX
     s16 var_r0;
 #else
+    // TODO: Maybe a different init value?
     s16 var_r0 = 0;
 #endif
     u8 var_r5;
@@ -1071,6 +1080,7 @@ void Task_8099200(void)
 #ifndef BUG_FIX
     s16 var_r0;
 #else
+    // TODO: Maybe a different init value?
     s16 var_r0 = 0;
 #endif
     u8 var_r5;
@@ -1144,6 +1154,7 @@ void Task_8099300()
 #ifndef BUG_FIX
     s16 var_r0;
 #else
+    // TODO: Maybe a different init value?
     s16 var_r0 = 0;
 #endif
     Player *temp_r1;
@@ -1297,6 +1308,61 @@ NONMATCH("asm/non_matching/game/char_select__sub_809947C.inc", void Task_809947C
 }
 END_NONMATCH
 
+void Task_8099680(void)
+{
+#ifndef BUG_FIX
+    s16 var_r0;
+#else
+    // TODO: Maybe a different init value?
+    s16 var_r0 = 0;
+#endif
+    u8 var_r5;
+
+    u8 playerIndex;
+    u8 createIndex;
+    CharacterSelect *cs = TASK_DATA(gCurTask);
+
+    var_r5 = 0;
+    playerIndex = gStageData.playerIndex;
+    if (cs->createIndex != 0 && cs->createIndex != 3) {
+        if (cs->createIndex == 1) {
+            if (playerIndex == 0) {
+                var_r0 = sub_8023E80();
+            } else {
+                var_r0 = sub_8024188(cs->unk4);
+            }
+            cs->unk9 |= 0x10 & var_r0;
+        }
+
+        if (var_r0 < 0) {
+            sub_802613C();
+            return;
+        }
+    }
+
+    cs->unkB = 0xC;
+    if (sub_809AC44(cs, 0) == 1) {
+        var_r5++;
+    }
+    if (sub_809B32C(cs, 0) == 1) {
+        var_r5++;
+    }
+    if (sub_809B3C4(cs, 0) == 1) {
+        var_r5++;
+    }
+    sub_809B41C(cs);
+    sub_809B13C(cs);
+    sub_809ADF0(cs);
+    sub_809AE50(cs);
+    sub_809AF08(cs);
+    sub_809B69C(cs);
+    sub_809B6C0(cs);
+    if (var_r5 == 3) {
+        cs->unkB = 0xE;
+        gCurTask->main = Task_8099758;
+    }
+}
+
 #if 0
 void sub_8099680(u16 arg2) {
     u16 temp_r1;
@@ -1342,13 +1408,13 @@ void sub_8099680(u16 arg2) {
         sub_809B6C0((CharacterSelect *) temp_r1);
         if (var_r5 == 3) {
             temp_r1->unkB = 0xE;
-            gCurTask->main = sub_8099758;
+            gCurTask->main = Task_8099758;
         }
         return;
     }
 }
 
-void sub_8099758(u16 arg2) {
+void Task_8099758(u16 arg2) {
     s16 temp_r0_4;
     s16 temp_r1_2;
     s16 temp_r2_2;
@@ -1625,7 +1691,7 @@ void sub_8099B78(u16 arg2) {
         if (var_r5 == 2) {
             temp_r1->unk5C = 0;
             temp_r1->unkB = 0xE;
-            gCurTask->main = sub_8099758;
+            gCurTask->main = Task_8099758;
         }
         return;
     }
@@ -2213,7 +2279,7 @@ void sub_809A6C0(u16 arg2) {
         if (sub_809B704(temp_r1, 0xEU) != 0) {
             temp_r1->unkE = 1U;
             gBldRegs.bldY = temp_r7;
-            gCurTask->main = sub_8099758;
+            gCurTask->main = Task_8099758;
         }
     }
 }
