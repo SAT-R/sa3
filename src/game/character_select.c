@@ -117,6 +117,10 @@ void CharSelect_InitBackgrounds(CharacterSelect *cs);
 void sub_80AD824(void);
 void sub_809B41C(CharacterSelect *cs);
 void Task_8099758(void);
+void sub_8098508(void);
+void Task_809AABC(void);
+void Task_8099C9C(void);
+void Task_8099968(void);
 
 extern bool32 sub_8023E80(void);
 extern bool32 sub_8024188(u8);
@@ -1363,57 +1367,116 @@ void Task_8099680(void)
     }
 }
 
-#if 0
-void sub_8099680(u16 arg2) {
-    u16 temp_r1;
-    u16 var_r0;
-    u32 var_r5;
-    u8 temp_r0;
+void Task_8099758(void)
+{
+    s16 temp_r2;
+    s16 temp_r2_2;
+    s16 var_r0;
+    s32 var_r3;
+#ifndef BUG_FIX
+    s16 var_r6;
+#else
+    // TODO: Maybe a different init value?
+    s16 var_r6 = 0;
+#endif
+    s16 temp_r1;
+    s16 playerIndex;
+    CharacterSelect *cs = TASK_DATA(gCurTask);
 
-    temp_r1 = gCurTask->data;
-    var_r5 = 0;
-    temp_r0 = temp_r1->unk7;
-    switch (temp_r0) {                              /* irregular */
-    case 1:
-        if (gStageData.playerIndex == 0) {
-            var_r0 = sub_8023E80();
-        } else {
-            var_r0 = sub_8024188(temp_r1->unk4);
+    playerIndex = gStageData.playerIndex;
+    sub_809B13C(cs);
+    sub_809ADF0(cs);
+    sub_809AE50(cs);
+    sub_809AF08(cs);
+    sub_809B69C(cs);
+    sub_809B6C0(cs);
+
+    if (cs->createIndex == 0 || cs->createIndex == 3 || (cs->createIndex == 1 && playerIndex == 1)
+        || (((cs->createIndex == 2) && (playerIndex == 2 || playerIndex == 3)))) {
+        sub_809B284(cs);
+        sub_809AD74(cs);
+    }
+
+    if (cs->createIndex != 0) {
+        if (cs->createIndex != 3) {
+            if (cs->createIndex == 1) {
+                if (playerIndex == 0) {
+                    var_r6 = sub_8023E80();
+                } else {
+                    var_r6 = sub_8024188(cs->unk4);
+                }
+                cs->unk9 |= 0x10 & var_r6;
+            }
+
+            if (var_r6 < 0) {
+                sub_802613C();
+                return;
+            }
         }
-        temp_r1->unk9 = (u8) ((0x10 & var_r0) | temp_r1->unk9);
-        /* fallthrough */
-    default:
-        if ((s32) (M2C_ERROR(/* Read from unset register $r2 */) << 0x10) < 0) {
-            sub_802613C();
+    }
+
+    if (((cs->createIndex == 0) || (cs->createIndex == 3)) || ((cs->createIndex == 1) && (playerIndex == 1))
+        || ((cs->createIndex == 2) && (playerIndex == 2 || playerIndex == 3))) {
+        if (((cs->createIndex == 0) || (cs->createIndex == 3)) && (B_BUTTON & gPressedKeys)) {
+            m4aSongNumStart(SE_ABORT);
+            cs->unkB = 19;
+            gCurTask->main = Task_809AABC;
+            return;
+        } else {
+            if (DPAD_SIDEWAYS & gRepeatedKeys) {
+                m4aSongNumStart(SE_CHARSELECT_SLIDE);
+                sub_8099C34(cs);
+                gCurTask->main = Task_8099968;
+            } else if (A_BUTTON & gPressedKeys) {
+                s32 unlockIndex = gUnknown_080D8F18[cs->unk6];
+                if (LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[unlockIndex]) {
+                    m4aSongNumStart(gCharacterSelectedVoices[cs->unk6]);
+                    cs->unkB = 20;
+
+                    if (gUnknown_080D8F18[cs->unk5] == gUnknown_080D8F18[cs->unk6]) {
+                        sub_802613C();
+                        return;
+                    }
+
+                    gCurTask->main = Task_8099C9C;
+                }
+            }
+        }
+    } else if (cs->createIndex == 1) {
+        temp_r2 = (s16)var_r6;
+        if ((temp_r2 & 0x10)) {
+            cs->unkB = 20;
+            gCurTask->main = Task_8099C9C;
             return;
         }
-    case 0:
-    case 3:
-        temp_r1->unkB = 0xC;
-        if (sub_809AC44(temp_r1, 0) == 1) {
-            var_r5 = 0x01000000U >> 0x18;
+        temp_r1 = cs->unk3;
+        if ((cs->unk3 != temp_r2 - 1) && ((s32)temp_r2 > 0) && ((s32)temp_r2 <= 5)) {
+            temp_r2_2 = temp_r2 - 1;
+            if (temp_r1 < (s32)temp_r2_2) {
+                if ((temp_r1 < 2) && ((s32)(temp_r1 + 2) < (s32)temp_r2_2)) {
+                    var_r3 = 2;
+                } else {
+                    var_r3 = 1;
+                }
+            } else {
+                if ((temp_r1 > 2) && ((s32)(temp_r1 - 2) > (s32)temp_r2_2)) {
+                    var_r3 = 1;
+                } else {
+                    var_r3 = 2;
+                }
+            }
+            if (var_r3 == 1) {
+                cs->unk1 = 0;
+            } else {
+                cs->unk1 = 1;
+            }
+            cs->unk4 = var_r6 - 1;
+            gCurTask->main = Task_8099968;
         }
-        if (sub_809B32C(temp_r1, 0) == 1) {
-            var_r5 = (u32) (u8) (var_r5 + 1);
-        }
-        if (sub_809B3C4(temp_r1, 0) == 1) {
-            var_r5 = (u32) (u8) (var_r5 + 1);
-        }
-        sub_809B41C(temp_r1);
-        sub_809B13C((CharacterSelect *) temp_r1);
-        sub_809ADF0((CharacterSelect *) temp_r1);
-        sub_809AE50((CharacterSelect *) temp_r1);
-        sub_809AF08(temp_r1);
-        sub_809B69C((CharacterSelect *) temp_r1);
-        sub_809B6C0((CharacterSelect *) temp_r1);
-        if (var_r5 == 3) {
-            temp_r1->unkB = 0xE;
-            gCurTask->main = Task_8099758;
-        }
-        return;
     }
 }
 
+#if 0
 void Task_8099758(u16 arg2) {
     s16 temp_r0_4;
     s16 temp_r1_2;
