@@ -97,13 +97,14 @@ void sub_809B69C(CharacterSelect *cs);
 void sub_809B6C0(CharacterSelect *cs);
 void Task_80983E8(void);
 void Task_8098600(void);
-void Task_809947C(void);
-void sub_809AF08(CharacterSelect *cs);
 void Task_8098DE4(void);
 void Task_8098FF0(void);
 void Task_8099200(void);
 void Task_8099300(void);
+void Task_809947C(void);
 void sub_8099680(void);
+void sub_809AF08(CharacterSelect *cs);
+void sub_809B094(CharacterSelect *cs);
 bool32 sub_809AC44(CharacterSelect *cs, u8 param1);
 bool32 sub_809B32C(CharacterSelect *cs, u8 param1);
 bool32 sub_809B3C4(CharacterSelect *cs, u8 param1);
@@ -124,9 +125,12 @@ void Task_809AABC(void);
 void Task_8099C9C(void);
 void Task_8099968(void);
 void Task_8099B78(void);
+void Task_8099EC8(void);
 
 extern bool32 sub_8023E80(void);
+u16 sub_8023EFC(void);
 extern bool32 sub_8024188(u8);
+u16 sub_80241AC(u8);
 
 extern u16 gUnknown_080D8CDC[];
 extern const TileInfo2 gUnknown_080D8D00[2];
@@ -1659,111 +1663,112 @@ void sub_8099C34(CharacterSelect *cs)
     }
 }
 
-#if 0
-void sub_8099C9C(u16 arg2) {
-    Background *temp_r0_2;
-    Player *temp_r1_2;
-    u16 temp_r1;
-    u16 var_r0;
-    u16 var_r2;
-    u8 temp_r0;
+void Task_8099C9C()
+{
+    Background *bg;
+    CharacterSelect *cs = TASK_DATA(gCurTask);
+    s16 playerIndex = gStageData.playerIndex;
+    s32 character;
 
-    temp_r1 = gCurTask->data;
-    temp_r0 = temp_r1->unk7;
-    switch (temp_r0) {                              /* irregular */
-    case 1:
-        if (gStageData.playerIndex == 0) {
-            var_r0 = sub_8023EFC();
-        } else {
-            var_r0 = sub_80241AC(temp_r1->unk4);
+    if (cs->createIndex != 0 && cs->createIndex != 3) {
+#ifndef BUG_FIX
+        s16 var_r0;
+#else
+        // TODO: Maybe a different init value?
+        s16 var_r0 = 0;
+#endif
+        if (cs->createIndex == 1) {
+            if (playerIndex == 0) {
+                var_r0 = sub_8023EFC();
+            } else {
+                var_r0 = sub_80241AC(cs->unk4);
+            }
+            cs->unk9 |= 0x10 & var_r0;
         }
-        var_r2 = var_r0;
-        temp_r1->unk9 = (u8) ((0x10 & var_r2) | temp_r1->unk9);
-        /* fallthrough */
-    default:
-        if ((s32) (M2C_ERROR(/* Read from unset register $r2 */) << 0x10) < 0) {
+
+        if (var_r0 < 0) {
             sub_802613C();
             return;
         }
-    case 0:
-    case 3:
-        sub_809ADF0((CharacterSelect *) temp_r1);
-        sub_809AE50((CharacterSelect *) temp_r1);
-        sub_809AF08(temp_r1);
-        gBgSprites_Unknown1[2] = 0;
-        gBgSprites_Unknown2[2][0] = 0;
-        gBgSprites_Unknown2[2][1] = 0;
-        gBgSprites_Unknown2[2][2] = 0xFF;
-        gBgSprites_Unknown2[2][3] = 0x40;
-        temp_r1->unk4C = 0x8E00;
-        temp_r1->unk50 = 0x1600;
-        gBgScrollRegs[2][0] = 0x8E;
-        gBgScrollRegs[2][1] = -0x16;
-        gDispCnt = 0x1740;
-        gBgCntRegs[2] = 0x1B09;
-        temp_r0_2 = temp_r1 + 0x234;
-        temp_r0_2->graphics.dest = (void *)0x06008000;
-        temp_r0_2->graphics.anim = 0;
-        temp_r0_2->layoutVram = (u16 *)0x0600D800;
-        temp_r0_2->unk18 = 0;
-        temp_r0_2->unk1A = 0;
-        temp_r0_2->tilemapId = gUnknown_080D8CDC[gUnknown_080D8F18[temp_r1->unk6] + 0xA];
-        temp_r0_2->unk1E = 0;
-        temp_r0_2->unk20 = 0;
-        temp_r0_2->unk22 = 0;
-        temp_r0_2->unk24 = 0;
-        temp_r0_2->targetTilesX = 0x10;
-        temp_r0_2->targetTilesY = 0x10;
-        temp_r1->unk25E = 0;
-        temp_r0_2->flags = 2;
-        DrawBackground(temp_r0_2);
-        sub_809B69C((CharacterSelect *) temp_r1);
-        sub_809B6C0((CharacterSelect *) temp_r1);
-        switch (gStageData.gameMode) {              /* switch 1; irregular */
-        case 0:                                     /* switch 1 */
-        case 3:                                     /* switch 1 */
-        case 4:                                     /* switch 1 */
-            gPlayers->unk17A = (u8) ((-0x10 & gPlayers->unk17A) | (0xF & gUnknown_080D8F18[temp_r1->unk6]));
-block_15:
-            gCurTask->main = sub_8099EC8;
-            break;
-        case 5:                                     /* switch 1 */
-            temp_r1_2 = &gPlayers[(gStageData.playerIndex + 1) & 1];
-            temp_r1_2->unk2A = (u8) ((-0x10 & temp_r1_2->unk2A) | (0xF & gUnknown_080D8F18[temp_r1->unk6]));
-            goto block_15;
-        }
-        return;
+    }
+    sub_809ADF0(cs);
+    sub_809AE50(cs);
+    sub_809AF08(cs);
+    gBgSprites_Unknown1[2] = 0;
+    gBgSprites_Unknown2[2][0] = 0;
+    gBgSprites_Unknown2[2][1] = 0;
+    gBgSprites_Unknown2[2][2] = 0xFF;
+    gBgSprites_Unknown2[2][3] = 0x40;
+    cs->qUnk4C = 0x8E00;
+    cs->qUnk50 = 0x1600;
+    gBgScrollRegs[2][0] = 0x8E;
+    gBgScrollRegs[2][1] = -0x16;
+    gDispCnt = 0x1740;
+    gBgCntRegs[2] = 0x1B09;
+    bg = &cs->bg234;
+    character = gUnknown_080D8F18[cs->unk6];
+    bg->graphics.dest = (void *)(BG_VRAM + 0x8000);
+    bg->graphics.anim = 0;
+    bg->layoutVram = (u16 *)(BG_VRAM + 0xD800);
+    bg->unk18 = 0;
+    bg->unk1A = 0;
+    bg->tilemapId = gUnknown_080D8CDC[character + 10];
+    bg->unk1E = 0;
+    bg->unk20 = 0;
+    bg->unk22 = 0;
+    bg->unk24 = 0;
+    bg->targetTilesX = 0x10;
+    bg->targetTilesY = 0x10;
+    cs->bg234.paletteOffset = 0;
+    bg->flags = 2;
+    DrawBackground(bg);
+    sub_809B69C(cs);
+    sub_809B6C0(cs);
+
+    if (gStageData.gameMode == 0 || gStageData.gameMode == 3 || gStageData.gameMode == 4) {
+        gPlayers[PLAYER_2].charFlags.character = gUnknown_080D8F18[cs->unk6];
+        gCurTask->main = Task_8099EC8;
+    } else if (gStageData.gameMode == 5) {
+        s16 playerIndex = (gStageData.playerIndex + 1) % 2u;
+        gPlayers[playerIndex].charFlags.character = gUnknown_080D8F18[cs->unk6];
+        gCurTask->main = Task_8099EC8;
     }
 }
 
-void sub_8099E44(void) {
-    u16 temp_r1;
-    u8 var_r5;
+bool32 sub_809B424(CharacterSelect *cs, u8 param1);
+bool32 sub_809B470(CharacterSelect *cs, u8 param1);
+bool32 sub_809B4BC(CharacterSelect *cs, u8 param1);
+bool32 sub_809B548(CharacterSelect *cs, u8 param1);
 
-    temp_r1 = gCurTask->data;
-    var_r5 = 0;
-    if (sub_809B424(temp_r1, 0) == 1) {
-        var_r5 = 1;
-    }
-    if (sub_809B470(temp_r1, 0) == 1) {
+void Task_8099E44()
+{
+    CharacterSelect *cs = TASK_DATA(gCurTask);
+    u8 var_r5 = 0;
+
+    if (sub_809B424(cs, 0) == 1) {
         var_r5 += 1;
     }
-    if (sub_809B4BC(temp_r1, 0) == 1) {
+    if (sub_809B470(cs, 0) == 1) {
         var_r5 += 1;
     }
-    if (sub_809B548(temp_r1, 0) == 1) {
+    if (sub_809B4BC(cs, 0) == 1) {
         var_r5 += 1;
     }
-    sub_809ADF0((CharacterSelect *) temp_r1);
-    sub_809AE50((CharacterSelect *) temp_r1);
-    sub_809AF08(temp_r1);
-    sub_809B094(temp_r1);
+    if (sub_809B548(cs, 0) == 1) {
+        var_r5 += 1;
+    }
+
+    sub_809ADF0(cs);
+    sub_809AE50(cs);
+    sub_809AF08(cs);
+    sub_809B094(cs);
     if (var_r5 == 4) {
-        gCurTask->main = sub_8099EC8;
+        gCurTask->main = Task_8099EC8;
     }
 }
 
-void sub_8099EC8(u16 arg2) {
+#if 0
+void Task_8099EC8(u16 arg2) {
     u16 temp_r1;
     u16 var_r0;
     u32 var_r5;
