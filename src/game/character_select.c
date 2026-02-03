@@ -108,6 +108,11 @@ void sub_809B094(CharacterSelect *cs);
 bool32 sub_809AC44(CharacterSelect *cs, u8 param1);
 bool32 sub_809B32C(CharacterSelect *cs, u8 param1);
 bool32 sub_809B3C4(CharacterSelect *cs, u8 param1);
+bool32 sub_809B424(CharacterSelect *cs, u8 param1);
+bool32 sub_809B470(CharacterSelect *cs, u8 param1);
+bool32 sub_809B4BC(CharacterSelect *cs, u8 param1);
+bool32 sub_809B548(CharacterSelect *cs, u8 param1);
+
 void sub_809BF3C(void *param0, void *param1, void *param2, void *param3, s32 param4);
 s16 sub_8023E04(void);
 s16 sub_8024074(u8);
@@ -893,20 +898,20 @@ void Task_8098DE4(void)
     u8 temp_r0_3;
     s32 temp_r1;
     u8 temp_r3;
-    u8 temp_r5;
+    s16 playerIndex;
     u8 var_r0_3;
     void (*var_r0_2)(u16);
     CharacterSelect *cs = TASK_DATA(gCurTask);
 
-    temp_r5 = gStageData.playerIndex;
+    playerIndex = gStageData.playerIndex;
     sub_809B13C(cs);
     sub_809ADF0(cs);
     sub_809AE50(cs);
     sub_809B69C(cs);
     sub_809B6C0(cs);
 
-    if (cs->createIndex == 0 || cs->createIndex == 3 || (cs->createIndex == 1 && temp_r5 == 0)
-        || (((cs->createIndex == 2) && ((u32)temp_r5 <= 1U)))) {
+    if (cs->createIndex == 0 || cs->createIndex == 3 || (cs->createIndex == 1 && playerIndex == 0)
+        || (((cs->createIndex == 2) && (playerIndex == PLAYER_1 || playerIndex == PLAYER_2)))) {
         sub_809B284(cs);
         sub_809AD74(cs);
     }
@@ -915,7 +920,7 @@ void Task_8098DE4(void)
     if (cs->createIndex != 0) {
         if (cs->createIndex != 3) {
             if (cs->createIndex == 1) {
-                if (temp_r5 == 0) {
+                if (playerIndex == 0) {
                     var_r6 = sub_8024074(cs->unk4);
                 } else {
                     var_r6 = sub_8023E04();
@@ -929,8 +934,8 @@ void Task_8098DE4(void)
         }
     }
 
-    if (((cs->createIndex == 0) || (cs->createIndex == 3)) || ((cs->createIndex == 1) && (temp_r5 == 0))
-        || ((cs->createIndex == 2) && ((u32)temp_r5 <= 1U))) {
+    if (((cs->createIndex == 0) || (cs->createIndex == 3)) || ((cs->createIndex == 1) && (playerIndex == 0))
+        || ((cs->createIndex == 2) && (playerIndex == PLAYER_1 || playerIndex == PLAYER_2))) {
         if (((cs->createIndex == 0) || (cs->createIndex == 3)) && (B_BUTTON & gPressedKeys)) {
             m4aSongNumStart(SE_ABORT);
             cs->unk2 = 3;
@@ -1499,7 +1504,7 @@ void Task_8099968(void)
     CharacterSelect *cs = TASK_DATA(gCurTask);
     u8 var_r6 = 0;
 
-    s32 playerIndex = gStageData.playerIndex;
+    s16 playerIndex = gStageData.playerIndex;
     if (cs->createIndex != 0 && cs->createIndex != 3) {
         if (cs->createIndex == 1) {
             if (playerIndex == 0) {
@@ -1589,7 +1594,7 @@ void Task_8099B78(void)
 #endif
     u8 var_r5;
     u8 temp_r0;
-    s32 playerIndex;
+    s16 playerIndex;
     CharacterSelect *cs = TASK_DATA(gCurTask);
 
     var_r5 = 0;
@@ -1604,7 +1609,6 @@ void Task_8099B78(void)
                 var_r0 = sub_8024188(cs->unk4);
             }
             cs->unk9 |= 0x10 & (u16)var_r0;
-            /* fallthrough */
         }
         if (var_r0 < 0) {
             sub_802613C();
@@ -1735,11 +1739,6 @@ void Task_8099C9C()
     }
 }
 
-bool32 sub_809B424(CharacterSelect *cs, u8 param1);
-bool32 sub_809B470(CharacterSelect *cs, u8 param1);
-bool32 sub_809B4BC(CharacterSelect *cs, u8 param1);
-bool32 sub_809B548(CharacterSelect *cs, u8 param1);
-
 void Task_8099E44()
 {
     CharacterSelect *cs = TASK_DATA(gCurTask);
@@ -1762,6 +1761,7 @@ void Task_8099E44()
     sub_809AE50(cs);
     sub_809AF08(cs);
     sub_809B094(cs);
+
     if (var_r5 == 4) {
         gCurTask->main = Task_8099EC8;
     }
