@@ -2036,32 +2036,34 @@ void sub_809A50C(CharacterSelect *cs)
     DrawBackground(bg);
 }
 
-#if 0
-void sub_809A644(void *arg0) {
-    Sprite *temp_r0;
-    Sprite *temp_r0_2;
+void sub_809A644(CharacterSelect *cs)
+{
+    Sprite *s;
+    Sprite *s2;
     u8 temp_r2;
 
-    temp_r0 = arg0 + 0x114;
-    temp_r0->anim = gUnknown_080D8EF8.anim;
-    temp_r0->variant = gUnknown_080D8EF8.variant;
-    temp_r0->prevVariant = 0xFF;
-    temp_r0->x = (s16) ((s32) arg0->unk64 >> 8);
-    temp_r0->y = (s16) ((s32) arg0->unk68 >> 8);
-    temp_r0->oamFlags = 0x40;
-    temp_r0->animCursor = 0;
-    temp_r0->qAnimDelay = 0;
-    temp_r0->animSpeed = 0x10;
-    temp_r0->palId = 0;
-    temp_r0->frameFlags = 0x40000;
-    UpdateSpriteAnimation(temp_r0);
-    temp_r0_2 = arg0 + 0x9C;
-    temp_r2 = arg0->unkB - 0xD;
-    temp_r0_2->anim = (*gUnknown_080D8D08)[temp_r2 + (arg0->unkA * 8)].anim;
-    temp_r0_2->variant = (*gUnknown_080D8D08)[temp_r2 + (arg0->unkA * 8)].variant;
-    UpdateSpriteAnimation(temp_r0_2);
+    s = &cs->spr114;
+    s->anim = gUnknown_080D8EF8.anim;
+    s->variant = gUnknown_080D8EF8.variant;
+    s->prevVariant = 0xFF;
+    s->x = I(cs->qUnk64);
+    s->y = I(cs->qUnk68);
+    s->oamFlags = 0x40;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x40000;
+    UpdateSpriteAnimation(s);
+
+    s2 = &cs->spr9C;
+    temp_r2 = cs->unkB - 13;
+    s2->anim = gUnknown_080D8D08[temp_r2 + (cs->language * 8)].anim;
+    s2->variant = gUnknown_080D8D08[temp_r2 + (cs->language * 8)].variant;
+    UpdateSpriteAnimation(s2);
 }
 
+#if 0
 void sub_809A6C0(u16 arg2) {
     u16 temp_r1;
     u16 temp_r7;

@@ -10,68 +10,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_809A644
-sub_809A644: @ 0x0809A644
-	push {r4, r5, lr}
-	adds r5, r0, #0
-	movs r1, #0x8a
-	lsls r1, r1, #1
-	adds r0, r5, r1
-	ldr r2, _0809A6B8 @ =gUnknown_080D8EF8
-	ldrh r1, [r2]
-	movs r4, #0
-	movs r3, #0
-	strh r1, [r0, #0xc]
-	ldrb r1, [r2, #2]
-	strb r1, [r0, #0x1a]
-	movs r1, #0xff
-	strb r1, [r0, #0x1b]
-	ldr r1, [r5, #0x64]
-	asrs r1, r1, #8
-	strh r1, [r0, #0x10]
-	ldr r1, [r5, #0x68]
-	asrs r1, r1, #8
-	strh r1, [r0, #0x12]
-	movs r1, #0x40
-	strh r1, [r0, #0x14]
-	strh r3, [r0, #0xe]
-	strh r3, [r0, #0x16]
-	movs r1, #0x10
-	strb r1, [r0, #0x1c]
-	strb r4, [r0, #0x1f]
-	movs r1, #0x80
-	lsls r1, r1, #0xb
-	str r1, [r0, #8]
-	bl UpdateSpriteAnimation
-	adds r0, r5, #0
-	adds r0, #0x9c
-	ldrb r2, [r5, #0xb]
-	subs r2, #0xd
-	lsls r2, r2, #0x18
-	lsrs r2, r2, #0x18
-	ldr r3, _0809A6BC @ =gUnknown_080D8D08
-	ldrb r1, [r5, #0xa]
-	lsls r1, r1, #3
-	adds r1, r2, r1
-	lsls r1, r1, #3
-	adds r1, r1, r3
-	ldrh r1, [r1]
-	strh r1, [r0, #0xc]
-	ldrb r1, [r5, #0xa]
-	lsls r1, r1, #3
-	adds r2, r2, r1
-	lsls r2, r2, #3
-	adds r2, r2, r3
-	ldrb r1, [r2, #2]
-	strb r1, [r0, #0x1a]
-	bl UpdateSpriteAnimation
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0809A6B8: .4byte gUnknown_080D8EF8
-_0809A6BC: .4byte gUnknown_080D8D08
-
 	thumb_func_start Task_809A6C0
 Task_809A6C0: @ 0x0809A6C0
 	push {r4, r5, r6, r7, lr}
