@@ -183,6 +183,8 @@ void Task_809A018(void);
 bool32 sub_809AC44(CharacterSelect *cs, u8 param1);
 void sub_809AF08(CharacterSelect *cs);
 void sub_809B094(CharacterSelect *cs);
+void sub_809B700(CharacterSelect *cs);
+bool32 sub_809B704(CharacterSelect *cs, u8 param1);
 bool32 sub_809B32C(CharacterSelect *cs, u8 param1);
 bool32 sub_809B3C4(CharacterSelect *cs, u8 param1);
 bool32 sub_809B424(CharacterSelect *cs, u8 param1);
@@ -231,6 +233,7 @@ extern const TileInfo2 gUnknown_080D8D00[2];
 extern const TileInfo2 gUnknown_080D8D08[6 * 8];
 extern TileInfo2 gUnknown_080D8E80[];
 extern TileInfo2 gUnknown_080D8EF8;
+extern const TileInfo2 gUnknown_080D8F00;
 extern const TileInfo2 gUnknown_080D8F08[2];
 extern const u8 gUnknown_080D8F18[8];
 extern u8 gUnknown_080D946D[NUM_CHARACTERS];
@@ -2063,76 +2066,77 @@ void sub_809A644(CharacterSelect *cs)
     UpdateSpriteAnimation(s2);
 }
 
-#if 0
-void sub_809A6C0(u16 arg2) {
-    u16 temp_r1;
-    u16 temp_r7;
-    u32 var_r5;
+void Task_809A6C0(void)
+{
+    CharacterSelect *cs = TASK_DATA(gCurTask);
+    u8 var_r5 = 0;
 
-    temp_r1 = gCurTask->data;
-    var_r5 = 0;
-    if (temp_r1->unkE != 0) {
+    u16 temp_r7;
+
+    if (cs->unkE != 0) {
         gDispCnt |= 0x2000;
-        gWinRegs->unk0 = 0xF0;
-        gWinRegs[2] = 0xA0;
-        gWinRegs[4] |= 0x3F;
-        gWinRegs[5] |= 0x1F;
+        gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+        gWinRegs[WINREG_WININ] |= 0x3F;
+        gWinRegs[WINREG_WINOUT] |= 0x1F;
         gBldRegs.bldCnt = 0x3FBF;
         gBldRegs.bldY = 0x10;
-        temp_r1->unk10 = 0x1000U;
-        temp_r1->unkE = 0U;
+        cs->qFadeBrightness = 0x1000;
+        cs->unkE = 0;
     }
-    if ((temp_r1->unk7 == 1) && (sub_809AD08(temp_r1) == 0)) {
+
+    if ((cs->createIndex == 1) && !sub_809AD08(cs)) {
         sub_802613C();
         return;
     }
-    sub_809B13C((CharacterSelect *) temp_r1);
-    sub_809ADF0((CharacterSelect *) temp_r1);
-    sub_809AE50((CharacterSelect *) temp_r1);
-    sub_809AF08(temp_r1);
-    sub_809B69C((CharacterSelect *) temp_r1);
-    sub_809B6C0((CharacterSelect *) temp_r1);
-    if (sub_809B424(temp_r1, 1) == 1) {
-        var_r5 = 0x01000000U >> 0x18;
+
+    sub_809B13C(cs);
+    sub_809ADF0(cs);
+    sub_809AE50(cs);
+    sub_809AF08(cs);
+    sub_809B69C(cs);
+    sub_809B6C0(cs);
+
+    if (sub_809B424(cs, 1U) == 1) {
+        var_r5++;
     }
-    if (sub_809B470(temp_r1, 1) == 1) {
-        var_r5 = (u32) (u8) (var_r5 + 1);
+    if (sub_809B470(cs, 1U) == 1) {
+        var_r5++;
     }
-    if (sub_809B4BC(temp_r1, 1) == 1) {
-        var_r5 = (u32) (u8) (var_r5 + 1);
+    if (sub_809B4BC(cs, 1U) == 1) {
+        var_r5++;
     }
-    if (sub_809B548(temp_r1, 1) == 1) {
-        var_r5 = (u32) (u8) (var_r5 + 1);
+    if (sub_809B548(cs, 1U) == 1) {
+        var_r5++;
     }
-    temp_r7 = gBldRegs.bldY;
-    if (temp_r7 != 0) {
-        gBldRegs.bldY = (u16) ((u16) temp_r1->unk10 >> 8);
-        temp_r1->unk10 = (u16) (temp_r1->unk10 + 0xFFFFFF00);
-        return;
-    }
-    if (var_r5 == 4) {
-        temp_r1->unkB = 0xE;
-        if (temp_r1->unk7 == 1) {
-            sub_809B700(temp_r1);
+
+    if (gBldRegs.bldY != 0) {
+        gBldRegs.bldY = I(cs->qFadeBrightness);
+        cs->qFadeBrightness -= Q(1);
+    } else if (var_r5 == 4) {
+        cs->unkB = 0xE;
+        if (cs->createIndex == 1) {
+            sub_809B700(cs);
         }
-        if (sub_809B704(temp_r1, 0xEU) != 0) {
-            temp_r1->unkE = 1U;
-            gBldRegs.bldY = temp_r7;
+        if (sub_809B704(cs, 0xEU)) {
+            cs->unkE = 1;
+            gBldRegs.bldY = 0;
             gCurTask->main = Task_8099758;
         }
     }
 }
 
-void sub_809A808(void *arg0) {
+void sub_809A808(CharacterSelect *cs)
+{
     Sprite *temp_r0_2;
     Sprite *temp_r3;
     s32 var_r2;
     u8 temp_r0;
     u8 temp_r2;
 
-    temp_r3 = arg0 + 0x9C;
-    temp_r2 = gUnknown_080D8F18[arg0->unk5];
-    temp_r0 = gUnknown_080D8F18[arg0->unk6];
+    temp_r3 = &cs->spr9C;
+    temp_r2 = gUnknown_080D8F18[cs->unk5];
+    temp_r0 = gUnknown_080D8F18[cs->unk6];
     if ((temp_r2 == 0) || (temp_r0 == 0)) {
         if ((temp_r2 == 2) || (temp_r0 == 2)) {
             var_r2 = 4;
@@ -2141,23 +2145,23 @@ void sub_809A808(void *arg0) {
         } else if ((temp_r2 == 4) || (temp_r0 == 4)) {
             var_r2 = 3;
         } else {
-            goto block_16;
+            var_r2 = 2;
         }
     } else if (((temp_r2 == 4) && (temp_r0 == 1)) || ((temp_r2 == 1) && (temp_r0 == 4))) {
         var_r2 = 5;
     } else {
-block_16:
         var_r2 = 2;
     }
-    temp_r3->anim = (*gUnknown_080D8D08)[var_r2 + (arg0->unkA * 8)].anim;
-    temp_r3->variant = (*gUnknown_080D8D08)[var_r2 + (arg0->unkA * 8)].variant;
+    temp_r3->anim = gUnknown_080D8D08[var_r2 + (cs->language * 8)].anim;
+    temp_r3->variant = gUnknown_080D8D08[var_r2 + (cs->language * 8)].variant;
     UpdateSpriteAnimation(temp_r3);
-    temp_r0_2 = arg0 + 0x114;
-    temp_r0_2->anim = gUnknown_080D8F00.unk0;
-    temp_r0_2->variant = gUnknown_080D8F00.unk2;
+
+    temp_r0_2 = &cs->spr114;
+    temp_r0_2->anim = gUnknown_080D8F00.anim;
+    temp_r0_2->variant = gUnknown_080D8F00.variant;
     temp_r0_2->prevVariant = 0xFF;
-    temp_r0_2->x = (s16) ((s32) arg0->unk64 >> 8);
-    temp_r0_2->y = (s16) ((s32) arg0->unk68 >> 8);
+    temp_r0_2->x = (s16)((s32)cs->qUnk64 >> 8);
+    temp_r0_2->y = (s16)((s32)cs->qUnk68 >> 8);
     temp_r0_2->oamFlags = 0x40;
     temp_r0_2->animCursor = 0;
     temp_r0_2->qAnimDelay = 0;
@@ -2167,6 +2171,7 @@ block_16:
     UpdateSpriteAnimation(temp_r0_2);
 }
 
+#if 0
 void sub_809A8D0(void *arg0, u8 arg1) {
     Background *temp_r0;
     s16 var_r0;
