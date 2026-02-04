@@ -79,6 +79,14 @@
         }                                                                                                                                  \
     }
 
+// NOTE: The way they use the allocated tiles is a bit inconsistent...
+// TODO: Multiplayer indices...
+#define CS_CHARID_ACTIVE  0 // Character the player currently chooses (Player or CPU)
+#define CS_CHARID_CHOSEN  1 // Character the player chose as main character
+#define CS_CHARID_PLAYER  PLAYER_1 // Main Character (after choosing both)
+#define CS_CHARID_PARTNER PLAYER_2 // Partner Character (after choosing both)
+#define CS_CHARID_COUNT   2
+
 typedef struct CharacterSelect {
     /* 0x00 */ u8 unk0;
     /* 0x01 */ u8 unk1;
@@ -99,9 +107,7 @@ typedef struct CharacterSelect {
     /* 0x14 */ u16 unk14;
     /* 0x16 */ s16 qUnk16;
     /* 0x18 */ s16 qUnk18;
-    /* 0x1A */ u8 filler1A[0x2];
-    /* 0x1C */ void *unk1C;
-    /* 0x20 */ s32 unk20;
+    /* 0x1C */ void *tilesCharacters[CS_CHARID_COUNT];
     /* 0x24 */ s32 qUnk24;
     /* 0x28 */ s32 qUnk28;
     /* 0x2C */ s32 qUnk2C;
@@ -184,7 +190,7 @@ bool32 sub_809B470(CharacterSelect *cs, u8 param1);
 bool32 sub_809B4BC(CharacterSelect *cs, u8 param1);
 bool32 sub_809B548(CharacterSelect *cs, u8 param1);
 
-void sub_809BF3C(void *param0, void *param1, void *param2, void *param3, s32 param4);
+void sub_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles);
 s16 sub_8023E04(void);
 s16 sub_8024074(u8);
 bool32 sub_80240B4(u8);
@@ -206,6 +212,8 @@ void Task_809A130(void);
 void Task_809A1C4(void);
 void Task_809A3BC(void);
 void sub_809A50C(CharacterSelect *cs);
+void sub_809A644(CharacterSelect *cs);
+void Task_809A6C0(void);
 void sub_809A808(CharacterSelect *cs);
 void sub_809A9A0(CharacterSelect *cs);
 bool32 sub_809AD08(CharacterSelect *cs);
@@ -335,8 +343,8 @@ void sub_8097D90(CharacterSelect *cs)
     cs->qUnk70 = Q(145);
     cs->qUnk5C = 0;
     cs->qUnk60 = 0;
-    cs->unk20 = 0;
-    cs->unk1C = 0;
+    cs->tilesCharacters[CS_CHARID_CHOSEN] = NULL;
+    cs->tilesCharacters[CS_CHARID_ACTIVE] = NULL;
     playerIndex = gStageData.playerIndex;
     partnerIndex = (gStageData.playerIndex + 1);
     mask = 1;
@@ -475,7 +483,7 @@ NONMATCH("asm/non_matching/game/char_select__sub_8097E5C.inc", void sub_8097E5C(
     s->frameFlags = 0;
     UpdateSpriteAnimation(s);
 
-    cs->unk1C = vram;
+    cs->tilesCharacters[CS_CHARID_ACTIVE] = vram;
 }
 END_NONMATCH
 
@@ -1234,7 +1242,7 @@ void Task_8099300()
             cs->qUnk34 = cs->qUnk3C;
             cs->qUnk38 = cs->qUnk40;
             cs->unk5 = cs->unk3;
-            sub_809BF3C(&cs->unk5, &cs->unkB, &cs->qUnk34, &cs->qUnk38, cs->unk20);
+            sub_809BF3C(&cs->unk5, &cs->unkB, &cs->qUnk34, &cs->qUnk38, cs->tilesCharacters[CS_CHARID_CHOSEN]);
             cs->qUnk4C = 0x12C00;
         }
     }
@@ -1931,52 +1939,48 @@ void Task_809A2E8(void)
     }
 }
 
-#if 0
-void sub_809A3BC(u16 arg2) {
-    s32 temp_r5;
-    u16 temp_r4;
+void Task_809A3BC(void)
+{
+    u8 *temp_r5;
+    u8 temp_r4;
     u8 temp_r4_2;
-    u8 temp_r4_3;
+    CharacterSelect *cs = TASK_DATA(gCurTask);
 
-    temp_r4 = gCurTask->data;
-    temp_r5 = temp_r4 + 0xB;
-    sub_809BF3C(temp_r4 + 5, temp_r5, temp_r4 + 0x34, temp_r4 + 0x38, temp_r4->unk20);
-    sub_809BF3C(temp_r4 + 3, temp_r5, temp_r4 + 0x3C, temp_r4 + 0x40, temp_r4->unk1C);
-    temp_r4->unkB = 0xE;
-    sub_809A644(temp_r4);
-    temp_r4->unk34 = 0x5A00;
-    temp_r4->unk3C = 0x9600;
-    temp_r4->unk64 = 0x5F00;
-    temp_r4->unk6C = 0x9100;
-    temp_r4->unk54 = 0xC900;
-    temp_r4->unk58 = 0x1600;
-    temp_r4->unk4C = 0x7800;
-    temp_r4_2 = gUnknown_080D8F18[temp_r4->unk5];
+    sub_809BF3C(&cs->unk5, &cs->unkB, &cs->qUnk34, &cs->qUnk38, cs->tilesCharacters[CS_CHARID_CHOSEN]);
+    sub_809BF3C(&cs->unk3, &cs->unkB, &cs->qUnk3C, &cs->qUnk40, cs->tilesCharacters[CS_CHARID_ACTIVE]);
+    cs->unkB = 0xE;
+    sub_809A644(cs);
+    cs->qUnk34 = 0x5A00;
+    cs->qUnk3C = 0x9600;
+    cs->qUnk64 = 0x5F00;
+    cs->qUnk6C = 0x9100;
+    cs->qUnk54 = 0xC900;
+    cs->qUnk58 = 0x1600;
+    cs->qUnk4C = 0x7800;
+    temp_r4 = gUnknown_080D8F18[cs->unk5];
     if (0x20000 & gFlags) {
-        CopyPalette((temp_r4_2 << 5) + &gUnknown_08E2EE50, 0x60U, 0x10U);
+        CopyPalette(gUnknown_08E2EE50[temp_r4], 0x60U, 0x10U);
     } else {
-        (void *)0x040000D4->unk0 = (void *) ((temp_r4_2 << 5) + &gUnknown_08E2EE50);
-        (void *)0x040000D4->unk4 = &gObjPalette[0x60];
-        (void *)0x040000D4->unk8 = 0x80000010;
-        gFlags |= 2;
+        DmaCopy16(3, &gUnknown_08E2EE50[temp_r4][0], &gObjPalette[3 * (16 * sizeof(u16))], (16 * sizeof(u16)));
+        gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
     }
-    temp_r4_3 = gUnknown_080D8F18[temp_r4->unk6];
+    temp_r4 = gUnknown_080D8F18[cs->unk6];
     if (0x20000 & gFlags) {
-        CopyPalette((temp_r4_3 << 5) + &gUnknown_08E2EE50, 0x70U, 0x10U);
+        CopyPalette(gUnknown_08E2EE50[temp_r4], 0x70U, 0x10U);
     } else {
-        (void *)0x040000D4->unk0 = (void *) ((temp_r4_3 << 5) + &gUnknown_08E2EE50);
-        (void *)0x040000D4->unk4 = &gObjPalette[0x70];
-        (void *)0x040000D4->unk8 = 0x80000010;
-        gFlags |= 2;
+        DmaCopy16(3, &gUnknown_08E2EE50[temp_r4][0], &gObjPalette[7 * 16], (16 * sizeof(u16)));
+        gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
     }
-    gCurTask->main = sub_809A6C0;
+    gCurTask->main = Task_809A6C0;
 }
 
-void sub_809A50C(void *arg0) {
-    Background *temp_r0;
+void sub_809A50C(CharacterSelect *cs)
+{
+    Background *bg;
     Background *temp_r3;
     u16 var_r0;
     u8 temp_r4;
+    s32 tid;
 
     gDispCnt = 0x1741;
     gBgSprites_Unknown1[1] = 0;
@@ -1987,19 +1991,19 @@ void sub_809A50C(void *arg0) {
     gBgCntRegs[1] = 0x30E;
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = 0;
-    temp_r3 = arg0 + 0x1F4;
-    temp_r4 = gUnknown_080D8F18[arg0->unk5];
+    temp_r3 = &cs->bg1F4;
+    temp_r4 = gUnknown_080D8F18[cs->unk5];
     temp_r3->graphics.dest = (void *)0x0600C000;
     temp_r3->graphics.anim = 0;
     temp_r3->layoutVram = (u16 *)0x06001800;
     temp_r3->unk18 = 0;
     temp_r3->unk1A = 0;
-    if (!(*(temp_r4 + &gUnknown_080D946D) & LOADED_SAVE->unlockedCharacters)) {
-        var_r0 = gUnknown_080D8CDC->unk20;
+    if (!(gLoadedSaveGame.unlockedCharacters & gUnknown_080D946D[temp_r4])) {
+        temp_r3->tilemapId = gUnknown_080D8CDC[16];
     } else {
-        var_r0 = gUnknown_080D8CDC[temp_r4 + 0xA];
+        temp_r3->tilemapId = gUnknown_080D8CDC[temp_r4 + 0xA];
     }
-    temp_r3->tilemapId = var_r0;
+
     temp_r3->unk1E = 0;
     temp_r3->unk20 = 0;
     temp_r3->unk22 = 0;
@@ -2012,24 +2016,27 @@ void sub_809A50C(void *arg0) {
     gBgCntRegs[2] = 0x1B89;
     gBgScrollRegs[2][0] = 0;
     gBgScrollRegs[2][1] = 0;
-    temp_r0 = arg0 + 0x234;
-    temp_r0->graphics.dest = (void *)0x06008000;
-    temp_r0->graphics.anim = 0;
-    temp_r0->layoutVram = (u16 *)0x0600D800;
-    temp_r0->unk18 = 0;
-    temp_r0->unk1A = 0;
-    temp_r0->tilemapId = gUnknown_080D8CDC[gUnknown_080D8F18[arg0->unk6] + 5];
-    temp_r0->unk1E = 0;
-    temp_r0->unk20 = 0;
-    temp_r0->unk22 = 0;
-    temp_r0->unk24 = 0;
-    temp_r0->targetTilesX = 0x10;
-    temp_r0->targetTilesY = 0x10;
-    arg0->unk25E = 0;
-    temp_r0->flags = 6;
-    DrawBackground(temp_r0);
+
+    bg = &cs->bg234;
+    tid = gUnknown_080D8F18[cs->unk6];
+    bg->graphics.dest = (void *)BG_VRAM + 0x8000;
+    bg->graphics.anim = 0;
+    bg->layoutVram = (u16 *)BG_SCREEN_ADDR(27);
+    bg->unk18 = 0;
+    bg->unk1A = 0;
+    bg->tilemapId = gUnknown_080D8CDC[tid + 5];
+    bg->unk1E = 0;
+    bg->unk20 = 0;
+    bg->unk22 = 0;
+    bg->unk24 = 0;
+    bg->targetTilesX = 0x10;
+    bg->targetTilesY = 0x10;
+    bg->paletteOffset = 0;
+    bg->flags = 6;
+    DrawBackground(bg);
 }
 
+#if 0
 void sub_809A644(void *arg0) {
     Sprite *temp_r0;
     Sprite *temp_r0_2;
