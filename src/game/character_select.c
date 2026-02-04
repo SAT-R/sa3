@@ -204,13 +204,19 @@ void Task_8099B78(void);
 void Task_8099EC8(void);
 void Task_809A130(void);
 void Task_809A1C4(void);
+void Task_809A3BC(void);
+void sub_809A50C(CharacterSelect *cs);
 void sub_809A808(CharacterSelect *cs);
 void sub_809A9A0(CharacterSelect *cs);
+bool32 sub_809AD08(CharacterSelect *cs);
 
 extern bool32 sub_8023E80(void);
-u16 sub_8023EFC(void);
+extern u16 sub_8023EFC(void);
+extern s16 sub_802610C();
+extern s16 sub_8024130(void);
 extern bool32 sub_8024188(u8);
-u16 sub_80241AC(u8);
+extern u16 sub_80241AC(u8);
+extern s16 sub_8024208(void);
 
 extern u16 gUnknown_080D8CDC[];
 extern const TileInfo2 gUnknown_080D8D00[2];
@@ -224,6 +230,8 @@ extern const u8 gUnknown_082B5344[0x140];
 extern const u16 gCharacterSelectedVoices[NUM_CHARACTERS];
 extern const u16 gUnknown_08E2EE50[10][16];
 extern const u16 gUnknown_08E2EEF0[16];
+extern const u16 gAnnouncerSelect1st[NUM_CHARACTERS];
+extern const u16 gAnnouncerSelect2nd[NUM_CHARACTERS];
 
 void CreateCharacterSelect(u8 createIndex)
 {
@@ -1823,112 +1831,107 @@ void Task_809A130(void)
     }
 }
 
-#if 0
-void Task_809A1C4(u16 arg2) {
-    s16 temp_r0_2;
-    u16 temp_r0;
-    u16 temp_r1;
-    u16 temp_r3;
-    u8 temp_r1_2;
-    u8 temp_r5;
+void Task_809A1C4(void)
+{
+    CharacterSelect *cs = TASK_DATA(gCurTask);
+    s16 playerIndex = gStageData.playerIndex;
 
-    temp_r1 = gCurTask->data;
-    temp_r5 = gStageData.playerIndex;
-    sub_809B13C((CharacterSelect *) temp_r1);
-    sub_809ADF0((CharacterSelect *) temp_r1);
-    sub_809AFC0((CharacterSelect *) temp_r1);
-    sub_809B6C0((CharacterSelect *) temp_r1);
-    sub_809B69C((CharacterSelect *) temp_r1);
-    temp_r0 = temp_r1->unk14;
-    switch (temp_r0) {                              /* irregular */
-    case 0x0:
-        m4aSongNumStart(*((temp_r1->unk5 * 2) + &gAnnouncerSelect1st));
-        break;
-    case 0x3C:
+    sub_809B13C(cs);
+    sub_809ADF0(cs);
+    sub_809AFC0(cs);
+    sub_809B6C0(cs);
+    sub_809B69C(cs);
+
+    if (cs->unk14 == 0) {
+        m4aSongNumStart(gAnnouncerSelect1st[cs->unk5]);
+    } else if (cs->unk14 == 60) {
         m4aSongNumStart(VOICE__ANNOUNCER__AND);
-        break;
-    case 0x5A:
-        m4aSongNumStart(*((temp_r1->unk6 * 2) + &gAnnouncerSelect2nd));
-        break;
+    } else if (cs->unk14 == 90) {
+        m4aSongNumStart(gAnnouncerSelect2nd[cs->unk6]);
     }
-    temp_r3 = temp_r1->unk14 + 1;
-    temp_r1->unk14 = temp_r3;
-    temp_r1_2 = temp_r1->unk7;
-    if (temp_r1_2 == 1) {
-        if (temp_r5 == 0) {
-            if ((temp_r1_2 & gPressedKeys) || (8 & gPressedKeys)) {
-                if ((s32) (sub_802610C() << 0x10) >= 0) {
+
+    cs->unk14++;
+    if (cs->createIndex == 1) {
+        if (playerIndex == 0) {
+            if ((A_BUTTON & gPressedKeys) || (START_BUTTON & gPressedKeys)) {
+                if (sub_802610C() >= 0) {
                     sub_8024130();
-                    goto block_23;
+                    cs->unk2 = 2;
+                    cs->unkB = 0x17;
+                    gCurTask->main = sub_8098508;
+                } else {
+                    sub_802613C();
                 }
-                goto block_16;
-            }
-            if ((u32) temp_r3 > 0x78U) {
-                if ((sub_8024130() << 0x10) == 0) {
-                    goto block_19;
+            } else if (cs->unk14 > 120) {
+                if (sub_8024130() != 0) {
+                    cs->unk2 = 2;
+                    cs->unkB = 0x17;
+                    gCurTask->main = sub_8098508;
+                } else {
+                    cs->unk14 = 0x79;
                 }
-                goto block_23;
             }
         } else {
-            temp_r0_2 = sub_8024208();
-            if ((s32) temp_r0_2 < 0) {
-block_16:
+            s16 temp_r0_2 = sub_8024208();
+            if (temp_r0_2 < 0) {
                 sub_802613C();
-                return;
-            }
-            if (temp_r0_2 == 0) {
-                if ((u32) temp_r1->unk14 > 0x78U) {
-block_19:
-                    temp_r1->unk14 = 0x79U;
+            } else if (temp_r0_2 == 0) {
+                if (cs->unk14 > 120) {
+                    cs->unk14 = 0x79;
                 }
             } else {
-                goto block_23;
+                cs->unk2 = 2;
+                cs->unkB = 0x17;
+                gCurTask->main = sub_8098508;
             }
         }
-    } else if ((1 & gPressedKeys) || (8 & gPressedKeys) || ((u32) temp_r3 > 0x78U)) {
-block_23:
-        temp_r1->unk2 = 2;
-        temp_r1->unkB = 0x17;
+    } else if ((A_BUTTON & gPressedKeys) || (START_BUTTON & gPressedKeys) || (cs->unk14 > 0x78U)) {
+        cs->unk2 = 2;
+        cs->unkB = 0x17;
         gCurTask->main = sub_8098508;
     }
 }
 
-void sub_809A2E8(void) {
-    u16 temp_r1;
+void Task_809A2E8(void)
+{
+    CharacterSelect *cs = TASK_DATA(gCurTask);
 
-    temp_r1 = gCurTask->data;
-    if (temp_r1->unkE != 0) {
-        gDispCnt |= 0x2000;
-        gWinRegs[0] = 0xF0;
-        gWinRegs[2] = 0xA0;
-        gWinRegs[4] |= 0x3F;
-        gWinRegs[5] |= 0x1F;
+    if (cs->unkE) {
+        gDispCnt |= DISPCNT_WIN0_ON;
+        gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+        gWinRegs[WINREG_WININ] |= 0x3F;
+        gWinRegs[WINREG_WINOUT] |= 0x1F;
         gBldRegs.bldCnt = 0x3FBF;
-        temp_r1->unkE = 0U;
-        temp_r1->unk10 = 0U;
+        cs->unkE = 0;
+        cs->qFadeBrightness = Q(0);
     }
-    sub_809B13C((CharacterSelect *) temp_r1);
-    sub_809ADF0((CharacterSelect *) temp_r1);
-    sub_809AFC0((CharacterSelect *) temp_r1);
-    sub_809B6C0((CharacterSelect *) temp_r1);
-    sub_809B69C((CharacterSelect *) temp_r1);
-    if ((u32) gBldRegs.bldY > 0xFU) {
+
+    sub_809B13C(cs);
+    sub_809ADF0(cs);
+    sub_809AFC0(cs);
+    sub_809B6C0(cs);
+    sub_809B69C(cs);
+
+    if (gBldRegs.bldY > 0xFU) {
         gBldRegs.bldY = 0x10;
-        temp_r1->unk14 = 0;
-        temp_r1->unk3C = 0x13600;
-        temp_r1->unk34 = 0x13600;
-        temp_r1->unkB = 0x1D;
-        sub_809A50C(temp_r1);
-        gCurTask->main = sub_809A3BC;
-        return;
-    }
-    gBldRegs.bldY = (u16) ((u16) temp_r1->unk10 >> 8);
-    temp_r1->unk10 = (u16) (temp_r1->unk10 + 0x100);
-    if ((temp_r1->unk7 == 1) && (sub_809AD08(temp_r1) == 0)) {
-        sub_802613C();
+        cs->unk14 = 0;
+        cs->qUnk3C = Q(310);
+        cs->qUnk34 = Q(310);
+        cs->unkB = 0x1D;
+        sub_809A50C(cs);
+        gCurTask->main = Task_809A3BC;
+    } else {
+        gBldRegs.bldY = I(cs->qFadeBrightness);
+        cs->qFadeBrightness += Q(1);
+
+        if ((cs->createIndex == 1) && !sub_809AD08(cs)) {
+            sub_802613C();
+        }
     }
 }
 
+#if 0
 void sub_809A3BC(u16 arg2) {
     s32 temp_r5;
     u16 temp_r4;
