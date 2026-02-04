@@ -103,9 +103,10 @@ void Task_8099200(void);
 void Task_8099300(void);
 void Task_809947C(void);
 void sub_8099680(void);
+void Task_809A018(void);
+bool32 sub_809AC44(CharacterSelect *cs, u8 param1);
 void sub_809AF08(CharacterSelect *cs);
 void sub_809B094(CharacterSelect *cs);
-bool32 sub_809AC44(CharacterSelect *cs, u8 param1);
 bool32 sub_809B32C(CharacterSelect *cs, u8 param1);
 bool32 sub_809B3C4(CharacterSelect *cs, u8 param1);
 bool32 sub_809B424(CharacterSelect *cs, u8 param1);
@@ -131,6 +132,8 @@ void Task_8099C9C(void);
 void Task_8099968(void);
 void Task_8099B78(void);
 void Task_8099EC8(void);
+void sub_809A808(CharacterSelect *cs);
+void sub_809A9A0(CharacterSelect *cs);
 
 extern bool32 sub_8023E80(void);
 u16 sub_8023EFC(void);
@@ -543,7 +546,7 @@ void Task_80983E8(void)
         }
     }
 
-    if (cs->unkE != 0) {
+    if (cs->unkE) {
         gDispCnt |= DISPCNT_WIN0_ON;
         gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
         gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
@@ -1686,74 +1689,60 @@ void Task_8099E44()
     }
 }
 
-#if 0
-void Task_8099EC8(u16 arg2) {
-    u16 temp_r1;
-    u16 var_r0;
-    u32 var_r5;
+void Task_8099EC8(void)
+{
+    s16 var_r0;
+    u8 temp_r0;
+    void *temp_r4;
 
-    temp_r1 = gCurTask->data;
-    var_r5 = 0;
-    if (temp_r1->unkE != 0) {
-        gDispCnt |= 0x2000;
-        gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
-        gWinRegs[2] = WIN_RANGE(0, DISPLAY_HEIGHT);
-        gWinRegs[4] |= 0x3F;
-        gWinRegs[5] |= 0x1F;
+    CharacterSelect *cs = TASK_DATA(gCurTask);
+    u8 var_r5 = 0;
+    s16 playerIndex = gStageData.playerIndex;
+
+    if (cs->unkE) {
+        gDispCnt |= DISPCNT_WIN0_ON;
+        gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+        gWinRegs[WINREG_WININ] |= 0x3F;
+        gWinRegs[WINREG_WINOUT] |= 0x1F;
         gBldRegs.bldCnt = 0x3FBF;
-        temp_r1->unk10 = 0U;
-        temp_r1->unkE = 0U;
+        cs->qFadeBrightness = Q(0);
+        cs->unkE = 0;
     }
-    
-    switch (temp_r1->unk7) {
-    case 1:
-        if (gStageData.playerIndex == 0) {
-            var_r0 = sub_8023EFC();
-        } else {
-            var_r0 = sub_80241AC(temp_r1->unk4);
-        }
-        temp_r1->unk9 = (u8) ((0x10 & var_r0) | temp_r1->unk9);
-        /* fallthrough */
-    default:
-        if ((s32) (M2C_ERROR(/* Read from unset register $r3 */) << 0x10) < 0) {
-            sub_802613C();
-            return;
-        }
-    case 0:
-    case 3:
-        if (sub_809B424(temp_r1, 0) == 1) {
-            var_r5 += 1;
-        }
-        if (sub_809B470(temp_r1, 0) == 1) {
-            var_r5 += 1;
-        }
-        if (sub_809B4BC(temp_r1, 0) == 1) {
-            var_r5 += 1;
-        }
-        if (sub_809B548(temp_r1, 0) == 1) {
-            var_r5 += 1;
-        }
-        sub_809ADF0((CharacterSelect *) temp_r1);
-        sub_809AE50((CharacterSelect *) temp_r1);
-        sub_809AF08(temp_r1);
-        sub_809B094(temp_r1);
-        if ((u32) gBldRegs.bldY <= 0xFU) {
-            gBldRegs.bldY = (u16) ((u16) temp_r1->unk10 >> 8);
-            temp_r1->unk10 = (u16) (temp_r1->unk10 + 0x100);
-            return;
-        }
-        if (var_r5 == 4) {
-            gBldRegs.bldY = 0x10;
-            temp_r1->unkB = 0x16;
-            sub_809A9A0(temp_r1);
-            sub_809A808(temp_r1);
-            temp_r1->unk58 = 0xE00;
-            gCurTask->main = sub_809A018;
-        }
-        return;
+
+    CS_SIO_CHECK_D(var_r0, playerIndex);
+
+    if (sub_809B424(cs, 0) == 1) {
+        var_r5++;
+    }
+    if (sub_809B470(cs, 0) == 1) {
+        var_r5++;
+    }
+    if (sub_809B4BC(cs, 0) == 1) {
+        var_r5++;
+    }
+    if (sub_809B548(cs, 0) == 1) {
+        var_r5++;
+    }
+    sub_809ADF0(cs);
+    sub_809AE50(cs);
+    sub_809AF08(cs);
+    sub_809B094(cs);
+
+    if (gBldRegs.bldY < 0x10) {
+        gBldRegs.bldY = I(cs->qFadeBrightness);
+        cs->qFadeBrightness += Q(1);
+    } else if (var_r5 == 4) {
+        gBldRegs.bldY = 0x10;
+        cs->unkB = 0x16;
+        sub_809A9A0(cs);
+        sub_809A808(cs);
+        cs->qUnk58 = 0xE00;
+        gCurTask->main = Task_809A018;
     }
 }
 
+#if 0
 void sub_809A018(u16 arg2) {
     u16 temp_r1;
     u16 var_r0;
