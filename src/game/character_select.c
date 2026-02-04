@@ -9,6 +9,76 @@
 
 #include "constants/songs.h"
 
+// BUG: Note that resultVar in the CS_SIO_CHECK_*() macros gets checked,
+//      even though it is not set if (cs->createIndex == 1)!
+//      All the functions using this code don't initialize the variable in the original game.
+#define CS_SIO_CHECK_A(resultVar, playerIndex)                                                                                             \
+    if ((cs->createIndex != 0) && (cs->createIndex != 3)) {                                                                                \
+        if (cs->createIndex == 1) {                                                                                                        \
+            if (playerIndex == 0) {                                                                                                        \
+                resultVar = sub_8024074(cs->unk4);                                                                                         \
+            } else {                                                                                                                       \
+                resultVar = sub_8023E04();                                                                                                 \
+            }                                                                                                                              \
+            cs->unk9 |= 0x10 & resultVar;                                                                                                  \
+        }                                                                                                                                  \
+        if (resultVar < 0) {                                                                                                               \
+            sub_802613C();                                                                                                                 \
+            return;                                                                                                                        \
+        }                                                                                                                                  \
+    }
+
+#define CS_SIO_CHECK_B(resultVar, playerIndex)                                                                                             \
+    if ((cs->createIndex != 0) && (cs->createIndex != 3)) {                                                                                \
+        if (cs->createIndex == 1) {                                                                                                        \
+            if (playerIndex == 0) {                                                                                                        \
+                resultVar = sub_80240B4(cs->unk3);                                                                                         \
+            } else {                                                                                                                       \
+                resultVar = sub_80240F4();                                                                                                 \
+            }                                                                                                                              \
+            cs->unk9 |= 0x10 & resultVar;                                                                                                  \
+        }                                                                                                                                  \
+                                                                                                                                           \
+        if (resultVar < 0) {                                                                                                               \
+            sub_802613C();                                                                                                                 \
+            return;                                                                                                                        \
+        }                                                                                                                                  \
+    }
+
+#define CS_SIO_CHECK_C(resultVar, playerIndex)                                                                                             \
+    if (cs->createIndex != 0 && cs->createIndex != 3) {                                                                                    \
+        if (cs->createIndex == 1) {                                                                                                        \
+            if (playerIndex == 0) {                                                                                                        \
+                resultVar = sub_8023E80();                                                                                                 \
+            } else {                                                                                                                       \
+                resultVar = sub_8024188(cs->unk4);                                                                                         \
+            }                                                                                                                              \
+            cs->unk9 |= 0x10 & resultVar;                                                                                                  \
+        }                                                                                                                                  \
+                                                                                                                                           \
+        if (resultVar < 0) {                                                                                                               \
+            sub_802613C();                                                                                                                 \
+            return;                                                                                                                        \
+        }                                                                                                                                  \
+    }
+
+#define CS_SIO_CHECK_D(resultVar, playerIndex)                                                                                             \
+    if (cs->createIndex != 0 && cs->createIndex != 3) {                                                                                    \
+        if (cs->createIndex == 1) {                                                                                                        \
+            if (playerIndex == 0) {                                                                                                        \
+                resultVar = sub_8023EFC();                                                                                                 \
+            } else {                                                                                                                       \
+                resultVar = sub_80241AC(cs->unk4);                                                                                         \
+            }                                                                                                                              \
+            cs->unk9 |= 0x10 & resultVar;                                                                                                  \
+        }                                                                                                                                  \
+                                                                                                                                           \
+        if (resultVar < 0) {                                                                                                               \
+            sub_802613C();                                                                                                                 \
+            return;                                                                                                                        \
+        }                                                                                                                                  \
+    }
+
 typedef struct CharacterSelect {
     /* 0x00 */ u8 unk0;
     /* 0x01 */ u8 unk1;
@@ -132,6 +202,8 @@ void Task_8099C9C(void);
 void Task_8099968(void);
 void Task_8099B78(void);
 void Task_8099EC8(void);
+void Task_809A130(void);
+void Task_809A1C4(void);
 void sub_809A808(CharacterSelect *cs);
 void sub_809A9A0(CharacterSelect *cs);
 
@@ -883,73 +955,6 @@ bool32 sub_8098CFC(CharacterSelect *cs)
     return FALSE;
 }
 
-#define CS_SIO_CHECK_A(resultVar, playerIndex)                                                                                             \
-    if ((cs->createIndex != 0) && (cs->createIndex != 3)) {                                                                                \
-        if (cs->createIndex == 1) {                                                                                                        \
-            if (playerIndex == 0) {                                                                                                        \
-                resultVar = sub_8024074(cs->unk4);                                                                                         \
-            } else {                                                                                                                       \
-                resultVar = sub_8023E04();                                                                                                 \
-            }                                                                                                                              \
-            cs->unk9 |= 0x10 & resultVar;                                                                                                  \
-        }                                                                                                                                  \
-        if (resultVar < 0) {                                                                                                               \
-            sub_802613C();                                                                                                                 \
-            return;                                                                                                                        \
-        }                                                                                                                                  \
-    }
-
-#define CS_SIO_CHECK_B(resultVar, playerIndex)                                                                                             \
-    if ((cs->createIndex != 0) && (cs->createIndex != 3)) {                                                                                \
-        if (cs->createIndex == 1) {                                                                                                        \
-            if (playerIndex == 0) {                                                                                                        \
-                resultVar = sub_80240B4(cs->unk3);                                                                                         \
-            } else {                                                                                                                       \
-                resultVar = sub_80240F4();                                                                                                 \
-            }                                                                                                                              \
-            cs->unk9 |= 0x10 & resultVar;                                                                                                  \
-        }                                                                                                                                  \
-                                                                                                                                           \
-        if (resultVar < 0) {                                                                                                               \
-            sub_802613C();                                                                                                                 \
-            return;                                                                                                                        \
-        }                                                                                                                                  \
-    }
-
-#define CS_SIO_CHECK_C(resultVar, playerIndex)                                                                                             \
-    if (cs->createIndex != 0 && cs->createIndex != 3) {                                                                                    \
-        if (cs->createIndex == 1) {                                                                                                        \
-            if (playerIndex == 0) {                                                                                                        \
-                resultVar = sub_8023E80();                                                                                                 \
-            } else {                                                                                                                       \
-                resultVar = sub_8024188(cs->unk4);                                                                                         \
-            }                                                                                                                              \
-            cs->unk9 |= 0x10 & resultVar;                                                                                                  \
-        }                                                                                                                                  \
-                                                                                                                                           \
-        if (resultVar < 0) {                                                                                                               \
-            sub_802613C();                                                                                                                 \
-            return;                                                                                                                        \
-        }                                                                                                                                  \
-    }
-
-#define CS_SIO_CHECK_D(resultVar, playerIndex)                                                                                             \
-    if (cs->createIndex != 0 && cs->createIndex != 3) {                                                                                    \
-        if (cs->createIndex == 1) {                                                                                                        \
-            if (playerIndex == 0) {                                                                                                        \
-                resultVar = sub_8023EFC();                                                                                                 \
-            } else {                                                                                                                       \
-                resultVar = sub_80241AC(cs->unk4);                                                                                         \
-            }                                                                                                                              \
-            cs->unk9 |= 0x10 & resultVar;                                                                                                  \
-        }                                                                                                                                  \
-                                                                                                                                           \
-        if (resultVar < 0) {                                                                                                               \
-            sub_802613C();                                                                                                                 \
-            return;                                                                                                                        \
-        }                                                                                                                                  \
-    }
-
 void Task_8098DE4(void)
 {
     s16 temp_r0_4;
@@ -1691,7 +1696,12 @@ void Task_8099E44()
 
 void Task_8099EC8(void)
 {
+#ifndef BUG_FIX
     s16 var_r0;
+#else
+    // TODO: Maybe a different init value?
+    s16 var_r0 = 0;
+#endif
     u8 temp_r0;
     void *temp_r4;
 
@@ -1742,106 +1752,79 @@ void Task_8099EC8(void)
     }
 }
 
-#if 0
-void sub_809A018(u16 arg2) {
-    u16 temp_r1;
-    u16 var_r0;
-    u16 var_r5;
-    u8 temp_r0;
-    void (*var_r0_2)(u16);
+void Task_809A018()
+{
+#ifndef BUG_FIX
+    s16 var_r0;
+#else
+    // TODO: Maybe a different init value?
+    s16 var_r0 = 0;
+#endif
+    CharacterSelect *cs = TASK_DATA(gCurTask);
+    s16 playerIndex = gStageData.playerIndex;
 
-    var_r5 = saved_reg_r5;
-    temp_r1 = gCurTask->data;
-    if (temp_r1->unkE != 0) {
-        gDispCnt |= 0x2000;
-        gWinRegs->unk0 = 0xF0;
-        gWinRegs[2] = 0xA0;
-        gWinRegs[4] |= 0x3F;
-        gWinRegs[5] |= 0x1F;
+    if (cs->unkE != 0) {
+        gDispCnt |= DISPCNT_WIN0_ON;
+        gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+        gWinRegs[WINREG_WININ] |= 0x3F;
+        gWinRegs[WINREG_WINOUT] |= 0x1F;
         gBldRegs.bldCnt = 0x3FBF;
         gBldRegs.bldY = 0x10;
-        temp_r1->unk10 = 0x1000U;
-        temp_r1->unkE = 0U;
+        cs->qFadeBrightness = Q(16);
+        cs->unkE = 0;
     }
-    temp_r0 = temp_r1->unk7;
-    switch (temp_r0) {                              /* irregular */
-    case 1:
-        if (gStageData.playerIndex == 0) {
-            var_r0 = sub_8023EFC();
+
+    CS_SIO_CHECK_D(var_r0, playerIndex);
+
+    sub_809B13C(cs);
+    sub_809ADF0(cs);
+    sub_809AFC0(cs);
+    sub_809B6C0(cs);
+    sub_809B69C(cs);
+
+    if (gBldRegs.bldY != 0) {
+        gBldRegs.bldY = I(cs->qFadeBrightness);
+        cs->qFadeBrightness -= Q(1);
+    } else {
+        cs->unkE = 1;
+        gBldRegs.bldY = 0;
+        if (cs->createIndex == 1) {
+            gCurTask->main = Task_809A130;
         } else {
-            var_r0 = sub_80241AC(temp_r1->unk4);
+            gCurTask->main = Task_809A1C4;
         }
-        var_r5 = var_r0;
-        temp_r1->unk9 = (u8) ((0x10 & var_r5) | temp_r1->unk9);
-        /* fallthrough */
-    default:
-        if ((s32) (var_r5 << 0x10) < 0) {
-            sub_802613C();
-            return;
-        }
-    case 0:
-    case 3:
-        sub_809B13C((CharacterSelect *) temp_r1);
-        sub_809ADF0((CharacterSelect *) temp_r1);
-        sub_809AFC0((CharacterSelect *) temp_r1);
-        sub_809B6C0((CharacterSelect *) temp_r1);
-        sub_809B69C((CharacterSelect *) temp_r1);
-        if (gBldRegs.bldY != 0) {
-            gBldRegs.bldY = (u16) ((u16) temp_r1->unk10 >> 8);
-            temp_r1->unk10 = (u16) (temp_r1->unk10 + 0xFFFFFF00);
-            return;
-        }
-        temp_r1->unkE = 1U;
-        gBldRegs.bldY = gBldRegs.bldY;
-        if (temp_r1->unk7 == 1) {
-            var_r0_2 = sub_809A130;
-        } else {
-            var_r0_2 = sub_809A1C4;
-        }
-        gCurTask->main = var_r0_2;
-        return;
     }
 }
 
-void sub_809A130(u16 arg2) {
-    u16 temp_r1;
-    u16 var_r0;
-    u16 var_r5;
-    u8 temp_r0;
+void Task_809A130(void)
+{
+#ifndef BUG_FIX
+    s16 var_r0;
+#else
+    // TODO: Maybe a different init value?
+    s16 var_r0 = 0;
+#endif
 
-    var_r5 = saved_reg_r5;
-    temp_r1 = gCurTask->data;
-    temp_r0 = temp_r1->unk7;
-    switch (temp_r0) {                              /* irregular */
-    case 1:
-        if (gStageData.playerIndex == 0) {
-            var_r0 = sub_8023EFC();
-        } else {
-            var_r0 = sub_80241AC(temp_r1->unk4);
-        }
-        var_r5 = var_r0;
-        temp_r1->unk9 = (u8) ((0x10 & var_r5) | temp_r1->unk9);
-        /* fallthrough */
-    default:
-        if ((s32) (var_r5 << 0x10) < 0) {
-            sub_802613C();
-            return;
-        }
-    case 0:
-    case 3:
-        sub_809B13C((CharacterSelect *) temp_r1);
-        sub_809ADF0((CharacterSelect *) temp_r1);
-        sub_809AFC0((CharacterSelect *) temp_r1);
-        sub_809B6C0((CharacterSelect *) temp_r1);
-        sub_809B69C((CharacterSelect *) temp_r1);
-        if ((s16) var_r5 & 0x10) {
-            gCurTask->main = sub_809A1C4;
-        }
-        return;
+    CharacterSelect *cs = TASK_DATA(gCurTask);
+    u8 var_r5 = 0;
+    s32 playerIndex = gStageData.playerIndex;
+
+    CS_SIO_CHECK_D(var_r0, playerIndex);
+
+    sub_809B13C(cs);
+    sub_809ADF0(cs);
+    sub_809AFC0(cs);
+    sub_809B6C0(cs);
+    sub_809B69C(cs);
+
+    if (var_r0 & 0x10) {
+        gCurTask->main = Task_809A1C4;
     }
 }
 
-void sub_809A1C4(u16 arg2) {
+#if 0
+void Task_809A1C4(u16 arg2) {
     s16 temp_r0_2;
     u16 temp_r0;
     u16 temp_r1;
@@ -1862,7 +1845,7 @@ void sub_809A1C4(u16 arg2) {
         m4aSongNumStart(*((temp_r1->unk5 * 2) + &gAnnouncerSelect1st));
         break;
     case 0x3C:
-        m4aSongNumStart(0x1FFU);
+        m4aSongNumStart(VOICE__ANNOUNCER__AND);
         break;
     case 0x5A:
         m4aSongNumStart(*((temp_r1->unk6 * 2) + &gAnnouncerSelect2nd));
@@ -1916,7 +1899,7 @@ void sub_809A2E8(void) {
     temp_r1 = gCurTask->data;
     if (temp_r1->unkE != 0) {
         gDispCnt |= 0x2000;
-        gWinRegs->unk0 = 0xF0;
+        gWinRegs[0] = 0xF0;
         gWinRegs[2] = 0xA0;
         gWinRegs[4] |= 0x3F;
         gWinRegs[5] |= 0x1F;
