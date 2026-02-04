@@ -880,6 +880,73 @@ bool32 sub_8098CFC(CharacterSelect *cs)
     return FALSE;
 }
 
+#define CS_SIO_CHECK_A(resultVar, playerIndex)                                                                                             \
+    if ((cs->createIndex != 0) && (cs->createIndex != 3)) {                                                                                \
+        if (cs->createIndex == 1) {                                                                                                        \
+            if (playerIndex == 0) {                                                                                                        \
+                resultVar = sub_8024074(cs->unk4);                                                                                         \
+            } else {                                                                                                                       \
+                resultVar = sub_8023E04();                                                                                                 \
+            }                                                                                                                              \
+            cs->unk9 |= 0x10 & resultVar;                                                                                                  \
+        }                                                                                                                                  \
+        if (resultVar < 0) {                                                                                                               \
+            sub_802613C();                                                                                                                 \
+            return;                                                                                                                        \
+        }                                                                                                                                  \
+    }
+
+#define CS_SIO_CHECK_B(resultVar, playerIndex)                                                                                             \
+    if ((cs->createIndex != 0) && (cs->createIndex != 3)) {                                                                                \
+        if (cs->createIndex == 1) {                                                                                                        \
+            if (playerIndex == 0) {                                                                                                        \
+                resultVar = sub_80240B4(cs->unk3);                                                                                         \
+            } else {                                                                                                                       \
+                resultVar = sub_80240F4();                                                                                                 \
+            }                                                                                                                              \
+            cs->unk9 |= 0x10 & resultVar;                                                                                                  \
+        }                                                                                                                                  \
+                                                                                                                                           \
+        if (resultVar < 0) {                                                                                                               \
+            sub_802613C();                                                                                                                 \
+            return;                                                                                                                        \
+        }                                                                                                                                  \
+    }
+
+#define CS_SIO_CHECK_C(resultVar, playerIndex)                                                                                             \
+    if (cs->createIndex != 0 && cs->createIndex != 3) {                                                                                    \
+        if (cs->createIndex == 1) {                                                                                                        \
+            if (playerIndex == 0) {                                                                                                        \
+                resultVar = sub_8023E80();                                                                                                 \
+            } else {                                                                                                                       \
+                resultVar = sub_8024188(cs->unk4);                                                                                         \
+            }                                                                                                                              \
+            cs->unk9 |= 0x10 & resultVar;                                                                                                  \
+        }                                                                                                                                  \
+                                                                                                                                           \
+        if (resultVar < 0) {                                                                                                               \
+            sub_802613C();                                                                                                                 \
+            return;                                                                                                                        \
+        }                                                                                                                                  \
+    }
+
+#define CS_SIO_CHECK_D(resultVar, playerIndex)                                                                                             \
+    if (cs->createIndex != 0 && cs->createIndex != 3) {                                                                                    \
+        if (cs->createIndex == 1) {                                                                                                        \
+            if (playerIndex == 0) {                                                                                                        \
+                resultVar = sub_8023EFC();                                                                                                 \
+            } else {                                                                                                                       \
+                resultVar = sub_80241AC(cs->unk4);                                                                                         \
+            }                                                                                                                              \
+            cs->unk9 |= 0x10 & resultVar;                                                                                                  \
+        }                                                                                                                                  \
+                                                                                                                                           \
+        if (resultVar < 0) {                                                                                                               \
+            sub_802613C();                                                                                                                 \
+            return;                                                                                                                        \
+        }                                                                                                                                  \
+    }
+
 void Task_8098DE4(void)
 {
     s16 temp_r0_4;
@@ -917,22 +984,7 @@ void Task_8098DE4(void)
     }
     gDispCnt &= ~DISPCNT_BG1_ON;
 
-    if (cs->createIndex != 0) {
-        if (cs->createIndex != 3) {
-            if (cs->createIndex == 1) {
-                if (playerIndex == 0) {
-                    var_r6 = sub_8024074(cs->unk4);
-                } else {
-                    var_r6 = sub_8023E04();
-                }
-                cs->unk9 |= 0x10 & var_r6;
-            }
-            if (var_r6 < 0) {
-                sub_802613C();
-                return;
-            }
-        }
-    }
+    CS_SIO_CHECK_A(var_r6, playerIndex);
 
     if (((cs->createIndex == 0) || (cs->createIndex == 3)) || ((cs->createIndex == 1) && (playerIndex == 0))
         || ((cs->createIndex == 2) && (playerIndex == PLAYER_1 || playerIndex == PLAYER_2))) {
@@ -1005,40 +1057,26 @@ void Task_8098FF0()
 
     var_r5 = 0;
     playerIndex = gStageData.playerIndex;
-    if ((cs->createIndex != 0) && (cs->createIndex != 3)) {
-        if (cs->createIndex == 1) {
-            if (playerIndex == 0) {
-                var_r0 = sub_8024074(cs->unk4);
-            } else {
-                var_r0 = sub_8023E04();
-            }
-            cs->unk9 |= 0x10 & (u16)var_r0;
-        }
 
-        if (var_r0 < 0) {
-            sub_802613C();
-            return;
-        }
+    CS_SIO_CHECK_A(var_r0, playerIndex);
+
+    sub_809B13C(cs);
+    sub_809ADF0(cs);
+    sub_809AE50(cs);
+    sub_809B69C(cs);
+    sub_809B6C0(cs);
+    sub_809B234(cs);
+    sub_809B2E4(cs);
+
+    if (cs->unk1 == 0) {
+        var_r5 = sub_809B638(cs);
     }
-    {
-        sub_809B13C(cs);
-        sub_809ADF0(cs);
-        sub_809AE50(cs);
-        sub_809B69C(cs);
-        sub_809B6C0(cs);
-        sub_809B234(cs);
-        sub_809B2E4(cs);
-
-        if (cs->unk1 == 0) {
-            var_r5 = sub_809B638(cs);
-        }
-        if (cs->unk1 == 1) {
-            var_r5 = sub_809B668(cs);
-        }
-        if (var_r5 != 0) {
-            sub_80990B0(cs);
-            gCurTask->main = Task_8099200;
-        }
+    if (cs->unk1 == 1) {
+        var_r5 = sub_809B668(cs);
+    }
+    if (var_r5 != 0) {
+        sub_80990B0(cs);
+        gCurTask->main = Task_8099200;
     }
 }
 
@@ -1099,40 +1137,23 @@ void Task_8099200(void)
     // TODO: Maybe a different init value?
     s16 var_r0 = 0;
 #endif
-    u8 var_r5;
-    s32 playerIndex;
 
     CharacterSelect *cs = TASK_DATA(gCurTask);
+    u8 var_r5 = 0;
+    s32 playerIndex = gStageData.playerIndex;
 
-    var_r5 = 0;
-    playerIndex = gStageData.playerIndex;
-    if ((cs->createIndex != 0) && (cs->createIndex != 3)) {
-        if (cs->createIndex == 1) {
-            if (playerIndex == 0) {
-                var_r0 = sub_8024074(cs->unk4);
-            } else {
-                var_r0 = sub_8023E04();
-            }
-            cs->unk9 |= 0x10 & (u16)var_r0;
-        }
+    CS_SIO_CHECK_A(var_r0, playerIndex);
 
-        if (var_r0 < 0) {
-            sub_802613C();
-            return;
-        }
-    }
-    {
-        sub_809B13C(cs);
-        sub_809ADF0(cs);
-        sub_809AE50(cs);
-        sub_809B69C(cs);
-        sub_809B6C0(cs);
-        sub_809B2AC(cs);
+    sub_809B13C(cs);
+    sub_809ADF0(cs);
+    sub_809AE50(cs);
+    sub_809B69C(cs);
+    sub_809B6C0(cs);
+    sub_809B2AC(cs);
 
-        if ((sub_809B148(cs) == TRUE) && (sub_809B184(cs) == TRUE)) {
-            cs->qUnk5C = 0;
-            gCurTask->main = Task_8098DE4;
-        }
+    if ((sub_809B148(cs) == TRUE) && (sub_809B184(cs) == TRUE)) {
+        cs->qUnk5C = 0;
+        gCurTask->main = Task_8098DE4;
     }
 }
 
@@ -1181,54 +1202,38 @@ void Task_8099300()
     CharacterSelect *cs = TASK_DATA(gCurTask);
 
     playerIndex = gStageData.playerIndex;
-    if ((cs->createIndex != 0) && (cs->createIndex != 3)) {
-        if (cs->createIndex == 1) {
-            if (playerIndex == 0) {
-                var_r0 = sub_80240B4(cs->unk3);
-            } else {
-                var_r0 = sub_80240F4();
-            }
-            cs->unk9 |= 0x10 & (u16)var_r0;
-        }
 
-        if (var_r0 < 0) {
-            sub_802613C();
-            return;
+    CS_SIO_CHECK_B(var_r0, playerIndex);
+
+    sub_809ADF0(cs);
+    sub_809AE50(cs);
+    sub_809AF08(cs);
+    sub_809B69C(cs);
+    sub_809B6C0(cs);
+
+    if (cs->unkB < 13) {
+        gDispCnt |= 0x200;
+        if (cs->unkB < 13) {
+            cs->unkB = 0xC;
+            cs->qUnk34 = cs->qUnk3C;
+            cs->qUnk38 = cs->qUnk40;
+            cs->unk5 = cs->unk3;
+            sub_809BF3C(&cs->unk5, &cs->unkB, &cs->qUnk34, &cs->qUnk38, cs->unk20);
+            cs->qUnk4C = 0x12C00;
         }
     }
+    s = &cs->spr9C;
+    temp_r2 = cs->unkB - 11;
+    s->anim = gUnknown_080D8D08[temp_r2 + cs->language * 8].anim;
+    s->variant = gUnknown_080D8D08[temp_r2 + cs->language * 8].variant;
+    UpdateSpriteAnimation(s);
 
-    {
-        u8 language;
-        sub_809ADF0(cs);
-        sub_809AE50(cs);
-        sub_809AF08(cs);
-        sub_809B69C(cs);
-        sub_809B6C0(cs);
-
-        if (cs->unkB < 13) {
-            gDispCnt |= 0x200;
-            if (cs->unkB < 13) {
-                cs->unkB = 0xC;
-                cs->qUnk34 = cs->qUnk3C;
-                cs->qUnk38 = cs->qUnk40;
-                cs->unk5 = cs->unk3;
-                sub_809BF3C(&cs->unk5, &cs->unkB, &cs->qUnk34, &cs->qUnk38, cs->unk20);
-                cs->qUnk4C = 0x12C00;
-            }
-        }
-        s = &cs->spr9C;
-        temp_r2 = cs->unkB - 11;
-        s->anim = gUnknown_080D8D08[temp_r2 + cs->language * 8].anim;
-        s->variant = gUnknown_080D8D08[temp_r2 + cs->language * 8].variant;
-        UpdateSpriteAnimation(s);
-
-        if (gStageData.gameMode == 0 || gStageData.gameMode == 3 || gStageData.gameMode == 4) {
-            gPlayers->charFlags.character = gUnknown_080D8F18[cs->unk5];
-            gCurTask->main = Task_809947C;
-        } else if (gStageData.gameMode == 5) {
-            gPlayers[gStageData.playerIndex].charFlags.character = gUnknown_080D8F18[cs->unk5];
-            gCurTask->main = Task_809947C;
-        }
+    if (gStageData.gameMode == 0 || gStageData.gameMode == 3 || gStageData.gameMode == 4) {
+        gPlayers->charFlags.character = gUnknown_080D8F18[cs->unk5];
+        gCurTask->main = Task_809947C;
+    } else if (gStageData.gameMode == 5) {
+        gPlayers[gStageData.playerIndex].charFlags.character = gUnknown_080D8F18[cs->unk5];
+        gCurTask->main = Task_809947C;
     }
 }
 
@@ -1248,22 +1253,7 @@ NONMATCH("asm/non_matching/game/char_select__sub_809947C.inc", void Task_809947C
     CharacterSelect *cs = TASK_DATA(gCurTask);
 
     s32 playerIndex = gStageData.playerIndex;
-    if (cs->createIndex != 0 && cs->createIndex != 3) {
-        if (cs->createIndex == 1) {
-            if (playerIndex == 0) {
-                var_r0 = sub_80240B4(cs->unk3);
-            } else {
-                var_r0 = sub_80240F4();
-            }
-
-            cs->unk9 |= 0x10 & var_r0;
-        }
-
-        if (var_r0 < 0) {
-            sub_802613C();
-            return;
-        }
-    }
+    CS_SIO_CHECK_B(var_r0, playerIndex);
 
     sub_809ADF0(cs);
     sub_809AE50(cs);
@@ -1340,21 +1330,7 @@ void Task_8099680(void)
 
     var_r5 = 0;
     playerIndex = gStageData.playerIndex;
-    if (cs->createIndex != 0 && cs->createIndex != 3) {
-        if (cs->createIndex == 1) {
-            if (playerIndex == 0) {
-                var_r0 = sub_8023E80();
-            } else {
-                var_r0 = sub_8024188(cs->unk4);
-            }
-            cs->unk9 |= 0x10 & var_r0;
-        }
-
-        if (var_r0 < 0) {
-            sub_802613C();
-            return;
-        }
-    }
+    CS_SIO_CHECK_C(var_r0, playerIndex);
 
     cs->unkB = 0xC;
     if (sub_809AC44(cs, 0) == 1) {
@@ -1409,23 +1385,7 @@ void Task_8099758(void)
         sub_809AD74(cs);
     }
 
-    if (cs->createIndex != 0) {
-        if (cs->createIndex != 3) {
-            if (cs->createIndex == 1) {
-                if (playerIndex == 0) {
-                    var_r6 = sub_8023E80();
-                } else {
-                    var_r6 = sub_8024188(cs->unk4);
-                }
-                cs->unk9 |= 0x10 & var_r6;
-            }
-
-            if (var_r6 < 0) {
-                sub_802613C();
-                return;
-            }
-        }
-    }
+    CS_SIO_CHECK_C(var_r6, playerIndex);
 
     if (((cs->createIndex == 0) || (cs->createIndex == 3)) || ((cs->createIndex == 1) && (playerIndex == 1))
         || ((cs->createIndex == 2) && (playerIndex == 2 || playerIndex == 3))) {
@@ -1505,22 +1465,7 @@ void Task_8099968(void)
     u8 var_r6 = 0;
 
     s16 playerIndex = gStageData.playerIndex;
-    if (cs->createIndex != 0 && cs->createIndex != 3) {
-        if (cs->createIndex == 1) {
-            if (playerIndex == 0) {
-                var_r0 = sub_8023E80();
-            } else {
-                var_r0 = sub_8024188(cs->unk4);
-            }
-
-            cs->unk9 |= 0x10 & var_r0;
-        }
-
-        if (var_r0 < 0) {
-            sub_802613C();
-            return;
-        }
-    }
+    CS_SIO_CHECK_C(var_r0, playerIndex);
 
     if (sub_809B32C(cs, 1) == 1) {
         var_r6++;
@@ -1601,20 +1546,7 @@ void Task_8099B78(void)
     temp_r0 = cs->createIndex;
 
     playerIndex = gStageData.playerIndex;
-    if (cs->createIndex != 0 && cs->createIndex != 3) {
-        if (cs->createIndex == 1) {
-            if (playerIndex == 0) {
-                var_r0 = sub_8023E80();
-            } else {
-                var_r0 = sub_8024188(cs->unk4);
-            }
-            cs->unk9 |= 0x10 & (u16)var_r0;
-        }
-        if (var_r0 < 0) {
-            sub_802613C();
-            return;
-        }
-    }
+    CS_SIO_CHECK_C(var_r0, playerIndex);
 
     if (sub_809B32C(cs, 0U) == 1) {
         var_r5++;
@@ -1673,28 +1605,15 @@ void Task_8099C9C()
     CharacterSelect *cs = TASK_DATA(gCurTask);
     s16 playerIndex = gStageData.playerIndex;
     s32 character;
-
-    if (cs->createIndex != 0 && cs->createIndex != 3) {
 #ifndef BUG_FIX
-        s16 var_r0;
+    s16 var_r0;
 #else
-        // TODO: Maybe a different init value?
-        s16 var_r0 = 0;
+    // TODO: Maybe a different init value?
+    s16 var_r0 = 0;
 #endif
-        if (cs->createIndex == 1) {
-            if (playerIndex == 0) {
-                var_r0 = sub_8023EFC();
-            } else {
-                var_r0 = sub_80241AC(cs->unk4);
-            }
-            cs->unk9 |= 0x10 & var_r0;
-        }
 
-        if (var_r0 < 0) {
-            sub_802613C();
-            return;
-        }
-    }
+    CS_SIO_CHECK_D(var_r0, playerIndex);
+
     sub_809ADF0(cs);
     sub_809AE50(cs);
     sub_809AF08(cs);
@@ -1772,22 +1691,21 @@ void Task_8099EC8(u16 arg2) {
     u16 temp_r1;
     u16 var_r0;
     u32 var_r5;
-    u8 temp_r0;
 
     temp_r1 = gCurTask->data;
     var_r5 = 0;
     if (temp_r1->unkE != 0) {
         gDispCnt |= 0x2000;
-        gWinRegs->unk0 = 0xF0;
-        gWinRegs[2] = 0xA0;
+        gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[2] = WIN_RANGE(0, DISPLAY_HEIGHT);
         gWinRegs[4] |= 0x3F;
         gWinRegs[5] |= 0x1F;
         gBldRegs.bldCnt = 0x3FBF;
         temp_r1->unk10 = 0U;
         temp_r1->unkE = 0U;
     }
-    temp_r0 = temp_r1->unk7;
-    switch (temp_r0) {                              /* irregular */
+    
+    switch (temp_r1->unk7) {
     case 1:
         if (gStageData.playerIndex == 0) {
             var_r0 = sub_8023EFC();
@@ -1804,16 +1722,16 @@ void Task_8099EC8(u16 arg2) {
     case 0:
     case 3:
         if (sub_809B424(temp_r1, 0) == 1) {
-            var_r5 = 0x01000000U >> 0x18;
+            var_r5 += 1;
         }
         if (sub_809B470(temp_r1, 0) == 1) {
-            var_r5 = (u32) (u8) (var_r5 + 1);
+            var_r5 += 1;
         }
         if (sub_809B4BC(temp_r1, 0) == 1) {
-            var_r5 = (u32) (u8) (var_r5 + 1);
+            var_r5 += 1;
         }
         if (sub_809B548(temp_r1, 0) == 1) {
-            var_r5 = (u32) (u8) (var_r5 + 1);
+            var_r5 += 1;
         }
         sub_809ADF0((CharacterSelect *) temp_r1);
         sub_809AE50((CharacterSelect *) temp_r1);
