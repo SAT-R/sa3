@@ -1195,11 +1195,13 @@ gUnknown_080D8F18:
 
     .global gUnknown_080D8F1D
 gUnknown_080D8F1D:
-    .incbin "baserom_sa3.gba", 0x000D8F1D, 0x78
+    .incbin "baserom_sa3.gba", 0x000D8F1D, (5*8)*3 @ (NUM_CHARACTERS*8)*3
 
     .global gUnknown_080D8F95
 gUnknown_080D8F95:
-    .incbin "baserom_sa3.gba", 0x000D8F95, 0x79
+    .incbin "baserom_sa3.gba", 0x000D8F95, (5*8)*3 @ (NUM_CHARACTERS*8)*3
+
+    .space 1 @ padding
 
     .global gAnnouncerSelect1st
 gAnnouncerSelect1st:

@@ -107,7 +107,7 @@ typedef struct CharacterSelect {
     /* 0x14 */ u16 unk14;
     /* 0x16 */ s16 qUnk16;
     /* 0x18 */ s16 qUnk18;
-    /* 0x1C */ void *tilesCharacters[CS_CHARID_COUNT];
+    /* 0x1C */ void *tilesCharacters[2];
     /* 0x24 */ s32 qUnk24;
     /* 0x28 */ s32 qUnk28;
     /* 0x2C */ s32 qUnk2C;
@@ -236,7 +236,9 @@ extern TileInfo2 gUnknown_080D8E80[];
 extern TileInfo2 gUnknown_080D8EF8;
 extern const TileInfo2 gUnknown_080D8F00;
 extern const TileInfo2 gUnknown_080D8F08[2];
-extern const u8 gUnknown_080D8F18[8];
+extern const u8 gUnknown_080D8F18[NUM_CHARACTERS];
+extern const u8 gUnknown_080D8F1D[NUM_CHARACTERS * 8][3];
+extern const u8 gUnknown_080D8F95[NUM_CHARACTERS * 8][3];
 extern u8 gUnknown_080D946D[NUM_CHARACTERS];
 extern const u8 gUnknown_082B5344[0x140];
 extern const u16 gCharacterSelectedVoices[NUM_CHARACTERS];
@@ -2523,53 +2525,47 @@ void sub_809ADF0(CharacterSelect *cs)
     DisplaySprite(s);
 }
 
-#if 0
-void sub_809AE50(CharacterSelect *cs) {
-    Sprite *temp_r4;
-    Sprite *temp_r4_2;
-    TileInfo2 *temp_r0;
-    s32 var_r0_2;
+void sub_809AE50(CharacterSelect *cs)
+{
+    Sprite *s;
     u32 temp_r3;
-    u32 var_r0;
     u8 temp_r1;
     u8 temp_r2;
-    u8 var_r5;
+    u8 i;
 
-    var_r5 = 0;
-    temp_r4 = &cs->spr114;
-    do {
-        temp_r4->x = (s16) ((s32) cs->qUnk64 >> 8);
-        temp_r4->y = (s16) ((s32) cs->qUnk68 >> 8);
-        temp_r4->palId = 0;
-        if (var_r5 != 0) {
-            var_r0 = temp_r4->frameFlags | 0x400;
+    for (i = 0; i < 2; i++) {
+        s = &cs->spr114;
+        s->x = I(cs->qUnk64);
+        s->y = I(cs->qUnk68);
+        s->palId = 0;
+        if (i != 0) {
+            s->frameFlags |= 0x400;
         } else {
-            var_r0 = temp_r4->frameFlags & 0xFFFFFBFF;
+            s->frameFlags &= ~0X400;
         }
-        temp_r4->frameFlags = var_r0;
-        DisplaySprite(temp_r4);
-        var_r5 += 1;
-    } while ((u32) var_r5 <= 1U);
+        DisplaySprite(s);
+    }
+
     temp_r1 = cs->language;
-    temp_r3 = (u32) ((0 - temp_r1) | temp_r1) >> 0x1F;
+    temp_r3 = (u32)((0 - temp_r1) | temp_r1) >> 0x1F;
     temp_r2 = gUnknown_080D8F18[cs->unk5];
-    temp_r4_2 = &cs->sprEC;
-    if (!(*(temp_r2 + &gUnknown_080D946D) & LOADED_SAVE->unlockedCharacters)) {
-        var_r0_2 = (temp_r3 * 8) + 6;
+    s = &cs->sprEC;
+    if (!(gLoadedSaveGame.unlockedCharacters & gUnknown_080D946D[temp_r2])) {
+        s->anim = gUnknown_080D8E80[6 + (temp_r3 * 8)].anim;
+        s->variant = gUnknown_080D8E80[6 + (temp_r3 * 8)].variant;
     } else {
-        var_r0_2 = temp_r2 + (temp_r3 * 8);
+        s->anim = gUnknown_080D8E80[temp_r2 + (temp_r3 * 8)].anim;
+        s->variant = gUnknown_080D8E80[temp_r2 + (temp_r3 * 8)].variant;
     }
-    temp_r0 = &gUnknown_080D8E80[var_r0_2];
-    temp_r4_2->anim = temp_r0->anim;
-    temp_r4_2->variant = temp_r0->variant;
-    temp_r4_2->x = (s16) ((s32) cs->qUnk64 >> 8);
-    temp_r4_2->y = (s16) ((s32) cs->qUnk68 >> 8);
-    UpdateSpriteAnimation(temp_r4_2);
-    DisplaySprite(temp_r4_2);
+    s->x = (s16)((s32)cs->qUnk64 >> 8);
+    s->y = (s16)((s32)cs->qUnk68 >> 8);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
 
-void sub_809AF08(void *arg0) {
-    Sprite *temp_r4;
+void sub_809AF08(CharacterSelect *cs)
+{
+    Sprite *s;
     Sprite *temp_r4_2;
     TileInfo2 *temp_r0;
     s32 var_r0_2;
@@ -2577,104 +2573,101 @@ void sub_809AF08(void *arg0) {
     u32 var_r0;
     u8 temp_r1;
     u8 temp_r2;
-    u8 var_r5;
+    u8 i;
 
-    var_r5 = 0;
-    temp_r4 = arg0 + 0x114;
-    do {
-        temp_r4->x = (s16) ((s32) arg0->unk6C >> 8);
-        temp_r4->y = (s16) ((s32) arg0->unk70 >> 8);
-        temp_r4->palId = 1;
-        if (var_r5 != 0) {
-            var_r0 = temp_r4->frameFlags | 0x400;
+    for (i = 0; i < 2; i++) {
+        s = &cs->spr114;
+        s->x = I(cs->qUnk6C);
+        s->y = I(cs->qUnk70);
+        s->palId = 1;
+        if (i != 0) {
+            s->frameFlags |= 0x400;
         } else {
-            var_r0 = temp_r4->frameFlags & 0xFFFFFBFF;
+            s->frameFlags &= ~0X400;
         }
-        temp_r4->frameFlags = var_r0;
-        DisplaySprite(temp_r4);
-        var_r5 += 1;
-    } while ((u32) var_r5 <= 1U);
-    temp_r1 = arg0->unkA;
-    temp_r3 = (u32) ((0 - temp_r1) | temp_r1) >> 0x1F;
-    temp_r2 = gUnknown_080D8F18[arg0->unk6];
-    temp_r4_2 = arg0 + 0x13C;
-    if (!(*(temp_r2 + &gUnknown_080D946D) & LOADED_SAVE->unlockedCharacters)) {
-        var_r0_2 = (temp_r3 * 8) + 6;
-    } else {
-        var_r0_2 = temp_r2 + (temp_r3 * 8);
+        DisplaySprite(s);
     }
-    temp_r0 = &gUnknown_080D8E80[var_r0_2];
-    temp_r4_2->anim = temp_r0->anim;
-    temp_r4_2->variant = temp_r0->variant;
-    temp_r4_2->x = (s16) ((s32) arg0->unk6C >> 8);
-    temp_r4_2->y = (s16) ((s32) arg0->unk70 >> 8);
-    UpdateSpriteAnimation(temp_r4_2);
-    DisplaySprite(temp_r4_2);
+
+    temp_r1 = cs->language;
+    temp_r3 = (u32)((0 - temp_r1) | temp_r1) >> 0x1F;
+    temp_r2 = gUnknown_080D8F18[cs->unk6];
+    s = &cs->spr13C;
+    if (!(gLoadedSaveGame.unlockedCharacters & gUnknown_080D946D[temp_r2])) {
+        s->anim = gUnknown_080D8E80[6 + (temp_r3 * 8)].anim;
+        s->variant = gUnknown_080D8E80[6 + (temp_r3 * 8)].variant;
+    } else {
+        s->anim = gUnknown_080D8E80[temp_r2 + (temp_r3 * 8)].anim;
+        s->variant = gUnknown_080D8E80[temp_r2 + (temp_r3 * 8)].variant;
+    }
+    s->x = I(cs->qUnk6C);
+    s->y = I(cs->qUnk70);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
 
-void sub_809AFC0(CharacterSelect *cs) {
-    ? *var_r0;
-    Sprite *temp_r0;
-    Sprite *temp_r4;
-    Sprite *temp_r4_2;
-    Sprite *temp_r4_3;
+void sub_809AFC0(CharacterSelect *cs)
+{
+    u8 *var_r0;
+    Sprite *s;
     s32 var_r1;
     u32 var_r0_2;
     u8 temp_r1;
     u8 temp_r2;
-    u8 var_r5;
-    void *temp_r7;
+    u8 i;
+    const u8(*temp_r7)[3];
 
     temp_r1 = cs->unk5;
     temp_r2 = cs->unk6;
+
     if (cs->language != 0) {
-        var_r1 = ((temp_r1 * 8) + temp_r2) * 3;
-        var_r0 = &gUnknown_080D8F95;
+        temp_r7 = &gUnknown_080D8F95[((temp_r1 * 8) + temp_r2)];
     } else {
-        var_r1 = ((temp_r1 * 8) + temp_r2) * 3;
-        var_r0 = &gUnknown_080D8F1D;
+        temp_r7 = &gUnknown_080D8F1D[((temp_r1 * 8) + temp_r2)];
     }
-    temp_r7 = var_r1 + var_r0;
-    var_r5 = 0;
-    temp_r0 = &cs->sprEC;
-    temp_r4 = &cs->spr114;
-    do {
-        temp_r4->x = 0x78;
-        temp_r4->y = (s16) ((s32) cs->qUnk68 >> 8);
-        if (var_r5 != 0) {
-            var_r0_2 = temp_r4->frameFlags | 0x400;
+
+    for (i = 0; i < 2; i++) {
+        s = &cs->spr114;
+        s->x = (DISPLAY_WIDTH / 2);
+        s->y = I(cs->qUnk68);
+
+        if (i != 0) {
+            SPRITE_FLAG_SET(s, X_FLIP);
         } else {
-            var_r0_2 = temp_r4->frameFlags & 0xFFFFFBFF;
+            SPRITE_FLAG_CLEAR(s, X_FLIP);
         }
-        temp_r4->frameFlags = var_r0_2;
-        DisplaySprite(temp_r4);
-        var_r5 += 1;
-    } while ((u32) var_r5 <= 1U);
-    temp_r0->x = (s16) temp_r7->unk0;
-    temp_r0->y = (s16) ((s32) cs->qUnk68 >> 8);
-    UpdateSpriteAnimation(temp_r0);
-    DisplaySprite(temp_r0);
-    temp_r4_2 = &cs->spr18C;
-    temp_r4_2->x = (s16) temp_r7->unk1;
-    temp_r4_2->y = (s16) ((s32) cs->qUnk68 >> 8);
-    UpdateSpriteAnimation(temp_r4_2);
-    DisplaySprite(temp_r4_2);
-    temp_r4_3 = &cs->spr13C;
-    temp_r4_3->x = (s16) temp_r7->unk2;
-    temp_r4_3->y = (s16) ((s32) cs->qUnk70 >> 8);
-    UpdateSpriteAnimation(temp_r4_3);
-    DisplaySprite(temp_r4_3);
+        DisplaySprite(s);
+    }
+
+    s = &cs->sprEC;
+    s->x = (*temp_r7)[0];
+    s->y = I(cs->qUnk68);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &cs->spr18C;
+    s->x = (*temp_r7)[1];
+    s->y = I(cs->qUnk68);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &cs->spr13C;
+    s->x = (*temp_r7)[2];
+    s->y = I(cs->qUnk70);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
 
-void sub_809B094(void *arg0) {
-    gBgScrollRegs[0][0] = (s16) ((s32) arg0->unk44 >> 8);
-    gBgScrollRegs[0][1] = (s16) ((s32) arg0->unk48 >> 8);
-    gBgScrollRegs[1][0] = (s16) ((s32) arg0->unk54 >> 8);
-    gBgScrollRegs[1][1] = 0 - ((s32) arg0->unk58 >> 8);
-    gBgScrollRegs[2][0] = (s16) ((s32) arg0->unk4C >> 8);
-    gBgScrollRegs[2][1] = 0 - ((s32) arg0->unk50 >> 8);
+void sub_809B094(CharacterSelect *cs)
+{
+    gBgScrollRegs[0][0] = +I(cs->qUnk44);
+    gBgScrollRegs[0][1] = +I(cs->qUnk48);
+    gBgScrollRegs[1][0] = +I(cs->qUnk54);
+    gBgScrollRegs[1][1] = -I(cs->qUnk58);
+    gBgScrollRegs[2][0] = +I(cs->qUnk4C);
+    gBgScrollRegs[2][1] = -I(cs->qUnk50);
 }
 
+#if 0
 void Task_CharacterSelectInit(void) {
     u16 temp_r3;
     u8 temp_r0;
