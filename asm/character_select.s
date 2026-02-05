@@ -8,8 +8,6 @@
 @ --- Start of Character Select ---
 
 .if 0
-.endif
-
 	thumb_func_start sub_809AC44
 sub_809AC44: @ 0x0809AC44
 	push {r4, r5, lr}
@@ -118,6 +116,7 @@ _0809AD02:
 	pop {r4, r5}
 	pop {r1}
 	bx r1
+.endif
 
 	thumb_func_start sub_809AD08
 sub_809AD08: @ 0x0809AD08

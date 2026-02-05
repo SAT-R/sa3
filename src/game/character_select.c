@@ -2366,140 +2366,63 @@ void Task_809AABC(void)
     }
 }
 
-#if 0
-void sub_809AABC(u16 arg2) {
-    Background *temp_r3;
-    u16 temp_r5;
-    u16 var_r0;
-    u32 var_r0_2;
-    u8 temp_r2;
-    u8 temp_r5_2;
+bool32 sub_809AC44(CharacterSelect *cs, u8 param1)
+{
+    u8 count;
+    s32 qDelta;
 
-    temp_r5 = gCurTask->data;
-    sub_809ADF0((CharacterSelect *) temp_r5);
-    sub_809AE50((CharacterSelect *) temp_r5);
-    sub_809AF08(temp_r5);
-    sub_809B69C((CharacterSelect *) temp_r5);
-    sub_809B6C0((CharacterSelect *) temp_r5);
-    sub_809B32C(temp_r5, 1);
-    sub_809B13C((CharacterSelect *) temp_r5);
-    sub_809B3C4(temp_r5, 1);
-    sub_809B41C(temp_r5);
-    if (sub_809AC44(temp_r5, 1) == 1) {
-        temp_r5->unk34 = 0x14000;
-        temp_r5->unk3 = (u8) temp_r5->unk5;
-        temp_r5->unkB = 0x1F;
-        temp_r5->unk3C = 0x7800;
-        temp_r5->unk40 = 0x5000;
-        temp_r3 = temp_r5 + 0x234;
-        temp_r5_2 = gUnknown_080D8F18[temp_r5->unk5];
-        temp_r3->graphics.dest = (void *)0x06008000;
-        temp_r3->graphics.anim = 0;
-        temp_r3->layoutVram = (u16 *)0x0600D800;
-        temp_r3->unk18 = 0;
-        temp_r3->unk1A = 0;
-        if (!(*(temp_r5_2 + &gUnknown_080D946D) & LOADED_SAVE->unlockedCharacters)) {
-            var_r0 = gUnknown_080D8CDC->unk20;
-        } else {
-            var_r0 = gUnknown_080D8CDC[temp_r5_2 + 5];
-        }
-        temp_r3->tilemapId = var_r0;
-        temp_r3->unk1E = 0;
-        temp_r3->unk20 = 0;
-        temp_r3->unk22 = 0;
-        temp_r3->unk24 = 0;
-        temp_r3->targetTilesX = 0x10;
-        temp_r3->targetTilesY = 0x10;
-        temp_r3->paletteOffset = 0;
-        temp_r3->flags = 6;
-        DrawBackground(temp_r3);
-        temp_r5->unk70 = 0x9100;
-        gCurTask->main = sub_809AA28;
-        return;
-    }
-    if ((temp_r5->unk7 == 1) && (sub_809AD08(temp_r5) == 0)) {
-        sub_802613C();
-        return;
-    }
-    temp_r2 = temp_r5->unk7;
-    if (1 & gPressedKeys) {
-        if ((temp_r2 != 0) && (temp_r2 != 3)) {
-            var_r0_2 = (u32) (0 - (gMultiSioStatusFlags & 0x80)) >> 0x1F;
-        } else {
-            var_r0_2 = 1;
-        }
-        if (var_r0_2 != 0) {
-            temp_r5->unkB = 0xC;
-            if (temp_r2 == 1) {
-                sub_809B700(temp_r5);
-            }
-            gCurTask->main = Task_8099680;
-        }
-    }
-}
+    count = 0;
+    if (param1 != 0) {
+        qDelta = -Q(7.875);
 
-s32 sub_809AC44(void *arg0, s32 arg1) {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 var_r0;
-    u8 var_r3;
-
-    var_r3 = 0;
-    if ((arg1 << 0x18) != 0) {
-        temp_r1 = arg0->unk34;
-        if (temp_r1 <= 0x77FF) {
-            arg0->unk34 = (s32) (temp_r1 + 0x600);
-            arg0->unk54 = (s32) (arg0->unk54 + 0xFFFFFA00);
+        if (cs->qUnk34 < Q(120)) {
+            cs->qUnk34 += Q(6);
+            cs->qUnk54 -= Q(6);
         } else {
-            arg0->unk34 = 0x7800;
-            arg0->unk54 = 0xC900;
-            var_r3 = 1;
+            cs->qUnk34 = Q(120);
+            cs->qUnk54 = Q(201);
+            count += 1;
         }
-        temp_r0 = arg0->unk44;
-        if (temp_r0 > 0) {
-            temp_r0_2 = temp_r0 + 0xFFFFF820;
-            arg0->unk44 = temp_r0_2;
-            if (temp_r0_2 < 0) {
-                arg0->unk44 = 0;
+
+        if (cs->qUnk44 > 0) {
+            cs->qUnk44 += qDelta;
+            if (cs->qUnk44 < 0) {
+                cs->qUnk44 = 0;
             }
         } else {
-            var_r0 = 0;
-            goto block_15;
+            cs->qUnk44 = Q(0);
+            count += 1;
         }
     } else {
-        temp_r1_2 = arg0->unk34;
-        if ((s32) (temp_r1_2 >> 8) > 0x3C) {
-            arg0->unk34 = (s32) (temp_r1_2 + 0xFFFFFA00);
-            arg0->unk54 = (s32) (arg0->unk54 + 0x600);
+        qDelta = +Q(7.875);
+
+        if (I(cs->qUnk34) > 60) {
+            cs->qUnk34 -= Q(6);
+            cs->qUnk54 += Q(6);
         } else {
-            arg0->unk34 = 0x3C00;
-            arg0->unk54 = 0x10500;
-            var_r3 = 1;
+            cs->qUnk34 = Q(60);
+            cs->qUnk54 = Q(261);
+            count += 1;
         }
-        temp_r1_3 = arg0->unk44;
-        if (temp_r1_3 <= 0x77FF) {
-            temp_r0_3 = temp_r1_3 + 0x7E0;
-            arg0->unk44 = temp_r0_3;
-            if (temp_r0_3 > 0x7800) {
-                arg0->unk44 = 0x7800;
+
+        if (cs->qUnk44 < Q(120)) {
+            cs->qUnk44 += qDelta;
+            if (cs->qUnk44 > Q(120)) {
+                cs->qUnk44 = Q(120);
             }
         } else {
-            var_r0 = 0x7800;
-block_15:
-            arg0->unk44 = var_r0;
-            var_r3 += 1;
+            cs->qUnk44 = Q(120);
+            count += 1;
         }
     }
-    if (var_r3 != 2) {
-        return 0;
+    if (count == 2) {
+        return TRUE;
+    } else {
+        return FALSE;
     }
-    return 1;
 }
 
+#if 0
 s32 sub_809AD08(void *arg0) {
     s32 var_r0;
     s32 var_r2;
