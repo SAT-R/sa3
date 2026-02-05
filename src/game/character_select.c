@@ -178,7 +178,7 @@ void Task_8098FF0(void);
 void Task_8099200(void);
 void Task_8099300(void);
 void Task_809947C(void);
-void sub_8099680(void);
+void Task_8099680(void);
 void Task_809A018(void);
 bool32 sub_809AC44(CharacterSelect *cs, u8 param1);
 void sub_809AF08(CharacterSelect *cs);
@@ -218,6 +218,7 @@ void sub_809A644(CharacterSelect *cs);
 void Task_809A6C0(void);
 void sub_809A808(CharacterSelect *cs);
 void sub_809A9A0(CharacterSelect *cs);
+void Task_809AA28(void);
 bool32 sub_809AD08(CharacterSelect *cs);
 
 extern bool32 sub_8023E80(void);
@@ -1337,7 +1338,7 @@ NONMATCH("asm/non_matching/game/char_select__sub_809947C.inc", void Task_809947C
     bg->paletteOffset = 0;
     bg->flags = 6;
     DrawBackground(bg);
-    gCurTask->main = sub_8099680;
+    gCurTask->main = Task_8099680;
 }
 END_NONMATCH
 
@@ -2001,7 +2002,7 @@ void sub_809A50C(CharacterSelect *cs)
     temp_r3->layoutVram = (u16 *)BG_SCREEN_ADDR(3);
     temp_r3->unk18 = 0;
     temp_r3->unk1A = 0;
-    if (!(gLoadedSaveGame.unlockedCharacters & gUnknown_080D946D[temp_r4])) {
+    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r4])) {
         temp_r3->tilemapId = gUnknown_080D8CDC[16];
     } else {
         temp_r3->tilemapId = gUnknown_080D8CDC[temp_r4 + 0xA];
@@ -2269,6 +2270,102 @@ void Task_809AA28(void)
     gCurTask->main = Task_8098DE4;
 }
 
+void Task_809AABC(void)
+{
+    CharacterSelect *cs = TASK_DATA(gCurTask);
+    Background *temp_r3;
+    u16 var_r0;
+    u8 var_r0_2;
+    u32 temp_r2;
+    u8 temp_r5;
+
+    sub_809ADF0(cs);
+    sub_809AE50(cs);
+    sub_809AF08(cs);
+    sub_809B69C(cs);
+    sub_809B6C0(cs);
+    sub_809B32C(cs, 1U);
+    sub_809B13C(cs);
+    sub_809B3C4(cs, 1U);
+    sub_809B41C(cs);
+
+    if (sub_809AC44(cs, 1U) == 1) {
+        cs->qUnk34 = 0x14000;
+        cs->unk3 = cs->unk5;
+        cs->unkB = 0x1F;
+        cs->qUnk3C = Q(DISPLAY_WIDTH / 2);
+        cs->qUnk40 = Q(DISPLAY_HEIGHT / 2);
+        temp_r3 = &cs->bg234;
+        temp_r5 = gUnknown_080D8F18[cs->unk5];
+        temp_r3->graphics.dest = (void *)(BG_VRAM + 0x8000);
+        temp_r3->graphics.anim = 0;
+        temp_r3->layoutVram = (u16 *)BG_SCREEN_ADDR(27);
+        temp_r3->unk18 = 0;
+        temp_r3->unk1A = 0;
+
+        if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r5])) {
+            temp_r3->tilemapId = gUnknown_080D8CDC[16];
+        } else {
+            temp_r3->tilemapId = gUnknown_080D8CDC[temp_r5 + 5];
+        }
+
+        temp_r3->unk1E = 0;
+        temp_r3->unk20 = 0;
+        temp_r3->unk22 = 0;
+        temp_r3->unk24 = 0;
+        temp_r3->targetTilesX = 0x10;
+        temp_r3->targetTilesY = 0x10;
+        temp_r3->paletteOffset = 0;
+        temp_r3->flags = 6;
+        DrawBackground(temp_r3);
+        cs->qUnk70 = 0x9100;
+        gCurTask->main = Task_809AA28;
+    } else if ((cs->createIndex == 1) && (sub_809AD08(cs) == 0)) {
+        sub_802613C();
+    } else {
+        u32 pressedA = gPressedKeys & A_BUTTON;
+#ifndef NON_MATCHING
+        register u32 r0 asm("r0");
+#else
+        u32 r0;
+#endif
+        temp_r2 = cs->createIndex;
+        if (pressedA) {
+            r0 = temp_r2;
+            if ((r0 != 0) && (r0 != 3)) {
+                var_r0_2 = (u32)(0 - (gMultiSioStatusFlags & 0x80)) >> 0x1F;
+            } else {
+                var_r0_2 = 1;
+            }
+            if (var_r0_2 != 0) {
+                cs->unkB = 0xC;
+#ifndef NON_MATCHING
+                asm("lsl %0, %1, #24\n"
+                    "lsr %0, %0, #24\n"
+                    : "=r"(r0)
+                    : "r"(temp_r2));
+#else
+                r0 = (u8)temp_r2;
+#endif
+                if (r0 == 1) {
+                    sub_809B700(cs);
+                }
+                gCurTask->main = Task_8099680;
+                return;
+            }
+        }
+#ifndef NON_MATCHING
+        asm("lsl %0, %1, #24\n"
+            "lsr %0, %0, #24\n"
+            : "=r"(r0)
+            : "r"(temp_r2));
+        asm("" ::"r"(r0));
+#else
+        r0 = (u8)temp_r2;
+#endif
+    }
+}
+
 #if 0
 void sub_809AABC(u16 arg2) {
     Background *temp_r3;
@@ -2336,7 +2433,7 @@ void sub_809AABC(u16 arg2) {
             if (temp_r2 == 1) {
                 sub_809B700(temp_r5);
             }
-            gCurTask->main = sub_8099680;
+            gCurTask->main = Task_8099680;
         }
     }
 }
