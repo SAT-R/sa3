@@ -2422,100 +2422,108 @@ bool32 sub_809AC44(CharacterSelect *cs, u8 param1)
     }
 }
 
-#if 0
-s32 sub_809AD08(void *arg0) {
+bool32 sub_809AD08(CharacterSelect *cs)
+{
     s32 var_r0;
-    s32 var_r2;
+    s32 var_r2 = 0x20;
 
-    var_r2 = 0x20;
-    if ((arg0->unk7 == 1) && ((u32) gStageData.playerIndex > 1U)) {
+    if ((cs->createIndex == 1) && ((u32)gStageData.playerIndex > 1U)) {
         var_r2 = 0x22;
     }
+
     if (0x80 & gMultiSioStatusFlags) {
-        var_r0 = 2;
-    } else {
-        var_r0 = 1;
-    }
-    if (!(gMultiSioStatusFlags & var_r0)) {
-        var_r2 = 0x21;
-    }
-    if (var_r2 == 0x21) {
-        arg0->unk16 = (u16) (arg0->unk16 + 1);
-    }
-    if ((u32) arg0->unk16 > 0x77U) {
-        switch (var_r2) {                           /* irregular */
-        case 33:
-        case 34:
-            return 0;
-        default:
-            arg0->unk16 = 0U;
-            goto block_18;
+        if (!(gMultiSioStatusFlags & 2)) {
+            var_r2 = 0x21;
         }
     } else {
-    case 32:
-block_18:
-        return 1;
+        if (!(gMultiSioStatusFlags & 1)) {
+            var_r2 = 0x21;
+        }
     }
+
+    if (var_r2 == 0x21) {
+        cs->qUnk16++;
+    }
+
+    if (cs->qUnk16 > 0x77U) {
+        switch (var_r2) {
+            case 32:
+                return 1;
+            case 33:
+                return 0U;
+            case 34:
+                return 0U;
+        }
+        cs->qUnk16 = 0;
+        return 1U;
+    }
+
+    return 1U;
 }
 
-void sub_809AD74(CharacterSelect *cs) {
-    Sprite *temp_r4;
+void sub_809AD74(CharacterSelect *cs)
+{
     s16 var_r0;
     s32 var_r1;
+    s32 r8, r7;
     u32 var_r0_2;
-    u8 var_r6;
+    u8 i;
 
-    temp_r4 = &cs->spr74;
-    var_r1 = 0x78;
-    if ((u32) cs->unkB > 0xDU) {
+    Sprite *s = &cs->spr74;
+    u32 max = 2;
+    if (cs->unkB > 0xDU) {
         var_r1 = 0xB4;
+    } else {
+        var_r1 = 0x78;
     }
-    var_r6 = 0;
-    do {
-        if (var_r6 != 0) {
-            var_r0 = (var_r1 - 0x28) - ((s32) cs->qUnk5C >> 8);
+
+    i = 0;
+    r8 = -0x28 + var_r1;
+    r7 = +0x28 + var_r1;
+
+    for (; i < max; i++) {
+        if (i != 0) {
+            s->x = r8 - I(cs->qUnk5C);
         } else {
-            var_r0 = var_r1 + 0x28 + ((s32) cs->qUnk5C >> 8);
+            s->x = r7 + I(cs->qUnk5C);
         }
-        temp_r4->x = var_r0;
-        temp_r4->y = (s16) ((s32) cs->qUnk60 >> 8);
-        if (var_r6 != 0) {
-            var_r0_2 = temp_r4->frameFlags | 0x400;
+        s->y = I(cs->qUnk60);
+
+        if (i != 0) {
+            s->frameFlags |= 0x400;
         } else {
-            var_r0_2 = temp_r4->frameFlags & 0xFFFFFBFF;
+            s->frameFlags &= ~0x400;
         }
-        temp_r4->frameFlags = var_r0_2;
-        DisplaySprite(temp_r4);
-        var_r6 += 1;
-    } while ((u32) var_r6 < 2U);
+        DisplaySprite(s);
+    }
 }
 
-void sub_809ADF0(CharacterSelect *cs) {
-    Sprite *temp_r4;
-    Sprite *temp_r4_2;
+void sub_809ADF0(CharacterSelect *cs)
+{
+    Sprite *s;
     u32 var_r0;
-    u8 var_r6;
 
-    var_r6 = 0;
-    temp_r4 = &cs->sprC4;
-    do {
-        temp_r4->x = (s16) ((s32) cs->qUnk2C >> 8);
-        temp_r4->y = (s16) ((s32) cs->qUnk30 >> 8);
-        if (var_r6 != 0) {
-            var_r0 = temp_r4->frameFlags & 0xFFFFFBFF;
+    u8 i;
+    for (i = 0; i < 2; i++) {
+        s = &cs->sprC4;
+        s->x = I(cs->qUnk2C);
+        s->y = I(cs->qUnk30);
+
+        if (i != 0) {
+            s->frameFlags &= ~0x400;
         } else {
-            var_r0 = temp_r4->frameFlags | 0x400;
+            s->frameFlags |= 0x400;
         }
-        temp_r4->frameFlags = var_r0;
-        DisplaySprite(temp_r4);
-        var_r6 += 1;
-    } while ((u32) var_r6 <= 1U);
-    temp_r4_2 = &cs->spr9C;
-    temp_r4_2->x = (s16) ((s32) cs->qUnk24 >> 8);
-    temp_r4_2->y = (s16) ((s32) cs->qUnk28 >> 8);
-    DisplaySprite(temp_r4_2);
+        DisplaySprite(s);
+    }
+
+    s = &cs->spr9C;
+    s->x = I(cs->qUnk24);
+    s->y = I(cs->qUnk28);
+    DisplaySprite(s);
 }
 
+#if 0
 void sub_809AE50(CharacterSelect *cs) {
     Sprite *temp_r4;
     Sprite *temp_r4_2;
