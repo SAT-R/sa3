@@ -1034,8 +1034,8 @@ _0809BF30: .4byte gUnknown_080D9468
 _0809BF34: .4byte gObjPalette
 _0809BF38: .4byte 0x80000010
 
-	thumb_func_start sub_809BF3C
-sub_809BF3C: @ 0x0809BF3C
+	thumb_func_start CreateSomeTask_809BF3C
+CreateSomeTask_809BF3C: @ 0x0809BF3C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -8765,7 +8765,7 @@ sub_809FCFC: @ 0x0809FCFC
 	adds r4, r5, r6
 	ldr r4, [r4]
 	str r4, [sp]
-	bl sub_809BF3C
+	bl CreateSomeTask_809BF3C
 	ldr r1, _0809FE04 @ =0x03000088
 	adds r5, r5, r1
 	str r0, [r5]
@@ -9439,7 +9439,7 @@ _080A0244:
 	adds r4, r4, r7
 	ldr r4, [r4]
 	str r4, [sp]
-	bl sub_809BF3C
+	bl CreateSomeTask_809BF3C
 	ldr r0, [r5, #0x18]
 	ldrb r0, [r0]
 	strb r0, [r5, #3]
@@ -17301,7 +17301,7 @@ sub_80A40A0: @ 0x080A40A0
 	adds r3, r4, r7
 	ldr r4, [r5, #0x28]
 	str r4, [sp]
-	bl sub_809BF3C
+	bl CreateSomeTask_809BF3C
 _080A4102:
 	ldr r1, [r5, #0x14]
 	ldr r0, _080A4180 @ =0x00003FFF
@@ -39085,7 +39085,7 @@ _080AEB9E:
 	adds r3, #0x10
 	ldr r4, [r7, #8]
 	str r4, [sp]
-	bl sub_809BF3C
+	bl CreateSomeTask_809BF3C
 	ldr r0, _080AEBE8 @ =gCurTask
 	ldr r1, [r0]
 	ldr r0, _080AEBEC @ =sub_80AEBF0

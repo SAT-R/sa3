@@ -55,6 +55,20 @@ void sub_8023634() { }
 void sub_80236C8() { }
 void sub_8023734() { }
 void sub_80239A8() { }
+s16 sub_8023E04() { return 0; }
+bool32 sub_8023E80(void) { return FALSE; }
+u16 sub_8023EFC(void) { return 0; }
+void sub_8024068(void) { }
+s16 sub_8024074(u8 param0) { return 0; }
+s16 sub_80240B4() { return 0; }
+s16 sub_80240F4() { return 0; }
+s16 sub_8024130(void) { }
+bool32 sub_8024188(u8 param0) { return FALSE; }
+u16 sub_80241AC(u8 param0) { return 0; }
+s16 sub_8024208(void) { return 0; }
+void sub_80258D4(void) { }
+s16 sub_802610C() { return 0; }
+void sub_802613C() { }
 void sub_802616C() { }
 void sub_80274F4() { }
 void sub_80293E8() { }
@@ -189,7 +203,11 @@ void /* 0x08090390 */ OptionsSlideInit_DeleteSaveData() { }
 void /* 0x08090A1C */ OptionsSlideInit_TimeUp() { }
 void /* 0x08090F70 */ OptionsSlideInit_ButtonConfig() { }
 void /* 0x08093954 */ OptionsSlideInit_SoundTest() { }
+void sub_80961E4(u8 param0) { }
+// returns VRAM tile pointer
+void *CreateSomeTask_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles) { return tiles; }
 void /* 0x080A209C */ CreateGameIntroState() { }
+void sub_80AD824(void) { }
 void sub_80B75E4() { }
 void sub_80B7914() { }
 void sub_80B794C() { }

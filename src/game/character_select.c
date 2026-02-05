@@ -1,6 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "flags.h"
+#include "malloc_vram.h"
 #include "code_z_1.h" // CopyPalette
 #include "module_unclear.h"
 #include "lib/m4a/m4a.h"
@@ -158,12 +159,12 @@ void sub_809AD74(CharacterSelect *cs);
 void sub_809ADF0(CharacterSelect *cs);
 void sub_809AE50(CharacterSelect *cs);
 void sub_809AFC0(CharacterSelect *cs);
-void sub_809B13C(CharacterSelect *cs);
+bool32 sub_809B13C(CharacterSelect *cs);
 bool32 sub_809B148(CharacterSelect *cs);
 bool32 sub_809B184(CharacterSelect *cs);
-void sub_809B1E4(CharacterSelect *cs);
-void sub_809B234(CharacterSelect *cs);
-void sub_809B284(CharacterSelect *cs);
+bool32 sub_809B1E4(CharacterSelect *cs);
+bool32 sub_809B234(CharacterSelect *cs);
+bool32 sub_809B284(CharacterSelect *cs);
 void sub_809B2AC(CharacterSelect *cs);
 void sub_809B2E4(CharacterSelect *cs);
 void sub_809B5D0(CharacterSelect *cs);
@@ -184,7 +185,7 @@ bool32 sub_809AC44(CharacterSelect *cs, u8 param1);
 void sub_809AF08(CharacterSelect *cs);
 void sub_809B094(CharacterSelect *cs);
 void sub_809B700(CharacterSelect *cs);
-bool32 sub_809B704(CharacterSelect *cs, u8 param1);
+bool32 sub_809B704(CharacterSelect *cs, s16 param1);
 bool32 sub_809B32C(CharacterSelect *cs, u8 param1);
 bool32 sub_809B3C4(CharacterSelect *cs, u8 param1);
 bool32 sub_809B424(CharacterSelect *cs, u8 param1);
@@ -192,18 +193,20 @@ bool32 sub_809B470(CharacterSelect *cs, u8 param1);
 bool32 sub_809B4BC(CharacterSelect *cs, u8 param1);
 bool32 sub_809B548(CharacterSelect *cs, u8 param1);
 
-void sub_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles);
+// returns VRAM tile pointer
+void *CreateSomeTask_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles);
 s16 sub_8023E04(void);
 s16 sub_8024074(u8);
 bool32 sub_80240B4(u8);
-bool32 sub_80240F4();
+s16 sub_80240F4();
 void sub_802613C(void);
 void CharSelect_InitBackgrounds(CharacterSelect *cs);
 void sub_80AD824(void);
 bool32 sub_809B1B4(CharacterSelect *cs);
 bool32 sub_809B25C(CharacterSelect *cs);
-void sub_809B41C(CharacterSelect *cs);
+bool32 sub_809B41C(CharacterSelect *cs);
 void Task_8099758(void);
+void Task_80981A8(void);
 void sub_8098508(void);
 void Task_809AABC(void);
 void Task_8099C9C(void);
@@ -223,11 +226,13 @@ bool32 sub_809AD08(CharacterSelect *cs);
 
 extern bool32 sub_8023E80(void);
 extern u16 sub_8023EFC(void);
-extern s16 sub_802610C();
+extern void sub_8024068(void);
 extern s16 sub_8024130(void);
 extern bool32 sub_8024188(u8);
 extern u16 sub_80241AC(u8);
 extern s16 sub_8024208(void);
+extern void sub_80258D4(void);
+extern s16 sub_802610C();
 
 extern u16 gUnknown_080D8CDC[];
 extern const TileInfo2 gUnknown_080D8D00[2];
@@ -1248,7 +1253,7 @@ void Task_8099300()
             cs->qUnk34 = cs->qUnk3C;
             cs->qUnk38 = cs->qUnk40;
             cs->unk5 = cs->unk3;
-            sub_809BF3C(&cs->unk5, &cs->unkB, &cs->qUnk34, &cs->qUnk38, cs->tilesCharacters[CS_CHARID_CHOSEN]);
+            CreateSomeTask_809BF3C(&cs->unk5, &cs->unkB, &cs->qUnk34, &cs->qUnk38, cs->tilesCharacters[CS_CHARID_CHOSEN]);
             cs->qUnk4C = 0x12C00;
         }
     }
@@ -1952,8 +1957,8 @@ void Task_809A3BC(void)
     u8 temp_r4_2;
     CharacterSelect *cs = TASK_DATA(gCurTask);
 
-    sub_809BF3C(&cs->unk5, &cs->unkB, &cs->qUnk34, &cs->qUnk38, cs->tilesCharacters[CS_CHARID_CHOSEN]);
-    sub_809BF3C(&cs->unk3, &cs->unkB, &cs->qUnk3C, &cs->qUnk40, cs->tilesCharacters[CS_CHARID_ACTIVE]);
+    CreateSomeTask_809BF3C(&cs->unk5, &cs->unkB, &cs->qUnk34, &cs->qUnk38, cs->tilesCharacters[CS_CHARID_CHOSEN]);
+    CreateSomeTask_809BF3C(&cs->unk3, &cs->unkB, &cs->qUnk3C, &cs->qUnk40, cs->tilesCharacters[CS_CHARID_ACTIVE]);
     cs->unkB = 0xE;
     sub_809A644(cs);
     cs->qUnk34 = 0x5A00;
@@ -2667,500 +2672,542 @@ void sub_809B094(CharacterSelect *cs)
     gBgScrollRegs[2][1] = -I(cs->qUnk50);
 }
 
-#if 0
-void Task_CharacterSelectInit(void) {
-    u16 temp_r3;
+void Task_CharacterSelectInit(void)
+{
+    CharacterSelect *cs = TASK_DATA(gCurTask);
     u8 temp_r0;
     void (*var_r0)();
 
-    temp_r3 = gCurTask->data;
-    temp_r3->unk20 = sub_809BF3C(temp_r3 + 3, temp_r3 + 0xB, temp_r3 + 0x3C, temp_r3 + 0x40, temp_r3->unk1C);
-    temp_r0 = temp_r3->unk7;
-    if (temp_r0 == 1) {
+    cs->tilesCharacters[CS_CHARID_CHOSEN] = CreateSomeTask_809BF3C(&cs->unk3, &cs->unkB, &cs->qUnk3C, &cs->qUnk40, cs->tilesCharacters[0]);
+
+    if (cs->createIndex == 1) {
         sub_8024068();
-        var_r0 = sub_80981A8;
-    } else if (temp_r0 == 2) {
+        gCurTask->main = Task_80981A8;
+    } else if (cs->createIndex == 2) {
         sub_80258D4();
-        var_r0 = sub_80981A8;
+        gCurTask->main = Task_80981A8;
     } else {
-        var_r0 = Task_80983E8;
+        gCurTask->main = Task_80983E8;
     }
-    gCurTask->main = var_r0;
 }
 
-void sub_809B13C(CharacterSelect *cs) {
+bool32 sub_809B13C(CharacterSelect *cs)
+{
     cs->unk12 += 0xC0;
+    return TRUE;
 }
 
-void sub_809B148(CharacterSelect *cs) {
+u32 sub_809B148(CharacterSelect *cs)
+{
     s32 temp_r0;
     s32 temp_r0_2;
+    s32 r2 = 120;
 
     if (cs->unk1 == 0) {
         temp_r0 = cs->qUnk3C + 0xFFFFF200;
         cs->qUnk3C = temp_r0;
-        if (temp_r0 <= 0x7800) {
-            goto block_4;
+        if (temp_r0 <= Q(r2)) {
+            cs->qUnk3C = Q(r2);
+            return 1U;
         }
     } else {
         temp_r0_2 = cs->qUnk3C + 0xE00;
         cs->qUnk3C = temp_r0_2;
-        if (temp_r0_2 >= 0x7800) {
-block_4:
-            cs->qUnk3C = 0x7800;
+        if (temp_r0_2 >= Q(r2)) {
+            cs->qUnk3C = Q(r2);
+            return 1U;
         }
     }
+
+    return 0U;
 }
 
-void sub_809B184(CharacterSelect *cs) {
+u32 sub_809B184(CharacterSelect *cs)
+{
     s32 temp_r1;
     s32 temp_r1_2;
 
     temp_r1 = cs->qUnk68;
     if (temp_r1 <= 0x9100) {
         cs->qUnk68 = 0x9100;
-        return;
+        return 1U;
     }
     temp_r1_2 = temp_r1 + 0xFFFFFA00;
     cs->qUnk68 = temp_r1_2;
     if (temp_r1_2 <= 0x90FF) {
         cs->qUnk68 = 0x9100;
     }
+    return 0U;
 }
 
-s32 sub_809B1B4(void *arg0) {
+u32 sub_809B1B4(CharacterSelect *cs)
+{
     s32 temp_r1;
     s32 temp_r1_2;
 
-    temp_r1 = arg0->unk70;
+    temp_r1 = cs->qUnk70;
     if (temp_r1 <= 0x9100) {
-        arg0->unk70 = 0x9100;
-        return 1;
+        cs->qUnk70 = 0x9100;
+        return 1U;
     }
     temp_r1_2 = temp_r1 + 0xFFFFFA00;
-    arg0->unk70 = temp_r1_2;
+    cs->qUnk70 = temp_r1_2;
     if (temp_r1_2 <= 0x90FF) {
-        arg0->unk70 = 0x9100;
+        cs->qUnk70 = 0x9100;
     }
-    return 0;
+    return 0U;
 }
 
-void sub_809B1E4(CharacterSelect *cs) {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 var_r0;
-
+bool32 sub_809B1E4(CharacterSelect *cs)
+{
     if (cs->unk1 == 0) {
-        temp_r0 = cs->qUnk3C + 0xFFFFF200;
-        cs->qUnk3C = temp_r0;
-        if (temp_r0 <= 0xFFFFA600) {
-            var_r0 = 0x12C00;
-            goto block_5;
+        cs->qUnk3C -= Q(14);
+        if (cs->qUnk3C <= -Q(90)) {
+            cs->qUnk3C = +Q(300);
+            return TRUE;
         }
     } else {
-        temp_r0_2 = cs->qUnk3C + 0xE00;
-        cs->qUnk3C = temp_r0_2;
-        if (temp_r0_2 > 0x149FF) {
-            var_r0 = -0x3C00;
-block_5:
-            cs->qUnk3C = var_r0;
+        cs->qUnk3C += Q(14);
+        if (cs->qUnk3C >= Q(330)) {
+            cs->qUnk3C = -Q(60);
+            return TRUE;
         }
     }
+
+    return FALSE;
 }
 
-void sub_809B234(CharacterSelect *cs) {
-    s32 temp_r2;
-
-    temp_r2 = cs->qUnk68;
-    if (temp_r2 > 0xB3FF) {
-        cs->qUnk68 = 0xB400;
-        return;
+bool32 sub_809B234(CharacterSelect *cs)
+{
+    if (cs->qUnk68 < Q(180)) {
+        cs->qUnk68 += Q(6);
+        return FALSE;
+    } else {
+        cs->qUnk68 = Q(180);
+        return TRUE;
     }
-    cs->qUnk68 = temp_r2 + 0x600;
 }
 
-s32 sub_809B25C(void *arg0) {
-    s32 temp_r2;
-
-    temp_r2 = arg0->unk70;
-    if (temp_r2 > 0xB3FF) {
-        arg0->unk70 = 0xB400;
-        return 1;
+bool32 sub_809B25C(CharacterSelect *cs)
+{
+    if (cs->qUnk70 < Q(180)) {
+        cs->qUnk70 += Q(6);
+        return FALSE;
+    } else {
+        cs->qUnk70 = Q(180);
+        return TRUE;
     }
-    arg0->unk70 = (s32) (temp_r2 + 0x600);
-    return 0;
 }
 
-void sub_809B284(CharacterSelect *cs) {
+bool32 sub_809B284(CharacterSelect *cs)
+{
     s32 temp_r2;
     s32 var_r0;
 
     temp_r2 = cs->qUnk5C;
     if (temp_r2 <= 0x4FF) {
-        var_r0 = temp_r2 + 0x40;
+        cs->qUnk5C = temp_r2 + 0x40;
     } else {
-        var_r0 = 0;
+        cs->qUnk5C = 0;
     }
-    cs->qUnk5C = var_r0;
-    cs->qUnk60 = 0x5A00;
+    cs->qUnk60 = Q(90);
+
+    return TRUE;
 }
 
-void sub_809B2AC(void *arg0) {
+void sub_809B2AC(CharacterSelect *cs)
+{
     s32 temp_r0;
     s32 temp_r0_2;
+    s32 r2 = 120;
 
-    if (arg0->unk1 == 0) {
-        temp_r0 = arg0->unk4C + 0xFFFFF200;
-        arg0->unk4C = temp_r0;
-        if (temp_r0 <= 0x7800) {
-            goto block_4;
+    if (cs->unk1 == 0) {
+        temp_r0 = cs->qUnk4C + 0xFFFFF200;
+        cs->qUnk4C = temp_r0;
+        if (temp_r0 <= Q(r2)) {
+            cs->qUnk4C = Q(r2);
         }
     } else {
-        temp_r0_2 = arg0->unk4C + 0xE00;
-        arg0->unk4C = temp_r0_2;
-        if (temp_r0_2 >= 0x7800) {
-block_4:
-            arg0->unk4C = 0x7800;
-        }
-    }
-}
-
-void sub_809B2E4(void *arg0) {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 var_r0;
-
-    if (arg0->unk1 == 0) {
-        temp_r0 = arg0->unk4C + 0xFFFFF200;
-        arg0->unk4C = temp_r0;
-        if (temp_r0 <= 0xFFFFA600) {
-            var_r0 = 0x12C00;
-            goto block_5;
-        }
-    } else {
-        temp_r0_2 = arg0->unk4C + 0xE00;
-        arg0->unk4C = temp_r0_2;
-        if (temp_r0_2 > 0x149FF) {
-            var_r0 = -0x3C00;
-block_5:
-            arg0->unk4C = var_r0;
+        temp_r0_2 = cs->qUnk4C + 0xE00;
+        cs->qUnk4C = temp_r0_2;
+        if (temp_r0_2 >= Q(r2)) {
+            cs->qUnk4C = Q(r2);
         }
     }
 }
 
-s32 sub_809B32C(void *arg0, s32 arg1) {
-    s32 temp_r0;
-    s32 temp_r0_2;
+void sub_809B2E4(CharacterSelect *cs)
+{
+    if (cs->unk1 == 0) {
+        cs->qUnk4C -= Q(14);
+        if (cs->qUnk4C <= -Q(90)) {
+            cs->qUnk4C = Q(300);
+        }
+    } else {
+        cs->qUnk4C += Q(14);
+        if (cs->qUnk4C >= Q(330)) {
+            cs->qUnk4C = -Q(60);
+        }
+    }
+}
+
+u32 sub_809B32C(CharacterSelect *cs, u8 param1)
+{
     s32 temp_r0_3;
     s32 temp_r1;
-    s32 temp_r1_2;
     s32 temp_r1_3;
+    s32 r0 = Q(5);
+    s32 r4 = Q(3.75);
+    s32 r3 = r0 + r4;
+    s32 r5 = 0xD0 << 2;
+    r4 = r0 + r5;
 
-    if ((arg1 << 0x18) != 0) {
-        temp_r1 = arg0->unk3C;
-        if (temp_r1 > 0x12BFF) {
-            arg0->unk3C = 0x12C00;
-            return 1;
+    if (param1 != 0) {
+        temp_r1 = cs->qUnk3C;
+        if (cs->qUnk3C >= Q(300)) {
+            cs->qUnk3C = Q(300);
+            return 1U;
         }
-        temp_r0 = temp_r1 + 0x8C0;
-        arg0->unk3C = temp_r0;
-        if (temp_r0 > 0x12C00) {
-            arg0->unk3C = 0x12C00;
+
+        cs->qUnk3C += r3;
+        if (cs->qUnk3C > Q(300)) {
+            cs->qUnk3C = Q(300);
         }
-        temp_r0_2 = arg0->unk4C + 0x840;
-        arg0->unk4C = temp_r0_2;
-        if (temp_r0_2 > 0x12C00) {
-            arg0->unk4C = 0x12C00;
+        cs->qUnk4C += 0x840;
+        if (cs->qUnk4C > Q(300)) {
+            cs->qUnk4C = Q(300);
         }
-        goto block_13;
-    }
-    temp_r1_2 = arg0->unk3C;
-    if (temp_r1_2 <= 0xB400) {
-        arg0->unk3C = 0xB400;
-        return 1;
-    }
-    temp_r1_3 = temp_r1_2 + 0xFFFFF740;
-    arg0->unk3C = temp_r1_3;
-    if (temp_r1_3 <= 0xB3FF) {
-        arg0->unk3C = 0xB400;
-    }
-    temp_r0_3 = arg0->unk4C + 0xFFFFF7C0;
-    arg0->unk4C = temp_r0_3;
-    if (temp_r0_3 <= 0x6DFF) {
-        arg0->unk4C = 0x6E00;
+    } else {
+        temp_r1 = cs->qUnk3C;
+        r3 = 0xB400;
+        if (temp_r1 <= r3) {
+            cs->qUnk3C = r3;
+            return 1U;
+        }
+        temp_r1_3 = temp_r1 + 0xFFFFF740;
+        cs->qUnk3C = temp_r1_3;
+        if (temp_r1_3 <= 0xB3FF) {
+            cs->qUnk3C = 0xB400;
+        }
+        temp_r0_3 = cs->qUnk4C + 0xFFFFF7C0;
+        cs->qUnk4C = temp_r0_3;
+        if (temp_r0_3 <= 0x6DFF) {
+            cs->qUnk4C = 0x6E00;
+        }
     }
 block_13:
-    return 0;
+    return 0U;
 }
 
-s32 sub_809B3C4(void *arg0, s32 arg1) {
+u32 sub_809B3C4(CharacterSelect *cs, u8 param1)
+{
     s32 temp_r0;
     s32 temp_r1;
     s32 var_r3;
 
     var_r3 = 0;
-    if ((arg1 << 0x18) != 0) {
-        temp_r1 = arg0->unk64;
+    if (param1 != 0) {
+        temp_r1 = cs->qUnk64;
         if (temp_r1 <= 0x77FF) {
-            arg0->unk64 = (s32) (temp_r1 + 0x610);
+            cs->qUnk64 = temp_r1 + 0x610;
             goto block_7;
         }
-        arg0->unk64 = 0x7800;
+        cs->qUnk64 = 0x7800;
         goto block_9;
     }
-    temp_r0 = arg0->unk64;
+    temp_r0 = cs->qUnk64;
     if (temp_r0 > 0x3C00) {
-        arg0->unk64 = (s32) (temp_r0 + 0xFFFFF9F0);
+        cs->qUnk64 = temp_r0 + 0xFFFFF9F0;
     } else {
-        arg0->unk64 = 0x3C00;
+        cs->qUnk64 = 0x3C00;
         var_r3 = 1;
     }
 block_7:
     if (var_r3 == 0) {
-        return 0;
+        return 0U;
     }
 block_9:
-    return 1;
+    return 1U;
 }
 
-s32 sub_809B41C(void *arg0) {
-    arg0->unk6C = (s32) arg0->unk3C;
-    return 1;
+bool32 sub_809B41C(CharacterSelect *cs)
+{
+    cs->qUnk6C = cs->qUnk3C;
+    return TRUE;
 }
 
-s32 sub_809B424(void *arg0, s32 arg1) {
+u32 sub_809B424(CharacterSelect *cs, u8 param1)
+{
     s32 temp_r0;
     s32 temp_r1;
     s32 var_r0;
 
-    if ((arg1 << 0x18) == 0) {
-        temp_r1 = arg0->unk34;
-        if (temp_r1 <= 0x59FF) {
+    if ((param1 << 0x18) == 0) {
+        temp_r1 = cs->qUnk34;
+        if (temp_r1 < 0x5A00) {
+            s32 r0 = 3;
+#ifndef NON_MATCHING
+            asm("" ::"r"(r0));
+#endif
+            r0 = Q(r0);
             var_r0 = temp_r1 + 0x300;
             goto block_7;
         }
-        arg0->unk34 = 0x5A00;
-        return 1;
+        cs->qUnk34 = 0x5A00;
+        return 1U;
     }
-    temp_r0 = arg0->unk34;
+    temp_r0 = cs->qUnk34;
     if (temp_r0 <= 0x3C00) {
-        arg0->unk34 = 0x3C00;
-        return 1;
+        cs->qUnk34 = 0x3C00;
+        return 1U;
     }
     var_r0 = temp_r0 + 0xFFFFFD00;
 block_7:
-    arg0->unk34 = var_r0;
-    return 0;
+    cs->qUnk34 = var_r0;
+    return 0U;
 }
 
-s32 sub_809B470(void *arg0, s32 arg1) {
+bool32 sub_809B470(CharacterSelect *cs, u8 param1)
+{
     s32 temp_r0;
     s32 temp_r1;
     s32 var_r0;
 
-    if ((arg1 << 0x18) == 0) {
-        temp_r0 = arg0->unk3C;
-        if (temp_r0 > 0x9600) {
-            var_r0 = temp_r0 + 0xFFFFFD00;
-            goto block_7;
+    if (param1 == 0) {
+        temp_r0 = cs->qUnk3C;
+        if (cs->qUnk3C > 0x9600) {
+            cs->qUnk3C -= Q(3);
+        } else {
+            cs->qUnk3C = 0x9600;
+            return 1U;
         }
-        arg0->unk3C = 0x9600;
-        return 1;
+    } else {
+        s32 r0;
+        if (cs->qUnk3C >= 0xB400) {
+            cs->qUnk3C = 0xB400;
+            return 1U;
+        }
+        r0 = 3;
+#ifndef NON_MATCHING
+        asm("" ::"r"(r0));
+#endif
+        r0 = Q(r0);
+        cs->qUnk3C += r0;
     }
-    temp_r1 = arg0->unk3C;
-    if (temp_r1 > 0xB3FF) {
-        arg0->unk3C = 0xB400;
-        return 1;
-    }
-    var_r0 = temp_r1 + 0x300;
-block_7:
-    arg0->unk3C = var_r0;
-    return 0;
+
+    return 0U;
 }
 
-s32 sub_809B4BC(void *arg0, s32 arg1) {
+u32 sub_809B4BC(CharacterSelect *cs, u8 param1)
+{
     s32 temp_r0;
     s32 temp_r1;
     s32 temp_r1_2;
     s32 temp_r1_3;
     s32 var_r0;
     u8 var_r3;
+    s32 r4;
 
     var_r3 = 0;
-    if ((arg1 << 0x18) == 0) {
-        temp_r1 = arg0->unk64;
+    r4 = 3;
+    if (param1 == 0) {
+        temp_r1 = cs->qUnk64;
         if (temp_r1 <= 0x5EFF) {
-            arg0->unk64 = (s32) (temp_r1 + 0x300);
+            cs->qUnk64 = temp_r1 + Q(r4);
         } else {
-            arg0->unk64 = 0x5F00;
+            cs->qUnk64 = 0x5F00;
             var_r3 = 1;
         }
-        temp_r1_2 = arg0->unk54;
+        temp_r1_2 = cs->qUnk54;
         var_r0 = 0xC900;
         if (temp_r1_2 > 0xC900) {
-            arg0->unk54 = (s32) (temp_r1_2 - 0x300);
+            cs->qUnk54 = temp_r1_2 - Q(r4);
         } else {
             goto block_12;
         }
     } else {
-        temp_r0 = arg0->unk64;
+        temp_r0 = cs->qUnk64;
         if (temp_r0 > 0x3C00) {
-            arg0->unk64 = (s32) (temp_r0 + 0xFFFFFD00);
+            cs->qUnk64 = temp_r0 + 0xFFFFFD00;
         } else {
-            arg0->unk64 = 0x3C00;
+            cs->qUnk64 = 0x3C00;
             var_r3 = 1;
         }
-        temp_r1_3 = arg0->unk54;
+        temp_r1_3 = cs->qUnk54;
         if (temp_r1_3 <= 0x104FF) {
-            arg0->unk54 = (s32) (temp_r1_3 + 0x300);
+            cs->qUnk54 = temp_r1_3 + Q(r4);
         } else {
             var_r0 = 0x10500;
-block_12:
-            arg0->unk54 = var_r0;
+        block_12:
+            cs->qUnk54 = var_r0;
             var_r3 += 1;
         }
     }
-    if (var_r3 != 2) {
-        return 0;
+    if (var_r3 == 2) {
+        return 1U;
+    } else {
+        return 0U;
     }
-    return 1;
 }
 
-s32 sub_809B548(void *arg0, s32 arg1) {
+u32 sub_809B548(CharacterSelect *cs, u8 param1)
+{
     s32 temp_r0;
     s32 temp_r1;
     s32 var_r0;
     u8 var_r3;
+    s32 r4;
 
     var_r3 = 0;
-    if ((arg1 << 0x18) == 0) {
-        temp_r0 = arg0->unk6C;
+    r4 = 3;
+    if (param1 == 0) {
+        temp_r0 = cs->qUnk6C;
         if (temp_r0 > 0x9100) {
-            arg0->unk6C = (s32) (temp_r0 + 0xFFFFFD00);
+            cs->qUnk6C = temp_r0 + 0xFFFFFD00;
         } else {
-            arg0->unk6C = 0x9100;
-            var_r3 = 1;
+            cs->qUnk6C = 0x9100;
+            var_r3 += 1;
         }
-        if ((s32) arg0->unk4C > 0xC8FF) {
-            var_r0 = 0xC900;
-            goto block_12;
+        if (cs->qUnk4C >= 0xC900) {
+#ifndef NON_MATCHING
+            register s32 v asm("r0");
+            asm("mov %0, #0xC9\n"
+                "lsl %0, #8"
+                : "=r"(v));
+#else
+            s32 v = 0xC900;
+#endif
+
+            cs->qUnk4C = v;
+            var_r3 += 1;
+        } else {
+            cs->qUnk4C += Q(r4);
         }
-        goto block_10;
-    }
-    temp_r1 = arg0->unk6C;
-    if (temp_r1 <= 0xB3FF) {
-        arg0->unk6C = (s32) (temp_r1 + 0x300);
     } else {
-        arg0->unk6C = 0xB400;
-        var_r3 = 1;
+        if (cs->qUnk6C < 0xB400) {
+            cs->qUnk6C = cs->qUnk6C + Q(r4);
+        } else {
+            cs->qUnk6C = 0xB400;
+            var_r3 += 1;
+        }
+
+        if (cs->qUnk4C < 0xB400) {
+            cs->qUnk4C += Q(r4);
+        } else {
+            cs->qUnk4C = 0xB400;
+            var_r3 += 1;
+        }
     }
-    if ((s32) arg0->unk4C <= 0xB3FF) {
-block_10:
-        arg0->unk4C = (s32) (arg0->unk4C + 0x300);
+
+    if (var_r3 == 2) {
+        return 1U;
     } else {
-        var_r0 = 0xB400;
-block_12:
-        arg0->unk4C = var_r0;
-        var_r3 += 1;
+        return 0U;
     }
-    if (var_r3 != 2) {
-        return 0;
-    }
-    return 1;
 }
 
-void sub_809B5D0(void *arg0) {
+void sub_809B5D0(CharacterSelect *cs)
+{
     Background *temp_r0;
+    s16 character;
 
-    temp_r0 = arg0 + 0x1F4;
+    temp_r0 = &cs->bg1F4;
+    character = gUnknown_080D8F18[cs->unk5];
     gDispCnt |= 0x200;
     temp_r0->graphics.dest = (void *)0x0600C000;
     temp_r0->layoutVram = (u16 *)0x06001800;
-    temp_r0->tilemapId = gUnknown_080D8CDC[gUnknown_080D8F18[arg0->unk5] + 0xA];
+    temp_r0->tilemapId = gUnknown_080D8CDC[character + 0xA];
     temp_r0->flags = 1;
     DrawBackground(temp_r0);
-    arg0->unkB = 3;
-    if (arg0->unk7 == 1) {
-        sub_809B700((u16) arg0);
+    cs->unkB = 3;
+    if (cs->createIndex == 1) {
+        sub_809B700(cs);
     }
 }
 
-u8 sub_809B638(CharacterSelect *arg0) {
+u32 sub_809B638(CharacterSelect *cs)
+{
+    u32 var_r5;
     u8 temp_r0;
-    u8 var_r5;
 
     var_r5 = 0;
-    if (arg0->qUnk3C == 0x14A00) {
+    if (cs->qUnk3C == 0x14A00) {
         var_r5 = 1;
     } else {
-        sub_809B1E4(arg0);
-        if (M2C_ERROR(/* Read from unset register $r0 */) == 1) {
-            temp_r0 = arg0->unk4;
-            arg0->unk3 = temp_r0;
+        if (sub_809B1E4(cs) == 1) {
+            temp_r0 = cs->unk4;
+            cs->unk3 = temp_r0;
             var_r5 = 1;
-            arg0->qUnk3C = 0x14A00;
-            arg0->unk5 = temp_r0;
+            cs->qUnk3C = 0x14A00;
+            cs->unk5 = temp_r0;
         }
     }
     return var_r5;
 }
 
-u8 sub_809B668(CharacterSelect *arg0) {
+u32 sub_809B668(CharacterSelect *cs)
+{
+    u32 var_r5;
     u8 temp_r0;
-    u8 var_r5;
 
     var_r5 = 0;
-    if (arg0->qUnk3C == -0x5A00) {
+    if (cs->qUnk3C == -0x5A00) {
         var_r5 = 1;
     } else {
-        sub_809B1E4(arg0);
-        if (M2C_ERROR(/* Read from unset register $r0 */) == 1) {
-            temp_r0 = arg0->unk4;
-            arg0->unk3 = temp_r0;
+        if (sub_809B1E4(cs) == 1) {
+            temp_r0 = cs->unk4;
+            cs->unk3 = temp_r0;
             var_r5 = 1;
-            arg0->qUnk3C = -0x5A00;
-            arg0->unk5 = temp_r0;
+            cs->qUnk3C = -0x5A00;
+            cs->unk5 = temp_r0;
         }
     }
     return var_r5;
 }
 
-void sub_809B69C(CharacterSelect *cs) {
-    gBgScrollRegs[0][0] = (s16) ((s32) cs->qUnk44 >> 8);
-    gBgScrollRegs[0][1] = (s16) ((s32) cs->qUnk48 >> 8);
-    gBgScrollRegs[1][0] = (s16) ((s32) cs->qUnk54 >> 8);
-    gBgScrollRegs[1][1] = 0 - ((s32) cs->qUnk58 >> 8);
+void sub_809B69C(CharacterSelect *cs)
+{
+    gBgScrollRegs[0][0] = +I(cs->qUnk44);
+    gBgScrollRegs[0][1] = +I(cs->qUnk48);
+    gBgScrollRegs[1][0] = +I(cs->qUnk54);
+    gBgScrollRegs[1][1] = -I(cs->qUnk58);
 }
 
-void sub_809B6C0(CharacterSelect *cs) {
-    sa2__sub_8003EE4((u16) cs->unk12 >> 6, (s32) ((u16) cs->qUnk18 << 0x10) >> 0x14, 0x100, 0x40, 0x40, (s32) (cs->qUnk4C << 8) >> 0x10, (s32) (cs->qUnk50 << 8) >> 0x10, gBgAffineRegs);
+void sub_809B6C0(CharacterSelect *cs)
+{
+    SA2_LABEL(sub_8003EE4)
+    ((u16)cs->unk12 >> 6, (s32)((u16)cs->qUnk18 << 0x10) >> 0x14, 0x100, 0x40, 0x40, (s32)(cs->qUnk4C << 8) >> 0x10,
+     (s32)(cs->qUnk50 << 8) >> 0x10, gBgAffineRegs);
 }
 
-void sub_809B700(void) {
+void sub_809B700(CharacterSelect *cs) { }
 
-}
+bool32 sub_809B704(CharacterSelect *cs, s16 param1)
+{
+    s32 zero = 0;
 
-s32 sub_809B704(void *arg0, u16 arg1) {
-    u8 temp_r2;
-
-    temp_r2 = arg0->unk7;
-    if ((temp_r2 == 0) || (temp_r2 == 3) || (((s16) arg1 == 0) && (arg0->unkB == 0))) {
+    if ((cs->createIndex == 0) || (cs->createIndex == 3)) {
+        return 1U;
+    }
+    if ((zero == param1) && (zero == cs->unkB)) {
         return 1;
     }
-    return 0;
+    return 0U;
 }
 
-u32 sub_809B730(void *arg0) {
+u32 sub_809B730(CharacterSelect *cs)
+{
     u8 temp_r0;
 
-    temp_r0 = arg0->unk7;
+    temp_r0 = cs->createIndex;
     if ((temp_r0 != 0) && (temp_r0 != 3)) {
-        return (u32) (0 - (gMultiSioStatusFlags & 0x80)) >> 0x1F;
+        return (u32)(0 - (gMultiSioStatusFlags & 0x80)) >> 0x1F;
     }
     return 1U;
 }
 
-void TaskDestructor_CharacterSelect(Task *t) {
-    VramFree(t->data->unkC4);
+void TaskDestructor_CharacterSelect(Task *t)
+{
+    CharacterSelect *cs = TASK_DATA(t);
+    VramFree(cs->sprC4.tiles);
 }
-#endif
