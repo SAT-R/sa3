@@ -84,7 +84,11 @@ void Task_8000284(void)
     gBgScrollRegs[2][1] = 0;
     gStageData.timer = 0;
     sub_80003B8();
+#if DEBUG
+    CreateCharacterSelect(0);
+#else
     CreateGameIntroState(1);
+#endif
 
     TaskDestroy(gCurTask);
 }

@@ -197,7 +197,7 @@ bool32 sub_809B548(CharacterSelect *cs, u8 param1);
 void *CreateSomeTask_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles);
 s16 sub_8023E04(void);
 s16 sub_8024074(u8);
-bool32 sub_80240B4(u8);
+s16 sub_80240B4(u8);
 s16 sub_80240F4();
 void sub_802613C(void);
 void CharSelect_InitBackgrounds(CharacterSelect *cs);
@@ -2555,7 +2555,7 @@ void sub_809AE50(CharacterSelect *cs)
     temp_r3 = (u32)((0 - temp_r1) | temp_r1) >> 0x1F;
     temp_r2 = gUnknown_080D8F18[cs->unk5];
     s = &cs->sprEC;
-    if (!(gLoadedSaveGame.unlockedCharacters & gUnknown_080D946D[temp_r2])) {
+    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r2])) {
         s->anim = gUnknown_080D8E80[6 + (temp_r3 * 8)].anim;
         s->variant = gUnknown_080D8E80[6 + (temp_r3 * 8)].variant;
     } else {
@@ -2596,8 +2596,9 @@ void sub_809AF08(CharacterSelect *cs)
     temp_r1 = cs->language;
     temp_r3 = (u32)((0 - temp_r1) | temp_r1) >> 0x1F;
     temp_r2 = gUnknown_080D8F18[cs->unk6];
+
     s = &cs->spr13C;
-    if (!(gLoadedSaveGame.unlockedCharacters & gUnknown_080D946D[temp_r2])) {
+    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r2])) {
         s->anim = gUnknown_080D8E80[6 + (temp_r3 * 8)].anim;
         s->variant = gUnknown_080D8E80[6 + (temp_r3 * 8)].variant;
     } else {

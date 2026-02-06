@@ -48,7 +48,7 @@ void sub_800214C(void)
     }
 }
 
-void WarpToMap(s16 level, u16 arg1)
+void WarpToMap(s16 level, u16 entryIndex)
 {
     StageData *stageData = &gStageData;
     s16 zone;
@@ -80,7 +80,7 @@ void WarpToMap(s16 level, u16 arg1)
         stageData->currMapIndex = level;
     }
 
-    stageData->entryIndex = arg1;
+    stageData->entryIndex = entryIndex;
     stageData->difficulty = LOADED_SAVE->difficulty;
     stageData->language = LOADED_SAVE->language;
     if ((gStageData.zone < 7) && ((gStageData.act == 1 || gStageData.act == 2) || (gStageData.act == 8) || (gStageData.act == 9))) {
