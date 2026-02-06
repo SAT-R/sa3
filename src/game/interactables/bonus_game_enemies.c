@@ -107,7 +107,7 @@ extern const u8 sBonusLifeIconVariants[5];
 void Task_BonusFlower_Spawn(void);
 void TaskDestructor_BonusFlower(struct Task *);
 
-void CreateBonusFlower(s16 worldX, s16 worldY)
+void CreateBonusFlower(s16 worldX, s16 worldY, s32 UNUSED character)
 {
     struct Task *t = TaskCreate(Task_BonusFlower_Spawn, sizeof(BonusFlower), 0x2100, 0, TaskDestructor_BonusFlower);
     BonusFlower *flower = TASK_DATA(t);

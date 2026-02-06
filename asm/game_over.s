@@ -11,7 +11,7 @@ sub_8002414: @ 0x08002414
 	mov r7, r8
 	push {r7}
 	sub sp, #4
-	ldr r0, _080024E0 @ =Task_8003FEC
+	ldr r0, _080024E0 @ =Task_60_8003FEC
 	movs r2, #0x80
 	lsls r2, r2, #6
 	ldr r1, _080024E4 @ =TaskDestructor_8003D28
@@ -107,7 +107,7 @@ _080024A4:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080024E0: .4byte Task_8003FEC
+_080024E0: .4byte Task_60_8003FEC
 _080024E4: .4byte TaskDestructor_8003D28
 _080024E8: .4byte 0x03000004
 _080024EC: .4byte 0x06012800
@@ -395,7 +395,7 @@ _080026E2:
 	strb r5, [r0]
 	movs r0, #1
 	strb r0, [r6, #4]
-	ldr r0, _080027E4 @ =Task_8002988
+	ldr r0, _080027E4 @ =Task_00_8002988
 	movs r2, #0x80
 	lsls r2, r2, #1
 	str r4, [sp]
@@ -488,7 +488,7 @@ _08002776:
 _080027D8: .4byte gPseudoRandom
 _080027DC: .4byte 0x00196225
 _080027E0: .4byte 0x3C6EF35F
-_080027E4: .4byte Task_8002988
+_080027E4: .4byte Task_00_8002988
 _080027E8: .4byte gUnknown_03001060
 _080027EC: .4byte gStageData
 _080027F0: .4byte gPlayers
@@ -661,8 +661,8 @@ _08002982:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start Task_8002988
-Task_8002988: @ 0x08002988
+	thumb_func_start Task_00_8002988
+Task_00_8002988: @ 0x08002988
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -2162,7 +2162,7 @@ _08003516:
 	ldr r0, [r0]
 	cmp r8, r0
 	beq _080035D4
-	ldr r0, _080035F0 @ =sub_8003620
+	ldr r0, _080035F0 @ =Task_38_8003620
 	ldr r2, _080035F4 @ =0x0000FFFE
 	ldr r1, _080035F8 @ =TaskDestructor_8003D68
 	str r1, [sp]
@@ -2236,7 +2236,7 @@ _080035E0: .4byte gLoadedSaveGame
 _080035E4: .4byte gUnknown_080CE54C
 _080035E8: .4byte 0x00000366
 _080035EC: .4byte ewram_end
-_080035F0: .4byte sub_8003620
+_080035F0: .4byte Task_38_8003620
 _080035F4: .4byte 0x0000FFFE
 _080035F8: .4byte TaskDestructor_8003D68
 _080035FC: .4byte gStageData
@@ -2249,8 +2249,8 @@ _08003614: .4byte 0x03000004
 _08003618: .4byte 0x80000003
 _0800361C: .4byte 0x0300000A
 
-	thumb_func_start sub_8003620
-sub_8003620: @ 0x08003620
+	thumb_func_start Task_38_8003620
+Task_38_8003620: @ 0x08003620
 	push {r4, r5, lr}
 	ldr r0, _08003678 @ =gFlags
 	ldr r1, [r0]
@@ -2726,10 +2726,10 @@ _08003A08:
 sub_8003A14: @ 0x08003A14
 	push {r4, r5, lr}
 	sub sp, #4
-	ldr r0, _08003A80 @ =sub_8003A90
+	ldr r0, _08003A80 @ =Task_60_8003A90
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _08003A84 @ =sub_80040BC
+	ldr r1, _08003A84 @ =TaskDestructor_80040BC
 	str r1, [sp]
 	movs r1, #0x60
 	movs r3, #0
@@ -2777,13 +2777,13 @@ _08003A3A:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08003A80: .4byte sub_8003A90
-_08003A84: .4byte sub_80040BC
+_08003A80: .4byte Task_60_8003A90
+_08003A84: .4byte TaskDestructor_80040BC
 _08003A88: .4byte gPlayers
 _08003A8C: .4byte gStageData
 
-	thumb_func_start sub_8003A90
-sub_8003A90: @ 0x08003A90
+	thumb_func_start Task_60_8003A90
+Task_60_8003A90: @ 0x08003A90
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -3447,8 +3447,8 @@ sub_8003FC8: @ 0x08003FC8
 _08003FE4: .4byte gCamera
 _08003FE8: .4byte 0x0500001B
 
-	thumb_func_start Task_8003FEC
-Task_8003FEC: @ 0x08003FEC
+	thumb_func_start Task_60_8003FEC
+Task_60_8003FEC: @ 0x08003FEC
 	push {r4, r5, r6, lr}
 	ldr r0, _08004010 @ =gCurTask
 	ldr r0, [r0]
@@ -3540,8 +3540,8 @@ _080040B0: .4byte gBgSpritesCount
 _080040B4: .4byte gVramGraphicsCopyCursor
 _080040B8: .4byte gVramGraphicsCopyQueueIndex
 
-	thumb_func_start sub_80040BC
-sub_80040BC: @ 0x080040BC
+	thumb_func_start TaskDestructor_80040BC
+TaskDestructor_80040BC: @ 0x080040BC
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0

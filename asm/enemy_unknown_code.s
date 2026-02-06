@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start Task_805C03C
-Task_805C03C: @ 0x0805C03C
+	thumb_func_start Task_14_805C03C
+Task_14_805C03C: @ 0x0805C03C
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -187,8 +187,8 @@ sub_805C138: @ 0x0805C138
 _0805C190: .4byte 0x0000053A
 _0805C194: .4byte gCamera
 
-	thumb_func_start sub_805C198
-sub_805C198: @ 0x0805C198
+	thumb_func_start Task_40_805C198
+Task_40_805C198: @ 0x0805C198
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -234,7 +234,7 @@ sub_805C198: @ 0x0805C198
 	ldr r5, [r4, #0x14]
 	cmp r5, #0
 	beq _0805C256
-	ldr r0, _0805C228 @ =Task_805C03C
+	ldr r0, _0805C228 @ =Task_14_805C03C
 	ldr r1, _0805C22C @ =TaskDestructor_805C03C
 	str r1, [sp]
 	movs r1, #0x14
@@ -258,7 +258,7 @@ sub_805C198: @ 0x0805C198
 	.align 2, 0
 _0805C220: .4byte gCurTask
 _0805C224: .4byte gStageData
-_0805C228: .4byte Task_805C03C
+_0805C228: .4byte Task_14_805C03C
 _0805C22C: .4byte TaskDestructor_805C03C
 _0805C230: .4byte 0x00004040
 _0805C234:
@@ -361,7 +361,7 @@ sub_805C280: @ 0x0805C280
 	asrs r4, r4, #8
 	ldr r0, [r7, #0x18]
 	mov sb, r0
-	ldr r0, _0805C330 @ =sub_805C198
+	ldr r0, _0805C330 @ =Task_40_805C198
 	ldr r1, _0805C334 @ =TaskDestructor_805D09C
 	str r1, [sp]
 	movs r1, #0x40
@@ -391,7 +391,7 @@ sub_805C280: @ 0x0805C280
 	.align 2, 0
 _0805C328: .4byte gCamera
 _0805C32C: .4byte gStageData
-_0805C330: .4byte sub_805C198
+_0805C330: .4byte Task_40_805C198
 _0805C334: .4byte TaskDestructor_805D09C
 _0805C338: .4byte 0x00004040
 _0805C33C:
@@ -405,7 +405,7 @@ _0805C33C:
 	lsls r4, r4, #8
 	ldr r1, [r7, #0x18]
 	mov sb, r1
-	ldr r0, _0805C39C @ =sub_805C198
+	ldr r0, _0805C39C @ =Task_40_805C198
 	ldr r1, _0805C3A0 @ =TaskDestructor_805D09C
 	str r1, [sp]
 	movs r1, #0x40
@@ -442,7 +442,7 @@ _0805C394:
 	bl sub_8027578
 	b _0805C4FA
 	.align 2, 0
-_0805C39C: .4byte sub_805C198
+_0805C39C: .4byte Task_40_805C198
 _0805C3A0: .4byte TaskDestructor_805D09C
 _0805C3A4: .4byte 0x00004040
 _0805C3A8: .4byte gStageData
@@ -475,7 +475,7 @@ _0805C3D0:
 	ldrh r5, [r7, #0xe]
 	ldr r0, [r7, #0x18]
 	mov sb, r0
-	ldr r0, _0805C46C @ =sub_805C198
+	ldr r0, _0805C46C @ =Task_40_805C198
 	ldr r1, _0805C470 @ =TaskDestructor_805D09C
 	str r1, [sp]
 	movs r1, #0x40
@@ -519,7 +519,7 @@ _0805C3D0:
 	adds r4, r0, r1
 	cmp r4, #0
 	beq _0805C4FA
-	ldr r0, _0805C47C @ =Task_805C03C
+	ldr r0, _0805C47C @ =Task_14_805C03C
 	ldr r1, _0805C480 @ =TaskDestructor_805C03C
 	str r1, [sp]
 	movs r1, #0x14
@@ -542,17 +542,17 @@ _0805C3D0:
 	b _0805C4FA
 	.align 2, 0
 _0805C468: .4byte gStageData
-_0805C46C: .4byte sub_805C198
+_0805C46C: .4byte Task_40_805C198
 _0805C470: .4byte TaskDestructor_805D09C
 _0805C474: .4byte 0x00004040
 _0805C478: .4byte gUnknown_03001DA0
-_0805C47C: .4byte Task_805C03C
+_0805C47C: .4byte Task_14_805C03C
 _0805C480: .4byte TaskDestructor_805C03C
 _0805C484:
 	ldrh r4, [r7, #0xc]
 	ldrh r5, [r7, #0xe]
 	ldr r7, [r7, #0x18]
-	ldr r0, _0805C4C8 @ =sub_805C198
+	ldr r0, _0805C4C8 @ =Task_40_805C198
 	ldr r1, _0805C4CC @ =TaskDestructor_805D09C
 	str r1, [sp]
 	movs r1, #0x40
@@ -580,7 +580,7 @@ _0805C484:
 	bl m4aSongNumStart
 	b _0805C4FA
 	.align 2, 0
-_0805C4C8: .4byte sub_805C198
+_0805C4C8: .4byte Task_40_805C198
 _0805C4CC: .4byte TaskDestructor_805D09C
 _0805C4D0: .4byte 0x00004040
 _0805C4D4:
@@ -1937,7 +1937,7 @@ sub_805CEBC: @ 0x0805CEBC
 	lsrs r5, r5, #0x10
 	lsls r6, r6, #0x18
 	lsrs r6, r6, #0x18
-	ldr r0, _0805CF2C @ =sub_805C198
+	ldr r0, _0805CF2C @ =Task_40_805C198
 	ldr r2, _0805CF30 @ =0x00004040
 	ldr r1, _0805CF34 @ =TaskDestructor_805D09C
 	str r1, [sp]
@@ -1974,7 +1974,7 @@ _0805CF1C:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0805CF2C: .4byte sub_805C198
+_0805CF2C: .4byte Task_40_805C198
 _0805CF30: .4byte 0x00004040
 _0805CF34: .4byte TaskDestructor_805D09C
 
@@ -1991,7 +1991,7 @@ sub_805CF38: @ 0x0805CF38
 	ldr r0, [sp, #0x18]
 	cmp r0, #0
 	beq _0805CF76
-	ldr r0, _0805CF80 @ =Task_805C03C
+	ldr r0, _0805CF80 @ =Task_14_805C03C
 	ldr r2, _0805CF84 @ =0x00004040
 	ldr r1, _0805CF88 @ =TaskDestructor_805C03C
 	str r1, [sp]
@@ -2016,7 +2016,7 @@ _0805CF76:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0805CF80: .4byte Task_805C03C
+_0805CF80: .4byte Task_14_805C03C
 _0805CF84: .4byte 0x00004040
 _0805CF88: .4byte TaskDestructor_805C03C
 
