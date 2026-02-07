@@ -114,7 +114,8 @@ typedef struct Strc3001CFC_sub {
     s16 unk8;
     s16 unkA;
     u16 unkC;
-    u8 fillerE[0x6];
+    u16 unkE;
+    u16 unk10;
 } Strc3001CFC_sub; /* 0x14 */
 typedef struct Strc3001CFC {
     Sprite s;

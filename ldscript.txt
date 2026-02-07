@@ -130,6 +130,7 @@ SECTIONS {
         src/game/enemies/minimole.o(.text);
         src/game/enemies/takkon.o(.text);
         src/game/enemies/jousun.o(.text);
+        src/game/enemies/enemy_unknown_code.o(.text);
         asm/enemy_unknown_code.o(.text);
         src/game/enemies/uutsubo.o(.text);
         src/game/enemies/gaogao.o(.text);

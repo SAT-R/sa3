@@ -17,12 +17,17 @@ extern ? gUnknown_03001DA0;
 
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "game/player.h" // PlayerCallback
+#include "module_unclear.h"
 
 typedef struct EUC_Strc14 {
     /* 0x00 */ u8 unk0;
-    /* 0x00 */ u8 filler1[0xF];
-    /* 0x10 */ PlayerCallback callback;
+    /* 0x02 */ u16 unk2;
+    /* 0x04 */ u16 unk4;
+    /* 0x08 */ s32 unk8;
+    /* 0x0C */ s32 unkC;
+    /* 0x10 */ Player *p;
 } EUC_Strc14;
 
 typedef struct EUC_Strc40 {
@@ -31,63 +36,69 @@ typedef struct EUC_Strc40 {
     /* 0x18 */ Sprite s;
 } EUC_Strc40;
 
-#if 0
-void Task_14_805C03C(void) {
+// (98.18%) https://decomp.me/scratch/8XN8s
+NONMATCH("asm/non_matching/game/enemies/euc__Task_14_805C03C.inc", void Task_14_805C03C(void))
+{
     s32 temp_r0_4;
     s32 temp_r5;
     s32 var_r2_2;
-    u16 temp_r0_2;
-    u32 var_ip;
-    u8 var_r2;
     u8 var_r0;
-    void *temp_r0_3;
-    Strc3001CFC_sub *var_r3;
-    s16 var_r5 = 0;
-    Strc3001CFC *temp_r0 = TASK_DATA(gTask_03001CFC);
+    s16 mask;
+    Player *p;
+    u8 var_ip = 0;
+    u8 i;
+    Strc3001CFC *strc3001CFC = TASK_DATA(gTask_03001CFC);
+    Strc3001CFC_sub *strcSub = &strc3001CFC->unk28[0];
+    EUC_Strc14 *strc14 = TASK_DATA(gCurTask);
+    s32 someNum = 0x478;
 
-    temp_r0_2 = gCurTask->data;
-    var_ip = 0;
-    for(var_r2 = 0; var_r2 < 32; var_r2++)
-    {
-        var_r3 = &temp_r0->unk28[var_r2];
-        
-        if (var_r3->unkC != 0) {
-            if (var_r2 == 0x1F) {
-                var_r2 = 0;
-            } else {
-                var_r2++;
-                var_r3 += 0x14;
+    for (i = 0; i < 32; i++, strcSub++) {
+        if (strcSub->unkC != 0) {
+            if (i == 0x1F) {
+                var_ip = 0;
+                break;
             }
-        }        
+        } else {
+            var_ip = i;
+            break;
+        }
     }
-    temp_r0->unk2B0 = (s8) (temp_r0_2->unk10->unk6 & 1);
-    temp_r0_3 = temp_r0_2->unk10;
-    if ((u32) temp_r0_3->unk27 > 1U) {
-        var_r3->unkE = 1;
+    strc3001CFC->unk2B0 = ((strc14->p->moveState >> 16) & 0x1);
+    p = strc14->p;
+
+    if (p->layer > 1U) {
+        strcSub->unkE = 1;
     } else {
-        var_r3->unkE = temp_r0_3->unk27;
+        strcSub->unkE = p->layer;
     }
-    var_r3->unkC = 0xB4U;
-    var_r3->unk0 = Q(I(temp_r0_2->unk8) + Q(temp_r0_2->unk2));
-    var_r3->unk4 = Q(I(temp_r0_2->unkC) + Q(temp_r0_2->unk4));
-    if (0x478 >= 0) {
-        temp_r0_4 = 0x478 >> 8;
+
+    strcSub->unkC = 0xB4U;
+    strcSub->unk0 = Q(I(strc14->unk8) + Q(strc14->unk2));
+    strcSub->unk4 = Q(I(strc14->unkC) + Q(strc14->unk4));
+
+    if (someNum >= 0) {
+        temp_r0_4 = I(someNum);
         if (temp_r0_4 > 5) {
-            var_r2_2 = (0 - temp_r0_4) + 9;
+            var_r2_2 = (-temp_r0_4) + 9;
         } else {
             var_r2_2 = temp_r0_4;
         }
-        temp_r5 = (s16) *(((0xFF & 0x478) * 8) + 0x200 + gSineTable) >> var_r2_2;
-        var_r5 = temp_r5 - (temp_r5 >> 1);
+        temp_r5 = COS((0xFF & someNum) * 4) >> var_r2_2;
+        temp_r5 = temp_r5 - (temp_r5 >> 1);
     }
-    var_r3->unk8 = 0;
-    var_r3->unkA = var_r5;
-    if (temp_r0_2->unk10->unk4 & 0x10000) {
-        var_r3->unkA = (s16) (0 - var_r5);
+
+    strcSub->unk8 = 0;
+    strcSub->unkA = temp_r5;
+    if (strc14->p->moveState & 0x10000) {
+        strcSub->unkA = -strcSub->unkA;
     }
-    var_r3->unk10 = (s16) (var_r2 & 3);
+
+    strcSub->unk10 = var_ip % 4u;
     TaskDestroy(gCurTask);
 }
+END_NONMATCH
+
+#if 0
 
 void sub_805C138(EUC_Strc40 *arg0) {
     Sprite *temp_r0;
@@ -99,7 +110,7 @@ void sub_805C138(EUC_Strc40 *arg0) {
     temp_r0->prevVariant = 0xFF;
     temp_r0->x = ((s32) arg0->unkC >> 8) - gCamera.x;
     temp_r0->y = ((s32) arg0->unk10 >> 8) - gCamera.y;
-    temp_r0->oamFlags = 0x480;
+    temp_r0->oamFlags = SPRITE_OAM_ORDER(18);
     temp_r0->animCursor = 0;
     temp_r0->qAnimDelay = 0;
     temp_r0->animSpeed = 0x10;
