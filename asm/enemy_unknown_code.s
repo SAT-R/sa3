@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start Task_40_805C198
 Task_40_805C198: @ 0x0805C198
 	push {r4, r5, r6, r7, lr}
@@ -122,6 +120,7 @@ _0805C26C:
 	bx r0
 	.align 2, 0
 _0805C27C: .4byte gCurTask
+.endif
 
 @ Input:
     @ R0 = EnemyUnknownStruc0*

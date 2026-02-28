@@ -1,17 +1,15 @@
 #if 0
-void CreateBonusFlower(s16 worldX, s16 worldY, s32 UNUSED character);                 /* extern */
 ? sub_80044CC(Player *);                            /* extern */
 ? sub_8004D68(s32, s32);                            /* extern */
 ? sub_8027578(MapEntity *);                         /* extern */
 void TaskDestructor_805C03C(Task *);                /* static */
 void TaskDestructor_805D09C(Task *);                /* static */
 void Task_14_805C03C();                                /* static */
-void sub_805C198();                                 /* static */
+void Task_40_805C198();                                 /* static */
 void sub_805CB70(Player *arg0, Sprite *arg1, u32 arg2, s32 arg3, s32 arg5, s32); /* static */
 void sub_805CC5C(Player *arg0, Sprite *arg1, u32 arg2, s32 arg3, s32 arg4, s32 arg5); /* static */
 s32 sub_805CF90(s16 arg0, s16 arg1, s16 arg2, s16 arg3); /* static */
 void sub_805CFE8(Player *arg0, Sprite *arg2, u32 arg4, s32 arg5, s32, s32); /* static */
-s32 sub_805D058(u16 arg0);                          /* static */
 extern ? gUnknown_03001DA0;
 #endif
 
@@ -21,6 +19,8 @@ extern ? gUnknown_03001DA0;
 #include "malloc_vram.h"
 #include "game/camera.h"
 #include "game/player.h" // PlayerCallback
+#include "game/stage.h"
+#include "game/interactables/bonus_game_enemies.h"
 #include "module_unclear.h"
 #include "constants/animations.h"
 
@@ -34,12 +34,34 @@ typedef struct EUC_Strc14 {
 } EUC_Strc14;
 
 typedef struct EUC_Strc40 {
-    /* 0x00 */ u8 filler0[0xC];
+    /* 0x00 */ u8 filler0[0x4];
+    /* 0x04 */ u8 unk4;
+    /* 0x04 */ u8 unk5;
+    /* 0x06 */ u16 regionX;
+    /* 0x08 */ u16 regionY;
+    /* 0x0A */ u8 fillerA[0x2];
     /* 0x0C */ s32 qWorldX;
     /* 0x10 */ s32 qWorldY;
-    /* 0x14 */ PlayerCallback callback;
+    /* 0x14 */ Player *p;
     /* 0x18 */ Sprite s;
 } EUC_Strc40;
+
+void Task_14_805C03C(void);
+void TaskDestructor_805C03C(struct Task *t);
+AnimCmdResult sub_805D058(EUC_Strc40 *strc40);
+
+static inline void sub_805CF38__inline(u16 regionX, u16 regionY, s32 qWorldX, s32 qWorldY, Player *p)
+{
+    if (p != 0) {
+        EUC_Strc14 *strc14 = TASK_DATA(TaskCreate(Task_14_805C03C, 0x14U, 0x4040U, 0U, TaskDestructor_805C03C));
+        strc14->unk0 = 0;
+        strc14->p = p;
+        strc14->unk8 = qWorldX;
+        strc14->unkC = qWorldY;
+        strc14->unk2 = regionX;
+        strc14->unk4 = regionY;
+    }
+}
 
 // (98.18%) https://decomp.me/scratch/8XN8s
 NONMATCH("asm/non_matching/game/enemies/euc__Task_14_805C03C.inc", void Task_14_805C03C(void))
@@ -123,60 +145,38 @@ void sub_805C138(EUC_Strc40 *arg0)
     UpdateSpriteAnimation(s);
 }
 
-#if 0
+// (95.47%) https://decomp.me/scratch/TFAFN
+NONMATCH("asm/non_matching/game/enemies/euc__Task_40_805C198.inc", void Task_40_805C198(void))
+{
+    EUC_Strc40 *strc40 = TASK_DATA(gCurTask);
+    s16 worldX = I(strc40->qWorldX);
+    s16 worldY = I(strc40->qWorldY);
+    s16 qWorldX = TO_WORLD_POS_RAW(worldX, strc40->regionX);
+    s16 qWorldY = TO_WORLD_POS_RAW(worldY, strc40->regionY);
 
-void sub_805C198(void) {
-    s32 temp_r0;
-    s32 temp_r1_2;
-    s32 temp_sb;
-    s32 temp_sl;
-    u16 temp_r0_2;
-    u16 temp_r1;
-    u16 temp_r6;
-    u16 temp_r7;
-    u16 temp_r8;
-    void *temp_r5;
+    if ((gStageData.act != 7) && (gStageData.act != 9) && (strc40->unk4 == 0 && strc40->unk5 == 0)) {
+        u16 regionX = *((vu16 *)&strc40->regionX);
+        u16 regionY = *((vu16 *)&strc40->regionY);
 
-    temp_r1 = gCurTask->data;
-    temp_r0 = temp_r1->unkC;
-    temp_sl = temp_r0;
-    temp_r1_2 = temp_r1->unk10;
-    temp_sb = temp_r1_2;
-    if (gStageData.act != 7) {
-        if (gStageData.act != 9) {
-            temp_r6 = temp_r1->unk4;
-            if (temp_r6 == 0) {
-                temp_r7 = temp_r1->unk6;
-                temp_r8 = temp_r1->unk8;
-                temp_r5 = temp_r1->unk14;
-                if (temp_r5 != NULL) {
-                    temp_r0_2 = TaskCreate(Task_14_805C03C, 0x14U, 0x4040U, 0U, TaskDestructor_805C03C)->data;
-                    temp_r0_2->unk0 = (s8) temp_r6;
-                    temp_r0_2->unk10 = temp_r5;
-                    temp_r0_2->unk8 = temp_sl;
-                    temp_r0_2->unkC = temp_sb;
-                    temp_r0_2->unk2 = temp_r7;
-                    temp_r0_2->unk4 = temp_r8;
-                }
-                goto block_8;
-            }
-            goto block_5;
+        if (strc40->p != NULL) {
+            sub_805CF38__inline(regionX, regionY, strc40->qWorldX, strc40->qWorldY, strc40->p);
         }
-        goto block_6;
-    }
-block_5:
-    if (gStageData.act == 9) {
-block_6:
-        if (temp_r1->unk4 == 0) {
-            CreateBonusFlower((s16) (u16) (((s32) (temp_r0 << 8) >> 0x10) + (temp_r1->unk6 << 8)), (s16) (u16) (((s32) (temp_r1_2 << 8) >> 0x10) + (temp_r1->unk8 << 8)), (u32) (temp_r1->unk14->unk2A << 0x1C) >> 0x1C);
-block_8:
-            temp_r1->unk5 = 1;
+
+        strc40->unk5 = 1;
+    } else if (gStageData.act == 9) {
+        if (strc40->unk4 == 0 && strc40->unk5 == 0) {
+            CreateBonusFlower(qWorldX, qWorldY, strc40->p->charFlags.character);
+            strc40->unk5 = 1;
         }
     }
-    if (sub_805D058(temp_r1) == ACMD_RESULT__ENDED) {
+
+    if (sub_805D058(strc40) == ACMD_RESULT__ENDED) {
         TaskDestroy(gCurTask);
     }
 }
+END_NONMATCH
+
+#if 0
 
 u32 sub_805C280(EnemyUnknownStruc0 *arg0) {
     s32 sp4;
@@ -220,7 +220,7 @@ u32 sub_805C280(EnemyUnknownStruc0 *arg0) {
             temp_r5 = (s32) ((u16) ((u16) temp_r3_2->x + gCamera.x) << 0x10) >> 8;
             temp_r4 = (s32) ((u16) ((u16) temp_r3_2->y + gCamera.y) << 0x10) >> 8;
             temp_sb = arg0->unk18;
-            temp_r0 = TaskCreate(sub_805C198, 0x40U, 0x4040U, 0U, TaskDestructor_805D09C)->data;
+            temp_r0 = TaskCreate(Task_40_805C198, 0x40U, 0x4040U, 0U, TaskDestructor_805D09C)->data;
             temp_r0->unkA = 0x3C;
             temp_r0->unkC = temp_r5;
             temp_r0->unk10 = temp_r4;
@@ -235,7 +235,7 @@ u32 sub_805C280(EnemyUnknownStruc0 *arg0) {
             temp_r5_2 = (temp_r3_2->x + gCamera.x) << 8;
             temp_r4_2 = (temp_r3_2->y + gCamera.y) << 8;
             temp_sb_2 = arg0->unk18;
-            temp_r0_2 = TaskCreate(sub_805C198, 0x40U, 0x4040U, 0U, TaskDestructor_805D09C)->data;
+            temp_r0_2 = TaskCreate(Task_40_805C198, 0x40U, 0x4040U, 0U, TaskDestructor_805D09C)->data;
             temp_r0_2->unkA = 0x3C;
             temp_r0_2->unkC = temp_r5_2;
             temp_r0_2->unk10 = temp_r4_2;
@@ -277,7 +277,7 @@ block_17:
         temp_r4_3 = arg0->regionX;
         temp_r5_3 = arg0->regionY;
         temp_sb_3 = arg0->unk18;
-        temp_r0_3 = TaskCreate(sub_805C198, 0x40U, 0x4040U, 0U, TaskDestructor_805D09C)->data;
+        temp_r0_3 = TaskCreate(Task_40_805C198, 0x40U, 0x4040U, 0U, TaskDestructor_805D09C)->data;
         temp_r0_3->unkA = 0x3C;
         temp_r0_3->unkC = sp4;
         temp_r0_3->unk10 = temp_sl;
@@ -306,7 +306,7 @@ block_17:
         temp_r4_5 = arg0->regionX;
         temp_r5_5 = arg0->regionY;
         temp_r7_2 = arg0->unk18;
-        temp_r0_5 = TaskCreate(sub_805C198, 0x40U, 0x4040U, 0U, TaskDestructor_805D09C)->data;
+        temp_r0_5 = TaskCreate(Task_40_805C198, 0x40U, 0x4040U, 0U, TaskDestructor_805D09C)->data;
         temp_r0_5->unkA = 0x3C;
         temp_r0_5->unkC = sp4;
         temp_r0_5->unk10 = temp_sl;
@@ -822,7 +822,7 @@ void sub_805CEBC(s32 arg0, s32 arg1, u16 arg2, u16 arg3, s32 arg4, s32 arg5) {
     u8 temp_r6;
 
     temp_r6 = (u8) arg4;
-    temp_r0 = TaskCreate(sub_805C198, 0x40U, 0x4040U, 0U, TaskDestructor_805D09C)->data;
+    temp_r0 = TaskCreate(Task_40_805C198, 0x40U, 0x4040U, 0U, TaskDestructor_805D09C)->data;
     temp_r0->unkA = 0x3C;
     temp_r0->unkC = arg0;
     temp_r0->unk10 = arg1;
@@ -837,7 +837,7 @@ void sub_805CEBC(s32 arg0, s32 arg1, u16 arg2, u16 arg3, s32 arg4, s32 arg5) {
     }
 }
 
-void sub_805CF38(s32 arg0, s32 arg1, u16 arg2, u16 arg3, s32 arg4) {
+static inline void sub_805CF38(s32 arg0, s32 arg1, u16 arg2, u16 arg3, s32 arg4) {
     u16 temp_r0;
 
     if (arg4 != 0) {
