@@ -18,8 +18,11 @@ extern ? gUnknown_03001DA0;
 #include "global.h"
 #include "core.h"
 #include "trig.h"
+#include "malloc_vram.h"
+#include "game/camera.h"
 #include "game/player.h" // PlayerCallback
 #include "module_unclear.h"
+#include "constants/animations.h"
 
 typedef struct EUC_Strc14 {
     /* 0x00 */ u8 unk0;
@@ -31,7 +34,9 @@ typedef struct EUC_Strc14 {
 } EUC_Strc14;
 
 typedef struct EUC_Strc40 {
-    /* 0x00 */ u8 filler0[0x14];
+    /* 0x00 */ u8 filler0[0xC];
+    /* 0x0C */ s32 qWorldX;
+    /* 0x10 */ s32 qWorldY;
     /* 0x14 */ PlayerCallback callback;
     /* 0x18 */ Sprite s;
 } EUC_Strc40;
@@ -98,27 +103,27 @@ NONMATCH("asm/non_matching/game/enemies/euc__Task_14_805C03C.inc", void Task_14_
 }
 END_NONMATCH
 
-#if 0
-
-void sub_805C138(EUC_Strc40 *arg0) {
-    Sprite *temp_r0;
-
-    temp_r0 = arg0 + 0x18;
-    arg0->unk18 = VramMalloc(0x10U);
-    temp_r0->anim = 0x53A;
-    temp_r0->variant = 0;
-    temp_r0->prevVariant = 0xFF;
-    temp_r0->x = ((s32) arg0->unkC >> 8) - gCamera.x;
-    temp_r0->y = ((s32) arg0->unk10 >> 8) - gCamera.y;
-    temp_r0->oamFlags = SPRITE_OAM_ORDER(18);
-    temp_r0->animCursor = 0;
-    temp_r0->qAnimDelay = 0;
-    temp_r0->animSpeed = 0x10;
-    temp_r0->palId = 0;
-    temp_r0->frameFlags = 0;
-    temp_r0->hitboxes[0].index = -1;
-    UpdateSpriteAnimation(temp_r0);
+void sub_805C138(EUC_Strc40 *arg0)
+{
+    u8 *tiles = ALLOC_TILES(ANIM_ITEM_BOX_CLOUD_EFFECT);
+    Sprite *s = &arg0->s;
+    s->tiles = tiles;
+    s->anim = ANIM_ITEM_BOX_CLOUD_EFFECT;
+    s->variant = 0;
+    s->prevVariant = -1;
+    s->x = I(arg0->qWorldX) - gCamera.x;
+    s->y = I(arg0->qWorldY) - gCamera.y;
+    s->oamFlags = SPRITE_OAM_ORDER(18);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = 0;
+    s->hitboxes[0].index = -1;
+    UpdateSpriteAnimation(s);
 }
+
+#if 0
 
 void sub_805C198(void) {
     s32 temp_r0;

@@ -8,53 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_805C138
-sub_805C138: @ 0x0805C138
-	push {r4, r5, r6, lr}
-	adds r4, r0, #0
-	movs r0, #0x10
-	bl VramMalloc
-	adds r1, r0, #0
-	adds r0, r4, #0
-	adds r0, #0x18
-	str r1, [r4, #0x18]
-	movs r6, #0
-	movs r5, #0
-	ldr r1, _0805C190 @ =0x0000053A @ ANIM_ITEM_BOX_CLOUD_EFFECT but spawned after enemy is dead
-	strh r1, [r0, #0xc]
-	strb r6, [r0, #0x1a]
-	movs r1, #0xff
-	strb r1, [r0, #0x1b]
-	ldr r1, [r4, #0xc]
-	asrs r1, r1, #8
-	ldr r3, _0805C194 @ =gCamera
-	ldr r2, [r3]
-	subs r1, r1, r2
-	strh r1, [r0, #0x10]
-	ldr r1, [r4, #0x10]
-	asrs r1, r1, #8
-	ldr r2, [r3, #4]
-	subs r1, r1, r2
-	strh r1, [r0, #0x12]
-	movs r1, #0x90
-	lsls r1, r1, #3
-	strh r1, [r0, #0x14]
-	strh r5, [r0, #0xe]
-	strh r5, [r0, #0x16]
-	movs r1, #0x10
-	strb r1, [r0, #0x1c]
-	strb r6, [r0, #0x1f]
-	str r5, [r0, #8]
-	subs r1, #0x11
-	str r1, [r0, #0x20]
-	bl UpdateSpriteAnimation
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0805C190: .4byte 0x0000053A
-_0805C194: .4byte gCamera
-
 	thumb_func_start Task_40_805C198
 Task_40_805C198: @ 0x0805C198
 	push {r4, r5, r6, r7, lr}
