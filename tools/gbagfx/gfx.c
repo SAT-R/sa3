@@ -412,7 +412,7 @@ void WriteImage(char *path, int numTiles, int bitDepth, int metatileWidth, int m
 
         unsigned char* scratchBuffer = malloc(bufferSize);
 
-        if(scratchBuffer) {
+        if(scratchBuffer != NULL) {
             /* Split image into shapes */
             struct OamShape* head = FindOamShapes(image->width, image->height);
 
