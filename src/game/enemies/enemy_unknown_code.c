@@ -1,35 +1,23 @@
-#if 0
-? sub_80044CC(Player *);                            /* extern */
-? sub_8004D68(s32, s32);                            /* extern */
-? sub_8027578(MapEntity *);                         /* extern */
-void TaskDestructor_805C03C(Task *);                /* static */
-void TaskDestructor_805D09C(Task *);                /* static */
-void Task_14_805C03C();                                /* static */
-void Task_40_805C198();                                 /* static */
-void sub_805CB70(Player *arg0, Sprite *arg1, u32 arg2, s32 arg3, s32 arg5, s32); /* static */
-void sub_805CC5C(Player *arg0, Sprite *arg1, u32 arg2, s32 arg3, s32 arg4, s32 arg5); /* static */
-s32 sub_805CF90(s16 arg0, s16 arg1, s16 arg2, s16 arg3); /* static */
-void sub_805CFE8(Player *arg0, Sprite *arg2, u32 arg4, s32 arg5, s32, s32); /* static */
-extern ? gUnknown_03001DA0;
-#endif
-
 #include "global.h"
 #include "core.h"
 #include "trig.h"
 #include "malloc_vram.h"
+#include "module_unclear.h"
+#include "lib/m4a/m4a.h"
 #include "game/camera.h"
+#include "game/enemy_unknown.h"
 #include "game/player.h" // PlayerCallback
 #include "game/stage.h"
 #include "game/interactables/bonus_game_enemies.h"
-#include "module_unclear.h"
 #include "constants/animations.h"
+#include "constants/songs.h"
 
 typedef struct EUC_Strc14 {
     /* 0x00 */ u8 unk0;
-    /* 0x02 */ u16 unk2;
-    /* 0x04 */ u16 unk4;
-    /* 0x08 */ s32 unk8;
-    /* 0x0C */ s32 unkC;
+    /* 0x02 */ u16 regionX;
+    /* 0x04 */ u16 regionY;
+    /* 0x08 */ s32 qWorldX;
+    /* 0x0C */ s32 qWorldY;
     /* 0x10 */ Player *p;
 } EUC_Strc14;
 
@@ -39,7 +27,7 @@ typedef struct EUC_Strc40 {
     /* 0x04 */ u8 unk5;
     /* 0x06 */ u16 regionX;
     /* 0x08 */ u16 regionY;
-    /* 0x0A */ u8 fillerA[0x2];
+    /* 0x0A */ s16 unkA;
     /* 0x0C */ s32 qWorldX;
     /* 0x10 */ s32 qWorldY;
     /* 0x14 */ Player *p;
@@ -47,19 +35,42 @@ typedef struct EUC_Strc40 {
 } EUC_Strc40;
 
 void Task_14_805C03C(void);
+void sub_805C138(EUC_Strc40 *arg0);
+void Task_40_805C198(void);
 void TaskDestructor_805C03C(struct Task *t);
+bool32 sub_805CF90(s16 worldX, s16 worldY, s16 spriteX, s16 spriteY);
 AnimCmdResult sub_805D058(EUC_Strc40 *strc40);
+void TaskDestructor_805D09C(struct Task *t);
+extern void sub_8027578(MapEntity *me);
+Player gUnknown_03001DA0[MULTI_SIO_PLAYERS_MAX];
 
-static inline void sub_805CF38__inline(u16 regionX, u16 regionY, s32 qWorldX, s32 qWorldY, Player *p)
+static inline void sub_805CF38__inline(s32 qWorldX, s32 qWorldY, u16 regionX, u16 regionY, Player *p)
 {
     if (p != 0) {
-        EUC_Strc14 *strc14 = TASK_DATA(TaskCreate(Task_14_805C03C, 0x14U, 0x4040U, 0U, TaskDestructor_805C03C));
+        EUC_Strc14 *strc14 = TASK_DATA(TaskCreate(Task_14_805C03C, sizeof(EUC_Strc14), 0x4040U, 0U, TaskDestructor_805C03C));
         strc14->unk0 = 0;
         strc14->p = p;
-        strc14->unk8 = qWorldX;
-        strc14->unkC = qWorldY;
-        strc14->unk2 = regionX;
-        strc14->unk4 = regionY;
+        strc14->qWorldX = qWorldX;
+        strc14->qWorldY = qWorldY;
+        strc14->regionX = regionX;
+        strc14->regionY = regionY;
+    }
+}
+
+static inline void sub_805CEBC__inline(s32 qWorldX, s32 qWorldY, u16 regionX, u16 regionY, u8 arg4, Player *p)
+{
+    EUC_Strc40 *strc = TASK_DATA(TaskCreate(Task_40_805C198, sizeof(EUC_Strc40), 0x4040U, 0U, TaskDestructor_805D09C));
+    strc->unkA = 60;
+    strc->qWorldX = qWorldX;
+    strc->qWorldY = qWorldY;
+    strc->regionX = regionX;
+    strc->regionY = regionY;
+    strc->p = p;
+    strc->unk4 = arg4;
+    strc->unk5 = 0;
+    sub_805C138(strc);
+    if (arg4 == 0) {
+        m4aSongNumStart(SE_POOF);
     }
 }
 
@@ -100,8 +111,8 @@ NONMATCH("asm/non_matching/game/enemies/euc__Task_14_805C03C.inc", void Task_14_
     }
 
     strcSub->unkC = 0xB4U;
-    strcSub->unk0 = Q(I(strc14->unk8) + Q(strc14->unk2));
-    strcSub->unk4 = Q(I(strc14->unkC) + Q(strc14->unk4));
+    strcSub->unk0 = Q(TO_WORLD_POS_RAW(I(strc14->qWorldX), strc14->regionX));
+    strcSub->unk4 = Q(TO_WORLD_POS_RAW(I(strc14->qWorldY), strc14->regionY));
 
     if (someNum >= 0) {
         temp_r0_4 = I(someNum);
@@ -159,15 +170,13 @@ NONMATCH("asm/non_matching/game/enemies/euc__Task_40_805C198.inc", void Task_40_
         u16 regionY = *((vu16 *)&strc40->regionY);
 
         if (strc40->p != NULL) {
-            sub_805CF38__inline(regionX, regionY, strc40->qWorldX, strc40->qWorldY, strc40->p);
+            sub_805CF38__inline(strc40->qWorldX, strc40->qWorldY, regionX, regionY, strc40->p);
         }
 
         strc40->unk5 = 1;
-    } else if (gStageData.act == 9) {
-        if (strc40->unk4 == 0 && strc40->unk5 == 0) {
-            CreateBonusFlower(qWorldX, qWorldY, strc40->p->charFlags.character);
-            strc40->unk5 = 1;
-        }
+    } else if ((gStageData.act == 9) && (strc40->unk4 == 0 && strc40->unk5 == 0)) {
+        CreateBonusFlower(qWorldX, qWorldY, strc40->p->charFlags.character);
+        strc40->unk5 = 1;
     }
 
     if (sub_805D058(strc40) == ACMD_RESULT__ENDED) {
@@ -176,152 +185,87 @@ NONMATCH("asm/non_matching/game/enemies/euc__Task_40_805C198.inc", void Task_40_
 }
 END_NONMATCH
 
-#if 0
-
-u32 sub_805C280(EnemyUnknownStruc0 *arg0) {
-    s32 sp4;
+// (78.64%) https://decomp.me/scratch/gRwMF
+NONMATCH("asm/non_matching/game/enemies/euc__sub_805C280.inc", bool32 sub_805C280(EnemyUnknownStruc0 *arg0))
+{
+    s32 zero = 0;
     MapEntity *temp_r1_2;
-    Sprite *temp_r3_2;
+    Sprite *s;
     Sprite *temp_r3_3;
     s32 temp_r1;
     s32 temp_r3;
-    s32 temp_r4;
     s32 temp_r4_2;
-    s32 temp_r5;
+    s16 qWorldX, qWorldY;
     s32 temp_r5_2;
     s32 temp_r5_4;
     s32 temp_r7;
-    s32 temp_r7_2;
     s32 temp_sb;
     s32 temp_sb_2;
-    s32 temp_sb_3;
-    s32 temp_sl;
+    Player *temp_r7_2;
+    Player *temp_sb_3;
     s8 temp_r6;
-    u16 temp_r0;
-    u16 temp_r0_2;
-    u16 temp_r0_3;
     u16 temp_r0_4;
-    u16 temp_r0_5;
     u16 temp_r4_3;
     u16 temp_r4_5;
     u16 temp_r5_3;
     u16 temp_r5_5;
     u16 temp_sb_4;
     u16 temp_sl_2;
+    EUC_Strc40 *temp_r0;
     void *temp_r4_4;
+    s16 spawnX = TO_WORLD_POS_RAW(I(arg0->posX), arg0->regionX);
+    s16 spawnY = TO_WORLD_POS_RAW(I(arg0->posY), arg0->regionY);
+    s8 meX;
 
-    temp_r1 = arg0->posX;
-    sp4 = temp_r1;
-    temp_r3 = arg0->posY;
-    temp_sl = temp_r3;
-    temp_r3_2 = arg0->spr;
+    s = arg0->spr;
+    qWorldX = (gCamera.x + s->x);
+    qWorldY = (gCamera.y + s->y);
     if (arg0->unk4 != 0) {
         if (gStageData.act != 9) {
-            temp_r5 = (s32) ((u16) ((u16) temp_r3_2->x + gCamera.x) << 0x10) >> 8;
-            temp_r4 = (s32) ((u16) ((u16) temp_r3_2->y + gCamera.y) << 0x10) >> 8;
-            temp_sb = arg0->unk18;
-            temp_r0 = TaskCreate(Task_40_805C198, 0x40U, 0x4040U, 0U, TaskDestructor_805D09C)->data;
-            temp_r0->unkA = 0x3C;
-            temp_r0->unkC = temp_r5;
-            temp_r0->unk10 = temp_r4;
-            temp_r0->unk6 = 0;
-            temp_r0->unk8 = 0;
-            temp_r0->unk14 = temp_sb;
-            temp_r0->unk4 = 0;
-            temp_r0->unk5 = 0;
-            sub_805C138();
-            m4aSongNumStart(0x8AU);
+            sub_805CEBC__inline(Q(qWorldX), Q(qWorldY), zero, zero, 0, arg0->p);
         } else {
-            temp_r5_2 = (temp_r3_2->x + gCamera.x) << 8;
-            temp_r4_2 = (temp_r3_2->y + gCamera.y) << 8;
-            temp_sb_2 = arg0->unk18;
-            temp_r0_2 = TaskCreate(Task_40_805C198, 0x40U, 0x4040U, 0U, TaskDestructor_805D09C)->data;
-            temp_r0_2->unkA = 0x3C;
-            temp_r0_2->unkC = temp_r5_2;
-            temp_r0_2->unk10 = temp_r4_2;
-            temp_r0_2->unk6 = 0;
-            temp_r0_2->unk8 = 0;
-            temp_r0_2->unk14 = temp_sb_2;
-            temp_r0_2->unk4 = 0;
-            temp_r0_2->unk5 = 0;
-            sub_805C138();
-            m4aSongNumStart(0x8AU);
+            qWorldX = Q(s->x + gCamera.x);
+            qWorldY = Q(s->y + gCamera.y);
+            sub_805CEBC__inline(qWorldX, qWorldY, zero, zero, 0, arg0->p);
         }
-        if ((u32) gStageData.gameMode <= 4U) {
-
-        } else {
+        if (gStageData.gameMode > 4U) {
             sub_8027578(arg0->me);
         }
-        goto block_20;
-    }
-    if ((u32) gStageData.gameMode <= 4U) {
-        goto block_17;
-    }
-    temp_r6 = (s8) arg0->me->x;
-    if ((s32) temp_r6 < -6) {
-        goto block_17;
-    }
-    if ((s32) temp_r6 > -3) {
-block_17:
-        temp_r3_3 = arg0->spr;
-        if (sub_805CF90((s16) (u16) (((s32) (temp_r1 << 8) >> 0x10) + (arg0->regionX << 8)), (s16) (u16) (((s32) (temp_r3 << 8) >> 0x10) + (arg0->regionY << 8)), temp_r3_3->x, temp_r3_3->y) == 0) {
-            temp_r1_2 = arg0->me;
-            if (temp_r1_2 != NULL) {
-                temp_r1_2->x = (u8) arg0->meX;
-            }
-            goto block_20;
-        }
-        return 0U;
-    }
-    if (gStageData.act != 9) {
-        temp_r4_3 = arg0->regionX;
-        temp_r5_3 = arg0->regionY;
-        temp_sb_3 = arg0->unk18;
-        temp_r0_3 = TaskCreate(Task_40_805C198, 0x40U, 0x4040U, 0U, TaskDestructor_805D09C)->data;
-        temp_r0_3->unkA = 0x3C;
-        temp_r0_3->unkC = sp4;
-        temp_r0_3->unk10 = temp_sl;
-        temp_r0_3->unk6 = temp_r4_3;
-        temp_r0_3->unk8 = temp_r5_3;
-        temp_r0_3->unk14 = temp_sb_3;
-        temp_r0_3->unk4 = 0;
-        temp_r0_3->unk5 = 0;
-        sub_805C138();
-        m4aSongNumStart(0x8AU);
-        temp_sb_4 = arg0->regionX;
-        temp_sl_2 = arg0->regionY;
-        temp_r5_4 = arg0->posX;
-        temp_r7 = arg0->posY;
-        temp_r4_4 = (temp_r6 * 0x150) + &gUnknown_03001DA0;
-        if (temp_r4_4 != NULL) {
-            temp_r0_4 = TaskCreate(Task_14_805C03C, 0x14U, 0x4040U, 0U, TaskDestructor_805C03C)->data;
-            temp_r0_4->unk0 = 0;
-            temp_r0_4->unk10 = temp_r4_4;
-            temp_r0_4->unk8 = temp_r5_4;
-            temp_r0_4->unkC = temp_r7;
-            temp_r0_4->unk2 = temp_sb_4;
-            temp_r0_4->unk4 = temp_sl_2;
-        }
-    } else {
-        temp_r4_5 = arg0->regionX;
-        temp_r5_5 = arg0->regionY;
-        temp_r7_2 = arg0->unk18;
-        temp_r0_5 = TaskCreate(Task_40_805C198, 0x40U, 0x4040U, 0U, TaskDestructor_805D09C)->data;
-        temp_r0_5->unkA = 0x3C;
-        temp_r0_5->unkC = sp4;
-        temp_r0_5->unk10 = temp_sl;
-        temp_r0_5->unk6 = temp_r4_5;
-        temp_r0_5->unk8 = temp_r5_5;
-        temp_r0_5->unk14 = temp_r7_2;
-        temp_r0_5->unk4 = 0;
-        temp_r0_5->unk5 = 0;
-        sub_805C138();
-        m4aSongNumStart(0x8AU);
-    }
-block_20:
-    return 1U;
-}
 
+        return 1U;
+    }
+
+    meX = arg0->me->x;
+    if ((gStageData.gameMode > 4U) && (meX >= -6 && meX <= -3)) {
+        if (gStageData.act != 9) {
+            temp_r4_3 = arg0->regionX;
+            temp_r5_3 = arg0->regionY;
+            temp_sb_3 = arg0->p;
+            sub_805CEBC__inline(arg0->posX, arg0->posY, temp_r4_3, temp_r5_3, 0, temp_sb_3);
+            temp_sb_4 = arg0->regionX;
+            temp_sl_2 = arg0->regionY;
+            temp_r4_4 = &gUnknown_03001DA0[meX];
+            sub_805CF38__inline(arg0->posX, arg0->posY, temp_sb_4, temp_sl_2, temp_r4_4);
+        } else {
+            sub_805CEBC__inline(arg0->posX, arg0->posY, arg0->regionX, arg0->regionY, 0, arg0->p);
+        }
+
+        return 1U;
+    } else {
+        if (!sub_805CF90(spawnX, spawnY, arg0->spr->x, arg0->spr->y)) {
+            if (arg0->me != NULL) {
+                SET_MAP_ENTITY_NOT_INITIALIZED(arg0->me, arg0->meX);
+            }
+
+            return 1U;
+        }
+    }
+
+    return 0;
+}
+END_NONMATCH
+
+#if 0
 u32 sub_805C510(Sprite *s) {
     s16 temp_r2_5;
     s16 temp_r2_6;
@@ -833,7 +777,7 @@ void sub_805CEBC(s32 arg0, s32 arg1, u16 arg2, u16 arg3, s32 arg4, s32 arg5) {
     temp_r0->unk5 = 0;
     sub_805C138();
     if (temp_r6 == 0) {
-        m4aSongNumStart(0x8AU);
+        m4aSongNumStart(SE_POOF);
     }
 }
 
