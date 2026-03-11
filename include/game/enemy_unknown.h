@@ -8,7 +8,9 @@ typedef struct {
     /* 0x00 */ MapEntity *me;
     /* 0x04 */ bool32 unk4;
     /* 0x08 */ s8 meX;
-    /* 0x20 */ u8 filler9[0x3];
+    /* 0x09 */ u8 playerIndex;
+    /* 0x0A */ s8 dirX;
+    /* 0x0B */ s8 dirY;
 
     // TODO: Make this Vec2_u16
     /* 0x0C */ u16 regionX;

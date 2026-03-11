@@ -42,6 +42,8 @@ bool32 sub_805CF90(s16 worldX, s16 worldY, s16 spriteX, s16 spriteY);
 AnimCmdResult sub_805D058(EUC_Strc40 *strc40);
 void TaskDestructor_805D09C(struct Task *t);
 extern void sub_8027578(MapEntity *me);
+extern void sub_8004D68(s32 x, s32 y);
+extern void sub_80044CC(Player *p);
 Player gUnknown_03001DA0[MULTI_SIO_PLAYERS_MAX];
 
 static inline void sub_805CF38__inline(s32 qWorldX, s32 qWorldY, u16 regionX, u16 regionY, Player *p)
