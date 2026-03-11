@@ -41,13 +41,6 @@ jobs:
       - name: Checkout
         if: ${{ github.event_name == 'push' }}
         uses: actions/checkout@master
-       
-      - name: Checkout gh-pages
-        if: ${{ github.event_name == 'push' }}
-        uses: actions/checkout@master
-        with:
-          path: gh-pages
-          ref: gh-pages
 
       - name: Checkout agbcc
         uses: actions/checkout@master
@@ -80,7 +73,6 @@ jobs:
           python3 scripts/progress.py text
 
       - name: Generate reports
-        if: ${{ github.event_name == 'push' }}
         run: |
           mkdir -p gh-pages/reports
           mkdir -p gh-pages/maps
@@ -91,6 +83,36 @@ jobs:
           cp sa3.map gh-pages/maps/${GITHUB_SHA}.map
 
       - name: Update reports
+        uses: EndBug/add-and-commit@v7
+        with:
+          branch: gh-pages
+          cwd: "./gh-pages"
+          add: "reports maps"
+          message: ${{ env.REPORTS_COMMIT_MSG }}
+
+  publish-progress:
+    name: Publish progress
+    runs-on: ubuntu-24.04
+    needs: [build-gba]
+    # Only able to run from repo pull requests (by maintainers, or on the main branch via push)
+    if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout gh-pages
+        uses: actions/checkout@master
+        with:
+          path: gh-pages
+          ref: gh-pages
+      - name: Download progress
+        uses: actions/download-artifact@v7
+        with:
+          path: |
+            gh-pages
+      - run: |
+          cd gh-pages
+          git status
+      - name: Publish reports
         if: ${{ github.event_name == 'push' }}
         uses: EndBug/add-and-commit@v7
         with:
