@@ -265,100 +265,74 @@ NONMATCH("asm/non_matching/game/enemies/euc__sub_805C280.inc", bool32 sub_805C28
 }
 END_NONMATCH
 
-#if 0
-u32 sub_805C510(Sprite *s) {
+// (88.72%) https://decomp.me/scratch/BywUv
+NONMATCH("asm/non_matching/game/enemies/euc__sub_805C510.inc", bool32 sub_805C510(Sprite *s))
+{
     s16 temp_r2_5;
-    s16 temp_r2_6;
     s16 temp_r4;
-    s16 temp_r4_2;
-    s32 var_r0;
-    s32 var_r0_2;
-    s32 var_r0_3;
-    s32 var_r0_4;
-    s8 temp_r1_2;
-    s8 temp_r1_3;
-    s8 temp_r1_4;
-    s8 temp_r1_5;
-    s8 temp_r2;
-    s8 temp_r2_2;
-    s8 temp_r2_3;
-    s8 temp_r2_4;
-    u16 temp_r0;
-    u16 temp_r0_2;
-    u16 temp_r1;
-    u32 var_sb;
-    void *temp_r3;
+    s16 inSpriteY;
+    s16 cheeseSpriteY;
+    u16 absWidth0;
+    u16 absHeight0;
+    u16 absWidth1;
+    u16 absHeight1;
+    Cheese *cheese;
+    bool32 result;
+    Sprite2 *sprCheese;
 
-    temp_r1 = gStageData.taskCheese->data;
-    temp_r3 = temp_r1 + 0x20;
-    var_sb = 0;
-    if (!(2 & temp_r1->unk16)) {
-        return 0U;
+    cheese = TASK_DATA(gStageData.taskCheese);
+    sprCheese = &cheese->s;
+    result = 0;
+    if (!(CMS_2 & cheese->moveState)) {
+        return FALSE;
     }
-    temp_r2 = s->hitboxes[0].b.left;
-    temp_r1_2 = (s8) (u8) s->hitboxes[0].b.right;
-    var_r0 = temp_r2 - temp_r1_2;
-    if (var_r0 < 0) {
-        var_r0 = temp_r1_2 - temp_r2;
-    }
-    temp_r0 = (u16) var_r0;
-    temp_r2_2 = s->hitboxes[0].b.top;
-    temp_r1_3 = (s8) (u8) s->hitboxes[0].b.bottom;
-    var_r0_2 = temp_r2_2 - temp_r1_3;
-    if (var_r0_2 < 0) {
-        var_r0_2 = temp_r1_3 - temp_r2_2;
-    }
-    temp_r0_2 = (u16) var_r0_2;
-    temp_r2_3 = temp_r3->unk2C;
-    temp_r1_4 = (s8) temp_r3->unk2E;
-    var_r0_3 = temp_r2_3 - temp_r1_4;
-    if (var_r0_3 < 0) {
-        var_r0_3 = temp_r1_4 - temp_r2_3;
-    }
-    temp_r2_4 = temp_r3->unk2D;
-    temp_r1_5 = (s8) temp_r3->unk2F;
-    var_r0_4 = temp_r2_4 - temp_r1_5;
-    if (var_r0_4 < 0) {
-        var_r0_4 = temp_r1_5 - temp_r2_4;
-    }
-    if ((temp_r0 != 0) || (temp_r0_2 != 0)) {
+
+    absWidth0 = ABS(s->hitboxes[0].b.left - s->hitboxes[0].b.right);
+    absHeight0 = ABS(s->hitboxes[0].b.top - s->hitboxes[0].b.bottom);
+    absWidth1 = ABS(sprCheese->hitboxes[1].b.left - sprCheese->hitboxes[1].b.right);
+    absHeight1 = ABS(sprCheese->hitboxes[1].b.top - sprCheese->hitboxes[1].b.bottom);
+
+    if ((absWidth0 != 0) || (absHeight0 != 0)) {
         temp_r4 = s->x;
-        temp_r2_5 = temp_r3->unk10;
-        if ((s32) temp_r4 <= (s32) temp_r2_5) {
-            if ((s32) (temp_r4 + temp_r0) < (s32) temp_r2_5) {
-                if ((s32) temp_r4 >= (s32) temp_r2_5) {
-                    goto block_15;
+        temp_r2_5 = sprCheese->x;
+        if (temp_r4 <= temp_r2_5) {
+            if ((temp_r4 + absWidth0) < temp_r2_5) {
+                if (temp_r4 < temp_r2_5) {
+                    return result;
                 }
             } else {
                 goto block_16;
             }
-        } else {
-block_15:
-            if ((s32) (temp_r3->unk10 + (u16) var_r0_3) >= (s32) s->x) {
-block_16:
-                temp_r4_2 = s->y;
-                temp_r2_6 = temp_r3->unk12;
-                if ((s32) temp_r4_2 <= (s32) temp_r2_6) {
-                    if ((s32) (temp_r4_2 + temp_r0_2) < (s32) temp_r2_6) {
-                        if ((s32) temp_r4_2 >= (s32) temp_r2_6) {
+        }
+        {
+        block_15:
+            if ((sprCheese->x + absWidth1) >= s->x) {
+            block_16:
+                inSpriteY = s->y;
+                cheeseSpriteY = sprCheese->y;
+                if (inSpriteY <= cheeseSpriteY) {
+                    if ((inSpriteY + absHeight0) < cheeseSpriteY) {
+                        if (inSpriteY >= cheeseSpriteY) {
                             goto block_19;
                         }
                     } else {
                         goto block_20;
                     }
                 } else {
-block_19:
-                    if ((s32) (temp_r3->unk12 + (u16) var_r0_4) >= (s32) s->y) {
-block_20:
-                        var_sb = 1;
+                block_19:
+                    if ((sprCheese->y + absHeight1) >= s->y) {
+                    block_20:
+                        result = 1;
                     }
                 }
             }
         }
     }
-    return var_sb;
+    return result;
 }
+END_NONMATCH
 
+#if 0
 u32 sub_805C63C(EnemyUnknownStruc0 *arg0) {
     u32 sp8;
     Player *var_r5;
