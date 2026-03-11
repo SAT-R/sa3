@@ -332,129 +332,126 @@ NONMATCH("asm/non_matching/game/enemies/euc__sub_805C510.inc", bool32 sub_805C51
 }
 END_NONMATCH
 
-#if 0
-u32 sub_805C63C(EnemyUnknownStruc0 *arg0) {
-    u32 sp8;
-    Player *var_r5;
-    Sprite *temp_r1;
+// (97.62%) https://decomp.me/scratch/xn8lP
+NONMATCH("asm/non_matching/game/enemies/euc__sub_805C63C.inc", u32 sub_805C63C(EnemyUnknownStruc0 *arg0))
+{
+    Sprite *s;
     Task *temp_r0;
-    s32 temp_r6;
-    s32 temp_r7;
-    s32 var_r1;
-    s32 var_r2;
-    u32 temp_r0_2;
-    u8 temp_r0_3;
-    u8 var_r0;
-    u8 var_r0_2;
-    u8 var_r0_3;
-    u8 var_sl;
+    s32 worldY;
+    s32 worldX;
+    s32 qWorldY;
+    s32 qWorldX;
+    u8 i;
+    Player *p = NULL;
+    u32 sp8 = 0;
+    s32 posX = I(arg0->posX);
+    s32 posY = I(arg0->posY);
 
-    var_r5 = NULL;
-    sp8 = 0;
-    temp_r7 = ((s32) arg0->posX >> 8) + (arg0->regionX << 8);
-    temp_r6 = ((s32) arg0->posY >> 8) + (arg0->regionY << 8);
-    temp_r1 = arg0->spr;
-    var_r2 = temp_r7 << 8;
-    var_r1 = temp_r6 << 8;
-    if (temp_r1->anim == 0x4B1) {
-        var_r1 += 0xFFFFF000;
-        var_r2 += 0xFFFFF000;
+    worldX = TO_WORLD_POS_RAW(posX, arg0->regionX);
+    worldY = TO_WORLD_POS_RAW(posY, arg0->regionY);
+    s = arg0->spr;
+    qWorldX = Q(worldX);
+    qWorldY = Q(worldY);
+    if (s->anim == 1201) {
+        qWorldY -= Q(16);
+        qWorldX -= Q(16);
     }
-    sub_8004D68(var_r2, var_r1);
-    var_sl = 0;
-loop_3:
-    if (var_sl == 0) {
-        var_r5 = &gPlayers[gStageData.playerIndex];
-    } else {
-        var_r5 = &gPlayers[(u32) (var_r5->unk2B << 0x1E) >> 0x1E];
-    }
-    if (sub_802C080(var_r5) != 0) {
+    sub_8004D68(qWorldX, qWorldY);
 
-    } else {
-        temp_r0 = gStageData.taskCheese;
-        if ((temp_r0 != NULL) && (temp_r0->data->unk50 == var_r5) && (sub_805C510(temp_r1) == 1)) {
-            sp8 = 1;
-        }
-        if (sub_8020700(temp_r1, temp_r7, temp_r6, 1, var_r5, 0) != 0) {
-            if (var_r5->framesInvincible != 0) {
-                if (sub_8020700(temp_r1, temp_r7, temp_r6, 0, var_r5, 0) == 0) {
+#ifndef NON_MATCHING
+    asm("" ::"r"(s->anim));
+#endif
 
-                } else {
-                    if (var_sl == 0) {
-                        var_r0 = gStageData.playerIndex;
-                    } else {
-                        goto block_38;
-                    }
-                    goto block_39;
-                }
-            } else {
-                goto block_29;
-            }
-        } else {
-            temp_r0_2 = sub_8020700(temp_r1, temp_r7, temp_r6, 0, var_r5, 1);
-            if (temp_r0_2 != 0) {
-                if ((s32) ((s32) var_r5->qWorldX >> 8) < temp_r7) {
-                    arg0->filler9[1] = 1;
-                } else {
-                    arg0->filler9[1] = 0xFF;
-                }
-                if ((s32) ((s32) var_r5->qWorldY >> 8) < temp_r6) {
-                    var_r0_2 = 1;
-                } else {
-                    var_r0_2 = 0xFF;
-                }
-                arg0->filler9[2] = var_r0_2;
-                sub_80044CC(var_r5);
-                if (var_sl == 0) {
-                    var_r0 = gStageData.playerIndex;
-                } else {
-                    goto block_38;
-                }
-                goto block_39;
-            }
-            if (sub_8020700(temp_r1, temp_r7, temp_r6, 0, var_r5, (s16) temp_r0_2) != 0) {
-                if (var_r5->framesInvincible == 0) {
-block_29:
-                    sub_8020CE0(temp_r1, temp_r7, temp_r6, 0, var_r5);
-                    sub_8020CE0(temp_r1, temp_r7, temp_r6, 1, var_r5);
-                } else {
-                    if ((s32) ((s32) var_r5->qWorldX >> 8) < temp_r7) {
-                        arg0->filler9[1] = 1;
-                    } else {
-                        arg0->filler9[1] = 0xFF;
-                    }
-                    if ((s32) ((s32) var_r5->qWorldY >> 8) < temp_r6) {
-                        var_r0_3 = 1;
-                    } else {
-                        var_r0_3 = 0xFF;
-                    }
-                    arg0->filler9[2] = var_r0_3;
-                    sub_80044CC(var_r5);
-                    if (var_sl == 0) {
-                        var_r0 = gStageData.playerIndex;
-                    } else {
-block_38:
-                        var_r0 = (u8) ((u32) (var_r5->unk2B << 0x1E) >> 0x1E);
-                    }
-block_39:
-                    arg0->filler9[0] = var_r0;
+    i = 0;
+    do {
+        p = GET_SP_PLAYER_V0(i);
+
+        if (sub_802C080(p) == 0) {
+            if (gStageData.taskCheese != NULL) {
+                Cheese *cheese = TASK_DATA(gStageData.taskCheese);
+                if ((cheese->player == p) && (sub_805C510(s) == 1)) {
                     sp8 = 1;
                 }
-            } else if ((sub_8020700(temp_r1, temp_r7, temp_r6, 1, var_r5, 1) != 0) && (var_r5->framesInvincible == 0)) {
-                sub_8020CE0(temp_r1, temp_r7, temp_r6, 0, var_r5);
-                sub_8020CE0(temp_r1, temp_r7, temp_r6, 1, var_r5);
+            }
+            if (sub_8020700(s, worldX, worldY, 1, p, 0)) {
+                if (p->framesInvincible) {
+                    if (sub_8020700(s, worldX, worldY, 0, p, 0)) {
+                        if (i == 0) {
+                            arg0->playerIndex = gStageData.playerIndex;
+                        } else {
+                            arg0->playerIndex = p->charFlags.partnerIndex;
+                        }
+                        sp8 = 1;
+                    }
+                } else {
+                    sub_8020CE0(s, worldX, worldY, 0, p);
+                    sub_8020CE0(s, worldX, worldY, 1, p);
+                }
+            } else {
+                if (sub_8020700(s, worldX, worldY, 0, p, 1)) {
+                    if (I(p->qWorldX) < worldX) {
+                        arg0->dirX = +1;
+#ifndef NON_MATCHING
+                        asm("");
+#endif
+                    } else {
+                        arg0->dirX = -1;
+                    }
+                    if (I(p->qWorldY) < worldY) {
+                        arg0->dirY = +1;
+                    } else {
+                        arg0->dirY = -1;
+                    }
+
+                    sub_80044CC(p);
+                    if (i == 0) {
+                        arg0->playerIndex = gStageData.playerIndex;
+                    } else {
+                        arg0->playerIndex = p->charFlags.partnerIndex;
+                    }
+
+                    sp8 = 1;
+                } else if (sub_8020700(s, worldX, worldY, 0, p, 0)) {
+                    if (p->framesInvincible == 0) {
+                        sub_8020CE0(s, worldX, worldY, 0, p);
+                        sub_8020CE0(s, worldX, worldY, 1, p);
+                    } else {
+                        if (I(p->qWorldX) < worldX) {
+                            arg0->dirX = +1;
+#ifndef NON_MATCHING
+                            asm("");
+#endif
+                        } else {
+                            arg0->dirX = -1;
+                        }
+
+                        if (I(p->qWorldY) < worldY) {
+                            arg0->dirY = +1;
+                        } else {
+                            arg0->dirY = -1;
+                        }
+                        sub_80044CC(p);
+                        if (i == 0) {
+                            arg0->playerIndex = gStageData.playerIndex;
+                        } else {
+                            arg0->playerIndex = p->charFlags.partnerIndex;
+                        }
+                        sp8 = 1;
+                    }
+                } else if ((sub_8020700(s, worldX, worldY, 1, p, 1)) && (p->framesInvincible == 0)) {
+                    sub_8020CE0(s, worldX, worldY, 0, p);
+                    sub_8020CE0(s, worldX, worldY, 1, p);
+                }
             }
         }
-    }
-    temp_r0_3 = var_sl + 1;
-    var_sl = temp_r0_3;
-    if ((u32) temp_r0_3 <= 1U) {
-        goto loop_3;
-    }
-    arg0->unk18 = (s32) var_r5;
+    } while (++i < NUM_SINGLE_PLAYER_CHARS);
+    arg0->p = p;
+
     return sp8;
 }
+END_NONMATCH
 
+#if 0
 u32 sub_805C890(EnemyUnknownStruc0 *param0, s8 param1) {
     EnemyUnknownStruc0 *spC;
     u32 sp10;
