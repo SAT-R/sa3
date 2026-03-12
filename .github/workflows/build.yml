@@ -81,14 +81,13 @@ jobs:
           python3 scripts/progress.py shield-json > gh-pages/reports/progress-sa3-shield.json
           echo "REPORTS_COMMIT_MSG=$( git log --format=%s ${GITHUB_SHA} )" >> $GITHUB_ENV
           cp sa3.map gh-pages/maps/${GITHUB_SHA}.map
-
-      - name: Update reports
-        uses: EndBug/add-and-commit@v7
+          
+      - name: Upload progress
+        if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
+        uses: actions/upload-artifact@v7
         with:
-          branch: gh-pages
-          cwd: "./gh-pages"
-          add: "reports maps"
-          message: ${{ env.REPORTS_COMMIT_MSG }}
+          path: |
+            gh-pages
 
   publish-progress:
     name: Publish progress
