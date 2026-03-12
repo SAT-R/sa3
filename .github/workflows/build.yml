@@ -93,7 +93,7 @@ jobs:
   publish-progress:
     name: Publish progress
     runs-on: ubuntu-24.04
-    needs: [build-gba]
+    needs: [build]
     # Only able to run from repo pull requests (by maintainers, or on the main branch via push)
     if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
     permissions:
