@@ -7,9 +7,11 @@
 #include "game/camera.h"
 #include "game/enemy_unknown.h"
 #include "game/player.h" // PlayerCallback
+#include "game/player_callbacks.h"
 #include "game/stage.h"
 #include "game/interactables/bonus_game_enemies.h"
 #include "constants/animations.h"
+#include "constants/move_states.h" // MOVESTATE_1000000
 #include "constants/songs.h"
 
 typedef struct EUC_Strc14 {
@@ -39,6 +41,9 @@ void sub_805C138(EUC_Strc40 *arg0);
 void Task_40_805C198(void);
 void TaskDestructor_805C03C(struct Task *t);
 bool32 sub_805CF90(s16 worldX, s16 worldY, s16 spriteX, s16 spriteY);
+void sub_805CB70(Player *arg0, UNUSED Sprite *s, s32 arg2, UNUSED u32 arg3, u32 arg4, s32 arg5);
+void sub_805CC5C(Player *arg0, UNUSED Sprite *s, s32 arg2, UNUSED u32 arg3, u32 arg4, s32 arg5);
+void sub_805CFE8(Player *arg0, UNUSED Sprite *s, s32 arg2, UNUSED u32 arg3, u32 arg4, s32 arg5);
 AnimCmdResult sub_805D058(EUC_Strc40 *strc40);
 void TaskDestructor_805D09C(struct Task *t);
 extern void sub_8027578(MapEntity *me);
@@ -453,117 +458,110 @@ NONMATCH("asm/non_matching/game/enemies/euc__sub_805C63C.inc", u32 sub_805C63C(E
 }
 END_NONMATCH
 
-#if 0
-u32 sub_805C890(EnemyUnknownStruc0 *param0, s8 param1) {
-    EnemyUnknownStruc0 *spC;
-    u32 sp10;
-    s32 sp14;
-    s32 sp18;
-    Player *var_r6;
-    Sprite *temp_sb;
-    Task *temp_r0;
-    s16 temp_r5;
-    s32 temp_r2;
-    s32 temp_r7;
-    s32 temp_r8;
+// (99.91%) https://decomp.me/scratch/07C6C
+NONMATCH("asm/non_matching/game/enemies/euc__sub_805C890.inc", bool32 sub_805C890(EnemyUnknownStruc0 *param0, s8 param1))
+{
+    bool32 result;
+    u8 i;
+    Sprite *s;
     u32 temp_r0_2;
-    u32 temp_r1;
-    u32 temp_r1_2;
-    u32 temp_r1_3;
-    u32 temp_r2_2;
     u32 temp_r4;
-    u8 temp_r0_3;
+    s32 worldX, worldY;
 
-    spC = param0;
-    var_r6 = NULL;
-    sp10 = 0;
-    temp_r8 = ((s32) spC->posX >> 8) + (spC->regionX << 8);
-    temp_r7 = ((s32) spC->posY >> 8) + (spC->regionY << 8);
-    temp_sb = spC->spr;
-    sub_8004D68(temp_r8 << 8, temp_r7 << 8);
-    sp14 = 0;
-    sp18 = (s32) (s8) (u8) param1;
-loop_1:
-    if (sp14 == 0) {
-        var_r6 = &gPlayers[gStageData.playerIndex];
-    } else {
-        var_r6 = &gPlayers[(u32) (var_r6->unk2B << 0x1E) >> 0x1E];
-    }
-    temp_r0 = gStageData.taskCheese;
-    if ((temp_r0 != NULL) && (temp_r0->data->unk50 == var_r6) && (sub_805C510(temp_sb) == 1)) {
-        sp10 = 1;
-    }
-    if (var_r6->moveState & 0x100) {
+    Player *p = NULL;
+    result = FALSE;
+    worldX = I(param0->posX);
+    worldY = I(param0->posY);
+    worldX = TO_WORLD_POS_RAW(worldX, param0->regionX);
+    worldY = TO_WORLD_POS_RAW(worldY, param0->regionY);
+    s = param0->spr;
+    sub_8004D68(Q(worldX), Q(worldY));
+    i = 0;
+    do {
+        p = GET_SP_PLAYER_V0(i);
+        if (gStageData.taskCheese != NULL) {
+            Cheese *cheese = TASK_DATA(gStageData.taskCheese);
+            if ((cheese->player == p) && (sub_805C510(s) == 1)) {
+                result = TRUE;
+            }
+        }
+        if (!(p->moveState & MOVESTATE_100)) {
+            if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2 || p->charFlags.someIndex == 4) {
+                temp_r0_2 = sub_8020700(s, worldX, worldY, 1, p, 1);
+                if (temp_r0_2 != 0) {
+                    if (!(MOVESTATE_1000000 & p->moveState)) {
+                        if (((p->moveState & MOVESTATE_2) && (p->framesInvincible == 0) && (p->framesInvulnerable == 0))) {
+                            temp_r4 = sub_8020874(s, worldX, worldY, 1, p, 1, 0);
+                            if (p->moveState & MOVESTATE_IN_AIR) {
+                                sub_805CFE8(p, s, temp_r4, worldX, worldY, param1);
+                                sub_805CC5C(p, s, temp_r4, worldX, worldY, param1);
+                                p->charFlags.state1 = 0;
+                                SetPlayerCallback(p, Player_800DB30);
+                            } else {
+                                sub_805CB70(p, s, temp_r4, worldX, worldY, param1);
+                                Player_800891C(p);
+                            }
 
-    } else {
-        temp_r2 = 0x1C & var_r6->unk2B;
-        if ((temp_r2 != 4) && (temp_r2 != 8) && (temp_r2 != 0x10)) {
-
-        } else {
-            temp_r0_2 = sub_8020700(temp_sb, temp_r8, temp_r7, 1, var_r6, 1);
-            if (temp_r0_2 != 0) {
-                temp_r1 = var_r6->moveState;
-                if (0x01000000 & temp_r1) {
-
-                } else if ((temp_r1 & 2) && (var_r6->framesInvincible == 0) && (temp_r5 = var_r6->framesInvulnerable, (temp_r5 == 0))) {
-                    temp_r4 = sub_8020874(temp_sb, temp_r8, temp_r7, 1, var_r6, 1, (u8) (s32) temp_r5);
-                    if (var_r6->moveState & 4) {
-                        sub_805CFE8(var_r6, temp_sb, temp_r4, temp_r8, temp_r7, sp18);
-                        sub_805CC5C(var_r6, temp_sb, temp_r4, temp_r8, temp_r7, sp18);
-                        var_r6->charFlags.state1 = (u16) temp_r5;
-                        SetPlayerCallback(var_r6, Player_800DB30);
-                    } else {
-                        sub_805CB70(var_r6, temp_sb, temp_r4, temp_r8, temp_r7, sp18);
-                        Player_800891C(var_r6);
-                    }
-                    temp_r1_2 = var_r6->moveState;
-                    if (temp_r1_2 & 1) {
-                        var_r6->moveState = temp_r1_2 & ~1;
-                    } else {
-                        var_r6->moveState = temp_r1_2 | 1;
-                    }
-                } else if (var_r6->spriteInfoBody->s.hitboxes[1].index == -1) {
-
-                } else {
-                    goto block_35;
-                }
-            } else if (sub_8020700(temp_sb, temp_r8, temp_r7, 1, var_r6, (s16) temp_r0_2) != 0) {
-                if (!(var_r6->moveState & 0x01000000) && (var_r6->framesInvulnerable == 0)) {
-                    if (var_r6->framesInvincible == 0) {
-                        sub_8020CE0(temp_sb, temp_r8, temp_r7, 0, var_r6);
-                        sub_8020CE0(temp_sb, temp_r8, temp_r7, 1, var_r6);
-                        temp_r2_2 = var_r6->unk2B << 0x1E;
-                        if (*(((temp_r2_2 >> 0x1E) * 0x150) + &gPlayers->moveState) & 0x01000000) {
-                            sub_8020CE0(temp_sb, temp_r8, temp_r7, 0, &gPlayers[temp_r2_2 >> 0x1E]);
-                            sub_8020CE0(temp_sb, temp_r8, temp_r7, 1, &gPlayers[(u32) (var_r6->unk2B << 0x1E) >> 0x1E]);
+                            if (p->moveState & MOVESTATE_FACING_LEFT) {
+                                p->moveState &= ~MOVESTATE_FACING_LEFT;
+                            } else {
+                                p->moveState |= MOVESTATE_FACING_LEFT;
+                            }
+                        } else {
+                            if (p->spriteInfoBody->s.hitboxes[1].index != -1) {
+                                goto lbl0;
+                            } else {
+                                continue;
+                            }
+                        lbl0:
+                            goto lbl;
                         }
-                    } else {
-block_35:
-                        sub_80044CC(var_r6);
-                        sp10 = 1;
                     }
-                }
-            } else if (sub_8020700(temp_sb, temp_r8, temp_r7, 0, var_r6, 1) != 0) {
-                temp_r1_3 = var_r6->moveState;
-                if (!(0x01000000 & temp_r1_3)) {
-                    if (temp_r1_3 & 0x800000) {
-                        sub_8016F28(var_r6);
+                } else if (sub_8020700(s, worldX, worldY, 1, p, 0) != 0) {
+                    if (!(p->moveState & MOVESTATE_1000000) && (p->framesInvulnerable == 0)) {
+                        if (p->framesInvincible == 0) {
+                            Player *players;
+                            Player *innerPartner;
+                            u32 *moveState;
+                            sub_8020CE0(s, worldX, worldY, 0, p);
+                            sub_8020CE0(s, worldX, worldY, 1, p);
+                            players = &gPlayers[PLAYER_1];
+                            moveState = &players[p->charFlags.partnerIndex].moveState;
+#ifndef NON_MATCHING
+                            asm("" ::"r"(moveState));
+#endif
+                            if (*moveState & MOVESTATE_1000000) {
+                                innerPartner = GET_SP_PLAYER_V1(PLAYER_2);
+                                sub_8020CE0(s, worldX, worldY, 0, innerPartner);
+                                innerPartner = GET_SP_PLAYER_V1(PLAYER_2);
+                                sub_8020CE0(s, worldX, worldY, 1, innerPartner);
+                            }
+                        } else {
+                        lbl:
+                            sub_80044CC(p);
+                            result = TRUE;
+                        }
                     }
-                    sub_80044CC(var_r6);
-                    sp10 = 1;
+                } else if (sub_8020700(s, worldX, worldY, 0, p, 1) != 0) {
+                    if (!(p->moveState & MOVESTATE_1000000)) {
+                        if (p->moveState & MOVESTATE_800000) {
+                            sub_8016F28(p);
+                        }
+                        sub_80044CC(p);
+                        result = TRUE;
+                    }
                 }
             }
         }
-    }
-    temp_r0_3 = sp14 + 1;
-    sp14 = (s32) temp_r0_3;
-    if ((u32) temp_r0_3 <= 1U) {
-        goto loop_1;
-    }
-    spC->unk18 = (s32) var_r6;
-    return sp10;
-}
+    } while (++i < NUM_SINGLE_PLAYER_CHARS);
 
+    param0->p = p;
+
+    return result;
+}
+END_NONMATCH
+
+#if 0
 void sub_805CB70(Player *arg0, Sprite *arg1, u32 arg2, s32 arg3, s32 arg5) {
     s16 var_r1;
     s16 var_r1_2;
@@ -618,10 +616,10 @@ block_10:
         }
         if ((s32) var_r1_2 <= 0x1FF) {
             if ((s32) arg0->qSpeedAirX >= 0) {
-                var_r2_2 = 0x200;
+                var_r2_2 = +0x200;
             } else {
 block_22:
-                var_r2_2 = 0xFFFFFE00;
+                var_r2_2 = -0x200;
             }
 block_23:
             arg0->qSpeedAirX = (u16) arg0->qSpeedAirX + var_r2_2;
@@ -663,7 +661,7 @@ block_11:
         temp_r1_2 = (s8) temp_r1;
         if ((((s32) temp_r1_2 < 0) && ((s32) arg0->qSpeedAirX < 0)) || (((s32) temp_r1_2 > 0) && ((s32) arg0->qSpeedAirX > 0))) {
             if (temp_r0 < 0) {
-                var_r0_2 = 0x300;
+                var_r0_2 = +0x300;
             } else {
                 var_r0_2 = -0x300;
             }
