@@ -710,45 +710,39 @@ void sub_805CE14(Vec2_32 *qVal, Vec2_32 *param1, u16 region[2], s8 *param3)
     }
 }
 
-#if 0
-void sub_805CEBC(s32 arg0, s32 arg1, u16 arg2, u16 arg3, s32 arg4, s32 arg5) {
-    u16 temp_r0;
-    u8 temp_r6;
-
-    temp_r6 = (u8) arg4;
-    temp_r0 = TaskCreate(Task_40_805C198, 0x40U, 0x4040U, 0U, TaskDestructor_805D09C)->data;
-    temp_r0->unkA = 0x3C;
-    temp_r0->unkC = arg0;
-    temp_r0->unk10 = arg1;
-    temp_r0->unk6 = arg2;
-    temp_r0->unk8 = arg3;
-    temp_r0->unk14 = arg5;
-    temp_r0->unk4 = temp_r6;
-    temp_r0->unk5 = 0;
-    sub_805C138();
-    if (temp_r6 == 0) {
+void sub_805CEBC(s32 qWorldX, s32 qWorldY, u16 regionX, u16 regionY, u8 arg4, Player *p)
+{
+    EUC_Strc40 *strc = TASK_DATA(TaskCreate(Task_40_805C198, sizeof(EUC_Strc40), 0x4040U, 0U, TaskDestructor_805D09C));
+    strc->unkA = 60;
+    strc->qWorldX = qWorldX;
+    strc->qWorldY = qWorldY;
+    strc->regionX = regionX;
+    strc->regionY = regionY;
+    strc->p = p;
+    strc->unk4 = arg4;
+    strc->unk5 = 0;
+    sub_805C138(strc);
+    if (arg4 == 0) {
         m4aSongNumStart(SE_POOF);
     }
 }
 
-static inline void sub_805CF38(s32 arg0, s32 arg1, u16 arg2, u16 arg3, s32 arg4) {
-    u16 temp_r0;
-
-    if (arg4 != 0) {
-        temp_r0 = TaskCreate(Task_14_805C03C, 0x14U, 0x4040U, 0U, TaskDestructor_805C03C)->data;
-        temp_r0->unk0 = 0;
-        temp_r0->unk10 = arg4;
-        temp_r0->unk8 = arg0;
-        temp_r0->unkC = arg1;
-        temp_r0->unk2 = arg2;
-        temp_r0->unk4 = arg3;
+void sub_805CF38(s32 qWorldX, s32 qWorldY, u16 regionX, u16 regionY, Player *p)
+{
+    if (p != 0) {
+        EUC_Strc14 *strc14 = TASK_DATA(TaskCreate(Task_14_805C03C, sizeof(EUC_Strc14), 0x4040U, 0U, TaskDestructor_805C03C));
+        strc14->unk0 = 0;
+        strc14->p = p;
+        strc14->qWorldX = qWorldX;
+        strc14->qWorldY = qWorldY;
+        strc14->regionX = regionX;
+        strc14->regionY = regionY;
     }
 }
 
-void TaskDestructor_805C03C(Task *arg0) {
+void TaskDestructor_805C03C(Task *arg0) { }
 
-}
-
+#if 0
 s32 sub_805CF90(s16 arg0, s16 arg1, s16 arg2, s32 arg3) {
     s32 temp_r4;
 
