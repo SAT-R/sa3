@@ -668,16 +668,16 @@ void sub_805CD70(Vec2_32 *qVal, Vec2_32 *param1, u16 region[2], s8 *param3)
 {
     s8 temp_r7 = 0;
 
-    s32 var_r5 = I(qVal->x);
-    s32 var_r4 = I(qVal->y);
+    s32 worldX = I(qVal->x);
+    s32 worldY = I(qVal->y);
 
     if (region != NULL) {
-        var_r5 += TO_WORLD_POS_RAW(0, region[0]);
-        var_r4 += TO_WORLD_POS_RAW(0, region[1]);
+        worldX += TO_WORLD_POS_RAW(0, region[0]);
+        worldY += TO_WORLD_POS_RAW(0, region[1]);
     }
 
-    temp_r7 = sub_8052394(var_r4, var_r5, 1, 8, NULL, sub_805217C);
-    if ((*param3 != 1) || (temp_r7 != -1) || ((s8)sub_8052394(var_r4 - 1, var_r5, 1, 8, NULL, sub_805217C) != 1)) {
+    temp_r7 = sub_8052394(worldY, worldX, 1, 8, NULL, sub_805217C);
+    if ((*param3 != 1) || (temp_r7 != -1) || ((s8)sub_8052394(worldY - 1, worldX, 1, 8, NULL, sub_805217C) != 1)) {
         *param3 = temp_r7;
         qVal->y += Q(temp_r7);
 
@@ -687,30 +687,30 @@ void sub_805CD70(Vec2_32 *qVal, Vec2_32 *param1, u16 region[2], s8 *param3)
     }
 }
 
-#if 0
-void sub_805CE14(Vec2_32 *qVal, Vec2_32 *param1, u16 *region, s8 *param3) {
-    s16 temp_r1;
-    s32 var_r4;
-    s32 var_r5;
-    u8 temp_r7;
+void sub_805CE14(Vec2_32 *qVal, Vec2_32 *param1, u16 region[2], s8 *param3)
+{
+    s8 temp_r7 = 0;
 
-    var_r5 = (s32) qVal->x >> 8;
-    var_r4 = (s32) qVal->y >> 8;
+    s32 worldX = I(qVal->x);
+    s32 worldY = I(qVal->y);
+
     if (region != NULL) {
-        var_r5 += region->unk0 << 8;
-        var_r4 += region[1] << 8;
+        worldX += TO_WORLD_POS_RAW(0, region[0]);
+        worldY += TO_WORLD_POS_RAW(0, region[1]);
     }
-    temp_r7 = (u8) sub_8052394(var_r4, var_r5, 1, -8, NULL, sub_805217C);
-    if ((*param3 != 1) || ((s8) temp_r7 != -1) || ((s8) sub_8052394(var_r4 + 1, var_r5, 1, -8, NULL, sub_805217C) != 1)) {
-        *param3 = (s8) temp_r7;
-        temp_r1 = temp_r7 << 8;
-        qVal->y -= temp_r1;
+
+    temp_r7 = sub_8052394(worldY, worldX, 1, -8, NULL, sub_805217C);
+    if ((*param3 != 1) || (temp_r7 != -1) || ((s8)sub_8052394(worldY + 1, worldX, 1, -8, NULL, sub_805217C) != 1)) {
+        *param3 = temp_r7;
+        qVal->y -= Q(temp_r7);
+
         if (param1 != NULL) {
-            param1->y -= temp_r1;
+            param1->y -= Q(temp_r7);
         }
     }
 }
 
+#if 0
 void sub_805CEBC(s32 arg0, s32 arg1, u16 arg2, u16 arg3, s32 arg4, s32 arg5) {
     u16 temp_r0;
     u8 temp_r6;
