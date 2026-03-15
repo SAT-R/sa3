@@ -21,7 +21,7 @@ void sub_8052D8C(void);
 void sub_808AF44(s16 param0);
 void sub_808ECB8(s16 param0);
 void CreateGameIntroState(u16 state);
-void sub_808723C(s16 param0, u8 param1);
+void CreateMainMenu(s16 param0, u8 param1);
 void sub_808ADF0(u8 param0);
 bool16 sub_8001E94(void);
 s32 sub_8001FD4(void);
@@ -107,7 +107,7 @@ void LaunchTitleScreen(void)
     sub_808ADF0(1);
 }
 
-void LaunchChaoMenu(s16 arg0, u8 arg1) { sub_808723C(arg0, arg1); }
+void LaunchChaoMenu(s16 arg0, u8 arg1) { CreateMainMenu(arg0, arg1); }
 
 void sub_8000340(u16 arg0)
 {

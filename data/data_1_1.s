@@ -431,8 +431,8 @@ gUnknown_080D58CC:
 gUnknown_080D58E0:
     .incbin "baserom_sa3.gba", 0x000D58E0, 0x14
 
-    .global gUnknown_080D58F4
-gUnknown_080D58F4:
+    .global sBoss7AnimsCockpit
+sBoss7AnimsCockpit:
     .incbin "baserom_sa3.gba", 0x000D58F4, 0x10
 
     .global gUnknown_080D5904
@@ -531,13 +531,9 @@ gUnknown_080D5BD8:
 gUnknown_080D5BEC:
     .incbin "baserom_sa3.gba", 0x000D5BEC, 0x1C
 
-    .global gUnknown_080D5C08
-gUnknown_080D5C08:
-    .incbin "baserom_sa3.gba", 0x000D5C08, 0x18
-
-    .global gUnknown_080D5C20
-gUnknown_080D5C20:
-    .incbin "baserom_sa3.gba", 0x000D5C20, 0x18
+    .global sBossFinalAnimsHands
+sBossFinalAnimsHands:
+    .incbin "baserom_sa3.gba", 0x000D5C08, 0x30
 
     .global gUnknown_080D5C38
 gUnknown_080D5C38:
@@ -571,8 +567,8 @@ gUnknown_080D5CA0:
 gUnknown_080D5CA4:
     .incbin "baserom_sa3.gba", 0x000D5CA4, 0x4
 
-    .global gUnknown_080D5CA8
-gUnknown_080D5CA8:
+    .global sBossExtraAnimsChaosEmeralds
+sBossExtraAnimsChaosEmeralds:
     .incbin "baserom_sa3.gba", 0x000D5CA8, 0x2C
 
     .global gUnknown_080D5CD4
@@ -691,8 +687,8 @@ gUnknown_080D6674:
 gUnknown_080D6694:
     .incbin "baserom_sa3.gba", 0x000D6694, 0x20
 
-    .global gUnknown_080D66B4
-gUnknown_080D66B4:
+    .global sAnimsMenuChao
+sAnimsMenuChao:
     .incbin "baserom_sa3.gba", 0x000D66B4, 0x10
 
     .global gUnknown_080D66C4
@@ -1081,8 +1077,8 @@ gUnknown_080D8AAC:
 gUnknown_080D8ACC:
     .incbin "baserom_sa3.gba", 0x000D8ACC, 0x10
 
-    .global gUnknown_080D8ADC
-gUnknown_080D8ADC:
+    .global sAnimsTimeAttackDigits
+sAnimsTimeAttackDigits:
     .incbin "baserom_sa3.gba", 0x000D8ADC, 0x8
 
     .global gUnknown_080D8AE4

@@ -198,7 +198,7 @@
 #define MUS_DUMMY__232   0xE8
 #define MUS_DUMMY__233   0xE9
 #define MUS_DUMMY__234   0xEA
-#define SE_235           0xEB
+#define SE_235           0xEB // Extra Boss Laser?
 #define MUS_DUMMY__236   0xEC
 #define SE_237           0xED
 
@@ -267,17 +267,22 @@
 #define SE_541                  0x21D
 #define SE_542                  0x21E
 
-#define SE_578 0x242
-
-#define SE_BOULDER          0x246
-#define SE_LIFT             0x247
-#define SE_BUTTON_HIT       0x248
-#define SE_BUTTON_TIMER     0x249
-#define SE_ICE_SPIKE        0x24A
-#define SE_587              0x24B
-#define SE_588              0x24C
-#define SE_SMASH_ROCK       0x24D
-#define SE_ACCORDION_SPRING 0x24E
+#define SE_EXTRA_BOSS_578     0x23F
+#define SE_576                0x240
+#define SE_577                0x241
+#define SE_578                0x242
+#define SE_579                0x243
+#define SE_EXTRA_BOSS_OPEN    0x244
+#define SE_CREDITS_PHOTO_SNAP 0x245
+#define SE_BOULDER            0x246
+#define SE_LIFT               0x247
+#define SE_BUTTON_HIT         0x248
+#define SE_BUTTON_TIMER       0x249
+#define SE_ICE_SPIKE          0x24A
+#define SE_587                0x24B
+#define SE_588                0x24C
+#define SE_SMASH_ROCK         0x24D
+#define SE_ACCORDION_SPRING   0x24E
 
 #define SE_WAGGLE_COIL 0x250
 #define SE_SUCTION     0x251

@@ -6457,7 +6457,7 @@ sub_809E978: @ 0x0809E978
 	adds r0, #0x98
 	str r6, [r0]
 	adds r6, #0x80
-	ldr r5, _0809EB6C @ =gUnknown_080D8ADC
+	ldr r5, _0809EB6C @ =sAnimsTimeAttackDigits
 	ldrh r1, [r5]
 	strh r1, [r0, #0xc]
 	ldrb r1, [r5, #2]
@@ -6546,7 +6546,7 @@ _0809EB5C: .4byte 0x06010000
 _0809EB60: .4byte gUnknown_080D98D8
 _0809EB64: .4byte gUnknown_080D8AAC
 _0809EB68: .4byte gUnknown_080D8ACC
-_0809EB6C: .4byte gUnknown_080D8ADC
+_0809EB6C: .4byte sAnimsTimeAttackDigits
 _0809EB70: .4byte gUnknown_080D8AEC
 
 	thumb_func_start sub_809EB74
@@ -7802,7 +7802,7 @@ sub_809F550: @ 0x0809F550
 	bl DisplaySprite
 	adds r4, r6, #0
 	adds r4, #0x98
-	ldr r5, _0809F5E0 @ =gUnknown_080D8ADC
+	ldr r5, _0809F5E0 @ =sAnimsTimeAttackDigits
 	ldrh r0, [r5]
 	strh r0, [r4, #0xc]
 	ldrb r0, [r6, #3]
@@ -7857,7 +7857,7 @@ sub_809F550: @ 0x0809F550
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0809F5E0: .4byte gUnknown_080D8ADC
+_0809F5E0: .4byte sAnimsTimeAttackDigits
 
 	thumb_func_start sub_809F5E4
 sub_809F5E4: @ 0x0809F5E4
@@ -12933,19 +12933,19 @@ _080A1D8E:
 	bne _080A1D9E
 	movs r0, #1
 	movs r1, #0
-	bl sub_808723C
+	bl CreateMainMenu
 	b _080A1DB4
 _080A1D9E:
 	cmp r1, #3
 	bne _080A1DAC
 	movs r0, #0
 	movs r1, #4
-	bl sub_808723C
+	bl CreateMainMenu
 	b _080A1DB4
 _080A1DAC:
 	movs r0, #0
 	movs r1, #0
-	bl sub_808723C
+	bl CreateMainMenu
 _080A1DB4:
 	ldr r0, _080A1DC4 @ =gCurTask
 	ldr r0, [r0]
@@ -32414,7 +32414,7 @@ _080AB74C: .4byte gStageData
 _080AB750:
 	movs r0, #3
 	movs r1, #1
-	bl sub_808723C
+	bl CreateMainMenu
 _080AB758:
 	ldr r0, _080AB76C @ =gCurTask
 	ldr r0, [r0]

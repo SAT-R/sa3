@@ -144,7 +144,7 @@ typedef struct CharacterSelect {
 
 void Task_CharacterSelectInit(void);
 void TaskDestructor_CharacterSelect(struct Task *t);
-void sub_808723C(s16 param0, u8 param1);
+void CreateMainMenu(s16 param0, u8 param1);
 void sub_8097D90(CharacterSelect *cs);
 void sub_8097E5C(CharacterSelect *cs);
 void sub_80986AC(CharacterSelect *cs);
@@ -762,7 +762,7 @@ void Task_8098600(void)
             MultiSioStop();
             MultiSioInit(0U);
             gMultiSioEnabled = 0;
-            sub_808723C(1, 0);
+            CreateMainMenu(1, 0);
             break;
     }
 
@@ -967,16 +967,16 @@ bool32 sub_8098CFC(CharacterSelect *cs)
 
     if (cs->createIndex == 0) {
         if (gStageData.gameMode == GAME_MODE_TIME_ATTACK) {
-            sub_808723C(0, 5U);
+            CreateMainMenu(0, 5U);
         } else if (gStageData.gameMode == GAME_MODE_BOSS_TIME_ATTACK) {
-            sub_808723C(1, 5U);
+            CreateMainMenu(1, 5U);
         } else {
-            sub_808723C(0, 0U);
+            CreateMainMenu(0, 0U);
         }
     } else if (cs->createIndex == 1) {
-        sub_808723C(1, 4U);
+        CreateMainMenu(1, 4U);
     } else if (cs->createIndex == 3) {
-        sub_808723C(0, 5U);
+        CreateMainMenu(0, 5U);
     }
 
     return FALSE;

@@ -55,7 +55,7 @@ bool32 sub_80B7AA4(Struc_3001150 *strc);
 void sub_80B8E24(void *strc, Player *p, s32 param2, s32 param3);
 void sub_8001D58(VoidFn voidFn, u16 color);
 void sub_8002414();
-void sub_808723C(s16 param0, u8 param1);
+void CreateMainMenu(s16 param0, u8 param1);
 extern void sub_8002388(void);
 void TaskDestructor_8004D2C(struct Task *t);
 
@@ -4248,7 +4248,7 @@ void sub_800913C(Player *p)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_808723C(0, 2);
+        CreateMainMenu(0, 2);
         return;
     }
 
@@ -4258,7 +4258,7 @@ void sub_800913C(Player *p)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_808723C(0, 3);
+        CreateMainMenu(0, 3);
         return;
     }
 
@@ -4367,7 +4367,7 @@ void sub_80095E8(Player *p)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_808723C(0, 2);
+        CreateMainMenu(0, 2);
         return;
     }
 

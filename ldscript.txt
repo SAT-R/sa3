@@ -147,7 +147,9 @@ SECTIONS {
         src/game/enemies/kamaki.o(.text);
         src/game/enemies/guruguru.o(.text);
         src/game/enemies/kyacchaa.o(.text);
-        asm/code.o(.text);
+        asm/some_stage_manager.o(.text);
+        asm/bosses.o(.text);
+        asm/main_menu.o(.text);
         src/game/character_select.o(.text);
         asm/code_2.o(.text);
         src/game/math.o(.text);

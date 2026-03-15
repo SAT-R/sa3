@@ -11761,7 +11761,7 @@ _080553A0:
 	strb r0, [r1]
 	movs r0, #0
 	movs r1, #2
-	bl sub_808723C
+	bl CreateMainMenu
 	b _080555F0
 	.align 2, 0
 _080553D8: .4byte 0x0000FFFF
@@ -11792,7 +11792,7 @@ _080553F0:
 	strb r0, [r1]
 	movs r0, #0
 	movs r1, #3
-	bl sub_808723C
+	bl CreateMainMenu
 	b _080555F0
 	.align 2, 0
 _08055428: .4byte 0x0000FFFF

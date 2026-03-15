@@ -182,7 +182,7 @@ void sub_8084B2C() { }
 void sub_8084BEC() { }
 void sub_8084C50() { }
 void sub_80870B0() { }
-void sub_808723C() { }
+void CreateMainMenu() { }
 void sub_8087B80() { }
 void sub_8088440() { }
 void sub_80885CC() { }

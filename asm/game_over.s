@@ -2654,7 +2654,7 @@ _08003950:
 	bne _080039A4
 	movs r0, #0
 	movs r1, #2
-	bl sub_808723C
+	bl CreateMainMenu
 	b _08003A08
 	.align 2, 0
 _08003984: .4byte gPlayers
@@ -2670,7 +2670,7 @@ _080039A4:
 	bne _080039B2
 	movs r0, #0
 	movs r1, #3
-	bl sub_808723C
+	bl CreateMainMenu
 	b _08003A08
 _080039B2:
 	ldrb r0, [r2, #9]
