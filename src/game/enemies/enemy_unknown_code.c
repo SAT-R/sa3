@@ -41,9 +41,9 @@ void sub_805C138(EUC_Strc40 *arg0);
 void Task_40_805C198(void);
 void TaskDestructor_805C03C(struct Task *t);
 bool32 sub_805CF90(s16 worldX, s16 worldY, s16 spriteX, s16 spriteY);
-void sub_805CB70(Player *arg0, UNUSED Sprite *s, s32 arg2, UNUSED u32 arg3, u32 arg4, s32 arg5);
-void sub_805CC5C(Player *arg0, UNUSED Sprite *s, s32 arg2, UNUSED u32 arg3, u32 arg4, s32 arg5);
-void sub_805CFE8(Player *arg0, UNUSED Sprite *s, s32 arg2, UNUSED u32 arg3, u32 arg4, s32 arg5);
+void sub_805CB70(Player *p, Sprite *s, u32 collision, s32 x, UNUSED s32 y, s8 arg5);
+void sub_805CC5C(Player *p, UNUSED Sprite *s, s32 arg2, s32 arg3, u32 arg4, s32 arg5);
+void sub_805CFE8(Player *p, UNUSED Sprite *s, s32 arg2, s32 arg3, u32 arg4, s32 arg5);
 AnimCmdResult sub_805D058(EUC_Strc40 *strc40);
 void TaskDestructor_805D09C(struct Task *t);
 extern void sub_8027578(MapEntity *me);
@@ -561,74 +561,47 @@ NONMATCH("asm/non_matching/game/enemies/euc__sub_805C890.inc", bool32 sub_805C89
 }
 END_NONMATCH
 
-#if 0
-void sub_805CB70(Player *arg0, Sprite *arg1, u32 arg2, s32 arg3, s32 arg5) {
-    s16 var_r1;
-    s16 var_r1_2;
-    s32 var_r0;
-    s32 var_r2;
-    s32 var_r2_2;
-    u8 temp_r5;
+void sub_805CB70(Player *p, Sprite *s, u32 collision, s32 x, UNUSED s32 y, s8 arg5)
+{
+    if (0x30000 & collision) {
+        p->qWorldY += Q_8_8(collision);
+    } else if (0xC0000 & collision) {
+        if (arg5 < 0) {
+            if (p->qWorldX < Q(HB_LEFT(x, s->hitboxes[1].b))) {
+                p->qWorldX = Q(x - 16);
+            } else if (p->qWorldX > Q(x + s->hitboxes[1].b.right)) {
+                p->qWorldX = Q(x + 16);
+            }
+        } else if (p->qWorldX < Q(HB_LEFT(x, s->hitboxes[1].b))) {
+            p->qWorldX = Q(x - 16);
+        } else if (p->qWorldX > Q(x + s->hitboxes[1].b.right)) {
+            p->qWorldX = Q(x + 16);
+        }
+    }
 
-    temp_r5 = (u8) arg5;
-    if (0x30000 & arg2) {
-        arg0->qWorldY += (s16) (arg2 << 8);
-        var_r2 = temp_r5 << 0x18;
+    if (arg5 < 0) {
+        if (ABS(p->qSpeedAirX) < Q(2)) {
+            if (p->qSpeedAirX > 0) {
+                p->qSpeedAirX += Q(2);
+            } else {
+                p->qSpeedAirX -= Q(2);
+            }
+        }
     } else {
-        var_r2 = temp_r5 << 0x18;
-        if (0xC0000 & arg2) {
-            if (var_r2 < 0) {
-                if ((s32) arg0->qWorldX < (s32) ((arg3 + (s8) arg1->unk2C) << 8)) {
-                    var_r0 = arg3 - 0x10;
-                    goto block_10;
-                }
-                goto block_8;
-            }
-            if ((s32) arg0->qWorldX < (s32) ((arg3 + (s8) arg1->unk2C) << 8)) {
-                var_r0 = arg3 - 0x10;
-                goto block_10;
-            }
-block_8:
-            if (arg0->qWorldX > (s32) ((arg3 + (s8) arg1->unk2E) << 8)) {
-                var_r0 = arg3 + 0x10;
-block_10:
-                arg0->qWorldX = var_r0 << 8;
+        if (ABS(p->qSpeedAirX) < Q(2)) {
+            if (p->qSpeedAirX >= 0) {
+                p->qSpeedAirX += Q(2);
+            } else {
+                p->qSpeedAirX -= Q(2);
             }
         }
     }
-    if (var_r2 < 0) {
-        var_r1 = arg0->qSpeedAirX;
-        if ((s32) var_r1 < 0) {
-            var_r1 = 0 - var_r1;
-        }
-        if ((s32) var_r1 <= 0x1FF) {
-            if ((s32) arg0->qSpeedAirX > 0) {
-                var_r2_2 = 0x200;
-            } else {
-                goto block_22;
-            }
-            goto block_23;
-        }
-    } else {
-        var_r1_2 = arg0->qSpeedAirX;
-        if ((s32) var_r1_2 < 0) {
-            var_r1_2 = 0 - var_r1_2;
-        }
-        if ((s32) var_r1_2 <= 0x1FF) {
-            if ((s32) arg0->qSpeedAirX >= 0) {
-                var_r2_2 = +0x200;
-            } else {
-block_22:
-                var_r2_2 = -0x200;
-            }
-block_23:
-            arg0->qSpeedAirX = (u16) arg0->qSpeedAirX + var_r2_2;
-        }
-    }
-    arg0->qSpeedGround = (u16) arg0->qSpeedAirX;
-    arg0->qSpeedGround = 0 - (s16) arg0->qSpeedGround;
+
+    p->qSpeedGround = p->qSpeedAirX;
+    p->qSpeedGround *= -1;
 }
 
+#if 0
 void sub_805CC5C(Player *arg0, Sprite *arg1, u32 arg2, s32 arg3, s32 arg4, s32 arg5) {
     s16 var_r0_2;
     s32 temp_r0;
@@ -790,7 +763,7 @@ void sub_805CFE8(Player *arg0, s32 arg2, u32 arg4, s32 arg5) {
         if ((s32) (temp_r3 << 0x18) < 0) {
             var_r0 = -0x300;
         } else {
-            var_r0 = 0x300;
+            var_r0 = +0x300;
         }
         arg0->qSpeedAirX = var_r0;
     }
