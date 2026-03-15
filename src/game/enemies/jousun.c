@@ -262,7 +262,7 @@ NONMATCH("asm/non_matching/game/enemies/jousun__sub_805BD08.inc", bool32 sub_805
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         Sprite *s;
 
-        Player *p = sub_805CD20(i);
+        Player *p = EUC_GetPlayer(i);
         if (p == NULL)
             break;
 

@@ -87,7 +87,7 @@ _0805BDA2:
 	cmp r6, #1
 	bhi _0805BDB2
 	adds r0, r6, #0
-	bl sub_805CD20
+	bl EUC_GetPlayer
 	adds r5, r0, #0
 	cmp r5, #0
 	bne _0805BD2A

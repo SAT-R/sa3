@@ -98,7 +98,7 @@ bool32 sub_806172C(Hariisen *enemy)
     u8 i;
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        Player *p = sub_805CD20(i);
+        Player *p = EUC_GetPlayer(i);
         if (p == NULL)
             break;
 

@@ -357,7 +357,7 @@ bool32 sub_8063C98(Marun *enemy)
     worldY = (TO_WORLD_POS_RAW(worldY, enemy->region[1]));
 
     for (i = 0; i < 2; i++) {
-        Player *p = sub_805CD20(i);
+        Player *p = EUC_GetPlayer(i);
         if (!p) {
             break;
         }

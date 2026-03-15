@@ -225,7 +225,7 @@ bool32 sub_805B22C(Minimole *enemy)
         s32 playerToMoleX;
         Player *p;
 
-        p = sub_805CD20(i);
+        p = EUC_GetPlayer(i);
         if (!p) {
             break;
         }

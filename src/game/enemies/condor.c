@@ -337,7 +337,7 @@ NONMATCH("asm/non_matching/game/enemies/condor__sub_805933C.inc", bool32 sub_805
     worldY = (TO_WORLD_POS_RAW(worldY, enemy->region[1]));
 
     for (i = 0, qWorldX = Q(worldX); i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        Player *p = sub_805CD20(i);
+        Player *p = EUC_GetPlayer(i);
         if (p == NULL)
             break;
 

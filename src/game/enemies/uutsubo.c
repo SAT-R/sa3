@@ -431,7 +431,7 @@ bool32 sub_805D8D4(Uutsubo *enemy)
     s32 max;
 
     for (i = 0, max = Q(5); i < 2; i++) {
-        p = sub_805CD20(i);
+        p = EUC_GetPlayer(i);
         if (p == NULL)
             break;
 

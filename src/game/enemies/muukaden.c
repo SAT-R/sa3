@@ -445,7 +445,7 @@ bool32 sub_8062FC0(Muukaden *enemy)
     u8 i;
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        p = sub_805CD20(i);
+        p = EUC_GetPlayer(i);
         if (p == NULL) {
             break;
         }

@@ -127,7 +127,7 @@ _08059426:
 	cmp r3, #1
 	bhi _08059438
 	mov r0, sl
-	bl sub_805CD20
+	bl EUC_GetPlayer
 	adds r5, r0, #0
 	cmp r5, #0
 	bne _0805936C

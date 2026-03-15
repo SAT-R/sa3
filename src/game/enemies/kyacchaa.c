@@ -210,7 +210,7 @@ bool32 sub_8065B90(Kyacchaa *enemy)
     worldY = TO_WORLD_POS_RAW(worldY, enemy->region[1]);
 
     for (i = 0; i < 2; i++) {
-        p = sub_805CD20(i);
+        p = EUC_GetPlayer(i);
         if (!p) {
             break;
         }

@@ -294,7 +294,7 @@ static bool32 CheckPlayerCollision(Yadokk *enemy)
     worldX = TO_WORLD_POS_RAW(worldX, enemy->region[0]);
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        p = sub_805CD20(i);
+        p = EUC_GetPlayer(i);
         if (p == 0) {
             break;
         }

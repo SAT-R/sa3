@@ -322,7 +322,7 @@ bool32 sub_805B7C0(Takkon *enemy)
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         s32 wx;
 
-        Player *p = sub_805CD20(i);
+        Player *p = EUC_GetPlayer(i);
         if (p == NULL)
             break;
 

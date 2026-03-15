@@ -468,7 +468,7 @@ bool32 sub_8064684(Clam *enemy)
     worldX = TO_WORLD_POS_RAW(worldX, enemy->region[0]);
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        p = sub_805CD20(i);
+        p = EUC_GetPlayer(i);
         if (p == NULL) {
             break;
         }

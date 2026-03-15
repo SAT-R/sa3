@@ -42,8 +42,8 @@ void Task_40_805C198(void);
 void TaskDestructor_805C03C(struct Task *t);
 bool32 sub_805CF90(s16 worldX, s16 worldY, s16 spriteX, s16 spriteY);
 void sub_805CB70(Player *p, Sprite *s, u32 collision, s32 x, UNUSED s32 y, s8 dir);
-void sub_805CC5C(Player *p, Sprite *s, s32 arg2, s32 x, u32 y, s8 dir);
-void sub_805CFE8(Player *p, UNUSED Sprite *s, s32 arg2, s32 arg3, u32 arg4, s32 arg5);
+void sub_805CC5C(Player *p, Sprite *s, s32 collision, s32 x, u32 y, s8 dir);
+void sub_805CFE8(Player *p, Sprite *s, s32 collision, s32 x, u32 y, s8 dir);
 AnimCmdResult sub_805D058(EUC_Strc40 *strc40);
 void TaskDestructor_805D09C(struct Task *t);
 extern void sub_8027578(MapEntity *me);
@@ -79,6 +79,24 @@ static inline void sub_805CEBC__inline(s32 qWorldX, s32 qWorldY, u16 regionX, u1
     if (arg4 == 0) {
         m4aSongNumStart(SE_POOF);
     }
+}
+
+static inline Player *GetPlayer__inline(u8 pid)
+{
+    Player *p = NULL;
+
+    if (pid == PLAYER_1) {
+        p = GET_SP_PLAYER_V0(pid);
+    } else {
+#if BUG_FIX
+        // TODO: Not sure whether this is the correct assignment to fix this NULLPTR
+        p = GET_SP_PLAYER_V0(PLAYER_1);
+#endif
+        if (p->charFlags.someIndex == 1) {
+            p = &gPlayers[p->charFlags.partnerIndex];
+        }
+    }
+    return p;
 }
 
 // (98.18%) https://decomp.me/scratch/8XN8s
@@ -603,12 +621,6 @@ void sub_805CB70(Player *p, Sprite *s, u32 collision, s32 x, UNUSED s32 y, s8 di
 
 void sub_805CC5C(Player *p, Sprite *s, s32 arg2, s32 x, u32 y, s8 dir)
 {
-    s16 var_r0_2;
-    s32 temp_r0;
-    s32 var_r0;
-    s8 temp_r1_2;
-    u8 temp_r1;
-
     if (((0x80000 & arg2) && (p->qSpeedAirX < 0)) || ((0x40000 & arg2) && (p->qSpeedAirY > 0))) {
         p->qWorldY = Q(y - 48);
         p->qSpeedAirY = -Q(3);
@@ -634,23 +646,25 @@ void sub_805CC5C(Player *p, Sprite *s, s32 arg2, s32 x, u32 y, s8 dir)
     }
 }
 
-#if 0
-Player *sub_805CD20(u8 arg0) {
-    Player *var_r1;
-    u8 temp_r2;
+Player *EUC_GetPlayer(u8 pid)
+{
+    Player *p = NULL;
 
-    var_r1 = NULL;
-    if ((arg0 << 0x18) == 0) {
-        var_r1 = &gPlayers[gStageData.playerIndex];
+    if (pid == PLAYER_1) {
+        p = GET_SP_PLAYER_V0(pid);
     } else {
-        temp_r2 = *(u8 *)0x2B;
-        if ((0x1C & temp_r2) == 4) {
-            var_r1 = &gPlayers[(u32) (temp_r2 << 0x1E) >> 0x1E];
+#if BUG_FIX
+        // TODO: Not sure whether this is the correct assignment to fix this NULLPTR
+        p = GET_SP_PLAYER_V0(PLAYER_1);
+#endif
+        if (p->charFlags.someIndex == 1) {
+            p = &gPlayers[p->charFlags.partnerIndex];
         }
     }
-    return var_r1;
+    return p;
 }
 
+#if 0
 void sub_805CD70(Vec2_32 *qVal, Vec2_32 *param1, u16 *region, s8 *param3) {
     s16 temp_r1;
     s32 var_r4;

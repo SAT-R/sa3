@@ -269,7 +269,7 @@ bool32 sub_8058A00(Aotento *enemy)
     worldY = (TO_WORLD_POS_RAW(worldY, enemy->region[1]));
 
     for (i = 0, qWorldX = Q(worldX); i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        Player *p = sub_805CD20(i);
+        Player *p = EUC_GetPlayer(i);
         if (p == NULL)
             break;
 

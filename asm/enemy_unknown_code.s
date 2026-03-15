@@ -6,122 +6,10 @@
 .arm
 
 .if 0
-	thumb_func_start sub_805CC5C
-sub_805CC5C: @ 0x0805CC5C
-	push {r4, r5, lr}
-	adds r4, r0, #0
-	mov ip, r1
-	ldr r0, [sp, #0x10]
-	lsls r0, r0, #0x18
-	lsrs r1, r0, #0x18
-	movs r0, #0x80
-	lsls r0, r0, #0xc
-	ands r0, r2
-	cmp r0, #0
-	beq _0805CC7A
-	movs r5, #0x18
-	ldrsh r0, [r4, r5]
-	cmp r0, #0
-	blt _0805CC8C
-_0805CC7A:
-	movs r0, #0x80
-	lsls r0, r0, #0xb
-	ands r0, r2
-	cmp r0, #0
-	beq _0805CD1A
-	movs r2, #0x1a
-	ldrsh r0, [r4, r2]
-	cmp r0, #0
-	ble _0805CD1A
-_0805CC8C:
-	ldr r0, [sp, #0xc]
-	subs r0, #0x30
-	lsls r0, r0, #8
-	str r0, [r4, #0x14]
-	movs r0, #0xfd
-	lsls r0, r0, #8
-	strh r0, [r4, #0x1a]
-	lsls r0, r1, #0x18
-	adds r2, r0, #0
-	cmp r2, #0
-	bge _0805CCBC
-	mov r0, ip
-	adds r0, #0x2c
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	adds r0, r3, r0
-	lsls r0, r0, #8
-	ldr r1, [r4, #0x10]
-	cmp r1, r0
-	bge _0805CCD6
-	adds r0, r3, #0
-	subs r0, #0x10
-	b _0805CCEC
-_0805CCBC:
-	mov r0, ip
-	adds r0, #0x2c
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	adds r0, r3, r0
-	lsls r0, r0, #8
-	ldr r1, [r4, #0x10]
-	cmp r1, r0
-	bge _0805CCD6
-	adds r0, r3, #0
-	subs r0, #0x10
-	b _0805CCEC
-_0805CCD6:
-	mov r0, ip
-	adds r0, #0x2e
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	adds r0, r3, r0
-	lsls r0, r0, #8
-	cmp r1, r0
-	ble _0805CCF0
-	adds r0, r3, #0
-	adds r0, #0x10
-_0805CCEC:
-	lsls r0, r0, #8
-	str r0, [r4, #0x10]
-_0805CCF0:
-	asrs r1, r2, #0x18
-	cmp r1, #0
-	bge _0805CCFE
-	movs r3, #0x18
-	ldrsh r0, [r4, r3]
-	cmp r0, #0
-	blt _0805CD0A
-_0805CCFE:
-	cmp r1, #0
-	ble _0805CD1A
-	movs r5, #0x18
-	ldrsh r0, [r4, r5]
-	cmp r0, #0
-	ble _0805CD1A
-_0805CD0A:
-	cmp r2, #0
-	bge _0805CD14
-	movs r0, #0xc0
-	lsls r0, r0, #2
-	b _0805CD18
-_0805CD14:
-	movs r0, #0xfd
-	lsls r0, r0, #8
-_0805CD18:
-	strh r0, [r4, #0x18]
-_0805CD1A:
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-.endif
 
 @ This function is inlined in most places, but seemingly not everywhere?
-	thumb_func_start sub_805CD20
-sub_805CD20: @ 0x0805CD20
+	thumb_func_start GetPlayer
+GetPlayer: @ 0x0805CD20
 	push {lr}
 	lsls r0, r0, #0x18
 	movs r1, #0
@@ -162,6 +50,7 @@ _0805CD66:
 	bx r1
 	.align 2, 0
 _0805CD6C: .4byte gPlayers
+.endif
 
 	thumb_func_start sub_805CD70
 sub_805CD70: @ 0x0805CD70

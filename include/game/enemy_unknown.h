@@ -29,7 +29,7 @@ bool32 sub_805C280(EnemyUnknownStruc0 *);
 bool32 sub_805C63C(EnemyUnknownStruc0 *);
 bool32 sub_805C890(EnemyUnknownStruc0 *param0, s8 param1);
 
-Player *sub_805CD20(u8);
+Player *EUC_GetPlayer(u8);
 
 void sub_805CD70(Vec2_32 *qVal, Vec2_32 *param1, u16 region[2], s8 *param3);
 void sub_805CE14(Vec2_32 *qVal, Vec2_32 *param1, u16 region[2], s8 *param3);
