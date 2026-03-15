@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start sub_805CC5C
 sub_805CC5C: @ 0x0805CC5C
 	push {r4, r5, lr}
@@ -119,6 +117,7 @@ _0805CD1A:
 	pop {r4, r5}
 	pop {r0}
 	bx r0
+.endif
 
 @ This function is inlined in most places, but seemingly not everywhere?
 	thumb_func_start sub_805CD20

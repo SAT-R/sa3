@@ -41,8 +41,8 @@ void sub_805C138(EUC_Strc40 *arg0);
 void Task_40_805C198(void);
 void TaskDestructor_805C03C(struct Task *t);
 bool32 sub_805CF90(s16 worldX, s16 worldY, s16 spriteX, s16 spriteY);
-void sub_805CB70(Player *p, Sprite *s, u32 collision, s32 x, UNUSED s32 y, s8 arg5);
-void sub_805CC5C(Player *p, UNUSED Sprite *s, s32 arg2, s32 arg3, u32 arg4, s32 arg5);
+void sub_805CB70(Player *p, Sprite *s, u32 collision, s32 x, UNUSED s32 y, s8 dir);
+void sub_805CC5C(Player *p, Sprite *s, s32 arg2, s32 x, u32 y, s8 dir);
 void sub_805CFE8(Player *p, UNUSED Sprite *s, s32 arg2, s32 arg3, u32 arg4, s32 arg5);
 AnimCmdResult sub_805D058(EUC_Strc40 *strc40);
 void TaskDestructor_805D09C(struct Task *t);
@@ -561,12 +561,12 @@ NONMATCH("asm/non_matching/game/enemies/euc__sub_805C890.inc", bool32 sub_805C89
 }
 END_NONMATCH
 
-void sub_805CB70(Player *p, Sprite *s, u32 collision, s32 x, UNUSED s32 y, s8 arg5)
+void sub_805CB70(Player *p, Sprite *s, u32 collision, s32 x, UNUSED s32 y, s8 dir)
 {
     if (0x30000 & collision) {
         p->qWorldY += Q_8_8(collision);
     } else if (0xC0000 & collision) {
-        if (arg5 < 0) {
+        if (dir < 0) {
             if (p->qWorldX < Q(HB_LEFT(x, s->hitboxes[1].b))) {
                 p->qWorldX = Q(x - 16);
             } else if (p->qWorldX > Q(x + s->hitboxes[1].b.right)) {
@@ -579,7 +579,7 @@ void sub_805CB70(Player *p, Sprite *s, u32 collision, s32 x, UNUSED s32 y, s8 ar
         }
     }
 
-    if (arg5 < 0) {
+    if (dir < 0) {
         if (ABS(p->qSpeedAirX) < Q(2)) {
             if (p->qSpeedAirX > 0) {
                 p->qSpeedAirX += Q(2);
@@ -601,48 +601,40 @@ void sub_805CB70(Player *p, Sprite *s, u32 collision, s32 x, UNUSED s32 y, s8 ar
     p->qSpeedGround *= -1;
 }
 
-#if 0
-void sub_805CC5C(Player *arg0, Sprite *arg1, u32 arg2, s32 arg3, s32 arg4, s32 arg5) {
+void sub_805CC5C(Player *p, Sprite *s, s32 arg2, s32 x, u32 y, s8 dir)
+{
     s16 var_r0_2;
     s32 temp_r0;
     s32 var_r0;
     s8 temp_r1_2;
     u8 temp_r1;
 
-    temp_r1 = (u8) arg5;
-    if (((0x80000 & arg2) && ((s32) arg0->qSpeedAirX < 0)) || ((0x40000 & arg2) && ((s32) arg0->qSpeedAirY > 0))) {
-        arg0->qWorldY = (arg4 - 0x30) << 8;
-        arg0->qSpeedAirY = -0x300;
-        temp_r0 = temp_r1 << 0x18;
-        if (temp_r0 < 0) {
-            if ((s32) arg0->qWorldX < (s32) ((arg3 + (s8) arg1->unk2C) << 8)) {
-                var_r0 = arg3 - 0x10;
-                goto block_11;
+    if (((0x80000 & arg2) && (p->qSpeedAirX < 0)) || ((0x40000 & arg2) && (p->qSpeedAirY > 0))) {
+        p->qWorldY = Q(y - 48);
+        p->qSpeedAirY = -Q(3);
+        if (dir < 0) {
+            if (p->qWorldX < Q(x + s->hitboxes[1].b.left)) {
+                p->qWorldX = Q(x - 16);
+            } else if (p->qWorldX > Q(x + s->hitboxes[1].b.right)) {
+                p->qWorldX = Q(x + 16);
             }
-            goto block_9;
+        } else if (p->qWorldX < Q(x + s->hitboxes[1].b.left)) {
+            p->qWorldX = Q(x - 16);
+        } else if (p->qWorldX > Q(x + s->hitboxes[1].b.right)) {
+            p->qWorldX = Q(x + 16);
         }
-        if ((s32) arg0->qWorldX < (s32) ((arg3 + (s8) arg1->unk2C) << 8)) {
-            var_r0 = arg3 - 0x10;
-            goto block_11;
-        }
-block_9:
-        if (arg0->qWorldX > (s32) ((arg3 + (s8) arg1->unk2E) << 8)) {
-            var_r0 = arg3 + 0x10;
-block_11:
-            arg0->qWorldX = var_r0 << 8;
-        }
-        temp_r1_2 = (s8) temp_r1;
-        if ((((s32) temp_r1_2 < 0) && ((s32) arg0->qSpeedAirX < 0)) || (((s32) temp_r1_2 > 0) && ((s32) arg0->qSpeedAirX > 0))) {
-            if (temp_r0 < 0) {
-                var_r0_2 = +0x300;
+
+        if (((dir < 0) && (p->qSpeedAirX < 0)) || ((dir > 0) && (p->qSpeedAirX > 0))) {
+            if (dir < 0) {
+                p->qSpeedAirX = +Q(3);
             } else {
-                var_r0_2 = -0x300;
+                p->qSpeedAirX = -Q(3);
             }
-            arg0->qSpeedAirX = var_r0_2;
         }
     }
 }
 
+#if 0
 Player *sub_805CD20(u8 arg0) {
     Player *var_r1;
     u8 temp_r2;
