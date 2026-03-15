@@ -40,7 +40,7 @@ void Task_14_805C03C(void);
 void sub_805C138(EUC_Strc40 *arg0);
 void Task_40_805C198(void);
 void TaskDestructor_805C03C(struct Task *t);
-bool32 sub_805CF90(s16 worldX, s16 worldY, s16 spriteX, s16 spriteY);
+bool32 sub_805CF90(s32 worldX, s32 worldY, s32 spriteX, s32 spriteY);
 void sub_805CB70(Player *p, Sprite *s, u32 collision, s32 x, UNUSED s32 y, s8 dir);
 void sub_805CC5C(Player *p, Sprite *s, s32 collision, s32 x, u32 y, s8 dir);
 void sub_805CFE8(Player *p, Sprite *s, s32 collision, s32 x, u32 y, s8 dir);
@@ -742,46 +742,52 @@ void sub_805CF38(s32 qWorldX, s32 qWorldY, u16 regionX, u16 regionY, Player *p)
 
 void TaskDestructor_805C03C(Task *arg0) { }
 
-#if 0
-s32 sub_805CF90(s16 arg0, s16 arg1, s16 arg2, s32 arg3) {
-    s32 temp_r4;
+bool32 sub_805CF90(s32 worldX, s32 worldY, s32 spriteX, s32 spriteY)
+{
+    worldX -= gCamera.x;
+    worldY -= gCamera.y;
 
-    temp_r4 = arg1 - gCamera.y;
-    if ((((u32) ((arg0 - gCamera.x) + 0x80) > 0x1F0U) || ((s32) (temp_r4 + 0x80) < 0) || (temp_r4 > 0x120)) && (((u32) (arg2 + 0x80) > 0x1F0U) || ((s32) (arg3 + 0x80) < 0) || (arg3 > 0x120))) {
-        return 0;
+    // TODO: Cam-range macro
+    if ((((u32)(worldX + (CAM_REGION_WIDTH / 2)) > (DISPLAY_WIDTH + 256)) || ((s32)(worldY + (CAM_REGION_WIDTH / 2)) < 0)
+         || (worldY > (DISPLAY_HEIGHT + 128)))
+        && (((u32)(spriteX + (CAM_REGION_WIDTH / 2)) > (DISPLAY_WIDTH + 256)) || ((s32)(spriteY + (CAM_REGION_WIDTH / 2)) < 0)
+            || ((s32)spriteY > (DISPLAY_HEIGHT + 128)))) {
+        return FALSE;
     }
-    return 1;
+    return TRUE;
 }
 
-void sub_805CFE8(Player *arg0, s32 arg2, u32 arg4, s32 arg5) {
-    s16 var_r0;
-    s8 temp_r2;
-    u8 temp_r3;
+void sub_805CFE8(Player *p, Sprite *s, s32 collision, s32 x, u32 y, s8 dir)
+{
+    if (((0x10000 & collision) && (p->qSpeedAirY < 0)) || ((0x20000 & collision) && (p->qSpeedAirY > 0))) {
+        p->qWorldY = Q(y - 48);
+        p->qSpeedAirY = -Q(3);
 
-    temp_r3 = (u8) arg5;
-    if ((((0x10000 & arg2) && ((s32) arg0->qSpeedAirY < 0)) || ((0x20000 & arg2) && ((s32) arg0->qSpeedAirY > 0))) && (((arg0->qWorldY = (arg4 - 0x30) << 8, arg0->qSpeedAirY = -0x300, temp_r2 = (s8) temp_r3, ((s32) temp_r2 < 0)) && ((s32) arg0->qSpeedAirX < 0)) || (((s32) temp_r2 > 0) && ((s32) arg0->qSpeedAirX > 0)))) {
-        if ((s32) (temp_r3 << 0x18) < 0) {
-            var_r0 = -0x300;
-        } else {
-            var_r0 = +0x300;
+        if (((dir < 0) && (p->qSpeedAirX < 0)) || ((dir > 0) && (p->qSpeedAirX > 0))) {
+            if (dir < 0) {
+                p->qSpeedAirX = -Q(3);
+            } else {
+                p->qSpeedAirX = +Q(3);
+            }
         }
-        arg0->qSpeedAirX = var_r0;
     }
 }
 
-s32 sub_805D058(void *arg0) {
-    Sprite *temp_r5;
-    s32 temp_r4;
+AnimCmdResult sub_805D058(EUC_Strc40 *strc40)
+{
+    Sprite *s;
+    s32 acmdRes;
 
-    temp_r5 = arg0 + 0x18;
-    temp_r5->x = (((s32) arg0->unkC >> 8) + (arg0->unk6 << 8)) - gCamera.x;
-    temp_r5->y = (((s32) arg0->unk10 >> 8) + (arg0->unk8 << 8)) - gCamera.y;
-    temp_r4 = UpdateSpriteAnimation(temp_r5);
-    DisplaySprite(temp_r5);
-    return temp_r4;
+    s = &strc40->s;
+    s->x = TO_WORLD_POS_RAW(I(strc40->qWorldX), strc40->regionX) - gCamera.x;
+    s->y = TO_WORLD_POS_RAW(I(strc40->qWorldY), strc40->regionY) - gCamera.y;
+    acmdRes = UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+    return acmdRes;
 }
 
-void TaskDestructor_805D09C(Task *arg0) {
-    VramFree(arg0->data->unk18);
+void TaskDestructor_805D09C(Task *t)
+{
+    EUC_Strc40 *strc = TASK_DATA(t);
+    VramFree(strc->s.tiles);
 }
-#endif
