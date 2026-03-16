@@ -24,9 +24,9 @@ CreateMainMenu: @ 0x0808723C
 	adds r0, r1, #0
 	mov r2, sb
 	strh r0, [r2]
-	ldr r0, _08087324 @ =sub_8089F54
+	ldr r0, _08087324 @ =Task_MainMenuInit
 	movs r1, #0xfc
-	lsls r1, r1, #2
+	lsls r1, r1, #2 @ 0x3F0
 	movs r2, #0x80
 	lsls r2, r2, #1
 	ldr r3, _08087328 @ =sub_808A1AC
@@ -118,7 +118,7 @@ CreateMainMenu: @ 0x0808723C
 	.align 2, 0
 _0808731C: .4byte gDispCnt
 _08087320: .4byte 0x00001741
-_08087324: .4byte sub_8089F54
+_08087324: .4byte Task_MainMenuInit
 _08087328: .4byte sub_808A1AC
 _0808732C: .4byte gPseudoRandom
 _08087330: .4byte gFrameCount
@@ -5729,9 +5729,9 @@ _08089F50: .4byte gBgScrollRegs
 
 @ Main Menu - Start Song
 @ Calls the correct music playback depending on whether you are in the regular main menu or just lost the Time Attack
-@ Called once whenever a "Main Menu sub-menu" is creted.
-	thumb_func_start sub_8089F54
-sub_8089F54: @ 0x08089F54
+@ Called once whenever a "Main Menu sub-menu" is created.
+	thumb_func_start Task_MainMenuInit
+Task_MainMenuInit: @ 0x08089F54
 	push {r4, lr}
 	ldr r0, _08089F7C @ =gCurTask
 	ldr r0, [r0]

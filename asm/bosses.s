@@ -68588,10 +68588,10 @@ sub_8086D64: @ 0x08086D64
 	mov sb, r0
 	lsls r5, r5, #0x18
 	lsrs r5, r5, #0x18
-	ldr r0, _08086E40 @ =sub_8086E58
+	ldr r0, _08086E40 @ =Task_8086E58
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _08086E44 @ =sub_8087234
+	ldr r1, _08086E44 @ =TaskDestructor_8087234
 	str r1, [sp]
 	movs r1, #0x38
 	movs r3, #0
@@ -68671,15 +68671,15 @@ sub_8086D64: @ 0x08086D64
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08086E40: .4byte sub_8086E58
-_08086E44: .4byte sub_8087234
+_08086E40: .4byte Task_8086E58
+_08086E44: .4byte TaskDestructor_8087234
 _08086E48: .4byte 0x03000010
 _08086E4C: .4byte gSineTable
 _08086E50: .4byte 0x000003FF
 _08086E54: .4byte 0x000004F9
 
-	thumb_func_start sub_8086E58
-sub_8086E58: @ 0x08086E58
+	thumb_func_start Task_8086E58
+Task_8086E58: @ 0x08086E58
 	push {r4, r5, lr}
 	ldr r2, _08086E80 @ =gCurTask
 	ldr r0, [r2]
@@ -69206,8 +69206,8 @@ _08087224:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_8087234
-sub_8087234: @ 0x08087234
+	thumb_func_start TaskDestructor_8087234
+TaskDestructor_8087234: @ 0x08087234
 	bx lr
 	.align 2, 0
 

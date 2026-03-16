@@ -88,7 +88,7 @@ static inline Player *GetPlayer__inline(u8 pid)
     if (pid == PLAYER_1) {
         p = GET_SP_PLAYER_V0(pid);
     } else {
-#if BUG_FIX
+#ifdef BUG_FIX
         // TODO: Not sure whether this is the correct assignment to fix this NULLPTR
         p = GET_SP_PLAYER_V0(PLAYER_1);
 #endif
@@ -653,7 +653,7 @@ Player *EUC_GetPlayer(u8 pid)
     if (pid == PLAYER_1) {
         p = GET_SP_PLAYER_V0(pid);
     } else {
-#if BUG_FIX
+#ifdef BUG_FIX
         // TODO: Not sure whether this is the correct assignment to fix this NULLPTR
         p = GET_SP_PLAYER_V0(PLAYER_1);
 #endif

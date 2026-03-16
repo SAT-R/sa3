@@ -73,6 +73,7 @@ void sub_802616C() { }
 void sub_80274F4() { }
 void sub_80293E8() { }
 void sub_802954C() { }
+void sub_8027578(MapEntity *me) { }
 void sub_80276A8() { }
 void sub_80276F4() { }
 void sub_80296F8() { }
@@ -140,13 +141,6 @@ void sub_8052418() { }
 void sub_8052D8C() { }
 void sub_8053128() { }
 void sub_8057AA0(u16 param0, u16 param1, u8 param2) { }
-void sub_805C280() { }
-void sub_805C510() { }
-void sub_805C890() { }
-void sub_805C63C() { }
-void sub_805CD70() { }
-void sub_805CD20() { }
-void sub_805CE14() { }
 void CreateGmerl1() { }
 void CreateBoss_8068B3C() { }
 void CreateBoss_806A90C() { }
