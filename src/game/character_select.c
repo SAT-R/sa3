@@ -1657,8 +1657,8 @@ void Task_8099C9C()
     gBgSprites_Unknown2[2][1] = 0;
     gBgSprites_Unknown2[2][2] = 0xFF;
     gBgSprites_Unknown2[2][3] = 0x40;
-    cs->qUnk4C = 0x8E00;
-    cs->qUnk50 = 0x1600;
+    cs->qUnk4C = Q(142);
+    cs->qUnk50 = Q(22);
     gBgScrollRegs[2][0] = 0x8E;
     gBgScrollRegs[2][1] = -0x16;
     gDispCnt = 0x1740;
@@ -1961,13 +1961,13 @@ void Task_809A3BC(void)
     CreateSomeTask_809BF3C(&cs->unk3, &cs->unkB, &cs->qUnk3C, &cs->qUnk40, cs->tilesCharacters[CS_CHARID_ACTIVE]);
     cs->unkB = 0xE;
     sub_809A644(cs);
-    cs->qUnk34 = 0x5A00;
-    cs->qUnk3C = 0x9600;
-    cs->qUnk64 = 0x5F00;
+    cs->qUnk34 = Q(90);
+    cs->qUnk3C = Q(150);
+    cs->qUnk64 = Q(95);
     cs->qUnk6C = 0x9100;
-    cs->qUnk54 = 0xC900;
-    cs->qUnk58 = 0x1600;
-    cs->qUnk4C = 0x7800;
+    cs->qUnk54 = Q(201);
+    cs->qUnk58 = Q(22);
+    cs->qUnk4C = Q(120);
     temp_r4 = gUnknown_080D8F18[cs->unk5];
     if (0x20000 & gFlags) {
         CopyPalette(gUnknown_08E2EE50[temp_r4], 0x60U, 0x10U);
@@ -2272,7 +2272,7 @@ void Task_809AA28(void)
     UpdateSpriteAnimation(temp_r0);
     cs->unkB = 4;
     cs->unk12 = 0;
-    cs->qUnk4C = 0x7800;
+    cs->qUnk4C = Q(120);
     cs->qUnk50 = 0x5500;
     gCurTask->main = Task_8098DE4;
 }
@@ -2818,21 +2818,17 @@ bool32 sub_809B284(CharacterSelect *cs)
 
 void sub_809B2AC(CharacterSelect *cs)
 {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 r2 = 120;
+    s32 max = 120;
 
     if (cs->unk1 == 0) {
-        temp_r0 = cs->qUnk4C + 0xFFFFF200;
-        cs->qUnk4C = temp_r0;
-        if (temp_r0 <= Q(r2)) {
-            cs->qUnk4C = Q(r2);
+        cs->qUnk4C -= Q(14);
+        if (cs->qUnk4C <= Q(max)) {
+            cs->qUnk4C = Q(max);
         }
     } else {
-        temp_r0_2 = cs->qUnk4C + 0xE00;
-        cs->qUnk4C = temp_r0_2;
-        if (temp_r0_2 >= Q(r2)) {
-            cs->qUnk4C = Q(r2);
+        cs->qUnk4C += Q(14);
+        if (cs->qUnk4C >= Q(max)) {
+            cs->qUnk4C = Q(max);
         }
     }
 }
@@ -2852,52 +2848,46 @@ void sub_809B2E4(CharacterSelect *cs)
     }
 }
 
-u32 sub_809B32C(CharacterSelect *cs, u8 param1)
+bool32 sub_809B32C(CharacterSelect *cs, u8 param1)
 {
-    s32 temp_r0_3;
-    s32 temp_r1;
-    s32 temp_r1_3;
     s32 r0 = Q(5);
     s32 r4 = Q(3.75);
     s32 r3 = r0 + r4;
-    s32 r5 = 0xD0 << 2;
+    s32 r5 = Q(3.25);
     r4 = r0 + r5;
 
     if (param1 != 0) {
-        temp_r1 = cs->qUnk3C;
         if (cs->qUnk3C >= Q(300)) {
             cs->qUnk3C = Q(300);
-            return 1U;
+            return TRUE;
         }
 
         cs->qUnk3C += r3;
         if (cs->qUnk3C > Q(300)) {
             cs->qUnk3C = Q(300);
         }
-        cs->qUnk4C += 0x840;
+        cs->qUnk4C += Q(8.25);
         if (cs->qUnk4C > Q(300)) {
             cs->qUnk4C = Q(300);
         }
     } else {
-        temp_r1 = cs->qUnk3C;
-        r3 = 0xB400;
-        if (temp_r1 <= r3) {
-            cs->qUnk3C = r3;
-            return 1U;
+        if (cs->qUnk3C <= Q(180)) {
+            cs->qUnk3C = Q(180);
+            return TRUE;
         }
-        temp_r1_3 = temp_r1 + 0xFFFFF740;
-        cs->qUnk3C = temp_r1_3;
-        if (temp_r1_3 <= 0xB3FF) {
-            cs->qUnk3C = 0xB400;
+
+        cs->qUnk3C -= Q(8.75);
+        if (cs->qUnk3C < Q(180)) {
+            cs->qUnk3C = Q(180);
         }
-        temp_r0_3 = cs->qUnk4C + 0xFFFFF7C0;
-        cs->qUnk4C = temp_r0_3;
-        if (temp_r0_3 <= 0x6DFF) {
-            cs->qUnk4C = 0x6E00;
+
+        cs->qUnk4C -= Q(8.25);
+        if (cs->qUnk4C < Q(110)) {
+            cs->qUnk4C = Q(110);
         }
     }
-block_13:
-    return 0U;
+
+    return FALSE;
 }
 
 u32 sub_809B3C4(CharacterSelect *cs, u8 param1)
@@ -2913,14 +2903,14 @@ u32 sub_809B3C4(CharacterSelect *cs, u8 param1)
             cs->qUnk64 = temp_r1 + 0x610;
             goto block_7;
         }
-        cs->qUnk64 = 0x7800;
+        cs->qUnk64 = Q(120);
         goto block_9;
     }
     temp_r0 = cs->qUnk64;
-    if (temp_r0 > 0x3C00) {
+    if (temp_r0 > Q(60)) {
         cs->qUnk64 = temp_r0 + 0xFFFFF9F0;
     } else {
-        cs->qUnk64 = 0x3C00;
+        cs->qUnk64 = Q(60);
         var_r3 = 1;
     }
 block_7:
@@ -2945,7 +2935,7 @@ u32 sub_809B424(CharacterSelect *cs, u8 param1)
 
     if ((param1 << 0x18) == 0) {
         temp_r1 = cs->qUnk34;
-        if (temp_r1 < 0x5A00) {
+        if (temp_r1 < Q(90)) {
             s32 r0 = 3;
 #ifndef NON_MATCHING
             asm("" ::"r"(r0));
@@ -2954,12 +2944,12 @@ u32 sub_809B424(CharacterSelect *cs, u8 param1)
             var_r0 = temp_r1 + 0x300;
             goto block_7;
         }
-        cs->qUnk34 = 0x5A00;
+        cs->qUnk34 = Q(90);
         return 1U;
     }
     temp_r0 = cs->qUnk34;
-    if (temp_r0 <= 0x3C00) {
-        cs->qUnk34 = 0x3C00;
+    if (temp_r0 <= Q(60)) {
+        cs->qUnk34 = Q(60);
         return 1U;
     }
     var_r0 = temp_r0 + 0xFFFFFD00;
@@ -2976,16 +2966,16 @@ bool32 sub_809B470(CharacterSelect *cs, u8 param1)
 
     if (param1 == 0) {
         temp_r0 = cs->qUnk3C;
-        if (cs->qUnk3C > 0x9600) {
+        if (cs->qUnk3C > Q(150)) {
             cs->qUnk3C -= Q(3);
         } else {
-            cs->qUnk3C = 0x9600;
+            cs->qUnk3C = Q(150);
             return 1U;
         }
     } else {
         s32 r0;
-        if (cs->qUnk3C >= 0xB400) {
-            cs->qUnk3C = 0xB400;
+        if (cs->qUnk3C >= Q(180)) {
+            cs->qUnk3C = Q(180);
             return 1U;
         }
         r0 = 3;
@@ -3001,49 +2991,39 @@ bool32 sub_809B470(CharacterSelect *cs, u8 param1)
 
 u32 sub_809B4BC(CharacterSelect *cs, u8 param1)
 {
-    s32 temp_r0;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 var_r0;
-    u8 var_r3;
-    s32 r4;
+    u8 var_r3 = 0;
+    s32 r4 = 3;
 
-    var_r3 = 0;
-    r4 = 3;
     if (param1 == 0) {
-        temp_r1 = cs->qUnk64;
-        if (temp_r1 <= 0x5EFF) {
-            cs->qUnk64 = temp_r1 + Q(r4);
+        if (cs->qUnk64 < Q(95)) {
+            cs->qUnk64 += Q(r4);
         } else {
-            cs->qUnk64 = 0x5F00;
+            cs->qUnk64 = Q(95);
             var_r3 = 1;
         }
-        temp_r1_2 = cs->qUnk54;
-        var_r0 = 0xC900;
-        if (temp_r1_2 > 0xC900) {
-            cs->qUnk54 = temp_r1_2 - Q(r4);
+
+        if (cs->qUnk54 > Q(201)) {
+            cs->qUnk54 -= Q(r4);
         } else {
-            goto block_12;
+            cs->qUnk54 = Q(201);
+            var_r3 += 1;
         }
     } else {
-        temp_r0 = cs->qUnk64;
-        if (temp_r0 > 0x3C00) {
-            cs->qUnk64 = temp_r0 + 0xFFFFFD00;
+        if (cs->qUnk64 > Q(60)) {
+            cs->qUnk64 -= Q(3);
         } else {
-            cs->qUnk64 = 0x3C00;
+            cs->qUnk64 = Q(60);
             var_r3 = 1;
         }
-        temp_r1_3 = cs->qUnk54;
-        if (temp_r1_3 <= 0x104FF) {
-            cs->qUnk54 = temp_r1_3 + Q(r4);
+
+        if (cs->qUnk54 < Q(261)) {
+            cs->qUnk54 += Q(r4);
         } else {
-            var_r0 = 0x10500;
-        block_12:
-            cs->qUnk54 = var_r0;
+            cs->qUnk54 = Q(261);
             var_r3 += 1;
         }
     }
+
     if (var_r3 == 2) {
         return 1U;
     } else {
@@ -3069,14 +3049,14 @@ u32 sub_809B548(CharacterSelect *cs, u8 param1)
             cs->qUnk6C = 0x9100;
             var_r3 += 1;
         }
-        if (cs->qUnk4C >= 0xC900) {
+        if (cs->qUnk4C >= Q(201)) {
 #ifndef NON_MATCHING
             register s32 v asm("r0");
             asm("mov %0, #0xC9\n"
                 "lsl %0, #8"
                 : "=r"(v));
 #else
-            s32 v = 0xC900;
+            s32 v = Q(201);
 #endif
 
             cs->qUnk4C = v;
@@ -3085,17 +3065,17 @@ u32 sub_809B548(CharacterSelect *cs, u8 param1)
             cs->qUnk4C += Q(r4);
         }
     } else {
-        if (cs->qUnk6C < 0xB400) {
+        if (cs->qUnk6C < Q(180)) {
             cs->qUnk6C = cs->qUnk6C + Q(r4);
         } else {
-            cs->qUnk6C = 0xB400;
+            cs->qUnk6C = Q(180);
             var_r3 += 1;
         }
 
-        if (cs->qUnk4C < 0xB400) {
+        if (cs->qUnk4C < Q(180)) {
             cs->qUnk4C += Q(r4);
         } else {
-            cs->qUnk4C = 0xB400;
+            cs->qUnk4C = Q(180);
             var_r3 += 1;
         }
     }
@@ -3146,24 +3126,21 @@ u32 sub_809B638(CharacterSelect *cs)
     return var_r5;
 }
 
-u32 sub_809B668(CharacterSelect *cs)
+bool32 sub_809B668(CharacterSelect *cs)
 {
-    u32 var_r5;
-    u8 temp_r0;
+    bool32 result = FALSE;
 
-    var_r5 = 0;
-    if (cs->qUnk3C == -0x5A00) {
-        var_r5 = 1;
+    if (cs->qUnk3C == -Q(90)) {
+        result = TRUE;
     } else {
         if (sub_809B1E4(cs) == 1) {
-            temp_r0 = cs->unk4;
-            cs->unk3 = temp_r0;
-            var_r5 = 1;
-            cs->qUnk3C = -0x5A00;
-            cs->unk5 = temp_r0;
+            cs->unk3 = cs->unk4;
+            result = TRUE;
+            cs->qUnk3C = -Q(90);
+            cs->unk5 = cs->unk4;
         }
     }
-    return var_r5;
+    return result;
 }
 
 void sub_809B69C(CharacterSelect *cs)

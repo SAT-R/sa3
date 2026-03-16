@@ -329,7 +329,7 @@ void ValidateSaveSector(SaveSectorData *sector, u32 playerId)
     sector->header.magicNumber = SAVEMAGIC_SA3;
     sector->playerId = playerId;
 
-    for (i = 0; i <= 5; i++) {
+    for (i = 0; i < (s32)ARRAY_COUNT(sector->playerName); i++) {
         sector->playerName[i] = 0xFFFF;
     }
 
