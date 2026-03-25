@@ -3978,7 +3978,7 @@ void Player_8008C1C(Player *p)
         p->moveState &= ~MOVESTATE_GRAVITY_SWITCHED;
     }
 
-    p->framesInvulnerable = ZONE_TIME_TO_INT(0, 2);
+    p->framesInvulnerable = TIME(0, 2);
     p->qSpeedAirX = 0;
     p->qSpeedAirY = 0;
     p->qSpeedGround = 0;
@@ -4094,11 +4094,11 @@ void Player_HitWithoutRingsUpdate(Player *p)
 
     if ((gStageData.levelTimer == (MAX_COURSE_TIME - 1)) && (gStageData.unk2 == 0)) {
         // TODO: You get longer invulnerability when you reached the max timer?
-        p->framesInvulnerable = ZONE_TIME_TO_INT(0, 10);
+        p->framesInvulnerable = TIME(0, 10);
     } else if ((p->moveState & MOVESTATE_80) && (gStageData.gameMode == 0)) {
-        p->framesInvulnerable = ZONE_TIME_TO_INT(0, 3);
+        p->framesInvulnerable = TIME(0, 3);
     } else {
-        p->framesInvulnerable = ZONE_TIME_TO_INT(0, 2);
+        p->framesInvulnerable = TIME(0, 2);
     }
 
     sub_8016F28(p);
@@ -4150,7 +4150,7 @@ void Player_HitWithoutRings(Player *p)
     p->qSpeedAirX = 0;
     p->qSpeedAirY = 0;
     p->qCamOffsetY = 0;
-    p->framesInvulnerable = ZONE_TIME_TO_INT(0, 2);
+    p->framesInvulnerable = TIME(0, 2);
 
     sub_8016F28(p);
     p->moveState &= 0xFDFFFFFF;
@@ -4285,7 +4285,7 @@ void sub_800913C(Player *p)
         return;
     }
     if (gStageData.unk4 == 5) {
-        p->framesInvulnerable = ZONE_TIME_TO_INT(0, 0.5);
+        p->framesInvulnerable = TIME(0, 0.5);
         return;
     }
 
@@ -4341,9 +4341,9 @@ void sub_8009518(Player *p)
 
     if ((gStageData.levelTimer == (MAX_COURSE_TIME - 1)) && (gStageData.unk2 == 0)) {
         // TODO: You get longer invulnerability when you reached the max timer?
-        p->framesInvulnerable = ZONE_TIME_TO_INT(0, 10);
+        p->framesInvulnerable = TIME(0, 10);
     } else {
-        p->framesInvulnerable = ZONE_TIME_TO_INT(0, 2);
+        p->framesInvulnerable = TIME(0, 2);
     }
 
     p->callback = sub_80095E8;
@@ -5799,7 +5799,7 @@ void sub_800B530(Player *p)
     p->qSpeedGround = 0;
     p->qSpeedAirX = 0;
     p->qSpeedAirY = 0;
-    p->idleAndCamCounter = ZONE_TIME_TO_INT(0, 5);
+    p->idleAndCamCounter = TIME(0, 5);
     p->charFlags.unk2D_0 = 0;
     p->charFlags.unk2C_04 = 0;
 }

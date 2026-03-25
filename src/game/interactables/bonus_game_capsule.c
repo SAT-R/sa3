@@ -192,7 +192,7 @@ void CreateEntity_BonusCapsule(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     cap->unk11 = gUnknown_080CF864[gStageData.zone];
     cap->unk13 = 8;
-    cap->timer = ZONE_TIME_TO_INT(0, 30);
+    cap->timer = TIME(0, 30);
     cap->unkD = 60;
     cap->unk2C = 0;
     cap->unk2E = 60;
@@ -540,7 +540,7 @@ void Task_BonusCapsuleMain(void)
         gDispCnt &= ~DISPCNT_BG0_ON;
         gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
 
-        cap->unk18 = ZONE_TIME_TO_INT(0, 3);
+        cap->unk18 = TIME(0, 3);
         gCurTask->main = Task_803A5D4;
     } else {
         s32 r1 = 216 - cap->unk18;

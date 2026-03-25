@@ -323,7 +323,7 @@ NONMATCH("asm/non_matching/game/interactables/rocket__Task_8045F48.inc", void Ta
                 }
             }
 
-            rocket->unkC = ZONE_TIME_TO_INT(0, 1.5);
+            rocket->unkC = TIME(0, 1.5);
             gCurTask->main = Task_UpdateStarParticles;
             sub_8003E28(SE_ROCKET_ACCELERATING);
             sub_8003DF0(SE_ROCKET_EXPLODING);
@@ -372,7 +372,7 @@ void Task_UpdateStarParticles(void)
     } else {
         sub_8046358(rocket);
 
-        if ((rocket->unkC < ZONE_TIME_TO_INT(0, 0.5)) && (rocket->unkC & 0x2)) {
+        if ((rocket->unkC < TIME(0, 0.5)) && (rocket->unkC & 0x2)) {
             return;
         }
 

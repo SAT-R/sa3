@@ -225,7 +225,7 @@ void Task_806394C(void)
     }
 
     if ((gStageData.unk4 != 1 && gStageData.unk4 != 2 && gStageData.unk4 != 4)) {
-        if (++enemy->timer > ZONE_TIME_TO_INT(0, 6) || res < 0) {
+        if (++enemy->timer > TIME(0, 6) || res < 0) {
             Sprite *s = &enemy->s;
 
             s->anim = gUnknown_080D210C[3].anim;

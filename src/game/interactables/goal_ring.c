@@ -119,7 +119,7 @@ void Task_8033FD4(void)
     Sprite *s = &ring->s[0];
     s16 i;
 
-    if (++ring->unk5C > ZONE_TIME_TO_INT(0, 2)) {
+    if (++ring->unk5C > TIME(0, 2)) {
         ring->unk5C = 0;
 
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {

@@ -165,7 +165,7 @@ void CreateEntity_BonusGameUI(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     ui->unk16 = 0;
     ui->unk12 = 216;
-    ui->timer = ZONE_TIME_TO_INT(1, 0);
+    ui->timer = TIME(1, 0);
     ui->unk17 = 60;
 
     ui->sprPlayer1Icon.tiles = NULL;
@@ -442,7 +442,7 @@ void Task_803C898(void)
 
         for (i = 0; i < (s32)ARRAY_COUNT(ui->unkC); i++) {
             gPlayers[i].charFlags.someIndex = ui->unkC[i];
-            gPlayers[i].idleAndCamCounter = ZONE_TIME_TO_INT(0, 6);
+            gPlayers[i].idleAndCamCounter = TIME(0, 6);
         }
 
         gCurTask->main = Task_803CA28;

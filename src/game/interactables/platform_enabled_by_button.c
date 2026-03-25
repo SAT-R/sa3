@@ -262,7 +262,7 @@ static void sub_8038988(void)
 
             s->x = I(platform->qWorldX) - gCamera.x;
             s->y = I(platform->qWorldY) - gCamera.y;
-        } else if ((gStageData.platformTimers[platform->timerId] < ZONE_TIME_TO_INT(0, 2))) {
+        } else if ((gStageData.platformTimers[platform->timerId] < TIME(0, 2))) {
             if (s->variant != 2) {
                 s->variant = 2;
             }
