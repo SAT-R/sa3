@@ -3183,8 +3183,8 @@ void Player_8007C28(Player *p)
         }
 
         if (p->charFlags.someIndex == 1) {
-            var_r4 = I(p->qWorldX) - (DISPLAY_WIDTH / 2);
-            var_r2 = I(p->qWorldY) - (DISPLAY_HEIGHT / 2);
+            var_r4 = I(p->qWorldX) - DISPLAY_CENTER_X;
+            var_r2 = I(p->qWorldY) - DISPLAY_CENTER_Y;
             if (var_r4 < 0) {
                 var_r4 = 0;
             } else {
@@ -3987,9 +3987,9 @@ void Player_8008C1C(Player *p)
     gUnknown_03001060.unk9 = 0;
 
     if (&gPlayers[gStageData.playerIndex] == p) {
-        gCamera.x = I(p->qWorldX) - (DISPLAY_WIDTH / 2);
+        gCamera.x = I(p->qWorldX) - DISPLAY_CENTER_X;
         gCamera.unk28 = gCamera.x;
-        gCamera.y = I(p->qWorldY) - (DISPLAY_HEIGHT / 2);
+        gCamera.y = I(p->qWorldY) - DISPLAY_CENTER_Y;
         gCamera.unk2C = gCamera.y;
     }
     p->callback = Player_800DAF4;
@@ -4309,8 +4309,8 @@ void sub_800913C(Player *p)
         p->unk57 = 60;
         partner->callback = Player_800522C;
     }
-    gCamera.x = gCamera.unk28 = gStageData.respawnX - (DISPLAY_WIDTH / 2);
-    gCamera.y = gCamera.unk2C = gStageData.respawnY - (DISPLAY_HEIGHT / 2);
+    gCamera.x = gCamera.unk28 = gStageData.respawnX - DISPLAY_CENTER_X;
+    gCamera.y = gCamera.unk2C = gStageData.respawnY - DISPLAY_CENTER_Y;
 }
 
 void sub_8009518(Player *p)

@@ -28,8 +28,8 @@ typedef struct {
     /* 0x64 */ void *data;
 } Omochao; /* 0x68 */
 
-#define TXTBOX_X      ((DISPLAY_WIDTH / 2) - 88)
-#define TXTBOX_Y      ((DISPLAY_HEIGHT / 2) - 56)
+#define TXTBOX_X      (DISPLAY_CENTER_X - 88)
+#define TXTBOX_Y      (DISPLAY_CENTER_Y - 56)
 #define TXTBOX_WIDTH  (176)
 #define TXTBOX_HEIGHT (64)
 #define TXTBOX_RIGHT  (TXTBOX_X + TXTBOX_WIDTH)

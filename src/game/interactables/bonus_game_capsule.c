@@ -363,8 +363,8 @@ void Task_8039DC0(void)
             s->palId = 0;
             s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
             s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
-            s->x = (DISPLAY_WIDTH / 2) - 25;
-            s->y = (DISPLAY_HEIGHT / 2) - 2;
+            s->x = DISPLAY_CENTER_X - 25;
+            s->y = DISPLAY_CENTER_Y - 2;
             UpdateSpriteAnimation(s);
 
             s = &cap->spr628[1];
@@ -380,8 +380,8 @@ void Task_8039DC0(void)
             s->palId = 0;
             s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
             s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
-            s->x = (DISPLAY_WIDTH / 2) - 15;
-            s->y = (DISPLAY_HEIGHT / 2) - 2;
+            s->x = DISPLAY_CENTER_X - 15;
+            s->y = DISPLAY_CENTER_Y - 2;
             UpdateSpriteAnimation(s);
 
             s = &cap->spr628[2];
@@ -397,8 +397,8 @@ void Task_8039DC0(void)
             s->palId = 0;
             s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
             s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
-            s->x = (DISPLAY_WIDTH / 2) - 12;
-            s->y = (DISPLAY_HEIGHT / 2) + 5;
+            s->x = DISPLAY_CENTER_X - 12;
+            s->y = DISPLAY_CENTER_Y + 5;
             UpdateSpriteAnimation(s);
 
             s = &cap->spr628[3];
@@ -414,8 +414,8 @@ void Task_8039DC0(void)
             s->palId = 0;
             s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
             s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
-            s->x = (DISPLAY_WIDTH / 2) + 18;
-            s->y = (DISPLAY_HEIGHT / 2) + 6;
+            s->x = DISPLAY_CENTER_X + 18;
+            s->y = DISPLAY_CENTER_Y + 6;
             UpdateSpriteAnimation(s);
 
             s = &cap->spr628[4];
@@ -430,8 +430,8 @@ void Task_8039DC0(void)
             s->palId = 0;
             s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
             s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
-            s->x = (DISPLAY_WIDTH / 2) + 30;
-            s->y = (DISPLAY_HEIGHT / 2) + 5;
+            s->x = DISPLAY_CENTER_X + 30;
+            s->y = DISPLAY_CENTER_Y + 5;
             UpdateSpriteAnimation(s);
 
         } break;
@@ -1337,8 +1337,8 @@ void sub_803B23C(Sprite *s)
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
     s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
-    s->x = (DISPLAY_WIDTH / 2);
-    s->y = (DISPLAY_HEIGHT / 2);
+    s->x = DISPLAY_CENTER_X;
+    s->y = DISPLAY_CENTER_Y;
     s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
     UpdateSpriteAnimation(s);
 }

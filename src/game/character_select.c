@@ -416,7 +416,7 @@ NONMATCH("asm/non_matching/game/char_select__sub_8097E5C.inc", void sub_8097E5C(
     s->anim = 0x574;
     s->variant = 5;
     s->prevVariant = -1;
-    s->x = (DISPLAY_WIDTH / 2);
+    s->x = DISPLAY_CENTER_X;
     s->y = I(cs->qUnk68);
     s->oamFlags = 0;
     s->animCursor = 0;
@@ -2262,8 +2262,8 @@ void Task_809AA28(void)
 
     if (cs->unkB > 11) {
         cs->unkB = 1;
-        cs->qUnk3C = Q(DISPLAY_WIDTH / 2);
-        cs->qUnk40 = Q(DISPLAY_HEIGHT / 2);
+        cs->qUnk3C = Q(DISPLAY_CENTER_X);
+        cs->qUnk40 = Q(DISPLAY_CENTER_Y);
         cs->unk3 = cs->unk5;
     }
     temp_r0 = &cs->spr9C;
@@ -2300,8 +2300,8 @@ void Task_809AABC(void)
         cs->qUnk34 = 0x14000;
         cs->unk3 = cs->unk5;
         cs->unkB = 0x1F;
-        cs->qUnk3C = Q(DISPLAY_WIDTH / 2);
-        cs->qUnk40 = Q(DISPLAY_HEIGHT / 2);
+        cs->qUnk3C = Q(DISPLAY_CENTER_X);
+        cs->qUnk40 = Q(DISPLAY_CENTER_Y);
         temp_r3 = &cs->bg234;
         temp_r5 = gUnknown_080D8F18[cs->unk5];
         temp_r3->graphics.dest = (void *)(BG_VRAM + 0x8000);
@@ -2633,7 +2633,7 @@ void sub_809AFC0(CharacterSelect *cs)
 
     for (i = 0; i < 2; i++) {
         s = &cs->spr114;
-        s->x = (DISPLAY_WIDTH / 2);
+        s->x = DISPLAY_CENTER_X;
         s->y = I(cs->qUnk68);
 
         if (i != 0) {

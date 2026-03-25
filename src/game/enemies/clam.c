@@ -478,7 +478,7 @@ bool32 sub_8064684(Clam *enemy)
         } else {
             dx = worldX - I(p->qWorldX);
         }
-        if ((dx > 0) && (dx < (DISPLAY_WIDTH / 2))) {
+        if ((dx > 0) && (dx < DISPLAY_CENTER_X)) {
             return TRUE;
         }
     }

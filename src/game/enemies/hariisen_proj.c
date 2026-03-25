@@ -104,9 +104,9 @@ bool32 sub_806172C(Hariisen *enemy)
 
         {
             s32 dy = p->qWorldY - Q(TO_WORLD_POS(0, enemy->region[1]));
-            if (ABS(dy - enemy->qPos.y) <= Q(DISPLAY_WIDTH / 2)) {
+            if (ABS(dy - enemy->qPos.y) <= Q(DISPLAY_CENTER_X)) {
                 s32 dx = p->qWorldX - Q(TO_WORLD_POS(0, enemy->region[0]));
-                if (ABS(dx - enemy->qPos.x) <= Q(DISPLAY_WIDTH / 2)) {
+                if (ABS(dx - enemy->qPos.x) <= Q(DISPLAY_CENTER_X)) {
                     return TRUE;
                 }
             }
@@ -115,9 +115,9 @@ bool32 sub_806172C(Hariisen *enemy)
 #ifndef NON_MATCHING
         { // NOTE: This is just the exact same check as above.
             s32 dy = p->qWorldY - Q(TO_WORLD_POS(0, enemy->region[1]));
-            if (ABS(dy - enemy->qPos.y) <= Q(DISPLAY_WIDTH / 2)) {
+            if (ABS(dy - enemy->qPos.y) <= Q(DISPLAY_CENTER_X)) {
                 s32 dx = p->qWorldX - Q(TO_WORLD_POS(0, enemy->region[0]));
-                if (ABS(dx - enemy->qPos.x) <= Q(DISPLAY_WIDTH / 2)) {
+                if (ABS(dx - enemy->qPos.x) <= Q(DISPLAY_CENTER_X)) {
                     return TRUE;
                 }
             }
