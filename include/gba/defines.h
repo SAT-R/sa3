@@ -13,6 +13,7 @@
 #define IWRAM_DATA __attribute__((section("iwram_data")))
 #define EWRAM_DATA __attribute__((section("ewram_data")))
 #else
+#include "color.h"
 #define IWRAM_DATA 
 #define EWRAM_DATA
 #endif
@@ -39,8 +40,18 @@
 #define OAM_ENTRY_COUNT 128
 #if PORTABLE
 // NOTE: Used in gba/types.h, so they have to be defined before the #include
+#if defined(__PSP__)
+// PSP: Use GBA-native resolution, SDL scales to 480x272
+#define DISPLAY_WIDTH  240
+#define DISPLAY_HEIGHT 160
+#elif defined(__PS2__)
+// Runs at 60fps with the "fast draw"
+#define DISPLAY_WIDTH  320
+#define DISPLAY_HEIGHT 180
+#else
 #define DISPLAY_WIDTH  426
 #define DISPLAY_HEIGHT 240
+#endif
 
 // NOTE: We shouldn't consider WIDESCREEN_HACK a permanent thing.
 //       This hack should best be removed once there's a "native" platform layer.
@@ -68,9 +79,9 @@ extern void (*INTR_VECTOR)(void);
 
 extern uint8_t EWRAM_START[EWRAM_SIZE];
 extern uint8_t IWRAM_START[IWRAM_SIZE];
-extern uint16_t PLTT[PLTT_SIZE/sizeof(uint16_t)];
-#define BG_PLTT  ((u16*)&PLTT[0])
-#define OBJ_PLTT ((u16*)&PLTT[BG_PLTT_SIZE/sizeof(uint16_t)])
+extern ColorRaw PLTT[PLTT_SIZE/sizeof(uint16_t)];
+#define BG_PLTT  ((ColorRaw*)&PLTT[0])
+#define OBJ_PLTT ((ColorRaw*)&PLTT[BG_PLTT_SIZE/sizeof(uint16_t)])
 extern uint8_t OAM[OAM_SIZE];
 
 #define BG_VRAM           &VRAM[0]
@@ -82,6 +93,7 @@ extern uint8_t OAM[OAM_SIZE];
 #define OBJ_VRAM0         &VRAM[0x10000]
 #define OBJ_VRAM1         &VRAM[0x14000]
 
+#define OBJ_VRAM_TOTAL_SIZE    (VRAM_SIZE - BG_VRAM_SIZE)
 #else
 #define DISPLAY_WIDTH  240
 #define DISPLAY_HEIGHT 160
@@ -118,7 +130,11 @@ extern uint8_t OAM[OAM_SIZE];
 #define OAM      0x7000000
 #define OAM_SIZE (OAM_ENTRY_COUNT*sizeof(OamData))
 
+#define OBJ_VRAM_TOTAL_SIZE    (VRAM_SIZE - BG_VRAM_SIZE)
 #endif
+
+#define DISPLAY_CENTER_X (DISPLAY_WIDTH / 2)
+#define DISPLAY_CENTER_Y (DISPLAY_HEIGHT / 2)
 
 #if WIDESCREEN_HACK
 #define WIN_REG_SIZE 4
