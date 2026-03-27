@@ -21,13 +21,13 @@ CreateStageRingsManager: @ 0x08029AE0
 	adds r4, r0, #0
 	cmp r1, #0x48
 	beq _08029B04
-	ldr r0, _08029B00 @ =sub_8029DE0
+	ldr r0, _08029B00 @ =Task_RingsMgrStage
 	b _08029B06
 	.align 2, 0
 _08029AFC: .4byte gStageData
-_08029B00: .4byte sub_8029DE0
+_08029B00: .4byte Task_RingsMgrStage
 _08029B04:
-	ldr r0, _08029B4C @ =sub_802A6C4
+	ldr r0, _08029B4C @ =Task_RingsMgrExtraZone
 _08029B06:
 	movs r2, #0xa0
 	lsls r2, r2, #6
@@ -62,7 +62,7 @@ _08029B32:
 	ldr r0, _08029B5C @ =0x06014180
 	b _08029B66
 	.align 2, 0
-_08029B4C: .4byte sub_802A6C4
+_08029B4C: .4byte Task_RingsMgrExtraZone
 _08029B50: .4byte TaskDestructor_RingsMgr
 _08029B54: .4byte gUnknown_080CEF58
 _08029B58: .4byte gStageData
@@ -184,8 +184,8 @@ _08029C48: .4byte gMPlayInfo_SE1
 _08029C4C: .4byte song117
 _08029C50: .4byte 0x0000FFFF
 
-	thumb_func_start sub_8029C54
-sub_8029C54: @ 0x08029C54
+	thumb_func_start CreateCollectRingEffect
+CreateCollectRingEffect: @ 0x08029C54
 	push {r4, r5, r6, r7, lr}
 	sub sp, #4
 	lsls r0, r0, #0x10
@@ -281,8 +281,8 @@ _08029D18: .4byte gStageData
 
 @ --- entities_manager ? ---
 
-	thumb_func_start sub_8029D1C
-sub_8029D1C: @ 0x08029D1C
+	thumb_func_start CreateCollectRingEffectNoSfx
+CreateCollectRingEffectNoSfx: @ 0x08029D1C
 	push {r4, r5, r6, r7, lr}
 	sub sp, #4
 	lsls r0, r0, #0x10
@@ -375,8 +375,8 @@ _08029DD4: .4byte 0x00000536
 _08029DD8: .4byte 0x0000FFFF
 _08029DDC: .4byte gStageData
 
-	thumb_func_start sub_8029DE0
-sub_8029DE0: @ 0x08029DE0
+	thumb_func_start Task_RingsMgrStage
+Task_RingsMgrStage: @ 0x08029DE0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -697,7 +697,7 @@ _0802A034:
 	asrs r0, r0, #0x10
 	lsls r1, r6, #0x10
 	asrs r1, r1, #0x10
-	bl sub_8029C54
+	bl CreateCollectRingEffect
 	movs r0, #0xfe
 	strb r0, [r5]
 _0802A044:
@@ -1276,7 +1276,7 @@ _0802A46A:
 	asrs r0, r0, #0x10
 	lsls r1, r6, #0x10
 	asrs r1, r1, #0x10
-	bl sub_8029C54
+	bl CreateCollectRingEffect
 	b _0802A4AE
 	.align 2, 0
 _0802A490: .4byte gStageData
@@ -1285,14 +1285,14 @@ _0802A494:
 	asrs r0, r0, #0x10
 	lsls r1, r6, #0x10
 	asrs r1, r1, #0x10
-	bl sub_8029D1C
+	bl CreateCollectRingEffectNoSfx
 	b _0802A4AE
 _0802A4A2:
 	lsls r0, r7, #0x10
 	asrs r0, r0, #0x10
 	lsls r1, r6, #0x10
 	asrs r1, r1, #0x10
-	bl sub_8029D1C
+	bl CreateCollectRingEffectNoSfx
 _0802A4AE:
 	movs r0, #0xfe
 	strb r0, [r5]
@@ -1574,8 +1574,8 @@ _0802A6B8: .4byte 0x80000003
 _0802A6BC: .4byte gCamera
 _0802A6C0: .4byte 0x000001FF
 
-	thumb_func_start sub_802A6C4
-sub_802A6C4: @ 0x0802A6C4
+	thumb_func_start Task_RingsMgrExtraZone
+Task_RingsMgrExtraZone: @ 0x0802A6C4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1874,7 +1874,7 @@ _0802A8F6:
 	asrs r0, r0, #0x10
 	lsls r1, r6, #0x10
 	asrs r1, r1, #0x10
-	bl sub_8029C54
+	bl CreateCollectRingEffect
 	movs r0, #0xfe
 	strb r0, [r5]
 _0802A90C:
@@ -2161,7 +2161,7 @@ sub_802AB10: @ 0x0802AB10
 	lsrs r4, r4, #0x10
 	lsls r5, r5, #0x10
 	lsrs r5, r5, #0x10
-	ldr r0, _0802AB7C @ =sub_802AB8C
+	ldr r0, _0802AB7C @ =Task_802AB8C
 	movs r2, #0x80
 	lsls r2, r2, #6
 	movs r6, #0
@@ -2203,13 +2203,13 @@ sub_802AB10: @ 0x0802AB10
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0802AB7C: .4byte sub_802AB8C
+_0802AB7C: .4byte Task_802AB8C
 _0802AB80: .4byte 0x06014180
 _0802AB84: .4byte 0x00000535
 _0802AB88: .4byte 0x00041200
 
-	thumb_func_start sub_802AB8C
-sub_802AB8C: @ 0x0802AB8C
+	thumb_func_start Task_802AB8C
+Task_802AB8C: @ 0x0802AB8C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -2350,7 +2350,7 @@ _0802AC84:
 	asrs r0, r0, #0x10
 	mov r2, r8
 	asrs r1, r2, #0x10
-	bl sub_8029C54
+	bl CreateCollectRingEffect
 _0802ACA4:
 	ldr r0, _0802ACB0 @ =gCurTask
 	ldr r0, [r0]

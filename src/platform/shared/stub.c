@@ -81,7 +81,7 @@ void sub_80299FC() { }
 void sub_8029A18() { }
 void sub_80275B8(u32 level, u8 param1, u8 param2) { }
 void TaskDestructor_8029774(struct Task *t) { }
-void sub_8029C54(s32 param0, s32 param1) { }
+void CreateCollectRingEffect(s32 param0, s32 param1) { }
 bool32 sub_802C080(Player *p) { return FALSE; }
 bool32 sub_802C0D4(Player *p) { return FALSE; }
 bool32 sub_802C140(s32 worldX, s32 worldY, s32 screenX, s32 screenY) { return FALSE; }

@@ -235,7 +235,7 @@ bool32 sub_805EEB4(BuBu *enemy)
                 }
 
                 if ((mat1 == 1) && (mat2 == 1)) {
-                    sub_8029C54(I(strc->unk28[i].unk0), I(strc->unk28[i].unk4));
+                    CreateCollectRingEffect(I(strc->unk28[i].unk0), I(strc->unk28[i].unk4));
                 }
             }
         }
