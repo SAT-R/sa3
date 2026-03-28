@@ -1033,9 +1033,9 @@ void sub_802AB8C(void)
           && ((s->x + 8) >= HB_LEFT(I(p->qWorldX), p->spriteInfoBody->s.hitboxes[0].b)))
          || (((s->x - 8) >= HB_LEFT(I(p->qWorldX), p->spriteInfoBody->s.hitboxes[0].b))
              && (HB_RIGHT(I(p->qWorldX), p->spriteInfoBody->s.hitboxes[0].b) >= (s->x - 8))))
-        && (((syTemp - 16 > HB_TOP(I(p->qWorldY), p->spriteInfoBody->s.hitboxes[0].b))
-             && (HB_BOTTOM(I(p->qWorldY), p->spriteInfoBody->s.hitboxes[0].b) >= syTemp - 16))
-            || ((syTemp >= HB_TOP(I(p->qWorldY), p->spriteInfoBody->s.hitboxes[0].b))
+        && (((syTemp - 16 <= HB_TOP(I(p->qWorldY), p->spriteInfoBody->s.hitboxes[0].b))
+             && (syTemp >= HB_TOP(I(p->qWorldY), p->spriteInfoBody->s.hitboxes[0].b)))
+            || ((syTemp - 16 >= HB_TOP(I(p->qWorldY), p->spriteInfoBody->s.hitboxes[0].b))
                 && (HB_BOTTOM(I(p->qWorldY), p->spriteInfoBody->s.hitboxes[0].b) >= syTemp - 16)))) {
         if (!(p->moveState & MOVESTATE_100)) {
             AddRings(1);
@@ -1045,7 +1045,6 @@ void sub_802AB8C(void)
         return;
     }
 
-block_past_if:
     s->x -= gCamera.x;
     s->y -= gCamera.y;
     UpdateSpriteAnimation(s);
