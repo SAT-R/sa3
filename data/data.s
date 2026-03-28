@@ -252,6 +252,7 @@ gUnknown_080CEF2C:
 gUnknown_080CEF50:
     .incbin "baserom_sa3.gba", 0x000CEF50, 0x8
 
+@ ring positions
     .global gUnknown_080CEF58
 gUnknown_080CEF58:
     .incbin "baserom_sa3.gba", 0x000CEF58, 73*4 @ size = <number of maps> * <size of pointer>

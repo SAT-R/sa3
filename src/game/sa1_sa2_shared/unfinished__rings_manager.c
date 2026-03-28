@@ -1,5 +1,3 @@
-#define NULL 0
-
 void AddRings(s32);
 void TaskDestructor_RingsMgr(Task *);
 void Task_RingsMgrExtraZone();
@@ -348,10 +346,10 @@ loop_135:
                                     if (var_r1 == 0xFE) {
                                         var_r5 += 2;
                                     } else {
-                                        temp_r7 = (var_r5->unk0 * 8) + (var_r8 << 8);
-                                        temp_r6_2 = (var_r5->unk1 * 8) + (var_sl << 8);
+                                        temp_r7 = (var_r5[0] * 8) + (var_r8 << 8);
+                                        temp_r6_2 = (var_r5[1] * 8) + (var_sl << 8);
                                         temp_r2_3 = temp_r7 - 8;
-                                        temp_r3 = subroutine_arg0.unk0;
+                                        temp_r3 = sp00[0];
                                         temp_r1_6 = ((s32) temp_r0->qWorldX >> 8) + temp_r3;
                                         if (temp_r2_3 <= temp_r1_6) {
                                             if ((s32) (temp_r7 + 8) < temp_r1_6) {
@@ -363,10 +361,10 @@ loop_135:
                                             }
                                         } else {
 block_121:
-                                            if ((s32) (temp_r1_6 + (subroutine_arg0.unk2 - temp_r3)) >= temp_r2_3) {
+                                            if ((s32) (temp_r1_6 + (sp00[2] - temp_r3)) >= temp_r2_3) {
 block_122:
                                                 temp_r2_4 = temp_r6_2 - 0x10;
-                                                temp_r3_2 = subroutine_arg0.unk1;
+                                                temp_r3_2 = sp00[1];
                                                 temp_r1_7 = ((s32) temp_r0->qWorldY >> 8) + temp_r3_2;
                                                 if (temp_r2_4 <= temp_r1_7) {
                                                     if (temp_r6_2 < temp_r1_7) {
@@ -378,7 +376,7 @@ block_122:
                                                     }
                                                 } else {
 block_125:
-                                                    if ((s32) (temp_r1_7 + (subroutine_arg0.unk3 - temp_r3_2)) >= temp_r2_4) {
+                                                    if ((s32) (temp_r1_7 + (sp00[3] - temp_r3_2)) >= temp_r2_4) {
 block_126:
                                                         if (sp28 != 0) {
                                                             if (gStageData.playerIndex == sp1C) {
@@ -390,7 +388,7 @@ block_126:
                                                         } else {
                                                             CreateCollectRingEffectNoSfx((u16) temp_r7, (u16) (s16) temp_r6_2);
                                                         }
-                                                        var_r5->unk0 = 0xFE;
+                                                        var_r5[0] = 0xFE;
                                                     }
                                                 }
                                             }
@@ -480,10 +478,10 @@ loop_27:
                         if (var_r1_3 == 0xFE) {
                             var_r5_2 += 2;
                         } else {
-                            temp_r7_2 = (var_r5_2->unk0 * 8) + (var_r8_2 << 8);
-                            temp_r6_3 = (var_r5_2->unk1 * 8) + (var_sl_2 << 8);
+                            temp_r7_2 = (var_r5_2[0] * 8) + (var_r8_2 << 8);
+                            temp_r6_3 = (var_r5_2[1] * 8) + (var_sl_2 << 8);
                             temp_r2_7 = temp_r7_2 - 8;
-                            temp_r3_3 = subroutine_arg0.unk0;
+                            temp_r3_3 = sp00[0];
                             temp_r1_11 = ((s32) var_sb->qWorldX >> 8) + temp_r3_3;
                             if (temp_r2_7 <= temp_r1_11) {
                                 if ((s32) (temp_r7_2 + 8) < temp_r1_11) {
@@ -495,10 +493,10 @@ loop_27:
                                 }
                             } else {
 block_35:
-                                if ((s32) (temp_r1_11 + (subroutine_arg0.unk2 - temp_r3_3)) >= temp_r2_7) {
+                                if ((s32) (temp_r1_11 + (sp00[2] - temp_r3_3)) >= temp_r2_7) {
 block_36:
                                     temp_r2_8 = temp_r6_3 - 0x10;
-                                    temp_r3_4 = subroutine_arg0.unk1;
+                                    temp_r3_4 = sp00[1];
                                     temp_r1_12 = ((s32) var_sb->qWorldY >> 8) + temp_r3_4;
                                     if (temp_r2_8 <= temp_r1_12) {
                                         if (temp_r6_3 < temp_r1_12) {
@@ -510,13 +508,13 @@ block_36:
                                         }
                                     } else {
 block_39:
-                                        if ((s32) (temp_r1_12 + (subroutine_arg0.unk3 - temp_r3_4)) >= temp_r2_8) {
+                                        if ((s32) (temp_r1_12 + (sp00[3] - temp_r3_4)) >= temp_r2_8) {
 block_40:
                                             if ((sp1C == 0) || ((0x1C & *sp44) == 8)) {
                                                 AddRings(1);
                                             }
                                             CreateCollectRingEffect((s32) temp_r7_2, (s32) (s16) temp_r6_3);
-                                            var_r5_2->unk0 = 0xFE;
+                                            var_r5_2[0] = 0xFE;
                                         }
                                     }
                                 }
@@ -713,32 +711,35 @@ block_167:
         return;
     }
 }
+#endif
 
-void Task_RingsMgrExtraZone(void) {
-    Sprite *sp4;
-    void *sp8;
-    SpriteOffset *spC;
+void Task_RingsMgrExtraZone(void)
+{
+    u8 sp00[4];
+    RingsManager *sp4;
+    u8 *ringPosBuffer;
+    const SpriteOffset *spC;
     u32 sp10;
     u32 sp14;
     s32 sp18;
-    ? *sp1C;
+    u8 *sp1C;
     s32 sp20;
     s32 sp24;
     s32 sp28;
     OamData *sp2C;
     OamData *temp_r0_6;
     OamData *temp_r2_5;
-    Player *var_sl;
-    Sprite *temp_r1;
+    Player *p;
     s16 temp_r7;
+    s32 temp_r0;
     s32 temp_r0_2;
     s32 temp_r0_3;
     s32 temp_r0_4;
     s32 temp_r0_5;
+    s32 temp_r1;
     s32 temp_r1_2;
     s32 temp_r1_3;
     s32 temp_r1_4;
-    s32 temp_r1_5;
     s32 temp_r2_2;
     s32 temp_r2_3;
     s32 temp_r2_4;
@@ -751,231 +752,229 @@ void Task_RingsMgrExtraZone(void) {
     s32 var_r3;
     s8 temp_r3;
     s8 temp_r3_2;
-    struct Camera *var_r2_3;
+    struct Camera *cam;
     u16 temp_r0_7;
     u16 temp_r0_8;
     u16 temp_r2_6;
     u16 temp_r3_3;
+    u32 temp_r1_5;
     u32 temp_r1_6;
-    u32 temp_r1_7;
     u32 temp_r2;
     u32 var_r8;
     u32 var_r8_2;
     u32 var_sb;
     u32 var_sb_2;
     u8 *var_r5;
-    u8 temp_r1_8;
+    u8 *var_r5_2;
+    u8 temp_r1_7;
     u8 var_r1;
     u8 var_r1_2;
     u8 var_r2;
-    void *temp_r0;
-    void *var_r5_2;
 
-    var_sl = saved_reg_r10;
-    temp_r1 = gCurTask->data + 0x03000000;
-    sp4 = temp_r1;
-    sp8 = temp_r1->unk28;
+    RingsManager *mgr = TASK_DATA(gCurTask);
+
+    p = NULL;
+    sp4 = mgr;
+    ringPosBuffer = mgr->ringPositions;
     sp18 = 0;
     if (gCamera.unk6A != 0) {
-        RLUnCompWram(*(((s32) (gStageData.currMapIndex << 0x10) >> 0xE) + &gUnknown_080CEF58), sp8);
+        RLUnCompWram(gUnknown_080CEF58[gStageData.currMapIndex], ringPosBuffer);
     }
     if ((gStageData.zone == 8) && (gStageData.unk4 != 3)) {
         return;
     }
-    subroutine_arg0.unk0 = -0xA;
-    subroutine_arg0.unk1 = 0xF6U;
-    subroutine_arg0.unk2 = 0xA;
-    subroutine_arg0.unk3 = 0xAU;
-    UpdateSpriteAnimation(sp4);
-    temp_r2 = sp4->frameNum;
+    sp00[0] = -10;
+    sp00[1] = -10;
+    sp00[2] = 10;
+    sp00[3] = 10;
+    UpdateSpriteAnimation(&sp4->s);
+    temp_r2 = sp4->s.frameNum;
     if ((temp_r2 >> 0x1C) == 0) {
-        spC = &gRefSpriteTables->dimensions[sp4->anim][temp_r2];
+        spC = &gRefSpriteTables->dimensions[sp4->s.anim][temp_r2];
     } else {
-        spC = gRefSpriteTables->dimensions[sp4->anim] + (temp_r2 * 0x10);
+        spC = gRefSpriteTables->dimensions[sp4->s.anim] + (temp_r2 * 0x10);
     }
-    temp_r0 = sp8 + 4;
-    sp10 = (u32) (u16) sp8->unk4;
-    sp8 = temp_r0 + 4 + 4;
-    sp14 = (u32) (u16) temp_r0->unk4;
+    sp10 = (ringPosBuffer[4] + 4);
+    temp_r0 = ringPosBuffer[4] + 4;
+    ringPosBuffer = ringPosBuffer + 4 + 4 + 4;
+    sp14 = (u32)(u16)temp_r0;
     var_r2 = 0;
-loop_9:
-    if (var_r2 == 0) {
-        var_r1 = gStageData.playerIndex;
-    } else {
-        var_r1 = (u8) ((u32) (var_sl->unk2B << 0x1E) >> 0x1E);
-    }
-    var_sl = &gPlayers[var_r1];
-    sp28 = var_r2 + 1;
-    if (var_sl->moveState & 0x100) {
+    do {
+    loop_9:
+        p = GET_SP_PLAYER_V0(var_r2);
 
-    } else if (var_sl->charFlags.anim0 == 0x66) {
+        sp28 = var_r2 + 1;
+        if (p->moveState & 0x100) {
 
-    } else if (var_sl->unk48 != 0) {
+        } else if (p->charFlags.anim0 == 0x66) {
 
-    } else {
-        temp_r2_2 = var_sl->qWorldY;
-        temp_r1_2 = temp_r2_2 >> 8;
-        var_sb = (u32) ((temp_r1_2 + (s8) subroutine_arg0.unk1) << 8) >> 0x10;
-        var_r3 = temp_r2_2;
-        if ((s32) var_sb > (s32) ((s32) ((temp_r1_2 + (s8) subroutine_arg0.unk3) - 0x10) >> 8)) {
-
-        } else if (var_sb >= sp14) {
+        } else if (p->unk48 != 0) {
 
         } else {
-            sp1C = &subroutine_arg0;
-loop_23:
-            var_r2_2 = var_sl->qWorldX;
-            temp_r1_3 = var_r2_2 >> 8;
-            var_r8 = (u32) (((temp_r1_3 + sp1C->unk0) - 8) << 8) >> 0x10;
-            sp24 = var_sb + 1;
-            if (((s32) var_r8 <= (s32) ((s32) ((temp_r1_3 + sp1C->unk2) - 8) >> 8)) && (var_r8 < sp10)) {
-loop_25:
-                temp_r0_2 = *((var_r8 * 4) + ((sp10 * var_sb * 4) + sp8));
-                sp20 = var_r8 + 1;
-                if (temp_r0_2 != 0) {
-                    var_r5 = sp8 + (temp_r0_2 - 8);
-                    var_r1_2 = *var_r5;
-                    if (var_r1_2 != 0xFF) {
-                        do {
-                            if (var_r1_2 == 0xFE) {
-                                var_r5 += 2;
-                            } else {
-                                temp_r7 = (var_r5->unk0 * 8) + (var_r8 << 8);
-                                temp_r6 = (var_r5->unk1 * 8) + (var_sb << 8);
-                                if (1 != 0) {
-                                    temp_r2_3 = temp_r7 - 8;
-                                    temp_r3 = subroutine_arg0.unk0;
-                                    temp_r1_4 = ((s32) var_sl->qWorldX >> 8) + temp_r3;
-                                    if (temp_r2_3 <= temp_r1_4) {
-                                        if ((s32) (temp_r7 + 8) < temp_r1_4) {
-                                            if (temp_r2_3 >= temp_r1_4) {
-                                                goto block_34;
-                                            }
-                                        } else {
-                                            goto block_35;
-                                        }
-                                    } else {
-block_34:
-                                        if ((s32) (temp_r1_4 + (subroutine_arg0.unk2 - temp_r3)) >= temp_r2_3) {
-block_35:
-                                            temp_r2_4 = temp_r6 - 0x10;
-                                            temp_r3_2 = (s8) subroutine_arg0.unk1;
-                                            temp_r1_5 = ((s32) var_sl->qWorldY >> 8) + temp_r3_2;
-                                            if (temp_r2_4 <= temp_r1_5) {
-                                                if (temp_r6 < temp_r1_5) {
-                                                    if (temp_r2_4 >= temp_r1_5) {
-                                                        goto block_38;
-                                                    }
-                                                } else {
-                                                    goto block_39;
+            temp_r2_2 = p->qWorldY;
+            temp_r1 = temp_r2_2 >> 8;
+            var_sb = (u32)((temp_r1 + (s8)sp00[1]) << 8) >> 0x10;
+            var_r3 = temp_r2_2;
+            if ((s32)var_sb > (s32)((s32)((temp_r1 + (s8)sp00[3]) - 0x10) >> 8)) {
+
+            } else if (var_sb >= sp14) {
+
+            } else {
+                sp1C = (u8 *)&sp00;
+            loop_23:
+                var_r2_2 = p->qWorldX;
+                temp_r1_2 = var_r2_2 >> 8;
+                var_r8 = (u32)(((temp_r1_2 + sp1C[0]) - 8) << 8) >> 0x10;
+                sp24 = var_sb + 1;
+                if (((s32)var_r8 <= (s32)((s32)((temp_r1_2 + sp1C[2]) - 8) >> 8)) && (var_r8 < sp10)) {
+                loop_25:
+                    temp_r0_2 = *((var_r8 * 4) + ((sp10 * var_sb * 4) + ringPosBuffer));
+                    sp20 = var_r8 + 1;
+                    if (temp_r0_2 != 0) {
+                        var_r5 = &ringPosBuffer[temp_r0_2 - 8];
+                        var_r1_2 = *var_r5;
+                        if (var_r1_2 != 0xFF) {
+                            do {
+                                if (var_r1_2 == 0xFE) {
+                                    var_r5 += 2;
+                                } else {
+                                    temp_r7 = (var_r5[0] * 8) + (var_r8 << 8);
+                                    temp_r6 = (var_r5[1] * 8) + (var_sb << 8);
+                                    if (1 != 0) {
+                                        temp_r2_3 = temp_r7 - 8;
+                                        temp_r3 = sp00[0];
+                                        temp_r1_3 = ((s32)p->qWorldX >> 8) + temp_r3;
+                                        if (temp_r2_3 <= temp_r1_3) {
+                                            if ((s32)(temp_r7 + 8) < temp_r1_3) {
+                                                if (temp_r2_3 >= temp_r1_3) {
+                                                    goto block_34;
                                                 }
                                             } else {
-block_38:
-                                                if ((s32) (temp_r1_5 + ((s8) subroutine_arg0.unk3 - temp_r3_2)) >= temp_r2_4) {
-block_39:
-                                                    AddRings(1);
-                                                    CreateCollectRingEffect((s32) temp_r7, (s32) (s16) temp_r6);
-                                                    var_r5->unk0 = 0xFE;
+                                                goto block_35;
+                                            }
+                                        } else {
+                                        block_34:
+                                            if ((s32)(temp_r1_3 + (sp00[2] - temp_r3)) >= temp_r2_3) {
+                                            block_35:
+                                                temp_r2_4 = temp_r6 - 0x10;
+                                                temp_r3_2 = (s8)sp00[1];
+                                                temp_r1_4 = ((s32)p->qWorldY >> 8) + temp_r3_2;
+                                                if (temp_r2_4 <= temp_r1_4) {
+                                                    if (temp_r6 < temp_r1_4) {
+                                                        if (temp_r2_4 >= temp_r1_4) {
+                                                            goto block_38;
+                                                        }
+                                                    } else {
+                                                        goto block_39;
+                                                    }
+                                                } else {
+                                                block_38:
+                                                    if ((s32)(temp_r1_4 + ((s8)sp00[3] - temp_r3_2)) >= temp_r2_4) {
+                                                    block_39:
+                                                        AddRings(1);
+                                                        sub_8029C54((u16)temp_r7, (u16)(s16)temp_r6);
+                                                        var_r5[0] = 0xFE;
+                                                    }
                                                 }
                                             }
                                         }
                                     }
+                                    var_r5 += 2;
+                                    var_r3 = p->qWorldY;
+                                    var_r2_2 = p->qWorldX;
                                 }
-                                var_r5 += 2;
-                                var_r3 = var_sl->qWorldY;
-                                var_r2_2 = var_sl->qWorldX;
-                            }
-                            var_r1_2 = *var_r5;
-                        } while (var_r1_2 != 0xFF);
+                                var_r1_2 = *var_r5;
+                            } while (var_r1_2 != 0xFF);
+                        }
+                    }
+                    var_r8 = (u32)(u16)sp20;
+                    if (((s32)var_r8 <= (s32)((s32)(((var_r2_2 >> 8) + sp1C[2]) - 8) >> 8)) && (var_r8 < sp10)) {
+                        goto loop_25;
                     }
                 }
-                var_r8 = (u32) (u16) sp20;
-                if (((s32) var_r8 <= (s32) ((s32) (((var_r2_2 >> 8) + sp1C->unk2) - 8) >> 8)) && (var_r8 < sp10)) {
-                    goto loop_25;
+                var_sb = (u32)(u16)sp24;
+                if (((s32)var_sb <= (s32)((s32)(((var_r3 >> 8) + sp1C[3]) - 0x10) >> 8)) && (var_sb < sp14)) {
+                    goto loop_23;
                 }
             }
-            var_sb = (u32) (u16) sp24;
-            if (((s32) var_sb <= (s32) ((s32) (((var_r3 >> 8) + sp1C->unk3) - 0x10) >> 8)) && (var_sb < sp14)) {
-                goto loop_23;
-            }
         }
-    }
-    var_r2 = (u8) sp28;
-    if ((u32) var_r2 <= 1U) {
-        goto loop_9;
-    }
-    var_r2_3 = &gCamera;
-    temp_r1_6 = (u32) (gCamera.y << 8) >> 0x10;
-    var_sb_2 = temp_r1_6;
-    var_r1_3 = temp_r1_6 << 8;
-    var_r0 = gCamera.y + 0xA0;
+        var_r2 = (u8)sp28;
+        if ((u32)var_r2 <= 1U) {
+            goto loop_9;
+        }
+    } while (var_r2 < NUM_SINGLE_PLAYER_CHARS);
+    cam = &gCamera;
+    temp_r1_5 = (u32)(gCamera.y << 8) >> 0x10;
+    var_sb_2 = temp_r1_5;
+    var_r1_3 = temp_r1_5 << 8;
+    var_r0 = gCamera.y + DISPLAY_HEIGHT;
 loop_72:
     if ((var_r1_3 < var_r0) && (var_sb_2 < sp14)) {
-        temp_r0_3 = var_r2_3->x;
-        temp_r1_7 = (u32) (temp_r0_3 << 8) >> 0x10;
-        var_r8_2 = temp_r1_7;
-        if ((s32) (temp_r1_7 << 8) >= (s32) (temp_r0_3 + 0xF0)) {
+        temp_r0_3 = cam->x;
+        temp_r1_6 = (u32)(temp_r0_3 << 8) >> 0x10;
+        var_r8_2 = temp_r1_6;
+        if ((s32)(temp_r1_6 << 8) >= (s32)(temp_r0_3 + 0xF0)) {
             goto block_71;
         }
         if (var_r8_2 >= sp10) {
             goto block_71;
         }
-loop_54:
-        temp_r0_4 = *((var_r8_2 * 4) + ((sp10 * var_sb_2 * 4) + sp8));
+    loop_54:
+        temp_r0_4 = *((var_r8_2 * 4) + ((sp10 * var_sb_2 * 4) + ringPosBuffer));
         if (temp_r0_4 != 0) {
-            var_r5_2 = sp8 + (temp_r0_4 - 8);
-loop_67:
-            temp_r1_8 = var_r5_2->unk0;
-            if (temp_r1_8 == 0xFF) {
+            var_r5_2 = &ringPosBuffer[temp_r0_4 - 8];
+        loop_67:
+            temp_r1_7 = var_r5_2[0];
+            if (temp_r1_7 == 0xFF) {
                 goto block_68;
             }
-            if ((temp_r1_8 == 0xFE) || (temp_r7_2 = (var_r5_2->unk0 * 8) + (var_r8_2 << 8), temp_r6_2 = (var_r5_2->unk1 * 8) + (var_sb_2 << 8), ((u32) ((temp_r7_2 - gCamera.x) + 8) > 0x100U)) || (temp_r0_5 = temp_r6_2 - gCamera.y, (temp_r0_5 < 0)) || ((s32) (temp_r0_5 - 0x10) > 0xA0)) {
+            if ((temp_r1_7 == 0xFE)
+                || (temp_r7_2 = (var_r5_2[0] * 8) + (var_r8_2 << 8), temp_r6_2 = (var_r5_2[1] * 8) + (var_sb_2 << 8),
+                    ((u32)((temp_r7_2 - gCamera.x) + 8) > 0x100U))
+                || (temp_r0_5 = temp_r6_2 - gCamera.y, (temp_r0_5 < 0)) || ((s32)(temp_r0_5 - 0x10) > 0xA0)) {
                 var_r5_2 += 2;
                 goto loop_67;
             }
             var_r5_2 += 2;
-            if ((sp18 == 0) || (sp4->oamBaseIndex == 0xFF)) {
-                sp4->oamBaseIndex = 0xFF;
-                sp4->x = temp_r7_2 - gCamera.x;
-                sp4->y = temp_r6_2 - gCamera.y;
-                DisplaySprite(sp4);
+            if ((sp18 == 0) || (sp4->s.oamBaseIndex == 0xFF)) {
+                sp4->s.oamBaseIndex = 0xFF;
+                sp4->s.x = temp_r7_2 - gCamera.x;
+                sp4->s.y = temp_r6_2 - gCamera.y;
+                DisplaySprite(&sp4->s);
                 goto block_66;
             }
-            temp_r2_5 = &gOamMallocBuffer[sp4->oamBaseIndex];
+            temp_r2_5 = &gOamMallocBuffer[sp4->s.oamBaseIndex];
             sp2C = temp_r2_5;
-            temp_r0_6 = OamMalloc((u8) ((u32) ((u16) sp4->oamFlags & 0x7C0) >> 6));
+            temp_r0_6 = OamMalloc((u8)((u32)((u16)sp4->s.oamFlags & 0x7C0) >> 6));
             if (iwram_end != temp_r0_6) {
-                (void *)0x040000D4->unk0 = temp_r2_5;
-                (void *)0x040000D4->unk4 = temp_r0_6;
-                (void *)0x040000D4->unk8 = 0x80000003;
+                DmaCopy16(3, temp_r2_5, temp_r0_6, 6);
                 temp_r3_3 = temp_r0_6->all.attr1 & 0xFE00;
                 temp_r0_6->all.attr1 = temp_r3_3;
                 temp_r2_6 = temp_r0_6->all.attr0 & 0xFF00;
                 temp_r0_6->all.attr0 = temp_r2_6;
-                temp_r0_6->all.attr0 = temp_r2_6 + (u8) ((temp_r6_2 - gCamera.y) - (u16) spC->offsetY);
-                temp_r0_6->all.attr1 = temp_r3_3 + (((temp_r7_2 - gCamera.x) - (u16) spC->offsetX) & 0x1FF);
-block_66:
-                sp18 = (s32) (u8) (sp18 + 1);
+                temp_r0_6->all.attr0 = temp_r2_6 + (u8)((temp_r6_2 - gCamera.y) - (u16)spC->offsetY);
+                temp_r0_6->all.attr1 = temp_r3_3 + (((temp_r7_2 - gCamera.x) - (u16)spC->offsetX) & 0x1FF);
+            block_66:
+                sp18 = (s32)(u8)(sp18 + 1);
                 goto loop_67;
             }
         } else {
-block_68:
+        block_68:
             temp_r0_7 = var_r8_2 + 1;
-            var_r8_2 = (u32) temp_r0_7;
-            if (((s32) (temp_r0_7 << 8) < (s32) (gCamera.x + 0xF0)) && (var_r8_2 < sp10)) {
+            var_r8_2 = (u32)temp_r0_7;
+            if (((s32)(temp_r0_7 << 8) < (s32)(gCamera.x + 0xF0)) && (var_r8_2 < sp10)) {
                 goto loop_54;
             }
-block_71:
+        block_71:
             temp_r0_8 = var_sb_2 + 1;
-            var_sb_2 = (u32) temp_r0_8;
+            var_sb_2 = (u32)temp_r0_8;
             var_r1_3 = temp_r0_8 << 8;
-            var_r2_3 = &gCamera;
-            var_r0 = var_r2_3->y + 0xA0;
+            cam = &gCamera;
+            var_r0 = cam->y + 0xA0;
             goto loop_72;
         }
     }
 }
-#endif
 
 void sub_802AB10(s16 worldX, s16 worldY, Player *p)
 {
