@@ -1,5 +1,17 @@
 #include "global.h"
+#include "core.h"
+#include "malloc_ewram.h"
+#include "rect.h"
+#include "trig.h"
+#include "sprite.h"
+#include "lib/m4a/m4a.h"
+#include "game/camera.h"
+#include "game/entity.h"
+#include "game/player.h"
+#include "game/stage.h"
 #include "game/sa1_sa2_shared/rings_manager.h"
+#include "constants/animations.h"
+#include "constants/move_states.h"
 
 void AddRings(s32 count);
 void TaskDestructor_RingsMgr(Task *);
@@ -803,7 +815,7 @@ void Task_RingsMgrExtraZone(void)
         p = GET_SP_PLAYER_V0(pid);
 
 #if (GAME == GAME_SA3)
-        if(p->moveState & MOVESTATE_100)
+        if (p->moveState & MOVESTATE_100)
             continue;
 #endif
 
@@ -831,7 +843,7 @@ void Task_RingsMgrExtraZone(void)
 #if (GAME == GAME_SA2)
                             || (gCurrentLevel != LEVEL_INDEX(ZONE_FINAL, ACT_TRUE_AREA_53) && !(p->moveState & MOVESTATE_2))
 #endif
-                           ) {
+                        ) {
                             if (RECT_TOUCHING_RING(I(p->qWorldX), I(p->qWorldY), rx, ry, (Rect8 *)rect)) {
 #if (GAME == GAME_SA3)
                                 AddRings(1);
@@ -854,18 +866,16 @@ void Task_RingsMgrExtraZone(void)
                                     }
                                 }
 #endif // COLLECT_RINGS_ROM
-                                if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS && gRingCount > 255) 
-                                {
+                                if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS && gRingCount > 255) {
                                     gRingCount = 255;
                                 }
 #endif // (GAME == GAME_SA3)
-
 
                                 CreateCollectRingEffect(rx, ry);
                                 meRing->x = (u8)MAP_ENTITY_STATE_INITIALIZED;
                             }
                         }
-                    
+
                         meRing++;
                     }
                 }
@@ -878,8 +888,7 @@ void Task_RingsMgrExtraZone(void)
         while (0)
             ;
 #endif
-        for (regionX = TO_REGION(gCamera.x); TO_WORLD_POS(0, regionX) < gCamera.x + DISPLAY_WIDTH && regionX < h_regionCount;
-             regionX++) {
+        for (regionX = TO_REGION(gCamera.x); TO_WORLD_POS(0, regionX) < gCamera.x + DISPLAY_WIDTH && regionX < h_regionCount; regionX++) {
             u32 offset = READ_START_INDEX(rings, h_regionCount, regionX, regionY);
 
             if (offset != 0) {
@@ -893,8 +902,8 @@ void Task_RingsMgrExtraZone(void)
                     rx = TO_WORLD_POS(meRing->x, regionX);
                     ry = TO_WORLD_POS(meRing->y, regionY);
 
-                    if (rx - gCamera.x < -TILE_WIDTH || (rx - gCamera.x) + TILE_WIDTH > DISPLAY_WIDTH + 2 * TILE_WIDTH
-                        || ry - gCamera.y < 0 || (ry - gCamera.y) - 2 * TILE_WIDTH > DISPLAY_HEIGHT) {
+                    if (rx - gCamera.x < -TILE_WIDTH || (rx - gCamera.x) + TILE_WIDTH > DISPLAY_WIDTH + 2 * TILE_WIDTH || ry - gCamera.y < 0
+                        || (ry - gCamera.y) - 2 * TILE_WIDTH > DISPLAY_HEIGHT) {
                         meRing++;
                     } else {
                         meRing++;
