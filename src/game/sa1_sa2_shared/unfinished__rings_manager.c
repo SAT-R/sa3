@@ -753,10 +753,11 @@ block_167:
 void Task_RingsMgrExtraZone(void)
 {
     s8 rect[4];
-    bool32 sp08 = TRUE;
+    Sprite *s;
+    bool32 sp08 = TRUE; // not sp+8 in SA3!
+    u32 *rings;
     const SpriteOffset *dimensions;
     RingsManager *mgr;
-    u32 *rings;
     u32 h_regionCount, v_regionCount;
     OamData *oamAllocated;
     OamData *oamDat;
@@ -767,11 +768,11 @@ void Task_RingsMgrExtraZone(void)
     MapEntity_Ring *meRing;
     u8 pid;
     u16 regionX, regionY;
-    Sprite *s;
     s16 mapIndex;
     u8 drawCount;
 
     mgr = TASK_DATA(gCurTask);
+    s = &mgr->s;
 
     rings = mgr->ringPositions;
     mapIndex = gStageData.currMapIndex;
@@ -786,11 +787,11 @@ void Task_RingsMgrExtraZone(void)
     rect[1] = -10;
     rect[2] = +10;
     rect[3] = +10;
-    UpdateSpriteAnimation(&mgr->s);
-    if ((mgr->s.frameNum >> 28) == 0) {
-        dimensions = &gRefSpriteTables->dimensions[mgr->s.anim][mgr->s.frameNum];
+    UpdateSpriteAnimation(s);
+    if ((s->frameNum >> 28) == 0) {
+        dimensions = &gRefSpriteTables->dimensions[s->anim][s->frameNum];
     } else {
-        dimensions = &gRefSpriteTables->dimensions[mgr->s.anim][mgr->s.frameNum * 8];
+        dimensions = &gRefSpriteTables->dimensions[s->anim][s->frameNum * 8];
     }
     (rings[4] + 4);
     rings[4] + 4;
@@ -800,6 +801,11 @@ void Task_RingsMgrExtraZone(void)
     do {
         s16 leftIndex;
         p = GET_SP_PLAYER_V0(pid);
+
+#if (GAME == GAME_SA3)
+        if(p->moveState & MOVESTATE_100)
+            continue;
+#endif
 
         // Handle collisions
         for (regionY = REGION_LOWER(I(p->qWorldY), rect[1], 0);
@@ -813,50 +819,53 @@ void Task_RingsMgrExtraZone(void)
                     meRing = DATA_START(rings) + offset;
 
                     while (meRing->x != (u8)MAP_ENTITY_STATE_ARRAY_END) {
-                        if (meRing->x != (u8)MAP_ENTITY_STATE_INITIALIZED) {
-                            // _080080D6
-                            rx = TO_WORLD_POS(meRing->x, regionX);
-                            ry = TO_WORLD_POS(meRing->y, regionY);
+                        if (meRing->x == (u8)MAP_ENTITY_STATE_INITIALIZED) {
+                            meRing++;
+                            continue;
+                        }
 
-                            if (sp08 != FALSE
+                        rx = TO_WORLD_POS(meRing->x, regionX);
+                        ry = TO_WORLD_POS(meRing->y, regionY);
+
+                        if (sp08 != FALSE
 #if (GAME == GAME_SA2)
-                                || (gCurrentLevel != LEVEL_INDEX(ZONE_FINAL, ACT_TRUE_AREA_53) && !(p->moveState & MOVESTATE_2))
+                            || (gCurrentLevel != LEVEL_INDEX(ZONE_FINAL, ACT_TRUE_AREA_53) && !(p->moveState & MOVESTATE_2))
 #endif
-                               ) {
-                                if (RECT_TOUCHING_RING(I(p->qWorldX), I(p->qWorldY), rx, ry, (Rect8 *)rect)) {
+                           ) {
+                            if (RECT_TOUCHING_RING(I(p->qWorldX), I(p->qWorldY), rx, ry, (Rect8 *)rect)) {
 #if (GAME == GAME_SA3)
-                                    AddRings(1);
+                                AddRings(1);
 #else
 #ifndef COLLECT_RINGS_ROM
-                                    INCREMENT_RINGS(1);
+                                INCREMENT_RINGS(1);
 #else
-                                    {
-                                        s32 prevLives, newLives;
-                                        s32 oldRings = gRingCount;
-                                        gRingCount += 1;
-                                        if (!(IS_EXTRA_STAGE(CURRENT_LEVEL(0)))) {
-                                            newLives = Div(gRingCount, 100);
-                                            prevLives = Div(oldRings, 100);
-                                            if ((newLives != prevLives) && (gGameMode == GAME_MODE_SINGLE_PLAYER)) {
-                                                if (gNumLives < 255) {
-                                                    gNumLives++;
-                                                };
-                                            }
+                                {
+                                    s32 prevLives, newLives;
+                                    s32 oldRings = gRingCount;
+                                    gRingCount += 1;
+                                    if (!(IS_EXTRA_STAGE(CURRENT_LEVEL(0)))) {
+                                        newLives = Div(gRingCount, 100);
+                                        prevLives = Div(oldRings, 100);
+                                        if ((newLives != prevLives) && (gGameMode == GAME_MODE_SINGLE_PLAYER)) {
+                                            if (gNumLives < 255) {
+                                                gNumLives++;
+                                            };
                                         }
                                     }
+                                }
 #endif // COLLECT_RINGS_ROM
-                                    if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS && gRingCount > 255) 
-                                    {
-                                        gRingCount = 255;
-                                    }
+                                if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS && gRingCount > 255) 
+                                {
+                                    gRingCount = 255;
+                                }
 #endif // (GAME == GAME_SA3)
 
 
-                                    CreateCollectRingEffect(rx, ry);
-                                    meRing->x = (u8)MAP_ENTITY_STATE_INITIALIZED;
-                                }
+                                CreateCollectRingEffect(rx, ry);
+                                meRing->x = (u8)MAP_ENTITY_STATE_INITIALIZED;
                             }
                         }
+                    
                         meRing++;
                     }
                 }
