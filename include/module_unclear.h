@@ -126,7 +126,7 @@ typedef struct Strc3001CFC {
 extern struct Task *gTask_03001CFC; // -> Strc3001CFC
 
 s32 sub_8011BFC(u8, Player *p);
-extern void CreateCollectRingEffect(s32 param0, s32 param1);
+extern void CreateCollectRingEffect(s16 param0, s16 param1); // TODO: Move to correct module
 
 void sub_80533F4(u32 character); // related to Special Springs
 

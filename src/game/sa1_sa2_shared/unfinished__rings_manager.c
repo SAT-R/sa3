@@ -1,4 +1,7 @@
-void AddRings(s32);
+#include "global.h"
+#include "game/sa1_sa2_shared/rings_manager.h"
+
+void AddRings(s32 count);
 void TaskDestructor_RingsMgr(Task *);
 void Task_RingsMgrExtraZone();
 void Task_RingsMgrStage();
@@ -10,7 +13,7 @@ extern struct MP2KSongHeader song117;
 
 typedef struct RingsManager {
     /* 0x00 */ Sprite s;
-    /* 0x28 */ u8 *ringPositions;
+    /* 0x28 */ void *ringPositions;
 } RingsManager;
 
 typedef struct RingsMgrUnk2C {
@@ -24,6 +27,40 @@ typedef struct RingsMgrUnk30 {
     /* 0x28 */ Player *p;
     /* 0x2C */ s16 magnitude;
 } RingsMgrUnk30;
+
+#define READ_START_INDEX(p, hrc, rx, ry) (*((u32 *)((((u8 *)(p)) + (((hrc) * (ry)) * (sizeof(u32)))) + ((rx) * (sizeof(u32))))))
+#define DATA_START(data)                 (void *)((u8 *)(data) - (sizeof(u32) * 2))
+
+#define TO_REGION(pos) ((pos) >> 8)
+
+#define REGION_LOWER(posX, bound, offset)                                                                                                  \
+    ({                                                                                                                                     \
+        s32 a = (posX);                                                                                                                    \
+        s32 b = (bound);                                                                                                                   \
+        TO_REGION(a + b + offset);                                                                                                         \
+    })
+
+// Swapped for the region upper calc??
+#define REGION_UPPER(posX, bound, offset)                                                                                                  \
+    ({                                                                                                                                     \
+        s32 a = (posX);                                                                                                                    \
+        s32 b = (bound);                                                                                                                   \
+        TO_REGION(b + a + offset);                                                                                                         \
+    })
+
+// From header...
+#define RECT_TOUCHING_RING(posX, posY, ringIntX, ringIntY, rect)                                                                           \
+    ((((ringIntX - TILE_WIDTH) <= RECT_LEFT((posX), rect) && (ringIntX + TILE_WIDTH) >= RECT_LEFT((posX), rect))                           \
+      || ((ringIntX - TILE_WIDTH) >= RECT_LEFT((posX), rect) && RECT_RIGHT((posX), rect) >= (ringIntX - TILE_WIDTH)))                      \
+     && ((((ringIntY - (TILE_WIDTH * 2)) <= RECT_TOP((posY), rect) && ringIntY >= RECT_TOP((posY), rect))                                  \
+          || ((ringIntY - (TILE_WIDTH * 2)) >= RECT_TOP((posY), rect) && RECT_BOTTOM((posY), rect) >= (ringIntY - (TILE_WIDTH * 2))))))
+
+// From header...
+#define HB_TOUCHING_RING(posX, posY, ringIntX, ringIntY, hb)                                                                               \
+    ((((ringIntX - TILE_WIDTH) <= HB_LEFT((posX), hb) && (ringIntX + TILE_WIDTH) >= HB_LEFT((posX), hb))                                   \
+      || ((ringIntX - TILE_WIDTH) >= HB_LEFT((posX), hb) && HB_RIGHT((posX), hb) >= (ringIntX - TILE_WIDTH)))                              \
+     && ((((ringIntY - (TILE_WIDTH * 2)) <= HB_TOP((posY), hb) && ringIntY >= HB_TOP((posY), hb))                                          \
+          || ((ringIntY - (TILE_WIDTH * 2)) >= HB_TOP((posY), hb) && HB_BOTTOM((posY), hb) >= (ringIntY - (TILE_WIDTH * 2))))))
 
 void CreateStageRingsManager(void)
 {
@@ -715,263 +752,174 @@ block_167:
 
 void Task_RingsMgrExtraZone(void)
 {
-    u8 sp00[4];
-    RingsManager *sp4;
-    u8 *ringPosBuffer;
-    const SpriteOffset *spC;
-    u32 sp10;
-    u32 sp14;
-    s32 sp18;
-    u8 *sp1C;
-    s32 sp20;
-    s32 sp24;
-    s32 sp28;
-    OamData *sp2C;
-    OamData *temp_r0_6;
-    OamData *temp_r2_5;
+    s8 rect[4];
+    bool32 sp08 = TRUE;
+    const SpriteOffset *dimensions;
+    RingsManager *mgr;
+    u32 *rings;
+    u32 h_regionCount, v_regionCount;
+    OamData *oamAllocated;
+    OamData *oamDat;
     Player *p;
-    s16 temp_r7;
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r0_5;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
-    s32 temp_r2_2;
-    s32 temp_r2_3;
-    s32 temp_r2_4;
-    s32 temp_r6;
-    s32 temp_r6_2;
-    s32 temp_r7_2;
-    s32 var_r0;
-    s32 var_r1_3;
-    s32 var_r2_2;
-    s32 var_r3;
-    s8 temp_r3;
-    s8 temp_r3_2;
+    s32 rx;
+    s32 ry;
     struct Camera *cam;
-    u16 temp_r0_7;
-    u16 temp_r0_8;
-    u16 temp_r2_6;
-    u16 temp_r3_3;
-    u32 temp_r1_5;
-    u32 temp_r1_6;
-    u32 temp_r2;
-    u32 var_r8;
-    u32 var_r8_2;
-    u32 var_sb;
-    u32 var_sb_2;
-    u8 *var_r5;
-    u8 *var_r5_2;
-    u8 temp_r1_7;
-    u8 var_r1;
-    u8 var_r1_2;
-    u8 var_r2;
+    MapEntity_Ring *meRing;
+    u8 pid;
+    u16 regionX, regionY;
+    Sprite *s;
+    s16 mapIndex;
+    u8 drawCount;
 
-    RingsManager *mgr = TASK_DATA(gCurTask);
+    mgr = TASK_DATA(gCurTask);
 
-    p = NULL;
-    sp4 = mgr;
-    ringPosBuffer = mgr->ringPositions;
-    sp18 = 0;
+    rings = mgr->ringPositions;
+    mapIndex = gStageData.currMapIndex;
+    drawCount = 0;
     if (gCamera.unk6A != 0) {
-        RLUnCompWram(gUnknown_080CEF58[gStageData.currMapIndex], ringPosBuffer);
+        RLUnCompWram(gUnknown_080CEF58[mapIndex], rings);
     }
     if ((gStageData.zone == 8) && (gStageData.unk4 != 3)) {
         return;
     }
-    sp00[0] = -10;
-    sp00[1] = -10;
-    sp00[2] = 10;
-    sp00[3] = 10;
-    UpdateSpriteAnimation(&sp4->s);
-    temp_r2 = sp4->s.frameNum;
-    if ((temp_r2 >> 0x1C) == 0) {
-        spC = &gRefSpriteTables->dimensions[sp4->s.anim][temp_r2];
+    rect[0] = -10;
+    rect[1] = -10;
+    rect[2] = +10;
+    rect[3] = +10;
+    UpdateSpriteAnimation(&mgr->s);
+    if ((mgr->s.frameNum >> 28) == 0) {
+        dimensions = &gRefSpriteTables->dimensions[mgr->s.anim][mgr->s.frameNum];
     } else {
-        spC = gRefSpriteTables->dimensions[sp4->s.anim] + (temp_r2 * 0x10);
+        dimensions = &gRefSpriteTables->dimensions[mgr->s.anim][mgr->s.frameNum * 8];
     }
-    sp10 = (ringPosBuffer[4] + 4);
-    temp_r0 = ringPosBuffer[4] + 4;
-    ringPosBuffer = ringPosBuffer + 4 + 4 + 4;
-    sp14 = (u32)(u16)temp_r0;
-    var_r2 = 0;
+    (rings[4] + 4);
+    rings[4] + 4;
+    rings = rings + 4 + 4 + 4;
+
+    pid = 0;
     do {
-    loop_9:
-        p = GET_SP_PLAYER_V0(var_r2);
+        s16 leftIndex;
+        p = GET_SP_PLAYER_V0(pid);
 
-        sp28 = var_r2 + 1;
-        if (p->moveState & 0x100) {
+        // Handle collisions
+        for (regionY = REGION_LOWER(I(p->qWorldY), rect[1], 0);
+             regionY <= REGION_UPPER(I(p->qWorldY), rect[3], TILE_WIDTH) && regionY < v_regionCount; regionY++) {
 
-        } else if (p->charFlags.anim0 == 0x66) {
+            for (regionX = REGION_LOWER(I(p->qWorldX), rect[leftIndex], -TILE_WIDTH);
+                 regionX <= REGION_UPPER(I(p->qWorldX), rect[2], TILE_WIDTH * 2) && regionX < h_regionCount; regionX++) {
 
-        } else if (p->unk48 != 0) {
+                u32 offset = READ_START_INDEX(rings, h_regionCount, regionX, regionY);
+                if (offset) {
+                    meRing = DATA_START(rings) + offset;
 
-        } else {
-            temp_r2_2 = p->qWorldY;
-            temp_r1 = temp_r2_2 >> 8;
-            var_sb = (u32)((temp_r1 + (s8)sp00[1]) << 8) >> 0x10;
-            var_r3 = temp_r2_2;
-            if ((s32)var_sb > (s32)((s32)((temp_r1 + (s8)sp00[3]) - 0x10) >> 8)) {
+                    while (meRing->x != (u8)MAP_ENTITY_STATE_ARRAY_END) {
+                        if (meRing->x != (u8)MAP_ENTITY_STATE_INITIALIZED) {
+                            // _080080D6
+                            rx = TO_WORLD_POS(meRing->x, regionX);
+                            ry = TO_WORLD_POS(meRing->y, regionY);
 
-            } else if (var_sb >= sp14) {
-
-            } else {
-                sp1C = (u8 *)&sp00;
-            loop_23:
-                var_r2_2 = p->qWorldX;
-                temp_r1_2 = var_r2_2 >> 8;
-                var_r8 = (u32)(((temp_r1_2 + sp1C[0]) - 8) << 8) >> 0x10;
-                sp24 = var_sb + 1;
-                if (((s32)var_r8 <= (s32)((s32)((temp_r1_2 + sp1C[2]) - 8) >> 8)) && (var_r8 < sp10)) {
-                loop_25:
-                    temp_r0_2 = *((var_r8 * 4) + ((sp10 * var_sb * 4) + ringPosBuffer));
-                    sp20 = var_r8 + 1;
-                    if (temp_r0_2 != 0) {
-                        var_r5 = &ringPosBuffer[temp_r0_2 - 8];
-                        var_r1_2 = *var_r5;
-                        if (var_r1_2 != 0xFF) {
-                            do {
-                                if (var_r1_2 == 0xFE) {
-                                    var_r5 += 2;
-                                } else {
-                                    temp_r7 = (var_r5[0] * 8) + (var_r8 << 8);
-                                    temp_r6 = (var_r5[1] * 8) + (var_sb << 8);
-                                    if (1 != 0) {
-                                        temp_r2_3 = temp_r7 - 8;
-                                        temp_r3 = sp00[0];
-                                        temp_r1_3 = ((s32)p->qWorldX >> 8) + temp_r3;
-                                        if (temp_r2_3 <= temp_r1_3) {
-                                            if ((s32)(temp_r7 + 8) < temp_r1_3) {
-                                                if (temp_r2_3 >= temp_r1_3) {
-                                                    goto block_34;
-                                                }
-                                            } else {
-                                                goto block_35;
-                                            }
-                                        } else {
-                                        block_34:
-                                            if ((s32)(temp_r1_3 + (sp00[2] - temp_r3)) >= temp_r2_3) {
-                                            block_35:
-                                                temp_r2_4 = temp_r6 - 0x10;
-                                                temp_r3_2 = (s8)sp00[1];
-                                                temp_r1_4 = ((s32)p->qWorldY >> 8) + temp_r3_2;
-                                                if (temp_r2_4 <= temp_r1_4) {
-                                                    if (temp_r6 < temp_r1_4) {
-                                                        if (temp_r2_4 >= temp_r1_4) {
-                                                            goto block_38;
-                                                        }
-                                                    } else {
-                                                        goto block_39;
-                                                    }
-                                                } else {
-                                                block_38:
-                                                    if ((s32)(temp_r1_4 + ((s8)sp00[3] - temp_r3_2)) >= temp_r2_4) {
-                                                    block_39:
-                                                        AddRings(1);
-                                                        sub_8029C54((u16)temp_r7, (u16)(s16)temp_r6);
-                                                        var_r5[0] = 0xFE;
-                                                    }
-                                                }
+                            if (sp08 != FALSE
+#if (GAME == GAME_SA2)
+                                || (gCurrentLevel != LEVEL_INDEX(ZONE_FINAL, ACT_TRUE_AREA_53) && !(p->moveState & MOVESTATE_2))
+#endif
+                               ) {
+                                if (RECT_TOUCHING_RING(I(p->qWorldX), I(p->qWorldY), rx, ry, (Rect8 *)rect)) {
+#if (GAME == GAME_SA3)
+                                    AddRings(1);
+#else
+#ifndef COLLECT_RINGS_ROM
+                                    INCREMENT_RINGS(1);
+#else
+                                    {
+                                        s32 prevLives, newLives;
+                                        s32 oldRings = gRingCount;
+                                        gRingCount += 1;
+                                        if (!(IS_EXTRA_STAGE(CURRENT_LEVEL(0)))) {
+                                            newLives = Div(gRingCount, 100);
+                                            prevLives = Div(oldRings, 100);
+                                            if ((newLives != prevLives) && (gGameMode == GAME_MODE_SINGLE_PLAYER)) {
+                                                if (gNumLives < 255) {
+                                                    gNumLives++;
+                                                };
                                             }
                                         }
                                     }
-                                    var_r5 += 2;
-                                    var_r3 = p->qWorldY;
-                                    var_r2_2 = p->qWorldX;
+#endif // COLLECT_RINGS_ROM
+                                    if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS && gRingCount > 255) 
+                                    {
+                                        gRingCount = 255;
+                                    }
+#endif // (GAME == GAME_SA3)
+
+
+                                    CreateCollectRingEffect(rx, ry);
+                                    meRing->x = (u8)MAP_ENTITY_STATE_INITIALIZED;
                                 }
-                                var_r1_2 = *var_r5;
-                            } while (var_r1_2 != 0xFF);
+                            }
                         }
-                    }
-                    var_r8 = (u32)(u16)sp20;
-                    if (((s32)var_r8 <= (s32)((s32)(((var_r2_2 >> 8) + sp1C[2]) - 8) >> 8)) && (var_r8 < sp10)) {
-                        goto loop_25;
+                        meRing++;
                     }
                 }
-                var_sb = (u32)(u16)sp24;
-                if (((s32)var_sb <= (s32)((s32)(((var_r3 >> 8) + sp1C[3]) - 0x10) >> 8)) && (var_sb < sp14)) {
-                    goto loop_23;
+            }
+        }
+    } while (++pid < NUM_SINGLE_PLAYER_CHARS);
+
+    for (; TO_WORLD_POS(0, regionY) < gCamera.y + DISPLAY_HEIGHT && regionY < v_regionCount; regionY++) {
+#ifndef NON_MATCHING
+        while (0)
+            ;
+#endif
+        for (regionX = TO_REGION(gCamera.x); TO_WORLD_POS(0, regionX) < gCamera.x + DISPLAY_WIDTH && regionX < h_regionCount;
+             regionX++) {
+            u32 offset = READ_START_INDEX(rings, h_regionCount, regionX, regionY);
+
+            if (offset != 0) {
+                meRing = DATA_START(rings) + offset;
+                while (meRing->x != (u8)MAP_ENTITY_STATE_ARRAY_END) {
+                    if (meRing->x == (u8)MAP_ENTITY_STATE_INITIALIZED) {
+                        meRing++;
+                        continue;
+                    }
+
+                    rx = TO_WORLD_POS(meRing->x, regionX);
+                    ry = TO_WORLD_POS(meRing->y, regionY);
+
+                    if (rx - gCamera.x < -TILE_WIDTH || (rx - gCamera.x) + TILE_WIDTH > DISPLAY_WIDTH + 2 * TILE_WIDTH
+                        || ry - gCamera.y < 0 || (ry - gCamera.y) - 2 * TILE_WIDTH > DISPLAY_HEIGHT) {
+                        meRing++;
+                    } else {
+                        meRing++;
+
+                        if ((drawCount == 0) || s->oamBaseIndex == 0xFF) {
+                            s->oamBaseIndex = 0xFF;
+                            s->x = rx - gCamera.x;
+                            s->y = ry - gCamera.y;
+                            DisplaySprite(s);
+                        } else {
+                            OamData *oamDat = &gOamMallocBuffer[s->oamBaseIndex];
+                            OamData *oamAllocated = OamMalloc(GET_SPRITE_OAM_ORDER(s));
+
+                            if (iwram_end == oamAllocated)
+                                return;
+
+                            DmaCopy16(3, oamDat, oamAllocated, sizeof(OamDataShort));
+
+#if !EXTENDED_OAM
+                            // TODO: Can these be done more explicitly?
+                            oamAllocated->all.attr1 &= 0xFE00;
+                            oamAllocated->all.attr0 &= 0xFF00;
+                            oamAllocated->all.attr0 += ((ry - gCamera.y) - dimensions->offsetY) & 0xFF;
+                            oamAllocated->all.attr1 += ((rx - gCamera.x) - dimensions->offsetX) & 0x1FF;
+#else
+                            oamAllocated->split.x = ((rx - gCamera.x) - dimensions->offsetX);
+                            oamAllocated->split.y = ((ry - gCamera.y) - dimensions->offsetY);
+#endif
+                        }
+
+                        drawCount++;
+                    }
                 }
             }
-        }
-        var_r2 = (u8)sp28;
-        if ((u32)var_r2 <= 1U) {
-            goto loop_9;
-        }
-    } while (var_r2 < NUM_SINGLE_PLAYER_CHARS);
-    cam = &gCamera;
-    temp_r1_5 = (u32)(gCamera.y << 8) >> 0x10;
-    var_sb_2 = temp_r1_5;
-    var_r1_3 = temp_r1_5 << 8;
-    var_r0 = gCamera.y + DISPLAY_HEIGHT;
-loop_72:
-    if ((var_r1_3 < var_r0) && (var_sb_2 < sp14)) {
-        temp_r0_3 = cam->x;
-        temp_r1_6 = (u32)(temp_r0_3 << 8) >> 0x10;
-        var_r8_2 = temp_r1_6;
-        if ((s32)(temp_r1_6 << 8) >= (s32)(temp_r0_3 + 0xF0)) {
-            goto block_71;
-        }
-        if (var_r8_2 >= sp10) {
-            goto block_71;
-        }
-    loop_54:
-        temp_r0_4 = *((var_r8_2 * 4) + ((sp10 * var_sb_2 * 4) + ringPosBuffer));
-        if (temp_r0_4 != 0) {
-            var_r5_2 = &ringPosBuffer[temp_r0_4 - 8];
-        loop_67:
-            temp_r1_7 = var_r5_2[0];
-            if (temp_r1_7 == 0xFF) {
-                goto block_68;
-            }
-            if ((temp_r1_7 == 0xFE)
-                || (temp_r7_2 = (var_r5_2[0] * 8) + (var_r8_2 << 8), temp_r6_2 = (var_r5_2[1] * 8) + (var_sb_2 << 8),
-                    ((u32)((temp_r7_2 - gCamera.x) + 8) > 0x100U))
-                || (temp_r0_5 = temp_r6_2 - gCamera.y, (temp_r0_5 < 0)) || ((s32)(temp_r0_5 - 0x10) > 0xA0)) {
-                var_r5_2 += 2;
-                goto loop_67;
-            }
-            var_r5_2 += 2;
-            if ((sp18 == 0) || (sp4->s.oamBaseIndex == 0xFF)) {
-                sp4->s.oamBaseIndex = 0xFF;
-                sp4->s.x = temp_r7_2 - gCamera.x;
-                sp4->s.y = temp_r6_2 - gCamera.y;
-                DisplaySprite(&sp4->s);
-                goto block_66;
-            }
-            temp_r2_5 = &gOamMallocBuffer[sp4->s.oamBaseIndex];
-            sp2C = temp_r2_5;
-            temp_r0_6 = OamMalloc((u8)((u32)((u16)sp4->s.oamFlags & 0x7C0) >> 6));
-            if (iwram_end != temp_r0_6) {
-                DmaCopy16(3, temp_r2_5, temp_r0_6, 6);
-                temp_r3_3 = temp_r0_6->all.attr1 & 0xFE00;
-                temp_r0_6->all.attr1 = temp_r3_3;
-                temp_r2_6 = temp_r0_6->all.attr0 & 0xFF00;
-                temp_r0_6->all.attr0 = temp_r2_6;
-                temp_r0_6->all.attr0 = temp_r2_6 + (u8)((temp_r6_2 - gCamera.y) - (u16)spC->offsetY);
-                temp_r0_6->all.attr1 = temp_r3_3 + (((temp_r7_2 - gCamera.x) - (u16)spC->offsetX) & 0x1FF);
-            block_66:
-                sp18 = (s32)(u8)(sp18 + 1);
-                goto loop_67;
-            }
-        } else {
-        block_68:
-            temp_r0_7 = var_r8_2 + 1;
-            var_r8_2 = (u32)temp_r0_7;
-            if (((s32)(temp_r0_7 << 8) < (s32)(gCamera.x + 0xF0)) && (var_r8_2 < sp10)) {
-                goto loop_54;
-            }
-        block_71:
-            temp_r0_8 = var_sb_2 + 1;
-            var_sb_2 = (u32)temp_r0_8;
-            var_r1_3 = temp_r0_8 << 8;
-            cam = &gCamera;
-            var_r0 = cam->y + 0xA0;
-            goto loop_72;
         }
     }
 }
