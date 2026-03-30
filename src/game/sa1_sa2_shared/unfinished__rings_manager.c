@@ -60,20 +60,6 @@ typedef struct RingsMgrUnk30 {
         TO_REGION(b + a + offset);                                                                                                         \
     })
 
-// From header...
-#define RECT_TOUCHING_RING(posX, posY, ringIntX, ringIntY, rect)                                                                           \
-    ((((ringIntX - TILE_WIDTH) <= RECT_LEFT((posX), rect) && (ringIntX + TILE_WIDTH) >= RECT_LEFT((posX), rect))                           \
-      || ((ringIntX - TILE_WIDTH) >= RECT_LEFT((posX), rect) && RECT_RIGHT((posX), rect) >= (ringIntX - TILE_WIDTH)))                      \
-     && ((((ringIntY - (TILE_WIDTH * 2)) <= RECT_TOP((posY), rect) && ringIntY >= RECT_TOP((posY), rect))                                  \
-          || ((ringIntY - (TILE_WIDTH * 2)) >= RECT_TOP((posY), rect) && RECT_BOTTOM((posY), rect) >= (ringIntY - (TILE_WIDTH * 2))))))
-
-// From header...
-#define HB_TOUCHING_RING(posX, posY, ringIntX, ringIntY, hb)                                                                               \
-    ((((ringIntX - TILE_WIDTH) <= HB_LEFT((posX), hb) && (ringIntX + TILE_WIDTH) >= HB_LEFT((posX), hb))                                   \
-      || ((ringIntX - TILE_WIDTH) >= HB_LEFT((posX), hb) && HB_RIGHT((posX), hb) >= (ringIntX - TILE_WIDTH)))                              \
-     && ((((ringIntY - (TILE_WIDTH * 2)) <= HB_TOP((posY), hb) && ringIntY >= HB_TOP((posY), hb))                                          \
-          || ((ringIntY - (TILE_WIDTH * 2)) >= HB_TOP((posY), hb) && HB_BOTTOM((posY), hb) >= (ringIntY - (TILE_WIDTH * 2))))))
-
 void CreateStageRingsManager(void)
 {
     Task *t;
@@ -782,6 +768,7 @@ void Task_RingsMgrExtraZone(void)
     u16 regionX, regionY;
     s16 mapIndex;
     u8 drawCount;
+    s16 leftIndex;
 
     mgr = TASK_DATA(gCurTask);
     s = &mgr->s;
@@ -801,17 +788,20 @@ void Task_RingsMgrExtraZone(void)
     rect[3] = +10;
     UpdateSpriteAnimation(s);
     if ((s->frameNum >> 28) == 0) {
+        // Default behavior from SA1 / SA2
         dimensions = &gRefSpriteTables->dimensions[s->anim][s->frameNum];
     } else {
-        dimensions = &gRefSpriteTables->dimensions[s->anim][s->frameNum * 8];
+        // TODO: WTF!?!?
+        dimensions = (const SpriteOffset *)&((const SpriteOffset2 *)gRefSpriteTables->dimensions[s->anim])[s->frameNum];
     }
-    (rings[4] + 4);
-    rings[4] + 4;
-    rings = rings + 4 + 4 + 4;
+
+    rings++;
+
+    h_regionCount = (u16)*rings++;
+    v_regionCount = (u16)*rings++;
 
     pid = 0;
     do {
-        s16 leftIndex;
         p = GET_SP_PLAYER_V0(pid);
 
 #if (GAME == GAME_SA3)
@@ -819,64 +809,69 @@ void Task_RingsMgrExtraZone(void)
             continue;
 #endif
 
-        // Handle collisions
-        for (regionY = REGION_LOWER(I(p->qWorldY), rect[1], 0);
-             regionY <= REGION_UPPER(I(p->qWorldY), rect[3], TILE_WIDTH) && regionY < v_regionCount; regionY++) {
-
-            for (regionX = REGION_LOWER(I(p->qWorldX), rect[leftIndex], -TILE_WIDTH);
-                 regionX <= REGION_UPPER(I(p->qWorldX), rect[2], TILE_WIDTH * 2) && regionX < h_regionCount; regionX++) {
-
-                u32 offset = READ_START_INDEX(rings, h_regionCount, regionX, regionY);
-                if (offset) {
-                    meRing = DATA_START(rings) + offset;
-
-                    while (meRing->x != (u8)MAP_ENTITY_STATE_ARRAY_END) {
-                        if (meRing->x == (u8)MAP_ENTITY_STATE_INITIALIZED) {
-                            meRing++;
-                            continue;
-                        }
-
-                        rx = TO_WORLD_POS(meRing->x, regionX);
-                        ry = TO_WORLD_POS(meRing->y, regionY);
-
-                        if (sp08 != FALSE
-#if (GAME == GAME_SA2)
-                            || (gCurrentLevel != LEVEL_INDEX(ZONE_FINAL, ACT_TRUE_AREA_53) && !(p->moveState & MOVESTATE_2))
-#endif
-                        ) {
-                            if (RECT_TOUCHING_RING(I(p->qWorldX), I(p->qWorldY), rx, ry, (Rect8 *)rect)) {
 #if (GAME == GAME_SA3)
-                                AddRings(1);
+        if ((p->charFlags.anim0 != 0x66) && (p->unk48 == 0))
+#endif // (GAME == GAME_SA3)
+        {
+            // Handle collisions
+            for (regionY = REGION_LOWER(I(p->qWorldY), rect[1], 0);
+                 regionY <= REGION_UPPER(I(p->qWorldY), rect[3], -(2 * TILE_WIDTH)) && regionY < v_regionCount; regionY++) {
+
+                for (regionX = REGION_LOWER(I(p->qWorldX), rect[0], -TILE_WIDTH);
+                     regionX <= REGION_UPPER(I(p->qWorldX), rect[2], -TILE_WIDTH) && regionX < h_regionCount; regionX++) {
+
+                    u32 offset = READ_START_INDEX(rings, h_regionCount, regionX, regionY);
+                    if (offset) {
+                        meRing = DATA_START(rings) + offset;
+
+                        while (meRing->x != (u8)MAP_ENTITY_STATE_ARRAY_END) {
+                            if (meRing->x == (u8)MAP_ENTITY_STATE_INITIALIZED) {
+                                meRing++;
+                                continue;
+                            }
+
+                            rx = TO_WORLD_POS(meRing->x, regionX);
+                            ry = TO_WORLD_POS(meRing->y, regionY);
+
+                            if (sp08 != FALSE
+#if (GAME == GAME_SA2)
+                                || (gCurrentLevel != LEVEL_INDEX(ZONE_FINAL, ACT_TRUE_AREA_53) && !(p->moveState & MOVESTATE_2))
+#endif
+                            ) {
+                                if (RECT_TOUCHING_RING(I(p->qWorldX), I(p->qWorldY), rx, ry, (Rect8 *)rect)) {
+#if (GAME == GAME_SA3)
+                                    AddRings(1);
 #else
 #ifndef COLLECT_RINGS_ROM
-                                INCREMENT_RINGS(1);
+                                    INCREMENT_RINGS(1);
 #else
-                                {
-                                    s32 prevLives, newLives;
-                                    s32 oldRings = gRingCount;
-                                    gRingCount += 1;
-                                    if (!(IS_EXTRA_STAGE(CURRENT_LEVEL(0)))) {
-                                        newLives = Div(gRingCount, 100);
-                                        prevLives = Div(oldRings, 100);
-                                        if ((newLives != prevLives) && (gGameMode == GAME_MODE_SINGLE_PLAYER)) {
-                                            if (gNumLives < 255) {
-                                                gNumLives++;
-                                            };
+                                    {
+                                        s32 prevLives, newLives;
+                                        s32 oldRings = gRingCount;
+                                        gRingCount += 1;
+                                        if (!(IS_EXTRA_STAGE(CURRENT_LEVEL(0)))) {
+                                            newLives = Div(gRingCount, 100);
+                                            prevLives = Div(oldRings, 100);
+                                            if ((newLives != prevLives) && (gGameMode == GAME_MODE_SINGLE_PLAYER)) {
+                                                if (gNumLives < 255) {
+                                                    gNumLives++;
+                                                };
+                                            }
                                         }
                                     }
-                                }
 #endif // COLLECT_RINGS_ROM
-                                if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS && gRingCount > 255) {
-                                    gRingCount = 255;
-                                }
+                                    if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS && gRingCount > 255) {
+                                        gRingCount = 255;
+                                    }
 #endif // (GAME == GAME_SA3)
 
-                                CreateCollectRingEffect(rx, ry);
-                                meRing->x = (u8)MAP_ENTITY_STATE_INITIALIZED;
+                                    CreateCollectRingEffect(rx, ry);
+                                    meRing->x = (u8)MAP_ENTITY_STATE_INITIALIZED;
+                                }
                             }
-                        }
 
-                        meRing++;
+                            meRing++;
+                        }
                     }
                 }
             }
