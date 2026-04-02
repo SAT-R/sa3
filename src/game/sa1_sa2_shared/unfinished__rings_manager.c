@@ -752,6 +752,7 @@ void Task_RingsMgrExtraZone(void)
 {
     s8 rect[4];
     Sprite *s;
+    u16 regionX, regionY;
     bool32 sp08 = TRUE; // not sp+8 in SA3!
     u32 *rings;
     const SpriteOffset *dimensions;
@@ -765,7 +766,6 @@ void Task_RingsMgrExtraZone(void)
     struct Camera *cam;
     MapEntity_Ring *meRing;
     u8 pid;
-    u16 regionX, regionY;
     s16 mapIndex;
     u8 drawCount;
     s16 leftIndex;
@@ -800,8 +800,7 @@ void Task_RingsMgrExtraZone(void)
     h_regionCount = (u16)*rings++;
     v_regionCount = (u16)*rings++;
 
-    pid = 0;
-    do {
+    for (pid = 0; pid < NUM_SINGLE_PLAYER_CHARS; pid++) {
         p = GET_SP_PLAYER_V0(pid);
 
 #if (GAME == GAME_SA3)
@@ -815,10 +814,12 @@ void Task_RingsMgrExtraZone(void)
         {
             // Handle collisions
             for (regionY = REGION_LOWER(I(p->qWorldY), rect[1], 0);
-                 regionY <= REGION_UPPER(I(p->qWorldY), rect[3], -(2 * TILE_WIDTH)) && regionY < v_regionCount; regionY++) {
+                 // TODO: Check, why both uses of REGION_UPPER() only match like this in SA3!
+                 //       (Should in theory be roughly in-line with SA1/SA2...)
+                 regionY <= REGION_UPPER(I(p->qWorldY), 0, rect[3] - (2 * TILE_WIDTH)) && regionY < v_regionCount; regionY++) {
 
                 for (regionX = REGION_LOWER(I(p->qWorldX), rect[0], -TILE_WIDTH);
-                     regionX <= REGION_UPPER(I(p->qWorldX), rect[2], -TILE_WIDTH) && regionX < h_regionCount; regionX++) {
+                     regionX <= REGION_UPPER(I(p->qWorldX), 0, rect[2] - TILE_WIDTH) && regionX < h_regionCount; regionX++) {
 
                     u32 offset = READ_START_INDEX(rings, h_regionCount, regionX, regionY);
                     if (offset) {
@@ -876,10 +877,10 @@ void Task_RingsMgrExtraZone(void)
                 }
             }
         }
-    } while (++pid < NUM_SINGLE_PLAYER_CHARS);
+    }
 
-    for (; TO_WORLD_POS(0, regionY) < gCamera.y + DISPLAY_HEIGHT && regionY < v_regionCount; regionY++) {
-#ifndef NON_MATCHING
+    for (regionY = TO_REGION(gCamera.y); TO_WORLD_POS(0, regionY) < gCamera.y + DISPLAY_HEIGHT && regionY < v_regionCount; regionY++) {
+#if (!defined(NON_MATCHING) && (GAME <= GAME_SA2))
         while (0)
             ;
 #endif
