@@ -122,6 +122,11 @@ typedef struct {
     /* 0x0A */ s16 offsetY;
 } SpriteOffset;
 
+typedef struct SpriteOffset2 {
+    SpriteOffset base;
+    u8 padding[4];
+} SpriteOffset2;
+
 // TODO: Verify "(in)active" name
 #define HITBOX_STATE_INACTIVE -1
 #define HITBOX_IS_ACTIVE(hb)  ((hb).index != HITBOX_STATE_INACTIVE)
