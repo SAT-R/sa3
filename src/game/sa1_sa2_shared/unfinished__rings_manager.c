@@ -239,15 +239,15 @@ void Task_RingsMgrStage(void)
     s8 *temp_r1_8;
     s8 *temp_r2_2;
     s8 *temp_r2_6;
-    u32 var_r8;
+    u32 regionX;
     u32 var_r8_2;
     u32 var_r8_3;
     u32 var_r8_4;
-    u32 var_sl;
+    u32 regionY;
     u32 var_sl_2;
     u32 var_sl_3;
     u32 var_sl_4;
-    u8 *var_r5;
+    MapEntity_Ring *meRing;
     u8 *var_r5_2;
     u8 var_r1;
     u8 var_r1_2;
@@ -289,94 +289,40 @@ void Task_RingsMgrStage(void)
                     sp2C[1] = -p->spriteOffsetY;
                     sp2C[2] = +p->spriteOffsetX;
                     sp2C[3] = +p->spriteOffsetY;
-                    var_sl = (u32)((I(p->qWorldY) + sp2C[1]) << 8) >> 0x10;
-
-                    if ((var_sl <= (((s8)sp2C[3] + I(p->qWorldY) + 8) >> 8)) && (var_sl < sp14)) {
+                    for (regionY = (u32)((I(p->qWorldY) + sp2C[1]) << 8) >> 0x10;
+                         ((regionY <= (((s8)sp2C[3] + I(p->qWorldY) + 8) >> 8)) && (regionY < sp14)); regionY++) {
                         sp30 = &sp00[0];
-#if 0
-    loop_112:
                         var_r2 = p->qWorldX;
-                        temp_r1_5 = var_r2 >> 8;
-                        var_r8 = (u32) (((temp_r1_5 + sp30->unk0) - 8) << 8) >> 0x10;
-                        var_r0 = (sp30->unk2 + temp_r1_5 + 0x10) >> 8;
-                        var_r3 = p->qWorldY;
-                        sp3C = var_sl + 1;
-    loop_135:
-                        if ((var_r8 <= var_r0) && (var_r8 < rings->unk4)) {
-                            temp_r0_3 = *((var_r8 * 4) + ((rings->unk4 * var_sl * 4) + rings));
-                            sp38 = var_r8 + 1;
+                        for (regionX = (u32)(((I(p->qWorldX) + sp30[0]) - 8) << 8) >> 0x10;
+                             ((regionX <= TO_REGION(sp30[2] + I(p->qWorldX) + 16)) && (regionX < *(rings + 1))); regionX++) {
+                            s32 temp_r0_3 = *((regionX * 4) + ((*(rings + 1) * regionY * 4) + rings));
                             if (temp_r0_3 != 0) {
-                                var_r5 = rings + (temp_r0_3 - 8);
-                                var_r1 = *var_r5;
-                                if (var_r1 != 0xFF) {
-                                    do {
-                                        if (var_r1 == 0xFE) {
-                                            var_r5 += 2;
-                                        } else {
-                                            temp_r7 = (var_r5[0] * 8) + (var_r8 << 8);
-                                            temp_r6_2 = (var_r5[1] * 8) + (var_sl << 8);
-                                            temp_r2_3 = temp_r7 - 8;
-                                            temp_r3 = sp00[0];
-                                            temp_r1_6 = (p->qWorldX >> 8) + temp_r3;
-                                            if (temp_r2_3 <= temp_r1_6) {
-                                                if ((temp_r7 + 8) < temp_r1_6) {
-                                                    if (temp_r2_3 >= temp_r1_6) {
-                                                        goto block_121;
-                                                    }
+                                meRing = (MapEntity_Ring *)(rings + (temp_r0_3 - 8));
+                                while (meRing->x != (u8)MAP_ENTITY_STATE_ARRAY_END) {
+                                    if (meRing->x == (u8)MAP_ENTITY_STATE_INITIALIZED) {
+                                        meRing++;
+                                    } else {
+                                        s32 rx = TO_WORLD_POS(meRing->x, regionX);
+                                        s32 ry = TO_WORLD_POS(meRing->y, regionY);
+
+                                        if (RECT_TOUCHING_RING(I(p->qWorldX), I(p->qWorldY), rx, ry, (Rect8 *)sp00)) {
+                                            if (sp28 != 0) {
+                                                if (gStageData.playerIndex == i) {
+                                                    AddRings(1);
+                                                    CreateCollectRingEffect(rx, ry);
                                                 } else {
-                                                    goto block_122;
+                                                    CreateCollectRingEffectNoSfx(rx, ry);
                                                 }
                                             } else {
-    block_121:
-                                                if ((temp_r1_6 + (sp00[2] - temp_r3)) >= temp_r2_3) {
-    block_122:
-                                                    temp_r2_4 = temp_r6_2 - 0x10;
-                                                    temp_r3_2 = sp00[1];
-                                                    temp_r1_7 = (p->qWorldY >> 8) + temp_r3_2;
-                                                    if (temp_r2_4 <= temp_r1_7) {
-                                                        if (temp_r6_2 < temp_r1_7) {
-                                                            if (temp_r2_4 >= temp_r1_7) {
-                                                                goto block_125;
-                                                            }
-                                                        } else {
-                                                            goto block_126;
-                                                        }
-                                                    } else {
-    block_125:
-                                                        if ((temp_r1_7 + (sp00[3] - temp_r3_2)) >= temp_r2_4) {
-    block_126:
-                                                            if (sp28 != 0) {
-                                                                if (gStageData.playerIndex == i) {
-                                                                    AddRings(1);
-                                                                    CreateCollectRingEffect(temp_r7, (s16) temp_r6_2);
-                                                                } else {
-                                                                    CreateCollectRingEffectNoSfx((u16) temp_r7, (u16) (s16) temp_r6_2);
-                                                                }
-                                                            } else {
-                                                                CreateCollectRingEffectNoSfx((u16) temp_r7, (u16) (s16) temp_r6_2);
-                                                            }
-                                                            var_r5[0] = 0xFE;
-                                                        }
-                                                    }
-                                                }
+                                                CreateCollectRingEffectNoSfx(rx, ry);
                                             }
-                                            var_r5 += 2;
-                                            var_r3 = p->qWorldY;
-                                            var_r2 = p->qWorldX;
+                                            meRing->x = (u8)MAP_ENTITY_STATE_INITIALIZED;
                                         }
-                                        var_r1 = *var_r5;
-                                    } while (var_r1 != 0xFF);
+                                        meRing++;
+                                    }
                                 }
                             }
-                            var_r8 = (u32) (u16) sp38;
-                            var_r0 = (sp30->unk2 + (var_r2 >> 8) + 0x10) >> 8;
-                            goto loop_135;
                         }
-                        var_sl = (u32) (u16) sp3C;
-                        if ((var_sl <= ((sp30->unk3 + (var_r3 >> 8) + 8) >> 8)) && (var_sl < sp14)) {
-                            goto loop_112;
-                        }
-#endif
                     }
                 }
             }
