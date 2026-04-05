@@ -19,12 +19,12 @@ void Task_RingsMgrStage();
 void sub_802AB10(s16 arg0, s16 arg1, Player *p);
 void Task_802AB8C();
 void Task_802ACF0();
-extern u32 *gUnknown_080CEF58[];
+extern const u8 *const gSpritePosData_rings[];
 extern struct MP2KSongHeader song117;
 
 typedef struct RingsManager {
     /* 0x00 */ Sprite s;
-    /* 0x28 */ void *ringPositions;
+    /* 0x28 */ void *rings;
 } RingsManager;
 
 typedef struct RingsMgrUnk2C {
@@ -82,13 +82,13 @@ void CreateStageRingsManager(void)
         }
 
         // NOTE: First 4 byte of RL-compressed data contains uncompressed size.
-        ringsArray = gUnknown_080CEF58;
+        ringsArray = (u32 **)gSpritePosData_rings;
         ringsCompressed = &ringsArray[mapIndex];
         var_r5 = EwramMalloc(**ringsCompressed >> 8);
         RLUnCompWram(*ringsCompressed, var_r5);
     }
     temp_r0_2 = TASK_DATA(t);
-    temp_r0_2->ringPositions = var_r5;
+    temp_r0_2->rings = var_r5;
     s = &temp_r0_2->s;
     if (gStageData.gameMode < 6) {
         s->tiles = OBJ_VRAM0 + 0x4180;
@@ -228,7 +228,7 @@ NONMATCH("asm/non_matching/game/shared/rm__Task_RingsMgrStage.inc", void Task_Ri
 
     mgr = TASK_DATA(gCurTask);
     s = &mgr->s;
-    rings = mgr->ringPositions;
+    rings = mgr->rings;
     drawCount = 0;
     UpdateSpriteAnimation(s);
     if ((s->frameNum >> 28) == 0) {
@@ -504,11 +504,11 @@ void Task_RingsMgrExtraZone(void)
     mgr = TASK_DATA(gCurTask);
     s = &mgr->s;
 
-    rings = mgr->ringPositions;
+    rings = mgr->rings;
     mapIndex = gStageData.currMapIndex;
     drawCount = 0;
     if (gCamera.unk6A != 0) {
-        RLUnCompWram(gUnknown_080CEF58[mapIndex], rings);
+        RLUnCompWram(gSpritePosData_rings[mapIndex], rings);
     }
     if ((gStageData.zone == 8) && (gStageData.unk4 != 3)) {
         return;
@@ -768,5 +768,5 @@ void Task_802ACF0(void)
 void TaskDestructor_RingsMgr(Task *t)
 {
     RingsManager *mgr = TASK_DATA(t);
-    EwramFree(mgr->ringPositions);
+    EwramFree(mgr->rings);
 }
