@@ -59,7 +59,6 @@ typedef struct RingsMgrUnk30 {
         TO_REGION(b + a + offset);                                                                                                         \
     })
 
-#if 0
 void CreateStageRingsManager(void)
 {
     Task *t;
@@ -135,14 +134,14 @@ void CreateCollectRingEffect(s32 inWorldX, s32 inWorldY)
     // NOTE: Needs to be like this for matching, because:
     //       In enemy/bu_bu.c, CreateCollectRingEffect() gets called,
     //       without casting down to s16 on the call-site.
-    // 
+    //
     //       But EVERYTHING points at CreateCollectRingEffect taking two s16 values,
     //       so something must have gone wrong at the linking stage originally.
     //       To remedy this, we cast input values of CreateCollectRingEffect() down everywhere in this module.
     // TODO: ^^^ Find a better solution for this, if possible! ^^^
     s16 worldX = inWorldX;
     s16 worldY = inWorldY;
-    
+
     RingsMgrUnk2C *strc;
     Sprite *s;
     s32 var_r0;
@@ -247,7 +246,7 @@ NONMATCH("asm/non_matching/game/shared/rm__Task_RingsMgrStage.inc", void Task_Ri
     if ((GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode) || (gStageData.gameMode == GAME_MODE_5))) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             p = GET_SP_PLAYER_V0(i);
-        
+
             if (!(p->moveState & MOVESTATE_100) && (p->charFlags.anim0 != 0x66) && (p->unk48 == 0)) {
                 if ((p->charFlags.someIndex != 2) || !(gPlayers[p->charFlags.partnerIndex].moveState & MOVESTATE_100)) {
                     rect[0] = -p->spriteOffsetX;
@@ -280,7 +279,7 @@ NONMATCH("asm/non_matching/game/shared/rm__Task_RingsMgrStage.inc", void Task_Ri
                                         if ((i == 0) || (p->charFlags.someIndex == 2)) {
                                             AddRings(1);
                                         }
-                                        CreateCollectRingEffect(rx, ry);
+                                        CreateCollectRingEffect((s16)rx, (s16)ry);
 
                                         meRing->x = (u8)MAP_ENTITY_STATE_INITIALIZED;
                                     }
@@ -302,11 +301,10 @@ NONMATCH("asm/non_matching/game/shared/rm__Task_RingsMgrStage.inc", void Task_Ri
                             for (regionX = TO_REGION(gCamera.x); TO_WORLD_POS(0, regionX) < gCamera.x + DISPLAY_WIDTH; regionX++) {
                                 u32 offset = READ_START_INDEX(rings, h_regionCount, regionX, regionY);
 
-                                if(regionX >= h_regionCount) 
-                                {
+                                if (regionX >= h_regionCount) {
                                     break;
                                 }
-                                
+
                                 if (offset != 0) {
                                     meRing = DATA_START(rings) + offset;
                                     while (meRing->x != (u8)MAP_ENTITY_STATE_ARRAY_END) {
@@ -318,9 +316,8 @@ NONMATCH("asm/non_matching/game/shared/rm__Task_RingsMgrStage.inc", void Task_Ri
                                         rx = TO_WORLD_POS(meRing->x, regionX);
                                         ry = TO_WORLD_POS(meRing->y, regionY);
 
-                                        if (rx - gCamera.x < -TILE_WIDTH
-                                            || (rx - gCamera.x) + TILE_WIDTH > DISPLAY_WIDTH + 2 * TILE_WIDTH || ry - gCamera.y < 0
-                                            || (ry - gCamera.y) - 2 * TILE_WIDTH > DISPLAY_HEIGHT) {
+                                        if (rx - gCamera.x < -TILE_WIDTH || (rx - gCamera.x) + TILE_WIDTH > DISPLAY_WIDTH + 2 * TILE_WIDTH
+                                            || ry - gCamera.y < 0 || (ry - gCamera.y) - 2 * TILE_WIDTH > DISPLAY_HEIGHT) {
                                             meRing++;
                                         } else if ((((rx - 64) <= I(p->qWorldX)) && (rx + 64) >= I(p->qWorldX))
                                                    && (((ry - 72) <= I(p->qWorldY)) && ((ry + 56) >= I(p->qWorldY)))) {
@@ -365,7 +362,6 @@ NONMATCH("asm/non_matching/game/shared/rm__Task_RingsMgrStage.inc", void Task_Ri
                     }
                 }
             }
-        
         }
     } else {
         for (i = 0; i < 4; i++) {
@@ -404,12 +400,12 @@ NONMATCH("asm/non_matching/game/shared/rm__Task_RingsMgrStage.inc", void Task_Ri
                                         if (sp28 != 0) {
                                             if (gStageData.playerIndex == i) {
                                                 AddRings(1);
-                                                CreateCollectRingEffect(rx, ry);
+                                                CreateCollectRingEffect((s16)rx, (s16)ry);
                                             } else {
-                                                CreateCollectRingEffectNoSfx(rx, ry);
+                                                CreateCollectRingEffectNoSfx((s16)rx, (s16)ry);
                                             }
                                         } else {
-                                            CreateCollectRingEffectNoSfx(rx, ry);
+                                            CreateCollectRingEffectNoSfx((s16)rx, (s16)ry);
                                         }
                                         meRing->x = (u8)MAP_ENTITY_STATE_INITIALIZED;
                                     }
@@ -601,7 +597,7 @@ void Task_RingsMgrExtraZone(void)
                                     }
 #endif // (GAME == GAME_SA3)
 
-                                    CreateCollectRingEffect(rx, ry);
+                                    CreateCollectRingEffect((s16)rx, (s16)ry);
                                     meRing->x = (u8)MAP_ENTITY_STATE_INITIALIZED;
                                 }
                             }
@@ -774,4 +770,3 @@ void TaskDestructor_RingsMgr(Task *t)
     RingsManager *mgr = TASK_DATA(t);
     EwramFree(mgr->ringPositions);
 }
-#endif

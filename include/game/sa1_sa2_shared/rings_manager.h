@@ -35,6 +35,10 @@
 
 extern const u8 *const gSpritePosData_rings[NUM_LEVEL_IDS];
 
+void AddRings(s32 count);
 void CreateStageRingsManager(void);
+void CreateCollectRingEffect(
+    s32 param0, s32 param1); // NOTE: this *should* take s16 parameters, see comment inside CreateCollectRingEffect for more details!
+void CreateCollectRingEffectNoSfx(s16 worldX, s16 worldY);
 
 #endif // GUARD_RINGS_MANAGER_H
