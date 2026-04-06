@@ -16,7 +16,15 @@ gUnknown_080D1224:
 
     .global gUnknown_080D1348
 gUnknown_080D1348:
-    .incbin "baserom_sa3.gba", 0x000D1348, 0x124
+    .incbin "baserom_sa3.gba", 0x000D1348, 0x24
+
+    .global gUnknown_080D136C
+gUnknown_080D136C:
+    mPtr gUnknown_082BEF50
+    mPtr NULL
+    mPtr gUnknown_082C3608
+    mPtr gUnknown_082BF0B8
+    .incbin "baserom_sa3.gba", 0x000D137C, 0xF0
 
     .global gUnknown_080D146C
 gUnknown_080D146C:

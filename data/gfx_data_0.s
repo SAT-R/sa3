@@ -7,7 +7,11 @@
 
     .global gUnknown_082B9CD4
 gUnknown_082B9CD4:
-    .incbin "baserom_sa3.gba", 0x002B9CD4, 0x1464
+    .incbin "baserom_sa3.gba", 0x002B9CD4, 0x10
+
+    .global gUnknown_082B9CE4
+gUnknown_082B9CE4:
+    .incbin "baserom_sa3.gba", 0x002B9CE4, 0x1454
 
     .global zone1_act1_rings
 zone1_act1_rings:
@@ -32,11 +36,19 @@ sonic_factory_rings:
     @ Dummy for all capsule minigames (they do not have rings)
     .global zone1_bonus_capsule_rings
 zone1_bonus_capsule_rings:
-    .incbin "baserom_sa3.gba", 0x002BEE2C, 0x134
+    .incbin "baserom_sa3.gba", 0x002BEE2C, 0x124
+
+    .global gUnknown_082BEF50
+gUnknown_082BEF50:
+    .incbin "baserom_sa3.gba", 0x002BEF50, 0x10
 
     .global zone1_bonus_enemies_rings
 zone1_bonus_enemies_rings:
-    .incbin "baserom_sa3.gba", 0x002BEF60, 0x16C
+    .incbin "baserom_sa3.gba", 0x002BEF60, 0x158
+
+    .global gUnknown_082BF0B8
+gUnknown_082BF0B8:
+    .incbin "baserom_sa3.gba", 0x002BF0B8, 0x14
 
     .global zone2_zone_map_rings
 zone2_zone_map_rings:
@@ -52,7 +64,12 @@ zone2_act2_rings:
 
     .global zone2_act3_rings
 zone2_act3_rings:
-    .incbin "baserom_sa3.gba", 0x002C32D4, 0x344
+    .incbin "baserom_sa3.gba", 0x002C32D4, 0x334
+
+    .global gUnknown_082C3608
+gUnknown_082C3608:
+    .incbin "baserom_sa3.gba", 0x002C3608, 0x10
+    
 
     .global chao_playground_rings
 chao_playground_rings:
