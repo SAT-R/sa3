@@ -250,88 +250,84 @@ gUnknown_080CEF2C:
 
     .global gUnknown_080CEF50
 gUnknown_080CEF50:
-    .incbin "baserom_sa3.gba", 0x000CEF50, 0x8
+    .byte 0x00, 0x00, 0x46, 0x01, 0xE9, 0x01, 0x8C, 0x02
 
 @ ring positions
     .global gSpritePosData_rings
 gSpritePosData_rings:
-.if 01
-mPtr NULL               @ Zone 1
-mPtr zone1_sonic_factory_rings
-mPtr zone1_hub_rings
-mPtr zone1_act1_rings
-mPtr zone1_act2_rings
-mPtr zone1_act3_rings
-mPtr NULL @act4
-mPtr zone1_boss_rings
-mPtr zone1_bonus_capsule_rings
-mPtr zone1_bonus_enemies_rings
-.else
-mPtr NULL               @ Zone 2
-mPtr gUnknown_082C3618
-mPtr gUnknown_082BF0CC
-mPtr gUnknown_082C0998
-mPtr gUnknown_082C2010
-mPtr gUnknown_082C32D4
-mPtr NULL
-mPtr gUnknown_082D9DF0
-mPtr zone1_bonus_capsule_rings
-mPtr gUnknown_082C378C
-mPtr NULL               @ Zone 3
-mPtr NULL
-mPtr gUnknown_082C39B4
-mPtr gUnknown_082C4B50
-mPtr gUnknown_082C6398
-mPtr gUnknown_082C75CC
-mPtr NULL
-mPtr gUnknown_082D9E80
-mPtr zone1_bonus_capsule_rings
-mPtr gUnknown_082C7A4C
-mPtr NULL               @ Zone 4
-mPtr NULL
-mPtr gUnknown_082C7CA0
-mPtr gUnknown_082C885C
-mPtr gUnknown_082C960C
-mPtr gUnknown_082CA2FC
-mPtr NULL
-mPtr gUnknown_082D9F14
-mPtr zone1_bonus_capsule_rings
-mPtr gUnknown_082CA758
-mPtr NULL               @ Zone 5
-mPtr NULL
-mPtr gUnknown_082CA9B0
-mPtr gUnknown_082CBA9C
-mPtr gUnknown_082CD0C0
-mPtr gUnknown_082CE618
-mPtr NULL
-mPtr gUnknown_082D9FB4
-mPtr zone1_bonus_capsule_rings
-mPtr gUnknown_082CECAC
-mPtr NULL               @ Zone 6
-mPtr NULL
-mPtr gUnknown_082CEFD0
-mPtr gUnknown_082D1B34
-mPtr gUnknown_082D3634
-mPtr gUnknown_082D48B4
-mPtr NULL
-mPtr gUnknown_082DA040
-mPtr zone1_bonus_capsule_rings
-mPtr gUnknown_082D4E0C
-mPtr NULL               @ Zone 7
-mPtr NULL
-mPtr gUnknown_082D4FE8
-mPtr gUnknown_082D6864
-mPtr gUnknown_082D8AFC
-mPtr gUnknown_082D97D0
-mPtr NULL
-mPtr gUnknown_082DA0E0
-mPtr zone1_bonus_capsule_rings
-mPtr gUnknown_082D9B90
-mPtr NULL               @ Zone Final
-mPtr gUnknown_082D9BF0
-mPtr gUnknown_082D9C6C
-.endif
-    .incbin "baserom_sa3.gba", 0x000CEF58+(10*4), 63*4 @ size = <number of maps> * <size of pointer>
+    mPtr NULL               @ Zone 1
+    mPtr sonic_factory_rings
+    mPtr zone1_zone_map_rings
+    mPtr zone1_act1_rings
+    mPtr zone1_act2_rings
+    mPtr zone1_act3_rings
+    mPtr NULL @act4
+    mPtr zone1_boss_rings
+    mPtr zone1_bonus_capsule_rings
+    mPtr zone1_bonus_enemies_rings
+    mPtr NULL               @ Zone 2
+    mPtr chao_playground_rings
+    mPtr zone2_zone_map_rings
+    mPtr zone2_act1_rings
+    mPtr zone2_act2_rings
+    mPtr zone2_act3_rings
+    mPtr NULL
+    mPtr zone2_boss_rings
+    mPtr zone1_bonus_capsule_rings
+    mPtr zone2_bonus_enemies_rings
+    mPtr NULL               @ Zone 3
+    mPtr NULL
+    mPtr zone3_zone_map_rings
+    mPtr zone3_act1_rings
+    mPtr zone3_act2_rings
+    mPtr zone3_act3_rings
+    mPtr NULL
+    mPtr zone3_boss_rings
+    mPtr zone1_bonus_capsule_rings
+    mPtr zone3_bonus_enemies_rings
+    mPtr NULL               @ Zone 4
+    mPtr NULL
+    mPtr zone4_zone_map_rings
+    mPtr zone4_act1_rings
+    mPtr zone4_act2_rings
+    mPtr zone4_act3_rings
+    mPtr NULL
+    mPtr zone4_boss_rings
+    mPtr zone1_bonus_capsule_rings
+    mPtr zone4_bonus_enemies_rings
+    mPtr NULL               @ Zone 5
+    mPtr NULL
+    mPtr zone5_zone_map_rings
+    mPtr zone5_act1_rings
+    mPtr zone5_act2_rings
+    mPtr zone5_act3_rings
+    mPtr NULL
+    mPtr zone5_boss_rings
+    mPtr zone1_bonus_capsule_rings
+    mPtr zone5_bonus_enemies_rings
+    mPtr NULL               @ Zone 6
+    mPtr NULL
+    mPtr zone6_zone_map_rings
+    mPtr zone6_act1_rings
+    mPtr zone6_act2_rings
+    mPtr zone6_act3_rings
+    mPtr NULL
+    mPtr zone6_boss_rings
+    mPtr zone1_bonus_capsule_rings
+    mPtr zone6_bonus_enemies_rings
+    mPtr NULL               @ Zone 7
+    mPtr NULL
+    mPtr zone7_zone_map_rings
+    mPtr zone7_act1_rings
+    mPtr zone7_act2_rings
+    mPtr zone7_act3_rings
+    mPtr NULL
+    mPtr zone7_boss_rings
+    mPtr zone1_bonus_capsule_rings
+    mPtr zone7_bonus_enemies_rings
+    mPtr NULL               @ Zone Final
+    mPtr altar_emerald_rings
+    mPtr nonaggression_rings
 
     .global gSpriteInits_Enemies
 gSpriteInits_Enemies: @ 0x080CF07C
