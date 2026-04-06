@@ -11034,7 +11034,7 @@ _080269E0:
 	lsrs r0, r0, #0x16
 	cmp r1, r0
 	bhs _08026A06
-	bl sub_8029BB0
+	bl PlayRingCollectSE
 _08026A06:
 	ldrh r0, [r7, #0xe]
 	lsls r0, r0, #0x16
@@ -11080,7 +11080,7 @@ _08026A32:
 	cmp r0, #0
 	bne _08026AA0
 	adds r6, r1, #0
-	bl sub_8029BB0
+	bl PlayRingCollectSE
 	ldrh r0, [r7, #0xe]
 	lsls r0, r0, #0x16
 	lsrs r0, r0, #0x16

@@ -6,6 +6,7 @@
 #include "game/camera.h"
 #include "game/entity.h"
 #include "game/enemy_unknown.h"
+#include "game/sa1_sa2_shared/rings_manager.h"
 #include "module_unclear.h"
 #include "game/player.h"
 #include "game/stage.h"
@@ -235,7 +236,8 @@ bool32 sub_805EEB4(BuBu *enemy)
                 }
 
                 if ((mat1 == 1) && (mat2 == 1)) {
-                    sub_8029C54(I(strc->unk28[i].unk0), I(strc->unk28[i].unk4));
+                    // // NOTE: this *should* take s16 parameters, see comment inside CreateCollectRingEffect for more details!
+                    CreateCollectRingEffect(I(strc->unk28[i].unk0), I(strc->unk28[i].unk4));
                 }
             }
         }

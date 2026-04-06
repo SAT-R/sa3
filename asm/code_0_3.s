@@ -700,7 +700,7 @@ _0802B2AA:
 	lsls r1, r7, #0x10
 	asrs r0, r0, #0x10
 	asrs r1, r1, #0x10
-	bl sub_8029C54
+	bl CreateCollectRingEffect
 	cmp r5, #0
 	beq _0802B2CA
 	mov r2, r8
