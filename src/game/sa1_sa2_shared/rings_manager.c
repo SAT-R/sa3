@@ -61,7 +61,6 @@ typedef struct RingsMgrUnk30 {
         TO_REGION(b + a + offset);                                                                                                         \
     })
 
-//#if 0
 #ifndef COLLECT_RINGS_ROM
 const u8 *const gSpritePosData_rings[NUM_LEVEL_IDS] = {
     NULL,
