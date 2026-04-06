@@ -9,9 +9,11 @@
 #include "game/entity.h"
 #include "game/player.h"
 #include "game/stage.h"
+#include "game/assets/compressed/entities.h"
 #include "game/sa1_sa2_shared/rings_manager.h"
 #include "constants/animations.h"
 #include "constants/move_states.h"
+#include "constants/zones.h"
 
 void TaskDestructor_RingsMgr(Task *);
 void Task_RingsMgrExtraZone();
@@ -58,6 +60,85 @@ typedef struct RingsMgrUnk30 {
         s32 b = (bound);                                                                                                                   \
         TO_REGION(b + a + offset);                                                                                                         \
     })
+
+//#if 0
+#ifndef COLLECT_RINGS_ROM
+const u8 *const gSpritePosData_rings[NUM_LEVEL_IDS] = {
+    NULL,
+    sonic_factory_rings,
+    zone1_zone_map_rings,
+    zone1_act1_rings,
+    zone1_act2_rings,
+    zone1_act3_rings,
+    NULL,
+    zone1_boss_rings,
+    zone1_bonus_capsule_rings,
+    zone1_bonus_enemies_rings,
+    NULL,
+    chao_playground_rings,
+    zone2_zone_map_rings,
+    zone2_act1_rings,
+    zone2_act2_rings,
+    zone2_act3_rings,
+    NULL,
+    zone2_boss_rings,
+    zone1_bonus_capsule_rings,
+    zone2_bonus_enemies_rings,
+    NULL,
+    NULL,
+    zone3_zone_map_rings,
+    zone3_act1_rings,
+    zone3_act2_rings,
+    zone3_act3_rings,
+    NULL,
+    zone3_boss_rings,
+    zone1_bonus_capsule_rings,
+    zone3_bonus_enemies_rings,
+    NULL,
+    NULL,
+    zone4_zone_map_rings,
+    zone4_act1_rings,
+    zone4_act2_rings,
+    zone4_act3_rings,
+    NULL,
+    zone4_boss_rings,
+    zone1_bonus_capsule_rings,
+    zone4_bonus_enemies_rings,
+    NULL,
+    NULL,
+    zone5_zone_map_rings,
+    zone5_act1_rings,
+    zone5_act2_rings,
+    zone5_act3_rings,
+    NULL,
+    zone5_boss_rings,
+    zone1_bonus_capsule_rings,
+    zone5_bonus_enemies_rings,
+    NULL,
+    NULL,
+    zone6_zone_map_rings,
+    zone6_act1_rings,
+    zone6_act2_rings,
+    zone6_act3_rings,
+    NULL,
+    zone6_boss_rings,
+    zone1_bonus_capsule_rings,
+    zone6_bonus_enemies_rings,
+    NULL,
+    NULL,
+    zone7_zone_map_rings,
+    zone7_act1_rings,
+    zone7_act2_rings,
+    zone7_act3_rings,
+    NULL,
+    zone7_boss_rings,
+    zone1_bonus_capsule_rings,
+    zone7_bonus_enemies_rings,
+    NULL,
+    altar_emerald_rings,
+    nonaggression_rings,
+};
+#endif
 
 void CreateStageRingsManager(void)
 {
