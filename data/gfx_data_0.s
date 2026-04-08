@@ -19,7 +19,7 @@ gUnknown_082BB074:
 
     .global zone1_act1_rings
 zone1_act1_rings:
-    .incbin "baserom_sa3.gba", 0x002BB138, 0x798
+    .incbin "baserom_sa3.gba", 0x002BB138, 0x57C
 
     .global gUnknown_082BB6B4
 gUnknown_082BB6B4:
@@ -180,7 +180,7 @@ zone3_zone_map_rings:
 
     .global gUnknown_082C39C8
 gUnknown_082C39C8:
-    .incbin "baserom_sa3.gba", 0x002C39C8, 0x1188-0x14
+    .incbin "baserom_sa3.gba", 0x002C39C8, 0x10DC
 
     .global gUnknown_082C4AA4
 gUnknown_082C4AA4:
@@ -212,7 +212,7 @@ gUnknown_082C753C:
 
     .global zone3_act3_rings
 zone3_act3_rings:
-    .incbin "baserom_sa3.gba", 0x002C75CC, 0x470
+    .incbin "baserom_sa3.gba", 0x002C75CC, 0x32C
 
     .global gUnknown_082C78F8
 gUnknown_082C78F8:
@@ -256,7 +256,7 @@ gUnknown_082C8B20:
 
     .global gUnknown_082C9570
 gUnknown_082C9570:
-    .incbin "baserom_sa3.gba", 0x002C9570, 0xCF0
+    .incbin "baserom_sa3.gba", 0x002C9570, 0x9C
 
     .global zone4_act2_rings
 zone4_act2_rings:
@@ -268,7 +268,7 @@ gUnknown_082C99F0:
 
     .global gUnknown_082CA290
 gUnknown_082CA290:
-    .incbin "baserom_sa3.gba", 0x002CA290, 0x45C
+    .incbin "baserom_sa3.gba", 0x002CA290, 0x6C
 
     .global zone4_act3_rings
 zone4_act3_rings:
@@ -392,7 +392,7 @@ gUnknown_082D4844:
 
     .global zone6_act3_rings
 zone6_act3_rings:
-    .incbin "baserom_sa3.gba", 0x002D48B4, 0x558
+    .incbin "baserom_sa3.gba", 0x002D48B4, 0x2F4
     
     .global gUnknown_082D4BA8
 gUnknown_082D4BA8:
@@ -404,7 +404,7 @@ gUnknown_082D4DFC:
 
     .global zone6_bonus_enemies_rings
 zone6_bonus_enemies_rings:
-    .incbin "baserom_sa3.gba", 0x002D4E0C, 0x1DC
+    .incbin "baserom_sa3.gba", 0x002D4E0C, 0x10
 
     .global gUnknown_082D4E1C
 gUnknown_082D4E1C:
@@ -456,7 +456,7 @@ zone7_act3_rings:
 
     .global gUnknown_082D99AC
 gUnknown_082D99AC:
-    .incbin "baserom_sa3.gba", 0x002D99AC, 0x3C0
+    .incbin "baserom_sa3.gba", 0x002D99AC, 0x1D4
 
     .global gUnknown_082D9B80
 gUnknown_082D9B80:
