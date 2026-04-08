@@ -16,19 +16,159 @@ gUnknown_080D1224:
 
     .global gUnknown_080D1348
 gUnknown_080D1348:
-    .incbin "baserom_sa3.gba", 0x000D1348, 0x24
-
-    .global gUnknown_080D136C
-gUnknown_080D136C:
+    mPtr gUnknown_082BB8D0
+    mPtr gUnknown_082BEDCC
+    mPtr gUnknown_082BB8D0
+    mPtr gUnknown_082BB074
+    mPtr gUnknown_082BD0A0
+    mPtr gUnknown_082BE730
+    mPtr NULL
+    mPtr gUnknown_082D9D38
+    mPtr gUnknown_082BEE1C
     mPtr gUnknown_082BEF50
     mPtr NULL
     mPtr gUnknown_082C3608
     mPtr gUnknown_082BF0B8
-    .incbin "baserom_sa3.gba", 0x000D137C, 0xF0
+    mPtr gUnknown_082C0910
+    mPtr gUnknown_082C1F9C
+    mPtr gUnknown_082C3270
+    mPtr NULL
+    mPtr gUnknown_082D9DE0
+    mPtr gUnknown_082BEE1C
+    mPtr gUnknown_082C377C
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_082C39A0
+    mPtr gUnknown_082C4AA4
+    mPtr gUnknown_082C62E4
+    mPtr gUnknown_082C753C
+    mPtr NULL
+    mPtr gUnknown_082D9E70
+    mPtr gUnknown_082BEE1C
+    mPtr gUnknown_082C7A3C
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_082C7C8C
+    mPtr gUnknown_082C87B8
+    mPtr gUnknown_082C9570
+    mPtr gUnknown_082CA290
+    mPtr NULL
+    mPtr gUnknown_082D9F04
+    mPtr gUnknown_082BEE1C
+    mPtr gUnknown_082CA748
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_082CA99C
+    mPtr gUnknown_082CB9F4
+    mPtr gUnknown_082CCFFC
+    mPtr gUnknown_082CE54C
+    mPtr NULL
+    mPtr gUnknown_082D9FA0
+    mPtr gUnknown_082BEE1C
+    mPtr gUnknown_082CEC9C
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_082CEFBC
+    mPtr gUnknown_082D1A9C
+    mPtr gUnknown_082D3598
+    mPtr gUnknown_082D4844
+    mPtr NULL
+    mPtr gUnknown_082DA030
+    mPtr gUnknown_082BEE1C
+    mPtr gUnknown_082D4DFC
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_082D4FD4
+    mPtr gUnknown_082D67B0
+    mPtr gUnknown_082D89FC
+    mPtr gUnknown_082D97A8
+    mPtr NULL
+    mPtr gUnknown_082DA0CC
+    mPtr gUnknown_082BEE1C
+    mPtr gUnknown_082D9B80
+    mPtr NULL
+    mPtr gUnknown_082D9BE0
+    mPtr gUnknown_082D9C5C
 
     .global gUnknown_080D146C
 gUnknown_080D146C:
-    .incbin "baserom_sa3.gba", 0x000D146C, 0x2E4
+    mPtr gUnknown_082BB6B4
+    mPtr gUnknown_082BED20
+    mPtr gUnknown_082BB6B4
+    mPtr gUnknown_082B9CE4
+    mPtr gUnknown_082BB8F8
+    mPtr gUnknown_082BD7FC
+    mPtr NULL
+    mPtr gUnknown_082D9CE8
+    mPtr gUnknown_082BEDEC
+    mPtr gUnknown_082BEE3C
+    mPtr NULL
+    mPtr gUnknown_082C356C
+    mPtr gUnknown_082BEF70
+    mPtr gUnknown_082BF0E0
+    mPtr gUnknown_082C0CEC
+    mPtr gUnknown_082C22B0
+    mPtr NULL
+    mPtr gUnknown_082D9D98
+    mPtr gUnknown_082BEDEC
+    mPtr gUnknown_082C3628
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_082C379C
+    mPtr gUnknown_082C39C8
+    mPtr gUnknown_082C5078
+    mPtr gUnknown_082C6A54
+    mPtr NULL
+    mPtr gUnknown_082D9E30
+    mPtr gUnknown_082BEDEC
+    mPtr gUnknown_082C78F8
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_082C7A5C
+    mPtr gUnknown_082C7CB4
+    mPtr gUnknown_082C8B20
+    mPtr gUnknown_082C99F0
+    mPtr NULL
+    mPtr gUnknown_082D9EC4
+    mPtr gUnknown_082BEDEC
+    mPtr gUnknown_082CA5A0
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_082CA768
+    mPtr gUnknown_082CA9C4
+    mPtr gUnknown_082CBF44
+    mPtr gUnknown_082CD508
+    mPtr NULL
+    mPtr gUnknown_082D9F58
+    mPtr gUnknown_082BEDEC
+    mPtr gUnknown_082CEB6C
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_082CECBC
+    mPtr gUnknown_082CEFE4
+    mPtr gUnknown_082D20DC
+    mPtr gUnknown_082D3A78
+    mPtr NULL
+    mPtr gUnknown_082D9FF0
+    mPtr gUnknown_082BEDEC
+    mPtr gUnknown_082D4BA8
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_082D4E1C
+    mPtr gUnknown_082D4FFC
+    mPtr gUnknown_082D6D44
+    mPtr gUnknown_082D93AC
+    mPtr NULL
+    mPtr gUnknown_082DA088
+    mPtr gUnknown_082BEDEC
+    mPtr gUnknown_082D99AC
+    mPtr NULL
+    mPtr gUnknown_082D9BA0
+    mPtr gUnknown_082D9C3C    
+
+    .global gUnknown_080D1590
+gUnknown_080D1590:
+    .incbin "baserom_sa3.gba", 0x000D1590, 0x1C0
 
     @ Respawn positions.
     .global gUnknown_080D1750
