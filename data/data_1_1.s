@@ -8,11 +8,163 @@
 
     .global gCollisionTable
 gCollisionTable:
-    .incbin "baserom_sa3.gba", 0x000D1100, 0x124
+.if 0
+	mPtr gUnknown_083589A8
+    mPtr gUnknown_083AA298
+    mPtr gUnknown_083589A8
+    mPtr gUnknown_0838B954
+    mPtr gUnknown_0838FDB8
+    mPtr gUnknown_08394A28
+    mPtr NULL
+    mPtr gUnknown_085C848C
+    mPtr gUnknown_083FCA1C
+    mPtr gUnknown_083FCC40
+    mPtr NULL
+    mPtr gUnknown_0845854C
+    mPtr gUnknown_083FCFDC
+    mPtr gUnknown_084533D4
+    mPtr gUnknown_08455BE8
+    mPtr gUnknown_0845848C
+    mPtr NULL
+    mPtr gUnknown_085C86B0
+    mPtr gUnknown_083FCA1C
+    mPtr gUnknown_08458770
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_08458C14
+    mPtr gUnknown_0848AB5C
+    mPtr gUnknown_0848E8B8
+    mPtr gUnknown_084912C8
+    mPtr NULL
+    mPtr gUnknown_085C8824
+    mPtr gUnknown_083FCA1C
+    mPtr gUnknown_084914E4
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_08491990
+    mPtr gUnknown_084C5454
+    mPtr gUnknown_084CA194
+    mPtr gUnknown_084CC9D8
+    mPtr NULL
+    mPtr gUnknown_085C89A4
+    mPtr gUnknown_083FCA1C
+    mPtr gUnknown_084CCBA4
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_084CCF90
+    mPtr gUnknown_08500CD4
+    mPtr gUnknown_085065A8
+    mPtr gUnknown_0850C6F4
+    mPtr NULL
+    mPtr gUnknown_085C8FA4
+    mPtr gUnknown_083FCA1C
+    mPtr gUnknown_0850C900
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_0850CE2C
+    mPtr gUnknown_085674E0
+    mPtr gUnknown_0856A9A4
+    mPtr gUnknown_0856CDEC
+    mPtr NULL
+    mPtr gUnknown_085C9218
+    mPtr gUnknown_083FCA1C
+    mPtr gUnknown_0856D010
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_0856D57C
+    mPtr gUnknown_085A487C
+    mPtr gUnknown_085AE16C
+    mPtr gUnknown_085B08E8
+    mPtr NULL
+    mPtr gUnknown_085C959C
+    mPtr gUnknown_083FCA1C
+    mPtr gUnknown_085B0B38
+    mPtr NULL
+	mPtr gUnknown_085BD900
+	mPtr gUnknown_085C82F4
+.else
+    .incbin "baserom_sa3.gba", 0x000D1100, (73*4)
+.endif
 
     .global gUnknown_080D1224
 gUnknown_080D1224:
-    .incbin "baserom_sa3.gba", 0x000D1224, 0x124
+.if 01
+    mPtr gUnknown_082BB6C8
+    mPtr gUnknown_082BED30
+    mPtr gUnknown_082BB6C8
+    mPtr gUnknown_082B9E78
+    mPtr gUnknown_082BBB00
+    mPtr gUnknown_082BD9DC
+    mPtr NULL
+    mPtr gUnknown_082D9CF8
+    mPtr gUnknown_082BEDFC
+    mPtr gUnknown_082BEEC4
+    mPtr NULL
+    mPtr gUnknown_082C357C
+    mPtr gUnknown_082BEF84
+    mPtr gUnknown_082BF224
+    mPtr gUnknown_082C0E00
+    mPtr gUnknown_082C23D8
+    mPtr NULL
+    mPtr gUnknown_082D9DA8
+    mPtr gUnknown_082BEDFC
+    mPtr gUnknown_082C36A0
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_082C37B0
+    mPtr gUnknown_082C3BC0
+    mPtr gUnknown_082C52F0
+    mPtr gUnknown_082C6C30
+    mPtr NULL
+    mPtr gUnknown_082D9E40
+    mPtr gUnknown_082BEDFC
+    mPtr gUnknown_082C796C
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_082C7A70
+    mPtr gUnknown_082C7DC4
+    mPtr gUnknown_082C8C30
+    mPtr gUnknown_082C9AF8
+    mPtr NULL
+    mPtr gUnknown_082D9ED4
+    mPtr gUnknown_082BEDFC
+    mPtr gUnknown_082CA628
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_082CA77C
+    mPtr gUnknown_082CAB6C
+    mPtr gUnknown_082CC1C8
+    mPtr gUnknown_082CD734
+    mPtr NULL
+    mPtr gUnknown_082D9F6C
+    mPtr gUnknown_082BEDFC
+    mPtr gUnknown_082CEBF0
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_082CECD0
+    mPtr gUnknown_082CF1B0
+    mPtr gUnknown_082D21F0
+    mPtr gUnknown_082D3B58
+    mPtr NULL
+    mPtr gUnknown_082DA000
+    mPtr gUnknown_082BEDFC
+    mPtr gUnknown_082D4C34
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_082D4E30
+    mPtr gUnknown_082D5174
+    mPtr gUnknown_082D723C
+    mPtr gUnknown_082D947C
+    mPtr NULL
+    mPtr gUnknown_082DA09C
+    mPtr gUnknown_082BEDFC
+    mPtr gUnknown_082D9A2C
+    mPtr NULL
+    mPtr gUnknown_082D9BB0
+	mPtr gUnknown_082D9C4C
+.else
+    .incbin "baserom_sa3.gba", 0x000D1224, (73*4)
+.endif
 
     .global gUnknown_080D1348
 gUnknown_080D1348:
@@ -90,6 +242,7 @@ gUnknown_080D1348:
     mPtr gUnknown_082D9BE0
     mPtr gUnknown_082D9C5C
 
+    @ RL-compressed data
     .global gUnknown_080D146C
 gUnknown_080D146C:
     mPtr gUnknown_082BB6B4
@@ -173,11 +326,15 @@ gUnknown_080D1590:
     @ Respawn positions.
     .global gUnknown_080D1750
 gUnknown_080D1750:
-    .incbin "baserom_sa3.gba", 0x000D1750, 0x1CC
+    .incbin "baserom_sa3.gba", 0x000D1750, (73*4)
+
+    .global gUnknown_080D1874
+gUnknown_080D1874:
+    .incbin "baserom_sa3.gba", 0x000D1874, 0xA8
 
     .global gUnknown_080D191C
 gUnknown_080D191C:
-    .incbin "baserom_sa3.gba", 0x000D191C, 0x124
+    .incbin "baserom_sa3.gba", 0x000D191C, (73*4)
 
     .global gMedalTimes
 gMedalTimes:
