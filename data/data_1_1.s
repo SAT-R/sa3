@@ -311,14 +311,353 @@ gUnknown_080D146C:
     mPtr gUnknown_082D9BA0
     mPtr gUnknown_082D9C3C    
 
+@ Respawn position data
     .global gUnknown_080D1590
 gUnknown_080D1590:
-    .incbin "baserom_sa3.gba", 0x000D1590, 0x1C0
+    .short 0x015A, 0x0101
+    .short 0x020E, 0x0101
+    .short 0x002E, 0x0071
 
-    @ Respawn positions.
-    .global gUnknown_080D1750
-gUnknown_080D1750:
-    .incbin "baserom_sa3.gba", 0x000D1750, (73*4)
+    .global gUnknown_080D159C
+gUnknown_080D159C:
+    .short 0x0038, 0x0250
+    .short 0x0300, 0x0108
+    .short 0x05A0, 0x0108
+    .short 0x0960, 0x0258
+    .short 0x00EE, 0x0081
+    .short 0x0920, 0x00B1
+    .short 0x05D2, 0x0201
+    .short 0x0331, 0x0231
+
+    .global gUnknown_080D15BC
+gUnknown_080D15BC:
+	.short 0x0090, 0x0171
+
+    .global gUnknown_080D15C0
+gUnknown_080D15C0:
+    .short 0x0090, 0x09B1
+
+    .global gUnknown_080D15C4
+gUnknown_080D15C4:
+    .short 0x0090, 0x03E1
+
+    .global gUnknown_080D15C8
+gUnknown_080D15C8:
+    .short 0x0090, 0x00B1
+
+    .global gUnknown_080D15CC
+gUnknown_080D15CC:
+    .short 0x0022, 0x0081
+
+    .global gUnknown_080D15D0
+gUnknown_080D15D0:
+    .short 0x0030, 0x0261
+
+    .global gUnknown_080D15D4
+gUnknown_080D15D4:
+    .short 0x025E, 0x0100
+    .short 0x012C, 0x0100
+
+    .global gUnknown_080D15DC
+gUnknown_080D15DC:
+    .short 0x0030, 0x03D0
+    .short 0x02A0, 0x03D8
+    .short 0x0300, 0x0228
+    .short 0x03A8, 0x0168
+    .short 0x0458, 0x0111
+    .short 0x0105, 0x0171
+    .short 0x05E8, 0x03B1
+    .short 0x004A, 0x0231
+
+    .global gUnknown_080D15FC
+gUnknown_080D15FC:
+    .short 0x0090, 0x0654
+
+    .global gUnknown_080D1600
+gUnknown_080D1600:
+    .short 0x0090, 0x0474
+
+    .global gUnknown_080D1604
+gUnknown_080D1604:
+    .short 0x04B0, 0x0B34
+    .short 0x08A2, 0x08F1
+
+    .global gUnknown_080D160C
+gUnknown_080D160C:
+    .short 0x0090, 0x0114
+
+    .global gUnknown_080D1610
+gUnknown_080D1610:
+    .short 0x0022, 0x0081
+
+    .global gUnknown_080D1614
+gUnknown_080D1614:
+    .short 0x00C0, 0x0381
+
+    .global gUnknown_080D1618
+gUnknown_080D1618:
+    .short 0x0098, 0x0610
+    .short 0x0420, 0x0558
+    .short 0x0180, 0x0468
+    .short 0x04E8, 0x02E8
+    .short 0x04B8, 0x0144
+    .short 0x02EC, 0x0111
+    .short 0x0542, 0x0411
+    .short 0x0049, 0x0381
+
+    .global gUnknown_080D1638
+gUnknown_080D1638:
+    .short 0x0270, 0x1791
+
+    .global gUnknown_080D163C
+gUnknown_080D163C:
+    .short 0x0330, 0x15B1
+    .short 0x0780, 0x0D11
+
+    .global gUnknown_080D1644
+gUnknown_080D1644:
+    .short 0x0090, 0x0111
+
+    .global gUnknown_080D1648
+gUnknown_080D1648:
+    .short 0x0090, 0x00B1
+
+    .global gUnknown_080D164C
+gUnknown_080D164C:
+    .short 0x0022, 0x0081
+
+    .global gUnknown_080D1650
+gUnknown_080D1650:
+    .short 0x01B5, 0x0441
+
+    .global gUnknown_080D1654
+gUnknown_080D1654:
+    .short 0x0038, 0x0520
+    .short 0x01E0, 0x0468
+    .short 0x0218, 0x0378
+    .short 0x05A0, 0x0408
+    .short 0x010E, 0x00B1
+    .short 0x038F, 0x00B1
+    .short 0x0371, 0x03B1
+    .short 0x05F4, 0x02F1
+
+    .global gUnknown_080D1674
+gUnknown_080D1674:
+    .short 0x0070, 0x06B1
+
+    .global gUnknown_080D1678
+gUnknown_080D1678:
+    .short 0x0090, 0x0651
+    .short 0x28AC, 0x0351
+
+    .global gUnknown_080D1680
+gUnknown_080D1680:
+    .short 0x0090, 0x0561
+
+    .global gUnknown_080D1684
+gUnknown_080D1684:
+    .short 0x0090, 0x0081
+
+    .global gUnknown_080D1688
+gUnknown_080D1688:
+    .short 0x0022, 0x0081
+
+    .global gUnknown_080D168C
+gUnknown_080D168C:
+    .short 0x00A0, 0x03E1
+
+    .global gUnknown_080D1690
+gUnknown_080D1690:
+    .short 0x0278, 0x0130
+    .short 0x0480, 0x00A8
+    .short 0x0378, 0x0228
+    .short 0x00F0, 0x0258
+    .short 0x017F, 0x00B1
+    .short 0x025F, 0x03E1
+    .short 0x037A, 0x0441
+    .short 0x0514, 0x03B1
+
+    .global gUnknown_080D16B0
+gUnknown_080D16B0:
+    .short 0x0090, 0x0411
+
+    .global gUnknown_080D16B4
+gUnknown_080D16B4:
+    .short 0x0090, 0x04A1
+
+    .global gUnknown_080D16B8
+gUnknown_080D16B8:
+    .short 0x0090, 0x0231
+    .short 0x1B92, 0x0651
+
+    .global gUnknown_080D16C0
+gUnknown_080D16C0:
+    .short 0x0090, 0x0591
+
+    .global gUnknown_080D16C4
+gUnknown_080D16C4:
+    .short 0x0022, 0x0081
+
+    .global gUnknown_080D16C8
+gUnknown_080D16C8:
+    .short 0x0067, 0x0141
+
+    .global gUnknown_080D16CC
+gUnknown_080D16CC:
+    .short 0x00A8, 0x0220
+    .short 0x0348, 0x0228
+    .short 0x0640, 0x0138
+    .short 0x0350, 0x0438
+    .short 0x036E, 0x00B1
+    .short 0x063F, 0x03E1
+    .short 0x035F, 0x0351
+    .short 0x00AD, 0x0351
+
+    .global gUnknown_080D16EC
+gUnknown_080D16EC:
+    .short 0x0090, 0x0291
+
+    .global gUnknown_080D16F0
+gUnknown_080D16F0:
+    .short 0x0090, 0x0741
+
+    .global gUnknown_080D16F4
+gUnknown_080D16F4:
+    .short 0x0090, 0x00B1
+    .short 0x0A6E, 0x0471
+
+    .global gUnknown_080D16FC
+gUnknown_080D16FC:
+    .short 0x0090, 0x0083
+    .short 0x0000, 0x0000
+
+    .global gUnknown_080D1704
+gUnknown_080D1704:
+    .short 0x0022, 0x0081
+
+    .global gUnknown_080D1708
+gUnknown_080D1708:
+    .short 0x0147, 0x0351
+
+    .global gUnknown_080D170C
+gUnknown_080D170C:
+    .short 0x00E0, 0x0430
+    .short 0x03C0, 0x0470
+    .short 0x0530, 0x0318
+    .short 0x02C0, 0x0348
+    .short 0x070D, 0x04D1
+    .short 0x03D3, 0x01A1
+    .short 0x019F, 0x03B1
+    .short 0x0477, 0x0291
+    .short 0x01B0, 0x00A8
+
+    .global gUnknown_080D1730
+gUnknown_080D1730:
+    .short 0x0090, 0x0DD1
+
+    .global gUnknown_080D1734
+gUnknown_080D1734:
+    .short 0x0090, 0x0E31
+
+    .global gUnknown_080D1738
+gUnknown_080D1738:
+    .short 0x0090, 0x0351
+
+    .global gUnknown_080D173C
+gUnknown_080D173C:
+    .short 0x0090, 0x00B1
+
+    .global gUnknown_080D1740
+gUnknown_080D1740:
+    .short 0x0022, 0x0081
+
+    .global gUnknown_080D1744
+gUnknown_080D1744:
+    .short 0x0081, 0x03B1
+
+    .global gUnknown_080D1748
+gUnknown_080D1748:
+    .short 0x0064, 0x00B1
+    .global gUnknown_080D174C
+gUnknown_080D174C:
+    .short 0x0064, 0x0000
+
+@ Respawn position pointers (one ptr per stage).
+    .global gRespawnPositions
+gRespawnPositions:
+    mPtr NULL
+    mPtr gUnknown_080D1590
+    mPtr gUnknown_080D159C
+    mPtr gUnknown_080D15BC
+    mPtr gUnknown_080D15C0
+    mPtr gUnknown_080D15C4
+    mPtr NULL
+    mPtr gUnknown_080D15C8
+    mPtr gUnknown_080D15CC
+    mPtr gUnknown_080D15D0
+    mPtr NULL
+    mPtr gUnknown_080D15D4
+    mPtr gUnknown_080D15DC
+    mPtr gUnknown_080D15FC
+    mPtr gUnknown_080D1600
+    mPtr gUnknown_080D1604
+    mPtr NULL
+    mPtr gUnknown_080D160C
+    mPtr gUnknown_080D1610
+    mPtr gUnknown_080D1614
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_080D1618
+    mPtr gUnknown_080D1638
+    mPtr gUnknown_080D163C
+    mPtr gUnknown_080D1644
+    mPtr NULL
+    mPtr gUnknown_080D1648
+    mPtr gUnknown_080D164C
+    mPtr gUnknown_080D1650
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_080D1654
+    mPtr gUnknown_080D1674
+    mPtr gUnknown_080D1678
+    mPtr gUnknown_080D1680
+    mPtr NULL
+    mPtr gUnknown_080D1684
+    mPtr gUnknown_080D1688
+    mPtr gUnknown_080D168C
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_080D1690
+    mPtr gUnknown_080D16B0
+    mPtr gUnknown_080D16B4
+    mPtr gUnknown_080D16B8
+    mPtr NULL
+    mPtr gUnknown_080D16C0
+    mPtr gUnknown_080D16C4
+    mPtr gUnknown_080D16C8
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_080D16CC
+    mPtr gUnknown_080D16EC
+    mPtr gUnknown_080D16F0
+    mPtr gUnknown_080D16F4
+    mPtr NULL
+    mPtr gUnknown_080D16FC
+    mPtr gUnknown_080D1704
+    mPtr gUnknown_080D1708
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_080D170C
+    mPtr gUnknown_080D1730
+    mPtr gUnknown_080D1734
+    mPtr gUnknown_080D1738
+    mPtr NULL
+    mPtr gUnknown_080D173C
+    mPtr gUnknown_080D1740
+    mPtr gUnknown_080D1744
+    mPtr NULL
+    mPtr gUnknown_080D1748
+    mPtr gUnknown_080D174C
 
     .global gUnknown_080D1874
 gUnknown_080D1874:

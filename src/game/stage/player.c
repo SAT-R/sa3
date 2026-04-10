@@ -275,7 +275,7 @@ extern s16 gUnknown_080CECC6[RSF_COUNT];
 extern s16 gUnknown_080CECD0[NUM_CHARACTERS][2];
 extern s16 gUnknown_080CECE4[NUM_CHARACTERS][2];
 extern u16 gUnknown_080D05A8[][2];
-extern Vec2_16 *gUnknown_080D1750[];
+extern Vec2_16 *gRespawnPositions[];
 
 extern PlayerSpriteInfo gUnknown_030010D0; // Tails
 extern PlayerSpriteInfo gUnknown_0300110C; // Cream
@@ -13070,11 +13070,11 @@ void sub_8013D70(s32 levelIndex, s32 arg1)
     p = &gPlayers[arg1];
     entryIndex = gStageData.entryIndex;
     if (GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode) || gStageData.gameMode == GAME_MODE_5) {
-        gStageData.respawnX = gUnknown_080D1750[levelIndex][entryIndex].x;
-        gStageData.respawnY = gUnknown_080D1750[levelIndex][entryIndex].y;
+        gStageData.respawnX = gRespawnPositions[levelIndex][entryIndex].x;
+        gStageData.respawnY = gRespawnPositions[levelIndex][entryIndex].y;
     } else if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
-        gStageData.respawnX = gUnknown_080D1750[levelIndex][entryIndex].x;
-        gStageData.respawnY = gUnknown_080D1750[levelIndex][entryIndex].y;
+        gStageData.respawnX = gRespawnPositions[levelIndex][entryIndex].x;
+        gStageData.respawnY = gRespawnPositions[levelIndex][entryIndex].y;
     } else {
         memcpy(sp00, &gUnknown_080CE6A8, 0x10);
         if (gStageData.playerIndex == arg1) {

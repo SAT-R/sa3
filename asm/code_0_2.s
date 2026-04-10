@@ -2075,7 +2075,7 @@ _08022440:
 	bl DisplaySprite
 	movs r1, #0
 	strb r1, [r7, #0x1f]
-	ldr r0, _08022554 @ =gUnknown_080D1750
+	ldr r0, _08022554 @ =gRespawnPositions
 	ldr r2, _08022534 @ =gStageData
 	ldrh r1, [r2, #0xe]
 	lsls r1, r1, #2
@@ -2147,7 +2147,7 @@ _08022544: .4byte 0x000087EF
 _08022548: .4byte gUnknown_080CF936
 _0802254C: .4byte 0xFFFFFE74
 _08022550: .4byte gUnknown_080CF8BC
-_08022554: .4byte gUnknown_080D1750
+_08022554: .4byte gRespawnPositions
 _08022558: .4byte gUnknown_080D191C
 _0802255C: .4byte gPlayers
 _08022560:
