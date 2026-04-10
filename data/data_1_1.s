@@ -8,87 +8,82 @@
 
     .global gCollisionTable
 gCollisionTable:
-.if 0
-	mPtr gUnknown_083589A8
-    mPtr gUnknown_083AA298
-    mPtr gUnknown_083589A8
-    mPtr gUnknown_0838B954
-    mPtr gUnknown_0838FDB8
-    mPtr gUnknown_08394A28
+	mPtr CollHeader_zone_1_act_hub_fg
+    mPtr CollHeader_zone_1_act_special_fg
+    mPtr CollHeader_zone_1_act_hub_fg
+    mPtr CollHeader_zone_1_act_1_fg
+    mPtr CollHeader_zone_1_act_2_fg
+    mPtr CollHeader_zone_1_act_3_fg
     mPtr NULL
-    mPtr gUnknown_085C848C
-    mPtr gUnknown_083FCA1C
-    mPtr gUnknown_083FCC40
+    mPtr CollHeader_zone_1_act_boss_fg
+    mPtr CollHeader_zone_1_act_bonus_capsule_fg
+    mPtr CollHeader_zone_1_act_bonus_enemy_fg
     mPtr NULL
-    mPtr gUnknown_0845854C
-    mPtr gUnknown_083FCFDC
-    mPtr gUnknown_084533D4
-    mPtr gUnknown_08455BE8
-    mPtr gUnknown_0845848C
+    mPtr CollHeader_zone_2_act_special_fg
+    mPtr CollHeader_zone_2_act_hub_fg
+    mPtr CollHeader_zone_2_act_1_fg
+    mPtr CollHeader_zone_2_act_2_fg
+    mPtr CollHeader_zone_2_act_3_fg
     mPtr NULL
-    mPtr gUnknown_085C86B0
-    mPtr gUnknown_083FCA1C
-    mPtr gUnknown_08458770
-    mPtr NULL
-    mPtr NULL
-    mPtr gUnknown_08458C14
-    mPtr gUnknown_0848AB5C
-    mPtr gUnknown_0848E8B8
-    mPtr gUnknown_084912C8
-    mPtr NULL
-    mPtr gUnknown_085C8824
-    mPtr gUnknown_083FCA1C
-    mPtr gUnknown_084914E4
+    mPtr CollHeader_zone_2_act_boss_fg
+    mPtr CollHeader_zone_1_act_bonus_capsule_fg
+    mPtr CollHeader_zone_2_act_bonus_enemy_fg
     mPtr NULL
     mPtr NULL
-    mPtr gUnknown_08491990
-    mPtr gUnknown_084C5454
-    mPtr gUnknown_084CA194
-    mPtr gUnknown_084CC9D8
+    mPtr CollHeader_zone_3_act_hub_fg
+    mPtr CollHeader_zone_3_act_1_fg
+    mPtr CollHeader_zone_3_act_2_fg
+    mPtr CollHeader_zone_3_act_3_fg
     mPtr NULL
-    mPtr gUnknown_085C89A4
-    mPtr gUnknown_083FCA1C
-    mPtr gUnknown_084CCBA4
-    mPtr NULL
-    mPtr NULL
-    mPtr gUnknown_084CCF90
-    mPtr gUnknown_08500CD4
-    mPtr gUnknown_085065A8
-    mPtr gUnknown_0850C6F4
-    mPtr NULL
-    mPtr gUnknown_085C8FA4
-    mPtr gUnknown_083FCA1C
-    mPtr gUnknown_0850C900
+    mPtr CollHeader_zone_3_act_boss_fg
+    mPtr CollHeader_zone_1_act_bonus_capsule_fg
+    mPtr CollHeader_zone_3_act_bonus_enemy_fg
     mPtr NULL
     mPtr NULL
-    mPtr gUnknown_0850CE2C
-    mPtr gUnknown_085674E0
-    mPtr gUnknown_0856A9A4
-    mPtr gUnknown_0856CDEC
+    mPtr CollHeader_zone_4_act_hub_fg
+    mPtr CollHeader_zone_4_act_1_fg
+    mPtr CollHeader_zone_4_act_2_fg
+    mPtr CollHeader_zone_4_act_3_fg
     mPtr NULL
-    mPtr gUnknown_085C9218
-    mPtr gUnknown_083FCA1C
-    mPtr gUnknown_0856D010
+    mPtr CollHeader_zone_4_act_boss_fg
+    mPtr CollHeader_zone_1_act_bonus_capsule_fg
+    mPtr CollHeader_zone_4_act_bonus_enemy_fg
     mPtr NULL
     mPtr NULL
-    mPtr gUnknown_0856D57C
-    mPtr gUnknown_085A487C
-    mPtr gUnknown_085AE16C
-    mPtr gUnknown_085B08E8
+    mPtr CollHeader_zone_5_act_hub_fg
+    mPtr CollHeader_zone_5_act_1_fg
+    mPtr CollHeader_zone_5_act_2_fg
+    mPtr CollHeader_zone_5_act_3_fg
     mPtr NULL
-    mPtr gUnknown_085C959C
-    mPtr gUnknown_083FCA1C
-    mPtr gUnknown_085B0B38
+    mPtr CollHeader_zone_5_act_boss_fg
+    mPtr CollHeader_zone_1_act_bonus_capsule_fg
+    mPtr CollHeader_zone_5_act_bonus_enemy_fg
     mPtr NULL
-	mPtr gUnknown_085BD900
-	mPtr gUnknown_085C82F4
-.else
-    .incbin "baserom_sa3.gba", 0x000D1100, (73*4)
-.endif
+    mPtr NULL
+    mPtr CollHeader_zone_6_act_hub_fg
+    mPtr CollHeader_zone_6_act_1_fg
+    mPtr CollHeader_zone_6_act_2_fg
+    mPtr CollHeader_zone_6_act_3_fg
+    mPtr NULL
+    mPtr CollHeader_zone_6_act_boss_fg
+    mPtr CollHeader_zone_1_act_bonus_capsule_fg
+    mPtr CollHeader_zone_6_act_bonus_enemy_fg
+    mPtr NULL
+    mPtr NULL
+    mPtr CollHeader_zone_7_act_hub_fg
+    mPtr CollHeader_zone_7_act_1_fg
+    mPtr CollHeader_zone_7_act_2_fg
+    mPtr CollHeader_zone_7_act_3_fg
+    mPtr NULL
+    mPtr CollHeader_zone_7_act_boss_fg
+    mPtr CollHeader_zone_1_act_bonus_capsule_fg
+    mPtr CollHeader_zone_7_act_bonus_enemy_fg
+    mPtr NULL
+	mPtr CollHeader_zone_final_act_altar_emerald_fg
+	mPtr CollHeader_zone_final_act_nonaggression_fg
 
     .global gUnknown_080D1224
 gUnknown_080D1224:
-.if 01
     mPtr gUnknown_082BB6C8
     mPtr gUnknown_082BED30
     mPtr gUnknown_082BB6C8
@@ -162,9 +157,6 @@ gUnknown_080D1224:
     mPtr NULL
     mPtr gUnknown_082D9BB0
 	mPtr gUnknown_082D9C4C
-.else
-    .incbin "baserom_sa3.gba", 0x000D1224, (73*4)
-.endif
 
     .global gUnknown_080D1348
 gUnknown_080D1348:
