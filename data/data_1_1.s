@@ -322,11 +322,163 @@ gUnknown_080D1750:
 
     .global gUnknown_080D1874
 gUnknown_080D1874:
-    .incbin "baserom_sa3.gba", 0x000D1874, 0xA8
+    .incbin "baserom_sa3.gba", 0x000D1874, 0x8
+
+    .global gUnknown_080D187C
+gUnknown_080D187C:
+    .incbin "baserom_sa3.gba", 0x000D187C, 0x8
+
+    .global gUnknown_080D1884
+gUnknown_080D1884:
+    .incbin "baserom_sa3.gba", 0x000D1884, 0x8
+
+    .global gUnknown_080D188C
+gUnknown_080D188C:
+    .incbin "baserom_sa3.gba", 0x000D188C, 0x8
+
+    .global gUnknown_080D1894
+gUnknown_080D1894:
+    .incbin "baserom_sa3.gba", 0x000D1894, 0x8
+
+    .global gUnknown_080D189C
+gUnknown_080D189C:
+    .incbin "baserom_sa3.gba", 0x000D189C, 0x8
+
+    .global gUnknown_080D18A4
+gUnknown_080D18A4:
+    .incbin "baserom_sa3.gba", 0x000D18A4, 0x8
+
+    .global gUnknown_080D18AC
+gUnknown_080D18AC:
+    .incbin "baserom_sa3.gba", 0x000D18AC, 0x8
+
+    .global gUnknown_080D18B4
+gUnknown_080D18B4:
+    .incbin "baserom_sa3.gba", 0x000D18B4, 0x8
+
+    .global gUnknown_080D18BC
+gUnknown_080D18BC:
+    .incbin "baserom_sa3.gba", 0x000D18BC, 0x8
+
+    .global gUnknown_080D18C4
+gUnknown_080D18C4:
+    .incbin "baserom_sa3.gba", 0x000D18C4, 0x8
+
+    .global gUnknown_080D18CC
+gUnknown_080D18CC:
+    .incbin "baserom_sa3.gba", 0x000D18CC, 0x8
+
+    .global gUnknown_080D18D4
+gUnknown_080D18D4:
+    .incbin "baserom_sa3.gba", 0x000D18D4, 0x8
+
+    .global gUnknown_080D18DC
+gUnknown_080D18DC:
+    .incbin "baserom_sa3.gba", 0x000D18DC, 0x8
+
+    .global gUnknown_080D18E4
+gUnknown_080D18E4:
+    .incbin "baserom_sa3.gba", 0x000D18E4, 0x8
+
+    .global gUnknown_080D18EC
+gUnknown_080D18EC:
+    .incbin "baserom_sa3.gba", 0x000D18EC, 0x8
+
+    .global gUnknown_080D18F4
+gUnknown_080D18F4:
+    .incbin "baserom_sa3.gba", 0x000D18F4, 0x8
+
+    .global gUnknown_080D18FC
+gUnknown_080D18FC:
+    .incbin "baserom_sa3.gba", 0x000D18FC, 0x8
+
+    .global gUnknown_080D1904
+gUnknown_080D1904:
+    .incbin "baserom_sa3.gba", 0x000D1904, 0x8
+
+    .global gUnknown_080D190C
+gUnknown_080D190C:
+    .incbin "baserom_sa3.gba", 0x000D190C, 0x8
+
+    .global gUnknown_080D1914
+gUnknown_080D1914:
+    .incbin "baserom_sa3.gba", 0x000D1914, 0x8
 
     .global gUnknown_080D191C
 gUnknown_080D191C:
-    .incbin "baserom_sa3.gba", 0x000D191C, (73*4)
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_080D1874
+    mPtr gUnknown_080D187C
+    mPtr gUnknown_080D1884
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_080D188C
+    mPtr gUnknown_080D1894
+    mPtr gUnknown_080D189C
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_080D18A4
+    mPtr gUnknown_080D18AC
+    mPtr gUnknown_080D18B4
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_080D18BC
+    mPtr gUnknown_080D18C4
+    mPtr gUnknown_080D18CC
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_080D18D4
+    mPtr gUnknown_080D18DC
+    mPtr gUnknown_080D18E4
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_080D18EC
+    mPtr gUnknown_080D18F4
+    mPtr gUnknown_080D18FC
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr gUnknown_080D1904
+    mPtr gUnknown_080D190C
+    mPtr gUnknown_080D1914
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+    mPtr NULL
+	mPtr NULL
+	mPtr NULL
 
     .global gMedalTimes
 gMedalTimes:
