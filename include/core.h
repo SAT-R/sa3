@@ -183,8 +183,8 @@ struct SpriteTables {
     /* 0x0C */ const u16 *const palettes;
     /* 0x10 */ const u8 *const tiles_4bpp;
     /* 0x14 */ const u8 *const tiles_8bpp;
-#if 1 // SA3-only
-    /* 0x18 */ const void *const unk18;
+#if (GAME == GAME_SA3)
+    /* 0x18 */ const u32 *const unk18;
 #endif
 };
 

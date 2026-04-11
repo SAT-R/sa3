@@ -642,6 +642,201 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004E14.inc", void sa2__sub_8004E14(S
 }
 END_NONMATCH
 
+#if 0
+void DisplaySprite(Sprite* s) {
+    s32 x;
+    u32 sprWidth;
+    u32 sprHeight;
+    u8 spC;
+    OamDataShort* sp10;
+    u16 sp14;
+    s32 sp18;
+    u32 sp1C;
+    s32 sp20;
+    s32 sp24;
+    u32 sp28;
+    OamData* temp_r0;
+    const SpriteOffset2* dimensions;
+    s16 y;
+    s32 temp_r2;
+    s32 var_r7;
+    const s32* temp_r0_4;
+    u16 temp_r1_2;
+    u16 temp_r1_3;
+    u16 temp_r2_2;
+    u16 temp_r3;
+    u16 temp_r3_2;
+    u16 tileSize;
+    u16 var_r2;
+    u16 totalSize;
+    u32 temp_r0_3;
+    u32 temp_r1_4;
+    u32 temp_r4;
+    u32 temp_r4_2;
+    u8 temp_r0_2;
+    u8 var_r5;
+    u8 var_r7_2;
+    void* temp_r4_3;
+    u8* var_r2_2;
+    u8* var_r2_3;
+    u8* var_r6;
+    void* temp_r1_5;
+    void* temp_r1_6;
+    u32* var_sl_2;
+
+    sp14 = 0;
+    sp18 = 0;
+    sp1C = 0;
+    sp20 = 0;
+    sp24 = 0;
+    if (s->frameNum == -1) {
+        return;
+    }
+
+    // NOTE: Also in rings_manager.c!!!
+    if ((s->frameNum >> 28) == 0) {
+        // Default behavior from SA1 / SA2
+        dimensions = (const SpriteOffset2 *)&((const SpriteOffset *)gRefSpriteTables->dimensions[s->anim])[s->frameNum];
+    } else {
+        // TODO: WTF!?!?
+        dimensions = &((const SpriteOffset2 *)gRefSpriteTables->dimensions[s->anim])[s->frameNum];
+    }
+    s->numSubFrames = (u8) dimensions->base.numSubframes;
+    x = s->x;
+    y = s->y;
+    if (0x20000 & s->frameFlags) {
+        x -= gSpriteOffset.x;
+        y -= gSpriteOffset.y;
+    }
+    sprWidth = dimensions->base.width;
+    sprHeight = dimensions->base.height;
+    if (s->frameFlags & 0x200) {
+        sp14 |= 0x1000;
+    }
+    if (0x20 & s->frameFlags) {
+        sp14 |= 0x100;
+        sp18 |= (0x1F & s->frameFlags) << 9;
+        if (0x40 & s->frameFlags) {
+            x -= sprWidth  / 2;
+            y -= sprHeight / 2;
+            sprWidth  *= 2;
+            sprHeight *= 2;
+            sp14 |= 0x200;
+        }
+    } else {
+        if (0x800 & s->frameFlags) {
+            s32 offsetY = dimensions->base.offsetY;
+            y -= sprHeight - offsetY;
+        } else {
+            s32 offsetX = dimensions->base.offsetX;
+            x -= sprHeight - offsetX;
+        }
+        if (0x400 & s->frameFlags) {
+            s32 offsetX = dimensions->base.offsetX;
+            x -= sprWidth - offsetX;
+        } else {
+            s32 offsetX = dimensions->base.offsetX;
+            x -= offsetX;
+        }
+        temp_r4_2 = dimensions->base.oamIndex << 0x10;
+        if (((s->frameFlags >> 0xB) & 1) != (temp_r4_2 >> 0x1F)) {
+            sp20 = 1;
+        }
+        if (((temp_r4_2 >> 0x1E) ^ (s->frameFlags >> 10)) & 1) {
+            sp24 = 1;
+        }
+    }
+    if (sprWidth != 0) {
+        if ((x + sprWidth) < 0) {
+            return;
+        }
+        if (x > DISPLAY_WIDTH) {
+            return;
+        }
+        if ((sprHeight + y) < 0) {
+            return;
+        }
+        if (y > DISPLAY_HEIGHT) {
+            return;
+        }
+    }
+
+    sp14 |= (0x180 & s->frameFlags) * 8;
+    sp1C = (u32) (((0x3000 & s->frameFlags) << 0xE) | ((sp1C + (s->palId << 0xC)) << 0x10)) >> 0x10;
+    sp10 = (OamDataShort*)gRefSpriteTables->oamData[var_r2];
+    s->oamBaseIndex = gOamFreeIndex;
+    for(spC = 0; spC < dimensions->base.numSubframes; spC++) {
+        temp_r0 = OamMalloc(GET_SPRITE_OAM_ORDER(s));
+        if (iwram_end == temp_r0) {
+            return;
+        }
+
+        DmaCopy16(3, (sp10 + (((0x3FFF & dimensions->base.oamIndex) + spC) * 6)), temp_r0, sizeof(OamDataShort));
+
+        var_r7 = temp_r0->split.y;
+        var_r5 = (u8) temp_r0->all.attr0;
+        temp_r0->split.y = 0;
+        temp_r1_3 = 0xFE00 & temp_r0->all.attr0;
+        temp_r0->all.attr0 = temp_r1_3;
+        if ((sp20 | sp24) != 0) {
+            temp_r2 = ((u32) (temp_r1_3 & 0xC000) >> 0xC) | ((u32) (temp_r3 & 0xC000) >> 0xE);
+            if (sp20 != 0) {
+                temp_r0->all.attr1 = temp_r3 ^ 0x2000;
+                var_r5 = (sprHeight - *((temp_r2 * 2) + &gOamShapesSizes[0][1])) - var_r5;
+            }
+            if (sp24 != 0) {
+                temp_r0->all.attr1 ^= 0x1000;
+                var_r7 = (sprWidth - *gOamShapesSizes[temp_r2]) - var_r7;
+            }
+        }
+        temp_r2_2 = ((u8) (y + var_r5) + temp_r0->all.attr0) | sp14;
+        temp_r0->all.attr0 = temp_r2_2;
+        temp_r0->all.attr1 = (((x + var_r7) & 0x1FF) + temp_r0->all.attr1) | sp18;
+        temp_r3_2 = sp1C | temp_r0->all.attr2;
+        temp_r0->all.attr2 = temp_r3_2;
+        if (temp_r2_2 & 0x2000) {
+            temp_r0->all.attr2 = temp_r3_2 + (temp_r3_2 & 0x3FF);
+        }
+        temp_r0->all.attr2 += (u32) (s->tiles + 0xF9FF0000) >> 5;
+    }
+
+    if ((s->frameNum >> 28) == 1) {
+        if (0x04000000 & s->frameFlags) {
+            s->frameFlags = s->frameFlags & 0xFBFFFFFF;
+            sp28 = dimensions->unkC >> 24;
+            temp_r0_4 = &gRefSpriteTables->unk18[dimensions->unkC & 0xFFFFFF];
+            if (*temp_r0_4 >= 0) {
+                tileSize = 0x20;
+                var_r2_2 = (u8*)gRefSpriteTables->tiles_4bpp;
+            } else {
+                tileSize = 0x40;
+                var_r2_2 = (u8*)gRefSpriteTables->tiles_8bpp;
+            }
+            totalSize = tileSize;
+            var_r2_3 = &var_r2_2[tileSize * *temp_r0_4++];
+            var_r6 = s->tiles;
+            for(var_r7_2 = 1; var_r7_2 < sp28; var_r7_2++) {
+                temp_r4_3 = &var_r2_2[*temp_r0_4++ * tileSize];
+                if (&var_r2_3[totalSize] == temp_r4_3) {
+                    totalSize += tileSize;
+                } else {
+                    gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].src = var_r2_3;
+                    gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].dest = var_r6;
+                    gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].size = totalSize;
+                    gVramGraphicsCopyQueueIndex = (gVramGraphicsCopyQueueIndex + 1) & 0x1F;
+                    var_r6 += totalSize;
+                    totalSize = tileSize;
+                    var_r2_3 = temp_r4_3;
+                }
+            }
+            gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].src = var_r2_3;
+            gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].dest = var_r6;
+            gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].size = totalSize;
+            gVramGraphicsCopyQueueIndex = (gVramGraphicsCopyQueueIndex + 1) & 0x1F;
+        }
+    }
+}
+#else
 // (34.52%) https://decomp.me/scratch/5GcHT
 NONMATCH("asm/non_matching/engine/DisplaySprite.inc", void DisplaySprite(Sprite *sprite))
 {
@@ -791,6 +986,7 @@ NONMATCH("asm/non_matching/engine/DisplaySprite.inc", void DisplaySprite(Sprite 
     }
 }
 END_NONMATCH
+#endif
 
 NONMATCH("asm/non_matching/engine/sub_80C07E0.inc", void sub_80C07E0(Sprite *sprite)) { }
 END_NONMATCH

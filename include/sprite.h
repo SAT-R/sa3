@@ -124,7 +124,7 @@ typedef struct {
 
 typedef struct SpriteOffset2 {
     SpriteOffset base;
-    u8 padding[4];
+    u32 unkC;
 } SpriteOffset2;
 
 // TODO: Verify "(in)active" name
