@@ -642,47 +642,36 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004E14.inc", void sa2__sub_8004E14(S
 }
 END_NONMATCH
 
-#if 0
-void DisplaySprite(Sprite* s) {
+// (99.85%) https://decomp.me/scratch/ukepD
+NONMATCH("asm/non_matching/engine/DisplaySprite.inc", void DisplaySprite(Sprite *s))
+{
+    OamData *oam;
     s32 x;
-    u32 sprWidth;
-    u32 sprHeight;
-    u8 spC;
-    OamDataShort* sp10;
+    s32 y;
+    s32 sprWidth, sprHeight;
+    u8 i;
+    u32 sprX, sprY;
+    u16 *oamData;
     u16 sp14;
     s32 sp18;
     u32 sp1C;
     s32 sp20;
     s32 sp24;
     u32 sp28;
-    OamData* temp_r0;
-    const SpriteOffset2* dimensions;
-    s16 y;
-    s32 temp_r2;
-    s32 var_r7;
-    const s32* temp_r0_4;
-    u16 temp_r1_2;
-    u16 temp_r1_3;
-    u16 temp_r2_2;
-    u16 temp_r3;
-    u16 temp_r3_2;
+    const SpriteOffset2 *dimensions;
+    u8 shapeAndSize;
+    const s32 *temp_r0_4;
     u16 tileSize;
     u16 var_r2;
     u16 totalSize;
-    u32 temp_r0_3;
-    u32 temp_r1_4;
-    u32 temp_r4;
     u32 temp_r4_2;
     u8 temp_r0_2;
-    u8 var_r5;
     u8 var_r7_2;
-    void* temp_r4_3;
-    u8* var_r2_2;
-    u8* var_r2_3;
-    u8* var_r6;
-    void* temp_r1_5;
-    void* temp_r1_6;
-    u32* var_sl_2;
+    void *temp_r4_3;
+    u8 *var_r2_2;
+    u8 *var_r2_3;
+    u8 *var_r6;
+    u32 oldAttr0;
 
     sp14 = 0;
     sp18 = 0;
@@ -701,7 +690,7 @@ void DisplaySprite(Sprite* s) {
         // TODO: WTF!?!?
         dimensions = &((const SpriteOffset2 *)gRefSpriteTables->dimensions[s->anim])[s->frameNum];
     }
-    s->numSubFrames = (u8) dimensions->base.numSubframes;
+    s->numSubFrames = (u8)dimensions->base.numSubframes;
     x = s->x;
     y = s->y;
     if (0x20000 & s->frameFlags) {
@@ -717,9 +706,12 @@ void DisplaySprite(Sprite* s) {
         sp14 |= 0x100;
         sp18 |= (0x1F & s->frameFlags) << 9;
         if (0x40 & s->frameFlags) {
-            x -= sprWidth  / 2;
-            y -= sprHeight / 2;
-            sprWidth  *= 2;
+            u16 w16 = sprWidth;
+            u16 h16;
+            x -= w16 / 2;
+            h16 = sprHeight;
+            y -= h16 / 2;
+            sprWidth *= 2;
             sprHeight *= 2;
             sp14 |= 0x200;
         }
@@ -728,8 +720,8 @@ void DisplaySprite(Sprite* s) {
             s32 offsetY = dimensions->base.offsetY;
             y -= sprHeight - offsetY;
         } else {
-            s32 offsetX = dimensions->base.offsetX;
-            x -= sprHeight - offsetX;
+            s32 offsetY = dimensions->base.offsetY;
+            y -= offsetY;
         }
         if (0x400 & s->frameFlags) {
             s32 offsetX = dimensions->base.offsetX;
@@ -738,255 +730,101 @@ void DisplaySprite(Sprite* s) {
             s32 offsetX = dimensions->base.offsetX;
             x -= offsetX;
         }
-        temp_r4_2 = dimensions->base.oamIndex << 0x10;
-        if (((s->frameFlags >> 0xB) & 1) != (temp_r4_2 >> 0x1F)) {
+
+        if (((s->frameFlags >> 11) & 1) != (dimensions->base.oamIndex >> 15)) {
             sp20 = 1;
         }
-        if (((temp_r4_2 >> 0x1E) ^ (s->frameFlags >> 10)) & 1) {
-            sp24 = 1;
-        }
-    }
-    if (sprWidth != 0) {
-        if ((x + sprWidth) < 0) {
-            return;
-        }
-        if (x > DISPLAY_WIDTH) {
-            return;
-        }
-        if ((sprHeight + y) < 0) {
-            return;
-        }
-        if (y > DISPLAY_HEIGHT) {
-            return;
+        {
+            u32 checkA = (s->frameFlags >> 10);
+            u32 check = (dimensions->base.oamIndex >> 14);
+            check = checkA ^ check;
+            if (check & 1) {
+                sp24 = 1;
+            }
         }
     }
 
-    sp14 |= (0x180 & s->frameFlags) * 8;
-    sp1C = (u32) (((0x3000 & s->frameFlags) << 0xE) | ((sp1C + (s->palId << 0xC)) << 0x10)) >> 0x10;
-    sp10 = (OamDataShort*)gRefSpriteTables->oamData[var_r2];
-    s->oamBaseIndex = gOamFreeIndex;
-    for(spC = 0; spC < dimensions->base.numSubframes; spC++) {
-        temp_r0 = OamMalloc(GET_SPRITE_OAM_ORDER(s));
-        if (iwram_end == temp_r0) {
-            return;
+    if ((sprWidth == 0) || (((x + sprWidth) >= 0) && (x <= DISPLAY_WIDTH) && ((sprHeight + y) >= 0) && (y <= DISPLAY_HEIGHT))) {
+        u32 palId = (sp1C + (s->palId << 12)) << 0x10;
+        sp14 |= (0x180 & s->frameFlags) << 3;
+        sp1C = (((0x3000 & s->frameFlags) << 0xE) | palId) >> 0x10;
+        oamData = (u16 *)gRefSpriteTables->oamData[s->anim];
+        s->oamBaseIndex = gOamFreeIndex;
+        for (i = 0; i < dimensions->base.numSubframes; i++) {
+            oam = OamMalloc(GET_SPRITE_OAM_ORDER(s));
+            if (iwram_end == oam) {
+                return;
+            }
+
+            DmaCopy16(3, (oamData + (((dimensions->base.oamIndex & 0x3FFF) + i) * 3)), oam, sizeof(OamDataShort));
+
+            sprX = oam->all.attr1 & 0x1FF;
+            sprY = oam->all.attr0 & 0xFF;
+            oam->all.attr1 &= 0xFE00;
+            oam->all.attr0 &= 0xFE00;
+            if ((sp20 | sp24) != 0) {
+                shapeAndSize = ((oam->all.attr0 & 0xC000) >> 12);
+                shapeAndSize |= ((oam->all.attr1 & 0xC000) >> 14);
+                if (sp20 != 0) {
+                    oam->all.attr1 = oam->all.attr1 ^ 0x2000;
+                    sprY = (sprHeight - gOamShapesSizes[shapeAndSize][1]) - sprY;
+                }
+                if (sp24 != 0) {
+                    oam->all.attr1 ^= 0x1000;
+                    sprX = (sprWidth - gOamShapesSizes[shapeAndSize][0]) - sprX;
+                }
+            }
+            oam->all.attr0 += ((y + sprY) & 0xFF);
+            oam->all.attr1 += ((x + sprX) & 0x1FF);
+            oam->all.attr0 |= sp14;
+            oam->all.attr1 |= sp18;
+            oam->all.attr2 |= sp1C;
+            if (oam->all.attr0 & 0x2000) {
+                oam->all.attr2 += (oam->all.attr2 & 0x3FF);
+            }
+            oam->all.attr2 += GET_TILE_NUM(s->tiles);
         }
 
-        DmaCopy16(3, (sp10 + (((0x3FFF & dimensions->base.oamIndex) + spC) * 6)), temp_r0, sizeof(OamDataShort));
-
-        var_r7 = temp_r0->split.y;
-        var_r5 = (u8) temp_r0->all.attr0;
-        temp_r0->split.y = 0;
-        temp_r1_3 = 0xFE00 & temp_r0->all.attr0;
-        temp_r0->all.attr0 = temp_r1_3;
-        if ((sp20 | sp24) != 0) {
-            temp_r2 = ((u32) (temp_r1_3 & 0xC000) >> 0xC) | ((u32) (temp_r3 & 0xC000) >> 0xE);
-            if (sp20 != 0) {
-                temp_r0->all.attr1 = temp_r3 ^ 0x2000;
-                var_r5 = (sprHeight - *((temp_r2 * 2) + &gOamShapesSizes[0][1])) - var_r5;
-            }
-            if (sp24 != 0) {
-                temp_r0->all.attr1 ^= 0x1000;
-                var_r7 = (sprWidth - *gOamShapesSizes[temp_r2]) - var_r7;
-            }
-        }
-        temp_r2_2 = ((u8) (y + var_r5) + temp_r0->all.attr0) | sp14;
-        temp_r0->all.attr0 = temp_r2_2;
-        temp_r0->all.attr1 = (((x + var_r7) & 0x1FF) + temp_r0->all.attr1) | sp18;
-        temp_r3_2 = sp1C | temp_r0->all.attr2;
-        temp_r0->all.attr2 = temp_r3_2;
-        if (temp_r2_2 & 0x2000) {
-            temp_r0->all.attr2 = temp_r3_2 + (temp_r3_2 & 0x3FF);
-        }
-        temp_r0->all.attr2 += (u32) (s->tiles + 0xF9FF0000) >> 5;
-    }
-
-    if ((s->frameNum >> 28) == 1) {
-        if (0x04000000 & s->frameFlags) {
-            s->frameFlags = s->frameFlags & 0xFBFFFFFF;
-            sp28 = dimensions->unkC >> 24;
-            temp_r0_4 = &gRefSpriteTables->unk18[dimensions->unkC & 0xFFFFFF];
-            if (*temp_r0_4 >= 0) {
-                tileSize = 0x20;
-                var_r2_2 = (u8*)gRefSpriteTables->tiles_4bpp;
-            } else {
-                tileSize = 0x40;
-                var_r2_2 = (u8*)gRefSpriteTables->tiles_8bpp;
-            }
-            totalSize = tileSize;
-            var_r2_3 = &var_r2_2[tileSize * *temp_r0_4++];
-            var_r6 = s->tiles;
-            for(var_r7_2 = 1; var_r7_2 < sp28; var_r7_2++) {
-                temp_r4_3 = &var_r2_2[*temp_r0_4++ * tileSize];
-                if (&var_r2_3[totalSize] == temp_r4_3) {
-                    totalSize += tileSize;
+        if ((s->frameNum >> 28) == 1) {
+            if (SPRITE_FLAG_MASK_26 & s->frameFlags) {
+                u32 unkC;
+                s->frameFlags = s->frameFlags & ~SPRITE_FLAG_MASK_26;
+                unkC = dimensions->unkC & 0xFFFFFF;
+                sp28 = dimensions->unkC >> 24;
+                temp_r0_4 = &gRefSpriteTables->unk18[unkC];
+                if (*temp_r0_4 >= 0) {
+                    tileSize = TILE_SIZE_4BPP;
+                    var_r2_2 = (u8 *)gRefSpriteTables->tiles_4bpp;
                 } else {
-                    gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].src = var_r2_3;
-                    gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].dest = var_r6;
-                    gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].size = totalSize;
-                    gVramGraphicsCopyQueueIndex = (gVramGraphicsCopyQueueIndex + 1) & 0x1F;
-                    var_r6 += totalSize;
-                    totalSize = tileSize;
-                    var_r2_3 = temp_r4_3;
+                    tileSize = TILE_SIZE_8BPP;
+                    var_r2_2 = (u8 *)gRefSpriteTables->tiles_8bpp;
                 }
-            }
-            gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].src = var_r2_3;
-            gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].dest = var_r6;
-            gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].size = totalSize;
-            gVramGraphicsCopyQueueIndex = (gVramGraphicsCopyQueueIndex + 1) & 0x1F;
-        }
-    }
-}
-#else
-// (34.52%) https://decomp.me/scratch/5GcHT
-NONMATCH("asm/non_matching/engine/DisplaySprite.inc", void DisplaySprite(Sprite *sprite))
-{
-    OamData *oam;
-    s32 x, y, sprWidth, sprHeight;
-    u8 i;
-    u32 r5, r7;
-    const u16 *oamData;
-
-    s32 sp14 = 0;
-    s32 sp18 = 0;
-    s32 sp1C = 0;
-    s32 sp20 = 0;
-    s32 sp24 = 0;
-
-    if (sprite->frameNum != -1) {
-        const SpriteOffset *sprDims;
-        if ((sprite->frameNum >> 28) == 0) {
-            sprDims = &gRefSpriteTables->dimensions[sprite->anim][sprite->frameNum];
-        } else {
-            sprDims = (const SpriteOffset *)(((u8 *)gRefSpriteTables->dimensions[sprite->anim]) + sprite->frameNum * 16);
-        }
-
-        sprite->numSubFrames = sprDims->numSubframes;
-        x = sprite->x;
-        y = sprite->y;
-
-        if (sprite->frameFlags & SPRITE_FLAG_MASK_17) {
-            x -= gSpriteOffset.x;
-            y -= gSpriteOffset.y;
-        }
-
-        sprWidth = sprDims->width;
-        sprHeight = sprDims->height;
-
-        if (sprite->frameFlags & 0x200) {
-            sp14 |= 0x1000;
-            sprite->x = sp14;
-        }
-
-        if (sprite->frameFlags & 0x1000) {
-            sp14 |= 0x100;
-            sprite->y = sp14;
-        }
-
-        if (sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE_ENABLE) {
-            if (sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE_DOUBLE_SIZE) {
-                x -= sprDims->width / 2;
-                y -= sprDims->height / 2;
-                sprWidth *= 2;
-                sprHeight *= 2;
-                sp14 |= 0x200;
-            }
-        } else {
-            if (sprite->frameFlags & SPRITE_FLAG_MASK_Y_FLIP) {
-                y -= sprHeight - sprDims->offsetY;
-            } else {
-                y -= sprDims->offsetY;
-            }
-
-            if (sprite->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
-                x -= sprWidth - sprDims->offsetX;
-            } else {
-                x -= sprDims->offsetX;
-            }
-
-            if (GetBit(sprite->frameFlags, 11)) {
-                //
-            }
-        }
-
-        if (x + sprWidth >= 0 && x <= DISPLAY_WIDTH && // fmt
-            y + sprHeight >= 0 && y <= DISPLAY_HEIGHT) {
-            // u8 mosaicHVSizes = gMosaicReg >> 8;
-
-            for (i = 0; i < sprDims->numSubframes; i++) {
-                oamData = gRefSpriteTables->oamData[sprite->anim];
-
-                // oam gets zero-initialized(?)
-                oam = OamMalloc(GET_SPRITE_OAM_ORDER(sprite));
-                if (iwram_end == oam) {
-                    return;
-                }
-
-                if (i == 0) {
-                    sprite->oamBaseIndex = gOamFreeIndex - 1;
-                }
-
-                // oamIndex is a byte, why are they ANDing with 0x3FFF?
-                DmaCopy16(3, &oamData[3 * ((sprDims->oamIndex & 0x3FFF) + i)], oam, sizeof(OamDataShort));
-                r7 = oam->all.attr1 & 0x1FF;
-                r5 = oam->all.attr0 & 0xFF;
-                oam->all.attr1 &= 0xFE00;
-                oam->all.attr0 &= 0xFE00;
-
-                oam->all.attr2 += sprite->palId << 12;
-                if (sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE_ENABLE) {
-                    oam->all.attr0 |= 0x100;
-                    if (sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE_DOUBLE_SIZE) {
-                        oam->all.attr0 |= 0x200;
+                totalSize = tileSize;
+                var_r2_3 = &var_r2_2[*temp_r0_4++ * tileSize];
+                var_r6 = s->tiles;
+                for (var_r7_2 = 1; var_r7_2 < sp28; var_r7_2++) {
+                    temp_r4_3 = &var_r2_2[*temp_r0_4++ * tileSize];
+                    if (&var_r2_3[totalSize] == temp_r4_3) {
+                        totalSize += tileSize;
+                    } else {
+                        gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].src = var_r2_3;
+                        gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].dest = var_r6;
+                        gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].size = totalSize;
+                        gVramGraphicsCopyQueueIndex = (gVramGraphicsCopyQueueIndex + 1) % 32u;
+                        var_r6 += totalSize;
+                        totalSize = tileSize;
+                        var_r2_3 = temp_r4_3;
                     }
-                    oam->all.attr1 |= (sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE) << 9;
-                } else {
-                    u32 shapeAndSize = ((oam->all.attr0 & 0xC000) >> 12);
-                    u32 flipY;
-                    u32 r6;
-
-                    shapeAndSize |= ((oam->all.attr1 & 0xC000) >> 14);
-                    flipY = sprite->frameFlags >> SPRITE_FLAG_SHIFT_Y_FLIP;
-                    r6 = 1;
-
-#if 0
-                    // Done differently in SA3.
-                    //  See SpriteOffset declaration!
-                    
-                    // y-flip
-                    if ((((sprDims->flip >> 1) ^ flipY) & r6) != 0) {
-                        oam->all.attr1 ^= 0x2000;
-                        r5 = sprHeight - gOamShapesSizes[shapeAndSize][1] - r5;
-                    }
-
-                    // x-flip
-                    if (((sprite->frameFlags >> SPRITE_FLAG_SHIFT_X_FLIP) & r6) != (sprDims->flip & 1)) {
-                        oam->all.attr1 ^= 0x1000;
-                        r7 = sprWidth - gOamShapesSizes[shapeAndSize][0] - r7;
-                    }
-#endif
                 }
-
-                // if (mosaicHVSizes != 0 && (sprite->frameFlags & SPRITE_FLAG_MASK_MOSAIC) != 0)
-                {
-                    // Enable mosaic bit
-                    //    oam->all.attr0 |= 0x1000;
-                }
-
-                oam->all.attr0 |= (sprite->frameFlags & SPRITE_FLAG_MASK_OBJ_MODE) * 8;
-                oam->all.attr2 |= (sprite->frameFlags & SPRITE_FLAG_MASK_PRIORITY) >> 2;
-                oam->all.attr0 += ((y + r5) & 0xFF);
-                oam->all.attr1 += ((x + r7) & 0x1FF);
-
-                if (oam->all.attr0 & (ST_OAM_8BPP << 13)) {
-                    oam->all.attr2 += oam->all.attr2 & 0x3FF;
-                }
-                oam->all.attr2 += GET_TILE_NUM(sprite->tiles);
+                gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].src = var_r2_3;
+                gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].dest = var_r6;
+                gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].size = totalSize;
+                gVramGraphicsCopyQueueIndex = (gVramGraphicsCopyQueueIndex + 1) % 32u;
             }
         }
     }
 }
 END_NONMATCH
-#endif
 
 NONMATCH("asm/non_matching/engine/sub_80C07E0.inc", void sub_80C07E0(Sprite *sprite)) { }
 END_NONMATCH
