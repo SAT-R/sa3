@@ -664,14 +664,11 @@ NONMATCH("asm/non_matching/engine/DisplaySprite.inc", void DisplaySprite(Sprite 
     u16 tileSize;
     u16 var_r2;
     u16 totalSize;
-    u32 temp_r4_2;
-    u8 temp_r0_2;
     u8 var_r7_2;
     void *temp_r4_3;
     u8 *var_r2_2;
     u8 *var_r2_3;
     u8 *var_r6;
-    u32 oldAttr0;
 
     sp14 = 0;
     sp18 = 0;

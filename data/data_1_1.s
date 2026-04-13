@@ -1093,11 +1093,17 @@ gUnknown_080D2180:
 
     .global gUnknown_080D2198
 gUnknown_080D2198:
-    .incbin "baserom_sa3.gba", 0x000D2198, 0x130
+    .incbin "baserom_sa3.gba", 0x000D2198, 0x20
+
+    .global gUnknown_080D21B8
+gUnknown_080D21B8:
+    .incbin "baserom_sa3.gba", 0x000D21B8, 0x110
 
     .global gUnknown_080D22C8
 gUnknown_080D22C8:
-    .incbin "baserom_sa3.gba", 0x000D22C8, 0x120
+    .byte 0x30, 0x00, 0x10, 0x00, 0x02, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D21B8
+    .incbin "baserom_sa3.gba", 0x000D22D4, 0x120-0xC
 
     .global gUnknown_080D23E8
 gUnknown_080D23E8:

@@ -5,6 +5,7 @@
 .syntax unified
 .arm
 
+.if 01
 	thumb_func_start Task_8065FAC
 Task_8065FAC: @ 0x08065FAC
 	push {r4, r5, r6, r7, lr}
@@ -188,66 +189,4 @@ _0806610C: .4byte 0x040000D4
 _08066110: .4byte gBgPalette
 _08066114: .4byte gStageData
 _08066118: .4byte gUnknown_080D5248
-
-@ This task gets created when entering any stage (except for Sonic Factory & Chao Garden)
-	thumb_func_start sub_806611C
-sub_806611C: @ 0x0806611C
-	push {r4, r5, r6, lr}
-	mov r6, r8
-	push {r6}
-	sub sp, #8
-	adds r4, r0, #0
-	lsls r4, r4, #0x18
-	lsrs r4, r4, #0x18
-	ldr r0, _08066180 @ =gStageData
-	mov r8, r0
-	ldr r0, _08066184 @ =Task_8065FAC
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r1, _08066188 @ =sub_806619C
-	str r1, [sp]
-	movs r1, #0x54
-	movs r3, #0
-	bl TaskCreate
-	ldrh r5, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r5, r0
-	movs r6, #0
-	strb r4, [r0, #1]
-	add r1, sp, #4
-	mov r2, r8
-	ldr r0, [r2, #0x1c]
-	strh r0, [r1]
-	ldr r0, _0806618C @ =0x03000014
-	adds r1, r5, r0
-	ldr r2, _08066190 @ =0x01000020
-	add r0, sp, #4
-	bl CpuSet
-	mov r0, sp
-	adds r0, #6
-	strh r6, [r0]
-	ldr r1, _08066194 @ =0x03000002
-	adds r5, r5, r1
-	ldr r2, _08066198 @ =0x01000008
-	adds r1, r5, #0
-	bl CpuSet
-	add sp, #8
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08066180: .4byte gStageData
-_08066184: .4byte Task_8065FAC
-_08066188: .4byte sub_806619C
-_0806618C: .4byte 0x03000014
-_08066190: .4byte 0x01000020
-_08066194: .4byte 0x03000002
-_08066198: .4byte 0x01000008
-
-    thumb_func_start sub_806619C
-sub_806619C:
-    bx lr
-    .align 2 , 0
+.endif
