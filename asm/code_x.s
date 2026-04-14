@@ -2251,8 +2251,16 @@ _080B2D80: .4byte 0x00007F40
 sub_80B2D84: @ 0x080B2D84
 	bx lr
 	.align 2, 0
-_080B2D88:
-	.byte 0x70, 0x47, 0x00, 0x00, 0x70, 0x47, 0x00, 0x00
+
+	thumb_func_start sub_80B2D88
+sub_80B2D88: @ 0x080B2D84
+	bx lr
+	.align 2, 0
+
+	thumb_func_start sub_80B2D8C
+sub_80B2D8C: @ 0x080B2D84
+	bx lr
+	.align 2, 0
 
 	thumb_func_start sub_80B2D90
 sub_80B2D90: @ 0x080B2D90
@@ -9598,8 +9606,11 @@ _080B674A:
 	bx r1
 	.align 2, 0
 _080B6770: .4byte 0x04000005
-_080B6774:
-	.byte 0x70, 0x47, 0x00, 0x00
+
+    thumb_func_start sub_80B6774
+sub_80B6774:
+	bx lr
+    .align 2 , 0
 
 	thumb_func_start sub_80B6778
 sub_80B6778: @ 0x080B6778
@@ -14408,8 +14419,11 @@ _080B8CA2:
 	pop {r4}
 	pop {r0}
 	bx r0
-_080B8CA8:
-	.byte 0x00, 0x78, 0x70, 0x47
+
+    thumb_func_start sub_080B8CA8
+sub_080B8CA8:
+    ldrb r0, [r0]
+    bx lr
 
 	thumb_func_start sub_80B8CAC
 sub_80B8CAC: @ 0x080B8CAC

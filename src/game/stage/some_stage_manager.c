@@ -2,6 +2,7 @@
 #include "core.h"
 #include "flags.h"
 #include "game/stage.h"
+#include "module_unclear.h"
 
 typedef struct SomeStageMgr {
     u8 unk0;
