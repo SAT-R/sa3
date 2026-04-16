@@ -241,3 +241,44 @@ void gUnknown_03001CF0() { }
 void gUnknown_0300110C() { }
 void gUnknown_030010D0() { }
 void gUnknown_03001B00() { }
+
+void sub_80B5CC4(s16 param0, s16 *param1) { }
+void sub_80B5EBC(s16 param0, s16 *param1) { }
+void sub_80B5DF4() { }
+void sub_80B60E0(s16 param0, s16 *param1) { }
+void sub_80B6774(s16 param0, s16 *param1) { }
+void sub_80B7AEC() { }
+void sub_80B7C1C() { }
+void sub_80B7CD0() { }
+void sub_80B7D74() { }
+void sub_80B7E1C() { }
+void sub_80B7F00() { }
+void sub_80B7F90() { }
+void sub_80B8034() { }
+void sub_80B80C8() { }
+void sub_80B8168() { }
+void sub_80B836C() { }
+void sub_80B83FC() { }
+void sub_80B87B0() { }
+void sub_80B8EC4() { }
+void sub_80B8F14() { }
+void sub_80B8F70() { }
+void sub_80B8FB8() { }
+void sub_80B8A20() { }
+void sub_80B9008() { }
+void sub_80B9024() { }
+void sub_80B90B4() { }
+void sub_80B9148() { }
+void sub_80B915C() { }
+void sub_80B9194() { }
+void sub_80B91EC() { }
+void sub_80B9234() { }
+void sub_80B926C() { }
+void sub_80B92A4() { }
+void sub_80B92E0() { }
+void sub_80B9374() { }
+void sub_80B93A4() { }
+void sub_80B93E4() { }
+void sub_80B94B0() { }
+void sub_80B94F0() { }
+void sub_80B9548() { }

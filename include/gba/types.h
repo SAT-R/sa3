@@ -132,7 +132,7 @@ typedef union {
              u32 shape:2;       // 0x4000, 0x8000 -> 0xC000
 
     /*0x02*/ u32 x:9;
-             u32 matrixNum:5;   // bits 3/4 are h-flip/v-flip if not in affine mode
+             u32 matrixNum:5;   // TODO: bits 3/4 are h-flip/v-flip if not in affine mode... we should make this easier to use
              u32 size:2;        // 0x4000, 0x8000 -> 0xC000
 
     /*0x04*/ u16 tileNum:10;    // 0x3FF

@@ -763,9 +763,6 @@ void DisplaySprite(Sprite *s)
                 dmaRegs[2] = (vu32)((u32)((((((0x8000 | new_var2)))) << 16) | ((sizeof(OamDataShort)) / (16 / 8))));
                 dmaRegs[2];
             }
-#else
-            DmaCopy16(3, (oamData + (((dimensions->base.oamIndex & 0x3FFF) + i) * 3)), oam, sizeof(OamDataShort));
-#endif
 
             sprX = oam->all.attr1 & 0x1FF;
             sprY = oam->all.attr0 & 0xFF;
@@ -773,9 +770,9 @@ void DisplaySprite(Sprite *s)
             oam->all.attr0 &= 0xFE00;
             if ((sp20 | sp24) != 0) {
                 new_var = (oam->all.attr0 & 0xC000) >> 12;
-                +shapeAndSize = new_var;
-
+                shapeAndSize = new_var;
                 shapeAndSize |= ((oam->all.attr1 & 0xC000) >> 14);
+
                 if (sp20 != 0) {
                     oam->all.attr1 = oam->all.attr1 ^ 0x2000;
                     sprY = (sprHeight - gOamShapesSizes[shapeAndSize][1]) - sprY;
@@ -795,6 +792,37 @@ void DisplaySprite(Sprite *s)
             }
 
             oam->all.attr2 += GET_TILE_NUM(s->tiles);
+#else
+            DmaCopy16(3, (oamData + (((dimensions->base.oamIndex & 0x3FFF) + i) * 3)), oam, sizeof(OamDataShort));
+
+            sprX = oam->split.x;
+            sprY = oam->split.y;
+
+            if ((sp20 | sp24) != 0) {
+                shapeAndSize = (oam->split.shape << 2);
+                shapeAndSize |= oam->split.size;
+
+                if (sp20 != 0) {
+                    oam->split.matrixNum ^= 0x10; // v-flip
+                    sprY = (sprHeight - gOamShapesSizes[shapeAndSize][1]) - sprY;
+                }
+                if (sp24 != 0) {
+                    oam->split.matrixNum ^= 0x08; // h-flip
+                    sprX = (sprWidth - gOamShapesSizes[shapeAndSize][0]) - sprX;
+                }
+            }
+            oam->split.x = (x + sprX);
+            oam->split.y = (y + sprY);
+            oam->all.attr0 |= sp14;
+            oam->all.attr1 |= sp18;
+            oam->all.attr2 |= sp1C;
+            if (oam->split.bpp) {
+                // 8bpp
+                oam->all.attr2 += (oam->all.attr2 & 0x3FF);
+            }
+
+            oam->all.attr2 += GET_TILE_NUM(s->tiles);
+#endif
         }
 
         if ((s->frameNum >> 28) == 1) {
