@@ -1775,7 +1775,7 @@ _08003210:
 	lsls r0, r0, #0x1e
 	lsrs r0, r0, #0x1e
 	bl sub_8004CC8
-	bl sub_802C100
+	bl DestroyStageEntitiesManager
 	bl sub_8051140
 	ldr r1, _08003270 @ =0x0000FFFF
 	movs r0, #0
@@ -2630,7 +2630,7 @@ _08003928:
 	lsls r0, r0, #0x1e
 	lsrs r0, r0, #0x1e
 	bl sub_8004CC8
-	bl sub_802C100
+	bl DestroyStageEntitiesManager
 	bl sub_8051140
 _08003950:
 	bl sub_8001E58
@@ -3121,7 +3121,7 @@ sub_8003D2C: @ 0x08003D2C
 	lsls r0, r0, #0x1e
 	lsrs r0, r0, #0x1e
 	bl sub_8004CC8
-	bl sub_802C100
+	bl DestroyStageEntitiesManager
 	bl sub_8051140
 	pop {r4}
 	pop {r0}

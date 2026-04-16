@@ -762,8 +762,4 @@ gUnknown_082DA0CC:
 zone7_boss_rings:
     .incbin "baserom_sa3.gba", 0x002DA0E0, 0x50
 
-    .global gUnknown_082DA130
-gUnknown_082DA130:
-    .incbin "baserom_sa3.gba", 0x002DA130, 0x3C0
-
-@ --- 0x082DA4F0 ---
+@ --- 0x082DA130 ---

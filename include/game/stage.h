@@ -97,7 +97,7 @@ typedef struct {
     /* 0x8E */ u8 unk8E; // PlayerIndex for Multiplayer?
     /* 0x8F */ u8 unk8F;
     /* 0x90 */ struct Task *task90;
-    /* 0x94 */ u32 unk94;
+    /* 0x94 */ struct Task *taskEntitiesManager;
     /* 0x98 */ struct Task *taskCheese; // -> Cheese *, set to NULL in TaskDestructor
     /* 0x9C */ struct Task *task9C; // -> AfterImages *
     /* 0xA0 */ u32 unkA0;

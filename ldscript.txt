@@ -29,7 +29,7 @@ SECTIONS {
         asm/code_0_2.o(.text);
         src/game/sa1_sa2_shared/rings_manager.o(.text);
         asm/code_0_3_1.o(.text);
-        asm/code_0_3_2.o(.text);
+        asm/entities_manager.o(.text);
         asm/itembox.o(.text);
         src/game/interactables/zone_warp.o(.text);
         src/game/interactables/spring.o(.text);
@@ -603,6 +603,7 @@ SECTIONS {
         *libc.a:s_rint.o(.rodata);
 
         data/gfx_data_0.o(.rodata);
+        src/data/unk_singlepak_rl_data.o(.rodata);
         src/data/animations/animations.o(.rodata);
         src/data/animations/animation_table.o(.data);
         src/data/sprite_tables.o(.rodata);

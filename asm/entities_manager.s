@@ -77,7 +77,7 @@ _0802B820: .4byte gSpritePosData_itemboxes
 _0802B824: .4byte gSpritePosData_enemies
 _0802B828:
 	ldr r6, _0802B858 @ =gUnknown_0203F000
-	ldr r0, _0802B85C @ =gUnknown_082DA130
+	ldr r0, _0802B85C @ =gUnk_singlepak_rl_data
 	adds r1, r6, #0
 	bl RLUnCompWram
 	str r6, [r7]
@@ -102,7 +102,7 @@ _0802B834:
 	bx r0
 	.align 2, 0
 _0802B858: .4byte gUnknown_0203F000
-_0802B85C: .4byte gUnknown_082DA130
+_0802B85C: .4byte gUnk_singlepak_rl_data
 _0802B860: .4byte gCamera
 _0802B864: .4byte gStageData
 
@@ -1283,8 +1283,8 @@ _0802C0FA:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_802C100
-sub_802C100: @ 0x0802C100
+	thumb_func_start DestroyStageEntitiesManager
+DestroyStageEntitiesManager: @ 0x0802C100
 	push {r4, lr}
 	ldr r0, _0802C130 @ =gStageData
 	adds r2, r0, #0
