@@ -642,13 +642,13 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004E14.inc", void sa2__sub_8004E14(S
 }
 END_NONMATCH
 
-// (99.85%) https://decomp.me/scratch/ukepD
-NONMATCH("asm/non_matching/engine/DisplaySprite.inc", void DisplaySprite(Sprite *s))
+void DisplaySprite(Sprite *s)
 {
     OamData *oam;
     s32 x;
     s32 y;
     s32 sprWidth, sprHeight;
+    char new_var;
     u8 i;
     u32 sprX, sprY;
     u16 *oamData;
@@ -662,13 +662,14 @@ NONMATCH("asm/non_matching/engine/DisplaySprite.inc", void DisplaySprite(Sprite 
     u8 shapeAndSize;
     const s32 *temp_r0_4;
     u16 tileSize;
-    u16 var_r2;
+    int new_var2;
     u16 totalSize;
     u8 var_r7_2;
     void *temp_r4_3;
     u8 *var_r2_2;
     u8 *var_r2_3;
     u8 *var_r6;
+    u32 oldAttr0;
 
     sp14 = 0;
     sp18 = 0;
@@ -753,14 +754,27 @@ NONMATCH("asm/non_matching/engine/DisplaySprite.inc", void DisplaySprite(Sprite 
                 return;
             }
 
+#ifndef NON_MATCHING
+            {
+                vu32 *dmaRegs = (vu32 *)&REG_DMA3SAD;
+                dmaRegs[0] = (vu32)(oamData + (((dimensions->base.oamIndex & 0x3FFF) + i) * 3));
+                dmaRegs[1] = (vu32)oam;
+                new_var2 = 0x0000;
+                dmaRegs[2] = (vu32)((u32)((((((0x8000 | new_var2)))) << 16) | ((sizeof(OamDataShort)) / (16 / 8))));
+                dmaRegs[2];
+            }
+#else
             DmaCopy16(3, (oamData + (((dimensions->base.oamIndex & 0x3FFF) + i) * 3)), oam, sizeof(OamDataShort));
+#endif
 
             sprX = oam->all.attr1 & 0x1FF;
             sprY = oam->all.attr0 & 0xFF;
             oam->all.attr1 &= 0xFE00;
             oam->all.attr0 &= 0xFE00;
             if ((sp20 | sp24) != 0) {
-                shapeAndSize = ((oam->all.attr0 & 0xC000) >> 12);
+                new_var = (oam->all.attr0 & 0xC000) >> 12;
+                +shapeAndSize = new_var;
+
                 shapeAndSize |= ((oam->all.attr1 & 0xC000) >> 14);
                 if (sp20 != 0) {
                     oam->all.attr1 = oam->all.attr1 ^ 0x2000;
@@ -779,21 +793,22 @@ NONMATCH("asm/non_matching/engine/DisplaySprite.inc", void DisplaySprite(Sprite 
             if (oam->all.attr0 & 0x2000) {
                 oam->all.attr2 += (oam->all.attr2 & 0x3FF);
             }
+
             oam->all.attr2 += GET_TILE_NUM(s->tiles);
         }
 
         if ((s->frameNum >> 28) == 1) {
-            if (SPRITE_FLAG_MASK_26 & s->frameFlags) {
+            if (0x04000000 & s->frameFlags) {
                 u32 unkC;
-                s->frameFlags = s->frameFlags & ~SPRITE_FLAG_MASK_26;
+                s->frameFlags = s->frameFlags & ~0x4000000;
                 unkC = dimensions->unkC & 0xFFFFFF;
                 sp28 = dimensions->unkC >> 24;
                 temp_r0_4 = &gRefSpriteTables->unk18[unkC];
                 if (*temp_r0_4 >= 0) {
-                    tileSize = TILE_SIZE_4BPP;
+                    tileSize = 0x20;
                     var_r2_2 = (u8 *)gRefSpriteTables->tiles_4bpp;
                 } else {
-                    tileSize = TILE_SIZE_8BPP;
+                    tileSize = 0x40;
                     var_r2_2 = (u8 *)gRefSpriteTables->tiles_8bpp;
                 }
                 totalSize = tileSize;
@@ -804,24 +819,17 @@ NONMATCH("asm/non_matching/engine/DisplaySprite.inc", void DisplaySprite(Sprite 
                     if (&var_r2_3[totalSize] == temp_r4_3) {
                         totalSize += tileSize;
                     } else {
-                        gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].src = var_r2_3;
-                        gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].dest = var_r6;
-                        gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].size = totalSize;
-                        gVramGraphicsCopyQueueIndex = (gVramGraphicsCopyQueueIndex + 1) % 32u;
+                        ADD_TO_GRAPHICS_QUEUE(var_r2_3, var_r6, totalSize);
                         var_r6 += totalSize;
                         totalSize = tileSize;
                         var_r2_3 = temp_r4_3;
                     }
                 }
-                gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].src = var_r2_3;
-                gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].dest = var_r6;
-                gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].size = totalSize;
-                gVramGraphicsCopyQueueIndex = (gVramGraphicsCopyQueueIndex + 1) % 32u;
+                ADD_TO_GRAPHICS_QUEUE(var_r2_3, var_r6, totalSize);
             }
         }
     }
 }
-END_NONMATCH
 
 NONMATCH("asm/non_matching/engine/sub_80C07E0.inc", void sub_80C07E0(Sprite *sprite)) { }
 END_NONMATCH
