@@ -673,7 +673,7 @@ Task_00_8002988: @ 0x08002988
 	movs r2, #4
 	bl memcpy
 	bl sub_805235C
-	bl sub_802B788
+	bl CreateStageEntitiesManager
 	ldrb r0, [r5, #3]
 	cmp r0, #7
 	beq _080029AE

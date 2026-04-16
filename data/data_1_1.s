@@ -82,8 +82,8 @@ gCollisionTable:
 	mPtr CollHeader_zone_final_act_altar_emerald_fg
 	mPtr CollHeader_zone_final_act_nonaggression_fg
 
-    .global gUnknown_080D1224
-gUnknown_080D1224:
+    .global gSpritePosData_interactables
+gSpritePosData_interactables:
     mPtr gUnknown_082BB6C8
     mPtr gUnknown_082BED30
     mPtr gUnknown_082BB6C8
@@ -158,8 +158,8 @@ gUnknown_080D1224:
     mPtr gUnknown_082D9BB0
 	mPtr gUnknown_082D9C4C
 
-    .global gUnknown_080D1348
-gUnknown_080D1348:
+    .global gSpritePosData_itemboxes
+gSpritePosData_itemboxes:
     mPtr gUnknown_082BB8D0
     mPtr gUnknown_082BEDCC
     mPtr gUnknown_082BB8D0
@@ -235,8 +235,8 @@ gUnknown_080D1348:
     mPtr gUnknown_082D9C5C
 
     @ RL-compressed data
-    .global gUnknown_080D146C
-gUnknown_080D146C:
+    .global gSpritePosData_enemies
+gSpritePosData_enemies:
     mPtr gUnknown_082BB6B4
     mPtr gUnknown_082BED20
     mPtr gUnknown_082BB6B4
