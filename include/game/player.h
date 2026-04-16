@@ -2,7 +2,7 @@
 #define GUARD_SA3_PLAYER_H
 
 #include "sprite.h"
-#include "game/entity.h" // SpriteBase
+#include "game/shared/stage/entity.h" // SpriteBase
 
 typedef enum {
     SONIC, // 0

@@ -5,109 +5,12 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateStageEntitiesManager
-CreateStageEntitiesManager: @ 0x0802B788
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	sub sp, #4
-	ldr r0, _0802B814 @ =Task_802B868
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r1, #0
-	mov sb, r1
-	str r1, [sp]
-	movs r1, #0x1c
-	movs r3, #0
-	bl TaskCreate
-	mov r8, r0
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r7, r1, r0
-	ldr r1, _0802B818 @ =gStageData
-	ldrb r0, [r1, #3]
-	cmp r0, #7
-	beq _0802B828
-	ldr r4, _0802B81C @ =gSpritePosData_interactables
-	movs r0, #0xe
-	ldrsh r5, [r1, r0]
-	lsls r5, r5, #2
-	adds r4, r5, r4
-	ldr r0, [r4]
-	ldr r0, [r0]
-	lsrs r0, r0, #8
-	bl EwramMalloc
-	adds r6, r0, #0
-	ldr r0, [r4]
-	adds r1, r6, #0
-	bl RLUnCompWram
-	str r6, [r7]
-	ldr r4, _0802B820 @ =gSpritePosData_itemboxes
-	adds r4, r5, r4
-	ldr r0, [r4]
-	ldr r0, [r0]
-	lsrs r0, r0, #8
-	bl EwramMalloc
-	adds r6, r0, #0
-	ldr r0, [r4]
-	adds r1, r6, #0
-	bl RLUnCompWram
-	str r6, [r7, #4]
-	ldr r0, _0802B824 @ =gSpritePosData_enemies
-	adds r5, r5, r0
-	ldr r0, [r5]
-	ldr r0, [r0]
-	lsrs r0, r0, #8
-	bl EwramMalloc
-	adds r6, r0, #0
-	ldr r0, [r5]
-	adds r1, r6, #0
-	bl RLUnCompWram
-	str r6, [r7, #8]
-	mov r1, sb
-	str r1, [r7, #0x18]
-	b _0802B834
-	.align 2, 0
-_0802B814: .4byte Task_802B868
-_0802B818: .4byte gStageData
-_0802B81C: .4byte gSpritePosData_interactables
-_0802B820: .4byte gSpritePosData_itemboxes
-_0802B824: .4byte gSpritePosData_enemies
-_0802B828:
-	ldr r6, _0802B858 @ =gUnknown_0203F000
-	ldr r0, _0802B85C @ =gUnk_singlepak_rl_data
-	adds r1, r6, #0
-	bl RLUnCompWram
-	str r6, [r7]
-_0802B834:
-	ldr r1, _0802B860 @ =gCamera
-	ldr r0, [r1]
-	str r0, [r7, #0xc]
-	ldr r0, [r1, #4]
-	str r0, [r7, #0x10]
-	movs r0, #1
-	strb r0, [r7, #0x14]
-	ldr r0, _0802B864 @ =gStageData
-	adds r0, #0x94
-	mov r1, r8
-	str r1, [r0]
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0802B858: .4byte gUnknown_0203F000
-_0802B85C: .4byte gUnk_singlepak_rl_data
-_0802B860: .4byte gCamera
-_0802B864: .4byte gStageData
+.if 0
+.endif
 
-	thumb_func_start Task_802B868
-Task_802B868: @ 0x0802B868
+@ Seems like Task_8008DCC from SA2...
+	thumb_func_start Task_EntitiesManagerInit
+Task_EntitiesManagerInit: @ 0x0802B868
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0x50
 	ldr r2, _0802B8A4 @ =gStageData
@@ -723,7 +626,7 @@ _0802BCD8:
 	strb r0, [r6, #0x14]
 	ldr r0, _0802BCFC @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0802BD00 @ =Task_802B868
+	ldr r0, _0802BD00 @ =Task_EntitiesManagerInit
 	str r0, [r1, #8]
 _0802BCEE:
 	add sp, #0x50
@@ -733,7 +636,7 @@ _0802BCEE:
 	.align 2, 0
 _0802BCF8: .4byte gCamera
 _0802BCFC: .4byte gCurTask
-_0802BD00: .4byte Task_802B868
+_0802BD00: .4byte Task_EntitiesManagerInit
 
 	thumb_func_start sub_802BD04
 sub_802BD04: @ 0x0802BD04

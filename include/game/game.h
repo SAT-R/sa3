@@ -19,6 +19,17 @@
 #define GAME_MODE_MP_MULTI_PACK    6
 #define GAME_MODE_MP_SINGLE_PACK   7
 
+#if (GAME <= GAME_SA2)
+#define CURRENT_GAME_MODE gGameMode
+#define CURRENT_LEVEL     gCurrentLevel
+extern s8 CURRENT_LEVEL;
+#define ENT_MGR_TASK gEntitiesManagerTask
+#else
+#define CURRENT_GAME_MODE (gStageData.gameMode)
+#define CURRENT_LEVEL     (gStageData.currentLevel)
+#define ENT_MGR_TASK      (gStageData.taskEntitiesManager)
+#endif
+
 void GameStart(void);
 
 // rodata

@@ -29,6 +29,7 @@ SECTIONS {
         asm/code_0_2.o(.text);
         src/game/sa1_sa2_shared/rings_manager.o(.text);
         asm/code_0_3_1.o(.text);
+        src/game/stage/entities_manager.o(.text);
         asm/entities_manager.o(.text);
         asm/itembox.o(.text);
         src/game/interactables/zone_warp.o(.text);
