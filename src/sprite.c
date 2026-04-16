@@ -798,17 +798,17 @@ void DisplaySprite(Sprite *s)
         }
 
         if ((s->frameNum >> 28) == 1) {
-            if (0x04000000 & s->frameFlags) {
+            if (SPRITE_FLAG_MASK_26 & s->frameFlags) {
                 u32 unkC;
-                s->frameFlags = s->frameFlags & ~0x4000000;
+                s->frameFlags = s->frameFlags & ~SPRITE_FLAG_MASK_26;
                 unkC = dimensions->unkC & 0xFFFFFF;
                 sp28 = dimensions->unkC >> 24;
                 temp_r0_4 = &gRefSpriteTables->unk18[unkC];
                 if (*temp_r0_4 >= 0) {
-                    tileSize = 0x20;
+                    tileSize = TILE_SIZE_4BPP;
                     var_r2_2 = (u8 *)gRefSpriteTables->tiles_4bpp;
                 } else {
-                    tileSize = 0x40;
+                    tileSize = TILE_SIZE_8BPP;
                     var_r2_2 = (u8 *)gRefSpriteTables->tiles_8bpp;
                 }
                 totalSize = tileSize;
