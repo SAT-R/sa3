@@ -105,7 +105,7 @@ typedef struct {
     /* 0xA8 */ u32 unkA8;
     /* 0xAC */ u16 rings;
     /* 0xAE */ u16 levelTimer; // Timer that constantly increases in a level
-    /* 0xB0 */ u16 unkB0;
+    /* 0xB0 */ u16 stageFlags;
     /* 0xB2 */ u16 unkB2;
     /* 0xB4 */ u8 lives;
     /* 0xB5 */ u8 unkB5;

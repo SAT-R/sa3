@@ -138,6 +138,12 @@ struct Range {
 };
 
 void Task_EntitiesManagerInit(void);
+void sub_802BD04(u16 param0, u16 *param1);
+void sub_802BDE4(u16 param0, u16 *param1);
+void sub_802BEE4(u16 param0, u16 *param1);
+void sub_802BFA4(u16 param0, u16 *param1);
+void SpawnMapEntities(void);
+
 extern const RLCompressed *const gSpritePosData_interactables[NUM_LEVEL_IDS];
 extern const RLCompressed *const gSpritePosData_itemboxes[NUM_LEVEL_IDS];
 extern const RLCompressed *const gSpritePosData_enemies[NUM_LEVEL_IDS];
@@ -506,6 +512,180 @@ void CreateStageEntitiesManager(void)
     ENT_MGR_TASK = t;
 }
 #endif
+
+// BUG/NOTE(Jace):
+// Sadly this not matching leads to an endless loop inside SpawnMapEntities() right now :(
+//
+// (80.89%) https://decomp.me/scratch/joL0r
+NONMATCH("asm/non_matching/game/shared/em__Task_EntitiesManagerInit.inc", void Task_EntitiesManagerInit(void))
+{
+    u16 subroutine_arg0[2];
+    u8 sp4[0x20];
+    u16 h_regionCount, v_regionCount;
+
+    u32 *enemyPositions;
+    u32 *interactables;
+    u32 *itemBoxPositions;
+    struct Range range1;
+    struct Range range2;
+    u32 *temp_r0_2;
+    EntitiesManager *em;
+    s32 temp_r0;
+    s32 temp_r1;
+    s32 temp_r2;
+    s32 temp_r3;
+    s32 var_r0;
+    u16 temp_r2_6;
+    u32 temp_r1_6;
+    u32 temp_r1_GAME_MODE_MP_SINGLE_PACK;
+    u32 temp_r2_2;
+    u32 temp_r3_4;
+
+    if (!(0x1 & gStageData.stageFlags)) {
+        em = TASK_DATA(gCurTask);
+        if (em->SA2_LABEL(unk14) == 0) {
+            temp_r3 = gCamera.x - em->prevCamX;
+
+            if (ABS(gCamera.x - em->prevCamX) > 248) {
+                SpawnMapEntities();
+                return;
+            }
+
+            if (ABS(gCamera.y - em->prevCamY) > 208) {
+                SpawnMapEntities();
+                return;
+            }
+
+            interactables = (u32 *)em->interactables;
+            enemyPositions = (u32 *)em->enemies;
+            itemBoxPositions = (u32 *)em->items;
+            if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
+                enemyPositions += 3;
+                itemBoxPositions += 3;
+            }
+
+            interactables++;
+            h_regionCount = (u16)*interactables++;
+            v_regionCount = (u16)*interactables++;
+
+            if (gCamera.x > em->prevCamX) {
+                range1.xLow = em->prevCamX + (DISPLAY_WIDTH + 128);
+                range1.xHigh = gCamera.x + (DISPLAY_WIDTH + 128);
+            } else {
+                range1.xLow = gCamera.x - 128;
+                range1.xHigh = em->prevCamX - 128;
+            }
+        }
+
+        if (em->SA2_LABEL(unk14) != 0) {
+            SpawnMapEntities();
+        } else {
+            range1.yLow = gCamera.y - 128;
+            range1.yHigh = gCamera.y + (DISPLAY_HEIGHT + 128);
+            if (gCamera.y > em->prevCamY) {
+                range2.yLow = em->prevCamY + (DISPLAY_HEIGHT + 128);
+                range2.yHigh = gCamera.y + (DISPLAY_HEIGHT + 128);
+            } else {
+                range2.yLow = gCamera.y - 128;
+                range2.yHigh = em->prevCamY - 128;
+            }
+            range2.xLow = gCamera.x - 128;
+            range2.xHigh = gCamera.x + (DISPLAY_WIDTH + 128);
+            if (range1.xLow < 0) {
+                range1.xLow = 0;
+            }
+            if (range1.yLow < 0) {
+                range1.yLow = 0;
+            }
+            if (range1.xHigh < 0) {
+                range1.xHigh = 0;
+            }
+            if (range1.yHigh < 0) {
+                range1.yHigh = 0;
+            }
+            temp_r3_4 = Q(h_regionCount);
+            if (range1.xLow >= temp_r3_4) {
+                range1.xLow = temp_r3_4 - 1;
+            }
+            temp_r2_2 = Q(v_regionCount);
+            if (range1.yLow >= temp_r2_2) {
+                range1.yLow = temp_r2_2 - 1;
+            }
+            if (range1.xHigh >= temp_r3_4) {
+                range1.xHigh = temp_r3_4 - 1;
+            }
+            if (range1.yHigh >= temp_r2_2) {
+                range1.yHigh = temp_r2_2 - 1;
+            }
+
+            if (range2.xLow < 0) {
+                range2.xLow = 0;
+            }
+            if (range2.yLow < 0) {
+                range2.yLow = 0;
+            }
+            if (range2.xHigh < 0) {
+                range2.xHigh = 0;
+            }
+            if (range2.yHigh < 0) {
+                range2.yHigh = 0;
+            }
+            if (range2.xLow >= temp_r3_4) {
+                range2.xLow = temp_r3_4 - 1;
+            }
+            if (range2.yLow >= temp_r2_2) {
+                range2.yLow = temp_r2_2 - 1;
+            }
+            if (range2.xHigh >= temp_r3_4) {
+                range2.xHigh = temp_r3_4 - 1;
+            }
+            if (range2.yHigh >= temp_r2_2) {
+                range2.yHigh = temp_r2_2 - 1;
+            }
+            if ((gCamera.x != em->prevCamX) && (range1.xLow != range1.xHigh) && (range1.yLow != range1.yHigh)) {
+                subroutine_arg0[1] = (u16)I(range1.yLow);
+                while ((Q(subroutine_arg0[1]) < range1.yHigh) && (subroutine_arg0[1] < v_regionCount)) {
+                    subroutine_arg0[0] = (u16)I(range1.xLow);
+                    while ((Q(subroutine_arg0[0]) < range1.xHigh) && (subroutine_arg0[0] < h_regionCount)) {
+                        if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
+                            sub_802BD04(0, &subroutine_arg0[0]);
+                            sub_802BDE4(0, &subroutine_arg0[0]);
+                            sub_802BEE4(0, &subroutine_arg0[0]);
+                        } else {
+                            // TEMP?
+                            asm("" ::"r"(enemyPositions));
+                            asm("" ::"r"(itemBoxPositions));
+
+                            sub_802BFA4(0, &subroutine_arg0[0]);
+                        }
+                        subroutine_arg0[0]++;
+                    }
+                    subroutine_arg0[1]++;
+                }
+            }
+            if ((gCamera.y != em->prevCamY) && (range2.yLow != range2.yHigh) && (range2.xLow != range2.xHigh)) {
+                subroutine_arg0[1] = (u16)I(range2.yLow);
+                while ((Q(subroutine_arg0[1]) < range2.yHigh) && (subroutine_arg0[1] < v_regionCount)) {
+                    subroutine_arg0[0] = (u16)I(range2.xLow);
+                    while ((Q(subroutine_arg0[0]) < range2.xHigh) && (subroutine_arg0[0] < h_regionCount)) {
+                        if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
+                            sub_802BD04(1, &subroutine_arg0[0]);
+                            sub_802BDE4(1, &subroutine_arg0[0]);
+                            sub_802BEE4(1, &subroutine_arg0[0]);
+                        } else {
+                            sub_802BFA4(1, &subroutine_arg0[0]);
+                        }
+                        subroutine_arg0[0]++;
+                    }
+                    subroutine_arg0[1]++;
+                }
+            }
+            em->prevCamX = gCamera.x;
+            em->prevCamY = gCamera.y;
+        }
+    }
+}
+END_NONMATCH
 
 #if 0
 static void SpawnMapEntities()
