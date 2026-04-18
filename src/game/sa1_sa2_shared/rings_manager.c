@@ -6,7 +6,7 @@
 #include "sprite.h"
 #include "lib/m4a/m4a.h"
 #include "game/camera.h"
-#include "game/entity.h"
+#include "game/shared/stage/entity.h"
 #include "game/player.h"
 #include "game/stage.h"
 #include "game/assets/compressed/entities.h"
@@ -150,7 +150,7 @@ void CreateStageRingsManager(void)
     u32 **ringsCompressed;
     void (*var_r0)();
     RingsManager *temp_r0_2;
-    s16 mapIndex = gStageData.currMapIndex;
+    s16 mapIndex = gStageData.currentLevel;
     void *var_r5;
     Sprite *s;
 
@@ -585,7 +585,7 @@ void Task_RingsMgrExtraZone(void)
     s = &mgr->s;
 
     rings = mgr->rings;
-    mapIndex = gStageData.currMapIndex;
+    mapIndex = gStageData.currentLevel;
     drawCount = 0;
     if (gCamera.unk6A != 0) {
         RLUnCompWram(gSpritePosData_rings[mapIndex], rings);

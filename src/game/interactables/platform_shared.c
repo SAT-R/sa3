@@ -2,7 +2,7 @@
 #include "trig.h"
 #include "game/interactables/platform_shared.h"
 #include "game/camera.h"
-#include "game/entity.h"
+#include "game/shared/stage/entity.h"
 #include "game/stage.h"
 
 u16 sub_804DC38(u8 kind, s32 worldX, s32 worldY, MapEntity *me)

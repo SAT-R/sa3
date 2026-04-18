@@ -3,7 +3,7 @@
 #include "sprite.h"
 #include "task.h"
 #include "game/camera.h"
-#include "game/entity.h"
+#include "game/shared/stage/entity.h"
 #include "game/enemy_unknown.h"
 
 #include "constants/anim_sizes.h"

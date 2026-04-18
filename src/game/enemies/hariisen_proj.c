@@ -7,7 +7,7 @@
 #include "game/camera.h"
 #include "game/enemies/hariisen.h"
 #include "game/enemy_unknown.h"
-#include "game/entity.h"
+#include "game/shared/stage/entity.h"
 #include "game/stage.h"
 #include "module_unclear.h"
 

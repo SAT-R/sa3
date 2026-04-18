@@ -7,7 +7,7 @@
 #include "data/sprite_tables.h"
 #include "game/save.h"
 #include "game/stage.h"
-#include "game/stage/tilemap_table.h"
+#include "game/shared/stage/tilemap_table.h"
 
 void sub_80001EC(void);
 void Task_8000284(void);

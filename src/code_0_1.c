@@ -77,7 +77,7 @@ void WarpToMap(s16 level, u16 entryIndex)
             stageData->act = 1;
         }
 
-        stageData->currMapIndex = level;
+        stageData->currentLevel = level;
     }
 
     stageData->entryIndex = entryIndex;
@@ -108,7 +108,7 @@ void sub_80022E8(s16 level)
             if (level > 70) {
                 stageData->zone = (u16)level - 63;
                 stageData->act = 3;
-                stageData->currMapIndex = level;
+                stageData->currentLevel = level;
             } else {
                 zone = (level - 1) / 10;
                 act = (((zone * 10) + 1));
@@ -116,7 +116,7 @@ void sub_80022E8(s16 level)
                 act++;
                 stageData->zone = zone;
                 stageData->act = act;
-                stageData->currMapIndex = level;
+                stageData->currentLevel = level;
             }
         }
         stageData->difficulty = LOADED_SAVE->difficulty;
@@ -126,7 +126,7 @@ void sub_80022E8(s16 level)
     } else {
         stageData->zone = 0;
         stageData->act = 0;
-        stageData->currMapIndex = 0;
+        stageData->currentLevel = 0;
     }
     stageData->unkB6 = 0;
     stageData->unkB7 = 0;

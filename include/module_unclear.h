@@ -2,7 +2,7 @@
 #define GUARD_SA3_MODULE_UNCLEAR_H
 
 #include "types.h"
-#include "game/entity.h" // for MapEntity struct
+#include "game/shared/stage/entity.h" // for MapEntity struct
 #include "game/player.h"
 
 /* The variable and function declarations in here do not have a corresponding module yet */

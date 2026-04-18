@@ -4,7 +4,7 @@
 #include "malloc_vram.h"
 #include "game/camera.h"
 #include "game/enemy_unknown.h"
-#include "game/entity.h"
+#include "game/shared/stage/entity.h"
 #include "game/stage.h"
 
 typedef enum UutsuboType {

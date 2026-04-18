@@ -4,7 +4,7 @@
 #include "task.h"
 #include "trig.h"
 #include "game/camera.h"
-#include "game/entity.h"
+#include "game/shared/stage/entity.h"
 #include "game/player.h"
 #include "game/stage.h"
 
