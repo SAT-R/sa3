@@ -9,6 +9,7 @@
 #include "game/camera.h"
 #include "game/game.h"
 #include "game/sa1_sa2_shared/entities_manager.h"
+#include "game/save.h" // for DIFFICULTY_EASY
 #include "game/stage.h"
 
 #include "constants/zones.h"
@@ -143,7 +144,8 @@ typedef struct EntitiesStruct {
     /* 0x04 */ u32 regionsX; // number of regions of current map on X-axis
     /* 0x08 */ u32 regionsY; // number of regions of current map on Y-axis
     /* 0x0C */ MapEntity *me;
-    /* 0x10 */ u8 filler10[0x8];
+    /* 0x10 */ MapEntity *me2;
+    /* 0x14 */ MapEntity *me3;
     /* 0x18 */ s32 entityIdInRegion;
     /* 0x1C */ s32 worldX;
     /* 0x20 */ s32 worldY;
@@ -160,12 +162,13 @@ typedef struct EntitiesStruct {
     /* 0x4C */ u32 *items;
 } EntitiesStruct; /* 0x50 */
 
-typedef void (*EntityFunc)(MapEntity *me, u16 regionX, u16 regionY, u8 id);
-extern EntityFunc gSpriteInits_Interactables[];
+extern MapEntityInit gSpriteInits_Interactables[];
+extern MapEntityInit gSpriteInits_Enemies[];
+extern u8 gUnknown_080CF104[];
 
 void Task_EntitiesManagerInit(void);
-void InitEntity_Interactable(u16 param0, EntitiesStruct *es);
-void sub_802BDE4(u16 param0, EntitiesStruct *es);
+void InitEntityBlock_Interactable(u16 param0, EntitiesStruct *es);
+void InitEntityBlock_Enemy(u16 param0, EntitiesStruct *es);
 void sub_802BEE4(u16 param0, EntitiesStruct *es);
 void sub_802BFA4(u16 param0, EntitiesStruct *es);
 void SpawnMapEntities(void);
@@ -647,8 +650,8 @@ void Task_EntitiesManagerInit(void)
                     es.currentRegionX = (u16)I(es.range1.xLow);
                     while ((Q(es.currentRegionX) < es.range1.xHigh) && (es.currentRegionX < es.regionsX)) {
                         if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
-                            InitEntity_Interactable(0, &es);
-                            sub_802BDE4(0, &es);
+                            InitEntityBlock_Interactable(0, &es);
+                            InitEntityBlock_Enemy(0, &es);
                             sub_802BEE4(0, &es);
                         } else {
                             sub_802BFA4(0, &es);
@@ -664,8 +667,8 @@ void Task_EntitiesManagerInit(void)
                     es.currentRegionX = (u16)I(es.range2.xLow);
                     while ((Q(es.currentRegionX) < es.range2.xHigh) && (es.currentRegionX < es.regionsX)) {
                         if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
-                            InitEntity_Interactable(1, &es);
-                            sub_802BDE4(1, &es);
+                            InitEntityBlock_Interactable(1, &es);
+                            InitEntityBlock_Enemy(1, &es);
                             sub_802BEE4(1, &es);
                         } else {
                             sub_802BFA4(1, &es);
@@ -733,8 +736,8 @@ void SpawnMapEntities()
             es.currentRegionX = I(es.range2.xLow);
             while ((Q(es.currentRegionX) < es.range2.xHigh) && (es.currentRegionX < es.regionsX)) {
                 if (gStageData.gameMode != 7) {
-                    InitEntity_Interactable(1, (void *)&es);
-                    sub_802BDE4(1, &es);
+                    InitEntityBlock_Interactable(1, (void *)&es);
+                    InitEntityBlock_Enemy(1, &es);
                     sub_802BEE4(1, &es);
                 } else {
                     sub_802BFA4(1, &es);
@@ -750,7 +753,7 @@ void SpawnMapEntities()
     }
 }
 
-void InitEntity_Interactable(u16 param0, EntitiesStruct *es)
+void InitEntityBlock_Interactable(u16 param0, EntitiesStruct *es)
 {
     s32 worldX, worldY;
     MapEntity *me;
@@ -776,7 +779,7 @@ void InitEntity_Interactable(u16 param0, EntitiesStruct *es)
             es->worldY = TO_WORLD_POS(es->me->y, es->currentRegionY);
             if ((es->worldX >= range->xLow) && (es->worldX <= range->xHigh) && (es->worldY >= range->yLow)
                 && (es->worldY <= range->yHigh)) {
-                EntityFunc initFunc = gSpriteInits_Interactables[es->me->index];
+                MapEntityInit initFunc = gSpriteInits_Interactables[es->me->index];
                 if (initFunc != NULL) {
                     do {
                         initFunc(es->me, es->currentRegionX, es->currentRegionY, es->entityIdInRegion);
@@ -785,6 +788,55 @@ void InitEntity_Interactable(u16 param0, EntitiesStruct *es)
             }
             // TODO: Why does es->me++; work in decomp.me, but not here?
             es->me = (MapEntity *)(((u8*)es->me) + 8);
+        }
+    }
+}
+
+void InitEntityBlock_Enemy(u16 param0, EntitiesStruct *es)
+{
+    s32 worldX, worldY;
+    MapEntity *me;
+    Range *range;
+    u32 i;
+
+    if (CURRENT_GAME_MODE == GAME_MODE_2) {
+        return;
+    }
+
+    range = &es->range2;
+    if (param0 == 0) {
+        range = &es->range1;
+    }
+
+    es->entityIdInRegion = READ_START_INDEX(es->enemies, es->regionsX, es->currentRegionX, es->currentRegionY);
+    if (es->entityIdInRegion != 0) {
+        es->me2 = (MapEntity *)(((u8 *)es->enemies) + (es->entityIdInRegion - 8));
+
+        for (es->entityIdInRegion = 0; (s8)es->me2->x != -1;) {
+            if ((s8)es->me2->x < -2) {
+                // TODO: Why does es->me++; work in decomp.me, but not here?
+                es->me2 = (MapEntity *)(((u8 *)es->me2) + 8);
+                es->entityIdInRegion++;
+                continue;
+            }
+            es->worldX = TO_WORLD_POS(es->me2->x, es->currentRegionX);
+            es->worldY = TO_WORLD_POS(es->me2->y, es->currentRegionY);
+            if ((es->worldX >= range->xLow) && (es->worldX <= range->xHigh) && (es->worldY >= range->yLow)
+                && (es->worldY <= range->yHigh)) {
+
+				// TODO: Use difficulty macros!
+                if ((CURRENT_GAME_MODE == 0 || CURRENT_GAME_MODE == 5)
+                    && (gStageData.act == ACT_1 || gStageData.act == ACT_2 || gStageData.act == ACT_3)
+                    && (gStageData.difficulty == DIFFICULTY_EASY) && (gUnknown_080CF104[gStageData.zone] == es->me2->index)) {
+                    SET_MAP_ENTITY_INITIALIZED(es->me2);
+                    continue;
+                } else {
+                    gSpriteInits_Enemies[es->me2->index](es->me2, es->currentRegionX, es->currentRegionY, es->entityIdInRegion);
+                }
+            }
+            // TODO: Why does es->me++; work in decomp.me, but not here?
+            es->me2 = (MapEntity *)(((u8 *)es->me2) + 8);
+            es->entityIdInRegion++;
         }
     }
 }
