@@ -8,8 +8,8 @@
 .if 0
 .endif
 
-	thumb_func_start sub_802BEE4
-sub_802BEE4: @ 0x0802BEE4
+	thumb_func_start InitEntityBlock_Items
+InitEntityBlock_Items: @ 0x0802BEE4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -112,8 +112,8 @@ _0802BF98:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_802BFA4
-sub_802BFA4: @ 0x0802BFA4
+	thumb_func_start InitEntityBlock_InteractablesSinglePakMP
+InitEntityBlock_InteractablesSinglePakMP: @ 0x0802BFA4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
