@@ -683,86 +683,74 @@ NONMATCH("asm/non_matching/game/shared/em__Task_EntitiesManagerInit.inc", void T
 }
 END_NONMATCH
 
-// (74.97%) https://decomp.me/scratch/jHRR8
-NONMATCH("asm/non_matching/game/shared/em__SpawnMapEntities.inc", void SpawnMapEntities())
+void SpawnMapEntities()
 {
-    u16 subroutine_arg0[2];
-    u8 sp4[0x2C];
-    u32 h_regionCount;
-    u32 v_regionCount;
-    u32 *enemyPositions;
-    u32 *interactables;
-    u32 *itemBoxPositions;
-    struct Range range1;
-    struct Range range2;
+    EntitiesStruct es;
 
     if (!(1 & gStageData.stageFlags)) {
         EntitiesManager *em = TASK_DATA(gCurTask);
-        interactables = (u32 *)em->interactables;
-        enemyPositions = (u32 *)em->enemies;
-        itemBoxPositions = (u32 *)em->items;
+        es.interactables = (u32 *)em->interactables;
+        es.enemies = (u32 *)em->enemies;
         if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
-            enemyPositions += 3;
-            itemBoxPositions += 3;
-        }
-        asm("" ::"r"(enemyPositions), "r"(itemBoxPositions));
-
-        interactables++;
-        h_regionCount = *interactables++;
-        v_regionCount = *interactables++;
-
-        range1.yLow = gCamera.y - 128;
-        range1.yHigh = gCamera.y + (DISPLAY_HEIGHT + 128);
-        range1.xLow = gCamera.x - 128;
-        range1.xHigh = gCamera.x + (DISPLAY_WIDTH + 128);
-        if (range1.xLow < 0) {
-            range1.xLow = 0;
-        }
-        if (range1.yLow < 0) {
-            range1.yLow = 0;
-        }
-        if (range1.xHigh < 0) {
-            range1.xHigh = 0;
-        }
-        if (range1.yHigh < 0) {
-            range1.yHigh = 0;
+            es.enemies = (u32 *)em->enemies + 3;
+            es.items = (u32 *)em->items + 3;
         }
 
-        if (range1.xLow >= (h_regionCount << 8)) {
-            range1.xLow = (h_regionCount << 8) - 1;
+        es.interactables++;
+        es.regionsX = (u16)*es.interactables++;
+        es.regionsY = (u16)*es.interactables++;
+
+        es.range2.xLow = gCamera.x - 128;
+        es.range2.xHigh = gCamera.x + (DISPLAY_WIDTH + 128);
+        es.range2.yLow = gCamera.y - 128;
+        es.range2.yHigh = gCamera.y + (DISPLAY_HEIGHT + 128);
+        if (es.range2.xLow < 0) {
+            es.range2.xLow = 0;
         }
-        if (range1.yLow >= (v_regionCount << 8)) {
-            range1.yLow = (v_regionCount << 8) - 1;
+        if (es.range2.yLow < 0) {
+            es.range2.yLow = 0;
         }
-        if (range1.xHigh >= (h_regionCount << 8)) {
-            range1.xHigh = (h_regionCount << 8) - 1;
+        if (es.range2.xHigh < 0) {
+            es.range2.xHigh = 0;
         }
-        if (range1.yHigh >= (v_regionCount << 8)) {
-            range1.yHigh = (v_regionCount << 8) - 1;
+        if (es.range2.yHigh < 0) {
+            es.range2.yHigh = 0;
         }
 
-        subroutine_arg0[1] = I(range1.yLow);
-        while ((Q(subroutine_arg0[1]) < range1.yHigh) && (subroutine_arg0[1] < v_regionCount)) {
-            subroutine_arg0[0] = I(range1.xLow);
-            while ((Q(subroutine_arg0[0]) < range1.xHigh) && (subroutine_arg0[0] < h_regionCount)) {
+        if (es.range2.xLow >= (es.regionsX << 8)) {
+            es.range2.xLow = (es.regionsX << 8) - 1;
+        }
+        if (es.range2.yLow >= (es.regionsY << 8)) {
+            es.range2.yLow = (es.regionsY << 8) - 1;
+        }
+        if (es.range2.xHigh >= (es.regionsX << 8)) {
+            es.range2.xHigh = (es.regionsX << 8) - 1;
+        }
+        if (es.range2.yHigh >= (es.regionsY << 8)) {
+            es.range2.yHigh = (es.regionsY << 8) - 1;
+        }
+
+        es.currentRegionY = I(es.range2.yLow);
+        while ((Q(es.currentRegionY) < es.range2.yHigh) && (es.currentRegionY < es.regionsY)) {
+            es.currentRegionX = I(es.range2.xLow);
+            while ((Q(es.currentRegionX) < es.range2.xHigh) && (es.currentRegionX < es.regionsX)) {
                 if (gStageData.gameMode != 7) {
-                    InitEntity_Interactable(1, (void *)&subroutine_arg0[0]);
-                    sub_802BDE4(1, (void*)&subroutine_arg0[0]);
-                    sub_802BEE4(1, (void *)&subroutine_arg0[0]);
+                    InitEntity_Interactable(1, (void *)&es);
+                    sub_802BDE4(1, &es);
+                    sub_802BEE4(1, &es);
                 } else {
-                    sub_802BFA4(1, (void *)&subroutine_arg0[0]);
+                    sub_802BFA4(1, &es);
                 }
-                subroutine_arg0[0]++;
+                es.currentRegionX++;
             }
-            subroutine_arg0[1]++;
+            es.currentRegionY++;
         }
         em->prevCamX = gCamera.x;
         em->prevCamY = gCamera.y;
         em->SA2_LABEL(unk14) = 0;
-        gCurTask->main = Task_EntitiesManagerInit;
+        gCurTask->main = (void (*)())Task_EntitiesManagerInit;
     }
 }
-END_NONMATCH
 
 // (86.50%) https://decomp.me/scratch/6MufZ
 NONMATCH("asm/non_matching/game/shared/em__InitEntity_Interactable.inc", void InitEntity_Interactable(u16 param0, EntitiesStruct *es))
