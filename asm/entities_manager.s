@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start SpawnMapEntities
 SpawnMapEntities: @ 0x0802BB80
 	push {r4, r5, r6, lr}
@@ -211,6 +209,7 @@ _0802BCEE:
 _0802BCF8: .4byte gCamera
 _0802BCFC: .4byte gCurTask
 _0802BD00: .4byte Task_EntitiesManagerInit
+.endif
 
 	thumb_func_start sub_802BD04
 sub_802BD04: @ 0x0802BD04
