@@ -140,8 +140,8 @@ typedef struct Range {
 typedef struct EntitiesStruct {
     /* 0x00 */ u16 currentRegionX;
     /* 0x02 */ u16 currentRegionY;
-    /* 0x04 */ s32 regionsX; // number of regions of current map on X-axis
-    /* 0x08 */ s32 regionsY; // number of regions of current map on Y-axis
+    /* 0x04 */ u32 regionsX; // number of regions of current map on X-axis
+    /* 0x08 */ u32 regionsY; // number of regions of current map on Y-axis
     /* 0x0C */ MapEntity *me;
     /* 0x10 */ u8 filler10[0x8];
     /* 0x18 */ s32 entityIdInRegion;
@@ -539,8 +539,7 @@ void CreateStageEntitiesManager(void)
 }
 #endif
 
-// (98.66%) https://decomp.me/scratch/8YibT
-NONMATCH("asm/non_matching/game/shared/em__Task_EntitiesManagerInit.inc", void Task_EntitiesManagerInit(void))
+void Task_EntitiesManagerInit(void)
 {
 
     if (!(0x1 & gStageData.stageFlags)) {
@@ -562,8 +561,8 @@ NONMATCH("asm/non_matching/game/shared/em__Task_EntitiesManagerInit.inc", void T
             es.enemies = (u32 *)em->enemies;
             es.items = (u32 *)em->items;
             if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
-                es.enemies += 3;
-                es.items += 3;
+                es.enemies = (u32 *)em->enemies + 3;
+                es.items = (u32 *)em->items + 3;
             }
 
             es.interactables++;
@@ -605,17 +604,17 @@ NONMATCH("asm/non_matching/game/shared/em__Task_EntitiesManagerInit.inc", void T
             if (es.range1.yHigh < 0) {
                 es.range1.yHigh = 0;
             }
-            if ((unsigned)es.range1.xLow >= Q(es.regionsX)) {
-                es.range1.xLow = Q(es.regionsX) - 1;
+            if ((unsigned)es.range1.xLow >= (es.regionsX << 8)) {
+                es.range1.xLow = (es.regionsX << 8) - 1;
             }
-            if ((unsigned)es.range1.yLow >= Q(es.regionsY)) {
-                es.range1.yLow = Q(es.regionsY) - 1;
+            if ((unsigned)es.range1.yLow >= (es.regionsY << 8)) {
+                es.range1.yLow = (es.regionsY << 8) - 1;
             }
-            if ((unsigned)es.range1.xHigh >= Q(es.regionsX)) {
-                es.range1.xHigh = Q(es.regionsX) - 1;
+            if ((unsigned)es.range1.xHigh >= (es.regionsX << 8)) {
+                es.range1.xHigh = (es.regionsX << 8) - 1;
             }
-            if ((unsigned)es.range1.yHigh >= Q(es.regionsY)) {
-                es.range1.yHigh = Q(es.regionsY) - 1;
+            if ((unsigned)es.range1.yHigh >= (es.regionsY << 8)) {
+                es.range1.yHigh = (es.regionsY << 8) - 1;
             }
 
             if (es.range2.xLow < 0) {
@@ -630,17 +629,17 @@ NONMATCH("asm/non_matching/game/shared/em__Task_EntitiesManagerInit.inc", void T
             if (es.range2.yHigh < 0) {
                 es.range2.yHigh = 0;
             }
-            if ((unsigned)es.range2.xLow >= Q(es.regionsX)) {
-                es.range2.xLow = Q(es.regionsX) - 1;
+            if ((unsigned)es.range2.xLow >= (es.regionsX << 8)) {
+                es.range2.xLow = (es.regionsX << 8) - 1;
             }
-            if ((unsigned)es.range2.yLow >= Q(es.regionsY)) {
-                es.range2.yLow = Q(es.regionsY) - 1;
+            if ((unsigned)es.range2.yLow >= (es.regionsY << 8)) {
+                es.range2.yLow = (es.regionsY << 8) - 1;
             }
-            if ((unsigned)es.range2.xHigh >= Q(es.regionsX)) {
-                es.range2.xHigh = Q(es.regionsX) - 1;
+            if ((unsigned)es.range2.xHigh >= (es.regionsX << 8)) {
+                es.range2.xHigh = (es.regionsX << 8) - 1;
             }
-            if ((unsigned)es.range2.yHigh >= Q(es.regionsY)) {
-                es.range2.yHigh = Q(es.regionsY) - 1;
+            if ((unsigned)es.range2.yHigh >= (es.regionsY << 8)) {
+                es.range2.yHigh = (es.regionsY << 8) - 1;
             }
             if ((gCamera.x != em->prevCamX) && (es.range1.xLow != es.range1.xHigh) && (es.range1.yLow != es.range1.yHigh)) {
                 es.currentRegionY = (u16)I(es.range1.yLow);
@@ -681,7 +680,6 @@ NONMATCH("asm/non_matching/game/shared/em__Task_EntitiesManagerInit.inc", void T
         }
     }
 }
-END_NONMATCH
 
 void SpawnMapEntities()
 {
