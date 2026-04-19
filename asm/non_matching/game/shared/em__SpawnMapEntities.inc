@@ -141,7 +141,7 @@ _0802BC74:
 	beq _0802BCA4
 	movs r0, #1
 	mov r1, sp
-	bl sub_802BD04
+	bl InitEntity_Interactable
 	movs r0, #1
 	mov r1, sp
 	bl sub_802BDE4
