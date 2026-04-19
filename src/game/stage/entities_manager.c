@@ -146,7 +146,7 @@ typedef struct EntitiesStruct {
     /* 0x08 */ u32 regionsY; // number of regions of current map on Y-axis
     /* 0x0C */ MapEntity *me;
     /* 0x10 */ MapEntity *me2;
-    /* 0x14 */ MapEntity *me3;
+    /* 0x14 */ MapEntity_Itembox *me3;
     /* 0x18 */ s32 entityIdInRegion;
     /* 0x1C */ s32 worldX;
     /* 0x20 */ s32 worldY;
@@ -162,6 +162,9 @@ typedef struct EntitiesStruct {
     /* 0x48 */ u32 *interactables; // aka "gimmicks"
     /* 0x4C */ u32 *items;
 } EntitiesStruct; /* 0x50 */
+
+// Items
+extern void CreateEntity_ItemBox(MapEntity_Itembox *, u16, u16, u8);
 
 // Enemies
 extern void CreateEntity_Spinner(MapEntity *, u16, u16, u8);
@@ -1232,6 +1235,39 @@ void InitEntityBlock_Enemies(u16 param0, EntitiesStruct *es)
             // TODO: Why does es->me++; work in decomp.me, but not here?
             es->me2 = (MapEntity *)(((u8 *)es->me2) + 8);
             es->entityIdInRegion++;
+        }
+    }
+}
+
+void InitEntityBlock_Items(u16 param0, EntitiesStruct *es)
+{
+    s32 worldX, worldY;
+    MapEntity *me;
+    Range *range;
+    u32 i;
+
+    range = &es->range2;
+    if (param0 == 0) {
+        range = &es->range1;
+    }
+
+    es->entityIdInRegion = READ_START_INDEX(es->items, es->regionsX, es->currentRegionX, es->currentRegionY);
+    if (es->entityIdInRegion != 0) {
+        es->me3 = (MapEntity_Itembox *)(((u8 *)es->items) + (es->entityIdInRegion - 8));
+
+        for (es->entityIdInRegion = 0; (s8)es->me3->x != -1; es->entityIdInRegion++) {
+            if ((s8)es->me3->x < -2) {
+                es->me3++;
+                continue;
+            }
+            es->worldX = TO_WORLD_POS(es->me3->x, es->currentRegionX);
+            es->worldY = TO_WORLD_POS(es->me3->y, es->currentRegionY);
+            if ((es->worldX >= range->xLow) && (es->worldX <= range->xHigh) && (es->worldY >= range->yLow)
+                && (es->worldY <= range->yHigh)) {
+                CreateEntity_ItemBox(es->me3, es->currentRegionX, es->currentRegionY, es->entityIdInRegion);
+            }
+
+            es->me3++;
         }
     }
 }
