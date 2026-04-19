@@ -750,17 +750,11 @@ void SpawnMapEntities()
     }
 }
 
-// (86.50%) https://decomp.me/scratch/6MufZ
-NONMATCH("asm/non_matching/game/shared/em__InitEntity_Interactable.inc", void InitEntity_Interactable(u16 param0, EntitiesStruct *es))
+void InitEntity_Interactable(u16 param0, EntitiesStruct *es)
 {
     s32 worldX, worldY;
-    u8 *temp_r0_2;
     MapEntity *me;
-#ifndef NON_MATCHING
-    register Range *range asm("r8");
-#else
     Range *range;
-#endif
     u32 i;
 
     range = &es->range2;
@@ -773,23 +767,27 @@ NONMATCH("asm/non_matching/game/shared/em__InitEntity_Interactable.inc", void In
         es->me = (MapEntity *)(((u8 *)es->interactables) + (es->entityIdInRegion - 8));
 
         for (es->entityIdInRegion = 0; (s8)es->me->x != -1; es->entityIdInRegion++) {
-            if ((s8)es->me->x >= -2) {
-                es->worldX = TO_WORLD_POS(es->me->x, es->currentRegionX);
-                es->worldY = TO_WORLD_POS(es->me->y, es->currentRegionY);
-                if ((es->worldX >= range->xLow) && (es->worldX <= range->xHigh) && (es->worldY >= range->yLow)
-                    && (es->worldY <= range->yHigh)) {
-                    EntityFunc initFunc = gSpriteInits_Interactables[es->me->index];
-                    if (initFunc != NULL) {
+            if ((s8)es->me->x < -2) {
+				// TODO: Why does es->me++; work in decomp.me, but not here?
+                es->me = (MapEntity *)(((u8 *)es->me) + 8);
+                continue;
+            }
+            es->worldX = TO_WORLD_POS(es->me->x, es->currentRegionX);
+            es->worldY = TO_WORLD_POS(es->me->y, es->currentRegionY);
+            if ((es->worldX >= range->xLow) && (es->worldX <= range->xHigh) && (es->worldY >= range->yLow)
+                && (es->worldY <= range->yHigh)) {
+                EntityFunc initFunc = gSpriteInits_Interactables[es->me->index];
+                if (initFunc != NULL) {
+                    do {
                         initFunc(es->me, es->currentRegionX, es->currentRegionY, es->entityIdInRegion);
-                    }
+                    } while (0);
                 }
             }
-
-            es->me = (MapEntity *)(((u8 *)es->me) + sizeof(*es->me));
+            // TODO: Why does es->me++; work in decomp.me, but not here?
+            es->me = (MapEntity *)(((u8*)es->me) + 8);
         }
     }
 }
-END_NONMATCH
 
 #if 0
 #if COLLECT_RINGS_ROM
