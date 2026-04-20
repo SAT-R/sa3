@@ -182,7 +182,7 @@ void sub_8042F10(void)
         s->x = platform->unkB4[i] + screenX;
         s->y = platform->unkBC[i] + screenY;
 
-        if (IsScreenPtActive256px(s->x, s->y) == TRUE) {
+        if (IsScreenPtActive128px(s->x, s->y) == TRUE) {
             UpdateSpriteAnimation(s);
 
             for (k = 0; k < NUM_SINGLE_PLAYER_CHARS; k++) {

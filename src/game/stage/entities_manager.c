@@ -9,7 +9,7 @@
 #include "game/camera.h"
 #include "game/game.h"
 #include "game/player_callbacks.h"
-#include "game/sa1_sa2_shared/entities_manager.h"
+#include "game/shared/entities_manager.h"
 #include "game/save.h" // for DIFFICULTY_EASY
 #include "game/stage.h"
 
@@ -1367,7 +1367,7 @@ bool32 IsWorldPtActive(s32 worldX, s32 worldY)
     return TRUE;
 }
 
-bool32 IsScreenPtActive256px(s32 screenX, s32 screenY)
+bool32 IsScreenPtActive128px(s32 screenX, s32 screenY)
 {
     if (IS_OUT_OF_RANGE_3(screenX, screenY, 128, 128)) {
         return FALSE;

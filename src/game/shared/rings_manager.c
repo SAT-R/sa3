@@ -10,7 +10,7 @@
 #include "game/player.h"
 #include "game/stage.h"
 #include "game/assets/compressed/entities.h"
-#include "game/sa1_sa2_shared/rings_manager.h"
+#include "game/shared/rings_manager.h"
 #include "constants/animations.h"
 #include "constants/move_states.h"
 #include "constants/zones.h"

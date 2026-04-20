@@ -6,7 +6,7 @@
 #include "game/camera.h"
 #include "game/shared/stage/entity.h"
 #include "game/enemy_unknown.h"
-#include "game/sa1_sa2_shared/rings_manager.h"
+#include "game/shared/rings_manager.h"
 #include "module_unclear.h"
 #include "game/player.h"
 #include "game/stage.h"
