@@ -16905,6 +16905,8 @@ _08029988:
 	bx r0
 	.align 2, 0
 
+	@ Input
+	@ R0: songId
 	thumb_func_start sub_8029990
 sub_8029990: @ 0x08029990
 	push {r4, r5, lr}

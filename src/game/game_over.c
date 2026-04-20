@@ -16,6 +16,7 @@ typedef struct GameOver60 {
 
 void Task_60_8003FEC(void);
 void TaskDestructor_8003D28(struct Task *t);
+void sub_8029990(u16 song);
 
 extern void sub_80299FC(void);
 extern void sub_8053284(UNUSED u32, UNUSED u32, UNUSED s16, UNUSED s32);
@@ -117,7 +118,72 @@ void AddRings(u16 count)
         if (RING_COUNT > 255) {
             RING_COUNT = 255;
         }
-    } else if (RING_COUNT > 999) {
-        RING_COUNT = 999;
+    } else {
+        if (RING_COUNT > 999) {
+            RING_COUNT = 999;
+        }
     }
 }
+
+#ifndef NON_MATCHING
+const u8 gUnknown_080CE52C[NUM_COURSE_ZONES][4] = { { MUS_OVERWORLD__ROUTE_99, MUS_ROUTE_99__ACT_1, MUS_ROUTE_99__ACT_2, MUS_ROUTE_99__ACT_3 },
+                                     { MUS_OVERWORLD__SUNSET_HILL, MUS_SUNSET_HILL__ACT_1, MUS_SUNSET_HILL__ACT_2, MUS_SUNSET_HILL__ACT_3 },
+                                     { MUS_OVERWORLD__OCEAN_BASE, MUS_OCEAN_BASE__ACT_1, MUS_OCEAN_BASE__ACT_2, MUS_OCEAN_BASE__ACT_3 },
+                                     { MUS_OVERWORLD__TOY_KINGDOM, MUS_TOY_KINGDOM__ACT_1, MUS_TOY_KINGDOM__ACT_2, MUS_TOY_KINGDOM__ACT_3 },
+									 { MUS_OVERWORLD__TWINKLE_SNOW, MUS_TWINKLE_SNOW__ACT_1, MUS_TWINKLE_SNOW__ACT_2, MUS_TWINKLE_SNOW__ACT_3 },
+									 { MUS_OVERWORLD__CYBER_TRACK, MUS_CYBER_TRACK__ACT_1, MUS_CYBER_TRACK__ACT_2, MUS_CYBER_TRACK__ACT_3 },
+									 { MUS_OVERWORLD__CHAOS_ANGEL, MUS_CHAOS_ANGEL__ACT_1, MUS_CHAOS_ANGEL__ACT_2, MUS_CHAOS_ANGEL__ACT_3 } 
+};
+#endif
+// (92.91%) https://decomp.me/scratch/FqhOj
+NONMATCH("asm/non_matching/game/shared/go__sub_8002618.inc", void sub_8002618(void))
+{
+    s16 act;
+    u16 zone;
+    u16 song;
+#ifndef NON_MATCHING
+    u8 actSongs[NUM_COURSE_ZONES][4];
+    memcpy(actSongs, gUnknown_080CE52C, sizeof(actSongs));
+#else
+    u8 actSongs[NUM_COURSE_ZONES][4] = { 
+			{ MUS_OVERWORLD__ROUTE_99, MUS_ROUTE_99__ACT_1, MUS_ROUTE_99__ACT_2, MUS_ROUTE_99__ACT_3 },
+            { MUS_OVERWORLD__SUNSET_HILL, MUS_SUNSET_HILL__ACT_1, MUS_SUNSET_HILL__ACT_2, MUS_SUNSET_HILL__ACT_3 },
+            { MUS_OVERWORLD__OCEAN_BASE, MUS_OCEAN_BASE__ACT_1, MUS_OCEAN_BASE__ACT_2, MUS_OCEAN_BASE__ACT_3 },
+            { MUS_OVERWORLD__TOY_KINGDOM, MUS_TOY_KINGDOM__ACT_1, MUS_TOY_KINGDOM__ACT_2, MUS_TOY_KINGDOM__ACT_3 },
+            { MUS_OVERWORLD__TWINKLE_SNOW, MUS_TWINKLE_SNOW__ACT_1, MUS_TWINKLE_SNOW__ACT_2, MUS_TWINKLE_SNOW__ACT_3 },
+            { MUS_OVERWORLD__CYBER_TRACK, MUS_CYBER_TRACK__ACT_1, MUS_CYBER_TRACK__ACT_2, MUS_CYBER_TRACK__ACT_3 },
+            { MUS_OVERWORLD__CHAOS_ANGEL, MUS_CHAOS_ANGEL__ACT_1, MUS_CHAOS_ANGEL__ACT_2, MUS_CHAOS_ANGEL__ACT_3 } 
+	};
+#endif
+    act = gStageData.act;
+    zone = gStageData.zone;
+    song = zone;
+
+    if (gStageData.zone == 8) {
+        song = MUS_VS__EX_BOSS;
+    } else if (gStageData.zone == 7) {
+        song = MUS_OVERWORLD__ALTAR_EMERALD;
+    } else {
+        switch (act) {
+            case ACT_SPECIAL:
+                song = (gStageData.currentLevel == LEVEL_INDEX(ZONE_2, ACT_SPECIAL)) ? MUS_CHAO_PLAYGROUND : MUS_SONIC_FACTORY;
+                break;
+            case ACT_OVERWORLD:
+            case ACT_1:
+            case ACT_2:
+            case ACT_3:
+                song = (actSongs[zone][act - ACT_OVERWORLD]);
+                break;
+            case ACT_BONUS_CAPSULE:
+            case ACT_BONUS_ENEMIES:
+                song = (0x4C);
+                break;
+            case ACT_BOSS:
+                song = (actSongs[zone][1]);
+                break;
+        }
+    }
+
+    sub_8029990(song);
+}
+END_NONMATCH

@@ -264,6 +264,8 @@ SECTIONS {
         *libc.a:readr.o(.text);
 
     /* data */
+        asm/main_menu.o(.rodata);
+        src/game/game_over.o(.rodata);
         data/data_0.o(.rodata);
         src/game/shared/rings_manager.o(.rodata);
         src/game/stage/entities_manager.o(.rodata);

@@ -1,6 +1,16 @@
 .include "asm/macros.inc"
 .include "constants/constants.inc"
 
+.section .rodata
+.align 2 , 0
+    .global gUnknown_080CE438
+gUnknown_080CE438:
+    .incbin "baserom_sa3.gba", 0x000CE438, 0x7A
+
+    .global gUnknown_080CE4B2
+gUnknown_080CE4B2:
+    .incbin "baserom_sa3.gba", 0x000CE4B2, 0x7A
+
 .text
 .syntax unified
 .arm
