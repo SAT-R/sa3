@@ -15,13 +15,16 @@ typedef struct GameOver60 {
     /* 0x54 */ u8 unk54[0xC];
 } GameOver60;
 
+void sub_80525F0(s32, s32); /* extern */
+extern void *gUnknown_08E2EC78[8];
+
 void Task_60_8003FEC(void);
 void TaskDestructor_8003D28(struct Task *t);
 void sub_8029990(u16 song);
 
 extern void Create_gTask_03001CFC();
 extern void DemoPlayAlloc(Player *, u8);
-extern void Task_00_8002988();
+void Task_00_8002988();
 extern void sub_8002618();
 extern void sub_8002838(s16);
 extern void sub_8003E44(s16);
@@ -122,11 +125,11 @@ void AddRings(u16 count)
         newLives = Div(RING_COUNT, 100);
         oldLives = Div(oldRings, 100);
 
-        if ((newLives != oldLives) && ((gStageData.gameMode == GAME_MODE_SINGLE_PLAYER) || (gStageData.gameMode == 5))) {
+        if ((newLives != oldLives) && ((CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER) || (CURRENT_GAME_MODE == 5))) {
             AddLives(1);
         }
     }
-    if (gStageData.gameMode == GAME_MODE_MP_SINGLE_PACK) {
+    if (CURRENT_GAME_MODE == GAME_MODE_MP_SINGLE_PACK) {
         if (RING_COUNT > 255) {
             RING_COUNT = 255;
         }
@@ -260,5 +263,51 @@ void sub_80026BC(void)
     } else {
         sub_8022FB0();
         m4aSongNumStart(MUS_VS_BGM_7);
+    }
+}
+
+
+void sub_8002838(s16 level)
+{
+    StageData *sd = &gStageData;
+    u16 *data = NULL;
+
+    if (sd->gameMode != GAME_MODE_MP_SINGLE_PACK) {
+        switch (level) {
+            case 13:
+                data = gUnknown_08E2EC78[0];
+                break;
+            case 24:
+                data = gUnknown_08E2EC78[1];
+                break;
+            case 25:
+                data = gUnknown_08E2EC78[2];
+                break;
+            case 43:
+                data = gUnknown_08E2EC78[4];
+                break;
+            case 44:
+                data = gUnknown_08E2EC78[5];
+                break;
+            case 49:
+                data = gUnknown_08E2EC78[6];
+                break;
+            case 45:
+                data = gUnknown_08E2EC78[7];
+                break;
+        }
+
+        if (data != NULL) {
+            sd->unk84 = data[0];
+            sd->unk80 = &data[2];
+            sub_80525F0(data[1] << 16 | data[1], 0);
+            return;
+        } else {
+            sd->unk84 = 0;
+            sd->unk80 = NULL;
+        }
+    } else {
+        sd->unk84 = 0;
+        sd->unk80 = NULL;
     }
 }
