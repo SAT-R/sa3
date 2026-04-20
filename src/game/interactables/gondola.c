@@ -192,7 +192,7 @@ void sub_80498B4(void)
 
         UpdateSpriteAnimation(s);
 
-        if (sub_802C1F8(s->x, s->y) == 1) {
+        if (IsScreenPtActive32px(s->x, s->y) == 1) {
             DisplaySprite(s);
         }
     }

@@ -216,7 +216,7 @@ void sub_80429D0(void)
 
         TaskDestroy(gCurTask);
         return;
-    } else if (sub_802C1F8(s->x, s->y) == TRUE) {
+    } else if (IsScreenPtActive32px(s->x, s->y) == TRUE) {
         UpdateSpriteAnimation(s);
 
         SPRITE_FLAG_SET(s, X_FLIP);

@@ -265,11 +265,11 @@ void sub_804C008(void)
         r8 = 1;
     }
 
-    if (IsScreenPtActive(s->x, s->y) == TRUE) {
+    if (IsScreenPtActive256px(s->x, s->y) == TRUE) {
         r8 |= 2;
     }
 
-    if (IsScreenPtActive(s2->x, s2->y) == TRUE) {
+    if (IsScreenPtActive256px(s2->x, s2->y) == TRUE) {
         r8 |= 4;
     }
 
@@ -311,7 +311,7 @@ void sub_804C008(void)
         s2->x = (worldX + ps->dx) - gCamera.x;
         s2->y = (worldY + ps->dy) - gCamera.y;
 
-        if (IsScreenPtActive(s2->x, s2->y) == TRUE) {
+        if (IsScreenPtActive256px(s2->x, s2->y) == TRUE) {
             UpdateSpriteAnimation(s2);
             DisplaySprite(s2);
         }

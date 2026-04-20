@@ -1367,7 +1367,7 @@ bool32 IsWorldPtActive(s32 worldX, s32 worldY)
     return TRUE;
 }
 
-bool32 IsScreenPtActive(s32 screenX, s32 screenY)
+bool32 IsScreenPtActive256px(s32 screenX, s32 screenY)
 {
     if (IS_OUT_OF_RANGE_3(screenX, screenY, 128, 128)) {
         return FALSE;
@@ -1376,7 +1376,7 @@ bool32 IsScreenPtActive(s32 screenX, s32 screenY)
     return TRUE;
 }
 
-u32 sub_802C1F8(s32 screenX, s32 screenY)
+u32 IsScreenPtActive32px(s32 screenX, s32 screenY)
 {
     if (IS_OUT_OF_RANGE_3(screenX, screenY, 32, 32)) {
         return FALSE;

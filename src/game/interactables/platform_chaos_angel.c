@@ -164,7 +164,7 @@ void sub_804DB08(void)
         s->y = worldY - gCamera.y;
         UpdateSpriteAnimation(s);
 
-        if (sub_802C1F8(s->x, s->y) == TRUE) {
+        if (IsScreenPtActive32px(s->x, s->y) == TRUE) {
             DisplaySprite(s);
         }
     }
