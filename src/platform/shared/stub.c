@@ -216,7 +216,6 @@ void sub_80C6908() { }
 void /* 0x080C7558 */ SoundBiasReset() { }
 void /* 0x080C7560 */ SoundBiasSet() { }
 
-void sub_8002414() { }
 void sub_80268B8() { }
 void sub_80B7AA4() { }
 void sub_80B8E24() { }
@@ -224,7 +223,6 @@ void sub_8026254() { }
 void sub_8027878() { }
 void sub_80278DC() { }
 void sub_80533F4() { }
-void sub_8002508() { }
 void sub_8056120() { }
 void sub_8056168() { }
 void sub_802785C() { }
@@ -278,3 +276,16 @@ void sub_80B94F0() { }
 void sub_80B9548() { }
 
 void CreateEntity_ItemBox() { }
+struct Task *sub_80215A0() { return NULL; }
+void sub_8022FB0() { }
+void Task_00_8002988() { }
+void sub_8052E30() { }
+void sub_80525F0() { }
+void sub_8053030() { }
+void sub_8053284() { }
+void AddLives() { }
+void sub_8029990() { }
+void sub_8003E44() { }
+void Create_gTask_03001CFC() { }
+void Task_60_8003FEC() { }
+void TaskDestructor_8003D28() { }

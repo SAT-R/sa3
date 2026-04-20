@@ -141,14 +141,14 @@ void AddRings(u16 count)
 }
 
 #ifndef NON_MATCHING
-const u8 gUnknown_080CE52C[NUM_COURSE_ZONES][4] = { { MUS_OVERWORLD__ROUTE_99, MUS_ROUTE_99__ACT_1, MUS_ROUTE_99__ACT_2, MUS_ROUTE_99__ACT_3 },
-                                     { MUS_OVERWORLD__SUNSET_HILL, MUS_SUNSET_HILL__ACT_1, MUS_SUNSET_HILL__ACT_2, MUS_SUNSET_HILL__ACT_3 },
-                                     { MUS_OVERWORLD__OCEAN_BASE, MUS_OCEAN_BASE__ACT_1, MUS_OCEAN_BASE__ACT_2, MUS_OCEAN_BASE__ACT_3 },
-                                     { MUS_OVERWORLD__TOY_KINGDOM, MUS_TOY_KINGDOM__ACT_1, MUS_TOY_KINGDOM__ACT_2, MUS_TOY_KINGDOM__ACT_3 },
-									 { MUS_OVERWORLD__TWINKLE_SNOW, MUS_TWINKLE_SNOW__ACT_1, MUS_TWINKLE_SNOW__ACT_2, MUS_TWINKLE_SNOW__ACT_3 },
-									 { MUS_OVERWORLD__CYBER_TRACK, MUS_CYBER_TRACK__ACT_1, MUS_CYBER_TRACK__ACT_2, MUS_CYBER_TRACK__ACT_3 },
-									 { MUS_OVERWORLD__CHAOS_ANGEL, MUS_CHAOS_ANGEL__ACT_1, MUS_CHAOS_ANGEL__ACT_2, MUS_CHAOS_ANGEL__ACT_3 } 
-};
+const u8 gUnknown_080CE52C[NUM_COURSE_ZONES][4]
+    = { { MUS_OVERWORLD__ROUTE_99, MUS_ROUTE_99__ACT_1, MUS_ROUTE_99__ACT_2, MUS_ROUTE_99__ACT_3 },
+        { MUS_OVERWORLD__SUNSET_HILL, MUS_SUNSET_HILL__ACT_1, MUS_SUNSET_HILL__ACT_2, MUS_SUNSET_HILL__ACT_3 },
+        { MUS_OVERWORLD__OCEAN_BASE, MUS_OCEAN_BASE__ACT_1, MUS_OCEAN_BASE__ACT_2, MUS_OCEAN_BASE__ACT_3 },
+        { MUS_OVERWORLD__TOY_KINGDOM, MUS_TOY_KINGDOM__ACT_1, MUS_TOY_KINGDOM__ACT_2, MUS_TOY_KINGDOM__ACT_3 },
+        { MUS_OVERWORLD__TWINKLE_SNOW, MUS_TWINKLE_SNOW__ACT_1, MUS_TWINKLE_SNOW__ACT_2, MUS_TWINKLE_SNOW__ACT_3 },
+        { MUS_OVERWORLD__CYBER_TRACK, MUS_CYBER_TRACK__ACT_1, MUS_CYBER_TRACK__ACT_2, MUS_CYBER_TRACK__ACT_3 },
+        { MUS_OVERWORLD__CHAOS_ANGEL, MUS_CHAOS_ANGEL__ACT_1, MUS_CHAOS_ANGEL__ACT_2, MUS_CHAOS_ANGEL__ACT_3 } };
 #endif
 // (92.91%) https://decomp.me/scratch/FqhOj
 NONMATCH("asm/non_matching/game/shared/go__sub_8002618.inc", void sub_8002618(void))
@@ -160,15 +160,14 @@ NONMATCH("asm/non_matching/game/shared/go__sub_8002618.inc", void sub_8002618(vo
     u8 actSongs[NUM_COURSE_ZONES][4];
     memcpy(actSongs, gUnknown_080CE52C, sizeof(actSongs));
 #else
-    u8 actSongs[NUM_COURSE_ZONES][4] = { 
-			{ MUS_OVERWORLD__ROUTE_99, MUS_ROUTE_99__ACT_1, MUS_ROUTE_99__ACT_2, MUS_ROUTE_99__ACT_3 },
+    u8 actSongs[NUM_COURSE_ZONES][4]
+        = { { MUS_OVERWORLD__ROUTE_99, MUS_ROUTE_99__ACT_1, MUS_ROUTE_99__ACT_2, MUS_ROUTE_99__ACT_3 },
             { MUS_OVERWORLD__SUNSET_HILL, MUS_SUNSET_HILL__ACT_1, MUS_SUNSET_HILL__ACT_2, MUS_SUNSET_HILL__ACT_3 },
             { MUS_OVERWORLD__OCEAN_BASE, MUS_OCEAN_BASE__ACT_1, MUS_OCEAN_BASE__ACT_2, MUS_OCEAN_BASE__ACT_3 },
             { MUS_OVERWORLD__TOY_KINGDOM, MUS_TOY_KINGDOM__ACT_1, MUS_TOY_KINGDOM__ACT_2, MUS_TOY_KINGDOM__ACT_3 },
             { MUS_OVERWORLD__TWINKLE_SNOW, MUS_TWINKLE_SNOW__ACT_1, MUS_TWINKLE_SNOW__ACT_2, MUS_TWINKLE_SNOW__ACT_3 },
             { MUS_OVERWORLD__CYBER_TRACK, MUS_CYBER_TRACK__ACT_1, MUS_CYBER_TRACK__ACT_2, MUS_CYBER_TRACK__ACT_3 },
-            { MUS_OVERWORLD__CHAOS_ANGEL, MUS_CHAOS_ANGEL__ACT_1, MUS_CHAOS_ANGEL__ACT_2, MUS_CHAOS_ANGEL__ACT_3 } 
-	};
+            { MUS_OVERWORLD__CHAOS_ANGEL, MUS_CHAOS_ANGEL__ACT_1, MUS_CHAOS_ANGEL__ACT_2, MUS_CHAOS_ANGEL__ACT_3 } };
 #endif
     act = gStageData.act;
     zone = gStageData.zone;
@@ -249,7 +248,7 @@ void sub_80026BC(void)
     if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         Create_gTask_03001CFC();
 
-		if (CURRENT_GAME_MODE == GAME_MODE_DEMO) {
+        if (CURRENT_GAME_MODE == GAME_MODE_DEMO) {
             sub_8052E30();
             DemoPlayAlloc(gPlayers, gStageData.zone);
         } else if (CURRENT_GAME_MODE == GAME_MODE_2) {
@@ -266,7 +265,6 @@ void sub_80026BC(void)
     }
 }
 
-
 void sub_8002838(s16 level)
 {
     StageData *sd = &gStageData;
@@ -274,25 +272,25 @@ void sub_8002838(s16 level)
 
     if (sd->gameMode != GAME_MODE_MP_SINGLE_PACK) {
         switch (level) {
-            case 13:
+            case LEVEL_INDEX(ZONE_2, ACT_1):
                 data = gUnknown_08E2EC78[0];
                 break;
-            case 24:
+            case LEVEL_INDEX(ZONE_3, ACT_2):
                 data = gUnknown_08E2EC78[1];
                 break;
-            case 25:
+            case LEVEL_INDEX(ZONE_3, ACT_3):
                 data = gUnknown_08E2EC78[2];
                 break;
-            case 43:
+            case LEVEL_INDEX(ZONE_5, ACT_1):
                 data = gUnknown_08E2EC78[4];
                 break;
-            case 44:
+            case LEVEL_INDEX(ZONE_5, ACT_2):
                 data = gUnknown_08E2EC78[5];
                 break;
-            case 49:
+            case LEVEL_INDEX(ZONE_5, ACT_BONUS_ENEMIES):
                 data = gUnknown_08E2EC78[6];
                 break;
-            case 45:
+            case LEVEL_INDEX(ZONE_5, ACT_3):
                 data = gUnknown_08E2EC78[7];
                 break;
         }
