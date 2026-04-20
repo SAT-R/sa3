@@ -4,7 +4,7 @@
 #include "module_unclear.h" // sub_8020950
 #include "malloc_vram.h"
 #include "game/camera.h"
-#include "game/entity.h"
+#include "game/shared/stage/entity.h"
 #include "game/player.h"
 #include "game/player_callbacks.h"
 #include "game/stage.h"
@@ -239,7 +239,7 @@ void sub_8042520(void)
     screenY = I(platform->qWorld.y) - gCamera.y;
     s->y = screenY;
 
-    if (!IsScreenPtActive((s16)screenX, (s16)screenY)) {
+    if (!IsScreenPtActive256px((s16)screenX, (s16)screenY)) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             Player *p = GET_SP_PLAYER_V1(i);
 

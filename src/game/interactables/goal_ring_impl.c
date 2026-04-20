@@ -6,7 +6,7 @@
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "game/camera.h"
-#include "game/entity.h"
+#include "game/shared/stage/entity.h"
 #include "game/parameters/interactables.h"
 #include "game/player.h"
 #include "game/player_callbacks.h"

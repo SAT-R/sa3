@@ -373,7 +373,7 @@ void InitializePlayer(s16 playerId)
     if (gStageData.gameMode != 7) {
         sub_801310C(playerId);
         if (playerId == gStageData.playerIndex) {
-            if (gStageData.currMapIndex != 72) {
+            if (gStageData.currentLevel != 72) {
                 Player_InitializeAfterImagesTask(player);
             } else {
                 Player_InitializeAfterImagesTask(&gPlayers[PLAYER_1]);
@@ -559,7 +559,7 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
         case 0:
             sub_8004B14();
 
-            if (gStageData.currMapIndex == 11) {
+            if (gStageData.currentLevel == 11) {
                 if (4 & p->keyInput2) {
                     sub_8003D2C();
                     TasksDestroyAll();
@@ -708,7 +708,7 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
                             if (gStageData.unkBD == 0) {
                                 gStageData.unkBD = 1;
                             } else if ((partner->charFlags.someIndex) == 1) {
-                                u16 map = gStageData.currMapIndex;
+                                u16 map = gStageData.currentLevel;
                                 gCamera.unk18 = 0;
                                 gCamera.unk10 = 0;
                                 gCamera.unk1C = gUnknown_080D05A8[map][0];
@@ -1808,7 +1808,7 @@ void Player_8005E80(Player *p)
         } else {
             p->charFlags.anim0 = gameMode;
         }
-    } else if ((gStageData.levelTimer <= gMedalTimes[gStageData.currMapIndex][0]) && (gStageData.unk20 == 0)) {
+    } else if ((gStageData.levelTimer <= gMedalTimes[gStageData.currentLevel][0]) && (gStageData.unk20 == 0)) {
         p->charFlags.anim0 = 0x9E;
         Player_PlaySong(p, sp00[p->charFlags.character][1]);
     } else {
@@ -1849,7 +1849,7 @@ void Player_8005E80(Player *p)
     } else if (gStageData.zone == 7) {
         sub_8003DF0(0x58U);
     } else {
-        u8 map = gStageData.currMapIndex;
+        u8 map = gStageData.currentLevel;
         if ((gStageData.levelTimer <= gMedalTimes[map][0]) && (gStageData.unk20 == 0)) {
             sub_8003DF0(0x54U);
         } else {
@@ -3161,7 +3161,7 @@ void Player_8007C28(Player *p)
         if (p->qWorldX < 0) {
             p->qWorldX = 0;
         } else {
-            var_r0_3 = Q(gUnknown_080D05A8[gStageData.currMapIndex][0]) - 1;
+            var_r0_3 = Q(gUnknown_080D05A8[gStageData.currentLevel][0]) - 1;
 
             if (p->qWorldX > var_r0_3) {
                 p->qWorldX = var_r0_3;
@@ -3171,7 +3171,7 @@ void Player_8007C28(Player *p)
         if (p->qWorldY < 0) {
             p->qWorldY = 0;
         } else {
-            var_r0_4 = Q(gUnknown_080D05A8[gStageData.currMapIndex][1]) - 1;
+            var_r0_4 = Q(gUnknown_080D05A8[gStageData.currentLevel][1]) - 1;
 
             if (p->qWorldY > var_r0_4) {
                 p->qWorldY = var_r0_4;
@@ -3188,7 +3188,7 @@ void Player_8007C28(Player *p)
             if (var_r4 < 0) {
                 var_r4 = 0;
             } else {
-                temp_r0_2 = gUnknown_080D05A8[gStageData.currMapIndex][0] - 0xF1;
+                temp_r0_2 = gUnknown_080D05A8[gStageData.currentLevel][0] - 0xF1;
                 if (var_r4 > temp_r0_2) {
                     var_r4 = temp_r0_2;
                 }
@@ -3196,7 +3196,7 @@ void Player_8007C28(Player *p)
             if (var_r2 < 0) {
                 var_r2 = 0;
             } else {
-                temp_r0_3 = gUnknown_080D05A8[gStageData.currMapIndex][1] - 0xA1;
+                temp_r0_3 = gUnknown_080D05A8[gStageData.currentLevel][1] - 0xA1;
                 if (var_r2 > temp_r0_3) {
                     var_r2 = temp_r0_3;
                 }
@@ -13143,8 +13143,8 @@ void sub_8013F4C(Player *p)
     p->qSpeedAirX = 0;
     p->qSpeedAirY = 0;
     p->moveState = 0x08000000;
-    if (((gStageData.currMapIndex == 0xB) && (gStageData.entryIndex == 0))
-        || ((gStageData.currMapIndex == 1) && (gStageData.entryIndex == 1))) {
+    if (((gStageData.currentLevel == 0xB) && (gStageData.entryIndex == 0))
+        || ((gStageData.currentLevel == 1) && (gStageData.entryIndex == 1))) {
         p->moveState |= 1;
     }
     temp_r1 = p + 0x24;
@@ -13730,10 +13730,10 @@ s16 sub_8014BC4(Player *p)
     if (gStageData.gameMode == 7) {
         return FALSE;
     }
-    if (gStageData.currMapIndex == 1) {
+    if (gStageData.currentLevel == 1) {
         return FALSE;
     }
-    if (gStageData.currMapIndex == 11) {
+    if (gStageData.currentLevel == 11) {
         return FALSE;
     }
 
@@ -14599,8 +14599,8 @@ s32 Player_8015D7C(Player *p)
     s16 i;
 
     if ((gStageData.gameMode != GAME_MODE_MP_MULTI_PACK) || (gStageData.unk4 != 3) || (p->moveState & 0x59000200)
-        || (gCamera.unk1C != gUnknown_080D05A8[gStageData.currMapIndex][0])
-        || (gCamera.unk14 != gUnknown_080D05A8[gStageData.currMapIndex][1])) {
+        || (gCamera.unk1C != gUnknown_080D05A8[gStageData.currentLevel][0])
+        || (gCamera.unk14 != gUnknown_080D05A8[gStageData.currentLevel][1])) {
         return FALSE;
     }
     memcpy(&callbacks, &gUnknown_080CE6CC, sizeof(callbacks));

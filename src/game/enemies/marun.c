@@ -4,7 +4,7 @@
 #include "malloc_vram.h"
 #include "constants/zones.h"
 #include "game/camera.h"
-#include "game/entity.h"
+#include "game/shared/stage/entity.h"
 #include "game/enemy_unknown.h"
 #include "module_unclear.h"
 #include "game/player.h"

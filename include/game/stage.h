@@ -54,7 +54,7 @@ typedef struct {
     /* 0x0B */ u8 entryIndex; // Map entrance number index
     /* 0x0C */ u8 unkC;
     /* 0x0D */ u8 unkD;
-    /* 0x0E */ u16 currMapIndex; // Map player's currently on
+    /* 0x0E */ u16 currentLevel; // Map player's currently on
     /* 0x10 */ u16 unk10; // some kind of flag register
 
     /* 0x12 */ u16 nextMapIndex; // Map targeted by teleport (apparently only works with
@@ -105,7 +105,7 @@ typedef struct {
     /* 0xA8 */ u32 unkA8;
     /* 0xAC */ u16 rings;
     /* 0xAE */ u16 levelTimer; // Timer that constantly increases in a level
-    /* 0xB0 */ u16 unkB0;
+    /* 0xB0 */ u16 stageFlags;
     /* 0xB2 */ u16 unkB2;
     /* 0xB4 */ u8 lives;
     /* 0xB5 */ u8 unkB5;

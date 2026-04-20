@@ -19,7 +19,8 @@ PACKED(MapEntity, {
     /* 0x01 */ u8 y;
     /* 0x02 */ u8 index;
 
-    union {
+    // TODO: Use PACKED_UNION
+    union __attribute__((packed)) {
         /* 0x03 */
         s8 sData[ENTITY_DATA_SIZE];
         u8 uData[ENTITY_DATA_SIZE];

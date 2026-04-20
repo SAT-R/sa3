@@ -2,7 +2,7 @@
 #include "task.h"
 
 #include "game/camera.h"
-#include "game/entity.h"
+#include "game/shared/stage/entity.h"
 
 static void Create_Interactable081or082(u32 UNUSED unused, MapEntity *me, u16 regionX, u16 regionY, u8 id);
 static void TaskDestructor_804B44C(struct Task *);

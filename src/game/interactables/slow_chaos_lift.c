@@ -5,7 +5,7 @@
 #include "malloc_vram.h"
 #include "module_unclear.h"
 #include "game/camera.h"
-#include "game/entity.h"
+#include "game/shared/stage/entity.h"
 #include "game/player.h"
 #include "game/player_callbacks.h"
 #include "game/stage.h"
@@ -300,7 +300,7 @@ static void UpdateAnimOrDestroy(void)
     screenX = I(lift->qWorldX) - gCamera.x;
     screenY = I(lift->qWorldY) - gCamera.y;
 
-    if (!IsScreenPtActive(screenX, screenY)) {
+    if (!IsScreenPtActive256px(screenX, screenY)) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             Player *p = GET_SP_PLAYER_V1(i);
 

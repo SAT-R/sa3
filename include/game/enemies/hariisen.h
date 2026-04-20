@@ -1,7 +1,7 @@
 #ifndef GUARD_SA3_ENEMY_HARIISEN_H
 #define GUARD_SA3_ENEMY_HARIISEN_H
 
-#include "game/entity.h"
+#include "game/shared/stage/entity.h"
 #include "game/enemy_unknown.h" // for EnemyUnknownStruc0
 
 #define HSEN_COUNT_A 2

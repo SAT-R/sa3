@@ -5,7 +5,7 @@
 #include "malloc_vram.h"
 #include "module_unclear.h"
 #include "game/camera.h"
-#include "game/entity.h"
+#include "game/shared/stage/entity.h"
 #include "game/player.h"
 #include "game/player_callbacks.h"
 #include "game/stage.h"
@@ -245,7 +245,7 @@ void sub_8046EC0(void)
             s2->x = centerX + ball->screenX1;
             s2->y = centerY + ball->screenY1;
 
-            if (IsScreenPtActive(s2->x, s2->y) == TRUE) {
+            if (IsScreenPtActive256px(s2->x, s2->y) == TRUE) {
                 // BUG(Jace): DisplaySprite calls are done in the wrong order.
                 //            This leads to one segment of balls not getting
                 //            updated correctly. All others get their position

@@ -5,7 +5,7 @@
 #include "trig.h"
 #include "malloc_vram.h"
 #include "game/camera.h"
-#include "game/entity.h"
+#include "game/shared/stage/entity.h"
 #include "game/player.h"
 #include "game/player_callbacks.h"
 #include "game/save.h"
@@ -187,7 +187,7 @@ void Task_802DA3C(void)
 
     gStageData.zone = warp->targetZone;
     gStageData.act = ACT_HUB;
-    gStageData.currMapIndex = LEVEL_INDEX(warp->targetZone, ACT_HUB);
+    gStageData.currentLevel = LEVEL_INDEX(warp->targetZone, ACT_HUB);
     gStageData.nextMapIndex = LEVEL_INDEX(warp->targetZone, ACT_HUB);
     gStageData.unkC = 0;
 

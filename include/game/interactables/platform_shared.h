@@ -1,7 +1,7 @@
 #ifndef GUARD_SA3_PLATFORM_SHARED_H
 #define GUARD_SA3_PLATFORM_SHARED_H
 
-#include "game/entity.h"
+#include "game/shared/stage/entity.h"
 
 typedef struct {
     /* 0x00 */ SpriteBase base;

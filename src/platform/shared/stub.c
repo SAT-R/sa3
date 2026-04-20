@@ -27,6 +27,7 @@ char gNumMusicPlayers = 4;
 int gMaxLines = 0;
 
 u8 gUnknown_02035000[0xA000] = {};
+u8 gUnknown_0203F000[0x1000] = {};
 Struct_03001060 gUnknown_03001060 = {};
 Player gPlayers[4] = {};
 u8 gUnknown_03001D00 = 0;
@@ -82,12 +83,6 @@ void sub_80299FC() { }
 void sub_8029A18() { }
 void sub_80275B8(u32 level, u8 param1, u8 param2) { }
 void TaskDestructor_8029774(struct Task *t) { }
-bool32 sub_802C080(Player *p) { return FALSE; }
-bool32 sub_802C0D4(Player *p) { return FALSE; }
-bool32 sub_802C140(s32 worldX, s32 worldY, s32 screenX, s32 screenY) { return FALSE; }
-bool32 /* 0x0802C198 */ IsWorldPtActive(s32 worldX, s32 worldY) { return TRUE; }
-bool32 /* 0x0802C1D0 */ IsScreenPtActive(s32 screenX, s32 screenY) { return TRUE; }
-void sub_802C1F8() { }
 void sub_8050440() { }
 void sub_8050570() { }
 void sub_80505CC() { }
@@ -282,3 +277,5 @@ void sub_80B93E4() { }
 void sub_80B94B0() { }
 void sub_80B94F0() { }
 void sub_80B9548() { }
+
+void CreateEntity_ItemBox() { }

@@ -1,7 +1,7 @@
 #ifndef GUARD_SA3_ENEMY_UNKNOWN_CODE_H
 #define GUARD_SA3_ENEMY_UNKNOWN_CODE_H
 
-#include "game/entity.h"
+#include "game/shared/stage/entity.h"
 #include "game/player.h"
 
 typedef struct {

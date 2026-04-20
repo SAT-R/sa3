@@ -1,7 +1,7 @@
 #ifndef GUARD_PLAYER_CONTROLS_H
 #define GUARD_PLAYER_CONTROLS_H
 
-#include "game/entity.h"
+#include "game/shared/stage/entity.h"
 
 typedef struct {
     u16 jump;

@@ -5,7 +5,7 @@
 #include "malloc_vram.h"
 #include "module_unclear.h"
 #include "game/camera.h"
-#include "game/entity.h"
+#include "game/shared/stage/entity.h"
 #include "game/player.h"
 #include "game/player_callbacks.h"
 #include "game/stage.h"
@@ -182,7 +182,7 @@ void sub_8042F10(void)
         s->x = platform->unkB4[i] + screenX;
         s->y = platform->unkBC[i] + screenY;
 
-        if (IsScreenPtActive(s->x, s->y) == TRUE) {
+        if (IsScreenPtActive256px(s->x, s->y) == TRUE) {
             UpdateSpriteAnimation(s);
 
             for (k = 0; k < NUM_SINGLE_PLAYER_CHARS; k++) {
