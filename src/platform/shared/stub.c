@@ -39,7 +39,6 @@ SaveSectorData gSaveSectorData = {};
 struct Camera gCamera = {};
 
 void sub_8000D68() { }
-void AddRings() { }
 void Task_800303C() { }
 void sub_8003D2C() { }
 void sub_8003DC4() { }
