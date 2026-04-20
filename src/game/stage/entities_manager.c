@@ -8,10 +8,12 @@
 // TODO: Merge with below include-block
 #include "game/camera.h"
 #include "game/game.h"
+#include "game/player_callbacks.h"
 #include "game/sa1_sa2_shared/entities_manager.h"
 #include "game/save.h" // for DIFFICULTY_EASY
 #include "game/stage.h"
 
+#include "constants/move_states.h"
 #include "constants/zones.h"
 
 #include "lib/m4a/m4a.h"
@@ -351,188 +353,190 @@ void CreateEntity_EmeraldInPlayground(MapEntity *, u16, u16, u8);
 void CreateEntity_MultiplayerItemBox(MapEntity *, u16, u16, u8);
 void CreateEntity_MultiplayerChao(MapEntity *, u16, u16, u8);
 const MapEntityInit gSpriteInits_Enemies[] = {
-    CreateEntity_Spinner,
-    CreateEntity_Akatento,
-    CreateEntity_Aotento,
-    CreateEntity_Condor,
-    CreateEntity_GekoGeko,
-    CreateEntity_Buzzer,
-    CreateEntity_Minimole,
-    CreateEntity_Ape_0,
-    CreateEntity_Ape_1,
-    CreateEntity_Takkon,
-    CreateEntity_Jousun_Right,
-    CreateEntity_Jousun_Left,
-    CreateEntity_Uutsubo_0,
-    CreateEntity_Uutsubo_1,
-    CreateEntity_Uutsubo_2,
-    CreateEntity_Uutsubo_3,
-    CreateEntity_Guard,
-    CreateEntity_Juggling,
-    CreateEntity_GaoGao,
-    CreateEntity_BuBu,
-    CreateEntity_Ginpe,
-    CreateEntity_Yadokk,
-    CreateEntity_Yukigasen_Right,
-    CreateEntity_Yukigasen_Left,
-    CreateEntity_Yukigasen_Right_HighCooldown,
-    CreateEntity_Yukigasen_Left_HighCooldown,
-    CreateEntity_Hariisen,
-    CreateEntity_Clam,
-    CreateEntity_Kyacchaa,
-    CreateEntity_Kamaki,
-    CreateEntity_GuruGuru,
-    CreateEntity_Marun,
-    CreateEntity_Muukaden_0,
-    CreateEntity_Muukaden_1,
+    /* 000 */ CreateEntity_Spinner,
+    /* 001 */ CreateEntity_Akatento,
+    /* 002 */ CreateEntity_Aotento,
+    /* 003 */ CreateEntity_Condor,
+    /* 004 */ CreateEntity_GekoGeko,
+    /* 005 */ CreateEntity_Buzzer,
+    /* 006 */ CreateEntity_Minimole,
+    /* 007 */ CreateEntity_Ape_0,
+    /* 008 */ CreateEntity_Ape_1,
+    /* 009 */ CreateEntity_Takkon,
+    /* 010 */ CreateEntity_Jousun_Right,
+    /* 011 */ CreateEntity_Jousun_Left,
+    /* 012 */ CreateEntity_Uutsubo_0,
+    /* 013 */ CreateEntity_Uutsubo_1,
+    /* 014 */ CreateEntity_Uutsubo_2,
+    /* 015 */ CreateEntity_Uutsubo_3,
+    /* 016 */ CreateEntity_Guard,
+    /* 017 */ CreateEntity_Juggling,
+    /* 018 */ CreateEntity_GaoGao,
+    /* 019 */ CreateEntity_BuBu,
+    /* 020 */ CreateEntity_Ginpe,
+    /* 021 */ CreateEntity_Yadokk,
+    /* 022 */ CreateEntity_Yukigasen_Right,
+    /* 023 */ CreateEntity_Yukigasen_Left,
+    /* 024 */ CreateEntity_Yukigasen_Right_HighCooldown,
+    /* 025 */ CreateEntity_Yukigasen_Left_HighCooldown,
+    /* 026 */ CreateEntity_Hariisen,
+    /* 027 */ CreateEntity_Clam,
+    /* 028 */ CreateEntity_Kyacchaa,
+    /* 029 */ CreateEntity_Kamaki,
+    /* 030 */ CreateEntity_GuruGuru,
+    /* 031 */ CreateEntity_Marun,
+    /* 032 */ CreateEntity_Muukaden_0,
+    /* 033 */ CreateEntity_Muukaden_1,
 };
+
 const u8 gUnknown_080CF104[] = { 3, 5, 9, 17, 26, 30, 31, 255, 255 };
+
 const MapEntityInit gSpriteInits_Interactables[] = {
-    CreateEntity_Toggle_PlayerLayer_Swap,
-    CreateEntity_Toggle_PlayerLayer_Front,
-    CreateEntity_Toggle_PlayerLayer_Back,
-    CreateEntity_ZoneWarp,
-    CreateEntity_Warp,
-    CreateEntity_Spring_Up,
-    CreateEntity_Spring_Down,
-    CreateEntity_Spring_Left,
-    CreateEntity_Spring_Right,
-    CreateEntity_Spring_UpLeft,
-    CreateEntity_Spring_DownLeft,
-    CreateEntity_Spring_UpRight,
-    CreateEntity_Spring_DownRight,
-    CreateEntity_Spring_Small_UpRight,
-    CreateEntity_Spring_Small_UpLeft,
-    CreateEntity_Interactable015,
-    CreateEntity_Platform_0_0,
-    CreateEntity_Platform_0_1,
-    CreateEntity_Platform_0_2,
-    CreateEntity_Platform_0_3,
-    CreateEntity_Platform_1_0,
-    CreateEntity_Platform_1_1,
-    CreateEntity_Platform_1_2,
-    CreateEntity_Platform_1_3,
-    CreateEntity_Platform_2_0,
-    CreateEntity_Platform_2_1,
-    CreateEntity_Platform_2_2,
-    CreateEntity_Platform_2_3,
-    CreateEntity_BlueButton,
-    CreateEntity_Spikes_Up,
-    CreateEntity_Spikes_Down,
-    CreateEntity_Spikes_Left,
-    CreateEntity_Spikes_Right,
-    CreateEntity_Spikes_HidingUp,
-    CreateEntity_Spikes_HidingDown,
-    CreateEntity_Booster_Default,
-    CreateEntity_Booster_TiltLeft_Small,
-    CreateEntity_Booster_TiltRight_Small,
-    CreateEntity_Booster_TiltLeft_Big,
-    CreateEntity_Booster_TiltRight_Big,
-    CreateEntity_Booster_Wall,
-    CreateEntity_TrampolineA,
-    CreateEntity_TrampolineB,
-    CreateEntity_Ramp,
-    CreateEntity_RotatingHandle,
-    CreateEntity_Lift,
-    CreateEntity_Interactable046,
-    CreateEntity_Interactable047,
-    CreateEntity_Interactable048,
-    CreateEntity_Interactable049,
-    CreateEntity_Interactable050,
-    CreateEntity_Interactable051,
-    CreateEntity_Interactable052,
-    CreateEntity_Interactable053,
-    CreateEntity_Checkpoint,
-    CreateEntity_GoalRing,
-    CreateEntity_BouncyBar,
-    CreateEntity_BreakableWall,
-    CreateEntity_DashRing0,
-    CreateEntity_DashRing1,
-    CreateEntity_Interactable060,
-    CreateEntity_PlatformRaisingWheel,
-    CreateEntity_PlatformRaisingWheelPlatform,
-    CreateEntity_Seesaw,
-    CreateEntity_DecoRock,
-    CreateEntity_FlatSpring,
-    CreateEntity_Omochao,
-    CreateEntity_ButtonPlatformA,
-    CreateEntity_ButtonPlatformB,
-    CreateEntity_PlatformCrumblingA,
-    CreateEntity_PlatformCrumblingB,
-    CreateEntity_RedButton,
-    CreateEntity_GrindRail0,
-    CreateEntity_Interactable073,
-    CreateEntity_Interactable074,
-    CreateEntity_BonusCapsule,
-    CreateEntity_Interactable073,
-    CreateEntity_GrindRail1,
-    CreateEntity_GrindRail2,
-    CreateEntity_GrindRail3,
-    CreateEntity_GrindRail4,
-    CreateEntity_Interactable081,
-    CreateEntity_Interactable082,
-    CreateEntity_BonusGameUI,
-    CreateEntity_SlowChaosLift,
-    CreateEntity_Interactable085,
-    CreateEntity_Interactable085,
-    CreateEntity_TriggerBossOrGoal,
-    CreateEntity_AttachedPlatform,
-    CreateEntity_WaterCannon,
-    CreateEntity_Interactable090,
-    CreateEntity_AccordionSpring,
-    CreateEntity_BungeeCord,
-    CreateEntity_Interactable093,
-    CreateEntity_Pole,
-    CreateEntity_WaterfallResist,
-    CreateEntity_ActRing,
-    CreateEntity_SpecialSpring,
-    CreateEntity_FactoryRing,
-    CreateEntity_BonusUfo,
-    CreateEntity_DeathCrusher,
-    CreateEntity_PlatformOnAPath,
-    CreateEntity_PlatformPropelled,
-    CreateEntity_PlatformMaybeFalling,
-    CreateEntity_Suction,
-    CreateEntity_AirBubbles,
-    CreateEntity_IceSpike,
-    CreateEntity_PlatformSquare,
-    CreateEntity_SunsetBridge,
-    CreateEntity_PlatformSpiked,
-    CreateEntity_SpringInABox,
-    CreateEntity_Rocket,
-    CreateEntity_FerrisWheel,
-    CreateEntity_WindupBlock,
-    CreateEntity_Minecart,
-    CreateEntity_PandaCart,
-    CreateEntity_Interactable116,
-    CreateEntity_Interactable117,
-    CreateEntity_Interactable118,
-    CreateEntity_Interactable119,
-    CreateEntity_Gondola,
-    CreateEntity_Boulder,
-    CreateEntity_UfoPlatform,
-    CreateEntity_ClosingWall,
-    CreateEntity_IceLauncher,
-    CreateEntity_Interactable125,
-    CreateEntity_Interactable126,
-    CreateEntity_Interactable127,
-    CreateEntity_Interactable128,
-    CreateEntity_Interactable129,
-    CreateEntity_Interactable130,
-    CreateEntity_Pendulum,
-    CreateEntity_SpringPlatformA,
-    CreateEntity_SpringPlatformB,
-    CreateEntity_Interactable134,
-    CreateEntity_Interactable135,
-    CreateEntity_MazeEnter,
-    CreateEntity_MazeCorner,
-    CreateEntity_MazeExit,
-    CreateEntity_PlatformChaosAngel,
-    CreateEntity_ChaoInStage,
-    CreateEntity_SpecialKey,
-    CreateEntity_FinalZoneRing,
-    CreateEntity_ChaoInPlayground,
-    CreateEntity_EmeraldInPlayground,
+    /* 000 */ CreateEntity_Toggle_PlayerLayer_Swap,
+    /* 001 */ CreateEntity_Toggle_PlayerLayer_Front,
+    /* 002 */ CreateEntity_Toggle_PlayerLayer_Back,
+    /* 003 */ CreateEntity_ZoneWarp,
+    /* 004 */ CreateEntity_Warp,
+    /* 005 */ CreateEntity_Spring_Up,
+    /* 006 */ CreateEntity_Spring_Down,
+    /* 007 */ CreateEntity_Spring_Left,
+    /* 008 */ CreateEntity_Spring_Right,
+    /* 009 */ CreateEntity_Spring_UpLeft,
+    /* 010 */ CreateEntity_Spring_DownLeft,
+    /* 011 */ CreateEntity_Spring_UpRight,
+    /* 012 */ CreateEntity_Spring_DownRight,
+    /* 013 */ CreateEntity_Spring_Small_UpRight,
+    /* 014 */ CreateEntity_Spring_Small_UpLeft,
+    /* 015 */ CreateEntity_Interactable015,
+    /* 016 */ CreateEntity_Platform_0_0,
+    /* 017 */ CreateEntity_Platform_0_1,
+    /* 018 */ CreateEntity_Platform_0_2,
+    /* 019 */ CreateEntity_Platform_0_3,
+    /* 020 */ CreateEntity_Platform_1_0,
+    /* 021 */ CreateEntity_Platform_1_1,
+    /* 022 */ CreateEntity_Platform_1_2,
+    /* 023 */ CreateEntity_Platform_1_3,
+    /* 024 */ CreateEntity_Platform_2_0,
+    /* 025 */ CreateEntity_Platform_2_1,
+    /* 026 */ CreateEntity_Platform_2_2,
+    /* 027 */ CreateEntity_Platform_2_3,
+    /* 028 */ CreateEntity_BlueButton,
+    /* 029 */ CreateEntity_Spikes_Up,
+    /* 030 */ CreateEntity_Spikes_Down,
+    /* 031 */ CreateEntity_Spikes_Left,
+    /* 032 */ CreateEntity_Spikes_Right,
+    /* 033 */ CreateEntity_Spikes_HidingUp,
+    /* 034 */ CreateEntity_Spikes_HidingDown,
+    /* 035 */ CreateEntity_Booster_Default,
+    /* 036 */ CreateEntity_Booster_TiltLeft_Small,
+    /* 037 */ CreateEntity_Booster_TiltRight_Small,
+    /* 038 */ CreateEntity_Booster_TiltLeft_Big,
+    /* 039 */ CreateEntity_Booster_TiltRight_Big,
+    /* 040 */ CreateEntity_Booster_Wall,
+    /* 041 */ CreateEntity_TrampolineA,
+    /* 042 */ CreateEntity_TrampolineB,
+    /* 043 */ CreateEntity_Ramp,
+    /* 044 */ CreateEntity_RotatingHandle,
+    /* 045 */ CreateEntity_Lift,
+    /* 046 */ CreateEntity_Interactable046,
+    /* 047 */ CreateEntity_Interactable047,
+    /* 048 */ CreateEntity_Interactable048,
+    /* 049 */ CreateEntity_Interactable049,
+    /* 050 */ CreateEntity_Interactable050,
+    /* 051 */ CreateEntity_Interactable051,
+    /* 052 */ CreateEntity_Interactable052,
+    /* 053 */ CreateEntity_Interactable053,
+    /* 054 */ CreateEntity_Checkpoint,
+    /* 055 */ CreateEntity_GoalRing,
+    /* 056 */ CreateEntity_BouncyBar,
+    /* 057 */ CreateEntity_BreakableWall,
+    /* 058 */ CreateEntity_DashRing0,
+    /* 059 */ CreateEntity_DashRing1,
+    /* 060 */ CreateEntity_Interactable060,
+    /* 061 */ CreateEntity_PlatformRaisingWheel,
+    /* 062 */ CreateEntity_PlatformRaisingWheelPlatform,
+    /* 063 */ CreateEntity_Seesaw,
+    /* 064 */ CreateEntity_DecoRock,
+    /* 065 */ CreateEntity_FlatSpring,
+    /* 066 */ CreateEntity_Omochao,
+    /* 067 */ CreateEntity_ButtonPlatformA,
+    /* 068 */ CreateEntity_ButtonPlatformB,
+    /* 069 */ CreateEntity_PlatformCrumblingA,
+    /* 070 */ CreateEntity_PlatformCrumblingB,
+    /* 071 */ CreateEntity_RedButton,
+    /* 072 */ CreateEntity_GrindRail0,
+    /* 073 */ CreateEntity_Interactable073,
+    /* 074 */ CreateEntity_Interactable074,
+    /* 075 */ CreateEntity_BonusCapsule,
+    /* 076 */ CreateEntity_Interactable073,
+    /* 077 */ CreateEntity_GrindRail1,
+    /* 078 */ CreateEntity_GrindRail2,
+    /* 079 */ CreateEntity_GrindRail3,
+    /* 080 */ CreateEntity_GrindRail4,
+    /* 081 */ CreateEntity_Interactable081,
+    /* 082 */ CreateEntity_Interactable082,
+    /* 083 */ CreateEntity_BonusGameUI,
+    /* 084 */ CreateEntity_SlowChaosLift,
+    /* 085 */ CreateEntity_Interactable085,
+    /* 086 */ CreateEntity_Interactable085,
+    /* 087 */ CreateEntity_TriggerBossOrGoal,
+    /* 088 */ CreateEntity_AttachedPlatform,
+    /* 089 */ CreateEntity_WaterCannon,
+    /* 090 */ CreateEntity_Interactable090,
+    /* 091 */ CreateEntity_AccordionSpring,
+    /* 092 */ CreateEntity_BungeeCord,
+    /* 093 */ CreateEntity_Interactable093,
+    /* 094 */ CreateEntity_Pole,
+    /* 095 */ CreateEntity_WaterfallResist,
+    /* 096 */ CreateEntity_ActRing,
+    /* 097 */ CreateEntity_SpecialSpring,
+    /* 098 */ CreateEntity_FactoryRing,
+    /* 099 */ CreateEntity_BonusUfo,
+    /* 100 */ CreateEntity_DeathCrusher,
+    /* 101 */ CreateEntity_PlatformOnAPath,
+    /* 102 */ CreateEntity_PlatformPropelled,
+    /* 103 */ CreateEntity_PlatformMaybeFalling,
+    /* 104 */ CreateEntity_Suction,
+    /* 105 */ CreateEntity_AirBubbles,
+    /* 106 */ CreateEntity_IceSpike,
+    /* 107 */ CreateEntity_PlatformSquare,
+    /* 108 */ CreateEntity_SunsetBridge,
+    /* 109 */ CreateEntity_PlatformSpiked,
+    /* 110 */ CreateEntity_SpringInABox,
+    /* 111 */ CreateEntity_Rocket,
+    /* 112 */ CreateEntity_FerrisWheel,
+    /* 113 */ CreateEntity_WindupBlock,
+    /* 114 */ CreateEntity_Minecart,
+    /* 115 */ CreateEntity_PandaCart,
+    /* 116 */ CreateEntity_Interactable116,
+    /* 117 */ CreateEntity_Interactable117,
+    /* 118 */ CreateEntity_Interactable118,
+    /* 119 */ CreateEntity_Interactable119,
+    /* 120 */ CreateEntity_Gondola,
+    /* 121 */ CreateEntity_Boulder,
+    /* 122 */ CreateEntity_UfoPlatform,
+    /* 123 */ CreateEntity_ClosingWall,
+    /* 124 */ CreateEntity_IceLauncher,
+    /* 125 */ CreateEntity_Interactable125,
+    /* 126 */ CreateEntity_Interactable126,
+    /* 127 */ CreateEntity_Interactable127,
+    /* 128 */ CreateEntity_Interactable128,
+    /* 129 */ CreateEntity_Interactable129,
+    /* 130 */ CreateEntity_Interactable130,
+    /* 131 */ CreateEntity_Pendulum,
+    /* 132 */ CreateEntity_SpringPlatformA,
+    /* 133 */ CreateEntity_SpringPlatformB,
+    /* 134 */ CreateEntity_Interactable134,
+    /* 135 */ CreateEntity_Interactable135,
+    /* 136 */ CreateEntity_MazeEnter,
+    /* 137 */ CreateEntity_MazeCorner,
+    /* 138 */ CreateEntity_MazeExit,
+    /* 139 */ CreateEntity_PlatformChaosAngel,
+    /* 140 */ CreateEntity_ChaoInStage,
+    /* 141 */ CreateEntity_SpecialKey,
+    /* 142 */ CreateEntity_FinalZoneRing,
+    /* 143 */ CreateEntity_ChaoInPlayground,
+    /* 144 */ CreateEntity_EmeraldInPlayground,
 };
 
 const MapEntityInit gSpriteInits_InteractablesMultiplayer[] = {
@@ -1133,7 +1137,7 @@ void SpawnMapEntities()
         while ((Q(es.currentRegionY) < es.range2.yHigh) && (es.currentRegionY < es.regionsY)) {
             es.currentRegionX = I(es.range2.xLow);
             while ((Q(es.currentRegionX) < es.range2.xHigh) && (es.currentRegionX < es.regionsX)) {
-                if (gStageData.gameMode != 7) {
+                if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
                     InitEntityBlock_Interactables(1, (void *)&es);
                     InitEntityBlock_Enemies(1, &es);
                     InitEntityBlock_Items(1, &es);
@@ -1169,8 +1173,7 @@ void InitEntityBlock_Interactables(u16 param0, EntitiesStruct *es)
 
         for (es->entityIdInRegion = 0; (s8)es->me->x != -1; es->entityIdInRegion++) {
             if ((s8)es->me->x < -2) {
-                // TODO: Why does es->me++; work in decomp.me, but not here?
-                es->me = (MapEntity *)(((u8 *)es->me) + 8);
+                es->me++;
                 continue;
             }
             es->worldX = TO_WORLD_POS(es->me->x, es->currentRegionX);
@@ -1184,8 +1187,8 @@ void InitEntityBlock_Interactables(u16 param0, EntitiesStruct *es)
                     } while (0);
                 }
             }
-            // TODO: Why does es->me++; work in decomp.me, but not here?
-            es->me = (MapEntity *)(((u8 *)es->me) + 8);
+
+            es->me++;
         }
     }
 }
@@ -1212,8 +1215,7 @@ void InitEntityBlock_Enemies(u16 param0, EntitiesStruct *es)
 
         for (es->entityIdInRegion = 0; (s8)es->me2->x != -1;) {
             if ((s8)es->me2->x < -2) {
-                // TODO: Why does es->me++; work in decomp.me, but not here?
-                es->me2 = (MapEntity *)(((u8 *)es->me2) + 8);
+                es->me2++;
                 es->entityIdInRegion++;
                 continue;
             }
@@ -1232,8 +1234,8 @@ void InitEntityBlock_Enemies(u16 param0, EntitiesStruct *es)
                     gSpriteInits_Enemies[es->me2->index](es->me2, es->currentRegionX, es->currentRegionY, es->entityIdInRegion);
                 }
             }
-            // TODO: Why does es->me++; work in decomp.me, but not here?
-            es->me2 = (MapEntity *)(((u8 *)es->me2) + 8);
+
+            es->me2++;
             es->entityIdInRegion++;
         }
     }
@@ -1272,60 +1274,113 @@ void InitEntityBlock_Items(u16 param0, EntitiesStruct *es)
     }
 }
 
-#if 0
-#if COLLECT_RINGS_ROM
-void CreateStageEntitiesManager(void)
+void InitEntityBlock_InteractablesSinglePakMP(u16 param0, EntitiesStruct *es)
 {
-    void *decompBuf;
-    struct Task *t = TaskCreate(Task_EntitiesManagerInit, sizeof(EntitiesManager), 0x2000, 0, NULL);
-    EntitiesManager *em = TASK_DATA(t);
+    s32 worldX, worldY;
+    MapEntity *me;
+    Range *range;
+    u32 i;
 
-    decompBuf = (void *)EWRAM_START + 0x3F000;
-    RLUnCompWram(*(void **)((void *)EWRAM_START + 0x3300C), decompBuf);
-    em->interactables = decompBuf;
+    range = &es->range2;
+    if (param0 == 0) {
+        range = &es->range1;
+    }
 
-    em->prevCamX = gCamera.x;
-    em->prevCamY = gCamera.y;
-    em->unk14 = 1;
-    ENT_MGR_TASK = t;
-}
-#endif
+    es->entityIdInRegion = READ_START_INDEX(es->interactables, es->regionsX, es->currentRegionX, es->currentRegionY);
+    if (es->entityIdInRegion != 0) {
+        es->me = (MapEntity *)(((u8 *)es->interactables) + (es->entityIdInRegion - 8));
 
-#ifndef COLLECT_RINGS_ROM
-void CreateEnemyDefeatScoreAndManageLives(s16 x, s16 y)
-{
-    u32 old;
-    u32 temp1;
-    u32 temp2;
-    m4aSongNumStart(SE_ITEM_BOX);
+        for (es->entityIdInRegion = 0; (s8)es->me->x != -1; es->entityIdInRegion++) {
+            if ((s8)es->me->x < -2) {
+                es->me++;
+                continue;
+            }
+            es->worldX = TO_WORLD_POS(es->me->x, es->currentRegionX);
+            es->worldY = TO_WORLD_POS(es->me->y, es->currentRegionY);
+            if ((es->worldX >= range->xLow) && (es->worldX <= range->xHigh) && (es->worldY >= range->yLow)
+                && (es->worldY <= range->yHigh)) {
+                gSpriteInits_InteractablesMultiplayer[es->me->index](es->me, es->currentRegionX, es->currentRegionY, es->entityIdInRegion);
+            }
 
-    INCREMENT_SCORE(enemyDefeatScores[gPlayer.defeatScoreIndex]);
-
-    CreateEnemyDefeatScore(x, y);
-
-    // NOTE: This should be (ARRAY_COUNT(enemyDefeatScores) - 1)
-    //       But padding makes it (6-1) instead of (5-1),
-    //       hence the macro.
-    if (gPlayer.defeatScoreIndex < (NUM_ENEMY_DEFEAT_SCORES - 1)) {
-        gPlayer.defeatScoreIndex++;
+            es->me++;
+        }
     }
 }
 
-void TaskDestructor_80095E8(struct Task *t)
+bool32 sub_802C080(Player *p)
 {
-    Sprite_Entity *s = TASK_DATA(t);
-    VramFree(s->displayed.graphics.dest);
+    s32 temp_r1;
+
+    if (!(p->moveState & (MOVESTATE_10000000 | MOVESTATE_1000000 | MOVESTATE_200 | MOVESTATE_100)) && ((u32)(u8)(gStageData.unk4 - 6) > 2U)
+        && ((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4))
+        && (p->callback != Player_800D944)) {
+        return FALSE;
+    }
+    return TRUE;
 }
 
-static void TaskDestructor_EntitiesManager(struct Task *t)
+bool32 sub_802C0D4(Player *p)
 {
-    EntitiesManager *em = TASK_DATA(t);
-    EwramFree(em->interactables);
-    EwramFree(em->items);
-    EwramFree(em->enemies);
-    ENT_MGR_TASK = NULL;
+    if (!(p->moveState & (MOVESTATE_10000000 | MOVESTATE_1000000 | MOVESTATE_100)) && (p->callback != Player_800D944)) {
+        return FALSE;
+    }
+    return TRUE;
 }
 
-#endif
+void DestroyStageEntitiesManager(void)
+{
+    if (gStageData.taskEntitiesManager) {
+        if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
+            EntitiesManager *em = TASK_DATA(gStageData.taskEntitiesManager);
+            EwramFree(em->interactables);
+            EwramFree(em->items);
+            EwramFree(em->enemies);
+        } else {
+            gStageData.taskEntitiesManager = NULL;
+        }
+    }
+}
 
-#endif
+bool32 sub_802C140(s32 worldX, s32 worldY, s32 screenX, s32 screenY)
+{
+    worldX = worldX - gCamera.x;
+    worldY = worldY - gCamera.y;
+
+    // NOTE: worldX/worldY are screen-coordinates now!
+
+    if (IS_OUT_OF_RANGE_3(worldX, worldY, 128, 128) && IS_OUT_OF_RANGE_3(screenX, screenY, 128, 128)) {
+        return FALSE;
+    }
+    return TRUE;
+}
+
+bool32 IsWorldPtActive(s32 worldX, s32 worldY)
+{
+    worldX = worldX - gCamera.x;
+    worldY = worldY - gCamera.y;
+
+    // NOTE: worldX/worldY are screen-coordinates now!
+
+    if (IS_OUT_OF_RANGE_3(worldX, worldY, 128, 128)) {
+        return FALSE;
+    }
+    return TRUE;
+}
+
+bool32 IsScreenPtActive(s32 screenX, s32 screenY)
+{
+    if (IS_OUT_OF_RANGE_3(screenX, screenY, 128, 128)) {
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+u32 sub_802C1F8(s32 screenX, s32 screenY)
+{
+    if (IS_OUT_OF_RANGE_3(screenX, screenY, 32, 32)) {
+        return FALSE;
+    }
+
+    return TRUE;
+}
