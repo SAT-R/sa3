@@ -212,13 +212,6 @@ typedef struct Strc_PlayerUnkE0 {
     /* 0xB4 */ s16 unkB0[12][2];
 } Strc_PlayerUnkE0;
 
-typedef struct AfterImages {
-    /* 0x00 */ SpriteTransform tf;
-    /* 0x0C */ Sprite2 s;
-    /* 0x3C */ u8 unk3C;
-    /* 0x3C */ u8 filler3D[3];
-} AfterImages;
-
 typedef struct SomeSubStruct_3001BF0 {
     /* 0x00 */ s32 qWorldX;
     /* 0x04 */ s32 qWorldY;
@@ -16972,7 +16965,7 @@ void Player_InitializeAfterImagesTask(Player *p)
     SpriteTransform *tf;
 
     if (gStageData.gameMode == 6) {
-        gStageData.task9C = NULL;
+        gStageData.taskAfterImages = NULL;
         return;
     }
 
@@ -16980,9 +16973,9 @@ void Player_InitializeAfterImagesTask(Player *p)
         return;
 
     if ((gStageData.zone != 8) || (p == &gPlayers[PLAYER_1])) {
-        if (gStageData.task9C == 0) {
-            gStageData.task9C = TaskCreate(Task_AfterImages, sizeof(AfterImages), 0x4000U, 0U, TaskDestructor_AfterImages);
-            strc = TASK_DATA(gStageData.task9C);
+        if (gStageData.taskAfterImages == 0) {
+            gStageData.taskAfterImages = TaskCreate(Task_AfterImages, sizeof(AfterImages), 0x4000U, 0U, TaskDestructor_AfterImages);
+            strc = TASK_DATA(gStageData.taskAfterImages);
             s = &strc->s;
             if ((gStageData.gameMode <= 5U)) {
                 s->tiles = OBJ_VRAM0 + 0x2000;

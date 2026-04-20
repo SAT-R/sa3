@@ -3,6 +3,7 @@
 #include "lib/m4a/m4a.h"
 #include "game/stage.h"
 #include "game/save.h"
+#include "module_unclear.h"
 
 #include "constants/songs.h"
 #include "constants/zones.h"
@@ -17,6 +18,17 @@ typedef struct GameOver60 {
 void Task_60_8003FEC(void);
 void TaskDestructor_8003D28(struct Task *t);
 void sub_8029990(u16 song);
+
+extern void Create_gTask_03001CFC();
+extern void DemoPlayAlloc(Player *, u8);
+extern void Task_00_8002988();
+extern void sub_8002618();
+extern void sub_8002838(s16);
+extern void sub_8003E44(s16);
+extern struct Task *sub_80215A0();
+extern void sub_8022FB0();
+extern void sub_8052E30();
+extern void sub_8053030();
 
 extern void sub_80299FC(void);
 extern void sub_8053284(UNUSED u32, UNUSED u32, UNUSED s16, UNUSED s32);
@@ -187,3 +199,66 @@ NONMATCH("asm/non_matching/game/shared/go__sub_8002618.inc", void sub_8002618(vo
     sub_8029990(song);
 }
 END_NONMATCH
+
+void sub_80026BC(void)
+{
+    s16 tid;
+    s32 temp_r0;
+    u16 temp_r2;
+    u16 var_r0;
+    StageData *sd = &gStageData;
+
+    if (sd->gameMode == 6) {
+        sd->rings = 1;
+    } else {
+        sd->rings = 0;
+    }
+
+    sd->levelTimer = (u16)sd->unk24;
+    sd->unkB5 = 0;
+    sd->unk86 = PseudoRandom32() % 8u;
+    sd->flagSpKey = 0;
+    sd->unk85 = 0;
+    sd->unk4 = 1;
+    sd->task90 = TaskCreate(Task_00_8002988, 0, 0x100U, 0U, NULL);
+    sd->taskEntitiesManager = NULL;
+    sd->taskCheese = NULL;
+    sd->taskAfterImages = NULL;
+    sd->taskA0 = NULL;
+    sd->taskA4 = NULL;
+    sd->stageFlags = 0;
+    sd->unkB2 = 0;
+    sd->platformTimerEnableBits = 0;
+    sd->springTimerEnableBits = 0;
+
+    for (tid = 0; tid < TIMER_ID_COUNT; tid++) {
+        sd->platformTimers[tid] = 0;
+        sd->springTimers[tid] = 0;
+        sd->unk4E[tid] = 0;
+        sd->unk5E[tid] = 0;
+        sd->unk6E[tid] = 0;
+    }
+
+    gUnknown_03001060.unk52 = 0;
+    sub_8003E44(gStageData.currentLevel);
+    sub_8002838(sd->currentLevel);
+
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
+        Create_gTask_03001CFC();
+
+		if (CURRENT_GAME_MODE == GAME_MODE_DEMO) {
+            sub_8052E30();
+            DemoPlayAlloc(gPlayers, gStageData.zone);
+        } else if (CURRENT_GAME_MODE == GAME_MODE_2) {
+            sub_8053030();
+            DemoPlayAlloc(gPlayers, gStageData.zone);
+            return;
+        } else {
+            gStageData.taskA4 = sub_80215A0();
+        }
+        sub_8002618();
+    } else {
+        sub_8022FB0();
+        m4aSongNumStart(MUS_VS_BGM_7);
+    }
+}

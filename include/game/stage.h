@@ -85,8 +85,6 @@ typedef struct {
     /* 0x4E */ u16 unk4E[TIMER_ID_COUNT];
     /* 0x5E */ s16 unk5E[TIMER_ID_COUNT];
     /* 0x6E */ u16 unk6E[TIMER_ID_COUNT];
-
-    /* 0x7E */ u8 filler7E[0x2];
     /* 0x80 */ u16 *unk80; // (type not checked, used in sub_8002838) | 0x80
     /* 0x84 */ u8 unk84; // | 0x84
     /* 0x85 */ u8 unk85; // | 0x85
@@ -99,9 +97,9 @@ typedef struct {
     /* 0x90 */ struct Task *task90;
     /* 0x94 */ struct Task *taskEntitiesManager;
     /* 0x98 */ struct Task *taskCheese; // -> Cheese *, set to NULL in TaskDestructor
-    /* 0x9C */ struct Task *task9C; // -> AfterImages *
-    /* 0xA0 */ u32 unkA0;
-    /* 0xA4 */ u32 unkA4;
+    /* 0x9C */ struct Task *taskAfterImages; // -> AfterImages *
+    /* 0xA0 */ struct Task *taskA0;
+    /* 0xA4 */ struct Task *taskA4;
     /* 0xA8 */ u32 unkA8;
     /* 0xAC */ u16 rings;
     /* 0xAE */ u16 levelTimer; // Timer that constantly increases in a level
@@ -121,6 +119,12 @@ typedef struct {
 } StageData;
 
 extern StageData gStageData;
+
+typedef struct AfterImages {
+    /* 0x00 */ SpriteTransform tf;
+    /* 0x0C */ Sprite2 s;
+    /* 0x3C */ u8 unk3C;
+} AfterImages;
 
 typedef enum {
     ACT_TYPE_ACT_1 = 0x01,
