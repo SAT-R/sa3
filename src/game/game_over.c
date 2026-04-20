@@ -108,11 +108,12 @@ void AddRings(u16 count)
     if (!(IS_EXTRA_STAGE(CURRENT_LEVEL))) {
         newLives = Div(RING_COUNT, 100);
         oldLives = Div(oldRings, 100);
+
         if ((newLives != oldLives) && ((gStageData.gameMode == GAME_MODE_SINGLE_PLAYER) || (gStageData.gameMode == 5))) {
-            AddLives(1U);
+            AddLives(1);
         }
     }
-    if (gStageData.gameMode == 7) {
+    if (gStageData.gameMode == GAME_MODE_MP_SINGLE_PACK) {
         if (RING_COUNT > 255) {
             RING_COUNT = 255;
         }
