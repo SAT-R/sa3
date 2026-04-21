@@ -157,6 +157,7 @@ typedef uint16_t winreg_t;
 // NOTE: This appears to not match when using pointers, but with integers it's fine.
 //       uintptr_t should always be defined to be as big as a pointer, so there should be no issues.
 #define GET_TILE_NUM_COMMON(vramPtr, tileSize) (((uintptr_t)(vramPtr) - (uintptr_t)OBJ_VRAM0) / (tileSize))
+#define GET_TILE_NUM_FROM_BASE(base, vramPtr)  (((uintptr_t)(vramPtr) - (uintptr_t)(base)) / TILE_SIZE_4BPP)
 #define GET_TILE_NUM(vramPtr) GET_TILE_NUM_COMMON((vramPtr), TILE_SIZE_4BPP) 
 
 #define TOTAL_OBJ_TILE_COUNT 1024

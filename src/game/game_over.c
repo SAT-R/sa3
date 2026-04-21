@@ -3,6 +3,7 @@
 #include "lib/m4a/m4a.h"
 #include "game/stage.h"
 #include "game/save.h"
+#include "game/screen_fade.h"
 #include "game/camera.h" // TODO: for CamCoord used in entities_manager.h
 #include "game/shared/entities_manager.h"
 #include "game/shared/rings_manager.h"
@@ -11,12 +12,24 @@
 #include "constants/songs.h"
 #include "constants/zones.h"
 
-typedef struct GameOver60 {
+typedef struct GameOver {
     /* 0x00 */ u16 unk0;
     /* 0x04 */ Sprite s;
     /* 0x2C */ Sprite s2;
-    /* 0x54 */ u8 unk54[0xC];
-} GameOver60;
+    /* 0x54 */ ScreenFade fade;
+} GameOver;
+
+typedef struct GameOver38 {
+    /* 0x00 */ u8 padding[0x10];
+    /* 0x10 */ Sprite s;
+} GameOver38;
+
+typedef struct TimeOver {
+    /* 0x00 */ u16 unk0;
+    /* 0x04 */ Sprite s;
+    /* 0x2C */ Sprite s2;
+    /* 0x54 */ ScreenFade fade;
+} TimeOver;
 
 void sub_80525F0(s32, s32); /* extern */
 extern u8 gUnknown_080CE548[4];
@@ -56,12 +69,12 @@ extern void AddLives(u16 count);
 
 void sub_8002414(void)
 {
-    GameOver60 *strc;
+    GameOver *strc;
     Sprite *s;
     Player *p;
     s16 pid;
 
-    strc = TASK_DATA(TaskCreate(Task_60_8003FEC, sizeof(GameOver60), 0x2000U, 0U, TaskDestructor_8003D28));
+    strc = TASK_DATA(TaskCreate(Task_60_8003FEC, sizeof(GameOver), 0x2000U, 0U, TaskDestructor_8003D28));
     strc->unk0 = 0;
     s = &strc->s;
     s->tiles = OBJ_VRAM0 + 0x2800;
@@ -141,7 +154,7 @@ void AddRings(u16 count)
         newLives = Div(RING_COUNT, 100);
         oldLives = Div(oldRings, 100);
 
-        if ((newLives != oldLives) && ((CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER) || (CURRENT_GAME_MODE == 5))) {
+        if ((newLives != oldLives) && ((CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER) || (CURRENT_GAME_MODE == GAME_MODE_5))) {
             AddLives(1);
         }
     }
@@ -404,10 +417,10 @@ void Task_00_8002988(void)
     if (gStageData.gameMode > 4U) {
         sub_80261B0();
 
-        if ((gStageData.gameMode == 5) && (gStageData.playerIndex == 0)) {
+        if ((gStageData.gameMode == GAME_MODE_5) && (gStageData.playerIndex == 0)) {
             sub_80275F0(gStageData.currentLevel, gStageData.zone, gStageData.entryIndex);
 
-            if (gStageData.gameMode == 5) {
+            if (gStageData.gameMode == GAME_MODE_5) {
                 sub_8027878(gStageData.lives);
             }
         }
