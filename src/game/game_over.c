@@ -3,6 +3,9 @@
 #include "lib/m4a/m4a.h"
 #include "game/stage.h"
 #include "game/save.h"
+#include "game/camera.h" // TODO: for CamCoord used in entities_manager.h
+#include "game/shared/entities_manager.h"
+#include "game/shared/rings_manager.h"
 #include "module_unclear.h"
 
 #include "constants/songs.h"
@@ -16,6 +19,7 @@ typedef struct GameOver60 {
 } GameOver60;
 
 void sub_80525F0(s32, s32); /* extern */
+extern u8 gUnknown_080CE548[4];
 extern void *gUnknown_08E2EC78[8];
 
 void Task_60_8003FEC(void);
@@ -30,6 +34,19 @@ extern void sub_8002838(s16);
 extern void sub_8003E44(s16);
 extern struct Task *sub_80215A0();
 extern void sub_8022FB0();
+void Task_8002BBC();
+extern void sub_80261B0();
+extern void sub_80275F0(u8, u8, u8);
+extern void sub_8027878(u8 lives);
+extern void sub_804F740(u16, u8);
+extern void sub_805235C();
+extern void sub_8056AB0();
+extern void sub_8056AFC(u8);
+extern void sub_8056B78();
+extern void sub_8057ECC();
+extern void sub_806611C(u8);
+extern void sub_8081C80();
+extern void InitializePlayer(s16 playerId);
 extern void sub_8052E30();
 extern void sub_8053030();
 
@@ -113,7 +130,6 @@ void sub_8002508(void)
     }
 }
 
-// TODO: Add a macro for this
 void AddRings(u16 count)
 {
     s32 oldLives, newLives;
@@ -308,4 +324,96 @@ void sub_8002838(s16 level)
         sd->unk84 = 0;
         sd->unk80 = NULL;
     }
+}
+
+void Task_00_8002988(void)
+{
+    u8 characters[MULTI_SIO_PLAYERS_MAX];
+    Player *p;
+    s16 pid;
+    StageData *sd = &gStageData;
+
+    memcpy(&characters, &gUnknown_080CE548, MULTI_SIO_PLAYERS_MAX);
+    sub_805235C();
+    CreateStageEntitiesManager();
+    if (sd->gameMode != 7) {
+        CreateStageRingsManager();
+    }
+    gCamera.x = 0;
+    gCamera.y = 0;
+    sub_804F740(sd->currentLevel, sd->entryIndex);
+    if (sd->gameMode != 7) {
+        if (sd->gameMode < GAME_MODE_MP_MULTI_PACK) {
+            u8 playerIndex = sd->playerIndex;
+            InitializePlayer(playerIndex);
+            InitializePlayer(gPlayers[playerIndex].charFlags.partnerIndex);
+        } else if (sd->gameMode == GAME_MODE_MP_MULTI_PACK) {
+            for (pid = 0; pid < MULTI_SIO_PLAYERS_MAX; pid++) {
+                InitializePlayer(pid);
+            }
+        }
+        if (sd->gameMode == 2) {
+            sub_806611C(sd->zone);
+            sub_8056AB0();
+        } else {
+            if (sd->zone < ZONE_FINAL) {
+                if (sd->act == ACT_SPECIAL) {
+                    if ((sd->currentLevel != LEVEL_INDEX(ZONE_2, ACT_SPECIAL)) && (sd->entryIndex != 2)) {
+                        sub_8056AFC(sd->zone);
+                    } else {
+                        sub_8057ECC();
+                    }
+                } else if (sd->act == ACT_HUB) {
+                    sub_806611C(sd->zone + 9);
+                    sub_8057ECC();
+                } else if (sd->act >= ACT_BONUS_CAPSULE) {
+                    if (sd->act == ACT_BONUS_CAPSULE) {
+                        gStageData.unkBE[sd->zone] |= 1;
+                    } else {
+                        gStageData.unkBE[sd->zone] |= 2;
+                    }
+
+                    sub_806611C(sd->zone + 18);
+                    sub_8057ECC();
+                } else {
+                    sub_806611C(sd->zone);
+                    sub_8056B78();
+                }
+            } else if (sd->zone == ZONE_FINAL) {
+                sub_806611C(sd->zone);
+                sub_8056B78();
+            } else if (sd->zone == ZONE_UNUSED) {
+                sub_806611C(sd->zone);
+                sub_8056B78();
+                sub_8081C80();
+            }
+        }
+    } else {
+        for (pid = 0; pid < MULTI_SIO_PLAYERS_MAX; pid++) {
+            if ((gUnknown_03001060.unk7 >> pid) & 1) {
+                s32 someIndex;
+                InitializePlayer(pid);
+                gPlayers[pid].charFlags.character = characters[pid];
+                gPlayers[pid].charFlags.someIndex = (pid == gStageData.playerIndex) ? 1 : 3;
+            }
+        }
+        sub_8057ECC();
+        gStageData.levelTimer = TIME(3, 0);
+    }
+    REG_MOSAIC = 0;
+    if (gStageData.gameMode > 4U) {
+        sub_80261B0();
+
+        if ((gStageData.gameMode == 5) && (gStageData.playerIndex == 0)) {
+            sub_80275F0(gStageData.currentLevel, gStageData.zone, gStageData.entryIndex);
+
+            if (gStageData.gameMode == 5) {
+                sub_8027878(gStageData.lives);
+            }
+        }
+
+        gStageData.unkB9 = 0;
+        gStageData.unk85 = 0;
+    }
+    gCurTask->main = Task_8002BBC;
 }
