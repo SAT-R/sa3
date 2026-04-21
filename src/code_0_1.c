@@ -7,7 +7,7 @@
 extern void sub_8001D58(VoidFn voidFn, u16 color);
 extern void sub_8003F40(void);
 extern void sub_8003F8C(void);
-extern void sub_8003FC8(void);
+extern void ClearCameraStruct(void);
 extern void TaskDestructor_8029774(struct Task *t);
 
 void sub_800214C(void)
@@ -169,5 +169,5 @@ void sub_8002388(void)
     }
 
     m4aMPlayAllStop();
-    sub_8003FC8();
+    ClearCameraStruct();
 }

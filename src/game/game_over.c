@@ -430,3 +430,5 @@ void Task_00_8002988(void)
     }
     gCurTask->main = Task_8002BBC;
 }
+
+/* TODO: Append functions from game_over_z.c here!!! */

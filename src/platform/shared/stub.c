@@ -40,8 +40,6 @@ struct Camera gCamera = {};
 
 void sub_8000D68() { }
 void Task_800303C() { }
-void sub_8003F8C() { }
-void sub_8003FC8() { }
 void Stop() { }
 
 void /* 0x080213FC */ UpdateScreenFade() { }
@@ -278,9 +276,9 @@ void sub_8053030() { }
 void sub_8053284() { }
 void sub_8029990() { }
 void Create_gTask_03001CFC() { }
-void Task_60_8003FEC() { }
 
 void Task_8002BBC() { }
+void sub_80260F0() { }
 void sub_80261B0() { }
 void sub_80275F0() { }
 void sub_804F740() { }
@@ -291,7 +289,3 @@ void sub_8056AFC() { }
 void sub_8056B78() { }
 void sub_8057ECC() { }
 void sub_8081C80() { }
-
-void Task_8004058() { }
-void sub_80040D8() { }
-void TaskDestructor_80040BC() { }

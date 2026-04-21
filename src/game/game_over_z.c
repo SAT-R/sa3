@@ -81,7 +81,7 @@ void sub_8051140(); /* extern */
 void TaskDestructor_80040BC(Task *); /* static */
 void Task_8003C38(); /* static */
 void sub_8003F40(); /* static */
-void sub_8003FC8(); /* static */
+void ClearCameraStruct(); /* static */
 void Task_8004058(); /* static */
 void sub_80040D8(s16 arg0, s16 arg1); /* static */
 
@@ -371,5 +371,104 @@ void sub_8003F40(void)
     if (gStageData.gameMode != 2) {
         m4aMPlayAllStop();
     }
-    sub_8003FC8();
+    ClearCameraStruct();
+}
+
+void sub_8003F8C(void)
+{
+    s16 temp_r4_2;
+    s16 var_r0;
+    s32 temp_r5;
+    u16 temp_r4;
+    s16 level = CURRENT_LEVEL;
+
+    gStageData.timer = 0;
+    gStageData.unk21 = 0;
+    for (var_r0 = 0; var_r0 < 4; var_r0++) {
+        sub_80040D8(level, var_r0);
+    }
+
+    m4aMPlayAllStop();
+    ClearCameraStruct();
+}
+
+void ClearCameraStruct(void)
+{
+    CpuFill32(0, &gCamera, sizeof(gCamera));
+    sub_80026BC();
+}
+
+void Task_60_8003FEC(void)
+{
+    Sprite *s;
+    u16 temp_r0;
+    u16 temp_r0_2;
+    u16 timeTxtX;
+
+    GameOver *gameOver = TASK_DATA(gCurTask);
+
+    if (++gameOver->unk0 >= TIME(0, 5)) {
+        sub_8003CA4();
+        return;
+    }
+    timeTxtX = gameOver->unk0;
+    if (timeTxtX > DISPLAY_CENTER_X) {
+        timeTxtX = DISPLAY_CENTER_X;
+    }
+
+    {
+        s = &gameOver->s;
+        s->x = timeTxtX;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+        s = &gameOver->s2;
+        s->x = DISPLAY_WIDTH - timeTxtX;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
+
+void Task_8004058(void)
+{
+    // TODO: Unsure whether this is GameOver or TimeOver struct!
+    GameOver *gameOver = TASK_DATA(gCurTask);
+
+    if (UpdateScreenFade(&gameOver->fade) != SCREEN_FADE_RUNNING) {
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
+        gBgSpritesCount = 0;
+        PAUSE_GRAPHICS_QUEUE();
+
+        sub_8001E84();
+        sub_80260F0();
+        LaunchGameIntro();
+    }
+}
+
+void TaskDestructor_80040BC(Task *t)
+{
+    TimeOver *timeOver = TASK_DATA(t);
+
+    VramFree(timeOver->s.tiles);
+    VramFree(timeOver->s2.tiles);
+}
+
+void sub_80040D8(s16 level, s16 pid)
+{
+    Player *p = &gPlayers[pid];
+
+    // Save important indices
+    u32 partnerIndex = p->charFlags.partnerIndex;
+    u32 character = p->charFlags.character;
+    u32 someIndex = p->charFlags.someIndex;
+
+    // Clear Player struct
+    CpuFill32(0, p, sizeof(Player));
+
+    // Restore important indices
+    p->charFlags.partnerIndex = partnerIndex;
+    p->charFlags.character = character;
+    p->charFlags.someIndex = someIndex;
+
+    sub_8013D70(level, pid);
 }
