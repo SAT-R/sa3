@@ -69,24 +69,28 @@ extern void sub_80299FC(void);
 extern void sub_8053284(UNUSED u32, UNUSED u32, UNUSED s16, UNUSED s32);
 extern void AddLives(u16 count);
 
-void DestroyStageEntitiesManager(); /* extern */
-void LaunchGameIntro(); /* extern */
-void sub_8001D58(void (*)(), s32); /* extern */
-void sub_8001E84(); /* extern */
-void sub_80026BC(); /* extern */
-void sub_8004CC8(u32); /* extern */
-void sub_8013D70(s16, s16); /* extern */
-void sub_80260F0(); /* extern */
-void sub_8051140(); /* extern */
-void TaskDestructor_80040BC(Task *); /* static */
-void Task_8003C38(); /* static */
-void sub_8003F40(); /* static */
-void ClearCameraStruct(); /* static */
-void Task_8004058(); /* static */
-void sub_80040D8(s16 arg0, s16 arg1); /* static */
+void DestroyStageEntitiesManager();
+void LaunchGameIntro();
+void sub_8001D58(void (*)(), s32);
+void sub_8001E84();
+void sub_80026BC();
+void sub_8004CC8(u32);
+void sub_8013D70(s16, s16);
+void sub_80260F0();
+void sub_8051140();
+void TaskDestructor_80040BC(Task *);
+void Task_8003C38();
+void sub_8003F40();
+void ClearCameraStruct();
+void Task_8004058();
+void sub_80040D8(s16 arg0, s16 arg1);
 
 void Task_TimeOver_Update(void);
 void Task_TimeOver_InitSprites(void);
+
+// TODO: Put these into a parameters.h file
+#define GAME_OVER_SCREEN_DURATION TIME(0, 7)
+#define TIME_OVER_SCREEN_DURATION TIME(0, 5)
 
 typedef struct MusicManagerState {
     u8 unk0;
@@ -98,7 +102,7 @@ typedef struct MusicManagerState {
     u16 fadeoutSpeed;
 } MusicManagerState; /* size: 8 */
 
-extern MusicManagerState gUnknown_03001CF0; // TODO: <- gMusicManagerState
+extern MusicManagerState gMusicManagerState; // TODO: <- gMusicManagerState
 
 void sub_8003A14(void)
 {
@@ -181,7 +185,7 @@ void Task_TimeOver_Update()
     if (timeOver->unk0 == 4) {
         m4aSongNumStart(0x95U);
     }
-    if (++timeOver->unk0 >= TIME(0, 5)) {
+    if (++timeOver->unk0 >= TIME_OVER_SCREEN_DURATION) {
         gCurTask->main = Task_8003C38;
         return;
     }
@@ -295,7 +299,7 @@ void AddLives(u16 count)
     }
 
     // Music manager reset
-    gUnknown_03001CF0.unk3 = 0x10;
+    gMusicManagerState.unk3 = 0x10;
 }
 
 void sub_8003DC4(u16 count)
@@ -407,7 +411,7 @@ void Task_60_8003FEC(void)
 
     GameOver *gameOver = TASK_DATA(gCurTask);
 
-    if (++gameOver->unk0 >= TIME(0, 5)) {
+    if (++gameOver->unk0 >= GAME_OVER_SCREEN_DURATION) {
         sub_8003CA4();
         return;
     }

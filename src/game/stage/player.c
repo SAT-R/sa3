@@ -231,14 +231,17 @@ typedef struct Strc_03001BF0 {
 extern Strc_03001BF0 gUnknown_03001BF0;
 extern u16 gUnknown_080CE7E2[][2];
 
-typedef struct Strc_03001CF0 {
+typedef struct MusicManagerState {
     u8 unk0;
-    u8 filler1[3];
+    u8 unk1;
+    u8 unk2;
+    u8 unk3;
     u8 unk4;
-    u16 unk6;
-} Strc_03001CF0;
+    u8 unk5;
+    u16 fadeoutSpeed;
+} MusicManagerState; /* size: 8 */
 
-extern Strc_03001CF0 gUnknown_03001CF0;
+extern MusicManagerState gMusicManagerState; // TODO: <- gMusicManagerState
 
 extern u16 gMedalTimes[][2];
 extern u8 gUnknown_080CF468[];
@@ -15472,7 +15475,7 @@ void sub_801782C(Player *p, s16 arg1)
 
     if (arg1 < 6) {
         if ((arg1 == 5) && (&gPlayers[gStageData.playerIndex] == p)) {
-            gUnknown_03001CF0.unk4 = 0x10;
+            gMusicManagerState.unk4 = 0x10;
         }
         strc = TASK_DATA(TaskCreate(Task_80184F8, sizeof(Strc_PlayerStrc30_2), 0x3100U, 0U, TaskDestructor_80193EC));
         strc->p = p;

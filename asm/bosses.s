@@ -51998,7 +51998,7 @@ _0807F040:
 	strh r0, [r5, #0x16]
 	ldr r0, _0807F05C @ =0x00000221
 	bl m4aSongNumStart
-	ldr r1, _0807F060 @ =gUnknown_03001CF0
+	ldr r1, _0807F060 @ =gMusicManagerState
 	movs r0, #0xa0
 	lsls r0, r0, #1
 	strh r0, [r1, #6]
@@ -52006,7 +52006,7 @@ _0807F040:
 	.align 2, 0
 _0807F058: .4byte gPlayers
 _0807F05C: .4byte 0x00000221
-_0807F060: .4byte gUnknown_03001CF0
+_0807F060: .4byte gMusicManagerState
 _0807F064:
 	movs r1, #0
 	ldr r3, _0807F14C @ =gPlayers
@@ -64891,7 +64891,7 @@ _08085164:
 	ldr r0, [r1]
 	orrs r0, r2
 	str r0, [r1]
-	ldr r1, _080851AC @ =gUnknown_03001CF0
+	ldr r1, _080851AC @ =gMusicManagerState
 	movs r0, #0xa0
 	lsls r0, r0, #1
 	strh r0, [r1, #6]
@@ -64901,7 +64901,7 @@ _0808519C: .4byte gBldRegs
 _080851A0: .4byte 0x00003FBF
 _080851A4: .4byte 0x00000BC2
 _080851A8: .4byte gPlayers
-_080851AC: .4byte gUnknown_03001CF0
+_080851AC: .4byte gMusicManagerState
 _080851B0:
 	ldrh r0, [r5, #0x10]
 	subs r0, #1

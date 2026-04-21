@@ -16675,7 +16675,7 @@ Task_80297BC: @ 0x080297BC
 	ldr r0, _0802980C @ =gMPlayTable
 	ldr r0, [r0]
 	ldr r7, [r0]
-	ldr r0, _08029810 @ =gUnknown_03001CF0
+	ldr r0, _08029810 @ =gMusicManagerState
 	ldrb r1, [r0]
 	adds r6, r0, #0
 	cmp r1, #0
@@ -16713,7 +16713,7 @@ _080297F4:
 	b _08029988
 	.align 2, 0
 _0802980C: .4byte gMPlayTable
-_08029810: .4byte gUnknown_03001CF0
+_08029810: .4byte gMusicManagerState
 _08029814: .4byte gPlayers
 _08029818: .4byte gStageData
 _0802981C:
@@ -16755,7 +16755,7 @@ _08029860:
 	movs r0, #0x4b
 	bl m4aSongNumStop
 _08029866:
-	ldr r0, _0802987C @ =gUnknown_03001CF0
+	ldr r0, _0802987C @ =gMusicManagerState
 	movs r1, #0
 	strb r1, [r0, #2]
 	strb r1, [r0, #3]
@@ -16765,7 +16765,7 @@ _08029866:
 	.align 2, 0
 _08029874: .4byte gSongTable
 _08029878: .4byte gMPlayInfo_BGM
-_0802987C: .4byte gUnknown_03001CF0
+_0802987C: .4byte gMusicManagerState
 _08029880:
 	ldrb r0, [r6, #4]
 	cmp r0, #0
@@ -16922,7 +16922,7 @@ sub_8029990: @ 0x08029990
 	movs r1, #0
 	movs r3, #0
 	bl TaskCreate
-	ldr r0, _080299D0 @ =gUnknown_03001CF0
+	ldr r0, _080299D0 @ =gMusicManagerState
 	movs r2, #0
 	strh r4, [r0, #8]
 	movs r1, #1
@@ -16939,11 +16939,11 @@ sub_8029990: @ 0x08029990
 	bx r0
 	.align 2, 0
 _080299CC: .4byte Task_80297BC
-_080299D0: .4byte gUnknown_03001CF0
+_080299D0: .4byte gMusicManagerState
 
 	thumb_func_start sub_80299D4
 sub_80299D4: @ 0x080299D4
-	ldr r2, _080299E4 @ =gUnknown_03001CF0
+	ldr r2, _080299E4 @ =gMusicManagerState
 	movs r1, #0
 	strb r1, [r2]
 	strh r0, [r2, #8]
@@ -16951,11 +16951,11 @@ sub_80299D4: @ 0x080299D4
 	strb r0, [r2, #1]
 	bx lr
 	.align 2, 0
-_080299E4: .4byte gUnknown_03001CF0
+_080299E4: .4byte gMusicManagerState
 
 	thumb_func_start sub_80299E8
 sub_80299E8: @ 0x080299E8
-	ldr r2, _080299F8 @ =gUnknown_03001CF0
+	ldr r2, _080299F8 @ =gMusicManagerState
 	movs r1, #0
 	strb r1, [r2]
 	strh r0, [r2, #8]
@@ -16963,21 +16963,21 @@ sub_80299E8: @ 0x080299E8
 	strb r0, [r2, #1]
 	bx lr
 	.align 2, 0
-_080299F8: .4byte gUnknown_03001CF0
+_080299F8: .4byte gMusicManagerState
 
 	thumb_func_start sub_80299FC
 sub_80299FC: @ 0x080299FC
 	push {lr}
 	ldr r0, _08029A10 @ =gMPlayInfo_BGM
 	bl MPlayStop
-	ldr r1, _08029A14 @ =gUnknown_03001CF0
+	ldr r1, _08029A14 @ =gMusicManagerState
 	movs r0, #0xff
 	strb r0, [r1]
 	pop {r0}
 	bx r0
 	.align 2, 0
 _08029A10: .4byte gMPlayInfo_BGM
-_08029A14: .4byte gUnknown_03001CF0
+_08029A14: .4byte gMusicManagerState
 
 	thumb_func_start sub_8029A18
 sub_8029A18: @ 0x08029A18
@@ -16985,13 +16985,13 @@ sub_8029A18: @ 0x08029A18
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	bl m4aSongNumStartOrContinue
-	ldr r1, _08029A2C @ =gUnknown_03001CF0
+	ldr r1, _08029A2C @ =gMusicManagerState
 	movs r0, #0
 	strb r0, [r1]
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08029A2C: .4byte gUnknown_03001CF0
+_08029A2C: .4byte gMusicManagerState
 
 	thumb_func_start sub_8029A30
 sub_8029A30: @ 0x08029A30

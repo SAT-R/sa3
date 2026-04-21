@@ -208,6 +208,18 @@ void sub_80C6908() { }
 void /* 0x080C7558 */ SoundBiasReset() { }
 void /* 0x080C7560 */ SoundBiasSet() { }
 
+typedef struct MusicManagerState {
+    u8 unk0;
+    u8 unk1;
+    u8 unk2;
+    u8 unk3;
+    u8 unk4;
+    u8 unk5;
+    u16 fadeoutSpeed;
+} MusicManagerState; /* size: 8 */
+
+MusicManagerState gMusicManagerState;
+
 void sub_80268B8() { }
 void sub_80B7AA4() { }
 void sub_80B8E24() { }
@@ -221,7 +233,6 @@ void sub_802785C() { }
 void sub_802AE64() { }
 void sub_80274AC() { }
 void gUnknown_03001BF0() { }
-void gUnknown_03001CF0() { }
 void gUnknown_0300110C() { }
 void gUnknown_030010D0() { }
 void gUnknown_03001B00() { }
