@@ -82,9 +82,9 @@ typedef struct {
     /* 0x2D */ u8 springTimerEnableBits;
     /* 0x2E */ u16 platformTimers[TIMER_ID_COUNT];
     /* 0x3E */ u16 springTimers[TIMER_ID_COUNT]; // TODO: Check name accuracy
-    /* 0x4E */ u16 unk4E[TIMER_ID_COUNT];
+    /* 0x4E */ s16 unk4E[TIMER_ID_COUNT];
     /* 0x5E */ s16 unk5E[TIMER_ID_COUNT];
-    /* 0x6E */ u16 unk6E[TIMER_ID_COUNT];
+    /* 0x6E */ s16 unk6E[TIMER_ID_COUNT];
     /* 0x80 */ u16 *unk80; // (type not checked, used in sub_8002838) | 0x80
     /* 0x84 */ u8 unk84; // | 0x84
     /* 0x85 */ u8 unk85; // | 0x85
