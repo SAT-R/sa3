@@ -1,5 +1,8 @@
 #include "global.h"
 #include "core.h"
+#include "color.h"
+#include "flags.h"
+#include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "game/stage.h"
 #include "game/save.h"
@@ -10,6 +13,7 @@
 #include "game/shared/rings_manager.h"
 #include "module_unclear.h"
 
+#include "constants/move_states.h"
 #include "constants/songs.h"
 #include "constants/zones.h"
 
@@ -21,7 +25,11 @@ typedef struct GameOver {
 } GameOver;
 
 typedef struct GameOver38 {
-    /* 0x00 */ u8 padding[0x10];
+    /* 0x00 */ u8 unk0;
+    /* 0x01 */ u8 unk1;
+    /* 0x02 */ u16 input;
+    /* 0x04 */ ColorRaw unk4[3];
+    /* 0x04 */ ColorRaw unkA[3];
     /* 0x10 */ Sprite s;
 } GameOver38;
 
@@ -32,31 +40,53 @@ typedef struct TimeOver {
     /* 0x54 */ ScreenFade fade;
 } TimeOver;
 
+typedef struct RectU8 {
+    u8 unk0;
+    u8 unk1;
+    u8 unk2;
+    u8 unk3;
+} RectU8;
+
+extern RectU8 gUnknown_03000970[4];
+
 void sub_80525F0(s32, s32); /* extern */
 extern ScreenFade gUnknown_030010C0;
 extern u8 gUnknown_080CE548[4];
 extern void *gUnknown_08E2EC78[8];
+extern u16 gUnknown_080CE54C[][NUM_LANGUAGES][3];
 
+void sub_8001D58(VoidFn proc, ColorRaw color);
 void Task_60_8003FEC(void);
 void TaskDestructor_8003D28(struct Task *t);
 void sub_8029990(u16 song);
-
+extern void DestroyStageEntitiesManager();
 extern void Create_gTask_03001CFC();
 extern void DemoPlayAlloc(Player *, u8);
 void Task_00_8002988();
+void Task_38_8003620();
+void Task_800368C();
+void TaskDestructor_8003D68(struct Task *t);
 extern void sub_8002618();
 extern void sub_8002838(s16);
-void sub_8003288();
+void Task_8003288();
+void Task_80033B8();
 void sub_800341C();
 void Task_8003084();
 void sub_8003A14();
 void sub_80031C8();
 void sub_80043B8();
+extern void sub_8004CC8();
+extern bool16 GetZoneAndActTypeFromStageID(s16 stageId, u8 *zone, u8 *actType);
 void sub_80105F0();
 void sub_8026478();
-void sub_80264F0();
+s16 sub_80264F0();
+void sub_8026720();
 void sub_802789C();
+void sub_8028850();
+extern void CreateMainMenu(s16 param0, u8 param1);
 extern void sub_8003E44(s16);
+extern void sub_8051140(void);
+extern void sub_809BFE8(s32);
 extern struct Task *sub_80215A0();
 extern void sub_8022FB0();
 void Task_8002BBC();
@@ -74,6 +104,7 @@ extern void sub_8056B78();
 extern void sub_8057ECC();
 extern void sub_806611C(u8);
 extern void sub_8081C80();
+extern void sub_808ADF0(s32);
 extern void InitializePlayer(s16 playerId);
 extern void sub_8052E30();
 extern void sub_8053030();
@@ -520,7 +551,7 @@ NONMATCH("asm/non_matching/game/shared/go__Task_8002BBC.inc", void Task_8002BBC(
             }
             if ((*levelTimer > TIME(3, 0)) || (*recv == 0x600E)) {
                 *levelTimer = 0;
-                gCurTask->main = sub_8003288;
+                gCurTask->main = Task_8003288;
             }
         }
         gUnknown_03001060.unk52 += var_sl;
@@ -693,7 +724,7 @@ NONMATCH("asm/non_matching/game/shared/go__Task_8003084.inc", void Task_8003084(
     gUnknown_030010C0.window = 0;
     gUnknown_030010C0.flags = 1;
     gUnknown_030010C0.brightness = 0;
-    gUnknown_030010C0.speed = 0x80;
+    gUnknown_030010C0.speed = Q(0.5);
     gUnknown_030010C0.bldCnt = 0xFF;
     gUnknown_030010C0.bldAlpha = 0;
     ScreenFadeUpdateValues(&gUnknown_030010C0);
@@ -701,5 +732,336 @@ NONMATCH("asm/non_matching/game/shared/go__Task_8003084.inc", void Task_8003084(
     gCurTask->main = sub_80031C8;
 }
 END_NONMATCH
+
+void sub_80031C8(void)
+{
+    if (sub_802610C() != 0) {
+        sub_802613C();
+        return;
+    }
+    gPlayers[gStageData.playerIndex].moveState |= MOVESTATE_IGNORE_INPUT;
+    if (gStageData.platformTimers[7]) {
+        gStageData.platformTimers[7] -= 1;
+    } else if (UpdateScreenFade(&gUnknown_030010C0) != SCREEN_FADE_RUNNING) {
+        Player *p = GET_SP_PLAYER_V0(PLAYER_1);
+
+        sub_8004CC8(gStageData.playerIndex);
+        sub_8004CC8(p->charFlags.partnerIndex);
+        DestroyStageEntitiesManager();
+        sub_8051140();
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
+        gBgSpritesCount = 0;
+        PAUSE_GRAPHICS_QUEUE();
+        sub_809BFE8(1);
+    }
+}
+
+NONMATCH("asm/non_matching/game/shared/go__Task_8003288.inc", void Task_8003288(void))
+{
+    s16 var_r2;
+
+    gPlayers[gStageData.playerIndex].moveState |= 0x08000000;
+    gStageData.unk4 = 5;
+    if (gStageData.playerIndex == 0) {
+        gMultiSioSend.pat0.unk0 = 0x600E;
+        gMultiSioSend.pat0.unk2 = gUnknown_03001060.unk7;
+        gMultiSioSend.pat0.unk3 = gStageData.unk8E;
+    } else if (gMultiSioRecv->pat0.unk0 == 0x600E) {
+        gUnknown_03001060.unk7 = gMultiSioRecv->pat0.unk2;
+        gStageData.unk8E = gMultiSioRecv->pat0.unk3;
+        gMultiSioSend.pat0.unk0 = gMultiSioRecv->pat0.unk0;
+        gMultiSioSend.pat0.unk2 = gUnknown_03001060.unk7;
+        gMultiSioSend.pat0.unk3 = gStageData.unk8E;
+    }
+
+    for (var_r2 = 0; var_r2 < 4; var_r2++) {
+        if (GetBit(gUnknown_03001060.unk7, var_r2) && (gMultiSioRecv[var_r2].pat0.unk0 != 0x600E)
+            && (gMultiSioRecv[var_r2].pat0.unk0 != 0x6001)) {
+            return;
+        }
+    }
+
+    if (gStageData.unk8E != 0xFF) {
+        if (gUnknown_03000970[gStageData.unk8E].unk1 < 99) {
+            gUnknown_03000970[gStageData.unk8E].unk1++;
+        }
+    }
+    m4aSongNumStart(MUS_VS_BGM_8);
+    gUnknown_030010C0.window = 0;
+    gUnknown_030010C0.flags = 1;
+    gUnknown_030010C0.brightness = 0;
+    gUnknown_030010C0.speed = Q(0.5);
+    gUnknown_030010C0.bldCnt = 0xFF;
+    gUnknown_030010C0.bldAlpha = 0;
+    ScreenFadeUpdateValues(&gUnknown_030010C0);
+    gStageData.platformTimers[0] = TIME(0, 4);
+    gCurTask->main = Task_80033B8;
+}
+END_NONMATCH
+
+void Task_80033B8(void)
+{
+    if (sub_802610C()) {
+        sub_802613C();
+    } else {
+        gPlayers[gStageData.playerIndex].moveState |= MOVESTATE_IGNORE_INPUT;
+
+        if (gStageData.platformTimers[0] != 0) {
+            gStageData.platformTimers[0] -= 1;
+        } else if (UpdateScreenFade(&gUnknown_030010C0) != SCREEN_FADE_RUNNING) {
+            sub_8001D58(sub_8028850, RGB16(0, 0, 0));
+        }
+    }
+}
+
+void sub_800341C(void)
+{
+    u8 zone, actType;
+    s32 var_r7;
+    u16 temp_r6;
+    u8 temp_r5;
+    void *vram;
+
+    if (gStageData.taskA0 != NULL) {
+        return;
+    }
+    if (8 & gPressedKeys) {
+        if (gStageData.unk4 != 3) {
+            return;
+        }
+        if (gStageData.unk85 != 0) {
+            return;
+        }
+        if (gPlayers[gStageData.playerIndex].moveState & MOVESTATE_100) {
+            return;
+        }
+    }
+
+    if (gStageData.gameMode < 5) {
+        if (gStageData.act == 0xA) {
+            if (((((u32)(((gLoadedSaveGame.collectedEmeralds) >> (gStageData.zone)) << 24) >> 24) & 1) || (gStageData.unkD == 1))) {
+                var_r7 = 0;
+            } else {
+                var_r7 = 2;
+            }
+        } else if ((gStageData.zone > 6U) || (gStageData.act == 8) || (gStageData.act == 9) || (gStageData.act == 1)
+                   || (gStageData.act == 2)) {
+        lbl:
+            var_r7 = 2;
+        } else {
+            GetZoneAndActTypeFromStageID(gStageData.currentLevel, &zone, &actType);
+            if (gStageData.gameMode == 3 || gStageData.gameMode == 4) {
+                var_r7 = 1;
+            } else {
+                if (gLoadedSaveGame.unlockedStages[zone] & actType) {
+                    var_r7 = 0;
+                } else {
+                    var_r7 = 2;
+                }
+            }
+        }
+    } else {
+#ifndef NON_MATCHING
+        goto lbl;
+#else
+        var_r7 = 2;
+#endif
+    }
+
+    vram = VramMalloc(gUnknown_080CE54C[var_r7][gLoadedSaveGame.language][0]);
+    temp_r6 = gUnknown_080CE54C[var_r7][gLoadedSaveGame.language][1];
+    temp_r5 = gUnknown_080CE54C[var_r7][gLoadedSaveGame.language][2];
+    if (vram != ewram_end) {
+        struct Task *t = TaskCreate(Task_38_8003620, sizeof(GameOver38), 0xFFFEU, 4U, TaskDestructor_8003D68);
+        GameOver38 *strc;
+        Sprite *s;
+        gStageData.taskA0 = t;
+        strc = TASK_DATA(t);
+        strc->unk0 = 0;
+        strc->unk1 = var_r7;
+        strc->input = (3 & gInput);
+        s = &strc->s;
+        s->tiles = vram;
+        s->frameFlags = 0;
+        s->anim = temp_r6;
+        s->x = DISPLAY_CENTER_X;
+        s->y = DISPLAY_CENTER_Y;
+        s->oamFlags = 0;
+        s->qAnimDelay = 0;
+        s->prevAnim = 0xFFFF;
+        s->variant = temp_r5;
+        s->prevVariant = 0xFF;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+        UpdateSpriteAnimation(s);
+
+        DmaCopy16(3, &gObjPalette[249], &strc->unk4[0], sizeof(strc->unk4));
+        DmaCopy16(3, &gObjPalette[252], &strc->unkA[0], sizeof(strc->unkA));
+    }
+}
+
+void Task_38_8003620(void)
+{
+    s16 i;
+
+    gFlags |= FLAGS_PAUSE_GAME;
+    for (i = 0; i < 4; i++) {
+        MPlayStop(gMPlayTable[i].info);
+    }
+    m4aSongNumStart(SE_PAUSE);
+
+    if (gStageData.unkB9 == 0) {
+        SetSoleBit(gStageData.unkB9, gStageData.playerIndex);
+    }
+    gCurTask->main = Task_800368C;
+}
+
+void Task_800368C(void)
+{
+    Player *temp_r4_2;
+    Sprite *s;
+    s16 temp_r1_2;
+    s32 temp_r3;
+    s32 var_r2;
+    s32 var_r5;
+    s32 var_r6;
+    u16 temp_r2;
+    u16 temp_r5;
+    u32 var_r5_2;
+    u8 var_r2_2;
+    GameOver38 *temp_r4;
+
+    temp_r4 = TASK_DATA(gCurTask);
+    s = &temp_r4->s;
+    var_r6 = 0;
+    if (gStageData.gameMode > 4U) {
+        sub_8026720();
+        temp_r1_2 = sub_80264F0();
+        if (temp_r1_2 == -1) {
+            return;
+        }
+        if ((temp_r1_2 == 1) || (gStageData.unk4 != 3)) {
+            gFlags &= ~0x400;
+            gStageData.taskA0 = NULL;
+            gStageData.unkB9 = 0;
+            m4aMPlayContinue(gMPlayTable->info);
+            MPlayStop((struct MP2KPlayerState *)0x8E);
+            TaskDestroy(gCurTask);
+            return;
+        }
+    }
+
+    if (temp_r4->unk1 != 2) {
+        u16 xorVal = (temp_r4->input ^ gReleasedKeys);
+        u16 released = (3 & gReleasedKeys);
+        temp_r3 = xorVal & released;
+        temp_r4->input &= gInput;
+        if (0xC0 & gPressedKeys) {
+            temp_r4->unk0 = (u8)(temp_r4->unk0 ^ 1);
+        }
+        if (temp_r4->unk0 == 0) {
+            var_r5 = PLTT + 0x3F2;
+            var_r2 = PLTT + 0x3F8;
+        } else {
+            var_r2 = PLTT + 0x3F2;
+            var_r5 = PLTT + 0x3F8;
+        }
+
+        DmaCopy16(3, &temp_r4->unkA, var_r2, sizeof(temp_r4->unkA));
+        DmaCopy16(3, &temp_r4->unk4, var_r5, sizeof(temp_r4->unk4));
+        if (2 & temp_r3) {
+            var_r6 = 1;
+        } else if (temp_r3 & 1) {
+            if (temp_r4->unk0 != 0) {
+                var_r6 = 2;
+            } else {
+                var_r6 = 1;
+            }
+        }
+    }
+    if (gStageData.gameMode > 4U) {
+        var_r5_2 = 0;
+        if (gStageData.unkB9 == (1 << gStageData.playerIndex)) {
+            var_r5_2 = (u32)(0 - (u16)(START_BUTTON & gPressedKeys)) >> 0x1F;
+        } else {
+            union MultiSioData *recv;
+            for (var_r2_2 = 0, recv = gMultiSioRecv; var_r2_2 < 4; var_r2_2++) {
+                if (gStageData.unkB9 == (1 << var_r2_2)) {
+                    break;
+                }
+            }
+
+            if (recv[var_r2_2].pat0.unk0 != 0x68D0) {
+                var_r5_2 = 1;
+            }
+        }
+        if (gPlayers[gStageData.playerIndex].moveState & MOVESTATE_100) {
+            var_r5_2 = 1;
+        }
+        if (var_r5_2 == 0) {
+            goto block_51;
+        } else {
+            gFlags &= ~0x400;
+            gStageData.taskA0 = NULL;
+            gStageData.unkB9 = 0;
+            m4aMPlayContinue(gMPlayTable->info);
+            MPlayStop((struct MP2KPlayerState *)0x8E);
+            TaskDestroy(gCurTask);
+            return;
+        }
+    } else if ((START_BUTTON & gPressedKeys) || (var_r6 == 1)) {
+        gFlags &= ~0x400;
+        gStageData.taskA0 = NULL;
+        m4aMPlayContinue(gMPlayTable->info);
+        MPlayStop((struct MP2KPlayerState *)0x8E);
+        TaskDestroy(gCurTask);
+        return;
+    } else if (var_r6 == 2) {
+        gFlags &= ~0x400;
+        m4aSongNumStart(SE_SELECT);
+        if (gStageData.act == 10) {
+            if (gStageData.unkD == 1) {
+                TasksDestroyAll();
+                PAUSE_BACKGROUNDS_QUEUE();
+                gBgSpritesCount = 0;
+                PAUSE_GRAPHICS_QUEUE();
+                sub_808ADF0(1);
+                return;
+            }
+        } else {
+            temp_r4_2 = &gPlayers[gStageData.playerIndex];
+            sub_8004CC8(gStageData.playerIndex);
+            sub_8004CC8(temp_r4_2->charFlags.partnerIndex);
+            DestroyStageEntitiesManager();
+            sub_8051140();
+        }
+    block_41:
+        sub_8001E58();
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
+        gBgSpritesCount = 0;
+        PAUSE_GRAPHICS_QUEUE();
+
+        if (gStageData.gameMode == 3) {
+            CreateMainMenu(0, 2U);
+        } else if (gStageData.gameMode == 4) {
+            CreateMainMenu(0, 3U);
+        } else if (((u32)gStageData.zone <= 6U) && ((u32)gStageData.act > 2U)) {
+            if (gStageData.act == 10) {
+                WarpToMap(LEVEL_INDEX(gStageData.zone, 2), 4);
+            } else {
+                WarpToMap(LEVEL_INDEX(gStageData.zone, 2), gStageData.act - 2);
+            }
+        } else {
+            sub_808ADF0(1);
+        }
+    } else {
+    block_51:
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
 
 /* TODO: Append functions from game_over_z.c here!!! */

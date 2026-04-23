@@ -225,7 +225,7 @@ _08002D76:
 	strh r0, [r4]
 	ldr r0, _08002E1C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08002E20 @ =sub_8003288
+	ldr r0, _08002E20 @ =Task_8003288
 	str r0, [r1, #8]
 _08002D82:
 	ldr r3, _08002E24 @ =gUnknown_03001060
@@ -305,7 +305,7 @@ _08002E10: .4byte 0x00000336
 _08002E14: .4byte 0x00002A30
 _08002E18: .4byte 0x0000600E
 _08002E1C: .4byte gCurTask
-_08002E20: .4byte sub_8003288
+_08002E20: .4byte Task_8003288
 _08002E24: .4byte gUnknown_03001060
 _08002E28: .4byte 0x000001FF
 _08002E2C: .4byte gStageData
