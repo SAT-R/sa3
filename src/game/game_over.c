@@ -33,6 +33,7 @@ typedef struct TimeOver {
 } TimeOver;
 
 void sub_80525F0(s32, s32); /* extern */
+extern ScreenFade gUnknown_030010C0;
 extern u8 gUnknown_080CE548[4];
 extern void *gUnknown_08E2EC78[8];
 
@@ -49,6 +50,7 @@ void sub_8003288();
 void sub_800341C();
 void Task_8003084();
 void sub_8003A14();
+void sub_80031C8();
 void sub_80043B8();
 void sub_80105F0();
 void sub_8026478();
@@ -58,11 +60,14 @@ extern void sub_8003E44(s16);
 extern struct Task *sub_80215A0();
 extern void sub_8022FB0();
 void Task_8002BBC();
+extern bool16 sub_802610C();
+extern void sub_802613C();
 extern void sub_80261B0();
 extern void sub_80275F0(u8, u8, u8);
 extern void sub_8027878(u8 lives);
 extern void sub_804F740(u16, u8);
 extern void sub_805235C();
+extern void sub_8056090(s32, u8, s32);
 extern void sub_8056AB0();
 extern void sub_8056AFC(u8);
 extern void sub_8056B78();
@@ -630,14 +635,71 @@ void Task_800303C(void)
     u8 temp_r3 = (gStageData.unk5 >> (gStageData.playerIndex * 2)) & 3;
     if (temp_r3 == 2) {
         gStageData.unkB8 = temp_r3;
+    } else if (temp_r3 == 0) {
+        gStageData.unkB8 = gStageData.playerIndex & 1;
     } else {
-        if (temp_r3 == 0) {
-            gStageData.unkB8 = gStageData.playerIndex & 1;
-        } else {
-            gStageData.unkB8 = (gStageData.playerIndex ^ 1) & 1;
-        }
+        gStageData.unkB8 = (gStageData.playerIndex ^ 1) & 1;
     }
 
     gCurTask->main = Task_8003084;
 }
+
+NONMATCH("asm/non_matching/game/shared/go__Task_8003084.inc", void Task_8003084(void))
+{
+    s16 var_r1;
+    s16 temp_r3;
+    u8 var_r2;
+
+    if (sub_802610C() != 0) {
+        sub_802613C();
+        return;
+    }
+    gPlayers[gStageData.playerIndex].moveState |= 0x08000000;
+    if (gStageData.playerIndex == PLAYER_1) {
+        gMultiSioSend.patU.unk0 = 0x68E8;
+        gMultiSioSend.patU.unk12 = gStageData.unk5;
+        gMultiSioSend.patU.levelTimer = gStageData.levelTimer;
+    } else {
+        struct MultiSioData_Unknown *recv = &gMultiSioRecv->patU;
+        struct MultiSioData_Unknown *send;
+
+        if (recv->unk0 == 0x68E8) {
+            gStageData.unk5 = recv->unk12;
+            gStageData.levelTimer = recv->levelTimer;
+            send = &gMultiSioSend.patU;
+            send->unk0 = 0x68E8;
+            send->unk12 = gStageData.unk5;
+            send->levelTimer = gStageData.levelTimer;
+        }
+    }
+
+    for (var_r1 = 0; var_r1 < 4; var_r1++) {
+        if (GetBit(gUnknown_03001060.unk7, var_r1) && (gMultiSioRecv[var_r1].patU.unk0 != 0x68E8))
+            return;
+    }
+
+    // Similar to Task_800303C (but without setting the task ptr), could be a macro?
+    temp_r3 = (gStageData.unk5 >> (gStageData.playerIndex * 2)) & 3;
+    var_r1 = temp_r3;
+    if (var_r1 == 2) {
+        gStageData.unkB8 = var_r1;
+    } else if (var_r1 == 0) {
+        gStageData.unkB8 = gStageData.playerIndex & 1;
+    } else {
+        gStageData.unkB8 = (gStageData.playerIndex ^ 1) & 1;
+    }
+
+    sub_8056090(0, temp_r3, 0);
+    gUnknown_030010C0.window = 0;
+    gUnknown_030010C0.flags = 1;
+    gUnknown_030010C0.brightness = 0;
+    gUnknown_030010C0.speed = 0x80;
+    gUnknown_030010C0.bldCnt = 0xFF;
+    gUnknown_030010C0.bldAlpha = 0;
+    ScreenFadeUpdateValues(&gUnknown_030010C0);
+    gStageData.platformTimers[7] = TIME(0, 6);
+    gCurTask->main = sub_80031C8;
+}
+END_NONMATCH
+
 /* TODO: Append functions from game_over_z.c here!!! */

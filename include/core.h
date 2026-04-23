@@ -118,6 +118,19 @@ struct MultiSioData_0_5 {
     u8 unk13;
 };
 
+struct MultiSioData_Unknown {
+    u16 unk0;
+    s16 x;
+    s16 y;
+    u8 filler3[0x9];
+    u8 sioId;
+    u8 unk10;
+    u8 unk11;
+    u8 unk12;
+    u8 unk13;
+    s16 levelTimer;
+};
+
 union MultiSioData {
     struct MultiSioData_0_0 pat0;
     struct MultiSioData_0_1 pat1;
@@ -125,6 +138,7 @@ union MultiSioData {
     struct MultiSioData_0_3 pat3;
     struct MultiSioData_0_4 pat4;
     struct MultiSioData_0_5 pat5;
+    struct MultiSioData_Unknown patU;
 
     u8 raw[MULTI_SIO_BLOCK_SIZE];
 }; /* TODO: size = MULTI_SIO_BLOCK_SIZE */
