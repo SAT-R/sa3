@@ -4,8 +4,10 @@
 #include "flags.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
+#include "game/main_menu.h"
 #include "game/stage.h"
 #include "game/save.h"
+#include "game/player.h"
 #include "game/player_callbacks.h"
 #include "game/screen_fade.h"
 #include "game/camera.h" // TODO: for CamCoord used in entities_manager.h
@@ -59,38 +61,44 @@ void sub_8001D58(VoidFn proc, ColorRaw color);
 void Task_60_8003FEC(void);
 void TaskDestructor_8003D28(struct Task *t);
 void sub_8029990(u16 song);
-extern void DestroyStageEntitiesManager();
-extern void Create_gTask_03001CFC();
-extern void DemoPlayAlloc(Player *, u8);
 void Task_00_8002988();
 void Task_38_8003620();
 void Task_800368C();
 void TaskDestructor_8003D68(struct Task *t);
-extern void sub_8002618();
-extern void sub_8002838(s16);
+void sub_8002618();
+void sub_8002838(s16);
+void Task_8002BBC();
+void Task_8003084();
+void sub_80031C8();
 void Task_8003288();
 void Task_80033B8();
 void sub_800341C();
-void Task_8003084();
 void sub_8003A14();
-void sub_80031C8();
+void Task_8003C38();
+extern void sub_8003E44(s16);
+void sub_8003F40();
+void Task_8004058(void);
+void sub_80040D8(s16 arg0, s16 arg1);
+void Task_TimeOver_InitSprites(void);
+void Task_TimeOver_Update(void);
 void sub_80043B8();
-extern void sub_8004CC8();
-extern bool16 GetZoneAndActTypeFromStageID(s16 stageId, u8 *zone, u8 *actType);
+void ClearCameraStruct();
+void TaskDestructor_80040BC(Task *);
 void sub_80105F0();
 void sub_8026478();
 s16 sub_80264F0();
 void sub_8026720();
 void sub_802789C();
 void sub_8028850();
-extern void CreateMainMenu(s16 param0, u8 param1);
-extern void sub_8003E44(s16);
+extern void Create_gTask_03001CFC();
+extern void sub_8001E84();
+extern void sub_8013D70(s16, s16);
 extern void sub_8051140(void);
 extern void sub_809BFE8(s32);
 extern struct Task *sub_80215A0();
 extern void sub_8022FB0();
-void Task_8002BBC();
 extern bool16 sub_802610C();
+extern void sub_80260F0();
 extern void sub_802613C();
 extern void sub_80261B0();
 extern void sub_80275F0(u8, u8, u8);
@@ -105,13 +113,29 @@ extern void sub_8057ECC();
 extern void sub_806611C(u8);
 extern void sub_8081C80();
 extern void sub_808ADF0(s32);
-extern void InitializePlayer(s16 playerId);
 extern void sub_8052E30();
 extern void sub_8053030();
+extern void LaunchGameIntro();
 
 extern void sub_80299FC(void);
 extern void sub_8053284(UNUSED u32, UNUSED u32, UNUSED s16, UNUSED s32);
 extern void AddLives(u16 count);
+
+// TODO: Put these into a parameters.h file
+#define GAME_OVER_SCREEN_DURATION TIME(0, 7)
+#define TIME_OVER_SCREEN_DURATION TIME(0, 5)
+
+typedef struct MusicManagerState {
+    u8 unk0;
+    u8 unk1;
+    u8 unk2;
+    u8 unk3;
+    u8 unk4;
+    u8 unk5;
+    u16 fadeoutSpeed;
+} MusicManagerState; /* size: 8 */
+
+extern MusicManagerState gMusicManagerState;
 
 void sub_8002414(void)
 {
@@ -924,12 +948,12 @@ void Task_800368C(void)
     Sprite *s;
     s16 temp_r1_2;
     s32 temp_r3;
-    s32 var_r2;
-    s32 var_r5;
     s32 var_r6;
-    u16 temp_r2;
     u16 temp_r5;
-    u32 var_r5_2;
+    ColorRaw *var_r2;
+    ColorRaw *var_r5;
+    u16 temp_r2;
+    s32 var_r5_2;
     u8 var_r2_2;
     GameOver38 *temp_r4;
 
@@ -947,7 +971,12 @@ void Task_800368C(void)
             gStageData.taskA0 = NULL;
             gStageData.unkB9 = 0;
             m4aMPlayContinue(gMPlayTable->info);
-            MPlayStop((struct MP2KPlayerState *)0x8E);
+#ifndef BUG_FIX
+            // NOTE: That's not how you use this function...
+            MPlayStop((struct MP2KPlayerState *)SE_PAUSE);
+#else
+            m4aSongNumStop(SE_PAUSE);
+#endif
             TaskDestroy(gCurTask);
             return;
         }
@@ -962,11 +991,11 @@ void Task_800368C(void)
             temp_r4->unk0 = (u8)(temp_r4->unk0 ^ 1);
         }
         if (temp_r4->unk0 == 0) {
-            var_r5 = PLTT + 0x3F2;
-            var_r2 = PLTT + 0x3F8;
+            var_r5 = &OBJ_PLTT[15 * PALETTE_LEN_4BPP + 9];
+            var_r2 = &OBJ_PLTT[15 * PALETTE_LEN_4BPP + 12];
         } else {
-            var_r2 = PLTT + 0x3F2;
-            var_r5 = PLTT + 0x3F8;
+            var_r2 = &OBJ_PLTT[15 * PALETTE_LEN_4BPP + 9];
+            var_r5 = &OBJ_PLTT[15 * PALETTE_LEN_4BPP + 12];
         }
 
         DmaCopy16(3, &temp_r4->unkA, var_r2, sizeof(temp_r4->unkA));
@@ -1007,7 +1036,12 @@ void Task_800368C(void)
             gStageData.taskA0 = NULL;
             gStageData.unkB9 = 0;
             m4aMPlayContinue(gMPlayTable->info);
-            MPlayStop((struct MP2KPlayerState *)0x8E);
+#ifndef BUG_FIX
+            // NOTE: That's not how you use this function...
+            MPlayStop((struct MP2KPlayerState *)SE_PAUSE);
+#else
+            m4aSongNumStop(SE_PAUSE);
+#endif
             TaskDestroy(gCurTask);
             return;
         }
@@ -1015,7 +1049,12 @@ void Task_800368C(void)
         gFlags &= ~0x400;
         gStageData.taskA0 = NULL;
         m4aMPlayContinue(gMPlayTable->info);
-        MPlayStop((struct MP2KPlayerState *)0x8E);
+#ifndef BUG_FIX
+        // NOTE: That's not how you use this function...
+        MPlayStop((struct MP2KPlayerState *)SE_PAUSE);
+#else
+        m4aSongNumStop(SE_PAUSE);
+#endif
         TaskDestroy(gCurTask);
         return;
     } else if (var_r6 == 2) {
@@ -1064,4 +1103,380 @@ void Task_800368C(void)
     }
 }
 
-/* TODO: Append functions from game_over_z.c here!!! */
+void sub_8003A14(void)
+{
+    Player *p;
+    s16 temp_r4_2;
+    s16 pid;
+    u16 temp_r4;
+    TimeOver *timeOver;
+
+    timeOver = TASK_DATA(TaskCreate(Task_TimeOver_InitSprites, sizeof(TimeOver), 0x2000U, 0U, TaskDestructor_80040BC));
+    timeOver->unk0 = 0;
+
+    for (pid = 0; pid < 4; pid++) {
+        p = &gPlayers[pid];
+        p->unk13C = 0;
+        p->unk13D = 0;
+        Player_BoostModeDisengage(p);
+    }
+
+    gStageData.unk24 = 0;
+    gStageData.unk20 = 1;
+}
+
+void Task_TimeOver_InitSprites()
+{
+    TimeOver *timeOver = TASK_DATA(gCurTask);
+    Sprite *s, *s2;
+
+    if (gStageData.unk4 == 5) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    s = &timeOver->s;
+    s->tiles = OBJ_VRAM0 + 0x2000;
+    s->anim = 1427;
+    s->variant = 2;
+    s->oamFlags = 0;
+    s->x = 0;
+    s->y = DISPLAY_CENTER_Y;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0;
+
+    s = &timeOver->s2;
+    s->tiles = OBJ_VRAM0 + 0x29C0;
+    s->anim = 1427;
+    s->variant = 1;
+    s->oamFlags = 0;
+    s->x = 0;
+    s->y = DISPLAY_CENTER_Y;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0;
+
+    gCurTask->main = Task_TimeOver_Update;
+}
+
+void Task_TimeOver_Update()
+{
+    Sprite *s;
+    u16 temp_r0;
+    u16 temp_r0_2;
+    u16 timeTxtX;
+
+    TimeOver *timeOver = TASK_DATA(gCurTask);
+
+    if (gStageData.unk4 == 5) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    if (timeOver->unk0 == 4) {
+        m4aSongNumStart(SE_149);
+    }
+    if (++timeOver->unk0 >= TIME_OVER_SCREEN_DURATION) {
+        gCurTask->main = Task_8003C38;
+        return;
+    }
+    timeTxtX = timeOver->unk0;
+    if (timeTxtX > DISPLAY_CENTER_X) {
+        timeTxtX = DISPLAY_CENTER_X;
+    }
+    if (timeOver->unk0 > 3U) {
+        s = &timeOver->s;
+        s->x = timeTxtX;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+        s = &timeOver->s2;
+        s->x = DISPLAY_WIDTH - timeTxtX;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
+
+NONMATCH("asm/non_matching/game/shared/go__sub_8003BD8.inc", void sub_8003BD8(void))
+{
+    GameOver *temp_r2;
+    ScreenFade *fade;
+
+    temp_r2 = TASK_DATA(gCurTask);
+    fade = &temp_r2->fade;
+    fade->window = 0;
+    fade->flags = 1;
+    fade->brightness = 0;
+    fade->speed = Q(0.5);
+    fade->bldCnt = 0xBF;
+    fade->bldAlpha = 0;
+    ScreenFadeUpdateValues(fade);
+    gCurTask->main = Task_8003C38;
+}
+END_NONMATCH
+
+void Task_8003C38(void)
+{
+    Player *p, *partner;
+
+    p = GET_SP_PLAYER_V0(PLAYER_1);
+    partner = GET_SP_PLAYER_V0(PLAYER_2);
+    p->framesInvulnerable = 0;
+    partner->framesInvulnerable = 0;
+    if (gStageData.gameMode == 6) {
+        gStageData.unk4 = 5;
+        gStageData.unk5 = 0xAA;
+        gStageData.task90->main = Task_800303C;
+    }
+    TaskDestroy(gCurTask);
+}
+
+NONMATCH("asm/non_matching/game/shared/go__sub_8003CA4.inc", void sub_8003CA4(void))
+{
+    GameOver *temp_r2;
+    ScreenFade *fade;
+
+    temp_r2 = TASK_DATA(gCurTask);
+    fade = &temp_r2->fade;
+    fade->window = 0;
+    fade->flags = 1;
+    fade->brightness = 0;
+    fade->speed = Q(0.5);
+    fade->bldCnt = 0xBF;
+    fade->bldAlpha = 0;
+    ScreenFadeUpdateValues(fade);
+    gCurTask->main = Task_8004058;
+}
+END_NONMATCH
+
+void sub_8003D04(u8 zone)
+{
+    gStageData.zone = zone;
+    gStageData.act = 1;
+    CURRENT_LEVEL = 1;
+    sub_8001D58(sub_8003F40, 0x7FFF);
+}
+
+void TaskDestructor_8003D28(Task *t) { }
+
+void sub_8003D2C(void)
+{
+    Player *p;
+
+    p = &gPlayers[gStageData.playerIndex];
+    sub_8004CC8(gStageData.playerIndex);
+    sub_8004CC8(p->charFlags.partnerIndex);
+    DestroyStageEntitiesManager();
+    sub_8051140();
+}
+
+void TaskDestructor_8003D68(struct Task *t)
+{
+#ifndef BUG_FIX
+    // I mean like... this works, but it's not "correct".
+    GameOver38 *strc = TASK_DATA(gCurTask);
+#else
+    GameOver38 *strc = TASK_DATA(t);
+#endif
+    VramFree(strc->s.tiles);
+}
+
+void sub_8003D84(void) { }
+
+void sub_8003D88(void) { }
+
+void sub_8003D8C(void) { }
+
+void AddLives(u16 count)
+{
+    if ((u16)(count += gStageData.lives) > 255) {
+        gStageData.lives = 255;
+    } else {
+        gStageData.lives = count;
+    }
+
+    // Music manager reset (plays the 1-Up fanfare)
+    gMusicManagerState.unk3 = 0x10;
+}
+
+void sub_8003DC4(u16 count)
+{
+    if ((u16)(count += gStageData.lives) > 255) {
+        gStageData.lives = 255;
+    } else {
+        gStageData.lives = count;
+    }
+}
+
+void sub_8003DF0(u16 song)
+{
+    if (gStageData.gameMode != 2) {
+        m4aSongNumStart(song);
+    }
+}
+
+void sub_8003E0C(u16 song)
+{
+    if (gStageData.gameMode != 2) {
+        m4aSongNumStartOrContinue(song);
+    }
+}
+
+void sub_8003E28(u16 song)
+{
+    if (gStageData.gameMode != 2) {
+        m4aSongNumStop(song);
+    }
+}
+
+void sub_8003E44(s16 level)
+{
+    void *vramBase;
+
+    if (gStageData.gameMode != 7) {
+        vramBase = OBJ_VRAM0 + 0x4D80;
+        if (gStageData.gameMode > 5U) {
+            if (gStageData.gameMode == 6) {
+                vramBase = OBJ_VRAM0 + 0x4DA0;
+            }
+        }
+
+        switch (level) {
+            case 13:
+            case 24:
+            case 25:
+            case 43:
+            case 44:
+            case 45:
+            case 49:
+                vramBase += 2 * TILE_SIZE_4BPP;
+                break;
+        }
+    } else {
+        vramBase = OBJ_VRAM0 + 0x2700;
+    }
+    gVramHeapMaxTileSlots = GET_TILE_NUM_FROM_BASE(vramBase, OBJ_VRAM0 + 0x8000);
+    gVramHeapStartAddr = vramBase;
+}
+
+void sub_8003F40(void)
+{
+    s16 level = CURRENT_LEVEL;
+
+    gStageData.timer = 0;
+    gStageData.unk21 = 0;
+    sub_80040D8(level, 0);
+    sub_80040D8(level, 1);
+    sub_80040D8(level, 2);
+    sub_80040D8(level, 3);
+    if (gStageData.gameMode != 2) {
+        m4aMPlayAllStop();
+    }
+    ClearCameraStruct();
+}
+
+void sub_8003F8C(void)
+{
+    s16 temp_r4_2;
+    s16 var_r0;
+    s32 temp_r5;
+    u16 temp_r4;
+    s16 level = CURRENT_LEVEL;
+
+    gStageData.timer = 0;
+    gStageData.unk21 = 0;
+    for (var_r0 = 0; var_r0 < 4; var_r0++) {
+        sub_80040D8(level, var_r0);
+    }
+
+    m4aMPlayAllStop();
+    ClearCameraStruct();
+}
+
+void ClearCameraStruct(void)
+{
+    CpuFill32(0, &gCamera, sizeof(gCamera));
+    sub_80026BC();
+}
+
+void Task_60_8003FEC(void)
+{
+    Sprite *s;
+    u16 temp_r0;
+    u16 temp_r0_2;
+    u16 timeTxtX;
+
+    GameOver *gameOver = TASK_DATA(gCurTask);
+
+    if (++gameOver->unk0 >= GAME_OVER_SCREEN_DURATION) {
+        sub_8003CA4();
+        return;
+    }
+    timeTxtX = gameOver->unk0;
+    if (timeTxtX > DISPLAY_CENTER_X) {
+        timeTxtX = DISPLAY_CENTER_X;
+    }
+
+    {
+        s = &gameOver->s;
+        s->x = timeTxtX;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+        s = &gameOver->s2;
+        s->x = DISPLAY_WIDTH - timeTxtX;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
+
+void Task_8004058(void)
+{
+    // TODO: Unsure whether this is GameOver or TimeOver struct!
+    GameOver *gameOver = TASK_DATA(gCurTask);
+
+    if (UpdateScreenFade(&gameOver->fade) != SCREEN_FADE_RUNNING) {
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
+        gBgSpritesCount = 0;
+        PAUSE_GRAPHICS_QUEUE();
+
+        sub_8001E84();
+        sub_80260F0();
+        LaunchGameIntro();
+    }
+}
+
+void TaskDestructor_80040BC(Task *t)
+{
+    TimeOver *timeOver = TASK_DATA(t);
+
+    VramFree(timeOver->s.tiles);
+    VramFree(timeOver->s2.tiles);
+}
+
+void sub_80040D8(s16 level, s16 pid)
+{
+    Player *p = &gPlayers[pid];
+
+    // Save important indices
+    u32 partnerIndex = p->charFlags.partnerIndex;
+    u32 character = p->charFlags.character;
+    u32 someIndex = p->charFlags.someIndex;
+
+    // Clear Player struct
+    CpuFill32(0, p, sizeof(Player));
+
+    // Restore important indices
+    p->charFlags.partnerIndex = partnerIndex;
+    p->charFlags.character = character;
+    p->charFlags.someIndex = someIndex;
+
+    sub_8013D70(level, pid);
+}

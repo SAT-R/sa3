@@ -5,6 +5,7 @@
 #include "game/camera.h"
 #include "game/player.h"
 #include "game/save.h"
+#include "game/screen_fade.h"
 #include "game/stage.h"
 #include "constants/songs.h"
 //#include "module_unclear.h"
@@ -28,6 +29,8 @@ int gMaxLines = 0;
 
 u8 gUnknown_02035000[0xA000] = {};
 u8 gUnknown_0203F000[0x1000] = {};
+ScreenFade gUnknown_030010C0 = {};
+u8 gUnknown_03000970[4][4] = { 0 };
 Struct_03001060 gUnknown_03001060 = {};
 Player gPlayers[4] = {};
 u8 gUnknown_03001D00 = 0;
@@ -39,11 +42,10 @@ SaveSectorData gSaveSectorData = {};
 struct Camera gCamera = {};
 
 void sub_8000D68() { }
-void Task_800303C() { }
 void Stop() { }
 
-void /* 0x080213FC */ UpdateScreenFade() { }
-void /* 0x080214F0 */ ScreenFadeUpdateValues() { }
+/* 0x080213FC */ u8 UpdateScreenFade(ScreenFade *fade) { }
+/* 0x080214F0 */ void ScreenFadeUpdateValues(ScreenFade *fade) { }
 void sub_8023634() { }
 void sub_80236C8() { }
 void sub_8023734() { }
@@ -65,11 +67,12 @@ void sub_802613C() { }
 void sub_802616C() { }
 void sub_80274F4() { }
 void sub_80293E8() { }
-void sub_802954C() { }
 void sub_8027578(MapEntity *me) { }
 void sub_80276A8() { }
 void sub_80276F4() { }
 void sub_80296F8() { }
+void sub_802789C() { }
+void sub_802954C() { }
 void sub_80299FC() { }
 void sub_8029A18() { }
 void sub_80275B8(u32 level, u8 param1, u8 param2) { }
@@ -279,21 +282,49 @@ void sub_80B94F0() { }
 void sub_80B9548() { }
 
 void CreateEntity_ItemBox() { }
-struct Task *sub_80215A0() { return NULL; }
 void sub_8022FB0() { }
 void sub_8052E30() { }
 void sub_80525F0() { }
 void sub_8053030() { }
 void sub_8053284() { }
 void sub_8029990() { }
-void Create_gTask_03001CFC() { }
+void taskStub(void) { }
+void Create_gTask_03001CFC()
+{
+    gTask_03001CFC = TaskCreate(taskStub, 0xAD << 2, 0x2001, 0, NULL);
+    void **taskData = TASK_DATA(gTask_03001CFC);
+    *taskData = (void *)OBJ_VRAM0 + 0x14180;
+}
 
-void Task_8002BBC() { }
+typedef struct Strc_80215A0 {
+    u32 unk0;
+    Sprite sprites[12];
+    u8 padding[0xF0];
+} Strc_80215A0; /* 0x2D4 */
+
+struct Task *sub_80215A0()
+{
+    struct Task *t = TaskCreate(taskStub, 0xAD << 2, 0x2001, 0, NULL);
+    Strc_80215A0 *taskData = TASK_DATA(gTask_03001CFC);
+
+    for (int i = 0; i < ARRAY_COUNT(taskData->sprites); i++) {
+        taskData->sprites[i].tiles = (void *)OBJ_VRAM0 + 0x14180;
+    }
+
+    return t;
+}
+
 void sub_80260F0() { }
 void sub_80261B0() { }
+void sub_8026478() { }
+void sub_80264F0() { }
+void sub_8026720() { }
 void sub_80275F0() { }
+void sub_8028850() { }
 void sub_804F740() { }
 void sub_8051140() { }
+void sub_8056090() { }
+void sub_809BFE8() { }
 void sub_805235C() { }
 void sub_8056AB0() { }
 void sub_8056AFC() { }

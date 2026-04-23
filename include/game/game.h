@@ -34,8 +34,6 @@ extern s8 CURRENT_LEVEL;
 #define LIFE_COUNT        (gStageData.lives)
 #endif
 
-void GameStart(void);
-
 // rodata
 extern const s16 gPlayerCharacterIdleAnims[NUM_CHARACTERS];
 
@@ -125,4 +123,8 @@ extern const s16 gPlayerCharacterIdleAnims[NUM_CHARACTERS];
             }                                                                                                                              \
         }                                                                                                                                  \
     }
+
+void GameStart(void);
+bool16 GetZoneAndActTypeFromStageID(s16 stageId, u8 *zone, u8 *actType);
+
 #endif // GUARD_GAME_H

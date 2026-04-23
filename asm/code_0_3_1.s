@@ -71,7 +71,7 @@ _0802ADE6:
 	movs r0, #0x80
 	lsls r0, r0, #3
 	strh r0, [r1, #0x14]
-	ldr r0, _0802AE50 @ =0x00000535
+	ldr r0, _0802AE50 @ =0x00000535 @ ANIM_RING
 	strh r0, [r1, #0xc]
 	strb r3, [r1, #0x1a]
 	strh r2, [r1, #0xe]

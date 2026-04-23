@@ -4,6 +4,7 @@
 #include "trig.h"
 #include "module_unclear.h"
 #include "code_z_1.h"
+#include "game/main_menu.h"
 #include "malloc_ewram.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
@@ -55,7 +56,6 @@ bool32 sub_80B7AA4(Struc_3001150 *strc);
 void sub_80B8E24(void *strc, Player *p, s32 param2, s32 param3);
 void sub_8001D58(VoidFn voidFn, u16 color);
 void sub_8002414();
-void CreateMainMenu(s16 param0, u8 param1);
 extern void sub_8002388(void);
 void TaskDestructor_8004D2C(struct Task *t);
 
@@ -3008,7 +3008,7 @@ void Player_8007930(Player *p)
     partner = GET_SP_PLAYER_V0(PLAYER_2);
     p->moveState &= 0xFDFFFEFF;
     if (partner->moveState & MOVESTATE_1000000) {
-        p->moveState &= ~0x1000000;
+        p->moveState &= ~MOVESTATE_1000000;
         p->callback = Player_8005380;
         return;
     }

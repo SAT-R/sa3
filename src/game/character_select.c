@@ -2,6 +2,7 @@
 #include "core.h"
 #include "flags.h"
 #include "malloc_vram.h"
+#include "game/main_menu.h"
 #include "code_z_1.h" // CopyPalette
 #include "module_unclear.h"
 #include "lib/m4a/m4a.h"
@@ -144,7 +145,6 @@ typedef struct CharacterSelect {
 
 void Task_CharacterSelectInit(void);
 void TaskDestructor_CharacterSelect(struct Task *t);
-void CreateMainMenu(s16 param0, u8 param1);
 void sub_8097D90(CharacterSelect *cs);
 void sub_8097E5C(CharacterSelect *cs);
 void sub_80986AC(CharacterSelect *cs);

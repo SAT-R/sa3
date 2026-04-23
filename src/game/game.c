@@ -5,6 +5,7 @@
 #include "malloc_vram.h"
 #include "module_unclear.h"
 #include "data/sprite_tables.h"
+#include "game/main_menu.h"
 #include "game/save.h"
 #include "game/stage.h"
 #include "game/shared/stage/tilemap_table.h"
@@ -15,13 +16,11 @@ void sub_8000390(void);
 void sub_80003B8(void);
 void CallCompleteSave(void);
 void sub_8001E84(void);
-bool16 GetZoneAndActTypeFromStageID(s16 stageId, u8 *zone, u8 *actType);
 void sub_8027960(u16 param0); // either no param or unused
 void sub_8052D8C(void);
 void sub_808AF44(s16 param0);
 void sub_808ECB8(s16 param0);
 void CreateGameIntroState(u16 state);
-void CreateMainMenu(s16 param0, u8 param1);
 void sub_808ADF0(u8 param0);
 bool16 sub_8001E94(void);
 s32 sub_8001FD4(void);
