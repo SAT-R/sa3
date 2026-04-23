@@ -32,7 +32,7 @@ u8 gUnknown_0203F000[0x1000] = {};
 ScreenFade gUnknown_030010C0 = {};
 u8 gUnknown_03000970[4][4] = { 0 };
 Struct_03001060 gUnknown_03001060 = {};
-Player gPlayers[4] = {};
+Player gPlayers[4] = { 0 };
 u8 gUnknown_03001D00 = 0;
 struct Task *gTask_03001CFC = NULL;
 StageData gStageData = {};
@@ -235,10 +235,27 @@ void sub_8056168() { }
 void sub_802785C() { }
 void sub_802AE64() { }
 void sub_80274AC() { }
-void gUnknown_03001BF0() { }
-void gUnknown_0300110C() { }
-void gUnknown_030010D0() { }
-void gUnknown_03001B00() { }
+
+typedef struct SomeSubStruct_3001BF0 {
+    /* 0x00 */ s32 qWorldX;
+    /* 0x04 */ s32 qWorldY;
+    /* 0x08 */ u32 frameFlags;
+    /* 0x0C */ u32 moveState;
+    /* 0x10 */ s16 anim2;
+    /* 0x12 */ s16 rotation;
+    /* 0x14 */ s8 state1;
+    /* 0x15 */ s8 animSpeed;
+} SomeSubStruct_3001BF0; /* size: 0x18 */
+typedef struct Strc_03001BF0 {
+    SomeSubStruct_3001BF0 unk0[8];
+    Player *unkC0;
+    u8 index;
+} Strc_03001BF0;
+
+Strc_03001BF0 gUnknown_03001BF0 = {};
+PlayerSpriteInfo gUnknown_030010D0 = {};
+PlayerSpriteInfo gUnknown_0300110C = {};
+PlayerSpriteInfo gUnknown_03001B00 = {};
 
 void sub_80B5CC4(s16 param0, s16 *param1) { }
 void sub_80B5EBC(s16 param0, s16 *param1) { }
