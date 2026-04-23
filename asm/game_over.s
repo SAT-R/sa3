@@ -5,53 +5,8 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
-	thumb_func_start Task_800303C
-Task_800303C: @ 0x0800303C
-	push {lr}
-	ldr r3, _08003058 @ =gStageData
-	ldrb r1, [r3, #5]
-	ldrb r2, [r3, #6]
-	lsls r0, r2, #1
-	asrs r1, r0
-	movs r0, #3
-	ands r1, r0
-	cmp r1, #2
-	bne _0800305C
-	adds r0, r3, #0
-	adds r0, #0xb8
-	strb r1, [r0]
-	b _08003070
-	.align 2, 0
-_08003058: .4byte gStageData
-_0800305C:
-	cmp r1, #0
-	bne _08003064
-	movs r0, #1
-	b _08003068
-_08003064:
-	movs r0, #1
-	eors r2, r0
-_08003068:
-	ands r2, r0
-	adds r0, r3, #0
-	adds r0, #0xb8
-	strb r2, [r0]
-_08003070:
-	ldr r0, _0800307C @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _08003080 @ =sub_8003084
-	str r0, [r1, #8]
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0800307C: .4byte gCurTask
-_08003080: .4byte sub_8003084
-
-	thumb_func_start sub_8003084
-sub_8003084: @ 0x08003084
+	thumb_func_start Task_8003084
+Task_8003084: @ 0x08003084
 	push {r4, r5, r6, lr}
 	bl sub_802610C
 	lsls r0, r0, #0x10

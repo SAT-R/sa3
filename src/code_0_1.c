@@ -48,7 +48,7 @@ void sub_800214C(void)
     }
 }
 
-void WarpToMap(s16 level, u16 entryIndex)
+void WarpToMap(s16 level, s16 entryIndex)
 {
     StageData *stageData = &gStageData;
     s16 zone;

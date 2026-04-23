@@ -47,6 +47,7 @@ extern void sub_8002618();
 extern void sub_8002838(s16);
 void sub_8003288();
 void sub_800341C();
+void Task_8003084();
 void sub_8003A14();
 void sub_80043B8();
 void sub_80105F0();
@@ -624,4 +625,19 @@ NONMATCH("asm/non_matching/game/shared/go__Task_8002BBC.inc", void Task_8002BBC(
 }
 END_NONMATCH
 
+void Task_800303C(void)
+{
+    u8 temp_r3 = (gStageData.unk5 >> (gStageData.playerIndex * 2)) & 3;
+    if (temp_r3 == 2) {
+        gStageData.unkB8 = temp_r3;
+    } else {
+        if (temp_r3 == 0) {
+            gStageData.unkB8 = gStageData.playerIndex & 1;
+        } else {
+            gStageData.unkB8 = (gStageData.playerIndex ^ 1) & 1;
+        }
+    }
+
+    gCurTask->main = Task_8003084;
+}
 /* TODO: Append functions from game_over_z.c here!!! */
