@@ -501,8 +501,7 @@ void Task_00_8002988(void)
     gCurTask->main = Task_8002BBC;
 }
 
-// (98.05%) https://decomp.me/scratch/wvbUa
-NONMATCH("asm/non_matching/game/shared/go__Task_8002BBC.inc", void Task_8002BBC(void))
+void Task_8002BBC(void)
 {
     Player *temp_r4;
     Player *temp_r5;
@@ -513,8 +512,8 @@ NONMATCH("asm/non_matching/game/shared/go__Task_8002BBC.inc", void Task_8002BBC(
     s16 var_sl;
     s16 *temp_r1_4;
     s16 *temp_r4_4;
+    int new_var;
     s16 *temp_r6;
-    u8 unk4;
     StageData *sd = &gStageData;
 
     var_sl = 0;
@@ -522,13 +521,12 @@ NONMATCH("asm/non_matching/game/shared/go__Task_8002BBC.inc", void Task_8002BBC(
     if ((sd->gameMode > 4U) && (sd->playerIndex != 0)) {
         var_sl = (u16)gMultiSioRecv->pat4.x - sd->timer;
         sd->timer = (u16)gMultiSioRecv->pat4.x;
-        unk4 = sd->unk4;
-    } else if ((unk4 = sd->unk4) != 4) {
+    } else if (sd->unk4 != 4) {
         sd->timer += 1;
         var_sl = 1;
     }
     if (gStageData.gameMode != 7) {
-        if (unk4 == 3) {
+        if (sd->unk4 == 3) {
             sd->levelTimer += var_sl;
             if (sd->levelTimer > MAX_COURSE_TIME - 1) {
                 sd->levelTimer = MAX_COURSE_TIME - 1;
@@ -563,18 +561,18 @@ NONMATCH("asm/non_matching/game/shared/go__Task_8002BBC.inc", void Task_8002BBC(
             }
         }
     } else {
-        if (unk4 == 3) {
+        if (sd->unk4 == 3) {
             u16 *recv = &gMultiSioRecv->pat0.unk0;
-            u16 *levelTimer = &sd->levelTimer;
-            *levelTimer -= var_sl;
+            sd->levelTimer -= var_sl;
 
-            if ((*levelTimer == TIME(0, 1)) || (*levelTimer == TIME(0, 2)) || (*levelTimer == TIME(0, 3)) || (*levelTimer == TIME(0, 4))
-                || (*levelTimer == TIME(0, 5)) || (*levelTimer == TIME(0, 6)) || (*levelTimer == TIME(0, 7)) || (*levelTimer == TIME(0, 8))
-                || (*levelTimer == TIME(0, 9)) || (*levelTimer == TIME(0, 10))) {
+            if ((sd->levelTimer == TIME(0, 1)) || (sd->levelTimer == TIME(0, 2)) || (sd->levelTimer == TIME(0, 3))
+                || (sd->levelTimer == TIME(0, 4)) || (sd->levelTimer == TIME(0, 5)) || (sd->levelTimer == TIME(0, 6))
+                || (sd->levelTimer == TIME(0, 7)) || (sd->levelTimer == TIME(0, 8)) || (sd->levelTimer == TIME(0, 9))
+                || (sd->levelTimer == TIME(0, 10))) {
                 m4aSongNumStart(SE_VS__DING_DONG);
             }
-            if ((*levelTimer > TIME(3, 0)) || (*recv == 0x600E)) {
-                *levelTimer = 0;
+            if ((sd->levelTimer > TIME(3, 0)) || (*recv == 0x600E)) {
+                sd->levelTimer = 0;
                 gCurTask->main = Task_8003288;
             }
         }
@@ -633,8 +631,14 @@ NONMATCH("asm/non_matching/game/shared/go__Task_8002BBC.inc", void Task_8002BBC(
             if (gStageData.unk4E[tid] != 0) {
                 temp_r3_4 = *temp_r1_4;
                 if (gStageData.unk6E[tid] == 0) {
-                    s32 v = -120;
-                    gStageData.unk6E[tid] = v;
+#ifndef NON_MATCHING
+                    register s32 v asm("r3") = -120;
+                    register s32 r0 asm("r0") = v;
+                    asm("" ::"r"(v));
+#else
+                    s32 r0 = -120;
+#endif
+                    gStageData.unk6E[tid] = r0;
                 } else if (gStageData.unk6E[tid] < 0) {
                     gStageData.unk6E[tid]++;
                     if (gStageData.unk6E[tid] == 0) {
@@ -645,9 +649,10 @@ NONMATCH("asm/non_matching/game/shared/go__Task_8002BBC.inc", void Task_8002BBC(
                     if (gStageData.unk6E[tid] < TIMER_ID_COUNT) {
                         gStageData.unk6E[tid] += 1;
                     }
-                    if (gStageData.unk4E[tid] <= 0) {
+                    new_var = 0;
+                    if (gStageData.unk4E[tid] <= new_var) {
                         gStageData.unk4E[tid] = 0;
-                        gStageData.unk6E[tid] = 0;
+                        gStageData.unk6E[tid] = new_var;
                     }
                 }
             }
@@ -679,11 +684,10 @@ NONMATCH("asm/non_matching/game/shared/go__Task_8002BBC.inc", void Task_8002BBC(
         sub_8026478();
         sub_80264F0();
     }
-    if (gStageData.unkBB != 0) {
+    if (gStageData.unkBB != new_var) {
         gStageData.unkBB -= 1;
     }
 }
-END_NONMATCH
 
 void Task_800303C(void)
 {
