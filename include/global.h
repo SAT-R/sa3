@@ -13,7 +13,7 @@
 #define ENABLE_AUDIO TRUE
 #else
 #define ENABLE_AUDIO     TRUE
-#define ENABLE_VRAM_VIEW !TRUE
+#define ENABLE_VRAM_VIEW TRUE
 #endif
 
 // NOTE: Highest bit set
