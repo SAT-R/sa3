@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "color.h"
 #include "multi_sio.h"
 
 typedef struct Strc3000428 {
@@ -11,22 +12,20 @@ typedef struct Strc3000428 {
     u16 unk8;
     u16 unkA;
 } Strc3000428;
-extern Strc3000428 gUnknown_3000428;
-s32 gUnknown_3000434;
+
+Strc3000428 gUnknown_3000428 = { 0 };
+s32 gUnknown_3000434 = 0;
+u32 gUnknown_3000438 = 0;
+u32 gUnknown_300043C = 0;
 
 extern void GetInput(void);
 extern u8 gUnknown_03002C60;
 extern u8 gUnknown_0300620C;
 extern u8 gUnknown_03006C20;
-extern u16 gUnknown_082B533C[8];
-extern u16 gUnknown_082B5344[16 * PALETTE_LEN_4BPP];
-extern u8 gUnknown_082B5544[0x4000];
-extern u8 gUnknown_082B9544[0x500];
-u8 *gUnknown_03002BF0;
-
-s32 gUnknown_3000434;
-extern u32 gUnknown_3000438;
-extern u32 gUnknown_300043C;
+extern const u16 gUnknown_082B533C[8];
+extern const ColorRaw gUnknown_082B5344[16 * PALETTE_LEN_4BPP];
+extern const u8 gUnknown_082B5544[0x4000];
+extern const u8 gUnknown_082B9544[0x500];
 
 void sub_80C625C(void);
 void sub_80C6318();
@@ -67,7 +66,7 @@ void sub_80C625C(void)
     *(vu8 *)&REG_SIOCNT = siocnt & mask;
     gUnknown_03006C20 = 0;
     // TODO: Make this a variable
-    CpuFill32(0, (void *)IWRAM_START + 0x428, 12);
+    CpuFill32(0, &gUnknown_3000428, 12);
     REG_IME = 0;
     REG_SIOCNT |= 0x80;
     REG_IME = 1;
@@ -75,6 +74,7 @@ void sub_80C625C(void)
     REG_TM3CNT_H = 0xC1;
 }
 
+// (97.69%) https://decomp.me/scratch/lJi2D
 NONMATCH("asm/non_matching/cz2__sub_80C6318.inc", void sub_80C6318(void))
 {
     s32 sp4;
@@ -191,7 +191,6 @@ NONMATCH("asm/non_matching/cz2__sub_80C6318.inc", void sub_80C6318(void))
 }
 END_NONMATCH
 
-#if 0 // inner
 s32 sub_80C6548(u8 arg0)
 {
     u32 temp_r5;
@@ -254,6 +253,7 @@ bool8 sub_80C65B4(void)
     return 1;
 }
 
+// (100.00%) https://decomp.me/scratch/dqnxU
 s32 sub_80C65F0(u8 arg0)
 {
     u8 var_r2;
@@ -262,9 +262,9 @@ s32 sub_80C65F0(u8 arg0)
     u32 var_r4;
 
 #ifndef BUG_FIX
-    s32 arg1;
+    s32 result;
 #else
-    s32 arg1 = 0;
+    s32 result = 0;
 #endif
 
     switch (arg0) {
@@ -277,26 +277,41 @@ s32 sub_80C65F0(u8 arg0)
                 var_r2 -= 1;
             } while (var_r2 != 0);
 
-            arg1 = (0xF & var_r3) | var_r4;
+            result = (0xF & var_r3) | var_r4;
             break;
         case 2:
             var_r4 = ((gUnknown_300043C & 0xFFFFFF) << 4) | 0x20000000;
-            var_r3 = (var_r4 >> 28);
+            var_r0 = (var_r4 >> 28);
+#ifndef NON_MATCHING
+            asm("lsl %1, %1, #24\n"
+                "lsr %0, %1, #24\n"
+                : "=r"(var_r3)
+                : "r"(var_r0));
+#else
+            var_r3 = (u8)var_r0;
+#endif
             for (var_r2 = 6; var_r2 != 0; var_r2--) {
                 var_r3 ^= (var_r4 >> (var_r2 * 4)) & 0xF;
             }
-            arg1 = (0xF & var_r3) | var_r4;
+            result = (0xF & var_r3) | var_r4;
             break;
         case 3:
             var_r4 = (gUnknown_0300620C << 4) | 0x40000000;
-            var_r0 = var_r4 << 28;
-            var_r3 = var_r0 >> 1;
+            var_r0 = var_r4 >> 28;
+#ifndef NON_MATCHING
+            asm("lsl %1, %1, #24\n"
+                "lsr %0, %1, #24\n"
+                : "=r"(var_r3)
+                : "r"(var_r0));
+#else
+            var_r3 = (u8)var_r0;
+#endif
             var_r2 = 6;
             do {
                 var_r3 ^= (var_r4 >> (var_r2 * 4)) & 0xF;
                 var_r2 -= 1;
             } while (var_r2 != 0);
-            arg1 = (0xF & var_r3) | var_r4;
+            result = (0xF & var_r3) | var_r4;
             break;
         case 4:
         case 5:
@@ -307,10 +322,10 @@ s32 sub_80C65F0(u8 arg0)
                 var_r3 ^= (var_r4 >> (var_r2 * 4)) & 0xF;
                 var_r2 -= 1;
             } while (var_r2 != 0);
-            arg1 = (0xF & var_r3) | var_r4;
+            result = (0xF & var_r3) | var_r4;
             break;
     }
-    return arg1;
+    return result;
 }
 
 void sub_80C66DC(void)
@@ -456,4 +471,3 @@ void sub_80C6908(void)
     }
     sub_80C6858();
 }
-#endif // inner

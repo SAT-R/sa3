@@ -7,6 +7,10 @@ src/lib/m4a/m4a.o(.bss.code);
 . = 0x0000041c;
 src/multi_boot.o(.bss)
 
+. = 0x00000428;
+src/code_z_2.o(.data);
+src/code_z_2.o(.bss);
+
 . = 0x00000440;
 src/lib/agb_flash/agb_flash.o(.bss);
 

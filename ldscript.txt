@@ -170,7 +170,6 @@ SECTIONS {
         src/input_recorder.o(.text);
         asm/code_z_1.o(.text);
         src/code_z_2.o(.text);
-        asm/code_z_2.o(.text);
         src/multi_sio_asm.o(.text);
         src/malloc_ewram.o(.text);
 
