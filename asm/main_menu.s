@@ -39,7 +39,7 @@ CreateMainMenu: @ 0x0808723C
 	lsls r1, r1, #2 @ 0x3F0
 	movs r2, #0x80
 	lsls r2, r2, #1
-	ldr r3, _08087328 @ =sub_808A1AC
+	ldr r3, _08087328 @ =TaskDestructor_MainMenu
 	str r3, [sp]
 	movs r3, #0
 	bl TaskCreate
@@ -129,7 +129,7 @@ CreateMainMenu: @ 0x0808723C
 _0808731C: .4byte gDispCnt
 _08087320: .4byte 0x00001741
 _08087324: .4byte Task_MainMenuInit
-_08087328: .4byte sub_808A1AC
+_08087328: .4byte TaskDestructor_MainMenu
 _0808732C: .4byte gPseudoRandom
 _08087330: .4byte gFrameCount
 _08087334: .4byte 0x040000D4
@@ -5999,8 +5999,8 @@ _0808A19C:
 _0808A1A4: .4byte gCurTask
 _0808A1A8: .4byte sub_8087C74
 
-	thumb_func_start sub_808A1AC
-sub_808A1AC: @ 0x0808A1AC
+	thumb_func_start TaskDestructor_MainMenu
+TaskDestructor_MainMenu: @ 0x0808A1AC
 	bx lr
 	.align 2, 0
 
@@ -6025,7 +6025,7 @@ sub_808A1B0: @ 0x0808A1B0
 	ldr r0, _0808A21C @ =sub_808A22C
 	movs r2, #0x80
 	lsls r2, r2, #1
-	ldr r1, _0808A220 @ =sub_808A1AC
+	ldr r1, _0808A220 @ =TaskDestructor_MainMenu
 	str r1, [sp]
 	movs r1, #0x94
 	movs r3, #0
@@ -6060,7 +6060,7 @@ sub_808A1B0: @ 0x0808A1B0
 	bx r0
 	.align 2, 0
 _0808A21C: .4byte sub_808A22C
-_0808A220: .4byte sub_808A1AC
+_0808A220: .4byte TaskDestructor_MainMenu
 _0808A224: .4byte gLoadedSaveGame
 _0808A228: .4byte 0x00000366
 
