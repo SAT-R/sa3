@@ -2,13 +2,17 @@
 #include "core.h"
 #include "multi_sio.h"
 
-void sub_80C625C(void);
-void sub_80C6318();
-s32 sub_80C6548(u8 arg0);
-bool8 sub_80C65B4();
-s32 sub_80C65F0(u8 arg0);
-void sub_80C68E0();
-s32 sub_80C6858(void);
+typedef struct Strc3000428 {
+    u8 unk0;
+    u8 unk1;
+    u16 unk2;
+    u16 unk4;
+    u16 unk6;
+    u16 unk8;
+    u16 unkA;
+} Strc3000428;
+extern Strc3000428 gUnknown_3000428;
+s32 gUnknown_3000434;
 
 extern void GetInput(void);
 extern u8 gUnknown_03002C60;
@@ -18,6 +22,19 @@ extern u16 gUnknown_082B533C[8];
 extern u16 gUnknown_082B5344[16 * PALETTE_LEN_4BPP];
 extern u8 gUnknown_082B5544[0x4000];
 extern u8 gUnknown_082B9544[0x500];
+u8 *gUnknown_03002BF0;
+
+s32 gUnknown_3000434;
+extern u32 gUnknown_3000438;
+extern u32 gUnknown_300043C;
+
+void sub_80C625C(void);
+void sub_80C6318();
+s32 sub_80C6548(u8 arg0);
+bool8 sub_80C65B4();
+s32 sub_80C65F0(u8 arg0);
+s32 sub_80C6858(void);
+void sub_80C68E0();
 
 void sub_80C621C(void)
 {
@@ -58,38 +75,7 @@ void sub_80C625C(void)
     REG_TM3CNT_H = 0xC1;
 }
 
-#if 01 // outer
-
-typedef struct Strc3000428 {
-    u8 unk0;
-    u8 unk1;
-    u16 unk2;
-    u16 unk4;
-    u16 unk6;
-    u16 unk8;
-    u16 unkA;
-} Strc3000428;
-extern Strc3000428 gUnknown_3000428;
-s32 gUnknown_3000434;
-
-extern void GetInput(void);
-extern u8 gUnknown_03002C60;
-extern u8 gUnknown_0300620C;
-extern u8 gUnknown_03006C20;
-extern u16 gUnknown_082B533C[8];
-extern u16 gUnknown_082B5344[16 * PALETTE_LEN_4BPP];
-extern u8 gUnknown_082B5544[0x4000];
-extern u8 gUnknown_082B9544[0x500];
-u8 *gUnknown_03002BF0;
-
-extern u16 gUnknown_082B533C[8];
-s32 gUnknown_3000434;
-u8 gUnknown_03006C20;
-extern u32 gUnknown_3000438;
-extern u32 gUnknown_300043C;
-
-#if 01 // inner
-void sub_80C6318(void)
+NONMATCH("asm/non_matching/cz2__sub_80C6318.inc", void sub_80C6318(void))
 {
     s32 sp4;
     s32 sp8;
@@ -203,8 +189,9 @@ void sub_80C6318(void)
     REG_SIOCNT |= 0x80;
     REG_TM3CNT_H = 0xC1;
 }
-#endif // inner
+END_NONMATCH
 
+#if 0 // inner
 s32 sub_80C6548(u8 arg0)
 {
     u32 temp_r5;
@@ -469,4 +456,4 @@ void sub_80C6908(void)
     }
     sub_80C6858();
 }
-#endif // outer
+#endif // inner
