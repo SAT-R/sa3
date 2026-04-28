@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
 #include "color.h"
 #include "multi_sio.h"
 
@@ -37,11 +38,12 @@ void sub_80C68E0();
 
 void sub_80C621C(void)
 {
-    gMultiSioEnabled = 0;
-    gFlags &= ~0x10000;
+    gMultiSioEnabled = FALSE;
+    gFlags &= ~FLAGS_10000;
     MultiSioStop();
     MultiSioInit(0U);
-    if (gFlags & 0x80000) {
+
+    if (gFlags & FLAGS_80000) {
         sub_80C68E0();
     }
 }
@@ -51,27 +53,26 @@ void sub_80C625C(void)
     u8 siocnt;
     s32 mask;
     REG_IME = 0;
-    REG_IE &= 0xFF3F;
+    REG_IE &= ~(INTR_FLAG_TIMER3 | INTR_FLAG_SERIAL);
     REG_IME = 1;
     REG_RCNT = 0;
-    REG_SIOCNT = 0x1008;
-    REG_SIOCNT |= 0x4000;
-    REG_IF = 0xC0;
+    REG_SIOCNT = SIO_32BIT_MODE | 0x8;
+    REG_SIOCNT |= SIO_INTR_ENABLE;
+    REG_IF = (INTR_FLAG_TIMER3 | INTR_FLAG_SERIAL);
     REG_IME = 0;
-    REG_IE |= 0xC0;
+    REG_IE |= (INTR_FLAG_TIMER3 | INTR_FLAG_SERIAL);
     REG_IME = 1;
     // TODO: Make this work without these casts!
     siocnt = *(vu8 *)&REG_SIOCNT;
     mask = ~1;
     *(vu8 *)&REG_SIOCNT = siocnt & mask;
     gUnknown_03006C20 = 0;
-    // TODO: Make this a variable
-    CpuFill32(0, &gUnknown_3000428, 12);
+    CpuFill32(0, &gUnknown_3000428, sizeof(gUnknown_3000428));
     REG_IME = 0;
-    REG_SIOCNT |= 0x80;
+    REG_SIOCNT |= SIO_START;
     REG_IME = 1;
     REG_TM3CNT_L = 0x8000;
-    REG_TM3CNT_H = 0xC1;
+    REG_TM3CNT_H = TIMER_ENABLE | TIMER_INTR_ENABLE | TIMER_64CLK;
 }
 
 // (97.69%) https://decomp.me/scratch/lJi2D
@@ -181,13 +182,13 @@ NONMATCH("asm/non_matching/cz2__sub_80C6318.inc", void sub_80C6318(void))
         default:
         block_def:
             REG_IME = 0;
-            REG_IE &= 0xFF7F;
+            REG_IE &= ~INTR_FLAG_SERIAL;
             REG_IME = 1;
             return;
     }
 
-    REG_SIOCNT |= 0x80;
-    REG_TM3CNT_H = 0xC1;
+    REG_SIOCNT |= SIO_START;
+    REG_TM3CNT_H = TIMER_ENABLE | TIMER_INTR_ENABLE | TIMER_64CLK;
 }
 END_NONMATCH
 
@@ -233,7 +234,6 @@ bool8 sub_80C65B4(void)
     u32 temp_r0;
     s32 temp_r4;
     u8 var_r3;
-    u32 temp_r0_2;
     s32 var_r5;
     u8 var_r0;
 
@@ -331,10 +331,10 @@ s32 sub_80C65F0(u8 arg0)
 void sub_80C66DC(void)
 {
     REG_IME = 0;
-    REG_IE &= 0xFFBF;
+    REG_IE &= ~INTR_FLAG_TIMER3;
     REG_IME = 1;
     REG_IME = 0;
-    REG_SIOCNT &= ~0x80;
+    REG_SIOCNT &= ~SIO_START;
     REG_IME = 1;
     REG_TM3CNT_H = 0;
     REG_TM3CNT_L = 0x8000;
@@ -399,7 +399,7 @@ loop_1:
     }
 
     if ((s32)(s8)var_r7 > 1) {
-        gFlags |= 0x80000;
+        gFlags |= FLAGS_80000;
         sub_80C68E0();
     }
 }
@@ -446,7 +446,7 @@ s32 sub_80C6858(void)
 void sub_80C68E0(void)
 {
     REG_IME = 0;
-    gIntrTable[0] = sub_80C6318;
+    gIntrTable[INTR_INDEX_SIO] = sub_80C6318;
     REG_IME = 1;
     sub_80C625C();
 }
@@ -458,14 +458,14 @@ void sub_80C6908(void)
         if (v > 4) {
             if (v == 5) {
                 REG_IME = 0;
-                gIntrTable[0] = sub_80C6318;
+                gIntrTable[INTR_INDEX_SIO] = sub_80C6318;
                 REG_IME = 1;
                 sub_80C625C();
             }
         }
     }
 
-    if (gFlags & 0x800) {
+    if (gFlags & FLAGS_800) {
         gUnknown_0300620C = 0x55;
         return;
     }
