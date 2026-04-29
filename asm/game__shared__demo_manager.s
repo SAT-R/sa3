@@ -5,84 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start DemoPlay_Init
-DemoPlay_Init: @ 0x08052D8C
-	push {r4, r5, r6, r7, lr}
-	ldr r5, _08052E1C @ =gStageData
-	movs r1, #0
-	strb r1, [r5, #6]
-	movs r4, #1
-	movs r0, #1
-	strb r0, [r5, #3]
-	strb r1, [r5, #9]
-	movs r0, #3
-	strb r0, [r5, #0xa]
-	strh r0, [r5, #0xe]
-	bl sub_800214C
-	ldr r0, _08052E20 @ =gPlayers
-	mov ip, r0
-	mov r7, ip
-	adds r7, #0x2b
-	ldrb r0, [r7]
-	movs r3, #4
-	rsbs r3, r3, #0
-	adds r1, r3, #0
-	ands r1, r0
-	orrs r1, r4
-	mov r6, ip
-	adds r6, #0x2a
-	ldrb r4, [r6]
-	movs r2, #0x10
-	rsbs r2, r2, #0
-	adds r0, r2, #0
-	ands r0, r4
-	strb r0, [r6]
-	movs r4, #0x1d
-	rsbs r4, r4, #0
-	ands r1, r4
-	movs r0, #0x10
-	orrs r1, r0
-	strb r1, [r7]
-	ldr r6, _08052E24 @ =0x0000017B
-	add r6, ip
-	ldrb r0, [r6]
-	ands r3, r0
-	movs r1, #0xbd
-	lsls r1, r1, #1
-	add r1, ip
-	ldrb r0, [r1]
-	ands r2, r0
-	movs r0, #2
-	orrs r2, r0
-	strb r2, [r1]
-	ands r3, r4
-	movs r0, #8
-	orrs r3, r0
-	strb r3, [r6]
-	ldr r2, _08052E28 @ =0x000002CB
-	add r2, ip
-	ldrb r1, [r2]
-	adds r0, r4, #0
-	ands r0, r1
-	strb r0, [r2]
-	ldr r1, _08052E2C @ =0x0000041B
-	add r1, ip
-	ldrb r0, [r1]
-	ands r4, r0
-	strb r4, [r1]
-	movs r1, #0xe
-	ldrsh r0, [r5, r1]
-	movs r1, #0
-	bl WarpToMap
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08052E1C: .4byte gStageData
-_08052E20: .4byte gPlayers
-_08052E24: .4byte 0x0000017B
-_08052E28: .4byte 0x000002CB
-_08052E2C: .4byte 0x0000041B
+.if 0
+.endif
 
 	thumb_func_start sub_8052E30
 sub_8052E30: @ 0x08052E30

@@ -2417,7 +2417,7 @@ _08054428:
 _08054474: .4byte gStageData
 _08054478: .4byte gCurTask
 _0805447C:
-	movs r0, #0x47
+	movs r0, #0x47 @ Altar Emerald
 	movs r1, #0
 	bl WarpToMap
 _08054484:
@@ -4421,7 +4421,7 @@ _080554C0:
 	adds r0, #0xba
 	movs r1, #0
 	strb r1, [r0]
-	movs r0, #0x48
+	movs r0, #0x48  @ NONAGGRESSION
 	bl WarpToMap
 	b _080555F0
 	.align 2, 0
