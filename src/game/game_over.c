@@ -113,7 +113,7 @@ extern void sub_8057ECC();
 extern void sub_806611C(u8);
 extern void sub_8081C80();
 extern void sub_808ADF0(s32);
-extern void sub_8052E30();
+extern void DemoPlay_InitSprites();
 extern void sub_8053030();
 extern void LaunchGameIntro();
 
@@ -348,7 +348,7 @@ void sub_80026BC(void)
         Create_gTask_03001CFC();
 
         if (CURRENT_GAME_MODE == GAME_MODE_DEMO) {
-            sub_8052E30();
+            DemoPlay_InitSprites();
             DemoPlayAlloc(gPlayers, gStageData.zone);
         } else if (CURRENT_GAME_MODE == GAME_MODE_2) {
             sub_8053030();

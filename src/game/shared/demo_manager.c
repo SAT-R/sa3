@@ -1,11 +1,13 @@
 #include "global.h"
 #include "core.h"
+#include "malloc_vram.h"
 #include "game/game.h"
 #include "game/player.h"
 #include "game/save.h" // NUM_LANGUAGES
 #include "game/screen_fade.h"
 #include "game/stage.h"
 #include "module_unclear.h"
+#include "constants/animations.h"
 #include "constants/zones.h"
 
 #define TXT_POS_DEMO_PLAY_X DISPLAY_CENTER_X
@@ -14,12 +16,16 @@
 #define TXT_POS_PRESS_START_X DISPLAY_CENTER_X
 #define TXT_POS_PRESS_START_Y (DISPLAY_CENTER_Y + 40)
 
+#define DEMO_DURATION TIME(0, 30)
+
 typedef struct DemoPlay {
-    /* 0x00 */ s16 unk0;
+    /* 0x00 */ s16 tCountdown;
     /* 0x02 */ s16 unk2;
-    /* 0x04 */ Sprite *sprPressStart;
-    /* 0x2C */ Sprite *sprDemoPlay;
+    /* 0x04 */ Sprite sprPressStart;
+    /* 0x2C */ Sprite sprDemoPlay;
     /* 0x54 */ ScreenFade fade;
+    /* 0x60 */ s16 unk60;
+    /* 0x62 */ s16 unk62;
 } DemoPlay;
 
 typedef struct TileInfo_Demo {
@@ -36,6 +42,9 @@ const TileInfo_Demo sTileInfoPressStart[NUM_LANGUAGES] = {
     [SPANISH] = { 1012, 0, 30 }, //
     [ITALIAN] = { 1013, 0, 30 }, //
 };
+
+void Task_DemoPlaySplashText(void);
+void TaskDestructor_DemoPlaySplashText(struct Task *t);
 
 void DemoPlay_Init(void)
 {
@@ -58,53 +67,58 @@ void DemoPlay_Init(void)
     WarpToMap(gStageData.currentLevel, 0);
 }
 
-#if 0
-void sub_8052E30(void) {
+void DemoPlay_InitSprites(void)
+{
     Sprite *s;
-    u16 temp_r4;
-    void *temp_r4_2;
+    DemoPlay *demo;
+    ScreenFade *fade;
 
-    temp_r4 = TaskCreate(Task_DemoPlaySplashText, 0x64U, 0x1000U, 0U, TaskDestructor_DemoPlaySplashText)->data;
-    temp_r4->unk3000000 = 0x708;
-    temp_r4->unk3000062 = 0;
-    temp_r4->unk3000060 = 0;
-    (temp_r4 + 0x03000000)->unk2 = 0;
-    s = temp_r4 + 0x03000004;
-    temp_r4->unk3000004 = OBJ_VRAM0 + 0x3800;
-    s->anim = *((gStageData.language * 4) + &sTileInfoPressStart);
+    demo = TASK_DATA(TaskCreate(Task_DemoPlaySplashText, sizeof(DemoPlay), 0x1000U, 0U, TaskDestructor_DemoPlaySplashText));
+    demo->tCountdown = DEMO_DURATION;
+    demo->unk62 = 0;
+    demo->unk60 = 0;
+    demo->unk2 = 0;
+
+    s = &demo->sprPressStart;
+    s->tiles = OBJ_VRAM0 + 0x3800;
+    s->anim = sTileInfoPressStart[gStageData.language].anim;
     s->x = TXT_POS_PRESS_START_X;
     s->y = TXT_POS_PRESS_START_Y;
     s->oamFlags = 0;
     s->qAnimDelay = 0;
-    s->prevAnim = 0xFFFF;
-    s->variant = ((gStageData.language * 4) + &sTileInfoPressStart)->unk2;
-    s->prevVariant = 0xFF;
-    s->animSpeed = 0x10;
-    s->palId = 0xF;
+    s->prevAnim = -1;
+    s->variant = sTileInfoPressStart[gStageData.language].variant;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 15;
     s->frameFlags = 0;
     s->hitboxes[0].index = -1;
     UpdateSpriteAnimation(s);
-    s = temp_r4 + 0x0300002C;
-    temp_r4->unk300002C = VramMalloc(0x18U);
-    s->anim = 0x594;
+
+    s = &demo->sprDemoPlay;
+    s->tiles = ALLOC_TILES(ANIM_DEMO_PLAY);
+    s->anim = ANIM_DEMO_PLAY;
     s->x = TXT_POS_DEMO_PLAY_X;
     s->y = TXT_POS_DEMO_PLAY_Y;
     s->oamFlags = 0;
     s->qAnimDelay = 0;
-    s->prevAnim = -1U;
+    s->prevAnim = -1;
     s->variant = 0;
-    s->prevVariant = -1U;
-    s->animSpeed = 0x10;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
     s->frameFlags = 0;
     s->hitboxes[0].index = -1;
     UpdateSpriteAnimation(s);
-    temp_r4_2 = temp_r4 + 0x03000054;
-    temp_r4->unk3000054 = 0;
-    temp_r4_2->unk2 = 1;
-    temp_r4_2->unk4 = 0;
-    temp_r4_2->unk6 = 0x80;
-    temp_r4_2->unk8 = 0xBF;
-    temp_r4_2->unkA = 0;
+
+    fade = &demo->fade;
+    fade->window = 0;
+    fade->flags = 1;
+    fade->brightness = 0;
+    fade->speed = Q(0.5);
+    fade->bldCnt = 0xBF;
+    fade->bldAlpha = 0;
 }
+
+#if 01
 #endif

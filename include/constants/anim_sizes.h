@@ -661,6 +661,10 @@
 #define ANIM_LIFE_ICONS_VAR5_HEIGHT                 16
 #define ANIM_LIFE_ICONS_VAR6_WIDTH                  16
 #define ANIM_LIFE_ICONS_VAR6_HEIGHT                 16
+
+// 1428
+#define ANIM_DEMO_PLAY_WIDTH                        96
+#define ANIM_DEMO_PLAY_HEIGHT                       16
 #endif
 
 #endif // GUARD_ANIM_SIZES_H
