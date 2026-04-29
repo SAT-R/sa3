@@ -300,7 +300,7 @@ void sub_80B9548() { }
 void CreateEntity_ItemBox() { }
 void sub_8022FB0() { }
 void sub_80525F0() { }
-void sub_8053030() { }
+void sub_80A872C() { }
 void sub_8053284() { }
 void sub_8029990() { }
 void taskStub(void) { }

@@ -208,6 +208,9 @@ void Task_8053094(void)
     if (strc->unk0 != 0) {
         strc->unk0--;
     } else if (UpdateScreenFade(&strc->fade) != SCREEN_FADE_RUNNING) {
+        // BUG: It seems like DemoPlayFree() is never called, because
+        //      Task_DemoPlaySplashTexts() seems to always end before Task_8053094().
+        //      And since it calls TasksDestroyAll(), that includes this task.
         DemoPlayFree(&gPlayers[PLAYER_1]);
         sub_8003D2C();
         TasksDestroyAll();
