@@ -30,7 +30,7 @@ typedef void (*BgUpdate)(s32, s32);
 #define CAM_MODE_SPECTATOR 4
 
 // TODO: struct Camera is mostly from SA2!
-//       Some many members are likely wrong!
+//       So many members are likely wrong!
 struct Camera {
     /* 0x00 */ s32 x;
     /* 0x04 */ s32 y;
@@ -53,14 +53,14 @@ struct Camera {
     /* 0x3c */ s32 unk3C;
     /* 0x40 */ s32 unk40;
     /* 0x44 */ s32 unk44;
-    /* 0x48 */ s32 unk48;
-    /* 0x4c */ s32 unk4C;
+    /* 0x48 */ struct Task *task48;
+    /* 0x4C */ struct Task *task4C;
+    /* 0x50 */ struct Task *task50;
 
     // 0x4 = spectator
     // mode
-    /* 0x50 */ u16 unk50;
-
-    /* 0x52 */ u16 unk52;
+    ///* 0x50 */ u16 unk50;
+    ///* 0x52 */ u16 unk52;
     /* 0x54 */ u16 unk54;
     /* 0x56 */ s16 unk56;
     /* 0x58 */ BgUpdate fnBgUpdate;

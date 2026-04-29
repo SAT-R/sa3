@@ -120,6 +120,8 @@ SECTIONS {
         src/game/interactables/final_zone_ring.o(.text);
         src/game/interactables/emerald_in_playground.o(.text);
         asm/code_1.o(.text);
+        asm/game__shared__demo_manager.o(.text);
+        asm/code_1_3.o(.text);
         src/game/final_boss_init.o(.text);
         src/game/enemies/akatento.o(.text);
         src/game/enemies/aotento.o(.text);

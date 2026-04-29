@@ -40,6 +40,7 @@ SaveGame gLoadedSaveGame = {};
 SaveGame gUnknown_03000980 = {};
 SaveSectorData gSaveSectorData = {};
 struct Camera gCamera = {};
+u8 gUnknown_03006C20 = 0;
 
 void sub_8000D68() { }
 void Stop() { }
@@ -206,8 +207,6 @@ void sub_80C4EB0() { }
 void sub_80C59E8() { }
 void sub_80C60B0() { }
 void sub_80C610C() { }
-void sub_80C66DC() { }
-void sub_80C6908() { }
 void /* 0x080C7558 */ SoundBiasReset() { }
 void /* 0x080C7560 */ SoundBiasSet() { }
 

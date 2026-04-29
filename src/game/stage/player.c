@@ -13072,7 +13072,7 @@ void sub_8013D70(s32 levelIndex, s32 arg1)
         gStageData.respawnX = gRespawnPositions[levelIndex][entryIndex].x;
         gStageData.respawnY = gRespawnPositions[levelIndex][entryIndex].y;
     } else {
-        memcpy(sp00, &gUnknown_080CE6A8, 0x10);
+        memcpy(sp00, &gUnknown_080CE6A8, sizeof(gUnknown_080CE6A8));
         if (gStageData.playerIndex == arg1) {
             gStageData.respawnX = sp00[entryIndex][0];
             gStageData.respawnY = sp00[entryIndex][1];

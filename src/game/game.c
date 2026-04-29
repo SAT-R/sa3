@@ -17,7 +17,7 @@ void sub_80003B8(void);
 void CallCompleteSave(void);
 void sub_8001E84(void);
 void sub_8027960(u16 param0); // either no param or unused
-void sub_8052D8C(void);
+void DemoPlay_Init(void);
 void sub_808AF44(s16 param0);
 void sub_808ECB8(s16 param0);
 void CreateGameIntroState(u16 state);
@@ -98,7 +98,7 @@ void LaunchGameIntro(void)
     CreateGameIntroState(1);
 }
 
-void LaunchDemoPlay(void) { sub_8052D8C(); }
+void LaunchDemoPlay(void) { DemoPlay_Init(); }
 
 void LaunchTitleScreen(void)
 {

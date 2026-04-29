@@ -118,6 +118,10 @@ u16 Platform_GetKeyInput(void);
 #ifdef _WIN32
 void *Platform_malloc(size_t numBytes) { return HeapAlloc(GetProcessHeap(), HEAP_GENERATE_EXCEPTIONS | HEAP_ZERO_MEMORY, numBytes); }
 void Platform_free(void *ptr) { HeapFree(GetProcessHeap(), 0, ptr); }
+void *Platform_realloc(void *ptr, size_t numBytes)
+{
+    return HeapReAlloc(GetProcessHeap(), HEAP_GENERATE_EXCEPTIONS | HEAP_ZERO_MEMORY, ptr, numBytes);
+}
 #endif
 
 int main(int argc, char **argv)
