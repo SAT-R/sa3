@@ -13097,7 +13097,7 @@ _080A1EDC:
 	cmp r0, #0
 	beq _080A1EFE
 	bl sub_80260F0
-	movs r0, #0x6b
+	movs r0, #0x6b      @ SE_ABORT
 	bl m4aSongNumStart
 	movs r0, #1
 	strb r0, [r5, #3]
@@ -13174,7 +13174,7 @@ _080A1F7E:
 	ldrh r0, [r4, #4]
 	cmp r0, #0
 	bne _080A1F8A
-	movs r0, #0x63
+	movs r0, #0x63      @ MUS_VS_SUCCESS
 	bl m4aSongNumStart
 _080A1F8A:
 	ldrh r0, [r4, #4]
@@ -19164,7 +19164,7 @@ sub_80A4EDC: @ 0x080A4EDC
 	movs r0, #1
 	strb r0, [r4, #0x18]
 	movs r0, #0xa7
-	lsls r0, r0, #2
+	lsls r0, r0, #2     @ SE_668
 	bl m4aSongNumStart
 _080A4F3A:
 	ldr r2, _080A4F74 @ =gBldRegs
@@ -20562,7 +20562,7 @@ _080A59FC:
 	bl TaskCreate
 	mov r8, r0
 	bl m4aMPlayAllStop
-	movs r0, #0x4e
+	movs r0, #0x4e      @ MUS_78
 	bl m4aSongNumStart
 _080A5A1C:
 	mov r0, r8
@@ -24122,7 +24122,7 @@ sub_80A7578: @ 0x080A7578
 	movs r0, #0xb
 	strb r0, [r1]
 	str r2, [r3, #0x24]
-	ldr r0, _080A75E4 @ =0x0000029B
+	ldr r0, _080A75E4 @ =0x0000029B @ SE_667
 	bl m4aSongNumStart
 	ldr r1, [r4]
 	ldr r0, _080A75E8 @ =sub_80A7674
@@ -24721,7 +24721,7 @@ _080A7A3E:
 	ldr r3, [sp, #4]
 	cmp r1, #1
 	bls _080A7A3E
-	ldr r0, _080A7AC4 @ =0x0000029A
+	ldr r0, _080A7AC4 @ =0x0000029A @ SE_666
 	bl m4aSongNumStart
 	ldr r1, _080A7AC8 @ =gStageData
 	ldrb r0, [r1, #6]
@@ -27766,7 +27766,7 @@ _080A91F0:
 	strb r1, [r0, #0x1b]
 	bl UpdateSpriteAnimation
 	strh r4, [r6, #2]
-	ldr r0, _080A9248 @ =0x0000029E
+	ldr r0, _080A9248 @ =0x0000029E @ SE_670
 	bl m4aSongNumStart
 	ldr r1, [r7]
 	ldr r0, _080A924C @ =sub_80A925C
@@ -29557,7 +29557,7 @@ sub_80A9FAC: @ 0x080A9FAC
 	strh r3, [r6, #6]
 	movs r0, #1
 	strb r0, [r6, #4]
-	ldr r0, _080AA050 @ =0x0000029D
+	ldr r0, _080AA050 @ =0x0000029D @ SE_PHOTO_CAMERA
 	bl m4aSongNumStart
 _080AA01A:
 	ldr r1, _080AA048 @ =gBldRegs
@@ -32190,13 +32190,13 @@ _080AB570:
 	ldrb r0, [r5]
 	cmp r0, #3
 	bne _080AB588
-	ldr r0, _080AB584 @ =0x0000029F
+	ldr r0, _080AB584 @ =0x0000029F @ SE_671
 	bl m4aSongNumStart
 	b _080AB58E
 	.align 2, 0
 _080AB584: .4byte 0x0000029F
 _080AB588:
-	ldr r0, _080AB59C @ =0x000002A1
+	ldr r0, _080AB59C @ =0x000002A1 @ SE_673
 	bl m4aSongNumStart
 _080AB58E:
 	ldr r0, _080AB5A0 @ =gCurTask

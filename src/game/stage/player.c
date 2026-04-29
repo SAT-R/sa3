@@ -1000,11 +1000,11 @@ void Player_StopSong(Player *p, u16 song)
 }
 
 extern u8 *gDemoRecordings[];
-void DemoPlayAlloc(Player *p, s16 demoIndex)
+void DemoPlayAlloc(Player *p, s16 zoneIndex)
 {
     const s32 BUFFER_SIZE = 0x1000;
 
-    void *compressedInput = gDemoRecordings[demoIndex];
+    void *compressedInput = gDemoRecordings[zoneIndex];
     void *inputBuffer = EwramMalloc(BUFFER_SIZE);
     CpuFill16(0, inputBuffer, BUFFER_SIZE);
     LZ77UnCompWram(compressedInput, inputBuffer);

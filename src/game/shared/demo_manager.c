@@ -1,6 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_vram.h"
+#include "lib/m4a/m4a.h"
 #include "game/game.h"
 #include "game/player.h"
 #include "game/save.h" // NUM_LANGUAGES
@@ -16,17 +17,26 @@
 #define TXT_POS_PRESS_START_X DISPLAY_CENTER_X
 #define TXT_POS_PRESS_START_Y (DISPLAY_CENTER_Y + 40)
 
-#define DEMO_DURATION TIME(0, 30)
+#define DEMO_DURATION                    TIME(0, 30)
+#define DEMO_FADE_OUT_START              TIME(0, 1.2)
+#define PRESS_START_BLINK_DURATION_OFF   TIME(0, 0.5)
+#define PRESS_START_BLINK_DURATION_ON    TIME(0, 1.0)
+#define PRESS_START_BLINK_CYCLE_DURATION (PRESS_START_BLINK_DURATION_OFF + PRESS_START_BLINK_DURATION_ON)
 
 typedef struct DemoPlay {
     /* 0x00 */ s16 tCountdown;
-    /* 0x02 */ s16 unk2;
+    /* 0x02 */ s16 tBlink;
     /* 0x04 */ Sprite sprPressStart;
     /* 0x2C */ Sprite sprDemoPlay;
     /* 0x54 */ ScreenFade fade;
     /* 0x60 */ s16 unk60;
     /* 0x62 */ s16 unk62;
 } DemoPlay;
+
+typedef struct DemoPlayFadeout {
+    /* 0x00 */ s16 unk0;
+    /* 0x04 */ ScreenFade fade;
+} DemoPlayFadeout;
 
 typedef struct TileInfo_Demo {
     AnimId anim;
@@ -43,8 +53,14 @@ const TileInfo_Demo sTileInfoPressStart[NUM_LANGUAGES] = {
     [ITALIAN] = { 1013, 0, 30 }, //
 };
 
-void Task_DemoPlaySplashText(void);
+void Task_DemoPlaySplashTexts(void);
 void TaskDestructor_DemoPlaySplashText(struct Task *t);
+void Task_8053094(void);
+
+extern void LaunchGameIntro(void);
+extern void LaunchTitleScreen(void);
+extern void DemoPlayFree(Player *p);
+extern void sub_80A872C(u8);
 
 void DemoPlay_Init(void)
 {
@@ -69,15 +85,15 @@ void DemoPlay_Init(void)
 
 void DemoPlay_InitSprites(void)
 {
-    Sprite *s;
     DemoPlay *demo;
+    Sprite *s;
     ScreenFade *fade;
 
-    demo = TASK_DATA(TaskCreate(Task_DemoPlaySplashText, sizeof(DemoPlay), 0x1000U, 0U, TaskDestructor_DemoPlaySplashText));
+    demo = TASK_DATA(TaskCreate(Task_DemoPlaySplashTexts, sizeof(DemoPlay), 0x1000U, 0U, TaskDestructor_DemoPlaySplashText));
     demo->tCountdown = DEMO_DURATION;
     demo->unk62 = 0;
     demo->unk60 = 0;
-    demo->unk2 = 0;
+    demo->tBlink = 0;
 
     s = &demo->sprPressStart;
     s->tiles = OBJ_VRAM0 + 0x3800;
@@ -108,7 +124,7 @@ void DemoPlay_InitSprites(void)
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
     s->frameFlags = 0;
-    s->hitboxes[0].index = -1;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
     UpdateSpriteAnimation(s);
 
     fade = &demo->fade;
@@ -120,5 +136,84 @@ void DemoPlay_InitSprites(void)
     fade->bldAlpha = 0;
 }
 
-#if 01
-#endif
+void Task_DemoPlaySplashTexts(void)
+{
+    DemoPlay *demo = TASK_DATA(gCurTask);
+    Sprite *s;
+
+    if (demo->tCountdown < DEMO_FADE_OUT_START) {
+        UpdateScreenFade(&demo->fade);
+    }
+
+    if (demo->tCountdown <= 0) {
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
+        gBgSpritesCount = 0;
+        PAUSE_GRAPHICS_QUEUE();
+        m4aMPlayAllStop();
+        LaunchGameIntro();
+    } else if (START_BUTTON & gPressedKeys) {
+        sub_8003D2C();
+        m4aMPlayAllStop();
+        LaunchTitleScreen();
+    } else {
+        if (gStageData.unk4 == 3) {
+            if (demo->tBlink > PRESS_START_BLINK_CYCLE_DURATION) {
+                demo->tBlink = 0;
+            }
+
+            if (demo->tBlink >= PRESS_START_BLINK_DURATION_OFF) {
+                s = &demo->sprPressStart;
+                UpdateSpriteAnimation(s);
+                DisplaySprite(s);
+            }
+
+            s = &demo->sprDemoPlay;
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+        }
+
+        demo->tCountdown--;
+        demo->tBlink++;
+    }
+}
+
+void sub_8053030(void)
+{
+    DemoPlayFadeout *strc;
+    ScreenFade *fade;
+
+    strc = TASK_DATA(TaskCreate(Task_8053094, sizeof(DemoPlayFadeout), 0x1000U, 0U, NULL));
+    strc->unk0 = TIME(0, 10);
+    fade = &strc->fade;
+    fade->window = 0;
+    fade->flags = 1;
+    fade->brightness = 0;
+    fade->speed = Q(0.5);
+    fade->bldCnt = 0xFF;
+    fade->bldAlpha = 0;
+    ScreenFadeUpdateValues(fade);
+}
+
+void TaskDestructor_DemoPlaySplashText(struct Task *t)
+{
+    DemoPlay *demo = TASK_DATA(t);
+    VramFree(demo->sprDemoPlay.tiles);
+}
+
+void Task_8053094(void)
+{
+    DemoPlayFadeout *strc = TASK_DATA(gCurTask);
+
+    if (strc->unk0 != 0) {
+        strc->unk0--;
+    } else if (UpdateScreenFade(&strc->fade) != SCREEN_FADE_RUNNING) {
+        DemoPlayFree(&gPlayers[PLAYER_1]);
+        sub_8003D2C();
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
+        gBgSpritesCount = 0;
+        PAUSE_GRAPHICS_QUEUE();
+        sub_80A872C(ZONE_FINAL - gStageData.zone);
+    }
+}

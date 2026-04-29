@@ -312,7 +312,7 @@ Struc_3001150 gUnknown_03001150;
 void InitializePlayer(s16 playerId);
 extern s16 sub_801480C(Player *p);
 void Call__Player_8014550(Player *p);
-void DemoPlayAlloc(Player *p, s16 demoIndex);
+void DemoPlayAlloc(Player *p, s16 zoneIndex);
 bool32 sub_802C080(Player *p); // Player_Hurt ?
 bool32 sub_802C0D4(Player *p);
 void sub_8004CC8(s16 playerId);
