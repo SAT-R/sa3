@@ -45,7 +45,7 @@ sub_8052E30: @ 0x08052E30
 	adds r7, r4, r0
 	ldr r0, _08052F28 @ =0x06013800
 	str r0, [r7]
-	ldr r2, _08052F2C @ =gUnknown_080D1C30
+	ldr r2, _08052F2C @ =sTileInfoPressStart
 	ldr r1, _08052F30 @ =gStageData
 	ldrb r0, [r1]
 	lsls r0, r0, #2
@@ -128,7 +128,7 @@ _08052F1C: .4byte TaskDestructor_DemoPlaySplashText
 _08052F20: .4byte 0x03000062
 _08052F24: .4byte 0x03000004
 _08052F28: .4byte 0x06013800
-_08052F2C: .4byte gUnknown_080D1C30
+_08052F2C: .4byte sTileInfoPressStart
 _08052F30: .4byte gStageData
 _08052F34: .4byte 0x0000FFFF
 _08052F38: .4byte 0x0300002C
