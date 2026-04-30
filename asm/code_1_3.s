@@ -179,7 +179,7 @@ _08053276:
 sub_8053284: @ 0x08053284
 	push {r4, r5, r6, lr}
 	sub sp, #4
-	ldr r0, _08053304 @ =sub_8054EB8
+	ldr r0, _08053304 @ =Task_8054EB8
 	movs r1, #0xa9
 	lsls r1, r1, #2
 	movs r2, #0x80
@@ -238,7 +238,7 @@ sub_8053284: @ 0x08053284
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08053304: .4byte sub_8054EB8
+_08053304: .4byte Task_8054EB8
 _08053308: .4byte sub_805332C
 _0805330C: .4byte 0x03000290
 _08053310: .4byte 0x03000292
@@ -3679,8 +3679,8 @@ _08054EAC: .4byte 0x0300001C
 _08054EB0: .4byte 0x03000044
 _08054EB4: .4byte 0x0300006C
 
-	thumb_func_start sub_8054EB8
-sub_8054EB8: @ 0x08054EB8
+	thumb_func_start Task_8054EB8
+Task_8054EB8: @ 0x08054EB8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -3738,7 +3738,7 @@ sub_8054EB8: @ 0x08054EB8
 	strh r0, [r2, #6]
 	mov r7, sb
 	ldr r1, [r7]
-	ldr r0, _08054F58 @ =sub_8054F5C
+	ldr r0, _08054F58 @ =Task_8054F5C
 	str r0, [r1, #8]
 _08054F30:
 	pop {r3, r4}
@@ -3755,10 +3755,10 @@ _08054F48: .4byte 0x0300028E
 _08054F4C: .4byte gDispCnt
 _08054F50: .4byte 0x0000DFFF
 _08054F54: .4byte gWinRegs
-_08054F58: .4byte sub_8054F5C
+_08054F58: .4byte Task_8054F5C
 
-	thumb_func_start sub_8054F5C
-sub_8054F5C: @ 0x08054F5C
+	thumb_func_start Task_8054F5C
+Task_8054F5C: @ 0x08054F5C
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _08054FC8 @ =gCurTask
 	mov ip, r0
@@ -3807,7 +3807,7 @@ sub_8054F5C: @ 0x08054F5C
 	strh r6, [r0]
 	mov r7, ip
 	ldr r1, [r7]
-	ldr r0, _08054FE0 @ =sub_8054FE4
+	ldr r0, _08054FE0 @ =Task_8054FE4
 	str r0, [r1, #8]
 _08054FC0:
 	pop {r4, r5, r6, r7}
@@ -3820,10 +3820,10 @@ _08054FD0: .4byte 0x0300028F
 _08054FD4: .4byte gWinRegs
 _08054FD8: .4byte gBldRegs
 _08054FDC: .4byte 0x03000290
-_08054FE0: .4byte sub_8054FE4
+_08054FE0: .4byte Task_8054FE4
 
-	thumb_func_start sub_8054FE4
-sub_8054FE4: @ 0x08054FE4
+	thumb_func_start Task_8054FE4
+Task_8054FE4: @ 0x08054FE4
 	push {r4, lr}
 	ldr r0, _08055008 @ =gCurTask
 	ldr r0, [r0]

@@ -45,12 +45,12 @@ typedef struct TileInfo_Demo {
 } TileInfo_Demo;
 
 const TileInfo_Demo sTileInfoPressStart[NUM_LANGUAGES] = {
-    [JAPANESE] = { 1007, 0, 46 }, //
-    [ENGLISH] = { 1009, 0, 30 }, //
-    [GERMAN] = { 1010, 0, 34 }, //
-    [FRENCH] = { 1011, 0, 46 }, //
-    [SPANISH] = { 1012, 0, 30 }, //
-    [ITALIAN] = { 1013, 0, 30 }, //
+    [JAPANESE] = { ANIM_TITLE_PRESS_START_JP, 0, 46 }, //
+    [ENGLISH] = { ANIM_TITLE_PRESS_START_EN, 0, 30 }, //
+    [GERMAN] = { ANIM_TITLE_PRESS_START_DE, 0, 34 }, //
+    [FRENCH] = { ANIM_TITLE_PRESS_START_FR, 0, 46 }, //
+    [SPANISH] = { ANIM_TITLE_PRESS_START_ES, 0, 30 }, //
+    [ITALIAN] = { ANIM_TITLE_PRESS_START_IT, 0, 30 }, //
 };
 
 void Task_DemoPlaySplashTexts(void);

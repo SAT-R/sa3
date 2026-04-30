@@ -208,7 +208,7 @@ _0805C3D0:
 	lsls r0, r0, #2
 	adds r0, r0, r6
 	lsls r0, r0, #4
-	ldr r1, _0805C478 @ =gUnknown_03001DA0
+	ldr r1, _0805C478 @ =gPlayers + (6 * 0x150)
 	adds r4, r0, r1
 	cmp r4, #0
 	beq _0805C4FA
@@ -238,7 +238,7 @@ _0805C468: .4byte gStageData
 _0805C46C: .4byte Task_40_805C198
 _0805C470: .4byte TaskDestructor_805D09C
 _0805C474: .4byte 0x00004040
-_0805C478: .4byte gUnknown_03001DA0
+_0805C478: .4byte gPlayers + (6 * 0x150)
 _0805C47C: .4byte Task_14_805C03C
 _0805C480: .4byte TaskDestructor_805C03C
 _0805C484:

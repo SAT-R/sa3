@@ -447,8 +447,8 @@ gUnknown_080D0410:
 gUnknown_080D049C:
     .incbin "baserom_sa3.gba", 0x000D049C, 0xC
 
-    .global gUnknown_080D04A8
-gUnknown_080D04A8:
+    .global gStageCameraBgTemplates
+gStageCameraBgTemplates:
     .incbin "baserom_sa3.gba", 0x000D04A8, 0x100
 
     .global gUnknown_080D05A8

@@ -44,8 +44,8 @@ struct Camera {
     /* 0x20 */ s32 unk20;
     /* 0x24 */ s32 unk24;
 
-    /* 0x28 */ s32 unk28;
-    /* 0x2c */ s32 unk2C;
+    /* 0x28 */ s32 unk28; // some x
+    /* 0x2c */ s32 unk2C; // some y
     /* 0x30 */ s32 dx;
     /* 0x34 */ s32 dy;
 
@@ -71,7 +71,7 @@ struct Camera {
     /* 0x66 */ u8 spectatorTarget;
     /* 0x67 */ u8 unk67[3];
     /* 0x6A */ s16 unk6A;
-}; /* size ??? */
+}; /* size: <= 0x70 */
 
 extern struct Camera gCamera;
 
@@ -104,6 +104,13 @@ extern struct Camera gCamera;
 #define IS_OUT_OF_GRAV_TRIGGER_RANGE(x, y) IS_OUT_OF_RANGE_(u16, x, y, (CAM_REGION_WIDTH / 2))
 
 #define IS_OUT_OF_LOOP_TRIGGER_RANGE(x, y) IS_OUT_OF_RANGE_3(x, y, (CAM_REGION_WIDTH / 2), (CAM_REGION_WIDTH / 2))
+
+struct Backgrounds {
+    Background bg0;
+    Background bg1;
+    Background bg2;
+    Background bg3;
+};
 
 bool32 IsWorldPtActive(s32 worldX, s32 worldY);
 bool32 IsScreenPtActive128px(s32 screenX, s32 screenY);

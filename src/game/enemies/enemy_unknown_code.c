@@ -49,7 +49,6 @@ void TaskDestructor_805D09C(struct Task *t);
 extern void sub_8027578(MapEntity *me);
 extern void sub_8004D68(s32 x, s32 y);
 extern void sub_80044CC(Player *p);
-Player gUnknown_03001DA0[MULTI_SIO_PLAYERS_MAX];
 
 static inline void sub_805CF38__inline(s32 qWorldX, s32 qWorldY, u16 regionX, u16 regionY, Player *p)
 {
@@ -269,7 +268,7 @@ NONMATCH("asm/non_matching/game/enemies/euc__sub_805C280.inc", bool32 sub_805C28
             sub_805CEBC__inline(arg0->posX, arg0->posY, temp_r4_3, temp_r5_3, 0, temp_sb_3);
             temp_sb_4 = arg0->regionX;
             temp_sl_2 = arg0->regionY;
-            temp_r4_4 = &gUnknown_03001DA0[meX];
+            temp_r4_4 = &gPlayers[6 + meX];
             sub_805CF38__inline(arg0->posX, arg0->posY, temp_sb_4, temp_sl_2, temp_r4_4);
         } else {
             sub_805CEBC__inline(arg0->posX, arg0->posY, arg0->regionX, arg0->regionY, 0, arg0->p);
