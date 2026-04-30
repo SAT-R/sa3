@@ -119,6 +119,7 @@ SECTIONS {
         src/game/interactables/mp_chao.o(.text);
         src/game/interactables/final_zone_ring.o(.text);
         src/game/interactables/emerald_in_playground.o(.text);
+        src/game/stage/camera.o(.text);
         asm/camera.o(.text);
         src/game/shared/demo_manager.o(.text);
         asm/code_1_3.o(.text);

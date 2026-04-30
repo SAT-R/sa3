@@ -3,6 +3,7 @@
 
 //#include "core.h"
 //#include "tilemap.h"
+#include "constants/zones.h"
 
 #if (GAME == GAME_SA1)
 typedef s16 CamCoord;
@@ -30,7 +31,7 @@ typedef void (*BgUpdate)(s32, s32);
 #define CAM_MODE_SPECTATOR 4
 
 // TODO: struct Camera is mostly from SA2!
-//       So many members are likely wrong!
+//       So, many members are likely wrong!
 struct Camera {
     /* 0x00 */ s32 x;
     /* 0x04 */ s32 y;
@@ -68,12 +69,13 @@ struct Camera {
     /* 0x60 */ s16 unk60;
     /* 0x62 */ s16 unk62;
     /* 0x64 */ s16 unk64;
-    /* 0x66 */ u8 spectatorTarget;
+    //    /* 0x66 */ u8 spectatorTarget;
+    /* 0x66 */ s16 unk66;
     /* 0x67 */ u8 unk67[3];
     /* 0x6A */ s16 unk6A;
 }; /* size: <= 0x70 */
 
-extern struct Camera gCamera;
+struct Camera gCamera;
 
 // TODO: Merge all these into one!
 #define IS_OUT_OF_RANGE_2(x, y, radiusX, radiusY)                                                                                          \
@@ -114,5 +116,8 @@ struct Backgrounds {
 
 bool32 IsWorldPtActive(s32 worldX, s32 worldY);
 bool32 IsScreenPtActive128px(s32 screenX, s32 screenY);
+
+extern const Collision *gRefCollision;
+extern const Collision *const gCollisionTable[NUM_LEVEL_IDS];
 
 #endif // GUARD_SAKIT_CAMERA_H
