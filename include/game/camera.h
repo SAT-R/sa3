@@ -74,7 +74,7 @@ struct Camera {
     /* 0x68 */ u8 unk68;
     /* 0x69 */ u8 unk69;
     /* 0x6A */ s16 unk6A;
-}; /* size: < 0x6C */
+}; /* size: == 0x6C */
 
 struct Camera gCamera;
 
