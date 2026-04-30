@@ -66,7 +66,7 @@ NONMATCH("asm/non_matching/game/stage/cam__sub_804F740.inc", void sub_804F740(s3
     if (gStageData.act != ACT_BOSS) {
         gBgCntRegs[1] = BGCNT_SCREENBASE(30) | BGCNT_16COLOR | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(0);
         gBgCntRegs[2] = BGCNT_SCREENBASE(31) | BGCNT_16COLOR | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(1);
-        if (gStageData.gameMode != 7) {
+        if (CURRENT_GAME_MODE != 7) {
             gBgSprites_Unknown1[0] = 0;
             gBgSprites_Unknown2[0][0] = 0;
             gBgSprites_Unknown2[0][1] = 0;
@@ -100,7 +100,7 @@ NONMATCH("asm/non_matching/game/stage/cam__sub_804F740.inc", void sub_804F740(s3
             DrawBackground(&gStageBackgroundsRam[layer + BGID_STAGE_HI]);
         }
 
-        if (gStageData.gameMode != 7) {
+        if (CURRENT_GAME_MODE != 7) {
             if (gUnknown_080D06CC[level].init) {
                 gUnknown_080D06CC[level].init();
             }
@@ -285,7 +285,7 @@ NONMATCH("asm/non_matching/game/stage/cam__sub_804F740.inc", void sub_804F740(s3
         }
     }
 
-    if (gStageData.gameMode != 7) {
+    if (CURRENT_GAME_MODE != 7) {
         gRefCollision = gCollisionTable[level];
     } else {
         gRefCollision = &CollHeader_85D8C64_fg;
@@ -300,7 +300,7 @@ NONMATCH("asm/non_matching/game/stage/cam__sub_804F740.inc", void sub_804F740(s3
     if (cam->y < 0) {
         cam->y = 0;
     }
-    if (gStageData.gameMode != 7) {
+    if (CURRENT_GAME_MODE != 7) {
         cam->unk14 = gUnknown_080D05A8[level][1];
         cam->unk1C = gUnknown_080D05A8[level][0];
     } else {
@@ -314,7 +314,7 @@ NONMATCH("asm/non_matching/game/stage/cam__sub_804F740.inc", void sub_804F740(s3
     cam->unk38 = 8;
     cam->unk66 = 0xFFFC;
 
-    if (gStageData.gameMode != 7) {
+    if (CURRENT_GAME_MODE != 7) {
         if (gStageData.zone == ZONE_UNUSED) {
             cam->task48 = TaskCreate(Task_80516CC, 0U, 0x1000U, 0U, NULL);
         } else if ((gStageData.act == ACT_BOSS) && (gStageData.zone == ZONE_5 || gStageData.zone == ZONE_6)
@@ -336,3 +336,205 @@ NONMATCH("asm/non_matching/game/stage/cam__sub_804F740.inc", void sub_804F740(s3
     }
 }
 END_NONMATCH
+
+#if 0
+void sub_804FE8C(u16 arg0)
+{
+    Player *p;
+    s16 var_r4;
+    s32 temp_r0_2;
+    s32 temp_r1_2;
+    s32 temp_r1_3;
+    s32 temp_r1_4;
+    s32 temp_r1_5;
+    s32 temp_r1_6;
+    s32 temp_r2_2;
+    s32 temp_r5;
+    s32 temp_r6;
+    s32 var_r0;
+    s32 var_r0_10;
+    s32 var_r0_2;
+    s32 var_r0_3;
+    s32 var_r0_4;
+    s32 var_r0_5;
+    s32 var_r0_6;
+    s32 var_r0_7;
+    s32 var_r0_8;
+    s32 var_r0_9;
+    s32 var_r1;
+    s32 var_r1_2;
+    s32 var_r1_3;
+    s32 var_r1_4;
+    s32 var_r1_5;
+    s32 var_r1_6;
+    s32 var_r1_7;
+    s32 var_r1_8;
+    s32 var_r2;
+    s32 var_r3;
+    s32 var_r5;
+    s32 var_r6;
+    u16 temp_r0;
+    u16 temp_r1;
+    u16 temp_r2;
+
+    temp_r0 = arg0;
+    p = &gPlayers[gStageData.playerIndex];
+
+    if (CURRENT_GAME_MODE != 7) {
+        temp_r2 = gUnknown_080D05A8[gStageData.currentLevel][1];
+        if (gCamera.unk14 > temp_r2) {
+            gCamera.unk14 = temp_r2;
+        }
+        temp_r1 = gUnknown_080D05A8[gStageData.currentLevel][0];
+        if (gCamera.unk1C > temp_r1) {
+            gCamera.unk1C = temp_r1;
+        }
+        if (gCamera.unk10 > temp_r2) {
+            gCamera.unk10 = 0;
+        }
+        if (gCamera.unk18 > temp_r1) {
+            gCamera.unk18 = 0;
+        }
+    }
+    gCamera.dx = gCamera.x;
+    gCamera.dy = gCamera.y;
+    gCamera.unk8 = (p->qCamOffsetX >> 4);
+    gCamera.unkA = (p->qCamOffsetY >> 4);
+    var_r0 = gCamera.unk18;
+    if (((s32)gCamera.x < var_r0) || (var_r0 = gCamera.unk1C - (DISPLAY_WIDTH + 1), var_r1 = gCamera.x, (var_r1 > var_r0))) {
+        var_r1 = var_r0;
+    }
+    var_r6 = var_r1;
+    var_r0_2 = gCamera.unk10;
+    if (((s32)gCamera.y < var_r0_2) || (var_r0_2 = gCamera.unk14 - (DISPLAY_HEIGHT + 1), var_r1_2 = gCamera.y, (var_r1_2 > var_r0_2))) {
+        var_r1_2 = var_r0_2;
+    }
+    var_r5 = var_r1_2;
+    if ((s16)gCamera.unk5A != 0) {
+        gCamera.unk5A--;
+        var_r2 = temp_r0 << 0x10;
+    } else {
+        if (!(1 & gCamera.unk5C)) {
+            gCamera.unk28 = (((s32)p->qWorldX >> 8) + gCamera.unk8) - 0x78;
+            temp_r1_2 = (s32)((s16)(u16)p->qSpeedAirX + (gCamera.unk58 * 0xF)) >> 4;
+            gCamera.unk58 = (s16)temp_r1_2;
+            gCamera.unk28 += (s32)(temp_r1_2 << 0x10) >> 0x15;
+        }
+        if (!(2 & gCamera.unk5C)) {
+            var_r4 = gCamera.unk66;
+            var_r3 = (s8)(u8)p->spriteOffsetY - 4;
+            if (p->moveState & 0x10000) {
+                var_r3 = 0 - var_r3;
+            }
+            if (var_r4 != var_r3) {
+                if ((s32)var_r4 < var_r3) {
+                    var_r4 += 5;
+                    if ((s32)var_r4 > var_r3) {
+                        goto block_27;
+                    }
+                } else {
+                    var_r4 -= 5;
+                    if ((s32)var_r4 < var_r3) {
+                    block_27:
+                        var_r4 = (s16)var_r3;
+                    }
+                }
+                gCamera.unk66 = var_r4;
+            }
+            gCamera.unk2C = ((s32)p->qWorldY >> 8) + gCamera.unkA + (gCamera.unk40 - 0x50) + var_r4;
+        }
+        temp_r1_3 = gCamera.unk28 - var_r6;
+        if (temp_r1_3 > (s32)gCamera.unk38) {
+            temp_r2_2 = temp_r1_3 - gCamera.unk38;
+            var_r1_3 = (s32)gCamera.unk20 >> 8;
+            if (var_r1_3 > temp_r2_2) {
+                var_r1_3 = temp_r2_2;
+            }
+            var_r6 += var_r1_3;
+        } else if ((s64)(temp_r1_3 + gCamera.unk38) < 0) {
+            temp_r1_4 = temp_r1_3 + gCamera.unk38;
+            var_r0_3 = 0 - ((s32)gCamera.unk20 >> 8);
+            if (var_r0_3 < temp_r1_4) {
+                var_r0_3 = temp_r1_4;
+            }
+            var_r6 += var_r0_3;
+        }
+        var_r0_4 = gCamera.unk18;
+        if ((var_r6 < var_r0_4) || (var_r0_4 = gCamera.unk1C - 0xF0, var_r1_4 = var_r6, (var_r1_4 > var_r0_4))) {
+            var_r1_4 = var_r0_4;
+        }
+        var_r6 = var_r1_4;
+        if (gCamera.unk20 <= 0xFFF) {
+            gCamera.unk20 += 0x20;
+        }
+        if ((p->moveState & 4) && (((0xF & p->unk2A) != 3) || (p->unk2F != 9))) {
+            var_r0_5 = gCamera.unk3C + 4;
+            gCamera.unk3C = var_r0_5;
+            if (var_r0_5 > 0x18) {
+                var_r0_5 = 0x18;
+            }
+            gCamera.unk3C = var_r0_5;
+        } else {
+            var_r0_6 = gCamera.unk3C - 4;
+            gCamera.unk3C = var_r0_6;
+            if (var_r0_6 < 0) {
+                var_r0_6 = 0;
+            }
+            gCamera.unk3C = var_r0_6;
+        }
+        temp_r1_5 = gCamera.unk2C - var_r5;
+        if (temp_r1_5 > (s32)gCamera.unk3C) {
+            temp_r0_2 = temp_r1_5 - gCamera.unk3C;
+            var_r1_5 = gCamera.unk24;
+            if (var_r1_5 > temp_r0_2) {
+                var_r1_5 = temp_r0_2;
+            }
+            var_r5 += var_r1_5;
+        } else if ((s64)(temp_r1_5 + gCamera.unk3C) < 0) {
+            temp_r1_6 = temp_r1_5 + gCamera.unk3C;
+            var_r0_7 = 0 - gCamera.unk24;
+            if (var_r0_7 < temp_r1_6) {
+                var_r0_7 = temp_r1_6;
+            }
+            var_r5 += var_r0_7;
+        }
+        var_r2 = temp_r0 << 0x10;
+        if (var_r2 == 0) {
+            var_r0_8 = gCamera.unk10;
+            if (var_r5 >= var_r0_8) {
+                goto block_65;
+            }
+            goto block_66;
+        }
+        var_r0_8 = gCamera.unk10;
+        if (var_r5 >= var_r0_8) {
+        block_65:
+            var_r0_8 = gCamera.unk14 - 0xA0;
+            var_r1_6 = var_r5;
+            if (var_r1_6 > var_r0_8) {
+                goto block_66;
+            }
+        } else {
+        block_66:
+            var_r1_6 = var_r0_8;
+        }
+        var_r5 = var_r1_6;
+    }
+    var_r0_9 = gCamera.unk18;
+    if ((var_r6 < var_r0_9) || (var_r0_9 = gCamera.unk1C - 0xF0, var_r1_7 = var_r6, (var_r1_7 > var_r0_9))) {
+        var_r1_7 = var_r0_9;
+    }
+    var_r0_10 = gCamera.unk10;
+    if ((var_r5 < var_r0_10) || (var_r0_10 = gCamera.unk14 - 0xA0, var_r1_8 = var_r5, (var_r1_8 > var_r0_10))) {
+        var_r1_8 = var_r0_10;
+    }
+    temp_r6 = var_r1_7 + gCamera.shiftX + gCamera.unk62;
+    temp_r5 = var_r1_8 + gCamera.shiftY + gCamera.unk64;
+    gCamera.x = temp_r6;
+    gCamera.y = temp_r5;
+    if (var_r2 == 0) {
+        gCamera.dx -= temp_r6;
+        gCamera.dy -= temp_r5;
+    }
+}
+#endif
