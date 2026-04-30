@@ -1,7 +1,7 @@
 #ifndef GUARD_SAKIT_CAMERA_H
 #define GUARD_SAKIT_CAMERA_H
 
-//#include "core.h"
+#include "core.h" // struct Collision
 //#include "tilemap.h"
 #include "constants/zones.h"
 
@@ -71,9 +71,10 @@ struct Camera {
     /* 0x64 */ s16 unk64;
     //    /* 0x66 */ u8 spectatorTarget;
     /* 0x66 */ s16 unk66;
-    /* 0x67 */ u8 unk67[3];
+    /* 0x68 */ u8 unk68;
+    /* 0x69 */ u8 unk69;
     /* 0x6A */ s16 unk6A;
-}; /* size: <= 0x70 */
+}; /* size: < 0x6C */
 
 struct Camera gCamera;
 
@@ -106,13 +107,6 @@ struct Camera gCamera;
 #define IS_OUT_OF_GRAV_TRIGGER_RANGE(x, y) IS_OUT_OF_RANGE_(u16, x, y, (CAM_REGION_WIDTH / 2))
 
 #define IS_OUT_OF_LOOP_TRIGGER_RANGE(x, y) IS_OUT_OF_RANGE_3(x, y, (CAM_REGION_WIDTH / 2), (CAM_REGION_WIDTH / 2))
-
-struct Backgrounds {
-    Background bg0;
-    Background bg1;
-    Background bg2;
-    Background bg3;
-};
 
 bool32 IsWorldPtActive(s32 worldX, s32 worldY);
 bool32 IsScreenPtActive128px(s32 screenX, s32 screenY);

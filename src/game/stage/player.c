@@ -10870,7 +10870,7 @@ u16 sub_80114CC(Player *p)
     s16 temp_r6;
     u32 mask;
 
-    if (gCamera.unk67[2] == 0) {
+    if (gCamera.unk69 == 0) {
         return 0U;
     }
     temp_r6 = I(p->qWorldY);
