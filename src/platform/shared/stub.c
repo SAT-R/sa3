@@ -39,7 +39,6 @@ StageData gStageData = {};
 SaveGame gLoadedSaveGame = {};
 SaveGame gUnknown_03000980 = {};
 SaveSectorData gSaveSectorData = {};
-struct Camera gCamera = {};
 u8 gUnknown_03006C20 = 0;
 
 void sub_8000D68() { }
@@ -336,7 +335,6 @@ void sub_80264F0() { }
 void sub_8026720() { }
 void sub_80275F0() { }
 void sub_8028850() { }
-void sub_804F740() { }
 void sub_8051140() { }
 void sub_8056090() { }
 void sub_809BFE8() { }
@@ -346,3 +344,15 @@ void sub_8056AFC() { }
 void sub_8056B78() { }
 void sub_8057ECC() { }
 void sub_8081C80() { }
+
+const Collision *gRefCollision = NULL;
+void sub_80510F8() { }
+void Task_8051688() { }
+void Task_80516C0() { }
+void Task_80516CC() { }
+void Task_80516D8() { }
+void TaskDestructor_805116C() { }
+void Task_8051748() { }
+void Task_80517B8() { }
+void Task_8051668() { }
+void TaskDestructor_80511A4() { }

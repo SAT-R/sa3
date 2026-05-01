@@ -459,8 +459,8 @@ gUnknown_080D05A8:
 @ (73*2) * sizeof(uintptr_t) @; 73 = Stage count, 2 = procedures per stage
 @ [i][0] = StageBackground Init
 @ [i][1] = StageBackground Update
-    .global gUnknown_080D06CC
-gUnknown_080D06CC:
+    .global sBackgroundProcs
+sBackgroundProcs:
     mPtr NULL
     mPtr NULL
     mPtr sub_805068C
@@ -607,27 +607,3 @@ gUnknown_080D06CC:
     mPtr sub_8051660
     mPtr sub_8051094
     mPtr sub_8051664
-
-    .global gUnknown_080D0914
-gUnknown_080D0914:
-    .incbin "baserom_sa3.gba", 0x000D0914, 0xC
-
-    .global gUnknown_080D0920
-gUnknown_080D0920:
-    .incbin "baserom_sa3.gba", 0x000D0920, 0xC
-
-    .global gUnknown_080D092C
-gUnknown_080D092C:
-    .incbin "baserom_sa3.gba", 0x000D092C, 0x20
-
-    .global gUnknown_080D094C
-gUnknown_080D094C:
-    .incbin "baserom_sa3.gba", 0x000D094C, 0x20
-
-    .global gUnknown_080D096C
-gUnknown_080D096C:
-    .incbin "baserom_sa3.gba", 0x000D096C, 0x20
-
-    .global gUnknown_080D098C
-gUnknown_080D098C:
-    .incbin "baserom_sa3.gba", 0x000D098C, 0x20

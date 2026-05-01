@@ -103,7 +103,7 @@ extern void sub_802613C();
 extern void sub_80261B0();
 extern void sub_80275F0(u8, u8, u8);
 extern void sub_8027878(u8 lives);
-extern void sub_804F740(u16, u8);
+extern void InitCamera(u16, u8);
 extern void sub_805235C();
 extern void sub_8056090(s32, u8, s32);
 extern void sub_8056AB0();
@@ -424,7 +424,7 @@ void Task_00_8002988(void)
     }
     gCamera.x = 0;
     gCamera.y = 0;
-    sub_804F740(sd->currentLevel, sd->entryIndex);
+    InitCamera(sd->currentLevel, sd->entryIndex);
     if (sd->gameMode != 7) {
         if (sd->gameMode < GAME_MODE_MP_MULTI_PACK) {
             u8 playerIndex = sd->playerIndex;

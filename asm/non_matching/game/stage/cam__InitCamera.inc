@@ -111,7 +111,7 @@ _0804F7F6:
 	ldrb r0, [r0, #3]
 	cmp r0, #7
 	beq _0804F8F4
-	ldr r5, _0804F888 @ =gUnknown_080D06CC
+	ldr r5, _0804F888 @ =sBackgroundProcs
 	ldr r0, [sp, #8]
 	lsls r4, r0, #3
 	adds r0, r4, r5
@@ -153,7 +153,7 @@ _0804F878: .4byte gBgSprites_Unknown1
 _0804F87C: .4byte gBgSprites_Unknown2
 _0804F880: .4byte gStageBackgroundsRam
 _0804F884: .4byte gStageCameraBgTemplates
-_0804F888: .4byte gUnknown_080D06CC
+_0804F888: .4byte sBackgroundProcs
 _0804F88C: .4byte 0x00001002
 _0804F890: .4byte TaskDestructor_80511A4
 _0804F894:
@@ -421,7 +421,7 @@ _0804FA58:
 	bl DrawBackground
 	ldr r3, [sp, #8]
 	lsls r5, r3, #3
-	ldr r1, _0804FB58 @ =gUnknown_080D06CC
+	ldr r1, _0804FB58 @ =sBackgroundProcs
 	adds r0, r5, r1
 	ldr r0, [r0]
 	mov sb, r4
@@ -450,7 +450,7 @@ _0804FADE:
 	orrs r0, r1
 	strh r0, [r2, #0x10]
 _0804FB08:
-	ldr r0, _0804FB58 @ =gUnknown_080D06CC
+	ldr r0, _0804FB58 @ =sBackgroundProcs
 	adds r0, #4
 	adds r0, r5, r0
 	ldr r4, [r0]
@@ -482,7 +482,7 @@ _0804FB48: .4byte gBgSprites_Unknown2
 _0804FB4C: .4byte gStageBackgroundsRam
 _0804FB50: .4byte gStageCameraBgTemplates
 _0804FB54: .4byte gStageBackgroundsRam + (3 * 0x40)
-_0804FB58: .4byte gUnknown_080D06CC
+_0804FB58: .4byte sBackgroundProcs
 _0804FB5C: .4byte gTilemaps
 _0804FB60: .4byte 0x00001002
 _0804FB64: .4byte TaskDestructor_80511A4
@@ -571,7 +571,7 @@ _0804FBF4:
 	asrs r4, r4, #0x10
 	cmp r4, #1
 	ble _0804FBF4
-	ldr r4, _0804FC6C @ =gUnknown_080D06CC
+	ldr r4, _0804FC6C @ =sBackgroundProcs
 	adds r0, r7, r4
 	ldr r0, [r0]
 	cmp r0, #0
@@ -608,7 +608,7 @@ _0804FC5C: .4byte gBgSprites_Unknown1
 _0804FC60: .4byte gBgSprites_Unknown2
 _0804FC64: .4byte gStageBackgroundsRam
 _0804FC68: .4byte gStageCameraBgTemplates
-_0804FC6C: .4byte gUnknown_080D06CC
+_0804FC6C: .4byte sBackgroundProcs
 _0804FC70: .4byte 0x00001002
 _0804FC74: .4byte TaskDestructor_80511A4
 _0804FC78:

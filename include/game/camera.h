@@ -44,14 +44,14 @@ struct Camera {
     /* 0x18 */ s32 minX;
     /* 0x1C */ s32 maxX;
     /* 0x20 */ s32 SA2_LABEL(qUnk8);
-    /* 0x24 */ s32 unk24;
+    /* 0x24 */ s32 SA2_LABEL(unkC);
 
     /* 0x28 */ CamCoord SA2_LABEL(unk10); // some x
     /* 0x2c */ CamCoord SA2_LABEL(unk14); // some y
     /* 0x30 */ s32 dx;
     /* 0x34 */ s32 dy;
 
-    /* 0x38 */ s32 unk38;
+    /* 0x38 */ s32 SA2_LABEL(unk44);
     /* 0x3c */ s32 SA2_LABEL(unk48);
     /* 0x40 */ s32 unk40;
     /* 0x44 */ s32 unk44;
@@ -73,7 +73,7 @@ struct Camera {
     /* 0x62 */ s16 unk62;
     /* 0x64 */ s16 unk64;
     //    /* 0x66 */ u8 spectatorTarget;
-    /* 0x66 */ s16 unk66;
+    /* 0x66 */ s16 SA2_LABEL(unk64);
     /* 0x68 */ u8 unk68;
     /* 0x69 */ u8 unk69;
     /* 0x6A */ s16 unk6A;

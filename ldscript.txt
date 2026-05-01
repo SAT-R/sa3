@@ -273,6 +273,7 @@ SECTIONS {
         src/game/shared/rings_manager.o(.rodata);
         src/game/stage/entities_manager.o(.rodata);
         data/data_0_1.o(.rodata);
+        src/game/stage/camera.o(.rodata);
         src/data/tilemap_table.o(.rodata);
         data/data_1_1.o(.rodata);
         src/game/shared/demo_manager.o(.rodata);

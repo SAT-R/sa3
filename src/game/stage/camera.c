@@ -4,6 +4,7 @@
 #include "game/camera.h"
 #include "game/stage.h"
 #include "game/shared/stage/tilemap_table.h"
+#include "constants/move_states.h"
 #include "constants/tilemaps.h"
 #include "constants/zones.h"
 
@@ -30,8 +31,8 @@ typedef struct CamBgFuncs {
 struct Camera gCamera = { 0 };
 Background ALIGNED(16) gStageBackgroundsRam[BGID_COUNT] = { 0 };
 extern Background gStageCameraBgTemplates[];
-extern const s16 gUnknown_080D05A8[][2];
-extern const CamBgFuncs gUnknown_080D06CC[];
+extern const u16 gUnknown_080D05A8[][2];
+extern const CamBgFuncs sBackgroundProcs[];
 extern const Collision CollHeader_85D8C64_fg;
 
 void sub_80510F8(void);
@@ -45,8 +46,19 @@ void Task_80517B8(void);
 void TaskDestructor_805116C(struct Task *t);
 void TaskDestructor_80511A4(struct Task *t);
 
+const u16 gUnknown_080D0914[] = { 455, 456, 457, 458, 459, 460 };
+const u16 gUnknown_080D0920[] = { 461, 462, 463, 464, 465, 466 };
+const s8 gUnknown_080D092C[] = { 0x01, 0x01, 0x02, 0x03, 0x03, 0x03, 0x02, 0x03, 0x03, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04,
+                                 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04 };
+const s8 gUnknown_080D094C[] = { 0x02, 0x02, 0x02, 0x02, 0x02, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0x01, 0x01, 0x01, 0x01, 0x01, 0xFF,
+                                 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE };
+const s8 gUnknown_080D096C[] = { 0x01, 0x02, 0x02, 0x03, 0x03, 0x03, 0x02, 0x02, 0x04, 0x04, 0x04, 0x01, 0x02, 0x02, 0x02, 0x02,
+                                 0x01, 0x02, 0x02, 0x03, 0x03, 0x03, 0x02, 0x02, 0x04, 0x04, 0x04, 0x01, 0x02, 0x02, 0x02, 0x02 };
+const s8 gUnknown_080D098C[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x01, 0x02, 0x03,
+                                 0x03, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04 };
+
 // (92.67%) https://decomp.me/scratch/l8RRD
-NONMATCH("asm/non_matching/game/stage/cam__sub_804F740.inc", void sub_804F740(s32 level, u8 UNUSED entryIndex))
+NONMATCH("asm/non_matching/game/stage/cam__InitCamera.inc", void InitCamera(s32 level, u8 UNUSED entryIndex))
 {
     s32 sp4;
     s32 tid;
@@ -101,11 +113,11 @@ NONMATCH("asm/non_matching/game/stage/cam__sub_804F740.inc", void sub_804F740(s3
         }
 
         if (CURRENT_GAME_MODE != 7) {
-            if (gUnknown_080D06CC[level].init) {
-                gUnknown_080D06CC[level].init();
+            if (sBackgroundProcs[level].init) {
+                sBackgroundProcs[level].init();
             }
-            if (gUnknown_080D06CC[level].update) {
-                cam->task50 = TaskCreate(gUnknown_080D06CC[level].update, sizeof(StrcCamera0C), 0x1002U, 0U, TaskDestructor_80511A4);
+            if (sBackgroundProcs[level].update) {
+                cam->task50 = TaskCreate(sBackgroundProcs[level].update, sizeof(StrcCamera0C), 0x1002U, 0U, TaskDestructor_80511A4);
                 strcC = TASK_DATA(cam->task50);
                 strcC->x = 0;
                 strcC->y = 0;
@@ -202,8 +214,8 @@ NONMATCH("asm/non_matching/game/stage/cam__sub_804F740.inc", void sub_804F740(s3
                 DrawBackground(&gStageBackgroundsRam[BGID_STAGE_HI]);
                 temp_r5_2 = level * 8;
 
-                if (gUnknown_080D06CC[level].init != NULL) {
-                    gUnknown_080D06CC[level].init();
+                if (sBackgroundProcs[level].init != NULL) {
+                    sBackgroundProcs[level].init();
                 }
 
                 if (gTilemaps[TM_LEVEL_BG0(level)]) {
@@ -212,8 +224,8 @@ NONMATCH("asm/non_matching/game/stage/cam__sub_804F740.inc", void sub_804F740(s3
                     sd->unk10 |= 0x800;
                 }
 
-                if (gUnknown_080D06CC[level].update != NULL) {
-                    cam->task50 = TaskCreate(gUnknown_080D06CC[level].update, sizeof(StrcCamera0C), 0x1002U, 0U, TaskDestructor_80511A4);
+                if (sBackgroundProcs[level].update != NULL) {
+                    cam->task50 = TaskCreate(sBackgroundProcs[level].update, sizeof(StrcCamera0C), 0x1002U, 0U, TaskDestructor_80511A4);
                     strcC = TASK_DATA(cam->task50);
                     strcC->x = 0;
                     strcC->y = 0;
@@ -257,12 +269,12 @@ NONMATCH("asm/non_matching/game/stage/cam__sub_804F740.inc", void sub_804F740(s3
                     DrawBackground(&gStageBackgroundsRam[layer + BGID_STAGE_HI]);
                 }
 
-                if (gUnknown_080D06CC[level].init != NULL) {
-                    gUnknown_080D06CC[level].init();
+                if (sBackgroundProcs[level].init != NULL) {
+                    sBackgroundProcs[level].init();
                 }
 
-                if (gUnknown_080D06CC[level].update != NULL) {
-                    cam->task50 = TaskCreate(gUnknown_080D06CC[level].update, sizeof(StrcCamera0C), 0x1002U, 0U, TaskDestructor_80511A4);
+                if (sBackgroundProcs[level].update != NULL) {
+                    cam->task50 = TaskCreate(sBackgroundProcs[level].update, sizeof(StrcCamera0C), 0x1002U, 0U, TaskDestructor_80511A4);
                     strcC = TASK_DATA(cam->task50);
                     strcC->x = 0;
                     strcC->y = 0;
@@ -308,11 +320,11 @@ NONMATCH("asm/non_matching/game/stage/cam__sub_804F740.inc", void sub_804F740(s3
         cam->maxX = (DISPLAY_CENTER_X << 4);
     }
     cam->SA2_LABEL(qUnk8) = Q(16);
-    cam->unk24 = 0xC;
+    cam->SA2_LABEL(unkC) = 0xC;
     cam->SA2_LABEL(unk10) = cam->x;
     cam->SA2_LABEL(unk14) = cam->y;
-    cam->unk38 = 8;
-    cam->unk66 = 0xFFFC;
+    cam->SA2_LABEL(unk44) = 8;
+    cam->SA2_LABEL(unk64) = 0xFFFC;
 
     if (CURRENT_GAME_MODE != 7) {
         if (gStageData.zone == ZONE_UNUSED) {
@@ -337,37 +349,17 @@ NONMATCH("asm/non_matching/game/stage/cam__sub_804F740.inc", void sub_804F740(s3
 }
 END_NONMATCH
 
-#if 0
-
-void sub_804FE8C(s16 arg0)
+void UpdateCamera(s16 arg0)
 {
-    s32 var_r4;
     s32 temp_r0_2;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
     s32 temp_r1_4;
-    s32 temp_r1_5;
     s32 temp_r1_6;
     s32 temp_r2_2;
-    s32 temp_r5;
-    s32 temp_r6;
     s32 var_r0;
-    s32 var_r0_10;
-    s32 var_r0_2;
     s32 var_r0_3;
-    s32 var_r0_4;
-    s32 var_r0_5;
-    s32 var_r0_6;
     s32 var_r0_7;
-    s32 var_r0_8;
-    s32 var_r0_9;
-    s32 var_r1;
-    s32 var_r1_2;
     s32 var_r1_3;
-    s32 var_r1_4;
     s32 var_r1_5;
-    s32 var_r1_6;
-    s32 var_r3;
     s32 temp_r1;
     s32 temp_r2;
     struct Camera *cam = &gCamera;
@@ -375,8 +367,7 @@ void sub_804FE8C(s16 arg0)
     s32 newX = cam->x;
     s32 newY = cam->y;
 
-
-    if (CURRENT_GAME_MODE != 7) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         temp_r2 = gUnknown_080D05A8[gStageData.currentLevel][1];
         if (cam->maxY > temp_r2) {
             cam->maxY = temp_r2;
@@ -396,16 +387,10 @@ void sub_804FE8C(s16 arg0)
     cam->dy = newY;
     cam->shiftX = (p->qCamOffsetX >> 4);
     cam->shiftY = (p->qCamOffsetY >> 4);
-    var_r0 = cam->minX;
-    if ((newX < var_r0) || (var_r0 = cam->maxX - (DISPLAY_WIDTH + 1), var_r1 = newX, (var_r1 > var_r0))) {
-        var_r1 = var_r0;
-    }
-    newX = var_r1;
-    var_r0_2 = cam->minY;
-    if ((newY < var_r0_2) || (var_r0_2 = cam->maxY - (DISPLAY_HEIGHT + 1), var_r1_2 = newY, (var_r1_2 > var_r0_2))) {
-        var_r1_2 = var_r0_2;
-    }
-    newY = var_r1_2;
+
+    newX = CLAMP(newX, cam->minX, cam->maxX - (DISPLAY_WIDTH + 1));
+    newY = CLAMP(newY, cam->minY, cam->maxY - (DISPLAY_HEIGHT + 1));
+
     if (cam->SA2_LABEL(unk40) != 0) {
         cam->SA2_LABEL(unk40)--;
     } else {
@@ -416,48 +401,45 @@ void sub_804FE8C(s16 arg0)
             cam->SA2_LABEL(unk10) += (cam->SA2_LABEL(unk56) >> 5);
         }
         if (!(cam->SA2_LABEL(unk50) & 2)) {
-            var_r4 = cam->unk66;
-            var_r3 = p->spriteOffsetY - 4;
+            s32 unk64 = cam->SA2_LABEL(unk64);
+            s32 temp8 = p->spriteOffsetY - 4;
             if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
-                var_r3 = -var_r3;
+                temp8 = -temp8;
             }
-            if (var_r4 != var_r3) {
-                if (var_r4 < var_r3) {
-                    var_r4 += 5;
-                    if (var_r4 > var_r3) {
-                            var_r4 = var_r3;
+            if (unk64 != temp8) {
+                if (unk64 < temp8) {
+                    unk64 += 5;
+                    if (unk64 > temp8) {
+                        unk64 = temp8;
                     }
                 } else {
-                    var_r4 -= 5;
-                    if (var_r4 < var_r3) {
-                        var_r4 = var_r3;
+                    unk64 -= 5;
+                    if (unk64 < temp8) {
+                        unk64 = temp8;
                     }
                 }
-                cam->unk66 = var_r4;
+                cam->SA2_LABEL(unk64) = unk64;
             }
-            cam->SA2_LABEL(unk14) = I(p->qWorldY) + cam->shiftY + (cam->unk40 - DISPLAY_CENTER_Y) + var_r4;
+            cam->SA2_LABEL(unk14) = I(p->qWorldY) + cam->shiftY - DISPLAY_CENTER_Y + cam->unk40 + unk64;
         }
-        temp_r1_3 = cam->SA2_LABEL(unk10) - newX;
-        if (temp_r1_3 > cam->unk38) {
-            temp_r2_2 = temp_r1_3 - cam->unk38;
+
+        if (cam->SA2_LABEL(unk10) - newX > cam->SA2_LABEL(unk44)) {
+            temp_r2_2 = cam->SA2_LABEL(unk10) - newX - cam->SA2_LABEL(unk44);
             var_r1_3 = cam->SA2_LABEL(qUnk8) >> 8;
             if (var_r1_3 > temp_r2_2) {
                 var_r1_3 = temp_r2_2;
             }
             newX += var_r1_3;
-        } else if (temp_r1_3 < cam->unk38) {
-            temp_r1_4 = temp_r1_3 + cam->unk38;
+        } else if ((cam->SA2_LABEL(unk10) - newX) < -cam->SA2_LABEL(unk44)) {
+            temp_r1_4 = cam->SA2_LABEL(unk10) - newX + cam->SA2_LABEL(unk44);
             var_r0_3 = -I(cam->SA2_LABEL(qUnk8));
             if (var_r0_3 < temp_r1_4) {
                 var_r0_3 = temp_r1_4;
             }
             newX += var_r0_3;
         }
-        var_r0_4 = cam->minX;
-        if ((newX < var_r0_4) || (var_r0_4 = cam->maxX - DISPLAY_WIDTH, var_r1_4 = newX, (var_r1_4 > var_r0_4))) {
-            var_r1_4 = var_r0_4;
-        }
-        newX = var_r1_4;
+        newX = CLAMP(newX, cam->minX, cam->maxX - DISPLAY_WIDTH);
+
         if (cam->SA2_LABEL(qUnk8) < Q(16)) {
             cam->SA2_LABEL(qUnk8) += Q(0.125);
         }
@@ -468,49 +450,31 @@ void sub_804FE8C(s16 arg0)
             cam->SA2_LABEL(unk48) -= 4;
             cam->SA2_LABEL(unk48) = MAX(cam->SA2_LABEL(unk48), 0);
         }
-        temp_r1_5 = cam->SA2_LABEL(unk14) - newY;
-        if (temp_r1_5 > cam->SA2_LABEL(unk48)) {
-            temp_r0_2 = temp_r1_5 - cam->SA2_LABEL(unk48);
-            var_r1_5 = cam->unk24;
+
+        if ((cam->SA2_LABEL(unk14) - newY) > cam->SA2_LABEL(unk48)) {
+            temp_r0_2 = (cam->SA2_LABEL(unk14) - newY) - cam->SA2_LABEL(unk48);
+            var_r1_5 = cam->SA2_LABEL(unkC);
             if (var_r1_5 > temp_r0_2) {
                 var_r1_5 = temp_r0_2;
             }
             newY += var_r1_5;
-        } else if (temp_r1_5 < cam->SA2_LABEL(unk48)) {
-            temp_r1_6 = temp_r1_5 + cam->SA2_LABEL(unk48);
-            var_r0_7 = -cam->unk24;
+        } else if ((cam->SA2_LABEL(unk14) - newY) < -cam->SA2_LABEL(unk48)) {
+            temp_r1_6 = (cam->SA2_LABEL(unk14) - newY) + cam->SA2_LABEL(unk48);
+            var_r0_7 = -cam->SA2_LABEL(unkC);
             if (var_r0_7 < temp_r1_6) {
                 var_r0_7 = temp_r1_6;
             }
             newY += var_r0_7;
         }
 
+        // NOTE: HUH!?
         if (arg0 == 0) {
-            var_r0_8 = cam->minY;
-            if (newY >= var_r0_8) {
-                var_r0_8 = cam->maxY - DISPLAY_HEIGHT;
-                var_r1_6 = newY;
-                if (var_r1_6 > var_r0_8) {
-                    goto block_66;
-                }
-                var_r1_6 = var_r0_8;     
-            } else {
-                var_r1_6 = cam->minY;                
-            }
-            
-        } else if (newY >= (var_r0_8 = cam->minY)) {
-        block_65:
-            var_r0_8 = cam->maxY - DISPLAY_HEIGHT;
-            var_r1_6 = newY;
-            if (newY > cam->maxY - DISPLAY_HEIGHT) {
-                goto block_66;
-            }
+            newY = CLAMP(newY, cam->minY, cam->maxY - DISPLAY_HEIGHT);
         } else {
-        block_66:
-            var_r1_6 = var_r0_8;
+            newY = CLAMP(newY, cam->minY, cam->maxY - DISPLAY_HEIGHT);
         }
-        newY = var_r1_6;
     }
+
     newX = CLAMP(newX, cam->minX, cam->maxX - DISPLAY_WIDTH);
     newY = CLAMP(newY, cam->minY, cam->maxY - DISPLAY_HEIGHT);
 
@@ -520,11 +484,9 @@ void sub_804FE8C(s16 arg0)
     newY += cam->unk64;
     cam->x = newX;
     cam->y = newY;
-    
+
     if (arg0 == 0) {
         cam->dx -= newX;
         cam->dy -= newY;
     }
 }
-
-#endif
