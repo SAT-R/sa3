@@ -705,10 +705,10 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
                                 gStageData.unkBD = 1;
                             } else if ((partner->charFlags.someIndex) == 1) {
                                 u16 map = gStageData.currentLevel;
-                                gCamera.unk18 = 0;
-                                gCamera.unk10 = 0;
-                                gCamera.unk1C = gUnknown_080D05A8[map][0];
-                                gCamera.unk14 = gUnknown_080D05A8[map][1];
+                                gCamera.minX = 0;
+                                gCamera.minY = 0;
+                                gCamera.maxX = gUnknown_080D05A8[map][0];
+                                gCamera.maxY = gUnknown_080D05A8[map][1];
                             }
                         }
                     }
@@ -3198,9 +3198,9 @@ void Player_8007C28(Player *p)
                 }
             }
             gCamera.x = var_r4;
-            gCamera.unk28 = var_r4;
+            gCamera.SA2_LABEL(unk10) = var_r4;
             gCamera.y = var_r2;
-            gCamera.unk2C = var_r2;
+            gCamera.SA2_LABEL(unk14) = var_r2;
         }
     } else {
         if (!(MOVESTATE_400000 & partner->moveState)) {
@@ -3984,9 +3984,9 @@ void Player_8008C1C(Player *p)
 
     if (&gPlayers[gStageData.playerIndex] == p) {
         gCamera.x = I(p->qWorldX) - DISPLAY_CENTER_X;
-        gCamera.unk28 = gCamera.x;
+        gCamera.SA2_LABEL(unk10) = gCamera.x;
         gCamera.y = I(p->qWorldY) - DISPLAY_CENTER_Y;
-        gCamera.unk2C = gCamera.y;
+        gCamera.SA2_LABEL(unk14) = gCamera.y;
     }
     p->callback = Player_800DAF4;
 }
@@ -4305,8 +4305,8 @@ void sub_800913C(Player *p)
         p->unk57 = 60;
         partner->callback = Player_800522C;
     }
-    gCamera.x = gCamera.unk28 = gStageData.respawnX - DISPLAY_CENTER_X;
-    gCamera.y = gCamera.unk2C = gStageData.respawnY - DISPLAY_CENTER_Y;
+    gCamera.x = gCamera.SA2_LABEL(unk10) = gStageData.respawnX - DISPLAY_CENTER_X;
+    gCamera.y = gCamera.SA2_LABEL(unk14) = gStageData.respawnY - DISPLAY_CENTER_Y;
 }
 
 void sub_8009518(Player *p)
@@ -5382,10 +5382,10 @@ void Player_UseSpecialSpringWithKey(Player *p)
     p->idleAndCamCounter = 0;
     p->charFlags.unk2D_0 = 0;
     p->charFlags.unk2C_04 = 0;
-    gCamera.unk18 = gCamera.x;
-    gCamera.unk1C = gCamera.x + DISPLAY_WIDTH;
-    gCamera.unk10 = gCamera.y;
-    gCamera.unk14 = gCamera.y + DISPLAY_HEIGHT;
+    gCamera.minX = gCamera.x;
+    gCamera.maxX = gCamera.x + DISPLAY_WIDTH;
+    gCamera.minY = gCamera.y;
+    gCamera.maxY = gCamera.y + DISPLAY_HEIGHT;
     p->callback = sub_800ACAC;
     sub_800ACAC(p);
 }
@@ -5442,10 +5442,10 @@ void Player_800AD24(Player *p)
         p->idleAndCamCounter += 30;
     }
     sub_80173F0(p);
-    gCamera.unk18 = gCamera.x;
-    gCamera.unk1C = gCamera.x + DISPLAY_WIDTH;
-    gCamera.unk10 = gCamera.y;
-    gCamera.unk14 = gCamera.y + DISPLAY_HEIGHT;
+    gCamera.minX = gCamera.x;
+    gCamera.maxX = gCamera.x + DISPLAY_WIDTH;
+    gCamera.minY = gCamera.y;
+    gCamera.maxY = gCamera.y + DISPLAY_HEIGHT;
     Player_Flyer_SoundStop(p);
     p->callback = Player_800EAAC;
     Player_800EAAC(p);
@@ -5471,10 +5471,10 @@ void Player_800AE14(Player *p)
     gStageData.unk4 = 8;
     sub_8016F28(p);
     Player_BoostModeDisengage(p);
-    gCamera.unk18 = gCamera.x;
-    gCamera.unk1C = gCamera.x + DISPLAY_WIDTH;
-    gCamera.unk10 = gCamera.y;
-    gCamera.unk14 = gCamera.y + DISPLAY_HEIGHT;
+    gCamera.minX = gCamera.x;
+    gCamera.maxX = gCamera.x + DISPLAY_WIDTH;
+    gCamera.minY = gCamera.y;
+    gCamera.maxY = gCamera.y + DISPLAY_HEIGHT;
     p->charFlags.anim0 = 10;
     p->idleAndCamCounter = 90;
     p->charFlags.unk2D_0 = 0;
@@ -13364,7 +13364,7 @@ void sub_80143E0(Player *p)
                     Player_BoostModeEngage(p);
 
                     if (p->charFlags.someIndex == 1) {
-                        gCamera.qUnk20 = Q(4);
+                        gCamera.SA2_LABEL(qUnk8) = Q(4);
                         Player_PlaySong(p, SE_CHAR_BOOST);
                     }
                 }
@@ -14008,20 +14008,20 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015064.inc", s16 sub_8015064(
         }
 
         if (p->moveState & 0x10000) {
-            qWorldY = Q(cam->unk10);
+            qWorldY = Q(cam->minY);
         } else {
-            qWorldY = Q(cam->unk14) - 1;
+            qWorldY = Q(cam->maxY) - 1;
         }
         Player_HitWithoutRingsUpdate(p);
         result = 1;
     }
 
-    camUnk10 = cam->unk10;
-    camUnk14 = cam->unk14;
+    camUnk10 = cam->minY;
+    camUnk14 = cam->maxY;
 
-    var_r0_2 = Q(cam->unk18 + 12);
+    var_r0_2 = Q(cam->minX + 12);
     if (qWorldX >= var_r0_2) {
-        temp_r1 = Q(cam->unk1C) - Q(11) - 1;
+        temp_r1 = Q(cam->maxX) - Q(11) - 1;
         var_r0_2 = qWorldX;
         if (var_r0_2 > temp_r1) {
             var_r0_2 = temp_r1;
@@ -14595,8 +14595,8 @@ s32 Player_8015D7C(Player *p)
     s16 i;
 
     if ((gStageData.gameMode != GAME_MODE_MP_MULTI_PACK) || (gStageData.unk4 != 3) || (p->moveState & 0x59000200)
-        || (gCamera.unk1C != gUnknown_080D05A8[gStageData.currentLevel][0])
-        || (gCamera.unk14 != gUnknown_080D05A8[gStageData.currentLevel][1])) {
+        || (gCamera.maxX != gUnknown_080D05A8[gStageData.currentLevel][0])
+        || (gCamera.maxY != gUnknown_080D05A8[gStageData.currentLevel][1])) {
         return FALSE;
     }
     memcpy(&callbacks, &gUnknown_080CE6CC, sizeof(callbacks));
@@ -15045,12 +15045,12 @@ u32 sub_8016FA8(Player *p)
 
     if ((p == &gPlayers[gStageData.playerIndex]) || (gStageData.unk4 != 1)) {
         if (p->moveState & 0x10000) {
-            if (qWorldY <= Q(cam->unk10)) {
+            if (qWorldY <= Q(cam->minY)) {
                 return 1U;
             }
             return 0U;
         }
-        if (qWorldY < (Q(cam->unk14) - 1)) {
+        if (qWorldY < (Q(cam->maxY) - 1)) {
             return 0U;
         }
         return 1U;

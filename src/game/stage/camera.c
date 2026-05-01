@@ -301,16 +301,16 @@ NONMATCH("asm/non_matching/game/stage/cam__sub_804F740.inc", void sub_804F740(s3
         cam->y = 0;
     }
     if (CURRENT_GAME_MODE != 7) {
-        cam->unk14 = gUnknown_080D05A8[level][1];
-        cam->unk1C = gUnknown_080D05A8[level][0];
+        cam->maxY = gUnknown_080D05A8[level][1];
+        cam->maxX = gUnknown_080D05A8[level][0];
     } else {
-        cam->unk14 = ((DISPLAY_CENTER_Y + 4) << 4);
-        cam->unk1C = (DISPLAY_CENTER_X << 4);
+        cam->maxY = ((DISPLAY_CENTER_Y + 4) << 4);
+        cam->maxX = (DISPLAY_CENTER_X << 4);
     }
-    cam->qUnk20 = Q(16);
+    cam->SA2_LABEL(qUnk8) = Q(16);
     cam->unk24 = 0xC;
-    cam->unk28 = cam->x;
-    cam->unk2C = cam->y;
+    cam->SA2_LABEL(unk10) = cam->x;
+    cam->SA2_LABEL(unk14) = cam->y;
     cam->unk38 = 8;
     cam->unk66 = 0xFFFC;
 
@@ -338,6 +338,7 @@ NONMATCH("asm/non_matching/game/stage/cam__sub_804F740.inc", void sub_804F740(s3
 END_NONMATCH
 
 #if 0
+
 void sub_804FE8C(s16 arg0)
 {
     s32 var_r4;
@@ -366,59 +367,55 @@ void sub_804FE8C(s16 arg0)
     s32 var_r1_4;
     s32 var_r1_5;
     s32 var_r1_6;
-    s32 newX;
-    s32 newY;
     s32 var_r3;
-    s32 var_r5;
-    s32 var_r6;
     s32 temp_r1;
     s32 temp_r2;
     struct Camera *cam = &gCamera;
     Player *p = &gPlayers[gStageData.playerIndex];
-    s32 camX = cam->x;
-    s32 camY = cam->y;
+    s32 newX = cam->x;
+    s32 newY = cam->y;
 
 
     if (CURRENT_GAME_MODE != 7) {
         temp_r2 = gUnknown_080D05A8[gStageData.currentLevel][1];
-        if (cam->unk14 > temp_r2) {
-            cam->unk14 = temp_r2;
+        if (cam->maxY > temp_r2) {
+            cam->maxY = temp_r2;
         }
         temp_r1 = gUnknown_080D05A8[gStageData.currentLevel][0];
-        if (cam->unk1C > temp_r1) {
-            cam->unk1C = temp_r1;
+        if (cam->maxX > temp_r1) {
+            cam->maxX = temp_r1;
         }
-        if (cam->unk10 > temp_r2) {
-            cam->unk10 = 0;
+        if (cam->minY > temp_r2) {
+            cam->minY = 0;
         }
-        if (cam->unk18 > temp_r1) {
-            cam->unk18 = 0;
+        if (cam->minX > temp_r1) {
+            cam->minX = 0;
         }
     }
-    cam->dx = camX;
-    cam->dy = camY;
-    cam->unk8 = (p->qCamOffsetX >> 4);
-    cam->unkA = (p->qCamOffsetY >> 4);
-    var_r0 = cam->unk18;
-    if ((camX < var_r0) || (var_r0 = cam->unk1C - (DISPLAY_WIDTH + 1), var_r1 = camX, (var_r1 > var_r0))) {
+    cam->dx = newX;
+    cam->dy = newY;
+    cam->shiftX = (p->qCamOffsetX >> 4);
+    cam->shiftY = (p->qCamOffsetY >> 4);
+    var_r0 = cam->minX;
+    if ((newX < var_r0) || (var_r0 = cam->maxX - (DISPLAY_WIDTH + 1), var_r1 = newX, (var_r1 > var_r0))) {
         var_r1 = var_r0;
     }
-    var_r6 = var_r1;
-    var_r0_2 = cam->unk10;
-    if ((camY < var_r0_2) || (var_r0_2 = cam->unk14 - (DISPLAY_HEIGHT + 1), var_r1_2 = camY, (var_r1_2 > var_r0_2))) {
+    newX = var_r1;
+    var_r0_2 = cam->minY;
+    if ((newY < var_r0_2) || (var_r0_2 = cam->maxY - (DISPLAY_HEIGHT + 1), var_r1_2 = newY, (var_r1_2 > var_r0_2))) {
         var_r1_2 = var_r0_2;
     }
-    var_r5 = var_r1_2;
-    if (cam->unk5A != 0) {
-        cam->unk5A--;
+    newY = var_r1_2;
+    if (cam->SA2_LABEL(unk40) != 0) {
+        cam->SA2_LABEL(unk40)--;
     } else {
-        if (!(1 & cam->unk5C)) {
+        if (!(cam->SA2_LABEL(unk50) & 1)) {
             s16 qSpeedX = p->qSpeedAirX;
-            cam->unk28 = (I(p->qWorldX) + cam->unk8) - DISPLAY_CENTER_X;
-            cam->unk58 = (qSpeedX + (cam->unk58 * 15)) >> 4;
-            cam->unk28 += (cam->unk58 >> 5);
+            cam->SA2_LABEL(unk10) = I(p->qWorldX) + cam->shiftX - DISPLAY_CENTER_X;
+            cam->SA2_LABEL(unk56) = (qSpeedX + (cam->SA2_LABEL(unk56) * 15)) >> 4;
+            cam->SA2_LABEL(unk10) += (cam->SA2_LABEL(unk56) >> 5);
         }
-        if (!(2 & cam->unk5C)) {
+        if (!(cam->SA2_LABEL(unk50) & 2)) {
             var_r4 = cam->unk66;
             var_r3 = p->spriteOffsetY - 4;
             if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
@@ -438,97 +435,87 @@ void sub_804FE8C(s16 arg0)
                 }
                 cam->unk66 = var_r4;
             }
-            cam->unk2C = I(p->qWorldY) + cam->unkA + (cam->unk40 - DISPLAY_CENTER_Y) + var_r4;
+            cam->SA2_LABEL(unk14) = I(p->qWorldY) + cam->shiftY + (cam->unk40 - DISPLAY_CENTER_Y) + var_r4;
         }
-        temp_r1_3 = cam->unk28 - var_r6;
+        temp_r1_3 = cam->SA2_LABEL(unk10) - newX;
         if (temp_r1_3 > cam->unk38) {
             temp_r2_2 = temp_r1_3 - cam->unk38;
-            var_r1_3 = cam->qUnk20 >> 8;
+            var_r1_3 = cam->SA2_LABEL(qUnk8) >> 8;
             if (var_r1_3 > temp_r2_2) {
                 var_r1_3 = temp_r2_2;
             }
-            var_r6 += var_r1_3;
+            newX += var_r1_3;
         } else if (temp_r1_3 < cam->unk38) {
             temp_r1_4 = temp_r1_3 + cam->unk38;
-            var_r0_3 = -I(cam->qUnk20);
+            var_r0_3 = -I(cam->SA2_LABEL(qUnk8));
             if (var_r0_3 < temp_r1_4) {
                 var_r0_3 = temp_r1_4;
             }
-            var_r6 += var_r0_3;
+            newX += var_r0_3;
         }
-        var_r0_4 = cam->unk18;
-        if ((var_r6 < var_r0_4) || (var_r0_4 = cam->unk1C - DISPLAY_WIDTH, var_r1_4 = var_r6, (var_r1_4 > var_r0_4))) {
+        var_r0_4 = cam->minX;
+        if ((newX < var_r0_4) || (var_r0_4 = cam->maxX - DISPLAY_WIDTH, var_r1_4 = newX, (var_r1_4 > var_r0_4))) {
             var_r1_4 = var_r0_4;
         }
-        var_r6 = var_r1_4;
-        if (cam->qUnk20 < Q(16)) {
-            cam->qUnk20 += Q(32. / 256.);
+        newX = var_r1_4;
+        if (cam->SA2_LABEL(qUnk8) < Q(16)) {
+            cam->SA2_LABEL(qUnk8) += Q(0.125);
         }
-        if ((p->moveState & 4) && ((p->charFlags.character != KNUCKLES) || (p->charFlags.state0_highValue != 9))) {
-            cam->unk3C += 4;
-            if (cam->unk3C > 24) {
-                cam->unk3C = 24;
-            }
+        if ((p->moveState & MOVESTATE_IN_AIR) && ((p->charFlags.character != KNUCKLES) || (p->charFlags.SA2_LABEL(unk61) != 9))) {
+            cam->SA2_LABEL(unk48) += 4;
+            cam->SA2_LABEL(unk48) = MIN(cam->SA2_LABEL(unk48), 24);
         } else {
-            cam->unk3C -= 4;
-            if (cam->unk3C < 0) {
-                cam->unk3C = 0;
-            }
+            cam->SA2_LABEL(unk48) -= 4;
+            cam->SA2_LABEL(unk48) = MAX(cam->SA2_LABEL(unk48), 0);
         }
-        temp_r1_5 = cam->unk2C - var_r5;
-        if (temp_r1_5 > cam->unk3C) {
-            temp_r0_2 = temp_r1_5 - cam->unk3C;
+        temp_r1_5 = cam->SA2_LABEL(unk14) - newY;
+        if (temp_r1_5 > cam->SA2_LABEL(unk48)) {
+            temp_r0_2 = temp_r1_5 - cam->SA2_LABEL(unk48);
             var_r1_5 = cam->unk24;
             if (var_r1_5 > temp_r0_2) {
                 var_r1_5 = temp_r0_2;
             }
-            var_r5 += var_r1_5;
-        } else if (temp_r1_5 < cam->unk3C) {
-            temp_r1_6 = temp_r1_5 + cam->unk3C;
+            newY += var_r1_5;
+        } else if (temp_r1_5 < cam->SA2_LABEL(unk48)) {
+            temp_r1_6 = temp_r1_5 + cam->SA2_LABEL(unk48);
             var_r0_7 = -cam->unk24;
             if (var_r0_7 < temp_r1_6) {
                 var_r0_7 = temp_r1_6;
             }
-            var_r5 += var_r0_7;
+            newY += var_r0_7;
         }
 
         if (arg0 == 0) {
-            var_r0_8 = cam->unk10;
-            if (var_r5 >= var_r0_8) {
-                var_r0_8 = cam->unk14 - DISPLAY_HEIGHT;
-                var_r1_6 = var_r5;
+            var_r0_8 = cam->minY;
+            if (newY >= var_r0_8) {
+                var_r0_8 = cam->maxY - DISPLAY_HEIGHT;
+                var_r1_6 = newY;
                 if (var_r1_6 > var_r0_8) {
                     goto block_66;
                 }
                 var_r1_6 = var_r0_8;     
             } else {
-                var_r1_6 = cam->unk10;                
+                var_r1_6 = cam->minY;                
             }
             
-        } else if (var_r5 >= (var_r0_8 = cam->unk10)) {
+        } else if (newY >= (var_r0_8 = cam->minY)) {
         block_65:
-            var_r0_8 = cam->unk14 - DISPLAY_HEIGHT;
-            var_r1_6 = var_r5;
-            if (var_r5 > cam->unk14 - DISPLAY_HEIGHT) {
+            var_r0_8 = cam->maxY - DISPLAY_HEIGHT;
+            var_r1_6 = newY;
+            if (newY > cam->maxY - DISPLAY_HEIGHT) {
                 goto block_66;
             }
         } else {
         block_66:
             var_r1_6 = var_r0_8;
         }
-        var_r5 = var_r1_6;
+        newY = var_r1_6;
     }
-    var_r0_9 = cam->unk18;
-    if ((var_r6 < var_r0_9) || (var_r0_9 = cam->unk1C - DISPLAY_WIDTH, newX = var_r6, (newX > var_r0_9))) {
-        newX = var_r0_9;
-    }
-    var_r0_10 = cam->unk10;
-    if ((var_r5 < var_r0_10) || (var_r0_10 = cam->unk14 - DISPLAY_HEIGHT, newY = var_r5, (newY > var_r0_10))) {
-        newY = var_r0_10;
-    }
+    newX = CLAMP(newX, cam->minX, cam->maxX - DISPLAY_WIDTH);
+    newY = CLAMP(newY, cam->minY, cam->maxY - DISPLAY_HEIGHT);
 
-    newX += cam->shiftX;
-    newY += cam->shiftY;
+    newX += cam->unkC;
+    newY += cam->unkE;
     newX += cam->unk62;
     newY += cam->unk64;
     cam->x = newX;

@@ -91,10 +91,10 @@ NONMATCH("asm/non_matching/game/interactables/boss_trigger__CreateEntity_Trigger
 
         gStageData.unkBD = 0;
 
-        trig->unk34 = gCamera.unk18;
-        trig->unk36 = gCamera.unk10;
-        trig->unk38 = gCamera.unk1C;
-        trig->unk3A = gCamera.unk14;
+        trig->unk34 = gCamera.minX;
+        trig->unk36 = gCamera.minY;
+        trig->unk38 = gCamera.maxX;
+        trig->unk3A = gCamera.maxY;
 
         camState->unk0 = trig->qWorldX + Q(me->d.sData[0] * TILE_WIDTH);
         camState->unk4 = camState->unk0 + Q(me->d.uData[2] * TILE_WIDTH);
@@ -159,28 +159,28 @@ NONMATCH("asm/non_matching/game/interactables/boss_trigger__Task_TriggerBossAndG
     // _0803E622
 
     if (camState->unk0 >= camState->qCamX) {
-        gCamera.unk18 = I(camState->qCamX);
+        gCamera.minX = I(camState->qCamX);
     } else {
-        gCamera.unk18 = I(camState->unk0);
+        gCamera.minX = I(camState->unk0);
     }
     // _0803E63C
 
     if (camState->unk4 <= camState->qCamX + Q(DISPLAY_WIDTH)) {
-        gCamera.unk1C = I(camState->qCamX) + DISPLAY_WIDTH;
+        gCamera.maxX = I(camState->qCamX) + DISPLAY_WIDTH;
     } else {
-        gCamera.unk1C = I(camState->unk4);
+        gCamera.maxX = I(camState->unk4);
     }
 
     if (camState->unk8 >= camState->qCamY) {
-        gCamera.unk10 = I(camState->qCamY);
+        gCamera.minY = I(camState->qCamY);
     } else {
-        gCamera.unk10 = I(camState->unk8);
+        gCamera.minY = I(camState->unk8);
     }
 
     if (camState->unkC <= camState->qCamY + Q(DISPLAY_HEIGHT)) {
-        gCamera.unk14 = I(camState->qCamY) + DISPLAY_HEIGHT;
+        gCamera.maxY = I(camState->qCamY) + DISPLAY_HEIGHT;
     } else {
-        gCamera.unk14 = I(camState->unkC);
+        gCamera.maxY = I(camState->unkC);
     }
     // _0803E682
 
@@ -193,10 +193,10 @@ NONMATCH("asm/non_matching/game/interactables/boss_trigger__Task_TriggerBossAndG
         if ((gCamera.x >= x) && (gCamera.y >= I(camState->unk8)) && (gCamera.x + DISPLAY_WIDTH <= I(camState->unk4))
             && (gCamera.y + DISPLAY_HEIGHT <= I(camState->unkC))) {
             if (trig->unk3C > 4) {
-                gCamera.unk18 = x;
-                gCamera.unk1C = I(camState->unk4);
-                gCamera.unk10 = I(camState->unk8);
-                gCamera.unk14 = I(camState->unkC);
+                gCamera.minX = x;
+                gCamera.maxX = I(camState->unk4);
+                gCamera.minY = I(camState->unk8);
+                gCamera.maxY = I(camState->unkC);
 
 #ifndef NON_MATCHING
                 if (gStageData.act == ACT_BOSS) {
@@ -231,14 +231,14 @@ void sub_803E700()
     playerX = I(p->qWorldX);
     playerY = I(p->qWorldY);
 
-    if ((playerX >= gCamera.unk18 - 10) && (playerX <= gCamera.unk1C + 10) && (playerY >= gCamera.unk10 - 10)
-        && (playerY <= gCamera.unk14 + 10)) {
+    if ((playerX >= gCamera.minX - 10) && (playerX <= gCamera.maxX + 10) && (playerY >= gCamera.minY - 10)
+        && (playerY <= gCamera.maxY + 10)) {
         gStageData.unkBD = 0;
     } else {
-        gCamera.unk18 = trig->unk34;
-        gCamera.unk10 = trig->unk36;
-        gCamera.unk1C = trig->unk38;
-        gCamera.unk14 = trig->unk3A;
+        gCamera.minX = trig->unk34;
+        gCamera.minY = trig->unk36;
+        gCamera.maxX = trig->unk38;
+        gCamera.maxY = trig->unk3A;
 
         if ((trig->bossId >= 3) && (trig->bossId < 13)) {
             gCurTask->main = Task_803E884;
@@ -283,19 +283,19 @@ void Task_803E818(void)
     const TriggerConsts *tc = &gUnknown_080CFA58[trig->bossId];
 
     if (tc->unk4 != -1) {
-        gCamera.unk18 = tc->unk4;
+        gCamera.minX = tc->unk4;
     }
 
     if (tc->unkC != -1) {
-        gCamera.unk10 = tc->unkC;
+        gCamera.minY = tc->unkC;
     }
 
     if (tc->unk8 != -1) {
-        gCamera.unk1C = tc->unk8;
+        gCamera.maxX = tc->unk8;
     }
 
     if (tc->unk10 != -1) {
-        gCamera.unk14 = tc->unk10;
+        gCamera.maxY = tc->unk10;
     }
 
     TaskDestroy(gCurTask);

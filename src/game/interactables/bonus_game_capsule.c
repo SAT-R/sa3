@@ -246,9 +246,8 @@ void CreateEntity_BonusCapsule(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         sub_803BF20(s, i, frameFlags);
     }
 
-    // Maybe 160 is DISPLAY_HEIGHT?
-    gCamera.unk14 = 160;
-    gCamera.unk1C = 288;
+    gCamera.maxY = DISPLAY_HEIGHT;
+    gCamera.maxX = DISPLAY_WIDTH + 48; // TODO: Why + 48 ?
 }
 
 void TaskDestructor_BonusCapsule(struct Task *t)
