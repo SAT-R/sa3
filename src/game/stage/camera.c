@@ -307,7 +307,7 @@ NONMATCH("asm/non_matching/game/stage/cam__sub_804F740.inc", void sub_804F740(s3
         cam->unk14 = ((DISPLAY_CENTER_Y + 4) << 4);
         cam->unk1C = (DISPLAY_CENTER_X << 4);
     }
-    cam->unk20 = 0x1000;
+    cam->qUnk20 = Q(16);
     cam->unk24 = 0xC;
     cam->unk28 = cam->x;
     cam->unk2C = cam->y;
@@ -338,10 +338,9 @@ NONMATCH("asm/non_matching/game/stage/cam__sub_804F740.inc", void sub_804F740(s3
 END_NONMATCH
 
 #if 0
-void sub_804FE8C(u16 arg0)
+void sub_804FE8C(s16 arg0)
 {
-    Player *p;
-    s16 var_r4;
+    s32 var_r4;
     s32 temp_r0_2;
     s32 temp_r1_2;
     s32 temp_r1_3;
@@ -367,151 +366,150 @@ void sub_804FE8C(u16 arg0)
     s32 var_r1_4;
     s32 var_r1_5;
     s32 var_r1_6;
-    s32 var_r1_7;
-    s32 var_r1_8;
-    s32 var_r2;
+    s32 newX;
+    s32 newY;
     s32 var_r3;
     s32 var_r5;
     s32 var_r6;
-    u16 temp_r0;
-    u16 temp_r1;
-    u16 temp_r2;
+    s32 temp_r1;
+    s32 temp_r2;
+    struct Camera *cam = &gCamera;
+    Player *p = &gPlayers[gStageData.playerIndex];
+    s32 camX = cam->x;
+    s32 camY = cam->y;
 
-    temp_r0 = arg0;
-    p = &gPlayers[gStageData.playerIndex];
 
     if (CURRENT_GAME_MODE != 7) {
         temp_r2 = gUnknown_080D05A8[gStageData.currentLevel][1];
-        if (gCamera.unk14 > temp_r2) {
-            gCamera.unk14 = temp_r2;
+        if (cam->unk14 > temp_r2) {
+            cam->unk14 = temp_r2;
         }
         temp_r1 = gUnknown_080D05A8[gStageData.currentLevel][0];
-        if (gCamera.unk1C > temp_r1) {
-            gCamera.unk1C = temp_r1;
+        if (cam->unk1C > temp_r1) {
+            cam->unk1C = temp_r1;
         }
-        if (gCamera.unk10 > temp_r2) {
-            gCamera.unk10 = 0;
+        if (cam->unk10 > temp_r2) {
+            cam->unk10 = 0;
         }
-        if (gCamera.unk18 > temp_r1) {
-            gCamera.unk18 = 0;
+        if (cam->unk18 > temp_r1) {
+            cam->unk18 = 0;
         }
     }
-    gCamera.dx = gCamera.x;
-    gCamera.dy = gCamera.y;
-    gCamera.unk8 = (p->qCamOffsetX >> 4);
-    gCamera.unkA = (p->qCamOffsetY >> 4);
-    var_r0 = gCamera.unk18;
-    if (((s32)gCamera.x < var_r0) || (var_r0 = gCamera.unk1C - (DISPLAY_WIDTH + 1), var_r1 = gCamera.x, (var_r1 > var_r0))) {
+    cam->dx = camX;
+    cam->dy = camY;
+    cam->unk8 = (p->qCamOffsetX >> 4);
+    cam->unkA = (p->qCamOffsetY >> 4);
+    var_r0 = cam->unk18;
+    if ((camX < var_r0) || (var_r0 = cam->unk1C - (DISPLAY_WIDTH + 1), var_r1 = camX, (var_r1 > var_r0))) {
         var_r1 = var_r0;
     }
     var_r6 = var_r1;
-    var_r0_2 = gCamera.unk10;
-    if (((s32)gCamera.y < var_r0_2) || (var_r0_2 = gCamera.unk14 - (DISPLAY_HEIGHT + 1), var_r1_2 = gCamera.y, (var_r1_2 > var_r0_2))) {
+    var_r0_2 = cam->unk10;
+    if ((camY < var_r0_2) || (var_r0_2 = cam->unk14 - (DISPLAY_HEIGHT + 1), var_r1_2 = camY, (var_r1_2 > var_r0_2))) {
         var_r1_2 = var_r0_2;
     }
     var_r5 = var_r1_2;
-    if ((s16)gCamera.unk5A != 0) {
-        gCamera.unk5A--;
-        var_r2 = temp_r0 << 0x10;
+    if (cam->unk5A != 0) {
+        cam->unk5A--;
     } else {
-        if (!(1 & gCamera.unk5C)) {
-            gCamera.unk28 = (((s32)p->qWorldX >> 8) + gCamera.unk8) - 0x78;
-            temp_r1_2 = (s32)((s16)(u16)p->qSpeedAirX + (gCamera.unk58 * 0xF)) >> 4;
-            gCamera.unk58 = (s16)temp_r1_2;
-            gCamera.unk28 += (s32)(temp_r1_2 << 0x10) >> 0x15;
+        if (!(1 & cam->unk5C)) {
+            s16 qSpeedX = p->qSpeedAirX;
+            cam->unk28 = (I(p->qWorldX) + cam->unk8) - DISPLAY_CENTER_X;
+            cam->unk58 = (qSpeedX + (cam->unk58 * 15)) >> 4;
+            cam->unk28 += (cam->unk58 >> 5);
         }
-        if (!(2 & gCamera.unk5C)) {
-            var_r4 = gCamera.unk66;
-            var_r3 = (s8)(u8)p->spriteOffsetY - 4;
-            if (p->moveState & 0x10000) {
-                var_r3 = 0 - var_r3;
+        if (!(2 & cam->unk5C)) {
+            var_r4 = cam->unk66;
+            var_r3 = p->spriteOffsetY - 4;
+            if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
+                var_r3 = -var_r3;
             }
             if (var_r4 != var_r3) {
-                if ((s32)var_r4 < var_r3) {
+                if (var_r4 < var_r3) {
                     var_r4 += 5;
-                    if ((s32)var_r4 > var_r3) {
-                        goto block_27;
+                    if (var_r4 > var_r3) {
+                            var_r4 = var_r3;
                     }
                 } else {
                     var_r4 -= 5;
-                    if ((s32)var_r4 < var_r3) {
-                    block_27:
-                        var_r4 = (s16)var_r3;
+                    if (var_r4 < var_r3) {
+                        var_r4 = var_r3;
                     }
                 }
-                gCamera.unk66 = var_r4;
+                cam->unk66 = var_r4;
             }
-            gCamera.unk2C = ((s32)p->qWorldY >> 8) + gCamera.unkA + (gCamera.unk40 - 0x50) + var_r4;
+            cam->unk2C = I(p->qWorldY) + cam->unkA + (cam->unk40 - DISPLAY_CENTER_Y) + var_r4;
         }
-        temp_r1_3 = gCamera.unk28 - var_r6;
-        if (temp_r1_3 > (s32)gCamera.unk38) {
-            temp_r2_2 = temp_r1_3 - gCamera.unk38;
-            var_r1_3 = (s32)gCamera.unk20 >> 8;
+        temp_r1_3 = cam->unk28 - var_r6;
+        if (temp_r1_3 > cam->unk38) {
+            temp_r2_2 = temp_r1_3 - cam->unk38;
+            var_r1_3 = cam->qUnk20 >> 8;
             if (var_r1_3 > temp_r2_2) {
                 var_r1_3 = temp_r2_2;
             }
             var_r6 += var_r1_3;
-        } else if ((s64)(temp_r1_3 + gCamera.unk38) < 0) {
-            temp_r1_4 = temp_r1_3 + gCamera.unk38;
-            var_r0_3 = 0 - ((s32)gCamera.unk20 >> 8);
+        } else if (temp_r1_3 < cam->unk38) {
+            temp_r1_4 = temp_r1_3 + cam->unk38;
+            var_r0_3 = -I(cam->qUnk20);
             if (var_r0_3 < temp_r1_4) {
                 var_r0_3 = temp_r1_4;
             }
             var_r6 += var_r0_3;
         }
-        var_r0_4 = gCamera.unk18;
-        if ((var_r6 < var_r0_4) || (var_r0_4 = gCamera.unk1C - 0xF0, var_r1_4 = var_r6, (var_r1_4 > var_r0_4))) {
+        var_r0_4 = cam->unk18;
+        if ((var_r6 < var_r0_4) || (var_r0_4 = cam->unk1C - DISPLAY_WIDTH, var_r1_4 = var_r6, (var_r1_4 > var_r0_4))) {
             var_r1_4 = var_r0_4;
         }
         var_r6 = var_r1_4;
-        if (gCamera.unk20 <= 0xFFF) {
-            gCamera.unk20 += 0x20;
+        if (cam->qUnk20 < Q(16)) {
+            cam->qUnk20 += Q(32. / 256.);
         }
-        if ((p->moveState & 4) && (((0xF & p->unk2A) != 3) || (p->unk2F != 9))) {
-            var_r0_5 = gCamera.unk3C + 4;
-            gCamera.unk3C = var_r0_5;
-            if (var_r0_5 > 0x18) {
-                var_r0_5 = 0x18;
+        if ((p->moveState & 4) && ((p->charFlags.character != KNUCKLES) || (p->charFlags.state0_highValue != 9))) {
+            cam->unk3C += 4;
+            if (cam->unk3C > 24) {
+                cam->unk3C = 24;
             }
-            gCamera.unk3C = var_r0_5;
         } else {
-            var_r0_6 = gCamera.unk3C - 4;
-            gCamera.unk3C = var_r0_6;
-            if (var_r0_6 < 0) {
-                var_r0_6 = 0;
+            cam->unk3C -= 4;
+            if (cam->unk3C < 0) {
+                cam->unk3C = 0;
             }
-            gCamera.unk3C = var_r0_6;
         }
-        temp_r1_5 = gCamera.unk2C - var_r5;
-        if (temp_r1_5 > (s32)gCamera.unk3C) {
-            temp_r0_2 = temp_r1_5 - gCamera.unk3C;
-            var_r1_5 = gCamera.unk24;
+        temp_r1_5 = cam->unk2C - var_r5;
+        if (temp_r1_5 > cam->unk3C) {
+            temp_r0_2 = temp_r1_5 - cam->unk3C;
+            var_r1_5 = cam->unk24;
             if (var_r1_5 > temp_r0_2) {
                 var_r1_5 = temp_r0_2;
             }
             var_r5 += var_r1_5;
-        } else if ((s64)(temp_r1_5 + gCamera.unk3C) < 0) {
-            temp_r1_6 = temp_r1_5 + gCamera.unk3C;
-            var_r0_7 = 0 - gCamera.unk24;
+        } else if (temp_r1_5 < cam->unk3C) {
+            temp_r1_6 = temp_r1_5 + cam->unk3C;
+            var_r0_7 = -cam->unk24;
             if (var_r0_7 < temp_r1_6) {
                 var_r0_7 = temp_r1_6;
             }
             var_r5 += var_r0_7;
         }
-        var_r2 = temp_r0 << 0x10;
-        if (var_r2 == 0) {
-            var_r0_8 = gCamera.unk10;
+
+        if (arg0 == 0) {
+            var_r0_8 = cam->unk10;
             if (var_r5 >= var_r0_8) {
-                goto block_65;
+                var_r0_8 = cam->unk14 - DISPLAY_HEIGHT;
+                var_r1_6 = var_r5;
+                if (var_r1_6 > var_r0_8) {
+                    goto block_66;
+                }
+                var_r1_6 = var_r0_8;     
+            } else {
+                var_r1_6 = cam->unk10;                
             }
-            goto block_66;
-        }
-        var_r0_8 = gCamera.unk10;
-        if (var_r5 >= var_r0_8) {
+            
+        } else if (var_r5 >= (var_r0_8 = cam->unk10)) {
         block_65:
-            var_r0_8 = gCamera.unk14 - 0xA0;
+            var_r0_8 = cam->unk14 - DISPLAY_HEIGHT;
             var_r1_6 = var_r5;
-            if (var_r1_6 > var_r0_8) {
+            if (var_r5 > cam->unk14 - DISPLAY_HEIGHT) {
                 goto block_66;
             }
         } else {
@@ -520,21 +518,26 @@ void sub_804FE8C(u16 arg0)
         }
         var_r5 = var_r1_6;
     }
-    var_r0_9 = gCamera.unk18;
-    if ((var_r6 < var_r0_9) || (var_r0_9 = gCamera.unk1C - 0xF0, var_r1_7 = var_r6, (var_r1_7 > var_r0_9))) {
-        var_r1_7 = var_r0_9;
+    var_r0_9 = cam->unk18;
+    if ((var_r6 < var_r0_9) || (var_r0_9 = cam->unk1C - DISPLAY_WIDTH, newX = var_r6, (newX > var_r0_9))) {
+        newX = var_r0_9;
     }
-    var_r0_10 = gCamera.unk10;
-    if ((var_r5 < var_r0_10) || (var_r0_10 = gCamera.unk14 - 0xA0, var_r1_8 = var_r5, (var_r1_8 > var_r0_10))) {
-        var_r1_8 = var_r0_10;
+    var_r0_10 = cam->unk10;
+    if ((var_r5 < var_r0_10) || (var_r0_10 = cam->unk14 - DISPLAY_HEIGHT, newY = var_r5, (newY > var_r0_10))) {
+        newY = var_r0_10;
     }
-    temp_r6 = var_r1_7 + gCamera.shiftX + gCamera.unk62;
-    temp_r5 = var_r1_8 + gCamera.shiftY + gCamera.unk64;
-    gCamera.x = temp_r6;
-    gCamera.y = temp_r5;
-    if (var_r2 == 0) {
-        gCamera.dx -= temp_r6;
-        gCamera.dy -= temp_r5;
+
+    newX += cam->shiftX;
+    newY += cam->shiftY;
+    newX += cam->unk62;
+    newY += cam->unk64;
+    cam->x = newX;
+    cam->y = newY;
+    
+    if (arg0 == 0) {
+        cam->dx -= newX;
+        cam->dy -= newY;
     }
 }
+
 #endif

@@ -35,14 +35,15 @@ typedef void (*BgUpdate)(s32, s32);
 struct Camera {
     /* 0x00 */ s32 x;
     /* 0x04 */ s32 y;
-    /* 0x08 */ s32 unk8;
+    /* 0x08 */ s16 unk8;
+    /* 0x0A */ s16 unkA;
     /* 0x0C */ s16 shiftX; // x offset?
     /* 0x0E */ s16 shiftY; // y offset?
     /* 0x10 */ s32 unk10;
     /* 0x14 */ s32 unk14;
     /* 0x18 */ s32 unk18;
     /* 0x1C */ s32 unk1C;
-    /* 0x20 */ s32 unk20;
+    /* 0x20 */ s32 qUnk20;
     /* 0x24 */ s32 unk24;
 
     /* 0x28 */ s32 unk28; // some x
@@ -64,8 +65,10 @@ struct Camera {
     ///* 0x52 */ u16 unk52;
     /* 0x54 */ u16 unk54;
     /* 0x56 */ s16 unk56;
-    /* 0x58 */ BgUpdate fnBgUpdate;
-    /* 0x5C */ struct Task *movementTask;
+    /* 0x58 */ s16 unk58;
+    /* 0x5A */ s16 unk5A;
+    /* 0x5C */ u16 unk5C;
+    /* 0x5C */ u8 padding5E[2];
     /* 0x60 */ s16 unk60;
     /* 0x62 */ s16 unk62;
     /* 0x64 */ s16 unk64;

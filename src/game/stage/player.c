@@ -1158,7 +1158,7 @@ void Player_800522C(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -1231,7 +1231,7 @@ void Player_8005380(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -1292,7 +1292,7 @@ void Player_8005528(Player *p)
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
 
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -1361,7 +1361,7 @@ void sub_80056CC(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -1650,7 +1650,7 @@ void Player_8005BD4(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -1734,7 +1734,7 @@ void Player_8005DAC(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -1775,7 +1775,7 @@ void Player_8005E80(Player *p)
 
     p->moveState &= 0xDC510BA1;
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -1871,7 +1871,7 @@ void Player_800613C(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -1923,7 +1923,7 @@ void Player_8006250(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -1963,7 +1963,7 @@ void Player_8006310(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -2006,7 +2006,7 @@ void Player_8006424(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -2073,7 +2073,7 @@ void Player_800657C(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -2115,7 +2115,7 @@ void Player_8006654(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -2146,7 +2146,7 @@ void Player_800673C(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -2180,7 +2180,7 @@ void Player_8006824(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -2223,7 +2223,7 @@ void Player_80068EC(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -2269,7 +2269,7 @@ void Player_80069E4(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -2307,7 +2307,7 @@ void Player_8006AE4(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -2347,7 +2347,7 @@ void Player_8006B8C(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -2420,7 +2420,7 @@ void Player_8006CF0(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -2458,7 +2458,7 @@ void Player_8006DB8(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -2523,7 +2523,7 @@ void Player_8006F08(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -2554,7 +2554,7 @@ void Player_8006F98(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -2589,7 +2589,7 @@ void Player_8007044(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -2628,7 +2628,7 @@ void Player_8007110(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -2655,7 +2655,7 @@ void Player_80071A8(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -2681,7 +2681,7 @@ void Player_8007240(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -2707,7 +2707,7 @@ void Player_80072D8(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -2735,7 +2735,7 @@ void Player_8007368(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -2798,7 +2798,7 @@ void Player_80074B8(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -2876,7 +2876,7 @@ void Player_8007620(Player *p)
                           | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                           | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
         p->charFlags.someFlag0 = 0;
-        p->charFlags.state0_highValue = 0;
+        p->charFlags.SA2_LABEL(unk61) = 0;
         p->unk99 = 0;
         p->unk9A = 0;
         p->qCamOffsetY = 0;
@@ -2945,7 +2945,7 @@ void Player_80077CC(Player *p)
                           | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                           | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
         p->charFlags.someFlag0 = 0;
-        p->charFlags.state0_highValue = 0;
+        p->charFlags.SA2_LABEL(unk61) = 0;
         p->unk99 = 0;
         p->unk9A = 0;
         p->qCamOffsetY = 0;
@@ -3259,7 +3259,7 @@ void Player_8007EAC(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -3319,7 +3319,7 @@ void Player_8007FE8(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -3473,7 +3473,7 @@ void Player_80082BC(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -3727,7 +3727,7 @@ void Player_800872C(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -3832,7 +3832,7 @@ void Player_800891C(Player *p)
                           | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                           | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
         p->charFlags.someFlag0 = 0;
-        p->charFlags.state0_highValue = 0;
+        p->charFlags.SA2_LABEL(unk61) = 0;
         p->unk99 = 0;
         p->unk9A = 0;
         p->qCamOffsetY = 0;
@@ -4038,7 +4038,7 @@ void Player_8008CD0(Player *p)
 
     p->moveState &= 0xDC510BA1;
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     temp_r1_2 = &p->filler6A[0x2F];
     p->unk99 = 0;
     p->unk9A = 0;
@@ -4071,7 +4071,7 @@ void Player_HitWithoutRingsUpdate(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -4130,7 +4130,7 @@ void Player_HitWithoutRings(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -4319,7 +4319,7 @@ void sub_8009518(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -4414,7 +4414,7 @@ void Player_8009780(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -4445,7 +4445,7 @@ void Player_8009850(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -4470,7 +4470,7 @@ void Player_80098D8(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -4690,7 +4690,7 @@ void sub_8009D74(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -4741,7 +4741,7 @@ void Player_8009E8C(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -4786,7 +4786,7 @@ void Player_8009F7C(Player *p, s16 someX, s16 someY)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -4827,7 +4827,7 @@ void Player_800A094(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -4862,7 +4862,7 @@ void Player_800A168(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -4890,7 +4890,7 @@ void Player_800A218(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -5366,7 +5366,7 @@ void Player_UseSpecialSpringWithKey(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -5421,7 +5421,7 @@ void Player_800AD24(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -5461,7 +5461,7 @@ void Player_800AE14(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -5498,7 +5498,7 @@ void Player_800AEF4(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -6110,7 +6110,7 @@ void Player_800BA78(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -6164,7 +6164,7 @@ void sub_800BBA0(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -6224,7 +6224,7 @@ void Player_800BCE0(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -6291,7 +6291,7 @@ void Player_800BE60(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -6313,7 +6313,7 @@ void Player_800BEE8(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -6432,7 +6432,7 @@ void sub_0800C104(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -6808,7 +6808,7 @@ void sub_800C87C(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -6838,7 +6838,7 @@ void sub_800C910(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -6944,7 +6944,7 @@ void sub_800CB5C(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -7011,7 +7011,7 @@ void sub_800CCB0(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -7041,7 +7041,7 @@ void sub_800CD68(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -7288,7 +7288,7 @@ void sub_800D19C(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -7414,7 +7414,7 @@ void sub_800D424(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -7554,7 +7554,7 @@ void sub_800D6EC(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -7649,7 +7649,7 @@ void Player_800D880(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -8673,7 +8673,7 @@ void sub_800EC68(Player *p)
                       | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
                       | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
     p->unk9A = 0;
     p->qCamOffsetY = 0;
@@ -12172,7 +12172,7 @@ void sub_8012BA4(Player *p)
         p->qWorldY += Q(worldY);
     }
     p->moveState &= ~(MOVESTATE_40 | MOVESTATE_IN_AIR | MOVESTATE_2);
-    p->charFlags.state0_highValue = 0;
+    p->charFlags.SA2_LABEL(unk61) = 0;
 
     if (p->charFlags.anim0 > 230) {
         p->charFlags.anim0 = 0;
@@ -13364,7 +13364,7 @@ void sub_80143E0(Player *p)
                     Player_BoostModeEngage(p);
 
                     if (p->charFlags.someIndex == 1) {
-                        gCamera.unk20 = 0x400;
+                        gCamera.qUnk20 = Q(4);
                         Player_PlaySong(p, SE_CHAR_BOOST);
                     }
                 }
@@ -17618,7 +17618,7 @@ void sub_801A3DC(Player *p)
             p->charFlags.anim0 = 219;
     }
     p->charFlags.state1 = 0;
-    p->charFlags.state0_highValue = 1;
+    p->charFlags.SA2_LABEL(unk61) = 1;
     p->qSpeedAirX = 0;
     p->qSpeedAirY = 0;
     Player_BoostModeDisengage(p);
@@ -17649,7 +17649,7 @@ void sub_801A46C(Player *p)
             break;
     }
 
-    p->charFlags.state0_highValue = 1;
+    p->charFlags.SA2_LABEL(unk61) = 1;
     p->qSpeedAirX = 0;
     p->qSpeedAirY = 0;
     Player_BoostModeDisengage(p);
@@ -17749,19 +17749,19 @@ void sub_801A6E0(Player *p)
             return;
         }
     }
-    if ((u8)p->charFlags.state0_highValue != 1) {
+    if ((u8)p->charFlags.SA2_LABEL(unk61) != 1) {
         if (p->qSpeedAirY >= -Q(0.75)) {
             p->qSpeedAirY = p->qSpeedAirY - 24;
 
-            if ((u8)++p->charFlags.state0_highValue == 0x20)
-                p->charFlags.state0_highValue = 1U;
+            if ((u8)++p->charFlags.SA2_LABEL(unk61) == 0x20)
+                p->charFlags.SA2_LABEL(unk61) = 1U;
         } else {
-            p->charFlags.state0_highValue = 1U;
+            p->charFlags.SA2_LABEL(unk61) = 1U;
         }
 
     } else {
         if ((p->keyInput2 & gStageData.buttonConfig.jump) && ((s32)p->qSpeedAirY >= -0xC0) && (p->unk148.arr_s16[0] != 0)) {
-            p->charFlags.state0_highValue = 2U;
+            p->charFlags.SA2_LABEL(unk61) = 2U;
         }
         p->qSpeedAirY = (u16)p->qSpeedAirY + 8;
     }
@@ -17889,7 +17889,7 @@ void sub_801A9EC(Player *p)
     sub_8012FA0(p);
     p->qSpeedAirY = -0x1D4;
     p->charFlags.anim0 = 0xC0;
-    p->charFlags.state0_highValue = 1;
+    p->charFlags.SA2_LABEL(unk61) = 1;
     Player_BoostModeDisengage(p);
     p->moveState |= 0x40004;
     SetPlayerCallback(p, sub_801A5A0);
@@ -17971,7 +17971,7 @@ void sub_801ABA0(Player *p)
         sub_8012FA0(p);
     }
     p->unk148.arr_s16[0] = 0xF0;
-    p->charFlags.state0_highValue = 1;
+    p->charFlags.SA2_LABEL(unk61) = 1;
     sub_8016F28(p);
     Player_BoostModeDisengage(p);
     p->moveState |= 0x40004;
@@ -18092,7 +18092,7 @@ void sub_801ADF4(Player *p)
         Player_8012FE0(p);
     }
     p->unk14C.arr_s16[0] = 120;
-    p->charFlags.state0_highValue = 1;
+    p->charFlags.SA2_LABEL(unk61) = 1;
     Player_BoostModeDisengage(p);
 
     if (p->moveState & 1) {
@@ -18137,7 +18137,7 @@ void sub_801AE70(Player *p)
         p->unk148.arr_u8[0] = 0;
     }
     p->unk14C.arr_s16[0] = 0xF0;
-    p->charFlags.state0_highValue = 1;
+    p->charFlags.SA2_LABEL(unk61) = 1;
     p->charFlags.anim0 = 0xD9;
     Player_BoostModeDisengage(p);
     p->unk26 = 0;
@@ -18359,13 +18359,13 @@ void sub_801B2E4(Player *p)
     if (p->unk14C.arr_s16[0] != 0) {
         p->unk14C.arr_s16[0]--;
     }
-    if ((u8)p->charFlags.state0_highValue != 1) {
-        if ((p->qSpeedAirY < -Q(0.75)) || (p->qSpeedAirY -= 0x18, (u8)++p->charFlags.state0_highValue == 0x20)) {
-            p->charFlags.state0_highValue = 1U;
+    if ((u8)p->charFlags.SA2_LABEL(unk61) != 1) {
+        if ((p->qSpeedAirY < -Q(0.75)) || (p->qSpeedAirY -= 0x18, (u8)++p->charFlags.SA2_LABEL(unk61) == 0x20)) {
+            p->charFlags.SA2_LABEL(unk61) = 1U;
         }
     } else {
         if ((p->keyInput2 & gStageData.buttonConfig.jump) && (p->qSpeedAirY >= -Q(0.75)) && (p->unk14C.arr_s16[0] != 0)) {
-            p->charFlags.state0_highValue = 2U;
+            p->charFlags.SA2_LABEL(unk61) = 2U;
         }
         p->qSpeedAirY += 8;
     }
@@ -18432,13 +18432,13 @@ void sub_801B4CC(Player *p)
     if ((s16)p->unk14C.arr_s16[0] != 0) {
         p->unk14C.arr_s16[0] = (u16)(p->unk14C.arr_s16[0] - 1);
     }
-    if (p->charFlags.state0_highValue != 1) {
-        if ((p->qSpeedAirY < -Q(1.5)) || (p->qSpeedAirY -= 0x30, ++p->charFlags.state0_highValue == 0x20)) {
-            p->charFlags.state0_highValue = 1U;
+    if (p->charFlags.SA2_LABEL(unk61) != 1) {
+        if ((p->qSpeedAirY < -Q(1.5)) || (p->qSpeedAirY -= 0x30, ++p->charFlags.SA2_LABEL(unk61) == 0x20)) {
+            p->charFlags.SA2_LABEL(unk61) = 1U;
         }
     } else {
         if ((p->keyInput2 & gStageData.buttonConfig.jump) && (p->qSpeedAirY >= -Q(1.5)) && (p->unk14C.arr_s16[0] != 0)) {
-            p->charFlags.state0_highValue = 2U;
+            p->charFlags.SA2_LABEL(unk61) = 2U;
         }
         p->qSpeedAirY += 8;
     }
@@ -18533,13 +18533,13 @@ void sub_801B71C(Player *p)
     if (p->unk14C.arr_s16[0] != 0) {
         p->unk14C.arr_s16[0]--;
     }
-    if (p->charFlags.state0_highValue != 1) {
-        if (((s32)p->qSpeedAirY < -Q(1.5)) || (p->qSpeedAirY -= 0x30, ++p->charFlags.state0_highValue == 0x20)) {
-            p->charFlags.state0_highValue = 1U;
+    if (p->charFlags.SA2_LABEL(unk61) != 1) {
+        if (((s32)p->qSpeedAirY < -Q(1.5)) || (p->qSpeedAirY -= 0x30, ++p->charFlags.SA2_LABEL(unk61) == 0x20)) {
+            p->charFlags.SA2_LABEL(unk61) = 1U;
         }
     } else {
         if ((p->keyInput2 & gStageData.buttonConfig.jump) && ((s32)p->qSpeedAirY >= -Q(1.5)) && (p->unk14C.arr_s16[0] != 0)) {
-            p->charFlags.state0_highValue = 2U;
+            p->charFlags.SA2_LABEL(unk61) = 2U;
         }
         p->qSpeedAirY = (u16)p->qSpeedAirY + 8;
     }
@@ -18570,9 +18570,9 @@ void sub_801B824(Player *p)
     if (p->unk14C.arr_s16[0] != 0) {
         p->unk14C.arr_s16[0]--;
     }
-    if (p->charFlags.state0_highValue != 1) {
-        if (((s32)p->qSpeedAirY < -Q(1.5)) || (p->qSpeedAirY = (u16)p->qSpeedAirY - 0x30, ++p->charFlags.state0_highValue == 0x20)) {
-            p->charFlags.state0_highValue = 1U;
+    if (p->charFlags.SA2_LABEL(unk61) != 1) {
+        if (((s32)p->qSpeedAirY < -Q(1.5)) || (p->qSpeedAirY = (u16)p->qSpeedAirY - 0x30, ++p->charFlags.SA2_LABEL(unk61) == 0x20)) {
+            p->charFlags.SA2_LABEL(unk61) = 1U;
         }
     } else {
         p->qSpeedAirY += 8;
@@ -18602,13 +18602,13 @@ void sub_801B8DC(Player *p)
     if ((s16)p->unk14C.arr_s16[0] != 0) {
         p->unk14C.arr_s16[0] = (u16)(p->unk14C.arr_s16[0] - 1);
     }
-    if (p->charFlags.state0_highValue != 1) {
-        if ((p->qSpeedAirY < -Q(0.75)) || (p->qSpeedAirY -= 0x18, ++p->charFlags.state0_highValue == 0x20)) {
-            p->charFlags.state0_highValue = 1U;
+    if (p->charFlags.SA2_LABEL(unk61) != 1) {
+        if ((p->qSpeedAirY < -Q(0.75)) || (p->qSpeedAirY -= 0x18, ++p->charFlags.SA2_LABEL(unk61) == 0x20)) {
+            p->charFlags.SA2_LABEL(unk61) = 1U;
         }
     } else {
         if ((p->keyInput2 & gStageData.buttonConfig.jump) && ((s32)(s16)p->qSpeedAirY >= -0xC0) && ((s16)p->unk14C.arr_s16[0] != 0)) {
-            p->charFlags.state0_highValue = 2U;
+            p->charFlags.SA2_LABEL(unk61) = 2U;
         }
         p->qSpeedAirY += 8;
     }
@@ -18658,13 +18658,13 @@ void sub_801BA2C(Player *p)
     if (p->unk14C.arr_s16[0] != 0) {
         p->unk14C.arr_s16[0]--;
     }
-    if ((u8)p->charFlags.state0_highValue != 1) {
-        if ((p->qSpeedAirY < -Q(1)) || (p->qSpeedAirY -= Q(32. / 256.), ++p->charFlags.state0_highValue == 0x20)) {
-            p->charFlags.state0_highValue = 1U;
+    if ((u8)p->charFlags.SA2_LABEL(unk61) != 1) {
+        if ((p->qSpeedAirY < -Q(1)) || (p->qSpeedAirY -= Q(32. / 256.), ++p->charFlags.SA2_LABEL(unk61) == 0x20)) {
+            p->charFlags.SA2_LABEL(unk61) = 1U;
         }
     } else {
         if ((p->keyInput2 & gStageData.buttonConfig.jump) && (p->qSpeedAirY >= -Q(1)) && (p->unk14C.arr_s16[0] != 0)) {
-            p->charFlags.state0_highValue = 2U;
+            p->charFlags.SA2_LABEL(unk61) = 2U;
         }
         p->qSpeedAirY += Q(8. / 256.);
     }
@@ -18826,7 +18826,7 @@ void sub_801BDD8(Player *p)
         Player_8012FE0(p);
     }
     p->unk14C.arr_s16[0] = 0xF0;
-    p->charFlags.state0_highValue = 1;
+    p->charFlags.SA2_LABEL(unk61) = 1;
     p->qSpeedAirY = 0;
     p->charFlags.anim0 = 0xCE;
     Player_BoostModeDisengage(p);
@@ -18845,7 +18845,7 @@ void sub_801BE40(Player *p)
         Player_8012FE0(p);
     }
     p->unk14C.arr_s16[0] = 0x186;
-    p->charFlags.state0_highValue = 1;
+    p->charFlags.SA2_LABEL(unk61) = 1;
     p->qSpeedAirY = 0;
     p->charFlags.anim0 = 0xCE;
     Player_BoostModeDisengage(p);
@@ -18864,7 +18864,7 @@ void sub_801BEA0(Player *p)
         Player_8012FE0(p);
     }
     p->unk14C.arr_s16[0] = 0x78;
-    p->charFlags.state0_highValue = 1;
+    p->charFlags.SA2_LABEL(unk61) = 1;
     p->qSpeedAirY = -0x200;
     p->qSpeedAirX = 0;
     Player_BoostModeDisengage(p);
@@ -18884,7 +18884,7 @@ void sub_801BF08(Player *p)
         Player_8012FE0(p);
     }
     p->unk14C.arr_s16[0] = 0xF0;
-    p->charFlags.state0_highValue = 1;
+    p->charFlags.SA2_LABEL(unk61) = 1;
     p->charFlags.anim0 = 0xD5;
     Player_BoostModeDisengage(p);
     p->moveState |= 0x40004;
@@ -18903,7 +18903,7 @@ void sub_801BF6C(Player *p)
         Player_8012FE0(p);
     }
     p->unk14C.arr_s16[0] = 0xF0;
-    p->charFlags.state0_highValue = 1;
+    p->charFlags.SA2_LABEL(unk61) = 1;
     p->charFlags.anim0 = 0xD6;
     Player_BoostModeDisengage(p);
     p->moveState = (p->moveState | 0x40004) & ~8;
@@ -20998,7 +20998,7 @@ void sub_801E828(Player *p)
     p->qSpeedAirX = 0;
     p->unk26 = 0;
     p->charFlags.anim0 = 0x105;
-    p->charFlags.state0_highValue = 1;
+    p->charFlags.SA2_LABEL(unk61) = 1;
     Player_BoostModeDisengage(p);
     p->unk148.arr_s16[0] = 0x14;
     p->moveState |= 4;
@@ -21013,7 +21013,7 @@ void sub_801E888(Player *p)
     sub_8012FA0(p);
     p->qSpeedAirY = 0;
     p->charFlags.anim0 = 0x102;
-    p->charFlags.state0_highValue = 1;
+    p->charFlags.SA2_LABEL(unk61) = 1;
     Player_BoostModeDisengage(p);
     p->unk148.arr_s16[0] = 4;
     sub_8017F98(p);
@@ -21027,7 +21027,7 @@ void sub_801E8E0(Player *p)
     sub_8012FA0(p);
     p->qSpeedAirY = 0;
     p->charFlags.anim0 = 0x106;
-    p->charFlags.state0_highValue = 1;
+    p->charFlags.SA2_LABEL(unk61) = 1;
     Player_BoostModeDisengage(p);
     p->moveState |= 0x40004;
     SetPlayerCallback(p, sub_801E5E0);
