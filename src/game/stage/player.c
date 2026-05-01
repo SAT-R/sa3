@@ -270,7 +270,7 @@ extern s16 gUnknown_080CECB2[RSF_COUNT][2];
 extern s16 gUnknown_080CECC6[RSF_COUNT];
 extern s16 gUnknown_080CECD0[NUM_CHARACTERS][2];
 extern s16 gUnknown_080CECE4[NUM_CHARACTERS][2];
-extern u16 gUnknown_080D05A8[][2];
+extern u16 gCameraMaxCoords[][2];
 extern Vec2_16 *gRespawnPositions[];
 
 extern PlayerSpriteInfo gUnknown_030010D0; // Tails
@@ -707,8 +707,8 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
                                 u16 map = gStageData.currentLevel;
                                 gCamera.minX = 0;
                                 gCamera.minY = 0;
-                                gCamera.maxX = gUnknown_080D05A8[map][0];
-                                gCamera.maxY = gUnknown_080D05A8[map][1];
+                                gCamera.maxX = gCameraMaxCoords[map][0];
+                                gCamera.maxY = gCameraMaxCoords[map][1];
                             }
                         }
                     }
@@ -3157,7 +3157,7 @@ void Player_8007C28(Player *p)
         if (p->qWorldX < 0) {
             p->qWorldX = 0;
         } else {
-            var_r0_3 = Q(gUnknown_080D05A8[gStageData.currentLevel][0]) - 1;
+            var_r0_3 = Q(gCameraMaxCoords[gStageData.currentLevel][0]) - 1;
 
             if (p->qWorldX > var_r0_3) {
                 p->qWorldX = var_r0_3;
@@ -3167,7 +3167,7 @@ void Player_8007C28(Player *p)
         if (p->qWorldY < 0) {
             p->qWorldY = 0;
         } else {
-            var_r0_4 = Q(gUnknown_080D05A8[gStageData.currentLevel][1]) - 1;
+            var_r0_4 = Q(gCameraMaxCoords[gStageData.currentLevel][1]) - 1;
 
             if (p->qWorldY > var_r0_4) {
                 p->qWorldY = var_r0_4;
@@ -3184,7 +3184,7 @@ void Player_8007C28(Player *p)
             if (var_r4 < 0) {
                 var_r4 = 0;
             } else {
-                temp_r0_2 = gUnknown_080D05A8[gStageData.currentLevel][0] - 0xF1;
+                temp_r0_2 = gCameraMaxCoords[gStageData.currentLevel][0] - 0xF1;
                 if (var_r4 > temp_r0_2) {
                     var_r4 = temp_r0_2;
                 }
@@ -3192,7 +3192,7 @@ void Player_8007C28(Player *p)
             if (var_r2 < 0) {
                 var_r2 = 0;
             } else {
-                temp_r0_3 = gUnknown_080D05A8[gStageData.currentLevel][1] - 0xA1;
+                temp_r0_3 = gCameraMaxCoords[gStageData.currentLevel][1] - 0xA1;
                 if (var_r2 > temp_r0_3) {
                     var_r2 = temp_r0_3;
                 }
@@ -12911,11 +12911,10 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80136DC.inc", void sub_80136DC
 }
 END_NONMATCH
 
-// (96.70%) https://decomp.me/scratch/pN1OQ
+// (98.49%) https://decomp.me/scratch/wyHoT
 NONMATCH("asm/non_matching/game/stage/player__sub_8013A68.inc", void sub_8013A68(s16 arg0))
 {
     Player *temp_r5;
-    PlayerSpriteInfo *temp_r0;
     Sprite2 *s;
     s32 qSpeedAirX;
     s32 qSpeedAirY;
@@ -12996,7 +12995,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8013A68.inc", void sub_8013A68
         tf->qScaleX = qScaleX;
         tf->qScaleY = qScaleY;
         UpdateSpriteAnimation((Sprite *)s);
-        TransformSprite((Sprite *)s, &temp_r0->tf);
+        TransformSprite((Sprite *)s, tf);
         if (!(MOVESTATE_100 & temp_r5->moveState)) {
             if (temp_r5->moveState & MOVESTATE_4000000) {
                 return;
@@ -14595,8 +14594,8 @@ s32 Player_8015D7C(Player *p)
     s16 i;
 
     if ((gStageData.gameMode != GAME_MODE_MP_MULTI_PACK) || (gStageData.unk4 != 3) || (p->moveState & 0x59000200)
-        || (gCamera.maxX != gUnknown_080D05A8[gStageData.currentLevel][0])
-        || (gCamera.maxY != gUnknown_080D05A8[gStageData.currentLevel][1])) {
+        || (gCamera.maxX != gCameraMaxCoords[gStageData.currentLevel][0])
+        || (gCamera.maxY != gCameraMaxCoords[gStageData.currentLevel][1])) {
         return FALSE;
     }
     memcpy(&callbacks, &gUnknown_080CE6CC, sizeof(callbacks));

@@ -691,7 +691,7 @@ _0804FD0E:
 	ldrb r0, [r5, #3]
 	cmp r0, #7
 	beq _0804FD34
-	ldr r1, _0804FD30 @ =gUnknown_080D05A8
+	ldr r1, _0804FD30 @ =gCameraMaxCoords
 	adds r0, r1, #2
 	add r0, sb
 	ldrh r0, [r0]
@@ -704,7 +704,7 @@ _0804FD0E:
 	.align 2, 0
 _0804FD28: .4byte gRefCollision
 _0804FD2C: .4byte CollHeader_85D8C64_fg
-_0804FD30: .4byte gUnknown_080D05A8
+_0804FD30: .4byte gCameraMaxCoords
 _0804FD34:
 	movs r0, #0xa8
 	lsls r0, r0, #3

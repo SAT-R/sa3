@@ -514,7 +514,7 @@ _080049D4:
 	ldr r3, _08004A00 @ =gCamera
 	str r6, [r3, #0x18]
 	str r6, [r3, #0x10]
-	ldr r1, _08004A04 @ =gUnknown_080D05A8
+	ldr r1, _08004A04 @ =gCameraMaxCoords
 	lsls r2, r2, #2
 	adds r0, r2, r1
 	ldrh r0, [r0]
@@ -526,7 +526,7 @@ _080049D4:
 	b _08004AA4
 	.align 2, 0
 _08004A00: .4byte gCamera
-_08004A04: .4byte gUnknown_080D05A8
+_08004A04: .4byte gCameraMaxCoords
 _08004A08:
 	movs r6, #0x80
 	lsls r6, r6, #0x10

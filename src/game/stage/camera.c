@@ -8,6 +8,40 @@
 #include "constants/tilemaps.h"
 #include "constants/zones.h"
 
+// From SA2 - Start
+#define STGBG_SCRN_DIM(w, h, charBase, screenBase)                                                                                         \
+    {                                                                                                                                      \
+        ((w) / TILE_WIDTH), ((h) / TILE_WIDTH), charBase, screenBase                                                                       \
+    }
+#define STGBG_WIDTH(arr)      ((arr)[0])
+#define STGBG_HEIGHT(arr)     ((arr)[1])
+#define STGBG_CHARBASE(arr)   ((arr)[2])
+#define STGBG_SCREENBASE(arr) ((arr)[3])
+
+#define CAMBG_MAP_FRONT_LAYER 0
+#define CAMBG_MAP_BACK_LAYER  1
+#define CAMBG_BACK_A_LAYER    2
+#define CAMBG_BACK_B_LAYER    3
+
+#if !WIDESCREEN_HACK
+#define SCREENBASE_SKY_CANYON_CLOUDS 27
+#define CAM_SCREENBASE_BACK_A        28
+#define CAM_SCREENBASE_BACK_B        29
+#define CAM_SCREENBASE_BACK_C        26
+#define CAM_SCREENBASE_MAP_FRONT     30
+#define CAM_SCREENBASE_MAP_BACK      31
+
+#else
+#define SCREENBASE_SKY_CANYON_CLOUDS 27
+
+#define CAM_SCREENBASE_BACK_A    48
+#define CAM_SCREENBASE_BACK_B    50
+#define CAM_SCREENBASE_BACK_C    58
+#define CAM_SCREENBASE_MAP_FRONT 52
+#define CAM_SCREENBASE_MAP_BACK  56
+#endif
+// From SA2 - End
+
 enum {
     BGID_BACKGROUND_HI = 0,
     BGID_STAGE_HI = 1,
@@ -30,9 +64,6 @@ typedef struct CamBgFuncs {
 
 struct Camera gCamera = { 0 };
 Background ALIGNED(16) gStageBackgroundsRam[BGID_COUNT] = { 0 };
-extern Background gStageCameraBgTemplates[];
-extern const u16 gUnknown_080D05A8[][2];
-extern const CamBgFuncs sBackgroundProcs[];
 extern const Collision CollHeader_85D8C64_fg;
 
 void sub_80510F8(void);
@@ -46,6 +77,396 @@ void Task_80517B8(void);
 void TaskDestructor_805116C(struct Task *t);
 void TaskDestructor_80511A4(struct Task *t);
 
+// BG Init/Update procs
+void sub_8050628(void);
+void sub_805068C(void);
+void sub_80506E8(void);
+void sub_80512D8(void);
+void sub_805130C(void);
+void sub_805146C(void);
+void sub_80514A0(void);
+void sub_8050570(void);
+void sub_805129C(void);
+void sub_80505CC(void);
+void sub_80512AC(void);
+void sub_8050440(void);
+void sub_80512F4(void);
+void sub_8050628(void);
+void sub_8051344(void);
+void sub_8050804(void);
+void sub_80514C0(void);
+void sub_8050804(void);
+void sub_80514C0(void);
+void sub_8050804(void);
+void sub_80514C0(void);
+void sub_8050570(void);
+void sub_805129C(void);
+void sub_80505CC(void);
+void sub_80512AC(void);
+void sub_8050628(void);
+void sub_805137C(void);
+void sub_8050864(void);
+void sub_80508D4(void);
+void sub_8050864(void);
+void sub_80508D4(void);
+void sub_8050864(void);
+void sub_80508D4(void);
+void sub_8050570(void);
+void sub_805129C(void);
+void sub_80505CC(void);
+void sub_80512AC(void);
+void sub_8050628(void);
+void sub_80513B4(void);
+void sub_80509B4(void);
+void sub_8050A0C(void);
+void sub_80509B4(void);
+void sub_8050A0C(void);
+void sub_80509B4(void);
+void sub_8050A0C(void);
+void sub_80511E4(void);
+void sub_8051514(void);
+void sub_8050570(void);
+void sub_805129C(void);
+void sub_80505CC(void);
+void sub_80512AC(void);
+void sub_8050628(void);
+void sub_80513EC(void);
+void sub_8050B14(void);
+void sub_8050B84(void);
+void sub_8050B14(void);
+void sub_8050B84(void);
+void sub_8050B14(void);
+void sub_8050B84(void);
+void sub_8050CA4(void);
+void sub_8051534(void);
+void sub_8050570(void);
+void sub_805129C(void);
+void sub_80505CC(void);
+void sub_80512AC(void);
+void sub_8050628(void);
+void sub_80513FC(void);
+void sub_805120C(void);
+void sub_8050D40(void);
+void sub_805120C(void);
+void sub_8050D40(void);
+void sub_805120C(void);
+void sub_8050D40(void);
+void sub_8050570(void);
+void sub_805129C(void);
+void sub_80505CC(void);
+void sub_80512AC(void);
+void sub_8050628(void);
+void sub_8051418(void);
+void sub_8050E18(void);
+void sub_8051558(void);
+void sub_8050E18(void);
+void sub_80515A0(void);
+void sub_8050E18(void);
+void sub_8050E78(void);
+void sub_8051250(void);
+void sub_80515FC(void);
+void sub_8050570(void);
+void sub_805129C(void);
+void sub_80505CC(void);
+void sub_80512AC(void);
+void sub_8051634(void);
+void sub_8051660(void);
+void sub_8051094(void);
+void sub_8051664(void);
+
+const Background gStageCameraBgTemplates[4] = {
+    [CAMBG_MAP_FRONT_LAYER] = {
+        .graphics = {  
+            .src = NULL,  
+            .dest = (void*)BG_VRAM,  
+            .size = 0,  
+            .anim = 0,
+        },
+        .layoutVram = (void*)BG_SCREEN_ADDR(CAM_SCREENBASE_MAP_FRONT),
+        .layout = NULL,
+        .xTiles = 0,
+        .yTiles = 0,
+        .unk18 = 0,
+        .unk1A = 0,
+        .tilemapId = 0,
+        .unk1E = 0,
+        .unk20 = 0,
+        .unk22 = 0,
+        .unk24 = 0,
+#if (GAME <= GAME_SA2)
+        .targetTilesX = (DISPLAY_WIDTH / TILE_WIDTH) + 1,
+        .targetTilesY = (DISPLAY_HEIGHT / TILE_WIDTH) + 1,
+#elif (GAME == GAME_SA3)
+        .targetTilesX = (256 / TILE_WIDTH),
+        .targetTilesY = (256 / TILE_WIDTH),
+#endif
+        .paletteOffset = 0,
+        .animFrameCounter = 0,
+        .animDelayCounter = 0,
+        .flags = BACKGROUND_FLAG_IS_LEVEL_MAP | BACKGROUND_FLAG_20 | BACKGROUND_DISABLE_PALETTE_UPDATE | BACKGROUND_DISABLE_TILESET_UPDATE | BACKGROUND_FLAGS_BG_ID(1),
+        .scrollX = 0,
+        .scrollY = 0,
+        .prevScrollX = 32767,
+        .prevScrollY = 32767,
+        .metatileMap = NULL,
+        .mapWidth = 0,
+        .mapHeight = 0,
+    },
+    [CAMBG_MAP_BACK_LAYER] = {
+        .graphics = {  
+            .src = NULL,  
+            .dest = (void*)BG_VRAM,  
+            .size = 0,  
+            .anim = 0,
+        },
+        .layoutVram = (void*)BG_SCREEN_ADDR(CAM_SCREENBASE_MAP_BACK),
+        .layout = NULL,
+        .xTiles = 0,
+        .yTiles = 0,
+        .unk18 = 0,
+        .unk1A = 0,
+        .tilemapId = 0,
+        .unk1E = 0,
+        .unk20 = 0,
+        .unk22 = 0,
+        .unk24 = 0,
+#if (GAME <= GAME_SA2)
+        .targetTilesX = (DISPLAY_WIDTH / TILE_WIDTH) + 1,
+        .targetTilesY = (DISPLAY_HEIGHT / TILE_WIDTH) + 1,
+#elif (GAME == GAME_SA3)
+        .targetTilesX = (256 / TILE_WIDTH),
+        .targetTilesY = (256 / TILE_WIDTH),
+#endif
+        .paletteOffset = 0,
+        .animFrameCounter = 0,
+        .animDelayCounter = 0,
+        .flags = BACKGROUND_FLAG_IS_LEVEL_MAP | BACKGROUND_FLAG_20 | BACKGROUND_FLAGS_BG_ID(2),
+        .scrollX = 0,
+        .scrollY = 0,
+        .prevScrollX = 32767,
+        .prevScrollY = 32767,
+        .metatileMap = NULL,
+        .mapWidth = 0,
+        .mapHeight = 0,
+    },
+    [CAMBG_BACK_A_LAYER] = {
+        .graphics = {  
+            .src = NULL,  
+            .dest = (void*)BG_SCREEN_ADDR(16),  
+            .size = 0,  
+            .anim = 0,
+        },
+        .layoutVram = (void*)BG_SCREEN_ADDR(CAM_SCREENBASE_BACK_B),
+        .layout = NULL,
+        .xTiles = 0,
+        .yTiles = 0,
+        .unk18 = 0,
+        .unk1A = 0,
+        .tilemapId = 0,
+        .unk1E = 0,
+        .unk20 = 0,
+        .unk22 = 0,
+        .unk24 = 0,
+        .targetTilesX = 32,
+        .targetTilesY = 32,
+        .paletteOffset = 0,
+        .animFrameCounter = 0,
+        .animDelayCounter = 0,
+        .flags = BACKGROUND_DISABLE_PALETTE_UPDATE | BACKGROUND_FLAGS_BG_ID(3),
+        .scrollX = 0,
+        .scrollY = 0,
+        .prevScrollX = 32767,
+        .prevScrollY = 32767,
+        .metatileMap = NULL,
+        .mapWidth = 0,
+        .mapHeight = 0,
+    },
+    [CAMBG_BACK_B_LAYER] = {
+        .graphics = {  
+            .src = NULL,  
+            .dest = (void*)BG_CHAR_ADDR(3),  
+            .size = 0,  
+            .anim = 0,
+        },
+        .layoutVram = (void*)BG_SCREEN_ADDR(CAM_SCREENBASE_BACK_A),
+        .layout = NULL,
+        .xTiles = 0,
+        .yTiles = 0,
+        .unk18 = 0,
+        .unk1A = 0,
+        .tilemapId = 0,
+        .unk1E = 0,
+        .unk20 = 0,
+        .unk22 = 0,
+        .unk24 = 0,
+        .targetTilesX = 32,
+        .targetTilesY = 32,
+        .paletteOffset = 0,
+        .animFrameCounter = 0,
+        .animDelayCounter = 0,
+        .flags = BACKGROUND_DISABLE_PALETTE_UPDATE | BACKGROUND_FLAGS_BG_ID(0),
+        .scrollX = 0,
+        .scrollY = 0,
+        .prevScrollX = 32767,
+        .prevScrollY = 32767,
+        .metatileMap = NULL,
+        .mapWidth = 0,
+        .mapHeight = 0,
+    },
+};
+
+const u16 gCameraMaxCoords[NUM_LEVEL_IDS][2] = {
+    /*        maxX,   maxY */
+    [0] = { 0x0000, 0x0000 }, //
+    [1] = { 0x0240, 0x0120 }, //
+    [2] = { 0x0B40, 0x0360 }, //
+    [3] = { 0x3300, 0x0CC0 }, //
+    [4] = { 0x3660, 0x0B40 }, //
+    [5] = { 0x3420, 0x0D20 }, //
+    [6] = { 0x0000, 0x0000 }, //
+    [7] = { 0x0960, 0x0120 }, //
+    [8] = { 0x0120, 0x00C0 }, //
+    [9] = { 0x0420, 0x03C0 }, //
+    [10] = { 0x0000, 0x0000 }, //
+    [11] = { 0x02A0, 0x0120 }, //
+    [12] = { 0x0660, 0x0480 }, //
+    [13] = { 0x3A20, 0x0960 }, //
+    [14] = { 0x2340, 0x0A20 }, //
+    [15] = { 0x1D40, 0x0C60 }, //
+    [16] = { 0x0000, 0x0000 }, //
+    [17] = { 0x0840, 0x01E0 }, //
+    [18] = { 0x0120, 0x00C0 }, //
+    [19] = { 0x0420, 0x03C0 }, //
+    [20] = { 0x0000, 0x0000 }, //
+    [21] = { 0x0000, 0x0000 }, //
+    [22] = { 0x05A0, 0x06C0 }, //
+    [23] = { 0x14A0, 0x1860 }, //
+    [24] = { 0x1680, 0x1860 }, //
+    [25] = { 0x1860, 0x0F60 }, //
+    [26] = { 0x0000, 0x0000 }, //
+    [27] = { 0x0840, 0x0120 }, //
+    [28] = { 0x0120, 0x00C0 }, //
+    [29] = { 0x0360, 0x0480 }, //
+    [30] = { 0x0000, 0x0000 }, //
+    [31] = { 0x0000, 0x0000 }, //
+    [32] = { 0x0660, 0x0600 }, //
+    [33] = { 0x3420, 0x0D80 }, //
+    [34] = { 0x37E0, 0x0C60 }, //
+    [35] = { 0x1FE0, 0x0B40 }, //
+    [36] = { 0x0000, 0x0000 }, //
+    [37] = { 0x08A0, 0x0120 }, //
+    [38] = { 0x0120, 0x00C0 }, //
+    [39] = { 0x0300, 0x0420 }, //
+    [40] = { 0x0000, 0x0000 }, //
+    [41] = { 0x0000, 0x0000 }, //
+    [42] = { 0x0600, 0x0540 }, //
+    [43] = { 0x3480, 0x0D80 }, //
+    [44] = { 0x33C0, 0x0F60 }, //
+    [45] = { 0x4B00, 0x0BA0 }, //
+    [46] = { 0x0000, 0x0000 }, //
+    [47] = { 0x07E0, 0x0660 }, //
+    [48] = { 0x0120, 0x00C0 }, //
+    [49] = { 0x04E0, 0x0300 }, //
+    [50] = { 0x0000, 0x0000 }, //
+    [51] = { 0x0000, 0x0000 }, //
+    [52] = { 0x0720, 0x0600 }, //
+    [53] = { 0x3CC0, 0x0A80 }, //
+    [54] = { 0x3240, 0x0960 }, //
+    [55] = { 0x32A0, 0x0660 }, //
+    [56] = { 0x0000, 0x0000 }, //
+    [57] = { 0x09C0, 0x01E0 }, //
+    [58] = { 0x0120, 0x00C0 }, //
+    [59] = { 0x0420, 0x03C0 }, //
+    [60] = { 0x0000, 0x0000 }, //
+    [61] = { 0x0000, 0x0000 }, //
+    [62] = { 0x0780, 0x0600 }, //
+    [63] = { 0x4380, 0x0F00 }, //
+    [64] = { 0x5520, 0x1020 }, //
+    [65] = { 0x2EE0, 0x0780 }, //
+    [66] = { 0x0000, 0x0000 }, //
+    [67] = { 0x06C0, 0x0420 }, //
+    [68] = { 0x0120, 0x00C0 }, //
+    [69] = { 0x0420, 0x0420 }, //
+    [70] = { 0x0000, 0x0000 }, //
+    [71] = { 0x0960, 0x0120 }, //
+    [72] = { 0x0B40, 0x00F0 }, //
+};
+
+const CamBgFuncs sBackgroundProcs[NUM_LEVEL_IDS] = {
+    [0] = { NULL, NULL }, //
+    [1] = { sub_805068C, sub_80512D8 }, //
+    [2] = { sub_8050628, sub_805130C }, //
+    [3] = { sub_805068C, sub_80506E8 }, //
+    [4] = { sub_805068C, sub_80506E8 }, //
+    [5] = { sub_805068C, sub_80506E8 }, //
+    [6] = { NULL, NULL }, //
+    [7] = { sub_805146C, sub_80514A0 }, //
+    [8] = { sub_8050570, sub_805129C }, //
+    [9] = { sub_80505CC, sub_80512AC }, //
+    [10] = { NULL, NULL }, //
+    [11] = { sub_8050440, sub_80512F4 }, //
+    [12] = { sub_8050628, sub_8051344 }, //
+    [13] = { sub_8050804, sub_80514C0 }, //
+    [14] = { sub_8050804, sub_80514C0 }, //
+    [15] = { sub_8050804, sub_80514C0 }, //
+    [16] = { NULL, NULL }, //
+    [17] = { NULL, NULL }, //
+    [18] = { sub_8050570, sub_805129C }, //
+    [19] = { sub_80505CC, sub_80512AC }, //
+    [20] = { NULL, NULL }, //
+    [21] = { NULL, NULL }, //
+    [22] = { sub_8050628, sub_805137C }, //
+    [23] = { sub_8050864, sub_80508D4 }, //
+    [24] = { sub_8050864, sub_80508D4 }, //
+    [25] = { sub_8050864, sub_80508D4 }, //
+    [26] = { NULL, NULL }, //
+    [27] = { NULL, NULL }, //
+    [28] = { sub_8050570, sub_805129C }, //
+    [29] = { sub_80505CC, sub_80512AC }, //
+    [30] = { NULL, NULL }, //
+    [31] = { NULL, NULL }, //
+    [32] = { sub_8050628, sub_80513B4 }, //
+    [33] = { sub_80509B4, sub_8050A0C }, //
+    [34] = { sub_80509B4, sub_8050A0C }, //
+    [35] = { sub_80509B4, sub_8050A0C }, //
+    [36] = { NULL, NULL }, //
+    [37] = { sub_80511E4, sub_8051514 }, //
+    [38] = { sub_8050570, sub_805129C }, //
+    [39] = { sub_80505CC, sub_80512AC }, //
+    [40] = { NULL, NULL }, //
+    [41] = { NULL, NULL }, //
+    [42] = { sub_8050628, sub_80513EC }, //
+    [43] = { sub_8050B14, sub_8050B84 }, //
+    [44] = { sub_8050B14, sub_8050B84 }, //
+    [45] = { sub_8050B14, sub_8050B84 }, //
+    [46] = { NULL, NULL }, //
+    [47] = { sub_8050CA4, sub_8051534 }, //
+    [48] = { sub_8050570, sub_805129C }, //
+    [49] = { sub_80505CC, sub_80512AC }, //
+    [50] = { NULL, NULL }, //
+    [51] = { NULL, NULL }, //
+    [52] = { sub_8050628, sub_80513FC }, //
+    [53] = { sub_805120C, sub_8050D40 }, //
+    [54] = { sub_805120C, sub_8050D40 }, //
+    [55] = { sub_805120C, sub_8050D40 }, //
+    [56] = { NULL, NULL }, //
+    [57] = { NULL, NULL }, //
+    [58] = { sub_8050570, sub_805129C }, //
+    [59] = { sub_80505CC, sub_80512AC }, //
+    [60] = { NULL, NULL }, //
+    [61] = { NULL, NULL }, //
+    [62] = { sub_8050628, sub_8051418 }, //
+    [63] = { sub_8050E18, sub_8051558 }, //
+    [64] = { sub_8050E18, sub_80515A0 }, //
+    [65] = { sub_8050E18, sub_8050E78 }, //
+    [66] = { NULL, NULL }, //
+    [67] = { sub_8051250, sub_80515FC }, //
+    [68] = { sub_8050570, sub_805129C }, //
+    [69] = { sub_80505CC, sub_80512AC }, //
+    [70] = { NULL, NULL }, //
+    [71] = { sub_8051634, sub_8051660 }, //
+    [72] = { sub_8051094, sub_8051664 }, //
+};
 const u16 gUnknown_080D0914[] = { 455, 456, 457, 458, 459, 460 };
 const u16 gUnknown_080D0920[] = { 461, 462, 463, 464, 465, 466 };
 const s8 gUnknown_080D092C[] = { 0x01, 0x01, 0x02, 0x03, 0x03, 0x03, 0x02, 0x03, 0x03, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04,
@@ -313,8 +734,8 @@ NONMATCH("asm/non_matching/game/stage/cam__InitCamera.inc", void InitCamera(s32 
         cam->y = 0;
     }
     if (CURRENT_GAME_MODE != 7) {
-        cam->maxY = gUnknown_080D05A8[level][1];
-        cam->maxX = gUnknown_080D05A8[level][0];
+        cam->maxY = gCameraMaxCoords[level][1];
+        cam->maxX = gCameraMaxCoords[level][0];
     } else {
         cam->maxY = ((DISPLAY_CENTER_Y + 4) << 4);
         cam->maxX = (DISPLAY_CENTER_X << 4);
@@ -368,11 +789,11 @@ void UpdateCamera(s16 arg0)
     s32 newY = cam->y;
 
     if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
-        temp_r2 = gUnknown_080D05A8[gStageData.currentLevel][1];
+        temp_r2 = gCameraMaxCoords[gStageData.currentLevel][1];
         if (cam->maxY > temp_r2) {
             cam->maxY = temp_r2;
         }
-        temp_r1 = gUnknown_080D05A8[gStageData.currentLevel][0];
+        temp_r1 = gCameraMaxCoords[gStageData.currentLevel][0];
         if (cam->maxX > temp_r1) {
             cam->maxX = temp_r1;
         }

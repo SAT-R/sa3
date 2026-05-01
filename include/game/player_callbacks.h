@@ -567,6 +567,6 @@ extern void sub_80293E8(Player *p);
 
 extern u16 gMedalTimes[][2];
 extern u16 gUnknown_080CE5CA[10];
-extern u16 gUnknown_080D05A8[][2];
+extern u16 gCameraMaxCoords[][2];
 
 #endif // GUARD_SA3_PLAYER_CALLBACKS_H
