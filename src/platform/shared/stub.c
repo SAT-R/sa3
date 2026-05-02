@@ -77,40 +77,7 @@ void sub_80299FC() { }
 void sub_8029A18() { }
 void sub_80275B8(u32 level, u8 param1, u8 param2) { }
 void TaskDestructor_8029774(struct Task *t) { }
-void sub_80509B4() { }
-void sub_8050A0C() { }
-void sub_8050B14() { }
-void sub_8050B84() { }
-void sub_8050CA4() { }
-void sub_8050D40() { }
-void sub_8050E18() { }
-void sub_8050E78() { }
-void sub_8051094() { }
-void sub_80511E4() { }
-void sub_805120C() { }
-void sub_8051250() { }
-void sub_805129C() { }
-void sub_80512AC() { }
-void sub_80512D8() { }
-void sub_80512F4() { }
-void sub_805130C() { }
-void sub_8051344() { }
-void sub_805137C() { }
-void sub_80513B4() { }
-void sub_80513EC() { }
-void sub_80513FC() { }
-void sub_8051418() { }
-void sub_8051514() { }
-void sub_8051534() { }
-void sub_8051558() { }
-void sub_80515A0() { }
-void sub_8051634() { }
-void sub_8051664() { }
-void sub_805146C() { }
-void sub_80514A0() { }
-void sub_80514C0() { }
-void sub_80515FC() { }
-void sub_8051660() { }
+
 void sub_80517FC() { }
 void sub_80519EC() { }
 void sub_8051F54() { }
@@ -326,7 +293,6 @@ void sub_80264F0() { }
 void sub_8026720() { }
 void sub_80275F0() { }
 void sub_8028850() { }
-void sub_8051140() { }
 void sub_8056090() { }
 void sub_809BFE8() { }
 void sub_805235C() { }
@@ -337,13 +303,3 @@ void sub_8057ECC() { }
 void sub_8081C80() { }
 
 const Collision *gRefCollision = NULL;
-void sub_80510F8() { }
-void Task_8051688() { }
-void Task_80516C0() { }
-void Task_80516CC() { }
-void Task_80516D8() { }
-void TaskDestructor_805116C() { }
-void Task_8051748() { }
-void Task_80517B8() { }
-void Task_8051668() { }
-void TaskDestructor_80511A4() { }
