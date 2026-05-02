@@ -911,3 +911,125 @@ void UpdateCamera(s16 arg0)
         cam->dy -= newY;
     }
 }
+
+// TODO: Comparing UpdateCamera and UpdateCameraMultiplayer() could lead to some cleaner code?
+//       The latter was derived from the former.
+void UpdateCameraMultiplayer(s16 arg0)
+{
+    s32 temp_r0_2;
+    s32 temp_r1_4;
+    s32 temp_r1_6;
+    s32 temp_r2_2;
+    s32 var_r0;
+    s32 var_r0_3;
+    s32 var_r0_7;
+    s32 var_r1_3;
+    s32 var_r1_5;
+    s32 temp_r1;
+    s32 temp_r2;
+    struct Camera *cam = &gCamera;
+    Player *p = &gPlayers[gStageData.playerIndex];
+    s32 newX = cam->x;
+    s32 newY = cam->y;
+
+    cam->dx = newX;
+    cam->dy = newY;
+    cam->shiftX = (p->qCamOffsetX >> 4);
+    cam->shiftY = (p->qCamOffsetY >> 4);
+
+    newX = CLAMP(newX, cam->minX, cam->maxX - (DISPLAY_WIDTH + 1));
+    newY = CLAMP(newY, cam->minY, cam->maxY - (DISPLAY_HEIGHT + 1));
+
+    if (cam->SA2_LABEL(unk40) != 0) {
+        cam->SA2_LABEL(unk40)--;
+    } else {
+        if (!(cam->SA2_LABEL(unk50) & 1)) {
+            s32 playerCharX;
+            cam->SA2_LABEL(unk10) = (gStageData.timer * 4 % 0xA50u) & ~0x3;
+            playerCharX = ((gStageData.playerIndex * 4) + 4);
+            if((cam->SA2_LABEL(unk10) < playerCharX) && (cam->unk6A == 0)) {
+                cam->unk6A = -0xA50;
+                cam->x = cam->SA2_LABEL(unk10);
+                newX = 0;
+            } else {
+                cam->unk6A = 0;
+            }
+        }
+        if (!(cam->SA2_LABEL(unk50) & 2)) {
+            s32 unk64 = cam->SA2_LABEL(unk64);
+            s32 temp8 = p->spriteOffsetY - 4;
+            if (unk64 != temp8) {
+                if (unk64 < temp8) {
+                    unk64 += 5;
+                    if (unk64 > temp8) {
+                        unk64 = temp8;
+                    }
+                } else {
+                    unk64 -= 5;
+                    if (unk64 < temp8) {
+                        unk64 = temp8;
+                    }
+                }
+                cam->SA2_LABEL(unk64) = unk64;
+            }
+            cam->SA2_LABEL(unk14) = I(p->qWorldY) + cam->shiftY - DISPLAY_CENTER_Y + cam->unk40 + unk64;
+        }
+
+        if (cam->SA2_LABEL(unk10) - cam->x > cam->SA2_LABEL(unk44)) {
+            temp_r2_2 = cam->SA2_LABEL(unk10) - cam->x - cam->SA2_LABEL(unk44);
+            var_r1_3 = cam->SA2_LABEL(qUnk8) >> 8;
+            if (var_r1_3 > temp_r2_2) {
+                var_r1_3 = temp_r2_2;
+            }
+            newX += var_r1_3;
+        } else if ((cam->SA2_LABEL(unk10) - cam->x ) < -cam->SA2_LABEL(unk44)) {
+            temp_r1_4 = cam->SA2_LABEL(unk10) - cam->x + cam->SA2_LABEL(unk44);
+            var_r0_3 = -I(cam->SA2_LABEL(qUnk8));
+            if (var_r0_3 < temp_r1_4) {
+                var_r0_3 = temp_r1_4;
+            }
+            newX += var_r0_3;
+        }
+        newX = CLAMP(newX, cam->minX, cam->maxX - DISPLAY_WIDTH);
+
+        if (cam->SA2_LABEL(qUnk8) < Q(16)) {
+            cam->SA2_LABEL(qUnk8) += Q(0.125);
+        }
+        if ((p->moveState & MOVESTATE_IN_AIR) && ((p->charFlags.character != KNUCKLES) || (p->charFlags.SA2_LABEL(unk61) != 9))) {
+            cam->SA2_LABEL(unk48) += 4;
+            cam->SA2_LABEL(unk48) = MIN(cam->SA2_LABEL(unk48), 24);
+        } else {
+            cam->SA2_LABEL(unk48) -= 4;
+            cam->SA2_LABEL(unk48) = MAX(cam->SA2_LABEL(unk48), 0);
+        }
+
+        if ((cam->SA2_LABEL(unk14) - newY) > cam->SA2_LABEL(unk48)) {
+            temp_r0_2 = (cam->SA2_LABEL(unk14) - newY) - cam->SA2_LABEL(unk48);
+            var_r1_5 = cam->SA2_LABEL(unkC);
+            if (var_r1_5 > temp_r0_2) {
+                var_r1_5 = temp_r0_2;
+            }
+            newY += var_r1_5;
+        } else if ((cam->SA2_LABEL(unk14) - newY) < -cam->SA2_LABEL(unk48)) {
+            temp_r1_6 = (cam->SA2_LABEL(unk14) - newY) + cam->SA2_LABEL(unk48);
+            var_r0_7 = -cam->SA2_LABEL(unkC);
+            if (var_r0_7 < temp_r1_6) {
+                var_r0_7 = temp_r1_6;
+            }
+            newY += var_r0_7;
+        }
+
+        newY = CLAMP(newY, cam->minY, cam->maxY - DISPLAY_HEIGHT);
+        
+    }
+
+    newX = CLAMP(newX, cam->minX, cam->maxX - DISPLAY_WIDTH);
+    newY = CLAMP(newY, cam->minY, cam->maxY - DISPLAY_HEIGHT);
+
+    newX += cam->unkC;
+    newY += cam->unkE;
+    newX += cam->unk62;
+    newY += cam->unk64;
+    cam->x = newX;
+    cam->y = newY;
+}
