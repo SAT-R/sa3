@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
 //#include "sprite.h"
 #include "game/camera.h"
 #include "game/stage.h"
@@ -96,6 +97,7 @@ void sub_8050628(void);
 void sub_8051344(void);
 void sub_8050804(void);
 void sub_80514C0(void);
+void sub_8050748(void);
 void sub_8050804(void);
 void sub_80514C0(void);
 void sub_8050804(void);
@@ -1130,34 +1132,18 @@ void sub_80505CC(void)
     DrawBackground(&gStageBackgroundsRam[0]);
 }
 
-#if 01
-#else
-
-void sub_80505CC(void)
-{
-    memcpy(&subroutine_arg0, &gUnknown_080D0920, 0xC);
-    gBgScrollRegs[3][0] = 0;
-    gBgScrollRegs[3][1] = 0;
-    gBgScrollRegs[0][0] = 0;
-    gBgScrollRegs[0][1] = 0;
-    memcpy((? *) &gStageBackgroundsRam, &gStageCameraBgTemplates + 0xC0, 0x40);
-    gStageBackgroundsRam.tilemapId = *((gStageData.language * 2) + sp);
-    sub_8050518();
-    DrawBackground(&gStageBackgroundsRam);
-}
-
 void sub_8050628(void)
 {
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
-    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM0 + 0x8000;
-    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM0 + 0xE000;
-    gBgCntRegs->unk0 = 0x1C0A;
-    gStageBackgroundsRam.unkC4 = BG_VRAM0 + 0xC000;
-    (&gStageBackgroundsRam + 0xC4)->unk8 = BG_VRAM0 + 0xE800;
-    gStageBackgroundsRam.unkE6 = 0x20;
-    (&gStageBackgroundsRam + 0xE6)->unk2 = 0x20;
-    gStageBackgroundsRam.unkEE = 3;
+    gStageBackgroundsRam[0].graphics.dest = (void *)(BG_VRAM + 0x8000);
+    gStageBackgroundsRam[0].layoutVram = (u16 *)(BG_VRAM + 0xE000);
+    gBgCntRegs[0] = 0x1C0A;
+    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0xC000);
+    gStageBackgroundsRam[3].layoutVram = (u16 *)(BG_VRAM + 0xE800);
+    gStageBackgroundsRam[3].targetTilesX = 32;
+    gStageBackgroundsRam[3].targetTilesY = 32;
+    gStageBackgroundsRam[3].flags = 3;
     gBgCntRegs[3] = 0x1D0E;
 }
 
@@ -1167,14 +1153,14 @@ void sub_805068C(void)
     gBgScrollRegs[0][1] = 0;
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
-    gStageBackgroundsRam.unkC4 = BG_VRAM0 + 0xC000;
-    (&gStageBackgroundsRam + 0xC4)->unk8 = BG_VRAM0 + 0xE800;
+    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0xC000);
+    gStageBackgroundsRam[3].layoutVram = (void *)(BG_VRAM + 0xE800);
     gBgCntRegs[3] = 0x1D0E;
-    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM0 + 0x8000;
-    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM0 + 0xA000;
-    gStageBackgroundsRam.targetTilesX = 0x40;
-    gStageBackgroundsRam.targetTilesY = 0x40;
-    gBgCntRegs->unk0 = 0x940A;
+    gStageBackgroundsRam[0].graphics.dest = (void *)(BG_VRAM + 0x8000);
+    gStageBackgroundsRam[0].layoutVram = (u16 *)(BG_VRAM + 0xA000);
+    gStageBackgroundsRam[0].targetTilesX = 64;
+    gStageBackgroundsRam[0].targetTilesY = 64;
+    gBgCntRegs[0] = 0x940A;
 }
 
 void sub_80506E8(void)
@@ -1182,76 +1168,72 @@ void sub_80506E8(void)
     s32 temp_r0;
     u32 var_r0;
 
-    gBgScrollRegs[3][0] = (s16)(u8)((s32)gCamera.x >> 6);
-    gBgScrollRegs[3][1] = (s16)((s32)gCamera.y >> 9);
-    gBgScrollRegs[0][0] = (s16)((u32)(gCamera.x << 0x15) >> 0x17);
-    if ((s32)gCamera.y >= 0) {
-        var_r0 = (u32)gCamera.y >> 3;
-    } else {
-        var_r0 = 0;
-    }
-    gBgScrollRegs[0][1] = (s16)var_r0;
-    temp_r0 = (s32)gCamera.y >> 3;
-    gBgScrollRegs[0][1] = (s16)temp_r0;
-    if ((s32)(temp_r0 << 0x10) < 0) {
+    gBgScrollRegs[3][0] = (gCamera.x >> 6) & 0xFF;
+    gBgScrollRegs[3][1] = (gCamera.y >> 9);
+    gBgScrollRegs[0][0] = ((u32)(gCamera.x << 21) >> 23);
+
+    // TODO: Find out which is the expected behavior?
+    gBgScrollRegs[0][1] = (gCamera.y >= 0) ? (gCamera.y >> 3) : 0;
+    gBgScrollRegs[0][1] = gCamera.y >> 3;
+
+    if (gBgScrollRegs[0][1] < 0) {
         gBgScrollRegs[0][1] = 0;
     }
-    if ((s32)gBgScrollRegs[0][1] > 0x160) {
+    if (gBgScrollRegs[0][1] > 0x160) {
         gBgScrollRegs[0][1] = 0x160;
     }
+
     sub_8050748();
 }
 
-void sub_8050748(void)
+// (99.23%) https://decomp.me/scratch/TLMQt
+NONMATCH("asm/non_matching/game/stage/cam__sub_8050748.inc", void sub_8050748(void))
 {
-    s16 temp_r0_2;
     s16 temp_r3;
     s16 var_r2;
-    s32 temp_r1;
-    s32 var_r0;
-    u32 temp_r0;
-    u32 var_r4;
-    void *var_r5;
-
-    var_r4 = (u32)(gStageData.timer & 0x7F) >> 3;
-    memcpy(&subroutine_arg0, &gUnknown_080D092C, 0x20);
-    gFlags |= 4;
-    gHBlankCopyTarget = (void *)0x0400001C;
+    u16 *var_r5;
+    s8 sp[0x20];
+    s32 scrollY;
+    s32 mask;
+    s32 camX;
+    u32 var_r4 = (u32)(gStageData.timer & 0x7F) >> 3;
+    memcpy(sp, gUnknown_080D092C, sizeof(sp));
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
+    gHBlankCopyTarget = (void *)&REG_BG3HOFS;
     gHBlankCopySize = 2;
     var_r5 = gBgOffsetsHBlankPrimary;
-    var_r2 = 0;
-    do {
-        temp_r0_2 = var_r2 + gBgScrollRegs[3][1];
-        temp_r3 = temp_r0_2;
-        temp_r1 = (s32)gCamera.x >> (7 - *(((s32)(temp_r0_2 << 0x10) >> 0x13) + sp));
-        *var_r5 = (s16)(u8)temp_r1;
-        if ((s32)temp_r3 > 0x90) {
-            var_r0 = 1;
-            goto block_5;
-        }
-        if ((s32)temp_r3 > 0x80) {
-            var_r0 = 2;
-        block_5:
-            if (!(var_r0 & var_r4)) {
-                *var_r5 = (s16)((u8)temp_r1 + 1);
+
+    for (var_r2 = 0, scrollY = gBgScrollRegs[3][1], camX = gCamera.x, mask = 0xF; var_r2 < DISPLAY_HEIGHT; var_r2++) {
+        temp_r3 = (var_r2 + scrollY);
+        *var_r5 = (camX >> (7 - sp[temp_r3 >> 3])) & 0xFF;
+        if (temp_r3 > 0x90) {
+            if (!(1 & var_r4)) {
+                *var_r5 = (*var_r5 + 1);
             }
-            var_r4 = (var_r4 + 1) & 0xF;
+            var_r4 = (var_r4 + 1) & mask;
+        } else if (temp_r3 > 0x80) {
+            if (!(2 & var_r4)) {
+                *var_r5 = (*var_r5 + 1);
+            }
+            var_r4 = (var_r4 + 1) & mask;
         }
-        var_r5 += 2;
-        temp_r0 = (var_r2 << 0x10) + 0x10000;
-        var_r2 = (s16)(temp_r0 >> 0x10);
-    } while ((s32)((s32)temp_r0 >> 0x10) <= 0x9F);
+        var_r5++;
+    }
 }
+END_NONMATCH
+
+#if 01
+#else
 
 void sub_8050804(void)
 {
-    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM0 + 0xC000;
-    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM0 + 0xD000;
+    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM + 0xC000;
+    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM + 0xD000;
     gStageBackgroundsRam.targetTilesX = 0x1E;
     gStageBackgroundsRam.targetTilesY = 0x14;
-    gBgCntRegs->unk0 = 0x1A0E;
-    gStageBackgroundsRam.unkC4 = BG_VRAM0 + 0x8000;
-    (&gStageBackgroundsRam + 0xC4)->unk8 = BG_VRAM0 + 0xE000;
+    gBgCntRegs[0] = 0x1A0E;
+    gStageBackgroundsRam[0].graphics.dest = BG_VRAM + 0x8000;
+    gStageBackgroundsRam[3].layoutVram = BG_VRAM + 0xE000;
     gStageBackgroundsRam.unkE6 = 0x1E;
     (&gStageBackgroundsRam + 0xE6)->unk2 = 0x14;
     gBgCntRegs[3] = 0x1C0A;
@@ -1263,16 +1245,16 @@ void sub_8050864(void)
     gBgScrollRegs[0][1] = 0;
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
-    gStageBackgroundsRam.unkC4 = BG_VRAM0 + 0x8000;
-    (&gStageBackgroundsRam + 0xC4)->unk8 = BG_VRAM0 + 0xB000;
+    gStageBackgroundsRam[0].graphics.dest = BG_VRAM + 0x8000;
+    gStageBackgroundsRam[3].layoutVram = BG_VRAM + 0xB000;
     gStageBackgroundsRam.unkE6 = 0x20;
     (&gStageBackgroundsRam + 0xE6)->unk2 = 0x40;
     gBgCntRegs[3] = 0x960A;
-    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM0 + 0xC000;
-    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM0 + 0xE000;
+    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM + 0xC000;
+    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM + 0xE000;
     gStageBackgroundsRam.targetTilesX = 0x20;
     gStageBackgroundsRam.targetTilesY = 0x40;
-    gBgCntRegs->unk0 = 0x9C0E;
+    gBgCntRegs[0] = 0x9C0E;
 }
 
 void sub_80508D4(void)
@@ -1315,14 +1297,14 @@ void sub_80509B4(void)
 {
     void *temp_r1;
 
-    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM0 + 0xC000;
-    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM0 + 0xE000;
+    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM + 0xC000;
+    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM + 0xE000;
     gStageBackgroundsRam.targetTilesX = 0x20;
     gStageBackgroundsRam.targetTilesY = 0x20;
-    gBgCntRegs->unk0 = 0x1C0E;
+    gBgCntRegs[0] = 0x1C0E;
     temp_r1 = &gStageBackgroundsRam + 0xC4;
-    gStageBackgroundsRam.unkC4 = BG_VRAM0 + 0x8000;
-    temp_r1->unk8 = BG_VRAM0 + 0xD000;
+    gStageBackgroundsRam[0].graphics.dest = BG_VRAM + 0x8000;
+    temp_r1->unk8 = BG_VRAM + 0xD000;
     gStageBackgroundsRam.unkE6 = 0x20;
     (temp_r1 + 8)->unk1C = 0x14;
     gBgCntRegs[3] = 0x1A0A;
@@ -1389,16 +1371,16 @@ void sub_8050B14(void)
     gBgScrollRegs[0][1] = 0;
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
-    gStageBackgroundsRam.unkC4 = BG_VRAM0 + 0x8000;
-    (&gStageBackgroundsRam + 0xC4)->unk8 = BG_VRAM0 + 0xA000;
+    gStageBackgroundsRam[0].graphics.dest = BG_VRAM + 0x8000;
+    gStageBackgroundsRam[3].layoutVram = BG_VRAM + 0xA000;
     gStageBackgroundsRam.unkE6 = 0x20;
     (&gStageBackgroundsRam + 0xE6)->unk2 = 0x40;
     gBgCntRegs[3] = 0x940A;
-    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM0 + 0xC000;
-    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM0 + 0xE000;
+    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM + 0xC000;
+    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM + 0xE000;
     gStageBackgroundsRam.targetTilesX = 0x20;
     gStageBackgroundsRam.targetTilesY = 0x40;
-    gBgCntRegs->unk0 = 0x9C0E;
+    gBgCntRegs[0] = 0x9C0E;
 }
 
 void sub_8050B84(void)
@@ -1478,9 +1460,9 @@ void sub_8050CA4(void)
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
     temp_r1 = &gStageBackgroundsRam + 0xC4;
-    gStageBackgroundsRam.unkC4 = BG_VRAM0 + 0x8000;
+    gStageBackgroundsRam[0].graphics.dest = BG_VRAM + 0x8000;
     temp_r1_2 = temp_r1 + 8;
-    temp_r1->unk8 = BG_VRAM0 + 0xA000;
+    temp_r1->unk8 = BG_VRAM + 0xA000;
     temp_r1_2->unk1A = 0x40;
     (temp_r1_2 + 0x1A)->unk2 = 0x20;
     gBgCntRegs[3] = 0x540A;
@@ -1492,11 +1474,11 @@ void sub_8050CEC(void)
     gBgScrollRegs[0][1] = 0;
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
-    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM0 + 0xC000;
-    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM0 + 0xD000;
-    gBgCntRegs->unk0 = 0x9A0E;
-    gStageBackgroundsRam.unkC4 = BG_VRAM0 + 0x8000;
-    gStageBackgroundsRam.unkCC = BG_VRAM0 + 0xE800;
+    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM + 0xC000;
+    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM + 0xD000;
+    gBgCntRegs[0] = 0x9A0E;
+    gStageBackgroundsRam[0].graphics.dest = BG_VRAM + 0x8000;
+    gStageBackgroundsRam.unkCC = BG_VRAM + 0xE800;
     gBgCntRegs[3] = 0x1D0A;
 }
 
@@ -1544,16 +1526,16 @@ void sub_8050D90(void)
 
 void sub_8050E18(void)
 {
-    gStageBackgroundsRam.unkC4 = BG_VRAM0 + 0x8000;
-    (&gStageBackgroundsRam + 0xC4)->unk8 = BG_VRAM0 + 0xB000;
+    gStageBackgroundsRam[0].graphics.dest = BG_VRAM + 0x8000;
+    gStageBackgroundsRam[3].layoutVram = BG_VRAM + 0xB000;
     gStageBackgroundsRam.unkE6 = 0x20;
     (&gStageBackgroundsRam + 0xE6)->unk2 = 0x40;
     gBgCntRegs[3] = 0x960A;
-    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM0 + 0xC000;
-    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM0 + 0xE000;
+    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM + 0xC000;
+    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM + 0xE000;
     gStageBackgroundsRam.targetTilesX = 0x20;
     gStageBackgroundsRam.targetTilesY = 0x40;
-    gBgCntRegs->unk0 = 0x9C0E;
+    gBgCntRegs[0] = 0x9C0E;
 }
 
 void sub_8050E78(void)
@@ -1667,13 +1649,13 @@ void sub_8050FF0(void)
 
 void sub_8051094(void)
 {
-    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM0 + 0xC000;
-    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM0 + 0xD800;
+    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM + 0xC000;
+    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM + 0xD800;
     gStageBackgroundsRam.targetTilesX = 0x40;
     gStageBackgroundsRam.targetTilesY = 0x20;
-    gBgCntRegs->unk0 = 0x5B0C;
-    gStageBackgroundsRam.unkC4 = BG_VRAM0 + 0x4000;
-    (&gStageBackgroundsRam + 0xC4)->unk8 = BG_VRAM0 + 0xE800;
+    gBgCntRegs[0] = 0x5B0C;
+    gStageBackgroundsRam[0].graphics.dest = BG_VRAM + 0x4000;
+    gStageBackgroundsRam[3].layoutVram = BG_VRAM + 0xE800;
     gStageBackgroundsRam.unkE6 = 0x20;
     (&gStageBackgroundsRam + 0xE6)->unk2 = 0x20;
     gBgCntRegs[3] = 0x1D06;
@@ -1690,9 +1672,9 @@ void sub_80510F8(void)
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
     temp_r1 = &gStageBackgroundsRam + 0xC4;
-    gStageBackgroundsRam.unkC4 = BG_VRAM0 + 0x8000;
+    gStageBackgroundsRam[0].graphics.dest = BG_VRAM + 0x8000;
     temp_r1_2 = temp_r1 + 8;
-    temp_r1->unk8 = BG_VRAM0 + 0xE800;
+    temp_r1->unk8 = BG_VRAM + 0xE800;
     temp_r1_2->unk1A = 0x20;
     (temp_r1_2 + 0x1A)->unk2 = 0x14;
     gBgCntRegs[3] = 0x1D0A;
@@ -1740,37 +1722,37 @@ void TaskDestructor_80511A4(void *arg0)
 
 void sub_80511BC(void)
 {
-    gStageBackgroundsRam.unk44 = BG_VRAM0 + 0xC000;
-    gStageBackgroundsRam.unk4C = BG_VRAM0 + 0xE800;
+    gStageBackgroundsRam.unk44 = BG_VRAM + 0xC000;
+    gStageBackgroundsRam.unk4C = BG_VRAM + 0xE800;
     gBgCntRegs[1] = 0x1D0E;
 }
 
 void sub_80511E4(void)
 {
-    gStageBackgroundsRam.unk44 = BG_VRAM0 + 0xC000;
-    gStageBackgroundsRam.unk4C = BG_VRAM0 + 0xE800;
+    gStageBackgroundsRam.unk44 = BG_VRAM + 0xC000;
+    gStageBackgroundsRam.unk4C = BG_VRAM + 0xE800;
     gBgCntRegs[1] = 0x1D0E;
 }
 
 void sub_805120C(void)
 {
-    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM0 + 0xC000;
-    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM0 + 0xD000;
-    gBgCntRegs->unk0 = 0x9A0E;
-    gStageBackgroundsRam.unkC4 = BG_VRAM0 + 0x8000;
-    gStageBackgroundsRam.unkCC = BG_VRAM0 + 0xE800;
+    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM + 0xC000;
+    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM + 0xD000;
+    gBgCntRegs[0] = 0x9A0E;
+    gStageBackgroundsRam[0].graphics.dest = BG_VRAM + 0x8000;
+    gStageBackgroundsRam.unkCC = BG_VRAM + 0xE800;
     gBgCntRegs[3] = 0x1D0A;
 }
 
 void sub_8051250(void)
 {
-    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM0 + 0xC000;
-    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM0 + 0xC800;
+    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM + 0xC000;
+    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM + 0xC800;
     gStageBackgroundsRam.targetTilesX = 0x40;
     gStageBackgroundsRam.targetTilesY = 0x40;
-    gBgCntRegs->unk0 = 0x990D;
-    gStageBackgroundsRam.unkC4 = BG_VRAM0 + 0x8000;
-    gStageBackgroundsRam.unkCC = BG_VRAM0 + 0xE800;
+    gBgCntRegs[0] = 0x990D;
+    gStageBackgroundsRam[0].graphics.dest = BG_VRAM + 0x8000;
+    gStageBackgroundsRam.unkCC = BG_VRAM + 0xE800;
     gBgCntRegs[3] = 0x1D0A;
 }
 
@@ -1899,8 +1881,8 @@ void sub_805146C(void)
 {
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
-    gStageBackgroundsRam.unk44 = BG_VRAM0 + 0xC000;
-    gStageBackgroundsRam.unk4C = BG_VRAM0 + 0xE800;
+    gStageBackgroundsRam.unk44 = BG_VRAM + 0xC000;
+    gStageBackgroundsRam.unk4C = BG_VRAM + 0xE800;
     gBgCntRegs[1] = 0x1D0E;
 }
 
@@ -1922,8 +1904,8 @@ void sub_80514E0(void)
 {
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
-    gStageBackgroundsRam.unk44 = BG_VRAM0 + 0xC000;
-    gStageBackgroundsRam.unk4C = BG_VRAM0 + 0xE800;
+    gStageBackgroundsRam.unk44 = BG_VRAM + 0xC000;
+    gStageBackgroundsRam.unk4C = BG_VRAM + 0xE800;
     gBgCntRegs[1] = 0x1D0E;
 }
 
@@ -2007,8 +1989,8 @@ void sub_80515FC(void)
 
 void sub_8051634(void)
 {
-    gStageBackgroundsRam.unkC4 = BG_VRAM0 + 0x8000;
-    gStageBackgroundsRam.unkCC = BG_VRAM0 + 0xE800;
+    gStageBackgroundsRam[0].graphics.dest = BG_VRAM + 0x8000;
+    gStageBackgroundsRam.unkCC = BG_VRAM + 0xE800;
     gBgCntRegs[3] = 0x9D0A;
 }
 
@@ -2018,8 +2000,8 @@ void sub_8051664(void) { }
 
 void Task_8051668(void)
 {
-    gBgScrollRegs[3][0] = (s16)(u8)((s32)gCamera.x >> 6);
-    gBgScrollRegs[3][1] = (s16)((s32)gCamera.y >> 9);
+    gBgScrollRegs[3][0] = gCamera.x >> 6;
+    gBgScrollRegs[3][1] = gCamera.y >> 9;
 }
 
 void Task_8051688(void)
@@ -2084,1188 +2066,4 @@ void Task_80517B8(void)
 
 void sub_80517E8(void) { sub_805178C((u16)gCamera.x, (u16)gCamera.y); }
 
-s32 sub_80517FC(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4, void *callback)
-{
-    s32 sp4;
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r0_5;
-    s32 temp_r0_6;
-    void *temp_r4;
-    void *var_r7;
-
-    var_r7 = param4;
-    if (var_r7 == NULL) {
-        var_r7 = &subroutine_arg0;
-    }
-    temp_r4 = &subroutine_arg0 + 1;
-    temp_r0 = ((s32(*)(s32, s32, s32, void *))callback)(worldX, worldY, param2, temp_r4);
-    if (temp_r0 == 0) {
-        temp_r0_4 = ((s32(*)(s32, s32, s32, void *))callback)(worldX + param3, worldY, param2, temp_r4);
-        if (temp_r0_4 == 0) {
-            temp_r0_5 = ((s32(*)(s32, s32, s32, void *))callback)(worldX + (param3 * 2), worldY, param2, temp_r4);
-            if (temp_r0_5 == 0) {
-                if (param3 > 0) {
-                    return 0x18 - (7 & worldX);
-                }
-                return (7 & worldX) + 0x11;
-            }
-            if (temp_r0_5 == 8) {
-                *var_r7 = (u8)subroutine_arg0.unk1;
-                if (param3 > 0) {
-                    return ~(7 & worldX) + 0x10;
-                }
-                return (7 & worldX) + 8;
-            }
-            *var_r7 = (u8)subroutine_arg0.unk1;
-            if (temp_r0_5 > 0) {
-                return ((temp_r0_5 - 1) - (7 & worldX)) + 0x10;
-            }
-            return temp_r0_5 + (7 & worldX) + 0x10;
-        }
-        if (temp_r0_4 == 8) {
-            *var_r7 = (u8)subroutine_arg0.unk1;
-            if (param3 > 0) {
-                return ~(7 & worldX) + 8;
-            }
-            return 7 & worldX;
-        }
-        *var_r7 = (u8)subroutine_arg0.unk1;
-        if (temp_r0_4 > 0) {
-            return ((temp_r0_4 - 1) - (7 & worldX)) + 8;
-        }
-        return temp_r0_4 + (7 & worldX) + 8;
-    }
-    if (temp_r0 == 8) {
-        *var_r7 = (u8)subroutine_arg0.unk1;
-        temp_r0_6 = 0 - param3;
-        sp4 = temp_r0_6;
-        temp_r0_2 = ((s32(*)(s32, s32, s32, void *))callback)(worldX + temp_r0_6, worldY, param2, temp_r4);
-        if (temp_r0_2 == 8) {
-            *var_r7 = (u8)subroutine_arg0.unk1;
-            temp_r0_3 = ((s32(*)(s32, s32, s32, void *))callback)(worldX + (sp4 - param3), worldY, param2, temp_r4);
-            if (temp_r0_3 == 8) {
-                *var_r7 = (u8)subroutine_arg0.unk1;
-                if (param3 > 0) {
-                    return ~(7 & worldX) - 0x10;
-                }
-                return (7 & worldX) - 0x18;
-            }
-            if (temp_r0_3 == 0) {
-                if (param3 > 0) {
-                    return -9 - (7 & worldX);
-                }
-                return (7 & worldX) - 0x10;
-            }
-            *var_r7 = (u8)subroutine_arg0.unk1;
-            if (temp_r0_3 > 0) {
-                return ((temp_r0_3 - 1) - (7 & worldX)) - 0x10;
-            }
-            return (temp_r0_3 + (7 & worldX)) - 0x10;
-        }
-        if (temp_r0_2 == 0) {
-            if (param3 > 0) {
-                return ~(7 & worldX);
-            }
-            return -8 | worldX;
-        }
-        *var_r7 = (u8)subroutine_arg0.unk1;
-        if (temp_r0_2 > 0) {
-            return ((temp_r0_2 - 1) - (7 & worldX)) - 8;
-        }
-        return (temp_r0_2 + (7 & worldX)) - 8;
-    }
-    *var_r7 = (u8)subroutine_arg0.unk1;
-    if (temp_r0 > 0) {
-        return (temp_r0 - 1) - (7 & worldX);
-    }
-    return temp_r0 + (7 & worldX);
-}
-
-s32 sub_80519EC(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4, void *callback)
-{
-    s32 temp_r0;
-    s32 temp_r0_10;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r0_5;
-    s32 temp_r0_6;
-    s32 temp_r0_7;
-    s32 temp_r0_8;
-    s32 temp_r0_9;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    s32 temp_r4_3;
-    s32 temp_r4_4;
-    s32 temp_r4_5;
-    s32 var_r1;
-    void *temp_r5;
-
-    if (param4 == NULL) {
-        param4 = &subroutine_arg0;
-    }
-    temp_r5 = &subroutine_arg0 + 1;
-    temp_r0_10 = ((s32(*)(s32, s32, s32, void *))callback)(worldX, worldY, param2, temp_r5);
-    switch (temp_r0_10) { /* switch 1; irregular */
-        case 0: /* switch 1 */
-            temp_r0_5 = ((s32(*)(s32, s32, s32, void *))callback)(worldX + param3, worldY, param2, temp_r5);
-            switch (temp_r0_5) { /* switch 2; irregular */
-                case 0: /* switch 2 */
-                    temp_r0_4 = ((s32(*)(s32, s32, s32, void *))callback)(worldX + (param3 * 2), worldY, param2, temp_r5);
-                    switch (temp_r0_4) { /* switch 3; irregular */
-                        case 0: /* switch 3 */
-                            temp_r0 = ((s32(*)(s32, s32, s32, void *))callback)(worldX + (param3 * 3), worldY, param2, temp_r5);
-                            if (temp_r0 == 0) {
-                                temp_r0_2 = ((s32(*)(s32, s32, s32, void *))callback)(worldX + (param3 * 4), worldY, param2, temp_r5);
-                                if (temp_r0_2 == 0) {
-                                    temp_r0_3 = ((s32(*)(s32, s32, s32, void *))callback)(worldX + (param3 * 5), worldY, param2, temp_r5);
-                                    if (temp_r0_3 == 0) {
-                                        if (param3 > 0) {
-                                            return 0x30 - (7 & worldX);
-                                        }
-                                        return (7 & worldX) + 0x29;
-                                    }
-                                    if (temp_r0_3 == 8) {
-                                        *param4 = (u8)subroutine_arg0.unk1;
-                                        if (param3 > 0) {
-                                            return ~(7 & worldX) + 0x28;
-                                        }
-                                        return (7 & worldX) + 0x20;
-                                    }
-                                    *param4 = (u8)subroutine_arg0.unk1;
-                                    if (temp_r0_3 > 0) {
-                                        return ((temp_r0_3 - 1) - (7 & worldX)) + 0x28;
-                                    }
-                                    return temp_r0_3 + (7 & worldX) + 0x28;
-                                }
-                                if (temp_r0_2 == 8) {
-                                    *param4 = (u8)subroutine_arg0.unk1;
-                                    if (param3 > 0) {
-                                        return ~(7 & worldX) + 0x20;
-                                    }
-                                    return (7 & worldX) + 0x18;
-                                }
-                                *param4 = (u8)subroutine_arg0.unk1;
-                                if (temp_r0_2 > 0) {
-                                    return ((temp_r0_2 - 1) - (7 & worldX)) + 0x20;
-                                }
-                                return temp_r0_2 + (7 & worldX) + 0x20;
-                            }
-                            if (temp_r0 == 8) {
-                                *param4 = (u8)subroutine_arg0.unk1;
-                                if (param3 > 0) {
-                                    return ~(7 & worldX) + 0x18;
-                                }
-                                return (7 & worldX) + 0x10;
-                            }
-                            *param4 = (u8)subroutine_arg0.unk1;
-                            if (temp_r0 > 0) {
-                                return ((temp_r0 - 1) - (7 & worldX)) + 0x18;
-                            }
-                            return temp_r0 + (7 & worldX) + 0x18;
-                        case 8: /* switch 3 */
-                            *param4 = (u8)subroutine_arg0.unk1;
-                            if (param3 > 0) {
-                                return ~(7 & worldX) + 0x10;
-                            }
-                            return (7 & worldX) + 8;
-                        default: /* switch 3 */
-                            *param4 = (u8)subroutine_arg0.unk1;
-                            if (temp_r0_4 > 0) {
-                                return ((temp_r0_4 - 1) - (7 & worldX)) + 0x10;
-                            }
-                            return temp_r0_4 + (7 & worldX) + 0x10;
-                    }
-                    break;
-                case 8: /* switch 2 */
-                    *param4 = (u8)subroutine_arg0.unk1;
-                    if (param3 > 0) {
-                        return ~(7 & worldX) + 8;
-                    }
-                    return 7 & worldX;
-                default: /* switch 2 */
-                    *param4 = (u8)subroutine_arg0.unk1;
-                    if (temp_r0_5 > 0) {
-                        return ((temp_r0_5 - 1) - (7 & worldX)) + 8;
-                    }
-                    return temp_r0_5 + (7 & worldX) + 8;
-            }
-            break;
-        case 8: /* switch 1 */
-            *param4 = (u8)subroutine_arg0.unk1;
-            temp_r4 = 0 - param3;
-            temp_r0_9 = ((s32(*)(s32, s32, s32, void *))callback)(worldX + temp_r4, worldY, param2, temp_r5);
-            switch (temp_r0_9) { /* switch 4; irregular */
-                case 8: /* switch 4 */
-                    *param4 = (u8)subroutine_arg0.unk1;
-                    temp_r4_2 = temp_r4 - param3;
-                    var_r1 = ((s32(*)(s32, s32, s32, void *))callback)(worldX + temp_r4_2, worldY, param2, temp_r5);
-                    switch (var_r1) { /* switch 5; irregular */
-                        case 8: /* switch 5 */
-                            *param4 = (u8)subroutine_arg0.unk1;
-                            temp_r4_3 = temp_r4_2 - param3;
-                            var_r1 = ((s32(*)(s32, s32, s32, void *))callback)(worldX + temp_r4_3, worldY, param2, temp_r5);
-                            switch (var_r1) { /* switch 6; irregular */
-                                case 8: /* switch 6 */
-                                    *param4 = (u8)subroutine_arg0.unk1;
-                                    temp_r4_4 = temp_r4_3 - param3;
-                                    temp_r0_6 = ((s32(*)(s32, s32, s32, void *))callback)(worldX + temp_r4_4, worldY, param2, temp_r5);
-                                    if (temp_r0_6 == 8) {
-                                        *param4 = (u8)subroutine_arg0.unk1;
-                                        temp_r4_5 = temp_r4_4 - param3;
-                                        temp_r0_7 = ((s32(*)(s32, s32, s32, void *))callback)(worldX + temp_r4_5, worldY, param2, temp_r5);
-                                        if (temp_r0_7 == 8) {
-                                            *param4 = (u8)subroutine_arg0.unk1;
-                                            temp_r0_8 = ((s32(*)(s32, s32, s32, void *))callback)(worldX + (temp_r4_5 - param3), worldY,
-                                                                                                  param2, temp_r5);
-                                            if (temp_r0_8 == 8) {
-                                                *param4 = (u8)subroutine_arg0.unk1;
-                                                if (param3 > 0) {
-                                                    return ~(7 & worldX) - 0x28;
-                                                }
-                                                return (7 & worldX) - 0x30;
-                                            }
-                                            if (temp_r0_8 == 0) {
-                                                if (param3 > 0) {
-                                                    return -0x21 - (7 & worldX);
-                                                }
-                                                return (7 & worldX) - 0x28;
-                                            }
-                                            *param4 = (u8)subroutine_arg0.unk1;
-                                            if (temp_r0_8 > 0) {
-                                                return ((temp_r0_8 - 1) - (7 & worldX)) - 0x28;
-                                            }
-                                            return (temp_r0_8 + (7 & worldX)) - 0x28;
-                                        }
-                                        if (temp_r0_7 == 0) {
-                                            if (param3 > 0) {
-                                                return -0x19 - (7 & worldX);
-                                            }
-                                            return (7 & worldX) - 0x20;
-                                        }
-                                        *param4 = (u8)subroutine_arg0.unk1;
-                                        if (temp_r0_7 > 0) {
-                                            return ((temp_r0_7 - 1) - (7 & worldX)) - 0x20;
-                                        }
-                                        return (temp_r0_7 + (7 & worldX)) - 0x20;
-                                    }
-                                    if (temp_r0_6 == 0) {
-                                        if (param3 > 0) {
-                                            return -0x11 - (7 & worldX);
-                                        }
-                                        return (7 & worldX) - 0x18;
-                                    }
-                                    *param4 = (u8)subroutine_arg0.unk1;
-                                    if (temp_r0_6 > 0) {
-                                        return ((temp_r0_6 - 1) - (7 & worldX)) - 0x18;
-                                    }
-                                    return (temp_r0_6 + (7 & worldX)) - 0x18;
-                                case 0: /* switch 6 */
-                                    if (param3 > 0) {
-                                    block_86:
-                                        return -9 - (7 & worldX);
-                                    }
-                                    return (7 & worldX) - 0x10;
-                                default: /* switch 6 */
-                                    *param4 = (u8)subroutine_arg0.unk1;
-                                    if (var_r1 > 0) {
-                                    block_89:
-                                        return ((var_r1 - 1) - (7 & worldX)) - 0x10;
-                                    }
-                                    return (var_r1 + (7 & worldX)) - 0x10;
-                            }
-                            break;
-                        case 0: /* switch 5 */
-                            if (param3 <= 0) {
-                                return (7 & worldX) - 0x10;
-                            }
-                            goto block_86;
-                        default: /* switch 5 */
-                            *param4 = (u8)subroutine_arg0.unk1;
-                            if (var_r1 <= 0) {
-                                return (var_r1 + (7 & worldX)) - 0x10;
-                            }
-                            goto block_89;
-                    }
-                    break;
-                case 0: /* switch 4 */
-                    if (param3 > 0) {
-                        return ~(7 & worldX);
-                    }
-                    return -8 | worldX;
-                default: /* switch 4 */
-                    *param4 = (u8)subroutine_arg0.unk1;
-                    if (temp_r0_9 > 0) {
-                        return ((temp_r0_9 - 1) - (7 & worldX)) - 8;
-                    }
-                    return (temp_r0_9 + (7 & worldX)) - 8;
-            }
-            break;
-        default: /* switch 1 */
-            *param4 = (u8)subroutine_arg0.unk1;
-            if (temp_r0_10 > 0) {
-                return (temp_r0_10 - 1) - (7 & worldX);
-            }
-            return temp_r0_10 + (7 & worldX);
-    }
-}
-
-s32 sub_8051E5C(s32 arg0, s32 arg1, s32 arg2)
-{
-    s32 var_r0;
-    s32 var_r0_2;
-    s32 var_r1;
-    s32 var_r2;
-    s32 var_r2_2;
-    u16 temp_r0_2;
-    u32 temp_r0;
-    u32 temp_r1;
-    u32 temp_r3;
-
-    if (arg0 >= 0) {
-        temp_r1 = gRefCollision->pxWidth - 1;
-        var_r0 = arg0;
-        if ((u32)var_r0 > temp_r1) {
-            var_r0 = (s32)temp_r1;
-        }
-    } else {
-        var_r0 = 0;
-    }
-    if (arg1 >= 0) {
-        temp_r0 = gRefCollision->pxHeight - 1;
-        var_r1 = arg1;
-        if ((u32)var_r1 > temp_r0) {
-            var_r1 = (s32)temp_r0;
-        }
-    } else {
-        var_r1 = 0;
-    }
-    temp_r0_2 = sub_80522AC((u32)var_r0, (u32)var_r1, arg2 & 1);
-    temp_r3 = 0x3FF & temp_r0_2;
-    var_r2_2 = 7 & var_r1;
-    if (0x800 & temp_r0_2) {
-        var_r2_2 = 7 - var_r2_2;
-    }
-    var_r2 = gRefCollision->height_map[(temp_r3 * 8) + var_r2_2] & 0xF;
-    if (8 & var_r2) {
-        var_r2 |= ~0xF;
-    }
-    if (var_r2 == -8) {
-        var_r2 = 8;
-    }
-    if ((0x80 & arg2) && (((s32)gRefCollision->flags[temp_r3 >> 3] >> ((temp_r3 & 7) * 2)) & 1)) {
-        var_r2 = 0;
-    }
-    if (0x400 & temp_r0_2) {
-        if ((var_r2 != 8) && (var_r2 != 0)) {
-            var_r0_2 = var_r2 + 8;
-            if (var_r2 > 0) {
-                var_r0_2 -= 0x10;
-            }
-        } else {
-            var_r0_2 = var_r2;
-        }
-        var_r2 = var_r0_2;
-    }
-    return var_r2;
-}
-
-s32 sub_8051F54(s32 worldX, s32 worldY, s32 param2)
-{
-    s32 var_r0;
-    s32 var_r0_2;
-    s32 var_r0_3;
-    s32 var_r2;
-    s32 var_r2_2;
-    u16 temp_r0;
-    u32 temp_r1;
-    u32 temp_r1_2;
-    u32 temp_r3;
-
-    if (worldY >= 0) {
-        temp_r1 = gRefCollision->pxWidth - 1;
-        var_r0 = worldY;
-        if ((u32)var_r0 > temp_r1) {
-            var_r0 = (s32)temp_r1;
-        }
-    } else {
-        var_r0 = 0;
-    }
-    if (worldX >= 0) {
-        temp_r1_2 = gRefCollision->pxHeight - 1;
-        var_r0_2 = worldX;
-        if ((u32)var_r0_2 > temp_r1_2) {
-            var_r0_2 = (s32)temp_r1_2;
-        }
-    } else {
-        var_r0_2 = 0;
-    }
-    temp_r0 = sub_80522AC((u32)var_r0, (u32)var_r0_2, param2 & 1);
-    temp_r3 = 0x3FF & temp_r0;
-    var_r2_2 = 7 & var_r0;
-    if (0x400 & temp_r0) {
-        var_r2_2 = 7 - var_r2_2;
-    }
-    var_r2 = (s8)gRefCollision->height_map[(temp_r3 * 8) + var_r2_2] >> 4;
-    if (var_r2 == -8) {
-        var_r2 = 8;
-    }
-    if ((0x80 & param2) && (((s32)gRefCollision->flags[temp_r3 >> 3] >> ((temp_r3 & 7) * 2)) & 1)) {
-        var_r2 = 0;
-    }
-    if (0x800 & temp_r0) {
-        if ((var_r2 != 8) && (var_r2 != 0)) {
-            var_r0_3 = var_r2 + 8;
-            if (var_r2 > 0) {
-                var_r0_3 -= 0x10;
-            }
-        } else {
-            var_r0_3 = var_r2;
-        }
-        var_r2 = var_r0_3;
-    }
-    return var_r2;
-}
-
-u8 sub_805203C(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4)
-{
-    s32 var_r0;
-    s32 var_r0_2;
-    s32 var_r1;
-    s32 var_r3;
-    s32 var_r3_2;
-    u16 temp_r0_2;
-    u32 temp_r0;
-    u32 temp_r1;
-    u32 temp_r6;
-    u8 var_r0_3;
-    u8 var_r2;
-
-    if (worldX >= 0) {
-        temp_r1 = gRefCollision->pxWidth - 1;
-        var_r0 = worldX;
-        if ((u32)var_r0 > temp_r1) {
-            var_r0 = (s32)temp_r1;
-        }
-    } else {
-        var_r0 = 0;
-    }
-    if (worldY >= 0) {
-        temp_r0 = gRefCollision->pxHeight - 1;
-        var_r1 = worldY;
-        if ((u32)var_r1 > temp_r0) {
-            var_r1 = (s32)temp_r0;
-        }
-    } else {
-        var_r1 = 0;
-    }
-    temp_r0_2 = sub_80522AC((u32)var_r0, (u32)var_r1, param2 & 1);
-    temp_r6 = 0x3FF & temp_r0_2;
-    var_r3_2 = 7 & var_r1;
-    if (0x800 & temp_r0_2) {
-        var_r3_2 = 7 - var_r3_2;
-    }
-    var_r3 = gRefCollision->height_map[(temp_r6 * 8) + var_r3_2] & 0xF;
-    if (8 & var_r3) {
-        var_r3 |= ~0xF;
-    }
-    if (var_r3 == -8) {
-        var_r3 = 8;
-    }
-    if ((0x80 & param2) && (((s32)gRefCollision->flags[temp_r6 >> 3] >> ((temp_r6 & 7) * 2)) & 1)) {
-        var_r3 = 0;
-    }
-    if (0x400 & temp_r0_2) {
-        if ((var_r3 != 8) && (var_r3 != 0)) {
-            var_r0_2 = var_r3 + 8;
-            if (var_r3 > 0) {
-                var_r0_2 -= 0x10;
-            }
-        } else {
-            var_r0_2 = var_r3;
-        }
-        var_r3 = var_r0_2;
-    }
-    var_r2 = gRefCollision->tile_rotation[temp_r6];
-    if (0x800 & temp_r0_2) {
-        var_r2 = -0x80 - var_r2;
-    }
-    if (0x400 & temp_r0_2) {
-        if (var_r3 != 0) {
-            var_r0_3 = 0 - var_r2;
-        } else {
-            var_r0_3 = var_r2;
-        }
-        var_r2 = var_r0_3;
-    }
-    *param3 = var_r2;
-    return (u8)var_r3;
-}
-
-u8 sub_805217C(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4)
-{
-    s32 var_r0;
-    s32 var_r0_2;
-    s32 var_r0_3;
-    s32 var_r3;
-    s32 var_r3_2;
-    u16 temp_r0;
-    u32 temp_r1;
-    u32 temp_r1_2;
-    u32 temp_r7;
-    u8 var_r0_4;
-    u8 var_r2;
-
-    if (worldY >= 0) {
-        temp_r1 = gRefCollision->pxWidth - 1;
-        var_r0 = worldY;
-        if ((u32)var_r0 > temp_r1) {
-            var_r0 = (s32)temp_r1;
-        }
-    } else {
-        var_r0 = 0;
-    }
-    if (worldX >= 0) {
-        temp_r1_2 = gRefCollision->pxHeight - 1;
-        var_r0_2 = worldX;
-        if ((u32)var_r0_2 > temp_r1_2) {
-            var_r0_2 = (s32)temp_r1_2;
-        }
-    } else {
-        var_r0_2 = 0;
-    }
-    temp_r0 = sub_80522AC((u32)var_r0, (u32)var_r0_2, param2 & 1);
-    temp_r7 = 0x3FF & temp_r0;
-    var_r3_2 = 7 & var_r0;
-    if (0x400 & temp_r0) {
-        var_r3_2 = 7 - var_r3_2;
-    }
-    var_r3 = (s8)gRefCollision->height_map[(temp_r7 * 8) + var_r3_2] >> 4;
-    if (var_r3 == -8) {
-        var_r3 = 8;
-    }
-    if ((0x80 & param2) && (((s32)gRefCollision->flags[temp_r7 >> 3] >> ((temp_r7 & 7) * 2)) & 1)) {
-        var_r3 = 0;
-    }
-    if (0x800 & temp_r0) {
-        if ((var_r3 != 8) && (var_r3 != 0)) {
-            var_r0_3 = var_r3 + 8;
-            if (var_r3 > 0) {
-                var_r0_3 -= 0x10;
-            }
-        } else {
-            var_r0_3 = var_r3;
-        }
-        var_r3 = var_r0_3;
-    }
-    var_r2 = gRefCollision->tile_rotation[temp_r7];
-    if (0x400 & temp_r0) {
-        var_r2 = 0 - var_r2;
-    }
-    if (0x800 & temp_r0) {
-        if (var_r3 != 0) {
-            var_r0_4 = -0x80 - var_r2;
-        } else {
-            var_r0_4 = var_r2;
-        }
-        var_r2 = var_r0_4;
-    }
-    *param3 = var_r2;
-    return (u8)var_r3;
-}
-
-u16 sub_80522AC(s32 arg0, s32 arg1, s32 arg2)
-{
-    s32 temp_r0;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    s32 var_r0;
-    s32 var_r3;
-    s32 var_r5;
-    s32 var_r7;
-    u16 temp_r2;
-
-    temp_r4 = arg0 >> 3;
-    if ((void *)0x03000400->unk0 == temp_r4) {
-        var_r7 = (void *)0x03000400->unk8;
-        var_r0 = (void *)0x03000400->unk4;
-    } else {
-        var_r0 = Div(temp_r4, 0xC);
-        temp_r1 = temp_r4 - (var_r0 * 0xC);
-        (void *)0x03000400->unk0 = temp_r4;
-        (void *)0x03000400->unk4 = var_r0;
-        (void *)0x03000400->unk8 = temp_r1;
-        var_r7 = temp_r1;
-    }
-    temp_r4_2 = arg1 >> 3;
-    if ((void *)0x03000410->unk0 == temp_r4_2) {
-        var_r5 = (void *)0x03000410->unk8;
-        var_r3 = (void *)0x03000410->unk4;
-    } else {
-        temp_r0 = Div(temp_r4_2, 0xC);
-        temp_r1_2 = temp_r4_2 - (temp_r0 * 0xC);
-        var_r3 = temp_r0;
-        (void *)0x03000410->unk0 = temp_r4_2;
-        (void *)0x03000410->unk4 = var_r3;
-        (void *)0x03000410->unk8 = temp_r1_2;
-        var_r5 = temp_r1_2;
-    }
-    temp_r2 = gRefCollision->map[arg2][(var_r3 * gRefCollision->levelX) + var_r0];
-    return *(gRefCollision->metatiles + (temp_r2 << 8) + (temp_r2 << 5) + (((var_r5 * 0xC) + var_r7) * 2));
-}
-
-s32 sub_805235C(void)
-{
-    s32 sp0;
-
-    sp0 = 0;
-    (void *)0x040000D4->unk0 = &sp0;
-    (void *)0x040000D4->unk4 = 0x03000400;
-    (void *)0x040000D4->unk8 = 0x85000003;
-    sp0 = 0;
-    (void *)0x040000D4->unk0 = &sp0;
-    (void *)0x040000D4->unk4 = 0x03000410;
-    (void *)0x040000D4->unk8 = 0x85000003;
-    return (void *)0x040000D4->unk8;
-}
-
-s32 sub_8052394(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4, void *callback)
-{
-    s32 temp_r0;
-    void *var_r6;
-
-    var_r6 = param4;
-    if (var_r6 == NULL) {
-        var_r6 = &subroutine_arg0;
-    }
-    temp_r0 = ((s32(*)(s32, s32, s32, void *))callback)(worldX, worldY, param2, &subroutine_arg0 + 1);
-    if (temp_r0 == 0) {
-        if (param3 > 0) {
-            return 8 - (7 & worldX);
-        }
-        return (7 & worldX) + 1;
-    }
-    if (temp_r0 == 8) {
-        *var_r6 = (u8)subroutine_arg0.unk1;
-        if (param3 > 0) {
-            return ~(7 & worldX);
-        }
-        return -8 | worldX;
-    }
-    *var_r6 = (u8)subroutine_arg0.unk1;
-    if (temp_r0 > 0) {
-        return (temp_r0 - 1) - (7 & worldX);
-    }
-    return temp_r0 + (7 & worldX);
-}
-
-s32 sub_8052418(s32 worldX, s32 worldY, s32 param2, s32 param3, void *callback)
-{
-    s32 temp_r0;
-
-    temp_r0 = ((s32(*)())callback)();
-    if (temp_r0 == 0) {
-        if (param3 > 0) {
-            return 8 - (7 & worldX);
-        }
-        return (7 & worldX) + 1;
-    }
-    if (temp_r0 == 8) {
-        if (param3 > 0) {
-            return ~(7 & worldX);
-        }
-        return -8 | worldX;
-    }
-    if (temp_r0 > 0) {
-        return (temp_r0 - 1) - (7 & worldX);
-    }
-    return temp_r0 + (7 & worldX);
-}
-
-void Task_8052474(void)
-{
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 var_r0;
-    s32 var_r1;
-    s32 var_r2;
-    u16 temp_r1;
-    void *temp_r3;
-
-    temp_r1 = gCurTask->data;
-    temp_r3 = temp_r1 + 0x03000000;
-    if ((temp_r3->unkC == 0) || ((s32)temp_r1->unk3000000 <= 0)) {
-        TaskDestroy(gCurTask);
-        return;
-    }
-    if (temp_r3->unk10 & 0x10) {
-        temp_r0 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
-        gPseudoRandom = temp_r0;
-        var_r1 = ((u32)(temp_r0 << 0xF) >> 0x17) - 0xFF;
-    } else {
-        var_r1 = (s32)((u16)gSineTable[temp_r3->unk14] << 0x10) >> 0x16;
-    }
-    var_r2 = (s32)(var_r1 * temp_r1->unk3000000) >> 0x10;
-    temp_r0_2 = temp_r3->unk10;
-    temp_r1_2 = 3 & temp_r0_2;
-    switch (temp_r1_2) { /* irregular */
-        case 1:
-            if (var_r2 < 0) {
-                var_r2 = 0 - var_r2;
-            }
-            break;
-        case 2:
-            var_r0 = var_r2;
-            if (var_r2 < 0) {
-                var_r0 = 0 - var_r2;
-            }
-            var_r2 = 0 - var_r0;
-            break;
-    }
-    if (!(0x20 & temp_r0_2) || !(1 & gStageData.levelTimer)) {
-        if (0x40 & temp_r0_2) {
-            gCamera.unkC = (s16)var_r2;
-        }
-        if (temp_r3->unk10 & 0x80) {
-            gCamera.unkE = (s16)var_r2;
-        }
-    }
-    temp_r0_3 = temp_r3->unkC;
-    if (temp_r0_3 > 0) {
-        temp_r3->unkC = (s32)(temp_r0_3 - 1);
-    }
-    temp_r1_3 = temp_r1->unk3000000;
-    if (temp_r1_3 > 0) {
-        temp_r1->unk3000000 = (s32)(temp_r1_3 - temp_r3->unk4);
-    }
-    temp_r3->unk14 = (s32)((temp_r3->unk14 + temp_r3->unk8) & 0x3FF);
-}
-
-void sub_805256C(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
-{
-    u16 temp_r1;
-    void *temp_r1_2;
-
-    temp_r1 = TaskCreate(Task_8052474, 0x18U, 0xEFFU, 0U, TaskDestructor_80525C0)->data;
-    temp_r1_2 = temp_r1 + 0x03000000;
-    temp_r1->unk3000000 = arg0;
-    temp_r1_2->unk4 = arg1;
-    temp_r1_2->unk8 = arg2;
-    temp_r1_2->unk14 = 0;
-    temp_r1_2->unkC = arg3;
-    temp_r1_2->unk10 = arg4;
-}
-
-void TaskDestructor_80525C0(Task *arg0)
-{
-    void *temp_r2;
-
-    temp_r2 = arg0->data + 0x03000000;
-    if (temp_r2->unk10 & 0x40) {
-        gCamera.unkC = 0;
-    }
-    if (temp_r2->unk10 & 0x80) {
-        gCamera.unkE = 0;
-    }
-}
-
-void sub_80525F0(s32 arg0, s32 arg1)
-{
-    Sprite *temp_r4_2;
-    Task *temp_r0;
-    u16 temp_r4;
-    void *temp_r0_2;
-
-    temp_r0 = TaskCreate(Task_8052798, 0x43CU, 0xFFFEU, 0U, TaskDestructor_8052C18);
-    gCamera.unk54 = temp_r0;
-    temp_r4 = temp_r0->data;
-    temp_r0_2 = temp_r4 + 0x03000000;
-    temp_r0_2->unk4 = 0xFFFF;
-    temp_r0_2->unk6 = -1;
-    temp_r0_2->unk2 = 0xFF;
-    temp_r0_2->unk1 = -1;
-    temp_r0_2->unk8 = (s32)(0x100 & arg1);
-    temp_r0_2->unkC = arg0;
-    sub_8052D2C();
-    temp_r4_2 = temp_r4 + 0x03000014;
-    temp_r4->unk3000014 = 0x06014D80;
-    temp_r4_2->anim = 0x3CD;
-    temp_r4_2->variant = 0;
-    temp_r4_2->prevVariant = -1U;
-    temp_r4_2->oamFlags = 0;
-    temp_r4_2->qAnimDelay = 0;
-    temp_r4_2->animSpeed = 0x10;
-    temp_r4_2->palId = 0;
-    temp_r4_2->frameFlags = 0;
-    UpdateSpriteAnimation(temp_r4_2);
-}
-
-void sub_805268C(void *arg0, u16 *arg1, s32 arg2, s32 arg3)
-{
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r0_5;
-    s32 temp_r0_6;
-    s32 temp_r0_7;
-    s32 temp_r0_8;
-    s32 temp_r0_9;
-    s32 temp_r2;
-    s32 temp_r7;
-    s32 var_r7;
-    u16 *var_r4;
-    void *temp_r4;
-    void *temp_r4_2;
-    void *temp_r4_3;
-    void *temp_r4_4;
-    void *temp_r4_5;
-    void *temp_r4_6;
-    void *temp_r5;
-    void *temp_r5_2;
-    void *temp_r5_3;
-    void *temp_r5_4;
-    void *temp_r5_5;
-    void *temp_r5_6;
-    void *var_r5;
-
-    var_r5 = arg0;
-    var_r4 = arg1;
-    temp_r7 = arg3 >> 4;
-    var_r7 = temp_r7 - 1;
-    if (temp_r7 != 0) {
-        temp_r2 = 0x739C739C & arg2;
-        do {
-            temp_r0_2 = var_r4->unk0;
-            temp_r4 = var_r4 + 4;
-            var_r5->unk0 = (u32)((u32)((temp_r0_2 & 0x7BDE7BDE) + ((u32)((temp_r0_2 & 0x739C739C) + temp_r2) >> 1)) >> 1);
-            temp_r5 = var_r5 + 4;
-            temp_r0_3 = var_r4->unk4;
-            temp_r4_2 = temp_r4 + 4;
-            var_r5->unk4 = (u32)((u32)((temp_r0_3 & 0x7BDE7BDE) + ((u32)((temp_r0_3 & 0x739C739C) + temp_r2) >> 1)) >> 1);
-            temp_r5_2 = temp_r5 + 4;
-            temp_r0_4 = temp_r4->unk4;
-            temp_r4_3 = temp_r4_2 + 4;
-            temp_r5->unk4 = (u32)((u32)((temp_r0_4 & 0x7BDE7BDE) + ((u32)((temp_r0_4 & 0x739C739C) + temp_r2) >> 1)) >> 1);
-            temp_r5_3 = temp_r5_2 + 4;
-            temp_r0_5 = temp_r4_2->unk4;
-            temp_r4_4 = temp_r4_3 + 4;
-            temp_r5_2->unk4 = (u32)((u32)((temp_r0_5 & 0x7BDE7BDE) + ((u32)((temp_r0_5 & 0x739C739C) + temp_r2) >> 1)) >> 1);
-            temp_r5_4 = temp_r5_3 + 4;
-            temp_r0_6 = temp_r4_3->unk4;
-            temp_r4_5 = temp_r4_4 + 4;
-            temp_r5_3->unk4 = (u32)((u32)((temp_r0_6 & 0x7BDE7BDE) + ((u32)((temp_r0_6 & 0x739C739C) + temp_r2) >> 1)) >> 1);
-            temp_r5_5 = temp_r5_4 + 4;
-            temp_r0_7 = temp_r4_4->unk4;
-            temp_r4_6 = temp_r4_5 + 4;
-            temp_r5_4->unk4 = (u32)((u32)((temp_r0_7 & 0x7BDE7BDE) + ((u32)((temp_r0_7 & 0x739C739C) + temp_r2) >> 1)) >> 1);
-            temp_r5_6 = temp_r5_5 + 4;
-            temp_r0_8 = temp_r4_5->unk4;
-            temp_r5_5->unk4 = (u32)((u32)((temp_r0_8 & 0x7BDE7BDE) + ((u32)((temp_r0_8 & 0x739C739C) + temp_r2) >> 1)) >> 1);
-            temp_r0_9 = temp_r4_6->unk4;
-            var_r4 = temp_r4_6 + 4 + 4;
-            temp_r5_6->unk4 = (u32)((u32)((temp_r0_9 & 0x7BDE7BDE) + ((u32)((temp_r0_9 & 0x739C739C) + temp_r2) >> 1)) >> 1);
-            var_r5 = temp_r5_6 + 4 + 4;
-            temp_r0 = var_r7;
-            var_r7 -= 1;
-        } while (temp_r0 != 0);
-    }
-}
-
-void sub_805274C(s16 *arg0, u16 *arg1, s32 arg3)
-{
-    s16 *var_r5;
-    s32 temp_r0;
-    s32 var_r3;
-    u16 *var_r4;
-    u16 temp_r0_2;
-    u32 temp_r0_3;
-
-    var_r5 = arg0;
-    var_r4 = arg1;
-    var_r3 = arg3 - 1;
-    if (arg3 != 0) {
-        do {
-            temp_r0_2 = *var_r4;
-            temp_r0_3 = temp_r0_2 << 0x10;
-            *var_r5 = (((u32)(0x1F & temp_r0_2) >> 1) & 0x1F) | ((((u32)((temp_r0_3 >> 0x15) & 0x1F) >> 1) & 0x1F) << 5)
-                | ((((u32)((temp_r0_3 >> 0x1A) & 0x1F) >> 1) & 0x1F) << 0xA);
-            var_r5 += 2;
-            var_r4 += 2;
-            temp_r0 = var_r3;
-            var_r3 -= 1;
-        } while (temp_r0 != 0);
-    }
-}
-
-void Task_8052798(void)
-{
-    u16 spC;
-    Vec2_16 sp2C;
-    struct Camera *sp68;
-    void *sp6C;
-    Sprite *temp_r5;
-    Vec2_16 *temp_r1_5;
-    Vec2_16 *var_r4;
-    s16 temp_r0_3;
-    s16 temp_r1_2;
-    s16 temp_r2;
-    s16 temp_r4;
-    s16 temp_r4_3;
-    s16 var_r1;
-    s16 var_r1_2;
-    s16 var_r5;
-    s32 temp_r1_3;
-    u16 temp_r1;
-    u16 temp_r1_4;
-    u16 temp_r4_2;
-    u16 var_r0;
-    u16 var_r6;
-    u32 temp_r0;
-    u32 temp_r0_4;
-    u32 var_r0_3;
-    u32 var_r2_2;
-    u32 var_sb;
-    u8 temp_r0_2;
-    u8 var_r0_2;
-    void *temp_r7;
-    void *var_r2;
-
-    temp_r1 = gCurTask->data;
-    temp_r7 = temp_r1 + 0x03000000;
-    sp68 = &gCamera;
-    var_sb = 0;
-    if ((sub_8052B84(temp_r7) << 0x10) != 0) {
-        temp_r1->unk3000000 = 1U;
-        sp68->unk69 = 1;
-    } else {
-        temp_r1->unk3000000 = 0U;
-        sp68->unk69 = 0;
-    }
-    if (temp_r1->unk3000000 == 0) {
-        gFlags &= ~0x40;
-        return;
-    }
-    sp6C = temp_r1 + 0x0300003C;
-    if ((u32)gStageData.gameMode <= 4U) {
-        gFlags |= 4;
-        gHBlankCopyTarget = (void *)0x0400001C;
-        gHBlankCopySize = 2;
-        var_r2 = gBgOffsetsHBlankPrimary;
-        var_r1 = 0;
-        do {
-            temp_r1_2 = var_r1;
-            if ((s32)(s16)(u16)(temp_r7->unk4 - gCamera.y) < (s32)temp_r1_2) {
-                var_r0
-                    = ((s32)((u16)gSineTable[((((u32)(gStageData.timer & 0x1FF) >> 1) + (temp_r1_2 * 2)) * 0x10) & 0x3FF] << 0x10) >> 0x1C)
-                    + 8;
-            } else {
-                var_r0 = (u16)gBgScrollRegs[3][0];
-            }
-            *var_r2 = var_r0;
-            var_r2 += 2;
-            temp_r0 = (var_r1 << 0x10) + 0x10000;
-            var_r1 = (s16)(temp_r0 >> 0x10);
-        } while ((s32)((s32)temp_r0 >> 0x10) <= 0x9F);
-    }
-    (void *)0x040000D4->unk0 = &gObjPalette[0xF9];
-    (void *)0x040000D4->unk4 = &subroutine_arg0;
-    (void *)0x040000D4->unk8 = 0x80000006;
-    (void *)0x040000D4->unk0 = (u16 *)(&gObjPalette[0xF9] - 0xF2);
-    (void *)0x040000D4->unk4 = &spC;
-    (void *)0x040000D4->unk8 = 0x80000010;
-    if ((gStageData.unk8 & 0xFFFF00) == 0x90400) {
-        var_sb = 0x10000U >> 0x10;
-    }
-    var_r5 = 4;
-    if (gStageData.gameMode != 6) {
-        var_r5 = 3;
-    }
-    temp_r4 = (s16)(u16)(gStageData.zone - 1);
-    sub_8052D30(sp6C, *(((temp_r4 + (s16)var_sb) * 2) + &gUnknown_080D1BF6), 0x100U);
-    var_r1_2 = 0;
-    if ((s32)(var_r5 << 0x10) > 0) {
-        do {
-            temp_r4_3 = var_r1_2;
-            sub_8052D30(temp_r7 + ((temp_r4_3 << 5) + 0x3C),
-                        *((temp_r4 * 2) + ((u32)(gPlayers[temp_r4_3].unk2A << 0x1C) >> 0x19) + &gUnknown_080D1BC4), 0x10U);
-            temp_r4_2 = temp_r4_3 + 1;
-            var_r1_2 = (s16)temp_r4_2;
-        } while ((s32)(s16)temp_r4_2 < (s32)var_r5);
-    }
-    if ((u32)gStageData.gameMode <= 5U) {
-        sub_8052D30(temp_r1 + 0x0300007C, *(((u32)(gPlayers[gStageData.playerIndex].unk2A << 0x1C) >> 0x1B) + &gUnknown_080D1BEC), 0x10U);
-    }
-    (void *)0x040000D4->unk0 = &subroutine_arg0;
-    (void *)0x040000D4->unk4 = (u16 *)(temp_r7 + 0x22E);
-    (void *)0x040000D4->unk8 = 0x80000006;
-    if ((s32)(void *)0x040000D4->unk8 < 0) {
-        do {
-
-        } while ((void *)0x040000D4->unk8 & 0x80000000);
-    }
-    (void *)0x040000D4->unk0 = &spC;
-    (void *)0x040000D4->unk4 = (u16 *)(temp_r7 + 0x13C);
-    (void *)0x040000D4->unk8 = 0x80000010;
-    if ((s32)(void *)0x040000D4->unk8 < 0) {
-        do {
-
-        } while ((void *)0x040000D4->unk8 & 0x80000000);
-    }
-    sub_805268C(temp_r7 + 0x23C, gBgPalette, temp_r7->unkC, 0x100);
-    temp_r0_2 = gNumVBlankCallbacks;
-    gNumVBlankCallbacks = temp_r0_2 + 1;
-    *(((u32)(temp_r0_2 << 0x18) >> 0x16) + gVBlankCallbacks) = sub_8052C54;
-    gFlags |= 0x10;
-    temp_r2 = (s16)temp_r7->unk4;
-    temp_r1_3 = sp68->y;
-    if ((s32)temp_r2 <= temp_r1_3) {
-        var_r0_2 = 0;
-    } else if ((s32)temp_r2 < (s32)(temp_r1_3 + 0xA0)) {
-        var_r0_2 = (u8)temp_r7->unk4 - temp_r1_3;
-    } else {
-        var_r0_2 = 0xFF;
-    }
-    temp_r7->unk2 = var_r0_2;
-    if ((u32)(u8)(temp_r7->unk1 - 1) <= 0x9EU) {
-        temp_r5 = temp_r1 + 0x03000014;
-        temp_r1_4 = 0 - ((sp68->x + ((u32)gStageData.timer >> 2)) & 7);
-        temp_r5->x = temp_r1_4;
-        var_r6 = temp_r1_4;
-        temp_r0_3 = temp_r7->unk2 + 1;
-        temp_r5->y = temp_r0_3;
-        temp_r5->frameFlags |= 0xC0000;
-        UpdateSpriteAnimation(temp_r5);
-        if (gStageData.timer & 2) {
-            var_r4 = &sp2C;
-            DisplaySprite(temp_r5);
-            var_r2_2 = 0xF;
-            temp_r1_5 = var_r4;
-            do {
-                var_r6 = (u16)((u32)((var_r6 << 0x10) + 0x100000) >> 0x10);
-                var_r4->x = (s16)var_r6;
-                var_r4->y = temp_r0_3;
-                temp_r0_4 = (var_r2_2 << 0x10) + 0xFFFF0000;
-                var_r4 += 4;
-                var_r2_2 = temp_r0_4 >> 0x10;
-            } while ((s32)temp_r0_4 > 0);
-            DisplaySprites(temp_r5, temp_r1_5, 0xFU);
-        }
-    }
-    if ((u32)(u8)(temp_r7->unk2 - 1) <= 0x9EU) {
-        *(s16 *)0x04000208 = 0;
-        gIntrTable[3] = sub_8052CCC;
-        *(s16 *)0x04000208 = 1;
-        sa2__gUnknown_03002874 = temp_r7->unk2 - 1;
-        var_r0_3 = gFlags | 0x40;
-    } else {
-        *(void *)0x04000208 = 0;
-        gIntrTable[3] = gIntrTableTemplate[3];
-        *(void *)0x04000208 = 1;
-        var_r0_3 = gFlags & ~0x40;
-    }
-    gFlags = var_r0_3;
-}
-
-s32 sub_8052B84(void *arg0)
-{
-    u16 *var_r1;
-    u16 temp_r4;
-    u32 temp_r0;
-    u32 var_r5;
-
-    if (gStageData.unk84 == 0) {
-        goto block_10;
-    }
-    var_r1 = gStageData.unk80;
-    var_r5 = 0;
-    if ((s32)gStageData.unk84 > 0) {
-    loop_5:
-        temp_r4 = var_r1->unk2;
-        if (((u32)var_r1->unk0 >= (u32)(u16)(gCamera.unk0 + 0xF0)) || ((u32)temp_r4 >= (u32)(u16)(gCamera.unk4 + 0xA0))
-            || ((u32)var_r1->unk4 <= (u32)gCamera.unk0) || ((u32)var_r1->unk6 <= (u32)gCamera.unk4)) {
-            temp_r0 = (var_r5 << 0x10) + 0x10000;
-            var_r1 += 8;
-            var_r5 = temp_r0 >> 0x10;
-            if ((s32)((s32)temp_r0 >> 0x10) >= (s32)gStageData.unk84) {
-                goto block_10;
-            }
-            goto loop_5;
-        }
-        arg0->unk4 = temp_r4;
-        arg0->unk6 = (u16)var_r1->unk2;
-        return 1;
-    }
-block_10:
-    return 0;
-}
-
-void TaskDestructor_8052C18(Task *arg0)
-{
-    gFlags &= ~0x40;
-    *(s16 *)0x04000208 = 0;
-    gIntrTable[3] = gIntrTableTemplate[3];
-    *(s16 *)0x04000208 = 1;
-    gCamera.unk54 = 0;
-}
-
-void sub_8052C54(void)
-{
-    u16 temp_r4;
-    u8 temp_r3;
-    void *temp_r1;
-
-    temp_r4 = gCamera.unk54->unk6;
-    temp_r1 = temp_r4 + 0x03000000;
-    temp_r3 = temp_r1->unk2;
-    temp_r1->unk1 = temp_r3;
-    temp_r1->unk8 = (s32)(temp_r1->unk8 & ~1);
-    if ((temp_r3 << 0x18) == 0) {
-        (void *)0x040000D4->unk0 = (s32)(temp_r4 + 0x0300023C);
-        (void *)0x040000D4->unk4 = 0x05000000;
-        (void *)0x040000D4->unk8 = 0x84000080;
-        (void *)0x040000D4->unk0 = (s32)(temp_r4 + 0x0300003C);
-        (void *)0x040000D4->unk4 = 0x05000200;
-        (void *)0x040000D4->unk8 = 0x84000078;
-        gFlags |= 3;
-    }
-}
-
-void sub_8052CCC(void)
-{
-    u16 temp_r0;
-
-    temp_r0 = gCamera.unk54->unk6;
-    (void *)0x040000D4->unk0 = (s32)(temp_r0 + 0x0300023C);
-    (void *)0x040000D4->unk4 = 0x05000000;
-    (void *)0x040000D4->unk8 = 0x84000080;
-    (void *)0x040000D4->unk0 = (s32)(temp_r0 + 0x0300003C);
-    (void *)0x040000D4->unk4 = 0x05000200;
-    (void *)0x040000D4->unk8 = 0x84000078;
-    gFlags |= 3;
-    *(s16 *)0x04000202 = 4;
-}
-
-void sub_8052D2C(void) { }
-
-void sub_8052D30(void *arg0, u16 arg1, u16 arg2)
-{
-    void *temp_r2;
-
-    temp_r2 = **(((u32)(arg1 << 0x10) >> 0xE) + gAnimations);
-    if (temp_r2->unk0 == -2) {
-        (void *)0x040000D4->unk0 = (void *)(gRefSpriteTables->palettes + (temp_r2->unk4 << 5));
-        (void *)0x040000D4->unk4 = arg0;
-        (void *)0x040000D4->unk8 = (s32)((arg2 >> 1) | 0x84000000);
-        gFlags |= 2;
-    }
-}
 #endif
