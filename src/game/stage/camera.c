@@ -205,7 +205,7 @@ const Background gStageCameraBgTemplates[4] = {
         .unk20 = 0,
         .unk22 = 0,
         .unk24 = 0,
-#if (GAME <= GAME_SA2)
+#if (GAME <= GAME_SA2) || ((GAME == GAME_SA3) && WIDESCREEN_HACK)
         .targetTilesX = (DISPLAY_WIDTH / TILE_WIDTH) + 1,
         .targetTilesY = (DISPLAY_HEIGHT / TILE_WIDTH) + 1,
 #elif (GAME == GAME_SA3)
@@ -242,7 +242,7 @@ const Background gStageCameraBgTemplates[4] = {
         .unk20 = 0,
         .unk22 = 0,
         .unk24 = 0,
-#if (GAME <= GAME_SA2)
+#if (GAME <= GAME_SA2) || ((GAME == GAME_SA3) && WIDESCREEN_HACK)
         .targetTilesX = (DISPLAY_WIDTH / TILE_WIDTH) + 1,
         .targetTilesY = (DISPLAY_HEIGHT / TILE_WIDTH) + 1,
 #elif (GAME == GAME_SA3)
@@ -279,8 +279,8 @@ const Background gStageCameraBgTemplates[4] = {
         .unk20 = 0,
         .unk22 = 0,
         .unk24 = 0,
-        .targetTilesX = 32,
-        .targetTilesY = 32,
+        .targetTilesX = (256 / TILE_WIDTH),
+        .targetTilesY = (256 / TILE_WIDTH),
         .paletteOffset = 0,
         .animFrameCounter = 0,
         .animDelayCounter = 0,
@@ -311,8 +311,8 @@ const Background gStageCameraBgTemplates[4] = {
         .unk20 = 0,
         .unk22 = 0,
         .unk24 = 0,
-        .targetTilesX = 32,
-        .targetTilesY = 32,
+        .targetTilesX = (256 / TILE_WIDTH),
+        .targetTilesY = (256 / TILE_WIDTH),
         .paletteOffset = 0,
         .animFrameCounter = 0,
         .animDelayCounter = 0,
@@ -509,8 +509,8 @@ NONMATCH("asm/non_matching/game/stage/cam__InitCamera.inc", void InitCamera(s32 
     gDispCnt = DISPCNT_OBJ_1D_MAP;
     sd->unk10 = 0x1600;
     if (gStageData.act != ACT_BOSS) {
-        gBgCntRegs[1] = BGCNT_SCREENBASE(30) | BGCNT_16COLOR | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(0);
-        gBgCntRegs[2] = BGCNT_SCREENBASE(31) | BGCNT_16COLOR | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(1);
+        gBgCntRegs[1] = BGCNT_SCREENBASE(CAM_SCREENBASE_MAP_FRONT) | BGCNT_16COLOR | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(0);
+        gBgCntRegs[2] = BGCNT_SCREENBASE(CAM_SCREENBASE_MAP_BACK) | BGCNT_16COLOR | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(1);
         if (CURRENT_GAME_MODE != 7) {
             gBgSprites_Unknown1[0] = 0;
             gBgSprites_Unknown2[0][0] = 0;
