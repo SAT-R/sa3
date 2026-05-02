@@ -77,12 +77,6 @@ void sub_80299FC() { }
 void sub_8029A18() { }
 void sub_80275B8(u32 level, u8 param1, u8 param2) { }
 void TaskDestructor_8029774(struct Task *t) { }
-void sub_8050628() { }
-void sub_805068C() { }
-void sub_80506E8() { }
-void sub_8050804() { }
-void sub_8050864() { }
-void sub_80508D4() { }
 void sub_80509B4() { }
 void sub_8050A0C() { }
 void sub_8050B14() { }

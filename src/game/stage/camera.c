@@ -1,6 +1,8 @@
 #include "global.h"
 #include "core.h"
 #include "flags.h"
+#include "trig.h"
+#include "malloc_ewram.h"
 //#include "sprite.h"
 #include "game/camera.h"
 #include "game/stage.h"
@@ -53,10 +55,11 @@ enum {
     BGID_COUNT
 };
 
+#define STRC_CAM_0C_DATA_COUNT 16
 typedef struct StrcCamera0C {
     /* 0x00 */ s32 x;
     /* 0x04 */ s32 y;
-    /* 0x08 */ void *data;
+    /* 0x08 */ u32 *data;
 } StrcCamera0C;
 
 typedef struct CamBgFuncs {
@@ -83,6 +86,9 @@ void TaskDestructor_80511A4(struct Task *t);
 void sub_8050628(void);
 void sub_805068C(void);
 void sub_80506E8(void);
+void sub_8050A0C(void);
+void sub_8050A78(void);
+void sub_8050C08(void);
 void sub_80512D8(void);
 void sub_805130C(void);
 void sub_805146C(void);
@@ -122,11 +128,8 @@ void sub_80512AC(void);
 void sub_8050628(void);
 void sub_80513B4(void);
 void sub_80509B4(void);
-void sub_8050A0C(void);
 void sub_80509B4(void);
-void sub_8050A0C(void);
 void sub_80509B4(void);
-void sub_8050A0C(void);
 void sub_80511E4(void);
 void sub_8051514(void);
 void sub_8050570(void);
@@ -1267,104 +1270,94 @@ void sub_80508D4(void)
     }
 }
 
-#if 01
-#else
 void sub_8050920(void)
 {
-    s32 temp_r4;
-    u32 temp_r0;
+    u32 var_r0;
+    u32 var_r1;
     u32 var_r3;
-    u32 var_r5;
-    void *var_r2;
+    s16 var_r5;
+    u16 *var_r2;
 
-    var_r3 = (((u8)gStageData.unk1C >> 3) + (u16)gBgScrollRegs[3][1]) & 0xF;
+    var_r3 = (((gStageData.timer & 0xFF) >> 3) + (u16)gBgScrollRegs[3][1]) & 0xF;
     gFlags |= 4;
-    gHBlankCopyTarget = (void *)0x0400001C;
+    gHBlankCopyTarget = (void *)&REG_BG3HOFS;
     gHBlankCopySize = 2;
     var_r2 = gBgOffsetsHBlankPrimary;
-    var_r5 = 0;
-    temp_r4 = (s32)gCamera.x >> 3;
-    do {
-        *var_r2 = (s16)(u8)temp_r4;
-        *var_r2 = (s16)((u8)temp_r4 + ((s32)(*((var_r3 << 7) + gSineTable) << 0x10) >> 0x1D));
-        var_r3 = (u32)(0xF0000 & ((var_r3 + 1) << 0x10)) >> 0x10;
-        var_r2 += 2;
-        temp_r0 = (var_r5 << 0x10) + 0x10000;
-        var_r5 = temp_r0 >> 0x10;
-    } while ((s32)((s32)temp_r0 >> 0x10) <= 0x9F);
+    for (var_r5 = 0; var_r5 < DISPLAY_HEIGHT; var_r5++) {
+        u32 mask;
+        *var_r2 = ((gCamera.x >> 3) & 0xFF);
+        *var_r2 = ((gCamera.x >> 3) & 0xFF) + (SIN(var_r3 << 6) >> 13);
+        var_r1 = (var_r3 + 1);
+        var_r1 = (var_r1 << 16);
+        var_r0 = 0xF0000;
+        var_r0 &= var_r1;
+        var_r3 = var_r0 >> 16;
+        var_r2++;
+    }
 }
+
+#if 01
 
 void sub_80509B4(void)
 {
-    void *temp_r1;
-
-    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM + 0xC000;
-    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM + 0xE000;
-    gStageBackgroundsRam.targetTilesX = 0x20;
-    gStageBackgroundsRam.targetTilesY = 0x20;
+    gStageBackgroundsRam[0].graphics.dest = (void *)(BG_VRAM + 0xC000);
+    gStageBackgroundsRam[0].layoutVram = (u16 *)(BG_VRAM + 0xE000);
+    gStageBackgroundsRam[0].targetTilesX = 32;
+    gStageBackgroundsRam[0].targetTilesY = 32;
     gBgCntRegs[0] = 0x1C0E;
-    temp_r1 = &gStageBackgroundsRam + 0xC4;
-    gStageBackgroundsRam[0].graphics.dest = BG_VRAM + 0x8000;
-    temp_r1->unk8 = BG_VRAM + 0xD000;
-    gStageBackgroundsRam.unkE6 = 0x20;
-    (temp_r1 + 8)->unk1C = 0x14;
+
+    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0x8000);
+    gStageBackgroundsRam[3].layoutVram = (u16 *)(BG_VRAM + 0xD000);
+    gStageBackgroundsRam[3].targetTilesX = 32;
+    gStageBackgroundsRam[3].targetTilesY = 20;
     gBgCntRegs[3] = 0x1A0A;
 }
 
 void sub_8050A0C(void)
 {
     s16 temp_r1_3;
-    s16 var_r0;
-    u16 temp_r1;
+    s16 i;
+    s32 *data;
+    StrcCamera0C *temp_r1;
     u16 temp_r1_2;
-    void *temp_r0;
-    void *temp_r4;
 
-    temp_r1 = gCurTask->data;
-    temp_r4 = temp_r1 + 0x03000000;
-    if (temp_r4->unk8 == NULL) {
-        temp_r0 = EwramMalloc(0x40U);
-        temp_r4->unk8 = temp_r0;
-        var_r0 = 0;
-        do {
-            temp_r1_3 = var_r0;
-            *((temp_r1_3 * 4) + temp_r0) = 0;
-            temp_r1_2 = temp_r1_3 + 1;
-            var_r0 = (s16)temp_r1_2;
-        } while ((s32)(s16)temp_r1_2 <= 0xF);
+    temp_r1 = TASK_DATA(gCurTask);
+    if (temp_r1->data == NULL) {
+        data = temp_r1->data = EwramMalloc(STRC_CAM_0C_DATA_COUNT * sizeof(*temp_r1->data));
+
+        for (i = 0; i < STRC_CAM_0C_DATA_COUNT; i++) {
+            data[i] = 0;
+        }
     }
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
-    temp_r1->unk3000000 = (s32)(u8)(temp_r1->unk3000000 + 1);
-    temp_r4->unk4 = (s32)(u8)(temp_r4->unk4 + 1);
-    gBgScrollRegs[0][1] = (s16)(u8)((u16)gBgScrollRegs[0][1] + 1);
+    temp_r1->x = (temp_r1->x + 1) & 0xFF;
+    temp_r1->y = (temp_r1->y + 1) & 0xFF;
+    gBgScrollRegs[0][1] = (gBgScrollRegs[0][1] + 1) & 0xFF;
     sub_8050A78();
 }
 
-void sub_8050A78(void)
+// (99.04%) https://decomp.me/scratch/K4PlV
+NONMATCH("asm/non_matching/game/stage/cam__sub_8050A78.inc", void sub_8050A78(void))
 {
+    s8 sp[0x20];
     s16 temp_r1_2;
-    s16 var_r3;
-    s32 temp_r4;
+    s16 i;
     u16 temp_r1;
-    void *var_r2;
-
-    temp_r4 = gStageData.timer & 0x3FC;
-    memcpy(&subroutine_arg0, &gUnknown_080D094C, 0x20);
+    u16 *var_r2;
+    s32 scrollY;
+    s32 temp_r4 = gStageData.timer & 0x3FC;
+    memcpy(&sp, &gUnknown_080D094C, 0x20);
     gFlags |= 4;
-    gHBlankCopyTarget = (void *)0x04000010;
+    gHBlankCopyTarget = (void *)&REG_BG0HOFS;
     gHBlankCopySize = 2;
     var_r2 = gBgOffsetsHBlankPrimary;
-    var_r3 = 0;
-    do {
-        temp_r1_2 = var_r3;
-        *var_r2
-            = (s16)((s32)(gSineTable[temp_r4] * (s8) * ((((s32)((gBgScrollRegs[0][1] + temp_r1_2) << 0x10) >> 0x13) & 0x1F) + sp)) >> 9);
-        var_r2 += 2;
-        temp_r1 = temp_r1_2 + 1;
-        var_r3 = (s16)temp_r1;
-    } while ((s32)(s16)temp_r1 <= 0x9F);
+    for (i = 0, scrollY = gBgScrollRegs[0][1]; i < DISPLAY_HEIGHT; i++) {
+        *var_r2 = ((SIN(temp_r4) * sp[(((scrollY + i) << 0x10) >> 0x13) & 0x1F]) >> 9);
+        var_r2 += 1;
+    }
 }
+END_NONMATCH
 
 void sub_8050B14(void)
 {
@@ -1372,57 +1365,54 @@ void sub_8050B14(void)
     gBgScrollRegs[0][1] = 0;
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
-    gStageBackgroundsRam[0].graphics.dest = BG_VRAM + 0x8000;
-    gStageBackgroundsRam[3].layoutVram = BG_VRAM + 0xA000;
-    gStageBackgroundsRam.unkE6 = 0x20;
-    (&gStageBackgroundsRam + 0xE6)->unk2 = 0x40;
+
+    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0x8000);
+    gStageBackgroundsRam[3].layoutVram = (u16 *)(BG_VRAM + 0xA000);
+    gStageBackgroundsRam[3].targetTilesX = 32;
+    gStageBackgroundsRam[3].targetTilesY = 64;
     gBgCntRegs[3] = 0x940A;
-    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM + 0xC000;
-    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM + 0xE000;
-    gStageBackgroundsRam.targetTilesX = 0x20;
-    gStageBackgroundsRam.targetTilesY = 0x40;
+
+    gStageBackgroundsRam[0].graphics.dest = (void *)(BG_VRAM + 0xC000);
+    gStageBackgroundsRam[0].layoutVram = (u16 *)(BG_VRAM + 0xE000);
+    gStageBackgroundsRam[0].targetTilesX = 32;
+    gStageBackgroundsRam[0].targetTilesY = 64;
     gBgCntRegs[0] = 0x9C0E;
 }
 
-void sub_8050B84(void)
+// (91.17%) https://decomp.me/scratch/suSXu
+NONMATCH("asm/non_matching/game/stage/cam__sub_8050B84.inc", void sub_8050B84(void))
 {
-    s16 temp_r0;
-    s16 temp_r0_3;
-    s32 temp_r0_2;
-    s32 temp_r0_4;
-    s32 var_r0;
-    s32 var_r0_2;
-
     gBgScrollRegs[0][0] = 8;
-    temp_r0 = gCamera.y + 0xFFFFFCE0;
-    gBgScrollRegs[0][1] = temp_r0;
-    temp_r0_2 = temp_r0 << 0x10;
-    if (temp_r0_2 >= 0) {
-        var_r0 = temp_r0_2 >> 0x13;
+    gBgScrollRegs[0][1] = gCamera.y - 800;
+
+    if (gBgScrollRegs[0][1] >= 0) {
+        gBgScrollRegs[0][1] = gBgScrollRegs[0][1] >> 0x3;
     } else {
-        var_r0 = 0;
+        gBgScrollRegs[0][1] = 0;
     }
-    gBgScrollRegs[0][1] = (s16)var_r0;
-    if ((s32)gBgScrollRegs[0][1] > 0x120) {
-        gBgScrollRegs[0][1] = 0x120;
+
+    if (gBgScrollRegs[0][1] > 288) {
+        gBgScrollRegs[0][1] = 288;
     }
     gBgScrollRegs[3][0] = 8;
-    temp_r0_3 = gCamera.y + 0xFFFFFCE0;
-    gBgScrollRegs[3][1] = temp_r0_3;
-    temp_r0_4 = temp_r0_3 << 0x10;
-    if (temp_r0_4 >= 0) {
-        var_r0_2 = temp_r0_4 >> 0x13;
+    gBgScrollRegs[3][1] = gCamera.y - 800;
+
+    if (gBgScrollRegs[3][1] >= 0) {
+        gBgScrollRegs[3][1] = gBgScrollRegs[3][1] >> 0x3;
     } else {
-        var_r0_2 = 0;
+        gBgScrollRegs[3][1] = 0;
     }
-    gBgScrollRegs[3][1] = (s16)var_r0_2;
-    if ((s32)gBgScrollRegs[3][1] > 0x120) {
-        gBgScrollRegs[3][1] = 0x120;
+
+    if (gBgScrollRegs[3][1] > 288) {
+        gBgScrollRegs[3][1] = 288;
     }
-    if ((u32)gStageData.gameMode <= 4U) {
+    if (GAME_MODE_IS_SINGLE_PLAYER(CURRENT_GAME_MODE)) {
         sub_8050C08();
     }
 }
+END_NONMATCH
+
+#else
 
 void sub_8050C08(void)
 {

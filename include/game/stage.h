@@ -55,7 +55,7 @@ typedef struct {
     /* 0x0C */ u8 unkC;
     /* 0x0D */ u8 unkD;
     /* 0x0E */ u16 currentLevel; // Map player's currently on
-    /* 0x10 */ u16 unk10; // some kind of flag register
+    /* 0x10 */ u16 unk10; // seems to be a REG_DISPCNT copy?
 
     /* 0x12 */ u16 nextMapIndex; // Map targeted by teleport (apparently only works with
                                  // level warps?)
