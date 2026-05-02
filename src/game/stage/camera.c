@@ -99,6 +99,7 @@ void sub_8050804(void);
 void sub_80514C0(void);
 void sub_8050748(void);
 void sub_8050804(void);
+void sub_8050920(void);
 void sub_80514C0(void);
 void sub_8050804(void);
 void sub_80514C0(void);
@@ -1222,20 +1223,17 @@ NONMATCH("asm/non_matching/game/stage/cam__sub_8050748.inc", void sub_8050748(vo
 }
 END_NONMATCH
 
-#if 01
-#else
-
 void sub_8050804(void)
 {
-    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM + 0xC000;
-    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM + 0xD000;
-    gStageBackgroundsRam.targetTilesX = 0x1E;
-    gStageBackgroundsRam.targetTilesY = 0x14;
+    gStageBackgroundsRam[0].graphics.dest = (void *)(BG_VRAM + 0xC000);
+    gStageBackgroundsRam[0].layoutVram = (u16 *)(BG_VRAM + 0xD000);
+    gStageBackgroundsRam[0].targetTilesX = 30;
+    gStageBackgroundsRam[0].targetTilesY = 20;
     gBgCntRegs[0] = 0x1A0E;
-    gStageBackgroundsRam[0].graphics.dest = BG_VRAM + 0x8000;
-    gStageBackgroundsRam[3].layoutVram = BG_VRAM + 0xE000;
-    gStageBackgroundsRam.unkE6 = 0x1E;
-    (&gStageBackgroundsRam + 0xE6)->unk2 = 0x14;
+    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0x8000);
+    gStageBackgroundsRam[3].layoutVram = (u16 *)(BG_VRAM + 0xE000);
+    gStageBackgroundsRam[3].targetTilesX = 30;
+    gStageBackgroundsRam[3].targetTilesY = 20;
     gBgCntRegs[3] = 0x1C0A;
 }
 
@@ -1245,29 +1243,32 @@ void sub_8050864(void)
     gBgScrollRegs[0][1] = 0;
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
-    gStageBackgroundsRam[0].graphics.dest = BG_VRAM + 0x8000;
-    gStageBackgroundsRam[3].layoutVram = BG_VRAM + 0xB000;
-    gStageBackgroundsRam.unkE6 = 0x20;
-    (&gStageBackgroundsRam + 0xE6)->unk2 = 0x40;
+    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0x8000);
+    gStageBackgroundsRam[3].layoutVram = (void *)(BG_VRAM + 0xB000);
+    gStageBackgroundsRam[3].targetTilesX = 32;
+    gStageBackgroundsRam[3].targetTilesY = 64;
     gBgCntRegs[3] = 0x960A;
-    gStageBackgroundsRam.graphics.dest = (void *)BG_VRAM + 0xC000;
-    gStageBackgroundsRam.layoutVram = (u16 *)BG_VRAM + 0xE000;
-    gStageBackgroundsRam.targetTilesX = 0x20;
-    gStageBackgroundsRam.targetTilesY = 0x40;
+    gStageBackgroundsRam[0].graphics.dest = (void *)(BG_VRAM + 0xC000);
+    gStageBackgroundsRam[0].layoutVram = (u16 *)(BG_VRAM + 0xE000);
+    gStageBackgroundsRam[0].targetTilesX = 32;
+    gStageBackgroundsRam[0].targetTilesY = 64;
     gBgCntRegs[0] = 0x9C0E;
 }
 
 void sub_80508D4(void)
 {
-    gBgScrollRegs[3][0] = (s16)(u8)((s32)gCamera.x >> 3);
-    gBgScrollRegs[3][1] = ((s32)gCamera.y >> 3) & 0x1FF;
-    gBgScrollRegs[0][0] = (s16)(u8)((s32)gCamera.x >> 2);
-    gBgScrollRegs[0][1] = ((s32)gCamera.y >> 2) & 0x1FF;
-    if ((u32)gStageData.gameMode <= 4U) {
+    gBgScrollRegs[3][0] = (gCamera.x >> 3) & 0xFF;
+    gBgScrollRegs[3][1] = (gCamera.y >> 3) & 0x1FF;
+    gBgScrollRegs[0][0] = (gCamera.x >> 2) & 0xFF;
+    gBgScrollRegs[0][1] = (gCamera.y >> 2) & 0x1FF;
+
+    if (gStageData.gameMode < 5) {
         sub_8050920();
     }
 }
 
+#if 01
+#else
 void sub_8050920(void)
 {
     s32 temp_r4;

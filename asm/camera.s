@@ -9,8 +9,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start sub_8050804
 sub_8050804: @ 0x08050804
 	push {r4, lr}
@@ -141,6 +139,7 @@ _08050910: .4byte gBgScrollRegs
 _08050914: .4byte gCamera
 _08050918: .4byte 0x000001FF
 _0805091C: .4byte gStageData
+.endif
 
 	thumb_func_start sub_8050920
 sub_8050920: @ 0x08050920
