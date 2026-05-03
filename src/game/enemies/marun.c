@@ -5,9 +5,10 @@
 #include "constants/zones.h"
 #include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
+#include "game/shared/stage/player.h"
+#include "game/shared/stage/terrain_collision.h"
 #include "game/enemy_unknown.h"
 #include "module_unclear.h"
-#include "game/shared/stage/player.h"
 #include "game/stage.h"
 
 typedef struct {
