@@ -23,6 +23,9 @@
 #define CURRENT_GAME_MODE gGameMode
 #define CURRENT_LEVEL     gCurrentLevel
 extern s8 CURRENT_LEVEL;
+// TODO: Consistent naming with SA3!
+#define STAGE_TIMER gStageTime
+u32 STAGE_TIMER;
 #define ENT_MGR_TASK gEntitiesManagerTask
 #define RING_COUNT   gRingCount
 #define LIFE_COUNT   gNumLives
@@ -32,6 +35,7 @@ extern s8 CURRENT_LEVEL;
 #define ENT_MGR_TASK      (gStageData.taskEntitiesManager)
 #define RING_COUNT        (gStageData.rings)
 #define LIFE_COUNT        (gStageData.lives)
+#define STAGE_TIMER       (gStageData.levelTimer)
 #endif
 
 // rodata

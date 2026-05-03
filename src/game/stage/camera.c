@@ -911,8 +911,8 @@ void UpdateCamera(s16 arg0)
     newX = CLAMP(newX, cam->minX, cam->maxX - DISPLAY_WIDTH);
     newY = CLAMP(newY, cam->minY, cam->maxY - DISPLAY_HEIGHT);
 
-    newX += cam->unkC;
-    newY += cam->unkE;
+    newX += cam->shakeOffsetX;
+    newY += cam->shakeOffsetY;
     newX += cam->unk62;
     newY += cam->unk64;
     cam->x = newX;
@@ -1039,8 +1039,8 @@ void UpdateCameraMultiplayer()
     newX = CLAMP(newX, cam->minX, cam->maxX - DISPLAY_WIDTH);
     newY = CLAMP(newY, cam->minY, cam->maxY - DISPLAY_HEIGHT);
 
-    newX += cam->unkC;
-    newY += cam->unkE;
+    newX += cam->shakeOffsetX;
+    newY += cam->shakeOffsetY;
     newX += cam->unk62;
     newY += cam->unk64;
     cam->x = newX;

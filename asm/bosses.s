@@ -7568,7 +7568,7 @@ _08069BB4:
 	str r1, [sp]
 	movs r1, #0x20
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	ldr r0, _08069BD8 @ =0x00000225
 	bl m4aSongNumStart
 	movs r0, #0xd2
@@ -7692,7 +7692,7 @@ _08069C96:
 	str r1, [sp]
 	movs r1, #0x20
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	ldr r0, _08069CD0 @ =0x00000225
 	bl m4aSongNumStart
 	movs r0, #0xff
@@ -7943,7 +7943,7 @@ _08069E78:
 	str r1, [sp]
 	movs r1, #0x20
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	movs r0, #0xa
 	strb r0, [r5, #0x10]
 	movs r0, #0x64
@@ -8121,7 +8121,7 @@ _08069FE2:
 	str r1, [sp]
 	movs r1, #0x20
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	ldr r0, _0806A00C @ =0xFFFFFC00
 	str r0, [r5, #0x64]
 	movs r0, #0x6e
@@ -8247,7 +8247,7 @@ _0806A0EA:
 	str r1, [sp]
 	movs r1, #0x20
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	ldr r0, _0806A110 @ =0xFFFFFD00
 	str r0, [r5, #0x64]
 	movs r0, #0x6f
@@ -8372,7 +8372,7 @@ _0806A1EE:
 	str r1, [sp]
 	movs r1, #0x20
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	ldr r0, _0806A214 @ =0xFFFFFE00
 	str r0, [r5, #0x64]
 	movs r0, #0x70
@@ -8497,7 +8497,7 @@ _0806A2F2:
 	str r1, [sp]
 	movs r1, #0x20
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	movs r1, #0
 	movs r0, #0xb4
 	strh r0, [r5, #0x2e]
@@ -13128,7 +13128,7 @@ _0806C680:
 	str r1, [sp]
 	movs r1, #0x20
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	b _0806C6E0
 	.align 2, 0
 _0806C6A0: .4byte gSineTable
@@ -13160,7 +13160,7 @@ _0806C6BE:
 	str r1, [sp]
 	movs r1, #0x20
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 _0806C6E0:
 	ldr r0, [r7, #0x38]
 	ldr r1, [r7, #0x40]
@@ -13235,7 +13235,7 @@ _0806C75C:
 	str r1, [sp]
 	movs r1, #0x20
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	movs r0, #1
 	b _0806C7A8
 	.align 2, 0
@@ -13370,7 +13370,7 @@ _0806C7E4:
 	str r1, [sp]
 	movs r1, #0x20
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	adds r0, r6, #0
 	adds r0, #0xc4
 	adds r1, r6, #0
@@ -16222,7 +16222,7 @@ _0806DDD6:
 	str r1, [sp]
 	movs r1, #0x20
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	ldr r0, _0806DE10 @ =0xFFFFFE00
 	str r0, [r4, #0x14]
 	movs r0, #0x3c
@@ -16610,7 +16610,7 @@ _0806E0CE:
 	str r1, [sp]
 	movs r1, #0x20
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	adds r1, r4, #0
 	adds r1, #0x26
 	ldrb r0, [r1]
@@ -17407,7 +17407,7 @@ _0806E6CC:
 	str r1, [sp]
 	movs r1, #0x20
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	ldr r0, _0806E6F8 @ =0xFFFFFE00
 	str r0, [r4, #0x14]
 	ldr r0, _0806E6FC @ =0x00000203
@@ -17564,7 +17564,7 @@ _0806E7FA:
 	str r1, [sp]
 	movs r1, #0x20
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	ldr r0, _0806E834 @ =0xFFFFFE00
 	str r0, [r4, #0x14]
 	ldr r0, _0806E838 @ =0x00000271
@@ -19175,7 +19175,7 @@ _0806F45E:
 	str r1, [sp]
 	movs r1, #8
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	movs r0, #0xb4
 	strh r0, [r4, #0x20]
 	movs r0, #0xc8
@@ -21908,7 +21908,7 @@ _0807092C:
 	str r1, [sp]
 	movs r1, #0x40
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	ldr r0, _080709AC @ =0x0000022B
 	bl m4aSongNumStart
 	movs r0, #0x22
@@ -22283,7 +22283,7 @@ _08070BF4:
 	str r1, [sp]
 	movs r1, #0x40
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	movs r0, #0xd2
 	strh r0, [r5, #6]
 _08070C4A:
@@ -22346,7 +22346,7 @@ _08070C9E:
 	str r1, [sp]
 	movs r1, #0x40
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	movs r0, #0xdc
 	b _08071026
 	.align 2, 0
@@ -22393,7 +22393,7 @@ _08070D02:
 	str r1, [sp]
 	movs r1, #0x80
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	movs r0, #0x3c
 	strh r0, [r5, #8]
 	movs r0, #0xe6
@@ -25128,7 +25128,7 @@ _080721D0:
 	str r1, [sp]
 	movs r1, #4
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 _080721F8:
 	ldrh r1, [r5, #0x14]
 	movs r0, #1
@@ -26629,7 +26629,7 @@ _08072D76:
 	str r1, [sp]
 	movs r1, #0x40
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	add sp, #4
 	pop {r4, r5, r6, r7}
 	pop {r0}
@@ -28917,7 +28917,7 @@ sub_8073F4C: @ 0x08073F4C
 	str r1, [sp]
 	movs r1, #8
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	ldr r0, _0807402C @ =0x00000221
 	bl m4aSongNumStart
 _08073F8C:
@@ -32901,7 +32901,7 @@ _08075F4E:
 	str r1, [sp]
 	movs r1, #0x40
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	mov r1, r8
 	ldrb r0, [r1]
 	cmp r0, #0
@@ -44368,7 +44368,7 @@ sub_807B664: @ 0x0807B664
 	str r1, [sp]
 	movs r1, #0x40
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 _0807B6B2:
 	movs r5, #1
 _0807B6B4:
@@ -44855,7 +44855,7 @@ _0807BA3E:
 	str r1, [sp]
 	movs r1, #4
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	movs r0, #0xd2
 	bl sub_807FB7C
 	b _0807BBD4
@@ -50413,7 +50413,7 @@ _0807E440:
 	str r1, [sp]
 	movs r1, #0x20
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	b _0807E53A
 	.align 2, 0
 _0807E480: .4byte 0x0000AFFF
@@ -51820,7 +51820,7 @@ _0807EEAC:
 	str r1, [sp]
 	movs r1, #4
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	ldrb r0, [r5]
 	cmp r0, #0
 	beq _0807EEEC
@@ -56306,7 +56306,7 @@ _080810B0:
 	str r1, [sp]
 	movs r1, #0x40
 	movs r2, #0
-	bl sub_805256C
+	bl CreateScreenShake
 	movs r0, #0x9f
 	lsls r0, r0, #2
 	bl m4aSongNumStart  @ VOICE__EGGMAN__OW

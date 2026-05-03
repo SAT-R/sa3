@@ -37,8 +37,8 @@ struct Camera {
     /* 0x04 */ s32 y;
     /* 0x08 */ s16 shiftX;
     /* 0x0A */ s16 shiftY;
-    /* 0x0C */ s16 unkC; // x offset?
-    /* 0x0E */ s16 unkE; // y offset?
+    /* 0x0C */ s16 shakeOffsetX;
+    /* 0x0E */ s16 shakeOffsetY;
     /* 0x10 */ s32 minY;
     /* 0x14 */ s32 maxY;
     /* 0x18 */ s32 minX;
@@ -67,8 +67,8 @@ struct Camera {
     /* 0x5C */ u16 SA2_LABEL(unk50);
     /* 0x5C */ u8 padding5E[2];
     /* 0x60 */ s16 unk60;
-    /* 0x62 */ s16 unk62;
-    /* 0x64 */ s16 unk64;
+    /* 0x62 */ s16 unk62; // some x, is this a 2nd shakeOffset vector?
+    /* 0x64 */ s16 unk64; // some y, is this a 2nd shakeOffset vector?
     //    /* 0x66 */ u8 spectatorTarget;
     /* 0x66 */ s16 SA2_LABEL(unk64);
     /* 0x68 */ u8 unk68;

@@ -205,7 +205,7 @@ void Task_80380FC(void)
         gBldRegs.bldCnt = 0;
         gBldRegs.bldY = 0;
 
-        gCamera.unkE = 0;
+        gCamera.shakeOffsetY = 0;
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             p = GET_SP_PLAYER_V1(i);
 
