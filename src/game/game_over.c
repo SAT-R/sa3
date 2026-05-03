@@ -364,6 +364,7 @@ void sub_80026BC(void)
     }
 }
 
+// Something about BG palette animations
 void sub_8002838(s16 level)
 {
     StageData *sd = &gStageData;

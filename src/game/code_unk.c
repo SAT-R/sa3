@@ -13,7 +13,7 @@
 typedef struct StrcCodeUnk {
     /* 0x00 */ u8 padding0[0x14];
     /* 0x14 */ Sprite s;
-    /* 0x3C */ u8 padding3C[0x400];
+    /* 0x3C */ u16 palette[32 * PALETTE_LEN_4BPP];
 } StrcCodeUnk; /* 0x43C */
 
 void sub_8052D2C(StrcCodeUnk *strc) { }

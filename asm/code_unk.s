@@ -8,6 +8,7 @@
 .syntax unified
 .arm
 
+@; Something about BG palette animations
 	thumb_func_start sub_80525F0
 sub_80525F0: @ 0x080525F0
 	push {r4, r5, r6, lr}
