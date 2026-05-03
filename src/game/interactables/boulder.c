@@ -130,7 +130,7 @@ void Task_Boulder(void)
                         Player_800DAF4(p);
                     }
 
-                    res = sa2__sub_801E4E4(I(boulder->qWorldY), I(boulder->qWorldX), 1, 8, NULL, sa2__sub_801EE64);
+                    res = SA2_LABEL(sub_801E4E4)(I(boulder->qWorldY), I(boulder->qWorldX), 1, 8, NULL, sa2__sub_801EE64);
 
                     if (res < 0) {
                         p->qWorldY += Q_8_8((s16)res >> 8);
@@ -223,7 +223,7 @@ void sub_8049D70(void)
 
     switch (sp08[0] >> 6) {
         case 0: {
-            res = sa2__sub_801E4E4(I(boulder->qWorldY + cosVal), I(boulder->qWorldX), 1, +8, sp08, sa2__sub_801EE64);
+            res = SA2_LABEL(sub_801E4E4)(I(boulder->qWorldY + cosVal), I(boulder->qWorldX), 1, +8, sp08, sa2__sub_801EE64);
             if (res < sl) {
                 boulder->qWorldY += Q(res);
 
@@ -234,7 +234,7 @@ void sub_8049D70(void)
         } break;
 
         case 1: {
-            res = sa2__sub_801E4E4(I(boulder->qWorldX + sinVal), I(boulder->qWorldY + cosVal), 1, -8, sp08, sa2__sub_801ED24);
+            res = SA2_LABEL(sub_801E4E4)(I(boulder->qWorldX + sinVal), I(boulder->qWorldY + cosVal), 1, -8, sp08, sa2__sub_801ED24);
             if (res < 4) {
                 boulder->qWorldX -= Q(res);
 
@@ -246,7 +246,7 @@ void sub_8049D70(void)
         } break;
 
         case 2: {
-            res = sa2__sub_801E4E4(I(boulder->qWorldY + cosVal), I(boulder->qWorldX + sinVal), 1, -8, sp08, sa2__sub_801EE64);
+            res = SA2_LABEL(sub_801E4E4)(I(boulder->qWorldY + cosVal), I(boulder->qWorldX + sinVal), 1, -8, sp08, sa2__sub_801EE64);
             if (res < 4) {
                 boulder->qWorldY -= Q(res);
 
@@ -257,7 +257,7 @@ void sub_8049D70(void)
         } break;
 
         case 3: {
-            res = sa2__sub_801E4E4(I(boulder->qWorldX + sinVal), I(boulder->qWorldY + cosVal), 1, +8, sp08, sa2__sub_801ED24);
+            res = SA2_LABEL(sub_801E4E4)(I(boulder->qWorldX + sinVal), I(boulder->qWorldY + cosVal), 1, +8, sp08, sa2__sub_801ED24);
             if (res < 4) {
                 boulder->qWorldX += Q(res);
 
@@ -270,8 +270,8 @@ void sub_8049D70(void)
 
     if (boulder->unk7A == 2) {
 
-        s32 resN = sa2__sub_801E4E4(I(boulder->qWorldX - cosVal), I(boulder->qWorldY), 1, -8, sp08, sa2__sub_801ED24);
-        s32 resP = sa2__sub_801E4E4(I(boulder->qWorldX + cosVal), I(boulder->qWorldY), 1, +8, sp08, sa2__sub_801ED24);
+        s32 resN = SA2_LABEL(sub_801E4E4)(I(boulder->qWorldX - cosVal), I(boulder->qWorldY), 1, -8, sp08, sa2__sub_801ED24);
+        s32 resP = SA2_LABEL(sub_801E4E4)(I(boulder->qWorldX + cosVal), I(boulder->qWorldY), 1, +8, sp08, sa2__sub_801ED24);
 
         if (resN < 0 || resP < 0) {
             boulder->unk7A = 4;

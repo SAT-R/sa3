@@ -459,7 +459,7 @@ extern void Task_802056C(void);
 extern void Task_80205F4(void);
 extern void Task_8020660(void);
 extern void Task_80206B0(void);
-extern void sub_80203D4(Player *p);
+extern void CreateCheeseIfPlayerIsCream(Player *p);
 extern void sub_8020444(Player *p);
 extern void sub_8020488(Player *p);
 extern void sub_802051C(Player *p);

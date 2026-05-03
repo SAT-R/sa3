@@ -239,7 +239,7 @@ void sub_8048A50(void)
     idx = sp08 >> 6;
     switch (sp08 >> 6) {
         case 0: {
-            res = sa2__sub_801E4E4(I(cart->qWorldY + r2), I(cart->qWorldX + r7), 1, +8, &sp08, sa2__sub_801EE64);
+            res = SA2_LABEL(sub_801E4E4)(I(cart->qWorldY + r2), I(cart->qWorldX + r7), 1, +8, &sp08, sa2__sub_801EE64);
 
             if (res < 8) {
                 cart->qWorldY += Q(res);
@@ -251,7 +251,7 @@ void sub_8048A50(void)
         } break;
 
         case 1: {
-            res = sa2__sub_801E4E4(I(cart->qWorldX + r7), I(cart->qWorldY + r2), 1, -8, &sp08, sa2__sub_801ED24);
+            res = SA2_LABEL(sub_801E4E4)(I(cart->qWorldX + r7), I(cart->qWorldY + r2), 1, -8, &sp08, sa2__sub_801ED24);
 
             if (res < 8) {
                 cart->qWorldX -= Q(res);
@@ -267,7 +267,7 @@ void sub_8048A50(void)
         } break;
 
         case 3: {
-            res = sa2__sub_801E4E4(I(cart->qWorldX + r7), I(cart->qWorldY + r2), 1, +8, &sp08, sa2__sub_801ED24);
+            res = SA2_LABEL(sub_801E4E4)(I(cart->qWorldX + r7), I(cart->qWorldY + r2), 1, +8, &sp08, sa2__sub_801ED24);
 
             if (res < 8) {
                 cart->qWorldX += Q(res);

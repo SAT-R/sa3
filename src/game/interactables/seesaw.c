@@ -631,7 +631,7 @@ s32 sub_8037144(Player *p, Sprite *s, s16 worldX, s16 worldY, u16 arg4, s16 arg5
         || ((((MOVESTATE_COLLIDING_ENT | MOVESTATE_IN_AIR) & p->moveState) == MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s))) {
         var_r8 = 1;
         p->qWorldY = var_r0;
-        res = sa2__sub_801E4E4(I(p->qWorldY), I(p->qWorldX), p->layer, 8, NULL, sa2__sub_801EE64);
+        res = SA2_LABEL(sub_801E4E4)(I(p->qWorldY), I(p->qWorldX), p->layer, 8, NULL, sa2__sub_801EE64);
         if (res < 0) {
             p->qWorldY += Q(res);
         }

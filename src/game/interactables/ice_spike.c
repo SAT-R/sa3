@@ -235,7 +235,7 @@ void Task_8044160(void)
         }
     }
 
-    res = sa2__sub_801E4E4(worldY + 6, worldX, spike->base.unk17, +8, NULL, sa2__sub_801EE64);
+    res = SA2_LABEL(sub_801E4E4)(worldY + 6, worldX, spike->base.unk17, +8, NULL, sa2__sub_801EE64);
 
     if (res < 0) {
         spike->base.qWorldY += Q_8_8(res);

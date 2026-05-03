@@ -16,16 +16,15 @@ typedef struct StrcCodeUnk {
     /* 0x3C */ u8 padding3C[0x400];
 } StrcCodeUnk; /* 0x43C */
 
-void sub_8052D2C(StrcCodeUnk *strc)
-{
-}
+void sub_8052D2C(StrcCodeUnk *strc) { }
 
-void CopyNColorsFromAnimPalette(u16* destPalette, AnimId anim, u16 numColors) {
+void CopyNColorsFromAnimPalette(u16 *destPalette, AnimId anim, u16 numColors)
+{
     const ACmd **animData;
-    s32* animDataPattern0;
+    s32 *animDataPattern0;
 
     animData = gAnimations[anim];
-    animDataPattern0 = (s32*)*animData;
+    animDataPattern0 = (s32 *)*animData;
     if (*animDataPattern0++ == ANIM_CMD__PALETTE) {
         s32 paletteId = *animDataPattern0;
         DmaCopy32(3, &gRefSpriteTables->palettes[paletteId * PALETTE_LEN_4BPP], destPalette, numColors * COLOR_SIZE);

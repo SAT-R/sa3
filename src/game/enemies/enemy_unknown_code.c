@@ -8,6 +8,7 @@
 #include "game/enemy_unknown.h"
 #include "game/shared/stage/player.h" // PlayerCallback
 #include "game/shared/stage/player_callbacks.h"
+#include "game/shared/stage/terrain_collision.h"
 #include "game/stage.h"
 #include "game/interactables/bonus_game_enemies.h"
 #include "constants/animations.h"

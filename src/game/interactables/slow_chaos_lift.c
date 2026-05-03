@@ -127,7 +127,7 @@ void Task_803DED0(void)
     u8 arr[4];
     u32 res;
 
-    s32 offY = sa2__sub_801E4E4(I(lift->qWorldY), I(lift->qWorldX), 0, +8, arr, sa2__sub_801EE64);
+    s32 offY = SA2_LABEL(sub_801E4E4)(I(lift->qWorldY), I(lift->qWorldX), 0, +8, arr, sa2__sub_801EE64);
 
     if (offY <= 0) {
         lift->qWorldY += Q(offY);
@@ -205,19 +205,19 @@ void Task_803E0D8(void)
 
     switch (r0) {
         case 0: {
-            r2 = sa2__sub_801E4E4(I(lift->qWorldY), I(lift->qWorldX), 0, +8, arr, sa2__sub_801EE64);
+            r2 = SA2_LABEL(sub_801E4E4)(I(lift->qWorldY), I(lift->qWorldX), 0, +8, arr, sa2__sub_801EE64);
         } break;
 
         case 1: {
-            r2 = sa2__sub_801E4E4(I(lift->qWorldX), I(lift->qWorldY), 0, -8, arr, sa2__sub_801ED24);
+            r2 = SA2_LABEL(sub_801E4E4)(I(lift->qWorldX), I(lift->qWorldY), 0, -8, arr, sa2__sub_801ED24);
         } break;
 
         case 2: {
-            r2 = sa2__sub_801E4E4(I(lift->qWorldY), I(lift->qWorldX), 0, -8, arr, sa2__sub_801EE64);
+            r2 = SA2_LABEL(sub_801E4E4)(I(lift->qWorldY), I(lift->qWorldX), 0, -8, arr, sa2__sub_801EE64);
         } break;
 
         case 3: {
-            r2 = sa2__sub_801E4E4(I(lift->qWorldX), I(lift->qWorldY), 0, +8, arr, sa2__sub_801ED24);
+            r2 = SA2_LABEL(sub_801E4E4)(I(lift->qWorldX), I(lift->qWorldY), 0, +8, arr, sa2__sub_801ED24);
         } break;
     }
 

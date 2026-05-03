@@ -10,7 +10,7 @@
 #define CMS_2           BitValue(1)
 #define CMS_4           BitValue(2)
 #define CMS_INVISIBLE   BitValue(3)
-// Initialized in sub_80203D4()
+// Initialized in CreateCheeseIfPlayerIsCream()
 typedef struct {
     /* 0x00 */ s32 qWorldX;
     /* 0x04 */ s32 qWorldY;
