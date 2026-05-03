@@ -61,12 +61,12 @@ _08011C54:
 	adds r1, #0x27
 	ldrb r2, [r1]
 	str r3, [sp]
-	ldr r1, _08011C74 @ =sub_805217C
+	ldr r1, _08011C74 @ =sa2__sub_801EE64
 	str r1, [sp, #4]
 	adds r1, r5, #0
 	b _08011CEE
 	.align 2, 0
-_08011C74: .4byte sub_805217C
+_08011C74: .4byte sa2__sub_801EE64
 _08011C78:
 	subs r0, r4, #2
 	mov r1, ip
@@ -82,13 +82,13 @@ _08011C78:
 	rsbs r3, r3, #0
 	movs r1, #0
 	str r1, [sp]
-	ldr r1, _08011CA0 @ =sub_805217C
+	ldr r1, _08011CA0 @ =sa2__sub_801EE64
 	str r1, [sp, #4]
 	adds r1, r5, #0
-	bl sub_80517FC
+	bl sa2__sub_801E4E4
 	b _08011CFE
 	.align 2, 0
-_08011CA0: .4byte sub_805217C
+_08011CA0: .4byte sa2__sub_801EE64
 _08011CA4:
 	subs r0, r5, #2
 	mov r1, ip
@@ -104,13 +104,13 @@ _08011CA4:
 	rsbs r3, r3, #0
 	movs r1, #0
 	str r1, [sp]
-	ldr r1, _08011CCC @ =sub_805203C
+	ldr r1, _08011CCC @ =sa2__sub_801ED24
 	str r1, [sp, #4]
 	adds r1, r4, #0
-	bl sub_80517FC
+	bl sa2__sub_801E4E4
 	b _08011CFE
 	.align 2, 0
-_08011CCC: .4byte sub_805203C
+_08011CCC: .4byte sa2__sub_801ED24
 _08011CD0:
 	adds r0, r5, #2
 	mov r1, ip
@@ -124,15 +124,15 @@ _08011CD0:
 	ldrb r2, [r1]
 	movs r1, #0
 	str r1, [sp]
-	ldr r1, _08011CF8 @ =sub_805203C
+	ldr r1, _08011CF8 @ =sa2__sub_801ED24
 	str r1, [sp, #4]
 	adds r1, r4, #0
 _08011CEE:
 	movs r3, #8
-	bl sub_80517FC
+	bl sa2__sub_801E4E4
 	b _08011CFE
 	.align 2, 0
-_08011CF8: .4byte sub_805203C
+_08011CF8: .4byte sa2__sub_801ED24
 _08011CFC:
 	movs r0, #0
 _08011CFE:

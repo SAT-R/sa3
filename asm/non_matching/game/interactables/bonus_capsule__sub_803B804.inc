@@ -67,11 +67,11 @@ _0803B844:
 	asrs r0, r0, #8
 	ldr r1, [r4]
 	asrs r1, r1, #8
-	ldr r2, _0803B8BC @ =sub_8051F54
+	ldr r2, _0803B8BC @ =sa2__sub_801EC3C
 	str r2, [sp]
 	movs r2, #1
 	movs r3, #8
-	bl sub_8052418
+	bl sa2__sub_801F100
 	adds r1, r0, #0
 	mov r2, r8
 	cmp r1, #0
@@ -95,7 +95,7 @@ _0803B844:
 	ble _0803B8D2
 	b _0803B8CE
 	.align 2, 0
-_0803B8BC: .4byte sub_8051F54
+_0803B8BC: .4byte sa2__sub_801EC3C
 _0803B8C0:
 	ldr r0, _0803B908 @ =0x00004FFF
 	cmp r1, r0

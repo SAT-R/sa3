@@ -3,9 +3,9 @@
 #include "malloc_vram.h"
 #include "sprite.h"
 #include "task.h"
-#include "game/camera.h"
+#include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
-#include "game/player.h"
+#include "game/shared/stage/player.h"
 #include "game/stage.h"
 
 #include "constants/animations.h"

@@ -4,10 +4,10 @@
 #include "malloc_vram.h"
 #include "module_unclear.h"
 #include "game/interactables/platform_shared.h"
-#include "game/camera.h"
+#include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
-#include "game/player.h"
-#include "game/player_callbacks.h"
+#include "game/shared/stage/player.h"
+#include "game/shared/stage/player_callbacks.h"
 #include "game/stage.h"
 
 #include "constants/animations.h"
@@ -525,7 +525,7 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F368.inc", void 
         }
     } else {
         if (platform->flags_4) {
-            s32 res = sub_8052418(I(platform->shared.qWorldY), I(platform->shared.qWorldX), 1, 8, sub_8051F54);
+            s32 res = sa2__sub_801F100(I(platform->shared.qWorldY), I(platform->shared.qWorldX), 1, 8, sa2__sub_801EC3C);
 
             if (res <= 0) {
                 platform->shared.qWorldY -= Q(res);
@@ -657,7 +657,8 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F698.inc", void 
     } else {
         if ((platform->flags_4) && (platform2->kindA != 0xFF)) {
 
-            s32 res = sub_8052418(I(platform->shared.qWorldY) + s->hitboxes[0].b.bottom, I(platform->shared.qWorldX), 1, 8, sub_8051F54);
+            s32 res = sa2__sub_801F100(I(platform->shared.qWorldY) + s->hitboxes[0].b.bottom, I(platform->shared.qWorldX), 1, 8,
+                                       sa2__sub_801EC3C);
 
             if (res <= 0) {
                 platform->shared.qWorldY += Q(res);

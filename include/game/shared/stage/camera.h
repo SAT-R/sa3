@@ -58,13 +58,10 @@ struct Camera {
     /* 0x48 */ struct Task *task48;
     /* 0x4C */ struct Task *task4C;
     /* 0x50 */ struct Task *task50;
+    /* 0x54 */ struct Task *task54;
 
     // 0x4 = spectator
     // mode
-    ///* 0x50 */ u16 unk50;
-    ///* 0x52 */ u16 unk52;
-    /* 0x54 */ u16 unk54;
-    /* 0x56 */ s16 unk56;
     /* 0x58 */ s16 SA2_LABEL(unk56);
     /* 0x5A */ s16 SA2_LABEL(unk40);
     /* 0x5C */ u16 SA2_LABEL(unk50);

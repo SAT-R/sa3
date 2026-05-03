@@ -2,8 +2,8 @@
 
 #include "global.h"
 #include "core.h"
-#include "game/camera.h"
-#include "game/player.h"
+#include "game/shared/stage/camera.h"
+#include "game/shared/stage/player.h"
 #include "game/save.h"
 #include "game/screen_fade.h"
 #include "game/stage.h"
@@ -78,13 +78,6 @@ void sub_8029A18() { }
 void sub_80275B8(u32 level, u8 param1, u8 param2) { }
 void TaskDestructor_8029774(struct Task *t) { }
 
-void sub_80517FC() { }
-void sub_80519EC() { }
-void sub_8051F54() { }
-u8 sub_805203C(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4) { return 0; }
-u8 sub_805217C(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4) { return 0; }
-s32 sub_8052394(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4, void *callback) { return 0; }
-void sub_8052418() { }
 void sub_8052D8C() { }
 void sub_8053128() { }
 void sub_8057AA0(u16 param0, u16 param1, u8 param2) { }
@@ -295,11 +288,8 @@ void sub_80275F0() { }
 void sub_8028850() { }
 void sub_8056090() { }
 void sub_809BFE8() { }
-void sub_805235C() { }
 void sub_8056AB0() { }
 void sub_8056AFC() { }
 void sub_8056B78() { }
 void sub_8057ECC() { }
 void sub_8081C80() { }
-
-const Collision *gRefCollision = NULL;

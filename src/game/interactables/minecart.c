@@ -5,10 +5,10 @@
 #include "trig.h"
 #include "malloc_vram.h"
 #include "module_unclear.h"
-#include "game/camera.h"
+#include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
-#include "game/player.h"
-#include "game/player_callbacks.h"
+#include "game/shared/stage/player.h"
+#include "game/shared/stage/player_callbacks.h"
 #include "game/stage.h"
 
 #include "constants/animations.h"
@@ -228,19 +228,19 @@ u16 sub_8047EEC(void)
 
     switch (sp08 >> 6) {
         case 0: {
-            res = sub_80517FC(I(cart->qWorldY + sinY), I(cart->qWorldX + sinX), 1, +8, &sp08, sub_805217C);
+            res = sa2__sub_801E4E4(I(cart->qWorldY + sinY), I(cart->qWorldX + sinX), 1, +8, &sp08, sa2__sub_801EE64);
         } break;
 
         case 1: {
-            res = sub_80517FC(I(cart->qWorldX + sinX), I(cart->qWorldY + sinY), 1, -8, &sp08, sub_805203C);
+            res = sa2__sub_801E4E4(I(cart->qWorldX + sinX), I(cart->qWorldY + sinY), 1, -8, &sp08, sa2__sub_801ED24);
         } break;
 
         case 2: {
-            res = sub_80517FC(I(cart->qWorldY + sinY), I(cart->qWorldX + sinX), 1, -8, &sp08, sub_805217C);
+            res = sa2__sub_801E4E4(I(cart->qWorldY + sinY), I(cart->qWorldX + sinX), 1, -8, &sp08, sa2__sub_801EE64);
         } break;
 
         case 3: {
-            res = sub_80517FC(I(cart->qWorldX + sinX), I(cart->qWorldY + sinY), 1, +8, &sp08, sub_805203C);
+            res = sa2__sub_801E4E4(I(cart->qWorldX + sinX), I(cart->qWorldY + sinY), 1, +8, &sp08, sa2__sub_801ED24);
         } break;
 
         default: {
@@ -278,7 +278,7 @@ NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048044.inc", void s
 
     switch (sp08 >> 6) {
         case 0: {
-            res = sub_80517FC(I(cart->qWorldY + sinY), I(cart->qWorldX + sinX), 1, +8, &sp08, sub_805217C);
+            res = sa2__sub_801E4E4(I(cart->qWorldY + sinY), I(cart->qWorldX + sinX), 1, +8, &sp08, sa2__sub_801EE64);
 
             if (res < 4) {
                 cart->qWorldY += Q(res);
@@ -294,7 +294,7 @@ NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048044.inc", void s
         } break;
 
         case 1: {
-            res = sub_80517FC(I(cart->qWorldX + sinX), I(cart->qWorldY + sinY), 1, -8, &sp08, sub_805203C);
+            res = sa2__sub_801E4E4(I(cart->qWorldX + sinX), I(cart->qWorldY + sinY), 1, -8, &sp08, sa2__sub_801ED24);
 
             if (res < 4) {
                 cart->qWorldX -= Q(res);
@@ -306,7 +306,7 @@ NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048044.inc", void s
         } break;
 
         case 2: {
-            res = sub_80517FC(I(cart->qWorldY + sinY), I(cart->qWorldX + sinX), 1, -8, &sp08, sub_805217C);
+            res = sa2__sub_801E4E4(I(cart->qWorldY + sinY), I(cart->qWorldX + sinX), 1, -8, &sp08, sa2__sub_801EE64);
 
             if (res < 4) {
                 cart->qWorldY -= Q(res);
@@ -318,7 +318,7 @@ NONMATCH("asm/non_matching/game/interactables/minecart__sub_8048044.inc", void s
         } break;
 
         case 3: {
-            res = sub_80517FC(I(cart->qWorldX + sinX), I(cart->qWorldY + sinY), 1, +8, &sp08, sub_805203C);
+            res = sa2__sub_801E4E4(I(cart->qWorldX + sinX), I(cart->qWorldY + sinY), 1, +8, &sp08, sa2__sub_801ED24);
 
             if (res < 4) {
                 cart->qWorldX += Q(res);

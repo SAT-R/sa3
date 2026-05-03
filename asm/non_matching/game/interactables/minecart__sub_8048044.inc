@@ -73,11 +73,11 @@ _080480BA:
 	asrs r1, r1, #8
 	add r2, sp, #8
 	str r2, [sp]
-	ldr r2, _080480F0 @ =sub_805217C
+	ldr r2, _080480F0 @ =sa2__sub_801EE64
 	str r2, [sp, #4]
 	movs r2, #1
 	movs r3, #8
-	bl sub_80517FC
+	bl sa2__sub_801E4E4
 	adds r5, r0, #0
 	cmp r5, #3
 	bgt _080481B6
@@ -88,7 +88,7 @@ _080480BA:
 	b _080481A6
 	.align 2, 0
 _080480EC: .4byte 0x03000080
-_080480F0: .4byte sub_805217C
+_080480F0: .4byte sa2__sub_801EE64
 _080480F4:
 	ldr r0, [r6, #0x7c]
 	add r0, ip
@@ -102,10 +102,10 @@ _080480F4:
 	rsbs r3, r3, #0
 	add r2, sp, #8
 	str r2, [sp]
-	ldr r2, _08048138 @ =sub_805203C
+	ldr r2, _08048138 @ =sa2__sub_801ED24
 	str r2, [sp, #4]
 	movs r2, #1
-	bl sub_80517FC
+	bl sa2__sub_801E4E4
 	adds r5, r0, #0
 	cmp r5, #3
 	bgt _080481B6
@@ -123,7 +123,7 @@ _080480F4:
 	b _080481B6
 	.align 2, 0
 _08048134: .4byte 0x03000080
-_08048138: .4byte sub_805203C
+_08048138: .4byte sa2__sub_801ED24
 _0804813C:
 	ldr r0, _08048170 @ =0x03000080
 	adds r4, r7, r0
@@ -137,10 +137,10 @@ _0804813C:
 	rsbs r3, r3, #0
 	add r2, sp, #8
 	str r2, [sp]
-	ldr r2, _08048174 @ =sub_805217C
+	ldr r2, _08048174 @ =sa2__sub_801EE64
 	str r2, [sp, #4]
 	movs r2, #1
-	bl sub_80517FC
+	bl sa2__sub_801E4E4
 	adds r5, r0, #0
 	cmp r5, #3
 	bgt _080481B6
@@ -151,7 +151,7 @@ _0804813C:
 	b _080481A6
 	.align 2, 0
 _08048170: .4byte 0x03000080
-_08048174: .4byte sub_805217C
+_08048174: .4byte sa2__sub_801EE64
 _08048178:
 	ldr r0, [r6, #0x7c]
 	add r0, ip
@@ -163,11 +163,11 @@ _08048178:
 	asrs r1, r1, #8
 	add r2, sp, #8
 	str r2, [sp]
-	ldr r2, _080481D0 @ =sub_805203C
+	ldr r2, _080481D0 @ =sa2__sub_801ED24
 	str r2, [sp, #4]
 	movs r2, #1
 	movs r3, #8
-	bl sub_80517FC
+	bl sa2__sub_801E4E4
 	adds r5, r0, #0
 	cmp r5, #3
 	bgt _080481B6
@@ -197,7 +197,7 @@ _080481B6:
 	b _08048208
 	.align 2, 0
 _080481CC: .4byte 0x03000080
-_080481D0: .4byte sub_805203C
+_080481D0: .4byte sa2__sub_801ED24
 _080481D4:
 	cmp r0, #2
 	bne _08048208

@@ -45,12 +45,12 @@ _080124B8:
 	movs r1, #0
 	mov sl, r1
 	str r1, [sp]
-	ldr r0, _0801254C @ =sub_805217C
+	ldr r0, _0801254C @ =sa2__sub_801EE64
 	mov sb, r0
 	str r0, [sp, #4]
 	adds r0, r6, #0
 	adds r1, r7, #0
-	bl sub_80517FC
+	bl sa2__sub_801E4E4
 	cmp r0, #0
 	bgt _080124DC
 	lsls r1, r0, #8
@@ -81,7 +81,7 @@ _080124FC:
 	str r5, [sp, #4]
 	adds r0, r3, #0
 	movs r3, #8
-	bl sub_80517FC
+	bl sa2__sub_801E4E4
 	cmp r0, #0
 	bgt _08012518
 	lsls r1, r0, #8
@@ -114,6 +114,6 @@ _08012518:
 	bx r1
 	.align 2, 0
 _08012548: .4byte 0x000002FF
-_0801254C: .4byte sub_805217C
+_0801254C: .4byte sa2__sub_801EE64
 
 .syntax divided

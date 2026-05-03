@@ -1,6 +1,6 @@
 #include "global.h"
 #include "core.h"
-#include "game/camera.h"
+#include "game/shared/stage/camera.h"
 #include "game/enemy_unknown.h"
 #include "game/parameters/enemies.h"
 #include "game/stage.h"
@@ -194,7 +194,7 @@ void Task_SnowballMain()
         worldY = I(snowball->qWorldPos.y);
         worldX += (snowball->unk4 << 8);
         worldY += (snowball->unk6 << 8);
-        if (sub_8052394(worldY, worldX, 1, 8, NULL, sub_805217C) < 0) {
+        if (sa2__sub_801F07C(worldY, worldX, 1, 8, NULL, sa2__sub_801EE64) < 0) {
             var_r5 = 1;
         }
         if (var_r5 == 1) {

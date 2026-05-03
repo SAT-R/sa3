@@ -25,12 +25,12 @@
 	asrs r1, r1, #8
 	movs r2, #0
 	str r2, [sp]
-	ldr r2, _08012150 @ =sub_805203C
+	ldr r2, _08012150 @ =sa2__sub_801ED24
 	str r2, [sp, #4]
 	adds r2, r7, #0
 	b _08012184
 	.align 2, 0
-_08012150: .4byte sub_805203C
+_08012150: .4byte sa2__sub_801ED24
 _08012154:
 	ldr r0, [r5, #0x10]
 	asrs r0, r0, #8
@@ -53,13 +53,13 @@ _08012154:
 	orrs r2, r0
 _0801217A:
 	str r3, [sp]
-	ldr r0, _080121C0 @ =sub_805203C
+	ldr r0, _080121C0 @ =sa2__sub_801ED24
 	str r0, [sp, #4]
 	adds r0, r6, #0
 	adds r1, r4, #0
 _08012184:
 	movs r3, #8
-	bl sub_80517FC
+	bl sa2__sub_801E4E4
 	adds r2, r0, #0
 	cmp r2, #0
 	bgt _080121A0
@@ -87,7 +87,7 @@ _080121A0:
 	b _080121D0
 	.align 2, 0
 _080121BC: .4byte 0x000002FF
-_080121C0: .4byte sub_805203C
+_080121C0: .4byte sa2__sub_801ED24
 _080121C4:
 	movs r0, #3
 	adds r1, r5, #0

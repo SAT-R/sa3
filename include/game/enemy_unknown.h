@@ -2,7 +2,7 @@
 #define GUARD_SA3_ENEMY_UNKNOWN_CODE_H
 
 #include "game/shared/stage/entity.h"
-#include "game/player.h"
+#include "game/shared/stage/player.h"
 
 typedef struct {
     /* 0x00 */ MapEntity *me;

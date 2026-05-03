@@ -2,7 +2,7 @@
 #define GUARD_SA3_GAME_STAGE_H
 
 #include "global.h" // for BitValue()
-#include "game/player.h" // for Player type
+#include "game/shared/stage/player.h" // for Player type
 #include "game/player_controls.h"
 
 // CMS: "Cheese Move State"

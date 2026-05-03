@@ -2,7 +2,7 @@
 #include "malloc_vram.h"
 #include "module_unclear.h"
 #include "sprite.h"
-#include "game/camera.h"
+#include "game/shared/stage/camera.h"
 #include "game/save.h"
 #include "game/stage.h"
 

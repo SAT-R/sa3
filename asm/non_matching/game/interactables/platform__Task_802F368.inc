@@ -371,11 +371,11 @@ _0802F626:
     asrs r0, r0, #8
     ldr r1, [r7, #0xc]
     asrs r1, r1, #8
-    ldr r2, _0802F68C @ =sub_8051F54
+    ldr r2, _0802F68C @ =sa2__sub_801EC3C
     str r2, [sp]
     movs r2, #1
     movs r3, #8
-    bl sub_8052418
+    bl sa2__sub_801F100
     cmp r0, #0
     bgt _0802F664
     lsls r1, r0, #8
@@ -409,7 +409,7 @@ _0802F67A:
     pop {r0}
     bx r0
     .align 2, 0
-_0802F68C: .4byte sub_8051F54
+_0802F68C: .4byte sa2__sub_801EC3C
 _0802F690: .4byte gCurTask
 _0802F694: .4byte Task_802F698
 

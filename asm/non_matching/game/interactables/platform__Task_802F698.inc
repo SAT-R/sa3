@@ -381,11 +381,11 @@ _0802F95E:
     adds r0, r0, r1
     ldr r1, [r7, #0xc]
     asrs r1, r1, #8
-    ldr r2, _0802F9C0 @ =sub_8051F54
+    ldr r2, _0802F9C0 @ =sa2__sub_801EC3C
     str r2, [sp]
     movs r2, #1
     movs r3, #8
-    bl sub_8052418
+    bl sa2__sub_801F100
     cmp r0, #0
     bgt _0802F9A6
     lsls r0, r0, #8
@@ -408,6 +408,6 @@ _0802F9AE:
     pop {r0}
     bx r0
     .align 2, 0
-_0802F9C0: .4byte sub_8051F54
+_0802F9C0: .4byte sa2__sub_801EC3C
 
 .syntax divided

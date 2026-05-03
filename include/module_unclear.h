@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "game/shared/stage/entity.h" // for MapEntity struct
-#include "game/player.h"
+#include "game/shared/stage/player.h"
 
 /* The variable and function declarations in here do not have a corresponding module yet */
 
@@ -84,13 +84,13 @@ void sub_80299FC(void);
 void sub_8029A18(u16 songId);
 bool32 sub_802C140(s32 worldX, s32 worldY, s32 screenX, s32 screenY);
 bool32 IsScreenPtActive32px(s32, s32);
-u8 sub_805203C(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4); // same type as sub_805217C
-u8 sub_805217C(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4); // same type as sub_805203C
-s32 sub_80517FC(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4, void *callback);
-s32 sub_80519EC(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4, void *callback);
-s32 sub_8051F54(s32 worldX, s32 worldY, s32 param2);
-s32 sub_8052394(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4, void *callback);
-s32 sub_8052418(s32 worldX, s32 worldY, s32 param2, s32 param3, void *callback);
+u8 sa2__sub_801ED24(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4); // same type as sa2__sub_801EE64
+u8 sa2__sub_801EE64(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4); // same type as sa2__sub_801ED24
+s32 sa2__sub_801E4E4(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4, void *callback);
+s32 sa2__sub_801E6D4(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4, void *callback);
+s32 sa2__sub_801EC3C(s32 worldX, s32 worldY, s32 param2);
+s32 sa2__sub_801F07C(s32 worldX, s32 worldY, s32 param2, s32 param3, void *param4, void *callback);
+s32 sa2__sub_801F100(s32 worldX, s32 worldY, s32 param2, s32 param3, void *callback);
 void sub_8057AA0(u16, u16, u8);
 void sub_8053128(s16, s16);
 bool32 sub_805C510(Sprite *s);

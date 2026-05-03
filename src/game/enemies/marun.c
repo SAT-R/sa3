@@ -3,11 +3,11 @@
 #include "task.h"
 #include "malloc_vram.h"
 #include "constants/zones.h"
-#include "game/camera.h"
+#include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
 #include "game/enemy_unknown.h"
 #include "module_unclear.h"
-#include "game/player.h"
+#include "game/shared/stage/player.h"
 #include "game/stage.h"
 
 typedef struct {
@@ -203,7 +203,7 @@ void Task_806394C(void)
     y = TO_WORLD_POS_RAW(y, enemy->region[1]);
 
     if (enemy->direction > 0) {
-        res = sub_8052394(x, y - 8, 1, -8, 0, sub_805203C);
+        res = sa2__sub_801F07C(x, y - 8, 1, -8, 0, sa2__sub_801ED24);
 
         if (res < 0) {
             enemy->qPos.x -= Q(res);
@@ -213,7 +213,7 @@ void Task_806394C(void)
             enemy->speed = 0;
         }
     } else {
-        res = sub_8052394(x + 8, y - 8, 1, 8, 0, sub_805203C);
+        res = sa2__sub_801F07C(x + 8, y - 8, 1, 8, 0, sa2__sub_801ED24);
 
         if (res < 0) {
             enemy->qPos.x += Q(res);
@@ -319,7 +319,7 @@ void sub_8063BB8(Marun *enemy)
     screenX = TO_WORLD_POS_RAW(screenX, enemy->region[0]);
     screenY = TO_WORLD_POS_RAW(screenY, enemy->region[1]);
 
-    if ((res = sub_8052394(screenY, screenX, 1, 8, NULL, sub_805217C) <= 0 ? 0 : 1)) {
+    if ((res = sa2__sub_801F07C(screenY, screenX, 1, 8, NULL, sa2__sub_801EE64) <= 0 ? 0 : 1)) {
         enemy->qPos.y += Q(res);
 
         screenX = I(enemy->qPos.x);
@@ -328,7 +328,7 @@ void sub_8063BB8(Marun *enemy)
         screenX = TO_WORLD_POS_RAW(screenX, enemy->region[0]);
         screenY = TO_WORLD_POS_RAW(screenY, enemy->region[1]);
 
-        if (sub_8052394(screenY, screenX, 1, 8, NULL, sub_805217C) > 0) {
+        if (sa2__sub_801F07C(screenY, screenX, 1, 8, NULL, sa2__sub_801EE64) > 0) {
             enemy->qPos.y += enemy->unk18;
             enemy->unk18 += 0x20;
         }

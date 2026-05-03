@@ -1,7 +1,7 @@
 #include "global.h"
 #include "trig.h"
 #include "game/interactables/platform_shared.h"
-#include "game/camera.h"
+#include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
 #include "game/stage.h"
 

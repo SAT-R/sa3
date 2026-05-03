@@ -6,9 +6,9 @@
 #include "malloc_vram.h"
 
 // TODO: Merge with below include-block
-#include "game/camera.h"
+#include "game/shared/stage/camera.h"
 #include "game/game.h"
-#include "game/player_callbacks.h"
+#include "game/shared/stage/player_callbacks.h"
 #include "game/shared/entities_manager.h"
 #include "game/save.h" // for DIFFICULTY_EASY
 #include "game/stage.h"

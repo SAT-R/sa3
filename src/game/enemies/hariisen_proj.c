@@ -4,7 +4,7 @@
 #include "trig.h"
 #include "malloc_vram.h"
 #include "code_z_1.h"
-#include "game/camera.h"
+#include "game/shared/stage/camera.h"
 #include "game/enemies/hariisen.h"
 #include "game/enemy_unknown.h"
 #include "game/shared/stage/entity.h"

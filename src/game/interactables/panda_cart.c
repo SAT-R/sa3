@@ -4,11 +4,11 @@
 #include "sprite.h"
 #include "trig.h"
 #include "malloc_vram.h"
-#include "game/camera.h"
+#include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
 #include "game/parameters/interactables.h"
-#include "game/player.h"
-#include "game/player_callbacks.h"
+#include "game/shared/stage/player.h"
+#include "game/shared/stage/player_callbacks.h"
 #include "game/stage.h"
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
@@ -239,7 +239,7 @@ void sub_8048A50(void)
     idx = sp08 >> 6;
     switch (sp08 >> 6) {
         case 0: {
-            res = sub_80517FC(I(cart->qWorldY + r2), I(cart->qWorldX + r7), 1, +8, &sp08, sub_805217C);
+            res = sa2__sub_801E4E4(I(cart->qWorldY + r2), I(cart->qWorldX + r7), 1, +8, &sp08, sa2__sub_801EE64);
 
             if (res < 8) {
                 cart->qWorldY += Q(res);
@@ -251,7 +251,7 @@ void sub_8048A50(void)
         } break;
 
         case 1: {
-            res = sub_80517FC(I(cart->qWorldX + r7), I(cart->qWorldY + r2), 1, -8, &sp08, sub_805203C);
+            res = sa2__sub_801E4E4(I(cart->qWorldX + r7), I(cart->qWorldY + r2), 1, -8, &sp08, sa2__sub_801ED24);
 
             if (res < 8) {
                 cart->qWorldX -= Q(res);
@@ -267,7 +267,7 @@ void sub_8048A50(void)
         } break;
 
         case 3: {
-            res = sub_80517FC(I(cart->qWorldX + r7), I(cart->qWorldY + r2), 1, +8, &sp08, sub_805203C);
+            res = sa2__sub_801E4E4(I(cart->qWorldX + r7), I(cart->qWorldY + r2), 1, +8, &sp08, sa2__sub_801ED24);
 
             if (res < 8) {
                 cart->qWorldX += Q(res);

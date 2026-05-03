@@ -3,10 +3,10 @@
 #include "trig.h"
 #include "malloc_vram.h"
 #include "module_unclear.h"
-#include "game/camera.h"
+#include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
-#include "game/player.h"
-#include "game/player_callbacks.h"
+#include "game/shared/stage/player.h"
+#include "game/shared/stage/player_callbacks.h"
 #include "game/stage.h"
 
 #include "constants/animations.h"
@@ -130,7 +130,7 @@ void Task_Boulder(void)
                         Player_800DAF4(p);
                     }
 
-                    res = sub_80517FC(I(boulder->qWorldY), I(boulder->qWorldX), 1, 8, NULL, sub_805217C);
+                    res = sa2__sub_801E4E4(I(boulder->qWorldY), I(boulder->qWorldX), 1, 8, NULL, sa2__sub_801EE64);
 
                     if (res < 0) {
                         p->qWorldY += Q_8_8((s16)res >> 8);
@@ -223,7 +223,7 @@ void sub_8049D70(void)
 
     switch (sp08[0] >> 6) {
         case 0: {
-            res = sub_80517FC(I(boulder->qWorldY + cosVal), I(boulder->qWorldX), 1, +8, sp08, sub_805217C);
+            res = sa2__sub_801E4E4(I(boulder->qWorldY + cosVal), I(boulder->qWorldX), 1, +8, sp08, sa2__sub_801EE64);
             if (res < sl) {
                 boulder->qWorldY += Q(res);
 
@@ -234,7 +234,7 @@ void sub_8049D70(void)
         } break;
 
         case 1: {
-            res = sub_80517FC(I(boulder->qWorldX + sinVal), I(boulder->qWorldY + cosVal), 1, -8, sp08, sub_805203C);
+            res = sa2__sub_801E4E4(I(boulder->qWorldX + sinVal), I(boulder->qWorldY + cosVal), 1, -8, sp08, sa2__sub_801ED24);
             if (res < 4) {
                 boulder->qWorldX -= Q(res);
 
@@ -246,7 +246,7 @@ void sub_8049D70(void)
         } break;
 
         case 2: {
-            res = sub_80517FC(I(boulder->qWorldY + cosVal), I(boulder->qWorldX + sinVal), 1, -8, sp08, sub_805217C);
+            res = sa2__sub_801E4E4(I(boulder->qWorldY + cosVal), I(boulder->qWorldX + sinVal), 1, -8, sp08, sa2__sub_801EE64);
             if (res < 4) {
                 boulder->qWorldY -= Q(res);
 
@@ -257,7 +257,7 @@ void sub_8049D70(void)
         } break;
 
         case 3: {
-            res = sub_80517FC(I(boulder->qWorldX + sinVal), I(boulder->qWorldY + cosVal), 1, +8, sp08, sub_805203C);
+            res = sa2__sub_801E4E4(I(boulder->qWorldX + sinVal), I(boulder->qWorldY + cosVal), 1, +8, sp08, sa2__sub_801ED24);
             if (res < 4) {
                 boulder->qWorldX += Q(res);
 
@@ -270,8 +270,8 @@ void sub_8049D70(void)
 
     if (boulder->unk7A == 2) {
 
-        s32 resN = sub_80517FC(I(boulder->qWorldX - cosVal), I(boulder->qWorldY), 1, -8, sp08, sub_805203C);
-        s32 resP = sub_80517FC(I(boulder->qWorldX + cosVal), I(boulder->qWorldY), 1, +8, sp08, sub_805203C);
+        s32 resN = sa2__sub_801E4E4(I(boulder->qWorldX - cosVal), I(boulder->qWorldY), 1, -8, sp08, sa2__sub_801ED24);
+        s32 resP = sa2__sub_801E4E4(I(boulder->qWorldX + cosVal), I(boulder->qWorldY), 1, +8, sp08, sa2__sub_801ED24);
 
         if (resN < 0 || resP < 0) {
             boulder->unk7A = 4;

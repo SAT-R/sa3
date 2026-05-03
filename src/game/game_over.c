@@ -7,10 +7,10 @@
 #include "game/main_menu.h"
 #include "game/stage.h"
 #include "game/save.h"
-#include "game/player.h"
-#include "game/player_callbacks.h"
+#include "game/shared/stage/player.h"
+#include "game/shared/stage/player_callbacks.h"
 #include "game/screen_fade.h"
-#include "game/camera.h" // TODO: for CamCoord used in entities_manager.h
+#include "game/shared/stage/camera.h" // TODO: for CamCoord used in entities_manager.h
 #include "game/shared/entities_manager.h"
 #include "game/shared/rings_manager.h"
 #include "module_unclear.h"
@@ -104,7 +104,7 @@ extern void sub_80261B0();
 extern void sub_80275F0(u8, u8, u8);
 extern void sub_8027878(u8 lives);
 extern void InitCamera(u16, u8);
-extern void sub_805235C();
+extern void sa2__sub_801F044();
 extern void sub_8056090(s32, u8, s32);
 extern void sub_8056AB0();
 extern void sub_8056AFC(u8);
@@ -417,7 +417,7 @@ void Task_00_8002988(void)
     StageData *sd = &gStageData;
 
     memcpy(&characters, &gUnknown_080CE548, MULTI_SIO_PLAYERS_MAX);
-    sub_805235C();
+    sa2__sub_801F044();
     CreateStageEntitiesManager();
     if (sd->gameMode != 7) {
         CreateStageRingsManager();

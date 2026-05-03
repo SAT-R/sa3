@@ -29,10 +29,17 @@ struct Player;
 typedef struct Player Player;
 typedef void (*PlayerCallback)(Player *p);
 
-#define PLAYER_1                0
-#define PLAYER_2                1
-#define PLAYER_3                2
-#define PLAYER_4                3
+#define PLAYER_LAYER__FRONT 0x00
+#define PLAYER_LAYER__BACK  0x01
+#define PLAYER_LAYER__MASK  0x01
+#define PLAYER_LAYER__80    0x80
+
+#define PLAYER_1 0
+#define PLAYER_2 1
+#define PLAYER_3 2
+#define PLAYER_4 3
+
+// TODO: Rename -> PLAYER_V0 and PLAYER
 #define GET_SP_PLAYER_V0(index) ((index == PLAYER_1) ? &gPlayers[gStageData.playerIndex] : &gPlayers[p->charFlags.partnerIndex])
 #define GET_SP_PLAYER_V1(index) ((index != PLAYER_1) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.playerIndex])
 

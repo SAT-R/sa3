@@ -1,7 +1,7 @@
 #ifndef GUARD_SA3_PLAYER_CALLBACKS_H
 #define GUARD_SA3_PLAYER_CALLBACKS_H
 
-#include "game/player.h"
+#include "game/shared/stage/player.h"
 
 bool32 Player_PlaySong(Player *p, u16 song);
 void Player_StopSong(Player *, u16 song);

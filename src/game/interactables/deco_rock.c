@@ -5,10 +5,10 @@
 #include "trig.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
-#include "game/camera.h"
+#include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
-#include "game/player.h"
-#include "game/player_callbacks.h"
+#include "game/shared/stage/player.h"
+#include "game/shared/stage/player_callbacks.h"
 #include "game/stage.h"
 
 #include "constants/animations.h"
@@ -295,7 +295,7 @@ void sub_8037828(void)
         deco->qPositions[i].x += deco->qUnkA8[i][0];
         deco->qPositions[i].y += deco->qUnkA8[i][1];
 
-        res = sub_8052418(I(deco->qPositions[i].y), I(deco->qPositions[i].x), 1, +8, sub_8051F54);
+        res = sa2__sub_801F100(I(deco->qPositions[i].y), I(deco->qPositions[i].x), 1, +8, sa2__sub_801EC3C);
 
         if (res < 0) {
             deco->qPositions[i].y += Q(res);

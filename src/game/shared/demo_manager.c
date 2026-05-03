@@ -3,7 +3,7 @@
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "game/game.h"
-#include "game/player.h"
+#include "game/shared/stage/player.h"
 #include "game/save.h" // NUM_LANGUAGES
 #include "game/screen_fade.h"
 #include "game/stage.h"

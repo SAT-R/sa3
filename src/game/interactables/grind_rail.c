@@ -4,10 +4,10 @@
 #include "sprite.h"
 #include "malloc_vram.h"
 #include "module_unclear.h"
-#include "game/camera.h"
+#include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
-#include "game/player.h"
-#include "game/player_callbacks.h"
+#include "game/shared/stage/player.h"
+#include "game/shared/stage/player_callbacks.h"
 #include "game/stage.h"
 #include "game/interactables/platform_shared.h"
 
@@ -143,7 +143,7 @@ NONMATCH("asm/non_matching/game/interactables/grind_rail__Task_8039230.inc", voi
                     }
 
                     if (!(p->moveState & MOVESTATE_GRAVITY_SWITCHED)) {
-                        res = sub_80519EC(I(p->qWorldY) + p->spriteOffsetY, I(p->qWorldX), 0, +8, &sp08[0], sub_805217C);
+                        res = sa2__sub_801E6D4(I(p->qWorldY) + p->spriteOffsetY, I(p->qWorldX), 0, +8, &sp08[0], sa2__sub_801EE64);
                         if (res >= r1) {
                             if (!(p->moveState & MOVESTATE_GRAVITY_SWITCHED)) {
                                 p->layer = PLAYER_LAYER_BACK;
@@ -155,7 +155,7 @@ NONMATCH("asm/non_matching/game/interactables/grind_rail__Task_8039230.inc", voi
                     }
                     // _08039490
 
-                    res = sub_80519EC(I(p->qWorldY) - p->spriteOffsetY, I(p->qWorldX), 0, -8, &sp08[0], sub_805217C);
+                    res = sa2__sub_801E6D4(I(p->qWorldY) - p->spriteOffsetY, I(p->qWorldX), 0, -8, &sp08[0], sa2__sub_801EE64);
                     if (res < r1) {
                         // _080394B8
                     skip_other_check:

@@ -4,10 +4,10 @@
 #include "malloc_vram.h"
 #include "module_unclear.h"
 #include "lib/m4a/m4a.h"
-#include "game/camera.h"
+#include "game/shared/stage/camera.h"
 #include "game/enemy_unknown.h"
-#include "game/player.h" // PlayerCallback
-#include "game/player_callbacks.h"
+#include "game/shared/stage/player.h" // PlayerCallback
+#include "game/shared/stage/player_callbacks.h"
 #include "game/stage.h"
 #include "game/interactables/bonus_game_enemies.h"
 #include "constants/animations.h"
@@ -675,8 +675,8 @@ void sub_805CD70(Vec2_32 *qVal, Vec2_32 *param1, u16 region[2], s8 *param3)
         worldY += TO_WORLD_POS_RAW(0, region[1]);
     }
 
-    temp_r7 = sub_8052394(worldY, worldX, 1, 8, NULL, sub_805217C);
-    if ((*param3 != 1) || (temp_r7 != -1) || ((s8)sub_8052394(worldY - 1, worldX, 1, 8, NULL, sub_805217C) != 1)) {
+    temp_r7 = sa2__sub_801F07C(worldY, worldX, 1, 8, NULL, sa2__sub_801EE64);
+    if ((*param3 != 1) || (temp_r7 != -1) || ((s8)sa2__sub_801F07C(worldY - 1, worldX, 1, 8, NULL, sa2__sub_801EE64) != 1)) {
         *param3 = temp_r7;
         qVal->y += Q(temp_r7);
 
@@ -698,8 +698,8 @@ void sub_805CE14(Vec2_32 *qVal, Vec2_32 *param1, u16 region[2], s8 *param3)
         worldY += TO_WORLD_POS_RAW(0, region[1]);
     }
 
-    temp_r7 = sub_8052394(worldY, worldX, 1, -8, NULL, sub_805217C);
-    if ((*param3 != 1) || (temp_r7 != -1) || ((s8)sub_8052394(worldY + 1, worldX, 1, -8, NULL, sub_805217C) != 1)) {
+    temp_r7 = sa2__sub_801F07C(worldY, worldX, 1, -8, NULL, sa2__sub_801EE64);
+    if ((*param3 != 1) || (temp_r7 != -1) || ((s8)sa2__sub_801F07C(worldY + 1, worldX, 1, -8, NULL, sa2__sub_801EE64) != 1)) {
         *param3 = temp_r7;
         qVal->y -= Q(temp_r7);
 

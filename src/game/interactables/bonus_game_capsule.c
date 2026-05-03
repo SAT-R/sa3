@@ -5,10 +5,10 @@
 #include "module_unclear.h"
 #include "malloc_vram.h"
 #include "trig.h"
-#include "game/camera.h"
+#include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
-#include "game/player.h"
-#include "game/player_callbacks.h"
+#include "game/shared/stage/player.h"
+#include "game/shared/stage/player_callbacks.h"
 #include "game/stage.h"
 #include "game/screen_fade.h"
 
@@ -1574,7 +1574,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803B804.inc", v
         cap->unk68[i][0] += cap->unk48[i][0];
         cap->unk68[i][1] += cap->unk48[i][1];
 
-        res = sub_8052418(I(cap->unk68[i][1]), I(cap->unk68[i][0]), 1, +8, sub_8051F54);
+        res = sa2__sub_801F100(I(cap->unk68[i][1]), I(cap->unk68[i][0]), 1, +8, sa2__sub_801EC3C);
 
         if ((res < 0) && (cap->unk48[i][0] > 0)) {
             cap->unk68[i][1] += Q(res);
@@ -1710,7 +1710,7 @@ void sub_803BB60(void)
         swit->unkC += swit->unk8;
         swit->unk10 += swit->unkA;
 
-        res = sub_8052418(I(swit->unk10), I(swit->unkC), 1, +8, sub_8051F54);
+        res = sa2__sub_801F100(I(swit->unk10), I(swit->unkC), 1, +8, sa2__sub_801EC3C);
 
         if ((res < 0) && (swit->unkA > 0)) {
             s32 unkA = swit->unkA;

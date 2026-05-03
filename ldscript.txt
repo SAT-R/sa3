@@ -120,7 +120,9 @@ SECTIONS {
         src/game/interactables/final_zone_ring.o(.text);
         src/game/interactables/emerald_in_playground.o(.text);
         src/game/stage/camera.o(.text);
-        asm/collision.o(.text);
+        src/game/shared/stage/terrain_collision.o(.text);
+        asm/game__shared__stage__screen_shake.o(.text);
+        asm/code_unk.o(.text);
         src/game/shared/demo_manager.o(.text);
         asm/code_1_3.o(.text);
         src/game/final_boss_init.o(.text);

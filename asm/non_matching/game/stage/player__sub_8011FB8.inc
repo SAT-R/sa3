@@ -28,12 +28,12 @@
 	rsbs r3, r3, #0
 	movs r2, #0
 	str r2, [sp]
-	ldr r2, _08011FF8 @ =sub_805203C
+	ldr r2, _08011FF8 @ =sa2__sub_801ED24
 	str r2, [sp, #4]
 	mov r2, ip
 	b _08012030
 	.align 2, 0
-_08011FF8: .4byte sub_805203C
+_08011FF8: .4byte sa2__sub_801ED24
 _08011FFC:
 	ldr r0, [r5, #0x10]
 	asrs r0, r0, #8
@@ -58,12 +58,12 @@ _08012022:
 	movs r3, #8
 	rsbs r3, r3, #0
 	str r4, [sp]
-	ldr r0, _0801206C @ =sub_805203C
+	ldr r0, _0801206C @ =sa2__sub_801ED24
 	str r0, [sp, #4]
 	adds r0, r7, #0
 	adds r1, r6, #0
 _08012030:
-	bl sub_80517FC
+	bl sa2__sub_801E4E4
 	adds r2, r0, #0
 	cmp r2, #0
 	bgt _0801204A
@@ -91,7 +91,7 @@ _0801204A:
 	b _0801207C
 	.align 2, 0
 _08012068: .4byte 0x000002FF
-_0801206C: .4byte sub_805203C
+_0801206C: .4byte sa2__sub_801ED24
 _08012070:
 	movs r0, #3
 	adds r1, r5, #0

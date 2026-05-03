@@ -8,11 +8,11 @@
 #include "malloc_ewram.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
-#include "game/camera.h"
+#include "game/shared/stage/camera.h"
 #include "game/interactables/ice_launcher.h"
 #include "game/interactables/ramp.h"
-#include "game/player.h"
-#include "game/player_callbacks.h"
+#include "game/shared/stage/player.h"
+#include "game/shared/stage/player_callbacks.h"
 #include "game/save.h"
 #include "game/stage.h"
 #include "constants/animations.h"
@@ -7318,13 +7318,13 @@ void sub_800D238(Player *p)
         temp_r0_2 = p->moveState | 4;
         p->moveState = temp_r0_2;
         if (temp_r0_2 & MOVESTATE_GRAVITY_SWITCHED) {
-            if (sub_80519EC(I(p->qWorldY), I(p->qWorldX), (s32)p->layer, 8, NULL, sub_805217C) >= 40) {
+            if (sa2__sub_801E6D4(I(p->qWorldY), I(p->qWorldX), (s32)p->layer, 8, NULL, sa2__sub_801EE64) >= 40) {
                 goto block_6;
             } else {
                 goto block_7;
             }
         }
-        if (sub_80519EC((s32)p->qWorldY >> 8, (s32)p->qWorldX >> 8, (s32)p->layer, -8, NULL, sub_805217C) <= 0x27) {
+        if (sa2__sub_801E6D4((s32)p->qWorldY >> 8, (s32)p->qWorldX >> 8, (s32)p->layer, -8, NULL, sa2__sub_801EE64) <= 0x27) {
             var_r6 = 1;
         }
     block_6:
@@ -7458,13 +7458,13 @@ void sub_800D500(Player *p)
         temp_r0_2 = p->moveState | 4;
         p->moveState = temp_r0_2;
         if (temp_r0_2 & 0x10000) {
-            if (sub_80519EC(I(p->qWorldY), I(p->qWorldX), p->layer, 8, NULL, sub_805217C) >= 40) {
+            if (sa2__sub_801E6D4(I(p->qWorldY), I(p->qWorldX), p->layer, 8, NULL, sa2__sub_801EE64) >= 40) {
                 goto block_6;
             } else {
                 goto block_7;
             }
         }
-        if (sub_80519EC((s32)p->qWorldY >> 8, (s32)p->qWorldX >> 8, (s32)p->layer, -8, NULL, sub_805217C) <= 0x27) {
+        if (sa2__sub_801E6D4((s32)p->qWorldY >> 8, (s32)p->qWorldX >> 8, (s32)p->layer, -8, NULL, sa2__sub_801EE64) <= 0x27) {
             var_r6 = 1;
         }
     block_6:
@@ -10674,7 +10674,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
             if (p->qSpeedAirY < Q(3)) {
                 var_r2 |= 0x80;
             }
-            var_r8 = sub_80517FC(px, py, var_r2, -8, &sp09, sub_805203C);
+            var_r8 = sa2__sub_801E4E4(px, py, var_r2, -8, &sp09, sa2__sub_801ED24);
 
             px = worldX - 2;
             px -= p->spriteOffsetX;
@@ -10683,7 +10683,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
             if (p->qSpeedAirY < Q(3)) {
                 var_r2_2 |= 0x80;
             }
-            var_r5 = sub_80517FC(px, py, var_r2_2, -8, &sp0A, sub_805203C);
+            var_r5 = sa2__sub_801E4E4(px, py, var_r2_2, -8, &sp0A, sa2__sub_801ED24);
             break;
         case 1:
             temp_r0_4 = worldX + 2;
@@ -10693,14 +10693,14 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
             if (p->qSpeedAirY < Q(3)) {
                 var_r2_2 |= 0x80;
             }
-            var_r8 = sub_80517FC(py, px, var_r2_2, +8, &sp09, sub_805203C);
+            var_r8 = sa2__sub_801E4E4(py, px, var_r2_2, +8, &sp09, sa2__sub_801ED24);
             px = temp_r0_4 + p->spriteOffsetX;
             py = worldY + p->spriteOffsetY;
             var_r2 = p->layer;
             if (p->qSpeedAirY < Q(3)) {
                 var_r2 |= 0x80;
             }
-            var_r5 = sub_80517FC(px, py, var_r2, +8, &sp0A, sub_805217C);
+            var_r5 = sa2__sub_801E4E4(px, py, var_r2, +8, &sp0A, sa2__sub_801EE64);
             break;
         case 2:
             py = worldY - p->spriteOffsetY;
@@ -10710,7 +10710,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
             if (p->qSpeedAirY < Q(3)) {
                 var_r2 |= 0x80;
             }
-            var_r8 = sub_80517FC(py, px, var_r2, -8, &sp09, sub_805217C);
+            var_r8 = sa2__sub_801E4E4(py, px, var_r2, -8, &sp09, sa2__sub_801EE64);
             py = worldY - p->spriteOffsetY;
             px = worldX + 2;
             px += p->spriteOffsetX;
@@ -10718,7 +10718,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
             if (p->qSpeedAirY < Q(3)) {
                 var_r2 |= 0x80;
             }
-            var_r5 = sub_80517FC(py, px, var_r2, -8, &sp0A, sub_805217C);
+            var_r5 = sa2__sub_801E4E4(py, px, var_r2, -8, &sp0A, sa2__sub_801EE64);
             break;
         case 3:
             py = worldY + p->spriteOffsetY;
@@ -10729,7 +10729,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
             if (p->qSpeedAirY < 0) {
                 var_r2 |= 0x80;
             }
-            var_r8 = sub_80517FC(py, px, var_r2, +8, &sp09, sub_805217C);
+            var_r8 = sa2__sub_801E4E4(py, px, var_r2, +8, &sp09, sa2__sub_801EE64);
             py = worldY + p->spriteOffsetY;
             px = worldX + 2;
             px += p->spriteOffsetX;
@@ -10738,7 +10738,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
                 var_r2 |= 0x80;
             }
 
-            var_r5 = sub_80517FC(py, px, var_r2, +8, &sp0A, sub_805217C);
+            var_r5 = sa2__sub_801E4E4(py, px, var_r2, +8, &sp0A, sa2__sub_801EE64);
             break;
     }
     if (var_r8 < var_r5) {
@@ -10954,20 +10954,26 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80116A4.inc", s16 sub_80116A4(
             ispC = I(spC);
             b = ispC - 2;
             b -= p->spriteOffsetX;
-            sp18 = sub_80517FC(a, b, sp14, 8, &p->charFlags.unk28, sub_805217C);
-            var_r3 = sub_80517FC(isp10 + p->spriteOffsetY, (ispC += 2) + p->spriteOffsetX, sp14, 8, &p->charFlags.unk29, sub_805217C);
+            sp18 = sa2__sub_801E4E4(a, b, sp14, 8, &p->charFlags.unk28, sa2__sub_801EE64);
+            var_r3 = sa2__sub_801E4E4(isp10 + p->spriteOffsetY, (ispC += 2) + p->spriteOffsetX, sp14, 8, &p->charFlags.unk29,
+                                      sa2__sub_801EE64);
             break;
         case 1:
-            sp18 = sub_80517FC(I(sp10) - p->spriteOffsetY, +I(spC) + 2 + p->spriteOffsetX, sp14, -8, &p->charFlags.unk28, sub_805217C);
-            var_r3 = sub_80517FC(I(sp10) - p->spriteOffsetY, -2 - p->spriteOffsetX + I(spC), sp14, -8, &p->charFlags.unk29, sub_805217C);
+            sp18 = sa2__sub_801E4E4(I(sp10) - p->spriteOffsetY, +I(spC) + 2 + p->spriteOffsetX, sp14, -8, &p->charFlags.unk28,
+                                    sa2__sub_801EE64);
+            var_r3 = sa2__sub_801E4E4(I(sp10) - p->spriteOffsetY, -2 - p->spriteOffsetX + I(spC), sp14, -8, &p->charFlags.unk29,
+                                      sa2__sub_801EE64);
             break;
         case 2:
-            sp18 = sub_80517FC(I(spC) - p->spriteOffsetY, -2 - p->spriteOffsetX + I(sp10), sp14, -8, &p->charFlags, sub_805203C);
-            var_r3 = sub_80517FC(I(spC) - p->spriteOffsetY, +2 + I(sp10) + p->spriteOffsetX, sp14, -8, &p->charFlags.unk29, sub_805203C);
+            sp18 = sa2__sub_801E4E4(I(spC) - p->spriteOffsetY, -2 - p->spriteOffsetX + I(sp10), sp14, -8, &p->charFlags, sa2__sub_801ED24);
+            var_r3 = sa2__sub_801E4E4(I(spC) - p->spriteOffsetY, +2 + I(sp10) + p->spriteOffsetX, sp14, -8, &p->charFlags.unk29,
+                                      sa2__sub_801ED24);
             break;
         case 3:
-            sp18 = sub_80517FC(I(spC) + p->spriteOffsetY, +2 + I(sp10) + p->spriteOffsetX, sp14, 8, &p->charFlags.unk28, sub_805203C);
-            var_r3 = sub_80517FC(I(spC) + p->spriteOffsetY, -2 - p->spriteOffsetX + I(sp10), sp14, 8, &p->charFlags.unk29, sub_805203C);
+            sp18 = sa2__sub_801E4E4(I(spC) + p->spriteOffsetY, +2 + I(sp10) + p->spriteOffsetX, sp14, 8, &p->charFlags.unk28,
+                                    sa2__sub_801ED24);
+            var_r3 = sa2__sub_801E4E4(I(spC) + p->spriteOffsetY, -2 - p->spriteOffsetX + I(sp10), sp14, 8, &p->charFlags.unk29,
+                                      sa2__sub_801ED24);
             break;
         default:
             return 0;
@@ -11071,20 +11077,28 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8011978.inc", s16 sub_8011978(
     sp8 = (u16)arg0;
     switch (arg0) {
         case 0:
-            sp14 = sub_80517FC(I(sp10) + p->spriteOffsetY, +I(spC) - 2 - p->spriteOffsetX, temp_r1, +8, &p->charFlags.unk28, sub_805217C);
-            var_r2 = sub_80517FC(I(sp10) + p->spriteOffsetY, +I(spC) + 2 + p->spriteOffsetX, temp_r1, +8, &p->charFlags.unk29, sub_805217C);
+            sp14 = sa2__sub_801E4E4(I(sp10) + p->spriteOffsetY, +I(spC) - 2 - p->spriteOffsetX, temp_r1, +8, &p->charFlags.unk28,
+                                    sa2__sub_801EE64);
+            var_r2 = sa2__sub_801E4E4(I(sp10) + p->spriteOffsetY, +I(spC) + 2 + p->spriteOffsetX, temp_r1, +8, &p->charFlags.unk29,
+                                      sa2__sub_801EE64);
             break;
         case 1:
-            sp14 = sub_80517FC(I(sp10) - p->spriteOffsetY, +2 + I(spC) + p->spriteOffsetX, temp_r1, -8, &p->charFlags.unk28, sub_805217C);
-            var_r2 = sub_80517FC(I(sp10) - p->spriteOffsetY, -2 + I(spC) - p->spriteOffsetX, temp_r1, -8, &p->charFlags.unk29, sub_805217C);
+            sp14 = sa2__sub_801E4E4(I(sp10) - p->spriteOffsetY, +2 + I(spC) + p->spriteOffsetX, temp_r1, -8, &p->charFlags.unk28,
+                                    sa2__sub_801EE64);
+            var_r2 = sa2__sub_801E4E4(I(sp10) - p->spriteOffsetY, -2 + I(spC) - p->spriteOffsetX, temp_r1, -8, &p->charFlags.unk29,
+                                      sa2__sub_801EE64);
             break;
         case 2:
-            sp14 = sub_80517FC(I(spC) - p->spriteOffsetY, +I(sp10) - 2 - p->spriteOffsetX, temp_r1, -8, &p->charFlags.unk28, sub_805203C);
-            var_r2 = sub_80517FC(I(spC) - p->spriteOffsetY, +I(sp10) + 2 + p->spriteOffsetX, temp_r1, -8, &p->charFlags.unk29, sub_805203C);
+            sp14 = sa2__sub_801E4E4(I(spC) - p->spriteOffsetY, +I(sp10) - 2 - p->spriteOffsetX, temp_r1, -8, &p->charFlags.unk28,
+                                    sa2__sub_801ED24);
+            var_r2 = sa2__sub_801E4E4(I(spC) - p->spriteOffsetY, +I(sp10) + 2 + p->spriteOffsetX, temp_r1, -8, &p->charFlags.unk29,
+                                      sa2__sub_801ED24);
             break;
         case 3:
-            sp14 = sub_80517FC(I(spC) + p->spriteOffsetY, +2 + I(sp10) + p->spriteOffsetX, temp_r1, +8, &p->charFlags.unk28, sub_805203C);
-            var_r2 = sub_80517FC(I(spC) + p->spriteOffsetY, -2 - p->spriteOffsetX + I(sp10), temp_r1, +8, &p->charFlags.unk29, sub_805203C);
+            sp14 = sa2__sub_801E4E4(I(spC) + p->spriteOffsetY, +2 + I(sp10) + p->spriteOffsetX, temp_r1, +8, &p->charFlags.unk28,
+                                    sa2__sub_801ED24);
+            var_r2 = sa2__sub_801E4E4(I(spC) + p->spriteOffsetY, -2 - p->spriteOffsetX + I(sp10), temp_r1, +8, &p->charFlags.unk29,
+                                      sa2__sub_801ED24);
             break;
     }
 
@@ -11159,22 +11173,22 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8011BFC.inc", s32 sub_8011BFC(
     switch (arg0 >> 6) {
         case 0: {
             s32 p0 = +2 + worldY;
-            return sub_80517FC(p0 + p->spriteOffsetX, worldX, p->layer, +8, NULL, sub_805217C);
+            return sa2__sub_801E4E4(p0 + p->spriteOffsetX, worldX, p->layer, +8, NULL, sa2__sub_801EE64);
         } break;
 
         case 2: {
             s32 p0 = -2 + worldY;
-            return sub_80517FC(p0 - p->spriteOffsetX, worldX, p->layer, -8, NULL, sub_805217C);
+            return sa2__sub_801E4E4(p0 - p->spriteOffsetX, worldX, p->layer, -8, NULL, sa2__sub_801EE64);
         } break;
 
         case 1: {
             s32 p0 = -2 + worldX;
-            return sub_80517FC(p0 - p->spriteOffsetX, worldY, p->layer, -8, NULL, sub_805203C);
+            return sa2__sub_801E4E4(p0 - p->spriteOffsetX, worldY, p->layer, -8, NULL, sa2__sub_801ED24);
         } break;
 
         case 3: {
             s32 p0 = worldX + 2;
-            return sub_80517FC(p0 + p->spriteOffsetX, worldY, p->layer, +8, NULL, sub_805203C);
+            return sa2__sub_801E4E4(p0 + p->spriteOffsetX, worldY, p->layer, +8, NULL, sa2__sub_801ED24);
         } break;
         default:
             return 0;
@@ -11218,7 +11232,7 @@ void sub_8011D08(Player *p)
         var_r2 = 0x80;
         var_r2 |= temp_r5;
     }
-    temp_r0 = sub_80517FC(worldX, worldY, var_r2, -8, NULL, sub_805203C);
+    temp_r0 = sa2__sub_801E4E4(worldX, worldY, var_r2, -8, NULL, sa2__sub_801ED24);
     var_r2_4 = temp_r0;
     if (var_r2_4 <= 0) {
         p->qWorldX -= Q(var_r2_4);
@@ -11233,7 +11247,7 @@ void sub_8011D08(Player *p)
     if ((s32)p->qSpeedAirY < Q(3)) {
         var_r2_2 |= 0x80;
     }
-    temp_r0_2 = sub_80517FC(var_r3, worldY, (s32)var_r2_2, 8, NULL, sub_805203C);
+    temp_r0_2 = sa2__sub_801E4E4(var_r3, worldY, (s32)var_r2_2, 8, NULL, sa2__sub_801ED24);
     var_r2_4 = temp_r0_2;
     if (var_r2_4 <= 0) {
         p->qWorldX += Q(var_r2_4);
@@ -11314,7 +11328,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8011E70.inc", void sub_8011E70
         var_r2 = 0x80;
         var_r2 |= temp_r6;
     }
-    temp_r0 = sub_80517FC(worldX, worldY, var_r2, -8, NULL, sub_805203C);
+    temp_r0 = sa2__sub_801E4E4(worldX, worldY, var_r2, -8, NULL, sa2__sub_801ED24);
     var_r2_m = temp_r0;
     if (var_r2_m <= 0) {
         p->qWorldX -= Q(var_r2_m);
@@ -11328,7 +11342,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8011E70.inc", void sub_8011E70
     if (p->qSpeedAirY < Q(3)) {
         var_r2_2 |= 0x80;
     }
-    temp_r0_2 = sub_80517FC(worldX, worldY, var_r2_2, 8, NULL, sub_805203C);
+    temp_r0_2 = sa2__sub_801E4E4(worldX, worldY, var_r2_2, 8, NULL, sa2__sub_801ED24);
     var_r2_n = temp_r0_2;
     if (var_r2_n <= 0) {
         p->qWorldX += Q(var_r2_n);
@@ -11382,7 +11396,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8011FB8.inc", void sub_8011FB8
         var_r0 = -3 - p->spriteOffsetX + I(p->qWorldX);
         var_r1 = I(p->qWorldY);
         var_r2 = temp_r0;
-        temp_r0_2 = sub_80517FC(var_r0, var_r1, var_r2, -8, NULL, sub_805203C);
+        temp_r0_2 = sa2__sub_801E4E4(var_r0, var_r1, var_r2, -8, NULL, sa2__sub_801ED24);
     } else {
         var_r0 = -3 - p->spriteOffsetX + I(p->qWorldX);
         var_r1 = I(p->qWorldY);
@@ -11390,7 +11404,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8011FB8.inc", void sub_8011FB8
         if (p->qSpeedAirY < Q(3)) {
             var_r2 |= 0x80;
         }
-        temp_r0_2 = sub_80517FC(var_r0, var_r1, var_r2, -8, NULL, sub_805203C);
+        temp_r0_2 = sa2__sub_801E4E4(var_r0, var_r1, var_r2, -8, NULL, sa2__sub_801ED24);
     }
     var_r2_2 = temp_r0_2;
     if (var_r2_2 <= 0) {
@@ -11465,7 +11479,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8012118.inc", void sub_8012118
         var_r0 = +3 + p->spriteOffsetX + I(p->qWorldX);
         var_r1 = I(p->qWorldY);
         var_r2 = temp_r0;
-        temp_r0_2 = sub_80517FC(var_r0, var_r1, var_r2, +8, NULL, sub_805203C);
+        temp_r0_2 = sa2__sub_801E4E4(var_r0, var_r1, var_r2, +8, NULL, sa2__sub_801ED24);
     } else {
         var_r0 = +3 + p->spriteOffsetX + I(p->qWorldX);
         var_r1 = I(p->qWorldY);
@@ -11473,7 +11487,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8012118.inc", void sub_8012118
         if (p->qSpeedAirY < Q(3)) {
             var_r2 |= 0x80;
         }
-        temp_r0_2 = sub_80517FC(var_r0, var_r1, var_r2, +8, NULL, sub_805203C);
+        temp_r0_2 = sa2__sub_801E4E4(var_r0, var_r1, var_r2, +8, NULL, sa2__sub_801ED24);
     }
     var_r2_2 = temp_r0_2;
     if (var_r2_2 <= 0) {
@@ -11552,7 +11566,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_801226C.inc", s32 sub_801226C(
     if (p->qSpeedAirY < Q(3)) {
         var_r2 = 0x80 | temp_r5;
     }
-    temp_r0 = sub_80517FC(worldX, worldY, var_r2, -8, NULL, sub_805203C);
+    temp_r0 = sa2__sub_801E4E4(worldX, worldY, var_r2, -8, NULL, sa2__sub_801ED24);
     if (temp_r0 <= 0) {
         p->qWorldX -= Q(temp_r0);
     }
@@ -11562,7 +11576,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_801226C.inc", s32 sub_801226C(
     if (p->qSpeedAirY < Q(3)) {
         var_r2_2 |= 0x80;
     }
-    temp_r0_2 = sub_80517FC(worldX2, worldY2, var_r2_2, 8, NULL, sub_805203C);
+    temp_r0_2 = sa2__sub_801E4E4(worldX2, worldY2, var_r2_2, 8, NULL, sa2__sub_801ED24);
     if (temp_r0_2 <= 0) {
         p->qWorldX += temp_r0_2 << 8;
     }
@@ -11609,7 +11623,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8012368.inc", s32 sub_8012368(
     if (p->qSpeedAirY < Q(3)) {
         var_r2 = 0x80 | temp_r5;
     }
-    temp_r0 = sub_80517FC(worldX, worldY, var_r2, -8, NULL, sub_805203C);
+    temp_r0 = sa2__sub_801E4E4(worldX, worldY, var_r2, -8, NULL, sa2__sub_801ED24);
     if (temp_r0 <= 0) {
         p->qWorldX -= Q(temp_r0);
     }
@@ -11619,7 +11633,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8012368.inc", s32 sub_8012368(
     if (p->qSpeedAirY < Q(3)) {
         var_r2_2 |= 0x80;
     }
-    temp_r0 = sub_80517FC(worldX2, worldY2, var_r2_2, 8, NULL, sub_805203C);
+    temp_r0 = sa2__sub_801E4E4(worldX2, worldY2, var_r2_2, 8, NULL, sa2__sub_801ED24);
     if (temp_r0 <= 0) {
         p->qWorldX += Q(temp_r0);
     }
@@ -11671,7 +11685,7 @@ static inline void test(Player *p, s32 qSpeedCap, u8 layer, bool32 negative)
     } else {
         delta = +8;
     }
-    res = sub_80517FC(worldX, worldY, mask, delta, NULL, sub_805217C);
+    res = sa2__sub_801E4E4(worldX, worldY, mask, delta, NULL, sa2__sub_801EE64);
     if (res <= 0) {
         p->qWorldY -= Q(res);
     }
@@ -11709,7 +11723,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_801246C.inc", s32 sub_801246C(
     if ((s32)p->qSpeedAirY < Q(3)) {
         var_r2 = 0x80 | layer;
     }
-    temp_r0_3 = sub_80517FC(((temp_r1 >> 8) - 3) - p->spriteOffsetY, temp_r0_2 >> 8, var_r2, -8, NULL, sub_805217C);
+    temp_r0_3 = sa2__sub_801E4E4(((temp_r1 >> 8) - 3) - p->spriteOffsetY, temp_r0_2 >> 8, var_r2, -8, NULL, sa2__sub_801EE64);
     if (temp_r0_3 <= 0) {
         p->qWorldY -= temp_r0_3 << 8;
     }
@@ -11718,7 +11732,8 @@ NONMATCH("asm/non_matching/game/stage/player__sub_801246C.inc", s32 sub_801246C(
     if ((s32)p->qSpeedAirY < 0) {
         var_r2_2 |= 0x80;
     }
-    temp_r0_4 = sub_80517FC(((s32)p->qWorldY >> 8) + 3 + p->spriteOffsetY, (s32)p->qWorldX >> 8, (s32)var_r2_2, 8, NULL, sub_805217C);
+    temp_r0_4
+        = sa2__sub_801E4E4(((s32)p->qWorldY >> 8) + 3 + p->spriteOffsetY, (s32)p->qWorldX >> 8, (s32)var_r2_2, 8, NULL, sa2__sub_801EE64);
     if (temp_r0_4 <= 0) {
         p->qWorldY += temp_r0_4 << 8;
     }
@@ -11762,7 +11777,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8012550.inc", s32 sub_8012550(
     if (p->qSpeedAirY < Q(3)) {
         var_r2 = 0x80 | temp_r5;
     }
-    temp_r0 = sub_80517FC(worldX, worldY, var_r2, -8, NULL, sub_805203C);
+    temp_r0 = sa2__sub_801E4E4(worldX, worldY, var_r2, -8, NULL, sa2__sub_801ED24);
     if (temp_r0 <= 0) {
         p->qWorldY -= Q(temp_r0);
     }
@@ -11774,7 +11789,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8012550.inc", s32 sub_8012550(
     if (p->qSpeedAirY < Q(0)) {
         var_r2_2 |= 0x80;
     }
-    temp_r0 = sub_80517FC(worldX2, worldY2, var_r2_2, 8, NULL, sub_805203C);
+    temp_r0 = sa2__sub_801E4E4(worldX2, worldY2, var_r2_2, 8, NULL, sa2__sub_801ED24);
     if (temp_r0 <= 0) {
         p->qWorldY += Q(temp_r0);
     }
@@ -11855,7 +11870,7 @@ void sub_80126B8(Player *p)
         var_r2 = 0x80;
         var_r2 |= unk27;
     }
-    temp_r0 = sub_80517FC(worldX, worldY, (s32)var_r2, -8, NULL, sub_805203C);
+    temp_r0 = sa2__sub_801E4E4(worldX, worldY, (s32)var_r2, -8, NULL, sa2__sub_801ED24);
     off = temp_r0;
     if (off <= 0) {
         temp_r0 = Q(off);
@@ -11875,7 +11890,7 @@ void sub_80126B8(Player *p)
     if ((s32)p->qSpeedAirY <= 0x2FF) {
         var_r2 |= 0x80;
     }
-    temp_r0 = sub_80517FC(worldX3, worldY3, var_r2, 8, NULL, sub_805203C);
+    temp_r0 = sa2__sub_801E4E4(worldX3, worldY3, var_r2, 8, NULL, sa2__sub_801ED24);
     off = temp_r0;
     if (off <= 0) {
         temp_r0 = Q(off);
@@ -11938,7 +11953,7 @@ void sub_8012804(Player *p)
         var_r2 = 0x80;
         var_r2 |= unk27;
     }
-    temp_r0 = sub_80517FC(worldX, worldY, (s32)var_r2, -8, NULL, sub_805203C);
+    temp_r0 = sa2__sub_801E4E4(worldX, worldY, (s32)var_r2, -8, NULL, sa2__sub_801ED24);
     off = temp_r0;
     if (off <= 0) {
         temp_r0 = Q(off);
@@ -11958,7 +11973,7 @@ void sub_8012804(Player *p)
     if ((s32)p->qSpeedAirY <= 0x2FF) {
         var_r2 |= 0x80;
     }
-    temp_r0 = sub_80517FC(worldX3, worldY3, var_r2, 8, NULL, sub_805203C);
+    temp_r0 = sa2__sub_801E4E4(worldX3, worldY3, var_r2, 8, NULL, sa2__sub_801ED24);
     off = temp_r0;
     if (off <= 0) {
         temp_r0 = Q(off);
@@ -12015,7 +12030,7 @@ void sub_8012930(Player *p)
     if ((s32)p->qSpeedAirY <= 0x2FF) {
         unk27 |= 0x80;
     }
-    temp_r0 = sub_80517FC(worldX, worldY, unk27, -8, NULL, sub_805203C);
+    temp_r0 = sa2__sub_801E4E4(worldX, worldY, unk27, -8, NULL, sa2__sub_801ED24);
     res = temp_r0;
     if (res <= 0) {
         temp_r0 = Q(res);
@@ -12098,7 +12113,7 @@ void sub_8012A6C(Player *p)
     if (p->qSpeedAirY < Q(3)) {
         unk27 |= 0x80;
     }
-    temp_r0 = sub_80517FC(worldX2, worldY, unk27, +8, NULL, sub_805203C);
+    temp_r0 = sa2__sub_801E4E4(worldX2, worldY, unk27, +8, NULL, sa2__sub_801ED24);
     res = temp_r0;
     if (res <= 0) {
         temp_r0 = Q(res);
@@ -12698,9 +12713,9 @@ void sub_801350C(Player *p)
         if (anim2 == 19 || anim2 == 20) {
             temp_r3 = p->moveState & MOVESTATE_GRAVITY_SWITCHED;
             if (temp_r3 != 0) {
-                var_r0 = sub_80519EC(I(p->qWorldY) - p->spriteOffsetY, I(p->qWorldX), p->layer, -8, NULL, sub_805217C);
+                var_r0 = sa2__sub_801E6D4(I(p->qWorldY) - p->spriteOffsetY, I(p->qWorldX), p->layer, -8, NULL, sa2__sub_801EE64);
             } else {
-                var_r0 = sub_80519EC(I(p->qWorldY) + p->spriteOffsetY, I(p->qWorldX), p->layer, +8, NULL, sub_805217C);
+                var_r0 = sa2__sub_801E6D4(I(p->qWorldY) + p->spriteOffsetY, I(p->qWorldX), p->layer, +8, NULL, sa2__sub_801EE64);
             }
             if (var_r0 <= 32) {
                 p->charFlags.state1 = 2;
@@ -12709,9 +12724,9 @@ void sub_801350C(Player *p)
         }
     } else if ((p->charFlags.anim0 == 0x15) && ((s32)p->qSpeedAirY > 0)) {
         if (p->moveState & 0x10000) {
-            temp_r2_2 = sub_80519EC(I(p->qWorldY) - p->spriteOffsetY, I(p->qWorldX), p->layer, -8, NULL, sub_805217C);
+            temp_r2_2 = sa2__sub_801E6D4(I(p->qWorldY) - p->spriteOffsetY, I(p->qWorldX), p->layer, -8, NULL, sa2__sub_801EE64);
         } else {
-            temp_r2_2 = sub_80519EC(I(p->qWorldY) + p->spriteOffsetY, I(p->qWorldX), p->layer, +8, NULL, sub_805217C);
+            temp_r2_2 = sa2__sub_801E6D4(I(p->qWorldY) + p->spriteOffsetY, I(p->qWorldX), p->layer, +8, NULL, sa2__sub_801EE64);
         }
         if ((anim2 == 0x15) && (temp_r7 == 0)) {
             p->charFlags.state1 = 1;
@@ -14124,30 +14139,30 @@ void sub_8015228(Player *p)
         return;
     }
 
-    if (sub_80517FC(worldY + p->spriteOffsetY, worldX, p->layer, 8, NULL, sub_805217C) < 9) {
+    if (sa2__sub_801E4E4(worldY + p->spriteOffsetY, worldX, p->layer, 8, NULL, sa2__sub_801EE64) < 9) {
         return;
     }
     if (p->moveState & 0x10000) {
         {
             s32 y = worldY - p->spriteOffsetY;
             s32 v = worldX - 2;
-            var_sl = sub_80517FC(y, v - p->spriteOffsetX, p->layer, -8, &sp8, sub_805217C);
+            var_sl = sa2__sub_801E4E4(y, v - p->spriteOffsetX, p->layer, -8, &sp8, sa2__sub_801EE64);
         }
         {
             s32 y = worldY - p->spriteOffsetY;
             s32 v = worldX + 2;
-            var_r0_2 = sub_80517FC(y, v + p->spriteOffsetX, p->layer, -8, &sp9, sub_805217C);
+            var_r0_2 = sa2__sub_801E4E4(y, v + p->spriteOffsetX, p->layer, -8, &sp9, sa2__sub_801EE64);
         }
     } else {
         {
             s32 y = worldY + p->spriteOffsetY;
             s32 v = worldX - 2;
-            var_sl = sub_80517FC(y, v - p->spriteOffsetX, p->layer, 8, &sp8, sub_805217C);
+            var_sl = sa2__sub_801E4E4(y, v - p->spriteOffsetX, p->layer, 8, &sp8, sa2__sub_801EE64);
         }
         {
             s32 y = worldY + p->spriteOffsetY;
             s32 v = worldX + 2;
-            var_r0_2 = sub_80517FC(y, v + p->spriteOffsetX, p->layer, 8, &sp9, sub_805217C);
+            var_r0_2 = sa2__sub_801E4E4(y, v + p->spriteOffsetX, p->layer, 8, &sp9, sa2__sub_801EE64);
         }
     }
     if ((var_sl > 8) && (var_r0_2 == 0) && ((sp9 == 0xFF) || (sp9 == 1) || (sp9 == 0x7F) || (sp9 == 0x81))) {
@@ -19357,7 +19372,7 @@ s32 sub_801C884(Player *p)
 
     if (p->moveState & 1) {
         s32 qWorldX = I(p->qWorldX) - 2;
-        res = sub_80517FC(qWorldX - p->spriteOffsetX, I(p->qWorldY), p->layer, -8, &rotation, sub_805203C);
+        res = sa2__sub_801E4E4(qWorldX - p->spriteOffsetX, I(p->qWorldY), p->layer, -8, &rotation, sa2__sub_801ED24);
         if (1 & rotation) {
             p->unk26 = +0x40;
         } else {
@@ -19365,7 +19380,7 @@ s32 sub_801C884(Player *p)
         }
     } else {
         s32 qWorldX = I(p->qWorldX) + 2;
-        res = sub_80517FC(qWorldX + p->spriteOffsetX, I(p->qWorldY), p->layer, +8, &rotation, sub_805203C);
+        res = sa2__sub_801E4E4(qWorldX + p->spriteOffsetX, I(p->qWorldY), p->layer, +8, &rotation, sa2__sub_801ED24);
         if (!(1 & rotation)) {
             p->unk26 = rotation;
         } else {
@@ -20004,7 +20019,7 @@ void sub_801D3F0(Player *p)
             qWorldX = I(p->qWorldX);
             qWorldX -= 1;
             qWorldX -= p->spriteOffsetX;
-            if (sub_80517FC(qWorldY, qWorldX, p->layer, -8, NULL, sub_805217C) >= 0) {
+            if (sa2__sub_801E4E4(qWorldY, qWorldX, p->layer, -8, NULL, sa2__sub_801EE64) >= 0) {
                 goto blk0;
                 // p->qWorldX -= Q(temp_r0);
             } else {
@@ -20019,7 +20034,7 @@ void sub_801D3F0(Player *p)
             qWorldX = I(p->qWorldX);
             qWorldX -= 1;
             qWorldX -= p->spriteOffsetX;
-            if (sub_80517FC(qWorldY, qWorldX, p->layer, 8, NULL, sub_805217C) >= 0) {
+            if (sa2__sub_801E4E4(qWorldY, qWorldX, p->layer, 8, NULL, sa2__sub_801EE64) >= 0) {
             blk0:
                 p->qWorldX -= Q(temp_r0);
             } else {
@@ -20041,7 +20056,7 @@ void sub_801D3F0(Player *p)
                     qWorldX = I(p->qWorldX);
                     qWorldX += 1;
                     qWorldX += p->spriteOffsetX;
-                    if (sub_80517FC(qWorldY, qWorldX, p->layer, 8, NULL, sub_805217C) < 0) {
+                    if (sa2__sub_801E4E4(qWorldY, qWorldX, p->layer, 8, NULL, sa2__sub_801EE64) < 0) {
                     blk:
                         SetPlayerCallback(p, sub_801DF80);
                     } else {

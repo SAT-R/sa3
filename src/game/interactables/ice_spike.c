@@ -4,10 +4,10 @@
 #include "sprite.h"
 #include "malloc_vram.h"
 #include "module_unclear.h"
-#include "game/camera.h"
+#include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
-#include "game/player.h"
-#include "game/player_callbacks.h"
+#include "game/shared/stage/player.h"
+#include "game/shared/stage/player_callbacks.h"
 #include "game/stage.h"
 
 #include "constants/animations.h"
@@ -235,7 +235,7 @@ void Task_8044160(void)
         }
     }
 
-    res = sub_80517FC(worldY + 6, worldX, spike->base.unk17, +8, NULL, sub_805217C);
+    res = sa2__sub_801E4E4(worldY + 6, worldX, spike->base.unk17, +8, NULL, sa2__sub_801EE64);
 
     if (res < 0) {
         spike->base.qWorldY += Q_8_8(res);

@@ -57,11 +57,11 @@ _080119B8:
 	adds r2, r7, #0
 	adds r2, #0x28
 	str r2, [sp]
-	ldr r3, _08011A0C @ =sub_805217C
+	ldr r3, _08011A0C @ =sa2__sub_801EE64
 	str r3, [sp, #4]
 	mov r2, sl
 	movs r3, #8
-	bl sub_80517FC
+	bl sa2__sub_801E4E4
 	str r0, [sp, #0x14]
 	mov r1, sb
 	movs r0, #0
@@ -75,10 +75,10 @@ _080119B8:
 	adds r0, r7, #0
 	adds r0, #0x29
 	str r0, [sp]
-	ldr r3, _08011A0C @ =sub_805217C
+	ldr r3, _08011A0C @ =sa2__sub_801EE64
 	b _08011B30
 	.align 2, 0
-_08011A0C: .4byte sub_805217C
+_08011A0C: .4byte sa2__sub_801EE64
 _08011A10:
 	ldr r0, [sp, #0x10]
 	asrs r5, r0, #8
@@ -103,10 +103,10 @@ _08011A10:
 	adds r2, r7, #0
 	adds r2, #0x28
 	str r2, [sp]
-	ldr r2, _08011A70 @ =sub_805217C
+	ldr r2, _08011A70 @ =sa2__sub_801EE64
 	str r2, [sp, #4]
 	mov r2, sl
-	bl sub_80517FC
+	bl sa2__sub_801E4E4
 	str r0, [sp, #0x14]
 	movs r0, #0
 	ldrsb r0, [r6, r0]
@@ -119,7 +119,7 @@ _08011A10:
 	adds r0, r7, #0
 	adds r0, #0x29
 	str r0, [sp]
-	ldr r0, _08011A70 @ =sub_805217C
+	ldr r0, _08011A70 @ =sa2__sub_801EE64
 	str r0, [sp, #4]
 	adds r0, r5, #0
 	adds r1, r4, #0
@@ -127,7 +127,7 @@ _08011A10:
 	mov r3, sb
 	b _08011B3A
 	.align 2, 0
-_08011A70: .4byte sub_805217C
+_08011A70: .4byte sa2__sub_801EE64
 _08011A74:
 	ldr r1, [sp, #0xc]
 	asrs r5, r1, #8
@@ -153,10 +153,10 @@ _08011A74:
 	adds r2, r7, #0
 	adds r2, #0x28
 	str r2, [sp]
-	ldr r2, _08011AD8 @ =sub_805203C
+	ldr r2, _08011AD8 @ =sa2__sub_801ED24
 	str r2, [sp, #4]
 	mov r2, sl
-	bl sub_80517FC
+	bl sa2__sub_801E4E4
 	str r0, [sp, #0x14]
 	ldr r3, [sp, #0x18]
 	movs r0, #0
@@ -170,7 +170,7 @@ _08011A74:
 	adds r0, r7, #0
 	adds r0, #0x29
 	str r0, [sp]
-	ldr r2, _08011AD8 @ =sub_805203C
+	ldr r2, _08011AD8 @ =sa2__sub_801ED24
 	str r2, [sp, #4]
 	adds r0, r5, #0
 	adds r1, r4, #0
@@ -178,7 +178,7 @@ _08011A74:
 	mov r3, sb
 	b _08011B3A
 	.align 2, 0
-_08011AD8: .4byte sub_805203C
+_08011AD8: .4byte sa2__sub_801ED24
 _08011ADC:
 	ldr r3, [sp, #0xc]
 	asrs r5, r3, #8
@@ -202,11 +202,11 @@ _08011ADC:
 	adds r2, r7, #0
 	adds r2, #0x28
 	str r2, [sp]
-	ldr r3, _08011B64 @ =sub_805203C
+	ldr r3, _08011B64 @ =sa2__sub_801ED24
 	str r3, [sp, #4]
 	mov r2, sl
 	movs r3, #8
-	bl sub_80517FC
+	bl sa2__sub_801E4E4
 	str r0, [sp, #0x14]
 	mov r1, sb
 	movs r0, #0
@@ -220,7 +220,7 @@ _08011ADC:
 	adds r0, r7, #0
 	adds r0, #0x29
 	str r0, [sp]
-	ldr r3, _08011B64 @ =sub_805203C
+	ldr r3, _08011B64 @ =sa2__sub_801ED24
 _08011B30:
 	str r3, [sp, #4]
 	adds r0, r5, #0
@@ -228,7 +228,7 @@ _08011B30:
 	mov r2, sl
 	movs r3, #8
 _08011B3A:
-	bl sub_80517FC
+	bl sa2__sub_801E4E4
 	adds r2, r0, #0
 _08011B40:
 	adds r0, r2, #0
@@ -250,7 +250,7 @@ _08011B4A:
 	beq _08011B72
 	b _08011B96
 	.align 2, 0
-_08011B64: .4byte sub_805203C
+_08011B64: .4byte sa2__sub_801ED24
 _08011B68:
 	cmp r1, #2
 	beq _08011B86

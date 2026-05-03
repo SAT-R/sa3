@@ -1,6 +1,6 @@
 #include "sprite.h"
 #include "task.h"
-#include "game/camera.h"
+#include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
 
 typedef struct {

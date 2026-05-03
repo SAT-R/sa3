@@ -4,10 +4,10 @@
 #include "sprite.h"
 #include "malloc_vram.h"
 #include "module_unclear.h"
-#include "game/camera.h"
+#include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
-#include "game/player.h"
-#include "game/player_callbacks.h"
+#include "game/shared/stage/player.h"
+#include "game/shared/stage/player_callbacks.h"
 #include "game/stage.h"
 
 #include "constants/animations.h"
@@ -127,7 +127,7 @@ void Task_803DED0(void)
     u8 arr[4];
     u32 res;
 
-    s32 offY = sub_80517FC(I(lift->qWorldY), I(lift->qWorldX), 0, +8, arr, sub_805217C);
+    s32 offY = sa2__sub_801E4E4(I(lift->qWorldY), I(lift->qWorldX), 0, +8, arr, sa2__sub_801EE64);
 
     if (offY <= 0) {
         lift->qWorldY += Q(offY);
@@ -205,19 +205,19 @@ void Task_803E0D8(void)
 
     switch (r0) {
         case 0: {
-            r2 = sub_80517FC(I(lift->qWorldY), I(lift->qWorldX), 0, +8, arr, sub_805217C);
+            r2 = sa2__sub_801E4E4(I(lift->qWorldY), I(lift->qWorldX), 0, +8, arr, sa2__sub_801EE64);
         } break;
 
         case 1: {
-            r2 = sub_80517FC(I(lift->qWorldX), I(lift->qWorldY), 0, -8, arr, sub_805203C);
+            r2 = sa2__sub_801E4E4(I(lift->qWorldX), I(lift->qWorldY), 0, -8, arr, sa2__sub_801ED24);
         } break;
 
         case 2: {
-            r2 = sub_80517FC(I(lift->qWorldY), I(lift->qWorldX), 0, -8, arr, sub_805217C);
+            r2 = sa2__sub_801E4E4(I(lift->qWorldY), I(lift->qWorldX), 0, -8, arr, sa2__sub_801EE64);
         } break;
 
         case 3: {
-            r2 = sub_80517FC(I(lift->qWorldX), I(lift->qWorldY), 0, +8, arr, sub_805203C);
+            r2 = sa2__sub_801E4E4(I(lift->qWorldX), I(lift->qWorldY), 0, +8, arr, sa2__sub_801ED24);
         } break;
     }
 

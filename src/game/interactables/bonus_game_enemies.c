@@ -4,10 +4,10 @@
 #include "flags.h"
 #include "module_unclear.h"
 #include "malloc_vram.h"
-#include "game/camera.h"
+#include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
-#include "game/player.h"
-#include "game/player_callbacks.h"
+#include "game/shared/stage/player.h"
+#include "game/shared/stage/player_callbacks.h"
 #include "game/stage.h"
 #include "game/screen_fade.h"
 #include "game/interactables/bonus_game_ui.h"
@@ -232,7 +232,7 @@ void Task_BonusFlower_Spawn(void)
 
         checkY = Q(flower->unk32 + 16);
         if (flower->qUnk2C >= checkY) {
-            r3 = sub_8052418(I(flower->qUnk2C), flower->unk30, 1, +8, sub_8051F54);
+            r3 = sa2__sub_801F100(I(flower->qUnk2C), flower->unk30, 1, +8, sa2__sub_801EC3C);
         }
     } else {
         flower->qUnk28 -= Q(0.1875);
@@ -241,7 +241,7 @@ void Task_BonusFlower_Spawn(void)
 
         checkY = Q(flower->unk32 - 16);
         if (flower->qUnk2C <= checkY) {
-            r3 = sub_8052418(I(flower->qUnk2C), flower->unk30, 1, -8, sub_8051F54);
+            r3 = sa2__sub_801F100(I(flower->qUnk2C), flower->unk30, 1, -8, sa2__sub_801EC3C);
         }
     }
 
@@ -271,11 +271,11 @@ void Task_BonusFlower_803C4A0(void)
     if (flower->unk34 == 0) {
         SPRITE_FLAG_CLEAR(s, Y_FLIP);
 
-        res = +sub_8052418(I(flower->qUnk2C), flower->unk30, 1, +8, sub_8051F54);
+        res = +sa2__sub_801F100(I(flower->qUnk2C), flower->unk30, 1, +8, sa2__sub_801EC3C);
     } else {
         SPRITE_FLAG_SET(s, Y_FLIP);
 
-        res = -sub_8052418(I(flower->qUnk2C), flower->unk30, 1, -8, sub_8051F54);
+        res = -sa2__sub_801F100(I(flower->qUnk2C), flower->unk30, 1, -8, sa2__sub_801EC3C);
     }
 
     if (ABS(res) > 1) {

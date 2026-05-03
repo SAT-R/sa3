@@ -45,12 +45,12 @@ _080123B4:
 	movs r0, #0
 	mov sb, r0
 	str r0, [sp]
-	ldr r0, _08012438 @ =sub_805203C
+	ldr r0, _08012438 @ =sa2__sub_801ED24
 	mov r8, r0
 	str r0, [sp, #4]
 	adds r0, r1, #0
 	adds r1, r6, #0
-	bl sub_80517FC
+	bl sa2__sub_801E4E4
 	cmp r0, #0
 	bgt _080123D8
 	lsls r1, r0, #8
@@ -80,7 +80,7 @@ _080123F6:
 	str r5, [sp, #4]
 	adds r0, r3, #0
 	movs r3, #8
-	bl sub_80517FC
+	bl sa2__sub_801E4E4
 	cmp r0, #0
 	bgt _08012412
 	lsls r1, r0, #8
@@ -107,7 +107,7 @@ _08012422:
 	b _08012448
 	.align 2, 0
 _08012434: .4byte 0x000002FF
-_08012438: .4byte sub_805203C
+_08012438: .4byte sa2__sub_801ED24
 _0801243C:
 	movs r0, #3
 	adds r1, r4, #0

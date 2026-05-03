@@ -2,7 +2,7 @@
 #include "task.h"
 #include "malloc_vram.h"
 #include "module_unclear.h"
-#include "game/camera.h"
+#include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
 #include "game/enemy_unknown.h"
 #include "game/stage.h"
@@ -400,7 +400,7 @@ void Task_CondorProjectileInit(void)
     worldX = TO_WORLD_POS_RAW(worldX, proj->region[0]);
     worldY = TO_WORLD_POS_RAW(worldY, proj->region[1]);
 
-    res = sub_8052394(worldY, worldX, 1, +8, 0, sub_805217C);
+    res = sa2__sub_801F07C(worldY, worldX, 1, +8, 0, sa2__sub_801EE64);
 
     if (res < 0) {
         r5 = TRUE;

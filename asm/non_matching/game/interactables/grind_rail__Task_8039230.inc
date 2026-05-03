@@ -305,11 +305,11 @@ _0803944C:
 	asrs r1, r1, #8
 	add r3, sp, #8
 	str r3, [sp]
-	ldr r2, _080394D0 @ =sub_805217C
+	ldr r2, _080394D0 @ =sa2__sub_801EE64
 	str r2, [sp, #4]
 	movs r2, #0
 	movs r3, #8
-	bl sub_80519EC
+	bl sa2__sub_801E6D4
 	adds r2, r0, #0
 	asrs r0, r6, #0x10
 	cmp r2, r0
@@ -328,12 +328,12 @@ _08039490:
 	asrs r1, r1, #8
 	add r2, sp, #8
 	str r2, [sp]
-	ldr r2, _080394D0 @ =sub_805217C
+	ldr r2, _080394D0 @ =sa2__sub_801EE64
 	str r2, [sp, #4]
 	movs r2, #0
 	movs r3, #8
 	rsbs r3, r3, #0
-	bl sub_80519EC
+	bl sa2__sub_801E6D4
 	adds r2, r0, #0
 	asrs r0, r6, #0x10
 	cmp r2, r0
@@ -351,7 +351,7 @@ _080394B8:
 	subs r0, r0, r1
 	b _080394DA
 	.align 2, 0
-_080394D0: .4byte sub_805217C
+_080394D0: .4byte sa2__sub_801EE64
 _080394D4:
 	lsls r1, r2, #8
 	ldr r0, [r5, #0x14]
