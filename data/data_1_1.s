@@ -865,7 +865,11 @@ gUnknown_080D1BEC:
 
     .global gUnknown_080D1BF6
 gUnknown_080D1BF6:
-    .incbin "baserom_sa3.gba", 0x000D1BF6, 0x16
+    .incbin "baserom_sa3.gba", 0x000D1BF6, 0xA
+
+    .global gUnknown_080D1C00
+gUnknown_080D1C00:
+    .incbin "baserom_sa3.gba", 0x000D1C00, 0xC
 
     .global gUnknown_080D1C0C
 gUnknown_080D1C0C:

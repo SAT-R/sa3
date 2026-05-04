@@ -37,6 +37,11 @@ typedef struct {
 //       through the whole byte, not by the first set bit in me->d.uData[4].
 #define TIMER_ID_COUNT 8
 
+typedef struct SomeRange {
+    u16 minX, minY;
+    u16 maxX, maxY;
+} SomeRange;
+
 /*                0x030008A0                */
 typedef struct {
     /* 0x00 */ u8 language; // @NOTE: unk0 and unk1 referenced as single u16 before; union?
@@ -85,10 +90,10 @@ typedef struct {
     /* 0x4E */ s16 unk4E[TIMER_ID_COUNT];
     /* 0x5E */ s16 unk5E[TIMER_ID_COUNT];
     /* 0x6E */ s16 unk6E[TIMER_ID_COUNT];
-    /* 0x80 */ u16 *unk80; // (type not checked, used in sub_8002838) | 0x80
-    /* 0x84 */ u8 unk84; // | 0x84
-    /* 0x85 */ u8 unk85; // | 0x85
-    /* 0x86 */ u8 unk86; // | 0x86
+    /* 0x80 */ SomeRange *waterRanges; // Pointer to rects containing Water in the current stage
+    /* 0x84 */ u8 waterRangesCount;
+    /* 0x85 */ u8 unk85;
+    /* 0x86 */ u8 unk86;
     /* 0x87 */ u8 flagSpKey; // SP-key-flag of current act | 0x87
     /* 0x88 */ u8 PADDING42[0x04];
     /* 0x8C */ u16 unk8C;

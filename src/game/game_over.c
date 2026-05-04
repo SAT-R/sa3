@@ -364,7 +364,10 @@ void sub_80026BC(void)
     }
 }
 
-// Something about BG palette animations
+// NOTE: Stages with one or more water ranges in them
+//       have an automated palette DMA applied in the task
+//       that handles water.
+// TODO: Better explanation!
 void sub_8002838(s16 level)
 {
     StageData *sd = &gStageData;
@@ -396,17 +399,17 @@ void sub_8002838(s16 level)
         }
 
         if (data != NULL) {
-            sd->unk84 = data[0];
-            sd->unk80 = &data[2];
+            sd->waterRangesCount = data[0];
+            sd->waterRanges = (SomeRange *)&data[2];
             sub_80525F0(data[1] << 16 | data[1], 0);
             return;
         } else {
-            sd->unk84 = 0;
-            sd->unk80 = NULL;
+            sd->waterRangesCount = 0;
+            sd->waterRanges = NULL;
         }
     } else {
-        sd->unk84 = 0;
-        sd->unk80 = NULL;
+        sd->waterRangesCount = 0;
+        sd->waterRanges = NULL;
     }
 }
 

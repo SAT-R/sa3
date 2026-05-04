@@ -4,6 +4,7 @@
 #include "global.h"
 #include "sprite.h"
 #include "task.h"
+#include "game/shared/stage/camera.h" // CamCoord
 #include "game/shared/stage/entity.h"
 
 // TODO: merge with the below

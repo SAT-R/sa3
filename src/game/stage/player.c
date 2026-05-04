@@ -949,17 +949,18 @@ void sub_8004DD8(s32 qWorldX, s32 qWorldY)
 
 bool16 sub_8004E20(s16 arg0, s16 arg1, s16 *param2)
 {
+    // TODO: var_r2 type: (SomeRange *)
     u16 *var_r2;
     s16 i;
     s32 max;
     s16 temp_r1;
 
-    temp_r1 = gStageData.unk84;
+    temp_r1 = gStageData.waterRangesCount;
     if (temp_r1 == 0) {
         return FALSE;
     }
 
-    var_r2 = gStageData.unk80;
+    var_r2 = (u16 *)gStageData.waterRanges;
     for (i = 0; i < temp_r1; i++, var_r2 += 4) {
         if ((var_r2[0] < arg0) && (var_r2[2] > arg0)) {
             if (param2 != NULL) {
