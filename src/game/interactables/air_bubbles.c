@@ -190,7 +190,7 @@ NONMATCH("asm/non_matching/game/interactables/air_bubbles__Task_BigAirBubble.inc
     worldY = I(bubble->qWorldY);
 
     if (s->variant != 1) {
-        if (!sub_8004E20(worldX, worldY - 8, NULL)) {
+        if (!IsInWater(worldX, worldY - 8, NULL)) {
             TaskDestroy(gCurTask);
             return;
         }
@@ -235,7 +235,7 @@ NONMATCH("asm/non_matching/game/interactables/air_bubbles__Task_BigAirBubble.inc
     } else {
         // _08043CD4
 
-        if (!sub_8004E20(worldX, worldY, NULL)) {
+        if (!IsInWater(worldX, worldY, NULL)) {
             TaskDestroy(gCurTask);
             return;
         }

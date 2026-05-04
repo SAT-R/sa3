@@ -120,7 +120,7 @@ void Task_80448D8(void)
     r7 = sub_8044AA0(platform->ps[0], 0);
     r7 |= sub_8044AA0(platform->ps[1], 1);
 
-    if (!sub_8004E20(worldX, worldY - 16, NULL)) {
+    if (!IsInWater(worldX, worldY - 16, NULL)) {
         platform->qUnk14 = -Q(0.5);
         gCurTask->main = Task_80449A4;
     }
@@ -147,7 +147,7 @@ void Task_80449A4(void)
 
     r5 = 0;
 
-    if (!sub_8004E20(worldX, worldY - 16, NULL)) {
+    if (!IsInWater(worldX, worldY - 16, NULL)) {
         platform->qUnk14 += Q(8. / 256.);
     } else {
         platform->qUnk14 -= Q(8. / 256.);

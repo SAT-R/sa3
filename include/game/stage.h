@@ -37,10 +37,10 @@ typedef struct {
 //       through the whole byte, not by the first set bit in me->d.uData[4].
 #define TIMER_ID_COUNT 8
 
-typedef struct SomeRange {
+typedef struct WaterRange {
     u16 minX, minY;
     u16 maxX, maxY;
-} SomeRange;
+} WaterRange;
 
 /*                0x030008A0                */
 typedef struct {
@@ -90,7 +90,7 @@ typedef struct {
     /* 0x4E */ s16 unk4E[TIMER_ID_COUNT];
     /* 0x5E */ s16 unk5E[TIMER_ID_COUNT];
     /* 0x6E */ s16 unk6E[TIMER_ID_COUNT];
-    /* 0x80 */ SomeRange *waterRanges; // Pointer to rects containing Water in the current stage
+    /* 0x80 */ WaterRange *waterRanges; // Pointer to rects containing Water in the current stage
     /* 0x84 */ u8 waterRangesCount;
     /* 0x85 */ u8 unk85;
     /* 0x86 */ u8 unk86;

@@ -149,6 +149,7 @@ void MaskPaletteWithUnderwaterColor(u32 *dst, u32 *src, u32 mask, s32 size)
     }
 }
 
+// (96.84%) https://decomp.me/scratch/XShZD
 void sub_805274C(s16* arg0, u16* arg1, u32 UNUSED arg2, s32 count) {
     while (count-- != 0) 
     {
@@ -336,7 +337,7 @@ void Task_8052798(void) {
 s32 sub_8052B84(StrcCodeUnk *strc)
 {
     StrcSmall *strcSmolVals = &strc->unk0;
-    SomeRange *waterRange;
+    WaterRange *waterRange;
     s16 i;
     s32 count = gStageData.waterRangesCount;
 

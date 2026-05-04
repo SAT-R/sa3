@@ -35,7 +35,7 @@
 	asrs r1, r1, #0x10
 	adds r0, r7, #0
 	movs r2, #0
-	bl sub_8004E20
+	bl IsInWater
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	beq _08043CE8_TaskD_Return
@@ -138,7 +138,7 @@ _08043CD4:
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
 	movs r2, #0
-	bl sub_8004E20
+	bl IsInWater
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bne _08043CF0

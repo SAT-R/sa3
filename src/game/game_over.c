@@ -400,7 +400,7 @@ void sub_8002838(s16 level)
 
         if (data != NULL) {
             sd->waterRangesCount = data[0];
-            sd->waterRanges = (SomeRange *)&data[2];
+            sd->waterRanges = (WaterRange *)&data[2];
             sub_80525F0(data[1] << 16 | data[1], 0);
             return;
         } else {

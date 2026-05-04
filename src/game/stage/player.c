@@ -947,10 +947,14 @@ void sub_8004DD8(s32 qWorldX, s32 qWorldY)
     }
 }
 
-bool16 sub_8004E20(s16 arg0, s16 arg1, s16 *param2)
+// Result:
+// TRUE     : In water
+// FALSE    : Not in water
+// *outYPos : Water's upper y-position
+bool16 IsInWater(s16 worldX, s16 worldY, s16 *outYPos)
 {
-    // TODO: var_r2 type: (SomeRange *)
-    u16 *var_r2;
+    // TODO: waterRange type: (WaterRange *)
+    u16 *waterRange;
     s16 i;
     s32 max;
     s16 temp_r1;
@@ -960,14 +964,14 @@ bool16 sub_8004E20(s16 arg0, s16 arg1, s16 *param2)
         return FALSE;
     }
 
-    var_r2 = (u16 *)gStageData.waterRanges;
-    for (i = 0; i < temp_r1; i++, var_r2 += 4) {
-        if ((var_r2[0] < arg0) && (var_r2[2] > arg0)) {
-            if (param2 != NULL) {
-                *param2 = var_r2[1];
+    waterRange = (u16 *)gStageData.waterRanges;
+    for (i = 0; i < temp_r1; i++, waterRange += 4) {
+        if ((waterRange[0] < worldX) && (waterRange[2] > worldX)) {
+            if (outYPos != NULL) {
+                *outYPos = waterRange[1];
             }
 
-            if ((var_r2[1] < arg1) && (var_r2[3] > arg1)) {
+            if ((waterRange[1] < worldY) && (waterRange[3] > worldY)) {
                 return TRUE;
             }
         }
@@ -10876,7 +10880,7 @@ u16 sub_80114CC(Player *p)
         return 0U;
     }
     temp_r6 = I(p->qWorldY);
-    sub_8004E20(I(p->qWorldX), (p->spriteOffsetY + I(p->qWorldY)), &sp00);
+    IsInWater(I(p->qWorldX), (p->spriteOffsetY + I(p->qWorldY)), &sp00);
     mask = ~3;
     temp_r6 = (u16)temp_r6 & mask;
     sp00 = (sp00 - p->spriteOffsetY) & mask;
@@ -14192,7 +14196,7 @@ void sub_80153BC(Player *p)
     u32 temp_r1_2;
 
     var_r5 = 0;
-    if ((sub_8004E20(I(p->qWorldX), I(p->qWorldY), &param2) << 0x10) != 0) {
+    if ((IsInWater(I(p->qWorldX), I(p->qWorldY), &param2) << 0x10) != 0) {
         if (!(p->moveState & MOVESTATE_80)) {
             var_r5 = 1;
             p->qSpeedAirX >>= 2;
@@ -14226,7 +14230,7 @@ s32 sub_8015460(Player *p)
     u32 temp_r1_4;
 
     var_r5 = 0;
-    sub_8004E20(I(p->qWorldX), I(p->qWorldY) + p->spriteOffsetY, &sp00);
+    IsInWater(I(p->qWorldX), I(p->qWorldY) + p->spriteOffsetY, &sp00);
     if ((p->qWorldY > Q(sp00)) || (p->qSpeedAirY > 0)) {
         p->qSpeedAirY -= Q(16. / 256.);
     } else {
@@ -17683,7 +17687,7 @@ void sub_801A504(Player *p)
     sub_8016F28(p);
     p->moveState &= ~4;
     p->moveState |= 0x40000;
-    sub_8004E20(I(p->qWorldX), I(p->qWorldY), &sp);
+    IsInWater(I(p->qWorldX), I(p->qWorldY), &sp);
     p->charFlags.anim0 = 193;
     if (p->qSpeedAirY < Q(1)) {
         p->qSpeedAirY = Q(1);
@@ -19005,7 +19009,7 @@ void sub_801C110(Player *p)
     s16 sp0;
     s16 qWorldX = I(p->qWorldX);
     s16 qWorldY = I(p->qWorldY);
-    sub_8004E20(qWorldX, qWorldY, &sp0);
+    IsInWater(qWorldX, qWorldY, &sp0);
     if ((p->qWorldY + p->qSpeedAirY) <= Q(sp0 + 4)) {
         p->qSpeedAirY = 0;
     }
@@ -19061,7 +19065,7 @@ void sub_801C234(Player *p)
     p->moveState &= ~2;
     sub_8012FA0(p);
     p->moveState = (p->moveState & ~4) | 0x40000;
-    sub_8004E20(I(p->qWorldX), I(p->qWorldY), &sp);
+    IsInWater(I(p->qWorldX), I(p->qWorldY), &sp);
     p->charFlags.anim0 = 0xF0;
     if ((s32)p->qSpeedAirY <= 0xFF) {
         p->qSpeedAirY = 0x100;
