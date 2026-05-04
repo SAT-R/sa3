@@ -951,7 +951,17 @@ void sub_8004DD8(s32 qWorldX, s32 qWorldY)
 // TRUE     : In water
 // FALSE    : Not in water
 // *outYPos : Water's upper y-position
+#ifndef NON_MATCHING
 bool16 IsInWater(s16 worldX, s16 worldY, s16 *outYPos)
+#else
+// TODO: WaterRange contains u16 values.
+//       It is unlikely to cause problems, because maps would have to be huge,
+//       but we may have to account for that.
+//       Even so, the original IsInWater() code taking s16 coords leads to
+//       ranges effectively only being half as big as they could be,
+//       because of signed vs. unsigned checks of the same integer width.
+bool16 IsInWater(CamCoord worldX, CamCoord worldY, s16 *outYPos)
+#endif
 {
     // TODO: waterRange type: (WaterRange *)
     u16 *waterRange;

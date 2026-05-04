@@ -37,6 +37,10 @@ typedef struct {
 //       through the whole byte, not by the first set bit in me->d.uData[4].
 #define TIMER_ID_COUNT 8
 
+// TODO: u16 might not be enough for custom stages?
+//       The data would naturally have to be output by a map editor
+//       to make use of a bigger-than-u16 range.
+// See remarks at player.c::IsInWater() function.
 typedef struct WaterRange {
     u16 minX, minY;
     u16 maxX, maxY;
