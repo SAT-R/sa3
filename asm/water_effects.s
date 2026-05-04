@@ -411,7 +411,7 @@ _08052900:
 	ldrh r1, [r0]
 	movs r2, #0x80
 	lsls r2, r2, #1
-	ldr r0, [sp, #0x6c]
+	ldr r0, [sp, #0x6c]		@ r0 = strc->palette
 	bl CopyNColorsFromAnimPalette
 	lsls r0, r5, #0x10
 	movs r1, #0

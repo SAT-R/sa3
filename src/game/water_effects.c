@@ -17,7 +17,7 @@
 #define OBJ_COPY_SIZE (15 * (PALETTE_LEN_4BPP * COLOR_SIZE))
 
 typedef struct StrcSmall {
-    /* 0x00 */ s8 unk0;
+    /* 0x00 */ s8 unk0; // TODO: unk0-3 might be int_vcount?
     /* 0x01 */ s8 unk1;
     /* 0x02 */ s8 unk2;
     /* 0x03 */ s8 unk3;
@@ -117,7 +117,7 @@ void sub_80525F0(s32 arg0, u32 flags) {
     smol->unk6 = -1;
     smol->unk2 = -1;
     smol->unk1 = -1;
-    smol->unk8 = flags & 0x100;
+    smol->flags = flags & 0x100;
     smol->blendColors = arg0;
     sub_8052D2C(smol);
     s = &strc->s;
@@ -168,19 +168,20 @@ void sub_805274C(s16* arg0, u16* arg1, u32 UNUSED arg2, s32 count) {
         arg1++;
     }
 }
+#endif
 
+#if 01
 void Task_8052798(void) {
     u16 spC;
-    Vec2_16 sp2C;
+    Vec2_16 sp2C[16];
     struct Camera* sp68;
     u16* sp6C;
-    Sprite* temp_r5;
-    StrcCodeUnk* temp_r7;
+    Sprite* s;
+    StrcSmall *temp_r7;
+    StrcCodeUnk *strc;
     Vec2_16* temp_r1_5;
     Vec2_16* var_r4;
     s16 temp_r0_3;
-    s16 temp_r1_2;
-    s16 temp_r2;
     s16 temp_r4;
     s16 temp_r4_3;
     s16 var_r1;
@@ -188,7 +189,6 @@ void Task_8052798(void) {
     s16 var_r5;
     s32 temp_r1_3;
     s8 var_r0_2;
-    u16 temp_r1;
     u16 temp_r1_4;
     u16 temp_r4_2;
     u16 var_r0;
@@ -197,139 +197,120 @@ void Task_8052798(void) {
     u32 temp_r0_4;
     u32 var_r0_3;
     u32 var_r2_2;
-    u32 var_sb;
+    s16 var_sb;
     u8 temp_r0_2;
     void* var_r2;
 
-    temp_r1 = gCurTask->data;
-    temp_r7 = temp_r1 + 0x03000000;
+    strc = TASK_DATA(gCurTask);
+    temp_r7 = &strc->unk0;
     sp68 = &gCamera;
     var_sb = 0;
     if ((sub_8052B84(temp_r7) << 0x10) != 0) {
-        temp_r1->unk3000000 = 1U;
+        strc->unk3000000 = 1U;
         sp68->unk69 = 1;
     } else {
-        temp_r1->unk3000000 = 0U;
+        strc->unk3000000 = 0U;
         sp68->unk69 = 0;
     }
-    if (temp_r1->unk3000000 == 0) {
-        gFlags &= ~0x40;
+    if (strc->unk3000000 == 0) {
+        gFlags &= ~FLAGS_40;
         return;
     }
-    sp6C = temp_r1 + 0x0300003C;
-    if ((u32) gStageData.gameMode <= 4U) {
-        gFlags |= 4;
-        gHBlankCopyTarget = (void* )0x0400001C;
+
+    sp6C = strc->palette;
+
+    if ((u32) gStageData.gameMode < GAME_MODE_5) {
+        gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
+        gHBlankCopyTarget = (void *)&REG_BG3HOFS;
         gHBlankCopySize = 2;
         var_r2 = gBgOffsetsHBlankPrimary;
-        var_r1 = 0;
-        do {
-            temp_r1_2 = var_r1;
-            if ((s32) (s16) (u16) ((u16) temp_r7->unk0.unk4 - gCamera.y) < (s32) temp_r1_2) {
-                var_r0 = ((s32) ((u16) gSineTable[((((u32) (gStageData.timer & 0x1FF) >> 1) + (temp_r1_2 * 2)) * 0x10) & 0x3FF] << 0x10) >> 0x1C) + 8;
+        for(var_r1 = 0; var_r1 < DISPLAY_HEIGHT; var_r1++)
+        {
+            if ((s32)(temp_r7->unk0.unk4 - gCamera.y) < var_r1) {
+                *var_r2 = (SIN(((((u32)(gStageData.timer & 0x1FF) >> 1) + (var_r1 * 2)) * 0x10) & ONE_CYCLE) >> 0xC) + 8;
             } else {
-                var_r0 = (u16) gBgScrollRegs[3][0];
+                *var_r2 = (u16)gBgScrollRegs[3][0];
             }
-            *var_r2 = var_r0;
-            var_r2 += 2;
-            temp_r0 = (var_r1 << 0x10) + 0x10000;
-            var_r1 = (s16) (temp_r0 >> 0x10);
-        } while ((s32) ((s32) temp_r0 >> 0x10) <= 0x9F);
+            var_r2++;
+        }
     }
-    (void* )0x040000D4->unk0 = &gObjPalette[0xF9];
-    (void* )0x040000D4->unk4 = &subroutine_arg0;
-    (void* )0x040000D4->unk8 = 0x80000006;
-    (void* )0x040000D4->unk0 = (u16* ) (&gObjPalette[0xF9] - 0xF2);
-    (void* )0x040000D4->unk4 = &spC;
-    (void* )0x040000D4->unk8 = 0x80000010;
+
+	DmaFill16(3, 0, &gObjPalette[0xF9], 0xC);
+	DmaFill16(3, 0, &gObjPalette[7], 0x20);
+
     if ((gStageData.unk8 & 0xFFFF00) == 0x90400) {
-        var_sb = 0x10000U >> 0x10;
+        var_sb = 1;
     }
     var_r5 = 4;
     if (gStageData.gameMode != 6) {
         var_r5 = 3;
     }
-    temp_r4 = (s16) (u16) (gStageData.zone - 1);
-    CopyNColorsFromAnimPalette(sp6C, gUnknown_080D1BF6[temp_r4 + (s16) var_sb], 0x100U);
-    var_r1_2 = 0;
-    if ((s32) (var_r5 << 0x10) > 0) {
-        do {
-            temp_r4_3 = var_r1_2;
-            CopyNColorsFromAnimPalette(temp_r7 + ((temp_r4_3 << 5) + 0x3C), *((temp_r4 * 2) + ((u32) (gPlayers[temp_r4_3].unk2A << 0x1C) >> 0x19) + gUnknown_080D1BC4), 0x10U);
-            temp_r4_2 = temp_r4_3 + 1;
-            var_r1_2 = (s16) temp_r4_2;
-        } while ((s32) (s16) temp_r4_2 < (s32) var_r5);
+    temp_r4 = (gStageData.zone - 1);
+    CopyNColorsFromAnimPalette(sp6C, gUnknown_080D1BF6[temp_r4 + var_sb], 0x100U);
+    for (var_r1_2 = 0; var_r1_2 < var_r5; var_r1_2++)
+	{
+        CopyNColorsFromAnimPalette(&strc->palette[var_r1_2 * 16 + 60]), gUnknown_080D1BC4[temp_r4][gPlayers[var_r1_2].charFlags.character], 0x10U);
     }
-    if ((u32) gStageData.gameMode <= 5U) {
-        CopyNColorsFromAnimPalette(temp_r1 + 0x0300007C, *(((u32) (gPlayers[gStageData.playerIndex].unk2A << 0x1C) >> 0x1B) + gUnknown_080D1BEC), 0x10U);
-    }
-    (void* )0x040000D4->unk0 = &subroutine_arg0;
-    (void* )0x040000D4->unk4 = &temp_r7->palette[0xF9];
-    (void* )0x040000D4->unk8 = 0x80000006;
-    if ((s32) (void* )0x040000D4->unk8 < 0) {
-        do {
 
-        } while ((void* )0x040000D4->unk8 & 0x80000000);
+    if (gStageData.gameMode < 6) {
+        CopyNColorsFromAnimPalette(&strc->palette[2 * PALETTE_LEN_4BPP], gUnknown_080D1BEC[gPlayers[gStageData.playerIndex].charFlags.character], 0x10U);
     }
-    (void* )0x040000D4->unk0 = &spC;
-    (void* )0x040000D4->unk4 = &temp_r7->palette[0x80];
-    (void* )0x040000D4->unk8 = 0x80000010;
-    if ((s32) (void* )0x040000D4->unk8 < 0) {
-        do {
 
-        } while ((void* )0x040000D4->unk8 & 0x80000000);
-    }
+	DmaFill16(3, 0, &temp_r7->palette[249], 6 * COLOR_SIZE);
+    DmaWait(3);
+
+	DmaFill16(3, 0, &temp_r7->palette[8 * PALETTE_LEN_4BPP], PALETTE_LEN_4BPP * COLOR_SIZE);
+    DmaWait(3);
+
     MaskPaletteWithUnderwaterColor(&temp_r7->palette[0x100], gBgPalette, temp_r7->unk0.blendColors, 0x100);
-    temp_r0_2 = gNumVBlankCallbacks;
-    gNumVBlankCallbacks = temp_r0_2 + 1;
-    *(((u32) (temp_r0_2 << 0x18) >> 0x16) + gVBlankCallbacks) = sub_8052C54;
-    gFlags |= 0x10;
-    temp_r2 = temp_r7->unk0.unk4;
-    temp_r1_3 = sp68->y;
-    if ((s32) temp_r2 <= temp_r1_3) {
-        var_r0_2 = 0;
-    } else if ((s32) temp_r2 < (s32) (temp_r1_3 + 0xA0)) {
-        var_r0_2 = (u8) temp_r7->unk4 - temp_r1_3;
+
+	gVBlankCallbacks[gNumVBlankCallbacks++] = sub_8052C54;
+    gFlags |= FLAGS_EXECUTE_VBLANK_CALLBACKS;
+
+    if (temp_r7->unk0.unk4 <= sp68->y) {
+        temp_r7->unk0.unk2 = 0;
+    } else if (temp_r7->unk0.unk4 < (sp68->y + DISPLAY_HEIGHT)) {
+        temp_r7->unk0.unk2 = temp_r7->unk4 - sp68->y;
     } else {
-        var_r0_2 = -1;
+        temp_r7->unk0.unk2 = -1;
     }
-    temp_r7->unk0.unk2 = var_r0_2;
-    if ((u32) (u8) ((u8) temp_r7->unk0.unk1 - 1) <= 0x9EU) {
-        temp_r5 = temp_r1 + 0x03000014;
+
+    if ((u32) (u8) ((u8) temp_r7->unk0.unk1 - 1) < (DISPLAY_HEIGHT - 1)) {
+        s = &strc->s;
         temp_r1_4 = 0 - ((sp68->x + ((u32) gStageData.timer >> 2)) & 7);
-        temp_r5->x = temp_r1_4;
+        s->x = temp_r1_4;
         var_r6 = temp_r1_4;
         temp_r0_3 = (u8) temp_r7->unk0.unk2 + 1;
-        temp_r5->y = temp_r0_3;
-        temp_r5->frameFlags |= 0xC0000;
-        UpdateSpriteAnimation(temp_r5);
-        if (gStageData.timer & 2) {
+        s->y = temp_r0_3;
+        s->frameFlags |= 0xC0000;
+        UpdateSpriteAnimation(s);
+
+        if (gStageData.timer & 0x2) {
             var_r4 = &sp2C;
-            DisplaySprite(temp_r5);
-            var_r2_2 = 0xF;
-            temp_r1_5 = var_r4;
-            do {
-                var_r6 = (u16) ((u32) ((var_r6 << 0x10) + 0x100000) >> 0x10);
-                var_r4->x = (s16) var_r6;
+            DisplaySprite(s);
+            for(var_r2_2 = 0; var_r2_2 < 16; var_r2_2++)
+            {
+                var_r4->x = ++var_r6;
                 var_r4->y = temp_r0_3;
-                temp_r0_4 = (var_r2_2 << 0x10) + 0xFFFF0000;
-                var_r4 += 4;
-                var_r2_2 = temp_r0_4 >> 0x10;
-            } while ((s32) temp_r0_4 > 0);
-            DisplaySprites(temp_r5, temp_r1_5, 0xFU);
+                var_r4++;
+            }
+
+            DisplaySprites(s);
         }
     }
-    if ((u32) (u8) ((u8) temp_r7->unk0.unk2 - 1) <= 0x9EU) {
-        *(s16* )0x04000208 = 0;
+
+    if ((temp_r7->unk0.unk2 - 1) < (DISPLAY_HEIGHT - 1)) {
+        REG_IME = 0;
         gIntrTable[3] = VCountCB_WaterEffectCopyPalettes;
-        *(s16* )0x04000208 = 1;
-        sa2__gUnknown_03002874 = (u8) temp_r7->unk0.unk2 - 1;
-        gFlags = gFlags | 0x40;
+        REG_IME = 1;
+        sa2__gUnknown_03002874 = temp_r7->unk0.unk2 - 1;
+        gFlags |= FLAGS_40;
     } else {
-        *(void* )0x04000208 = 0;
-        gIntrTable[3] = gIntrTableTemplate[3];
-        *(void* )0x04000208 = 1;
-        gFlags = gFlags & ~0x40;
+        REG_IME = 0;
+        gIntrTable[INTR_INDEX_VCOUNT] = gIntrTableTemplate[INTR_INDEX_VCOUNT];
+        REG_IME = 1;
+
+        gFlags &= ~FLAGS_40;
     }
 }
 #endif

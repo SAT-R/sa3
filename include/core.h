@@ -371,7 +371,7 @@ extern s16 gMosaicReg;
 extern u8 gUnknown_030026F4;
 #endif
 extern s16 SA2_LABEL(gUnknown_03002820);
-extern u8 SA2_LABEL(gUnknown_03002874);
+extern u8 SA2_LABEL(gUnknown_03002874); // TODO: a.k.a. gVCountSetting
 extern void *gHBlankCopyTarget;
 extern u8 gBackgroundsCopyQueueIndex;
 extern u8 gHBlankCopySize;

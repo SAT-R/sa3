@@ -10194,7 +10194,7 @@ void Player_80108B8(Player *p)
     sub_800FABC(p);
     sub_8010430(p);
     if (gStageData.unk4 == 3) {
-        p->moveState &= 0xF7FFFFFF;
+        p->moveState &= ~MOVESTATE_IGNORE_INPUT;
         SetPlayerCallback(p, Player_80108FC);
     }
 }
