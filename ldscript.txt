@@ -123,8 +123,7 @@ SECTIONS {
         src/game/stage/camera.o(.text);
         src/game/shared/stage/terrain_collision.o(.text);
         src/game/shared/stage/screen_shake.o(.text);
-        asm/water_effects.o(.text);
-        src/game/water_effects.o(.text);
+        src/game/shared/stage/water_effects.o(.text);
         src/game/shared/demo_manager.o(.text);
         asm/code_1_3.o(.text);
         src/game/final_boss_init.o(.text);

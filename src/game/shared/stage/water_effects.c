@@ -1,10 +1,14 @@
 #include "global.h"
 #include "core.h"
 #include "flags.h"
+#include "trig.h"
 #include "color.h"
 #include "game/shared/stage/camera.h"
+#include "game/shared/stage/water_effects.h"
 #include "game/stage.h"
 #include "constants/anim_commands.h"
+
+/* This module is certainly based on the SA2 code, but heavily modified in SA3. */
 
 #ifndef NON_MATCHING
 // NOTE: CopyNColorsFromAnimPalette() only matches using a constant 2
@@ -16,35 +20,16 @@
 #define BG_COPY_SIZE  (16 * (PALETTE_LEN_4BPP * COLOR_SIZE))
 #define OBJ_COPY_SIZE (15 * (PALETTE_LEN_4BPP * COLOR_SIZE))
 
-typedef struct StrcSmall {
-    /* 0x00 */ s8 unk0; // TODO: unk0-3 might be int_vcount?
-    /* 0x01 */ s8 unk1;
-    /* 0x02 */ s8 unk2;
-    /* 0x03 */ s8 unk3;
-    /* 0x04 */ s16 unk4;
-    /* 0x06 */ s16 unk6;
-    /* 0x08 */ u32 flags;
-    /* 0x0C */ u32 blendColors;
-} StrcSmall;
-
-// gCamera.task54 <--
-typedef struct StrcCodeUnk {
-    /* 0x00 */ StrcSmall unk0;
-    /* 0x10 */ u8 padding10[0x4];
-    /* 0x14 */ Sprite s;
-    /* 00-15 : OBJ Palette -- 16-31 : BG Palette */
-    /* 0x3C */ ColorRaw palette[32 * PALETTE_LEN_4BPP];
-} StrcCodeUnk; /* 0x43C */
-
-void Task_8052798(void);
-s32 sub_8052B84(StrcCodeUnk *strc);
+void MaskPaletteWithUnderwaterColor(u32 *dst, u32 *src, u32 mask, s32 size);
+void Task_StageWaterTask(void);
+bool16 IsWaterVisible(Water *water);
 void TaskDestructor_8052C18(Task *t);
 void sub_8052C54(void);
 void VCountCB_WaterEffectCopyPalettes(void);
-void sub_8052D2C(StrcSmall *smol);
+void sub_8052D2C(Water *water);
 void CopyNColorsFromAnimPalette(u16 *destPalette, AnimId anim, u16 numColors);
 
-extern AnimId gUnknown_080D1BC4[12];
+extern AnimId gUnknown_080D1BC4[NUM_CHARACTERS][4];
 extern AnimId gUnknown_080D1BEC[5];
 extern AnimId gUnknown_080D1BF6[5];
 
@@ -102,25 +87,24 @@ static inline void MaskPaletteWithUnderwaterColor_inline(u32 *dst, u32 *src, u32
     }
 }
 
-#if 0
+#if 01
 
-void sub_80525F0(s32 arg0, u32 flags) {
-    StrcCodeUnk *strc;
-    void* temp_r0;
-    StrcSmall* smol;
-    Sprite* s;
+void sub_80525F0(s32 arg0, u32 flags)
+{
+    Water *water;
+    void *temp_r0;
+    Sprite *s;
 
-    gCamera.task54 = TaskCreate(Task_8052798, 0x43C, 0xFFFE, 0, &TaskDestructor_8052C18);
-    strc = TASK_DATA(gCamera.task54);
-    smol = &strc->unk0;
-    smol->unk4 = -1;
-    smol->unk6 = -1;
-    smol->unk2 = -1;
-    smol->unk1 = -1;
-    smol->flags = flags & 0x100;
-    smol->blendColors = arg0;
-    sub_8052D2C(smol);
-    s = &strc->s;
+    gCamera.task54 = TaskCreate(Task_StageWaterTask, sizeof(Water), 0xFFFE, 0, &TaskDestructor_8052C18);
+    water = TASK_DATA(gCamera.task54);
+    water->currentWaterLevel = -1;
+    water->targetWaterLevel = -1;
+    water->SA2_LABEL(unk2) = -1;
+    water->SA2_LABEL(unk1) = -1;
+    water->flags = flags & 0x100;
+    water->blendColors = arg0;
+    sub_8052D2C(water);
+    s = &water->s;
     s->tiles = OBJ_VRAM0 + 0x4D80;
     s->anim = 973;
     s->variant = 0;
@@ -132,8 +116,8 @@ void sub_80525F0(s32 arg0, u32 flags) {
     s->frameFlags = 0;
     UpdateSpriteAnimation(s);
 }
+#endif
 
-//void MaskPaletteWithUnderwaterColor(u32 *dst, u32 *src, u32 mask, s32 size)
 void MaskPaletteWithUnderwaterColor(u32 *dst, u32 *src, u32 mask, s32 size)
 {
     u32 k = (size >> 4);
@@ -150,9 +134,9 @@ void MaskPaletteWithUnderwaterColor(u32 *dst, u32 *src, u32 mask, s32 size)
 }
 
 // (96.84%) https://decomp.me/scratch/XShZD
-void sub_805274C(s16* arg0, u16* arg1, u32 UNUSED arg2, s32 count) {
-    while (count-- != 0) 
-    {
+NONMATCH("asm/non_matching/game/shared/stage/we__sub_805274C.inc", void sub_805274C(s16 *arg0, u16 *arg1, u32 UNUSED arg2, s32 count))
+{
+    while (count-- != 0) {
         ColorRaw r = (*arg1 >> 0x0) & 0x1F;
         u32 g = (*arg1 >> 0x5) & 0x1F;
         u32 b = (*arg1 >> 0xA) & 0x1F;
@@ -162,148 +146,155 @@ void sub_805274C(s16* arg0, u16* arg1, u32 UNUSED arg2, s32 count) {
         r |= g << 5;
         b = (b >> 1) & 0x1F;
         r |= b << 10;
-        
+
         *arg0 = r;
         arg0++;
         arg1++;
     }
 }
-#endif
+END_NONMATCH
 
-#if 01
-void Task_8052798(void) {
-    u16 spC;
-    Vec2_16 sp2C[16];
-    struct Camera* sp68;
-    u16* sp6C;
-    Sprite* s;
-    StrcSmall *temp_r7;
-    StrcCodeUnk *strc;
-    Vec2_16* temp_r1_5;
-    Vec2_16* var_r4;
+// (98.41%) https://decomp.me/scratch/AvNo7
+NONMATCH("asm/non_matching/game/shared/stage/we__Task_StageWaterTask.inc", void Task_StageWaterTask(void))
+{
+    u16 sp00[6];
+    u16 sp0C[16];
+    Vec2_16 surfaceSpritePositions[15];
+    struct Camera *sp68;
+    Sprite *s;
+    Water *water;
+    Vec2_16 *temp_r1_5;
+    Vec2_16 *var_r4;
     s16 temp_r0_3;
-    s16 temp_r4;
+    s16 zone;
     s16 temp_r4_3;
-    s16 var_r1;
-    s16 var_r1_2;
     s16 var_r5;
     s32 temp_r1_3;
     s8 var_r0_2;
     u16 temp_r1_4;
     u16 temp_r4_2;
     u16 var_r0;
-    u16 var_r6;
     u32 temp_r0;
     u32 temp_r0_4;
     u32 var_r0_3;
-    u32 var_r2_2;
+    s16 i;
+    s16 line;
+    s16 sprIdx;
     s16 var_sb;
     u8 temp_r0_2;
-    void* var_r2;
+    u16 *var_r2;
 
-    strc = TASK_DATA(gCurTask);
-    temp_r7 = &strc->unk0;
+    water = TASK_DATA(gCurTask);
     sp68 = &gCamera;
     var_sb = 0;
-    if ((sub_8052B84(temp_r7) << 0x10) != 0) {
-        strc->unk3000000 = 1U;
+    if (IsWaterVisible(water)) {
+        water->isActive = TRUE;
         sp68->unk69 = 1;
     } else {
-        strc->unk3000000 = 0U;
+        water->isActive = FALSE;
         sp68->unk69 = 0;
     }
-    if (strc->unk3000000 == 0) {
+    if (!water->isActive) {
         gFlags &= ~FLAGS_40;
         return;
     }
 
-    sp6C = strc->palette;
+    {
+        s16 someY = (water->currentWaterLevel - gCamera.y);
+        if (gStageData.gameMode < GAME_MODE_5) {
+            u32 timer = ((u32)(gStageData.timer & 0x1FF) >> 1);
+            gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
+            gHBlankCopyTarget = (void *)&REG_BG3HOFS;
+            gHBlankCopySize = 2;
+            var_r2 = gBgOffsetsHBlankPrimary;
 
-    if ((u32) gStageData.gameMode < GAME_MODE_5) {
-        gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
-        gHBlankCopyTarget = (void *)&REG_BG3HOFS;
-        gHBlankCopySize = 2;
-        var_r2 = gBgOffsetsHBlankPrimary;
-        for(var_r1 = 0; var_r1 < DISPLAY_HEIGHT; var_r1++)
-        {
-            if ((s32)(temp_r7->unk0.unk4 - gCamera.y) < var_r1) {
-                *var_r2 = (SIN(((((u32)(gStageData.timer & 0x1FF) >> 1) + (var_r1 * 2)) * 0x10) & ONE_CYCLE) >> 0xC) + 8;
-            } else {
-                *var_r2 = (u16)gBgScrollRegs[3][0];
+            for (line = 0; line < DISPLAY_HEIGHT; line++) {
+                if (someY < line) {
+                    *var_r2 = (SIN(((timer + (line * 2)) * 0x10) & ONE_CYCLE) >> 0xC) + 8;
+                } else {
+                    *var_r2 = (u16)gBgScrollRegs[3][0];
+                }
+                var_r2++;
             }
-            var_r2++;
         }
     }
 
-	DmaFill16(3, 0, &gObjPalette[0xF9], 0xC);
-	DmaFill16(3, 0, &gObjPalette[7], 0x20);
+    zone = (gStageData.zone - 1);
+    DmaCopy16(3, &gObjPalette[249], sp00, ARRAY_COUNT(sp00) * COLOR_SIZE);
+    DmaCopy16(3, &gObjPalette[128], sp0C, ARRAY_COUNT(sp0C) * COLOR_SIZE);
 
-    if ((gStageData.unk8 & 0xFFFF00) == 0x90400) {
-        var_sb = 1;
+    if (gStageData.zone == 4 && gStageData.act == 9) {
+        var_sb++;
     }
-    var_r5 = 4;
     if (gStageData.gameMode != 6) {
         var_r5 = 3;
+    } else {
+        var_r5 = 4;
     }
-    temp_r4 = (gStageData.zone - 1);
-    CopyNColorsFromAnimPalette(sp6C, gUnknown_080D1BF6[temp_r4 + var_sb], 0x100U);
-    for (var_r1_2 = 0; var_r1_2 < var_r5; var_r1_2++)
-	{
-        CopyNColorsFromAnimPalette(&strc->palette[var_r1_2 * 16 + 60]), gUnknown_080D1BC4[temp_r4][gPlayers[var_r1_2].charFlags.character], 0x10U);
+    CopyNColorsFromAnimPalette(water->wd.pal[0], gUnknown_080D1BF6[zone + var_sb], 0x100U);
+    for (i = 0; i < var_r5; i++) {
+        CopyNColorsFromAnimPalette(&water->wd.pal[i][0], gUnknown_080D1BC4[gPlayers[i].charFlags.character][zone], PALETTE_LEN_4BPP);
     }
 
     if (gStageData.gameMode < 6) {
-        CopyNColorsFromAnimPalette(&strc->palette[2 * PALETTE_LEN_4BPP], gUnknown_080D1BEC[gPlayers[gStageData.playerIndex].charFlags.character], 0x10U);
+        CopyNColorsFromAnimPalette(&water->wd.pal[2][0], gUnknown_080D1BEC[gPlayers[gStageData.playerIndex].charFlags.character], 0x10U);
     }
 
-	DmaFill16(3, 0, &temp_r7->palette[249], 6 * COLOR_SIZE);
+    DmaCopy16(3, sp00, &water->wd.pal[15][9], ARRAY_COUNT(sp00) * COLOR_SIZE);
     DmaWait(3);
 
-	DmaFill16(3, 0, &temp_r7->palette[8 * PALETTE_LEN_4BPP], PALETTE_LEN_4BPP * COLOR_SIZE);
+    DmaCopy16(3, sp0C, &water->wd.pal[8], ARRAY_COUNT(sp0C) * COLOR_SIZE);
     DmaWait(3);
 
-    MaskPaletteWithUnderwaterColor(&temp_r7->palette[0x100], gBgPalette, temp_r7->unk0.blendColors, 0x100);
+    MaskPaletteWithUnderwaterColor((u32 *)&water->wd.pal[16][0], (u32 *)gBgPalette, water->blendColors, 0x100);
 
-	gVBlankCallbacks[gNumVBlankCallbacks++] = sub_8052C54;
+    gVBlankCallbacks[gNumVBlankCallbacks++] = sub_8052C54;
     gFlags |= FLAGS_EXECUTE_VBLANK_CALLBACKS;
 
-    if (temp_r7->unk0.unk4 <= sp68->y) {
-        temp_r7->unk0.unk2 = 0;
-    } else if (temp_r7->unk0.unk4 < (sp68->y + DISPLAY_HEIGHT)) {
-        temp_r7->unk0.unk2 = temp_r7->unk4 - sp68->y;
+    if (water->currentWaterLevel <= sp68->y) {
+        water->SA2_LABEL(unk2) = 0;
+    } else if (water->currentWaterLevel < (sp68->y + DISPLAY_HEIGHT)) {
+        water->SA2_LABEL(unk2) = water->currentWaterLevel - sp68->y;
     } else {
-        temp_r7->unk0.unk2 = -1;
+        water->SA2_LABEL(unk2) = -1;
     }
 
-    if ((u32) (u8) ((u8) temp_r7->unk0.unk1 - 1) < (DISPLAY_HEIGHT - 1)) {
-        s = &strc->s;
-        temp_r1_4 = 0 - ((sp68->x + ((u32) gStageData.timer >> 2)) & 7);
-        s->x = temp_r1_4;
-        var_r6 = temp_r1_4;
-        temp_r0_3 = (u8) temp_r7->unk0.unk2 + 1;
-        s->y = temp_r0_3;
-        s->frameFlags |= 0xC0000;
+    if ((int_vcount)(water->SA2_LABEL(unk1) - 1) < (DISPLAY_HEIGHT - 1)) {
+        s32 theX;
+        s32 theY;
+        u16 baseX;
+        u16 baseY;
+        s = &water->s;
+        theX = sp68->x;
+        theX += (gStageData.timer >> 2);
+        theX &= 7;
+        theX = -theX;
+        s->x = theX;
+        baseX = theX;
+        theY = s->y = water->SA2_LABEL(unk2) + 1;
+
+        s->frameFlags |= (SPRITE_FLAG_MASK_19 | SPRITE_FLAG_MASK_18);
         UpdateSpriteAnimation(s);
 
         if (gStageData.timer & 0x2) {
-            var_r4 = &sp2C;
+            var_r4 = &surfaceSpritePositions[0];
             DisplaySprite(s);
-            for(var_r2_2 = 0; var_r2_2 < 16; var_r2_2++)
-            {
-                var_r4->x = ++var_r6;
-                var_r4->y = temp_r0_3;
-                var_r4++;
+
+            for (sprIdx = ARRAY_COUNT(surfaceSpritePositions); sprIdx > 0; sprIdx--, var_r4++) {
+                baseX += 16;
+                var_r4->x = baseX;
+                var_r4->y = theY;
             }
 
-            DisplaySprites(s);
+            DisplaySprites(s, surfaceSpritePositions, ARRAY_COUNT(surfaceSpritePositions));
         }
     }
 
-    if ((temp_r7->unk0.unk2 - 1) < (DISPLAY_HEIGHT - 1)) {
+    if ((int_vcount)(water->SA2_LABEL(unk2) - 1) < (DISPLAY_HEIGHT - 1)) {
         REG_IME = 0;
         gIntrTable[3] = VCountCB_WaterEffectCopyPalettes;
         REG_IME = 1;
-        sa2__gUnknown_03002874 = temp_r7->unk0.unk2 - 1;
+        sa2__gUnknown_03002874 = water->SA2_LABEL(unk2) - 1;
         gFlags |= FLAGS_40;
     } else {
         REG_IME = 0;
@@ -313,17 +304,16 @@ void Task_8052798(void) {
         gFlags &= ~FLAGS_40;
     }
 }
-#endif
+END_NONMATCH
 
-s32 sub_8052B84(StrcCodeUnk *strc)
+bool16 IsWaterVisible(Water *water)
 {
-    StrcSmall *strcSmolVals = &strc->unk0;
     WaterRange *waterRange;
     s16 i;
     s32 count = gStageData.waterRangesCount;
 
     if (count == 0) {
-        return 0;
+        return FALSE;
     }
 
     {
@@ -341,14 +331,14 @@ s32 sub_8052B84(StrcCodeUnk *strc)
             rMaxY = waterRange->maxY;
 
             if ((rMinX < camMaxX) && (rMinY < camMaxY) && (rMaxX > camMinX) && (rMaxY > camMinY)) {
-                strcSmolVals->unk4 = rMinY;
-                strcSmolVals->unk6 = waterRange->minY;
-                return 1;
+                water->currentWaterLevel = waterRange->minY;
+                water->targetWaterLevel = waterRange->minY;
+                return TRUE;
             }
         }
     }
 
-    return 0;
+    return FALSE;
 }
 
 void TaskDestructor_8052C18(Task *t)
@@ -362,13 +352,13 @@ void TaskDestructor_8052C18(Task *t)
 
 void sub_8052C54(void)
 {
-    StrcCodeUnk *strc = TASK_DATA(gCamera.task54);
-    strc->unk0.unk1 = strc->unk0.unk2;
-    strc->unk0.flags &= ~1;
+    Water *water = TASK_DATA(gCamera.task54);
+    water->SA2_LABEL(unk1) = water->SA2_LABEL(unk2);
+    water->flags &= ~1;
 
-    if (strc->unk0.unk2 == 0) {
-        DmaCopy32(3, &strc->palette[16 * PALETTE_LEN_4BPP], BG_PLTT, BG_COPY_SIZE);
-        DmaCopy32(3, &strc->palette[0 * PALETTE_LEN_4BPP], OBJ_PLTT, OBJ_COPY_SIZE);
+    if (water->SA2_LABEL(unk2) == 0) {
+        DmaCopy32(3, &water->wd.pal[16][0], BG_PLTT, BG_COPY_SIZE);
+        DmaCopy32(3, &water->wd.pal[0][0], OBJ_PLTT, OBJ_COPY_SIZE);
         gFlags |= (FLAGS_UPDATE_BACKGROUND_PALETTES | FLAGS_UPDATE_SPRITE_PALETTES);
     }
 }
@@ -377,17 +367,17 @@ void sub_8052C54(void)
 // TODO: Find out why it's not the whole thing!
 void VCountCB_WaterEffectCopyPalettes(void)
 {
-    StrcCodeUnk *strc = TASK_DATA(gCamera.task54);
-    ColorRaw *paletteOBJ = &strc->palette[0 * PALETTE_LEN_4BPP];
+    Water *water = TASK_DATA(gCamera.task54);
+    ColorRaw *paletteOBJ = &water->wd.pal[0][0];
 
-    DmaCopy32(3, &strc->palette[16 * PALETTE_LEN_4BPP], BG_PLTT, BG_COPY_SIZE);
+    DmaCopy32(3, &water->wd.pal[16][0], BG_PLTT, BG_COPY_SIZE);
     DmaCopy32(3, paletteOBJ, OBJ_PLTT, OBJ_COPY_SIZE);
     gFlags |= (FLAGS_UPDATE_BACKGROUND_PALETTES | FLAGS_UPDATE_SPRITE_PALETTES);
 
     REG_IF = INTR_FLAG_VCOUNT;
 }
 
-void sub_8052D2C(StrcSmall *smol) { }
+void sub_8052D2C(Water *smol) { }
 
 void CopyNColorsFromAnimPalette(u16 *destPalette, AnimId anim, u16 numColors)
 {
