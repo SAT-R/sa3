@@ -2,6 +2,7 @@
 #define GUARD_SA3_PLAYER_H
 
 #include "sprite.h"
+#include "game/shared/stage/camera.h" // CamCoord
 #include "game/shared/stage/entity.h" // SpriteBase
 
 typedef enum {
@@ -317,6 +318,11 @@ typedef struct Struc_3001150 {
 Struc_3001150 gUnknown_03001150;
 
 void InitializePlayer(s16 playerId);
+#ifndef NON_MATCHING
+bool16 IsInWater(s16 worldX, s16 worldY, s16 *outYPos);
+#else
+bool16 IsInWater(CamCoord worldX, CamCoord worldY, s16 *outYPos);
+#endif
 extern s16 sub_801480C(Player *p);
 void Call__Player_8014550(Player *p);
 void DemoPlayAlloc(Player *p, s16 zoneIndex);

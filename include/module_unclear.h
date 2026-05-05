@@ -53,7 +53,6 @@ void sub_8003E0C(u16 song);
 void sub_8003E28(u16 song); // StopSong?
 void sub_8004D30(void);
 void sub_8004DD8(s32 qWorldX, s32 qWorldY);
-u16 IsInWater(s16, s16, s16 *param2);
 
 extern bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5);
 
