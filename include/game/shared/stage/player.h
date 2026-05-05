@@ -5,7 +5,6 @@
 #include "game/shared/stage/camera.h" // CamCoord
 #include "game/shared/stage/entity.h" // SpriteBase
 
-
 typedef enum {
     SONIC, // 0
 #if (GAME > GAME_SA1)
@@ -20,7 +19,7 @@ typedef enum {
 
 #define NUM_SINGLE_PLAYER_CHARS 2
 #define NUM_MULTI_PLAYER_CHARS  4
-#define PLAYER_IS_ALIVE (!(GET_SP_PLAYER_V0(PLAYER_1)->moveState & MOVESTATE_DEAD))
+#define PLAYER_IS_ALIVE         (!(GET_SP_PLAYER_V0(PLAYER_1)->moveState & MOVESTATE_DEAD))
 
 #define MAX_PLAYER_NAME_LENGTH 6
 

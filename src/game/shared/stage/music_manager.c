@@ -24,7 +24,7 @@
 #endif
 
 void Task_StageMusicManager(void);
-//static 
+// static
 void MusManager_UpdateBgmParams(void);
 void MusManager_Fadeout(u16 fadeoutSpeed);
 
@@ -32,8 +32,8 @@ void MusManager_Fadeout(u16 fadeoutSpeed);
 void MusManager_TempoSettings(void);
 #endif
 
-    // SA12: game/globals.h
-    typedef struct MusicManagerState {
+// SA12: game/globals.h
+typedef struct MusicManagerState {
     u8 unk0;
     u8 unk1;
     u8 unk2;
@@ -44,9 +44,9 @@ void MusManager_TempoSettings(void);
 #if (GAME == GAME_SA3)
     u16 song;
 #endif
-    } MusicManagerState; /* size: 0xC */
+} MusicManagerState; /* size: 0xC */
 
-MusicManagerState ALIGNED(8) gMusicManagerState = {0};
+MusicManagerState ALIGNED(8) gMusicManagerState = { 0 };
 
 #if 0
 ALIGNED(4)
@@ -278,7 +278,7 @@ void sub_8029A18(u16 song)
 }
 #endif
 
-//static 
+// static
 void MusManager_UpdateBgmParams(void)
 {
     struct MP2KPlayerState *bgmInfo = &gMPlayInfo_BGM;

@@ -139,7 +139,8 @@ NONMATCH("asm/non_matching/game/interactables/rocket__Task_RocketMain.inc", void
     for (i = 0, worldX = rocket->worldX, worldY = rocket->worldY; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         p = rocket->players[i];
 
-        if (!(p->moveState & (MOVESTATE_1000000 | MOVESTATE_DEAD)) && (p->callback != Player_801D73C) && (p->moveState & MOVESTATE_IN_AIR)) {
+        if (!(p->moveState & (MOVESTATE_1000000 | MOVESTATE_DEAD)) && (p->callback != Player_801D73C)
+            && (p->moveState & MOVESTATE_IN_AIR)) {
 #ifndef NON_MATCHING
             if (sub_8020700(s, (s16)worldPos, worldY, 0, p, 0))
 #else
