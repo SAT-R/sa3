@@ -51,7 +51,7 @@ typedef struct RectU8 {
 
 extern RectU8 gUnknown_03000970[4];
 
-void sub_80525F0(s32, s32); /* extern */
+void CreateStageWaterTask(s32, s32); /* extern */
 extern ScreenFade gUnknown_030010C0;
 extern u8 gUnknown_080CE548[4];
 extern void *gUnknown_08E2EC78[8];
@@ -401,7 +401,7 @@ void sub_8002838(s16 level)
         if (data != NULL) {
             sd->waterRangesCount = data[0];
             sd->waterRanges = (WaterRange *)&data[2];
-            sub_80525F0(data[1] << 16 | data[1], 0);
+            CreateStageWaterTask(data[1] << 16 | data[1], 0);
             return;
         } else {
             sd->waterRangesCount = 0;

@@ -87,9 +87,7 @@ static inline void MaskPaletteWithUnderwaterColor_inline(u32 *dst, u32 *src, u32
     }
 }
 
-#if 01
-
-void sub_80525F0(s32 arg0, u32 flags)
+void CreateStageWaterTask(s32 arg0, u32 flags)
 {
     Water *water;
     void *temp_r0;
@@ -116,7 +114,6 @@ void sub_80525F0(s32 arg0, u32 flags)
     s->frameFlags = 0;
     UpdateSpriteAnimation(s);
 }
-#endif
 
 void MaskPaletteWithUnderwaterColor(u32 *dst, u32 *src, u32 mask, s32 size)
 {
