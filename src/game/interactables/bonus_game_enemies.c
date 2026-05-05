@@ -642,14 +642,14 @@ void Task_803CA28(void)
     } else if (gStageData.gameMode != GAME_MODE_5) {
         p = &gPlayers[gStageData.playerIndex];
 
-        if (p->moveState & MOVESTATE_100) {
+        if (p->moveState & MOVESTATE_DEAD) {
             r6++;
         }
     } else {
         for (i = 0, r6 = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             p = GET_SP_PLAYER_V1(i);
 
-            if (p->moveState & MOVESTATE_100) {
+            if (p->moveState & MOVESTATE_DEAD) {
                 r6++;
             }
         }

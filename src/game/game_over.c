@@ -8,6 +8,7 @@
 #include "game/stage.h"
 #include "game/save.h"
 #include "game/shared/stage/player.h"
+#include "game/shared/stage/music_manager.h"
 #include "game/shared/stage/player_callbacks.h"
 #include "game/screen_fade.h"
 #include "game/shared/stage/camera.h" // TODO: for CamCoord used in entities_manager.h
@@ -60,7 +61,6 @@ extern u16 gUnknown_080CE54C[][NUM_LANGUAGES][3];
 void sub_8001D58(VoidFn proc, ColorRaw color);
 void Task_60_8003FEC(void);
 void TaskDestructor_8003D28(struct Task *t);
-void sub_8029990(u16 song);
 void Task_00_8002988();
 void Task_38_8003620();
 void Task_800368C();
@@ -297,7 +297,7 @@ NONMATCH("asm/non_matching/game/shared/go__sub_8002618.inc", void sub_8002618(vo
         }
     }
 
-    sub_8029990(song);
+    CreateStageMusicManager(song);
 }
 END_NONMATCH
 
@@ -865,7 +865,7 @@ void sub_800341C(void)
         if (gStageData.unk85 != 0) {
             return;
         }
-        if (gPlayers[gStageData.playerIndex].moveState & MOVESTATE_100) {
+        if (gPlayers[gStageData.playerIndex].moveState & MOVESTATE_DEAD) {
             return;
         }
     }
@@ -1034,7 +1034,7 @@ void Task_800368C(void)
                 var_r5_2 = 1;
             }
         }
-        if (gPlayers[gStageData.playerIndex].moveState & MOVESTATE_100) {
+        if (gPlayers[gStageData.playerIndex].moveState & MOVESTATE_DEAD) {
             var_r5_2 = 1;
         }
         if (var_r5_2 == 0) {

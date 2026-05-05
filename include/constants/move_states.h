@@ -13,7 +13,7 @@
 #define MOVESTATE_COLLIDING_ENT    0x00000020 // Touching switch?
 #define MOVESTATE_40               0x00000040 // Touching wheel?
 #define MOVESTATE_80               0x00000080
-#define MOVESTATE_100              0x00000100
+#define MOVESTATE_DEAD             0x00000100
 #define MOVESTATE_200              0x00000200
 #define MOVESTATE_400              0x00000400
 #define MOVESTATE_800              0x00000800

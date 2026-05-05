@@ -55,8 +55,8 @@ void Task_GoalRingImplInit(void)
     p2 = GET_SP_PLAYER_V0(PLAYER_2);
 
     if (gStageData.gameMode == GAME_MODE_5) {
-        if ((!(p->moveState & MOVESTATE_100) && sub_8020700(s, worldX, worldY, 0, p, 0))
-            || (!(p2->moveState & MOVESTATE_100) && sub_8020700(s, worldX, worldY, 0, p2, 0)) || (gStageData.unk4 == GAME_MODE_5)) {
+        if ((!(p->moveState & MOVESTATE_DEAD) && sub_8020700(s, worldX, worldY, 0, p, 0))
+            || (!(p2->moveState & MOVESTATE_DEAD) && sub_8020700(s, worldX, worldY, 0, p2, 0)) || (gStageData.unk4 == GAME_MODE_5)) {
             Player_PlaySong(p, SE_GOAL_RING);
             sub_8016F28(p);
 
@@ -66,7 +66,7 @@ void Task_GoalRingImplInit(void)
             sub_80469AC();
         }
     } else {
-        if (!(p->moveState & MOVESTATE_100) && sub_8020700(s, worldX, worldY, 0, p, 0)) {
+        if (!(p->moveState & MOVESTATE_DEAD) && sub_8020700(s, worldX, worldY, 0, p, 0)) {
             Player_PlaySong(p, SE_GOAL_RING);
             sub_8016F28(p);
 

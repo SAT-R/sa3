@@ -1945,7 +1945,7 @@ NONMATCH("asm/non_matching/game/interactables/bonus_capsule__sub_803C094.inc",
 {
     s8 sp0C[] = { -p->spriteOffsetX, -p->spriteOffsetY, +p->spriteOffsetX, +p->spriteOffsetY };
 
-    if (!HITBOX_IS_ACTIVE(s->hitboxes[hbIndex]) || (p->moveState & MOVESTATE_100)) {
+    if (!HITBOX_IS_ACTIVE(s->hitboxes[hbIndex]) || (p->moveState & MOVESTATE_DEAD)) {
         return 0;
     }
 

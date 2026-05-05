@@ -119,7 +119,7 @@ void Task_BonusUfoMain(void)
 
     if (((ufo->unkB1 == 7) && ((LOADED_SAVE->unlockedStages[zone] & 0x7) == 7)) || ((ufo->unkB1 == 8) && !(gStageData.unkBE[zone] & 0x1))
         || ((ufo->unkB1 == 9) && !(gStageData.unkBE[zone] & 0x2))) {
-        if (!(p->moveState & (MOVESTATE_1000000 | MOVESTATE_200 | MOVESTATE_100 | MOVESTATE_IN_AIR))) {
+        if (!(p->moveState & (MOVESTATE_1000000 | MOVESTATE_200 | MOVESTATE_DEAD | MOVESTATE_IN_AIR))) {
             s16 anim0 = p->charFlags.anim0;
             if ((p->charFlags.anim0 != 238) // NOTE: Direct var load for matching
                 && (anim0 != 239) //

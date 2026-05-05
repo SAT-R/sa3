@@ -54,7 +54,7 @@ void Task_FinalZoneRing(void)
     Player *p = &gPlayers[gStageData.playerIndex];
     Player *partner;
 
-    if (!(p->moveState & (MOVESTATE_1000000 | MOVESTATE_200 | MOVESTATE_100))) {
+    if (!(p->moveState & (MOVESTATE_1000000 | MOVESTATE_200 | MOVESTATE_DEAD))) {
         if (gStageData.playerIndex == CHARACTER_SONIC) {
             Sprite *s = &ring->s;
 

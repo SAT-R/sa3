@@ -139,7 +139,7 @@ NONMATCH("asm/non_matching/game/interactables/rocket__Task_RocketMain.inc", void
     for (i = 0, worldX = rocket->worldX, worldY = rocket->worldY; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         p = rocket->players[i];
 
-        if (!(p->moveState & (MOVESTATE_1000000 | MOVESTATE_100)) && (p->callback != Player_801D73C) && (p->moveState & MOVESTATE_IN_AIR)) {
+        if (!(p->moveState & (MOVESTATE_1000000 | MOVESTATE_DEAD)) && (p->callback != Player_801D73C) && (p->moveState & MOVESTATE_IN_AIR)) {
 #ifndef NON_MATCHING
             if (sub_8020700(s, (s16)worldPos, worldY, 0, p, 0))
 #else
@@ -214,14 +214,14 @@ NONMATCH("asm/non_matching/game/interactables/rocket__Task_8045F48.inc", void Ta
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         p = rocket->players[i];
 
-        if (p->moveState & (MOVESTATE_1000000 | MOVESTATE_100)) {
+        if (p->moveState & (MOVESTATE_1000000 | MOVESTATE_DEAD)) {
             rocket->base.unkA &= ~(1 << i * 2);
             rocket->base.unkA |= (2 << i * 2);
         }
         // _08045FB4
 
         if (!(rocket->base.unkA & (3 << i * 2))) {
-            u32 msMask = (p->moveState & (MOVESTATE_1000000 | MOVESTATE_100));
+            u32 msMask = (p->moveState & (MOVESTATE_1000000 | MOVESTATE_DEAD));
             sl = I(qWorldX);
             sb = I(qWorldY);
 

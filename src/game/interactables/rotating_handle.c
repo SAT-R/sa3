@@ -197,7 +197,7 @@ NONMATCH("asm/non_matching/game/interactables/rotating_handle__Task_80326D8.inc"
         }
 
         if (handle->unk3D != i) {
-            if (p->moveState & (MOVESTATE_1000000 | MOVESTATE_100)) {
+            if (p->moveState & (MOVESTATE_1000000 | MOVESTATE_DEAD)) {
                 continue;
             }
 
@@ -239,7 +239,7 @@ NONMATCH("asm/non_matching/game/interactables/rotating_handle__Task_80326D8.inc"
         }
         // _08032888
 
-        if ((p->moveState & (MOVESTATE_1000000 | MOVESTATE_100)) || p->callback == Player_800D944) {
+        if ((p->moveState & (MOVESTATE_1000000 | MOVESTATE_DEAD)) || p->callback == Player_800D944) {
             p->moveState &= ~MOVESTATE_10000000;
             gCurTask->main = Task_8032A8C;
         } else if (p->keyInput2 & gStageData.buttonConfig.jump) {

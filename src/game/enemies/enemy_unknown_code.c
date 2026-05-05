@@ -503,7 +503,7 @@ NONMATCH("asm/non_matching/game/enemies/euc__sub_805C890.inc", bool32 sub_805C89
                 result = TRUE;
             }
         }
-        if (!(p->moveState & MOVESTATE_100)) {
+        if (!(p->moveState & MOVESTATE_DEAD)) {
             if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2 || p->charFlags.someIndex == 4) {
                 temp_r0_2 = sub_8020700(s, worldX, worldY, 1, p, 1);
                 if (temp_r0_2 != 0) {

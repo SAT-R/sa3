@@ -641,7 +641,7 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
             partner = GET_SP_PLAYER_V0(PLAYER_2);
 
             if (MOVESTATE_800000 & partner->moveState) {
-                if (!(partner->moveState & MOVESTATE_100)) {
+                if (!(partner->moveState & MOVESTATE_DEAD)) {
                     s32 qX = partner->qWorldX;
                     p->qWorldX = qX;
 
@@ -691,14 +691,14 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
         }
 
         if (gStageData.unk4 == 3) {
-            if (!(p->moveState & MOVESTATE_100)) {
+            if (!(p->moveState & MOVESTATE_DEAD)) {
                 if (MOVESTATE_400000 & p->moveState) {
                     Player_InitializeTagAction(p);
                     if (++p->unk42 == 30) {
                         partner = GET_SP_PLAYER_V0(PLAYER_2);
-                        if (!(partner->moveState & MOVESTATE_100) || ((partner->charFlags.someIndex) == 2)) {
+                        if (!(partner->moveState & MOVESTATE_DEAD) || ((partner->charFlags.someIndex) == 2)) {
                             partner->unk44 = 0;
-                            partner->moveState = (partner->moveState & ~(MOVESTATE_COLLIDING_ENT | MOVESTATE_100 | MOVESTATE_10000000))
+                            partner->moveState = (partner->moveState & ~(MOVESTATE_COLLIDING_ENT | MOVESTATE_DEAD | MOVESTATE_10000000))
                                 | MOVESTATE_1000000;
                             partner->sprColliding = NULL;
                             Player_8007930(partner);
@@ -718,7 +718,7 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
                     sub_80193A4(p);
                     p->unk42 = 0;
 
-                    if (partner->moveState & MOVESTATE_100) {
+                    if (partner->moveState & MOVESTATE_DEAD) {
                         sub_8016F28(p);
                         sub_8016F28(partner);
                     }
@@ -731,7 +731,7 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
                         p->sprColliding = NULL;
                         p->unk42 = 0;
 
-                        if (partner->moveState & MOVESTATE_100) {
+                        if (partner->moveState & MOVESTATE_DEAD) {
                             sub_8016F28(p);
                             sub_8016F28(partner);
                         }
@@ -4094,7 +4094,7 @@ void Player_HitWithoutRingsUpdate(Player *p)
 
     p->moveState &= ~(MOVESTATE_COLLIDING_ENT | MOVESTATE_FACING_LEFT);
     p->moveState &= 0xEFFFFFFF;
-    p->moveState |= MOVESTATE_100;
+    p->moveState |= MOVESTATE_DEAD;
     Player_8012FE0(p);
     p->charFlags.anim0 = 0x67;
     p->unk13C = 0;
@@ -4120,7 +4120,7 @@ void Player_HitWithoutRingsUpdate(Player *p)
     if (gStageData.gameMode > 4U) {
         if (p->charFlags.someIndex == 1) {
             partner = &gPlayers[p->charFlags.partnerIndex];
-            if (!(partner->moveState & MOVESTATE_100)) {
+            if (!(partner->moveState & MOVESTATE_DEAD)) {
                 sub_8009518(partner);
             }
             sub_80278DC();
@@ -4153,7 +4153,7 @@ void Player_HitWithoutRings(Player *p)
 
     p->moveState &= ~(MOVESTATE_COLLIDING_ENT | MOVESTATE_FACING_LEFT);
     p->moveState &= 0xEFFFFFFF;
-    p->moveState |= MOVESTATE_100;
+    p->moveState |= MOVESTATE_DEAD;
     Player_8012FE0(p);
     p->charFlags.anim0 = 0x67;
     p->unk13C = 0;
@@ -4171,7 +4171,7 @@ void Player_HitWithoutRings(Player *p)
     if (gStageData.gameMode > 4U) {
         if (p->charFlags.someIndex == 1) {
             partner = &gPlayers[p->charFlags.partnerIndex];
-            if (!(partner->moveState & MOVESTATE_100)) {
+            if (!(partner->moveState & MOVESTATE_DEAD)) {
                 sub_8009518(partner);
             }
             sub_80278DC();
@@ -4247,7 +4247,7 @@ void sub_800913C(Player *p)
         p->framesInvulnerable = 0x78;
         p->unk56 = 0xE;
         p->unk57 = 0x3C;
-        temp_r0 = p->moveState & ~MOVESTATE_100;
+        temp_r0 = p->moveState & ~MOVESTATE_DEAD;
         p->moveState = temp_r0;
         p->moveState = (temp_r0 & ~MOVESTATE_GRAVITY_SWITCHED) | (partner->moveState & MOVESTATE_GRAVITY_SWITCHED);
         p->callback = Player_8005380;
@@ -4343,7 +4343,7 @@ void sub_8009518(Player *p)
 
     p->moveState &= 0xEDFFFFFF;
     p->moveState &= ~(MOVESTATE_COLLIDING_ENT | MOVESTATE_FACING_LEFT);
-    p->moveState |= MOVESTATE_100;
+    p->moveState |= MOVESTATE_DEAD;
     p->charFlags.anim0 = 0xA2;
     p->unk13C = 0;
     p->unk13D = 0;
@@ -9872,7 +9872,7 @@ bool32 sub_8010184(Sprite *s, s32 offsetX, s32 offsetY, s16 hbIndex, Player *p)
 {
     Sprite2 *sprite = &p->spriteInfoBody->s;
 
-    if (!(p->moveState & MOVESTATE_100)) {
+    if (!(p->moveState & MOVESTATE_DEAD)) {
         if ((s->hitboxes[hbIndex].index != -1) && (sprite->hitboxes[0].index != -1)) {
             if (HB_COLLISION(offsetX, offsetY, s->hitboxes[hbIndex].b, I(p->qWorldX) + gCamera.unk6A, I(p->qWorldY),
                              sprite->hitboxes[0].b)) {
@@ -9888,7 +9888,7 @@ bool32 sub_8010288(Sprite *s, s32 offsetX, s32 offsetY, s16 hbIndex, Player *p)
 {
     Sprite2 *sprite = &p->spriteInfoBody->s;
 
-    if (!(p->moveState & MOVESTATE_100)) {
+    if (!(p->moveState & MOVESTATE_DEAD)) {
         if ((s->hitboxes[hbIndex].index != -1) && (sprite->hitboxes[1].index != -1)) {
             if (HB_COLLISION(offsetX, offsetY, s->hitboxes[hbIndex].b, I(p->qWorldX) + gCamera.unk6A, I(p->qWorldY),
                              sprite->hitboxes[1].b)) {
@@ -10054,7 +10054,7 @@ void sub_80105F0(Player *p)
     if (p->charFlags.character == SONIC) {
         Player_800D880(p);
         p->moveState &= ~(MOVESTATE_COLLIDING_ENT | MOVESTATE_FACING_LEFT);
-        p->moveState |= MOVESTATE_100;
+        p->moveState |= MOVESTATE_DEAD;
         p->charFlags.anim0 = 0x67;
         p->qSpeedAirX = 0;
         p->qSpeedAirY = (p->moveState & MOVESTATE_80) ? -Q(2.625) : -Q(4.875);
@@ -10067,7 +10067,7 @@ void sub_80105F0(Player *p)
         SetPlayerCallback(p, sub_80106E0);
         sub_80106E0(p);
     } else {
-        p->moveState |= MOVESTATE_100;
+        p->moveState |= MOVESTATE_DEAD;
         if ((gStageData.levelTimer == (MAX_COURSE_TIME - 1)) && (gStageData.unk2 == 0)) {
             p->framesInvulnerable = TIME(0, 10);
         } else {
@@ -13028,7 +13028,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8013A68.inc", void sub_8013A68
         tf->qScaleY = qScaleY;
         UpdateSpriteAnimation((Sprite *)s);
         TransformSprite((Sprite *)s, tf);
-        if (!(MOVESTATE_100 & temp_r5->moveState)) {
+        if (!(MOVESTATE_DEAD & temp_r5->moveState)) {
             if (temp_r5->moveState & MOVESTATE_4000000) {
                 return;
             }
@@ -13080,7 +13080,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8013A68.inc", void sub_8013A68
         UpdateSpriteAnimation((Sprite *)s);
         TransformSprite((Sprite *)s, tf);
 
-        if ((MOVESTATE_100 & temp_r5->moveState)
+        if ((MOVESTATE_DEAD & temp_r5->moveState)
             || (!(temp_r5->moveState & MOVESTATE_4000000) && ((temp_r5->framesInvulnerable == 0) || !(gStageData.timer & 2)))) {
             DisplaySprite((Sprite *)s);
         }
@@ -13511,7 +13511,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8014710.inc", void sub_8014710
     if (arg0->charFlags.someIndex == 1) {
         bool32 var_r5 = FALSE;
 
-        if ((gStageData.unk4 == 3) && !(arg0->unkC & 0x40000) && !(arg0->moveState & MOVESTATE_100)) {
+        if ((gStageData.unk4 == 3) && !(arg0->unkC & 0x40000) && !(arg0->moveState & MOVESTATE_DEAD)) {
             if ((arg0->unk57 == 0) || (--arg0->unk57 == 0)) {
                 if (arg0->unk56 == 0) {
                     var_r5 = TRUE;
@@ -14026,12 +14026,12 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015064.inc", s16 sub_8015064(
     qWorldY = p->qWorldY;
     result = 0;
 
-    if (p->moveState & MOVESTATE_100) {
+    if (p->moveState & MOVESTATE_DEAD) {
         return TRUE;
     }
 
     if ((sub_8016FA8(p) << 0x10) != 0) {
-        p->moveState |= MOVESTATE_100;
+        p->moveState |= MOVESTATE_DEAD;
         if (p->moveState & MOVESTATE_80) {
             p->qSpeedAirY = -0x2A0;
         } else {
@@ -16593,7 +16593,7 @@ void Task_TagActionInit(void)
     Player *p = strc->p;
 
     moveState = p->moveState;
-    mask = MOVESTATE_100;
+    mask = MOVESTATE_DEAD;
     mask &= moveState;
 
     if (mask) {
@@ -18616,7 +18616,7 @@ void sub_801B824(Player *p)
     if ((sub_8015064(p) << 0x10) == 0) {
         sub_800E04C(p);
 
-        if (!(MOVESTATE_100 & p->moveState)) {
+        if (!(MOVESTATE_DEAD & p->moveState)) {
             if (!(p->moveState & MOVESTATE_IN_AIR)) {
                 Player_StopSong(p, SE_TAILS__FLYING);
                 SetPlayerCallback(p, Player_8005380);
@@ -22609,7 +22609,7 @@ u32 sub_8020950(Sprite *s, s32 worldX, s32 worldY, Player *p, u8 param4)
     u32 temp_r1;
 
     var_r4 = 0;
-    if ((s->hitboxes[0].index == -1) || (MOVESTATE_100 & p->moveState)) {
+    if ((s->hitboxes[0].index == -1) || (MOVESTATE_DEAD & p->moveState)) {
         return 0U;
     }
     if ((MOVESTATE_COLLIDING_ENT & p->moveState) && (p->sprColliding == s)) {
@@ -23031,7 +23031,7 @@ void ResolvePlayerSpriteCollision(Sprite *s, Player *p)
     u32 temp_r1;
 
     if (s->hitboxes[0].index != -1) {
-        if (!(MOVESTATE_100 & p->moveState)) {
+        if (!(MOVESTATE_DEAD & p->moveState)) {
             if ((MOVESTATE_COLLIDING_ENT & p->moveState) && (p->sprColliding == s)) {
                 p->moveState &= ~MOVESTATE_COLLIDING_ENT;
                 p->moveState |= MOVESTATE_IN_AIR;

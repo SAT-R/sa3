@@ -75,7 +75,7 @@ _080026A8:
 _080026B0:
 	ldrb r0, [r0]
 _080026B2:
-	bl sub_8029990
+	bl CreateStageMusicManager
 _080026B6:
 	add sp, #0x1c
 	pop {r0}

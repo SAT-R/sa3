@@ -1311,7 +1311,7 @@ bool32 sub_802C080(Player *p)
 {
     s32 temp_r1;
 
-    if (!(p->moveState & (MOVESTATE_10000000 | MOVESTATE_1000000 | MOVESTATE_200 | MOVESTATE_100)) && ((u32)(u8)(gStageData.unk4 - 6) > 2U)
+    if (!(p->moveState & (MOVESTATE_10000000 | MOVESTATE_1000000 | MOVESTATE_200 | MOVESTATE_DEAD)) && ((u32)(u8)(gStageData.unk4 - 6) > 2U)
         && ((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4))
         && (p->callback != Player_800D944)) {
         return FALSE;
@@ -1321,7 +1321,7 @@ bool32 sub_802C080(Player *p)
 
 bool32 sub_802C0D4(Player *p)
 {
-    if (!(p->moveState & (MOVESTATE_10000000 | MOVESTATE_1000000 | MOVESTATE_100)) && (p->callback != Player_800D944)) {
+    if (!(p->moveState & (MOVESTATE_10000000 | MOVESTATE_1000000 | MOVESTATE_DEAD)) && (p->callback != Player_800D944)) {
         return FALSE;
     }
     return TRUE;

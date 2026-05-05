@@ -130,7 +130,7 @@ void Task_8032D64(void)
                 }
             }
 
-            if (p->moveState & (MOVESTATE_1000000 | MOVESTATE_100)) {
+            if (p->moveState & (MOVESTATE_1000000 | MOVESTATE_DEAD)) {
                 p->moveState &= ~MOVESTATE_10000000;
                 lift->unk8E[i] = 0;
             }

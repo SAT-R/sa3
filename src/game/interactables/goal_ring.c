@@ -71,14 +71,14 @@ void Task_GoalRing(void)
     p2 = &gPlayers[p1->charFlags.partnerIndex];
 
     if (gStageData.gameMode == GAME_MODE_5) {
-        if ((!(p1->moveState & MOVESTATE_100) && sub_8020700(s, worldX, worldY, 0, p1, 0))
-            || (!(p2->moveState & MOVESTATE_100) && sub_8020700(s, worldX, worldY, 0, p2, 0)) || (gStageData.unk4 == 5)) {
+        if ((!(p1->moveState & MOVESTATE_DEAD) && sub_8020700(s, worldX, worldY, 0, p1, 0))
+            || (!(p2->moveState & MOVESTATE_DEAD) && sub_8020700(s, worldX, worldY, 0, p2, 0)) || (gStageData.unk4 == 5)) {
             Player_PlaySong(p1, SE_GOAL_RING);
             SetPlayerCallback(p1, Player_8005BD4);
             gStageData.unk4 = 5;
             sub_803421C();
         }
-    } else if ((!(p1->moveState & (MOVESTATE_1000000 | MOVESTATE_100)) && sub_8020700(s, worldX, worldY, 0, p1, 0))
+    } else if ((!(p1->moveState & (MOVESTATE_1000000 | MOVESTATE_DEAD)) && sub_8020700(s, worldX, worldY, 0, p1, 0))
                || (gStageData.unk4 == 5)) {
         bool32 r7 = (gStageData.unk4 == 5) ? TRUE : FALSE;
 

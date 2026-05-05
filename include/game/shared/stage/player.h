@@ -5,6 +5,7 @@
 #include "game/shared/stage/camera.h" // CamCoord
 #include "game/shared/stage/entity.h" // SpriteBase
 
+
 typedef enum {
     SONIC, // 0
 #if (GAME > GAME_SA1)
@@ -19,6 +20,7 @@ typedef enum {
 
 #define NUM_SINGLE_PLAYER_CHARS 2
 #define NUM_MULTI_PLAYER_CHARS  4
+#define PLAYER_IS_ALIVE (!(GET_SP_PLAYER_V0(PLAYER_1)->moveState & MOVESTATE_DEAD))
 
 #define MAX_PLAYER_NAME_LENGTH 6
 
@@ -29,6 +31,24 @@ typedef enum {
 struct Player;
 typedef struct Player Player;
 typedef void (*PlayerCallback)(Player *p);
+
+#define PLAYER_ITEM_EFFECT__NONE            0x00
+#define PLAYER_ITEM_EFFECT__SHIELD_NORMAL   0x01
+#define PLAYER_ITEM_EFFECT__INVINCIBILITY   0x02
+#define PLAYER_ITEM_EFFECT__SPEED_UP        0x04
+#define PLAYER_ITEM_EFFECT__SHIELD_MAGNETIC 0x08
+#define PLAYER_ITEM_EFFECT__MP_SLOW_DOWN    0x10
+#define PLAYER_ITEM_EFFECT__20              0x20
+#define PLAYER_ITEM_EFFECT__CONFUSION       0x40
+#define PLAYER_ITEM_EFFECT__TELEPORT        0x80 // The name doesn't seem right...
+
+#define HAS_SHIELD(p) ((p)->itemEffect & (PLAYER_ITEM_EFFECT__SHIELD_MAGNETIC | PLAYER_ITEM_EFFECT__SHIELD_NORMAL))
+
+// Confusion
+#define PLAYER_ITEM_EFFECT__40 0x40
+
+// Teleport in SA2... Grinding in SA1?
+#define PLAYER_ITEM_EFFECT__80 0x80
 
 #define PLAYER_LAYER__FRONT 0x00
 #define PLAYER_LAYER__BACK  0x01
@@ -230,7 +250,7 @@ struct Player {
     u8 unk5B;
     u8 unk5C;
     u8 unk5D;
-    s16 unk5E;
+    s16 unk5E; // timerSpeedup
     s16 unk60;
     s16 unk62;
     u16 unk64;

@@ -327,8 +327,8 @@ NONMATCH("asm/non_matching/game/shared/rm__Task_RingsMgrStage.inc", void Task_Ri
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             p = GET_SP_PLAYER_V0(i);
 
-            if (!(p->moveState & MOVESTATE_100) && (p->charFlags.anim0 != 0x66) && (p->unk48 == 0)) {
-                if ((p->charFlags.someIndex != 2) || !(gPlayers[p->charFlags.partnerIndex].moveState & MOVESTATE_100)) {
+            if (!(p->moveState & MOVESTATE_DEAD) && (p->charFlags.anim0 != 0x66) && (p->unk48 == 0)) {
+                if ((p->charFlags.someIndex != 2) || !(gPlayers[p->charFlags.partnerIndex].moveState & MOVESTATE_DEAD)) {
                     rect[0] = -p->spriteOffsetX;
                     rect[1] = -p->spriteOffsetY;
                     rect[2] = +p->spriteOffsetX;
@@ -615,7 +615,7 @@ void Task_RingsMgrExtraZone(void)
         p = GET_SP_PLAYER_V0(pid);
 
 #if (GAME == GAME_SA3)
-        if (p->moveState & MOVESTATE_100)
+        if (p->moveState & MOVESTATE_DEAD)
             continue;
 #endif
 
@@ -809,7 +809,7 @@ void Task_802AB8C(void)
              && (syTemp >= HB_TOP(I(p->qWorldY), p->spriteInfoBody->s.hitboxes[0].b)))
             || ((syTemp - 16 >= HB_TOP(I(p->qWorldY), p->spriteInfoBody->s.hitboxes[0].b))
                 && (HB_BOTTOM(I(p->qWorldY), p->spriteInfoBody->s.hitboxes[0].b) >= syTemp - 16)))) {
-        if (!(p->moveState & MOVESTATE_100)) {
+        if (!(p->moveState & MOVESTATE_DEAD)) {
             AddRings(1);
             CreateCollectRingEffect(sxTemp, syTemp);
         }

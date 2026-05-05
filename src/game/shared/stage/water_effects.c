@@ -7,6 +7,7 @@
 #include "game/shared/stage/water_effects.h"
 #include "game/stage.h"
 #include "constants/anim_commands.h"
+#include "constants/animations.h"
 
 /* This module is certainly based on the SA2 code, but heavily modified in SA3. */
 
@@ -104,7 +105,7 @@ void CreateStageWaterTask(s32 arg0, u32 flags)
     sub_8052D2C(water);
     s = &water->s;
     s->tiles = OBJ_VRAM0 + 0x4D80;
-    s->anim = 973;
+    s->anim = ANIM_WATER_SURFACE;
     s->variant = 0;
     s->prevVariant = -1;
     s->oamFlags = 0;
