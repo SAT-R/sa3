@@ -123,106 +123,126 @@ const static u16 sBossSongIndices[] = {
 #endif
 };
 
-void Task_StageMusicManager(void)
+#endif // if 0
+
+// TODO: Task_StageMusicManager() has some alignments with SA1/SA2 remove for readability.
+//       But we should be able to merge all three, in theory, while still being readable.
+// (81.69%) https://decomp.me/scratch/UtYve
+NONMATCH("asm/non_matching/game/shared/stage/smm__Task_StageMusicManager.inc", void Task_StageMusicManager(void))
 {
     struct MP2KSongHeader *songHeader = gMPlayTable[0].info->songHeader;
-    Player *p;
 
-    if ((gMusicManagerState.unk0 == 0) && PLAYER_IS_ALIVE) {
+    if (gMusicManagerState.unk0 == 0) {
+        Player *p = gPlayers;
+        u32 moveState;
+        p = GET_SP_PLAYER_V0(PLAYER_1);
+        moveState = p->moveState;
+        if (!(moveState & MOVESTATE_DEAD)) {
 #if (GAME >= GAME_SA2)
-        if ((gMusicManagerState.unk1 & 0xF0) == 0x30) {
-            MPlayStop(&gMPlayInfo_BGM);
-
-            gMusicManagerState.unk0 = 0xFF;
-            gMusicManagerState.unk1 &= 0x0F;
-        } else if (gMusicManagerState.fadeoutSpeed != 0) {
-            MusManager_Fadeout(gMusicManagerState.fadeoutSpeed);
-
-            gMusicManagerState.unk0 = 0xFF;
-            gMusicManagerState.fadeoutSpeed = 0;
-            SET_UNK5(1);
-        } else
-#endif
-            if ((songHeader == gSongTable[MUS_DROWNING].header) && (gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_TRACK)
-                && !(gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_PAUSE)) {
-            SET_UNK5(1);
-            gMusicManagerState.unk2 = 0;
-            gMusicManagerState.unk3 = 0;
-        } else if (gMusicManagerState.unk4 != 0) {
-            gMusicManagerState.unk4 = 0;
-            SET_UNK5(1);
-
-            m4aSongNumStart(MUS_DROWNING);
-        } else if ((songHeader == gSongTable[MUS_INVINCIBILITY].header) && (gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_TRACK)
-                   && !(gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_PAUSE) && !(GET_SP_PLAYER_V0(PLAYER_1)->itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY)) {
-            SET_UNK5(1);
-            m4aSongNumStop(MUS_INVINCIBILITY);
-        } else if ((songHeader != gSongTable[MUS_1_UP].header) && (songHeader != gSongTable[MUS_INVINCIBILITY].header)
-                   && (GET_SP_PLAYER_V0(PLAYER_1)->itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY) && (gMusicManagerState.unk2 == 0)) {
-            gMusicManagerState.unk2 = 0;
-            SET_UNK5(1);
-            m4aSongNumStart(MUS_INVINCIBILITY);
-            MusManager_UpdateBgmParams();
-        } else if (gMusicManagerState.unk2 != 0) {
-            gMusicManagerState.unk2 = 0;
-            SET_UNK5(1);
-            m4aSongNumStart(MUS_INVINCIBILITY);
-        } else if (gMusicManagerState.unk3 != 0) {
-            gMusicManagerState.unk3 = 0;
-            SET_UNK5(1);
-            m4aSongNumStart(MUS_1_UP);
-        } else if ((gMusicManagerState.unk1 & 0xF0) == 0x10) {
-            u32 unk1 = (gMusicManagerState.unk1 &= 0x0F);
-
-#if (GAME == GAME_SA1)
-            m4aSongNumStart(sBossSongIndices[gMusicManagerState.unk1]);
-            gMusicManagerState.unk1 |= 0x20;
-#elif (GAME == GAME_SA2)
-            m4aSongNumStart(gLevelSongs[gCurrentLevel + unk1]);
-#elif (GAME == GAME_SA3)
-            m4aSongNumStart(gMusicManagerState.song);
-#endif
-#if (GAME == GAME_SA1)
-        } else if ((gMusicManagerState.unk1 & 0xF0) == 0x30) {
-            gMusicManagerState.unk1 &= 0xF;
-            m4aSongNumStop(sBossSongIndices[gMusicManagerState.unk1]);
-
-            m4aSongNumStart(gLevelSongs[gCurrentLevel]);
-            MusManager_UpdateBgmParams();
-
-            if ((u8)(gMusicManagerState.unk1 - 4) > 1) {
-                gMusicManagerState.unk0 = 0xFF;
-            }
-            gMusicManagerState.unk1 = 0;
-#endif
-        } else if (((gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_TRACK) == 0) || (gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_PAUSE)) {
-            if ((gMusicManagerState.unk1 & (0x10 | 0x20 | 0x40 | 0x80)) == 0x20) {
-#if (GAME == GAME_SA1)
-                m4aSongNumStart(sBossSongIndices[gMusicManagerState.unk1 & 0xF]);
-#else
-                m4aSongNumStart(sBossSongIndices[gMusicManagerState.unk1]);
-#endif
-                MusManager_UpdateBgmParams();
-            } else {
-#if (GAME == GAME_SA1)
-                m4aSongNumStart(gLevelSongs[gCurrentLevel]);
-                MusManager_UpdateBgmParams();
-#elif (GAME >= GAME_SA2)
 #if (GAME == GAME_SA2)
-                m4aSongNumStartOrContinue(gLevelSongs[gCurrentLevel + (gMusicManagerState.unk1 & 0x0F)]);
+            if ((gMusicManagerState.unk1 & 0xF0) == 0x30) {
+                MPlayStop(&gMPlayInfo_BGM);
+
+                gMusicManagerState.unk0 = 0xFF;
+                gMusicManagerState.unk1 &= 0x0F;
+            } else
+#endif
+                if (gMusicManagerState.fadeoutSpeed != 0) {
+                MusManager_Fadeout(gMusicManagerState.fadeoutSpeed);
+
+                gMusicManagerState.unk0 = 0xFF;
+                gMusicManagerState.fadeoutSpeed = 0;
+                SET_UNK5(1);
+            } else
+#endif //
+                if ((songHeader == gSongTable[MUS_DROWNING].header) && (gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_TRACK)
+                    && !(gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_PAUSE)) {
+                    // TODO MATCH: the 2nd half gets optimized out, but wasn't in the original :(
+                    if (!(moveState & MOVESTATE_80) || (p->unk56 == 14 && p->unk57 == 60)) {
+                        m4aSongNumStop(MUS_DROWNING);
+                    }
+                    gMusicManagerState.unk2 = 0;
+                    gMusicManagerState.unk3 = 0;
+                    SET_UNK5(1);
+                } else if (gMusicManagerState.unk4 != 0) {
+                    gMusicManagerState.unk4 = 0;
+                    SET_UNK5(1);
+
+                    m4aSongNumStart(MUS_DROWNING);
+                } else if ((songHeader == gSongTable[MUS_INVINCIBILITY].header) && (gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_TRACK)
+                           && !(gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_PAUSE)
+#if (GAME <= GAME_SA2)
+                           && !(GET_SP_PLAYER_V0(PLAYER_1)->itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY)
 #elif (GAME == GAME_SA3)
-                m4aSongNumStartOrContinue(gMusicManagerState.song);
+                       && !(GET_SP_PLAYER_V0(PLAYER_1)->framesInvincible > 0)
 #endif
-                if (gMusicManagerState.unk5 != 0) {
-                    SET_UNK5(0)
+                ) {
+                    SET_UNK5(1);
+                    m4aSongNumStop(MUS_INVINCIBILITY);
+                } else if ((songHeader != gSongTable[MUS_1_UP].header) && (songHeader != gSongTable[MUS_INVINCIBILITY].header)
+#if (GAME <= GAME_SA2)
+                           && !(GET_SP_PLAYER_V0(PLAYER_1)->itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY)
+#elif (GAME == GAME_SA3)
+                       && !(GET_SP_PLAYER_V0(PLAYER_1)->framesInvincible <= 0)
+#endif
+                           && (gMusicManagerState.unk2 == 0)) {
+                    gMusicManagerState.unk2 = 0;
+                    SET_UNK5(1);
+                    m4aSongNumStart(MUS_INVINCIBILITY);
+#if (GAME != GAME_SA3)
                     MusManager_UpdateBgmParams();
-                }
 #endif
-            }
+                } else if (gMusicManagerState.unk2 != 0) {
+                    gMusicManagerState.unk2 = 0;
+                    SET_UNK5(1);
+                    m4aSongNumStart(MUS_INVINCIBILITY);
+                } else if (gMusicManagerState.unk3 != 0) {
+                    gMusicManagerState.unk3 = 0;
+                    SET_UNK5(1);
+                    m4aSongNumStart(MUS_1_UP);
+                } else if (gMusicManagerState.unk1) {
+                    m4aSongNumStart(gMusicManagerState.song);
+                    if (gMusicManagerState.unk1 == 2) {
+                        gMusicManagerState.unk5 = 0;
+                        MusManager_UpdateBgmParams();
+                    }
+                    gMusicManagerState.unk1 = 0;
+                    MusManager_TempoSettings();
+
+#if (GAME == GAME_SA1)
+                } else if ((gMusicManagerState.unk1 & 0xF0) == 0x30) {
+                    gMusicManagerState.unk1 &= 0xF;
+                    m4aSongNumStop(sBossSongIndices[gMusicManagerState.unk1]);
+
+                    m4aSongNumStart(gLevelSongs[gCurrentLevel]);
+                    MusManager_UpdateBgmParams();
+
+                    if ((u8)(gMusicManagerState.unk1 - 4) > 1) {
+                        gMusicManagerState.unk0 = 0xFF;
+                    }
+                    gMusicManagerState.unk1 = 0;
+#endif
+                } else if (((gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_TRACK) == 0)
+                           || (gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_PAUSE)) {
+                    // if ((gMusicManagerState.unk1 & (0x10 | 0x20 | 0x40 | 0x80)) == 0x20)
+                    {
+                        m4aSongNumStartOrContinue(gMusicManagerState.song);
+                        if (gMusicManagerState.unk5) {
+                            gMusicManagerState.unk5 = 0;
+                            MusManager_UpdateBgmParams();
+                        }
+                    }
+                    // else
+                    {
+                        //  MusManager_UpdateBgmParams();
+                    }
+                } else {
+                    MusManager_TempoSettings();
+                }
         }
     }
 }
-#endif // if 0
+END_NONMATCH
 
 #if (GAME <= GAME_SA2)
 void CreateStageMusicManager(void)
