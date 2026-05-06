@@ -7,17 +7,16 @@
 .section .rodata
 
 @ --- Bosses Start ---
-    .global gGemerlAnimationStates
-gGemerlAnimationStates:
-    mPtr sub_8067F1C
+    .global gGemerlStates
+gGemerlStates:
+    mPtr Gemerl_State0
     .short 60, 80, 100, 120
     .byte 0x00
     .byte 0x00
-    .byte 0x06
-    .byte 0x05
+    .short 0x0506 @ ANIM_GEMERL_IDLE
     .byte 0x00
     .byte 0, 0, 0 @ maybe padding?
-    .incbin "baserom_sa3.gba", 0x000D5290, 0x44C @ 0x5F0
+    .incbin "baserom_sa3.gba", 0x000D5290, (56-1) * 0x14
 
     .global gUnknown_080D56DC
 gUnknown_080D56DC:
