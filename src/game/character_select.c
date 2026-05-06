@@ -961,7 +961,7 @@ bool32 sub_8098CFC(CharacterSelect *cs)
 
     if ((cs->unk8 != 0) || (MultiSioStop(), MultiSioInit(0U), gMultiSioEnabled = 0, (cs->unk8 != 0))) {
         sub_80003B8();
-        WarpToMap(1, 0U);
+        WarpToMap(LEVEL_INDEX(ZONE_1, ACT_SONIC_FACTORY), 0U);
         return TRUE;
     }
 

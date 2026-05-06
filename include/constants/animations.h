@@ -293,6 +293,18 @@
 
 #define ANIM_EGGMAN_SIDE 1272
 
+// Gemerl : 1286 - 1303
+#define ANIM_GEMERL_IDLE       1286
+#define ANIM_GEMERL_DEFEATED   1287
+#define ANIM_GEMERL_GET_UP     1288
+#define ANIM_GEMERL_SNIFF      1289
+#define ANIM_GEMERL_HOVER_AWAY 1290
+#define ANIM_GEMERL_DASH       1291
+#define ANIM_GEMERL_DASH_DUST  1292
+
+// Super Sonic : 1305 - 1306
+// (1305 : a ton of variants/patterns)
+
 #define ANIM_ITEM_BOX_TYPE 1315
 #define ANIM_ITEM_BOX      1316
 #define ANIM_HEART         1317

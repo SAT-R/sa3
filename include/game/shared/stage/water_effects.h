@@ -9,7 +9,7 @@
 #define HAS_RUN_ON_WATER TRUE
 #endif
 
-#ifdef M2C
+#if defined(M2C) && (GAME == GAME_SA1)
 // M2C: Empty structs are not supported.
 #else
 // Additional "palette memory". Statically alloced in SA1!

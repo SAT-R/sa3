@@ -253,7 +253,7 @@ _08066360:
 	bls _08066360
 	adds r0, r6, #0
 	adds r1, r7, #0
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	bl sub_807A4BC
 	ldr r5, [sp, #0x10]
 	ldr r0, [r6, #4]
@@ -501,7 +501,7 @@ sub_8066570: @ 0x08066570
 	asrs r2, r2, #0x10
 	cmp r2, #0
 	bne _080665C0
-	ldr r1, _080665C8 @ =gUnknown_080D52E0
+	ldr r1, _080665C8 @ =(gGemerlAnimationStates + 5 * 0x14)
 	ldr r0, [r1]
 	str r0, [r4]
 	ldrh r0, [r1, #4]
@@ -527,7 +527,7 @@ _080665C0:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_080665C8: .4byte gUnknown_080D52E0
+_080665C8: .4byte (gGemerlAnimationStates + 5 * 0x14)
 _080665CC: .4byte 0x0000FFFF
 _080665D0: .4byte 0x00000223
 
@@ -550,7 +550,7 @@ sub_80665D4: @ 0x080665D4
 	bge _08066642
 	adds r0, r4, #0
 	movs r1, #6
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	ldr r0, _08066614 @ =0x00000223
 	bl m4aSongNumStop
 	ldrh r0, [r4, #0x14]
@@ -573,7 +573,7 @@ _08066618:
 	ble _08066642
 	adds r0, r4, #0
 	movs r1, #6
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	ldr r0, _0806666C @ =0x00000223
 	bl m4aSongNumStop
 	ldrh r0, [r4, #0x14]
@@ -674,12 +674,12 @@ _080666EC:
 _080666F0:
 	adds r0, r5, #0
 	movs r1, #0x32
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	b _08066702
 _080666FA:
 	adds r0, r5, #0
 	movs r1, #7
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 _08066702:
 	adds r0, r5, #0
 	movs r1, #1
@@ -855,7 +855,7 @@ _0806684C:
 	ldr r6, [r4, #8]
 	adds r0, r5, #0
 	movs r1, #9
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	movs r1, #0x80
 	lsls r1, r1, #3
 	ands r6, r1
@@ -1126,7 +1126,7 @@ _08066A56:
 	bl sub_8068A38
 	adds r0, r5, #0
 	movs r1, #0x15
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	ldr r0, [r6, #8]
 	movs r1, #0x80
 	lsls r1, r1, #3
@@ -1223,7 +1223,7 @@ _08066B3C:
 	bl sub_8068AD8
 	adds r0, r5, #0
 	movs r1, #0x17
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	mov r2, r8
 	lsls r1, r2, #0x10
 	asrs r1, r1, #0x10
@@ -1262,7 +1262,7 @@ _08066B90:
 	strh r0, [r5, #0x14]
 	adds r0, r5, #0
 	movs r1, #0x16
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	b _08066BD4
 	.align 2, 0
 _08066BA4: .4byte gUnknown_080D56F0
@@ -1277,7 +1277,7 @@ _08066BB0:
 	bl sub_8068AD8
 	adds r0, r5, #0
 	movs r1, #0x17
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	mov r2, sb
 	lsls r1, r2, #0x10
 	asrs r1, r1, #0x10
@@ -1328,14 +1328,14 @@ sub_8066BEC: @ 0x08066BEC
 	bne _08066C30
 	adds r0, r4, #0
 	movs r1, #0x1a
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	b _08066C76
 	.align 2, 0
 _08066C2C: .4byte gUnknown_080D5B00
 _08066C30:
 	adds r0, r4, #0
 	movs r1, #0x19
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	b _08066C76
 _08066C3A:
 	cmp r0, #9
@@ -1389,7 +1389,7 @@ _08066C8E:
 sub_8066C9C: @ 0x08066C9C
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
-	ldr r6, _08066CF0 @ =gUnknown_080D54C0
+	ldr r6, _08066CF0 @ =gGemerlAnimationStates + (29 * 0x14)
 	ldr r2, _08066CF4 @ =gUnknown_080D56DC
 	adds r5, r4, #0
 	adds r5, #0x20
@@ -1428,7 +1428,7 @@ sub_8066C9C: @ 0x08066C9C
 	ldrh r0, [r0]
 	b _08066CFA
 	.align 2, 0
-_08066CF0: .4byte gUnknown_080D54C0
+_08066CF0: .4byte gGemerlAnimationStates + (29 * 0x14)
 _08066CF4: .4byte gUnknown_080D56DC
 _08066CF8:
 	ldrh r0, [r6, #4]
@@ -1635,7 +1635,7 @@ _08066E6C:
 	bne _08066ED0
 	adds r0, r7, #0
 	movs r1, #0x1e
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	adds r0, r7, #0
 	movs r1, #0
 	movs r2, #0
@@ -1711,7 +1711,7 @@ sub_8066EE4: @ 0x08066EE4
 	ble _08066F3E
 	adds r0, r4, #0
 	movs r1, #0x22
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	adds r0, r4, #0
 	adds r0, #0x2f
 	movs r1, #0
@@ -1841,7 +1841,7 @@ _08066FEC:
 	bl sub_8068A38
 	adds r0, r5, #0
 	movs r1, #0x23
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	ldr r0, [r6, #8]
 	mov r1, sb
 	ands r0, r1
@@ -2062,7 +2062,7 @@ _08067184:
 	strh r0, [r7]
 	adds r0, r4, #0
 	movs r1, #0x24
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	adds r0, r4, #0
 	movs r1, #0
 	movs r2, #1
@@ -2158,7 +2158,7 @@ _08067286:
 	bne _0806729E
 	adds r0, r4, #0
 	movs r1, #0x25
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	b _080672D8
 _0806729E:
 	movs r1, #0
@@ -2188,7 +2188,7 @@ _080672B6:
 	bl sub_8068A38
 	adds r0, r4, #0
 	movs r1, #0x22
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 _080672D8:
 	movs r0, #0
 	pop {r4, r5, r6}
@@ -2245,7 +2245,7 @@ _0806731C:
 	bl sub_8068A38
 	adds r0, r4, #0
 	movs r1, #0x28
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	ldr r0, _08067374 @ =0x00000219
 	bl m4aSongNumStart
 _0806734A:
@@ -2294,7 +2294,7 @@ sub_8067378: @ 0x08067378
 	ble _080673D2
 	adds r0, r4, #0
 	movs r1, #0x29
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	adds r0, r4, #0
 	adds r0, #0x2f
 	movs r1, #0
@@ -2511,7 +2511,7 @@ _0806753A:
 	beq _08067568
 	adds r0, r4, #0
 	movs r1, #0x30
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	adds r0, r4, #0
 	movs r1, #0
 	movs r2, #0
@@ -2674,7 +2674,7 @@ _08067690:
 	bl sub_8027674
 	adds r0, r5, #0
 	movs r1, #0x36
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	b _080676C8
 _080676A8:
 	movs r1, #0x80
@@ -2686,12 +2686,12 @@ _080676A8:
 _080676B6:
 	adds r0, r5, #0
 	movs r1, #0x33
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	b _080676C8
 _080676C0:
 	adds r0, r5, #0
 	movs r1, #0x35
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 _080676C8:
 	pop {r3}
 	mov r8, r3
@@ -2700,8 +2700,8 @@ _080676C8:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_80676D4
-sub_80676D4: @ 0x080676D4
+	thumb_func_start Gemerl_SwitchAnimationState
+Gemerl_SwitchAnimationState: @ 0x080676D4
 	push {r4, lr}
 	adds r4, r0, #0
 	adds r3, r4, #0
@@ -2709,7 +2709,7 @@ sub_80676D4: @ 0x080676D4
 	lsls r0, r1, #2
 	adds r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08067704 @ =gUnknown_080D527C
+	ldr r1, _08067704 @ =gGemerlAnimationStates
 	adds r2, r0, r1
 	ldr r0, [r2]
 	str r0, [r4]
@@ -2726,7 +2726,7 @@ sub_80676D4: @ 0x080676D4
 	ldrh r0, [r1]
 	b _0806770A
 	.align 2, 0
-_08067704: .4byte gUnknown_080D527C
+_08067704: .4byte gGemerlAnimationStates
 _08067708:
 	ldrh r0, [r2, #4]
 _0806770A:
@@ -2866,7 +2866,7 @@ _0806782A:
 	cmp r0, #0
 	bne _0806783C
 	adds r0, r3, #0
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 _0806783C:
 	pop {r0}
 	bx r0
@@ -3733,7 +3733,7 @@ sub_8067EA0: @ 0x08067EA0
 	strb r0, [r6, #0x1c]
 	adds r0, r4, #0
 	movs r1, #0x33
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	b _08067F12
 	.align 2, 0
 _08067EE8: .4byte gStageData
@@ -3906,7 +3906,7 @@ sub_806800C: @ 0x0806800C
 	bl m4aSongNumStart
 	adds r0, r4, #0
 	movs r1, #5
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	lsls r1, r5, #0x10
 	asrs r1, r1, #0x10
 	adds r0, r4, #0
@@ -3957,12 +3957,12 @@ sub_8068084: @ 0x08068084
 	beq _080680AC
 	adds r0, r1, #0
 	movs r1, #9
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	b _080680B4
 _080680AC:
 	adds r0, r1, #0
 	movs r1, #8
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 _080680B4:
 	movs r0, #0
 	pop {r1}
@@ -3983,7 +3983,7 @@ sub_80680BC: @ 0x080680BC
 	bne _080680E2
 	adds r0, r1, #0
 	movs r1, #8
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	ldr r0, [r4, #8]
 	movs r1, #0x80
 	lsls r1, r1, #3
@@ -4018,7 +4018,7 @@ sub_8068104: @ 0x08068104
 	bne _0806811C
 	adds r0, r4, #0
 	movs r1, #0x33
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 _0806811C:
 	movs r0, #0
 	pop {r4}
@@ -4122,7 +4122,7 @@ _080681CE:
 	ldr r4, [r5, #8]
 	adds r0, r1, #0
 	movs r1, #0x34
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	movs r1, #0x80
 	lsls r1, r1, #3
 	ands r4, r1
@@ -4206,7 +4206,7 @@ _08068246:
 	str r0, [r4, #0xc]
 	adds r0, r4, #0
 	adds r1, r5, #0
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 _08068280:
 	movs r0, #1
 	add sp, #8
@@ -4266,7 +4266,7 @@ sub_80682B0: @ 0x080682B0
 	bl sub_8068A38
 	adds r0, r4, #0
 	movs r1, #0x13
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	ldr r0, _0806831C @ =0x00000219
 	bl m4aSongNumStart
 _080682F4:
@@ -4315,7 +4315,7 @@ sub_8068320: @ 0x08068320
 	ble _08068356
 	adds r0, r4, #0
 	movs r1, #0x14
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 _08068356:
 	adds r0, r4, #0
 	movs r1, #1
@@ -4362,14 +4362,14 @@ sub_806837C: @ 0x0806837C
 	bne _080683BC
 	adds r0, r4, #0
 	movs r1, #0x32
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	b _080683C4
 	.align 2, 0
 _080683B8: .4byte gUnknown_080D56F0
 _080683BC:
 	adds r0, r4, #0
 	movs r1, #7
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 _080683C4:
 	adds r0, r4, #0
 	movs r1, #0
@@ -4426,7 +4426,7 @@ _08068424:
 	bl sub_8068ACC
 	adds r0, r4, #0
 	movs r1, #6
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	ldrh r0, [r4, #0x14]
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x11
@@ -4529,7 +4529,7 @@ _080684EE:
 	beq _080684FA
 	adds r0, r4, #0
 	movs r1, #0x1f
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 _080684FA:
 	adds r0, r4, #0
 	movs r1, #1
@@ -4685,7 +4685,7 @@ sub_80685F0: @ 0x080685F0
 	bl sub_8068A38
 	adds r0, r4, #0
 	movs r1, #0x21
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	ldr r0, _0806865C @ =0x00000219
 	bl m4aSongNumStart
 _08068634:
@@ -4731,7 +4731,7 @@ sub_8068660: @ 0x08068660
 	bne _080686A4
 	adds r0, r4, #0
 	movs r1, #0x26
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	adds r0, r4, #0
 	movs r1, #0
 	movs r2, #0
@@ -4804,7 +4804,7 @@ sub_80686D8: @ 0x080686D8
 	bl sub_8068A38
 	adds r0, r4, #0
 	movs r1, #0x2a
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 	ldr r0, [r4, #0xc]
 	movs r1, #0x80
 	lsls r1, r1, #4
@@ -4841,7 +4841,7 @@ sub_8068748: @ 0x08068748
 	str r1, [r2, #8]
 	adds r0, r2, #0
 	movs r1, #0x2b
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 _0806876E:
 	movs r0, #0
 	pop {r1}
@@ -5185,7 +5185,7 @@ sub_80689DC: @ 0x080689DC
 	bne _080689F6
 	movs r4, #1
 	adds r0, r2, #0
-	bl sub_80676D4
+	bl Gemerl_SwitchAnimationState
 _080689F6:
 	adds r0, r4, #0
 	pop {r4}
