@@ -250,6 +250,7 @@ void sub_8022FB0() { }
 void sub_80A872C() { }
 void sub_8053284() { }
 void sub_8029990() { }
+void Gemerl_State0() { }
 void taskStub(void) { }
 void Create_gTask_03001CFC()
 {

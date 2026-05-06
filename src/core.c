@@ -549,6 +549,11 @@ void EngineMainLoop(void)
     while (TRUE)
 #endif
     {
+#if DEBUG
+#include "game/shared/stage/player.h"
+#include "constants/move_states.h"
+        gPlayers[PLAYER_1].moveState &= ~MOVESTATE_IGNORE_INPUT;
+#endif
         gExecSoundMain = FALSE;
 #if (ENGINE != ENGINE_3)
         if (!(gFlags & FLAGS_4000)) {

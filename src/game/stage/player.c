@@ -13502,63 +13502,63 @@ void sub_8014670(Player *p)
     }
 }
 
-// NOTE: Same link as Player_801479C
-// (87.52%) https://decomp.me/scratch/gwcRp
-NONMATCH("asm/non_matching/game/stage/player__sub_8014710.inc", void sub_8014710(Player *arg0))
-{
+void sub_8014710(Player* arg0) {
     u8 temp_r0;
 
     if (arg0->charFlags.someIndex == 1) {
         bool32 var_r5 = FALSE;
-
-        if ((gStageData.unk4 == 3) && !(arg0->unkC & 0x40000) && !(arg0->moveState & MOVESTATE_DEAD)) {
+        //asm("mov r5, #0" : "=r"(var_r5));
+        
+        if ((gStageData.unk4 == 3)
+            && !(arg0->unkC & 0x40000)
+            && !(arg0->moveState & MOVESTATE_DEAD)) 
+        {
             if ((arg0->unk57 == 0) || (--arg0->unk57 == 0)) {
                 if (arg0->unk56 == 0) {
                     var_r5 = TRUE;
-                    asm("");
+                    goto yeet;
                 } else {
                     arg0->unk56 -= 1;
-                    arg0->unk57 = 0x78;
-                    sub_801782C(arg0, arg0->unk56);
+                    arg0->unk57 = 120;
+                    sub_801782C(arg0, arg0->unk56);                    
                 }
             }
 
             if (var_r5) {
+                yeet:
+                asm("":: "r"(var_r5));
                 Player_PlaySong(arg0, SE_157);
                 Player_HitWithoutRings(arg0);
             }
         }
     }
 }
-END_NONMATCH
 
-// NOTE: Same link as sub_8014710
-// (87.52%) https://decomp.me/scratch/gwcRp
-NONMATCH("asm/non_matching/game/stage/player__Player_801479C.inc", void Player_801479C(Player *p))
-{
+void Player_801479C(Player* p) {
     u8 *pUnk26;
     u8 unk26;
     s32 unk88;
     u8 temp_r3_2;
     s32 *pUnk88 = &p->unk88;
     s32 qSpeed;
-
-    if (p->qSpeedGround > p->unk88) {
+    
+    if (p->qSpeedGround > (s16)p->unk88) {
         p->qSpeedGround = +p->unk88;
-    } else if (p->qSpeedGround < p->unk88) {
+    } else if (p->qSpeedGround < -(s16)p->unk88) {
         p->qSpeedGround = -p->unk88;
     }
 
     qSpeed = p->qSpeedGround;
     pUnk26 = &p->unk26;
-
+    
     p->qSpeedAirX = Q_MUL(COS_24_8((unk26 = *pUnk26) * 4), qSpeed);
+
     if (!(p->moveState & MOVESTATE_IN_AIR)) {
         p->qSpeedAirY = 0;
     }
+
     p->qSpeedAirY += Q_MUL(SIN_24_8(unk26 * 4), qSpeed);
 }
-END_NONMATCH
 
 s16 sub_801480C(Player *p)
 {
