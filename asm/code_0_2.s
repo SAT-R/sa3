@@ -914,7 +914,7 @@ _08021B00:
 	bls _08021B16
 	cmp r5, #0
 	bne _08021B16
-	movs r0, #0x8b
+	movs r0, #0x8b      @ SE_139
 	bl m4aSongNumStart
 _08021B16:
 	ldr r4, _08021D48 @ =gUnknown_080CF936
@@ -1837,7 +1837,7 @@ _080222A6:
 	bls _080222B6
 	cmp r5, #0
 	bne _080222B6
-	movs r0, #0x8b
+	movs r0, #0x8b      @ SE_139
 	bl m4aSongNumStart
 _080222B6:
 	ldr r4, _08022548 @ =gUnknown_080CF936
@@ -9731,7 +9731,7 @@ sub_8025EEC: @ 0x08025EEC
 	adds r0, r1, #0
 	bl DrawBackground
 	bl m4aMPlayAllStop
-	movs r0, #0x64
+	movs r0, #0x64      @ MUS_VS_MISS
 	bl m4aSongNumStart
 	ldr r2, _08026070 @ =gFlags
 	ldr r0, [r2]
@@ -11407,7 +11407,7 @@ _08026D08:
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
-	movs r0, #0x8a
+	movs r0, #0x8a      @ SE_POOF
 	bl m4aSongNumStart
 _08026D52:
 	ldrb r1, [r4, #1]
@@ -13105,7 +13105,7 @@ _08027A04:
 	ldr r0, _08027AD4 @ =0x030000EC
 	adds r2, r2, r0
 	str r7, [r2]
-	movs r0, #0x44
+	movs r0, #0x44      @ MUS_VS_MUSIC_1
 	bl m4aSongNumStart
 	adds r0, r4, #0
 	bl sub_80280AC
@@ -13358,7 +13358,7 @@ _08027C80:
 	ands r0, r1
 	cmp r0, #0
 	beq _08027CC0
-	movs r0, #0x6b
+	movs r0, #0x6b      @ SE_ABORT
 	bl m4aSongNumStart
 	ldr r0, _08027CB8 @ =gCurTask
 	ldr r1, [r0]
@@ -14737,7 +14737,7 @@ sub_80287CC: @ 0x080287CC
 	strb r3, [r1]
 	bl sub_8028DEC
 	bl m4aMPlayAllStop
-	ldr r0, _08028844 @ =0x00000321
+	ldr r0, _08028844 @ =0x00000321     @ MUS_VS_BGM_6
 	bl m4aSongNumStart
 	ldr r2, _08028848 @ =gDispCnt
 	ldrh r1, [r2]
@@ -14798,7 +14798,7 @@ sub_8028850: @ 0x08028850
 	adds r0, r5, #0
 	bl sub_8028DEC
 	bl m4aMPlayAllStop
-	ldr r0, _080288E0 @ =0x00000323
+	ldr r0, _080288E0 @ =0x00000323     @ MUS_VS_BGM_9
 	bl m4aSongNumStart
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
@@ -15242,7 +15242,7 @@ _08028C58:
 	bne _08028C72
 	movs r0, #0
 	strb r0, [r2]
-	ldr r0, _08028C8C @ =0x00000321
+	ldr r0, _08028C8C @ =0x00000321     @ MUS_VS_BGM_6
 	bl m4aSongNumStart
 _08028C72:
 	ldr r0, _08028C90 @ =gUnknown_03001060
@@ -16089,7 +16089,7 @@ sub_8029324: @ 0x08029324
 	adds r2, r2, r0
 	movs r0, #0x78
 	strh r0, [r2]
-	ldr r0, _08029360 @ =0x0000032A
+	ldr r0, _08029360 @ =0x0000032A     @ SE_VS__SELECT
 	bl m4aSongNumStart
 	ldr r1, [r4]
 	ldr r0, _08029364 @ =sub_8028C94
@@ -16199,7 +16199,7 @@ sub_80293E8: @ 0x080293E8
 	lsls r4, r4, #8
 	asrs r4, r4, #0x10
 	movs r0, #0x81
-	lsls r0, r0, #2
+	lsls r0, r0, #2     @ VOICE__CHAO__COLLECTED
 	bl m4aSongNumStart
 	ldr r0, _08029450 @ =sub_8029474
 	str r6, [sp]
@@ -16374,7 +16374,7 @@ sub_802954C: @ 0x0802954C
 	cmp r4, #0
 	bne _080295A2
 	movs r0, #0x81
-	lsls r0, r0, #2
+	lsls r0, r0, #2     @ VOICE__CHAO__COLLECTED
 	bl m4aSongNumStart
 	ldr r0, _080295B4 @ =sub_8029474
 	ldr r2, _080295B8 @ =0x00003010

@@ -78,7 +78,7 @@ void Task_8003C38();
 extern void sub_8003E44(s16);
 void sub_8003F40();
 void Task_8004058(void);
-void sub_80040D8(s16 arg0, s16 arg1);
+void ClearPlayerDataAndSetSpawnPos(s16 level, s16 pid);
 void Task_TimeOver_InitSprites(void);
 void Task_TimeOver_Update(void);
 void sub_80043B8();
@@ -92,7 +92,7 @@ void sub_802789C();
 void sub_8028850();
 extern void Create_gTask_03001CFC();
 extern void sub_8001E84();
-extern void sub_8013D70(s16, s16);
+extern void SetPlayerSpawnPosition(s16, s16);
 extern void sub_8051140(void);
 extern void sub_809BFE8(s32);
 extern struct Task *sub_80215A0();
@@ -1380,13 +1380,15 @@ void sub_8003F40(void)
 
     gStageData.timer = 0;
     gStageData.unk21 = 0;
-    sub_80040D8(level, 0);
-    sub_80040D8(level, 1);
-    sub_80040D8(level, 2);
-    sub_80040D8(level, 3);
-    if (gStageData.gameMode != 2) {
+    ClearPlayerDataAndSetSpawnPos(level, PLAYER_1);
+    ClearPlayerDataAndSetSpawnPos(level, PLAYER_2);
+    ClearPlayerDataAndSetSpawnPos(level, PLAYER_3);
+    ClearPlayerDataAndSetSpawnPos(level, PLAYER_4);
+
+    if (gStageData.gameMode != GAME_MODE_2) {
         m4aMPlayAllStop();
     }
+
     ClearCameraStruct();
 }
 
@@ -1401,7 +1403,7 @@ void sub_8003F8C(void)
     gStageData.timer = 0;
     gStageData.unk21 = 0;
     for (var_r0 = 0; var_r0 < 4; var_r0++) {
-        sub_80040D8(level, var_r0);
+        ClearPlayerDataAndSetSpawnPos(level, var_r0);
     }
 
     m4aMPlayAllStop();
@@ -1469,7 +1471,7 @@ void TaskDestructor_80040BC(Task *t)
     VramFree(timeOver->s2.tiles);
 }
 
-void sub_80040D8(s16 level, s16 pid)
+void ClearPlayerDataAndSetSpawnPos(s16 level, s16 pid)
 {
     Player *p = &gPlayers[pid];
 
@@ -1486,5 +1488,5 @@ void sub_80040D8(s16 level, s16 pid)
     p->charFlags.character = character;
     p->charFlags.someIndex = someIndex;
 
-    sub_8013D70(level, pid);
+    SetPlayerSpawnPosition(level, pid);
 }

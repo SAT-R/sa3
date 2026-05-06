@@ -329,9 +329,11 @@
 #define ANIM_LIFE_ICONS 1423
 #define ANIM_ZONEX_NAME 1424 /* Substate-Index == Zone number */
 
-#define ANIM_PAUSE_MENU      1425 // Patterns 0 and 1 are without Continue/Back buttons, but all ANIM_PAUSE_MENU_CONT frames are in here
-#define ANIM_PAUSE_MENU_CONT 1426 // Does not contain a button-less menu
-#define ANIM_GAME_OVER       1427
-#define ANIM_DEMO_PLAY       1428
+#define ANIM_PAUSE_MENU            1425 // Patterns 0 and 1 are without Continue/Back buttons, but all ANIM_PAUSE_MENU_CONT frames are in here
+#define ANIM_PAUSE_MENU_CONT       1426 // Does not contain a button-less menu
+#define ANIM_GAME_OVER             1427
+#define ANIM_DEMO_PLAY             1428
+#define ANIM_CHAO_NERVOUS          1429 // NOTE: No bowtie, so it's not Cheese?
+#define ANIM_MP_TXT_CHARS_AND_ACTS 1430
 
 #endif // GUARD_ANIMATIONS_SA3_H

@@ -155,26 +155,26 @@
 #define MUS_DUMMY__136                0x88
 #define MUS_DUMMY__137                0x89
 #define SE_POOF                       0x8A
-
-#define MUS_DUMMY__140     0x8C
-#define MUS_DUMMY__141     0x8D
-#define SE_PAUSE           0x8E
-#define SE_143             0x8F
-#define SE_CAPSULE_DESTROY 0x90
-#define MUS_DUMMY__145     0x91
-#define MUS_DUMMY__146     0x92
-#define MUS_DUMMY__147     0x93
-#define SE_SPRING          0x94
-#define SE_149             0x95
-#define SE_ITEMBOX         0x96
-#define SE_SHIELD_ACTIVATE 0x97
-#define SE_CHECKPOINT      0x98
-#define MUS_DUMMY__153     0x99
-#define SE_SPIKES          0x9A
-#define SE_SPEED_BOOSTER   0x9B
-#define SE_156             0x9C
-#define SE_157             0x9D
-#define SE_158             0x9E
+#define SE_139                        0x8B
+#define MUS_DUMMY__140                0x8C
+#define MUS_DUMMY__141                0x8D
+#define SE_PAUSE                      0x8E
+#define SE_143                        0x8F
+#define SE_CAPSULE_DESTROY            0x90
+#define MUS_DUMMY__145                0x91
+#define MUS_DUMMY__146                0x92
+#define MUS_DUMMY__147                0x93
+#define SE_SPRING                     0x94
+#define SE_149                        0x95
+#define SE_ITEMBOX                    0x96
+#define SE_SHIELD_ACTIVATE            0x97
+#define SE_CHECKPOINT                 0x98
+#define MUS_DUMMY__153                0x99
+#define SE_SPIKES                     0x9A
+#define SE_SPEED_BOOSTER              0x9B
+#define SE_156                        0x9C
+#define SE_157                        0x9D
+#define SE_158                        0x9E
 
 /* Dummy Entries from 0x9F to 0xA8 */
 

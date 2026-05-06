@@ -13088,13 +13088,13 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8013A68.inc", void sub_8013A68
 }
 END_NONMATCH
 
-void sub_8013D70(s32 levelIndex, s32 arg1)
+void SetPlayerSpawnPosition(s32 levelIndex, s32 pid)
 {
     s16 sp00[ARRAY_COUNT(gUnknown_080CE6A8)][2];
     Player *p;
     u8 entryIndex;
 
-    p = &gPlayers[arg1];
+    p = &gPlayers[pid];
     entryIndex = gStageData.entryIndex;
     if (GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode) || gStageData.gameMode == GAME_MODE_5) {
         gStageData.respawnX = gRespawnPositions[levelIndex][entryIndex].x;
@@ -13104,7 +13104,7 @@ void sub_8013D70(s32 levelIndex, s32 arg1)
         gStageData.respawnY = gRespawnPositions[levelIndex][entryIndex].y;
     } else {
         memcpy(sp00, &gUnknown_080CE6A8, sizeof(gUnknown_080CE6A8));
-        if (gStageData.playerIndex == arg1) {
+        if (gStageData.playerIndex == pid) {
             gStageData.respawnX = sp00[entryIndex][0];
             gStageData.respawnY = sp00[entryIndex][1];
         }
@@ -13112,7 +13112,7 @@ void sub_8013D70(s32 levelIndex, s32 arg1)
     gStageData.unk24 = 0;
     gStageData.unk20 = 0;
     p->qSpeedGround = 0;
-    if ((gStageData.gameMode == 2) && (arg1 == 0)) {
+    if ((gStageData.gameMode == 2) && (pid == 0)) {
         switch (levelIndex) {
             case 13:
             case 24:
@@ -13125,7 +13125,7 @@ void sub_8013D70(s32 levelIndex, s32 arg1)
     }
     p->qWorldX = -1;
     p->qWorldY = -1;
-    p->spriteInfoBody = &gUnknown_03001B00[arg1];
+    p->spriteInfoBody = &gUnknown_03001B00[pid];
     if (gStageData.gameMode != 7) {
         switch (p->charFlags.character) {
             case TAILS:
@@ -13502,17 +13502,15 @@ void sub_8014670(Player *p)
     }
 }
 
-void sub_8014710(Player* arg0) {
+void sub_8014710(Player *arg0)
+{
     u8 temp_r0;
 
     if (arg0->charFlags.someIndex == 1) {
         bool32 var_r5 = FALSE;
-        //asm("mov r5, #0" : "=r"(var_r5));
-        
-        if ((gStageData.unk4 == 3)
-            && !(arg0->unkC & 0x40000)
-            && !(arg0->moveState & MOVESTATE_DEAD)) 
-        {
+        // asm("mov r5, #0" : "=r"(var_r5));
+
+        if ((gStageData.unk4 == 3) && !(arg0->unkC & 0x40000) && !(arg0->moveState & MOVESTATE_DEAD)) {
             if ((arg0->unk57 == 0) || (--arg0->unk57 == 0)) {
                 if (arg0->unk56 == 0) {
                     var_r5 = TRUE;
@@ -13520,13 +13518,13 @@ void sub_8014710(Player* arg0) {
                 } else {
                     arg0->unk56 -= 1;
                     arg0->unk57 = 120;
-                    sub_801782C(arg0, arg0->unk56);                    
+                    sub_801782C(arg0, arg0->unk56);
                 }
             }
 
             if (var_r5) {
-                yeet:
-                asm("":: "r"(var_r5));
+            yeet:
+                asm("" ::"r"(var_r5));
                 Player_PlaySong(arg0, SE_157);
                 Player_HitWithoutRings(arg0);
             }
@@ -13534,14 +13532,15 @@ void sub_8014710(Player* arg0) {
     }
 }
 
-void Player_801479C(Player* p) {
+void Player_801479C(Player *p)
+{
     u8 *pUnk26;
     u8 unk26;
     s32 unk88;
     u8 temp_r3_2;
     s32 *pUnk88 = &p->unk88;
     s32 qSpeed;
-    
+
     if (p->qSpeedGround > (s16)p->unk88) {
         p->qSpeedGround = +p->unk88;
     } else if (p->qSpeedGround < -(s16)p->unk88) {
@@ -13550,7 +13549,7 @@ void Player_801479C(Player* p) {
 
     qSpeed = p->qSpeedGround;
     pUnk26 = &p->unk26;
-    
+
     p->qSpeedAirX = Q_MUL(COS_24_8((unk26 = *pUnk26) * 4), qSpeed);
 
     if (!(p->moveState & MOVESTATE_IN_AIR)) {
