@@ -1097,9 +1097,9 @@ void Task_800368C(void)
             CreateMainMenu(0, 3U);
         } else if (((u32)gStageData.zone <= 6U) && ((u32)gStageData.act > 2U)) {
             if (gStageData.act == 10) {
-                WarpToMap(LEVEL_INDEX(gStageData.zone, 2), 4);
+                WarpToMap(LEVEL_INDEX(gStageData.zone, ACT_HUB), 4);
             } else {
-                WarpToMap(LEVEL_INDEX(gStageData.zone, 2), gStageData.act - 2);
+                WarpToMap(LEVEL_INDEX(gStageData.zone, ACT_HUB), gStageData.act - 2);
             }
         } else {
             sub_808ADF0(1);

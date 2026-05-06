@@ -306,31 +306,168 @@ gUnknown_080D2834:
 	mPtr gUnknown_080D269C
 	.byte 0x90, 0x00, 0x10, 0x00, 0x06, 0x00, 0x00, 0x00
 	mPtr gUnknown_080D2768
-    .incbin "baserom_sa3.gba", 0x000D287C, 0x510-0x48
-    
+
+    .global gUnknown_080D287C
+gUnknown_080D287C:
+    .incbin "baserom_sa3.gba", 0x000D287C, 0x198
+
+    .global gUnknown_080D2A14
+gUnknown_080D2A14:
+    .incbin "baserom_sa3.gba", 0x000D2A14, 0x198
+
+    .global gUnknown_080D2BAC
+gUnknown_080D2BAC:
+    .incbin "baserom_sa3.gba", 0x000D2BAC, 0x198
+
     .global gUnknown_080D2D44
 gUnknown_080D2D44:
-    .incbin "baserom_sa3.gba", 0x000D2D44, 0x244
-    
+    .byte 0x60, 0x00, 0x10, 0x00, 0x0C, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D287C
+    .byte 0x70, 0x00, 0x10, 0x00, 0x0C, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D2A14
+    .byte 0x50, 0x00, 0x10, 0x00, 0x0C, 0x00, 0x00, 0x00
+    mPtr gUnknown_080D2BAC
+
+    .global gUnknown_080D2D68
+gUnknown_080D2D68:
+    .incbin "baserom_sa3.gba", 0x000D2D68, 0x220
+
     .global gUnknown_080D2F88
 gUnknown_080D2F88:
-    .incbin "baserom_sa3.gba", 0x000D2F88, 0x87C
-    
+    .byte 0xE0, 0x00, 0x10, 0x00, 0x10, 0x00, 0x00, 0x00
+    mPtr gUnknown_080D2D68
+
+    .global gUnknown_080D2F94
+gUnknown_080D2F94:
+    .incbin "baserom_sa3.gba", 0x000D2F94, 0x3C
+
+    .global gUnknown_080D2FD0
+gUnknown_080D2FD0:
+    .incbin "baserom_sa3.gba", 0x000D2FD0, 0xC
+
+    .global gUnknown_080D2FDC
+gUnknown_080D2FDC:
+    .incbin "baserom_sa3.gba", 0x000D2FDC, 0x3C
+
+    .global gUnknown_080D3018
+gUnknown_080D3018:
+    .incbin "baserom_sa3.gba", 0x000D3018, 0x8
+
+    .global gUnknown_080D3020
+gUnknown_080D3020:
+    .incbin "baserom_sa3.gba", 0x000D3020, 0x44
+
+    .global gUnknown_080D3064
+gUnknown_080D3064:
+    .incbin "baserom_sa3.gba", 0x000D3064, 0x14
+
+    .global gUnknown_080D3078
+gUnknown_080D3078:
+    .incbin "baserom_sa3.gba", 0x000D3078, 0x1C
+
+    .global gUnknown_080D3094
+gUnknown_080D3094:
+    .incbin "baserom_sa3.gba", 0x000D3094, 0x8
+
+    .global gUnknown_080D309C
+gUnknown_080D309C:
+    .incbin "baserom_sa3.gba", 0x000D309C, 0x18
+
+    .global gUnknown_080D30B4
+gUnknown_080D30B4:
+    .incbin "baserom_sa3.gba", 0x000D30B4, 0x90
+
+    .global gUnknown_080D3144
+gUnknown_080D3144:
+    .incbin "baserom_sa3.gba", 0x000D3144, 0x240
+
+    .global gUnknown_080D3384
+gUnknown_080D3384:
+    .incbin "baserom_sa3.gba", 0x000D3384, 0x240
+
+    .global gUnknown_080D35C4
+gUnknown_080D35C4:
+    .incbin "baserom_sa3.gba", 0x000D35C4, 0x240
+
     .global gUnknown_080D3804
 gUnknown_080D3804:
-    .incbin "baserom_sa3.gba", 0x000D3804, 0x5D4
+    .byte 0x09, 0x00, 0x04, 0x00, 0x06, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D2F94
+    .byte 0x0D, 0x00, 0x02, 0x00, 0x02, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D2FD0
+    .byte 0x2A, 0x00, 0x04, 0x00, 0x06, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D2FDC
+    .byte 0x2E, 0x00, 0x01, 0x00, 0x02, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D3018
+    .byte 0x50, 0x00, 0x10, 0x00, 0x02, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D3020
+    .byte 0x61, 0x00, 0x04, 0x00, 0x02, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D3064
+    .byte 0x69, 0x00, 0x06, 0x00, 0x02, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D3078
+    .byte 0x75, 0x00, 0x01, 0x00, 0x02, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D3094
+    .byte 0x97, 0x00, 0x02, 0x00, 0x04, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D309C
+    .byte 0xA1, 0x00, 0x08, 0x00, 0x08, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D30B4
+    .byte 0xD1, 0x00, 0x08, 0x00, 0x20, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D3144
+    .byte 0xE1, 0x00, 0x08, 0x00, 0x20, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D3384
+    .byte 0xF1, 0x00, 0x08, 0x00, 0x20, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D35C4
+
+    .global gUnknown_080D38A0
+gUnknown_080D38A0:
+    .incbin "baserom_sa3.gba", 0x000D38A0, 0x90
+
+    .global gUnknown_080D3930
+gUnknown_080D3930:
+    .incbin "baserom_sa3.gba", 0x000D3930, 0x44
+
+    .global gUnknown_080D3974
+gUnknown_080D3974:
+    .incbin "baserom_sa3.gba", 0x000D3974, 0x44
+
+    .global gUnknown_080D39B8
+gUnknown_080D39B8:
+    .incbin "baserom_sa3.gba", 0x000D39B8, 0x420
     
     .global gUnknown_080D3DD8
 gUnknown_080D3DD8:
-    .incbin "baserom_sa3.gba", 0x000D3DD8, 0x1320
-    
+    .byte 0x71, 0x00, 0x08, 0x00, 0x08, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D38A0
+    .byte 0x90, 0x00, 0x10, 0x00, 0x02, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D3930
+    .byte 0xA0, 0x00, 0x10, 0x00, 0x02, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D3974
+    .byte 0xF0, 0x00, 0x10, 0x00, 0x1F, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D39B8
+
+    .global gUnknown_080D3E08
+gUnknown_080D3E08:
+    .incbin "baserom_sa3.gba", 0x000D3E08, 0x119C
+
+    .global gUnknown_080D4FA4
+gUnknown_080D4FA4:
+    .incbin "baserom_sa3.gba", 0x000D4FA4, 0x154
+
     .global gUnknown_080D50F8
 gUnknown_080D50F8:
-    .incbin "baserom_sa3.gba", 0x000D50F8, 0xA8
+    .byte 0x00, 0x00, 0xA0, 0x00, 0x0E, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D3E08
+    .byte 0xF0, 0x00, 0x10, 0x00, 0x0A, 0x00, 0x00, 0x00 
+    mPtr gUnknown_080D4FA4
+
+    .global gUnknown_080D5110
+gUnknown_080D5110:
+    .incbin "baserom_sa3.gba", 0x000D5110, 0x90
     
     .global gUnknown_080D51A0
 gUnknown_080D51A0:
-    .incbin "baserom_sa3.gba", 0x000D51A0, 0xC
+    .byte 0x91, 0x00, 0x08, 0x00, 0x08, 0x00, 0x00, 0x00
+    mPtr gUnknown_080D5110
     
     .global gUnknown_080D51AC
 gUnknown_080D51AC:
