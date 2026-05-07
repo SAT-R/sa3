@@ -217,8 +217,8 @@ struct Player {
 
     s32 qUnk38;
     s32 qUnk3C;
-    s16 unk40;
-    s16 unk42;
+    s16 timeSinceTagActionDelay;
+    s16 timeSinceTagActionCharge;
     s16 unk44;
     s16 Spindash_Velocity; // 0x46
     s16 unk48;
@@ -249,8 +249,9 @@ struct Player {
     u8 unk5B;
     u8 unk5C;
     u8 unk5D;
-    s16 unk5E; // timerSpeedup
-    s16 unk60;
+    s16 timerSpeedup; // Timer countdown, while player has the Speed Shoes.
+    s16 timerSlowItem; // The "Slow" item is used in Multiplayer. Music will slow down in SP if this timer is set, but its effects can only
+                       // be felt in MP.
     s16 unk62;
     u16 unk64;
     s16 unk66;

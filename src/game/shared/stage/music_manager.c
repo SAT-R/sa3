@@ -348,11 +348,11 @@ void MusManager_TempoSettings(void)
 #endif
     p = &gPlayers[gStageData.playerIndex];
 
-    if (p->unk5E > 0) {
+    if (p->timerSpeedup > 0) {
         // TODO: Probably a macro...
         struct MP2KPlayerState *bgmInfo = &gMPlayInfo_BGM;
         m4aMPlayTempoControl(bgmInfo, Q(2.0));
-    } else if (p->unk60 > 0) {
+    } else if (p->timerSlowItem > 0) {
         struct MP2KPlayerState *bgmInfo = &gMPlayInfo_BGM;
         m4aMPlayTempoControl(bgmInfo, Q(0.5));
     } else {

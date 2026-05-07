@@ -162,8 +162,8 @@ void sub_8002388(void)
         p->qCamOffsetX = 0;
         p->qCamOffsetY = 0;
         p->qSpeedGround = 0;
-        p->unk60 = 0;
-        p->unk5E = 0;
+        p->timerSlowItem = 0;
+        p->timerSpeedup = 0;
         p->qWorldX = Q(gStageData.respawnX);
         p->qWorldY = Q(gStageData.respawnY);
     }
