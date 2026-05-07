@@ -330,11 +330,46 @@ struct Player {
 
 extern Player gPlayers[NUM_MULTI_PLAYER_CHARS];
 
+typedef struct Struc_3001150_1C {
+    /* 0x000 */ u8 unk0;
+    /* 0x001 */ u8 padd1[0x7];
+    /* 0x008 */ s32 unk8;
+    /* 0x00C */ u8 paddC[0x4];
+    /* 0x010 */ s32 unk10;
+    /* 0x014 */ s32 unk14;
+    /* 0x018 */ s32 unk18;
+    /* 0x01C */ u8 padd1C[0xC];
+    /* 0x028 */ s32 unk28;
+    /* 0x02C */ s32 unk2C;
+    /* 0x030 */ s32 unk30;
+    /* 0x034 */ s32 unk34;
+    /* 0x038 */ u8 padd38[0x8];
+    /* 0x040 */ u16 unk40;
+    /* 0x042 */ u16 inputBuffer[128];
+    /* 0x142 */ u8 inputBufferIndex; // index of .inputBuffer[128]
+    /* 0x143 */ u8 filler143[0x1];
+    /* 0x144 */ u16 (*func)(struct Struc_3001150_1C *strc, Player *p);
+} Struc_3001150_1C; /* 0x148 */
+
+typedef struct Struc_3001150_164_0 {
+    s32 unk0;
+    s32 unk4;
+    u8 padd8[0xC];
+    u8 unk14;
+} Struc_3001150_164_0; /* 0x18 */
+
+typedef struct Struc_3001150_164 {
+    Struc_3001150_164_0 unk0[32];
+    /* 0x164 */ u8 filler464[0xC];
+} Struc_3001150_164;
+
 typedef struct Struc_3001150 {
-    u8 filler0[0x1C];
-    u8 filler1C[0x4];
-    u8 filler20[0x450];
-} Struc_3001150;
+    /* 0x000 */ u8 filler0[0x14];
+    /* 0x014 */ s16 unk14;
+    /* 0x016 */ u8 filler16[0x6];
+    /* 0x01C */ Struc_3001150_1C unk1C;
+    /* 0x164 */ Struc_3001150_164 unk164;
+} Struc_3001150; /* 0x470 */
 Struc_3001150 gUnknown_03001150;
 
 void InitializePlayer(s16 playerId);

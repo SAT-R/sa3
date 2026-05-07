@@ -497,6 +497,9 @@ sub_80B7968: @ 0x080B7968
 	.align 2, 0
 _080B79C4: .4byte gUnknown_08E2F410
 
+@ R0 : 0x03001150
+@ R1 : Player *partner
+@ R2 : Player *player
 	thumb_func_start sub_80B79C8
 sub_80B79C8: @ 0x080B79C8
 	push {r4, r5, r6, r7, lr}
@@ -605,16 +608,18 @@ _080B7A84:
 	bx r0
 	.align 2, 0
 
+    @ R0 <- Struc_3001150 *
 	thumb_func_start sub_80B7A94
 sub_80B7A94: @ 0x080B7A94
 	push {lr}
 	adds r0, #0x1c
-	bl sub_80B8E74
+	bl InputBufferGetCurrent
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	pop {r1}
 	bx r1
-
+    
+    @ R0 <- Struc_3001150 *
 	thumb_func_start sub_80B7AA4
 sub_80B7AA4: @ 0x080B7AA4
 	movs r1, #0x14
@@ -627,6 +632,8 @@ nullsub_80B7AAC:
     bx lr
     .align 2, 0
 
+    @ R0 : Struc_3001150_1C*
+    @ R1 : u16
 	thumb_func_start sub_80B7AB0
 sub_80B7AB0: @ 0x080B7AB0
 	push {r4, lr}
@@ -659,7 +666,9 @@ sub_80B7AB0: @ 0x080B7AB0
 	pop {r4}
 	pop {r0}
 	bx r0
-
+    
+    @ R0 : Struc_3001150_1C*
+    @ R1 : Player *
 	thumb_func_start sub_80B7AEC
 sub_80B7AEC: @ 0x080B7AEC
 	push {r4, r5, lr}
@@ -826,6 +835,8 @@ _080B7C10: .4byte gPseudoRandom
 _080B7C14: .4byte 0x00196225
 _080B7C18: .4byte 0x3C6EF35F
 
+    @ R0 : Struc_3001150_1C*
+    @ R1 : Player *
 	thumb_func_start sub_80B7C1C
 sub_80B7C1C: @ 0x080B7C1C
 	push {lr}
@@ -857,7 +868,7 @@ _080B7C44:
 	rsbs r2, r1, #0
 _080B7C4E:
 	movs r0, #0xf0
-	lsls r0, r0, #7
+	lsls r0, r0, #7 @ Q(120)
 	cmp r2, r0
 	ble _080B7C78
 	adds r0, r1, #0
@@ -3235,7 +3246,8 @@ sub_80B8E10: @ 0x080B8E10
 	str r1, [r0, #0x28]
 	bx lr
 	.align 2, 0
-
+    
+@ void sub_80B8E24(Struc_3001150_1C *strc, Player *p, s32 param2, s32 param3);
 	thumb_func_start sub_80B8E24
 sub_80B8E24: @ 0x080B8E24
 	push {r4, r5, lr}
@@ -3271,6 +3283,7 @@ sub_80B8E54: @ 0x080B8E54
 	str r1, [r0, #0x34]
 	bx lr
 
+    @ R0 : Struc_3001150_1C *
 	thumb_func_start sub_80B8E5C
 sub_80B8E5C: @ 0x080B8E5C
 	push {lr}
@@ -3288,8 +3301,9 @@ _080B8E6E:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_80B8E74
-sub_80B8E74: @ 0x080B8E74
+    @ R0 : Struc_3001150_1C *
+	thumb_func_start InputBufferGetCurrent
+InputBufferGetCurrent: @ 0x080B8E74
 	movs r2, #0xa1
 	lsls r2, r2, #1
 	adds r1, r0, r2
@@ -3692,6 +3706,7 @@ _080B9142:
 	pop {r1}
 	bx r1
 
+    @ R0 : Struc_3001150_1C *
 	thumb_func_start sub_80B9148
 sub_80B9148: @ 0x080B9148
 	movs r2, #0xa1
@@ -4328,6 +4343,8 @@ _080B95F8: .4byte gPseudoRandom
 _080B95FC: .4byte 0x00196225
 _080B9600: .4byte 0x3C6EF35F
 
+    @ R0 : Struc_3001150_164 *strc
+    @ R1 : Player *p
 	thumb_func_start sub_80B9604
 sub_80B9604: @ 0x080B9604
 	push {r4, lr}
@@ -4500,7 +4517,8 @@ _080B9734:
 	pop {r4, r5, r6, r7}
 	pop {r1}
 	bx r1
-
+    
+    @ R0 : Struc_3001150_164 *strc
 	thumb_func_start sub_80B9744
 sub_80B9744: @ 0x080B9744
 	push {r4, lr}
@@ -4532,6 +4550,8 @@ sub_80B9770: @ 0x080B9770
 	bx lr
 	.align 2, 0
 
+    @ R0 : Struc_3001150_164 *strc
+    @ R1 : Player *p
 	thumb_func_start sub_80B9774
 sub_80B9774: @ 0x080B9774
 	push {r4, r5, lr}
@@ -4557,6 +4577,8 @@ _080B9798:
 	.align 2, 0
 _080B97A0: .4byte 0x90060004
 
+    @ R0 : Struc_3001150_164 *strc
+    @ R1 : Player *p
 	thumb_func_start sub_80B97A4
 sub_80B97A4: @ 0x080B97A4
 	push {r4, r5, r6, r7, lr}
@@ -4566,7 +4588,7 @@ sub_80B97A4: @ 0x080B97A4
 	mov r8, r0
 	mov ip, r1
 	movs r0, #0xc0
-	lsls r0, r0, #2
+	lsls r0, r0, #2     @ r0 = 0x300
 	add r0, r8
 	movs r2, #0
 	ldrsh r1, [r0, r2]

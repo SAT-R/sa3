@@ -144,7 +144,9 @@ void sub_80B75E4() { }
 void sub_80B7914() { }
 void sub_80B794C() { }
 void sub_80B7968() { }
-u16 sub_80B7A94() { return 0; }
+
+extern u16 gInput;
+u16 sub_80B7A94() { return gInput; }
 void nullsub_80B7AAC() { }
 void /* 0x080C4564 */ CopyPalette() { }
 void sub_80C460C(const u16 *pal, u8 paletteOffset, u16 palSize) { }

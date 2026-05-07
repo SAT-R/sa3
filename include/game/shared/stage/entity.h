@@ -13,6 +13,20 @@
 #define ENTITY_DATA_SIZE_SA3 5
 #define ENTITY_DATA_SIZE     ENTITY_DATA_SIZE_SA3
 
+#ifdef M2C
+// This keeps getting errors on generation,
+// so we have the temporary special case.
+typedef struct MapEntity {
+    u8 x;
+    u8 y;
+    u8 index;
+    union __attribute__((packed)) {
+        /* 0x03 */
+        s8 sData[ENTITY_DATA_SIZE];
+        u8 uData[ENTITY_DATA_SIZE];
+    } d;
+} MapEntity;
+#else
 PACKED(MapEntity, {
     /* 0x00 */ u8 x; // While an enemy is active, x gets repurposed as a "state"
                      // (e.g. indicating that it's active)
@@ -26,6 +40,7 @@ PACKED(MapEntity, {
         u8 uData[ENTITY_DATA_SIZE];
     } d;
 });
+#endif
 
 PACKED(MapEntity_Itembox, {
     /* 0x00 */ u8 x; // While an enemy is active, x gets repurposed as a "state"

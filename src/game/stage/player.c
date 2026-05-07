@@ -55,7 +55,7 @@ bool16 sub_8016D88(Player *p);
 void sub_80B7914(Struc_3001150 *strc);
 void sub_80B794C(Struc_3001150 *strc);
 bool32 sub_80B7AA4(Struc_3001150 *strc);
-void sub_80B8E24(void *strc, Player *p, s32 param2, s32 param3);
+void sub_80B8E24(Struc_3001150_1C *strc, Player *p, s32 param2, s32 param3);
 void sub_8001D58(VoidFn voidFn, u16 color);
 void sub_8002414();
 extern void sub_8002388(void);
@@ -558,7 +558,7 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
             sub_8004B14();
 
             if (gStageData.currentLevel == 11) {
-                if (4 & p->keyInput2) {
+                if (SELECT_BUTTON & p->keyInput2) {
                     sub_8003D2C();
                     TasksDestroyAll();
                     PAUSE_BACKGROUNDS_QUEUE();
@@ -929,7 +929,7 @@ void sub_8004D68(s32 x, s32 y)
     p = &gPlayers[PLAYER_1];
     for (i = 0; i < 4; i++, p++) {
         if (((p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 5)) && sub_80B7AA4(&gUnknown_03001150)) {
-            sub_80B8E24(&gUnknown_03001150.filler1C[0], p, x, y);
+            sub_80B8E24(&gUnknown_03001150.unk1C, p, x, y);
         }
     }
     sub_8004428(x, y);
@@ -8992,7 +8992,7 @@ void Player_800F22C(Player *p)
 
     unk148 = p->unk148.ptr;
     Player_800D880(p);
-    gStageData.rings = 0x32;
+    gStageData.rings = 50;
     p->charFlags.anim0 = 270;
     p->charFlags.character = SONIC;
     p->framesInvincible = 0;
@@ -13713,7 +13713,8 @@ bool32 sub_8014AF8(Player *p)
 
     if (gStageData.gameMode != 7) {
         if ((p->qSpeedGround == 0) && !((p->unk26 + 0x20) & 0xC0) && !(p->keyInput & gStageData.buttonConfig.trick)
-            && !(p->moveState & 0x08820046)) {
+            && !(p->moveState
+                 & (MOVESTATE_IGNORE_INPUT | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_20000 | MOVESTATE_40 | MOVESTATE_JUMPING))) {
             u16 newAnim;
             if (p->idleAndCamCounter > 0) {
                 p->idleAndCamCounter--;
@@ -13729,7 +13730,7 @@ bool32 sub_8014AF8(Player *p)
                 return TRUE;
             }
         } else {
-            p->idleAndCamCounter = 360;
+            p->idleAndCamCounter = TIME(0, 6);
         }
     }
 
