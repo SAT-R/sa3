@@ -562,7 +562,7 @@ NONMATCH("asm/non_matching/game/enemies/euc__sub_805C890.inc", bool32 sub_805C89
                     }
                 } else if (sub_8020700(s, worldX, worldY, 0, p, 1) != 0) {
                     if (!(p->moveState & MOVESTATE_1000000)) {
-                        if (p->moveState & MOVESTATE_800000) {
+                        if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
                             sub_8016F28(p);
                         }
                         sub_80044CC(p);

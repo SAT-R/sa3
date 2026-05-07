@@ -166,7 +166,7 @@ s32 sub_8036584(u8 arg0)
                             seesaw->unk78[i] = 1;
                             p->moveState |= MOVESTATE_COLLIDING_ENT;
                             p->sprColliding = s;
-                            if (p->moveState & MOVESTATE_800000) {
+                            if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
                                 SetPlayerCallback(p, Player_80077CC);
                             } else {
                                 SetPlayerCallback(p, Player_8005380);
@@ -277,7 +277,7 @@ void sub_80368E4(u8 arg0)
                             seesaw->unk78[i] = 1;
                             p->moveState |= MOVESTATE_COLLIDING_ENT;
                             p->sprColliding = s;
-                            if (p->moveState & MOVESTATE_800000) {
+                            if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
                                 SetPlayerCallback(p, Player_80077CC);
                             } else {
                                 SetPlayerCallback(p, Player_8005380);

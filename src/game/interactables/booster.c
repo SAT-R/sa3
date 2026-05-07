@@ -95,7 +95,8 @@ void Task_Booster(void)
                 p->unk99 = 0;
                 p->qCamOffsetY = Q(0);
 
-                if ((gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) && (p->unkC & 0x1) && !(p->moveState & MOVESTATE_800000)) {
+                if ((gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) && (p->unkC & 0x1)
+                    && !(p->moveState & MOVESTATE_TAG_ACTION_CHARGED)) {
                     Player_BoostModeEngage(p);
 
                     qGroundSpeed = Q(12);
@@ -133,7 +134,7 @@ void Task_Booster(void)
                     }
                 }
 
-                if (p->moveState & MOVESTATE_800000) {
+                if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
                     Player_8007898(p);
                 } else if (p->charFlags.anim0 == 11) {
                     Player_800891C(p);

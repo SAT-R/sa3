@@ -305,14 +305,14 @@ static inline void sub_8015568__shared_inline(Player *p)
 {
     Player *partner = GET_SP_PLAYER_V1(PLAYER_2);
     sub_80193A4(p);
-    Player_StopSong(p, SE_TAGACTION_BUILDUP);
+    Player_StopSong(p, SE_TAG_ACTION_CHARGING);
     if (p->moveState & 0x400000) {
         p->unk42 = 0;
-        p->moveState &= ~MOVESTATE_400000;
+        p->moveState &= ~MOVESTATE_TAG_ACTION_CHARGING;
     }
 
-    if (MOVESTATE_800000 & p->moveState) {
-        p->moveState &= ~MOVESTATE_800000;
+    if (MOVESTATE_TAG_ACTION_CHARGED & p->moveState) {
+        p->moveState &= ~MOVESTATE_TAG_ACTION_CHARGED;
         partner->qWorldX = p->qWorldX;
         partner->qWorldY = p->qWorldY;
         partner->moveState &= 0xFEFFFFFF;
@@ -640,7 +640,7 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
             sub_80268B8((s16)strc->playerId);
             partner = GET_SP_PLAYER_V0(PLAYER_2);
 
-            if (MOVESTATE_800000 & partner->moveState) {
+            if (MOVESTATE_TAG_ACTION_CHARGED & partner->moveState) {
                 if (!(partner->moveState & MOVESTATE_DEAD)) {
                     s32 qX = partner->qWorldX;
                     p->qWorldX = qX;
@@ -692,7 +692,7 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
 
         if (gStageData.unk4 == 3) {
             if (!(p->moveState & MOVESTATE_DEAD)) {
-                if (MOVESTATE_400000 & p->moveState) {
+                if (MOVESTATE_TAG_ACTION_CHARGING & p->moveState) {
                     Player_InitializeTagAction(p);
                     if (++p->unk42 == 30) {
                         partner = GET_SP_PLAYER_V0(PLAYER_2);
@@ -713,7 +713,7 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
                             }
                         }
                     }
-                } else if (MOVESTATE_800000 & p->moveState) {
+                } else if (MOVESTATE_TAG_ACTION_CHARGED & p->moveState) {
                     partner = GET_SP_PLAYER_V0(PLAYER_2);
                     sub_80193A4(p);
                     p->unk42 = 0;
@@ -1170,9 +1170,9 @@ void Player_800522C(Player *p)
 {
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -1243,9 +1243,9 @@ void Player_8005380(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -1303,9 +1303,9 @@ void Player_8005528(Player *p)
 {
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
 
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
@@ -1373,9 +1373,9 @@ void sub_80056CC(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -1445,7 +1445,7 @@ void sub_8005800(Player *p)
         var_r5 = sub_8005B04(p);
     }
     if (gStageData.gameMode != 7) {
-        if (MOVESTATE_800000 & p->moveState) {
+        if (MOVESTATE_TAG_ACTION_CHARGED & p->moveState) {
             if (p->charFlags.state0_subCount > 3U) {
                 p->qSpeedGround = Q(7);
                 if (p->moveState & MOVESTATE_FACING_LEFT) {
@@ -1476,7 +1476,7 @@ void sub_8005800(Player *p)
     if (gStageData.gameMode != 7) {
         if (((0x44 & p->moveState) == 0x40) && !((p->unk26 + 0x20) & 0xC0)) {
             if (((0x10 & p->keyInput) && !(0x10 & p->keyInput2)) || ((0x20 & p->keyInput) && !(0x20 & p->keyInput2))) {
-                if (!(MOVESTATE_800000 & p->moveState)) {
+                if (!(MOVESTATE_TAG_ACTION_CHARGED & p->moveState)) {
                     var_r0_2 = 0x21;
                     p->charFlags.anim0 = var_r0_2;
                 }
@@ -1487,7 +1487,7 @@ void sub_8005800(Player *p)
         } else {
             anim = p->charFlags.anim0;
             if ((anim != 0) && (anim != 0x11) && (anim != 0x10) && (anim != 3) && (anim != 0xE) && (anim != 0xF) && (anim != 0x12)) {
-                if (MOVESTATE_800000 & p->moveState) {
+                if (MOVESTATE_TAG_ACTION_CHARGED & p->moveState) {
                     p->charFlags.anim0 = 9;
                 } else {
                     p->charFlags.anim0 = 8;
@@ -1513,7 +1513,7 @@ void sub_80059A0(Player *p, u16 arg1)
     s32 temp_r6;
 
     temp_r6 = p->unk90;
-    if (p->moveState & MOVESTATE_800000) {
+    if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
         p->charFlags.anim0 = 9;
     } else {
         p->charFlags.anim0 = 8;
@@ -1570,7 +1570,7 @@ s8 sub_8005A24(Player *p, s32 unused)
             if (p->charFlags.state0_subCount > 3U) {
                 result = 0x11;
             } else {
-                if (p->moveState & MOVESTATE_800000) {
+                if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
                     result = 0x12;
                 } else {
                     result = 0x10;
@@ -1583,7 +1583,7 @@ s8 sub_8005A24(Player *p, s32 unused)
 
     if (var_r6 > 0 && var_r6 < 512) {
         if ((((p->qSpeedGround < 0)) && (1 & p->moveState)) || ((p->qSpeedGround > 0) && !(MOVESTATE_FACING_LEFT & p->moveState))) {
-            if ((gStageData.gameMode != 7) && (MOVESTATE_800000 & p->moveState)) {
+            if ((gStageData.gameMode != 7) && (MOVESTATE_TAG_ACTION_CHARGED & p->moveState)) {
                 p->callback = Player_800E084;
             } else {
                 p->callback = Player_800D9F4;
@@ -1642,7 +1642,7 @@ s8 sub_8005B78(Player *p)
 
         sub_8012FA0(p);
     } else {
-        if (p->moveState & MOVESTATE_800000) {
+        if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
             p->callback = Player_800E084;
         } else {
             p->callback = Player_800D9F4;
@@ -1662,9 +1662,9 @@ void Player_8005BD4(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -1746,9 +1746,9 @@ void Player_8005DAC(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -1883,9 +1883,9 @@ void Player_800613C(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -1935,9 +1935,9 @@ void Player_8006250(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -1975,9 +1975,9 @@ void Player_8006310(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -2018,9 +2018,9 @@ void Player_8006424(Player *p)
 {
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -2085,9 +2085,9 @@ void Player_800657C(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -2127,9 +2127,9 @@ void Player_8006654(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -2158,9 +2158,9 @@ void Player_800673C(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -2192,9 +2192,9 @@ void Player_8006824(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -2235,9 +2235,9 @@ void Player_80068EC(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -2281,9 +2281,9 @@ void Player_80069E4(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -2319,9 +2319,9 @@ void Player_8006AE4(Player *p)
 {
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -2359,9 +2359,9 @@ void Player_8006B8C(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -2432,9 +2432,9 @@ void Player_8006CF0(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -2466,13 +2466,13 @@ void Player_8006DB8(Player *p)
     s32 var_r5;
     u8 v;
 
-    var_r5 = p->moveState & MOVESTATE_800000;
+    var_r5 = p->moveState & MOVESTATE_TAG_ACTION_CHARGED;
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -2487,7 +2487,7 @@ void Player_8006DB8(Player *p)
     playerSprite->s.frameFlags &= 0xFFFFBFFF;
     p->idleAndCamCounter = 0xa;
 
-    if (p->moveState & MOVESTATE_800000) {
+    if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
         sub_800E150(p);
     } else {
         p->charFlags.anim0 = 0x6C;
@@ -2535,9 +2535,9 @@ void Player_8006F08(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -2562,13 +2562,13 @@ void Player_8006F98(Player *p)
     s32 var_r5;
     u8 v;
 
-    var_r5 = p->moveState & MOVESTATE_800000;
+    var_r5 = p->moveState & MOVESTATE_TAG_ACTION_CHARGED;
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -2582,7 +2582,7 @@ void Player_8006F98(Player *p)
     playerSprite = p->spriteInfoBody;
     playerSprite->s.frameFlags &= 0xFFFFBFFF;
 
-    if (p->moveState & MOVESTATE_800000) {
+    if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
         sub_800E150(p);
     } else {
         p->charFlags.anim0 = 0x6C;
@@ -2597,13 +2597,13 @@ void Player_8007044(Player *p)
     s32 var_r5;
     u8 v;
 
-    var_r5 = p->moveState & MOVESTATE_800000;
+    var_r5 = p->moveState & MOVESTATE_TAG_ACTION_CHARGED;
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -2624,7 +2624,7 @@ void Player_8007044(Player *p)
     playerSprite = p->spriteInfoBody;
     playerSprite->s.frameFlags &= 0xFFFFBFFF;
 
-    if (p->moveState & MOVESTATE_800000) {
+    if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
         sub_800E150(p);
     } else {
         p->charFlags.anim0 = 0x6D;
@@ -2640,9 +2640,9 @@ void Player_8007110(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -2667,9 +2667,9 @@ void Player_80071A8(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -2693,9 +2693,9 @@ void Player_8007240(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -2719,9 +2719,9 @@ void Player_80072D8(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -2747,9 +2747,9 @@ void Player_8007368(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -2810,9 +2810,9 @@ void Player_80074B8(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -2888,9 +2888,9 @@ void Player_8007620(Player *p)
     if (p->unkB8 != -1U) {
         SongStopCheck_inline(p, SE_281);
 
-        p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                          | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                          | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+        p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                          | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                          | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
         p->charFlags.someFlag0 = 0;
         p->charFlags.SA2_LABEL(unk61) = 0;
         p->unk99 = 0;
@@ -2957,9 +2957,9 @@ void Player_80077CC(Player *p)
     if (moveState || !(p->moveState & MOVESTATE_800)) {
         SongStopCheck_inline(p, SE_281);
 
-        p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                          | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                          | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+        p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                          | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                          | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
         p->charFlags.someFlag0 = 0;
         p->charFlags.SA2_LABEL(unk61) = 0;
         p->unk99 = 0;
@@ -3124,8 +3124,8 @@ void Player_8007B00(Player *p)
     } else {
         p->qWorldX = partner->qWorldX;
         p->qWorldY = partner->qWorldY;
-        if (!(MOVESTATE_400000 & partner->moveState)) {
-            if (!(partner->moveState & MOVESTATE_800000)) {
+        if (!(MOVESTATE_TAG_ACTION_CHARGING & partner->moveState)) {
+            if (!(partner->moveState & MOVESTATE_TAG_ACTION_CHARGED)) {
                 p->callback = Player_8005380;
             } else {
                 p->callback = Player_8007DF4;
@@ -3219,8 +3219,8 @@ void Player_8007C28(Player *p)
             gCamera.SA2_LABEL(unk14) = var_r2;
         }
     } else {
-        if (!(MOVESTATE_400000 & partner->moveState)) {
-            if (!(partner->moveState & MOVESTATE_800000)) {
+        if (!(MOVESTATE_TAG_ACTION_CHARGING & partner->moveState)) {
+            if (!(partner->moveState & MOVESTATE_TAG_ACTION_CHARGED)) {
                 p->callback = Player_8005380;
             } else {
                 p->callback = Player_8007DF4;
@@ -3252,10 +3252,10 @@ void Player_8007DF4(Player *p)
     if (MOVESTATE_2000000 & partner->moveState) {
         sub_800BF78(partner);
         p->moveState &= 0xFE7FFFFF;
-        Player_StopSong(p, SE_TAGACTION_BUILDUP);
+        Player_StopSong(p, SE_TAG_ACTION_CHARGING);
         return;
     }
-    if (!(partner->moveState & MOVESTATE_800000)) {
+    if (!(partner->moveState & MOVESTATE_TAG_ACTION_CHARGED)) {
         p->qWorldX = partner->qWorldX;
         p->qWorldY = partner->qWorldY;
         p->callback = Player_8005380;
@@ -3271,9 +3271,9 @@ void Player_8007EAC(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -3327,13 +3327,13 @@ void Player_8007FE8(Player *p)
     s16 temp_r1_2;
     s32 var_r5;
     u8 *temp_r1;
-    s32 r5 = MOVESTATE_800000 & p->moveState;
+    s32 r5 = MOVESTATE_TAG_ACTION_CHARGED & p->moveState;
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -3341,7 +3341,7 @@ void Player_8007FE8(Player *p)
     p->qCamOffsetY = 0;
     p->moveState |= r5;
 
-    if (p->moveState & MOVESTATE_800000) {
+    if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
         p->charFlags.anim0 = 5;
     } else {
         p->charFlags.anim0 = 2;
@@ -3373,11 +3373,11 @@ void Player_8008080(Player *p)
     s = &p->spriteInfoBody->s;
     charAnim = p->charFlags.anim2 - gPlayerCharacterIdleAnims[p->charFlags.character];
     if (sub_8016D88(p)) {
-        p->moveState &= ~MOVESTATE_800000;
+        p->moveState &= ~MOVESTATE_TAG_ACTION_CHARGED;
         p->qCamOffsetY = 0;
         return;
     }
-    if (p->moveState & MOVESTATE_800000) {
+    if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
         if (sub_8014BC4(p) == 0) {
             p->qCamOffsetY = 0;
             return;
@@ -3386,7 +3386,7 @@ void Player_8008080(Player *p)
         sub_8014BC4(p);
     }
 
-    if (!(p->moveState & MOVESTATE_800000)) {
+    if (!(p->moveState & MOVESTATE_TAG_ACTION_CHARGED)) {
         p->charFlags.anim0 = 2;
         if (sub_8015568(p) != 0) {
             p->qCamOffsetY = 0;
@@ -3408,7 +3408,7 @@ void Player_8008080(Player *p)
             temp_r2->s.frameFlags &= 0xFFFFBFFF;
         }
     } else if ((DPAD_ANY & p->keyInput) != DPAD_DOWN) {
-        if (p->moveState & MOVESTATE_800000) {
+        if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
             p->callback = Player_80077CC;
         } else {
             p->callback = Player_8005380;
@@ -3481,13 +3481,13 @@ void Player_80082BC(Player *p)
     s16 temp_r1_2;
     s32 var_r5;
     u8 *temp_r1;
-    s32 r5 = p->moveState & MOVESTATE_800000;
+    s32 r5 = p->moveState & MOVESTATE_TAG_ACTION_CHARGED;
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -3495,7 +3495,7 @@ void Player_80082BC(Player *p)
     p->qCamOffsetY = 0;
     p->moveState |= r5;
 
-    if (p->moveState & MOVESTATE_800000) {
+    if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
         p->charFlags.anim0 = 4;
     } else {
         p->charFlags.anim0 = 1;
@@ -3527,7 +3527,7 @@ void Player_8008354(Player *p)
     s = &p->spriteInfoBody->s;
     charAnim = p->charFlags.anim2 - gPlayerCharacterIdleAnims[p->charFlags.character];
 
-    if (p->moveState & MOVESTATE_800000) {
+    if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
         if (sub_8014BC4(p) == 0) {
             p->qCamOffsetY = 0;
             return;
@@ -3536,7 +3536,7 @@ void Player_8008354(Player *p)
         sub_8014BC4(p);
     }
 
-    if (!(p->moveState & MOVESTATE_800000)) {
+    if (!(p->moveState & MOVESTATE_TAG_ACTION_CHARGED)) {
         p->charFlags.anim0 = 1;
         if (sub_8015568(p) != 0) {
             p->qCamOffsetY = 0;
@@ -3558,7 +3558,7 @@ void Player_8008354(Player *p)
             temp_r2->s.frameFlags &= 0xFFFFBFFF;
         }
     } else if ((DPAD_ANY & p->keyInput) != DPAD_UP) {
-        if (p->moveState & MOVESTATE_800000) {
+        if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
             p->callback = Player_80077CC;
         } else {
             p->callback = Player_8005380;
@@ -3739,9 +3739,9 @@ void Player_800872C(Player *p)
 {
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -3844,9 +3844,9 @@ void Player_800891C(Player *p)
     if (moveState || !(p->moveState & MOVESTATE_800)) {
         SongStopCheck_inline(p, SE_281);
 
-        p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                          | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                          | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+        p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                          | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                          | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
         p->charFlags.someFlag0 = 0;
         p->charFlags.SA2_LABEL(unk61) = 0;
         p->unk99 = 0;
@@ -4083,9 +4083,9 @@ void Player_HitWithoutRingsUpdate(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -4142,9 +4142,9 @@ void Player_HitWithoutRings(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -4235,7 +4235,7 @@ void sub_800913C(Player *p)
         if (((s32)partner->framesInvulnerable > 0) && (gStageData.gameMode == 0)) {
             return;
         }
-        if ((gStageData.gameMode == 0) && (gStageData.lives == 0) && (partner->moveState & 0x100)) {
+        if ((gStageData.gameMode == 0) && (gStageData.lives == 0) && (partner->moveState & MOVESTATE_DEAD)) {
             return;
         }
         p->qSpeedGround = 0;
@@ -4331,9 +4331,9 @@ void sub_8009518(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -4426,9 +4426,9 @@ void Player_8009780(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -4457,9 +4457,9 @@ void Player_8009850(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -4482,9 +4482,9 @@ void Player_80098D8(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -4572,7 +4572,7 @@ void sub_80099FC(Player *p)
 
     sub_8014BC4(p);
     if (MOVESTATE_20000 & p->moveState) {
-        if (p->moveState & MOVESTATE_800000) {
+        if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
             p->layer = PLAYER_LAYER_BACK;
             Player_StopSong(p, 0x72U);
             p->moveState &= ~MOVESTATE_20000;
@@ -4619,7 +4619,7 @@ void Player_8009B4C(Player *p)
 void Player_8009BF0(Player *p)
 {
     sub_8009D74(p);
-    if (p->moveState & MOVESTATE_800000) {
+    if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
         p->moveState = (p->moveState & 0xFDFFFFFD) | 0x800000;
         p->charFlags.anim0 = 0x15;
         sub_8012FA0(p);
@@ -4698,13 +4698,13 @@ void sub_8009D74(Player *p)
     temp_r0 = p->unkA4;
     temp_r7 = temp_r0 >> 4;
     temp_r6 = 0xF & temp_r0;
-    moveState = p->moveState & MOVESTATE_800000;
+    moveState = p->moveState & MOVESTATE_TAG_ACTION_CHARGED;
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -4749,13 +4749,13 @@ void Player_8009E8C(Player *p)
     u32 temp_r7;
     u8 temp_r0;
 
-    moveState = p->moveState & MOVESTATE_800000;
+    moveState = p->moveState & MOVESTATE_TAG_ACTION_CHARGED;
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -4771,9 +4771,9 @@ void Player_8009E8C(Player *p)
     temp_r2_2 = p->spriteInfoBody;
     temp_r2_2->s.frameFlags &= ~0x4000;
 
-    if (p->moveState & MOVESTATE_800000) {
+    if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
         p->moveState &= ~0x2000002;
-        p->moveState |= MOVESTATE_800000;
+        p->moveState |= MOVESTATE_TAG_ACTION_CHARGED;
         p->charFlags.anim0 = 21;
         sub_8012FA0(p);
         p->spriteInfoBody->s.frameFlags &= ~0x4000;
@@ -4796,11 +4796,11 @@ void Player_8009F7C(Player *p, s16 someX, s16 someY)
     u32 temp_r1_3;
     u8 *temp_r0;
 
-    moveState = p->moveState & MOVESTATE_800000;
+    moveState = p->moveState & MOVESTATE_TAG_ACTION_CHARGED;
     SongStopCheck_inline(p, SE_281);
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -4839,9 +4839,9 @@ void Player_800A094(Player *p)
     u8 *temp_r1;
 
     SongStopCheck_inline(p, SE_281);
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -4874,9 +4874,9 @@ void Player_800A168(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -4902,9 +4902,9 @@ void Player_800A218(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -5378,9 +5378,9 @@ void Player_UseSpecialSpringWithKey(Player *p)
     u8 *temp_r2_2;
 
     SongStopCheck_inline(p, SE_281);
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -5433,9 +5433,9 @@ void Player_800AD24(Player *p)
     u8 *temp_r2;
 
     SongStopCheck_inline(p, SE_281);
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -5473,9 +5473,9 @@ void Player_800AE14(Player *p)
     u8 *temp_r2;
 
     SongStopCheck_inline(p, SE_281);
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -5510,9 +5510,9 @@ void Player_800AEF4(Player *p)
     u8 *temp_r2;
 
     SongStopCheck_inline(p, SE_281);
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -6122,9 +6122,9 @@ void Player_800BA78(Player *p)
     u8 *temp_r2;
 
     SongStopCheck_inline(p, SE_281);
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -6176,9 +6176,9 @@ void sub_800BBA0(Player *p)
     u8 *temp_r2_2;
 
     SongStopCheck_inline(p, SE_281);
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -6218,7 +6218,7 @@ void Player_800BC38(Player *p)
     temp_r1 = *temp_r5;
     temp_r1->s.frameFlags &= 0xFFFFBFFF;
 
-    if (p->moveState & MOVESTATE_800000) {
+    if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
         p->moveState = (p->moveState & 0xFDFFFFFD) | 0x800000;
         p->charFlags.anim0 = 0x15;
         sub_8012FA0(p);
@@ -6236,9 +6236,9 @@ void Player_800BC38(Player *p)
 void Player_800BCE0(Player *p)
 {
     SongStopCheck_inline(p, SE_281);
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -6303,9 +6303,9 @@ void Player_800BE60(Player *p)
     u8 *temp_r2_2;
 
     SongStopCheck_inline(p, SE_281);
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -6325,9 +6325,9 @@ void Player_800BEE8(Player *p)
     void *temp_r2;
 
     SongStopCheck_inline(p, SE_281);
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -6444,9 +6444,9 @@ void sub_0800C104(Player *p)
     partner = &gPlayers[p->charFlags.partnerIndex];
     r5 = GetBit(p->moveState, 2);
     SongStopCheck_inline(p, SE_281);
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -6520,7 +6520,7 @@ void sub_0800C1FC(Player *p)
             partner->qSpeedAirY = 0;
         }
         partner->moveState = (partner->moveState & 0xDDFFFFBF) | 4;
-        if (partner->moveState & MOVESTATE_800000) {
+        if (partner->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
             sub_800E150(partner);
         } else {
             partner->callback = sub_800DF10;
@@ -6734,7 +6734,7 @@ void sub_800C684(Player *p)
                 p->moveState &= 0xDDFFFFBF;
                 p->moveState |= MOVESTATE_IN_AIR;
 
-                if (p->moveState & MOVESTATE_800000) {
+                if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
                     sub_800E150(p);
                 } else {
                     p->callback = sub_800DF10;
@@ -6801,7 +6801,7 @@ void sub_800C7B8(Player *p)
                 p->moveState &= 0xDDFFFFBF;
                 p->moveState |= MOVESTATE_IN_AIR;
 
-                if (p->moveState & MOVESTATE_800000) {
+                if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
                     sub_800E150(p);
                 } else {
                     p->callback = sub_800DF10;
@@ -6820,9 +6820,9 @@ void sub_800C87C(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -6850,9 +6850,9 @@ void sub_800C910(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -6868,7 +6868,7 @@ void sub_800C910(Player *p)
     p->moveState &= 0xddffffbf;
     p->moveState |= 4;
 
-    if (p->moveState & MOVESTATE_800000) {
+    if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
         sub_800E150(p);
     } else {
         p->callback = sub_800DF10;
@@ -6956,9 +6956,9 @@ void sub_800CB5C(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -7023,9 +7023,9 @@ void sub_800CCB0(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -7053,9 +7053,9 @@ void sub_800CD68(Player *p)
     character_r5 = p->charFlags.character;
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -7300,9 +7300,9 @@ void sub_800D19C(Player *p)
 
     SongStopCheck_inline(p, 0x119U);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -7375,11 +7375,11 @@ void sub_800D32C(Player *p)
         if (p->charFlags.state1 == 0) {
             p->charFlags.state1 = 1;
             if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
-                p->qWorldY += 0x100;
+                p->qWorldY += Q(1);
             } else {
-                p->qWorldY += 0xFFFFFF00;
+                p->qWorldY -= Q(1);
             }
-            p->qSpeedAirY = -0x400;
+            p->qSpeedAirY = -Q(4);
         } else {
             var_r3 = 1;
         }
@@ -7389,13 +7389,13 @@ void sub_800D32C(Player *p)
     if (var_r3 != 0) {
         p->idleAndCamCounter = -1;
         if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
-            p->qWorldY += 0x100;
+            p->qWorldY += Q(1);
         } else {
-            p->qWorldY += 0xFFFFFF00;
+            p->qWorldY -= Q(1);
         }
 
-        p->qSpeedAirY = -0x400;
-        p->charFlags.anim0 = 0x13;
+        p->qSpeedAirY = -Q(4);
+        p->charFlags.anim0 = 19;
     } else {
         temp_r1 = p->idleAndCamCounter;
         if (temp_r1 == -1) {
@@ -7426,9 +7426,9 @@ void sub_800D424(Player *p)
     temp_r5 = GET_SP_PLAYER_V1(PLAYER_2);
     SongStopCheck_inline(p, 0x119U);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -7516,11 +7516,11 @@ void sub_800D5F4(Player *p)
         if (p->charFlags.state1 == 0) {
             p->charFlags.state1 = 1;
             if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
-                p->qWorldY += 0x100;
+                p->qWorldY += Q(1);
             } else {
-                p->qWorldY -= 0x100;
+                p->qWorldY -= Q(1);
             }
-            p->qSpeedAirY = -0x400;
+            p->qSpeedAirY = -Q(4);
         } else {
             var_r3 = 1;
         }
@@ -7530,11 +7530,11 @@ void sub_800D5F4(Player *p)
     if (var_r3 != 0) {
         p->idleAndCamCounter = -1;
         if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
-            p->qWorldY += 0x100;
+            p->qWorldY += Q(1);
         } else {
-            p->qWorldY -= 0x100;
+            p->qWorldY -= Q(1);
         }
-        p->qSpeedAirY = -0x400;
+        p->qSpeedAirY = -Q(4);
         p->charFlags.anim0 = 0x13;
     } else {
         temp_r1 = p->idleAndCamCounter;
@@ -7566,9 +7566,9 @@ void sub_800D6EC(Player *p)
     temp_r5 = GET_SP_PLAYER_V1(PLAYER_2);
     SongStopCheck_inline(p, 0x119U);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -7661,9 +7661,9 @@ void Player_800D880(Player *p)
         }
     }
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -8566,7 +8566,7 @@ void Player_800EA0C(Player *p)
     u32 temp_r1;
 
     sub_8009D74(p);
-    if (p->moveState & MOVESTATE_800000) {
+    if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
         p->moveState = (p->moveState & 0xFDFFFFFD) | 0x800000;
         p->charFlags.anim0 = 0x15;
         sub_8012FA0(p);
@@ -8685,9 +8685,9 @@ void sub_800EC68(Player *p)
 
     SongStopCheck_inline(p, SE_281);
 
-    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_800000 | MOVESTATE_200000 | MOVESTATE_80000
-                      | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_1000
-                      | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
+                      | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000
+                      | MOVESTATE_1000 | MOVESTATE_400 | MOVESTATE_40 | MOVESTATE_10 | MOVESTATE_8 | MOVESTATE_JUMPING);
     p->charFlags.someFlag0 = 0;
     p->charFlags.SA2_LABEL(unk61) = 0;
     p->unk99 = 0;
@@ -12239,7 +12239,7 @@ void sub_8012C34(Player *p)
         }
         p->qWorldY += var_r2_2 << 8;
         p->unk26 = sp0;
-        if (p->moveState & MOVESTATE_800000) {
+        if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
             SetPlayerCallback(p, Player_80077CC);
         } else {
             SetPlayerCallback(p, Player_8005380);
@@ -12283,7 +12283,7 @@ void sub_8012CF8(Player *p)
         }
         p->qWorldY -= var_r2 << 8;
         p->unk26 = sp0;
-        if (p->moveState & MOVESTATE_800000) {
+        if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
             SetPlayerCallback(p, Player_80077CC);
         } else {
             SetPlayerCallback(p, Player_8005380);
@@ -12394,7 +12394,7 @@ void sub_8012F04(Player *p) { sub_8011434(p); }
 
 void sub_8012F10(Player *p)
 {
-    if (p->moveState & MOVESTATE_800000) {
+    if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
         SetPlayerCallback(p, Player_80077CC);
     } else {
         SetPlayerCallback(p, Player_8005380);
@@ -12578,8 +12578,8 @@ void sub_801310C(s16 playerIndex)
             s->hitboxes[1].index = -1;
 
             temp_r3->tf.rotation = 0;
-            temp_r3->tf.qScaleX = 0x100;
-            temp_r3->tf.qScaleY = 0x100;
+            temp_r3->tf.qScaleX = Q(1);
+            temp_r3->tf.qScaleY = Q(1);
             temp_r3->tf.x = 0;
             temp_r3->tf.y = 0;
             break;
@@ -12674,7 +12674,7 @@ void sub_801320C(Player *p, PlayerSpriteInfo *spriteInfoBody)
             var_r7 = 2;
         }
 
-        if ((0x01000000 & p->moveState) && (gPlayers[p->charFlags.partnerIndex].moveState & MOVESTATE_800000)) {
+        if ((0x01000000 & p->moveState) && (gPlayers[p->charFlags.partnerIndex].moveState & MOVESTATE_TAG_ACTION_CHARGED)) {
             var_r7 = 3;
         }
         if (var_r7 != 0) {
@@ -12754,7 +12754,7 @@ void sub_801350C(Player *p)
             return;
         }
         if (temp_r2_2 <= 0x20) {
-            if (!(p->moveState & MOVESTATE_800000)) {
+            if (!(p->moveState & MOVESTATE_TAG_ACTION_CHARGED)) {
                 p->charFlags.anim2 = 0x17 + gPlayerCharacterIdleAnims[p->charFlags.character];
                 p->charFlags.state1 = 0;
             }
@@ -12851,7 +12851,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80136DC.inc", void sub_80136DC
         }
         if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
             s32 rot;
-            tf->qScaleY = 0x100;
+            tf->qScaleY = Q(1);
             rot = tf->rotation;
             rot += 0x100;
             temp_r2 = -0x100;
@@ -12864,7 +12864,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80136DC.inc", void sub_80136DC
             r0 &= 0x3FF;
             tf->rotation = r0;
         } else {
-            tf->qScaleY = 0x100;
+            tf->qScaleY = Q(1);
         }
         tfX = I(tf->qScaleX * p->unkA0);
         tfY = I(tf->qScaleY * p->unkA2);
@@ -13419,7 +13419,7 @@ void sub_80144B4(Player *p)
         p->charFlags.state0_subCount = 1;
     } else if (qSpeedGround <= Q(4)) {
         p->charFlags.state0_subCount = 2;
-    } else if ((qSpeedGround <= Q(7)) || (p->moveState & MOVESTATE_800000)) {
+    } else if ((qSpeedGround <= Q(7)) || (p->moveState & MOVESTATE_TAG_ACTION_CHARGED)) {
         p->charFlags.state0_subCount = 3;
     } else if (qSpeedGround <= Q(9)) {
         p->charFlags.state0_subCount = 4;
@@ -13576,7 +13576,7 @@ s16 sub_801480C(Player *p)
             }
             if (sub_8012E54((u8)(var_r5 + 0x80), p) > 3) {
                 if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
-                    if (p->moveState & MOVESTATE_800000) {
+                    if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
                         if (temp_r6 != 0) {
                             p->qWorldY -= Q(2);
                         }
@@ -13698,7 +13698,8 @@ bool16 sub_8014A60(Player *p)
         }
 
         if (p->qSpeedGround <= -Q(0.5) || p->qSpeedGround >= +Q(0.5)) {
-            if (!((MOVESTATE_20000 | MOVESTATE_JUMPING) & p->moveState) && ((p->unkC & 6) == 2) && !(p->moveState & MOVESTATE_800000)) {
+            if (!((MOVESTATE_20000 | MOVESTATE_JUMPING) & p->moveState) && ((p->unkC & 6) == 2)
+                && !(p->moveState & MOVESTATE_TAG_ACTION_CHARGED)) {
                 SetPlayerCallback(p, Player_800891C);
                 Player_PlaySong(p, SE_SPIN_ATTACK);
 
@@ -13765,17 +13766,17 @@ s16 sub_8014BC4(Player *p)
 
     if (p->keyInput & gStageData.buttonConfig.trick) {
         temp_r2_2 = p->moveState;
-        if (MOVESTATE_800000 & p->moveState) {
+        if (MOVESTATE_TAG_ACTION_CHARGED & p->moveState) {
             return TRUE;
         }
 
         if (p->unk40 < 30) {
             p->unk40++;
         } else {
-            if (!(p->moveState & MOVESTATE_400000)) {
-                Player_PlaySong(p, SE_TAGACTION_BUILDUP);
+            if (!(p->moveState & MOVESTATE_TAG_ACTION_CHARGING)) {
+                Player_PlaySong(p, SE_TAG_ACTION_CHARGING);
             }
-            p->moveState |= MOVESTATE_400000;
+            p->moveState |= MOVESTATE_TAG_ACTION_CHARGING;
 
             if (p->unk42 == 60) {
                 Player_BoostModeDisengage(p);
@@ -13787,8 +13788,8 @@ s16 sub_8014BC4(Player *p)
                     SetPlayerCallback(p, Player_80077CC);
                 }
 
-                Player_StopSong(p, SE_TAGACTION_BUILDUP);
-                Player_PlaySong(p, SE_TAGACTION_CHARGED);
+                Player_StopSong(p, SE_TAG_ACTION_CHARGING);
+                Player_PlaySong(p, SE_TAG_ACTION_CHARGED);
                 p->moveState &= 0xFFBFFFF5;
                 p->moveState |= 0x800000;
                 p->unk42 = 0;
@@ -13803,19 +13804,19 @@ s16 sub_8014BC4(Player *p)
         } else {
             p->unk40 = 0;
 
-            if (p->moveState & MOVESTATE_800000) {
+            if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
                 partner = GET_SP_PLAYER_V1(PLAYER_2);
                 sub_800BF78(p);
                 partner->moveState &= 0xFE7FFFFF;
                 p->moveState &= 0xFE7FFFFF;
                 sub_80193CC(p);
-                Player_StopSong(p, SE_TAGACTION_BUILDUP);
+                Player_StopSong(p, SE_TAG_ACTION_CHARGING);
             } else {
                 if (p->unk42 != 0) {
-                    Player_StopSong(p, SE_TAGACTION_BUILDUP);
+                    Player_StopSong(p, SE_TAG_ACTION_CHARGING);
                 }
                 sub_80193A4(p);
-                p->moveState &= ~MOVESTATE_400000;
+                p->moveState &= ~MOVESTATE_TAG_ACTION_CHARGING;
             }
             p->unk42 = 0;
         }
@@ -13828,7 +13829,7 @@ bool16 sub_8014D70(Player *p)
 {
     Player *partner;
 
-    if ((p->moveState & MOVESTATE_800000) && ((p->unk26 + 0x20) & 0xC0)) {
+    if ((p->moveState & MOVESTATE_TAG_ACTION_CHARGED) && ((p->unk26 + 0x20) & 0xC0)) {
         switch (p->charFlags.anim0) {
             case 8:
             case 9:
@@ -13931,7 +13932,7 @@ void sub_8014E70(Player *p)
                 block_28:
                     p->qWorldX = var_r0;
                     if (i == 0) {
-                        if (!(MOVESTATE_800000 & p->moveState)) {
+                        if (!(MOVESTATE_TAG_ACTION_CHARGED & p->moveState)) {
                             p->moveState |= 0x40;
                         }
                         p->qSpeedAirX = 0;
@@ -14220,7 +14221,7 @@ void sub_80153BC(Player *p)
         p->unk56 = 0xE;
         p->unk57 = 0x78;
     }
-    if ((var_r5 != 0) && (gStageData.unk4 == 3) && !(p->moveState & 0x100)) {
+    if ((var_r5 != 0) && (gStageData.unk4 == 3) && !(p->moveState & MOVESTATE_DEAD)) {
         sub_80172F0(p, param2);
         Player_PlaySong(p, SE_156);
     }
@@ -15054,14 +15055,14 @@ void sub_8016F28(Player *p)
 
     partner = GET_SP_PLAYER_V1(PLAYER_2);
     sub_80193A4(p);
-    Player_StopSong(p, SE_TAGACTION_BUILDUP);
+    Player_StopSong(p, SE_TAG_ACTION_CHARGING);
     if (p->moveState & 0x400000) {
         p->unk42 = 0;
-        p->moveState &= ~MOVESTATE_400000;
+        p->moveState &= ~MOVESTATE_TAG_ACTION_CHARGING;
     }
     temp_r1 = p->moveState;
     if (0x800000 & temp_r1) {
-        p->moveState = temp_r1 & ~MOVESTATE_800000;
+        p->moveState = temp_r1 & ~MOVESTATE_TAG_ACTION_CHARGED;
         partner->qWorldX = p->qWorldX;
         partner->qWorldY = p->qWorldY;
         partner->moveState &= 0xFEFFFFFF;
@@ -15091,7 +15092,7 @@ u32 sub_8016FA8(Player *p)
 void sub_8017004(Player *p)
 {
     if ((0x24 & p->moveState) == 0x20) {
-        if ((gStageData.gameMode != 7) && (p->moveState & MOVESTATE_800000)) {
+        if ((gStageData.gameMode != 7) && (p->moveState & MOVESTATE_TAG_ACTION_CHARGED)) {
             SetPlayerCallback(p, Player_80077CC);
         } else {
             SetPlayerCallback(p, Player_8005380);
@@ -15105,7 +15106,7 @@ bool32 sub_8017058(Player *p)
 {
     s32 moveState;
 
-    if ((gStageData.gameMode == 7) || (moveState = p->moveState, (p->moveState & 0x8000)) || (p->moveState & MOVESTATE_800000)
+    if ((gStageData.gameMode == 7) || (moveState = p->moveState, (p->moveState & 0x8000)) || (p->moveState & MOVESTATE_TAG_ACTION_CHARGED)
         || (!sub_8015E0C(p) && !sub_80167A4(p))) {
         return 0;
     }
@@ -15977,12 +15978,12 @@ void Player_InitializeTagAction(Player *p)
         s->anim = ANIM_TAG_ACTION_CHARGE;
         s->x = 0;
         s->y = 0;
-        s->oamFlags = 0x3C0;
+        s->oamFlags = SPRITE_OAM_ORDER(15);
         s->qAnimDelay = 0;
         s->prevAnim = -1;
         s->variant = 0;
         s->prevVariant = -1;
-        s->animSpeed = 0x10;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
         s->palId = 0;
         s->hitboxes[0].index = -1;
     }

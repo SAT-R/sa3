@@ -199,7 +199,7 @@ NONMATCH("asm/non_matching/game/interactables/ramp__sub_8031C10.inc", void sub_8
                 }
                 // _08031EA8
 
-                if (p->moveState & MOVESTATE_800000) {
+                if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
                     SetPlayerCallback(p, Player_80077CC);
                 } else {
                     SetPlayerCallback(p, Player_8005528);

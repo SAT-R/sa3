@@ -64,7 +64,7 @@ void Task_IA081_082(void)
                     // __ia_ptr
                     if (ia->unkD[i] == FALSE) {
                         if (!(p->moveState & MOVESTATE_IN_AIR)) {
-                            if (p->moveState & MOVESTATE_800000) {
+                            if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
                                 SetPlayerCallback(p, Player_80077CC);
                             } else if (!(p->moveState & MOVESTATE_2)) {
                                 SetPlayerCallback(p, Player_8005380);
