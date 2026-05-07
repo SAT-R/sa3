@@ -22,20 +22,21 @@
 #define ACT_XX_FINAL_ZONE ACT_1
 #define ACT_TRUE_AREA_53  ACT_2
 #elif (GAME == GAME_SA3)
-#define ACT_DUMMY         0
-#define ACT_SPECIAL       1
-#define ACT_SONIC_FACTORY 1
-#define ACT_ALTAR_EMERALD 1
-#define ACT_HUB           2
-#define ACT_OVERWORLD     2
-#define ACT_NONAGGRESSION 2
-#define ACT_1             3
-#define ACT_2             4
-#define ACT_3             5
-#define ACT_4             6 // Unused in final game
-#define ACT_BOSS          7
-#define ACT_BONUS_CAPSULE 8
-#define ACT_BONUS_ENEMIES 9
+#define ACT_DUMMY           0
+#define ACT_SPECIAL         1
+#define ACT_SONIC_FACTORY   1
+#define ACT_CHAO_PLAYGROUND 1
+#define ACT_ALTAR_EMERALD   1
+#define ACT_HUB             2
+#define ACT_OVERWORLD       2
+#define ACT_NONAGGRESSION   2
+#define ACT_1               3
+#define ACT_2               4
+#define ACT_3               5
+#define ACT_4               6 // Unused in final game
+#define ACT_BOSS            7
+#define ACT_BONUS_CAPSULE   8
+#define ACT_BONUS_ENEMIES   9
 #endif
 
 #define ACT_MASK_DEFAULT_UNLOCKED ((1 << ACT_DUMMY) | (1 << ACT_SPECIAL) | (1 << ACT_HUB))
