@@ -352,15 +352,16 @@ typedef struct Struc_3001150_1C {
 } Struc_3001150_1C; /* 0x148 */
 
 typedef struct Struc_3001150_164_0 {
-    s32 unk0;
-    s32 unk4;
+    s32 qWorldX;
+    s32 qWorldY;
     u8 padd8[0xC];
-    u8 unk14;
+    u8 unk14; // TODO: Not sure if s8 or u8 type!
 } Struc_3001150_164_0; /* 0x18 */
 
 typedef struct Struc_3001150_164 {
-    Struc_3001150_164_0 unk0[32];
-    /* 0x164 */ u8 filler464[0xC];
+    /* 0x000 */ Struc_3001150_164_0 unk0[32];
+    /* 0x300 */ s16 unk0Index;
+    /* 0x302 */ u8 filler302[0xA];
 } Struc_3001150_164;
 
 typedef struct Struc_3001150 {

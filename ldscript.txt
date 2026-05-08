@@ -162,6 +162,7 @@ SECTIONS {
         src/game/math.o(.text);
         asm/special_stage.o(.text);
         asm/code_x.o(.text);
+        src/game/code_x.o(.text);
         src/lib/m4a/m4a0.o(.text);
         src/lib/m4a/m4a.o(.text);
         src/core.o(.text);
