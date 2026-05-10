@@ -60,74 +60,59 @@ bool32 sub_80B97A4(Struc_3001150_164 *strc, Player *partner, Player *player);
 
 void sub_80B79C8(Struc_3001150 *strc, Player *partner, Player *player);
 
-#if 0
-s32 sub_80B9650(Player *partner, Player *player, Struc_3001150_164 *strc164, s32 arg3, s32 arg4) {
-    Player *sp0;
-    Struc_3001150_164 *sp4;
-    Struc_3001150_164_0 *temp_r6;
-    s16 temp_r2;
-    s16 var_r7;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r2_2;
-    s32 temp_r3;
-    s32 temp_r4;
-    s32 var_r1;
-    s32 var_r5;
+void sub_80B9604(Struc_3001150_164 *arg0, Player *p)
+{
+    Struc_3001150_164_0 *strc;
 
-    sp0 = player;
-    sp4 = strc164;
-    temp_r2 = strc164->unk0Index;
-    temp_r1 = (temp_r2 + 1) % ARRAY_COUNT(strc164->unk0);
-    if (!(partner->moveState & 0x90060000)) {
-        var_r7 = temp_r2;
-        if (var_r7 != temp_r1) {
-loop_2:
-            temp_r6 = &sp4->unk0[var_r7];
-            if ((s8) temp_r6->unk14 != -1) {
-                temp_r2_2 = temp_r6->unk0;
-                temp_r3 = sp0->qWorldX - temp_r2_2;
-                temp_r1_2 = temp_r6->unk4;
-                temp_r4 = sp0->qWorldY - temp_r1_2;
-                var_r5 = temp_r3;
-                if (temp_r3 < 0) {
-                    var_r5 = 0 - temp_r3;
-                }
-                if (var_r5 <= 0x1DFFF) {
-                    var_r1 = temp_r4;
-                    if (temp_r4 < 0) {
-                        var_r1 = 0 - temp_r4;
+    strc = &arg0->unk0[arg0->unk0Index];
+    strc->qWorldX = p->qWorldX;
+    strc->qWorldY = p->qWorldY;
+    strc->unk8 = p->qSpeedAirX;
+    strc->unkC = p->qSpeedAirY;
+    strc->unk10 = p->qSpeedGround;
+    strc->unk12 = p->unk26;
+    strc->unk14 = p->layer;
+    arg0->unk0Index = ((u16)arg0->unk0Index + 1) % ARRAY_COUNT(arg0->unk0);
+}
+
+s32 sub_80B9650(Player *partner, Player *player, Struc_3001150_164 *strc164, s32 arg3, s32 arg4)
+{
+    Struc_3001150_164_0 *temp_r6;
+    s32 index;
+    s32 max;
+    s32 qDX;
+    s32 qDY;
+
+    max = (strc164->unk0Index + 1) % ARRAY_COUNT(strc164->unk0);
+    if (!(partner->moveState & (MOVESTATE_80000000 | MOVESTATE_10000000 | MOVESTATE_40000 | MOVESTATE_20000))) {
+        index = strc164->unk0Index;
+        while (index != max) {
+            temp_r6 = &strc164->unk0[index];
+            if ((s8)temp_r6->unk14 != -1) {
+                qDX = player->qWorldX - temp_r6->qWorldX;
+                qDY = player->qWorldY - temp_r6->qWorldY;
+
+                // NOTE: Unsure about the use of DISPLAY_WIDTH / DISPLAY_HEIGHT!
+                if ((ABS(qDX) >= Q(2 * DISPLAY_WIDTH)) || (ABS(qDY) >= Q(2 * DISPLAY_HEIGHT))) {
+                    if (((arg3 == 0) || !((qDX ^ arg3) & 0x80000000)) && ((arg4 == 0) || !((qDY ^ arg4) & 0x80000000))) {
+                        partner->qWorldX = temp_r6->qWorldX;
+                        partner->qWorldY = temp_r6->qWorldY;
+                        partner->qSpeedAirX = temp_r6->unk8;
+                        partner->qSpeedAirY = temp_r6->unkC;
+                        partner->qSpeedGround = temp_r6->unk10;
+                        partner->unk26 = temp_r6->unk12;
+                        partner->layer = temp_r6->unk14;
+                        return TRUE;
                     }
-                    if (var_r1 > 0x13FFF) {
-                        goto block_9;
-                    }
-                    goto block_14;
                 }
-block_9:
-                if (((arg3 == 0) || !((temp_r3 ^ arg3) & 0x80000000)) && ((arg4 == 0) || !((temp_r4 ^ arg4) & 0x80000000))) {
-                    partner->qWorldX = temp_r2_2;
-                    partner->qWorldY = temp_r1_2;
-                    partner->qSpeedAirX = (s16) temp_r6->unk8;
-                    partner->qSpeedAirY = (s16) temp_r6->unkC;
-                    partner->qSpeedGround = (s16) temp_r6->unk10;
-                    partner->unk26 = temp_r6->padd8[0xA];
-                    partner->layer = temp_r6->unk14;
-                    return 1;
-                }
-                goto block_14;
             }
-block_14:
-            var_r7 = (var_r7 - 1) & 0x1F;
-            if (var_r7 == temp_r1) {
-                goto block_15;
-            }
-            goto loop_2;
+
+            index = (index - 1) % ARRAY_COUNT(strc164->unk0);
         }
     }
-block_15:
-    return 0;
+
+    return FALSE;
 }
-#endif
 
 // Clears the array
 void sub_80B9744(Struc_3001150_164 *strc)

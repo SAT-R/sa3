@@ -354,7 +354,11 @@ typedef struct Struc_3001150_1C {
 typedef struct Struc_3001150_164_0 {
     s32 qWorldX;
     s32 qWorldY;
-    u8 padd8[0xC];
+    s32 unk8;
+    s32 unkC;
+    s16 unk10;
+    u8 unk12;
+    u8 unk13;
     u8 unk14; // TODO: Not sure if s8 or u8 type!
 } Struc_3001150_164_0; /* 0x18 */
 
