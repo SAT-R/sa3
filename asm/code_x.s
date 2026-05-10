@@ -7,6 +7,9 @@
 
 @ TODO: This *might* be part of the special_stage module.
 
+@ R0: Struc_3001150 *strc
+@ R1: Player *partner
+@ R2: Player *player
 	thumb_func_start sub_80B75E4
 sub_80B75E4: @ 0x080B75E4
 	push {r4, r5, r6, r7, lr}
@@ -626,7 +629,10 @@ sub_80B7AA4: @ 0x080B7AA4
 	ldrsh r0, [r0, r1]
 	bx lr
 	.align 2, 0
-
+    
+@ R0: Struc_3001150 *strc
+@ R1: Player *partner
+@ R2: Player *player
 	thumb_func_start nullsub_80B7AAC
 nullsub_80B7AAC:
     bx lr

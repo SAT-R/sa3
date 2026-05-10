@@ -331,7 +331,8 @@ struct Player {
 extern Player gPlayers[NUM_MULTI_PLAYER_CHARS];
 
 struct Struc_3001150_1C;
-typedef u16 (*Struc_3001150_func)(struct Struc_3001150_1C *strc, Player *p);
+typedef u16 (*Struc_3001150_InputRes)(struct Struc_3001150_1C *strc, Player *partner, Player *p);
+typedef bool32 (*Struc_3001150_BoolRes)(struct Struc_3001150_1C *strc, Player *partner, Player *p);
 typedef struct Struc_3001150_1C {
     /* 0x000 */ u8 unk0;
     /* 0x001 */ u8 unk1;
@@ -353,7 +354,7 @@ typedef struct Struc_3001150_1C {
     /* 0x042 */ u16 inputBuffer[128];
     /* 0x142 */ u8 inputBufferIndex; // index of .inputBuffer[128]
     /* 0x143 */ u8 filler143[0x1];
-    /* 0x144 */ Struc_3001150_func func;
+    /* 0x144 */ Struc_3001150_InputRes func;
 } Struc_3001150_1C; /* 0x148 */
 
 typedef struct Struc_3001150_164_0 {
@@ -381,6 +382,12 @@ typedef struct Struc_3001150 {
     /* 0x164 */ Struc_3001150_164 unk164;
 } Struc_3001150; /* 0x470 */
 Struc_3001150 gUnknown_03001150;
+
+typedef struct Strc_80E3254 {
+    Struc_3001150_InputRes funcA;
+    Struc_3001150_BoolRes funcB;
+    size_t someCount;
+} Strc_80E3254;
 
 void InitializePlayer(s16 playerId);
 #ifndef NON_MATCHING

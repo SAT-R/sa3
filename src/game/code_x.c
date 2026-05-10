@@ -4,55 +4,56 @@
 #include "game/stage.h"
 #include "constants/move_states.h"
 
+void sub_80B75E4(Struc_3001150 *strc, Player *partner, Player *player);
 void sub_80B7AB0(Struc_3001150_1C *strc, u16 arg1);
 void sub_80B8E24(Struc_3001150_1C *strc, Player *p, s32 param2, s32 param3);
 u16 InputBufferGetCurrent(Struc_3001150_1C *strc);
-u16 sub_80B7AEC(Struc_3001150_1C *strc, Player *p);
-u16 sub_80B7C1C(Struc_3001150_1C *strc, Player *p);
-bool32 sub_80B7CD0(Struc_3001150_1C *strc, Player *p);
-u16 sub_80B7D74(Struc_3001150_1C *strc, Player *p);
-u16 sub_80B7E1C(Struc_3001150_1C *strc);
-u16 sub_80B7F00(Struc_3001150_1C *strc);
-u16 sub_80B7F90(Struc_3001150_1C *strc);
-u16 sub_80B8034(Struc_3001150_1C *strc);
-u16 sub_80B80C8(Struc_3001150_1C *strc);
-u16 sub_80B836C(Struc_3001150_1C *strc);
-u16 sub_80B83FC(Struc_3001150_1C *strc);
-bool32 sub_80B8168(Struc_3001150_1C *strc, Player *p);
-u16 sub_80B8218(Struc_3001150_1C *strc, Player *p);
-u16 sub_80B82D8(Struc_3001150_1C *strc, Player *p);
-u16 sub_80B84C8(Struc_3001150_1C *strc, Player *p);
-u16 sub_80B8584(Struc_3001150_1C *strc, Player *p);
-u16 sub_80B8620(Struc_3001150_1C *strc, Player *p);
-u16 sub_80B86E4(Struc_3001150_1C *strc, Player *p);
-u16 sub_80B87B0(Struc_3001150_1C *strc, Player *p);
-u16 sub_80B8840(Struc_3001150_1C *strc, Player *p);
-u16 sub_80B88E0(Struc_3001150_1C *strc, Player *p);
-u16 sub_80B8980(Struc_3001150_1C *strc, Player *p);
-u16 sub_80B8A20(Struc_3001150_1C *strc);
+bool32 sub_80B7AEC(Struc_3001150_1C *strc, Player *partner, Player *p); // B
+bool32 sub_80B7C1C(Struc_3001150_1C *strc, Player *partner, Player *p); // B
+bool32 sub_80B7CD0(Struc_3001150_1C *strc, Player *partner, Player *p); // B
+bool32 sub_80B7D74(Struc_3001150_1C *strc, Player *partner, Player *p); // B
+bool32 sub_80B7E1C(Struc_3001150_1C *strc, Player *partner, Player *p); // B
+bool32 sub_80B7F00(Struc_3001150_1C *strc, Player *partner, Player *p); // B
+bool32 sub_80B7F90(Struc_3001150_1C *strc, Player *partner, Player *p); // B
+bool32 sub_80B8034(Struc_3001150_1C *strc, Player *partner, Player *p); // B
+bool32 sub_80B80C8(Struc_3001150_1C *strc, Player *partner, Player *p); // B
+u16 sub_80B836C(Struc_3001150_1C *strc, Player *partner, Player *p); // A
+u16 sub_80B83FC(Struc_3001150_1C *strc, Player *partner, Player *p); // A
+bool32 sub_80B8168(Struc_3001150_1C *strc, Player *partner, Player *p); // B
+u16 sub_80B8218(Struc_3001150_1C *strc, Player *partner, Player *p);
+u16 sub_80B82D8(Struc_3001150_1C *strc, Player *partner, Player *p);
+u16 sub_80B84C8(Struc_3001150_1C *strc, Player *partner, Player *p);
+u16 sub_80B8584(Struc_3001150_1C *strc, Player *partner, Player *p);
+u16 sub_80B8620(Struc_3001150_1C *strc, Player *partner, Player *p);
+u16 sub_80B86E4(Struc_3001150_1C *strc, Player *partner, Player *p);
+u16 sub_80B87B0(Struc_3001150_1C *strc, Player *partner, Player *p); // A
+u16 sub_80B8840(Struc_3001150_1C *strc, Player *partner, Player *p);
+u16 sub_80B88E0(Struc_3001150_1C *strc, Player *partner, Player *p);
+u16 sub_80B8980(Struc_3001150_1C *strc, Player *partner, Player *p);
+u16 sub_80B8A20(Struc_3001150_1C *strc, Player *partner, Player *p); // A
 u16 sub_80B8E88(Struc_3001150_1C *strc);
 void sub_80B8E90(Struc_3001150_1C *strc, u16 input);
-u16 sub_80B8EC4(Struc_3001150_1C *strc);
-u16 sub_80B8F14(Struc_3001150_1C *strc);
-u16 sub_80B8F70(Struc_3001150_1C *strc);
-u16 sub_80B8FB8(Struc_3001150_1C *strc);
-u16 sub_80B9008(Struc_3001150_1C *strc);
-u16 sub_80B9024(Struc_3001150_1C *strc);
-u16 sub_80B90B4(Struc_3001150_1C *strc);
-u16 sub_80B9148(Struc_3001150_1C *strc);
-u16 sub_80B915C(Struc_3001150_1C *strc);
-u16 sub_80B9194(Struc_3001150_1C *strc, Player *p);
-u16 sub_80B91EC(Struc_3001150_1C *strc, Player *p);
-u16 sub_80B9234(Struc_3001150_1C *strc);
-u16 sub_80B926C(Struc_3001150_1C *strc);
-u16 sub_80B92A4(Struc_3001150_1C *strc);
-u16 sub_80B92E0(Struc_3001150_1C *strc, Player *partner, Player *p);
-u16 sub_80B9374(Struc_3001150_1C *strc, Player *p);
-u16 sub_80B93A4(Struc_3001150_1C *strc);
-u16 sub_80B93E4(Struc_3001150_1C *strc);
-u16 sub_80B94B0(Struc_3001150_1C *strc);
-u32 sub_80B94F0(Struc_3001150_1C *strc);
-u32 sub_80B9548(Struc_3001150_1C *strc);
+bool32 sub_80B8EC4(Struc_3001150_1C *strc, Player *partner, Player *p); // B
+bool32 sub_80B8F14(Struc_3001150_1C *strc, Player *partner, Player *p); // B
+bool32 sub_80B8F70(Struc_3001150_1C *strc, Player *partner, Player *p); // B
+bool32 sub_80B8FB8(Struc_3001150_1C *strc, Player *partner, Player *p); // B
+bool32 sub_80B9008(Struc_3001150_1C *strc, Player *partner, Player *p); // B
+bool32 sub_80B9024(Struc_3001150_1C *strc, Player *partner, Player *p); // B
+bool32 sub_80B90B4(Struc_3001150_1C *strc, Player *partner, Player *p); // B
+u16 sub_80B9148(struct Struc_3001150_1C *strc, Player *partner, Player *p); // A
+u16 sub_80B915C(Struc_3001150_1C *strc, Player *partner, Player *p); // A
+u16 sub_80B9194(Struc_3001150_1C *strc, Player *partner, Player *p); // A
+u16 sub_80B91EC(Struc_3001150_1C *strc, Player *partner, Player *p); // A
+u16 sub_80B9234(Struc_3001150_1C *strc, Player *partner, Player *p); // A
+u16 sub_80B926C(Struc_3001150_1C *strc, Player *partner, Player *p); // A
+u16 sub_80B92A4(Struc_3001150_1C *strc, Player *partner, Player *p); // A
+u16 sub_80B92E0(Struc_3001150_1C *strc, Player *partner, Player *p); // A
+u16 sub_80B9374(Struc_3001150_1C *strc, Player *partner, Player *p); // A
+u16 sub_80B93A4(Struc_3001150_1C *strc, Player *partner, Player *p); // A
+u16 sub_80B93E4(Struc_3001150_1C *strc, Player *partner, Player *p); // A
+u16 sub_80B94B0(Struc_3001150_1C *strc, Player *partner, Player *p); // A
+u32 sub_80B94F0(Struc_3001150_1C *strc, Player *partner, Player *p); // A
+u32 sub_80B9548(Struc_3001150_1C *strc, Player *partner, Player *p); // A
 u16 sub_80B95A0(Struc_3001150_1C *strc);
 void sub_80B9604(Struc_3001150_164 *strc, Player *p);
 s32 sub_80B9650(Player *partner, Player *player, Struc_3001150_164 *strc164, s32 arg3, s32 arg4);
@@ -62,9 +63,30 @@ bool32 sub_80B97A4(Struc_3001150_164 *strc, Player *partner, Player *player);
 
 void sub_80B79C8(Struc_3001150 *strc, Player *partner, Player *player);
 
-extern Struc_3001150_func gUnknown_080E3254[];
+// TODO: Match the functions needing a cast, with correct return type!
+const Strc_80E3254 gUnknown_080E3254[19] = {
+    { sub_80B9148, NULL, 0 },
+    { sub_80B915C, sub_80B8EC4, 1 },
+    { sub_80B9194, sub_80B8F14, 2 },
+    { sub_80B91EC, sub_80B7AEC, 3 },
+    { sub_80B9234, sub_80B8F70, 0 },
+    { sub_80B926C, sub_80B8FB8, 0 },
+    { sub_80B92A4, NULL, 0 },
+    { sub_80B92E0, sub_80B7C1C, 4 },
+    { sub_80B836C, sub_80B9008, 5 },
+    { sub_80B83FC, sub_80B7CD0, 6 },
+    { sub_80B9374, sub_80B9024, 6 },
+    { sub_80B93A4, sub_80B90B4, 6 },
+    { (void*)sub_80B9548, sub_80B80C8, 6 },
+    { sub_80B93E4, sub_80B8168, 6 },
+    { sub_80B87B0, sub_80B7D74, 4 },
+    { sub_80B94B0, sub_80B7E1C, 6 },
+    { (void*)sub_80B94F0, sub_80B7F90, 6 },
+    { (void*)sub_80B9548, sub_80B8034, 6 },
+    { sub_80B8A20, sub_80B7F00, 6 },
+};
 
-u16 sub_80B9324(Struc_3001150_1C *strc, Player *p)
+u16 sub_80B9324(Struc_3001150_1C *strc, Player *partner, Player *p)
 {
     u16 result = strc->inputBuffer[strc->inputBufferIndex];
 
@@ -81,7 +103,7 @@ u16 sub_80B9324(Struc_3001150_1C *strc, Player *p)
     return result;
 }
 
-u16 sub_80B9374(Struc_3001150_1C *strc, Player *p)
+u16 sub_80B9374(Struc_3001150_1C *strc, Player *partner, Player *p)
 {
     u16 result = strc->inputBuffer[strc->inputBufferIndex];
     result &= ~gStageData.buttonConfig.jump;
@@ -89,7 +111,7 @@ u16 sub_80B9374(Struc_3001150_1C *strc, Player *p)
     return result;
 }
 
-u16 sub_80B93A4(Struc_3001150_1C *strc)
+u16 sub_80B93A4(Struc_3001150_1C *strc, Player *partner, Player *p)
 {
     u16 input = strc->inputBuffer[strc->inputBufferIndex];
     if (!(input & gStageData.buttonConfig.attack)) {
@@ -101,7 +123,7 @@ u16 sub_80B93A4(Struc_3001150_1C *strc)
     return input;
 }
 
-u16 sub_80B93E4(Struc_3001150_1C *strc)
+u16 sub_80B93E4(Struc_3001150_1C *strc, Player *partner, Player *p)
 {
     u16 input = strc->inputBuffer[strc->inputBufferIndex];
 
@@ -130,12 +152,12 @@ u16 sub_80B9454(Struc_3001150_1C *strc)
     result &= ~gStageData.buttonConfig.attack;
 
     strc->unk0 = 0;
-    strc->func = gUnknown_080E3254[0];
+    strc->func = gUnknown_080E3254[0].funcA;
     strc->unk2 = (((u32)PseudoRandom32() >> 8) & 0x1F) + 60;
     return result;
 }
 
-u16 sub_80B94B0(Struc_3001150_1C *strc)
+u16 sub_80B94B0(Struc_3001150_1C *strc, Player *partner, Player *p)
 {
     u16 var_r2;
     u32 temp_r2;
@@ -151,7 +173,7 @@ u16 sub_80B94B0(Struc_3001150_1C *strc)
 }
 
 // TODO: This is supposed to return a u16
-u32 sub_80B94F0(Struc_3001150_1C *strc)
+u32 sub_80B94F0(Struc_3001150_1C *strc, Player *partner, Player *p)
 {
     u16 attackBtn;
     s32 temp_r1;
@@ -170,7 +192,7 @@ u32 sub_80B94F0(Struc_3001150_1C *strc)
 }
 
 // TODO: This is supposed to return a u16
-u32 sub_80B9548(Struc_3001150_1C *strc)
+u32 sub_80B9548(Struc_3001150_1C *strc, Player *partner, Player *p)
 {
     u16 attackBtn;
     s32 temp_r1;
@@ -194,7 +216,7 @@ u16 sub_80B95A0(Struc_3001150_1C *strc)
 
     if (strc->unk3E-- <= 0) {
         strc->unk0 = 0;
-        strc->func = gUnknown_080E3254[0];
+        strc->func = gUnknown_080E3254[0].funcA;
         strc->unk2 = (((u32)PseudoRandom32() >> 8) & 0x1F) + 60;
     }
     return result;
