@@ -1,6 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "game/shared/stage/player.h"
+#include "game/stage.h"
 #include "constants/move_states.h"
 
 void sub_80B7AB0(Struc_3001150_1C *strc, u16 arg1);
@@ -25,6 +26,7 @@ u16 sub_80B8584(Struc_3001150_1C *strc, Player *p);
 u16 sub_80B8620(Struc_3001150_1C *strc, Player *p);
 u16 sub_80B86E4(Struc_3001150_1C *strc, Player *p);
 u16 sub_80B87B0(Struc_3001150_1C *strc, Player *p);
+u16 sub_80B8840(Struc_3001150_1C *strc, Player *p);
 u16 sub_80B88E0(Struc_3001150_1C *strc, Player *p);
 u16 sub_80B8980(Struc_3001150_1C *strc, Player *p);
 u16 sub_80B8A20(Struc_3001150_1C *strc);
@@ -45,12 +47,12 @@ u16 sub_80B9234(Struc_3001150_1C *strc);
 u16 sub_80B926C(Struc_3001150_1C *strc);
 u16 sub_80B92A4(Struc_3001150_1C *strc);
 u16 sub_80B92E0(Struc_3001150_1C *strc, Player *partner, Player *p);
-u16 sub_80B9374(Struc_3001150_1C *strc);
+u16 sub_80B9374(Struc_3001150_1C *strc, Player *p);
 u16 sub_80B93A4(Struc_3001150_1C *strc);
 u16 sub_80B93E4(Struc_3001150_1C *strc);
 u16 sub_80B94B0(Struc_3001150_1C *strc);
-u16 sub_80B94F0(Struc_3001150_1C *strc);
-u16 sub_80B9548(Struc_3001150_1C *strc);
+u32 sub_80B94F0(Struc_3001150_1C *strc);
+u32 sub_80B9548(Struc_3001150_1C *strc);
 u16 sub_80B95A0(Struc_3001150_1C *strc);
 void sub_80B9604(Struc_3001150_164 *strc, Player *p);
 s32 sub_80B9650(Player *partner, Player *player, Struc_3001150_164 *strc164, s32 arg3, s32 arg4);
@@ -59,6 +61,144 @@ void sub_80B9774(Struc_3001150_164 *strc, Player *partner, Player *player);
 bool32 sub_80B97A4(Struc_3001150_164 *strc, Player *partner, Player *player);
 
 void sub_80B79C8(Struc_3001150 *strc, Player *partner, Player *player);
+
+extern Struc_3001150_func gUnknown_080E3254[];
+
+u16 sub_80B9324(Struc_3001150_1C *strc, Player *p)
+{
+    u16 result = strc->inputBuffer[strc->inputBufferIndex];
+
+    if ((result & ~(DPAD_SIDEWAYS)) == 0) {
+        result &= DPAD_SIDEWAYS;
+        result |= gStageData.buttonConfig.jump;
+        strc->func = sub_80B8218;
+        strc->unk3E = 4;
+
+    } else {
+        result &= DPAD_SIDEWAYS;
+    }
+
+    return result;
+}
+
+u16 sub_80B9374(Struc_3001150_1C *strc, Player *p)
+{
+    u16 result = strc->inputBuffer[strc->inputBufferIndex];
+    result &= ~gStageData.buttonConfig.jump;
+    strc->func = sub_80B84C8;
+    return result;
+}
+
+u16 sub_80B93A4(Struc_3001150_1C *strc)
+{
+    u16 input = strc->inputBuffer[strc->inputBufferIndex];
+    if (!(input & gStageData.buttonConfig.attack)) {
+        input = input | gStageData.buttonConfig.attack;
+        strc->func = sub_80B8584;
+    } else {
+        input = input & ~gStageData.buttonConfig.attack;
+    }
+    return input;
+}
+
+u16 sub_80B93E4(Struc_3001150_1C *strc)
+{
+    u16 input = strc->inputBuffer[strc->inputBufferIndex];
+
+    if (input & gStageData.buttonConfig.jump) {
+        input &= ~gStageData.buttonConfig.jump;
+    } else {
+        input |= gStageData.buttonConfig.jump;
+        strc->func = sub_80B8620;
+        input &= ~DPAD_SIDEWAYS;
+
+        if (strc->unk14 > +Q(2)) {
+            input |= DPAD_RIGHT;
+        }
+        if (strc->unk14 < -Q(2)) {
+            input |= DPAD_LEFT;
+        }
+    }
+
+    return input;
+}
+
+u16 sub_80B9454(Struc_3001150_1C *strc)
+{
+    u16 result = strc->inputBuffer[strc->inputBufferIndex];
+
+    result &= ~gStageData.buttonConfig.attack;
+
+    strc->unk0 = 0;
+    strc->func = gUnknown_080E3254[0];
+    strc->unk2 = (((u32)PseudoRandom32() >> 8) & 0x1F) + 60;
+    return result;
+}
+
+u16 sub_80B94B0(Struc_3001150_1C *strc)
+{
+    u16 var_r2;
+    u32 temp_r2;
+
+    temp_r2 = strc->inputBuffer[strc->inputBufferIndex];
+    if (!(temp_r2 & gStageData.buttonConfig.attack)) {
+        var_r2 = temp_r2 | gStageData.buttonConfig.attack;
+        strc->func = sub_80B8840;
+    } else {
+        var_r2 = temp_r2 & ~gStageData.buttonConfig.attack;
+    }
+    return var_r2;
+}
+
+// TODO: This is supposed to return a u16
+u32 sub_80B94F0(Struc_3001150_1C *strc)
+{
+    u16 attackBtn;
+    s32 temp_r1;
+    u32 var_r2;
+
+    var_r2 = strc->inputBuffer[strc->inputBufferIndex];
+    attackBtn = gStageData.buttonConfig.attack;
+    temp_r1 = attackBtn | (DPAD_ANY & ~DPAD_DOWN);
+    if ((var_r2 & temp_r1) || !(DPAD_DOWN & var_r2)) {
+        var_r2 = (u16)((var_r2 & ~temp_r1) | DPAD_DOWN);
+    } else {
+        var_r2 = var_r2 | gStageData.buttonConfig.attack;
+        strc->func = sub_80B88E0;
+    }
+    return var_r2;
+}
+
+// TODO: This is supposed to return a u16
+u32 sub_80B9548(Struc_3001150_1C *strc)
+{
+    u16 attackBtn;
+    s32 temp_r1;
+    u32 var_r2;
+
+    var_r2 = strc->inputBuffer[strc->inputBufferIndex];
+    attackBtn = gStageData.buttonConfig.attack;
+    temp_r1 = attackBtn | (DPAD_ANY & ~DPAD_UP);
+    if ((var_r2 & temp_r1) || !(DPAD_UP & var_r2)) {
+        var_r2 = (u16)((var_r2 & ~temp_r1) | DPAD_UP);
+    } else {
+        var_r2 = var_r2 | gStageData.buttonConfig.attack;
+        strc->func = sub_80B8980;
+    }
+    return var_r2;
+}
+
+u16 sub_80B95A0(Struc_3001150_1C *strc)
+{
+    u16 result = strc->inputBuffer[strc->inputBufferIndex];
+
+    if (strc->unk3E-- <= 0) {
+        strc->unk0 = 0;
+        strc->func = gUnknown_080E3254[0];
+        strc->unk2 = (((u32)PseudoRandom32() >> 8) & 0x1F) + 60;
+    }
+    return result;
+}
 
 void sub_80B9604(Struc_3001150_164 *arg0, Player *p)
 {

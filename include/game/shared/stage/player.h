@@ -330,9 +330,13 @@ struct Player {
 
 extern Player gPlayers[NUM_MULTI_PLAYER_CHARS];
 
+struct Struc_3001150_1C;
+typedef u16 (*Struc_3001150_func)(struct Struc_3001150_1C *strc, Player *p);
 typedef struct Struc_3001150_1C {
     /* 0x000 */ u8 unk0;
-    /* 0x001 */ u8 padd1[0x7];
+    /* 0x001 */ u8 unk1;
+    /* 0x002 */ u16 unk2;
+    /* 0x004 */ u8 padd4[0x4];
     /* 0x008 */ s32 unk8;
     /* 0x00C */ u8 paddC[0x4];
     /* 0x010 */ s32 unk10;
@@ -343,12 +347,13 @@ typedef struct Struc_3001150_1C {
     /* 0x02C */ s32 unk2C;
     /* 0x030 */ s32 unk30;
     /* 0x034 */ s32 unk34;
-    /* 0x038 */ u8 padd38[0x8];
+    /* 0x038 */ u8 padd38[0x6];
+    /* 0x03E */ s16 unk3E;
     /* 0x040 */ u16 unk40;
     /* 0x042 */ u16 inputBuffer[128];
     /* 0x142 */ u8 inputBufferIndex; // index of .inputBuffer[128]
     /* 0x143 */ u8 filler143[0x1];
-    /* 0x144 */ u16 (*func)(struct Struc_3001150_1C *strc, Player *p);
+    /* 0x144 */ Struc_3001150_func func;
 } Struc_3001150_1C; /* 0x148 */
 
 typedef struct Struc_3001150_164_0 {
