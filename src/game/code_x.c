@@ -88,7 +88,7 @@ const Strc_80E3254 gUnknown_080E3254[19] = {
 };
 
 // (70.68%) https://decomp.me/scratch/Cznjy
-NONMATCH("asm/non_matching/game/cx__sub_80B8FB8.inc", bool32 sub_80B8FB8(Struc_3001150_1C* strc, Player* partner, Player* p))
+NONMATCH("asm/non_matching/game/cx__sub_80B8FB8.inc", bool32 sub_80B8FB8(Struc_3001150_1C *strc, Player *partner, Player *p))
 {
     s16 temp_r0;
     s32 temp_r0_2;
@@ -96,12 +96,11 @@ NONMATCH("asm/non_matching/game/cx__sub_80B8FB8.inc", bool32 sub_80B8FB8(Struc_3
     u32 var_r3;
     s32 anim0 = p->charFlags.anim0;
 
-    switch(anim0)
-    {
+    switch (anim0) {
         case 0: {
             var_r3 = 0x20;
         } break;
-        
+
         case 1: {
             var_r3 = 0x20;
         } break;
@@ -121,7 +120,7 @@ NONMATCH("asm/non_matching/game/cx__sub_80B8FB8.inc", bool32 sub_80B8FB8(Struc_3
 
     temp_r0_2 = PseudoRandom32();
     var_r1 = 0;
-    if (var_r3 > (u32) ((u32) (temp_r0_2 << 8) >> 0x10)) {
+    if (var_r3 > (u32)((u32)(temp_r0_2 << 8) >> 0x10)) {
         var_r1 = 1;
     }
     return var_r1;
@@ -138,22 +137,18 @@ bool32 sub_80B9008(Struc_3001150_1C *strc, Player *partner, Player *p)
     return FALSE;
 }
 
-bool32 sub_80B9024(Struc_3001150_1C *strc, Player *partner, Player *p) {
+bool32 sub_80B9024(Struc_3001150_1C *strc, Player *partner, Player *p)
+{
     s16 temp_r1_2;
     u32 var_r1;
     u32 var_r3;
 
     if (strc->unk0 != 10) {
-        if (4 & partner->moveState) 
-        {
-                if(!(partner->moveState & 0x80))
-                {
-                    u32 unkC = (partner->unkC & 0x180);
+        if (4 & partner->moveState) {
+            if (!(partner->moveState & 0x80)) {
+                u32 unkC = (partner->unkC & 0x180);
 
-                    if (((partner->charFlags.character) == CREAM) 
-                    && (unkC == 0x80) 
-                    && (strc->unk18 < -Q(8)))
-                {
+                if (((partner->charFlags.character) == CREAM) && (unkC == 0x80) && (strc->unk18 < -Q(8))) {
                     temp_r1_2 = partner->qSpeedAirY;
                     if (temp_r1_2 > -0xA8) {
                         u32 rand;
@@ -165,11 +160,11 @@ bool32 sub_80B9024(Struc_3001150_1C *strc, Player *partner, Player *p) {
                         rand = PseudoRandom32();
                         var_r1 = 0;
                         rand = (rand << 8) >> 16;
-        
+
                         if (var_r3 > rand) {
                             var_r1 = TRUE;
                         }
-        
+
                         return var_r1;
                     }
                 }
@@ -180,22 +175,18 @@ bool32 sub_80B9024(Struc_3001150_1C *strc, Player *partner, Player *p) {
     return FALSE;
 }
 
-bool32 sub_80B90B4(Struc_3001150_1C *strc, Player *partner, Player *p) {
+bool32 sub_80B90B4(Struc_3001150_1C *strc, Player *partner, Player *p)
+{
     s16 temp_r1_2;
     u32 var_r1;
     u32 var_r3;
 
     if (strc->unk0 != 0xB) {
-        if (4 & partner->moveState) 
-        {
-                if(!(partner->moveState & 0x80))
-                {
-                    u32 unkC = (partner->unkC & 0xC000);
+        if (4 & partner->moveState) {
+            if (!(partner->moveState & 0x80)) {
+                u32 unkC = (partner->unkC & 0xC000);
 
-                    if (((partner->charFlags.character) == 4) 
-                    && (unkC == 0x4000) 
-                    && (strc->unk18 < -Q(8)))
-                {
+                if (((partner->charFlags.character) == 4) && (unkC == 0x4000) && (strc->unk18 < -Q(8))) {
                     temp_r1_2 = partner->qSpeedAirY;
                     if (temp_r1_2 > -0xA8) {
                         u32 rand;
@@ -207,11 +198,11 @@ bool32 sub_80B90B4(Struc_3001150_1C *strc, Player *partner, Player *p) {
                         rand = PseudoRandom32();
                         var_r1 = 0;
                         rand = (rand << 8) >> 16;
-        
+
                         if (var_r3 > rand) {
                             var_r1 = TRUE;
                         }
-        
+
                         return var_r1;
                     }
                 }
