@@ -449,7 +449,7 @@ sub_80B794C: @ 0x080B794C
 	movs r1, #0xb2
 	lsls r1, r1, #1
 	adds r0, r4, r1
-	bl sub_80B9770
+	bl nullsub_80B9770
 	pop {r4}
 	pop {r0}
 	bx r0

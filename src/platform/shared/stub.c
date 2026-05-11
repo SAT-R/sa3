@@ -174,7 +174,6 @@ MusicManagerState gMusicManagerState;
 
 void sub_80268B8() { }
 void sub_80B7AA4() { }
-void sub_80B8E24() { }
 void sub_8026254() { }
 void sub_8027878() { }
 void sub_80278DC() { }
@@ -224,8 +223,6 @@ void sub_80B8168() { }
 void sub_80B836C() { }
 void sub_80B83FC() { }
 void sub_80B87B0() { }
-void sub_80B8EC4() { }
-void sub_80B8F14() { }
 void sub_80B8218() { }
 void sub_80B82D8() { }
 void sub_80B84C8() { }
@@ -234,7 +231,7 @@ void sub_80B8620() { }
 void sub_80B8840() { }
 void sub_80B88E0() { }
 void sub_80B8980() { }
-void sub_80B8F70() { }
+void sub_80B7AB0() { }
 void sub_80B8A20() { }
 
 void CreateEntity_ItemBox() { }

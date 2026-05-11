@@ -377,9 +377,15 @@ typedef struct Struc_3001150_164 {
 } Struc_3001150_164;
 
 typedef struct Struc_3001150 {
-    /* 0x000 */ u8 filler0[0x14];
+    /* 0x000 */ u8 filler0[0x8];
+    /* 0x008 */ s16 unk8;
+    /* 0x00A */ s16 unkA;
+    /* 0x00C */ s16 unkC;
+    /* 0x00E */ u8 fillerE[0x2];
+    /* 0x010 */ s16 unk10;
     /* 0x014 */ s16 unk14;
-    /* 0x016 */ u8 filler16[0x6];
+    /* 0x016 */ s16 unk16;
+    /* 0x018 */ s16 unk18;
     /* 0x01C */ Struc_3001150_1C unk1C;
     /* 0x164 */ Struc_3001150_164 unk164;
 } Struc_3001150; /* 0x470 */
