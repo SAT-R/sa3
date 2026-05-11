@@ -168,7 +168,3 @@ gUnknown_080E30DC:
     .global gUnknown_080E30F4
 gUnknown_080E30F4:
     .incbin "baserom_sa3.gba", 0x000E30F4, 0x18
-
-    .global gUnknown_080E310C
-gUnknown_080E310C:
-    .incbin "baserom_sa3.gba", 0x000E310C, 0x148

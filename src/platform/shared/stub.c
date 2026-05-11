@@ -140,14 +140,7 @@ void sub_80961E4(u8 param0) { }
 void *CreateSomeTask_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles) { return tiles; }
 void /* 0x080A209C */ CreateGameIntroState() { }
 void sub_80AD824(void) { }
-void sub_80B75E4() { }
-void sub_80B7914() { }
-void sub_80B794C() { }
-void sub_80B7968() { }
 
-extern u16 gInput;
-u16 sub_80B7A94() { return gInput; }
-void nullsub_80B7AAC() { }
 void /* 0x080C4564 */ CopyPalette() { }
 void sub_80C460C(const u16 *pal, u8 paletteOffset, u16 palSize) { }
 void sub_80C4B48() { }
@@ -173,7 +166,6 @@ typedef struct MusicManagerState {
 MusicManagerState gMusicManagerState;
 
 void sub_80268B8() { }
-void sub_80B7AA4() { }
 void sub_8026254() { }
 void sub_8027878() { }
 void sub_80278DC() { }
@@ -210,29 +202,6 @@ void sub_80B5EBC(s16 param0, s16 *param1) { }
 void sub_80B5DF4() { }
 void sub_80B60E0(s16 param0, s16 *param1) { }
 void sub_80B6774(s16 param0, s16 *param1) { }
-void sub_80B7AEC() { }
-void sub_80B7C1C() { }
-void sub_80B7CD0() { }
-void sub_80B7D74() { }
-void sub_80B7E1C() { }
-void sub_80B7F00() { }
-void sub_80B7F90() { }
-void sub_80B8034() { }
-void sub_80B80C8() { }
-void sub_80B8168() { }
-void sub_80B836C() { }
-void sub_80B83FC() { }
-void sub_80B87B0() { }
-void sub_80B8218() { }
-void sub_80B82D8() { }
-void sub_80B84C8() { }
-void sub_80B8584() { }
-void sub_80B8620() { }
-void sub_80B8840() { }
-void sub_80B88E0() { }
-void sub_80B8980() { }
-void sub_80B7AB0() { }
-void sub_80B8A20() { }
 
 void CreateEntity_ItemBox() { }
 void sub_8022FB0() { }
