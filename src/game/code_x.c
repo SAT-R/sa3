@@ -629,25 +629,22 @@ NONMATCH("asm/non_matching/game/cx__sub_80B7E1C.inc", bool32 sub_80B7E1C(Struc_3
 }
 END_NONMATCH
 
-bool32 sub_80B7F00(Struc_3001150_1C* strc, Player* partner, Player* p) {
+bool32 sub_80B7F00(Struc_3001150_1C *strc, Player *partner, Player *p)
+{
     s32 temp_r0_2;
     u32 var_r1;
     s32 max;
 
-    if(strc->unk0 != 18) 
-    {
-        if(strc->unk0 == 9)
-        {
-            if ((partner->moveState & 4) && (((0 - ~strc->unk34) | ~strc->unk34) < 0))
-            {
+    if (strc->unk0 != 18) {
+        if (strc->unk0 == 9) {
+            if ((partner->moveState & 4) && (((0 - ~strc->unk34) | ~strc->unk34) < 0)) {
                 u32 unkC = (partner->unkC & 0x180);
-                if ( ((partner->charFlags.character) == TAILS) && (unkC == 0x180)) 
-                {
+                if (((partner->charFlags.character) == TAILS) && (unkC == 0x180)) {
                     if (ABS(strc->unk14) <= (max = Q(32))) {
                         if (ABS(strc->unk18) <= Q(32)) {
                             temp_r0_2 = PseudoRandom32();
                             var_r1 = FALSE;
-                            if (max > (u32) ((u32) (temp_r0_2 << 8) >> 0x10)) {
+                            if (max > (u32)((u32)(temp_r0_2 << 8) >> 0x10)) {
                                 var_r1 = TRUE;
                             }
                             return var_r1;
@@ -660,7 +657,8 @@ bool32 sub_80B7F00(Struc_3001150_1C* strc, Player* partner, Player* p) {
     return 0U;
 }
 
-u32 sub_80B7F90(Struc_3001150_1C* strc, Player* partner, Player* p) {
+u32 sub_80B7F90(Struc_3001150_1C *strc, Player *partner, Player *p)
+{
     s32 temp_r0;
     s32 temp_r1;
     s32 temp_r2;
@@ -669,22 +667,21 @@ u32 sub_80B7F90(Struc_3001150_1C* strc, Player* partner, Player* p) {
     s32 max;
 
     if ((strc->unk0 != 0x10) && (partner->moveState & 4)) {
-        if ((((0 - ~strc->unk34) | ~strc->unk34) < 0) && ((u32) strc->unk1C <= SQUARE(120))) {
-            if ((ABS(strc->unk14) <= Q(32)) && (strc->unk18 > 0xFFF))
-            {
+        if ((((0 - ~strc->unk34) | ~strc->unk34) < 0) && ((u32)strc->unk1C <= SQUARE(120))) {
+            if ((ABS(strc->unk14) <= Q(32)) && (strc->unk18 > 0xFFF)) {
                 u32 unkC = partner->unkC;
-                if((((partner->charFlags.character == SONIC)) || (partner->charFlags.character == KNUCKLES) || (partner->charFlags.character == CREAM) || (partner->charFlags.character == AMY))
-             && (unkC & 0x20000))
-            {
-                max = Q(32);
-                temp_r0 = PseudoRandom32();
-                var_r1 = 0;
-                if (max > (u32) ((u32) (temp_r0 << 8) >> 0x10)) {
-                    var_r1 = 1;
+                if ((((partner->charFlags.character == SONIC)) || (partner->charFlags.character == KNUCKLES)
+                     || (partner->charFlags.character == CREAM) || (partner->charFlags.character == AMY))
+                    && (unkC & 0x20000)) {
+                    max = Q(32);
+                    temp_r0 = PseudoRandom32();
+                    var_r1 = 0;
+                    if (max > (u32)((u32)(temp_r0 << 8) >> 0x10)) {
+                        var_r1 = 1;
+                    }
+                    return var_r1;
                 }
-                return var_r1;
-            }
-            goto block_16;
+                goto block_16;
             }
         }
     }
@@ -692,7 +689,8 @@ block_16:
     return 0U;
 }
 
-u32 sub_80B8034(Struc_3001150_1C* strc, Player* partner, Player* p) {
+u32 sub_80B8034(Struc_3001150_1C *strc, Player *partner, Player *p)
+{
     s32 temp_r0;
     s32 temp_r1;
     s32 var_r0;
@@ -702,13 +700,12 @@ u32 sub_80B8034(Struc_3001150_1C* strc, Player* partner, Player* p) {
     if ((strc->unk0 != 0x11) && (partner->moveState & 4)) {
         temp_r1 = ~strc->unk34;
         if ((((0 - temp_r1) | temp_r1) < 0) && ((u32)strc->unk1C <= SQUARE(120))) {
-            if ((ABS(strc->unk14) <= (max= Q(32))) && (strc->unk18 <= -Q(16))) {
+            if ((ABS(strc->unk14) <= (max = Q(32))) && (strc->unk18 <= -Q(16))) {
                 s32 unkC = partner->unkC;
-                if((partner->charFlags.character == SONIC) && (unkC & 0x10000)) 
-                {
+                if ((partner->charFlags.character == SONIC) && (unkC & 0x10000)) {
                     temp_r0 = PseudoRandom32();
                     var_r1 = 0;
-                    if (max > (u32) ((u32) (temp_r0 << 8) >> 0x10)) {
+                    if (max > (u32)((u32)(temp_r0 << 8) >> 0x10)) {
                         var_r1 = 1;
                     }
                     return var_r1;
@@ -721,20 +718,17 @@ block_13:
     return 0U;
 }
 
-u32 sub_80B80C8(Struc_3001150_1C* strc, Player* partner, Player* p) {
+u32 sub_80B80C8(Struc_3001150_1C *strc, Player *partner, Player *p)
+{
     s16 temp_r1;
     s32 temp_r0;
     s32 var_r1_2;
     u32 var_r1;
     u32 var_r3;
 
-    if ((strc->unk0 != 0xC) && (partner->moveState & 4))
-    {
+    if ((strc->unk0 != 0xC) && (partner->moveState & 4)) {
         u32 unkC = partner->unkC;
-        if( (partner->charFlags.character == SONIC)
-         && (unkC & 0x10000)
-         && ((u32) strc->unk1C <= SQUARE(120))) 
-        {
+        if ((partner->charFlags.character == SONIC) && (unkC & 0x10000) && ((u32)strc->unk1C <= SQUARE(120))) {
             if ((ABS(strc->unk14) <= 0x2000) && (strc->unk18 <= -Q(16))) {
                 temp_r1 = partner->qSpeedAirY;
                 if (temp_r1 > -0xA8) {
@@ -744,7 +738,7 @@ u32 sub_80B80C8(Struc_3001150_1C* strc, Player* partner, Player* p) {
                     }
                     temp_r0 = PseudoRandom32();
                     var_r1 = 0;
-                    if (var_r3 > (u32) ((u32) (temp_r0 << 8) >> 0x10)) {
+                    if (var_r3 > (u32)((u32)(temp_r0 << 8) >> 0x10)) {
                         var_r1 = 1;
                     }
                     return var_r1;
@@ -757,7 +751,8 @@ block_15:
     return 0U;
 }
 
-u32 sub_80B8168(Struc_3001150_1C* strc, Player* partner, Player* p) {
+u32 sub_80B8168(Struc_3001150_1C *strc, Player *partner, Player *p)
+{
     s16 temp_r1;
     s32 temp_r0;
     s32 temp_r2;
@@ -768,8 +763,7 @@ u32 sub_80B8168(Struc_3001150_1C* strc, Player* partner, Player* p) {
 
     if ((strc->unk0 != 0xD) && (partner->moveState & 4)) {
         temp_r2 = partner->unkC & 0x180;
-        if ((partner->charFlags.character == KNUCKLES)
-            && ((temp_r2 == 0x80) || (temp_r2 == 0x100) || (temp_r2 == 0x180))) {
+        if ((partner->charFlags.character == KNUCKLES) && ((temp_r2 == 0x80) || (temp_r2 == 0x100) || (temp_r2 == 0x180))) {
             if (ABS(strc->unk14) >= +Q(80)) {
                 if (temp_r2 == 0x180) {
                     var_r1_3 = -Q(80);
@@ -785,7 +779,7 @@ u32 sub_80B8168(Struc_3001150_1C* strc, Player* partner, Player* p) {
                         }
                         temp_r0 = PseudoRandom32();
                         var_r1 = 0;
-                        if (var_r3 > (u32) ((u32) (temp_r0 << 8) >> 0x10)) {
+                        if (var_r3 > (u32)((u32)(temp_r0 << 8) >> 0x10)) {
                             var_r1 = 1;
                         }
                         return var_r1;
@@ -848,7 +842,8 @@ u16 sub_80B82D8(Struc_3001150_1C *strc, Player *partner, Player *p)
     return var_r3;
 }
 
-u16 sub_80B836C(Struc_3001150_1C* strc, Player* partner, Player* p) {
+u16 sub_80B836C(Struc_3001150_1C *strc, Player *partner, Player *p)
+{
     s32 temp_r0;
     u16 var_r3;
 
@@ -866,12 +861,13 @@ u16 sub_80B836C(Struc_3001150_1C* strc, Player* partner, Player* p) {
         strc->func = gUnknown_080E3254->funcA;
         temp_r0 = PseudoRandom32();
         gPseudoRandom = temp_r0;
-        strc->unk2 = (((u32) temp_r0 >> 8) & 0x1F) + 0x3C;
+        strc->unk2 = (((u32)temp_r0 >> 8) & 0x1F) + 0x3C;
     }
     return var_r3;
 }
 
-u16 sub_80B83FC(Struc_3001150_1C* strc, Player* partner, Player* p) {
+u16 sub_80B83FC(Struc_3001150_1C *strc, Player *partner, Player *p)
+{
     s32 temp_r0_2;
     u16 var_r3;
 
@@ -882,7 +878,7 @@ u16 sub_80B83FC(Struc_3001150_1C* strc, Player* partner, Player* p) {
         strc->func = gUnknown_080E3254->funcA;
         temp_r0_2 = PseudoRandom32();
         gPseudoRandom = temp_r0_2;
-        strc->unk2 = (((u32) temp_r0_2 >> 8) & 0x1F) + 0x3C;
+        strc->unk2 = (((u32)temp_r0_2 >> 8) & 0x1F) + 0x3C;
         var_r3 = var_r3 & ~gStageData.buttonConfig.jump;
     } else {
         var_r3 = var_r3 & 0xFFCF;
@@ -905,7 +901,8 @@ u16 sub_80B83FC(Struc_3001150_1C* strc, Player* partner, Player* p) {
     return var_r3;
 }
 
-u16 sub_80B84C8(Struc_3001150_1C* strc, Player* partner, Player* p) {
+u16 sub_80B84C8(Struc_3001150_1C *strc, Player *partner, Player *p)
+{
     s32 temp_r0;
     u16 var_r3;
 
@@ -915,7 +912,7 @@ u16 sub_80B84C8(Struc_3001150_1C* strc, Player* partner, Player* p) {
         strc->func = gUnknown_080E3254->funcA;
         temp_r0 = PseudoRandom32();
         gPseudoRandom = temp_r0;
-        strc->unk2 = (((u32) temp_r0 >> 8) & 0x1F) + 0x3C;
+        strc->unk2 = (((u32)temp_r0 >> 8) & 0x1F) + 0x3C;
         var_r3 = var_r3 & ~gStageData.buttonConfig.jump;
     } else {
         var_r3 = var_r3 & 0xFFCF;
@@ -933,7 +930,8 @@ u16 sub_80B84C8(Struc_3001150_1C* strc, Player* partner, Player* p) {
     return var_r3;
 }
 
-u16 sub_80B8584(Struc_3001150_1C* strc, Player* partner, Player* p) {
+u16 sub_80B8584(Struc_3001150_1C *strc, Player *partner, Player *p)
+{
     s32 temp_r0;
     s32 temp_r1_2;
     u16 var_r3;
@@ -947,7 +945,7 @@ u16 sub_80B8584(Struc_3001150_1C* strc, Player* partner, Player* p) {
         strc->func = gUnknown_080E3254->funcA;
         temp_r0 = PseudoRandom32();
         gPseudoRandom = temp_r0;
-        strc->unk2 = (((u32) temp_r0 >> 8) & 0x1F) + 0x3C;
+        strc->unk2 = (((u32)temp_r0 >> 8) & 0x1F) + 0x3C;
     } else {
         var_r3 &= 0xFFCF;
         if (strc->unk14 > +Q(2)) {
@@ -960,13 +958,14 @@ u16 sub_80B8584(Struc_3001150_1C* strc, Player* partner, Player* p) {
     return var_r3;
 }
 
-u16 sub_80B8620(Struc_3001150_1C* strc, Player* partner, Player* p) {
+u16 sub_80B8620(Struc_3001150_1C *strc, Player *partner, Player *p)
+{
     s32 temp_r0;
     u16 var_r3;
 
     var_r3 = strc->inputBuffer[strc->inputBufferIndex];
     if (!(partner->moveState & MOVESTATE_IN_AIR)) {
-        if ((u32) (u16) ((u16) partner->charFlags.anim0 - 0xEE) <= 1U) {
+        if ((u32)(u16)((u16)partner->charFlags.anim0 - 0xEE) <= 1U) {
             strc->func = sub_80B86E4;
             var_r3 &= ~gStageData.buttonConfig.jump;
         } else {
@@ -975,7 +974,7 @@ u16 sub_80B8620(Struc_3001150_1C* strc, Player* partner, Player* p) {
             strc->func = gUnknown_080E3254->funcA;
             temp_r0 = PseudoRandom32();
             gPseudoRandom = temp_r0;
-            strc->unk2 = (((u32) temp_r0 >> 8) & 0x1F) + 0x3C;
+            strc->unk2 = (((u32)temp_r0 >> 8) & 0x1F) + 0x3C;
         }
     } else {
         var_r3 &= 0xFFCF;
@@ -990,7 +989,8 @@ u16 sub_80B8620(Struc_3001150_1C* strc, Player* partner, Player* p) {
 }
 
 // TODO: Match without gotos!
-u16 sub_80B86E4(Struc_3001150_1C* strc, Player* partner, Player* p) {
+u16 sub_80B86E4(Struc_3001150_1C *strc, Player *partner, Player *p)
+{
     s32 temp_r0;
     s32 temp_r1_2;
     s32 var_r0;
@@ -1001,9 +1001,9 @@ u16 sub_80B86E4(Struc_3001150_1C* strc, Player* partner, Player* p) {
     if (partner->moveState & MOVESTATE_IN_AIR) {
         var_r3 = var_r3 & 0xFF3F;
         strc->unk0 = 0;
-        block_2:
+    block_2:
         strc->func = gUnknown_080E3254->funcA;
-        strc->unk2 = (((u32) PseudoRandom32() >> 8) & 0x1F) + 60;
+        strc->unk2 = (((u32)PseudoRandom32() >> 8) & 0x1F) + 60;
     } else if (partner->charFlags.anim0 != 238 && partner->charFlags.anim0 != 239) {
         var_r3 = var_r3 & 0xFF3F;
         strc->unk0 = 0;
@@ -1022,7 +1022,8 @@ u16 sub_80B86E4(Struc_3001150_1C* strc, Player* partner, Player* p) {
     return var_r3;
 }
 
-u16 sub_80B87B0(Struc_3001150_1C* strc, Player* partner, Player* p) {
+u16 sub_80B87B0(Struc_3001150_1C *strc, Player *partner, Player *p)
+{
     u16 var_r3 = strc->inputBuffer[strc->inputBufferIndex];
     s32 temp_r1 = gStageData.buttonConfig.attack | 0x80;
 
@@ -1044,7 +1045,8 @@ u16 sub_80B87B0(Struc_3001150_1C* strc, Player* partner, Player* p) {
     return var_r3;
 }
 
-u16 sub_80B8840(Struc_3001150_1C* strc, Player* partner, Player* p) {
+u16 sub_80B8840(Struc_3001150_1C *strc, Player *partner, Player *p)
+{
     s32 temp_r0;
     u16 var_r3 = strc->inputBuffer[strc->inputBufferIndex];
 
@@ -1053,7 +1055,7 @@ u16 sub_80B8840(Struc_3001150_1C* strc, Player* partner, Player* p) {
         strc->func = gUnknown_080E3254->funcA;
         temp_r0 = PseudoRandom32();
         gPseudoRandom = temp_r0;
-        strc->unk2 = (((u32) temp_r0 >> 8) & 0x1F) + 0x3C;
+        strc->unk2 = (((u32)temp_r0 >> 8) & 0x1F) + 0x3C;
         var_r3 = var_r3 & ~(gStageData.buttonConfig.attack | 0x80);
     } else {
         var_r3 = var_r3 & 0xFFCF;
@@ -1067,7 +1069,8 @@ u16 sub_80B8840(Struc_3001150_1C* strc, Player* partner, Player* p) {
     return var_r3;
 }
 
-u16 sub_80B88E0(Struc_3001150_1C* strc, Player* partner, Player* p) {
+u16 sub_80B88E0(Struc_3001150_1C *strc, Player *partner, Player *p)
+{
     s32 temp_r0;
     s32 temp_r1_2;
     u16 var_r3;
@@ -1079,7 +1082,7 @@ u16 sub_80B88E0(Struc_3001150_1C* strc, Player* partner, Player* p) {
         strc->func = gUnknown_080E3254->funcA;
         temp_r0 = PseudoRandom32();
         gPseudoRandom = temp_r0;
-        strc->unk2 = (((u32) temp_r0 >> 8) & 0x1F) + 0x3C;
+        strc->unk2 = (((u32)temp_r0 >> 8) & 0x1F) + 0x3C;
         var_r3 = var_r3 & ~(gStageData.buttonConfig.attack | 0x80);
     } else {
         var_r3 = var_r3 & 0xFFCF;
@@ -1093,7 +1096,8 @@ u16 sub_80B88E0(Struc_3001150_1C* strc, Player* partner, Player* p) {
     return var_r3;
 }
 
-u16 sub_80B8980(Struc_3001150_1C* strc, Player* partner, Player* p) {
+u16 sub_80B8980(Struc_3001150_1C *strc, Player *partner, Player *p)
+{
     s32 temp_r0;
     s32 temp_r1_2;
     u16 var_r3;
@@ -1104,7 +1108,7 @@ u16 sub_80B8980(Struc_3001150_1C* strc, Player* partner, Player* p) {
         strc->func = gUnknown_080E3254->funcA;
         temp_r0 = PseudoRandom32();
         gPseudoRandom = temp_r0;
-        strc->unk2 = (((u32) temp_r0 >> 8) & 0x1F) + 0x3C;
+        strc->unk2 = (((u32)temp_r0 >> 8) & 0x1F) + 0x3C;
         var_r3 = var_r3 & ~(gStageData.buttonConfig.attack | 0x40);
     } else {
         var_r3 = var_r3 & 0xFFCF;
@@ -1119,7 +1123,8 @@ u16 sub_80B8980(Struc_3001150_1C* strc, Player* partner, Player* p) {
     return var_r3;
 }
 
-u16 sub_80B8A20(Struc_3001150_1C* strc, Player* partner, Player* player) {
+u16 sub_80B8A20(Struc_3001150_1C *strc, Player *partner, Player *player)
+{
     s32 temp_r0_2;
     s32 temp_r2;
     s32 temp_r2_2;
@@ -1131,7 +1136,7 @@ u16 sub_80B8A20(Struc_3001150_1C* strc, Player* partner, Player* player) {
         strc->unk0 = 0;
         strc->func = gUnknown_080E3254->funcA;
         temp_r0_2 = PseudoRandom32();
-        strc->unk2 = (((u32) temp_r0_2 >> 8) & 0x1F) + 0x3C;
+        strc->unk2 = (((u32)temp_r0_2 >> 8) & 0x1F) + 0x3C;
         var_r3 &= ~gStageData.buttonConfig.jump;
     } else {
         var_r3 ^= gStageData.buttonConfig.jump;
@@ -1162,7 +1167,8 @@ u16 sub_80B8A20(Struc_3001150_1C* strc, Player* partner, Player* player) {
     return var_r3;
 }
 
-u16 sub_80B8B24(Struc_3001150_1C* strc, Player* partner, Player* p) {
+u16 sub_80B8B24(Struc_3001150_1C *strc, Player *partner, Player *p)
+{
     s32 temp_r2;
     u16 var_r3;
 
@@ -1170,7 +1176,7 @@ u16 sub_80B8B24(Struc_3001150_1C* strc, Player* partner, Player* p) {
     if (!(partner->moveState & MOVESTATE_IN_AIR)) {
         strc->unk0 = 0;
         strc->func = gUnknown_080E3254->funcA;
-        strc->unk2 = (((u32) PseudoRandom32() >> 8) & 0x1F) + 0x3C;
+        strc->unk2 = (((u32)PseudoRandom32() >> 8) & 0x1F) + 0x3C;
         return var_r3 & ~gStageData.buttonConfig.jump;
     } else {
         var_r3 = var_r3 ^ gStageData.buttonConfig.jump;
@@ -1193,11 +1199,10 @@ u16 sub_80B8B24(Struc_3001150_1C* strc, Player* partner, Player* p) {
         }
         strc->unk0 = 9;
         strc->func = gUnknown_080E3254[9].funcA;
-        strc->unk2 = (((u32) PseudoRandom32() >> 8) & 0x1F) + 0x3C;
+        strc->unk2 = (((u32)PseudoRandom32() >> 8) & 0x1F) + 0x3C;
     }
     return var_r3;
 }
-
 
 void sub_80B8C2C(Struc_3001150_1C *arg0)
 {
