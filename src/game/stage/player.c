@@ -127,7 +127,7 @@ void sub_80268B8(s16);
 void sub_8027878(u8);
 void sub_80278DC(void);
 
-void sub_80B7968(Struc_3001150 *, Player *);
+void sub_80B7968(Struc_3001150 *, Player *, Player *);
 u16 sub_80B7A94(Struc_3001150 *);
 
 extern void sub_8002508(void);
@@ -535,8 +535,7 @@ void Task_8004550(void)
     CreateCharacterSelect(4U);
 }
 
-// (99.49%) https://decomp.me/scratch/zjUHD
-NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045EC(void))
+void Task_80045EC(void)
 {
     Player *p;
     Player *partner;
@@ -580,7 +579,6 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
                         qX = partner->qWorldX + Q(10);
                     } else {
                         qX = partner->qWorldX - Q(10);
-                        asm("");
                     }
                     p->qWorldX = qX;
                     p->qWorldY = partner->qWorldY;
@@ -614,7 +612,7 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
                         p->keyInput2 = partner->keyInput2;
                     } else {
                         if (gStageData.zone != 8) {
-                            sub_80B7968(&gUnknown_03001150, p);
+                            sub_80B7968(&gUnknown_03001150, p, partner);
                             p->keyInput = sub_80B7A94(&gUnknown_03001150);
                         } else {
                             p->keyInput = 0;
@@ -639,7 +637,7 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
             break;
         case 2:
             sub_80268B8((s16)strc->playerId);
-            partner = GET_SP_PLAYER_V0(PLAYER_2);
+            partner = &gPlayers[p->charFlags.partnerIndex];
 
             if (MOVESTATE_TAG_ACTION_CHARGED & partner->moveState) {
                 if (!(partner->moveState & MOVESTATE_DEAD)) {
@@ -696,7 +694,7 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
                 if (MOVESTATE_TAG_ACTION_CHARGING & p->moveState) {
                     Player_InitializeTagAction(p);
                     if (++p->timeSinceTagActionCharge == TAG_ACTION_PARTNER_MOVE_START) {
-                        partner = GET_SP_PLAYER_V0(PLAYER_2);
+                        Player *partner = GET_SP_PLAYER_V0(PLAYER_2);
                         if (!(partner->moveState & MOVESTATE_DEAD) || ((partner->charFlags.someIndex) == 2)) {
                             partner->unk44 = 0;
                             partner->moveState = (partner->moveState & ~(MOVESTATE_COLLIDING_ENT | MOVESTATE_DEAD | MOVESTATE_10000000))
@@ -715,7 +713,7 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
                         }
                     }
                 } else if (MOVESTATE_TAG_ACTION_CHARGED & p->moveState) {
-                    partner = GET_SP_PLAYER_V0(PLAYER_2);
+                    Player *partner = GET_SP_PLAYER_V0(PLAYER_2);
                     sub_80193A4(p);
                     p->timeSinceTagActionCharge = 0;
 
@@ -724,8 +722,8 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
                         sub_8016F28(partner);
                     }
                 } else {
-                    if (0x01000000 & p->moveState) {
-                        partner = GET_SP_PLAYER_V0(PLAYER_2);
+                    if (MOVESTATE_1000000 & p->moveState) {
+                        Player *partner = GET_SP_PLAYER_V0(PLAYER_2);
                         sub_8016F28(p);
                         sub_801816C(p);
                         p->moveState &= ~MOVESTATE_COLLIDING_ENT;
@@ -763,7 +761,6 @@ NONMATCH("asm/non_matching/game/stage/player__Task_80045EC.inc", void Task_80045
         }
     }
 }
-END_NONMATCH
 
 // TODO: Fake-match!
 void sub_8004B14(void)

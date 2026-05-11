@@ -64,6 +64,8 @@ bool32 sub_80B97A4(Struc_3001150_164 *strc, Player *partner, Player *player);
 
 void sub_80B79C8(Struc_3001150 *strc, Player *partner, Player *player);
 
+extern Struc_3001150_1C gUnknown_080E310C;
+
 // TODO: Match the functions needing a cast, with correct return type!
 const Strc_80E3254 gUnknown_080E3254[19] = {
     { sub_80B9148, NULL, 0 },
