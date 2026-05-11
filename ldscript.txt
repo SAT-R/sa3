@@ -161,7 +161,7 @@ SECTIONS {
         asm/code_2.o(.text);
         src/game/math.o(.text);
         asm/special_stage.o(.text);
-        src/game/code_x.o(.text);
+        src/game/partner_ai.o(.text);
         src/lib/m4a/m4a0.o(.text);
         src/lib/m4a/m4a.o(.text);
         src/core.o(.text);
@@ -285,7 +285,7 @@ SECTIONS {
         data/data_1_3.o(.rodata);
         src/game/math.o(.rodata);
         data/data_x.o(.rodata);
-        src/game/code_x.o(.rodata);
+        src/game/partner_ai.o(.rodata);
         src/lib/m4a/m4a_tables.o(.rodata);
         data/sound.o(.rodata);
         sound/songs/song000.o(.rodata);
