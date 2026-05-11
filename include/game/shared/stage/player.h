@@ -383,6 +383,7 @@ typedef struct Struc_3001150 {
     /* 0x00C */ s16 unkC;
     /* 0x00E */ u8 fillerE[0x2];
     /* 0x010 */ s16 unk10;
+    /* 0x00E */ u8 filler12[0x2];
     /* 0x014 */ s16 unk14;
     /* 0x016 */ s16 unk16;
     /* 0x018 */ s16 unk18;
