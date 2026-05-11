@@ -2,6 +2,7 @@
 #include "core.h"
 #include "flags.h"
 #include "malloc_vram.h"
+#include "game/character_select.h"
 #include "game/main_menu.h"
 #include "code_z_1.h" // CopyPalette
 #include "module_unclear.h"

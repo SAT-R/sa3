@@ -8,6 +8,7 @@
 #include "malloc_ewram.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
+#include "game/character_select.h"
 #include "game/interactables/ice_launcher.h"
 #include "game/interactables/ramp.h"
 #include "game/parameters/player.h"

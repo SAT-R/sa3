@@ -336,14 +336,16 @@ typedef bool32 (*Struc_3001150_BoolRes)(struct Struc_3001150_1C *strc, Player *p
 typedef struct Struc_3001150_1C {
     /* 0x000 */ u8 unk0;
     /* 0x001 */ u8 unk1;
-    /* 0x002 */ u16 unk2;
-    /* 0x004 */ u8 padd4[0x4];
+    /* 0x002 */ s16 unk2;
+    /* 0x004 */ s32 unk4;
     /* 0x008 */ s32 unk8;
     /* 0x00C */ s32 unkC;
     /* 0x010 */ s32 unk10;
     /* 0x014 */ s32 unk14;
     /* 0x018 */ s32 unk18;
-    /* 0x01C */ u8 padd1C[0xC];
+    /* 0x01C */ s32 unk1C;
+    /* 0x020 */ s32 unk20;
+    /* 0x024 */ s32 unk24;
     /* 0x028 */ s32 unk28;
     /* 0x02C */ s32 unk2C;
     /* 0x030 */ s32 unk30;
@@ -386,7 +388,7 @@ Struc_3001150 gUnknown_03001150;
 typedef struct Strc_80E3254 {
     Struc_3001150_InputRes funcA;
     Struc_3001150_BoolRes funcB;
-    size_t someCount;
+    u8 someCount;
 } Strc_80E3254;
 
 void InitializePlayer(s16 playerId);

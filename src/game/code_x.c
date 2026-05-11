@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "game/shared/stage/player.h"
 #include "game/stage.h"
 #include "constants/move_states.h"
@@ -31,6 +32,7 @@ u16 sub_80B8840(Struc_3001150_1C *strc, Player *partner, Player *p);
 u16 sub_80B88E0(Struc_3001150_1C *strc, Player *partner, Player *p);
 u16 sub_80B8980(Struc_3001150_1C *strc, Player *partner, Player *p);
 u16 sub_80B8A20(Struc_3001150_1C *strc, Player *partner, Player *p); // A
+void sub_80B8D18(Struc_3001150_1C *arg0, u32 arg1);
 u16 sub_80B8E88(Struc_3001150_1C *strc);
 void sub_80B8E90(Struc_3001150_1C *strc, u16 input);
 bool32 sub_80B8EC4(Struc_3001150_1C *strc, Player *partner, Player *p); // B
@@ -88,6 +90,293 @@ const Strc_80E3254 gUnknown_080E3254[19] = {
     { (void *)sub_80B9548, sub_80B8034, 6 },
     { sub_80B8A20, sub_80B7F00, 6 },
 };
+
+void sub_80B8C2C(Struc_3001150_1C *arg0)
+{
+    DmaFill16(3, 0, arg0, sizeof(*arg0));
+    DmaCopy16(3, &gUnknown_080E310C, arg0, sizeof(*arg0));
+    sub_80B8D18(arg0, 0U);
+}
+
+void sub_80B8C6C(void) { }
+
+void sub_80B8C70(Struc_3001150_1C *arg0, Player *partner, Player *player)
+{
+    sub_80B7AB0(arg0, arg0->func(arg0, partner, player));
+
+    // TODO: Might be off-by-one error?
+    if (arg0->unk2-- < 0) {
+        sub_80B8D18(arg0, 0U);
+    }
+}
+
+u8 sub_080B8CA8(u8 *arg0) { return *arg0; }
+
+bool32 sub_80B8CAC(struct Struc_3001150_1C *strc, s32 index, Player *partner, Player *p)
+{
+    Struc_3001150_BoolRes func = gUnknown_080E3254[index].funcB;
+
+    if (func != NULL) {
+        return func(strc, partner, p);
+    }
+
+    return 1;
+}
+
+void sub_80B8CE0(Struc_3001150_1C *strc, u32 arg1)
+{
+    u8 temp_r0 = strc->unk0;
+    if ((temp_r0 != arg1) && (gUnknown_080E3254[temp_r0].someCount <= gUnknown_080E3254[arg1].someCount)) {
+        sub_80B8D18(strc, arg1);
+    }
+}
+
+void sub_80B8D18(Struc_3001150_1C *arg0, u32 arg1)
+{
+    s32 temp_r1;
+
+    arg0->unk0 = arg1;
+    arg0->func = gUnknown_080E3254[arg1].funcA;
+    temp_r1 = PseudoRandom32();
+    arg0->unk2 = (((u32)temp_r1 >> 8) & 0x1F) + 0x3C;
+}
+
+bool32 sub_80B8D60(struct Struc_3001150_1C *strc, s32 index, Player *partner, Player *p)
+{
+    Struc_3001150_BoolRes temp_r3;
+    s32 var_r0;
+
+    temp_r3 = gUnknown_080E3254[index].funcB;
+    if (temp_r3 != NULL) {
+        var_r0 = temp_r3(strc, partner, p);
+    } else {
+        var_r0 = 1;
+    }
+
+    if (var_r0 != 0) {
+        sub_80B8CE0(strc, index);
+    } else {
+        return 0;
+    }
+
+    return 1;
+}
+
+void sub_80B8DA8(Struc_3001150_1C *arg0, s32 arg1, s32 arg2)
+{
+    arg0->unkC = arg1;
+    arg0->unk10 = arg2;
+}
+
+void sub_80B8DB0(Struc_3001150_1C *arg0, s32 *arg1, s32 *arg2)
+{
+    if (arg1 != NULL) {
+        *arg1 = arg0->unkC;
+    }
+    if (arg2 != NULL) {
+        *arg2 = arg0->unk10;
+    }
+}
+
+void sub_80B8DC8(Struc_3001150_1C *arg0)
+{
+    s16 temp_r0_2;
+    s32 temp_r5;
+    s32 temp_r6;
+    s32 temp_r0;
+    s32 temp_r2;
+    s32 temp_r1;
+
+    temp_r6 = arg0->unkC - arg0->unk4;
+    temp_r5 = arg0->unk10 - arg0->unk8;
+    temp_r0 = I(temp_r6);
+    temp_r1 = I(temp_r5);
+    temp_r2 = SQUARE(temp_r0) + SQUARE(temp_r1);
+    temp_r0_2 = SA2_LABEL(sub_8004418)(temp_r5, temp_r6);
+    arg0->unk14 = temp_r6;
+    arg0->unk18 = temp_r5;
+    arg0->unk1C = (temp_r2);
+    arg0->unk20 = temp_r0_2;
+}
+
+void sub_80B8E10(Struc_3001150_1C *arg0, Player *partner, Player *player)
+{
+    arg0->unk4 = partner->qWorldX;
+    arg0->unk8 = partner->qWorldY;
+    arg0->unk24 = player->qWorldX;
+    arg0->unk28 = player->qWorldY;
+}
+
+void sub_80B8E24(Struc_3001150_1C *strc, Player *p, s32 param2, s32 param3)
+{
+    s32 temp_r0;
+    s32 temp_r2;
+    u32 temp_r1;
+
+    temp_r2 = (param2 - p->qWorldX);
+    temp_r0 = (param3 - p->qWorldY);
+    temp_r2 >>= 8;
+    temp_r0 >>= 8;
+    temp_r1 = (temp_r2 * temp_r2) + (temp_r0 * temp_r0);
+    if ((u32)strc->unk34 >= temp_r1) {
+        strc->unk2C = param2;
+        strc->unk30 = param3;
+        strc->unk34 = (s32)temp_r1;
+    }
+}
+
+void sub_80B8E54(Struc_3001150_1C *strc) { strc->unk34 = -1; }
+
+bool32 sub_80B8E5C(Struc_3001150_1C *strc)
+{
+    if (strc->unk34 == -1) {
+        return 0;
+    }
+
+    return 1;
+}
+
+u16 InputBufferGetCurrent(Struc_3001150_1C *strc) { return strc->inputBuffer[strc->inputBufferIndex]; }
+
+u16 sub_80B8E88(Struc_3001150_1C *strc) { return strc->unk40; }
+
+void sub_80B8E90(Struc_3001150_1C *strc, u16 input)
+{
+    strc->unk40 = input & ~strc->inputBuffer[strc->inputBufferIndex];
+    strc->inputBuffer[strc->inputBufferIndex] = input;
+}
+
+// TODO: Match this mess without gotos!
+u32 sub_80B8EC4(Struc_3001150_1C *strc, Player *partner, Player *p)
+{
+    s32 temp_r0;
+    s32 rand;
+    u32 var_r1;
+    u32 var_r3;
+
+    temp_r0 = p->charFlags.anim0;
+    if (temp_r0 == 1) {
+        goto set100;
+    }
+
+    if (temp_r0 == 0) {
+        goto setF00;
+    }
+
+    if (temp_r0 != 2) {
+        goto set20;
+    }
+
+set100:
+    var_r3 = 0x100;
+    goto skip;
+
+set20:
+    asm("");
+    var_r3 = 0x20;
+
+    if (temp_r0 != 6) {
+        goto skip;
+    }
+
+    if (var_r3 == 0xF00) {
+    set800:
+        var_r3 = 0x800;
+        asm("");
+        goto skip;
+    }
+
+setF00:
+    var_r3 = 0xF00;
+    asm("");
+skip:
+
+    rand = PseudoRandom32();
+    var_r1 = 0;
+    if (var_r3 > (u32)((u32)(rand << 8) >> 0x10)) {
+        var_r1 = 1;
+    }
+    return var_r1;
+}
+
+u32 sub_80B8F14(Struc_3001150_1C *strc, Player *partner, Player *p)
+{
+    s32 temp_r0;
+    s32 var_r1_2;
+    u32 var_r1;
+    u32 var_r3;
+
+    if ((strc->unk0 == 3) || (partner->moveState & 4)) {
+        return 0U;
+    }
+    var_r1_2 = strc->unk14;
+    if (var_r1_2 < 0) {
+        var_r1_2 = 0 - var_r1_2;
+    }
+    if (var_r1_2 > 0x1800) {
+        var_r3 = 0x8000;
+    } else {
+        var_r3 = 0x100;
+    }
+    temp_r0 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
+    gPseudoRandom = temp_r0;
+    var_r1 = 0;
+    if (var_r3 > (u32)((u32)(temp_r0 << 8) >> 0x10)) {
+        var_r1 = 1;
+    }
+    return var_r1;
+}
+
+// TODO: Match this mess without gotos!
+u32 sub_80B8F70(Struc_3001150_1C *strc, Player *partner, Player *p)
+{
+    s16 temp_r0;
+    s32 temp_r0_2;
+    u32 var_r1;
+    u32 var_r3;
+
+#ifndef NON_MATCHING
+    temp_r0 = p->charFlags.anim0;
+    if (temp_r0 != 1) {
+        asm("");
+        goto check_6;
+    } else {
+        var_r3 = 0x1000;
+        goto skip;
+    }
+check_6:
+    if (temp_r0 == 6) {
+        var_r3 = 0x10;
+        asm("");
+        goto skip;
+    } else {
+        var_r3 = 0x20;
+    }
+skip:
+#else
+    temp_r0 = p->charFlags.anim0;
+    switch (temp_r0) {
+        case 1: {
+            var_r3 = 0x1000;
+        } break;
+
+        case 6: {
+            var_r3 = 0x10;
+        } break;
+
+        default: {
+            var_r3 = 0x20;
+        } break;
+    }
+#endif
+
+    temp_r0_2 = PseudoRandom32();
+    var_r1 = 0;
+    if (var_r3 > (u32)((u32)(temp_r0_2 << 8) >> 0x10)) {
+        var_r1 = 1;
+    }
+    return var_r1;
+}
 
 // (70.68%) https://decomp.me/scratch/Cznjy
 NONMATCH("asm/non_matching/game/cx__sub_80B8FB8.inc", bool32 sub_80B8FB8(Struc_3001150_1C *strc, Player *partner, Player *p))

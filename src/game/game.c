@@ -5,6 +5,7 @@
 #include "malloc_vram.h"
 #include "module_unclear.h"
 #include "data/sprite_tables.h"
+#include "game/character_select.h"
 #include "game/main_menu.h"
 #include "game/save.h"
 #include "game/stage.h"
