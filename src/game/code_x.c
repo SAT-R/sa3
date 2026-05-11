@@ -551,8 +551,11 @@ u32 sub_80B7D74(Struc_3001150_1C* strc, Player* partner, Player* p) {
 
     return var_r1;
 }
+#endif // TODO
 
-u32 sub_80B7E1C(Struc_3001150_1C* strc, Player* partner, Player* p) {
+// (86.94%) https://decomp.me/scratch/S6QH2
+NONMATCH("asm/non_matching/game/cx__sub_80B7E1C.inc", bool32 sub_80B7E1C(Struc_3001150_1C *strc, Player *partner, Player *p))
+{
     s32 temp_r0;
     s32 character;
     s32 temp_r3;
@@ -560,63 +563,71 @@ u32 sub_80B7E1C(Struc_3001150_1C* strc, Player* partner, Player* p) {
     s32 var_r0_2;
     s32 var_r6;
     u32 var_r1;
+    s32 max;
 
     if ((strc->unk0 != 0xF) && (partner->moveState & 4)) {
-        if (((0 - ~strc->unk34) | ~strc->unk34) < 0) 
-        {
+        if (((0 - ~strc->unk34) | ~strc->unk34) < 0) {
             temp_r3 = partner->unkC & 0xC000;
             var_r6 = 0;
             if ((partner->charFlags.character == CREAM) && ((temp_r3 == 0x4000) || (temp_r3 == 0xC000))) {
                 var_r6 = 0x4000;
             } else {
                 do {
-                if(partner->charFlags.character == SONIC) {
-                    if ((temp_r3 == 0x4000) || (temp_r3 == 0x8000)) {
+                    if (partner->charFlags.character == SONIC) {
+                        if ((temp_r3 == 0x4000) || (temp_r3 == 0x8000)) {
+                            asm("");
+                            var_r6 = Q(32);
+                            break;
+                        }
                         asm("");
-                        var_r6 = Q(32);
-                        break;
                     }
-                    asm("");
-                } else if(partner->charFlags.character == TAILS) {
-                    if ((temp_r3 == 0x4000) || (temp_r3 == 0x8000)) {
-                        var_r6 = Q(32);
-                        break;
+                    if (partner->charFlags.character == TAILS) {
+                        if ((temp_r3 == 0x4000) || (temp_r3 == 0x8000)) {
+                            var_r6 = Q(32);
+                            break;
+                        }
+                        asm("");
                     }
-                    asm("");
-                } else if(partner->charFlags.character == KNUCKLES) {
-                    if ((temp_r3 == 0x4000) ) {
-                        var_r6 = Q(32);
-                        break;
+                    if (partner->charFlags.character == KNUCKLES) {
+                        if ((temp_r3 == 0x4000)) {
+                            var_r6 = Q(32);
+                            break;
+                        }
+                        asm("");
                     }
-                    asm("");
-                } else if(partner->charFlags.character == AMY) {
-                    if ((temp_r3 == 0x4000) || (temp_r3 == 0x20)) {
-                        var_r6 = Q(32);
-                        break;
+                    if (partner->charFlags.character == AMY) {
+                        if ((temp_r3 == 0x4000) || (temp_r3 == 0x20)) {
+                            var_r6 = Q(32);
+                            break;
+                        }
+                        asm("");
                     }
-                    asm("");
-                }
-                } while(0);
+                } while (0);
             }
 
             if (ABS(strc->unk14) <= var_r6) {
-                if (ABS(strc->unk18) > Q(32)) {
-                    goto block_25;
+                if (ABS(strc->unk18) > (max = Q(32))) {
+                block_25:
+                    return 0U;
                 }
                 temp_r0 = PseudoRandom32();
                 var_r1 = 0;
-                if ((u32) ((u32) (temp_r0 << 8) >> 0x10) < 0x2000U) {
+                if (max > (u32)((u32)(temp_r0 << 8) >> 0x10)) {
                     var_r1 = 1;
                 }
                 return var_r1;
             }
             goto block_25;
+        } else {
+            goto block_25;
         }
+    } else {
+        goto block_25;
     }
-block_25:
-    return 0U;
+
+    return 1;
 }
-#endif // TODO
+END_NONMATCH
 
 bool32 sub_80B7F00(Struc_3001150_1C* strc, Player* partner, Player* p) {
     s32 temp_r0_2;
@@ -789,6 +800,7 @@ block_18:
     return 0U;
 }
 
+// (97.30&) https://decomp.me/scratch/Xf7QW
 NONMATCH("asm/non_matching/game/cx__sub_80B8218.inc", u16 sub_80B8218(Struc_3001150_1C *strc, Player *partner, Player *p))
 {
     u16 var_r3 = strc->inputBuffer[strc->inputBufferIndex];
