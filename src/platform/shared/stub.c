@@ -34,7 +34,6 @@ u8 gUnknown_03000970[4][4] = { 0 };
 Struct_03001060 gUnknown_03001060 = {};
 Player gPlayers[4] = { 0 };
 u8 gUnknown_03001D00 = 0;
-struct Task *gTask_03001CFC = NULL;
 StageData gStageData = {};
 SaveGame gLoadedSaveGame = {};
 SaveGame gUnknown_03000980 = {};
@@ -173,7 +172,6 @@ void sub_80533F4() { }
 void sub_8056120() { }
 void sub_8056168() { }
 void sub_802785C() { }
-void sub_802AE64() { }
 void sub_80274AC() { }
 
 typedef struct SomeSubStruct_3001BF0 {
@@ -210,12 +208,6 @@ void sub_8053284() { }
 void sub_8029990() { }
 void Gemerl_State0() { }
 void taskStub(void) { }
-void Create_gTask_03001CFC()
-{
-    gTask_03001CFC = TaskCreate(taskStub, 0xAD << 2, 0x2001, 0, NULL);
-    void **taskData = TASK_DATA(gTask_03001CFC);
-    *taskData = (void *)OBJ_VRAM0 + 0x14180;
-}
 
 typedef struct Strc_80215A0 {
     u32 unk0;

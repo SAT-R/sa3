@@ -3,6 +3,7 @@
 #include "trig.h"
 #include "malloc_vram.h"
 #include "module_unclear.h"
+#include "game/gTask_03001CFC.h" // gTask_03001CFC
 #include "lib/m4a/m4a.h"
 #include "game/shared/stage/camera.h"
 #include "game/enemy_unknown.h"
@@ -110,8 +111,8 @@ NONMATCH("asm/non_matching/game/enemies/euc__Task_14_805C03C.inc", void Task_14_
     Player *p;
     u8 var_ip = 0;
     u8 i;
-    Strc3001CFC *strc3001CFC = TASK_DATA(gTask_03001CFC);
-    Strc3001CFC_sub *strcSub = &strc3001CFC->unk28[0];
+    Strc_3001CFC *Strc_3001CFC = TASK_DATA(gTask_03001CFC);
+    Strc_3001CFC_sub *strcSub = &Strc_3001CFC->unk28[0];
     EUC_Strc14 *strc14 = TASK_DATA(gCurTask);
     s32 someNum = 0x478;
 
@@ -126,7 +127,7 @@ NONMATCH("asm/non_matching/game/enemies/euc__Task_14_805C03C.inc", void Task_14_
             break;
         }
     }
-    strc3001CFC->unk2B0 = ((strc14->p->moveState >> 16) & 0x1);
+    Strc_3001CFC->unk2B0 = ((strc14->p->moveState >> 16) & 0x1);
     p = strc14->p;
 
     if (p->layer > 1U) {

@@ -7,7 +7,7 @@
 #include "game/shared/stage/entity.h"
 #include "game/enemy_unknown.h"
 #include "game/shared/rings_manager.h"
-#include "module_unclear.h"
+#include "game/gTask_03001CFC.h"
 #include "game/shared/stage/player.h"
 #include "game/stage.h"
 
@@ -183,7 +183,7 @@ bool32 sub_805EEB4(BuBu *enemy)
     s32 mat0;
     s32 mat1;
     s32 mat2;
-    Strc3001CFC *strc;
+    Strc_3001CFC *strc;
     s32 temp_r2;
     s32 temp_sb;
     u8 i;
@@ -352,7 +352,7 @@ bool32 sub_805F1A0(BuBu *enemy)
     u8 var_r3;
 
     if (gTask_03001CFC != NULL) {
-        Strc3001CFC *strc = TASK_DATA(gTask_03001CFC);
+        Strc_3001CFC *strc = TASK_DATA(gTask_03001CFC);
 
         for (var_r3 = 0; var_r3 < 32; var_r3++) {
             if (strc->unk28[var_r3].unkC != 0) {

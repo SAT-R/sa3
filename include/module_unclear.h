@@ -99,23 +99,6 @@ void sub_80C59E8(void *param0, u8 param1, s32 *screenPos, u8 *arr4, s16 param4);
 void sub_80C60B0(void **param0, u8 param1);
 void sub_80C610C(void *param0, u8 param1);
 
-typedef struct Strc3001CFC_sub {
-    s32 unk0;
-    s32 unk4;
-    s16 unk8;
-    s16 unkA;
-    u16 unkC;
-    u16 unkE;
-    u16 unk10;
-} Strc3001CFC_sub; /* 0x14 */
-typedef struct Strc3001CFC {
-    Sprite s;
-    Strc3001CFC_sub unk28[32];
-    u8 filler2A8[0x8];
-    u8 unk2B0;
-} Strc3001CFC; /* 0x2B4 */
-extern struct Task *gTask_03001CFC; // -> Strc3001CFC
-
 s32 sub_8011BFC(u8, Player *p);
 
 void sub_80533F4(u32 character); // related to Special Springs

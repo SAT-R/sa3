@@ -4,6 +4,7 @@
 #include "malloc_ewram.h"
 #include "malloc_vram.h"
 #include "module_unclear.h"
+#include "game/gTask_03001CFC.h"
 #include "data/sprite_tables.h"
 #include "game/character_select.h"
 #include "game/main_menu.h"
