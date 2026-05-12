@@ -10770,13 +10770,11 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
 END_NONMATCH
 
 // NOTE: Basically identical to sub_8011434()!
-// (96.80%) https://decomp.me/scratch/344V6
-NONMATCH("asm/non_matching/game/stage/player__sub_801139C.inc", s16 sub_801139C(Player *p))
+s16 sub_801139C(Player *p)
 {
     s32 param;
     u8 var_r0_2;
-    s8 var_r3;
-    s16 result = 0;
+    s8 var_r3 = 0;
 
     if (0x20 & p->moveState) {
         p->charFlags.unk29 = 0;
@@ -10789,17 +10787,17 @@ NONMATCH("asm/non_matching/game/stage/player__sub_801139C.inc", s16 sub_801139C(
 
         if (var_r3 + 0x20 > 0) {
             if (var_r3 <= 0) {
-                var_r0_2 = var_r3 + 0x20;
+                var_r3 += 0x20;
             } else {
-                var_r0_2 = (var_r3 + 0x1F);
+                var_r3 += 0x1F;
             }
         } else if (var_r3 > 0) {
-            var_r0_2 = var_r3 + 0x20;
+            var_r3 += 0x20;
         } else {
-            var_r0_2 = (var_r3 + 0x1F);
+            var_r3 += 0x1F;
         }
 
-        switch (var_r0_2 >> 6) {
+        switch ((u8)var_r3 >> 6) {
             case 0:
                 param = 0;
                 break;
@@ -10813,25 +10811,23 @@ NONMATCH("asm/non_matching/game/stage/player__sub_801139C.inc", s16 sub_801139C(
                 param = 3;
                 break;
             default:
-                return 0;
+                goto ret0;
         }
 
-        result = sub_80116A4(param, p);
-        return result;
+        return sub_80116A4(param, p);
     }
-
-    return 0;
+    {
+    ret0:
+        return 0;
+    }
 }
-END_NONMATCH
 
 // NOTE: Basically identical to sub_801139C()!
-/// (96.80%) https://decomp.me/scratch/keBUN
-NONMATCH("asm/non_matching/game/stage/player__sub_8011434.inc", s16 sub_8011434(Player *p))
+s16 sub_8011434(Player *p)
 {
     s32 param;
     u8 var_r0_2;
-    s8 var_r3;
-    s16 result = 0;
+    s8 var_r3 = 0;
 
     if (0x20 & p->moveState) {
         p->charFlags.unk29 = 0;
@@ -10844,17 +10840,17 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8011434.inc", s16 sub_8011434(
 
         if (var_r3 + 0x20 > 0) {
             if (var_r3 <= 0) {
-                var_r0_2 = var_r3 + 0x20;
+                var_r3 += 0x20;
             } else {
-                var_r0_2 = (var_r3 + 0x1F);
+                var_r3 += 0x1F;
             }
         } else if (var_r3 > 0) {
-            var_r0_2 = var_r3 + 0x20;
+            var_r3 += 0x20;
         } else {
-            var_r0_2 = (var_r3 + 0x1F);
+            var_r3 += 0x1F;
         }
 
-        switch (var_r0_2 >> 6) {
+        switch ((u8)var_r3 >> 6) {
             case 0:
                 param = 0;
                 break;
@@ -10868,16 +10864,16 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8011434.inc", s16 sub_8011434(
                 param = 3;
                 break;
             default:
-                return 0;
+                goto ret0;
         }
 
-        result = sub_8011978(param, p);
-        return result;
+        return sub_8011978(param, p);
     }
-
-    return 0;
+    {
+    ret0:
+        return 0;
+    }
 }
-END_NONMATCH
 
 u16 sub_80114CC(Player *p)
 {
