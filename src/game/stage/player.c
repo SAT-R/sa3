@@ -16082,14 +16082,13 @@ void Task_80182D4(void)
     DisplaySprite(s);
 }
 
-// (96.91%) https://decomp.me/scratch/8K6dv
-NONMATCH("asm/non_matching/game/stage/player__Task_801839C_E0.inc", void Task_801839C_E0(void))
+void Task_801839C_E0(void)
 {
     Sprite *s;
     s16 i;
     Strc_PlayerUnkE0 *strc = TASK_DATA(gCurTask);
 
-    for (i = 0; i < 12; i++) {
+    for (i = 0; i < (s32)ARRAY_COUNT(strc->unk80); i++) {
         strc->unk80[i][0] += strc->unkB0[i][0];
         strc->unk80[i][1] += strc->unkB0[i][1];
     }
@@ -16106,15 +16105,16 @@ NONMATCH("asm/non_matching/game/stage/player__Task_801839C_E0.inc", void Task_80
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
-    for (i = 0; i < 10; i++) {
+    for (i = 0; i < (s32)ARRAY_COUNT(strc->unk54); i++) {
         Vec2_16 *pos = &strc->unk54[i];
-        pos->x = strc->unk7C - gCamera.x + (strc->unk80[i + 2][0] >> 4);
-        pos->y = strc->unk7E - gCamera.y + (strc->unk80[i + 2][1] >> 4);
+        s16 i2 = i;
+        i2 += 2;
+        pos->x = (strc->unk7C - gCamera.x) + (strc->unk80[i2][0] >> 4);
+        pos->y = (strc->unk7E - gCamera.y) + (strc->unk80[i2][1] >> 4);
     }
 
     DisplaySprites(s, strc->unk54, ARRAY_COUNT(strc->unk54));
 }
-END_NONMATCH
 
 void Task_80184F8(void)
 {
