@@ -20615,7 +20615,7 @@ void sub_801E038(Player *p)
 
     p->qSpeedAirY = 0;
     p->unk148.arr_s16[0] = 0x14;
-    Player_PlaySong(p, 0x70U);
+    Player_PlaySong(p, SE_112);
     SetPlayerCallback(p, sub_801EAF4);
     sub_801EAF4(p);
 }
@@ -20638,14 +20638,13 @@ void sub_801E0AC(Player *p)
     p->qSpeedGround = 0;
     p->moveState |= 0x8000;
     p->charFlags.anim0 = 0x101;
-    Player_PlaySong(p, 0x6FU);
+    Player_PlaySong(p, SE_GROUND_SLIDE);
     sub_8016F28(p);
     SetPlayerCallback(p, sub_801E4C0);
     sub_801E4C0(p);
 }
 
-// (86.11%) https://decomp.me/scratch/ULYRr
-NONMATCH("asm/non_matching/game/stage/player__sub_801E120.inc", void sub_801E120(Player *p))
+void sub_801E120(Player *p)
 {
     s16 temp_r0;
     s32 var_r2;
@@ -20663,7 +20662,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_801E120.inc", void sub_801E120
         }
         p->qSpeedGround = var_r2;
         SetPlayerCallback(p, Player_8005380);
-        Player_PlaySong(p, 0x6EU);
+        Player_PlaySong(p, SE_SPIN_RELEASE);
     } else {
         qSpindashVelocity = p->Spindash_Velocity;
         if (p->Spindash_Velocity != 0) {
@@ -20676,14 +20675,9 @@ NONMATCH("asm/non_matching/game/stage/player__sub_801E120.inc", void sub_801E120
 
         if (p->keyInput2 & gStageData.buttonConfig.jump) {
             qSpindashVelocity += Q(2);
-            var_r2 = qSpindashVelocity;
-            // TODO: Is this a bug?
-            if (var_r2 < 0x800) {
-                var_r2 = 0x800;
-            }
-            qSpindashVelocity = var_r2;
+            qSpindashVelocity = MAX(qSpindashVelocity, Q(8));
             p->charFlags.someFlag1 = 1;
-            Player_PlaySong(p, 0x211U);
+            Player_PlaySong(p, SE_529);
         }
         p->Spindash_Velocity = qSpindashVelocity;
     }
@@ -20707,7 +20701,6 @@ NONMATCH("asm/non_matching/game/stage/player__sub_801E120.inc", void sub_801E120
         }
     }
 }
-END_NONMATCH
 
 void sub_801E250(Player *p)
 {
@@ -20740,7 +20733,7 @@ void sub_801E2E4(Player *p)
     }
     if (p->unk5B != 0) {
         if (--p->unk5B == 0) {
-            Player_PlaySong(p, 0x81U);
+            Player_PlaySong(p, SE_AMY__PIKO_PIKO_NEUTRAL_AIR);
         }
     }
     if (!sub_8015064(p)) {
@@ -20765,7 +20758,7 @@ void sub_801E358(Player *p)
     } else {
         if (p->unk5B != 0) {
             if (--p->unk5B == 0) {
-                Player_PlaySong(p, 0x81U);
+                Player_PlaySong(p, SE_AMY__PIKO_PIKO_NEUTRAL_AIR);
             }
         }
         if (!sub_8015064(p)) {
