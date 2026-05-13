@@ -14433,7 +14433,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015A44.inc", void sub_8015A44
     if (p->framesInvulnerable != 0) {
         return;
     }
-    if (p->moveState & 0x01000000) {
+    if (p->moveState & MOVESTATE_1000000) {
         return;
     }
 
@@ -14450,13 +14450,13 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015A44.inc", void sub_8015A44
             continue;
         }
 
-        if (0x01000000 & playerLoop->moveState) {
+        if (MOVESTATE_1000000 & playerLoop->moveState) {
             continue;
         }
-        if (p->moveState & 0x20000000) {
+        if (p->moveState & MOVESTATE_20000000) {
             continue;
         }
-        if (playerLoop->moveState & 0x20000000) {
+        if (playerLoop->moveState & MOVESTATE_20000000) {
             continue;
         }
         dx = I(p->qWorldX - playerLoop->qWorldX);
@@ -14568,10 +14568,10 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015C90.inc", void sub_8015C90
     } else {
         p->qSpeedAirY = 0;
     }
-    if (p->moveState & 0x20000) {
+    if (p->moveState & MOVESTATE_20000) {
         p->layer = 1;
-        Player_StopSong(p, 0x72U);
-        p->moveState &= 0xFFFDFFFF;
+        Player_StopSong(p, SE_GRINDING);
+        p->moveState &= ~MOVESTATE_20000;
     }
 
     if (p->charFlags.character == KNUCKLES) {
@@ -14604,7 +14604,9 @@ s32 Player_8015D7C(Player *p)
     PlayerCallback callbacks[ARRAY_COUNT(gUnknown_080CE6CC)];
     s16 i;
 
-    if ((gStageData.gameMode != GAME_MODE_MP_MULTI_PACK) || (gStageData.unk4 != 3) || (p->moveState & 0x59000200)
+    if ((gStageData.gameMode != GAME_MODE_MP_MULTI_PACK)
+     || (gStageData.unk4 != 3)
+     || (p->moveState & (MOVESTATE_40000000 | MOVESTATE_10000000 | MOVESTATE_IGNORE_INPUT | MOVESTATE_1000000 | MOVESTATE_200))
         || (gCamera.maxX != gCameraMaxCoords[gStageData.currentLevel][0])
         || (gCamera.maxY != gCameraMaxCoords[gStageData.currentLevel][1])) {
         return FALSE;
@@ -14929,35 +14931,31 @@ void sub_8016D30(Player *p)
     }
 }
 
-// (85.85%) https://decomp.me/scratch/OJETZ
-NONMATCH("asm/non_matching/game/stage/player__sub_8016D88.inc", bool16 sub_8016D88(Player *p))
-{
-    if ((p->charFlags.anim0 == 2) && (p->keyInput2 & gStageData.buttonConfig.jump)) {
-        if (gStageData.gameMode != 7) {
-            switch (p->unkC & 6) {
-                case 2:
-                    SetPlayerCallback(p, Player_800872C);
-                    break;
-                case 4:
-                    SetPlayerCallback(p, sub_801DFC4);
-                    break;
-                case 6:
-                    SetPlayerCallback(p, sub_801E65C);
-                    break;
-                default:
-                    return 0;
-            }
-        } else {
-            SetPlayerCallback(p, Player_800872C);
-            return 1;
-        }
-    } else {
-        return 0;
+bool16 sub_8016D88(Player *p) {
+    if ((p->charFlags.anim0 != 2) || !(p->keyInput2 & gStageData.buttonConfig.jump)) {
+        return FALSE;
     }
 
-    return 1;
+    if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+        switch (p->unkC & 6) {
+        case 2:
+            SetPlayerCallback(p, Player_800872C);
+            break;
+        case 4:
+            SetPlayerCallback(p, sub_801DFC4);
+            break;
+        case 6:
+            SetPlayerCallback(p, sub_801E65C);
+            break;
+        default:
+            return FALSE;
+        }
+    } else {
+        SetPlayerCallback(p, Player_800872C);
+    }
+
+    return TRUE;
 }
-END_NONMATCH
 
 void sub_8016E00(Player *p)
 {

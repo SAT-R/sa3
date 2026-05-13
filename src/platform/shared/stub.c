@@ -40,11 +40,8 @@ SaveGame gUnknown_03000980 = {};
 SaveSectorData gSaveSectorData = {};
 u8 gUnknown_03006C20 = 0;
 
-void sub_8000D68() { }
 void Stop() { }
 
-/* 0x080213FC */ u8 UpdateScreenFade(ScreenFade *fade) { }
-/* 0x080214F0 */ void ScreenFadeUpdateValues(ScreenFade *fade) { }
 void sub_8023634() { }
 void sub_80236C8() { }
 void sub_8023734() { }
@@ -138,7 +135,11 @@ void sub_80961E4(u8 param0) { }
 // returns VRAM tile pointer
 void *CreateSomeTask_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles) { return tiles; }
 void /* 0x080A209C */ CreateGameIntroState() { }
-void sub_80AD824(void) { }
+void sub_80AD824(void)
+{
+    int k = 123;
+    asm("");
+}
 
 void /* 0x080C4564 */ CopyPalette() { }
 void sub_80C460C(const u16 *pal, u8 paletteOffset, u16 palSize) { }
@@ -214,14 +215,14 @@ typedef struct Strc_80215A0 {
     Sprite sprites[12];
     u8 padding[0xF0];
 } Strc_80215A0; /* 0x2D4 */
-
+extern struct Task *gTask_03001CFC;
 struct Task *sub_80215A0()
 {
     struct Task *t = TaskCreate(taskStub, 0xAD << 2, 0x2001, 0, NULL);
     Strc_80215A0 *taskData = TASK_DATA(gTask_03001CFC);
 
     for (int i = 0; i < ARRAY_COUNT(taskData->sprites); i++) {
-        taskData->sprites[i].tiles = (void *)OBJ_VRAM0 + 0x14180;
+        taskData->sprites[i].tiles = (void *)OBJ_VRAM0 + 0x4180;
     }
 
     return t;

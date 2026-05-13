@@ -22,7 +22,7 @@
 #define MOVESTATE_4000                0x00004000
 #define MOVESTATE_8000                0x00008000
 #define MOVESTATE_GRAVITY_SWITCHED    0x00010000
-#define MOVESTATE_20000               0x00020000
+#define MOVESTATE_20000               0x00020000 // grinding?
 #define MOVESTATE_40000               0x00040000
 #define MOVESTATE_80000               0x00080000
 #define MOVESTATE_100000              0x00100000
