@@ -14604,9 +14604,8 @@ s32 Player_8015D7C(Player *p)
     PlayerCallback callbacks[ARRAY_COUNT(gUnknown_080CE6CC)];
     s16 i;
 
-    if ((gStageData.gameMode != GAME_MODE_MP_MULTI_PACK)
-     || (gStageData.unk4 != 3)
-     || (p->moveState & (MOVESTATE_40000000 | MOVESTATE_10000000 | MOVESTATE_IGNORE_INPUT | MOVESTATE_1000000 | MOVESTATE_200))
+    if ((gStageData.gameMode != GAME_MODE_MP_MULTI_PACK) || (gStageData.unk4 != 3)
+        || (p->moveState & (MOVESTATE_40000000 | MOVESTATE_10000000 | MOVESTATE_IGNORE_INPUT | MOVESTATE_1000000 | MOVESTATE_200))
         || (gCamera.maxX != gCameraMaxCoords[gStageData.currentLevel][0])
         || (gCamera.maxY != gCameraMaxCoords[gStageData.currentLevel][1])) {
         return FALSE;
@@ -14910,45 +14909,43 @@ void sub_8016D04(Player *p)
 
 void sub_8016D30(Player *p)
 {
-    s16 qSpeedAirY;
-
     p->qWorldX += p->qSpeedAirX;
 
     if ((p->moveState ^ p->moveState2) & MOVESTATE_GRAVITY_SWITCHED) {
         p->qSpeedAirY = -p->qSpeedAirY;
     }
 
-    qSpeedAirY = p->qSpeedAirY;
-    if (p->qSpeedAirY > Q(15)) {
-        qSpeedAirY = Q(15);
-    }
-    p->qSpeedAirY = qSpeedAirY;
+    // TODO/BUG(Jace):
+    // From what I understand, this check only properly works
+    // if p->qSpeedAirY is positive, because the check was not done on an absolute value.
+    p->qSpeedAirY = MIN(p->qSpeedAirY, Q(15));
 
     if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
-        p->qWorldY = p->qWorldY - p->qSpeedAirY;
+        p->qWorldY -= p->qSpeedAirY;
     } else {
-        p->qWorldY = p->qWorldY + p->qSpeedAirY;
+        p->qWorldY += p->qSpeedAirY;
     }
 }
 
-bool16 sub_8016D88(Player *p) {
+bool16 sub_8016D88(Player *p)
+{
     if ((p->charFlags.anim0 != 2) || !(p->keyInput2 & gStageData.buttonConfig.jump)) {
         return FALSE;
     }
 
     if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
         switch (p->unkC & 6) {
-        case 2:
-            SetPlayerCallback(p, Player_800872C);
-            break;
-        case 4:
-            SetPlayerCallback(p, sub_801DFC4);
-            break;
-        case 6:
-            SetPlayerCallback(p, sub_801E65C);
-            break;
-        default:
-            return FALSE;
+            case 2:
+                SetPlayerCallback(p, Player_800872C);
+                break;
+            case 4:
+                SetPlayerCallback(p, sub_801DFC4);
+                break;
+            case 6:
+                SetPlayerCallback(p, sub_801E65C);
+                break;
+            default:
+                return FALSE;
         }
     } else {
         SetPlayerCallback(p, Player_800872C);
@@ -14962,7 +14959,7 @@ void sub_8016E00(Player *p)
     if (p->unk4E != 0) {
         p->unk4E--;
     } else if ((p->unk26 + 0x20) & 0xC0) {
-        if (ABS(p->qSpeedGround) < 0x1E0) {
+        if (ABS(p->qSpeedGround) < Q(1.875)) {
             SetPlayerCallback(p, Player_800DAF4);
             p->unk4E = 30;
         }
@@ -14972,9 +14969,9 @@ void sub_8016E00(Player *p)
 void sub_8016E50(Player *p)
 {
     if (p->moveState & MOVESTATE_80) {
-        p->qSpeedAirY += 0xC;
+        p->qSpeedAirY += Q(0.046875);
     } else {
-        p->qSpeedAirY += 0x2A;
+        p->qSpeedAirY += Q(0.1640625);
     }
 }
 
@@ -15359,8 +15356,8 @@ void Player_InitializeShieldSprite(Player *p)
     }
 }
 
-// (92.20%) https://decomp.me/scratch/3gRhu
-NONMATCH("asm/non_matching/game/stage/player__sub_8017618.inc", void sub_8017618(Player *p))
+// TODO: Match without gotos!
+void sub_8017618(Player *p)
 {
     PlayerSpriteInfo **temp_r2;
     u8 temp_r7;
@@ -15410,6 +15407,9 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8017618.inc", void sub_8017618
             case 0x40:
                 s->anim = sTileInfoShields[2].anim;
                 s->variant = sTileInfoShields[2].variant;
+#ifndef NON_MATCHING
+                goto lbl;
+#endif
                 s->prevAnim = -1;
                 s->prevVariant = -1;
                 p->unk13D = var_r5;
@@ -15417,6 +15417,9 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8017618.inc", void sub_8017618
             case 0x20:
                 s->anim = sTileInfoShields[1].anim;
                 s->variant = sTileInfoShields[1].variant;
+#ifndef NON_MATCHING
+                goto lbl_10;
+#endif
                 Player_PlaySong(p, SE_SHIELD_ACTIVATE);
                 s->prevAnim = -1;
                 s->prevVariant = -1;
@@ -15425,7 +15428,11 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8017618.inc", void sub_8017618
             case 0x10:
                 s->anim = sTileInfoShields[0].anim;
                 s->variant = sTileInfoShields[0].variant;
+#ifndef NON_MATCHING
+            lbl_10:
+#endif
                 Player_PlaySong(p, SE_SHIELD_ACTIVATE);
+                goto lbl;
                 s->prevAnim = -1;
                 s->prevVariant = -1;
                 p->unk13D = var_r5;
@@ -15434,6 +15441,9 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8017618.inc", void sub_8017618
                 s->anim = sTileInfoShields[3].anim;
                 s->variant = sTileInfoShields[3].variant;
                 Player_PlaySong(p, SE_SHIELD_ACTIVATE);
+#ifndef NON_MATCHING
+            lbl:
+#endif
                 s->prevAnim = -1;
                 s->prevVariant = -1;
                 p->unk13D = var_r5;
@@ -15462,19 +15472,21 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8017618.inc", void sub_8017618
             } else {
                 s->frameFlags &= ~0x80;
             }
-            if (MOVESTATE_2 & gStageData.unkBC) {
+            if (!(MOVESTATE_2 & gStageData.unkBC)) {
+                goto shouldRenderCheck;
+            } else {
                 return;
             }
         } else {
             s->frameFlags &= ~0x80;
         }
+    shouldRenderCheck:
 
         if (shouldRender != 0) {
             DisplaySprite(s);
         }
     }
 }
-END_NONMATCH
 
 void sub_801782C(Player *p, s16 arg1)
 {
