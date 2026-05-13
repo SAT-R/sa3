@@ -19949,51 +19949,45 @@ NONMATCH("asm/non_matching/game/stage/player__Player_801D1D0.inc", void Player_8
 }
 END_NONMATCH
 
-// (97.86%) https://decomp.me/scratch/NI9jd
-NONMATCH("asm/non_matching/game/stage/player__sub_801D2FC.inc", bool16 sub_801D2FC(Player *p))
+bool16 sub_801D2FC(Player *p)
 {
     sub_8012634(p);
-
     if (!(4 & p->unk148.arr_u8[2])) {
         if (p->qSpeedAirX <= 0) {
-            p->moveState |= 1;
+            p->moveState |= MOVESTATE_FACING_LEFT;
         } else {
-            p->moveState &= ~1;
+            p->moveState &= ~MOVESTATE_FACING_LEFT;
         }
-
-        if ((((p->unk26 + 0x20) & ~0x3F) << 0x18) != 0) {
-            if (((p->unk148.arr_u8[0] + 0x40) << 0x18) <= 0) {
-                p->moveState |= 1;
+        if ((((u8)((p->unk26 + 0x20) & (~0x3F)))) != 0) {
+            if (((s8)(p->unk148.arr_u8[0] + 0x40)) <= 0) {
+                p->moveState |= MOVESTATE_FACING_LEFT;
             } else {
-                p->moveState &= ~1;
+                p->moveState &= ~MOVESTATE_FACING_LEFT;
             }
-
             p->qSpeedAirY = 0;
             sub_8012BA4(p);
             SetPlayerCallback(p, Player_8005380);
         } else {
             SetPlayerCallback(p, sub_801DD2C);
             p->charFlags.anim0 = 0xEA;
-            p->moveState &= ~4;
+            p->moveState &= ~MOVESTATE_IN_AIR;
             sub_8012F74(p, 6, 6);
-            Player_PlaySong(p, 0x6FU);
+            Player_PlaySong(p, SE_GROUND_SLIDE);
         }
-        return 1U;
+
+        return TRUE;
     } else if (0x40 & p->unk148.arr_u8[2]) {
-        if ((s8)p->unk148.arr_u8[1] >= 0) {
+        if (((s8)p->unk148.arr_u8[1]) >= 0) {
             sub_801D3F0(p);
             p->qSpeedGround = 0;
             p->qSpeedAirX = 0;
             p->qSpeedAirY = 0;
             SetPlayerCallback(p, sub_801D8E8);
         }
-
         return TRUE;
     }
-
     return FALSE;
 }
-END_NONMATCH
 
 void sub_801D3F0(Player *p)
 {
