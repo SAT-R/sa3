@@ -14,7 +14,8 @@
 #define ANIM_KNUCKLES_IDLE 489
 #define ANIM_AMY_IDLE      652
 
-#define CHAR_ANIM_SPIN_ATTACK 43
+#define CHAR_ANIM_SPIN_NEUTRAL 11 // Contains ears of Tails|Cream in variant 1
+#define CHAR_ANIM_SPIN_ATTACK  43
 
 #define CHAR_ANIM_ATK_DOWN_B 107
 
@@ -305,9 +306,11 @@
 // Super Sonic : 1305 - 1306
 // (1305 : a ton of variants/patterns)
 
-#define ANIM_ITEM_BOX_TYPE 1315
-#define ANIM_ITEM_BOX      1316
-#define ANIM_HEART         1317
+#define ANIM_SUPER_TAG_ACTION_CHARGED  1307
+#define ANIM_SUPER_TAG_ACTION_CHARGING 1314
+#define ANIM_ITEM_BOX_TYPE             1315
+#define ANIM_ITEM_BOX                  1316
+#define ANIM_HEART                     1317
 
 #define ANIM_GRINDING                 1329
 #define ANIM_SPINDASH_DUST_EFFECT     1330
