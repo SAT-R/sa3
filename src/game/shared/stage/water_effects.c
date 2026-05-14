@@ -150,8 +150,7 @@ void sub_805274C(ColorRaw *arg0, ColorRaw *arg1, u32 arg2, s32 count)
     }
 }
 
-// (98.41%) https://decomp.me/scratch/AvNo7
-NONMATCH("asm/non_matching/game/shared/stage/we__Task_StageWaterTask.inc", void Task_StageWaterTask(void))
+void Task_StageWaterTask(void)
 {
     u16 sp00[6];
     u16 sp0C[16];
@@ -258,8 +257,7 @@ NONMATCH("asm/non_matching/game/shared/stage/we__Task_StageWaterTask.inc", void 
     if ((int_vcount)(water->SA2_LABEL(unk1) - 1) < (DISPLAY_HEIGHT - 1)) {
         s32 theX;
         s32 theY;
-        u16 baseX;
-        u16 baseY;
+        s16 baseX;
         s = &water->s;
         theX = sp68->x;
         theX += (gStageData.timer >> 2);
@@ -300,7 +298,6 @@ NONMATCH("asm/non_matching/game/shared/stage/we__Task_StageWaterTask.inc", void 
         gFlags &= ~FLAGS_40;
     }
 }
-END_NONMATCH
 
 bool16 IsWaterVisible(Water *water)
 {
