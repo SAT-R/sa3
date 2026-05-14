@@ -824,56 +824,63 @@ void sub_8004B14(void)
     }
 }
 
-// (71.60%) https://decomp.me/scratch/JzXgk
-NONMATCH("asm/non_matching/game/stage/player__sub_8004BD0.inc", void sub_8004BD0(Player *p, s32 arg1, s32 arg2))
+// Fake-match
+// (100.0%) https://decomp.me/scratch/hKyWu
+void sub_8004BD0(Player *p, s32 qWorldX, s32 qWorldY)
 {
-    ECharacters partnerChar;
-    s32 temp_r3;
-    s32 temp_r4;
-    s32 temp_r7;
-    s32 temp_r7_2;
-    s32 var_r3;
+    s32 partnerChar;
+    s32 qPlayerX;
+    s32 dx;
+    s32 qPlayerY;
+    s32 distance;
+    s32 dy;
     s16 var_r1;
+    s32 new_var;
+    s32 forMatch;
     u32 temp_r1;
 
-    partnerChar = gPlayers[p->charFlags.partnerIndex].charFlags.character;
-    if (partnerChar == CHARACTER_CREAM) {
-        temp_r3 = p->qWorldX;
-        temp_r7 = p->qWorldY;
-        if ((MOVESTATE_GRAVITY_SWITCHED & p->moveState) && (temp_r7 >= arg2)) {
-            if (!(MOVESTATE_FACING_LEFT & p->moveState)) {
-                if (temp_r3 >= arg1) {
-                    goto block_10;
+    if ((gPlayers + p->charFlags.partnerIndex)->charFlags.character == CHARACTER_CREAM) {
+        qPlayerX = p->qWorldX;
+        qPlayerY = p->qWorldY;
+        if (MOVESTATE_GRAVITY_SWITCHED & p->moveState) {
+            if (qPlayerY >= qWorldY) {
+                if (MOVESTATE_FACING_LEFT & p->moveState) {
+                    goto block_9;
+                } else {
+                    goto block_7;
                 }
-            } else {
-                goto block_9;
             }
-        } else if (temp_r7 <= arg2) {
+        } else if (qPlayerY <= qWorldY) {
             if (MOVESTATE_FACING_LEFT & p->moveState) {
             block_7:
-                if (temp_r3 >= arg1) {
+                if (qPlayerX < qWorldX) {
+                    return;
+                } else {
                     goto block_10;
                 }
-            } else {
+            }
+            {
             block_9:
-                if (temp_r3 <= arg1) {
+                if (qPlayerX <= qWorldX) {
                 block_10:
-                    temp_r4 = I(arg1 - temp_r3);
-                    var_r3 = I(arg2 - temp_r7);
-                    temp_r7_2 = SQUARE(temp_r4) + SQUARE(var_r3);
-                    if (temp_r7_2 <= Q(SQUARE(5))) {
-                        if (p->unkB8 >= temp_r7_2) {
-                            if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
-                                var_r3 = -var_r3;
-                            }
+                    dx = I(qWorldX - p->qWorldX);
+                    dy = I(qWorldY - qPlayerY);
 
-                            var_r1 = (u16)sa2__sub_8004418(var_r3, temp_r4);
+                    forMatch = 256;
+                    new_var = (SQUARE(5) * forMatch); // <- SQUARE(80)
+                    distance = SQUARE(dx) + SQUARE(dy);
+                    if (new_var >= distance) {
+                        if (p->unkB8 >= distance) {
+                            if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
+                                dy = -dy;
+                            }
+                            var_r1 = (u16)sa2__sub_8004418(dy, dx);
                             if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
                                 var_r1 = (0x400 - var_r1) & 0x3FF;
                             }
-                            p->unkA8 = arg1;
-                            p->unkAC = arg2;
-                            p->unkB8 = temp_r7_2;
+                            p->unkA8 = qWorldX;
+                            p->unkAC = (dy = qWorldY);
+                            p->unkB8 = distance;
                             p->unkC0 = var_r1;
                         }
                     }
@@ -882,7 +889,6 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8004BD0.inc", void sub_8004BD0
         }
     }
 }
-END_NONMATCH
 
 void sub_8004CC8(s16 playerId)
 {
@@ -3791,7 +3797,7 @@ NONMATCH("asm/non_matching/game/stage/player__Player_80087CC.inc", void Player_8
         }
         p->qSpeedGround = qSpeed;
         p->callback = Player_800891C;
-        Player_PlaySong(p, 0x6EU);
+        Player_PlaySong(p, SE_SPIN_RELEASE);
         return;
     }
 
@@ -3934,7 +3940,7 @@ NONMATCH("asm/non_matching/game/stage/player__Player_8008A8C.inc", void Player_8
         return;
     }
 
-    //    var_r6 = 0;
+    var_r6 = 0;
     for (var_r1 = 0; var_r1 < 4; var_r1++) {
         if (p == &gPlayers[var_r1]) {
             var_r6 = var_r1;
@@ -3948,7 +3954,6 @@ NONMATCH("asm/non_matching/game/stage/player__Player_8008A8C.inc", void Player_8
     }
     if ((gUnknown_03001060.unk8 >> var_r3) & 1) {
         if (((gUnknown_03001060.unk9 >> (var_r3 + 4)) & 1) && ((gUnknown_03001060.unk9 >> (var_r6 + 4)) & 1)) {
-            temp_r2_2 = var_r3 * 0x150;
             p->unkE8.x = I(gPlayers[var_r3].qWorldX);
             p->unkE8.y = I(gPlayers[var_r3].qWorldY);
             temp_r0_3 = GetBit(gUnknown_03001060.unk9, var_r3) | (-0x10 & p->unkEC);
@@ -6875,8 +6880,7 @@ void sub_800C910(Player *p)
     }
 }
 
-// (99.62%) https://decomp.me/scratch/qQ4o8
-NONMATCH("asm/non_matching/game/stage/player__sub_800C9C4.inc", void sub_800C9C4(Player *p))
+void sub_800C9C4(Player *p)
 {
     Player *partner;
     s32 var_r1;
@@ -6911,7 +6915,9 @@ NONMATCH("asm/non_matching/game/stage/player__sub_800C9C4.inc", void sub_800C9C4
     sub_8012118(p);
     if ((p->charFlags.anim0 != 0x5C) || (callback = p->callback, (callback != sub_800C9C4))
         || (sub_8017004(p), (p->charFlags.anim0 != 0x5C)) || (p->callback != callback)) {
-        partner->moveState &= 0xFDFFFFFF;
+        do {
+            partner->moveState &= 0xFDFFFFFF;
+        } while (0);
         p->callback(p);
         return;
     }
@@ -6947,7 +6953,6 @@ NONMATCH("asm/non_matching/game/stage/player__sub_800C9C4.inc", void sub_800C9C4
         }
     }
 }
-END_NONMATCH
 
 void sub_800CB5C(Player *p)
 {
