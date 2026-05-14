@@ -18,6 +18,17 @@ This is a work in progress matching decompilation of Sonic Advance 3
 It so far builds the following ROM:
 * [**sa3.gba**](https://datomatic.no-intro.org/index.php?page=show_record&s=23&n=1521) `sha1: 685af3a2dc0f1b3f8922e73ec42c1dc92e210e39` (Europe) (En,Ja,Fr,De,Es,It)
 
+### Strict No LLM / No AI Policy
+
+- No LLMs for issues.
+- No LLMs for pull requests.
+
+This project was created as a learning excerise, I (freshollie) like learning new things. Of course it also has real world outcomes (having the ability to play, mod, port this game), but we as maintainers are not interested in submissions from LLM origin.
+
+We want humans to use this project to practice their skills. Reverse engineering, documenting, understanding, being part of the process. If you submit a pull request we want you to have accountability as well as knowledge of what you've done. We want you to develop on those skills and continue to contribute. If "the computer" did all the work for you, we are not interested.
+
+Our policy is based off [Zig's](https://ziglang.org/code-of-conduct/)
+
 **Compiler version specifics for SA3**
 
 On December 10th 2024 we integrated previously unused LibC math code (dubbed 'newlib') into the codebase.
