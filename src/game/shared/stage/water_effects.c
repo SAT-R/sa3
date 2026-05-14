@@ -286,7 +286,7 @@ void Task_StageWaterTask(void)
 
     if ((int_vcount)(water->SA2_LABEL(unk2) - 1) < (DISPLAY_HEIGHT - 1)) {
         REG_IME = 0;
-        gIntrTable[3] = VCountCB_WaterEffectCopyPalettes;
+        gIntrTable[INTR_INDEX_VCOUNT] = VCountCB_WaterEffectCopyPalettes;
         REG_IME = 1;
         sa2__gUnknown_03002874 = water->SA2_LABEL(unk2) - 1;
         gFlags |= FLAGS_40;
