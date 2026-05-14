@@ -5,4 +5,4 @@ for filename in os.listdir(directory):
     if filename.endswith('.bin'):
         filepath = directory + "/" + filename
         print('Extracting', filepath)
-        os.system('./tools/aif2pcm/aif2pcm ' + filepath)
+        __import__('subprocess').run(['./tools/aif2pcm/aif2pcm', filepath], check=True)
