@@ -1,6 +1,12 @@
+.include "asm/macros.inc"
+.include "constants/constants.inc"
 
-.syntax unified
 .text
+.syntax unified
+.arm
+
+	thumb_func_start we__sub_805274C
+we__sub_805274C: @ 0x080B1AF4
 	push {r4, r5, r6, r7, lr}
 	adds r5, r0, #0
 	adds r4, r1, #0
@@ -41,5 +47,3 @@ _08052790:
 	pop {r0}
 	bx r0
 	.align 2, 0
-
-.syntax divided

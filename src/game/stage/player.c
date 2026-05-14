@@ -15432,7 +15432,9 @@ void sub_8017618(Player *p)
             lbl_10:
 #endif
                 Player_PlaySong(p, SE_SHIELD_ACTIVATE);
+#ifndef NON_MATCHING
                 goto lbl;
+#endif
                 s->prevAnim = -1;
                 s->prevVariant = -1;
                 p->unk13D = var_r5;
@@ -22752,9 +22754,11 @@ block_16:
             block_30:
                 var_r1 = 0;
             }
-        block_31:
-            var_r6 = var_r6 | 0x20000;
-        block_12:
+            {
+            block_31:
+                var_r6 = var_r6 | 0x20000;
+            block_12:;
+            }
         }
     }
     new_var5 = var_r5;
@@ -22836,7 +22840,6 @@ bool32 sub_8020E3C(Sprite *s, s32 worldX, s32 worldY, s16 hbIndex, Player *p)
     return FALSE;
 }
 
-// (44.61%) https://decomp.me/scratch/6ySXq
 bool32 sub_8020F30(Player *playerA, s16 hbIndexA, Player *playerB, s16 hbIndexB)
 {
     u8 sp0[4];
