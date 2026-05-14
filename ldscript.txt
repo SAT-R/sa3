@@ -33,6 +33,7 @@ SECTIONS {
         src/game/gTask_03001CFC.o(.text);
         src/game/stage/entities_manager.o(.text);
         asm/itembox.o(.text);
+        src/game/itembox.o(.text);
         src/game/interactables/zone_warp.o(.text);
         src/game/interactables/spring.o(.text);
         src/game/interactables/toggle_player_layer.o(.text);
