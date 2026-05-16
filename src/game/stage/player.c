@@ -11385,7 +11385,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8011E70.inc", void sub_8011E70
 END_NONMATCH
 
 // Very close to sub_8012118
-// (91.65%) https://decomp.me/scratch/E38s3
+// (93.50%) https://decomp.me/scratch/kE8GO
 NONMATCH("asm/non_matching/game/stage/player__sub_8011FB8.inc", void sub_8011FB8(Player *p))
 {
     u8 sp8;
