@@ -2416,21 +2416,21 @@ sub_802D4A8: @ 0x0802D4A8
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #8
-	mov sb, r0
-	mov ip, r1
-	str r2, [sp]
+	mov sb, r0          @ sb   = r0 = itembox
+	mov ip, r1          @ ip   = r1 = arg1
+	str r2, [sp]        @ sp00 = r2 = arg2
 	lsls r3, r3, #0x18
 	lsrs r3, r3, #0x18
-	mov sl, r3
+	mov sl, r3          @ sl = r3 = arg3
 	ldr r0, _0802D5CC @ =gStageData
 	adds r0, #0x98
 	ldr r0, [r0]
-	ldrh r3, [r0, #6]
+	ldrh r3, [r0, #6]   @ r3 = taskCheese
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r0, r0, r3
-	mov r8, r0
-	mov r0, sl
+	mov r8, r0          @ r8 = cheese;
+	mov r0, sl          @ r0 = sl = arg3
 	lsls r6, r0, #3
 	mov r0, sb
 	adds r0, #0x20
