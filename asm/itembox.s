@@ -2416,21 +2416,21 @@ sub_802D4A8: @ 0x0802D4A8
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #8
-	mov sb, r0
-	mov ip, r1
-	str r2, [sp]
+	mov sb, r0          @ sb   = r0 = itembox
+	mov ip, r1          @ ip   = r1 = arg1
+	str r2, [sp]        @ sp00 = r2 = arg2
 	lsls r3, r3, #0x18
 	lsrs r3, r3, #0x18
-	mov sl, r3
+	mov sl, r3          @ sl = r3 = arg3
 	ldr r0, _0802D5CC @ =gStageData
 	adds r0, #0x98
 	ldr r0, [r0]
-	ldrh r3, [r0, #6]
+	ldrh r3, [r0, #6]   @ r3 = taskCheese
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r0, r0, r3
-	mov r8, r0
-	mov r0, sl
+	mov r8, r0          @ r8 = cheese;
+	mov r0, sl          @ r0 = sl = arg3
 	lsls r6, r0, #3
 	mov r0, sb
 	adds r0, #0x20
@@ -2583,156 +2583,5 @@ _0802D5EE:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start TaskDestructor_ItemBox
-TaskDestructor_ItemBox: @ 0x0802D600
-	push {r4, lr}
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r4, r0
-	ldr r0, [r4, #0x1c]
-	bl VramFree
-	ldr r0, [r4, #0x44]
-	bl VramFree
-	pop {r4}
-	pop {r0}
-	bx r0
-
-	thumb_func_start Task_802D61C
-Task_802D61C: @ 0x0802D61C
-	push {r4, lr}
-	ldr r0, _0802D640 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	ldrb r0, [r4, #7]
-	adds r1, r0, #1
-	strb r1, [r4, #7]
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #0x3b
-	bls _0802D644
-	adds r0, r4, #0
-	bl sub_802C7B0
-	b _0802D64E
-	.align 2, 0
-_0802D640: .4byte gCurTask
-_0802D644:
-	ldr r1, _0802D65C @ =0xFFFFFF00
-	adds r0, r1, #0
-	ldrh r1, [r4, #0x10]
-	adds r0, r0, r1
-	strh r0, [r4, #0x10]
-_0802D64E:
-	adds r0, r4, #0
-	movs r1, #1
-	bl sub_802D6CC
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0802D65C: .4byte 0xFFFFFF00
-
-	thumb_func_start Task_802D660
-Task_802D660: @ 0x0802D660
-	push {lr}
-	ldr r3, _0802D684 @ =gCurTask
-	ldr r0, [r3]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r2, r1, r0
-	ldrb r0, [r2, #7]
-	adds r1, r0, #1
-	strb r1, [r2, #7]
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #0x1d
-	bls _0802D688
-	ldr r0, [r3]
-	bl TaskDestroy
-	b _0802D690
-	.align 2, 0
-_0802D684: .4byte gCurTask
-_0802D688:
-	adds r0, r2, #0
-	movs r1, #1
-	bl sub_802D6CC
-_0802D690:
-	pop {r0}
-	bx r0
-
-	thumb_func_start sub_802D694
-sub_802D694: @ 0x0802D694
-	push {lr}
-	adds r3, r1, #0
-	ldr r2, _0802D6C0 @ =gCamera
-	ldr r1, [r2]
-	subs r0, r0, r1
-	ldr r1, [r2, #4]
-	subs r3, r3, r1
-	adds r0, #0x80
-	movs r1, #0xf8
-	lsls r1, r1, #1
-	cmp r0, r1
-	bhi _0802D6BC
-	adds r0, r3, #0
-	adds r0, #0x80
-	cmp r0, #0
-	blt _0802D6BC
-	movs r0, #0x90
-	lsls r0, r0, #1
-	cmp r3, r0
-	ble _0802D6C4
-_0802D6BC:
-	movs r0, #1
-	b _0802D6C6
-	.align 2, 0
-_0802D6C0: .4byte gCamera
-_0802D6C4:
-	movs r0, #0
-_0802D6C6:
-	pop {r1}
-	bx r1
-	.align 2, 0
-
-	thumb_func_start sub_802D6CC
-sub_802D6CC: @ 0x0802D6CC
-	push {r4, lr}
-	adds r4, r0, #0
-	ldr r3, [r4, #0x14]
-	ldr r2, _0802D714 @ =gCamera
-	ldr r0, [r2]
-	subs r3, r3, r0
-	strh r3, [r4, #0x2c]
-	ldr r0, [r4, #0x18]
-	ldr r2, [r2, #4]
-	subs r0, r0, r2
-	strh r0, [r4, #0x2e]
-	adds r0, r4, #0
-	adds r0, #0x54
-	strh r3, [r0]
-	ldrh r0, [r4, #0x10]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x18
-	ldrh r2, [r4, #0x2e]
-	adds r0, r0, r2
-	adds r2, r4, #0
-	adds r2, #0x56
-	strh r0, [r2]
-	cmp r1, #0
-	bne _0802D704
-	adds r0, r4, #0
-	adds r0, #0x1c
-	bl DisplaySprite
-_0802D704:
-	adds r0, r4, #0
-	adds r0, #0x44
-	bl DisplaySprite
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0802D714: .4byte gCamera
+.if 0
+.endif

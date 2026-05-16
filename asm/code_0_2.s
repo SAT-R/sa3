@@ -7,230 +7,6 @@
 
 @ --- screen_fade ---
 
-@ This is almost like the following, but ASM is slightly different:
-@ In SA2: src/game/screen_fade.c : UpdateScreenFade (0x0802D4CC)
-	thumb_func_start UpdateScreenFade
-UpdateScreenFade: @ 0x080213FC
-	push {r4, r5, r6, lr}
-	adds r3, r0, #0
-	movs r1, #0
-	ldrsh r0, [r3, r1]
-	cmp r0, #0
-	beq _08021434
-	ldr r2, _0802142C @ =gDispCnt
-	ldrh r0, [r2]
-	movs r4, #0x80
-	lsls r4, r4, #7
-	adds r1, r4, #0
-	orrs r0, r1
-	strh r0, [r2]
-	ldr r1, _08021430 @ =gWinRegs
-	movs r0, #0xf0
-	strh r0, [r1, #2]
-	movs r0, #0xa0
-	strh r0, [r1, #6]
-	ldrh r2, [r1, #8]
-	movs r4, #0xfc
-	lsls r4, r4, #6
-	adds r0, r4, #0
-	b _08021450
-	.align 2, 0
-_0802142C: .4byte gDispCnt
-_08021430: .4byte gWinRegs
-_08021434:
-	ldr r2, _0802147C @ =gDispCnt
-	ldrh r0, [r2]
-	movs r4, #0x80
-	lsls r4, r4, #6
-	adds r1, r4, #0
-	orrs r0, r1
-	strh r0, [r2]
-	ldr r1, _08021480 @ =gWinRegs
-	movs r0, #0xf0
-	strh r0, [r1]
-	movs r0, #0xa0
-	strh r0, [r1, #4]
-	ldrh r2, [r1, #8]
-	movs r0, #0x3f
-_08021450:
-	orrs r0, r2
-	strh r0, [r1, #8]
-	ldrh r2, [r1, #0xa]
-	movs r0, #0x1f
-	orrs r0, r2
-	strh r0, [r1, #0xa]
-	ldr r1, _08021484 @ =gBldRegs
-	ldrh r0, [r3, #8]
-	strh r0, [r1]
-	ldrh r0, [r3, #0xa]
-	strh r0, [r1, #2]
-	ldrh r2, [r3, #2]
-	movs r0, #1
-	ands r0, r2
-	adds r5, r1, #0
-	adds r6, r2, #0
-	cmp r0, #0
-	beq _08021488
-	ldrh r0, [r3, #4]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x18
-	b _08021492
-	.align 2, 0
-_0802147C: .4byte gDispCnt
-_08021480: .4byte gWinRegs
-_08021484: .4byte gBldRegs
-_08021488:
-	ldrh r1, [r3, #4]
-	lsls r1, r1, #0x10
-	asrs r1, r1, #0x18
-	movs r0, #0x20
-	subs r0, r0, r1
-_08021492:
-	strh r0, [r5, #4]
-	ldrh r1, [r3, #4]
-	adds r2, r5, #0
-	ldrh r0, [r2, #4]
-	cmp r0, #0x1f
-	bls _080214A2
-	movs r0, #0x20
-	strh r0, [r2, #4]
-_080214A2:
-	ldrh r0, [r2, #4]
-	lsrs r0, r0, #1
-	strh r0, [r2, #4]
-	lsls r0, r1, #0x10
-	asrs r0, r0, #0x10
-	ldr r4, _080214C8 @ =0x00001FFF
-	cmp r0, r4
-	ble _080214D2
-	movs r0, #0x80
-	lsls r0, r0, #6
-	strh r0, [r3, #4]
-	movs r0, #1
-	ands r0, r6
-	cmp r0, #0
-	beq _080214CC
-	movs r0, #0x10
-	strh r0, [r2, #4]
-	b _080214CE
-	.align 2, 0
-_080214C8: .4byte 0x00001FFF
-_080214CC:
-	strh r0, [r5, #4]
-_080214CE:
-	movs r0, #1
-	b _080214E8
-_080214D2:
-	ldrh r0, [r3, #6]
-	adds r0, r1, r0
-	strh r0, [r3, #4]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x10
-	cmp r0, r4
-	ble _080214E6
-	movs r0, #0x80
-	lsls r0, r0, #6
-	strh r0, [r3, #4]
-_080214E6:
-	movs r0, #0
-_080214E8:
-	pop {r4, r5, r6}
-	pop {r1}
-	bx r1
-	.align 2, 0
-
-@ In SA2: src/game/screen_fade.c : ScreenFadeUpdateValues (0x0802D5A0)
-	thumb_func_start ScreenFadeUpdateValues
-ScreenFadeUpdateValues: @ 0x080214F0
-	push {r4, lr}
-	adds r3, r0, #0
-	movs r1, #0
-	ldrsh r0, [r3, r1]
-	cmp r0, #0
-	beq _08021528
-	ldr r2, _08021520 @ =gDispCnt
-	ldrh r0, [r2]
-	movs r4, #0x80
-	lsls r4, r4, #7
-	adds r1, r4, #0
-	orrs r0, r1
-	strh r0, [r2]
-	ldr r1, _08021524 @ =gWinRegs
-	movs r0, #0xf0
-	strh r0, [r1, #2]
-	movs r0, #0xa0
-	strh r0, [r1, #6]
-	ldrh r2, [r1, #8]
-	movs r4, #0xfc
-	lsls r4, r4, #6
-	adds r0, r4, #0
-	b _08021544
-	.align 2, 0
-_08021520: .4byte gDispCnt
-_08021524: .4byte gWinRegs
-_08021528:
-	ldr r2, _08021570 @ =gDispCnt
-	ldrh r0, [r2]
-	movs r4, #0x80
-	lsls r4, r4, #6
-	adds r1, r4, #0
-	orrs r0, r1
-	strh r0, [r2]
-	ldr r1, _08021574 @ =gWinRegs
-	movs r0, #0xf0
-	strh r0, [r1]
-	movs r0, #0xa0
-	strh r0, [r1, #4]
-	ldrh r2, [r1, #8]
-	movs r0, #0x3f
-_08021544:
-	orrs r0, r2
-	strh r0, [r1, #8]
-	ldrh r2, [r1, #0xa]
-	movs r0, #0x1f
-	orrs r0, r2
-	strh r0, [r1, #0xa]
-	ldr r1, _08021578 @ =gBldRegs
-	ldrh r0, [r3, #8]
-	strh r0, [r1]
-	ldrh r0, [r3, #0xa]
-	strh r0, [r1, #2]
-	ldrh r2, [r3, #2]
-	movs r0, #1
-	ands r0, r2
-	adds r2, r1, #0
-	cmp r0, #0
-	beq _0802157C
-	ldrh r0, [r3, #4]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x18
-	b _08021586
-	.align 2, 0
-_08021570: .4byte gDispCnt
-_08021574: .4byte gWinRegs
-_08021578: .4byte gBldRegs
-_0802157C:
-	ldrh r1, [r3, #4]
-	lsls r1, r1, #0x10
-	asrs r1, r1, #0x18
-	movs r0, #0x20
-	subs r0, r0, r1
-_08021586:
-	strh r0, [r2, #4]
-	adds r1, r2, #0
-	ldrh r0, [r1, #4]
-	cmp r0, #0x1f
-	bls _08021594
-	movs r0, #0x20
-	strh r0, [r1, #4]
-_08021594:
-	ldrh r0, [r2, #4]
-	lsrs r0, r0, #1
-	strh r0, [r2, #4]
-	pop {r4}
-	pop {r0}
-	bx r0
-
 	thumb_func_start sub_80215A0
 sub_80215A0: @ 0x080215A0
 	push {r4, r5, r6, r7, lr}
@@ -8559,27 +8335,27 @@ _080256D2:
 _080256D8: .4byte 0x0000660F
 _080256DC: .4byte gMultiSioRecv
 
-	thumb_func_start sub_80256E0
-sub_80256E0: @ 0x080256E0
+	thumb_func_start MultiSio_SendPlayerName
+MultiSio_SendPlayerName: @ 0x080256E0
 	ldr r2, _0802570C @ =gMultiSioSend
 	movs r1, #0
 	movs r0, #0
 	strh r0, [r2]
 	strb r1, [r2, #2]
 	ldr r1, _08025710 @ =gLoadedSaveGame
-	ldr r0, [r1]
+	ldr r0, [r1]            @ playerId
 	str r0, [r2, #4]
-	ldrh r0, [r1, #4]
+	ldrh r0, [r1, #4]       @ playerName[0]
 	strh r0, [r2, #8]
-	ldrh r0, [r1, #6]
+	ldrh r0, [r1, #6]       @ playerName[1]       
 	strh r0, [r2, #0xa]
-	ldrh r0, [r1, #8]
+	ldrh r0, [r1, #8]       @ playerName[2]
 	strh r0, [r2, #0xc]
-	ldrh r0, [r1, #0xa]
+	ldrh r0, [r1, #0xa]     @ playerName[3]
 	strh r0, [r2, #0xe]
-	ldrh r0, [r1, #0xc]
+	ldrh r0, [r1, #0xc]     @ playerName[4]
 	strh r0, [r2, #0x10]
-	ldrh r0, [r1, #0xe]
+	ldrh r0, [r1, #0xe]     @ playerName[5]
 	strh r0, [r2, #0x12]
 	bx lr
 	.align 2, 0
@@ -8816,7 +8592,7 @@ sub_80258D4: @ 0x080258D4
 	adds r4, r0, #0
 	lsls r4, r4, #0x10
 	lsrs r4, r4, #0x10
-	bl sub_80256E0
+	bl MultiSio_SendPlayerName
 	ldr r1, _080258F8 @ =gUnknown_03001060
 	movs r0, #0
 	strb r0, [r1, #7]
@@ -9886,7 +9662,7 @@ sub_802613C: @ 0x0802613C
 	ldr r1, _08026164 @ =0xFFFFFBFF
 	ands r0, r1
 	str r0, [r2]
-	ldr r0, _08026168 @ =sub_8026178
+	ldr r0, _08026168 @ =Task_8026178
 	movs r2, #0x80
 	lsls r2, r2, #6
 	movs r1, #0
@@ -9899,7 +9675,7 @@ sub_802613C: @ 0x0802613C
 	.align 2, 0
 _08026160: .4byte gFlags
 _08026164: .4byte 0xFFFFFBFF
-_08026168: .4byte sub_8026178
+_08026168: .4byte Task_8026178
 
 	thumb_func_start sub_802616C
 sub_802616C: @ 0x0802616C
@@ -9909,8 +9685,8 @@ sub_802616C: @ 0x0802616C
 	.align 2, 0
 _08026174: .4byte gUnknown_03001060
 
-	thumb_func_start sub_8026178
-sub_8026178: @ 0x08026178
+	thumb_func_start Task_8026178
+Task_8026178: @ 0x08026178
 	push {lr}
 	ldr r0, _08026188 @ =sub_8025EEC
 	movs r1, #0

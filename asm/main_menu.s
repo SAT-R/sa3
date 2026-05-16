@@ -12062,7 +12062,7 @@ _0808D188: .4byte 0x0300000E
 _0808D18C: .4byte gLoadedSaveGame
 _0808D190: .4byte 0x00000366
 _0808D194:
-	bl sub_80256E0
+	bl MultiSio_SendPlayerName
 _0808D198:
 	movs r2, #0
 	str r2, [sp, #4]

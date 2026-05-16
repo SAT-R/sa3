@@ -131,29 +131,26 @@ void MaskPaletteWithUnderwaterColor(u32 *dst, u32 *src, u32 mask, s32 size)
     }
 }
 
-// (96.84%) https://decomp.me/scratch/XShZD
-NONMATCH("asm/non_matching/game/shared/stage/we__sub_805274C.inc", void sub_805274C(s16 *arg0, u16 *arg1, u32 UNUSED arg2, s32 count))
+void sub_805274C(ColorRaw *arg0, ColorRaw *arg1, u32 arg2, s32 count)
 {
-    while (count-- != 0) {
-        ColorRaw r = (*arg1 >> 0x0) & 0x1F;
-        u32 g = (*arg1 >> 0x5) & 0x1F;
-        u32 b = (*arg1 >> 0xA) & 0x1F;
+    while ((count--) != 0) {
+        ColorRaw color = ((*arg1) >> 0x0) & 0x1F;
+        u8 g = ((*arg1) >> 0x5) & 0x1F;
+        u8 b = ((*arg1) >> 0xA) & 0x1F;
 
-        r = (r >> 1) & 0x1F;
+        color = (color >> 1) & 0x1F;
         g = (g >> 1) & 0x1F;
-        r |= g << 5;
+        color |= g << 5;
         b = (b >> 1) & 0x1F;
-        r |= b << 10;
+        color |= b << 10;
+        *arg0 = color;
 
-        *arg0 = r;
         arg0++;
         arg1++;
     }
 }
-END_NONMATCH
 
-// (98.41%) https://decomp.me/scratch/AvNo7
-NONMATCH("asm/non_matching/game/shared/stage/we__Task_StageWaterTask.inc", void Task_StageWaterTask(void))
+void Task_StageWaterTask(void)
 {
     u16 sp00[6];
     u16 sp0C[16];
@@ -260,8 +257,7 @@ NONMATCH("asm/non_matching/game/shared/stage/we__Task_StageWaterTask.inc", void 
     if ((int_vcount)(water->SA2_LABEL(unk1) - 1) < (DISPLAY_HEIGHT - 1)) {
         s32 theX;
         s32 theY;
-        u16 baseX;
-        u16 baseY;
+        s16 baseX;
         s = &water->s;
         theX = sp68->x;
         theX += (gStageData.timer >> 2);
@@ -290,7 +286,7 @@ NONMATCH("asm/non_matching/game/shared/stage/we__Task_StageWaterTask.inc", void 
 
     if ((int_vcount)(water->SA2_LABEL(unk2) - 1) < (DISPLAY_HEIGHT - 1)) {
         REG_IME = 0;
-        gIntrTable[3] = VCountCB_WaterEffectCopyPalettes;
+        gIntrTable[INTR_INDEX_VCOUNT] = VCountCB_WaterEffectCopyPalettes;
         REG_IME = 1;
         sa2__gUnknown_03002874 = water->SA2_LABEL(unk2) - 1;
         gFlags |= FLAGS_40;
@@ -302,7 +298,6 @@ NONMATCH("asm/non_matching/game/shared/stage/we__Task_StageWaterTask.inc", void 
         gFlags &= ~FLAGS_40;
     }
 }
-END_NONMATCH
 
 bool16 IsWaterVisible(Water *water)
 {
