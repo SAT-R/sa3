@@ -2,6 +2,7 @@
 #include "core.h"
 #include "malloc_vram.h"
 #include "game/shared/stage/player.h"
+#include "game/stage.h"
 
 typedef struct ItemBox {
     /* 0x00 */ MapEntity *me;
@@ -47,7 +48,7 @@ void sub_802C618(ItemBox *itembox);
 void Task_802D61C(void);
 s32 sub_802CE4C(ItemBox *itembox);
 s32 sub_802D354(ItemBox *itembox, s32 arg1, s32 arg2, u8 arg3, Player *p, s32 arg5);
-s32 sub_802D4A8(ItemBox *itembox, s32 arg1, s32 arg2, u8 arg3);
+s32 sub_802D4A8(Sprite *s, s32 arg1, s32 arg2, u8 arg3);
 void sub_802D6CC(ItemBox *itembox, s32 arg1);
 
 bool32 sub_802D694(s32 x, s32 y);
@@ -921,7 +922,7 @@ block_77:
         }
         temp_r4 = gStageData.taskCheese->data->unk50;
         temp_r1_7 = 0x1C & temp_r4->unk2B;
-        if (((temp_r1_7 == 4) || (temp_r1_7 == 0x10)) && (sub_802D4A8((ItemBox *) &itembox->s, itembox->unk14, itembox->unk18, 0U) != 0)) {
+        if (((temp_r1_7 == 4) || (temp_r1_7 == 0x10)) && (sub_802D4A8(&itembox->s, itembox->unk14, itembox->unk18, 0U) != 0)) {
             itembox->unk8 = 2;
             itembox->unk6C = temp_r4;
             var_sl = 1;
@@ -1007,9 +1008,10 @@ block_13:
     return 0;
 }
 
-s32 sub_802D4A8(ItemBox *itembox, s32 arg1, s32 arg2, u8 arg3) {
-    s32 sp0;
-    s32 sp4;
+#endif
+#endif
+
+s32 sub_802D4A8(Sprite *s, s32 worldX, s32 worldY, u8 arg3) {
     s32 temp_r1_2;
     s32 temp_r1_3;
     s32 temp_r2;
@@ -1025,10 +1027,9 @@ s32 sub_802D4A8(ItemBox *itembox, s32 arg1, s32 arg2, u8 arg3) {
     void *temp_r3_4;
     void *temp_r6_2;
 
-    sp0 = arg2;
     temp_r3 = arg3;
     cheese = TASK_DATA(gStageData.taskCheese);
-    if (itembox->s.hitboxes[arg3].index == -1) {
+    if (s->hitboxes[arg3].index == -1) {
         goto block_14;
     }
     if (cheese->s.hitboxes[arg3].index == -1) {
@@ -1044,15 +1045,13 @@ s32 sub_802D4A8(ItemBox *itembox, s32 arg1, s32 arg2, u8 arg3) {
             [3] = cheeseHB->b.bottom + 4,
         };
         asm("" :: "r"(arr));
-        #if 0
-        //temp_r6_2 = itembox->s.hitboxes[arg3];
-        temp_r0 = itembox->s.hitboxes[arg3].left;
-        sp4 = (s32) temp_r0;
-        temp_r2 = temp_r0 + arg1;
+        //temp_r6_2 = s->hitboxes[arg3];
+        temp_r2 = worldX + s->hitboxes[arg3].left;
         temp_r1 = temp_r3_3;
-        temp_r1_2 = ((s32) cheese->unk0 >> 8) + temp_r1;
+        temp_r1_2 = I(cheese->unk0) + temp_r1;
+#if 0
         if (temp_r2 <= temp_r1_2) {
-            if ((s32) (temp_r2 + ((s8) temp_r6_2->unk26 - sp4)) < temp_r1_2) {
+            if ((s32) (temp_r2 + (s->hitboxes[arg3].right - s->hitboxes[arg3].left)) < temp_r1_2) {
                 if (temp_r2 >= temp_r1_2) {
                     goto block_8;
                 }
@@ -1065,7 +1064,7 @@ block_8:
 block_9:
             temp_r3_4 = itembox + (temp_r3 * 8);
             temp_r6_3 = temp_r3_4->unk25;
-            temp_r2_2 = sp0 + temp_r6_3;
+            temp_r2_2 = worldY + temp_r6_3;
             temp_r4 = (s32) (temp_r3_3 << 0x10) >> 0x18;
             temp_r1_3 = ((s32) cheese->unk4 >> 8) + temp_r4;
             if (temp_r2_2 <= temp_r1_3) {
@@ -1085,15 +1084,11 @@ block_13:
             goto block_14;
         }
         goto block_14;
-        #endif
+#endif
     }
 block_14:
     return 0;
 }
-
-#endif
-
-
 
 void TaskDestructor_ItemBox(Task *t)
 {

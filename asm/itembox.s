@@ -1,4 +1,4 @@
-.include "asm/macros.inc"
+	.include "asm/macros.inc"
 .include "constants/constants.inc"
 
 .text
@@ -2408,6 +2408,7 @@ _0802D496:
 	bx r1
 	.align 2, 0
 
+.if 0
 	thumb_func_start sub_802D4A8
 sub_802D4A8: @ 0x0802D4A8
 	push {r4, r5, r6, r7, lr}
@@ -2431,7 +2432,7 @@ sub_802D4A8: @ 0x0802D4A8
 	adds r0, r0, r3
 	mov r8, r0          @ r8 = cheese;
 	mov r0, sl          @ r0 = sl = arg3
-	lsls r6, r0, #3
+	lsls r6, r0, #3		@ r6 = arg3 * 8
 	mov r0, sb
 	adds r0, #0x20
 	adds r0, r0, r6
@@ -2582,6 +2583,4 @@ _0802D5EE:
 	pop {r1}
 	bx r1
 	.align 2, 0
-
-.if 0
 .endif
