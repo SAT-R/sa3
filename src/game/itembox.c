@@ -58,7 +58,8 @@ void sub_802C7B0(ItemBox *arg0);
 
 #if 00
 
-void CreateEntity_ItemBox(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
+void CreateEntity_ItemBox(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
     ItemBox *itembox;
     u16 temp_r1;
     u16 temp_r7;
@@ -81,12 +82,12 @@ void CreateEntity_ItemBox(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
             goto block_8;
         }
     } else {
-        if ((u8) gStageData.gameMode == 6) {
+        if ((u8)gStageData.gameMode == 6) {
             var_r0 = 0x11;
-block_7:
+        block_7:
             me->index = var_r0;
         }
-block_8:
+    block_8:
         itembox = TASK_DATA(TaskCreate(Task_ItemBoxInit, sizeof(ItemBox), 0x2000U, 0U, TaskDestructor_ItemBox));
         itembox->meIndex = me->index;
         itembox->unk10 = 0;
@@ -98,7 +99,7 @@ block_8:
         itembox->meX = me->x;
         itembox->id = id;
         itembox->p = NULL;
-    
+
         s = &itembox->s;
         s->tiles = VramMalloc(0x10U);
         s->anim = ANIM_ITEM_BOX;
@@ -112,7 +113,7 @@ block_8:
         s->hitboxes[0].index = -1;
         s->frameFlags = 0x1000;
         UpdateSpriteAnimation(s);
-    
+
         s = &itembox->s2;
         s->tiles = VramMalloc(4U);
         s->oamFlags = SPRITE_OAM_ORDER(24);
@@ -125,11 +126,12 @@ block_8:
         s->frameFlags = 0x1000;
         sub_802C35C(itembox, 1);
     }
-    
+
     SET_MAP_ENTITY_INITIALIZED(me);
 }
 
-void sub_802C35C(ItemBox *itembox, s32 param1) {
+void sub_802C35C(ItemBox *itembox, s32 param1)
+{
     s32 temp_r0;
     s32 temp_r1;
     s32 temp_r3_2;
@@ -160,83 +162,84 @@ void sub_802C35C(ItemBox *itembox, s32 param1) {
         } else {
             itembox->s2.anim = *gUnknown_080CF3C0[itembox->meIndex];
             var_r0 = *((itembox->meIndex * 6) + &gUnknown_080CF3C0[0][1]);
-            var_r1 = (u16 *) &itembox->s2.variant;
+            var_r1 = (u16 *)&itembox->s2.variant;
         }
-        *var_r1 = (s8) var_r0;
+        *var_r1 = (s8)var_r0;
         UpdateSpriteAnimation(&itembox->s2);
         return;
     }
-    temp_r5 = (u32) (gStageData.timer << 0xB) >> 0x10;
-    temp_r3 = (u16) Div((s32) temp_r5, 6);
+    temp_r5 = (u32)(gStageData.timer << 0xB) >> 0x10;
+    temp_r3 = (u16)Div((s32)temp_r5, 6);
     itembox->unk9 = temp_r5 - (temp_r3 * 6);
     temp_r0_2 = itembox->unk9;
-    switch (temp_r0_2) {                            /* switch 1 */
-    case 0:                                         /* switch 1 */
-        temp_r3_2 = temp_r3 & 0xF;
-        var_r1_2 = 0;
-        if ((temp_r3_2 == 2) || (temp_r3_2 == 7) || (temp_r3_2 == 0xC)) {
-            var_r1_2 = 1;
-        }
-        var_r3 = var_r1_2;
-        break;
-    case 1:                                         /* switch 1 */
-        var_r3_2 = temp_r3 & 7;
-        var_r0_2 = 0;
-        if ((var_r3_2 != 1) && (var_r3_2 != 4)) {
-            var_r1_3 = 6;
-block_23:
-            temp_r1 = var_r1_3 ^ var_r3_2;
-            var_r0_2 = (u32) ((0 - temp_r1) | temp_r1) >> 0x1F;
-        }
-block_28:
-        var_r3 = var_r0_2;
-        break;
-    case 2:                                         /* switch 1 */
-        temp_r3_3 = temp_r3 & 0xF;
-        var_r0_2 = 0;
-        switch (temp_r3_3) {                        /* switch 2; irregular */
-        case 14:                                    /* switch 2 */
-            /* fallthrough */
-        case 4:                                     /* switch 2 */
-        case 9:                                     /* switch 2 */
-block_27:
-            var_r0_2 = 1;
+    switch (temp_r0_2) { /* switch 1 */
+        case 0: /* switch 1 */
+            temp_r3_2 = temp_r3 & 0xF;
+            var_r1_2 = 0;
+            if ((temp_r3_2 == 2) || (temp_r3_2 == 7) || (temp_r3_2 == 0xC)) {
+                var_r1_2 = 1;
+            }
+            var_r3 = var_r1_2;
             break;
-        }
-        goto block_28;
-    case 3:                                         /* switch 1 */
-        var_r1_3 = 7;
-        var_r3_2 = temp_r3 & 7;
-        var_r0_2 = 0;
-        if ((var_r3_2 != 2) && (var_r3_2 != 4)) {
-            goto block_23;
-        }
-        goto block_28;
-    case 4:                                         /* switch 1 */
-        temp_r3_4 = temp_r3 & 0xF;
-        var_r0_2 = 0;
-        if ((temp_r3_4 == 3) || (temp_r3_4 == 8) || (temp_r3_4 == 0xD)) {
-            goto block_27;
-        }
-        goto block_28;
-    case 5:                                         /* switch 1 */
-        var_r3 = 0;
-        break;
-    default:                                        /* switch 1 */
-        itembox->unk9 = 0;
-        var_r3 = 1 & temp_r5;
-        break;
+        case 1: /* switch 1 */
+            var_r3_2 = temp_r3 & 7;
+            var_r0_2 = 0;
+            if ((var_r3_2 != 1) && (var_r3_2 != 4)) {
+                var_r1_3 = 6;
+            block_23:
+                temp_r1 = var_r1_3 ^ var_r3_2;
+                var_r0_2 = (u32)((0 - temp_r1) | temp_r1) >> 0x1F;
+            }
+        block_28:
+            var_r3 = var_r0_2;
+            break;
+        case 2: /* switch 1 */
+            temp_r3_3 = temp_r3 & 0xF;
+            var_r0_2 = 0;
+            switch (temp_r3_3) { /* switch 2; irregular */
+                case 14: /* switch 2 */
+                    /* fallthrough */
+                case 4: /* switch 2 */
+                case 9: /* switch 2 */
+                block_27:
+                    var_r0_2 = 1;
+                    break;
+            }
+            goto block_28;
+        case 3: /* switch 1 */
+            var_r1_3 = 7;
+            var_r3_2 = temp_r3 & 7;
+            var_r0_2 = 0;
+            if ((var_r3_2 != 2) && (var_r3_2 != 4)) {
+                goto block_23;
+            }
+            goto block_28;
+        case 4: /* switch 1 */
+            temp_r3_4 = temp_r3 & 0xF;
+            var_r0_2 = 0;
+            if ((temp_r3_4 == 3) || (temp_r3_4 == 8) || (temp_r3_4 == 0xD)) {
+                goto block_27;
+            }
+            goto block_28;
+        case 5: /* switch 1 */
+            var_r3 = 0;
+            break;
+        default: /* switch 1 */
+            itembox->unk9 = 0;
+            var_r3 = 1 & temp_r5;
+            break;
     }
-    itembox->meIndex = (u8) *((var_r3 * 2) + (itembox->unk9 * 4) + gUnknown_080CF44E);
+    itembox->meIndex = (u8) * ((var_r3 * 2) + (itembox->unk9 * 4) + gUnknown_080CF44E);
     itembox->s.anim = gUnknown_080CF3B8[var_r3];
-    itembox->s.variant = (u8) *((var_r3 * 4) + (gUnknown_080CF3B8 + 2));
+    itembox->s.variant = (u8) * ((var_r3 * 4) + (gUnknown_080CF3B8 + 2));
     UpdateSpriteAnimation(&itembox->s);
     itembox->s2.anim = *gUnknown_080CF3C0[itembox->meIndex];
-    itembox->s2.variant = (u8) *((itembox->meIndex * 6) + &gUnknown_080CF3C0[0][1]);
+    itembox->s2.variant = (u8) * ((itembox->meIndex * 6) + &gUnknown_080CF3C0[0][1]);
     UpdateSpriteAnimation(&itembox->s2);
 }
 
-void Task_ItemBoxInit() {
+void Task_ItemBoxInit()
+{
     Player *p;
     s32 temp_r0_2;
     u32 temp_r0;
@@ -269,16 +272,16 @@ void Task_ItemBoxInit() {
     sub_802D6CC(itembox, 0);
 }
 
-void sub_802C618(ItemBox* itembox) {
+void sub_802C618(ItemBox *itembox)
+{
     s16 sp8;
-    Player* p;
-    Player* boxPlayer;
-    PlayerSpriteInfo* spi;
+    Player *p;
+    Player *boxPlayer;
+    PlayerSpriteInfo *spi;
     s16 i;
 
     sub_805CEBC(itembox->unk14 << 8, itembox->unk18 << 8, 0, 0, 1, 0);
-    for(i = 0; i < 2; i++)
-    {
+    for (i = 0; i < 2; i++) {
         p = GET_SP_PLAYER_V0(i);
         CpuFill16(0, &itembox->s.hitboxes[0].b, sizeof(itembox->s.hitboxes));
         sub_8020950(&itembox->s, itembox->unk14, itembox->unk18, p, 0U);
@@ -288,32 +291,23 @@ void sub_802C618(ItemBox* itembox) {
     if (boxPlayer != NULL) {
         if ((itembox->unk8 != 1) || (boxPlayer->moveState & 4)) {
             spi = boxPlayer->spriteInfoBody;
-            if(((spi->s.anim != 570 || spi->s.variant != 1) 
-            && (spi->s.anim != 363 || spi->s.variant != 0)
-            && (spi->s.anim != 38 || spi->s.variant != 0)
-            && (spi->s.anim != 37 || spi->s.variant != 0)
-            && (itembox->unk8 != 2)
-            && (spi->s.anim != 42 || spi->s.variant != 0)
-            && (spi->s.anim != 531 || spi->s.variant != 0)
-            && (spi->s.anim != 689 || spi->s.variant != 0)
-            && (boxPlayer->charFlags.anim0 != 257)
-            && (boxPlayer->charFlags.anim0 != 0xE3)
-            && (boxPlayer->charFlags.anim0 != 0xD5)
-              ))
-            {
+            if (((spi->s.anim != 570 || spi->s.variant != 1) && (spi->s.anim != 363 || spi->s.variant != 0)
+                 && (spi->s.anim != 38 || spi->s.variant != 0) && (spi->s.anim != 37 || spi->s.variant != 0) && (itembox->unk8 != 2)
+                 && (spi->s.anim != 42 || spi->s.variant != 0) && (spi->s.anim != 531 || spi->s.variant != 0)
+                 && (spi->s.anim != 689 || spi->s.variant != 0) && (boxPlayer->charFlags.anim0 != 257)
+                 && (boxPlayer->charFlags.anim0 != 0xE3) && (boxPlayer->charFlags.anim0 != 0xD5))) {
                 boxPlayer->qSpeedAirY = -Q(3);
                 boxPlayer->charFlags.anim1 = -1;
             }
         } else {
-            Player_BoostModeDisengage(boxPlayer);            
+            Player_BoostModeDisengage(boxPlayer);
         }
     }
     Player_PlaySong(boxPlayer, 0x96U);
     itembox->unk7 = 0;
-    if ((gStageData.gameMode > 4U)
-        && (boxPlayer != NULL)
+    if ((gStageData.gameMode > 4U) && (boxPlayer != NULL)
         && (((boxPlayer->charFlags.someIndex == 1)) || (boxPlayer->charFlags.someIndex == 2))) {
-        sub_8027538((s32) itembox->me);
+        sub_8027538((s32)itembox->me);
     }
     gCurTask->main = Task_802D61C;
 }
@@ -1011,84 +1005,58 @@ block_13:
 #endif
 #endif
 
-s32 sub_802D4A8(Sprite *s, s32 worldX, s32 worldY, u8 arg3) {
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s32 temp_r4;
-    s32 temp_r6;
-    s8 temp_r0;
-    s8 temp_r1;
-    s8 temp_r3_3;
-    s8 temp_r6_3;
-    Cheese *cheese;
-    u8 temp_r3;
-    void *temp_r3_4;
-    void *temp_r6_2;
+// (40.37%) https://decomp.me/scratch/Avh85
+NONMATCH("asm/non_matching/game/itembox__sub_802D4A8.inc", s32 sub_802D4A8(Sprite *s, s32 worldX, s32 worldY, u8 hbIndex))
+{
+    Cheese *cheese = TASK_DATA(gStageData.taskCheese);
 
-    temp_r3 = arg3;
-    cheese = TASK_DATA(gStageData.taskCheese);
-    if (s->hitboxes[arg3].index == -1) {
-        goto block_14;
-    }
-    if (cheese->s.hitboxes[arg3].index == -1) {
-        goto block_14;
-    }
-    if (CMS_2 & cheese->moveState) 
-    {
-        Hitbox *cheeseHB = &cheese->s.hitboxes[arg3];
-        s8 arr[4] = {
-            [0] = cheeseHB->b.left,
-            [1] = cheeseHB->b.top - 4,
-            [2] = cheeseHB->b.right,
-            [3] = cheeseHB->b.bottom + 4,
-        };
-        asm("" :: "r"(arr));
-        //temp_r6_2 = s->hitboxes[arg3];
-        temp_r2 = worldX + s->hitboxes[arg3].left;
-        temp_r1 = temp_r3_3;
-        temp_r1_2 = I(cheese->unk0) + temp_r1;
-#if 0
-        if (temp_r2 <= temp_r1_2) {
-            if ((s32) (temp_r2 + (s->hitboxes[arg3].right - s->hitboxes[arg3].left)) < temp_r1_2) {
-                if (temp_r2 >= temp_r1_2) {
-                    goto block_8;
-                }
-                goto block_14;
-            }
-            goto block_9;
-        }
-block_8:
-        if ((s32) (temp_r1_2 + (((s32) (temp_r3_3 << 8) >> 0x18) - temp_r1)) >= temp_r2) {
-block_9:
-            temp_r3_4 = itembox + (temp_r3 * 8);
-            temp_r6_3 = temp_r3_4->unk25;
-            temp_r2_2 = worldY + temp_r6_3;
-            temp_r4 = (s32) (temp_r3_3 << 0x10) >> 0x18;
-            temp_r1_3 = ((s32) cheese->unk4 >> 8) + temp_r4;
-            if (temp_r2_2 <= temp_r1_3) {
-                if ((s32) (temp_r2_2 + ((s8) temp_r3_4->unk27 - temp_r6_3)) < temp_r1_3) {
-                    if (temp_r2_2 >= temp_r1_3) {
-                        goto block_12;
+    if ((s->hitboxes[hbIndex].index != -1) && (cheese->s.hitboxes[hbIndex].index != -1)) {
+        if (CMS_2 & cheese->moveState) {
+            Hitbox *cheeseHB = &cheese->s.hitboxes[hbIndex];
+            s8 arr[4] = {
+                [0] = cheeseHB->b.left,
+                [1] = cheeseHB->b.top - 4,
+                [2] = cheeseHB->b.right,
+                [3] = cheeseHB->b.bottom + 4,
+            };
+
+            if ((worldX + s->hitboxes[hbIndex].b.left) <= (I(cheese->qWorldX) + arr[0])) {
+                if ((s32)((worldX + s->hitboxes[hbIndex].b.left) + (s->hitboxes[hbIndex].b.right - s->hitboxes[hbIndex].b.left))
+                    < (I(cheese->qWorldX) + arr[0])) {
+                    if ((worldX + s->hitboxes[hbIndex].b.left) >= (I(cheese->qWorldX) + arr[0])) {
+                        goto block_8;
                     }
-                    goto block_14;
+                    goto ret_0;
                 }
-                goto block_13;
+                goto block_9;
             }
-block_12:
-            if ((s32) (temp_r1_3 + ((temp_r3_3 >> 0x18) - temp_r4)) >= temp_r2_2) {
-block_13:
-                return 1;
+        block_8:
+            if ((s32)((I(cheese->qWorldX) + arr[0]) + (arr[2] - arr[0])) >= (worldX + s->hitboxes[hbIndex].b.left)) {
+            block_9:
+                if ((worldY + s->hitboxes[hbIndex].b.top) <= (I(cheese->qWorldY) + arr[1])) {
+                    if (((worldY + s->hitboxes[hbIndex].b.top) + (s->hitboxes[hbIndex].b.bottom - s->hitboxes[hbIndex].b.top))
+                        < (I(cheese->qWorldY) + arr[1])) {
+                        if ((worldY + s->hitboxes[hbIndex].b.top) >= (I(cheese->qWorldY) + arr[1])) {
+                            goto block_12;
+                        }
+                        goto ret_0;
+                    }
+                    goto ret_1;
+                }
+            block_12:
+                if ((s32)((I(cheese->qWorldY) + arr[1]) + (arr[3] - arr[1])) >= (worldY + s->hitboxes[hbIndex].b.top)) {
+                ret_1:
+                    return 1;
+                }
+                goto ret_0;
             }
-            goto block_14;
+            goto ret_0;
         }
-        goto block_14;
-#endif
     }
-block_14:
+ret_0:
     return 0;
 }
+END_NONMATCH
 
 void TaskDestructor_ItemBox(Task *t)
 {
