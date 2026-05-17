@@ -1006,12 +1006,12 @@ block_13:
 #endif
 
 // NOTE: Currently the hitbox check is not correct.
-// (40.37%) https://decomp.me/scratch/Avh85
+// (45.12%) https://decomp.me/scratch/Avh85
 NONMATCH("asm/non_matching/game/Itembox_CollisionCheese.inc", s32 Itembox_CollisionCheese(Sprite *s, s32 worldX, s32 worldY, u8 hbIndex))
 {
     Cheese *cheese = TASK_DATA(gStageData.taskCheese);
 
-    if ((s->hitboxes[hbIndex].index != -1) && (cheese->s.hitboxes[hbIndex].index != -1)) {
+    if ((s->hitboxes[hbIndex].index != -1) && (cheese->s.hitboxes[1].index != -1)) {
         if (CMS_2 & cheese->moveState) {
             Hitbox *cheeseHB = &cheese->s.hitboxes[hbIndex];
             s8 arr[4] = {
@@ -1021,10 +1021,10 @@ NONMATCH("asm/non_matching/game/Itembox_CollisionCheese.inc", s32 Itembox_Collis
                 [3] = cheeseHB->b.bottom + 4,
             };
 
-            if ((worldX + s->hitboxes[hbIndex].b.left) <= (I(cheese->qWorldX) + arr[0])) {
+            if ((worldX + s->hitboxes[hbIndex].b.left) <= (I(cheese->qWorldX) + cheeseHB->b.left)) {
                 if ((s32)((worldX + s->hitboxes[hbIndex].b.left) + (s->hitboxes[hbIndex].b.right - s->hitboxes[hbIndex].b.left))
-                    < (I(cheese->qWorldX) + arr[0])) {
-                    if ((worldX + s->hitboxes[hbIndex].b.left) >= (I(cheese->qWorldX) + arr[0])) {
+                    < (I(cheese->qWorldX) + cheeseHB->b.left)) {
+                    if ((worldX + s->hitboxes[hbIndex].b.left) >= (I(cheese->qWorldX) + cheeseHB->b.left)) {
                         goto block_8;
                     }
                     goto ret_0;
@@ -1032,12 +1032,13 @@ NONMATCH("asm/non_matching/game/Itembox_CollisionCheese.inc", s32 Itembox_Collis
                 goto block_9;
             }
         block_8:
-            if ((s32)((I(cheese->qWorldX) + arr[0]) + (arr[2] - arr[0])) >= (worldX + s->hitboxes[hbIndex].b.left)) {
+            if ((s32)((I(cheese->qWorldX) + cheeseHB->b.left) + (cheeseHB->b.right - cheeseHB->b.left))
+                >= (worldX + s->hitboxes[hbIndex].b.left)) {
             block_9:
-                if ((worldY + s->hitboxes[hbIndex].b.top) <= (I(cheese->qWorldY) + arr[1])) {
+                if ((worldY + s->hitboxes[hbIndex].b.top) <= (I(cheese->qWorldY) + cheeseHB->b.top)) {
                     if (((worldY + s->hitboxes[hbIndex].b.top) + (s->hitboxes[hbIndex].b.bottom - s->hitboxes[hbIndex].b.top))
-                        < (I(cheese->qWorldY) + arr[1])) {
-                        if ((worldY + s->hitboxes[hbIndex].b.top) >= (I(cheese->qWorldY) + arr[1])) {
+                        < (I(cheese->qWorldY) + cheeseHB->b.top)) {
+                        if ((worldY + s->hitboxes[hbIndex].b.top) >= (I(cheese->qWorldY) + cheeseHB->b.top)) {
                             goto block_12;
                         }
                         goto ret_0;
@@ -1045,7 +1046,8 @@ NONMATCH("asm/non_matching/game/Itembox_CollisionCheese.inc", s32 Itembox_Collis
                     goto ret_1;
                 }
             block_12:
-                if ((s32)((I(cheese->qWorldY) + arr[1]) + (arr[3] - arr[1])) >= (worldY + s->hitboxes[hbIndex].b.top)) {
+                if ((s32)((I(cheese->qWorldY) + cheeseHB->b.top) + (cheeseHB->b.bottom - cheeseHB->b.top))
+                    >= (worldY + s->hitboxes[hbIndex].b.top)) {
                 ret_1:
                     return 1;
                 }
