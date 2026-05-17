@@ -48,7 +48,7 @@ void sub_802C618(ItemBox *itembox);
 void Task_802D61C(void);
 s32 sub_802CE4C(ItemBox *itembox);
 s32 sub_802D354(ItemBox *itembox, s32 arg1, s32 arg2, u8 arg3, Player *p, s32 arg5);
-s32 sub_802D4A8(Sprite *s, s32 arg1, s32 arg2, u8 arg3);
+s32 Itembox_CollisionCheese(Sprite *s, s32 arg1, s32 arg2, u8 arg3);
 void sub_802D6CC(ItemBox *itembox, s32 arg1);
 
 bool32 sub_802D694(s32 x, s32 y);
@@ -107,7 +107,7 @@ void CreateEntity_ItemBox(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         s->oamFlags = SPRITE_OAM_ORDER(24);
         s->animCursor = 0;
         s->qAnimDelay = 0;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->animSpeed = 0x10;
         s->palId = 0;
         s->hitboxes[0].index = -1;
@@ -313,7 +313,7 @@ void sub_802C618(ItemBox *itembox)
 }
 
 #if 0
-void sub_802C7B0(ItemBox *arg0, ? arg3) {
+void sub_802C7B0(ItemBox *arg0) {
     Player *temp_r0;
     Player *temp_r0_12;
     Player *temp_r0_13;
@@ -916,7 +916,7 @@ block_77:
         }
         temp_r4 = gStageData.taskCheese->data->unk50;
         temp_r1_7 = 0x1C & temp_r4->unk2B;
-        if (((temp_r1_7 == 4) || (temp_r1_7 == 0x10)) && (sub_802D4A8(&itembox->s, itembox->unk14, itembox->unk18, 0U) != 0)) {
+        if (((temp_r1_7 == 4) || (temp_r1_7 == 0x10)) && (Itembox_CollisionCheese(&itembox->s, itembox->unk14, itembox->unk18, 0U) != 0)) {
             itembox->unk8 = 2;
             itembox->unk6C = temp_r4;
             var_sl = 1;
@@ -926,7 +926,7 @@ block_83:
     }
 }
 
-s32 sub_802D354(ItemBox *itembox, s32 arg1, s32 arg2, u8 arg3, Player *p, s32 arg5) {
+s32 sub_802D354(Sprite *s, s32 arg1, s32 arg2, u8 arg3, Player *p, s32 arg5) {
     s32 sp0;
     s32 sp4;
     s32 sp8;
@@ -1005,8 +1005,9 @@ block_13:
 #endif
 #endif
 
+// NOTE: Currently the hitbox check is not correct.
 // (40.37%) https://decomp.me/scratch/Avh85
-NONMATCH("asm/non_matching/game/itembox__sub_802D4A8.inc", s32 sub_802D4A8(Sprite *s, s32 worldX, s32 worldY, u8 hbIndex))
+NONMATCH("asm/non_matching/game/Itembox_CollisionCheese.inc", s32 Itembox_CollisionCheese(Sprite *s, s32 worldX, s32 worldY, u8 hbIndex))
 {
     Cheese *cheese = TASK_DATA(gStageData.taskCheese);
 
@@ -1069,7 +1070,7 @@ void Task_802D61C()
 {
     ItemBox *itembox = TASK_DATA(gCurTask);
 
-    if (itembox->unk7++ > 0x3BU) {
+    if (itembox->unk7++ >= 60) {
         sub_802C7B0(itembox);
     } else {
         itembox->unk10 = (u16)(itembox->unk10 - Q(1));

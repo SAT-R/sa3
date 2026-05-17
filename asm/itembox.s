@@ -2210,7 +2210,7 @@ _0802D322:
 	ldr r1, [r5, #0x14]
 	ldr r2, [r5, #0x18]
 	movs r3, #0
-	bl sub_802D4A8
+	bl Itembox_CollisionCheese
 	cmp r0, #0
 	beq _0802D33E
 	movs r0, #2
