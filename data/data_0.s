@@ -173,16 +173,16 @@ gUnknown_080CECE4:
 gUnknown_080CECF8:
     .incbin "baserom_sa3.gba", 0x000CECF8, 0x60
 
-    .global gUnknown_080CED58
-gUnknown_080CED58:
+    .global sEmeraldOverviewZoneNums
+sEmeraldOverviewZoneNums:
     .incbin "baserom_sa3.gba", 0x000CED58, 0x38
 
-    .global gUnknown_080CED90
-gUnknown_080CED90:
+    .global sEmeraldOverviewEmeraldNums
+sEmeraldOverviewEmeraldNums:
     .incbin "baserom_sa3.gba", 0x000CED90, 0x58
 
-    .global gUnknown_080CEDE8
-gUnknown_080CEDE8:
+    .global sEmeraldOverviewEmeraldGotIcons
+sEmeraldOverviewEmeraldGotIcons:
     .incbin "baserom_sa3.gba", 0x000CEDE8, 0x38
 
     .global gUnknown_080CEE20
@@ -234,7 +234,12 @@ gUnknown_080CEF08:
 
     .global gUnknown_080CEF2C
 gUnknown_080CEF2C:
-    .incbin "baserom_sa3.gba", 0x000CEF2C, 0x24
+	.short 0x03EF, 0x0000, 0x2E		@ ANIM_TITLE_PRESS_START_JP
+	.short 0x03F1, 0x0000, 0x1E		@ ANIM_TITLE_PRESS_START_EN
+	.short 0x03F2, 0x0000, 0x22		@ ANIM_TITLE_PRESS_START_DE
+	.short 0x03F3, 0x0000, 0x2E		@ ANIM_TITLE_PRESS_START_FR
+	.short 0x03F4, 0x0000, 0x1E		@ ANIM_TITLE_PRESS_START_ES
+	.short 0x03F5, 0x0000, 0x1E		@ ANIM_TITLE_PRESS_START_IT
 
     .global gUnknown_080CEF50
 gUnknown_080CEF50:

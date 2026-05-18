@@ -109,7 +109,7 @@ _08021658:
 	lsls r1, r2, #3
 	adds r1, r1, r4
 	ldrh r0, [r1, #4]
-	strh r0, [r7, #0xc]
+	strh r0, [r7, #0xc]		@ ANIM_ASCII
 	ldrb r0, [r1, #6]
 	strb r0, [r7, #0x1a]
 	movs r0, #0xc0
@@ -164,7 +164,7 @@ _08021658:
 	str r6, [r7]
 	movs r4, #0
 	movs r5, #0
-	ldr r0, _080218BC @ =0x0000058F
+	ldr r0, _080218BC @ =0x0000058F		@ ANIM_LIFE_ICONS
 	strh r0, [r7, #0xc]
 	adds r2, #0x2a
 	str r2, [sp, #0x34]
@@ -210,7 +210,7 @@ _0802172A:
 	lsls r7, r7, #2
 	add r7, sl
 	str r6, [r7]
-	ldr r2, _080218BC @ =0x0000058F
+	ldr r2, _080218BC @ =0x0000058F		@ ANIM_LIFE_ICONS
 	strh r2, [r7, #0xc]
 	ldr r0, [sp, #0x2c]
 	adds r0, #0x2a
@@ -256,7 +256,7 @@ _0802177E:
 	lsls r7, r7, #2
 	add r7, sl
 	str r6, [r7]
-	ldr r0, _080218C0 @ =0x0000058E
+	ldr r0, _080218C0 @ =0x0000058E		@ ANIM_UI_SPECIAL_KEY
 	strh r0, [r7, #0xc]
 	strb r4, [r7, #0x1a]
 	movs r2, #0xc0
@@ -283,7 +283,7 @@ _080217C4:
 	lsls r7, r7, #2
 	add r7, sl
 	str r6, [r7]
-	ldr r0, _080218C4 @ =0x0000058C
+	ldr r0, _080218C4 @ =0x0000058C		@ ANIM_UI_CHARACTER_TYPE
 	strh r0, [r7, #0xc]
 	ldr r1, [sp, #0x3c]
 	ldrb r2, [r1]
@@ -326,7 +326,7 @@ _080217C4:
 	lsls r7, r7, #2
 	add r7, sl
 	str r6, [r7]
-	ldr r0, _080218C8 @ =0x0000058D
+	ldr r0, _080218C8 @ =0x0000058D		@ ANIM_UI_TIME
 	strh r0, [r7, #0xc]
 	strb r4, [r7, #0x1a]
 	movs r0, #0xc0
@@ -362,7 +362,7 @@ _080217C4:
 	bl VramMalloc
 	str r0, [r7]
 	movs r0, #0xb2
-	lsls r0, r0, #3
+	lsls r0, r0, #3			@ ANIM_ZONEX_NAME
 	strh r0, [r7, #0xc]
 	ldr r2, _080218B8 @ =gStageData
 	ldrb r0, [r2, #9]
@@ -417,7 +417,7 @@ _080218D0:
 	movs r7, #0xb5
 	lsls r7, r7, #2
 	add r7, sl
-	ldr r4, _080219DC @ =gUnknown_080CED58
+	ldr r4, _080219DC @ =sEmeraldOverviewZoneNums
 	lsrs r6, r6, #0xd
 	adds r4, r6, r4
 	ldr r0, [r4]
@@ -456,7 +456,7 @@ _080218D0:
 	movs r7, #0xbf
 	lsls r7, r7, #2
 	add r7, sl
-	ldr r0, _080219E0 @ =gUnknown_080CED90
+	ldr r0, _080219E0 @ =sEmeraldOverviewEmeraldNums
 	lsls r5, r5, #0x10
 	asrs r5, r5, #0xd
 	adds r5, r5, r0
@@ -490,7 +490,7 @@ _080218D0:
 	movs r7, #0xc9
 	lsls r7, r7, #2
 	add r7, sl
-	ldr r0, _080219E4 @ =gUnknown_080CEDE8
+	ldr r0, _080219E4 @ =sEmeraldOverviewEmeraldGotIcons
 	adds r6, r6, r0
 	ldr r0, [r6]
 	bl VramMalloc
@@ -531,9 +531,9 @@ _080219C8:
 	bx r1
 	.align 2, 0
 _080219D8: .4byte gStageData
-_080219DC: .4byte gUnknown_080CED58
-_080219E0: .4byte gUnknown_080CED90
-_080219E4: .4byte gUnknown_080CEDE8
+_080219DC: .4byte sEmeraldOverviewZoneNums
+_080219E0: .4byte sEmeraldOverviewEmeraldNums
+_080219E4: .4byte sEmeraldOverviewEmeraldGotIcons
 
 	thumb_func_start sub_80219E8
 sub_80219E8: @ 0x080219E8
@@ -1193,7 +1193,7 @@ _08021F3E:
 	lsls r1, r5, #3
 	adds r1, r1, r7
 	ldrh r0, [r1, #4]
-	strh r0, [r3, #0xc]
+	strh r0, [r3, #0xc]			@ ANIM_ASCII
 	ldrb r0, [r1, #6]
 	strb r0, [r3, #0x1a]
 	movs r0, #0xc0
@@ -1219,7 +1219,7 @@ _08021F3E:
 	adds r6, r6, r2
 	movs r5, #0
 	movs r4, #0
-	ldr r0, _0802217C @ =0x0000058F
+	ldr r0, _0802217C @ =0x0000058F		@ ANIM_LIFE_ICONS
 	mov r8, r0
 _08021F8E:
 	lsls r1, r5, #2
@@ -1277,7 +1277,7 @@ _08021F8E:
 	str r6, [r3]
 	movs r5, #0
 	movs r4, #0
-	ldr r1, _08022184 @ =0x000005E7
+	ldr r1, _08022184 @ =0x000005E7		@ ANIM_INDICATOR_SONIC
 	strh r1, [r3, #0xc]
 	strb r5, [r3, #0x1a]
 	strh r7, [r3, #0x14]
@@ -1304,7 +1304,7 @@ _08021F8E:
 	lsls r3, r3, #2
 	add r3, sb
 	str r6, [r3]
-	ldr r0, _08022184 @ =0x000005E7
+	ldr r0, _08022184 @ =0x000005E7		@ ANIM_INDICATOR_SONIC
 	strh r0, [r3, #0xc]
 	movs r0, #1
 	strb r0, [r3, #0x1a]
@@ -1353,7 +1353,7 @@ _08021F8E:
 	lsls r3, r3, #2
 	add r3, sb
 	str r6, [r3]
-	ldr r0, _0802218C @ =0x0000058C
+	ldr r0, _0802218C @ =0x0000058C		@ ANIM_UI_CHARACTER_TYPE
 	strh r0, [r3, #0xc]
 	adds r1, #0x2a
 	ldrb r2, [r1]
@@ -1396,7 +1396,7 @@ _08021F8E:
 	lsls r3, r3, #2
 	add r3, sb
 	str r6, [r3]
-	ldr r0, _08022190 @ =0x000005EB
+	ldr r0, _08022190 @ =0x000005EB		@ ANIM_VS_START_ICON
 	strh r0, [r3, #0xc]
 	strb r5, [r3, #0x1a]
 	movs r2, #0xc0
@@ -1422,7 +1422,7 @@ _08021F8E:
 	lsls r3, r3, #2
 	add r3, sb
 	str r6, [r3]
-	ldr r0, _08022194 @ =0x000005EA
+	ldr r0, _08022194 @ =0x000005EA		@ ANIM_VS_CHECKERED_FLAG
 	strh r0, [r3, #0xc]
 	strb r5, [r3, #0x1a]
 	movs r1, #0xc0
@@ -2701,7 +2701,7 @@ _08022B60:
 	str r1, [r7]
 	movs r2, #0
 	mov sb, r2
-	ldr r0, _08022D24 @ =0x0000058D
+	ldr r0, _08022D24 @ =0x0000058D		@ ANIM_UI_TIME
 	strh r0, [r7, #0xc]
 	movs r4, #0
 	strb r4, [r7, #0x1a]
@@ -2716,7 +2716,7 @@ _08022B60:
 	adds r1, #0x40
 	adds r7, #0x28
 	str r1, [r7]
-	ldr r3, _08022D28 @ =0x00000462
+	ldr r3, _08022D28 @ =0x00000462		@ ANIM_ASCII
 	strh r3, [r7, #0xc]
 	movs r4, #0x1a
 	strb r4, [r7, #0x1a]
@@ -2727,7 +2727,7 @@ _08022B60:
 	adds r1, #0x40
 	adds r7, #0x28
 	str r1, [r7]
-	strh r3, [r7, #0xc]
+	strh r3, [r7, #0xc]					@ ANIM_ASCII
 	strb r4, [r7, #0x1a]
 	movs r0, #0xd2
 	strh r0, [r7, #0x10]
@@ -2735,7 +2735,7 @@ _08022B60:
 	adds r1, #0x40
 	adds r7, #0x28
 	str r1, [r7]
-	strh r3, [r7, #0xc]
+	strh r3, [r7, #0xc]					@ ANIM_ASCII
 	movs r4, #0x10
 	strb r4, [r7, #0x1a]
 	movs r0, #0xaa
@@ -2744,7 +2744,7 @@ _08022B60:
 	adds r1, #0x40
 	adds r7, #0x28
 	str r1, [r7]
-	strh r3, [r7, #0xc]
+	strh r3, [r7, #0xc]					@ ANIM_ASCII
 	strb r4, [r7, #0x1a]
 	movs r0, #0xbe
 	strh r0, [r7, #0x10]
@@ -2752,7 +2752,7 @@ _08022B60:
 	adds r1, #0x40
 	adds r7, #0x28
 	str r1, [r7]
-	strh r3, [r7, #0xc]
+	strh r3, [r7, #0xc]					@ ANIM_ASCII
 	strb r4, [r7, #0x1a]
 	movs r0, #0xc8
 	strh r0, [r7, #0x10]
@@ -2760,7 +2760,7 @@ _08022B60:
 	adds r1, #0x40
 	adds r7, #0x28
 	str r1, [r7]
-	strh r3, [r7, #0xc]
+	strh r3, [r7, #0xc]					@ ANIM_ASCII
 	strb r4, [r7, #0x1a]
 	movs r0, #0xdc
 	strh r0, [r7, #0x10]
@@ -2768,7 +2768,7 @@ _08022B60:
 	adds r1, #0x40
 	adds r7, #0x28
 	str r1, [r7]
-	strh r3, [r7, #0xc]
+	strh r3, [r7, #0xc]					@ ANIM_ASCII
 	strb r4, [r7, #0x1a]
 	movs r0, #0xe6
 	strh r0, [r7, #0x10]
@@ -2776,7 +2776,7 @@ _08022B60:
 	adds r1, #0x40
 	adds r7, #0x28
 	str r1, [r7]
-	ldr r4, _08022D2C @ =0x000005EC
+	ldr r4, _08022D2C @ =0x000005EC		@ ANIM_VS_CHAO_ICON
 	strh r4, [r7, #0xc]
 	movs r2, #0
 	strb r2, [r7, #0x1a]
@@ -2795,7 +2795,7 @@ _08022B60:
 	adds r1, #0xc0
 	adds r7, #0x28
 	str r1, [r7]
-	strh r4, [r7, #0xc]
+	strh r4, [r7, #0xc]					@ ANIM_VS_CHAO_ICON
 	movs r0, #0
 	strb r0, [r7, #0x1a]
 	ldr r0, [r7, #8]
@@ -2809,7 +2809,7 @@ _08022B60:
 	adds r1, #0xc0
 	adds r7, #0x28
 	str r1, [r7]
-	strh r4, [r7, #0xc]
+	strh r4, [r7, #0xc]					@ ANIM_VS_CHAO_ICON
 	movs r0, #0
 	strb r0, [r7, #0x1a]
 	ldr r0, [r7, #8]
@@ -2822,7 +2822,7 @@ _08022B60:
 	adds r1, #0xc0
 	adds r7, #0x28
 	str r1, [r7]
-	strh r4, [r7, #0xc]
+	strh r4, [r7, #0xc]					@ ANIM_VS_CHAO_ICON
 	movs r4, #0
 	strb r4, [r7, #0x1a]
 	ldr r0, [r7, #8]
@@ -2836,7 +2836,7 @@ _08022B60:
 	adds r1, #0xc0
 	adds r7, #0x28
 	str r1, [r7]
-	ldr r0, _08022D30 @ =0x000005E7
+	ldr r0, _08022D30 @ =0x000005E7		@ ANIM_INDICATOR_SONIC
 	strh r0, [r7, #0xc]
 	strb r4, [r7, #0x1a]
 	ldr r0, [r7, #8]
@@ -3612,7 +3612,7 @@ _080232BC:
 	ble _08023214
 	movs r6, #0
 	movs r7, #0
-	ldr r0, _0802334C @ =0x00000356
+	ldr r0, _0802334C @ =0x00000356		@ ANIM_CHAOS_EMERALD_BIG
 	mov r8, r0
 _080232E0:
 	lsls r4, r6, #0x10
@@ -3631,7 +3631,7 @@ _080232E0:
 	movs r0, #0x80
 	lsls r0, r0, #5
 	str r0, [r5, #8]
-	mov r0, r8
+	mov r0, r8				@ ANIM_CHAOS_EMERALD_BIG
 	strh r0, [r5, #0xc]
 	movs r0, #0x78
 	strh r0, [r5, #0x10]
@@ -4291,7 +4291,7 @@ _080237CA:
 	strh r0, [r3, #0x12]
 _08023804:
 	lsls r2, r2, #3
-	ldr r0, _08023870 @ =gUnknown_086835B8
+	ldr r0, _08023870 @ =gJapaneseGameFont
 	adds r5, r2, r0
 	ldrb r1, [r4, #6]
 	lsls r0, r1, #2
@@ -4316,7 +4316,7 @@ _08023828:
 	ldr r0, [r4, #0x24]
 	adds r0, #0x80
 	str r0, [r4, #0x24]
-	ldrh r0, [r5]
+	ldrh r0, [r5]			@ gJapaneseGameFont
 	strh r0, [r3, #0xc]
 	ldrb r0, [r5, #2]
 	strb r0, [r3, #0x1a]
@@ -4343,7 +4343,7 @@ _08023828:
 	.align 2, 0
 _08023868: .4byte 0x06012000
 _0802386C: .4byte gInput
-_08023870: .4byte gUnknown_086835B8
+_08023870: .4byte gJapaneseGameFont
 _08023874:
 	ldrh r0, [r3, #0x12]
 	subs r0, #8
@@ -4374,7 +4374,7 @@ _0802388A:
 	str r1, [r3, #8]
 	adds r0, r3, #0
 	bl UpdateSpriteAnimation
-	ldr r1, _080238C0 @ =gUnknown_086835B8
+	ldr r1, _080238C0 @ =gJapaneseGameFont
 	adds r1, r6, r1
 	ldrh r0, [r4, #0x12]
 	ldrb r1, [r1, #4]
@@ -4385,7 +4385,7 @@ _0802388A:
 	strb r0, [r4, #6]
 	b _0802399E
 	.align 2, 0
-_080238C0: .4byte gUnknown_086835B8
+_080238C0: .4byte gJapaneseGameFont
 _080238C4:
 	ldr r1, _080238E0 @ =0x0000FFFE
 	adds r0, r6, r1
@@ -13530,7 +13530,7 @@ sub_8027FD4: @ 0x08027FD4
 	movs r2, #0x24
 	bl memcpy
 	ldr r0, _080280A0 @ =gLoadedSaveGame
-	ldr r1, _080280A4 @ =0x00000366
+	ldr r1, _080280A4 @ =0x00000366	@ gLoadedSaveGame::language
 	adds r0, r0, r1
 	ldrb r0, [r0]
 	adds r1, r7, #0
@@ -13581,7 +13581,7 @@ sub_8027FD4: @ 0x08027FD4
 	adds r1, r7, #0
 	adds r1, #0xb4
 	str r6, [r1]
-	ldr r0, _080280A8 @ =0x00000596
+	ldr r0, _080280A8 @ =0x00000596		@ ANIM_MP_TXT_CHARS_AND_ACTS
 	strh r0, [r1, #0xc]
 	movs r0, #0xf
 	strb r0, [r1, #0x1a]
@@ -13825,7 +13825,7 @@ sub_8028160: @ 0x08028160
 	str r3, [r1]
 	ldr r0, _08028334 @ =0x000005AD
 	mov sb, r0
-	mov r3, sb
+	mov r3, sb			@ r3 = sb = ANIM_MP_SINGLEPAK_TRANSFER_SCREEN_CHAO
 	strh r3, [r1, #0xc]
 	strb r5, [r1, #0x1a]
 	movs r0, #1
@@ -13858,7 +13858,7 @@ sub_8028160: @ 0x08028160
 	adds r1, #0xb4
 	ldr r3, [sp, #4]
 	str r3, [r1]
-	mov r0, sb
+	mov r0, sb			@ r0 = sb = ANIM_MP_SINGLEPAK_TRANSFER_SCREEN_CHAO
 	strh r0, [r1, #0xc]
 	mov r3, sl
 	strb r3, [r1, #0x1a]
@@ -14231,7 +14231,7 @@ sub_80285A0: @ 0x080285A0
 	bl DisplaySprite
 	ldr r0, _080285E4 @ =0x030000B4
 	adds r6, r5, r0
-	ldr r0, _080285E8 @ =0x00000596
+	ldr r0, _080285E8 @ =0x00000596		@ ANIM_MP_TXT_CHARS_AND_ACTS
 	strh r0, [r6, #0xc]
 	adds r4, #0xd
 	strb r4, [r6, #0x1a]
@@ -15350,7 +15350,7 @@ _08028EF6:
 	adds r1, #0x28
 	ldrh r0, [r1]
 	movs r1, #0
-	strh r0, [r7, #0xc]
+	strh r0, [r7, #0xc]		@ anim : ???
 	strb r1, [r7, #0x1a]
 	movs r0, #0x78
 	strh r0, [r7, #0x10]
@@ -15453,7 +15453,7 @@ _08028FC2:
 	movs r3, #0
 	movs r2, #0xb3
 	lsls r2, r2, #3
-	mov r8, r2
+	mov r8, r2			@ r8 = 1432 palette anim?
 _08028FF0:
 	ldr r0, _08029144 @ =gUnknown_03000970
 	lsls r6, r3, #0x10
@@ -15539,7 +15539,7 @@ _08028FF0:
 	add r7, sb
 	mov r0, sl
 	str r0, [r7]
-	ldr r0, _0802914C @ =0x00000599
+	ldr r0, _0802914C @ =0x00000599		@ ANIM_PRESS_START
 	strh r0, [r7, #0xc]
 	ldrb r0, [r4]
 	rsbs r0, r0, #0
@@ -15816,7 +15816,7 @@ _080292CE:
 	lsls r1, r1, #1
 	adds r0, r0, r1
 	movs r1, #0xb3
-	lsls r1, r1, #3
+	lsls r1, r1, #3		@ r1 = ANIM_PALETTE_1432
 	strh r1, [r0, #0xc]
 	ldr r1, _0802931C @ =gStageData
 	ldrb r1, [r1]
@@ -16194,7 +16194,7 @@ sub_80295C0: @ 0x080295C0
 	str r1, [r0]
 	movs r3, #0
 	movs r2, #0
-	ldr r1, _080295FC @ =0x0000032F
+	ldr r1, _080295FC @ =0x0000032F		@ ANIM_CHEESE_IDLE
 	strh r1, [r0, #0xc]
 	strb r3, [r0, #0x1a]
 	subs r1, #0xaf
