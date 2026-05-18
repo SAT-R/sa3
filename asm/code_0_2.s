@@ -5,8 +5,6 @@
 .syntax unified
 .arm
 
-@ --- screen_fade ---
-
 	thumb_func_start sub_80215A0
 sub_80215A0: @ 0x080215A0
 	push {r4, r5, r6, r7, lr}
