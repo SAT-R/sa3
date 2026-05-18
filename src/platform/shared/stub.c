@@ -72,6 +72,8 @@ void sub_802954C() { }
 void sub_80275B8(u32 level, u8 param1, u8 param2) { }
 void TaskDestructor_8029774(struct Task *t) { }
 void sub_802C7B0() { }
+void sub_8027538() { }
+bool32 sub_802CE4C() { return FALSE; }
 
 void sub_8052D8C() { }
 void sub_8053128() { }
@@ -203,7 +205,6 @@ void sub_80B5DF4() { }
 void sub_80B60E0(s16 param0, s16 *param1) { }
 void sub_80B6774(s16 param0, s16 *param1) { }
 
-void CreateEntity_ItemBox() { }
 void sub_8022FB0() { }
 void sub_80A872C() { }
 void sub_8053284() { }

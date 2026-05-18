@@ -1,8 +1,11 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_vram.h"
+#include "module_unclear.h"
 #include "game/shared/stage/player.h"
+#include "game/shared/stage/player_callbacks.h"
 #include "game/stage.h"
+#include "constants/animations.h"
 #include "constants/move_states.h"
 
 typedef struct ItemBox {
@@ -30,7 +33,7 @@ void sub_800ED50(Player *); /* extern */
 void sub_80179BC(Player *); /* extern */
 void sub_8017A58(Player *); /* extern */
 void sub_80267E8(); /* extern */
-void sub_8027538(s32); /* extern */
+void sub_8027538(MapEntity *me); /* extern */
 void sub_802773C(u16, u16); /* extern */
 void sub_8027768(u32, s32); /* extern */
 void sub_80277AC(u32, s32); /* extern */
@@ -57,8 +60,7 @@ bool32 sub_802D694(s32 x, s32 y);
 void Task_ItemBoxInit(void);
 void sub_802C7B0(ItemBox *arg0);
 
-#if 00
-
+#if defined(NON_MATCHING)
 void CreateEntity_ItemBox(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     ItemBox *itembox;
@@ -308,10 +310,13 @@ void sub_802C618(ItemBox *itembox)
     itembox->unk7 = 0;
     if ((gStageData.gameMode > 4U) && (boxPlayer != NULL)
         && (((boxPlayer->charFlags.someIndex == 1)) || (boxPlayer->charFlags.someIndex == 2))) {
-        sub_8027538((s32)itembox->me);
+        sub_8027538(itembox->me);
     }
     gCurTask->main = Task_802D61C;
 }
+#endif
+
+#if 00
 
 #if 0
 void sub_802C7B0(ItemBox *arg0) {
