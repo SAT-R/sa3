@@ -1741,7 +1741,7 @@ _0802CF7E:
 	adds r0, r5, #0
 	adds r0, #0x1c
 	movs r3, #0
-	bl sub_802D354
+	bl Itembox_CollisionPlayer
 	cmp r0, #0
 	beq _0802D03C
 	ldrb r0, [r7]
@@ -1833,7 +1833,7 @@ _0802D03C:
 	adds r0, r5, #0
 	adds r0, #0x1c
 	movs r3, #0
-	bl sub_802D354
+	bl Itembox_CollisionPlayer
 	cmp r0, #0
 	bne _0802D056
 	b _0802D228
@@ -2232,8 +2232,9 @@ _0802D340:
 	.align 2, 0
 _0802D350: .4byte gStageData
 
-	thumb_func_start sub_802D354
-sub_802D354: @ 0x0802D354
+.if 0
+	thumb_func_start Itembox_CollisionPlayer
+Itembox_CollisionPlayer: @ 0x0802D354
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -2407,6 +2408,4 @@ _0802D496:
 	pop {r1}
 	bx r1
 	.align 2, 0
-
-.if 0
 .endif

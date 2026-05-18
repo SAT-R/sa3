@@ -3,6 +3,7 @@
 #include "malloc_vram.h"
 #include "game/shared/stage/player.h"
 #include "game/stage.h"
+#include "constants/move_states.h"
 
 typedef struct ItemBox {
     /* 0x00 */ MapEntity *me;
@@ -47,8 +48,8 @@ void sub_802C35C(ItemBox *itembox, s32 param1);
 void sub_802C618(ItemBox *itembox);
 void Task_802D61C(void);
 s32 sub_802CE4C(ItemBox *itembox);
-s32 sub_802D354(ItemBox *itembox, s32 arg1, s32 arg2, u8 arg3, Player *p, s32 arg5);
-s32 Itembox_CollisionCheese(Sprite *s, s32 arg1, s32 arg2, u8 arg3);
+bool32 Itembox_CollisionPlayer(Sprite *s, Vec2_32 world, u8 hbIndexSpr, Player *p, u8 hbIndexPlayer);
+bool32 Itembox_CollisionCheese(Sprite *s, s32 worldX, s32 worldY, u8 hbIndex);
 void sub_802D6CC(ItemBox *itembox, s32 arg1);
 
 bool32 sub_802D694(s32 x, s32 y);
@@ -783,7 +784,7 @@ loop_1:
         goto block_60;
     }
     if (((0x1C0F & (u16) p->unk2A) == 0x803) && ((u32) (u16) ((u16) p->charFlags.anim0 - 0xE7) <= 2U) && ((temp_r2_2 = temp_r2 << 0x1E, ((u32) (u16) ((u16) gPlayers[temp_r2_2 >> 0x1E].charFlags.anim0 - 0xAF) <= 1U)) || (gPlayers[temp_r2_2 >> 0x1E].charFlags.anim0 == 0xE0) || (gPlayers[temp_r2_2 >> 0x1E].charFlags.anim0 == 0xE1) || (gPlayers[temp_r2_2 >> 0x1E].charFlags.anim0 == 0xC8) || (gPlayers[temp_r2_2 >> 0x1E].charFlags.anim0 == 0xC9) || (gPlayers[temp_r2_2 >> 0x1E].charFlags.anim0 == 0x10A) || (gPlayers[temp_r2_2 >> 0x1E].charFlags.anim0 == 0x10B))) {
-        if (sub_802D354((ItemBox *) &itembox->s, itembox->unk14, itembox->unk18, 0U, p, 1) != 0) {
+        if (Itembox_CollisionPlayer((ItemBox *) &itembox->s, itembox->unk14, itembox->unk18, 0U, p, 1) != 0) {
             itembox->unk6C = &gPlayers[(u32) (p->unk2B << 0x1E) >> 0x1E];
             itembox->unk8 = 1;
             return 1;
@@ -800,7 +801,7 @@ loop_1:
         }
     }
 block_27:
-    if (sub_802D354((ItemBox *) &itembox->s, itembox->unk14, itembox->unk18, 0U, p, 1) == 0) {
+    if (Itembox_CollisionPlayer((ItemBox *) &itembox->s, itembox->unk14, itembox->unk18, 0U, p, 1) == 0) {
         goto block_60;
     }
     if (0x10000 & sub_8020950(temp_r1, itembox->unk14, itembox->unk18, p, 0U)) {
@@ -925,136 +926,54 @@ block_83:
         return var_sl;
     }
 }
+#endif
+#endif
 
-s32 sub_802D354(Sprite *s, s32 arg1, s32 arg2, u8 arg3, Player *p, s32 arg5) {
-    s32 sp0;
-    s32 sp4;
-    s32 sp8;
-    PlayerSpriteInfo *temp_r2;
-    Sprite2 *temp_r1;
-    s32 temp_r0;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
-    s32 temp_r2_2;
-    s32 temp_r2_3;
-    s32 temp_r4;
-    s8 temp_r0_2;
-    s8 temp_r1_2;
-    s8 temp_r3;
-    s8 temp_r6_2;
-    u8 temp_r7;
-    void *temp_r3_2;
-    void *temp_r6;
+// (84.34%) https://decomp.me/scratch/GzKFl
+NONMATCH("asm/non_matching/game/Itembox_CollisionPlayer.inc",
+         bool32 Itembox_CollisionPlayer(Sprite *s, Vec2_32 world, u8 hbIndexSpr, Player *p, u8 hbIndexPlayer))
+{
+    PlayerSpriteInfo *psiBody = p->spriteInfoBody;
+    Sprite2 *sprBody = &psiBody->s;
 
-    sp0 = arg1;
-    sp4 = arg2;
-    temp_r7 = (u8) arg5;
-    temp_r2 = p->spriteInfoBody;
-    temp_r1 = &temp_r2->s;
-    if (p->moveState & 0x100) {
-        goto block_13;
-    }
-    temp_r0 = arg3 * 8;
-    if ((*(&itembox->s.frameNum + temp_r0) != -1) && (temp_r2->s.hitboxes[temp_r7].index != -1)) {
-        temp_r3 = (0xFFFFFF & ((0xFF00FFFF & ((0xFFFF00FF & ((0xFFFFFF00 & saved_reg_r8) | (u8) temp_r1->hitboxes[temp_r7].b.left)) | (u16) (((u8) temp_r1->hitboxes[temp_r7].b.top - 4) << 8))) | ((u8) temp_r1->hitboxes[temp_r7].b.right << 0x10))) | (((u8) temp_r1->hitboxes[temp_r7].b.bottom + 4) << 0x18);
-        temp_r6 = itembox + temp_r0;
-        temp_r0_2 = (s8) temp_r6->unk24;
-        sp8 = (s32) temp_r0_2;
-        temp_r2_2 = sp0 + temp_r0_2;
-        temp_r1_2 = temp_r3;
-        temp_r1_3 = ((s32) p->qWorldX >> 8) + temp_r1_2;
-        if (temp_r2_2 <= temp_r1_3) {
-            if ((s32) (temp_r2_2 + ((s8) temp_r6->unk26 - sp8)) < temp_r1_3) {
-                if (temp_r2_2 >= temp_r1_3) {
-                    goto block_7;
-                }
-                goto block_13;
+    if (!(p->moveState & MOVESTATE_DEAD)) {
+        if (HITBOX_IS_ACTIVE(s->hitboxes[hbIndexSpr]) && HITBOX_IS_ACTIVE(psiBody->s.hitboxes[hbIndexPlayer])) {
+            Rect8 hbPlayer;
+            hbPlayer.left = sprBody->hitboxes[hbIndexPlayer].b.left;
+            hbPlayer.top = sprBody->hitboxes[hbIndexPlayer].b.top - 4;
+            hbPlayer.right = sprBody->hitboxes[hbIndexPlayer].b.right;
+            hbPlayer.bottom = sprBody->hitboxes[hbIndexPlayer].b.bottom + 4;
+
+            if (HB_COLLISION(world.x, world.y, s->hitboxes[hbIndexSpr].b, I(p->qWorldX), I(p->qWorldY), hbPlayer)) {
+                return TRUE;
             }
-            goto block_8;
         }
-block_7:
-        if ((s32) (temp_r1_3 + (((s32) (temp_r3 << 8) >> 0x18) - temp_r1_2)) >= temp_r2_2) {
-block_8:
-            temp_r3_2 = itembox + temp_r0;
-            temp_r6_2 = temp_r3_2->unk25;
-            temp_r2_3 = sp4 + temp_r6_2;
-            temp_r4 = (s32) (temp_r3 << 0x10) >> 0x18;
-            temp_r1_4 = ((s32) p->qWorldY >> 8) + temp_r4;
-            if (temp_r2_3 <= temp_r1_4) {
-                if ((s32) (temp_r2_3 + ((s8) temp_r3_2->unk27 - temp_r6_2)) < temp_r1_4) {
-                    if (temp_r2_3 >= temp_r1_4) {
-                        goto block_11;
-                    }
-                    goto block_13;
-                }
-                goto block_12;
-            }
-block_11:
-            if ((s32) (temp_r1_4 + ((temp_r3 >> 0x18) - temp_r4)) >= temp_r2_3) {
-block_12:
-                return 1;
-            }
-            goto block_13;
-        }
-        goto block_13;
     }
-block_13:
-    return 0;
+
+    return FALSE;
 }
+END_NONMATCH
 
-#endif
-#endif
-
-// NOTE: Currently the hitbox check is not correct.
-// (48.85%) https://decomp.me/scratch/Avh85
+// (73.87%) https://decomp.me/scratch/PChXs
 NONMATCH("asm/non_matching/game/Itembox_CollisionCheese.inc", bool32 Itembox_CollisionCheese(Sprite *s, s32 worldX, s32 worldY, u8 hbIndex))
 {
     Cheese *cheese = TASK_DATA(gStageData.taskCheese);
 
-    if ((s->hitboxes[hbIndex].index != -1) && (cheese->s.hitboxes[1].index != -1)) {
+    if (HITBOX_IS_ACTIVE(s->hitboxes[hbIndex]) && HITBOX_IS_ACTIVE(cheese->s.hitboxes[1])) {
         if (CMS_2 & cheese->moveState) {
-            Rect8 *cheeseHB = &cheese->s.hitboxes[1].b;
-            s8 arr[4];
-            arr[0] = cheeseHB->left, arr[1] = cheeseHB->top - 4, arr[2] = cheeseHB->right, arr[3] = cheeseHB->bottom + 4,
-            cheeseHB = (Rect8 *)arr;
+            Rect8 hbCheese;
+            hbCheese.left = cheese->s.hitboxes[1].b.left;
+            hbCheese.top = cheese->s.hitboxes[1].b.top - 4;
+            hbCheese.right = cheese->s.hitboxes[1].b.right;
+            hbCheese.bottom = cheese->s.hitboxes[1].b.bottom + 4;
 
-            if ((worldX + s->hitboxes[hbIndex].b.left) <= (I(cheese->qWorldX) + cheeseHB->left)) {
-                if ((s32)((worldX + s->hitboxes[hbIndex].b.left) + (s->hitboxes[hbIndex].b.right - s->hitboxes[hbIndex].b.left))
-                    < (I(cheese->qWorldX) + cheeseHB->left)) {
-                    if ((worldX + s->hitboxes[hbIndex].b.left) >= (I(cheese->qWorldX) + cheeseHB->left)) {
-                        goto block_8;
-                    }
-                    goto ret_0;
-                }
-                goto block_9;
+            if (HB_COLLISION(worldX, worldY, s->hitboxes[hbIndex].b, I(cheese->qWorldX), I(cheese->qWorldY), hbCheese)) {
+                return TRUE;
             }
-        block_8:
-            if ((s32)((I(cheese->qWorldX) + cheeseHB->left) + (cheeseHB->right - cheeseHB->left))
-                >= (worldX + s->hitboxes[hbIndex].b.left)) {
-            block_9:
-                if ((worldY + s->hitboxes[hbIndex].b.top) <= (I(cheese->qWorldY) + cheeseHB->top)) {
-                    if (((worldY + s->hitboxes[hbIndex].b.top) + (s->hitboxes[hbIndex].b.bottom - s->hitboxes[hbIndex].b.top))
-                        < (I(cheese->qWorldY) + cheeseHB->top)) {
-                        if ((worldY + s->hitboxes[hbIndex].b.top) >= (I(cheese->qWorldY) + cheeseHB->top)) {
-                            goto block_12;
-                        }
-                        goto ret_0;
-                    }
-                    goto ret_1;
-                }
-            block_12:
-                if ((s32)((I(cheese->qWorldY) + cheeseHB->top) + (cheeseHB->bottom - cheeseHB->top))
-                    >= (worldY + s->hitboxes[hbIndex].b.top)) {
-                ret_1:
-                    return 1;
-                }
-                goto ret_0;
-            }
-            goto ret_0;
         }
     }
-ret_0:
-    return 0;
+
+    return FALSE;
 }
 END_NONMATCH
 
