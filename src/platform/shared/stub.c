@@ -205,30 +205,15 @@ void sub_80B5DF4() { }
 void sub_80B60E0(s16 param0, s16 *param1) { }
 void sub_80B6774(s16 param0, s16 *param1) { }
 
+void sub_8021EE8() { }
+void TaskDestructor_80227A4() { }
+void Task_34C_8022868() { }
 void sub_8022FB0() { }
 void sub_80A872C() { }
 void sub_8053284() { }
 void sub_8029990() { }
 void Gemerl_State0() { }
 void taskStub(void) { }
-
-typedef struct Strc_80215A0 {
-    u32 unk0;
-    Sprite sprites[12];
-    u8 padding[0xF0];
-} Strc_80215A0; /* 0x2D4 */
-extern struct Task *gTask_03001CFC;
-struct Task *sub_80215A0()
-{
-    struct Task *t = TaskCreate(taskStub, 0xAD << 2, 0x2001, 0, NULL);
-    Strc_80215A0 *taskData = TASK_DATA(gTask_03001CFC);
-
-    for (int i = 0; i < ARRAY_COUNT(taskData->sprites); i++) {
-        taskData->sprites[i].tiles = (void *)OBJ_VRAM0 + 0x4180;
-    }
-
-    return t;
-}
 
 void sub_80260F0() { }
 void sub_80261B0() { }

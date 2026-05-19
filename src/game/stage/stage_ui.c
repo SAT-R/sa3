@@ -4,10 +4,11 @@
 #include "game/chao.h"
 #include "game/shared/stage/player.h"
 #include "game/stage.h"
+#include "constants/animations.h"
 
-void TaskDestructor_80227A4(Task*);                 /* extern */
-void Task_34C_8022868();                            /* extern */
-Task* sub_8021EE8();                                /* extern */
+void TaskDestructor_80227A4(Task *); /* extern */
+void Task_34C_8022868(); /* extern */
+Task *sub_8021EE8(); /* extern */
 extern TileInfo gUnknown_080CECF8[12];
 extern TileInfo sEmeraldOverviewZoneNums[];
 extern TileInfo sEmeraldOverviewEmeraldNums[];
@@ -16,8 +17,8 @@ extern u8 gUnknown_080CEE20[5];
 extern u8 gUnknown_080CEE25[5][5];
 
 typedef struct {
-    /* 0x000 */u8 unk0;
-    /* 0x001 */bool8 isExtended;
+    /* 0x000 */ u8 unk0;
+    /* 0x001 */ bool8 isExtended;
     /* 0x004 */ Sprite sprites[12];
     /* 0x1E4 */ Sprite sprite1E4;
     /* 0x20C */ Sprite sprite20C;
@@ -34,27 +35,16 @@ typedef struct {
     /* 0x324 */ Sprite sprite324;
 } StageUi; /* 0x34C */
 
-Task* sub_80215A0(void) {
+Task *sub_80215A0(void)
+{
     u8 sp4[5];
     u8 spC[5][5];
-    Task* resultTask;
-    u8* sp3C;
-    Player* p;
-    Player* partner;
-    Sprite* s;
-    Task* temp_r0;
-    Task* temp_r0_2;
-    void *var_r6;
-    s8 var_r0;
-    u32 temp_r6;
-    u32 temp_r6_2;
-    u8 var_r2;
-    void* temp_r1;
-    void* temp_r4;
-    void* temp_r5_2;
-    void* temp_r6_3;
-    void* temp_r7;
-    StageUi* strc;
+    Task *resultTask;
+    Player *p;
+    Player *partner;
+    Sprite *s;
+    u8 i;
+    StageUi *strc;
     void *tiles;
 
     memcpy(&sp4, &gUnknown_080CEE20, sizeof(sp4));
@@ -76,13 +66,12 @@ Task* sub_80215A0(void) {
     }
     strc->base.unk0 = 0x10;
     tiles = (OBJ_VRAM0 + 0x3800);
-    for(var_r2 = 0; var_r2 < 12; var_r2++)
-    {
-        s = &strc->base.sprites[var_r2];
-        s->tiles = tiles + (var_r2 * 64);
-        s->anim    = gUnknown_080CECF8[var_r2].anim;
-        s->variant = gUnknown_080CECF8[var_r2].variant;
-        s->oamFlags = 0x180;
+    for (i = 0; i < (s32)ARRAY_COUNT(strc->base.sprites); i++) {
+        s = &strc->base.sprites[i];
+        s->tiles = tiles + ((i * 2) * TILE_SIZE_4BPP);
+        s->anim = gUnknown_080CECF8[i].anim;
+        s->variant = gUnknown_080CECF8[i].variant;
+        s->oamFlags = SPRITE_OAM_ORDER(6);
         s->animCursor = 0;
         s->qAnimDelay = 0;
         s->prevVariant = -1;
@@ -91,7 +80,7 @@ Task* sub_80215A0(void) {
         s->hitboxes[0].index = -1;
         s->frameFlags = 0;
     }
-    tiles += (24 * 0x20);
+    tiles += (24 * TILE_SIZE_4BPP);
 
     p = GET_SP_PLAYER_V0(PLAYER_1);
     partner = GET_SP_PLAYER_V0(PLAYER_2);
@@ -99,7 +88,7 @@ Task* sub_80215A0(void) {
     s->tiles = tiles;
     s->anim = 1423;
     s->variant = sp4[p->charFlags.character];
-    s->oamFlags = 0x140;
+    s->oamFlags = SPRITE_OAM_ORDER(5);
     s->animCursor = 0;
     s->qAnimDelay = 0;
     s->prevVariant = -1;
@@ -182,8 +171,8 @@ Task* sub_80215A0(void) {
 
     s = &strc->base.sprite2AC;
     if ((gStageData.act < 3) && (gStageData.zone < 7)) {
-        s->tiles = VramMalloc(0x20U);
-        s->anim = 0x590;
+        s->tiles = VramMalloc(32);
+        s->anim = ANIM_ZONEX_NAME;
         s->variant = gStageData.zone;
         s->oamFlags = 0x180;
         s->animCursor = 0;
@@ -205,7 +194,7 @@ Task* sub_80215A0(void) {
         s->tiles = VramMalloc(sEmeraldOverviewZoneNums[zone].numTiles);
         s->anim = sEmeraldOverviewZoneNums[zone].anim;
         s->variant = sEmeraldOverviewZoneNums[zone].variant;
-        s->oamFlags = 0xC0;
+        s->oamFlags = SPRITE_OAM_ORDER(3);
         s->animCursor = 0;
         s->qAnimDelay = 0;
         s->prevVariant = 0xFF;
@@ -216,12 +205,12 @@ Task* sub_80215A0(void) {
         s->x = 160;
         s->y = 40;
         UpdateSpriteAnimation(s);
-    
+
         s = &strc->sprite2FC;
         s->tiles = VramMalloc(sEmeraldOverviewEmeraldNums[chaoCount].numTiles);
         s->anim = sEmeraldOverviewEmeraldNums[chaoCount].anim;
         s->variant = sEmeraldOverviewEmeraldNums[chaoCount].variant;
-        s->oamFlags = 0xC0;
+        s->oamFlags = SPRITE_OAM_ORDER(3);
         s->animCursor = 0;
         s->qAnimDelay = 0;
         s->prevVariant = -1;
@@ -232,12 +221,12 @@ Task* sub_80215A0(void) {
         s->x = 180;
         s->y = 58;
         UpdateSpriteAnimation(s);
-    
+
         s = &strc->sprite324;
         s->tiles = VramMalloc(sEmeraldOverviewEmeraldGotIcons[zone].numTiles);
-        s->anim    = sEmeraldOverviewEmeraldGotIcons[zone].anim;
+        s->anim = sEmeraldOverviewEmeraldGotIcons[zone].anim;
         s->variant = sEmeraldOverviewEmeraldGotIcons[zone].variant;
-        s->oamFlags = 0xC0;
+        s->oamFlags = SPRITE_OAM_ORDER(3);
         s->animCursor = 0;
         s->qAnimDelay = 0;
         s->prevVariant = -1;
@@ -250,4 +239,30 @@ Task* sub_80215A0(void) {
         UpdateSpriteAnimation(s);
     }
     return resultTask;
+}
+
+void sub_80219E8(void)
+{
+    StageUi *strc = TASK_DATA(gCurTask);
+    Sprite *s;
+
+    u8 var_r2;
+
+    for (var_r2 = 0; var_r2 < (s32)ARRAY_COUNT(strc->base.sprites); var_r2++) {
+        s = &strc->base.sprites[var_r2];
+        s->prevVariant = -1;
+    }
+
+    s = &strc->base.sprite1E4;
+    s->prevVariant = -1;
+    s = &strc->base.sprite20C;
+    s->prevVariant = -1;
+    s = &strc->base.sprite234;
+    s->prevVariant = -1;
+    s = &strc->base.sprite25C;
+    s->prevVariant = -1;
+    s = &strc->base.sprite284;
+    s->prevVariant = -1;
+    s = &strc->base.sprite2AC;
+    s->prevVariant = -1;
 }
