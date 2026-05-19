@@ -275,8 +275,8 @@ void sub_80219E8(void)
     s->prevVariant = -1;
 }
 
-#if 0
-void sub_8021A64(void)
+// (99.08%) https://decomp.me/scratch/kY8aP
+NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
 {
     StageData *sd = &gStageData;
     s32 sp0;
@@ -313,8 +313,8 @@ void sub_8021A64(void)
         timerSecs = Div(timerFrames, 60);
         timerMins = Div(timerSecs, 60);
         sp0 = timerMins;
-        temp_r3 = timerSecs - sFrameCountPerSecond[timerMins];
-        temp_r5 = (timerFrames - sFrameCountPerSecond[temp_r3]) - gUnknown_080CFA28[timerMins];
+        timerSecs = timerSecs - sFrameCountPerSecond[timerMins];
+        temp_r5 = (timerFrames - sFrameCountPerSecond[timerSecs]) - gUnknown_080CFA28[timerMins];
         if (sd->unk2 == 0) {
             if (sd->levelTimer >= TIME(9, 0)) {
                 if (sd->timer & 0x10) {
@@ -322,7 +322,7 @@ void sub_8021A64(void)
                 }
             }
 
-            if ((gStageData.levelTimer >= TIME(9, 0)) && (temp_r5 == 0)) {
+            if ((gStageData.levelTimer > TIME(9.666666, 0)) && (temp_r5 == 0)) {
                 m4aSongNumStart(SE_139);
             }
         }
@@ -346,14 +346,14 @@ void sub_8021A64(void)
         s->y = 17 - temp_r1;
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
-        s = &strc->base.sprites[gUnknown_080CF8BC[temp_r3][0]];
+        s = &strc->base.sprites[gUnknown_080CF8BC[timerSecs][0]];
         s->x = 122;
         s->y = 18 - temp_r1;
         UpdateSpriteAnimation(s);
         s->palId = palId;
         DisplaySprite(s);
         s->palId = 0;
-        s = &strc->base.sprites[gUnknown_080CF8BC[temp_r3][1]];
+        s = &strc->base.sprites[gUnknown_080CF8BC[timerSecs][1]];
         s->x = 130;
         s->y = 18 - temp_r1;
         UpdateSpriteAnimation(s);
@@ -383,7 +383,12 @@ void sub_8021A64(void)
         temp_r4_7 = ringCount - (temp_r0_3 * 100);
         temp_r0_4 = (u8)Div(temp_r4_7, 10);
         sp14 = temp_r0_4 * 5;
-        temp_r4_8 = temp_r4_7 - (temp_r0_4 * 10);
+#if 0
+        // NOTE: This cast makes the code match better overall, but is very slow and inaccurate...
+        temp_r4_8 = (u8)(float) (temp_r4_7 - (temp_r0_4 * 10));
+#else
+        temp_r4_8 = (u8)(temp_r4_7 - (temp_r0_4 * 10));
+#endif
 
         {
             s32 rings = gStageData.rings;
@@ -400,7 +405,7 @@ void sub_8021A64(void)
         DisplaySprite(s);
         s->palId = 0;
 
-        s = &strc->base.sprites[sp14];
+        s = &strc->base.sprites[temp_r0_4];
         s->x = 48;
         s->y = 18 - temp_r1;
         UpdateSpriteAnimation(s);
@@ -488,4 +493,4 @@ void sub_8021A64(void)
         DisplaySprite(s);
     }
 }
-#endif
+END_NONMATCH
