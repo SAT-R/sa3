@@ -334,39 +334,38 @@
 #define ANIM_SPECIAL_KEY  1348
 
 #define ANIM_UI_CHARACTER_TYPE 1420 // V0: Speed, V1: Flying, V2: Power
-#define ANIM_UI_TIME 1421
-#define ANIM_UI_SPECIAL_KEY 1422
-#define ANIM_LIFE_ICONS 1423
-#define ANIM_ZONEX_NAME 1424 /* Substate-Index == Zone number */
+#define ANIM_UI_TIME           1421
+#define ANIM_UI_SPECIAL_KEY    1422
+#define ANIM_LIFE_ICONS        1423
+#define ANIM_ZONEX_NAME        1424 /* Substate-Index == Zone number */
 
 #define ANIM_PAUSE_MENU            1425 // Patterns 0 and 1 are without Continue/Back buttons, but all ANIM_PAUSE_MENU_CONT frames are in here
 #define ANIM_PAUSE_MENU_CONT       1426 // Does not contain a button-less menu
 #define ANIM_GAME_OVER             1427
 #define ANIM_DEMO_PLAY             1428
 #define ANIM_CHAO_NERVOUS          1429 // NOTE: No bowtie, so it's not Cheese?
-#define ANIM_MP_TXT_CHARS_AND_ACTS             1430
+#define ANIM_MP_TXT_CHARS_AND_ACTS 1430
 
 #define ANIM_PALETTE_1432 1432
-#define ANIM_PRESS_START 1433
+#define ANIM_PRESS_START  1433
 
 #define ANIM_MP_SINGLEPAK_TRANSFER_SCREEN_CHAO 1453
 
-#define ANIM_INDICATOR_AMY   1508
-#define ANIM_INDICATOR_CREAM_TAILS 1509 // V0: Cream, V1: Tails
-#define ANIM_INDICATOR_KNUCKLES 1510
-#define ANIM_INDICATOR_SONIC 1511
-#define ANIM_INDICATOR_TAILS 1512 // TODO: Kind of a duplicate for V1 of the shared Cream/Tails anim?
-#define ANIM_VS_SQUARE_ICON  1513
-#define ANIM_VS_CHECKERED_FLAG 1514
-#define ANIM_VS_START_ICON     1515
-#define ANIM_VS_CHAO_ICON      1516
-#define ANIM_CREDITS_SEGA 1517
-#define ANIM_CREDITS_SONIC_TEAM 1518
-#define ANIM_CREDITS_WAVE_MASTER 1519
-#define ANIM_CREDITS_DIMPS 1520
-#define ANIM_CREDITS_CONGRATULATIONS 1521
+#define ANIM_INDICATOR_AMY                 1508
+#define ANIM_INDICATOR_CREAM_TAILS         1509 // V0: Cream, V1: Tails
+#define ANIM_INDICATOR_KNUCKLES            1510
+#define ANIM_INDICATOR_SONIC               1511
+#define ANIM_INDICATOR_TAILS               1512 // TODO: Kind of a duplicate for V1 of the shared Cream/Tails anim?
+#define ANIM_VS_SQUARE_ICON                1513
+#define ANIM_VS_CHECKERED_FLAG             1514
+#define ANIM_VS_START_ICON                 1515
+#define ANIM_VS_CHAO_ICON                  1516
+#define ANIM_CREDITS_SEGA                  1517
+#define ANIM_CREDITS_SONIC_TEAM            1518
+#define ANIM_CREDITS_WAVE_MASTER           1519
+#define ANIM_CREDITS_DIMPS                 1520
+#define ANIM_CREDITS_CONGRATULATIONS       1521
 #define ANIM_CREDITS_THANK_YOU_FOR_PLAYING 1522
-#define ANIM_KNUCKLES_SPINNING_COPY 1523
-
+#define ANIM_KNUCKLES_SPINNING_COPY        1523
 
 #endif // GUARD_ANIMATIONS_SA3_H

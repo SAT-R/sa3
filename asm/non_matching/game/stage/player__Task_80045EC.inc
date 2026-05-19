@@ -91,7 +91,7 @@ _08004692:
 	ldr r0, _080046D4 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_8023634
+	bl CreateChaoMap
 	b _08004B06
 	.align 2, 0
 _080046BC: .4byte gStageData

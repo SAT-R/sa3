@@ -197,8 +197,8 @@ gUnknown_080CEE25:
 gUnknown_080CEE40:
     .incbin "baserom_sa3.gba", 0x000CEE40, 0x80
 
-    .global gUnknown_080CEEC0
-gUnknown_080CEEC0:
+    .global gTilemapIdsChaoMap
+gTilemapIdsChaoMap:
     .incbin "baserom_sa3.gba", 0x000CEEC0, 0xC
 
     .global gUnknown_080CEECC

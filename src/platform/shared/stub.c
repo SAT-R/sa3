@@ -42,7 +42,7 @@ u8 gUnknown_03006C20 = 0;
 
 void Stop() { }
 
-void sub_8023634() { }
+void CreateChaoMap() { }
 void sub_80236C8() { }
 void sub_8023734() { }
 void sub_80239A8() { }

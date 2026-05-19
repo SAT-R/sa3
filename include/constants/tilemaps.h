@@ -169,8 +169,8 @@
 #define TM_NOTIFICATION_CHAO_MAP_FR          450
 #define TM_NOTIFICATION_CHAO_MAP_ES          451
 #define TM_NOTIFICATION_CHAO_MAP_IT          452
-#define TM_UNKNOWN_453                       453
-#define TM_UNKNOWN_454                       454
+#define TM_CHAO_MAP_LIST                     453
+#define TM_CHAO_MAP_BG                       454
 #define TM_INSTRUCTIONS_BONUS_CAPSULE_JP     455
 #define TM_INSTRUCTIONS_BONUS_CAPSULE_EN     456
 #define TM_INSTRUCTIONS_BONUS_CAPSULE_DE     457

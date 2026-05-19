@@ -122,7 +122,7 @@ void sub_8019CF0(Player *p);
 void sub_801A224(Player *p);
 void sub_801D5CC(Player *p);
 void sub_801DAD8(Player *p);
-void sub_8023634();
+void CreateChaoMap();
 void sub_8026254(Player *p);
 void sub_80268B8(s16);
 void sub_8027878(u8);
@@ -564,7 +564,7 @@ void Task_80045EC(void)
                     PAUSE_BACKGROUNDS_QUEUE();
                     gBgSpritesCount = 0;
                     PAUSE_GRAPHICS_QUEUE();
-                    sub_8023634();
+                    CreateChaoMap();
                     return;
                 }
             }
