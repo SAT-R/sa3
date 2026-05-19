@@ -1,11 +1,13 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_vram.h"
+#include "lib/m4a/m4a.h"
 #include "game/chao.h"
 #include "game/save.h"
 #include "game/shared/stage/player.h"
 #include "game/stage.h"
 #include "constants/animations.h"
+#include "constants/songs.h"
 
 void TaskDestructor_80227A4(Task *); /* extern */
 void Task_34C_8022868(); /* extern */
@@ -14,8 +16,13 @@ extern TileInfo gUnknown_080CECF8[12];
 extern TileInfo sEmeraldOverviewZoneNums[];
 extern TileInfo sEmeraldOverviewEmeraldNums[];
 extern TileInfo sEmeraldOverviewEmeraldGotIcons[];
-extern u8 gUnknown_080CEE20[5];
-extern u8 gUnknown_080CEE25[5][5];
+extern u8 gUnknown_080CEE20[NUM_CHARACTERS];
+extern u8 gUnknown_080CEE25[NUM_CHARACTERS][NUM_CHARACTERS];
+
+extern const u8 gUnknown_080CF8BC[61][2];
+extern const s16 sFrameCountPerSecond[61];
+extern const u16 gUnknown_080CFA28[61];
+extern const u8 gUnknown_080CF936[60][2];
 
 typedef struct {
     /* 0x000 */ u8 unk0;
@@ -38,8 +45,8 @@ typedef struct {
 
 Task *sub_80215A0(void)
 {
-    u8 sp4[5];
-    u8 spC[5][5];
+    u8 sp4[NUM_CHARACTERS];
+    u8 spC[NUM_CHARACTERS][NUM_CHARACTERS];
     Task *resultTask;
     Player *p;
     Player *partner;
@@ -269,239 +276,216 @@ void sub_80219E8(void)
 }
 
 #if 0
-void sub_8021A64(void) {
+void sub_8021A64(void)
+{
+    StageData *sd = &gStageData;
     s32 sp0;
-    s32 sp4;
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
+    s32 sp4 = (s32)sd->flagSpKey;
+    s32 palId = 0;
     s32 sp14;
     Sprite *temp_r4_2;
     Sprite *temp_r4_3;
     Sprite *temp_r4_4;
-    Sprite *temp_r7;
-    Sprite *temp_r7_10;
-    Sprite *temp_r7_11;
-    Sprite *temp_r7_12;
-    Sprite *temp_r7_13;
-    Sprite *temp_r7_14;
-    Sprite *temp_r7_15;
-    Sprite *temp_r7_16;
-    Sprite *temp_r7_17;
-    Sprite *temp_r7_18;
-    Sprite *temp_r7_2;
-    Sprite *temp_r7_3;
-    Sprite *temp_r7_4;
-    Sprite *temp_r7_5;
-    Sprite *temp_r7_6;
-    Sprite *temp_r7_7;
-    Sprite *temp_r7_8;
-    Sprite *temp_r7_9;
+    Sprite *s;
     s16 temp_r3_2;
-    s16 temp_r3_3;
-    s16 temp_r4_6;
+    s16 ringCount;
     s16 temp_r4_7;
-    s16 temp_r4_8;
+    u8 temp_r4_8;
     s16 temp_r6_2;
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r1_2;
+    s32 timerSecs;
+    s32 timerMins;
     s32 temp_r3;
-    s32 temp_r4_9;
     s32 temp_r5;
-    s32 temp_r5_2;
-    s32 temp_r5_3;
-    s32 temp_r5_4;
-    u16 temp_r4_5;
+    u16 timerFrames;
     u32 temp_r4;
     u32 var_r5;
-    u32 var_r8;
     u8 temp_r0_3;
     u8 temp_r0_4;
-    u8 temp_r1;
+    s16 temp_r1;
     u8 temp_r6;
     u8 var_r1;
 
     StageUi *strc = TASK_DATA(gCurTask);
-
-    sp4 = (s32) gStageData.flagSpKey;
-    sp8 = 0;
     temp_r1 = strc->base.unk0;
-    if ((((u32) gStageData.act <= 2U) || ((u32) gStageData.zone > 6U)) && (gStageData.zone != 7) && (gStageData.zone != 8)) {
+    if (((gStageData.act > 2U) && ((u32)gStageData.zone <= 6U)) || (gStageData.zone == 7) || (gStageData.zone == 8)) {
+        StageData *sd = &gStageData;
+        timerFrames = gStageData.levelTimer;
+        timerSecs = Div(timerFrames, 60);
+        timerMins = Div(timerSecs, 60);
+        sp0 = timerMins;
+        temp_r3 = timerSecs - sFrameCountPerSecond[timerMins];
+        temp_r5 = (timerFrames - sFrameCountPerSecond[temp_r3]) - gUnknown_080CFA28[timerMins];
+        if (sd->unk2 == 0) {
+            if (sd->levelTimer >= TIME(9, 0)) {
+                if (sd->timer & 0x10) {
+                    palId = 1;
+                }
+            }
+
+            if ((gStageData.levelTimer >= TIME(9, 0)) && (temp_r5 == 0)) {
+                m4aSongNumStart(SE_139);
+            }
+        }
+
+        s = &strc->base.sprites[gUnknown_080CF936[temp_r5][0] - 10];
+        s->x = 144;
+        s->y = 18 - temp_r1;
+        UpdateSpriteAnimation(s);
+        s->palId = palId;
+        DisplaySprite(s);
+        s->palId = 0;
+        s = &strc->base.sprites[gUnknown_080CF936[temp_r5][1] - 10];
+        s->x = 0x98;
+        s->y = 18 - temp_r1;
+        UpdateSpriteAnimation(s);
+        s->palId = palId;
+        DisplaySprite(s);
+        s->palId = 0;
+        s = &strc->base.sprites[11];
+        s->x = 0x89;
+        s->y = 17 - temp_r1;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+        s = &strc->base.sprites[gUnknown_080CF8BC[temp_r3][0]];
+        s->x = 122;
+        s->y = 18 - temp_r1;
+        UpdateSpriteAnimation(s);
+        s->palId = palId;
+        DisplaySprite(s);
+        s->palId = 0;
+        s = &strc->base.sprites[gUnknown_080CF8BC[temp_r3][1]];
+        s->x = 130;
+        s->y = 18 - temp_r1;
+        UpdateSpriteAnimation(s);
+        s->palId = palId;
+        DisplaySprite(s);
+        s->palId = 0;
+        s = &strc->base.sprites[0xA];
+        s->x = 0x75;
+        s->y = 17 - temp_r1;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+        s = &strc->base.sprites[sp0];
+        s->x = 0x6E;
+        s->y = 18 - temp_r1;
+        UpdateSpriteAnimation(s);
+        s->palId = palId;
+        DisplaySprite(s);
+        s->palId = 0;
+        s = &strc->base.sprite284;
+        s->x = 88;
+        s->y = 7 - temp_r1;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+
+        ringCount = gStageData.rings;
+        temp_r0_3 = (u8)Div(ringCount, 100);
+        temp_r4_7 = ringCount - (temp_r0_3 * 100);
+        temp_r0_4 = (u8)Div(temp_r4_7, 10);
+        sp14 = temp_r0_4 * 5;
+        temp_r4_8 = temp_r4_7 - (temp_r0_4 * 10);
+
+        {
+            s32 rings = gStageData.rings;
+            var_r5 = 0;
+            if (rings == 0) {
+                var_r5 = (u32)(0 - (gStageData.timer & 0x10)) >> 0x1F;
+            }
+        }
+        s = &strc->base.sprites[temp_r0_3];
+        s->x = 0x28;
+        s->y = 18 - temp_r1;
+        UpdateSpriteAnimation(s);
+        s->palId = (u8)var_r5;
+        DisplaySprite(s);
+        s->palId = 0;
+
+        s = &strc->base.sprites[sp14];
+        s->x = 48;
+        s->y = 18 - temp_r1;
+        UpdateSpriteAnimation(s);
+
+        s->palId = (u8)var_r5;
+        DisplaySprite(s);
+        s->palId = 0;
+        s = &strc->base.sprites[temp_r4_8];
+        s->x = 0x38;
+        s->y = 18 - temp_r1;
+        UpdateSpriteAnimation(s);
+        s->palId = (u8)var_r5;
+        DisplaySprite(s);
+        s->palId = 0;
+    } else {
         if (gStageData.gameMode != 5) {
+            s8 keyCount;
             sp4 = 1;
-            temp_r7 = &strc->base.sprites[LOADED_SAVE->specialKeys[gStageData.zone]];
-            temp_r4 = temp_r1 << 0x10;
-            temp_r7->x = 0x24 - (temp_r4 >> 0xF);
-            temp_r7->y = 0x28;
-            UpdateSpriteAnimation(temp_r7);
-            DisplaySprite(temp_r7);
-            var_r8 = temp_r4;
+            keyCount = LOADED_SAVE->specialKeys[gStageData.zone];
+            s = &strc->base.sprites[keyCount];
+            s->x = 36 - temp_r1 * 2;
+            s->y = 40;
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
         } else {
             sp4 = 0;
-            var_r8 = temp_r1 << 0x10;
         }
-        temp_r7_2 = &strc->base.sprite2AC;
-        if (strc->base.sprite2AC.tiles != NULL) {
-            strc->base.sprite2AC.x = 0x70;
-            strc->base.sprite2AC.y = ((s32) var_r8 >> 0x10) + 0x90;
-            UpdateSpriteAnimation(temp_r7_2);
-            DisplaySprite(temp_r7_2);
+
+        s = &strc->base.sprite2AC;
+        if (s->tiles != NULL) {
+            s->x = 112;
+            s->y = temp_r1 + 144;
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
         }
-        temp_r6 = strc->base.isExtended;
-        if (temp_r6 == 1) {
+
+        if (strc->base.isExtended == TRUE) {
             temp_r4_2 = &strc->sprite2D4;
             UpdateSpriteAnimation(temp_r4_2);
             DisplaySprite(temp_r4_2);
             temp_r4_3 = &strc->sprite2FC;
             UpdateSpriteAnimation(temp_r4_3);
             DisplaySprite(temp_r4_3);
-            if (((s32) LOADED_SAVE->collectedEmeralds >> gStageData.zone) & temp_r6) {
+            if (GetBit(LOADED_SAVE->collectedEmeralds, gStageData.zone)) {
                 temp_r4_4 = &strc->sprite324;
                 UpdateSpriteAnimation(temp_r4_4);
                 DisplaySprite(temp_r4_4);
             }
         }
-    } else {
-        temp_r4_5 = gStageData.levelTimer;
-        temp_r0 = Div((s32) temp_r4_5, 0x3C);
-        temp_r0_2 = Div(temp_r0, 0x3C);
-        sp0 = temp_r0_2;
-        temp_r1_2 = temp_r0_2 * 2;
-        temp_r3 = temp_r0 - *(temp_r1_2 + &sFrameCountPerSecond);
-        temp_r5 = (temp_r4_5 - *((temp_r3 * 2) + &sFrameCountPerSecond)) - *(temp_r1_2 + &gUnknown_080CFA28);
-        if (gStageData.unk2 == 0) {
-            if (((u32) gStageData.levelTimer > 0x7E8FU) && (gStageData.timer & 0x10)) {
-                sp8 = 1;
-            }
-            if (((u32) gStageData.levelTimer > 0x87EFU) && (temp_r5 == 0)) {
-                m4aSongNumStart(0x8BU);
-            }
-        }
-        temp_r5_2 = temp_r5 * 2;
-        temp_r7_3 = strc + ((*(temp_r5_2 + &gUnknown_080CF936) * 0x28) + 0xFFFFFE74);
-        temp_r7_3->x = 0x90;
-        sp10 = temp_r1 << 0x10;
-        temp_r3_2 = (s16) temp_r1;
-        spC = (s32) temp_r3_2;
-        temp_r3_3 = 0x12 - temp_r3_2;
-        temp_r7_3->y = temp_r3_3;
-        UpdateSpriteAnimation(temp_r7_3);
-        temp_r7_3->palId = sp0.unk8;
-        DisplaySprite(temp_r7_3);
-        temp_r7_3->palId = 0;
-        temp_r7_4 = strc + ((*(temp_r5_2 + (&gUnknown_080CF936 + 1)) * 0x28) + 0xFFFFFE74);
-        temp_r7_4->x = 0x98;
-        temp_r7_4->y = temp_r3_3;
-        UpdateSpriteAnimation(temp_r7_4);
-        temp_r7_4->palId = sp0.unk8;
-        DisplaySprite(temp_r7_4);
-        temp_r7_4->palId = 0;
-        temp_r7_5 = &strc->base.sprites[0xB];
-        strc->base.sprites[0xB].x = 0x89;
-        temp_r6_2 = 0x11 - spC;
-        strc->base.sprites[0xB].y = temp_r6_2;
-        UpdateSpriteAnimation(temp_r7_5);
-        DisplaySprite(temp_r7_5);
-        temp_r5_3 = temp_r3 * 2;
-        temp_r7_6 = &strc->base.sprites[*(temp_r5_3 + &gUnknown_080CF8BC)];
-        temp_r7_6->x = 0x7A;
-        temp_r7_6->y = temp_r3_3;
-        UpdateSpriteAnimation(temp_r7_6);
-        temp_r7_6->palId = sp0.unk8;
-        DisplaySprite(temp_r7_6);
-        temp_r7_6->palId = 0;
-        temp_r7_7 = &strc->base.sprites[*(temp_r5_3 + (&gUnknown_080CF8BC + 1))];
-        temp_r7_7->x = 0x82;
-        temp_r7_7->y = temp_r3_3;
-        UpdateSpriteAnimation(temp_r7_7);
-        temp_r7_7->palId = sp0.unk8;
-        DisplaySprite(temp_r7_7);
-        temp_r7_7->palId = 0;
-        temp_r7_8 = &strc->base.sprites[0xA];
-        strc->base.sprites[0xA].x = 0x75;
-        strc->base.sprites[0xA].y = temp_r6_2;
-        UpdateSpriteAnimation(temp_r7_8);
-        DisplaySprite(temp_r7_8);
-        temp_r7_9 = &strc->base.sprites[sp0];
-        temp_r7_9->x = 0x6E;
-        temp_r7_9->y = temp_r3_3;
-        UpdateSpriteAnimation(temp_r7_9);
-        temp_r7_9->palId = sp0.unk8;
-        DisplaySprite(temp_r7_9);
-        temp_r7_9->palId = 0;
-        temp_r7_10 = &strc->base.sprite284;
-        strc->base.sprite284.x = 0x58;
-        strc->base.sprite284.y = 7 - spC;
-        UpdateSpriteAnimation(temp_r7_10);
-        DisplaySprite(temp_r7_10);
-        temp_r4_6 = (s16) gStageData.rings;
-        temp_r0_3 = (u8) Div((s32) temp_r4_6, 0x64);
-        temp_r4_7 = temp_r4_6 - (temp_r0_3 * 0x64);
-        temp_r0_4 = (u8) Div((s32) temp_r4_7, 0xA);
-        sp14 = temp_r0_4 * 5;
-        var_r5 = 0;
-        var_r8 = (u32) sp10;
-        if (gStageData.rings == 0) {
-            var_r5 = (u32) (0 - (gStageData.timer & 0x10)) >> 0x1F;
-        }
-        temp_r7_11 = &strc->base.sprites[temp_r0_3];
-        temp_r7_11->x = 0x28;
-        temp_r7_11->y = temp_r3_3;
-        UpdateSpriteAnimation(temp_r7_11);
-        temp_r7_11->palId = (u8) var_r5;
-        DisplaySprite(temp_r7_11);
-        temp_r7_11->palId = 0;
-        temp_r7_12 = strc + ((sp14 * 8) + 4);
-        temp_r7_12->x = 0x30;
-        temp_r7_12->y = temp_r3_3;
-        UpdateSpriteAnimation(temp_r7_12);
-        temp_r7_12->palId = (u8) var_r5;
-        DisplaySprite(temp_r7_12);
-        temp_r7_12->palId = 0;
-        temp_r7_13 = &strc->base.sprites[(u8) (temp_r4_7 - (temp_r0_4 * 0xA))];
-        temp_r7_13->x = 0x38;
-        temp_r7_13->y = temp_r3_3;
-        UpdateSpriteAnimation(temp_r7_13);
-        temp_r7_13->palId = (u8) var_r5;
-        DisplaySprite(temp_r7_13);
-        temp_r7_13->palId = 0;
     }
-    if ((u32) (u8) (gStageData.gameMode - 3) > 1U) {
+    if ((u32)(u8)(gStageData.gameMode - 3) > 1U) {
         var_r1 = gStageData.lives;
-        if ((u32) var_r1 > 9U) {
+        if ((u32)var_r1 > 9U) {
             var_r1 = 9;
         }
-        temp_r7_14 = &strc->base.sprites[var_r1];
-        temp_r7_14->x = 0x24;
-        temp_r7_14->y = ((s32) var_r8 >> 0x10) + 0x9C;
-        UpdateSpriteAnimation(temp_r7_14);
-        DisplaySprite(temp_r7_14);
+        s = &strc->base.sprites[var_r1];
+        s->x = 36;
+        s->y = temp_r1 + 0x9C;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
     }
-    temp_r7_15 = &strc->base.sprite1E4;
-    strc->base.sprite1E4.x = 5;
-    temp_r5_4 = (s32) var_r8 >> 0x10;
-    temp_r4_8 = temp_r5_4 + 0x8D;
-    strc->base.sprite1E4.y = temp_r4_8;
-    UpdateSpriteAnimation(temp_r7_15);
-    DisplaySprite(temp_r7_15);
-    temp_r7_16 = &strc->base.sprite20C;
-    strc->base.sprite20C.x = 0xF;
-    strc->base.sprite20C.y = temp_r4_8;
-    UpdateSpriteAnimation(temp_r7_16);
-    DisplaySprite(temp_r7_16);
-    temp_r7_17 = &strc->base.sprite25C;
-    temp_r4_9 = temp_r5_4 * 2;
-    strc->base.sprite25C.x = 8 - temp_r4_9;
-    strc->base.sprite25C.y = 0;
-    UpdateSpriteAnimation(temp_r7_17);
-    DisplaySprite(temp_r7_17);
+    s = &strc->base.sprite1E4;
+    s->x = 5;
+    s->y = temp_r1 + 0x8D;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &strc->base.sprite20C;
+    s->x = 0xF;
+    s->y = temp_r1 + 0x8D;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &strc->base.sprite25C;
+    s->x = 8 - temp_r1 * 2;
+    s->y = 0;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
     if (sp4 != 0) {
-        temp_r7_18 = &strc->base.sprite234;
-        strc->base.sprite234.x = 0xB - temp_r4_9;
-        strc->base.sprite234.y = 0x18;
-        UpdateSpriteAnimation(temp_r7_18);
-        DisplaySprite(temp_r7_18);
+        s = &strc->base.sprite234;
+        s->x = 0xB - temp_r1 * 2;
+        s->y = 0x18;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
     }
 }
 #endif

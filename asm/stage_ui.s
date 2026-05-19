@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start sub_8021A64
 sub_8021A64: @ 0x08021A64
 	push {r4, r5, r6, r7, lr}
@@ -544,6 +542,7 @@ _08021ED0:
 	.align 2, 0
 _08021EE0: .4byte gLoadedSaveGame
 _08021EE4: .4byte gStageData
+.endif
 
 	thumb_func_start sub_8021EE8
 sub_8021EE8: @ 0x08021EE8
