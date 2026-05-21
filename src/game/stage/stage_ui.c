@@ -13,23 +13,26 @@
 #define UI_SP_KEY_COUNT_X (36)
 #define UI_SP_KEY_COUNT_Y (40)
 
+#define UI_RINGS_X (48)
+#define UI_RINGS_Y (18)
+
 // Timer layout  :  TIME M'SS"FF
-#define UI_TIMER_TIME_TEXT_X (DISPLAY_CENTER_X - 32)
-#define UI_TIMER_TIME_TEXT_Y (7)
-#define UI_TIMER_MINUTES_X (DISPLAY_CENTER_X - 10)
-#define UI_TIMER_MINUTES_Y (18)
-#define UI_TIMER_APSTROPHE_X (DISPLAY_CENTER_X - 3)
-#define UI_TIMER_APSTROPHE_Y (17)
+#define UI_TIMER_TIME_TEXT_X    (DISPLAY_CENTER_X - 32)
+#define UI_TIMER_TIME_TEXT_Y    (7)
+#define UI_TIMER_MINUTES_X      (DISPLAY_CENTER_X - 10)
+#define UI_TIMER_MINUTES_Y      (18)
+#define UI_TIMER_APSTROPHE_X    (DISPLAY_CENTER_X - 3)
+#define UI_TIMER_APSTROPHE_Y    (17)
 #define UI_TIMER_SECONDS_TENS_X (DISPLAY_CENTER_X + 2)
 #define UI_TIMER_SECONDS_TENS_Y (18)
 #define UI_TIMER_SECONDS_ONES_X (DISPLAY_CENTER_X + 10)
 #define UI_TIMER_SECONDS_ONES_Y (18)
-#define UI_TIMER_AIR_QUOTES_X (DISPLAY_CENTER_X + 17)
-#define UI_TIMER_AIR_QUOTES_Y (17)
-#define UI_TIMER_FRAMES_TENS_X (DISPLAY_CENTER_X + 24)
-#define UI_TIMER_FRAMES_TENS_Y (18)
-#define UI_TIMER_FRAMES_ONES_X (DISPLAY_CENTER_X + 32)
-#define UI_TIMER_FRAMES_ONES_Y (18)
+#define UI_TIMER_AIR_QUOTES_X   (DISPLAY_CENTER_X + 17)
+#define UI_TIMER_AIR_QUOTES_Y   (17)
+#define UI_TIMER_FRAMES_TENS_X  (DISPLAY_CENTER_X + 24)
+#define UI_TIMER_FRAMES_TENS_Y  (18)
+#define UI_TIMER_FRAMES_ONES_X  (DISPLAY_CENTER_X + 32)
+#define UI_TIMER_FRAMES_ONES_Y  (18)
 
 #define UI_ZONE_TEXT_X (DISPLAY_WIDTH - 128)
 #define UI_ZONE_TEXT_Y (DISPLAY_HEIGHT - 16)
@@ -472,7 +475,7 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
             }
         }
         s = &strc->base.sprites4[temp_r0_3];
-        s->x = 40;
+        s->x = UI_RINGS_X - 8;
         s->y = 18 - baseY;
         UpdateSpriteAnimation(s);
         s->palId = (u8)var_r5;
@@ -480,7 +483,7 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
         s->palId = 0;
 
         s = &strc->base.sprites4[temp_r0_4];
-        s->x = 48;
+        s->x = UI_RINGS_X + 0;
         s->y = 18 - baseY;
         UpdateSpriteAnimation(s);
 
@@ -488,7 +491,7 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
         DisplaySprite(s);
         s->palId = 0;
         s = &strc->base.sprites4[temp_r4_8];
-        s->x = 56;
+        s->x = UI_RINGS_X + 8;
         s->y = 18 - baseY;
         UpdateSpriteAnimation(s);
         s->palId = (u8)var_r5;
