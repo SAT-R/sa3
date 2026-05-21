@@ -720,3 +720,205 @@ void sub_8022198(void)
     s = &strc->sprite330;
     s->prevVariant = -1;
 }
+
+// (92.54%) https://decomp.me/scratch/W5nr5
+NONMATCH("asm/non_matching/game/stage/stgui__sub_8022234.inc", void sub_8022234(void))
+{
+    s32 sp0[2];
+    s8 sp8;
+    u32 spC;
+    s32 sp10[2];
+    s32 sp18;
+    s16 baseY;
+    Player *temp_r6_3;
+    Sprite *temp_r7;
+    Sprite *s;
+    s16 temp_r4_2;
+    s32 temp_r4_3;
+    s16 temp_r6;
+    s16 var_r3;
+    s32 temp_r5;
+    s32 var_r0;
+    s32 var_r1;
+    s32 var_r8;
+    s8 temp_r0_3;
+    s8 temp_r6_2;
+    s32 timer;
+    u32 palId;
+    s32 var_sb;
+    u32 max;
+    u32 levelTimer;
+    const Vec2_u16 *temp_r0_4;
+    const Strc_80D1874 *temp_r0_5;
+    StageUi2 *strc = TASK_DATA(gCurTask);
+
+    baseY = strc->base.unk0;
+    timer = gStageData.levelTimer;
+    sp0[1] = Div(timer, 60);
+    sp0[0] = Div(sp0[1], 60);
+    sp0[1] -= sFrameCountPerSecond[sp0[0]];
+    timer -= sFrameCountPerSecond[sp0[1]];
+    temp_r5 = timer - gUnknown_080CFA28[sp0[0]];
+    levelTimer = gStageData.levelTimer;
+    max = TIME(9, 0);
+    spC = 0;
+    if (levelTimer > max) {
+        spC = (u32) (0 - (gStageData.timer & 0x10)) >> 0x1F;
+    }
+    if (((u32) gStageData.levelTimer > 0x87EFU) && (temp_r5 == 0)) {
+        m4aSongNumStart(SE_139);
+    }
+    temp_r7 = &strc->base.sprites4[gUnknown_080CF936[temp_r5][0] - 10];
+    temp_r7->x = 0x90;
+    var_sb = temp_r7->y = 18 - baseY;
+    UpdateSpriteAnimation(temp_r7);
+    temp_r7->palId = spC;
+    DisplaySprite(temp_r7);
+    temp_r7->palId = 0;
+    s = &strc->base.sprites4[gUnknown_080CF936[temp_r5][1] - 10];
+    s->x = 0x98;
+    s->y = var_sb;
+    UpdateSpriteAnimation(s);
+    s->palId = spC;
+    DisplaySprite(s);
+    s->palId = 0;
+    s = &strc->base.sprites4[11];
+    s->x = 0x89;
+    s->y = 17 - baseY;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+    s = &strc->base.sprites4[gUnknown_080CF8BC[sp0[1]][0]];
+    s->x = 0x7A;
+    s->y = var_sb;
+    UpdateSpriteAnimation(s);
+    s->palId = spC;
+    DisplaySprite(s);
+    s->palId = 0;
+    s = &strc->base.sprites4[gUnknown_080CF8BC[sp0[1]][1]];
+    s->x = 0x82;
+    s->y = var_sb;
+    UpdateSpriteAnimation(s);
+    s->palId = spC;
+    DisplaySprite(s);
+    s->palId = 0;
+    s = &strc->base.sprites4[10];
+    s->x = 0x75;
+    s->y = 17 - baseY;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+    s = &strc->base.sprites4[sp0[0]];
+    s->x = 0x6E;
+    s->y = var_sb;
+    UpdateSpriteAnimation(s);
+    s->palId = spC;
+    DisplaySprite(s);
+    s->palId = 0;
+    temp_r4_2 = gStageData.rings;
+    temp_r6_2 = (s8) Div(temp_r4_2, 100);
+    temp_r4_3 = (s16)(temp_r4_2 - (temp_r6_2 * 100));
+    temp_r0_3 = (s8) Div(temp_r4_3, 10);
+    sp8 = (temp_r4_3 - (temp_r0_3 * 10));
+    palId = 0;
+    if (gStageData.rings == 0) {
+        palId = (u32) (0 - (gStageData.timer & 0x10)) >> 0x1F;
+    }
+    s = &strc->base.sprites4[temp_r6_2];
+    s->x = 40;
+    s->y = var_sb;
+    UpdateSpriteAnimation(s);
+    s->palId = (u8) palId;
+    DisplaySprite(s);
+    s->palId = 0;
+    s = &strc->base.sprites4[temp_r0_3];
+    s->x = 0x30;
+    s->y = var_sb;
+    UpdateSpriteAnimation(s);
+    s->palId = (u8) palId;
+    DisplaySprite(s);
+    s->palId = 0;
+    s = &strc->base.sprites4[sp8];
+    s->x = 0x38;
+    s->y = var_sb;
+    UpdateSpriteAnimation(s);
+    s->palId = (u8) palId;
+    DisplaySprite(s);
+    s->palId = 0;
+    temp_r0_4 = gRespawnPositions[gStageData.currentLevel];
+    sp10[0] = temp_r0_4->x;
+    sp10[1] = temp_r0_4->y;
+
+    {
+        s32 someX;
+        s32 r2;
+        temp_r0_5 = gUnknown_080D191C[gStageData.currentLevel];
+        someX = temp_r0_5->unk0;
+        r2 = temp_r0_5->unk2;
+        var_sb = temp_r0_5->unk4;
+        if (temp_r0_5->unk4 == 0) {
+            var_r8 = someX - temp_r0_4->x;
+        } else {
+            var_r8 = r2 - sp10[1];
+        }
+    }
+
+    for(var_r3 = 0; var_r3 < MULTI_SIO_PLAYERS_MAX; var_r3++)
+    {
+        s = &strc->base.sprites1E4[var_r3];
+        temp_r6_3 = &gPlayers[var_r3];
+
+        if ((temp_r6_3->charFlags.someIndex > 0) && (temp_r6_3->charFlags.someIndex < 4)) {
+            if (var_sb == 0) {
+                var_r1 = (temp_r6_3->qWorldX >> 8) - sp10[0];
+            } else {
+                var_r1 = (temp_r6_3->qWorldY >> 8) - sp10[1];
+            }
+            var_r0 = Div(var_r1 * 224, var_r8);
+            
+            if (var_r0 >= 0) {
+                if (var_r0 > 224) {
+                    var_r0 = 224;
+                }
+            } else {
+                var_r0 = 0;
+            }
+            s->x = var_r0 + 8;
+            s->y = baseY + 0x8D;
+            s->palId = 0;
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+        }
+
+        if ((gStageData.playerIndex != var_r3) 
+            && (temp_r6_3->charFlags.someIndex == 3) 
+            && ((sub_8022934(var_r3) << 0x18) == 0)) {
+            if (gStageData.playerIndex == temp_r6_3->charFlags.partnerIndex)
+            {
+                s = &strc->base.sprites284[0];
+            } else {
+                s = &strc->base.sprites284[1];                
+            }
+            sub_8022664(var_r3, s);
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+        }
+    }
+
+    s = &strc->sprite2E0;
+    s->x = 8 - (u16)baseY * 2;
+    s->y = 0;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &strc->sprite308;
+    s->x = 8 - (u16)baseY * 2;
+    s->y = 154;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &strc->sprite330;
+    s->x = (u16)baseY * 2 + 232;
+    s->y = 150;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+END_NONMATCH
