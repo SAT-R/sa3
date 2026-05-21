@@ -205,9 +205,6 @@ void sub_80B5DF4() { }
 void sub_80B60E0(s16 param0, s16 *param1) { }
 void sub_80B6774(s16 param0, s16 *param1) { }
 
-void sub_8021EE8() { }
-void TaskDestructor_80227A4() { }
-void Task_34C_8022868() { }
 void sub_8022FB0() { }
 void sub_80A872C() { }
 void sub_8053284() { }

@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "game/chao.h"
@@ -8,6 +9,12 @@
 #include "game/stage.h"
 #include "constants/animations.h"
 #include "constants/songs.h"
+
+#define UI_SP_KEY_COUNT_X (36)
+#define UI_SP_KEY_COUNT_Y (40)
+
+#define UI_ZONE_TEXT_X (DISPLAY_WIDTH - 128)
+#define UI_ZONE_TEXT_Y (DISPLAY_HEIGHT - 16)
 
 Task *sub_80215A0(void);
 void sub_8021A64(void);
@@ -116,11 +123,11 @@ Task *sub_80215A0(void)
     if (gStageData.currentLevel == 11) {
         resultTask = TaskCreate(Task_34C_8022868, sizeof(StageUi), 0x2100U, 0U, TaskDestructor_80227A4);
         strc = TASK_DATA(resultTask);
-        strc->base.extensionType = 1;
+        strc->base.extensionType = EXT_1;
     } else {
         resultTask = TaskCreate(Task_34C_8022868, sizeof(StageUiBase), 0x2100U, 0U, TaskDestructor_80227A4);
         strc = TASK_DATA(resultTask);
-        strc->base.extensionType = 0;
+        strc->base.extensionType = EXT_NONE;
     }
     strc->base.unk0 = 0x10;
     tiles = (OBJ_VRAM0 + 0x3800);
@@ -245,7 +252,7 @@ Task *sub_80215A0(void)
         s->tiles = NULL;
     }
 
-    if (strc->base.extensionType == 1) {
+    if (strc->base.extensionType == EXT_1) {
         s16 zone = gStageData.zone;
         s16 chaoCount = GetChaoCount(zone);
         s = &strc->sprite2D4;
@@ -351,12 +358,12 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
     u32 var_r5;
     u8 temp_r0_3;
     u8 temp_r0_4;
-    s16 temp_r1;
+    s16 baseY;
     u8 temp_r6;
-    u8 var_r1;
+    u8 lives;
 
     StageUi *strc = TASK_DATA(gCurTask);
-    temp_r1 = strc->base.unk0;
+    baseY = strc->base.unk0;
     if (((gStageData.act > 2U) && ((u32)gStageData.zone <= 6U)) || (gStageData.zone == 7) || (gStageData.zone == 8)) {
         StageData *sd = &gStageData;
         timerFrames = gStageData.levelTimer;
@@ -379,52 +386,52 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
 
         s = &strc->base.sprites[gUnknown_080CF936[temp_r5][0] - 10];
         s->x = 144;
-        s->y = 18 - temp_r1;
+        s->y = 18 - baseY;
         UpdateSpriteAnimation(s);
         s->palId = palId;
         DisplaySprite(s);
         s->palId = 0;
         s = &strc->base.sprites[gUnknown_080CF936[temp_r5][1] - 10];
         s->x = 0x98;
-        s->y = 18 - temp_r1;
+        s->y = 18 - baseY;
         UpdateSpriteAnimation(s);
         s->palId = palId;
         DisplaySprite(s);
         s->palId = 0;
         s = &strc->base.sprites[11];
         s->x = 0x89;
-        s->y = 17 - temp_r1;
+        s->y = 17 - baseY;
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
         s = &strc->base.sprites[gUnknown_080CF8BC[timerSecs][0]];
         s->x = 122;
-        s->y = 18 - temp_r1;
+        s->y = 18 - baseY;
         UpdateSpriteAnimation(s);
         s->palId = palId;
         DisplaySprite(s);
         s->palId = 0;
         s = &strc->base.sprites[gUnknown_080CF8BC[timerSecs][1]];
         s->x = 130;
-        s->y = 18 - temp_r1;
+        s->y = 18 - baseY;
         UpdateSpriteAnimation(s);
         s->palId = palId;
         DisplaySprite(s);
         s->palId = 0;
         s = &strc->base.sprites[0xA];
         s->x = 0x75;
-        s->y = 17 - temp_r1;
+        s->y = 17 - baseY;
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
         s = &strc->base.sprites[sp0];
         s->x = 0x6E;
-        s->y = 18 - temp_r1;
+        s->y = 18 - baseY;
         UpdateSpriteAnimation(s);
         s->palId = palId;
         DisplaySprite(s);
         s->palId = 0;
         s = &strc->base.sprite284;
         s->x = 88;
-        s->y = 7 - temp_r1;
+        s->y = 7 - baseY;
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
 
@@ -448,8 +455,8 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
             }
         }
         s = &strc->base.sprites[temp_r0_3];
-        s->x = 0x28;
-        s->y = 18 - temp_r1;
+        s->x = 40;
+        s->y = 18 - baseY;
         UpdateSpriteAnimation(s);
         s->palId = (u8)var_r5;
         DisplaySprite(s);
@@ -457,27 +464,27 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
 
         s = &strc->base.sprites[temp_r0_4];
         s->x = 48;
-        s->y = 18 - temp_r1;
+        s->y = 18 - baseY;
         UpdateSpriteAnimation(s);
 
         s->palId = (u8)var_r5;
         DisplaySprite(s);
         s->palId = 0;
         s = &strc->base.sprites[temp_r4_8];
-        s->x = 0x38;
-        s->y = 18 - temp_r1;
+        s->x = 56;
+        s->y = 18 - baseY;
         UpdateSpriteAnimation(s);
         s->palId = (u8)var_r5;
         DisplaySprite(s);
         s->palId = 0;
     } else {
-        if (gStageData.gameMode != 5) {
+        if (gStageData.gameMode != GAME_MODE_5) {
             s8 keyCount;
             sp4 = 1;
             keyCount = LOADED_SAVE->specialKeys[gStageData.zone];
             s = &strc->base.sprites[keyCount];
-            s->x = 36 - temp_r1 * 2;
-            s->y = 40;
+            s->x = UI_SP_KEY_COUNT_X - baseY * 2;
+            s->y = UI_SP_KEY_COUNT_Y;
             UpdateSpriteAnimation(s);
             DisplaySprite(s);
         } else {
@@ -486,13 +493,13 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
 
         s = &strc->base.sprite2AC;
         if (s->tiles != NULL) {
-            s->x = 112;
-            s->y = temp_r1 + 144;
+            s->x = UI_ZONE_TEXT_X;
+            s->y = baseY + UI_ZONE_TEXT_Y;
             UpdateSpriteAnimation(s);
             DisplaySprite(s);
         }
 
-        if (strc->base.extensionType == TRUE) {
+        if (strc->base.extensionType == EXT_1) {
             temp_r4_2 = &strc->sprite2D4;
             UpdateSpriteAnimation(temp_r4_2);
             DisplaySprite(temp_r4_2);
@@ -508,37 +515,37 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
         }
     }
     if ((u32)(u8)(gStageData.gameMode - 3) > 1U) {
-        var_r1 = gStageData.lives;
-        if ((u32)var_r1 > 9U) {
-            var_r1 = 9;
+        lives = gStageData.lives;
+        if (lives > 9) {
+            lives = 9;
         }
-        s = &strc->base.sprites[var_r1];
+        s = &strc->base.sprites[lives];
         s->x = 36;
-        s->y = temp_r1 + 0x9C;
+        s->y = baseY + 156;
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
     }
     s = &strc->base.sprite1E4;
     s->x = 5;
-    s->y = temp_r1 + 0x8D;
+    s->y = baseY + 141;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
     s = &strc->base.sprite20C;
-    s->x = 0xF;
-    s->y = temp_r1 + 0x8D;
+    s->x = 15;
+    s->y = baseY + 141;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
     s = &strc->base.sprite25C;
-    s->x = 8 - temp_r1 * 2;
+    s->x = 8 - baseY * 2;
     s->y = 0;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
     if (sp4 != 0) {
         s = &strc->base.sprite234;
-        s->x = 0xB - temp_r1 * 2;
+        s->x = 0xB - baseY * 2;
         s->y = 0x18;
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
@@ -561,7 +568,7 @@ Task *sub_8021EE8(void)
     memcpy(&sp4, gUnknown_080CEE20, 5);
     memcpy(&spC, *gUnknown_080CEE25, 0x19);
     resultTask = TaskCreate(Task_8022898, sizeof(StageUi2), 0x2100U, 0U, NULL);
-#if !BUG_FIX
+#if !defined(BUG_FIX)
     // BUG: Assignment to uninitialized pointer
     strc->base.unk0 = 0x10;
     strc = TASK_DATA(resultTask);
@@ -763,9 +770,9 @@ NONMATCH("asm/non_matching/game/stage/stgui__sub_8022234.inc", void sub_8022234(
     max = TIME(9, 0);
     spC = 0;
     if (levelTimer > max) {
-        spC = (u32) (0 - (gStageData.timer & 0x10)) >> 0x1F;
+        spC = (u32)(0 - (gStageData.timer & 0x10)) >> 0x1F;
     }
-    if (((u32) gStageData.levelTimer > 0x87EFU) && (temp_r5 == 0)) {
+    if (((u32)gStageData.levelTimer > 0x87EFU) && (temp_r5 == 0)) {
         m4aSongNumStart(SE_139);
     }
     temp_r7 = &strc->base.sprites4[gUnknown_080CF936[temp_r5][0] - 10];
@@ -814,33 +821,33 @@ NONMATCH("asm/non_matching/game/stage/stgui__sub_8022234.inc", void sub_8022234(
     DisplaySprite(s);
     s->palId = 0;
     temp_r4_2 = gStageData.rings;
-    temp_r6_2 = (s8) Div(temp_r4_2, 100);
+    temp_r6_2 = (s8)Div(temp_r4_2, 100);
     temp_r4_3 = (s16)(temp_r4_2 - (temp_r6_2 * 100));
-    temp_r0_3 = (s8) Div(temp_r4_3, 10);
+    temp_r0_3 = (s8)Div(temp_r4_3, 10);
     sp8 = (temp_r4_3 - (temp_r0_3 * 10));
     palId = 0;
     if (gStageData.rings == 0) {
-        palId = (u32) (0 - (gStageData.timer & 0x10)) >> 0x1F;
+        palId = (u32)(0 - (gStageData.timer & 0x10)) >> 0x1F;
     }
     s = &strc->base.sprites4[temp_r6_2];
     s->x = 40;
     s->y = var_sb;
     UpdateSpriteAnimation(s);
-    s->palId = (u8) palId;
+    s->palId = (u8)palId;
     DisplaySprite(s);
     s->palId = 0;
     s = &strc->base.sprites4[temp_r0_3];
     s->x = 0x30;
     s->y = var_sb;
     UpdateSpriteAnimation(s);
-    s->palId = (u8) palId;
+    s->palId = (u8)palId;
     DisplaySprite(s);
     s->palId = 0;
     s = &strc->base.sprites4[sp8];
     s->x = 0x38;
     s->y = var_sb;
     UpdateSpriteAnimation(s);
-    s->palId = (u8) palId;
+    s->palId = (u8)palId;
     DisplaySprite(s);
     s->palId = 0;
     temp_r0_4 = gRespawnPositions[gStageData.currentLevel];
@@ -861,8 +868,7 @@ NONMATCH("asm/non_matching/game/stage/stgui__sub_8022234.inc", void sub_8022234(
         }
     }
 
-    for(var_r3 = 0; var_r3 < MULTI_SIO_PLAYERS_MAX; var_r3++)
-    {
+    for (var_r3 = 0; var_r3 < MULTI_SIO_PLAYERS_MAX; var_r3++) {
         s = &strc->base.sprites1E4[var_r3];
         temp_r6_3 = &gPlayers[var_r3];
 
@@ -873,7 +879,7 @@ NONMATCH("asm/non_matching/game/stage/stgui__sub_8022234.inc", void sub_8022234(
                 var_r1 = (temp_r6_3->qWorldY >> 8) - sp10[1];
             }
             var_r0 = Div(var_r1 * 224, var_r8);
-            
+
             if (var_r0 >= 0) {
                 if (var_r0 > 224) {
                     var_r0 = 224;
@@ -888,14 +894,11 @@ NONMATCH("asm/non_matching/game/stage/stgui__sub_8022234.inc", void sub_8022234(
             DisplaySprite(s);
         }
 
-        if ((gStageData.playerIndex != var_r3) 
-            && (temp_r6_3->charFlags.someIndex == 3) 
-            && ((sub_8022934(var_r3) << 0x18) == 0)) {
-            if (gStageData.playerIndex == temp_r6_3->charFlags.partnerIndex)
-            {
+        if ((gStageData.playerIndex != var_r3) && (temp_r6_3->charFlags.someIndex == 3) && ((sub_8022934(var_r3) << 0x18) == 0)) {
+            if (gStageData.playerIndex == temp_r6_3->charFlags.partnerIndex) {
                 s = &strc->base.sprites284[0];
             } else {
-                s = &strc->base.sprites284[1];                
+                s = &strc->base.sprites284[1];
             }
             sub_8022664(var_r3, s);
             UpdateSpriteAnimation(s);
@@ -922,3 +925,145 @@ NONMATCH("asm/non_matching/game/stage/stgui__sub_8022234.inc", void sub_8022234(
     DisplaySprite(s);
 }
 END_NONMATCH
+
+void sub_8022664(s16 pid, Sprite *s)
+{
+    StageUi2 *sp0;
+    Player *playerA;
+    Player *playerB;
+    s16 dx;
+    s16 dy;
+
+    StageUi2 *strc = TASK_DATA(gCurTask);
+
+    playerB = &gPlayers[gStageData.playerIndex];
+    playerA = &gPlayers[pid];
+    dx = I(playerB->qWorldX - playerA->qWorldX);
+    dy = I(playerB->qWorldY - playerA->qWorldY);
+    s->palId = (u8)(u16)pid;
+    s->frameFlags = gNextFreeAffineIndex | 0x40020;
+    gNextFreeAffineIndex += 1;
+    strc->tf.rotation = (sa2__sub_8004418(dy >> 2, dx >> 2) - Q(1)) & ONE_CYCLE;
+    dx = -dx;
+    dx = dx + (I(playerB->qWorldX) - gCamera.x);
+    dy = -dy;
+    dy = dy + (I(playerB->qWorldY) - gCamera.y);
+
+    if (dx < 16) {
+        dx = 0x10;
+    } else if ((s32)dx > 0xE0) {
+        dx = 0xE0;
+    }
+
+    if ((s32)dy <= 0x17) {
+        dy = 0x18;
+    } else if ((s32)dy > 0x80) {
+        dy = 0x80;
+    }
+    strc->tf.x = dx;
+    strc->tf.y = dy;
+    strc->tf.qScaleX = Q(1);
+    strc->tf.qScaleY = Q(1);
+    TransformSprite(s, &strc->tf);
+}
+
+void TaskDestructor_80227A4(Task *t)
+{
+    StageUi *timer;
+
+    timer = TASK_DATA(t);
+
+    if (timer->base.sprite2AC.tiles != NULL) {
+        VramFree(timer->base.sprite2AC.tiles);
+    }
+    if (timer->base.extensionType == EXT_1) {
+        VramFree(timer->sprite2D4.tiles);
+        VramFree(timer->sprite2FC.tiles);
+        VramFree(timer->sprite324.tiles);
+    }
+}
+
+void Task_80227F8(void)
+{
+    struct Task *t = gCurTask;
+    sub_8021A64();
+    if (gStageData.unk85 != 0) {
+        gCurTask->main = Task_8022824;
+    }
+}
+
+void Task_8022824(void)
+{
+    StageUi2 *temp_r1 = TASK_DATA(gCurTask);
+
+    if (temp_r1->base.unk0 < 16) {
+        temp_r1->base.unk0++;
+        sub_8021A64();
+    }
+    if (gStageData.unk85 == 0) {
+        sub_80219E8();
+        gCurTask->main = Task_34C_8022868;
+    }
+}
+
+void Task_34C_8022868(void)
+{
+    StageUi2 *temp_r1 = TASK_DATA(gCurTask);
+
+    if (--temp_r1->base.unk0 == 0) {
+        gCurTask->main = Task_80227F8;
+    }
+    sub_8021A64();
+}
+
+void Task_8022898(void)
+{
+    StageUi2 *temp_r1 = TASK_DATA(gCurTask);
+
+    if (--temp_r1->base.unk0 == 0) {
+        gCurTask->main = Task_80228C8;
+    }
+    sub_8022234();
+}
+
+void Task_80228C8(void)
+{
+    sub_8022234();
+
+    if (gStageData.unk85 != 0) {
+        gCurTask->main = Task_80228F0;
+    }
+}
+
+void Task_80228F0(void)
+{
+    StageUi2 *temp_r1;
+    u8 temp_r0;
+
+    temp_r1 = TASK_DATA(gCurTask);
+    if (temp_r1->base.unk0 < 16) {
+        temp_r1->base.unk0++;
+        sub_8022234();
+    }
+    if (gStageData.unk85 == 0) {
+        sub_8022198();
+        gCurTask->main = Task_8022898;
+    }
+}
+
+u8 sub_8022934(s16 arg0)
+{
+    Player *p;
+    Sprite2 *s;
+
+    p = &gPlayers[arg0];
+    s = &p->spriteInfoBody->s;
+
+    if ((u32)(u16)(s->x - 1) <= 0xEEU) {
+        s16 y = s->y;
+        if ((y > 0) && (s->y < DISPLAY_HEIGHT)) {
+            return 1;
+        }
+    }
+    return 0;
+}

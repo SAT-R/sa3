@@ -28,7 +28,6 @@ SECTIONS {
         src/game/stage/player.o(.text);
         src/screen_fade.o(.text);
         src/game/stage/stage_ui.o(.text);
-        asm/stage_ui.o(.text);
         asm/code_0_3.o(.text);
         asm/game__chao_map.o(.text);
         asm/game__stage_notifications.o(.text);
