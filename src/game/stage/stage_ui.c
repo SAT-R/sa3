@@ -9,9 +9,11 @@
 #include "constants/animations.h"
 #include "constants/songs.h"
 
+Task *sub_80215A0(void);
+void sub_8021A64(void);
+Task *sub_8021EE8(); /* extern */
 void TaskDestructor_80227A4(Task *); /* extern */
 void Task_34C_8022868(); /* extern */
-Task *sub_8021EE8(); /* extern */
 extern TileInfo gUnknown_080CECF8[12];
 extern TileInfo sEmeraldOverviewZoneNums[];
 extern TileInfo sEmeraldOverviewEmeraldNums[];
@@ -23,10 +25,19 @@ extern const u8 gUnknown_080CF8BC[61][2];
 extern const s16 sFrameCountPerSecond[61];
 extern const u16 gUnknown_080CFA28[61];
 extern const u8 gUnknown_080CF936[60][2];
+extern const Vec2_u16 *gRespawnPositions[NUM_LEVEL_IDS];
+
+typedef struct {
+    u16 unk0;
+    u16 unk2;
+    u8 unk4;
+} Strc_80D1874;
+
+extern const Strc_80D1874 *gUnknown_080D191C[NUM_LEVEL_IDS];
 
 typedef struct {
     /* 0x000 */ u8 unk0;
-    /* 0x001 */ bool8 isExtended;
+    /* 0x001 */ bool8 extensionType;
     /* 0x004 */ Sprite sprites[12];
     /* 0x1E4 */ Sprite sprite1E4;
     /* 0x20C */ Sprite sprite20C;
@@ -37,11 +48,50 @@ typedef struct {
 } StageUiBase; /* 0x2D4 */
 
 typedef struct {
+    /* 0x000 */ u8 unk0;
+    /* 0x001 */ bool8 extensionType;
+    /* 0x004 */ Sprite sprites4[12];
+    /* 0x1E4 */ Sprite sprites1E4[4];
+    /* 0x284 */ Sprite sprites284[2];
+} StageUiBase2; /* 0x2D4 */
+
+typedef struct {
     /* 0x000 */ StageUiBase base;
     /* 0x2D4 */ Sprite sprite2D4;
     /* 0x2FC */ Sprite sprite2FC;
     /* 0x324 */ Sprite sprite324;
 } StageUi; /* 0x34C */
+
+typedef struct {
+    /* 0x000 */ StageUiBase2 base;
+    /* 0x2D4 */ SpriteTransform tf;
+    /* 0x2E0 */ Sprite sprite2E0;
+    /* 0x308 */ Sprite sprite308;
+    /* 0x330 */ Sprite sprite330;
+} StageUi2; /* 0x358 */
+
+void sub_80219E8();
+void sub_8022234(void);
+void Task_80227F8();
+void Task_8022824();
+void Task_8022898();
+void Task_80228C8();
+void Task_80228F0();
+void sub_8022664(s16 pid, Sprite *s);
+u8 sub_8022934(s16 arg0);
+
+typedef enum {
+    EXT_NONE = 0,
+    EXT_1 = 1,
+    EXT_2 = 2,
+} ExtType;
+
+typedef struct {
+    /* 0x000 */ u8 unk0;
+    /* 0x001 */ bool8 extensionType;
+    /* 0x004 */ Sprite sprites[12];
+    /* 0x1E4 */ u8 filler1[0x174];
+} UiStrc_358;
 
 Task *sub_80215A0(void)
 {
@@ -66,11 +116,11 @@ Task *sub_80215A0(void)
     if (gStageData.currentLevel == 11) {
         resultTask = TaskCreate(Task_34C_8022868, sizeof(StageUi), 0x2100U, 0U, TaskDestructor_80227A4);
         strc = TASK_DATA(resultTask);
-        strc->base.isExtended = 1;
+        strc->base.extensionType = 1;
     } else {
         resultTask = TaskCreate(Task_34C_8022868, sizeof(StageUiBase), 0x2100U, 0U, TaskDestructor_80227A4);
         strc = TASK_DATA(resultTask);
-        strc->base.isExtended = 0;
+        strc->base.extensionType = 0;
     }
     strc->base.unk0 = 0x10;
     tiles = (OBJ_VRAM0 + 0x3800);
@@ -195,7 +245,7 @@ Task *sub_80215A0(void)
         s->tiles = NULL;
     }
 
-    if (strc->base.isExtended == 1) {
+    if (strc->base.extensionType == 1) {
         s16 zone = gStageData.zone;
         s16 chaoCount = GetChaoCount(zone);
         s = &strc->sprite2D4;
@@ -442,13 +492,14 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
             DisplaySprite(s);
         }
 
-        if (strc->base.isExtended == TRUE) {
+        if (strc->base.extensionType == TRUE) {
             temp_r4_2 = &strc->sprite2D4;
             UpdateSpriteAnimation(temp_r4_2);
             DisplaySprite(temp_r4_2);
             temp_r4_3 = &strc->sprite2FC;
             UpdateSpriteAnimation(temp_r4_3);
             DisplaySprite(temp_r4_3);
+
             if (GetBit(LOADED_SAVE->collectedEmeralds, gStageData.zone)) {
                 temp_r4_4 = &strc->sprite324;
                 UpdateSpriteAnimation(temp_r4_4);
@@ -494,3 +545,178 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
     }
 }
 END_NONMATCH
+
+Task *sub_8021EE8(void)
+{
+    u8 sp4[NUM_CHARACTERS];
+    u8 spC[NUM_CHARACTERS][NUM_CHARACTERS];
+    Task *resultTask;
+    Player *p;
+    Player *partner;
+    Sprite *s;
+    u8 i, j;
+    StageUi2 *strc;
+    void *tiles;
+
+    memcpy(&sp4, gUnknown_080CEE20, 5);
+    memcpy(&spC, *gUnknown_080CEE25, 0x19);
+    resultTask = TaskCreate(Task_8022898, sizeof(StageUi2), 0x2100U, 0U, NULL);
+#if !BUG_FIX
+    // BUG: Assignment to uninitialized pointer
+    strc->base.unk0 = 0x10;
+    strc = TASK_DATA(resultTask);
+#else
+    strc = TASK_DATA(resultTask);
+    strc->base.unk0 = 0x10;
+#endif
+    strc->base.extensionType = EXT_2;
+
+    tiles = (OBJ_VRAM0 + 0x3800);
+    for (i = 0; i < (s32)ARRAY_COUNT(strc->base.sprites4); i++) {
+        s = &strc->base.sprites4[i];
+        s->tiles = tiles + ((i * 2) * TILE_SIZE_4BPP);
+        s->anim = gUnknown_080CECF8[i].anim;
+        s->variant = gUnknown_080CECF8[i].variant;
+        s->oamFlags = SPRITE_OAM_ORDER(6);
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->prevVariant = -1;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+        s->frameFlags = 0;
+    }
+    tiles += (24 * TILE_SIZE_4BPP);
+
+    for (i = 0; i < (s32)ARRAY_COUNT(strc->base.sprites1E4); i++) {
+        p = &gPlayers[i];
+        s = &strc->base.sprites1E4[i];
+        s->tiles = tiles;
+        s->anim = 1423;
+        s->variant = sp4[p->charFlags.character];
+        s->oamFlags = SPRITE_OAM_ORDER(5);
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->prevVariant = -1;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+        s->frameFlags = 0;
+
+        UpdateSpriteAnimation(s);
+        tiles += 4 * TILE_SIZE_4BPP;
+    }
+
+    s = &strc->base.sprites284[0];
+    s->tiles = tiles;
+    s->anim = 1511;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(5);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x40000;
+
+    UpdateSpriteAnimation(s);
+
+    tiles += 4 * TILE_SIZE_4BPP;
+
+    s = &strc->base.sprites284[1];
+    s->tiles = tiles;
+    s->anim = 0x5E7;
+    s->variant = 1;
+    s->oamFlags = 0x180;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant |= -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x40000;
+    UpdateSpriteAnimation(s);
+    tiles += 4 * TILE_SIZE_4BPP;
+
+    p = GET_SP_PLAYER_V0(PLAYER_1);
+    partner = GET_SP_PLAYER_V0(PLAYER_2);
+    s = &strc->sprite2E0;
+    s->tiles = tiles;
+    s->anim = 0x58C;
+    s->variant = spC[p->charFlags.character][partner->charFlags.character];
+    s->oamFlags = 0x180;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    tiles += 9 * TILE_SIZE_4BPP;
+
+    s = &strc->sprite308;
+    s->tiles = tiles;
+    s->anim = 1515;
+    s->variant = 0;
+    s->oamFlags = 0x180;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant |= -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    tiles += 4 * TILE_SIZE_4BPP;
+
+    s = &strc->sprite330;
+    s->tiles = tiles;
+    s->anim = 1514;
+    s->variant = 0;
+    s->oamFlags = 0x180;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant |= -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    return resultTask;
+}
+
+void sub_8022198(void)
+{
+    Sprite *s;
+    u8 var_r3;
+    u8 i;
+
+    StageUi2 *strc = TASK_DATA(gCurTask);
+
+    for (var_r3 = 0; var_r3 < (s32)ARRAY_COUNT(strc->base.sprites4); var_r3++) {
+        s = &strc->base.sprites4[var_r3];
+        s->prevVariant = -1;
+    }
+
+    for (i = 0; i < (s32)ARRAY_COUNT(strc->base.sprites1E4); i++) {
+        s = &strc->base.sprites1E4[i];
+        s->prevVariant = -1;
+    }
+
+    for (i = 0; i < (s32)ARRAY_COUNT(strc->base.sprites284); i++) {
+        s = &strc->base.sprites284[i];
+        s->prevVariant = -1;
+    }
+
+    s = &strc->sprite2E0;
+    s->prevVariant = -1;
+    s = &strc->sprite308;
+    s->prevVariant = -1;
+    s = &strc->sprite330;
+    s->prevVariant = -1;
+}

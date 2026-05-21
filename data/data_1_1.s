@@ -661,7 +661,9 @@ gRespawnPositions:
 
     .global gUnknown_080D1874
 gUnknown_080D1874:
-    .incbin "baserom_sa3.gba", 0x000D1874, 0x8
+    .short 0x3240, 0x0568
+    .byte 0x00
+    .space 3
 
     .global gUnknown_080D187C
 gUnknown_080D187C:
