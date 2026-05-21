@@ -13,6 +13,24 @@
 #define UI_SP_KEY_COUNT_X (36)
 #define UI_SP_KEY_COUNT_Y (40)
 
+// Timer layout  :  TIME M'SS"FF
+#define UI_TIMER_TIME_TEXT_X (DISPLAY_CENTER_X - 32)
+#define UI_TIMER_TIME_TEXT_Y (7)
+#define UI_TIMER_MINUTES_X (DISPLAY_CENTER_X - 10)
+#define UI_TIMER_MINUTES_Y (18)
+#define UI_TIMER_APSTROPHE_X (DISPLAY_CENTER_X - 3)
+#define UI_TIMER_APSTROPHE_Y (17)
+#define UI_TIMER_SECONDS_TENS_X (DISPLAY_CENTER_X + 2)
+#define UI_TIMER_SECONDS_TENS_Y (18)
+#define UI_TIMER_SECONDS_ONES_X (DISPLAY_CENTER_X + 10)
+#define UI_TIMER_SECONDS_ONES_Y (18)
+#define UI_TIMER_AIR_QUOTES_X (DISPLAY_CENTER_X + 17)
+#define UI_TIMER_AIR_QUOTES_Y (17)
+#define UI_TIMER_FRAMES_TENS_X (DISPLAY_CENTER_X + 24)
+#define UI_TIMER_FRAMES_TENS_Y (18)
+#define UI_TIMER_FRAMES_ONES_X (DISPLAY_CENTER_X + 32)
+#define UI_TIMER_FRAMES_ONES_Y (18)
+
 #define UI_ZONE_TEXT_X (DISPLAY_WIDTH - 128)
 #define UI_ZONE_TEXT_Y (DISPLAY_HEIGHT - 16)
 
@@ -45,22 +63,10 @@ extern const Strc_80D1874 *gUnknown_080D191C[NUM_LEVEL_IDS];
 typedef struct {
     /* 0x000 */ u8 unk0;
     /* 0x001 */ bool8 extensionType;
-    /* 0x004 */ Sprite sprites[12];
-    /* 0x1E4 */ Sprite sprite1E4;
-    /* 0x20C */ Sprite sprite20C;
-    /* 0x234 */ Sprite sprite234;
-    /* 0x25C */ Sprite sprite25C;
-    /* 0x284 */ Sprite sprite284;
-    /* 0x2AC */ Sprite sprite2AC;
-} StageUiBase; /* 0x2D4 */
-
-typedef struct {
-    /* 0x000 */ u8 unk0;
-    /* 0x001 */ bool8 extensionType;
     /* 0x004 */ Sprite sprites4[12];
     /* 0x1E4 */ Sprite sprites1E4[4];
     /* 0x284 */ Sprite sprites284[2];
-} StageUiBase2; /* 0x2D4 */
+} StageUiBase; /* 0x2D4 */
 
 typedef struct {
     /* 0x000 */ StageUiBase base;
@@ -70,7 +76,7 @@ typedef struct {
 } StageUi; /* 0x34C */
 
 typedef struct {
-    /* 0x000 */ StageUiBase2 base;
+    /* 0x000 */ StageUiBase base;
     /* 0x2D4 */ SpriteTransform tf;
     /* 0x2E0 */ Sprite sprite2E0;
     /* 0x308 */ Sprite sprite308;
@@ -131,8 +137,8 @@ Task *sub_80215A0(void)
     }
     strc->base.unk0 = 0x10;
     tiles = (OBJ_VRAM0 + 0x3800);
-    for (i = 0; i < (s32)ARRAY_COUNT(strc->base.sprites); i++) {
-        s = &strc->base.sprites[i];
+    for (i = 0; i < (s32)ARRAY_COUNT(strc->base.sprites4); i++) {
+        s = &strc->base.sprites4[i];
         s->tiles = tiles + ((i * 2) * TILE_SIZE_4BPP);
         s->anim = gUnknown_080CECF8[i].anim;
         s->variant = gUnknown_080CECF8[i].variant;
@@ -149,7 +155,7 @@ Task *sub_80215A0(void)
 
     p = GET_SP_PLAYER_V0(PLAYER_1);
     partner = GET_SP_PLAYER_V0(PLAYER_2);
-    s = &strc->base.sprite1E4;
+    s = &strc->base.sprites1E4[0];
     s->tiles = tiles;
     s->anim = 1423;
     s->variant = sp4[p->charFlags.character];
@@ -168,7 +174,7 @@ Task *sub_80215A0(void)
     UpdateSpriteAnimation(s);
     tiles += 6 * TILE_SIZE_4BPP;
 
-    s = &strc->base.sprite20C;
+    s = &strc->base.sprites1E4[1];
     s->tiles = tiles;
     s->anim = 1423;
     s->variant = sp4[partner->charFlags.character];
@@ -188,7 +194,7 @@ Task *sub_80215A0(void)
 
     tiles += 6 * TILE_SIZE_4BPP;
     if (gStageData.gameMode != 5) {
-        s = &strc->base.sprite234;
+        s = &strc->base.sprites1E4[2];
         s->tiles = tiles;
         s->anim = 0x58E;
         s->variant = 0;
@@ -204,7 +210,7 @@ Task *sub_80215A0(void)
         tiles += 4 * TILE_SIZE_4BPP;
     }
 
-    s = &strc->base.sprite25C;
+    s = &strc->base.sprites1E4[3];
     s->tiles = tiles;
     s->anim = 0x58C;
     s->variant = spC[p->charFlags.character][partner->charFlags.character];
@@ -220,7 +226,7 @@ Task *sub_80215A0(void)
 
     tiles += 9 * TILE_SIZE_4BPP;
 
-    s = &strc->base.sprite284;
+    s = &strc->base.sprites284[0];
     s->tiles = tiles;
     s->anim = 0x58D;
     s->variant = 0;
@@ -234,9 +240,9 @@ Task *sub_80215A0(void)
     s->frameFlags = 0;
     UpdateSpriteAnimation(s);
 
-    s = &strc->base.sprite2AC;
+    s = &strc->base.sprites284[1];
     if ((gStageData.act < 3) && (gStageData.zone < 7)) {
-        s->tiles = VramMalloc(32);
+        s->tiles = ALLOC_TILES(ANIM_ZONEX_NAME);
         s->anim = ANIM_ZONEX_NAME;
         s->variant = gStageData.zone;
         s->oamFlags = 0x180;
@@ -313,22 +319,22 @@ void sub_80219E8(void)
 
     u8 var_r2;
 
-    for (var_r2 = 0; var_r2 < (s32)ARRAY_COUNT(strc->base.sprites); var_r2++) {
-        s = &strc->base.sprites[var_r2];
+    for (var_r2 = 0; var_r2 < (s32)ARRAY_COUNT(strc->base.sprites4); var_r2++) {
+        s = &strc->base.sprites4[var_r2];
         s->prevVariant = -1;
     }
 
-    s = &strc->base.sprite1E4;
+    s = &strc->base.sprites1E4[0];
     s->prevVariant = -1;
-    s = &strc->base.sprite20C;
+    s = &strc->base.sprites1E4[1];
     s->prevVariant = -1;
-    s = &strc->base.sprite234;
+    s = &strc->base.sprites1E4[2];
     s->prevVariant = -1;
-    s = &strc->base.sprite25C;
+    s = &strc->base.sprites1E4[3];
     s->prevVariant = -1;
-    s = &strc->base.sprite284;
+    s = &strc->base.sprites284[0];
     s->prevVariant = -1;
-    s = &strc->base.sprite2AC;
+    s = &strc->base.sprites284[1];
     s->prevVariant = -1;
 }
 
@@ -384,56 +390,67 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
             }
         }
 
-        s = &strc->base.sprites[gUnknown_080CF936[temp_r5][0] - 10];
-        s->x = 144;
-        s->y = 18 - baseY;
-        UpdateSpriteAnimation(s);
-        s->palId = palId;
-        DisplaySprite(s);
-        s->palId = 0;
-        s = &strc->base.sprites[gUnknown_080CF936[temp_r5][1] - 10];
-        s->x = 0x98;
-        s->y = 18 - baseY;
-        UpdateSpriteAnimation(s);
-        s->palId = palId;
-        DisplaySprite(s);
-        s->palId = 0;
-        s = &strc->base.sprites[11];
-        s->x = 0x89;
-        s->y = 17 - baseY;
-        UpdateSpriteAnimation(s);
-        DisplaySprite(s);
-        s = &strc->base.sprites[gUnknown_080CF8BC[timerSecs][0]];
-        s->x = 122;
-        s->y = 18 - baseY;
-        UpdateSpriteAnimation(s);
-        s->palId = palId;
-        DisplaySprite(s);
-        s->palId = 0;
-        s = &strc->base.sprites[gUnknown_080CF8BC[timerSecs][1]];
-        s->x = 130;
-        s->y = 18 - baseY;
-        UpdateSpriteAnimation(s);
-        s->palId = palId;
-        DisplaySprite(s);
-        s->palId = 0;
-        s = &strc->base.sprites[0xA];
-        s->x = 0x75;
-        s->y = 17 - baseY;
-        UpdateSpriteAnimation(s);
-        DisplaySprite(s);
-        s = &strc->base.sprites[sp0];
-        s->x = 0x6E;
-        s->y = 18 - baseY;
-        UpdateSpriteAnimation(s);
-        s->palId = palId;
-        DisplaySprite(s);
-        s->palId = 0;
-        s = &strc->base.sprite284;
-        s->x = 88;
-        s->y = 7 - baseY;
-        UpdateSpriteAnimation(s);
-        DisplaySprite(s);
+        { /* Timer layout  :  TIME M'SS"FF */
+            // FF
+            s = &strc->base.sprites4[gUnknown_080CF936[temp_r5][0] - 10];
+            s->x = UI_TIMER_FRAMES_TENS_X;
+            s->y = UI_TIMER_FRAMES_TENS_Y - baseY;
+            UpdateSpriteAnimation(s);
+            s->palId = palId;
+            DisplaySprite(s);
+            s->palId = 0;
+            s = &strc->base.sprites4[gUnknown_080CF936[temp_r5][1] - 10];
+            s->x = UI_TIMER_FRAMES_ONES_X;
+            s->y = UI_TIMER_FRAMES_ONES_Y - baseY;
+            UpdateSpriteAnimation(s);
+            s->palId = palId;
+            DisplaySprite(s);
+
+            // "
+            s->palId = 0;
+            s = &strc->base.sprites4[11];
+            s->x = UI_TIMER_AIR_QUOTES_X;
+            s->y = UI_TIMER_AIR_QUOTES_Y - baseY;
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+
+            // MM
+            s = &strc->base.sprites4[gUnknown_080CF8BC[timerSecs][0]];
+            s->x = UI_TIMER_SECONDS_TENS_X;
+            s->y = UI_TIMER_SECONDS_TENS_Y - baseY;
+            UpdateSpriteAnimation(s);
+            s->palId = palId;
+            DisplaySprite(s);
+            s->palId = 0;
+            s = &strc->base.sprites4[gUnknown_080CF8BC[timerSecs][1]];
+            s->x = UI_TIMER_SECONDS_ONES_X;
+            s->y = UI_TIMER_SECONDS_ONES_Y - baseY;
+            UpdateSpriteAnimation(s);
+            s->palId = palId;
+            DisplaySprite(s);
+
+            // M'
+            s->palId = 0;
+            s = &strc->base.sprites4[10];
+            s->x = UI_TIMER_APSTROPHE_X;
+            s->y = UI_TIMER_APSTROPHE_Y - baseY;
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+            s = &strc->base.sprites4[sp0];
+            s->x = UI_TIMER_MINUTES_X;
+            s->y = UI_TIMER_MINUTES_Y - baseY;
+            UpdateSpriteAnimation(s);
+            s->palId = palId;
+            DisplaySprite(s);
+
+            // "TIME"
+            s->palId = 0;
+            s = &strc->base.sprites284[0];
+            s->x = UI_TIMER_TIME_TEXT_X;
+            s->y = UI_TIMER_TIME_TEXT_Y - baseY;
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+        }
 
         ringCount = gStageData.rings;
         temp_r0_3 = (u8)Div(ringCount, 100);
@@ -454,7 +471,7 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
                 var_r5 = (u32)(0 - (gStageData.timer & 0x10)) >> 0x1F;
             }
         }
-        s = &strc->base.sprites[temp_r0_3];
+        s = &strc->base.sprites4[temp_r0_3];
         s->x = 40;
         s->y = 18 - baseY;
         UpdateSpriteAnimation(s);
@@ -462,7 +479,7 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
         DisplaySprite(s);
         s->palId = 0;
 
-        s = &strc->base.sprites[temp_r0_4];
+        s = &strc->base.sprites4[temp_r0_4];
         s->x = 48;
         s->y = 18 - baseY;
         UpdateSpriteAnimation(s);
@@ -470,7 +487,7 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
         s->palId = (u8)var_r5;
         DisplaySprite(s);
         s->palId = 0;
-        s = &strc->base.sprites[temp_r4_8];
+        s = &strc->base.sprites4[temp_r4_8];
         s->x = 56;
         s->y = 18 - baseY;
         UpdateSpriteAnimation(s);
@@ -482,7 +499,7 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
             s8 keyCount;
             sp4 = 1;
             keyCount = LOADED_SAVE->specialKeys[gStageData.zone];
-            s = &strc->base.sprites[keyCount];
+            s = &strc->base.sprites4[keyCount];
             s->x = UI_SP_KEY_COUNT_X - baseY * 2;
             s->y = UI_SP_KEY_COUNT_Y;
             UpdateSpriteAnimation(s);
@@ -491,7 +508,7 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
             sp4 = 0;
         }
 
-        s = &strc->base.sprite2AC;
+        s = &strc->base.sprites284[1];
         if (s->tiles != NULL) {
             s->x = UI_ZONE_TEXT_X;
             s->y = baseY + UI_ZONE_TEXT_Y;
@@ -519,34 +536,34 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
         if (lives > 9) {
             lives = 9;
         }
-        s = &strc->base.sprites[lives];
+        s = &strc->base.sprites4[lives];
         s->x = 36;
         s->y = baseY + 156;
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
     }
-    s = &strc->base.sprite1E4;
+    s = &strc->base.sprites1E4[0];
     s->x = 5;
     s->y = baseY + 141;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
-    s = &strc->base.sprite20C;
+    s = &strc->base.sprites1E4[1];
     s->x = 15;
     s->y = baseY + 141;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
-    s = &strc->base.sprite25C;
+    s = &strc->base.sprites1E4[3];
     s->x = 8 - baseY * 2;
     s->y = 0;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
     if (sp4 != 0) {
-        s = &strc->base.sprite234;
-        s->x = 0xB - baseY * 2;
-        s->y = 0x18;
+        s = &strc->base.sprites1E4[2];
+        s->x = 11 - baseY * 2;
+        s->y = 24;
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
     }
@@ -969,12 +986,10 @@ void sub_8022664(s16 pid, Sprite *s)
 
 void TaskDestructor_80227A4(Task *t)
 {
-    StageUi *timer;
+    StageUi *timer = TASK_DATA(t);
 
-    timer = TASK_DATA(t);
-
-    if (timer->base.sprite2AC.tiles != NULL) {
-        VramFree(timer->base.sprite2AC.tiles);
+    if (timer->base.sprites284[1].tiles != NULL) {
+        VramFree(timer->base.sprites284[1].tiles);
     }
     if (timer->base.extensionType == EXT_1) {
         VramFree(timer->sprite2D4.tiles);

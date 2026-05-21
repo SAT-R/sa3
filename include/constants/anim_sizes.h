@@ -663,6 +663,10 @@
 #define ANIM_LIFE_ICONS_VAR6_HEIGHT                 16
 
 // 1428
+#define ANIM_ZONEX_NAME_WIDTH                       128
+#define ANIM_ZONEX_NAME_HEIGHT                      16
+
+// 1428
 #define ANIM_DEMO_PLAY_WIDTH                        96
 #define ANIM_DEMO_PLAY_HEIGHT                       16
 #endif
