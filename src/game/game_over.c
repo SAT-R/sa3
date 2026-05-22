@@ -96,7 +96,7 @@ extern void SetPlayerSpawnPosition(s16, s16);
 extern void sub_8051140(void);
 extern void sub_809BFE8(s32);
 extern struct Task *sub_80215A0();
-extern void sub_8022FB0();
+extern void CreateSinglePakStageUI();
 extern bool16 sub_802610C();
 extern void sub_80260F0();
 extern void sub_802613C();
@@ -359,7 +359,7 @@ void sub_80026BC(void)
         }
         sub_8002618();
     } else {
-        sub_8022FB0();
+        CreateSinglePakStageUI();
         m4aSongNumStart(MUS_VS_BGM_7);
     }
 }

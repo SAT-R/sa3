@@ -205,12 +205,10 @@ void sub_80B5DF4() { }
 void sub_80B60E0(s16 param0, s16 *param1) { }
 void sub_80B6774(s16 param0, s16 *param1) { }
 
-void sub_8022FB0() { }
 void sub_80A872C() { }
 void sub_8053284() { }
 void sub_8029990() { }
 void Gemerl_State0() { }
-void taskStub(void) { }
 
 void sub_80260F0() { }
 void sub_80261B0() { }

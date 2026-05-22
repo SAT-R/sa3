@@ -2,6 +2,7 @@
 #include "core.h"
 #include "flags.h"
 #include "color.h"
+#include "module_unclear.h"
 #include "game/stage.h"
 #include "constants/animations.h"
 
@@ -10,11 +11,11 @@ typedef struct {
     /* 0x208 */ SpriteTransform tf;
     /* 0x214 */ ColorRaw palette214[16];
     /* 0x234 */ u8 unk234;
-} StageUiSinglePak;
+} StageUiSinglePak; /* 0x238 */
 
 void Task_8022FEC();
 void sub_8022E84(void);
-s32 sub_8023000();
+bool8 sub_8023000();
 
 void sub_8022978(void);
 void sub_8022A24(void);
@@ -248,79 +249,68 @@ void sub_8022B30(StageUiSinglePak *strc)
     }
 }
 
-#if 0
-void sub_8022D40(Sprite *arg0) {
-    Sprite *temp_r4;
+// (95.80%) https://decomp.me/scratch/Ylee6
+NONMATCH("asm/non_matching/game/stage_ui_sp__sub_8022D40.inc", void sub_8022D40(void))
+{
     Sprite *var_r4;
-    Sprite *var_r4_2;
-    s16 temp_r2;
-    s16 temp_r5;
+    Sprite *s2;
     s16 var_r5;
-    s16 var_r5_2;
-    u16 temp_r0_2;
-    u32 temp_r0;
-    u32 temp_r0_3;
-    u32 temp_r0_4;
-    u32 var_r5_3;
-    u32 var_r5_4;
     u32 var_r6;
+    u32 timer;
+    u32 max;
+    u8 pPalId;
 
-    var_r5 = 0;
-    do {
-        temp_r2 = var_r5;
-        if (gStageData.unk8E == temp_r2) {
-            (arg0 + (temp_r2 * 0x28))->unk15F = 8;
+    StageUiSinglePak *strc = TASK_DATA(gCurTask);
+
+    for (var_r5 = 0; var_r5 < 4; var_r5++) {
+        if (gStageData.unk8E == var_r5) {
+            s2 = &strc->sprites0[var_r5 + 8];
+            s2->palId = 8;
         } else {
-            (arg0 + (temp_r2 * 0x28))->unk15F = (s8) var_r5;
+            s2 = &strc->sprites0[var_r5 + 8];
+            s2->palId = var_r5;
         }
-        temp_r0 = (var_r5 << 0x10) + 0x10000;
-        var_r5 = (s16) (temp_r0 >> 0x10);
-    } while ((s32) ((s32) temp_r0 >> 0x10) <= 3);
-    if ((gStageData.unk8E != gStageData.playerIndex) && (gStageData.unk8E != 0xFF) && ((sub_8023000() << 0x18) == 0)) {
-        sub_8022E84();
-        temp_r4 = arg0 + 0x1E0;
-        UpdateSpriteAnimation(temp_r4);
-        DisplaySprite(temp_r4);
     }
-    var_r4 = arg0 + 0x140;
-    var_r5_2 = 0;
-    do {
-        temp_r5 = var_r5_2;
-        if (((s32) gUnknown_03001060.unk7 >> temp_r5) & 1) {
+
+    if ((gStageData.unk8E != gStageData.playerIndex) && (gStageData.unk8E != 0xFF) && !sub_8023000()) {
+        sub_8022E84();
+        var_r4 = &strc->sprites0[12];
+        UpdateSpriteAnimation(var_r4);
+        DisplaySprite(var_r4);
+    }
+    var_r4 = &strc->sprites0[8];
+    for (var_r5 = 0; var_r5 < 4; var_r5++, var_r4++) {
+        if (GetBit(gUnknown_03001060.unk7, var_r5)) {
             UpdateSpriteAnimation(var_r4);
             DisplaySprite(var_r4);
         }
-        temp_r0_2 = temp_r5 + 1;
-        var_r4 += 0x28;
-        var_r5_2 = (s16) temp_r0_2;
-    } while ((s32) (s16) temp_r0_2 <= 3);
-    UpdateSpriteAnimation(arg0);
-    DisplaySprite(arg0);
-    var_r4_2 = arg0 + 0x28;
-    var_r5_3 = 0;
-    do {
-        UpdateSpriteAnimation(var_r4_2);
-        DisplaySprite(var_r4_2);
-        temp_r0_3 = (var_r5_3 << 0x10) + 0x10000;
-        var_r4_2 += 0x28;
-        var_r5_3 = temp_r0_3 >> 0x10;
-    } while ((s32) ((s32) temp_r0_3 >> 0x10) <= 1);
-    var_r6 = 0;
-    if ((u32) gStageData.levelTimer <= 0xE0FU) {
-        var_r6 = (u32) (0 - (u16) (0x10 & gStageData.levelTimer)) >> 0x1F;
     }
-    var_r5_4 = 0;
-    do {
-        UpdateSpriteAnimation(var_r4_2);
-        var_r4_2->palId = (u8) var_r6;
-        DisplaySprite(var_r4_2);
-        var_r4_2->palId = 0;
-        temp_r0_4 = (var_r5_4 << 0x10) + 0x10000;
-        var_r4_2 += 0x28;
-        var_r5_4 = temp_r0_4 >> 0x10;
-    } while ((s32) ((s32) temp_r0_4 >> 0x10) <= 4);
-}
+    var_r4 = &strc->sprites0[0];
+    UpdateSpriteAnimation(var_r4);
+    DisplaySprite(var_r4);
+    var_r4++;
+    for (var_r5 = 0; var_r5 < 2; var_r5++, var_r4++) {
+        UpdateSpriteAnimation(var_r4);
+        DisplaySprite(var_r4);
+    }
 
+    timer = gStageData.levelTimer;
+    max = TIME(1, 0) - 1;
+    var_r6 = 0;
+    if (timer <= max) {
+        var_r6 = (u32)(0 - (u16)(0x10 & timer)) >> 0x1F;
+    }
+
+    for (var_r5 = 0; var_r5 < 5; var_r5++, var_r4++) {
+        UpdateSpriteAnimation(var_r4);
+        var_r4->palId = (u8)var_r6;
+        DisplaySprite(var_r4);
+        var_r4->palId = 0;
+    }
+}
+END_NONMATCH
+
+#if 0
 void sub_8022E84(void *arg0) {
     void *sp0;
     Player *temp_r0;
@@ -363,7 +353,7 @@ void sub_8022E84(void *arg0) {
     TransformSprite(temp_r1, arg0 + 0x208);
 }
 
-void sub_8022FB0(void) {
+void CreateSinglePakStageUI(void) {
     u16 temp_r4;
 
     temp_r4 = TaskCreate(Task_8022FEC, 0x238U, 0x2100U, 0U, NULL)->data;
