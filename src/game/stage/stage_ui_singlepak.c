@@ -278,6 +278,7 @@ NONMATCH("asm/non_matching/game/stage_ui_sp__sub_8022D40.inc", void sub_8022D40(
         UpdateSpriteAnimation(var_r4);
         DisplaySprite(var_r4);
     }
+
     var_r4 = &strc->sprites0[8];
     for (var_r5 = 0; var_r5 < 4; var_r5++, var_r4++) {
         if (GetBit(gUnknown_03001060.unk7, var_r5)) {
@@ -285,6 +286,7 @@ NONMATCH("asm/non_matching/game/stage_ui_sp__sub_8022D40.inc", void sub_8022D40(
             DisplaySprite(var_r4);
         }
     }
+
     var_r4 = &strc->sprites0[0];
     UpdateSpriteAnimation(var_r4);
     DisplaySprite(var_r4);
