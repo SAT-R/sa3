@@ -15,7 +15,7 @@ typedef struct {
 
 void Task_8022FEC();
 void sub_8022E84(void);
-bool8 sub_8023000();
+bool8 IsOpponentOnScreen();
 
 void sub_8022978(void);
 void sub_8022A24(void);
@@ -79,7 +79,7 @@ void sub_8022A24(void)
 
     StageUiSinglePak *strc = TASK_DATA(gCurTask);
 
-    if ((u32)gStageData.unk8E <= 3U) {
+    if ((u32)gStageData.mpOpponentPlayerIndex <= 3U) {
         strc->unk234 = (strc->unk234 + 1) % 64u;
         if (0x20 & strc->unk234) {
             var_r0 = 0x40 - strc->unk234;
@@ -90,7 +90,7 @@ void sub_8022A24(void)
         for (i = 0, local_var = var_r0; i < (s32)ARRAY_COUNT(strc->palette214); i++) {
             ColorRaw r, g, b;
 
-            temp_r3 = gUnknown_080CEE40[gStageData.unk8E][i];
+            temp_r3 = gUnknown_080CEE40[gStageData.mpOpponentPlayerIndex][i];
 
             temp_r0 = (31 * (32 - local_var)) >> 5;
             r = ((((temp_r3 & 0x1F) * local_var) >> 5) + temp_r0) & 0x1F;
@@ -266,7 +266,7 @@ NONMATCH("asm/non_matching/game/stage_ui_sp__sub_8022D40.inc", void sub_8022D40(
     StageUiSinglePak *strc = TASK_DATA(gCurTask);
 
     for (var_r5 = 0; var_r5 < 4; var_r5++) {
-        if (gStageData.unk8E == var_r5) {
+        if (gStageData.mpOpponentPlayerIndex == var_r5) {
             s2 = &strc->sprites0[var_r5 + 8];
             s2->palId = 8;
         } else {
@@ -275,7 +275,8 @@ NONMATCH("asm/non_matching/game/stage_ui_sp__sub_8022D40.inc", void sub_8022D40(
         }
     }
 
-    if ((gStageData.unk8E != gStageData.playerIndex) && (gStageData.unk8E != 0xFF) && !sub_8023000()) {
+    if ((gStageData.mpOpponentPlayerIndex != gStageData.playerIndex) && (gStageData.mpOpponentPlayerIndex != 0xFF)
+        && !IsOpponentOnScreen()) {
         sub_8022E84();
         var_r4 = &strc->sprites0[12];
         UpdateSpriteAnimation(var_r4);
@@ -326,7 +327,7 @@ void sub_8022E84()
     StageUiSinglePak *strc = TASK_DATA(gCurTask);
 
     player = &gPlayers[gStageData.playerIndex];
-    opponent = &gPlayers[gStageData.unk8E];
+    opponent = &gPlayers[gStageData.mpOpponentPlayerIndex];
     s = &strc->sprites0[12];
     indicatorX = I(player->qWorldX - opponent->qWorldX);
     indicatorY = I(player->qWorldY - opponent->qWorldY);
@@ -372,9 +373,9 @@ void Task_8022FEC(void)
     sub_8022D40();
 }
 
-bool8 sub_8023000(void)
+bool8 IsOpponentOnScreen(void)
 {
-    Player *opponent = &gPlayers[gStageData.unk8E];
+    Player *opponent = &gPlayers[gStageData.mpOpponentPlayerIndex];
     Sprite2 *s = &opponent->spriteInfoBody->s;
 
     if ((s->x > 0) && (s->x < DISPLAY_WIDTH) && (s->y > 0) && (s->y < DISPLAY_HEIGHT)) {

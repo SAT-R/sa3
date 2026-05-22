@@ -55,7 +55,7 @@ _08022D8C:
 	beq _08022DCC
 	cmp r0, #0xff
 	beq _08022DCC
-	bl sub_8023000
+	bl IsOpponentOnScreen
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	bne _08022DCC

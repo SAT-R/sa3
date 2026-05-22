@@ -179,10 +179,10 @@ void sub_804EC14(ItemBoxMP *itembox)
             } break;
 
             case 0x20: {
-                if (gStageData.unk8E == gStageData.playerIndex) {
+                if (gStageData.mpOpponentPlayerIndex == gStageData.playerIndex) {
                     itembox->unk74 |= (0xF & ~(1 << gStageData.playerIndex));
                 } else {
-                    itembox->unk74 |= (0xF & (1 << gStageData.unk8E));
+                    itembox->unk74 |= (0xF & (1 << gStageData.mpOpponentPlayerIndex));
                 }
 
                 sub_80276F4(itembox->unk74, gStageData.playerIndex);

@@ -14511,13 +14511,13 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015A44.inc", void sub_8015A44
                 }
             } else if (playerLoop->charFlags.anim0 != 0xA) {
                 Player_8014550(p);
-                if ((gStageData.unk8E == i) || (gStageData.unk8E == gStageData.playerIndex)) {
+                if ((gStageData.mpOpponentPlayerIndex == i) || (gStageData.mpOpponentPlayerIndex == gStageData.playerIndex)) {
                     sub_80276A8(i);
                     sub_80293E8(playerLoop);
                 }
                 break;
             line158:
-                if ((gStageData.unk8E == i) || (gStageData.unk8E == gStageData.playerIndex)) {
+                if ((gStageData.mpOpponentPlayerIndex == i) || (gStageData.mpOpponentPlayerIndex == gStageData.playerIndex)) {
                     sub_80276A8(gStageData.playerIndex);
                     sub_80293E8(p);
                 }
@@ -14535,7 +14535,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015A44.inc", void sub_8015A44
                 }
             } else {
                 Player_8014550(p);
-                if ((gStageData.unk8E == i) || (gStageData.unk8E == gStageData.playerIndex)) {
+                if ((gStageData.mpOpponentPlayerIndex == i) || (gStageData.mpOpponentPlayerIndex == gStageData.playerIndex)) {
                     sub_80276A8(i);
                     sub_80293E8(playerLoop);
                 }
@@ -14546,7 +14546,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015A44.inc", void sub_8015A44
             sub_8015C90(p, param2);
             playerLoop->framesInvulnerable = 120;
             if (gStageData.gameMode == 7) {
-                if ((gStageData.unk8E == i) || (gStageData.unk8E == gStageData.playerIndex)) {
+                if ((gStageData.mpOpponentPlayerIndex == i) || (gStageData.mpOpponentPlayerIndex == gStageData.playerIndex)) {
                 blk:
                     sub_80276A8(gStageData.playerIndex);
                     sub_80293E8(p);

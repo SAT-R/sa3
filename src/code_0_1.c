@@ -23,7 +23,7 @@ void sub_800214C(void)
         }
     } else {
         gStageData.lives = 0;
-        gStageData.unk8E = -1;
+        gStageData.mpOpponentPlayerIndex = -1;
         gStageData.taskCheese = NULL;
         TaskDestructor_8029774(NULL);
     }

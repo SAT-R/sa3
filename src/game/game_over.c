@@ -798,13 +798,13 @@ NONMATCH("asm/non_matching/game/shared/go__Task_8003288.inc", void Task_8003288(
     if (gStageData.playerIndex == 0) {
         gMultiSioSend.pat0.unk0 = 0x600E;
         gMultiSioSend.pat0.unk2 = gUnknown_03001060.unk7;
-        gMultiSioSend.pat0.unk3 = gStageData.unk8E;
+        gMultiSioSend.pat0.unk3 = gStageData.mpOpponentPlayerIndex;
     } else if (gMultiSioRecv->pat0.unk0 == 0x600E) {
         gUnknown_03001060.unk7 = gMultiSioRecv->pat0.unk2;
-        gStageData.unk8E = gMultiSioRecv->pat0.unk3;
+        gStageData.mpOpponentPlayerIndex = gMultiSioRecv->pat0.unk3;
         gMultiSioSend.pat0.unk0 = gMultiSioRecv->pat0.unk0;
         gMultiSioSend.pat0.unk2 = gUnknown_03001060.unk7;
-        gMultiSioSend.pat0.unk3 = gStageData.unk8E;
+        gMultiSioSend.pat0.unk3 = gStageData.mpOpponentPlayerIndex;
     }
 
     for (var_r2 = 0; var_r2 < 4; var_r2++) {
@@ -814,9 +814,9 @@ NONMATCH("asm/non_matching/game/shared/go__Task_8003288.inc", void Task_8003288(
         }
     }
 
-    if (gStageData.unk8E != 0xFF) {
-        if (gUnknown_03000970[gStageData.unk8E].unk1 < 99) {
-            gUnknown_03000970[gStageData.unk8E].unk1++;
+    if (gStageData.mpOpponentPlayerIndex != 0xFF) {
+        if (gUnknown_03000970[gStageData.mpOpponentPlayerIndex].unk1 < 99) {
+            gUnknown_03000970[gStageData.mpOpponentPlayerIndex].unk1++;
         }
     }
     m4aSongNumStart(MUS_VS_BGM_8);
