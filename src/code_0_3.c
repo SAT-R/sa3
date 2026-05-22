@@ -55,8 +55,8 @@ void sub_8022978(void)
     s->variant = temp_r0_3 + 16;
 }
 
-// (97.88%) https://decomp.me/scratch/x0rA5
-NONMATCH("asm/non_matching/game/c03__sub_8022A24.inc", void sub_8022A24(void))
+// TODO: Make this color-format-independent!
+void sub_8022A24(void)
 {
     s32 temp_r5;
     s8 temp_r4_2;
@@ -67,6 +67,8 @@ NONMATCH("asm/non_matching/game/c03__sub_8022A24.inc", void sub_8022A24(void))
     u8 temp_r1;
     u8 temp_r4;
     s8 var_r0;
+    s8 local_var;
+    u32 channelMask;
 
     Strc_8022FB0 *strc = TASK_DATA(gCurTask);
 
@@ -78,17 +80,15 @@ NONMATCH("asm/non_matching/game/c03__sub_8022A24.inc", void sub_8022A24(void))
             var_r0 = strc->unk234;
         }
 
-        for (i = 0; i < (s32)ARRAY_COUNT(strc->palette214); i++) {
-            ColorRaw r;
-            ColorRaw g;
-            ColorRaw b;
-            ColorRaw mask;
+        for (i = 0, local_var = var_r0; i < (s32)ARRAY_COUNT(strc->palette214); i++) {
+            ColorRaw r, g, b;
+
             temp_r3 = gUnknown_080CEE40[gStageData.unk8E][i];
-            temp_r0 = (((32 - var_r0) * Q(248)) >> 0x10);
-            mask = 0x1F;
-            r = (((((s32)(((temp_r3 >> 0) & mask) * var_r0) >> 5) + temp_r0) & mask));
-            g = (((((s32)(((temp_r3 >> 5) & mask) * var_r0) >> 5) + temp_r0) & mask));
-            b = (((((s32)(((temp_r3 >> 10) & mask) * var_r0) >> 5) + temp_r0) & mask));
+
+            temp_r0 = (31 * (32 - local_var)) >> 5;
+            r = ((((temp_r3 & 0x1F) * local_var) >> 5) + temp_r0) & 0x1F;
+            g = (((((temp_r3 >> 5) & 0x1F) * local_var) >> 5) + temp_r0) & 0x1F;
+            b = (((((temp_r3 >> 10) & 0x1F) * local_var) >> 5) + temp_r0) & 0x1F;
             strc->palette214[i] = r | (g << 5) | b << 10;
         }
 
@@ -96,7 +96,6 @@ NONMATCH("asm/non_matching/game/c03__sub_8022A24.inc", void sub_8022A24(void))
         gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
     }
 }
-END_NONMATCH
 
 #if 0
 void sub_8022B30(Strc_8022FB0 *strc) {
