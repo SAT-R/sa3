@@ -468,35 +468,36 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
 #endif
 
         {
+            /* Ring Counter */
             s32 rings = gStageData.rings;
             var_r5 = 0;
             if (rings == 0) {
                 var_r5 = (u32)(0 - (gStageData.timer & 0x10)) >> 0x1F;
             }
+            s = &strc->base.sprites4[temp_r0_3];
+            s->x = UI_RINGS_X - 8;
+            s->y = 18 - baseY;
+            UpdateSpriteAnimation(s);
+            s->palId = (u8)var_r5;
+            DisplaySprite(s);
+            s->palId = 0;
+
+            s = &strc->base.sprites4[temp_r0_4];
+            s->x = UI_RINGS_X + 0;
+            s->y = 18 - baseY;
+            UpdateSpriteAnimation(s);
+
+            s->palId = (u8)var_r5;
+            DisplaySprite(s);
+            s->palId = 0;
+            s = &strc->base.sprites4[temp_r4_8];
+            s->x = UI_RINGS_X + 8;
+            s->y = 18 - baseY;
+            UpdateSpriteAnimation(s);
+            s->palId = (u8)var_r5;
+            DisplaySprite(s);
+            s->palId = 0;
         }
-        s = &strc->base.sprites4[temp_r0_3];
-        s->x = UI_RINGS_X - 8;
-        s->y = 18 - baseY;
-        UpdateSpriteAnimation(s);
-        s->palId = (u8)var_r5;
-        DisplaySprite(s);
-        s->palId = 0;
-
-        s = &strc->base.sprites4[temp_r0_4];
-        s->x = UI_RINGS_X + 0;
-        s->y = 18 - baseY;
-        UpdateSpriteAnimation(s);
-
-        s->palId = (u8)var_r5;
-        DisplaySprite(s);
-        s->palId = 0;
-        s = &strc->base.sprites4[temp_r4_8];
-        s->x = UI_RINGS_X + 8;
-        s->y = 18 - baseY;
-        UpdateSpriteAnimation(s);
-        s->palId = (u8)var_r5;
-        DisplaySprite(s);
-        s->palId = 0;
     } else {
         if (gStageData.gameMode != GAME_MODE_5) {
             s8 keyCount;
