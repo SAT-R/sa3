@@ -29,7 +29,6 @@ SECTIONS {
         src/screen_fade.o(.text);
         src/game/stage/stage_ui.o(.text);
         src/game/stage/stage_ui_singlepak.o(.text);
-        asm/game__stage__stage_ui_singlepak.o(.text);
         asm/game__chao_map.o(.text);
         asm/game__stage_notifications.o(.text);
         asm/multi_sio_stuff.o(.text);

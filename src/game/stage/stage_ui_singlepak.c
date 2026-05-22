@@ -27,6 +27,9 @@ extern const u16 gUnknown_080CEE40[4][16];
 
 #define VRAM_BASE_SINGLEPAK_UI (u8 *)(OBJ_VRAM0 + 0x2000)
 
+// TODO: Take this from pre-compiled graphics info data
+#define INDICATOR_WIDTH 16
+
 void sub_8022978(void)
 {
     u32 seconds;
@@ -312,74 +315,70 @@ NONMATCH("asm/non_matching/game/stage_ui_sp__sub_8022D40.inc", void sub_8022D40(
 }
 END_NONMATCH
 
-#if 0
-void sub_8022E84(void *arg0) {
-    void *sp0;
-    Player *temp_r0;
-    Player *temp_r6;
-    Sprite *temp_r1;
-    s16 temp_r0_2;
-    s16 temp_r4_2;
-    u16 temp_r4;
-    u16 var_r5;
-    u16 var_r7;
-    u32 temp_r5;
-    u32 temp_r7;
+void sub_8022E84()
+{
+    Player *player;
+    Player *opponent;
+    s16 indicatorX;
+    s16 indicatorY;
+    Sprite *s;
+    SpriteTransform *tf;
+    StageUiSinglePak *strc = TASK_DATA(gCurTask);
 
-    temp_r6 = &gPlayers[gStageData.playerIndex];
-    temp_r0 = &gPlayers[gStageData.unk8E];
-    temp_r1 = arg0 + 0x1E0;
-    temp_r7 = (u32) ((temp_r6->qWorldX - temp_r0->qWorldX) << 8) >> 0x10;
-    temp_r5 = (u32) ((temp_r6->qWorldY - temp_r0->qWorldY) << 8) >> 0x10;
-    temp_r1->frameFlags = gNextFreeAffineIndex | 0x40020;
-    gNextFreeAffineIndex += 1;
-    sp0 = arg0;
-    arg0->unk208 = (s16) ((sa2__sub_8004418((s16) ((s32) (temp_r5 << 0x10) >> 0x12), (s16) ((s32) (temp_r7 << 0x10) >> 0x12)) + 0xFFFFFF00) & 0x3FF);
-    temp_r4 = (s16) (0 - (s16) temp_r7) + (((s32) temp_r6->qWorldX >> 8) - gCamera.x);
-    var_r5 = (s16) (0 - (s16) temp_r5) + (((s32) temp_r6->qWorldY >> 8) - gCamera.y);
-    var_r7 = temp_r4;
-    temp_r4_2 = (s16) temp_r4;
-    if ((s32) temp_r4_2 <= 0xF) {
-        var_r7 = 0x10;
-    } else if ((s32) temp_r4_2 > 0xE0) {
-        var_r7 = 0xE0;
+    player = &gPlayers[gStageData.playerIndex];
+    opponent = &gPlayers[gStageData.unk8E];
+    s = &strc->sprites0[12];
+    indicatorX = I(player->qWorldX - opponent->qWorldX);
+    indicatorY = I(player->qWorldY - opponent->qWorldY);
+    s->frameFlags = 0x40020 | gNextFreeAffineIndex;
+    gNextFreeAffineIndex++;
+
+    strc->tf.rotation = (sa2__sub_8004418(indicatorY >> 2, indicatorX >> 2) - Q(1)) & 0x3FF;
+
+    indicatorX = -indicatorX;
+    indicatorX += (I(player->qWorldX) - gCamera.x);
+    indicatorY = -indicatorY;
+    indicatorY += (I(player->qWorldY) - gCamera.y);
+
+    if (indicatorX < INDICATOR_WIDTH) {
+        indicatorX = INDICATOR_WIDTH;
+    } else if (indicatorX > DISPLAY_WIDTH - INDICATOR_WIDTH) {
+        indicatorX = DISPLAY_WIDTH - INDICATOR_WIDTH;
     }
-    temp_r0_2 = (s16) var_r5;
-    if ((s32) temp_r0_2 <= 0x17) {
-        var_r5 = 0x18;
-    } else if ((s32) temp_r0_2 > 0x90) {
-        var_r5 = 0x90;
+
+    if (indicatorY < INDICATOR_WIDTH + 8) {
+        indicatorY = INDICATOR_WIDTH + 8;
+    } else if (indicatorY > DISPLAY_HEIGHT - INDICATOR_WIDTH) {
+        indicatorY = DISPLAY_HEIGHT - INDICATOR_WIDTH;
     }
-    arg0->unk20E = var_r7;
-    arg0->unk210 = var_r5;
-    TransformSprite(temp_r1, arg0 + 0x208);
+    strc->tf.x = indicatorX;
+    strc->tf.y = indicatorY;
+    TransformSprite(s, &strc->tf);
 }
 
-void CreateSinglePakStageUI(void) {
-    u16 temp_r4;
+void CreateSinglePakStageUI(void)
+{
+    StageUiSinglePak *strc;
 
-    temp_r4 = TaskCreate(Task_8022FEC, 0x238U, 0x2100U, 0U, NULL)->data;
-    sub_8022B30((StageUiSinglePak *) temp_r4);
-    temp_r4->unk234 = 0;
+    strc = TASK_DATA(TaskCreate(Task_8022FEC, sizeof(StageUiSinglePak), 0x2100U, 0U, NULL));
+    sub_8022B30(strc);
+    strc->unk234 = 0;
 }
 
-void Task_8022FEC(void) {
-    sub_8022978(NULL);
-    sub_8022A24(NULL);
-    sub_8022D40(NULL);
+void Task_8022FEC(void)
+{
+    sub_8022978();
+    sub_8022A24();
+    sub_8022D40();
 }
 
-s32 sub_8023000(void) {
-    PlayerSpriteInfo *temp_r0;
-    s16 temp_r0_2;
+bool8 sub_8023000(void)
+{
+    Player *opponent = &gPlayers[gStageData.unk8E];
+    Sprite2 *s = &opponent->spriteInfoBody->s;
 
-    temp_r0 = gPlayers[gStageData.unk8E].spriteInfoBody;
-    if ((u32) (u16) ((u16) temp_r0->s.x - 1) <= 0xEEU) {
-        temp_r0_2 = temp_r0->s.y;
-        if (((s32) temp_r0_2 > 0) && ((s32) temp_r0_2 <= 0x9F)) {
-            return 1;
-        }
+    if ((s->x > 0) && (s->x < DISPLAY_WIDTH) && (s->y > 0) && (s->y < DISPLAY_HEIGHT)) {
+        return TRUE;
     }
-    return 0;
+    return FALSE;
 }
-#endif
