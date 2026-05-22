@@ -3,13 +3,14 @@
 #include "flags.h"
 #include "color.h"
 #include "game/stage.h"
+#include "constants/animations.h"
 
 typedef struct {
     /* 0x000 */ Sprite sprites0[13];
-    /* 0x208 */ u8 filler214[0xC];
+    /* 0x208 */ SpriteTransform tf;
     /* 0x214 */ ColorRaw palette214[16];
     /* 0x234 */ u8 unk234;
-} Strc_8022FB0;
+} StageUiSinglePak;
 
 void Task_8022FEC();
 void sub_8022E84(void);
@@ -17,11 +18,13 @@ s32 sub_8023000();
 
 void sub_8022978(void);
 void sub_8022A24(void);
-void sub_8022B30(Strc_8022FB0 *strc);
+void sub_8022B30(StageUiSinglePak *strc);
 
 extern const u8 gUnknown_080CE438[][2];
 extern const u8 gUnknown_080CE4B2[][2];
 extern const u16 gUnknown_080CEE40[4][16];
+
+#define VRAM_BASE_SINGLEPAK_UI (u8 *)(OBJ_VRAM0 + 0x2000)
 
 void sub_8022978(void)
 {
@@ -31,7 +34,7 @@ void sub_8022978(void)
     u32 temp_r4;
     u16 index;
     u16 temp_r4_2;
-    Strc_8022FB0 *strc = TASK_DATA(gCurTask);
+    StageUiSinglePak *strc = TASK_DATA(gCurTask);
     Sprite *s;
 
     seconds = Div(gStageData.levelTimer, 60);
@@ -70,7 +73,7 @@ void sub_8022A24(void)
     s8 local_var;
     u32 channelMask;
 
-    Strc_8022FB0 *strc = TASK_DATA(gCurTask);
+    StageUiSinglePak *strc = TASK_DATA(gCurTask);
 
     if ((u32)gStageData.unk8E <= 3U) {
         strc->unk234 = (strc->unk234 + 1) % 64u;
@@ -97,144 +100,155 @@ void sub_8022A24(void)
     }
 }
 
-#if 0
-void sub_8022B30(Strc_8022FB0 *strc) {
-    Sprite s;
+void sub_8022B30(StageUiSinglePak *strc)
+{
+    Sprite spriteTemplate;
     s32 sp28;
-    Sprite *temp_r7;
-    Sprite *temp_r7_10;
-    Sprite *temp_r7_11;
-    Sprite *temp_r7_2;
-    Sprite *temp_r7_3;
-    Sprite *temp_r7_4;
-    Sprite *temp_r7_5;
-    Sprite *temp_r7_6;
-    Sprite *temp_r7_7;
-    Sprite *temp_r7_8;
-    Sprite *temp_r7_9;
-    Strc_8022FB0 *var_r7;
-    Strc_8022FB0 *var_r7_2;
-    u32 temp_r0;
-    u32 temp_r0_2;
-    u32 var_r4;
-    u32 var_r4_2;
+    Sprite *s;
+    s16 i;
+    void *tiles;
 
-    sp28 = 0;
-    CpuSet(&sp28, &s, 0x0500000AU);
-    s.prevAnim = 0xFFFF;
-    s.prevVariant = 0xFF;
-    s.animSpeed = 0x10;
-    var_r7 = strc;
-    var_r4 = 0;
-    do {
-        CpuSet(&s, var_r7, 0x0400000AU);
-        temp_r0 = (var_r4 << 0x10) + 0x10000;
-        var_r7 += 0x28;
-        var_r4 = temp_r0 >> 0x10;
-    } while ((s32) ((s32) temp_r0 >> 0x10) <= 0xC);
-    strc->sprites0[0].tiles = (u8 *)0x06012000;
-    strc->sprites0[0].anim = 0x58D;
-    strc->sprites0[0].variant = 0;
-    strc->sprites0[0].x = 0x8C;
-    strc->sprites0[0].y = 0xA;
-    strc->sprites0[1].tiles = (u8 *)0x06012040;
-    strc->sprites0[1].anim = 0x462;
-    strc->sprites0[1].variant = 0x1A;
-    strc->sprites0[1].x = 0xB4;
-    strc->sprites0[1].y = 0x14;
-    temp_r7 = &strc->sprites0[1] + 0x28;
-    strc->sprites0[2].tiles = (u8 *)0x06012080;
-    temp_r7->anim = 0x462;
-    temp_r7->variant = 0x1A;
-    temp_r7->x = 0xD2;
-    temp_r7->y = 0x14;
-    temp_r7_2 = temp_r7 + 0x28;
-    temp_r7->unk28 = 0x060120C0;
-    temp_r7_2->anim = 0x462;
-    temp_r7_2->variant = 0x10;
-    temp_r7_2->x = 0xAA;
-    temp_r7_2->y = 0x14;
-    temp_r7_3 = temp_r7_2 + 0x28;
-    temp_r7_2->unk28 = 0x06012100;
-    temp_r7_3->anim = 0x462;
-    temp_r7_3->variant = 0x10;
-    temp_r7_3->x = 0xBE;
-    temp_r7_3->y = 0x14;
-    temp_r7_4 = temp_r7_3 + 0x28;
-    temp_r7_3->unk28 = 0x06012140;
-    temp_r7_4->anim = 0x462;
-    temp_r7_4->variant = 0x10;
-    temp_r7_4->x = 0xC8;
-    temp_r7_4->y = 0x14;
-    temp_r7_5 = temp_r7_4 + 0x28;
-    temp_r7_4->unk28 = 0x06012180;
-    temp_r7_5->anim = 0x462;
-    temp_r7_5->variant = 0x10;
-    temp_r7_5->x = 0xDC;
-    temp_r7_5->y = 0x14;
-    temp_r7_6 = temp_r7_5 + 0x28;
-    temp_r7_5->unk28 = 0x060121C0;
-    temp_r7_6->anim = 0x462;
-    temp_r7_6->variant = 0x10;
-    temp_r7_6->x = 0xE6;
-    temp_r7_6->y = 0x14;
-    temp_r7_7 = temp_r7_6 + 0x28;
-    temp_r7_6->unk28 = 0x06012200;
-    temp_r7_7->anim = 0x5EC;
-    temp_r7_7->variant = 0;
-    temp_r7_7->frameFlags |= 0x40000;
-    temp_r7_7->palId = 0;
-    temp_r7_7->x = 0xA;
-    temp_r7_7->y = 2;
-    temp_r7_8 = temp_r7_7 + 0x28;
-    temp_r7_7->unk28 = 0x060122C0;
-    temp_r7_8->anim = 0x5EC;
-    temp_r7_8->variant = 0;
-    temp_r7_8->frameFlags |= 0x40000;
-    temp_r7_8->palId = 1;
-    temp_r7_8->x = 0x1E;
-    temp_r7_8->y = 2;
-    temp_r7_9 = temp_r7_8 + 0x28;
-    temp_r7_8->unk28 = 0x06012380;
-    temp_r7_9->anim = 0x5EC;
-    temp_r7_9->variant = 0;
-    temp_r7_9->frameFlags |= 0x40000;
-    temp_r7_9->palId = 2;
-    temp_r7_9->x = 0x32;
-    temp_r7_9->y = 2;
-    temp_r7_10 = temp_r7_9 + 0x28;
-    temp_r7_9->unk28 = 0x06012440;
-    temp_r7_10->anim = 0x5EC;
-    temp_r7_10->variant = 0;
-    temp_r7_10->frameFlags |= 0x40000;
-    temp_r7_10->palId = 3;
-    temp_r7_10->x = 0x46;
-    temp_r7_10->y = 2;
-    temp_r7_11 = temp_r7_10 + 0x28;
-    temp_r7_10->unk28 = 0x06012500;
-    temp_r7_11->anim = 0x5E7;
-    temp_r7_11->variant = 0;
-    temp_r7_11->frameFlags = temp_r7_11->frameFlags | 0x40020 | gNextFreeAffineIndex;
-    temp_r7_11->palId = 8;
-    temp_r7_11->x = 0x78;
-    temp_r7_11->y = 0x8C;
+    CpuFill32(0, &spriteTemplate, sizeof(spriteTemplate));
+    spriteTemplate.prevAnim = -1;
+    spriteTemplate.prevVariant = -1;
+    spriteTemplate.animSpeed = SPRITE_ANIM_SPEED(1.0);
+    spriteTemplate.hitboxes[0].index = -1;
+
+    s = &strc->sprites0[0];
+    for (i = 0; i < (s32)ARRAY_COUNT(strc->sprites0); i++, s++) {
+        CpuCopy32(&spriteTemplate, s, sizeof(spriteTemplate));
+    }
+
+    s = &strc->sprites0[0];
+    tiles = VRAM_BASE_SINGLEPAK_UI;
+    s->tiles = tiles;
+    s->anim = 1421;
+    s->variant = 0;
+    s->x = 140;
+    s->y = 10;
+    tiles += 2 * TILE_SIZE_4BPP;
+
+    s++;
+    s->tiles = tiles;
+    s->anim = ANIM_ASCII;
+    s->variant = 26;
+    s->x = 180;
+    s->y = 20;
+    tiles += 2 * TILE_SIZE_4BPP;
+
+    s++;
+    s->tiles = tiles;
+    s->anim = ANIM_ASCII;
+    s->variant = 26;
+    s->x = 210;
+    s->y = 20;
+    tiles += 2 * TILE_SIZE_4BPP;
+
+    s++;
+    s->tiles = tiles;
+    s->anim = ANIM_ASCII;
+    s->variant = 16;
+    s->x = 170;
+    s->y = 20;
+    tiles += 2 * TILE_SIZE_4BPP;
+
+    s++;
+    s->tiles = tiles;
+    s->anim = ANIM_ASCII;
+    s->variant = 16;
+    s->x = 190;
+    s->y = 20;
+    tiles += 2 * TILE_SIZE_4BPP;
+
+    s++;
+    s->tiles = tiles;
+    s->anim = ANIM_ASCII;
+    s->variant = 16;
+    s->x = 200;
+    s->y = 20;
+    tiles += 2 * TILE_SIZE_4BPP;
+
+    s++;
+    s->tiles = tiles;
+    s->anim = ANIM_ASCII;
+    s->variant = 16;
+    s->x = 220;
+    s->y = 20;
+    tiles += 2 * TILE_SIZE_4BPP;
+
+    s++;
+    s->tiles = tiles;
+    s->anim = ANIM_ASCII;
+    s->variant = 16;
+    s->x = 230;
+    s->y = 20;
+    tiles += 2 * TILE_SIZE_4BPP;
+
+    s++;
+    s->tiles = tiles;
+    s->anim = ANIM_VS_CHAO_ICON;
+    s->variant = 0;
+    s->frameFlags |= 0x40000;
+    s->palId = 0;
+    s->x = 10;
+    s->y = 2;
+    tiles += 6 * TILE_SIZE_4BPP;
+
+    s++;
+    s->tiles = tiles;
+    s->anim = ANIM_VS_CHAO_ICON;
+    s->variant = 0;
+    s->frameFlags |= 0x40000;
+    s->palId = 1;
+    s->x = 30;
+    s->y = 2;
+    tiles += 6 * TILE_SIZE_4BPP;
+
+    s++;
+    s->tiles = tiles;
+    s->anim = ANIM_VS_CHAO_ICON;
+    s->variant = 0;
+    s->frameFlags |= 0x40000;
+    s->palId = 2;
+    s->x = 50;
+    s->y = 2;
+    tiles += 6 * TILE_SIZE_4BPP;
+
+    s++;
+    s->tiles = tiles;
+    s->anim = ANIM_VS_CHAO_ICON;
+    s->variant = 0;
+    s->frameFlags |= 0x40000;
+    s->palId = 3;
+    s->x = 70;
+    s->y = 2;
+    tiles += 6 * TILE_SIZE_4BPP;
+
+    s++;
+    s->tiles = tiles;
+    s->anim = ANIM_INDICATOR_SONIC;
+    s->variant = 0;
+    s->frameFlags |= 0x40020 | gNextFreeAffineIndex;
+    s->palId = 8;
+    s->x = 120;
+    s->y = 140;
+    tiles += 4 * TILE_SIZE_4BPP;
+
     gNextFreeAffineIndex += 1;
-    strc->unk208 = 0;
-    strc->unk20A = 0x100;
-    strc->unk20C = 0x100;
-    strc->unk20E = 0x78;
-    strc->unk210 = 0x8C;
-    TransformSprite(temp_r7_11, (SpriteTransform *) strc->filler16C);
-    var_r7_2 = strc;
-    var_r4_2 = 0;
-    do {
-        UpdateSpriteAnimation(var_r7_2->sprites0);
-        temp_r0_2 = (var_r4_2 << 0x10) + 0x10000;
-        var_r7_2 += 0x28;
-        var_r4_2 = temp_r0_2 >> 0x10;
-    } while ((s32) ((s32) temp_r0_2 >> 0x10) <= 0xC);
+    strc->tf.rotation = 0;
+    strc->tf.qScaleX = Q(1);
+    strc->tf.qScaleY = Q(1);
+    strc->tf.x = 120;
+    strc->tf.y = 140;
+    TransformSprite(s, &strc->tf);
+
+    s = &strc->sprites0[0];
+    for (i = 0; i < (s32)ARRAY_COUNT(strc->sprites0); i++, s++) {
+        UpdateSpriteAnimation(s);
+    }
 }
 
+#if 0
 void sub_8022D40(Sprite *arg0) {
     Sprite *temp_r4;
     Sprite *var_r4;
@@ -353,7 +367,7 @@ void sub_8022FB0(void) {
     u16 temp_r4;
 
     temp_r4 = TaskCreate(Task_8022FEC, 0x238U, 0x2100U, 0U, NULL)->data;
-    sub_8022B30((Strc_8022FB0 *) temp_r4);
+    sub_8022B30((StageUiSinglePak *) temp_r4);
     temp_r4->unk234 = 0;
 }
 
