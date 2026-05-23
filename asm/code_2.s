@@ -6589,7 +6589,7 @@ sub_809EB74: @ 0x0809EB74
 	strh r2, [r0, #0x18]
 	strh r2, [r0, #0x1a]
 	movs r1, #0xb1
-	lsls r1, r1, #1
+	lsls r1, r1, #1         @ Tilemap-ID: 354 (Stage preview icons)
 	strh r1, [r0, #0x1c]
 	strh r2, [r0, #0x1e]
 	strh r2, [r0, #0x20]
@@ -13233,7 +13233,7 @@ sub_80A1FB0: @ 0x080A1FB0
 	str r2, [r0, #0xc]
 	strh r3, [r0, #0x18]
 	strh r3, [r0, #0x1a]
-	ldr r4, _080A2020 @ =gUnknown_080D9908
+	ldr r4, _080A2020 @ =gTilemapIdsConnectionStatus
 	ldrb r2, [r5, #1]
 	lsls r2, r2, #2
 	adds r1, r1, r2
@@ -13262,7 +13262,7 @@ _080A2010: .4byte 0x00000E04
 _080A2014: .4byte gBgScrollRegs
 _080A2018: .4byte 0x06004000
 _080A201C: .4byte 0x06007000
-_080A2020: .4byte gUnknown_080D9908
+_080A2020: .4byte gTilemapIdsConnectionStatus
 
 	thumb_func_start sub_80A2024
 sub_80A2024: @ 0x080A2024
@@ -13287,7 +13287,7 @@ sub_80A2024: @ 0x080A2024
 	str r2, [r0, #0xc]
 	strh r3, [r0, #0x18]
 	strh r3, [r0, #0x1a]
-	ldr r2, _080A2088 @ =gUnknown_080D9908
+	ldr r2, _080A2088 @ =gTilemapIdsConnectionStatus
 	lsrs r1, r1, #0x17
 	adds r1, r1, r2
 	ldrh r1, [r1]
@@ -13311,7 +13311,7 @@ _080A2078: .4byte gBgCntRegs
 _080A207C: .4byte 0x00000601
 _080A2080: .4byte gBgScrollRegs
 _080A2084: .4byte 0x06003000
-_080A2088: .4byte gUnknown_080D9908
+_080A2088: .4byte gTilemapIdsConnectionStatus
 
 	thumb_func_start sub_80A208C
 sub_80A208C: @ 0x080A208C
@@ -13475,7 +13475,7 @@ sub_80A217C: @ 0x080A217C
 	strh r4, [r0, #0x18]
 	strh r4, [r0, #0x1a]
 	movs r1, #0xd4
-	lsls r1, r1, #1
+	lsls r1, r1, #1         @ 424 - Opening Sky/Grass Tilemap
 	strh r1, [r0, #0x1c]
 	strh r4, [r0, #0x1e]
 	strh r4, [r0, #0x20]
@@ -13515,7 +13515,7 @@ _080A2200:
 	str r1, [r0, #0xc]
 	strh r4, [r0, #0x18]
 	strh r4, [r0, #0x1a]
-	ldr r1, _080A2298 @ =0x000001A7
+	ldr r1, _080A2298 @ =0x000001A7 @ Opening Circular Flash
 	strh r1, [r0, #0x1c]
 	strh r4, [r0, #0x1e]
 	strh r4, [r0, #0x20]
@@ -13562,7 +13562,7 @@ _080A2242:
 	ldrsh r0, [r2, r1]
 	cmp r0, #1
 	bne _080A22A8
-	ldr r0, _080A22A4 @ =0x000001A9
+	ldr r0, _080A22A4 @ =0x000001A9 @ Presented by SEGA logo
 	b _080A22AC
 	.align 2, 0
 _080A2274: .4byte gDispCnt
@@ -13580,7 +13580,7 @@ _080A22A0: .4byte 0x0600F800
 _080A22A4: .4byte 0x000001A9
 _080A22A8:
 	movs r0, #0xd5
-	lsls r0, r0, #1
+	lsls r0, r0, #1         @ Create by Sonic Team Logo
 _080A22AC:
 	strh r0, [r3, #0x1c]
 	movs r2, #0
@@ -15663,7 +15663,7 @@ sub_80A3354: @ 0x080A3354
 	strh r4, [r0, #0x18]
 	strh r4, [r0, #0x1a]
 	movs r1, #0x96
-	lsls r1, r1, #1
+	lsls r1, r1, #1         @ Opening Eggman
 	strh r1, [r0, #0x1c]
 	strh r4, [r0, #0x1e]
 	strh r4, [r0, #0x20]
@@ -23269,7 +23269,7 @@ sub_80A6EBC: @ 0x080A6EBC
 	strh r2, [r0, #0x18]
 	strh r2, [r0, #0x1a]
 	movs r1, #0x99
-	lsls r1, r1, #1
+	lsls r1, r1, #1         @ 306 - Altar Emerald Background
 	strh r1, [r0, #0x1c]
 	strh r2, [r0, #0x1e]
 	strh r2, [r0, #0x20]
@@ -27125,7 +27125,7 @@ sub_80A8C80: @ 0x080A8C80
 	str r1, [r0, #0xc]
 	strh r2, [r0, #0x18]
 	strh r2, [r0, #0x1a]
-	ldr r1, _080A8D1C @ =0x00000133
+	ldr r1, _080A8D1C @ =0x00000133 @ Edning Photo Colored
 	strh r1, [r0, #0x1c]
 	strh r2, [r0, #0x1e]
 	strh r2, [r0, #0x20]
@@ -29951,7 +29951,7 @@ sub_80AA270: @ 0x080AA270
 	strh r2, [r0, #0x18]
 	strh r2, [r0, #0x1a]
 	movs r1, #0xa0
-	lsls r1, r1, #1
+	lsls r1, r1, #1     @ Credits "SONIC ADVANCE 3 END"
 	strh r1, [r0, #0x1c]
 	strh r2, [r0, #0x1e]
 	strh r2, [r0, #0x20]
@@ -31007,7 +31007,7 @@ sub_80AAB6C: @ 0x080AAB6C
 	strh r4, [r0, #0x18]
 	strh r4, [r0, #0x1a]
 	movs r1, #0x96
-	lsls r1, r1, #1
+	lsls r1, r1, #1         @ Eggman
 	strh r1, [r0, #0x1c]
 	strh r4, [r0, #0x1e]
 	strh r4, [r0, #0x20]

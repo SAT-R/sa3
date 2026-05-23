@@ -12546,7 +12546,7 @@ sub_808D548: @ 0x0808D548
 	str r2, [r0, #0xc]
 	strh r3, [r0, #0x18]
 	strh r3, [r0, #0x1a]
-	ldr r4, _0808D5C8 @ =gUnknown_080D9908
+	ldr r4, _0808D5C8 @ =gTilemapIdsConnectionStatus
 	ldrb r2, [r5, #0x18]
 	lsls r2, r2, #2
 	adds r1, r1, r2
@@ -12575,7 +12575,7 @@ _0808D5B8: .4byte 0x00000602
 _0808D5BC: .4byte gDispCnt
 _0808D5C0: .4byte gBgScrollRegs
 _0808D5C4: .4byte 0x06003000
-_0808D5C8: .4byte gUnknown_080D9908
+_0808D5C8: .4byte gTilemapIdsConnectionStatus
 
 	thumb_func_start sub_808D5CC
 sub_808D5CC: @ 0x0808D5CC
@@ -12606,7 +12606,7 @@ sub_808D5CC: @ 0x0808D5CC
 	str r2, [r0, #0xc]
 	strh r3, [r0, #0x18]
 	strh r3, [r0, #0x1a]
-	ldr r2, _0808D644 @ =gUnknown_080D9908
+	ldr r2, _0808D644 @ =gTilemapIdsConnectionStatus
 	lsrs r1, r1, #0x17
 	adds r1, r1, r2
 	ldrh r1, [r1]
@@ -12632,7 +12632,7 @@ _0808D634: .4byte gDispCnt
 _0808D638: .4byte gBgScrollRegs
 _0808D63C: .4byte 0x06004000
 _0808D640: .4byte 0x06007000
-_0808D644: .4byte gUnknown_080D9908
+_0808D644: .4byte gTilemapIdsConnectionStatus
 
 	thumb_func_start sub_808D648
 sub_808D648: @ 0x0808D648
