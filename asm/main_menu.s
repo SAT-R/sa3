@@ -12752,7 +12752,7 @@ sub_808D718: @ 0x0808D718
 	ldr r4, _0808D7C8 @ =gMultiSioSend
 	ldr r1, _0808D7CC @ =gStageData
 	ldrb r5, [r1, #6]
-	bl sub_809F850
+	bl CreateCharacterSelectMultiplayer
 	movs r1, #0
 	movs r0, #0
 	strh r0, [r4]

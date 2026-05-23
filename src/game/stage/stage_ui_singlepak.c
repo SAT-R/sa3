@@ -79,7 +79,7 @@ void sub_8022A24(void)
 
     StageUiSinglePak *strc = TASK_DATA(gCurTask);
 
-    if ((u32)gStageData.mpOpponentPlayerIndex <= 3U) {
+    if (gStageData.mpOpponentPlayerIndex < NUM_MULTI_PLAYER_CHARS) {
         strc->unk234 = (strc->unk234 + 1) % 64u;
         if (0x20 & strc->unk234) {
             var_r0 = 0x40 - strc->unk234;
@@ -265,7 +265,7 @@ NONMATCH("asm/non_matching/game/stage_ui_sp__sub_8022D40.inc", void sub_8022D40(
 
     StageUiSinglePak *strc = TASK_DATA(gCurTask);
 
-    for (var_r5 = 0; var_r5 < 4; var_r5++) {
+    for (var_r5 = 0; var_r5 < NUM_MULTI_PLAYER_CHARS; var_r5++) {
         if (gStageData.mpOpponentPlayerIndex == var_r5) {
             s2 = &strc->sprites0[var_r5 + 8];
             s2->palId = 8;
@@ -284,7 +284,7 @@ NONMATCH("asm/non_matching/game/stage_ui_sp__sub_8022D40.inc", void sub_8022D40(
     }
 
     var_r4 = &strc->sprites0[8];
-    for (var_r5 = 0; var_r5 < 4; var_r5++, var_r4++) {
+    for (var_r5 = 0; var_r5 < NUM_MULTI_PLAYER_CHARS; var_r5++, var_r4++) {
         if (GetBit(gUnknown_03001060.unk7, var_r5)) {
             UpdateSpriteAnimation(var_r4);
             DisplaySprite(var_r4);
