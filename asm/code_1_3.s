@@ -5,6 +5,7 @@
 .syntax unified
 .arm
 
+@ void sub_8053128(s16, s16);
 	thumb_func_start sub_8053128
 sub_8053128: @ 0x08053128
 	push {r4, r5, r6, r7, lr}
@@ -184,7 +185,7 @@ sub_8053284: @ 0x08053284
 	lsls r1, r1, #2
 	movs r2, #0x80
 	lsls r2, r2, #1
-	ldr r3, _08053308 @ =sub_805332C
+	ldr r3, _08053308 @ =TaskDestructor_805332C
 	str r3, [sp]
 	movs r3, #0
 	bl TaskCreate
@@ -239,7 +240,7 @@ sub_8053284: @ 0x08053284
 	bx r0
 	.align 2, 0
 _08053304: .4byte Task_8054EB8
-_08053308: .4byte sub_805332C
+_08053308: .4byte TaskDestructor_805332C
 _0805330C: .4byte 0x03000290
 _08053310: .4byte 0x03000292
 _08053314: .4byte 0x03000294
@@ -249,8 +250,8 @@ _08053320: .4byte gBgPalette
 _08053324: .4byte gFlags
 _08053328: .4byte gStageData
 
-	thumb_func_start sub_805332C
-sub_805332C: @ 0x0805332C
+	thumb_func_start TaskDestructor_805332C
+TaskDestructor_805332C: @ 0x0805332C
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -348,6 +349,9 @@ _080533E4:
 	.align 2, 0
 _080533F0: .4byte gStageData
 
+@ Related to Special Springs 
+@ Input:
+@ R0 : u16 (or u32?) character
 	thumb_func_start sub_80533F4
 sub_80533F4: @ 0x080533F4
 	push {r4, r5, lr}
@@ -1231,7 +1235,7 @@ _08053AE8:
 	strh r2, [r1, #4]
 	ldr r0, _08053B20 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08053B24 @ =sub_8053B28
+	ldr r0, _08053B24 @ =Task_8053B28
 	str r0, [r1, #8]
 _08053B00:
 	add sp, #4
@@ -1248,10 +1252,10 @@ _08053B14: .4byte 0x0000017B
 _08053B18: .4byte 0x0000FF20
 _08053B1C: .4byte gBldRegs
 _08053B20: .4byte gCurTask
-_08053B24: .4byte sub_8053B28
+_08053B24: .4byte Task_8053B28
 
-	thumb_func_start sub_8053B28
-sub_8053B28: @ 0x08053B28
+	thumb_func_start Task_8053B28
+Task_8053B28: @ 0x08053B28
 	push {r4, lr}
 	ldr r0, _08053B50 @ =gCurTask
 	ldr r0, [r0]
@@ -1303,7 +1307,7 @@ _08053B58:
 	strh r0, [r1]
 	ldr r0, _08053BA4 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08053BA8 @ =sub_8053BAC
+	ldr r0, _08053BA8 @ =Task_8053BAC
 	str r0, [r1, #8]
 _08053B9C:
 	pop {r4}
@@ -1311,10 +1315,10 @@ _08053B9C:
 	bx r0
 	.align 2, 0
 _08053BA4: .4byte gCurTask
-_08053BA8: .4byte sub_8053BAC
+_08053BA8: .4byte Task_8053BAC
 
-	thumb_func_start sub_8053BAC
-sub_8053BAC: @ 0x08053BAC
+	thumb_func_start Task_8053BAC
+Task_8053BAC: @ 0x08053BAC
 	push {r4, r5, lr}
 	ldr r0, _08053BD4 @ =gCurTask
 	ldr r0, [r0]
@@ -1398,7 +1402,7 @@ _08053C2E:
 	ble _08053C5E
 	ldr r0, _08053C68 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08053C6C @ =sub_8053C70
+	ldr r0, _08053C6C @ =Task_8053C70
 	str r0, [r1, #8]
 _08053C5E:
 	pop {r4, r5}
@@ -1407,10 +1411,10 @@ _08053C5E:
 	.align 2, 0
 _08053C64: .4byte gSineTable
 _08053C68: .4byte gCurTask
-_08053C6C: .4byte sub_8053C70
+_08053C6C: .4byte Task_8053C70
 
-	thumb_func_start sub_8053C70
-sub_8053C70: @ 0x08053C70
+	thumb_func_start Task_8053C70
+Task_8053C70: @ 0x08053C70
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -2601,7 +2605,7 @@ sub_80545E0: @ 0x080545E0
 	movs r1, #0xc0
 	lsls r1, r1, #0x12
 	mov sb, r1
-	ldr r0, _0805466C @ =sub_8054678
+	ldr r0, _0805466C @ =Task_8054678
 	movs r1, #0x9d
 	lsls r1, r1, #2
 	ldr r2, _08054670 @ =0x00000101
@@ -2650,12 +2654,12 @@ sub_80545E0: @ 0x080545E0
 	bx r0
 	.align 2, 0
 _08054668: .4byte gCurTask
-_0805466C: .4byte sub_8054678
+_0805466C: .4byte Task_8054678
 _08054670: .4byte 0x00000101
 _08054674: .4byte 0x03000150
 
-	thumb_func_start sub_8054678
-sub_8054678: @ 0x08054678
+	thumb_func_start Task_8054678
+Task_8054678: @ 0x08054678
 	push {r4, r5, lr}
 	ldr r5, _080546E4 @ =gCurTask
 	ldr r0, [r5]

@@ -3096,8 +3096,8 @@ void sub_809B5D0(CharacterSelect *cs)
     temp_r0 = &cs->bg1F4;
     character = gUnknown_080D8F18[cs->unk5];
     gDispCnt |= 0x200;
-    temp_r0->graphics.dest = (void *)0x0600C000;
-    temp_r0->layoutVram = (u16 *)0x06001800;
+    temp_r0->graphics.dest = (void *)(BG_VRAM + 0xC000);
+    temp_r0->layoutVram = (u16 *)(BG_VRAM + 0x1800);
     temp_r0->tilemapId = gUnknown_080D8CDC[character + 0xA];
     temp_r0->flags = 1;
     DrawBackground(temp_r0);
