@@ -6,8 +6,19 @@
 #include "game/stage.h"
 #include "constants/animations.h"
 
+// TODO: Make sense of the various sprite array sizes...
+#define SPRITE_COUNT_A     8
+#define SPRITE_COUNT_B     5
+#define SPRITE_COUNT_TOTAL (SPRITE_COUNT_A + SPRITE_COUNT_B)
 typedef struct {
-    /* 0x000 */ Sprite sprites0[13];
+    union {
+        struct {
+            /* 0x000 */ Sprite sprites0[SPRITE_COUNT_A];
+            /* 0x140 */ Sprite sprites140[SPRITE_COUNT_B];
+        } split;
+
+        Sprite spritesAll[SPRITE_COUNT_TOTAL];
+    } s;
     /* 0x208 */ SpriteTransform tf;
     /* 0x214 */ ColorRaw palette214[16];
     /* 0x234 */ u8 unk234;
@@ -45,20 +56,20 @@ void sub_8022978(void)
     temp_r4 = seconds;
     index = (gStageData.levelTimer - (seconds * 60));
     temp_r4 = (u16)temp_r4;
-    s = &strc->sprites0[6];
+    s = &strc->s.split.sprites0[6];
     s->variant = gUnknown_080CE4B2[index][0] + 16;
-    s = &strc->sprites0[7];
+    s = &strc->s.split.sprites0[7];
     s->variant = gUnknown_080CE4B2[index][1] + 16;
     temp_r0_2 = Div(temp_r4, 60);
     temp_r4 = (temp_r4 - (temp_r0_2 * 60));
 
     temp_r4_2 = temp_r4;
     temp_r0_3 = temp_r0_2;
-    s = &strc->sprites0[4];
+    s = &strc->s.split.sprites0[4];
     s->variant = gUnknown_080CE438[temp_r4_2][0] + 16;
-    s = &strc->sprites0[5];
+    s = &strc->s.split.sprites0[5];
     s->variant = gUnknown_080CE438[temp_r4_2][1] + 16;
-    s = &strc->sprites0[3];
+    s = &strc->s.split.sprites0[3];
     s->variant = temp_r0_3 + 16;
 }
 
@@ -118,12 +129,12 @@ void sub_8022B30(StageUiSinglePak *strc)
     spriteTemplate.animSpeed = SPRITE_ANIM_SPEED(1.0);
     spriteTemplate.hitboxes[0].index = -1;
 
-    s = &strc->sprites0[0];
-    for (i = 0; i < (s32)ARRAY_COUNT(strc->sprites0); i++, s++) {
+    s = &strc->s.spritesAll[0];
+    for (i = 0; i < (s32)ARRAY_COUNT(strc->s.spritesAll); i++, s++) {
         CpuCopy32(&spriteTemplate, s, sizeof(spriteTemplate));
     }
 
-    s = &strc->sprites0[0];
+    s = &strc->s.spritesAll[0];
     tiles = VRAM_BASE_SINGLEPAK_UI;
     s->tiles = tiles;
     s->anim = 1421;
@@ -246,16 +257,17 @@ void sub_8022B30(StageUiSinglePak *strc)
     strc->tf.y = 140;
     TransformSprite(s, &strc->tf);
 
-    s = &strc->sprites0[0];
-    for (i = 0; i < (s32)ARRAY_COUNT(strc->sprites0); i++, s++) {
+    s = &strc->s.spritesAll[0];
+    for (i = 0; i < (s32)ARRAY_COUNT(strc->s.spritesAll); i++, s++) {
         UpdateSpriteAnimation(s);
     }
 }
 
-void sub_8022D40() {
+void sub_8022D40()
+{
     Sprite *var_r4;
     Sprite *s2;
-    s16 var_r5;
+    s16 i;
     u32 var_r6;
     u32 timer;
     u32 max;
@@ -263,54 +275,52 @@ void sub_8022D40() {
 
     StageUiSinglePak *strc = TASK_DATA(gCurTask);
 
-    for(var_r5 = 0; var_r5 < 4; var_r5++)
-    {
-        if (gStageData.unk8E == var_r5) {
-            strc->sprites140[var_r5].palId = 8;
+    for (i = 0; i < SPRITE_COUNT_B - 1; i++) {
+        if (gStageData.mpOpponentPlayerIndex == i) {
+            strc->s.split.sprites140[i].palId = 8;
         } else {
-            strc->sprites140[var_r5].palId = var_r5;
+            strc->s.split.sprites140[i].palId = i;
         }
     }
 
-    if ((gStageData.unk8E != gStageData.playerIndex) 
-        && (gStageData.unk8E != 0xFF) && !sub_8023000()) 
-    {
+    if ((gStageData.mpOpponentPlayerIndex != gStageData.playerIndex) && (gStageData.mpOpponentPlayerIndex != 0xFF)
+        && !IsOpponentOnScreen()) {
         sub_8022E84();
-        var_r4 = &strc->s.spritesAll[12];
+        var_r4 = &strc->s.split.sprites140[SPRITE_COUNT_B - 1];
         UpdateSpriteAnimation(var_r4);
         DisplaySprite(var_r4);
     }
-    var_r4 = &strc->s.spritesAll[8];
-    for(var_r5 = 0; var_r5 < 4; var_r5++, var_r4++)
-    {
-        if (GetBit(gUnknown_03001060.unk7, var_r5)) {
+    var_r4 = &strc->s.split.sprites140[0];
+    for (i = 0; i < 4; i++, var_r4++) {
+        if (GetBit(gUnknown_03001060.unk7, i)) {
             UpdateSpriteAnimation(var_r4);
-            DisplaySprite(var_r4);            
+            DisplaySprite(var_r4);
         }
     }
     var_r4 = &strc->s.spritesAll[0];
     UpdateSpriteAnimation(var_r4);
     DisplaySprite(var_r4);
-    var_r4++;
-    for(var_r5 = 0; var_r5 < 2; var_r5++, var_r4++)
-    {
+
+#define SPR_ITER_COUNT 2
+    var_r4 = &strc->s.spritesAll[1];
+    for (i = 0; i < SPR_ITER_COUNT; i++, var_r4++) {
         UpdateSpriteAnimation(var_r4);
         DisplaySprite(var_r4);
     }
 
-    if ((gStageData.levelTimer < TIME(1, 0) ) && (gStageData.levelTimer & 0x10)) {
+    if ((gStageData.levelTimer < TIME(1, 0)) && (gStageData.levelTimer & 0x10)) {
         var_r6 = 1;
     } else {
         var_r6 = 0;
     }
 
-    for(var_r5 = 0; var_r5 < 5; var_r5++, var_r4++)
-    {
+    for (i = 0; i < (SPRITE_COUNT_A - SPR_ITER_COUNT - 1); i++, var_r4++) {
         UpdateSpriteAnimation(var_r4);
-        var_r4->palId = (u8) var_r6;
+        var_r4->palId = (u8)var_r6;
         DisplaySprite(var_r4);
         var_r4->palId = 0;
     }
+#undef SPR_ITER_COUNT
 }
 
 void sub_8022E84()
@@ -325,7 +335,7 @@ void sub_8022E84()
 
     player = &gPlayers[gStageData.playerIndex];
     opponent = &gPlayers[gStageData.mpOpponentPlayerIndex];
-    s = &strc->sprites0[12];
+    s = &strc->s.split.sprites140[4];
     indicatorX = I(player->qWorldX - opponent->qWorldX);
     indicatorY = I(player->qWorldY - opponent->qWorldY);
     s->frameFlags = 0x40020 | gNextFreeAffineIndex;
