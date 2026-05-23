@@ -252,9 +252,7 @@ void sub_8022B30(StageUiSinglePak *strc)
     }
 }
 
-// (95.80%) https://decomp.me/scratch/Ylee6
-NONMATCH("asm/non_matching/game/stage_ui_sp__sub_8022D40.inc", void sub_8022D40(void))
-{
+void sub_8022D40() {
     Sprite *var_r4;
     Sprite *s2;
     s16 var_r5;
@@ -265,56 +263,55 @@ NONMATCH("asm/non_matching/game/stage_ui_sp__sub_8022D40.inc", void sub_8022D40(
 
     StageUiSinglePak *strc = TASK_DATA(gCurTask);
 
-    for (var_r5 = 0; var_r5 < NUM_MULTI_PLAYER_CHARS; var_r5++) {
-        if (gStageData.mpOpponentPlayerIndex == var_r5) {
-            s2 = &strc->sprites0[var_r5 + 8];
-            s2->palId = 8;
+    for(var_r5 = 0; var_r5 < 4; var_r5++)
+    {
+        if (gStageData.unk8E == var_r5) {
+            strc->sprites140[var_r5].palId = 8;
         } else {
-            s2 = &strc->sprites0[var_r5 + 8];
-            s2->palId = var_r5;
+            strc->sprites140[var_r5].palId = var_r5;
         }
     }
 
-    if ((gStageData.mpOpponentPlayerIndex != gStageData.playerIndex) && (gStageData.mpOpponentPlayerIndex != 0xFF)
-        && !IsOpponentOnScreen()) {
+    if ((gStageData.unk8E != gStageData.playerIndex) 
+        && (gStageData.unk8E != 0xFF) && !sub_8023000()) 
+    {
         sub_8022E84();
-        var_r4 = &strc->sprites0[12];
+        var_r4 = &strc->s.spritesAll[12];
         UpdateSpriteAnimation(var_r4);
         DisplaySprite(var_r4);
     }
-
-    var_r4 = &strc->sprites0[8];
-    for (var_r5 = 0; var_r5 < NUM_MULTI_PLAYER_CHARS; var_r5++, var_r4++) {
+    var_r4 = &strc->s.spritesAll[8];
+    for(var_r5 = 0; var_r5 < 4; var_r5++, var_r4++)
+    {
         if (GetBit(gUnknown_03001060.unk7, var_r5)) {
             UpdateSpriteAnimation(var_r4);
-            DisplaySprite(var_r4);
+            DisplaySprite(var_r4);            
         }
     }
-
-    var_r4 = &strc->sprites0[0];
+    var_r4 = &strc->s.spritesAll[0];
     UpdateSpriteAnimation(var_r4);
     DisplaySprite(var_r4);
     var_r4++;
-    for (var_r5 = 0; var_r5 < 2; var_r5++, var_r4++) {
+    for(var_r5 = 0; var_r5 < 2; var_r5++, var_r4++)
+    {
         UpdateSpriteAnimation(var_r4);
         DisplaySprite(var_r4);
     }
 
-    timer = gStageData.levelTimer;
-    max = TIME(1, 0) - 1;
-    var_r6 = 0;
-    if (timer <= max) {
-        var_r6 = (u32)(0 - (u16)(0x10 & timer)) >> 0x1F;
+    if ((gStageData.levelTimer < TIME(1, 0) ) && (gStageData.levelTimer & 0x10)) {
+        var_r6 = 1;
+    } else {
+        var_r6 = 0;
     }
 
-    for (var_r5 = 0; var_r5 < 5; var_r5++, var_r4++) {
+    for(var_r5 = 0; var_r5 < 5; var_r5++, var_r4++)
+    {
         UpdateSpriteAnimation(var_r4);
-        var_r4->palId = (u8)var_r6;
+        var_r4->palId = (u8) var_r6;
         DisplaySprite(var_r4);
         var_r4->palId = 0;
     }
 }
-END_NONMATCH
 
 void sub_8022E84()
 {
