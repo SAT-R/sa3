@@ -33,7 +33,7 @@
 #define MOVESTATE_2000000             0x02000000
 #define MOVESTATE_4000000             0x04000000
 #define MOVESTATE_IGNORE_INPUT        0x08000000 // does not ignore Start-Button
-#define MOVESTATE_10000000            0x10000000
+#define MOVESTATE_10000000            0x10000000 // set when text boxes appear (TODO: only then?)
 #define MOVESTATE_20000000            0x20000000
 #define MOVESTATE_40000000            0x40000000
 #define MOVESTATE_80000000            0x80000000

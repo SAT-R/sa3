@@ -841,7 +841,7 @@ bool32 sub_80988B0(CharacterSelect *cs)
     gPlayers[PLAYER_4].callback = NULL;
     gPlayers[PLAYER_4].charFlags.someIndex = 0;
 
-    DmaCopy16(3, &gUnknown_082B5344, OBJ_VRAM0 + 0x7EC0, 0x140);
+    DmaCopy16(3, &gUnknown_082B5344, OBJ_VRAM0 + 0x7EC0, sizeof(gUnknown_082B5344));
 
     sub_80003B8();
 

@@ -261,29 +261,34 @@ NONMATCH("asm/non_matching/game/enemies/euc__sub_805C280.inc", bool32 sub_805C28
         return 1U;
     }
 
-    meX = arg0->me->x;
-    if ((gStageData.gameMode > 4U) && (meX >= -6 && meX <= -3)) {
-        if (gStageData.act != 9) {
-            temp_r4_3 = arg0->regionX;
-            temp_r5_3 = arg0->regionY;
-            temp_sb_3 = arg0->p;
-            sub_805CEBC__inline(arg0->posX, arg0->posY, temp_r4_3, temp_r5_3, 0, temp_sb_3);
-            temp_sb_4 = arg0->regionX;
-            temp_sl_2 = arg0->regionY;
-            temp_r4_4 = &gPlayers[6 + meX];
-            sub_805CF38__inline(arg0->posX, arg0->posY, temp_sb_4, temp_sl_2, temp_r4_4);
-        } else {
-            sub_805CEBC__inline(arg0->posX, arg0->posY, arg0->regionX, arg0->regionY, 0, arg0->p);
-        }
-
-        return 1U;
-    } else {
-        if (!sub_805CF90(spawnX, spawnY, arg0->spr->x, arg0->spr->y)) {
-            if (arg0->me != NULL) {
-                SET_MAP_ENTITY_NOT_INITIALIZED(arg0->me, arg0->meX);
+#ifdef BUG_FIX
+    if (arg0->me)
+#endif
+    {
+        meX = arg0->me->x;
+        if ((gStageData.gameMode > 4U) && (meX >= -6 && meX <= -3)) {
+            if (gStageData.act != 9) {
+                temp_r4_3 = arg0->regionX;
+                temp_r5_3 = arg0->regionY;
+                temp_sb_3 = arg0->p;
+                sub_805CEBC__inline(arg0->posX, arg0->posY, temp_r4_3, temp_r5_3, 0, temp_sb_3);
+                temp_sb_4 = arg0->regionX;
+                temp_sl_2 = arg0->regionY;
+                temp_r4_4 = &gPlayers[6 + meX];
+                sub_805CF38__inline(arg0->posX, arg0->posY, temp_sb_4, temp_sl_2, temp_r4_4);
+            } else {
+                sub_805CEBC__inline(arg0->posX, arg0->posY, arg0->regionX, arg0->regionY, 0, arg0->p);
             }
 
             return 1U;
+        } else {
+            if (!sub_805CF90(spawnX, spawnY, arg0->spr->x, arg0->spr->y)) {
+                if (arg0->me != NULL) {
+                    SET_MAP_ENTITY_NOT_INITIALIZED(arg0->me, arg0->meX);
+                }
+
+                return 1U;
+            }
         }
     }
 

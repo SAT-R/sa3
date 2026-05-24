@@ -547,15 +547,22 @@ void Task_80045EC(void)
     PlayerUnkC4 *strc = TASK_DATA(gCurTask);
 
     p = &gPlayers[strc->playerId];
+
     if (gStageData.gameMode != 7) {
         sub_8014258(p);
         sub_80143E0(p);
     }
+
     sub_80142CC(p);
     sub_80144B4(p);
     switch (p->charFlags.someIndex - 1) {
         case 0:
             sub_8004B14();
+
+#if DEBUG
+            // TEMP/TODO: Needed to enable movement right now...
+            p->moveState &= ~MOVESTATE_IGNORE_INPUT;
+#endif
 
             if (gStageData.currentLevel == 11) {
                 if (SELECT_BUTTON & p->keyInput2) {
@@ -3107,7 +3114,7 @@ void Player_8007B00(Player *p)
     qWorldX = p->qUnk38;
     qWorldY = p->qUnk3C;
 
-    if (++p->unk44 <= 0x1E) {
+    if (++p->unk44 <= 30) {
         s32 qUnkF0 = p->qUnkF0;
 
         if (qUnkF0 < qWorldY) {
@@ -3125,7 +3132,13 @@ void Player_8007B00(Player *p)
         }
         p->qWorldY += var_r1;
         p->qWorldX += partner->qSpeedAirX;
-        p->qWorldX += ((qWorldX - p->qWorldX) / (30 - p->unk44));
+#ifdef BUG_FIX
+        // Prevent div. by zero.
+        if (p->unk44 < 30)
+#endif
+        {
+            p->qWorldX += ((qWorldX - p->qWorldX) / (30 - p->unk44));
+        }
     } else {
         p->qWorldX = partner->qWorldX;
         p->qWorldY = partner->qWorldY;
@@ -4019,7 +4032,7 @@ void Player_8008CD0(Player *p)
     s16 var_r0_3;
     u8 *temp_r1_2;
 
-    p->framesInvulnerable = 120;
+    p->framesInvulnerable = TIME(0, 2);
     sub_8016F28(p);
     p->moveState &= 0xFDFFFFFF;
     Player_BoostModeDisengage(p);
@@ -8717,14 +8730,14 @@ void sub_800ECE0(Player *p)
 void Player_800ED14(Player *p)
 {
     sub_8016F28(p);
-    p->charFlags.anim0 = 0xA3;
+    p->charFlags.anim0 = 163;
     p->callback = Player_800ED4C;
     Player_800ED4C(p);
 }
 
 void Player_800ED34(Player *p)
 {
-    p->charFlags.anim0 = 0xA4;
+    p->charFlags.anim0 = 164;
     p->callback = Player_800ED4C;
     Player_800ED4C(p);
 }
@@ -8733,7 +8746,7 @@ void Player_800ED4C(Player *p) { }
 
 void sub_800ED50(Player *p)
 {
-    p->framesInvulnerable = 0x3C;
+    p->framesInvulnerable = TIME(0, 1);
     sub_8016F28(p);
     p->idleAndCamCounter = 0;
     p->callback = Player_8008A8C;

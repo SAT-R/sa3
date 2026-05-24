@@ -509,8 +509,18 @@ NONMATCH("asm/non_matching/game/stage/cam__InitCamera.inc", void InitCamera(s32 
     gDispCnt = DISPCNT_OBJ_1D_MAP;
     sd->unk10 = 0x1600;
     if (gStageData.act != ACT_BOSS) {
-        gBgCntRegs[1] = BGCNT_SCREENBASE(CAM_SCREENBASE_MAP_FRONT) | BGCNT_16COLOR | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(0);
-        gBgCntRegs[2] = BGCNT_SCREENBASE(CAM_SCREENBASE_MAP_BACK) | BGCNT_16COLOR | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(1);
+        /* Regular stages (non-boss) */
+#if !WIDESCREEN_HACK
+        gBgCntRegs[1]
+            = BGCNT_TXT256x256 | BGCNT_PRIORITY(0) | BGCNT_SCREENBASE(CAM_SCREENBASE_MAP_FRONT) | BGCNT_16COLOR | BGCNT_CHARBASE(0);
+        gBgCntRegs[2]
+            = BGCNT_TXT256x256 | BGCNT_PRIORITY(1) | BGCNT_SCREENBASE(CAM_SCREENBASE_MAP_BACK) | BGCNT_16COLOR | BGCNT_CHARBASE(0);
+#else
+        gBgCntRegs[1]
+            = BGCNT_TXT512x512 | BGCNT_PRIORITY(0) | BGCNT_SCREENBASE(CAM_SCREENBASE_MAP_FRONT) | BGCNT_16COLOR | BGCNT_CHARBASE(0);
+        gBgCntRegs[2]
+            = BGCNT_TXT512x512 | BGCNT_PRIORITY(1) | BGCNT_SCREENBASE(CAM_SCREENBASE_MAP_BACK) | BGCNT_16COLOR | BGCNT_CHARBASE(0);
+#endif
         if (CURRENT_GAME_MODE != 7) {
             gBgSprites_Unknown1[0] = 0;
             gBgSprites_Unknown2[0][0] = 0;
@@ -582,12 +592,24 @@ NONMATCH("asm/non_matching/game/stage/cam__InitCamera.inc", void InitCamera(s32 
             strcC->data = 0;
         }
     } else {
+        /* Boss Acts */
+        // Boss Acts, except for Zone 7, only render the lower stage-layer,
+        // so Boss enemies are able to use the additional hardware BG layer.
+        //
+        // TODO: It's a bit odd, because Zone 7 Boss's higher stage-layer is empty.
         switch (gStageData.zone) {
             default: {
                 gStageData.unk10 = 0x1301;
-                gBgCntRegs[0] = BGCNT_SCREENBASE(29) | BGCNT_16COLOR | BGCNT_CHARBASE(2) | BGCNT_PRIORITY(3);
-                gBgCntRegs[1] = BGCNT_SCREENBASE(31) | BGCNT_16COLOR | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(2);
-                gBgCntRegs[2] = BGCNT_SCREENBASE(26) | BGCNT_256COLOR | BGCNT_CHARBASE(1) | BGCNT_PRIORITY(1);
+                gBgCntRegs[0]
+                    = BGCNT_TXT256x256 | BGCNT_PRIORITY(3) | BGCNT_SCREENBASE(CAM_SCREENBASE_BACK_B) | BGCNT_16COLOR | BGCNT_CHARBASE(2);
+#if !WIDESCREEN_HACK
+                gBgCntRegs[1]
+                    = BGCNT_TXT256x256 | BGCNT_PRIORITY(2) | BGCNT_SCREENBASE(CAM_SCREENBASE_MAP_BACK) | BGCNT_16COLOR | BGCNT_CHARBASE(0);
+#else
+                gBgCntRegs[1]
+                    = BGCNT_TXT512x512 | BGCNT_PRIORITY(2) | BGCNT_SCREENBASE(CAM_SCREENBASE_MAP_BACK) | BGCNT_16COLOR | BGCNT_CHARBASE(0);
+#endif
+                gBgCntRegs[2] = BGCNT_TXT256x256 | BGCNT_PRIORITY(1) | BGCNT_SCREENBASE(26) | BGCNT_256COLOR | BGCNT_CHARBASE(1);
                 gBgSprites_Unknown1[0] = 0;
                 gBgSprites_Unknown2[0][0] = 0;
                 gBgSprites_Unknown2[0][1] = 0;
@@ -607,8 +629,8 @@ NONMATCH("asm/non_matching/game/stage/cam__InitCamera.inc", void InitCamera(s32 
                 memcpy(&gStageBackgroundsRam[0], &gStageCameraBgTemplates[2], sizeof(Background));
                 memcpy(&gStageBackgroundsRam[1], &gStageCameraBgTemplates[1], sizeof(Background));
                 memcpy(&gStageBackgroundsRam[2], &gStageCameraBgTemplates[0], sizeof(Background));
-                gStageBackgroundsRam[2].graphics.dest = (void *)BG_VRAM + 0x4000;
-                gStageBackgroundsRam[2].layoutVram = (void *)BG_VRAM + 0xD000;
+                gStageBackgroundsRam[2].graphics.dest = (void *)BG_CHAR_ADDR(1);
+                gStageBackgroundsRam[2].layoutVram = (void *)BG_SCREEN_ADDR(26);
                 gStageBackgroundsRam[0].flags = 0x10;
                 gStageBackgroundsRam[1].flags = 0x61;
                 gStageBackgroundsRam[2].flags = 0x16;
@@ -623,7 +645,13 @@ NONMATCH("asm/non_matching/game/stage/cam__InitCamera.inc", void InitCamera(s32 
 
             case ZONE_5: {
                 gStageData.unk10 = 0x1200;
-                gBgCntRegs[1] = BGCNT_SCREENBASE(31) | BGCNT_16COLOR | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(2);
+#if !WIDESCREEN_HACK
+                gBgCntRegs[1]
+                    = BGCNT_TXT256x256 | BGCNT_PRIORITY(2) | BGCNT_SCREENBASE(CAM_SCREENBASE_MAP_BACK) | BGCNT_16COLOR | BGCNT_CHARBASE(0);
+#else
+                gBgCntRegs[1]
+                    = BGCNT_TXT512x512 | BGCNT_PRIORITY(2) | BGCNT_SCREENBASE(CAM_SCREENBASE_MAP_BACK) | BGCNT_16COLOR | BGCNT_CHARBASE(0);
+#endif
                 gBgSprites_Unknown1[0] = 0;
                 gBgSprites_Unknown2[0][0] = 0;
                 gBgSprites_Unknown2[0][1] = 0;
@@ -670,8 +698,17 @@ NONMATCH("asm/non_matching/game/stage/cam__InitCamera.inc", void InitCamera(s32 
             } break;
 
             case ZONE_7: {
-                gBgCntRegs[1] = BGCNT_SCREENBASE(30) | BGCNT_16COLOR | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(0);
-                gBgCntRegs[2] = BGCNT_SCREENBASE(31) | BGCNT_16COLOR | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(1);
+#if !WIDESCREEN_HACK
+                gBgCntRegs[1]
+                    = BGCNT_TXT256x256 | BGCNT_PRIORITY(0) | BGCNT_SCREENBASE(CAM_SCREENBASE_MAP_FRONT) | BGCNT_16COLOR | BGCNT_CHARBASE(0);
+                gBgCntRegs[2]
+                    = BGCNT_TXT256x256 | BGCNT_PRIORITY(1) | BGCNT_SCREENBASE(CAM_SCREENBASE_MAP_BACK) | BGCNT_16COLOR | BGCNT_CHARBASE(0);
+#else
+                gBgCntRegs[1]
+                    = BGCNT_TXT512x512 | BGCNT_PRIORITY(0) | BGCNT_SCREENBASE(CAM_SCREENBASE_MAP_FRONT) | BGCNT_16COLOR | BGCNT_CHARBASE(0);
+                gBgCntRegs[2]
+                    = BGCNT_TXT512x512 | BGCNT_PRIORITY(1) | BGCNT_SCREENBASE(CAM_SCREENBASE_MAP_BACK) | BGCNT_16COLOR | BGCNT_CHARBASE(0);
+#endif
                 gBgSprites_Unknown1[0] = 0;
                 gBgSprites_Unknown2[0][0] = 0;
                 gBgSprites_Unknown2[0][1] = 0;

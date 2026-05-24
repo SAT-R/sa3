@@ -37,6 +37,13 @@
 #define UI_ZONE_TEXT_X (DISPLAY_WIDTH - 128)
 #define UI_ZONE_TEXT_Y (DISPLAY_HEIGHT - 16)
 
+#define UI_PLAYER_ICON_X  5
+#define UI_PLAYER_ICON_Y  (DISPLAY_HEIGHT - 19)
+#define UI_PARTNER_ICON_X (UI_PLAYER_ICON_X + 10)
+#define UI_PARTNER_ICON_Y (DISPLAY_HEIGHT - 19)
+#define UI_LIVE_COUNTER_X (UI_PARTNER_ICON_X + 21)
+#define UI_LIVE_COUNTER_Y (DISPLAY_HEIGHT - 4)
+
 Task *sub_80215A0(void);
 void sub_8021A64(void);
 Task *sub_8021EE8(); /* extern */
@@ -540,21 +547,23 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
         if (lives > 9) {
             lives = 9;
         }
+
         s = &strc->base.sprites4[lives];
-        s->x = 36;
-        s->y = baseY + 156;
+        s->x = UI_LIVE_COUNTER_X;
+        s->y = baseY + UI_LIVE_COUNTER_Y;
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
     }
+
     s = &strc->base.sprites1E4[0];
-    s->x = 5;
-    s->y = baseY + 141;
+    s->x = UI_PLAYER_ICON_X;
+    s->y = baseY + UI_PLAYER_ICON_Y;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
     s = &strc->base.sprites1E4[1];
-    s->x = 15;
-    s->y = baseY + 141;
+    s->x = UI_PARTNER_ICON_X;
+    s->y = baseY + UI_PARTNER_ICON_Y;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
@@ -586,8 +595,8 @@ Task *sub_8021EE8(void)
     StageUi2 *strc;
     void *tiles;
 
-    memcpy(&sp4, gUnknown_080CEE20, 5);
-    memcpy(&spC, *gUnknown_080CEE25, 0x19);
+    memcpy(&sp4, gUnknown_080CEE20, sizeof(sp4));
+    memcpy(&spC, *gUnknown_080CEE25, sizeof(spC));
     resultTask = TaskCreate(Task_8022898, sizeof(StageUi2), 0x2100U, 0U, NULL);
 #if !defined(BUG_FIX)
     // BUG: Assignment to uninitialized pointer

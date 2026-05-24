@@ -62,11 +62,15 @@ void CreateEntity_SpecialKey(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
 void Task_SpecialKey(void)
 {
-    SpecialKey *key = TASK_DATA(gCurTask);
-    Cheese *cheese = TASK_DATA(gStageData.taskCheese);
     Sprite *s;
     Player *p;
     s16 worldX, worldY;
+    SpecialKey *key = TASK_DATA(gCurTask);
+#ifndef BUG_FIX
+    Cheese *cheese = TASK_DATA(gStageData.taskCheese);
+#else
+    Cheese *cheese = (gStageData.taskCheese) ? TASK_DATA(gStageData.taskCheese) : NULL;
+#endif
 
     worldX = key->worldX;
     worldY = key->worldY;
@@ -74,7 +78,44 @@ void Task_SpecialKey(void)
 
     p = &gPlayers[gStageData.playerIndex];
 
-    if (cheese->moveState & 0x4) {
+#ifdef BUG_FIX
+    if (cheese) {
+        if (cheese->moveState & 0x4) {
+            sub_8004DD8(Q(worldX), Q(worldY));
+        }
+
+        if (sub_8020700(s, worldX, worldY, 0, p, 0)) {
+            s->anim = ANIM_RING_COLLECT_EFFECT;
+            s->variant = 0;
+            gCurTask->main = Task_804E934;
+            gStageData.flagSpKey = 1;
+            sub_8003DF0(SE_SPECIAL_KEY);
+        } else {
+            Player *p2 = cheese->player;
+            if (((p2->charFlags.someIndex == 1) || (p2->charFlags.someIndex == 4)) && ((cheese->moveState & 0x6) == 0x6)
+                && (sub_805C510(s) == TRUE)) {
+                TaskDestroy(gCurTask);
+                gStageData.flagSpKey = 1;
+                sub_8003DF0(SE_SPECIAL_KEY);
+                return;
+            } else {
+                sub_804E8AC();
+            }
+        }
+    } else {
+        if (sub_8020700(s, worldX, worldY, 0, p, 0)) {
+            s->anim = ANIM_RING_COLLECT_EFFECT;
+            s->variant = 0;
+            gCurTask->main = Task_804E934;
+            gStageData.flagSpKey = 1;
+            sub_8003DF0(SE_SPECIAL_KEY);
+        } else {
+            sub_804E8AC();
+        }
+    }
+#else
+    /* Matching code in the original game */
+    if (cheese->moveState & CMS_4) {
         sub_8004DD8(Q(worldX), Q(worldY));
     }
 
@@ -86,7 +127,7 @@ void Task_SpecialKey(void)
         sub_8003DF0(SE_SPECIAL_KEY);
     } else {
         Player *p2 = cheese->player;
-        if (((p2->charFlags.someIndex == 1) || (p2->charFlags.someIndex == 4)) && ((cheese->moveState & 0x6) == 0x6)
+        if (((p2->charFlags.someIndex == 1) || (p2->charFlags.someIndex == 4)) && ((cheese->moveState & (CMS_4 | CMS_2)) == (CMS_4 | CMS_2))
             && (sub_805C510(s) == TRUE)) {
             TaskDestroy(gCurTask);
             gStageData.flagSpKey = 1;
@@ -96,6 +137,7 @@ void Task_SpecialKey(void)
             sub_804E8AC();
         }
     }
+#endif
 }
 
 void sub_804E8AC(void)

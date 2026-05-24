@@ -29,8 +29,8 @@ typedef struct {
 
 void Task_ActRingMain(void);
 void TaskDestructor_ActRing(struct Task *);
-void sub_8040B34(ActRing *);
-bool32 sub_8040BE4(void);
+static void RenderRingDuringInit(ActRing *);
+bool32 RenderRing(void);
 
 void CreateEntity_ActRing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -65,7 +65,7 @@ void CreateEntity_ActRing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
-    sub_8040B34(ring);
+    RenderRingDuringInit(ring);
 }
 
 void Task_ActRingMain(void)
@@ -85,7 +85,7 @@ void Task_ActRingMain(void)
                 Player_BoostModeDisengage(p);
                 Player_PlaySong(p, SE_BIG_WARP_RING);
 
-                gStageData.nextMapIndex = (gStageData.zone * 10) + ring->act + 3;
+                gStageData.nextMapIndex = LEVEL_INDEX(gStageData.zone, ring->act) + ACT_1;
                 gStageData.unkC = 0;
 
                 SetPlayerCallback(p, Player_800AD24);
@@ -121,10 +121,10 @@ void Task_ActRingMain(void)
         }
     }
 
-    sub_8040BE4();
+    RenderRing();
 }
 
-void sub_8040B34(ActRing *ring)
+static void RenderRingDuringInit(ActRing *ring)
 {
     Sprite *s = &ring->s0;
     u8 act = ring->act;
@@ -143,6 +143,7 @@ void sub_8040B34(ActRing *ring)
     UpdateSpriteAnimation(s);
 
     if (ring->wasCompletedBefore) {
+        // Add crown on-top
         s = &ring->s1;
         s->tiles = ALLOC_TILES_VARIANT(ANIM_ACT_RING, 3);
         s->anim = ANIM_ACT_RING;
@@ -159,7 +160,7 @@ void sub_8040B34(ActRing *ring)
     }
 }
 
-bool32 sub_8040BE4(void)
+bool32 RenderRing(void)
 {
     ActRing *ring = TASK_DATA(gCurTask);
     Sprite *s = &ring->s0;
@@ -202,4 +203,4 @@ void TaskDestructor_ActRing(struct Task *t)
     }
 }
 
-void sub_8040CD0(void) { sub_8040BE4(); }
+void sub_8040CD0(void) { RenderRing(); }
