@@ -5184,7 +5184,7 @@ void Player_800A724(Player *p)
             p->qWorldY += (p->qSpeedAirY * 2);
         }
 
-        p->moveState = MOVESTATE_IN_AIR | (0xDFFFFFFF & p->moveState);
+        p->moveState = MOVESTATE_IN_AIR | ((~MOVESTATE_20000000) & p->moveState);
         p->callback = Player_800DB30;
         return;
     } else {
@@ -5196,14 +5196,14 @@ void Player_800A724(Player *p)
 void Player_800A7CC(Player *p)
 {
     PlayerSpriteInfo *temp_r2;
-    u8 *temp_r2_2;
 
     Player_8012FE0(p);
-    p->moveState = (p->moveState & 0xFDFFFFD1) | 0x20000000;
+    p->moveState &= ~(MOVESTATE_2000000 | MOVESTATE_COLLIDING_ENT | MOVESTATE_8 | MOVESTATE_JUMPING);
+    p->moveState |= MOVESTATE_20000000;
     sub_8016F28(p);
     p->charFlags.anim0 = 0x8E;
     temp_r2 = p->spriteInfoBody;
-    temp_r2->s.frameFlags &= 0xFFFFBFFF;
+    temp_r2->s.frameFlags &= ~SPRITE_FLAG_MASK_ANIM_OVER;
     p->unk26 = 0;
     p->qSpeedGround = 0;
 
@@ -15096,7 +15096,7 @@ u32 sub_8016FA8(Player *p)
 
 void sub_8017004(Player *p)
 {
-    if ((0x24 & p->moveState) == 0x20) {
+    if (((MOVESTATE_COLLIDING_ENT | MOVESTATE_IN_AIR) & p->moveState) == MOVESTATE_COLLIDING_ENT) {
         if ((gStageData.gameMode != 7) && (p->moveState & MOVESTATE_TAG_ACTION_CHARGED)) {
             SetPlayerCallback(p, Player_80077CC);
         } else {
@@ -15191,7 +15191,7 @@ void sub_80171C0(Player *p)
     if (p->qSpeedGround > 0) {
         s->frameFlags |= 0x400;
     }
-    s->anim = 0x531;
+    s->anim = ANIM_GRINDING;
     s->x = 0;
     s->y = 0;
     s->oamFlags = p->spriteInfoBody->s.oamFlags + 0x40;
@@ -15220,7 +15220,7 @@ void sub_8017258(Player *p)
     if (p->qSpeedGround > 0) {
         s->frameFlags |= 0x400;
     }
-    s->anim = 0x543;
+    s->anim = ANIM_1347;
     s->x = 0;
     s->y = 0;
     s->oamFlags = p->spriteInfoBody->s.oamFlags + 0x40;

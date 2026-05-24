@@ -108,7 +108,7 @@ extern void sa2__sub_801F044();
 extern void sub_8056090(s32, u8, s32);
 extern void sub_8056AB0();
 extern void sub_8056AFC(u8);
-extern void sub_8056B78();
+extern void CraeteStageIntro();
 extern void sub_8057ECC();
 extern void sub_806611C(u8);
 extern void sub_8081C80();
@@ -464,14 +464,14 @@ void Task_00_8002988(void)
                     sub_8057ECC();
                 } else {
                     sub_806611C(sd->zone);
-                    sub_8056B78();
+                    CraeteStageIntro();
                 }
             } else if (sd->zone == ZONE_FINAL) {
                 sub_806611C(sd->zone);
-                sub_8056B78();
+                CraeteStageIntro();
             } else if (sd->zone == ZONE_UNUSED) {
                 sub_806611C(sd->zone);
-                sub_8056B78();
+                CraeteStageIntro();
                 sub_8081C80();
             }
         }

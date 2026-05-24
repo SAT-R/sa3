@@ -221,6 +221,6 @@ void sub_8056090() { }
 void sub_809BFE8() { }
 void sub_8056AB0() { }
 void sub_8056AFC() { }
-void sub_8056B78() { }
+void CraeteStageIntro() { }
 void sub_8057ECC() { }
 void sub_8081C80() { }
