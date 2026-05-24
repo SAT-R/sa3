@@ -1437,7 +1437,7 @@ void sub_8005800(Player *p)
     s8 var_r5;
 
     var_r5 = -1;
-    if ((p->unk4E == 0) && (0x30 & p->keyInput) != 0) {
+    if ((p->unk4E == 0) && (DPAD_SIDEWAYS & p->keyInput) != 0) {
         if (p->qSpeedGround > 0) {
             if (DPAD_RIGHT & p->keyInput) {
                 sub_80059A0(p, 0U);
@@ -1487,7 +1487,8 @@ void sub_8005800(Player *p)
     sub_8014E70(p);
     if (gStageData.gameMode != 7) {
         if (((0x44 & p->moveState) == 0x40) && !((p->unk26 + 0x20) & 0xC0)) {
-            if (((0x10 & p->keyInput) && !(0x10 & p->keyInput2)) || ((0x20 & p->keyInput) && !(0x20 & p->keyInput2))) {
+            if (((DPAD_RIGHT & p->keyInput) && !(DPAD_RIGHT & p->keyInput2))
+                || ((DPAD_LEFT & p->keyInput) && !(DPAD_LEFT & p->keyInput2))) {
                 if (!(MOVESTATE_TAG_ACTION_CHARGED & p->moveState)) {
                     var_r0_2 = 0x21;
                     p->charFlags.anim0 = var_r0_2;
@@ -1712,11 +1713,11 @@ void Player_8005CB8(Player *p)
     }
 
     if ((s32)screenX < var_r1) {
-        p->keyInput2 = 0x10;
-        p->keyInput = 0x10;
+        p->keyInput2 = DPAD_RIGHT;
+        p->keyInput = DPAD_RIGHT;
     } else if ((s32)screenX > var_r2) {
-        p->keyInput = 0x20;
-        p->keyInput2 = 0x20;
+        p->keyInput = DPAD_LEFT;
+        p->keyInput2 = DPAD_LEFT;
     } else {
         p->keyInput = 0;
         p->keyInput2 = 0;
@@ -3716,12 +3717,12 @@ void Player_8008654(Player *p)
     if (!sub_8014BC4(p)) {
         temp_r2 = p->moveState;
         if (p->moveState & 1) {
-            if (0x10 & p->keyInput) {
+            if (DPAD_RIGHT & p->keyInput) {
                 p->moveState &= ~1;
                 p->callback = sub_800DFEC;
                 return;
             }
-        } else if (0x20 & p->keyInput) {
+        } else if (DPAD_LEFT & p->keyInput) {
             p->moveState |= 1;
             p->callback = sub_800DFEC;
             return;
@@ -3796,7 +3797,7 @@ NONMATCH("asm/non_matching/game/stage/player__Player_80087CC.inc", void Player_8
 
     temp_r8 = &p->spriteInfoBody->s;
     temp_r7 = p->charFlags.anim2 - gPlayerCharacterIdleAnims[p->charFlags.character];
-    if (!(0x80 & p->keyInput)) {
+    if (!(DPAD_DOWN & p->keyInput)) {
         s16 velocityLutIndex;
         p->moveState &= ~0x10;
         velocityLutIndex = (s32)(p->Spindash_Velocity << 0x10) >> 0x18;
@@ -5172,15 +5173,15 @@ void Player_800A724(Player *p)
         Player_StopSong(p, SE_607);
         p->qSpeedAirX = 0;
         if (tempUnk26 & 0x80) {
-            p->qSpeedAirY = +0x700;
+            p->qSpeedAirY = +Q(7);
         } else {
-            p->qSpeedAirY = -0x700;
+            p->qSpeedAirY = -Q(7);
         }
 
         if (0x10000 & p->moveState) {
-            p->qWorldY = p->qWorldY - (p->qSpeedAirY * 2);
+            p->qWorldY -= (p->qSpeedAirY * 2);
         } else {
-            p->qWorldY = p->qWorldY + (p->qSpeedAirY * 2);
+            p->qWorldY += (p->qSpeedAirY * 2);
         }
 
         p->moveState = MOVESTATE_IN_AIR | (0xDFFFFFFF & p->moveState);
@@ -5716,7 +5717,7 @@ void Player_800B240(Player *p)
         return;
     }
 
-    if (0x20 & p->keyInput) {
+    if (DPAD_LEFT & p->keyInput) {
         p->charFlags.anim0 = 8;
         p->qSpeedGround = -Q(3);
         if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
@@ -5724,7 +5725,7 @@ void Player_800B240(Player *p)
         } else {
             p->moveState |= 1;
         }
-    } else if (0x10 & p->keyInput) {
+    } else if (DPAD_RIGHT & p->keyInput) {
         var_r5 += 4;
         p->charFlags.anim0 = 8;
         p->qSpeedGround = +Q(6);
@@ -5784,7 +5785,7 @@ void Player_800B3FC(Player *p)
         return;
     }
 
-    if (0x20 & p->keyInput) {
+    if (DPAD_LEFT & p->keyInput) {
         var_r5 -= 4;
         p->charFlags.anim0 = 8;
         p->qSpeedGround = -Q(6);
@@ -5793,7 +5794,7 @@ void Player_800B3FC(Player *p)
         } else {
             p->moveState |= 1;
         }
-    } else if (0x10 & p->keyInput) {
+    } else if (DPAD_RIGHT & p->keyInput) {
         p->charFlags.anim0 = 8;
         p->qSpeedGround = +Q(3);
         if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
@@ -6008,23 +6009,23 @@ void Player_800B81C(Player *p)
     sub_8005800(p);
     sub_8016E00(p);
     p->callback = Player_800B81C;
-    if ((sub_801480C(p) << 0x10) != 0) {
-        p->moveState &= ~0x20;
+    if (sub_801480C(p)) {
+        p->moveState &= ~MOVESTATE_COLLIDING_ENT;
         p->qWorldY -= Q(8);
-        Player_StopSong(p, 0x263U);
+        Player_StopSong(p, SE_UFO_PLATFORM);
         return;
     }
 
-    if (0x30 & p->keyInput) {
-        if (0x20 & p->keyInput) {
-            if (!(p->moveState & 1)) {
-                p->moveState |= 1;
+    if (DPAD_SIDEWAYS & p->keyInput) {
+        if (DPAD_LEFT & p->keyInput) {
+            if (!(p->moveState & MOVESTATE_FACING_LEFT)) {
+                p->moveState |= MOVESTATE_FACING_LEFT;
                 return;
             }
         }
-        if (0x10 & p->keyInput) {
-            if (1 & p->moveState) {
-                p->moveState &= ~1;
+        if (DPAD_RIGHT & p->keyInput) {
+            if (MOVESTATE_FACING_LEFT & p->moveState) {
+                p->moveState &= ~MOVESTATE_FACING_LEFT;
             }
         }
     }
@@ -9485,12 +9486,11 @@ void Player_800FA1C(Player *p)
         SetPlayerCallback(p, Player_80108FC);
     } else {
         var_r2 = 1;
-        if (0x20 & p->keyInput) {
+        if (DPAD_LEFT & p->keyInput) {
             if (temp_r4->b.unk2 == 0) {
                 temp_r4->b.unk2 += 1;
             }
-        } else if ((0x10 & p->keyInput) && (temp_r4->b.unk2 == 1)) {
-        block_7:
+        } else if ((DPAD_RIGHT & p->keyInput) && (temp_r4->b.unk2 == 1)) {
             temp_r4->b.unk2 += 1;
         }
         if (temp_r4->b.unk2 == 2) {
@@ -9600,9 +9600,9 @@ void sub_800FC30(Player *p)
     s16 var_r0_6;
     bool32 playerNotSonic = (p->charFlags.character == SONIC) ? FALSE : TRUE;
 
-    if (0x40 & p->keyInput) {
+    if (DPAD_UP & p->keyInput) {
         p->qSpeedAirY -= 0x40;
-    } else if (0x80 & p->keyInput) {
+    } else if (DPAD_DOWN & p->keyInput) {
         p->qSpeedAirY += 0x40;
     } else {
         if (p->qSpeedAirY != 0) {
@@ -9626,10 +9626,10 @@ void sub_800FC30(Player *p)
         }
     }
 
-    if (0x20 & p->keyInput) {
-        p->qSpeedAirX -= 0x40;
-    } else if (0x10 & p->keyInput) {
-        p->qSpeedAirX += 0x40;
+    if (DPAD_LEFT & p->keyInput) {
+        p->qSpeedAirX -= Q(0.25);
+    } else if (DPAD_RIGHT & p->keyInput) {
+        p->qSpeedAirX += Q(0.25);
     } else {
         if (p->qSpeedAirX != 0) {
             if (p->qSpeedAirX < 0) {
@@ -9664,9 +9664,9 @@ void sub_800FC30(Player *p)
 void sub_800FD60(Player *p)
 {
     if (DPAD_UP & p->keyInput) {
-        p->qSpeedAirY -= 0x40;
+        p->qSpeedAirY -= Q(0.25);
     } else if (DPAD_DOWN & p->keyInput) {
-        p->qSpeedAirY += 0x40;
+        p->qSpeedAirY += Q(0.25);
     } else {
         if (p->qSpeedAirY != 0) {
             if (p->qSpeedAirY < 0) {
@@ -9676,16 +9676,16 @@ void sub_800FD60(Player *p)
             }
         }
 
-        if (ABS(p->qSpeedAirY) < 0x40) {
+        if (ABS(p->qSpeedAirY) < Q(0.25)) {
             p->qSpeedAirY = 0;
         }
     }
 
-    if (ABS(p->qSpeedAirY) > 0x180) {
+    if (ABS(p->qSpeedAirY) > Q(1.5)) {
         if (p->qSpeedAirY < 0) {
-            p->qSpeedAirY = -0x180;
+            p->qSpeedAirY = -Q(1.5);
         } else {
-            p->qSpeedAirY = +0x180;
+            p->qSpeedAirY = +Q(1.5);
         }
     }
 
@@ -9707,11 +9707,11 @@ void sub_800FD60(Player *p)
         }
     }
 
-    if (ABS(p->qSpeedAirX) > 0x180) {
+    if (ABS(p->qSpeedAirX) > Q(1.5)) {
         if (p->qSpeedAirX < 0) {
-            p->qSpeedAirX = -0x180;
+            p->qSpeedAirX = -Q(1.5);
         } else {
-            p->qSpeedAirX = +0x180;
+            p->qSpeedAirX = +Q(1.5);
         }
     }
 }
@@ -14259,8 +14259,8 @@ s32 sub_8015460(Player *p)
     }
 
     if (DPAD_RIGHT & p->keyInput) {
-        if (1 & p->moveState) {
-            p->moveState &= ~1;
+        if (p->moveState & MOVESTATE_FACING_LEFT) {
+            p->moveState &= ~MOVESTATE_FACING_LEFT;
             var_r0 = 0;
             p->qSpeedAirX = var_r0;
             var_r5 = 3;
@@ -14271,8 +14271,8 @@ s32 sub_8015460(Player *p)
             var_r5 = 1;
         }
     } else if (DPAD_LEFT & p->keyInput) {
-        if (!(p->moveState & 1)) {
-            p->moveState |= 1;
+        if (!(p->moveState & MOVESTATE_FACING_LEFT)) {
+            p->moveState |= MOVESTATE_FACING_LEFT;
             p->qSpeedAirX = 0;
             var_r5 = 3;
         } else {
@@ -14419,7 +14419,7 @@ bool32 sub_8015568(Player *p)
                 SetPlayerCallback(p, sub_800C87C);
                 sub_801EBC0(0xD, p);
                 return 1;
-            } else if (((DPAD_ANY & p->keyInput) == 0x80) && (p->unkC & 0x20)) {
+            } else if (((DPAD_ANY & p->keyInput) == DPAD_DOWN) && (p->unkC & 0x20)) {
                 sub_8015568__shared_inline(p);
 
                 SetPlayerCallback(p, sub_801E888);
@@ -18470,7 +18470,7 @@ void sub_801B458(Player *p)
         return;
     }
 
-    if (((0x20 & p->keyInput) && !(p->moveState & 1)) || ((0x10 & p->keyInput) && (p->moveState & 1))) {
+    if (((DPAD_LEFT & p->keyInput) && !(p->moveState & 1)) || ((DPAD_RIGHT & p->keyInput) && (p->moveState & 1))) {
         p->charFlags.anim0 = 0xCF;
     } else if ((p->charFlags.anim0 != 0xCF) || (p->spriteInfoBody->s.frameFlags & 0x4000)) {
         p->charFlags.anim0 = 0xCE;
@@ -18516,7 +18516,7 @@ void sub_801B58C(Player *p)
         return;
     }
 
-    if (((0x20 & p->keyInput) && !(p->moveState & 1)) || ((0x10 & p->keyInput) && (p->moveState & MOVESTATE_FACING_LEFT))) {
+    if (((DPAD_LEFT & p->keyInput) && !(p->moveState & 1)) || ((DPAD_RIGHT & p->keyInput) && (p->moveState & MOVESTATE_FACING_LEFT))) {
         p->charFlags.anim0 = 0xD2;
     } else if ((p->charFlags.anim0 != 0xCF) || (p->spriteInfoBody->s.frameFlags & 0x4000)) {
         p->charFlags.anim0 = 0xD1;
@@ -18568,7 +18568,8 @@ void sub_801B6A8(Player *p)
         return;
     }
 
-    if (((0x20 & p->keyInput) && !(p->moveState & 1)) || ((0x10 & p->keyInput) && (p->moveState & 1)) || (p->charFlags.anim0 != 0xD4)) {
+    if (((DPAD_LEFT & p->keyInput) && !(p->moveState & 1)) || ((DPAD_RIGHT & p->keyInput) && (p->moveState & 1))
+        || (p->charFlags.anim0 != 0xD4)) {
         p->charFlags.anim0 = 0xD4;
     } else if (p->spriteInfoBody->s.frameFlags & 0x4000) {
         p->charFlags.anim0 = 0xD4;
@@ -18683,7 +18684,7 @@ void sub_801B9A8(Player *p)
         return;
     }
 
-    if (((0x20 & p->keyInput) && !(p->moveState & 1)) || ((0x10 & p->keyInput) && (p->moveState & 1))) {
+    if (((DPAD_LEFT & p->keyInput) && !(p->moveState & 1)) || ((DPAD_RIGHT & p->keyInput) && (p->moveState & 1))) {
         p->charFlags.anim0 = 0xD7;
         return;
     }
@@ -18742,12 +18743,12 @@ void sub_801BAFC(Player *p)
             p->charFlags.anim0 = 0xD9;
         }
     } else {
-        if (0x20 & p->keyInput) {
+        if (DPAD_LEFT & p->keyInput) {
             if (!(p->moveState & 1)) {
                 p->charFlags.anim0 = 0xDA;
             }
             p->qSpeedAirX -= 0x20;
-        } else if (0x10 & p->keyInput) {
+        } else if (DPAD_RIGHT & p->keyInput) {
             if (p->moveState & 1) {
                 p->charFlags.anim0 = 0xDA;
             }
@@ -19218,7 +19219,7 @@ void sub_801C4A0(Player *p)
             p->charFlags.anim0 = 0xEF;
         }
 
-        if ((0x40 & p->keyInput) && (p->charFlags.anim2 == 0x23C)) {
+        if ((DPAD_UP & p->keyInput) && (p->charFlags.anim2 == 0x23C)) {
             p->moveState = p->moveState & 0xDFFFFFFF;
             p->unk5B = (p->unk5B + 1) & 0xF;
             var_r6_2 = (s8)(u8)p->spriteOffsetY << 8;
@@ -19282,7 +19283,7 @@ void sub_801C4A0(Player *p)
                 p->qSpeedAirY = -qSpeedAirY;
                 var_r4 = 0;
             }
-        } else if ((p->keyInput & 0x80) && (p->charFlags.anim2 == 0x23C)) {
+        } else if ((p->keyInput & DPAD_DOWN) && (p->charFlags.anim2 == 0x23C)) {
             p->moveState = p->moveState & 0xDFFFFFFF;
             p->unk5B = (p->unk5B + 1) & 0xF;
             var_r6_2 = Q(p->spriteOffsetY);
@@ -19344,7 +19345,7 @@ void sub_801C4A0(Player *p)
 
         if (var_r4 <= 0) {
         block_47:
-            if (!(0xC0 & p->keyInput) || (p->charFlags.anim2 == 0x23B)) {
+            if (!(p->keyInput & DPAD_VERTICAL) || (p->charFlags.anim2 == 0x23B)) {
                 var_r4 = sub_8011024(3, p, &sp0, NULL);
                 if (var_r4 < 0) {
                 block_50:
@@ -19378,12 +19379,12 @@ void sub_801C4A0(Player *p)
         if (p->keyInput2 & gStageData.buttonConfig.jump) {
             if ((p->unkC & 0x1800) == 0x1000) {
                 if (p->moveState & 1) {
-                    if (0x20 & p->keyInput) {
+                    if (DPAD_LEFT & p->keyInput) {
                         SetPlayerCallback(p, sub_801DE94);
                     } else {
                         SetPlayerCallback(p, Player_800657C);
                     }
-                } else if (0x10 & p->keyInput) {
+                } else if (DPAD_RIGHT & p->keyInput) {
                     SetPlayerCallback(p, sub_801DE94);
                 } else {
                     SetPlayerCallback(p, Player_800657C);
@@ -19943,14 +19944,14 @@ NONMATCH("asm/non_matching/game/stage/player__Player_801D1D0.inc", void Player_8
         p->qSpeedGround = +qSpeedGround;
     }
 
-    if (0x20 & p->keyInput) {
+    if (DPAD_LEFT & p->keyInput) {
         if ((u8)var_r2 != 0x80) {
             if (var_r2 < 0) {
                 var_r2 = -var_r2;
             }
             var_r2 += 2;
         }
-    } else if (0x10 & p->keyInput) {
+    } else if (DPAD_RIGHT & p->keyInput) {
         if (var_r2 != 0) {
             if (var_r2 > 0) {
                 var_r2 = -var_r2;
