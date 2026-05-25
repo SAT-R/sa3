@@ -77,7 +77,7 @@ bool32 sub_802CE4C() { return FALSE; }
 
 void sub_8052D8C() { }
 void sub_8053128() { }
-void sub_8057AA0(u16 param0, u16 param1, u8 param2) { }
+void StageIntro_ShowZoneName(u16 zone, u16 param1, u8 param2) { }
 void CreateGmerl1() { }
 void CreateBoss_8068B3C() { }
 void CreateBoss_806A90C() { }
@@ -221,6 +221,6 @@ void sub_8056090() { }
 void sub_809BFE8() { }
 void sub_8056AB0() { }
 void sub_8056AFC() { }
-void CraeteStageIntro() { }
+void CreateStageIntro() { }
 void sub_8057ECC() { }
 void sub_8081C80() { }

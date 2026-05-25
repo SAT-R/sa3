@@ -83,7 +83,7 @@ void sub_80299FC(void);
 void sub_8029A18(u16 songId);
 bool32 sub_802C140(s32 worldX, s32 worldY, s32 screenX, s32 screenY);
 bool32 IsScreenPtActive32px(s32, s32);
-void sub_8057AA0(u16, u16, u8);
+void StageIntro_ShowZoneName(u16, u16, u8);
 void sub_8053128(s16, s16);
 bool32 sub_805C510(Sprite *s);
 bool8 sub_8079FFC(void);

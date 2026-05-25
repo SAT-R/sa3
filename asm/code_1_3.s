@@ -2412,7 +2412,7 @@ _08054428:
 	adds r0, #1
 	movs r1, #0
 	movs r2, #0
-	bl sub_8057AA0
+	bl StageIntro_ShowZoneName
 	ldr r0, _08054478 @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy

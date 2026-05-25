@@ -203,7 +203,7 @@ void Task_802DA3C(void)
     gBgSpritesCount = 0;
     gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
 
-    sub_8057AA0(gStageData.zone, 0, 0);
+    StageIntro_ShowZoneName(gStageData.zone, 0, 0);
 }
 
 void Task_802DADC(void)
