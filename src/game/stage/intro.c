@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "color.h"
 #include "flags.h"
 #include "malloc_vram.h"
 #include "module_unclear.h"
@@ -7,6 +8,8 @@
 #include "game/save.h"
 #include "game/stage.h"
 #include "constants/animations.h"
+
+extern ColorRaw Palette_unknown_354[]; // Pal of Tilemap 354
 
 typedef struct {
     /* 0x00 */ u8 unk0;
@@ -42,6 +45,7 @@ typedef struct {
 } Strc_170_StageIntro;
 
 void sub_8057054(void);
+void sub_8057F7C(void);
 void Task_8057FE8(void);
 void TaskDestructor_StageIntro(struct Task *t);
 void sub_80578EC(s32, s32);
@@ -327,76 +331,80 @@ void CreateStageIntro(void)
 }
 
 #if 0
-void sub_8057054(StageIntro_70 *strc70)
+void sub_8057054(void)
 {
     s32 sp0;
     TileInfo2 *temp_r4_3;
     s32 temp_r4_2;
     s32 var_r1;
-    u8 temp_r1;
     u8 temp_r4;
+    StageIntro_70 *strc70 = TASK_DATA(gCurTask);
+    Background *bg;
+    Sprite *s;
 
-    temp_r1 = strc70->unk1 + 8;
-    strc70->unk1 = temp_r1;
+    strc70->unk1 += 8;
     strc70->unk2 -= 8;
-    if ((u32)temp_r1 <= 0x43U) {
-        gWinRegs[3] = strc70->unk2 | (strc70->unk1 << 8);
+    if (strc70->unk1 < 69) {
+        gWinRegs[3] = WIN_RANGE(strc70->unk1, strc70->unk2);
         return;
     }
-    strc70->unk1 = 0x44;
-    strc70->unk2 = 0x5C;
-    gWinRegs[3] = 0x4400 | 0x5C;
+    strc70->unk1 = 68;
+    strc70->unk2 = 92;
+    gWinRegs[3] = WIN_RANGE(strc70->unk1, strc70->unk2);
     temp_r4 = gStageData.zone;
-    strc70->bg.graphics.dest = (void *)0x06008000;
-    strc70->bg.graphics.anim = 0;
-    strc70->bg.layoutVram = (u16 *)0x0600A000;
-    strc70->bg.unk18 = 0;
-    strc70->bg.unk1A = 0;
-    strc70->bg.tilemapId = 0x162;
-    strc70->bg.unk1E = 0;
-    strc70->bg.unk20 = 0;
-    strc70->bg.unk22 = 0;
-    strc70->bg.unk24 = 0;
-    strc70->bg.targetTilesX = 0x20;
-    strc70->bg.targetTilesY = 0x15;
-    strc70->bg.paletteOffset = 0;
-    strc70->bg.animFrameCounter = 0;
-    strc70->bg.animDelayCounter = 0;
-    strc70->bg.flags = 0x10;
-    strc70->bg.scrollX = 0;
-    strc70->bg.scrollY = 0;
+    bg = &strc70->bg;
+    bg->graphics.dest = (void *)(BG_VRAM + 0x8000);
+    bg->graphics.anim = 0;
+    bg->layoutVram = (void *)(BG_VRAM + 0xA000);
+    bg->unk18 = 0;
+    bg->unk1A = 0;
+    bg->tilemapId = 354;
+    bg->unk1E = 0;
+    bg->unk20 = 0;
+    bg->unk22 = 0;
+    bg->unk24 = 0;
+    bg->targetTilesX = 32;
+    bg->targetTilesY = 21;
+    bg->paletteOffset = 0;
+    bg->animFrameCounter = 0;
+    bg->animDelayCounter = 0;
+    bg->flags = 0x10;
+    bg->scrollX = 0;
+    bg->scrollY = 0;
     sp0 = 0;
-    DrawBackground(&strc70->bg);
+    DrawBackground(bg);
+
     gDispCnt |= 0x100;
-    *gBgCntRegs = 0x1408;
+    gBgCntRegs[0] = 0x1408;
     gBgScrollRegs[0][0] = 0;
-    gBgScrollRegs[0][1] = (temp_r4 * 0x18) - 0x44;
-    (void *)0x040000D4->unk0 = (void *)(&Palette_unknown_354 + 0xE0);
-    (void *)0x040000D4->unk4 = &gBgPalette[0x70];
-    (void *)0x040000D4->unk8 = 0x80000090;
-    gFlags |= 1;
-    var_r1 = 0;
-    if (gLoadedSaveGame.unk366 != 0) {
+    gBgScrollRegs[0][1] = (temp_r4 * 24) - 68;
+    DmaCopy16(3, (void *)(&Palette_unknown_354[0xE0]), &gBgPalette[0x70], 180);
+    gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+
+    if (LOADED_SAVE->language != JAPANESE) {
         var_r1 = 9;
+    } else {
+        var_r1 = 0;
     }
+
     temp_r4_2 = temp_r4 + var_r1;
     sp0 = 0;
-    strc70->s.tiles = VramMalloc(*((temp_r4_2 * 8) + &gUnknown_080D1D88->numTiles));
-    temp_r4_3 = &gUnknown_080D1D88[temp_r4_2];
-    strc70->s.anim = temp_r4_3->anim;
-    strc70->s.variant = temp_r4_3->variant;
-    strc70->s.oamFlags = 0x480;
-    strc70->s.animCursor = 0;
-    strc70->s.qAnimDelay = 0;
-    strc70->s.prevVariant = 0xFF;
-    strc70->s.animSpeed = 0x10;
-    strc70->s.palId = 0;
-    strc70->s.frameFlags = 0;
-    strc70->s.x = 0xA8;
-    strc70->s.y = 0x50;
-    strc70->s.hitboxes[0].index = -1;
+    s = &strc70->s;
+    s->tiles = VramMalloc(gUnknown_080D1D88[temp_r4_2].numTiles);
+    s->anim = gUnknown_080D1D88[temp_r4_2] .anim;
+    s->variant = gUnknown_080D1D88[temp_r4_2] .variant;
+    s->oamFlags = 0x480;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = 0xFF;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    s->x = 168;
+    s->y = 80;
+    s->hitboxes[0].index = -1;
     sp0 = 0;
-    UpdateSpriteAnimation(&strc70->s);
+    UpdateSpriteAnimation(s);
     strc70->unk4 = 0x3C;
     gWinRegs[4] = 0x3F00;
     gBldRegs.bldCnt = 0xAE;

@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start sub_8057054
 sub_8057054: @ 0x08057054
 	push {r4, r5, r6, r7, lr}
@@ -223,6 +221,7 @@ _0805721C: .4byte gUnknown_080D1D88
 _08057220: .4byte gBldRegs
 _08057224: .4byte gCurTask
 _08057228: .4byte sub_8057F7C
+.endif
 
 	thumb_func_start sub_805722C
 sub_805722C: @ 0x0805722C
