@@ -10,6 +10,7 @@
 #include "game/save.h"
 #include "game/stage.h"
 #include "constants/animations.h"
+#include "constants/move_states.h"
 
 extern ColorRaw Palette_unknown_354[]; // Pal of Tilemap 354
 
@@ -737,4 +738,76 @@ void sub_8057848(void)
     gBldRegs.bldCnt = 0x3FEF;
     gBldRegs.bldY = (strc170->unkC >> 4);
     gBldRegs.bldAlpha = 0x10 - (strc170->unkC >> 4);
+}
+
+void sub_80578EC(s32 arg0, s32 arg1)
+{
+    Player *p;
+    PlayerSpriteInfo *psi;
+    u8 i;
+    Cheese *cheese;
+
+    gStageData.unkBC = 0;
+    if (arg0 != 0) {
+        for (i = 0; i < (s32)ARRAY_COUNT(gPlayers); i++) {
+            p = &gPlayers[i];
+            if (p->charFlags.someIndex != 0) {
+                psi = p->spriteInfoBody;
+                psi->s.frameFlags |= 0x80;
+                psi = p->spriteInfoLimbs;
+                if (psi != NULL) {
+                    psi->s.frameFlags |= 0x80;
+                }
+            }
+        }
+
+        if (gStageData.taskCheese != NULL) {
+            Cheese *cheese = TASK_DATA(gStageData.taskCheese);
+            cheese->s.frameFlags |= 0x80;
+        }
+        gStageData.unkBC |= 1;
+    } else {
+        for (i = 0; i < (s32)ARRAY_COUNT(gPlayers); i++) {
+            p = &gPlayers[i];
+            if (p->charFlags.someIndex != 0) {
+                psi = p->spriteInfoBody;
+                psi->s.frameFlags &= ~0x80;
+                psi = p->spriteInfoLimbs;
+                if (psi != NULL) {
+                    psi->s.frameFlags &= ~0x80;
+                }
+            }
+        }
+
+        if (gStageData.taskCheese != NULL) {
+            Cheese *cheese = TASK_DATA(gStageData.taskCheese);
+            cheese->s.frameFlags &= ~0x80;
+        }
+    }
+    if (arg1 != 0) {
+        for (i = 0; i < (s32)ARRAY_COUNT(gPlayers); i++) {
+            p = &gPlayers[i];
+            if (p->charFlags.someIndex != 0) {
+                p->moveState |= MOVESTATE_4000000;
+            }
+        }
+
+        if (gStageData.taskCheese != NULL) {
+            Cheese *cheese = TASK_DATA(gStageData.taskCheese);
+            cheese->moveState |= CMS_INVISIBLE;
+        }
+        gStageData.unkBC |= 2;
+    } else {
+        for (i = 0; i < (s32)ARRAY_COUNT(gPlayers); i++) {
+            p = &gPlayers[i];
+            if (p->charFlags.someIndex != 0) {
+                p->moveState &= ~MOVESTATE_4000000;
+            }
+        }
+
+        if (gStageData.taskCheese != NULL) {
+            Cheese *cheese = TASK_DATA(gStageData.taskCheese);
+            cheese->moveState &= ~CMS_INVISIBLE;
+        }
+    }
 }
