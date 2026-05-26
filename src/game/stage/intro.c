@@ -31,8 +31,8 @@ typedef struct {
     /* 0x005 */ u8 unk5;
     /* 0x006 */ u8 unk6;
     /* 0x007 */ u8 unk7[3];
-    /* 0x00A */ s16 unkA;
-    /* 0x00C */ s16 unkC;
+    /* 0x00A */ u16 unkA;
+    /* 0x00C */ u16 unkC;
     /* 0x010 */ s32 unk10;
     /* 0x014 */ s32 unk14;
     /* 0x018 */ s32 unk18;
@@ -43,10 +43,14 @@ typedef struct {
     /* 0x138 */ Sprite sprite138;
     /* 0x160 */ SpriteTransform tf;
     /* 0x16C */ void *unk16C;
-} Strc_170_StageIntro;
+} StageIntro_170;
 
 void Task_70_8057054(void);
+void Task_70_805722C(void);
+void Task_70_80572CC(void);
 void Task_StageIntroScreenFade(void);
+void Task_170_80573AC(void);
+void sub_8057848(void);
 void Task_70_8057F7C(void);
 void Task_170_8057FE8(void);
 void TaskDestructor_StageIntro(struct Task *t);
@@ -101,7 +105,7 @@ void CreateStageIntro(void)
     StageData *var_ip;
     s32 var_r1;
     s32 var_r3;
-    Strc_170_StageIntro *strc;
+    StageIntro_170 *strc;
     u8 *temp_r2_2;
     u8 *temp_r2_3;
     u8 *temp_r2_4;
@@ -173,7 +177,7 @@ void CreateStageIntro(void)
         var_r6 = gStageData.act;
     }
 
-    strc = TASK_DATA(TaskCreate(Task_170_8057FE8, sizeof(Strc_170_StageIntro), 0x2100U, 0U, TaskDestructor_StageIntro));
+    strc = TASK_DATA(TaskCreate(Task_170_8057FE8, sizeof(StageIntro_170), 0x2100U, 0U, TaskDestructor_StageIntro));
     strc->unk0 = 0;
     strc->unk1 = zone;
     strc->unk2 = (u8)(var_r6 - 3);
@@ -418,3 +422,74 @@ NONMATCH("asm/non_matching/game/stage/intro__Task_70_8057054.inc", void Task_70_
     gCurTask->main = Task_70_8057F7C;
 }
 END_NONMATCH
+
+void Task_70_805722C()
+{
+    StageIntro_70 *strc70 = TASK_DATA(gCurTask);
+
+    strc70->unk1 += 4;
+    strc70->unk2 -= 4;
+    if (strc70->unk1 < strc70->unk2) {
+        DisplaySprite(&strc70->s);
+        gWinRegs[3] = WIN_RANGE(strc70->unk1, strc70->unk2);
+        return;
+    }
+    gDispCnt = (0xBEFF & gDispCnt) | 0x2000;
+    gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
+    gWinRegs[2] = WIN_RANGE(0, DISPLAY_HEIGHT);
+    VramFree(strc70->s.tiles);
+    gWinRegs[4] = 0x3F;
+    gWinRegs[5] = 0;
+    gBldRegs.bldCnt = 0xFF;
+    gBldRegs.bldAlpha = 0;
+    gBldRegs.bldY = 0x10;
+    strc70->unk3 = 0x10;
+    gCurTask->main = Task_70_80572CC;
+}
+
+void Task_70_80572CC()
+{
+    StageIntro_70 *strc70 = TASK_DATA(gCurTask);
+
+    strc70->unk3 -= 1;
+    gBldRegs.bldY = strc70->unk3;
+    if (strc70->unk3 == 0) {
+        if ((gStageData.gameMode > 4U) && (gStageData.gameMode != 7)) {
+            gStageData.unk4 = 2;
+        } else {
+            gStageData.unk4 = 3;
+        }
+
+        gDispCnt &= 0xDFFF;
+        TaskDestroy(gCurTask);
+    }
+}
+
+void Task_170_805732C()
+{
+    Sprite *s;
+    s16 temp_r1;
+    u16 temp_r0;
+    StageIntro_170 *strc170 = TASK_DATA(gCurTask);
+
+    s = strc170->sprites20;
+    strc170->unkA++;
+    strc170->unk5 = ((strc170->unkA * 7) >> 1) + 80;
+    if (strc170->unkA > 8U) {
+        if (strc170->unkC != 0) {
+            strc170->unkC -= 0x10;
+        }
+
+        sub_80578EC(1, 0);
+    } else {
+        sub_80578EC(1, 1);
+    }
+    if (strc170->unkA == 0x10) {
+        strc170->unkA = 0;
+        gCurTask->main = Task_170_80573AC;
+    }
+    sub_8057848();
+    s->y = strc170->unk5;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
