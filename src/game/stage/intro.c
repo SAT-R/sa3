@@ -15,9 +15,9 @@ typedef struct {
     /* 0x00 */ u8 unk0;
     /* 0x01 */ int_vcount unk1;
     /* 0x02 */ int_vcount unk2;
-	/* 0x03 */ u8 unk3;
-	/* 0x04 */ u16 unk4;
-	/* 0x08 */ Background bg;
+    /* 0x03 */ u8 unk3;
+    /* 0x04 */ u16 unk4;
+    /* 0x08 */ Background bg;
     /* 0x48 */ Sprite s;
 } StageIntro_70; /* 0x70 */
 
@@ -56,25 +56,25 @@ extern const TileInfo2 gUnknown_080D1D88[];
 
 void sub_8056AFC(u8 param0)
 {
-	struct Task *t = TaskCreate(sub_8057054, sizeof(StageIntro_70), 0x84 << 6, 0, NULL);
+    struct Task *t = TaskCreate(sub_8057054, sizeof(StageIntro_70), 0x84 << 6, 0, NULL);
     StageIntro_70 *strc70 = TASK_DATA(t);
 
-	strc70->unk0 = param0;
-	strc70->unk4 = 0;
-	strc70->unk1 = 0;
-	strc70->unk2 = DISPLAY_HEIGHT;
-	strc70->unk3 = 16;
+    strc70->unk0 = param0;
+    strc70->unk4 = 0;
+    strc70->unk1 = 0;
+    strc70->unk2 = DISPLAY_HEIGHT;
+    strc70->unk3 = 16;
 
-	gDispCnt |= 0x4000;
-	gDispCnt &= ~0x2000;
+    gDispCnt |= 0x4000;
+    gDispCnt &= ~0x2000;
 
-	gWinRegs[1] = WIN_RANGE(0, DISPLAY_WIDTH);
-	gWinRegs[3] = WIN_RANGE(0, DISPLAY_HEIGHT);
-	gWinRegs[4] = 0x3F00;
-	gWinRegs[5] = 0;
-	gBldRegs.bldCnt   = 0xBF;
-	gBldRegs.bldAlpha = 0;
-	gBldRegs.bldY     = 0x10;
+    gWinRegs[1] = WIN_RANGE(0, DISPLAY_WIDTH);
+    gWinRegs[3] = WIN_RANGE(0, DISPLAY_HEIGHT);
+    gWinRegs[4] = 0x3F00;
+    gWinRegs[5] = 0;
+    gBldRegs.bldCnt = 0xBF;
+    gBldRegs.bldAlpha = 0;
+    gBldRegs.bldY = 0x10;
 }
 
 void CreateStageIntro(void)
@@ -330,28 +330,25 @@ void CreateStageIntro(void)
     }
 }
 
-#if 0
-void sub_8057054(void)
+// (99.18%) https://decomp.me/scratch/FLvBg
+NONMATCH("asm/non_matching/game/stage/intro__sub_8057054.inc", void sub_8057054(void))
 {
-    s32 sp0;
-    TileInfo2 *temp_r4_3;
-    s32 temp_r4_2;
     s32 var_r1;
-    u8 temp_r4;
+    s32 zone;
     StageIntro_70 *strc70 = TASK_DATA(gCurTask);
     Background *bg;
     Sprite *s;
 
     strc70->unk1 += 8;
     strc70->unk2 -= 8;
-    if (strc70->unk1 < 69) {
+    if (strc70->unk1 < 68) {
         gWinRegs[3] = WIN_RANGE(strc70->unk1, strc70->unk2);
         return;
     }
     strc70->unk1 = 68;
     strc70->unk2 = 92;
     gWinRegs[3] = WIN_RANGE(strc70->unk1, strc70->unk2);
-    temp_r4 = gStageData.zone;
+    zone = gStageData.zone;
     bg = &strc70->bg;
     bg->graphics.dest = (void *)(BG_VRAM + 0x8000);
     bg->graphics.anim = 0;
@@ -371,39 +368,31 @@ void sub_8057054(void)
     bg->flags = 0x10;
     bg->scrollX = 0;
     bg->scrollY = 0;
-    sp0 = 0;
     DrawBackground(bg);
 
     gDispCnt |= 0x100;
     gBgCntRegs[0] = 0x1408;
     gBgScrollRegs[0][0] = 0;
-    gBgScrollRegs[0][1] = (temp_r4 * 24) - 68;
-    DmaCopy16(3, (void *)(&Palette_unknown_354[0xE0]), &gBgPalette[0x70], 180);
+    gBgScrollRegs[0][1] = (zone * 24) - 68;
+    DmaCopy16(3, &Palette_unknown_354[7 * PALETTE_LEN_4BPP], &gBgPalette[7 * PALETTE_LEN_4BPP], ((9 * PALETTE_LEN_4BPP) * sizeof(ColorRaw)));
     gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
 
-    if (LOADED_SAVE->language != JAPANESE) {
-        var_r1 = 9;
-    } else {
-        var_r1 = 0;
-    }
+    var_r1 = (LOADED_SAVE->language != JAPANESE) ? 9 : 0;
 
-    temp_r4_2 = temp_r4 + var_r1;
-    sp0 = 0;
     s = &strc70->s;
-    s->tiles = VramMalloc(gUnknown_080D1D88[temp_r4_2].numTiles);
-    s->anim = gUnknown_080D1D88[temp_r4_2] .anim;
-    s->variant = gUnknown_080D1D88[temp_r4_2] .variant;
+    s->tiles = VramMalloc(gUnknown_080D1D88[zone += var_r1].numTiles);
+    s->anim = gUnknown_080D1D88[zone] .anim;
+    s->variant = gUnknown_080D1D88[zone] .variant;
     s->oamFlags = 0x480;
     s->animCursor = 0;
     s->qAnimDelay = 0;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->animSpeed = 0x10;
     s->palId = 0;
     s->frameFlags = 0;
     s->x = 168;
-    s->y = 80;
+    s->y = DISPLAY_CENTER_Y;
     s->hitboxes[0].index = -1;
-    sp0 = 0;
     UpdateSpriteAnimation(s);
     strc70->unk4 = 0x3C;
     gWinRegs[4] = 0x3F00;
@@ -412,4 +401,4 @@ void sub_8057054(void)
     gBldRegs.bldY = 0x10;
     gCurTask->main = sub_8057F7C;
 }
-#endif
+END_NONMATCH
