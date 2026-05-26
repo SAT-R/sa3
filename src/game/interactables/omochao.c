@@ -25,7 +25,7 @@ typedef struct {
     /* 0x60 */ u8 unk60;
     /* 0x61 */ u8 textId;
     /* 0x62 */ u8 unk62;
-    /* 0x64 */ void *data;
+    /* 0x64 */ NotificationText *notifText;
 } Omochao; /* 0x68 */
 
 #define TXTBOX_X      (DISPLAY_CENTER_X - 88)
@@ -66,7 +66,7 @@ NONMATCH("asm/non_matching/game/interactables/omochao__CreateEntity_Omochao.inc"
         Sprite *s = &omochao->s;
         Sprite *s2 = &omochao->s2;
 
-        omochao->data = EwramMalloc(0xCAC);
+        omochao->notifText = EwramMalloc(0xCAC);
 
         omochao->base.regionX = regionX;
         omochao->base.regionY = regionY;
@@ -147,14 +147,14 @@ void Task_8038058(void)
 {
     Omochao *omochao;
     Player *p;
-    void *data;
+    NotificationText *notifText;
 
     gStageData.unk4 = 4;
     SetSoleBit(gStageData.unkB9, gStageData.playerIndex);
     gStageData.unk85 = 1;
 
     omochao = TASK_DATA(gCurTask);
-    data = omochao->data;
+    notifText = omochao->notifText;
 
     p = &gPlayers[gStageData.playerIndex];
 
@@ -166,12 +166,12 @@ void Task_8038058(void)
     p->qCamOffsetY = -Q(4);
 
     if (sub_8038548()) {
-        if (sub_8023734(data)) {
+        if (sub_8023734(notifText)) {
             omochao->unk60 = 0x10;
             gCurTask->main = Task_80380FC;
         }
 
-        sub_80239A8(data);
+        sub_80239A8(notifText);
     }
 }
 
@@ -179,7 +179,7 @@ void Task_80380FC(void)
 {
     Omochao *omochao;
     Player *p;
-    void *data;
+    NotificationText *notifText;
     u8 i;
 
     gStageData.unk4 = 4;
@@ -269,7 +269,7 @@ NONMATCH("asm/non_matching/game/interactables/omochao__OmochaoPickUp.inc", bool3
 
     if (sb != 0) {
         omochao->unk62 = sb;
-        sub_80236C8(&omochao->s2, omochao->textId, omochao->data);
+        sub_80236C8(&omochao->s2, omochao->textId, omochao->notifText);
 
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             // _08038404
@@ -370,5 +370,5 @@ void TaskDestructor_Omochao(struct Task *t)
     Omochao *omochao = TASK_DATA(t);
     VramFree(omochao->s.tiles);
     VramFree(omochao->s2.tiles);
-    EwramFree(omochao->data);
+    EwramFree(omochao->notifText);
 }

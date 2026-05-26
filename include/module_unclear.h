@@ -65,9 +65,15 @@ bool32 sub_8020E3C(Sprite *s, s32 param1, s32 param2, s16 param3, Player *p);
 
 void ResolvePlayerSpriteCollision(Sprite *s, Player *p);
 
-void sub_80236C8(Sprite *, u8 p1, void *);
-bool32 sub_8023734(void *chaoEwramData);
-void sub_80239A8(void *chaoEwramData);
+typedef struct {
+    /* 0x00 */ u8 filler0[0x1F];
+    /* 0x1F */ u8 unk1F;
+    /* 0x20 */ u8 padding20[0xC8C];
+} NotificationText; /* 0xCAC */
+
+void sub_80236C8(Sprite *s, u8 textId, NotificationText *notifText);
+bool32 sub_8023734(NotificationText *chaoEwramData);
+void sub_80239A8(NotificationText *chaoEwramData);
 // NOTE: x and y have different signedness, but it's correct
 void sub_80274F4(u8, u16 x, s16 y);
 

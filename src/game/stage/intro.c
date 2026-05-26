@@ -2,6 +2,7 @@
 #include "core.h"
 #include "color.h"
 #include "flags.h"
+#include "malloc_ewram.h"
 #include "malloc_vram.h"
 #include "module_unclear.h"
 #include "game/screen_fade.h"
@@ -42,13 +43,14 @@ typedef struct {
     /* 0x0C0 */ Sprite spritesC0[3];
     /* 0x138 */ Sprite sprite138;
     /* 0x160 */ SpriteTransform tf;
-    /* 0x16C */ void *unk16C;
+    /* 0x16C */ NotificationText *notifText;
 } StageIntro_170;
 
+void Task_170_80577D4(void);
 void Task_70_8057054(void);
 void Task_70_805722C(void);
 void Task_70_80572CC(void);
-void sub_80575F0(void);
+void Task_170_80575F0(void);
 void Task_StageIntroScreenFade(void);
 void Task_170_80573AC(void);
 void sub_8057848(void);
@@ -194,7 +196,7 @@ void CreateStageIntro(void)
     strc->unk1C = -Q(2);
     strc->unk3 = var_r5;
     strc->unk4 = var_r4;
-    strc->unk16C = 0;
+    strc->notifText = 0;
 
     sub_80578EC(1, 1);
     switch (var_r6) {
@@ -514,10 +516,10 @@ void Task_170_80573AC()
     }
     s = &strc170->sprites20[0];
     strc170->unkA++;
-    if (strc170->unkA == 0x69) {
+    if (strc170->unkA == 105) {
         strc170->unkA = 0;
-        gCurTask->main = sub_80575F0;
-        sub_80575F0();
+        gCurTask->main = Task_170_80575F0;
+        gCurTask->main();
         return;
     }
     if (strc170->unkA != 0) {
@@ -605,4 +607,103 @@ void Task_170_80573AC()
 
     sub_8057848();
     sub_80578EC(1, 0);
+}
+
+void Task_170_80575F0()
+{
+    Sprite *s;
+    s16 temp_r5;
+    s16 temp_r4;
+    u8 var_r6;
+
+    StageIntro_170 *strc170 = TASK_DATA(gCurTask);
+    strc170->unkA++;
+    temp_r5 = (strc170->unkA * 0x14);
+    if (strc170->unkA == 0xC) {
+        if ((gStageData.zone == 8) && (gStageData.unkBA == 0) && (gStageData.gameMode != 5)) {
+            strc170->notifText = (NotificationText *)EwramMalloc(sizeof(NotificationText));
+            sub_80236C8(NULL, 0x2DU, strc170->notifText);
+            strc170->notifText->unk1F = 1;
+            gStageData.unk85 = 1;
+            gStageData.unkBA = 1;
+            gCurTask->main = Task_170_80577D4;
+        } else {
+            if (GAME_MODE_IS_MULTI_PLAYER(gStageData.gameMode) && (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK)) {
+                gStageData.unk4 = 2;
+            } else {
+                gStageData.unk4 = 3;
+            }
+            TaskDestroy(gCurTask);
+            return;
+        }
+    } else {
+        s = &strc170->sprites20[0];
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+
+        for (var_r6 = 0; var_r6 < 3; var_r6++) {
+            if (strc170->unk7[var_r6] != 0) {
+                s = &strc170->spritesC0[var_r6];
+                s->y = (s16)strc170->unk5;
+                UpdateSpriteAnimation(s);
+                DisplaySprite(s);
+            }
+        }
+
+        s = &strc170->sprite138;
+        s->x = 200 - temp_r5;
+        s->y = 150;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+        temp_r4 = 0xDC;
+        ;
+        temp_r4 -= temp_r5;
+        temp_r4 -= gUnknown_080D1D7C[strc170->unk4][1];
+        s = &strc170->sprites20[2];
+        s->x = temp_r4;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+
+        temp_r4 -= gUnknown_080D1D7C[strc170->unk4][0];
+        temp_r4 -= 5;
+        s = &strc170->sprite98;
+        s->x = (s16)temp_r4;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+
+        temp_r4 -= 5;
+        temp_r4 -= gUnknown_080D1D7C[strc170->unk3][1];
+
+        s = &strc170->sprites20[1];
+        s->x = temp_r4;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+        strc170->unk6 = 0xB - (u8)strc170->unkA;
+        sub_8057848();
+    }
+}
+
+void Task_170_80577D4()
+{
+    u8 var_r0;
+    NotificationText *textData;
+    StageIntro_170 *strc170 = TASK_DATA(gCurTask);
+
+    textData = strc170->notifText;
+    if (sub_8023734(textData) != 0) {
+        gCamera.SA2_LABEL(unk50) &= ~1;
+        gStageData.unk85 = 0;
+
+        if (GAME_MODE_IS_MULTI_PLAYER(gStageData.gameMode) && (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK)) {
+            gStageData.unk4 = 2;
+        } else {
+            gStageData.unk4 = 3;
+        }
+
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    sub_80239A8(textData);
 }

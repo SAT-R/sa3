@@ -31,7 +31,7 @@ typedef struct {
     /* 0x71 */ u8 chaoKind;
     /* 0x72 */ u8 blend;
     /* 0x73 */ s8 unk73;
-    /* 0x74 */ void *someData; // allocated in sub_804E210
+    /* 0x74 */ NotificationText *notifText;
 } IAChao; /* size: 0x78 */
 
 typedef struct {
@@ -92,7 +92,7 @@ void CreateEntity_ChaoInStage(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     chao->unk70 = (me->d.uData[4] >> 4);
     chao->chaoKind = chaoKind;
-    chao->someData = NULL;
+    chao->notifText = NULL;
 
     s = &chao->s;
     s->x = chao->worldX - gCamera.x;
@@ -138,7 +138,7 @@ void CreateEntity_ChaoInPlayground(MapEntity *me, u16 regionX, u16 regionY, u8 i
     chao->unk70 = gUnknown_080D0410[gStageData.zone][chaoKind][0];
     ;
     chao->chaoKind = 0xFF;
-    chao->someData = 0;
+    chao->notifText = 0;
 
     s = &chao->s;
     s->x = chao->worldX - gCamera.x;
@@ -239,9 +239,9 @@ void sub_804E210(void)
     lastChaoId = GetChaoCount(gStageData.zone) - 1;
 
     // TODO: Could this be the scruct (size) for a message box prompt?
-    chao->someData = EwramMalloc(0xCAC);
+    chao->notifText = EwramMalloc(sizeof(NotificationText));
 
-    sub_80236C8(&chao->s2, array[lastChaoId], chao->someData);
+    sub_80236C8(&chao->s2, array[lastChaoId], chao->notifText);
 
     chao->blend = 0x10;
 
@@ -300,7 +300,7 @@ void Task_804E398(void)
     gBldRegs.bldY = 8;
 
     p->qCamOffsetY = -Q(4.0);
-    unkData = chao->someData;
+    unkData = chao->notifText;
     if (sub_8023734(unkData)) {
         chao->blend = 0x10;
         gCurTask->main = Task_804E41C;
@@ -424,8 +424,8 @@ void TaskDestructor_IAChao(struct Task *t)
 
     VramFree(chao->vram);
 
-    if (chao->someData) {
-        EwramFree(chao->someData);
+    if (chao->notifText) {
+        EwramFree(chao->notifText);
     }
 }
 
