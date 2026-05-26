@@ -27,8 +27,8 @@ typedef struct {
     /* 0x001 */ u8 unk1;
     /* 0x002 */ u8 unk2;
     /* 0x003 */ u8 unk3;
-    /* 0x004 */ u8 unk4;
-    /* 0x005 */ u8 unk5;
+    /* 0x004 */ int_vcount unk4;
+    /* 0x005 */ int_vcount unk5;
     /* 0x006 */ u8 unk6;
     /* 0x007 */ u8 unk7[3];
     /* 0x00A */ u16 unkA;
@@ -48,6 +48,7 @@ typedef struct {
 void Task_70_8057054(void);
 void Task_70_805722C(void);
 void Task_70_80572CC(void);
+void sub_80575F0(void);
 void Task_StageIntroScreenFade(void);
 void Task_170_80573AC(void);
 void sub_8057848(void);
@@ -57,8 +58,10 @@ void TaskDestructor_StageIntro(struct Task *t);
 void sub_80578EC(s32, s32);
 u32 sub_80C4C0C(u16 color);
 
-extern u8 gUnknown_080D1E18[6];
+extern s16 gUnknown_080D1D58[];
+extern s8 gUnknown_080D1D7C[][2];
 extern const TileInfo2 gUnknown_080D1D88[];
+extern u8 gUnknown_080D1E18[6];
 
 void CreateStageIntroScreenFade(void)
 {
@@ -492,4 +495,114 @@ void Task_170_805732C()
     s->y = strc170->unk5;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
+}
+
+void Task_170_80573AC()
+{
+    Sprite *s;
+    s16 var_r1;
+    s16 var_r2;
+    s16 var_r3;
+    s16 var_r5;
+    s16 var_r8;
+    u8 i;
+    StageIntro_170 *strc170 = TASK_DATA(gCurTask);
+    SpriteTransform *tf;
+
+    if (strc170->unkC != 0) {
+        strc170->unkC -= 0x10;
+    }
+    s = &strc170->sprites20[0];
+    strc170->unkA++;
+    if (strc170->unkA == 0x69) {
+        strc170->unkA = 0;
+        gCurTask->main = sub_80575F0;
+        sub_80575F0();
+        return;
+    }
+    if (strc170->unkA != 0) {
+        s->x = (strc170->unkA * 10) + 120;
+        if (s->x >= gUnknown_080D1D58[(strc170->unk0 * 9) + strc170->unk1]) {
+            s->x = gUnknown_080D1D58[(strc170->unk0 * 9) + strc170->unk1];
+        }
+    }
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+    if (strc170->unkA <= 0x10U) {
+        var_r1 = strc170->unkA;
+    } else {
+        var_r1 = 0x10;
+    }
+
+    for (i = 0; i < (s32)ARRAY_COUNT(strc170->unk7); i++) {
+        if (strc170->unk7[i] != 0) {
+            s = &strc170->spritesC0[i];
+            s->x = (var_r1 * 6) - ((2 - i) << 5);
+            s->y = strc170->unk5;
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+        }
+    }
+
+    if (strc170->unkA > 0x10U) {
+        var_r3 = 0;
+        if (strc170->unkA > 0x24U) {
+            var_r2 = 0;
+        } else {
+            var_r2 = 2 & strc170->unkA;
+        }
+    } else {
+        var_r2 = 0;
+        var_r3 = 0x10 - strc170->unkA;
+    }
+
+    s = &strc170->sprite138;
+    tf = &strc170->tf;
+    s->x = var_r2 + 0xC7;
+    s->frameFlags = (gNextFreeAffineIndex++ | 0x60);
+    tf->qScaleX = ((var_r3 * 16)) + Q(1);
+    tf->qScaleY = ((var_r3 * 16)) + Q(1);
+    tf->x = s->x;
+    UpdateSpriteAnimation(s);
+    TransformSprite(s, tf);
+    DisplaySprite(s);
+
+    strc170->unk1C += 0x20;
+    strc170->unk10 += strc170->unk18;
+    strc170->unk14 += strc170->unk1C;
+    var_r5 = I(strc170->unk10);
+    var_r8 = I(strc170->unk14);
+
+    if (var_r5 < DISPLAY_WIDTH - 20) {
+        var_r5 = DISPLAY_WIDTH - 20;
+    }
+    if (var_r8 > DISPLAY_HEIGHT - 40) {
+        var_r8 = DISPLAY_HEIGHT - 40;
+    }
+
+    var_r5 = var_r5 - gUnknown_080D1D7C[strc170->unk4][1];
+    s = &strc170->sprites20[2];
+    s->x = var_r5;
+    s->y = var_r8;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    var_r5 = var_r5 - gUnknown_080D1D7C[strc170->unk4][0];
+    var_r5 -= 5;
+    s = &strc170->sprite98;
+    s->x = var_r5;
+    s->y = var_r8;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    var_r5 -= 5;
+    var_r5 -= gUnknown_080D1D7C[strc170->unk3][1];
+    s = &strc170->sprites20[1];
+    s->x = var_r5;
+    s->y = var_r8;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    sub_8057848();
+    sub_80578EC(1, 0);
 }
