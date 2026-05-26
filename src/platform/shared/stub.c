@@ -219,7 +219,7 @@ void sub_80275F0() { }
 void sub_8028850() { }
 void sub_8056090() { }
 void sub_809BFE8() { }
-void sub_8056AB0() { }
+void CreateStageIntroScreenFade() { }
 void sub_8056AFC() { }
 void CreateStageIntro() { }
 void sub_8057ECC() { }

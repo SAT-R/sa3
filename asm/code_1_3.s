@@ -7100,42 +7100,5 @@ _08056AA4: .4byte gBgSpritesCount
 _08056AA8: .4byte gVramGraphicsCopyCursor
 _08056AAC: .4byte gVramGraphicsCopyQueueIndex
 
-	thumb_func_start sub_8056AB0
-sub_8056AB0: @ 0x08056AB0
-	push {r4, lr}
-	sub sp, #4
-	ldr r0, _08056AF4 @ =sub_8057F54
-	movs r2, #0x84
-	lsls r2, r2, #6
-	movs r4, #0
-	str r4, [sp]
-	movs r1, #0xc
-	movs r3, #0
-	bl TaskCreate
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r0, r0, r1
-	strh r4, [r0]
-	movs r1, #2
-	strh r1, [r0, #2]
-	strh r4, [r0, #4]
-	movs r1, #0x80
-	strh r1, [r0, #6]
-	movs r1, #0xff
-	strh r1, [r0, #8]
-	strh r4, [r0, #0xa]
-	bl ScreenFadeUpdateValues
-	ldr r1, _08056AF8 @ =gStageData
-	movs r0, #3
-	strb r0, [r1, #4]
-	add sp, #4
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08056AF4: .4byte sub_8057F54
-_08056AF8: .4byte gStageData
-
 .if 0
 .endif

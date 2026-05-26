@@ -106,7 +106,7 @@ extern void sub_8027878(u8 lives);
 extern void InitCamera(u16, u8);
 extern void sa2__sub_801F044();
 extern void sub_8056090(s32, u8, s32);
-extern void sub_8056AB0();
+extern void CreateStageIntroScreenFade();
 extern void sub_8056AFC(u8);
 extern void CreateStageIntro();
 extern void sub_8057ECC();
@@ -441,7 +441,7 @@ void Task_00_8002988(void)
         }
         if (sd->gameMode == 2) {
             sub_806611C(sd->zone);
-            sub_8056AB0();
+            CreateStageIntroScreenFade();
         } else {
             if (sd->zone < ZONE_FINAL) {
                 if (sd->act == ACT_SPECIAL) {

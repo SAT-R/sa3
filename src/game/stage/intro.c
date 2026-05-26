@@ -4,6 +4,7 @@
 #include "flags.h"
 #include "malloc_vram.h"
 #include "module_unclear.h"
+#include "game/screen_fade.h"
 #include "game/shared/stage/player.h"
 #include "game/save.h"
 #include "game/stage.h"
@@ -44,9 +45,10 @@ typedef struct {
     /* 0x16C */ void *unk16C;
 } Strc_170_StageIntro;
 
-void sub_8057054(void);
-void sub_8057F7C(void);
-void Task_8057FE8(void);
+void Task_70_8057054(void);
+void Task_StageIntroScreenFade(void);
+void Task_70_8057F7C(void);
+void Task_170_8057FE8(void);
 void TaskDestructor_StageIntro(struct Task *t);
 void sub_80578EC(s32, s32);
 u32 sub_80C4C0C(u16 color);
@@ -54,9 +56,22 @@ u32 sub_80C4C0C(u16 color);
 extern u8 gUnknown_080D1E18[6];
 extern const TileInfo2 gUnknown_080D1D88[];
 
+void CreateStageIntroScreenFade(void)
+{
+    ScreenFade *fade = TASK_DATA(TaskCreate(Task_StageIntroScreenFade, sizeof(ScreenFade), 0x2100U, 0U, NULL));
+    fade->window = 0;
+    fade->flags = 2;
+    fade->brightness = 0;
+    fade->speed = 0x80;
+    fade->bldCnt = 0xFF;
+    fade->bldAlpha = 0;
+    ScreenFadeUpdateValues(fade);
+    gStageData.unk4 = 3;
+}
+
 void sub_8056AFC(u8 param0)
 {
-    struct Task *t = TaskCreate(sub_8057054, sizeof(StageIntro_70), 0x84 << 6, 0, NULL);
+    struct Task *t = TaskCreate(Task_70_8057054, sizeof(StageIntro_70), 0x84 << 6, 0, NULL);
     StageIntro_70 *strc70 = TASK_DATA(t);
 
     strc70->unk0 = param0;
@@ -158,7 +173,7 @@ void CreateStageIntro(void)
         var_r6 = gStageData.act;
     }
 
-    strc = TASK_DATA(TaskCreate(Task_8057FE8, sizeof(Strc_170_StageIntro), 0x2100U, 0U, TaskDestructor_StageIntro));
+    strc = TASK_DATA(TaskCreate(Task_170_8057FE8, sizeof(Strc_170_StageIntro), 0x2100U, 0U, TaskDestructor_StageIntro));
     strc->unk0 = 0;
     strc->unk1 = zone;
     strc->unk2 = (u8)(var_r6 - 3);
@@ -331,7 +346,7 @@ void CreateStageIntro(void)
 }
 
 // (99.18%) https://decomp.me/scratch/FLvBg
-NONMATCH("asm/non_matching/game/stage/intro__sub_8057054.inc", void sub_8057054(void))
+NONMATCH("asm/non_matching/game/stage/intro__Task_70_8057054.inc", void Task_70_8057054(void))
 {
     s32 var_r1;
     s32 zone;
@@ -374,15 +389,16 @@ NONMATCH("asm/non_matching/game/stage/intro__sub_8057054.inc", void sub_8057054(
     gBgCntRegs[0] = 0x1408;
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = (zone * 24) - 68;
-    DmaCopy16(3, &Palette_unknown_354[7 * PALETTE_LEN_4BPP], &gBgPalette[7 * PALETTE_LEN_4BPP], ((9 * PALETTE_LEN_4BPP) * sizeof(ColorRaw)));
+    DmaCopy16(3, &Palette_unknown_354[7 * PALETTE_LEN_4BPP], &gBgPalette[7 * PALETTE_LEN_4BPP],
+              ((9 * PALETTE_LEN_4BPP) * sizeof(ColorRaw)));
     gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
 
     var_r1 = (LOADED_SAVE->language != JAPANESE) ? 9 : 0;
 
     s = &strc70->s;
     s->tiles = VramMalloc(gUnknown_080D1D88[zone += var_r1].numTiles);
-    s->anim = gUnknown_080D1D88[zone] .anim;
-    s->variant = gUnknown_080D1D88[zone] .variant;
+    s->anim = gUnknown_080D1D88[zone].anim;
+    s->variant = gUnknown_080D1D88[zone].variant;
     s->oamFlags = 0x480;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -399,6 +415,6 @@ NONMATCH("asm/non_matching/game/stage/intro__sub_8057054.inc", void sub_8057054(
     gBldRegs.bldCnt = 0xAE;
     gBldRegs.bldAlpha = 0;
     gBldRegs.bldY = 0x10;
-    gCurTask->main = sub_8057F7C;
+    gCurTask->main = Task_70_8057F7C;
 }
 END_NONMATCH
