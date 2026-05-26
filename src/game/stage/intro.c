@@ -92,10 +92,10 @@ void sub_8056AFC(u8 param0)
     gDispCnt |= 0x4000;
     gDispCnt &= ~0x2000;
 
-    gWinRegs[1] = WIN_RANGE(0, DISPLAY_WIDTH);
-    gWinRegs[3] = WIN_RANGE(0, DISPLAY_HEIGHT);
-    gWinRegs[4] = 0x3F00;
-    gWinRegs[5] = 0;
+    gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, DISPLAY_WIDTH);
+    gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+    gWinRegs[WINREG_WININ] = 0x3F00;
+    gWinRegs[WINREG_WINOUT] = 0;
     gBldRegs.bldCnt = 0xBF;
     gBldRegs.bldAlpha = 0;
     gBldRegs.bldY = 0x10;
@@ -227,15 +227,15 @@ void CreateStageIntro(void)
         strc->unk7[1] = 1;
         strc->unk7[2] = 1;
     }
-    gDispCnt |= 0x6000;
-    gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
-    gWinRegs[2] = WIN_RANGE(0, DISPLAY_HEIGHT);
-    gWinRegs[1] = WIN_RANGE(0, DISPLAY_WIDTH);
-    gWinRegs[3] = WIN_RANGE(0, DISPLAY_HEIGHT);
+    gDispCnt |= DISPCNT_WIN0_ON | DISPCNT_WIN1_ON;
+    gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
+    gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+    gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, DISPLAY_WIDTH);
+    gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, DISPLAY_HEIGHT);
     gBgPalette[0] = sub_80C4C0C(0x7FFF);
     gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
-    gWinRegs[4] = 0x3F10;
-    gWinRegs[5] = 0x3F;
+    gWinRegs[WINREG_WININ] = 0x3F10;
+    gWinRegs[WINREG_WINOUT] = 0x3F;
     gBldRegs.bldCnt = 0x3FEF;
     gBldRegs.bldY = 0x10;
 
@@ -366,12 +366,12 @@ NONMATCH("asm/non_matching/game/stage/intro__Task_70_8057054.inc", void Task_70_
     strc70->unk1 += 8;
     strc70->unk2 -= 8;
     if (strc70->unk1 < 68) {
-        gWinRegs[3] = WIN_RANGE(strc70->unk1, strc70->unk2);
+        gWinRegs[WINREG_WIN1V] = WIN_RANGE(strc70->unk1, strc70->unk2);
         return;
     }
     strc70->unk1 = 68;
     strc70->unk2 = 92;
-    gWinRegs[3] = WIN_RANGE(strc70->unk1, strc70->unk2);
+    gWinRegs[WINREG_WIN1V] = WIN_RANGE(strc70->unk1, strc70->unk2);
     zone = gStageData.zone;
     bg = &strc70->bg;
     bg->graphics.dest = (void *)(BG_VRAM + 0x8000);
@@ -394,8 +394,8 @@ NONMATCH("asm/non_matching/game/stage/intro__Task_70_8057054.inc", void Task_70_
     bg->scrollY = 0;
     DrawBackground(bg);
 
-    gDispCnt |= 0x100;
-    gBgCntRegs[0] = 0x1408;
+    gDispCnt |= DISPCNT_BG0_ON;
+    gBgCntRegs[0] = BGCNT_SCREENBASE(20) | BGCNT_CHARBASE(2) | BGCNT_PRIORITY(0);
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = (zone * 24) - 68;
     DmaCopy16(3, &Palette_unknown_354[7 * PALETTE_LEN_4BPP], &gBgPalette[7 * PALETTE_LEN_4BPP],
@@ -420,7 +420,7 @@ NONMATCH("asm/non_matching/game/stage/intro__Task_70_8057054.inc", void Task_70_
     s->hitboxes[0].index = -1;
     UpdateSpriteAnimation(s);
     strc70->unk4 = 0x3C;
-    gWinRegs[4] = 0x3F00;
+    gWinRegs[WINREG_WININ] = 0x3F00;
     gBldRegs.bldCnt = 0xAE;
     gBldRegs.bldAlpha = 0;
     gBldRegs.bldY = 0x10;
@@ -436,15 +436,15 @@ void Task_70_805722C()
     strc70->unk2 -= 4;
     if (strc70->unk1 < strc70->unk2) {
         DisplaySprite(&strc70->s);
-        gWinRegs[3] = WIN_RANGE(strc70->unk1, strc70->unk2);
+        gWinRegs[WINREG_WIN1V] = WIN_RANGE(strc70->unk1, strc70->unk2);
         return;
     }
     gDispCnt = (0xBEFF & gDispCnt) | 0x2000;
-    gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
-    gWinRegs[2] = WIN_RANGE(0, DISPLAY_HEIGHT);
+    gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
+    gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
     VramFree(strc70->s.tiles);
-    gWinRegs[4] = 0x3F;
-    gWinRegs[5] = 0;
+    gWinRegs[WINREG_WININ] = 0x3F;
+    gWinRegs[WINREG_WINOUT] = 0;
     gBldRegs.bldCnt = 0xFF;
     gBldRegs.bldAlpha = 0;
     gBldRegs.bldY = 0x10;
@@ -706,4 +706,35 @@ void Task_170_80577D4()
     }
 
     sub_80239A8(textData);
+}
+
+// TODO: Match is weird...
+void sub_8057848(void)
+{
+    s32 xForMatching;
+    s16 x;
+    s16 y;
+    StageIntro_170 *strc170 = TASK_DATA(gCurTask);
+
+    gDispCnt |= 0x6000;
+    xForMatching = (strc170->unk5 - strc170->unk6) << 16;
+    y = strc170->unk5 + strc170->unk6;
+    x = xForMatching >> 16;
+    if (xForMatching < 0) {
+        x = 0;
+    }
+    if (y > DISPLAY_HEIGHT) {
+        y = DISPLAY_HEIGHT;
+    }
+    gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
+    gWinRegs[WINREG_WIN0V] = WIN_RANGE(x, y);
+    gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, DISPLAY_WIDTH);
+    gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+    gWinRegs[WINREG_WININ] = 0x3F10;
+    gWinRegs[WINREG_WINOUT] = 0x3F;
+    gBgPalette[0] = sub_80C4C0C(0x7FFFU);
+    gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+    gBldRegs.bldCnt = 0x3FEF;
+    gBldRegs.bldY = (strc170->unkC >> 4);
+    gBldRegs.bldAlpha = 0x10 - (strc170->unkC >> 4);
 }
