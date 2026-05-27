@@ -72,6 +72,7 @@ void Task_StageIntroScreenFade(void);
 void Task_170_80573AC(void);
 void sub_8057848(void);
 void Task_84_8057B70(void);
+void Task_84_8057C84(void);
 void Task_70_8057F7C(void);
 void Task_170_8057FE8(void);
 void TaskDestructor_84_80580EC(struct Task *t);
@@ -854,7 +855,7 @@ void StageIntro_ShowZoneName(u16 arg0, u16 arg1, u8 arg2)
     gBgSprites_Unknown1[0] = 0;
     gBgSprites_Unknown2[0][0] = 0;
     gBgSprites_Unknown2[0][1] = 0;
-    gBgSprites_Unknown2[0][2] = 0xFF;
+    gBgSprites_Unknown2[0][2] = -1;
     gBgSprites_Unknown2[0][3] = 0x40;
     gBgSprites_Unknown1[1] = 0;
     gBgSprites_Unknown2[1][0] = 0;
@@ -866,4 +867,59 @@ void StageIntro_ShowZoneName(u16 arg0, u16 arg1, u8 arg2)
     gBgSprites_Unknown2[2][1] = 0;
     gBgSprites_Unknown2[2][2] = -1;
     gBgSprites_Unknown2[2][3] = 0x40;
+}
+
+void Task_84_8057B70()
+{
+    s16 temp_r6;
+    s32 temp_r4;
+    s32 var_r1;
+    StageIntro_84 *strc84 = TASK_DATA(gCurTask);
+    Sprite *s;
+    Background *bg;
+    void *tiles;
+
+    if (gLoadedSaveGame.language != 0) {
+        var_r1 = 9;
+    } else {
+        var_r1 = 0;
+    }
+
+    temp_r6 = strc84->unk8;
+    tiles = VramMalloc(gUnknown_080D1D88[temp_r6 + var_r1].numTiles);
+    s = &strc84->s;
+    s->tiles = tiles;
+    s->anim = gUnknown_080D1D88[temp_r6 + var_r1].anim;
+    s->variant = gUnknown_080D1D88[temp_r6 + var_r1].variant;
+    s->prevVariant = -1;
+    s->x = I(strc84->unk14);
+    s->y = I(strc84->unk18);
+    s->oamFlags = SPRITE_OAM_ORDER(3);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    gBgCntRegs[0] = 0x140B;
+    gBgScrollRegs[0][0] = 0;
+    gBgScrollRegs[0][1] = (temp_r6 * 24) - 68;
+    bg = &strc84->bg;
+    bg->graphics.dest = (void *)(BG_VRAM + 0x8000);
+    bg->graphics.anim = 0;
+    bg->layoutVram = (void *)(BG_VRAM + 0xA000);
+    bg->unk18 = 0;
+    bg->unk1A = 0;
+    bg->tilemapId = 354;
+    bg->unk1E = 0;
+    bg->unk20 = 0;
+    bg->unk22 = 0;
+    bg->unk24 = 0;
+    bg->targetTilesX = 256 / TILE_WIDTH;
+    bg->targetTilesY = 168 / TILE_WIDTH;
+    bg->paletteOffset = 0;
+    bg->flags = 0x10;
+    DrawBackground(bg);
+    gCurTask->main = Task_84_8057C84;
 }
