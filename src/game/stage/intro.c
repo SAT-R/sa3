@@ -28,7 +28,7 @@ typedef struct {
     /* 0x00 */ u8 unk0;
     /* 0x01 */ int_vcount unk1;
     /* 0x02 */ s16 unk2;
-    /* 0x04 */ s16 unk4;
+    /* 0x04 */ u16 unk4;
     /* 0x06 */ s16 unk6;
     /* 0x08 */ s16 unk8;
     /* 0x0A */ s16 unkA;
@@ -73,8 +73,12 @@ void Task_170_80573AC(void);
 void sub_8057848(void);
 void Task_84_8057B70(void);
 void Task_84_8057C84(void);
+void Task_84_8057DEC(void);
+void Task_C_8057F0C(void);
 void Task_70_8057F7C(void);
 void Task_170_8057FE8(void);
+void Task_84_80580F0(void);
+void Task_805818C(void);
 void TaskDestructor_84_80580EC(struct Task *t);
 void TaskDestructor_StageIntro(struct Task *t);
 void sub_80578EC(s32, s32);
@@ -922,4 +926,104 @@ void Task_84_8057B70()
     bg->flags = 0x10;
     DrawBackground(bg);
     gCurTask->main = Task_84_8057C84;
+}
+
+void Task_84_8057C84()
+{
+    s16 colorW = 0xFFFF;
+    StageIntro_84 *strc84 = TASK_DATA(gCurTask);
+
+    if ((u16)strc84->unk4 == 0) {
+        gDispCnt |= 0x2000;
+        gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[2] = WIN_RANGE(0, DISPLAY_HEIGHT);
+        gWinRegs[4] |= 0x3F;
+        gWinRegs[5] |= 0x1F;
+        gBldRegs.bldCnt = 0x3FBF;
+        gBldRegs.bldY = 0x10;
+        strc84->unk2 = 0x1000;
+        strc84->unk4 = 1;
+
+        DmaCopy16(3, &colorW, &gBgPalette[0], 2);
+        gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+    }
+    if (gBldRegs.bldY != 0) {
+        gBldRegs.bldY = (u16)((u16)strc84->unk2 >> 8);
+        strc84->unk2 -= Q(1);
+        return;
+    }
+    gWinRegs[4] = 0x1F;
+    gWinRegs[5] = 0x3F;
+    gBldRegs.bldCnt = 0xFF;
+    gBldRegs.bldAlpha = gBldRegs.bldY;
+    gBldRegs.bldY = 0x10;
+    gCurTask->main = Task_84_8057DEC;
+}
+
+void Task_84_8057D64()
+{
+    StageIntro_84 *strc84 = TASK_DATA(gCurTask);
+    if (strc84->unk4 != 0) {
+        gDispCnt |= DISPCNT_WIN0_ON;
+        gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[2] = WIN_RANGE(0, DISPLAY_HEIGHT);
+        gWinRegs[4] |= 0x3F;
+        gWinRegs[5] |= 0x1F;
+        gBldRegs.bldCnt = 0x3FBF;
+        strc84->unk2 = 0;
+        strc84->unk4 = 0;
+    }
+    if (gBldRegs.bldY < 16) {
+        u8 blend = (strc84->unk2 >> 8);
+        ;
+        gBldRegs.bldY = blend;
+        strc84->unk2 += Q(1);
+        return;
+    }
+    gCurTask->main = Task_805818C;
+}
+
+void Task_84_8057DEC()
+{
+    u16 colorW = 0xFFFF;
+    StageIntro_84 *strc84 = TASK_DATA(gCurTask);
+
+    strc84->unkC += 8;
+    strc84->unk10 -= 8;
+    if (strc84->unkC < 68) {
+        gWinRegs[2] = WIN_RANGE(strc84->unkC, strc84->unk10);
+        return;
+    }
+    strc84->unkC = 68;
+    strc84->unk10 = 92;
+    gWinRegs[2] = WIN_RANGE(strc84->unkC, strc84->unk10);
+
+    // TODO: These are probably macros, because of gFlags getting set
+    //       to the same value twice.
+    DmaCopy16(3, &Palette_unknown_354[7 * PALETTE_LEN_4BPP], &gBgPalette[7 * PALETTE_LEN_4BPP],
+              ((9 * PALETTE_LEN_4BPP) * sizeof(ColorRaw)));
+    gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+
+    DmaCopy16(3, &colorW, &gBgPalette[0], 2);
+    gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+
+    gDispCnt |= 0x100;
+    gWinRegs[4] = 0x1F;
+    gWinRegs[5] = 0x3F;
+    gBldRegs.bldCnt = 0xFF;
+    gBldRegs.bldAlpha = 0;
+    gBldRegs.bldY = 0x10;
+    gCurTask->main = Task_84_80580F0;
+}
+
+void sub_8057ECC(void)
+{
+    ScreenFade *fade = TASK_DATA(TaskCreate(Task_C_8057F0C, sizeof(ScreenFade), 0x2100U, 0U, NULL));
+    fade->window = 0;
+    fade->flags = 2;
+    fade->brightness = 0;
+    fade->speed = 0x100;
+    fade->bldCnt = 0xBF;
+    fade->bldAlpha = 0;
+    ScreenFadeUpdateValues(fade);
 }
