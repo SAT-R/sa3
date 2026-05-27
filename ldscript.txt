@@ -134,7 +134,6 @@ SECTIONS {
         src/game/code_1_3.o(.text);
         asm/code_1_3.o(.text);
         src/game/stage/intro.o(.text);
-        asm/game__stage_intro.o(.text);
         src/game/final_boss_init.o(.text);
         src/game/enemies/akatento.o(.text);
         src/game/enemies/aotento.o(.text);

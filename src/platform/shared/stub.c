@@ -76,8 +76,9 @@ void sub_8027538() { }
 bool32 sub_802CE4C() { return FALSE; }
 
 void sub_8052D8C() { }
-void sub_8053128() { }
-void StageIntro_ShowZoneName(u16 zone, u16 param1, u8 param2) { }
+void sub_8053440() { }
+void sub_80534DC() { }
+void sub_805365C() { }
 void CreateGmerl1() { }
 void CreateBoss_8068B3C() { }
 void CreateBoss_806A90C() { }
@@ -205,7 +206,9 @@ void sub_80B5DF4() { }
 void sub_80B60E0(s16 param0, s16 *param1) { }
 void sub_80B6774(s16 param0, s16 *param1) { }
 
+void Task_220_8053904() { }
 void sub_80A872C() { }
+ColorRaw sub_80C4C0C(ColorRaw color) { return color; }
 void sub_8053284() { }
 void sub_8029990() { }
 void Gemerl_State0() { }

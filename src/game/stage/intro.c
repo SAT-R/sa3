@@ -30,7 +30,7 @@ typedef struct {
     /* 0x02 */ s16 unk2;
     /* 0x04 */ u16 unk4;
     /* 0x06 */ s16 unk6;
-    /* 0x08 */ s16 unk8;
+    /* 0x08 */ s16 zone;
     /* 0x0A */ s16 unkA;
     /* 0x0C */ s32 unkC;
     /* 0x10 */ s32 unk10;
@@ -73,12 +73,15 @@ void Task_170_80573AC(void);
 void sub_8057848(void);
 void Task_84_8057B70(void);
 void Task_84_8057C84(void);
-void Task_84_8057DEC(void);
-void Task_C_8057F0C(void);
 void Task_70_8057F7C(void);
 void Task_170_8057FE8(void);
-void Task_84_80580F0(void);
+void Task_84_8057DEC(void);
 void Task_805818C(void);
+void Task_84_80580F0(void);
+void Task_C_8057F0C(void);
+void Task_170_8058038(void);
+void Task_170_8058094(void);
+void Task_170_805732C(void);
 void TaskDestructor_84_80580EC(struct Task *t);
 void TaskDestructor_StageIntro(struct Task *t);
 void sub_80578EC(s32, s32);
@@ -847,7 +850,7 @@ void StageIntro_ShowZoneName(u16 arg0, u16 arg1, u8 arg2)
     strc84->unk2 = 0;
     strc84->unk4 = 0;
     strc84->unk6 = arg1;
-    strc84->unk8 = arg0;
+    strc84->zone = arg0;
     strc84->unkA = 0;
     strc84->unkC = 0;
     strc84->unk10 = 0xA0;
@@ -889,7 +892,7 @@ void Task_84_8057B70()
         var_r1 = 0;
     }
 
-    temp_r6 = strc84->unk8;
+    temp_r6 = strc84->zone;
     tiles = VramMalloc(gUnknown_080D1D88[temp_r6 + var_r1].numTiles);
     s = &strc84->s;
     s->tiles = tiles;
@@ -1026,4 +1029,156 @@ void sub_8057ECC(void)
     fade->bldCnt = 0xBF;
     fade->bldAlpha = 0;
     ScreenFadeUpdateValues(fade);
+}
+
+void Task_C_8057F0C(void)
+{
+    ScreenFade *fade = TASK_DATA(gCurTask);
+
+    if ((UpdateScreenFade(fade) << 0x18) != 0) {
+        if ((GAME_MODE_IS_MULTI_PLAYER(gStageData.gameMode)) && (gStageData.gameMode != 7)) {
+            gStageData.unk4 = 2;
+        } else {
+            gStageData.unk4 = 3;
+        }
+
+        TaskDestroy(gCurTask);
+    }
+}
+
+void Task_StageIntroScreenFade(void)
+{
+    ScreenFade *fade = TASK_DATA(gCurTask);
+    if (UpdateScreenFade(fade)) {
+        TaskDestroy(gCurTask);
+    }
+}
+
+void Task_70_8057F7C(void)
+{
+    StageIntro_70 *strc70;
+    Sprite *s;
+    u16 temp_r0_2;
+    u16 temp_r0_3;
+
+    strc70 = TASK_DATA(gCurTask);
+    s = &strc70->s;
+    DisplaySprite(s);
+    strc70->unk4--;
+    if (strc70->unk4 == 0) {
+        strc70->unk4 = 0; // just in case it wasn't 0 enough, lol
+        gCurTask->main = Task_70_805722C;
+    }
+}
+
+void TaskDestructor_StageIntro(Task *t)
+{
+    StageIntro_170 *strc170 = TASK_DATA(t);
+    VramFree(strc170->sprites20[0].tiles);
+
+    if (strc170->notifText != NULL) {
+        EwramFree(strc170->notifText);
+    }
+
+    sub_80578EC(0, 0);
+}
+
+void Task_170_8057FE8()
+{
+    StageIntro_170 *strc170 = TASK_DATA(gCurTask);
+    u16 temp_r2;
+
+    strc170->unkA++;
+    strc170->unk6 = 80 - (strc170->unkA * 9);
+
+    if (strc170->unkA == 8) {
+        strc170->unk6 = 0xC;
+        strc170->unkA = 0x10;
+        gCurTask->main = Task_170_8058038;
+    }
+
+    sub_8057848();
+    sub_80578EC(1, 1);
+}
+
+void Task_170_8058038()
+{
+    StageIntro_170 *strc170 = TASK_DATA(gCurTask);
+    Sprite *s = &strc170->sprites20[0];
+
+    if (--strc170->unkA == 0) {
+        gCurTask->main = Task_170_8058094;
+    }
+
+    sub_8057848();
+    sub_80578EC(1, 1);
+    s->x = 120 - (strc170->unkA * 0xA);
+    s->y = (s16)strc170->unk5;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void Task_170_8058094()
+{
+    StageIntro_170 *strc170 = TASK_DATA(gCurTask);
+    Sprite *s;
+
+    s = &strc170->sprites20[0];
+    if (++strc170->unkA == 64) {
+        strc170->unkA = 0;
+        gCurTask->main = Task_170_805732C;
+    }
+    sub_8057848();
+    sub_80578EC(1, 1);
+    s->x = 0x78;
+    s->y = (s16)strc170->unk5;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void TaskDestructor_84_80580EC(Task *t) { }
+
+void Task_84_80580F0()
+{
+    StageIntro_84 *strc84 = TASK_DATA(gCurTask);
+
+    DisplaySprite(&strc84->s);
+
+    if (++strc84->unkA > 60) {
+        gCurTask->main = (void (*)())Task_84_8057D64;
+    }
+}
+
+void Task_84_805812C()
+{
+    StageIntro_84 *strc84 = TASK_DATA(gCurTask);
+
+    DisplaySprite(&strc84->s);
+    strc84->unkC += 8;
+    strc84->unk10 -= 8;
+    if (strc84->unkC < 80) {
+        gWinRegs[3] = WIN_RANGE(strc84->unkC, strc84->unk10);
+        return;
+    }
+    strc84->unkC = 80;
+    strc84->unk10 = 80;
+    gWinRegs[3] = WIN_RANGE(strc84->unkC, strc84->unk10);
+    gCurTask->main = (void (*)())Task_84_8057D64;
+}
+
+void Task_805818C()
+{
+    StageIntro_84 *strc84 = TASK_DATA(gCurTask);
+    s16 zone;
+    s16 levelId;
+
+    zone = strc84->zone;
+    if (zone != 7) {
+        levelId = (u32)LEVEL_INDEX(zone, ACT_HUB);
+    } else {
+        levelId = (u32)LEVEL_INDEX(ZONE_FINAL, ACT_ALTAR_EMERALD);
+        ;
+    }
+
+    WarpToMap(levelId, 0);
 }
