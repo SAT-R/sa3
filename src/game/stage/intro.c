@@ -25,6 +25,22 @@ typedef struct {
 } StageIntro_70; /* 0x70 */
 
 typedef struct {
+    /* 0x00 */ u8 unk0;
+    /* 0x01 */ int_vcount unk1;
+    /* 0x02 */ s16 unk2;
+    /* 0x04 */ s16 unk4;
+    /* 0x06 */ s16 unk6;
+    /* 0x08 */ s16 unk8;
+    /* 0x0A */ s16 unkA;
+    /* 0x0C */ s32 unkC;
+    /* 0x10 */ s32 unk10;
+    /* 0x14 */ s32 unk14;
+    /* 0x18 */ s32 unk18;
+    /* 0x1C */ Sprite s;
+    /* 0x44 */ Background bg;
+} StageIntro_84; /* 0x84 */
+
+typedef struct {
     /* 0x000 */ u8 unk0;
     /* 0x001 */ u8 unk1;
     /* 0x002 */ u8 unk2;
@@ -55,8 +71,10 @@ void Task_170_80575F0(void);
 void Task_StageIntroScreenFade(void);
 void Task_170_80573AC(void);
 void sub_8057848(void);
+void Task_84_8057B70(void);
 void Task_70_8057F7C(void);
 void Task_170_8057FE8(void);
+void TaskDestructor_84_80580EC(struct Task *t);
 void TaskDestructor_StageIntro(struct Task *t);
 void sub_80578EC(s32, s32);
 u32 sub_80C4C0C(u16 color);
@@ -810,4 +828,42 @@ void sub_80578EC(s32 arg0, s32 arg1)
             cheese->moveState &= ~CMS_INVISIBLE;
         }
     }
+}
+
+void StageIntro_ShowZoneName(u16 arg0, u16 arg1, u8 arg2)
+{
+    s32 sp4;
+    StageIntro_84 *strc84;
+
+    gDispCnt = 0x1040;
+    strc84 = TASK_DATA(TaskCreate(Task_84_8057B70, sizeof(StageIntro_84), 0x2100U, 0U, TaskDestructor_84_80580EC));
+    strc84->unk0 = arg2;
+    strc84->unk1 = 0;
+    strc84->unk2 = 0;
+    strc84->unk4 = 0;
+    strc84->unk6 = arg1;
+    strc84->unk8 = arg0;
+    strc84->unkA = 0;
+    strc84->unkC = 0;
+    strc84->unk10 = 0xA0;
+    strc84->unk14 = Q(168);
+    strc84->unk18 = Q(80);
+
+    DmaFill32(3, 0, BG_CHAR_ADDR_FROM_BGCNT(2), 0x40);
+
+    gBgSprites_Unknown1[0] = 0;
+    gBgSprites_Unknown2[0][0] = 0;
+    gBgSprites_Unknown2[0][1] = 0;
+    gBgSprites_Unknown2[0][2] = 0xFF;
+    gBgSprites_Unknown2[0][3] = 0x40;
+    gBgSprites_Unknown1[1] = 0;
+    gBgSprites_Unknown2[1][0] = 0;
+    gBgSprites_Unknown2[1][1] = 0;
+    gBgSprites_Unknown2[1][2] = -1;
+    gBgSprites_Unknown2[1][3] = 0x40;
+    gBgSprites_Unknown1[2] = 0;
+    gBgSprites_Unknown2[2][0] = 0;
+    gBgSprites_Unknown2[2][1] = 0;
+    gBgSprites_Unknown2[2][2] = -1;
+    gBgSprites_Unknown2[2][3] = 0x40;
 }
