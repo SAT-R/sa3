@@ -9,14 +9,41 @@
 #include "constants/songs.h"
 
 typedef struct {
-    ScreenFade fade;
-    s16 levelId;
+    /* 0x00 */ ScreenFade fade;
+    /* 0x10 */ s16 levelId;
 } Strc_10_8056120;
 
-void sub_8053284(s32 unused0, s32 unused1, s32 unused2, s32 unused3);
-void Task_10_8056A58(void);
+typedef struct {
+    /* 0x00 */ ScreenFade fade;
+    /* 0x0C */ u8 fillerC[0x28];
+    /* 0x34 */ u16 unk34;
+} Strc_38_8055F28;
 
-void sub_8056980(void) { }
+typedef struct {
+    /* 0x00 */ u8 filler0[0x64];
+} Strc_64_8056090;
+
+void sub_8053284(s32 unused0, s32 unused1, s32 unused2, s32 unused3);
+void Task_nullsub_8056980(void);
+void Task_10_8056A58(void);
+extern void sub_80AE1C8(void);
+
+void Task_38_8056934(void)
+{
+    Strc_38_8055F28 *strc = TASK_DATA(gCurTask);
+    ScreenFade *fade = &strc->fade;
+
+    if (strc->unk34 == 120) {
+        sub_80AE1C8();
+        strc->unk34--;
+    }
+
+    if ((UpdateScreenFade(fade) != SCREEN_FADE_RUNNING) && (--strc->unk34 == 0)) {
+        gCurTask->main = Task_nullsub_8056980;
+    }
+}
+
+void Task_nullsub_8056980(void) { }
 
 void Task_10_8056984(void)
 {

@@ -120,7 +120,7 @@ sub_8055F28: @ 0x08055F28
 	ldrb r0, [r0, #9]
 	cmp r0, #1
 	bne _08055F5C
-	ldr r0, _08055F58 @ =sub_8056714
+	ldr r0, _08055F58 @ =Task_38_8056714
 	movs r2, #0x80
 	lsls r2, r2, #1
 	movs r1, #0
@@ -135,11 +135,11 @@ sub_8055F28: @ 0x08055F28
 	b _08055FA6
 	.align 2, 0
 _08055F54: .4byte gStageData
-_08055F58: .4byte sub_8056714
+_08055F58: .4byte Task_38_8056714
 _08055F5C:
 	cmp r0, #3
 	bne _08055F84
-	ldr r0, _08055F80 @ =sub_8056884
+	ldr r0, _08055F80 @ =Task_38_8056884
 	movs r2, #0x80
 	lsls r2, r2, #1
 	movs r1, #0
@@ -153,11 +153,11 @@ _08055F5C:
 	bl sub_8001EEC
 	b _08055FA6
 	.align 2, 0
-_08055F80: .4byte sub_8056884
+_08055F80: .4byte Task_38_8056884
 _08055F84:
 	cmp r0, #5
 	bne _08056016
-	ldr r0, _08056020 @ =sub_8056934
+	ldr r0, _08056020 @ =Task_38_8056934
 	movs r2, #0x80
 	lsls r2, r2, #1
 	movs r1, #0
@@ -231,7 +231,7 @@ _08056016:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08056020: .4byte sub_8056934
+_08056020: .4byte Task_38_8056934
 _08056024: .4byte gStageData
 _08056028: .4byte gPlayers
 
@@ -290,7 +290,7 @@ sub_8056090: @ 0x08056090
 	lsrs r5, r5, #0x10
 	lsls r6, r6, #0x10
 	lsrs r6, r6, #0x10
-	ldr r0, _080560F0 @ =sub_8056660
+	ldr r0, _080560F0 @ =Task_64_8056660
 	movs r2, #0x80
 	lsls r2, r2, #1
 	ldr r1, _080560F4 @ =sub_8056104
@@ -324,7 +324,7 @@ sub_8056090: @ 0x08056090
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080560F0: .4byte sub_8056660
+_080560F0: .4byte Task_64_8056660
 _080560F4: .4byte sub_8056104
 _080560F8: .4byte 0x0300005C
 _080560FC: .4byte 0x0300005E
@@ -1008,8 +1008,8 @@ _08056654: .4byte gCurTask
 _08056658: .4byte 0x03000264
 _0805665C: .4byte gStageData
 
-	thumb_func_start sub_8056660
-sub_8056660: @ 0x08056660
+	thumb_func_start Task_64_8056660
+Task_64_8056660: @ 0x08056660
 	push {r4, r5, lr}
 	ldr r0, _08056698 @ =gCurTask
 	ldr r0, [r0]
@@ -1093,8 +1093,8 @@ _08056708: .4byte gCamera
 _0805670C: .4byte 0x00001C30
 _08056710: .4byte 0x00000644
 
-	thumb_func_start sub_8056714
-sub_8056714: @ 0x08056714
+	thumb_func_start Task_38_8056714
+Task_38_8056714: @ 0x08056714
 	push {r4, r5, lr}
 	ldr r5, _08056750 @ =gCurTask
 	ldr r0, [r5]
@@ -1274,8 +1274,8 @@ _08056878: .4byte 0xEFFEFFFE
 _0805687C: .4byte gCamera
 _08056880: .4byte 0x00001ED0
 
-	thumb_func_start sub_8056884
-sub_8056884: @ 0x08056884
+	thumb_func_start Task_38_8056884
+Task_38_8056884: @ 0x08056884
 	push {r4, r5, lr}
 	ldr r5, _080568C0 @ =gCurTask
 	ldr r0, [r5]
@@ -1365,45 +1365,6 @@ _08056924: .4byte 0x0031E000
 _08056928: .4byte 0xEFFEFFFE
 _0805692C: .4byte gCamera
 _08056930: .4byte 0x00003190
-
-	thumb_func_start sub_8056934
-sub_8056934: @ 0x08056934
-	push {r4, r5, lr}
-	ldr r5, _08056978 @ =gCurTask
-	ldr r0, [r5]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	ldrh r0, [r4, #0x34]
-	cmp r0, #0x78
-	bne _08056952
-	bl sub_80AE1C8
-	ldrh r0, [r4, #0x34]
-	subs r0, #1
-	strh r0, [r4, #0x34]
-_08056952:
-	adds r0, r4, #0
-	bl UpdateScreenFade
-	lsls r0, r0, #0x18
-	cmp r0, #0
-	beq _08056970
-	ldrh r0, [r4, #0x34]
-	subs r0, #1
-	strh r0, [r4, #0x34]
-	lsls r0, r0, #0x10
-	cmp r0, #0
-	bne _08056970
-	ldr r1, [r5]
-	ldr r0, _0805697C @ =sub_8056980
-	str r0, [r1, #8]
-_08056970:
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08056978: .4byte gCurTask
-_0805697C: .4byte sub_8056980
 
 .if 0
 .endif
