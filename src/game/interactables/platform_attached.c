@@ -23,8 +23,7 @@ typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
     /* 0x34 */ Hitbox reserved;
-    /* 0x3C */ Sprite s2;
-    /* 0x64 */ u8 filler64[0x8];
+    /* 0x3C */ Sprite2 s2;
     /* 0x6C */ s32 qWorldX;
     /* 0x70 */ s32 qWorldY;
     /* 0x74 */ s32 qHookWorldX;
@@ -35,7 +34,7 @@ typedef struct {
 } PlatformAttached;
 
 void Task_AttachedPlatformInit(void);
-void sub_803EBE0(Sprite *s, Sprite *s2);
+void sub_803EBE0(Sprite *s, Sprite2 *s2);
 void sub_803EA98(void);
 void sub_803ECE4(void);
 static void UpdateAngle(void);
@@ -46,7 +45,7 @@ void CreateEntity_AttachedPlatform(MapEntity *me, u16 regionX, u16 regionY, u8 i
     struct Task *t = TaskCreate(Task_AttachedPlatformInit, sizeof(PlatformAttached), 0x2100, 0, TaskDestructor_AttachedPlatform);
     PlatformAttached *platform = TASK_DATA(t);
     Sprite *s = &platform->s;
-    Sprite *s2 = &platform->s2;
+    Sprite2 *s2 = &platform->s2;
     s32 diameter;
     s32 qDirX, qDirY;
 
@@ -127,37 +126,35 @@ void sub_803EA98(void)
     }
 }
 
-void sub_803EBE0(Sprite *s, Sprite *s2)
+void sub_803EBE0(Sprite *s, Sprite2 *s2)
 {
-    // TODO: Make them u16[2][3]
-    u16 sp00[2];
-    u16 sp04[2];
-    u16 sp08[2];
+    u16 tileSizes[2];
+    u16 anims[2];
+    u16 patterns[2];
     void *tiles;
 
     if ((gStageData.zone == ZONE_2) || ((gStageData.zone != ZONE_6) && (gStageData.act == 9))) {
-        sp00[0] = MAX_TILES_VARIANT(ANIM_PLATFORM_2_2, 0);
-        sp04[0] = ANIM_PLATFORM_2_2;
-        sp08[0] = 0;
+        tileSizes[0] = MAX_TILES_VARIANT(ANIM_PLATFORM_2_2, 0);
+        anims[0] = ANIM_PLATFORM_2_2;
+        patterns[0] = 0;
 
-        sp00[1] = MAX_TILES_VARIANT(ANIM_BUNGEE_CORD, 0);
-        sp04[1] = ANIM_BUNGEE_CORD;
-        sp08[1] = 0;
+        tileSizes[1] = MAX_TILES_VARIANT(ANIM_BUNGEE_CORD, 0);
+        anims[1] = ANIM_BUNGEE_CORD;
+        patterns[1] = 0;
     } else {
-        // _0803EC2C
-        sp00[0] = MAX_TILES_VARIANT(ANIM_ATTACHED_PLATFORM, 0);
-        sp04[0] = ANIM_ATTACHED_PLATFORM;
-        sp08[0] = 0;
+        tileSizes[0] = MAX_TILES_VARIANT(ANIM_ATTACHED_PLATFORM, 0);
+        anims[0] = ANIM_ATTACHED_PLATFORM;
+        patterns[0] = 0;
 
-        sp00[1] = MAX_TILES_VARIANT(ANIM_ATTACHED_PLATFORM, 2);
-        sp04[1] = ANIM_ATTACHED_PLATFORM;
-        sp08[1] = 2;
+        tileSizes[1] = MAX_TILES_VARIANT(ANIM_ATTACHED_PLATFORM, 2);
+        anims[1] = ANIM_ATTACHED_PLATFORM;
+        patterns[1] = 2;
     }
 
-    tiles = VramMalloc(sp00[0] + sp00[1]);
+    tiles = VramMalloc(tileSizes[0] + tileSizes[1]);
     s->tiles = tiles;
-    s->anim = sp04[0];
-    s->variant = sp08[0];
+    s->anim = anims[0];
+    s->variant = patterns[0];
     s->oamFlags = SPRITE_OAM_ORDER(24);
     s->animCursor = 0;
     s->qAnimDelay = Q(0);
@@ -168,10 +165,10 @@ void sub_803EBE0(Sprite *s, Sprite *s2)
     s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
     UpdateSpriteAnimation(s);
 
-    tiles += sp00[0] * TILE_SIZE_4BPP;
+    tiles += tileSizes[0] * TILE_SIZE_4BPP;
     s2->tiles = tiles;
-    s2->anim = sp04[1];
-    s2->variant = sp08[1];
+    s2->anim = anims[1];
+    s2->variant = patterns[1];
     s2->oamFlags = SPRITE_OAM_ORDER(25);
     s2->animCursor = 0;
     s2->qAnimDelay = Q(0);
@@ -180,14 +177,14 @@ void sub_803EBE0(Sprite *s, Sprite *s2)
     s2->palId = 0;
     s2->hitboxes[0].index = HITBOX_STATE_INACTIVE;
     s2->frameFlags = SPRITE_FLAG(PRIORITY, 1);
-    UpdateSpriteAnimation(s2);
+    UpdateSpriteAnimation((Sprite *)s2);
 }
 
 void sub_803ECE4()
 {
     PlatformAttached *platform = TASK_DATA(gCurTask);
     Sprite *s = &platform->s;
-    Sprite *s2 = &platform->s2;
+    Sprite2 *s2 = &platform->s2;
     MapEntity *me = platform->base.me;
     Player *p;
     s32 qHookWorldX, qHookWorldY;
@@ -219,7 +216,7 @@ void sub_803ECE4()
         s32 qRad;
         s32 qDirX, qDirY;
 
-        UpdateSpriteAnimation(s2);
+        UpdateSpriteAnimation((Sprite *)s2);
 
         qDirX = SIN_24_8(platform->angle);
         qDirY = COS_24_8(platform->angle);
@@ -232,7 +229,7 @@ void sub_803ECE4()
             s2->x = I(qHookWorldX + Q_MUL(qDirX, qRad)) - gCamera.x;
             s2->y = I(qHookWorldY + Q_MUL(qDirY, qRad)) - gCamera.y;
 
-            DisplaySprite(s2);
+            DisplaySprite((Sprite *)s2);
         }
 
         s->x = I(qHookWorldX + Q_MUL(qDirX, platform->qRadius)) - gCamera.x;

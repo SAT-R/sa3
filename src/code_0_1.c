@@ -48,7 +48,7 @@ void sub_800214C(void)
     }
 }
 
-void WarpToMap(s16 level, s16 entryIndex)
+void WarpToMap(s16 level, s16 warpId)
 {
     StageData *stageData = &gStageData;
     s16 zone;
@@ -80,7 +80,7 @@ void WarpToMap(s16 level, s16 entryIndex)
         stageData->currentLevel = level;
     }
 
-    stageData->entryIndex = entryIndex;
+    stageData->warpId = warpId;
     stageData->difficulty = LOADED_SAVE->difficulty;
     stageData->language = LOADED_SAVE->language;
     if ((gStageData.zone < 7) && ((gStageData.act == 1 || gStageData.act == 2) || (gStageData.act == 8) || (gStageData.act == 9))) {
@@ -122,7 +122,7 @@ void sub_80022E8(s16 level)
         stageData->difficulty = LOADED_SAVE->difficulty;
         stageData->language = LOADED_SAVE->language;
         stageData->unk2 = 0;
-        stageData->entryIndex = 0;
+        stageData->warpId = 0;
     } else {
         stageData->zone = 0;
         stageData->act = 0;

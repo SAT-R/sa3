@@ -1112,7 +1112,7 @@ void Task_170_8058038()
 
     sub_8057848();
     sub_80578EC(1, 1);
-    s->x = 120 - (strc170->unkA * 0xA);
+    s->x = 120 - (strc170->unkA * 10);
     s->y = (s16)strc170->unk5;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
@@ -1130,7 +1130,7 @@ void Task_170_8058094()
     }
     sub_8057848();
     sub_80578EC(1, 1);
-    s->x = 0x78;
+    s->x = 120;
     s->y = (s16)strc170->unk5;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
@@ -1177,7 +1177,6 @@ void Task_805818C()
         levelId = (u32)LEVEL_INDEX(zone, ACT_HUB);
     } else {
         levelId = (u32)LEVEL_INDEX(ZONE_FINAL, ACT_ALTAR_EMERALD);
-        ;
     }
 
     WarpToMap(levelId, 0);

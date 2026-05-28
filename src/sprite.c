@@ -213,9 +213,9 @@ AnimCmdResult UpdateSpriteAnimation(Sprite *s)
         s->qAnimDelay += Q_8_8(((ACmd_ShowFrame *)cmd)->delay);
         s->qAnimDelay -= s->animSpeed * 0x10;
         {
+#if ((GAME == GAME_SA1) || (GAME == GAME_SA2))
             s32 frame = ((ACmd_ShowFrame *)cmd)->index;
 
-#if ((GAME == GAME_SA1) || (GAME == GAME_SA2))
             if (frame != -1) {
                 const struct SpriteTables *sprTables = gRefSpriteTables;
 
@@ -245,7 +245,7 @@ AnimCmdResult sub_80BF540(Sprite *s, u16 param1)
     s->prevAnim = s->anim;
     s->animCursor = 0;
     s->qAnimDelay = 0;
-    s->frameFlags &= ~MOVESTATE_4000;
+    SPRITE_FLAG_CLEAR(s, ANIM_OVER);
 
     {
         const ACmd **variants = gRefSpriteTables->animations[s->anim];
@@ -744,8 +744,8 @@ void DisplaySprite(Sprite *s)
 
     if ((sprWidth == 0) || (((x + sprWidth) >= 0) && (x <= DISPLAY_WIDTH) && ((sprHeight + y) >= 0) && (y <= DISPLAY_HEIGHT))) {
         u32 palId = (sp1C + (s->palId << 12)) << 0x10;
-        sp14 |= (0x180 & s->frameFlags) << 3;
-        sp1C = (((0x3000 & s->frameFlags) << 0xE) | palId) >> 0x10;
+        sp14 |= (SPRITE_FLAG_MASK_OBJ_MODE & s->frameFlags) << 3;
+        sp1C = (((SPRITE_FLAG_MASK_PRIORITY & s->frameFlags) << 0xE) | palId) >> 0x10;
         oamData = (u16 *)gRefSpriteTables->oamData[s->anim];
         s->oamBaseIndex = gOamFreeIndex;
         for (i = 0; i < dimensions->base.numSubframes; i++) {
@@ -863,7 +863,7 @@ NONMATCH("asm/non_matching/engine/sub_80C07E0.inc", void sub_80C07E0(Sprite *spr
 END_NONMATCH
 
 // (99.82%) https://decomp.me/scratch/UPXYB
-// TODO: Is param 'numPositions' u8 in SA1/SA2 but u8 in SA3?
+// TODO: Is param 'numPositions' u8 in SA1/SA2 but u16 in SA3?
 NONMATCH("asm/non_matching/engine/DisplaySprites.inc", void DisplaySprites(Sprite *sprite, Vec2_16 *positions, u16 numPositions))
 {
     vs32 x, y;
