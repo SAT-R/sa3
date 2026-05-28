@@ -98,23 +98,36 @@ u16 sub_804DC38(u8 kind, s32 worldX, s32 worldY, MapEntity *me)
     return 0;
 }
 
-// (95.10%) https://decomp.me/scratch/6Dbbz
-NONMATCH("asm/non_matching/game/interactables/platform_shared__sub_804DD68.inc", void sub_804DD68(PlatformShared *platform))
+// TODO: Fake-match
+// (100.00%) https://decomp.me/scratch/od9Jj
+void sub_804DD68(PlatformShared *platform)
 {
-    s32 sinVal, theta;
+    s32 sinVal;
     u32 unk2A = platform->unk2A;
-    u32 unk28 = platform->unk28;
+    u32 theta = platform->unk28;
     s32 qMiddleX = platform->qMiddleX;
     s32 qMiddleY = platform->qMiddleY;
     s32 qHalfWidth = platform->qHalfWidth;
     s32 qHalfHeight = platform->qHalfHeight;
 
     if (unk2A) {
-        unk28 += (unk2A * gStageData.timer);
-        theta = (unk28 & ONE_CYCLE);
+#ifndef NON_MATCHING
+        register u32 mask asm("r1");
+        register u32 mask2 asm("r0");
+        theta += (unk2A * gStageData.timer);
+        mask = ONE_CYCLE;
+        asm("mov %0, %1" : "=r"(mask2) : "r"(mask));
+        theta &= mask2;
+#else
+        u32 mask, mask2;
+        theta += (unk2A * gStageData.timer);
+        mask = ONE_CYCLE;
+        mask2 = mask;
+        theta &= mask2;
+#endif
     } else {
         s32 timer = gStageData.timer;
-        theta = (((timer + (unk28 / 4)) % (SIN_PERIOD >> 2)) * 4);
+        theta = (((timer + (theta >> 2)) % (SIN_PERIOD >> 2)) * 4);
     }
 
     sinVal = SIN(theta);
@@ -122,7 +135,6 @@ NONMATCH("asm/non_matching/game/interactables/platform_shared__sub_804DD68.inc",
     platform->qWorldX = qMiddleX + (((qHalfWidth * sinVal)) >> 14);
     platform->qWorldY = qMiddleY + ((qHalfHeight * sinVal) >> 14);
 }
-END_NONMATCH
 
 void DrawPlatformShared(PlatformShared *platform, Sprite *s)
 {

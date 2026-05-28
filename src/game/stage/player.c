@@ -559,11 +559,6 @@ void Task_80045EC(void)
         case 0:
             sub_8004B14();
 
-#if DEBUG
-            // TEMP/TODO: Needed to enable movement right now...
-            p->moveState &= ~MOVESTATE_IGNORE_INPUT;
-#endif
-
             if (gStageData.currentLevel == 11) {
                 if (SELECT_BUTTON & p->keyInput2) {
                     sub_8003D2C();
