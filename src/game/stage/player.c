@@ -22649,7 +22649,7 @@ u32 sub_8020950(Sprite *s, s32 worldX, s32 worldY, Player *p, u8 param4)
 // NOTE: This was done via permuter.
 // Matching and cleanup necessary.
 // This could use HITBOX macros.
-// (98.79%) https://decomp.me/scratch/K39qP
+// (98.13%) https://decomp.me/scratch/TD3zY
 NONMATCH("asm/non_matching/game/stage/player__sub_8020A58.inc",
          u32 sub_8020A58(Sprite *s, s16 param1, s32 worldX, s32 worldY, Rect8 *playerBox, Player *p, u8 param6))
 {
@@ -22764,7 +22764,7 @@ block_16:
     } else {
         midY = (worldY + s->hitboxes[param1].b.bottom) - (playerY + playerBox->top);
         if ((p->moveState) & 0x00010000) {
-            new_var2 = (new_var4 = 0x10000);
+            new_var4 = 0x10000;
             var_r1 = midY;
             var_r1 = var_r1 - 5;
             if (var_r1 < 0) {
@@ -22772,7 +22772,7 @@ block_16:
                 var_r1 = 0;
             }
         block_28:
-            var_r6 |= new_var2;
+            var_r6 |= new_var4;
             goto block_12;
         } else {
             var_r1 = midY + 2;

@@ -84,7 +84,6 @@ void Task_TimeOver_Update(void);
 void sub_80043B8();
 void ClearCameraStruct();
 void TaskDestructor_80040BC(Task *);
-void sub_80105F0();
 void sub_8026478();
 s16 sub_80264F0();
 void sub_8026720();
