@@ -30,10 +30,19 @@ typedef struct {
 } Strc_64_8056090;
 
 void sub_8053284(s32 unused0, s32 unused1, s32 unused2, s32 unused3);
+void Task_274_80547DC(void);
+void Task_274_8054764(void);
+void sub_8054E38(void);
+void Task_274_80562BC(void);
 void Task_2A4_80552C8(void);
 void Task_2A4_8055378(void);
 void sub_8055CA8(void);
 void sub_8055D44(void);
+void Task_274_8056314(void);
+void Task_274_8056370(void);
+void sub_80563BC(void);
+void sub_8056430(void);
+void sub_8056408(void);
 void sub_8056564(void);
 void sub_80565BC(void);
 void sub_80565E4(void);
@@ -47,7 +56,157 @@ extern void sub_80AE174(void);
 extern void sub_80AE1C8(void);
 extern void sub_80AE770(void);
 
-/* TODO: Merge with code_1_3 */
+extern const u8 gUnknown_080D1D50[];
+
+/* TODO: Merge module with code_1_3 */
+
+void Task_274_8056214(void)
+{
+    Strc_274_8053284 *strc = TASK_DATA(gCurTask);
+
+    if (strc->fade.bldAlpha > 120) {
+        strc->fade.bldAlpha -= 12;
+    } else {
+        strc->fade.bldAlpha = 120;
+    }
+
+    sub_8054E38();
+
+    if ((u16)++strc->fade.brightness >= 60) {
+        strc->fade.brightness = 0;
+        gCurTask->main = Task_274_8054764;
+    }
+}
+
+void Task_274_8056268(void)
+{
+    Strc_274_8053284 *strc = TASK_DATA(gCurTask);
+
+    if (strc->fade.bldAlpha > 8) {
+        strc->fade.bldAlpha -= 8;
+    } else {
+        strc->fade.bldAlpha = 8;
+    }
+
+    sub_8054E38();
+
+    if ((u16)++strc->fade.brightness >= 30) {
+        strc->fade.brightness = 0;
+        gCurTask->main = Task_274_80562BC;
+    }
+}
+
+void Task_274_80562BC(void)
+{
+    Strc_274_8053284 *strc = TASK_DATA(gCurTask);
+
+    if (strc->someX > 130) {
+        strc->someX -= 12;
+    } else {
+        strc->someX = 130;
+    }
+
+    sub_8054E38();
+    sub_80563BC();
+
+    if ((u16)++strc->fade.brightness >= 30) {
+        strc->fade.brightness = 0;
+        gCurTask->main = Task_274_8056314;
+    }
+}
+
+void Task_274_8056314(void)
+{
+    Strc_274_8053284 *strc = TASK_DATA(gCurTask);
+
+    if (strc->unk18 > 132) {
+        strc->unk18 -= 8;
+    } else {
+        strc->unk18 = 0x84;
+        sub_8056408();
+    }
+
+    sub_8054E38();
+    sub_80563BC();
+    sub_8056430();
+
+    if ((u16)++strc->fade.brightness >= 30) {
+        strc->fade.brightness = 0;
+        gCurTask->main = Task_274_8056370;
+    }
+}
+
+void Task_274_8056370(void)
+{
+    Strc_274_8053284 *strc = TASK_DATA(gCurTask);
+    sub_8054E38();
+    sub_80563BC();
+    sub_8056430();
+    sub_8056408();
+
+    // TODO: This probably isn't a fade/brightness value...
+    if ((u16)++strc->fade.brightness >= 60) {
+        strc->fade.brightness = 0;
+        m4aSongNumStart(SE_GOAL_RING_RESULT);
+        gCurTask->main = Task_274_80547DC;
+    }
+}
+
+void sub_80563BC(void)
+{
+    Strc_274_8053284 *strc = TASK_DATA(gCurTask);
+    Sprite *s = &strc->sprite94;
+
+    s->x = strc->someX;
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &strc->spriteBC;
+    s->x = strc->someX + strc->unk17;
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void sub_8056408(void)
+{
+    Strc_274_8053284 *strc = TASK_DATA(gCurTask);
+    Sprite *s = &strc->spriteE4;
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void sub_8056430(void)
+{
+    Strc_274_8053284 *strc = TASK_DATA(gCurTask);
+    u8 sp00[7];
+    s16 i;
+
+    // TODO: Remove memcpy
+    memcpy(sp00, gUnknown_080D1D50, sizeof(sp00));
+
+    for (i = 0; i < (s32)ARRAY_COUNT(sp00); i++) {
+        Sprite *s = &strc->sprites10C[i];
+        s->x = strc->unk18 + sp00[i];
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
+
+void Task_274_8056494(void)
+{
+    Strc_274_8053284 *strc = TASK_DATA(gCurTask);
+    Sprite *s = &strc->sprite224;
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &strc->sprite24C;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
 
 void Task_2A4_80564D0(void)
 {

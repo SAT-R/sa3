@@ -32,12 +32,19 @@ typedef struct {
 
 typedef struct {
     /* 0x000 */ ScreenFade fade;
-    /* 0x00C */ u8 fillerC[0x78];
-    /* 0x084 */ Sprite sprite84;
-    /* 0x0AC */ Sprite spriteAC;
-    /* 0x0D4 */ Sprite spriteD4;
-    /* 0x0FC */ u8 fillerFC[0x10];
-    /* 0x10C */ Sprite sprite10C[7];
+    /* 0x00C */ u8 fillerC[0x2];
+    /* 0x00E */ s16 someX;
+    /* 0x010 */ u8 filler10[0x6];
+    /* 0x016 */ u8 unk16;
+    /* 0x017 */ u8 unk17;
+    /* 0x018 */ u8 unk18;
+    /* 0x019 */ u8 unk19;
+    /* 0x01A */ u8 filler1A[0x6A];
+    /* 0x084 */ u8 filler84[0x10];
+    /* 0x094 */ Sprite sprite94;
+    /* 0x0BC */ Sprite spriteBC;
+    /* 0x0E4 */ Sprite spriteE4;
+    /* 0x10C */ Sprite sprites10C[7];
     /* 0x224 */ Sprite sprite224;
     /* 0x24C */ Sprite sprite24C;
 } Strc_274_8053284;
