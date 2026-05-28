@@ -38,7 +38,7 @@ void Task_AttachedPlatformInit(void);
 void sub_803EBE0(Sprite *s, Sprite *s2);
 void sub_803EA98(void);
 void sub_803ECE4(void);
-void sub_803EE8C(void);
+static void UpdateAngle(void);
 void TaskDestructor_AttachedPlatform(struct Task *);
 
 void CreateEntity_AttachedPlatform(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -245,21 +245,15 @@ void sub_803ECE4()
 
 void Task_AttachedPlatformInit(void)
 {
-    sub_803EE8C();
+    UpdateAngle();
     sub_803EA98();
     sub_803ECE4();
 }
 
-void sub_803EE8C(void)
+void UpdateAngle(void)
 {
     PlatformAttached *platform = TASK_DATA(gCurTask);
-#ifndef NON_MATCHING
     platform->angle = ((gStageData.timer * platform->unk7C) << 14) >> 22;
-#else
-    // NOTE: For some reason agbcc optimizes out push/pop
-    //       instructions when the multiplication is in this other order.
-    platform->angle = CLAMP_SIN_PERIOD(platform->unk7C * gStageData.timer);
-#endif
 }
 
 void TaskDestructor_AttachedPlatform(struct Task *t)

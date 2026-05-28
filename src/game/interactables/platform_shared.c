@@ -119,11 +119,8 @@ void sub_804DD68(PlatformShared *platform)
         asm("mov %0, %1" : "=r"(mask2) : "r"(mask));
         theta &= mask2;
 #else
-        u32 mask, mask2;
         theta += (unk2A * gStageData.timer);
-        mask = ONE_CYCLE;
-        mask2 = mask;
-        theta &= mask2;
+        theta &= ONE_CYCLE;
 #endif
     } else {
         s32 timer = gStageData.timer;
@@ -132,7 +129,7 @@ void sub_804DD68(PlatformShared *platform)
 
     sinVal = SIN(theta);
 
-    platform->qWorldX = qMiddleX + (((qHalfWidth * sinVal)) >> 14);
+    platform->qWorldX = qMiddleX + ((qHalfWidth * sinVal) >> 14);
     platform->qWorldY = qMiddleY + ((qHalfHeight * sinVal) >> 14);
 }
 
