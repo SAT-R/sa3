@@ -24,9 +24,71 @@ typedef struct {
 } Strc_64_8056090;
 
 void sub_8053284(s32 unused0, s32 unused1, s32 unused2, s32 unused3);
+void Task_nullsub_80568C8(void);
 void Task_nullsub_8056980(void);
 void Task_10_8056A58(void);
+extern void sub_80AE174(void);
 extern void sub_80AE1C8(void);
+
+void sub_8056818(void)
+{
+    Player *p = &gPlayers[PLAYER_1];
+    Player *partner = GET_SP_PLAYER_V1(PLAYER_2);
+
+    p->charFlags.anim0 = 0;
+    p->qWorldX = Q(7968);
+    p->qWorldY = Q(754);
+    p->moveState &= ~0x10010001;
+
+    partner->charFlags.anim0 = 0;
+    partner->qWorldX = Q(7968) - Q(32);
+    partner->qWorldY = Q(754);
+    partner->moveState &= ~0x10010001;
+
+    gCamera.x = 7888;
+    gCamera.SA2_LABEL(unk10) = 7888;
+    gCamera.y = 644;
+    gCamera.SA2_LABEL(unk14) = 644;
+}
+
+void Task_38_8056884(void)
+{
+    Strc_38_8055F28 *strc = TASK_DATA(gCurTask);
+    ScreenFade *fade = &strc->fade;
+
+    if (UpdateScreenFade(fade) != SCREEN_FADE_RUNNING) {
+        if (strc->unk34 == 60) {
+            sub_80AE174();
+        }
+
+        if (--strc->unk34 == 0) {
+            gCurTask->main = Task_nullsub_80568C8;
+        }
+    }
+}
+
+void Task_nullsub_80568C8(void) { }
+
+void sub_80568CC(void)
+{
+    Player *p = &gPlayers[PLAYER_1];
+    Player *partner = GET_SP_PLAYER_V1(PLAYER_2);
+
+    p->charFlags.anim0 = 0;
+    p->qWorldX = Q(12768);
+    p->qWorldY = Q(274);
+    p->moveState &= ~0x10010001;
+
+    partner->charFlags.anim0 = 0;
+    partner->qWorldX = Q(12768) - Q(32);
+    partner->qWorldY = Q(274);
+    partner->moveState &= ~0x10010001;
+
+    gCamera.x = 12688;
+    gCamera.SA2_LABEL(unk10) = 12688;
+    gCamera.y = 164;
+    gCamera.SA2_LABEL(unk14) = 164;
+}
 
 void Task_38_8056934(void)
 {

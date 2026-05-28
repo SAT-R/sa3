@@ -139,11 +139,9 @@ void sub_80961E4(u8 param0) { }
 // returns VRAM tile pointer
 void *CreateSomeTask_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles) { return tiles; }
 void /* 0x080A209C */ CreateGameIntroState() { }
-void sub_80AD824(void)
-{
-    int k = 123;
-    asm("");
-}
+void sub_80AD824(void) { }
+void sub_80AE174(void) { }
+void sub_80AE1C8(void) { }
 
 void /* 0x080C4564 */ CopyPalette() { }
 void sub_80C460C(const u16 *pal, u8 paletteOffset, u16 palSize) { }

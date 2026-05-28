@@ -44,7 +44,7 @@ song602:	@ 0x082B1DD4
 	.byte	128		@ reverb
     
 	mAlignWord
-	.int	voicegroup003		@ voicegroup/tone
+	mPtr	voicegroup003		@ voicegroup/tone
 
-	.int	song602_1		@ track
-	.int	song602_2		@ track
+	mPtr	song602_1		@ track
+	mPtr	song602_2		@ track
