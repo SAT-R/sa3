@@ -9,6 +9,8 @@
 
 /* TODO: Merge with code_1_4 */
 
+extern void sub_80B1AF4(s16 character, s16 zone, u8 collectedEmeralds);
+
 void sub_8053128(s16 arg0, s16 arg1)
 {
     Strc_220_sub_8053128 *strc220;
@@ -58,3 +60,33 @@ void sub_8053128(s16 arg0, s16 arg1)
         m4aSongNumStart(MUS_BOSS_CLEAR);
     }
 }
+
+#if 0
+// Matches
+void Task_10_8055DA8(void)
+{
+    Strc_10_8055DA8 *strc = TASK_DATA(gCurTask);
+    ScreenFade *fade = &strc->fade;
+
+    if(strc->unkE == 0) {
+        if(UpdateScreenFade(fade) != SCREEN_FADE_RUNNING) {
+            strc->unkE = 1;
+        }
+    } else {
+        sub_8001E58();
+        sub_8003D2C();
+
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
+        gBgSpritesCount = 0;
+        PAUSE_GRAPHICS_QUEUE();
+
+        gStageData.unkD = 0;
+        {
+            Player *players = gPlayers;
+            Player *p = &players[gStageData.playerIndex];
+            sub_80B1AF4(p->charFlags.character, gStageData.zone, LOADED_SAVE->collectedEmeralds);
+        }
+    }
+}
+#endif

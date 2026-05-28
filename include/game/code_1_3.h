@@ -4,6 +4,12 @@
 #include "game/screen_fade.h"
 
 typedef struct {
+    /* 0x00 */ ScreenFade fade;
+    /* 0x0C */ u16 character;
+    /* 0x0E */ u8 unkE;
+} Strc_10_8055DA8;
+
+typedef struct {
     /* 0x000 */ u8 filler0[0x150];
     /* 0x150 */ ScreenFade fade;
     /* 0x15C */ u8 filler15C[0x8];
@@ -25,13 +31,34 @@ typedef struct {
 } Strc_220_sub_8053128;
 
 typedef struct {
-    /* 0x000 */ u8 filler0[0xD4];
+    /* 0x000 */ ScreenFade fade;
+    /* 0x00C */ u8 fillerC[0x78];
+    /* 0x084 */ Sprite sprite84;
+    /* 0x0AC */ Sprite spriteAC;
+    /* 0x0D4 */ Sprite spriteD4;
+    /* 0x0FC */ u8 fillerFC[0x10];
+    /* 0x10C */ Sprite sprite10C[7];
+    /* 0x224 */ Sprite sprite224;
+    /* 0x24C */ Sprite sprite24C;
+} Strc_274_8053284;
+
+typedef struct {
+    /* 0x000 */ ScreenFade fade;
+    /* 0x00C */ u8 fillerC[0x78];
+    /* 0x084 */ Sprite sprite84;
+    /* 0x0AC */ Sprite spriteAC;
     /* 0x0D4 */ Sprite spriteD4;
     /* 0x0FC */ u8 fillerFC[0x118];
     /* 0x214 */ Sprite sprite214;
     /* 0x23C */ Sprite sprite23C;
     /* 0x264 */ Sprite sprite264;
-    /* 0x28C */ u8 filler28C[0x18];
+    /* 0x28C */ u8 filler28C[0x4];
+    /* 0x290 */ u16 unk290;
+    /* 0x292 */ u8 filler292[0x4];
+    /* 0x296 */ u16 someX;
+    /* 0x298 */ u8 filler298[0x7];
+    /* 0x29F */ u8 unk29F;
+    /* 0x2A0 */ u8 filler2A0[0x4];
 } Strc_2A4_8053284;
 
 void Task_220_8053904(void);

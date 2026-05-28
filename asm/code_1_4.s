@@ -796,8 +796,9 @@ _0805644C:
 _0805648C: .4byte gCurTask
 _08056490: .4byte gUnknown_080D1D50
 
-	thumb_func_start sub_8056494
-sub_8056494: @ 0x08056494
+.if 01
+	thumb_func_start Task_274_8056494
+Task_274_8056494: @ 0x08056494
 	push {r4, r5, lr}
 	ldr r0, _080564C4 @ =gCurTask
 	ldr r0, [r0]
@@ -822,115 +823,4 @@ _080564C4: .4byte gCurTask
 _080564C8: .4byte 0x03000224
 _080564CC: .4byte 0x0300024C
 
-	thumb_func_start sub_80564D0
-sub_80564D0: @ 0x080564D0
-	push {r4, lr}
-	ldr r0, _0805650C @ =gCurTask
-	ldr r0, [r0]
-	ldrh r4, [r0, #6]
-	bl sub_8055CA8
-	bl sub_8056564
-	bl sub_8055D44
-	bl sub_80565BC
-	bl sub_80565E4
-	bl sub_8056620
-	ldr r0, _08056510 @ =0x03000290
-	adds r4, r4, r0
-	ldrh r0, [r4]
-	adds r1, r0, #1
-	strh r1, [r4]
-	ldr r0, _08056514 @ =gStageData
-	ldrh r0, [r0, #0xe]
-	cmp r0, #0x48
-	beq _08056518
-	lsls r0, r1, #0x10
-	lsrs r0, r0, #0x10
-	cmp r0, #0x77
-	bls _08056528
-	b _08056520
-	.align 2, 0
-_0805650C: .4byte gCurTask
-_08056510: .4byte 0x03000290
-_08056514: .4byte gStageData
-_08056518:
-	lsls r0, r1, #0x10
-	lsrs r0, r0, #0x10
-	cmp r0, #0xb3
-	bls _08056528
-_08056520:
-	ldr r0, _08056530 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _08056534 @ =sub_80552C8
-	str r0, [r1, #8]
-_08056528:
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08056530: .4byte gCurTask
-_08056534: .4byte sub_80552C8
-
-	thumb_func_start sub_8056538
-sub_8056538: @ 0x08056538
-	push {r4, lr}
-	ldr r4, _0805655C @ =gCurTask
-	ldr r0, [r4]
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r0, r0, r1
-	bl UpdateScreenFade
-	lsls r0, r0, #0x18
-	cmp r0, #0
-	beq _08056556
-	ldr r1, [r4]
-	ldr r0, _08056560 @ =sub_8055378
-	str r0, [r1, #8]
-_08056556:
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0805655C: .4byte gCurTask
-_08056560: .4byte sub_8055378
-
-	thumb_func_start sub_8056564
-sub_8056564: @ 0x08056564
-	push {r4, r5, r6, lr}
-	ldr r0, _080565A8 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r4, [r0, #6]
-	ldr r0, _080565AC @ =0x03000084
-	adds r6, r4, r0
-	ldr r0, _080565B0 @ =0x03000296
-	adds r5, r4, r0
-	ldrh r0, [r5]
-	strh r0, [r6, #0x10]
-	adds r0, r6, #0
-	bl UpdateSpriteAnimation
-	adds r0, r6, #0
-	bl DisplaySprite
-	ldr r0, _080565B4 @ =0x030000AC
-	adds r6, r4, r0
-	ldr r0, _080565B8 @ =0x0300029F
-	adds r4, r4, r0
-	ldrh r0, [r5]
-	ldrb r4, [r4]
-	adds r0, r0, r4
-	strh r0, [r6, #0x10]
-	adds r0, r6, #0
-	bl UpdateSpriteAnimation
-	adds r0, r6, #0
-	bl DisplaySprite
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080565A8: .4byte gCurTask
-_080565AC: .4byte 0x03000084
-_080565B0: .4byte 0x03000296
-_080565B4: .4byte 0x030000AC
-_080565B8: .4byte 0x0300029F
-
-.if 0
 .endif

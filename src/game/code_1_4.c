@@ -6,12 +6,13 @@
 #include "game/code_1_3.h"
 #include "game/screen_fade.h"
 #include "game/shared/stage/player_callbacks.h"
+#include "game/save.h"
 #include "game/stage.h"
 #include "constants/songs.h"
 
 typedef struct {
     /* 0x00 */ ScreenFade fade;
-    /* 0x10 */ s16 levelId;
+    /* 0x0C */ s16 levelId;
 } Strc_10_8056120;
 
 typedef struct {
@@ -29,6 +30,14 @@ typedef struct {
 } Strc_64_8056090;
 
 void sub_8053284(s32 unused0, s32 unused1, s32 unused2, s32 unused3);
+void Task_2A4_80552C8(void);
+void Task_2A4_8055378(void);
+void sub_8055CA8(void);
+void sub_8055D44(void);
+void sub_8056564(void);
+void sub_80565BC(void);
+void sub_80565E4(void);
+void sub_8056620(void);
 void Task_80567A0(void);
 void Task_nullsub_80568C8(void);
 void Task_nullsub_8056980(void);
@@ -39,6 +48,53 @@ extern void sub_80AE1C8(void);
 extern void sub_80AE770(void);
 
 /* TODO: Merge with code_1_3 */
+
+void Task_2A4_80564D0(void)
+{
+    Strc_2A4_8053284 *strc = TASK_DATA(gCurTask);
+
+    sub_8055CA8();
+    sub_8056564();
+    sub_8055D44();
+    sub_80565BC();
+    sub_80565E4();
+    sub_8056620();
+
+    strc->unk290++;
+
+    if (((gStageData.currentLevel != 72) && (strc->unk290 < 120)) //
+        || ((gStageData.currentLevel == 72) && (strc->unk290 < 180))) {
+        return;
+    } else {
+        gCurTask->main = Task_2A4_80552C8;
+    }
+}
+
+void Task_2A4_8056538(void)
+{
+    Strc_2A4_8053284 *strc = TASK_DATA(gCurTask);
+    ScreenFade *fade = &strc->fade;
+
+    if (UpdateScreenFade(fade) != SCREEN_FADE_RUNNING) {
+        gCurTask->main = Task_2A4_8055378;
+    }
+}
+
+void sub_8056564(void)
+{
+    Strc_2A4_8053284 *strc = TASK_DATA(gCurTask);
+    Sprite *s = &strc->sprite84;
+
+    s->x = strc->someX;
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &strc->spriteAC;
+    s->x = strc->someX + strc->unk29F;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
 
 void sub_80565BC(void)
 {

@@ -79,6 +79,7 @@ void sub_8052D8C() { }
 void sub_8053440() { }
 void sub_80534DC() { }
 void sub_805365C() { }
+void Task_2A4_8055378() { }
 void CreateGmerl1() { }
 void CreateBoss_8068B3C() { }
 void CreateBoss_806A90C() { }
@@ -142,6 +143,7 @@ void /* 0x080A209C */ CreateGameIntroState() { }
 void sub_80AD824(void) { }
 void sub_80AE174(void) { }
 void sub_80AE1C8(void) { }
+void sub_80AE770(void) { }
 
 void /* 0x080C4564 */ CopyPalette() { }
 void sub_80C460C(const u16 *pal, u8 paletteOffset, u16 palSize) { }
