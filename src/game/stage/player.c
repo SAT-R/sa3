@@ -13113,21 +13113,21 @@ void SetPlayerSpawnPosition(s32 levelIndex, s32 pid)
 {
     s16 sp00[ARRAY_COUNT(gUnknown_080CE6A8)][2];
     Player *p;
-    u8 entryIndex;
+    u8 warpId;
 
     p = &gPlayers[pid];
-    entryIndex = gStageData.entryIndex;
+    warpId = gStageData.warpId;
     if (GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode) || gStageData.gameMode == GAME_MODE_5) {
-        gStageData.respawnX = gRespawnPositions[levelIndex][entryIndex].x;
-        gStageData.respawnY = gRespawnPositions[levelIndex][entryIndex].y;
+        gStageData.respawnX = gRespawnPositions[levelIndex][warpId].x;
+        gStageData.respawnY = gRespawnPositions[levelIndex][warpId].y;
     } else if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
-        gStageData.respawnX = gRespawnPositions[levelIndex][entryIndex].x;
-        gStageData.respawnY = gRespawnPositions[levelIndex][entryIndex].y;
+        gStageData.respawnX = gRespawnPositions[levelIndex][warpId].x;
+        gStageData.respawnY = gRespawnPositions[levelIndex][warpId].y;
     } else {
         memcpy(sp00, &gUnknown_080CE6A8, sizeof(gUnknown_080CE6A8));
         if (gStageData.playerIndex == pid) {
-            gStageData.respawnX = sp00[entryIndex][0];
-            gStageData.respawnY = sp00[entryIndex][1];
+            gStageData.respawnX = sp00[warpId][0];
+            gStageData.respawnY = sp00[warpId][1];
         }
     }
     gStageData.unk24 = 0;
@@ -13185,8 +13185,8 @@ void sub_8013F4C(Player *p)
     p->qSpeedAirX = 0;
     p->qSpeedAirY = 0;
     p->moveState = MOVESTATE_IGNORE_INPUT;
-    if (((gStageData.currentLevel == LEVEL_INDEX(ZONE_2, ACT_CHAO_PLAYGROUND)) && (gStageData.entryIndex == 0))
-        || ((gStageData.currentLevel == LEVEL_INDEX(ZONE_1, ACT_SONIC_FACTORY)) && (gStageData.entryIndex == 1))) {
+    if (((gStageData.currentLevel == LEVEL_INDEX(ZONE_2, ACT_CHAO_PLAYGROUND)) && (gStageData.warpId == 0))
+        || ((gStageData.currentLevel == LEVEL_INDEX(ZONE_1, ACT_SONIC_FACTORY)) && (gStageData.warpId == 1))) {
         p->moveState |= MOVESTATE_FACING_LEFT;
     }
 

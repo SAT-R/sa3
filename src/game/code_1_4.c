@@ -21,8 +21,7 @@ void sub_8056980(void) { }
 void Task_10_8056984(void)
 {
     Strc_10_8056120 *strc10 = TASK_DATA(gCurTask);
-    if(UpdateScreenFade(&strc10->fade) != SCREEN_FADE_RUNNING)
-    {
+    if (UpdateScreenFade(&strc10->fade) != SCREEN_FADE_RUNNING) {
         sub_8003D2C();
         gCurTask->main = Task_10_8056A58;
     }
@@ -31,8 +30,7 @@ void Task_10_8056984(void)
 void Task_Fade_80569B4(void)
 {
     ScreenFade *fade = TASK_DATA(gCurTask);
-    if(UpdateScreenFade(fade) != SCREEN_FADE_RUNNING)
-    {
+    if (UpdateScreenFade(fade) != SCREEN_FADE_RUNNING) {
         sub_8003D2C();
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
@@ -54,7 +52,7 @@ void Task_8056A20(void)
 void Task_10_8056A58(void)
 {
     Strc_10_8056120 *strc10 = TASK_DATA(gCurTask);
-    
+
     TasksDestroyAll();
     PAUSE_BACKGROUNDS_QUEUE();
     gBgSpritesCount = 0;

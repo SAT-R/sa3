@@ -108,7 +108,7 @@ void Task_ActRingMain(void)
             p = GET_SP_PLAYER_V0(i);
 
             if ((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) {
-                if (gStageData.entryIndex == (ring->act + 1)) {
+                if (gStageData.warpId == (ring->act + 1)) {
                     if (ring->unk62 != 0) {
                         p->qSpeedAirX = -Q(4);
                         p->moveState |= MOVESTATE_FACING_LEFT;

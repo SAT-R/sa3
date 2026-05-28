@@ -71,7 +71,7 @@ void Task_FactoryRingMain(void)
             }
 
             if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2 || p->charFlags.someIndex == 4) {
-                if (gStageData.entryIndex == 0) {
+                if (gStageData.warpId == 0) {
                     p->qSpeedAirX = FACTORY_RING_SPAWN_SPEED;
                     p->moveState &= ~MOVESTATE_FACING_LEFT;
                 }

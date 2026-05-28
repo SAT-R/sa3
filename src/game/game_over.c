@@ -428,7 +428,7 @@ void Task_00_8002988(void)
     }
     gCamera.x = 0;
     gCamera.y = 0;
-    InitCamera(sd->currentLevel, sd->entryIndex);
+    InitCamera(sd->currentLevel, sd->warpId);
     if (sd->gameMode != 7) {
         if (sd->gameMode < GAME_MODE_MP_MULTI_PACK) {
             u8 playerIndex = sd->playerIndex;
@@ -445,7 +445,7 @@ void Task_00_8002988(void)
         } else {
             if (sd->zone < ZONE_FINAL) {
                 if (sd->act == ACT_SPECIAL) {
-                    if ((sd->currentLevel != LEVEL_INDEX(ZONE_2, ACT_SPECIAL)) && (sd->entryIndex != 2)) {
+                    if ((sd->currentLevel != LEVEL_INDEX(ZONE_2, ACT_SPECIAL)) && (sd->warpId != 2)) {
                         sub_8056AFC(sd->zone);
                     } else {
                         sub_8057ECC();
@@ -492,7 +492,7 @@ void Task_00_8002988(void)
         sub_80261B0();
 
         if ((gStageData.gameMode == GAME_MODE_5) && (gStageData.playerIndex == 0)) {
-            sub_80275F0(gStageData.currentLevel, gStageData.zone, gStageData.entryIndex);
+            sub_80275F0(gStageData.currentLevel, gStageData.zone, gStageData.warpId);
 
             if (gStageData.gameMode == GAME_MODE_5) {
                 sub_8027878(gStageData.lives);
