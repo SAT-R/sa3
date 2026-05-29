@@ -115,7 +115,8 @@ typedef struct {
     /* 0x29 */ u8 unlockedStages[9]; // 0x29-0x31 | (struct ZoneCompletion)
     /* 0x32 */ u8 collectedEmeralds; // 0x32 | Stored bitwise: x7654321b
     /* 0x33 */ u8 unlockFlags;
-    /* 0x34 */ u16 unk34;
+    /* 0x34 */ u16 unk34; // Bitfield, if 0x10 is set, all characters are unlocked and all Emeralds collected, the Extra Boss gets enabled
+                          // after defeating the Final Boss.
     /* 0x36 */ u8 unk36; /* Live count? */
     /* 0x37 */ u8 collectedMedals[9][4]; // 0x37 | (struct MedalCollection)
                                          // xxxxxGSBb Medals collected for

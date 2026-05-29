@@ -1,6 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "task.h"
+#include "malloc_vram.h"
 #include "module_unclear.h" // WarpToMap
 #include "lib/m4a/m4a.h"
 #include "game/code_1_3.h"
@@ -25,19 +26,32 @@ typedef struct {
     /* 0x00 */ u8 filler0[0xC];
     /* 0x0C */ Sprite s;
     /* 0x34 */ Sprite s2;
-    /* 0x5C */ u8 filler5C[0x4];
+    /* 0x5C */ u16 unk5C;
+    /* 0x5E */ u8 unk5E;
+    /* 0x5F */ u8 unk5F;
     /* 0x60 */ u8 unk60;
 } Strc_64_8056090;
+
+// TODO: Function unused, so this is probably a different, bigger struct.
+typedef struct {
+    /* 0x00 */ u8 filler0[6];
+    /* 0x06 */ int_vcount winMinX;
+    /* 0x07 */ int_vcount winMinY;
+    /* 0x08 */ int_vcount winMaxX;
+    /* 0x09 */ int_vcount winMaxY;
+} Strc_sub_80561E8;
 
 void sub_8053284(s32 unused0, s32 unused1, s32 unused2, s32 unused3);
 void Task_274_80547DC(void);
 void Task_274_8054764(void);
 void sub_8054E38(void);
+void sub_8055E50(Strc_64_8056090 *);
 void Task_274_80562BC(void);
 void Task_2A4_80552C8(void);
 void Task_2A4_8055378(void);
 void sub_8055CA8(void);
 void sub_8055D44(void);
+void TaskDestructor_8056104(Task *t);
 void Task_274_8056314(void);
 void Task_274_8056370(void);
 void sub_80563BC(void);
@@ -47,9 +61,13 @@ void sub_8056564(void);
 void sub_80565BC(void);
 void sub_80565E4(void);
 void sub_8056620(void);
+void Task_64_8056660(void);
 void Task_80567A0(void);
 void Task_nullsub_80568C8(void);
 void Task_nullsub_8056980(void);
+void Task_10_8056984(void);
+void Task_Fade_80569B4(void);
+void Task_8056A20(void);
 void Task_10_8056A58(void);
 void Task_38_8056758(void);
 extern void sub_80AE174(void);
@@ -59,6 +77,86 @@ extern void sub_80AE770(void);
 extern const u8 gUnknown_080D1D50[];
 
 /* TODO: Merge module with code_1_3 */
+
+void sub_805602C(void)
+{
+    sub_8003D2C();
+
+    TasksDestroyAll();
+    PAUSE_BACKGROUNDS_QUEUE();
+    gBgSpritesCount = 0;
+    PAUSE_GRAPHICS_QUEUE();
+
+    TaskCreate(Task_8056A20, 0U, 0x100U, 0U, NULL);
+    gStageData.unk4 = 6;
+}
+
+void sub_8056090(u16 arg0, u16 arg1, u16 arg2)
+{
+    Strc_64_8056090 *strc;
+
+    strc = TASK_DATA(TaskCreate(Task_64_8056660, sizeof(Strc_64_8056090), 0x100U, 0U, TaskDestructor_8056104));
+    strc->unk5C = 0;
+    strc->unk5E = (s8)arg0;
+    strc->unk5F = (s8)arg1;
+    strc->unk60 = (s8)arg2;
+    sub_8055E50(strc);
+    sub_80299FC();
+    m4aSongNumStart(MUS_VS_BGM_4);
+}
+
+void TaskDestructor_8056104(Task *t)
+{
+    Strc_64_8056090 *temp_r4;
+
+    temp_r4 = TASK_DATA(t);
+    VramFree(temp_r4->s.tiles);
+    VramFree(temp_r4->s2.tiles);
+}
+
+void sub_8056120(u16 arg0)
+{
+    Strc_10_8056120 *strc;
+
+    strc = TASK_DATA(TaskCreate(Task_10_8056984, sizeof(Strc_10_8056120), 0x100U, 0U, NULL));
+    strc->levelId = arg0;
+    strc->fade.window = 0;
+    strc->fade.flags = 1;
+    strc->fade.brightness = 0;
+    strc->fade.speed = 0x400;
+    strc->fade.bldCnt = 0xBF;
+    strc->fade.bldAlpha = 0;
+}
+
+void sub_8056168(void)
+{
+    ScreenFade *fade;
+
+    fade = TASK_DATA(TaskCreate(Task_Fade_80569B4, sizeof(ScreenFade), 0x100U, 0U, NULL));
+    fade->window = 0;
+    fade->flags = 1;
+    fade->brightness = 0;
+    fade->speed = Q(4);
+    fade->bldCnt = 0xBF;
+    fade->bldAlpha = 0;
+}
+
+bool32 MetExtraBossEnableConditions(void)
+{
+    if ((gPlayers->charFlags.character == SONIC) && (LOADED_SAVE->collectedEmeralds == 0x7F) && (LOADED_SAVE->unlockedCharacters == 0x1F)
+        && (LOADED_SAVE->unk34 & 0x10)) {
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+void sub_80561E8(void)
+{
+    Strc_sub_80561E8 *strc = TASK_DATA(gCurTask);
+    gWinRegs[WINREG_WIN0H] = WIN_RANGE(strc->winMinX, strc->winMaxX);
+    gWinRegs[WINREG_WIN0V] = WIN_RANGE(strc->winMinY, strc->winMaxY);
+}
 
 void Task_274_8056214(void)
 {
@@ -479,7 +577,7 @@ void Task_Fade_80569B4(void)
 void Task_8056A20(void)
 {
     sub_8053284(0, 0, 0, 0);
-    gDispCnt &= ~0xF00;
+    gDispCnt &= ~DISPCNT_BG_ALL_ON;
     m4aSongNumStart(MUS_EXTRA_CLEAR);
     TaskDestroy(gCurTask);
 }

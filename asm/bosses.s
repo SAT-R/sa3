@@ -52963,7 +52963,7 @@ _0807F7BC:
 	strh r0, [r7, #0xc]
 	b _0807FB6C
 _0807F7C2:
-	bl sub_80561A8
+	bl MetExtraBossEnableConditions
 	cmp r0, #0
 	beq _0807F7D2
 	movs r0, #0xfa
