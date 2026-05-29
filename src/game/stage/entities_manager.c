@@ -1337,12 +1337,12 @@ void DestroyStageEntitiesManager(void)
             EwramFree(em->enemies);
 #if defined(BUG_FIX)
             em->interactables = NULL;
-            em->items   = NULL;
+            em->items = NULL;
             em->enemies = NULL;
             TaskDestroy(gStageData.taskEntitiesManager);
             gStageData.taskEntitiesManager = NULL;
 
-//            TasksDestroyAll();
+            //            TasksDestroyAll();
             PAUSE_BACKGROUNDS_QUEUE();
             gBgSpritesCount = 0;
             PAUSE_GRAPHICS_QUEUE();

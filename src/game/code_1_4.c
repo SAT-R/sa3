@@ -80,12 +80,40 @@ extern void sub_8001EEC(u8 param0);
 extern void sub_80AE174(void);
 extern void sub_80AE1C8(void);
 extern void sub_80AE770(void);
+extern void sub_80B1AF4(s16 character, s16 zone, u8 collectedEmeralds);
 
 extern const u8 gUnknown_080D1D50[];
 extern const u16 gUnknown_080D1CD2[][3];
 extern const u16 gUnknown_080D1CE4[NUM_LANGUAGES][3][3];
 
 /* TODO: Merge module with code_1_3 */
+
+void Task_10_8055DA8(void)
+{
+    Strc_10_8055DA8 *strc = TASK_DATA(gCurTask);
+    ScreenFade *fade = &strc->fade;
+
+    if (strc->unkE == 0) {
+        if (UpdateScreenFade(fade) != SCREEN_FADE_RUNNING) {
+            strc->unkE = 1;
+        }
+    } else {
+        sub_8001E58();
+        sub_8003D2C();
+
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
+        gBgSpritesCount = 0;
+        PAUSE_GRAPHICS_QUEUE();
+
+        gStageData.unkD = 0;
+        {
+            Player *players = gPlayers;
+            Player *p = &players[gStageData.playerIndex];
+            sub_80B1AF4(p->charFlags.character, gStageData.zone, LOADED_SAVE->collectedEmeralds);
+        }
+    }
+}
 
 void sub_8055E50(Strc_64_8056090 *strc)
 {
