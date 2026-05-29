@@ -340,8 +340,8 @@ typedef struct {
 } Vec2_32;
 
 typedef struct {
-    u8 reserved : 4;
-    u8 compressedType : 4;
+    u32 reserved : 4;
+    u32 compressedType : 4;
     u32 size : 24;
     void *data;
 } RLCompressed;
