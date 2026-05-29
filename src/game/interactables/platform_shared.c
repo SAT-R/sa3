@@ -120,3 +120,20 @@ void sub_804DD68(PlatformShared *platform)
     platform->qWorldX = qMiddleX + ((qHalfWidth * sinVal) >> 14);
     platform->qWorldY = qMiddleY + ((qHalfHeight * sinVal) >> 14);
 }
+
+void DrawPlatformShared(PlatformShared *platform, Sprite *s)
+{
+    s16 worldX, worldY;
+    worldX = s->x = I(platform->qWorldX) - gCamera.x;
+    worldY = s->y = I(platform->qWorldY) - gCamera.y;
+
+    UpdateSpriteAnimation(s);
+
+    if ((worldX > -31) && (worldX < (DISPLAY_WIDTH + 32))) {
+        if (worldY > -32) {
+            if (worldY < DISPLAY_HEIGHT + 32) {
+                DisplaySprite(s);
+            }
+        }
+    }
+}

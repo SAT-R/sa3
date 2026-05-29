@@ -150,6 +150,7 @@ void sub_80AD824(void) { }
 void sub_80AE174(void) { }
 void sub_80AE1C8(void) { }
 void sub_80AE770(void) { }
+void sub_80B1AF4(s16 character, s16 zone, u8 collectedEmeralds) {};
 
 void /* 0x080C4564 */ CopyPalette() { }
 void sub_80C460C(const u16 *pal, u8 paletteOffset, u16 palSize) { }
