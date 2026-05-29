@@ -98,30 +98,18 @@ u16 sub_804DC38(u8 kind, s32 worldX, s32 worldY, MapEntity *me)
     return 0;
 }
 
-// TODO: Fake-match
-// (100.00%) https://decomp.me/scratch/od9Jj
 void sub_804DD68(PlatformShared *platform)
 {
     s32 sinVal;
     u32 unk2A = platform->unk2A;
-    u32 theta = platform->unk28;
+    u16 theta = platform->unk28;
     s32 qMiddleX = platform->qMiddleX;
     s32 qMiddleY = platform->qMiddleY;
     s32 qHalfWidth = platform->qHalfWidth;
     s32 qHalfHeight = platform->qHalfHeight;
 
     if (unk2A) {
-#ifndef NON_MATCHING
-        register u32 mask asm("r1");
-        register u32 mask2 asm("r0");
-        theta += (unk2A * gStageData.timer);
-        mask = ONE_CYCLE;
-        asm("mov %0, %1" : "=r"(mask2) : "r"(mask));
-        theta &= mask2;
-#else
-        theta += (unk2A * gStageData.timer);
-        theta &= ONE_CYCLE;
-#endif
+        theta = (theta + (unk2A * gStageData.timer)) & ONE_CYCLE;
     } else {
         s32 timer = gStageData.timer;
         theta = (((timer + (theta >> 2)) % (SIN_PERIOD >> 2)) * 4);
@@ -131,21 +119,4 @@ void sub_804DD68(PlatformShared *platform)
 
     platform->qWorldX = qMiddleX + ((qHalfWidth * sinVal) >> 14);
     platform->qWorldY = qMiddleY + ((qHalfHeight * sinVal) >> 14);
-}
-
-void DrawPlatformShared(PlatformShared *platform, Sprite *s)
-{
-    s16 worldX, worldY;
-    worldX = s->x = I(platform->qWorldX) - gCamera.x;
-    worldY = s->y = I(platform->qWorldY) - gCamera.y;
-
-    UpdateSpriteAnimation(s);
-
-    if ((worldX > -31) && (worldX < (DISPLAY_WIDTH + 32))) {
-        if (worldY > -32) {
-            if (worldY < DISPLAY_HEIGHT + 32) {
-                DisplaySprite(s);
-            }
-        }
-    }
 }
