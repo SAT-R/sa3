@@ -62,14 +62,21 @@ void sub_80565BC(void);
 void sub_80565E4(void);
 void sub_8056620(void);
 void Task_64_8056660(void);
+void Task_38_80566A8(void);
+void Task_38_8056714(void);
 void Task_80567A0(void);
+void sub_8056818(void);
+void Task_38_8056884(void);
 void Task_nullsub_80568C8(void);
+void sub_80568CC(void);
+void Task_38_8056934(void);
 void Task_nullsub_8056980(void);
 void Task_10_8056984(void);
 void Task_Fade_80569B4(void);
 void Task_8056A20(void);
 void Task_10_8056A58(void);
 void Task_38_8056758(void);
+extern void sub_8001EEC(u8 param0);
 extern void sub_80AE174(void);
 extern void sub_80AE1C8(void);
 extern void sub_80AE770(void);
@@ -77,6 +84,55 @@ extern void sub_80AE770(void);
 extern const u8 gUnknown_080D1D50[];
 
 /* TODO: Merge module with code_1_3 */
+
+void sub_8055F28(void)
+{
+    struct Task *t;
+    Strc_38_8055F28 *strc;
+    Player *p;
+
+    if(gStageData.zone == ZONE_2) {
+        t = TaskCreate(Task_38_8056714, sizeof(Strc_38_8055F28), 0x100, 0, NULL);
+        Task_38_80566A8();
+        sub_8001EEC(8);
+    } else if(gStageData.zone == ZONE_4) {
+        t = TaskCreate(Task_38_8056884, sizeof(Strc_38_8055F28), 0x100, 0, NULL);
+        sub_8056818();
+        sub_8001EEC(16);
+    } else if(gStageData.zone == ZONE_6) {
+        t = TaskCreate(Task_38_8056934, sizeof(Strc_38_8055F28), 0x100, 0, NULL);
+        sub_80568CC();
+        sub_8001EEC(2);
+    } else {
+        return;
+    }
+
+    strc = TASK_DATA(t);
+    strc->unk34 = 0x78;
+    strc->fade.window = 1;
+    strc->fade.flags = 2;
+    strc->fade.brightness = 0;
+    strc->fade.speed = 0x400;
+    strc->fade.bldCnt = 0xBF;
+    strc->fade.bldAlpha = 0;
+
+    if (gStageData.taskA4 != NULL) {
+        TaskDestroy(gStageData.taskA4);
+        gStageData.taskA4 = NULL;
+    }
+
+    gStageData.unk4 = 9;
+
+    p = &gPlayers[PLAYER_1];
+    if (p->charFlags.character == CREAM) {
+        sub_801EBC0(0, p);
+    }
+
+    p = &gPlayers[PLAYER_2];
+    if (p->charFlags.character == CREAM) {
+        sub_801EBC0(0, p);
+    }
+}
 
 void sub_805602C(void)
 {
@@ -123,7 +179,7 @@ void sub_8056120(u16 arg0)
     strc->fade.window = 0;
     strc->fade.flags = 1;
     strc->fade.brightness = 0;
-    strc->fade.speed = 0x400;
+    strc->fade.speed = Q(4);
     strc->fade.bldCnt = 0xBF;
     strc->fade.bldAlpha = 0;
 }
