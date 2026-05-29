@@ -30,7 +30,7 @@ void *EwramMalloc(u32 req)
     struct EwramNode *node;
     s32 requestedSpace = req;
 
-    requestedSpace = (req + (sizeof(uintptr_t)-1)) / sizeof(uintptr_t); // round up and get word count
+    requestedSpace = (req + (sizeof(uintptr_t) - 1)) / sizeof(uintptr_t); // round up and get word count
     if (requestedSpace != 0) {
         requestedSpace = requestedSpace * sizeof(uintptr_t) + sizeof(struct EwramNode);
         node = (struct EwramNode *)gEwramHeap;

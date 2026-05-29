@@ -1151,7 +1151,7 @@ void SpawnMapEntities()
         em->prevCamX = gCamera.x;
         em->prevCamY = gCamera.y;
         em->SA2_LABEL(unk14) = 0;
-        gCurTask->main = (void (*)())Task_EntitiesManagerInit;
+        gCurTask->main = Task_EntitiesManagerInit;
     }
 }
 
@@ -1335,6 +1335,18 @@ void DestroyStageEntitiesManager(void)
             EwramFree(em->interactables);
             EwramFree(em->items);
             EwramFree(em->enemies);
+#if defined(BUG_FIX)
+            em->interactables = NULL;
+            em->items   = NULL;
+            em->enemies = NULL;
+            TaskDestroy(gStageData.taskEntitiesManager);
+            gStageData.taskEntitiesManager = NULL;
+
+//            TasksDestroyAll();
+            PAUSE_BACKGROUNDS_QUEUE();
+            gBgSpritesCount = 0;
+            PAUSE_GRAPHICS_QUEUE();
+#endif
         } else {
             gStageData.taskEntitiesManager = NULL;
         }

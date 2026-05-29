@@ -82,8 +82,55 @@ extern void sub_80AE1C8(void);
 extern void sub_80AE770(void);
 
 extern const u8 gUnknown_080D1D50[];
+extern const u16 gUnknown_080D1CD2[][3];
+extern const u16 gUnknown_080D1CE4[NUM_LANGUAGES][3][3];
 
 /* TODO: Merge module with code_1_3 */
+
+void sub_8055E50(Strc_64_8056090 *strc)
+{
+    s32 temp_r4;
+    s32 temp_r4_2;
+    s32 temp_sb;
+    Sprite *s;
+    s32 n;
+    u8 language = gStageData.language;
+
+    temp_sb = strc->unk5E;
+    temp_r4 = strc->unk5F;
+
+    s = &strc->s;
+    n = 8;
+    s->tiles = VramMalloc(TI2_NUM_TILES(gUnknown_080D1CE4[language][temp_r4]));
+    s->anim = TI2_ANIM(gUnknown_080D1CE4[language][temp_r4]);
+    s->variant = TI2_VARIANT(gUnknown_080D1CE4[language][temp_r4]);
+    s->oamFlags = 0x80;
+    s->frameFlags = 0;
+    s->animCursor = 0;
+    s->x = DISPLAY_CENTER_X;
+    s->y = DISPLAY_CENTER_Y;
+    s->qAnimDelay = 0;
+    s->prevVariant = 0xFF;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->s2;
+
+    s->tiles = VramMalloc(TI2_NUM_TILES(gUnknown_080D1CD2[temp_sb]));
+    s->anim = TI2_ANIM(gUnknown_080D1CD2[temp_sb]);
+    s->variant = TI2_VARIANT(gUnknown_080D1CD2[temp_sb]);
+    s->oamFlags = 0x80;
+    s->frameFlags = 0;
+    s->animCursor = 0;
+    s->x = DISPLAY_CENTER_X;
+    s->y = DISPLAY_CENTER_Y - 40;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+}
 
 void sub_8055F28(void)
 {
@@ -91,15 +138,15 @@ void sub_8055F28(void)
     Strc_38_8055F28 *strc;
     Player *p;
 
-    if(gStageData.zone == ZONE_2) {
+    if (gStageData.zone == ZONE_2) {
         t = TaskCreate(Task_38_8056714, sizeof(Strc_38_8055F28), 0x100, 0, NULL);
         Task_38_80566A8();
         sub_8001EEC(8);
-    } else if(gStageData.zone == ZONE_4) {
+    } else if (gStageData.zone == ZONE_4) {
         t = TaskCreate(Task_38_8056884, sizeof(Strc_38_8055F28), 0x100, 0, NULL);
         sub_8056818();
         sub_8001EEC(16);
-    } else if(gStageData.zone == ZONE_6) {
+    } else if (gStageData.zone == ZONE_6) {
         t = TaskCreate(Task_38_8056934, sizeof(Strc_38_8055F28), 0x100, 0, NULL);
         sub_80568CC();
         sub_8001EEC(2);
