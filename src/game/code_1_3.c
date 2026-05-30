@@ -261,20 +261,20 @@ void sub_805365C(Strc_220_sub_8053128 *strc220)
     u32 temp_r0_2;
     void *temp_r0;
     void *var_r4;
-    s16 sp00[8] = { 0x100, 0, 0, 0x100, 0, 0, 0, 0 };
+    DmaIoData sp00 = { 0x100, 0, 0, 0x100, 0, 0, 0, 0 };
     const s32 countA = 160;
     const s32 countB = 256;
 
-    strc220->data15C[0] = EwramMalloc(countA * sizeof(sp00));
+    strc220->data15C = EwramMalloc(countA * sizeof(sp00));
 
-    var_r4 = strc220->data15C[0];
-    for (var_r5 = 0; var_r5 < countA; var_r5++, var_r4 += 0x10) {
-        CpuCopy16(&sp00[0], var_r4, 0x10);
+    var_r4 = strc220->data15C;
+    for (var_r5 = 0; var_r5 < countA; var_r5++, var_r4 += sizeof(DmaIoData)) {
+        CpuCopy16(&sp00, var_r4, sizeof(sp00));
     }
 
-    strc220->data15C[1] = EwramMalloc(countB * sizeof(u32));
+    strc220->data160 = EwramMalloc(countB * sizeof(u32));
     for (var_r5 = 0; var_r5 < countB; var_r5++) {
-        strc220->data15C[1][var_r5] = 0x100000 / (0x400 + (var_r5 * 0x10));
+        strc220->data160[var_r5] = 0x100000 / (0x400 + (var_r5 * 0x10));
     }
 }
 
@@ -282,25 +282,95 @@ void sub_80536F0(Strc_220_sub_8053128 *strc220)
 {
 	Sprite *var_r2 = &strc220->sprites17C[0];
     s16 i;
+#ifdef BUG_FIX
+    const u8 offsets[] = { 0, 0, 0, 12 * TILE_SIZE_4BPP };
+    u8 *tiles = VramMalloc(16);
+#endif
 
     for (i = 0; i < 4; i++, var_r2++)
 	{
-        var_r2->tiles = 0;
+#ifndef BUG_FIX
+        var_r2->tiles = NULL;
+#else
+		// NOTE(Jace): I know this is a debug graphic
+		//             but not assigning it a VRAM pointer is weird...
+        var_r2->tiles = tiles + offsets[i];
+#endif
         var_r2->frameFlags |= 0x80000;
         var_r2->anim = ANIM_DEBUG_CONV_TEXT;
         var_r2->x = 0;
         var_r2->y = 0;
         var_r2->oamFlags = 0;
         var_r2->qAnimDelay = 0;
-        var_r2->prevAnim = 0xFFFF;
+        var_r2->prevAnim = -1;
         var_r2->variant = i;
-        var_r2->prevVariant = 0xFF;
+        var_r2->prevVariant = -1;
         var_r2->animSpeed = 0x10;
         var_r2->palId = 0;
         var_r2->hitboxes[0].index = -1;
 #ifndef BUG_FIX
-		// Only has 1 hitbox
+		// Only has 1 hitbox (not even, actually...)
         var_r2->hitboxes[1].index = -1;
 #endif
     }
 }
+
+#if 0
+void Task_220_805374C(void)
+{
+    s16 temp_r1;
+    s16 temp_r2;
+    s16 var_r1;
+    s32 temp_r2_2;
+    u16 temp_r0;
+    Strc_220_sub_8053128 *strc;
+    u16 var_r0;
+    u16 var_r0_2;
+    u16 var_r4;
+    u32 temp_r0_2;
+    void *var_r5;
+
+    temp_r3 = gCurTask->data;
+    gHBlankCopySize = 0x10;
+    gHBlankCopyTarget = (void *)REG_BG2PA;
+    var_r5 = temp_r3->unk15C;
+    gBgOffsetsHBlankPrimary = var_r5;
+    gFlags |= 4;
+    temp_r3->unk168 = (u16)((temp_r3->unk16E + temp_r3->unk168) & 0xFFF);
+    temp_r3->unk16A = (u16)((temp_r3->unk170 + temp_r3->unk16A) & 0x7FF);
+    temp_r3->unk176 = (u16)(temp_r3->unk172 + temp_r3->unk176);
+    temp_r3->unk178 = (u16)(temp_r3->unk174 + temp_r3->unk178);
+    gBgScrollRegs[0][0] = (s16)(u8)((s32)(temp_r3->unk176 << 0x10) >> 0x14);
+    gBgScrollRegs[0][1] = (s16)(u8)((s32)(temp_r3->unk178 << 0x10) >> 0x14);
+    var_r1 = 0;
+loop_1:
+    temp_r2 = var_r1;
+    if ((s32)(temp_r2 - temp_r3->unk166) >= 0) {
+        var_r0 = temp_r2 - (u16)temp_r3->unk166;
+    } else {
+        var_r0 = (u16)temp_r3->unk166 - temp_r2;
+    }
+    temp_r0 = var_r0;
+    temp_r1 = (s16)temp_r0;
+    var_r4 = (*((temp_r1 * 4) + temp_r3->unk160) * temp_r1 * 2) + (temp_r3->unk16A * 0x10);
+    if ((s32)var_r1 < (s32)temp_r3->unk166) {
+        if ((s32)(var_r4 << 0x10) < 0) {
+            var_r0_2 = var_r4 + 0xFFFF8000;
+            var_r4 = var_r0_2;
+        }
+    } else if ((s32)(var_r4 << 0x10) >= 0) {
+        var_r0_2 = var_r4 + 0x8000;
+        var_r4 = var_r0_2;
+    }
+    temp_r2_2 = (s32)(temp_r0 << 0x10) >> 0xE;
+    var_r5->unk0 = (s16)((u32) * (temp_r2_2 + temp_r3->unk160) >> 2);
+    var_r5->unk8 = (s16)(((u32)(*(temp_r2_2 + temp_r3->unk160) * temp_r3->unk164) >> 2) + (temp_r3->unk168 * 0x10));
+    var_r5->unkC = var_r4;
+    temp_r0_2 = (var_r1 << 0x10) + 0x10000;
+    var_r5 += 0x10;
+    var_r1 = (s16)(temp_r0_2 >> 0x10);
+    if ((s32)((s32)temp_r0_2 >> 0x10) <= 0x9F) {
+        goto loop_1;
+    }
+}
+#endif

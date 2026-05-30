@@ -10,6 +10,17 @@ typedef struct {
 } Strc_10_8055DA8;
 
 typedef struct {
+    /* 0x00 */ s16 bg2pa;
+    /* 0x02 */ s16 bg2pb;
+    /* 0x04 */ s16 bg2pc;
+    /* 0x06 */ s16 bg2pd;
+    /* 0x08 */ s16 bg2x_l;
+    /* 0x0a */ s16 bg2x_h;
+    /* 0x0c */ s16 bg2y_l;
+    /* 0x0e */ s16 bg2y_h;
+} DmaIoData;
+
+typedef struct {
     /* 0x000 */ Sprite sprite0;
     /* 0x028 */ Sprite2 sprite28;
     /* 0x058 */ u8 filler58[0x78];
@@ -17,7 +28,8 @@ typedef struct {
     /* 0x0E8 */ Sprite spriteE8;
     /* 0x110 */ Background bg110;
     /* 0x150 */ ScreenFade fade;
-    /* 0x15C */ u32 *data15C[2];
+    /* 0x15C */ DmaIoData *data15C;
+    /* 0x15C */ s32 *data160;
     /* 0x164 */ s16 unk164;
     /* 0x166 */ s16 unk166;
     /* 0x168 */ s16 unk168;

@@ -8,8 +8,8 @@
 .if 0
 .endif
 
-	thumb_func_start sub_805374C
-sub_805374C: @ 0x0805374C
+	thumb_func_start Task_220_805374C
+Task_220_805374C: @ 0x0805374C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -251,7 +251,7 @@ _08053940: .4byte gDispCnt
 _08053944: .4byte 0x00001441
 _08053948: .4byte gStageData
 _0805394C:
-	bl sub_805374C
+	bl Task_220_805374C
 	movs r0, #0xb6
 	lsls r0, r0, #1
 	adds r5, r4, r0
@@ -508,7 +508,7 @@ Task_8053B28: @ 0x08053B28
 _08053B50: .4byte gCurTask
 _08053B54: .4byte gStageData
 _08053B58:
-	bl sub_805374C
+	bl Task_220_805374C
 	movs r0, #0xb3
 	lsls r0, r0, #1
 	adds r2, r4, r0
@@ -571,7 +571,7 @@ Task_8053BAC: @ 0x08053BAC
 _08053BD4: .4byte gCurTask
 _08053BD8: .4byte gStageData
 _08053BDC:
-	bl sub_805374C
+	bl Task_220_805374C
 	movs r0, #0xb9
 	lsls r0, r0, #1
 	adds r1, r4, r0
@@ -670,7 +670,7 @@ Task_8053C70: @ 0x08053C70
 _08053C9C: .4byte gCurTask
 _08053CA0: .4byte gStageData
 _08053CA4:
-	bl sub_805374C
+	bl Task_220_805374C
 	movs r0, #0xb6
 	lsls r0, r0, #1
 	adds r4, r5, r0
@@ -855,7 +855,7 @@ sub_8053DEC: @ 0x08053DEC
 _08053E14: .4byte gCurTask
 _08053E18: .4byte gStageData
 _08053E1C:
-	bl sub_805374C
+	bl Task_220_805374C
 	movs r0, #0xb9
 	lsls r0, r0, #1
 	adds r1, r4, r0
@@ -944,7 +944,7 @@ Task_8053EA4: @ 0x08053EA4
 _08053ECC: .4byte gCurTask
 _08053ED0: .4byte gStageData
 _08053ED4:
-	bl sub_805374C
+	bl Task_220_805374C
 	movs r0, #0xb9
 	lsls r0, r0, #1
 	adds r1, r4, r0
@@ -1079,7 +1079,7 @@ sub_8053FB8: @ 0x08053FB8
 _08053FE0: .4byte gCurTask
 _08053FE4: .4byte gStageData
 _08053FE8:
-	bl sub_805374C
+	bl Task_220_805374C
 	movs r1, #0xb9
 	lsls r1, r1, #1
 	adds r0, r4, r1
@@ -1229,7 +1229,7 @@ sub_80540EC: @ 0x080540EC
 _08054114: .4byte gCurTask
 _08054118: .4byte gStageData
 _0805411C:
-	bl sub_805374C
+	bl Task_220_805374C
 	movs r0, #0xb9
 	lsls r0, r0, #1
 	adds r1, r4, r0
@@ -1368,7 +1368,7 @@ sub_8054208: @ 0x08054208
 _08054230: .4byte gCurTask
 _08054234: .4byte gStageData
 _08054238:
-	bl sub_805374C
+	bl Task_220_805374C
 	movs r1, #0xb9
 	lsls r1, r1, #1
 	adds r0, r4, r1
@@ -1440,7 +1440,7 @@ sub_805429C: @ 0x0805429C
 _080542C4: .4byte gCurTask
 _080542C8: .4byte gStageData
 _080542CC:
-	bl sub_805374C
+	bl Task_220_805374C
 	movs r1, #0xb9
 	lsls r1, r1, #1
 	adds r0, r4, r1
@@ -1614,7 +1614,7 @@ sub_80543F8: @ 0x080543F8
 _08054420: .4byte gCurTask
 _08054424: .4byte gStageData
 _08054428:
-	bl sub_805374C
+	bl Task_220_805374C
 	movs r1, #0xb9
 	lsls r1, r1, #1
 	adds r0, r4, r1
