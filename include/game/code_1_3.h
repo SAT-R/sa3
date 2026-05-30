@@ -31,7 +31,7 @@ typedef struct {
     /* 0x178 */ s16 unk178;
     /* 0x17A */ s8 unk17A;
     /* 0x17B */ s8 unk17B;
-    /* 0x17C */ u8 filler17C[0xA0];
+    /* 0x17C */ Sprite sprites17C[4];
     /* 0x21C */ u8 unk21C;
 } Strc_220_sub_8053128;
 
@@ -77,6 +77,7 @@ void sub_80533F4(u16 character); // related to Special Springs
 void sub_8053440(Strc_220_sub_8053128 *strc220);
 void sub_80534DC(Strc_220_sub_8053128 *strc220, s16, s16);
 void sub_805365C(Strc_220_sub_8053128 *strc220);
+void sub_80536F0(Strc_220_sub_8053128 *strc220);
 void Task_220_8053904(void);
 
 #endif // GUARD_SA3_CODE_1_3_H

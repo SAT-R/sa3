@@ -8,55 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_80536F0
-sub_80536F0: @ 0x080536F0
-	push {r4, r5, r6, lr}
-	movs r1, #0xbe
-	lsls r1, r1, #1
-	adds r2, r0, r1
-	movs r4, #0
-	movs r3, #0
-	ldr r6, _08053744 @ =0x00000545
-	movs r5, #1
-	rsbs r5, r5, #0
-_08053702:
-	str r3, [r2]
-	ldr r0, [r2, #8]
-	movs r1, #0x80
-	lsls r1, r1, #0xc
-	orrs r0, r1
-	str r0, [r2, #8]
-	strh r6, [r2, #0xc]
-	strh r3, [r2, #0x10]
-	strh r3, [r2, #0x12]
-	strh r3, [r2, #0x14]
-	strh r3, [r2, #0x16]
-	ldr r0, _08053748 @ =0x0000FFFF
-	strh r0, [r2, #0x18]
-	strb r4, [r2, #0x1a]
-	movs r0, #0xff
-	strb r0, [r2, #0x1b]
-	movs r0, #0x10
-	strb r0, [r2, #0x1c]
-	strb r3, [r2, #0x1f]
-	str r5, [r2, #0x20]
-	str r5, [r2, #0x28]
-	lsls r0, r4, #0x10
-	movs r1, #0x80
-	lsls r1, r1, #9
-	adds r0, r0, r1
-	adds r2, #0x28
-	lsrs r4, r0, #0x10
-	asrs r0, r0, #0x10
-	cmp r0, #3
-	ble _08053702
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08053744: .4byte 0x00000545
-_08053748: .4byte 0x0000FFFF
-
 	thumb_func_start sub_805374C
 sub_805374C: @ 0x0805374C
 	push {r4, r5, r6, r7, lr}

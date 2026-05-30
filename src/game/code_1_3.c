@@ -11,6 +11,7 @@
 #include "game/shared/stage/player_callbacks.h"
 #include "game/save.h"
 #include "game/stage.h"
+#include "constants/animations.h"
 #include "constants/songs.h"
 
 /* TODO: Merge with code_1_4 */
@@ -274,5 +275,32 @@ void sub_805365C(Strc_220_sub_8053128 *strc220)
     strc220->data15C[1] = EwramMalloc(countB * sizeof(u32));
     for (var_r5 = 0; var_r5 < countB; var_r5++) {
         strc220->data15C[1][var_r5] = 0x100000 / (0x400 + (var_r5 * 0x10));
+    }
+}
+
+void sub_80536F0(Strc_220_sub_8053128 *strc220)
+{
+	Sprite *var_r2 = &strc220->sprites17C[0];
+    s16 i;
+
+    for (i = 0; i < 4; i++, var_r2++)
+	{
+        var_r2->tiles = 0;
+        var_r2->frameFlags |= 0x80000;
+        var_r2->anim = ANIM_DEBUG_CONV_TEXT;
+        var_r2->x = 0;
+        var_r2->y = 0;
+        var_r2->oamFlags = 0;
+        var_r2->qAnimDelay = 0;
+        var_r2->prevAnim = 0xFFFF;
+        var_r2->variant = i;
+        var_r2->prevVariant = 0xFF;
+        var_r2->animSpeed = 0x10;
+        var_r2->palId = 0;
+        var_r2->hitboxes[0].index = -1;
+#ifndef BUG_FIX
+		// Only has 1 hitbox
+        var_r2->hitboxes[1].index = -1;
+#endif
     }
 }

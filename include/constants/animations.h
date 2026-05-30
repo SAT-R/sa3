@@ -326,12 +326,13 @@
 #define ANIM_CONDOR_PROJ_EXPLOSION    1339
 #define ANIM_TAG_ACTION_CHARGE        1340
 
-#define ANIM_1343         1343
-#define ANIM_ICE_SHIVER   1344
-#define ANIM_ICE_SHIVER_2 1345
-#define ANIM_MINI_SPARKLE 1346
-#define ANIM_1347         1347
-#define ANIM_SPECIAL_KEY  1348
+#define ANIM_1343            1343
+#define ANIM_ICE_SHIVER      1344
+#define ANIM_ICE_SHIVER_2    1345
+#define ANIM_MINI_SPARKLE    1346
+#define ANIM_1347            1347
+#define ANIM_SPECIAL_KEY     1348
+#define ANIM_DEBUG_CONV_TEXT 1349
 
 #define ANIM_UI_CHARACTER_TYPE 1420 // V0: Speed, V1: Flying, V2: Power
 #define ANIM_UI_TIME           1421
