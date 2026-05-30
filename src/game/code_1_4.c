@@ -471,14 +471,14 @@ void Task_2A4_8056538(void)
 void sub_8056564(void)
 {
     Strc_2A4_8053284 *strc = TASK_DATA(gCurTask);
-    Sprite *s = &strc->sprite84;
+    Sprite *s = &strc->sprites84[0];
 
     s->x = strc->someX;
 
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
-    s = &strc->spriteAC;
+    s = &strc->sprites84[1];
     s->x = strc->someX + strc->unk29F;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);

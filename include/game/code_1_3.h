@@ -10,7 +10,12 @@ typedef struct {
 } Strc_10_8055DA8;
 
 typedef struct {
-    /* 0x000 */ u8 filler0[0x150];
+    /* 0x000 */ Sprite sprite0;
+    /* 0x028 */ Sprite2 sprite28;
+    /* 0x058 */ u8 filler58[0x78];
+    /* 0x0D0 */ SpriteTransform tf[2];
+    /* 0x0E8 */ Sprite spriteE8;
+    /* 0x110 */ Background bg110;
     /* 0x150 */ ScreenFade fade;
     /* 0x15C */ u8 filler15C[0x8];
     /* 0x164 */ s16 unk164;
@@ -51,26 +56,27 @@ typedef struct {
 
 typedef struct {
     /* 0x000 */ ScreenFade fade;
-    /* 0x00C */ u8 fillerC[0x78];
-    /* 0x084 */ Sprite sprite84;
-    /* 0x0AC */ Sprite spriteAC;
+    /* 0x00C */ Sprite spritesC[3];
+    /* 0x084 */ Sprite sprites84[2];
     /* 0x0D4 */ Sprite spriteD4;
-    /* 0x0FC */ u8 fillerFC[0x118];
+    /* 0x0FC */ Sprite spritesFC[7];
     /* 0x214 */ Sprite sprite214;
     /* 0x23C */ Sprite sprite23C;
     /* 0x264 */ Sprite sprite264;
     /* 0x28C */ u8 filler28C[0x4];
     /* 0x290 */ u16 unk290;
-    /* 0x292 */ u8 filler292[0x4];
+    /* 0x290 */ u16 unk292;
+    /* 0x290 */ u16 unk294;
     /* 0x296 */ u16 someX;
     /* 0x298 */ u8 filler298[0x7];
     /* 0x29F */ u8 unk29F;
     /* 0x2A0 */ u8 filler2A0[0x4];
 } Strc_2A4_8053284;
 
-void Task_220_8053904(void);
+void sub_80533F4(u16 character); // related to Special Springs
 void sub_8053440(Strc_220_sub_8053128 *strc220);
 void sub_80534DC(Strc_220_sub_8053128 *strc220, s16, s16);
 void sub_805365C(Strc_220_sub_8053128 *strc220);
+void Task_220_8053904(void);
 
 #endif // GUARD_SA3_CODE_1_3_H

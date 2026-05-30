@@ -108,6 +108,4 @@ void sub_80C610C(void *param0, u8 param1);
 
 s32 sub_8011BFC(u8, Player *p);
 
-void sub_80533F4(u32 character); // related to Special Springs
-
 #endif // GUARD_SA3_MODULE_UNCLEAR_H
