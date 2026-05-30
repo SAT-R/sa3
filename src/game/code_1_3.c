@@ -3,6 +3,7 @@
 #include "color.h"
 #include "flags.h"
 #include "malloc_vram.h"
+#include "malloc_ewram.h"
 #include "module_unclear.h"
 #include "lib/m4a/m4a.h"
 #include "game/code_1_3.h"
@@ -250,3 +251,28 @@ NONMATCH("asm/non_matching/game/c13__sub_80534DC.inc", void sub_80534DC(Strc_220
     }
 }
 END_NONMATCH
+
+void sub_805365C(Strc_220_sub_8053128 *strc220)
+{
+    s16 temp_r4_2;
+    s16 var_r5;
+    u16 temp_r4;
+    u32 temp_r0_2;
+    void *temp_r0;
+    void *var_r4;
+    s16 sp00[8] = { 0x100, 0, 0, 0x100, 0, 0, 0, 0 };
+    const s32 countA = 160;
+    const s32 countB = 256;
+
+    strc220->data15C[0] = EwramMalloc(countA * sizeof(sp00));
+
+    var_r4 = strc220->data15C[0];
+    for (var_r5 = 0; var_r5 < countA; var_r5++, var_r4 += 0x10) {
+        CpuCopy16(&sp00[0], var_r4, 0x10);
+    }
+
+    strc220->data15C[1] = EwramMalloc(countB * sizeof(u32));
+    for (var_r5 = 0; var_r5 < countB; var_r5++) {
+        strc220->data15C[1][var_r5] = 0x100000 / (0x400 + (var_r5 * 0x10));
+    }
+}

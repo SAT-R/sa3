@@ -17,7 +17,7 @@ typedef struct {
     /* 0x0E8 */ Sprite spriteE8;
     /* 0x110 */ Background bg110;
     /* 0x150 */ ScreenFade fade;
-    /* 0x15C */ u8 filler15C[0x8];
+    /* 0x15C */ u32 *data15C[2];
     /* 0x164 */ s16 unk164;
     /* 0x166 */ s16 unk166;
     /* 0x168 */ s16 unk168;
