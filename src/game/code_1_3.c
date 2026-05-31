@@ -242,12 +242,7 @@ void sub_80534DC(Strc_220_sub_8053128 *strc220, s16 arg1, s16 arg2)
         s->frameFlags = 0x1000;
         s->frameFlags |= (strc220->unk21C - 1) | 0x20;
         s->anim = gUnknown_080D1C48[5][0][0];
-        if (strc220->unk21C != 1) {
-            var_r1 = 0x30;
-        } else {
-            var_r1 = 0x42;
-        }
-        s->x = var_r1;
+        s->x = (strc220->unk21C != 1) ? 48 : 66;
         s->y = 140;
         s->oamFlags = 0x400;
         s->qAnimDelay = 0;
