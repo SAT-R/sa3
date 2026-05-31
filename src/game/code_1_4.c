@@ -44,17 +44,27 @@ typedef struct {
 } Strc_sub_80561E8;
 
 void sub_8053284(s32 unused0, s32 unused1, s32 unused2, s32 unused3);
+void TaskDestructor_805332C(Task *t);
+void Task_220_805374C(void);
+void Task_220_8053C70(void);
+void Task_220_8053DEC(void);
 void Task_274_80547DC(void);
 void Task_274_8054764(void);
+void sub_8054514(void);
 void sub_8054E38(void);
+void Task_2A4_8054EB8(void);
+void sub_8055614(Strc_2A4_8053284 *strc);
+void Task_10_8055DA8(void);
 void sub_8055E50(Strc_64_8056090 *);
-void Task_274_80562BC(void);
 void Task_2A4_80552C8(void);
 void Task_2A4_8055378(void);
 void Task_2A4_8055CA8(void);
 void sub_2A4_8055D44(void);
+void sub_8055F28(void);
 void TaskDestructor_8056104(Task *t);
+void Task_274_80562BC(void);
 void Task_274_8056314(void);
+void Task_2A4_8056538(void);
 void Task_274_8056370(void);
 void sub_80563BC(void);
 void sub_8056430(void);
@@ -84,6 +94,17 @@ extern void sub_80AE1C8(void);
 extern void sub_80AE770(void);
 extern void sub_80B1AF4(s16 character, s16 zone, u8 collectedEmeralds);
 
+extern void sub_809BFE8(s32);
+extern void sub_8000414(u16 stageId);
+extern void sub_8000538(u16 stageId);
+extern s16 sub_802610C(void);
+extern void sub_802613C(void);
+extern void sub_80A5954(u8);
+extern void sub_80A872C(u8);
+extern ColorRaw sub_80C4C0C(ColorRaw color);
+
+extern u16 gUnknown_080D1C48[][4][2];
+
 extern u8 gUnknown_080CE438[][2];
 extern u8 gUnknown_080CE4B2[][2];
 extern u8 gUnknown_080D1CA8[NUM_CHARACTERS];
@@ -91,28 +112,6 @@ extern u16 gUnknown_080D1CAE[NUM_CHARACTERS][3];
 extern u16 gUnknown_080D1CD2[3][3];
 extern const u16 gUnknown_080D1CE4[NUM_LANGUAGES][3][3];
 extern const u8 gUnknown_080D1D50[];
-
-void TaskDestructor_805332C(Task *t);
-void Task_2A4_8054EB8(void);
-void sub_8055614(Strc_2A4_8053284 *strc);
-void Task_10_8055DA8(void);
-void Task_220_805374C(void);
-void Task_220_8053C70(void);
-void Task_220_8053DEC(void);
-void Task_2A4_8056538(void);
-void sub_8054514(void);
-void sub_8055F28();
-extern void sub_809BFE8(s32);
-extern void sub_8000414(u16 stageId);
-extern void sub_8000538(u16 stageId);
-extern void sub_80A5954(u8);
-
-extern s16 sub_802610C(void);
-extern void sub_802613C(void);
-extern ColorRaw sub_80C4C0C(ColorRaw color);
-extern void sub_80A872C(u8);
-
-extern u16 gUnknown_080D1C48[][4][2];
 
 /* TODO: Merge module with code_1_3 */
 
@@ -547,16 +546,16 @@ void Task_2A4_8055CA8(void)
     DisplaySprite(s);
 }
 
-void sub_2A4_8055D44(void) {
+void sub_2A4_8055D44(void)
+{
     u8 sp00[7];
     s16 var_r0;
     Sprite *s;
     Strc_2A4_8053284 *strc = TASK_DATA(gCurTask);
 
-    memcpy(&sp00[0], &gUnknown_080D1D50, 7);
+    memcpy(&sp00[0], &gUnknown_080D1D50, sizeof(sp00));
 
-    for(var_r0 = 0; var_r0 < 7; var_r0++)
-    {
+    for (var_r0 = 0; var_r0 < 7; var_r0++) {
         s = &strc->spritesFC[var_r0];
         s->x = strc->unk2A0 + sp00[var_r0];
         UpdateSpriteAnimation(s);
