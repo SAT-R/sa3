@@ -2673,6 +2673,7 @@ _0805536C: .4byte gBldRegs
 _08055370: .4byte 0x03000290
 _08055374: .4byte Task_2A4_8056538
 
+.if 0
 	thumb_func_start Task_2A4_8055378
 Task_2A4_8055378: @ 0x08055378
 	push {r4, lr}
@@ -2954,6 +2955,4 @@ _08055604: .4byte gBgSpritesCount
 _08055608: .4byte gVramGraphicsCopyCursor
 _0805560C: .4byte gVramGraphicsCopyQueueIndex
 _08055610: .4byte gStageData
-
-.if 0
 .endif

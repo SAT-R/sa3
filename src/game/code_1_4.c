@@ -1,10 +1,12 @@
 #include "global.h"
 #include "core.h"
 #include "task.h"
+#include "color.h"
 #include "malloc_vram.h"
 #include "module_unclear.h" // WarpToMap
 #include "lib/m4a/m4a.h"
 #include "game/code_1_3.h"
+#include "game/main_menu.h"
 #include "game/screen_fade.h"
 #include "game/shared/stage/player_callbacks.h"
 #include "game/save.h"
@@ -90,7 +92,111 @@ extern u16 gUnknown_080D1CD2[3][3];
 extern const u16 gUnknown_080D1CE4[NUM_LANGUAGES][3][3];
 extern const u8 gUnknown_080D1D50[];
 
+void TaskDestructor_805332C(Task *t);
+void Task_2A4_8054EB8(void);
+void sub_8055614(Strc_2A4_8053284 *strc);
+void Task_10_8055DA8(void);
+void Task_220_805374C(void);
+void Task_220_8053C70(void);
+void Task_220_8053DEC(void);
+void Task_2A4_8056538(void);
+void sub_8054514(void);
+void sub_8055F28();
+extern void sub_809BFE8(s32);
+extern void sub_8000414(u16 stageId);
+extern void sub_8000538(u16 stageId);
+extern void sub_80A5954(u8);
+
+extern s16 sub_802610C(void);
+extern void sub_802613C(void);
+extern ColorRaw sub_80C4C0C(ColorRaw color);
+extern void sub_80A872C(u8);
+
+extern u16 gUnknown_080D1C48[][4][2];
+
 /* TODO: Merge module with code_1_3 */
+
+void Task_2A4_8055378(void)
+{
+    u32 var_r4;
+
+    gCurTask->main = Task_2A4_8056538;
+    if (CURRENT_GAME_MODE == 6) {
+        sub_809BFE8(1);
+    } else if (CURRENT_GAME_MODE == 3) {
+        sub_8000538(gStageData.currentLevel);
+        sub_8003D2C();
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
+        gBgSpritesCount = 0;
+        PAUSE_GRAPHICS_QUEUE();
+        CreateMainMenu(0, 2U);
+    } else if (CURRENT_GAME_MODE == 4) {
+        sub_8000538(gStageData.currentLevel);
+        sub_8003D2C();
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
+        gBgSpritesCount = 0;
+        PAUSE_GRAPHICS_QUEUE();
+        CreateMainMenu(0, 3U);
+    } else {
+        sub_8000414(gStageData.currentLevel);
+        if (gStageData.currentLevel == 72) {
+            TasksDestroyAll();
+            PAUSE_BACKGROUNDS_QUEUE();
+            gBgSpritesCount = 0;
+            PAUSE_GRAPHICS_QUEUE();
+            sub_80A872C(0);
+            return;
+        }
+        if (gStageData.currentLevel == 71) {
+#ifndef NON_MATCHING
+            // NOTE: This has to be declared here to match,
+            //       because var_r4 gets set afterwards...
+            //       But you cannot use the variable directly to match as it is.
+            u8 isSonic = gPlayers[PLAYER_1].charFlags.character == SONIC;
+#endif
+            var_r4 = 0;
+            if ((gPlayers[PLAYER_1].charFlags.character == SONIC) && (LOADED_SAVE->collectedEmeralds == 0x7F)
+                && (LOADED_SAVE->unlockedCharacters == 0x1F)) {
+                if (!(LOADED_SAVE->unk34 & 0x10)) {
+                    var_r4 = 0;
+                } else {
+                    var_r4 = 1;
+                }
+            }
+            if (var_r4 != 0) {
+                sub_8003D2C();
+                TasksDestroyAll();
+                PAUSE_BACKGROUNDS_QUEUE();
+                gBgSpritesCount = 0;
+                PAUSE_GRAPHICS_QUEUE();
+                gStageData.unkBA = 0;
+                WarpToMap(72, 0);
+            } else {
+                sub_8003D2C();
+                TasksDestroyAll();
+                PAUSE_BACKGROUNDS_QUEUE();
+                gBgSpritesCount = 0;
+                PAUSE_GRAPHICS_QUEUE();
+                sub_80A5954(0);
+            }
+        } else if ((gPlayers[PLAYER_1].charFlags.character == SONIC)
+                   && (((gStageData.currentLevel == LEVEL_INDEX(ZONE_2, ACT_3)) && !(LOADED_SAVE->unlockedCharacters & (1 << KNUCKLES)))
+                       || ((gStageData.currentLevel == LEVEL_INDEX(ZONE_4, ACT_3)) && !(LOADED_SAVE->unlockedCharacters & (1 << AMY)))
+                       || ((gStageData.currentLevel == LEVEL_INDEX(ZONE_6, ACT_3)) && !(LOADED_SAVE->unlockedCharacters & (1 << CREAM))))) {
+            sub_8055F28();
+            TaskDestroy(gCurTask);
+        } else {
+            sub_8003D2C();
+            TasksDestroyAll();
+            PAUSE_BACKGROUNDS_QUEUE();
+            gBgSpritesCount = 0;
+            PAUSE_GRAPHICS_QUEUE();
+            WarpToMap((s16)((s32)((gStageData.zone * 0xA0000) + 0x20000) >> 0x10), gStageData.act - 2);
+        }
+    }
+}
 
 void sub_8055614(Strc_2A4_8053284 *strc)
 {
