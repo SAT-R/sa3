@@ -120,35 +120,39 @@ void Task_2A4_8055378(void)
     u32 var_r4;
 
     gCurTask->main = Task_2A4_8056538;
-    if (CURRENT_GAME_MODE == 6) {
+    if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
         sub_809BFE8(1);
-    } else if (CURRENT_GAME_MODE == 3) {
+    } else if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK) {
         sub_8000538(gStageData.currentLevel);
         sub_8003D2C();
+
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
+
         CreateMainMenu(0, 2U);
-    } else if (CURRENT_GAME_MODE == 4) {
+    } else if (CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
         sub_8000538(gStageData.currentLevel);
         sub_8003D2C();
+
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
+
         CreateMainMenu(0, 3U);
     } else {
         sub_8000414(gStageData.currentLevel);
+
         if (gStageData.currentLevel == 72) {
             TasksDestroyAll();
             PAUSE_BACKGROUNDS_QUEUE();
             gBgSpritesCount = 0;
             PAUSE_GRAPHICS_QUEUE();
+
             sub_80A872C(0);
-            return;
-        }
-        if (gStageData.currentLevel == 71) {
+        } else if (gStageData.currentLevel == 71) {
 #ifndef NON_MATCHING
             // NOTE: This has to be declared here to match,
             //       because var_r4 gets set afterwards...
@@ -166,18 +170,22 @@ void Task_2A4_8055378(void)
             }
             if (var_r4 != 0) {
                 sub_8003D2C();
+
                 TasksDestroyAll();
                 PAUSE_BACKGROUNDS_QUEUE();
                 gBgSpritesCount = 0;
                 PAUSE_GRAPHICS_QUEUE();
+
                 gStageData.unkBA = 0;
                 WarpToMap(72, 0);
             } else {
                 sub_8003D2C();
+
                 TasksDestroyAll();
                 PAUSE_BACKGROUNDS_QUEUE();
                 gBgSpritesCount = 0;
                 PAUSE_GRAPHICS_QUEUE();
+
                 sub_80A5954(0);
             }
         } else if ((gPlayers[PLAYER_1].charFlags.character == SONIC)
@@ -188,10 +196,12 @@ void Task_2A4_8055378(void)
             TaskDestroy(gCurTask);
         } else {
             sub_8003D2C();
+
             TasksDestroyAll();
             PAUSE_BACKGROUNDS_QUEUE();
             gBgSpritesCount = 0;
             PAUSE_GRAPHICS_QUEUE();
+
             WarpToMap((s16)((s32)((gStageData.zone * 0xA0000) + 0x20000) >> 0x10), gStageData.act - 2);
         }
     }
