@@ -77,10 +77,13 @@ typedef struct {
     /* 0x264 */ Sprite sprite264;
     /* 0x28C */ u8 filler28C[0x4];
     /* 0x290 */ u16 unk290;
-    /* 0x290 */ u16 unk292;
-    /* 0x290 */ u16 unk294;
+    /* 0x292 */ u16 unk292;
+    /* 0x294 */ u16 unk294;
     /* 0x296 */ u16 someX;
-    /* 0x298 */ u8 filler298[0x7];
+    /* 0x298 */ s16 someX2;
+    /* 0x29A */ s16 someX3;
+    /* 0x29C */ s16 someX4;
+    /* 0x29E */ u8 unk29E;
     /* 0x29F */ u8 unk29F;
     /* 0x29F */ u8 unk2A0;
 } Strc_2A4_8053284;

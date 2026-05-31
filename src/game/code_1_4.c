@@ -49,7 +49,7 @@ void sub_8055E50(Strc_64_8056090 *);
 void Task_274_80562BC(void);
 void Task_2A4_80552C8(void);
 void Task_2A4_8055378(void);
-void sub_8055CA8(void);
+void Task_2A4_8055CA8(void);
 void sub_2A4_8055D44(void);
 void TaskDestructor_8056104(Task *t);
 void Task_274_8056314(void);
@@ -82,11 +82,369 @@ extern void sub_80AE1C8(void);
 extern void sub_80AE770(void);
 extern void sub_80B1AF4(s16 character, s16 zone, u8 collectedEmeralds);
 
-extern const u8 gUnknown_080D1D50[];
-extern const u16 gUnknown_080D1CD2[][3];
+extern u8 gUnknown_080CE438[][2];
+extern u8 gUnknown_080CE4B2[][2];
+extern u8 gUnknown_080D1CA8[NUM_CHARACTERS];
+extern u16 gUnknown_080D1CAE[NUM_CHARACTERS][3];
+extern u16 gUnknown_080D1CD2[3][3];
 extern const u16 gUnknown_080D1CE4[NUM_LANGUAGES][3][3];
+extern const u8 gUnknown_080D1D50[];
 
 /* TODO: Merge module with code_1_3 */
+
+void sub_8055614(Strc_2A4_8053284 *strc)
+{
+    u8 sp00[5];
+    u32 charPartner;
+    u32 levelTimer;
+    s16 *sp10;
+    Player *p;
+    Sprite *s;
+    s32 temp_r1_3;
+    u16 temp_r4;
+    u8 act;
+    u32 charPlayer;
+    u8 temp_r0;
+    u16 temp_r1_2;
+    u8 temp_r5;
+    u8 var_r0_2;
+    u8 var_r4;
+    void *var_r0_3;
+    s32 var_r0;
+
+    p = &gPlayers[gStageData.playerIndex];
+    charPlayer = p->charFlags.character;
+    charPartner = gPlayers[p->charFlags.partnerIndex].charFlags.character;
+    var_r0 = gUnknown_080D1CA8[charPlayer];
+    var_r0 += gUnknown_080D1CA8[charPartner];
+    temp_r1_2 = var_r0 + 0x10;
+    levelTimer = gStageData.levelTimer;
+
+    if (gStageData.gameMode == 5) {
+        charPlayer = gPlayers[PLAYER_1].charFlags.character;
+        charPartner = gPlayers[PLAYER_2].charFlags.character;
+    }
+    strc->unk29E = temp_r1_2;
+    strc->someX2 = -gUnknown_080D1CA8[charPlayer] - 8;
+    strc->someX3 = -8;
+    strc->someX4 = 8;
+    strc->unk2A0 = 0xE6;
+
+    s = &strc->spritesC[0];
+    s->tiles = VramMalloc(gUnknown_080D1CAE[charPlayer][2]);
+    s->anim = gUnknown_080D1CAE[charPlayer][0];
+    s->variant = gUnknown_080D1CAE[charPlayer][1];
+    s->oamFlags = 0x80;
+    s->frameFlags = 0;
+    s->animCursor = 0;
+    s->x = strc->unk292 + strc->someX2;
+    s->y = strc->unk294 - 8;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->spritesC[1];
+    s->tiles = VramMalloc(4U);
+    s->anim = 0x596;
+    s->variant = 5;
+    s->oamFlags = 0x80;
+    s->frameFlags = 0;
+    s->animCursor = 0;
+    s->x = strc->unk292 + strc->someX3;
+    s->y = strc->unk294 - 8;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    if (gStageData.zone == 8) {
+        charPartner = 5;
+    }
+    s = &strc->spritesC[2];
+    s->tiles = VramMalloc(gUnknown_080D1CAE[charPartner][2]);
+    s->anim = gUnknown_080D1CAE[charPartner][0];
+    s->variant = gUnknown_080D1CAE[charPartner][1];
+    s->oamFlags = 0x80;
+    s->frameFlags = 0;
+    s->animCursor = 0;
+    s->x = strc->unk292 + strc->someX4;
+    s->y = strc->unk294 - 8;
+    s->qAnimDelay = 0;
+    s->prevVariant |= ~0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->sprites84[0];
+    s->tiles = VramMalloc(0xEU);
+    s->anim = 0x596;
+    if (gStageData.zone == 7) {
+        s->variant = 9;
+        strc->unk29F = 0x3A;
+    } else if (gStageData.zone == 8) {
+        s->variant = 0x19;
+        strc->unk29F = 0x39;
+    } else if (gStageData.act == 3 || gStageData.act == 4 || gStageData.act == 5 || gStageData.act == 6) {
+        s->variant = gStageData.act + 3;
+        strc->unk29F = 0x32;
+    } else {
+        s->variant = 10;
+        strc->unk29F = 0x3A;
+    }
+    s->oamFlags = 0x80;
+    s->frameFlags = 0;
+    s->animCursor = 0;
+    s->x = (s16)strc->someX;
+    s->y = 28;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s = &strc->sprites84[1];
+    s->tiles = VramMalloc(0xCU);
+    s->anim = 0x596;
+    s->variant = 0x17;
+    s->oamFlags = 0x80;
+    s->frameFlags = 0;
+    s->animCursor = 0;
+    s->x = strc->someX + strc->unk29F;
+    s->y = 0x1C;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->spriteD4;
+    s->tiles = VramMalloc(0x10U);
+    s->anim = 0x596;
+    s->variant = 0xB;
+    s->oamFlags = 0x80;
+    s->frameFlags = 0;
+    s->animCursor = 0;
+    s->x = 0x34;
+    s->y = 0x34;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+
+    temp_r5 = (u8)Mod(levelTimer, 60);
+    temp_r4 = (u16)Div(levelTimer, 60);
+    temp_r0 = (u8)Div((s32)temp_r4, 60);
+    temp_r4 = (temp_r4 - (temp_r0 * 60));
+    sp00[0] = gUnknown_080CE4B2[temp_r5][1];
+    sp00[1] = gUnknown_080CE4B2[temp_r5][0];
+    sp00[2] = gUnknown_080CE438[temp_r4][1];
+    sp00[3] = gUnknown_080CE438[temp_r4][0];
+    sp00[4] = temp_r0;
+
+    s = &strc->spritesFC[0];
+    s->tiles = VramMalloc(4U);
+    s->anim = 0x596;
+    s->variant = sp00[0] + 0xD;
+    s->oamFlags = 0x80;
+    s->frameFlags = 0;
+    s->animCursor = 0;
+    s->x = strc->unk2A0 + 0x54;
+    s->y = 0x34;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->spritesFC[1];
+    s->tiles = VramMalloc(4U);
+    s->anim = 0x596;
+    s->variant = sp00[1] + 0xD;
+    s->oamFlags = 0x80;
+    s->frameFlags = 0;
+    s->animCursor = 0;
+    s->x = strc->unk2A0 + 0x44;
+    s->y = 0x34;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->spritesFC[2];
+    s->tiles = VramMalloc(2U);
+    s->anim = 0x596;
+    s->variant = 0xC;
+    s->oamFlags = 0x80;
+    s->frameFlags = 0;
+    s->animCursor = 0;
+    s->x = strc->unk2A0 + 0x3A;
+    s->y = 0x34;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->spritesFC[3];
+    s->tiles = VramMalloc(4U);
+    s->anim = 0x596;
+    s->variant = sp00[2] + 0xD;
+    s->oamFlags = 0x80;
+    s->frameFlags = 0;
+    s->animCursor = 0;
+    s->x = strc->unk2A0 + 0x2A;
+    s->y = 0x34;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->spritesFC[4];
+    s->tiles = VramMalloc(4U);
+    s->anim = 0x596;
+    s->variant = sp00[3] + 0xD;
+    s->oamFlags = 0x80;
+    s->frameFlags = 0;
+    s->animCursor = 0;
+    s->x = strc->unk2A0 + 0x1A;
+    s->y = 0x34;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->spritesFC[5];
+    s->tiles = VramMalloc(2U);
+    s->anim = 0x596;
+    s->variant = 0xC;
+    s->oamFlags = 0x80;
+    s->frameFlags = 0;
+    s->animCursor = 0;
+    s->x = strc->unk2A0 + 0x10;
+    s->y = 0x34;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->spritesFC[6];
+    s->tiles = VramMalloc(4U);
+    s->anim = 0x596;
+    s->variant = sp00[4] + 0xD;
+    s->oamFlags = 0x80;
+    s->frameFlags = 0;
+    s->animCursor = 0;
+    s->x = (s16)strc->unk2A0;
+    s->y = 0x34;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+
+    {
+        u8 level = CURRENT_LEVEL;
+        if ((u32)levelTimer <= gMedalTimes[level][0]) {
+            act = 0;
+        } else if ((u32)levelTimer <= gMedalTimes[level][1]) {
+            act = 1;
+        } else {
+            act = 2;
+        }
+        if (gStageData.unk20 != 0) {
+            act = 2;
+        }
+    }
+
+    s = &strc->sprite214;
+    s->tiles = VramMalloc(gUnknown_080D1CD2[act][2]);
+    s->anim = gUnknown_080D1CD2[act][0];
+    s->variant = gUnknown_080D1CD2[act][1];
+    s->oamFlags = 0x80;
+    s->frameFlags = 0;
+    s->animCursor = 0;
+    s->x = 0x78;
+    s->y = -0x10;
+    s->qAnimDelay = 0;
+    s->prevVariant = 0xFF;
+    s->animSpeed = 0x40;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->sprite23C;
+    s->tiles = VramMalloc(6U);
+    s->anim = 0x3B4;
+    s->variant = 8;
+    s->oamFlags = 0x80;
+    s->frameFlags = 0x40000;
+    s->animCursor = 0;
+    s->x = DISPLAY_CENTER_X;
+    s->y = -16;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+
+    if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK || CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
+        u8 zone = gStageData.zone;
+        u8 act = gStageData.act;
+        if (act == 7) {
+            act = 3;
+        } else {
+            act = (u8)(act - 3);
+        }
+
+        for (var_r4 = 0; var_r4 < 5; var_r4++) {
+            if (LOADED_SAVE->timeRecords.table[zone][act][var_r4].time > levelTimer) {
+                break;
+            }
+        }
+        s = &strc->sprite264;
+        s->tiles = VramMalloc(8U);
+        s->anim = 1431;
+        s->variant = var_r4;
+        s->oamFlags = 0x40;
+        s->frameFlags = 0;
+        s->animCursor = 0;
+        s->x = 0x68;
+        s->y = 0x5A;
+        s->qAnimDelay = 0;
+        s->prevVariant = 0xFF;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+    }
+}
+
+void Task_2A4_8055CA8(void)
+{
+    Strc_2A4_8053284 *strc = TASK_DATA(gCurTask);
+    Sprite *s = &strc->spritesC[0];
+
+    s->x = strc->unk292 + strc->someX2;
+    s->y = strc->unk294 - 8;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &strc->spritesC[1];
+    s->x = strc->unk292 + strc->someX3;
+    s->y = strc->unk294 - 8;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &strc->spritesC[2];
+    s->x = strc->unk292 + strc->someX4;
+    s->y = strc->unk294 - 8;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
 
 void sub_2A4_8055D44(void) {
     u8 sp00[7];
@@ -458,7 +816,7 @@ void Task_2A4_80564D0(void)
 {
     Strc_2A4_8053284 *strc = TASK_DATA(gCurTask);
 
-    sub_8055CA8();
+    Task_2A4_8055CA8();
     sub_8056564();
     sub_2A4_8055D44();
     sub_80565BC();
