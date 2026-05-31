@@ -1,6 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "color.h"
+#include "trig.h"
 #include "flags.h"
 #include "malloc_vram.h"
 #include "malloc_ewram.h"
@@ -22,6 +23,9 @@ void sub_8055614(Strc_2A4_8053284 *strc);
 void Task_10_8055DA8(void);
 void Task_220_805374C(void);
 void Task_220_8053B28(void);
+void Task_220_8053BAC(void);
+void Task_220_8053C70(void);
+void Task_220_8053DEC(void);
 void sub_8054514(void);
 
 extern s16 sub_802610C(void);
@@ -437,5 +441,98 @@ void Task_220_8053904(void)
         gBldRegs.bldAlpha = 0x10;
         gBldRegs.bldY = 0;
         gCurTask->main = Task_220_8053B28;
+    }
+}
+
+void Task_220_8053B28(void)
+{
+    Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
+
+    if ((gStageData.gameMode > 4U) && (sub_802610C() != 0)) {
+        sub_802613C();
+        return;
+    }
+    Task_220_805374C();
+
+    strc->tf[0].y = strc->sprite0.y = (u16)strc->unk166 + 10;
+    strc->tf[1].y = strc->sprite28.y = (u16)strc->unk166 + 5;
+    sub_8054514();
+
+    if (++strc->unk16C >= 180) {
+        strc->unk16C = 0;
+        gCurTask->main = Task_220_8053BAC;
+    }
+}
+
+void Task_220_8053BAC(void)
+{
+    s16 temp_r0;
+    s16 temp_r0_2;
+    s16 temp_r0_3;
+    Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
+
+    if (((u32)gStageData.gameMode > 4U) && (sub_802610C() != 0)) {
+        sub_802613C();
+        return;
+    }
+    Task_220_805374C();
+    strc->unk172 = +0x10;
+    strc->unk174 = -0x10 - (strc->unk16C >> 1);
+
+    if (++strc->unk16C <= 32) {
+        strc->unk166 = (SIN(strc->unk16C * 8) >> 8) + 140;
+    }
+
+    strc->tf[0].y = strc->sprite0.y = (u16)strc->unk166 + 10;
+    strc->tf[1].y = strc->sprite28.y = strc->unk166 + 5;
+    sub_8054514();
+
+    if (strc->unk16C >= 64) {
+        gCurTask->main = Task_220_8053C70;
+    }
+}
+
+void Task_220_8053C70(void)
+{
+    Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
+
+    if (((u32)gStageData.gameMode > 4U) && ((sub_802610C() << 0x10) != 0)) {
+        sub_802613C();
+        return;
+    }
+    Task_220_805374C();
+
+    strc->unk172 = ((s32)(strc->unk16C - 64) >> 2) + 0x10;
+    strc->unk174 = ((s32)(strc->unk16C - 64) >> 1) - 0x30;
+    strc->unk16C++;
+    strc->unk16E = strc->unk16C - 64;
+    strc->unk170 = 48 - ((strc->unk16C - 64) >> 1);
+    strc->tf[0].y = strc->sprite0.y = (u16)strc->unk166 + 10;
+    strc->tf[1].y = strc->sprite28.y = (u16)strc->unk166 + 5;
+    sub_8054514();
+
+    if (strc->unk16C >= 128) {
+        strc->sprite0.anim = gUnknown_080D1C48[strc->unk17A][1][0];
+        strc->sprite0.variant = gUnknown_080D1C48[strc->unk17A][1][1];
+        strc->sprite0.frameFlags &= ~0x20;
+        strc->sprite0.frameFlags |= 0x400;
+        strc->sprite0.x = 0x82;
+        strc->sprite0.y = 0x96;
+        strc->sprite28.anim = gUnknown_080D1C48[strc->unk17B][1][0];
+        strc->sprite28.variant = gUnknown_080D1C48[strc->unk17B][1][1];
+        strc->sprite28.frameFlags = (strc->sprite28.frameFlags & ~0x21) | 0x400;
+        strc->sprite28.x = 0x50;
+        strc->sprite28.y = 0x96;
+
+        if (strc->unk21C != 0) {
+            strc->spriteE8.anim = gUnknown_080D1C48[5][1][0];
+            strc->spriteE8.variant = gUnknown_080D1C48[5][1][1];
+            strc->spriteE8.frameFlags &= ~((strc->unk21C - 1) | 0x20);
+            strc->spriteE8.frameFlags |= 0x400;
+        }
+
+        strc->unk16E = 0x40;
+        strc->unk170 = 0;
+        gCurTask->main = Task_220_8053DEC;
     }
 }
