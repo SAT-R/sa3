@@ -50,7 +50,7 @@ void Task_274_80562BC(void);
 void Task_2A4_80552C8(void);
 void Task_2A4_8055378(void);
 void sub_8055CA8(void);
-void sub_8055D44(void);
+void sub_2A4_8055D44(void);
 void TaskDestructor_8056104(Task *t);
 void Task_274_8056314(void);
 void Task_274_8056370(void);
@@ -87,6 +87,23 @@ extern const u16 gUnknown_080D1CD2[][3];
 extern const u16 gUnknown_080D1CE4[NUM_LANGUAGES][3][3];
 
 /* TODO: Merge module with code_1_3 */
+
+void sub_2A4_8055D44(void) {
+    u8 sp00[7];
+    s16 var_r0;
+    Sprite *s;
+    Strc_2A4_8053284 *strc = TASK_DATA(gCurTask);
+
+    memcpy(&sp00[0], &gUnknown_080D1D50, 7);
+
+    for(var_r0 = 0; var_r0 < 7; var_r0++)
+    {
+        s = &strc->spritesFC[var_r0];
+        s->x = strc->unk2A0 + sp00[var_r0];
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
 
 void Task_10_8055DA8(void)
 {
@@ -443,7 +460,7 @@ void Task_2A4_80564D0(void)
 
     sub_8055CA8();
     sub_8056564();
-    sub_8055D44();
+    sub_2A4_8055D44();
     sub_80565BC();
     sub_80565E4();
     sub_8056620();

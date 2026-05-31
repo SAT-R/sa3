@@ -82,7 +82,7 @@ typedef struct {
     /* 0x296 */ u16 someX;
     /* 0x298 */ u8 filler298[0x7];
     /* 0x29F */ u8 unk29F;
-    /* 0x2A0 */ u8 filler2A0[0x4];
+    /* 0x29F */ u8 unk2A0;
 } Strc_2A4_8053284;
 
 void sub_80533F4(u16 character); // related to Special Springs

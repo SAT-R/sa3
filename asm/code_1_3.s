@@ -2496,7 +2496,7 @@ _080551F0:
 _080551F8:
 	bl sub_8055CA8
 	bl sub_8056564
-	bl sub_8055D44
+	bl sub_2A4_8055D44
 	movs r0, #0xa4
 	lsls r0, r0, #2
 	adds r1, r4, r0
@@ -2577,7 +2577,7 @@ _0805528C:
 _080552A0:
 	bl sub_8055CA8
 	bl sub_8056564
-	bl sub_8055D44
+	bl sub_2A4_8055D44
 	bl sub_80565BC
 	bl sub_80565E4
 	bl sub_8056620
@@ -3842,54 +3842,3 @@ _08055D34: .4byte 0x03000034
 _08055D38: .4byte 0x0300029A
 _08055D3C: .4byte 0x0300005C
 _08055D40: .4byte 0x0300029C
-
-	thumb_func_start sub_8055D44
-sub_8055D44: @ 0x08055D44
-	push {r4, r5, r6, lr}
-	sub sp, #8
-	ldr r0, _08055DA0 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r6, r1, r0
-	ldr r1, _08055DA4 @ =gUnknown_080D1D50
-	mov r0, sp
-	movs r2, #7
-	bl memcpy
-	movs r0, #0
-_08055D60:
-	lsls r5, r0, #0x10
-	asrs r5, r5, #0x10
-	lsls r4, r5, #2
-	adds r4, r4, r5
-	lsls r4, r4, #3
-	adds r4, #0xfc
-	adds r4, r6, r4
-	movs r1, #0xa8
-	lsls r1, r1, #2
-	adds r0, r6, r1
-	ldrb r1, [r0]
-	mov r2, sp
-	adds r0, r2, r5
-	ldrb r0, [r0]
-	adds r1, r1, r0
-	strh r1, [r4, #0x10]
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	adds r0, r4, #0
-	bl DisplaySprite
-	adds r5, #1
-	lsls r5, r5, #0x10
-	lsrs r0, r5, #0x10
-	asrs r5, r5, #0x10
-	cmp r5, #6
-	ble _08055D60
-	add sp, #8
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08055DA0: .4byte gCurTask
-_08055DA4: .4byte gUnknown_080D1D50
-
