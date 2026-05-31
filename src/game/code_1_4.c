@@ -51,15 +51,22 @@ void Task_220_8053DEC(void);
 void Task_274_80547DC(void);
 void Task_274_8054764(void);
 void sub_8054514(void);
-void sub_8054E38(void);
+void Task_274_8054E38(void);
 void Task_2A4_8054EB8(void);
-void sub_8055614(Strc_2A4_8053284 *strc);
-void Task_10_8055DA8(void);
-void sub_8055E50(Strc_64_8056090 *);
+void Task_2A4_8054F5C(void);
+void Task_2A4_8054FE4(void);
+void Task_2A4_8055048(void);
+void Task_2A4_80550FC(void);
+void Task_2A4_8055160(void);
+void Task_2A4_80551C8(void);
+void Task_2A4_805523C(void);
 void Task_2A4_80552C8(void);
 void Task_2A4_8055378(void);
+void sub_8055614(Strc_2A4_8053284 *strc);
 void Task_2A4_8055CA8(void);
 void sub_2A4_8055D44(void);
+void Task_10_8055DA8(void);
+void sub_8055E50(Strc_64_8056090 *);
 void sub_8055F28(void);
 void TaskDestructor_8056104(Task *t);
 void Task_274_80562BC(void);
@@ -69,6 +76,7 @@ void Task_274_8056370(void);
 void sub_80563BC(void);
 void sub_8056430(void);
 void sub_8056408(void);
+void Task_2A4_80564D0(void);
 void sub_8056564(void);
 void sub_80565BC(void);
 void sub_80565E4(void);
@@ -114,6 +122,229 @@ extern const u16 gUnknown_080D1CE4[NUM_LANGUAGES][3][3];
 extern const u8 gUnknown_080D1D50[];
 
 /* TODO: Merge module with code_1_3 */
+
+void Task_274_8054E38()
+{
+    Strc_274_8053284 *strc = TASK_DATA(gCurTask);
+    Sprite *s;
+
+    s = &strc->sprite1C;
+    s->x = strc->fade.bldAlpha + strc->someX2;
+    s->y = strc->someX0 - 8;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &strc->sprite44;
+    s->x = strc->fade.bldAlpha + strc->someX3;
+    s->y = strc->someX0 - 8;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &strc->sprite6C;
+    s->x = strc->fade.bldAlpha + strc->someX4;
+    s->y = strc->someX0 - 8;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void Task_2A4_8054EB8(void)
+{
+    Strc_2A4_8053284 *strc = TASK_DATA(gCurTask);
+
+    if (UpdateScreenFade(&strc->fade) != SCREEN_FADE_RUNNING) {
+        strc->unk28C = 0;
+        strc->unk28D = 0;
+        strc->unk28E = DISPLAY_WIDTH;
+        strc->unk28F = DISPLAY_HEIGHT;
+        gDispCnt |= DISPCNT_WIN1_ON;
+        gDispCnt &= ~DISPCNT_WIN0_ON;
+        gWinRegs[4] = 0;
+        gWinRegs[5] = 0x1F;
+        gWinRegs[1] = WIN_RANGE(strc->unk28C, strc->unk28E);
+        gWinRegs[3] = WIN_RANGE(strc->unk28D, strc->unk28F);
+        gCurTask->main = Task_2A4_8054F5C;
+    }
+}
+
+void Task_2A4_8054F5C(void)
+{
+    Strc_2A4_8053284 *strc = TASK_DATA(gCurTask);
+
+    strc->unk28D += 4;
+    strc->unk28F -= 4;
+    gWinRegs[1] = WIN_RANGE(strc->unk28C, strc->unk28E);
+    gWinRegs[3] = WIN_RANGE(strc->unk28D, strc->unk28F);
+
+    if (strc->unk28D >= 68) {
+        gWinRegs[4] = 0x3000;
+        gWinRegs[5] = 0x1F;
+        gBldRegs.bldCnt = 0;
+        gBldRegs.bldAlpha = 0;
+        gBldRegs.bldY = 0;
+        strc->unk290 = 0;
+        gCurTask->main = Task_2A4_8054FE4;
+    }
+}
+
+void Task_2A4_8054FE4(void)
+{
+    Strc_2A4_8053284 *strc = TASK_DATA(gCurTask);
+
+    if (strc->unk292 > 120) {
+        strc->unk292 -= 12;
+    } else {
+        strc->unk292 = 120;
+    }
+
+    Task_2A4_8055CA8();
+
+    if (++strc->unk290 >= 60) {
+        strc->unk290 = 0;
+        gCurTask->main = Task_2A4_8055048;
+    }
+}
+
+void Task_2A4_8055048(void)
+{
+    Strc_2A4_8053284 *strc = TASK_DATA(gCurTask);
+
+    strc->unk28D -= 2;
+    strc->unk28F -= 2;
+    strc->unk294 -= 2;
+
+    gWinRegs[1] = WIN_RANGE(strc->unk28C, strc->unk28E);
+    gWinRegs[3] = WIN_RANGE(strc->unk28D, strc->unk28F);
+
+    Task_2A4_8055CA8();
+
+    if (strc->unk28D < 25) {
+        strc->unk292 += strc->someX2;
+        strc->someX4 -= strc->someX2;
+        strc->someX3 -= strc->someX2;
+        strc->someX2 = 0;
+        gCurTask->main = Task_2A4_80550FC;
+    }
+}
+
+void Task_2A4_80550FC(void)
+{
+    Strc_2A4_8053284 *strc = TASK_DATA(gCurTask);
+
+    if (strc->unk292 > 8) {
+        strc->unk292 -= 8;
+    } else {
+        strc->unk292 = 8;
+    }
+
+    Task_2A4_8055CA8();
+
+    if (++strc->unk290 >= 30) {
+        strc->unk290 = 0;
+        gCurTask->main = Task_2A4_8055160;
+    }
+}
+
+void Task_2A4_8055160(void)
+{
+    Strc_2A4_8053284 *strc = TASK_DATA(gCurTask);
+
+    if (strc->someX > 130) {
+        strc->someX -= 12;
+    } else {
+        strc->someX = 130;
+    }
+
+    Task_2A4_8055CA8();
+    sub_8056564();
+
+    if (++strc->unk290 >= 30) {
+        strc->unk290 = 0;
+        gCurTask->main = Task_2A4_80551C8;
+    }
+}
+
+void Task_2A4_80551C8(void)
+{
+    Strc_2A4_8053284 *strc = TASK_DATA(gCurTask);
+
+    if (strc->unk2A0 > 132) {
+        strc->unk2A0 -= 8;
+    } else {
+        strc->unk2A0 = 132;
+        sub_80565BC();
+    }
+
+    Task_2A4_8055CA8();
+    sub_8056564();
+    sub_2A4_8055D44();
+
+    if (++strc->unk290 >= 30) {
+        strc->unk290 = 0;
+        m4aSongNumStart(SE_GOAL_RING_RESULT);
+        gCurTask->main = Task_2A4_805523C;
+    }
+}
+
+void Task_2A4_805523C(void)
+{
+    Strc_2A4_8053284 *strc = TASK_DATA(gCurTask);
+    Sprite *s = &strc->sprite214;
+
+    if (s->y < 80) {
+        s->y += 2;
+
+        s = &strc->sprite23C;
+        s->y += 2;
+    } else {
+        if (s->animSpeed > 0x10U) {
+            s->y = 80;
+            s->animSpeed -= 2;
+
+            s = &strc->sprite23C;
+            s->y = 80;
+        } else {
+            s->y = 80;
+            s->animSpeed = 0x10;
+
+            s = &strc->sprite23C;
+            s->y = 80;
+
+            gCurTask->main = Task_2A4_80564D0;
+        }
+    }
+    Task_2A4_8055CA8();
+    sub_8056564();
+    sub_2A4_8055D44();
+    sub_80565BC();
+    sub_80565E4();
+    sub_8056620();
+}
+
+void Task_2A4_80552C8(void)
+{
+    Strc_2A4_8053284 *strc = TASK_DATA(gCurTask);
+
+    strc->unk28D += 4;
+    strc->unk28F -= 4;
+    gWinRegs[1] = WIN_RANGE(strc->unk28C, strc->unk28E);
+    gWinRegs[3] = WIN_RANGE(strc->unk28D, strc->unk28F);
+
+    if ((u32)strc->unk28D >= (u32)strc->unk28F) {
+        gWinRegs[4] = 0x10;
+        gWinRegs[5] = 0x1F;
+        gBldRegs.bldCnt = 0;
+        gBldRegs.bldAlpha = 0;
+        gBldRegs.bldY = 0;
+        strc->unk290 = 0;
+        strc->fade.window = 0;
+        strc->fade.flags = 1;
+        strc->fade.brightness = 0;
+        strc->fade.speed = 0x200;
+        strc->fade.bldCnt = 0xBF;
+        strc->fade.bldAlpha = 0;
+        gCurTask->main = Task_2A4_8056538;
+    }
+}
 
 void Task_2A4_8055378(void)
 {
@@ -784,7 +1015,7 @@ void Task_274_8056214(void)
         strc->fade.bldAlpha = 120;
     }
 
-    sub_8054E38();
+    Task_274_8054E38();
 
     if ((u16)++strc->fade.brightness >= 60) {
         strc->fade.brightness = 0;
@@ -802,7 +1033,7 @@ void Task_274_8056268(void)
         strc->fade.bldAlpha = 8;
     }
 
-    sub_8054E38();
+    Task_274_8054E38();
 
     if ((u16)++strc->fade.brightness >= 30) {
         strc->fade.brightness = 0;
@@ -820,7 +1051,7 @@ void Task_274_80562BC(void)
         strc->someX = 130;
     }
 
-    sub_8054E38();
+    Task_274_8054E38();
     sub_80563BC();
 
     if ((u16)++strc->fade.brightness >= 30) {
@@ -840,7 +1071,7 @@ void Task_274_8056314(void)
         sub_8056408();
     }
 
-    sub_8054E38();
+    Task_274_8054E38();
     sub_80563BC();
     sub_8056430();
 
@@ -853,7 +1084,7 @@ void Task_274_8056314(void)
 void Task_274_8056370(void)
 {
     Strc_274_8053284 *strc = TASK_DATA(gCurTask);
-    sub_8054E38();
+    Task_274_8054E38();
     sub_80563BC();
     sub_8056430();
     sub_8056408();

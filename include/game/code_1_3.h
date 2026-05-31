@@ -48,16 +48,20 @@ typedef struct {
 } Strc_220_sub_8053128;
 
 typedef struct {
-    /* 0x000 */ ScreenFade fade;
-    /* 0x00C */ u8 fillerC[0x2];
+    /* 0x000 */ ScreenFade fade; // TODO: Is this *actually* a ScreenFade?
+    /* 0x00C */ s16 someX0;
     /* 0x00E */ s16 someX;
-    /* 0x010 */ u8 filler10[0x6];
+    /* 0x010 */ s16 someX2;
+    /* 0x012 */ s16 someX3;
+    /* 0x014 */ s16 someX4;
     /* 0x016 */ u8 unk16;
     /* 0x017 */ u8 unk17;
     /* 0x018 */ u8 unk18;
     /* 0x019 */ u8 unk19;
-    /* 0x01A */ u8 filler1A[0x6A];
-    /* 0x084 */ u8 filler84[0x10];
+    /* 0x01A */ u8 filler1A[2];
+    /* 0x01C */ Sprite sprite1C;
+    /* 0x044 */ Sprite sprite44;
+    /* 0x06C */ Sprite sprite6C;
     /* 0x094 */ Sprite sprite94;
     /* 0x0BC */ Sprite spriteBC;
     /* 0x0E4 */ Sprite spriteE4;
@@ -75,11 +79,14 @@ typedef struct {
     /* 0x214 */ Sprite sprite214;
     /* 0x23C */ Sprite sprite23C;
     /* 0x264 */ Sprite sprite264;
-    /* 0x28C */ u8 filler28C[0x4];
+    /* 0x28C */ int_vcount unk28C;
+    /* 0x28C */ int_vcount unk28D;
+    /* 0x28C */ int_vcount unk28E;
+    /* 0x28C */ int_vcount unk28F;
     /* 0x290 */ u16 unk290;
-    /* 0x292 */ u16 unk292;
+    /* 0x292 */ s16 unk292;
     /* 0x294 */ u16 unk294;
-    /* 0x296 */ u16 someX;
+    /* 0x296 */ s16 someX;
     /* 0x298 */ s16 someX2;
     /* 0x29A */ s16 someX3;
     /* 0x29C */ s16 someX4;
