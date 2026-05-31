@@ -95,21 +95,16 @@ extern const u8 gUnknown_080D1D50[];
 void sub_8055614(Strc_2A4_8053284 *strc)
 {
     u8 sp00[5];
-    u32 charPartner;
+    u32 charPlayer, charPartner;
     u32 levelTimer;
-    s16 *sp10;
     Player *p;
     Sprite *s;
-    s32 temp_r1_3;
     u16 temp_r4;
     u8 act;
-    u32 charPlayer;
     u8 temp_r0;
     u16 temp_r1_2;
     u8 temp_r5;
-    u8 var_r0_2;
     u8 var_r4;
-    void *var_r0_3;
     s32 var_r0;
 
     p = &gPlayers[gStageData.playerIndex];
