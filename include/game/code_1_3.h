@@ -32,7 +32,7 @@ typedef struct {
     /* 0x15C */ s32 *data160;
     /* 0x164 */ s16 unk164;
     /* 0x166 */ s16 unk166;
-    /* 0x168 */ s16 unk168;
+    /* 0x168 */ u16 unk168;
     /* 0x16A */ s16 unk16A;
     /* 0x16C */ s16 unk16C;
     /* 0x16E */ s16 unk16E;
@@ -41,8 +41,8 @@ typedef struct {
     /* 0x174 */ s16 unk174;
     /* 0x176 */ s16 unk176;
     /* 0x178 */ s16 unk178;
-    /* 0x17A */ s8 unk17A;
-    /* 0x17B */ s8 unk17B;
+    /* 0x17A */ u8 unk17A;
+    /* 0x17B */ u8 unk17B;
     /* 0x17C */ Sprite sprites17C[4];
     /* 0x21C */ u8 unk21C;
 } Strc_220_sub_8053128;
