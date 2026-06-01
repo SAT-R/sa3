@@ -76,9 +76,6 @@ void sub_8027538() { }
 bool32 sub_802CE4C() { return FALSE; }
 
 void sub_8052D8C() { }
-void Task_220_8053DEC() { }
-void Task_274_8054764() { }
-void Task_274_80547DC() { }
 void sub_8054514() { }
 void sub_8054E38() { }
 void sub_8055CA8() { }
