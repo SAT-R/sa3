@@ -48,7 +48,7 @@ typedef struct {
 } Strc_220_sub_8053128;
 
 typedef struct {
-    /* 0x000 */ u8 filler0[4];
+    /* 0x000 */ ScreenFade *fade;
     /* 0x006 */ u16 unk4;
     /* 0x006 */ int_vcount unk6;
     /* 0x007 */ int_vcount unk7;

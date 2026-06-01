@@ -48,10 +48,15 @@ void TaskDestructor_805332C(Task *t);
 void Task_220_805374C(void);
 void Task_220_8053C70(void);
 void Task_220_8053DEC(void);
+void sub_8054514(void);
+void Task_274_8054678(void);
+void Task_274_80546F8(void);
 void Task_274_80547DC(void);
 void Task_274_8054764(void);
-void sub_8054514(void);
+void Task_274_8054878(void);
+void Task_274_80548E0(Strc_274_8053284 *strc);
 void Task_274_8054E38(void);
+void Task_274_8054E38();
 void Task_2A4_8054EB8(void);
 void Task_2A4_8054F5C(void);
 void Task_2A4_8054FE4(void);
@@ -69,13 +74,16 @@ void Task_10_8055DA8(void);
 void sub_8055E50(Strc_64_8056090 *);
 void sub_8055F28(void);
 void TaskDestructor_8056104(Task *t);
+void Task_274_8056214(void);
+void Task_274_8056268();
 void Task_274_80562BC(void);
 void Task_274_8056314(void);
 void Task_2A4_8056538(void);
 void Task_274_8056370(void);
 void sub_80563BC(void);
-void sub_8056430(void);
 void sub_8056408(void);
+void sub_8056430(void);
+void Task_274_8056494(void);
 void Task_2A4_80564D0(void);
 void sub_8056564(void);
 void sub_80565BC(void);
@@ -123,22 +131,142 @@ extern const u8 gUnknown_080D1D50[];
 
 /* TODO: Merge module with code_1_3 */
 
-#if 0
-void Task_274_8054878(void) {
+static inline void Strc274_SetWindowRange()
+{
     Strc_274_8053284 *strc = TASK_DATA(gCurTask);
-    u16 temp_r2;
+    gWinRegs[WINREG_WIN0H] = WIN_RANGE(strc->unk6, strc->unk8);
+    gWinRegs[WINREG_WIN0V] = WIN_RANGE(strc->unk7, strc->unk9);
+}
 
-    strc->unk7 = (u8) (strc->unk7 + 2);
-    strc->unk9 = (u8) (strc->unk9 - 2);
-    temp_r2 = gCurTask->data;
-    gWinRegs->unk0 = temp_r2->unk8 | (temp_r2->unk6 << 8);
-    gWinRegs[2] = temp_r2->unk9 | (temp_r2->unk7 << 8);
-    if ((u32) strc->unk7 >= (u32) strc->unk9) {
+void sub_80545E0(u8 paramA, u8 paramB)
+{
+    Strc_220_sub_8053128 *callingStrc = TASK_DATA(gCurTask);
+    Strc_274_8053284 *strc = TASK_DATA(TaskCreate(Task_274_8054678, sizeof(Strc_274_8053284), 0x101U, 0U, NULL));
+
+    strc->unk4 = 0;
+    strc->fade = &callingStrc->fade;
+    strc->fade->window = 0;
+    strc->fade->flags = 1;
+    strc->fade->brightness = 0;
+    strc->fade->speed = 0x400;
+    strc->fade->bldCnt = 0xBF;
+    strc->fade->bldAlpha = 0;
+    strc->someXA = 0x12C;
+    strc->someX0 = 80;
+    strc->someX = DISPLAY_WIDTH;
+    strc->paramA = paramA;
+    strc->paramB = paramB;
+    Task_274_80548E0(strc);
+}
+
+void Task_274_8054678()
+{
+    Strc_274_8053284 *strc = TASK_DATA(gCurTask);
+
+    if ((UpdateScreenFade(strc->fade) << 0x18) != 0) {
+        gDispCnt |= DISPCNT_WIN0_ON;
+        gDispCnt &= ~DISPCNT_WIN1_ON;
+        gWinRegs[4] = 0x20;
+        gWinRegs[5] = 0x1F;
+        strc->unk6 = 0;
+        strc->unk7 = 0;
+        strc->unk8 = DISPLAY_WIDTH;
+        strc->unk9 = DISPLAY_HEIGHT;
+
+        Strc274_SetWindowRange();
+
+        gCurTask->main = Task_274_80546F8;
+    }
+}
+
+void Task_274_80546F8()
+{
+    Strc_274_8053284 *strc = TASK_DATA(gCurTask);
+
+    strc->unk7 += 4;
+    strc->unk9 -= 4;
+
+    Strc274_SetWindowRange();
+
+    if (strc->unk7 >= 68) {
+        gWinRegs[4] = 0x10;
+        gWinRegs[5] = 0x1F;
+        gBldRegs.bldCnt = 0;
+        gBldRegs.bldAlpha = 0;
+        gBldRegs.bldY = 0;
+        gCurTask->main = Task_274_8056214;
+    }
+}
+
+void Task_274_8054764(void)
+{
+    Strc_274_8053284 *strc = TASK_DATA(gCurTask);
+
+    strc->unk7 -= 2;
+    strc->unk9 -= 2;
+    strc->someX0 -= 2;
+
+    Task_274_8054E38();
+
+    Strc274_SetWindowRange();
+
+    if (strc->unk7 <= 0x18U) {
+        strc->someXA += strc->someX2;
+        strc->someX4 -= strc->someX2;
+        strc->someX3 -= strc->someX2;
+        strc->someX2 = 0;
+        gCurTask->main = Task_274_8056268;
+    }
+}
+
+void Task_274_80547DC(void)
+{
+    Strc_274_8053284 *strc = TASK_DATA(gCurTask);
+    Sprite *s = &strc->sprite224;
+
+    if (s->y < DISPLAY_CENTER_Y) {
+        s->y += 2;
+        s = &strc->sprite24C;
+        s->y += 2;
+    } else {
+        if (s->animSpeed > SPRITE_ANIM_SPEED(1.0)) {
+            s->y = DISPLAY_CENTER_Y;
+            s->animSpeed -= 2;
+            s = &strc->sprite24C;
+            s->y = DISPLAY_CENTER_Y;
+        } else {
+            if (strc->unk4++ > 120) {
+                s->y = DISPLAY_CENTER_Y;
+                s->animSpeed = 0x10;
+                s = &strc->sprite24C;
+                s->y = DISPLAY_CENTER_Y;
+                strc->unk4 = 0;
+                gCurTask->main = Task_274_8054878;
+            }
+        }
+    }
+
+    Task_274_8054E38();
+    sub_80563BC();
+    sub_8056430();
+    sub_8056408();
+    Task_274_8056494();
+}
+
+void Task_274_8054878(void)
+{
+    Strc_274_8053284 *strc = TASK_DATA(gCurTask);
+
+    strc->unk7 += 2;
+    strc->unk9 -= 2;
+
+    Strc274_SetWindowRange();
+
+    if (strc->unk7 >= strc->unk9) {
         gDispCnt &= 0xDFFF;
         TaskDestroy(gCurTask);
     }
 }
-#endif
 
 // TODO: Fake-match
 void Task_274_80548E0(Strc_274_8053284 *strc)
