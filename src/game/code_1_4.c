@@ -123,6 +123,23 @@ extern const u8 gUnknown_080D1D50[];
 
 /* TODO: Merge module with code_1_3 */
 
+#if 0
+void Task_274_8054878(void) {
+    Strc_274_8053284 *strc = TASK_DATA(gCurTask);
+    u16 temp_r2;
+
+    strc->unk7 = (u8) (strc->unk7 + 2);
+    strc->unk9 = (u8) (strc->unk9 - 2);
+    temp_r2 = gCurTask->data;
+    gWinRegs->unk0 = temp_r2->unk8 | (temp_r2->unk6 << 8);
+    gWinRegs[2] = temp_r2->unk9 | (temp_r2->unk7 << 8);
+    if ((u32) strc->unk7 >= (u32) strc->unk9) {
+        gDispCnt &= 0xDFFF;
+        TaskDestroy(gCurTask);
+    }
+}
+#endif
+
 // TODO: Fake-match
 void Task_274_80548E0(Strc_274_8053284 *strc)
 {
@@ -168,12 +185,12 @@ void Task_274_80548E0(Strc_274_8053284 *strc)
 
     s = &strc->sprite1C;
     s->tiles = VramMalloc(gUnknown_080D1CAE[charDup][2]);
-    s->anim = gUnknown_080D1CAE[strc->unk19][0];
-    s->variant = gUnknown_080D1CAE[strc->unk19][1];
+    s->anim = gUnknown_080D1CAE[strc->paramA][0];
+    s->variant = gUnknown_080D1CAE[strc->paramA][1];
     s->oamFlags = 0x80;
     s->frameFlags = matchingZero;
     s->animCursor = matchingZero;
-    s->x = strc->fade.bldAlpha + strc->someX2;
+    s->x = strc->someXA + strc->someX2;
     s->y = strc->someX0 - 8;
     s->qAnimDelay = matchingZero;
     s->prevVariant = 0xFF;
@@ -188,7 +205,7 @@ void Task_274_80548E0(Strc_274_8053284 *strc)
     s->oamFlags = 0x80;
     s->frameFlags = matchingZero;
     s->animCursor = matchingZero;
-    s->x = strc->fade.bldAlpha + strc->someX3;
+    s->x = strc->someXA + strc->someX3;
     s->y = strc->someX0 - 8;
     s->qAnimDelay = matchingZero;
     s->prevVariant = -1;
@@ -198,12 +215,12 @@ void Task_274_80548E0(Strc_274_8053284 *strc)
 
     s = &strc->sprite6C;
     s->tiles = VramMalloc(gUnknown_080D1CAE[charPartner][2]);
-    s->anim = gUnknown_080D1CAE[strc->unk1A][0];
-    s->variant = gUnknown_080D1CAE[strc->unk1A][1];
+    s->anim = gUnknown_080D1CAE[strc->paramB][0];
+    s->variant = gUnknown_080D1CAE[strc->paramB][1];
     s->oamFlags = 0x80;
     s->frameFlags = matchingZero;
     s->animCursor = matchingZero;
-    s->x = strc->fade.bldAlpha + strc->someX4;
+    s->x = strc->someXA + strc->someX4;
     s->y = strc->someX0 - 8;
     s->qAnimDelay = matchingZero;
     s->prevVariant = -1;
@@ -427,19 +444,19 @@ void Task_274_8054E38()
     Sprite *s;
 
     s = &strc->sprite1C;
-    s->x = strc->fade.bldAlpha + strc->someX2;
+    s->x = strc->someXA + strc->someX2;
     s->y = strc->someX0 - 8;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
     s = &strc->sprite44;
-    s->x = strc->fade.bldAlpha + strc->someX3;
+    s->x = strc->someXA + strc->someX3;
     s->y = strc->someX0 - 8;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
     s = &strc->sprite6C;
-    s->x = strc->fade.bldAlpha + strc->someX4;
+    s->x = strc->someXA + strc->someX4;
     s->y = strc->someX0 - 8;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
@@ -1314,16 +1331,16 @@ void Task_274_8056214(void)
 {
     Strc_274_8053284 *strc = TASK_DATA(gCurTask);
 
-    if (strc->fade.bldAlpha > 120) {
-        strc->fade.bldAlpha -= 12;
+    if (strc->someXA > 120) {
+        strc->someXA -= 12;
     } else {
-        strc->fade.bldAlpha = 120;
+        strc->someXA = 120;
     }
 
     Task_274_8054E38();
 
-    if ((u16)++strc->fade.brightness >= 60) {
-        strc->fade.brightness = 0;
+    if ((u16)++strc->unk4 >= 60) {
+        strc->unk4 = 0;
         gCurTask->main = Task_274_8054764;
     }
 }
@@ -1332,16 +1349,16 @@ void Task_274_8056268(void)
 {
     Strc_274_8053284 *strc = TASK_DATA(gCurTask);
 
-    if (strc->fade.bldAlpha > 8) {
-        strc->fade.bldAlpha -= 8;
+    if (strc->someXA > 8) {
+        strc->someXA -= 8;
     } else {
-        strc->fade.bldAlpha = 8;
+        strc->someXA = 8;
     }
 
     Task_274_8054E38();
 
-    if ((u16)++strc->fade.brightness >= 30) {
-        strc->fade.brightness = 0;
+    if ((u16)++strc->unk4 >= 30) {
+        strc->unk4 = 0;
         gCurTask->main = Task_274_80562BC;
     }
 }
@@ -1359,8 +1376,8 @@ void Task_274_80562BC(void)
     Task_274_8054E38();
     sub_80563BC();
 
-    if ((u16)++strc->fade.brightness >= 30) {
-        strc->fade.brightness = 0;
+    if ((u16)++strc->unk4 >= 30) {
+        strc->unk4 = 0;
         gCurTask->main = Task_274_8056314;
     }
 }
@@ -1380,8 +1397,8 @@ void Task_274_8056314(void)
     sub_80563BC();
     sub_8056430();
 
-    if ((u16)++strc->fade.brightness >= 30) {
-        strc->fade.brightness = 0;
+    if ((u16)++strc->unk4 >= 30) {
+        strc->unk4 = 0;
         gCurTask->main = Task_274_8056370;
     }
 }
@@ -1395,8 +1412,8 @@ void Task_274_8056370(void)
     sub_8056408();
 
     // TODO: This probably isn't a fade/brightness value...
-    if ((u16)++strc->fade.brightness >= 60) {
-        strc->fade.brightness = 0;
+    if ((u16)++strc->unk4 >= 60) {
+        strc->unk4 = 0;
         m4aSongNumStart(SE_GOAL_RING_RESULT);
         gCurTask->main = Task_274_80547DC;
     }

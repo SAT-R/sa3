@@ -48,7 +48,13 @@ typedef struct {
 } Strc_220_sub_8053128;
 
 typedef struct {
-    /* 0x000 */ ScreenFade fade; // TODO: Is this *actually* a ScreenFade?
+    /* 0x000 */ u8 filler0[4];
+    /* 0x006 */ u16 unk4;
+    /* 0x006 */ int_vcount unk6;
+    /* 0x007 */ int_vcount unk7;
+    /* 0x008 */ int_vcount unk8;
+    /* 0x009 */ int_vcount unk9;
+    /* 0x00A */ s16 someXA;
     /* 0x00C */ s16 someX0;
     /* 0x00E */ s16 someX;
     /* 0x010 */ s16 someX2;
@@ -57,8 +63,11 @@ typedef struct {
     /* 0x016 */ u8 unk16;
     /* 0x017 */ u8 unk17;
     /* 0x018 */ u8 unk18;
-    /* 0x019 */ u8 unk19;
-    /* 0x01A */ u8 unk1A;
+
+    // Set during initialization, params of sub_80545E0()
+    /* 0x019 */ u8 paramA;
+    /* 0x01A */ u8 paramB;
+
     /* 0x01C */ Sprite sprite1C;
     /* 0x044 */ Sprite sprite44;
     /* 0x06C */ Sprite sprite6C;

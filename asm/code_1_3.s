@@ -1011,7 +1011,7 @@ sub_80545E0: @ 0x080545E0
 	ldrh r4, [r0, #6]
 	movs r1, #0xc0
 	lsls r1, r1, #0x12
-	mov sb, r1
+	mov sb, r1          @ sb -> Strc_220_sub_8053128*
 	ldr r0, _0805466C @ =Task_274_8054678
 	movs r1, #0x9d
 	lsls r1, r1, #2     @ 0x274
@@ -1319,6 +1319,7 @@ _08054856:
 _08054870: .4byte 0x0300024C
 _08054874: .4byte Task_274_8054878
 
+.if 01
 	thumb_func_start Task_274_8054878
 Task_274_8054878: @ 0x08054878
 	push {r4, r5, lr}
@@ -1370,6 +1371,4 @@ _080548D0: .4byte gCurTask
 _080548D4: .4byte gWinRegs
 _080548D8: .4byte gDispCnt
 _080548DC: .4byte 0x0000DFFF
-
-.if 0
 .endif
