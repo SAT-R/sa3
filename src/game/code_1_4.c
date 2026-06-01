@@ -123,6 +123,304 @@ extern const u8 gUnknown_080D1D50[];
 
 /* TODO: Merge module with code_1_3 */
 
+// TODO: Fake-match
+void Task_274_80548E0(Strc_274_8053284 *strc)
+{
+    u8 sp00[7];
+    u32 charPlayer, charPartner;
+#ifndef NON_MATCHING
+    register u32 charDup asm("r1");
+#else
+    u32 charDup;
+#endif
+    s32 levelTimer;
+    Player *p;
+    Sprite *s;
+    u16 temp_r4;
+    u8 act;
+    u8 temp_r0;
+    u16 temp_r1_2;
+    u8 temp_r5;
+    s32 var_r0;
+    //       The 'matchingZero' var is only here because it doesn't match otherwise.
+    //       But it's just basically impossible it was originally that way.
+    //       It *almost* matches without... but not quite. :(
+    s32 matchingZero;
+
+    p = &gPlayers[gStageData.playerIndex];
+    charPlayer = p->charFlags.character;
+    charPartner = gPlayers[p->charFlags.partnerIndex].charFlags.character;
+    var_r0 = gUnknown_080D1CA8[charPlayer];
+    var_r0 += gUnknown_080D1CA8[charPartner];
+    temp_r1_2 = var_r0 + 0x10;
+    levelTimer = (s32)gStageData.levelTimer;
+    if (gStageData.gameMode == GAME_MODE_5) {
+        charPlayer = gPlayers[PLAYER_1].charFlags.character;
+        charPartner = gPlayers[PLAYER_2].charFlags.character;
+    }
+    matchingZero = 0;
+    strc->unk16 = temp_r1_2;
+    charDup = charPlayer;
+    strc->someX2 = -gUnknown_080D1CA8[charDup] - 8;
+    strc->someX3 = -8;
+    strc->someX4 = 8;
+    strc->unk18 = 0xE6;
+
+    s = &strc->sprite1C;
+    s->tiles = VramMalloc(gUnknown_080D1CAE[charDup][2]);
+    s->anim = gUnknown_080D1CAE[strc->unk19][0];
+    s->variant = gUnknown_080D1CAE[strc->unk19][1];
+    s->oamFlags = 0x80;
+    s->frameFlags = matchingZero;
+    s->animCursor = matchingZero;
+    s->x = strc->fade.bldAlpha + strc->someX2;
+    s->y = strc->someX0 - 8;
+    s->qAnimDelay = matchingZero;
+    s->prevVariant = 0xFF;
+    s->animSpeed = 0x10;
+    s->palId = matchingZero;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->sprite44;
+    s->tiles = VramMalloc(4U);
+    s->anim = 1430;
+    s->variant = 5;
+    s->oamFlags = 0x80;
+    s->frameFlags = matchingZero;
+    s->animCursor = matchingZero;
+    s->x = strc->fade.bldAlpha + strc->someX3;
+    s->y = strc->someX0 - 8;
+    s->qAnimDelay = matchingZero;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = matchingZero;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->sprite6C;
+    s->tiles = VramMalloc(gUnknown_080D1CAE[charPartner][2]);
+    s->anim = gUnknown_080D1CAE[strc->unk1A][0];
+    s->variant = gUnknown_080D1CAE[strc->unk1A][1];
+    s->oamFlags = 0x80;
+    s->frameFlags = matchingZero;
+    s->animCursor = matchingZero;
+    s->x = strc->fade.bldAlpha + strc->someX4;
+    s->y = strc->someX0 - 8;
+    s->qAnimDelay = matchingZero;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = matchingZero;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->sprite94;
+    s->tiles = VramMalloc(14);
+    s->anim = 1430;
+    s->variant = 0xA;
+    strc->unk17 = 0x3A;
+    s->oamFlags = 0x80;
+    s->frameFlags = matchingZero;
+    s->animCursor = matchingZero;
+    s->x = strc->someX;
+    s->y = 28;
+    s->qAnimDelay = matchingZero;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = matchingZero;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->spriteBC;
+    s->tiles = VramMalloc(12);
+    s->anim = 1430;
+    s->variant = 0x17;
+    s->oamFlags = 0x80;
+    s->frameFlags = matchingZero;
+    s->animCursor = matchingZero;
+    s->x = strc->someX + strc->unk17;
+    s->y = 0x1C;
+    s->qAnimDelay = matchingZero;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = matchingZero;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->spriteE4;
+    s->tiles = VramMalloc(16);
+    s->anim = 1430;
+    s->variant = 11;
+    s->oamFlags = 0x80;
+    s->frameFlags = matchingZero;
+    s->animCursor = matchingZero;
+    s->x = 0x34;
+    s->y = 0x34;
+    s->qAnimDelay = matchingZero;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = matchingZero;
+    s->hitboxes[0].index = -1;
+
+    temp_r5 = (u8)Mod(levelTimer, 60);
+    temp_r4 = (u16)Div(levelTimer, 60);
+    temp_r0 = (u8)Div((s32)temp_r4, 60);
+    temp_r4 = (temp_r4 - (temp_r0 * 60));
+    sp00[0] = gUnknown_080CE4B2[temp_r5][1];
+    sp00[1] = gUnknown_080CE4B2[temp_r5][0];
+    sp00[2] = gUnknown_080CE438[temp_r4][1];
+    sp00[3] = gUnknown_080CE438[temp_r4][0];
+    sp00[4] = temp_r0;
+
+    s = &strc->sprites10C[0];
+    s->tiles = VramMalloc(4U);
+    s->anim = 1430;
+    s->variant = sp00[0] + 0xD;
+    s->oamFlags = 0x80;
+    s->frameFlags = matchingZero;
+    s->animCursor = matchingZero;
+    s->x = strc->unk18 + 0x54;
+    s->y = 0x34;
+    s->qAnimDelay = matchingZero;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = matchingZero;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->sprites10C[1];
+    s->tiles = VramMalloc(4U);
+    s->anim = 1430;
+    s->variant = sp00[1] + 0xD;
+    s->oamFlags = 0x80;
+    s->frameFlags = matchingZero;
+    s->animCursor = matchingZero;
+    s->x = strc->unk18 + 0x44;
+    s->y = 0x34;
+    s->qAnimDelay = matchingZero;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = matchingZero;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->sprites10C[2];
+    s->tiles = VramMalloc(2U);
+    s->anim = 1430;
+    s->variant = 0xC;
+    s->oamFlags = 0x80;
+    s->frameFlags = matchingZero;
+    s->animCursor = matchingZero;
+    s->x = strc->unk18 + 0x3A;
+    s->y = 0x34;
+    s->qAnimDelay = matchingZero;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = matchingZero;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->sprites10C[3];
+    s->tiles = VramMalloc(4U);
+    s->anim = 1430;
+    s->variant = sp00[2] + 0xD;
+    s->oamFlags = 0x80;
+    s->frameFlags = matchingZero;
+    s->animCursor = matchingZero;
+    s->x = strc->unk18 + 0x2A;
+    s->y = 0x34;
+    s->qAnimDelay = matchingZero;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = matchingZero;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->sprites10C[4];
+    s->tiles = VramMalloc(4U);
+    s->anim = 1430;
+    s->variant = sp00[3] + 0xD;
+    s->oamFlags = 0x80;
+    s->frameFlags = matchingZero;
+    s->animCursor = matchingZero;
+    s->x = strc->unk18 + 0x1A;
+    s->y = 0x34;
+    s->qAnimDelay = matchingZero;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = matchingZero;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->sprites10C[5];
+    s->tiles = VramMalloc(2U);
+    s->anim = 1430;
+    s->variant = 12;
+    s->oamFlags = 0x80;
+    s->frameFlags = matchingZero;
+    s->animCursor = matchingZero;
+    s->x = strc->unk18 + 0x10;
+    s->y = 0x34;
+    s->qAnimDelay = matchingZero;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = matchingZero;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->sprites10C[6];
+    s->tiles = VramMalloc(4U);
+    s->anim = 1430;
+    s->variant = sp00[4] + 0xD;
+    s->oamFlags = 0x80;
+    s->frameFlags = matchingZero;
+    s->animCursor = matchingZero;
+    s->x = strc->unk18;
+    s->y = 52;
+    s->qAnimDelay = matchingZero;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = matchingZero;
+    s->hitboxes[0].index = -1;
+
+    {
+#ifndef BUG_FIX
+        u8 level = CURRENT_LEVEL;
+#else
+        // While we don't have > 255 levels,
+        // currentIndex is u16 in gStageData, so we should account for that.
+        // TODO: Declare a type for map IDs?
+        u16 level = CURRENT_LEVEL;
+#endif
+        if ((u32)levelTimer <= gMedalTimes[level][0]) {
+            act = matchingZero;
+        } else if ((u32)levelTimer <= gMedalTimes[level][1]) {
+            act = 1;
+        } else {
+            act = 2;
+        }
+    }
+
+    s = &strc->sprite224;
+    s->tiles = VramMalloc(gUnknown_080D1CD2[act][2]);
+    s->anim = gUnknown_080D1CD2[act][0];
+    s->variant = gUnknown_080D1CD2[act][1];
+    s->oamFlags = 0x80;
+    s->frameFlags = 0;
+    s->animCursor = 0;
+    s->x = DISPLAY_CENTER_X;
+    s->y = -0x10;
+    s->qAnimDelay = 0;
+    s->prevVariant = 0xFF;
+    s->animSpeed = 0x40;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+
+    s = &strc->sprite24C;
+    s->tiles = VramMalloc(6U);
+    s->anim = 948;
+    s->variant = 8;
+    s->oamFlags = 0x80;
+    s->frameFlags = 0x40000;
+    s->animCursor = 0;
+    s->x = DISPLAY_CENTER_X;
+    s->y = -16;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+}
+
 void Task_274_8054E38()
 {
     Strc_274_8053284 *strc = TASK_DATA(gCurTask);
@@ -690,7 +988,14 @@ void sub_8055614(Strc_2A4_8053284 *strc)
     s->hitboxes[0].index = -1;
 
     {
+#ifndef BUG_FIX
         u8 level = CURRENT_LEVEL;
+#else
+        // While we don't have > 255 levels,
+        // currentIndex is u16 in gStageData, so we should account for that.
+        // TODO: Declare a type for map IDs?
+        u16 level = CURRENT_LEVEL;
+#endif
         if ((u32)levelTimer <= gMedalTimes[level][0]) {
             act = 0;
         } else if ((u32)levelTimer <= gMedalTimes[level][1]) {

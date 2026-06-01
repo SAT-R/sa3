@@ -286,7 +286,7 @@ void sub_80536F0(Strc_220_sub_8053128 *strc220)
     Sprite *var_r2 = &strc220->sprites17C[0];
     s16 i;
 #ifdef BUG_FIX
-    const u8 offsets[] = { 0, 0, 0, 12 * TILE_SIZE_4BPP };
+    const u8 offsets[] = { 0, 0, 0, 12 };
     u8 *tiles = VramMalloc(16);
 #endif
 
@@ -296,7 +296,7 @@ void sub_80536F0(Strc_220_sub_8053128 *strc220)
 #else
         // NOTE(Jace): I know this is a debug graphic
         //             but not assigning it a VRAM pointer is weird...
-        var_r2->tiles = tiles + offsets[i];
+        var_r2->tiles = tiles + (offsets[i] * TILE_SIZE_4BPP);
 #endif
         var_r2->frameFlags |= 0x80000;
         var_r2->anim = ANIM_DEBUG_CONV_TEXT;

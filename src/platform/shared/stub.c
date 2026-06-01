@@ -76,16 +76,13 @@ void sub_8027538() { }
 bool32 sub_802CE4C() { return FALSE; }
 
 void sub_8052D8C() { }
-void sub_8053440() { }
-void sub_80534DC() { }
-void sub_805365C() { }
+void Task_220_8053DEC() { }
 void Task_274_8054764() { }
 void Task_274_80547DC() { }
+void sub_8054514() { }
 void sub_8054E38() { }
 void sub_8055CA8() { }
 void sub_8055D44() { }
-void Task_2A4_80552C8() { }
-void Task_2A4_8055378() { }
 void CreateGmerl1() { }
 void CreateBoss_8068B3C() { }
 void CreateBoss_806A90C() { }
@@ -180,7 +177,6 @@ void sub_80268B8() { }
 void sub_8026254() { }
 void sub_8027878() { }
 void sub_80278DC() { }
-void sub_80533F4() { }
 void sub_802785C() { }
 void sub_80274AC() { }
 
@@ -211,10 +207,9 @@ void sub_80B5DF4() { }
 void sub_80B60E0(s16 param0, s16 *param1) { }
 void sub_80B6774(s16 param0, s16 *param1) { }
 
-void Task_220_8053904() { }
+void sub_80A5954() { }
 void sub_80A872C() { }
 ColorRaw sub_80C4C0C(ColorRaw color) { return color; }
-void sub_8053284() { }
 void sub_8029990() { }
 void Gemerl_State0() { }
 

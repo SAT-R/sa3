@@ -58,7 +58,7 @@ typedef struct {
     /* 0x017 */ u8 unk17;
     /* 0x018 */ u8 unk18;
     /* 0x019 */ u8 unk19;
-    /* 0x01A */ u8 filler1A[2];
+    /* 0x01A */ u8 unk1A;
     /* 0x01C */ Sprite sprite1C;
     /* 0x044 */ Sprite sprite44;
     /* 0x06C */ Sprite sprite6C;
