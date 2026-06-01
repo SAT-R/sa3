@@ -26,10 +26,20 @@ void Task_220_8053B28(void);
 void Task_220_8053BAC(void);
 void Task_220_8053C70(void);
 void Task_220_8053DEC(void);
-void sub_8054514(void);
+void Task_220_8054514(void);
+void Task_220_8053DEC(void);
+void Task_220_8053EA4(void);
+void Task_220_8053FB8(void);
+void Task_220_80540EC(void);
+void Task_220_8054208(void);
+void Task_220_805429C(void);
+void Task_220_80543F8(void);
+void Task_220_805448C(void);
+void sub_80545E0(u8 paramA, u8 paramB);
 
 extern s16 sub_802610C(void);
 extern void sub_802613C(void);
+extern void sub_8000414(u16 stageId);
 extern ColorRaw sub_80C4C0C(ColorRaw color);
 
 extern u16 gUnknown_080D1C48[][4][2];
@@ -399,7 +409,7 @@ void Task_220_8053904(void)
     strc->tf[0].qScaleY = +(((u16)strc->unk16C * 2) + Q(0.25));
     strc->tf[1].qScaleX = -(((u16)strc->unk16C * 2) + Q(0.125));
     strc->tf[1].qScaleY = +(((u16)strc->unk16C * 2) + Q(0.125));
-    sub_8054514();
+    Task_220_8054514();
 
     if ((UpdateScreenFade(&strc->fade) != SCREEN_FADE_RUNNING) && (strc->unk16C >= 96)) {
         strc->unk16C = 0;
@@ -449,7 +459,7 @@ void Task_220_8053B28(void)
 
     strc->tf[0].y = strc->sprite0.y = (u16)strc->unk166 + 10;
     strc->tf[1].y = strc->sprite28.y = (u16)strc->unk166 + 5;
-    sub_8054514();
+    Task_220_8054514();
 
     if (++strc->unk16C >= 180) {
         strc->unk16C = 0;
@@ -478,7 +488,7 @@ void Task_220_8053BAC(void)
 
     strc->tf[0].y = strc->sprite0.y = (u16)strc->unk166 + 10;
     strc->tf[1].y = strc->sprite28.y = strc->unk166 + 5;
-    sub_8054514();
+    Task_220_8054514();
 
     if (strc->unk16C >= 64) {
         gCurTask->main = Task_220_8053C70;
@@ -502,7 +512,7 @@ void Task_220_8053C70(void)
     strc->unk170 = 48 - ((strc->unk16C - 64) >> 1);
     strc->tf[0].y = strc->sprite0.y = (u16)strc->unk166 + 10;
     strc->tf[1].y = strc->sprite28.y = (u16)strc->unk166 + 5;
-    sub_8054514();
+    Task_220_8054514();
 
     if (strc->unk16C >= 128) {
         strc->sprite0.anim = gUnknown_080D1C48[strc->unk17A][1][0];
@@ -527,5 +537,324 @@ void Task_220_8053C70(void)
         strc->unk16E = 0x40;
         strc->unk170 = 0;
         gCurTask->main = Task_220_8053DEC;
+    }
+}
+void Task_8053EA4(); /* static */
+void sub_8053FB8(); /* static */
+void sub_80540EC(); /* static */
+void sub_8054208(); /* static */
+void sub_805429C(); /* static */
+void sub_80543F8(); /* static */
+void sub_805448C(); /* static */
+
+void Task_220_8053DEC(void)
+{
+    Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
+    s16 temp_r0;
+
+    if (((u32)gStageData.gameMode > 4U) && ((sub_802610C() << 0x10) != 0)) {
+        sub_802613C();
+        return;
+    }
+    Task_220_805374C();
+    strc->unk172 = 0x20;
+    if ((s32)strc->unk174 > 0) {
+        strc->unk174 = (u16)strc->unk174 - 1;
+    }
+    strc->unk16C = (u16)strc->unk16C + 2;
+    strc->unk166 = (SIN(strc->unk16C * 2) >> 8) + 0x8C;
+    strc->sprite0.x = 0x82;
+    strc->sprite0.y = (u16)strc->unk166 + 0xA;
+    strc->sprite28.x = 0x50;
+    strc->sprite28.y = strc->unk166 + 0xA;
+    Task_220_805448C();
+    if ((s32)strc->unk16C > 0xFF) {
+        strc->unk16C = 0;
+        gCurTask->main = (void (*)())Task_220_8053EA4;
+    }
+}
+
+void Task_220_8053EA4(void)
+{
+    Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
+    s16 temp_r0;
+    s16 temp_r0_2;
+
+    if (((u32)gStageData.gameMode > 4U) && ((sub_802610C() << 0x10) != 0)) {
+        sub_802613C();
+        return;
+    }
+    Task_220_805374C();
+    strc->unk172 = 0x20;
+    strc->unk174 = 0;
+    strc->sprite0.y = (u16)strc->unk166 + 10;
+    strc->sprite28.y = strc->unk166 + 10;
+    Task_220_805448C();
+    if (strc->unk16C == 0x50) {
+        sub_80545E0(strc->unk17A, strc->unk17B);
+    }
+
+    if (++strc->unk16C >= 0x78) {
+        strc->sprite0.anim = gUnknown_080D1C48[strc->unk17A][2][0];
+        strc->sprite0.variant = gUnknown_080D1C48[strc->unk17A][2][1];
+        strc->sprite28.anim = gUnknown_080D1C48[strc->unk17B][2][0];
+        strc->sprite28.variant = gUnknown_080D1C48[strc->unk17B][2][1];
+        if (strc->unk21C != 0) {
+            strc->spriteE8.anim = gUnknown_080D1C48[5][2][0];
+            strc->spriteE8.variant = gUnknown_080D1C48[5][2][1];
+        }
+        strc->unk16C = 0;
+        gCurTask->main = Task_220_8053FB8;
+    }
+}
+
+void Task_220_8053FB8(void)
+{
+    Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
+    s16 temp_r0;
+    s16 temp_r0_2;
+
+    if (((u32)gStageData.gameMode > 4U) && ((sub_802610C() << 0x10) != 0)) {
+        sub_802613C();
+        return;
+    }
+    Task_220_805374C();
+    strc->unk172 = 0x20;
+    strc->unk174 = 0;
+    strc->sprite0.y = (u16)strc->unk166 + 0xA;
+    temp_r0 = (u16)strc->unk166 + 0xA;
+    strc->sprite28.y = temp_r0;
+    Task_220_805448C();
+    if (strc->unk164 > -240) {
+        strc->unk164--;
+    }
+
+    if (++strc->unk16C > 0x01A3) {
+        strc->unk16C = 0;
+        strc->sprite0.anim = gUnknown_080D1C48[strc->unk17A][3][0];
+        strc->sprite0.variant = gUnknown_080D1C48[strc->unk17A][3][1];
+        strc->sprite0.frameFlags |= 0x20;
+        strc->sprite28.anim = gUnknown_080D1C48[strc->unk17B][3][0];
+        strc->sprite28.variant = gUnknown_080D1C48[strc->unk17B][3][1];
+        strc->sprite28.frameFlags |= 0x21;
+        if (strc->unk21C != 0) {
+            strc->spriteE8.anim = gUnknown_080D1C48[5][3][0];
+            strc->spriteE8.variant = gUnknown_080D1C48[5][3][1];
+            strc->spriteE8.frameFlags |= 0x20 | (strc->unk21C - 1);
+        }
+        gCurTask->main = (void (*)())Task_220_80540EC;
+    }
+}
+
+void Task_220_80540EC(void)
+{
+    Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
+    s16 temp_r0_2;
+    s16 temp_r0_3;
+    s16 temp_r0_4;
+    s16 temp_r0_5;
+    s16 temp_r1;
+    s16 *unk166;
+    s32 var;
+
+    if (((u32)gStageData.gameMode > 4U) && ((sub_802610C() << 0x10) != 0)) {
+        sub_802613C();
+        return;
+    }
+    Task_220_805374C();
+    if (strc->unk172 > 0x10) {
+        strc->unk172--;
+    }
+    if (strc->unk174 < 16) {
+        strc->unk174++;
+    }
+
+    strc->tf[0].x = strc->sprite0.x = (strc->unk16C >> 2) + 0x82;
+    unk166 = &strc->unk166;
+    var = ((strc->unk16C >> 3) - 10);
+    strc->sprite0.y = *unk166 - var;
+    strc->tf[0].y = strc->sprite0.y;
+    strc->tf[1].x = strc->sprite28.x = (strc->unk16C >> 1) + 0x50;
+    strc->tf[1].y = strc->sprite28.y = strc->unk166 + 10;
+    strc->tf[0].qScaleX = strc->unk16C - Q(1);
+    strc->tf[0].qScaleY = Q(1) - strc->unk16C;
+    Task_220_8054514();
+    strc->unk16E = (0x23 - (u16)strc->unk16C) * 2;
+    strc->unk170 = 0 - ((u16)strc->unk16C * 2);
+
+    if (++strc->unk16C > 0x1F) {
+        strc->unk16C = 0;
+        strc->unk16E = 0x10;
+        strc->unk170 = -0x20;
+        gCurTask->main = Task_220_8054208;
+    }
+}
+
+void Task_220_8054208(void)
+{
+    Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
+    s16 temp_r0;
+    s16 temp_r0_2;
+    s16 temp_r0_3;
+
+    if (((u32)gStageData.gameMode > 4U) && ((sub_802610C() << 0x10) != 0)) {
+        sub_802613C();
+        return;
+    }
+    Task_220_805374C();
+    strc->unk172 = 0x10;
+    strc->unk174 = 0x10;
+    strc->tf[0].y = strc->sprite0.y = strc->unk166 + 7;
+    strc->tf[1].y = strc->sprite28.y = strc->unk166 + 0xB;
+    Task_220_8054514();
+
+    if (++strc->unk16C > 0x1D) {
+        strc->unk16C = 0;
+        gCurTask->main = (void (*)())Task_220_805429C;
+    }
+}
+
+void Task_220_805429C(void)
+{
+    Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
+    s16 temp_r0_3;
+    s16 temp_r0_4;
+    s16 temp_r0_5;
+    s16 temp_r0_6;
+    s16 temp_r0_7;
+    s16 temp_r0_8;
+    s16 temp_r1;
+    s16 temp_r1_2;
+    s32 temp_r0;
+    s32 temp_r0_2;
+    s16 *unk166;
+
+    if (((u32)gStageData.gameMode > 4U) && ((sub_802610C() << 0x10) != 0)) {
+        sub_802613C();
+        return;
+    }
+    Task_220_805374C();
+    strc->unk172 = 0x10;
+    strc->unk174 = 0x10;
+    temp_r0 = (s32)((strc->unk16C + 0x20) >> 3);
+    if (temp_r0 < 10) {
+        s32 var;
+        unk166 = &strc->unk166;
+        var = (temp_r0 - 0xA);
+        strc->tf[0].y = strc->sprite0.y = *unk166 - var;
+    }
+    temp_r0 = (s32)((u16)strc->unk16C << 0x10) >> 0x13;
+    if (temp_r0 < 10) {
+        s32 var;
+        unk166 = &strc->unk166;
+        var = (temp_r0 - 0xA);
+        strc->tf[1].y = strc->sprite28.y = (u16)*unk166 - var;
+    }
+
+    if (strc->unk16C < 0xC0) {
+        strc->tf[0].x = strc->sprite0.x = ((s32)(strc->unk16C + 0x40) >> 3) + 0x82;
+        strc->tf[0].qScaleX = (u16)strc->unk16C - 0xE0;
+        strc->tf[0].qScaleY = 0xE0 - (u16)strc->unk16C;
+    }
+
+    strc->tf[1].x = strc->sprite28.x = (strc->unk16C >> 2) + 0x60;
+    strc->tf[1].qScaleX = (u16)strc->unk16C - 0xE0;
+    strc->tf[1].qScaleY = 0xE0 - (u16)strc->unk16C;
+    Task_220_8054514();
+    if (++strc->unk16C == 0x9F) {
+        strc->fade.window = 0;
+        strc->fade.flags = 1;
+        strc->fade.brightness = 0;
+        strc->fade.speed = 0x80;
+        strc->fade.bldCnt = 0xBF;
+        strc->fade.bldAlpha = 0;
+    } else if (strc->unk16C > 0x9F) {
+        UpdateScreenFade(&strc->fade);
+    }
+    if (strc->unk16C > 0xDF) {
+        m4aMPlayFadeOut(&gMPlayInfo_BGM, 1U);
+        gCurTask->main = Task_220_80543F8;
+    }
+}
+
+void Task_220_80543F8(void)
+{
+    Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
+    s16 temp_r0;
+
+    if (((u32)gStageData.gameMode > 4U) && ((sub_802610C() << 0x10) != 0)) {
+        sub_802613C();
+        return;
+    }
+    Task_220_805374C();
+    strc->unk172 = 0x10;
+    strc->unk174 = 0x10;
+
+    if (++strc->unk16C > 0x3B) {
+        sub_8000414(gStageData.currentLevel);
+        if (gStageData.zone != 6) {
+            StageIntro_ShowZoneName(gStageData.zone + 1, 0U, 0U);
+            TaskDestroy(gCurTask);
+            return;
+        }
+        WarpToMap(0x47, 0);
+    }
+}
+
+void Task_220_805448C(void)
+{
+    Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
+    Sprite2 *s;
+    u16 var_r1;
+
+    UpdateSpriteAnimation(&strc->sprite0);
+    DisplaySprite(&strc->sprite0);
+    s = &strc->sprite28;
+    UpdateSpriteAnimation((Sprite *)s);
+    DisplaySprite((Sprite *)s);
+
+    if (strc->unk21C != 0) {
+        UpdateSpriteAnimation(&strc->spriteE8);
+        if (strc->unk21C == 1) {
+            strc->spriteE8.x = (s16)(u16)strc->sprite0.x;
+            strc->spriteE8.y = (u16)strc->sprite0.y;
+        } else {
+            strc->spriteE8.x = (s16)(u16)strc->sprite28.x;
+            strc->spriteE8.y = (u16)strc->sprite28.y;
+        }
+        DisplaySprite(&strc->spriteE8);
+    }
+}
+
+void Task_220_8054514(void)
+{
+    Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
+    Sprite *s;
+    Sprite2 *s2;
+    SpriteTransform *temp_r0;
+    SpriteTransform *temp_r0_2;
+
+    UpdateSpriteAnimation(&strc->sprite0);
+    temp_r0 = strc->tf;
+    TransformSprite(&strc->sprite0, temp_r0);
+    DisplaySprite(&strc->sprite0);
+    s2 = &strc->sprite28;
+    UpdateSpriteAnimation((Sprite *)s2);
+    temp_r0_2 = &strc->tf[1];
+    TransformSprite((Sprite *)s2, temp_r0_2);
+    DisplaySprite((Sprite *)s2);
+    if (strc->unk21C != 0) {
+        s = &strc->spriteE8;
+        UpdateSpriteAnimation(s);
+        if (strc->unk21C == 1) {
+            strc->spriteE8.x = (s16)(u16)strc->sprite0.x;
+            strc->spriteE8.y = (s16)(u16)strc->sprite0.y;
+            TransformSprite(s, temp_r0);
+        } else {
+            strc->spriteE8.x = (s16)(u16)strc->sprite28.x;
+            strc->spriteE8.y = (s16)(u16)strc->sprite28.y;
+            TransformSprite(s, temp_r0_2);
+        }
+        DisplaySprite(&strc->spriteE8);
     }
 }
