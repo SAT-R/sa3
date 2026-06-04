@@ -4,7 +4,7 @@ extern const u8 gObjTiles_4bpp[];
 extern const u8 gObjTiles_8bpp[];
 extern const u32 gUnknown_08358528[];
 
-const struct SpriteTables gSpriteTables = {
+const SpriteTables gSpriteTables = {
      gAnimations,
      gSpriteDimensions,
      (const u16**const)gSpriteOamData,

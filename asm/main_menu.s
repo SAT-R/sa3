@@ -32052,7 +32052,7 @@ sub_8096C60: @ 0x08096C60
 	lsls r0, r0, #8
 	str r0, [r7, #8]
 	adds r0, r7, #0
-	bl sa2__sub_80036E0
+	bl UpdateSpriteAnimation_BG
 	adds r0, r7, #0
 	bl sub_80BE46C
 	movs r6, #0x82

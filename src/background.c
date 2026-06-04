@@ -1,6 +1,6 @@
 #include "global.h"
 #include "core.h"
-#include "module_unclear.h"
+//#include "module_unclear.h"
 #include "flags.h"
 #include "sprite.h"
 #include "tilemap.h"
@@ -673,16 +673,22 @@ NONMATCH("asm/non_matching/engine/UpdateBgAnimationTiles.inc", void UpdateBgAnim
 END_NONMATCH
 
 // Differences to UpdateSpriteAnimation:
-// - SPRITE_INIT_ANIM_IF_CHANGED gets executed *after* the if.
+// - SPRITE_INIT_ANIM_IF_CHANGED gets executed *after* the if, in SA1|SA2.
 // - Uses animCmdTable_BG instead of animCmdTable
-s32 sa2__sub_80036E0(Sprite *s)
+s32 UpdateSpriteAnimation_BG(Sprite *s)
 {
+#if (ENGINE >= ENGINE_1 && ENGINE <= ENGINE_2)
+    if (s->frameFlags & SPRITE_FLAG_MASK_ANIM_OVER)
+        return 0;
 
+    SPRITE_INIT_ANIM_IF_CHANGED(s);
+#elif (ENGINE == ENGINE_3)
     SPRITE_INIT_ANIM_IF_CHANGED(s);
 
     if (s->frameFlags & SPRITE_FLAG_MASK_ANIM_OVER) {
         return 0;
     }
+#endif
 
     if (s->qAnimDelay > 0)
         s->qAnimDelay -= s->animSpeed * 16;
@@ -724,12 +730,11 @@ s32 sa2__sub_80036E0(Sprite *s)
         s->qAnimDelay += (((ACmd_ShowFrame *)cmd)->delay << 8);
         s->qAnimDelay -= s->animSpeed * 16;
 
-#if 0
-        // SA2
+#if (ENGINE <= ENGINE_2)
         {
             s32 frame = ((ACmd_ShowFrame *)cmd)->index;
             if (frame != -1) {
-                const struct SpriteTables *sprTables = gRefSpriteTables;
+                const SpriteTables *sprTables = gRefSpriteTables;
 
                 s->dimensions = &sprTables->dimensions[s->anim][frame];
             } else {
@@ -738,8 +743,11 @@ s32 sa2__sub_80036E0(Sprite *s)
         }
 #endif
 
+#if (ENGINE == ENGINE_3)
+        // TODO: These are in UpdateSpriteAnimation() in SA1|SA2, but not in SA3!?
         s->frameNum = ((ACmd_ShowFrame *)cmd)->index;
         s->frameFlags |= SPRITE_FLAG_MASK_26;
+#endif
         s->animCursor += 2;
     }
     return 1;
@@ -863,7 +871,7 @@ static AnimCmdResult animCmd_GetPalette_BG(void *cursor, Sprite *s)
     if (!(s->frameFlags & SPRITE_FLAG_MASK_18)) {
         s32 paletteIndex = cmd->palId;
 
-        if (gFlags & 0x10000) {
+        if (gFlags & FLAGS_10000) {
             sub_80C460C(&gRefSpriteTables->palettes[paletteIndex * 16], (u8)((s->palId * 16) + (cmd->insertOffset & 0xFF)), cmd->numColors);
         } else {
             DmaCopy16(3, &gRefSpriteTables->palettes[paletteIndex * 16], &gBgPalette[s->palId * 16 + cmd->insertOffset],

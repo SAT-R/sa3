@@ -97,7 +97,7 @@ u8 gKeysFirstRepeatIntervals[10] ALIGNED(16) = {};
 u16 gReleasedKeys ALIGNED(4) = 0;
 u8 gOamMallocCopiedOrder[] ALIGNED(16) = {};
 u32 gFlagsPreVBlank = 0;
-/* 0x03002794 */ const struct SpriteTables *gRefSpriteTables = NULL;
+/* 0x03002794 */ const SpriteTables *gRefSpriteTables = NULL;
 
 #if PORTABLE
 // TODO: Once SA3 works in PORTABLE, it can just use

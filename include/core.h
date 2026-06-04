@@ -1,5 +1,5 @@
-#ifndef GUARD_MAIN_H
-#define GUARD_MAIN_H
+#ifndef GUARD_CORE_H
+#define GUARD_CORE_H
 
 #if !GEN_CTX
 #include <string.h> // memcpy
@@ -13,6 +13,27 @@
 #include "input_recorder.h"
 #include "data/sprite_data.h"
 #include "animation_commands.h"
+
+#define VRAM_HEAP_TILE_SIZE         TILE_SIZE_4BPP
+#define VRAM_HEAP_SEGMENT_SIZE      (4 * VRAM_HEAP_TILE_SIZE)
+#define VRAM_TILE_SLOTS_PER_SEGMENT (VRAM_HEAP_SEGMENT_SIZE / VRAM_HEAP_TILE_SIZE)
+
+// TODO: Find out where these numbers come from
+#if (ENGINE == ENGINE_1)
+#define VRAM_TILE_SEGMENTS   156
+#define VRAM_HEAP_TILE_COUNT 112
+#elif (ENGINE == ENGINE_2)
+#if COLLECT_RINGS_ROM
+#define VRAM_TILE_SEGMENTS   128
+#define VRAM_HEAP_TILE_COUNT 0
+#else // !COLLECT_RINGS_ROM
+#define VRAM_TILE_SEGMENTS   140
+#define VRAM_HEAP_TILE_COUNT 48
+#endif
+#elif (ENGINE == ENGINE_3)
+#define VRAM_TILE_SEGMENTS   188
+#define VRAM_HEAP_TILE_COUNT 240
+#endif
 
 struct MultiSioData_0_0 {
     // id
@@ -153,7 +174,7 @@ typedef u32 collPxDim_t;
 #endif
 
 // Thanks @MainMemory_ for figuring out how collision is stored!
-typedef struct Collision {
+typedef struct {
     /* 0x00 */ const s8 *height_map;
     /* 0x04 */ const u8 *tile_rotation;
     /* 0x08 */ const u16 *metatiles;
@@ -190,7 +211,7 @@ struct Unk_03003674 {
     const s32 *unk18;
 }; /* size = 0x1C */
 
-struct SpriteTables {
+typedef struct {
     /* 0x00 */ const ACmd **const *animations;
     /* 0x04 */ const SpriteOffset *const *dimensions;
     /* 0x08 */ const u16 **const oamData;
@@ -200,7 +221,7 @@ struct SpriteTables {
 #if (GAME == GAME_SA3)
     /* 0x18 */ const u32 *const unk18;
 #endif
-};
+} SpriteTables;
 
 // No idea why this exists when there is a
 // better random number generator in the math
@@ -394,9 +415,9 @@ extern s32 gPseudoRandom;
 extern u8 gOamMallocCopiedOrder[128];
 extern struct MultiBootParam gMultiBootParam;
 
-extern const struct SpriteTables *gRefSpriteTables;
+extern const SpriteTables *gRefSpriteTables;
 
 void EngineInit(void);
 void EngineMainLoop(void);
 
-#endif
+#endif // GUARD_CORE_H

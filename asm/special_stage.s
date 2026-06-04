@@ -2948,7 +2948,7 @@ _080B32D2:
 	adds r4, #0x94
 	adds r4, r7, r4
 	adds r0, r4, #0
-	bl sa2__sub_80036E0
+	bl UpdateSpriteAnimation_BG
 	adds r0, r4, #0
 	bl sub_80BE46C
 	adds r5, #1

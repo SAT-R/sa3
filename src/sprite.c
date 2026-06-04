@@ -217,7 +217,7 @@ AnimCmdResult UpdateSpriteAnimation(Sprite *s)
             s32 frame = ((ACmd_ShowFrame *)cmd)->index;
 
             if (frame != -1) {
-                const struct SpriteTables *sprTables = gRefSpriteTables;
+                const SpriteTables *sprTables = gRefSpriteTables;
 
                 s->dimensions = &sprTables->dimensions[GET_SPRITE_ANIM(s)][frame];
             } else {
