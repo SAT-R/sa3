@@ -10,13 +10,13 @@
 // Appears to be multiplayer-only?
 
 // TODO: Type this properly
-extern void *sa2__gUnknown_03002878;
+extern void *SA2_LABEL(gUnknown_03002878);
 
 extern u8 gBackgroundsCopyQueueIndex;
-extern u8 sa2__gUnknown_03002A80;
+extern u8 SA2_LABEL(gUnknown_03002A80);
 extern u8 gBackgroundsCopyQueueCursor;
 
-extern u8 sa2__gUnknown_03005390;
+extern u8 SA2_LABEL(gUnknown_03005390);
 
 extern u8 gVramGraphicsCopyQueueIndex;
 extern u8 gVramGraphicsCopyCursor;
@@ -58,9 +58,7 @@ void sub_80276A8(u8 charId);
 void sub_80276F4(u16 somePlayerFlags, u16 playerIndex);
 void sub_80296F8(u16 somePlayerFlags);
 void sub_802954C(Player *p, s16 worldX, s16 worldY);
-bool32 sub_802C140(s32 worldX, s32 worldY, s32 screenX, s32 screenY);
 bool32 IsScreenPtActive32px(s32, s32);
-void StageIntro_ShowZoneName(u16, u16, u8);
 void sub_8053128(s16, s16);
 bool32 sub_805C510(Sprite *s);
 bool8 sub_8079FFC(void);

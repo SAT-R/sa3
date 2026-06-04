@@ -2,7 +2,6 @@
 #include "core.h"
 #include "trig.h"
 #include "malloc_vram.h"
-#include "module_unclear.h"
 #include "game/shared/stage/camera.h"
 #include "game/enemy_unknown.h"
 #include "game/shared/stage/entity.h"

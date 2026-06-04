@@ -46,6 +46,7 @@ typedef struct EntitiesManager {
 extern struct Task *gEntitiesManagerTask;
 
 void CreateStageEntitiesManager(void);
+bool32 sub_802C140(s32 worldX, s32 worldY, s32 screenX, s32 screenY);
 
 void CreateEnemyDefeatScoreAndManageLives(s16 x, s16 y);
 
