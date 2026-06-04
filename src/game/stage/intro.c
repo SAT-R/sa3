@@ -4,7 +4,9 @@
 #include "flags.h"
 #include "malloc_ewram.h"
 #include "malloc_vram.h"
-#include "module_unclear.h"
+#include "code_0_1.h"
+#include "module_unclear.h" // TODO: remove
+#include "game/notification_text.h"
 #include "game/screen_fade.h"
 #include "game/shared/stage/player.h"
 #include "game/save.h"

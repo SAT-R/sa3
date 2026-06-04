@@ -1,7 +1,10 @@
 #include "global.h"
-#include "module_unclear.h"
 #include "core.h"
 #include "task.h"
+#include "code_0_1.h"
+#include "multi_sio_stuff.h" // sub_80275B8
+#include "game/game_over.h"
+#include "game/shared/entities_manager.h"
 #include "game/character_select.h"
 #include "game/game.h"
 #include "game/shared/stage/camera.h"

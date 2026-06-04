@@ -250,7 +250,7 @@ void sub_804E210(void)
 
     p = &gPlayers[gStageData.playerIndex];
 
-    if (p->unk56 <= 5) {
+    if (p->unk56 < 6) {
         sub_80299FC();
     }
 

@@ -42,27 +42,10 @@ extern Struct_03001060 gUnknown_03001060;
 
 extern void sub_80003B8(void);
 
-void sub_800214C(void);
-
-void sub_8004D30(void);
-void sub_8004DD8(s32 qWorldX, s32 qWorldY);
-
-// NOTE: x and y have different signedness, but it's correct
-void sub_80274F4(u8, u16 x, s16 y);
-
-// The implementation of sub_80275B8 makes it seem that 'level' is a u8,
-// but that way the calling site in some instances will be wrong
-// (src/game/interactables/warp.c -> Task_802E6F8)
-void sub_80275B8(u32 level, u8, u8);
 void sub_80276A8(u8 charId);
 void sub_80276F4(u16 somePlayerFlags, u16 playerIndex);
 void sub_80296F8(u16 somePlayerFlags);
 void sub_802954C(Player *p, s16 worldX, s16 worldY);
-bool32 IsScreenPtActive32px(s32, s32);
-void sub_8053128(s16, s16);
-bool32 sub_805C510(Sprite *s);
-bool8 sub_8079FFC(void);
-bool8 sub_807A074(void);
 void sub_80961E4(u8 param0);
 
 s32 sub_8011BFC(u8, Player *p);

@@ -50,6 +50,7 @@ bool32 sub_802C140(s32 worldX, s32 worldY, s32 screenX, s32 screenY);
 
 void CreateEnemyDefeatScoreAndManageLives(s16 x, s16 y);
 
+bool32 IsScreenPtActive32px(s32, s32);
 void DestroyStageEntitiesManager(void);
 
 // TaskDestructor_SpriteEntity

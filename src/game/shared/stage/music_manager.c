@@ -284,7 +284,7 @@ void sub_80299E8(u16 song)
     gMusicManagerState.unk1 = 2;
 }
 
-void sub_80299FC(u16 song)
+void sub_80299FC()
 {
     struct MP2KPlayerState *bgmInfo = &gMPlayInfo_BGM;
     MPlayStop(bgmInfo);

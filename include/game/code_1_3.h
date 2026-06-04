@@ -104,6 +104,7 @@ typedef struct {
     /* 0x29F */ u8 unk2A0;
 } Strc_2A4_8053284;
 
+void sub_8053128(s16 character1, s16 character2);
 void sub_80533F4(u16 character); // related to Special Springs
 void sub_8053440(Strc_220_sub_8053128 *strc220);
 void sub_80534DC(Strc_220_sub_8053128 *strc220, s16, s16);

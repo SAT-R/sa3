@@ -3,6 +3,7 @@
 #include "malloc_vram.h"
 #include "task.h"
 #include "trig.h"
+#include "game/game_over.h" // sub_8003DF0
 #include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
 #include "game/shared/stage/player.h"

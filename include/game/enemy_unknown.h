@@ -26,6 +26,7 @@ typedef struct {
 } EnemyUnknownStruc0; /* size: 0x28 */
 
 bool32 sub_805C280(EnemyUnknownStruc0 *);
+bool32 sub_805C510(Sprite *s);
 bool32 sub_805C63C(EnemyUnknownStruc0 *);
 bool32 sub_805C890(EnemyUnknownStruc0 *param0, s8 param1);
 

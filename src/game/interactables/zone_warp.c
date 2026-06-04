@@ -1,11 +1,13 @@
 #include "global.h"
-#include "module_unclear.h"
 #include "core.h"
 #include "sprite.h"
 #include "trig.h"
 #include "malloc_vram.h"
+#include "multi_sio_stuff.h" // sub_80275B8
+#include "game/game_over.h" // sub_8003DF0
 #include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
+#include "game/shared/stage/intro.h" // StageIntro_ShowZoneName
 #include "game/shared/stage/player.h"
 #include "game/shared/stage/player_callbacks.h"
 #include "game/save.h"

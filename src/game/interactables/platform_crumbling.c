@@ -1,6 +1,6 @@
 #include "global.h"
 #include "trig.h"
-#include "module_unclear.h"
+#include "game/shared/entities_manager.h"
 #include "game/interactables/platform_shared.h"
 #include "malloc_vram.h"
 #include "game/shared/stage/camera.h"

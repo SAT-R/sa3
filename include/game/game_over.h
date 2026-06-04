@@ -17,5 +17,4 @@ void sub_8003DF0(u16 song);
 void sub_8003E0C(u16 song);
 void sub_8003E28(u16 song); // StopSong?
 
-
 #endif // GUARD_GAME_OVER_H

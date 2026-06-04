@@ -2,6 +2,7 @@
 #include "module_unclear.h"
 #include "malloc_vram.h"
 #include "sprite.h"
+#include "multi_sio_stuff.h" // sub_80275B8
 #include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
 #include "game/shared/stage/player_callbacks.h"
