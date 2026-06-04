@@ -4,6 +4,7 @@
 #include "sprite.h"
 #include "trig.h"
 #include "malloc_vram.h"
+#include "game/game_over.h"
 #include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
 #include "game/shared/stage/player.h"

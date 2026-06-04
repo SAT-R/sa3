@@ -4,6 +4,7 @@
 #include "malloc_vram.h"
 #include "game/character_select.h"
 #include "game/main_menu.h"
+#include "code_0_1.h"
 #include "code_z_1.h" // CopyPalette
 #include "module_unclear.h"
 #include "lib/m4a/m4a.h"

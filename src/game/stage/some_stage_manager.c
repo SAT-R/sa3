@@ -2,7 +2,6 @@
 #include "core.h"
 #include "flags.h"
 #include "game/stage.h"
-#include "module_unclear.h"
 
 typedef struct SomeStageMgr {
     u8 unk0;
@@ -24,6 +23,7 @@ extern Strc_8E2EC98 *gUnknown_08E2EC98[];
 
 void Task_8065FAC();
 void sub_806619C(Task *);
+extern void sub_80C460C(const u16 *pal, u8 paletteOffset, u16 palSize);
 
 // (92.76%) https://decomp.me/scratch/Wfgwn
 NONMATCH("asm/non_matching/game/stage/ssm__Task_8065FAC.inc", void Task_8065FAC(void))

@@ -44,27 +44,9 @@ extern void sub_80003B8(void);
 
 bool32 sub_8001E58(void);
 void sub_800214C(void);
-void WarpToMap(s16 level, s16 entryIndex);
-void Task_800303C(void); // Player-related (Player.unk90.main gets set to this in goal_ring IA)
-void sub_8003D04(u8 zone);
-void sub_8003D2C(void);
-void sub_8003DC4(u16 param0);
-void sub_8003DF0(u16 song);
-void sub_8003E0C(u16 song);
-void sub_8003E28(u16 song); // StopSong?
+
 void sub_8004D30(void);
 void sub_8004DD8(s32 qWorldX, s32 qWorldY);
-
-extern bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5);
-
-// Collision - 'p5' might be hitbox ID?
-extern u32 sub_8020874(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5, u8 p6);
-u32 sub_8020950(Sprite *s, s32 worldX, s32 worldY, Player *p, u8 param4); // collision
-bool32 sub_8020A58(Sprite *s, s16 param1, s32 worldX, s32 worldY, Rect8 *param4, Player *p, u8 param6);
-bool32 sub_8020CE0(Sprite *s, s32 worldX, s32 worldY, s16 hbIndex, Player *p);
-bool32 sub_8020E3C(Sprite *s, s32 param1, s32 param2, s16 param3, Player *p);
-
-void ResolvePlayerSpriteCollision(Sprite *s, Player *p);
 
 typedef struct {
     /* 0x00 */ u8 filler0[0x1F];
@@ -96,15 +78,6 @@ bool32 sub_805C510(Sprite *s);
 bool8 sub_8079FFC(void);
 bool8 sub_807A074(void);
 void sub_80961E4(u8 param0);
-
-void sub_80C07E0(Sprite *s);
-void sub_80C460C(const u16 *pal, u8 paletteOffset, u16 palSize);
-void *sub_80C4C60(void *param0, u8 param1);
-void sub_80C4E24(void *param0, u8 param1, u32 *param2);
-void sub_80C4EB0(void *param0, u8 param1, u32 mask);
-void sub_80C59E8(void *param0, u8 param1, s32 *screenPos, u8 *arr4, s16 param4);
-void sub_80C60B0(void **param0, u8 param1);
-void sub_80C610C(void *param0, u8 param1);
 
 s32 sub_8011BFC(u8, Player *p);
 

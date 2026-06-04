@@ -279,8 +279,11 @@ typedef enum {
     ACMD_RESULT__RUNNING = +1,
 } AnimCmdResult;
 
-AnimCmdResult UpdateSpriteAnimation(Sprite *);
+AnimCmdResult UpdateSpriteAnimation(Sprite *s);
 
+#if (ENGINE == ENGINE_3)
+void sub_80C07E0(Sprite *s);
+#endif
 void DisplaySprite(Sprite *s);
 void DisplaySprites(Sprite *s, Vec2_16 *positions, u16 count);
 void DrawBackground(Background *);

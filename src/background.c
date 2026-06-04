@@ -22,6 +22,8 @@ static AnimCmdResult animCmd_10_BG(void *, Sprite *);
 static AnimCmdResult animCmd_SetSpritePriority_BG(void *, Sprite *);
 static AnimCmdResult animCmd_SetOamOrder_BG(void *, Sprite *);
 
+extern void sub_80C460C(const u16 *pal, u8 paletteOffset, u16 palSize);
+
 const AnimationCommandFunc animCmdTable_BG[12] = {
     animCmd_GetTiles_BG,        animCmd_GetPalette_BG, animCmd_JumpBack_BG,          animCmd_End_BG,
     animCmd_PlaySoundEffect_BG, animCmd_AddHitbox_BG,  animCmd_TranslateSprite_BG,   animCmd_8_BG,
