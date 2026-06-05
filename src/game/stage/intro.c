@@ -383,11 +383,10 @@ void CreateStageIntro(void)
     }
 }
 
-// (99.18%) https://decomp.me/scratch/FLvBg
-NONMATCH("asm/non_matching/game/stage/intro__Task_70_8057054.inc", void Task_70_8057054(void))
+void Task_70_8057054(void)
 {
     s32 var_r1;
-    s32 zone;
+    s16 zone;
     StageIntro_70 *strc70 = TASK_DATA(gCurTask);
     Background *bg;
     Sprite *s;
@@ -434,9 +433,9 @@ NONMATCH("asm/non_matching/game/stage/intro__Task_70_8057054.inc", void Task_70_
     var_r1 = (LOADED_SAVE->language != JAPANESE) ? 9 : 0;
 
     s = &strc70->s;
-    s->tiles = VramMalloc(gUnknown_080D1D88[zone += var_r1].numTiles);
-    s->anim = gUnknown_080D1D88[zone].anim;
-    s->variant = gUnknown_080D1D88[zone].variant;
+    s->tiles = VramMalloc(gUnknown_080D1D88[zone + var_r1].numTiles);
+    s->anim = gUnknown_080D1D88[zone + var_r1].anim;
+    s->variant = gUnknown_080D1D88[zone + var_r1].variant;
     s->oamFlags = 0x480;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -455,7 +454,6 @@ NONMATCH("asm/non_matching/game/stage/intro__Task_70_8057054.inc", void Task_70_
     gBldRegs.bldY = 0x10;
     gCurTask->main = Task_70_8057F7C;
 }
-END_NONMATCH
 
 void Task_70_805722C()
 {
