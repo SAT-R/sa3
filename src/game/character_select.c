@@ -6,7 +6,6 @@
 #include "game/main_menu.h"
 #include "code_0_1.h"
 #include "code_z_1.h" // CopyPalette
-#include "module_unclear.h"
 #include "lib/m4a/m4a.h"
 #include "game/save.h"
 #include "game/stage.h"
@@ -235,6 +234,7 @@ extern u16 sub_80241AC(u8);
 extern s16 sub_8024208(void);
 extern void sub_80258D4(void);
 extern s16 sub_802610C();
+extern void sub_80961E4(u8 param0);
 
 extern u16 gUnknown_080D8CDC[];
 extern const TileInfo2 gUnknown_080D8D00[2];

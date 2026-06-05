@@ -6,7 +6,6 @@
 #include "game/shared/stage/terrain_collision.h"
 #include "game/stage.h"
 #include "malloc_vram.h"
-#include "module_unclear.h"
 
 typedef struct Yukigasen {
     /* 0x00 */ MapEntity *me;

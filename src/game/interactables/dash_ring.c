@@ -1,5 +1,4 @@
 #include "global.h"
-#include "module_unclear.h"
 #include "core.h"
 #include "sprite.h"
 #include "trig.h"

@@ -1,5 +1,4 @@
 #include "global.h"
-#include "module_unclear.h"
 #include "sprite.h"
 #include "task.h"
 #include "game/shared/stage/camera.h"

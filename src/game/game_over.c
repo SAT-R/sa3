@@ -5,6 +5,7 @@
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "code_0_1.h"
+#include "multi_sio_stuff.h"
 #include "game/game_over.h"
 #include "game/main_menu.h"
 #include "game/stage.h"
@@ -16,7 +17,6 @@
 #include "game/shared/stage/camera.h" // TODO: for CamCoord used in entities_manager.h
 #include "game/shared/entities_manager.h"
 #include "game/shared/rings_manager.h"
-#include "module_unclear.h" // TODO: remove
 
 #include "constants/move_states.h"
 #include "constants/songs.h"

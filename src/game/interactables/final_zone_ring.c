@@ -1,5 +1,4 @@
 #include "global.h"
-#include "module_unclear.h"
 #include "malloc_vram.h"
 #include "sprite.h"
 #include "multi_sio_stuff.h" // sub_80275B8

@@ -1,7 +1,6 @@
 #include "global.h"
 #include "sprite.h"
 #include "task.h"
-#include "module_unclear.h" // sub_8020950
 #include "malloc_vram.h"
 #include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"

@@ -1,7 +1,6 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_vram.h"
-#include "module_unclear.h"
 #include "game/shared/stage/player.h"
 #include "game/shared/stage/player_callbacks.h"
 #include "game/stage.h"

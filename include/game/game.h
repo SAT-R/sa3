@@ -131,4 +131,6 @@ extern const s16 gPlayerCharacterIdleAnims[NUM_CHARACTERS];
 void GameStart(void);
 bool16 GetZoneAndActTypeFromStageID(s16 stageId, u8 *zone, u8 *actType);
 
+extern void sub_80003B8(void);
+
 #endif // GUARD_GAME_H

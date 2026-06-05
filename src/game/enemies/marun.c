@@ -8,7 +8,6 @@
 #include "game/shared/stage/player.h"
 #include "game/shared/stage/terrain_collision.h"
 #include "game/enemy_unknown.h"
-#include "module_unclear.h"
 #include "game/stage.h"
 
 typedef struct {

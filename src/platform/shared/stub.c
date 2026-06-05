@@ -8,7 +8,6 @@
 #include "game/screen_fade.h"
 #include "game/stage.h"
 #include "constants/songs.h"
-//#include "module_unclear.h"
 
 // Multiplayer-related (used in IA item_box_mp.c)
 typedef struct {

@@ -371,11 +371,37 @@ extern u8 gVramGraphicsCopyQueueIndex;
 
 #define INC_GRAPHICS_QUEUE_CURSOR(cursor) cursor = (cursor + 1) % ARRAY_COUNT(gVramGraphicsCopyQueue);
 
+#if (ENGINE <= ENGINE_2)
+#if PORTABLE
+// On the GBA we use a fixed heap to allocate memory
+// but on other OS's we malloc and free memory which
+// the graphics queue may be referring to. Instead we
+// make a separate copy of the graphics queue with the
+// pointers we need to copy so that a race condition
+// happens where sprite has been freed but the copy
+// has not happened we don't get invalid memory access
+extern GraphicsData gVramGraphicsCopyQueueBuffer[32];
+#define ADD_TO_GRAPHICS_QUEUE(gfx)                                                                                                         \
+    memcpy(&gVramGraphicsCopyQueueBuffer[gVramGraphicsCopyQueueIndex], gfx, sizeof(GraphicsData));                                         \
+    gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex] = &gVramGraphicsCopyQueueBuffer[gVramGraphicsCopyQueueIndex];                      \
+    /* Log has to happen before gVramGraphicsCopyQueueIndex increment */                                                                   \
+    GFX_QUEUE_LOG_ADD(gfx)                                                                                                                 \
+    INC_GRAPHICS_QUEUE_CURSOR(gVramGraphicsCopyQueueIndex);
+#else
+#define ADD_TO_GRAPHICS_QUEUE(gfx)                                                                                                         \
+    gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex] = gfx;                                                                             \
+    /* Log has to happen before gVramGraphicsCopyQueueIndex increment */                                                                   \
+    GFX_QUEUE_LOG_ADD(gfx)                                                                                                                 \
+    INC_GRAPHICS_QUEUE_CURSOR(gVramGraphicsCopyQueueIndex);
+#endif
+#else // (ENGINE == ENGINE_3)
 #define ADD_TO_GRAPHICS_QUEUE(_src, _dest, _size)                                                                                          \
     gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].src = _src;                                                                        \
     gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].dest = _dest;                                                                      \
     gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex].size = _size;                                                                      \
     INC_GRAPHICS_QUEUE_CURSOR(gVramGraphicsCopyQueueIndex);
+
+#endif
 
 #define PAUSE_BACKGROUNDS_QUEUE() gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
 
@@ -386,13 +412,13 @@ extern u8 gVramGraphicsCopyQueueIndex;
     INC_BACKGROUNDS_QUEUE_CURSOR(gBackgroundsCopyQueueIndex);
 
 extern void *gBgOffsetsHBlankSecondary;
-extern void *sa2__gUnknown_030022C0;
+extern void *sa2__gUnknown_030022C0; // gBgOffsetsSecondary
 #if (GAME == GAME_SA2)
 extern s16 gMosaicReg;
 extern u8 gUnknown_030026F4;
 #endif
-extern s16 SA2_LABEL(gUnknown_03002820);
-extern u8 SA2_LABEL(gUnknown_03002874); // TODO: a.k.a. gVCountSetting
+extern s16 SA2_LABEL(gUnknown_03002820); // gSpriteTransformY
+extern u8 SA2_LABEL(gUnknown_03002874); // gVCountSetting
 extern void *gHBlankCopyTarget;
 extern u8 gBackgroundsCopyQueueIndex;
 extern u8 gHBlankCopySize;

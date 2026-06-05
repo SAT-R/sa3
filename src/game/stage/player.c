@@ -2,7 +2,7 @@
 #include "core.h"
 #include "flags.h"
 #include "trig.h"
-#include "module_unclear.h"
+#include "multi_sio_stuff.h"
 #include "code_z_1.h"
 #include "game/main_menu.h"
 #include "malloc_ewram.h"

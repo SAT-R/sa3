@@ -411,6 +411,8 @@ void sub_8004CC8(s16 playerId);
 void sub_8004D30(void);
 void sub_8004DD8(s32 qWorldX, s32 qWorldY);
 
+s32 sub_8011BFC(u8, Player *p);
+
 extern bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5);
 // Collision - 'p5' might be hitbox ID?
 extern u32 sub_8020874(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5, u8 p6);

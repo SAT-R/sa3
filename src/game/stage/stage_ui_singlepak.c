@@ -2,7 +2,7 @@
 #include "core.h"
 #include "flags.h"
 #include "color.h"
-#include "module_unclear.h"
+#include "multi_sio_stuff.h"
 #include "game/stage.h"
 #include "constants/animations.h"
 

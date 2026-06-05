@@ -8,7 +8,6 @@
 #include "game/shared/stage/player_callbacks.h"
 #include "game/shared/stage/terrain_collision.h"
 #include "game/stage.h"
-#include "module_unclear.h"
 
 #include "constants/move_states.h"
 

@@ -27171,8 +27171,8 @@ sub_809473C: @ 0x0809473C
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_8094740
-sub_8094740: @ 0x08094740
+	thumb_func_start Task_8094740
+Task_8094740: @ 0x08094740
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	ldr r6, _080947C8 @ =gCurTask
@@ -30569,7 +30569,7 @@ sub_80961E4: @ 0x080961E4
 	lsls r2, r2, #5
 	adds r0, r2, #0
 	strh r0, [r1]
-	ldr r0, _0809623C @ =sub_8094740
+	ldr r0, _0809623C @ =Task_8094740
 	ldr r1, _08096240 @ =0x00000BDC
 	ldr r2, _08096244 @ =0x00000101
 	ldr r3, _08096248 @ =sub_809684C
@@ -30598,7 +30598,7 @@ _0809622E:
 	bx r0
 	.align 2, 0
 _08096238: .4byte gDispCnt
-_0809623C: .4byte sub_8094740
+_0809623C: .4byte Task_8094740
 _08096240: .4byte 0x00000BDC
 _08096244: .4byte 0x00000101
 _08096248: .4byte sub_809684C

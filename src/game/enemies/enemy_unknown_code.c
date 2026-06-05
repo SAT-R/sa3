@@ -2,7 +2,6 @@
 #include "core.h"
 #include "trig.h"
 #include "malloc_vram.h"
-#include "module_unclear.h"
 #include "game/gTask_03001CFC.h" // gTask_03001CFC
 #include "lib/m4a/m4a.h"
 #include "game/shared/stage/camera.h"

@@ -1,5 +1,4 @@
 #include "global.h"
-#include "module_unclear.h"
 #include "malloc_vram.h"
 #include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
