@@ -350,6 +350,7 @@ extern u8 gNextFreeAffineIndex; // related to Sprite.frameFlags
 #define SPRITE_FLIP_Y_DIR(sprite) (sprite)->frameFlags ^= SPRITE_FLAG_MASK_Y_FLIP;
 #endif
 
+#if (ENGINE >= ENGINE_1 && ENGINE <= ENGINE_2)
 // TODO: Maybe rename this and move if out?
 #define SPRITE_MAYBE_SWITCH_ANIM(_sprite)                                                                                                  \
     if (SpriteShouldUpdate(_sprite)) {                                                                                                     \
@@ -366,6 +367,22 @@ extern u8 gNextFreeAffineIndex; // related to Sprite.frameFlags
     _sprite->variant = _variant;                                                                                                           \
     _sprite->unk1A = SPRITE_OAM_ORDER(_order);                                                                                             \
     _sprite->graphics.size = 0;
+#else
+// TODO: Maybe rename this and move if out?
+#define SPRITE_MAYBE_SWITCH_ANIM(_sprite)                                                                                                  \
+    if (SpriteShouldUpdate(_sprite)) {                                                                                                     \
+        (_sprite)->prevVariant = (_sprite)->variant;                                                                                       \
+        (_sprite)->prevAnim = (_sprite)->graphics.anim;                                                                                    \
+        (_sprite)->animCursor = 0;                                                                                                         \
+        (_sprite)->qAnimDelay = 0;                                                                                                         \
+        SPRITE_FLAG_CLEAR(_sprite, ANIM_OVER);                                                                                             \
+    }
+
+#define SPRITE_INIT_ANIM(_sprite, _anim, _variant, _order)                                                                                 \
+    _sprite->anim = _anim;                                                                                                                 \
+    _sprite->variant = _variant;                                                                                                           \
+    _sprite->oamFlags = SPRITE_OAM_ORDER(_order);
+#endif
 
 #define SPRITE_INIT_SCRIPT(_sprite, _speed)                                                                                                \
     _sprite->animCursor = 0;                                                                                                               \
@@ -393,12 +410,11 @@ extern u8 gNextFreeAffineIndex; // related to Sprite.frameFlags
 
 #define SPRITE_INIT_WITHOUT_ANIM_OR_VRAM(_sprite, _order, _priority, _flags)                                                               \
     _sprite->unk1A = SPRITE_OAM_ORDER(_order);                                                                                             \
-    _sprite->graphics.size = 0;                                                                                                            \
     SPRITE_INIT_SCRIPT(_sprite, 1.0);                                                                                                      \
     _sprite->frameFlags = (SPRITE_FLAG(PRIORITY, _priority) | (_flags));
 
 #define SPRITE_INIT(_sprite, _numTiles, _anim, _variant, _order, _priority)                                                                \
-    _sprite->graphics.dest = VramMalloc(_numTiles);                                                                                        \
+    _sprite->tiles = VramMalloc(_numTiles);                                                                                        \
     SPRITE_INIT_WITHOUT_VRAM(_sprite, _anim, _variant, _order, _priority, 0);
 
 #define SF_SHIFT(name) (SPRITE_FLAG_SHIFT_##name)

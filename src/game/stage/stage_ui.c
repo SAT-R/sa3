@@ -167,7 +167,7 @@ Task *sub_80215A0(void)
     partner = GET_SP_PLAYER_V0(PLAYER_2);
     s = &strc->base.sprites1E4[0];
     s->tiles = tiles;
-    s->anim = 1423;
+    s->anim = ANIM_LIFE_ICONS;
     s->variant = sp4[p->charFlags.character];
     s->oamFlags = SPRITE_OAM_ORDER(5);
     s->animCursor = 0;
@@ -186,7 +186,7 @@ Task *sub_80215A0(void)
 
     s = &strc->base.sprites1E4[1];
     s->tiles = tiles;
-    s->anim = 1423;
+    s->anim = ANIM_LIFE_ICONS;
     s->variant = sp4[partner->charFlags.character];
     s->oamFlags = 0x180;
     s->animCursor = 0;
@@ -629,7 +629,7 @@ Task *sub_8021EE8(void)
         p = &gPlayers[i];
         s = &strc->base.sprites1E4[i];
         s->tiles = tiles;
-        s->anim = 1423;
+        s->anim = ANIM_LIFE_ICONS;
         s->variant = sp4[p->charFlags.character];
         s->oamFlags = SPRITE_OAM_ORDER(5);
         s->animCursor = 0;
@@ -646,7 +646,7 @@ Task *sub_8021EE8(void)
 
     s = &strc->base.sprites284[0];
     s->tiles = tiles;
-    s->anim = 1511;
+    s->anim = ANIM_INDICATOR_SONIC;
     s->variant = 0;
     s->oamFlags = SPRITE_OAM_ORDER(5);
     s->animCursor = 0;
@@ -663,7 +663,7 @@ Task *sub_8021EE8(void)
 
     s = &strc->base.sprites284[1];
     s->tiles = tiles;
-    s->anim = 0x5E7;
+    s->anim = ANIM_INDICATOR_SONIC;
     s->variant = 1;
     s->oamFlags = 0x180;
     s->animCursor = 0;

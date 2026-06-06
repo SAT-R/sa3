@@ -5392,7 +5392,7 @@ CreateBoss_8068B3C: @ 0x08068B3C
 	adds r5, r2, #0
 	ldr r0, _08068B88 @ =sub_806A728
 	movs r1, #0xde
-	lsls r1, r1, #1
+	lsls r1, r1, #1     @ 0x1BC
 	movs r2, #0x84
 	lsls r2, r2, #6
 	ldr r3, _08068B8C @ =sub_806A7E4

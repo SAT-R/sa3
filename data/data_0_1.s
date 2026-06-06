@@ -156,47 +156,53 @@ sBonusLifeIconVariants:
 
     .global gUnknown_080CFA58
 gUnknown_080CFA58:
-    mPtr CreateGmerl1
+    @ Ptr to creation proc and
+    @ gCamera-Coordinates set after a trigger was destroyed.
+    @ If a value is -1 it is left unchanged, in that order:
+    @  minX, maxX, minY, maxY
+    mPtr CreateGmerl1           @  0
     .int -1, 0x1D40, 0, 0xC60
-    mPtr CreateGmerl1
+    mPtr CreateGmerl1           @  1
     .int -1, 0x1FE0, 0, 0xB40
-    mPtr CreateGmerl1
+    mPtr CreateGmerl1           @  2
     .int -1, 0x32A0, 0, 0x660
-    mPtr CreateGmerl1
+    mPtr CreateGmerl1           @  3
     .int -1, 0x0960, -1, -1
-    mPtr CreateBoss_8068B3C
+    mPtr CreateBoss_8068B3C     @  4
     .int -1, 0x0960, -1, -1
-    mPtr CreateBoss_806A90C
+    mPtr CreateBoss_806A90C     @  5
     .int -1, -1, -1, -1
-    mPtr CreateBoss_806D1A0
+    mPtr CreateBoss_806D1A0     @  6
     .int -1, -1, -1, -1
-    mPtr CreateBoss_806EADC
+    mPtr CreateBoss_806EADC     @  7
     .int -1, 0x8A0, -1, -1
-    mPtr CreateBoss_8071A08
+    mPtr CreateBoss_8071A08     @  8
     .int -1, 0x7E0, -1, -1
-    mPtr CreateBoss_8073640
+    mPtr CreateBoss_8073640     @  9
     .int -1, 0x9C0, 0, 0x1E0
-    mPtr CreateBoss_8074E88
+    mPtr CreateBoss_8074E88     @ 10
     .int -1, 0x6C0, -1, -1
-    mPtr CreateBoss_80581C8
+    mPtr CreateBoss_80581C8     @ 11
     .int -1, -1, -1, -1
-    mPtr NULL
+    mPtr NULL                   @ 12
     .int 0, 0, 0, 0
-    mPtr NULL
+    mPtr NULL                   @ 13
     .int 0, 0, 0, 0
-    mPtr NULL
+    mPtr NULL                   @ 14
     .int 0, 0, 0, 0
-    mPtr NULL
+    mPtr NULL                   @ 15
     .int 0, 0, 0, 0
-    mPtr NULL
+    mPtr NULL                   @ 16
     .int 0, 0, 0, 0
-    mPtr CreateGoalRing
+    mPtr CreateGoalRing         @ 17
     .int -1, -1, -1, -1
 
     .global sUfoActs
 sUfoActs:
     .short 7, 8, 9, 0
-    
+
+@ NOTE(Jace): No pointers appear to be in the file below here!
+
     .global gUnknown_080CFBC8
 gUnknown_080CFBC8:
     .incbin "baserom_sa3.gba", 0x000CFBC8, 0xC
