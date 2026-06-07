@@ -87,7 +87,7 @@ void Task_8000284(void)
     gStageData.timer = 0;
     sub_80003B8();
 #if DEBUG
-    if(REG_KEYINPUT & SELECT_BUTTON) {
+    if (REG_KEYINPUT & SELECT_BUTTON) {
         CreateAnimationEd();
     } else {
         CreateCharacterSelect(0);

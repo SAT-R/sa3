@@ -252,10 +252,10 @@
 #define ANIM_CONDOR_PROJ 1170
 #define ANIM_APE         1171
 
-#define ANIM_FROG     1173
-#define ANIM_MINIMOLE 1174
-#define ANIM_BUZZER   1175
-
+#define ANIM_FROG          1173
+#define ANIM_MINIMOLE      1174
+#define ANIM_BUZZER        1175
+#define ANIM_BUZZER_PROJ   1176
 #define ANIM_JOUSUN        1177 /* Green Plane */
 #define ANIM_TAKKON        1178 /* Red Octopus */
 #define ANIM_UUTSUBO       1179 /* Yellow Eel */

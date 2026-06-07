@@ -414,7 +414,7 @@ extern u8 gNextFreeAffineIndex; // related to Sprite.frameFlags
     _sprite->frameFlags = (SPRITE_FLAG(PRIORITY, _priority) | (_flags));
 
 #define SPRITE_INIT(_sprite, _numTiles, _anim, _variant, _order, _priority)                                                                \
-    _sprite->tiles = VramMalloc(_numTiles);                                                                                        \
+    _sprite->tiles = VramMalloc(_numTiles);                                                                                                \
     SPRITE_INIT_WITHOUT_VRAM(_sprite, _anim, _variant, _order, _priority, 0);
 
 #define SF_SHIFT(name) (SPRITE_FLAG_SHIFT_##name)

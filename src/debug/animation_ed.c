@@ -18,28 +18,24 @@ typedef struct {
 void Task_AnimEd();
 void HandleInput(AnimationEd *ed);
 void DrawCommands(AnimationEd *ed);
-void SkipCommand(const ACmd **cursor);
+void SkipCommand(const ACmd **pCursor);
+s32 GetCurrentFrameIndex(Sprite *s);
 void DrawEndOrLoopCommand(AnimationEd *ed);
 void TaskDestructor_AnimEd(struct Task *t);
 s32 CountFrames(AnimationEd *ed);
 
-#define CMD_COUNT 13
-#define CMD_WINDOW_Y (DISPLAY_HEIGHT - (CMD_COUNT * 8))
-#define CMD_TILES_Y (CMD_WINDOW_Y + 8)
+#define CMD_COUNT    13
+#define CMD_MARGIN   8
+#define CMD_WINDOW_Y (DISPLAY_HEIGHT - (CMD_COUNT * CMD_MARGIN))
+#define CMD_TILES_Y  (CMD_WINDOW_Y + CMD_MARGIN)
 
 s8 cmdSizes[CMD_COUNT] = {
-    AnimCommandSizeInWords(ACmd_GetTiles),
-    AnimCommandSizeInWords(ACmd_GetPalette),
-    AnimCommandSizeInWords(ACmd_JumpBack),
-    AnimCommandSizeInWords(ACmd_4),
-    AnimCommandSizeInWords(ACmd_PlaySoundEffect),
-    AnimCommandSizeInWords(ACmd_Hitbox),
-    AnimCommandSizeInWords(ACmd_TranslateSprite),
-    AnimCommandSizeInWords(ACmd_8),
-    AnimCommandSizeInWords(ACmd_SetIdAndVariant),
-    AnimCommandSizeInWords(ACmd_10),
-    AnimCommandSizeInWords(ACmd_SetSpritePriority),
-    AnimCommandSizeInWords(ACmd_SetOamOrder),
+    AnimCommandSizeInWords(ACmd_GetTiles),          AnimCommandSizeInWords(ACmd_GetPalette),
+    AnimCommandSizeInWords(ACmd_JumpBack),          AnimCommandSizeInWords(ACmd_4),
+    AnimCommandSizeInWords(ACmd_PlaySoundEffect),   AnimCommandSizeInWords(ACmd_Hitbox),
+    AnimCommandSizeInWords(ACmd_TranslateSprite),   AnimCommandSizeInWords(ACmd_8),
+    AnimCommandSizeInWords(ACmd_SetIdAndVariant),   AnimCommandSizeInWords(ACmd_10),
+    AnimCommandSizeInWords(ACmd_SetSpritePriority), AnimCommandSizeInWords(ACmd_SetOamOrder),
     AnimCommandSizeInWords(ACmd_ShowFrame),
 };
 
@@ -49,7 +45,7 @@ void CreateAnimationEd(void)
     Sprite *s = &ed->sprPreview;
     Sprite *sprIndicator = &ed->sprIndicator;
     Background *bgA = &ed->bg;
-    
+
     gDispCnt |= DISPCNT_BG0_ON;
 #if 0
     gBgCntRegs[0] = BGCNT_256COLOR | BGCNT_AFF256x256 | BGCNT_SCREENBASE(14) | BGCNT_CHARBASE(1) | BGCNT_PRIORITY(3);
@@ -84,10 +80,10 @@ void CreateAnimationEd(void)
 
         ed->frameCount = CountFrames(ed);
     }
-    
+
     {
         const s32 indicatorSize = 4;
-        AnimId anim = ANIM_INDICATOR_SONIC;
+        AnimId anim = ANIM_BUZZER_PROJ;
         u8 pattern = 0;
         sprIndicator->palId = 2;
         SPRITE_INIT(sprIndicator, indicatorSize, anim, pattern, 3, 3);
@@ -103,13 +99,12 @@ void Task_AnimEd()
 
     HandleInput(ed);
 
-    if(gSpriteTables.animations[s->anim] == NULL) {
+    if (gSpriteTables.animations[s->anim] == NULL) {
         // Render "EMPTY" string
     } else {
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
-        
-        UpdateSpriteAnimation(sprIndicator);
+
         DrawCommands(ed);
     }
 }
@@ -118,21 +113,21 @@ void HandleInput(AnimationEd *ed)
 {
     Sprite *s = &ed->sprPreview;
 
-    if(gInput & L_BUTTON) {
+    if (gInput & L_BUTTON) {
         AnimId newAnim = (s->anim - 1);
 
-        if(newAnim == (AnimId)-1) {
-            newAnim = ANIM_COUNT-1;
+        if (newAnim == (AnimId)-1) {
+            newAnim = ANIM_COUNT - 1;
         }
 
         s->anim = newAnim;
-    } else if(gInput & R_BUTTON) {
+    } else if (gInput & R_BUTTON) {
         AnimId newAnim = (s->anim + 1) % ANIM_COUNT;
 
         s->anim = newAnim;
     }
 
-    if(gInput & (L_BUTTON | R_BUTTON)) {
+    if (gInput & (L_BUTTON | R_BUTTON)) {
         ed->frameCount = CountFrames(ed);
     }
 }
@@ -146,14 +141,12 @@ s32 CountFrames(AnimationEd *ed)
     Sprite *sprPreview = &ed->sprPreview;
     const ACmd **patterns = gSpriteTables.animations[sprPreview->anim];
     s32 frameCount = 0;
-    
-    if(patterns != NULL)
-    {
+
+    if (patterns != NULL) {
         const ACmd *cursor = patterns[sprPreview->variant];
 
-        while(!IS_LAST_CMD(cursor))
-        {
-            if(IS_DISPLAY_CMD(cursor)) {
+        while (!IS_LAST_CMD(cursor)) {
+            if (IS_DISPLAY_CMD(cursor)) {
                 frameCount++;
             }
 
@@ -167,11 +160,14 @@ s32 CountFrames(AnimationEd *ed)
 void SkipCommand(const ACmd **pCursor)
 {
     s32 *cmd = (s32 *)(*pCursor);
-    if((*pCursor)->id < 0) {
+    s32 dummy;
+
+    if ((*pCursor)->id < 0) {
         cmd += cmdSizes[~((*pCursor)->id)];
     } else {
         cmd += cmdSizes[~ANIM_CMD__SHOW_FRAME];
     }
+
     *pCursor = (const ACmd *)cmd;
 }
 
@@ -181,31 +177,31 @@ void DrawCommands(AnimationEd *ed)
     Sprite *sprIndicator = &ed->sprIndicator;
     const ACmd **patterns = gSpriteTables.animations[sprPreview->anim];
 
-    if(patterns != NULL)
-    {
-        const ACmd *cursor = patterns[sprPreview->variant];
+    if (patterns != NULL) {
+        const ACmd *cursorFirst = patterns[sprPreview->variant];
+        const ACmd *cursor = cursorFirst;
 
         s32 frame = 0;
+        s32 currentFrame = GetCurrentFrameIndex(sprPreview);
         s32 frameCount = ed->frameCount;
+        s32 margin = 10;
         float invFrame = 1. / (float)frameCount;
 
-        while(!IS_LAST_CMD(cursor))
-        {
+        while (!IS_LAST_CMD(cursor)) {
             float normalizedX = ((float)frame) * invFrame;
-            sprIndicator->x = (s32)((float)DISPLAY_WIDTH * normalizedX);
-            while(!IS_DISPLAY_CMD(cursor)) {
-                sprIndicator->y = CMD_TILES_Y + (~cursor->id) * 16;
+            sprIndicator->x = margin + (s32)((float)(DISPLAY_WIDTH - 2 * margin) * normalizedX);
+
+            while (!IS_DISPLAY_CMD(cursor)) {
+                sprIndicator->y = CMD_TILES_Y + (~cursor->id) * (2 * CMD_MARGIN);
                 DisplaySprite(sprIndicator);
                 SkipCommand(&cursor);
             }
 
-            {
-                float normalizedCursorX = ((float)sprPreview->animCursor) * invFrame;
-                sprIndicator->x = (s32)((float)DISPLAY_WIDTH * normalizedCursorX);
-                sprIndicator->y = CMD_TILES_Y - 8;
+            if (frame == currentFrame) {
+                sprIndicator->y = CMD_TILES_Y - CMD_MARGIN;
                 DisplaySprite(sprIndicator);
             }
-            
+
             frame++;
             // Skip DISPLAY command
             SkipCommand(&cursor);
@@ -215,12 +211,40 @@ void DrawCommands(AnimationEd *ed)
     }
 }
 
-void DrawEndOrLoopCommand(AnimationEd *ed)
+s32 GetCurrentFrameIndex(Sprite *s)
 {
+    s32 frameIndex = 0;
+    const ACmd **patterns = gSpriteTables.animations[s->anim];
 
+    if (patterns != NULL) {
+        const ACmd *cursorFirst = patterns[s->variant];
+        const ACmd *cursor = cursorFirst;
+        s32 i;
+
+        for (i = 0; i < s->animCursor;) {
+            if (cursor->id < 0) {
+                SkipCommand(&cursor);
+            } else {
+                frameIndex++;
+                SkipCommand(&cursor);
+            }
+
+            if (cursor->id < 0) {
+                i += cmdSizes[~cursor->id];
+            } else {
+                i += cmdSizes[~ANIM_CMD__SHOW_FRAME];
+            }
+        }
+
+        if (frameIndex > 0) // this *should* always be true.
+        {
+            frameIndex--;
+        }
+    }
+
+    return frameIndex;
 }
 
-void TaskDestructor_AnimEd(struct Task *t)
-{
+void DrawEndOrLoopCommand(AnimationEd *ed) { }
 
-}
+void TaskDestructor_AnimEd(struct Task *t) { }
