@@ -69,7 +69,7 @@ void CreateAnimationEd(void)
 #endif
 
     {
-        AnimId anim = 0;
+        AnimId anim = ANIM_ASCII;
         u8 pattern = 0;
         SPRITE_INIT_WITHOUT_VRAM(s, anim, pattern, 0, 2, 0);
         s->tiles = OBJ_VRAM0;
