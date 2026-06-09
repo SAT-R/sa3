@@ -73,6 +73,7 @@ void sub_80001EC(void)
     }
 }
 
+extern void CreateAnimationEd(void);
 void Task_8000284(void)
 {
     DmaFill32(3, 0, BG_CHAR_ADDR_FROM_BGCNT(2), 2 * TILE_SIZE_4BPP);
@@ -86,7 +87,11 @@ void Task_8000284(void)
     gStageData.timer = 0;
     sub_80003B8();
 #if DEBUG
-    CreateCharacterSelect(0);
+    if (REG_KEYINPUT & SELECT_BUTTON) {
+        CreateAnimationEd();
+    } else {
+        CreateCharacterSelect(0);
+    }
 #else
     CreateGameIntroState(1);
 #endif

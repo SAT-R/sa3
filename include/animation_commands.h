@@ -9,7 +9,7 @@
 typedef AnimCmdResult (*AnimationCommandFunc)(void *cursor, Sprite *sprite);
 
 typedef struct {
-    /* 0x00 */ s32 cmdId; // -2
+    /* 0x00 */ s32 cmdId; // -1
 
     // Note(Jace): This needs to be signed, since a
     //             negative value infers that it's using 8bit-colors

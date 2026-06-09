@@ -33426,8 +33426,8 @@ _080ABEB6:
 	adds r1, #0x20
 	str r1, [r7, #0x10]
 	movs r4, #0
-	ldr r1, _080AC028 @ =0x00000462
-	mov sb, r1
+	ldr r1, _080AC028 @ =0x00000462     @ ANIM_ASCII
+	mov sb, r1              @ sb = r1 = ANIM_ASCII
 	mov r1, sb
 	strh r1, [r0, #0xc]
 	movs r1, #0xe
@@ -33464,7 +33464,7 @@ _080ABEB6:
 	ldr r1, [r7, #0x10]
 	adds r1, #0x40
 	str r1, [r7, #0x10]
-	mov r1, sb
+	mov r1, sb              @ r1 = sb = ANIM_ASCII
 	strh r1, [r0, #0xc]
 	movs r1, #6
 	strb r1, [r0, #0x1a]
@@ -33496,7 +33496,7 @@ _080ABEB6:
 	ldr r1, [r7, #0x10]
 	adds r1, #0x40
 	str r1, [r7, #0x10]
-	mov r1, sb
+	mov r1, sb              @ r1 = sb = ANIM_ASCII
 	strh r1, [r0, #0xc]
 	movs r1, #8
 	strb r1, [r0, #0x1a]
@@ -33528,7 +33528,7 @@ _080ABEB6:
 	ldr r1, [r7, #0x10]
 	adds r1, #0x40
 	str r1, [r7, #0x10]
-	mov r1, sb
+	mov r1, sb              @ r1 = sb = ANIM_ASCII
 	strh r1, [r0, #0xc]
 	movs r1, #9
 	strb r1, [r0, #0x1a]
@@ -33560,7 +33560,7 @@ _080ABEB6:
 	ldr r1, [r7, #0x10]
 	adds r1, #0x40
 	str r1, [r7, #0x10]
-	mov r1, sb
+	mov r1, sb              @ r1 = sb = ANIM_ASCII
 	strh r1, [r0, #0xc]
 	movs r1, #0xd
 	strb r1, [r0, #0x1a]

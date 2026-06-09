@@ -233,6 +233,12 @@
 
 #define ANIM_ASCII 1122
 
+#define ANIM_ASCII_FIRST_CHAR '!'
+
+#define ANIM_ASCII_YEN       '\\'
+#define ANIM_ASCII_CHAR(c)   ((c)-ANIM_ASCII_FIRST_CHAR + 1)
+#define ANIM_NUM_ASCII_CHARS 94
+
 #define ANIM_BONUS_CAPSULE         1154
 #define ANIM_BONUS_CAPSULE_POINTS  1155
 #define ANIM_BONUS_CAPSULE_SWITCH  1156
@@ -252,10 +258,10 @@
 #define ANIM_CONDOR_PROJ 1170
 #define ANIM_APE         1171
 
-#define ANIM_FROG     1173
-#define ANIM_MINIMOLE 1174
-#define ANIM_BUZZER   1175
-
+#define ANIM_FROG          1173
+#define ANIM_MINIMOLE      1174
+#define ANIM_BUZZER        1175
+#define ANIM_BUZZER_PROJ   1176
 #define ANIM_JOUSUN        1177 /* Green Plane */
 #define ANIM_TAKKON        1178 /* Red Octopus */
 #define ANIM_UUTSUBO       1179 /* Yellow Eel */

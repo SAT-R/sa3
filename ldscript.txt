@@ -169,6 +169,9 @@ SECTIONS {
         src/game/math.o(.text);
         asm/special_stage.o(.text);
         src/game/partner_ai.o(.text);
+#if DEBUG
+        src/debug/animation_ed.o
+#endif
         src/lib/m4a/m4a0.o(.text);
         src/lib/m4a/m4a.o(.text);
         src/core.o(.text);
