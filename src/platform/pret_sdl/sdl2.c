@@ -152,7 +152,7 @@ int main(int argc, char **argv)
 
     // Prevent the multiplayer screen from being drawn ( see core.c:EngineInit() )
     REG_RCNT = 0x8000;
-    REG_KEYINPUT = 0x3FF;
+    REG_KEYINPUT = KEYS_MASK ^ Platform_GetKeyInput();
 
     if (headless) {
         // Required or it makes an infinite loop
