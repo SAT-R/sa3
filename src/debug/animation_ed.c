@@ -39,6 +39,8 @@ s8 cmdSizes[CMD_COUNT] = {
     AnimCommandSizeInWords(ACmd_ShowFrame),
 };
 
+/* NOTE(Jace): This is still missing a lot of features, but right now it's more important to focus on removing ASM */
+
 void CreateAnimationEd(void)
 {
     AnimationEd *ed = TASK_DATA(TaskCreate(Task_AnimEd, sizeof(AnimationEd), 0x2000, 0, TaskDestructor_AnimEd));

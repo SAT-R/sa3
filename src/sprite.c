@@ -685,9 +685,15 @@ void DisplaySprite(Sprite *s)
         // Default behavior from SA1 / SA2
         dimensions = (const SpriteOffset2 *)&((const SpriteOffset *)gRefSpriteTables->dimensions[s->anim])[s->frameNum];
     } else {
+#ifndef NON_MATCHING
         // TODO: WTF!?!?
         dimensions = &((const SpriteOffset2 *)gRefSpriteTables->dimensions[s->anim])[s->frameNum];
+#else
+        // NOTE(Jace): Using the regular / SA1|SA2 code is the only way to make this not crash. Idk what is going on...
+        dimensions = (const SpriteOffset2 *)&((const SpriteOffset *)gRefSpriteTables->dimensions[s->anim])[s->frameNum];
+#endif
     }
+
     s->numSubFrames = (u8)dimensions->base.numSubframes;
     x = s->x;
     y = s->y;
