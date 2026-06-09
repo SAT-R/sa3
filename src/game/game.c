@@ -87,7 +87,7 @@ void Task_8000284(void)
     gStageData.timer = 0;
     sub_80003B8();
 #if DEBUG
-    // REG_KEYINPUT = KEYS_MASK ^ input, sowe need to invert here to create the editor on SELECT.
+    // REG_KEYINPUT = KEYS_MASK ^ input, so we need to invert here to create the editor on SELECT.
     if (!(REG_KEYINPUT & SELECT_BUTTON)) {
         CreateAnimationEd();
     } else {

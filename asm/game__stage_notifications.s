@@ -172,7 +172,7 @@ _080237CA:
 	strh r0, [r3, #0x12]
 _08023804:
 	lsls r2, r2, #3
-	ldr r0, _08023870 @ =gJapaneseGameFont
+	ldr r0, _08023870 @ =gNotificationTextFont
 	adds r5, r2, r0
 	ldrb r1, [r4, #6]
 	lsls r0, r1, #2
@@ -197,7 +197,7 @@ _08023828:
 	ldr r0, [r4, #0x24]
 	adds r0, #0x80
 	str r0, [r4, #0x24]
-	ldrh r0, [r5]			@ gJapaneseGameFont
+	ldrh r0, [r5]			@ gNotificationTextFont
 	strh r0, [r3, #0xc]
 	ldrb r0, [r5, #2]
 	strb r0, [r3, #0x1a]
@@ -224,7 +224,7 @@ _08023828:
 	.align 2, 0
 _08023868: .4byte 0x06012000
 _0802386C: .4byte gInput
-_08023870: .4byte gJapaneseGameFont
+_08023870: .4byte gNotificationTextFont
 _08023874:
 	ldrh r0, [r3, #0x12]
 	subs r0, #8
@@ -255,7 +255,7 @@ _0802388A:
 	str r1, [r3, #8]
 	adds r0, r3, #0
 	bl UpdateSpriteAnimation
-	ldr r1, _080238C0 @ =gJapaneseGameFont
+	ldr r1, _080238C0 @ =gNotificationTextFont
 	adds r1, r6, r1
 	ldrh r0, [r4, #0x12]
 	ldrb r1, [r1, #4]
@@ -266,7 +266,7 @@ _0802388A:
 	strb r0, [r4, #6]
 	b _0802399E
 	.align 2, 0
-_080238C0: .4byte gJapaneseGameFont
+_080238C0: .4byte gNotificationTextFont
 _080238C4:
 	ldr r1, _080238E0 @ =0x0000FFFE
 	adds r0, r6, r1

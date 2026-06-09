@@ -5,11 +5,6 @@
 
 .section .rodata
 
-    .global gJapaneseGameFont
-gJapaneseGameFont:
-    .incbin "baserom_sa3.gba", 0x006835B8, 0xA88
-
-
     .global gUnknown_08684040
 gUnknown_08684040:
     .incbin "baserom_sa3.gba", 0x00684040, 0x2544

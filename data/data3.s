@@ -396,6 +396,8 @@ gUnknown_08E7E278:
 gUnknown_08E7E678:
     .incbin "baserom_sa3.gba", 0x00E7E678, 0x400
 
+    @ Notes on the characters:
+    @ - 0x155 = END/Terminator
     .global gUnknown_08E7EA78
 gUnknown_08E7EA78:
     mPtr gUnknown_08E7D278
