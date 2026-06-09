@@ -637,7 +637,7 @@ SECTIONS {
         src/data/obj_palettes.o(.rodata);
         data/empty_unknown_data.o(.rodata);
         src/data/tilemap_data.o(.rodata);
-        src/data/stage_notifications.o(.rodata);
+        src/data/stage_notifications_data.o(.rodata);
         data/data_unk.o(.rodata);
         src/data/tilemap_data_2.o(.rodata);
         data/gfx_data_1.o(.rodata);

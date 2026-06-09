@@ -5,8 +5,8 @@
 
 .section .rodata
 
-    .global gUnknown_08684040
-gUnknown_08684040:
+    .global gNotificationTextTextsArray
+gNotificationTextTextsArray:
     .incbin "baserom_sa3.gba", 0x00684040, 0x2544
 
     .global gUnknown_08686584
