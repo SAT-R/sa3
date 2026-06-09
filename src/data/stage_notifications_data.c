@@ -9,7 +9,7 @@ typedef struct {
     /* 0x04 */ u8 unk4;
 } StageNotifChar;
 
-// TODO: Deplace array indices with #defined names
+// TODO: Replace array indices with #defined names
 const StageNotifChar gNotificationTextFont[] = {
     /* 0x000 */ [0x000] = { ANIM_STAGE_NOTIF_TEXT_C, 0x00, 0x05, 0x05 },
     /* 0x001 */ [0x001] = { ANIM_STAGE_NOTIF_TEXT_C, 0x01, 0x05, 0x04 },
