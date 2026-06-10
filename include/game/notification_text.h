@@ -40,6 +40,6 @@ typedef struct {
 } StageNotifChar;
 
 // TODO: Replace array indices with #defined names
-const StageNotifChar gNotificationTextFont[];
+extern const StageNotifChar gNotificationTextFont[];
 
 #endif // GUARD_SA3_NOTIFICATION_TEXT_H
