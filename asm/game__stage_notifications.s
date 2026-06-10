@@ -5,61 +5,8 @@
 .syntax unified
 .arm
 
-@ Seems to be about Omochao texts.
-	thumb_func_start sub_80236C8
-sub_80236C8: @ 0x080236C8
-	push {r4, r5, lr}
-	adds r4, r2, #0
-	lsls r1, r1, #0x18
-	lsrs r5, r1, #0x18
-	str r0, [r4]
-	movs r1, #0
-	movs r3, #0
-	movs r0, #8
-	strh r0, [r4, #0xa]
-	movs r2, #0x28
-	movs r0, #0x28
-	strh r0, [r4, #0x12]
-	strh r0, [r4, #0x14]
-	strb r2, [r4, #0xf]
-	strb r2, [r4, #0x10]
-	strb r1, [r4, #0xd]
-	strb r1, [r4, #0xe]
-	strb r1, [r4, #5]
-	strb r1, [r4, #6]
-	strh r3, [r4, #8]
-	strb r1, [r4, #0xc]
-	strb r1, [r4, #0x1c]
-	strh r3, [r4, #0x1a]
-	strb r1, [r4, #0x1d]
-	strb r1, [r4, #0x1e]
-	ldr r0, _08023724 @ =0x06012000
-	str r0, [r4, #0x24]
-	strb r1, [r4, #0x1f]
-	ldr r0, _08023728 @ =gLoadedSaveGame
-	ldr r1, _0802372C @ =0x00000366
-	adds r0, r0, r1
-	ldrb r0, [r0]
-	cmp r0, #5
-	bls _0802370E
-	movs r0, #5
-_0802370E:
-	ldr r1, _08023730 @ =gUnknown_08E7EA78
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	ldr r1, [r0]
-	lsls r0, r5, #2
-	adds r0, r0, r1
-	ldr r0, [r0]
-	str r0, [r4, #0x20]
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08023724: .4byte 0x06012000
-_08023728: .4byte gLoadedSaveGame
-_0802372C: .4byte 0x00000366
-_08023730: .4byte gUnknown_08E7EA78
+.if 0
+.endif
 
 	thumb_func_start sub_8023734
 sub_8023734: @ 0x08023734

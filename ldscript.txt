@@ -30,6 +30,7 @@ SECTIONS {
         src/game/stage/stage_ui.o(.text);
         src/game/stage/stage_ui_singlepak.o(.text);
         asm/game__chao_map.o(.text);
+        src/game/sa3/stage_notifications.o(.text);
         asm/game__stage_notifications.o(.text);
         asm/multi_sio_stuff.o(.text);
         src/game/shared/stage/music_manager.o(.text);
