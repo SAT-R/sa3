@@ -17,15 +17,17 @@ typedef struct {
     /* 0x11 */ u8 unk11;
     /* 0x12 */ u16 unk12;
     /* 0x14 */ u16 unk14;
-    /* 0x16 */ u8 filler16[0x4];
+    /* 0x14 */ u16 unk16;
+    /* 0x14 */ u16 unk18;
     /* 0x1A */ u16 unk1A;
     /* 0x1C */ u8 unk1C;
     /* 0x1D */ u8 unk1D;
     /* 0x1E */ u8 unk1E;
     /* 0x1F */ u8 unk1F;
-    /* 0x24 */ void *text;
+    /* 0x24 */ u16 *text;
     /* 0x24 */ void *vram24;
-    /* 0x28 */ u8 padding28[0xC84];
+    /* 0x28 */ void *vram28;
+    /* 0x2C */ Sprite sprites2C[80];
 } NotificationText; /* 0xCAC */
 
 void sub_80236C8(Sprite *s, u8 textId, NotificationText *notifText);

@@ -35,35 +35,32 @@ void sub_80236C8(Sprite *s, u8 textId, NotificationText *notifText)
     notifText->text = text[textId];
 }
 
-#if 0
-u32 sub_8023734(NotificationText *chaoEwramData) {
-    Sprite *temp_r3_3;
-    StageNotifChar *temp_r5;
+bool32 sub_8023734(NotificationText *chaoEwramData)
+{
+    Sprite *s;
+    const StageNotifChar *temp_r5;
     u16 temp_r0_2;
     u16 temp_r1_2;
     u16 temp_r2;
-    u16 temp_r2_2;
-    u16 temp_r2_3;
-    u16 temp_r3;
-    u16 temp_r6;
-    u16 var_r2;
+    s32 temp_r2_2;
+    s32 temp_r3;
+    u32 textChar;
     u8 temp_r0;
     u8 temp_r0_3;
     u8 temp_r0_4;
     u8 var_r0;
-    void *temp_r1;
+    s32 index;
     void *temp_r3_2;
 
     chaoEwramData->unk1C = 0;
-    temp_r0 = chaoEwramData->unk5;
-    if (temp_r0 != 0) {
-        temp_r2 = *(((temp_r0 * 2) + chaoEwramData->text) - 2);
-        if ((u32) (temp_r2 + 0xFFFFFEAC) <= 1U) {
+    if (chaoEwramData->unk5 != 0) {
+        textChar = chaoEwramData->text[chaoEwramData->unk5 - 1];
+        if (textChar == 0x154 || textChar == 0x155) {
             if (!(1 & gPressedKeys) && !(1 & chaoEwramData->unk1F)) {
                 chaoEwramData->unk1C = 1;
-                goto block_42;
+                return 0U;
             }
-            if (temp_r2 != 0x154) {
+            if (textChar != 0x154) {
                 return 1U;
             }
             chaoEwramData->unk8 = chaoEwramData->unkA - 2;
@@ -71,123 +68,128 @@ u32 sub_8023734(NotificationText *chaoEwramData) {
             chaoEwramData->unkC = 0;
             chaoEwramData->unk12 = 0x28;
             chaoEwramData->unk14 = 0x28;
-            chaoEwramData->vram24 = (void *)0x06012000;
-            goto block_8;
+            chaoEwramData->vram24 = (void *)(OBJ_VRAM0 + 0x2000);
         }
     }
-block_8:
-    temp_r2_2 = chaoEwramData->unk8 + 2;
-    chaoEwramData->unk8 = temp_r2_2;
-    if ((1 & gInput) && !(1 & chaoEwramData->unk1F)) {
-        chaoEwramData->unk8 = temp_r2_2 + 2;
-    }
-    temp_r0_2 = chaoEwramData->unk8;
-    temp_r3 = chaoEwramData->unkA;
-    if ((u32) temp_r0_2 < (u32) temp_r3) {
 
-    } else {
-        temp_r6 = temp_r0_2 - temp_r3;
-        chaoEwramData->unk8 = temp_r6;
+    chaoEwramData->unk8 += 2;
+    if ((A_BUTTON & gInput) && !(1 & chaoEwramData->unk1F)) {
+        chaoEwramData->unk8 += 2;
+    }
+
+    if (chaoEwramData->unk8 >= (u32)chaoEwramData->unkA) {
+        chaoEwramData->unk8 -= chaoEwramData->unkA;
         chaoEwramData->unk5 += 1;
-        temp_r1 = chaoEwramData->text;
-        temp_r2_3 = *(((chaoEwramData->unk5 * 2) + temp_r1) - 2);
-        if ((u32) temp_r2_3 <= 0x150U) {
-            temp_r0_3 = chaoEwramData->unk6;
-            if (temp_r0_3 != 0) {
-                temp_r3_2 = chaoEwramData + ((temp_r0_3 * 0x28) + 4);
-                temp_r3_2->unk10 = (u16) chaoEwramData->unk16;
-                temp_r3_2->unk12 = (u16) chaoEwramData->unk18;
+        textChar = chaoEwramData->text[chaoEwramData->unk5 - 1];
+        if (textChar < 0x151) {
+            if (chaoEwramData->unk6 != 0) {
+                s = &chaoEwramData->sprites2C[chaoEwramData->unk6 - 1];
+                s->x = (u16)chaoEwramData->unk16;
+                s->y = (u16)chaoEwramData->unk18;
             }
-            temp_r5 = &gNotificationTextFont[temp_r2_3];
-            temp_r3_3 = chaoEwramData + ((chaoEwramData->unk6 * 0x28) + 0x2C);
-            if ((s16) chaoEwramData->unk12 != 0x28) {
+            temp_r5 = &gNotificationTextFont[textChar];
+            s = &chaoEwramData->sprites2C[chaoEwramData->unk6];
+            if ((s16)chaoEwramData->unk12 != 0x28) {
                 chaoEwramData->unk12 += temp_r5->unk3;
             }
             chaoEwramData->unk1E = 4;
-            temp_r3_3->tiles = chaoEwramData->vram24;
-            chaoEwramData->vram24 += 0x80;
-            temp_r3_3->anim = temp_r5->anim;
-            temp_r3_3->variant = temp_r5->pattern;
-            temp_r1_2 = chaoEwramData->unk12;
-            temp_r3_3->x = temp_r1_2;
-            temp_r3_3->y = (s8) chaoEwramData->unkC + chaoEwramData->unk14;
-            chaoEwramData->unk16 = temp_r1_2;
-            chaoEwramData->unk18 = (u16) temp_r3_3->y;
-            temp_r0_4 = chaoEwramData->unk1D;
-            switch (temp_r0_4) {                    /* switch 1; irregular */
-            case 1:                                 /* switch 1 */
-                temp_r3_3->y -= 8;
-                break;
-            case 2:                                 /* switch 1 */
-                temp_r3_3->y += 8;
-                break;
-            case 3:                                 /* switch 1 */
-                temp_r3_3->x -= 8;
-                break;
+            s->tiles = chaoEwramData->vram24;
+            {
+#ifndef NON_MATCHING
+                u8 *vram;
+                asm("ldr %0, [%1, #0x24]" : "=r"(vram) : "r"(chaoEwramData));
+                chaoEwramData->vram24 = vram + (4 * TILE_SIZE_4BPP);
+#else
+                chaoEwramData->vram24 += (4 * TILE_SIZE_4BPP);
+#endif
             }
-            temp_r3_3->oamFlags = 0;
-            temp_r3_3->animCursor = 0;
-            temp_r3_3->qAnimDelay = 0;
-            temp_r3_3->prevVariant = 0xFF;
-            temp_r3_3->animSpeed = 0x10;
-            temp_r3_3->palId = 0xF;
-            temp_r3_3->hitboxes[0].index = -1;
-            temp_r3_3->frameFlags = 0;
-            UpdateSpriteAnimation(temp_r3_3);
-            chaoEwramData->unk12 += gNotificationTextFont[temp_r2_3].unk4;
+            s->anim = temp_r5->anim;
+            s->variant = temp_r5->pattern;
+            s->x = chaoEwramData->unk12;
+            s->y = (s8)chaoEwramData->unkC + chaoEwramData->unk14;
+            chaoEwramData->unk16 = s->x;
+            chaoEwramData->unk18 = s->y;
+
+            switch (chaoEwramData->unk1D) {
+                case 0:
+                    break;
+                case 1:
+                    s->y -= 8;
+                    break;
+                case 2:
+                    s->y += 8;
+                    break;
+                case 3:
+                    s->x -= 8;
+                    break;
+            }
+
+            s->oamFlags = 0;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = -1;
+            s->animSpeed = 0x10;
+            s->palId = 0xF;
+            s->hitboxes[0].index = -1;
+            s->frameFlags = 0;
+            UpdateSpriteAnimation(s);
+            chaoEwramData->unk12 += gNotificationTextFont[textChar].unk4;
             chaoEwramData->unk6 += 1;
         } else {
-            chaoEwramData->unk8 = temp_r3 + (temp_r6 + 0xFFFE);
-            switch (temp_r2_3) {                    /* switch 2 */
-            case -4294966959:                       /* switch 2 */
-                chaoEwramData->unk5 += 1;
-                chaoEwramData->unk12 += *(((chaoEwramData->unk5 * 2) + temp_r1) - 2);
-                break;
-            case -4294966958:                       /* switch 2 */
-                chaoEwramData->unk5 += 1;
-                var_r2 = *(((chaoEwramData->unk5 * 2) + temp_r1) - 2);
-                if ((u32) var_r2 <= 2U) {
-                    var_r2 = 2;
-                }
-                chaoEwramData->unk8 = 0;
-                chaoEwramData->unkA = var_r2;
-                break;
-            case -4294966957:                       /* switch 2 */
-                chaoEwramData->unk12 = (u16) (s8) chaoEwramData->unkF;
-                chaoEwramData->unk14 += 0x10;
-                break;
-            case -4294966956:                       /* switch 2 */
-                chaoEwramData->vram24 = chaoEwramData->unk28;
-                break;
-            case -4294966954:                       /* switch 2 */
-                chaoEwramData->unk5 += 1;
-                chaoEwramData->unkC = (u8) *(((chaoEwramData->unk5 * 2) + temp_r1) - 2);
-                break;
-            case -4294966953:                       /* switch 2 */
-                chaoEwramData->unk5 += 1;
-                chaoEwramData->unk1A = *(((chaoEwramData->unk5 * 2) + temp_r1) - 2);
-                break;
-            case -4294966951:                       /* switch 2 */
-                var_r0 = 0;
-block_41:
-                chaoEwramData->unk1D = var_r0;
-                break;
-            case -4294966950:                       /* switch 2 */
-                var_r0 = 1;
-                goto block_41;
-            case -4294966949:                       /* switch 2 */
-                var_r0 = 2;
-                goto block_41;
-            case -4294966948:                       /* switch 2 */
-                var_r0 = 3;
-                goto block_41;
+            chaoEwramData->unk8 += (chaoEwramData->unkA - 2);
+
+            switch (textChar) {
+                case 0x151:
+                    chaoEwramData->unk5 += 1;
+                    textChar = chaoEwramData->text[chaoEwramData->unk5 - 1];
+                    chaoEwramData->unk12 += textChar;
+                    break;
+                case 0x152:
+                    chaoEwramData->unk5 += 1;
+                    textChar = chaoEwramData->text[chaoEwramData->unk5 - 1];
+                    if (textChar <= 2U) {
+                        textChar = 2;
+                    }
+                    chaoEwramData->unk8 = 0;
+                    chaoEwramData->unkA = textChar;
+                    break;
+                case 0x153:
+                    chaoEwramData->unk12 = (u16)(s8)chaoEwramData->unkF;
+                    chaoEwramData->unk14 += 0x10;
+                    break;
+                case 0x154:
+                    chaoEwramData->vram24 = chaoEwramData->vram28;
+                    break;
+                case 0x156:
+                    chaoEwramData->unk5 += 1;
+                    textChar = chaoEwramData->text[chaoEwramData->unk5 - 1];
+                    chaoEwramData->unkC = textChar;
+                    break;
+                case 0x157:
+                    chaoEwramData->unk5 += 1;
+                    textChar = chaoEwramData->text[chaoEwramData->unk5 - 1];
+                    chaoEwramData->unk1A = textChar;
+                    break;
+                case 0x159:
+                    chaoEwramData->unk1D = 0;
+                    break;
+                case 0x15A:
+                    chaoEwramData->unk1D = 1;
+                    break;
+                case 0x15B:
+                    chaoEwramData->unk1D = 2;
+                    break;
+                case 0x15C:
+                    chaoEwramData->unk1D = 3;
+                    break;
             }
         }
     }
-block_42:
+
     return 0U;
 }
 
+#if 0
 void sub_80239A8(NotificationText *chaoEwramData) {
     Sprite *temp_r1;
     Sprite *temp_r1_2;
