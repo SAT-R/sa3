@@ -5,13 +5,10 @@
 
 .section .rodata
 
+@ Japanese
     .global gNotificationTextTextsArray
 gNotificationTextTextsArray:
-    .incbin "baserom_sa3.gba", 0x00684040, 0x2544
-
-    .global gUnknown_08686584
-gUnknown_08686584:
-    .incbin "baserom_sa3.gba", 0x00686584, 0x5D18
+    .incbin "baserom_sa3.gba", 0x00684040, 0x825C
 
 @ Target of ptr array 'gUnknown_08E7E678'
     .global gUnknown_0868C29C

@@ -638,7 +638,7 @@ SECTIONS {
         data/empty_unknown_data.o(.rodata);
         src/data/tilemap_data.o(.rodata);
         src/data/stage_notifications_data.o(.rodata);
-        data/data_unk.o(.rodata);
+        src/data/stage_notifications_strings.o(.rodata);
         src/data/tilemap_data_2.o(.rodata);
         data/gfx_data_1.o(.rodata);
         src/data/sprite_dimensions.o(.rodata);
@@ -653,6 +653,8 @@ SECTIONS {
         *libc.a:mprec.o(.rodata);
         *libc.a:syscalls.o(.rodata);
         data/data3.o(.rodata);
+        src/data/stage_notifications_strings_pointers.o(.rodata);
+        src/data/stage_notifications_strings_pointers.o(.data);
         asm/rom_footer.o(.rodata);
 
         *libc.a:impure.o(.data);

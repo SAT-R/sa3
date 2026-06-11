@@ -4,7 +4,7 @@
 #include "game/notification_text.h"
 #include "game/save.h" // NUM_LANGUAGES
 
-extern u16 **gUnknown_08E7EA78[NUM_LANGUAGES];
+extern u16 **gNotificationTexts[NUM_LANGUAGES];
 
 void sub_80236C8(Sprite *s, u8 textId, NotificationText *notifText)
 {
@@ -31,7 +31,7 @@ void sub_80236C8(Sprite *s, u8 textId, NotificationText *notifText)
     notifText->unk1F = 0;
 
     lang = MIN(LOADED_SAVE->language, NUM_LANGUAGES - 1);
-    text = gUnknown_08E7EA78[lang];
+    text = gNotificationTexts[lang];
     notifText->text = text[textId];
 }
 

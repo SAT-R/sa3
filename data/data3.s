@@ -371,38 +371,3 @@ gUnknown_08E7CC44:
     .global gUnknown_08E7CE78
 gUnknown_08E7CE78:
     .incbin "baserom_sa3.gba", 0x00E7CE78, 0x400
-    
-    .global gUnknown_08E7D278
-gUnknown_08E7D278:
-    .incbin "baserom_sa3.gba", 0x00E7D278, 0x400
-    
-    .global gUnknown_08E7D678
-gUnknown_08E7D678:
-    .incbin "baserom_sa3.gba", 0x00E7D678, 0x400
-    
-    .global gUnknown_08E7DA78
-gUnknown_08E7DA78:
-    .incbin "baserom_sa3.gba", 0x00E7DA78, 0x400
-    
-    .global gUnknown_08E7DE78
-gUnknown_08E7DE78:
-    .incbin "baserom_sa3.gba", 0x00E7DE78, 0x400
-    
-    .global gUnknown_08E7E278
-gUnknown_08E7E278:
-    .incbin "baserom_sa3.gba", 0x00E7E278, 0x400
-    
-    .global gUnknown_08E7E678
-gUnknown_08E7E678:
-    .incbin "baserom_sa3.gba", 0x00E7E678, 0x400
-
-    @ Notes on the characters:
-    @ - 0x155 = END/Terminator
-    .global gUnknown_08E7EA78
-gUnknown_08E7EA78:
-    mPtr gUnknown_08E7D278
-    mPtr gUnknown_08E7D678
-    mPtr gUnknown_08E7DA78
-    mPtr gUnknown_08E7DE78
-    mPtr gUnknown_08E7E278
-    mPtr gUnknown_08E7E678

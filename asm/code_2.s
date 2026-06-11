@@ -36611,7 +36611,7 @@ sub_80AD7B4: @ 0x080AD7B4
 	bls _080AD800
 	movs r0, #5
 _080AD800:
-	ldr r1, _080AD820 @ =gUnknown_08E7EA78
+	ldr r1, _080AD820 @ =gNotificationTexts
 	lsls r0, r0, #2
 	adds r0, r0, r1
 	ldr r1, [r0]
@@ -36625,7 +36625,7 @@ _080AD800:
 	.align 2, 0
 _080AD818: .4byte gLoadedSaveGame
 _080AD81C: .4byte 0x00000366
-_080AD820: .4byte gUnknown_08E7EA78
+_080AD820: .4byte gNotificationTexts
 
 	thumb_func_start sub_80AD824
 sub_80AD824: @ 0x080AD824
