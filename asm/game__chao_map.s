@@ -774,7 +774,7 @@ CreateChaoMap: @ 0x08023634
 	sub sp, #4
 	ldr r0, _08023684 @ =Task_ChaoMap
 	movs r1, #0xb4
-	lsls r1, r1, #3
+	lsls r1, r1, #3     @ r1 = 0x5A0
 	movs r2, #0x80
 	lsls r2, r2, #1
 	movs r5, #0

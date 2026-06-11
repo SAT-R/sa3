@@ -35,22 +35,13 @@ void sub_80236C8(Sprite *s, u8 textId, NotificationText *notifText)
     notifText->text = text[textId];
 }
 
+// Result: TRUE if reached end of text
 bool32 sub_8023734(NotificationText *chaoEwramData)
 {
     Sprite *s;
-    const StageNotifChar *temp_r5;
-    u16 temp_r0_2;
-    u16 temp_r1_2;
-    u16 temp_r2;
-    s32 temp_r2_2;
-    s32 temp_r3;
+    const StageNotifChar *charData;
     u32 textChar;
-    u8 temp_r0;
-    u8 temp_r0_3;
-    u8 temp_r0_4;
-    u8 var_r0;
     s32 index;
-    void *temp_r3_2;
 
     chaoEwramData->unk1C = 0;
     if (chaoEwramData->unk5 != 0) {
@@ -58,10 +49,10 @@ bool32 sub_8023734(NotificationText *chaoEwramData)
         if (textChar == 0x154 || textChar == 0x155) {
             if (!(1 & gPressedKeys) && !(1 & chaoEwramData->unk1F)) {
                 chaoEwramData->unk1C = 1;
-                return 0U;
+                return FALSE;
             }
             if (textChar != 0x154) {
-                return 1U;
+                return TRUE;
             }
             chaoEwramData->unk8 = chaoEwramData->unkA - 2;
             chaoEwramData->unk6 = 0;
@@ -87,10 +78,10 @@ bool32 sub_8023734(NotificationText *chaoEwramData)
                 s->x = (u16)chaoEwramData->unk16;
                 s->y = (u16)chaoEwramData->unk18;
             }
-            temp_r5 = &gNotificationTextFont[textChar];
+            charData = &gNotificationTextFont[textChar];
             s = &chaoEwramData->sprites2C[chaoEwramData->unk6];
             if ((s16)chaoEwramData->unk12 != 0x28) {
-                chaoEwramData->unk12 += temp_r5->unk3;
+                chaoEwramData->unk12 += charData->unk3;
             }
             chaoEwramData->unk1E = 4;
             s->tiles = chaoEwramData->vram24;
@@ -104,8 +95,8 @@ bool32 sub_8023734(NotificationText *chaoEwramData)
                 chaoEwramData->vram24 += (4 * TILE_SIZE_4BPP);
 #endif
             }
-            s->anim = temp_r5->anim;
-            s->variant = temp_r5->pattern;
+            s->anim = charData->anim;
+            s->variant = charData->pattern;
             s->x = chaoEwramData->unk12;
             s->y = (s8)chaoEwramData->unkC + chaoEwramData->unk14;
             chaoEwramData->unk16 = s->x;
@@ -187,7 +178,7 @@ bool32 sub_8023734(NotificationText *chaoEwramData)
         }
     }
 
-    return 0U;
+    return FALSE;
 }
 
 void sub_80239A8(NotificationText *chaoEwramData)
