@@ -96,6 +96,7 @@ bool32 sub_8023734(NotificationText *chaoEwramData)
             s->tiles = chaoEwramData->vram24;
             {
 #ifndef NON_MATCHING
+                // TODO: Fake-match
                 u8 *vram;
                 asm("ldr %0, [%1, #0x24]" : "=r"(vram) : "r"(chaoEwramData));
                 chaoEwramData->vram24 = vram + (4 * TILE_SIZE_4BPP);
@@ -210,6 +211,7 @@ void sub_80239A8(NotificationText *chaoEwramData)
 
         if (chaoEwramData->unk1E > 0) {
             chaoEwramData->unk1E--;
+
             switch (chaoEwramData->unk1D) {
                 case 0:
                     s = &chaoEwramData->sprites2C[i];
