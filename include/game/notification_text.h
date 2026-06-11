@@ -10,8 +10,8 @@ typedef struct {
     /* 0x08 */ u16 unk8;
     /* 0x0A */ u16 unkA;
     /* 0x0C */ u8 unkC;
-    /* 0x0D */ u8 unkD;
-    /* 0x0E */ u8 unkE;
+    /* 0x0D */ s8 unkD;
+    /* 0x0E */ s8 unkE;
     /* 0x0F */ u8 unkF;
     /* 0x10 */ u8 unk10;
     /* 0x11 */ u8 unk11;

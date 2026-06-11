@@ -189,67 +189,55 @@ bool32 sub_8023734(NotificationText *chaoEwramData)
     return 0U;
 }
 
-#if 0
-void sub_80239A8(NotificationText *chaoEwramData) {
-    Sprite *temp_r1;
-    Sprite *temp_r1_2;
-    Sprite *temp_r7;
-    Sprite *var_r1;
-    s16 var_r0;
-    u8 temp_r0;
-    u8 temp_r0_2;
-    u8 var_r4;
-    u8 var_r6;
+void sub_80239A8(NotificationText *chaoEwramData)
+{
+    Sprite *sprUnk = chaoEwramData->s;
+    u8 var_r6 = chaoEwramData->unk6;
+    Sprite *s;
+    u8 i;
 
-    temp_r7 = chaoEwramData->s;
-    var_r6 = chaoEwramData->unk6;
     if (var_r6 != 0) {
         if (chaoEwramData->unk1E != 0) {
             var_r6 -= 1;
         }
-        var_r4 = 0;
-        if ((u32) var_r6 > 0U) {
-            do {
-                temp_r1 = chaoEwramData + ((var_r4 * 0x28) + 0x2C);
-                temp_r1->x += (s8) chaoEwramData->unkD;
-                temp_r1->y += (s8) chaoEwramData->unkE;
-                DisplaySprite(temp_r1);
-                var_r4 += 1;
-            } while ((u32) var_r4 < (u32) var_r6);
+
+        for (i = 0; i < var_r6; i++) {
+            s = &chaoEwramData->sprites2C[i];
+            s->x += chaoEwramData->unkD;
+            s->y += chaoEwramData->unkE;
+            DisplaySprite(s);
         }
-        temp_r0 = chaoEwramData->unk1E;
-        if (temp_r0 != 0) {
-            chaoEwramData->unk1E = temp_r0 - 1;
-            temp_r0_2 = chaoEwramData->unk1D;
-            switch (temp_r0_2) {                    /* irregular */
-            case 0:
-                var_r1 = chaoEwramData + ((var_r4 * 0x28) + 0x2C);
-block_17:
-                DisplaySprite(var_r1);
-                break;
-            case 1:
-                var_r1 = chaoEwramData + ((var_r4 * 0x28) + 0x2C);
-                var_r0 = var_r1->y + 2;
-block_16:
-                var_r1->y = var_r0;
-                goto block_17;
-            case 2:
-                var_r1 = chaoEwramData + ((var_r4 * 0x28) + 0x2C);
-                var_r0 = var_r1->y - 2;
-                goto block_16;
-            case 3:
-                temp_r1_2 = chaoEwramData + ((var_r4 * 0x28) + 0x2C);
-                temp_r1_2->x += 2;
-                DisplaySprite(temp_r1_2);
-                break;
+
+        if (chaoEwramData->unk1E > 0) {
+            chaoEwramData->unk1E--;
+            switch (chaoEwramData->unk1D) {
+                case 0:
+                    s = &chaoEwramData->sprites2C[i];
+                    DisplaySprite(s);
+                    break;
+                case 1:
+                    s = &chaoEwramData->sprites2C[i];
+                    s->y += 2;
+                    DisplaySprite(s);
+                    break;
+                case 2:
+                    s = &chaoEwramData->sprites2C[i];
+                    s->y -= 2;
+                    DisplaySprite(s);
+                    break;
+                case 3:
+                    s = &chaoEwramData->sprites2C[i];
+                    s->x += 2;
+                    DisplaySprite(s);
+                    break;
             }
         }
     }
-    if ((chaoEwramData->unk1C != 0) && (temp_r7 != NULL)) {
-        temp_r7->x = chaoEwramData->unk12 + 0xA;
-        temp_r7->y = (s16) chaoEwramData->unk14;
-        UpdateSpriteAnimation(temp_r7);
-        DisplaySprite(temp_r7);
+
+    if ((chaoEwramData->unk1C != 0) && (sprUnk != NULL)) {
+        sprUnk->x = chaoEwramData->unk12 + 0xA;
+        sprUnk->y = chaoEwramData->unk14;
+        UpdateSpriteAnimation(sprUnk);
+        DisplaySprite(sprUnk);
     }
 }
-#endif
