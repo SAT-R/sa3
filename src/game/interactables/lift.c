@@ -262,39 +262,36 @@ void sub_8033098(Sprite *s, Sprite *s2, Sprite *s3)
     UpdateSpriteAnimation(s3);
 }
 
-// (95.41%) https://decomp.me/scratch/yPSfH
-NONMATCH("asm/non_matching/game/interactables/lift__sub_8033158.inc", void sub_8033158(void))
+void sub_8033158(void)
 {
     Lift *lift = TASK_DATA(gCurTask);
     Sprite *s = &lift->s[0];
     MapEntity *me = lift->base.me;
 
-    s16 worldX, worldY;
-    s16 screenX, screenY, handleY;
+    s16 x, y, handleY;
 
-    worldX = lift->worldX;
-    worldY = lift->worldY;
-    handleY = (worldY - gCamera.y) + I(lift->unk8C);
+    x = lift->worldX;
+    y = lift->worldY;
+    handleY = (y - gCamera.y) + I(lift->unk8C);
 
-    s->x = worldX - gCamera.x;
-    s->y = worldY - gCamera.y;
+    s->x = x - gCamera.x;
+    s->y = y - gCamera.y;
 
-    if (((lift->unk8E[0] == 0) && (lift->unk8E[1] == 0)) && !sub_802C140(worldX, worldY + 0x20, s->x, s->y)) {
+    if (((lift->unk8E[0] == 0) && (lift->unk8E[1] == 0)) && !sub_802C140(x, y + 0x20, s->x, s->y)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, lift->base.meX);
         TaskDestroy(gCurTask);
         return;
     }
-    // _080331F8
 
-    screenX = s->x;
-    screenY = s->y;
+    x = s->x;
+    y = s->y;
     SPRITE_FLAG_SET(s, X_FLIP);
     DisplaySprite(s);
     SPRITE_FLAG_CLEAR(s, X_FLIP);
     DisplaySprite(s);
 
     s = &lift->s[2];
-    s->x = screenX;
+    s->x = x;
     s->y = handleY;
     SPRITE_FLAG_SET(s, X_FLIP);
     DisplaySprite(s);
@@ -303,13 +300,12 @@ NONMATCH("asm/non_matching/game/interactables/lift__sub_8033158.inc", void sub_8
 
     s = &lift->s[1];
 
-    for (; handleY > screenY; handleY -= 16) {
-        s->x = screenX;
+    for (; handleY > y; handleY -= 16) {
+        s->x = x;
         s->y = handleY;
         DisplaySprite(s);
     }
 }
-END_NONMATCH
 
 void TaskDestructor_Lift(struct Task *t)
 {
