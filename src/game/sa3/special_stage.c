@@ -1,6 +1,9 @@
 #include "global.h"
 #include "core.h"
+//#include "code_0_1.h" // WarpToMap (see comment below)
+#include "game/save.h"
 #include "game/screen_fade.h"
+#include "game/stage.h"
 
 #if 0
 s16 sa3__sub_80B1560(? (**)(s16, s16 *), u16);      /* extern */
@@ -9,7 +12,7 @@ s16 sa3__sub_80B1560(? (**)(s16, s16 *), u16);      /* extern */
 ? sub_80AB120(s32);                                 /* extern */
 ? sub_80BE46C(s32);                                 /* extern */
 void TaskDestructor_80B2224(Task *);                /* static */
-void TaskDestructor_80B759C(Task *);                /* static */
+void TaskDestructor_SpStage288(Task *);                /* static */
 void Task_80B2228();                                /* static */
 void Task_80B2358();                                /* static */
 void Task_80B3080();                                /* static */
@@ -4015,7 +4018,7 @@ void sub_80B6CD8(u8 arg0, u8 arg1, u8 arg2, u8 arg3) {
 
     temp_r7 = arg1;
     temp_r6 = arg3;
-    temp_r1 = TaskCreate(Task_80B6D78, 0x288U, 0x2000U, 0U, TaskDestructor_80B759C)->data;
+    temp_r1 = TaskCreate(Task_80B6D78, 0x288U, 0x2000U, 0U, TaskDestructor_SpStage288)->data;
     temp_r1->unk300027D = arg2;
     temp_r1->unk300027C = temp_r7;
     temp_r1->unk300027E = (u8) ((u32) (0 - arg0) >> 0x1F);
@@ -4275,56 +4278,73 @@ block_6:
         }
     }
 }
-
-void Task_80B7470(void) {
-    s32 var_r5;
-    u16 temp_r4;
-
-    temp_r4 = gCurTask->data;
-    var_r5 = 0;
-    if (gStageData.unkD == 0) {
-        if (temp_r4->unk300027E != 0) {
-            if (((0x7F & temp_r4->unk300027F) == 0x7F) && !(4 & gLoadedSaveGame.unlockFlags)) {
-                var_r5 = 1;
-                gLoadedSaveGame.unlockFlags |= 4;
-            }
-            gLoadedSaveGame.collectedEmeralds = (temp_r4 + 0x03000000)->unk27F;
-            sub_8001E58();
-        }
-        TasksDestroyInPriorityRange(0U, 0xFFFFU);
-        gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
-        gBgSpritesCount = 0;
-        gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
-        if (var_r5 != 0) {
-            sub_80AB120(0);
-            return;
-        }
-        WarpToMap((gStageData.zone * 0xA) + 2, 4);
-        return;
-    }
-    TasksDestroyInPriorityRange(0U, 0xFFFFU);
-    gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
-    gBgSpritesCount = 0;
-    gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
-    if ((temp_r4->unk3000282 != 0) || (temp_r4->unk300027E != 0)) {
-        sub_808ADF0(1);
-        return;
-    }
-    sub_80B1AF4(0U, 0U, 0U);
-}
 #endif
 
 // 0x288U
 typedef struct {
     /* 0x000 */ ScreenFade fade0;
-    /* 0x00C */ u8 fillerC[0x278];
+    /* 0x00C */ u8 fillerC[0x272];
+    /* 0x27E */ u8 unk27E;
+    /* 0x27F */ u8 unk27F;
+    /* 0x280 */ u8 filler280[0x2];
+    /* 0x282 */ u8 unk282;
+    /* 0x283 */ u8 unk283;
     /* 0x284 */ u16 unk284;
 } SpStage288;
 
+extern void sub_80AB120(u8 param0);
+extern void sub_808ADF0(u8 param0);
+extern void sub_80B1AF4(u16 param0, u16 param1, u8 param2);
 extern void sub_80B7074(void);
 extern void Task_80B7470(void);
+/* TODO: WarpToMap needs to be declared like this for the call in Task_80B7470() to match to match:
+ * 'void WarpToMap(s32 level, s16 warpId);'
+ * but level is s16 in the implementation and most other calls... */
+extern void WarpToMap(s32 level, s16 warpId);
+// declare sub_8001E58() here because of the WarpToMap issue
+void sub_8001E58(void);
 
-void TaskDestructor_80B759C(Task *arg0) { }
+void Task_80B7470(void)
+{
+    SpStage288 *temp_r4 = TASK_DATA(gCurTask);
+    s32 var_r5 = 0;
+
+    if (gStageData.unkD == 0) {
+        if (temp_r4->unk27E != 0) {
+            if (((0x7F & temp_r4->unk27F) == 0x7F) && !(4 & LOADED_SAVE->unlockFlags)) {
+                var_r5 = 1;
+                LOADED_SAVE->unlockFlags |= 4;
+            }
+            LOADED_SAVE->collectedEmeralds = temp_r4->unk27F;
+            sub_8001E58();
+        }
+
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
+        gBgSpritesCount = 0;
+        PAUSE_GRAPHICS_QUEUE();
+
+        if (var_r5 != 0) {
+            sub_80AB120(0);
+        } else {
+            s16 zone = gStageData.zone;
+            WarpToMap(LEVEL_INDEX(zone, 2), 4);
+        }
+    } else {
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
+        gBgSpritesCount = 0;
+        PAUSE_GRAPHICS_QUEUE();
+
+        if ((temp_r4->unk282 != 0) || (temp_r4->unk27E != 0)) {
+            sub_808ADF0(1);
+        } else {
+            sub_80B1AF4(0U, 0U, 0U);
+        }
+    }
+}
+
+void TaskDestructor_SpStage288(Task *t) { }
 
 void Task_80B75A0(void)
 {

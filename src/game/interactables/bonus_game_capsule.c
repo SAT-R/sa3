@@ -908,7 +908,7 @@ void Task_803A978(void)
                 gBgSpritesCount = 0;
                 gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
 
-                WarpToMap(gStageData.zone * 10 + 2, 6);
+                WarpToMap(LEVEL_INDEX(gStageData.zone, 2), 6);
                 return;
             }
         } else {
@@ -940,7 +940,7 @@ void Task_803AA28(void)
                 gBgSpritesCount = 0;
                 gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
 
-                WarpToMap(gStageData.zone * 10 + 2, 6);
+                WarpToMap(LEVEL_INDEX(gStageData.zone, 2), 6);
                 return;
             }
         } else {

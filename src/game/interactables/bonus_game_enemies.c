@@ -704,11 +704,11 @@ void Task_803CEE4(void)
             if (UpdateScreenFade(&ui->fade) != SCREEN_FADE_RUNNING) {
                 TasksDestroyAll();
 
-                gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
+                PAUSE_BACKGROUNDS_QUEUE();
                 gBgSpritesCount = 0;
-                gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+                PAUSE_GRAPHICS_QUEUE();
 
-                WarpToMap((gStageData.zone * 10) + 2, 7);
+                WarpToMap(LEVEL_INDEX(gStageData.zone, 2), 7);
                 return;
             }
         } else {
@@ -888,9 +888,9 @@ void Task_803D248(void)
             if (UpdateScreenFade(&ui->fade) != SCREEN_FADE_RUNNING) {
                 TasksDestroyAll();
 
-                gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
+                PAUSE_BACKGROUNDS_QUEUE();
                 gBgSpritesCount = 0;
-                gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+                PAUSE_GRAPHICS_QUEUE();
 
                 WarpToMap((gStageData.zone * 10) + 2, 7);
                 return;
@@ -942,9 +942,9 @@ void Task_803D39C(void)
             if (UpdateScreenFade(&ui->fade) != SCREEN_FADE_RUNNING) {
                 TasksDestroyAll();
 
-                gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
+                PAUSE_BACKGROUNDS_QUEUE();
                 gBgSpritesCount = 0;
-                gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+                PAUSE_GRAPHICS_QUEUE();
 
                 WarpToMap((gStageData.zone * 10) + 2, 7);
                 return;

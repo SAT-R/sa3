@@ -10341,7 +10341,7 @@ sub_80B6CD8: @ 0x080B6CD8
 	lsls r1, r1, #2     @ 0x288
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r3, _080B6D4C @ =TaskDestructor_80B759C
+	ldr r3, _080B6D4C @ =TaskDestructor_SpStage288
 	str r3, [sp]
 	movs r3, #0
 	bl TaskCreate
@@ -10381,7 +10381,7 @@ sub_80B6CD8: @ 0x080B6CD8
 	b _080B6D6E
 	.align 2, 0
 _080B6D48: .4byte Task_80B6D78
-_080B6D4C: .4byte TaskDestructor_80B759C
+_080B6D4C: .4byte TaskDestructor_SpStage288
 _080B6D50: .4byte 0x0300027D
 _080B6D54: .4byte 0x0300027C
 _080B6D58: .4byte 0x0300027E
@@ -11234,142 +11234,6 @@ _080B7462:
 	bx r0
 	.align 2, 0
 _080B746C: .4byte 0x03000282
-
-	thumb_func_start Task_80B7470
-Task_80B7470: @ 0x080B7470
-	push {r4, r5, r6, lr}
-	ldr r0, _080B74F4 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r6, r4, r0
-	movs r5, #0
-	ldr r0, _080B74F8 @ =gStageData
-	ldrb r0, [r0, #0xd]
-	cmp r0, #0
-	bne _080B7538
-	ldr r1, _080B74FC @ =0x0300027E
-	adds r0, r4, r1
-	ldrb r0, [r0]
-	cmp r0, #0
-	beq _080B74C8
-	adds r1, #1
-	adds r0, r4, r1
-	ldrb r1, [r0]
-	movs r0, #0x7f
-	ands r0, r1
-	ldr r2, _080B7500 @ =gLoadedSaveGame
-	cmp r0, #0x7f
-	bne _080B74B8
-	adds r3, r2, #0
-	adds r3, #0x33
-	ldrb r1, [r3]
-	movs r0, #4
-	ands r0, r1
-	cmp r0, #0
-	bne _080B74B8
-	movs r5, #1
-	movs r0, #4
-	orrs r0, r1
-	strb r0, [r3]
-_080B74B8:
-	ldr r1, _080B7504 @ =0x0000027F
-	adds r0, r6, r1
-	ldrb r1, [r0]
-	adds r0, r2, #0
-	adds r0, #0x32
-	strb r1, [r0]
-	bl sub_8001E58
-_080B74C8:
-	ldr r1, _080B7508 @ =0x0000FFFF
-	movs r0, #0
-	bl TasksDestroyInPriorityRange
-	ldr r1, _080B750C @ =gBackgroundsCopyQueueCursor
-	ldr r0, _080B7510 @ =gBackgroundsCopyQueueIndex
-	ldrb r0, [r0]
-	strb r0, [r1]
-	ldr r1, _080B7514 @ =gBgSpritesCount
-	movs r0, #0
-	strb r0, [r1]
-	ldr r1, _080B7518 @ =gVramGraphicsCopyCursor
-	ldr r0, _080B751C @ =gVramGraphicsCopyQueueIndex
-	ldrb r0, [r0]
-	strb r0, [r1]
-	cmp r5, #0
-	beq _080B7520
-	movs r0, #0
-	bl sub_80AB120
-	b _080B7596
-	.align 2, 0
-_080B74F4: .4byte gCurTask
-_080B74F8: .4byte gStageData
-_080B74FC: .4byte 0x0300027E
-_080B7500: .4byte gLoadedSaveGame
-_080B7504: .4byte 0x0000027F
-_080B7508: .4byte 0x0000FFFF
-_080B750C: .4byte gBackgroundsCopyQueueCursor
-_080B7510: .4byte gBackgroundsCopyQueueIndex
-_080B7514: .4byte gBgSpritesCount
-_080B7518: .4byte gVramGraphicsCopyCursor
-_080B751C: .4byte gVramGraphicsCopyQueueIndex
-_080B7520:
-	ldr r0, _080B7534 @ =gStageData
-	ldrb r1, [r0, #9]
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #1
-	adds r0, #2
-	movs r1, #4
-	bl WarpToMap
-	b _080B7596
-	.align 2, 0
-_080B7534: .4byte gStageData
-_080B7538:
-	ldr r1, _080B7570 @ =0x0000FFFF
-	movs r0, #0
-	bl TasksDestroyInPriorityRange
-	ldr r1, _080B7574 @ =gBackgroundsCopyQueueCursor
-	ldr r0, _080B7578 @ =gBackgroundsCopyQueueIndex
-	ldrb r0, [r0]
-	strb r0, [r1]
-	ldr r0, _080B757C @ =gBgSpritesCount
-	strb r5, [r0]
-	ldr r1, _080B7580 @ =gVramGraphicsCopyCursor
-	ldr r0, _080B7584 @ =gVramGraphicsCopyQueueIndex
-	ldrb r0, [r0]
-	strb r0, [r1]
-	ldr r1, _080B7588 @ =0x03000282
-	adds r0, r4, r1
-	ldrb r0, [r0]
-	cmp r0, #0
-	bne _080B7568
-	subs r1, #4
-	adds r0, r4, r1
-	ldrb r0, [r0]
-	cmp r0, #0
-	beq _080B758C
-_080B7568:
-	movs r0, #1
-	bl sub_808ADF0
-	b _080B7596
-	.align 2, 0
-_080B7570: .4byte 0x0000FFFF
-_080B7574: .4byte gBackgroundsCopyQueueCursor
-_080B7578: .4byte gBackgroundsCopyQueueIndex
-_080B757C: .4byte gBgSpritesCount
-_080B7580: .4byte gVramGraphicsCopyCursor
-_080B7584: .4byte gVramGraphicsCopyQueueIndex
-_080B7588: .4byte 0x03000282
-_080B758C:
-	movs r0, #0
-	movs r1, #0
-	movs r2, #0
-	bl sub_80B1AF4
-_080B7596:
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
 
 .if 0
 .endif

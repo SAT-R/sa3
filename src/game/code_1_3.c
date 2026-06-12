@@ -2734,7 +2734,7 @@ void Task_10_8056A58(void)
 #ifdef BUG_FIX
     // BUG: Use-after-free.
     //      Retrieve the value before destroying the task.
-    u16 levelId = strc10->levelId;
+    s16 levelId = strc10->levelId;
 #endif
 
     TasksDestroyAll();
