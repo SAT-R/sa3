@@ -14,27 +14,34 @@
 #include "constants/move_states.h"
 #include "constants/songs.h"
 
+#define LIFT_SPRITE_PLATFORM   0
+#define LIFT_SPRITE_CHAIN_LINK 1
+#define LIFT_SPRITE_HANDLE     2
+
+#define LIFT_VERTICAL_SPEED       Q(2)
+#define LIFT_MINIMUM_CHAIN_LENGTH Q(8)
+#define LIFT_MAXIMUM_CHAIN_LENGTH Q(120) // Also the resting length when idle
+
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s[3];
     /* 0x84 */ s32 worldX;
     /* 0x88 */ s32 worldY;
-    /* 0x8C */ s16 unk8C;
-    /* 0x8E */ u8 unk8E[NUM_SINGLE_PLAYER_CHARS];
+    /* 0x8C */ s16 qChainLength;
+    /* 0x8E */ bool8 playerHoldsHandle[NUM_SINGLE_PLAYER_CHARS];
 } Lift; /* 0x90 */
 
 void Task_LiftIdle(void);
 void TaskDestructor_Lift(struct Task *t);
-void Task_8032D64(void);
-void sub_8032FDC(void);
-void sub_8033158(void);
-void sub_8033098(Sprite *s, Sprite *s2, Sprite *s3);
+void Task_LiftLiftPlayerUp(void);
+void Task_LiftBringHandleBackDown(void);
+void Task_LiftDrawSpritesOrDestroy(void);
+void Task_LiftInitSprites(Sprite *spritePlatform, Sprite *spriteChainLink, Sprite *spriteHandle);
 
 void CreateEntity_Lift(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_LiftIdle, sizeof(Lift), 0x2100, 0, TaskDestructor_Lift);
     Lift *lift = TASK_DATA(t);
-    Sprite *s, *s2, *s3;
 
     lift->base.regionX = regionX;
     lift->base.regionY = regionY;
@@ -42,89 +49,88 @@ void CreateEntity_Lift(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     lift->base.meX = me->x;
     lift->base.id = id;
 
-    lift->unk8C = Q(120);
-    lift->unk8E[0] = 0;
-    lift->unk8E[1] = 0;
+    lift->qChainLength = LIFT_MAXIMUM_CHAIN_LENGTH;
+    lift->playerHoldsHandle[0] = FALSE;
+    lift->playerHoldsHandle[1] = FALSE;
 
     lift->worldX = TO_WORLD_POS(lift->base.meX, lift->base.regionX);
     lift->worldY = TO_WORLD_POS(me->y, lift->base.regionY) - 32;
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
-    sub_8033098(&lift->s[0], &lift->s[1], &lift->s[2]);
+    Task_LiftInitSprites(&lift->s[LIFT_SPRITE_PLATFORM], &lift->s[LIFT_SPRITE_CHAIN_LINK], &lift->s[LIFT_SPRITE_HANDLE]);
 }
 
 void Task_LiftIdle(void)
 {
-    Sprite *s;
-    Sprite *s2;
+    Sprite *spritePlatform;
+    Sprite *spriteHandle;
     Player *p;
     u8 i;
 
-    bool32 sp10 = 0;
+    bool32 handleHeld = 0;
     Lift *lift = TASK_DATA(gCurTask);
-    s = &lift->s[0];
-    s2 = &lift->s[2];
+    spritePlatform = &lift->s[LIFT_SPRITE_PLATFORM];
+    spriteHandle = &lift->s[LIFT_SPRITE_HANDLE];
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        lift->unk8E[i] = 0;
+        lift->playerHoldsHandle[i] = FALSE;
         p = GET_SP_PLAYER_V1(i);
 
         if (!sub_802C0D4(p)) {
-            u32 res = sub_8020950(s, lift->worldX, lift->worldY, p, 0);
+            u32 res = sub_8020950(spritePlatform, lift->worldX, lift->worldY, p, 0);
 
             if (res & 0x10000) {
                 p->qWorldY += Q_8_8(res);
             }
 
-            if (sub_8020700(s2, lift->worldX, lift->worldY + 120, 0, p, 0) == TRUE) {
+            if (sub_8020700(spriteHandle, lift->worldX, lift->worldY + I(LIFT_MAXIMUM_CHAIN_LENGTH), 0, p, 0) == TRUE) {
                 sub_8016F28(p);
 
                 p->charFlags.unk2C_04 = 0;
 
                 SetPlayerCallback(p, Player_800A168);
 
-                lift->unk8E[i] = 1;
-                sp10 = 1;
+                lift->playerHoldsHandle[i] = TRUE;
+                handleHeld = TRUE;
             }
         }
     }
 
-    if (sp10) {
+    if (handleHeld) {
         sub_8003DF0(SE_LIFT);
-        gCurTask->main = Task_8032D64;
+        gCurTask->main = Task_LiftLiftPlayerUp;
     }
 
-    sub_8033158();
+    Task_LiftDrawSpritesOrDestroy();
 }
 
-void Task_8032D64(void)
+void Task_LiftLiftPlayerUp(void)
 {
     Lift *lift = TASK_DATA(gCurTask);
-    Sprite *s = &lift->s[0];
-    Sprite *s2 = &lift->s[2];
+    Sprite *spritePlatform = &lift->s[LIFT_SPRITE_PLATFORM];
+    Sprite *spriteHandle = &lift->s[LIFT_SPRITE_HANDLE];
     s32 worldX, worldY;
-    s32 qRight, qLeft;
     u8 i;
 
-    lift->unk8C -= Q(2);
+    lift->qChainLength -= LIFT_VERTICAL_SPEED;
 
-    if (lift->unk8C < Q(8)) {
-        lift->unk8C = Q(8);
+    if (lift->qChainLength < LIFT_MINIMUM_CHAIN_LENGTH) {
+        lift->qChainLength = LIFT_MINIMUM_CHAIN_LENGTH;
         sub_8003E28(SE_LIFT);
     }
 
     worldX = lift->worldX;
-    worldY = lift->worldY + I(lift->unk8C);
+    worldY = lift->worldY + I(lift->qChainLength);
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         Player *p = GET_SP_PLAYER_V1(i);
 
         if ((p->charFlags.someIndex != 1) && (p->charFlags.someIndex != 2) && (p->charFlags.someIndex != 4)) {
-            lift->unk8E[i] = 0;
+            lift->playerHoldsHandle[i] = FALSE;
         } else {
             if (!sub_802C0D4(p)) {
-                u32 res = sub_8020950(s, lift->worldX, lift->worldY, p, 0);
+                u32 res = sub_8020950(spritePlatform, lift->worldX, lift->worldY, p, 0);
 
                 if (res & 0x10000) {
                     p->qWorldY += Q_8_8(res);
@@ -133,15 +139,15 @@ void Task_8032D64(void)
 
             if (p->moveState & (MOVESTATE_1000000 | MOVESTATE_DEAD)) {
                 p->moveState &= ~MOVESTATE_10000000;
-                lift->unk8E[i] = 0;
+                lift->playerHoldsHandle[i] = FALSE;
             }
 
             if (p->callback == Player_800D944) {
                 p->moveState &= ~MOVESTATE_10000000;
-                lift->unk8E[i] = 0;
+                lift->playerHoldsHandle[i] = FALSE;
             }
 
-            if (lift->unk8E[i] != 0) {
+            if (lift->playerHoldsHandle[i] != FALSE) {
                 p->charFlags.anim0 = 122;
 
                 p->qSpeedAirX = Q(0);
@@ -162,41 +168,41 @@ void Task_8032D64(void)
 
                     p->qSpeedAirY = -Q(5);
                     p->qSpeedAirX = +Q(0);
-                    lift->unk8E[i] = 0;
+                    lift->playerHoldsHandle[i] = FALSE;
                 }
             } else if ((!sub_802C0D4(p)) && (p->qSpeedAirY > 0)) {
-                if (sub_8020700(s2, lift->worldX, lift->worldY + I(lift->unk8C), 0, p, 0) == TRUE) {
+                if (sub_8020700(spriteHandle, lift->worldX, lift->worldY + I(lift->qChainLength), 0, p, 0) == TRUE) {
                     sub_8016F28(p);
 
                     p->charFlags.unk2C_04 = 0;
 
                     SetPlayerCallback(p, Player_800A168);
 
-                    lift->unk8E[i] = 1;
+                    lift->playerHoldsHandle[i] = TRUE;
                 }
             }
         }
     }
 
-    if ((lift->unk8E[0] == 0) && (lift->unk8E[1] == 0)) {
+    if ((lift->playerHoldsHandle[0] == FALSE) && (lift->playerHoldsHandle[1] == FALSE)) {
         sub_8003E28(SE_LIFT);
-        gCurTask->main = sub_8032FDC;
+        gCurTask->main = Task_LiftBringHandleBackDown;
     }
 
-    sub_8033158();
+    Task_LiftDrawSpritesOrDestroy();
 }
 
-void sub_8032FDC(void)
+void Task_LiftBringHandleBackDown(void)
 {
     Lift *lift = TASK_DATA(gCurTask);
-    Sprite *s = &lift->s[0];
+    Sprite *spritePlatform = &lift->s[LIFT_SPRITE_PLATFORM];
     Player *p;
     u8 i;
 
-    lift->unk8C += Q(2);
+    lift->qChainLength += LIFT_VERTICAL_SPEED;
 
-    if (lift->unk8C >= Q(120)) {
-        lift->unk8C = Q(120);
+    if (lift->qChainLength >= LIFT_MAXIMUM_CHAIN_LENGTH) {
+        lift->qChainLength = LIFT_MAXIMUM_CHAIN_LENGTH;
         gCurTask->main = Task_LiftIdle;
     }
 
@@ -204,7 +210,7 @@ void sub_8032FDC(void)
         p = GET_SP_PLAYER_V1(i);
 
         if (!sub_802C0D4(p)) {
-            u32 res = sub_8020950(s, lift->worldX, lift->worldY, p, 0);
+            u32 res = sub_8020950(spritePlatform, lift->worldX, lift->worldY, p, 0);
 
             if (res & 0x10000) {
                 p->qWorldY += Q_8_8(res);
@@ -212,97 +218,101 @@ void sub_8032FDC(void)
         }
     }
 
-    sub_8033158();
+    Task_LiftDrawSpritesOrDestroy();
 }
 
-void sub_8033098(Sprite *s, Sprite *s2, Sprite *s3)
+void Task_LiftInitSprites(Sprite *spritePlatform, Sprite *spriteChainLink, Sprite *spriteHandle)
 {
     void *tiles = VramMalloc(MAX_TILES_VARIANT(ANIM_LIFT, 0) + MAX_TILES_VARIANT(ANIM_LIFT, 1) + MAX_TILES_VARIANT(ANIM_LIFT, 2));
 
-    s->tiles = tiles;
-    s->oamFlags = SPRITE_OAM_ORDER(24);
-    s->anim = ANIM_LIFT;
-    s->variant = 2;
-    s->qAnimDelay = Q(0);
-    s->prevVariant = -1;
-    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
-    s->palId = 0;
-    s->x = 0;
-    s->y = 0;
-    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    spritePlatform->tiles = tiles;
+    spritePlatform->oamFlags = SPRITE_OAM_ORDER(24);
+    spritePlatform->anim = ANIM_LIFT;
+    spritePlatform->variant = 2;
+    spritePlatform->qAnimDelay = Q(0);
+    spritePlatform->prevVariant = -1;
+    spritePlatform->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    spritePlatform->palId = 0;
+    spritePlatform->x = 0;
+    spritePlatform->y = 0;
+    spritePlatform->frameFlags = SPRITE_FLAG(PRIORITY, 1);
 
     tiles += MAX_TILES_VARIANT(ANIM_LIFT, 2) * TILE_SIZE_4BPP;
-    s2->tiles = tiles;
-    s2->oamFlags = SPRITE_OAM_ORDER(25);
-    s2->anim = ANIM_LIFT;
-    s2->variant = 1;
-    s2->qAnimDelay = Q(0);
-    s2->prevVariant = -1;
-    s2->animSpeed = SPRITE_ANIM_SPEED(1.0);
-    s2->palId = 0;
-    s2->x = 0;
-    s2->y = 0;
-    s2->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    spriteChainLink->tiles = tiles;
+    spriteChainLink->oamFlags = SPRITE_OAM_ORDER(25);
+    spriteChainLink->anim = ANIM_LIFT;
+    spriteChainLink->variant = 1;
+    spriteChainLink->qAnimDelay = Q(0);
+    spriteChainLink->prevVariant = -1;
+    spriteChainLink->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    spriteChainLink->palId = 0;
+    spriteChainLink->x = 0;
+    spriteChainLink->y = 0;
+    spriteChainLink->frameFlags = SPRITE_FLAG(PRIORITY, 1);
 
     tiles += MAX_TILES_VARIANT(ANIM_LIFT, 1) * TILE_SIZE_4BPP;
-    s3->tiles = tiles;
-    s3->oamFlags = SPRITE_OAM_ORDER(24);
-    s3->anim = ANIM_LIFT;
-    s3->variant = 0;
-    s3->qAnimDelay = Q(0);
-    s3->prevVariant = -1;
-    s3->animSpeed = SPRITE_ANIM_SPEED(1.0);
-    s3->palId = 0;
-    s3->x = 0;
-    s3->y = 0;
-    s3->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+    spriteHandle->tiles = tiles;
+    spriteHandle->oamFlags = SPRITE_OAM_ORDER(24);
+    spriteHandle->anim = ANIM_LIFT;
+    spriteHandle->variant = 0;
+    spriteHandle->qAnimDelay = Q(0);
+    spriteHandle->prevVariant = -1;
+    spriteHandle->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    spriteHandle->palId = 0;
+    spriteHandle->x = 0;
+    spriteHandle->y = 0;
+    spriteHandle->frameFlags = SPRITE_FLAG(PRIORITY, 1);
 
-    UpdateSpriteAnimation(s);
-    UpdateSpriteAnimation(s2);
-    UpdateSpriteAnimation(s3);
+    UpdateSpriteAnimation(spritePlatform);
+    UpdateSpriteAnimation(spriteChainLink);
+    UpdateSpriteAnimation(spriteHandle);
 }
 
-void sub_8033158(void)
+void Task_LiftDrawSpritesOrDestroy(void)
 {
     Lift *lift = TASK_DATA(gCurTask);
-    Sprite *s = &lift->s[0];
+    Sprite *s = &lift->s[LIFT_SPRITE_PLATFORM];
     MapEntity *me = lift->base.me;
 
-    s16 x, y, handleY;
+    s16 screenX, screenYPlatform;
+    s16 worldX, worldY;
+    s16 handleY, linkY;
 
-    x = lift->worldX;
-    y = lift->worldY;
-    handleY = (y - gCamera.y) + I(lift->unk8C);
+    worldX = screenX = lift->worldX;
+    worldY = screenYPlatform = lift->worldY;
+    handleY = (worldY - gCamera.y) + I(lift->qChainLength);
 
-    s->x = x - gCamera.x;
-    s->y = y - gCamera.y;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
 
-    if (((lift->unk8E[0] == 0) && (lift->unk8E[1] == 0)) && !sub_802C140(x, y + 0x20, s->x, s->y)) {
+    if (((lift->playerHoldsHandle[0] == FALSE) && (lift->playerHoldsHandle[1] == FALSE))
+        && !sub_802C140(worldX, worldY + 0x20, s->x, s->y)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, lift->base.meX);
         TaskDestroy(gCurTask);
         return;
     }
 
-    x = s->x;
-    y = s->y;
+    screenX = s->x;
+    screenYPlatform = s->y;
     SPRITE_FLAG_SET(s, X_FLIP);
     DisplaySprite(s);
     SPRITE_FLAG_CLEAR(s, X_FLIP);
     DisplaySprite(s);
 
-    s = &lift->s[2];
-    s->x = x;
+    s = &lift->s[LIFT_SPRITE_HANDLE];
+    s->x = screenX;
     s->y = handleY;
+    linkY = handleY;
     SPRITE_FLAG_SET(s, X_FLIP);
     DisplaySprite(s);
     SPRITE_FLAG_CLEAR(s, X_FLIP);
     DisplaySprite(s);
 
-    s = &lift->s[1];
+    s = &lift->s[LIFT_SPRITE_CHAIN_LINK];
 
-    for (; handleY > y; handleY -= 16) {
-        s->x = x;
-        s->y = handleY;
+    for (; linkY > screenYPlatform; linkY -= 16) {
+        s->x = screenX;
+        s->y = linkY;
         DisplaySprite(s);
     }
 }
