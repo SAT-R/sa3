@@ -5786,7 +5786,7 @@ sub_80B48A4: @ 0x080B48A4
 	adds r5, r5, r0
 	movs r0, #1
 	strb r0, [r5]
-	ldr r0, _080B4948 @ =0x0000020E
+	ldr r0, _080B4948 @ =0x0000020E @ SE_526
 	bl m4aSongNumStart
 	mov r0, sb
 	add sp, #4
