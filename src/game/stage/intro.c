@@ -89,10 +89,24 @@ void TaskDestructor_StageIntro(struct Task *t);
 void sub_80578EC(s32, s32);
 u32 sub_80C4C0C(u16 color);
 
-extern s16 gUnknown_080D1D58[];
-extern s8 gUnknown_080D1D7C[][2];
-extern const TileInfo2 gUnknown_080D1D88[];
-extern u8 gUnknown_080D1E18[6];
+const s16 gUnknown_080D1D58[] = {
+    180, 180, 180, 180, 180, 180, 180, 180, 180, 180, 180, 180, 180, 180, 180, 180, 180, 180,
+};
+
+const s8 gUnknown_080D1D7C[][2] = {
+    { 0x12, 0x12 }, { 0x12, 0x11 }, { 0x19, 0x19 }, { 0x14, 0x13 }, { 0x0E, 0x0E }, { 0x1A, 0x1A },
+};
+
+static const TileInfo2 sTileInfoActNames[] = {
+    { ANIM_ACT_NAMES_JP, 0, 18 },  { ANIM_ACT_NAMES_JP, 1, 26 },  { ANIM_ACT_NAMES_JP, 2, 28 },
+    { ANIM_ACT_NAMES_JP, 3, 24 },  { ANIM_ACT_NAMES_JP, 4, 28 },  { ANIM_ACT_NAMES_JP, 5, 28 },
+    { ANIM_ACT_NAMES_JP, 6, 28 },  { ANIM_ACT_NAMES_JP, 7, 28 },  { ANIM_ACT_NAMES_JP, 8, 28 }, //
+    { ANIM_ACT_NAMES_ENG, 0, 24 }, { ANIM_ACT_NAMES_ENG, 1, 28 }, { ANIM_ACT_NAMES_ENG, 2, 28 },
+    { ANIM_ACT_NAMES_ENG, 3, 28 }, { ANIM_ACT_NAMES_ENG, 4, 28 }, { ANIM_ACT_NAMES_ENG, 5, 28 },
+    { ANIM_ACT_NAMES_ENG, 6, 28 }, { ANIM_ACT_NAMES_ENG, 7, 28 }, { ANIM_ACT_NAMES_ENG, 8, 28 },
+};
+
+const u8 gUnknown_080D1E18[6] = { 0, 3, 1, 2, 4, 6 };
 
 void CreateStageIntroScreenFade(void)
 {
@@ -109,7 +123,7 @@ void CreateStageIntroScreenFade(void)
 
 void sub_8056AFC(u8 param0)
 {
-    struct Task *t = TaskCreate(Task_70_8057054, sizeof(StageIntro_70), 0x84 << 6, 0, NULL);
+    struct Task *t = TaskCreate(Task_70_8057054, sizeof(StageIntro_70), 0x2100, 0, NULL);
     StageIntro_70 *strc70 = TASK_DATA(t);
 
     strc70->unk0 = param0;
@@ -118,8 +132,8 @@ void sub_8056AFC(u8 param0)
     strc70->unk2 = DISPLAY_HEIGHT;
     strc70->unk3 = 16;
 
-    gDispCnt |= 0x4000;
-    gDispCnt &= ~0x2000;
+    gDispCnt |= DISPCNT_WIN1_ON;
+    gDispCnt &= ~DISPCNT_WIN0_ON;
 
     gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, DISPLAY_WIDTH);
     gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, DISPLAY_HEIGHT);
@@ -280,8 +294,8 @@ void CreateStageIntro(void)
     s->tiles = var_r2;
     s = &strc->sprites20[0];
     s->oamFlags = 0;
-    s->anim = gUnknown_080D1D88[strc->unk1 + var_r3].anim;
-    s->variant = gUnknown_080D1D88[strc->unk1 + var_r3].variant;
+    s->anim = sTileInfoActNames[strc->unk1 + var_r3].anim;
+    s->variant = sTileInfoActNames[strc->unk1 + var_r3].variant;
     s->qAnimDelay = 0;
     s->prevVariant = -1;
     s->animSpeed = 0x10;
@@ -291,7 +305,7 @@ void CreateStageIntro(void)
     s->frameFlags = 0x3000;
     sp1C = var_r2;
     UpdateSpriteAnimation(s);
-    var_r2 = var_r2 + 0x380;
+    var_r2 += 0x380;
 
     for (var_r4 = 0; var_r4 < 3; var_r4++) {
         s = &strc->spritesC0[var_r4];
@@ -433,9 +447,9 @@ void Task_70_8057054(void)
     var_r1 = (LOADED_SAVE->language != JAPANESE) ? 9 : 0;
 
     s = &strc70->s;
-    s->tiles = VramMalloc(gUnknown_080D1D88[zone + var_r1].numTiles);
-    s->anim = gUnknown_080D1D88[zone + var_r1].anim;
-    s->variant = gUnknown_080D1D88[zone + var_r1].variant;
+    s->tiles = VramMalloc(sTileInfoActNames[zone + var_r1].numTiles);
+    s->anim = sTileInfoActNames[zone + var_r1].anim;
+    s->variant = sTileInfoActNames[zone + var_r1].variant;
     s->oamFlags = 0x480;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -893,11 +907,11 @@ void Task_84_8057B70()
     }
 
     temp_r6 = strc84->zone;
-    tiles = VramMalloc(gUnknown_080D1D88[temp_r6 + var_r1].numTiles);
+    tiles = VramMalloc(sTileInfoActNames[temp_r6 + var_r1].numTiles);
     s = &strc84->s;
     s->tiles = tiles;
-    s->anim = gUnknown_080D1D88[temp_r6 + var_r1].anim;
-    s->variant = gUnknown_080D1D88[temp_r6 + var_r1].variant;
+    s->anim = sTileInfoActNames[temp_r6 + var_r1].anim;
+    s->variant = sTileInfoActNames[temp_r6 + var_r1].variant;
     s->prevVariant = -1;
     s->x = I(strc84->unk14);
     s->y = I(strc84->unk18);

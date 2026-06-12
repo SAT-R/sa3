@@ -18,6 +18,7 @@
 #include "game/save.h"
 #include "game/stage.h"
 #include "constants/animations.h"
+#include "constants/move_states.h"
 #include "constants/songs.h"
 
 /* TODO: Cleanup declarations and *possibly* split this module.
@@ -2558,12 +2559,12 @@ void Task_38_80566A8(void)
     p->charFlags.anim0 = 0;
     p->qWorldX = Q(7296);
     p->qWorldY = Q(1714);
-    p->moveState &= ~0x10010001;
+    p->moveState &= ~(MOVESTATE_10000000 | MOVESTATE_GRAVITY_SWITCHED | MOVESTATE_FACING_LEFT);
 
     partner->charFlags.anim0 = 0;
     partner->qWorldX = Q(7296) - Q(32);
     partner->qWorldY = Q(1714);
-    partner->moveState &= ~0x10010001;
+    partner->moveState &= ~(MOVESTATE_10000000 | MOVESTATE_GRAVITY_SWITCHED | MOVESTATE_FACING_LEFT);
 
     gCamera.x = 7216;
     gCamera.SA2_LABEL(unk10) = 7216;
@@ -2627,17 +2628,15 @@ void sub_8056818(void)
     p->charFlags.anim0 = 0;
     p->qWorldX = Q(7968);
     p->qWorldY = Q(754);
-    p->moveState &= ~0x10010001;
+    p->moveState &= ~(MOVESTATE_10000000 | MOVESTATE_GRAVITY_SWITCHED | MOVESTATE_FACING_LEFT);
 
     partner->charFlags.anim0 = 0;
     partner->qWorldX = Q(7968) - Q(32);
     partner->qWorldY = Q(754);
-    partner->moveState &= ~0x10010001;
+    partner->moveState &= ~(MOVESTATE_10000000 | MOVESTATE_GRAVITY_SWITCHED | MOVESTATE_FACING_LEFT);
 
-    gCamera.x = 7888;
-    gCamera.SA2_LABEL(unk10) = 7888;
-    gCamera.y = 644;
-    gCamera.SA2_LABEL(unk14) = 644;
+    gCamera.SA2_LABEL(unk10) = gCamera.x = 7888;
+    gCamera.SA2_LABEL(unk14) = gCamera.y = 644;
 }
 
 void Task_38_8056884(void)
@@ -2666,12 +2665,12 @@ void sub_80568CC(void)
     p->charFlags.anim0 = 0;
     p->qWorldX = Q(12768);
     p->qWorldY = Q(274);
-    p->moveState &= ~0x10010001;
+    p->moveState &= ~(MOVESTATE_10000000 | MOVESTATE_GRAVITY_SWITCHED | MOVESTATE_FACING_LEFT);
 
     partner->charFlags.anim0 = 0;
     partner->qWorldX = Q(12768) - Q(32);
     partner->qWorldY = Q(274);
-    partner->moveState &= ~0x10010001;
+    partner->moveState &= ~(MOVESTATE_10000000 | MOVESTATE_GRAVITY_SWITCHED | MOVESTATE_FACING_LEFT);
 
     gCamera.x = 12688;
     gCamera.SA2_LABEL(unk10) = 12688;
