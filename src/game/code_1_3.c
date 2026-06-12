@@ -2261,12 +2261,12 @@ void TaskDestructor_8056104(Task *t)
     VramFree(temp_r4->s2.tiles);
 }
 
-void sub_8056120(u16 arg0)
+void sub_8056120(u16 levelId)
 {
     Strc_10_8056120 *strc;
 
     strc = TASK_DATA(TaskCreate(Task_10_8056984, sizeof(Strc_10_8056120), 0x100U, 0U, NULL));
-    strc->levelId = arg0;
+    strc->levelId = levelId;
     strc->fade.window = 0;
     strc->fade.flags = 1;
     strc->fade.brightness = 0;
@@ -2732,11 +2732,20 @@ void Task_8056A20(void)
 void Task_10_8056A58(void)
 {
     Strc_10_8056120 *strc10 = TASK_DATA(gCurTask);
+#ifdef BUG_FIX
+    // BUG: Use-after-free.
+    //      Retrieve the value before destroying the task.
+    u16 levelId = strc10->levelId;
+#endif
 
     TasksDestroyAll();
     PAUSE_BACKGROUNDS_QUEUE();
     gBgSpritesCount = 0;
     PAUSE_GRAPHICS_QUEUE();
 
+#ifndef BUG_FIX
     WarpToMap(strc10->levelId, 0);
+#else
+    WarpToMap(levelId, 0);
+#endif
 }

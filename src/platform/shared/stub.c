@@ -41,7 +41,6 @@ u8 gUnknown_03006C20 = 0;
 
 void Stop() { }
 
-void CreateChaoMap() { }
 s16 sub_8023E04() { return 0; }
 bool32 sub_8023E80(void) { return FALSE; }
 u16 sub_8023EFC(void) { return 0; }
