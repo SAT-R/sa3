@@ -199,11 +199,11 @@ gUnknown_080CEE40:
 
     .global gTilemapIdsChaoMap
 gTilemapIdsChaoMap:
-    .incbin "baserom_sa3.gba", 0x000CEEC0, 0xC
+    .short 0x1BF, 0x01C0, 0x01C1, 0x01C2, 0x01C3, 0x01C4
 
     .global gUnknown_080CEECC
 gUnknown_080CEECC:
-    .incbin "baserom_sa3.gba", 0x000CEECC, 0xC
+    .byte 0, 2, 4, 6, 8, 1, 3, 5, 7, 9, 0, 0
 
     .global gUnknown_080CEED8
 gUnknown_080CEED8:
