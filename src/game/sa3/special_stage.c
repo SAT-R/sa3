@@ -80,7 +80,7 @@ void sub_80B6538(? *arg0);                          /* static */
 s16 sub_80B65FC(s32 arg0, ? *arg1, s32);            /* static */
 void sub_80B6778(void *arg0, ? *arg1, s32, s32, s32); /* static */
 s32 sub_80B67C4(? *arg0, ? *arg1, void *arg2, s32 arg3, s32, s32, s32, s32, s32, s32, s32); /* static */
-void sub_80B69B4(void *arg0);                       /* static */
+void sub_8E8_80B69B4(void *arg0);                       /* static */
 void sub_80B6B20();                                 /* static */
 s16 sub_80B6CA4(u16 *arg0);                         /* static */
 extern ? gUnknown_020EFFFF;
@@ -3254,7 +3254,7 @@ void sub_80B5CC4(u16 arg0, void *arg1) {
         var_r2 = 0x340;
     }
     temp_r7->unk14 = var_r2;
-    sub_80B69B4(temp_r7);
+    sub_8E8_80B69B4(temp_r7);
     temp_r0_2 = (temp_r5 << 5) + &gOamBuffer->all.affineParam;
     temp_r0_2->unk0 = (u16) arg1->unkC;
     temp_r0_3 = temp_r0_2 + 8;
@@ -3287,7 +3287,7 @@ void sub_80B5DF4(u16 arg0, void *arg1) {
     temp_r7->unk14 = 0x340;
     temp_r0_2 = temp_sb->unkAC;
     if (((s32) temp_r0_2 > 0x14) || ((s32) temp_r0_2 < 0x13)) {
-        sub_80B69B4(temp_r7);
+        sub_8E8_80B69B4(temp_r7);
     }
     temp_r0_3 = ((s32) (arg0 << 0x10) >> 0xB) + &gOamBuffer->all.affineParam;
     temp_r0_3->unk0 = (u16) arg1->unkC;
@@ -3365,7 +3365,7 @@ loop_4:
         if ((sub_80B67C4(&sp14, &subroutine_arg0, temp_r0->unk0, sp34, (temp_r6->unk2 << 0x10) + ((sp40 >> 0x10) * temp_r6->unk8) + (gSineTable[temp_r3] << 5), (temp_r6->unk6 << 0xC) + ((s16) temp_sl * temp_r6->unkA) + (gSineTable[temp_r3 + 0x100] * 8)) << 0x10) != 0) {
             temp_r7->unk10 = (u16) sp14.unk2;
             temp_r7->unk12 = (s16) (sp14.unk4 - sp14.unk6);
-            sub_80B69B4(temp_r7);
+            sub_8E8_80B69B4(temp_r7);
         }
         temp_r0_3 = temp_r5_2 + 1;
         var_r1 = (s16) temp_r0_3;
@@ -3405,7 +3405,7 @@ void sub_80B60E0(s16 arg0, void *arg1) {
         var_r2 = 0x340;
     }
     temp_r6->unk14 = var_r2;
-    sub_80B69B4(temp_r6);
+    sub_8E8_80B69B4(temp_r6);
     temp_r0_2 = (temp_r7 << 5) + &gOamBuffer->all.affineParam;
     temp_r0_2->unk0 = (u16) arg1->unkC;
     temp_r0_3 = temp_r0_2 + 8;
@@ -3532,7 +3532,7 @@ void sub_80B6370(s16 arg0, void *arg1) {
         temp_r0_2->unk10 = temp_r6;
         temp_r0_2->unk12 = (s16) (temp_r2->unk8E0 + temp_r5);
         temp_r0_2->unk14 = 0x180;
-        sub_80B69B4(temp_r0_2);
+        sub_8E8_80B69B4(temp_r0_2);
         temp_r4_2 = (temp_r4 << 5) + &gOamBuffer->all.affineParam;
         temp_r4_2->unk0 = (u16) sp14.unkC;
         temp_r4_3 = temp_r4_2 + 8;
@@ -3567,7 +3567,7 @@ void sub_80B6464(u16 arg0, void *arg1) {
         temp_r6->unk10 = temp_r8;
         temp_r6->unk12 = temp_r5;
         temp_r6->unk14 = 0xC0;
-        sub_80B69B4(temp_r6);
+        sub_8E8_80B69B4(temp_r6);
         temp_r4_2 = (temp_r4 << 5) + &gOamBuffer->all.affineParam;
         temp_r4_2->unk0 = (u16) sp14.unkC;
         temp_r4_3 = temp_r4_2 + 8;
@@ -3825,7 +3825,7 @@ block_15:
     return 0;
 }
 
-void sub_80B69B4(void *arg0) {
+void sub_8E8_80B69B4(void *arg0) {
     s32 sp0;
     s32 sp4;
     s32 sp8;
@@ -3883,96 +3883,6 @@ loop_5:
     }
 }
 
-void sub_80B6B20(void) {
-    gUnknown_03001EA0 = (u16 *)0x06010000;
-    gUnknown_03001E9C = NULL;
-}
-
-void sub_80B6B3C(Background *arg0, s32 arg1, s32 arg2, u16 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9) {
-    arg0->graphics.dest = (arg1 << 0xE) + 0x06000000;
-    arg0->graphics.anim = 0;
-    arg0->layoutVram = (arg2 << 0xB) + 0x06000000;
-    arg0->unk18 = 0;
-    arg0->unk1A = 0;
-    arg0->tilemapId = arg3;
-    arg0->unk1E = 0;
-    arg0->unk20 = 0;
-    arg0->unk22 = 0;
-    arg0->unk24 = 0;
-    arg0->targetTilesX = (u16) arg4;
-    arg0->targetTilesY = (u16) arg5;
-    arg0->paletteOffset = (u8) arg6;
-    arg0->animFrameCounter = 0;
-    (&arg0->paletteOffset)[1].unk1 = 0;
-    arg0->flags = (u16) (u8) arg7;
-    arg0->scrollX = (u16) arg8;
-    arg0->scrollY = (u16) arg9;
-    DrawBackground(arg0);
-}
-
-void sub_80B6BB8(Sprite *arg0, s32 arg1, u16 arg2, u16 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, u32 arg8, s32 arg9) {
-    ? *var_r2;
-    s8 temp_r3;
-    u8 *var_r0;
-    u8 temp_r1;
-
-    temp_r1 = (u8) arg1;
-    var_r2 = &subroutine_arg0;
-    if (arg0 != NULL) {
-        var_r2 = (? *) arg0;
-    }
-    if ((temp_r1 << 0x18) != 0) {
-        if (gUnknown_03001E9C == NULL) {
-            gUnknown_03001E9C = (u8 *) gUnknown_03001EA0;
-        }
-        var_r0 = gUnknown_03001E9C;
-    } else {
-        var_r0 = (u8 *) gUnknown_03001EA0;
-    }
-    var_r2->unk0 = var_r0;
-    var_r2->unkC = arg3;
-    var_r2->unk8 = arg4;
-    var_r2->unk10 = (u16) arg5;
-    var_r2->unk12 = (u16) arg6;
-    var_r2->unk14 = (s16) ((u16) arg7 << 6);
-    var_r2->unk16 = 0;
-    var_r2->unk18 = 0xFFFF;
-    var_r2->unk1A = (u8) arg8;
-    var_r2->unk1B = 0xFF;
-    var_r2->unk1C = 0x10;
-    var_r2->unk1F = (u8) arg9;
-    var_r2->unk20 = -1;
-    UpdateSpriteAnimation((Sprite *) var_r2);
-    temp_r3 = (s8) temp_r1;
-    switch (temp_r3) {                              /* irregular */
-    case 0:
-        gUnknown_03001EA0 += arg2 << 5;
-        gUnknown_03001E9C = (u8 *) temp_r3;
-        return;
-    case 1:
-        gUnknown_03001E9C += arg2 << 5;
-        return;
-    }
-}
-
-s16 sub_80B6CA4(u16 *arg0) {
-    s16 var_r3;
-    u16 *var_r2;
-    u16 temp_r1;
-
-    var_r2 = arg0;
-    var_r3 = 0;
-    if (*var_r2 != 0xFFFF) {
-        do {
-            temp_r1 = var_r2->unk4;
-            if ((s32) var_r3 < (s32) temp_r1) {
-                var_r3 = (s16) temp_r1;
-            }
-            var_r2 += 8;
-        } while (*var_r2 != 0xFFFF);
-    }
-    return var_r3;
-}
 #endif
 
 // 0x288U
@@ -4001,8 +3911,8 @@ typedef struct {
 extern void sub_808ADF0(u8 param0);
 extern void sub_80AB120(u8 param0);
 void sub_80B1AF4(u16 param0, u16 param1, u8 param2);
-void sub_80B6B3C(Background *arg0, s32 arg1, s32 arg2, u16 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9);
-void sub_80B6BB8(Sprite *, s32, u16, u16, s32, s32, s32, s32, u32, s32); /* static */
+void sub_80B6B3C(Background *bg, s32 arg1, s32 arg2, u16 arg3, u16 arg4, u16 arg5, u8 arg6, u8 arg7, u16 arg8, u16 arg9);
+void sub_80B6BB8(Sprite *inSprite, s8 arg1, s32 tileCount, AnimId anim, u32 frameFlags, s16 x, s16 y, s16 oamOrder, u8 pattern, u8 palId);
 void Task_80B6D78(void);
 void TaskDestructor_SpStage288(struct Task *t);
 void sub_80B7074(void);
@@ -4015,9 +3925,155 @@ s16 sa3__sub_80B1560(s16 *unk28, u16 unk5C);
 extern s16 gUnknown_080E30DC[12];
 extern s16 gUnknown_080E30F4[12];
 extern u8 *gUnknown_03001E9C;
-extern u16 *gUnknown_03001EA0; // VRAM Pointer
+extern u8 *gUnknown_03001EA0; // VRAM Pointer
 extern TileInfo2 gUnknown_080E3074[];
 extern TileInfo2 gUnknown_080E309C[];
+
+// (82.73%) https://decomp.me/scratch/PAQ2C
+NONMATCH("asm/non_matching/game/sa3/spstg__sub_8E8_80B69B4.inc", void sub_8E8_80B69B4(Sprite *s))
+{
+    s32 x;
+    s32 y;
+    u16 sp8;
+    OamData *temp_r0;
+    const SpriteOffset *sprDims;
+    const u16 *temp_r7;
+    s32 temp_r1;
+    u16 temp_r1_2;
+    s32 temp_r2_2;
+    s32 temp_r3;
+    s32 temp_r3_2;
+    u32 temp_r2;
+    u32 width, height;
+    s16 var_r6;
+    s16 numSubFrames;
+
+    if ((s->frameNum >> 0x1C) == 0) {
+        sprDims = &gRefSpriteTables->dimensions[s->anim][s->frameNum];
+    } else {
+        sprDims = (const SpriteOffset *)(((u8 *)gRefSpriteTables->dimensions[s->anim]) + s->frameNum * 16);
+    }
+    s->numSubFrames = sprDims->numSubframes;
+    width = sprDims->width;
+    height = sprDims->height;
+    x = s->x - (width >> 1);
+    y = s->y - (height >> 1);
+
+    numSubFrames = s->numSubFrames;
+    for (var_r6 = 0; var_r6 < numSubFrames; var_r6++) {
+        temp_r7 = gRefSpriteTables->oamData[s->anim];
+        temp_r0 = OamMalloc(GET_SPRITE_OAM_ORDER(s));
+        if (temp_r0 != iwram_end) {
+            if (var_r6 == 0) {
+                s->oamBaseIndex = gOamFreeIndex - 1;
+            }
+            DmaCopy16(3, (void *)(temp_r7 + ((sprDims->oamIndex + var_r6) * 3)), temp_r0, sizeof(OamDataShort));
+            temp_r3 = temp_r0->all.attr1;
+            temp_r0->all.attr0 = ((temp_r0->all.attr0 & 0xFF) + y) | 0x300;
+            temp_r3_2 = temp_r3 & 0xFE00;
+            temp_r0->all.attr1 = temp_r3_2;
+            temp_r0->all.attr1 = ((s->frameFlags & 0x1F) << 9) | temp_r3_2 | ((x + (0x1FF & temp_r3)) & 0x1FF);
+            temp_r2 = (s->palId << 0xC) + temp_r0->all.attr2;
+            temp_r0->all.attr2 = temp_r2;
+            temp_r1 = ((u32)(s->frameFlags & 0x3000) >> 2) | temp_r2;
+            temp_r0->all.attr2 = temp_r1;
+            temp_r0->all.attr2 = temp_r1 + ((u32)(s->tiles + 0xF9FF0000) >> 5);
+        }
+    }
+}
+END_NONMATCH
+
+void sub_80B6B20(void)
+{
+    gUnknown_03001EA0 = (u8 *)(OBJ_VRAM0);
+    gUnknown_03001E9C = NULL;
+}
+
+void sub_80B6B3C(Background *bg, s32 arg1, s32 arg2, u16 arg3, u16 arg4, u16 arg5, u8 arg6, u8 arg7, u16 arg8, u16 arg9)
+{
+    bg->graphics.dest = (void *)BG_CHAR_ADDR(arg1);
+    bg->graphics.anim = 0;
+    bg->layoutVram = ((void *)BG_VRAM + (arg2 << 11));
+    bg->unk18 = 0;
+    bg->unk1A = 0;
+    bg->tilemapId = arg3;
+    bg->unk1E = 0;
+    bg->unk20 = 0;
+    bg->unk22 = 0;
+    bg->unk24 = 0;
+    bg->targetTilesX = arg4;
+    bg->targetTilesY = arg5;
+    bg->paletteOffset = arg6;
+    bg->animFrameCounter = 0;
+    bg->animDelayCounter = 0;
+    bg->flags = arg7;
+    bg->scrollX = arg8;
+    bg->scrollY = arg9;
+    DrawBackground(bg);
+}
+
+void sub_80B6BB8(Sprite *inSprite, s8 arg1, s32 tileCount, AnimId anim, u32 frameFlags, s16 x, s16 y, s16 oamOrder, u8 pattern, u8 palId)
+{
+    Sprite sprDummy;
+    Sprite *s;
+    u8 *var_r0;
+
+    if (inSprite != NULL) {
+        s = inSprite;
+    } else {
+        s = &sprDummy;
+    }
+
+    if (arg1 != 0) {
+        if (gUnknown_03001E9C == NULL) {
+            gUnknown_03001E9C = gUnknown_03001EA0;
+        }
+        var_r0 = gUnknown_03001E9C;
+    } else {
+        var_r0 = gUnknown_03001EA0;
+    }
+
+    s->tiles = var_r0;
+    s->anim = anim;
+    s->frameFlags = frameFlags;
+    s->x = x;
+    s->y = y;
+    s->oamFlags = SPRITE_OAM_ORDER(oamOrder);
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->variant = pattern;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = palId;
+    s->hitboxes[0].index = -1;
+    UpdateSpriteAnimation(s);
+
+    switch (arg1) {
+        case 0:
+            gUnknown_03001EA0 += tileCount * TILE_SIZE_4BPP;
+            gUnknown_03001E9C = NULL;
+            return;
+        case 1:
+            gUnknown_03001E9C += tileCount * TILE_SIZE_4BPP;
+            return;
+    }
+}
+
+s16 sub_80B6CA4(u16 *arg0)
+{
+    s16 var_r3;
+
+    var_r3 = 0;
+    while (arg0[0] != (u16)-1) {
+        if ((s32)var_r3 < arg0[2]) {
+            var_r3 = (s16)arg0[2];
+        }
+
+        arg0 += 4;
+    }
+
+    return var_r3;
+}
 
 void sub_80B6CD8(u8 arg0, u8 arg1, u8 arg2, u8 arg3)
 {

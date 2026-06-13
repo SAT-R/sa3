@@ -8377,7 +8377,7 @@ _080B5D62:
 _080B5DB6:
 	strh r2, [r7, #0x14]
 	adds r0, r7, #0
-	bl sub_80B69B4
+	bl sub_8E8_80B69B4
 	lsls r0, r5, #5
 	ldr r1, _080B5DF0 @ =gOamBuffer + 0x6
 	adds r0, r0, r1
@@ -8469,7 +8469,7 @@ sub_80B5DF4: @ 0x080B5DF4
 	bge _080B5E78
 _080B5E72:
 	adds r0, r7, #0
-	bl sub_80B69B4
+	bl sub_8E8_80B69B4
 _080B5E78:
 	mov r1, sl
 	lsls r0, r1, #0x10
@@ -8725,7 +8725,7 @@ _080B5FF2:
 	subs r0, r0, r1
 	strh r0, [r7, #0x12]
 	adds r0, r7, #0
-	bl sub_80B69B4
+	bl sub_8E8_80B69B4
 _080B6086:
 	adds r0, r5, #1
 	lsls r0, r0, #0x10
@@ -8837,7 +8837,7 @@ sub_80B60E0: @ 0x080B60E0
 _080B6160:
 	strh r2, [r6, #0x14]
 	adds r0, r6, #0
-	bl sub_80B69B4
+	bl sub_8E8_80B69B4
 	lsls r0, r7, #5
 	ldr r1, _080B6194 @ =gOamBuffer + 0x6
 	adds r0, r0, r1
@@ -9187,7 +9187,7 @@ sub_80B6370: @ 0x080B6370
 	lsls r0, r0, #1
 	strh r0, [r1, #0x14]
 	mov r0, r8
-	bl sub_80B69B4
+	bl sub_8E8_80B69B4
 	lsls r4, r4, #5
 	ldr r0, _080B6460 @ =gOamBuffer + 0x6
 	adds r4, r4, r0
@@ -9292,7 +9292,7 @@ sub_80B6464: @ 0x080B6464
 	movs r0, #0xc0
 	strh r0, [r6, #0x14]
 	adds r0, r6, #0
-	bl sub_80B69B4
+	bl sub_8E8_80B69B4
 	lsls r4, r4, #5
 	ldr r0, _080B6534 @ =gOamBuffer + 0x6
 	adds r4, r4, r0
@@ -9910,417 +9910,6 @@ _080B69A2:
 	pop {r1}
 	bx r1
 	.align 2, 0
-
-	thumb_func_start sub_80B69B4
-sub_80B69B4: @ 0x080B69B4
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #0xc
-	adds r5, r0, #0
-	ldr r2, [r5, #4]
-	lsrs r0, r2, #0x1c
-	cmp r0, #0
-	bne _080B69E8
-	ldr r0, _080B69E4 @ =gRefSpriteTables
-	ldr r0, [r0]
-	ldrh r1, [r5, #0xc]
-	ldr r0, [r0, #4]
-	lsls r1, r1, #2
-	adds r1, r1, r0
-	lsls r0, r2, #1
-	adds r0, r0, r2
-	lsls r0, r0, #2
-	ldr r1, [r1]
-	adds r1, r1, r0
-	mov r8, r1
-	b _080B69FC
-	.align 2, 0
-_080B69E4: .4byte gRefSpriteTables
-_080B69E8:
-	ldr r0, _080B6B04 @ =gRefSpriteTables
-	ldr r1, [r0]
-	ldrh r0, [r5, #0xc]
-	ldr r1, [r1, #4]
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r1, r2, #4
-	ldr r0, [r0]
-	adds r0, r0, r1
-	mov r8, r0
-_080B69FC:
-	mov r1, r8
-	ldrh r0, [r1, #2]
-	strb r0, [r5, #0x1e]
-	ldrh r0, [r1, #4]
-	ldrh r1, [r1, #6]
-	movs r3, #0x10
-	ldrsh r2, [r5, r3]
-	lsrs r0, r0, #1
-	subs r2, r2, r0
-	str r2, [sp]
-	movs r7, #0x12
-	ldrsh r0, [r5, r7]
-	lsrs r1, r1, #1
-	subs r0, r0, r1
-	str r0, [sp, #4]
-	movs r6, #0
-	mov r0, r8
-	ldrh r0, [r0, #2]
-	str r0, [sp, #8]
-	mov r1, r8
-	movs r2, #2
-	ldrsh r0, [r1, r2]
-	cmp r6, r0
-	bge _080B6AF2
-	ldr r3, _080B6B08 @ =0x040000D4
-	mov sb, r3
-	ldr r7, _080B6B0C @ =0x000001FF
-	mov sl, r7
-_080B6A34:
-	ldr r0, _080B6B04 @ =gRefSpriteTables
-	ldr r1, [r0]
-	ldrh r0, [r5, #0xc]
-	ldr r1, [r1, #8]
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	ldr r7, [r0]
-	ldrh r0, [r5, #0x14]
-	movs r2, #0xf8
-	lsls r2, r2, #3
-	adds r1, r2, #0
-	ands r0, r1
-	lsrs r0, r0, #6
-	bl OamMalloc
-	adds r4, r0, #0
-	ldr r0, _080B6B10 @ =iwram_end
-	ldr r0, [r0]
-	cmp r4, r0
-	beq _080B6AF2
-	lsls r0, r6, #0x10
-	asrs r6, r0, #0x10
-	cmp r6, #0
-	bne _080B6A6C
-	ldr r0, _080B6B14 @ =gOamFreeIndex
-	ldrb r0, [r0]
-	subs r0, #1
-	strb r0, [r5, #0x1d]
-_080B6A6C:
-	mov r3, r8
-	ldrh r1, [r3]
-	adds r1, r1, r6
-	lsls r0, r1, #1
-	adds r0, r0, r1
-	lsls r0, r0, #1
-	adds r0, r7, r0
-	mov r7, sb
-	str r0, [r7]
-	str r4, [r7, #4]
-	ldr r0, _080B6B18 @ =0x80000003
-	str r0, [r7, #8]
-	ldr r0, [r7, #8]
-	ldrh r3, [r4, #2]
-	mov r2, sl
-	ands r2, r3
-	movs r1, #0xff
-	ldrb r0, [r4]
-	ldr r7, [sp, #4]
-	adds r0, r7, r0
-	ands r0, r1
-	movs r7, #0xc0
-	lsls r7, r7, #2
-	adds r1, r7, #0
-	orrs r0, r1
-	strh r0, [r4]
-	movs r1, #0xfe
-	lsls r1, r1, #8
-	adds r0, r1, #0
-	ands r3, r0
-	strh r3, [r4, #2]
-	ldr r0, [r5, #8]
-	movs r1, #0x1f
-	ands r0, r1
-	lsls r0, r0, #9
-	orrs r0, r3
-	ldr r3, [sp]
-	adds r2, r3, r2
-	mov r7, sl
-	ands r2, r7
-	orrs r0, r2
-	strh r0, [r4, #2]
-	ldrb r2, [r5, #0x1f]
-	lsls r2, r2, #0xc
-	ldrh r0, [r4, #4]
-	adds r2, r2, r0
-	strh r2, [r4, #4]
-	ldr r1, [r5, #8]
-	movs r0, #0xc0
-	lsls r0, r0, #6
-	ands r1, r0
-	lsrs r1, r1, #2
-	orrs r1, r2
-	strh r1, [r4, #4]
-	ldr r0, [r5]
-	ldr r2, _080B6B1C @ =0xF9FF0000
-	adds r0, r0, r2
-	lsrs r0, r0, #5
-	adds r1, r1, r0
-	strh r1, [r4, #4]
-	adds r1, r6, #1
-	lsls r1, r1, #0x10
-	lsrs r6, r1, #0x10
-	ldr r3, [sp, #8]
-	lsls r0, r3, #0x10
-	cmp r1, r0
-	blt _080B6A34
-_080B6AF2:
-	add sp, #0xc
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080B6B04: .4byte gRefSpriteTables
-_080B6B08: .4byte 0x040000D4
-_080B6B0C: .4byte 0x000001FF
-_080B6B10: .4byte iwram_end
-_080B6B14: .4byte gOamFreeIndex
-_080B6B18: .4byte 0x80000003
-_080B6B1C: .4byte 0xF9FF0000
-
-	thumb_func_start sub_80B6B20
-sub_80B6B20: @ 0x080B6B20
-	ldr r1, _080B6B30 @ =gUnknown_03001EA0
-	ldr r0, _080B6B34 @ =0x06010000
-	str r0, [r1]
-	ldr r1, _080B6B38 @ =gUnknown_03001E9C
-	movs r0, #0
-	str r0, [r1]
-	bx lr
-	.align 2, 0
-_080B6B30: .4byte gUnknown_03001EA0
-_080B6B34: .4byte 0x06010000
-_080B6B38: .4byte gUnknown_03001E9C
-
-	thumb_func_start sub_80B6B3C
-sub_80B6B3C: @ 0x080B6B3C
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	adds r7, r0, #0
-	ldr r6, [sp, #0x20]
-	ldr r0, [sp, #0x24]
-	mov r8, r0
-	ldr r0, [sp, #0x28]
-	mov sb, r0
-	ldr r5, [sp, #0x2c]
-	ldr r0, [sp, #0x30]
-	mov sl, r0
-	ldr r0, [sp, #0x34]
-	mov ip, r0
-	lsls r5, r5, #0x18
-	lsrs r5, r5, #0x18
-	lsls r1, r1, #0xe
-	movs r4, #0xc0
-	lsls r4, r4, #0x13
-	adds r1, r1, r4
-	str r1, [r7, #4]
-	movs r1, #0
-	movs r0, #0
-	strh r0, [r7, #0xa]
-	lsls r2, r2, #0xb
-	adds r2, r2, r4
-	str r2, [r7, #0xc]
-	strh r0, [r7, #0x18]
-	strh r0, [r7, #0x1a]
-	strh r3, [r7, #0x1c]
-	strh r0, [r7, #0x1e]
-	strh r0, [r7, #0x20]
-	strh r0, [r7, #0x22]
-	strh r0, [r7, #0x24]
-	strh r6, [r7, #0x26]
-	mov r2, r8
-	strh r2, [r7, #0x28]
-	adds r0, r7, #0
-	adds r0, #0x2a
-	mov r2, sb
-	strb r2, [r0]
-	adds r0, #1
-	strb r1, [r0]
-	adds r0, #1
-	strb r1, [r0]
-	strh r5, [r7, #0x2e]
-	mov r0, sl
-	strh r0, [r7, #0x30]
-	mov r2, ip
-	strh r2, [r7, #0x32]
-	adds r0, r7, #0
-	bl DrawBackground
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-
-	thumb_func_start sub_80B6BB8
-sub_80B6BB8: @ 0x080B6BB8
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	sub sp, #0x28
-	adds r7, r0, #0
-	mov sb, r2
-	ldr r0, [sp, #0x48]
-	ldr r2, [sp, #0x4c]
-	ldr r4, [sp, #0x50]
-	ldr r5, [sp, #0x54]
-	ldr r6, [sp, #0x58]
-	lsls r1, r1, #0x18
-	lsrs r1, r1, #0x18
-	lsls r3, r3, #0x10
-	lsrs r3, r3, #0x10
-	mov ip, r3
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	mov r8, r0
-	lsls r2, r2, #0x10
-	lsrs r3, r2, #0x10
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x18
-	lsrs r5, r5, #0x18
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	mov r2, sp
-	cmp r7, #0
-	beq _080B6BF8
-	adds r2, r7, #0
-_080B6BF8:
-	lsls r0, r1, #0x18
-	adds r7, r0, #0
-	cmp r7, #0
-	beq _080B6C1C
-	ldr r1, _080B6C14 @ =gUnknown_03001E9C
-	ldr r0, [r1]
-	cmp r0, #0
-	bne _080B6C0E
-	ldr r0, _080B6C18 @ =gUnknown_03001EA0
-	ldr r0, [r0]
-	str r0, [r1]
-_080B6C0E:
-	ldr r0, [r1]
-	b _080B6C20
-	.align 2, 0
-_080B6C14: .4byte gUnknown_03001E9C
-_080B6C18: .4byte gUnknown_03001EA0
-_080B6C1C:
-	ldr r0, _080B6C60 @ =gUnknown_03001EA0
-	ldr r0, [r0]
-_080B6C20:
-	str r0, [r2]
-	movs r1, #0
-	mov r0, ip
-	strh r0, [r2, #0xc]
-	ldr r0, [sp, #0x44]
-	str r0, [r2, #8]
-	mov r0, r8
-	strh r0, [r2, #0x10]
-	strh r3, [r2, #0x12]
-	lsls r0, r4, #6
-	strh r0, [r2, #0x14]
-	strh r1, [r2, #0x16]
-	ldr r0, _080B6C64 @ =0x0000FFFF
-	strh r0, [r2, #0x18]
-	strb r5, [r2, #0x1a]
-	movs r0, #0xff
-	strb r0, [r2, #0x1b]
-	movs r0, #0x10
-	strb r0, [r2, #0x1c]
-	strb r6, [r2, #0x1f]
-	subs r0, #0x11
-	str r0, [r2, #0x20]
-	adds r0, r2, #0
-	bl UpdateSpriteAnimation
-	asrs r3, r7, #0x18
-	cmp r3, #0
-	beq _080B6C68
-	cmp r3, #1
-	beq _080B6C84
-	b _080B6C90
-	.align 2, 0
-_080B6C60: .4byte gUnknown_03001EA0
-_080B6C64: .4byte 0x0000FFFF
-_080B6C68:
-	ldr r2, _080B6C7C @ =gUnknown_03001EA0
-	mov r0, sb
-	lsls r1, r0, #5
-	ldr r0, [r2]
-	adds r0, r0, r1
-	str r0, [r2]
-	ldr r0, _080B6C80 @ =gUnknown_03001E9C
-	str r3, [r0]
-	b _080B6C90
-	.align 2, 0
-_080B6C7C: .4byte gUnknown_03001EA0
-_080B6C80: .4byte gUnknown_03001E9C
-_080B6C84:
-	ldr r2, _080B6CA0 @ =gUnknown_03001E9C
-	mov r0, sb
-	lsls r1, r0, #5
-	ldr r0, [r2]
-	adds r0, r0, r1
-	str r0, [r2]
-_080B6C90:
-	add sp, #0x28
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080B6CA0: .4byte gUnknown_03001E9C
-
-.if 01
-	thumb_func_start sub_80B6CA4
-sub_80B6CA4: @ 0x080B6CA4
-	push {r4, lr}
-	adds r2, r0, #0
-	movs r3, #0
-	ldrh r0, [r2]
-	ldr r1, _080B6CD4 @ =0x0000FFFF
-	cmp r0, r1
-	beq _080B6CC8
-	adds r4, r1, #0
-_080B6CB4:
-	lsls r0, r3, #0x10
-	asrs r0, r0, #0x10
-	ldrh r1, [r2, #4]
-	cmp r0, r1
-	bge _080B6CC0
-	adds r3, r1, #0
-_080B6CC0:
-	adds r2, #8
-	ldrh r0, [r2]
-	cmp r0, r4
-	bne _080B6CB4
-_080B6CC8:
-	lsls r0, r3, #0x10
-	asrs r0, r0, #0x10
-	pop {r4}
-	pop {r1}
-	bx r1
-	.align 2, 0
-_080B6CD4: .4byte 0x0000FFFF
-
+    
+.if 0
 .endif
