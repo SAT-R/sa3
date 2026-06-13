@@ -1,9 +1,20 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
+#include "lib/m4a/m4a.h"
 //#include "code_0_1.h" // WarpToMap (see comment below)
 #include "game/save.h"
 #include "game/screen_fade.h"
 #include "game/stage.h"
+#include "constants/animations.h"
+#include "constants/songs.h"
+
+/* TODO: WarpToMap needs to be declared like this for the call in Task_80B7470() to match to match:
+ * 'void WarpToMap(s32 level, s16 warpId);'
+ * but level is s16 in the implementation and most other calls... */
+extern void WarpToMap(s32 level, s16 warpId);
+// declare sub_8001E58() here because of the WarpToMap issue
+bool32 sub_8001E58(void);
 
 #if 0
 s16 sa3__sub_80B1560(? (**)(s16, s16 *), u16);      /* extern */
@@ -444,7 +455,7 @@ Task *sub_80B22CC(void *arg0) {
     temp_r0 = TaskCreate(Task_80B2358, 0x2A4U, 0xD000U, 0U, sub_80B2D84);
     temp_r2 = temp_r0->data;
     temp_r2->unk3000000 = arg0;
-    temp_r2->unk3000284 = 0;
+    temp_r2->unk284 = 0;
     temp_r2->unk3000288 = 0;
     temp_r2->unk300028E = 0;
     temp_r2->unk3000289 = 0;
@@ -4022,15 +4033,15 @@ void sub_80B6CD8(u8 arg0, u8 arg1, u8 arg2, u8 arg3) {
     temp_r1->unk300027D = arg2;
     temp_r1->unk300027C = temp_r7;
     temp_r1->unk300027E = (u8) ((u32) (0 - arg0) >> 0x1F);
-    temp_r1->unk3000280 = 0;
-    temp_r1->unk3000284 = 0;
+    temp_r1->unk280 = 0;
+    temp_r1->unk284 = 0;
     temp_r1->unk3000281 = 0x10;
-    temp_r1->unk300027F = temp_r6;
+    temp_r1->unk27F = temp_r6;
     if (temp_r1->unk300027E != 0) {
-        temp_r1->unk300027F = (u8) ((1 << temp_r7) | temp_r6);
+        temp_r1->unk27F = (u8) ((1 << temp_r7) | temp_r6);
         return;
     }
-    temp_r1->unk3000284 = 0x8000;
+    temp_r1->unk284 = 0x8000;
 }
 
 void Task_80B6D78(void) {
@@ -4081,7 +4092,7 @@ void Task_80B6D78(void) {
         sp1C = temp_r7 + 0x0300004C;
         sp20 = temp_r7 + 0x0300009C;
         do {
-            if (((s32) temp_r7->unk300027F >> var_r4) & 1) {
+            if (((s32) temp_r7->unk27F >> var_r4) & 1) {
                 var_r6 += 1;
             }
             var_r4 += 1;
@@ -4207,102 +4218,198 @@ loop_11:
         goto loop_11;
     }
 }
-
-void Task_80B7314(void) {
-    s32 var_r0;
-    u16 *temp_r1;
-    u16 temp_r2;
-    u8 temp_r0;
-    void *temp_r4;
-
-    temp_r2 = gCurTask->data;
-    temp_r4 = temp_r2 + 0x03000000;
-    if (gStageData.unkD == 0) {
-        temp_r0 = temp_r2->unk3000281;
-        if (temp_r0 != 0) {
-            temp_r2->unk3000281 = (u8) (temp_r0 - 1);
-            if (temp_r2->unk300027E != 0) {
-                temp_r2->unk300005C = (u16) (temp_r2->unk300005C - 0x10);
-                var_r0 = 0x03000084;
-            } else {
-                var_r0 = 0x030000AC;
-            }
-            temp_r1 = temp_r2 + var_r0;
-            *temp_r1 -= 0x10;
-        }
-    }
-    temp_r4->unk284 = (u16) (temp_r4->unk284 + 0x80);
-    sub_80B7074();
-    if ((s32) (s16) temp_r4->unk284 < 0) {
-        gCurTask->main = sub_80B73A4;
-    }
-}
-
-void sub_80B73A4(void) {
-    s16 var_r0;
-    u16 temp_r6;
-    u8 temp_r1;
-    void *temp_r4;
-
-    temp_r6 = gCurTask->data;
-    temp_r4 = temp_r6 + 0x03000000;
-    temp_r6->unk3000284 = (u16) (temp_r6->unk3000284 + 0x80);
-    sub_80B7074();
-    if ((gStageData.unkD == 0) || ((0x7F & temp_r6->unk300027F) == 0x7F)) {
-        temp_r1 = temp_r6->unk3000280;
-        temp_r6->unk3000280 = (u8) (temp_r1 + 1);
-        if ((u32) temp_r1 > 0x78U) {
-            temp_r6->unk3000000 = 1;
-            temp_r4->unk2 = 1;
-            temp_r4->unk4 = 0;
-            var_r0 = 0x40;
-            goto block_6;
-        }
-    } else {
-        if (1 & gPressedKeys) {
-            m4aSongNumStart(SE_SELECT);
-            temp_r6->unk3000000 = 1;
-            temp_r4->unk2 = 1;
-            temp_r4->unk4 = 0;
-            var_r0 = 0x100;
-block_6:
-            temp_r4->unk6 = var_r0;
-            temp_r4->unkA = 0;
-            temp_r4->unk8 = 0xBF;
-            gCurTask->main = Task_80B75A0;
-            return;
-        }
-        if (0x30 & gPressedKeys) {
-            temp_r6->unk3000282 = (u8) (temp_r6->unk3000282 ^ 1);
-            m4aSongNumStart(SE_DPAD_SELECT);
-        }
-    }
-}
 #endif
 
 // 0x288U
 typedef struct {
     /* 0x000 */ ScreenFade fade0;
-    /* 0x00C */ u8 fillerC[0x272];
+    /* 0x00C */ u8 fillerC[0x40];
+    /* 0x04C */ Sprite sprite4C;
+    /* 0x04C */ Sprite sprite74;
+    /* 0x04C */ Sprite sprite9C;
+    /* 0x0C4 */ Sprite spriteC4;
+    /* 0x0EC */ Sprite spriteEC;
+    /* 0x114 */ Sprite sprite114;
+    /* 0x114 */ Sprite sprites13C[7];
+    /* 0x254 */ Sprite sprite254;
+    /* 0x27C */ u8 filler27C[0x2];
     /* 0x27E */ u8 unk27E;
     /* 0x27F */ u8 unk27F;
-    /* 0x280 */ u8 filler280[0x2];
+    /* 0x280 */ u8 unk280;
+    /* 0x281 */ u8 unk281;
     /* 0x282 */ u8 unk282;
     /* 0x283 */ u8 unk283;
-    /* 0x284 */ u16 unk284;
+    /* 0x284 */ s16 unk284;
 } SpStage288;
 
-extern void sub_80AB120(u8 param0);
 extern void sub_808ADF0(u8 param0);
-extern void sub_80B1AF4(u16 param0, u16 param1, u8 param2);
-extern void sub_80B7074(void);
-extern void Task_80B7470(void);
-/* TODO: WarpToMap needs to be declared like this for the call in Task_80B7470() to match to match:
- * 'void WarpToMap(s32 level, s16 warpId);'
- * but level is s16 in the implementation and most other calls... */
-extern void WarpToMap(s32 level, s16 warpId);
-// declare sub_8001E58() here because of the WarpToMap issue
-void sub_8001E58(void);
+extern void sub_80AB120(u8 param0);
+void sub_80B1AF4(u16 param0, u16 param1, u8 param2);
+void sub_80B7074(void);
+void Task_80B7470(void);
+void Task_80B75A0(void);
+void sub_80B73A4(void);
+
+s16 sa3__sub_80B1560(s16 *unk28, u16 unk5C);
+extern s16 gUnknown_080E30DC[12];
+extern s16 gUnknown_080E30F4[12];
+
+// (94.71%) https://decomp.me/scratch/z7ukN
+NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B7074.inc", void sub_80B7074(void))
+{
+    s16 sp00[12];
+    s16 sp18[12];
+    s16 sp30;
+    u16 sp34;
+    Sprite *s;
+    s16 temp_r5;
+    s32 temp_r1;
+    s32 temp_r2;
+    s16 var_r5;
+    s16 temp_r2_2;
+    u16 temp_r4;
+    s32 temp_r4_2;
+    u8 var_r4;
+    s16 res2;
+    u8 var_r6;
+    SpStage288 *strc288 = TASK_DATA(gCurTask);
+
+    memcpy(&sp00, gUnknown_080E30DC, 0x18);
+    memcpy(&sp18, gUnknown_080E30F4, 0x18);
+    var_r5 = 0;
+    if (gStageData.unkD == 0) {
+        if (strc288->unk27E != 0) {
+            DisplaySprite(&strc288->sprite4C);
+            DisplaySprite(&strc288->sprite74);
+        } else {
+            DisplaySprite(&strc288->sprite9C);
+        }
+    } else {
+        DisplaySprite(&strc288->sprite74);
+        DisplaySprite(&strc288->sprite4C);
+        DisplaySprite(&strc288->sprite9C);
+        DisplaySprite(&strc288->spriteC4);
+        if (strc288->unk27E == 0) {
+            s = &strc288->spriteEC;
+            s->variant = (1 & strc288->unk282) + 0xC;
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+            s = &strc288->sprite114;
+            s->variant = ((strc288->unk282 ^ 1) & 1) + 0xE;
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+            var_r5 = -16;
+        }
+    }
+    if (strc288->unk27E == 0) {
+        strc288->unk284 = 0x8000 | (u16)strc288->unk284;
+    }
+
+    if ((s32)strc288->unk284 >= 0) {
+        sp34 = strc288->unk284;
+    } else {
+        sp34 = 0x8000;
+    }
+    temp_r4 = (u16)strc288->unk284;
+    sp30 = (u16)((s32)(temp_r4 * 10) / 84);
+    temp_r4 >>= 5;
+
+    for (var_r6 = 0; var_r6 < 7; var_r6++) {
+        temp_r5 = (s16)sp30 + (0x92 * var_r6);
+        for (var_r4 = 0; var_r4 < 7; var_r4++) {
+            sp00[var_r4] = (s16)((s32)(SIN((temp_r5 + (var_r4 * 0x92)) & ONE_CYCLE) * (7 - var_r4)) >> 9);
+            sp18[var_r4] = (s16)((s32)(COS((temp_r5 + (var_r4 * 0x46)) & ONE_CYCLE) * (7 - var_r4)) >> 9);
+        }
+
+        temp_r4_2 = (u16)sa3__sub_80B1560(sp00, (u16)sp34);
+        res2 = sa3__sub_80B1560((s16 *)&sp18, (u16)sp34);
+        temp_r4_2 <<= 16;
+        temp_r2 = ((var_r6 * 0x91) + (s16)temp_r4) & 0x3FF;
+        {
+            s32 sinValue = ((SIN(temp_r2) * 5) >> 11);
+            temp_r4_2 += 0x6C0000;
+            temp_r4_2 >>= 16;
+            temp_r4_2 = (u16)(temp_r4_2 + sinValue);
+            temp_r2_2 = (((res2 + 0x5D) - ((s32)(COS(temp_r2) * 5) >> 0xB)) + var_r5);
+        }
+        if (GetBit(strc288->unk27F, var_r6)) {
+            s = &strc288->sprites13C[var_r6];
+        } else {
+            s = &strc288->sprite254;
+        }
+        s->x = temp_r4_2;
+        s->y = temp_r2_2;
+        DisplaySprite(s);
+    }
+}
+END_NONMATCH
+
+void Task_80B7314(void)
+{
+    s32 var_r0;
+    u16 *temp_r1;
+    u8 temp_r0;
+    SpStage288 *strc288;
+
+    strc288 = TASK_DATA(gCurTask);
+    if (gStageData.unkD == 0) {
+        if (strc288->unk281 > 0) {
+            strc288->unk281--;
+            if (strc288->unk27E != 0) {
+                strc288->sprite4C.x -= 0x10;
+                strc288->sprite74.x -= 0x10;
+            } else {
+                strc288->sprite9C.x -= 0x10;
+            }
+        }
+    }
+
+    strc288->unk284 += 0x80;
+    sub_80B7074();
+
+    if (strc288->unk284 < 0) {
+        gCurTask->main = sub_80B73A4;
+    }
+}
+
+void sub_80B73A4(void)
+{
+    s16 var_r0;
+    u8 temp_r1;
+    SpStage288 *strc288;
+    ScreenFade *fade;
+
+    strc288 = TASK_DATA(gCurTask);
+    fade = &strc288->fade0;
+    strc288->unk284 = (u16)(strc288->unk284 + 0x80);
+    sub_80B7074();
+
+    if ((gStageData.unkD == 0) || ((0x7F & strc288->unk27F) == 0x7F)) {
+        if (strc288->unk280++ > 120) {
+            fade->window = 1;
+            fade->flags = 1;
+            fade->brightness = 0;
+            fade->speed = Q(0.25);
+            fade->bldAlpha = 0;
+            fade->bldCnt = 0xBF;
+            gCurTask->main = Task_80B75A0;
+        }
+    } else {
+        if (A_BUTTON & gPressedKeys) {
+            m4aSongNumStart(SE_SELECT);
+            fade->window = 1;
+            fade->flags = 1;
+            fade->brightness = 0;
+            fade->speed = Q(1);
+            fade->bldAlpha = 0;
+            fade->bldCnt = 0xBF;
+            gCurTask->main = Task_80B75A0;
+        } else if (DPAD_SIDEWAYS & gPressedKeys) {
+            strc288->unk282 ^= 1;
+            m4aSongNumStart(SE_DPAD_SELECT);
+        }
+    }
+}
 
 void Task_80B7470(void)
 {
