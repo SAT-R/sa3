@@ -8,74 +8,8 @@
 .if 0
 .endif
 
-	thumb_func_start sub_80B22CC
-sub_80B22CC: @ 0x080B22CC
-	push {r4, r5, r6, lr}
-	sub sp, #4
-	adds r4, r0, #0
-	ldr r0, _080B2340 @ =Task_80B2358
-	movs r1, #0xa9
-	lsls r1, r1, #2     @ 0x2A4
-	movs r2, #0xd0
-	lsls r2, r2, #8
-	ldr r3, _080B2344 @ =sub_80B2D84
-	str r3, [sp]
-	movs r3, #0
-	bl TaskCreate
-	adds r5, r0, #0
-	ldrh r2, [r5, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r2, r0
-	str r4, [r0]
-	ldr r3, _080B2348 @ =0x03000284
-	adds r1, r2, r3
-	movs r3, #0
-	str r3, [r1]
-	ldr r4, _080B234C @ =0x03000288
-	adds r1, r2, r4
-	strb r3, [r1]
-	ldr r6, _080B2350 @ =0x0300028E
-	adds r1, r2, r6
-	movs r4, #0
-	strh r3, [r1]
-	subs r6, #5
-	adds r1, r2, r6
-	strb r4, [r1]
-	adds r6, #1
-	adds r1, r2, r6
-	strb r4, [r1]
-	adds r6, #1
-	adds r1, r2, r6
-	strb r4, [r1]
-	ldr r4, _080B2354 @ =0x0300028C
-	adds r1, r2, r4
-	strh r3, [r1]
-	adds r6, #5
-	adds r1, r2, r6
-	strh r3, [r1]
-	adds r4, #6
-	adds r1, r2, r4
-	strh r3, [r1]
-	adds r6, #4
-	adds r2, r2, r6
-	strh r3, [r2]
-	bl sub_80B2D90
-	adds r0, r5, #0
-	add sp, #4
-	pop {r4, r5, r6}
-	pop {r1}
-	bx r1
-	.align 2, 0
-_080B2340: .4byte Task_80B2358
-_080B2344: .4byte sub_80B2D84
-_080B2348: .4byte 0x03000284
-_080B234C: .4byte 0x03000288
-_080B2350: .4byte 0x0300028E
-_080B2354: .4byte 0x0300028C
-
-	thumb_func_start Task_80B2358
-Task_80B2358: @ 0x080B2358
+	thumb_func_start Task_2A4_80B2358
+Task_2A4_80B2358: @ 0x080B2358
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _080B2390 @ =gCurTask
 	ldr r0, [r0]
@@ -1319,8 +1253,8 @@ _080B2D76:
 _080B2D7C: .4byte 0x0000733F
 _080B2D80: .4byte 0x00007F40
 
-	thumb_func_start sub_80B2D84
-sub_80B2D84: @ 0x080B2D84
+	thumb_func_start TaskDestructor_80B2D84
+TaskDestructor_80B2D84: @ 0x080B2D84
 	bx lr
 	.align 2, 0
 

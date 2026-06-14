@@ -253,7 +253,7 @@ void Task_SpStage8E8_Destroy(void)
     Task *temp_r0_3;
     Task *temp_r0_4;
     Task *temp_r0_5;
-    s32 var_r4;
+    u8 var_r4;
     UnkArg2 *strc = TASK_DATA(gCurTask);
     ScreenFade *fade = &strc->fade7C;
 
@@ -334,29 +334,29 @@ void Task_8E8_80B2284(void)
     }
 }
 
-#if 0
-Task *sub_80B22CC(s32 arg0) {
-    Task *temp_r0;
-    u16 temp_r2;
+Task *sub_80B22CC(UnkArg2 *strc)
+{
+    Task *t = TaskCreate(Task_2A4_80B2358, sizeof(SpStage2A4), 0xD000U, 0U, TaskDestructor_80B2D84);
+    SpStage2A4 *strc2A4 = TASK_DATA(t);
 
-    temp_r0 = TaskCreate(Task_80B2358, 0x2A4U, 0xD000U, 0U, sub_80B2D84);
-    temp_r2 = temp_r0->data;
-    temp_r2->unk0 = arg0;
-    temp_r2->unk284 = 0;
-    temp_r2->unk288 = 0;
-    temp_r2->unk28E = 0;
-    temp_r2->unk289 = 0;
-    temp_r2->unk28A = 0;
-    temp_r2->unk28B = 0;
-    temp_r2->unk28C = 0;
-    temp_r2->unk290 = 0;
-    temp_r2->unk292 = 0;
-    temp_r2->unk294 = 0;
-    sub_80B2D90();
-    return temp_r0;
+    strc2A4->unk0 = strc;
+    strc2A4->unk284 = 0;
+    strc2A4->unk288 = 0;
+    strc2A4->unk28E = 0;
+    strc2A4->unk289 = 0;
+    strc2A4->unk28A = 0;
+    strc2A4->unk28B = 0;
+    strc2A4->unk28C = 0;
+    strc2A4->unk290 = 0;
+    strc2A4->unk292 = 0;
+    strc2A4->unk294 = 0;
+    sub_80B2D90(strc2A4);
+
+    return t;
 }
 
-void Task_80B2358(void) {
+#if 0
+void Task_2A4_80B2358(void) {
     s8 temp_r0;
     s8 temp_r0_4;
     u16 temp_r0_2;
@@ -722,7 +722,7 @@ void sub_80B2D0C(void *arg0) {
     DisplaySprite(temp_r6);
 }
 
-void sub_80B2D84(Task *arg0) {
+void TaskDestructor_80B2D84(Task *arg0) {
 
 }
 
@@ -734,8 +734,8 @@ void sub_80B2D8C(void) {
 
 }
 
-void sub_80B2D90(void) {
-    sub_80B24AC();
+void sub_80B2D90(SpStage2A4 *strc2A4) {
+    sub_80B24AC(strc2A4);
 }
 
 void sub_80B2D9C(void *arg0) {
