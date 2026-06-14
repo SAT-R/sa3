@@ -3723,166 +3723,6 @@ loop_1:
     }
     goto loop_1;
 }
-
-s32 sub_80B67C4(? *arg0, ? *arg1, void *arg2, s32 arg3) {
-    s32 sp0;
-    void *sp4;
-    s32 sp8;
-    s16 temp_r1_4;
-    s16 temp_r2_2;
-    s16 temp_r5_2;
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r2;
-    s32 temp_r3;
-    s32 temp_r3_2;
-    s32 temp_r4;
-    s32 temp_r5;
-    s32 temp_r5_3;
-    s32 temp_r7;
-    s32 var_r1;
-    s32 var_r1_2;
-    u16 var_r0;
-    u8 var_r5;
-    u8 var_r6;
-
-    sp0 = arg3;
-    sp4 = (void *) arg2->unk0->unk6;
-    temp_r1 = (0 - arg2->unk8BC) & 0x3FF;
-    temp_r2 = gSineTable[temp_r1] * 4;
-    temp_r3 = (s32) (arg2->unk8B4 - arg1->unk4) >> 8;
-    temp_r5 = (s16) gSineTable[temp_r1 + 0x100] >> 6;
-    temp_r4 = (s32) (arg2->unkC->unk6->unk4C - arg1->unk0) >> 8;
-    temp_r1_2 = (s32) ((temp_r3 * (temp_r2 >> 8)) + (temp_r4 * temp_r5)) >> 2;
-    temp_r3_2 = (s32) ((temp_r4 * ((s32) (0 - temp_r2) >> 8)) + (temp_r3 * temp_r5)) >> 1;
-    if ((temp_r3_2 > (s32) arg2->unk5AC) && (temp_r3_2 < (s32) *(arg2 + 0xB4 + (arg2->unk8DF * 8)))) {
-        var_r5 = arg2->unk8E0;
-        var_r6 = arg2->unk8E1;
-        var_r1 = var_r5 << 0x10;
-        if (var_r1 != 0) {
-loop_3:
-            temp_r2_2 = (s16) var_r6;
-            if ((s32) temp_r2_2 > 0x9F) {
-                var_r6 = (u8) (u16) (temp_r2_2 - (var_r1 >> 0x11));
-                var_r1_2 = var_r5 << 0x10;
-                goto block_12;
-            }
-            if ((s32) temp_r2_2 < (s32) arg2->unk8DF) {
-                var_r1_2 = var_r5 << 0x10;
-                var_r0 = temp_r2_2 + (var_r1_2 >> 0x11);
-                goto block_11;
-            }
-            temp_r0 = *(arg2 + 0xB4 + (temp_r2_2 * 8));
-            if (temp_r0 > temp_r3_2) {
-                var_r1_2 = var_r5 << 0x10;
-                var_r0 = temp_r2_2 + (var_r1_2 >> 0x11);
-                goto block_11;
-            }
-            if (temp_r0 < temp_r3_2) {
-                var_r1_2 = var_r5 << 0x10;
-                var_r0 = temp_r2_2 - (var_r1_2 >> 0x11);
-block_11:
-                var_r6 = (u8) var_r0;
-block_12:
-                var_r5 = (u8) (u16) (var_r1_2 >> 0x11);
-                var_r1 = var_r5 << 0x10;
-                if (var_r1 != 0) {
-                    goto loop_3;
-                }
-            }
-        }
-        temp_r5_2 = (s16) var_r6;
-        temp_r1_3 = (s32) *((temp_r5_2 * 8) + (arg2 + 0xB0)) >> 1;
-        temp_r7 = (s32) (temp_r1_3 * 9) >> 3;
-        sp8 = var_r6 << 0x10;
-        if ((temp_r1_2 <= (s32) ((s32) ((0 - temp_r1_3) * 9) >> 3)) || (temp_r1_2 >= temp_r7)) {
-            goto block_15;
-        }
-        arg0->unkA = (s16) var_r6;
-        temp_r5_3 = temp_r5_2 * 4;
-        arg0->unk4 = (s16) (((var_r6 - arg1->unkE) - ((s32) (arg1->unk12 << 0x10) / (s32) *(temp_r5_3 + sp4->unkC))) + sp0);
-        temp_r1_4 = 0x78 - ((s32) (temp_r1_2 * 0x87) / temp_r7);
-        arg0->unk8 = temp_r1_4;
-        arg0->unk2 = (s16) (temp_r1_4 - arg1->unkC);
-        temp_r0_2 = arg1->unk8;
-        if (temp_r0_2 != 0) {
-            arg0->unk6 = (s16) ((s32) (((s32) (temp_r0_2 * 8) / (s32) *(temp_r5_3 + sp4->unkC)) * 9) >> 2);
-        } else {
-            arg0->unk6 = (s16) temp_r0_2;
-        }
-        temp_r0_3 = (s32) *((sp8 >> 0xE) + sp4->unkC) >> 8;
-        arg0->unkC = (s16) temp_r0_3;
-        arg0->unk12 = (s16) temp_r0_3;
-        arg0->unk10 = 0;
-        arg0->unkE = 0;
-        return 1;
-    }
-block_15:
-    return 0;
-}
-
-void sub_8E8_80B69B4(void *arg0) {
-    s32 sp0;
-    s32 sp4;
-    s32 sp8;
-    OamData *temp_r0;
-    SpriteOffset *var_r8;
-    s16 temp_r6;
-    s16 var_r6;
-    u16 *temp_r7;
-    u16 temp_r1;
-    u16 temp_r1_2;
-    u16 temp_r2_2;
-    u16 temp_r3;
-    u16 temp_r3_2;
-    u32 temp_r2;
-
-    temp_r2 = arg0->unk4;
-    if ((temp_r2 >> 0x1C) == 0) {
-        var_r8 = &gRefSpriteTables->dimensions[arg0->unkC][temp_r2];
-    } else {
-        var_r8 = gRefSpriteTables->dimensions[arg0->unkC] + (temp_r2 * 0x10);
-    }
-    arg0->unk1E = (s8) var_r8->numSubframes;
-    sp0 = arg0->unk10 - ((u16) var_r8->width >> 1);
-    sp4 = arg0->unk12 - ((u16) var_r8->height >> 1);
-    var_r6 = 0;
-    sp8 = (s32) var_r8->numSubframes;
-    if ((s32) (s16) var_r8->numSubframes > 0) {
-loop_5:
-        temp_r7 = gRefSpriteTables->oamData[arg0->unkC];
-        temp_r0 = OamMalloc((u8) ((u32) (arg0->unk14 & 0x7C0) >> 6));
-        if (temp_r0 != iwram_end) {
-            temp_r6 = var_r6;
-            if (temp_r6 == 0) {
-                arg0->unk1D = (s8) (gOamFreeIndex - 1);
-            }
-            (void *)0x040000D4->unk0 = (void *) (temp_r7 + ((var_r8->oamIndex + temp_r6) * 6));
-            (void *)0x040000D4->unk4 = temp_r0;
-            (void *)0x040000D4->unk8 = 0x80000003;
-            temp_r3 = temp_r0->all.attr1;
-            temp_r0->all.attr0 = (u8) (sp4 + temp_r0->unk0) | 0x300;
-            temp_r3_2 = temp_r3 & 0xFE00;
-            temp_r0->all.attr1 = temp_r3_2;
-            temp_r0->all.attr1 = ((arg0->unk8 & 0x1F) << 9) | temp_r3_2 | ((sp0 + (0x1FF & temp_r3)) & 0x1FF);
-            temp_r2_2 = (arg0->unk1F << 0xC) + temp_r0->all.attr2;
-            temp_r0->all.attr2 = temp_r2_2;
-            temp_r1 = ((u32) (arg0->unk8 & 0x3000) >> 2) | temp_r2_2;
-            temp_r0->all.attr2 = temp_r1;
-            temp_r0->all.attr2 = temp_r1 + ((u32) (arg0->unk0 + 0xF9FF0000) >> 5);
-            temp_r1_2 = temp_r6 + 1;
-            var_r6 = (s16) temp_r1_2;
-            if ((s32) (temp_r1_2 << 0x10) < (s32) (sp8 << 0x10)) {
-                goto loop_5;
-            }
-        }
-    }
-}
-
 #endif
 
 // 0x288U
@@ -3928,6 +3768,146 @@ extern u8 *gUnknown_03001E9C;
 extern u8 *gUnknown_03001EA0; // VRAM Pointer
 extern TileInfo2 gUnknown_080E3074[];
 extern TileInfo2 gUnknown_080E309C[];
+
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    s16 unkE;
+    s16 unk10;
+    s16 unk12;
+} UnkArg0;
+
+typedef struct {
+    s32 unk0;
+    s32 unk4;
+    s32 unk8;
+    s16 unkC;
+    s16 unkE;
+    s16 unk10;
+    s16 unk12;
+} UnkArg1;
+
+typedef struct {
+    u8 filler0[0xC];
+    s32 unkC[4]; // TODO: type AND size unknown!!!
+} Arg2Task0;
+
+typedef struct {
+    u8 filler0[0x4C];
+    s32 unk4C;
+} Arg2TaskC;
+
+typedef struct {
+    struct Task *task0; // -> Arg2Task0
+    s32 unk4;
+    s32 unk8;
+    struct Task *taskC; // -> Arg2TaskC
+
+    u8 filler10[0x5A0];
+    Vec2_32 unkB0[8]; // TODO: type AND size unknown!!!
+    u8 fillerF4[0x4B4];
+    s32 unk5AC;
+    u8 filler5B0[0x304];
+    s32 unk8B4;
+    s32 unk8B8;
+    s32 unk8BC;
+    u8 filler8C0[0x1F];
+    u8 unk8DF;
+    u8 unk8E0;
+    u8 unk8E1;
+} UnkArg2;
+
+// (58.02%) https://decomp.me/scratch/JZSdj
+NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B67C4.inc", s32 sub_80B67C4(UnkArg0 *arg0, UnkArg1 *arg1, UnkArg2 *arg2, s32 arg3))
+{
+    s32 sp0;
+    Arg2Task0 *sp4;
+    s32 sp8;
+    s32 temp_r1_4;
+    s16 temp_r2_2;
+    s16 temp_r5_2;
+    s32 temp_r0;
+    s32 temp_r0_2;
+    s32 temp_r0_3;
+    s32 temp_r1;
+    s32 temp_r1_2;
+    s32 temp_r1_3;
+    s32 temp_r2;
+    s32 temp_r3;
+    s32 temp_r3_2;
+    s32 temp_r4;
+    s32 temp_r5;
+    s32 temp_r5_3;
+    s32 temp_r7;
+    s32 var_r1;
+    s32 var_r1_2;
+    u16 var_r0;
+    s16 var_r5;
+    s16 var_r6;
+    Arg2TaskC *taskC;
+
+    sp0 = arg3;
+    sp4 = TASK_DATA(arg2->task0);
+    taskC = TASK_DATA(arg2->taskC);
+    temp_r1 = (-arg2->unk8BC) & 0x3FF;
+    temp_r2 = SIN(temp_r1) * 4;
+    temp_r5 = COS_24_8(temp_r1);
+    temp_r4 = (taskC->unk4C - arg1->unk0) >> 8;
+    temp_r3 = (arg2->unk8B4 - arg1->unk4) >> 8;
+    temp_r1_2 = ((temp_r3 * (temp_r2 >> 8)) + (temp_r4 * temp_r5)) >> 2;
+    temp_r3_2 = ((temp_r4 * I(-temp_r2)) + (temp_r3 * temp_r5)) >> 1;
+
+    if ((temp_r3_2 > arg2->unk5AC) && (temp_r3_2 < arg2->unkB0[arg2->unk8DF].y)) {
+        var_r5 = arg2->unk8E0;
+        var_r6 = arg2->unk8E1;
+        while (var_r5 != 0) {
+            if (var_r6 > 0x9F) {
+                var_r6 = (u8)(u16)(var_r6 - (var_r5 >> 1));
+                var_r5 >>= 1;
+            } else if (var_r6 < arg2->unk8DF) {
+                var_r6 = var_r6 - (var_r5 >> 1);
+                var_r5 >>= 1;
+            } else if (arg2->unkB0[var_r6].y > temp_r3_2) {
+                var_r6 = var_r6 - (var_r5 >> 1);
+                var_r5 >>= 1;
+            } else if (arg2->unkB0[var_r6].y < temp_r3_2) {
+                var_r6 = var_r6 - (var_r5 >> 1);
+                var_r5 >>= 1;
+            }
+        }
+        temp_r1_3 = arg2->unkB0[var_r6].x >> 1;
+        temp_r7 = (temp_r1_3 * 9) >> 3;
+        sp8 = var_r6 << 0x10;
+        if ((temp_r1_2 > (((0 - temp_r1_3) * 9) >> 3)) && (temp_r1_2 < temp_r7)) {
+            arg0->unkA = (s16)var_r6;
+            temp_r5_3 = var_r6 * 4;
+            arg0->unk4 = (s16)(((var_r6 - arg1->unkE) - ((arg1->unk12 << 0x10) / sp4->unkC[var_r6])) + sp0);
+            temp_r1_4 = 0x78 - ((temp_r1_2 * 0x87) / temp_r7);
+            arg0->unk8 = temp_r1_4;
+            arg0->unk2 = (s16)(temp_r1_4 - arg1->unkC);
+
+            if (arg1->unk8 != 0) {
+                arg0->unk6 = ((((arg1->unk8 * 8) / sp4->unkC[var_r6]) * 9) >> 2);
+            } else {
+                arg0->unk6 = arg1->unk8;
+            }
+            temp_r0_3 = *((sp8 >> 0xE) + sp4->unkC) >> 8;
+            arg0->unkC = (s16)temp_r0_3;
+            arg0->unk12 = (s16)temp_r0_3;
+            arg0->unk10 = 0;
+            arg0->unkE = 0;
+            return 1;
+        }
+    }
+block_15:
+    return 0;
+}
+END_NONMATCH
 
 // (82.73%) https://decomp.me/scratch/PAQ2C
 NONMATCH("asm/non_matching/game/sa3/spstg__sub_8E8_80B69B4.inc", void sub_8E8_80B69B4(Sprite *s))
