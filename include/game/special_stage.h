@@ -75,6 +75,11 @@ typedef struct {
 } Arg2Task4; /* ??? */
 
 typedef struct {
+    u8 filler0[0xAC];
+    u16 unkAC;
+} Arg2Task8;
+
+typedef struct {
     u8 filler0[0x4C];
     s32 unk4C;
 } Arg2TaskC;
@@ -98,7 +103,7 @@ typedef struct {
     /* 0x8B8 */ s32 unk8B8;
     /* 0x8BC */ u16 unk8BC;
     /* 0x8BE */ s16 unk8BE;
-    /* 0x8C0 */ u16 unk8C0;
+    /* 0x8C0 */ s16 unk8C0;
     /* 0x8C2 */ s16 unk8C2;
     /* 0x8C4 */ u16 unk8C4;
     /* 0x8C6 */ u8 unk8C6;
@@ -126,19 +131,32 @@ typedef struct {
     /* 0x8DF */ u8 unk8DF;
     /* 0x8E0 */ u8 unk8E0;
     /* 0x8E1 */ u8 unk8E1;
-    /* 0x8E2 */ u8 filler8E2[6];
+    /* 0x8E2 */ u8 filler8E2[2];
+    /* 0x8E4 */ void *unk8E4; // TODO: type
 } UnkArg2; /* 0x8E8 */
 
+struct Task *sub_80B33D0(UnkArg2 *strc);
+struct Task *sub_80B48A4(UnkArg2 *strc);
+struct Task *sub_80B4E1C(UnkArg2 *strc);
+struct Task *sub_80B3314(UnkArg2 *strc);
+struct Task *sub_80B22CC(UnkArg2 *strc);
+
+extern void sub_800341C(void);
 extern void sub_808ADF0(u8 param0);
 extern void sub_80AB120(u8 param0);
 void sub_80B1AF4(s16 param0, s16 param1, u8 param2);
 void Task_8E8_80B1E34(void);
+void Task_8E8_80B1F4C(void);
+void Task_8E8_80B205C(void);
+void Task_SpStage8E8_Destroy(void);
 void TaskDestructor_80B2224(struct Task *t);
 void Task_8E8_80B2228(void);
+void Task_8E8_80B2284(void);
 void sub_80B6778(UnkArg2 *arg0, s32 *arg1);
 void sub_80B6B20(void);
 void sub_80B6B3C(Background *bg, s32 arg1, s32 arg2, u16 arg3, u16 arg4, u16 arg5, u8 arg6, u8 arg7, u16 arg8, u16 arg9);
 void sub_80B6BB8(Sprite *inSprite, s8 arg1, s32 tileCount, AnimId anim, u32 frameFlags, s16 x, s16 y, s16 oamOrder, u8 pattern, u8 palId);
+void sub_80B6CD8(s32, u8, u8, u8);
 void Task_80B6D78(void);
 void TaskDestructor_SpStage288(struct Task *t);
 void sub_80B7074(void);

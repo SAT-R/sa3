@@ -180,166 +180,161 @@ void Task_8E8_80B1EC8(void)
     }
 }
 
-#if 0
-void Task_8E8_80B1F4C(void) {
-    u16 temp_r0;
-    u16 temp_r1;
-    u8 var_r0;
+void Task_8E8_80B1F4C(void)
+{
+    UnkArg2 *temp_r1 = TASK_DATA(gCurTask);
+    Arg2Task8 *task8 = TASK_DATA(temp_r1->task8);
 
-    temp_r1 = gCurTask->data;
-    temp_r0 = temp_r1->unk8->unk6->unkAC;
-    switch (temp_r0) {
-    case -1:
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-        var_r0 = 3;
-block_4:
-        gStageData.unk4 = var_r0;
-        temp_r1->unk8C4 = 5;
-    default:
-block_7:
-        if ((8 & gPressedKeys) && (gStageData.gameMode != 1)) {
-            sub_800341C();
-        }
-        return;
-    case 7:
-    case 9:
-    case 12:
-    case 14:
-    case 15:
-    case 16:
-    case 17:
-    case 19:
-        var_r0 = 9;
-        goto block_4;
-    case 10:
-    case 11:
-        gStageData.unk4 = 9;
-        temp_r1->unk8C4 = 6;
-        goto block_7;
-    case 8:
-    case 13:
-    case 18:
-    case 20:
-        gStageData.unk4 = 6;
-        temp_r1->unk8C4 = 7;
-        gCurTask->main = Task_8E8_80B205C;
-        return;
+    switch (task8->unkAC) {
+        case -1:
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+            gStageData.unk4 = 3;
+            temp_r1->unk8C4 = 5;
+            break;
+        case 7:
+        case 9:
+        case 12:
+        case 14:
+        case 15:
+        case 16:
+        case 17:
+        case 19:
+            gStageData.unk4 = 9;
+            temp_r1->unk8C4 = 5;
+            break;
+        case 10:
+        case 11:
+            gStageData.unk4 = 9;
+            temp_r1->unk8C4 = 6;
+            break;
+        case 8:
+        case 13:
+        case 18:
+        case 20:
+            gStageData.unk4 = 6;
+            temp_r1->unk8C4 = 7;
+            gCurTask->main = Task_8E8_80B205C;
+            return;
+    }
+
+    if ((START_BUTTON & gPressedKeys) && (gStageData.gameMode != GAME_MODE_DEMO)) {
+        sub_800341C();
     }
 }
 
-void Task_8E8_80B205C(void) {
-    ScreenFade *temp_r0_2;
-    u16 temp_r0;
+void Task_8E8_80B205C(void)
+{
+    UnkArg2 *strc = TASK_DATA(gCurTask);
 
-    temp_r0 = gCurTask->data;
-    temp_r0_2 = temp_r0 + 0x7C;
-    temp_r0->unk7C = 1;
-    temp_r0_2->flags = 1;
-    temp_r0_2->brightness = 0;
-    temp_r0_2->speed = 0x40;
-    temp_r0_2->bldAlpha = 0;
-    temp_r0_2->bldCnt = 0xBF;
-    UpdateScreenFade(temp_r0_2);
+    ScreenFade *fade = &strc->fade7C;
+    fade->window = 1;
+    fade->flags = 1;
+    fade->brightness = 0;
+    fade->speed = Q(0.25);
+    fade->bldAlpha = 0;
+    fade->bldCnt = 0xBF;
+    UpdateScreenFade(fade);
+
     gDispCnt = 0x9C42;
     gWinRegs[5] = 0x103F;
     gCurTask->main = Task_SpStage8E8_Destroy;
 }
 
-void Task_SpStage8E8_Destroy(void) {
+void Task_SpStage8E8_Destroy(void)
+{
     Task *temp_r0;
     Task *temp_r0_2;
     Task *temp_r0_3;
     Task *temp_r0_4;
     Task *temp_r0_5;
     s32 var_r4;
-    u16 temp_r5;
+    UnkArg2 *strc = TASK_DATA(gCurTask);
+    ScreenFade *fade = &strc->fade7C;
 
-    temp_r5 = gCurTask->data;
-    if ((UpdateScreenFade(temp_r5 + 0x7C) << 0x18) == 0) {
+    if (UpdateScreenFade(fade) == SCREEN_FADE_RUNNING) {
         gDispCnt = 0x9C42;
         gWinRegs[5] = 0x103F;
         return;
     }
+
     gFlags &= ~4;
-    temp_r0 = temp_r5->unk0;
-    if (temp_r0 != NULL) {
-        TaskDestroy(temp_r0);
-        temp_r5->unk0 = NULL;
+    if (strc->task0 != NULL) {
+        TaskDestroy(strc->task0);
+        strc->task0 = NULL;
     }
-    temp_r0_2 = temp_r5->unk4;
-    if (temp_r0_2 != NULL) {
-        TaskDestroy(temp_r0_2);
-        temp_r5->unk4 = NULL;
+
+    if (strc->task4 != NULL) {
+        TaskDestroy(strc->task4);
+        strc->task4 = NULL;
     }
-    temp_r0_3 = temp_r5->unk8;
-    if (temp_r0_3 != NULL) {
-        TaskDestroy(temp_r0_3);
-        temp_r5->unk8 = NULL;
+
+    if (strc->task8 != NULL) {
+        TaskDestroy(strc->task8);
+        strc->task8 = NULL;
     }
-    temp_r0_4 = temp_r5->unkC;
+    temp_r0_4 = strc->taskC;
     if (temp_r0_4 != NULL) {
         TaskDestroy(temp_r0_4);
-        temp_r5->unkC = NULL;
+        strc->taskC = NULL;
     }
-    temp_r0_5 = temp_r5->unk10;
+    temp_r0_5 = strc->task10;
     if (temp_r0_5 != NULL) {
         TaskDestroy(temp_r0_5);
-        temp_r5->unk10 = NULL;
+        strc->task10 = NULL;
     }
     if (gStageData.unkD == 0) {
         var_r4 = 0;
-        if ((s32) temp_r5->unk8C2 <= (s32) temp_r5->unk8C0) {
+        if ((s32)strc->unk8C2 <= (s32)strc->unk8C0) {
             var_r4 = 1;
         }
-        goto block_21;
-    }
-    if (((s8) temp_r5->unk8D4 == 0) || (temp_r5->unk8C7 == 6)) {
+        sub_80B6CD8(var_r4, strc->unk8C7, strc->unk8C6, strc->unk8C9);
+    } else if (((s8)strc->unk8D4 == 0) || (strc->unk8C7 == 6)) {
         var_r4 = 0;
-        if ((s32) temp_r5->unk8C2 <= (s32) temp_r5->unk8C0) {
+        if (strc->unk8C2 <= strc->unk8C0) {
             var_r4 = 1;
         }
-block_21:
-        sub_80B6CD8(var_r4, temp_r5->unk8C7, temp_r5->unk8C6, temp_r5->unk8C9);
+
+        sub_80B6CD8(var_r4, strc->unk8C7, strc->unk8C6, strc->unk8C9);
     } else {
-        temp_r5->unk8C9 = (u8) ((1 << temp_r5->unk8C7) | temp_r5->unk8C9);
+        SetBit(strc->unk8C9, strc->unk8C7);
         gStageData.unkD = 1;
-        sub_80B1AF4(0U, temp_r5->unk8C7 + 1, temp_r5->unk8C9);
+        sub_80B1AF4(0U, strc->unk8C7 + 1, strc->unk8C9);
     }
     TaskDestroy(gCurTask);
 }
 
-void TaskDestructor_80B2224(Task *arg0) {
+void TaskDestructor_80B2224(Task *arg0) { }
 
-}
+void Task_8E8_80B2228(void)
+{
+    UnkArg2 *strc = TASK_DATA(gCurTask);
 
-void Task_8E8_80B2228(void) {
-    u16 temp_r4;
-
-    temp_r4 = gCurTask->data;
     sub_80B1D30();
-    sub_80B6BB8(temp_r4 + 0x14, 0, 0x28U, 0x460U, 0, 0x78, 0x50, 0, 0U, 0);
-    temp_r4->unk8C4 = 1;
+    sub_80B6BB8(&strc->sprite14, 0, 0x28U, 0x460U, 0, 120, 80, 0, 0U, 0);
+    strc->unk8C4 = 1;
     m4aSongNumStart(MUS_SPECIAL_STAGE);
     gCurTask->main = Task_8E8_80B1DA0;
 }
 
-void Task_8E8_80B2284(void) {
-    u16 temp_r4;
+void Task_8E8_80B2284(void)
+{
+    UnkArg2 *strc = TASK_DATA(gCurTask);
+    ScreenFade *fade = &strc->fade7C;
 
-    temp_r4 = gCurTask->data;
-    if ((UpdateScreenFade(temp_r4 + 0x7C) << 0x18) != 0) {
-        temp_r4->unk8BE = 0;
-        temp_r4->unk8C4 = 4;
+    if (UpdateScreenFade(fade) != SCREEN_FADE_RUNNING) {
+        strc->unk8BE = 0;
+        strc->unk8C4 = 4;
         gCurTask->main = Task_8E8_80B1EC8;
     }
 }
 
+#if 0
 Task *sub_80B22CC(s32 arg0) {
     Task *temp_r0;
     u16 temp_r2;
