@@ -3688,41 +3688,6 @@ s16 sub_80B65FC(u16 arg0, ? *arg1) {
     } while ((s32) ((s32) temp_r0 >> 0x10) <= 3);
     return (s16) var_sl;
 }
-
-void sub_80B6774(void) {
-
-}
-
-void sub_80B6778(void *arg0, ? *arg1) {
-    u32 temp_r0;
-    u32 var_r4;
-    u8 temp_r3;
-    void *var_r2;
-
-    var_r2 = arg0->unk4->unk6 + 0x744;
-    var_r4 = 0;
-loop_1:
-    temp_r3 = var_r2->unk1A;
-    if (temp_r3 == 0) {
-        var_r2->unk0 = (s32) arg1->unk0;
-        var_r2->unk4 = (s32) arg1->unk4;
-        var_r2->unk8 = (s32) arg1->unk8;
-        var_r2->unkC = (s32) temp_r3;
-        var_r2->unk10 = (s32) temp_r3;
-        var_r2->unk14 = (s32) temp_r3;
-        var_r2->unk18 = (s16) temp_r3;
-        var_r2->unk1B = 0;
-        var_r2->unk1A = 4U;
-        return;
-    }
-    temp_r0 = (var_r4 << 0x10) + 0x10000;
-    var_r2 += 0x1C;
-    var_r4 = temp_r0 >> 0x10;
-    if ((s32) ((s32) temp_r0 >> 0x10) > 3) {
-        return;
-    }
-    goto loop_1;
-}
 #endif
 
 // 0x288U
@@ -3798,13 +3763,31 @@ typedef struct {
 } Arg2Task0;
 
 typedef struct {
+    s32 unk0;
+    s32 unk4;
+    s32 unk8;
+    s32 unkC;
+    s32 unk10;
+    s32 unk14;
+    s16 unk18;
+    u8 unk1A;
+    s8 unk1B;
+} Arg2Task4_x744; /* 0x1C */
+
+typedef struct {
+    /* 0x000 */ u8 filler0[0x744];
+    /* 0x744 */ Arg2Task4_x744 unk744[4];
+    /* 0x7B4 */
+} Arg2Task4; /* ??? */
+
+typedef struct {
     u8 filler0[0x4C];
     s32 unk4C;
 } Arg2TaskC;
 
 typedef struct {
     struct Task *task0; // -> Arg2Task0
-    s32 unk4;
+    struct Task *task4; // -> Arg2Task4
     s32 unk8;
     struct Task *taskC; // -> Arg2TaskC
 
@@ -3821,6 +3804,32 @@ typedef struct {
     u8 unk8E0;
     u8 unk8E1;
 } UnkArg2;
+
+void sub_80B6774(void) { }
+
+void sub_80B6778(UnkArg2 *arg0, s32 *arg1)
+{
+    s16 var_r4;
+    u8 temp_r3;
+    Arg2Task4 *strc = TASK_DATA(arg0->task4);
+
+    Arg2Task4_x744 *var_r2 = &strc->unk744[0];
+
+    for (var_r4 = 0; var_r4 < (s32)ARRAY_COUNT(strc->unk744); var_r4++, var_r2++) {
+        if (var_r2->unk1A == 0) {
+            var_r2->unk0 = arg1[0];
+            var_r2->unk4 = arg1[1];
+            var_r2->unk8 = arg1[2];
+            var_r2->unkC = 0;
+            var_r2->unk10 = 0;
+            var_r2->unk14 = 0;
+            var_r2->unk18 = 0;
+            var_r2->unk1B = 0;
+            var_r2->unk1A = 4;
+            break;
+        }
+    }
+}
 
 // (58.02%) https://decomp.me/scratch/JZSdj
 NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B67C4.inc", s32 sub_80B67C4(UnkArg0 *arg0, UnkArg1 *arg1, UnkArg2 *arg2, s32 arg3))

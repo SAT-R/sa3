@@ -9609,54 +9609,5 @@ _080B674A:
 	.align 2, 0
 _080B6770: .4byte 0x04000005
 
-    thumb_func_start sub_80B6774
-sub_80B6774:
-	bx lr
-    .align 2 , 0
-
-	thumb_func_start sub_80B6778
-sub_80B6778: @ 0x080B6778
-	push {r4, r5, lr}
-	ldr r0, [r0, #4]
-	ldrh r0, [r0, #6]
-	ldr r3, _080B67A8 @ =0x03000744
-	adds r2, r0, r3
-	movs r4, #0
-	movs r5, #0
-_080B6786:
-	ldrb r3, [r2, #0x1a]
-	cmp r3, #0
-	bne _080B67AC
-	ldr r0, [r1]
-	str r0, [r2]
-	ldr r0, [r1, #4]
-	str r0, [r2, #4]
-	ldr r0, [r1, #8]
-	str r0, [r2, #8]
-	str r3, [r2, #0xc]
-	str r3, [r2, #0x10]
-	str r3, [r2, #0x14]
-	strh r3, [r2, #0x18]
-	strb r5, [r2, #0x1b]
-	movs r0, #4
-	strb r0, [r2, #0x1a]
-	b _080B67BE
-	.align 2, 0
-_080B67A8: .4byte 0x03000744
-_080B67AC:
-	lsls r0, r4, #0x10
-	movs r3, #0x80
-	lsls r3, r3, #9
-	adds r0, r0, r3
-	adds r2, #0x1c
-	lsrs r4, r0, #0x10
-	asrs r0, r0, #0x10
-	cmp r0, #3
-	ble _080B6786
-_080B67BE:
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-    
 .if 0
 .endif
