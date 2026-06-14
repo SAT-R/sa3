@@ -134,53 +134,53 @@ void Task_8E8_80B1DA0(void)
     gCurTask->main = Task_8E8_80B1E34;
 }
 
-#if 01
-#endif
+void Task_8E8_80B1E34(void)
+{
+    UnkArg2 *strc = TASK_DATA(gCurTask);
 
-#if 0
-void Task_8E8_80B1E34(void) {
-    s16 temp_r0;
-    u16 temp_r5;
+    strc->unk8C4 = 2;
 
-    temp_r5 = gCurTask->data;
-    temp_r5->unk8C4 = 2;
-    temp_r0 = temp_r5->unk8BE;
-    switch (temp_r0) {                              /* irregular */
-    case 0:
-        temp_r5->unk8 = sub_80B33D0(temp_r5);
-        temp_r5->unk8E4 = (u16 *) gUnknown_03001EA0;
-        temp_r5->unkC = sub_80B48A4(temp_r5);
-        temp_r5->unk4 = sub_80B4E1C(temp_r5);
-        temp_r5->unk0 = sub_80B3314(temp_r5);
-        temp_r5->unk10 = sub_80B22CC(temp_r5);
-    default:
-        temp_r5->unk8BE = (s16) ((u16) temp_r5->unk8BE + 1);
-        return;
-    case 1:
-        temp_r5->unk8C4 = 3;
-        gCurTask->main = Task_8E8_80B2284;
-        return;
+    switch (strc->unk8BE) {
+        case 0: {
+            strc->task8 = sub_80B33D0(strc);
+            strc->unk8E4 = gUnknown_03001EA0;
+            strc->taskC = sub_80B48A4(strc);
+            strc->task4 = sub_80B4E1C(strc);
+            strc->task0 = sub_80B3314(strc);
+            strc->task10 = sub_80B22CC(strc);
+        } break;
+
+        case 1: {
+            strc->unk8C4 = 3;
+            gCurTask->main = Task_8E8_80B2284;
+            return;
+        } break;
     }
+
+    strc->unk8BE++;
 }
 
-void Task_8E8_80B1EC8(void) {
-    u16 temp_r2;
+void Task_8E8_80B1EC8(void)
+{
+    UnkArg2 *temp_r2 = TASK_DATA(gCurTask);
 
-    temp_r2 = gCurTask->data;
     if (temp_r2->unk8C8 == 0) {
-        temp_r2->unk8BE = (u16) (temp_r2->unk8BE + 1);
+        temp_r2->unk8BE++;
     }
+
     temp_r2->unk8DF = 0x3C;
     temp_r2->unk8DA = 0x8C;
     temp_r2->unk8B0 = 0x02000000;
     temp_r2->unk8B4 = 0x3C0000;
-    if ((s32) (s16) temp_r2->unk8BE > 0xDB) {
+
+    if (temp_r2->unk8BE >= 0xDC) {
         temp_r2->unk8BE = 0U;
         temp_r2->unk8C4 = 5;
         gCurTask->main = Task_8E8_80B1F4C;
     }
 }
 
+#if 0
 void Task_8E8_80B1F4C(void) {
     u16 temp_r0;
     u16 temp_r1;
