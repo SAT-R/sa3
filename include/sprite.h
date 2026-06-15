@@ -255,6 +255,13 @@ typedef struct {
     /* 0x04 */ u32 numTiles;
 } TileInfo2;
 
+// TileInfo, but ordered differently
+typedef struct {
+    /* 0x00 */ AnimId anim;
+    /* 0x02 */ u8 variant;
+    /* 0x04 */ u16 numTiles;
+} TileInfo3;
+
 // Used in places where the RODATA is u16[n][3] instead of TileInfo.
 #define TI_NUM_TILES(arr) (arr)[0]
 #define TI_ANIM(arr)      (arr)[1]

@@ -114,8 +114,8 @@ typedef struct {
     /* 0x8CB */ u8 unk8CB;
     /* 0x8CC */ u8 unk8CC;
     /* 0x8CD */ u8 unk8CD;
-    /* 0x8CE */ u8 unk8CE;
-    /* 0x8CF */ u8 unk8CF;
+    /* 0x8CE */ s8 unk8CE;
+    /* 0x8CF */ s8 unk8CF;
     /* 0x8D0 */ u8 unk8D0;
     /* 0x8D1 */ s8 unk8D1;
     /* 0x8D2 */ u8 unk8D2;
@@ -137,17 +137,24 @@ typedef struct {
 
 typedef struct {
     /* 0x000 */ UnkArg2 *unk0;
-    /* 0x280 */ u8 filler4[0x280];
+    /* 0x004 */ Sprite sprite4;
+    /* 0x02C */ Sprite sprite2C;
+    /* 0x054 */ Sprite sprite54;
+    /* 0x07C */ Sprite sprite7C;
+    /* 0x0A4 */ Sprite spriteA4;
+    /* 0x0CC */ Sprite spriteCC;
+    /* 0x0F4 */ Sprite spriteF4;
+    /* 0x11C */ u8 filler11C[0x168];
     /* 0x284 */ s32 unk284;
-    /* 0x288 */ u8 unk288;
-    /* 0x289 */ u8 unk289;
-    /* 0x28A */ u8 unk28A;
-    /* 0x28B */ u8 unk28B;
+    /* 0x288 */ s8 unk288;
+    /* 0x289 */ s8 unk289;
+    /* 0x28A */ s8 unk28A;
+    /* 0x28B */ s8 unk28B;
     /* 0x28C */ s16 unk28C;
     /* 0x28E */ s16 unk28E;
     /* 0x290 */ s16 unk290;
     /* 0x292 */ s16 unk292;
-    /* 0x294 */ s16 unk294;
+    /* 0x294 */ u16 unk294;
     /* 0x296 */ u8 filler296[0xE];
 } SpStage2A4; /* 0x2A4 */
 
@@ -162,6 +169,7 @@ extern void sub_808ADF0(u8 param0);
 extern void sub_80AB120(u8 param0);
 void sub_80B1AF4(s16 param0, s16 param1, u8 param2);
 void Task_8E8_80B1E34(void);
+void sub_2A4_80B26FC(void);
 void Task_8E8_80B1F4C(void);
 void Task_8E8_80B205C(void);
 void Task_SpStage8E8_Destroy(void);
@@ -169,7 +177,17 @@ void TaskDestructor_80B2224(struct Task *t);
 void Task_8E8_80B2228(void);
 void Task_8E8_80B2284(void);
 void Task_2A4_80B2358(void);
+void sub_80B24AC(SpStage2A4 *strc2A4);
+void sub_2A4_80B2640(void);
+void sub_2A4_80B26FC(void);
+void sub_80B28AC(SpStage2A4 *strc2A4);
+void sub_80B29B4(SpStage2A4 *strc2A4, u8 param1);
+void sub_80B2B38(SpStage2A4 *strc2A4);
+void sub_80B2C98(SpStage2A4 *strc2A4, u8 param1);
+void sub_80B2D0C(SpStage2A4 *strc2A4);
 void sub_80B2D90(SpStage2A4 *strc2A4);
+void sub_80B2D9C(SpStage2A4 *strc2A4);
+void sub_80B2E9C(SpStage2A4 *strc2A4);
 void TaskDestructor_80B2D84(struct Task *t);
 void sub_80B6778(UnkArg2 *arg0, s32 *arg1);
 void sub_80B6B20(void);
@@ -186,6 +204,7 @@ void Task_80B7314(void);
 
 s16 sa3__sub_80B1560(s16 *unk28, u16 unk5C);
 extern s16 gUnknown_080DBE82[];
+extern TileInfo3 gUnknown_080DBEA0[11];
 extern s16 gUnknown_080E30DC[12];
 extern s16 gUnknown_080E30F4[12];
 extern u8 *gUnknown_03001E9C;
