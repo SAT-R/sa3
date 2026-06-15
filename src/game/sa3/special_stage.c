@@ -452,143 +452,137 @@ void sub_2A4_80B2640(void)
         sub_2A4_80B26FC();
     }
     if (temp_r6->unk8CE) {
-        s = &strc->sprite4;
-        DisplaySprite(s);
+        DisplaySprite(&strc->sprite4);
     }
 
     if (temp_r6->unk8CE || temp_r6->unk8CF) {
-        s = &strc->sprite2C;
-        DisplaySprite(s);
+        DisplaySprite(&strc->sprite2C);
     }
 
-    s = &strc->sprite54;
-    DisplaySprite(s);
+    DisplaySprite(&strc->sprite54);
 
-    s = &strc->sprite7C;
-    DisplaySprite(s);
+    DisplaySprite(&strc->sprite7C);
 
-    if (temp_r6->unk8D1 != 0) {
-        s = &strc->spriteA4;
-        DisplaySprite(s);
+    if (temp_r6->unk8D1) {
+        DisplaySprite(&strc->spriteA4);
     }
     if (temp_r6->unk8D1 || temp_r6->unk8D2) {
-        s = &strc->spriteCC;
-        DisplaySprite(s);
+        DisplaySprite(&strc->spriteCC);
     }
 
-    s = &strc->spriteF4;
-    DisplaySprite(s);
+    DisplaySprite(&strc->spriteF4);
 }
 
-#if 0
-void sub_2A4_80B26FC(void) {
-    Sprite *temp_r1;
-    Sprite *temp_r1_2;
-    Sprite *temp_r1_3;
-    Sprite *temp_r1_4;
-    Sprite *temp_r1_5;
-    Sprite *temp_r1_6;
-    Sprite *var_r1;
-    u16 temp_r6;
-    void *temp_r2;
-    void *temp_r2_2;
-    void *temp_r2_3;
-    void *temp_r2_4;
-    void *temp_r2_5;
-    void *temp_r2_6;
-    void *temp_r5;
+void sub_2A4_80B26FC(void)
+{
+    TileInfo3 *temp_r2;
+    SpStage2A4 *strc = TASK_DATA(gCurTask);
+    UnkArg2 *temp_r5;
+    Sprite *s;
 
-    temp_r6 = gCurTask->data;
-    temp_r5 = *temp_r6;
-    temp_r2 = ((s8) temp_r5->unk8CE * 8) + &gUnknown_080DBEA0;
-    temp_r1 = temp_r6 + 4;
-    temp_r1->anim = temp_r2->unk0;
-    temp_r1->variant = (u8) temp_r2->unk2;
-    UpdateSpriteAnimation(temp_r1);
-    temp_r2_2 = ((s8) temp_r5->unk8CF * 8) + &gUnknown_080DBEA0;
-    temp_r1_2 = temp_r6 + 0x2C;
-    temp_r1_2->anim = temp_r2_2->unk0;
-    temp_r1_2->variant = (u8) temp_r2_2->unk2;
-    UpdateSpriteAnimation(temp_r1_2);
-    temp_r2_3 = ((s8) temp_r5->unk8D0 * 8) + &gUnknown_080DBEA0;
-    temp_r1_3 = temp_r6 + 0x54;
-    temp_r1_3->anim = temp_r2_3->unk0;
-    temp_r1_3->variant = (u8) temp_r2_3->unk2;
-    UpdateSpriteAnimation(temp_r1_3);
-    temp_r2_4 = ((s8) temp_r5->unk8D1 * 8) + &gUnknown_080DBEA0;
-    temp_r1_4 = temp_r6 + 0xA4;
-    temp_r1_4->anim = temp_r2_4->unk0;
-    temp_r1_4->variant = (u8) temp_r2_4->unk2;
-    UpdateSpriteAnimation(temp_r1_4);
-    temp_r2_5 = ((s8) temp_r5->unk8D2 * 8) + &gUnknown_080DBEA0;
-    temp_r1_5 = temp_r6 + 0xCC;
-    temp_r1_5->anim = temp_r2_5->unk0;
-    temp_r1_5->variant = (u8) temp_r2_5->unk2;
-    UpdateSpriteAnimation(temp_r1_5);
-    temp_r2_6 = ((s8) temp_r5->unk8D3 * 8) + &gUnknown_080DBEA0;
-    temp_r1_6 = temp_r6 + 0xF4;
-    temp_r1_6->anim = temp_r2_6->unk0;
-    temp_r1_6->variant = (u8) temp_r2_6->unk2;
-    UpdateSpriteAnimation(temp_r1_6);
-    if (temp_r5->unk8D4 == 0) {
-        if ((s32) temp_r5->unk8C0 >= (s32) temp_r5->unk8C2) {
+    temp_r5 = strc->unk0;
+    temp_r2 = &gUnknown_080DBEA0[(s8)(u8)temp_r5->unk8CE];
+    s = &strc->sprite4;
+    s->anim = temp_r2->anim;
+    s->variant = *(u16 *)&temp_r2->variant;
+    UpdateSpriteAnimation(s);
+    temp_r2 = &gUnknown_080DBEA0[(s8)(u8)temp_r5->unk8CF];
+    s = &strc->sprite2C;
+    s->anim = temp_r2->anim;
+    s->variant = *(u16 *)&temp_r2->variant;
+    UpdateSpriteAnimation(s);
+    temp_r2 = &gUnknown_080DBEA0[(s8)temp_r5->unk8D0];
+    s = &strc->sprite54;
+    s->anim = temp_r2->anim;
+    s->variant = *(u16 *)&temp_r2->variant;
+    UpdateSpriteAnimation(s);
+    temp_r2 = &gUnknown_080DBEA0[(s8)(u8)temp_r5->unk8D1];
+    s = &strc->spriteA4;
+    s->anim = temp_r2->anim;
+    s->variant = *(u16 *)&temp_r2->variant;
+    UpdateSpriteAnimation(s);
+    temp_r2 = &gUnknown_080DBEA0[(s8)temp_r5->unk8D2];
+    s = &strc->spriteCC;
+    s->anim = temp_r2->anim;
+    s->variant = *(u16 *)&temp_r2->variant;
+    UpdateSpriteAnimation(s);
+    temp_r2 = &gUnknown_080DBEA0[(s8)temp_r5->unk8D3];
+    s = &strc->spriteF4;
+    s->anim = temp_r2->anim;
+    s->variant = *(u16 *)&temp_r2->variant;
+    UpdateSpriteAnimation(s);
+
+    if ((s8)temp_r5->unk8D4 == 0) {
+        if (temp_r5->unk8C0 >= temp_r5->unk8C2) {
             temp_r5->unk8D4 = 1;
             temp_r5->unk8D6 = 1;
             temp_r5->unk8D7 = 0x78;
-            var_r1 = temp_r6 + 0x7C;
-            var_r1->anim = 0x464;
-            var_r1->variant = 1;
-            goto block_5;
+            s = &strc->sprite7C;
+            s->anim = 1124;
+            s->variant = 1;
+            UpdateSpriteAnimation(&strc->sprite7C);
         }
     } else {
-        if ((s32) temp_r5->unk8C0 < (s32) temp_r5->unk8C2) {
+        if (temp_r5->unk8C0 < temp_r5->unk8C2) {
             temp_r5->unk8D4 = 0;
-            var_r1 = temp_r6 + 0x7C;
-            var_r1->anim = 0x464;
-            var_r1->variant = 0;
-block_5:
-            UpdateSpriteAnimation(var_r1);
-            return;
+            s = &strc->sprite7C;
+            s->anim = 1124;
+            s->variant = 0;
+            UpdateSpriteAnimation(s);
+        } else {
+            s = &strc->sprite7C;
+            UpdateSpriteAnimation(s);
         }
-        UpdateSpriteAnimation(temp_r6 + 0x7C);
     }
 }
 
-void sub_80B28AC(void *arg0) {
+void sub_80B28AC(SpStage2A4 *strc2A4)
+{
     Sprite *temp_r6;
+    u16 a;
     s16 temp_r0;
     u16 temp_r2;
+    Sprite *s;
 
-    temp_r6 = arg0 + 0x144;
-    arg0->unk28E = (u16) (arg0->unk28E + 0xC0);
-    temp_r0 = (u16) ((s32) (sa3__sub_80B1560(&gUnknown_080DBF68, arg0->unk28E) << 0x10) >> 0x11) + gUnknown_080DBF94.unk2;
-    temp_r6->x = temp_r0;
-    if ((s32) (temp_r0 << 0x10) > 0x012B0000) {
-        sub_80B2DF4(arg0);
+    temp_r6 = &strc2A4->sprite144;
+    strc2A4->unk28E = (u16)strc2A4->unk28E + 0xC0;
+    a = sa3__sub_80B1560(&gUnknown_080DBF68, strc2A4->unk28E) >> 1;
+    s = &strc2A4->sprite144;
+    s->x = gUnknown_080DBF94[1] + a;
+    if (s->x > 0x012B) {
+        sub_80B2DF4(strc2A4);
         return;
     }
-    temp_r2 = arg0->unk28E;
-    if (((u32) ((temp_r2 + 0xFFFF8ACF) << 0x10) <= 0x0E0E0000U) || ((u32) temp_r2 > 0xABC0U)) {
+    temp_r2 = (u16)strc2A4->unk28E;
+    if (((u32)((temp_r2 - 30001) << 0x10) <= 0x0E0E0000U) || ((u32)temp_r2 > 0xABC0U)) {
         UpdateSpriteAnimation(temp_r6);
     }
     DisplaySprite(temp_r6);
 }
 
-void sub_80B292C(void *arg0) {
-    ? (*sp18)(s16, s16 *);
+// TODO: Seems to be unused?
+// TODO: Fake-match!
+void sub_80B292C(SpStage2A4 *strc2A4)
+{
+    u16 sp18[6][3];
     u8 sp1C;
+    Sprite *s = &strc2A4->sprite16C;
+    s32 r4 = 0;
+    u16 *ptr2;
+    u16 *ptr;
 
-    memcpy(&sp18, &gUnknown_080DBFA8, 0x24);
-    sub_80B6BB8(arg0 + 0x16C, 1, sp18.unk0, sp18.unk2, 0, 0x78, 0x50, 0, (u32) sp1C, 0);
-    (void *)0x040000D4->unk0 = &gObjPalette[0xF9];
-    (void *)0x040000D4->unk4 = (s32) (arg0 + 0x298);
-    (void *)0x040000D4->unk8 = 0x80000003;
-    (void *)0x040000D4->unk0 = (u16 *) (&gObjPalette[0xF9] + 6);
-    (void *)0x040000D4->unk4 = (s32) (arg0 + 0x29E);
-    (void *)0x040000D4->unk8 = 0x80000003;
-    arg0->unk289 = 1;
+    // TODO: Remove memcpy
+    memcpy(&sp18, &gUnknown_080DBFA8, sizeof(sp18));
+
+    ptr = (void *)sp18;
+    sub_80B6BB8(s, 1, *ptr++, *ptr++, r4, DISPLAY_CENTER_X, DISPLAY_CENTER_Y, 0, *(ptr2 = &sp18[0][2]), 0);
+    DmaCopy16(3, &gObjPalette[15 * 16 + 9], strc2A4->pal298, sizeof(strc2A4->pal298));
+    DmaCopy16(3, &gObjPalette[15 * 16 + 12], strc2A4->pal29E, sizeof(strc2A4->pal29E));
+
+    strc2A4->unk289 = 1;
 }
 
+#if 0
 void sub_80B29B4(void *arg0, s32 arg1) {
     ? sp18;
     s32 sp24;

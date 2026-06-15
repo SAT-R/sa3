@@ -144,7 +144,10 @@ typedef struct {
     /* 0x0A4 */ Sprite spriteA4;
     /* 0x0CC */ Sprite spriteCC;
     /* 0x0F4 */ Sprite spriteF4;
-    /* 0x11C */ u8 filler11C[0x168];
+    /* 0x11C */ Sprite sprite11C;
+    /* 0x144 */ Sprite sprite144;
+    /* 0x16C */ Sprite sprite16C;
+    /* 0x194 */ u8 filler194[0xF0];
     /* 0x284 */ s32 unk284;
     /* 0x288 */ s8 unk288;
     /* 0x289 */ s8 unk289;
@@ -155,7 +158,9 @@ typedef struct {
     /* 0x290 */ s16 unk290;
     /* 0x292 */ s16 unk292;
     /* 0x294 */ u16 unk294;
-    /* 0x296 */ u8 filler296[0xE];
+    /* 0x296 */ u8 filler296[0x2];
+    /* 0x298 */ u16 pal298[3];
+    /* 0x298 */ u16 pal29E[3];
 } SpStage2A4; /* 0x2A4 */
 
 struct Task *sub_80B33D0(UnkArg2 *strc);
@@ -187,6 +192,7 @@ void sub_80B2C98(SpStage2A4 *strc2A4, u8 param1);
 void sub_80B2D0C(SpStage2A4 *strc2A4);
 void sub_80B2D90(SpStage2A4 *strc2A4);
 void sub_80B2D9C(SpStage2A4 *strc2A4);
+void sub_80B2DF4(SpStage2A4 *strc2A4);
 void sub_80B2E9C(SpStage2A4 *strc2A4);
 void TaskDestructor_80B2D84(struct Task *t);
 void sub_80B6778(UnkArg2 *arg0, s32 *arg1);
@@ -205,6 +211,9 @@ void Task_80B7314(void);
 s16 sa3__sub_80B1560(s16 *unk28, u16 unk5C);
 extern s16 gUnknown_080DBE82[];
 extern TileInfo3 gUnknown_080DBEA0[11];
+extern s16 gUnknown_080DBF68;
+extern s16 gUnknown_080DBF94[];
+extern u16 gUnknown_080DBFA8[6][3];
 extern s16 gUnknown_080E30DC[12];
 extern s16 gUnknown_080E30F4[12];
 extern u8 *gUnknown_03001E9C;
