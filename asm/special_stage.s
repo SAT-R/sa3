@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start sub_80B2D0C
 sub_80B2D0C: @ 0x080B2D0C
 	push {r4, r5, r6, lr}
@@ -156,6 +154,7 @@ sub_80B2DF4: @ 0x080B2DF4
 	.align 2, 0
 _080B2E14: .4byte gUnknown_03001EA0
 _080B2E18: .4byte 0x0000028E
+.endif
 
 	thumb_func_start sub_80B2E1C
 sub_80B2E1C: @ 0x080B2E1C

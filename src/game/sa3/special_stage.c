@@ -696,6 +696,48 @@ void sub_80B2C98(SpStage2A4 *strc2A4, u8 arg1) {
     gBldRegs.bldY = 0;
 }
 
+void sub_80B2D0C(SpStage2A4 *strc2A4)
+{
+    Sprite *s;
+
+    strc2A4->unk28C += 0xC0;
+    strc2A4->sprite25C.x = (sa3__sub_80B1560(&gUnknown_080DBF68, strc2A4->unk28C) >> 1) + (u16)gUnknown_080DBF94[0][1];
+    if (strc2A4->sprite25C.x > 0x012C) {
+        sub_80B2ED4(strc2A4);
+        return;
+    }
+
+    if ((strc2A4->unk28C >= 0x7340) && (strc2A4->unk28C + 0x7F40) > 0x2340) {
+        UpdateSpriteAnimation(s);
+    }
+    DisplaySprite(s);
+}
+
+void TaskDestructor_80B2D84(Task *t) { }
+
+void sub_80B2D88(void) { }
+
+void sub_80B2D8C(void) { }
+
+void sub_80B2D90(SpStage2A4 *strc2A4) { sub_80B24AC(strc2A4); }
+
+void sub_80B2D9C(SpStage2A4 *strc2A4)
+{
+    Sprite *s = &strc2A4->sprite144;
+    strc2A4->unk288 = 1;
+    strc2A4->unk284 = gUnknown_03001EA0;
+    sub_80B6BB8(s, 0, 0x14, 0x471U, 0U, DISPLAY_CENTER_X, DISPLAY_CENTER_Y, 1, 0U, 0U);
+    strc2A4->unk28E = 0;
+}
+
+void sub_80B2DF4(SpStage2A4 *strc2A4)
+{
+    gUnknown_03001EA0 = (u8 *)strc2A4->unk284;
+    strc2A4->unk284 = 0;
+    strc2A4->unk288 = 0;
+    strc2A4->unk28E = 0;
+}
+
 #if 0
 void sub_80B2D0C(void *arg0) {
     Sprite *temp_r6;

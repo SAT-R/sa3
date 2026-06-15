@@ -149,7 +149,7 @@ typedef struct {
     /* 0x16C */ Sprite sprite16C;
     /* 0x16C */ Sprite sprites194[5];
     /* 0x25C */ Sprite sprite25C;
-    /* 0x284 */ s32 unk284;
+    /* 0x284 */ void *unk284; // VRAM ptr?
     /* 0x288 */ s8 unk288;
     /* 0x289 */ s8 unk289;
     /* 0x28A */ s8 unk28A;
@@ -193,6 +193,7 @@ void sub_80B2D90(SpStage2A4 *strc2A4);
 void sub_80B2D9C(SpStage2A4 *strc2A4);
 void sub_80B2DF4(SpStage2A4 *strc2A4);
 void sub_80B2E9C(SpStage2A4 *strc2A4);
+void sub_80B2ED4(SpStage2A4 *strc2A4);
 void TaskDestructor_80B2D84(struct Task *t);
 void sub_80B6778(UnkArg2 *arg0, s32 *arg1);
 void sub_80B6B20(void);
