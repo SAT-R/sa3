@@ -678,13 +678,14 @@ void sub_80B2B38(SpStage2A4 *strc2A4)
     gBldRegs.bldAlpha = 0x1010;
 }
 
-void sub_80B2C98(SpStage2A4 *strc2A4, u8 arg1) {
+void sub_80B2C98(SpStage2A4 *strc2A4, u8 arg1)
+{
     TileInfo_16_2 *var_r5;
 
     if (arg1 == 0) {
         var_r5 = &gUnknown_080DBF58[0];
     } else {
-		var_r5 = &gUnknown_080DBF58[1];
+        var_r5 = &gUnknown_080DBF58[1];
     }
 
     sub_80B6BB8(&strc2A4->sprite25C, 1, var_r5->numTiles, var_r5->anim, 0, DISPLAY_CENTER_X, DISPLAY_CENTER_Y, 1, var_r5->variant, 0);
@@ -699,15 +700,19 @@ void sub_80B2C98(SpStage2A4 *strc2A4, u8 arg1) {
 void sub_80B2D0C(SpStage2A4 *strc2A4)
 {
     Sprite *s;
-
+    s16 x;
     strc2A4->unk28C += 0xC0;
-    strc2A4->sprite25C.x = (sa3__sub_80B1560(&gUnknown_080DBF68, strc2A4->unk28C) >> 1) + (u16)gUnknown_080DBF94[0][1];
-    if (strc2A4->sprite25C.x > 0x012C) {
+    x = (sa3__sub_80B1560(&gUnknown_080DBF68, strc2A4->unk28C) >> 1);
+    s = &strc2A4->sprite25C;
+    s->x = x;
+    s->x += (u16)gUnknown_080DBF94[0][1];
+    if (s->x > 0x012C) {
         sub_80B2ED4(strc2A4);
         return;
     }
 
-    if ((strc2A4->unk28C >= 0x7340) && (strc2A4->unk28C + 0x7F40) > 0x2340) {
+    // TODO: These casts are off...
+    if ((strc2A4->unk28C >= 0x7340) && (u16)(strc2A4->unk28C + 0x7F40) > 0x2340) {
         UpdateSpriteAnimation(s);
     }
     DisplaySprite(s);
@@ -739,56 +744,6 @@ void sub_80B2DF4(SpStage2A4 *strc2A4)
 }
 
 #if 0
-void sub_80B2D0C(void *arg0) {
-    Sprite *temp_r6;
-    s16 temp_r0;
-    u16 temp_r1;
-
-    arg0->unk28C = (u16) (arg0->unk28C + 0xC0);
-    temp_r6 = arg0 + 0x25C;
-    temp_r0 = (u16) ((s32) (sa3__sub_80B1560(&gUnknown_080DBF68, arg0->unk28C) << 0x10) >> 0x11) + gUnknown_080DBF94.unk2;
-    temp_r6->x = temp_r0;
-    if ((s32) (temp_r0 << 0x10) > 0x012C0000) {
-        sub_80B2ED4(arg0);
-        return;
-    }
-    temp_r1 = arg0->unk28C;
-    if (((u32) temp_r1 > 0x733FU) && ((u32) ((temp_r1 + 0x7F40) << 0x10) > 0x23400000U)) {
-        UpdateSpriteAnimation(temp_r6);
-    }
-    DisplaySprite(temp_r6);
-}
-
-void TaskDestructor_80B2D84(Task *arg0) {
-
-}
-
-void sub_80B2D88(void) {
-
-}
-
-void sub_80B2D8C(void) {
-
-}
-
-void sub_80B2D90(SpStage2A4 *strc2A4) {
-    sub_80B24AC(strc2A4);
-}
-
-void sub_80B2D9C(void *arg0) {
-    arg0->unk288 = 1;
-    arg0->unk284 = (u16 *) gUnknown_03001EA0;
-    sub_80B6BB8(arg0 + 0x144, 0, 0x14U, 0x471U, 0, 0x78, 0x50, 1, 0U, 0);
-    arg0->unk28E = 0;
-}
-
-void sub_80B2DF4(void *arg0) {
-    gUnknown_03001EA0 = arg0->unk284;
-    arg0->unk284 = NULL;
-    arg0->unk288 = 0;
-    arg0->unk28E = 0;
-}
-
 void sub_80B2E1C(void **arg0) {
     s32 var_r2;
     s32 var_r4;
