@@ -347,9 +347,9 @@ Task *sub_80B22CC(UnkArg2 *strc)
     strc2A4->unk28A = 0;
     strc2A4->unk28B = 0;
     strc2A4->unk28C = 0;
-    strc2A4->unk290 = 0;
-    strc2A4->unk292 = 0;
-    strc2A4->unk294 = 0;
+    strc2A4->unk290[0] = 0;
+    strc2A4->unk290[1] = 0;
+    strc2A4->unk290[2] = 0;
     sub_80B2D90(strc2A4);
 
     return t;
@@ -411,7 +411,7 @@ void Task_2A4_80B2358()
     } else if ((temp_r6->unk8C4 == 6) && (strc2A4->unk28A == 4)) {
         sub_80B29B4(strc2A4, 1);
     } else if ((strc2A4->unk28A != 7) && (strc2A4->unk28A != 0) && (strc2A4->unk28A != 4)) {
-        if (strc2A4->unk294 > Q(168)) {
+        if (strc2A4->unk290[2] > Q(168)) {
             sub_80B2E9C(strc2A4);
         } else {
             sub_80B2B38(strc2A4);
@@ -614,75 +614,71 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B29B4.inc", void sub_80B29B4(Sp
         strc2A4->sprites194[var_r7].animSpeed = 0x10;
     }
     if ((s8)(u8)strc2A4->unk28A != 0) {
-        strc2A4->unk290 = 0;
-        strc2A4->unk292 = 0;
-        strc2A4->unk294 = 0;
+        strc2A4->unk290[0] = 0;
+        strc2A4->unk290[1] = 0;
+        strc2A4->unk290[2] = 0;
     } else {
-        strc2A4->unk290 = 0x7380;
-        strc2A4->unk292 = 0x6C80;
-        strc2A4->unk294 = 0x6580;
+        strc2A4->unk290[0] = 0x7380;
+        strc2A4->unk290[1] = 0x6C80;
+        strc2A4->unk290[2] = 0x6580;
     }
     strc2A4->unk28A += ++var_sb;
 }
 END_NONMATCH
 
-#if 0
-void sub_80B2B38(void *arg0) {
-    Sprite *temp_r4;
-    s32 var_r5_2;
+void sub_80B2B38(SpStage2A4 *strc2A4)
+{
+    s16 sp00[3];
+    Sprite *s;
     s32 var_sb;
-    u16 temp_r0;
-    u16 temp_r0_2;
     u8 var_r0;
-    u8 var_r5;
+    u8 i;
 
     var_sb = 0;
-    temp_r0 = arg0->unk290 + 0xC0;
-    arg0->unk290 = temp_r0;
-    if ((u32) temp_r0 > 0x700U) {
-        arg0->unk292 = (u16) (arg0->unk292 + 0xC0);
+    strc2A4->unk290[0] += 0xC0;
+    if (strc2A4->unk290[0] > 0x700U) {
+        strc2A4->unk290[1] += 0xC0;
     }
-    if ((u32) arg0->unk292 > 0x700U) {
-        arg0->unk294 = (u16) (arg0->unk294 + 0xC0);
+    if (strc2A4->unk290[1] > 0x700U) {
+        strc2A4->unk290[2] += 0xC0;
     }
-    if ((s32) (s8) arg0->unk28A <= 3) {
-        var_r0 = arg0->unk28A;
-    } else {
-        var_r0 = arg0->unk28A - 4;
+
+    var_r0 = (strc2A4->unk28A <= 3) ? strc2A4->unk28A : strc2A4->unk28A - 4;
+
+    for (i = 0; i < 3; i++) {
+        sp00[i] = sa3__sub_80B1560(&gUnknown_080DBF68, strc2A4->unk290[i]) >> 1;
     }
-    var_r5 = 0;
-    do {
-        (&subroutine_arg0)[var_r5] = (s16) ((s32) (sa3__sub_80B1560(&gUnknown_080DBF68, *(arg0 + 0x290 + (var_r5 * 2))) << 0x10) >> 0x11);
-        var_r5 += 1;
-    } while ((u32) var_r5 <= 2U);
-    var_r5_2 = 0;
-    do {
-        switch (var_r5_2) {                         /* irregular */
-        case 0:
-            var_sb = 0;
-            break;
-        default:
-            var_sb = 1;
-            break;
-        case 4:
-            var_sb = 2;
-            break;
+
+    for (i = 0; i < 5; i++) {
+        switch (i) {
+            case 0:
+                var_sb = 0;
+                break;
+            case 1:
+            case 2:
+            case 3:
+                var_sb = 1;
+                break;
+            case 4:
+                var_sb = 2;
+                break;
         }
-        temp_r4 = arg0 + ((var_r5_2 * 0x28) + 0x194);
-        if ((var_r0 != 2) || (var_r5_2 != 1)) {
-            temp_r4->x = *(((((var_r0 - 1) * 5) + var_r5_2) * 2) + &gUnknown_080DBF94) + (&subroutine_arg0)[var_sb];
-            temp_r0_2 = *(arg0 + 0x290 + (var_sb * 2));
-            if (((u32) temp_r0_2 > 0x733FU) && ((u32) (u16) (temp_r0_2 + 0x7F40) > 0x2340U)) {
-                UpdateSpriteAnimation(temp_r4);
+
+        s = &strc2A4->sprites194[i];
+        if ((var_r0 != 2) || (i != 1)) {
+            s->x = sp00[var_sb] + gUnknown_080DBF94[var_r0 - 1][i];
+            if (strc2A4->unk290[var_sb] >= 0x7340 && ((u32)(u16)(strc2A4->unk290[var_sb] + 0x7F40) > 0x2340U)) {
+                UpdateSpriteAnimation(s);
             }
-            DisplaySprite(temp_r4);
+            DisplaySprite(s);
         }
-        var_r5_2 = (s32) (u8) (var_r5_2 + 1);
-    } while ((u32) var_r5_2 <= 4U);
+    }
+
     gBldRegs.bldCnt = 0x2F40;
     gBldRegs.bldAlpha = 0x1010;
 }
 
+#if 0
 void sub_80B2C98(void *arg0, s32 arg1) {
     ? *var_r5;
 

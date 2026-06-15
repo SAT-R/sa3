@@ -156,9 +156,7 @@ typedef struct {
     /* 0x28B */ s8 unk28B;
     /* 0x28C */ s16 unk28C;
     /* 0x28E */ s16 unk28E;
-    /* 0x290 */ s16 unk290;
-    /* 0x292 */ s16 unk292;
-    /* 0x294 */ u16 unk294;
+    /* 0x290 */ u16 unk290[3];
     /* 0x296 */ u8 filler296[0x2];
     /* 0x298 */ u16 pal298[3];
     /* 0x298 */ u16 pal29E[3];
