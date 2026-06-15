@@ -147,7 +147,8 @@ typedef struct {
     /* 0x11C */ Sprite sprite11C;
     /* 0x144 */ Sprite sprite144;
     /* 0x16C */ Sprite sprite16C;
-    /* 0x194 */ u8 filler194[0xF0];
+    /* 0x16C */ Sprite sprites194[5];
+    /* 0x194 */ u8 filler25C[0x28];
     /* 0x284 */ s32 unk284;
     /* 0x288 */ s8 unk288;
     /* 0x289 */ s8 unk289;
@@ -209,10 +210,11 @@ void sub_80B73A4(void);
 void Task_80B7314(void);
 
 s16 sa3__sub_80B1560(s16 *unk28, u16 unk5C);
-extern s16 gUnknown_080DBE82[];
+extern s16 gUnknown_080DBE82[2][2];
 extern TileInfo3 gUnknown_080DBEA0[11];
+extern TileInfo_16_2 gUnknown_080DBEF8[];
 extern s16 gUnknown_080DBF68;
-extern s16 gUnknown_080DBF94[];
+extern s16 gUnknown_080DBF94[][5];
 extern u16 gUnknown_080DBFA8[6][3];
 extern s16 gUnknown_080E30DC[12];
 extern s16 gUnknown_080E30F4[12];
@@ -220,5 +222,7 @@ extern u8 *gUnknown_03001E9C;
 extern u8 *gUnknown_03001EA0; // VRAM Pointer
 extern TileInfo2 gUnknown_080E3074[];
 extern TileInfo2 gUnknown_080E309C[];
+
+extern s16 gUnknown_080DBFCC[];
 
 #endif // GUARD_SA3_SPECIAL_STAGE_H

@@ -272,11 +272,17 @@ typedef struct {
 #define TI2_VARIANT(arr)   (arr)[1]
 #define TI2_NUM_TILES(arr) (arr)[2]
 
-typedef struct PACKED {
+typedef struct {
     /* 0x00 */ u16 numTiles;
     /* 0x02 */ AnimId anim;
     /* 0x04 */ u16 variant;
 } TileInfo_16;
+
+typedef struct {
+    AnimId anim;
+    u16 variant;
+    u16 numTiles;
+} TileInfo_16_2;
 
 extern const u8 gOamShapesSizes[12][2];
 
