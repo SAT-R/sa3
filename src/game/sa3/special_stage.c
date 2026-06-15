@@ -678,22 +678,25 @@ void sub_80B2B38(SpStage2A4 *strc2A4)
     gBldRegs.bldAlpha = 0x1010;
 }
 
-#if 0
-void sub_80B2C98(void *arg0, s32 arg1) {
-    ? *var_r5;
+void sub_80B2C98(SpStage2A4 *strc2A4, u8 arg1) {
+    TileInfo_16_2 *var_r5;
 
-    var_r5 = &gUnknown_080DBF60;
-    if ((arg1 << 0x18) == 0) {
-        var_r5 = &gUnknown_080DBF60 - 8;
+    if (arg1 == 0) {
+        var_r5 = &gUnknown_080DBF58[0];
+    } else {
+		var_r5 = &gUnknown_080DBF58[1];
     }
-    sub_80B6BB8(arg0 + 0x25C, 1, var_r5->unk4, var_r5->unk0, 0, 0x78, 0x50, 1, (u32) var_r5->unk2, 0);
-    arg0->unk28C = 0x7380;
-    arg0->unk28B = (u8) (arg0->unk28B + 1);
+
+    sub_80B6BB8(&strc2A4->sprite25C, 1, var_r5->numTiles, var_r5->anim, 0, DISPLAY_CENTER_X, DISPLAY_CENTER_Y, 1, var_r5->variant, 0);
+    strc2A4->unk28C = 0x7380;
+    strc2A4->unk28B++;
+
     gBldRegs.bldCnt = 0x2F40;
     gBldRegs.bldAlpha = 0x1010;
     gBldRegs.bldY = 0;
 }
 
+#if 0
 void sub_80B2D0C(void *arg0) {
     Sprite *temp_r6;
     s16 temp_r0;

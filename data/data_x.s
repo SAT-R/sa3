@@ -23,11 +23,11 @@ gUnknown_080DBEA0:
 
     .global gUnknown_080DBEF8
 gUnknown_080DBEF8:
-    .incbin "baserom_sa3.gba", 0x000DBEF8, 0x68
+    .incbin "baserom_sa3.gba", 0x000DBEF8, 0x60
 
-    .global gUnknown_080DBF60
-gUnknown_080DBF60:
-    .incbin "baserom_sa3.gba", 0x000DBF60, 0x8
+    .global gUnknown_080DBF58
+gUnknown_080DBF58:
+    .incbin "baserom_sa3.gba", 0x000DBF58, 0x10
 
     .global gUnknown_080DBF68
 gUnknown_080DBF68:

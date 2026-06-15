@@ -148,7 +148,7 @@ typedef struct {
     /* 0x144 */ Sprite sprite144;
     /* 0x16C */ Sprite sprite16C;
     /* 0x16C */ Sprite sprites194[5];
-    /* 0x194 */ u8 filler25C[0x28];
+    /* 0x25C */ Sprite sprite25C;
     /* 0x284 */ s32 unk284;
     /* 0x288 */ s8 unk288;
     /* 0x289 */ s8 unk289;
@@ -211,6 +211,7 @@ s16 sa3__sub_80B1560(s16 *unk28, u16 unk5C);
 extern s16 gUnknown_080DBE82[2][2];
 extern TileInfo3 gUnknown_080DBEA0[11];
 extern TileInfo_16_2 gUnknown_080DBEF8[];
+extern TileInfo_16_2 gUnknown_080DBF58[];
 extern s16 gUnknown_080DBF68;
 extern s16 gUnknown_080DBF94[][5];
 extern u16 gUnknown_080DBFA8[6][3];

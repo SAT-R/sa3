@@ -6,64 +6,7 @@
 .arm
 
 .if 0
- .endif
-
-	thumb_func_start sub_80B2C98
-sub_80B2C98: @ 0x080B2C98
-	push {r4, r5, r6, lr}
-	sub sp, #0x18
-	adds r6, r0, #0
-	lsls r1, r1, #0x18
-	ldr r5, _080B2CFC @ =gUnknown_080DBF60
-	cmp r1, #0
-	bne _080B2CA8
-	subs r5, #8
-_080B2CA8:
-	movs r1, #0x97
-	lsls r1, r1, #2
-	adds r0, r6, r1
-	ldrh r2, [r5, #4]
-	ldrh r3, [r5]
-	movs r4, #0
-	str r4, [sp]
-	movs r1, #0x78
-	str r1, [sp, #4]
-	movs r1, #0x50
-	str r1, [sp, #8]
-	movs r1, #1
-	str r1, [sp, #0xc]
-	ldrb r1, [r5, #2]
-	str r1, [sp, #0x10]
-	str r4, [sp, #0x14]
-	movs r1, #1
-	bl sub_80B6BB8
-	movs r0, #0xa3
-	lsls r0, r0, #2
-	adds r1, r6, r0
-	movs r0, #0xe7
-	lsls r0, r0, #7
-	strh r0, [r1]
-	ldr r0, _080B2D00 @ =0x0000028B
-	adds r1, r6, r0
-	ldrb r0, [r1]
-	adds r0, #1
-	strb r0, [r1]
-	ldr r1, _080B2D04 @ =gBldRegs
-	movs r0, #0xbd
-	lsls r0, r0, #6
-	strh r0, [r1]
-	ldr r0, _080B2D08 @ =0x00001010
-	strh r0, [r1, #2]
-	strh r4, [r1, #4]
-	add sp, #0x18
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080B2CFC: .4byte gUnknown_080DBF60
-_080B2D00: .4byte 0x0000028B
-_080B2D04: .4byte gBldRegs
-_080B2D08: .4byte 0x00001010
+.endif
 
 	thumb_func_start sub_80B2D0C
 sub_80B2D0C: @ 0x080B2D0C
