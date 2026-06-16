@@ -490,18 +490,10 @@ const s8 gUnknown_080D096C[] = { 0x01, 0x02, 0x02, 0x03, 0x03, 0x03, 0x02, 0x02,
 const s8 gUnknown_080D098C[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x01, 0x02, 0x03,
                                  0x03, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04 };
 
-// (92.67%) https://decomp.me/scratch/l8RRD
-NONMATCH("asm/non_matching/game/stage/cam__InitCamera.inc", void InitCamera(s32 level, u8 UNUSED entryIndex))
+void InitCamera(s32 level, u8 UNUSED entryIndex)
 {
-    s32 sp4;
-    s32 tid;
     s16 layer;
-    s32 temp_r0_10;
-    s32 temp_r0_11;
-    s32 temp_r5_2;
     StrcCamera0C *strcC;
-    VoidFn taskFunc;
-    const Background *bgTemplates;
 
     struct Camera *cam = &gCamera;
     StageData *sd = &gStageData;
@@ -544,11 +536,10 @@ NONMATCH("asm/non_matching/game/stage/cam__InitCamera.inc", void InitCamera(s32 
             gBgSprites_Unknown2[3][3] = 0x20;
         }
 
-        bgTemplates = gStageCameraBgTemplates;
-        memcpy(&gStageBackgroundsRam[0], &bgTemplates[3], sizeof(Background));
-        memcpy(&gStageBackgroundsRam[1], &bgTemplates[0], sizeof(Background));
-        memcpy(&gStageBackgroundsRam[2], &bgTemplates[1], sizeof(Background));
-        memcpy(&gStageBackgroundsRam[3], &bgTemplates[2], sizeof(Background));
+        gStageBackgroundsRam[0] = gStageCameraBgTemplates[3];
+        gStageBackgroundsRam[1] = gStageCameraBgTemplates[0];
+        gStageBackgroundsRam[2] = gStageCameraBgTemplates[1];
+        gStageBackgroundsRam[3] = gStageCameraBgTemplates[2];
 
         for (layer = 0; layer < 2; layer++) {
             gStageBackgroundsRam[layer + BGID_STAGE_HI].tilemapId = TM_LEVEL_METATILES_0(level) + layer;
@@ -626,9 +617,10 @@ NONMATCH("asm/non_matching/game/stage/cam__InitCamera.inc", void InitCamera(s32 
                 gBgSprites_Unknown2[2][2] = -1;
                 gBgSprites_Unknown2[2][3] = 0x20;
                 DmaFill32(3, 0, BG_VRAM + 0x4000, 0x40);
-                memcpy(&gStageBackgroundsRam[0], &gStageCameraBgTemplates[2], sizeof(Background));
-                memcpy(&gStageBackgroundsRam[1], &gStageCameraBgTemplates[1], sizeof(Background));
-                memcpy(&gStageBackgroundsRam[2], &gStageCameraBgTemplates[0], sizeof(Background));
+
+                gStageBackgroundsRam[0] = gStageCameraBgTemplates[2];
+                gStageBackgroundsRam[1] = gStageCameraBgTemplates[1];
+                gStageBackgroundsRam[2] = gStageCameraBgTemplates[0];
                 gStageBackgroundsRam[2].graphics.dest = (void *)BG_CHAR_ADDR(1);
                 gStageBackgroundsRam[2].layoutVram = (void *)BG_SCREEN_ADDR(26);
                 gStageBackgroundsRam[0].flags = 0x10;
@@ -668,12 +660,11 @@ NONMATCH("asm/non_matching/game/stage/cam__InitCamera.inc", void InitCamera(s32 
                 gBgSprites_Unknown2[3][2] = -1;
                 gBgSprites_Unknown2[3][3] = 0x20;
 
-                memcpy(&gStageBackgroundsRam[BGID_STAGE_HI], &gStageCameraBgTemplates[1], sizeof(Background));
-                memcpy(&gStageBackgroundsRam[BGID_BACKGROUND_LO], &gStageCameraBgTemplates[2], sizeof(Background));
+                gStageBackgroundsRam[BGID_STAGE_HI] = gStageCameraBgTemplates[1];
+                gStageBackgroundsRam[BGID_BACKGROUND_LO] = gStageCameraBgTemplates[2];
                 gStageBackgroundsRam[BGID_STAGE_HI].flags = 0x61;
                 gStageBackgroundsRam[BGID_STAGE_HI].tilemapId = TM_LEVEL_METATILES_1(level);
                 DrawBackground(&gStageBackgroundsRam[BGID_STAGE_HI]);
-                temp_r5_2 = level * 8;
 
                 if (sBackgroundProcs[level].init != NULL) {
                     sBackgroundProcs[level].init();
@@ -729,11 +720,11 @@ NONMATCH("asm/non_matching/game/stage/cam__InitCamera.inc", void InitCamera(s32 
                 gBgSprites_Unknown2[3][1] = 0;
                 gBgSprites_Unknown2[3][2] = -1;
                 gBgSprites_Unknown2[3][3] = 0x20;
-                bgTemplates = gStageCameraBgTemplates;
-                memcpy(&gStageBackgroundsRam[BGID_BACKGROUND_HI], &bgTemplates[3], sizeof(Background));
-                memcpy(&gStageBackgroundsRam[BGID_STAGE_HI], &bgTemplates[0], sizeof(Background));
-                memcpy(&gStageBackgroundsRam[BGID_STAGE_LO], &bgTemplates[1], sizeof(Background));
-                memcpy(&gStageBackgroundsRam[BGID_BACKGROUND_LO], &bgTemplates[2], sizeof(Background));
+
+                gStageBackgroundsRam[BGID_BACKGROUND_HI] = gStageCameraBgTemplates[3];
+                gStageBackgroundsRam[BGID_STAGE_HI] = gStageCameraBgTemplates[0];
+                gStageBackgroundsRam[BGID_STAGE_LO] = gStageCameraBgTemplates[1];
+                gStageBackgroundsRam[BGID_BACKGROUND_LO] = gStageCameraBgTemplates[2];
                 for (layer = 0; layer < 2; layer++) {
                     gStageBackgroundsRam[layer + BGID_STAGE_HI].tilemapId = TM_LEVEL_METATILES_0(level) + layer;
                     DrawBackground(&gStageBackgroundsRam[layer + BGID_STAGE_HI]);
@@ -756,7 +747,7 @@ NONMATCH("asm/non_matching/game/stage/cam__InitCamera.inc", void InitCamera(s32 
                 if (gTilemaps[TM_LEVEL_BG0(level)] != NULL) {
                     gStageBackgroundsRam[BGID_BACKGROUND_LO].tilemapId = TM_LEVEL_BG0(level);
                     DrawBackground(&gStageBackgroundsRam[BGID_BACKGROUND_LO]);
-                    gStageData.unk10 |= 0x800;
+                    sd->unk10 |= 0x800;
                 }
 
                 if (gTilemaps[TM_LEVEL_BG1(level)] != NULL) {
@@ -817,7 +808,6 @@ NONMATCH("asm/non_matching/game/stage/cam__InitCamera.inc", void InitCamera(s32 
         cam->task4C = TaskCreate(Task_80516D8, 0U, 0x1001U, 0U, NULL);
     }
 }
-END_NONMATCH
 
 void UpdateCamera(s16 arg0)
 {
@@ -1232,41 +1222,38 @@ void sub_80506E8(void)
     sub_8050748();
 }
 
-// (99.23%) https://decomp.me/scratch/TLMQt
-NONMATCH("asm/non_matching/game/stage/cam__sub_8050748.inc", void sub_8050748(void))
+void sub_8050748(void)
 {
     s16 temp_r3;
     s16 var_r2;
     u16 *var_r5;
     s8 sp[0x20];
-    s32 scrollY;
-    s32 mask;
-    s32 camX;
+    s16 scrollY;
     u32 var_r4 = (u32)(gStageData.timer & 0x7F) >> 3;
     memcpy(sp, gUnknown_080D092C, sizeof(sp));
     gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
     gHBlankCopyTarget = (void *)&REG_BG3HOFS;
     gHBlankCopySize = 2;
     var_r5 = gBgOffsetsHBlankPrimary;
+    scrollY = gBgScrollRegs[3][1];
 
-    for (var_r2 = 0, scrollY = gBgScrollRegs[3][1], camX = gCamera.x, mask = 0xF; var_r2 < DISPLAY_HEIGHT; var_r2++) {
-        temp_r3 = (var_r2 + scrollY);
-        *var_r5 = (camX >> (7 - sp[temp_r3 >> 3])) & 0xFF;
+    for (var_r2 = 0; var_r2 < DISPLAY_HEIGHT; var_r2++) {
+        temp_r3 = var_r2 + scrollY;
+        *var_r5 = (gCamera.x >> (7 - sp[temp_r3 >> 3])) & 0xFF;
         if (temp_r3 > 0x90) {
-            if (!(1 & var_r4)) {
-                *var_r5 = (*var_r5 + 1);
+            if (!(var_r4 & 1)) {
+                *var_r5 += 1;
             }
-            var_r4 = (var_r4 + 1) & mask;
+            var_r4 = (var_r4 + 1) & 0xF;
         } else if (temp_r3 > 0x80) {
-            if (!(2 & var_r4)) {
-                *var_r5 = (*var_r5 + 1);
+            if (!(var_r4 & 2)) {
+                *var_r5 += 1;
             }
-            var_r4 = (var_r4 + 1) & mask;
+            var_r4 = (var_r4 + 1) & 0xF;
         }
         var_r5++;
     }
 }
-END_NONMATCH
 
 void sub_8050804(void)
 {
@@ -1326,7 +1313,6 @@ void sub_8050920(void)
     gHBlankCopySize = 2;
     var_r2 = gBgOffsetsHBlankPrimary;
     for (var_r5 = 0; var_r5 < DISPLAY_HEIGHT; var_r5++) {
-        u32 mask;
         *var_r2 = ((gCamera.x >> 3) & 0xFF);
         *var_r2 = ((gCamera.x >> 3) & 0xFF) + (SIN(var_r3 << 6) >> 13);
         var_r1 = (var_r3 + 1);
@@ -1377,27 +1363,28 @@ void sub_8050A0C(void)
     sub_8050A78();
 }
 
-// (99.04%) https://decomp.me/scratch/K4PlV
-NONMATCH("asm/non_matching/game/stage/cam__sub_8050A78.inc", void sub_8050A78(void))
+void sub_8050A78(void)
 {
     s8 sp[0x20];
     s16 temp_r1_2;
     s16 i;
     u16 temp_r1;
     u16 *var_r2;
-    s32 scrollY;
+    s16 scrollY;
+    s16 temp_r0;
     s32 temp_r4 = gStageData.timer & 0x3FC;
     memcpy(&sp, &gUnknown_080D094C, 0x20);
     gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
     gHBlankCopyTarget = (void *)&REG_BG0HOFS;
     gHBlankCopySize = 2;
     var_r2 = gBgOffsetsHBlankPrimary;
-    for (i = 0, scrollY = gBgScrollRegs[0][1]; i < DISPLAY_HEIGHT; i++) {
-        *var_r2 = ((SIN(temp_r4) * sp[(((scrollY + i) << 0x10) >> 0x13) & 0x1F]) >> 9);
-        var_r2 += 1;
+    scrollY = gBgScrollRegs[0][1];
+
+    for (i = 0; i < DISPLAY_HEIGHT; i++) {
+        temp_r0 = scrollY + i;
+        *var_r2++ = ((SIN(temp_r4) * sp[(temp_r0 >> 3) & 0x1F]) >> 9);
     }
 }
-END_NONMATCH
 
 void sub_8050B14(void)
 {
@@ -1419,63 +1406,51 @@ void sub_8050B14(void)
     gBgCntRegs[0] = 0x9C0E;
 }
 
-// (91.17%) https://decomp.me/scratch/suSXu
-NONMATCH("asm/non_matching/game/stage/cam__sub_8050B84.inc", void sub_8050B84(void))
+void sub_8050B84(void)
 {
     gBgScrollRegs[0][0] = 8;
     gBgScrollRegs[0][1] = gCamera.y - 800;
-
-    if (gBgScrollRegs[0][1] >= 0) {
-        gBgScrollRegs[0][1] = gBgScrollRegs[0][1] >> 0x3;
-    } else {
-        gBgScrollRegs[0][1] = 0;
-    }
-
+    gBgScrollRegs[0][1] = (gBgScrollRegs[0][1] >= 0) ? (gBgScrollRegs[0][1] >> 0x3) : 0;
     if (gBgScrollRegs[0][1] > 288) {
         gBgScrollRegs[0][1] = 288;
     }
+
     gBgScrollRegs[3][0] = 8;
     gBgScrollRegs[3][1] = gCamera.y - 800;
-
-    if (gBgScrollRegs[3][1] >= 0) {
-        gBgScrollRegs[3][1] = gBgScrollRegs[3][1] >> 0x3;
-    } else {
-        gBgScrollRegs[3][1] = 0;
-    }
-
+    gBgScrollRegs[3][1] = (gBgScrollRegs[3][1] >= 0) ? (gBgScrollRegs[3][1] >> 0x3) : 0;
     if (gBgScrollRegs[3][1] > 288) {
         gBgScrollRegs[3][1] = 288;
     }
+
     if (GAME_MODE_IS_SINGLE_PLAYER(CURRENT_GAME_MODE)) {
         sub_8050C08();
     }
 }
-END_NONMATCH
 
-// (90.66%) https://decomp.me/scratch/LbQxy
-NONMATCH("asm/non_matching/game/stage/cam__sub_8050C08.inc", void sub_8050C08(void))
+void sub_8050C08(void)
 {
     s16 temp_r0_2;
     s16 line;
     s16 *var_r2;
+    s16 scrollY;
     s32 timer = (gStageData.timer & 0x1FF) >> 1;
 
     gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
     gHBlankCopyTarget = (void *)&REG_BG0HOFS;
     gHBlankCopySize = 2;
     var_r2 = gBgOffsetsHBlankPrimary;
+    scrollY = gBgScrollRegs[0][1];
 
-    for (line = 0; line < DISPLAY_HEIGHT; var_r2++, line++) {
-        temp_r0_2 = (gBgScrollRegs[0][1] + line);
+    for (line = 0; line < DISPLAY_HEIGHT; line++) {
+        temp_r0_2 = (scrollY + line);
         if (temp_r0_2 > 112) {
-            *var_r2 = 8;
+            *var_r2++ = 8;
         } else {
             s16 sinVal = SIN(((timer + (temp_r0_2 * 2)) * 4) & 0x3FF) >> 11;
-            *var_r2 = sinVal + 8;
+            *var_r2++ = sinVal + 8;
         }
     }
 }
-END_NONMATCH
 
 void sub_8050CA4(void)
 {

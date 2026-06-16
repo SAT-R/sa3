@@ -130,20 +130,13 @@ block_15:
 }
 END_NONMATCH
 
-// (82.73%) https://decomp.me/scratch/PAQ2C
-NONMATCH("asm/non_matching/game/sa3/spstg__sub_8E8_80B69B4.inc", void sub_8E8_80B69B4(Sprite *s))
+void sub_8E8_80B69B4(Sprite *s)
 {
     s32 x;
     s32 y;
-    u16 sp8;
     OamData *temp_r0;
     const SpriteOffset *sprDims;
     const u16 *temp_r7;
-    s32 temp_r1;
-    u16 temp_r1_2;
-    s32 temp_r2_2;
-    s32 temp_r3;
-    s32 temp_r3_2;
     u32 temp_r2;
     u32 width, height;
     s16 var_r6;
@@ -160,29 +153,29 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_8E8_80B69B4.inc", void sub_8E8_80
     x = s->x - (width >> 1);
     y = s->y - (height >> 1);
 
-    numSubFrames = s->numSubFrames;
+    numSubFrames = sprDims->numSubframes;
     for (var_r6 = 0; var_r6 < numSubFrames; var_r6++) {
         temp_r7 = gRefSpriteTables->oamData[s->anim];
         temp_r0 = OamMalloc(GET_SPRITE_OAM_ORDER(s));
-        if (temp_r0 != iwram_end) {
-            if (var_r6 == 0) {
-                s->oamBaseIndex = gOamFreeIndex - 1;
-            }
-            DmaCopy16(3, (void *)(temp_r7 + ((sprDims->oamIndex + var_r6) * 3)), temp_r0, sizeof(OamDataShort));
-            temp_r3 = temp_r0->all.attr1;
-            temp_r0->all.attr0 = ((temp_r0->all.attr0 & 0xFF) + y) | 0x300;
-            temp_r3_2 = temp_r3 & 0xFE00;
-            temp_r0->all.attr1 = temp_r3_2;
-            temp_r0->all.attr1 = ((s->frameFlags & 0x1F) << 9) | temp_r3_2 | ((x + (0x1FF & temp_r3)) & 0x1FF);
-            temp_r2 = (s->palId << 0xC) + temp_r0->all.attr2;
-            temp_r0->all.attr2 = temp_r2;
-            temp_r1 = ((u32)(s->frameFlags & 0x3000) >> 2) | temp_r2;
-            temp_r0->all.attr2 = temp_r1;
-            temp_r0->all.attr2 = temp_r1 + ((u32)(s->tiles + 0xF9FF0000) >> 5);
+        if (temp_r0 == iwram_end) {
+            break;
         }
+
+        if (var_r6 == 0) {
+            s->oamBaseIndex = gOamFreeIndex - 1;
+        }
+        DmaCopy16(3, (void *)(temp_r7 + ((sprDims->oamIndex + var_r6) * 3)), temp_r0, sizeof(OamDataShort));
+        temp_r2 = temp_r0->all.attr1 & 0x1FF;
+        temp_r0->all.attr0 = (y + (temp_r0->all.attr0 & 0xFF)) & 0xFF;
+        temp_r0->all.attr0 |= 0x300;
+        temp_r0->all.attr1 &= 0xFE00;
+        temp_r0->all.attr1 |= (s->frameFlags & 0x1F) << 9;
+        temp_r0->all.attr1 |= (x + temp_r2) & 0x1FF;
+        temp_r0->all.attr2 += s->palId << 0xC;
+        temp_r0->all.attr2 |= (s->frameFlags & 0x3000) >> 2;
+        temp_r0->all.attr2 += ((u32) (s->tiles + 0xF9FF0000)) >> 5;
     }
 }
-END_NONMATCH
 
 void sub_80B6B20(void)
 {

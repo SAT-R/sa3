@@ -244,8 +244,7 @@ void sub_805BC80(Jousun *enemy)
     }
 }
 
-// (97.72%) https://decomp.me/scratch/stVW9
-NONMATCH("asm/non_matching/game/enemies/jousun__sub_805BD08.inc", bool32 sub_805BD08(Jousun *enemy))
+bool32 sub_805BD08(Jousun *enemy)
 {
     Player *p;
     s32 worldX;
@@ -271,8 +270,10 @@ NONMATCH("asm/non_matching/game/enemies/jousun__sub_805BD08.inc", bool32 sub_805
         dir = (p->qWorldY - (enemy->region[1] << 16)) - enemy->qPos.y;
 
         if (dir >= 0) {
+#ifndef NON_MATCHING
+            if (dir > Q(2))
+#endif
             if (dir > Q(2)) {
-                asm("");
                 continue;
             }
         } else {
@@ -283,6 +284,9 @@ NONMATCH("asm/non_matching/game/enemies/jousun__sub_805BD08.inc", bool32 sub_805
 
         s = &enemy->s;
         if (s->frameFlags & SPRITE_FLAG(X_FLIP, 1)) {
+#ifndef NON_MATCHING
+            if ((p->qWorldX - (enemy->region[0] << 16)) > enemy->qPos.x)
+#endif
             if ((p->qWorldX - (enemy->region[0] << 16)) > enemy->qPos.x) {
                 continue;
             }
@@ -299,7 +303,7 @@ NONMATCH("asm/non_matching/game/enemies/jousun__sub_805BD08.inc", bool32 sub_805
 
     return FALSE;
 }
-END_NONMATCH
+
 
 void CreateEntity_Jousun_Right(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
