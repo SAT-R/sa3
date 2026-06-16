@@ -173,7 +173,7 @@ void sub_8E8_80B69B4(Sprite *s)
         temp_r0->all.attr1 |= (x + temp_r2) & 0x1FF;
         temp_r0->all.attr2 += s->palId << 0xC;
         temp_r0->all.attr2 |= (s->frameFlags & 0x3000) >> 2;
-        temp_r0->all.attr2 += ((u32) (s->tiles + 0xF9FF0000)) >> 5;
+        temp_r0->all.attr2 += ((u32)(s->tiles + 0xF9FF0000)) >> 5;
     }
 }
 

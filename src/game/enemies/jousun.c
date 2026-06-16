@@ -273,9 +273,9 @@ bool32 sub_805BD08(Jousun *enemy)
 #ifndef NON_MATCHING
             if (dir > Q(2))
 #endif
-            if (dir > Q(2)) {
-                continue;
-            }
+                if (dir > Q(2)) {
+                    continue;
+                }
         } else {
             if (enemy->qPos.y - (p->qWorldY - (enemy->region[1] << 16)) > Q(2)) {
                 continue;
@@ -287,9 +287,9 @@ bool32 sub_805BD08(Jousun *enemy)
 #ifndef NON_MATCHING
             if ((p->qWorldX - (enemy->region[0] << 16)) > enemy->qPos.x)
 #endif
-            if ((p->qWorldX - (enemy->region[0] << 16)) > enemy->qPos.x) {
-                continue;
-            }
+                if ((p->qWorldX - (enemy->region[0] << 16)) > enemy->qPos.x) {
+                    continue;
+                }
         } else {
             if ((p->qWorldX - (enemy->region[0] << 16)) < enemy->qPos.x) {
                 continue;
@@ -303,7 +303,6 @@ bool32 sub_805BD08(Jousun *enemy)
 
     return FALSE;
 }
-
 
 void CreateEntity_Jousun_Right(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
