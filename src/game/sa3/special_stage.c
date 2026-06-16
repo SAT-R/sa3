@@ -874,6 +874,7 @@ void sub_80B2EFC(Arg2Task0 *strc)
 }
 
 void Task_80B3080(Arg2Task0 *strc) {
+    DmaIoData bgAffine;
     s32 sp10;
     s32 sp14;
     s32 sp18;
@@ -902,7 +903,7 @@ void Task_80B3080(Arg2Task0 *strc) {
     u16 temp_r0_4;
     u16 temp_r1;
     u16 var_r4;
-    u32 temp_r0_2;
+    s16 temp_r0_2;
     u32 temp_r1_2;
     u32 var_r6;
     s16 var_r6_2;
@@ -910,15 +911,17 @@ void Task_80B3080(Arg2Task0 *strc) {
     void *temp_r7_2;
     void *temp_r7_3;
     void *temp_r7_4;
-    void *var_r7;
+    DmaIoData *var_r7;
     void *var_r7_2;
+    Arg2TaskC *taskC;
 
     temp_r0 = strc->unk0;
     gHBlankCopySize = sizeof(DmaIoData);
-    gHBlankCopyTarget = (void *)REG_BG2PA;
+    gHBlankCopyTarget = (void *)&REG_BG2PA;
     gBgOffsetsHBlankPrimary = strc->unk4;
-    strc->unk10 = (s32) (strc->unk10 + 0x55000);
-    temp_r0_2 = temp_r0->taskC->data->unk54 << 8;
+    strc->unk10 += 0x55000;
+    taskC = TASK_DATA(temp_r0->taskC);
+    temp_r0_2 = taskC->unk54 << 8;
     var_r6 = temp_r0_2 >> 0x10;
     temp_r0_3 = (s32) temp_r0_2 >> 0x10;
     if (temp_r0_3 < 20) {
@@ -926,23 +929,23 @@ void Task_80B3080(Arg2Task0 *strc) {
     } else if (temp_r0_3 > 120) {
         var_r6 = 120;
     }
-    var_r7 = gBgOffsetsHBlankPrimary;
+    var_r7 = (DmaIoData *)gBgOffsetsHBlankPrimary;
     temp_r1 = temp_r0->unk8BC;
-    sp10 = gSineTable[temp_r1] * 4;
-    temp_sl = gSineTable[temp_r1 + 0x100] * 4;
+    sp10 = SIN(temp_r1) * 4;
+    temp_sl = COS(temp_r1) * 4;
     sp14 = (s32) (u16) temp_r0->unk8DC;
-    memset(&subroutine_arg0, 0, 0x10);
-    subroutine_arg0.unk0 = 0x100;
-    subroutine_arg0.unk6 = 0x100;
+    memset(&bgAffine, 0, 0x10);
+    bgAffine.bg2pa = 0x100;
+    bgAffine.bg2pd = 0x100;
     temp_r0_4 = ((s32) (120 - (s16) var_r6) >> 2) + 60;
     gFlags |= 4;
 
     var_r4 = 90 - temp_r0_4;
     var_r6_2 = 0;
     while ((var_r6_2 < temp_r0_4)) {
-        CpuSet(&subroutine_arg0, var_r7, 8U);
-        var_r7->unkC = (s16) (var_r4 << 8);
-        var_r7 += 0x10;
+        CpuSet(&bgAffine, var_r7, 8U);
+        var_r7.bg2pd = (s16)(var_r4 << 8);
+        var_r7++;
         var_r6_2++;
         var_r4++;        
     }
@@ -960,7 +963,6 @@ void Task_80B3080(Arg2Task0 *strc) {
         temp_r2 = sp1C * sp28[var_r4_2];
         temp_r1_3 = temp_r2 >> 8;
         sp2C = temp_r1_3 * (0 - *sp20);
-        temp_r6_2 = var_r6_2;
         temp_r2_2 = temp_r2 >> 0x10;
         temp_r1_4 = (s32) (temp_r2_2 * temp_sl) >> 0x10;
         var_r7_2->unk0 = (s16) temp_r1_4;
@@ -971,14 +973,13 @@ void Task_80B3080(Arg2Task0 *strc) {
         temp_r7_3 = temp_r7_2 + 2;
         temp_r7_2->unk2 = (s16) temp_r1_4;
         temp_r7_4 = temp_r7_3 + 2;
-        temp_r3_2 = (s32) (temp_r1_3 * (temp_r6_2 - *sp24) * 2) >> 0x10;
+        temp_r3_2 = (s32) (temp_r1_3 * (var_r6_2 - *sp24) * 2) >> 0x10;
         temp_r5 = sp2C >> 0x10;
         temp_r7_3->unk2 = (s32) ((s32) ((temp_r3_2 * sp10) + (temp_r5 * temp_sl) + temp_r0->unk8B0) >> 8);
         temp_r7_4->unk4 = (s32) (((u32) (((temp_r5 * temp_r3) + (temp_r3_2 * temp_sl) + strc->unk10) << 8) >> 0x10) | 0x20000);
         var_r7_2 = temp_r7_4 + 8;
-        var_r6_2 = temp_r6_2 + 1;
-        var_r4_2 = (s16) (u16) (temp_r4 + 1);
-        
+        var_r6_2++;
+        var_r4_2++;
     }
 }
 

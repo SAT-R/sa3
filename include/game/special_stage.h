@@ -135,7 +135,8 @@ typedef struct {
     /* 0x04 */ void *unk4; // EWRAM, size:0x1000
     /* 0x08 */ void *unk8; // EWRAM, size:0x400
     /* 0x0C */ s32 *unkC; // EWRAM, size:0x400
-    /* 0x10 */ u8 filler10[0x240];
+    /* 0x10 */ s32 unk10;
+    /* 0x14 */ u8 filler14[0x23C];
 } Arg2Task0; /* 0x24C */
 
 typedef struct {
@@ -162,8 +163,11 @@ typedef struct {
 } Arg2Task8;
 
 typedef struct {
-    u8 filler0[0x4C];
-    s32 unk4C;
+    /* 0x00 */ u8 filler0[0x4C];
+    /* 0x4C */ s32 unk4C;
+    /* 0x50 */ u8 filler50[0x4];
+    /* 0x54 */ s32 unk54;
+    /* 0x58 */ u8 filler58[0x18];
 } Arg2TaskC; /* 0x70 */
 
 struct Task *sub_80B33D0(UnkArg2 *strc);
