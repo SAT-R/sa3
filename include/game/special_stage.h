@@ -4,6 +4,7 @@
 /* NOTE: Many of these declarations and #includes will probably not have to be in this header file, once the module is matched */
 #include "global.h"
 #include "core.h"
+#include "color.h" // ColorRaw
 #include "game/screen_fade.h"
 
 typedef struct {
@@ -158,8 +159,8 @@ typedef struct {
     /* 0x28E */ u16 unk28E;
     /* 0x290 */ u16 unk290[3];
     /* 0x296 */ u8 filler296[0x2];
-    /* 0x298 */ u16 pal298[3];
-    /* 0x298 */ u16 pal29E[3];
+    /* 0x298 */ ColorRaw pal298[3];
+    /* 0x298 */ ColorRaw pal29E[3];
 } SpStage2A4; /* 0x2A4 */
 
 struct Task *sub_80B33D0(UnkArg2 *strc);

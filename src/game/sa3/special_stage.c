@@ -743,55 +743,56 @@ void sub_80B2DF4(SpStage2A4 *strc2A4)
     strc2A4->unk28E = 0;
 }
 
+void sub_80B2E1C(SpStage2A4 *strc2A4)
+{
+    Sprite *s = &strc2A4->sprite16C;
+    ColorRaw *palA;
+    ColorRaw *palB;
+
+    if (strc2A4->unk0->unk8D5 == 0) {
+        palA = &OBJ_PLTT[15 * PALETTE_LEN_4BPP + 12];
+        palB = &OBJ_PLTT[15 * PALETTE_LEN_4BPP + 9];
+    } else {
+        palA = &OBJ_PLTT[15 * PALETTE_LEN_4BPP + 9];
+        palB = &OBJ_PLTT[15 * PALETTE_LEN_4BPP + 12];
+    }
+
+    DmaCopy16(3, strc2A4->pal29E, palA, 6);
+    DmaCopy16(3, strc2A4->pal298, palB, 6);
+
+    DisplaySprite(s);
+}
+
+void sub_80B2E84(SpStage2A4 *strc2A4)
+{
+    strc2A4->unk289 = 0;
+    gUnknown_03001E9C = NULL;
+}
+
+void sub_80B2E9C(SpStage2A4 *strc2A4)
+{
+    if (strc2A4->unk28A < 4) {
+        strc2A4->unk28A = 4;
+    } else {
+        strc2A4->unk28A = 7;
+    }
+
+    gUnknown_03001E9C = NULL;
+    gBldRegs.bldCnt = 0xBF;
+    gBldRegs.bldAlpha = 0;
+    gBldRegs.bldY = 0;
+}
+
+void sub_80B2ED4(SpStage2A4 *strc2A4)
+{
+    strc2A4->unk28B += 1;
+    gUnknown_03001E9C = NULL;
+    gBldRegs.bldCnt = 0xBF;
+    gBldRegs.bldAlpha = 0;
+    gBldRegs.bldY = 0;
+}
+
 #if 0
-void sub_80B2E1C(void **arg0) {
-    s32 var_r2;
-    s32 var_r4;
-
-    if ((*arg0)->unk8D5 == 0) {
-        var_r2 = 0x050003F8;
-        var_r4 = 0x050003F2;
-    } else {
-        var_r2 = 0x050003F2;
-        var_r4 = 0x050003F8;
-    }
-    (void *)0x040000D4->unk0 = (void *) (arg0 + 0x29E);
-    (void *)0x040000D4->unk4 = var_r2;
-    (void *)0x040000D4->unk8 = 0x80000003;
-    (void *)0x040000D4->unk0 = (void *) (arg0 + 0x298);
-    (void *)0x040000D4->unk4 = var_r4;
-    (void *)0x040000D4->unk8 = 0x80000003;
-    DisplaySprite(arg0 + 0x16C);
-}
-
-void sub_80B2E84(void *arg0) {
-    arg0->unk289 = 0;
-    gUnknown_03001E9C = NULL;
-}
-
-void sub_80B2E9C(void *arg0) {
-    s8 var_r0;
-
-    if ((s32) arg0->unk28A <= 3) {
-        var_r0 = 4;
-    } else {
-        var_r0 = 7;
-    }
-    arg0->unk28A = var_r0;
-    gUnknown_03001E9C = NULL;
-    gBldRegs.bldCnt = 0xBF;
-    gBldRegs.bldAlpha = 0;
-    gBldRegs.bldY = 0;
-}
-
-void sub_80B2ED4(void *arg0) {
-    arg0->unk28B = (u8) (arg0->unk28B + 1);
-    gUnknown_03001E9C = NULL;
-    gBldRegs.bldCnt = 0xBF;
-    gBldRegs.bldAlpha = 0;
-    gBldRegs.bldY = 0;
-}
-
 void sub_80B2EFC(void *arg0) {
     s16 temp_r0_7;
     s16 temp_r3;
