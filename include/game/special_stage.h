@@ -53,39 +53,6 @@ typedef struct {
 } UnkArg1;
 
 typedef struct {
-    u8 filler0[0xC];
-    s32 unkC[4]; // TODO: type AND size unknown!!!
-} Arg2Task0;
-
-typedef struct {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-    s32 unkC;
-    s32 unk10;
-    s32 unk14;
-    s16 unk18;
-    u8 unk1A;
-    s8 unk1B;
-} Arg2Task4_x744; /* 0x1C */
-
-typedef struct {
-    /* 0x000 */ u8 filler0[0x744];
-    /* 0x744 */ Arg2Task4_x744 unk744[4];
-    /* 0x7B4 */
-} Arg2Task4; /* ??? */
-
-typedef struct {
-    u8 filler0[0xAC];
-    u16 unkAC;
-} Arg2Task8;
-
-typedef struct {
-    u8 filler0[0x4C];
-    s32 unk4C;
-} Arg2TaskC;
-
-typedef struct {
     /* 0x000 */ struct Task *task0; // -> Arg2Task0
     /* 0x004 */ struct Task *task4; // -> Arg2Task4
     /* 0x008 */ struct Task *task8; // -> Arg2Task8
@@ -163,6 +130,42 @@ typedef struct {
     /* 0x298 */ ColorRaw pal29E[3];
 } SpStage2A4; /* 0x2A4 */
 
+typedef struct {
+    /* 0x00 */ UnkArg2 *unk0;
+    /* 0x04 */ void *unk4; // EWRAM, size:0x1000
+    /* 0x08 */ void *unk8; // EWRAM, size:0x400
+    /* 0x0C */ s32 *unkC; // EWRAM, size:0x400
+    /* 0x10 */ u8 filler10[0x240];
+} Arg2Task0; /* 0x24C */
+
+typedef struct {
+    s32 unk0;
+    s32 unk4;
+    s32 unk8;
+    s32 unkC;
+    s32 unk10;
+    s32 unk14;
+    s16 unk18;
+    u8 unk1A;
+    s8 unk1B;
+} Arg2Task4_x744; /* 0x1C */
+
+typedef struct {
+    /* 0x000 */ u8 filler0[0x744];
+    /* 0x744 */ Arg2Task4_x744 unk744[4];
+    /* 0x7B4 */
+} Arg2Task4; /* ??? */
+
+typedef struct {
+    u8 filler0[0xAC];
+    u16 unkAC;
+} Arg2Task8;
+
+typedef struct {
+    u8 filler0[0x4C];
+    s32 unk4C;
+} Arg2TaskC; /* 0x70 */
+
 struct Task *sub_80B33D0(UnkArg2 *strc);
 struct Task *sub_80B48A4(UnkArg2 *strc);
 struct Task *sub_80B4E1C(UnkArg2 *strc);
@@ -196,6 +199,7 @@ void sub_80B2DF4(SpStage2A4 *strc2A4);
 void sub_80B2E9C(SpStage2A4 *strc2A4);
 void sub_80B2ED4(SpStage2A4 *strc2A4);
 void TaskDestructor_80B2D84(struct Task *t);
+void sub_80B33CC(Arg2Task0 *strc);
 void sub_80B6778(UnkArg2 *arg0, s32 *arg1);
 void sub_80B6B20(void);
 void sub_80B6B3C(Background *bg, s32 arg1, s32 arg2, u16 arg3, u16 arg4, u16 arg5, u8 arg6, u8 arg7, u16 arg8, u16 arg9);

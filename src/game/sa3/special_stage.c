@@ -1,6 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "trig.h"
+#include "malloc_ewram.h"
 #include "lib/m4a/m4a.h"
 //#include "code_0_1.h" // WarpToMap (see comment below)
 #include "game/special_stage.h"
@@ -316,7 +317,7 @@ void Task_8E8_80B2228(void)
     UnkArg2 *strc = TASK_DATA(gCurTask);
 
     sub_80B1D30();
-    sub_80B6BB8(&strc->sprite14, 0, 0x28U, 0x460U, 0, 120, 80, 0, 0U, 0);
+    sub_80B6BB8(&strc->sprite14, 0, 0x28U, 0x460U, 0, DISPLAY_CENTER_X, DISPLAY_CENTER_Y, 0, 0U, 0);
     strc->unk8C4 = 1;
     m4aSongNumStart(MUS_SPECIAL_STAGE);
     gCurTask->main = Task_8E8_80B1DA0;
@@ -792,96 +793,86 @@ void sub_80B2ED4(SpStage2A4 *strc2A4)
     gBldRegs.bldY = 0;
 }
 
-#if 0
-void sub_80B2EFC(void *arg0) {
-    s16 temp_r0_7;
-    s16 temp_r3;
+void sub_80B2EFC(Arg2Task0 *strc)
+{
+    s16 *ptr;
+    s16 sp00[2][4];
+    UnkArg2 *temp_r7;
+    s32 *var_r5_3;
     s16 temp_r4;
-    s16 var_r4_3;
-    s16 var_r5;
-    s16 var_r5_2;
-    s32 *temp_r0;
-    s32 *temp_r0_3;
-    s32 *var_r4;
-    s32 *var_r4_2;
-    s32 temp_r1;
+    s16 k;
+    s16 i;
     s32 temp_r2;
-    s32 temp_r3_2;
     s32 temp_r6;
-    s32 var_r3;
-    u16 temp_r0_6;
-    u32 temp_r0_2;
-    u32 temp_r0_4;
+    s16 j;
     u8 temp_r1_2;
-    void *temp_r0_5;
-    void *temp_r7;
-    void *var_r5_3;
-    void *var_r5_4;
+    void *buffer4;
+    s32 *buffer8;
+    s32 *bufferC;
+    s32 *buffer8_cursor;
+    s32 *bufferC_cursor;
+    s16 *buffer4_cursor;
+    s32 v00, v0, v;
 
-    temp_r7 = arg0->unk0;
+    temp_r7 = strc->unk0;
     temp_r6 = (temp_r7->unk8DA - temp_r7->unk8DE) << 0x10;
-    temp_r0 = EwramMalloc(0x400U);
-    arg0->unkC = temp_r0;
-    var_r5 = 0;
-    var_r4 = temp_r0;
-    do {
-        temp_r1 = var_r5 - temp_r7->unk8DE;
-        if (temp_r1 == 0) {
-            *var_r4 = temp_r1;
+    bufferC = EwramMalloc(0x400U);
+    strc->unkC = bufferC;
+
+    for (i = 0, bufferC_cursor = bufferC; i < 256; i++, bufferC_cursor++) {
+        s32 v = i - temp_r7->unk8DE;
+        if (v == 0) {
+            *bufferC_cursor = 0;
         } else {
-            *var_r4 = temp_r6 / temp_r1;
+            *bufferC_cursor = temp_r6 / v;
         }
-        temp_r0_2 = (var_r5 << 0x10) + 0x10000;
-        var_r4 += 4;
-        var_r5 = (s16) (temp_r0_2 >> 0x10);
-    } while ((s32) ((s32) temp_r0_2 >> 0x10) <= 0xFF);
-    temp_r0_3 = EwramMalloc(0x400U);
-    arg0->unk8 = temp_r0_3;
-    var_r5_2 = 0;
-    var_r4_2 = temp_r0_3;
-    do {
-        if (temp_r6 == 0) {
-            *var_r4_2 = temp_r6;
-        } else {
-            *var_r4_2 = (s32) (var_r5_2 - temp_r7->unk8DE) / temp_r6;
-        }
-        temp_r0_4 = (var_r5_2 << 0x10) + 0x10000;
-        var_r4_2 += 4;
-        var_r5_2 = (s16) (temp_r0_4 >> 0x10);
-    } while ((s32) ((s32) temp_r0_4 >> 0x10) <= 0xFF);
-    temp_r1_2 = temp_r7->unk8DF;
-    var_r5_3 = temp_r7 + ((temp_r1_2 * 8) + 0xB0);
-    var_r3 = temp_r1_2 << 0x10;
-    if ((s32) temp_r1_2 <= 0xFF) {
-        temp_r4 = (s16) temp_r7->unk8DC;
-        do {
-            temp_r3_2 = var_r3 >> 0x10;
-            temp_r2 = (s32) (temp_r4 * *((temp_r3_2 * 4) + arg0->unkC)) >> 8;
-            var_r5_3->unk0 = (s32) (temp_r4 * ((s32) (0 - (temp_r2 * (0 - temp_r7->unk8D8) * 2)) >> 8));
-            var_r5_3->unk4 = (s32) (temp_r4 * ((s32) (0 - ((temp_r3_2 - temp_r7->unk8DA) * temp_r2 * 4)) >> 8));
-            var_r5_3 = var_r5_3 + 4 + 4;
-            temp_r3 = temp_r3_2 + 1;
-            var_r3 = temp_r3 << 0x10;
-        } while ((s32) temp_r3 <= 0xFF);
     }
-    temp_r0_5 = EwramMalloc(0x1000U);
-    arg0->unk4 = temp_r0_5;
-    gBgOffsetsHBlankPrimary = temp_r0_5;
-    var_r5_4 = temp_r0_5;
-    memset(&subroutine_arg0, 0, 0x10);
-    subroutine_arg0.unk0 = 0x100;
-    subroutine_arg0.unk6 = 0x100;
-    var_r4_3 = 0;
-    do {
-        CpuSet(&subroutine_arg0, var_r5_4, 8U);
-        temp_r0_7 = var_r4_3;
-        var_r5_4->unkC = (s16) (temp_r0_7 << 8);
-        temp_r0_6 = temp_r0_7 + 1;
-        var_r5_4 += 0x10;
-        var_r4_3 = (s16) temp_r0_6;
-    } while ((s32) (s16) temp_r0_6 <= 0xFF);
-    sub_80B33CC(arg0);
+
+    buffer8 = EwramMalloc(0x400U);
+    strc->unk8 = buffer8;
+
+    for (i = 0, buffer8_cursor = buffer8; i < 256; i++, buffer8_cursor++) {
+        s32 v = (i - temp_r7->unk8DE);
+        if (temp_r6 == 0) {
+            *buffer8_cursor = 0;
+        } else {
+            *buffer8_cursor = v / temp_r6;
+        }
+    }
+
+    temp_r1_2 = temp_r7->unk8DF;
+    var_r5_3 = (s32 *)&temp_r7->unkB0[temp_r1_2];
+
+    for (j = temp_r1_2, temp_r4 = (s16)temp_r7->unk8DC; j < 256; j++) {
+        temp_r2 = (s32)(strc->unkC[j] * temp_r4) >> 8;
+        v00 = -temp_r7->unk8D8;
+        v0 = v00;
+        v0 *= temp_r2;
+        v = -(temp_r7->unk8DA - j);
+        temp_r2 *= v;
+        *var_r5_3++ = ((-(v0 * 2)) >> 8) * temp_r4;
+        *var_r5_3++ = ((-(temp_r2 * 4)) >> 8) * temp_r4;
+    }
+
+    buffer4 = EwramMalloc(0x1000U);
+    strc->unk4 = buffer4;
+    gBgOffsetsHBlankPrimary = buffer4;
+    buffer4_cursor = buffer4;
+    ptr = (s16 *)sp00;
+    memset(sp00, 0, sizeof(sp00));
+    v00 = 0x100;
+    ptr[0] = v00;
+    ptr[3] = v00;
+
+    for (k = 0; k < 256; k++, buffer4_cursor += 8) {
+        CpuSet(sp00[0], buffer4_cursor, sizeof(sp00[0]));
+        buffer4_cursor[6] = (k << 8);
+    }
+
+    sub_80B33CC(strc);
 }
+
+#if 0
 
 void Task_80B3080(void) {
     s32 sp10;
@@ -1032,11 +1023,11 @@ void sub_80B3290(void) {
 Task *sub_80B3314(void *arg0) {
     ? (*sp18)(s16, s16 *);
     Task *temp_r0;
-    u16 temp_r0_2;
+    Arg2Task0 *temp_r0_2;
 
     memcpy(&sp18, &gUnknown_080DBFEC, 0xE);
-    temp_r0 = TaskCreate(Task_80B3080, 0x24CU, 0x8000U, 0U, sub_80B339C);
-    temp_r0_2 = temp_r0->data;
+    temp_r0 = TaskCreate(Task_80B3080, sizeof(Arg2Task0), 0x8000U, 0U, sub_80B339C);
+    temp_r0_2 = TASK_DATA(temp_r0);
     temp_r0_2->unk0 = arg0;
     temp_r0_2->unk4 = 0;
     temp_r0_2->unk8 = 0;
@@ -2103,6 +2094,7 @@ void sub_80B484C(Sprite *arg0, u16 arg1, u16 arg2, void *arg3) {
     UpdateSpriteAnimation(arg0);
 }
 
+// -> taskC
 Task *sub_80B48A4(void *arg0) {
     Task *temp_r0;
     s32 temp_r1;

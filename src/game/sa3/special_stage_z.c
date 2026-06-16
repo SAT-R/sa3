@@ -107,17 +107,17 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B67C4.inc", s32 sub_80B67C4(Unk
         if ((temp_r1_2 > (((0 - temp_r1_3) * 9) >> 3)) && (temp_r1_2 < temp_r7)) {
             arg0->unkA = (s16)var_r6;
             temp_r5_3 = var_r6 * 4;
-            arg0->unk4 = (s16)(((var_r6 - arg1->unkE) - ((arg1->unk12 << 0x10) / sp4->unkC[var_r6])) + sp0);
+            arg0->unk4 = (s16)(((var_r6 - arg1->unkE) - ((arg1->unk12 << 0x10) / ((s32 *)sp4->unkC)[var_r6])) + sp0);
             temp_r1_4 = 0x78 - ((temp_r1_2 * 0x87) / temp_r7);
             arg0->unk8 = temp_r1_4;
             arg0->unk2 = (s16)(temp_r1_4 - arg1->unkC);
 
             if (arg1->unk8 != 0) {
-                arg0->unk6 = ((((arg1->unk8 * 8) / sp4->unkC[var_r6]) * 9) >> 2);
+                arg0->unk6 = ((((arg1->unk8 * 8) / ((s32 *)sp4->unkC)[var_r6]) * 9) >> 2);
             } else {
                 arg0->unk6 = arg1->unk8;
             }
-            temp_r0_3 = *((sp8 >> 0xE) + sp4->unkC) >> 8;
+            temp_r0_3 = (((s32 *)sp4->unkC)[var_r6]) >> 8;
             arg0->unkC = (s16)temp_r0_3;
             arg0->unk12 = (s16)temp_r0_3;
             arg0->unk10 = 0;
