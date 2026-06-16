@@ -270,7 +270,9 @@ bool32 sub_805BD08(Jousun *enemy)
         dir = (p->qWorldY - (enemy->region[1] << 16)) - enemy->qPos.y;
 
         if (dir >= 0) {
-            if (dir > Q(2)) // required to match
+#ifndef NON_MATCHING
+            if (dir > Q(2))
+#endif
             if (dir > Q(2)) {
                 continue;
             }
@@ -282,7 +284,9 @@ bool32 sub_805BD08(Jousun *enemy)
 
         s = &enemy->s;
         if (s->frameFlags & SPRITE_FLAG(X_FLIP, 1)) {
-            if ((p->qWorldX - (enemy->region[0] << 16)) > enemy->qPos.x) // required to match
+#ifndef NON_MATCHING
+            if ((p->qWorldX - (enemy->region[0] << 16)) > enemy->qPos.x)
+#endif
             if ((p->qWorldX - (enemy->region[0] << 16)) > enemy->qPos.x) {
                 continue;
             }

@@ -157,8 +157,9 @@ void sub_8E8_80B69B4(Sprite *s)
     for (var_r6 = 0; var_r6 < numSubFrames; var_r6++) {
         temp_r7 = gRefSpriteTables->oamData[s->anim];
         temp_r0 = OamMalloc(GET_SPRITE_OAM_ORDER(s));
-        if (temp_r0 == iwram_end)
+        if (temp_r0 == iwram_end) {
             break;
+        }
 
         if (var_r6 == 0) {
             s->oamBaseIndex = gOamFreeIndex - 1;
@@ -172,7 +173,7 @@ void sub_8E8_80B69B4(Sprite *s)
         temp_r0->all.attr1 |= (x + temp_r2) & 0x1FF;
         temp_r0->all.attr2 += s->palId << 0xC;
         temp_r0->all.attr2 |= (s->frameFlags & 0x3000) >> 2;
-        temp_r0->all.attr2 += (u32) (s->tiles + 0xF9FF0000) >> 5;
+        temp_r0->all.attr2 += ((u32) (s->tiles + 0xF9FF0000)) >> 5;
     }
 }
 

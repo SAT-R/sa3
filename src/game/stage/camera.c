@@ -1235,8 +1235,9 @@ void sub_8050748(void)
     gHBlankCopyTarget = (void *)&REG_BG3HOFS;
     gHBlankCopySize = 2;
     var_r5 = gBgOffsetsHBlankPrimary;
+    scrollY = gBgScrollRegs[3][1];
 
-    for (scrollY = gBgScrollRegs[3][1], var_r2 = 0; var_r2 < DISPLAY_HEIGHT; var_r2++) {
+    for (var_r2 = 0; var_r2 < DISPLAY_HEIGHT; var_r2++) {
         temp_r3 = var_r2 + scrollY;
         *var_r5 = (gCamera.x >> (7 - sp[temp_r3 >> 3])) & 0xFF;
         if (temp_r3 > 0x90) {
@@ -1312,7 +1313,6 @@ void sub_8050920(void)
     gHBlankCopySize = 2;
     var_r2 = gBgOffsetsHBlankPrimary;
     for (var_r5 = 0; var_r5 < DISPLAY_HEIGHT; var_r5++) {
-        u32 mask;
         *var_r2 = ((gCamera.x >> 3) & 0xFF);
         *var_r2 = ((gCamera.x >> 3) & 0xFF) + (SIN(var_r3 << 6) >> 13);
         var_r1 = (var_r3 + 1);
@@ -1378,7 +1378,9 @@ void sub_8050A78(void)
     gHBlankCopyTarget = (void *)&REG_BG0HOFS;
     gHBlankCopySize = 2;
     var_r2 = gBgOffsetsHBlankPrimary;
-    for (scrollY = gBgScrollRegs[0][1], i = 0; i < DISPLAY_HEIGHT; i++) {
+    scrollY = gBgScrollRegs[0][1];
+
+    for (i = 0; i < DISPLAY_HEIGHT; i++) {
         temp_r0 = scrollY + i;
         *var_r2++ = ((SIN(temp_r4) * sp[(temp_r0 >> 3) & 0x1F]) >> 9);
     }
@@ -1437,14 +1439,15 @@ void sub_8050C08(void)
     gHBlankCopyTarget = (void *)&REG_BG0HOFS;
     gHBlankCopySize = 2;
     var_r2 = gBgOffsetsHBlankPrimary;
+    scrollY = gBgScrollRegs[0][1];
 
-    for (scrollY = gBgScrollRegs[0][1], line = 0; line < DISPLAY_HEIGHT; var_r2++, line++) {
+    for (line = 0; line < DISPLAY_HEIGHT; line++) {
         temp_r0_2 = (scrollY + line);
         if (temp_r0_2 > 112) {
-            *var_r2 = 8;
+            *var_r2++ = 8;
         } else {
             s16 sinVal = SIN(((timer + (temp_r0_2 * 2)) * 4) & 0x3FF) >> 11;
-            *var_r2 = sinVal + 8;
+            *var_r2++ = sinVal + 8;
         }
     }
 }
