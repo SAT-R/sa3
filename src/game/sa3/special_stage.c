@@ -2,6 +2,7 @@
 #include "core.h"
 #include "trig.h"
 #include "malloc_ewram.h"
+#include "game/code_1_3.h" // DmaIoData
 #include "lib/m4a/m4a.h"
 //#include "code_0_1.h" // WarpToMap (see comment below)
 #include "game/special_stage.h"
@@ -796,7 +797,7 @@ void sub_80B2ED4(SpStage2A4 *strc2A4)
 void sub_80B2EFC(Arg2Task0 *strc)
 {
     s16 *ptr;
-    s16 sp00[2][4];
+    s16 sp00[2][4]; // TODO: Possibly DmaIoData[2] ?
     UnkArg2 *temp_r7;
     s32 *var_r5_3;
     s16 temp_r4;
@@ -872,23 +873,22 @@ void sub_80B2EFC(Arg2Task0 *strc)
     sub_80B33CC(strc);
 }
 
-#if 0
-
-void Task_80B3080(void) {
+void Task_80B3080(Arg2Task0 *strc) {
     s32 sp10;
     s32 sp14;
     s32 sp18;
     s32 sp1C;
     s16 *sp20;
     s16 *sp24;
-    s32 sp28;
+    s32 *sp28;
     s32 sp2C;
+    UnkArg2 *temp_r0;
+    s16 temp_r0_5;
     s16 temp_r0_6;
-    s16 temp_r0_7;
     s16 temp_r4;
     s16 temp_r6;
     s16 var_r4_2;
-    s32 temp_r0_4;
+    s32 temp_r0_3;
     s32 temp_r1_3;
     s32 temp_r1_4;
     s32 temp_r2;
@@ -899,15 +899,13 @@ void Task_80B3080(void) {
     s32 temp_r6_2;
     s32 temp_sl;
     s32 var_r6_3;
-    u16 temp_r0;
-    u16 temp_r0_5;
+    u16 temp_r0_4;
     u16 temp_r1;
     u16 var_r4;
-    u32 temp_r0_3;
+    u32 temp_r0_2;
     u32 temp_r1_2;
     u32 var_r6;
-    u32 var_r6_2;
-    void *temp_r0_2;
+    s16 var_r6_2;
     void *temp_r7;
     void *temp_r7_2;
     void *temp_r7_3;
@@ -915,81 +913,76 @@ void Task_80B3080(void) {
     void *var_r7;
     void *var_r7_2;
 
-    temp_r0 = gCurTask->data;
-    temp_r0_2 = temp_r0->unk0;
-    gHBlankCopySize = 0x10;
-    gHBlankCopyTarget = (void *)0x04000020;
-    gBgOffsetsHBlankPrimary = temp_r0->unk4;
-    temp_r0->unk10 = (s32) (temp_r0->unk10 + 0x55000);
-    temp_r0_3 = temp_r0_2->unkC->unk6->unk54 << 8;
-    var_r6 = temp_r0_3 >> 0x10;
-    temp_r0_4 = (s32) temp_r0_3 >> 0x10;
-    if (temp_r0_4 <= 0x13) {
-        var_r6 = 0x14;
-    } else if (temp_r0_4 > 0x78) {
-        var_r6 = 0x78;
+    temp_r0 = strc->unk0;
+    gHBlankCopySize = sizeof(DmaIoData);
+    gHBlankCopyTarget = (void *)REG_BG2PA;
+    gBgOffsetsHBlankPrimary = strc->unk4;
+    strc->unk10 = (s32) (strc->unk10 + 0x55000);
+    temp_r0_2 = temp_r0->taskC->data->unk54 << 8;
+    var_r6 = temp_r0_2 >> 0x10;
+    temp_r0_3 = (s32) temp_r0_2 >> 0x10;
+    if (temp_r0_3 < 20) {
+        var_r6 = 20;
+    } else if (temp_r0_3 > 120) {
+        var_r6 = 120;
     }
     var_r7 = gBgOffsetsHBlankPrimary;
-    temp_r1 = temp_r0_2->unk8BC;
+    temp_r1 = temp_r0->unk8BC;
     sp10 = gSineTable[temp_r1] * 4;
     temp_sl = gSineTable[temp_r1 + 0x100] * 4;
-    sp14 = (s32) temp_r0_2->unk8DC;
+    sp14 = (s32) (u16) temp_r0->unk8DC;
     memset(&subroutine_arg0, 0, 0x10);
     subroutine_arg0.unk0 = 0x100;
     subroutine_arg0.unk6 = 0x100;
-    temp_r0_5 = ((s32) (0x78 - (s16) var_r6) >> 2) + 0x3C;
+    temp_r0_4 = ((s32) (120 - (s16) var_r6) >> 2) + 60;
     gFlags |= 4;
-    sp18 = (s32) temp_r0_5;
-    temp_r0_6 = (s16) temp_r0_5;
-    var_r4 = 0x5A - temp_r0_6;
+
+    var_r4 = 90 - temp_r0_4;
     var_r6_2 = 0;
-    if ((s32) temp_r0_6 > 0) {
-        do {
-            CpuSet(&subroutine_arg0, var_r7, 8U);
-            temp_r0_7 = (s16) var_r4;
-            var_r7->unkC = (s16) (temp_r0_7 << 8);
-            var_r7 += 0x10;
-            temp_r1_2 = (var_r6_2 << 0x10) + 0x10000;
-            var_r4 = temp_r0_7 + 1;
-            var_r6_2 = temp_r1_2 >> 0x10;
-        } while ((s32) ((s32) temp_r1_2 >> 0x10) < (s32) temp_r0_6);
+    while ((var_r6_2 < temp_r0_4)) {
+        CpuSet(&subroutine_arg0, var_r7, 8U);
+        var_r7->unkC = (s16) (var_r4 << 8);
+        var_r7 += 0x10;
+        var_r6_2++;
+        var_r4++;        
     }
+
     var_r4_2 = 0x3C;
-    var_r7_2 = gBgOffsetsHBlankPrimary + ((s32) (sp18 << 0x10) >> 0xC);
+    var_r7_2 = gBgOffsetsHBlankPrimary + ((s32) (temp_r0_4 << 0x10) >> 0xC);
     var_r6_3 = var_r6_2 << 0x10;
-    if ((s32) (s16) var_r6_2 <= 0x9F) {
+    while (var_r6_2 < DISPLAY_HEIGHT) {
         sp1C = (s32) (s16) sp14;
-        sp20 = temp_r0_2 + 0x8D8;
+        sp20 = &temp_r0->unk8D8;
         temp_r3 = 0 - sp10;
-        sp28 = temp_r0->unkC;
-        sp24 = temp_r0_2 + 0x8DA;
-        do {
-            temp_r4 = var_r4_2;
-            temp_r2 = sp1C * *((temp_r4 * 4) + sp28);
-            temp_r1_3 = temp_r2 >> 8;
-            sp2C = temp_r1_3 * (0 - *sp20);
-            temp_r6_2 = var_r6_3 >> 0x10;
-            temp_r2_2 = temp_r2 >> 0x10;
-            temp_r1_4 = (s32) (temp_r2_2 * temp_sl) >> 0x10;
-            var_r7_2->unk0 = (s16) temp_r1_4;
-            temp_r7 = var_r7_2 + 2;
-            var_r7_2->unk2 = (s16) ((s32) (temp_r2_2 * sp10) >> 0x10);
-            temp_r7_2 = temp_r7 + 2;
-            temp_r7->unk2 = (s16) ((s32) (temp_r2_2 * temp_r3) >> 0x10);
-            temp_r7_3 = temp_r7_2 + 2;
-            temp_r7_2->unk2 = (s16) temp_r1_4;
-            temp_r7_4 = temp_r7_3 + 2;
-            temp_r3_2 = (s32) (temp_r1_3 * (temp_r6_2 - *sp24) * 2) >> 0x10;
-            temp_r5 = sp2C >> 0x10;
-            temp_r7_3->unk2 = (s32) ((s32) ((temp_r3_2 * sp10) + (temp_r5 * temp_sl) + temp_r0_2->unk8B0) >> 8);
-            temp_r7_4->unk4 = (s32) (((u32) (((temp_r5 * temp_r3) + (temp_r3_2 * temp_sl) + temp_r0->unk10) << 8) >> 0x10) | 0x20000);
-            var_r7_2 = temp_r7_4 + 8;
-            temp_r6 = temp_r6_2 + 1;
-            var_r4_2 = (s16) (u16) (temp_r4 + 1);
-            var_r6_3 = temp_r6 << 0x10;
-        } while ((s32) temp_r6 <= 0x9F);
+        sp28 = strc->unkC;
+        sp24 = &temp_r0->unk8DA;
+
+        temp_r2 = sp1C * sp28[var_r4_2];
+        temp_r1_3 = temp_r2 >> 8;
+        sp2C = temp_r1_3 * (0 - *sp20);
+        temp_r6_2 = var_r6_2;
+        temp_r2_2 = temp_r2 >> 0x10;
+        temp_r1_4 = (s32) (temp_r2_2 * temp_sl) >> 0x10;
+        var_r7_2->unk0 = (s16) temp_r1_4;
+        temp_r7 = var_r7_2 + 2;
+        var_r7_2->unk2 = (s16) ((s32) (temp_r2_2 * sp10) >> 0x10);
+        temp_r7_2 = temp_r7 + 2;
+        temp_r7->unk2 = (s16) ((s32) (temp_r2_2 * temp_r3) >> 0x10);
+        temp_r7_3 = temp_r7_2 + 2;
+        temp_r7_2->unk2 = (s16) temp_r1_4;
+        temp_r7_4 = temp_r7_3 + 2;
+        temp_r3_2 = (s32) (temp_r1_3 * (temp_r6_2 - *sp24) * 2) >> 0x10;
+        temp_r5 = sp2C >> 0x10;
+        temp_r7_3->unk2 = (s32) ((s32) ((temp_r3_2 * sp10) + (temp_r5 * temp_sl) + temp_r0->unk8B0) >> 8);
+        temp_r7_4->unk4 = (s32) (((u32) (((temp_r5 * temp_r3) + (temp_r3_2 * temp_sl) + strc->unk10) << 8) >> 0x10) | 0x20000);
+        var_r7_2 = temp_r7_4 + 8;
+        var_r6_2 = temp_r6_2 + 1;
+        var_r4_2 = (s16) (u16) (temp_r4 + 1);
+        
     }
 }
+
+#if 0
 
 void sub_80B3290(void) {
     s16 temp_r5_2;
