@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start Task_80B3080
 Task_80B3080: @ 0x080B3080
 	push {r4, r5, r6, r7, lr}
@@ -266,6 +264,7 @@ _080B3280: .4byte gFlags
 _080B3284: .4byte gBgOffsetsHBlankPrimary
 _080B3288: .4byte 0x000008D8
 _080B328C: .4byte 0x000008DA
+.endif
 
 	thumb_func_start sub_80B3290
 sub_80B3290: @ 0x080B3290
