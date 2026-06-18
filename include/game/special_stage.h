@@ -136,7 +136,10 @@ typedef struct {
     /* 0x08 */ void *unk8; // EWRAM, size:0x400
     /* 0x0C */ s32 *unkC; // EWRAM, size:0x400
     /* 0x10 */ s32 unk10;
-    /* 0x14 */ u8 filler14[0x23C];
+    /* 0x14 */ Background bg14;
+    /* 0x14 */ u8 filler54[0x40];
+    /* 0x94 */ Sprite sprites94[2]; // NOTE: array size not confirmed!
+    /* 0xE4 */ u8 fillerE4[0x168];
 } Arg2Task0; /* 0x24C */
 
 typedef struct {
@@ -203,6 +206,8 @@ void sub_80B2DF4(SpStage2A4 *strc2A4);
 void sub_80B2E9C(SpStage2A4 *strc2A4);
 void sub_80B2ED4(SpStage2A4 *strc2A4);
 void TaskDestructor_80B2D84(struct Task *t);
+void Task_80B3080(void);
+void TaskDestructor_80B339C(Task *t);
 void sub_80B33CC(Arg2Task0 *strc);
 void sub_80B6778(UnkArg2 *arg0, s32 *arg1);
 void sub_80B6B20(void);
@@ -225,6 +230,8 @@ extern TileInfo_16_2 gUnknown_080DBF58[];
 extern s16 gUnknown_080DBF68;
 extern s16 gUnknown_080DBF94[][5];
 extern u16 gUnknown_080DBFA8[6][3];
+extern u16 gUnknown_080DBFD8[];
+extern AnimId gUnknown_080DBFEC[];
 extern s16 gUnknown_080E30DC[12];
 extern s16 gUnknown_080E30F4[12];
 extern u8 *gUnknown_03001E9C;

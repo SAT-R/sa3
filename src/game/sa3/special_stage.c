@@ -20,6 +20,9 @@ extern void WarpToMap(s32 level, s16 warpId);
 // declare sub_8001E58() here because of the WarpToMap issue
 bool32 sub_8001E58(void);
 
+extern s32 UpdateSpriteAnimation_BG(Sprite *);
+extern void sub_80BE46C(Sprite *s);
+
 void sub_80B1AF4(s16 param0, s16 param1, u8 param2)
 {
     s32 *temp_r0;
@@ -974,79 +977,67 @@ void Task_80B3080(void)
     }
 }
 
-#if 0
+void sub_80B3290(void)
+{
+    s16 i;
 
-void sub_80B3290(void) {
-    s16 temp_r5_2;
-    s16 var_r1;
-    s32 temp_r0;
-    s32 temp_r4;
-    u16 temp_r1;
-    u16 temp_r5;
-    void *temp_r1_2;
+    Arg2Task0 *strc = TASK_DATA(gCurTask);
+    UnkArg2 *temp_r1_2 = strc->unk0;
+    u8 *index = &temp_r1_2->unk8C7;
+    s16 temp_r0 = gUnknown_080DBFD8[*index];
 
-    temp_r1 = gCurTask->data;
-    temp_r1_2 = *temp_r1;
-    gBgScrollRegs[1][0] = 0 - temp_r1_2->unk8BC;
+    u8 *unk8BC = (u8 *)&temp_r1_2->unk8BC;
+    gBgScrollRegs[1][0] = -(*unk8BC);
     gBgScrollRegs[1][1] = 0x30;
+
     if (temp_r1_2->unk8C8 != 1) {
-        temp_r0 = *((temp_r1_2->unk8C7 * 2) + &gUnknown_080DBFD8) << 0x10;
-        var_r1 = 0;
-        if (temp_r0 > 0) {
-            do {
-                temp_r5_2 = var_r1;
-                temp_r4 = temp_r1 + ((temp_r5_2 * 0x28) + 0x94);
-                UpdateSpriteAnimation_BG(temp_r4);
-                sub_80BE46C(temp_r4);
-                temp_r5 = temp_r5_2 + 1;
-                var_r1 = (s16) temp_r5;
-            } while ((s32) (temp_r5 << 0x10) < temp_r0);
+        for (i = 0; i < temp_r0; i++) {
+            Sprite *s = &strc->sprites94[i];
+            UpdateSpriteAnimation_BG(s);
+            sub_80BE46C(s);
         }
     }
 }
 
-Task *sub_80B3314(void *arg0) {
-    ? (*sp18)(s16, s16 *);
-    Task *temp_r0;
-    Arg2Task0 *temp_r0_2;
+Task *sub_80B3314(UnkArg2 *strc)
+{
+    AnimId sp18[7];
+    Task *t;
+    Arg2Task0 *task0;
 
-    memcpy(&sp18, &gUnknown_080DBFEC, 0xE);
-    temp_r0 = TaskCreate(Task_80B3080, sizeof(Arg2Task0), 0x8000U, 0U, sub_80B339C);
-    temp_r0_2 = TASK_DATA(temp_r0);
-    temp_r0_2->unk0 = arg0;
-    temp_r0_2->unk4 = 0;
-    temp_r0_2->unk8 = 0;
-    temp_r0_2->unkC = 0;
-    temp_r0_2->unk10 = 0;
-    sub_80B6B3C(temp_r0_2 + 0x14, 1, 0x10, ((arg0->unk8C7 * 2) + sp)->unk18, 0x80, 0x80, 0, 2, 0, 0);
-    sub_80B2EFC((void *) temp_r0_2);
-    return temp_r0;
+    memcpy(&sp18, &gUnknown_080DBFEC, sizeof(sp18));
+    t = TaskCreate(Task_80B3080, sizeof(Arg2Task0), 0x8000U, 0U, TaskDestructor_80B339C);
+    task0 = TASK_DATA(t);
+    task0->unk0 = strc;
+    task0->unk4 = 0;
+    task0->unk8 = 0;
+    task0->unkC = 0;
+    task0->unk10 = 0;
+    sub_80B6B3C(&task0->bg14, 1, 0x10, sp18[strc->unk8C7], 0x80, 0x80, 0, 2, 0, 0);
+    sub_80B2EFC(task0);
+    return t;
 }
 
-void sub_80B339C(Task *arg0) {
-    u16 temp_r1;
-    void *temp_r0;
-    void *temp_r0_2;
-    void *temp_r0_3;
+void TaskDestructor_80B339C(Task *t)
+{
+    Arg2Task0 *temp_r1 = TASK_DATA(t);
 
-    temp_r1 = arg0->data;
-    temp_r0 = temp_r1->unk8;
-    if (temp_r0 != NULL) {
-        EwramFree(temp_r0);
+    if (temp_r1->unk8 != NULL) {
+        EwramFree(temp_r1->unk8);
     }
-    temp_r0_2 = temp_r1->unkC;
-    if (temp_r0_2 != NULL) {
-        EwramFree(temp_r0_2);
+
+    if (temp_r1->unkC != NULL) {
+        EwramFree(temp_r1->unkC);
     }
-    temp_r0_3 = temp_r1->unk4;
-    if (temp_r0_3 != NULL) {
-        EwramFree(temp_r0_3);
+
+    if (temp_r1->unk4 != NULL) {
+        EwramFree(temp_r1->unk4);
     }
 }
 
-void sub_80B33CC(void) {
+void sub_80B33CC(Arg2Task0 *strc) { }
 
-}
+#if 0
 
 Task *sub_80B33D0(void *arg0) {
     ? sp18;
