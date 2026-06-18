@@ -138,8 +138,7 @@ typedef struct {
     /* 0x10 */ s32 unk10;
     /* 0x14 */ Background bg14;
     /* 0x14 */ u8 filler54[0x40];
-    /* 0x94 */ Sprite sprites94[2]; // NOTE: array size not confirmed!
-    /* 0xE4 */ u8 fillerE4[0x168];
+    /* 0x94 */ Sprite sprites94[11]; // NOTE: array size not confirmed!
 } Arg2Task0; /* 0x24C */
 
 typedef struct {
@@ -155,15 +154,42 @@ typedef struct {
 } Arg2Task4_x744; /* 0x1C */
 
 typedef struct {
-    /* 0x000 */ u8 filler0[0x744];
+    /* 0x000 */ UnkArg2 *unk0;
+    /* 0x004 */ u8 filler4[0x740];
     /* 0x744 */ Arg2Task4_x744 unk744[4];
     /* 0x7B4 */
 } Arg2Task4; /* ??? */
 
 typedef struct {
-    u8 filler0[0xAC];
-    u16 unkAC;
-} Arg2Task8;
+    /* 0x00 */ UnkArg2 *unk0;
+    /* 0x04 */ s32 unk4;
+    /* 0x08 */ Sprite sprite8;
+    /* 0x30 */ u8 filler30[0x54];
+    /* 0x84 */ void *vram84;
+    /* 0x88 */ s32 unk88;
+    /* 0x8C */ s32 unk8C;
+    /* 0x90 */ s32 unk90;
+    /* 0x94 */ s32 unk94;
+    /* 0x98 */ s32 unk98;
+    /* 0x9C */ s32 unk9C;
+    /* 0xA0 */ s32 unkA0;
+    /* 0xA4 */ s32 unkA4;
+    /* 0xA8 */ s32 unkA8;
+    /* 0xAC */ u16 unkAC;
+    /* 0xAE */ u16 unkAE;
+    /* 0xB0 */ u16 unkB0;
+    /* 0xB2 */ u8 unkB2;
+    /* 0xB3 */ u8 unkB3;
+    /* 0xB4 */ u8 unkB4;
+    /* 0xB5 */ u8 unkB5;
+    /* 0xB6 */ u8 unkB6;
+    /* 0xB7 */ u8 unkB7;
+    /* 0xB8 */ u8 unkB8;
+    /* 0xB9 */ u8 unkB9;
+    /* 0xBC */ u16 *unkBC;
+    /* 0xC0 */ Sprite spriteC0;
+    /* 0xE8 */ Sprite spriteE8;
+} Arg2Task8; /* 0x110 */
 
 typedef struct {
     /* 0x00 */ u8 filler0[0x4C];
@@ -173,7 +199,7 @@ typedef struct {
     /* 0x58 */ u8 filler58[0x18];
 } Arg2TaskC; /* 0x70 */
 
-struct Task *sub_80B33D0(UnkArg2 *strc);
+struct Task *sub_80B33D0(UnkArg2 *ctx);
 struct Task *sub_80B48A4(UnkArg2 *strc);
 struct Task *sub_80B4E1C(UnkArg2 *strc);
 struct Task *sub_80B3314(UnkArg2 *strc);
@@ -209,10 +235,13 @@ void TaskDestructor_80B2D84(struct Task *t);
 void Task_80B3080(void);
 void TaskDestructor_80B339C(Task *t);
 void sub_80B33CC(Arg2Task0 *strc);
+void Task_80B3648(void);
+void sub_80B4498(Sprite *s, u16 *arg1, s16 arg2, u8 arg3, void *arg4);
 void sub_80B6778(UnkArg2 *arg0, s32 *arg1);
 void sub_80B6B20(void);
 void sub_80B6B3C(Background *bg, s32 arg1, s32 arg2, u16 arg3, u16 arg4, u16 arg5, u8 arg6, u8 arg7, u16 arg8, u16 arg9);
 void sub_80B6BB8(Sprite *inSprite, s8 arg1, s32 tileCount, AnimId anim, u32 frameFlags, s16 x, s16 y, s16 oamOrder, u8 pattern, u8 palId);
+s16 sub_80B6CA4(u16 *arg0);
 void sub_80B6CD8(u8, u8, u8, u8);
 void Task_80B6D78(void);
 void TaskDestructor_SpStage288(struct Task *t);
@@ -232,10 +261,12 @@ extern s16 gUnknown_080DBF94[][5];
 extern u16 gUnknown_080DBFA8[6][3];
 extern u16 gUnknown_080DBFD8[];
 extern AnimId gUnknown_080DBFEC[];
+extern void *gUnknown_080DC36C[5];
+extern u32 gUnknown_080DC380[2];
 extern s16 gUnknown_080E30DC[12];
 extern s16 gUnknown_080E30F4[12];
 extern u8 *gUnknown_03001E9C;
-extern u8 *gUnknown_03001EA0; // VRAM Pointer
+extern u16 *gUnknown_03001EA0; // VRAM Pointer
 extern TileInfo2 gUnknown_080E3074[];
 extern TileInfo2 gUnknown_080E309C[];
 

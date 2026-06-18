@@ -55,11 +55,35 @@ gUnknown_080DBFE8:
 
     .global gUnknown_080DBFEC
 gUnknown_080DBFEC:
-    .incbin "baserom_sa3.gba", 0x000DBFEC, 0x380
+    .incbin "baserom_sa3.gba", 0x000DBFEC, 0x10
+
+    .global gUnknown_080DBFFC
+gUnknown_080DBFFC:
+    .incbin "baserom_sa3.gba", 0x000DBFFC, 0xB0
+
+    .global gUnknown_080DC0AC
+gUnknown_080DC0AC:
+    .incbin "baserom_sa3.gba", 0x000DC0AC, 0xB0
+
+    .global gUnknown_080DC15C
+gUnknown_080DC15C:
+    .incbin "baserom_sa3.gba", 0x000DC15C, 0xB0
+
+    .global gUnknown_080DC20C
+gUnknown_080DC20C:
+    .incbin "baserom_sa3.gba", 0x000DC20C, 0xB0
+
+    .global gUnknown_080DC2BC
+gUnknown_080DC2BC:
+    .incbin "baserom_sa3.gba", 0x000DC2BC, 0xB0
 
     .global gUnknown_080DC36C
 gUnknown_080DC36C:
-    .incbin "baserom_sa3.gba", 0x000DC36C, 0x14
+    mPtr gUnknown_080DBFFC
+    mPtr gUnknown_080DC20C
+    mPtr gUnknown_080DC15C
+    mPtr gUnknown_080DC2BC
+    mPtr gUnknown_080DC0AC
 
     .global gUnknown_080DC380
 gUnknown_080DC380:

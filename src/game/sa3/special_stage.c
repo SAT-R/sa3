@@ -742,7 +742,7 @@ void sub_80B2D9C(SpStage2A4 *strc2A4)
 
 void sub_80B2DF4(SpStage2A4 *strc2A4)
 {
-    gUnknown_03001EA0 = (u8 *)strc2A4->unk284;
+    gUnknown_03001EA0 = strc2A4->unk284;
     strc2A4->unk284 = 0;
     strc2A4->unk288 = 0;
     strc2A4->unk28E = 0;
@@ -1037,91 +1037,95 @@ void TaskDestructor_80B339C(Task *t)
 
 void sub_80B33CC(Arg2Task0 *strc) { }
 
-#if 0
+extern s16 gUnknown_080DBE58[][3];
 
-Task *sub_80B33D0(void *arg0) {
-    ? sp18;
+// (86.03%) https://decomp.me/scratch/2x1US
+NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B33D0.inc", Task *sub_80B33D0(UnkArg2 *ctx))
+{
     s32 sp2C;
     s32 sp30;
-    Task *sp34;
+    Arg2Task8 *sp34;
     u8 *sp38;
     Sprite *var_r0;
-    Task *temp_r0;
-    s16 temp_r0_2;
+    s16 temp_r0;
     s32 temp_r1;
-    u16 *temp_r1_2;
-    u16 temp_r4;
     u16 var_r3;
-    u8 temp_r0_3;
+    u8 *temp_r1_2;
+    u8 temp_r0_2;
     u8 temp_r6;
+    Arg2Task8 *strc;
+    struct Task *t;
+#if 0
+    // TODO: Do this, once data is split off from assembly.
+    s16 *sp18[5] = {
+        gUnknown_080DBFFC,
+        gUnknown_080DC20C,
+        gUnknown_080DC15C,
+        gUnknown_080DC2BC,
+        gUnknown_080DC0AC
+    };
+#else
+    s16 *sp18[5];
+    memcpy(sp18, gUnknown_080DC36C, sizeof(sp18));
+#endif
 
-    sp18.unk0 = (s32) gUnknown_080DC36C.unk0;
-    sp18.unk4 = (s32) gUnknown_080DC36C.unk4;
-    sp18.unk8 = (s32) gUnknown_080DC36C.unk8;
-    sp18.unkC = (s32) gUnknown_080DC36C.unkC;
-    (&sp18 + 0xC)->unk4 = (s32) (&gUnknown_080DC36C + 0xC)->unk4;
-    sp2C = gUnknown_080DC380.unk0;
-    sp30 = gUnknown_080DC380.unk4;
-    temp_r6 = arg0->unk8C7;
-    temp_r0 = TaskCreate(Task_80B3648, 0x110U, 0x9000U, 0U, NULL);
-    sp34 = temp_r0;
-    temp_r4 = temp_r0->data;
-    temp_r4->unk0 = arg0;
-    temp_r4->unk4 = 0;
-    temp_r1 = temp_r6 * 6;
-    temp_r4->unk88 = (s32) (*(temp_r1 + &gUnknown_080DBE58) << 0x10);
-    temp_r4->unk8C = (s32) (*(temp_r1 + (&gUnknown_080DBE58 + 2)) << 0x10);
-    temp_r4->unk90 = 0;
-    temp_r4->unkAC = 0;
-    temp_r4->unkAE = 0;
-    temp_r4->unkB3 = 0;
-    sp38 = arg0 + 0x8C6;
-    temp_r4->unkBC = (s32 *) ((arg0->unk8C6 * 4) + sp)->unk18;
-    temp_r0_2 = sub_80B6CA4();
-    temp_r1_2 = gUnknown_03001EA0;
-    temp_r4->unk84 = temp_r1_2;
-    gUnknown_03001EA0 = temp_r1_2 + ((s32) (temp_r0_2 << 0x10) >> 0xB);
-    sub_80B4498(temp_r4 + 8, temp_r1_2, arg0->unk8DA, 9U, temp_r4->unkBC);
-    sub_80B4498(temp_r4 + 0xE8, gUnknown_03001EA0, 0, 4U, &sp2C);
-    gUnknown_03001EA0 += sp2C.unk4 << 5;
-    temp_r4->unk94 = 0;
-    temp_r4->unk98 = 0;
-    temp_r4->unk9C = 0;
-    temp_r4->unkA0 = 0x78;
-    temp_r4->unkA4 = 0x78;
-    temp_r4->unkB2 = 1;
-    temp_r4->unkA8 = 0;
-    temp_r4->unkB5 = 0;
-    temp_r4->unkB6 = 0;
-    temp_r4->unkB7 = 0;
-    temp_r4->unkB4 = 0;
-    temp_r4->unkB0 = 0;
-    temp_r4->unkB9 = 0;
-    temp_r0_3 = *sp38;
-    switch ((u32) temp_r0_3) {                      /* irregular */
-    case 0:
-        sub_80B6BB8(temp_r4 + 0xC0, 0, 4U, 0x9AU, 0x1000, 0x14, 0x14, 8, 0U, 0);
-        break;
-    case 1:
-        var_r0 = temp_r4 + 0xC0;
-        var_r3 = 0x13D;
-block_7:
-        sub_80B6BB8(var_r0, 0, 4U, var_r3, 0x1000, 0x14, 0x14, 8, 0U, 0);
-        break;
-    case 2:
-        var_r0 = temp_r4 + 0xC0;
-        var_r3 = 0x1E0;
-        goto block_7;
-    case 3:
-        var_r0 = temp_r4 + 0xC0;
-        var_r3 = 0x283;
-        goto block_7;
-    case 4:
-        sub_80B6BB8(temp_r4 + 0xC0, 0, 4U, 0x326U, 0x1000, 0x14, 0x14, 8, 0U, 0);
-        break;
+    sp30 = gUnknown_080DC380[1];
+    sp2C = gUnknown_080DC380[0];
+    temp_r6 = ctx->unk8C7;
+    t = TaskCreate(Task_80B3648, sizeof(Arg2Task8), 0x9000U, 0U, NULL);
+    strc = TASK_DATA(t);
+    strc->unk0 = ctx;
+    strc->unk4 = 0;
+    strc->unk88 = gUnknown_080DBE58[temp_r6][0] << 16;
+    strc->unk8C = gUnknown_080DBE58[temp_r6][1] << 16;
+    strc->unk90 = 0;
+    strc->unkAC = 0;
+    strc->unkAE = 0;
+    strc->unkB3 = 0;
+    strc->unkBC = sp18[ctx->unk8C6];
+    sp38 = &ctx->unk8C6;
+    temp_r0 = sub_80B6CA4(strc->unkBC);
+    strc->vram84 = gUnknown_03001EA0;
+    gUnknown_03001EA0 = &gUnknown_03001EA0[(temp_r0 * TILE_SIZE_4BPP) >> 1];
+    sub_80B4498(&strc->sprite8, &gUnknown_03001EA0[0], ctx->unk8DA, 9U, strc->unkBC);
+    sub_80B4498(&strc->spriteE8, &gUnknown_03001EA0[0], 0, 4U, &sp2C);
+    gUnknown_03001EA0 += (sp30 * TILE_SIZE_4BPP) >> 1;
+    strc->unk94 = 0;
+    strc->unk98 = 0;
+    strc->unk9C = 0;
+    strc->unkA0 = 0x78;
+    strc->unkA4 = 0x78;
+    strc->unkB2 = 1;
+    strc->unkA8 = 0;
+    strc->unkB5 = 0;
+    strc->unkB6 = 0;
+    strc->unkB7 = 0;
+    strc->unkB4 = 0;
+    strc->unkB0 = 0;
+    strc->unkB9 = 0;
+
+    switch (*sp38) {
+        case 0:
+            sub_80B6BB8(&strc->spriteC0, 0, 4, 154, 0x1000U, 0x14, 0x14, 8, 0U, 0U);
+            break;
+        case 1:
+            sub_80B6BB8(&strc->spriteC0, 0, 4, 317, 0x1000U, 0x14, 0x14, 8, 0U, 0U);
+            break;
+        case 2:
+            sub_80B6BB8(&strc->spriteC0, 0, 4, 480, 0x1000U, 0x14, 0x14, 8, 0U, 0U);
+            break;
+        case 3:
+            sub_80B6BB8(&strc->spriteC0, 0, 4, 643, 0x1000U, 0x14, 0x14, 8, 0U, 0U);
+            break;
+        case 4:
+            sub_80B6BB8(&strc->spriteC0, 0, 4, 806, 0x1000U, 0x14, 0x14, 8, 0U, 0U);
+            break;
     }
-    return sp34;
+    return t;
 }
+END_NONMATCH
+
+#if 0
 
 void Task_80B3648(void) {
     s32 temp_r0_2;
