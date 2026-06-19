@@ -1125,36 +1125,36 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B33D0.inc", Task *sub_80B33D0(U
 }
 END_NONMATCH
 
-#if 0
-
-void Task_80B3648(void) {
+void Task_80B3648(void)
+{
     s32 temp_r0_2;
-    u16 temp_r0;
-    u16 temp_r4;
     u8 temp_r2_2;
-    void *temp_r2;
 
-    temp_r4 = gCurTask->data;
-    temp_r2 = temp_r4->unk0;
-    temp_r0 = temp_r2->unkC->unk6;
-    temp_r4->unk88 = (s32) (temp_r4->unk88 + temp_r4->unk94);
-    temp_r0_2 = temp_r4->unk8C + 0x1BF00;
-    temp_r4->unk8C = temp_r0_2;
-    temp_r2->unk8B4 = temp_r0_2;
-    temp_r2_2 = temp_r2->unk8C8;
-    if (temp_r2_2 == 0) {
-        temp_r4->unk90 = (s32) temp_r0->unk54;
-        temp_r4->unkAC = (s16) temp_r2_2;
+    Arg2Task8 *task8 = TASK_DATA(gCurTask);
+    UnkArg2 *ctx = task8->unk0;
+    Arg2TaskC *taskC = TASK_DATA(ctx->taskC);
+    task8->unk88 += task8->unk94;
+    task8->unk8C += 0x1BF00;
+    ctx->unk8B4 = task8->unk8C;
+
+    if (ctx->unk8C8 == 0) {
+        task8->unk90 = taskC->unk54;
+        task8->unkAC = 0;
+
         sub_80B39B8();
     } else {
         sub_80B46DC();
     }
-    sub_80B4508(temp_r4);
-    if ((u32) temp_r0->unk6C > 0x12CU) {
-        temp_r0->unk6C = 0U;
+
+    sub_80B4508(task8);
+
+    if (taskC->unk6C > 300) {
+        taskC->unk6C = 0U;
         gCurTask->main = Task_80B36F4;
     }
 }
+
+#if 0
 
 void Task_80B36F4(void) {
     ? (*sp0)(s16, s16 *);

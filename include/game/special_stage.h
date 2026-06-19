@@ -196,7 +196,8 @@ typedef struct {
     /* 0x4C */ s32 unk4C;
     /* 0x50 */ u8 filler50[0x4];
     /* 0x54 */ s32 unk54;
-    /* 0x58 */ u8 filler58[0x18];
+    /* 0x58 */ u8 filler58[0x14];
+    /* 0x6C */ u16 unk6C;
 } Arg2TaskC; /* 0x70 */
 
 struct Task *sub_80B33D0(UnkArg2 *ctx);
@@ -236,7 +237,11 @@ void Task_80B3080(void);
 void TaskDestructor_80B339C(Task *t);
 void sub_80B33CC(Arg2Task0 *strc);
 void Task_80B3648(void);
+void Task_80B36F4(void);
+void sub_80B39B8(void);
 void sub_80B4498(Sprite *s, u16 *arg1, s16 arg2, u8 arg3, void *arg4);
+void sub_80B4508(Arg2Task8 *task8);
+void sub_80B46DC(void);
 void sub_80B6778(UnkArg2 *arg0, s32 *arg1);
 void sub_80B6B20(void);
 void sub_80B6B3C(Background *bg, s32 arg1, s32 arg2, u16 arg3, u16 arg4, u16 arg5, u8 arg6, u8 arg7, u16 arg8, u16 arg9);
@@ -272,3 +277,5 @@ extern TileInfo2 gUnknown_080E309C[];
 extern s16 gUnknown_080DBFCC[];
 
 #endif // GUARD_SA3_SPECIAL_STAGE_H
+
+void Task_80B36F4(Arg2Task8 *task8);
