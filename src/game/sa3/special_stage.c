@@ -1154,6 +1154,47 @@ void Task_80B3648(void)
     }
 }
 
+void Task_80B36F4(void)
+{
+    TaskMain sp0[24];
+    UnkArg2 *temp_r6;
+    u16 temp_r1;
+    u8 var_r0;
+
+    Arg2Task8 *task8 = TASK_DATA(gCurTask);
+    temp_r6 = task8->unk0;
+    memcpy(sp0, &gUnknown_080DC388, sizeof(sp0));
+    task8->unk88 += task8->unk94;
+    task8->unk8C += 0x1BF00;
+    temp_r6->unk8B4 = task8->unk8C;
+    if (task8->unkA8 != 0) {
+        task8->unkB2 = 2;
+    } else {
+        task8->unkB2 = 1;
+    }
+
+    if (temp_r6->unk8C8 == 0) {
+        if (temp_r6->unk8C4 != 7) {
+            sp0[task8->unkAC + 2]();
+            sp0[0]();
+        }
+
+        sub_80B37F0();
+
+        if (!(2 & task8->unkB4)) {
+            DisplaySprite(&task8->sprite8);
+        }
+    } else {
+        sp0[1]();
+        sub_80B37F0();
+        DisplaySprite(&task8->sprite8);
+    }
+
+    if ((task8->unkAC != 9) && (task8->unkAC != 0xE)) {
+        task8->unkAE = task8->unkAC;
+    }
+}
+
 #if 0
 
 void Task_80B36F4(void) {

@@ -238,6 +238,7 @@ void TaskDestructor_80B339C(Task *t);
 void sub_80B33CC(Arg2Task0 *strc);
 void Task_80B3648(void);
 void Task_80B36F4(void);
+void sub_80B37F0(void);
 void sub_80B39B8(void);
 void sub_80B4498(Sprite *s, u16 *arg1, s16 arg2, u8 arg3, void *arg4);
 void sub_80B4508(Arg2Task8 *task8);
@@ -268,6 +269,7 @@ extern u16 gUnknown_080DBFD8[];
 extern AnimId gUnknown_080DBFEC[];
 extern void *gUnknown_080DC36C[5];
 extern u32 gUnknown_080DC380[2];
+extern TaskMain gUnknown_080DC388[24];
 extern s16 gUnknown_080E30DC[12];
 extern s16 gUnknown_080E30F4[12];
 extern void *gUnknown_03001E9C, *gUnknown_03001EA0; // VRAM Pointers
@@ -277,5 +279,3 @@ extern TileInfo2 gUnknown_080E309C[];
 extern s16 gUnknown_080DBFCC[];
 
 #endif // GUARD_SA3_SPECIAL_STAGE_H
-
-void Task_80B36F4(Arg2Task8 *task8);
