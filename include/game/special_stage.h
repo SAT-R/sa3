@@ -185,7 +185,7 @@ typedef struct {
     /* 0xB6 */ u8 unkB6;
     /* 0xB7 */ u8 unkB7;
     /* 0xB8 */ u8 unkB8;
-    /* 0xB9 */ u8 unkB9;
+    /* 0xB9 */ s8 unkB9;
     /* 0xBC */ u16 *unkBC;
     /* 0xC0 */ Sprite spriteC0;
     /* 0xE8 */ Sprite spriteE8;
@@ -196,9 +196,10 @@ typedef struct {
     /* 0x4C */ s32 unk4C;
     /* 0x50 */ u8 filler50[0x4];
     /* 0x54 */ s32 unk54;
-    /* 0x58 */ u8 filler58[0x14];
+    /* 0x58 */ s32 unk58;
+    /* 0x5C */ u8 filler5C[0x10];
     /* 0x6C */ u16 unk6C;
-} Arg2TaskC; /* 0x70 */
+} Arg2TaskC;
 
 struct Task *sub_80B33D0(UnkArg2 *ctx);
 struct Task *sub_80B48A4(UnkArg2 *strc);
@@ -244,7 +245,10 @@ void sub_80B4498(Sprite *s, u16 *arg1, s16 arg2, u8 arg3, void *arg4);
 void sub_80B4508(Arg2Task8 *task8);
 void sub_80B46DC(void);
 void sub_80B6778(UnkArg2 *arg0, s32 *arg1);
+bool8 sub_80B47C4();
+void sub_80B47EC(Sprite *arg0, s16 arg1, s16 arg2, s16 arg3, void *arg4);
 void sub_80B6B20(void);
+
 void sub_80B6B3C(Background *bg, s32 arg1, s32 arg2, u16 arg3, u16 arg4, u16 arg5, u8 arg6, u8 arg7, u16 arg8, u16 arg9);
 void sub_80B6BB8(Sprite *inSprite, s8 arg1, s32 tileCount, AnimId anim, u32 frameFlags, s16 x, s16 y, s16 oamOrder, u8 pattern, u8 palId);
 s16 sub_80B6CA4(u16 *arg0);

@@ -1167,6 +1167,7 @@ void Task_80B36F4(void)
     task8->unk88 += task8->unk94;
     task8->unk8C += 0x1BF00;
     temp_r6->unk8B4 = task8->unk8C;
+
     if (task8->unkA8 != 0) {
         task8->unkB2 = 2;
     } else {
@@ -1195,125 +1196,93 @@ void Task_80B36F4(void)
     }
 }
 
-#if 0
-
-void Task_80B36F4(void) {
-    ? (*sp0)(s16, s16 *);
-    s32 temp_r0;
-    s8 *var_r1;
-    s8 var_r0;
-    u16 *var_r4;
-    u16 temp_r1;
-    u16 temp_r4;
-    u16 temp_r5;
-    void *temp_r6;
-
-    temp_r4 = gCurTask->data;
-    temp_r5 = temp_r4;
-    temp_r6 = temp_r5->unk0;
-    memcpy(&sp0, &gUnknown_080DC388, 0x60);
-    temp_r4->unk88 = (s32) (temp_r4->unk88 + temp_r4->unk94);
-    temp_r0 = temp_r4->unk8C + 0x1BF00;
-    temp_r4->unk8C = temp_r0;
-    temp_r6->unk8B4 = temp_r0;
-    if (temp_r4->unkA8 != 0) {
-        var_r1 = temp_r4 + 0xB2;
-        var_r0 = 2;
-    } else {
-        var_r1 = temp_r4 + 0xB2;
-        var_r0 = 1;
-    }
-    *var_r1 = var_r0;
-    if (temp_r6->unk8C8 == 0) {
-        var_r4 = temp_r5 + 0xAC;
-        if (temp_r6->unk8C4 != 7) {
-            *(((temp_r5->unkAC + 2) * 4) + sp)();
-            sp0();
-        }
-        sub_80B37F0();
-        if (!(2 & temp_r5->unkB4)) {
-            DisplaySprite(temp_r5 + 8);
-        }
-    } else {
-        sp4();
-        sub_80B37F0();
-        DisplaySprite(temp_r5 + 8);
-        var_r4 = temp_r5 + 0xAC;
-    }
-    temp_r1 = *var_r4;
-    if ((temp_r1 != 9) && (temp_r1 != 0xE)) {
-        temp_r5->unkAE = temp_r1;
-    }
-}
-
-void sub_80B37F0(void) {
-    s32 sp4;
+void sub_80B37F0(void)
+{
+    s16 sp4;
     u32 sp8;
-    Sprite *temp_r4;
-    Sprite *temp_r4_2;
+    Sprite *s;
     s16 temp_r6_2;
     s32 var_r0;
+    u16 *var_sb;
     u16 temp_r0;
     u16 temp_r1;
-    u16 temp_r2;
-    u16 temp_r6;
-    u16 var_r8;
+    Arg2TaskC *taskC;
+    s16 var_r8;
     u32 var_r0_2;
-    void *var_sb;
+    Arg2Task8 *task8 = TASK_DATA(gCurTask);
 
-    temp_r2 = gCurTask->data;
-    temp_r6 = temp_r2->unk0->unkC->unk6;
-    temp_r0 = temp_r2->unkAC;
-    if ((temp_r0 == 9) || (temp_r0 == 0xE)) {
-        var_sb = temp_r2->unkBC + (temp_r2->unkAE * 8);
+    taskC = TASK_DATA(task8->unk0->taskC);
+
+    if ((task8->unkAC == 9) || (task8->unkAC == 0xE)) {
+        var_sb = task8->unkBC + (task8->unkAE * 4);
     } else {
-        var_sb = temp_r2->unkBC + (temp_r2->unkAC * 8);
+        var_sb = task8->unkBC + (task8->unkAC * 4);
     }
-    temp_r1 = 0xF0 - ((s32) ((temp_r2->unk88 + 0xFE1B0000) * 0x47) >> 0x14);
-    sp4 = (s32) temp_r1;
-    temp_r2->unkA0 = (s32) (s16) temp_r1;
-    if ((u32) (u16) (temp_r2->unkAC - 1) <= 1U) {
-        var_r0 = temp_r2->unk94;
+    temp_r1 = 240 - ((s32)((task8->unk88 + 0xFE1B0000) * 0x47) >> 0x14);
+    sp4 = (s32)temp_r1;
+    task8->unkA0 = sp4;
+    if ((u32)(u16)(task8->unkAC - 1) <= 1U) {
+        var_r0 = task8->unk94;
         if (var_r0 < 0) {
             var_r0 = 0 - var_r0;
         }
-        var_r0_2 = (u32) (var_r0 << 6) >> 0x10;
+        var_r0_2 = (u32)(var_r0 << 6) >> 0x10;
     } else {
         var_r0_2 = 0x10;
     }
     sp8 = var_r0_2;
-    if ((sub_80B47C4() << 0x18) != 0) {
-        var_r8 = ((s32) (((s32) ((temp_r6->unk4C - temp_r2->unk88) * 5) >> 0x11) * gSineTable[(u32) (temp_r6->unk58 << 0xE) >> 0x16] * 4) >> 0x10) + ((s32) temp_r2->unk90 >> 8);
-        if (temp_r2->unkB3 != 0) {
-            temp_r2->unk23 = 0xFF;
-            var_sb = temp_r2->unkBC;
+    if (sub_80B47C4()) {
+#ifndef NON_MATCHING
+        register s32 a asm("r1");
+        register s32 b asm("r0");
+#else
+        s32 a;
+        s32 b;
+#endif
+        b = taskC->unk4C;
+        a = task8->unk88;
+        b -= a;
+        a = b * 5;
+        b = SIN((u32)(taskC->unk58 << 14) >> 22);
+        a >>= 0x11;
+        b *= a;
+        b <<= 2;
+        a = I(task8->unk90);
+        b >>= 16;
+        var_r8 = b + a;
+
+        if (task8->unkB3 != 0) {
+            task8->sprite8.prevVariant = -1;
+            var_sb = task8->unkBC;
         }
     } else {
-        var_r8 = (u16) ((u32) (temp_r2->unk90 << 8) >> 0x10);
+        var_r8 = (task8->unk90 >> 8);
     }
-    temp_r6_2 = (s16) var_r8;
-    temp_r2->unkA4 = (s32) temp_r6_2;
-    if ((s8) temp_r2->unkB9 != 0) {
-        temp_r2->unkB9 = (u8) (temp_r2->unkB9 - 1);
-        temp_r4 = temp_r2 + 0xE8;
-        temp_r4->x = (s16) sp4 - 8;
-        temp_r4->y = temp_r6_2 - 0x14;
-        UpdateSpriteAnimation(temp_r4);
-        DisplaySprite(temp_r4);
+
+    task8->unkA4 = var_r8;
+    if (task8->unkB9 != 0) {
+        task8->unkB9 -= 1;
+        s = &task8->spriteE8;
+        s->x = sp4 - 8;
+        s->y = var_r8 - 20;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
     }
-    sub_80B47EC(temp_r2 + 8, (s16) sp8, (s16) sp4, temp_r6_2, var_sb);
-    if ((u32) (u16) (temp_r2->unkAC - 5) <= 1U) {
-        temp_r2->unk10 = (s32) (temp_r2->unk10 & 0xFFFFCFFF);
+    sub_80B47EC(&task8->sprite8, (s16)sp8, (s16)sp4, var_r8, var_sb);
+    if (task8->unkAC == 5 || task8->unkAC == 6) {
+        task8->sprite8.frameFlags &= 0xFFFFCFFF;
     }
-    if ((u32) (u16) (temp_r2->unkAC - 0x11) <= 1U) {
-        temp_r4_2 = temp_r2 + 0xC0;
-        temp_r4_2->x = subroutine_arg0.unk4;
-        temp_r4_2->y = var_r8;
-        UpdateSpriteAnimation(temp_r4_2);
-        DisplaySprite(temp_r4_2);
+
+    if (task8->unkAC == 17 || task8->unkAC == 18) {
+        s = &task8->spriteC0;
+        s->x = (s16)sp4;
+        s->y = (s16)var_r8;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
     }
 }
 
+#if 0
 void sub_80B39B8(void) {
     ? *var_r0;
     s32 temp_r1_2;
