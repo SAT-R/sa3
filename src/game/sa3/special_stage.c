@@ -1086,9 +1086,9 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B33D0.inc", Task *sub_80B33D0(U
     sp38 = &ctx->unk8C6;
     temp_r0 = sub_80B6CA4(strc->unkBC);
     strc->vram84 = gUnknown_03001EA0;
-    gUnknown_03001EA0 = &gUnknown_03001EA0[(temp_r0 * TILE_SIZE_4BPP) >> 1];
-    sub_80B4498(&strc->sprite8, &gUnknown_03001EA0[0], ctx->unk8DA, 9U, strc->unkBC);
-    sub_80B4498(&strc->spriteE8, &gUnknown_03001EA0[0], 0, 4U, &sp2C);
+    gUnknown_03001EA0 += temp_r0 * TILE_SIZE_4BPP;
+    sub_80B4498(&strc->sprite8, gUnknown_03001EA0, ctx->unk8DA, 9U, strc->unkBC);
+    sub_80B4498(&strc->spriteE8, gUnknown_03001EA0, 0, 4U, &sp2C);
     gUnknown_03001EA0 += (sp30 * TILE_SIZE_4BPP) >> 1;
     strc->unk94 = 0;
     strc->unk98 = 0;
@@ -1152,11 +1152,11 @@ void Task_80B3648(void) {
     sub_80B4508(temp_r4);
     if ((u32) temp_r0->unk6C > 0x12CU) {
         temp_r0->unk6C = 0U;
-        gCurTask->main = sub_80B36F4;
+        gCurTask->main = Task_80B36F4;
     }
 }
 
-void sub_80B36F4(void) {
+void Task_80B36F4(void) {
     ? (*sp0)(s16, s16 *);
     s32 temp_r0;
     s8 *var_r1;

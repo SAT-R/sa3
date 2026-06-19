@@ -179,7 +179,7 @@ void sub_8E8_80B69B4(Sprite *s)
 
 void sub_80B6B20(void)
 {
-    gUnknown_03001EA0 = (u8 *)(OBJ_VRAM0);
+    gUnknown_03001EA0 = (u16 *)(OBJ_VRAM0);
     gUnknown_03001E9C = NULL;
 }
 
@@ -210,7 +210,7 @@ void sub_80B6BB8(Sprite *inSprite, s8 arg1, s32 tileCount, AnimId anim, u32 fram
 {
     Sprite sprDummy;
     Sprite *s;
-    u8 *var_r0;
+    void *var_r0;
 
     if (inSprite != NULL) {
         s = inSprite;

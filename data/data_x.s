@@ -91,7 +91,30 @@ gUnknown_080DC380:
 
     .global gUnknown_080DC388
 gUnknown_080DC388:
-    .incbin "baserom_sa3.gba", 0x000DC388, 0x60
+    mPtr sub_80B39B8
+    mPtr sub_80B46DC
+    mPtr sub_80B41B0
+    mPtr sub_80B4294
+    mPtr sub_80B4294
+    mPtr sub_80B43B4
+    mPtr sub_80B46E0
+    mPtr sub_80B3F1C
+    mPtr sub_80B407C
+    mPtr sub_80B4738
+    mPtr sub_80B4774
+    mPtr sub_80B3B1C
+    mPtr sub_80B3C28
+    mPtr sub_80B3C28
+    mPtr sub_80B3BD4
+    mPtr sub_80B3BD4
+    mPtr sub_80B3D4C
+    mPtr sub_80B3E68
+    mPtr sub_80B3E68
+    mPtr sub_80B4778
+    mPtr sub_80B4778
+    mPtr sub_80B3E14
+    mPtr sub_80B3E14
+    mPtr 0
 
     .global gUnknown_080DC3E8
 gUnknown_080DC3E8:

@@ -77,7 +77,7 @@ _080B36C4:
 	strh r0, [r2]
 	ldr r0, _080B36EC @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080B36F0 @ =sub_80B36F4
+	ldr r0, _080B36F0 @ =Task_80B36F4
 	str r0, [r1, #8]
 _080B36E4:
 	pop {r4, r5, r6}
@@ -85,10 +85,10 @@ _080B36E4:
 	bx r0
 	.align 2, 0
 _080B36EC: .4byte gCurTask
-_080B36F0: .4byte sub_80B36F4
+_080B36F0: .4byte Task_80B36F4
 
-	thumb_func_start sub_80B36F4
-sub_80B36F4: @ 0x080B36F4
+	thumb_func_start Task_80B36F4
+Task_80B36F4: @ 0x080B36F4
 	push {r4, r5, r6, lr}
 	sub sp, #0x60
 	ldr r0, _080B3744 @ =gCurTask

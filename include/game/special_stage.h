@@ -265,8 +265,7 @@ extern void *gUnknown_080DC36C[5];
 extern u32 gUnknown_080DC380[2];
 extern s16 gUnknown_080E30DC[12];
 extern s16 gUnknown_080E30F4[12];
-extern u8 *gUnknown_03001E9C;
-extern u16 *gUnknown_03001EA0; // VRAM Pointer
+extern void *gUnknown_03001E9C, *gUnknown_03001EA0; // VRAM Pointers
 extern TileInfo2 gUnknown_080E3074[];
 extern TileInfo2 gUnknown_080E309C[];
 
