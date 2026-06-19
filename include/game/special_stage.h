@@ -203,6 +203,7 @@ typedef struct {
 
 struct Task *sub_80B33D0(UnkArg2 *ctx);
 struct Task *sub_80B48A4(UnkArg2 *strc);
+void SpStage_InitializeBoost(UnkArg2 *strc, s32 unk1);
 struct Task *sub_80B4E1C(UnkArg2 *strc);
 struct Task *sub_80B3314(UnkArg2 *strc);
 struct Task *sub_80B22CC(UnkArg2 *strc);

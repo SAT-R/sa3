@@ -1282,66 +1282,59 @@ void sub_80B37F0(void)
     }
 }
 
-#if 0
-void sub_80B39B8(void) {
-    ? *var_r0;
-    s32 temp_r1_2;
-    u16 temp_r3;
-    u16 temp_r8;
-    u8 temp_r1;
-    u8 temp_r4;
+void sub_80B39B8(void)
+{
+    Arg2Task8 *task8 = TASK_DATA(gCurTask);
+    Arg2TaskC *taskC = TASK_DATA(task8->unk0->taskC);
+    task8->unk94 = (task8->unk94 * 29) >> 5;
 
-    temp_r3 = gCurTask->data;
-    temp_r8 = temp_r3->unk0->unkC->unk6;
-    temp_r3->unk94 = (s32) ((s32) (temp_r3->unk94 * 0x1D) >> 5);
-    temp_r4 = temp_r3->unkB7;
-    if (temp_r4 != 0) {
-        temp_r3->unkB4 = 0x78U;
-        temp_r3->unk23 = 0xFF;
-        temp_r3->unk94 = 0;
-        temp_r3->unkB5 = 0U;
-        temp_r3->unkB6 = 0U;
-        temp_r3->unkA8 = 0;
-    } else if (temp_r3->unkB5 != 0) {
-        temp_r3->unkB4 = 0x78U;
-        temp_r3->unk9C = 0xFFFFFC00;
-        temp_r3->unkAC = 4;
-        temp_r3->unk23 = 0xFF;
-        temp_r3->unk94 = (s32) temp_r4;
-        temp_r3->unkB5 = 0U;
-        temp_r3->unkB6 = 0U;
-        temp_r3->unkA8 = (s32) temp_r4;
+    if (task8->unkB7 != 0) {
+        task8->unkB4 = 0x78;
+        task8->sprite8.prevVariant = 0xFF;
+        task8->unk94 = 0;
+        task8->unkB5 = 0;
+        task8->unkB6 = 0;
+        task8->unkA8 = 0;
+    } else if (task8->unkB5 != 0) {
+        task8->unkB4 = 0x78;
+        task8->unk9C = -0x400;
+        task8->unkAC = 4;
+        task8->sprite8.prevVariant = 0xFF;
+        task8->unk94 = 0;
+        task8->unkB5 = 0;
+        task8->unkB6 = 0;
+        task8->unkA8 = 0;
     }
-    temp_r1 = temp_r3->unkB4;
-    if (temp_r1 != 0) {
-        if (temp_r3->unkB7 == 0) {
-            temp_r3->unkB4 = (u8) (temp_r1 - 1);
+
+    if (task8->unkB4 != 0) {
+        if (task8->unkB7 == 0) {
+            task8->unkB4--;
         }
-        temp_r3->unkB6 = 0U;
+
+        task8->unkB6 = 0;
     }
-    if ((temp_r3->unkB6 != 0) && ((sub_80B47C4() << 0x18) != 0)) {
-        if (temp_r3->unkA8 == 0) {
-            sub_80B4CEC(temp_r3->unk0, 1);
-            temp_r1_2 = temp_r3->unk88;
-            temp_r8->unk4C = temp_r1_2;
-            if (temp_r1_2 <= 0x01EFFFFF) {
-                var_r0 = (? *)0x01F00000;
-                goto block_14;
-            }
-            var_r0 = &gUnknown_020F0000;
-            if (temp_r1_2 > (s32) &gUnknown_020F0000) {
-block_14:
-                temp_r8->unk4C = (s32) var_r0;
+
+    if ((task8->unkB6 != 0) && sub_80B47C4()) {
+        if (task8->unkA8 == 0) {
+            SpStage_InitializeBoost(task8->unk0, 1);
+            taskC->unk4C = task8->unk88;
+
+            if (taskC->unk4C < 0x01F00000) {
+                taskC->unk4C = 0x01F00000;
+            } else if (taskC->unk4C > 0x020F0000) {
+                taskC->unk4C = 0x020F0000;
             }
         }
-        temp_r3->unkA8 = 0xC800;
-        temp_r3->unkAC = 5;
-        *((temp_r3 + 0xAC) - 0x89) = 0xFF;
-        temp_r3->unk94 = 0;
-        temp_r3->unkB6 = 0U;
+
+        task8->unkA8 = 0xC800;
+        task8->unkAC = 5;
+        task8->sprite8.prevVariant = -1;
+        task8->unk94 = 0;
+        task8->unkB6 = 0;
     }
 }
 
+#if 0
 void sub_80B3B1C(void) {
     s32 temp_r0_2;
     s32 var_r4;
@@ -2298,7 +2291,7 @@ block_18:
     temp_r7->unk8B0 = (s32) arg0->unk4C;
 }
 
-void sub_80B4CEC(void *arg0, s32 arg1) {
+void SpStage_InitializeBoost(void *arg0, s32 arg1) {
     u16 temp_r0;
 
     temp_r0 = arg0->unkC->unk6;
