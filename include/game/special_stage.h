@@ -197,7 +197,10 @@ typedef struct {
     /* 0x50 */ u8 filler50[0x4];
     /* 0x54 */ s32 unk54;
     /* 0x58 */ s32 unk58;
-    /* 0x5C */ u8 filler5C[0x10];
+    /* 0x5C */ s32 unk5C;
+    /* 0x60 */ s32 unk60;
+    /* 0x64 */ s32 unk64;
+    /* 0x68 */ u8 filler68[0x4];
     /* 0x6C */ u16 unk6C;
 } Arg2TaskC;
 

@@ -1334,6 +1334,105 @@ void sub_80B39B8(void)
     }
 }
 
+void sub_80B3B1C(void)
+{
+    s32 temp_r0_2;
+    s32 var_r4;
+    s32 var_r6;
+    s8 *var_r1;
+    Arg2TaskC *taskC;
+    UnkArg2 *temp_r5;
+
+    Arg2Task8 *task8 = TASK_DATA(gCurTask);
+    temp_r5 = task8->unk0;
+    taskC = TASK_DATA(temp_r5->taskC);
+    var_r6 = task8->unk90;
+    var_r4 = task8->unk9C;
+    var_r4 += 0x30;
+    var_r6 += var_r4;
+    task8->unk94 = 0;
+    task8->unkA8 = 0;
+
+    if (var_r6 >= taskC->unk54) {
+        var_r6 = taskC->unk54;
+        var_r4 = 0;
+        task8->unkB0 = 0;
+        taskC->unk60 = 0;
+        taskC->unk64 = 0;
+        if (temp_r5->unk8C0 >= temp_r5->unk8C2) {
+            task8->unkAC = 0xA;
+            task8->sprite8.prevVariant = 0xFF;
+        } else {
+            var_r4 = -Q(4);
+            task8->unkAC = 0xC;
+            task8->sprite8.prevVariant = 0xFF;
+        }
+    }
+    task8->unk90 = var_r6;
+    task8->unk9C = var_r4;
+}
+
+void sub_80B3BD4()
+{
+    s32 temp_r0;
+    u16 temp_r0_2;
+    Arg2Task8 *task8 = TASK_DATA(gCurTask);
+    u16 *unkAC = &task8->unkAC;
+    s32 *unk90 = &task8->unk90;
+    s32 r1 = *unk90;
+
+    temp_r0 = task8->unk9C;
+    temp_r0 += 0x30;
+    r1 += temp_r0;
+    *unk90 = r1;
+    task8->unk9C = temp_r0;
+
+    if (*unkAC == 0xC) {
+        if (++task8->unkB0 > 0xB4U) {
+            task8->unkB0 = 0;
+            task8->unkAC = 0xD;
+        }
+    }
+}
+
+// (98.70%) https://decomp.me/scratch/QXQT8
+NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B3C28.inc", void sub_80B3C28(void))
+{
+    UnkArg2 *temp_r6;
+    s32 temp_r4;
+    s32 temp_r0_2;
+    u16 temp_r0;
+    Arg2Task8 *task8 = TASK_DATA(gCurTask);
+
+    temp_r6 = task8->unk0;
+    if (task8->unkAC == 0xA) {
+        s32 a, b;
+        task8->unkB0 += 1;
+        if (temp_r6->unk8C2 < gUnknown_080DBE82[temp_r6->unk8C7][1]) {
+            s32 temp_r4_2;
+            temp_r0 = (u16)temp_r6->unk8C2 + 1;
+            temp_r6->unk8C2 = (s16)temp_r0;
+            temp_r4_2 = (s16)temp_r0;
+            temp_r6->unk8D1 = Div(temp_r4_2, 100);
+            temp_r6->unk8D2 = Div(temp_r4_2, 10) - (temp_r6->unk8D1 * 10);
+            temp_r6->unk8D3 = Mod(temp_r4_2, 10);
+        }
+        if (task8->unkB0 > 0x168U) {
+            temp_r4 = 0;
+            task8->unkB0 = temp_r4;
+            task8->unkAC = temp_r4;
+            temp_r0_2 = (u16)gUnknown_080DBE82[temp_r6->unk8C7][1];
+            temp_r6->unk8C2 = (s16)temp_r0_2;
+            temp_r4 = temp_r0_2 << 16;
+            temp_r4 >>= 16;
+            temp_r6->unk8D1 = (s8)Div(temp_r4, 100);
+            temp_r6->unk8D2 = Div(temp_r4, 10) - (temp_r6->unk8D1 * 10);
+            temp_r6->unk8D3 = (u8)Mod(temp_r4, 10);
+        }
+    }
+}
+END_NONMATCH
+
 #if 0
 void sub_80B3B1C(void) {
     s32 temp_r0_2;
