@@ -1433,151 +1433,61 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B3C28.inc", void sub_80B3C28(vo
 }
 END_NONMATCH
 
+void sub_80B3D4C()
+{
+    s32 var_r4;
+    Arg2Task8 *task8 = TASK_DATA(gCurTask);
+    UnkArg2 *temp_r5 = task8->unk0;
+    Arg2TaskC *temp_r2 = TASK_DATA(temp_r5->taskC);
+    s32 var_r6 = task8->unk90;
+    var_r4 = task8->unk9C;
+    var_r4 += 0x30;
+    var_r6 += var_r4;
+    task8->unk94 = 0;
+    task8->unkA8 = 0;
+
+    if (var_r6 >= temp_r2->unk54) {
+        var_r6 = temp_r2->unk54;
+        var_r4 = 0;
+        task8->unkB0 = 0;
+        temp_r2->unk60 = 0;
+        temp_r2->unk64 = 0;
+        if (temp_r5->unk8C0 >= temp_r5->unk8C2) {
+            task8->unkAC = 0xF;
+            task8->sprite8.prevVariant = 0xFF;
+            m4aSongNumStart(0x5CU);
+        } else {
+            var_r4 = -0x400;
+            task8->unkAC = 0x13;
+            task8->sprite8.prevVariant = 0xFF;
+        }
+    }
+    task8->unk90 = var_r6;
+    task8->unk9C = var_r4;
+}
+
+void sub_80B3E14()
+{
+    s32 temp_r0;
+    Arg2Task8 *task8 = TASK_DATA(gCurTask);
+    u16 *unkAC = &task8->unkAC;
+    s32 *unk90 = &task8->unk90;
+    s32 unk90Val = *unk90;
+
+    temp_r0 = task8->unk9C;
+    temp_r0 += 0x30;
+    *unk90 = unk90Val + temp_r0;
+    task8->unk9C = temp_r0;
+
+    if (*unkAC == 0x13) {
+        if (++task8->unkB0 > 0xB4U) {
+            task8->unkB0 = 0;
+            task8->unkAC = 0x14;
+        }
+    }
+}
+
 #if 0
-void sub_80B3B1C(void) {
-    s32 temp_r0_2;
-    s32 var_r4;
-    s32 var_r6;
-    s8 *var_r1;
-    u16 temp_r0;
-    u16 temp_r3;
-    void *temp_r5;
-
-    temp_r3 = gCurTask->data;
-    temp_r5 = temp_r3->unk0;
-    temp_r0 = temp_r5->unkC->unk6;
-    var_r4 = temp_r3->unk9C + 0x30;
-    var_r6 = temp_r3->unk90 + var_r4;
-    temp_r3->unk94 = 0;
-    temp_r3->unkA8 = 0;
-    temp_r0_2 = temp_r0->unk54;
-    if (var_r6 >= temp_r0_2) {
-        var_r6 = temp_r0_2;
-        var_r4 = 0;
-        temp_r3->unkB0 = 0;
-        temp_r0->unk60 = 0;
-        temp_r0->unk64 = 0;
-        if ((s32) temp_r5->unk8C0 >= (s32) temp_r5->unk8C2) {
-            temp_r3->unkAC = 0xA;
-            var_r1 = temp_r3 + 0x23;
-        } else {
-            var_r4 = 0xFFFFFC00;
-            temp_r3->unkAC = 0xC;
-            var_r1 = temp_r3 + 0x23;
-        }
-        *var_r1 = 0xFF;
-    }
-    temp_r3->unk90 = var_r6;
-    (temp_r3 + 0x90)->unkC = var_r4;
-}
-
-void sub_80B3BD4(void) {
-    s32 temp_r0;
-    u16 temp_r0_2;
-    u16 temp_r4;
-
-    temp_r4 = gCurTask->data;
-    temp_r0 = temp_r4->unk9C + 0x30;
-    temp_r4->unk90 = (s32) (temp_r4->unk90 + temp_r0);
-    temp_r4->unk9C = temp_r0;
-    if (temp_r4->unkAC == 0xC) {
-        temp_r0_2 = temp_r4->unkB0 + 1;
-        temp_r4->unkB0 = temp_r0_2;
-        if ((u32) temp_r0_2 > 0xB4U) {
-            temp_r4->unkB0 = 0U;
-            temp_r4->unkAC = 0xDU;
-        }
-    }
-}
-
-void sub_80B3C28(void) {
-    s16 temp_r4;
-    s16 temp_r4_2;
-    u16 temp_r0;
-    u16 temp_r0_2;
-    u16 temp_r1;
-    void *temp_r6;
-
-    temp_r1 = gCurTask->data;
-    temp_r6 = temp_r1->unk0;
-    if (temp_r1->unkAC == 0xA) {
-        temp_r1->unkB0 = (u16) (temp_r1->unkB0 + 1);
-        if ((s32) (s16) temp_r6->unk8C2 < (s32) *((temp_r6->unk8C7 * 4) + &gUnknown_080DBE84)) {
-            temp_r0 = temp_r6->unk8C2 + 1;
-            temp_r6->unk8C2 = temp_r0;
-            temp_r4 = (s16) temp_r0;
-            temp_r6->unk8D1 = (s8) Div((s32) temp_r4, 0x64);
-            temp_r6->unk8D2 = (s8) (Div((s32) temp_r4, 0xA) - (temp_r6->unk8D1 * 0xA));
-            temp_r6->unk8D3 = (s8) Mod((s32) temp_r4, 0xA);
-        }
-        if ((u32) temp_r1->unkB0 > 0x168U) {
-            temp_r1->unkB0 = 0U;
-            temp_r1->unkAC = 0U;
-            temp_r0_2 = *((temp_r6->unk8C7 * 4) + &gUnknown_080DBE84);
-            temp_r6->unk8C2 = temp_r0_2;
-            temp_r4_2 = (s16) temp_r0_2;
-            temp_r6->unk8D1 = (s8) Div((s32) temp_r4_2, 0x64);
-            temp_r6->unk8D2 = (s8) (Div((s32) temp_r4_2, 0xA) - (temp_r6->unk8D1 * 0xA));
-            temp_r6->unk8D3 = (s8) Mod((s32) temp_r4_2, 0xA);
-        }
-    }
-}
-
-void sub_80B3D4C(void) {
-    s32 temp_r0_2;
-    s32 var_r4;
-    s32 var_r6;
-    u16 temp_r0;
-    u16 temp_r3;
-    void *temp_r5;
-
-    temp_r3 = gCurTask->data;
-    temp_r5 = temp_r3->unk0;
-    temp_r0 = temp_r5->unkC->unk6;
-    var_r4 = temp_r3->unk9C + 0x30;
-    var_r6 = temp_r3->unk90 + var_r4;
-    temp_r3->unk94 = 0;
-    temp_r3->unkA8 = 0;
-    temp_r0_2 = temp_r0->unk54;
-    if (var_r6 >= temp_r0_2) {
-        var_r6 = temp_r0_2;
-        var_r4 = 0;
-        temp_r3->unkB0 = 0;
-        temp_r0->unk60 = 0;
-        temp_r0->unk64 = 0;
-        if ((s32) temp_r5->unk8C0 >= (s32) temp_r5->unk8C2) {
-            temp_r3->unkAC = 0xF;
-            temp_r3->unk23 = 0xFF;
-            m4aSongNumStart(MUS_SPECIAL_STAGE_CLEAR);
-        } else {
-            var_r4 = 0xFFFFFC00;
-            temp_r3->unkAC = 0x13;
-            temp_r3->unk23 = 0xFF;
-        }
-    }
-    temp_r3->unk90 = var_r6;
-    (temp_r3 + 0x90)->unkC = var_r4;
-}
-
-void sub_80B3E14(void) {
-    s32 temp_r0;
-    u16 temp_r0_2;
-    u16 temp_r4;
-
-    temp_r4 = gCurTask->data;
-    temp_r0 = temp_r4->unk9C + 0x30;
-    temp_r4->unk90 = (s32) (temp_r4->unk90 + temp_r0);
-    temp_r4->unk9C = temp_r0;
-    if (temp_r4->unkAC == 0x13) {
-        temp_r0_2 = temp_r4->unkB0 + 1;
-        temp_r4->unkB0 = temp_r0_2;
-        if ((u32) temp_r0_2 > 0xB4U) {
-            temp_r4->unkB0 = 0U;
-            temp_r4->unkAC = 0x14U;
-        }
-    }
-}
-
 void sub_80B3E68(void) {
     s32 temp_r0_3;
     s32 temp_r0_4;
