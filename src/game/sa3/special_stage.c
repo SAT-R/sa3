@@ -1487,40 +1487,27 @@ void sub_80B3E14()
     }
 }
 
-#if 0
 void sub_80B3E68(void) {
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    u16 temp_r0;
-    u16 temp_r0_2;
-    u16 temp_r4;
+    Arg2Task8 *task8 = TASK_DATA(gCurTask);
 
-    temp_r4 = gCurTask->data;
-    temp_r0 = temp_r4->unk0->unkC->unk6;
-    if (temp_r4->unkAC == 0xF) {
-        temp_r0_2 = temp_r4->unkB0 + 1;
-        temp_r4->unkB0 = temp_r0_2;
-        if ((u32) (temp_r0_2 << 0x10) > 0x01680000U) {
-            temp_r4->unkB0 = 0U;
-            temp_r4->unkAC = 0x10U;
+    Arg2TaskC *taskC = TASK_DATA(task8->unk0->taskC);
+    if (task8->unkAC == 0xF) {
+        if (++task8->unkB0 > 0x0168) {
+            task8->unkB0 = 0U;
+            task8->unkAC = 0x10U;
         }
-        temp_r1 = temp_r4->unk88;
-        temp_r4->unk88 = (s32) (temp_r1 + ((s32) ((0x01FFC000 - temp_r1) * 8) >> 8));
-        temp_r1_2 = temp_r4->unk90;
-        temp_r4->unk90 = (s32) (temp_r1_2 + ((s32) (0x7800 - temp_r1_2) >> 5));
-        temp_r0_3 = temp_r0->unk4C;
-        temp_r0->unk4C = (s32) (temp_r0_3 + ((s32) ((0x01FFC000 - temp_r0_3) * 8) >> 8));
-        temp_r0_4 = temp_r0->unk54;
-        temp_r0->unk54 = (s32) (temp_r0_4 + ((s32) (0x7800 - temp_r0_4) >> 5));
-        return;
-    }
-    temp_r4->unkB0 = 0U;
-    temp_r4->unkAC = 0x11U;
-    temp_r4->unk23 = 0xFF;
+        task8->unk88 += ((0x01FFC000 - task8->unk88) * 8) >> 8;
+        task8->unk90 += (0x7800 - task8->unk90) >> 5;
+        taskC->unk4C += ((0x01FFC000 - taskC->unk4C) * 8) >> 8;
+        taskC->unk54 += (0x7800 - taskC->unk54) >> 5;
+    } else {
+		task8->unkB0 = 0U;
+		task8->unkAC = 0x11U;
+		task8->sprite8.prevVariant = -1;
+	}
 }
 
+#if 0
 void sub_80B3F1C(void) {
     s16 *temp_r1_3;
     s32 temp_r0_2;
