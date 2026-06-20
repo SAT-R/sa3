@@ -1455,7 +1455,7 @@ void sub_80B3D4C()
         if (temp_r5->unk8C0 >= temp_r5->unk8C2) {
             task8->unkAC = 0xF;
             task8->sprite8.prevVariant = 0xFF;
-            m4aSongNumStart(0x5CU);
+            m4aSongNumStart(MUS_SPECIAL_STAGE_CLEAR);
         } else {
             var_r4 = -0x400;
             task8->unkAC = 0x13;
