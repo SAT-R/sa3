@@ -1487,7 +1487,8 @@ void sub_80B3E14()
     }
 }
 
-void sub_80B3E68(void) {
+void sub_80B3E68(void)
+{
     Arg2Task8 *task8 = TASK_DATA(gCurTask);
 
     Arg2TaskC *taskC = TASK_DATA(task8->unk0->taskC);
@@ -1501,10 +1502,10 @@ void sub_80B3E68(void) {
         taskC->unk4C += ((0x01FFC000 - taskC->unk4C) * 8) >> 8;
         taskC->unk54 += (0x7800 - taskC->unk54) >> 5;
     } else {
-		task8->unkB0 = 0U;
-		task8->unkAC = 0x11U;
-		task8->sprite8.prevVariant = -1;
-	}
+        task8->unkB0 = 0U;
+        task8->unkAC = 0x11U;
+        task8->sprite8.prevVariant = -1;
+    }
 }
 
 #if 0
