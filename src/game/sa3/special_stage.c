@@ -1685,6 +1685,59 @@ void sub_80B41B0(void)
     task8->unkAC = var_r5;
 }
 
+void sub_80B4294(void)
+{
+    s32 temp_r0_2;
+    s32 temp_r1;
+    s32 var_r1;
+    s32 var_r2;
+    u16 var_r5;
+    Arg2Task8 *task8 = TASK_DATA(gCurTask);
+    Arg2TaskC *taskC = TASK_DATA(task8->unk0->taskC);
+
+    var_r5 = task8->unkAC;
+    if (DPAD_LEFT & gInput) {
+        task8->unk94 += 0xA80;
+    } else if (DPAD_RIGHT & gInput) {
+        task8->unk94 -= 0xA80;
+    }
+
+    if (task8->unk88 <= 0x01E50000) {
+        task8->unkB3 = 1;
+        task8->unk88 = 0x01E50000;
+    } else if (task8->unk88 >= 0x021B0000) {
+        task8->unkB3 = 1;
+        task8->unk88 = 0x021B0000;
+    }
+
+    var_r1 = task8->unk94;
+    if (var_r1 < 0) {
+        var_r1 = 0 - var_r1;
+    }
+    if ((var_r1 <= 0x4FE) && !(0x30 & gInput)) {
+        var_r5 = 0;
+        task8->sprite8.prevVariant = 0xFF;
+        task8->unk94 = 0;
+    } else {
+        temp_r0_2 = task8->unk94;
+        if (temp_r0_2 > 0) {
+            var_r5 = 2;
+        } else if (temp_r0_2 < 0) {
+            var_r5 = 1;
+        }
+    }
+
+    if (gPressedKeys & gStageData.buttonConfig.jump) {
+        var_r5 = 3;
+        task8->sprite8.prevVariant = 0xFF;
+        task8->unk9C = -0x400;
+        taskC->unk64 = 0x300;
+        m4aSongNumStart(SE_JUMP);
+    }
+    task8->unk90 = taskC->unk54;
+    task8->unkAC = var_r5;
+}
+
 #if 0
 void sub_80B4294(void) {
     s32 *var_r1;
