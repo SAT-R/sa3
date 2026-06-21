@@ -1086,7 +1086,7 @@ Task *sub_80B33D0(UnkArg2 *ctx)
     sp38 = &ctx->unk8C6;
     temp_r0 = sub_80B6CA4(strc->unkBC);
     strc->vram84 = gUnknown_03001EA0;
-#ifndef
+#ifndef NON_MATCHING
     {
         asm("add r0, r1, r0\n"
             "str r0, [r6]\n" ::"r"(temp_r0 * TILE_SIZE_4BPP));
