@@ -202,7 +202,7 @@ typedef struct {
     /* 0x64 */ s32 unk64;
     /* 0x68 */ u8 filler68[0x4];
     /* 0x6C */ u16 unk6C;
-} Arg2TaskC;
+} Arg2TaskC; /* 0x70 */
 
 struct Task *sub_80B33D0(UnkArg2 *ctx);
 struct Task *sub_80B48A4(UnkArg2 *strc);

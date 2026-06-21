@@ -1738,6 +1738,59 @@ void sub_80B4294(void)
     task8->unkAC = var_r5;
 }
 
+void sub_80B43B4(void)
+{
+    u16 var_r5;
+    s32 unk90;
+    s32 unk9C;
+
+    Arg2Task8 *task8 = TASK_DATA(gCurTask);
+    Arg2TaskC *taskC = TASK_DATA(task8->unk0->taskC);
+
+    var_r5 = task8->unkAC;
+    unk90 = task8->unk90;
+    unk9C = task8->unk9C;
+    unk9C += 0x30;
+    unk90 += unk9C;
+
+    if (unk9C < 0) {
+        if (gInput & gStageData.buttonConfig.jump) {
+            unk9C -= 0x10;
+        }
+    }
+
+    if (0x20 & gInput) {
+        task8->unk94 += 0xA80;
+    } else if (0x10 & gInput) {
+        task8->unk94 -= 0xA80;
+    }
+
+    if (task8->unk88 < 0x01E50000) {
+        task8->unk88 = 0x01E50000;
+    } else if (task8->unk88 > 0x021B0000) {
+        task8->unk88 = 0x021B0000;
+    }
+
+    if (unk90 >= taskC->unk54) {
+        unk90 = taskC->unk54;
+        unk9C = 0;
+
+        if (task8->unk94 == 0) {
+            var_r5 = 0;
+        } else if (task8->unk94 > 0) {
+            var_r5 = 2;
+        } else if (task8->unk94 < 0) {
+            var_r5 = 1;
+        }
+        taskC->unk60 = 0;
+        taskC->unk64 = 0;
+    }
+
+    task8->unk90 = unk90;
+    task8->unk9C = unk9C;
+    task8->unkAC = var_r5;
+}
+
 #if 0
 void sub_80B4294(void) {
     s32 *var_r1;
@@ -2103,7 +2156,7 @@ Task *sub_80B48A4(void *arg0) {
     u8 temp_r8;
 
     temp_r8 = arg0->unk8C7;
-    temp_r0 = TaskCreate(Task_80B494C, 0x70U, 0xA000U, 0U, NULL);
+    temp_r0 = TaskCreate(Task_80B494C, sizeof(Arg2TaskC), 0xA000U, 0U, NULL);
     temp_r5 = temp_r0->data;
     temp_r5->unk0 = arg0;
     temp_r5->unk4 = 0;
