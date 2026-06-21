@@ -1057,7 +1057,7 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B33D0.inc", Task *sub_80B33D0(U
     struct Task *t;
 #if 0
     // TODO: Do this, once data is split off from assembly.
-    s16 *sp18[5] = {
+    Arg4_80B4498 *sp18[5] = {
         gUnknown_080DBFFC,
         gUnknown_080DC20C,
         gUnknown_080DC15C,
@@ -1065,7 +1065,7 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B33D0.inc", Task *sub_80B33D0(U
         gUnknown_080DC0AC
     };
 #else
-    s16 *sp18[5];
+    Arg4_80B4498 *sp18[5];
     memcpy(sp18, gUnknown_080DC36C, sizeof(sp18));
 #endif
 
@@ -1203,7 +1203,7 @@ void sub_80B37F0(void)
     Sprite *s;
     s16 temp_r6_2;
     s32 var_r0;
-    u16 *var_sb;
+    Arg4_80B4498 *var_sb;
     u16 temp_r0;
     u16 temp_r1;
     Arg2TaskC *taskC;
@@ -1214,9 +1214,9 @@ void sub_80B37F0(void)
     taskC = TASK_DATA(task8->unk0->taskC);
 
     if ((task8->unkAC == 9) || (task8->unkAC == 0xE)) {
-        var_sb = task8->unkBC + (task8->unkAE * 4);
+        var_sb = &task8->unkBC[task8->unkAE];
     } else {
-        var_sb = task8->unkBC + (task8->unkAC * 4);
+        var_sb = &task8->unkBC[task8->unkAC];
     }
     temp_r1 = 240 - ((s32)((task8->unk88 + 0xFE1B0000) * 0x47) >> 0x14);
     sp4 = (s32)temp_r1;
@@ -1790,6 +1790,35 @@ void sub_80B43B4(void)
     task8->unk9C = unk9C;
     task8->unkAC = var_r5;
 }
+
+#if 0
+void sub_80B4498(Sprite *s, u16 *vram, s16 yPos, u8 arg3, Arg4_80B4498 *arg4) {
+    u32 var_r3;
+    u8 temp_r2;
+
+    var_r3 = 0x1000;
+    if (1 & arg4->unk7) {
+        var_r3 |= 0x400;
+    }
+    if (2 & arg4->unk7) {
+        var_r3 |= 0x800;
+    }
+    s->tiles = (u8 *) vram;
+    s->anim = arg4->unk0;
+    s->frameFlags = var_r3;
+    s->x = DISPLAY_CENTER_X;
+    s->y = yPos;
+    s->oamFlags = arg3 << 6;
+    s->qAnimDelay = 0;
+    s->prevAnim = -1;
+    s->variant = (u8) arg4->unk2;
+    s->prevVariant = -1;
+    s->animSpeed = arg4->unk6;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    UpdateSpriteAnimation(s);
+}
+#endif
 
 #if 0
 void sub_80B4294(void) {

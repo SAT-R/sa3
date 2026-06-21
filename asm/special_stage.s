@@ -5,8 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
+.if 01
 
 	thumb_func_start sub_80B4498
 sub_80B4498: @ 0x080B4498
@@ -67,6 +66,7 @@ _080B44C8:
 	bx r0
 	.align 2, 0
 _080B4504: .4byte 0x0000FFFF
+.endif
 
 	thumb_func_start sub_80B4508
 sub_80B4508: @ 0x080B4508
