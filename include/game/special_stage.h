@@ -263,7 +263,7 @@ void sub_80B46DC(void);
 void sub_80B6778(UnkArg2 *arg0, s32 *arg1);
 bool8 sub_80B47C4();
 void sub_80B4FA8(UnkArg2 *arg0, s8 arg1);
-void sub_80B47EC(Sprite *arg0, s16 arg1, s16 arg2, s16 arg3, Arg4_80B4498 *arg4);
+void sub_80B47EC(Sprite *s, s16 arg1, s16 arg2, s16 arg3, Arg4_80B4498 *arg4);
 void sub_80B6B20(void);
 
 void sub_80B6B3C(Background *bg, s32 arg1, s32 arg2, u16 arg3, u16 arg4, u16 arg5, u8 arg6, u8 arg7, u16 arg8, u16 arg9);

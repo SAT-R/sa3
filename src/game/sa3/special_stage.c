@@ -1980,35 +1980,27 @@ bool8 sub_80B47C4(void)
     return var_r1;
 }
 
-#if 0
-void sub_80B47EC(Sprite *arg0, u16 arg1, u16 arg2, u16 arg3, void *arg4) {
-    u16 temp_r7;
-    u16 var_r2_2;
-    u32 var_r2;
-    u8 temp_r1;
+void sub_80B47EC(Sprite *s, s16 animSpeed, s16 arg2, s16 arg3, Arg4_80B4498 *arg4)
+{
+    u32 frameFlags;
 
-    temp_r7 = arg1;
-    var_r2 = 0x1000;
-    temp_r1 = arg4->unk7;
-    if (1 & temp_r1) {
-        var_r2 = 0x1000 | 0x400;
+    frameFlags = 0x1000;
+    if (1 & arg4->unk7) {
+        frameFlags |= 0x400;
     }
-    if (2 & temp_r1) {
-        var_r2 |= 0x800;
+    if (2 & arg4->unk7) {
+        frameFlags |= 0x800;
     }
-    arg0->anim = arg4->unk0;
-    arg0->frameFlags = var_r2;
-    arg0->x = arg2;
-    arg0->y = arg3;
-    arg0->variant = (u8) arg4->unk2;
-    var_r2_2 = 0x10;
-    if ((s16) temp_r7 != -1) {
-        var_r2_2 = temp_r7;
-    }
-    arg0->animSpeed = (u8) var_r2_2;
-    UpdateSpriteAnimation(arg0);
+    s->anim = arg4->anim;
+    s->frameFlags = frameFlags;
+    s->x = (s16)(u16)arg2;
+    s->y = (s16)(u16)arg3;
+    s->variant = (u8)arg4->variant;
+    s->animSpeed = (animSpeed != -1) ? animSpeed : SPRITE_ANIM_SPEED(1.0);
+    UpdateSpriteAnimation(s);
 }
 
+#if 0
 void sub_80B484C(Sprite *arg0, u16 arg1, u16 arg2, void *arg3) {
     u16 temp_r6;
     u16 var_r2_2;
