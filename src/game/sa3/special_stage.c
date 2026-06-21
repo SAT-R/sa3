@@ -1905,49 +1905,52 @@ void sub_80B46B0(UnkArg2 *arg0)
 
 void sub_80B46DC(void) { }
 
-#if 0
-void sub_80B46E0(void) {
+void sub_80B46E0()
+{
     s32 temp_r0;
     s32 var_r2;
     s32 var_r3;
-    u16 temp_r4;
     u16 var_r1;
+    Arg2Task8 *task8 = TASK_DATA(gCurTask);
+    Arg2TaskC *taskC = TASK_DATA(task8->unk0->taskC);
+    var_r1 = task8->unkAC;
+    var_r3 = task8->unk90;
+    var_r2 = task8->unk9C;
+    var_r2 += 0x40;
+    var_r3 += var_r2;
 
-    temp_r4 = gCurTask->data;
-    var_r1 = temp_r4->unkAC;
-    var_r2 = temp_r4->unk9C + 0x40;
-    var_r3 = temp_r4->unk90 + var_r2;
-    temp_r0 = temp_r4->unk0->unkC->unk6->unk54;
-    if (var_r3 >= temp_r0) {
-        var_r3 = temp_r0;
+    if (var_r3 >= taskC->unk54) {
+        var_r3 = taskC->unk54;
         var_r2 = 0;
-        temp_r4->unk23 = 0xFF;
+        task8->sprite8.prevVariant = 0xFF;
         var_r1 = 0;
     }
-    temp_r4->unk90 = var_r3;
-    temp_r4->unk9C = var_r2;
-    temp_r4->unkAC = var_r1;
+
+    task8->unk90 = var_r3;
+    task8->unk9C = var_r2;
+    task8->unkAC = var_r1;
 }
 
-void sub_80B4738(void) {
+void sub_80B4738()
+{
+    Arg2Task8 *task8 = TASK_DATA(gCurTask);
     s32 temp_r2;
     s32 temp_r3;
-    u16 temp_r1;
 
-    temp_r1 = gCurTask->data;
-    temp_r2 = temp_r1->unk9C + 0x30;
-    temp_r3 = temp_r1->unk90 + temp_r2;
-    if ((s32) (temp_r3 >> 8) > 0xC8) {
-        temp_r1->unkAC = 8;
+    temp_r3 = task8->unk90;
+    temp_r2 = task8->unk9C;
+    temp_r2 += 0x30;
+    temp_r3 += temp_r2;
+    if ((s32)(temp_r3 >> 8) > 0xC8) {
+        task8->unkAC = 8;
     }
-    temp_r1->unk90 = temp_r3;
-    temp_r1->unk9C = temp_r2;
+    task8->unk90 = temp_r3;
+    task8->unk9C = temp_r2;
 }
 
-void sub_80B4774(void) {
+void sub_80B4774(void) { }
 
-}
-
+#if 0
 void sub_80B4778(void) {
     u16 temp_r1;
     u16 temp_r1_2;
