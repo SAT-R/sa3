@@ -253,17 +253,17 @@ void sub_80B6BB8(Sprite *inSprite, s8 arg1, s32 tileCount, AnimId anim, u32 fram
     }
 }
 
-s16 sub_80B6CA4(u16 *arg0)
+s16 sub_80B6CA4(Arg4_80B4498 *arg0)
 {
     s16 var_r3;
 
     var_r3 = 0;
-    while (arg0[0] != (u16)-1) {
-        if ((s32)var_r3 < arg0[2]) {
-            var_r3 = (s16)arg0[2];
+    while (arg0->anim != (u16)-1) {
+        if (var_r3 < arg0->unk4) {
+            var_r3 = arg0->unk4;
         }
 
-        arg0 += 4;
+        arg0++;
     }
 
     return var_r3;

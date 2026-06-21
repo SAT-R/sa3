@@ -1039,11 +1039,11 @@ void sub_80B33CC(Arg2Task0 *strc) { }
 
 extern s16 gUnknown_080DBE58[][3];
 
-// (86.03%) https://decomp.me/scratch/2x1US
-NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B33D0.inc", Task *sub_80B33D0(UnkArg2 *ctx))
+// TODO: Fake-match
+// (100.00%) https://decomp.me/scratch/DPm5o
+Task *sub_80B33D0(UnkArg2 *ctx)
 {
-    s32 sp2C;
-    s32 sp30;
+    Arg4_80B4498 sp2C;
     Arg2Task8 *sp34;
     u8 *sp38;
     Sprite *var_r0;
@@ -1069,8 +1069,8 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B33D0.inc", Task *sub_80B33D0(U
     memcpy(sp18, gUnknown_080DC36C, sizeof(sp18));
 #endif
 
-    sp30 = gUnknown_080DC380[1];
-    sp2C = gUnknown_080DC380[0];
+    sp2C = gUnknown_080DC380;
+
     temp_r6 = ctx->unk8C7;
     t = TaskCreate(Task_80B3648, sizeof(Arg2Task8), 0x9000U, 0U, NULL);
     strc = TASK_DATA(t);
@@ -1086,10 +1086,17 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B33D0.inc", Task *sub_80B33D0(U
     sp38 = &ctx->unk8C6;
     temp_r0 = sub_80B6CA4(strc->unkBC);
     strc->vram84 = gUnknown_03001EA0;
+#ifndef
+    {
+        asm("add r0, r1, r0\n"
+            "str r0, [r6]\n" ::"r"(temp_r0 * TILE_SIZE_4BPP));
+    }
+#else
     gUnknown_03001EA0 += temp_r0 * TILE_SIZE_4BPP;
+#endif
     sub_80B4498(&strc->sprite8, gUnknown_03001EA0, ctx->unk8DA, 9U, strc->unkBC);
     sub_80B4498(&strc->spriteE8, gUnknown_03001EA0, 0, 4U, &sp2C);
-    gUnknown_03001EA0 += (sp30 * TILE_SIZE_4BPP) >> 1;
+    gUnknown_03001EA0 += (sp2C.unk4 * TILE_SIZE_4BPP);
     strc->unk94 = 0;
     strc->unk98 = 0;
     strc->unk9C = 0;
@@ -1123,7 +1130,6 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B33D0.inc", Task *sub_80B33D0(U
     }
     return t;
 }
-END_NONMATCH
 
 void Task_80B3648(void)
 {
@@ -1791,8 +1797,8 @@ void sub_80B43B4(void)
     task8->unkAC = var_r5;
 }
 
-#if 0
-void sub_80B4498(Sprite *s, u16 *vram, s16 yPos, u8 arg3, Arg4_80B4498 *arg4) {
+void sub_80B4498(Sprite *s, u16 *vram, s16 yPos, u8 arg3, Arg4_80B4498 *arg4)
+{
     u32 var_r3;
     u8 temp_r2;
 
@@ -1803,22 +1809,21 @@ void sub_80B4498(Sprite *s, u16 *vram, s16 yPos, u8 arg3, Arg4_80B4498 *arg4) {
     if (2 & arg4->unk7) {
         var_r3 |= 0x800;
     }
-    s->tiles = (u8 *) vram;
-    s->anim = arg4->unk0;
+    s->tiles = (u8 *)vram;
+    s->anim = arg4->anim;
     s->frameFlags = var_r3;
     s->x = DISPLAY_CENTER_X;
     s->y = yPos;
     s->oamFlags = arg3 << 6;
     s->qAnimDelay = 0;
     s->prevAnim = -1;
-    s->variant = (u8) arg4->unk2;
+    s->variant = (u8)arg4->variant;
     s->prevVariant = -1;
-    s->animSpeed = arg4->unk6;
+    s->animSpeed = arg4->animSpeed;
     s->palId = 0;
     s->hitboxes[0].index = -1;
     UpdateSpriteAnimation(s);
 }
-#endif
 
 #if 0
 void sub_80B4294(void) {

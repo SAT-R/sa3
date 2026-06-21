@@ -5,67 +5,7 @@
 .syntax unified
 .arm
 
-.if 01
-
-	thumb_func_start sub_80B4498
-sub_80B4498: @ 0x080B4498
-	push {r4, r5, r6, r7, lr}
-	adds r4, r0, #0
-	ldr r5, [sp, #0x14]
-	lsls r2, r2, #0x10
-	lsrs r7, r2, #0x10
-	lsls r3, r3, #0x18
-	lsrs r6, r3, #0x18
-	movs r3, #0x80
-	lsls r3, r3, #5
-	ldrb r2, [r5, #7]
-	movs r0, #1
-	ands r0, r2
-	cmp r0, #0
-	beq _080B44BA
-	movs r0, #0x80
-	lsls r0, r0, #3
-	orrs r3, r0
-_080B44BA:
-	movs r0, #2
-	ands r0, r2
-	cmp r0, #0
-	beq _080B44C8
-	movs r0, #0x80
-	lsls r0, r0, #4
-	orrs r3, r0
-_080B44C8:
-	str r1, [r4]
-	ldrh r0, [r5]
-	movs r2, #0
-	movs r1, #0
-	strh r0, [r4, #0xc]
-	str r3, [r4, #8]
-	movs r0, #0x78
-	strh r0, [r4, #0x10]
-	strh r7, [r4, #0x12]
-	lsls r0, r6, #6
-	strh r0, [r4, #0x14]
-	strh r1, [r4, #0x16]
-	ldr r0, _080B4504 @ =0x0000FFFF
-	strh r0, [r4, #0x18]
-	ldrh r0, [r5, #2]
-	strb r0, [r4, #0x1a]
-	movs r0, #0xff
-	strb r0, [r4, #0x1b]
-	ldrb r0, [r5, #6]
-	strb r0, [r4, #0x1c]
-	strb r2, [r4, #0x1f]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r4, #0x20]
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080B4504: .4byte 0x0000FFFF
+.if 0
 .endif
 
 	thumb_func_start sub_80B4508

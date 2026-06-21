@@ -163,8 +163,8 @@ typedef struct {
 typedef struct {
     /* 0x00 */ AnimId anim;
     /* 0x02 */ u16 variant;
-    /* 0x04 */ u16 filler4;
-    /* 0x06 */ u8 unk6;
+    /* 0x04 */ u16 unk4;
+    /* 0x06 */ u8 animSpeed;
     /* 0x07 */ u8 unk7;
 } Arg4_80B4498;
 
@@ -253,7 +253,7 @@ void Task_80B3648(void);
 void Task_80B36F4(void);
 void sub_80B37F0(void);
 void sub_80B39B8(void);
-void sub_80B4498(Sprite *s, u16 *vram, s16 arg2, u8 arg3, void *arg4);
+void sub_80B4498(Sprite *s, u16 *vram, s16 arg2, u8 arg3, Arg4_80B4498 *arg4);
 void sub_80B4508(Arg2Task8 *task8);
 void sub_80B46DC(void);
 void sub_80B6778(UnkArg2 *arg0, s32 *arg1);
@@ -284,7 +284,7 @@ extern u16 gUnknown_080DBFA8[6][3];
 extern u16 gUnknown_080DBFD8[];
 extern AnimId gUnknown_080DBFEC[];
 extern Arg4_80B4498 *gUnknown_080DC36C[5];
-extern u32 gUnknown_080DC380[2];
+extern Arg4_80B4498 gUnknown_080DC380;
 extern TaskMain gUnknown_080DC388[24];
 extern s16 gUnknown_080E30DC[12];
 extern s16 gUnknown_080E30F4[12];
