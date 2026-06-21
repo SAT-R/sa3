@@ -184,7 +184,7 @@ typedef struct {
     /* 0xB5 */ u8 unkB5;
     /* 0xB6 */ u8 unkB6;
     /* 0xB7 */ u8 unkB7;
-    /* 0xB8 */ u8 unkB8;
+    /* 0xB8 */ s8 unkB8;
     /* 0xB9 */ s8 unkB9;
     /* 0xBC */ u16 *unkBC;
     /* 0xC0 */ Sprite spriteC0;
