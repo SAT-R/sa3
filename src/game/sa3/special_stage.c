@@ -1646,50 +1646,46 @@ void sub_80B407C(void)
     }
 }
 
-#if 0
-void sub_80B41B0(Arg2Task8 *task8) {
-    UnkArg2 *temp_r1;
-    s32 temp_r1_2;
-    u16 temp_r0;
-    u16 var_r5;
+void sub_80B41B0(void)
+{
+    Arg2Task8 *task8 = TASK_DATA(gCurTask);
+    UnkArg2 *temp_r1 = task8->unk0;
+    Arg2TaskC *temp_r0 = TASK_DATA(temp_r1->taskC);
+    u16 var_r5 = 0;
 
-    temp_r1 = task8->unk0;
-    temp_r0 = temp_r1->taskC->data;
-    var_r5 = 0;
-    if ((u32) temp_r1->unk8C4 > 4U) {
+    if (temp_r1->unk8C4 > 4U) {
         if (task8->unkB3 == 0) {
             if (0x20 & gInput) {
                 var_r5 = 1;
-                goto block_11;
+                task8->sprite8.prevVariant = 0xFF;
+            } else if (0x10 & gInput) {
+                var_r5 = 2;
+                task8->sprite8.prevVariant = 0xFF;
             }
-            goto block_9;
-        }
-        temp_r1_2 = task8->unk88;
-        if (temp_r1_2 <= 0x01E50000) {
+        } else if (task8->unk88 <= 0x01E50000) {
             if (0x20 & gInput) {
                 var_r5 = 1;
                 task8->sprite8.prevVariant = 0xFF;
             }
-        } else if (temp_r1_2 > 0x021AFFFF) {
-block_9:
+        } else if (task8->unk88 >= 0x021B0000) {
             if (0x10 & gInput) {
                 var_r5 = 2;
-block_11:
                 task8->sprite8.prevVariant = 0xFF;
             }
         }
-        if (gStageData.buttonConfig.jump & gPressedKeys) {
+        if (gPressedKeys & gStageData.buttonConfig.jump) {
             var_r5 = 3;
             task8->sprite8.prevVariant = 0xFF;
             task8->unk9C = -0x400;
             temp_r0->unk64 = 0x300;
-            m4aSongNumStart(0x74U);
+            m4aSongNumStart(SE_JUMP);
         }
     }
     task8->unk90 = temp_r0->unk54;
     task8->unkAC = var_r5;
 }
 
+#if 0
 void sub_80B4294(void) {
     s32 *var_r1;
     s32 temp_r0_2;
