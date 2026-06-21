@@ -258,9 +258,11 @@ void sub_80B37F0(void);
 void sub_80B39B8(void);
 void sub_80B4498(Sprite *s, u16 *vram, s16 arg2, u8 arg3, Arg4_80B4498 *arg4);
 void sub_80B4508(Arg2Task8 *task8);
+void sub_80B4654(UnkArg2 *arg0, s8 arg1);
 void sub_80B46DC(void);
 void sub_80B6778(UnkArg2 *arg0, s32 *arg1);
 bool8 sub_80B47C4();
+void sub_80B4FA8(UnkArg2 *arg0, s8 arg1);
 void sub_80B47EC(Sprite *arg0, s16 arg1, s16 arg2, s16 arg3, Arg4_80B4498 *arg4);
 void sub_80B6B20(void);
 

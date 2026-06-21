@@ -1874,85 +1874,38 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B4508.inc", void sub_80B4508(Ar
 }
 END_NONMATCH
 
-#if 0
-void sub_80B4508(Arg2Task8 *task8) {
-    s32 sp0;
-    s32 sp4;
-    Sprite *temp_r0_2;
-    SpriteTransform *temp_r2;
-    s16 temp_r5_2;
-    s16 temp_r5_3;
-    s16 temp_r6;
-    s32 temp_r1;
-    s32 temp_r2_2;
-    s32 temp_r4;
-    s32 temp_r5;
-    u16 temp_r0;
-    u16 temp_r1_2;
-    u16 temp_r3;
-
-    temp_r0 = arg0->unk0->unkC->unk6;
-    temp_r0_2 = arg0 + 8;
-    temp_r2 = arg0 + 0x38;
-    temp_r1 = arg0->unk88;
-    temp_r5 = (s32) ((temp_r1 + 0xFE1B0000) * 0x47) >> 0x14;
-    sp0 = temp_r5;
-    temp_r0_2->frameFlags = 0x1070;
-    temp_r6 = ((s32) temp_r0->unk58 >> 8) & 0x3FF;
-    sp4 = temp_r0->unk4C - arg0->unk88;
-    temp_r2_2 = (s32) (((u32) temp_r0->unk48 >> 8) * 0x1C00) >> 0x10;
-    temp_r5_2 = gSineTable[temp_r6];
-    temp_r5_3 = gSineTable[temp_r6 + 0x100];
-    temp_r4 = sp4 >> 0x10;
-    temp_r3 = (s16) ((s16) ((0xF0 - temp_r5) + ((s32) (temp_r2_2 * temp_r5_2) >> 0xE))
-                         + ((s32) (temp_r5_3 * temp_r4) >> 0xC)
-                - ((s32) (temp_r4 * 9) >> 1);
-    temp_r1_2 = (s16) (((s16) (((s32) (gSineTable[((s32) temp_r0->unk58 >> 8) & 0x3FF] * ((s32) ((temp_r0->unk4C - temp_r1) * 5) >> 0x11) * 4) >> 0x10) + ((s32) arg0->unk90 >> 8)) + 0x18) - ((s32) (temp_r5_3 * temp_r2_2) >> 0xE)) + ((s32) (temp_r4 * temp_r5_2) >> 0xE);
-    temp_r0_2->x = temp_r3;
-    temp_r0_2->y = temp_r1_2;
-    temp_r2->qScaleX = (s16) ((u32) temp_r0->unk48 >> 8);
-    temp_r2->qScaleY = (s16) ((u32) temp_r0->unk48 >> 8);
-    temp_r2->x = temp_r3;
-    temp_r2->y = temp_r1_2;
-    arg0->unk38 = temp_r6;
-    UpdateSpriteAnimation(temp_r0_2);
-    TransformSprite(temp_r0_2, temp_r2);
-    DisplaySprite(temp_r0_2);
-}
-
-void sub_80B4654(void *arg0, u8 arg1) {
+void sub_80B4654(UnkArg2 *arg0, s8 arg1)
+{
     s16 temp_r0;
-    u16 temp_r2;
-    u8 var_r1;
 
-    var_r1 = arg1;
-    temp_r2 = arg0->unk8->unk6;
-    if ((temp_r2->unkB4 == 0) && (temp_r2->unkB5 == 0)) {
-        temp_r2->unkB5 = 1U;
-        temp_r0 = (s16) arg0->unk8C0;
-        if (temp_r0 != 0) {
-            if ((s32) temp_r0 <= 4) {
-                var_r1 = (u8) arg0->unk8C0;
+    Arg2Task8 *temp_r2 = TASK_DATA(arg0->task8);
+    if (temp_r2->unkB4 == 0) {
+        if (temp_r2->unkB5 == 0) {
+            temp_r2->unkB5 = 1U;
+
+            if (arg0->unk8C0 != 0) {
+                if (arg0->unk8C0 < 5) {
+                    arg1 = (u8)arg0->unk8C0;
+                }
+                sub_80B4FA8(arg0, arg1);
+                m4aSongNumStart(SE_LOST_RINGS);
             }
-            sub_80B4FA8(arg0, (s8) var_r1);
-            m4aSongNumStart(SE_LOST_RINGS);
         }
     }
 }
 
-void sub_80B46B0(void *arg0) {
-    u16 temp_r2;
+void sub_80B46B0(UnkArg2 *arg0)
+{
+    Arg2Task8 *temp_r2 = TASK_DATA(arg0->task8);
 
-    temp_r2 = arg0->unk8->unk6;
-    if (!(temp_r2->unkB4 & 0xFF0000FF)) {
+    if (temp_r2->unkB4 == 0 && temp_r2->unkB7 == 0) {
         temp_r2->unkB6 = 1;
     }
 }
 
-void sub_80B46DC(void) {
+void sub_80B46DC(void) { }
 
-}
-
+#if 0
 void sub_80B46E0(void) {
     s32 temp_r0;
     s32 var_r2;
