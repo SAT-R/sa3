@@ -1950,36 +1950,37 @@ void sub_80B4738()
 
 void sub_80B4774(void) { }
 
-#if 0
-void sub_80B4778(void) {
+void sub_80B4778(void)
+{
+    Arg2Task8 *task8 = TASK_DATA(gCurTask);
     u16 temp_r1;
-    u16 temp_r1_2;
 
-    temp_r1 = gCurTask->data;
-    if (temp_r1->unkAC != 0x12) {
-        temp_r1_2 = temp_r1->unkB0;
-        temp_r1->unkB0 = (u16) (temp_r1_2 + 1);
-        if ((u32) temp_r1_2 > 0x3BU) {
-            temp_r1->unkAC = 0x12U;
+    if (task8->unkAC != 0x12) {
+        if (task8->unkB0++ > 0x3BU) {
+            task8->unkAC = 0x12;
         }
     }
-    if (temp_r1->unkB0 == 0x12) {
+
+    if (task8->unkB0 == 0x12) {
         m4aSongNumStart(MUS_EMERALD_GET);
     }
 }
 
-s32 sub_80B47C4(void) {
-    s32 var_r1;
+bool8 sub_80B47C4(void)
+{
+    Arg2Task8 *task8 = TASK_DATA(gCurTask);
     u16 temp_r0;
+    u8 var_r1;
 
     var_r1 = 0;
-    temp_r0 = gCurTask->data->unkAC;
-    if (((u32) temp_r0 <= 2U) || (temp_r0 == 5)) {
+    temp_r0 = task8->unkAC;
+    if (((u32)temp_r0 <= 2U) || (temp_r0 == 5)) {
         var_r1 = 1;
     }
     return var_r1;
 }
 
+#if 0
 void sub_80B47EC(Sprite *arg0, u16 arg1, u16 arg2, u16 arg3, void *arg4) {
     u16 temp_r7;
     u16 var_r2_2;
