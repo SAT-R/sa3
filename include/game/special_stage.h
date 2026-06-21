@@ -171,8 +171,10 @@ typedef struct {
 typedef struct {
     /* 0x00 */ UnkArg2 *unk0;
     /* 0x04 */ s32 unk4;
-    /* 0x08 */ Sprite sprite8;
-    /* 0x30 */ u8 filler30[0x54];
+    /* 0x08 */ Sprite sprite8; // TODO: Is this Sprite2?
+    /* 0x30 */ u8 filler30[0x8];
+    /* 0x38 */ SpriteTransform tf38;
+    /* 0x44 */ u8 filler44[0x40];
     /* 0x84 */ void *vram84;
     /* 0x88 */ s32 unk88;
     /* 0x8C */ s32 unk8C;
@@ -200,7 +202,8 @@ typedef struct {
 } Arg2Task8; /* 0x110 */
 
 typedef struct {
-    /* 0x00 */ u8 filler0[0x4C];
+    /* 0x00 */ u8 filler0[0x48];
+    /* 0x4C */ s32 unk48;
     /* 0x4C */ s32 unk4C;
     /* 0x50 */ u8 filler50[0x4];
     /* 0x54 */ s32 unk54;
@@ -258,7 +261,7 @@ void sub_80B4508(Arg2Task8 *task8);
 void sub_80B46DC(void);
 void sub_80B6778(UnkArg2 *arg0, s32 *arg1);
 bool8 sub_80B47C4();
-void sub_80B47EC(Sprite *arg0, s16 arg1, s16 arg2, s16 arg3, void *arg4);
+void sub_80B47EC(Sprite *arg0, s16 arg1, s16 arg2, s16 arg3, Arg4_80B4498 *arg4);
 void sub_80B6B20(void);
 
 void sub_80B6B3C(Background *bg, s32 arg1, s32 arg2, u16 arg3, u16 arg4, u16 arg5, u8 arg6, u8 arg7, u16 arg8, u16 arg9);

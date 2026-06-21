@@ -1825,8 +1825,57 @@ void sub_80B4498(Sprite *s, u16 *vram, s16 yPos, u8 arg3, Arg4_80B4498 *arg4)
     UpdateSpriteAnimation(s);
 }
 
+// (43.90%) https://decomp.me/scratch/y40ZZ
+NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B4508.inc", void sub_80B4508(Arg2Task8 *task8))
+{
+    s32 sp0;
+    s32 sp4;
+    s16 temp_r5_2;
+    s16 temp_r5_3;
+    s16 temp_r1;
+    s32 temp_r2;
+    s32 temp_r4;
+    s32 temp_r5;
+    s16 temp_r1_2;
+    u16 temp_r3;
+    u16 temp_r6;
+    s32 var_r3;
+    Arg2TaskC *temp_r0 = TASK_DATA(task8->unk0->taskC);
+    Sprite *s = &task8->sprite8;
+    SpriteTransform *tf = &task8->tf38;
+    temp_r1 = task8->unk88;
+    temp_r5 = 0xFE1B0000;
+    temp_r5 = (s32)((temp_r1 + temp_r5) * 0x47) >> 0x14;
+    var_r3 = 240;
+    s->frameFlags = 0x1070;
+    temp_r6 = ((s32)temp_r0->unk58 >> 8) & 0x3FF;
+    sp4 = temp_r0->unk4C - task8->unk88;
+    temp_r2 = (s32)(((u32)temp_r0->unk48 >> 8) * 0x1C00) >> 0x10;
+    temp_r5_2 = SIN(temp_r6);
+    temp_r5_3 = COS(temp_r6);
+    temp_r4 = sp4 >> 0x10;
+    temp_r3 = (s16)((s16)((0xF0 - temp_r5) + ((s32)(temp_r2 * temp_r5_2) >> 0xE)) + ((s32)(temp_r5_3 * temp_r4) >> 0xC))
+        - ((s32)(temp_r4 * 9) >> 1);
+    temp_r1 = (s16)(((s16)(((s32)(SIN(((s32)temp_r0->unk58 >> 8) & 0x3FF) * ((s32)((temp_r0->unk4C - temp_r1) * 5) >> 0x11) * 4) >> 0x10)
+                           + ((s32)task8->unk90 >> 8))
+                     + 0x18)
+                    - ((s32)(temp_r5_3 * temp_r2) >> 0xE))
+        + ((s32)(temp_r4 * temp_r5_2) >> 0xE);
+    s->x = (s16)temp_r3;
+    s->y = (s16)temp_r1;
+    tf->qScaleX = (s16)((u32)temp_r0->unk48 >> 8);
+    tf->qScaleY = (s16)((u32)temp_r0->unk48 >> 8);
+    tf->x = (s16)temp_r3;
+    tf->y = (s16)temp_r1;
+    tf->rotation = temp_r6;
+    UpdateSpriteAnimation(s);
+    TransformSprite(s, tf);
+    DisplaySprite(s);
+}
+END_NONMATCH
+
 #if 0
-void sub_80B4508(void *arg0) {
+void sub_80B4508(Arg2Task8 *task8) {
     s32 sp0;
     s32 sp4;
     Sprite *temp_r0_2;
@@ -1855,7 +1904,9 @@ void sub_80B4508(void *arg0) {
     temp_r5_2 = gSineTable[temp_r6];
     temp_r5_3 = gSineTable[temp_r6 + 0x100];
     temp_r4 = sp4 >> 0x10;
-    temp_r3 = (s16) ((s16) ((0xF0 - temp_r5) + ((s32) (temp_r2_2 * temp_r5_2) >> 0xE)) + ((s32) (temp_r5_3 * temp_r4) >> 0xC)) - ((s32) (temp_r4 * 9) >> 1);
+    temp_r3 = (s16) ((s16) ((0xF0 - temp_r5) + ((s32) (temp_r2_2 * temp_r5_2) >> 0xE))
+                         + ((s32) (temp_r5_3 * temp_r4) >> 0xC)
+                - ((s32) (temp_r4 * 9) >> 1);
     temp_r1_2 = (s16) (((s16) (((s32) (gSineTable[((s32) temp_r0->unk58 >> 8) & 0x3FF] * ((s32) ((temp_r0->unk4C - temp_r1) * 5) >> 0x11) * 4) >> 0x10) + ((s32) arg0->unk90 >> 8)) + 0x18) - ((s32) (temp_r5_3 * temp_r2_2) >> 0xE)) + ((s32) (temp_r4 * temp_r5_2) >> 0xE);
     temp_r0_2->x = temp_r3;
     temp_r0_2->y = temp_r1_2;
