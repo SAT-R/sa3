@@ -8,55 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_80B484C
-sub_80B484C: @ 0x080B484C
-	push {r4, r5, r6, lr}
-	adds r4, r0, #0
-	lsls r1, r1, #0x10
-	lsrs r6, r1, #0x10
-	lsls r2, r2, #0x10
-	lsrs r5, r2, #0x10
-	movs r2, #0x88
-	lsls r2, r2, #5
-	ldrb r1, [r3, #7]
-	movs r0, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _080B486C
-	movs r0, #0x80
-	lsls r0, r0, #3
-	orrs r2, r0
-_080B486C:
-	movs r0, #2
-	ands r0, r1
-	cmp r0, #0
-	beq _080B487A
-	movs r0, #0x80
-	lsls r0, r0, #4
-	orrs r2, r0
-_080B487A:
-	ldrh r0, [r3]
-	strh r0, [r4, #0xc]
-	str r2, [r4, #8]
-	strh r5, [r4, #0x12]
-	ldrh r0, [r3, #2]
-	strb r0, [r4, #0x1a]
-	lsls r0, r6, #0x10
-	asrs r0, r0, #0x10
-	movs r1, #1
-	rsbs r1, r1, #0
-	movs r2, #0x10
-	cmp r0, r1
-	beq _080B4896
-	adds r2, r6, #0
-_080B4896:
-	strb r2, [r4, #0x1c]
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-
 	thumb_func_start sub_80B48A4
 sub_80B48A4: @ 0x080B48A4
 	push {r4, r5, r6, lr}

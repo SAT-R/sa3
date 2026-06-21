@@ -2000,6 +2000,24 @@ void sub_80B47EC(Sprite *s, s16 animSpeed, s16 arg2, s16 arg3, Arg4_80B4498 *arg
     UpdateSpriteAnimation(s);
 }
 
+void sub_80B484C(Sprite *s, s16 animSpeed, s16 posY, Arg4_80B4498 *arg4)
+{
+    u32 frameFlags = 0x1100;
+
+    if (1 & arg4->unk7) {
+        frameFlags |= 0x400;
+    }
+    if (2 & arg4->unk7) {
+        frameFlags |= 0x800;
+    }
+    s->anim = arg4->anim;
+    s->frameFlags = frameFlags;
+    s->y = posY;
+    s->variant = (u8)arg4->variant;
+    s->animSpeed = (animSpeed != -1) ? animSpeed : SPRITE_ANIM_SPEED(1.0);
+    UpdateSpriteAnimation(s);
+}
+
 #if 0
 void sub_80B484C(Sprite *arg0, u16 arg1, u16 arg2, void *arg3) {
     u16 temp_r6;
