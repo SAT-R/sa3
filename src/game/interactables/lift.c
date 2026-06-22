@@ -36,7 +36,7 @@ void TaskDestructor_Lift(struct Task *t);
 void Task_LiftLiftPlayerUp(void);
 void Task_LiftBringHandleBackDown(void);
 void Task_LiftDrawSpritesOrDestroy(void);
-void Task_LiftInitSprites(Sprite *spritePlatform, Sprite *spriteChainLink, Sprite *spriteHandle);
+void Lift_InitSprites(Sprite *spritePlatform, Sprite *spriteChainLink, Sprite *spriteHandle);
 
 void CreateEntity_Lift(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -50,15 +50,15 @@ void CreateEntity_Lift(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     lift->base.id = id;
 
     lift->qChainLength = LIFT_MAXIMUM_CHAIN_LENGTH;
-    lift->playerHoldsHandle[0] = FALSE;
-    lift->playerHoldsHandle[1] = FALSE;
+    lift->playerHoldsHandle[PLAYER_1] = FALSE;
+    lift->playerHoldsHandle[PLAYER_2] = FALSE;
 
     lift->worldX = TO_WORLD_POS(lift->base.meX, lift->base.regionX);
     lift->worldY = TO_WORLD_POS(me->y, lift->base.regionY) - 32;
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
-    Task_LiftInitSprites(&lift->s[LIFT_SPRITE_PLATFORM], &lift->s[LIFT_SPRITE_CHAIN_LINK], &lift->s[LIFT_SPRITE_HANDLE]);
+    Lift_InitSprites(&lift->s[LIFT_SPRITE_PLATFORM], &lift->s[LIFT_SPRITE_CHAIN_LINK], &lift->s[LIFT_SPRITE_HANDLE]);
 }
 
 void Task_LiftIdle(void)
@@ -184,7 +184,7 @@ void Task_LiftLiftPlayerUp(void)
         }
     }
 
-    if ((lift->playerHoldsHandle[0] == FALSE) && (lift->playerHoldsHandle[1] == FALSE)) {
+    if ((lift->playerHoldsHandle[PLAYER_1] == FALSE) && (lift->playerHoldsHandle[PLAYER_2] == FALSE)) {
         sub_8003E28(SE_LIFT);
         gCurTask->main = Task_LiftBringHandleBackDown;
     }
@@ -221,7 +221,7 @@ void Task_LiftBringHandleBackDown(void)
     Task_LiftDrawSpritesOrDestroy();
 }
 
-void Task_LiftInitSprites(Sprite *spritePlatform, Sprite *spriteChainLink, Sprite *spriteHandle)
+void Lift_InitSprites(Sprite *spritePlatform, Sprite *spriteChainLink, Sprite *spriteHandle)
 {
     void *tiles = VramMalloc(MAX_TILES_VARIANT(ANIM_LIFT, 0) + MAX_TILES_VARIANT(ANIM_LIFT, 1) + MAX_TILES_VARIANT(ANIM_LIFT, 2));
 
@@ -274,18 +274,18 @@ void Task_LiftDrawSpritesOrDestroy(void)
     Sprite *s = &lift->s[LIFT_SPRITE_PLATFORM];
     MapEntity *me = lift->base.me;
 
-    s16 screenX, screenYPlatform;
+    s16 screenX, screenY;
     s16 worldX, worldY;
     s16 handleY, linkY;
 
     worldX = screenX = lift->worldX;
-    worldY = screenYPlatform = lift->worldY;
+    worldY = screenY = lift->worldY;
     handleY = (worldY - gCamera.y) + I(lift->qChainLength);
 
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
 
-    if (((lift->playerHoldsHandle[0] == FALSE) && (lift->playerHoldsHandle[1] == FALSE))
+    if (((lift->playerHoldsHandle[PLAYER_1] == FALSE) && (lift->playerHoldsHandle[PLAYER_2] == FALSE))
         && !sub_802C140(worldX, worldY + 0x20, s->x, s->y)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, lift->base.meX);
         TaskDestroy(gCurTask);
@@ -293,7 +293,7 @@ void Task_LiftDrawSpritesOrDestroy(void)
     }
 
     screenX = s->x;
-    screenYPlatform = s->y;
+    screenY = s->y;
     SPRITE_FLAG_SET(s, X_FLIP);
     DisplaySprite(s);
     SPRITE_FLAG_CLEAR(s, X_FLIP);
@@ -310,7 +310,7 @@ void Task_LiftDrawSpritesOrDestroy(void)
 
     s = &lift->s[LIFT_SPRITE_CHAIN_LINK];
 
-    for (; linkY > screenYPlatform; linkY -= 16) {
+    for (; linkY > screenY; linkY -= 16) {
         s->x = screenX;
         s->y = linkY;
         DisplaySprite(s);
