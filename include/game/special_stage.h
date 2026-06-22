@@ -202,17 +202,20 @@ typedef struct {
 } Arg2Task8; /* 0x110 */
 
 typedef struct {
-    /* 0x00 */ u8 filler0[0x48];
+    /* 0x00 */ UnkArg2 *ctx;
+    /* 0x04 */ s32 unk4;
+    /* 0x08 */ u8 filler8[0x40];
     /* 0x4C */ s32 unk48;
     /* 0x4C */ s32 unk4C;
-    /* 0x50 */ u8 filler50[0x4];
+    /* 0x50 */ s32 unk50;
     /* 0x54 */ s32 unk54;
     /* 0x58 */ s32 unk58;
     /* 0x5C */ s32 unk5C;
     /* 0x60 */ s32 unk60;
     /* 0x64 */ s32 unk64;
-    /* 0x68 */ u8 filler68[0x4];
+    /* 0x68 */ s32 unk68;
     /* 0x6C */ u16 unk6C;
+    /* 0x6E */ u8 unk6E;
 } Arg2TaskC; /* 0x70 */
 
 struct Task *sub_80B33D0(UnkArg2 *ctx);
@@ -262,6 +265,7 @@ void sub_80B4654(UnkArg2 *arg0, s8 arg1);
 void sub_80B46DC(void);
 void sub_80B6778(UnkArg2 *arg0, s32 *arg1);
 bool8 sub_80B47C4();
+void Task_80B494C(void);
 void sub_80B4FA8(UnkArg2 *arg0, s8 arg1);
 void sub_80B47EC(Sprite *s, s16 arg1, s16 arg2, s16 arg3, Arg4_80B4498 *arg4);
 void sub_80B6B20(void);

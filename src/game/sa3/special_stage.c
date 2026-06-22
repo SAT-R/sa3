@@ -2018,49 +2018,16 @@ void sub_80B484C(Sprite *s, s16 animSpeed, s16 posY, Arg4_80B4498 *arg4)
     UpdateSpriteAnimation(s);
 }
 
-#if 0
-void sub_80B484C(Sprite *arg0, u16 arg1, u16 arg2, void *arg3) {
-    u16 temp_r6;
-    u16 var_r2_2;
-    u32 var_r2;
-    u8 temp_r1;
-
-    temp_r6 = arg1;
-    var_r2 = 0x1100;
-    temp_r1 = arg3->unk7;
-    if (1 & temp_r1) {
-        var_r2 = 0x1100 | 0x400;
-    }
-    if (2 & temp_r1) {
-        var_r2 |= 0x800;
-    }
-    arg0->anim = arg3->unk0;
-    arg0->frameFlags = var_r2;
-    arg0->y = arg2;
-    arg0->variant = (u8) arg3->unk2;
-    var_r2_2 = 0x10;
-    if ((s16) temp_r6 != -1) {
-        var_r2_2 = temp_r6;
-    }
-    arg0->animSpeed = (u8) var_r2_2;
-    UpdateSpriteAnimation(arg0);
-}
-
 // -> taskC
-Task *sub_80B48A4(void *arg0) {
-    Task *temp_r0;
-    s32 temp_r1;
-    u16 temp_r5;
-    u8 temp_r8;
-
-    temp_r8 = arg0->unk8C7;
-    temp_r0 = TaskCreate(Task_80B494C, sizeof(Arg2TaskC), 0xA000U, 0U, NULL);
-    temp_r5 = temp_r0->data;
-    temp_r5->unk0 = arg0;
+Task *sub_80B48A4(UnkArg2 *ctx)
+{
+    u8 index = ctx->unk8C7;
+    Task *t = TaskCreate(Task_80B494C, sizeof(Arg2TaskC), 0xA000U, 0U, NULL);
+    Arg2TaskC *temp_r5 = TASK_DATA(t);
+    temp_r5->ctx = ctx;
     temp_r5->unk4 = 0;
-    temp_r1 = temp_r8 * 6;
-    temp_r5->unk4C = (s32) (*(temp_r1 + &gUnknown_080DBE58) << 0x10);
-    temp_r5->unk50 = (s32) (*(temp_r1 + (&gUnknown_080DBE58 + 2)) << 0x10);
+    temp_r5->unk4C = (gUnknown_080DBE58[index][0] << 0x10);
+    temp_r5->unk50 = (gUnknown_080DBE58[index][1] << 0x10);
     temp_r5->unk54 = 0x7800;
     temp_r5->unk58 = 0;
     temp_r5->unk6C = 0;
@@ -2070,10 +2037,13 @@ Task *sub_80B48A4(void *arg0) {
     temp_r5->unk64 = 0;
     temp_r5->unk60 = 0;
     temp_r5->unk6E = 1;
+
     m4aSongNumStart(SE_526);
-    return temp_r0;
+
+    return t;
 }
 
+#if 0
 void Task_80B494C(void) {
     s16 temp_r2;
     s16 temp_r4;
