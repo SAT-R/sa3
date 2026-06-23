@@ -2084,63 +2084,57 @@ void Task_80B494C(void)
     }
 }
 
-#if 0
-void sub_80B4A7C(void *arg0) {
-    ? *var_r0;
+void sub_80B4A7C(Arg2TaskC *temp_r3)
+{
+    s32 temp_r1;
     s32 temp_r1_2;
     s32 temp_r1_3;
     s32 temp_r1_4;
-    s32 temp_r1_5;
-    s32 temp_r2;
-    s32 var_r1;
-    s32 var_r4;
-    s8 var_r5;
-    u16 temp_r0;
-    u16 temp_r1;
+    Arg2Task8 *task8 = TASK_DATA(temp_r3->ctx->task8);
+    u8 var_r5 = 0;
+    s32 temp_r2 = task8->unk88;
 
-    temp_r1 = arg0->unk0->unk8->unk6;
-    var_r5 = 0;
-    temp_r2 = temp_r1->unk88;
-    var_r4 = 1;
-    temp_r0 = temp_r1->unkAC;
-    if (((s32) temp_r0 >= 0xC) && (((s32) temp_r0 <= 0xD) || (((s32) temp_r0 <= 0x14) && ((s32) temp_r0 >= 0x13)))) {
-        var_r4 = 0;
+    s32 var_r4 = 1;
+    switch (task8->unkAC) {
+        case 12:
+        case 13:
+        case 19:
+        case 20: {
+            var_r4 = 0;
+        } break;
     }
+
     if (var_r4 != 0) {
-        temp_r1_2 = arg0->unk4C;
-        if (temp_r2 < (s32) (temp_r1_2 + 0xFFF50000)) {
-            var_r1 = 0xB0000;
-            goto block_10;
-        }
-        if (temp_r2 > (s32) (temp_r1_2 + 0xC0000)) {
-            var_r1 = 0xFFF40000;
-block_10:
-            arg0->unk4C = (s32) (temp_r2 + var_r1);
+        if (temp_r2 < (temp_r3->unk4C - 0xB0000)) {
+            temp_r3->unk4C = temp_r2 + 0xB0000;
+            var_r5 = 1;
+        } else if (temp_r2 > (temp_r3->unk4C + 0xC0000)) {
+            temp_r3->unk4C = temp_r2 - 0xC0000;
             var_r5 = 1;
         }
-        temp_r1_3 = arg0->unk4C;
-        if (temp_r1_3 <= 0x01EFFFFF) {
-            var_r0 = (? *)0x01F00000;
-            goto block_14;
+
+        if (temp_r3->unk4C < 0x01F00000) {
+            temp_r3->unk4C = 0x01F00000;
+        } else if (temp_r3->unk4C > 0x020F0000) {
+            temp_r3->unk4C = 0x020F0000;
         }
-        var_r0 = &gUnknown_020F0000;
-        if (temp_r1_3 > (s32) &gUnknown_020F0000) {
-block_14:
-            arg0->unk4C = (s32) var_r0;
-        }
-        temp_r1_4 = (s32) temp_r1->unk94 >> 0xB;
-        arg0->unk58 = (s32) (gSineTable[(0 - ((s32) (temp_r1_4 * temp_r1_4 * temp_r1_4 * 5) >> 0xB)) & 0x3FF] * 4);
-        temp_r1->unkB3 = var_r5;
-        return;
+        temp_r1_3 = task8->unk94 >> 11;
+        temp_r1_3 = temp_r1_3 * temp_r1_3 * temp_r1_3;
+        temp_r1_3 *= 5;
+        temp_r1_3 >>= 11;
+        temp_r3->unk58 = SIN((-temp_r1_3) & ONE_CYCLE) * 4;
+        task8->unkB3 = var_r5;
+    } else {
+        temp_r1_4 = temp_r3->unk5C + 0x80;
+        temp_r3->unk5C = temp_r1_4;
+        temp_r3->unk54 += 0x60;
+        temp_r3->unk4C -= temp_r1_4;
+        temp_r3->unk48 += temp_r1_4 >> 6;
+        temp_r3->unk58 += 0x1000;
     }
-    temp_r1_5 = arg0->unk5C + 0x80;
-    arg0->unk5C = temp_r1_5;
-    arg0->unk54 = (s32) (arg0->unk54 + 0x60);
-    arg0->unk4C = (s32) (arg0->unk4C - temp_r1_5);
-    arg0->unk48 = (s32) (arg0->unk48 + (temp_r1_5 >> 6));
-    arg0->unk58 = (s32) (arg0->unk58 + 0x1000);
 }
 
+#if 0
 void sub_80B4B68(void *arg0) {
     s16 *var_r2;
     s16 temp_r2_2;
