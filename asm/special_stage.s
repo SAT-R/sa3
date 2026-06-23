@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start Task_80B494C
 Task_80B494C: @ 0x080B494C
 	push {r4, r5, r6, r7, lr}
@@ -124,7 +122,7 @@ _080B49E2:
 	str r0, [r5, #0x48]
 	ldr r0, _080B4A4C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080B4A78 @ =sub_80B4D08
+	ldr r0, _080B4A78 @ =Task_80B4D08
 	str r0, [r1, #8]
 _080B4A3C:
 	pop {r3, r4, r5}
@@ -146,7 +144,8 @@ _080B4A68: .4byte 0x000013FF
 _080B4A6C: .4byte 0xFFFE0000
 _080B4A70: .4byte 0x000003FF
 _080B4A74: .4byte 0x03000088
-_080B4A78: .4byte sub_80B4D08
+_080B4A78: .4byte Task_80B4D08
+.endif
 
 	thumb_func_start sub_80B4A7C
 sub_80B4A7C: @ 0x080B4A7C
@@ -489,8 +488,8 @@ SpStage_InitializeBoost: @ 0x080B4CEC
 	.align 2, 0
 _080B4D04: .4byte 0x0300006C
 
-	thumb_func_start sub_80B4D08
-sub_80B4D08: @ 0x080B4D08
+	thumb_func_start Task_80B4D08
+Task_80B4D08: @ 0x080B4D08
 	push {r4, lr}
 	ldr r0, _080B4D4C @ =gCurTask
 	ldr r0, [r0]

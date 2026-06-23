@@ -2043,7 +2043,6 @@ Task *sub_80B48A4(UnkArg2 *ctx)
     return t;
 }
 
-#if 0
 void Task_80B494C(void) {
     s16 temp_r2;
     s16 temp_r4;
@@ -2052,28 +2051,25 @@ void Task_80B494C(void) {
     s32 temp_r1_2;
     s32 temp_r4_2;
     u16 temp_r0;
-    u16 temp_r3;
-    u16 temp_sb;
-    u16 temp_sl;
-    void *temp_r1;
 
-    temp_r3 = gCurTask->data;
-    temp_r1 = temp_r3->unk0;
-    temp_sb = temp_r1->unk0->unk6;
-    temp_sl = temp_r1->unk8->unk6;
+    Arg2TaskC *temp_r3 = TASK_DATA(gCurTask);
+    UnkArg2 *temp_r1 = temp_r3->ctx;
+    Arg2Task0 *temp_sb = TASK_DATA(temp_r1->task0);
+    Arg2Task8 *temp_sl = TASK_DATA(temp_r1->task8);
     temp_r3->unk6E = (u8) ((temp_r3->unk6E + 1) & 3);
-    temp_r8 = sa3__sub_80B1560(&gUnknown_080DC418, (u16) (temp_r3->unk6C << 6));
-    temp_r4 = sa3__sub_80B1560(&gUnknown_080DC408, (u16) (temp_r3->unk6C << 6));
-    temp_r7 = sa3__sub_80B1560(&gUnknown_080DC3F8, (u16) (temp_r3->unk6C << 6));
-    temp_r2 = sa3__sub_80B1560(&gUnknown_080DC3E8, (u16) (temp_r3->unk6C << 6));
-    temp_r4_2 = temp_r4 << 6;
-    temp_r3->unk54 = temp_r4_2;
-    if (temp_r4_2 <= 0x13FF) {
+    temp_r8 = sa3__sub_80B1560(&gUnknown_080DC418[0], (u16) (temp_r3->unk6C << 6));
+    temp_r4 = sa3__sub_80B1560(&gUnknown_080DC408[0], (u16) (temp_r3->unk6C << 6));
+    temp_r7 = sa3__sub_80B1560(&gUnknown_080DC3F8[0], (u16) (temp_r3->unk6C << 6));
+    temp_r2 = sa3__sub_80B1560(&gUnknown_080DC3E8[0], (u16) (temp_r3->unk6C << 6));
+
+	temp_r3->unk54 = temp_r4 << 6;
+    if (temp_r3->unk54 < 0x1400) {
         temp_r3->unk54 = 0x1400;
     }
     if ((s32) temp_r3->unk54 > 0x7800) {
         temp_r3->unk54 = 0x7800;
     }
+
     temp_r3->unk48 = (s32) (temp_r8 << 7);
     temp_sb->unk10 = (s32) (temp_sb->unk10 + 0xFFFE0000 + (temp_r8 << 8));
     temp_r1_2 = (temp_r7 << 0xE) + 0x01F00000;
@@ -2086,10 +2082,11 @@ void Task_80B494C(void) {
     temp_r3->unk6C = temp_r0;
     if ((u32) (temp_r0 << 0x10) > 0x012C0000U) {
         temp_r3->unk48 = 0x10000;
-        gCurTask->main = sub_80B4D08;
+        gCurTask->main = Task_80B4D08;
     }
 }
 
+#if 0
 void sub_80B4A7C(void *arg0) {
     ? *var_r0;
     s32 temp_r1_2;
@@ -2238,7 +2235,7 @@ void SpStage_InitializeBoost(void *arg0, s32 arg1) {
     temp_r0->unk68 = arg1;
 }
 
-void sub_80B4D08(void) {
+void Task_80B4D08(void) {
     u16 temp_r2;
 
     temp_r2 = gCurTask->data;
