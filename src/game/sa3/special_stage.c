@@ -1039,8 +1039,6 @@ void sub_80B33CC(Arg2Task0 *strc) { }
 
 extern s16 gUnknown_080DBE58[][3];
 
-// TODO: Fake-match
-// (100.00%) https://decomp.me/scratch/DPm5o
 Task *sub_80B33D0(UnkArg2 *ctx)
 {
     Arg4_80B4498 sp2C;
@@ -1086,15 +1084,8 @@ Task *sub_80B33D0(UnkArg2 *ctx)
     sp38 = &ctx->unk8C6;
     temp_r0 = sub_80B6CA4(strc->unkBC);
     strc->vram84 = gUnknown_03001EA0;
-#ifndef NON_MATCHING
-    {
-        asm("add r0, r1, r0\n"
-            "str r0, [r6]\n" ::"r"(temp_r0 * TILE_SIZE_4BPP));
-    }
-#else
     gUnknown_03001EA0 += temp_r0 * TILE_SIZE_4BPP;
-#endif
-    sub_80B4498(&strc->sprite8, gUnknown_03001EA0, ctx->unk8DA, 9U, strc->unkBC);
+    sub_80B4498(&strc->sprite8, strc->vram84, ctx->unk8DA, 9U, strc->unkBC);
     sub_80B4498(&strc->spriteE8, gUnknown_03001EA0, 0, 4U, &sp2C);
     gUnknown_03001EA0 += (sp2C.unk4 * TILE_SIZE_4BPP);
     strc->unk94 = 0;
@@ -2043,44 +2034,51 @@ Task *sub_80B48A4(UnkArg2 *ctx)
     return t;
 }
 
-void Task_80B494C(void) {
-    s16 temp_r2;
-    s16 temp_r4;
-    s16 temp_r7;
-    s16 temp_r8;
+void Task_80B494C(void)
+{
+    s32 temp_r2;
+    s32 temp_r4;
+    s32 temp_r7;
+    s32 temp_r8;
     s32 temp_r1_2;
-    s32 temp_r4_2;
     u16 temp_r0;
+    s16 temp_r0_2;
+    s32 temp_r0_3;
 
     Arg2TaskC *temp_r3 = TASK_DATA(gCurTask);
     UnkArg2 *temp_r1 = temp_r3->ctx;
     Arg2Task0 *temp_sb = TASK_DATA(temp_r1->task0);
     Arg2Task8 *temp_sl = TASK_DATA(temp_r1->task8);
-    temp_r3->unk6E = (u8) ((temp_r3->unk6E + 1) & 3);
-    temp_r8 = sa3__sub_80B1560(&gUnknown_080DC418[0], (u16) (temp_r3->unk6C << 6));
-    temp_r4 = sa3__sub_80B1560(&gUnknown_080DC408[0], (u16) (temp_r3->unk6C << 6));
-    temp_r7 = sa3__sub_80B1560(&gUnknown_080DC3F8[0], (u16) (temp_r3->unk6C << 6));
-    temp_r2 = sa3__sub_80B1560(&gUnknown_080DC3E8[0], (u16) (temp_r3->unk6C << 6));
+    temp_r3->unk6E = ((temp_r3->unk6E + 1) & 3);
+    temp_r8 = sa3__sub_80B1560(&gUnknown_080DC418[0], (u16)(temp_r3->unk6C << 6));
+    temp_r4 = sa3__sub_80B1560(&gUnknown_080DC408[0], (u16)(temp_r3->unk6C << 6));
+    temp_r7 = sa3__sub_80B1560(&gUnknown_080DC3F8[0], (u16)(temp_r3->unk6C << 6));
+    temp_r2 = sa3__sub_80B1560(&gUnknown_080DC3E8[0], (u16)(temp_r3->unk6C << 6));
 
-	temp_r3->unk54 = temp_r4 << 6;
+    temp_r3->unk54 = temp_r4 << 6;
+
     if (temp_r3->unk54 < 0x1400) {
         temp_r3->unk54 = 0x1400;
     }
-    if ((s32) temp_r3->unk54 > 0x7800) {
+    if (temp_r3->unk54 > 0x7800) {
         temp_r3->unk54 = 0x7800;
     }
 
-    temp_r3->unk48 = (s32) (temp_r8 << 7);
-    temp_sb->unk10 = (s32) (temp_sb->unk10 + 0xFFFE0000 + (temp_r8 << 8));
-    temp_r1_2 = (temp_r7 << 0xE) + 0x01F00000;
+    temp_r3->unk48 = (temp_r8 << 7);
+    temp_r0_3 = temp_sb->unk10 - 0x20000;
+    temp_r0_3 += (temp_r8 << 8);
+    temp_sb->unk10 = temp_r0_3;
+    temp_r1_2 = (temp_r7 << 0xE);
+    temp_r1_2 += 0x1F00000;
     temp_r3->unk4C = temp_r1_2;
-    temp_r3->unk58 = (s32) ((0x3FF & temp_r2) << 8);
+    temp_r0_2 = 0x3FF;
+    temp_r0_2 &= temp_r2;
+    temp_r3->unk58 = (temp_r0_2 << 8);
     temp_sl->unk88 = temp_r1_2;
     sub_80B4DA8(temp_r3);
     sub_80B4B68(temp_r3);
-    temp_r0 = temp_r3->unk6C + 1;
-    temp_r3->unk6C = temp_r0;
-    if ((u32) (temp_r0 << 0x10) > 0x012C0000U) {
+
+    if (++temp_r3->unk6C > 300) {
         temp_r3->unk48 = 0x10000;
         gCurTask->main = Task_80B4D08;
     }
