@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start sub_80B4B68
 sub_80B4B68: @ 0x080B4B68
 	push {r4, r5, r6, r7, lr}
@@ -208,6 +206,7 @@ _080B4C76:
 	.align 2, 0
 _080B4CE4: .4byte 0x000001AF
 _080B4CE8: .4byte gBgAffineRegs + (1 * 0x10)
+.endif
 
 	thumb_func_start SpStage_InitializeBoost
 SpStage_InitializeBoost: @ 0x080B4CEC

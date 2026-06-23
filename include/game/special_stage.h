@@ -204,7 +204,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ UnkArg2 *ctx;
     /* 0x04 */ s32 unk4;
-    /* 0x08 */ u8 filler8[0x40];
+    /* 0x08 */ Background bg8;
     /* 0x4C */ s32 unk48;
     /* 0x4C */ s32 unk4C;
     /* 0x50 */ s32 unk50;

@@ -2134,8 +2134,7 @@ void sub_80B4A7C(Arg2TaskC *temp_r3)
     }
 }
 
-#if 0
-void sub_80B4B68(void *arg0) {
+void sub_80B4B68(Arg2TaskC *arg0) {
     s16 *var_r2;
     s16 temp_r2_2;
     s32 temp_r0_2;
@@ -2143,33 +2142,26 @@ void sub_80B4B68(void *arg0) {
     s32 var_r1;
     u16 temp_r1;
     u16 temp_r1_2;
-    u16 temp_r2;
-    u16 temp_r8;
     u16 var_r0_2;
     u16 var_r0_3;
     u16 var_r3;
-    u32 temp_r0;
     u32 var_r0;
     u32 var_r5;
-    void *temp_r7;
+    UnkArg2 *temp_r7 = arg0->ctx;
+    Arg2Task8 *temp_r2 = TASK_DATA(temp_r7->task8);
+    u16 temp_r8 = 0xBE - ((s32) ((arg0->unk4C + 0xFE100000) * 0x47) >> 0x14);
 
-    temp_r7 = arg0->unk0;
-    temp_r2 = temp_r7->unk8->unk6;
-    temp_r8 = 0xBE - ((s32) ((arg0->unk4C + 0xFE100000) * 0x47) >> 0x14);
     var_r3 = 0;
-    temp_r0 = arg0->unk68;
-    switch (temp_r0) {                              /* irregular */
+    switch (arg0->unk68) {
     default:
         var_r3 = ((u8) arg0->unk6E >> 1) + 0x1AC;
-        if ((s32) temp_r2->unkA8 > 0xC750) {
+        if (temp_r2->unkA8 > 0xC750) {
             var_r0 = 1;
-block_13:
             arg0->unk68 = var_r0;
             arg0->unk6C = 0U;
         }
         break;
     case 1:
-        var_r2 = arg0 + 0x6C;
         temp_r1 = arg0->unk6C;
         var_r0_2 = 0x1AF;
         if ((u32) temp_r1 <= 5U) {
@@ -2178,19 +2170,18 @@ block_13:
         var_r3 = var_r0_2;
         if ((u32) temp_r1 > 0xCU) {
             arg0->unk68 = 2U;
-block_18:
-            *var_r2 = 0;
+            arg0->unk6C = 0;
         }
         break;
     case 2:
         var_r3 = ((u8) arg0->unk6E >> 1) + 0x1B0;
-        if ((s32) (0xC800 - temp_r2->unkA8) > 0xB0) {
+        if ((0xC800 - temp_r2->unkA8) > 0xB0) {
             var_r0 = 3;
-            goto block_13;
+            arg0->unk68 = var_r0;
+            arg0->unk6C = 0U;
         }
         break;
     case 3:
-        var_r2 = arg0 + 0x6C;
         temp_r1_2 = arg0->unk6C;
         var_r0_3 = 0x1AF;
         if ((u32) temp_r1_2 > 6U) {
@@ -2199,7 +2190,7 @@ block_18:
         var_r3 = var_r0_3;
         if ((u32) temp_r1_2 > 0xCU) {
             arg0->unk68 = 0U;
-            goto block_18;
+            arg0->unk6C = 0;
         }
         break;
     }
@@ -2213,12 +2204,15 @@ block_18:
         }
         var_r5 = (u32) (u16) ((s16) var_r5 + ((s32) (var_r1 - 0x58) >> 1));
     }
-    sub_80B6B3C(arg0 + 8, 0, 0x1C, var_r3, 0x10, 0x10, 0, 0x13, 0, 0);
+
+    sub_80B6B3C(&arg0->bg8, 0, 0x1C, var_r3, 0x10, 0x10, 0, 0x13, 0, 0);
+
     temp_r2_2 = (s16) var_r5;
     sa2__sub_8003EE4((u16) ((u32) (arg0->unk58 << 0xE) >> 0x16), temp_r2_2, temp_r2_2, 0x40, 0x40, (s16) (s32) (s16) temp_r8, (s16) (s32) (s16) (((s32) arg0->unk54 >> 8) + (((s32) arg0->unk60 >> 9) + 0x19)), &gBgAffineRegs[1]);
     temp_r7->unk8B0 = (s32) arg0->unk4C;
 }
 
+#if 0
 void SpStage_InitializeBoost(void *arg0, s32 arg1) {
     u16 temp_r0;
 
