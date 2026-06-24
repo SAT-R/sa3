@@ -213,7 +213,7 @@ typedef struct {
     /* 0x5C */ s32 unk5C;
     /* 0x60 */ s32 unk60;
     /* 0x64 */ s32 unk64;
-    /* 0x68 */ s32 unk68;
+    /* 0x68 */ u32 unk68;
     /* 0x6C */ u16 unk6C;
     /* 0x6E */ u8 unk6E;
 } Arg2TaskC; /* 0x70 */
@@ -269,6 +269,7 @@ void sub_80B47EC(Sprite *s, s16 arg1, s16 arg2, s16 arg3, Arg4_80B4498 *arg4);
 void Task_80B494C(void);
 void sub_80B4B68(Arg2TaskC *);
 void Task_80B4D08(void);
+void sub_80B4D58(Arg2TaskC *temp_r2);
 void sub_80B4DA8(Arg2TaskC *);
 void sub_80B4FA8(UnkArg2 *arg0, s8 arg1);
 void sub_80B6B20(void);
