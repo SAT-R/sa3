@@ -2222,65 +2222,58 @@ void Task_80B4D08(void)
     sub_80B4B68(taskC);
 }
 
-#if 0
-void sub_80B4D58(void *arg0) {
-    s32 temp_r0;
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s32 var_r0;
+void sub_80B4D58(Arg2TaskC *taskC)
+{
 
-    temp_r2 = arg0->unk60;
-    if ((temp_r2 != 0) || (arg0->unk64 != 0)) {
-        if (temp_r2 < 0) {
-            var_r0 = arg0->unk64 + 0x28;
+    if ((taskC->unk60 != 0) || (taskC->unk64 != 0)) {
+        s32 prevUnk60 = taskC->unk60;
+
+        if (taskC->unk60 < 0) {
+            taskC->unk64 += 0x28;
         } else {
-            var_r0 = arg0->unk64 - 0x28;
+            taskC->unk64 -= 0x28;
         }
-        arg0->unk64 = var_r0;
-        temp_r2_2 = arg0->unk64;
-        temp_r0 = arg0->unk60 + temp_r2_2;
-        arg0->unk60 = temp_r0;
-        if (temp_r2 < 0) {
-            if (temp_r0 > 0) {
-                goto block_9;
+
+        taskC->unk60 += taskC->unk64;
+        if (prevUnk60 < 0) {
+            if (taskC->unk60 > 0) {
+                taskC->unk64 = (taskC->unk64 * 100) >> 8;
             }
-            goto block_10;
+
+        } else {
+            if (taskC->unk60 < 0) {
+                taskC->unk64 = (taskC->unk64 * 100) >> 8;
+            }
         }
-        if (temp_r0 < 0) {
-block_9:
-            arg0->unk64 = (s32) ((s32) (temp_r2_2 * 0x64) >> 8);
-block_10:
-            if ((s32) arg0->unk60 < 0) {
-                arg0->unk60 = 0;
-                arg0->unk64 = 0;
+
+        if (taskC->unk60 < 0) {
+            taskC->unk60 = 0;
+            taskC->unk64 = 0;
+        }
+    }
+}
+
+void sub_80B4DA8(Arg2TaskC *taskC)
+{
+    UnkArg2 *ctx = taskC->ctx;
+    Arg2Task8 *task8 = TASK_DATA(ctx->task8);
+
+    if ((ctx->unk8C4 > 4U) && (task8->unkAC <= 2U)) {
+        if (DPAD_DOWN & gInput) {
+            taskC->unk54 += 0x180;
+            if (taskC->unk54 > 0x7800) {
+                taskC->unk54 = 0x7800;
+            }
+        } else if (DPAD_UP & gInput) {
+            taskC->unk54 -= 0x180;
+            if (taskC->unk54 < 0x1400) {
+                taskC->unk54 = 0x1400;
             }
         }
     }
 }
 
-void sub_80B4DA8(void *arg0) {
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    void *temp_r0;
-
-    temp_r0 = arg0->unk0;
-    if (((u32) temp_r0->unk8C4 > 4U) && ((u32) temp_r0->unk8->unk6->unkAC <= 2U)) {
-        if (0x80 & gInput) {
-            temp_r0_2 = arg0->unk54 + 0x180;
-            arg0->unk54 = temp_r0_2;
-            if (temp_r0_2 > 0x7800) {
-                arg0->unk54 = 0x7800;
-            }
-        } else if (0x40 & gInput) {
-            temp_r0_3 = arg0->unk54 + 0xFFFFFE80;
-            arg0->unk54 = temp_r0_3;
-            if (temp_r0_3 <= 0x13FF) {
-                arg0->unk54 = 0x1400;
-            }
-        }
-    }
-}
-
+#if 0
 Task *sub_80B4E1C(void *arg0) {
     ? (*sp4)(s16, s16 *);
     Task *temp_r0;
