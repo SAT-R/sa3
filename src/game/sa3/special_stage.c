@@ -2483,293 +2483,160 @@ void sub_80B524C()
     sub_80B59E4();
 }
 
-#if 0
-void sub_80B5450(void) {
-    void *sp14;
-    void *sp18;
-    void *sp1C;
-    s32 sp20;
-    s32 sp24;
-    u32 sp28;
+void sub_80B5450(void)
+{
+    s32 sp[5];
+    Arg2Task4 *strc4 = TASK_DATA(gCurTask);
+    UnkArg2 *ctx = strc4->unk0;
+    Strc_8E2EF8C *array = gUnknown_08E2EF8C[ctx->unk8C7];
+    Arg2Task8 *strc8 = TASK_DATA(ctx->task8);
+    Arg2TaskC *strcC = TASK_DATA(ctx->taskC);
+    s16 sp20;
+    s16 sp24;
     u16 *sp2C;
-    s16 *var_r5;
-    s16 temp_r1_10;
-    s16 temp_r1_11;
-    s16 temp_r1_12;
-    s16 temp_r1_13;
-    s16 temp_r1_14;
-    s16 temp_r1_15;
-    s16 temp_r1_16;
-    s16 temp_r1_2;
-    s16 temp_r1_3;
-    s16 temp_r1_4;
-    s16 temp_r1_5;
-    s16 temp_r1_6;
-    s16 temp_r1_7;
-    s16 temp_r1_8;
-    s16 temp_r1_9;
-    s16 temp_sb;
-    s16 var_r0_2;
-    s16 var_r1;
-    s32 temp_r0_10;
-    s32 temp_r0_11;
-    s32 temp_r0_12;
-    s32 temp_r0_13;
-    s32 temp_r0_14;
-    s32 temp_r0_15;
-    s32 temp_r0_16;
-    s32 temp_r0_17;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r0_5;
-    s32 temp_r0_6;
-    s32 temp_r0_7;
-    s32 temp_r0_8;
-    s32 temp_r0_9;
+    s32 temp_sb;
     s32 temp_r8;
     s32 var_r7;
-    s8 temp_r0_2;
     u16 temp_r0;
-    u16 temp_r1;
-    u16 temp_r2;
-    u16 temp_r3;
-    u16 temp_r3_2;
-    u16 temp_r4;
-    u16 temp_r6;
-    void *var_r0;
-    void *var_r1_2;
+    s16 temp_r3;
+    s16 temp_r4;
+    s16 temp_r6;
+    u8 *var_r1_2;
+    s32 var, var2;
+    s8 i;
 
-    temp_r2 = gCurTask->data; // <- SpStage2A4
-    sp14 = (void *) temp_r2;
-    sp18 = temp_r2->unk0;     // <- UnkArg2
-    temp_r3 = sp18->unk8->unk6;
-    sp1C = (void *) temp_r3;
-    temp_r1 = temp_r2->unk8E4;
-    sp20 = (s32) (u16) gSineTable[temp_r1];
-    sp24 = (s32) (u16) ((s32) ((u16) gSineTable[temp_r1 + 0x100] << 0x10) >> 0x12);
-    temp_r0 = temp_r3->unkAC;
-    switch (temp_r0) {                              /* switch 1 */
-    default:                                        /* switch 1 */
-    case 0:                                         /* switch 1 */
-    case 1:                                         /* switch 1 */
-    case 2:                                         /* switch 1 */
-    case 3:                                         /* switch 1 */
-    case 4:                                         /* switch 1 */
-    case 5:                                         /* switch 1 */
-    case 6:                                         /* switch 1 */
-    case 17:                                        /* switch 1 */
-    case 18:                                        /* switch 1 */
-        if (sp1C->unkB4 != 0) {
-            return;
+    sp20 = SIN(strc4->unk8E4);
+    sp24 = COS(strc4->unk8E4) >> 2;
+    temp_r0 = strc8->unkAC;
+    switch (temp_r0 + 1) {
+        case 0:
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+        case 15:
+        case 16:
+        case 17:
+        case 20:
+        case 21: {
+            break;
         }
-        temp_r8 = (sp18 + 0x8B0)->unk2 + ((s32) (0x78 - sp1C->unkA0) >> 2);
-        temp_sb = (sp1C + 0x8C)->unk2;
-        var_r7 = (0x78 - ((s32) sp1C->unk90 >> 8)) + (0x1E - ((s32) sp18->unkC->unk6->unk54 >> 0xA));
-        sp2C = sp1C + 0xAC;
-        if (sp1C->unkAC == 5) {
-            var_r7 -= 0x14;
-        }
-        var_r5 = *((sp18->unk8C7 * 4) + &gUnknown_08E2EF8C) + (sp14->unk8DE * 0x10);
-        sp28 = 0;
-        if (*var_r5 == -1) {
-            return;
-        }
-loop_8:
-        if (*(sp14 + 0x7B4 + var_r5->unk0) != 1) {
 
-        } else {
-            temp_r3_2 = ((s32) (var_r5->unk8 * (s16) sp20) >> 0x10) + var_r5->unk2;
-            temp_r4 = var_r5->unk4;
-            temp_r6 = ((s32) (var_r5->unkA * (s16) sp24) >> 0xE) + var_r5->unk6;
-            temp_r0_2 = var_r5->unkC;
-            if ((u32) (temp_r0_2 + 1) > 0xBU) {
+        default:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 18:
+        case 19:
+            if (strc8->unkB4 != 0) {
+                break;
+            }
+            temp_r8 = (ctx->unk8B0 >> 16);
+            temp_r8 += ((120 - strc8->unkA0) >> 2);
+            temp_sb = (strc8->unk8C >> 16);
+            var_r7 = (120 - (strc8->unk90 >> 8));
+            var = strcC->unk54 >> 10;
+            var2 = 30;
+            var2 -= var;
+            var_r7 += var2;
+            if (strc8->unkAC == 5) {
+                var_r7 -= 0x14;
+            }
 
-            } else {
-                switch (temp_r0_2) {                /* switch 2 */
-                case 0:                             /* switch 2 */
-                    temp_r1_2 = (s16) temp_r3_2;
-                    temp_r0_3 = temp_r8 - 0xA;
-                    if ((s32) temp_r1_2 <= temp_r0_3) {
+            for (array = &array[strc4->unk8DE], i = 0; (array->unk0 != -1) && i < 16; array++, i++) {
+                if ((s8)strc4->unk7B4[array->unk0] == 1) {
+                    temp_r3 = ((array->unk8 * sp20) >> 0x10) + array->unk2;
+                    temp_r4 = array->unk4;
+                    temp_r6 = ((array->unkA * sp24) >> 0xE) + array->unk6;
 
-                    } else if ((s32) temp_r1_2 >= (s32) (temp_r0_3 + 0x14)) {
-
-                    } else {
-                        temp_r1_3 = (s16) temp_r4;
-                        temp_r0_4 = temp_sb - 0xA;
-                        if ((s32) temp_r1_3 <= temp_r0_4) {
-
-                        } else if ((s32) temp_r1_3 >= (s32) (temp_r0_4 + 0x12)) {
-
-                        } else {
-                            temp_r1_4 = (s16) temp_r6;
-                            temp_r0_5 = var_r7 - 0x1A;
-                            if ((s32) temp_r1_4 < temp_r0_5) {
-
-                            } else if ((s32) temp_r1_4 > (s32) (temp_r0_5 + 0x3A)) {
-
-                            } else {
-                                sub_80B4EEC(sp18, (u16) sp1C->unkB2);
-                                var_r1 = var_r5->unk0;
-                                var_r0 = sp14 + 0x7B4;
-block_39:
-                                *(var_r0 + var_r1) = 0xB;
-                            }
-                        }
-                    }
-                    break;
-                case 1:                             /* switch 2 */
-                    temp_r1_5 = (s16) temp_r3_2;
-                    temp_r0_6 = temp_r8 - 0xA;
-                    if ((s32) temp_r1_5 <= temp_r0_6) {
-
-                    } else if ((s32) temp_r1_5 >= (s32) (temp_r0_6 + 0x14)) {
-
-                    } else {
-                        temp_r1_6 = (s16) temp_r4;
-                        temp_r0_7 = temp_sb - 0xA;
-                        if ((s32) temp_r1_6 <= temp_r0_7) {
-
-                        } else if ((s32) temp_r1_6 >= (s32) (temp_r0_7 + 0x12)) {
-
-                        } else {
-                            temp_r1_7 = (s16) temp_r6;
-                            temp_r0_8 = var_r7 - 0x1A;
-                            if ((s32) temp_r1_7 < temp_r0_8) {
-
-                            } else if ((s32) temp_r1_7 > (s32) (temp_r0_8 + 0x3A)) {
-
-                            } else {
-                                sub_80B4EEC(sp18, sp1C->unkB2 * 5);
-                                var_r1 = var_r5->unk0;
-                                var_r0 = sp14 + 0x7B4;
-                                goto block_39;
-                            }
-                        }
-                    }
-                    break;
-                case 2:                             /* switch 2 */
-                    temp_r1_8 = (s16) temp_r3_2;
-                    temp_r0_9 = temp_r8 - 5;
-                    if ((s32) temp_r1_8 <= temp_r0_9) {
-
-                    } else if ((s32) temp_r1_8 >= (s32) (temp_r0_9 + 0xA)) {
-
-                    } else {
-                        temp_r1_9 = (s16) temp_r4;
-                        temp_r0_10 = temp_sb - 0xA;
-                        if ((s32) temp_r1_9 <= temp_r0_10) {
-
-                        } else if ((s32) temp_r1_9 >= (s32) (temp_r0_10 + 0x12)) {
-
-                        } else {
-                            temp_r1_10 = (s16) temp_r6;
-                            temp_r0_11 = var_r7 - 0xE;
-                            if ((s32) temp_r1_10 < temp_r0_11) {
-
-                            } else if ((s32) temp_r1_10 > (s32) (temp_r0_11 + 0x2A)) {
-
-                            } else {
-                                sub_80B4654(sp18, 5U);
-                                var_r0_2 = var_r5->unk0;
-                                var_r1_2 = sp14 + 0x7B4;
-block_85:
-                                *(var_r1_2 + var_r0_2) = 0;
-                            }
-                        }
-                    }
-                    break;
-                case 3:                             /* switch 2 */
-                    temp_r1_11 = (s16) temp_r3_2;
-                    temp_r0_12 = temp_r8 - 0xA;
-                    if ((s32) temp_r1_11 <= temp_r0_12) {
-
-                    } else if ((s32) temp_r1_11 >= (s32) (temp_r0_12 + 0x14)) {
-
-                    } else if ((s32) (s16) temp_r4 >= (s32) (temp_sb + 7)) {
-
-                    } else {
-                        temp_r1_12 = (s16) temp_r6;
-                        temp_r0_13 = var_r7 - 0x20;
-                        if ((s32) temp_r1_12 < temp_r0_13) {
-
-                        } else if ((s32) temp_r1_12 > (s32) (temp_r0_13 + 0x40)) {
-
-                        } else {
-                            sub_80B46B0(sp18);
-                            var_r0_2 = var_r5->unk0;
-                            var_r1_2 = sp14 + 0x7B4;
-                            goto block_85;
-                        }
-                    }
-                    break;
-                case 4:                             /* switch 2 */
-                case 9:                             /* switch 2 */
-                    if (*sp2C == 3) {
-                        temp_r1_13 = (s16) temp_r3_2;
-                        temp_r0_14 = temp_r8 - 5;
-                        if ((s32) temp_r1_13 <= temp_r0_14) {
-
-                        } else if ((s32) temp_r1_13 >= (s32) (temp_r0_14 + 0xE)) {
-
-                        } else {
-                            temp_r1_14 = (s16) temp_r4;
-                            temp_r0_15 = temp_sb - 0xA;
-                            if ((s32) temp_r1_14 <= temp_r0_15) {
-
-                            } else if ((s32) temp_r1_14 >= (s32) (temp_r0_15 + 0x12)) {
-
-                            } else {
-                                temp_r1_15 = (s16) temp_r6;
-                                temp_r0_16 = var_r7 - 6;
-                                if ((s32) temp_r1_15 < temp_r0_16) {
-
-                                } else if ((s32) temp_r1_15 > (s32) (temp_r0_16 + 0x2A)) {
-
-                                } else {
-                                    sp1C->unk9C = 0xFFFFFC00;
-                                    sp1C->unk94 = (s32) (0 - sp1C->unk94);
-                                    sub_80B4EEC(sp18, sp1C->unkB2 * 5);
-                                    sub_80B6778(sp18, &subroutine_arg0, ((s16) var_r5->unk2 << 0x10) + (var_r5->unk8 * (s16) sp20), (s16) var_r5->unk4 << 0x10, ((s16) var_r5->unk6 << 0xC) + (var_r5->unkA * ((s32) ((u16) gSineTable[sp14->unk8E4 + 0x100] << 0x10) >> 0x14)));
-                                    *(sp14 + 0x7B4 + var_r5->unk0) = 0;
+                    switch ((s8)array->unkC + 1) {
+                        case 0:
+                            break;
+                        case 1:
+                            if ((temp_r3 > temp_r8 - 10) && (temp_r3 < temp_r8 + 10)) {
+                                if ((temp_r4 > temp_sb - 10) && (temp_r4 < temp_sb + 8)) {
+                                    if ((temp_r6 >= var_r7 - 26) && (temp_r6 <= var_r7 + 32)) {
+                                        sub_80B4EEC(ctx, strc8->unkB2);
+                                        strc4->unk7B4[array->unk0] = 0xB;
+                                    }
                                 }
                             }
-                        }
-                    } else if (((s32) (temp_r3_2 << 0x10) > (s32) ((temp_r8 - 5) << 0x10)) && ((s32) (s16) temp_r3_2 < (s32) (s16) (u16) (temp_r8 + 9))) {
-                        temp_r1_16 = (s16) temp_r4;
-                        temp_r0_17 = temp_sb - 0xA;
-                        if (((s32) temp_r1_16 > temp_r0_17) && ((s32) temp_r1_16 < (s32) (temp_r0_17 + 0x12)) && ((s32) (temp_r6 << 0x10) >= (s32) ((u16) (var_r7 - 6) << 0x10)) && ((s32) (s16) temp_r6 <= (s32) (s16) (u16) (var_r7 + 0x24))) {
-                            sub_80B4654(sp18, 5U);
-                            var_r0_2 = var_r5->unk0;
-                            var_r1_2 = sp14 + 0x7B4;
-                            goto block_85;
-                        }
+                            break;
+                        case 2:
+                            if ((temp_r3 > temp_r8 - 10) && (temp_r3 < temp_r8 + 10)) {
+                                if ((temp_r4 > temp_sb - 10) && (temp_r4 < temp_sb + 8)) {
+                                    if ((temp_r6 >= var_r7 - 26) && (temp_r6 <= var_r7 + 32)) {
+                                        sub_80B4EEC(ctx, strc8->unkB2 * 5);
+                                        strc4->unk7B4[array->unk0] = 0xB;
+                                    }
+                                }
+                            }
+                            break;
+                        case 3:
+                            if (((temp_r3 > temp_r8 - 5) && temp_r3 < (temp_r8 + 5))
+                                && ((temp_r4 > temp_sb - 10) && (temp_r4 < temp_sb + 8))
+                                && ((temp_r6 >= var_r7 - 14) && (temp_r6 <= var_r7 + 28))) {
+                                sub_80B4654(ctx, 5);
+                                strc4->unk7B4[array->unk0] = 0;
+                            }
+                            break;
+                        case 4:
+                            if (((temp_r3 > temp_r8 - 10) && (temp_r3 < temp_r8 + 10)) && ((s16)temp_r4 < (temp_sb + 7))
+                                && ((temp_r6 >= var_r7 - 32) && (temp_r6 <= var_r7 + 32))) {
+                                sub_80B46B0(ctx);
+                                strc4->unk7B4[array->unk0] = 0;
+                            }
+
+                            break;
+                        case 5:
+                        case 10:
+                            if (strc8->unkAC == 3) {
+                                if ((temp_r3 > temp_r8 - 5) && (temp_r3 < temp_r8 + 9)) {
+                                    if ((temp_r4 > temp_sb - 10) && (temp_r4 < temp_sb + 8)) {
+                                        if ((temp_r6 >= var_r7 - 6) && temp_r6 <= (var_r7 - 6 + 0x2A)) {
+                                            strc8->unk9C = -0x400;
+                                            strc8->unk94 = 0 - strc8->unk94;
+                                            sub_80B4EEC(ctx, strc8->unkB2 * 5);
+                                            sp[0] = (array->unk2 << 0x10) + (array->unk8 * sp20);
+                                            sp[1] = ((s16)array->unk4 << 0x10);
+                                            sp[2] = (((s16)array->unk6 << 12) + (array->unkA * (COS(strc4->unk8E4) >> 4)));
+                                            sub_80B6778(ctx, sp);
+                                            strc4->unk7B4[array->unk0] = 0;
+                                        }
+                                    }
+                                }
+                            } else {
+                                s16 var_ip = var_r7 - 6;
+                                s16 var_sl = var_r7 + 36;
+                                s16 idk = temp_r8 - 5;
+                                s16 idk2 = (temp_r8 + 9);
+                                if ((temp_r3 > idk) && (temp_r3 < idk2)) {
+                                    if ((temp_r4 > temp_sb - 0xA) && (temp_r4 < (temp_sb - 0xA + 0x12))) {
+                                        if ((temp_r6 >= var_ip) && (temp_r6 <= var_sl)) {
+                                            sub_80B4654(ctx, 5);
+                                            strc4->unk7B4[array->unk0] = 0;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        case 11:
+                            break;
                     }
-                    break;
                 }
             }
-        }
-        var_r5 += 0x10;
-        sp28 = (u32) ((sp28 << 0x18) + 0x01000000) >> 0x18;
-        if ((*var_r5 != -1) && ((s32) (s8) sp28 <= 0xF)) {
-            goto loop_8;
-        }
-    case -1:                                        /* switch 1 */
-    case 7:                                         /* switch 1 */
-    case 8:                                         /* switch 1 */
-    case 9:                                         /* switch 1 */
-    case 10:                                        /* switch 1 */
-    case 11:                                        /* switch 1 */
-    case 12:                                        /* switch 1 */
-    case 13:                                        /* switch 1 */
-    case 14:                                        /* switch 1 */
-    case 15:                                        /* switch 1 */
-    case 16:                                        /* switch 1 */
-    case 19:                                        /* switch 1 */
-    case 20:                                        /* switch 1 */
-        return;
+            break;
     }
 }
 
+#if 0
 s16 sub_80B5944(u16 arg0, u16 arg1) {
     s16 *var_r1;
     u16 temp_r5;

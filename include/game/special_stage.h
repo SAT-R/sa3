@@ -172,7 +172,7 @@ typedef struct {
     /* 0x7B4 */ u8 unk7B4[0x126];
     /* 0x8DA */ u16 unk8DA;
     /* 0x8DC */ s16 unk8DC;
-    /* 0x8DE */ u16 unk8DE; // TODO: type
+    /* 0x8DE */ s16 unk8DE;
     /* 0x8E0 */ u16 unk8E0; // TODO: type
     /* 0x8E2 */ u16 unk8E2;
     /* 0x8E4 */ u16 unk8E4;
@@ -236,6 +236,16 @@ typedef struct {
     /* 0x6E */ u8 unk6E;
 } Arg2TaskC; /* 0x70 */
 
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    s16 unkA;
+    s8 unkC;
+} Strc_8E2EF8C;
+
 struct Task *sub_80B33D0(UnkArg2 *ctx);
 struct Task *sub_80B48A4(UnkArg2 *strc);
 void SpStage_InitializeBoost(UnkArg2 *strc, s32 unk1);
@@ -288,6 +298,7 @@ void sub_80B6370(s16, Arg2Task4_x744 *);
 void sub_80B6464(s16, Arg2Task4_x744 *);
 void sub_80B59E4();
 void sub_80B6778(UnkArg2 *arg0, s32 *arg1);
+void sub_80B46B0(UnkArg2 *);
 bool8 sub_80B47C4();
 void sub_80B47EC(Sprite *s, s16 arg1, s16 arg2, s16 arg3, Arg4_80B4498 *arg4);
 void Task_80B494C(void);
@@ -340,5 +351,7 @@ extern TileInfo2 gUnknown_080E3074[];
 extern TileInfo2 gUnknown_080E309C[];
 
 extern s16 gUnknown_080DBFCC[];
+
+extern Strc_8E2EF8C *gUnknown_08E2EF8C[];
 
 #endif // GUARD_SA3_SPECIAL_STAGE_H
