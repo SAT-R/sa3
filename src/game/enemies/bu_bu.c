@@ -252,16 +252,17 @@ bool32 sub_805EEB4(BuBu *enemy)
     }
 }
 
-// NOTE: Unused
-// (94.17%) https://decomp.me/scratch/sd7x3
-NONMATCH("asm/non_matching/game/enemies/bubu__sub_805F024.inc", bool32 sub_805F024(BuBu *enemy))
+UNUSED bool32 sub_805F024(BuBu *enemy)
 {
+    s32 qJumpHeight = Q(64);
+
     enemy->qPos.y -= Q(gUnknown_080D1FAC[enemy->unk6]);
-    if (enemy->qPos.y < enemy->qUnk14.y - Q(64)) {
-        enemy->qPos.y = enemy->qUnk14.y - Q(64);
+
+    if (enemy->qPos.y < enemy->qUnk14.y - qJumpHeight) {
+        enemy->qPos.y = enemy->qUnk14.y - qJumpHeight;
     }
 
-    if (enemy->qPos.y == enemy->qUnk14.y - Q(64)) {
+    if (enemy->qPos.y == enemy->qUnk14.y - qJumpHeight) {
         if (enemy->unkE == 0) {
             enemy->unkE = 90;
             return TRUE;
@@ -282,7 +283,6 @@ NONMATCH("asm/non_matching/game/enemies/bubu__sub_805F024.inc", bool32 sub_805F0
 
     return FALSE;
 }
-END_NONMATCH
 
 void sub_805F094(void)
 {
