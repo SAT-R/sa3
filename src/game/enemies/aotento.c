@@ -287,16 +287,17 @@ bool32 sub_8058A00(Aotento *enemy)
     return FALSE;
 }
 
-// (94.17%) https://decomp.me/scratch/nMoLp
-NONMATCH("asm/non_matching/game/enemies/aotento__sub_8058AE0.inc", bool32 sub_8058AE0(Aotento *enemy))
+bool32 sub_8058AE0(Aotento *enemy)
 {
+    s32 qJumpHeight = Q(64);
+
     enemy->qPos.y -= Q(gUnknown_080D1E50[enemy->unk6]);
 
-    if (enemy->qPos.y < enemy->qUnk14.y - Q(64)) {
-        enemy->qPos.y = enemy->qUnk14.y - Q(64);
+    if (enemy->qPos.y < enemy->qUnk14.y - qJumpHeight) {
+        enemy->qPos.y = enemy->qUnk14.y - qJumpHeight;
     }
 
-    if (enemy->qPos.y == (enemy->qUnk14.y - Q(64))) {
+    if (enemy->qPos.y == (enemy->qUnk14.y - qJumpHeight)) {
         if (enemy->unkE == 0) {
             enemy->unkE = 90;
 
@@ -318,7 +319,6 @@ NONMATCH("asm/non_matching/game/enemies/aotento__sub_8058AE0.inc", bool32 sub_80
 
     return FALSE;
 }
-END_NONMATCH
 
 void sub_8058B50(Aotento *enemy)
 {
