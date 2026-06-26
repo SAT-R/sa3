@@ -2351,7 +2351,8 @@ void sub_80B4EEC(UnkArg2 *arg0, s16 arg1)
     }
 }
 
-void sub_80B4FA8(UnkArg2* arg0, s16 arg1) {
+void sub_80B4FA8(UnkArg2 *arg0, s16 arg1)
+{
     s16 i;
 
     sub_80B6198(arg0, -1);
@@ -2361,143 +2362,128 @@ void sub_80B4FA8(UnkArg2* arg0, s16 arg1) {
         arg0->unk8C0 = 0;
     }
 
-    for(i = arg1; i > 0; i--)
-    {
+    for (i = arg1; i > 0; i--) {
         if (--arg0->unk8D0 < 0) {
             arg0->unk8D0 = 9;
-            
+
             if (--arg0->unk8CF < 0) {
                 arg0->unk8CF = 9;
-                
+
                 if (--arg0->unk8CE < 0) {
                     arg0->unk8CE = 0;
                     arg0->unk8CF = 0;
                     arg0->unk8D0 = 0;
                 }
             }
-        }    
+        }
     }
 }
 
-#if 0
-void Task_80B5038(void) {
-    s16 temp_r0_2;
-    s16 var_r2;
-    u16 temp_r0;
-    u16 temp_r1;
+void Task_80B5038(void)
+{
+    Arg2Task4 *temp_r1 = TASK_DATA(gCurTask);
+    s16 i;
 
-    temp_r1 = gCurTask->data;
-    var_r2 = 0;
-    do {
-        temp_r0_2 = var_r2;
-        *(temp_r1 + 0x7B4 + temp_r0_2) = 1;
-        temp_r0 = temp_r0_2 + 1;
-        var_r2 = (s16) temp_r0;
-    } while ((s32) (s16) temp_r0 <= 0x125);
+    for (i = 0; i < (s32)ARRAY_COUNT(temp_r1->unk7B4); i++) {
+        temp_r1->unk7B4[i] = 1;
+    }
+
     temp_r1->unk8DC = 0;
-    sub_80B6BB8(temp_r1 + 4, 0, 0x10U, 0x45DU, 0x3000, 0x14, 0x14, 0xE, 0U, 0);
-    sub_80B6BB8(temp_r1 + 0x2C, 0, 4U, 0x45DU, 0x3000, 0x14, 0x14, 0xE, 5U, 0);
-    sub_80B6BB8(temp_r1 + 0x54, 0, 4U, 0x473U, 0x3000, 0x14, 0x14, 0xE, 0U, 0);
-    sub_80B6BB8(temp_r1 + 0x7C, 0, 4U, 0x475U, 0x3000, 0x14, 0x14, 0xE, 0U, 0);
-    sub_80B6BB8(temp_r1 + 0xA4, 0, 0x10U, 0x476U, 0x3000, 0x14, 0x14, 0xE, 0U, 0);
-    sub_80B6BB8(temp_r1 + 0xCC, 0, 4U, 0x474U, 0x3000, 0x14, 0x14, 0xE, 0U, 0);
-    sub_80B6BB8(temp_r1 + 0xF4, 0, 0x10U, 0x47AU, 0x1000, 0x14, 0x14, 0xE, 0U, 0);
-    sub_80B6BB8(temp_r1 + 0x11C, 0, 4U, 0x479U, 0x1000, 0x14, 0x14, 0xE, 0U, 0);
-    sub_80B6BB8(temp_r1 + 0x144, 0, 4U, 0x45CU, 0x1000, 0x14, 0x14, 0xE, 0U, 0);
-    sub_80B6BB8(temp_r1 + 0x16C, 0, 4U, 0x45CU, 0x1000, 0x14, 0x14, 0xE, 1U, 0);
+
+    // TODO: Add tile-sizes instead of magic nums!
+    sub_80B6BB8(&temp_r1->sprite4, 0, 16, ANIM_SP_STAGE_RING, 0x3000, 0x14, 0x14, 0xE, 0U, 0);
+    sub_80B6BB8(&temp_r1->sprite2C, 0, 4U, ANIM_SP_STAGE_RING, 0x3000, 0x14, 0x14, 0xE, 5U, 0);
+    sub_80B6BB8(&temp_r1->sprite54, 0, 4U, ANIM_SP_STAGE_IRON_BALL, 0x3000, 0x14, 0x14, 0xE, 0U, 0);
+    sub_80B6BB8(&temp_r1->sprite7C, 0, 4U, ANIM_SP_STAGE_RING_BOOSTER, 0x3000, 0x14, 0x14, 0xE, 0U, 0);
+    sub_80B6BB8(&temp_r1->spriteA4, 0, 16, ANIM_SP_STAGE_MISSILE_BADNIK, 0x3000, 0x14, 0x14, 0xE, 0U, 0);
+    sub_80B6BB8(&temp_r1->spriteCC, 0, 4U, ANIM_SP_STAGE_MISSILE_BADNIK_PROJ, 0x3000, 0x14, 0x14, 0xE, 0U, 0);
+    sub_80B6BB8(&temp_r1->spriteF4, 0, 16, ANIM_SP_STAGE_EXPLOSION, 0x1000, 0x14, 0x14, 0xE, 0U, 0);
+    sub_80B6BB8(&temp_r1->sprite11C, 0, 4U, ANIM_SP_STAGE_EMERALD, 0x1000, 0x14, 0x14, 0xE, 0U, 0);
+    sub_80B6BB8(&temp_r1->sprite144, 0, 4U, ANIM_SP_STAGE_RING_COLLECT_EFFECT, 0x1000, 0x14, 0x14, 0xE, 0U, 0);
+    sub_80B6BB8(&temp_r1->sprite16C, 0, 4U, ANIM_SP_STAGE_RING_COLLECT_EFFECT, 0x1000, 0x14, 0x14, 0xE, 1U, 0);
+
     gCurTask->main = sub_80B524C;
 }
 
-void sub_80B51F4(void *arg0) {
-    Sprite *temp_r4;
-
-    temp_r4 = arg0 + 0x88;
-    memcpy(&subroutine_arg0, &gUnknown_080DC436, 0x10);
-    arg0->unk88 = 0;
-    temp_r4->oamFlags = 0;
-    temp_r4->anim = *((arg0->unk8C7 * 2) + sp);
-    temp_r4->variant = 0;
-    temp_r4->qAnimDelay = 0;
-    temp_r4->prevVariant = 0xFF;
-    temp_r4->animSpeed = 0x10;
-    temp_r4->palId = 0;
-    temp_r4->x = 0;
-    temp_r4->y = 0;
-    temp_r4->frameFlags = 0x80000;
-    UpdateSpriteAnimation(temp_r4);
+void sub_80B51F4(UnkArg2 *arg0)
+{
+    s16 sp[8];
+    Sprite *s = &arg0->sprite88;
+    memcpy(sp, &gUnknown_080DC436, sizeof(sp));
+    s->tiles = NULL;
+    s->oamFlags = 0;
+    s->anim = sp[arg0->unk8C7];
+    s->variant = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->x = 0;
+    s->y = 0;
+    s->frameFlags = 0x80000;
+    UpdateSpriteAnimation(s);
 }
 
-void sub_80B524C(void) {
-    s16 temp_r2;
-    s16 temp_r2_2;
-    s16 temp_r2_3;
-    s32 temp_r1;
-    u16 temp_r4;
-    u8 temp_r0;
-    u8 temp_r0_2;
-    u8 temp_r0_3;
-    u8 temp_r0_4;
-    void *temp_r6;
+void sub_80B524C()
+{
+    Arg2Task4 *strc4 = TASK_DATA(gCurTask);
+    UnkArg2 *temp_r6 = strc4->unk0;
 
-    temp_r4 = gCurTask->data; // <- SpStage2A4
-    temp_r6 = temp_r4->unk0;
-    if (temp_r6->unk8C8 != 0) {
+    if (temp_r6->unk8C8 == 0) {
+        strc4->unk8E2 += 8;
+        strc4->unk8E4 = (strc4->unk8E4 + 4) & 0x3FF;
 
-    } else {
-        temp_r4->unk8E2 = (u16) (temp_r4->unk8E2 + 8);
-        temp_r4->unk8E4 = (u16) ((temp_r4->unk8E4 + 4) & 0x3FF);
-        UpdateSpriteAnimation(temp_r4 + 4);
-        UpdateSpriteAnimation(temp_r4 + 0x2C);
-        UpdateSpriteAnimation(temp_r4 + 0x54);
-        UpdateSpriteAnimation(temp_r4 + 0x7C);
-        UpdateSpriteAnimation(temp_r4 + 0xA4);
-        UpdateSpriteAnimation(temp_r4 + 0xCC);
-        UpdateSpriteAnimation(temp_r4 + 0xF4);
-        UpdateSpriteAnimation(temp_r4 + 0x11C);
+        UpdateSpriteAnimation(&strc4->sprite4);
+        UpdateSpriteAnimation(&strc4->sprite2C);
+        UpdateSpriteAnimation(&strc4->sprite54);
+        UpdateSpriteAnimation(&strc4->sprite7C);
+        UpdateSpriteAnimation(&strc4->spriteA4);
+        UpdateSpriteAnimation(&strc4->spriteCC);
+        UpdateSpriteAnimation(&strc4->spriteF4);
+        UpdateSpriteAnimation(&strc4->sprite11C);
         sub_80B51F4(temp_r6);
         sub_80B5450();
         sub_80B62FC(temp_r6);
-        temp_r4->unk8DC = (u16) ((temp_r4->unk8DC + 1) & 1);
-        temp_r1 = (s16) temp_r4->unk8DC * 0x1C;
-        if ((temp_r4 + temp_r1)->unk60E == 1) {
-            sub_80B6370(0, temp_r4 + (temp_r1 + 0x5F4));
+
+        strc4->unk8DC = (strc4->unk8DC + 1) & 1;
+
+        if (strc4->unk5F4[strc4->unk8DC + 0].unk1A == 1) {
+            sub_80B6370(0, &strc4->unk5F4[strc4->unk8DC + 0]);
         }
-        temp_r2 = (s16) temp_r4->unk8DC;
-        if ((temp_r4 + ((temp_r2 + 2) * 0x1C))->unk60E == 1) {
-            sub_80B6370(1, temp_r4 + ((temp_r2 * 0x1C) + 0x62C));
+
+        if (strc4->unk5F4[strc4->unk8DC + 2].unk1A == 1) {
+            sub_80B6370(1, &strc4->unk5F4[strc4->unk8DC + 2]);
         }
-        temp_r2_2 = (s16) temp_r4->unk8DC;
-        if ((temp_r4 + ((temp_r2_2 + 4) * 0x1C))->unk60E == 1) {
-            sub_80B6370(2, temp_r4 + ((temp_r2_2 * 0x1C) + 0x664));
+
+        if (strc4->unk5F4[strc4->unk8DC + 4].unk1A == 1) {
+            sub_80B6370(2, &strc4->unk5F4[strc4->unk8DC + 4]);
         }
-        temp_r2_3 = (s16) temp_r4->unk8DC;
-        if ((temp_r4 + ((temp_r2_3 + 6) * 0x1C))->unk60E == 1) {
-            sub_80B6370(3, temp_r4 + ((temp_r2_3 * 0x1C) + 0x69C));
+
+        if (strc4->unk5F4[strc4->unk8DC + 6].unk1A == 1) {
+            sub_80B6370(3, &strc4->unk5F4[strc4->unk8DC + 6]);
         }
-        temp_r0 = temp_r4->unk75E;
-        if (temp_r0 != 0) {
-            temp_r4->unk75E = (u8) (temp_r0 - 1);
-            sub_80B6464(0U, temp_r4 + 0x744);
+
+        if (strc4->unk744[0].unk1A > 0) {
+            strc4->unk744[0].unk1A--;
+            sub_80B6464(0U, strc4->unk744);
         }
-        temp_r0_2 = temp_r4->unk77A;
-        if (temp_r0_2 != 0) {
-            temp_r4->unk77A = (u8) (temp_r0_2 - 1);
-            sub_80B6464(0U, temp_r4 + 0x760);
+        if (strc4->unk744[1].unk1A > 0) {
+            strc4->unk744[1].unk1A--;
+            sub_80B6464(0U, &strc4->unk744[1]);
         }
-        temp_r0_3 = temp_r4->unk796;
-        if (temp_r0_3 != 0) {
-            temp_r4->unk796 = (u8) (temp_r0_3 - 1);
-            sub_80B6464(0U, temp_r4 + 0x77C);
+        if (strc4->unk744[2].unk1A > 0) {
+            strc4->unk744[2].unk1A--;
+            sub_80B6464(0U, &strc4->unk744[2]);
         }
-        temp_r0_4 = temp_r4->unk7B2;
-        if (temp_r0_4 != 0) {
-            temp_r4->unk7B2 = (u8) (temp_r0_4 - 1);
-            sub_80B6464(0U, temp_r4 + 0x798);
+        if (strc4->unk744[3].unk1A > 0) {
+            strc4->unk744[3].unk1A--;
+            sub_80B6464(0U, &strc4->unk744[3]);
         }
     }
     sub_80B59E4();
 }
 
+#if 0
 void sub_80B5450(void) {
     void *sp14;
     void *sp18;

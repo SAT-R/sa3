@@ -61,7 +61,7 @@ typedef struct {
     /* 0x014 */ Sprite sprite14;
     /* 0x03C */ u8 filler3C[0x40];
     /* 0x07C */ ScreenFade fade7C;
-    /* 0x088 */ u8 filler88[0x28];
+    /* 0x088 */ Sprite sprite88;
     /* 0x0B0 */ Vec2_32 unkB0[8]; // TODO: type AND size unknown!!!
     /* 0x4BC */ u8 fillerF0[0x4BC];
     /* 0x5AC */ s32 unk5AC;
@@ -155,16 +155,23 @@ typedef struct {
 
 typedef struct {
     /* 0x000 */ UnkArg2 *unk0;
-    /* 0x004 */ u8 filler4[0x5F0];
+    /* 0x004 */ Sprite sprite4;
+    /* 0x02C */ Sprite sprite2C;
+    /* 0x054 */ Sprite sprite54;
+    /* 0x07C */ Sprite sprite7C;
+    /* 0x0A4 */ Sprite spriteA4;
+    /* 0x0CC */ Sprite spriteCC;
+    /* 0x0F4 */ Sprite spriteF4;
+    /* 0x11C */ Sprite sprite11C;
+    /* 0x144 */ Sprite sprite144;
+    /* 0x16C */ Sprite sprite16C;
+    /* 0x194 */ u8 filler194[0x460];
     /* 0x744 */ Arg2Task4_x744 unk5F4[8];
     /* 0x744 */ Arg2Task4_x744 unk6D4[4];
     /* 0x744 */ Arg2Task4_x744 unk744[4];
-    /* 0x7B4 */ u8 filler7B4[0x112];
-    /* 0x7B4 */ u8 unk8C6;
-    /* 0x7B4 */ u8 unk8C7;
-    /* 0x8C8 */ u8 filler8C8[0x8DA - 0x8C8];
+    /* 0x7B4 */ u8 unk7B4[0x126];
     /* 0x8DA */ u16 unk8DA;
-    /* 0x8DC */ u16 unk8DC;
+    /* 0x8DC */ s16 unk8DC;
     /* 0x8DE */ u16 unk8DE; // TODO: type
     /* 0x8E0 */ u16 unk8E0; // TODO: type
     /* 0x8E2 */ u16 unk8E2;
@@ -274,6 +281,12 @@ void sub_80B4498(Sprite *s, u16 *vram, s16 arg2, u8 arg3, Arg4_80B4498 *arg4);
 void sub_80B4508(Arg2Task8 *task8);
 void sub_80B4654(UnkArg2 *arg0, s8 arg1);
 void sub_80B46DC(void);
+void sub_80B51F4(UnkArg2 *arg0);
+void sub_80B5450(void);
+void sub_80B62FC(UnkArg2 *);
+void sub_80B6370(s16, Arg2Task4_x744 *);
+void sub_80B6464(s16, Arg2Task4_x744 *);
+void sub_80B59E4();
 void sub_80B6778(UnkArg2 *arg0, s32 *arg1);
 bool8 sub_80B47C4();
 void sub_80B47EC(Sprite *s, s16 arg1, s16 arg2, s16 arg3, Arg4_80B4498 *arg4);
@@ -285,6 +298,7 @@ void sub_80B4DA8(Arg2TaskC *);
 void sub_80B4EEC(UnkArg2 *ctx, s16 arg1);
 void sub_80B4FA8(UnkArg2 *ctx, s16 arg1);
 void Task_80B5038(void);
+void sub_80B524C(void);
 void sub_80B6198(UnkArg2 *arg0, s16 arg1);
 void sub_80B6B20(void);
 
@@ -318,6 +332,7 @@ extern AnimId gUnknown_080DBFEC[];
 extern Arg4_80B4498 *gUnknown_080DC36C[5];
 extern Arg4_80B4498 gUnknown_080DC380;
 extern TaskMain gUnknown_080DC388[24];
+extern s16 gUnknown_080DC436[8];
 extern s16 gUnknown_080E30DC[12];
 extern s16 gUnknown_080E30F4[12];
 extern void *gUnknown_03001E9C, *gUnknown_03001EA0; // VRAM Pointers
