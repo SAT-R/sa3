@@ -16,6 +16,7 @@ jobs:
         uses: actions/checkout@master
         with:
           ref: ${{ github.event.pull_request.head.sha }}
+          allow-unsafe-pr-checkout: true # manually allow CI/CD to run in PRs
       - name: Checkout
         if: ${{ github.event_name == 'push' }}
         uses: actions/checkout@master
@@ -37,6 +38,7 @@ jobs:
         uses: actions/checkout@master
         with:
           ref: ${{ github.event.pull_request.head.sha }}
+          allow-unsafe-pr-checkout: true # manually allow CI/CD to run in PRs
 
       - name: Checkout
         if: ${{ github.event_name == 'push' }}
@@ -93,7 +95,8 @@ jobs:
     name: Publish progress
     runs-on: ubuntu-24.04
     needs: [build]
-    # Only able to run from repo pull requests (by maintainers, or on the main branch via push)
+    # Only able to run from repo pull requests (by maintainers, for debugging)
+    # or on the main branch via push
     if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
     permissions:
       contents: write
