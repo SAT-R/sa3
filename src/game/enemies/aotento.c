@@ -287,18 +287,17 @@ bool32 sub_8058A00(Aotento *enemy)
     return FALSE;
 }
 
-// thanks idefix helping in the matching
 bool32 sub_8058AE0(Aotento *enemy)
 {
-    s32 q = Q(64); // a variable just for holding Q(64)? interesting...
+    s32 qJumpHeight = Q(64);
 
     enemy->qPos.y -= Q(gUnknown_080D1E50[enemy->unk6]);
 
-    if (enemy->qPos.y < enemy->qUnk14.y - q) {
-        enemy->qPos.y = enemy->qUnk14.y - q;
+    if (enemy->qPos.y < enemy->qUnk14.y - qJumpHeight) {
+        enemy->qPos.y = enemy->qUnk14.y - qJumpHeight;
     }
 
-    if (enemy->qPos.y == (enemy->qUnk14.y - q)) {
+    if (enemy->qPos.y == (enemy->qUnk14.y - qJumpHeight)) {
         if (enemy->unkE == 0) {
             enemy->unkE = 90;
 
