@@ -84,7 +84,7 @@ typedef struct {
     /* 0x8CD */ u8 unk8CD;
     /* 0x8CE */ s8 unk8CE;
     /* 0x8CF */ s8 unk8CF;
-    /* 0x8D0 */ u8 unk8D0;
+    /* 0x8D0 */ s8 unk8D0;
     /* 0x8D1 */ s8 unk8D1;
     /* 0x8D2 */ u8 unk8D2;
     /* 0x8D3 */ u8 unk8D3;
@@ -155,10 +155,21 @@ typedef struct {
 
 typedef struct {
     /* 0x000 */ UnkArg2 *unk0;
-    /* 0x004 */ u8 filler4[0x740];
+    /* 0x004 */ u8 filler4[0x5F0];
+    /* 0x744 */ Arg2Task4_x744 unk5F4[8];
+    /* 0x744 */ Arg2Task4_x744 unk6D4[4];
     /* 0x744 */ Arg2Task4_x744 unk744[4];
-    /* 0x7B4 */
-} Arg2Task4; /* ??? */
+    /* 0x7B4 */ u8 filler7B4[0x112];
+    /* 0x7B4 */ u8 unk8C6;
+    /* 0x7B4 */ u8 unk8C7;
+    /* 0x8C8 */ u8 filler8C8[0x8DA - 0x8C8];
+    /* 0x8DA */ u16 unk8DA;
+    /* 0x8DC */ u16 unk8DC;
+    /* 0x8DE */ u16 unk8DE; // TODO: type
+    /* 0x8E0 */ u16 unk8E0; // TODO: type
+    /* 0x8E2 */ u16 unk8E2;
+    /* 0x8E4 */ u16 unk8E4;
+} Arg2Task4; /* 0x8E8 */
 
 typedef struct {
     /* 0x00 */ AnimId anim;
@@ -271,7 +282,10 @@ void sub_80B4B68(Arg2TaskC *);
 void Task_80B4D08(void);
 void sub_80B4D58(Arg2TaskC *temp_r2);
 void sub_80B4DA8(Arg2TaskC *);
-void sub_80B4FA8(UnkArg2 *arg0, s8 arg1);
+void sub_80B4EEC(UnkArg2 *ctx, s16 arg1);
+void sub_80B4FA8(UnkArg2 *ctx, s16 arg1);
+void Task_80B5038(void);
+void sub_80B6198(UnkArg2 *arg0, s16 arg1);
 void sub_80B6B20(void);
 
 void sub_80B6B3C(Background *bg, s32 arg1, s32 arg2, u16 arg3, u16 arg4, u16 arg5, u8 arg6, u8 arg7, u16 arg8, u16 arg9);
