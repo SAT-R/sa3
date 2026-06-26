@@ -2636,37 +2636,38 @@ void sub_80B5450(void)
     }
 }
 
-#if 0
-s16 sub_80B5944(u16 arg0, u16 arg1) {
-    s16 *var_r1;
-    u16 temp_r5;
-    u16 var_r3;
-    void *temp_r2;
+// TODO: Fake-match
+s16 sub_80B5944(s16 param0, s16 param1_)
+{
+    s32 fakematch = param1_ << 16;
+    Arg2Task4 *strc4 = TASK_DATA(gCurTask);
+    UnkArg2 *ctx = strc4->unk0;
+    Strc_8E2EF8C *array0 = gUnknown_08E2EF8C[ctx->unk8C7];
+    s16 max = param1_;
+    Strc_8E2EF8C *array = &array0[max];
+    Arg2Task8 *temp_r5 = TASK_DATA(ctx->task8);
+    Arg2TaskC *taskC = TASK_DATA(ctx->taskC);
 
-    temp_r2 = *gCurTask->data;
-    var_r3 = arg1;
-    var_r1 = *((temp_r2->unk8C7 * 4) + &gUnknown_08E2EF8C) + ((s32) (arg1 << 0x10) >> 0xC);
-    temp_r5 = temp_r2->unk8->unk6;
-    if (*var_r1 != -1) {
-loop_2:
-        if ((s32) var_r1->unk4 < (s32) (s16) arg0) {
-            if (var_r1->unkC == 7) {
+    while (array->unk0 != -1) {
+        if (array->unk4 < param0) {
+            if (array->unkC == 7) {
                 temp_r5->unkAC = 0xE;
-                temp_r5->unk90 = (s32) temp_r2->unkC->unk6->unk54;
+                temp_r5->unk90 = taskC->unk54;
             }
-            if (var_r1->unkC == 6) {
+            if (array->unkC == 6) {
                 temp_r5->unkAC = 9;
             }
-            var_r3 = (u16) ((u32) ((var_r3 << 0x10) + 0x10000) >> 0x10);
-            var_r1 += 0x10;
-            if (*var_r1 != -1) {
-                goto loop_2;
-            }
+            max++;
+            array++;
+        } else {
+            break;
         }
     }
-    return (s16) var_r3;
+
+    return max;
 }
 
+#if 0
 void sub_80B59E4(void) {
     ? (*sp190)(s16, s16 *);
     s16 *var_r5;
