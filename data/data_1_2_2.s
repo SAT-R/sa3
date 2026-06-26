@@ -17,8 +17,9 @@ gUnknown_080D1E30:
 
     .global gUnknown_080D1E50
 gUnknown_080D1E50:
-    .incbin "baserom_sa3.gba", 0x000D1E50, 0x4
+    .byte 6, 3, 2
 
+    .align 2, 0
     .global gUnknown_080D1E54
 gUnknown_080D1E54:
     .incbin "baserom_sa3.gba", 0x000D1E54, 0x30

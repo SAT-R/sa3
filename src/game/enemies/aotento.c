@@ -45,7 +45,7 @@ bool32 sub_805B7C0(Aotento *);
 void TaskDestructor_Aotento(struct Task *t);
 
 extern const TileInfo2 gUnknown_080D1E30[4];
-extern const u8 gUnknown_080D1E50[4];
+extern const u8 gUnknown_080D1E50[3];
 
 void CreateEntity_Aotento(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
