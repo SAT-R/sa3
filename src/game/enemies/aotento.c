@@ -311,7 +311,7 @@ bool32 sub_8058AE0(Aotento *enemy)
         enemy->unk10++;
     } else {
         if (++enemy->unk6 >= ARRAY_COUNT(gUnknown_080D1E50)) {
-            enemy->unk6 = 2;
+            enemy->unk6 = ARRAY_COUNT(gUnknown_080D1E50) - 1;
         }
 
         enemy->unk10 = 0;

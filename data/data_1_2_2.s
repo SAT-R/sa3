@@ -86,8 +86,9 @@ gUnknown_080D1F8C:
 
     .global gUnknown_080D1FAC
 gUnknown_080D1FAC:
-    .incbin "baserom_sa3.gba", 0x000D1FAC, 0x4
+    .byte 4, 2, 1
 
+    .align 2, 0
     .global gUnknown_080D1FB0
 gUnknown_080D1FB0:
     .incbin "baserom_sa3.gba", 0x000D1FB0, 0x10

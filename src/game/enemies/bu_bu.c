@@ -44,7 +44,7 @@ bool32 sub_805F22C(BuBu *enemy);
 AnimCmdResult sub_805F268(BuBu *enemy);
 
 extern const TileInfo2 gUnknown_080D1F8C[4];
-extern const u8 gUnknown_080D1FAC[4];
+extern const u8 gUnknown_080D1FAC[3];
 extern const TileInfo2 gUnknown_080D1FB0[2];
 
 void CreateEntity_BuBu(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -274,8 +274,8 @@ UNUSED bool32 sub_805F024(BuBu *enemy)
     if (enemy->unk10 < 6) {
         enemy->unk10++;
     } else {
-        if (++enemy->unk6 > 2U) {
-            enemy->unk6 = 2;
+        if (++enemy->unk6 >= ARRAY_COUNT(gUnknown_080D1FAC)) {
+            enemy->unk6 = ARRAY_COUNT(gUnknown_080D1FAC) - 1;
         }
 
         enemy->unk10 = 0;
