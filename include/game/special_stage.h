@@ -101,10 +101,10 @@ typedef struct {
     /* 0x8E1 */ u8 unk8E1;
     /* 0x8E2 */ u8 filler8E2[2];
     /* 0x8E4 */ void *unk8E4; // TODO: type
-} UnkArg2; /* 0x8E8 */
+} SpStgContext; /* 0x8E8 */
 
 typedef struct {
-    /* 0x000 */ UnkArg2 *unk0;
+    /* 0x000 */ SpStgContext *unk0;
     /* 0x004 */ Sprite sprite4;
     /* 0x02C */ Sprite sprite2C;
     /* 0x054 */ Sprite sprite54;
@@ -131,7 +131,7 @@ typedef struct {
 } SpStage2A4; /* 0x2A4 */
 
 typedef struct {
-    /* 0x00 */ UnkArg2 *unk0;
+    /* 0x00 */ SpStgContext *unk0;
     /* 0x04 */ void *unk4; // EWRAM, size:0x1000
     /* 0x08 */ void *unk8; // EWRAM, size:0x400
     /* 0x0C */ s32 *unkC; // EWRAM, size:0x400
@@ -154,7 +154,7 @@ typedef struct {
 } Arg2Task4_x744; /* 0x1C */
 
 typedef struct {
-    /* 0x000 */ UnkArg2 *unk0;
+    /* 0x000 */ SpStgContext *unk0;
     /* 0x004 */ Sprite sprite4;
     /* 0x02C */ Sprite sprite2C;
     /* 0x054 */ Sprite sprite54;
@@ -187,7 +187,7 @@ typedef struct {
 } Arg4_80B4498;
 
 typedef struct {
-    /* 0x00 */ UnkArg2 *unk0;
+    /* 0x00 */ SpStgContext *unk0;
     /* 0x04 */ s32 unk4;
     /* 0x08 */ Sprite sprite8; // TODO: Is this Sprite2?
     /* 0x30 */ u8 filler30[0x8];
@@ -220,7 +220,7 @@ typedef struct {
 } Arg2Task8; /* 0x110 */
 
 typedef struct {
-    /* 0x00 */ UnkArg2 *ctx;
+    /* 0x00 */ SpStgContext *ctx;
     /* 0x04 */ s32 unk4;
     /* 0x08 */ Background bg8;
     /* 0x4C */ s32 unk48;
@@ -264,15 +264,15 @@ typedef struct {
 typedef void (*SpStgFunc)(s16, Strc_8E2EF8C_2 *);
 
 s16 sub_80B5944(s16 param0, s16 param1_);
-s16 sub_80B5AD4(s16, Strc_8E2EF8C *, Strc_8E2EF8C_2 *, s32);
+s16 sub_80B5AD4(s16 param0, Strc_8E2EF8C *param1, Strc_8E2EF8C_2 *param2, s32 param3);
 s16 sub_80B65FC(s16, Strc_8E2EF8C_2 *, s32 unused);
 
-struct Task *sub_80B33D0(UnkArg2 *ctx);
-struct Task *sub_80B48A4(UnkArg2 *strc);
-void SpStage_InitializeBoost(UnkArg2 *strc, s32 unk1);
-struct Task *sub_80B4E1C(UnkArg2 *strc);
-struct Task *sub_80B3314(UnkArg2 *strc);
-struct Task *sub_80B22CC(UnkArg2 *strc);
+struct Task *sub_80B33D0(SpStgContext *ctx);
+struct Task *sub_80B48A4(SpStgContext *strc);
+void SpStage_InitializeBoost(SpStgContext *strc, s32 unk1);
+struct Task *sub_80B4E1C(SpStgContext *strc);
+struct Task *sub_80B3314(SpStgContext *strc);
+struct Task *sub_80B22CC(SpStgContext *strc);
 
 extern void sub_800341C(void);
 extern void sub_808ADF0(u8 param0);
@@ -310,16 +310,16 @@ void sub_80B37F0(void);
 void sub_80B39B8(void);
 void sub_80B4498(Sprite *s, u16 *vram, s16 arg2, u8 arg3, Arg4_80B4498 *arg4);
 void sub_80B4508(Arg2Task8 *task8);
-void sub_80B4654(UnkArg2 *arg0, s8 arg1);
+void sub_80B4654(SpStgContext *arg0, s8 arg1);
 void sub_80B46DC(void);
-void sub_80B51F4(UnkArg2 *arg0);
+void sub_80B51F4(SpStgContext *arg0);
 void sub_80B5450(void);
-void sub_80B62FC(UnkArg2 *);
+void sub_80B62FC(SpStgContext *);
 void sub_80B6370(s16, Arg2Task4_x744 *);
 void sub_80B6464(s16, Arg2Task4_x744 *);
 void sub_80B59E4();
-void sub_80B6778(UnkArg2 *arg0, s32 *arg1);
-void sub_80B46B0(UnkArg2 *);
+void sub_80B6778(SpStgContext *arg0, s32 *arg1);
+void sub_80B46B0(SpStgContext *);
 bool8 sub_80B47C4();
 void sub_80B47EC(Sprite *s, s16 arg1, s16 arg2, s16 arg3, Arg4_80B4498 *arg4);
 void Task_80B494C(void);
@@ -327,11 +327,11 @@ void sub_80B4B68(Arg2TaskC *);
 void Task_80B4D08(void);
 void sub_80B4D58(Arg2TaskC *temp_r2);
 void sub_80B4DA8(Arg2TaskC *);
-void sub_80B4EEC(UnkArg2 *ctx, s16 arg1);
-void sub_80B4FA8(UnkArg2 *ctx, s16 arg1);
+void sub_80B4EEC(SpStgContext *ctx, s16 arg1);
+void sub_80B4FA8(SpStgContext *ctx, s16 arg1);
 void Task_80B5038(void);
 void sub_80B524C(void);
-void sub_80B6198(UnkArg2 *arg0, s16 arg1);
+void sub_80B6198(SpStgContext *arg0, s16 arg1);
 void sub_80B6B20(void);
 
 void sub_80B6B3C(Background *bg, s32 arg1, s32 arg2, u16 arg3, u16 arg4, u16 arg5, u8 arg6, u8 arg7, u16 arg8, u16 arg9);

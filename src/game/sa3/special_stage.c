@@ -27,7 +27,7 @@ void sub_80B1AF4(s16 param0, s16 param1, u8 param2)
 {
     s32 *temp_r0;
     s32 temp_r0_3;
-    UnkArg2 *temp_r2;
+    SpStgContext *temp_r2;
     s16 var_r2;
     u8 temp_r0_2;
     u8 temp_r1;
@@ -38,7 +38,7 @@ void sub_80B1AF4(s16 param0, s16 param1, u8 param2)
     gStageData.unk4 = 3;
     gPlayers[gStageData.playerIndex].moveState &= ~MOVESTATE_DEAD;
     sub_80B6B20();
-    temp_r2 = TASK_DATA(TaskCreate(Task_8E8_80B2228, sizeof(UnkArg2), 0x2000U, 0U, TaskDestructor_80B2224));
+    temp_r2 = TASK_DATA(TaskCreate(Task_8E8_80B2228, sizeof(SpStgContext), 0x2000U, 0U, TaskDestructor_80B2224));
     temp_r2->unk8B0 = 0x01000000;
     temp_r2->unk8B4 = 0x01000000;
     temp_r2->unk8B8 = 0;
@@ -111,7 +111,7 @@ void sub_80B1D30(void)
 
 void Task_8E8_80B1DA0(void)
 {
-    UnkArg2 *strc = TASK_DATA(gCurTask);
+    SpStgContext *strc = TASK_DATA(gCurTask);
     ScreenFade *fade = &strc->fade7C;
 
     if ((gStageData.unkD == 0) || (strc->unk8C7 == 0)) {
@@ -141,7 +141,7 @@ void Task_8E8_80B1DA0(void)
 
 void Task_8E8_80B1E34(void)
 {
-    UnkArg2 *strc = TASK_DATA(gCurTask);
+    SpStgContext *strc = TASK_DATA(gCurTask);
 
     strc->unk8C4 = 2;
 
@@ -167,7 +167,7 @@ void Task_8E8_80B1E34(void)
 
 void Task_8E8_80B1EC8(void)
 {
-    UnkArg2 *temp_r2 = TASK_DATA(gCurTask);
+    SpStgContext *temp_r2 = TASK_DATA(gCurTask);
 
     if (temp_r2->unk8C8 == 0) {
         temp_r2->unk8BE++;
@@ -187,7 +187,7 @@ void Task_8E8_80B1EC8(void)
 
 void Task_8E8_80B1F4C(void)
 {
-    UnkArg2 *temp_r1 = TASK_DATA(gCurTask);
+    SpStgContext *temp_r1 = TASK_DATA(gCurTask);
     Arg2Task8 *task8 = TASK_DATA(temp_r1->task8);
 
     switch (task8->unkAC) {
@@ -235,7 +235,7 @@ void Task_8E8_80B1F4C(void)
 
 void Task_8E8_80B205C(void)
 {
-    UnkArg2 *strc = TASK_DATA(gCurTask);
+    SpStgContext *strc = TASK_DATA(gCurTask);
 
     ScreenFade *fade = &strc->fade7C;
     fade->window = 1;
@@ -259,7 +259,7 @@ void Task_SpStage8E8_Destroy(void)
     Task *temp_r0_4;
     Task *temp_r0_5;
     u8 var_r4;
-    UnkArg2 *strc = TASK_DATA(gCurTask);
+    SpStgContext *strc = TASK_DATA(gCurTask);
     ScreenFade *fade = &strc->fade7C;
 
     if (UpdateScreenFade(fade) == SCREEN_FADE_RUNNING) {
@@ -318,7 +318,7 @@ void TaskDestructor_80B2224(Task *arg0) { }
 
 void Task_8E8_80B2228(void)
 {
-    UnkArg2 *strc = TASK_DATA(gCurTask);
+    SpStgContext *strc = TASK_DATA(gCurTask);
 
     sub_80B1D30();
     sub_80B6BB8(&strc->sprite14, 0, 0x28U, 0x460U, 0, DISPLAY_CENTER_X, DISPLAY_CENTER_Y, 0, 0U, 0);
@@ -329,7 +329,7 @@ void Task_8E8_80B2228(void)
 
 void Task_8E8_80B2284(void)
 {
-    UnkArg2 *strc = TASK_DATA(gCurTask);
+    SpStgContext *strc = TASK_DATA(gCurTask);
     ScreenFade *fade = &strc->fade7C;
 
     if (UpdateScreenFade(fade) != SCREEN_FADE_RUNNING) {
@@ -339,7 +339,7 @@ void Task_8E8_80B2284(void)
     }
 }
 
-Task *sub_80B22CC(UnkArg2 *strc)
+Task *sub_80B22CC(SpStgContext *strc)
 {
     Task *t = TaskCreate(Task_2A4_80B2358, sizeof(SpStage2A4), 0xD000U, 0U, TaskDestructor_80B2D84);
     SpStage2A4 *strc2A4 = TASK_DATA(t);
@@ -366,7 +366,7 @@ void Task_2A4_80B2358()
     u16 temp_r0_2;
     u16 temp_r0_3;
     SpStage2A4 *strc2A4 = TASK_DATA(gCurTask);
-    UnkArg2 *temp_r6 = strc2A4->unk0;
+    SpStgContext *temp_r6 = strc2A4->unk0;
     Arg2Task8 *temp_r7 = TASK_DATA(temp_r6->task8);
 
     sub_2A4_80B2640();
@@ -426,7 +426,7 @@ void Task_2A4_80B2358()
 
 void sub_80B24AC(SpStage2A4 *strc2A4)
 {
-    UnkArg2 *temp_r5 = strc2A4->unk0;
+    SpStgContext *temp_r5 = strc2A4->unk0;
     TileInfo3 *tiles = &gUnknown_080DBEA0[(s8)temp_r5->unk8CE];
 
     sub_80B6BB8(&strc2A4->sprite4, 0, tiles->numTiles, tiles->anim, 0x1000U, 0x64, 0x10, 1, tiles->variant, 0U);
@@ -450,7 +450,7 @@ void sub_80B24AC(SpStage2A4 *strc2A4)
 void sub_2A4_80B2640(void)
 {
     SpStage2A4 *strc = TASK_DATA(gCurTask);
-    UnkArg2 *temp_r6 = strc->unk0;
+    SpStgContext *temp_r6 = strc->unk0;
     Sprite *s;
 
     if (temp_r6->unk8C8 == 0) {
@@ -482,7 +482,7 @@ void sub_2A4_80B26FC(void)
 {
     TileInfo3 *temp_r2;
     SpStage2A4 *strc = TASK_DATA(gCurTask);
-    UnkArg2 *temp_r5;
+    SpStgContext *temp_r5;
     Sprite *s;
 
     temp_r5 = strc->unk0;
@@ -599,7 +599,7 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B29B4.inc", void sub_80B29B4(Sp
     u8 var_r7;
     s32 var_sb;
     TileInfo_16_2 *temp_r5;
-    UnkArg2 *unk0 = strc2A4->unk0;
+    SpStgContext *unk0 = strc2A4->unk0;
 
     temp_r4 = gUnknown_080DBE82[unk0->unk8C7][param1];
     sp18[0] = 0xA;
@@ -801,7 +801,7 @@ void sub_80B2EFC(Arg2Task0 *strc)
 {
     s16 *ptr;
     s16 sp00[2][4]; // TODO: Possibly DmaIoData[2] ?
-    UnkArg2 *temp_r7;
+    SpStgContext *temp_r7;
     s32 *var_r5_3;
     s16 temp_r4;
     s16 k;
@@ -900,7 +900,7 @@ void Task_80B3080(void)
     s16 var_r6;
     void *ioData;
     Arg2Task0 *strc = TASK_DATA(gCurTask);
-    UnkArg2 *ctx = strc->unk0;
+    SpStgContext *ctx = strc->unk0;
     Arg2TaskC *taskC = TASK_DATA(ctx->taskC);
 
     gHBlankCopySize = sizeof(DmaIoData);
@@ -982,7 +982,7 @@ void sub_80B3290(void)
     s16 i;
 
     Arg2Task0 *strc = TASK_DATA(gCurTask);
-    UnkArg2 *temp_r1_2 = strc->unk0;
+    SpStgContext *temp_r1_2 = strc->unk0;
     u8 *index = &temp_r1_2->unk8C7;
     s16 temp_r0 = gUnknown_080DBFD8[*index];
 
@@ -999,7 +999,7 @@ void sub_80B3290(void)
     }
 }
 
-Task *sub_80B3314(UnkArg2 *strc)
+Task *sub_80B3314(SpStgContext *strc)
 {
     AnimId sp18[7];
     Task *t;
@@ -1039,7 +1039,7 @@ void sub_80B33CC(Arg2Task0 *strc) { }
 
 extern s16 gUnknown_080DBE58[][3];
 
-Task *sub_80B33D0(UnkArg2 *ctx)
+Task *sub_80B33D0(SpStgContext *ctx)
 {
     Arg4_80B4498 sp2C;
     Arg2Task8 *sp34;
@@ -1128,7 +1128,7 @@ void Task_80B3648(void)
     u8 temp_r2_2;
 
     Arg2Task8 *task8 = TASK_DATA(gCurTask);
-    UnkArg2 *ctx = task8->unk0;
+    SpStgContext *ctx = task8->unk0;
     Arg2TaskC *taskC = TASK_DATA(ctx->taskC);
     task8->unk88 += task8->unk94;
     task8->unk8C += 0x1BF00;
@@ -1154,7 +1154,7 @@ void Task_80B3648(void)
 void Task_80B36F4(void)
 {
     TaskMain sp0[24];
-    UnkArg2 *temp_r6;
+    SpStgContext *temp_r6;
     u16 temp_r1;
     u8 var_r0;
 
@@ -1338,7 +1338,7 @@ void sub_80B3B1C(void)
     s32 var_r6;
     s8 *var_r1;
     Arg2TaskC *taskC;
-    UnkArg2 *temp_r5;
+    SpStgContext *temp_r5;
 
     Arg2Task8 *task8 = TASK_DATA(gCurTask);
     temp_r5 = task8->unk0;
@@ -1395,7 +1395,7 @@ void sub_80B3BD4()
 // (98.70%) https://decomp.me/scratch/QXQT8
 NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B3C28.inc", void sub_80B3C28(void))
 {
-    UnkArg2 *temp_r6;
+    SpStgContext *temp_r6;
     s32 temp_r4;
     s32 temp_r0_2;
     u16 temp_r0;
@@ -1434,7 +1434,7 @@ void sub_80B3D4C()
 {
     s32 var_r4;
     Arg2Task8 *task8 = TASK_DATA(gCurTask);
-    UnkArg2 *temp_r5 = task8->unk0;
+    SpStgContext *temp_r5 = task8->unk0;
     Arg2TaskC *temp_r2 = TASK_DATA(temp_r5->taskC);
     s32 var_r6 = task8->unk90;
     var_r4 = task8->unk9C;
@@ -1519,7 +1519,7 @@ void sub_80B3F1C(void)
     s32 var_r7;
 
     Arg2Task8 *task8 = TASK_DATA(gCurTask);
-    UnkArg2 *ctx = task8->unk0;
+    SpStgContext *ctx = task8->unk0;
     Arg2TaskC *temp_r0 = TASK_DATA(ctx->taskC);
     Arg2Task0 *temp_r2_2 = TASK_DATA(ctx->task0);
     var_r5 = task8->unk90;
@@ -1587,7 +1587,7 @@ void sub_80B3F1C(void)
 void sub_80B407C(void)
 {
     Arg2Task8 *task8 = TASK_DATA(gCurTask);
-    UnkArg2 *ctx = task8->unk0;
+    SpStgContext *ctx = task8->unk0;
     Arg2TaskC *temp_r0 = TASK_DATA(ctx->taskC);
     Arg2Task0 *temp_r2_2 = TASK_DATA(ctx->task0);
     s32 var_r4 = task8->unk90;
@@ -1646,7 +1646,7 @@ void sub_80B407C(void)
 void sub_80B41B0(void)
 {
     Arg2Task8 *task8 = TASK_DATA(gCurTask);
-    UnkArg2 *temp_r1 = task8->unk0;
+    SpStgContext *temp_r1 = task8->unk0;
     Arg2TaskC *temp_r0 = TASK_DATA(temp_r1->taskC);
     u16 var_r5 = 0;
 
@@ -1865,7 +1865,7 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B4508.inc", void sub_80B4508(Ar
 }
 END_NONMATCH
 
-void sub_80B4654(UnkArg2 *arg0, s8 arg1)
+void sub_80B4654(SpStgContext *arg0, s8 arg1)
 {
     s16 temp_r0;
 
@@ -1885,7 +1885,7 @@ void sub_80B4654(UnkArg2 *arg0, s8 arg1)
     }
 }
 
-void sub_80B46B0(UnkArg2 *arg0)
+void sub_80B46B0(SpStgContext *arg0)
 {
     Arg2Task8 *temp_r2 = TASK_DATA(arg0->task8);
 
@@ -2010,7 +2010,7 @@ void sub_80B484C(Sprite *s, s16 animSpeed, s16 posY, Arg4_80B4498 *arg4)
 }
 
 // -> taskC
-Task *sub_80B48A4(UnkArg2 *ctx)
+Task *sub_80B48A4(SpStgContext *ctx)
 {
     u8 index = ctx->unk8C7;
     Task *t = TaskCreate(Task_80B494C, sizeof(Arg2TaskC), 0xA000U, 0U, NULL);
@@ -2046,7 +2046,7 @@ void Task_80B494C(void)
     s32 temp_r0_3;
 
     Arg2TaskC *temp_r3 = TASK_DATA(gCurTask);
-    UnkArg2 *temp_r1 = temp_r3->ctx;
+    SpStgContext *temp_r1 = temp_r3->ctx;
     Arg2Task0 *temp_sb = TASK_DATA(temp_r1->task0);
     Arg2Task8 *temp_sl = TASK_DATA(temp_r1->task8);
     temp_r3->unk6E = ((temp_r3->unk6E + 1) & 3);
@@ -2148,7 +2148,7 @@ void sub_80B4B68(Arg2TaskC *arg0)
     s16 var_r3;
     u32 var_r0;
     s16 var_r5;
-    UnkArg2 *temp_r7 = arg0->ctx;
+    SpStgContext *temp_r7 = arg0->ctx;
     Arg2Task8 *temp_r2 = TASK_DATA(temp_r7->task8);
     u16 temp_r8 = 0xBE - ((s32)((arg0->unk4C + 0xFE100000) * 0x47) >> 0x14);
 
@@ -2203,7 +2203,7 @@ void sub_80B4B68(Arg2TaskC *arg0)
     temp_r7->unk8B0 = (s32)arg0->unk4C;
 }
 
-void SpStage_InitializeBoost(UnkArg2 *ctx, s32 arg1)
+void SpStage_InitializeBoost(SpStgContext *ctx, s32 arg1)
 {
     Arg2TaskC *taskC = TASK_DATA(ctx->taskC);
     taskC->unk6C = 0;
@@ -2255,7 +2255,7 @@ void sub_80B4D58(Arg2TaskC *taskC)
 
 void sub_80B4DA8(Arg2TaskC *taskC)
 {
-    UnkArg2 *ctx = taskC->ctx;
+    SpStgContext *ctx = taskC->ctx;
     Arg2Task8 *task8 = TASK_DATA(ctx->task8);
 
     if ((ctx->unk8C4 > 4U) && (task8->unkAC <= 2U)) {
@@ -2273,7 +2273,7 @@ void sub_80B4DA8(Arg2TaskC *taskC)
     }
 }
 
-Task *sub_80B4E1C(UnkArg2 *ctx)
+Task *sub_80B4E1C(SpStgContext *ctx)
 {
     s16 sp4[7];
     u8 var_r0;
@@ -2320,7 +2320,7 @@ Task *sub_80B4E1C(UnkArg2 *ctx)
     return t;
 }
 
-void sub_80B4EEC(UnkArg2 *arg0, s16 arg1)
+void sub_80B4EEC(SpStgContext *arg0, s16 arg1)
 {
     Arg2Task8 *temp_r1 = TASK_DATA(arg0->task8);
     s16 i;
@@ -2351,7 +2351,7 @@ void sub_80B4EEC(UnkArg2 *arg0, s16 arg1)
     }
 }
 
-void sub_80B4FA8(UnkArg2 *arg0, s16 arg1)
+void sub_80B4FA8(SpStgContext *arg0, s16 arg1)
 {
     s16 i;
 
@@ -2405,7 +2405,7 @@ void Task_80B5038(void)
     gCurTask->main = sub_80B524C;
 }
 
-void sub_80B51F4(UnkArg2 *arg0)
+void sub_80B51F4(SpStgContext *arg0)
 {
     s16 sp[8];
     Sprite *s = &arg0->sprite88;
@@ -2427,7 +2427,7 @@ void sub_80B51F4(UnkArg2 *arg0)
 void sub_80B524C()
 {
     Arg2Task4 *strc4 = TASK_DATA(gCurTask);
-    UnkArg2 *temp_r6 = strc4->unk0;
+    SpStgContext *temp_r6 = strc4->unk0;
 
     if (temp_r6->unk8C8 == 0) {
         strc4->unk8E2 += 8;
@@ -2487,7 +2487,7 @@ void sub_80B5450(void)
 {
     s32 sp[5];
     Arg2Task4 *strc4 = TASK_DATA(gCurTask);
-    UnkArg2 *ctx = strc4->unk0;
+    SpStgContext *ctx = strc4->unk0;
     Strc_8E2EF8C *array = gUnknown_08E2EF8C[ctx->unk8C7];
     Arg2Task8 *strc8 = TASK_DATA(ctx->task8);
     Arg2TaskC *strcC = TASK_DATA(ctx->taskC);
@@ -2641,7 +2641,7 @@ s16 sub_80B5944(s16 param0, s16 param1_)
 {
     s32 fakematch = param1_ << 16;
     Arg2Task4 *strc4 = TASK_DATA(gCurTask);
-    UnkArg2 *ctx = strc4->unk0;
+    SpStgContext *ctx = strc4->unk0;
     Strc_8E2EF8C *array0 = gUnknown_08E2EF8C[ctx->unk8C7];
     s16 max = param1_;
     Strc_8E2EF8C *array = &array0[max];
@@ -2678,7 +2678,7 @@ void sub_80B59E4(void)
     s32 temp_r6;
     s16 var_r1;
     Arg2Task4 *strc4 = TASK_DATA(gCurTask);
-    UnkArg2 *temp_r1 = strc4->unk0;
+    SpStgContext *temp_r1 = strc4->unk0;
     Arg2Task8 *temp_r8 = TASK_DATA(temp_r1->task8);
     Arg2TaskC *temp_r4 = TASK_DATA(temp_r1->taskC);
 

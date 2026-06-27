@@ -19,7 +19,7 @@ bool32 sub_8001E58(void);
 
 void sub_80B6774(void) { }
 
-void sub_80B6778(UnkArg2 *arg0, s32 *arg1)
+void sub_80B6778(SpStgContext *arg0, s32 *arg1)
 {
     s16 var_r4;
     u8 temp_r3;
@@ -44,7 +44,7 @@ void sub_80B6778(UnkArg2 *arg0, s32 *arg1)
 }
 
 // (58.02%) https://decomp.me/scratch/JZSdj
-NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B67C4.inc", s32 sub_80B67C4(UnkArg0 *arg0, UnkArg1 *arg1, UnkArg2 *arg2, s32 arg3))
+NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B67C4.inc", s32 sub_80B67C4(UnkArg0 *arg0, UnkArg1 *arg1, SpStgContext *arg2, s32 arg3))
 {
     s32 sp0;
     Arg2Task0 *sp4;
