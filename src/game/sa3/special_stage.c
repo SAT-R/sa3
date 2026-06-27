@@ -2720,7 +2720,7 @@ void sub_80B59E4(void)
     }
 }
 
-// (83.88%) https://decomp.me/scratch/shKl6
+// (94.40%) https://decomp.me/scratch/tHB4e
 NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B5AD4.inc", s16 sub_80B5AD4(s16 arg0, Strc_8E2EF8C *arg1, Strc_8E2EF8C_2 *arg2, s32 arg3))
 {
     Strc_8E2EF8C_3 sp00;
@@ -2730,9 +2730,9 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B5AD4.inc", s16 sub_80B5AD4(s16
     Strc_8E2EF8C *var_r5;
     s16 var_r0;
     u32 temp_r0;
-    s32 var_r8;
+    // s32 var_r8;
     s8 temp_r0_2;
-    u16 i;
+    s16 i;
     s16 max;
     s16 var_sl;
     Strc_8E2EF8C_2 *temp_r4;
@@ -2742,8 +2742,8 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B5AD4.inc", s16 sub_80B5AD4(s16
     dirY = COS(task4->unk8E4) >> 4;
     var_sl = arg0;
     i = task4->unk8DE;
-    max = (i + 20);
-    for (; (var_r5->unk0 != -1) && (var_r8 = i << 0x10, (i < max)); var_r5++, i++) {
+    max = (task4->unk8DE + 20);
+    for (; (var_r5->unk0 != -1) && (i < max); var_r5++, i++) {
         if (task4->unk7B4[var_r5->unk0] == 0) {
             continue;
         }
@@ -2777,9 +2777,11 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B5AD4.inc", s16 sub_80B5AD4(s16
                     arg2[var_sl].unk0 = var_r5->unkC + 1;
                     if (arg2[var_sl].unk0 == 4) {
                         arg2[var_sl].unk8 = i;
-                    } else if ((arg2[var_sl].unk0 == 5) && !(((var_r8 >> 10) + task4->unk8E2) & 0x1FF)) {
-                        sub_80B6538(&sp00);
-                        m4aSongNumStart(SE_527);
+                    } else if ((arg2[var_sl].unk0 == 5)) {
+                        if (!(((i << 6) + task4->unk8E2) & 0x1FF)) {
+                            sub_80B6538(&sp00);
+                            m4aSongNumStart(SE_527);
+                        }
                     }
                 }
                 var_sl++;
@@ -2822,13 +2824,15 @@ void sub_80B5CC4(u16 arg0, void *arg1) {
     case 2:
         var_r3 = temp_r2 + 0x54;
         break;
+    case 4:
+        var_r3 = temp_r2 + 0xA4;
+        break;
     case 5:
         var_r3 = temp_r2 + 0xCC;
         break;
     case 8:
         var_r3 = temp_r2 + 0x11C;
         break;
-    case 4:
     case 9:
         var_r3 = temp_r2 + 0xA4;
         break;
