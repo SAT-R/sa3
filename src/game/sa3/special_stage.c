@@ -2795,69 +2795,66 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B5AD4.inc", s16 sub_80B5AD4(s16
 }
 END_NONMATCH
 
-#if 0
-void sub_80B5CC4(u16 arg0, void *arg1) {
-    s16 temp_r0;
-    s16 temp_r5;
-    s16 var_r2;
-    u16 temp_r2;
+// // TODO: Should be void sub_80B5CC4(s16 param0, Strc_8E2EF8C_2 *param1);
+// (97.93%) https://decomp.me/scratch/I8Bzm
+void sub_80B5CC4(s16 param0, u16 *param1)
+{
+    SpStgContext *temp_sl;
+    Sprite *s;
     u16 temp_r4;
+    u32 frameFlags0;
+    u32 frameFlags;
     u16 temp_r8;
-    void *temp_r0_2;
-    void *temp_r0_3;
-    void *temp_r7;
-    void *temp_sl;
-    void *var_r3;
+    u16 *temp_r0_2;
+    Sprite *sprDest;
+    Arg2Task4 *strc4 = TASK_DATA(gCurTask);
 
-    temp_r2 = gCurTask->data;
-    temp_sl = *temp_r2;
-    temp_r7 = temp_r2 + (((s16) arg0 * 0x28) + 0x194);
-    var_r3 = NULL;
-    temp_r0 = arg1->unk0 - 1;
-    switch (temp_r0) {
-    case 0:
-        var_r3 = temp_r2 + 4;
-        break;
-    case 1:
-        var_r3 = temp_r2 + 0x2C;
-        break;
-    case 2:
-        var_r3 = temp_r2 + 0x54;
-        break;
-    case 4:
-        var_r3 = temp_r2 + 0xA4;
-        break;
-    case 5:
-        var_r3 = temp_r2 + 0xCC;
-        break;
-    case 8:
-        var_r3 = temp_r2 + 0x11C;
-        break;
-    case 9:
-        var_r3 = temp_r2 + 0xA4;
-        break;
+    temp_sl = strc4->unk0;
+    sprDest = &strc4->sprites194[param0];
+    s = NULL;
+    switch ((s16)param1[0]) {
+        case 1:
+            s = &strc4->sprite4;
+            break;
+        case 2:
+            s = &strc4->sprite2C;
+            break;
+        case 3:
+            s = &strc4->sprite54;
+            break;
+        case 5:
+            s = &strc4->spriteA4;
+            break;
+        case 6:
+            s = &strc4->spriteCC;
+            break;
+        case 9:
+            s = &strc4->sprite11C;
+            break;
+        case 10:
+            s = &strc4->spriteA4;
+            break;
     }
-    temp_r8 = arg1->unk2;
-    temp_r4 = arg1->unk4 - arg1->unk6;
-    CpuSet(var_r3, temp_r7, 0x0400000AU);
-    temp_r5 = (s16) arg0;
-    temp_r7->unk8 = (s32) (temp_r5 | 0xC1060);
-    temp_r7->unk10 = temp_r8;
-    temp_r7->unk12 = temp_r4;
-    var_r2 = 0x180;
-    if ((s32) (s16) arg1->unk4 < (s32) (temp_sl->unk8DA - 0xF)) {
-        var_r2 = 0x340;
-    }
-    temp_r7->unk14 = var_r2;
-    sub_8E8_80B69B4(temp_r7);
-    temp_r0_2 = (temp_r5 << 5) + &gOamBuffer->all.affineParam;
-    temp_r0_2->unk0 = (u16) arg1->unkC;
-    temp_r0_3 = temp_r0_2 + 8;
-    temp_r0_2->unk8 = (u16) arg1->unkE;
-    temp_r0_3->unk8 = (u16) arg1->unk10;
-    (temp_r0_3 + 8)->unk8 = (u16) arg1->unk12;
+    temp_r8 = param1[1];
+    temp_r4 = param1[2] - param1[3];
+    CpuCopy32(s, sprDest, sizeof(*s));
+    sprDest->frameFlags = 0x1060;
+    sprDest->frameFlags |= param0;
+    sprDest->frameFlags |= 0xC0000;
+    sprDest->x = temp_r8;
+    sprDest->y = temp_r4;
+    sprDest->oamFlags = ((s16)param1[2] < (s32)(temp_sl->unk8DA - 0xF)) ? 0x340 : 0x180;
+    sub_8E8_80B69B4(sprDest);
+    temp_r0_2 = (u16 *)&gOamBuffer[param0 * 4];
+    temp_r0_2[0] = param1[6];
+    temp_r0_2 += 4;
+    temp_r0_2[0] = param1[7];
+    temp_r0_2 += 4;
+    temp_r0_2[0] = param1[8];
+    temp_r0_2[4] = param1[9];
 }
 
+#if 0
 void sub_80B5DF4(u16 arg0, void *arg1) {
     s16 temp_r5;
     u16 temp_r0;

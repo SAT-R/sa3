@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start sub_80B5CC4
 sub_80B5CC4: @ 0x080B5CC4
 	push {r4, r5, r6, r7, lr}
@@ -154,6 +152,7 @@ _080B5DB6:
 _080B5DE8: .4byte 0x0400000A
 _080B5DEC: .4byte 0x000008DA
 _080B5DF0: .4byte gOamBuffer + 0x6
+.endif
 
 	thumb_func_start sub_80B5DF4
 sub_80B5DF4: @ 0x080B5DF4
