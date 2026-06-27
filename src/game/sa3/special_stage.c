@@ -2804,8 +2804,7 @@ s16 sub_80B5AD4(s16 arg0, Strc_8E2EF8C *arg1, Strc_8E2EF8C_2 *arg2, s32 arg3)
 }
 
 // // TODO: Should be void sub_80B5CC4(s16 param0, Strc_8E2EF8C_2 *param1);
-// (97.93%) https://decomp.me/scratch/I8Bzm
-NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B5CC4.inc", void sub_80B5CC4(s16 param0, u16 *param1))
+void sub_80B5CC4(s16 param0, u16 *param1)
 {
     SpStgContext *temp_sl;
     Sprite *s;
@@ -2820,7 +2819,6 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B5CC4.inc", void sub_80B5CC4(s1
     temp_sl = strc4->unk0;
     sprDest = &strc4->sprites194[param0];
     s = NULL;
-
     switch ((s16)param1[0]) {
         case 1:
             s = &strc4->sprite4;
@@ -2847,14 +2845,12 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B5CC4.inc", void sub_80B5CC4(s1
     temp_r8 = param1[1];
     temp_r4 = param1[2] - param1[3];
     CpuCopy32(s, sprDest, sizeof(*s));
-    sprDest->frameFlags = 0x1060;
-    sprDest->frameFlags |= param0;
-    sprDest->frameFlags |= 0xC0000;
+    sprDest->frameFlags = 0x1060 | param0 | 0xC0000;
     sprDest->x = temp_r8;
     sprDest->y = temp_r4;
     sprDest->oamFlags = ((s16)param1[2] < (s32)(temp_sl->unk8DA - 0xF)) ? 0x340 : 0x180;
     sub_8E8_80B69B4(sprDest);
-    temp_r0_2 = (u16 *)&gOamBuffer[param0 * 4];
+    temp_r0_2 = (u16 *)&gOamBuffer[param0 * 4] + 3;
     temp_r0_2[0] = param1[6];
     temp_r0_2 += 4;
     temp_r0_2[0] = param1[7];
@@ -2862,7 +2858,6 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B5CC4.inc", void sub_80B5CC4(s1
     temp_r0_2[0] = param1[8];
     temp_r0_2[4] = param1[9];
 }
-END_NONMATCH
 
 #if 0
 void sub_80B5DF4(u16 arg0, void *arg1) {
