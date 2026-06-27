@@ -2720,23 +2720,23 @@ void sub_80B59E4(void)
     }
 }
 
-// (94.40%) https://decomp.me/scratch/tHB4e
-NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B5AD4.inc", s16 sub_80B5AD4(s16 arg0, Strc_8E2EF8C *arg1, Strc_8E2EF8C_2 *arg2, s32 arg3))
+s16 sub_80B5AD4(s16 arg0, Strc_8E2EF8C *arg1, Strc_8E2EF8C_2 *arg2, s32 arg3)
 {
     Strc_8E2EF8C_3 sp00;
     Strc_8E2EF8C_2 sp14;
+    Arg2Task4 *task4;
+    Strc_8E2EF8C *var_r5;
     s16 dirX;
     s16 dirY;
-    Strc_8E2EF8C *var_r5;
     s16 var_r0;
-    u32 temp_r0;
+    s32 temp_r0;
     // s32 var_r8;
     s8 temp_r0_2;
     s16 i;
     s16 max;
     s16 var_sl;
     Strc_8E2EF8C_2 *temp_r4;
-    Arg2Task4 *task4 = TASK_DATA(gCurTask);
+    task4 = TASK_DATA(gCurTask);
     var_r5 = arg1;
     dirX = SIN(task4->unk8E4);
     dirY = COS(task4->unk8E4) >> 4;
@@ -2744,24 +2744,33 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B5AD4.inc", s16 sub_80B5AD4(s16
     i = task4->unk8DE;
     max = (task4->unk8DE + 20);
     for (; (var_r5->unk0 != -1) && (i < max); var_r5++, i++) {
+        u32 flag;
         if (task4->unk7B4[var_r5->unk0] == 0) {
             continue;
         }
 
         temp_r0 = var_r5->unkC;
         temp_r0++;
-        if (temp_r0 != 5) {
-            if ((temp_r0 >= 5) && (temp_r0 <= 8)) {
-                if (temp_r0 >= 7) {
-                    continue;
-                }
-            }
-            sp00.unkC = 8;
-            sp00.unkE = 8;
-        } else {
-            sp00.unkC = 16;
-            sp00.unkE = 16;
+        switch (temp_r0) {
+            case 7:
+            case 8:
+                flag = 1;
+                break;
+            case 5:
+                sp00.unkC = 16;
+                sp00.unkE = 16;
+                flag = 0;
+                break;
+            default:
+                sp00.unkC = 8;
+                sp00.unkE = 8;
+                flag = 0;
+                break;
         }
+        if (flag) {
+            continue;
+        }
+
         sp00.unk0 = (var_r5->unk2 << 16) + (var_r5->unk8 * dirX);
         sp00.unk8 = (var_r5->unk6 << 12) + (var_r5->unkA * dirY);
         sp00.unk4 = (var_r5->unk4 << 16);
@@ -2793,11 +2802,10 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B5AD4.inc", s16 sub_80B5AD4(s16
 
     return var_sl;
 }
-END_NONMATCH
 
 // // TODO: Should be void sub_80B5CC4(s16 param0, Strc_8E2EF8C_2 *param1);
 // (97.93%) https://decomp.me/scratch/I8Bzm
-void sub_80B5CC4(s16 param0, u16 *param1)
+NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B5CC4.inc", void sub_80B5CC4(s16 param0, u16 *param1))
 {
     SpStgContext *temp_sl;
     Sprite *s;
@@ -2812,6 +2820,7 @@ void sub_80B5CC4(s16 param0, u16 *param1)
     temp_sl = strc4->unk0;
     sprDest = &strc4->sprites194[param0];
     s = NULL;
+
     switch ((s16)param1[0]) {
         case 1:
             s = &strc4->sprite4;
@@ -2853,6 +2862,7 @@ void sub_80B5CC4(s16 param0, u16 *param1)
     temp_r0_2[0] = param1[8];
     temp_r0_2[4] = param1[9];
 }
+END_NONMATCH
 
 #if 0
 void sub_80B5DF4(u16 arg0, void *arg1) {
