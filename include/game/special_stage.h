@@ -246,6 +246,27 @@ typedef struct {
     s8 unkC;
 } Strc_8E2EF8C;
 
+// Basically identical to Strc_8E2EF8C, just a couple more bytes (post 0x0C)
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    s16 unkA;
+    s8 unkC;
+    s8 unkD; // TODO: type
+    s8 unkE; // TODO: type
+    s8 unkF; // TODO: type
+    s8 unk10; // TODO: type
+} Strc_8E2EF8C_2;
+
+typedef void (*SpStgFunc)(s16, Strc_8E2EF8C_2 *);
+
+s16 sub_80B5944(s16 param0, s16 param1_);
+s16 sub_80B5AD4(s16, Strc_8E2EF8C *, Strc_8E2EF8C_2 *, s32);
+s16 sub_80B65FC(s16, Strc_8E2EF8C_2 *, s32 unused);
+
 struct Task *sub_80B33D0(UnkArg2 *ctx);
 struct Task *sub_80B48A4(UnkArg2 *strc);
 void SpStage_InitializeBoost(UnkArg2 *strc, s32 unk1);
@@ -344,6 +365,7 @@ extern Arg4_80B4498 *gUnknown_080DC36C[5];
 extern Arg4_80B4498 gUnknown_080DC380;
 extern TaskMain gUnknown_080DC388[24];
 extern s16 gUnknown_080DC436[8];
+extern const SpStgFunc gUnknown_080DC448[27];
 extern s16 gUnknown_080E30DC[12];
 extern s16 gUnknown_080E30F4[12];
 extern void *gUnknown_03001E9C, *gUnknown_03001EA0; // VRAM Pointers

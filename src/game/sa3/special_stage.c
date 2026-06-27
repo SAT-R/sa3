@@ -581,8 +581,8 @@ void sub_80B292C(SpStage2A4 *strc2A4)
 
     ptr = (void *)sp18;
     sub_80B6BB8(s, 1, *ptr++, *ptr++, r4, DISPLAY_CENTER_X, DISPLAY_CENTER_Y, 0, *(ptr2 = &sp18[0][2]), 0);
-    DmaCopy16(3, &gObjPalette[15 * 16 + 9], strc2A4->pal298, sizeof(strc2A4->pal298));
-    DmaCopy16(3, &gObjPalette[15 * 16 + 12], strc2A4->pal29E, sizeof(strc2A4->pal29E));
+    DmaCopy16(3, &gObjPalette[15 * PALETTE_LEN_4BPP + 9], strc2A4->pal298, sizeof(strc2A4->pal298));
+    DmaCopy16(3, &gObjPalette[15 * PALETTE_LEN_4BPP + 12], strc2A4->pal29E, sizeof(strc2A4->pal29E));
 
     strc2A4->unk289 = 1;
 }
@@ -2667,54 +2667,46 @@ s16 sub_80B5944(s16 param0, s16 param1_)
     return max;
 }
 
-#if 0
-void sub_80B59E4(void) {
-    ? (*sp190)(s16, s16 *);
-    s16 *var_r5;
-    s16 *var_r5_2;
+// TODO: Fake-match
+void sub_80B59E4(void)
+{
+    Strc_8E2EF8C_2 sp00[20];
+    SpStgFunc funcs[27];
+    Strc_8E2EF8C *temp_sb;
+    Strc_8E2EF8C_2 *var_r5;
     s16 temp_r0_2;
-    s16 temp_r4_3;
-    s16 var_r1_2;
     s32 temp_r6;
-    s32 temp_sb;
-    u16 temp_r4;
-    u16 temp_r4_2;
-    u16 temp_r7;
-    u16 temp_r8;
-    u32 temp_r0;
-    u32 var_r1;
-    void *temp_r1;
+    s16 var_r1;
+    Arg2Task4 *strc4 = TASK_DATA(gCurTask);
+    UnkArg2 *temp_r1 = strc4->unk0;
+    Arg2Task8 *temp_r8 = TASK_DATA(temp_r1->task8);
+    Arg2TaskC *temp_r4 = TASK_DATA(temp_r1->taskC);
 
-    temp_r7 = gCurTask->data;
-    temp_r1 = temp_r7->unk0;
-    temp_r8 = temp_r1->unk8->unk6;
-    temp_r4 = temp_r1->unkC->unk6;
-    temp_sb = *((temp_r1->unk8C7 * 4) + &gUnknown_08E2EF8C);
-    memcpy(&sp190, &gUnknown_080DC448, 0x6C);
-    temp_r6 = 0x1E - ((s32) temp_r4->unk54 >> 0xA);
-    var_r1 = 0;
-    var_r5 = &subroutine_arg0;
-    do {
-        *var_r5 = 0;
-        temp_r0 = (var_r1 << 0x10) + 0x10000;
-        var_r5 += 0x14;
-        var_r1 = temp_r0 >> 0x10;
-    } while ((s32) ((s32) temp_r0 >> 0x10) <= 0x13);
-    temp_r7->unk8DE = sub_80B5944((u16) (temp_r8 + 0x8C)->unk2, (u16) temp_r7->unk8DE);
-    var_r1_2 = 0;
-    var_r5_2 = &subroutine_arg0;
-    temp_r0_2 = sub_80B5AD4(sub_80B65FC(0 >> 0x10, &subroutine_arg0, temp_r6), (temp_r7->unk8DE * 0x10) + temp_sb, &subroutine_arg0, temp_r6);
-    if ((s32) temp_r0_2 > 0) {
-        do {
-            temp_r4_3 = var_r1_2;
-            (&sp190)[*var_r5_2](temp_r4_3, var_r5_2);
-            temp_r4_2 = temp_r4_3 + 1;
-            var_r5_2 += 0x14;
-            var_r1_2 = (s16) temp_r4_2;
-        } while ((s32) (s16) temp_r4_2 < (s32) temp_r0_2);
+    temp_sb = gUnknown_08E2EF8C[temp_r1->unk8C7];
+    memcpy(funcs, gUnknown_080DC448, sizeof(funcs));
+    temp_r6 = 30 - ((s32)temp_r4->unk54 >> 10);
+    for (var_r1 = 0, var_r5 = &sp00[0]; var_r1 < 20; var_r1++, var_r5++) {
+        var_r5->unk0 = 0;
+    }
+    strc4->unk8DE = sub_80B5944((temp_r8->unk8C >> 16), strc4->unk8DE);
+
+    {
+#ifndef NON_MATCHING
+        register s32 var_r0 asm("r0");
+        var_r0 = 0;
+        asm("" : "=r"(var_r0) : "r"(var_r0));
+#else
+        s32 var_r0 = 0;
+#endif
+        temp_r0_2 = sub_80B5AD4(sub_80B65FC(var_r0, sp00, temp_r6), &temp_sb[strc4->unk8DE], sp00, temp_r6);
+    }
+    for (var_r1 = 0, var_r5 = sp00; var_r1 < temp_r0_2; var_r1++, var_r5++) {
+
+        funcs[var_r5->unk0](var_r1, var_r5);
     }
 }
 
+#if 0
 s16 sub_80B5AD4(u16 arg0, s16 *arg1, ? *arg2, s32 arg3) {
     ? sp14;
     ? *sp28;
