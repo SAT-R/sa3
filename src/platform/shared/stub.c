@@ -135,11 +135,17 @@ void sub_80961E4(u8 param0) { }
 // returns VRAM tile pointer
 void *CreateSomeTask_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles) { return tiles; }
 void /* 0x080A209C */ CreateGameIntroState() { }
-void sub_80AD824(void) { }
-void sub_80AE174(void) { }
-void sub_80AE1C8(void) { }
-void sub_80AE770(void) { }
-void sub_80B1AF4(s16 character, s16 zone, u8 collectedEmeralds) {};
+void sub_80AD824() { }
+void sub_80AE174() { }
+void sub_80AE1C8() { }
+void sub_80AE770() { }
+s16 sub_80B6198() { return 0; }
+s16 sub_80B6464() { return 0; }
+s16 sub_80B5AD4() { return 0; }
+s16 sub_80B65FC() { return 0; }
+void sub_80B62FC() { }
+void sub_80B6370() { }
+void sub_80AB120(u8 param0) { }
 
 void /* 0x080C4564 */ CopyPalette() { }
 void sub_80C460C(const u16 *pal, u8 paletteOffset, u16 palSize) { }
@@ -197,7 +203,6 @@ void sub_80B5CC4(s16 param0, s16 *param1) { }
 void sub_80B5EBC(s16 param0, s16 *param1) { }
 void sub_80B5DF4() { }
 void sub_80B60E0(s16 param0, s16 *param1) { }
-void sub_80B6774(s16 param0, s16 *param1) { }
 
 void sub_80A5954() { }
 void sub_80A872C() { }

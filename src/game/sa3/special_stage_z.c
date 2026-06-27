@@ -44,7 +44,8 @@ void sub_80B6778(SpStgContext *arg0, s32 *arg1)
 }
 
 // (58.02%) https://decomp.me/scratch/JZSdj
-NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B67C4.inc", s32 sub_80B67C4(UnkArg0 *arg0, UnkArg1 *arg1, SpStgContext *arg2, s32 arg3))
+NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B67C4.inc",
+         s16 sub_80B67C4(Strc_8E2EF8C_2 *arg0, Strc_8E2EF8C_3 *arg1, SpStgContext *arg2, s32 arg3))
 {
     s32 sp0;
     Arg2Task0 *sp4;
@@ -173,7 +174,7 @@ void sub_8E8_80B69B4(Sprite *s)
         temp_r0->all.attr1 |= (x + temp_r2) & 0x1FF;
         temp_r0->all.attr2 += s->palId << 0xC;
         temp_r0->all.attr2 |= (s->frameFlags & 0x3000) >> 2;
-        temp_r0->all.attr2 += ((u32)(s->tiles + 0xF9FF0000)) >> 5;
+        temp_r0->all.attr2 += GET_TILE_NUM(s->tiles);
     }
 }
 

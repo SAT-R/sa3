@@ -169,7 +169,7 @@ typedef struct {
     /* 0x744 */ Arg2Task4_x744 unk5F4[8];
     /* 0x744 */ Arg2Task4_x744 unk6D4[4];
     /* 0x744 */ Arg2Task4_x744 unk744[4];
-    /* 0x7B4 */ u8 unk7B4[0x126];
+    /* 0x7B4 */ s8 unk7B4[0x126];
     /* 0x8DA */ u16 unk8DA;
     /* 0x8DC */ s16 unk8DC;
     /* 0x8DE */ s16 unk8DE;
@@ -259,7 +259,18 @@ typedef struct {
     s8 unkE; // TODO: type
     s8 unkF; // TODO: type
     s8 unk10; // TODO: type
+    s16 unk12; // TODO: type
 } Strc_8E2EF8C_2;
+
+typedef struct {
+    /* 0x00 */ s32 unk0;
+    /* 0x04 */ s32 unk4;
+    /* 0x08 */ s32 unk8;
+    /* 0x0C */ s16 unkC;
+    /* 0x0E */ s16 unkE;
+    /* 0x10 */ s16 unk10;
+    /* 0x12 */ s16 unk12;
+} Strc_8E2EF8C_3;
 
 typedef void (*SpStgFunc)(s16, Strc_8E2EF8C_2 *);
 
@@ -333,6 +344,9 @@ void Task_80B5038(void);
 void sub_80B524C(void);
 void sub_80B6198(SpStgContext *arg0, s16 arg1);
 void sub_80B6B20(void);
+void sub_80B6538(Strc_8E2EF8C_3 *);
+// TODO: sub_80B67C4's arg0 type
+s16 sub_80B67C4(Strc_8E2EF8C_2 *arg0, Strc_8E2EF8C_3 *arg1, SpStgContext *arg2, s32 arg3);
 
 void sub_80B6B3C(Background *bg, s32 arg1, s32 arg2, u16 arg3, u16 arg4, u16 arg5, u8 arg6, u8 arg7, u16 arg8, u16 arg9);
 void sub_80B6BB8(Sprite *inSprite, s8 arg1, s32 tileCount, AnimId anim, u32 frameFlags, s16 x, s16 y, s16 oamOrder, u8 pattern, u8 palId);

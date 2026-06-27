@@ -23,7 +23,9 @@ bool32 sub_8001E58(void);
 extern s32 UpdateSpriteAnimation_BG(Sprite *);
 extern void sub_80BE46C(Sprite *s);
 
-void sub_80B1AF4(s16 param0, s16 param1, u8 param2)
+void *gUnknown_03001E9C = NULL, *gUnknown_03001EA0 = NULL; // VRAM Pointers referencing eachother
+
+void sub_80B1AF4(s16 character, s16 zone, u8 collectedEmeralds)
 {
     s32 *temp_r0;
     s32 temp_r0_3;
@@ -43,19 +45,19 @@ void sub_80B1AF4(s16 param0, s16 param1, u8 param2)
     temp_r2->unk8B4 = 0x01000000;
     temp_r2->unk8B8 = 0;
     temp_r2->unk8BC = 0x200;
-    if (param0 < 5) {
-        temp_r2->unk8C6 = param0;
+    if (character < NUM_CHARACTERS) {
+        temp_r2->unk8C6 = character;
     } else {
-        temp_r2->unk8C6 = 2;
+        temp_r2->unk8C6 = TAILS;
     }
-    temp_r2->unk8C7 = param1;
+    temp_r2->unk8C7 = zone;
     temp_r2->unk8BE = 0;
     temp_r2->unk8CA = 1;
     temp_r2->unk8CB = 2;
     temp_r2->unk8CC = 0;
     temp_r2->unk8CD = 0;
     temp_r2->unk8C0 = 0;
-    temp_r2->unk8C2 = gUnknown_080DBE82[param1][0];
+    temp_r2->unk8C2 = gUnknown_080DBE82[zone][0];
     temp_r2->unk8C4 = 0;
     temp_r2->unk8C8 = 0;
     temp_r2->unk8CE = 0;
@@ -73,7 +75,7 @@ void sub_80B1AF4(s16 param0, s16 param1, u8 param2)
     temp_r2->unk8DC = 64;
     temp_r2->unk8DE = 40;
     temp_r2->unk8DF = 60;
-    temp_r2->unk8C9 = param2;
+    temp_r2->unk8C9 = collectedEmeralds;
     temp_r2->unk8E0 = (u8)((s32)(0x9F - temp_r2->unk8DF) >> 1);
 
     var_r2 = 1;
@@ -190,8 +192,7 @@ void Task_8E8_80B1F4C(void)
     SpStgContext *temp_r1 = TASK_DATA(gCurTask);
     Arg2Task8 *task8 = TASK_DATA(temp_r1->task8);
 
-    switch (task8->unkAC) {
-        case -1:
+    switch (task8->unkAC + 1) {
         case 0:
         case 1:
         case 2:
@@ -199,29 +200,30 @@ void Task_8E8_80B1F4C(void)
         case 4:
         case 5:
         case 6:
+        case 7:
             gStageData.unk4 = 3;
             temp_r1->unk8C4 = 5;
             break;
-        case 7:
-        case 9:
-        case 12:
-        case 14:
+        case 8:
+        case 10:
+        case 13:
         case 15:
         case 16:
         case 17:
-        case 19:
+        case 18:
+        case 20:
             gStageData.unk4 = 9;
             temp_r1->unk8C4 = 5;
             break;
-        case 10:
         case 11:
+        case 12:
             gStageData.unk4 = 9;
             temp_r1->unk8C4 = 6;
             break;
-        case 8:
-        case 13:
-        case 18:
-        case 20:
+        case 9:
+        case 14:
+        case 19:
+        case 21:
             gStageData.unk4 = 6;
             temp_r1->unk8C4 = 7;
             gCurTask->main = Task_8E8_80B205C;
@@ -935,7 +937,7 @@ void Task_80B3080(void)
         while ((var_r6 < temp_r0_4)) {
             CpuSet(&bgAffine, ioData, 8U);
             ((DmaIoData *)ioData)->bg2y_l = (s16)(var_r4 << 8);
-            ((DmaIoData *)ioData)++;
+            ioData = ((DmaIoData *)ioData) + 1;
             var_r6++;
             var_r4++;
         }
@@ -957,10 +959,22 @@ void Task_80B3080(void)
         v = ((var_r6 - ctx->unk8DA) * temp_r1_3) * 2;
         temp_r2_2 = temp_r2 >> 0x10;
         temp_r1_4 = (s32)(temp_r2_2 * temp_sl) >> 0x10;
+#ifndef NON_MATCHING
+        // NOTE: Modern compilers don't like this.
+        // TODO: Use a macro instead!
         /* bg2pa */ *((s16 *)ioData)++ = (s16)temp_r1_4;
         /* bg2pb */ *((s16 *)ioData)++ = (s16)((s32)(sp10 * temp_r2_2) >> 0x10);
         /* bg2pc */ *((s16 *)ioData)++ = (s16)((s32)(temp_r2_2 * temp_r3) >> 0x10);
         /* bg2pd */ *((s16 *)ioData)++ = (s16)temp_r1_4;
+#else
+        {
+            s16 *ioDataS16 = ioData;
+            /* bg2pa */ *ioDataS16++ = (s16)temp_r1_4;
+            /* bg2pb */ *ioDataS16++ = (s16)((s32)(sp10 * temp_r2_2) >> 0x10);
+            /* bg2pc */ *ioDataS16++ = (s16)((s32)(temp_r2_2 * temp_r3) >> 0x10);
+            /* bg2pd */ *ioDataS16++ = (s16)temp_r1_4;
+        }
+#endif
         temp_r3_2 = (s32)(v) >> 0x10;
         vx = sp10 * temp_r3_2;
         temp_r5 = sp2C >> 0x10;
@@ -2706,102 +2720,80 @@ void sub_80B59E4(void)
     }
 }
 
-#if 0
-s16 sub_80B5AD4(u16 arg0, s16 *arg1, ? *arg2, s32 arg3) {
-    ? sp14;
-    ? *sp28;
-    s32 sp2C;
-    void *sp30;
-    s32 sp34;
-    s32 sp38;
-    s32 sp3C;
-    s16 *var_r5;
-    s16 temp_r0_3;
-    s16 temp_r1;
+// (83.88%) https://decomp.me/scratch/shKl6
+NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B5AD4.inc", s16 sub_80B5AD4(s16 arg0, Strc_8E2EF8C *arg1, Strc_8E2EF8C_2 *arg2, s32 arg3))
+{
+    Strc_8E2EF8C_3 sp00;
+    Strc_8E2EF8C_2 sp14;
+    s16 dirX;
+    s16 dirY;
+    Strc_8E2EF8C *var_r5;
     s16 var_r0;
-    s32 temp_r0;
-    s32 temp_r1_2;
+    u32 temp_r0;
     s32 var_r8;
     s8 temp_r0_2;
-    u16 temp_r2;
-    u16 temp_r3;
-    u16 var_sb;
-    u16 var_sl;
-    void *temp_r4;
-
-    sp28 = arg2;
-    sp2C = arg3;
-    temp_r3 = gCurTask->data;
-    sp30 = (void *) temp_r3;
+    u16 i;
+    s16 max;
+    s16 var_sl;
+    Strc_8E2EF8C_2 *temp_r4;
+    Arg2Task4 *task4 = TASK_DATA(gCurTask);
     var_r5 = arg1;
-    temp_r2 = temp_r3->unk8E4;
-    sp34 = (s32) (u16) gSineTable[temp_r2];
-    sp38 = (s32) (u16) ((s32) ((u16) gSineTable[temp_r2 + 0x100] << 0x10) >> 0x14);
+    dirX = SIN(task4->unk8E4);
+    dirY = COS(task4->unk8E4) >> 4;
     var_sl = arg0;
-    var_sb = temp_r3->unk8DE;
-    if (*var_r5 == -1) {
-        goto block_28;
-    }
-    temp_r1_2 = (u16) (var_sb + 0x14) << 0x10;
-    var_r8 = var_sb << 0x10;
-    sp3C = temp_r1_2;
-    if (var_r8 >= temp_r1_2) {
-        goto block_28;
-    }
-loop_5:
-    if (*(sp30 + 0x7B4 + var_r5->unk0) == 0) {
-        goto block_25;
-    }
-    temp_r0 = var_r5->unkC + 1;
-    if (temp_r0 != 5) {
-        if ((temp_r0 >= 5) && (temp_r0 <= 8) && (temp_r0 >= 7)) {
-            goto block_25;
+    i = task4->unk8DE;
+    max = (i + 20);
+    for (; (var_r5->unk0 != -1) && (var_r8 = i << 0x10, (i < max)); var_r5++, i++) {
+        if (task4->unk7B4[var_r5->unk0] == 0) {
+            continue;
         }
-        var_r0 = 8;
-        goto block_14;
-    }
-    var_r0 = 0x10;
-block_14:
-    subroutine_arg0.unkC = var_r0;
-    subroutine_arg0.unkE = var_r0;
-    subroutine_arg0.unk10 = 0;
-    subroutine_arg0.unk12 = 5;
-    if ((sub_80B67C4(&sp14, &subroutine_arg0, sp30->unk0, sp2C, (var_r5->unk2 << 0x10) + (var_r5->unk8 * (s16) sp34), var_r5->unk4 << 0x10, (var_r5->unk6 << 0xC) + (var_r5->unkA * (s16) sp38)) << 0x10) != 0) {
-        temp_r1 = (s16) var_sl;
-        if ((s32) temp_r1 <= 0x13) {
-            temp_r4 = sp28 + (temp_r1 * 0x14);
-            CpuSet(&sp14, temp_r4, 0x04000005U);
-            temp_r0_2 = *(sp30 + 0x7B4 + var_r5->unk0);
-            if ((s32) temp_r0_2 > 0xA) {
-                temp_r4->unk0 = (s16) temp_r0_2;
-            } else {
-                temp_r0_3 = var_r5->unkC + 1;
-                temp_r4->unk0 = temp_r0_3;
-                if (temp_r0_3 == 4) {
-                    temp_r4->unk8 = var_sb;
-                } else if ((temp_r0_3 == 5) && !(((var_r8 >> 0xA) + sp30->unk8E2) & 0x1FF)) {
-                    sub_80B6538(&subroutine_arg0);
-                    m4aSongNumStart(SE_527);
+
+        temp_r0 = var_r5->unkC;
+        temp_r0++;
+        if (temp_r0 != 5) {
+            if ((temp_r0 >= 5) && (temp_r0 <= 8)) {
+                if (temp_r0 >= 7) {
+                    continue;
                 }
             }
-            var_sl = (u16) ((u32) ((var_sl << 0x10) + 0x10000) >> 0x10);
-            goto block_25;
+            sp00.unkC = 8;
+            sp00.unkE = 8;
+        } else {
+            sp00.unkC = 16;
+            sp00.unkE = 16;
         }
-        return temp_r1;
-    }
-block_25:
-    var_r5 += 0x10;
-    var_sb = (u16) ((u32) (var_r8 + 0x10000) >> 0x10);
-    if (*var_r5 != -1) {
-        var_r8 = var_sb << 0x10;
-        if (var_r8 < sp3C) {
-            goto loop_5;
-        }
-    }
-block_28:
-    return (s16) var_sl;
-}
+        sp00.unk0 = (var_r5->unk2 << 16) + (var_r5->unk8 * dirX);
+        sp00.unk8 = (var_r5->unk6 << 12) + (var_r5->unkA * dirY);
+        sp00.unk4 = (var_r5->unk4 << 16);
+        sp00.unk10 = 0;
+        sp00.unk12 = 5;
 
+        if (sub_80B67C4(&sp14, &sp00, task4->unk0, arg3) != 0) {
+            if (var_sl < 20) {
+                CpuCopy32(&sp14, &arg2[var_sl], sizeof(sp14));
+                if (task4->unk7B4[var_r5->unk0] > 10) {
+                    arg2[var_sl].unk0 = task4->unk7B4[var_r5->unk0];
+                } else {
+                    arg2[var_sl].unk0 = var_r5->unkC + 1;
+                    if (arg2[var_sl].unk0 == 4) {
+                        arg2[var_sl].unk8 = i;
+                    } else if ((arg2[var_sl].unk0 == 5) && !(((var_r8 >> 10) + task4->unk8E2) & 0x1FF)) {
+                        sub_80B6538(&sp00);
+                        m4aSongNumStart(SE_527);
+                    }
+                }
+                var_sl++;
+                continue;
+            }
+            return var_sl;
+        }
+    }
+
+    return var_sl;
+}
+END_NONMATCH
+
+#if 0
 void sub_80B5CC4(u16 arg0, void *arg1) {
     s16 temp_r0;
     s16 temp_r5;
