@@ -2479,7 +2479,7 @@ void sub_80B524C()
 
         if (strc4->unk744[0].unk1A > 0) {
             strc4->unk744[0].unk1A--;
-            sub_80B6464(0U, strc4->unk744);
+            sub_80B6464(0U, &strc4->unk744[0]);
         }
         if (strc4->unk744[1].unk1A > 0) {
             strc4->unk744[1].unk1A--;
@@ -2903,52 +2903,50 @@ void sub_80B5DF4(s16 arg0, u16 *arg1)
 }
 
 #if 0
-void sub_80B5EBC(s16 arg0, void *arg1) {
-    ? sp14;
-    void *sp28;
+void sub_80B5EBC(s16 arg0, u16 *arg1, Arg2Task4 *strc4) {
+    Strc_8E2EF8C_2 sp14;
+    u16 *sp28;
     void *sp2C;
     s32 sp30;
     s32 sp34;
     s32 sp38;
     s32 sp3C;
     s32 sp40;
+    SpStgContext *temp_r5;
+    Sprite *temp_r7;
+    Strc_8E2EF8C *temp_r6;
     s16 temp_r4;
     s16 temp_r5_2;
     s16 var_r1;
     s16 var_r3;
     s32 temp_r2_2;
     s32 temp_r3;
-    u16 temp_r0;
-    u16 temp_r0_3;
+    u16 temp_r0_2;
     u16 temp_r2;
     u16 temp_sl;
     u16 var_r3_2;
-    u32 temp_r0_2;
+    u32 temp_r0;
     u32 var_r2;
+    void *temp_r0_3;
     void *temp_r0_4;
-    void *temp_r0_5;
-    void *temp_r5;
-    void *temp_r6;
-    void *temp_r7;
 
     sp28 = arg1;
-    temp_r0 = gCurTask->data;
-    temp_r5 = temp_r0->unk0;
-    sp2C = (void *) temp_r5->unkC->unk6;
+    temp_r5 = strc4->unk0;
+    sp2C = (void *) temp_r5->taskC->data;
     sp30 = arg0 << 0x10;
     temp_r4 = arg0;
-    temp_r7 = temp_r0 + ((temp_r4 * 0x28) + 0x194);
-    temp_r6 = *((temp_r5->unk8C7 * 4) + &gUnknown_08E2EF8C) + (sp28->unk8 * 0x10);
-    temp_r2 = temp_r0->unk8E4;
+    temp_r7 = strc4 + ((temp_r4 * 0x28) + 0x194);
+    temp_r6 = &gUnknown_08E2EF8C[temp_r5->unk8C7][sp28->unk8];
+    temp_r2 = strc4->unk8E4;
     sp38 = (s32) (u16) gSineTable[temp_r2];
     temp_sl = (u16) ((s32) ((u16) gSineTable[temp_r2 + 0x100] << 0x10) >> 0x14);
-    CpuSet(temp_r0 + 0x7C, temp_r7, 0x0400000AU);
-    temp_r7->unk8 = (s32) (temp_r4 | 0xC1060);
+    CpuSet(&strc4->sprite7C, temp_r7, 0x0400000AU);
+    temp_r7->frameFlags = temp_r4 | 0xC1060;
     var_r3 = 0x180;
     if ((s32) sp28->unk4 < (s32) (temp_r5->unk8DA - 0xF)) {
         var_r3 = 0x340;
     }
-    temp_r7->unk14 = var_r3;
+    temp_r7->oamFlags = var_r3;
     sp34 = 0x1E - ((s32) sp2C->unk54 >> 0xA);
     subroutine_arg0.unkC = 8;
     subroutine_arg0.unkE = 8;
@@ -2962,65 +2960,63 @@ void sub_80B5EBC(s16 arg0, void *arg1) {
         temp_r2_2 = var_r2 << 0x10;
 loop_4:
         if (temp_r2_2 != 0) {
-            var_r3_2 = 0 - temp_r0->unk8E2;
+            var_r3_2 = 0 - strc4->unk8E2;
         } else {
-            var_r3_2 = temp_r0->unk8E2;
+            var_r3_2 = strc4->unk8E2;
         }
         temp_r5_2 = var_r1;
         temp_r3 = (var_r3_2 + (temp_r5_2 * 0x154)) & 0x3FF;
-        if ((sub_80B67C4(&sp14, &subroutine_arg0, temp_r0->unk0, sp34, (temp_r6->unk2 << 0x10) + ((sp40 >> 0x10) * temp_r6->unk8) + (gSineTable[temp_r3] << 5), (temp_r6->unk6 << 0xC) + ((s16) temp_sl * temp_r6->unkA) + (gSineTable[temp_r3 + 0x100] * 8)) << 0x10) != 0) {
-            temp_r7->unk10 = (u16) sp14.unk2;
-            temp_r7->unk12 = (s16) (sp14.unk4 - sp14.unk6);
+        if ((sub_80B67C4(&sp14, (Strc_8E2EF8C_3 *) &subroutine_arg0, strc4->unk0, sp34, /* extra? */ ((temp_r6->unk2 << 0x10) + ((sp40 >> 0x10) * temp_r6->unk8) + (gSineTable[temp_r3] << 5)), /* extra? */ ((temp_r6->unk6 << 0xC) + ((s16) temp_sl * temp_r6->unkA) + (gSineTable[temp_r3 + 0x100] * 8))) << 0x10) != 0) {
+            temp_r7->x = (u16) sp14.unk2;
+            temp_r7->y = (u16) sp14.unk4 - (u16) sp14.unk6;
             sub_8E8_80B69B4(temp_r7);
         }
-        temp_r0_3 = temp_r5_2 + 1;
-        var_r1 = (s16) temp_r0_3;
-        if ((s32) (s16) temp_r0_3 <= 2) {
+        temp_r0_2 = temp_r5_2 + 1;
+        var_r1 = (s16) temp_r0_2;
+        if ((s32) (s16) temp_r0_2 <= 2) {
             goto loop_4;
         }
-        temp_r0_2 = temp_r2_2 + 0x10000;
-        var_r2 = temp_r0_2 >> 0x10;
-    } while ((s32) ((s32) temp_r0_2 >> 0x10) <= 1);
-    temp_r0_4 = (sp3C >> 0xB) + &gOamBuffer->all.affineParam;
-    temp_r0_4->unk0 = (u16) sp28->unkC;
-    temp_r0_5 = temp_r0_4 + 8;
-    temp_r0_4->unk8 = (u16) sp28->unkE;
-    temp_r0_5->unk8 = (u16) sp28->unk10;
-    (temp_r0_5 + 8)->unk8 = (u16) sp28->unk12;
+        temp_r0 = temp_r2_2 + 0x10000;
+        var_r2 = temp_r0 >> 0x10;
+    } while ((s32) ((s32) temp_r0 >> 0x10) <= 1);
+    temp_r0_3 = (sp3C >> 0xB) + &gOamBuffer->all.affineParam;
+    temp_r0_3->unk0 = (u16) sp28->unkC;
+    temp_r0_4 = temp_r0_3 + 8;
+    temp_r0_3->unk8 = (u16) sp28->unkE;
+    temp_r0_4->unk8 = (u16) sp28->unk10;
+    (temp_r0_4 + 8)->unk8 = (u16) sp28->unk12;
 }
 
-void sub_80B60E0(s16 arg0, void *arg1) {
+void sub_80B60E0(s16 arg0, u16 *arg1, Arg2Task4 *strc4) {
+    SpStgContext *temp_r4;
+    Sprite *temp_r6;
     s16 temp_r7;
     s16 var_r2;
-    u16 temp_r0;
+    void *temp_r0;
     void *temp_r0_2;
-    void *temp_r0_3;
-    void *temp_r4;
-    void *temp_r6;
 
-    temp_r0 = gCurTask->data;
-    temp_r4 = *temp_r0;
+    temp_r4 = strc4->unk0;
     temp_r7 = arg0;
-    temp_r6 = temp_r0 + ((temp_r7 * 0x28) + 0x194);
-    CpuSet(temp_r0 + ((((s32) ((arg1->unk0 - 0xB) << 0x10) >> 0x13) * 0x28) + 0x144), temp_r6, 0x0400000AU);
-    temp_r6->unk8 = (s32) (temp_r7 | 0xC1060);
-    temp_r6->unk10 = (u16) arg1->unk2;
-    temp_r6->unk12 = (s16) (arg1->unk4 - arg1->unk6);
+    temp_r6 = strc4 + ((temp_r7 * 0x28) + 0x194);
+    CpuSet(strc4 + ((((s32) ((arg1->unk0 - 0xB) << 0x10) >> 0x13) * 0x28) + 0x144), temp_r6, 0x0400000AU);
+    temp_r6->frameFlags = temp_r7 | 0xC1060;
+    temp_r6->x = arg1->unk2;
+    temp_r6->y = arg1->unk4 - arg1->unk6;
     var_r2 = 0x180;
     if ((s32) (s16) arg1->unk4 < (s32) (temp_r4->unk8DA - 0xF)) {
         var_r2 = 0x340;
     }
-    temp_r6->unk14 = var_r2;
+    temp_r6->oamFlags = var_r2;
     sub_8E8_80B69B4(temp_r6);
-    temp_r0_2 = (temp_r7 << 5) + &gOamBuffer->all.affineParam;
-    temp_r0_2->unk0 = (u16) arg1->unkC;
-    temp_r0_3 = temp_r0_2 + 8;
-    temp_r0_2->unk8 = (u16) arg1->unkE;
-    temp_r0_3->unk8 = (u16) arg1->unk10;
-    (temp_r0_3 + 8)->unk8 = (u16) arg1->unk12;
+    temp_r0 = (temp_r7 << 5) + &gOamBuffer->all.affineParam;
+    temp_r0->unk0 = (u16) arg1->unkC;
+    temp_r0_2 = temp_r0 + 8;
+    temp_r0->unk8 = (u16) arg1->unkE;
+    temp_r0_2->unk8 = (u16) arg1->unk10;
+    (temp_r0_2 + 8)->unk8 = (u16) arg1->unk12;
 }
 
-void sub_80B6198(void *arg0, s16 arg1) {
+void sub_80B6198(SpStgContext *ctx, s16 arg1) {
     s32 sp0;
     s32 sp4;
     s16 temp_r0;
@@ -3038,14 +3034,14 @@ void sub_80B6198(void *arg0, s16 arg1) {
     u16 var_r1;
     void *temp_r2;
 
-    temp_r6 = arg0->unk4->unk6;
-    temp_r4 = arg0->unk8->unk6;
+    temp_r6 = ctx->task4->data;
+    temp_r4 = ctx->task8->data;
     sp0 = temp_r4->unk8C;
     temp_r5 = temp_r4->unk90;
-    temp_r6->unk8E0 = (s16) ((s32) ((arg0->unkC->unk6->unk54 - temp_r5) << 0x10) >> 0x18);
+    temp_r6->unk8E0 = (s16) ((s32) ((ctx->taskC->data->unk54 - temp_r5) << 0x10) >> 0x18);
     if (arg1 == -1) {
-        var_r1 = arg0->unk8C0;
-        if ((s32) (s16) arg0->unk8C0 > 8) {
+        var_r1 = (u16) ctx->unk8C0;
+        if ((s32) ctx->unk8C0 > 8) {
             var_r1 = 8;
         }
         var_r0 = var_r1;
@@ -3059,7 +3055,7 @@ void sub_80B6198(void *arg0, s16 arg1) {
         do {
             temp_r4_2 = var_r2;
             temp_r2 = temp_r6 + ((temp_r4_2 * 0x1C) + 0x5F4);
-            temp_r2->unk0 = (s32) (arg0->unk8B0 + ((0x78 - temp_r4->unkA0) << 0xE));
+            temp_r2->unk0 = (s32) (ctx->unk8B0 + ((0x78 - temp_r4->unkA0) << 0xE));
             temp_r2->unk4 = sp0;
             temp_r2->unk8 = (s32) (0x7900 - ((temp_r5 + 0xFFFFEC00) * 2));
             temp_r0_3 = ((temp_r4_2 << 7) + temp_r6->unk8E2) & 0x3FF;
@@ -3084,7 +3080,7 @@ void sub_80B6198(void *arg0, s16 arg1) {
     }
 }
 
-void sub_80B62FC(void *arg0) {
+void sub_80B62FC(SpStgContext *ctx) {
     s16 var_r2;
     s32 temp_r1;
     u32 temp_r0;
@@ -3093,7 +3089,7 @@ void sub_80B62FC(void *arg0) {
 
     var_r2 = 0;
     do {
-        temp_r3 = arg0->unk4->unk6 + ((var_r2 * 0x1C) + 0x5F4);
+        temp_r3 = ctx->task4->data + ((var_r2 * 0x1C) + 0x5F4);
         if (temp_r3->unk1A != 0) {
             temp_r3->unk0 = (s32) (temp_r3->unk0 + (temp_r3->unkC << 8));
             temp_r3->unk4 = (s32) (temp_r3->unk4 + (temp_r3->unk10 << 8));
@@ -3111,33 +3107,31 @@ void sub_80B62FC(void *arg0) {
     } while ((s32) ((s32) temp_r0 >> 0x10) <= 7);
 }
 
-void sub_80B6370(s16 arg0, void *arg1) {
-    ? sp14;
+void sub_80B6370(s16 arg0, u16 *arg1, Arg2Task4 *strc4) {
+    Strc_8E2EF8C_2 sp14;
+    Sprite *temp_r0_2;
     s16 temp_r0;
     s16 temp_r6;
     s32 temp_r4;
     s32 temp_r5;
-    u16 temp_r2;
-    void *temp_r0_2;
     void *temp_r4_2;
     void *temp_r4_3;
 
-    temp_r2 = gCurTask->data;
     temp_r0 = arg0;
-    temp_r0_2 = (temp_r0 * 0x28) + 0x4B4 + temp_r2;
+    temp_r0_2 = (temp_r0 * 0x28) + 0x4B4 + strc4;
     subroutine_arg0.unkC = 8;
     subroutine_arg0.unkE = 8;
     subroutine_arg0.unk10 = 0;
     subroutine_arg0.unk12 = 5;
-    if ((sub_80B67C4(&sp14, &subroutine_arg0, temp_r2->unk0, 0x1E - ((s32) temp_r2->unk0->unkC->unk6->unk54 >> 8), arg1->unk0, arg1->unk4, arg1->unk8 * 0x10) << 0x10) != 0) {
+    if ((sub_80B67C4(&sp14, (Strc_8E2EF8C_3 *) &subroutine_arg0, strc4->unk0, 0x1E - ((s32) strc4->unk0->taskC->data->unk54 >> 8), /* extra? */ arg1->unk0, /* extra? */ arg1->unk4, /* extra? */ (arg1->unk8 * 0x10)) << 0x10) != 0) {
         temp_r6 = sp14.unk2;
         temp_r5 = sp14.unk4 - sp14.unk6;
-        CpuSet(temp_r2 + 4, temp_r0_2, 0x0400000AU);
+        CpuSet(&strc4->sprite4, temp_r0_2, 0x0400000AU);
         temp_r4 = temp_r0 + 0x18;
-        temp_r0_2->unk8 = (s32) (0xC0060 | temp_r4);
-        temp_r0_2->unk10 = temp_r6;
-        temp_r0_2->unk12 = (s16) (temp_r2->unk8E0 + temp_r5);
-        temp_r0_2->unk14 = 0x180;
+        temp_r0_2->frameFlags = 0xC0060 | temp_r4;
+        temp_r0_2->x = temp_r6;
+        temp_r0_2->y = strc4->unk8E0 + temp_r5;
+        temp_r0_2->oamFlags = 0x180;
         sub_8E8_80B69B4(temp_r0_2);
         temp_r4_2 = (temp_r4 << 5) + &gOamBuffer->all.affineParam;
         temp_r4_2->unk0 = (u16) sp14.unkC;
@@ -3148,31 +3142,29 @@ void sub_80B6370(s16 arg0, void *arg1) {
     }
 }
 
-void sub_80B6464(u16 arg0, void *arg1) {
-    ? sp14;
+void sub_80B6464(u16 arg0, u16 *arg1, Arg2Task4 *strc4) {
+    Strc_8E2EF8C_2 sp14;
+    Sprite *temp_r6;
     s16 temp_r5;
     s16 temp_r8;
     s32 temp_r4;
-    u16 temp_r2;
     void *temp_r4_2;
     void *temp_r4_3;
-    void *temp_r6;
 
-    temp_r2 = gCurTask->data;
-    temp_r6 = temp_r2 + 0xF4;
+    temp_r6 = &strc4->spriteF4;
     subroutine_arg0.unkC = 8;
     subroutine_arg0.unkE = 8;
     subroutine_arg0.unk10 = 0;
     subroutine_arg0.unk12 = 5;
-    if ((sub_80B67C4(&sp14, &subroutine_arg0, *temp_r2, 0x1E - ((s32) (*temp_r2)->unkC->unk6->unk54 >> 0xA), arg1->unk0, arg1->unk4, arg1->unk8) << 0x10) != 0) {
+    if ((sub_80B67C4(&sp14, (Strc_8E2EF8C_3 *) &subroutine_arg0, strc4->unk0, 0x1E - ((s32) strc4->unk0->taskC->data->unk54 >> 0xA), /* extra? */ arg1->unk0, /* extra? */ arg1->unk4, /* extra? */ arg1->unk8) << 0x10) != 0) {
         temp_r8 = sp14.unk2;
         temp_r5 = sp14.unk4 - sp14.unk6;
         CpuSet(temp_r6, temp_r6, 0x0400000AU);
         temp_r4 = (s16) arg0 + 0x14;
-        temp_r6->unk8 = (s32) (0xC0060 | temp_r4);
-        temp_r6->unk10 = temp_r8;
-        temp_r6->unk12 = temp_r5;
-        temp_r6->unk14 = 0xC0;
+        strc4->spriteF4.frameFlags = 0xC0060 | temp_r4;
+        strc4->spriteF4.x = temp_r8;
+        strc4->spriteF4.y = temp_r5;
+        strc4->spriteF4.oamFlags = 0xC0;
         sub_8E8_80B69B4(temp_r6);
         temp_r4_2 = (temp_r4 << 5) + &gOamBuffer->all.affineParam;
         temp_r4_2->unk0 = (u16) sp14.unkC;
@@ -3183,30 +3175,28 @@ void sub_80B6464(u16 arg0, void *arg1) {
     }
 }
 
-void sub_80B6538(? *arg0) {
-    u16 temp_r0;
+void sub_80B6538(Strc_8E2EF8C_3 *arg0, Arg2Task4 *strc4) {
+    Arg2Task4_x744 *temp_r3;
+    SpStgContext *temp_r0;
     u16 temp_r2;
     u8 temp_r2_2;
     u8 var_r1;
-    void *temp_r0_2;
-    void *temp_r3;
 
-    temp_r0 = gCurTask->data;
-    temp_r0_2 = *temp_r0;
-    temp_r2 = temp_r0_2->unk8->unk6;
+    temp_r0 = strc4->unk0;
+    temp_r2 = temp_r0->task8->data;
     var_r1 = 0;
 loop_1:
-    temp_r3 = temp_r0 + ((var_r1 * 0x1C) + 0x6D4);
+    temp_r3 = &strc4->unk6D4[var_r1];
     temp_r2_2 = temp_r3->unk1A;
     if (temp_r2_2 == 0) {
-        temp_r3->unk0 = (s32) arg0->unk0;
-        temp_r3->unk4 = (s32) arg0->unk4;
-        temp_r3->unk8 = (s32) arg0->unk8;
-        temp_r3->unkC = (s32) ((s32) (((temp_r0_2->unk8B0 + ((0x78 - temp_r2->unkA0) << 0xE)) - arg0->unk0) * 0x23) >> 0xB);
-        temp_r3->unk10 = (s32) ((s32) (temp_r2->unk8C - (arg0->unk4 - Q(0x68C4))) >> 6);
-        temp_r3->unk14 = (s32) ((s32) ((0x8C00 - ((s32) arg0->unk8 >> 4)) - temp_r2->unk90) >> 2);
+        temp_r3->unk0 = arg0->unk0;
+        temp_r3->unk4 = arg0->unk4;
+        temp_r3->unk8 = arg0->unk8;
+        temp_r3->unkC = (s32) (((temp_r0->unk8B0 + ((0x78 - temp_r2->unkA0) << 0xE)) - arg0->unk0) * 0x23) >> 0xB;
+        temp_r3->unk10 = (s32) (temp_r2->unk8C - (arg0->unk4 + 0xFF973C00)) >> 6;
+        temp_r3->unk14 = (s32) ((0x8C00 - ((s32) arg0->unk8 >> 4)) - temp_r2->unk90) >> 2;
         temp_r3->unk18 = (s16) temp_r2_2;
-        temp_r3->unk1A = 1U;
+        temp_r3->unk1A = 1;
         temp_r3->unk1B = 0;
         return;
     }
@@ -3217,75 +3207,73 @@ loop_1:
     goto loop_1;
 }
 
-s16 sub_80B65FC(u16 arg0, ? *arg1) {
-    ? sp14;
-    ? *sp28;
+s16 sub_80B65FC(s16 arg0, Strc_8E2EF8C_2 *arg1, s32 unused, Arg2Task4 *strc4) {
+    Strc_8E2EF8C_2 sp14;
+    Strc_8E2EF8C_2 *sp28;
     s32 sp2C;
-    void **sp30;
-    void *sp34;
+    Arg2Task4 *sp30;
+    SpStgContext *sp34;
     s32 sp38;
     s32 sp3C;
-    s16 *temp_r5_2;
+    Arg2Task4_x744 *temp_r5;
+    SpStgContext *temp_r1;
+    Strc_8E2EF8C_2 *temp_r5_2;
     s16 temp_r4;
     s16 var_r2;
     s32 temp_r0_2;
     s32 temp_r0_3;
+    s32 temp_r1_2;
     s32 temp_r1_3;
     s32 temp_r1_4;
-    s32 temp_r1_5;
     s32 temp_r2_2;
     s32 temp_r2_3;
     s32 temp_r3;
     s32 temp_r3_2;
     s32 temp_r8;
     s32 temp_sb;
-    u16 temp_r1;
     u16 temp_r2;
     u16 var_sl;
     u32 temp_r0;
-    void *temp_r1_2;
-    void *temp_r5;
 
     sp28 = arg1;
-    temp_r1 = gCurTask->data;
-    sp30 = (void **) temp_r1;
-    temp_r1_2 = *temp_r1;
-    sp34 = temp_r1_2;
-    temp_r2 = temp_r1_2->unk8->unk6;
-    var_sl = arg0;
-    temp_sb = (sp34 + 0x8B0)->unk2 + ((s32) (120 - temp_r2->unkA0) >> 2);
+    sp30 = strc4;
+    temp_r1 = strc4->unk0;
+    sp34 = temp_r1;
+    temp_r2 = temp_r1->task8->data;
+    var_sl = (u16) arg0;
+    temp_sb = sp34->unk8B2 + ((s32) (0x78 - temp_r2->unkA0) >> 2);
     sp38 = (s32) (temp_r2 + 0x8C)->unk2;
-    temp_r1_3 = 0x1E - ((s32) sp34->unkC->unk6->unk54 >> 0xA);
-    sp2C = temp_r1_3;
-    temp_r8 = (120 - ((s32) temp_r2->unk90 >> 8)) + temp_r1_3;
+    temp_r1_2 = 0x1E - ((s32) sp34->taskC->data->unk54 >> 0xA);
+    sp2C = temp_r1_2;
+    temp_r8 = (0x78 - ((s32) temp_r2->unk90 >> 8)) + temp_r1_2;
     var_r2 = 0;
     do {
-        temp_r5 = sp30 + ((var_r2 * 0x1C) + 0x6D4);
+        temp_r5 = &sp30->unk6D4[var_r2];
         sp3C = var_r2 << 0x10;
         if (temp_r5->unk1A != 0) {
             temp_r3 = temp_r5->unk0 + temp_r5->unkC;
             temp_r5->unk0 = temp_r3;
             temp_r2_2 = temp_r5->unk4 + temp_r5->unk10;
             temp_r5->unk4 = temp_r2_2;
-            temp_r1_4 = temp_r5->unk8 + temp_r5->unk14;
-            temp_r5->unk8 = temp_r1_4;
+            temp_r1_3 = temp_r5->unk8 + temp_r5->unk14;
+            temp_r5->unk8 = temp_r1_3;
             temp_r3_2 = temp_r3 >> 0x10;
             temp_r2_3 = temp_r2_2 >> 0x10;
-            temp_r1_5 = temp_r1_4 >> 0xC;
+            temp_r1_4 = temp_r1_3 >> 0xC;
             temp_r0_2 = temp_sb - 0xA;
             if ((temp_r3_2 > temp_r0_2) && (temp_r3_2 < (s32) (temp_r0_2 + 0x14)) && (temp_r2_3 > (s32) (sp38 - 0xA)) && (temp_r2_3 < (s32) (sp38 + 8))) {
                 temp_r0_3 = temp_r8 - 0x11;
-                if ((temp_r1_5 >= temp_r0_3) && (temp_r1_5 <= (s32) (temp_r0_3 + 0x25))) {
-                    sub_80B4654(sp34, 5U);
+                if ((temp_r1_4 >= temp_r0_3) && (temp_r1_4 <= (s32) (temp_r0_3 + 0x25))) {
+                    sub_80B4654(sp34, 5);
                 }
             }
-            if ((sub_80B67C4(&sp14, &subroutine_arg0, *sp30, sp2C, temp_r5->unk0, temp_r5->unk4, temp_r5->unk8, 8, 8, 0, 5) << 0x10) == 0) {
-                temp_r5->unk1A = 0U;
+            if ((sub_80B67C4(&sp14, (Strc_8E2EF8C_3 *) &subroutine_arg0, sp30->unk0, sp2C, /* extra? */ temp_r5->unk0, /* extra? */ temp_r5->unk4, /* extra? */ temp_r5->unk8, /* extra? */ 8, /* extra? */ 8, /* extra? */ 0, /* extra? */ 5) << 0x10) == 0) {
+                temp_r5->unk1A = 0;
             } else {
                 temp_r4 = (s16) var_sl;
-                temp_r5_2 = sp28 + (temp_r4 * 0x14);
+                temp_r5_2 = &sp28[temp_r4];
                 CpuSet(&sp14, temp_r5_2, 0x04000005U);
-                *temp_r5_2 = 6;
+                temp_r5_2->unk0 = 6;
                 var_sl = temp_r4 + 1;
             }
         }
@@ -3293,5 +3281,141 @@ s16 sub_80B65FC(u16 arg0, ? *arg1) {
         var_r2 = (s16) (temp_r0 >> 0x10);
     } while ((s32) ((s32) temp_r0 >> 0x10) <= 3);
     return (s16) var_sl;
+}
+
+void sub_80B6774(void) {
+
+}
+
+void sub_80B6778(SpStgContext *arg0, s32 *arg1) {
+    u32 temp_r0;
+    u32 var_r4;
+    u8 temp_r3;
+    void *var_r2;
+
+    var_r2 = arg0->task4->data + 0x744;
+    var_r4 = 0;
+loop_1:
+    temp_r3 = var_r2->unk1A;
+    if (temp_r3 == 0) {
+        var_r2->unk0 = (s32) arg1->unk0;
+        var_r2->unk4 = (s32) arg1->unk4;
+        var_r2->unk8 = (s32) arg1->unk8;
+        var_r2->unkC = (s32) temp_r3;
+        var_r2->unk10 = (s32) temp_r3;
+        var_r2->unk14 = (s32) temp_r3;
+        var_r2->unk18 = (s16) temp_r3;
+        var_r2->unk1B = 0;
+        var_r2->unk1A = 4U;
+        return;
+    }
+    temp_r0 = (var_r4 << 0x10) + 0x10000;
+    var_r2 += 0x1C;
+    var_r4 = temp_r0 >> 0x10;
+    if ((s32) ((s32) temp_r0 >> 0x10) > 3) {
+        return;
+    }
+    goto loop_1;
+}
+
+s16 sub_80B67C4(Strc_8E2EF8C_2 *arg0, Strc_8E2EF8C_3 *arg1, SpStgContext *arg2, s32 arg3) {
+    s32 sp0;
+    void *sp4;
+    s32 sp8;
+    s16 temp_r1_4;
+    s16 temp_r2_2;
+    s16 temp_r5_2;
+    s32 temp_r0;
+    s32 temp_r0_2;
+    s32 temp_r0_3;
+    s32 temp_r1;
+    s32 temp_r1_2;
+    s32 temp_r1_3;
+    s32 temp_r2;
+    s32 temp_r3;
+    s32 temp_r3_2;
+    s32 temp_r4;
+    s32 temp_r5;
+    s32 temp_r5_3;
+    s32 temp_r7;
+    s32 var_r1;
+    s32 var_r1_2;
+    u16 var_r0;
+    u8 var_r5;
+    u8 var_r6;
+
+    sp0 = arg3;
+    sp4 = (void *) arg2->task0->data;
+    temp_r1 = (0 - arg2->unk8BC) & 0x3FF;
+    temp_r2 = gSineTable[temp_r1] * 4;
+    temp_r3 = (s32) (arg2->unk8B4 - arg1->unk4) >> 8;
+    temp_r5 = (s16) gSineTable[temp_r1 + 0x100] >> 6;
+    temp_r4 = (s32) (arg2->taskC->data->unk4C - arg1->unk0) >> 8;
+    temp_r1_2 = (s32) ((temp_r3 * (temp_r2 >> 8)) + (temp_r4 * temp_r5)) >> 2;
+    temp_r3_2 = (s32) ((temp_r4 * ((s32) (0 - temp_r2) >> 8)) + (temp_r3 * temp_r5)) >> 1;
+    if ((temp_r3_2 > (s32) arg2->unk5AC) && (temp_r3_2 < (s32) *(&arg2->unkB0[0].y + (arg2->unk8DF * 8)))) {
+        var_r5 = arg2->unk8E0;
+        var_r6 = arg2->unk8E1;
+        var_r1 = var_r5 << 0x10;
+        if (var_r1 != 0) {
+loop_3:
+            temp_r2_2 = (s16) var_r6;
+            if ((s32) temp_r2_2 > 0x9F) {
+                var_r6 = (u8) (u16) (temp_r2_2 - (var_r1 >> 0x11));
+                var_r1_2 = var_r5 << 0x10;
+                goto block_12;
+            }
+            if ((s32) temp_r2_2 < (s32) arg2->unk8DF) {
+                var_r1_2 = var_r5 << 0x10;
+                var_r0 = temp_r2_2 + (var_r1_2 >> 0x11);
+                goto block_11;
+            }
+            temp_r0 = *(&arg2->unkB0[0].y + (temp_r2_2 * 8));
+            if (temp_r0 > temp_r3_2) {
+                var_r1_2 = var_r5 << 0x10;
+                var_r0 = temp_r2_2 + (var_r1_2 >> 0x11);
+                goto block_11;
+            }
+            if (temp_r0 < temp_r3_2) {
+                var_r1_2 = var_r5 << 0x10;
+                var_r0 = temp_r2_2 - (var_r1_2 >> 0x11);
+block_11:
+                var_r6 = (u8) var_r0;
+block_12:
+                var_r5 = (u8) (u16) (var_r1_2 >> 0x11);
+                var_r1 = var_r5 << 0x10;
+                if (var_r1 != 0) {
+                    goto loop_3;
+                }
+            }
+        }
+        temp_r5_2 = (s16) var_r6;
+        temp_r1_3 = (s32) arg2->unkB0[temp_r5_2].x >> 1;
+        temp_r7 = (s32) (temp_r1_3 * 9) >> 3;
+        sp8 = var_r6 << 0x10;
+        if ((temp_r1_2 <= (s32) ((s32) ((0 - temp_r1_3) * 9) >> 3)) || (temp_r1_2 >= temp_r7)) {
+            goto block_15;
+        }
+        arg0->unkA = (s16) var_r6;
+        temp_r5_3 = temp_r5_2 * 4;
+        arg0->unk4 = ((var_r6 - (u16) arg1->unkE) - ((s32) (arg1->unk12 << 0x10) / (s32) *(temp_r5_3 + sp4->unkC))) + sp0;
+        temp_r1_4 = 0x78 - ((s32) (temp_r1_2 * 0x87) / temp_r7);
+        arg0->unk8 = temp_r1_4;
+        arg0->unk2 = temp_r1_4 - (u16) arg1->unkC;
+        temp_r0_2 = arg1->unk8;
+        if (temp_r0_2 != 0) {
+            arg0->unk6 = (s16) ((s32) (((s32) (temp_r0_2 * 8) / (s32) *(temp_r5_3 + sp4->unkC)) * 9) >> 2);
+        } else {
+            arg0->unk6 = (s16) temp_r0_2;
+        }
+        temp_r0_3 = (s32) *((sp8 >> 0xE) + sp4->unkC) >> 8;
+        arg0->unkC = (s16) temp_r0_3;
+        arg0->unk12 = (s16) temp_r0_3;
+        arg0->unk10 = 0;
+        arg0->unkE = 0;
+        return 1;
+    }
+block_15:
+    return 0;
 }
 #endif
