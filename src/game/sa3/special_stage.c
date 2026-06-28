@@ -2807,7 +2807,7 @@ s16 sub_80B5AD4(s16 arg0, Strc_8E2EF8C *arg1, Strc_8E2EF8C_2 *arg2, s32 arg3)
 void sub_80B5CC4(s16 param0, u16 *param1)
 {
     SpStgContext *temp_sl;
-    Sprite *s;
+    Sprite *sprSrc;
     u16 temp_r4;
     u32 frameFlags0;
     u32 frameFlags;
@@ -2818,33 +2818,33 @@ void sub_80B5CC4(s16 param0, u16 *param1)
 
     temp_sl = strc4->unk0;
     sprDest = &strc4->sprites194[param0];
-    s = NULL;
+    sprSrc = NULL;
     switch ((s16)param1[0]) {
         case 1:
-            s = &strc4->sprite4;
+            sprSrc = &strc4->sprite4;
             break;
         case 2:
-            s = &strc4->sprite2C;
+            sprSrc = &strc4->sprite2C;
             break;
         case 3:
-            s = &strc4->sprite54;
+            sprSrc = &strc4->sprite54;
             break;
         case 5:
-            s = &strc4->spriteA4;
+            sprSrc = &strc4->spriteA4;
             break;
         case 6:
-            s = &strc4->spriteCC;
+            sprSrc = &strc4->spriteCC;
             break;
         case 9:
-            s = &strc4->sprite11C;
+            sprSrc = &strc4->sprite11C;
             break;
         case 10:
-            s = &strc4->spriteA4;
+            sprSrc = &strc4->spriteA4;
             break;
     }
     temp_r8 = param1[1];
     temp_r4 = param1[2] - param1[3];
-    CpuCopy32(s, sprDest, sizeof(*s));
+    CpuCopy32(sprSrc, sprDest, sizeof(*sprSrc));
     sprDest->frameFlags = 0x1060 | param0 | 0xC0000;
     sprDest->x = temp_r8;
     sprDest->y = temp_r4;
@@ -2859,41 +2859,50 @@ void sub_80B5CC4(s16 param0, u16 *param1)
     temp_r0_2[4] = param1[9];
 }
 
-#if 0
-void sub_80B5DF4(u16 arg0, void *arg1) {
-    s16 temp_r5;
+// // TODO: Should be void sub_80B5CC4(s16 param0, Strc_8E2EF8C_2 *param1);
+void sub_80B5DF4(s16 arg0, u16 *arg1)
+{
     u16 temp_r0;
-    u16 temp_r0_2;
-    u16 temp_r4;
-    u16 temp_r8;
-    u16 temp_sb;
-    void *temp_r0_3;
-    void *temp_r0_4;
-    void *temp_r7;
+    s16 temp_r4;
+    s16 temp_r8;
+    u16 *temp_r0_2;
+    u16 *temp_r0_3;
+    Sprite *sprDest;
+    Sprite *sprSrc;
+    Arg2Task4 *strc4 = TASK_DATA(gCurTask);
+    SpStgContext *ctx = strc4->unk0;
+    Arg2Task8 *temp_sb = TASK_DATA(ctx->task8);
+    sprDest = &strc4->sprites194[arg0];
+    sprSrc = &strc4->sprite11C;
+    temp_r8 = arg1[1];
+    temp_r4 = arg1[2] - arg1[3];
+    CpuCopy32(sprSrc, sprDest, sizeof(*sprDest));
+    sprDest->frameFlags = 0x1060 | arg0 | 0xC0000;
+    sprDest->x = temp_r8;
+    sprDest->y = temp_r4;
+    sprDest->oamFlags = 0x340;
+    temp_r0 = temp_sb->unkAC;
+    switch (temp_sb->unkAC) {
+        case 19:
+        case 20: {
+            ;
+        } break;
 
-    temp_r0 = gCurTask->data;
-    temp_sb = (*temp_r0)->unk8->unk6;
-    temp_r5 = (s16) arg0;
-    temp_r7 = temp_r0 + ((temp_r5 * 0x28) + 0x194);
-    temp_r8 = arg1->unk2;
-    temp_r4 = arg1->unk4 - arg1->unk6;
-    CpuSet(temp_r0 + 0x11C, temp_r7, 0x0400000AU);
-    temp_r7->unk8 = (s32) (temp_r5 | 0xC1060);
-    temp_r7->unk10 = temp_r8;
-    temp_r7->unk12 = temp_r4;
-    temp_r7->unk14 = 0x340;
-    temp_r0_2 = temp_sb->unkAC;
-    if (((s32) temp_r0_2 > 0x14) || ((s32) temp_r0_2 < 0x13)) {
-        sub_8E8_80B69B4(temp_r7);
+        default: {
+            sub_8E8_80B69B4(sprDest);
+        } break;
     }
-    temp_r0_3 = ((s32) (arg0 << 0x10) >> 0xB) + &gOamBuffer->all.affineParam;
-    temp_r0_3->unk0 = (u16) arg1->unkC;
-    temp_r0_4 = temp_r0_3 + 8;
-    temp_r0_3->unk8 = (u16) arg1->unkE;
-    temp_r0_4->unk8 = (u16) arg1->unk10;
-    (temp_r0_4 + 8)->unk8 = (u16) arg1->unk12;
+    temp_r0_2 = &gOamBuffer[arg0 * 4].all.affineParam;
+    *temp_r0_2 = (u16)arg1[6];
+    temp_r0_2 += 4;
+    *temp_r0_2 = (u16)arg1[7];
+    temp_r0_2 += 4;
+    *temp_r0_2 = (u16)arg1[8];
+    temp_r0_2 += 4;
+    *temp_r0_2 = (u16)arg1[9];
 }
 
+#if 0
 void sub_80B5EBC(s16 arg0, void *arg1) {
     ? sp14;
     void *sp28;
