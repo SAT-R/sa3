@@ -3138,40 +3138,54 @@ void sub_80B6370(s16 arg0, Arg2Task4_x744 *arg1)
     }
 }
 
-#if 0
-void sub_80B6464(u16 arg0, u16 *arg1, Arg2Task4 *strc4) {
+void sub_80B6464(s16 arg0, Arg2Task4_x744 *arg1)
+{
+    Strc_8E2EF8C_3 sp00;
     Strc_8E2EF8C_2 sp14;
-    Sprite *temp_r6;
-    s16 temp_r5;
-    s16 temp_r8;
+    u16 *pSp14;
+    s32 temp_r5;
+    s32 temp_r8;
     s32 temp_r4;
-    void *temp_r4_2;
-    void *temp_r4_3;
+    u16 *temp_r4_2;
+    Arg2Task4 *strc4 = TASK_DATA(gCurTask);
+    SpStgContext *ctx = strc4->unk0;
+    Sprite *s = &strc4->spriteF4;
+    Arg2TaskC *taskC = TASK_DATA(ctx->taskC);
+    s32 value = 30 - (taskC->unk54 >> 10);
 
-    temp_r6 = &strc4->spriteF4;
-    subroutine_arg0.unkC = 8;
-    subroutine_arg0.unkE = 8;
-    subroutine_arg0.unk10 = 0;
-    subroutine_arg0.unk12 = 5;
-    if ((sub_80B67C4(&sp14, (Strc_8E2EF8C_3 *) &subroutine_arg0, strc4->unk0, 0x1E - ((s32) strc4->unk0->taskC->data->unk54 >> 0xA), /* extra? */ arg1->unk0, /* extra? */ arg1->unk4, /* extra? */ arg1->unk8) << 0x10) != 0) {
+    sp00.unk0 = arg1->unk0;
+    sp00.unk4 = arg1->unk4;
+    sp00.unk8 = arg1->unk8;
+    sp00.unkC = 8;
+    sp00.unkE = 8;
+    sp00.unk10 = 0;
+    sp00.unk12 = 5;
+
+    pSp14 = (u16 *)&sp14;
+    if ((sub_80B67C4(&sp14, &sp00, strc4->unk0, value))) {
         temp_r8 = sp14.unk2;
         temp_r5 = sp14.unk4 - sp14.unk6;
-        CpuSet(temp_r6, temp_r6, 0x0400000AU);
-        temp_r4 = (s16) arg0 + 0x14;
-        strc4->spriteF4.frameFlags = 0xC0060 | temp_r4;
-        strc4->spriteF4.x = temp_r8;
-        strc4->spriteF4.y = temp_r5;
-        strc4->spriteF4.oamFlags = 0xC0;
-        sub_8E8_80B69B4(temp_r6);
-        temp_r4_2 = (temp_r4 << 5) + &gOamBuffer->all.affineParam;
-        temp_r4_2->unk0 = (u16) sp14.unkC;
-        temp_r4_3 = temp_r4_2 + 8;
-        temp_r4_2->unk8 = (u16) sp14.unkE;
-        temp_r4_3->unk8 = (u16) sp14.unk10;
-        (temp_r4_3 + 8)->unk8 = (u16) sp14.unk12;
+        // TODO: A CpuCopy to itself? This must've been a macro in all these functions, right?
+        CpuCopy32(s, s, sizeof(*s));
+        temp_r4 = (s16)arg0 + 0x14;
+        s->frameFlags = temp_r4 | 0xC0060;
+        s->x = temp_r8;
+        s->y = temp_r5;
+        s->oamFlags = 0xC0;
+        sub_8E8_80B69B4(s);
+
+        temp_r4_2 = &gOamBuffer[temp_r4 * 4].all.affineParam;
+        *temp_r4_2 = pSp14[6];
+        temp_r4_2 += 4;
+        *temp_r4_2 = pSp14[7];
+        temp_r4_2 += 4;
+        *temp_r4_2 = pSp14[8];
+        temp_r4_2 += 4;
+        *temp_r4_2 = pSp14[9];
     }
 }
 
+#if 0
 void sub_80B6538(Strc_8E2EF8C_3 *arg0, Arg2Task4 *strc4) {
     Arg2Task4_x744 *temp_r3;
     SpStgContext *temp_r0;
