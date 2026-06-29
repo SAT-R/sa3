@@ -165,8 +165,8 @@ typedef struct {
     /* 0x11C */ Sprite sprite11C;
     /* 0x144 */ Sprite sprites144[2];
     /* 0x194 */ Sprite sprites194[28];
-    /* 0x744 */ Arg2Task4_x744 unk5F4[8];
-    /* 0x744 */ Arg2Task4_x744 unk6D4[4];
+    /* 0x5F4 */ Arg2Task4_x744 unk5F4[8];
+    /* 0x6D4 */ Arg2Task4_x744 unk6D4[4];
     /* 0x744 */ Arg2Task4_x744 unk744[4];
     /* 0x7B4 */ s8 unk7B4[0x126];
     /* 0x8DA */ u16 unk8DA;

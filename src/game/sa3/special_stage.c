@@ -2988,71 +2988,72 @@ void sub_80B60E0(s16 arg0, u16 *arg1)
     *temp_r0_3 = arg1[9];
 }
 
-#if 0
-void sub_80B6198(SpStgContext *ctx, s16 arg1) {
-    s32 sp0;
-    s32 sp4;
+// (84.91%) https://decomp.me/scratch/yNLcs
+NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B6198.inc", void sub_80B6198(SpStgContext *ctx, s16 arg1))
+{
+    s32 sp0[2];
     s16 temp_r0;
     s16 temp_r0_4;
     s16 temp_r4_2;
     s16 var_r2;
-    s32 temp_r0_3;
-    s32 temp_r0_5;
-    s32 temp_r5;
-    s32 var_r1_2;
-    u16 temp_r0_2;
-    u16 temp_r4;
-    u16 temp_r6;
-    u16 var_r0;
-    u16 var_r1;
-    void *temp_r2;
-
-    temp_r6 = ctx->task4->data;
-    temp_r4 = ctx->task8->data;
-    sp0 = temp_r4->unk8C;
-    temp_r5 = temp_r4->unk90;
-    temp_r6->unk8E0 = (s16) ((s32) ((ctx->taskC->data->unk54 - temp_r5) << 0x10) >> 0x18);
+    u16 temp_r0_3;
+    s16 var_r0;
+    s16 var_r1;
+    Arg2Task4_x744 *temp_r2;
+    Arg2Task4 *task4 = TASK_DATA(ctx->task4);
+    Arg2Task8 *task8 = TASK_DATA(ctx->task8);
+    Arg2TaskC *taskC = TASK_DATA(ctx->taskC);
+    s32 some0, some1;
+    sp0[0] = task8->unk8C;
+    some0 = 0x7900 - ((task8->unk90 - Q(14)) * 2);
+    task4->unk8E0 = ((s16)(taskC->unk54 - task8->unk90) >> 8);
+    some1 = ctx->unk8B0;
+    some1 += ((120 - task8->unkA0) << 0xE);
     if (arg1 == -1) {
-        var_r1 = (u16) ctx->unk8C0;
-        if ((s32) ctx->unk8C0 > 8) {
+        var_r1 = (u16)ctx->unk8C0;
+        if (ctx->unk8C0 > 8) {
             var_r1 = 8;
         }
         var_r0 = var_r1;
     } else {
-        var_r0 = (u16) arg1;
+        var_r0 = arg1;
     }
+
     var_r2 = 0;
-    temp_r0 = (s16) var_r0;
-    if ((s32) temp_r0 > 0) {
-        sp4 = (s32) temp_r0;
-        do {
-            temp_r4_2 = var_r2;
-            temp_r2 = temp_r6 + ((temp_r4_2 * 0x1C) + 0x5F4);
-            temp_r2->unk0 = (s32) (ctx->unk8B0 + ((0x78 - temp_r4->unkA0) << 0xE));
-            temp_r2->unk4 = sp0;
-            temp_r2->unk8 = (s32) (0x7900 - ((temp_r5 + 0xFFFFEC00) * 2));
-            temp_r0_3 = ((temp_r4_2 << 7) + temp_r6->unk8E2) & 0x3FF;
-            temp_r2->unkC = (s32) ((s16) gSineTable[temp_r0_3] >> 7);
+    if (var_r2 < var_r0) {
+        s16 *unk8E2 = &task4->unk8E2;
+        const s16 *sinTbl = gSineTable;
+        s16 unk18 = -0xA0;
+        sp0[1] = var_r0;
+        for (; var_r2 < sp0[1]; var_r2++) {
+            s32 cosVal;
+            temp_r2 = &task4->unk5F4[var_r2];
+            temp_r2->unk0 = some1;
+            temp_r2->unk4 = sp0[0];
+            temp_r2->unk8 = (s32)(some0);
+            temp_r0_3 = *unk8E2;
+            temp_r0_3 += (var_r2 << 7);
+            temp_r0_3 &= 0x3FF;
+            cosVal = COS(temp_r0_3);
+            cosVal >>= 7;
+            temp_r2->unkC = cosVal;
             temp_r2->unk10 = 0xA0;
-            temp_r2->unk14 = (s32) (temp_r0_3 + 0x500);
-            temp_r2->unk18 = 0xFF60;
+            temp_r2->unk14 = (s32)(temp_r0_3 + 0x500);
+            temp_r2->unk18 = unk18;
             temp_r2->unk1A = 1;
             temp_r2->unk1B = 0;
-            temp_r0_2 = temp_r4_2 + 1;
-            var_r2 = (s16) temp_r0_2;
-        } while ((s32) (s16) temp_r0_2 < sp4);
+        }
     }
-    var_r1_2 = var_r2 << 0x10;
-    if ((s32) var_r2 <= 7) {
-        do {
-            temp_r0_5 = var_r1_2 >> 0x10;
-            ((temp_r0_5 * 0x1C) + 0x5F4 + temp_r6)->unk1A = 0;
-            temp_r0_4 = temp_r0_5 + 1;
-            var_r1_2 = temp_r0_4 << 0x10;
-        } while ((s32) temp_r0_4 <= 7);
+
+    while (var_r2 < 8) {
+        Arg2Task4_x744 *ptr = &task4->unk5F4[var_r2];
+        ptr->unk1A = 0;
+        var_r2++;
     }
 }
+END_NONMATCH
 
+#if 0
 void sub_80B62FC(SpStgContext *ctx) {
     s16 var_r2;
     s32 temp_r1;
