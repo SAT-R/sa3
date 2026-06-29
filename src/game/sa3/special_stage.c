@@ -3089,42 +3089,56 @@ void sub_80B62FC(SpStgContext *ctx) {
     }
 }
 
-#if 0
-void sub_80B6370(s16 arg0, u16 *arg1, Arg2Task4 *strc4) {
+void sub_80B6370(s16 arg0, Arg2Task4_x744 *arg1)
+{
+    Strc_8E2EF8C_3 sp00;
     Strc_8E2EF8C_2 sp14;
-    Sprite *temp_r0_2;
-    s16 temp_r0;
-    s16 temp_r6;
+    u16 *pSp14;
+    s32 temp_r6;
     s32 temp_r4;
     s32 temp_r5;
-    void *temp_r4_2;
+    u16 *temp_r4_2;
     void *temp_r4_3;
+    Arg2Task4 *strc4 = TASK_DATA(gCurTask);
+    SpStgContext *ctx = strc4->unk0;
+    Sprite *sprDest = &strc4->sprites194[20 + arg0];
+    Arg2TaskC *taskC = TASK_DATA(ctx->taskC);
+    s32 value;
+    value = 30 - (taskC->unk54 >> 8);
 
-    temp_r0 = arg0;
-    temp_r0_2 = (temp_r0 * 0x28) + 0x4B4 + strc4;
-    subroutine_arg0.unkC = 8;
-    subroutine_arg0.unkE = 8;
-    subroutine_arg0.unk10 = 0;
-    subroutine_arg0.unk12 = 5;
-    if ((sub_80B67C4(&sp14, (Strc_8E2EF8C_3 *) &subroutine_arg0, strc4->unk0, 0x1E - ((s32) strc4->unk0->taskC->data->unk54 >> 8), /* extra? */ arg1->unk0, /* extra? */ arg1->unk4, /* extra? */ (arg1->unk8 * 0x10)) << 0x10) != 0) {
+    sp00.unk0 = arg1->unk0;
+    sp00.unk4 = arg1->unk4;
+    sp00.unk8 = arg1->unk8 * 0x10;
+
+    sp00.unkC = 8;
+    sp00.unkE = 8;
+    sp00.unk10 = 0;
+    sp00.unk12 = 5;
+
+    pSp14 = (u16 *)&sp14;
+    if (sub_80B67C4(&sp14, &sp00, strc4->unk0, value)) {
         temp_r6 = sp14.unk2;
         temp_r5 = sp14.unk4 - sp14.unk6;
-        CpuSet(&strc4->sprite4, temp_r0_2, 0x0400000AU);
-        temp_r4 = temp_r0 + 0x18;
-        temp_r0_2->frameFlags = 0xC0060 | temp_r4;
-        temp_r0_2->x = temp_r6;
-        temp_r0_2->y = strc4->unk8E0 + temp_r5;
-        temp_r0_2->oamFlags = 0x180;
-        sub_8E8_80B69B4(temp_r0_2);
-        temp_r4_2 = (temp_r4 << 5) + &gOamBuffer->all.affineParam;
-        temp_r4_2->unk0 = (u16) sp14.unkC;
-        temp_r4_3 = temp_r4_2 + 8;
-        temp_r4_2->unk8 = (u16) sp14.unkE;
-        temp_r4_3->unk8 = (u16) sp14.unk10;
-        (temp_r4_3 + 8)->unk8 = (u16) sp14.unk12;
+        CpuCopy32(&strc4->sprite4, sprDest, sizeof(*sprDest));
+        temp_r4 = arg0 + 0x18;
+        sprDest->frameFlags = 0xC0060 | temp_r4;
+        sprDest->x = temp_r6;
+        sprDest->y = strc4->unk8E0 + temp_r5;
+        sprDest->oamFlags = 0x180;
+        sub_8E8_80B69B4(sprDest);
+
+        temp_r4_2 = &gOamBuffer[temp_r4 * 4].all.affineParam;
+        *temp_r4_2 = pSp14[6];
+        temp_r4_2 += 4;
+        *temp_r4_2 = pSp14[7];
+        temp_r4_2 += 4;
+        *temp_r4_2 = pSp14[8];
+        temp_r4_2 += 4;
+        *temp_r4_2 = pSp14[9];
     }
 }
 
+#if 0
 void sub_80B6464(u16 arg0, u16 *arg1, Arg2Task4 *strc4) {
     Strc_8E2EF8C_2 sp14;
     Sprite *temp_r6;
