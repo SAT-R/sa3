@@ -2988,7 +2988,7 @@ void sub_80B60E0(s16 arg0, u16 *arg1)
     *temp_r0_3 = arg1[9];
 }
 
-// (84.91%) https://decomp.me/scratch/yNLcs
+// (89.66%) https://decomp.me/scratch/HH5Dp
 NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B6198.inc", void sub_80B6198(SpStgContext *ctx, s16 arg1))
 {
     s32 sp0[2];
@@ -3005,7 +3005,7 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B6198.inc", void sub_80B6198(Sp
     Arg2TaskC *taskC = TASK_DATA(ctx->taskC);
     s32 some0, some1;
     sp0[0] = task8->unk8C;
-    some0 = 0x7900 - ((task8->unk90 - Q(14)) * 2);
+    some0 = 0x7900 - ((task8->unk90 - Q(20)) * 2);
     task4->unk8E0 = ((s16)(taskC->unk54 - task8->unk90) >> 8);
     some1 = ctx->unk8B0;
     some1 += ((120 - task8->unkA0) << 0xE);
@@ -3023,9 +3023,17 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B6198.inc", void sub_80B6198(Sp
     if (var_r2 < var_r0) {
         s16 *unk8E2 = &task4->unk8E2;
         const s16 *sinTbl = gSineTable;
-        s16 unk18 = -0xA0;
+#ifndef NON_MATCHING
+        register s32 unk18 asm("sl") = (u16)-0xA0;
+        asm("" ::"r"(sinTbl));
+        asm("" ::"r"(unk18));
+#else
+        s32 unk18 = (u16)-0xA0;
+#endif
         sp0[1] = var_r0;
-        for (; var_r2 < sp0[1]; var_r2++) {
+        do // (; ; var_r2++)
+        {
+            s32 sinVal;
             s32 cosVal;
             temp_r2 = &task4->unk5F4[var_r2];
             temp_r2->unk0 = some1;
@@ -3034,15 +3042,19 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B6198.inc", void sub_80B6198(Sp
             temp_r0_3 = *unk8E2;
             temp_r0_3 += (var_r2 << 7);
             temp_r0_3 &= 0x3FF;
+            sinVal = SIN(temp_r0_3);
             cosVal = COS(temp_r0_3);
-            cosVal >>= 7;
-            temp_r2->unkC = cosVal;
+            sinVal >>= 7;
+#ifndef NON_MATCHING
+            asm("" ::"r"(cosVal));
+#endif
+            temp_r2->unkC = sinVal;
             temp_r2->unk10 = 0xA0;
             temp_r2->unk14 = (s32)(temp_r0_3 + 0x500);
             temp_r2->unk18 = unk18;
             temp_r2->unk1A = 1;
             temp_r2->unk1B = 0;
-        }
+        } while (++var_r2 < sp0[1]);
     }
 
     while (var_r2 < 8) {
