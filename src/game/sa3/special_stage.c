@@ -2859,7 +2859,7 @@ void sub_80B5CC4(s16 param0, u16 *param1)
     temp_r0_2[4] = param1[9];
 }
 
-// // TODO: Should be void sub_80B5CC4(s16 param0, Strc_8E2EF8C_2 *param1);
+// // TODO: Should be void sub_80B5DF4(s16 param0, Strc_8E2EF8C_2 *param1);
 void sub_80B5DF4(s16 arg0, u16 *arg1)
 {
     u16 temp_r0;
@@ -2902,91 +2902,67 @@ void sub_80B5DF4(s16 arg0, u16 *arg1)
     *temp_r0_2 = (u16)arg1[9];
 }
 
-#if 0
-void sub_80B5EBC(s16 arg0, u16 *arg1, Arg2Task4 *strc4) {
+void sub_80B5EBC(s16 arg0, u16 *arg1)
+{
+    Strc_8E2EF8C_3 sp00;
     Strc_8E2EF8C_2 sp14;
-    u16 *sp28;
-    void *sp2C;
-    s32 sp30;
+    Arg2Task4 *strc4 = TASK_DATA(gCurTask);
+    SpStgContext *ctx = strc4->unk0;
+    Arg2TaskC *sp2C = (void *)TASK_DATA(ctx->taskC);
+    Sprite *sprDest = &strc4->sprites194[arg0];
     s32 sp34;
-    s32 sp38;
-    s32 sp3C;
-    s32 sp40;
-    SpStgContext *temp_r5;
-    Sprite *temp_r7;
-    Strc_8E2EF8C *temp_r6;
-    s16 temp_r4;
-    s16 temp_r5_2;
+    Strc_8E2EF8C *temp_r6_0 = gUnknown_08E2EF8C[ctx->unk8C7];
+    Strc_8E2EF8C *temp_r6 = &temp_r6_0[(s16)arg1[4]];
+    s16 dirX = SIN(strc4->unk8E4);
+    s16 dirY = COS(strc4->unk8E4) >> 4;
+    s32 var_r3_2;
     s16 var_r1;
-    s16 var_r3;
-    s32 temp_r2_2;
-    s32 temp_r3;
-    u16 temp_r0_2;
-    u16 temp_r2;
-    u16 temp_sl;
-    u16 var_r3_2;
-    u32 temp_r0;
-    u32 var_r2;
-    void *temp_r0_3;
-    void *temp_r0_4;
+    s16 var_r2;
+    u16 *temp_r0_3;
 
-    sp28 = arg1;
-    temp_r5 = strc4->unk0;
-    sp2C = (void *) temp_r5->taskC->data;
-    sp30 = arg0 << 0x10;
-    temp_r4 = arg0;
-    temp_r7 = strc4 + ((temp_r4 * 0x28) + 0x194);
-    temp_r6 = &gUnknown_08E2EF8C[temp_r5->unk8C7][sp28->unk8];
-    temp_r2 = strc4->unk8E4;
-    sp38 = (s32) (u16) gSineTable[temp_r2];
-    temp_sl = (u16) ((s32) ((u16) gSineTable[temp_r2 + 0x100] << 0x10) >> 0x14);
-    CpuSet(&strc4->sprite7C, temp_r7, 0x0400000AU);
-    temp_r7->frameFlags = temp_r4 | 0xC1060;
-    var_r3 = 0x180;
-    if ((s32) sp28->unk4 < (s32) (temp_r5->unk8DA - 0xF)) {
-        var_r3 = 0x340;
+    CpuCopy32(&strc4->sprite7C, sprDest, sizeof(*sprDest));
+    sprDest->frameFlags = 0x1060 | arg0 | 0xC0000;
+    sprDest->oamFlags = ((s16)arg1[2] < (s32)(ctx->unk8DA - 0xF)) ? 0x340 : 0x180;
+
+    sp34 = 30 - (sp2C->unk54 >> 10);
+    sp00.unkC = 8;
+    sp00.unkE = 8;
+    sp00.unk10 = 0;
+    sp00.unk12 = 5;
+    sp00.unk4 = temp_r6->unk4 << 16;
+
+    for (var_r2 = 0; var_r2 < 2; var_r2++) {
+        for (var_r1 = 0; var_r1 < 3; var_r1++) {
+            if (var_r2 != 0) {
+                var_r3_2 = -strc4->unk8E2;
+            } else {
+                var_r3_2 = +strc4->unk8E2;
+            }
+            var_r3_2 = (var_r3_2 + (var_r1 * 0x154)) & 0x3FF;
+            sp00.unk0 = (temp_r6->unk2 << 16) + (temp_r6->unk8 * dirX);
+            sp00.unk0 += (SIN(var_r3_2) << 5);
+            sp00.unk8 = (temp_r6->unk6 << 12) + (temp_r6->unkA * dirY);
+            sp00.unk8 += (+(COS(var_r3_2) * 8));
+
+            if (sub_80B67C4(&sp14, (Strc_8E2EF8C_3 *)&sp00, strc4->unk0, sp34)) {
+                sprDest->x = (s16)(u16)sp14.unk2;
+                sprDest->y = (u16)sp14.unk4 - (u16)sp14.unk6;
+                sub_8E8_80B69B4(sprDest);
+            }
+        }
     }
-    temp_r7->oamFlags = var_r3;
-    sp34 = 0x1E - ((s32) sp2C->unk54 >> 0xA);
-    subroutine_arg0.unkC = 8;
-    subroutine_arg0.unkE = 8;
-    subroutine_arg0.unk10 = 0;
-    subroutine_arg0.unk12 = 5;
-    var_r2 = 0;
-    sp3C = sp30;
-    sp40 = sp38 << 0x10;
-    do {
-        var_r1 = 0;
-        temp_r2_2 = var_r2 << 0x10;
-loop_4:
-        if (temp_r2_2 != 0) {
-            var_r3_2 = 0 - strc4->unk8E2;
-        } else {
-            var_r3_2 = strc4->unk8E2;
-        }
-        temp_r5_2 = var_r1;
-        temp_r3 = (var_r3_2 + (temp_r5_2 * 0x154)) & 0x3FF;
-        if ((sub_80B67C4(&sp14, (Strc_8E2EF8C_3 *) &subroutine_arg0, strc4->unk0, sp34, /* extra? */ ((temp_r6->unk2 << 0x10) + ((sp40 >> 0x10) * temp_r6->unk8) + (gSineTable[temp_r3] << 5)), /* extra? */ ((temp_r6->unk6 << 0xC) + ((s16) temp_sl * temp_r6->unkA) + (gSineTable[temp_r3 + 0x100] * 8))) << 0x10) != 0) {
-            temp_r7->x = (u16) sp14.unk2;
-            temp_r7->y = (u16) sp14.unk4 - (u16) sp14.unk6;
-            sub_8E8_80B69B4(temp_r7);
-        }
-        temp_r0_2 = temp_r5_2 + 1;
-        var_r1 = (s16) temp_r0_2;
-        if ((s32) (s16) temp_r0_2 <= 2) {
-            goto loop_4;
-        }
-        temp_r0 = temp_r2_2 + 0x10000;
-        var_r2 = temp_r0 >> 0x10;
-    } while ((s32) ((s32) temp_r0 >> 0x10) <= 1);
-    temp_r0_3 = (sp3C >> 0xB) + &gOamBuffer->all.affineParam;
-    temp_r0_3->unk0 = (u16) sp28->unkC;
-    temp_r0_4 = temp_r0_3 + 8;
-    temp_r0_3->unk8 = (u16) sp28->unkE;
-    temp_r0_4->unk8 = (u16) sp28->unk10;
-    (temp_r0_4 + 8)->unk8 = (u16) sp28->unk12;
+
+    temp_r0_3 = &gOamBuffer[arg0 * 4].all.affineParam;
+    *temp_r0_3 = arg1[6];
+    temp_r0_3 += 4;
+    *temp_r0_3 = arg1[7];
+    temp_r0_3 += 4;
+    *temp_r0_3 = arg1[8];
+    temp_r0_3 += 4;
+    *temp_r0_3 = arg1[9];
 }
 
+#if 0
 void sub_80B60E0(s16 arg0, u16 *arg1, Arg2Task4 *strc4) {
     SpStgContext *temp_r4;
     Sprite *temp_r6;
