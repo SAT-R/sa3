@@ -3065,34 +3065,31 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B6198.inc", void sub_80B6198(Sp
 }
 END_NONMATCH
 
-#if 0
 void sub_80B62FC(SpStgContext *ctx) {
     s16 var_r2;
     s32 temp_r1;
     u32 temp_r0;
     u8 temp_r0_2;
-    void *temp_r3;
+    Arg2Task4_x744  *temp_r3;
+	Arg2Task4 *task4 = TASK_DATA(ctx->task4);
 
-    var_r2 = 0;
-    do {
-        temp_r3 = ctx->task4->data + ((var_r2 * 0x1C) + 0x5F4);
+    for(var_r2 = 0; var_r2 < 8; var_r2++)
+	{
+        temp_r3 = &task4->unk5F4[var_r2];
         if (temp_r3->unk1A != 0) {
             temp_r3->unk0 = (s32) (temp_r3->unk0 + (temp_r3->unkC << 8));
             temp_r3->unk4 = (s32) (temp_r3->unk4 + (temp_r3->unk10 << 8));
-            temp_r1 = temp_r3->unk14;
-            temp_r3->unk8 = (s32) (temp_r3->unk8 + temp_r1);
-            temp_r3->unk14 = (s32) (temp_r1 + temp_r3->unk18);
-            temp_r0_2 = temp_r3->unk1B + 1;
-            temp_r3->unk1B = temp_r0_2;
-            if ((u32) temp_r0_2 > 0x1DU) {
+            temp_r3->unk8 = (s32)(temp_r3->unk8 + temp_r3->unk14);
+            temp_r3->unk14 = (s32)(temp_r3->unk14 + temp_r3->unk18);
+
+			if (++temp_r3->unk1B > 0x1DU) {
                 temp_r3->unk1A = 0U;
             }
         }
-        temp_r0 = (var_r2 << 0x10) + 0x10000;
-        var_r2 = (s16) (temp_r0 >> 0x10);
-    } while ((s32) ((s32) temp_r0 >> 0x10) <= 7);
+    }
 }
 
+#if 0
 void sub_80B6370(s16 arg0, u16 *arg1, Arg2Task4 *strc4) {
     Strc_8E2EF8C_2 sp14;
     Sprite *temp_r0_2;
