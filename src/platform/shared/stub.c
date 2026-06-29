@@ -139,12 +139,11 @@ void sub_80AD824() { }
 void sub_80AE174() { }
 void sub_80AE1C8() { }
 void sub_80AE770() { }
-s16 sub_80B6198() { return 0; }
-s16 sub_80B6464() { return 0; }
-s16 sub_80B5AD4() { return 0; }
-s16 sub_80B65FC() { return 0; }
 void sub_80B62FC() { }
 void sub_80B6370() { }
+s16 sub_80B6464() { return 0; }
+void sub_80B6538() { }
+s16 sub_80B65FC() { return 0; }
 void sub_80AB120(u8 param0) { }
 
 void /* 0x080C4564 */ CopyPalette() { }
@@ -198,11 +197,6 @@ Strc_03001BF0 gUnknown_03001BF0 = {};
 PlayerSpriteInfo gUnknown_030010D0 = {};
 PlayerSpriteInfo gUnknown_0300110C = {};
 PlayerSpriteInfo gUnknown_03001B00 = {};
-
-void sub_80B5CC4(s16 param0, s16 *param1) { }
-void sub_80B5EBC(s16 param0, s16 *param1) { }
-void sub_80B5DF4() { }
-void sub_80B60E0(s16 param0, s16 *param1) { }
 
 void sub_80A5954() { }
 void sub_80A872C() { }
