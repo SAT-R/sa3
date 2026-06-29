@@ -163,8 +163,7 @@ typedef struct {
     /* 0x0CC */ Sprite spriteCC;
     /* 0x0F4 */ Sprite spriteF4;
     /* 0x11C */ Sprite sprite11C;
-    /* 0x144 */ Sprite sprite144;
-    /* 0x16C */ Sprite sprite16C;
+    /* 0x144 */ Sprite sprites144[2];
     /* 0x194 */ Sprite sprites194[28];
     /* 0x744 */ Arg2Task4_x744 unk5F4[8];
     /* 0x744 */ Arg2Task4_x744 unk6D4[4];

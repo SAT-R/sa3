@@ -2413,8 +2413,8 @@ void Task_80B5038(void)
     sub_80B6BB8(&temp_r1->spriteCC, 0, 4U, ANIM_SP_STAGE_MISSILE_BADNIK_PROJ, 0x3000, 0x14, 0x14, 0xE, 0U, 0);
     sub_80B6BB8(&temp_r1->spriteF4, 0, 16, ANIM_SP_STAGE_EXPLOSION, 0x1000, 0x14, 0x14, 0xE, 0U, 0);
     sub_80B6BB8(&temp_r1->sprite11C, 0, 4U, ANIM_SP_STAGE_EMERALD, 0x1000, 0x14, 0x14, 0xE, 0U, 0);
-    sub_80B6BB8(&temp_r1->sprite144, 0, 4U, ANIM_SP_STAGE_RING_COLLECT_EFFECT, 0x1000, 0x14, 0x14, 0xE, 0U, 0);
-    sub_80B6BB8(&temp_r1->sprite16C, 0, 4U, ANIM_SP_STAGE_RING_COLLECT_EFFECT, 0x1000, 0x14, 0x14, 0xE, 1U, 0);
+    sub_80B6BB8(&temp_r1->sprites144[0], 0, 4U, ANIM_SP_STAGE_RING_COLLECT_EFFECT, 0x1000, 0x14, 0x14, 0xE, 0U, 0);
+    sub_80B6BB8(&temp_r1->sprites144[1], 0, 4U, ANIM_SP_STAGE_RING_COLLECT_EFFECT, 0x1000, 0x14, 0x14, 0xE, 1U, 0);
 
     gCurTask->main = sub_80B524C;
 }
@@ -2962,36 +2962,33 @@ void sub_80B5EBC(s16 arg0, u16 *arg1)
     *temp_r0_3 = arg1[9];
 }
 
-#if 0
-void sub_80B60E0(s16 arg0, u16 *arg1, Arg2Task4 *strc4) {
-    SpStgContext *temp_r4;
-    Sprite *temp_r6;
-    s16 temp_r7;
-    s16 var_r2;
-    void *temp_r0;
-    void *temp_r0_2;
+void sub_80B60E0(s16 arg0, u16 *arg1)
+{
+    Arg2Task4 *strc4 = TASK_DATA(gCurTask);
+    SpStgContext *ctx = strc4->unk0;
+    Sprite *sprDest = &strc4->sprites194[arg0];
+    s16 srcIndex = (arg1[0] - 11);
+    Sprite *sprSrc = &strc4->sprites144[srcIndex >> 3];
+    u16 *temp_r0_3;
 
-    temp_r4 = strc4->unk0;
-    temp_r7 = arg0;
-    temp_r6 = strc4 + ((temp_r7 * 0x28) + 0x194);
-    CpuSet(strc4 + ((((s32) ((arg1->unk0 - 0xB) << 0x10) >> 0x13) * 0x28) + 0x144), temp_r6, 0x0400000AU);
-    temp_r6->frameFlags = temp_r7 | 0xC1060;
-    temp_r6->x = arg1->unk2;
-    temp_r6->y = arg1->unk4 - arg1->unk6;
-    var_r2 = 0x180;
-    if ((s32) (s16) arg1->unk4 < (s32) (temp_r4->unk8DA - 0xF)) {
-        var_r2 = 0x340;
-    }
-    temp_r6->oamFlags = var_r2;
-    sub_8E8_80B69B4(temp_r6);
-    temp_r0 = (temp_r7 << 5) + &gOamBuffer->all.affineParam;
-    temp_r0->unk0 = (u16) arg1->unkC;
-    temp_r0_2 = temp_r0 + 8;
-    temp_r0->unk8 = (u16) arg1->unkE;
-    temp_r0_2->unk8 = (u16) arg1->unk10;
-    (temp_r0_2 + 8)->unk8 = (u16) arg1->unk12;
+    CpuCopy32(sprSrc, sprDest, sizeof(*sprDest));
+    sprDest->frameFlags = 0x1060 | arg0 | 0xC0000;
+    sprDest->x = (s16)arg1[1];
+    sprDest->y = arg1[2] - arg1[3];
+    sprDest->oamFlags = ((s16)arg1[2] < (s32)(ctx->unk8DA - 0xF)) ? 0x340 : 0x180;
+    sub_8E8_80B69B4(sprDest);
+
+    temp_r0_3 = &gOamBuffer[arg0 * 4].all.affineParam;
+    *temp_r0_3 = arg1[6];
+    temp_r0_3 += 4;
+    *temp_r0_3 = arg1[7];
+    temp_r0_3 += 4;
+    *temp_r0_3 = arg1[8];
+    temp_r0_3 += 4;
+    *temp_r0_3 = arg1[9];
 }
 
+#if 0
 void sub_80B6198(SpStgContext *ctx, s16 arg1) {
     s32 sp0;
     s32 sp4;
