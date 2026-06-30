@@ -481,8 +481,8 @@ _08066564: .4byte 0xFFFFFBAF
 _08066568: .4byte gCurTask
 _0806656C: .4byte sub_8068908
 
-	thumb_func_start sub_8066570
-sub_8066570: @ 0x08066570
+	thumb_func_start Gemerl_State_17
+Gemerl_State_17: @ 0x08066570
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	adds r3, r4, #0
@@ -531,8 +531,8 @@ _080665C8: .4byte (gGemerlStates + 5 * 0x14)
 _080665CC: .4byte 0x0000FFFF
 _080665D0: .4byte 0x00000223
 
-	thumb_func_start sub_80665D4
-sub_80665D4: @ 0x080665D4
+	thumb_func_start Gemerl_State_5
+Gemerl_State_5: @ 0x080665D4
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r0, [r4, #0x44]
@@ -603,8 +603,8 @@ _0806665A:
 _08066668: .4byte gCamera
 _0806666C: .4byte 0x00000223
 
-	thumb_func_start sub_8066670
-sub_8066670: @ 0x08066670
+	thumb_func_start Gemerl_State_6
+Gemerl_State_6: @ 0x08066670
 	push {r4, r5, r6, lr}
 	adds r5, r0, #0
 	adds r4, r5, #0
@@ -698,8 +698,8 @@ _0806671A:
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_8066728
-sub_8066728: @ 0x08066728
+	thumb_func_start Gemerl_State_51
+Gemerl_State_51: @ 0x08066728
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -881,8 +881,8 @@ _0806687E:
 	.align 2, 0
 _0806688C: .4byte 0xFFFFFBFF
 
-	thumb_func_start sub_8066890
-sub_8066890: @ 0x08066890
+	thumb_func_start Gemerl_State_8
+Gemerl_State_8: @ 0x08066890
 	push {r4, r5, r6, lr}
 	sub sp, #0x10
 	adds r5, r0, #0
@@ -1002,8 +1002,8 @@ _08066980: .4byte 0x3C6EF35F
 _08066984: .4byte 0x000003FF
 _08066988: .4byte gSineTable
 
-	thumb_func_start sub_806698C
-sub_806698C: @ 0x0806698C
+	thumb_func_start Gemerl_State_20
+Gemerl_State_20: @ 0x0806698C
 	push {r4, r5, r6, r7, lr}
 	adds r5, r0, #0
 	ldr r4, _080669F8 @ =gPlayers
@@ -1151,8 +1151,8 @@ _08066AA0:
 _08066AB0: .4byte gSineTable
 _08066AB4: .4byte gUnknown_080D56F0
 
-	thumb_func_start sub_8066AB8
-sub_8066AB8: @ 0x08066AB8
+	thumb_func_start Gemerl_State_21
+Gemerl_State_21: @ 0x08066AB8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -1297,8 +1297,8 @@ _08066BD4:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_8066BEC
-sub_8066BEC: @ 0x08066BEC
+	thumb_func_start Gemerl_State_25
+Gemerl_State_25: @ 0x08066BEC
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	adds r3, r4, #0
@@ -1385,8 +1385,8 @@ _08066C8E:
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_8066C9C
-sub_8066C9C: @ 0x08066C9C
+	thumb_func_start Gemerl_State_28
+Gemerl_State_28: @ 0x08066C9C
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	ldr r6, _08066CF0 @ =gGemerlStates + (29 * 0x14)
@@ -1443,8 +1443,8 @@ _08066D02:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_8066D0C
-sub_8066D0C: @ 0x08066D0C
+	thumb_func_start Gemerl_State_29
+Gemerl_State_29: @ 0x08066D0C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -1685,8 +1685,8 @@ _08066ED0:
 	.align 2, 0
 _08066EE0: .4byte gPlayers
 
-	thumb_func_start sub_8066EE4
-sub_8066EE4: @ 0x08066EE4
+	thumb_func_start Gemerl_State_33
+Gemerl_State_33: @ 0x08066EE4
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r2, _08066F60 @ =gUnknown_080D56F0
@@ -1749,8 +1749,8 @@ _08066F56:
 	.align 2, 0
 _08066F60: .4byte gUnknown_080D56F0
 
-	thumb_func_start sub_8066F64
-sub_8066F64: @ 0x08066F64
+	thumb_func_start Gemerl_State_34
+Gemerl_State_34: @ 0x08066F64
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -1866,8 +1866,8 @@ _08067044: .4byte gUnknown_080D56F0
 _08067048: .4byte 0xFFFFFD00
 _0806704C: .4byte gSineTable
 
-	thumb_func_start sub_8067050
-sub_8067050: @ 0x08067050
+	thumb_func_start Gemerl_State_35
+Gemerl_State_35: @ 0x08067050
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -2081,8 +2081,8 @@ _080671EA:
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_8067204
-sub_8067204: @ 0x08067204
+	thumb_func_start Gemerl_State_36
+Gemerl_State_36: @ 0x08067204
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	adds r0, #0x30
@@ -2195,8 +2195,8 @@ _080672D8:
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_80672E0
-sub_80672E0: @ 0x080672E0
+	thumb_func_start Gemerl_State_39
+Gemerl_State_39: @ 0x080672E0
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	ldr r2, _0806736C @ =gUnknown_080D56F0
@@ -2268,8 +2268,8 @@ _0806736C: .4byte gUnknown_080D56F0
 _08067370: .4byte 0xFFFFF800
 _08067374: .4byte 0x00000219
 
-	thumb_func_start sub_8067378
-sub_8067378: @ 0x08067378
+	thumb_func_start Gemerl_State_40
+Gemerl_State_40: @ 0x08067378
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r2, _080673F4 @ =gUnknown_080D56F0
@@ -2332,8 +2332,8 @@ _080673EA:
 	.align 2, 0
 _080673F4: .4byte gUnknown_080D56F0
 
-	thumb_func_start sub_80673F8
-sub_80673F8: @ 0x080673F8
+	thumb_func_start Gemerl_State_44
+Gemerl_State_44: @ 0x080673F8
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -2457,8 +2457,8 @@ _080674DE:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_80674EC
-sub_80674EC: @ 0x080674EC
+	thumb_func_start Gemerl_State_47
+Gemerl_State_47: @ 0x080674EC
 	push {r4, r5, r6, r7, lr}
 	adds r4, r0, #0
 	ldr r2, _08067588 @ =gUnknown_080D56F0
@@ -2911,7 +2911,7 @@ sub_8067840: @ 0x08067840
 	strh r5, [r4, #0x16]
 _0806788A:
 	ldr r1, [r4]
-	ldr r0, _080678B8 @ =sub_8066890
+	ldr r0, _080678B8 @ =Gemerl_State_8
 	cmp r1, r0
 	beq _080678A8
 	ldr r2, _080678BC @ =gCamera
@@ -2934,7 +2934,7 @@ _080678A8:
 	.align 2, 0
 _080678B0: .4byte sa2__sub_801EE64
 _080678B4: .4byte 0xFFFFFF00
-_080678B8: .4byte sub_8066890
+_080678B8: .4byte Gemerl_State_8
 _080678BC: .4byte gCamera
 
 	thumb_func_start sub_80678C0
@@ -3762,8 +3762,8 @@ _08067F12:
 	.align 2, 0
 _08067F18: .4byte 0x03000020
 
-	thumb_func_start Gemerl_State0
-Gemerl_State0: @ 0x08067F1C
+	thumb_func_start Gemerl_State_0
+Gemerl_State_0: @ 0x08067F1C
 	push {lr}
 	movs r1, #1
 	bl sub_80689DC
@@ -3772,8 +3772,8 @@ Gemerl_State0: @ 0x08067F1C
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_8067F2C
-sub_8067F2C: @ 0x08067F2C
+	thumb_func_start Gemerl_State_1
+Gemerl_State_1: @ 0x08067F2C
 	push {r4, lr}
 	adds r4, r0, #0
 	movs r1, #3
@@ -3816,8 +3816,8 @@ _08067F74:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_8067F84
-sub_8067F84: @ 0x08067F84
+	thumb_func_start Gemerl_State_2
+Gemerl_State_2: @ 0x08067F84
 	push {r4, lr}
 	adds r4, r0, #0
 	movs r1, #3
@@ -3860,8 +3860,8 @@ _08067FCC:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_8067FDC
-sub_8067FDC: @ 0x08067FDC
+	thumb_func_start Gemerl_State_49
+Gemerl_State_49: @ 0x08067FDC
 	push {r4, lr}
 	adds r4, r0, #0
 	movs r1, #3
@@ -3883,8 +3883,8 @@ _08067FFE:
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_806800C
-sub_806800C: @ 0x0806800C
+	thumb_func_start Gemerl_State_3
+Gemerl_State_3: @ 0x0806800C
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	ldr r2, _0806805C @ =gUnknown_080D56DC
@@ -3938,8 +3938,8 @@ _0806807C:
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_8068084
-sub_8068084: @ 0x08068084
+	thumb_func_start Gemerl_State_4
+Gemerl_State_4: @ 0x08068084
 	push {lr}
 	adds r1, r0, #0
 	ldrh r0, [r1, #0x18]
@@ -3969,8 +3969,8 @@ _080680B4:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_80680BC
-sub_80680BC: @ 0x080680BC
+	thumb_func_start Gemerl_State_52
+Gemerl_State_52: @ 0x080680BC
 	push {r4, lr}
 	adds r1, r0, #0
 	adds r4, r1, #0
@@ -4007,8 +4007,8 @@ _080680F6:
 	.align 2, 0
 _08068100: .4byte gStageData
 
-	thumb_func_start sub_8068104
-sub_8068104: @ 0x08068104
+	thumb_func_start Gemerl_State_53
+Gemerl_State_53: @ 0x08068104
 	push {r4, lr}
 	adds r4, r0, #0
 	movs r1, #0x80
@@ -4025,14 +4025,14 @@ _0806811C:
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_8068124
-sub_8068124: @ 0x08068124
+	thumb_func_start Gemerl_State_54
+Gemerl_State_54: @ 0x08068124
     movs r0, #0
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_8068128
-sub_8068128: @ 0x08068128
+	thumb_func_start Gemerl_State_7
+Gemerl_State_7: @ 0x08068128
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	adds r5, r4, #0
@@ -4071,8 +4071,8 @@ _0806816C:
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_8068174
-sub_8068174: @ 0x08068174
+	thumb_func_start Gemerl_State_50
+Gemerl_State_50: @ 0x08068174
 	push {r4, lr}
 	adds r4, r0, #0
 	movs r1, #1
@@ -4094,8 +4094,8 @@ _08068196:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_80681A0
-sub_80681A0: @ 0x080681A0
+	thumb_func_start Gemerl_State_9
+Gemerl_State_9: @ 0x080681A0
 	push {r4, r5, lr}
 	adds r1, r0, #0
 	adds r5, r1, #0
@@ -4145,8 +4145,8 @@ _080681F0:
 	.align 2, 0
 _080681F8: .4byte 0xFFFFFBFF
 
-	thumb_func_start sub_80681FC
-sub_80681FC: @ 0x080681FC
+	thumb_func_start Gemerl_State_10_12_14
+Gemerl_State_10_12_14: @ 0x080681FC
 	push {r4, r5, lr}
 	sub sp, #8
 	adds r4, r0, #0
@@ -4216,8 +4216,8 @@ _08068280:
 	.align 2, 0
 _0806828C: .4byte sa2__sub_801EE64
 
-	thumb_func_start sub_8068290
-sub_8068290: @ 0x08068290
+	thumb_func_start Gemerl_State_11_13_15
+Gemerl_State_11_13_15: @ 0x08068290
 	push {lr}
 	movs r1, #0x10
 	bl sub_80689DC
@@ -4226,8 +4226,8 @@ sub_8068290: @ 0x08068290
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_80682A0
-sub_80682A0: @ 0x080682A0
+	thumb_func_start Gemerl_State_16
+Gemerl_State_16: @ 0x080682A0
 	push {lr}
 	movs r1, #0x11
 	bl sub_80689DC
@@ -4236,8 +4236,8 @@ sub_80682A0: @ 0x080682A0
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_80682B0
-sub_80682B0: @ 0x080682B0
+	thumb_func_start Gemerl_State_18
+Gemerl_State_18: @ 0x080682B0
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r2, _08068314 @ =gUnknown_080D56F0
@@ -4289,8 +4289,8 @@ _08068314: .4byte gUnknown_080D56F0
 _08068318: .4byte 0xFFFFF800
 _0806831C: .4byte 0x00000219
 
-	thumb_func_start sub_8068320
-sub_8068320: @ 0x08068320
+	thumb_func_start Gemerl_State_19
+Gemerl_State_19: @ 0x08068320
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r2, _08068378 @ =gUnknown_080D56F0
@@ -4334,8 +4334,8 @@ _0806836E:
 	.align 2, 0
 _08068378: .4byte gUnknown_080D56F0
 
-	thumb_func_start sub_806837C
-sub_806837C: @ 0x0806837C
+	thumb_func_start Gemerl_State_22
+Gemerl_State_22: @ 0x0806837C
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r2, _080683B8 @ =gUnknown_080D56F0
@@ -4388,8 +4388,8 @@ _080683DE:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_80683E8
-sub_80683E8: @ 0x080683E8
+	thumb_func_start Gemerl_State_23
+Gemerl_State_23: @ 0x080683E8
 	push {r4, lr}
 	adds r4, r0, #0
 	movs r2, #0
@@ -4446,8 +4446,8 @@ _08068440:
 	.align 2, 0
 _08068458: .4byte gCamera
 
-	thumb_func_start sub_806845C
-sub_806845C: @ 0x0806845C
+	thumb_func_start Gemerl_State_24
+Gemerl_State_24: @ 0x0806845C
 	push {r4, lr}
 	adds r4, r0, #0
 	movs r1, #0x19
@@ -4490,8 +4490,8 @@ _080684A8:
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_80684B0
-sub_80684B0: @ 0x080684B0
+	thumb_func_start Gemerl_State_26
+Gemerl_State_26: @ 0x080684B0
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	adds r0, #0x2e
@@ -4548,8 +4548,8 @@ _08068512:
 	.align 2, 0
 _0806851C: .4byte gUnknown_080D5B00
 
-	thumb_func_start sub_8068520
-sub_8068520: @ 0x08068520
+	thumb_func_start Gemerl_State_27
+Gemerl_State_27: @ 0x08068520
 	push {r4, r5, r6, lr}
 	adds r5, r0, #0
 	ldr r6, _08068560 @ =gPlayers
@@ -4619,8 +4619,8 @@ _080685A0:
 	.align 2, 0
 _080685A8: .4byte 0xFFFFD800
 
-	thumb_func_start sub_80685AC
-sub_80685AC: @ 0x080685AC
+	thumb_func_start Gemerl_State_30
+Gemerl_State_30: @ 0x080685AC
 	push {r4, lr}
 	adds r4, r0, #0
 	movs r1, #0x32
@@ -4632,8 +4632,8 @@ sub_80685AC: @ 0x080685AC
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_80685C4
-sub_80685C4: @ 0x080685C4
+	thumb_func_start Gemerl_State_31
+Gemerl_State_31: @ 0x080685C4
 	push {r4, lr}
 	adds r4, r0, #0
 	movs r1, #1
@@ -4655,8 +4655,8 @@ _080685E6:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_80685F0
-sub_80685F0: @ 0x080685F0
+	thumb_func_start Gemerl_State_32
+Gemerl_State_32: @ 0x080685F0
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r2, _08068654 @ =gUnknown_080D56F0
@@ -4708,8 +4708,8 @@ _08068654: .4byte gUnknown_080D56F0
 _08068658: .4byte 0xFFFFF800
 _0806865C: .4byte 0x00000219
 
-	thumb_func_start sub_8068660
-sub_8068660: @ 0x08068660
+	thumb_func_start Gemerl_State_37
+Gemerl_State_37: @ 0x08068660
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r2, _080686C4 @ =gUnknown_080D56F0
@@ -4758,8 +4758,8 @@ _080686BC:
 	.align 2, 0
 _080686C4: .4byte gUnknown_080D56F0
 
-	thumb_func_start sub_80686C8
-sub_80686C8: @ 0x080686C8
+	thumb_func_start Gemerl_State_38
+Gemerl_State_38: @ 0x080686C8
 	push {lr}
 	movs r1, #0x32
 	bl sub_80689DC
@@ -4768,8 +4768,8 @@ sub_80686C8: @ 0x080686C8
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_80686D8
-sub_80686D8: @ 0x080686D8
+	thumb_func_start Gemerl_State_41
+Gemerl_State_41: @ 0x080686D8
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r2, _08068740 @ =gUnknown_080D56F0
@@ -4822,8 +4822,8 @@ _08068730:
 _08068740: .4byte gUnknown_080D56F0
 _08068744: .4byte 0xFFFFFD80
 
-	thumb_func_start sub_8068748
-sub_8068748: @ 0x08068748
+	thumb_func_start Gemerl_State_42
+Gemerl_State_42: @ 0x08068748
 	push {lr}
 	adds r2, r0, #0
 	ldrh r0, [r2, #0x18]
@@ -4849,8 +4849,8 @@ _0806876E:
 	.align 2, 0
 _08068774: .4byte gCamera
 
-	thumb_func_start sub_8068778
-sub_8068778: @ 0x08068778
+	thumb_func_start Gemerl_State_43
+Gemerl_State_43: @ 0x08068778
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	adds r5, r4, #0
@@ -4880,8 +4880,8 @@ _080687A4:
 	.align 2, 0
 _080687AC: .4byte 0xFFFFF800
 
-	thumb_func_start sub_80687B0
-sub_80687B0: @ 0x080687B0
+	thumb_func_start Gemerl_State_45
+Gemerl_State_45: @ 0x080687B0
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	adds r5, r4, #0
@@ -4917,8 +4917,8 @@ _080687E6:
 	.align 2, 0
 _080687F0: .4byte gCamera
 
-	thumb_func_start sub_80687F4
-sub_80687F4: @ 0x080687F4
+	thumb_func_start Gemerl_State_46
+Gemerl_State_46: @ 0x080687F4
 	push {r4, lr}
 	adds r4, r0, #0
 	movs r1, #0x2f
@@ -4937,8 +4937,8 @@ _0806880A:
 	.align 2, 0
 _08068814: .4byte 0xFFFFF800
 
-	thumb_func_start sub_8068818
-sub_8068818: @ 0x08068818
+	thumb_func_start Gemerl_State_48
+Gemerl_State_48: @ 0x08068818
 	push {lr}
 	movs r1, #0x32
 	bl sub_80689DC
@@ -5104,7 +5104,7 @@ sub_8068954: @ 0x08068954
 	push {lr}
 	adds r2, r0, #0
 	ldr r1, [r2]
-	ldr r0, _0806897C @ =sub_8066890
+	ldr r0, _0806897C @ =Gemerl_State_8
 	cmp r1, r0
 	beq _08068976
 	ldr r3, _08068980 @ =gCamera
@@ -5123,7 +5123,7 @@ _08068976:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0806897C: .4byte sub_8066890
+_0806897C: .4byte Gemerl_State_8
 _08068980: .4byte gCamera
 
 	thumb_func_start sub_8068984

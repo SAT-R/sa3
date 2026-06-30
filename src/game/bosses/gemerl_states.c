@@ -11,65 +11,65 @@ typedef struct {
     u8 pattern;
 } GemerlState;
 
-extern bool32 Gemerl_State0(void *gemerl);
-extern bool32 sub_8067F2C(void *gemerl);
-extern bool32 sub_8067F84(void *gemerl);
-extern bool32 sub_806800C(void *gemerl);
-extern bool32 sub_8068084(void *gemerl);
-extern bool32 sub_80665D4(void *gemerl);
-extern bool32 sub_8066670(void *gemerl);
-extern bool32 sub_8068128(void *gemerl);
-extern bool32 sub_8066890(void *gemerl);
-extern bool32 sub_80681A0(void *gemerl);
-extern bool32 sub_80681FC(void *gemerl);
-extern bool32 sub_8068290(void *gemerl);
-extern bool32 sub_80681FC(void *gemerl);
-extern bool32 sub_8068290(void *gemerl);
-extern bool32 sub_80681FC(void *gemerl);
-extern bool32 sub_8068290(void *gemerl);
-extern bool32 sub_80682A0(void *gemerl);
-extern bool32 sub_8066570(void *gemerl);
-extern bool32 sub_80682B0(void *gemerl);
-extern bool32 sub_8068320(void *gemerl);
-extern bool32 sub_806698C(void *gemerl);
-extern bool32 sub_8066AB8(void *gemerl);
-extern bool32 sub_806837C(void *gemerl);
-extern bool32 sub_80683E8(void *gemerl);
-extern bool32 sub_806845C(void *gemerl);
-extern bool32 sub_8066BEC(void *gemerl);
-extern bool32 sub_80684B0(void *gemerl);
-extern bool32 sub_8068520(void *gemerl);
-extern bool32 sub_8066C9C(void *gemerl);
-extern bool32 sub_8066D0C(void *gemerl);
-extern bool32 sub_80685AC(void *gemerl);
-extern bool32 sub_80685C4(void *gemerl);
-extern bool32 sub_80685F0(void *gemerl);
-extern bool32 sub_8066EE4(void *gemerl);
-extern bool32 sub_8066F64(void *gemerl);
-extern bool32 sub_8067050(void *gemerl);
-extern bool32 sub_8067204(void *gemerl);
-extern bool32 sub_8068660(void *gemerl);
-extern bool32 sub_80686C8(void *gemerl);
-extern bool32 sub_80672E0(void *gemerl);
-extern bool32 sub_8067378(void *gemerl);
-extern bool32 sub_80686D8(void *gemerl);
-extern bool32 sub_8068748(void *gemerl);
-extern bool32 sub_8068778(void *gemerl);
-extern bool32 sub_80673F8(void *gemerl);
-extern bool32 sub_80687B0(void *gemerl);
-extern bool32 sub_80687F4(void *gemerl);
-extern bool32 sub_80674EC(void *gemerl);
-extern bool32 sub_8068818(void *gemerl);
-extern bool32 sub_8067FDC(void *gemerl);
-extern bool32 sub_8068174(void *gemerl);
-extern bool32 sub_8066728(void *gemerl);
-extern bool32 sub_80680BC(void *gemerl);
-extern bool32 sub_8068104(void *gemerl);
-extern bool32 sub_8068124(void *gemerl);
+extern bool32 Gemerl_State_0(void *gemerl);
+extern bool32 Gemerl_State_1(void *gemerl);
+extern bool32 Gemerl_State_2(void *gemerl);
+extern bool32 Gemerl_State_3(void *gemerl);
+extern bool32 Gemerl_State_4(void *gemerl);
+extern bool32 Gemerl_State_5(void *gemerl);
+extern bool32 Gemerl_State_6(void *gemerl);
+extern bool32 Gemerl_State_7(void *gemerl);
+extern bool32 Gemerl_State_8(void *gemerl);
+extern bool32 Gemerl_State_9(void *gemerl);
+extern bool32 Gemerl_State_10_12_14(void *gemerl);
+extern bool32 Gemerl_State_11_13_15(void *gemerl);
+extern bool32 Gemerl_State_10_12_14(void *gemerl);
+extern bool32 Gemerl_State_11_13_15(void *gemerl);
+extern bool32 Gemerl_State_10_12_14(void *gemerl);
+extern bool32 Gemerl_State_11_13_15(void *gemerl);
+extern bool32 Gemerl_State_16(void *gemerl);
+extern bool32 Gemerl_State_17(void *gemerl);
+extern bool32 Gemerl_State_18(void *gemerl);
+extern bool32 Gemerl_State_19(void *gemerl);
+extern bool32 Gemerl_State_20(void *gemerl);
+extern bool32 Gemerl_State_21(void *gemerl);
+extern bool32 Gemerl_State_22(void *gemerl);
+extern bool32 Gemerl_State_23(void *gemerl);
+extern bool32 Gemerl_State_24(void *gemerl);
+extern bool32 Gemerl_State_25(void *gemerl);
+extern bool32 Gemerl_State_26(void *gemerl);
+extern bool32 Gemerl_State_27(void *gemerl);
+extern bool32 Gemerl_State_28(void *gemerl);
+extern bool32 Gemerl_State_29(void *gemerl);
+extern bool32 Gemerl_State_30(void *gemerl);
+extern bool32 Gemerl_State_31(void *gemerl);
+extern bool32 Gemerl_State_32(void *gemerl);
+extern bool32 Gemerl_State_33(void *gemerl);
+extern bool32 Gemerl_State_34(void *gemerl);
+extern bool32 Gemerl_State_35(void *gemerl);
+extern bool32 Gemerl_State_36(void *gemerl);
+extern bool32 Gemerl_State_37(void *gemerl);
+extern bool32 Gemerl_State_38(void *gemerl);
+extern bool32 Gemerl_State_39(void *gemerl);
+extern bool32 Gemerl_State_40(void *gemerl);
+extern bool32 Gemerl_State_41(void *gemerl);
+extern bool32 Gemerl_State_42(void *gemerl);
+extern bool32 Gemerl_State_43(void *gemerl);
+extern bool32 Gemerl_State_44(void *gemerl);
+extern bool32 Gemerl_State_45(void *gemerl);
+extern bool32 Gemerl_State_46(void *gemerl);
+extern bool32 Gemerl_State_47(void *gemerl);
+extern bool32 Gemerl_State_48(void *gemerl);
+extern bool32 Gemerl_State_49(void *gemerl);
+extern bool32 Gemerl_State_50(void *gemerl);
+extern bool32 Gemerl_State_51(void *gemerl);
+extern bool32 Gemerl_State_52(void *gemerl);
+extern bool32 Gemerl_State_53(void *gemerl);
+extern bool32 Gemerl_State_54(void *gemerl);
 
 const GemerlState gGemerlStates[] = {
     {
-        Gemerl_State0,
+        Gemerl_State_0,
         { 60, 80, 100, 120 },
         0,
         0,
@@ -77,7 +77,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_8067F2C,
+        Gemerl_State_1,
         { 60, 80, 100, 120 },
         1,
         0,
@@ -85,7 +85,7 @@ const GemerlState gGemerlStates[] = {
         1,
     },
     {
-        sub_8067F84,
+        Gemerl_State_2,
         { 60, 80, 100, 120 },
         1,
         0,
@@ -93,7 +93,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_806800C,
+        Gemerl_State_3,
         { 15, 20, 25, 30 },
         0,
         0,
@@ -101,7 +101,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_8068084,
+        Gemerl_State_4,
         { 27, 36, 45, 57 },
         0,
         0,
@@ -109,7 +109,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_80665D4,
+        Gemerl_State_5,
         { 0, 0, 0, 0 },
         0,
         0,
@@ -117,7 +117,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_8066670,
+        Gemerl_State_6,
         { 40, 40, 40, 40 },
         0,
         0,
@@ -125,7 +125,7 @@ const GemerlState gGemerlStates[] = {
         1,
     },
     {
-        sub_8068128,
+        Gemerl_State_7,
         { 60, 75, 88, 110 },
         0,
         0,
@@ -133,7 +133,7 @@ const GemerlState gGemerlStates[] = {
         2,
     },
     {
-        sub_8066890,
+        Gemerl_State_8,
         { 120, 120, 120, 120 },
         0,
         0,
@@ -141,7 +141,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_80681A0,
+        Gemerl_State_9,
         { 30, 30, 30, 30 },
         0,
         0,
@@ -149,7 +149,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_80681FC,
+        Gemerl_State_10_12_14,
         { 120, 120, 120, 120 },
         0,
         0,
@@ -157,7 +157,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_8068290,
+        Gemerl_State_11_13_15,
         { 69, 69, 69, 69 },
         0,
         0,
@@ -165,7 +165,7 @@ const GemerlState gGemerlStates[] = {
         1,
     },
     {
-        sub_80681FC,
+        Gemerl_State_10_12_14,
         { 120, 120, 120, 120 },
         0,
         0,
@@ -173,7 +173,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_8068290,
+        Gemerl_State_11_13_15,
         { 31, 31, 31, 31 },
         0,
         0,
@@ -181,7 +181,7 @@ const GemerlState gGemerlStates[] = {
         1,
     },
     {
-        sub_80681FC,
+        Gemerl_State_10_12_14,
         { 120, 120, 120, 120 },
         0,
         0,
@@ -189,7 +189,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_8068290,
+        Gemerl_State_11_13_15,
         { 25, 25, 25, 25 },
         0,
         0,
@@ -197,7 +197,7 @@ const GemerlState gGemerlStates[] = {
         1,
     },
     {
-        sub_80682A0,
+        Gemerl_State_16,
         { 30, 30, 30, 30 },
         0,
         0,
@@ -205,7 +205,7 @@ const GemerlState gGemerlStates[] = {
         1,
     },
     {
-        sub_8066570,
+        Gemerl_State_17,
         { 30, 30, 30, 30 },
         0,
         0,
@@ -213,7 +213,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_80682B0,
+        Gemerl_State_18,
         { 6, 6, 6, 6 },
         1,
         0,
@@ -221,7 +221,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_8068320,
+        Gemerl_State_19,
         { 60, 60, 60, 60 },
         0,
         0,
@@ -229,7 +229,7 @@ const GemerlState gGemerlStates[] = {
         1,
     },
     {
-        sub_806698C,
+        Gemerl_State_20,
         { 10, 10, 10, 10 },
         0,
         0,
@@ -237,7 +237,7 @@ const GemerlState gGemerlStates[] = {
         2,
     },
     {
-        sub_8066AB8,
+        Gemerl_State_21,
         { 0, 0, 0, 0 },
         0,
         0,
@@ -245,7 +245,7 @@ const GemerlState gGemerlStates[] = {
         3,
     },
     {
-        sub_806837C,
+        Gemerl_State_22,
         { 0, 0, 0, 0 },
         0,
         0,
@@ -253,7 +253,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_80683E8,
+        Gemerl_State_23,
         { 0, 0, 0, 0 },
         0,
         0,
@@ -261,7 +261,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_806845C,
+        Gemerl_State_24,
         { 37, 37, 37, 37 },
         1,
         0,
@@ -269,7 +269,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_8066BEC,
+        Gemerl_State_25,
         { 13, 18, 20, 23 },
         0,
         0,
@@ -277,7 +277,7 @@ const GemerlState gGemerlStates[] = {
         1,
     },
     {
-        sub_80684B0,
+        Gemerl_State_26,
         { 1, 1, 1, 1 },
         0,
         0,
@@ -285,7 +285,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_8068520,
+        Gemerl_State_27,
         { 26, 32, 36, 40 },
         1,
         0,
@@ -293,7 +293,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_8066C9C,
+        Gemerl_State_28,
         { 18, 20, 23, 28 },
         0,
         0,
@@ -301,7 +301,7 @@ const GemerlState gGemerlStates[] = {
         1,
     },
     {
-        sub_8066D0C,
+        Gemerl_State_29,
         { 0, 0, 0, 0 },
         0,
         0,
@@ -309,7 +309,7 @@ const GemerlState gGemerlStates[] = {
         1,
     },
     {
-        sub_80685AC,
+        Gemerl_State_30,
         { 20, 27, 34, 40 },
         0,
         0,
@@ -317,7 +317,7 @@ const GemerlState gGemerlStates[] = {
         1,
     },
     {
-        sub_80685C4,
+        Gemerl_State_31,
         { 21, 23, 27, 30 },
         0,
         0,
@@ -325,7 +325,7 @@ const GemerlState gGemerlStates[] = {
         1,
     },
     {
-        sub_80685F0,
+        Gemerl_State_32,
         { 6, 6, 6, 6 },
         1,
         0,
@@ -333,7 +333,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_8066EE4,
+        Gemerl_State_33,
         { 60, 60, 60, 60 },
         0,
         0,
@@ -341,7 +341,7 @@ const GemerlState gGemerlStates[] = {
         1,
     },
     {
-        sub_8066F64,
+        Gemerl_State_34,
         { 10, 10, 10, 10 },
         1,
         0,
@@ -349,7 +349,7 @@ const GemerlState gGemerlStates[] = {
         2,
     },
     {
-        sub_8067050,
+        Gemerl_State_35,
         { 0, 0, 0, 0 },
         0,
         0,
@@ -357,7 +357,7 @@ const GemerlState gGemerlStates[] = {
         3,
     },
     {
-        sub_8067204,
+        Gemerl_State_36,
         { 0, 0, 0, 0 },
         0,
         0,
@@ -365,7 +365,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_8068660,
+        Gemerl_State_37,
         { 0, 0, 0, 0 },
         0,
         0,
@@ -373,7 +373,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_80686C8,
+        Gemerl_State_38,
         { 16, 19, 22, 25 },
         0,
         0,
@@ -381,7 +381,7 @@ const GemerlState gGemerlStates[] = {
         1,
     },
     {
-        sub_80672E0,
+        Gemerl_State_39,
         { 6, 6, 6, 6 },
         1,
         0,
@@ -389,7 +389,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_8067378,
+        Gemerl_State_40,
         { 60, 60, 60, 60 },
         0,
         0,
@@ -397,7 +397,7 @@ const GemerlState gGemerlStates[] = {
         1,
     },
     {
-        sub_80686D8,
+        Gemerl_State_41,
         { 10, 10, 10, 10 },
         0,
         0,
@@ -405,7 +405,7 @@ const GemerlState gGemerlStates[] = {
         2,
     },
     {
-        sub_8068748,
+        Gemerl_State_42,
         { 6, 8, 10, 12 },
         0,
         0,
@@ -413,7 +413,7 @@ const GemerlState gGemerlStates[] = {
         2,
     },
     {
-        sub_8068778,
+        Gemerl_State_43,
         { 7, 10, 13, 18 },
         0,
         0,
@@ -421,7 +421,7 @@ const GemerlState gGemerlStates[] = {
         3,
     },
     {
-        sub_80673F8,
+        Gemerl_State_44,
         { 120, 120, 120, 120 },
         0,
         0,
@@ -429,7 +429,7 @@ const GemerlState gGemerlStates[] = {
         3,
     },
     {
-        sub_80687B0,
+        Gemerl_State_45,
         { 6, 8, 10, 12 },
         0,
         0,
@@ -437,7 +437,7 @@ const GemerlState gGemerlStates[] = {
         2,
     },
     {
-        sub_80687F4,
+        Gemerl_State_46,
         { 7, 10, 13, 18 },
         0,
         0,
@@ -445,7 +445,7 @@ const GemerlState gGemerlStates[] = {
         3,
     },
     {
-        sub_80674EC,
+        Gemerl_State_47,
         { 0, 0, 0, 0 },
         0,
         0,
@@ -453,7 +453,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_8068818,
+        Gemerl_State_48,
         { 16, 19, 22, 25 },
         0,
         0,
@@ -461,7 +461,7 @@ const GemerlState gGemerlStates[] = {
         1,
     },
     {
-        sub_8067FDC,
+        Gemerl_State_49,
         { 60, 70, 80, 90 },
         1,
         0,
@@ -469,7 +469,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_8068174,
+        Gemerl_State_50,
         { 10, 10, 10, 10 },
         1,
         0,
@@ -477,7 +477,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_8066728,
+        Gemerl_State_51,
         { 1, 1, 1, 1 },
         0,
         0,
@@ -485,7 +485,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_80680BC,
+        Gemerl_State_52,
         { 210, 210, 210, 210 },
         1,
         0,
@@ -493,7 +493,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_8068104,
+        Gemerl_State_53,
         { 1, 1, 1, 1 },
         0,
         0,
@@ -501,7 +501,7 @@ const GemerlState gGemerlStates[] = {
         0,
     },
     {
-        sub_8068124,
+        Gemerl_State_54,
         { 1, 1, 1, 1 },
         0,
         0,

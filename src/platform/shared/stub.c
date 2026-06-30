@@ -197,7 +197,7 @@ void sub_80A5954() { }
 void sub_80A872C() { }
 ColorRaw sub_80C4C0C(ColorRaw color) { return color; }
 void sub_8029990() { }
-void Gemerl_State0() { }
+void Gemerl_State_0() { }
 
 void sub_80260F0() { }
 void sub_80261B0() { }

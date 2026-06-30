@@ -50,7 +50,7 @@ void export_callback_prototypes(RawFile file)
         GemerlState *state = ptr_from_romptr(file, gGemerlStatesPtr + i * sizeof(GemerlState));
         // TODO: Add Gemerl struct type?
         // NOTE: Thumb pointers have the LSB set, so we have to -1 to clear it
-        printf("extern bool32 sub_%07X(void *gemerl);\n", (state->callback-1));
+        printf("extern bool32 Gemerl_State_%d(void *gemerl);\n", i);
     }
     printf("\n");
 }
@@ -87,10 +87,10 @@ void export_gemerl_states_c(RawFile file)
     for(int i = 0; i < gGemerlStates.count; i++)
     {
         GemerlState *state = ptr_from_romptr(file, gGemerlStatesPtr + i * sizeof(GemerlState));
-        RomPtr callbackPtr = (state->callback-1);
+        RomPtr callbackPtr = (state->callback-1); // NOTE: Thumb pointers have the LSB set, so we have to -1 to clear it
         printf("    {\n");
         if(callbackPtr != (RomPtr)-1) {
-            printf("        sub_%07X,\n", callbackPtr); // NOTE: Thumb pointers have the LSB set, so we have to -1 to clear it
+            printf("        Gemerl_State_%d,\n", i);
         } else {
             printf("        NULL,\n");
         }
