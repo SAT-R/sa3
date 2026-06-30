@@ -12,6 +12,12 @@ typedef struct {
     u8 pattern;
 } GemerlState;
 
+typedef struct {
+    /* 0x00 */ u8 filler0[0x78];
+    /* 0x78 */ Sprite spr78; // possibly Sprite2 ?
+    /* 0xA0 */ u8 fillerA0[0x50];
+} Gemerl; /* 0xF0 */
+
 extern bool32 Gemerl_State_0(void *gemerl);
 extern bool32 Gemerl_State_1(void *gemerl);
 extern bool32 Gemerl_State_2(void *gemerl);
