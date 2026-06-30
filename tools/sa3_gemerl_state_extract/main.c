@@ -35,6 +35,9 @@ int main(int argCount, char **args)
     }
 }
 
+#define IS_DUPLICATE(_i)  \
+    ((_i == 10 || _i == 12 || _i == 14 || _i == 11 || _i == 13 || _i == 15))
+
 void export_callback_prototypes(RawFile file)
 {
     RomPtr gGemerlStatesPtr = ROM_BASE + 0xD527C;
@@ -48,9 +51,18 @@ void export_callback_prototypes(RawFile file)
     for(int i = 0 ; i < gGemerlStates.count-1; i++)
     {
         GemerlState *state = ptr_from_romptr(file, gGemerlStatesPtr + i * sizeof(GemerlState));
-        // TODO: Add Gemerl struct type?
-        // NOTE: Thumb pointers have the LSB set, so we have to -1 to clear it
-        printf("extern bool32 Gemerl_State_%d(void *gemerl);\n", i);
+
+        if(!IS_DUPLICATE(i)) {
+            // TODO: Add Gemerl struct type to parameter?
+            printf("extern bool32 Gemerl_State_%d(void *gemerl);\n", i);
+        } else {
+            // Only print shared prototypes once.
+            if(i == 10) {
+                printf("extern bool32 Gemerl_State_10_12_14(void *gemerl);\n");
+            } else if (i == 11) {
+                printf("extern bool32 Gemerl_State_11_13_15(void *gemerl);\n");
+            }
+        }
     }
     printf("\n");
 }
@@ -90,7 +102,27 @@ void export_gemerl_states_c(RawFile file)
         RomPtr callbackPtr = (state->callback-1); // NOTE: Thumb pointers have the LSB set, so we have to -1 to clear it
         printf("    {\n");
         if(callbackPtr != (RomPtr)-1) {
-            printf("        Gemerl_State_%d,\n", i);
+            switch(i)
+            {
+            case 10:
+            case 12:
+            case 14: {
+                // NOTE: These are shared
+                printf("        Gemerl_State_10_12_14,\n");
+            } break;
+
+            case 11:
+            case 13:
+            case 15: {
+                // NOTE: These are shared
+                printf("        Gemerl_State_11_13_15,\n");
+            } break;
+
+            default: {
+                // All other procedures are only assigned to one state
+                printf("        Gemerl_State_%d,\n", i);
+            } break;
+            }
         } else {
             printf("        NULL,\n");
         }
