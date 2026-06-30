@@ -139,11 +139,6 @@ void sub_80AD824() { }
 void sub_80AE174() { }
 void sub_80AE1C8() { }
 void sub_80AE770() { }
-void sub_80B62FC() { }
-void sub_80B6370() { }
-s16 sub_80B6464() { return 0; }
-void sub_80B6538() { }
-s16 sub_80B65FC() { return 0; }
 void sub_80AB120(u8 param0) { }
 
 void /* 0x080C4564 */ CopyPalette() { }
