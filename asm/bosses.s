@@ -117,7 +117,7 @@ _08068BEA:
 	lsrs r5, r0, #0x18
 	cmp r5, #4
 	bls _08068BEA
-	bl sub_807A4BC
+	bl SetFixedRandomIfTimeAttackMode
 	mov r0, r8
 	add sp, #4
 	pop {r3, r4}
@@ -4009,7 +4009,7 @@ _0806A9A2:
 	ldr r0, _0806AA3C @ =gFrameCount
 	ldr r0, [r0]
 	str r0, [r1]
-	bl sub_807A4BC
+	bl SetFixedRandomIfTimeAttackMode
 	mov r0, r8
 	add sp, #8
 	pop {r3}
@@ -9320,7 +9320,7 @@ _0806D216:
 	str r0, [r6, #0x3c]
 	adds r0, r6, #0
 	bl sub_806D404
-	bl sub_807A4BC
+	bl SetFixedRandomIfTimeAttackMode
 	adds r0, r7, #0
 	add sp, #4
 	pop {r4, r5, r6, r7}
@@ -12715,7 +12715,7 @@ CreateBoss_806EADC: @ 0x0806EADC
 	bl sub_080719B4
 	mov r1, r8
 	str r1, [r5, #0x34]
-	bl sub_807A4BC
+	bl SetFixedRandomIfTimeAttackMode
 	ldr r0, [sp, #4]
 	add sp, #8
 	pop {r3, r4, r5}
@@ -19156,7 +19156,7 @@ _08071CFA:
 	lsrs r0, r0, #0x18
 	cmp r0, #3
 	bls _08071CFA
-	bl sub_807A4BC
+	bl SetFixedRandomIfTimeAttackMode
 	ldr r0, [sp, #4]
 	add sp, #0x10
 	pop {r3, r4, r5}
@@ -22711,7 +22711,7 @@ _0807372A:
 	mov r2, sl
 	movs r3, #1
 	bl sub_80747F4
-	bl sub_807A4BC
+	bl SetFixedRandomIfTimeAttackMode
 	ldr r0, [sp, #4]
 	add sp, #0xc
 	pop {r3, r4, r5}
@@ -25690,7 +25690,7 @@ _08074F32:
 	str r0, [r1]
 	adds r0, r7, #0
 	bl sub_8076550
-	bl sub_807A4BC
+	bl SetFixedRandomIfTimeAttackMode
 	ldr r0, [sp, #4]
 	add sp, #8
 	pop {r3, r4, r5}
@@ -36654,8 +36654,8 @@ sub_807A4A8: @ 0x0807A4A8
 	.align 2, 0
 _0807A4B8: .4byte gStageData
 
-	thumb_func_start sub_807A4BC
-sub_807A4BC: @ 0x0807A4BC
+	thumb_func_start SetFixedRandomIfTimeAttackMode
+SetFixedRandomIfTimeAttackMode: @ 0x0807A4BC
 	push {lr}
 	ldr r1, _0807A4DC @ =gStageData
 	ldrb r0, [r1, #3]
@@ -52179,7 +52179,7 @@ _080819E0:
 	strh r0, [r4, #8]
 	movs r0, #0xa
 	strh r0, [r4, #0xc]
-	bl sub_807A4BC
+	bl SetFixedRandomIfTimeAttackMode
 	ldr r1, [r5]
 	ldr r0, _08081A0C @ =Task_807B808
 	str r0, [r1, #8]
@@ -52632,7 +52632,7 @@ _08081CC2:
 	str r2, [r5, #0x24]
 	str r2, [r5, #0x6c]
 	str r2, [r5, #0x74]
-	bl sub_807A4BC
+	bl SetFixedRandomIfTimeAttackMode
 	ldr r1, _08081D60 @ =gPlayers
 	str r1, [r5, #0x28]
 	movs r2, #0xa8

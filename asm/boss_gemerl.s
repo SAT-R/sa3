@@ -5,6 +5,7 @@
 .syntax unified
 .arm
 
+.if 0
     @ Called on init of Gmerl (in Boss 1 and Extra Boss)
     @ struct Task CreateGmerl1(u8 *param0, s32 worldX, s32 worldY);
 	thumb_func_start CreateGmerl1
@@ -254,7 +255,7 @@ _08066360:
 	adds r0, r6, #0
 	adds r1, r7, #0
 	bl Gemerl_SwitchState
-	bl sub_807A4BC
+	bl SetFixedRandomIfTimeAttackMode
 	ldr r5, [sp, #0x10]
 	ldr r0, [r6, #4]
 	adds r0, #0x80
@@ -294,6 +295,7 @@ _08066360:
 	.align 2, 0
 _080663E8: .4byte gPlayers
 _080663EC: .4byte 0x000004F9
+.endif
 
 	thumb_func_start sub_80663F0
 sub_80663F0: @ 0x080663F0

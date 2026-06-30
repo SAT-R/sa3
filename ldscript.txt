@@ -162,6 +162,7 @@ SECTIONS {
         src/game/enemies/guruguru.o(.text);
         src/game/enemies/kyacchaa.o(.text);
         src/game/stage/some_stage_manager.o(.text);
+        src/game/bosses/gemerl.o(.text);
         asm/boss_gemerl.o(.text);
         asm/bosses.o(.text);
         asm/main_menu.o(.text);

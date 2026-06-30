@@ -13,9 +13,32 @@ typedef struct {
 } GemerlState;
 
 typedef struct {
-    /* 0x00 */ u8 filler0[0x78];
-    /* 0x78 */ Sprite spr78; // possibly Sprite2 ?
-    /* 0xA0 */ u8 fillerA0[0x50];
+    /* 0x00 */ u8 filler0[0x4];
+    /* 0x04 */ u8 *vram4;
+    /* 0x08 */ s32 qSomeX;
+    /* 0x0C */ s32 qSomeY;
+    /* 0x10 */ u8 filler10[0x4];
+    /* 0x14 */ s16 unk14;
+    /* 0x16 */ s16 unk16;
+    /* 0x18 */ s16 unk18;
+    /* 0x1C */ u8 *inputArg0;
+    /* 0x20 */ u8 unk20;
+    /* 0x21 */ u8 unk21;
+    /* 0x22 */ u8 unk22;
+    /* 0x23 */ u8 zone;
+    /* 0x24 */ u8 unk24[10];
+    /* 0x2E */ u8 unk2E;
+    /* 0x2F */ u8 unk2F;
+    /* 0x30 */ u8 unk30;
+    /* 0x31 */ u8 unk31;
+    /* 0x32 */ u8 unk32;
+    /* 0x33 */ u8 unk33;
+    /* 0x34 */ u8 filler34[0x8];
+    /* 0x3C */ Sprite2 spr3C;
+    /* 0x6C */ SpriteTransform tf6C;
+    /* 0x78 */ Sprite spr78;
+    /* 0xA0 */ Sprite sprA0;
+    /* 0xA0 */ Sprite sprC8;
 } Gemerl; /* 0xF0 */
 
 extern bool32 Gemerl_State_0(void *gemerl);
