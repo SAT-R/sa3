@@ -160,13 +160,13 @@ gUnknown_080CFA58:
     @ gCamera-Coordinates set after a trigger was destroyed.
     @ If a value is -1 it is left unchanged, in that order:
     @  minX, maxX, minY, maxY
-    mPtr CreateGmerl1           @  0
+    mPtr CreateGemerl           @  0
     .int -1, 0x1D40, 0, 0xC60
-    mPtr CreateGmerl1           @  1
+    mPtr CreateGemerl           @  1
     .int -1, 0x1FE0, 0, 0xB40
-    mPtr CreateGmerl1           @  2
+    mPtr CreateGemerl           @  2
     .int -1, 0x32A0, 0, 0x660
-    mPtr CreateGmerl1           @  3
+    mPtr CreateGemerl           @  3
     .int -1, 0x0960, -1, -1
     mPtr CreateBoss_8068B3C     @  4
     .int -1, 0x0960, -1, -1

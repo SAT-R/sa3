@@ -14,8 +14,8 @@ void sub_8068828(Task *t);
 extern void SetFixedRandomIfTimeAttackMode(void); 
 
 // Called on init of Gmerl (in Boss 1 and Extra Boss)
-// struct Task CreateGmerl1(u8 *param0, s32 worldX, s32 worldY);
-Task *CreateGmerl1(u8 *param0, s32 worldX, s32 worldY)
+// struct Task CreateGemerl(u8 *param0, s32 worldX, s32 worldY);
+Task *CreateGemerl(u8 *param0, s32 worldX, s32 worldY)
 {
     Task *t;
     Sprite *s;
