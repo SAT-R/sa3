@@ -77,6 +77,7 @@ void export_includes()
 void export_struct()
 {
     printf("typedef bool32 (*GemerlCallback)(void *);\n");
+    printf("\n");
     printf("typedef struct {\n");
         printf("    GemerlCallback callback;\n");
         printf("    s16 unk4[4];\n");
