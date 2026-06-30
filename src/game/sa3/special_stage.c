@@ -3065,24 +3065,24 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B6198.inc", void sub_80B6198(Sp
 }
 END_NONMATCH
 
-void sub_80B62FC(SpStgContext *ctx) {
+void sub_80B62FC(SpStgContext *ctx)
+{
     s16 var_r2;
     s32 temp_r1;
     u32 temp_r0;
     u8 temp_r0_2;
-    Arg2Task4_x744  *temp_r3;
-	Arg2Task4 *task4 = TASK_DATA(ctx->task4);
+    Arg2Task4_x744 *temp_r3;
+    Arg2Task4 *task4 = TASK_DATA(ctx->task4);
 
-    for(var_r2 = 0; var_r2 < 8; var_r2++)
-	{
+    for (var_r2 = 0; var_r2 < 8; var_r2++) {
         temp_r3 = &task4->unk5F4[var_r2];
         if (temp_r3->unk1A != 0) {
-            temp_r3->unk0 = (s32) (temp_r3->unk0 + (temp_r3->unkC << 8));
-            temp_r3->unk4 = (s32) (temp_r3->unk4 + (temp_r3->unk10 << 8));
+            temp_r3->unk0 = (s32)(temp_r3->unk0 + (temp_r3->unkC << 8));
+            temp_r3->unk4 = (s32)(temp_r3->unk4 + (temp_r3->unk10 << 8));
             temp_r3->unk8 = (s32)(temp_r3->unk8 + temp_r3->unk14);
             temp_r3->unk14 = (s32)(temp_r3->unk14 + temp_r3->unk18);
 
-			if (++temp_r3->unk1B > 0x1DU) {
+            if (++temp_r3->unk1B > 0x1DU) {
                 temp_r3->unk1A = 0U;
             }
         }
@@ -3185,39 +3185,41 @@ void sub_80B6464(s16 arg0, Arg2Task4_x744 *arg1)
     }
 }
 
-#if 0
-void sub_80B6538(Strc_8E2EF8C_3 *arg0, Arg2Task4 *strc4) {
+void sub_80B6538(Strc_8E2EF8C_3 *arg0)
+{
     Arg2Task4_x744 *temp_r3;
-    SpStgContext *temp_r0;
-    u16 temp_r2;
     u8 temp_r2_2;
     u8 var_r1;
+    Arg2Task4 *strc4 = TASK_DATA(gCurTask);
+    SpStgContext *temp_r0 = strc4->unk0;
+    Arg2Task8 *temp_r2 = TASK_DATA(temp_r0->task8);
+    s32 value = temp_r0->unk8B0;
+    s32 *pUnk8C;
+    value += ((120 - temp_r2->unkA0) << 14);
 
-    temp_r0 = strc4->unk0;
-    temp_r2 = temp_r0->task8->data;
-    var_r1 = 0;
-loop_1:
-    temp_r3 = &strc4->unk6D4[var_r1];
-    temp_r2_2 = temp_r3->unk1A;
-    if (temp_r2_2 == 0) {
-        temp_r3->unk0 = arg0->unk0;
-        temp_r3->unk4 = arg0->unk4;
-        temp_r3->unk8 = arg0->unk8;
-        temp_r3->unkC = (s32) (((temp_r0->unk8B0 + ((0x78 - temp_r2->unkA0) << 0xE)) - arg0->unk0) * 0x23) >> 0xB;
-        temp_r3->unk10 = (s32) (temp_r2->unk8C - (arg0->unk4 + 0xFF973C00)) >> 6;
-        temp_r3->unk14 = (s32) ((0x8C00 - ((s32) arg0->unk8 >> 4)) - temp_r2->unk90) >> 2;
-        temp_r3->unk18 = (s16) temp_r2_2;
-        temp_r3->unk1A = 1;
-        temp_r3->unk1B = 0;
-        return;
+    for (var_r1 = 0, pUnk8C = &temp_r2->unk8C; var_r1 < 4; var_r1++) {
+        temp_r3 = &strc4->unk6D4[var_r1];
+        if (temp_r3->unk1A == 0) {
+            s32 r0, r1, r1_2;
+            temp_r3->unk0 = arg0->unk0;
+            temp_r3->unk4 = arg0->unk4;
+            temp_r3->unk8 = arg0->unk8;
+            temp_r3->unkC = (s32)((value - arg0->unk0) * 0x23) >> 11;
+            r1 = arg0->unk4;
+            r1 -= Q(0x68C4);
+            temp_r3->unk10 = (s32)(*pUnk8C - r1) >> 6;
+            r1_2 = (arg0->unk8) >> 4;
+            r0 = 0x8C00 - r1_2;
+            temp_r3->unk14 = (s32)(r0 - temp_r2->unk90) >> 2;
+            temp_r3->unk18 = 0;
+            temp_r3->unk1A = 1;
+            temp_r3->unk1B = 0;
+            return;
+        }
     }
-    var_r1 += 1;
-    if ((u32) var_r1 > 3U) {
-        return;
-    }
-    goto loop_1;
 }
 
+#if 0
 s16 sub_80B65FC(s16 arg0, Strc_8E2EF8C_2 *arg1, s32 unused, Arg2Task4 *strc4) {
     Strc_8E2EF8C_2 sp14;
     Strc_8E2EF8C_2 *sp28;
