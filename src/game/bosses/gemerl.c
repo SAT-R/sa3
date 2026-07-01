@@ -21,6 +21,7 @@ extern void sub_807A4A8(void);
 extern void SetFixedRandomIfTimeAttackMode(void);
 
 // TODO: Better name than IS_BETWEEN and IS_BETWEEN_2!
+//       The problem with the name is that the max-value, is a delta between min/max, not the max itself.
 #define IS_BETWEEN(_value, _min, _deltaMax) ((_value) > (_min) && (_value) < (_min) + (_deltaMax))
 
 #define IS_BETWEEN_2(_valueX, _valueY, _minX, _minY, _deltaMaxX, _deltaMaxY)                                                               \
@@ -175,13 +176,13 @@ void Task_Gemerl_80663F0()
                 } break;
 
                 case ZONE_2: {
-                    if (!(IS_BETWEEN_2(I(p->qWorldX), I(p->qWorldY), 0x1AC8, 0x642, DISPLAY_WIDTH, 139))) {
+                    if (!(IS_BETWEEN_2(I(p->qWorldX), I(p->qWorldY), 6856, 1602, DISPLAY_WIDTH, 139))) {
                         return;
                     }
                 } break;
 
                 case ZONE_4: {
-                    if (!(IS_BETWEEN_2(I(p->qWorldX), I(p->qWorldY), 0x1D68, 0x280, DISPLAY_WIDTH, 131))) {
+                    if (!(IS_BETWEEN_2(I(p->qWorldX), I(p->qWorldY), 7528, 640, DISPLAY_WIDTH, 131))) {
                         return;
                     }
                 } break;
