@@ -8,56 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start Gemerl_State_17
-Gemerl_State_17: @ 0x08066570
-	push {r4, r5, lr}
-	adds r4, r0, #0
-	adds r3, r4, #0
-	adds r3, #0x3c
-	ldrh r2, [r4, #0x18]
-	movs r0, #0x18
-	ldrsh r1, [r4, r0]
-	movs r0, #1
-	eors r1, r0
-	rsbs r0, r1, #0
-	orrs r0, r1
-	lsrs r5, r0, #0x1f
-	subs r2, #1
-	strh r2, [r4, #0x18]
-	lsls r2, r2, #0x10
-	asrs r2, r2, #0x10
-	cmp r2, #0
-	bne _080665C0
-	ldr r1, _080665C8 @ =(gGemerlStates + 5 * 0x14)
-	ldr r0, [r1]
-	str r0, [r4]
-	ldrh r0, [r1, #4]
-	strh r0, [r4, #0x18]
-	strh r2, [r4, #0x16]
-	ldrh r0, [r1, #0xe]
-	strh r0, [r3, #0xc]
-	ldrb r0, [r1, #0x10]
-	strb r0, [r3, #0x1a]
-	ldr r0, _080665CC @ =0x0000FFFF
-	strh r0, [r3, #0x18]
-	movs r0, #0xff
-	strb r0, [r3, #0x1b]
-	adds r0, r4, #0
-	bl sub_8068AD8
-	ldr r0, [r4, #0xc]
-	str r0, [r4, #0x10]
-	ldr r0, _080665D0 @ =0x00000223
-	bl m4aSongNumStart
-_080665C0:
-	adds r0, r5, #0
-	pop {r4, r5}
-	pop {r1}
-	bx r1
-	.align 2, 0
-_080665C8: .4byte (gGemerlStates + 5 * 0x14)
-_080665CC: .4byte 0x0000FFFF
-_080665D0: .4byte 0x00000223
-
 	thumb_func_start Gemerl_State_5
 Gemerl_State_5: @ 0x080665D4
 	push {r4, lr}

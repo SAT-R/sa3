@@ -266,6 +266,11 @@
 #define SE_TAG_ACTION_CHARGING  0x21C
 #define SE_541                  0x21D
 #define SE_542                  0x21E
+#define SE_543                  0x21F
+#define SE_544                  0x220
+#define SE_545                  0x221
+#define SE_546                  0x222
+#define SE_547                  0x223
 
 #define SE_EXTRA_BOSS_578     0x23F
 #define SE_576                0x240

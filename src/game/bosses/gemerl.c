@@ -1,8 +1,10 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_vram.h"
+#include "lib/m4a/m4a.h"
 #include "game/sa3/bosses/gemerl_states.h"
 #include "game/stage.h"
+#include "constants/songs.h"
 
 void sub_80678C0(Sprite *s0, Sprite *s1, Sprite *s2);
 void sub_806799C(void *);
@@ -203,4 +205,29 @@ void Task_Gemerl_80663F0()
             gCurTask->main = sub_8068908;
         }
     }
+}
+
+bool32 Gemerl_State_17(Gemerl *gemerl)
+{
+    const GemerlState *state;
+    Sprite2 *s = &gemerl->spr3C;
+    bool32 result = (gemerl->unk18 ^ 1) ? 1 : 0;
+
+    if (--gemerl->unk18 == 0) {
+        state = &gGemerlStates[5];
+        gemerl->callback = state->callback;
+        gemerl->unk18 = state->unk4[0];
+        gemerl->unk16 = 0;
+
+        s->anim = state->anim;
+        s->variant = state->pattern;
+        s->prevAnim = -1;
+        s->prevVariant = -1;
+
+        sub_8068AD8(gemerl);
+        gemerl->unk10 = gemerl->qSomeY;
+        m4aSongNumStart(SE_547);
+    }
+
+    return result;
 }

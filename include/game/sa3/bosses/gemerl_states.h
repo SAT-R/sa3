@@ -1,23 +1,16 @@
 #ifndef GUARD_SA3_GEMERL_STATES_H
 #define GUARD_SA3_GEMERL_STATES_H
 
-typedef bool32 (*GemerlCallback)(void *);
+struct Gemerl;
 
-typedef struct {
-    GemerlCallback callback;
-    s16 unk4[4];
-    s8 unkC;
-    s8 unkD;
-    AnimId anim;
-    u8 pattern;
-} GemerlState;
+typedef bool32 (*GemerlCallback)(struct Gemerl *);
 
-typedef struct {
+typedef struct Gemerl {
     /* 0x00 */ GemerlCallback callback;
     /* 0x04 */ u8 *vram4;
     /* 0x08 */ s32 qSomeX;
     /* 0x0C */ s32 qSomeY;
-    /* 0x10 */ u8 filler10[0x4];
+    /* 0x14 */ s32 unk10;
     /* 0x14 */ s16 unk14;
     /* 0x16 */ s16 unk16;
     /* 0x18 */ s16 unk18;
@@ -41,56 +34,69 @@ typedef struct {
     /* 0xA0 */ Sprite sprC8;
 } Gemerl; /* 0xF0 */
 
-extern bool32 Gemerl_State_0(void *gemerl);
-extern bool32 Gemerl_State_1(void *gemerl);
-extern bool32 Gemerl_State_2(void *gemerl);
-extern bool32 Gemerl_State_3(void *gemerl);
-extern bool32 Gemerl_State_4(void *gemerl);
-extern bool32 Gemerl_State_5(void *gemerl);
-extern bool32 Gemerl_State_6(void *gemerl);
-extern bool32 Gemerl_State_7(void *gemerl);
-extern bool32 Gemerl_State_8(void *gemerl);
-extern bool32 Gemerl_State_9(void *gemerl);
-extern bool32 Gemerl_State_10_12_14(void *gemerl);
-extern bool32 Gemerl_State_11_13_15(void *gemerl);
-extern bool32 Gemerl_State_16(void *gemerl);
-extern bool32 Gemerl_State_17(void *gemerl);
-extern bool32 Gemerl_State_18(void *gemerl);
-extern bool32 Gemerl_State_19(void *gemerl);
-extern bool32 Gemerl_State_20(void *gemerl);
-extern bool32 Gemerl_State_21(void *gemerl);
-extern bool32 Gemerl_State_22(void *gemerl);
-extern bool32 Gemerl_State_23(void *gemerl);
-extern bool32 Gemerl_State_24(void *gemerl);
-extern bool32 Gemerl_State_25(void *gemerl);
-extern bool32 Gemerl_State_26(void *gemerl);
-extern bool32 Gemerl_State_27(void *gemerl);
-extern bool32 Gemerl_State_28(void *gemerl);
-extern bool32 Gemerl_State_29(void *gemerl);
-extern bool32 Gemerl_State_30(void *gemerl);
-extern bool32 Gemerl_State_31(void *gemerl);
-extern bool32 Gemerl_State_32(void *gemerl);
-extern bool32 Gemerl_State_33(void *gemerl);
-extern bool32 Gemerl_State_34(void *gemerl);
-extern bool32 Gemerl_State_35(void *gemerl);
-extern bool32 Gemerl_State_36(void *gemerl);
-extern bool32 Gemerl_State_37(void *gemerl);
-extern bool32 Gemerl_State_38(void *gemerl);
-extern bool32 Gemerl_State_39(void *gemerl);
-extern bool32 Gemerl_State_40(void *gemerl);
-extern bool32 Gemerl_State_41(void *gemerl);
-extern bool32 Gemerl_State_42(void *gemerl);
-extern bool32 Gemerl_State_43(void *gemerl);
-extern bool32 Gemerl_State_44(void *gemerl);
-extern bool32 Gemerl_State_45(void *gemerl);
-extern bool32 Gemerl_State_46(void *gemerl);
-extern bool32 Gemerl_State_47(void *gemerl);
-extern bool32 Gemerl_State_48(void *gemerl);
-extern bool32 Gemerl_State_49(void *gemerl);
-extern bool32 Gemerl_State_50(void *gemerl);
-extern bool32 Gemerl_State_51(void *gemerl);
-extern bool32 Gemerl_State_52(void *gemerl);
-extern bool32 Gemerl_State_53(void *gemerl);
-extern bool32 Gemerl_State_54(void *gemerl);
+typedef struct {
+    GemerlCallback callback;
+    s16 unk4[4];
+    s8 unkC;
+    s8 unkD;
+    AnimId anim;
+    u8 pattern;
+} GemerlState;
+
+extern bool32 Gemerl_State_0(Gemerl *gemerl);
+extern bool32 Gemerl_State_1(Gemerl *gemerl);
+extern bool32 Gemerl_State_2(Gemerl *gemerl);
+extern bool32 Gemerl_State_3(Gemerl *gemerl);
+extern bool32 Gemerl_State_4(Gemerl *gemerl);
+extern bool32 Gemerl_State_5(Gemerl *gemerl);
+extern bool32 Gemerl_State_6(Gemerl *gemerl);
+extern bool32 Gemerl_State_7(Gemerl *gemerl);
+extern bool32 Gemerl_State_8(Gemerl *gemerl);
+extern bool32 Gemerl_State_9(Gemerl *gemerl);
+extern bool32 Gemerl_State_10_12_14(Gemerl *gemerl);
+extern bool32 Gemerl_State_11_13_15(Gemerl *gemerl);
+extern bool32 Gemerl_State_16(Gemerl *gemerl);
+extern bool32 Gemerl_State_17(Gemerl *gemerl);
+extern bool32 Gemerl_State_18(Gemerl *gemerl);
+extern bool32 Gemerl_State_19(Gemerl *gemerl);
+extern bool32 Gemerl_State_20(Gemerl *gemerl);
+extern bool32 Gemerl_State_21(Gemerl *gemerl);
+extern bool32 Gemerl_State_22(Gemerl *gemerl);
+extern bool32 Gemerl_State_23(Gemerl *gemerl);
+extern bool32 Gemerl_State_24(Gemerl *gemerl);
+extern bool32 Gemerl_State_25(Gemerl *gemerl);
+extern bool32 Gemerl_State_26(Gemerl *gemerl);
+extern bool32 Gemerl_State_27(Gemerl *gemerl);
+extern bool32 Gemerl_State_28(Gemerl *gemerl);
+extern bool32 Gemerl_State_29(Gemerl *gemerl);
+extern bool32 Gemerl_State_30(Gemerl *gemerl);
+extern bool32 Gemerl_State_31(Gemerl *gemerl);
+extern bool32 Gemerl_State_32(Gemerl *gemerl);
+extern bool32 Gemerl_State_33(Gemerl *gemerl);
+extern bool32 Gemerl_State_34(Gemerl *gemerl);
+extern bool32 Gemerl_State_35(Gemerl *gemerl);
+extern bool32 Gemerl_State_36(Gemerl *gemerl);
+extern bool32 Gemerl_State_37(Gemerl *gemerl);
+extern bool32 Gemerl_State_38(Gemerl *gemerl);
+extern bool32 Gemerl_State_39(Gemerl *gemerl);
+extern bool32 Gemerl_State_40(Gemerl *gemerl);
+extern bool32 Gemerl_State_41(Gemerl *gemerl);
+extern bool32 Gemerl_State_42(Gemerl *gemerl);
+extern bool32 Gemerl_State_43(Gemerl *gemerl);
+extern bool32 Gemerl_State_44(Gemerl *gemerl);
+extern bool32 Gemerl_State_45(Gemerl *gemerl);
+extern bool32 Gemerl_State_46(Gemerl *gemerl);
+extern bool32 Gemerl_State_47(Gemerl *gemerl);
+extern bool32 Gemerl_State_48(Gemerl *gemerl);
+extern bool32 Gemerl_State_49(Gemerl *gemerl);
+extern bool32 Gemerl_State_50(Gemerl *gemerl);
+extern bool32 Gemerl_State_51(Gemerl *gemerl);
+extern bool32 Gemerl_State_52(Gemerl *gemerl);
+extern bool32 Gemerl_State_53(Gemerl *gemerl);
+extern bool32 Gemerl_State_54(Gemerl *gemerl);
+
+extern void sub_8068AD8(Gemerl *gemerl);
+
+extern const GemerlState gGemerlStates[];
 
 #endif // GUARD_SA3_GEMERL_STATES_H
