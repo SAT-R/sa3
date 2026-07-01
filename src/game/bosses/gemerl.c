@@ -209,12 +209,11 @@ void Task_Gemerl_80663F0()
 
 bool32 Gemerl_State_17(Gemerl *gemerl)
 {
-    const GemerlState *state;
     Sprite2 *s = &gemerl->spr3C;
-    bool32 result = (gemerl->unk18 ^ 1) ? 1 : 0;
+    bool32 result = (gemerl->unk18 ^ 1) ? TRUE : FALSE;
 
     if (--gemerl->unk18 == 0) {
-        state = &gGemerlStates[5];
+        const GemerlState *state = &gGemerlStates[5];
         gemerl->callback = state->callback;
         gemerl->unk18 = state->unk4[0];
         gemerl->unk16 = 0;
