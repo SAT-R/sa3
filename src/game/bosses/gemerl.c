@@ -5,13 +5,24 @@
 #include "game/stage.h"
 
 void sub_80678C0(Sprite *s0, Sprite *s1, Sprite *s2);
-void sub_8068860(void);
+void sub_806799C(void *);
+void Task_Gemerl_8068860(void);
+void sub_8068908(void);
+void sub_8068954(void *);
 void Gemerl_SwitchState(Gemerl *gemerl, s32 state);
-void sub_8068828(Task *t);
+void TaskDestructor_Gemerl(Task *t);
+
+extern void sub_807A4A8(void);
 
 // if gStageData.gameMode is Single Player TimeAttack,
 // then set gPseudoRandom = (gStageData.zone * 1001)
-extern void SetFixedRandomIfTimeAttackMode(void); 
+extern void SetFixedRandomIfTimeAttackMode(void);
+
+// TODO: Better name than IS_BETWEEN and IS_BETWEEN_2!
+#define IS_BETWEEN(_value, _min, _deltaMax) ((_value) > (_min) && (_value) < (_min) + (_deltaMax))
+
+#define IS_BETWEEN_2(_valueX, _valueY, _minX, _minY, _deltaMaxX, _deltaMaxY)                                                               \
+    (IS_BETWEEN(_valueX, _minX, _deltaMaxX) && ((_valueY) > (_minY)) && ((_valueY) < (_minY) + (_deltaMaxY)))
 
 // Called on init of Gmerl (in Boss 1 and Extra Boss)
 // struct Task CreateGemerl(u8 *param0, s32 worldX, s32 worldY);
@@ -30,7 +41,7 @@ Task *CreateGemerl(u8 *param0, s32 worldX, s32 worldY)
     u8 var_r4;
     Gemerl *gemerl;
 
-    t = TaskCreate(sub_8068860, sizeof(Gemerl), 0x2100U, 0U, sub_8068828);
+    t = TaskCreate(Task_Gemerl_8068860, sizeof(Gemerl), 0x2100U, 0U, TaskDestructor_Gemerl);
     gStageData.taskGemerl = t;
     gemerl = TASK_DATA(t);
     s = (Sprite *)&gemerl->spr3C;
@@ -113,7 +124,7 @@ Task *CreateGemerl(u8 *param0, s32 worldX, s32 worldY)
 
     s = &gemerl->sprC8;
     s->tiles = gemerl->vram4 + 4 * TILE_SIZE_4BPP;
-    s->anim = 0x4F9;
+    s->anim = 1273;
     s->variant = 1;
     s->oamFlags = 0x280;
     s->animCursor = 0;
@@ -128,4 +139,68 @@ Task *CreateGemerl(u8 *param0, s32 worldX, s32 worldY)
     UpdateSpriteAnimation(s);
 
     return t;
+}
+
+void Task_Gemerl_80663F0()
+{
+    Gemerl *gemerl = TASK_DATA(gCurTask);
+    s32 x;
+    s32 y;
+    s16 i;
+
+    if (gemerl->inputArg0[0] == 3) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    sub_8068954(gemerl);
+    sub_806799C(gemerl);
+
+    for (i = 0; i < 2; i++) {
+        Player *p = &gPlayers[i];
+        p->framesInvincible = 0;
+        p->unk13C &= 0xBF;
+    }
+
+    if (gemerl->inputArg0[0] == 2) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            Player *p = &gPlayers[i];
+            switch (gStageData.zone) {
+                case ZONE_1: {
+                    if (!IS_BETWEEN(I(p->qWorldX), 1184, DISPLAY_WIDTH)) {
+                        return;
+                    }
+                } break;
+
+                case ZONE_2: {
+                    if (!(IS_BETWEEN_2(I(p->qWorldX), I(p->qWorldY), 0x1AC8, 0x642, DISPLAY_WIDTH, 139))) {
+                        return;
+                    }
+                } break;
+
+                case ZONE_4: {
+                    if (!(IS_BETWEEN_2(I(p->qWorldX), I(p->qWorldY), 0x1D68, 0x280, DISPLAY_WIDTH, 131))) {
+                        return;
+                    }
+                } break;
+
+                case ZONE_6: {
+                    if (!IS_BETWEEN_2(I(p->qWorldX), I(p->qWorldY), 11944, 349, DISPLAY_WIDTH, 152)) {
+                        return;
+                    }
+                } break;
+
+                case ZONE_FINAL: {
+                    if (!IS_BETWEEN(I(p->qWorldX), 1104, DISPLAY_WIDTH)) {
+                        return;
+                    }
+                } break;
+            }
+        }
+
+        sub_807A4A8();
+        if (!gemerl->callback(gemerl)) {
+            gCurTask->main = sub_8068908;
+        }
+    }
 }

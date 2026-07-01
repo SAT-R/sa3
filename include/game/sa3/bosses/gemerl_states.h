@@ -13,7 +13,7 @@ typedef struct {
 } GemerlState;
 
 typedef struct {
-    /* 0x00 */ u8 filler0[0x4];
+    /* 0x00 */ GemerlCallback callback;
     /* 0x04 */ u8 *vram4;
     /* 0x08 */ s32 qSomeX;
     /* 0x0C */ s32 qSomeY;
