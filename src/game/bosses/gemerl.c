@@ -18,13 +18,16 @@ bool32 sub_8067B94(Gemerl *gemerl, s32 state);
 void sub_8068AAC(Gemerl *gemerl);
 void sub_8068ACC(Gemerl *gemerl);
 void TaskDestructor_Gemerl(Task *t);
-
 extern void sub_807A4A8(void);
+void sub_8068A6C(Gemerl *gemerl, s16, s16);
+void sub_8068A38(Gemerl *gemerl, s16, u8);
+
 
 // if gStageData.gameMode is Single Player TimeAttack,
 // then set gPseudoRandom = (gStageData.zone * 1001)
 extern void SetFixedRandomIfTimeAttackMode(void);
 
+extern const s16 gUnknown_080D56DC[][2];
 // TODO: Better name than IS_BETWEEN and IS_BETWEEN_2!
 //       The problem with the name is that the max-value, is a delta between min/max, not the max itself.
 #define IS_BETWEEN(_value, _min, _deltaMax) ((_value) > (_min) && (_value) < (_min) + (_deltaMax))
@@ -237,7 +240,8 @@ bool32 Gemerl_State_17(Gemerl *gemerl)
     return result;
 }
 
-bool32 Gemerl_State_5(Gemerl *gemerl) {
+bool32 Gemerl_State_5(Gemerl *gemerl)
+{
     Sprite2 *s = &gemerl->spr3C;
 
     if (s->frameFlags & 0x400) {
@@ -253,6 +257,47 @@ bool32 Gemerl_State_5(Gemerl *gemerl) {
             m4aSongNumStop(SE_547);
             gemerl->unk14 >>= 1;
             sub_8068ACC(gemerl);
+        }
+    }
+
+    if (sub_8067B94(gemerl, 1)) {
+        sub_8068AAC(gemerl);
+        sub_8067590(gemerl);
+    }
+
+    sub_8067A64(gemerl);
+    return 0U;
+}
+
+bool32 Gemerl_State_6(Gemerl *gemerl)
+{
+    Sprite2 *s = &gemerl->spr3C;
+    s32 v = gUnknown_080D56DC[(4 - (s8)gemerl->unk20)][1];
+    u32 var_r6 = 0;
+
+    sub_8068A6C(gemerl, v, 0);
+    if (s->frameFlags & 0x400) {
+        var_r6 = (gemerl->unk14 < 0) ? 1 : 0;
+    } else if (gemerl->unk14 > 0) {
+        var_r6 = 1;
+    }
+
+    if (var_r6 != 0) {
+        sub_8068A38(gemerl, 0, 0);
+        gemerl->unk18 = 1;
+    }
+
+    if (--gemerl->unk18 == 0) {
+        switch (gemerl->zone) {
+            case 3:
+            case 5:
+            case 7: {
+                Gemerl_SwitchState(gemerl, 50);
+            } break;
+
+            default: {
+                Gemerl_SwitchState(gemerl, 7);
+            } break;
         }
     }
 
