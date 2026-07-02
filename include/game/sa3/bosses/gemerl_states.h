@@ -14,6 +14,7 @@ typedef struct Gemerl {
     /* 0x14 */ s16 unk14;
     /* 0x16 */ s16 unk16;
     /* 0x18 */ s16 unk18;
+    /* 0x18 */ u16 unk1A;
     /* 0x1C */ u8 *inputArg0;
     /* 0x20 */ u8 unk20;
     /* 0x21 */ u8 unk21;
@@ -26,7 +27,8 @@ typedef struct Gemerl {
     /* 0x31 */ u8 unk31;
     /* 0x32 */ u8 unk32;
     /* 0x33 */ u8 unk33;
-    /* 0x34 */ u8 filler34[0x8];
+    /* 0x34 */ u8 filler34[0x6];
+    /* 0x33 */ s16 unk3A;
     /* 0x3C */ Sprite2 spr3C;
     /* 0x6C */ SpriteTransform tf6C;
     /* 0x78 */ Sprite spr78;

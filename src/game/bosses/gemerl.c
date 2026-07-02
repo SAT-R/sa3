@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "game/sa3/bosses/gemerl_states.h"
@@ -22,6 +23,7 @@ extern void sub_807A4A8(void);
 void sub_8068A6C(Gemerl *gemerl, s16, s16);
 void sub_8068A38(Gemerl *gemerl, s16, u8);
 
+extern Task *sub_8079758(s32, s16, s16, s16, s16, u8, s16, u8 *);
 
 // if gStageData.gameMode is Single Player TimeAttack,
 // then set gPseudoRandom = (gStageData.zone * 1001)
@@ -273,13 +275,13 @@ bool32 Gemerl_State_6(Gemerl *gemerl)
 {
     Sprite2 *s = &gemerl->spr3C;
     s32 v = gUnknown_080D56DC[(4 - (s8)gemerl->unk20)][1];
-    u32 var_r6 = 0;
+    bool32 var_r6 = FALSE;
 
     sub_8068A6C(gemerl, v, 0);
-    if (s->frameFlags & 0x400) {
-        var_r6 = (gemerl->unk14 < 0) ? 1 : 0;
-    } else if (gemerl->unk14 > 0) {
-        var_r6 = 1;
+    if (SPRITE_FLAG_GET(s, X_FLIP)) {
+        var_r6 = (gemerl->unk14 < 0) ? TRUE : FALSE;
+    } else {
+        var_r6 = (gemerl->unk14 > 0) ? TRUE : FALSE;
     }
 
     if (var_r6 != 0) {
@@ -289,9 +291,9 @@ bool32 Gemerl_State_6(Gemerl *gemerl)
 
     if (--gemerl->unk18 == 0) {
         switch (gemerl->zone) {
-            case 3:
-            case 5:
-            case 7: {
+            case ZONE_4:
+            case ZONE_6:
+            case ZONE_FINAL: {
                 Gemerl_SwitchState(gemerl, 50);
             } break;
 
@@ -309,3 +311,85 @@ bool32 Gemerl_State_6(Gemerl *gemerl)
     sub_8067A64(gemerl);
     return 0U;
 }
+
+// (97.14%) https://decomp.me/scratch/5QXwT
+NONMATCH("asm/non_matching/game/bosses/gemerl__gemerl_state_51.inc", bool32 Gemerl_State_51(Gemerl *gemerl))
+{
+    s16 temp_r0;
+    s32 temp_r0_5;
+    s32 temp_r0_6;
+    s32 temp_r2;
+    s32 temp_r4;
+    s32 temp_r6_2;
+    s32 temp_r7;
+    u32 var_r0_2;
+    u16 temp_r0_2;
+    u16 temp_r0_3;
+    u16 temp_r0_4;
+    s32 temp_r6;
+    u32 var_r0;
+    Sprite2 *s = &gemerl->spr3C;
+
+    switch (gemerl->unk18) {
+        case 1:
+            temp_r2 = Q(gCamera.x + DISPLAY_CENTER_X) - gemerl->qSomeX;
+            if (temp_r2 < 0) {
+                temp_r2 += 0x3F;
+            }
+            gemerl->unk14 = (s16)(temp_r2 >> 6);
+            gemerl->unk3A = I(gemerl->qSomeY);
+            gemerl->unk16 = 0;
+            gemerl->unk18 = 10;
+            gemerl->unk1A = 0;
+            /* fallthrough */
+        case 10: {
+            s32 sinVal = SIN(gemerl->unk1A);
+            gemerl->qSomeY = (gemerl->unk3A << 8) - sinVal;
+            gemerl->unk1A += 8;
+
+            if (gemerl->unk1A > 0x0200) {
+                gemerl->unk14 = 0;
+                gemerl->unk18 = 100;
+                gemerl->unk1A = 120;
+            }
+
+            if ((gStageData.timer & 3) == 0) {
+                u32 x0, y0;
+                s32 x, y;
+                temp_r4 = PseudoRandom32() & 0x3FF;
+                temp_r6 = PseudoRandom32() & 0xF;
+
+                x0 = COS(temp_r4);
+                x0 *= temp_r6;
+                x = x0 >> 6;
+                y0 = SIN(temp_r4);
+                y0 *= temp_r6;
+                temp_r6 = y0 >> 6;
+
+                sub_8079758(9, I(gemerl->qSomeX + x), I(gemerl->qSomeY + temp_r6), 0x100, temp_r4, 30, 0,
+                            gemerl->vram4 + 4 * TILE_SIZE_4BPP);
+            }
+
+            if ((gStageData.timer & 0x3F) == 0) {
+                m4aSongNumStart(SE_545);
+            }
+        } break;
+
+        case 100: {
+            if (--gemerl->unk1A == 0) {
+                gemerl->unk18 = 0;
+                temp_r6 = s->frameFlags;
+                Gemerl_SwitchState(gemerl, 9);
+
+                if (temp_r6 & 0x400) {
+                    SPRITE_FLAG_SET(s, X_FLIP);
+                } else {
+                    SPRITE_FLAG_CLEAR(s, X_FLIP);
+                }
+            }
+        } break;
+    }
+
+    return 0U;
+}
+END_NONMATCH
