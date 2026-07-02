@@ -12,6 +12,11 @@ void Task_Gemerl_8068860(void);
 void sub_8068908(void);
 void sub_8068954(void *);
 void Gemerl_SwitchState(Gemerl *gemerl, s32 state);
+void sub_8067590(Gemerl *gemerl);
+void sub_8067A64(Gemerl *gemerl);
+bool32 sub_8067B94(Gemerl *gemerl, s32 state);
+void sub_8068AAC(Gemerl *gemerl);
+void sub_8068ACC(Gemerl *gemerl);
 void TaskDestructor_Gemerl(Task *t);
 
 extern void sub_807A4A8(void);
@@ -230,4 +235,32 @@ bool32 Gemerl_State_17(Gemerl *gemerl)
     }
 
     return result;
+}
+
+bool32 Gemerl_State_5(Gemerl *gemerl) {
+    Sprite2 *s = &gemerl->spr3C;
+
+    if (s->frameFlags & 0x400) {
+        if (Q(gCamera.maxX - 46) < gemerl->qSomeX) {
+            Gemerl_SwitchState(gemerl, 6);
+            m4aSongNumStop(SE_547);
+            gemerl->unk14 >>= 1;
+            sub_8068ACC(gemerl);
+        }
+    } else {
+        if (Q(gCamera.minX + 46) > gemerl->qSomeX) {
+            Gemerl_SwitchState(gemerl, 6);
+            m4aSongNumStop(SE_547);
+            gemerl->unk14 >>= 1;
+            sub_8068ACC(gemerl);
+        }
+    }
+
+    if (sub_8067B94(gemerl, 1)) {
+        sub_8068AAC(gemerl);
+        sub_8067590(gemerl);
+    }
+
+    sub_8067A64(gemerl);
+    return 0U;
 }
