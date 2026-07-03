@@ -446,14 +446,14 @@ bool32 Gemerl_State_8(Gemerl *gemerl)
     return FALSE;
 }
 
-// (98.14%) https://decomp.me/scratch/6wOfK
-NONMATCH("asm/non_matching/game/bosses/gemerl__gemerl_state_20.inc", bool32 Gemerl_State_20(Gemerl *gemerl))
+u32 Gemerl_State_20(Gemerl *gemerl)
 {
     s32 var_r1;
     s16 temp_r2;
     s32 temp_r4;
     u32 var_r0;
     u32 var_r4;
+    s16 var_r4_high;
     Player *p = &gPlayers[PLAYER_1];
     Sprite2 *s = &gemerl->spr3C;
     s32 a = -gUnknown_080D56F0[gemerl->unk20][1];
@@ -479,9 +479,10 @@ NONMATCH("asm/non_matching/game/bosses/gemerl__gemerl_state_20.inc", bool32 Geme
         var_r1 = ABS((var_r1 * temp_r2) >> 14);
 
         var_r0 = SIN(var_r4);
-        var_r4 = (u32)(var_r0 * temp_r2 * 4) >> 16;
+        var_r4 = var_r0 * temp_r2;
+        var_r4_high = (var_r4 * 4) >> 16;
         sub_8068A38(gemerl, var_r1, 0);
-        sub_8068A38(gemerl, var_r4, 1);
+        sub_8068A38(gemerl, var_r4_high, 1);
         Gemerl_SwitchState(gemerl, 21);
 
         if (s->frameFlags & 0x400) {
@@ -493,7 +494,6 @@ NONMATCH("asm/non_matching/game/bosses/gemerl__gemerl_state_20.inc", bool32 Geme
     sub_8067B94(gemerl, 0);
     return 0U;
 }
-END_NONMATCH
 
 bool32 Gemerl_State_21(Gemerl *gemerl)
 {
