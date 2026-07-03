@@ -22,6 +22,7 @@ void TaskDestructor_Gemerl(Task *t);
 extern void sub_807A4A8(void);
 void sub_8068A6C(Gemerl *gemerl, s16, s16);
 void sub_8068A38(Gemerl *gemerl, s16, u8);
+bool32 sub_8068984(Gemerl *gemerl, s16);
 
 extern Task *sub_8079758(s32, s16, s16, s16, s16, u8, s16, u8 *);
 
@@ -481,3 +482,46 @@ NONMATCH("asm/non_matching/game/bosses/gemerl__gemerl_state_20.inc", bool32 Geme
     return 0U;
 }
 END_NONMATCH
+
+bool32 Gemerl_State_21(Gemerl *gemerl)
+{
+    s32 temp_ip;
+    u16 temp_r3;
+    u16 temp_r8;
+    u16 temp_sb;
+    Sprite2 *s = &gemerl->spr3C;
+    SpriteTransform *tf = &gemerl->tf6C;
+
+    temp_r8 = gUnknown_080D56DC[4 - gemerl->unk20][0];
+    temp_sb = temp_r8;
+    temp_ip = sub_8068984(gemerl, 0);
+
+    if (s->frameFlags & 0x400) {
+        tf->rotation = (tf->rotation + gUnknown_080D56F0[gemerl->unk20][4]) & 0x3FF;
+        if (Q(gCamera.maxX - 46) < gemerl->qSomeX) {
+            tf->rotation = 0;
+            gemerl->unk14 >>= 1;
+            Gemerl_SwitchState(gemerl, 22);
+        } else if (temp_ip != 0) {
+            tf->rotation = 0;
+            sub_8068AD8(gemerl);
+            Gemerl_SwitchState(gemerl, 23);
+            sub_8068A38(gemerl, (s16)temp_r8, 0);
+        }
+    } else {
+        tf->rotation = (tf->rotation - gUnknown_080D56F0[gemerl->unk20][4]) & 0x3FF;
+
+        if (Q(gCamera.minX + 46) > gemerl->qSomeX) {
+            tf->rotation = 0;
+            gemerl->unk14 >>= 1;
+            Gemerl_SwitchState(gemerl, 22);
+        } else if (temp_ip != 0) {
+            tf->rotation = 0;
+            sub_8068AD8(gemerl);
+            Gemerl_SwitchState(gemerl, 23);
+            sub_8068A38(gemerl, (s16)temp_sb, 0);
+        }
+    }
+    sub_8067B94(gemerl, 0);
+    return 0U;
+}
