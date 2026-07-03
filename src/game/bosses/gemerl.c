@@ -5,6 +5,8 @@
 #include "lib/m4a/m4a.h"
 #include "game/sa3/bosses/gemerl_states.h"
 #include "game/stage.h"
+#include "game/shared/stage/player_callbacks.h"
+#include "constants/move_states.h"
 #include "constants/songs.h"
 
 typedef struct {
@@ -590,5 +592,103 @@ bool32 Gemerl_State_28(Gemerl *gemerl)
 }
 
 
-#if 01 
+#if 01
+u32 Gemerl_State_29(Gemerl *gemerl)
+{
+    Player *temp_r4;
+    Player *temp_r4_3;
+    Sprite2 *temp_r1;
+    Sprite2 *var_r0;
+    s32 temp_r0_3;
+    s32 temp_r0_4;
+    s32 temp_r1_3;
+    s32 var_r1;
+    s32 var_sb;
+    u32 temp_r0;
+    u32 temp_r0_2;
+    u32 temp_r1_2;
+    u32 var_r0_2;
+    u8 var_r6;
+    u8 var_r6_2;
+    u8 var_r6_3;
+
+    var_sb = 0;
+    temp_r1 = &gemerl->spr3C;
+    if (gemerl->spr3C.frameFlags & 0x400) {
+        if (Q(gCamera.maxX - 12) < gemerl->qSomeX) {
+            var_sb = 1;
+        }
+    } else {
+        if (Q(gCamera.minX + 12) > gemerl->qSomeX) {
+            var_sb = 1;
+        }
+    }
+
+    sub_8067A64(gemerl);
+
+    for(var_r6 = 0; var_r6 < 2; var_r6++)
+	{
+        temp_r4 = &gPlayers[var_r6];
+        temp_r0 = sub_802C080(temp_r4);
+        if (temp_r0) {
+            if ((0x20 & temp_r4->moveState) && (temp_r4->sprColliding == (Sprite*)temp_r1)) {
+                temp_r4->moveState &= ~0x20;
+                temp_r4->sprColliding = NULL;
+            }
+        } else {
+            temp_r0_2 = sub_8020700((Sprite *)temp_r1, I(gemerl->qSomeX), I(gemerl->qSomeY), 1, temp_r4, 0);
+
+            if (temp_r0_2 == 1) {
+                Player_8009850(temp_r4);
+                if (gemerl->spr3C.frameFlags & 0x400) {
+                    temp_r4->moveState &= ~MOVESTATE_FACING_LEFT;
+                } else {
+                    temp_r4->moveState |= MOVESTATE_FACING_LEFT;
+                }
+                temp_r4->moveState |= 0x20;
+                temp_r4->sprColliding = (Sprite *)temp_r1;
+            }
+        }
+    }
+
+    for(var_r6 = 0; var_r6 < 2; var_r6++)
+	{
+        temp_r4 = &gPlayers[var_r6];
+        if ((temp_r4->moveState & 0x20) && (temp_r4->sprColliding == (Sprite*)temp_r1)) {
+            if (gemerl->spr3C.frameFlags & 0x400) {
+                var_r1 = +Q(30);
+            } else {
+                var_r1 = -Q(30);
+            }
+            temp_r4->qWorldX = gemerl->qSomeX + var_r1;
+            temp_r4->qWorldY = gemerl->qSomeY;
+
+			if (I(temp_r4->qWorldX) >= gCamera.maxX - 1) {
+                temp_r4->qWorldX = Q(gCamera.maxX - 1);
+                var_sb = 1;
+            } else if (I(temp_r4->qWorldX) <= gCamera.minX + 1) {
+                temp_r4->qWorldX = Q(gCamera.minX + 1);
+                var_sb = 1;
+            }
+            
+        }
+    }
+
+    if (var_sb == 1) {
+        Gemerl_SwitchState(gemerl, 0x1E);
+        sub_8068A38(gemerl, 0, 0U);
+        sub_8068ACC(gemerl);
+        for(var_r6 = 0; var_r6 < 2; var_r6++)
+		{
+            temp_r4 = &gPlayers[var_r6];
+            if ((temp_r4->moveState & 0x20) && (temp_r4->sprColliding == (Sprite*)temp_r1)) {
+                temp_r4->framesInvulnerable = 0;
+                temp_r4->framesInvincible = 0;
+                Call__Player_8014550(temp_r4);
+            }
+        }
+    }
+    return 0U;
+}
+
 #endif

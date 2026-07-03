@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start Gemerl_State_29
 Gemerl_State_29: @ 0x08066D0C
 	push {r4, r5, r6, r7, lr}
@@ -249,6 +247,7 @@ _08066ED0:
 	bx r1
 	.align 2, 0
 _08066EE0: .4byte gPlayers
+.endif
 
 	thumb_func_start Gemerl_State_33
 Gemerl_State_33: @ 0x08066EE4
