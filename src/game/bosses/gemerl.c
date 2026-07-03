@@ -37,6 +37,8 @@ extern const s16 gUnknown_080D56DC[][2];
 #define IS_BETWEEN_2(_valueX, _valueY, _minX, _minY, _deltaMaxX, _deltaMaxY)                                                               \
     (IS_BETWEEN(_valueX, _minX, _deltaMaxX) && ((_valueY) > (_minY)) && ((_valueY) < (_minY) + (_deltaMaxY)))
 
+extern const s16 gUnknown_080D56F0[][5];
+
 // Called on init of Gmerl (in Boss 1 and Extra Boss)
 // struct Task CreateGemerl(u8 *param0, s32 worldX, s32 worldY);
 Task *CreateGemerl(u8 *param0, s32 worldX, s32 worldY)
@@ -390,6 +392,92 @@ NONMATCH("asm/non_matching/game/bosses/gemerl__gemerl_state_51.inc", bool32 Geme
         } break;
     }
 
+    return 0U;
+}
+END_NONMATCH
+
+bool32 Gemerl_State_8(Gemerl *gemerl)
+{
+    s32 temp_r1;
+    s32 temp_r3;
+    s32 temp_r6;
+    Sprite2 *s = &gemerl->spr3C;
+
+    if (gemerl->qSomeX > Q(gCamera.maxX + 16)) {
+        if (gemerl->unk33 != 0) {
+            VramFree(gemerl->spr3C.tiles);
+            VramFree(gemerl->spr78.tiles);
+            VramFree(gemerl->sprA0.tiles);
+            VramFree(gemerl->vram4);
+            gemerl->vram4 = NULL;
+            gemerl->unk33 = 0;
+        }
+
+        if (--gemerl->unk18 == 0) {
+            return TRUE;
+        }
+    } else {
+        s->frameFlags |= 0x400;
+        sub_8068A38(gemerl, 0x200, 0);
+
+        if ((gStageData.timer % 8u) == 0) {
+            s32 x, y;
+            temp_r3 = PseudoRandom32() & 0x3FF;
+            temp_r1 = PseudoRandom32() & 0xF;
+            x = ((u32)(COS(temp_r3) * temp_r1) >> 6);
+            y = ((u32)(SIN(temp_r3) * temp_r1) >> 6);
+            sub_8079758(8, I(gemerl->qSomeX + x), I(gemerl->qSomeY + y), 0x10, temp_r3, 0x10, 0, NULL);
+        }
+    }
+
+    return FALSE;
+}
+
+// (98.14%) https://decomp.me/scratch/6wOfK
+NONMATCH("asm/non_matching/game/bosses/gemerl__gemerl_state_20.inc", bool32 Gemerl_State_20(Gemerl *gemerl))
+{
+    s32 var_r1;
+    s16 temp_r2;
+    s32 temp_r4;
+    u32 var_r0;
+    u32 var_r4;
+    Player *p = &gPlayers[PLAYER_1];
+    Sprite2 *s = &gemerl->spr3C;
+    s32 a = -gUnknown_080D56F0[gemerl->unk20][1];
+
+    sub_8068A6C(gemerl, 0U, a);
+    if (gemerl->unk16 < -Q(3)) {
+        var_r4 = (u16)sa2__sub_8004418(I(p->qWorldY - gemerl->qSomeY), I(p->qWorldX - gemerl->qSomeX));
+        if (s->frameFlags & 0x400) {
+            if (var_r4 >= 0 && var_r4 > 0x1FFU) {
+                var_r4 = 0;
+            } else if (var_r4 >= 0 && var_r4 > 0xFFU) {
+                var_r4 = 0x100;
+            }
+        } else {
+            if (var_r4 >= 0 && var_r4 > 0x200) {
+                var_r4 = 0x200;
+            } else if (var_r4 >= 0 && var_r4 < 0x100) {
+                var_r4 = 0x100;
+            }
+        }
+        var_r1 = COS(var_r4);
+        temp_r2 = gUnknown_080D56F0[gemerl->unk20][2];
+        var_r1 = ABS((var_r1 * temp_r2) >> 14);
+
+        var_r0 = SIN(var_r4);
+        var_r4 = (u32)(var_r0 * temp_r2 * 4) >> 16;
+        sub_8068A38(gemerl, var_r1, 0);
+        sub_8068A38(gemerl, var_r4, 1);
+        Gemerl_SwitchState(gemerl, 21);
+
+        if (s->frameFlags & 0x400) {
+            s->variant += 1;
+        }
+
+        m4aSongNumStart(SE_231);
+    }
+    sub_8067B94(gemerl, 0);
     return 0U;
 }
 END_NONMATCH
