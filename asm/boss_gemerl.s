@@ -8,64 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start Gemerl_State_28
-Gemerl_State_28: @ 0x08066C9C
-	push {r4, r5, r6, lr}
-	adds r4, r0, #0
-	ldr r6, _08066CF0 @ =gGemerlStates + (29 * 0x14)
-	ldr r2, _08066CF4 @ =gUnknown_080D56DC
-	adds r5, r4, #0
-	adds r5, #0x20
-	movs r1, #0
-	ldrsb r1, [r5, r1]
-	movs r0, #4
-	subs r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r2
-	ldrh r1, [r0]
-	ldrh r0, [r4, #0x18]
-	subs r0, #1
-	strh r0, [r4, #0x18]
-	lsls r0, r0, #0x10
-	cmp r0, #0
-	bne _08066D02
-	lsls r1, r1, #0x10
-	asrs r1, r1, #0x10
-	adds r0, r4, #0
-	movs r2, #0
-	bl sub_8068A38
-	adds r0, r4, #0
-	movs r1, #0
-	movs r2, #1
-	bl sub_8068A38
-	ldr r0, [r6]
-	str r0, [r4]
-	movs r0, #0
-	ldrsb r0, [r5, r0]
-	cmp r0, #0
-	beq _08066CF8
-	subs r0, #1
-	lsls r0, r0, #1
-	adds r1, r6, #4
-	adds r0, r0, r1
-	ldrh r0, [r0]
-	b _08066CFA
-	.align 2, 0
-_08066CF0: .4byte gGemerlStates + (29 * 0x14)
-_08066CF4: .4byte gUnknown_080D56DC
-_08066CF8:
-	ldrh r0, [r6, #4]
-_08066CFA:
-	strh r0, [r4, #0x18]
-	adds r0, r4, #0
-	bl sub_8068AD8
-_08066D02:
-	movs r0, #0
-	pop {r4, r5, r6}
-	pop {r1}
-	bx r1
-	.align 2, 0
-
 	thumb_func_start Gemerl_State_29
 Gemerl_State_29: @ 0x08066D0C
 	push {r4, r5, r6, r7, lr}

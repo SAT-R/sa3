@@ -567,6 +567,28 @@ bool32 Gemerl_State_25(Gemerl *gemerl)
     return FALSE;
 }
 
+bool32 Gemerl_State_28(Gemerl *gemerl)
+{
+    const GemerlState *state = &gGemerlStates[29];
+    s16 var = gUnknown_080D56DC[4 - gemerl->unk20][0];
+
+    if (--gemerl->unk18 == 0) {
+        sub_8068A38(gemerl, var, 0);
+        sub_8068A38(gemerl, 0, 1U);
+        gemerl->callback = state->callback;
+
+        if (gemerl->unk20) {
+            gemerl->unk18 = state->unk4[gemerl->unk20 - 1];
+        } else {
+            gemerl->unk18 = state->unk4[0];
+        }
+
+        sub_8068AD8(gemerl);
+    }
+
+    return FALSE;
+}
+
 
 #if 01 
 #endif

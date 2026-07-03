@@ -37,12 +37,12 @@ typedef struct Gemerl {
 } Gemerl; /* 0xF0 */
 
 typedef struct {
-    GemerlCallback callback;
-    s16 unk4[4];
-    s8 unkC;
-    s8 unkD;
-    AnimId anim;
-    u8 pattern;
+    /* 0x00 */ GemerlCallback callback;
+    /* 0x04 */ s16 unk4[4];
+    /* 0x0C */ s8 unkC;
+    /* 0x0D */ s8 unkD;
+    /* 0x0E */ AnimId anim;
+    /* 0x10 */ u8 pattern;
 } GemerlState;
 
 extern bool32 Gemerl_State_0(Gemerl *gemerl);
