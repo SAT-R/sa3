@@ -145,10 +145,50 @@ gUnknown_080D5AE8:
     .global gUnknown_080D5AF6
 gUnknown_080D5AF6:
     .incbin "baserom_sa3.gba", 0x000D5AF6, 0xA
-
+	
+	.align 2, 0
     .global gUnknown_080D5B00
 gUnknown_080D5B00:
-    .incbin "baserom_sa3.gba", 0x000D5B00, 10*0xC
+	mPtr  sub_807AA04
+	mPtr  sub_807AA80
+	.byte 3
+.align 2, 0
+	mPtr  sub_807AB0C
+	mPtr  sub_807B52C
+	.byte 10
+.align 2, 0
+	mPtr  sub_807B59C
+	mPtr  sub_807ABB8
+	.byte 5
+.align 2, 0
+	mPtr  sub_807AC48
+	mPtr  sub_807AD88
+	.byte 10
+.align 2, 0
+	mPtr  sub_807AE3C
+	mPtr  sub_807AFBC
+	.byte 6
+.align 2, 0
+	mPtr  sub_807B064
+	mPtr  sub_807B10C
+	.byte 4
+.align 2, 0
+	mPtr  sub_807B1E4
+	mPtr  sub_807B280
+	.byte 7
+.align 2, 0
+	mPtr  sub_807B1E4
+	mPtr  sub_807B280
+	.byte 7
+.align 2, 0
+	mPtr  sub_807B368
+	mPtr  sub_807B498
+	.byte 6
+.align 2, 0
+	mPtr  0 
+	mPtr  0 
+	.byte -1
+.align 2, 0
 
     .global gUnknown_080D5B78
 gUnknown_080D5B78:
