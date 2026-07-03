@@ -8,94 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start Gemerl_State_25
-Gemerl_State_25: @ 0x08066BEC
-	push {r4, r5, lr}
-	adds r4, r0, #0
-	adds r3, r4, #0
-	adds r3, #0x2e
-	ldrb r1, [r3]
-	lsls r0, r1, #1
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	ldr r1, _08066C2C @ =gUnknown_080D5B00
-	adds r2, r0, r1
-	ldrh r0, [r4, #0x18]
-	subs r0, #1
-	strh r0, [r4, #0x18]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x10
-	cmp r0, #0
-	bne _08066C3A
-	adds r1, r4, #0
-	adds r1, #0x2f
-	ldrb r0, [r1]
-	adds r0, #1
-	strb r0, [r1]
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	ldrb r2, [r2, #8]
-	cmp r0, r2
-	bne _08066C30
-	adds r0, r4, #0
-	movs r1, #0x1a
-	bl Gemerl_SwitchState
-	b _08066C76
-	.align 2, 0
-_08066C2C: .4byte gUnknown_080D5B00
-_08066C30:
-	adds r0, r4, #0
-	movs r1, #0x19
-	bl Gemerl_SwitchState
-	b _08066C76
-_08066C3A:
-	cmp r0, #9
-	bne _08066C76
-	adds r2, r4, #0
-	adds r2, #0x2f
-	adds r0, r4, #0
-	adds r0, #0x24
-	ldrb r1, [r2]
-	adds r0, r0, r1
-	movs r1, #1
-	strb r1, [r0]
-	ldrb r1, [r3]
-	ldrb r2, [r2]
-	adds r5, r4, #0
-	adds r5, #0x30
-	ldrb r3, [r5]
-	adds r0, r4, #0
-	bl sub_807A574
-	ldrb r0, [r5]
-	adds r0, #1
-	strb r0, [r5]
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #0xa
-	bne _08066C70
-	movs r0, #0
-	strb r0, [r5]
-_08066C70:
-	adds r0, r4, #0
-	bl sub_08068B10
-_08066C76:
-	adds r0, r4, #0
-	movs r1, #1
-	bl sub_8067B94
-	cmp r0, #0
-	beq _08066C8E
-	adds r0, r4, #0
-	bl sub_8068AAC
-	adds r0, r4, #0
-	bl sub_8067590
-_08066C8E:
-	adds r0, r4, #0
-	bl sub_8067B20
-	movs r0, #0
-	pop {r4, r5}
-	pop {r1}
-	bx r1
-
 	thumb_func_start Gemerl_State_28
 Gemerl_State_28: @ 0x08066C9C
 	push {r4, r5, r6, lr}
@@ -597,7 +509,7 @@ Gemerl_State_35: @ 0x08067050
 	lsls r1, r0, #1
 	adds r1, r1, r0
 	lsls r1, r1, #2
-	ldr r0, _080670C8 @ =gUnknown_080D5B48
+	ldr r0, _080670C8 @ =gUnknown_080D5B00+6*0xC
 	adds r1, r1, r0
 	str r1, [sp]
 	movs r0, #0
@@ -638,7 +550,7 @@ Gemerl_State_35: @ 0x08067050
 	bge _0806710C
 	b _08067108
 	.align 2, 0
-_080670C8: .4byte gUnknown_080D5B48
+_080670C8: .4byte gUnknown_080D5B00+6*0xC
 _080670CC: .4byte gUnknown_080D56F0
 _080670D0: .4byte 0x000003FF
 _080670D4: .4byte gCamera
@@ -803,7 +715,7 @@ Gemerl_State_36: @ 0x08067204
 	lsls r1, r0, #1
 	adds r1, r1, r0
 	lsls r1, r1, #2
-	ldr r0, _08067240 @ =gUnknown_080D5B48
+	ldr r0, _08067240 @ =gUnknown_080D5B00+6*0xC
 	adds r5, r1, r0
 	ldr r0, _08067244 @ =gUnknown_080D56F0
 	ldrh r0, [r0, #0x2a]
@@ -824,7 +736,7 @@ Gemerl_State_36: @ 0x08067204
 	bl sub_8068A6C
 	b _08067254
 	.align 2, 0
-_08067240: .4byte gUnknown_080D5B48
+_08067240: .4byte gUnknown_080D5B00+6*0xC
 _08067244: .4byte gUnknown_080D56F0
 _08067248:
 	lsls r2, r2, #0x10
@@ -1049,7 +961,7 @@ Gemerl_State_44: @ 0x080673F8
 	mov r7, r8
 	push {r7}
 	adds r5, r0, #0
-	ldr r0, _08067438 @ =gUnknown_080D5B60
+	ldr r0, _08067438 @ =gUnknown_080D5B00+8*0xC
 	mov r8, r0
 	adds r7, r5, #0
 	adds r7, #0x6c
@@ -1078,7 +990,7 @@ Gemerl_State_44: @ 0x080673F8
 	strh r0, [r7]
 	b _08067466
 	.align 2, 0
-_08067438: .4byte gUnknown_080D5B60
+_08067438: .4byte gUnknown_080D5B00+8*0xC
 _0806743C: .4byte gUnknown_080D56F0
 _08067440: .4byte 0x000003FF
 _08067444:
@@ -1186,7 +1098,7 @@ Gemerl_State_47: @ 0x080674EC
 	rsbs r0, r0, #0
 	lsls r0, r0, #0xe
 	lsrs r7, r0, #0x10
-	ldr r5, _0806758C @ =gUnknown_080D5B60
+	ldr r5, _0806758C @ =gUnknown_080D5B00+8*0xC
 	movs r6, #1
 	movs r2, #0
 	ldrb r0, [r5, #8]
@@ -1248,7 +1160,7 @@ _08067580:
 	bx r1
 	.align 2, 0
 _08067588: .4byte gUnknown_080D56F0
-_0806758C: .4byte gUnknown_080D5B60
+_0806758C: .4byte gUnknown_080D5B00+8*0xC
 
 	thumb_func_start sub_8067590
 sub_8067590: @ 0x08067590
@@ -4067,8 +3979,8 @@ sub_8068AE4: @ 0x08068AE4
 _08068B08: .4byte 0x0000050E
 _08068B0C: .4byte 0x0000FFFF
 
-	thumb_func_start sub_08068B10
-sub_08068B10: @ 0x08068B10
+	thumb_func_start sub_8068B10
+sub_8068B10: @ 0x08068B10
 	adds r2, r0, #0
 	adds r2, #0xa0
 	adds r0, #0x32

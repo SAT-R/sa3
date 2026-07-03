@@ -7,6 +7,12 @@
 #include "game/stage.h"
 #include "constants/songs.h"
 
+typedef struct {
+    /* 0x00 */ GemerlCallback callbackA;
+    /* 0x04 */ void *funcB;
+    /* 0x08 */ u8 unk8;
+} Strc_80D5B00;
+
 void sub_80678C0(Sprite *s0, Sprite *s1, Sprite *s2);
 void sub_806799C(void *);
 void Task_Gemerl_8068860(void);
@@ -15,9 +21,11 @@ void sub_8068954(void *);
 void Gemerl_SwitchState(Gemerl *gemerl, s32 state);
 void sub_8067590(Gemerl *gemerl);
 void sub_8067A64(Gemerl *gemerl);
+void sub_8067B20(Gemerl *gemerl);
 bool32 sub_8067B94(Gemerl *gemerl, s32 state);
 void sub_8068AAC(Gemerl *gemerl);
 void sub_8068ACC(Gemerl *gemerl);
+void sub_8068B10(Gemerl *gemerl);
 void TaskDestructor_Gemerl(Task *t);
 extern void sub_807A4A8(void);
 void sub_8068A6C(Gemerl *gemerl, s16, s16);
@@ -25,12 +33,12 @@ void sub_8068A38(Gemerl *gemerl, s16, u8);
 bool32 sub_8068984(Gemerl *gemerl, s16);
 
 extern Task *sub_8079758(s32, s16, s16, s16, s16, u8, s16, u8 *);
+extern void sub_807A574(Gemerl *, u8, u8, u8);
 
 // if gStageData.gameMode is Single Player TimeAttack,
 // then set gPseudoRandom = (gStageData.zone * 1001)
 extern void SetFixedRandomIfTimeAttackMode(void);
 
-extern const s16 gUnknown_080D56DC[][2];
 // TODO: Better name than IS_BETWEEN and IS_BETWEEN_2!
 //       The problem with the name is that the max-value, is a delta between min/max, not the max itself.
 #define IS_BETWEEN(_value, _min, _deltaMax) ((_value) > (_min) && (_value) < (_min) + (_deltaMax))
@@ -38,7 +46,9 @@ extern const s16 gUnknown_080D56DC[][2];
 #define IS_BETWEEN_2(_valueX, _valueY, _minX, _minY, _deltaMaxX, _deltaMaxY)                                                               \
     (IS_BETWEEN(_valueX, _minX, _deltaMaxX) && ((_valueY) > (_minY)) && ((_valueY) < (_minY) + (_deltaMaxY)))
 
+extern const s16 gUnknown_080D56DC[][2];
 extern const s16 gUnknown_080D56F0[][5];
+extern const Strc_80D5B00 gUnknown_080D5B00[];
 
 // Called on init of Gmerl (in Boss 1 and Extra Boss)
 // struct Task CreateGemerl(u8 *param0, s32 worldX, s32 worldY);
@@ -525,3 +535,38 @@ bool32 Gemerl_State_21(Gemerl *gemerl)
     sub_8067B94(gemerl, 0);
     return 0U;
 }
+
+bool32 Gemerl_State_25(Gemerl *gemerl)
+{
+    const Strc_80D5B00 *strc = &gUnknown_080D5B00[gemerl->unk2E];
+
+    if (--gemerl->unk18 == 0) {
+        if (++gemerl->unk2F == strc->unk8) {
+            Gemerl_SwitchState(gemerl, 26);
+        } else {
+            Gemerl_SwitchState(gemerl, 25);
+        }
+    } else if (gemerl->unk18 == 9) {
+        gemerl->unk24[gemerl->unk2F] = 1;
+
+        sub_807A574(gemerl, gemerl->unk2E, gemerl->unk2F, gemerl->unk30);
+
+        if (++gemerl->unk30 == 10) {
+            gemerl->unk30 = 0;
+        }
+        sub_8068B10(gemerl);
+    }
+
+    if (sub_8067B94(gemerl, 1)) {
+        sub_8068AAC(gemerl);
+        sub_8067590(gemerl);
+    }
+
+    sub_8067B20(gemerl);
+
+    return FALSE;
+}
+
+
+#if 01 
+#endif

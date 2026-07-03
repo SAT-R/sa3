@@ -148,15 +148,7 @@ gUnknown_080D5AF6:
 
     .global gUnknown_080D5B00
 gUnknown_080D5B00:
-    .incbin "baserom_sa3.gba", 0x000D5B00, 0x48
-
-    .global gUnknown_080D5B48
-gUnknown_080D5B48:
-    .incbin "baserom_sa3.gba", 0x000D5B48, 0x18
-
-    .global gUnknown_080D5B60
-gUnknown_080D5B60:
-    .incbin "baserom_sa3.gba", 0x000D5B60, 0x18
+    .incbin "baserom_sa3.gba", 0x000D5B00, 10*0xC
 
     .global gUnknown_080D5B78
 gUnknown_080D5B78:
