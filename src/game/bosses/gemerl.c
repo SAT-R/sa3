@@ -704,3 +704,46 @@ bool32 Gemerl_State_33(Gemerl *gemerl)
 
     return FALSE;
 }
+
+// (99.82%) https://decomp.me/scratch/wZhZ1
+NONMATCH("asm/non_matching/game/bosses/gemerl__gemerl_state_34.inc", bool32 Gemerl_State_34(Gemerl *gemerl))
+{
+    s16 temp_r3;
+    s32 var_r1;
+    s32 var_r4;
+    s16 var_r4_hi;
+    Sprite2 *s = &gemerl->spr3C;
+    s32 v = -gUnknown_080D56F0[gemerl->unk20][1];
+    s32 cosVal, sinVal;
+    s32 r0;
+
+    sub_8068A6C(gemerl, 0U, v);
+
+    if (gemerl->unk16 < -Q(3)) {
+        if (s->frameFlags & 0x400) {
+            var_r4 = 0;
+        } else {
+            var_r4 = 0x200;
+        }
+
+        cosVal = COS(var_r4);
+        temp_r3 = gUnknown_080D56F0[gemerl->unk20][2];
+        var_r1 = ABS((cosVal * temp_r3) >> 0xE);
+
+        r0 = SIN(var_r4);
+        var_r4 = (r0 * temp_r3);
+        var_r4_hi = (var_r4 * 4) >> 16;
+
+        sub_8068A38(gemerl, var_r1, 0);
+        sub_8068A38(gemerl, var_r4_hi, 1);
+        Gemerl_SwitchState(gemerl, 35);
+
+        if (s->frameFlags & 0x400) {
+            s->variant += 1;
+        }
+    }
+    sub_8067B94(gemerl, 0);
+
+    return FALSE;
+}
+END_NONMATCH
