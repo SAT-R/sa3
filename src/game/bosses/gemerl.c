@@ -19,7 +19,7 @@ typedef struct {
 } Strc_80D5B00;
 
 void sub_80678C0(Sprite *s0, Sprite *s1, Sprite *s2);
-void sub_806799C(void *);
+AnimCmdResult sub_806799C(Gemerl *gemerl);
 void Task_Gemerl_8068860(void);
 void sub_8068908(void);
 void sub_8068954(void *);
@@ -1182,4 +1182,38 @@ void sub_80678C0(Sprite *s0, Sprite *s1, Sprite *s2)
     UpdateSpriteAnimation(s0);
     UpdateSpriteAnimation(s1);
     UpdateSpriteAnimation(s2);
+}
+
+AnimCmdResult sub_806799C(Gemerl *gemerl)
+{
+    Sprite2 *s = &gemerl->spr3C;
+    SpriteTransform *tf = &gemerl->tf6C;
+    AnimCmdResult result = ACMD_RESULT__ENDED;
+    u8 temp_r1;
+
+    if (gemerl->unk33 == 0) {
+        return ACMD_RESULT__ENDED;
+    }
+
+    s->x = I(gemerl->qSomeX) - gCamera.x;
+    s->y = I(gemerl->qSomeY) - gCamera.y;
+
+    if (gemerl->unk21 != 0) {
+        gemerl->unk21--;
+    }
+
+    if ((s->prevVariant == 0xFF) || (gemerl->unk22 == 0) || (gemerl->unk20 <= 0)) {
+        result = UpdateSpriteAnimation((Sprite *)s);
+    }
+    if ((tf->rotation != 0) && (gemerl->unk20 > 0)) {
+        s->frameFlags |= (u8)(gNextFreeAffineIndex++ | 0x60);
+        tf->x = s->x;
+        tf->y = s->y;
+        TransformSprite((Sprite *)s, tf);
+    } else {
+        s->frameFlags &= ~0x7F;
+    }
+    DisplaySprite((Sprite *)s);
+
+    return result;
 }
