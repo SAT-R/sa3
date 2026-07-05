@@ -51,6 +51,7 @@ extern void SetFixedRandomIfTimeAttackMode(void);
 extern const s16 gUnknown_080D56DC[][2];
 extern const s16 gUnknown_080D56F0[][5];
 extern const Strc_80D5B00 gUnknown_080D5B00[];
+extern const Strc_80D5B00 gUnknown_080D5B48[];
 
 // Called on init of Gmerl (in Boss 1 and Extra Boss)
 // struct Task CreateGemerl(u8 *param0, s32 worldX, s32 worldY);
@@ -599,7 +600,7 @@ bool32 Gemerl_State_29(Gemerl *gemerl)
     s32 var_sb;
     u32 temp_r0;
     u32 temp_r0_2;
-    u8 var_r6;
+    u8 pid;
 
     var_sb = 0;
     temp_r1 = &gemerl->spr3C;
@@ -615,8 +616,8 @@ bool32 Gemerl_State_29(Gemerl *gemerl)
 
     sub_8067A64(gemerl);
 
-    for (var_r6 = 0; var_r6 < 2; var_r6++) {
-        temp_r4 = &gPlayers[var_r6];
+    for (pid = 0; pid < NUM_SINGLE_PLAYER_CHARS; pid++) {
+        temp_r4 = &gPlayers[pid];
         temp_r0 = sub_802C080(temp_r4);
         if (temp_r0) {
             if ((0x20 & temp_r4->moveState) && (temp_r4->sprColliding == (Sprite *)temp_r1)) {
@@ -639,8 +640,8 @@ bool32 Gemerl_State_29(Gemerl *gemerl)
         }
     }
 
-    for (var_r6 = 0; var_r6 < 2; var_r6++) {
-        temp_r4 = &gPlayers[var_r6];
+    for (pid = 0; pid < NUM_SINGLE_PLAYER_CHARS; pid++) {
+        temp_r4 = &gPlayers[pid];
         if ((temp_r4->moveState & 0x20) && (temp_r4->sprColliding == (Sprite *)temp_r1)) {
             if (temp_r1->frameFlags & 0x400) {
                 temp_r4->qWorldX = gemerl->qSomeX + Q(30);
@@ -665,8 +666,8 @@ bool32 Gemerl_State_29(Gemerl *gemerl)
         sub_8068A38(gemerl, 0, 0U);
         sub_8068ACC(gemerl);
 
-        for (var_r6 = 0; var_r6 < 2; var_r6++) {
-            temp_r4 = &gPlayers[var_r6];
+        for (pid = 0; pid < NUM_SINGLE_PLAYER_CHARS; pid++) {
+            temp_r4 = &gPlayers[pid];
             if ((temp_r4->moveState & 0x20) && (temp_r4->sprColliding == (Sprite *)temp_r1)) {
                 temp_r4->framesInvulnerable = 0;
                 temp_r4->framesInvincible = 0;
@@ -783,7 +784,7 @@ NONMATCH("asm/non_matching/game/bosses/gemerl__gemerl_state_35.inc", bool32 Geme
     temp_r2 = I(gemerl->qSomeX) - gCamera.minX;
     if (s->frameFlags & 0x400) {
         temp_r2 -= 40;
-        if (temp_r2 > (temp_r1 = gemerl->unk2F * 0x1C)) {
+        if (temp_r2 > gemerl->unk2F * 0x1C) {
             var_sb = 1;
             var_r0 = gCamera.minX;
             var_r0 += 40;
@@ -808,7 +809,7 @@ NONMATCH("asm/non_matching/game/bosses/gemerl__gemerl_state_35.inc", bool32 Geme
             gemerl->unk14 >>= 1;
             gemerl->unk31 = 1;
             tf->rotation = 0;
-            Gemerl_SwitchState(gemerl, 0x24);
+            Gemerl_SwitchState(gemerl, 36);
             sub_8068A38(gemerl, 0, 1);
         }
     }
@@ -816,3 +817,102 @@ NONMATCH("asm/non_matching/game/bosses/gemerl__gemerl_state_35.inc", bool32 Geme
     return 0U;
 }
 END_NONMATCH
+
+bool32 Gemerl_State_36(Gemerl *gemerl)
+{
+    s32 var_r6;
+    s16 temp_r2;
+    u8 var_r2;
+    const Strc_80D5B00 *temp_r5 = &gUnknown_080D5B00[6 + (gemerl->unk30 & 0x1)];
+
+    temp_r2 = (gUnknown_080D56F0[4][1] >> 4);
+    var_r6 = 1;
+    if (gemerl->unk2E != 7) {
+        sub_8068A6C(gemerl, 0U, temp_r2 >> 3);
+    } else {
+        sub_8068A6C(gemerl, 0U, temp_r2);
+    }
+
+    gemerl->unk14 >>= 1;
+
+    for (var_r2 = 0; var_r2 < temp_r5->unk8; var_r2++) {
+        if (gemerl->unk24[var_r2] != 0) {
+            var_r6 = 0;
+            break;
+        }
+    }
+
+    if (var_r6) {
+        if (gemerl->unk30 == 1) {
+            Gemerl_SwitchState(gemerl, 37);
+        } else {
+            gemerl->unk30 = 1;
+            gemerl->unk2F = 0;
+            gemerl->unk31 = 0;
+
+            for (var_r2 = 0; var_r2 < ARRAY_COUNT(gemerl->unk24); var_r2++) {
+                gemerl->unk24[var_r2] = 0;
+            }
+
+            sub_8068A38(gemerl, 0x250, 1);
+            Gemerl_SwitchState(gemerl, 34);
+        }
+    }
+
+    return 0U;
+}
+
+bool32 Gemerl_State_39(Gemerl *gemerl)
+{
+    u8 var_r2;
+    u16 val = gUnknown_080D56F0[gemerl->unk20][0];
+
+    if (--gemerl->unk18 == 0) {
+        gemerl->unk2F = 0;
+        gemerl->unk31 = 0;
+        gemerl->unk30 = 0;
+
+        for (var_r2 = 0; var_r2 < ARRAY_COUNT(gemerl->unk24); var_r2++) {
+            gemerl->unk24[var_r2] = 0;
+        }
+
+        gemerl->qSomeY -= Q(8);
+
+        sub_8068A38(gemerl, val, 1);
+        Gemerl_SwitchState(gemerl, 40);
+        m4aSongNumStart(SE_537);
+    }
+
+    if (sub_8067B94(gemerl, 1)) {
+        sub_8068AAC(gemerl);
+        sub_8067590(gemerl);
+    }
+
+    return 0U;
+}
+
+u32 Gemerl_State_40(Gemerl *gemerl)
+{
+    u8 var_r1;
+    u16 val = gUnknown_080D56F0[gemerl->unk20][1];
+
+    sub_8068A6C(gemerl, 0U, val);
+
+    if (gemerl->unk16 > 0x200) {
+        Gemerl_SwitchState(gemerl, 41);
+        gemerl->unk2F = 0;
+        gemerl->unk31 = 0;
+        gemerl->unk30 = 0;
+
+        for (var_r1 = 0; var_r1 < ARRAY_COUNT(gemerl->unk24); var_r1++) {
+            gemerl->unk24[var_r1] = 0;
+        }
+    }
+
+    if (sub_8067B94(gemerl, 1)) {
+        sub_8068AAC(gemerl);
+        sub_8067590(gemerl);
+    }
+
+    return 0U;
+}
