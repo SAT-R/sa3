@@ -79,7 +79,7 @@ void DrawBackground(Background *background)
 }
 
 // Code copy-pasted from SA2
-// 2024, Nov. 7
+// 2026, July 6th
 NONMATCH("asm/non_matching/engine/sa2__sub_8002B20.inc", bool32 sa2__sub_8002B20(void))
 {
     u16 sp00;
@@ -95,6 +95,15 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8002B20.inc", bool32 sa2__sub_8002B20
     s32 i;
     s32 j;
     u16 k;
+
+#if (GAME <= GAME_SA2)
+    // TODO: RENDERER #defines in SA3
+#if (RENDERER == RENDERER_OPENGL)
+    // TEMP
+    Platform_ProcessBackgroundsCopyQueue();
+    return TRUE;
+#endif
+#endif
 
     while (gBackgroundsCopyQueueCursor != gBackgroundsCopyQueueIndex) {
         Background *bg;
@@ -120,7 +129,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8002B20.inc", bool32 sa2__sub_8002B20
         sp00 = bg->xTiles;
 
         bgId = (bg->flags & BACKGROUND_FLAGS_MASK_BG_ID);
-        if (bgId > 1 && ((gDispCnt & 0x3) > DISPCNT_MODE_0)) {
+        if (bgId >= 2 && (gDispCnt & (DISPCNT_MODE_1 | DISPCNT_MODE_2)) > DISPCNT_MODE_0) {
             affine = (gBgCntRegs[bgId] >> 14);
             sp0C = (0x10 << affine);
             bytesPerTileIndex = 1;
@@ -141,6 +150,10 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8002B20.inc", bool32 sa2__sub_8002B20
 #endif
             affine = (gBgCntRegs[bgId] >> 14);
             if ((affine == 1) || (affine == 3)) {
+                // HACK: fixes the course select map
+#if NON_MATCHING
+                sp0C = 64;
+#endif
                 sp04 = 0x800;
             }
             bytesPerTileIndex = 2;
@@ -223,7 +236,9 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8002B20.inc", bool32 sa2__sub_8002B20
                             r4Ptr = (u16 *)(((u8 *)r4Ptr) - sb);
                         }
                     } else {
-                        // _08002DD4
+// _08002DD4
+// HACK: with this block enabled, the map is unreadable off the screen
+#ifndef NON_MATCHING
                         if ((affine & 1) && (bytesPerTileIndex == 2) && ((32 - bg->unk22) > 0)
                             && ((bg->targetTilesX + bg->unk22 - 32) > 0)) {
                             s32 vR2;
@@ -242,7 +257,9 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8002B20.inc", bool32 sa2__sub_8002B20
                                 r4Ptr = CastPointer(r4Ptr, (sp00 * bytesPerTileIndex));
                             }
 
-                        } else {
+                        } else
+#endif
+                        {
                             // __08002E74
                             u32 r0Index = bg->unk20 * sp00 * bytesPerTileIndex;
                             void *r1Ptr = CastPointer(bg->layout, r0Index);
@@ -392,7 +409,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8002B20.inc", bool32 sa2__sub_8002B20
                     r7Ptr = CastPointer(r7Ptr, bg->unk22 * bytesPerTileIndex);
 
                     if (((bg->targetTilesX + sp10) + 1) > bg->xTiles) {
-                        r2 = (bg->xTiles - 1);
+                        r2 = (bg->targetTilesX + sp10) - (bg->xTiles - 1);
                     } else {
                         r2 = 0;
                     }
@@ -441,7 +458,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8002B20.inc", bool32 sa2__sub_8002B20
                         // _080031D0
                         if (bg->flags & BACKGROUND_FLAG_80) {
                             // _080031D8
-                            u32 index = ((sp14 + r5) - 1);
+                            u32 index = ((sp14 + r5) - 1) * bg->xTiles;
                             u16 *r0Ptr = (u16 *)&((u8 *)bg->layout)[index * bytesPerTileIndex];
                             u32 index2 = sp10;
                             u16 *r4Ptr = &r0Ptr[index2 * bytesPerTileIndex];
@@ -464,9 +481,10 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8002B20.inc", bool32 sa2__sub_8002B20
                             u16 *r4Ptr = CastPointer(r0Ptr, index2 * bg->xTiles);
 
                             // _08003298
-                            while (--r5 != 0) {
+                            while (r5-- != 0) {
+                                s32 var = r2 - 1;
                                 DmaCopy16(3, r4Ptr, r7Ptr, (s32)({
-                                              dmaSize = bg->targetTilesX - (r2 - 1);
+                                              dmaSize = bg->targetTilesX - var;
                                               dmaSize *= bytesPerTileIndex;
                                               dmaSize;
                                           }));
@@ -581,8 +599,18 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8002B20.inc", bool32 sa2__sub_8002B20
                             yPos *= bg->mapWidth;
 
                             { // _0800355C
-                                s32 metatileIndex = *(&bg->metatileMap[yPos] + sp24) * bg->xTiles * bg->yTiles;
+                                s32 metatileIndex;
                                 s32 otherVal;
+                                s32 mtIndex = *(&bg->metatileMap[yPos] + sp24);
+#if NON_MATCHING
+                                // TEMP: Crash-Fix
+                                // 1024: 2^10, max. metatile num
+                                // the other 6 bits in a metatile index are used for tile flipping and the palette
+                                if (mtIndex >= 1024) {
+                                    mtIndex = 0;
+                                }
+#endif
+                                metatileIndex = mtIndex * bg->xTiles * bg->yTiles;
 
                                 otherVal = new_r4 * bg->xTiles;
                                 otherVal += sp28;
