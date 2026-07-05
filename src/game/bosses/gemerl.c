@@ -747,3 +747,72 @@ NONMATCH("asm/non_matching/game/bosses/gemerl__gemerl_state_34.inc", bool32 Geme
     return FALSE;
 }
 END_NONMATCH
+
+// (93.12%) https://decomp.me/scratch/f2KuC
+NONMATCH("asm/non_matching/game/bosses/gemerl__gemerl_state_35.inc", bool32 Gemerl_State_35(Gemerl *gemerl))
+{
+    s32 temp_r0;
+    s32 temp_r1;
+    s32 temp_r3;
+    s32 var_r0;
+    s32 var_sb;
+    s32 var_sl;
+    s16 temp_r2;
+    s32 qPrevSomeX;
+    s32 val;
+    Sprite2 *s = &gemerl->spr3C;
+    SpriteTransform *tf = &gemerl->tf6C;
+    const Strc_80D5B00 *sp0 = &gUnknown_080D5B00[6 + (1 & gemerl->unk30)];
+    var_sl = 0;
+    var_sb = 0;
+    sub_8068984(gemerl, 0);
+
+    if (s->frameFlags & 0x400) {
+        tf->rotation = (tf->rotation + gUnknown_080D56F0[gemerl->unk20][4]) & 0x3FF;
+        if (Q(gCamera.maxX - 46) < gemerl->qSomeX) {
+            var_sl = 1;
+        }
+    } else {
+        tf->rotation = (tf->rotation - gUnknown_080D56F0[gemerl->unk20][4]) & 0x3FF;
+        if (Q(gCamera.minX + 46) > gemerl->qSomeX) {
+            var_sl = 1;
+        }
+    }
+
+    qPrevSomeX = gemerl->qSomeX;
+    temp_r2 = I(gemerl->qSomeX) - gCamera.minX;
+    if (s->frameFlags & 0x400) {
+        temp_r2 -= 40;
+        if (temp_r2 > (temp_r1 = gemerl->unk2F * 0x1C)) {
+            var_sb = 1;
+            var_r0 = gCamera.minX;
+            var_r0 += 40;
+            gemerl->qSomeX = Q(var_r0 + (0x1C * gemerl->unk2F));
+        }
+    } else {
+        s32 r2 = temp_r2;
+        s32 unk2F = gemerl->unk2F;
+        s32 mult = 0x1C * unk2F;
+        if (r2 < 200 - mult) {
+            var_sb = 1;
+            gemerl->qSomeX = Q((gCamera.minX - 200) - mult);
+        }
+    }
+
+    if (var_sb != 0) {
+        gemerl->unk24[gemerl->unk2F] = 1;
+        sub_807A574(gemerl, (1 & gemerl->unk30) + 6, gemerl->unk2F, gemerl->unk30);
+        gemerl->unk2F += 1;
+        gemerl->qSomeX = qPrevSomeX;
+        if ((gemerl->unk2F == sp0->unk8) && (var_sl != 0)) {
+            gemerl->unk14 >>= 1;
+            gemerl->unk31 = 1;
+            tf->rotation = 0;
+            Gemerl_SwitchState(gemerl, 0x24);
+            sub_8068A38(gemerl, 0, 1);
+        }
+    }
+    sub_8067B94(gemerl, 0);
+    return 0U;
+}
+END_NONMATCH
