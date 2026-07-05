@@ -39,7 +39,7 @@ typedef struct Gemerl {
 typedef struct {
     /* 0x00 */ GemerlCallback callback;
     /* 0x04 */ s16 unk4[4];
-    /* 0x0C */ s8 unkC;
+    /* 0x0C */ u8 unkC;
     /* 0x0D */ s8 unkD;
     /* 0x0E */ AnimId anim;
     /* 0x10 */ u8 pattern;

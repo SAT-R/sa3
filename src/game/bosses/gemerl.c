@@ -27,6 +27,7 @@ void sub_8067590(Gemerl *gemerl);
 void sub_8067A64(Gemerl *gemerl);
 void sub_8067B20(Gemerl *gemerl);
 bool32 sub_8067B94(Gemerl *gemerl, s32 state);
+void sub_8068A00(Gemerl *gemerl);
 void sub_8068AAC(Gemerl *gemerl);
 void sub_8068ACC(Gemerl *gemerl);
 void sub_8068B10(Gemerl *gemerl);
@@ -53,6 +54,10 @@ extern void SetFixedRandomIfTimeAttackMode(void);
 
 extern const s16 gUnknown_080D56DC[][2];
 extern const s16 gUnknown_080D56F0[][5];
+extern const u32 gUnknown_080D5724[2];
+extern const u32 gUnknown_080D572C[4];
+extern const u32 gUnknown_080D573C[4];
+extern const u32 gUnknown_080D574C[4];
 extern const Strc_80D5B00 gUnknown_080D5B00[];
 extern const Strc_80D5B00 gUnknown_080D5B48[];
 
@@ -1027,5 +1032,86 @@ void sub_8067590(Gemerl *gemerl)
                 Gemerl_SwitchState(gemerl, 53);
             }
         }
+    }
+}
+
+void Gemerl_SwitchState(Gemerl *gemerl, s32 stateId)
+{
+    Sprite2 *s = &gemerl->spr3C;
+    const GemerlState *state = &gGemerlStates[stateId];
+
+    gemerl->callback = state->callback;
+
+    if (gemerl->unk20 != 0) {
+        gemerl->unk18 = state->unk4[gemerl->unk20 - 1];
+    } else {
+        gemerl->unk18 = state->unk4[0];
+    }
+
+    s->anim = state->anim;
+    s->variant = state->pattern;
+    s->prevAnim = -1;
+    s->prevVariant = -1;
+    s->hitboxes[0].index = -1;
+    s->hitboxes[1].index = -1;
+
+    if (state->unkC != 0) {
+        sub_8068A00(gemerl);
+    }
+}
+
+// TODO: Fake-match
+void sub_806773C(Gemerl *arg0)
+{
+    s32 index;
+    s32 newState;
+#ifndef NON_MATCHING
+    register s32 mask asm("r1");
+#else
+    s32 mask;
+#endif
+
+    switch (gStageData.zone) {
+        case ZONE_1: {
+            newState = 49;
+        } break;
+
+        case ZONE_2: {
+            index = ((u32)PseudoRandom32() >> 16);
+            mask = ARRAY_COUNT(gUnknown_080D5724) - 1;
+            newState = gUnknown_080D5724[index & mask];
+        } break;
+
+        case ZONE_3:
+        case ZONE_5:
+        case ZONE_7: {
+            newState = 1;
+        } break;
+
+        case ZONE_4: {
+            index = ((u32)PseudoRandom32() >> 16);
+            mask = ARRAY_COUNT(gUnknown_080D572C) - 1;
+            newState = gUnknown_080D572C[index & mask];
+        } break;
+
+        case ZONE_6: {
+            index = ((u32)PseudoRandom32() >> 16);
+            mask = ARRAY_COUNT(gUnknown_080D573C) - 1;
+            newState = gUnknown_080D573C[index & mask];
+        } break;
+
+        case ZONE_FINAL: {
+            index = ((u32)PseudoRandom32() >> 16);
+            mask = ARRAY_COUNT(gUnknown_080D574C) - 1;
+            newState = gUnknown_080D574C[index & mask];
+        } break;
+
+        default: {
+            newState = 1;
+        } break;
+    }
+
+    if (--arg0->unk18 == 0) {
+        Gemerl_SwitchState(arg0, newState);
     }
 }
