@@ -8,131 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start Gemerl_State_44
-Gemerl_State_44: @ 0x080673F8
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	adds r5, r0, #0
-	ldr r0, _08067438 @ =gUnknown_080D5B00+8*0xC
-	mov r8, r0
-	adds r7, r5, #0
-	adds r7, #0x6c
-	ldr r0, [r5, #0x44]
-	movs r1, #0x80
-	lsls r1, r1, #3
-	ands r0, r1
-	cmp r0, #0
-	beq _08067444
-	ldr r2, _0806743C @ =gUnknown_080D56F0
-	adds r0, r5, #0
-	adds r0, #0x20
-	movs r1, #0
-	ldrsb r1, [r0, r1]
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #1
-	adds r2, #8
-	adds r0, r0, r2
-	ldrh r0, [r0]
-	ldrh r1, [r7]
-	adds r0, r0, r1
-	ldr r2, _08067440 @ =0x000003FF
-	adds r1, r2, #0
-	ands r0, r1
-	strh r0, [r7]
-	b _08067466
-	.align 2, 0
-_08067438: .4byte gUnknown_080D5B00+8*0xC
-_0806743C: .4byte gUnknown_080D56F0
-_08067440: .4byte 0x000003FF
-_08067444:
-	ldr r2, _080674B0 @ =gUnknown_080D56F0
-	adds r0, r5, #0
-	adds r0, #0x20
-	movs r1, #0
-	ldrsb r1, [r0, r1]
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #1
-	adds r2, #8
-	adds r0, r0, r2
-	ldrh r1, [r7]
-	ldrh r0, [r0]
-	subs r1, r1, r0
-	ldr r2, _080674B4 @ =0x000003FF
-	adds r0, r2, #0
-	ands r1, r0
-	strh r1, [r7]
-_08067466:
-	movs r1, #0x18
-	ldrsh r0, [r5, r1]
-	cmp r0, #0x5a
-	bne _080674B8
-	movs r6, #0
-	mov r2, r8
-	ldrb r2, [r2, #8]
-	cmp r6, r2
-	bhs _080674C4
-	adds r4, r5, #0
-	adds r4, #0x2f
-_0806747C:
-	adds r0, r5, #0
-	adds r0, #0x24
-	ldrb r1, [r4]
-	adds r0, r0, r1
-	movs r1, #1
-	strb r1, [r0]
-	ldrb r2, [r4]
-	adds r0, r5, #0
-	adds r0, #0x30
-	ldrb r3, [r0]
-	adds r0, r5, #0
-	movs r1, #8
-	bl sub_807A574
-	ldrb r0, [r4]
-	adds r0, #1
-	strb r0, [r4]
-	adds r0, r6, #1
-	lsls r0, r0, #0x18
-	lsrs r6, r0, #0x18
-	mov r2, r8
-	ldrb r2, [r2, #8]
-	cmp r6, r2
-	blo _0806747C
-	b _080674C4
-	.align 2, 0
-_080674B0: .4byte gUnknown_080D56F0
-_080674B4: .4byte 0x000003FF
-_080674B8:
-	cmp r0, #0x1e
-	bne _080674C4
-	adds r1, r5, #0
-	adds r1, #0x31
-	movs r0, #1
-	strb r0, [r1]
-_080674C4:
-	adds r0, r5, #0
-	movs r1, #0x2d
-	bl sub_80689DC
-	cmp r0, #0
-	beq _080674DE
-	movs r0, #0
-	strh r0, [r7]
-	ldr r0, [r5, #0xc]
-	movs r1, #0x80
-	lsls r1, r1, #4
-	adds r0, r0, r1
-	str r0, [r5, #0xc]
-_080674DE:
-	movs r0, #0
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r1}
-	bx r1
-	.align 2, 0
-
 	thumb_func_start Gemerl_State_47
 Gemerl_State_47: @ 0x080674EC
 	push {r4, r5, r6, r7, lr}
@@ -1442,7 +1317,7 @@ _08067F18: .4byte 0x03000020
 Gemerl_State_0: @ 0x08067F1C
 	push {lr}
 	movs r1, #1
-	bl sub_80689DC
+	bl Gemerl_SwitchStateAfterDelay
 	movs r0, #0
 	pop {r1}
 	bx r1
@@ -1453,7 +1328,7 @@ Gemerl_State_1: @ 0x08067F2C
 	push {r4, lr}
 	adds r4, r0, #0
 	movs r1, #3
-	bl sub_80689DC
+	bl Gemerl_SwitchStateAfterDelay
 	adds r0, r4, #0
 	adds r0, #0x23
 	ldrb r0, [r0]
@@ -1497,7 +1372,7 @@ Gemerl_State_2: @ 0x08067F84
 	push {r4, lr}
 	adds r4, r0, #0
 	movs r1, #3
-	bl sub_80689DC
+	bl Gemerl_SwitchStateAfterDelay
 	adds r0, r4, #0
 	adds r0, #0x23
 	ldrb r0, [r0]
@@ -1541,7 +1416,7 @@ Gemerl_State_49: @ 0x08067FDC
 	push {r4, lr}
 	adds r4, r0, #0
 	movs r1, #3
-	bl sub_80689DC
+	bl Gemerl_SwitchStateAfterDelay
 	adds r0, r4, #0
 	movs r1, #1
 	bl sub_8067B94
@@ -1896,7 +1771,7 @@ _0806828C: .4byte sa2__sub_801EE64
 Gemerl_State_11_13_15: @ 0x08068290
 	push {lr}
 	movs r1, #0x10
-	bl sub_80689DC
+	bl Gemerl_SwitchStateAfterDelay
 	movs r0, #1
 	pop {r1}
 	bx r1
@@ -1906,7 +1781,7 @@ Gemerl_State_11_13_15: @ 0x08068290
 Gemerl_State_16: @ 0x080682A0
 	push {lr}
 	movs r1, #0x11
-	bl sub_80689DC
+	bl Gemerl_SwitchStateAfterDelay
 	movs r0, #1
 	pop {r1}
 	bx r1
@@ -2127,7 +2002,7 @@ Gemerl_State_24: @ 0x0806845C
 	push {r4, lr}
 	adds r4, r0, #0
 	movs r1, #0x19
-	bl sub_80689DC
+	bl Gemerl_SwitchStateAfterDelay
 	cmp r0, #1
 	bne _08068490
 	ldr r0, _0806847C @ =gStageData
@@ -2232,7 +2107,7 @@ Gemerl_State_27: @ 0x08068520
 	adds r4, r5, #0
 	adds r4, #0x3c
 	movs r1, #0x1c
-	bl sub_80689DC
+	bl Gemerl_SwitchStateAfterDelay
 	cmp r0, #1
 	bne _080685A0
 	ldr r0, [r4, #8]
@@ -2300,7 +2175,7 @@ Gemerl_State_30: @ 0x080685AC
 	push {r4, lr}
 	adds r4, r0, #0
 	movs r1, #0x32
-	bl sub_80689DC
+	bl Gemerl_SwitchStateAfterDelay
 	adds r0, r4, #0
 	bl sub_8067A64
 	movs r0, #0
@@ -2438,7 +2313,7 @@ _080686C4: .4byte gUnknown_080D56F0
 Gemerl_State_38: @ 0x080686C8
 	push {lr}
 	movs r1, #0x32
-	bl sub_80689DC
+	bl Gemerl_SwitchStateAfterDelay
 	movs r0, #0
 	pop {r1}
 	bx r1
@@ -2532,7 +2407,7 @@ Gemerl_State_43: @ 0x08068778
 	adds r5, r4, #0
 	adds r5, #0x3c
 	movs r1, #0x2c
-	bl sub_80689DC
+	bl Gemerl_SwitchStateAfterDelay
 	cmp r0, #0
 	beq _080687A4
 	ldr r0, [r4, #0xc]
@@ -2563,7 +2438,7 @@ Gemerl_State_45: @ 0x080687B0
 	adds r5, r4, #0
 	adds r5, #0x3c
 	movs r1, #0x2e
-	bl sub_80689DC
+	bl Gemerl_SwitchStateAfterDelay
 	cmp r0, #0
 	beq _080687E6
 	ldr r0, [r5, #8]
@@ -2598,7 +2473,7 @@ Gemerl_State_46: @ 0x080687F4
 	push {r4, lr}
 	adds r4, r0, #0
 	movs r1, #0x2f
-	bl sub_80689DC
+	bl Gemerl_SwitchStateAfterDelay
 	cmp r0, #0
 	beq _0806880A
 	ldr r0, [r4, #0xc]
@@ -2617,7 +2492,7 @@ _08068814: .4byte 0xFFFFF800
 Gemerl_State_48: @ 0x08068818
 	push {lr}
 	movs r1, #0x32
-	bl sub_80689DC
+	bl Gemerl_SwitchStateAfterDelay
 	movs r0, #0
 	pop {r1}
 	bx r1
@@ -2848,8 +2723,8 @@ _080689CA:
 _080689D4: .4byte sa2__sub_801EE64
 _080689D8: .4byte 0xFFFFFF00
 
-	thumb_func_start sub_80689DC
-sub_80689DC: @ 0x080689DC
+	thumb_func_start Gemerl_SwitchStateAfterDelay
+Gemerl_SwitchStateAfterDelay: @ 0x080689DC
 	push {r4, lr}
 	adds r2, r0, #0
 	movs r4, #0

@@ -21,6 +21,7 @@ void Task_Gemerl_8068860(void);
 void sub_8068908(void);
 void sub_8068954(void *);
 void Gemerl_SwitchState(Gemerl *gemerl, s32 state);
+bool32 Gemerl_SwitchStateAfterDelay(Gemerl *gemerl, s32 state); // Result: TRUE = State Was Changed
 void sub_8067590(Gemerl *gemerl);
 void sub_8067A64(Gemerl *gemerl);
 void sub_8067B20(Gemerl *gemerl);
@@ -813,8 +814,10 @@ NONMATCH("asm/non_matching/game/bosses/gemerl__gemerl_state_35.inc", bool32 Geme
             sub_8068A38(gemerl, 0, 1);
         }
     }
+
     sub_8067B94(gemerl, 0);
-    return 0U;
+
+    return FALSE;
 }
 END_NONMATCH
 
@@ -859,7 +862,7 @@ bool32 Gemerl_State_36(Gemerl *gemerl)
         }
     }
 
-    return 0U;
+    return FALSE;
 }
 
 bool32 Gemerl_State_39(Gemerl *gemerl)
@@ -888,12 +891,12 @@ bool32 Gemerl_State_39(Gemerl *gemerl)
         sub_8067590(gemerl);
     }
 
-    return 0U;
+    return FALSE;
 }
 
-u32 Gemerl_State_40(Gemerl *gemerl)
+bool32 Gemerl_State_40(Gemerl *gemerl)
 {
-    u8 var_r1;
+    u8 i;
     u16 val = gUnknown_080D56F0[gemerl->unk20][1];
 
     sub_8068A6C(gemerl, 0U, val);
@@ -904,8 +907,8 @@ u32 Gemerl_State_40(Gemerl *gemerl)
         gemerl->unk31 = 0;
         gemerl->unk30 = 0;
 
-        for (var_r1 = 0; var_r1 < ARRAY_COUNT(gemerl->unk24); var_r1++) {
-            gemerl->unk24[var_r1] = 0;
+        for (i = 0; i < ARRAY_COUNT(gemerl->unk24); i++) {
+            gemerl->unk24[i] = 0;
         }
     }
 
@@ -914,5 +917,35 @@ u32 Gemerl_State_40(Gemerl *gemerl)
         sub_8067590(gemerl);
     }
 
+    return FALSE;
+}
+
+bool32 Gemerl_State_44(Gemerl *gemerl)
+{
+    const Strc_80D5B00 *strc = &gUnknown_080D5B00[8];
+    SpriteTransform *tf = &gemerl->tf6C;
+    Sprite2 *s = &gemerl->spr3C;
+
+    if (s->frameFlags & 0x400) {
+        tf->rotation = (tf->rotation + gUnknown_080D56F0[gemerl->unk20][4]) & 0x3FF;
+    } else {
+        tf->rotation = (tf->rotation - gUnknown_080D56F0[gemerl->unk20][4]) & 0x3FF;
+    }
+
+    if (gemerl->unk18 == 90) {
+        u8 var_r6;
+        for (var_r6 = 0; var_r6 < strc->unk8; var_r6++) {
+            gemerl->unk24[gemerl->unk2F] = 1;
+            sub_807A574(gemerl, 8U, gemerl->unk2F, gemerl->unk30);
+            gemerl->unk2F += 1;
+        }
+    } else if (gemerl->unk18 == 30) {
+        gemerl->unk31 = 1;
+    }
+
+    if (Gemerl_SwitchStateAfterDelay(gemerl, 45)) {
+        tf->rotation = 0;
+        gemerl->qSomeY += Q(8);
+    }
     return 0U;
 }
