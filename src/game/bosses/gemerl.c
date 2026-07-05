@@ -39,6 +39,10 @@ void sub_8068A6C(Gemerl *gemerl, s16, s16);
 void sub_8068A38(Gemerl *gemerl, s16, u8);
 bool32 sub_8068984(Gemerl *gemerl, s16);
 
+extern void sub_80044CC(Player *);
+extern void sub_8004D68(s32 x, s32 y);
+extern s32 sub_807A1DC(Sprite *);
+
 extern Task *sub_8079758(s32, s16, s16, s16, s16, u8, s16, u8 *);
 extern void sub_807A574(Gemerl *, u8, u8, u8);
 void sub_8078DB0(s16 param0, s8 param1, s16 param2, s8 param3);
@@ -1205,6 +1209,7 @@ AnimCmdResult sub_806799C(Gemerl *gemerl)
     if ((s->prevVariant == 0xFF) || (gemerl->unk22 == 0) || (gemerl->unk20 <= 0)) {
         result = UpdateSpriteAnimation((Sprite *)s);
     }
+
     if ((tf->rotation != 0) && (gemerl->unk20 > 0)) {
         s->frameFlags |= (u8)(gNextFreeAffineIndex++ | 0x60);
         tf->x = s->x;
@@ -1215,5 +1220,148 @@ AnimCmdResult sub_806799C(Gemerl *gemerl)
     }
     DisplaySprite((Sprite *)s);
 
+    return result;
+}
+
+void sub_8067A64(Gemerl *gemerl)
+{
+    Sprite *s = &gemerl->spr78;
+
+    if (UpdateSpriteAnimation(s) != ACMD_RESULT__ENDED) {
+        s->x = I(gemerl->qSomeX) - gCamera.x;
+
+        if (gemerl->spr3C.frameFlags & 0x400) {
+            s->frameFlags |= 0x400;
+            s->x -= 16;
+        } else {
+            s->frameFlags &= ~0x400;
+            s->x += 16;
+        }
+
+        s->y = (I(gemerl->qSomeY) - gCamera.y) - 8;
+        DisplaySprite(s);
+    }
+}
+
+void sub_8067ACC(Gemerl *gemerl)
+{
+    Sprite *s = &gemerl->sprA0;
+
+    if ((gemerl->unk32 != 0) && (s->anim == 0x50E)) {
+        gemerl->unk32--;
+        s->x = (gemerl->qSomeX >> 8) - gCamera.x;
+        s->y = ((gemerl->qSomeY >> 8) - gCamera.y) + 0xC;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
+
+void sub_8067B20(Gemerl *gemerl)
+{
+    Sprite *s = &gemerl->sprA0;
+
+    if ((gemerl->unk32 != 0) && (s->anim == 0x514)) {
+        gemerl->unk32--;
+        if (gemerl->spr3C.frameFlags & 0x400) {
+            s->x = (I(gemerl->qSomeX) - gCamera.x) - 4;
+        } else {
+            s->x = (I(gemerl->qSomeX) - gCamera.x) + 4;
+        }
+        s->y = (I(gemerl->qSomeY) - gCamera.y) - 16;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
+
+bool32 sub_8067B94(Gemerl *gemerl, s32 stateIndex)
+{
+    Player *p;
+    s8 unk21;
+    u8 var_r6;
+    u32 result = 0;
+    s32 var_r8 = 1;
+    Sprite *s = (Sprite *)&gemerl->spr3C;
+    unk21 = gemerl->unk21;
+    if (unk21 != 0) {
+        if (unk21 < 60) {
+            for (var_r6 = 0; var_r6 < 2; var_r6++) {
+                p = &gPlayers[var_r6];
+                if ((sub_802C080(p) == 0) && (s->hitboxes[1].index != -1) && (var_r8 != 0)) {
+                    sub_8020CE0(s, I(gemerl->qSomeX), I(gemerl->qSomeY), 1, p);
+                }
+            }
+        }
+    } else {
+        u8 chara;
+        sub_8004D68(gemerl->qSomeX, gemerl->qSomeY);
+        chara = gPlayers[gStageData.playerIndex].charFlags.character;
+        if (((chara == CREAM) || (gPlayers[gPlayers[gStageData.playerIndex].charFlags.partnerIndex].charFlags.character == CREAM))
+            && (sub_807A1DC((Sprite *)s) == 1)) {
+            result = 1;
+        }
+        for (var_r6 = 0; var_r6 < 2; var_r6++) {
+            p = &gPlayers[var_r6];
+            if (sub_802C080(p) == 0) {
+                if ((s->hitboxes[0].index != -1) && (var_r8 != 0)) {
+                    if ((sub_8020E3C((Sprite *)s, I(gemerl->qSomeX), I(gemerl->qSomeY), 0, p) == 1) && (stateIndex != 0)) {
+                        result = 1;
+                        var_r8 = 0;
+                        sub_80044CC(p);
+                    } else if (sub_8020CE0((Sprite *)s, I(gemerl->qSomeX), I(gemerl->qSomeY), 0, p) != 0) {
+                        var_r8 = 0;
+                    }
+                }
+                if ((s->hitboxes[1].index != -1) && (var_r8 != 0)) {
+                    sub_8020CE0((Sprite *)s, I(gemerl->qSomeX), I(gemerl->qSomeY), 1, p);
+                }
+            }
+        }
+    }
+    return result;
+}
+
+bool32 sub_8067D20(Gemerl *gemerl, s32 stateIndex)
+{
+    Player *p;
+    bool32 result = 0;
+    s32 var_r8 = 1;
+    Sprite *s = (Sprite *)&gemerl->spr3C;
+    u8 var_r6;
+
+    if ((s8)gemerl->unk21 != 0) {
+        for (var_r6 = 0; var_r6 < 2; var_r6++) {
+            p = &gPlayers[var_r6];
+            if ((sub_802C080(p) == 0) && (s->hitboxes[1].index != -1) && (var_r8 != 0)) {
+                sub_8020CE0(s, I(gemerl->qSomeX), I(gemerl->qSomeY), 1, p);
+            }
+        }
+    } else {
+        u8 chara;
+        sub_8004D68(gemerl->qSomeX, gemerl->qSomeY);
+        chara = gPlayers[gStageData.playerIndex].charFlags.character;
+        if (((chara == CREAM) || (gPlayers[gPlayers[gStageData.playerIndex].charFlags.partnerIndex].charFlags.character == CREAM))
+            && (sub_807A1DC(s) == 1)) {
+            result = 1;
+        }
+        for (var_r6 = 0; var_r6 < 2; var_r6++) {
+            p = &gPlayers[var_r6];
+            if (sub_802C080(p) == 0) {
+                if (s->hitboxes[1].index != -1) {
+                    if (sub_8020CE0(s, I(gemerl->qSomeX), I(gemerl->qSomeY), 1, p) != 0) {
+                        var_r8 = 0;
+                    }
+                }
+
+                if ((s->hitboxes[0].index != -1) && (var_r8)) {
+                    if ((sub_8020E3C(s, I(gemerl->qSomeX), I(gemerl->qSomeY), 0, p) == 1) && (stateIndex != 0)) {
+                        sub_80044CC(p);
+                        result = 1;
+                    } else {
+                        sub_8020CE0(s, I(gemerl->qSomeX), I(gemerl->qSomeY), 0, p);
+                    }
+                }
+            }
+        }
+    }
     return result;
 }
