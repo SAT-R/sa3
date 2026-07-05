@@ -949,3 +949,32 @@ bool32 Gemerl_State_44(Gemerl *gemerl)
     }
     return 0U;
 }
+
+bool32 Gemerl_State_47(Gemerl *gemerl)
+{
+    s32 var_r6;
+    u8 var_r2;
+    s16 temp_r2 = (-gUnknown_080D56F0[gemerl->unk20][1] >> 2);
+    const Strc_80D5B00 *temp_r5 = &gUnknown_080D5B00[8];
+
+    var_r6 = 1;
+
+    for (var_r2 = 0; var_r2 < temp_r5->unk8; var_r2++) {
+        if (gemerl->unk24[var_r2] != 0) {
+            var_r6 = 0;
+            break;
+        }
+    }
+
+    if ((sub_8068984(gemerl, temp_r2) == 1) && (var_r6 != 0)) {
+        Gemerl_SwitchState(gemerl, 48);
+        sub_8068A38(gemerl, 0, 0);
+        sub_8068A38(gemerl, 0, 1);
+    }
+    if (sub_8067B94(gemerl, 1) != 0) {
+        sub_8068AAC(gemerl);
+        sub_8067590(gemerl);
+    }
+
+    return FALSE;
+}
