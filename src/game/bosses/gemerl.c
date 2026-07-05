@@ -4,6 +4,7 @@
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "game/sa3/bosses/gemerl_states.h"
+#include "game/bosses.h"
 #include "game/stage.h"
 #include "game/shared/stage/player_callbacks.h"
 #include "game/shared/stage/terrain_collision.h"
@@ -22,22 +23,29 @@ void sub_80678C0(Sprite *s0, Sprite *s1, Sprite *s2);
 AnimCmdResult sub_806799C(Gemerl *gemerl);
 void Task_Gemerl_8068860(void);
 void sub_8068908(void);
-void sub_8068954(void *);
+void sub_8068954(Gemerl *gemerl);
 void Gemerl_SwitchState(Gemerl *gemerl, s32 state);
 bool32 Gemerl_SwitchStateAfterDelay(Gemerl *gemerl, s32 state); // Result: TRUE = State Was Changed
 void sub_8067590(Gemerl *gemerl);
 void sub_8067A64(Gemerl *gemerl);
 void sub_8067B20(Gemerl *gemerl);
-bool32 sub_8067B94(Gemerl *gemerl, s32 state);
 void sub_8068A00(Gemerl *gemerl);
 void sub_8068AAC(Gemerl *gemerl);
 void sub_8068ACC(Gemerl *gemerl);
 void sub_8068B10(Gemerl *gemerl);
-void TaskDestructor_Gemerl(Task *t);
-extern void sub_807A4A8(void);
+bool32 sub_8067B94(Gemerl *gemerl, s32 stateIndex);
+bool32 sub_8067D20(Gemerl *gemerl, s32 stateIndex);
+void sub_806773C(Gemerl *gemerl);
+void sub_8067ACC(Gemerl *gemerl);
 void sub_8068A6C(Gemerl *gemerl, s16, s16);
-void sub_8068A38(Gemerl *gemerl, s16, u8);
+void sub_8068A38(Gemerl *gemerl, s16, s8);
 bool32 sub_8068984(Gemerl *gemerl, s16);
+void sub_8068AE4(Gemerl *gemerl);
+void sub_8067840(Gemerl *gemerl);
+void TaskDestructor_Gemerl(Task *t);
+void Task_Gemerl_80663F0(void);
+void Task_Gemerl_80688B4(void);
+extern void sub_807A4A8(void);
 
 extern void sub_80044CC(Player *);
 extern void sub_8004D68(s32 x, s32 y);
@@ -1364,4 +1372,704 @@ bool32 sub_8067D20(Gemerl *gemerl, s32 stateIndex)
         }
     }
     return result;
+}
+
+void sub_8067EA0(u8 *unknown)
+{
+    Gemerl *gemerl = TASK_DATA(gStageData.taskGemerl);
+    Sprite *s = (Sprite *)&gemerl->spr3C;
+    s32 x = unknown[2];
+    s32 temp_r1 = 0x7F;
+    u32 xMatch;
+    temp_r1 &= x;
+    x = unknown[3];
+    x |= (unknown[4] << 8);
+    xMatch = x;
+
+    switch (temp_r1) {
+        case 1: {
+            gemerl->unk20 = 0;
+            gemerl->qSomeX = Q(x);
+            gemerl->qSomeY = gemerl->unk10;
+            s->animSpeed = 0x10;
+            Gemerl_SwitchState((Gemerl *)gemerl, 0x33);
+        } break;
+        case 2:
+        case 3:
+        case 4: {
+            s32 value = 3;
+            if (temp_r1 >= value && gemerl->unk20 != (u8)xMatch) {
+                sub_8067590((Gemerl *)gemerl);
+            }
+        } break;
+    }
+}
+
+bool32 Gemerl_State_0(Gemerl *gemerl)
+{
+    Gemerl_SwitchStateAfterDelay(gemerl, 1);
+    return 0U;
+}
+
+bool32 Gemerl_State_1(Gemerl *gemerl)
+{
+    u32 var_r0;
+
+    Gemerl_SwitchStateAfterDelay(gemerl, 3);
+    if (gemerl->zone == 5) {
+        var_r0 = sub_8067D20(gemerl, 1);
+    } else {
+        var_r0 = sub_8067B94(gemerl, 1);
+    }
+    if (var_r0 != 0) {
+        if (gemerl->zone == 5) {
+            sub_8068AE4(gemerl);
+        } else {
+            sub_8068AAC(gemerl);
+            sub_8067590(gemerl);
+        }
+    }
+    sub_8067ACC(gemerl);
+    return 0U;
+}
+
+bool32 Gemerl_State_2(Gemerl *gemerl)
+{
+    u32 var_r0;
+
+    Gemerl_SwitchStateAfterDelay(gemerl, 3);
+    if (gemerl->zone == 5) {
+        var_r0 = sub_8067D20(gemerl, 1);
+    } else {
+        var_r0 = sub_8067B94(gemerl, 1);
+    }
+    if (var_r0 != 0) {
+        if (gemerl->zone == 5) {
+            sub_8068AE4(gemerl);
+        } else {
+            sub_8068AAC(gemerl);
+            sub_8067590(gemerl);
+        }
+    }
+    sub_8067ACC(gemerl);
+    return 0U;
+}
+
+bool32 Gemerl_State_49(Gemerl *gemerl)
+{
+    Gemerl_SwitchStateAfterDelay(gemerl, 3);
+
+    if (sub_8067B94(gemerl, 1) != 0) {
+        sub_8068AAC(gemerl);
+        sub_8067590(gemerl);
+    }
+    sub_8067ACC(gemerl);
+    return 0U;
+}
+
+bool32 Gemerl_State_3(Gemerl *gemerl)
+{
+    u16 temp_r5;
+
+    temp_r5 = gUnknown_080D56DC[4 - gemerl->unk20][0];
+    if (--gemerl->unk18 == 0) {
+        m4aSongNumStart(SE_547);
+        Gemerl_SwitchState(gemerl, 5);
+        sub_8068A38(gemerl, (s16)temp_r5, 0U);
+        sub_8068A38(gemerl, 0, 1U);
+        sub_8068AD8(gemerl);
+    } else if (sub_8067B94(gemerl, 1) != 0) {
+        sub_8068AAC(gemerl);
+        sub_8067590(gemerl);
+    }
+    return 0U;
+}
+
+bool32 Gemerl_State_4(Gemerl *gemerl)
+{
+    if (--gemerl->unk18 == 0) {
+        if (gemerl->unk20 != 0) {
+            Gemerl_SwitchState(gemerl, 9);
+        } else {
+            Gemerl_SwitchState(gemerl, 8);
+        }
+    }
+    return 0U;
+}
+
+bool32 Gemerl_State_52(Gemerl *gemerl)
+{
+    Sprite *s = (Sprite *)&gemerl->spr3C;
+
+    if (--gemerl->unk18 == 0) {
+        Gemerl_SwitchState(gemerl, 8);
+        s->frameFlags |= 0x400;
+    }
+    if (!(gStageData.timer & 0x3F)) {
+        m4aSongNumStart(SE_548);
+    }
+    return 0U;
+}
+
+bool32 Gemerl_State_53(Gemerl *gemerl)
+{
+    if (sub_8068984(gemerl, 0x200) == 1) {
+        Gemerl_SwitchState(gemerl, 0x33);
+    }
+    return 0U;
+}
+
+bool32 Gemerl_State_54(Gemerl *gemerl) { return 0U; }
+
+bool32 Gemerl_State_7(Gemerl *gemerl)
+{
+    Sprite *s = (Sprite *)&gemerl->spr3C;
+    u32 temp_r1;
+
+    if (sub_8067B94(gemerl, 1) != 0) {
+        sub_8068AAC(gemerl);
+        sub_8067590(gemerl);
+        if (s->frameFlags & 0x400) {
+            s->frameFlags &= ~0x400;
+        } else {
+            s->frameFlags |= 0x400;
+        }
+    } else {
+        sub_806773C(gemerl);
+    }
+    return 0U;
+}
+
+bool32 Gemerl_State_50(Gemerl *gemerl)
+{
+    if (sub_8067B94(gemerl, 1) != 0) {
+        sub_8068AAC(gemerl);
+        sub_8067590(gemerl);
+    } else {
+        sub_806773C(gemerl);
+    }
+    return 0U;
+}
+
+bool32 Gemerl_State_9(Gemerl *gemerl)
+{
+    Sprite *s = (Sprite *)&gemerl->spr3C;
+    s16 temp_r0;
+    u32 temp_r4;
+    u32 var_r0;
+
+    if (--gemerl->unk18 == 0) {
+        if (gemerl->unk20 != 0) {
+            gemerl->unk18 = 1;
+            sub_806773C(gemerl);
+        } else {
+            temp_r4 = s->frameFlags;
+            Gemerl_SwitchState(gemerl, 0x34);
+            if (temp_r4 & 0x400) {
+                s->frameFlags |= 0x400;
+            } else {
+                s->frameFlags &= 0xFFFFFBFF;
+            }
+        }
+    }
+    return 0U;
+}
+
+bool32 Gemerl_State_10_12_14(Gemerl *gemerl)
+{
+    s32 temp_r0_2;
+    s32 temp_r0_3;
+    s32 var_r5;
+    u8 temp_r0;
+
+    var_r5 = 0xB;
+    temp_r0 = gemerl->zone;
+    switch (temp_r0) {
+        case 0:
+        case 1:
+            var_r5 = 0xB;
+            break;
+        case 3:
+            var_r5 = 0xD;
+            break;
+        case 5:
+        case 7:
+            var_r5 = 0xF;
+            break;
+    }
+    temp_r0_2 = gemerl->qSomeY;
+    gemerl->qSomeY = temp_r0_2 + 0x200;
+    temp_r0_3 = sa2__sub_801E4E4((s32)(temp_r0_2 + 0xD00) >> 8, (s32)gemerl->qSomeX >> 8, 1, 8, NULL, sa2__sub_801EE64);
+    if (temp_r0_3 <= 2) {
+        gemerl->qSomeY += temp_r0_3 << 8;
+        Gemerl_SwitchState(gemerl, var_r5);
+    }
+    return 1U;
+}
+
+bool32 Gemerl_State_11_13_15(Gemerl *gemerl)
+{
+    Gemerl_SwitchStateAfterDelay(gemerl, 0x10);
+    return 1U;
+}
+
+bool32 Gemerl_State_16(Gemerl *gemerl)
+{
+    Gemerl_SwitchStateAfterDelay(gemerl, 0x11);
+    return 1U;
+}
+
+bool32 Gemerl_State_18(Gemerl *gemerl)
+{
+    s16 val = gUnknown_080D56F0[gemerl->unk20][0];
+
+    if (--gemerl->unk18 == 0) {
+        gemerl->qSomeY -= Q(8);
+        sub_8068A38(gemerl, val, 1U);
+        Gemerl_SwitchState(gemerl, 0x13);
+        m4aSongNumStart(SE_537);
+    }
+    if (sub_8067B94(gemerl, 1) != 0) {
+        sub_8068AAC(gemerl);
+        sub_8067590(gemerl);
+    }
+    return 0U;
+}
+
+bool32 Gemerl_State_19(Gemerl *gemerl)
+{
+    s16 val = gUnknown_080D56F0[gemerl->unk20][1];
+
+    sub_8068A6C(gemerl, 0, val);
+    if ((s32)gemerl->unk16 > 0x200) {
+        Gemerl_SwitchState(gemerl, 0x14);
+    }
+    if (sub_8067B94(gemerl, 1) != 0) {
+        sub_8068AAC(gemerl);
+        sub_8067590(gemerl);
+    }
+    return 0U;
+}
+
+bool32 Gemerl_State_22(Gemerl *gemerl)
+{
+    s16 val = -gUnknown_080D56F0[gemerl->unk20][1];
+
+    if (sub_8068984(gemerl, val) == 1) {
+        if (gemerl->zone == ZONE_4) {
+            Gemerl_SwitchState(gemerl, 0x32);
+        } else {
+            Gemerl_SwitchState(gemerl, 7);
+        }
+        sub_8068A38(gemerl, 0, 0U);
+        sub_8068A38(gemerl, 0, 1U);
+        m4aSongNumStop(SE_231);
+    }
+    return 0U;
+}
+
+bool32 Gemerl_State_23(Gemerl *gemerl)
+{
+    Sprite *s = (Sprite *)&gemerl->spr3C;
+    s32 var_r2;
+
+    var_r2 = 0;
+    if (s->frameFlags & 0x400) {
+        if (Q(gCamera.maxX - 46) < gemerl->qSomeX) {
+            var_r2 = 1;
+        }
+    } else if (Q(gCamera.minX + 46) > gemerl->qSomeX) {
+        var_r2 = 1;
+    }
+
+    if (var_r2 != 0) {
+        sub_8068ACC(gemerl);
+        Gemerl_SwitchState(gemerl, 6);
+        gemerl->unk14 >>= 1;
+        m4aSongNumStop(SE_231);
+    }
+
+    sub_8067B94(gemerl, 0);
+    sub_8067A64(gemerl);
+    return 0U;
+}
+
+bool32 Gemerl_State_24(Gemerl *gemerl)
+{
+    if (Gemerl_SwitchStateAfterDelay(gemerl, 0x19) == 1) {
+        if (gStageData.zone == 3) {
+            gemerl->unk2E = 2;
+        } else {
+            gemerl->unk2E = 0;
+        }
+        gemerl->unk2F = 0;
+    }
+    if (sub_8067B94(gemerl, 1) != 0) {
+        sub_8068AAC(gemerl);
+        sub_8067590(gemerl);
+    }
+    return 0U;
+}
+
+bool32 Gemerl_State_26(Gemerl *gemerl)
+{
+    const Strc_80D5B00 *temp_r3 = &gUnknown_080D5B00[gemerl->unk2E];
+    s32 var_r6 = 1;
+    u8 var_r2;
+
+    for (var_r2 = 0; var_r2 < temp_r3->unk8; var_r2++) {
+        if (gemerl->unk24[var_r2] != 0) {
+            var_r6 = 0;
+            break;
+        }
+    }
+
+    if (var_r6 != 0) {
+        Gemerl_SwitchState(gemerl, 0x1F);
+    }
+
+    if (sub_8067B94(gemerl, 1) != 0) {
+        sub_8068AAC(gemerl);
+        sub_8067590(gemerl);
+    }
+    return 0U;
+}
+
+bool32 Gemerl_State_27(Gemerl *gemerl)
+{
+    Player *p = &gPlayers[PLAYER_1];
+    Sprite *s = (Sprite *)&gemerl->spr3C;
+
+    if (Gemerl_SwitchStateAfterDelay(gemerl, 0x1C) == 1) {
+        if (s->frameFlags & 0x400) {
+            if (Q(gCamera.maxX - 46) >= p->qWorldX) {
+                gemerl->qSomeX = p->qWorldX + Q(40);
+                s->frameFlags &= ~0x400;
+            } else {
+                gemerl->qSomeX = p->qWorldX - Q(40);
+                s->frameFlags |= 0x400;
+            }
+        } else {
+            if (Q(gCamera.minX + 46) > p->qWorldX) {
+#ifndef NON_MATCHING
+                register s32 r3 asm("r3") = Q(40);
+                gemerl->qSomeX = p->qWorldX + r3;
+                asm("" ::"r"(r3));
+#else
+                gemerl->qSomeX = p->qWorldX + Q(40);
+#endif
+                s->frameFlags &= ~0x400;
+            } else {
+                gemerl->qSomeX = p->qWorldX - Q(40);
+                s->frameFlags |= 0x400;
+            }
+        }
+    }
+    return 0U;
+}
+
+bool32 Gemerl_State_30(Gemerl *gemerl)
+{
+    Gemerl_SwitchStateAfterDelay(gemerl, 0x32);
+    sub_8067A64(gemerl);
+    return 0U;
+}
+
+bool32 Gemerl_State_31(Gemerl *gemerl)
+{
+    if (sub_8067B94(gemerl, 1) != 0) {
+        sub_8068AAC(gemerl);
+        sub_8067590(gemerl);
+    } else {
+        sub_806773C(gemerl);
+    }
+    return 0U;
+}
+
+bool32 Gemerl_State_32(Gemerl *gemerl)
+{
+    s16 temp_r0 = gUnknown_080D56F0[gemerl->unk20][0];
+
+    if (--gemerl->unk18 == 0) {
+        gemerl->qSomeY -= Q(8);
+        sub_8068A38(gemerl, temp_r0, 1U);
+        Gemerl_SwitchState(gemerl, 0x21);
+        m4aSongNumStart(SE_537);
+    }
+    if (sub_8067B94(gemerl, 1) != 0) {
+        sub_8068AAC(gemerl);
+        sub_8067590(gemerl);
+    }
+    return 0U;
+}
+
+bool32 Gemerl_State_37(Gemerl *gemerl)
+{
+    s16 var = -gUnknown_080D56F0[gemerl->unk20][1];
+    if (sub_8068984(gemerl, var) == 1) {
+        Gemerl_SwitchState(gemerl, 0x26);
+        sub_8068A38(gemerl, 0, 0U);
+        sub_8068A38(gemerl, 0, 1U);
+    }
+    if (sub_8067B94(gemerl, 1) != 0) {
+        sub_8068AAC(gemerl);
+        sub_8067590(gemerl);
+    }
+    return 0U;
+}
+
+bool32 Gemerl_State_38(Gemerl *gemerl)
+{
+    Gemerl_SwitchStateAfterDelay(gemerl, 0x32);
+    return 0U;
+}
+
+bool32 Gemerl_State_41(Gemerl *gemerl)
+{
+    s32 var = -gUnknown_080D56F0[gemerl->unk20][1];
+    sub_8068A6C(gemerl, 0, var);
+    if ((s32)gemerl->unk16 < -Q(2.5)) {
+        sub_8068A38(gemerl, 0, 0U);
+        sub_8068A38(gemerl, 0, 1U);
+        Gemerl_SwitchState(gemerl, 0x2A);
+        gemerl->qSomeY += 0x800;
+    }
+    sub_8067B94(gemerl, 0);
+    return 0U;
+}
+
+bool32 Gemerl_State_42(Gemerl *gemerl)
+{
+    s16 temp_r0;
+
+    if (--gemerl->unk18 == 0) {
+        gemerl->qSomeX = ((s32)(gCamera.minX + gCamera.maxX) >> 1) << 8;
+        Gemerl_SwitchState(gemerl, 0x2B);
+    }
+    return 0U;
+}
+
+bool32 Gemerl_State_43(Gemerl *gemerl)
+{
+    Sprite *s = (Sprite *)&gemerl->spr3C;
+
+    if (Gemerl_SwitchStateAfterDelay(gemerl, 0x2C) != 0) {
+        gemerl->qSomeY += 0xFFFFF800;
+        if (s->frameFlags & 0x400) {
+            s->variant += 1;
+        }
+    }
+    return 0U;
+}
+
+bool32 Gemerl_State_45(Gemerl *gemerl)
+{
+    Sprite *s = (Sprite *)&gemerl->spr3C;
+    s32 var_r0;
+
+    if (Gemerl_SwitchStateAfterDelay(gemerl, 0x2E) != 0) {
+        if (s->frameFlags & 0x400) {
+            var_r0 = gCamera.maxX - 0xC;
+        } else {
+            var_r0 = gCamera.minX + 0xC;
+        }
+        gemerl->qSomeX = var_r0 << 8;
+    }
+    return 0U;
+}
+
+bool32 Gemerl_State_46(Gemerl *gemerl)
+{
+    if (Gemerl_SwitchStateAfterDelay(gemerl, 0x2F) != 0) {
+        gemerl->qSomeY += 0xFFFFF800;
+    }
+    return 0U;
+}
+
+bool32 Gemerl_State_48(Gemerl *gemerl)
+{
+    Gemerl_SwitchStateAfterDelay(gemerl, 0x32);
+    return 0U;
+}
+
+void TaskDestructor_Gemerl(Task *t)
+{
+    Gemerl *gemerl = TASK_DATA(t);
+
+    if (gemerl->vram4 != NULL) {
+        VramFree(gemerl->spr3C.tiles);
+        VramFree(gemerl->spr78.tiles);
+        VramFree(gemerl->sprA0.tiles);
+        VramFree(gemerl->vram4);
+    }
+}
+
+void Task_Gemerl_8068860()
+{
+    Gemerl *gemerl = TASK_DATA(gCurTask);
+    void (*var_r0)(Gemerl *);
+
+    if (*gemerl->inputArg0 == 3) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    sub_8068954(gemerl);
+    sub_806799C(gemerl);
+    if (sub_8079FFC()) {
+        gCurTask->main = Task_Gemerl_80688B4;
+    } else {
+        gCurTask->main = Task_Gemerl_80663F0;
+    }
+}
+
+void Task_Gemerl_80688B4(void)
+{
+    Gemerl *gemerl = TASK_DATA(gCurTask);
+    if (*gemerl->inputArg0 == 3) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    sub_8068954(gemerl);
+    sub_806799C(gemerl);
+    if ((*gemerl->inputArg0 == 2) && sub_807A074()) {
+        gCurTask->main = Task_Gemerl_80663F0;
+    }
+}
+
+void sub_8068908(void)
+{
+    Gemerl *gemerl = TASK_DATA(gCurTask);
+    if (gemerl->unk22) {
+        gemerl->unk22 -= 1;
+    } else if (gemerl->callback(gemerl) != 0) {
+        *gemerl->inputArg0 = 0;
+        return;
+    }
+
+    sub_8067840(gemerl);
+    sub_806799C(gemerl);
+}
+
+void sub_8068954(Gemerl *gemerl)
+{
+    s32 temp_r1;
+    s32 var_r0;
+
+    if ((gemerl->callback != Gemerl_State_8)
+        && ((var_r0 = gCamera.minX << 8, temp_r1 = gemerl->qSomeX, (temp_r1 < var_r0))
+            || (var_r0 = gCamera.maxX << 8, (temp_r1 > var_r0)))) {
+        gemerl->qSomeX = var_r0;
+    }
+}
+
+u32 sub_8068984(Gemerl *gemerl, s16 arg1)
+{
+    s32 temp_r0;
+    u32 var_r5;
+
+    var_r5 = 0;
+    gemerl->unk16 += arg1;
+    temp_r0 = sa2__sub_801E4E4((s32)(gemerl->qSomeY + 0xB00) >> 8, (s32)gemerl->qSomeX >> 8, 1, 8, NULL, sa2__sub_801EE64);
+    if (temp_r0 <= 0) {
+        gemerl->qSomeY = ((gemerl->qSomeY + ((temp_r0 + 1) << 8)) & 0xFFFFFF00) - 1;
+        gemerl->unk16 = 0;
+        var_r5 = 1;
+    }
+    return var_r5;
+}
+
+bool32 Gemerl_SwitchStateAfterDelay(Gemerl *gemerl, s32 stateIndex)
+{
+    bool32 result = 0;
+
+    if (--gemerl->unk18 == 0) {
+        result = 1;
+        Gemerl_SwitchState(gemerl, stateIndex);
+    }
+
+    return result;
+}
+
+void sub_8068A00(Gemerl *gemerl)
+{
+    Sprite *s = (Sprite *)&gemerl->spr3C;
+
+    if ((s32)(((s32)(gCamera.minX + gCamera.maxX) >> 1) << 8) > (s32)gemerl->qSomeX) {
+        s->frameFlags |= 0x400;
+    } else {
+        s->frameFlags &= ~0x400;
+    }
+}
+
+void sub_8068A38(Gemerl *gemerl, s16 arg1, s8 arg2)
+{
+    Sprite *s = (Sprite *)&gemerl->spr3C;
+    if (arg2 == 0) {
+        if (s->frameFlags & 0x400) {
+            gemerl->unk14 = +arg1;
+            return;
+        } else {
+            gemerl->unk14 = -arg1;
+        }
+        return;
+    } else {
+        gemerl->unk16 = arg1;
+    }
+}
+
+void sub_8068A6C(Gemerl *gemerl, s16 arg1, s16 arg2)
+{
+    Sprite *s = (Sprite *)&gemerl->spr3C;
+    if (s->frameFlags & 0x400) {
+        gemerl->unk14 -= arg1;
+    } else {
+        gemerl->unk14 += arg1;
+    }
+    gemerl->unk16 -= arg2;
+}
+
+void sub_8068AAC(Gemerl *gemerl)
+{
+    if (gemerl->unk21 == 0) {
+        u8 var_r0;
+        for (var_r0 = 0; var_r0 < 4; var_r0++) {
+            //
+        }
+    }
+}
+
+void sub_8068ACC(Gemerl *gemerl)
+{
+    Sprite *s = &gemerl->spr78;
+    s->variant = 1;
+    s->prevVariant = -1;
+}
+
+void sub_8068AD8(Gemerl *gemerl)
+{
+    Sprite *s = &gemerl->spr78;
+    s->variant = 0;
+    s->prevVariant = -1;
+}
+
+void sub_8068AE4(Gemerl *gemerl)
+{
+    Sprite *s = &gemerl->sprA0;
+    gemerl->unk32 = 0x14;
+    s->anim = 0x50E;
+    s->variant = 0;
+    s->prevAnim = -1;
+    s->prevVariant = -1;
+    s->oamFlags = 0x480;
+}
+
+void sub_8068B10(Gemerl *gemerl)
+{
+    Sprite *s = &gemerl->sprA0;
+    gemerl->unk32 = 0x12;
+    s->anim = 0x514;
+    s->variant = 0;
+    s->prevAnim = -1;
+    s->prevVariant = -1;
+    s->oamFlags = 0x500;
 }

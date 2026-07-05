@@ -197,7 +197,6 @@ void sub_80A5954() { }
 void sub_80A872C() { }
 ColorRaw sub_80C4C0C(ColorRaw color) { return color; }
 void sub_8029990() { }
-void Gemerl_State_0() { }
 
 void sub_80260F0() { }
 void sub_80261B0() { }
@@ -205,6 +204,34 @@ void sub_8026478() { }
 void sub_80264F0() { }
 void sub_8026720() { }
 void sub_80275F0() { }
+void sub_8027674() { }
 void sub_8028850() { }
 void sub_809BFE8() { }
+void sub_8078DB0() { }
+void sub_8079758() { }
+void sub_807A1DC() { }
+void sub_807A4A8() { }
+void sub_807A574() { }
+void sub_807AA04() { }
+void sub_807AA80() { }
+void sub_807AB0C() { }
+void sub_807B52C() { }
+void sub_807B59C() { }
+void sub_807ABB8() { }
+void sub_807AC48() { }
+void sub_807AD88() { }
+void sub_807AE3C() { }
+void sub_807AFBC() { }
+void sub_807B064() { }
+void sub_807B10C() { }
+void sub_807B1E4() { }
+void sub_807B280() { }
+void sub_807B368() { }
+void sub_807B498() { }
 void sub_8081C80() { }
+void SetFixedRandomIfTimeAttackMode()
+{
+    if (gStageData.gameMode == 5) {
+        gPseudoRandom = gStageData.zone * 101;
+    }
+}
