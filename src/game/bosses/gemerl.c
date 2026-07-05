@@ -750,8 +750,7 @@ NONMATCH("asm/non_matching/game/bosses/gemerl__gemerl_state_34.inc", bool32 Geme
 }
 END_NONMATCH
 
-// (93.12%) https://decomp.me/scratch/f2KuC
-NONMATCH("asm/non_matching/game/bosses/gemerl__gemerl_state_35.inc", bool32 Gemerl_State_35(Gemerl *gemerl))
+bool32 Gemerl_State_35(Gemerl *gemerl)
 {
     s32 temp_r0;
     s32 temp_r1;
@@ -762,6 +761,7 @@ NONMATCH("asm/non_matching/game/bosses/gemerl__gemerl_state_35.inc", bool32 Geme
     s16 temp_r2;
     s32 qPrevSomeX;
     s32 val;
+    s32 tmp = 0x1C;
     Sprite2 *s = &gemerl->spr3C;
     SpriteTransform *tf = &gemerl->tf6C;
     const Strc_80D5B00 *sp0 = &gUnknown_080D5B00[6 + (1 & gemerl->unk30)];
@@ -785,19 +785,16 @@ NONMATCH("asm/non_matching/game/bosses/gemerl__gemerl_state_35.inc", bool32 Geme
     temp_r2 = I(gemerl->qSomeX) - gCamera.minX;
     if (s->frameFlags & 0x400) {
         temp_r2 -= 40;
-        if (temp_r2 > gemerl->unk2F * 0x1C) {
+        if (temp_r2 > (tmp * gemerl->unk2F)) {
             var_sb = 1;
-            var_r0 = gCamera.minX;
-            var_r0 += 40;
-            gemerl->qSomeX = Q(var_r0 + (0x1C * gemerl->unk2F));
+            var_r0 = gCamera.minX + 40;
+            gemerl->qSomeX = Q((tmp * gemerl->unk2F) + var_r0);
         }
     } else {
-        s32 r2 = temp_r2;
-        s32 unk2F = gemerl->unk2F;
-        s32 mult = 0x1C * unk2F;
-        if (r2 < 200 - mult) {
+        if (temp_r2 < 200 - (tmp * gemerl->unk2F)) {
             var_sb = 1;
-            gemerl->qSomeX = Q((gCamera.minX - 200) - mult);
+            var_r0 = gCamera.minX + 200;
+            gemerl->qSomeX = Q(var_r0 - (tmp * gemerl->unk2F));
         }
     }
 
@@ -810,16 +807,14 @@ NONMATCH("asm/non_matching/game/bosses/gemerl__gemerl_state_35.inc", bool32 Geme
             gemerl->unk14 >>= 1;
             gemerl->unk31 = 1;
             tf->rotation = 0;
-            Gemerl_SwitchState(gemerl, 36);
+            Gemerl_SwitchState(gemerl, 0x24);
             sub_8068A38(gemerl, 0, 1);
         }
     }
-
     sub_8067B94(gemerl, 0);
 
     return FALSE;
 }
-END_NONMATCH
 
 bool32 Gemerl_State_36(Gemerl *gemerl)
 {
