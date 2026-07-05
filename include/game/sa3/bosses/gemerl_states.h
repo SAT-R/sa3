@@ -17,7 +17,7 @@ typedef struct Gemerl {
     /* 0x1A */ u16 unk1A;
     /* 0x1C */ u8 *inputArg0;
     /* 0x20 */ s8 unk20;
-    /* 0x21 */ u8 unk21;
+    /* 0x21 */ s8 unk21;
     /* 0x22 */ u8 unk22;
     /* 0x23 */ u8 zone;
     /* 0x24 */ u8 unk24[10];

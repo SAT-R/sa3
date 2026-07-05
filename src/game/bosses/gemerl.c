@@ -6,6 +6,7 @@
 #include "game/sa3/bosses/gemerl_states.h"
 #include "game/stage.h"
 #include "game/shared/stage/player_callbacks.h"
+#include "multi_sio_stuff.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"
 
@@ -37,6 +38,7 @@ bool32 sub_8068984(Gemerl *gemerl, s16);
 
 extern Task *sub_8079758(s32, s16, s16, s16, s16, u8, s16, u8 *);
 extern void sub_807A574(Gemerl *, u8, u8, u8);
+void sub_8078DB0(s16 param0, s8 param1, s16 param2, s8 param3);
 
 // if gStageData.gameMode is Single Player TimeAttack,
 // then set gPseudoRandom = (gStageData.zone * 1001)
@@ -622,7 +624,7 @@ bool32 Gemerl_State_29(Gemerl *gemerl)
         temp_r0 = sub_802C080(temp_r4);
         if (temp_r0) {
             if ((0x20 & temp_r4->moveState) && (temp_r4->sprColliding == (Sprite *)temp_r1)) {
-                temp_r4->moveState &= ~0x20;
+                temp_r4->moveState &= ~MOVESTATE_COLLIDING_ENT;
                 temp_r4->sprColliding = NULL;
             }
         } else {
@@ -635,7 +637,7 @@ bool32 Gemerl_State_29(Gemerl *gemerl)
                 } else {
                     temp_r4->moveState |= MOVESTATE_FACING_LEFT;
                 }
-                temp_r4->moveState |= 0x20;
+                temp_r4->moveState |= MOVESTATE_COLLIDING_ENT;
                 temp_r4->sprColliding = (Sprite *)temp_r1;
             }
         }
@@ -643,7 +645,7 @@ bool32 Gemerl_State_29(Gemerl *gemerl)
 
     for (pid = 0; pid < NUM_SINGLE_PLAYER_CHARS; pid++) {
         temp_r4 = &gPlayers[pid];
-        if ((temp_r4->moveState & 0x20) && (temp_r4->sprColliding == (Sprite *)temp_r1)) {
+        if ((temp_r4->moveState & MOVESTATE_COLLIDING_ENT) && (temp_r4->sprColliding == (Sprite *)temp_r1)) {
             if (temp_r1->frameFlags & 0x400) {
                 temp_r4->qWorldX = gemerl->qSomeX + Q(30);
                 temp_r4->qWorldY = gemerl->qSomeY;
@@ -669,7 +671,7 @@ bool32 Gemerl_State_29(Gemerl *gemerl)
 
         for (pid = 0; pid < NUM_SINGLE_PLAYER_CHARS; pid++) {
             temp_r4 = &gPlayers[pid];
-            if ((temp_r4->moveState & 0x20) && (temp_r4->sprColliding == (Sprite *)temp_r1)) {
+            if ((temp_r4->moveState & MOVESTATE_COLLIDING_ENT) && (temp_r4->sprColliding == (Sprite *)temp_r1)) {
                 temp_r4->framesInvulnerable = 0;
                 temp_r4->framesInvincible = 0;
                 Call__Player_8014550(temp_r4);
@@ -862,7 +864,7 @@ bool32 Gemerl_State_36(Gemerl *gemerl)
 
 bool32 Gemerl_State_39(Gemerl *gemerl)
 {
-    u8 var_r2;
+    u8 i;
     u16 val = gUnknown_080D56F0[gemerl->unk20][0];
 
     if (--gemerl->unk18 == 0) {
@@ -870,8 +872,8 @@ bool32 Gemerl_State_39(Gemerl *gemerl)
         gemerl->unk31 = 0;
         gemerl->unk30 = 0;
 
-        for (var_r2 = 0; var_r2 < ARRAY_COUNT(gemerl->unk24); var_r2++) {
-            gemerl->unk24[var_r2] = 0;
+        for (i = 0; i < ARRAY_COUNT(gemerl->unk24); i++) {
+            gemerl->unk24[i] = 0;
         }
 
         gemerl->qSomeY -= Q(8);
@@ -947,15 +949,13 @@ bool32 Gemerl_State_44(Gemerl *gemerl)
 
 bool32 Gemerl_State_47(Gemerl *gemerl)
 {
-    s32 var_r6;
-    u8 var_r2;
     s16 temp_r2 = (-gUnknown_080D56F0[gemerl->unk20][1] >> 2);
     const Strc_80D5B00 *temp_r5 = &gUnknown_080D5B00[8];
+    s32 var_r6 = 1;
+    u8 i;
 
-    var_r6 = 1;
-
-    for (var_r2 = 0; var_r2 < temp_r5->unk8; var_r2++) {
-        if (gemerl->unk24[var_r2] != 0) {
+    for (i = 0; i < temp_r5->unk8; i++) {
+        if (gemerl->unk24[i] != 0) {
             var_r6 = 0;
             break;
         }
@@ -972,4 +972,60 @@ bool32 Gemerl_State_47(Gemerl *gemerl)
     }
 
     return FALSE;
+}
+
+void sub_8067590(Gemerl *gemerl)
+{
+    Sprite2 *s = &gemerl->spr3C;
+
+    if ((gemerl->unk21 == 0) && (gemerl->unk20 != 0)) {
+        gemerl->unk20 -= 1;
+        gemerl->unk22 = 2;
+        gemerl->unk21 = 0x78;
+        m4aSongNumStart(SE_546);
+
+        sub_8078DB0(0x518, 0, 120, 0);
+
+        if (gemerl->unk20) {
+            if (CURRENT_GAME_MODE == GAME_MODE_5) {
+                if (gStageData.playerIndex == PLAYER_1) {
+                    s32 a = gemerl->unk20;
+                    sub_8027674(0x83, a);
+                } else {
+                    s32 a = gemerl->unk20;
+                    sub_8027674(0x84, a);
+                }
+            }
+        } else {
+            u8 pid;
+            for (pid = 0; pid < 2; pid++) {
+                Player *p = &gPlayers[pid];
+                if (p->sprColliding == (Sprite *)s) {
+                    if (!(p->moveState & MOVESTATE_DEAD)) {
+                        p->sprColliding = NULL;
+                        Player_8005380(p);
+                    }
+                }
+            }
+
+            s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+            gemerl->tf6C.rotation = 0;
+            if (gStageData.gameMode == 5) {
+                gemerl->unk1A = 0;
+                gemerl->qSomeY = gemerl->unk10;
+                if (gStageData.playerIndex == 0) {
+                    s32 qSomeX = (gemerl->qSomeX);
+                    sub_8027674(0x81, qSomeX >> 8);
+                    Gemerl_SwitchState(gemerl, 51);
+                } else {
+                    sub_8027674(0x84, gemerl->unk20);
+                    Gemerl_SwitchState(gemerl, 54);
+                }
+            } else if (sub_8068984(gemerl, 0x100) == 1) {
+                Gemerl_SwitchState(gemerl, 51);
+            } else {
+                Gemerl_SwitchState(gemerl, 53);
+            }
+        }
+    }
 }

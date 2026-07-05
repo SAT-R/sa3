@@ -18,6 +18,7 @@ void sub_80276A8(u8 charId);
 void sub_80276F4(u16 somePlayerFlags, u16 playerIndex);
 void sub_80296F8(u16 somePlayerFlags);
 void sub_802954C(Player *p, s16 worldX, s16 worldY);
+void sub_8027674(u8 param0, u16 param1);
 
 // Multiplayer-related (used in IA item_box_mp.c)
 typedef struct {
