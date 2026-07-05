@@ -624,6 +624,22 @@
 #define ANIM_ITEM_BOX_TYPE_WIDTH                    16
 #define ANIM_ITEM_BOX_TYPE_HEIGHT                   16
 
+// 1286
+#define ANIM_GEMERL_IDLE_WIDTH                      64
+#define ANIM_GEMERL_IDLE_HEIGHT                     64
+
+// 1292
+#define ANIM_GEMERL_DASH_DUST_WIDTH                 40
+#define ANIM_GEMERL_DASH_DUST_HEIGHT                24
+
+// 1293
+#define ANIM_GEMERL_DASH_CHARGE_WIDTH               32
+#define ANIM_GEMERL_DASH_CHARGE_HEIGHT              40
+
+// 1294
+#define ANIM_GEMERL_SHIELD_WIDTH                    48
+#define ANIM_GEMERL_SHIELD_HEIGHT                   48
+
 // 1316
 #define ANIM_ITEM_BOX_WIDTH                         32
 #define ANIM_ITEM_BOX_HEIGHT                        32

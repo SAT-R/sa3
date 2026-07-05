@@ -6,7 +6,9 @@
 #include "game/sa3/bosses/gemerl_states.h"
 #include "game/stage.h"
 #include "game/shared/stage/player_callbacks.h"
+#include "game/shared/stage/terrain_collision.h"
 #include "multi_sio_stuff.h"
+#include "constants/animations.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"
 
@@ -1114,4 +1116,70 @@ void sub_806773C(Gemerl *arg0)
     if (--arg0->unk18 == 0) {
         Gemerl_SwitchState(arg0, newState);
     }
+}
+
+void sub_8067840(Gemerl *gemerl)
+{
+    s32 res;
+    void *ptr;
+
+    gemerl->qSomeX += gemerl->unk14;
+    gemerl->qSomeY += gemerl->unk16;
+    ptr = 0;
+    res = SA2_LABEL(sub_801E4E4)(I(gemerl->qSomeY + Q(11)), I(gemerl->qSomeX), 1, 8, ptr, SA2_LABEL(sub_801EE64));
+    if (res <= 0) {
+        gemerl->qSomeY = ((gemerl->qSomeY + (Q(res + 1))) & 0xFFFFFF00) - 1;
+        gemerl->unk16 = 0;
+    }
+
+    if (gemerl->callback != Gemerl_State_8) {
+        if (gemerl->qSomeX < Q(gCamera.minX)) {
+            gemerl->qSomeX = Q(gCamera.minX);
+        } else if (gemerl->qSomeX > Q(gCamera.maxX)) {
+            gemerl->qSomeX = Q(gCamera.maxX);
+        }
+    }
+}
+
+void sub_80678C0(Sprite *s0, Sprite *s1, Sprite *s2)
+{
+    s0->tiles = ALLOC_TILES(ANIM_GEMERL_IDLE);
+    s0->anim = ANIM_GEMERL_IDLE;
+    s0->variant = 0;
+    s0->oamFlags = SPRITE_OAM_ORDER(19);
+    s0->animCursor = 0;
+    s0->qAnimDelay = 0;
+    s0->prevVariant = -1;
+    s0->animSpeed = 0x10;
+    s0->palId = 0;
+    s0->hitboxes[0].index = -1;
+    s0->frameFlags = 0x1000;
+
+    s1->tiles = ALLOC_TILES(ANIM_GEMERL_DASH_DUST);
+    s1->anim = ANIM_GEMERL_DASH_DUST;
+    s1->variant = 0;
+    s1->oamFlags = SPRITE_OAM_ORDER(19);
+    s1->animCursor = 0;
+    s1->qAnimDelay = 0;
+    s1->prevVariant = -1;
+    s1->animSpeed = 0x10;
+    s1->palId = 0;
+    s1->hitboxes[0].index = -1;
+    s1->frameFlags = 0x1000;
+
+    s2->tiles = ALLOC_TILES(ANIM_GEMERL_SHIELD);
+    s2->anim = ANIM_GEMERL_SHIELD;
+    s2->variant = 0;
+    s2->oamFlags = SPRITE_OAM_ORDER(18);
+    s2->animCursor = 0;
+    s2->qAnimDelay = 0;
+    s2->prevVariant = -1;
+    s2->animSpeed = 0x10;
+    s2->palId = 0;
+    s2->hitboxes[0].index = -1;
+    s2->frameFlags = 0x1000;
+
+    UpdateSpriteAnimation(s0);
+    UpdateSpriteAnimation(s1);
+    UpdateSpriteAnimation(s2);
 }
