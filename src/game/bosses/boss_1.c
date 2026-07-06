@@ -32,7 +32,10 @@ typedef struct {
     /* 0x054 */ Player *partner;
     /* 0x058 */ u8 filler58[0x98];
     /* 0x0F0 */ Sprite5 sprCockpit;
-    /* 0x138 */ u8 filler138[0x84];
+    /* 0x138 */ Sprite spr138;
+    /* 0x160 */ Sprite spr160;
+    /* 0x188 */ Sprite spr188;
+    /* 0x1B0 */ SpriteTransform tf;
 } EggHammerTankIII; /* 0x1BC */
 
 void sub_8069460(EggHammerTankIII *boss);
