@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start sub_8068C38
 sub_8068C38: @ 0x08068C38
 	push {r4, r5, r6, lr}
@@ -101,6 +99,7 @@ _08068CDE:
 	.align 2, 0
 _08068CF8: .4byte gCurTask
 _08068CFC: .4byte sub_806A760
+.endif
 
 	thumb_func_start sub_8068D00
 sub_8068D00: @ 0x08068D00

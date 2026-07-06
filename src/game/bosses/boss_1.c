@@ -36,17 +36,28 @@ typedef struct {
     /* 0x04C */ s32 unk4C;
     /* 0x050 */ Player *player;
     /* 0x054 */ Player *partner;
-    /* 0x058 */ u8 filler58[0xB8];
-    /* 0x110 */ EggHammerTankIII_x110 unk110[5];
+    /* 0x058 */ u8 filler58[0x98];
+    /* 0x0F0 */ Sprite5 sprCockpit;
     /* 0x138 */ u8 filler138[0x84];
 } EggHammerTankIII; /* 0x1BC */
 
 void sub_8069460(EggHammerTankIII *boss);
 void sub_80692E4(EggHammerTankIII *boss);
+void sub_8069360(EggHammerTankIII *boss);
 void sub_806940C(EggHammerTankIII *boss);
+void sub_8069814(EggHammerTankIII *boss);
+void sub_806A894(EggHammerTankIII *boss);
 void sub_806A728(void);
-void SetFixedRandomIfTimeAttackMode(void);
+void sub_806A760(void);
+void sub_806A7A4(void);
 void TaskDestructor_Boss_806A7E4(struct Task *t);
+void sub_8069578(void);
+void sub_806A854(void);
+void sub_806A898(void);
+u8 sub_8068E5C(Player *);
+
+extern void SetFixedRandomIfTimeAttackMode(void);
+
 
 // Init Boss 1
 Task *CreateEggHammerTankIII(s32 arg0, s32 arg1, s32 arg2)
@@ -92,9 +103,9 @@ Task *CreateEggHammerTankIII(s32 arg0, s32 arg1, s32 arg2)
     sub_806940C(boss);
 
     for (var_r5 = 0; var_r5 < ARRAY_COUNT(boss->unk14); var_r5++) {
-        EggHammerTankIII_x110 *temp_r2 = &boss->unk110[var_r5];
-        boss->unk14[var_r5][0] = temp_r2->unk4 - ((temp_r2->unk4 - temp_r2->unk6) >> 1);
-        boss->unk14[var_r5][1] = temp_r2->unk5 - ((temp_r2->unk5 - temp_r2->unk7) >> 1);
+        Hitbox *hb = &boss->sprCockpit.hitboxes[var_r5];
+        boss->unk14[var_r5][0] = hb->b.left - ((hb->b.left - hb->b.right) >> 1);
+        boss->unk14[var_r5][1] = hb->b.top  - ((hb->b.top  - hb->b.bottom) >> 1);
     }
 
     SetFixedRandomIfTimeAttackMode();
@@ -102,5 +113,49 @@ Task *CreateEggHammerTankIII(s32 arg0, s32 arg1, s32 arg2)
     return t;
 }
 
-#if 01
+#if 0
+void sub_8068C38(void)
+{
+    u8 temp_r5;
+    EggHammerTankIII *boss = TASK_DATA(gCurTask);
+    Sprite *s = (Sprite*)&boss->sprCockpit;
+
+    boss->unk32++;
+    sub_8069814(boss);
+    sub_8069360(boss);
+    sub_806A894(boss);
+    temp_r5 =  sub_8068E5C(boss->player);
+    temp_r5 += sub_8068E5C(boss->partner);
+
+    if (boss->unkD != 0) {
+        if (--boss->unkD == 0) {
+            boss->unkFC = 0x4B8;
+            boss->filler58[0xB2] = 0;
+        }
+    }
+
+    if (temp_r5 != 0) {
+        sub_806A5DC(boss);
+    }
+
+    if (boss->lives == 0) {
+        if (gStageData.gameMode == 5) {
+            if (gStageData.playerIndex != 0) {
+                gCurTask->main = sub_806A7A4;
+            } else {
+                sub_8027674(1, 0);
+                sub_806A818(boss);
+                gCurTask->main = sub_806A760;
+            }
+        } else {
+            sub_806A818(boss);
+            gCurTask->main = sub_806A760;
+        }
+    }
+
+    sub_8069578(boss);
+    sub_806A854(boss);
+    sub_806A898(boss);
+}
+
 #endif
