@@ -6,8 +6,8 @@
 .arm
 
     @ Called on init of Boss 1
-	thumb_func_start CreateBoss_8068B3C
-CreateBoss_8068B3C: @ 0x08068B3C
+	thumb_func_start CreateEggHammerTankIII
+CreateEggHammerTankIII: @ 0x08068B3C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8

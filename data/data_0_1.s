@@ -160,41 +160,41 @@ gUnknown_080CFA58:
     @ gCamera-Coordinates set after a trigger was destroyed.
     @ If a value is -1 it is left unchanged, in that order:
     @  minX, maxX, minY, maxY
-    mPtr CreateGemerl           @  0
+    mPtr CreateGemerl             @  0
     .int -1, 0x1D40, 0, 0xC60
-    mPtr CreateGemerl           @  1
+    mPtr CreateGemerl             @  1
     .int -1, 0x1FE0, 0, 0xB40
-    mPtr CreateGemerl           @  2
+    mPtr CreateGemerl             @  2
     .int -1, 0x32A0, 0, 0x660
-    mPtr CreateGemerl           @  3
+    mPtr CreateGemerl             @  3
     .int -1, 0x0960, -1, -1
-    mPtr CreateBoss_8068B3C     @  4
+    mPtr CreateEggHammerTankIII   @  4 -- Boss 1
     .int -1, 0x0960, -1, -1
-    mPtr CreateBoss_806A90C     @  5
+    mPtr CreateEggWheeler         @  5 -- Boss 2
     .int -1, -1, -1, -1
-    mPtr CreateBoss_806D1A0     @  6
+    mPtr CreateEggFoot            @  6 -- Boss 3
     .int -1, -1, -1, -1
-    mPtr CreateBoss_806EADC     @  7
+    mPtr CreateEggCube            @  7 -- Boss 4
     .int -1, 0x8A0, -1, -1
-    mPtr CreateBoss_8071A08     @  8
+    mPtr CreateEggChaserBoss      @  8 -- Boss 5
     .int -1, 0x7E0, -1, -1
-    mPtr CreateBoss_8073640     @  9
+    mPtr CreateEggPinball         @  9 -- Boss 6
     .int -1, 0x9C0, 0, 0x1E0
-    mPtr CreateBoss_8074E88     @ 10
+    mPtr CreateEggGravity         @ 10 -- Boss 7
     .int -1, 0x6C0, -1, -1
-    mPtr CreateBoss_80581C8     @ 11
+    mPtr CreateHyperEggRoboTask   @ 11 -- Boss Final (Seems to be a watcher task used for debugging? The function creates the real CreateHyperEggRobo and return a Task that does nothing.
     .int -1, -1, -1, -1
-    mPtr NULL                   @ 12
+    mPtr NULL                     @ 12
     .int 0, 0, 0, 0
-    mPtr NULL                   @ 13
+    mPtr NULL                     @ 13
     .int 0, 0, 0, 0
-    mPtr NULL                   @ 14
+    mPtr NULL                     @ 14
     .int 0, 0, 0, 0
-    mPtr NULL                   @ 15
+    mPtr NULL                     @ 15
     .int 0, 0, 0, 0
-    mPtr NULL                   @ 16
+    mPtr NULL                     @ 16
     .int 0, 0, 0, 0
-    mPtr CreateGoalRing         @ 17
+    mPtr CreateGoalRing           @ 17
     .int -1, -1, -1, -1
 
     .global sUfoActs

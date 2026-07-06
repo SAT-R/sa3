@@ -1,11 +1,13 @@
 #include "task.h"
 
 void sub_80581F0(void);
-void sub_807B6C8(void *unk);
+void CreateHyperEggRobo(void *unk);
 
-struct Task *CreateBoss_80581C8(void *unk)
+// Seems to be a watcher task used for debugging?
+// The function creates the real CreateHyperEggRobo and return a Task that does nothing.
+struct Task *CreateHyperEggRoboTask(void *unk)
 {
-    sub_807B6C8(unk);
+    CreateHyperEggRobo(unk);
 
     return TaskCreate(sub_80581F0, 0, 0xF000, 0, NULL);
 }
