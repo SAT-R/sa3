@@ -1,24 +1,18 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_vram.h"
+#include "multi_sio_stuff.h"
 #include "game/game.h"
 #include "game/stage.h"
 #include "game/shared/stage/player.h"
-
-typedef struct {
-    /* 0x00 */ u8 filler0[4];
-    /* 0x04 */ s8 unk4;
-    /* 0x05 */ s8 unk5;
-    /* 0x06 */ s8 unk6;
-    /* 0x07 */ s8 unk7;
-} EggHammerTankIII_x110;
+#include "constants/animations.h"
 
 typedef struct {
     /* 0x000 */ s32 unk0;
     /* 0x004 */ s32 unk4;
     /* 0x008 */ s32 unk8;
     /* 0x00C */ u8 lives;
-    /* 0x00D */ u8 unkD;
+    /* 0x00D */ s8 unkD;
     /* 0x00E */ u8 unkE;
     /* 0x00F */ u8 unkF;
     /* 0x010 */ u8 unk10;
@@ -45,15 +39,18 @@ void sub_8069460(EggHammerTankIII *boss);
 void sub_80692E4(EggHammerTankIII *boss);
 void sub_8069360(EggHammerTankIII *boss);
 void sub_806940C(EggHammerTankIII *boss);
+void sub_806A5DC(EggHammerTankIII *boss);
 void sub_8069814(EggHammerTankIII *boss);
+void sub_8069818(EggHammerTankIII *boss);
+void sub_806A818(EggHammerTankIII *boss);
 void sub_806A894(EggHammerTankIII *boss);
 void sub_806A728(void);
 void sub_806A760(void);
 void sub_806A7A4(void);
 void TaskDestructor_Boss_806A7E4(struct Task *t);
-void sub_8069578(void);
-void sub_806A854(void);
-void sub_806A898(void);
+void sub_8069578(EggHammerTankIII *boss);
+void sub_806A854(EggHammerTankIII *boss);
+void sub_806A898(EggHammerTankIII *boss);
 u8 sub_8068E5C(Player *);
 
 extern void SetFixedRandomIfTimeAttackMode(void);
@@ -113,24 +110,23 @@ Task *CreateEggHammerTankIII(s32 arg0, s32 arg1, s32 arg2)
     return t;
 }
 
-#if 0
 void sub_8068C38(void)
 {
     u8 temp_r5;
     EggHammerTankIII *boss = TASK_DATA(gCurTask);
-    Sprite *s = (Sprite*)&boss->sprCockpit;
+    Sprite *s = (Sprite *)&boss->sprCockpit;
 
     boss->unk32++;
     sub_8069814(boss);
     sub_8069360(boss);
     sub_806A894(boss);
-    temp_r5 =  sub_8068E5C(boss->player);
+    temp_r5 = sub_8068E5C(boss->player);
     temp_r5 += sub_8068E5C(boss->partner);
 
     if (boss->unkD != 0) {
         if (--boss->unkD == 0) {
-            boss->unkFC = 0x4B8;
-            boss->filler58[0xB2] = 0;
+            s->anim = ANIM_BOSS_1_COCKPIT;
+            s->variant = 0;
         }
     }
 
@@ -139,7 +135,7 @@ void sub_8068C38(void)
     }
 
     if (boss->lives == 0) {
-        if (gStageData.gameMode == 5) {
+        if (CURRENT_GAME_MODE == 5) {
             if (gStageData.playerIndex != 0) {
                 gCurTask->main = sub_806A7A4;
             } else {
@@ -158,4 +154,10 @@ void sub_8068C38(void)
     sub_806A898(boss);
 }
 
+#if 01
 #endif
+
+
+
+
+
