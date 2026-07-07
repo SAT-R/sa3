@@ -213,12 +213,12 @@ bool32 sub_8068D90(Player *p)
         }
         if (0xC0000 & coll) {
             if (0x80000 & coll) {
-                if (0x10 & p->keyInput) {
+                if (DPAD_RIGHT & p->keyInput) {
                     p->qWorldX += Q(1);
                     p->moveState |= MOVESTATE_40;
                 }
             } else {
-                if (0x20 & p->keyInput) {
+                if (DPAD_LEFT & p->keyInput) {
                     p->qWorldX -= Q(1);
                     p->moveState |= MOVESTATE_40;
                 }
