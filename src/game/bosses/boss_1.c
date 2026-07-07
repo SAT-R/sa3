@@ -6,11 +6,12 @@
 #include "game/stage.h"
 #include "game/shared/stage/player.h"
 #include "constants/animations.h"
+#include "constants/move_states.h"
 
 typedef struct {
     /* 0x000 */ s32 unk0;
     /* 0x004 */ s32 unk4;
-    /* 0x008 */ s32 unk8;
+    /* 0x008 */ u8 *unk8;
     /* 0x00C */ u8 lives;
     /* 0x00D */ s8 unkD;
     /* 0x00E */ u8 unkE;
@@ -24,13 +25,16 @@ typedef struct {
     /* 0x02C */ s16 unk2C;
     /* 0x02E */ s16 unk2E;
     /* 0x030 */ s16 unk30;
-    /* 0x032 */ s16 unk32;
+    /* 0x032 */ u16 unk32;
     /* 0x018 */ u8 filler34[0x14];
-    /* 0x048 */ s32 unk48;
-    /* 0x04C */ s32 unk4C;
+    /* 0x048 */ u8 *vram48;
+    /* 0x04C */ u8 *vram4C;
     /* 0x050 */ Player *player;
     /* 0x054 */ Player *partner;
-    /* 0x058 */ u8 filler58[0x98];
+    /* 0x058 */ s32 unk58;
+    /* 0x05C */ s32 unk5C;
+    /* 0x060 */ u8 filler60[0x8C];
+    /* 0x0EC */ s32 unkEC;
     /* 0x0F0 */ Sprite5 sprCockpit;
     /* 0x138 */ Sprite spr138;
     /* 0x160 */ Sprite spr160;
@@ -57,10 +61,11 @@ void sub_806A898(EggHammerTankIII *boss);
 u8 sub_8068E5C(Player *);
 
 extern void SetFixedRandomIfTimeAttackMode(void);
-
+extern void sub_807A37C(void);
+extern void sub_8078E34(s32 *, VoidFn);
 
 // Init Boss 1
-Task *CreateEggHammerTankIII(s32 arg0, s32 arg1, s32 arg2)
+Task *CreateEggHammerTankIII(u8 *param0, s32 worldX, s32 worldY)
 {
     Task *t;
     s32 temp_r3;
@@ -74,8 +79,8 @@ Task *CreateEggHammerTankIII(s32 arg0, s32 arg1, s32 arg2)
     t = TaskCreate(sub_806A728, sizeof(EggHammerTankIII), 0x2100U, 0U, TaskDestructor_Boss_806A7E4);
     gStageData.taskGemerl = t;
     boss = TASK_DATA(t);
-    boss->unk0 = Q(arg1);
-    boss->unk4 = Q(arg2);
+    boss->unk0 = Q(worldX);
+    boss->unk4 = Q(worldY);
 
     if (gStageData.difficulty == 0) {
         boss->lives = 8;
@@ -83,7 +88,7 @@ Task *CreateEggHammerTankIII(s32 arg0, s32 arg1, s32 arg2)
         boss->lives = 6;
     }
 
-    boss->unk8 = arg0;
+    boss->unk8 = param0;
     boss->unkD = 0;
     boss->unk32 = 0;
     boss->unkF = 0;
@@ -94,8 +99,8 @@ Task *CreateEggHammerTankIII(s32 arg0, s32 arg1, s32 arg2)
     boss->unk12 = 0;
     boss->player = &gPlayers[PLAYER_1];
     boss->partner = &gPlayers[PLAYER_2];
-    boss->unk48 = 0;
-    boss->unk4C = 0;
+    boss->vram48 = NULL;
+    boss->vram4C = NULL;
     boss->vram28 = VramMalloc(0x9EU);
 
     sub_8069460(boss);
@@ -105,7 +110,7 @@ Task *CreateEggHammerTankIII(s32 arg0, s32 arg1, s32 arg2)
     for (var_r5 = 0; var_r5 < ARRAY_COUNT(boss->unk14); var_r5++) {
         Hitbox *hb = &boss->sprCockpit.hitboxes[var_r5];
         boss->unk14[var_r5][0] = hb->b.left - ((hb->b.left - hb->b.right) >> 1);
-        boss->unk14[var_r5][1] = hb->b.top  - ((hb->b.top  - hb->b.bottom) >> 1);
+        boss->unk14[var_r5][1] = hb->b.top - ((hb->b.top - hb->b.bottom) >> 1);
     }
 
     SetFixedRandomIfTimeAttackMode();
@@ -157,10 +162,37 @@ void sub_8068C38(void)
     sub_806A898(boss);
 }
 
-#if 01
-#endif
+void Task_8068D00(void)
+{
+    s32 sp00[4];
+    EggHammerTankIII *boss = TASK_DATA(gCurTask);
+    Player *p = boss->player;
 
+    switch (boss->unk32) {
+        case 0: {
+            if (boss->vram48) {
+                VramFree(boss->vram48);
+                boss->vram48 = NULL;
+            }
 
+            if (boss->vram4C) {
+                VramFree(boss->vram4C);
+                boss->vram4C = NULL;
+            }
 
+            sp00[0] = I(boss->unk58);
+            sp00[1] = I(boss->unk5C);
+            sp00[2] = (boss->unk11 * 8) + 0x6A0;
+            sp00[3] = I(boss->unkEC) - 12;
+            sub_8078E34(sp00, sub_807A37C);
+            boss->unk32 = 1;
+        } break;
 
-
+        case 1: {
+            if (!(p->moveState & MOVESTATE_IGNORE_INPUT)) {
+                *boss->unk8 = 0;
+                boss->unk32 = 100;
+            }
+        } break;
+    }
+}

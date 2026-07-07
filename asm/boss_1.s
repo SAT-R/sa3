@@ -8,82 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_8068D00
-sub_8068D00: @ 0x08068D00
-	push {r4, r5, r6, lr}
-	sub sp, #0x10
-	ldr r0, _08068D20 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r6, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r6, r0
-	ldr r0, [r4, #0x50]
-	ldrh r5, [r4, #0x32]
-	cmp r5, #0
-	beq _08068D24
-	cmp r5, #1
-	beq _08068D74
-	b _08068D88
-	.align 2, 0
-_08068D20: .4byte gCurTask
-_08068D24:
-	ldr r0, [r4, #0x48]
-	cmp r0, #0
-	beq _08068D30
-	bl VramFree
-	str r5, [r4, #0x48]
-_08068D30:
-	ldr r0, [r4, #0x4c]
-	cmp r0, #0
-	beq _08068D3C
-	bl VramFree
-	str r5, [r4, #0x4c]
-_08068D3C:
-	ldr r0, [r4, #0x58]
-	asrs r0, r0, #8
-	str r0, [sp]
-	ldr r0, [r4, #0x5c]
-	asrs r0, r0, #8
-	str r0, [sp, #4]
-	ldrb r0, [r4, #0x11]
-	lsls r0, r0, #3
-	movs r1, #0xd4
-	lsls r1, r1, #3
-	adds r0, r0, r1
-	str r0, [sp, #8]
-	ldr r1, _08068D6C @ =0x030000EC
-	adds r0, r6, r1
-	ldr r0, [r0]
-	asrs r0, r0, #8
-	subs r0, #0xc
-	str r0, [sp, #0xc]
-	ldr r1, _08068D70 @ =sub_807A37C
-	mov r0, sp
-	bl sub_8078E34
-	movs r0, #1
-	b _08068D86
-	.align 2, 0
-_08068D6C: .4byte 0x030000EC
-_08068D70: .4byte sub_807A37C
-_08068D74:
-	ldr r1, [r0, #4]
-	movs r0, #0x80
-	lsls r0, r0, #0x14
-	ands r1, r0
-	cmp r1, #0
-	bne _08068D88
-	ldr r0, [r4, #8]
-	strb r1, [r0]
-	movs r0, #0x64
-_08068D86:
-	strh r0, [r4, #0x32]
-_08068D88:
-	add sp, #0x10
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-
 	thumb_func_start sub_8068D90
 sub_8068D90: @ 0x08068D90
 	push {r4, r5, r6, r7, lr}
@@ -3224,7 +3148,7 @@ _0806A570:
 	strh r0, [r5, #0x2c]
 	ldr r0, _0806A5D0 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0806A5D4 @ =sub_8068D00
+	ldr r0, _0806A5D4 @ =Task_8068D00
 	str r0, [r1, #8]
 _0806A590:
 	adds r3, r7, #0
@@ -3260,7 +3184,7 @@ _0806A590:
 	.align 2, 0
 _0806A5CC: .4byte 0x000003F2
 _0806A5D0: .4byte gCurTask
-_0806A5D4: .4byte sub_8068D00
+_0806A5D4: .4byte Task_8068D00
 _0806A5D8: .4byte gCamera
 
 	thumb_func_start sub_806A5DC
