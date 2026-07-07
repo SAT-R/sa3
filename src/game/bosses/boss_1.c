@@ -33,7 +33,8 @@ typedef struct {
     /* 0x054 */ Player *partner;
     /* 0x058 */ s32 unk58;
     /* 0x05C */ s32 unk5C;
-    /* 0x060 */ u8 filler60[0x8C];
+    /* 0x060 */ u8 filler60[0x88];
+    /* 0x0E8 */ s32 unkE8;
     /* 0x0EC */ s32 unkEC;
     /* 0x0F0 */ Sprite5 sprCockpit;
     /* 0x138 */ Sprite spr138;
@@ -195,4 +196,43 @@ void Task_8068D00(void)
             }
         } break;
     }
+}
+
+bool32 sub_8068D90(Player *p)
+{
+    bool32 result = FALSE;
+    u32 coll;
+    EggHammerTankIII *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->spr138;
+
+    if (sub_802C0D4(p) == 0) {
+        coll = sub_8020950(s, I(boss->unkE8), I(boss->unkEC), p, 0U);
+        if (0x10000 & coll) {
+            p->qWorldY += Q_8_8(coll);
+            result = TRUE;
+        }
+        if (0xC0000 & coll) {
+            if (0x80000 & coll) {
+                if (0x10 & p->keyInput) {
+                    p->qWorldX += Q(1);
+                    p->moveState |= MOVESTATE_40;
+                }
+            } else {
+                if (0x20 & p->keyInput) {
+                    p->qWorldX -= Q(1);
+                    p->moveState |= MOVESTATE_40;
+                }
+            }
+
+            p->qWorldX += Q((s32)(coll << 0x10) >> 0x18);
+            p->qSpeedGround = 0;
+            p->qSpeedAirX = 0;
+        }
+    }
+
+    if (p->moveState & MOVESTATE_COLLIDING_ENT) {
+        result = TRUE;
+    }
+
+    return result;
 }
