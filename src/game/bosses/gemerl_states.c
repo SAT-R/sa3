@@ -352,7 +352,8 @@ bool32 Gemerl_State_6(Gemerl *gemerl)
 
 // TODO: Fake-match
 // (100.00%) https://decomp.me/scratch/GFe3n
-bool32 Gemerl_State_51(Gemerl *gemerl) {
+bool32 Gemerl_State_51(Gemerl *gemerl)
+{
     s16 temp_r0;
     s32 temp_r0_5;
     s32 temp_r0_6;
@@ -369,72 +370,71 @@ bool32 Gemerl_State_51(Gemerl *gemerl) {
     Sprite2 *s = &gemerl->spr3C;
 
     switch (gemerl->unk18) {
-    case 1:
-        temp_r2 = Q(gCamera.x + DISPLAY_CENTER_X) - gemerl->qSomeX;
-        {
-            s32 tmp = temp_r2;
-            if (tmp < 0) {
-                tmp += 0x3F;
+        case 1:
+            temp_r2 = Q(gCamera.x + DISPLAY_CENTER_X) - gemerl->qSomeX;
+            {
+                s32 tmp = temp_r2;
+                if (tmp < 0) {
+                    tmp += 0x3F;
+                }
+                temp_r2 = tmp;
             }
-            temp_r2 = tmp;
-        }
-        gemerl->unk14 = (s16) (temp_r2 >> 6);
-        gemerl->unk3A = I(gemerl->qSomeY);
-        gemerl->unk16 = 0;
-        gemerl->unk18 = 10;
-        gemerl->unk1A = 0;
-        /* fallthrough */
-    case 10: {
+            gemerl->unk14 = (s16)(temp_r2 >> 6);
+            gemerl->unk3A = I(gemerl->qSomeY);
+            gemerl->unk16 = 0;
+            gemerl->unk18 = 10;
+            gemerl->unk1A = 0;
+            /* fallthrough */
+        case 10: {
 #ifndef NON_MATCHING
-        register s32 sinVal asm("r6") = SIN(gemerl->unk1A);
+            register s32 sinVal asm("r6") = SIN(gemerl->unk1A);
 #else
-        s32 sinVal = SIN(gemerl->unk1A);
+            s32 sinVal = SIN(gemerl->unk1A);
 #endif
-        gemerl->qSomeY = (gemerl->unk3A << 8) - sinVal;
-        gemerl->unk1A += 8;
+            gemerl->qSomeY = (gemerl->unk3A << 8) - sinVal;
+            gemerl->unk1A += 8;
 
-        if (gemerl->unk1A > 0x0200) {
-            gemerl->unk14 = 0;
-            gemerl->unk18 = 100;
-            gemerl->unk1A = 120;
-        }
-
-        if ((gStageData.timer & 3) == 0) {
-            u32 x0, y0;
-            s32 x, y;
-            temp_r4   = PseudoRandom32() & 0x3FF;
-            temp_r6 = PseudoRandom32() & 0xF;
-
-            // x0 = COS(temp_r4);
-            // x0 *= temp_r6;
-            temp_r2 = (COS(temp_r4) * temp_r6) >> 6;
-            // y0 = SIN(temp_r4);
-            // y0 *= temp_r6;
-            temp_r6 = (SIN(temp_r4) * temp_r6) >> 6;
-
-            sub_8079758(9, I(gemerl->qSomeX + temp_r2),
-                           I(gemerl->qSomeY + temp_r6),
-                           0x100, temp_r4, 30, 0, gemerl->vram4 + 4 * TILE_SIZE_4BPP);
-        }
-
-        if ((gStageData.timer & 0x3F) == 0) {
-            m4aSongNumStart(SE_545);
-        }
-    } break;
-
-    case 100: {
-        if (--gemerl->unk1A == 0) {
-            gemerl->unk18 = 0;
-            temp_r6 = s->frameFlags;
-            Gemerl_SwitchState(gemerl, 9);
-
-            if (temp_r6 & 0x400) {
-                SPRITE_FLAG_SET(s, X_FLIP);
-            } else {
-                SPRITE_FLAG_CLEAR(s, X_FLIP);
+            if (gemerl->unk1A > 0x0200) {
+                gemerl->unk14 = 0;
+                gemerl->unk18 = 100;
+                gemerl->unk1A = 120;
             }
-        }
-    } break;
+
+            if ((gStageData.timer & 3) == 0) {
+                u32 x0, y0;
+                s32 x, y;
+                temp_r4 = PseudoRandom32() & 0x3FF;
+                temp_r6 = PseudoRandom32() & 0xF;
+
+                // x0 = COS(temp_r4);
+                // x0 *= temp_r6;
+                temp_r2 = (COS(temp_r4) * temp_r6) >> 6;
+                // y0 = SIN(temp_r4);
+                // y0 *= temp_r6;
+                temp_r6 = (SIN(temp_r4) * temp_r6) >> 6;
+
+                sub_8079758(9, I(gemerl->qSomeX + temp_r2), I(gemerl->qSomeY + temp_r6), 0x100, temp_r4, 30, 0,
+                            gemerl->vram4 + 4 * TILE_SIZE_4BPP);
+            }
+
+            if ((gStageData.timer & 0x3F) == 0) {
+                m4aSongNumStart(SE_545);
+            }
+        } break;
+
+        case 100: {
+            if (--gemerl->unk1A == 0) {
+                gemerl->unk18 = 0;
+                temp_r6 = s->frameFlags;
+                Gemerl_SwitchState(gemerl, 9);
+
+                if (temp_r6 & 0x400) {
+                    SPRITE_FLAG_SET(s, X_FLIP);
+                } else {
+                    SPRITE_FLAG_CLEAR(s, X_FLIP);
+                }
+            }
+        } break;
     }
 
     return 0U;
@@ -736,33 +736,32 @@ bool32 Gemerl_State_33(Gemerl *gemerl)
     return FALSE;
 }
 
-// (99.82%) https://decomp.me/scratch/wZhZ1
-NONMATCH("asm/non_matching/game/bosses/gemerl__gemerl_state_34.inc", bool32 Gemerl_State_34(Gemerl *gemerl))
+bool32 Gemerl_State_34(Gemerl *gemerl)
 {
     s16 temp_r3;
     s32 var_r1;
     s32 var_r4;
     s16 var_r4_hi;
+    s32 angle;
     Sprite2 *s = &gemerl->spr3C;
     s32 v = -gUnknown_080D56F0[gemerl->unk20][1];
     s32 cosVal, sinVal;
-    s32 r0;
 
     sub_8068A6C(gemerl, 0U, v);
 
     if (gemerl->unk16 < -Q(3)) {
         if (s->frameFlags & 0x400) {
-            var_r4 = 0;
+            angle = 0;
         } else {
-            var_r4 = 0x200;
+            angle = 0x200;
         }
 
-        cosVal = COS(var_r4);
+        cosVal = COS(angle);
         temp_r3 = gUnknown_080D56F0[gemerl->unk20][2];
         var_r1 = ABS((cosVal * temp_r3) >> 0xE);
 
-        r0 = SIN(var_r4);
-        var_r4 = (r0 * temp_r3);
+        sinVal = SIN(angle);
+        var_r4 = (sinVal * temp_r3);
         var_r4_hi = (var_r4 * 4) >> 16;
 
         sub_8068A38(gemerl, var_r1, 0);
@@ -777,7 +776,6 @@ NONMATCH("asm/non_matching/game/bosses/gemerl__gemerl_state_34.inc", bool32 Geme
 
     return FALSE;
 }
-END_NONMATCH
 
 bool32 Gemerl_State_35(Gemerl *gemerl)
 {
