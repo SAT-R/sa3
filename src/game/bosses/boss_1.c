@@ -10,6 +10,9 @@
 #include "constants/animations.h"
 #include "constants/move_states.h"
 
+#define GEMERL_TURN_MIN_X 1696
+#define GEMERL_TURN_MAX_X 1760
+
 typedef struct {
     /* 0x000 */ s32 unk0;
     /* 0x004 */ s32 unk4;
@@ -29,7 +32,9 @@ typedef struct {
     /* 0x030 */ s16 unk30;
     /* 0x032 */ u16 unk32;
     /* 0x034 */ s32 unk34;
-    /* 0x038 */ u8 filler38[0x10];
+    /* 0x038 */ u8 filler38[0x4];
+    /* 0x03C */ s32 unk3C;
+    /* 0x040 */ u8 filler40[0x8];
     /* 0x048 */ u8 *vram48;
     /* 0x04C */ u8 *vram4C;
     /* 0x050 */ Player *player;
@@ -48,7 +53,7 @@ typedef struct {
 
 void sub_8069460(EggHammerTankIII *boss);
 static void InitSpriteGroundPlate(EggHammerTankIII *boss);
-void sub_8069360(EggHammerTankIII *boss);
+void UpdateGroundPlate(EggHammerTankIII *boss);
 void sub_806940C(EggHammerTankIII *boss);
 void sub_806A5DC(EggHammerTankIII *boss);
 void sub_8069814(EggHammerTankIII *boss);
@@ -70,6 +75,8 @@ extern void sub_80044CC(Player *);
 extern void SetFixedRandomIfTimeAttackMode(void);
 extern void sub_807A37C(void);
 extern void sub_8078E34(s32 *, VoidFn);
+
+extern u16 gUnknown_080D575C[9][2];
 
 // Init Boss 1
 Task *CreateEggHammerTankIII(u8 *param0, s32 worldX, s32 worldY)
@@ -133,7 +140,7 @@ void sub_8068C38(void)
 
     boss->unk32++;
     sub_8069814(boss);
-    sub_8069360(boss);
+    UpdateGroundPlate(boss);
     sub_806A894(boss);
     temp_r5 = sub_8068E5C(boss->player);
     temp_r5 += sub_8068E5C(boss->partner);
@@ -414,4 +421,47 @@ static void InitSpriteGroundPlate(EggHammerTankIII *boss)
     s->y = I(boss->unkEC) - gCamera.y;
     UpdateSpriteAnimation(s);
     boss->vram4C = s->tiles;
+}
+
+// TODO: Fake-match
+void UpdateGroundPlate(EggHammerTankIII *boss)
+{
+    Sprite *s = &boss->sprGroundPlate;
+    Player *player = boss->player;
+    Player *partner;
+    s32 worldX;
+    u8 res;
+    u8 gemerlTurnIndex;
+
+    boss->unkF = sub_8068D90(player);
+    if (((s32)boss->unk3C <= 0x4000) && (boss->unkF != 0) && (boss->unk12 != 0)) {
+        Player_8014550(player);
+    }
+    worldX = I(player->qWorldX);
+    if (worldX < GEMERL_TURN_MIN_X) {
+        gemerlTurnIndex = 0;
+    } else if (worldX >= GEMERL_TURN_MAX_X) {
+        gemerlTurnIndex = ARRAY_COUNT(gUnknown_080D575C) - 1;
+    } else {
+#ifndef NON_MATCHING
+        register s32 dx asm("r0") = worldX - GEMERL_TURN_MIN_X;
+        if (dx < 0) {
+            dx += 7;
+        }
+        gemerlTurnIndex = (u8)(dx >> 3);
+#else
+        s32 dx = worldX - GEMERL_TURN_MIN_X;
+        gemerlTurnIndex = (dx + 7) / 8;
+#endif
+    }
+
+    s->anim = gUnknown_080D575C[gemerlTurnIndex][0];
+    s->variant = gUnknown_080D575C[gemerlTurnIndex][1];
+    boss->unk11 = gemerlTurnIndex;
+    partner = boss->partner;
+    res = sub_8068D90(partner);
+
+    if ((boss->unk3C <= 0x4000) && (res != 0) && (boss->unk12 != 0)) {
+        Player_8014550(partner);
+    }
 }

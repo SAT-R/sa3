@@ -8,95 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_8069360
-sub_8069360: @ 0x08069360
-	push {r4, r5, r6, lr}
-	adds r4, r0, #0
-	movs r0, #0x9c
-	lsls r0, r0, #1
-	adds r6, r4, r0
-	ldr r5, [r4, #0x50]
-	adds r0, r5, #0
-	bl sub_8068D90
-	adds r2, r0, #0
-	strb r2, [r4, #0xf]
-	ldr r1, [r4, #0x3c]
-	movs r0, #0x80
-	lsls r0, r0, #7
-	cmp r1, r0
-	bgt _08069392
-	lsls r0, r2, #0x18
-	cmp r0, #0
-	beq _08069392
-	ldrb r0, [r4, #0x12]
-	cmp r0, #0
-	beq _08069392
-	adds r0, r5, #0
-	bl Player_8014550
-_08069392:
-	ldr r0, [r5, #0x10]
-	asrs r1, r0, #8
-	ldr r0, _080693A0 @ =0x0000069F
-	cmp r1, r0
-	bgt _080693A4
-	movs r3, #0
-	b _080693C4
-	.align 2, 0
-_080693A0: .4byte 0x0000069F
-_080693A4:
-	ldr r0, _080693B0 @ =0x000006DF
-	cmp r1, r0
-	ble _080693B4
-	movs r3, #8
-	b _080693C4
-	.align 2, 0
-_080693B0: .4byte 0x000006DF
-_080693B4:
-	ldr r2, _08069404 @ =0xFFFFF960
-	adds r0, r1, r2
-	cmp r0, #0
-	bge _080693BE
-	adds r0, #7
-_080693BE:
-	asrs r0, r0, #3
-	lsls r0, r0, #0x18
-	lsrs r3, r0, #0x18
-_080693C4:
-	ldr r1, _08069408 @ =gUnknown_080D575C
-	lsls r2, r3, #2
-	adds r0, r2, r1
-	ldrh r0, [r0]
-	strh r0, [r6, #0xc]
-	adds r1, #2
-	adds r2, r2, r1
-	ldrh r0, [r2]
-	strb r0, [r6, #0x1a]
-	strb r3, [r4, #0x11]
-	ldr r5, [r4, #0x54]
-	adds r0, r5, #0
-	bl sub_8068D90
-	lsls r0, r0, #0x18
-	lsrs r2, r0, #0x18
-	ldr r1, [r4, #0x3c]
-	movs r0, #0x80
-	lsls r0, r0, #7
-	cmp r1, r0
-	bgt _080693FE
-	cmp r2, #0
-	beq _080693FE
-	ldrb r0, [r4, #0x12]
-	cmp r0, #0
-	beq _080693FE
-	adds r0, r5, #0
-	bl Player_8014550
-_080693FE:
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08069404: .4byte 0xFFFFF960
-_08069408: .4byte gUnknown_080D575C
-
 	thumb_func_start sub_806940C
 sub_806940C: @ 0x0806940C
 	push {r4, r5, lr}
@@ -2598,7 +2509,7 @@ sub_806A728: @ 0x0806A728
 	adds r0, r4, #0
 	bl sub_8069814
 	adds r0, r4, #0
-	bl sub_8069360
+	bl UpdateGroundPlate
 	adds r0, r4, #0
 	bl sub_8069578
 	adds r0, r4, #0
