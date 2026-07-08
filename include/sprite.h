@@ -314,6 +314,7 @@ typedef enum {
 } AnimCmdResult;
 
 AnimCmdResult UpdateSpriteAnimation(Sprite *s);
+AnimCmdResult UpdateSpriteAnimation_BG(Sprite *s); // NOTE: Move into background.h, like SA2!
 
 #if (ENGINE == ENGINE_3)
 void sub_80C07E0(Sprite *s);

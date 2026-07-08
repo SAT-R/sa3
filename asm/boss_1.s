@@ -8,49 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_806940C
-sub_806940C: @ 0x0806940C
-	push {r4, r5, lr}
-	adds r5, r0, #0
-	movs r1, #0xb0
-	lsls r1, r1, #1
-	adds r0, r5, r1
-	ldr r1, _08069458 @ =0x06004040
-	str r1, [r0]
-	movs r2, #0
-	movs r4, #0
-	ldr r1, _0806945C @ =0x000004B6
-	strh r1, [r0, #0xc]
-	strb r2, [r0, #0x1a]
-	movs r1, #0xff
-	strb r1, [r0, #0x1b]
-	movs r1, #0xa0
-	lsls r1, r1, #2
-	strh r1, [r0, #0x14]
-	strh r4, [r0, #0xe]
-	strh r4, [r0, #0x16]
-	movs r1, #0x10
-	strb r1, [r0, #0x1c]
-	strb r2, [r0, #0x1f]
-	movs r1, #0x80
-	lsls r1, r1, #9
-	str r1, [r0, #8]
-	movs r1, #1
-	rsbs r1, r1, #0
-	str r1, [r0, #0x20]
-	movs r1, #0x40
-	strh r1, [r0, #0x10]
-	movs r1, #0x68
-	strh r1, [r0, #0x12]
-	bl UpdateSpriteAnimation_BG
-	strh r4, [r5, #0x30]
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08069458: .4byte 0x06004040
-_0806945C: .4byte 0x000004B6
-
 	thumb_func_start sub_8069460
 sub_8069460: @ 0x08069460
 	push {r4, r5, r6, r7, lr}

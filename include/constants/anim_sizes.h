@@ -624,6 +624,10 @@
 #define ANIM_BOSS_1_GROUND_PLATE_WIDTH              96
 #define ANIM_BOSS_1_GROUND_PLATE_HEIGHT             24
 
+// 1207
+#define ANIM_BOSS_1_JOINT_WIDTH                     16
+#define ANIM_BOSS_1_JOINT_HEIGHT                    16
+
 // 1286
 #define ANIM_GEMERL_IDLE_WIDTH                      64
 #define ANIM_GEMERL_IDLE_HEIGHT                     64

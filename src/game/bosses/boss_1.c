@@ -46,15 +46,15 @@ typedef struct {
     /* 0x0EC */ s32 unkEC;
     /* 0x0F0 */ Sprite5 sprCockpit;
     /* 0x138 */ Sprite sprGroundPlate;
-    /* 0x160 */ Sprite spr160;
-    /* 0x188 */ Sprite spr188;
+    /* 0x160 */ Sprite sprHammerHead;
+    /* 0x188 */ Sprite sprJoint;
     /* 0x1B0 */ SpriteTransform tf;
 } EggHammerTankIII; /* 0x1BC */
 
 void sub_8069460(EggHammerTankIII *boss);
 static void InitSpriteGroundPlate(EggHammerTankIII *boss);
 void UpdateGroundPlate(EggHammerTankIII *boss);
-void sub_806940C(EggHammerTankIII *boss);
+static void InitSpriteHammerHead(EggHammerTankIII *boss);
 void sub_806A5DC(EggHammerTankIII *boss);
 void sub_8069814(EggHammerTankIII *boss);
 void sub_8069818(EggHammerTankIII *boss);
@@ -119,7 +119,7 @@ Task *CreateEggHammerTankIII(u8 *param0, s32 worldX, s32 worldY)
 
     sub_8069460(boss);
     InitSpriteGroundPlate(boss);
-    sub_806940C(boss);
+    InitSpriteHammerHead(boss);
 
     for (var_r5 = 0; var_r5 < ARRAY_COUNT(boss->unk14); var_r5++) {
         Hitbox *hb = &boss->sprCockpit.hitboxes[var_r5];
@@ -464,4 +464,25 @@ void UpdateGroundPlate(EggHammerTankIII *boss)
     if ((boss->unk3C <= 0x4000) && (res != 0) && (boss->unk12 != 0)) {
         Player_8014550(partner);
     }
+}
+
+// NOTE: This is drawn via background graphics on GBA
+static void InitSpriteHammerHead(EggHammerTankIII *boss)
+{
+    Sprite *s = &boss->sprHammerHead;
+    s->tiles = (u8 *)(BG_VRAM + 0x4040);
+    s->anim = ANIM_BOSS_1_HAMMER_HEAD;
+    s->variant = 0;
+    s->prevVariant = -1;
+    s->oamFlags = SPRITE_OAM_ORDER(10);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = 0x10000;
+    s->hitboxes[0].index = -1;
+    s->x = 64;
+    s->y = 104;
+    UpdateSpriteAnimation_BG(s);
+    boss->unk30 = 0;
 }
