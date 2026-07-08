@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start sub_8068E5C
 sub_8068E5C: @ 0x08068E5C
 	push {r4, r5, r6, r7, lr}
@@ -601,6 +599,7 @@ _080692C8:
 _080692D8: .4byte 0x000003FF
 _080692DC: .4byte gSineTable
 _080692E0: .4byte gCamera
+.endif
 
 	thumb_func_start sub_80692E4
 sub_80692E4: @ 0x080692E4

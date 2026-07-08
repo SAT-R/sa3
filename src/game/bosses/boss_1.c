@@ -26,7 +26,8 @@ typedef struct {
     /* 0x02E */ s16 unk2E;
     /* 0x030 */ s16 unk30;
     /* 0x032 */ u16 unk32;
-    /* 0x018 */ u8 filler34[0x14];
+    /* 0x034 */ s32 unk34;
+    /* 0x038 */ u8 filler38[0x10];
     /* 0x048 */ u8 *vram48;
     /* 0x04C */ u8 *vram4C;
     /* 0x050 */ Player *player;
@@ -60,7 +61,10 @@ void sub_8069578(EggHammerTankIII *boss);
 void sub_806A854(EggHammerTankIII *boss);
 void sub_806A898(EggHammerTankIII *boss);
 u8 sub_8068E5C(Player *);
+void sub_8004D68(s32, s32);
+bool32 sub_807A1DC(Sprite *);
 
+extern void sub_80044CC(Player *);
 extern void SetFixedRandomIfTimeAttackMode(void);
 extern void sub_807A37C(void);
 extern void sub_8078E34(s32 *, VoidFn);
@@ -236,3 +240,187 @@ bool32 sub_8068D90(Player *p)
 
     return result;
 }
+
+#if 0
+u8 sub_8068E5C(Player *inPlayer) {
+    u8 sp8;
+    s32 result = 0;
+    s32 sp10 = 0;
+    s8 sp0[4] = {
+        -inPlayer->spriteOffsetX, -9,//
+        +inPlayer->spriteOffsetX, +9
+    };
+    Player *temp_r1;
+    PlayerSpriteInfo *temp_r3_6;
+    PlayerSpriteInfo *temp_r4_3;
+    s16 temp_r1_10;
+    s16 temp_r1_5;
+    s16 temp_r1_6;
+    s16 temp_r2_3;
+    s16 temp_r3_7;
+    s32 temp_r0_2;
+    s32 temp_r0_3;
+    s32 temp_r0_4;
+    s32 temp_r1_7;
+    s32 temp_r2_2;
+    s32 temp_r2_5;
+   s32 temp_r3_4;
+    s32 temp_r4_5;
+    s32 temp_r5_5;
+    s32 var_r4;
+    s32 var_r7;
+    s8 temp_r1_8;
+    s8 temp_r3_8;
+    s8 temp_r4;
+    s8 temp_r4_4;
+    s8 temp_r5_4;
+    s8 temp_r5_6;
+    s8 temp_r7;
+    u16 temp_r1_4;
+    u32 temp_r0;
+    s16 var_r5;
+    u8 temp_r0_5;
+    s32 screenX;
+    s32 screenY;
+    u8 chara;
+
+    s32 sinVal;
+    s32 cosVal;
+    s16 *sp20;
+    s16 *sp24;
+    EggHammerTankIII *boss = TASK_DATA(gCurTask);
+    Sprite *sp1C = (Sprite*)&boss->sprCockpit;
+    if (sub_802C080(inPlayer) != 0) {
+        return 0U;
+    }
+    sub_8004D68(boss->unk58, boss->unk5C);
+    chara = gPlayers[gStageData.playerIndex].charFlags.character;
+    if (((chara == CREAM)
+      || (gPlayers[gPlayers[gStageData.playerIndex].charFlags.partnerIndex].charFlags.character == CREAM))
+        && (sub_807A1DC((Sprite*)sp1C) == 1)) 
+    {
+        result = 1;
+    }
+    sp1C->hitboxes[0].b.bottom = 20;
+    if ((I(inPlayer->qWorldX) - gCamera.x) + sp0[0] <= sp1C->x + sp1C->hitboxes[0].b.left) {
+        if ((s32) ((I(inPlayer->qWorldX) - gCamera.x) + sp0[0] + (sp0[2] - sp0[0])) < sp1C->x + sp1C->hitboxes[0].b.left) {
+            if ((I(inPlayer->qWorldX) - gCamera.x) + sp0[0] < sp1C->x + sp1C->hitboxes[0].b.left) {
+                goto block_39;
+            }
+            goto block_10;
+        }
+        goto block_12;
+    }
+block_10:
+    if (HB_RIGHT(sp1C->x, sp1C->hitboxes[0].b) < (I(inPlayer->qWorldX) - gCamera.x) + sp0[0]) {
+        goto block_39;
+    }
+block_12:
+    if ((I(inPlayer->qWorldY) - gCamera.y) + sp0[1] <= sp1C->y + sp1C->hitboxes[0].b.top) {
+        if (HB_BOTTOM((I(inPlayer->qWorldY) - gCamera.y), (*(Rect8*)&sp0)) < HB_TOP(sp1C->y, sp1C->hitboxes[0].b)) {
+            if (HB_TOP((I(inPlayer->qWorldY) - gCamera.y), (*(Rect8*)&sp0)) < HB_TOP(sp1C->y, sp1C->hitboxes[0].b)) {
+                goto block_39;
+            }
+            goto block_16;
+        }
+        goto block_17;
+    }
+block_16:
+    if (HB_BOTTOM(sp1C->y, sp1C->hitboxes[0].b) >= HB_TOP((I(inPlayer->qWorldY) - gCamera.y), (*(Rect8*)&sp0)))
+    {
+        s32 unkX, unkY;
+        unkX = I(inPlayer->qWorldX);
+        unkX -= I(boss->unk58);
+        unkY = I(inPlayer->qWorldY);
+        unkY -= I(boss->unk5C);
+block_17:
+        temp_r1_4 = sa2__sub_8004418(unkY, unkX);
+        temp_r0 = Q(boss->unk34);
+        var_r7 = 0;
+        var_r5 = Q(boss->unk34) >> 0x10;
+        temp_r3_4 = (s32) Q(boss->unk34) >> 0x10;
+        temp_r2_2 = temp_r3_4 - Q(1);
+        if (temp_r2_2 < 0) {
+            temp_r1_5 = (s16) temp_r1_4;
+            var_r4 = temp_r1_4 << 0x10;
+            if (temp_r3_4 <= (s32) temp_r1_5) {
+                var_r5 = 0x3FF & temp_r2_2;
+                if ((s32) var_r5 < (s32) temp_r1_5) {
+                    var_r7 = 1;
+                }
+            } else {
+                var_r7 = 1;
+            }
+        } else {
+            temp_r1_6 = (s16) temp_r1_4;
+            var_r4 = temp_r1_4 << 0x10;
+            if ((temp_r2_2 < (s32) temp_r1_6) && (temp_r3_4 > (s32) temp_r1_6)) {
+block_23:
+                var_r7 = 1;
+            }
+        }
+        temp_r1_7 = (var_r5 + 0x100);
+        if (temp_r1_7 > 0x3FF) {
+            temp_r0_2 = var_r4 >> 0x10;
+            if (var_r5 >= temp_r0_2) {
+                if ((temp_r1_7 & 0x3FF) > temp_r0_2) {
+                    var_r7 = 1;
+                }
+            } else {   
+                var_r7 = 1; 
+            }
+        } else if ((temp_r1_7 > (var_r4 >> 0x10)) && ((s32) var_r5 < (var_r4 >> 0x10))) {
+            var_r7 = 1;
+        }
+
+        if (var_r7 != 0) {
+            if (!(inPlayer->moveState & MOVESTATE_DEAD)) {
+                if (HITBOX_IS_ACTIVE(inPlayer->spriteInfoBody->s.hitboxes[1])) {
+                    if (boss->unkD == 0) {
+                        sub_80044CC(inPlayer);
+                    }
+                    result = 1;
+                } else {
+                    Player_8014550(inPlayer);                    
+                    sp10 = 0;
+                }
+            }
+        } else {
+            Player_8014550(inPlayer);
+            sp10 = 1;
+        }
+    }
+    {
+block_39:
+        if ((sp10 == 0) && (result == 0) && !(inPlayer->moveState & MOVESTATE_DEAD)) {
+            if (HITBOX_IS_ACTIVE(inPlayer->spriteInfoBody->s.hitboxes[1])) {
+                if(HB_COLLISION(I(inPlayer->qWorldX), I(inPlayer->qWorldY), inPlayer->spriteInfoBody->s.hitboxes[1].b,
+                                I(boss->unk58), I(boss->unk5C), sp1C->hitboxes[0].b)){
+                    if (boss->unkD == 0) {
+                        sub_80044CC(inPlayer);
+                    }
+                    result = 1;
+                }
+            }
+        }
+    }
+
+    sp1C->hitboxes[0].b.bottom = 0;
+    temp_r0_4 = (((u32) (boss->unk34 << 8) >> 0x10) + 0x100) & 0x3FF;
+    sinVal = SIN(temp_r0_4);
+    cosVal = COS(temp_r0_4);
+
+    for(sp8 = 1; sp8 < 5; sp8++)
+    {
+        s32 x = ((((boss->unk14[sp8][0] * cosVal) - (boss->unk14[sp8][0] * sinVal)) >> 14)) - boss->unk14[sp8][0];
+        s32 y = ((((boss->unk14[sp8][0] * cosVal) + (boss->unk14[sp8][0] * sinVal)) >> 14)) - boss->unk14[sp8][1];
+
+        if (HB_COLLISION((I(inPlayer->qWorldX) - gCamera.x), (I(inPlayer->qWorldY) - gCamera.y), (*(Rect8*)&sp0), sp1C->x + x, sp1C->y + y, sp1C->hitboxes[sp8].b))
+        {
+            Player_8014550(inPlayer);
+        }
+    }
+
+    return (u8) result;
+}
+#endif
