@@ -8,68 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_80692E4
-sub_80692E4: @ 0x080692E4
-	push {r4, r5, r6, r7, lr}
-	adds r7, r0, #0
-	movs r0, #0x9c
-	lsls r0, r0, #1
-	adds r4, r7, r0
-	adds r5, r7, #0
-	adds r5, #0xe8
-	ldr r0, [r7]
-	str r0, [r5]
-	adds r6, r7, #0
-	adds r6, #0xec
-	ldr r0, [r7, #4]
-	movs r1, #0x80
-	lsls r1, r1, #4
-	adds r0, r0, r1
-	str r0, [r6]
-	movs r0, #0x24
-	bl VramMalloc
-	str r0, [r4]
-	movs r2, #0
-	movs r1, #0
-	ldr r0, _08069358 @ =0x000004B5
-	strh r0, [r4, #0xc]
-	strb r2, [r4, #0x1a]
-	adds r0, #0x4b
-	strh r0, [r4, #0x14]
-	strh r1, [r4, #0xe]
-	strh r1, [r4, #0x16]
-	movs r0, #0xff
-	strb r0, [r4, #0x1b]
-	movs r0, #0x10
-	strb r0, [r4, #0x1c]
-	strb r2, [r4, #0x1f]
-	subs r0, #0x11
-	str r0, [r4, #0x20]
-	movs r0, #0x80
-	lsls r0, r0, #5
-	str r0, [r4, #8]
-	ldr r0, [r5]
-	asrs r0, r0, #8
-	ldr r2, _0806935C @ =gCamera
-	ldr r1, [r2]
-	subs r0, r0, r1
-	strh r0, [r4, #0x10]
-	ldr r0, [r6]
-	asrs r0, r0, #8
-	ldr r1, [r2, #4]
-	subs r0, r0, r1
-	strh r0, [r4, #0x12]
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	ldr r0, [r4]
-	str r0, [r7, #0x4c]
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08069358: .4byte 0x000004B5
-_0806935C: .4byte gCamera
-
 	thumb_func_start sub_8069360
 sub_8069360: @ 0x08069360
 	push {r4, r5, r6, lr}

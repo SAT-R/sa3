@@ -620,9 +620,9 @@
 #define ANIM_YADOKK_VAR2_WIDTH                      32
 #define ANIM_YADOKK_VAR2_HEIGHT                     32
 
-// 1315
-#define ANIM_ITEM_BOX_TYPE_WIDTH                    16
-#define ANIM_ITEM_BOX_TYPE_HEIGHT                   16
+// 1205
+#define ANIM_BOSS_1_GROUND_PLATE_WIDTH              96
+#define ANIM_BOSS_1_GROUND_PLATE_HEIGHT             24
 
 // 1286
 #define ANIM_GEMERL_IDLE_WIDTH                      64
@@ -644,11 +644,15 @@
 #define ANIM_ITEM_BOX_WIDTH                         32
 #define ANIM_ITEM_BOX_HEIGHT                        32
 
+// 1315
+#define ANIM_ITEM_BOX_TYPE_WIDTH                    16
+#define ANIM_ITEM_BOX_TYPE_HEIGHT                   16
+
 // 1338
 #define ANIM_ITEM_BOX_CLOUD_EFFECT_WIDTH            32
 #define ANIM_ITEM_BOX_CLOUD_EFFECT_HEIGHT           32
 
-// 1139
+// 1339
 #define ANIM_CONDOR_PROJ_EXPLOSION_WIDTH            32
 #define ANIM_CONDOR_PROJ_EXPLOSION_HEIGHT           32
 

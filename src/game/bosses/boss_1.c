@@ -40,14 +40,14 @@ typedef struct {
     /* 0x0E8 */ s32 unkE8;
     /* 0x0EC */ s32 unkEC;
     /* 0x0F0 */ Sprite5 sprCockpit;
-    /* 0x138 */ Sprite sprGemerlBase;
+    /* 0x138 */ Sprite sprGroundPlate;
     /* 0x160 */ Sprite spr160;
     /* 0x188 */ Sprite spr188;
     /* 0x1B0 */ SpriteTransform tf;
 } EggHammerTankIII; /* 0x1BC */
 
 void sub_8069460(EggHammerTankIII *boss);
-void sub_80692E4(EggHammerTankIII *boss);
+static void InitSpriteGroundPlate(EggHammerTankIII *boss);
 void sub_8069360(EggHammerTankIII *boss);
 void sub_806940C(EggHammerTankIII *boss);
 void sub_806A5DC(EggHammerTankIII *boss);
@@ -111,7 +111,7 @@ Task *CreateEggHammerTankIII(u8 *param0, s32 worldX, s32 worldY)
     boss->vram28 = VramMalloc(0x9EU);
 
     sub_8069460(boss);
-    sub_80692E4(boss);
+    InitSpriteGroundPlate(boss);
     sub_806940C(boss);
 
     for (var_r5 = 0; var_r5 < ARRAY_COUNT(boss->unk14); var_r5++) {
@@ -209,7 +209,7 @@ bool32 sub_8068D90(Player *p)
     bool32 result = FALSE;
     u32 coll;
     EggHammerTankIII *boss = TASK_DATA(gCurTask);
-    Sprite *s = &boss->sprGemerlBase;
+    Sprite *s = &boss->sprGroundPlate;
 
     if (sub_802C0D4(p) == 0) {
         coll = sub_8020950(s, I(boss->unkE8), I(boss->unkEC), p, 0U);
@@ -391,3 +391,27 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8068E5C.inc", u8 sub_8068E5C(
     return (u8)result;
 }
 END_NONMATCH
+
+static void InitSpriteGroundPlate(EggHammerTankIII *boss)
+{
+    Sprite *s = &boss->sprGroundPlate;
+
+    boss->unkE8 = boss->unk0;
+    boss->unkEC = boss->unk4 + Q(8);
+
+    s->tiles = ALLOC_TILES(ANIM_BOSS_1_GROUND_PLATE);
+    s->anim = ANIM_BOSS_1_GROUND_PLATE;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(20);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x1000;
+    s->x = I(boss->unkE8) - gCamera.x;
+    s->y = I(boss->unkEC) - gCamera.y;
+    UpdateSpriteAnimation(s);
+    boss->vram4C = s->tiles;
+}
