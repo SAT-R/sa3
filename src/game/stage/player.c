@@ -1175,7 +1175,6 @@ void sub_80051CC(Player *p, s32 qWorldX, s32 qWorldY)
     }
 }
 
-// TODO: Fake-match
 void Player_800522C(Player *p)
 {
     SongStopCheck_inline(p, SE_281);
@@ -1189,7 +1188,8 @@ void Player_800522C(Player *p)
     p->unk9A = 0;
     p->qCamOffsetY = 0;
 
-    p->moveState |= 0x08000000;
+    p->moveState |= MOVESTATE_IGNORE_INPUT;
+
     if (gStageData.act == 2) {
         p->qSpeedAirX = 0;
         p->qSpeedAirY = 0;
@@ -1200,6 +1200,7 @@ void Player_800522C(Player *p)
         sub_8012FA0(p);
         p->charFlags.anim0 = 0;
     }
+
     p->callback = Player_80052C8;
     Player_80052C8(p);
 }
