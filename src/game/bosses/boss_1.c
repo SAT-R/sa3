@@ -957,8 +957,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8069814.inc", void sub_806981
 }
 END_NONMATCH
 
-// (89.06%) https://decomp.me/scratch/V60z1
-NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8069DEC.inc", void sub_8069DEC(EggHammerTankIII *boss))
+void sub_8069DEC(EggHammerTankIII *boss)
 {
     Player *temp_r1_10;
     Player *temp_r1_9;
@@ -985,7 +984,6 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8069DEC.inc", void sub_8069DE
     u16 temp_r0_9;
     u16 temp_r1;
     u16 temp_r1_4;
-    u16 temp_r3;
     u16 var_r0;
     u32 temp_r0_12;
     u32 temp_r0_19;
@@ -1000,8 +998,10 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8069DEC.inc", void sub_8069DE
     u32 var_r4_2;
     u8 temp_r0_16;
     u8 temp_r6_4;
-    s32 sinVal, cosVal;
+    u32 sinVal, cosVal;
     Sprite *s;
+    s32 temp_r2;
+    s32 temp_r3;
 
     boss->unk32++;
     switch (boss->unk2C) {
@@ -1037,8 +1037,9 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8069DEC.inc", void sub_8069DE
             if (1 & boss->unk32) {
                 temp_r4 = PseudoRandom32() & 0x3FF;
                 temp_r3_2 = PseudoRandom32() % 48U;
-                sub_8079758(6U, (s32)((boss->unk58 + ((u32)(temp_r3_2 * COS(temp_r4)) >> 6)) << 8) >> 0x10,
-                            (s32)((boss->unk5C + ((u32)(temp_r3_2 * SIN(temp_r4)) >> 6)) << 8) >> 0x10, 0x400, temp_r4, 0x14, 0x80,
+                temp_r2 = (u32)(temp_r3_2 * COS(temp_r4)) >> 6;
+                temp_r3 = (u32)(temp_r3_2 * SIN(temp_r4)) >> 6;
+                sub_8079758(6, (s16)((boss->unk58 + temp_r2) >> 8), (s16)((boss->unk5C + temp_r3) >> 8), 0x400, temp_r4, 0x14, 0x80,
                             boss->vram28);
             }
             if ((0x3F & boss->unk32) == 0) {
@@ -1070,7 +1071,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8069DEC.inc", void sub_8069DE
                 s = &boss->sprHammerHead;
                 s->frameFlags = 0x11000;
             }
-            if (boss->unk5C > 0x9E00) {
+            if (boss->unk5C >= 0x9E00) {
                 boss->unk5C = 0x9E00;
                 CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
                 boss->unk64 = -0x400;
@@ -1084,8 +1085,9 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8069DEC.inc", void sub_8069DE
             if (boss->unk32 & 1) {
                 temp_r4 = PseudoRandom32() & 0x3FF;
                 temp_r3_2 = PseudoRandom32() % 48U;
-                sub_8079758(6U, (s32)((boss->unk58 + ((u32)(temp_r3_2 * COS(temp_r4)) >> 6)) << 8) >> 0x10,
-                            (s32)((boss->unk5C + ((u32)(temp_r3_2 * SIN(temp_r4)) >> 6)) << 8) >> 0x10, 0x400, temp_r4, 0x14, 0x80,
+                temp_r2 = (u32)(temp_r3_2 * COS(temp_r4)) >> 6;
+                temp_r3 = (u32)(temp_r3_2 * SIN(temp_r4)) >> 6;
+                sub_8079758(6U, (s16)((boss->unk58 + temp_r2) >> 8), (s16)((boss->unk5C + temp_r3) >> 8), 0x400, temp_r4, 0x14, 0x80,
                             boss->vram28);
             }
             if (!(0x3F & boss->unk32)) {
@@ -1114,8 +1116,9 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8069DEC.inc", void sub_8069DE
             if (boss->unk32 & 1) {
                 temp_r4 = PseudoRandom32() & 0x3FF;
                 temp_r3_2 = PseudoRandom32() % 48U;
-                sub_8079758(6U, (s32)((boss->unk58 + ((u32)(temp_r3_2 * COS(temp_r4)) >> 6)) << 8) >> 0x10,
-                            (s32)((boss->unk5C + ((u32)(temp_r3_2 * SIN(temp_r4)) >> 6)) << 8) >> 0x10, 0x400, temp_r4, 0x14, 0x80,
+                temp_r2 = (u32)(temp_r3_2 * COS(temp_r4)) >> 6;
+                temp_r3 = (u32)(temp_r3_2 * SIN(temp_r4)) >> 6;
+                sub_8079758(6U, (s16)((boss->unk58 + temp_r2) >> 8), (s16)((boss->unk5C + temp_r3) >> 8), 0x400, temp_r4, 0x14, 0x80,
                             boss->vram28);
             }
             if (!(0x3F & boss->unk32)) {
@@ -1148,8 +1151,9 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8069DEC.inc", void sub_8069DE
             if (boss->unk32 & 1) {
                 temp_r4 = PseudoRandom32() & 0x3FF;
                 temp_r3_2 = PseudoRandom32() % 48U;
-                sub_8079758(6U, (s32)((boss->unk58 + ((u32)(temp_r3_2 * COS(temp_r4)) >> 6)) << 8) >> 0x10,
-                            (s32)((boss->unk5C + ((u32)(temp_r3_2 * SIN(temp_r4)) >> 6)) << 8) >> 0x10, 0x400, temp_r4, 0x14, 0x80,
+                temp_r2 = (u32)(temp_r3_2 * COS(temp_r4)) >> 6;
+                temp_r3 = (u32)(temp_r3_2 * SIN(temp_r4)) >> 6;
+                sub_8079758(6U, (s16)((boss->unk58 + temp_r2) >> 8), (s16)((boss->unk5C + temp_r3) >> 8), 0x400, temp_r4, 0x14, 0x80,
                             boss->vram28);
             }
             if (!(0x3F & boss->unk32)) {
@@ -1184,20 +1188,25 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8069DEC.inc", void sub_8069DE
             }
 
             if ((boss->unk32 & 0x3) == 0) {
-                temp_r4 = (PseudoRandom32() & 0x3FF) / 0x200;
+                temp_r4 = (PseudoRandom32() & 0x3FF);
+                if (temp_r4 < 0x200) {
+                    temp_r4 += 0x200;
+                }
                 temp_r3_2 = PseudoRandom32() & 0x1F;
-                sub_8079758((u8)(boss->unk13 * 2), (s32)((boss->unk58 + ((u32)(temp_r3_2 * COS(temp_r4)) >> 6)) << 8) >> 0x10,
-                            (s32)((boss->unk5C + ((u32)(temp_r3_2 * SIN(temp_r4)) >> 6)) << 8) >> 0x10, 0x300, temp_r4, 0x1E, 0x20,
-                            boss->vram28);
+                temp_r2 = (u32)(temp_r3_2 * COS(temp_r4)) >> 6;
+                temp_r3 = (u32)(temp_r3_2 * SIN(temp_r4)) >> 6;
+                sub_8079758((u8)(boss->unk13 * 2), (s16)((boss->unk58 + temp_r2) >> 8), (s16)((boss->unk5C + temp_r3) >> 8), 0x300, temp_r4,
+                            0x1E, 0x20, boss->vram28);
                 if (++boss->unk13 > 2U) {
                     boss->unk13 = 0;
                 }
                 if ((boss->unk32 & 0x3) == 0) {
                     temp_r4 = PseudoRandom32() & 0x3FF;
                     temp_r3_2 = PseudoRandom32() % 80U;
-                    cosVal = (((Q_MUL_2_14(COS(temp_r4), temp_r3_2))) << 8) >> 0x10;
-                    sinVal = ((((u32)(SIN(temp_r4) * temp_r3_2) >> 0xE) + 0x50));
-                    sub_8079758(6U, boss->unk58 + cosVal, gCamera.y + sinVal, 0x200, temp_r4, 0x1E, 0, boss->vram28);
+                    temp_r2 = (u32)(COS(temp_r4) * temp_r3_2) >> 6;
+                    sinVal = (u32)(SIN(temp_r4) * temp_r3_2);
+                    sub_8079758(6U, (s16)((boss->unk58 + temp_r2) >> 8), (s16)(gCamera.y + (0x50 + (sinVal >> 0xE))), 0x200, temp_r4, 0x1E,
+                                0, boss->vram28);
                 }
             }
             break;
@@ -1243,7 +1252,6 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8069DEC.inc", void sub_8069DE
     temp_r1_10 = boss->partner;
     temp_r1_10->moveState |= MOVESTATE_IGNORE_INPUT;
 }
-END_NONMATCH
 
 void sub_806A5DC(EggHammerTankIII *boss)
 {
