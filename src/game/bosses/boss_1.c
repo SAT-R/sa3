@@ -647,31 +647,13 @@ void sub_8069578(EggHammerTankIII *boss)
     }
 }
 
-// (98.51%) https://decomp.me/scratch/T8vHr
-NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8069814.inc", void sub_8069814(EggHammerTankIII *boss))
+void sub_8069814(EggHammerTankIII *boss) 
 {
-    s32 sp4;
     Player *temp_r5;
-    s16 temp_r0;
-    s16 temp_r1;
-    s16 temp_r2_3;
     s16 var_r1;
-    s32 temp_r0_14;
-    s32 temp_r0_15;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
-    s32 temp_r1_6;
-    s32 temp_r2_4;
-    s32 var_r0_6;
-#ifndef NON_MATCHING
-    register s32 var_r2 asm("r2");
-#else
     s32 var_r2;
-#endif
-    u32 temp_r1_2;
-    u8 temp_r0_18;
-    u8 temp_r0_2;
-    u8 temp_r0_4;
+    s32 xVal;
+    s32 yVal;
     Sprite *s = (Sprite *)&boss->sprCockpit;
 
     temp_r5 = boss->player;
@@ -786,8 +768,11 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8069814.inc", void sub_806981
 
         case 110:
             boss->unk38 = SIN((u16)boss->unk30) / 0x40;
-            var_r0_6 = ((boss->unkE == 0) ? boss->unk34 + boss->unk38 : boss->unk34 - boss->unk38);
-            boss->unk34 = var_r0_6 & 0x3FFFF;
+            if (boss->unkE == 0) {
+                boss->unk34 = (boss->unk34 + boss->unk38) & 0x3FFFF;
+            } else {
+                boss->unk34 = (boss->unk34 - boss->unk38) & 0x3FFFF;
+            }
             boss->unk30 += 4;
             if (boss->unk30 > 0x01FF) {
                 boss->unk30 = 0;
@@ -806,17 +791,11 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8069814.inc", void sub_806981
                 }
 
                 if (var_r2 != 0) {
-#ifndef NON_MATCHING
-                    register s32 var_r3 asm("r3");
-#else
-                    s32 var_r3;
-#endif
-                    var_r3 = ABS(boss->unk0 - temp_r5->qWorldX);
-                    if (var_r3 <= 0x6000) {
+                    xVal = ABS(boss->unk0 - temp_r5->qWorldX);
+                    if (xVal <= 0x6000) {
                         boss->unk40 = 0x6000;
                     } else {
-                        boss->unk40 = var_r3;
-                        asm("");
+                        boss->unk40 = xVal;
                     }
                 } else {
                     boss->unk40 = 0x8000;
@@ -923,39 +902,36 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8069814.inc", void sub_806981
     }
 
     {
-        s32 xVal;
-        s32 yVal;
-        temp_r1_2 = (u32)(boss->unk34 << 8) >> 0x10;
+        u16 temp_r1_2 = boss->unk34 >> 8;
         xVal = ((boss->unk3C * COS(temp_r1_2)) / 0x4000);
         yVal = ((boss->unk3C * SIN(temp_r1_2)) / 0x4000);
         boss->unk58 = boss->unk0 + xVal;
         boss->unk5C = boss->unk4 + yVal;
         s->x = I(boss->unk58) - gCamera.x;
         s->y = I(boss->unk5C) - gCamera.y;
-    }
-    if ((u16)boss->unk2C == 120) {
-        s32 sinVal;
-        s32 cosVal;
-        s32 a, b, c;
-        s32 d, e, f;
-        temp_r1_4 = (temp_r1_2 + 0x100) & 0x3FF;
-        cosVal = COS(temp_r1_4);
-        sinVal = SIN(temp_r1_4);
-        d = boss->unkE;
-        var_r2 = 4;
-        if (d == 0) {
-            var_r2 = 2;
-        }
-        b = sinVal;
-        b = (b * boss->unk14[var_r2][0]) + (e = boss->unk14[var_r2][1]) * cosVal;
-        b >>= 6;
-
-        if ((s32)((b + boss->unk5C) - (e << 8)) >= 0xAA00) {
-            boss->unk2C = 0xC8;
+    
+        if (boss->unk2C == 120) {
+            s32 b;
+            s32 var_r2;
+            temp_r1_2 = (temp_r1_2 + 0x100) & 0x3FF;
+            
+            yVal = SIN(temp_r1_2);
+            xVal = COS(temp_r1_2);
+            if (boss->unkE == 0) {
+                var_r2 = 2;
+            }
+            else {
+                var_r2 = 4;
+            }
+            b = ((yVal * boss->unk14[var_r2][0]) + (xVal * boss->unk14[var_r2][1])) >> 6;
+    
+            yVal = boss->unk5C + b - (boss->unk14[var_r2][1] << 8);
+            if (yVal >= 0xAA00) {
+                boss->unk2C = 0xC8;
+            }
         }
     }
 }
-END_NONMATCH
 
 void sub_8069DEC(EggHammerTankIII *boss)
 {
