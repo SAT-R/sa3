@@ -12,6 +12,7 @@
 #include "game/shared/stage/screen_shake.h"
 #include "constants/animations.h"
 #include "constants/move_states.h"
+#include "constants/songs.h"
 
 #define GEMERL_TURN_MIN_X 1696
 #define GEMERL_TURN_MAX_X 1760
