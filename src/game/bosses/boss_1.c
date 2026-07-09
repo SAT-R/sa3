@@ -276,12 +276,10 @@ bool32 sub_8068D90(Player *p)
     return result;
 }
 
-// (95.90%) https://decomp.me/scratch/FXGIn
-NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8068E5C.inc", u8 sub_8068E5C(Player *inPlayer))
-
+u8 sub_8068E5C(Player *inPlayer)
 {
     u8 sp8;
-    s32 result = 0;
+    u8 result = 0;
     s32 sp10 = 0;
     s8 sp0[4] = { -inPlayer->spriteOffsetX, -9, //
                   +inPlayer->spriteOffsetX, +9 };
@@ -291,7 +289,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8068E5C.inc", u8 sub_8068E5C(
     s16 temp_r1_10;
     s16 temp_r2_3;
     s16 temp_r3_7;
-    s32 temp_r0_4;
+    u16 temp_r0_4;
     s32 temp_r1_7;
     s32 temp_r2_2;
     s32 temp_r3_4;
@@ -307,7 +305,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8068E5C.inc", u8 sub_8068E5C(
     s8 temp_r5_6;
     s8 temp_r7;
     s16 temp_r1_4;
-    s32 temp_r0;
+    s16 temp_r0;
     s16 var_r5;
     u8 temp_r0_5;
     s32 screenX;
@@ -340,13 +338,11 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8068E5C.inc", u8 sub_8068E5C(
         unkY = I(inPlayer->qWorldY);
         unkY -= I(boss->unk5C);
         temp_r1_4 = sa2__sub_8004418(unkY, unkX);
-        temp_r0 = Q(boss->unk34);
+        var_r5 = I(boss->unk34);
         var_r7 = 0;
-        var_r5 = temp_r0 >> 0x10;
-        temp_r3_4 = temp_r0 >> 0x10;
-        temp_r2_2 = temp_r3_4 - 0x100;
+        temp_r2_2 = var_r5 - 0x100;
         if (temp_r2_2 < 0) {
-            if (temp_r3_4 <= temp_r1_4) {
+            if (var_r5 <= temp_r1_4) {
                 var_r5 = 0x3FF & temp_r2_2;
                 if (var_r5 < temp_r1_4) {
                     var_r7 = 1;
@@ -355,7 +351,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8068E5C.inc", u8 sub_8068E5C(
                 var_r7 = 1;
             }
         } else {
-            if ((temp_r2_2 < temp_r1_4) && (temp_r3_4 > temp_r1_4)) {
+            if ((temp_r2_2 < temp_r1_4) && (var_r5 > temp_r1_4)) {
                 var_r7 = 1;
             }
         }
@@ -381,7 +377,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8068E5C.inc", u8 sub_8068E5C(
                     result = 1;
                 } else {
                     Player_8014550(inPlayer);
-                    sp10 = 0;
+                    sp10 = 1;
                 }
             }
         } else {
@@ -403,7 +399,8 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8068E5C.inc", u8 sub_8068E5C(
     }
 
     sprCockpit->hitboxes[0].b.bottom = 0;
-    temp_r0_4 = (((u32)(boss->unk34 << 8) >> 0x10) + 0x100) & 0x3FF;
+    temp_r0_4 = boss->unk34 >> 8;
+    temp_r0_4 = (temp_r0_4 + 0x100) & 0x3FF;
     sinVal = SIN(temp_r0_4);
     cosVal = COS(temp_r0_4);
 
@@ -423,7 +420,6 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8068E5C.inc", u8 sub_8068E5C(
 
     return (u8)result;
 }
-END_NONMATCH
 
 static void InitSpriteGroundPlate(EggHammerTankIII *boss)
 {
