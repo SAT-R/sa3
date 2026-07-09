@@ -159,31 +159,31 @@ gUnknown_080CFA58:
     @ Ptr to creation proc and
     @ gCamera-Coordinates set after a trigger was destroyed.
     @ If a value is -1 it is left unchanged, in that order:
-    @  minX, maxX, minY, maxY
+    @  minX,  maxX, minY, maxY
     mPtr CreateGemerl             @  0
-    .int -1, 0x1D40, 0, 0xC60
+    .int -1,  7488,    0, 3168
     mPtr CreateGemerl             @  1
-    .int -1, 0x1FE0, 0, 0xB40
+    .int -1,  8160,    0, 2880
     mPtr CreateGemerl             @  2
-    .int -1, 0x32A0, 0, 0x660
+    .int -1, 12960,    0, 1632
     mPtr CreateGemerl             @  3
-    .int -1, 0x0960, -1, -1
+    .int -1,  2400,   -1,   -1
     mPtr CreateEggHammerTankIII   @  4 -- Boss 1
-    .int -1, 0x0960, -1, -1
+    .int -1,  2400,   -1,   -1
     mPtr CreateEggWheeler         @  5 -- Boss 2
-    .int -1, -1, -1, -1
+    .int -1,    -1,   -1,   -1
     mPtr CreateEggFoot            @  6 -- Boss 3
-    .int -1, -1, -1, -1
+    .int -1,    -1,   -1,   -1
     mPtr CreateEggCube            @  7 -- Boss 4
-    .int -1, 0x8A0, -1, -1
+    .int -1,  2208,   -1,   -1
     mPtr CreateEggChaserBoss      @  8 -- Boss 5
-    .int -1, 0x7E0, -1, -1
+    .int -1,  2016,   -1,   -1
     mPtr CreateEggPinball         @  9 -- Boss 6
-    .int -1, 0x9C0, 0, 0x1E0
+    .int -1,  2496,    0,  480
     mPtr CreateEggGravity         @ 10 -- Boss 7
-    .int -1, 0x6C0, -1, -1
+    .int -1,  1728,   -1,   -1
     mPtr CreateHyperEggRoboTask   @ 11 -- Boss Final (Seems to be a watcher task used for debugging? The function creates the real CreateHyperEggRobo and return a Task that does nothing.
-    .int -1, -1, -1, -1
+    .int -1,    -1,   -1,   -1
     mPtr NULL                     @ 12
     .int 0, 0, 0, 0
     mPtr NULL                     @ 13
@@ -195,7 +195,7 @@ gUnknown_080CFA58:
     mPtr NULL                     @ 16
     .int 0, 0, 0, 0
     mPtr CreateGoalRing           @ 17
-    .int -1, -1, -1, -1
+    .int -1,    -1,   -1,   -1
 
     .global sUfoActs
 sUfoActs:

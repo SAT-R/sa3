@@ -647,7 +647,7 @@ void sub_8069578(EggHammerTankIII *boss)
     }
 }
 
-void sub_8069814(EggHammerTankIII *boss) 
+void sub_8069814(EggHammerTankIII *boss)
 {
     Player *temp_r5;
     s16 var_r1;
@@ -909,22 +909,21 @@ void sub_8069814(EggHammerTankIII *boss)
         boss->unk5C = boss->unk4 + yVal;
         s->x = I(boss->unk58) - gCamera.x;
         s->y = I(boss->unk5C) - gCamera.y;
-    
+
         if (boss->unk2C == 120) {
             s32 b;
             s32 var_r2;
             temp_r1_2 = (temp_r1_2 + 0x100) & 0x3FF;
-            
+
             yVal = SIN(temp_r1_2);
             xVal = COS(temp_r1_2);
             if (boss->unkE == 0) {
                 var_r2 = 2;
-            }
-            else {
+            } else {
                 var_r2 = 4;
             }
             b = ((yVal * boss->unk14[var_r2][0]) + (xVal * boss->unk14[var_r2][1])) >> 6;
-    
+
             yVal = boss->unk5C + b - (boss->unk14[var_r2][1] << 8);
             if (yVal >= 0xAA00) {
                 boss->unk2C = 0xC8;

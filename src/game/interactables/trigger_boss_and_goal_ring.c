@@ -20,10 +20,10 @@
 
 typedef struct {
     /* 0x00 */ BossInitFunc bossInit; // Maybe Boss creation func?
-    /* 0x04 */ s32 unk4;
-    /* 0x04 */ s32 unk8;
-    /* 0x04 */ s32 unkC;
-    /* 0x04 */ s32 unk10;
+    /* 0x04 */ s32 minX;
+    /* 0x08 */ s32 maxX;
+    /* 0x0C */ s32 minY;
+    /* 0x10 */ s32 maxY;
 } TriggerConsts;
 
 typedef struct {
@@ -281,20 +281,20 @@ void Task_803E818(void)
     TriggerBossOrGoal *trig = TASK_DATA(gCurTask);
     const TriggerConsts *tc = &gUnknown_080CFA58[trig->bossId];
 
-    if (tc->unk4 != -1) {
-        gCamera.minX = tc->unk4;
+    if (tc->minX != -1) {
+        gCamera.minX = tc->minX;
     }
 
-    if (tc->unkC != -1) {
-        gCamera.minY = tc->unkC;
+    if (tc->minY != -1) {
+        gCamera.minY = tc->minY;
     }
 
-    if (tc->unk8 != -1) {
-        gCamera.maxX = tc->unk8;
+    if (tc->maxX != -1) {
+        gCamera.maxX = tc->maxX;
     }
 
-    if (tc->unk10 != -1) {
-        gCamera.maxY = tc->unk10;
+    if (tc->maxY != -1) {
+        gCamera.maxY = tc->maxY;
     }
 
     TaskDestroy(gCurTask);
