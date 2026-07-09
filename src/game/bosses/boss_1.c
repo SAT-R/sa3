@@ -32,9 +32,10 @@ typedef struct {
     /* 0x030 */ s16 unk30;
     /* 0x032 */ u16 unk32;
     /* 0x034 */ s32 unk34;
-    /* 0x038 */ u8 filler38[0x4];
+    /* 0x034 */ s32 unk38;
     /* 0x03C */ s32 unk3C;
-    /* 0x040 */ u8 filler40[0x8];
+    /* 0x040 */ s32 unk40;
+    /* 0x040 */ u8 filler40[0x4];
     /* 0x048 */ u8 *vram48;
     /* 0x04C */ u8 *vram4C;
     /* 0x050 */ Player *player;
@@ -51,7 +52,7 @@ typedef struct {
     /* 0x1B0 */ SpriteTransform tf;
 } EggHammerTankIII; /* 0x1BC */
 
-void sub_8069460(EggHammerTankIII *boss);
+void InitSpriteCockpit(EggHammerTankIII *boss);
 static void InitSpriteGroundPlate(EggHammerTankIII *boss);
 void UpdateGroundPlate(EggHammerTankIII *boss);
 static void InitSpriteHammerHead(EggHammerTankIII *boss);
@@ -117,7 +118,7 @@ Task *CreateEggHammerTankIII(u8 *param0, s32 worldX, s32 worldY)
     boss->vram4C = NULL;
     boss->vram28 = VramMalloc(0x9EU);
 
-    sub_8069460(boss);
+    InitSpriteCockpit(boss);
     InitSpriteGroundPlate(boss);
     InitSpriteHammerHead(boss);
 
@@ -485,4 +486,66 @@ static void InitSpriteHammerHead(EggHammerTankIII *boss)
     s->y = 104;
     UpdateSpriteAnimation_BG(s);
     boss->unk30 = 0;
+}
+
+// TODO: Fake-match
+void InitSpriteCockpit(EggHammerTankIII *boss)
+{
+    Sprite *s = (Sprite *)&boss->sprCockpit;
+    SpriteTransform *tf = &boss->tf;
+    u8 *vram;
+#ifndef NON_MATCHING
+    register s32 x1000 asm("sb");
+#else
+    s32 x1000;
+#endif
+
+    boss->unk58 = boss->unk0;
+    boss->unk5C = boss->unk4;
+    vram = VramMalloc(0x44U);
+    boss->vram48 = vram;
+
+    s->tiles = vram;
+    s->anim = ANIM_BOSS_1_COCKPIT;
+    s->variant = 0;
+    s->oamFlags = 0x4C0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    x1000 = 0x1000;
+    s->frameFlags = 0x107F;
+    s->x = I(boss->unk58) - gCamera.x;
+    s->y = I(boss->unk5C) - gCamera.y;
+    tf->rotation = 0;
+    tf->x = s->x;
+    tf->y = s->y;
+    tf->qScaleX = Q(1);
+    tf->qScaleY = Q(1);
+    UpdateSpriteAnimation(s);
+
+    vram += 64 * TILE_SIZE_4BPP;
+
+    s = &boss->sprJoint;
+    s->tiles = vram;
+    s->anim = ANIM_BOSS_1_JOINT;
+    s->variant = 0;
+    s->oamFlags = 0x540;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = x1000;
+    s->x = I(boss->unk58) - gCamera.x;
+    s->y = I(boss->unk5C) - gCamera.y;
+    UpdateSpriteAnimation(s);
+
+    boss->unk34 = 0x30000;
+    boss->unk38 = 0;
+    boss->unk3C = 0x3800;
+    boss->unk40 = 0;
 }
