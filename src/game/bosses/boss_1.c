@@ -2,18 +2,19 @@
 #include "core.h"
 #include "trig.h"
 #include "malloc_vram.h"
+#include "lib/m4a/m4a.h"
 #include "multi_sio_stuff.h"
 #include "game/game.h"
+#include "game/bosses.h"
 #include "game/stage.h"
 #include "game/shared/stage/player.h"
 #include "game/shared/stage/player_callbacks.h"
+#include "game/shared/stage/screen_shake.h"
 #include "constants/animations.h"
 #include "constants/move_states.h"
 
 #define GEMERL_TURN_MIN_X 1696
 #define GEMERL_TURN_MAX_X 1760
-
-#define SE_549 0x225
 
 typedef struct {
     /* 0x000 */ s32 unk0;
@@ -648,3 +649,313 @@ void sub_8069578(EggHammerTankIII *boss)
         } break;
     }
 }
+
+// (98.51%) https://decomp.me/scratch/T8vHr
+NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8069814.inc", void sub_8069814(EggHammerTankIII *boss))
+{
+    s32 sp4;
+    Player *temp_r5;
+    s16 temp_r0;
+    s16 temp_r1;
+    s16 temp_r2_3;
+    s16 var_r1;
+    s32 temp_r0_14;
+    s32 temp_r0_15;
+    s32 temp_r1_3;
+    s32 temp_r1_4;
+    s32 temp_r1_6;
+    s32 temp_r2_4;
+    s32 var_r0_6;
+#ifndef NON_MATCHING
+    register s32 var_r2 asm("r2");
+#else
+    s32 var_r2;
+#endif
+    u32 temp_r1_2;
+    u8 temp_r0_18;
+    u8 temp_r0_2;
+    u8 temp_r0_4;
+    Sprite *s = (Sprite *)&boss->sprCockpit;
+
+    temp_r5 = boss->player;
+    switch (boss->unk2C) {
+        case 0x0:
+            gDispCnt |= DISPCNT_BG2_ON;
+            DmaFill32(3, 0, BG_CHAR_ADDR_FROM_BGCNT(2), 2 * TILE_SIZE_4BPP);
+            boss->unk2C = 10;
+            if (*boss->unk8 != 3) {
+                sub_807A2AC();
+                break;
+            } else {
+                TaskDestroy(gCurTask);
+                return;
+            }
+            break;
+        case 10:
+            if (*boss->unk8 != 3) {
+                if (sub_8079FFC() != 0) {
+                    boss->unk2C = 0xB;
+                } else {
+                    boss->unk2C = 0x13;
+                }
+            } else {
+                TaskDestroy(gCurTask);
+                return;
+            }
+            break;
+        case 11:
+            if (*boss->unk8 == 3) {
+                TaskDestroy(gCurTask);
+                return;
+            } else if (*boss->unk8 == 2) {
+                if (sub_807A074()) {
+                    boss->unk2C = 0x13;
+                }
+            }
+            break;
+        case 19:
+            if (*boss->unk8 == 2) {
+                var_r2 = 1;
+                for (var_r1 = 0; var_r1 < 2; var_r1++) {
+                    Player *p = &gPlayers[var_r1];
+                    if (I(p->qWorldX) < 1553 || (I(p->qWorldX) > 1935)) {
+                        var_r2 = 0;
+                    }
+                }
+
+                if (var_r2 != 0) {
+                    boss->unk2E = 0x3C;
+                    boss->unk2C = 0x14;
+                    sub_80299D4(0x32);
+                }
+            }
+            break;
+        case 20:
+            if (--boss->unk2E == 0) {
+                sub_807A4A8();
+                s->anim = ANIM_BOSS_1_COCKPIT;
+                s->variant = 1;
+                boss->unk2E = 0x3C;
+                boss->unk2C = 30;
+            }
+            break;
+        case 30:
+            if (--boss->unk2E == 0) {
+                s->anim = ANIM_BOSS_1_COCKPIT;
+                s->variant = 0;
+                boss->unk2E = 0x3C;
+                boss->unk2C = 0x28;
+            }
+            break;
+        case 40:
+            if (--boss->unk2E == 0) {
+                boss->unk2C = 50;
+            }
+            break;
+        case 50:
+            boss->unk3C += 0x200;
+            if (boss->unk3C >= 0x6000) {
+                boss->unk3C = 0x6000;
+                boss->unk2E = 0x3C;
+                boss->unk2C = 0x3C;
+            }
+            break;
+        case 60:
+            if (--boss->unk2E == 0) {
+                boss->unk2C = 0x5A;
+            }
+            break;
+        case 90:
+            gCurTask->main = sub_8068C38;
+            boss->unkE = 0;
+            boss->unk30 = 0;
+            boss->unk2E = 1;
+            boss->unk2C = 100;
+            break;
+        case 100:
+            if (--boss->unk2E == 0) {
+                boss->unk12 = 0;
+                if (boss->unkF != 0) {
+                    boss->unk12 = 1;
+                    boss->unk30 = 0;
+                    boss->unk44 = 0x400;
+                    boss->unk2C = 0x1F4;
+                } else {
+                    boss->unk30 = 0;
+                    boss->unk2C = 0x6E;
+                }
+            }
+            break;
+
+        case 110:
+            boss->unk38 = SIN((u16)boss->unk30) / 0x40;
+            var_r0_6 = ((boss->unkE == 0) ? boss->unk34 + boss->unk38 : boss->unk34 - boss->unk38);
+            boss->unk34 = var_r0_6 & 0x3FFFF;
+            boss->unk30 += 4;
+            if (boss->unk30 > 0x01FF) {
+                boss->unk30 = 0;
+                boss->unk38 = 0;
+                boss->unk44 = 0;
+                boss->unk2C = 0x78;
+            }
+            if (boss->unk30 == 0x100) {
+                var_r2 = 0;
+                if (boss->unkE == 0) {
+                    if (boss->unk0 > (s32)temp_r5->qWorldX) {
+                        var_r2 = 1;
+                    }
+                } else if (boss->unk0 < (s32)temp_r5->qWorldX) {
+                    var_r2 = 1;
+                }
+
+                if (var_r2 != 0) {
+#ifndef NON_MATCHING
+                    register s32 var_r3 asm("r3");
+#else
+                    s32 var_r3;
+#endif
+                    var_r3 = ABS(boss->unk0 - temp_r5->qWorldX);
+                    if (var_r3 <= 0x6000) {
+                        boss->unk40 = 0x6000;
+                    } else {
+                        boss->unk40 = var_r3;
+                        asm("");
+                    }
+                } else {
+                    boss->unk40 = 0x8000;
+                }
+            }
+            break;
+        case 120:
+            if (boss->unk3C != boss->unk40) {
+                boss->unk44 += 0x40;
+                boss->unk3C += boss->unk44;
+                if (boss->unk3C >= boss->unk40) {
+                    boss->unk3C = boss->unk40;
+                }
+            }
+            if (boss->unkE == 0) {
+                boss->unk38 -= 0x80;
+                if (boss->unk38 <= -0x1000) {
+                    boss->unk38 = -0x1000;
+                }
+            } else {
+                boss->unk38 += 0x80;
+                if (boss->unk38 >= 0x1000) {
+                    boss->unk38 = 0x1000;
+                }
+            }
+            boss->unk34 = (boss->unk34 + boss->unk38) & 0x3FFFF;
+            break;
+        case 200:
+            boss->unk2E = 0x78;
+            CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+            m4aSongNumStart(0x225U);
+            boss->unk2C = 0xD2;
+            break;
+        case 210:
+            if (--boss->unk2E == 0) {
+                boss->unk38 = 0;
+                boss->unk44 = 0;
+                boss->unk2C = 0x12C;
+            }
+            break;
+        case 300:
+            if (boss->unkE == 0) {
+                boss->unk38 += 8;
+                if (boss->unk38 >= 0x400) {
+                    boss->unk38 = 0x400;
+                }
+                boss->unk34 = (boss->unk34 + boss->unk38) & 0x3FFFF;
+                if (boss->unk34 >= 0x30000) {
+                    boss->unk34 = 0x30000;
+                    boss->unk2C = 0x140;
+                }
+            } else {
+                boss->unk38 -= 8;
+                if (boss->unk38 <= -0x400) {
+                    boss->unk38 = -0x400;
+                }
+                boss->unk34 = (boss->unk34 + boss->unk38) & 0x3FFFF;
+                if (boss->unk34 <= 0x30000) {
+                    boss->unk34 = 0x30000;
+                    boss->unk2C = 0x140;
+                }
+            }
+            break;
+        case 320:
+            boss->unk3C -= Q(2);
+            if (boss->unk3C <= 0x6000) {
+                boss->unk3C = 0x6000;
+                boss->unk2C = 0x136;
+            }
+            break;
+        case 310:
+            boss->unkE ^= 1;
+            boss->unk30 = 0;
+            boss->unk2E = 0x3C;
+            boss->unk2C = 100;
+            break;
+        case 500:
+            boss->unk44 -= 0x20;
+            boss->unk3C += boss->unk44;
+            if (boss->unk3C <= 0x3800) {
+                boss->unk3C = 0x3800;
+                boss->unk2E = 0x78;
+                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+                m4aSongNumStart(0x225U);
+                boss->unk2C = 0x1FE;
+            }
+            break;
+        case 510:
+            if (--boss->unk2E == 0) {
+                boss->unk2C = 0x208;
+            }
+            break;
+        case 520:
+            boss->unk3C += Q(2);
+            if (boss->unk3C >= 0x6000) {
+                boss->unk3C = 0x6000;
+                boss->unk12 = 0;
+                boss->unk30 = 0;
+                boss->unk2E = 0x3C;
+                boss->unk2C = 100;
+                break;
+            }
+            break;
+    }
+
+    {
+        s32 xVal;
+        s32 yVal;
+        temp_r1_2 = (u32)(boss->unk34 << 8) >> 0x10;
+        xVal = ((boss->unk3C * COS(temp_r1_2)) / 0x4000);
+        yVal = ((boss->unk3C * SIN(temp_r1_2)) / 0x4000);
+        boss->unk58 = boss->unk0 + xVal;
+        boss->unk5C = boss->unk4 + yVal;
+        s->x = I(boss->unk58) - gCamera.x;
+        s->y = I(boss->unk5C) - gCamera.y;
+    }
+    if ((u16)boss->unk2C == 120) {
+        s32 sinVal;
+        s32 cosVal;
+        s32 a, b, c;
+        s32 d, e, f;
+        temp_r1_4 = (temp_r1_2 + 0x100) & 0x3FF;
+        cosVal = COS(temp_r1_4);
+        sinVal = SIN(temp_r1_4);
+        d = boss->unkE;
+        var_r2 = 4;
+        if (d == 0) {
+            var_r2 = 2;
+        }
+        b = sinVal;
+        b = (b * boss->unk14[var_r2][0]) + (e = boss->unk14[var_r2][1]) * cosVal;
+        b >>= 6;
+
+        if ((s32)((b + boss->unk5C) - (e << 8)) >= 0xAA00) {
+            boss->unk2C = 0xC8;
+        }
+    }
+}
+END_NONMATCH
