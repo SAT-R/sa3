@@ -1402,19 +1402,19 @@ void sub_806A854(EggHammerTankIII *boss)
 
 void sub_806A894(EggHammerTankIII *boss) { }
 
-// (96.27%) https://decomp.me/scratch/9xnSk
-NONMATCH("asm/non_matching/game/bosses/boss_1__sub_806A898.inc", void sub_806A898(EggHammerTankIII *boss))
+void sub_806A898(EggHammerTankIII *boss)
 {
     Sprite *sprHammerHead = &boss->sprHammerHead;
-    s32 screenX = (I(boss->unk58) - gCamera.x);
-    s32 screenY = (I(boss->unk5C) - gCamera.y);
-    u16 angle = I(boss->unk34);
+    Vec2_32 pos;
+    u16 angle;
+    pos.x = (I(boss->unk58) - gCamera.x);
+    pos.y = (I(boss->unk5C) - gCamera.y);
+    angle = I(boss->unk34);
 
-    SA2_LABEL(sub_8003EE4)((angle + 0x100) & 0x3FF, 0x100, 0x100, 0x40, 0x40, screenX, screenY, gBgAffineRegs);
+    SA2_LABEL(sub_8003EE4)((angle + 0x100) & 0x3FF, 0x100, 0x100, 0x40, 0x40, pos.x, pos.y, gBgAffineRegs);
     sprHammerHead->x = 64;
     sprHammerHead->y = 104;
     sub_80BE46C(sprHammerHead);
 }
-END_NONMATCH
 
 s32 sub_806A908(void) { return 0; }
