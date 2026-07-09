@@ -1323,3 +1323,101 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_0806A69C.inc", void sub_0806A
     }
 }
 END_NONMATCH
+
+void sub_806A728(void)
+{
+    EggHammerTankIII *boss = TASK_DATA(gCurTask);
+
+    sub_8069814(boss);
+    UpdateGroundPlate(boss);
+    sub_8069578(boss);
+    sub_806A854(boss);
+    sub_806A898(boss);
+}
+
+void Task_806A760(void)
+{
+    EggHammerTankIII *boss = TASK_DATA(gCurTask);
+    sub_8069DEC(boss);
+
+    if (DISPCNT_BG2_ON & gDispCnt) {
+        sub_8069578(boss);
+        sub_806A854(boss);
+        sub_806A898(boss);
+    }
+}
+
+void sub_806A7A4(void)
+{
+    EggHammerTankIII *boss = TASK_DATA(gCurTask);
+    Player *player = boss->player;
+    Player *partner;
+
+    player->moveState |= MOVESTATE_IGNORE_INPUT;
+    partner = boss->partner;
+    partner->moveState |= MOVESTATE_IGNORE_INPUT;
+    sub_8069578(boss);
+    sub_806A854(boss);
+    sub_806A898(boss);
+}
+
+void TaskDestructor_Boss_806A7E4(Task *t)
+{
+    EggHammerTankIII *temp_r1;
+    void *temp_r0;
+    void *temp_r0_2;
+
+    temp_r1 = TASK_DATA(t);
+    VramFree(temp_r1->vram28);
+
+    if (temp_r1->vram48 != NULL) {
+        VramFree(temp_r1->vram48);
+        temp_r1->vram48 = NULL;
+    }
+
+    if (temp_r1->vram4C != NULL) {
+        VramFree(temp_r1->vram4C);
+        temp_r1->vram4C = NULL;
+    }
+}
+
+void sub_806A818(EggHammerTankIII *boss)
+{
+    Sprite *s = &boss->sprGroundPlate;
+    boss->player->moveState |= 0x08000000;
+    boss->partner->moveState |= 0x08000000;
+    boss->unk32 = 0;
+    boss->unk2C = 0;
+    boss->unk2E = 0;
+    ResolvePlayerSpriteCollision(s, boss->player);
+    ResolvePlayerSpriteCollision(s, boss->partner);
+}
+
+void sub_806A854(EggHammerTankIII *boss)
+{
+    Sprite *sprGroundPlate = &boss->sprGroundPlate;
+
+    sprGroundPlate->x = I(boss->unkE8) - gCamera.x;
+    sprGroundPlate->y = I(boss->unkEC) - gCamera.y;
+    UpdateSpriteAnimation(sprGroundPlate);
+    DisplaySprite(sprGroundPlate);
+}
+
+void sub_806A894(EggHammerTankIII *boss) { }
+
+// (96.27%) https://decomp.me/scratch/9xnSk
+NONMATCH("asm/non_matching/game/bosses/boss_1__sub_806A898.inc", void sub_806A898(EggHammerTankIII *boss))
+{
+    Sprite *sprHammerHead = &boss->sprHammerHead;
+    s32 screenX = (I(boss->unk58) - gCamera.x);
+    s32 screenY = (I(boss->unk5C) - gCamera.y);
+    u16 angle = I(boss->unk34);
+
+    sa2__sub_8003EE4((angle + 0x100) & 0x3FF, 0x100, 0x100, 0x40, 0x40, screenX, screenY, gBgAffineRegs);
+    sprHammerHead->x = 64;
+    sprHammerHead->y = 104;
+    sub_80BE46C(sprHammerHead);
+}
+END_NONMATCH
+
+s32 sub_806A908(void) { return 0; }
