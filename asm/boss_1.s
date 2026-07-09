@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start sub_8069DEC
 sub_8069DEC: @ 0x08069DEC
 	push {r4, r5, r6, r7, lr}
@@ -1014,6 +1012,7 @@ _0806A5CC: .4byte 0x000003F2
 _0806A5D0: .4byte gCurTask
 _0806A5D4: .4byte Task_8068D00
 _0806A5D8: .4byte gCamera
+.endif
 
 	thumb_func_start sub_806A5DC
 sub_806A5DC: @ 0x0806A5DC

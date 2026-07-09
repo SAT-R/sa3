@@ -959,3 +959,291 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8069814.inc", void sub_806981
     }
 }
 END_NONMATCH
+
+// (89.06%) https://decomp.me/scratch/V60z1
+NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8069DEC.inc", void sub_8069DEC(EggHammerTankIII *boss))
+{
+    Player *temp_r1_10;
+    Player *temp_r1_9;
+    s16 temp_r0_22;
+    s32 temp_r0;
+    s32 temp_r0_13;
+    s32 temp_r0_4;
+    s32 temp_r1_7;
+    s32 temp_r1_8;
+    s32 temp_r3_2;
+    s32 temp_r6;
+    s32 temp_r6_2;
+    s32 temp_r6_3;
+    s32 temp_r6_5;
+    s32 temp_r6_6;
+    s32 temp_r7;
+    s32 temp_r7_2;
+    s32 temp_r7_3;
+    s32 temp_r7_4;
+    s32 var_r0_2;
+    u16 temp_r0_14;
+    u16 temp_r0_20;
+    u16 temp_r0_21;
+    u16 temp_r0_9;
+    u16 temp_r1;
+    u16 temp_r1_4;
+    u16 temp_r3;
+    u16 var_r0;
+    u32 temp_r0_12;
+    u32 temp_r0_19;
+    u32 temp_r0_3;
+    u32 temp_r0_7;
+    u32 temp_r4;
+    u32 temp_r4_2;
+    u32 temp_r4_3;
+    u32 temp_r4_4;
+    u32 temp_r4_5;
+    u16 var_r4;
+    u32 var_r4_2;
+    u8 temp_r0_16;
+    u8 temp_r6_4;
+    s32 sinVal, cosVal;
+    Sprite *s;
+
+    boss->unk32++;
+    switch (boss->unk2C) {
+        case 0x0:
+            if (boss->unkD != 0) {
+                boss->unkD -= 1;
+            } else {
+                boss->unk2C = 10;
+            }
+        default:
+            break;
+        case 10:
+            if (boss->unk58 < boss->unk0) {
+                boss->unk60 = +0x100;
+            } else {
+                boss->unk60 = -0x100;
+            }
+            boss->unk64 = -0x600;
+            CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+            boss->unk10 = 10;
+            boss->unk2C = 100;
+            break;
+        case 100:
+            temp_r1_7 = boss->unk64;
+            boss->unk64 += 0x20;
+            if (boss->unk64 >= 0x800) {
+                boss->unk64 = 0x800;
+            }
+
+            boss->unk58 += boss->unk60;
+            boss->unk5C += boss->unk64;
+
+            if (1 & boss->unk32) {
+                temp_r4 = PseudoRandom32() & 0x3FF;
+                temp_r3_2 = PseudoRandom32() % 48U;
+                sub_8079758(6U, (s32)((boss->unk58 + ((u32)(temp_r3_2 * COS(temp_r4)) >> 6)) << 8) >> 0x10,
+                            (s32)((boss->unk5C + ((u32)(temp_r3_2 * SIN(temp_r4)) >> 6)) << 8) >> 0x10, 0x400, temp_r4, 0x14, 0x80,
+                            boss->vram28);
+            }
+            if ((0x3F & boss->unk32) == 0) {
+                m4aSongNumStart(0x221U);
+            }
+
+            if (boss->unk60 != 0) {
+                if (boss->unk60 < 0) {
+                    if ((s32)boss->unk58 <= (s32)boss->unk0) {
+                        boss->unk60 = 0;
+                    }
+                } else if ((s32)boss->unk58 >= (s32)boss->unk0) {
+                    boss->unk60 = 0;
+                }
+            };
+            if ((temp_r1_7 < 0) && ((s32)boss->unk64 >= 0)) {
+                s = (Sprite *)&boss->sprCockpit;
+                s->anim = ANIM_BOSS_1_COCKPIT;
+                s->variant = 3;
+                s->oamFlags = 0x4C0;
+                s->frameFlags = 0x2000;
+                s->frameFlags |= 0x7F;
+                s = &boss->sprJoint;
+                s->oamFlags = 0x540;
+                s->frameFlags = 0x2000;
+                s = &boss->sprGroundPlate;
+                s->oamFlags = 0x500;
+                s->frameFlags = 0x2000;
+                s = &boss->sprHammerHead;
+                s->frameFlags = 0x11000;
+            }
+            if (boss->unk5C > 0x9E00) {
+                boss->unk5C = 0x9E00;
+                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+                boss->unk64 = -0x400;
+                boss->unk2C = 0x6E;
+            }
+            break;
+        case 110:
+            boss->unk64 = boss->unk64 + 0x20;
+            boss->unk58 += boss->unk60;
+            boss->unk5C += boss->unk64;
+            if (boss->unk32 & 1) {
+                temp_r4 = PseudoRandom32() & 0x3FF;
+                temp_r3_2 = PseudoRandom32() % 48U;
+                sub_8079758(6U, (s32)((boss->unk58 + ((u32)(temp_r3_2 * COS(temp_r4)) >> 6)) << 8) >> 0x10,
+                            (s32)((boss->unk5C + ((u32)(temp_r3_2 * SIN(temp_r4)) >> 6)) << 8) >> 0x10, 0x400, temp_r4, 0x14, 0x80,
+                            boss->vram28);
+            }
+            if (!(0x3F & boss->unk32)) {
+                m4aSongNumStart(0x221U);
+            }
+            if (boss->unk60 != 0) {
+                if (boss->unk60 < 0) {
+                    if (boss->unk58 <= boss->unk0) {
+                        boss->unk60 = 0;
+                    }
+                } else if (boss->unk58 >= boss->unk0) {
+                    boss->unk60 = 0;
+                }
+            };
+            if (boss->unk5C >= 0x9E00) {
+                boss->unk5C = 0x9E00;
+                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+                boss->unk64 = -0x300;
+                boss->unk2C = 0x6F;
+            }
+            break;
+        case 111:
+            boss->unk64 += 0x20;
+            boss->unk58 += boss->unk60;
+            boss->unk5C += boss->unk64;
+            if (boss->unk32 & 1) {
+                temp_r4 = PseudoRandom32() & 0x3FF;
+                temp_r3_2 = PseudoRandom32() % 48U;
+                sub_8079758(6U, (s32)((boss->unk58 + ((u32)(temp_r3_2 * COS(temp_r4)) >> 6)) << 8) >> 0x10,
+                            (s32)((boss->unk5C + ((u32)(temp_r3_2 * SIN(temp_r4)) >> 6)) << 8) >> 0x10, 0x400, temp_r4, 0x14, 0x80,
+                            boss->vram28);
+            }
+            if (!(0x3F & boss->unk32)) {
+                m4aSongNumStart(0x221U);
+            }
+            temp_r0_4 = boss->unk60;
+            if (temp_r0_4 != 0) {
+                if (temp_r0_4 < 0) {
+                    if ((s32)boss->unk58 <= (s32)boss->unk0) {
+                        boss->unk60 = 0;
+                    }
+                } else if ((s32)boss->unk58 >= (s32)boss->unk0) {
+                    boss->unk60 = 0;
+                }
+            };
+            if ((s32)boss->unk5C <= 0x9DFF) {
+
+            } else {
+                boss->unk5C = 0x9E00;
+                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+                boss->unk64 = -0x200;
+                boss->unk2C = 0x70;
+            }
+            break;
+        case 112:
+            boss->unk64 = boss->unk64 + 0x20;
+            boss->unk58 = boss->unk58 + boss->unk60;
+            ;
+            boss->unk5C = boss->unk5C + boss->unk64;
+            if (boss->unk32 & 1) {
+                temp_r4 = PseudoRandom32() & 0x3FF;
+                temp_r3_2 = PseudoRandom32() % 48U;
+                sub_8079758(6U, (s32)((boss->unk58 + ((u32)(temp_r3_2 * COS(temp_r4)) >> 6)) << 8) >> 0x10,
+                            (s32)((boss->unk5C + ((u32)(temp_r3_2 * SIN(temp_r4)) >> 6)) << 8) >> 0x10, 0x400, temp_r4, 0x14, 0x80,
+                            boss->vram28);
+            }
+            if (!(0x3F & boss->unk32)) {
+                m4aSongNumStart(0x221U);
+            }
+
+            if (boss->unk60 != 0) {
+                if (boss->unk60 < 0) {
+                    if (boss->unk58 <= boss->unk0) {
+                        boss->unk60 = 0;
+                    }
+                } else if (boss->unk58 >= boss->unk0) {
+                    boss->unk60 = 0;
+                }
+            }
+
+            if (boss->unk5C >= 0x9E00) {
+                boss->unk5C = 0x9E00;
+                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+                boss->unk2E = 0xB4;
+                boss->unk2C = 0x78;
+                boss->unk13 = 0;
+            }
+            break;
+        case 120:
+            if (--boss->unk2E == 0) {
+                boss->unk2E = 20;
+                boss->unk2C = 0xC8;
+            }
+            if (((s32)(s16)boss->unk2E > 0x3C) && !(0x3F & boss->unk32)) {
+                m4aSongNumStart(0x221U);
+            }
+
+            if ((boss->unk32 & 0x3) == 0) {
+                temp_r4 = (PseudoRandom32() & 0x3FF) / 0x200;
+                temp_r3_2 = PseudoRandom32() & 0x1F;
+                sub_8079758((u8)(boss->unk13 * 2), (s32)((boss->unk58 + ((u32)(temp_r3_2 * COS(temp_r4)) >> 6)) << 8) >> 0x10,
+                            (s32)((boss->unk5C + ((u32)(temp_r3_2 * SIN(temp_r4)) >> 6)) << 8) >> 0x10, 0x300, temp_r4, 0x1E, 0x20,
+                            boss->vram28);
+                if (++boss->unk13 > 2U) {
+                    boss->unk13 = 0;
+                }
+                if ((boss->unk32 & 0x3) == 0) {
+                    temp_r4 = PseudoRandom32() & 0x3FF;
+                    temp_r3_2 = PseudoRandom32() % 80U;
+                    cosVal = (((Q_MUL_2_14(COS(temp_r4), temp_r3_2))) << 8) >> 0x10;
+                    sinVal = ((((u32)(SIN(temp_r4) * temp_r3_2) >> 0xE) + 0x50));
+                    sub_8079758(6U, boss->unk58 + cosVal, gCamera.y + sinVal, 0x200, temp_r4, 0x1E, 0, boss->vram28);
+                }
+            }
+            break;
+        case 200:
+            if (1 & boss->unk2E) {
+                gDispCnt &= ~0x400;
+            } else {
+                gDispCnt |= 0x400;
+            }
+
+            if (--boss->unk2E == 0) {
+                for (var_r4 = 0; var_r4 < 0x400; var_r4 += 4 * TILE_SIZE_4BPP) {
+                    sub_8079758(6U, (s32)(boss->unk58 << 8) >> 0x10, (s32)(boss->unk5C << 8) >> 0x10, 0x200, var_r4, 0x1E, 0, boss->vram28);
+                }
+                m4aSongNumStart(SE_545);
+                gDispCnt &= ~DISPCNT_BG2_ON;
+                boss->unk2E = 0xA;
+                boss->unk2C = 0xD2;
+            }
+            break;
+        case 0xD2:
+            if (--boss->unk2E == 0) {
+                for (var_r4 = 0; var_r4 < 0x400; var_r4 += 4 * TILE_SIZE_4BPP) {
+                    sub_8079758(6U, (s16)I(boss->unk58), (s16)I(boss->unk5C), 0x200, var_r4, 0x1E, 0, boss->vram28);
+                }
+                boss->unk2E = 0xA;
+                boss->unk2C = 0x3E8;
+            }
+            break;
+        case 0x3E8:
+            if (--boss->unk2E == 0) {
+                boss->unk32 = 0;
+                boss->unk2C = 0x3F2;
+                gCurTask->main = Task_8068D00;
+            }
+            break;
+    }
+    s = (Sprite *)&boss->sprCockpit;
+    s->x = I(boss->unk58) - gCamera.x;
+    s->y = I(boss->unk5C) - gCamera.y;
+    temp_r1_9 = boss->player;
+    temp_r1_9->moveState |= MOVESTATE_IGNORE_INPUT;
+    temp_r1_10 = boss->partner;
+    temp_r1_10->moveState |= MOVESTATE_IGNORE_INPUT;
+}
+END_NONMATCH
