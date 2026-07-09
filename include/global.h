@@ -164,6 +164,8 @@ typedef void (*VoidFn)(void);
 #define Q_DIV(qValA, qValB)         Div((qValA << 8), qValB)
 #define Q_DIV2(qValA, qValB)        ((qValA << 8) / qValB)
 #define Q_MUL_Q_F32(qVal, floatVal) Q_MUL(qVal, Q(floatVal))
+#define Q_MUL_2_14(qValA, qValB)    (((qValA) * (qValB)) / 0x4000)
+#define Q_MUL_2_14_S(qValA, qValB)  (((qValA) * (qValB)) >> 14)
 
 /*
  * Aliases for common macros

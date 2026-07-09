@@ -13,6 +13,8 @@
 #define GEMERL_TURN_MIN_X 1696
 #define GEMERL_TURN_MAX_X 1760
 
+#define SE_549 0x225
+
 typedef struct {
     /* 0x000 */ s32 unk0;
     /* 0x004 */ s32 unk4;
@@ -27,7 +29,7 @@ typedef struct {
     /* 0x013 */ u8 unk13;
     /* 0x014 */ s16 unk14[5][2];
     /* 0x028 */ u8 *vram28;
-    /* 0x02C */ s16 unk2C;
+    /* 0x02C */ u16 unk2C;
     /* 0x02E */ s16 unk2E;
     /* 0x030 */ u16 unk30;
     /* 0x032 */ u16 unk32;
@@ -35,14 +37,19 @@ typedef struct {
     /* 0x034 */ s32 unk38;
     /* 0x03C */ s32 unk3C;
     /* 0x040 */ s32 unk40;
-    /* 0x040 */ s32 unk44;
+    /* 0x044 */ s32 unk44;
     /* 0x048 */ u8 *vram48;
     /* 0x04C */ u8 *vram4C;
     /* 0x050 */ Player *player;
     /* 0x054 */ Player *partner;
     /* 0x058 */ s32 unk58;
     /* 0x05C */ s32 unk5C;
-    /* 0x060 */ u8 filler60[0x88];
+    /* 0x060 */ s32 unk60;
+    /* 0x064 */ s32 unk64;
+    /* 0x068 */ Vec2_32 unk68[7];
+    /* 0x0A0 */ u8 fillerA0[0x8];
+    /* 0x0A8 */ Vec2_32 unkA8[7];
+    /* 0x0E0 */ u8 fillerE0[0x8];
     /* 0x0E8 */ s32 unkE8;
     /* 0x0EC */ s32 unkEC;
     /* 0x0F0 */ Sprite5 sprCockpit;
@@ -56,9 +63,10 @@ void InitSpriteCockpit(EggHammerTankIII *boss);
 static void InitSpriteGroundPlate(EggHammerTankIII *boss);
 void UpdateGroundPlate(EggHammerTankIII *boss);
 static void InitSpriteHammerHead(EggHammerTankIII *boss);
-void sub_806A5DC(EggHammerTankIII *boss);
+void sub_8069360(EggHammerTankIII *boss);
 void sub_8069814(EggHammerTankIII *boss);
 void sub_8069818(EggHammerTankIII *boss);
+void sub_806A5DC(EggHammerTankIII *boss);
 void sub_806A818(EggHammerTankIII *boss);
 void sub_806A894(EggHammerTankIII *boss);
 void sub_806A728(void);
@@ -76,9 +84,23 @@ extern void sub_80044CC(Player *);
 extern void SetFixedRandomIfTimeAttackMode(void);
 extern void sub_807A37C(void);
 extern void sub_8078E34(s32 *, VoidFn);
-extern void sub_0807A0E8(u16 *, s16);
 
 extern u16 gUnknown_080D575C[9][2];
+
+void Task_8068D00(); /* extern */
+void sub_80299D4(s32); /* extern */
+void sub_8068C38(); /* extern */
+void sub_8078DB0(s32, s32, s32, s32); /* extern */
+void sub_8079758(u8, s32, s32, s32, u32, s32, s32, void *); /* extern */
+void sub_807A2AC(); /* extern */
+void sub_807A468(); /* extern */
+void sub_807A4A8(); /* extern */
+void sub_80BE46C(void *); /* extern */
+void Task_806A760(); /* static */
+
+void sub_8069578(EggHammerTankIII *boss);
+void sub_8069814(EggHammerTankIII *boss);
+void sub_8069DEC(EggHammerTankIII *arg0);
 
 // Init Boss 1
 Task *CreateEggHammerTankIII(u8 *param0, s32 worldX, s32 worldY)
@@ -543,4 +565,86 @@ void InitSpriteCockpit(EggHammerTankIII *boss)
     boss->unk38 = 0;
     boss->unk3C = 0x3800;
     boss->unk40 = 0;
+}
+
+void sub_8069578(EggHammerTankIII *boss)
+{
+    s32 sp0;
+    Sprite *s;
+    SpriteTransform *tf;
+    s16 *var_r3;
+    s32 temp_r0_6;
+    s32 temp_r2_3, temp_r2_4;
+    s32 cosVal, sinVal;
+    s32 var_r4;
+    s32 xVal;
+    s32 yVal;
+    u8 i;
+
+    s = (Sprite *)&boss->sprCockpit;
+    tf = &boss->tf;
+    tf->rotation = (((u32)(boss->unk34 << 8) >> 0x10) + 0x100) & 0x3FF;
+    tf->x = s->x;
+    tf->y = s->y;
+    TransformSprite(s, tf);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &boss->sprJoint;
+    switch (boss->unk10) {
+        case 0:
+            sp0 = (boss->unk34 - 0x30000);
+            sp0 = sp0 / 8;
+            var_r4 = (boss->unk34 + 0x30000) / 2;
+            temp_r0_6 = (boss->unk3C) / 8;
+            xVal = boss->unk0;
+            yVal = boss->unk4;
+            for (i = 0; i < 7; i++) {
+                var_r4 = (var_r4 + sp0) & 0x3FFFF;
+                temp_r2_3 = var_r4 >> 8;
+                cosVal = Q_MUL_2_14(COS(temp_r2_3), temp_r0_6);
+                sinVal = Q_MUL_2_14(SIN(temp_r2_3), temp_r0_6);
+                xVal += cosVal;
+                yVal += sinVal;
+                s->x = (xVal >> 8) - gCamera.x;
+                s->y = (yVal >> 8) - gCamera.y;
+                DisplaySprite(s);
+            }
+            break;
+        case 10:
+            sp0 = (boss->unk34 - 0x30000);
+            sp0 = sp0 / 8;
+            var_r4 = (boss->unk34 + 0x30000) / 2;
+            temp_r0_6 = boss->unk3C / 8;
+            xVal = boss->unk0;
+            yVal = boss->unk4;
+            for (i = 0; i < 7; i++) {
+                var_r4 = ((var_r4 + sp0) & 0x3FFFF);
+                temp_r2_4 = var_r4 >> 8;
+                cosVal = Q_MUL_2_14(COS(temp_r2_4), temp_r0_6);
+                sinVal = Q_MUL_2_14(SIN(temp_r2_4), temp_r0_6);
+                xVal += cosVal;
+                yVal += sinVal;
+                boss->unk68[i].x = xVal;
+                boss->unk68[i].y = yVal;
+                boss->unkA8[i].x = ((i >> 1) << 8) + 0x100;
+                if (i & 0x1) {
+                    boss->unkA8[i].x = -boss->unkA8[i].x;
+                }
+                boss->unkA8[i].y = -Q(4);
+            }
+
+            boss->unk10 = 100;
+            // through
+        case 100: {
+            for (i = 0; i < 7; i++) {
+                boss->unk68[i].x += boss->unkA8[i].x;
+                boss->unkA8[i].y += 0x20;
+                boss->unk68[i].y += boss->unkA8[i].y;
+                s->x = I(boss->unk68[i].x) - gCamera.x;
+                s->y = I(boss->unk68[i].y) - gCamera.y;
+                DisplaySprite(s);
+            }
+        } break;
+    }
 }
