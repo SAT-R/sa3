@@ -29,13 +29,13 @@ typedef struct {
     /* 0x028 */ u8 *vram28;
     /* 0x02C */ s16 unk2C;
     /* 0x02E */ s16 unk2E;
-    /* 0x030 */ s16 unk30;
+    /* 0x030 */ u16 unk30;
     /* 0x032 */ u16 unk32;
     /* 0x034 */ s32 unk34;
     /* 0x034 */ s32 unk38;
     /* 0x03C */ s32 unk3C;
     /* 0x040 */ s32 unk40;
-    /* 0x040 */ u8 filler40[0x4];
+    /* 0x040 */ s32 unk44;
     /* 0x048 */ u8 *vram48;
     /* 0x04C */ u8 *vram4C;
     /* 0x050 */ Player *player;
@@ -62,7 +62,7 @@ void sub_8069818(EggHammerTankIII *boss);
 void sub_806A818(EggHammerTankIII *boss);
 void sub_806A894(EggHammerTankIII *boss);
 void sub_806A728(void);
-void sub_806A760(void);
+void Task_806A760(void);
 void sub_806A7A4(void);
 void TaskDestructor_Boss_806A7E4(struct Task *t);
 void sub_8069578(EggHammerTankIII *boss);
@@ -76,6 +76,7 @@ extern void sub_80044CC(Player *);
 extern void SetFixedRandomIfTimeAttackMode(void);
 extern void sub_807A37C(void);
 extern void sub_8078E34(s32 *, VoidFn);
+extern void sub_0807A0E8(u16 *, s16);
 
 extern u16 gUnknown_080D575C[9][2];
 
@@ -92,7 +93,7 @@ Task *CreateEggHammerTankIII(u8 *param0, s32 worldX, s32 worldY)
     EggHammerTankIII *boss;
 
     t = TaskCreate(sub_806A728, sizeof(EggHammerTankIII), 0x2100U, 0U, TaskDestructor_Boss_806A7E4);
-    gStageData.taskGemerl = t;
+    gStageData.taskBoss = t;
     boss = TASK_DATA(t);
     boss->unk0 = Q(worldX);
     boss->unk4 = Q(worldY);
@@ -164,11 +165,11 @@ void sub_8068C38(void)
             } else {
                 sub_8027674(1, 0);
                 sub_806A818(boss);
-                gCurTask->main = sub_806A760;
+                gCurTask->main = Task_806A760;
             }
         } else {
             sub_806A818(boss);
-            gCurTask->main = sub_806A760;
+            gCurTask->main = Task_806A760;
         }
     }
 
@@ -451,8 +452,8 @@ void UpdateGroundPlate(EggHammerTankIII *boss)
         }
         gemerlTurnIndex = (u8)(dx >> 3);
 #else
-        s32 dx = worldX - GEMERL_TURN_MIN_X;
-        gemerlTurnIndex = (dx + 7) / 8;
+        s32 dx = (worldX - GEMERL_TURN_MIN_X) / 8;
+        gemerlTurnIndex = (u8)dx;
 #endif
     }
 
@@ -488,17 +489,11 @@ static void InitSpriteHammerHead(EggHammerTankIII *boss)
     boss->unk30 = 0;
 }
 
-// TODO: Fake-match
 void InitSpriteCockpit(EggHammerTankIII *boss)
 {
     Sprite *s = (Sprite *)&boss->sprCockpit;
     SpriteTransform *tf = &boss->tf;
     u8 *vram;
-#ifndef NON_MATCHING
-    register s32 x1000 asm("sb");
-#else
-    s32 x1000;
-#endif
 
     boss->unk58 = boss->unk0;
     boss->unk5C = boss->unk4;
@@ -515,8 +510,8 @@ void InitSpriteCockpit(EggHammerTankIII *boss)
     s->animSpeed = 0x10;
     s->palId = 0;
     s->hitboxes[0].index = -1;
-    x1000 = 0x1000;
-    s->frameFlags = 0x107F;
+    s->frameFlags = 0x1000;
+    s->frameFlags |= 0x7F;
     s->x = I(boss->unk58) - gCamera.x;
     s->y = I(boss->unk5C) - gCamera.y;
     tf->rotation = 0;
@@ -539,7 +534,7 @@ void InitSpriteCockpit(EggHammerTankIII *boss)
     s->animSpeed = 0x10;
     s->palId = 0;
     s->hitboxes[0].index = -1;
-    s->frameFlags = x1000;
+    s->frameFlags = 0x1000;
     s->x = I(boss->unk58) - gCamera.x;
     s->y = I(boss->unk5C) - gCamera.y;
     UpdateSpriteAnimation(s);

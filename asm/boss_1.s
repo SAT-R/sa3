@@ -2290,13 +2290,13 @@ sub_0806A69C: @ 0x0806A69C
 	adds r0, r5, #0
 	bl ResolvePlayerSpriteCollision
 	ldr r1, [r7]
-	ldr r0, _0806A700 @ =sub_806A760
+	ldr r0, _0806A700 @ =Task_806A760
 	str r0, [r1, #8]
 	b _0806A720
 	.align 2, 0
 _0806A6F8: .4byte gStageData
 _0806A6FC: .4byte 0x03000138
-_0806A700: .4byte sub_806A760
+_0806A700: .4byte Task_806A760
 _0806A704:
 	cmp r1, #1
 	blt _0806A720
@@ -2342,8 +2342,8 @@ sub_806A728: @ 0x0806A728
 	.align 2, 0
 _0806A75C: .4byte gCurTask
 
-	thumb_func_start sub_806A760
-sub_806A760: @ 0x0806A760
+	thumb_func_start Task_806A760
+Task_806A760: @ 0x0806A760
 	push {r4, lr}
 	ldr r0, _0806A79C @ =gCurTask
 	ldr r0, [r0]

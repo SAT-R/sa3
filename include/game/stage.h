@@ -99,7 +99,7 @@ typedef struct {
     /* 0x85 */ u8 unk85;
     /* 0x86 */ u8 unk86;
     /* 0x87 */ u8 flagSpKey; // SP-key-flag of current act | 0x87
-    /* 0x88 */ struct Task *taskGemerl;
+    /* 0x88 */ struct Task *taskBoss;
     /* 0x8C */ u16 unk8C;
     /* 0x8E */ u8 mpOpponentPlayerIndex;
     /* 0x8F */ u8 unk8F;

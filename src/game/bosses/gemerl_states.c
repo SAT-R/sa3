@@ -93,7 +93,7 @@ Task *CreateGemerl(u8 *param0, s32 worldX, s32 worldY)
     Gemerl *gemerl;
 
     t = TaskCreate(Task_Gemerl_8068860, sizeof(Gemerl), 0x2100U, 0U, TaskDestructor_Gemerl);
-    gStageData.taskGemerl = t;
+    gStageData.taskBoss = t;
     gemerl = TASK_DATA(t);
     s = (Sprite *)&gemerl->spr3C;
     spr78 = &gemerl->spr78;
@@ -1382,7 +1382,7 @@ bool32 sub_8067D20(Gemerl *gemerl, s32 stateIndex)
 
 void sub_8067EA0(u8 *unknown)
 {
-    Gemerl *gemerl = TASK_DATA(gStageData.taskGemerl);
+    Gemerl *gemerl = TASK_DATA(gStageData.taskBoss);
     Sprite *s = (Sprite *)&gemerl->spr3C;
     s32 x = unknown[2];
     s32 temp_r1 = 0x7F;
