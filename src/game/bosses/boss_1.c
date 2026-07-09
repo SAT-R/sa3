@@ -1248,3 +1248,39 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_8069DEC.inc", void sub_8069DE
     temp_r1_10->moveState |= MOVESTATE_IGNORE_INPUT;
 }
 END_NONMATCH
+
+void sub_806A5DC(EggHammerTankIII *boss)
+{
+    Sprite *s = (Sprite *)&boss->sprCockpit;
+
+    if ((boss->lives != 0) && (boss->unkD == 0)) {
+        boss->lives--;
+        if (gStageData.difficulty == 0) {
+            if (boss->lives == 4) {
+                sub_80299D4(0x33);
+            }
+        } else if (boss->lives == 3) {
+            sub_80299D4(0x33);
+        }
+
+        s->anim = ANIM_BOSS_1_COCKPIT;
+        s->variant = 2;
+
+        boss->unkD = 0x7A;
+        sub_8078DB0(0x4B9, 0, 0x7A, 1);
+        sub_8078DB0(0x4BB, 0, 0x7A, 0);
+        sub_8078DB0(0x4BA, 0, 0x7A, 0);
+        m4aSongNumStart(SE_235);
+        sub_807A468();
+
+        if (gStageData.gameMode == 5) {
+            if (gStageData.playerIndex == 0) {
+                if (boss->lives != 0) {
+                    sub_8027674(3U, boss->lives);
+                }
+            } else {
+                sub_8027674(4U, boss->lives);
+            }
+        }
+    }
+}
