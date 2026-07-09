@@ -1281,7 +1281,7 @@ void sub_806A5DC(EggHammerTankIII *boss)
     }
 }
 
-void sub_0806A69C(u8* arg0)
+void sub_0806A69C(u8 *arg0)
 {
     EggHammerTankIII *boss = TASK_DATA(gStageData.taskBoss);
     u16 temp_r1 = arg0[2] & 0x7F;
@@ -1293,8 +1293,7 @@ void sub_0806A69C(u8* arg0)
     Sprite *s;
 #endif
 
-    switch (temp_r1) 
-    {
+    switch (temp_r1) {
         case 1: {
             boss->lives = 0;
             s = &boss->sprGroundPlate;
@@ -1310,9 +1309,9 @@ void sub_0806A69C(u8* arg0)
 
         case 3:
         case 4: {
-            if(boss->lives != (u8) lives) {
+            if (boss->lives != (u8)lives) {
                 sub_806A5DC(boss);
-            }        
+            }
         } break;
     }
 }
