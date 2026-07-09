@@ -227,7 +227,6 @@ void sub_807B10C() { }
 void sub_807B1E4() { }
 void sub_807B280() { }
 void sub_807B368() { }
-void sub_807B498() { }
 void sub_8081C80() { }
 void SetFixedRandomIfTimeAttackMode()
 {
@@ -235,3 +234,16 @@ void SetFixedRandomIfTimeAttackMode()
         gPseudoRandom = gStageData.zone * 101;
     }
 }
+
+void sub_8078E34() { }
+void sub_807A2AC() { }
+void sub_807A37C() { }
+void sub_807A468() { }
+void sub_807B498() { }
+void CreateEggWheeler() { }
+void CreateEggFoot() { }
+void CreateEggCube() { }
+void CreateEggChaserBoss() { }
+void CreateEggPinball() { }
+void CreateEggGravity() { }
+void CreateHyperEggRobo() { }

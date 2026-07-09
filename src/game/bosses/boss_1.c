@@ -1363,11 +1363,8 @@ void sub_806A7A4(void)
 
 void TaskDestructor_Boss_806A7E4(Task *t)
 {
-    EggHammerTankIII *temp_r1;
-    void *temp_r0;
-    void *temp_r0_2;
+    EggHammerTankIII *temp_r1 = TASK_DATA(t);
 
-    temp_r1 = TASK_DATA(t);
     VramFree(temp_r1->vram28);
 
     if (temp_r1->vram48 != NULL) {
@@ -1384,8 +1381,8 @@ void TaskDestructor_Boss_806A7E4(Task *t)
 void sub_806A818(EggHammerTankIII *boss)
 {
     Sprite *s = &boss->sprGroundPlate;
-    boss->player->moveState |= 0x08000000;
-    boss->partner->moveState |= 0x08000000;
+    boss->player->moveState |= MOVESTATE_IGNORE_INPUT;
+    boss->partner->moveState |= MOVESTATE_IGNORE_INPUT;
     boss->unk32 = 0;
     boss->unk2C = 0;
     boss->unk2E = 0;
@@ -1413,7 +1410,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_806A898.inc", void sub_806A89
     s32 screenY = (I(boss->unk5C) - gCamera.y);
     u16 angle = I(boss->unk34);
 
-    sa2__sub_8003EE4((angle + 0x100) & 0x3FF, 0x100, 0x100, 0x40, 0x40, screenX, screenY, gBgAffineRegs);
+    SA2_LABEL(sub_8003EE4)((angle + 0x100) & 0x3FF, 0x100, 0x100, 0x40, 0x40, screenX, screenY, gBgAffineRegs);
     sprHammerHead->x = 64;
     sprHammerHead->y = 104;
     sub_80BE46C(sprHammerHead);
