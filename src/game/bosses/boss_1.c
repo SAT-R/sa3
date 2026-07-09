@@ -1281,19 +1281,20 @@ void sub_806A5DC(EggHammerTankIII *boss)
     }
 }
 
-// (94.61%) https://decomp.me/scratch/Ze1E8
-NONMATCH("asm/non_matching/game/bosses/boss_1__sub_0806A69C.inc", void sub_0806A69C(u8 *arg0))
+void sub_0806A69C(u8* arg0)
 {
     EggHammerTankIII *boss = TASK_DATA(gStageData.taskBoss);
-    s32 temp_r1 = arg0[2] & 0x7F;
+    u16 temp_r1 = arg0[2] & 0x7F;
     u16 lives = (arg0[3] | (arg0[4] << 8));
 #ifdef BUG_FIX
+    // Prevent potential uninitted pointer deref.
     Sprite *s = NULL;
 #else
     Sprite *s;
 #endif
 
-    switch (temp_r1) {
+    switch (temp_r1) 
+    {
         case 1: {
             boss->lives = 0;
             s = &boss->sprGroundPlate;
@@ -1307,18 +1308,14 @@ NONMATCH("asm/non_matching/game/bosses/boss_1__sub_0806A69C.inc", void sub_0806A
             gStageData.taskBoss->main = Task_806A760;
         } break;
 
-        case 2:
         case 3:
         case 4: {
-            if (temp_r1 > 2) {
-                if (boss->lives != (u8)lives) {
-                    sub_806A5DC(boss);
-                }
-            }
+            if(boss->lives != (u8) lives) {
+                sub_806A5DC(boss);
+            }        
         } break;
     }
 }
-END_NONMATCH
 
 void sub_806A728(void)
 {
