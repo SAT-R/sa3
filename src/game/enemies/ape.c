@@ -239,7 +239,6 @@ void Task_805A7F0(void)
 void sub_805A8B0(Ape *enemy)
 {
     u32 r1 = 160;
-    u16 theta;
     u32 chk;
     Sprite *s2 = &enemy->s2;
 
@@ -504,30 +503,24 @@ void Task_805ADC8(void)
     }
 }
 
-// (90.54%) https://decomp.me/scratch/8nsAg
-NONMATCH("asm/non_matching/game/enemies/ape__sub_805ADF8.inc", void sub_805ADF8(ApeProjectile *proj))
+void sub_805ADF8(ApeProjectile *proj)
 {
-#ifndef NON_MATCHING
-    register s32 r1 asm("r1");
-    s16 r2 = proj->unk2;
-    register s32 r3 asm("r3") = proj->unk1;
-#else
     s32 r1;
     s16 r2 = proj->unk2;
     s32 r3 = proj->unk1;
-#endif
 
     proj->unkC += 0x20;
-    r2 = (((Q(r2) * 2) << 16) >> 16) + proj->unkC;
+    r2 = (Q(r2) * 2);
+    r2 += (s16)proj->unkC;
 
     proj->unkA++;
     r1 = r3;
-    r3 = Q(r3) + r1;
+    r3 = QS(r3);
+    r3 += r1;
 
     proj->qPos.y += r2;
-    proj->qPos.x += ((r3 << 16) >> 17);
+    proj->qPos.x += (s16)r3 >> 1;    
 }
-END_NONMATCH
 
 AnimCmdResult sub_805AE30(ApeProjectile *proj)
 {
