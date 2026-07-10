@@ -8,83 +8,8 @@
 .if 0
 .endif
 
-	thumb_func_start sub_806AE3C
-sub_806AE3C: @ 0x0806AE3C
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	ldr r0, _0806AEC0 @ =gCurTask
-	mov r8, r0
-	ldr r0, [r0]
-	ldrh r5, [r0, #6]
-	movs r4, #0xc0
-	lsls r4, r4, #0x12
-	adds r4, r5, r4
-	ldr r1, [r4]
-	asrs r3, r1, #8
-	lsrs r1, r1, #0x10
-	ldrh r2, [r4, #6]
-	ldr r6, _0806AEC4 @ =0x03000058
-	adds r0, r5, r6
-	movs r6, #0
-	lsls r3, r3, #0x18
-	lsrs r3, r3, #0x1b
-	strb r3, [r0]
-	ldr r3, [r4, #4]
-	asrs r3, r3, #8
-	adds r3, #0x26
-	ldr r7, _0806AEC8 @ =0x03000059
-	adds r4, r5, r7
-	lsls r3, r3, #0x18
-	lsrs r3, r3, #0x1b
-	strb r3, [r4]
-	ldr r3, _0806AECC @ =0x0300005A
-	adds r4, r5, r3
-	movs r3, #0x1c
-	strb r3, [r4]
-	adds r7, #2
-	adds r4, r5, r7
-	movs r3, #0xa
-	strb r3, [r4]
-	ldr r4, _0806AED0 @ =0x0300005C
-	adds r3, r5, r4
-	movs r4, #1
-	strb r4, [r3]
-	adds r7, #2
-	adds r3, r5, r7
-	strb r6, [r3]
-	adds r7, #1
-	adds r3, r5, r7
-	strb r6, [r3]
-	ldr r6, _0806AED4 @ =0x0300005F
-	adds r3, r5, r6
-	strb r4, [r3]
-	ldrb r3, [r0]
-	subs r7, #0x3c
-	adds r5, r5, r7
-	strb r3, [r5]
-	movs r3, #0
-	bl CreateEntity_BlueButton @ NOTE(Jace)::What..?
-	mov r0, r8
-	ldr r1, [r0]
-	ldr r0, _0806AED8 @ =sub_806AEDC
-	str r0, [r1, #8]
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0806AEC0: .4byte gCurTask
-_0806AEC4: .4byte 0x03000058
-_0806AEC8: .4byte 0x03000059
-_0806AECC: .4byte 0x0300005A
-_0806AED0: .4byte 0x0300005C
-_0806AED4: .4byte 0x0300005F
-_0806AED8: .4byte sub_806AEDC
-
-	thumb_func_start sub_806AEDC
-sub_806AEDC: @ 0x0806AEDC
+	thumb_func_start Task_806AEDC
+Task_806AEDC: @ 0x0806AEDC
 	push {r4, r5, r6, lr}
 	ldr r0, _0806AF54 @ =gCurTask
 	ldr r0, [r0]

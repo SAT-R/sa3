@@ -6,7 +6,9 @@
 #include "game/save.h"
 #include "game/stage.h"
 #include "game/shared/stage/music_manager.h"
+#include "game/interactables/blue_red_button.h"
 #include "constants/animations.h"
+#include "constants/interactables.h"
 #include "constants/songs.h"
 
 typedef struct {
@@ -50,7 +52,7 @@ typedef struct {
     /* 0x4C */ s32 unk4C;
     /* 0x50 */ Player *player;
     /* 0x54 */ Player *partner;
-    /* 0x58 */ u8 filler58[0x8];
+    /* 0x58 */ MapEntity me;
     /* 0x60 */ SpriteTransform tf;
     /* 0x6C */ Sprite sprBody;
     /* 0x94 */ Sprite2 sprEggman;
@@ -63,7 +65,8 @@ void Task_Boss2Init(void);
 void Task_806AC7C(void);
 void Task_806AD04(void);
 void Task_806ADDC(void);
-void sub_806AE3C(void);
+void Task_806AEDC(void);
+void Task_CreatePlatformButton(void);
 void TaskDestructor_Boss2(struct Task *t);
 void sub_806AA40(EggWheeler *boss);
 void sub_806AAA4(EggWheeler *boss);
@@ -314,7 +317,7 @@ void Task_806ADDC(void)
 
     if (++boss->unk2E > 0x3CU) {
         boss->unk2E = 0;
-        gCurTask->main = sub_806AE3C;
+        gCurTask->main = Task_CreatePlatformButton;
         return;
     }
 
@@ -326,4 +329,43 @@ void Task_806ADDC(void)
         s->variant = gUnknown_080D5780[2].variant;
         s->prevVariant = -1;
     }
+}
+
+// TODO: Fake-match
+void Task_CreatePlatformButton()
+{
+    EggWheeler *boss = TASK_DATA(gCurTask);
+    s32 worldX = I(boss->unk0);
+    u16 regionX = (boss->unk0 >> 16);
+    u16 regionY = (boss->unk4 >> 16);
+    u8 *pByte0 = &boss->me.x;
+    u8 *pByte;
+#ifndef NON_MATCHING
+    register u8 *pByteR3 asm("r3");
+#else
+    u8 *pByteR3;
+#endif
+    s32 newY;
+    s32 worldY;
+    s32 zero = 0;
+    *pByte0 = ((u8)worldX) >> 3;
+    worldY = (I(boss->unk4) + 38);
+    pByte = &boss->me.y;
+    *pByte = (u8)worldY >> 3;
+    pByte = &boss->me.index;
+    *pByte = IA__BLLUE_BUTTON;
+
+    pByte = &boss->me.d.uData[0];
+    *pByte = 10;
+    pByteR3 = &boss->me.d.uData[1];
+    *pByteR3 = 1;
+    pByteR3 = &boss->me.d.uData[2];
+    *pByteR3 = zero;
+    pByteR3 = &boss->me.d.uData[3];
+    *pByteR3 = zero;
+    pByteR3 = &boss->me.d.uData[4];
+    *pByteR3 = BitValue(0); // gets set to 0xFF once Boss is defeated, triggering Destructor of button
+    boss->unk22 = *pByte0;
+    CreateEntity_BlueButton(&boss->me, regionX, regionY, 0);
+    gCurTask->main = Task_806AEDC;
 }

@@ -129,6 +129,10 @@
 #include "constants/sa2/songs.h"
 #endif
 
+#if (GAME == GAME_SA3)
+#include "game/interactables/blue_red_button.h"
+#endif
+
 #define NUM_ENEMY_DEFEAT_SCORES          5
 #define READ_START_INDEX(p, hrc, rx, ry) (*((u32 *)((((u8 *)(p)) + (((hrc) * (ry)) * (sizeof(u32)))) + ((rx) * (sizeof(u32))))))
 
@@ -233,7 +237,6 @@ void CreateEntity_Platform_2_0(MapEntity *, u16, u16, u8);
 void CreateEntity_Platform_2_1(MapEntity *, u16, u16, u8);
 void CreateEntity_Platform_2_2(MapEntity *, u16, u16, u8);
 void CreateEntity_Platform_2_3(MapEntity *, u16, u16, u8);
-void CreateEntity_BlueButton(MapEntity *, u16, u16, u8); // 028 - Same code as 071
 void CreateEntity_Spikes_Up(MapEntity *, u16, u16, u8); // 029
 void CreateEntity_Spikes_Down(MapEntity *, u16, u16, u8); // 030
 void CreateEntity_Spikes_Left(MapEntity *, u16, u16, u8); // 031
@@ -276,7 +279,6 @@ void CreateEntity_ButtonPlatformA(MapEntity *, u16, u16, u8);
 void CreateEntity_ButtonPlatformB(MapEntity *, u16, u16, u8);
 void CreateEntity_PlatformCrumblingA(MapEntity *, u16, u16, u8);
 void CreateEntity_PlatformCrumblingB(MapEntity *, u16, u16, u8);
-void CreateEntity_RedButton(MapEntity *, u16, u16, u8); // 071 - Same code as 028
 void CreateEntity_GrindRail0(MapEntity *, u16, u16, u8); // 072 Grind Rail
 void CreateEntity_Interactable073(MapEntity *, u16, u16, u8);
 void CreateEntity_Interactable074(MapEntity *, u16, u16, u8);
