@@ -236,19 +236,19 @@ void Task_805A7F0(void)
     }
 }
 
-// (95.40%) https://decomp.me/scratch/Yc4F3
-NONMATCH("asm/non_matching/game/enemies/ape__sub_805A8B0.inc", void sub_805A8B0(Ape *enemy))
+void sub_805A8B0(Ape *enemy)
 {
     u32 r1 = 160;
-    u16 theta;
     u32 chk;
     Sprite *s2 = &enemy->s2;
 
+    const u32 rangeMax[2] = { 84, 212 };
+
     chk = enemy->unk8;
-    if (((chk > 44) && (enemy->unk8 < 85)) || ((chk > 172) && (enemy->unk8 < 213))) {
+    if (isBetween(chk, 45, rangeMax[0]) || isBetween(chk, 173, rangeMax[1])) {
         enemy->unk8 += 3;
     } else {
-        enemy->unk8 += 1;
+        enemy->unk8++;
     }
     // _0805A8D6
 
@@ -256,7 +256,7 @@ NONMATCH("asm/non_matching/game/enemies/ape__sub_805A8B0.inc", void sub_805A8B0(
         enemy->unk8 = 32;
     }
 
-    if ((enemy->unk8 > 96) && (enemy->unk8 < r1)) {
+    if (isBetween(enemy->unk8, 97, r1)) {
         enemy->unk8 = r1;
     }
 
@@ -269,15 +269,12 @@ NONMATCH("asm/non_matching/game/enemies/ape__sub_805A8B0.inc", void sub_805A8B0(
     enemy->qPos.x = enemy->qUnk14.x + COS_24_8((u8)enemy->unk8 * 4) * 32;
     enemy->qPos.y = enemy->qUnk14.y + ABS(SIN_24_8((u8)enemy->unk8 * 4) * 32) - Q(10);
 }
-END_NONMATCH
 
-NONMATCH("asm/non_matching/game/enemies/ape__sub_805A964.inc", bool32 sub_805A964(Ape *enemy))
+bool32 sub_805A964(Ape *enemy)
 {
     Sprite *s = &enemy->s2;
-    Player *p;
     s32 worldX;
     s32 worldY;
-    s32 qWorldX;
     s32 dir;
     u8 i;
 
@@ -286,23 +283,20 @@ NONMATCH("asm/non_matching/game/enemies/ape__sub_805A964.inc", bool32 sub_805A96
     worldX = (TO_WORLD_POS_RAW(worldX, enemy->region[0]));
     worldY = (TO_WORLD_POS_RAW(worldY, enemy->region[1]));
 
-    for (i = 0, qWorldX = Q(worldX); i < NUM_SINGLE_PLAYER_CHARS; i++) {
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         Player *p = EUC_GetPlayer(i);
         if (p == NULL)
             break;
 
-        dir = (u16)sa2__sub_8004418(I(p->qWorldY) - worldY, I(p->qWorldX) - worldX);
-
-        if (((((u16)dir > 0) && (((u16)dir - 1) < 256)) && (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP))
-            || ((((u16)(dir + (-Q(1) - 1)) <= 510)) && (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP))) {
-
+        dir = (u16)SA2_LABEL(sub_8004418)(I(p->qWorldY) - worldY, I(p->qWorldX) - worldX);
+        if (((((u16)(dir + ~Q(3)) < 255) || ((u16)(dir - 1) < 255)) && (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP))
+            || ((((u16)(dir + ~Q(1)) < 511)) && !(s->frameFlags & SPRITE_FLAG_MASK_X_FLIP))) {
             return TRUE;
         }
     }
 
     return FALSE;
 }
-END_NONMATCH
 
 AnimCmdResult sub_805AA10(Ape *enemy)
 {
@@ -375,7 +369,7 @@ void Task_ApeProjectileInit(void)
     worldX = TO_WORLD_POS_RAW(I(proj->qPos.x), proj->region[0]);
     worldY = TO_WORLD_POS_RAW(I(proj->qPos.y), proj->region[1]);
 
-    res = sa2__sub_801F07C(worldY, worldX, 1, +8, 0, sa2__sub_801EE64);
+    res = SA2_LABEL(sub_801F07C)(worldY, worldX, 1, +8, 0, SA2_LABEL(sub_801EE64));
 
     if (res < 0) {
         proj->qPos.y += Q(res);
@@ -509,30 +503,24 @@ void Task_805ADC8(void)
     }
 }
 
-// (90.54%) https://decomp.me/scratch/8nsAg
-NONMATCH("asm/non_matching/game/enemies/ape__sub_805ADF8.inc", void sub_805ADF8(ApeProjectile *proj))
+void sub_805ADF8(ApeProjectile *proj)
 {
-#ifndef NON_MATCHING
-    register s32 r1 asm("r1");
-    s16 r2 = proj->unk2;
-    register s32 r3 asm("r3") = proj->unk1;
-#else
-    s32 r1;
     s16 r2 = proj->unk2;
     s32 r3 = proj->unk1;
-#endif
+    s32 r1;
 
     proj->unkC += 0x20;
-    r2 = (((Q(r2) * 2) << 16) >> 16) + proj->unkC;
+    r2 = (Q(r2) * 2);
+    r2 += (s16)proj->unkC;
 
     proj->unkA++;
     r1 = r3;
-    r3 = Q(r3) + r1;
+    r3 = QS(r3);
+    r3 += r1;
 
     proj->qPos.y += r2;
-    proj->qPos.x += ((r3 << 16) >> 17);
+    proj->qPos.x += (s16)r3 >> 1;
 }
-END_NONMATCH
 
 AnimCmdResult sub_805AE30(ApeProjectile *proj)
 {
