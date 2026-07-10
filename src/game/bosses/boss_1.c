@@ -1353,18 +1353,18 @@ void sub_806A7A4(void)
 
 void TaskDestructor_Boss_806A7E4(Task *t)
 {
-    EggHammerTankIII *temp_r1 = TASK_DATA(t);
+    EggHammerTankIII *boss = TASK_DATA(t);
 
-    VramFree(temp_r1->vram28);
+    VramFree(boss->vram28);
 
-    if (temp_r1->vram48 != NULL) {
-        VramFree(temp_r1->vram48);
-        temp_r1->vram48 = NULL;
+    if (boss->vram48 != NULL) {
+        VramFree(boss->vram48);
+        boss->vram48 = NULL;
     }
 
-    if (temp_r1->vram4C != NULL) {
-        VramFree(temp_r1->vram4C);
-        temp_r1->vram4C = NULL;
+    if (boss->vram4C != NULL) {
+        VramFree(boss->vram4C);
+        boss->vram4C = NULL;
     }
 }
 
