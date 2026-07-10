@@ -294,24 +294,27 @@
 #define ANIM_PUFFER_PROJ 1190
 
 // Crab with spin projectile (which isn't its own anim?)
-#define ANIM_YADOKKA             1191
-#define ANIM_SNOWMAN             1192
-#define ANIM_SNOWMAN_PROJ        1193
-#define ANIM_KYACCHAA            1194 /* Spider */
-#define ANIM_KYACCHAA_PROJ       1195
-#define ANIM_GURUGURU            1196
-#define ANIM_KAMAKI              1197 /* Mantis */
-#define ANIM_KAMAKI_PROJ         1198
-#define ANIM_CLAMP               1199
-#define ANIM_CLAMP_PROJ          1200
-#define ANIM_MARRUN              1201
-#define ANIM_MUUGADEN            1202
-#define ANIM_MUUGADEN_PART       1203
-#define ANIM_MUUGADEN_PROJ       1204
-#define ANIM_BOSS_1_GROUND_PLATE 1205
-#define ANIM_BOSS_1_HAMMER_HEAD  1206
-#define ANIM_BOSS_1_JOINT        1207
-#define ANIM_BOSS_1_COCKPIT      1208
+#define ANIM_YADOKKA                    1191
+#define ANIM_SNOWMAN                    1192
+#define ANIM_SNOWMAN_PROJ               1193
+#define ANIM_KYACCHAA                   1194 /* Spider */
+#define ANIM_KYACCHAA_PROJ              1195
+#define ANIM_GURUGURU                   1196
+#define ANIM_KAMAKI                     1197 /* Mantis */
+#define ANIM_KAMAKI_PROJ                1198
+#define ANIM_CLAMP                      1199
+#define ANIM_CLAMP_PROJ                 1200
+#define ANIM_MARRUN                     1201
+#define ANIM_MUUGADEN                   1202
+#define ANIM_MUUGADEN_PART              1203
+#define ANIM_MUUGADEN_PROJ              1204
+#define ANIM_BOSS_1_GROUND_PLATE        1205
+#define ANIM_BOSS_1_HAMMER_HEAD         1206
+#define ANIM_BOSS_1_JOINT               1207
+#define ANIM_BOSS_1_COCKPIT             1208
+#define ANIM_PALETTE_BOSS_1_HAMMER_HIT  1209
+#define ANIM_PALETTE_BOSS_1_COCKPIT_HIT 1210
+#define ANIM_PALETTE_BOSS_1_MACHINE_HIT 1211
 
 #define ANIM_BOSS_7_COCKPIT 1256
 #define ANIM_BOSS_7_GEMERL  1257
@@ -346,6 +349,8 @@
 
 // Super Sonic : 1305 - 1306
 // (1305 : a ton of variants/patterns)
+
+#define ANIM_PALETTE_GEMERL_HIT 1304
 
 #define ANIM_SUPER_TAG_ACTION_CHARGED  1307
 #define ANIM_SUPER_TAG_ACTION_CHARGING 1314

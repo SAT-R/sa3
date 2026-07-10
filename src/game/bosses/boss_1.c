@@ -6,6 +6,8 @@
 #include "multi_sio_stuff.h"
 #include "game/game.h"
 #include "game/bosses.h"
+#include "game/save.h"
+#include "game/sa3/bosses/more_gemerl.h"
 #include "game/stage.h"
 #include "game/shared/stage/player.h"
 #include "game/shared/stage/player_callbacks.h"
@@ -16,6 +18,32 @@
 
 #define GEMERL_TURN_MIN_X 1696
 #define GEMERL_TURN_MAX_X 1760
+
+#define UNK2C_STATE_A 0
+#define UNK2C_STATE_B 10
+#define UNK2C_STATE_C 11
+#define UNK2C_STATE_D 19
+#define UNK2C_STATE_E 20
+#define UNK2C_STATE_F 30
+#define UNK2C_STATE_G 40
+#define UNK2C_STATE_H 50
+#define UNK2C_STATE_I 60
+#define UNK2C_STATE_J 90
+#define UNK2C_STATE_K 100
+#define UNK2C_STATE_L 110
+#define UNK2C_STATE_M 111
+#define UNK2C_STATE_N 112
+#define UNK2C_STATE_O 120
+#define UNK2C_STATE_P 200
+#define UNK2C_STATE_Q 210
+#define UNK2C_STATE_R 300
+#define UNK2C_STATE_S 310
+#define UNK2C_STATE_T 320
+#define UNK2C_STATE_U 500
+#define UNK2C_STATE_V 510
+#define UNK2C_STATE_W 520
+#define UNK2C_STATE_X 1000
+#define UNK2C_STATE_Y 1010
 
 typedef struct {
     /* 0x000 */ s32 unk0;
@@ -92,8 +120,7 @@ extern u16 gUnknown_080D575C[9][2];
 void Task_8068D00(); /* extern */
 void sub_80299D4(s32); /* extern */
 void sub_8068C38(); /* extern */
-void sub_8078DB0(s32, s32, s32, s32); /* extern */
-void sub_8079758(u8, s32, s32, s32, u32, s32, s32, void *); /* extern */
+extern void sub_8079758(u8, s16 x, s16 y, s16, u16 angle, u8, s16, u8 *vram);
 void sub_807A2AC(); /* extern */
 void sub_807A468(); /* extern */
 void sub_807A4A8(); /* extern */
@@ -112,7 +139,6 @@ Task *CreateEggHammerTankIII(u8 *param0, s32 worldX, s32 worldY)
     s8 temp_r1_2;
     s8 temp_r1_3;
     s8 var_r0;
-    u16 temp_r1;
     u8 var_r5;
     EggHammerTankIII *boss;
 
@@ -122,7 +148,7 @@ Task *CreateEggHammerTankIII(u8 *param0, s32 worldX, s32 worldY)
     boss->unk0 = Q(worldX);
     boss->unk4 = Q(worldY);
 
-    if (gStageData.difficulty == 0) {
+    if (gStageData.difficulty == DIFFICULTY_NORMAL) {
         boss->lives = 8;
     } else {
         boss->lives = 6;
@@ -132,7 +158,7 @@ Task *CreateEggHammerTankIII(u8 *param0, s32 worldX, s32 worldY)
     boss->unkD = 0;
     boss->unk32 = 0;
     boss->unkF = 0;
-    boss->unk2C = 0;
+    boss->unk2C = UNK2C_STATE_A;
     boss->unk2E = 0;
     boss->unk10 = 0;
     boss->unk11 = 0;
@@ -141,7 +167,7 @@ Task *CreateEggHammerTankIII(u8 *param0, s32 worldX, s32 worldY)
     boss->partner = &gPlayers[PLAYER_2];
     boss->vram48 = NULL;
     boss->vram4C = NULL;
-    boss->vram28 = VramMalloc(0x9EU);
+    boss->vram28 = VramMalloc(158);
 
     InitSpriteCockpit(boss);
     InitSpriteGroundPlate(boss);
@@ -283,24 +309,10 @@ u8 sub_8068E5C(Player *inPlayer)
     s32 sp10 = 0;
     s8 sp0[4] = { -inPlayer->spriteOffsetX, -9, //
                   +inPlayer->spriteOffsetX, +9 };
-    Player *temp_r1;
-    PlayerSpriteInfo *temp_r3_6;
-    PlayerSpriteInfo *temp_r4_3;
-    s16 temp_r1_10;
-    s16 temp_r2_3;
-    s16 temp_r3_7;
-    u16 temp_r0_4;
+    u16 angle;
     s32 temp_r1_7;
     s32 temp_r2_2;
-    s32 temp_r3_4;
-    s32 temp_r4_5;
-    s32 temp_r5_5;
-    s32 var_r4;
     s32 var_r7;
-    s8 temp_r1_8;
-    s8 temp_r3_8;
-    s8 temp_r4;
-    s8 temp_r4_4;
     s8 temp_r5_4;
     s8 temp_r5_6;
     s8 temp_r7;
@@ -368,7 +380,7 @@ u8 sub_8068E5C(Player *inPlayer)
             var_r7 = 1;
         }
 
-        if (var_r7 != 0) {
+        if (var_r7) {
             if (!(inPlayer->moveState & MOVESTATE_DEAD)) {
                 if (HITBOX_IS_ACTIVE(inPlayer->spriteInfoBody->s.hitboxes[1])) {
                     if (boss->unkD == 0) {
@@ -399,10 +411,10 @@ u8 sub_8068E5C(Player *inPlayer)
     }
 
     sprCockpit->hitboxes[0].b.bottom = 0;
-    temp_r0_4 = boss->unk34 >> 8;
-    temp_r0_4 = (temp_r0_4 + 0x100) & 0x3FF;
-    sinVal = SIN(temp_r0_4);
-    cosVal = COS(temp_r0_4);
+    angle = boss->unk34 >> 8;
+    angle = (angle + 0x100) & 0x3FF;
+    sinVal = SIN(angle);
+    cosVal = COS(angle);
 
     for (sp8 = 1; sp8 < 5; sp8++) {
         s32 r2 = (cosVal * boss->unk14[sp8][0]);
@@ -658,10 +670,10 @@ void sub_8069814(EggHammerTankIII *boss)
 
     temp_r5 = boss->player;
     switch (boss->unk2C) {
-        case 0x0:
+        case UNK2C_STATE_A:
             gDispCnt |= DISPCNT_BG2_ON;
             DmaFill32(3, 0, BG_CHAR_ADDR_FROM_BGCNT(2), 2 * TILE_SIZE_4BPP);
-            boss->unk2C = 10;
+            boss->unk2C = UNK2C_STATE_B;
             if (*boss->unk8 != 3) {
                 sub_807A2AC();
                 break;
@@ -670,29 +682,32 @@ void sub_8069814(EggHammerTankIII *boss)
                 return;
             }
             break;
-        case 10:
+
+        case UNK2C_STATE_B:
             if (*boss->unk8 != 3) {
                 if (sub_8079FFC() != 0) {
-                    boss->unk2C = 0xB;
+                    boss->unk2C = UNK2C_STATE_C;
                 } else {
-                    boss->unk2C = 0x13;
+                    boss->unk2C = UNK2C_STATE_D;
                 }
             } else {
                 TaskDestroy(gCurTask);
                 return;
             }
             break;
-        case 11:
+
+        case UNK2C_STATE_C:
             if (*boss->unk8 == 3) {
                 TaskDestroy(gCurTask);
                 return;
             } else if (*boss->unk8 == 2) {
                 if (sub_807A074()) {
-                    boss->unk2C = 0x13;
+                    boss->unk2C = UNK2C_STATE_D;
                 }
             }
             break;
-        case 19:
+
+        case UNK2C_STATE_D:
             if (*boss->unk8 == 2) {
                 var_r2 = 1;
                 for (var_r1 = 0; var_r1 < 2; var_r1++) {
@@ -704,69 +719,76 @@ void sub_8069814(EggHammerTankIII *boss)
 
                 if (var_r2 != 0) {
                     boss->unk2E = 0x3C;
-                    boss->unk2C = 0x14;
+                    boss->unk2C = UNK2C_STATE_E;
                     sub_80299D4(0x32);
                 }
             }
             break;
-        case 20:
+
+        case UNK2C_STATE_E:
             if (--boss->unk2E == 0) {
                 sub_807A4A8();
                 s->anim = ANIM_BOSS_1_COCKPIT;
                 s->variant = 1;
                 boss->unk2E = 0x3C;
-                boss->unk2C = 30;
+                boss->unk2C = UNK2C_STATE_F;
             }
             break;
-        case 30:
+
+        case UNK2C_STATE_F:
             if (--boss->unk2E == 0) {
                 s->anim = ANIM_BOSS_1_COCKPIT;
                 s->variant = 0;
                 boss->unk2E = 0x3C;
-                boss->unk2C = 0x28;
+                boss->unk2C = UNK2C_STATE_G;
             }
             break;
-        case 40:
+
+        case UNK2C_STATE_G:
             if (--boss->unk2E == 0) {
-                boss->unk2C = 50;
+                boss->unk2C = UNK2C_STATE_H;
             }
             break;
-        case 50:
+
+        case UNK2C_STATE_H:
             boss->unk3C += 0x200;
             if (boss->unk3C >= 0x6000) {
                 boss->unk3C = 0x6000;
                 boss->unk2E = 0x3C;
-                boss->unk2C = 0x3C;
+                boss->unk2C = UNK2C_STATE_I;
             }
             break;
-        case 60:
+
+        case UNK2C_STATE_I:
             if (--boss->unk2E == 0) {
-                boss->unk2C = 0x5A;
+                boss->unk2C = UNK2C_STATE_J;
             }
             break;
-        case 90:
+
+        case UNK2C_STATE_J:
             gCurTask->main = sub_8068C38;
             boss->unkE = 0;
             boss->unk30 = 0;
             boss->unk2E = 1;
-            boss->unk2C = 100;
+            boss->unk2C = UNK2C_STATE_K;
             break;
-        case 100:
+
+        case UNK2C_STATE_K:
             if (--boss->unk2E == 0) {
                 boss->unk12 = 0;
                 if (boss->unkF != 0) {
                     boss->unk12 = 1;
                     boss->unk30 = 0;
                     boss->unk44 = 0x400;
-                    boss->unk2C = 0x1F4;
+                    boss->unk2C = UNK2C_STATE_U;
                 } else {
                     boss->unk30 = 0;
-                    boss->unk2C = 0x6E;
+                    boss->unk2C = UNK2C_STATE_L;
                 }
             }
             break;
 
-        case 110:
+        case UNK2C_STATE_L:
             boss->unk38 = SIN((u16)boss->unk30) / 0x40;
             if (boss->unkE == 0) {
                 boss->unk34 = (boss->unk34 + boss->unk38) & 0x3FFFF;
@@ -778,7 +800,7 @@ void sub_8069814(EggHammerTankIII *boss)
                 boss->unk30 = 0;
                 boss->unk38 = 0;
                 boss->unk44 = 0;
-                boss->unk2C = 0x78;
+                boss->unk2C = UNK2C_STATE_O;
             }
             if (boss->unk30 == 0x100) {
                 var_r2 = 0;
@@ -802,7 +824,8 @@ void sub_8069814(EggHammerTankIII *boss)
                 }
             }
             break;
-        case 120:
+
+        case UNK2C_STATE_O:
             if (boss->unk3C != boss->unk40) {
                 boss->unk44 += 0x40;
                 boss->unk3C += boss->unk44;
@@ -823,20 +846,23 @@ void sub_8069814(EggHammerTankIII *boss)
             }
             boss->unk34 = (boss->unk34 + boss->unk38) & 0x3FFFF;
             break;
-        case 200:
+
+        case UNK2C_STATE_P:
             boss->unk2E = 0x78;
             CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
-            m4aSongNumStart(0x225U);
-            boss->unk2C = 0xD2;
+            m4aSongNumStart(SE_549);
+            boss->unk2C = UNK2C_STATE_Q;
             break;
-        case 210:
+
+        case UNK2C_STATE_Q:
             if (--boss->unk2E == 0) {
                 boss->unk38 = 0;
                 boss->unk44 = 0;
-                boss->unk2C = 0x12C;
+                boss->unk2C = UNK2C_STATE_R;
             }
             break;
-        case 300:
+
+        case UNK2C_STATE_R:
             if (boss->unkE == 0) {
                 boss->unk38 += 8;
                 if (boss->unk38 >= 0x400) {
@@ -845,7 +871,7 @@ void sub_8069814(EggHammerTankIII *boss)
                 boss->unk34 = (boss->unk34 + boss->unk38) & 0x3FFFF;
                 if (boss->unk34 >= 0x30000) {
                     boss->unk34 = 0x30000;
-                    boss->unk2C = 0x140;
+                    boss->unk2C = UNK2C_STATE_T;
                 }
             } else {
                 boss->unk38 -= 8;
@@ -855,47 +881,50 @@ void sub_8069814(EggHammerTankIII *boss)
                 boss->unk34 = (boss->unk34 + boss->unk38) & 0x3FFFF;
                 if (boss->unk34 <= 0x30000) {
                     boss->unk34 = 0x30000;
-                    boss->unk2C = 0x140;
+                    boss->unk2C = UNK2C_STATE_T;
                 }
             }
             break;
-        case 320:
+        case UNK2C_STATE_T:
             boss->unk3C -= Q(2);
             if (boss->unk3C <= 0x6000) {
                 boss->unk3C = 0x6000;
-                boss->unk2C = 0x136;
+                boss->unk2C = UNK2C_STATE_S;
             }
             break;
-        case 310:
+        case UNK2C_STATE_S:
             boss->unkE ^= 1;
             boss->unk30 = 0;
             boss->unk2E = 0x3C;
-            boss->unk2C = 100;
+            boss->unk2C = UNK2C_STATE_K;
             break;
-        case 500:
+
+        case UNK2C_STATE_U:
             boss->unk44 -= 0x20;
             boss->unk3C += boss->unk44;
             if (boss->unk3C <= 0x3800) {
                 boss->unk3C = 0x3800;
                 boss->unk2E = 0x78;
                 CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
-                m4aSongNumStart(0x225U);
-                boss->unk2C = 0x1FE;
+                m4aSongNumStart(SE_549);
+                boss->unk2C = UNK2C_STATE_V;
             }
             break;
-        case 510:
+
+        case UNK2C_STATE_V:
             if (--boss->unk2E == 0) {
-                boss->unk2C = 0x208;
+                boss->unk2C = UNK2C_STATE_W;
             }
             break;
-        case 520:
-            boss->unk3C += Q(2);
-            if (boss->unk3C >= 0x6000) {
-                boss->unk3C = 0x6000;
+
+        case UNK2C_STATE_W:
+            boss->unk3C += 0x200;
+            if (boss->unk3C >= Q_2_14(1.5)) {
+                boss->unk3C = Q_2_14(1.5);
                 boss->unk12 = 0;
                 boss->unk30 = 0;
                 boss->unk2E = 0x3C;
-                boss->unk2C = 100;
+                boss->unk2C = UNK2C_STATE_K;
                 break;
             }
             break;
@@ -903,14 +932,14 @@ void sub_8069814(EggHammerTankIII *boss)
 
     {
         u16 temp_r1_2 = boss->unk34 >> 8;
-        xVal = ((boss->unk3C * COS(temp_r1_2)) / 0x4000);
-        yVal = ((boss->unk3C * SIN(temp_r1_2)) / 0x4000);
+        xVal = Q_MUL_2_14(boss->unk3C, COS(temp_r1_2));
+        yVal = Q_MUL_2_14(boss->unk3C, SIN(temp_r1_2));
         boss->unk58 = boss->unk0 + xVal;
         boss->unk5C = boss->unk4 + yVal;
         s->x = I(boss->unk58) - gCamera.x;
         s->y = I(boss->unk5C) - gCamera.y;
 
-        if (boss->unk2C == 120) {
+        if (boss->unk2C == UNK2C_STATE_O) {
             s32 b;
             s32 var_r2;
             temp_r1_2 = (temp_r1_2 + 0x100) & 0x3FF;
@@ -926,7 +955,7 @@ void sub_8069814(EggHammerTankIII *boss)
 
             yVal = boss->unk5C + b - (boss->unk14[var_r2][1] << 8);
             if (yVal >= 0xAA00) {
-                boss->unk2C = 0xC8;
+                boss->unk2C = UNK2C_STATE_P;
             }
         }
     }
@@ -934,61 +963,29 @@ void sub_8069814(EggHammerTankIII *boss)
 
 void sub_8069DEC(EggHammerTankIII *boss)
 {
-    Player *temp_r1_10;
-    Player *temp_r1_9;
-    s16 temp_r0_22;
-    s32 temp_r0;
-    s32 temp_r0_13;
-    s32 temp_r0_4;
+    Player *player;
+    Player *partner;
     s32 temp_r1_7;
-    s32 temp_r1_8;
-    s32 temp_r3_2;
-    s32 temp_r6;
-    s32 temp_r6_2;
-    s32 temp_r6_3;
-    s32 temp_r6_5;
-    s32 temp_r6_6;
-    s32 temp_r7;
-    s32 temp_r7_2;
-    s32 temp_r7_3;
-    s32 temp_r7_4;
-    s32 var_r0_2;
-    u16 temp_r0_14;
-    u16 temp_r0_20;
-    u16 temp_r0_21;
-    u16 temp_r0_9;
-    u16 temp_r1;
-    u16 temp_r1_4;
-    u16 var_r0;
-    u32 temp_r0_12;
-    u32 temp_r0_19;
-    u32 temp_r0_3;
-    u32 temp_r0_7;
-    u32 temp_r4;
-    u32 temp_r4_2;
-    u32 temp_r4_3;
-    u32 temp_r4_4;
-    u32 temp_r4_5;
-    u16 var_r4;
-    u32 var_r4_2;
-    u8 temp_r0_16;
-    u8 temp_r6_4;
+    u32 temp_r3_2;
+    u16 angle;
+    u16 i;
     u32 sinVal, cosVal;
     Sprite *s;
-    s32 temp_r2;
-    s32 temp_r3;
+    s32 temp_r2, temp_r3;
 
     boss->unk32++;
     switch (boss->unk2C) {
-        case 0x0:
+        case UNK2C_STATE_A:
             if (boss->unkD != 0) {
-                boss->unkD -= 1;
+                boss->unkD--;
             } else {
-                boss->unk2C = 10;
+                boss->unk2C = UNK2C_STATE_B;
             }
+
         default:
             break;
-        case 10:
+
+        case UNK2C_STATE_B:
             if (boss->unk58 < boss->unk0) {
                 boss->unk60 = +0x100;
             } else {
@@ -997,9 +994,10 @@ void sub_8069DEC(EggHammerTankIII *boss)
             boss->unk64 = -0x600;
             CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
             boss->unk10 = 10;
-            boss->unk2C = 100;
+            boss->unk2C = UNK2C_STATE_K;
             break;
-        case 100:
+
+        case UNK2C_STATE_K:
             temp_r1_7 = boss->unk64;
             boss->unk64 += 0x20;
             if (boss->unk64 >= 0x800) {
@@ -1010,27 +1008,26 @@ void sub_8069DEC(EggHammerTankIII *boss)
             boss->unk5C += boss->unk64;
 
             if (1 & boss->unk32) {
-                temp_r4 = PseudoRandom32() & 0x3FF;
+                angle = PseudoRandom32() % SIN_PERIOD;
                 temp_r3_2 = PseudoRandom32() % 48U;
-                temp_r2 = (u32)(temp_r3_2 * COS(temp_r4)) >> 6;
-                temp_r3 = (u32)(temp_r3_2 * SIN(temp_r4)) >> 6;
-                sub_8079758(6, (s16)((boss->unk58 + temp_r2) >> 8), (s16)((boss->unk5C + temp_r3) >> 8), 0x400, temp_r4, 0x14, 0x80,
-                            boss->vram28);
+                temp_r2 = (temp_r3_2 * COS(angle)) >> 6;
+                temp_r3 = (temp_r3_2 * SIN(angle)) >> 6;
+                sub_8079758(6, I(boss->unk58 + temp_r2), I(boss->unk5C + temp_r3), 0x400, angle, 0x14, 0x80, boss->vram28);
             }
             if ((0x3F & boss->unk32) == 0) {
-                m4aSongNumStart(0x221U);
+                m4aSongNumStart(SE_545);
             }
 
             if (boss->unk60 != 0) {
                 if (boss->unk60 < 0) {
-                    if ((s32)boss->unk58 <= (s32)boss->unk0) {
+                    if (boss->unk58 <= boss->unk0) {
                         boss->unk60 = 0;
                     }
-                } else if ((s32)boss->unk58 >= (s32)boss->unk0) {
+                } else if (boss->unk58 >= boss->unk0) {
                     boss->unk60 = 0;
                 }
             };
-            if ((temp_r1_7 < 0) && ((s32)boss->unk64 >= 0)) {
+            if ((temp_r1_7 < 0) && (boss->unk64 >= 0)) {
                 s = (Sprite *)&boss->sprCockpit;
                 s->anim = ANIM_BOSS_1_COCKPIT;
                 s->variant = 3;
@@ -1050,23 +1047,24 @@ void sub_8069DEC(EggHammerTankIII *boss)
                 boss->unk5C = 0x9E00;
                 CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
                 boss->unk64 = -0x400;
-                boss->unk2C = 0x6E;
+                boss->unk2C = UNK2C_STATE_L;
             }
             break;
-        case 110:
+
+        case UNK2C_STATE_L:
             boss->unk64 = boss->unk64 + 0x20;
             boss->unk58 += boss->unk60;
             boss->unk5C += boss->unk64;
             if (boss->unk32 & 1) {
-                temp_r4 = PseudoRandom32() & 0x3FF;
+                angle = PseudoRandom32() % SIN_PERIOD;
                 temp_r3_2 = PseudoRandom32() % 48U;
-                temp_r2 = (u32)(temp_r3_2 * COS(temp_r4)) >> 6;
-                temp_r3 = (u32)(temp_r3_2 * SIN(temp_r4)) >> 6;
-                sub_8079758(6U, (s16)((boss->unk58 + temp_r2) >> 8), (s16)((boss->unk5C + temp_r3) >> 8), 0x400, temp_r4, 0x14, 0x80,
+                temp_r2 = (u32)(temp_r3_2 * COS(angle)) >> 6;
+                temp_r3 = (u32)(temp_r3_2 * SIN(angle)) >> 6;
+                sub_8079758(6U, (s16)((boss->unk58 + temp_r2) >> 8), (s16)((boss->unk5C + temp_r3) >> 8), 0x400, angle, 0x14, 0x80,
                             boss->vram28);
             }
             if (!(0x3F & boss->unk32)) {
-                m4aSongNumStart(0x221U);
+                m4aSongNumStart(SE_545);
             }
             if (boss->unk60 != 0) {
                 if (boss->unk60 < 0) {
@@ -1081,58 +1079,59 @@ void sub_8069DEC(EggHammerTankIII *boss)
                 boss->unk5C = 0x9E00;
                 CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
                 boss->unk64 = -0x300;
-                boss->unk2C = 0x6F;
+                boss->unk2C = UNK2C_STATE_M;
             }
             break;
-        case 111:
+
+        case UNK2C_STATE_M:
             boss->unk64 += 0x20;
             boss->unk58 += boss->unk60;
             boss->unk5C += boss->unk64;
             if (boss->unk32 & 1) {
-                temp_r4 = PseudoRandom32() & 0x3FF;
+                angle = PseudoRandom32() % SIN_PERIOD;
                 temp_r3_2 = PseudoRandom32() % 48U;
-                temp_r2 = (u32)(temp_r3_2 * COS(temp_r4)) >> 6;
-                temp_r3 = (u32)(temp_r3_2 * SIN(temp_r4)) >> 6;
-                sub_8079758(6U, (s16)((boss->unk58 + temp_r2) >> 8), (s16)((boss->unk5C + temp_r3) >> 8), 0x400, temp_r4, 0x14, 0x80,
+                temp_r2 = (u32)(temp_r3_2 * COS(angle)) >> 6;
+                temp_r3 = (u32)(temp_r3_2 * SIN(angle)) >> 6;
+                sub_8079758(6U, (s16)((boss->unk58 + temp_r2) >> 8), (s16)((boss->unk5C + temp_r3) >> 8), 0x400, angle, 0x14, 0x80,
                             boss->vram28);
             }
             if (!(0x3F & boss->unk32)) {
-                m4aSongNumStart(0x221U);
+                m4aSongNumStart(SE_545);
             }
-            temp_r0_4 = boss->unk60;
-            if (temp_r0_4 != 0) {
-                if (temp_r0_4 < 0) {
-                    if ((s32)boss->unk58 <= (s32)boss->unk0) {
+
+            if (boss->unk60 != 0) {
+                if (boss->unk60 < 0) {
+                    if (boss->unk58 <= boss->unk0) {
                         boss->unk60 = 0;
                     }
-                } else if ((s32)boss->unk58 >= (s32)boss->unk0) {
+                } else if (boss->unk58 >= boss->unk0) {
                     boss->unk60 = 0;
                 }
             };
-            if ((s32)boss->unk5C <= 0x9DFF) {
 
-            } else {
+            if (boss->unk5C >= 0x9E00) {
                 boss->unk5C = 0x9E00;
                 CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
                 boss->unk64 = -0x200;
-                boss->unk2C = 0x70;
+                boss->unk2C = UNK2C_STATE_N;
             }
             break;
-        case 112:
+
+        case UNK2C_STATE_N:
             boss->unk64 = boss->unk64 + 0x20;
             boss->unk58 = boss->unk58 + boss->unk60;
             ;
             boss->unk5C = boss->unk5C + boss->unk64;
             if (boss->unk32 & 1) {
-                temp_r4 = PseudoRandom32() & 0x3FF;
+                angle = PseudoRandom32() % SIN_PERIOD;
                 temp_r3_2 = PseudoRandom32() % 48U;
-                temp_r2 = (u32)(temp_r3_2 * COS(temp_r4)) >> 6;
-                temp_r3 = (u32)(temp_r3_2 * SIN(temp_r4)) >> 6;
-                sub_8079758(6U, (s16)((boss->unk58 + temp_r2) >> 8), (s16)((boss->unk5C + temp_r3) >> 8), 0x400, temp_r4, 0x14, 0x80,
+                temp_r2 = (u32)(temp_r3_2 * COS(angle)) >> 6;
+                temp_r3 = (u32)(temp_r3_2 * SIN(angle)) >> 6;
+                sub_8079758(6U, (s16)((boss->unk58 + temp_r2) >> 8), (s16)((boss->unk5C + temp_r3) >> 8), 0x400, angle, 0x14, 0x80,
                             boss->vram28);
             }
             if (!(0x3F & boss->unk32)) {
-                m4aSongNumStart(0x221U);
+                m4aSongNumStart(SE_545);
             }
 
             if (boss->unk60 != 0) {
@@ -1149,43 +1148,45 @@ void sub_8069DEC(EggHammerTankIII *boss)
                 boss->unk5C = 0x9E00;
                 CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
                 boss->unk2E = 0xB4;
-                boss->unk2C = 0x78;
+                boss->unk2C = UNK2C_STATE_O;
                 boss->unk13 = 0;
             }
             break;
-        case 120:
+
+        case UNK2C_STATE_O:
             if (--boss->unk2E == 0) {
                 boss->unk2E = 20;
-                boss->unk2C = 0xC8;
+                boss->unk2C = UNK2C_STATE_P;
             }
-            if (((s32)(s16)boss->unk2E > 0x3C) && !(0x3F & boss->unk32)) {
-                m4aSongNumStart(0x221U);
+            if ((boss->unk2E > 60) && ((0x3F & boss->unk32) == 0)) {
+                m4aSongNumStart(SE_545);
             }
 
             if ((boss->unk32 & 0x3) == 0) {
-                temp_r4 = (PseudoRandom32() & 0x3FF);
-                if (temp_r4 < 0x200) {
-                    temp_r4 += 0x200;
+                angle = (PseudoRandom32() % SIN_PERIOD);
+                if (angle < 0x200) {
+                    angle += 0x200;
                 }
-                temp_r3_2 = PseudoRandom32() & 0x1F;
-                temp_r2 = (u32)(temp_r3_2 * COS(temp_r4)) >> 6;
-                temp_r3 = (u32)(temp_r3_2 * SIN(temp_r4)) >> 6;
-                sub_8079758((u8)(boss->unk13 * 2), (s16)((boss->unk58 + temp_r2) >> 8), (s16)((boss->unk5C + temp_r3) >> 8), 0x300, temp_r4,
-                            0x1E, 0x20, boss->vram28);
+                temp_r3_2 = PseudoRandom32() % 32u;
+                temp_r2 = (u32)(temp_r3_2 * COS(angle)) >> 6;
+                temp_r3 = (u32)(temp_r3_2 * SIN(angle)) >> 6;
+                sub_8079758((u8)(boss->unk13 * 2), I(boss->unk58 + temp_r2), I(boss->unk5C + temp_r3), 0x300, angle, 0x1E, 0x20,
+                            boss->vram28);
                 if (++boss->unk13 > 2U) {
                     boss->unk13 = 0;
                 }
                 if ((boss->unk32 & 0x3) == 0) {
-                    temp_r4 = PseudoRandom32() & 0x3FF;
+                    angle = PseudoRandom32() % SIN_PERIOD;
                     temp_r3_2 = PseudoRandom32() % 80U;
-                    temp_r2 = (u32)(COS(temp_r4) * temp_r3_2) >> 6;
-                    sinVal = (u32)(SIN(temp_r4) * temp_r3_2);
-                    sub_8079758(6U, (s16)((boss->unk58 + temp_r2) >> 8), (s16)(gCamera.y + (0x50 + (sinVal >> 0xE))), 0x200, temp_r4, 0x1E,
-                                0, boss->vram28);
+                    temp_r2 = (u32)(COS(angle) * temp_r3_2) >> 6;
+                    sinVal = (u32)(SIN(angle) * temp_r3_2);
+                    sub_8079758(6U, I(boss->unk58 + temp_r2), (s16)(gCamera.y + (80 + (sinVal >> 0xE))), 0x200, angle, 0x1E, 0,
+                                boss->vram28);
                 }
             }
             break;
-        case 200:
+
+        case UNK2C_STATE_P:
             if (1 & boss->unk2E) {
                 gDispCnt &= ~0x400;
             } else {
@@ -1193,28 +1194,30 @@ void sub_8069DEC(EggHammerTankIII *boss)
             }
 
             if (--boss->unk2E == 0) {
-                for (var_r4 = 0; var_r4 < 0x400; var_r4 += 4 * TILE_SIZE_4BPP) {
-                    sub_8079758(6U, (s32)(boss->unk58 << 8) >> 0x10, (s32)(boss->unk5C << 8) >> 0x10, 0x200, var_r4, 0x1E, 0, boss->vram28);
+                for (i = 0; i < SIN_PERIOD; i += 4 * TILE_SIZE_4BPP) {
+                    sub_8079758(6U, I(boss->unk58), I(boss->unk5C), 0x200, i, 30, 0, boss->vram28);
                 }
                 m4aSongNumStart(SE_545);
                 gDispCnt &= ~DISPCNT_BG2_ON;
                 boss->unk2E = 0xA;
-                boss->unk2C = 0xD2;
+                boss->unk2C = UNK2C_STATE_Q;
             }
             break;
-        case 0xD2:
+
+        case UNK2C_STATE_Q:
             if (--boss->unk2E == 0) {
-                for (var_r4 = 0; var_r4 < 0x400; var_r4 += 4 * TILE_SIZE_4BPP) {
-                    sub_8079758(6U, (s16)I(boss->unk58), (s16)I(boss->unk5C), 0x200, var_r4, 0x1E, 0, boss->vram28);
+                for (i = 0; i < SIN_PERIOD; i += 4 * TILE_SIZE_4BPP) {
+                    sub_8079758(6U, I(boss->unk58), I(boss->unk5C), 0x200, i, 30, 0, boss->vram28);
                 }
                 boss->unk2E = 0xA;
-                boss->unk2C = 0x3E8;
+                boss->unk2C = UNK2C_STATE_X;
             }
             break;
-        case 0x3E8:
+
+        case UNK2C_STATE_X:
             if (--boss->unk2E == 0) {
                 boss->unk32 = 0;
-                boss->unk2C = 0x3F2;
+                boss->unk2C = UNK2C_STATE_Y;
                 gCurTask->main = Task_8068D00;
             }
             break;
@@ -1222,10 +1225,10 @@ void sub_8069DEC(EggHammerTankIII *boss)
     s = (Sprite *)&boss->sprCockpit;
     s->x = I(boss->unk58) - gCamera.x;
     s->y = I(boss->unk5C) - gCamera.y;
-    temp_r1_9 = boss->player;
-    temp_r1_9->moveState |= MOVESTATE_IGNORE_INPUT;
-    temp_r1_10 = boss->partner;
-    temp_r1_10->moveState |= MOVESTATE_IGNORE_INPUT;
+    player = boss->player;
+    player->moveState |= MOVESTATE_IGNORE_INPUT;
+    partner = boss->partner;
+    partner->moveState |= MOVESTATE_IGNORE_INPUT;
 }
 
 void sub_806A5DC(EggHammerTankIII *boss)
@@ -1234,7 +1237,7 @@ void sub_806A5DC(EggHammerTankIII *boss)
 
     if ((boss->lives != 0) && (boss->unkD == 0)) {
         boss->lives--;
-        if (gStageData.difficulty == 0) {
+        if (gStageData.difficulty == DIFFICULTY_NORMAL) {
             if (boss->lives == 4) {
                 sub_80299D4(0x33);
             }
@@ -1246,9 +1249,9 @@ void sub_806A5DC(EggHammerTankIII *boss)
         s->variant = 2;
 
         boss->unkD = 0x7A;
-        sub_8078DB0(0x4B9, 0, 0x7A, 1);
-        sub_8078DB0(0x4BB, 0, 0x7A, 0);
-        sub_8078DB0(0x4BA, 0, 0x7A, 0);
+        sub_8078DB0(ANIM_PALETTE_BOSS_1_HAMMER_HIT, 0, 0x7A, 1); // Body
+        sub_8078DB0(ANIM_PALETTE_BOSS_1_MACHINE_HIT, 0, 0x7A, 0); // Joints and Base
+        sub_8078DB0(ANIM_PALETTE_BOSS_1_COCKPIT_HIT, 0, 0x7A, 0); // Eggman
         m4aSongNumStart(SE_235);
         sub_807A468();
 
@@ -1283,7 +1286,7 @@ void sub_0806A69C(u8 *arg0)
             boss->player->moveState |= MOVESTATE_IGNORE_INPUT;
             boss->partner->moveState |= MOVESTATE_IGNORE_INPUT;
             boss->unk32 = 0;
-            boss->unk2C = 0;
+            boss->unk2C = UNK2C_STATE_A;
             boss->unk2E = 0;
             ResolvePlayerSpriteCollision(s, boss->player);
             ResolvePlayerSpriteCollision(s, boss->partner);
@@ -1359,7 +1362,7 @@ void sub_806A818(EggHammerTankIII *boss)
     boss->player->moveState |= MOVESTATE_IGNORE_INPUT;
     boss->partner->moveState |= MOVESTATE_IGNORE_INPUT;
     boss->unk32 = 0;
-    boss->unk2C = 0;
+    boss->unk2C = UNK2C_STATE_A;
     boss->unk2E = 0;
     ResolvePlayerSpriteCollision(s, boss->player);
     ResolvePlayerSpriteCollision(s, boss->partner);
