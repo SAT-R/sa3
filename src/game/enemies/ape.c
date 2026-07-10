@@ -285,7 +285,7 @@ bool32 sub_805A964(Ape *enemy)
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         Player *p = EUC_GetPlayer(i);
-        if (!p)
+        if (p == NULL)
             break;
 
         dir = (u16)SA2_LABEL(sub_8004418)(I(p->qWorldY) - worldY, I(p->qWorldX) - worldX);
@@ -369,7 +369,7 @@ void Task_ApeProjectileInit(void)
     worldX = TO_WORLD_POS_RAW(I(proj->qPos.x), proj->region[0]);
     worldY = TO_WORLD_POS_RAW(I(proj->qPos.y), proj->region[1]);
 
-    res = SA2_LABEL(sub_801F07C)(worldY, worldX, 1, +8, 0, sa2__sub_801EE64);
+    res = SA2_LABEL(sub_801F07C)(worldY, worldX, 1, +8, 0, SA2_LABEL(sub_801EE64));
 
     if (res < 0) {
         proj->qPos.y += Q(res);
@@ -505,9 +505,9 @@ void Task_805ADC8(void)
 
 void sub_805ADF8(ApeProjectile *proj)
 {
-    s32 r1;
     s16 r2 = proj->unk2;
     s32 r3 = proj->unk1;
+    s32 r1;
 
     proj->unkC += 0x20;
     r2 = (Q(r2) * 2);
