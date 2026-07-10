@@ -242,7 +242,7 @@ void sub_805A8B0(Ape *enemy)
     u32 chk;
     Sprite *s2 = &enemy->s2;
 
-    const u32 rangeMax[2] = {84, 212};
+    const u32 rangeMax[2] = { 84, 212 };
 
     chk = enemy->unk8;
     if (isBetween(chk, 45, rangeMax[0]) || isBetween(chk, 173, rangeMax[1])) {
