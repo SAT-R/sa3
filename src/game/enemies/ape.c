@@ -519,7 +519,7 @@ void sub_805ADF8(ApeProjectile *proj)
     r3 += r1;
 
     proj->qPos.y += r2;
-    proj->qPos.x += (s16)r3 >> 1;    
+    proj->qPos.x += (s16)r3 >> 1;
 }
 
 AnimCmdResult sub_805AE30(ApeProjectile *proj)
