@@ -13,13 +13,18 @@ typedef struct {
     /* 0x15 */ s8 unk15;
     /* 0x16 */ s8 unk16;
     /* 0x17 */ s8 unk17;
-    /* 0x18 */ u8 filler18[0x4];
+    /* 0x17 */ s8 unk18;
+    /* 0x17 */ s8 unk19;
+    /* 0x17 */ s8 unk1A;
+    /* 0x17 */ s8 unk1B;
     /* 0x17 */ s8 unk1C;
     /* 0x17 */ s8 unk1D;
-    /* 0x18 */ u8 filler1E[0x2];
+    /* 0x17 */ s8 unk1E;
+    /* 0x17 */ s8 unk1F;
     /* 0x24 */ s8 unk20;
     /* 0x24 */ s8 unk21;
-    /* 0x18 */ u8 filler22[0x2];
+    /* 0x24 */ s8 unk22;
+    /* 0x24 */ s8 unk23;
     /* 0x24 */ s8 unk24;
     /* 0x25 */ s8 unk25;
     /* 0x26 */ s8 unk26;
@@ -44,7 +49,8 @@ typedef struct {
     /* 0x6C */ Sprite sprBody;
     /* 0x94 */ Sprite2 sprEggman;
     /* 0xC4 */ Sprite sprExplosion;
-    /* 0xEC */ u8 fillerEC[0x38];
+    /* 0xEC */ u8 fillerEC[0x10];
+    /* 0xC4 */ Sprite sprFC;
 } EggWheeler; /* 0x124 */
 
 void Task_Boss2Init(void);
@@ -98,4 +104,24 @@ Task *CreateEggWheeler(u8 *param0, s32 worldX, s32 worldY)
     SetFixedRandomIfTimeAttackMode();
 
     return t;
+}
+
+void sub_806AA40(EggWheeler *boss)
+{
+    boss->unk23 = 0;
+    boss->unk2E = 0x78;
+    boss->unk30 = 0;
+    boss->unk1B = 0;
+    boss->unk1C = 0;
+    boss->unk40 = -0x100;
+    boss->unk44 = 0;
+    boss->unk38 = 0;
+    boss->unk3C = 0;
+    boss->unk1E = 0;
+    boss->unk1F = 0;
+    boss->unk21 = 0;
+    boss->unk18 = 0;
+    boss->unk1A = 0;
+    CpuFill16(0, &boss->sprEggman.hitboxes[1].b, sizeof(boss->sprEggman.hitboxes[1].b));
+    CpuFill16(0, &boss->sprFC.hitboxes[0].b, sizeof(boss->sprFC.hitboxes[0].b));
 }

@@ -8,55 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_806AA40
-sub_806AA40: @ 0x0806AA40
-	push {r4, r5, r6, lr}
-	sub sp, #4
-	adds r6, r0, #0
-	adds r0, #0x23
-	movs r4, #0
-	strb r4, [r0]
-	movs r1, #0
-	movs r0, #0x78
-	strh r0, [r6, #0x2e]
-	strh r4, [r6, #0x30]
-	strb r1, [r6, #0x1b]
-	strb r1, [r6, #0x1c]
-	ldr r0, _0806AA9C @ =0xFFFFFF00
-	str r0, [r6, #0x40]
-	str r4, [r6, #0x44]
-	str r4, [r6, #0x38]
-	str r4, [r6, #0x3c]
-	strb r1, [r6, #0x1e]
-	strb r1, [r6, #0x1f]
-	adds r0, r6, #0
-	adds r0, #0x21
-	strb r1, [r0]
-	strb r1, [r6, #0x18]
-	strb r1, [r6, #0x1a]
-	mov r0, sp
-	strh r4, [r0]
-	adds r1, r6, #0
-	adds r1, #0xc0
-	ldr r5, _0806AAA0 @ =0x01000002
-	adds r2, r5, #0
-	bl CpuSet
-	mov r0, sp
-	adds r0, #2
-	strh r4, [r0]
-	movs r2, #0x90
-	lsls r2, r2, #1
-	adds r1, r6, r2
-	adds r2, r5, #0
-	bl CpuSet
-	add sp, #4
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0806AA9C: .4byte 0xFFFFFF00
-_0806AAA0: .4byte 0x01000002
-
 	thumb_func_start sub_806AAA4
 sub_806AAA4: @ 0x0806AAA4
 	push {r4, r5, r6, r7, lr}
