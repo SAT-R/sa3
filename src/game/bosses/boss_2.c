@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "game/save.h"
@@ -24,7 +25,7 @@ typedef struct {
     /* 0x1B */ s8 unk1B;
     /* 0x1C */ s8 unk1C;
     /* 0x1D */ s8 unk1D;
-    /* 0x1E */ s8 unk1E;
+    /* 0x1E */ u8 unk1E;
     /* 0x1F */ s8 unk1F;
     /* 0x20 */ s8 unk20;
     /* 0x21 */ s8 unk21;
@@ -61,14 +62,19 @@ typedef struct {
 void Task_Boss2Init(void);
 void Task_806AC7C(void);
 void Task_806AD04(void);
+void Task_806ADDC(void);
+void sub_806AE3C(void);
 void TaskDestructor_Boss2(struct Task *t);
 void sub_806AA40(EggWheeler *boss);
 void sub_806AAA4(EggWheeler *boss);
-void sub_806BC50(EggWheeler *boss);
+void sub_806B094(EggWheeler *boss);
+AnimCmdResult sub_806BC50(EggWheeler *boss);
+void sub_806CEE8(EggWheeler *boss);
 void sub_806D07C(EggWheeler *boss);
 void CreateBoss2Entrance(u8 *out, u8 *vram);
 void CreateBoss2Exit(u8 *out, u8 *vram);
 
+extern void sub_807A4A8(void);
 extern void SetFixedRandomIfTimeAttackMode(void);
 extern const TileInfo2 gUnknown_080D5780[8];
 
@@ -260,4 +266,64 @@ void Task_806AC7C(void)
 
     sub_806D07C(boss);
     sub_806BC50(boss);
+}
+
+// (99.53%) https://decomp.me/scratch/mo9Hu
+NONMATCH("asm/non_matching/game/bosses/boss_2__Task_806AD04.inc", void Task_806AD04(void))
+{
+    EggWheeler *boss = TASK_DATA(gCurTask);
+    Sprite *s;
+
+    boss->unk0 += boss->unk38;
+    boss->unk4 += boss->unk3C;
+    sub_806B094(boss);
+    sub_806CEE8(boss);
+    boss->unk38 = COS(boss->unk1E * 4) >> 9;
+    boss->unk3C = SIN(boss->unk1E * 4) >> 9;
+    boss->unk3C += boss->unk44;
+    boss->unk38 += boss->unk40;
+    boss->unk1F = boss->unk1E;
+    sub_806D07C(boss);
+    sub_806BC50(boss);
+
+    if ((ABS(boss->unk38) < 2) && (boss->unk1E < 2)) {
+        sub_807A4A8();
+        sub_806AA40(boss);
+
+        boss->unk24 = -1;
+        boss->unk20 = 0;
+        boss->unk40 = 0x80;
+        boss->unk2C = 0;
+        boss->unk2E = 0;
+
+        s = (Sprite *)&boss->sprEggman;
+        s->anim = gUnknown_080D5780[2].anim;
+        s->variant = gUnknown_080D5780[2].variant;
+        s->prevVariant = -1;
+
+        gCurTask->main = Task_806ADDC;
+    }
+}
+END_NONMATCH
+
+void Task_806ADDC(void)
+{
+    EggWheeler *boss = TASK_DATA(gCurTask);
+    Sprite *s;
+    s16 temp_r0;
+
+    if (++boss->unk2E > 0x3CU) {
+        boss->unk2E = 0;
+        gCurTask->main = sub_806AE3C;
+        return;
+    }
+
+    sub_806D07C(boss);
+
+    if (sub_806BC50(boss) == ACMD_RESULT__ENDED) {
+        s = (Sprite *)&boss->sprEggman;
+        s->anim = gUnknown_080D5780[2].anim;
+        s->variant = gUnknown_080D5780[2].variant;
+        s->prevVariant = -1;
+    }
 }
