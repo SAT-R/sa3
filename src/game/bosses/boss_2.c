@@ -1,32 +1,35 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_vram.h"
+#include "lib/m4a/m4a.h"
 #include "game/save.h"
 #include "game/stage.h"
+#include "game/shared/stage/music_manager.h"
 #include "constants/animations.h"
+#include "constants/songs.h"
 
 typedef struct {
     /* 0x0C */ s32 unk0;
     /* 0x0C */ s32 unk4;
     /* 0x0C */ s32 unk8;
     /* 0x0C */ s32 unkC;
-    /* 0x10 */ s32 unk10;
+    /* 0x10 */ u8 *unk10;
     /* 0x14 */ s8 unk14;
     /* 0x15 */ s8 unk15;
     /* 0x16 */ s8 unk16;
     /* 0x17 */ s8 unk17;
-    /* 0x17 */ s8 unk18;
-    /* 0x17 */ s8 unk19;
-    /* 0x17 */ s8 unk1A;
-    /* 0x17 */ s8 unk1B;
-    /* 0x17 */ s8 unk1C;
-    /* 0x17 */ s8 unk1D;
-    /* 0x17 */ s8 unk1E;
-    /* 0x17 */ s8 unk1F;
-    /* 0x24 */ s8 unk20;
-    /* 0x24 */ s8 unk21;
-    /* 0x24 */ s8 unk22;
-    /* 0x24 */ s8 unk23;
+    /* 0x18 */ s8 unk18;
+    /* 0x19 */ s8 unk19;
+    /* 0x1A */ s8 unk1A;
+    /* 0x1B */ s8 unk1B;
+    /* 0x1C */ s8 unk1C;
+    /* 0x1D */ s8 unk1D;
+    /* 0x1E */ s8 unk1E;
+    /* 0x1F */ s8 unk1F;
+    /* 0x20 */ s8 unk20;
+    /* 0x21 */ s8 unk21;
+    /* 0x22 */ s8 unk22;
+    /* 0x23 */ s8 unk23;
     /* 0x24 */ s8 unk24;
     /* 0x25 */ s8 unk25;
     /* 0x26 */ s8 unk26;
@@ -56,9 +59,12 @@ typedef struct {
 } EggWheeler; /* 0x124 */
 
 void Task_Boss2Init(void);
+void Task_806AC7C(void);
 void TaskDestructor_Boss2(struct Task *t);
 void sub_806AA40(EggWheeler *boss);
 void sub_806AAA4(EggWheeler *boss);
+void CreateBoss2Entrance(u8 *out, u8 *vram);
+void CreateBoss2Exit(u8 *out, u8 *vram);
 
 extern void SetFixedRandomIfTimeAttackMode(void);
 extern const TileInfo2 gUnknown_080D5780[8];
@@ -73,7 +79,7 @@ Task *CreateEggWheeler(u8 *param0, s32 worldX, s32 worldY)
     boss->unk28 = 0;
     boss->unk8 = worldX << 8;
     boss->unkC = worldY << 8;
-    boss->unk10 = (s32)param0;
+    boss->unk10 = param0;
     boss->unk14 = 0;
     boss->unk17 = 0;
     boss->unk16 = 0;
@@ -142,9 +148,9 @@ void sub_806AAA4(EggWheeler *boss)
     s->tiles = (void *)(BG_VRAM + 0x4040);
     s->anim = gUnknown_080D5780[0].anim;
     s->variant = gUnknown_080D5780[0].variant;
-    s->prevVariant = 0xFF;
-    s->x = 0x28;
-    s->y = 0x28;
+    s->prevVariant = -1;
+    s->x = 40;
+    s->y = 40;
     s->oamFlags = 0x500;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -184,8 +190,8 @@ void sub_806AAA4(EggWheeler *boss)
     s3->anim = ANIM_EXPLOSION_1273;
     s3->variant = 0;
     s3->prevVariant = -1;
-    s3->x = ((s32)boss->unk0 >> 8) - gCamera.x;
-    s3->y = ((s32)boss->unk4 >> 8) - gCamera.y;
+    s3->x = I(boss->unk0) - gCamera.x;
+    s3->y = I(boss->unk4) - gCamera.y;
     s3->oamFlags = 0;
     s3->animCursor = 0;
     s3->qAnimDelay = 0;
@@ -196,4 +202,34 @@ void sub_806AAA4(EggWheeler *boss)
     UpdateSpriteAnimation(s3);
 
     boss->vram34 = vram;
+}
+
+void sub_806ABD4()
+{
+    EggWheeler *boss = TASK_DATA(gCurTask);
+    s16 pid;
+    u8 *vram;
+
+    if (*boss->unk10 == 3) {
+        TaskDestroy(gCurTask);
+        return;
+    } else if (*boss->unk10 == 2) {
+        for (pid = 0; pid < NUM_SINGLE_PLAYER_CHARS; pid++) {
+            Player *p = &gPlayers[pid];
+            if (I(p->qWorldX) < 1145 || I(p->qWorldX) >= 1545) {
+                return;
+            }
+        }
+
+        m4aSongNumStop(MUS_SUNSET_HILL__ACT_3);
+        sub_80299D4(50);
+        vram = boss->vram34;
+        vram += (18 * TILE_SIZE_4BPP);
+        CreateBoss2Entrance(&boss->unk1B, vram);
+        CreateBoss2Exit(&boss->unk1C, vram);
+        vram += (18 * TILE_SIZE_4BPP);
+        boss->vram34 = vram;
+        boss->unk1E = 0xC0;
+        gCurTask->main = Task_806AC7C;
+    }
 }
