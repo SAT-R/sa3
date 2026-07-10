@@ -1,7 +1,9 @@
 #include "global.h"
 #include "core.h"
+#include "malloc_vram.h"
 #include "game/save.h"
 #include "game/stage.h"
+#include "constants/animations.h"
 
 typedef struct {
     /* 0x0C */ s32 unk0;
@@ -35,7 +37,7 @@ typedef struct {
     /* 0x2E */ s16 unk2E;
     /* 0x30 */ u16 unk30;
     /* 0x18 */ u8 filler32[0x2];
-    /* 0x34 */ s32 unk34;
+    /* 0x34 */ u8 *vram34;
     /* 0x38 */ s32 unk38;
     /* 0x3C */ s32 unk3C;
     /* 0x40 */ s32 unk40;
@@ -59,6 +61,7 @@ void sub_806AA40(EggWheeler *boss);
 void sub_806AAA4(EggWheeler *boss);
 
 extern void SetFixedRandomIfTimeAttackMode(void);
+extern const TileInfo2 gUnknown_080D5780[8];
 
 // Officially called: "Egg Ball No. 2"
 Task *CreateEggWheeler(u8 *param0, s32 worldX, s32 worldY)
@@ -124,4 +127,73 @@ void sub_806AA40(EggWheeler *boss)
     boss->unk1A = 0;
     CpuFill16(0, &boss->sprEggman.hitboxes[1].b, sizeof(boss->sprEggman.hitboxes[1].b));
     CpuFill16(0, &boss->sprFC.hitboxes[0].b, sizeof(boss->sprFC.hitboxes[0].b));
+}
+
+void sub_806AAA4(EggWheeler *boss)
+{
+    Sprite *s;
+    Sprite *temp_r4;
+    Sprite *s3;
+    SpriteTransform *tf;
+    void *temp_r8_2;
+
+    u8 *vram = VramMalloc(0x84U);
+    s = &boss->sprBody;
+    s->tiles = (void *)(BG_VRAM + 0x4040);
+    s->anim = gUnknown_080D5780[0].anim;
+    s->variant = gUnknown_080D5780[0].variant;
+    s->prevVariant = 0xFF;
+    s->x = 0x28;
+    s->y = 0x28;
+    s->oamFlags = 0x500;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x11000;
+    s->hitboxes[0].index = -1;
+    UpdateSpriteAnimation_BG(s);
+
+    temp_r4 = (Sprite *)&boss->sprEggman;
+    tf = &boss->tf;
+    temp_r4->tiles = vram;
+    vram += (gUnknown_080D5780[2].numTiles * TILE_SIZE_4BPP);
+    temp_r4->anim = gUnknown_080D5780[2].anim;
+    temp_r4->variant = gUnknown_080D5780[2].variant;
+    temp_r4->prevVariant = -1;
+    temp_r4->x = I(boss->unk48);
+    temp_r4->y = I(boss->unk4C);
+    temp_r4->oamFlags = 0x640;
+    temp_r4->animCursor = 0;
+    temp_r4->qAnimDelay = 0;
+    temp_r4->animSpeed = 0x10;
+    temp_r4->palId = 0;
+    temp_r4->frameFlags = 0x106A;
+    temp_r4->hitboxes[0].index = -1;
+    tf->rotation = 0x100;
+    tf->x = temp_r4->x;
+    tf->y = temp_r4->y;
+    tf->qScaleX = Q(1);
+    tf->qScaleY = Q(1);
+    TransformSprite(temp_r4, tf);
+    UpdateSpriteAnimation(temp_r4);
+
+    s3 = &boss->sprExplosion;
+    s3->tiles = vram;
+    vram += 116 * TILE_SIZE_4BPP;
+    s3->anim = ANIM_EXPLOSION_1273;
+    s3->variant = 0;
+    s3->prevVariant = -1;
+    s3->x = ((s32)boss->unk0 >> 8) - gCamera.x;
+    s3->y = ((s32)boss->unk4 >> 8) - gCamera.y;
+    s3->oamFlags = 0;
+    s3->animCursor = 0;
+    s3->qAnimDelay = 0;
+    s3->animSpeed = 0x10;
+    s3->palId = 0;
+    s3->frameFlags = 0;
+    s3->hitboxes[0].index = -1;
+    UpdateSpriteAnimation(s3);
+
+    boss->vram34 = vram;
 }
