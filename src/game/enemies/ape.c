@@ -271,13 +271,11 @@ void sub_805A8B0(Ape *enemy)
     enemy->qPos.y = enemy->qUnk14.y + ABS(SIN_24_8((u8)enemy->unk8 * 4) * 32) - Q(10);
 }
 
-NONMATCH("asm/non_matching/game/enemies/ape__sub_805A964.inc", bool32 sub_805A964(Ape *enemy))
+bool32 sub_805A964(Ape *enemy)
 {
     Sprite *s = &enemy->s2;
-    Player *p;
     s32 worldX;
     s32 worldY;
-    s32 qWorldX;
     s32 dir;
     u8 i;
 
@@ -286,23 +284,20 @@ NONMATCH("asm/non_matching/game/enemies/ape__sub_805A964.inc", bool32 sub_805A96
     worldX = (TO_WORLD_POS_RAW(worldX, enemy->region[0]));
     worldY = (TO_WORLD_POS_RAW(worldY, enemy->region[1]));
 
-    for (i = 0, qWorldX = Q(worldX); i < NUM_SINGLE_PLAYER_CHARS; i++) {
+    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         Player *p = EUC_GetPlayer(i);
-        if (p == NULL)
+        if (!p)
             break;
 
         dir = (u16)sa2__sub_8004418(I(p->qWorldY) - worldY, I(p->qWorldX) - worldX);
-
-        if (((((u16)dir > 0) && (((u16)dir - 1) < 256)) && (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP))
-            || ((((u16)(dir + (-Q(1) - 1)) <= 510)) && (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP))) {
-
+        if (((((u16)(dir + ~Q(3)) < 255) || ((u16)(dir - 1) < 255)) && (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP))
+            || ((((u16)(dir + ~Q(1)) < 511)) && !(s->frameFlags & SPRITE_FLAG_MASK_X_FLIP))) {
             return TRUE;
         }
     }
 
     return FALSE;
 }
-END_NONMATCH
 
 AnimCmdResult sub_805AA10(Ape *enemy)
 {
