@@ -8,79 +8,8 @@
 .if 0
 .endif
 
-	thumb_func_start Task_806AC7C
-Task_806AC7C: @ 0x0806AC7C
-	push {r4, r5, r6, r7, lr}
-	movs r4, #0
-	ldr r2, _0806ACAC @ =gCurTask
-	ldr r0, [r2]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r5, r1, r0
-	ldr r0, [r5, #0x10]
-	ldrb r0, [r0]
-	mov ip, r2
-	cmp r0, #2
-	bne _0806ACF2
-	movs r0, #1
-	strb r0, [r5, #0x1b]
-	strb r0, [r5, #0x1c]
-	movs r2, #0
-	ldr r7, _0806ACB0 @ =sub_806AD04
-	ldr r6, _0806ACB4 @ =gPlayers
-_0806ACA2:
-	cmp r2, #0
-	bne _0806ACBC
-	ldr r0, _0806ACB8 @ =gStageData
-	ldrb r1, [r0, #6]
-	b _0806ACC6
-	.align 2, 0
-_0806ACAC: .4byte gCurTask
-_0806ACB0: .4byte sub_806AD04
-_0806ACB4: .4byte gPlayers
-_0806ACB8: .4byte gStageData
-_0806ACBC:
-	adds r0, r4, #0
-	adds r0, #0x2b
-	ldrb r1, [r0]
-	lsls r1, r1, #0x1e
-	lsrs r1, r1, #0x1e
-_0806ACC6:
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	lsls r0, r0, #4
-	adds r4, r0, r6
-	movs r3, #0
-	adds r1, r4, #0
-	adds r1, #0x27
-	ldrb r0, [r1]
-	cmp r0, #0
-	bne _0806ACE0
-	movs r3, #1
-_0806ACE0:
-	strb r3, [r1]
-	adds r0, r2, #1
-	lsls r0, r0, #0x18
-	lsrs r2, r0, #0x18
-	cmp r2, #1
-	bls _0806ACA2
-	mov r1, ip
-	ldr r0, [r1]
-	str r7, [r0, #8]
-_0806ACF2:
-	adds r0, r5, #0
-	bl sub_806D07C
-	adds r0, r5, #0
-	bl sub_806BC50
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-
-	thumb_func_start sub_806AD04
-sub_806AD04: @ 0x0806AD04
+	thumb_func_start Task_806AD04
+Task_806AD04: @ 0x0806AD04
 	push {r4, r5, r6, r7, lr}
 	ldr r7, _0806ADC0 @ =gCurTask
 	ldr r0, [r7]
@@ -4497,7 +4426,7 @@ _0806CE50:
 _0806CE60: .4byte sub_806CE74
 _0806CE64:
 	ldr r1, [r4]
-	ldr r0, _0806CE70 @ =sub_806ABD4
+	ldr r0, _0806CE70 @ =Boss2_TransitionToIntro
 _0806CE68:
 	str r0, [r1, #8]
 _0806CE6A:
@@ -4505,7 +4434,7 @@ _0806CE6A:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0806CE70: .4byte sub_806ABD4
+_0806CE70: .4byte Boss2_TransitionToIntro
 
 	thumb_func_start sub_806CE74
 sub_806CE74: @ 0x0806CE74
@@ -4533,14 +4462,14 @@ _0806CE98:
 	cmp r0, #0
 	beq _0806CEAC
 	ldr r1, [r4]
-	ldr r0, _0806CEB4 @ =sub_806ABD4
+	ldr r0, _0806CEB4 @ =Boss2_TransitionToIntro
 	str r0, [r1, #8]
 _0806CEAC:
 	pop {r4}
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0806CEB4: .4byte sub_806ABD4
+_0806CEB4: .4byte Boss2_TransitionToIntro
 
 	thumb_func_start sub_806CEB8
 sub_806CEB8: @ 0x0806CEB8

@@ -60,9 +60,12 @@ typedef struct {
 
 void Task_Boss2Init(void);
 void Task_806AC7C(void);
+void Task_806AD04(void);
 void TaskDestructor_Boss2(struct Task *t);
 void sub_806AA40(EggWheeler *boss);
 void sub_806AAA4(EggWheeler *boss);
+void sub_806BC50(EggWheeler *boss);
+void sub_806D07C(EggWheeler *boss);
 void CreateBoss2Entrance(u8 *out, u8 *vram);
 void CreateBoss2Exit(u8 *out, u8 *vram);
 
@@ -204,7 +207,7 @@ void sub_806AAA4(EggWheeler *boss)
     boss->vram34 = vram;
 }
 
-void sub_806ABD4()
+void Boss2_TransitionToIntro()
 {
     EggWheeler *boss = TASK_DATA(gCurTask);
     s16 pid;
@@ -223,13 +226,38 @@ void sub_806ABD4()
 
         m4aSongNumStop(MUS_SUNSET_HILL__ACT_3);
         sub_80299D4(50);
+
         vram = boss->vram34;
         vram += (18 * TILE_SIZE_4BPP);
         CreateBoss2Entrance(&boss->unk1B, vram);
         CreateBoss2Exit(&boss->unk1C, vram);
+
         vram += (18 * TILE_SIZE_4BPP);
         boss->vram34 = vram;
+
         boss->unk1E = 0xC0;
         gCurTask->main = Task_806AC7C;
     }
+}
+
+void Task_806AC7C(void)
+{
+    Player *p = NULL;
+    EggWheeler *boss = TASK_DATA(gCurTask);
+    u8 pid;
+
+    if (*boss->unk10 == 2) {
+        boss->unk1B = 1;
+        boss->unk1C = 1;
+
+        for (pid = 0; pid < NUM_SINGLE_PLAYER_CHARS; pid++) {
+            p = GET_SP_PLAYER_V0(pid);
+            p->layer = (p->layer == PLAYER_LAYER__FRONT) ? PLAYER_LAYER__BACK : PLAYER_LAYER__FRONT;
+        }
+
+        gCurTask->main = Task_806AD04;
+    }
+
+    sub_806D07C(boss);
+    sub_806BC50(boss);
 }
