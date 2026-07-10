@@ -9,6 +9,7 @@
 #include "game/save.h"
 #include "game/sa3/bosses/more_gemerl.h"
 #include "game/stage.h"
+#include "game/shared/stage/music_manager.h"
 #include "game/shared/stage/player.h"
 #include "game/shared/stage/player_callbacks.h"
 #include "game/shared/stage/screen_shake.h"
@@ -45,9 +46,23 @@
 #define UNK2C_STATE_X 1000
 #define UNK2C_STATE_Y 1010
 
+#define DELAY_STATE_A   0
+#define DELAY_STATE_E   60
+#define DELAY_STATE_F   60
+#define DELAY_STATE_G   60
+#define DELAY_STATE_I   60
+#define DELAY_STATE_K_0 60
+#define DELAY_STATE_K_1 1
+#define DELAY_STATE_O   180
+#define DELAY_STATE_P   20
+#define DELAY_STATE_Q_0 120
+#define DELAY_STATE_Q_1 10
+#define DELAY_STATE_X   10
+#define DELAY_STATE_V   120
+
 typedef struct {
-    /* 0x000 */ s32 unk0;
-    /* 0x004 */ s32 unk4;
+    /* 0x000 */ s32 qWorldX;
+    /* 0x004 */ s32 qWorldY;
     /* 0x008 */ u8 *unk8;
     /* 0x00C */ u8 lives;
     /* 0x00D */ s8 unkD;
@@ -60,14 +75,14 @@ typedef struct {
     /* 0x014 */ s16 unk14[5][2];
     /* 0x028 */ u8 *vram28;
     /* 0x02C */ u16 unk2C;
-    /* 0x02E */ s16 unk2E;
+    /* 0x02E */ s16 delay;
     /* 0x030 */ u16 unk30;
     /* 0x032 */ u16 unk32;
     /* 0x034 */ s32 unk34;
     /* 0x034 */ s32 unk38;
-    /* 0x03C */ s32 unk3C;
-    /* 0x040 */ s32 unk40;
-    /* 0x044 */ s32 unk44;
+    /* 0x03C */ s32 qExpansion;
+    /* 0x040 */ s32 qUnk40;
+    /* 0x044 */ s32 qUnk44;
     /* 0x048 */ u8 *vram48;
     /* 0x04C */ u8 *vram4C;
     /* 0x050 */ Player *player;
@@ -118,7 +133,6 @@ extern void sub_8078E34(s32 *, VoidFn);
 extern u16 gUnknown_080D575C[9][2];
 
 void Task_8068D00(); /* extern */
-void sub_80299D4(s32); /* extern */
 void sub_8068C38(); /* extern */
 extern void sub_8079758(u8, s16 x, s16 y, s16, u16 angle, u8, s16, u8 *vram);
 void sub_807A2AC(); /* extern */
@@ -145,8 +159,8 @@ Task *CreateEggHammerTankIII(u8 *param0, s32 worldX, s32 worldY)
     t = TaskCreate(sub_806A728, sizeof(EggHammerTankIII), 0x2100U, 0U, TaskDestructor_Boss_806A7E4);
     gStageData.taskBoss = t;
     boss = TASK_DATA(t);
-    boss->unk0 = Q(worldX);
-    boss->unk4 = Q(worldY);
+    boss->qWorldX = Q(worldX);
+    boss->qWorldY = Q(worldY);
 
     if (gStageData.difficulty == DIFFICULTY_NORMAL) {
         boss->lives = 8;
@@ -159,7 +173,7 @@ Task *CreateEggHammerTankIII(u8 *param0, s32 worldX, s32 worldY)
     boss->unk32 = 0;
     boss->unkF = 0;
     boss->unk2C = UNK2C_STATE_A;
-    boss->unk2E = 0;
+    boss->delay = DELAY_STATE_A;
     boss->unk10 = 0;
     boss->unk11 = 0;
     boss->unk12 = 0;
@@ -313,13 +327,8 @@ u8 sub_8068E5C(Player *inPlayer)
     s32 temp_r1_7;
     s32 temp_r2_2;
     s32 var_r7;
-    s8 temp_r5_4;
-    s8 temp_r5_6;
-    s8 temp_r7;
     s16 temp_r1_4;
-    s16 temp_r0;
     s16 var_r5;
-    u8 temp_r0_5;
     s32 screenX;
     s32 screenY;
     u8 chara;
@@ -350,7 +359,7 @@ u8 sub_8068E5C(Player *inPlayer)
         unkY = I(inPlayer->qWorldY);
         unkY -= I(boss->unk5C);
         temp_r1_4 = sa2__sub_8004418(unkY, unkX);
-        var_r5 = I(boss->unk34);
+        var_r5 = (boss->unk34 >> 8);
         var_r7 = 0;
         temp_r2_2 = var_r5 - 0x100;
         if (temp_r2_2 < 0) {
@@ -437,8 +446,8 @@ static void InitSpriteGroundPlate(EggHammerTankIII *boss)
 {
     Sprite *s = &boss->sprGroundPlate;
 
-    boss->unkE8 = boss->unk0;
-    boss->unkEC = boss->unk4 + Q(8);
+    boss->unkE8 = boss->qWorldX;
+    boss->unkEC = boss->qWorldY + Q(8);
 
     s->tiles = ALLOC_TILES(ANIM_BOSS_1_GROUND_PLATE);
     s->anim = ANIM_BOSS_1_GROUND_PLATE;
@@ -468,7 +477,7 @@ void UpdateGroundPlate(EggHammerTankIII *boss)
     u8 gemerlTurnIndex;
 
     boss->unkF = sub_8068D90(player);
-    if (((s32)boss->unk3C <= 0x4000) && (boss->unkF != 0) && (boss->unk12 != 0)) {
+    if ((boss->qExpansion <= Q(64)) && (boss->unkF != 0) && (boss->unk12 != 0)) {
         Player_8014550(player);
     }
     worldX = I(player->qWorldX);
@@ -495,7 +504,7 @@ void UpdateGroundPlate(EggHammerTankIII *boss)
     partner = boss->partner;
     res = sub_8068D90(partner);
 
-    if ((boss->unk3C <= 0x4000) && (res != 0) && (boss->unk12 != 0)) {
+    if ((boss->qExpansion <= Q(64)) && (res != 0) && (boss->unk12 != 0)) {
         Player_8014550(partner);
     }
 }
@@ -527,9 +536,9 @@ void InitSpriteCockpit(EggHammerTankIII *boss)
     SpriteTransform *tf = &boss->tf;
     u8 *vram;
 
-    boss->unk58 = boss->unk0;
-    boss->unk5C = boss->unk4;
-    vram = VramMalloc(0x44U);
+    boss->unk58 = boss->qWorldX;
+    boss->unk5C = boss->qWorldY;
+    vram = VramMalloc(MAX_TILES(ANIM_BOSS_1_COCKPIT) + MAX_TILES(ANIM_BOSS_1_JOINT));
     boss->vram48 = vram;
 
     s->tiles = vram;
@@ -553,7 +562,7 @@ void InitSpriteCockpit(EggHammerTankIII *boss)
     tf->qScaleY = Q(1);
     UpdateSpriteAnimation(s);
 
-    vram += 64 * TILE_SIZE_4BPP;
+    vram += MAX_TILES(ANIM_BOSS_1_COCKPIT) * TILE_SIZE_4BPP;
 
     s = &boss->sprJoint;
     s->tiles = vram;
@@ -573,8 +582,8 @@ void InitSpriteCockpit(EggHammerTankIII *boss)
 
     boss->unk34 = 0x30000;
     boss->unk38 = 0;
-    boss->unk3C = 0x3800;
-    boss->unk40 = 0;
+    boss->qExpansion = Q(56);
+    boss->qUnk40 = 0;
 }
 
 void sub_8069578(EggHammerTankIII *boss)
@@ -606,9 +615,9 @@ void sub_8069578(EggHammerTankIII *boss)
             sp0 = (boss->unk34 - 0x30000);
             sp0 = sp0 / 8;
             var_r4 = (boss->unk34 + 0x30000) / 2;
-            temp_r0_6 = (boss->unk3C) / 8;
-            xVal = boss->unk0;
-            yVal = boss->unk4;
+            temp_r0_6 = (boss->qExpansion) / 8;
+            xVal = boss->qWorldX;
+            yVal = boss->qWorldY;
             for (i = 0; i < 7; i++) {
                 var_r4 = (var_r4 + sp0) & 0x3FFFF;
                 temp_r2_3 = var_r4 >> 8;
@@ -616,8 +625,8 @@ void sub_8069578(EggHammerTankIII *boss)
                 sinVal = Q_MUL_2_14(SIN(temp_r2_3), temp_r0_6);
                 xVal += cosVal;
                 yVal += sinVal;
-                s->x = (xVal >> 8) - gCamera.x;
-                s->y = (yVal >> 8) - gCamera.y;
+                s->x = I(xVal) - gCamera.x;
+                s->y = I(yVal) - gCamera.y;
                 DisplaySprite(s);
             }
             break;
@@ -625,9 +634,9 @@ void sub_8069578(EggHammerTankIII *boss)
             sp0 = (boss->unk34 - 0x30000);
             sp0 = sp0 / 8;
             var_r4 = (boss->unk34 + 0x30000) / 2;
-            temp_r0_6 = boss->unk3C / 8;
-            xVal = boss->unk0;
-            yVal = boss->unk4;
+            temp_r0_6 = boss->qExpansion / 8;
+            xVal = boss->qWorldX;
+            yVal = boss->qWorldY;
             for (i = 0; i < 7; i++) {
                 var_r4 = ((var_r4 + sp0) & 0x3FFFF);
                 temp_r2_4 = var_r4 >> 8;
@@ -637,7 +646,7 @@ void sub_8069578(EggHammerTankIII *boss)
                 yVal += sinVal;
                 boss->unk68[i].x = xVal;
                 boss->unk68[i].y = yVal;
-                boss->unkA8[i].x = ((i >> 1) << 8) + 0x100;
+                boss->unkA8[i].x = Q((i >> 1)) + Q(1);
                 if (i & 0x1) {
                     boss->unkA8[i].x = -boss->unkA8[i].x;
                 }
@@ -647,9 +656,9 @@ void sub_8069578(EggHammerTankIII *boss)
             boss->unk10 = 100;
             // through
         case 100: {
-            for (i = 0; i < 7; i++) {
+            for (i = 0; i < ARRAY_COUNT(boss->unk68); i++) {
                 boss->unk68[i].x += boss->unkA8[i].x;
-                boss->unkA8[i].y += 0x20;
+                boss->unkA8[i].y += Q(0.125);
                 boss->unk68[i].y += boss->unkA8[i].y;
                 s->x = I(boss->unk68[i].x) - gCamera.x;
                 s->y = I(boss->unk68[i].y) - gCamera.y;
@@ -670,10 +679,11 @@ void sub_8069814(EggHammerTankIII *boss)
 
     temp_r5 = boss->player;
     switch (boss->unk2C) {
-        case UNK2C_STATE_A:
+        case UNK2C_STATE_A: {
             gDispCnt |= DISPCNT_BG2_ON;
             DmaFill32(3, 0, BG_CHAR_ADDR_FROM_BGCNT(2), 2 * TILE_SIZE_4BPP);
             boss->unk2C = UNK2C_STATE_B;
+
             if (*boss->unk8 != 3) {
                 sub_807A2AC();
                 break;
@@ -681,7 +691,7 @@ void sub_8069814(EggHammerTankIII *boss)
                 TaskDestroy(gCurTask);
                 return;
             }
-            break;
+        } break;
 
         case UNK2C_STATE_B:
             if (*boss->unk8 != 3) {
@@ -718,49 +728,49 @@ void sub_8069814(EggHammerTankIII *boss)
                 }
 
                 if (var_r2 != 0) {
-                    boss->unk2E = 0x3C;
+                    boss->delay = DELAY_STATE_E;
                     boss->unk2C = UNK2C_STATE_E;
-                    sub_80299D4(0x32);
+                    sub_80299D4(MUS_VS__BOSS);
                 }
             }
             break;
 
         case UNK2C_STATE_E:
-            if (--boss->unk2E == 0) {
+            if (--boss->delay == 0) {
                 sub_807A4A8();
                 s->anim = ANIM_BOSS_1_COCKPIT;
                 s->variant = 1;
-                boss->unk2E = 0x3C;
+                boss->delay = DELAY_STATE_F;
                 boss->unk2C = UNK2C_STATE_F;
             }
             break;
 
         case UNK2C_STATE_F:
-            if (--boss->unk2E == 0) {
+            if (--boss->delay == 0) {
                 s->anim = ANIM_BOSS_1_COCKPIT;
                 s->variant = 0;
-                boss->unk2E = 0x3C;
+                boss->delay = DELAY_STATE_G;
                 boss->unk2C = UNK2C_STATE_G;
             }
             break;
 
         case UNK2C_STATE_G:
-            if (--boss->unk2E == 0) {
+            if (--boss->delay == 0) {
                 boss->unk2C = UNK2C_STATE_H;
             }
             break;
 
         case UNK2C_STATE_H:
-            boss->unk3C += 0x200;
-            if (boss->unk3C >= 0x6000) {
-                boss->unk3C = 0x6000;
-                boss->unk2E = 0x3C;
+            boss->qExpansion += Q(2);
+            if (boss->qExpansion >= Q(96)) {
+                boss->qExpansion = Q(96);
+                boss->delay = DELAY_STATE_I;
                 boss->unk2C = UNK2C_STATE_I;
             }
             break;
 
         case UNK2C_STATE_I:
-            if (--boss->unk2E == 0) {
+            if (--boss->delay == 0) {
                 boss->unk2C = UNK2C_STATE_J;
             }
             break;
@@ -769,17 +779,17 @@ void sub_8069814(EggHammerTankIII *boss)
             gCurTask->main = sub_8068C38;
             boss->unkE = 0;
             boss->unk30 = 0;
-            boss->unk2E = 1;
+            boss->delay = DELAY_STATE_K_1;
             boss->unk2C = UNK2C_STATE_K;
             break;
 
         case UNK2C_STATE_K:
-            if (--boss->unk2E == 0) {
+            if (--boss->delay == 0) {
                 boss->unk12 = 0;
                 if (boss->unkF != 0) {
                     boss->unk12 = 1;
                     boss->unk30 = 0;
-                    boss->unk44 = 0x400;
+                    boss->qUnk44 = Q(4);
                     boss->unk2C = UNK2C_STATE_U;
                 } else {
                     boss->unk30 = 0;
@@ -799,38 +809,38 @@ void sub_8069814(EggHammerTankIII *boss)
             if (boss->unk30 > 0x01FF) {
                 boss->unk30 = 0;
                 boss->unk38 = 0;
-                boss->unk44 = 0;
+                boss->qUnk44 = Q(0);
                 boss->unk2C = UNK2C_STATE_O;
             }
             if (boss->unk30 == 0x100) {
                 var_r2 = 0;
                 if (boss->unkE == 0) {
-                    if (boss->unk0 > (s32)temp_r5->qWorldX) {
+                    if (boss->qWorldX > temp_r5->qWorldX) {
                         var_r2 = 1;
                     }
-                } else if (boss->unk0 < (s32)temp_r5->qWorldX) {
+                } else if (boss->qWorldX < temp_r5->qWorldX) {
                     var_r2 = 1;
                 }
 
                 if (var_r2 != 0) {
-                    xVal = ABS(boss->unk0 - temp_r5->qWorldX);
-                    if (xVal <= 0x6000) {
-                        boss->unk40 = 0x6000;
+                    xVal = ABS(boss->qWorldX - temp_r5->qWorldX);
+                    if (xVal <= Q(96)) {
+                        boss->qUnk40 = Q(96);
                     } else {
-                        boss->unk40 = xVal;
+                        boss->qUnk40 = xVal;
                     }
                 } else {
-                    boss->unk40 = 0x8000;
+                    boss->qUnk40 = Q(128);
                 }
             }
             break;
 
         case UNK2C_STATE_O:
-            if (boss->unk3C != boss->unk40) {
-                boss->unk44 += 0x40;
-                boss->unk3C += boss->unk44;
-                if (boss->unk3C >= boss->unk40) {
-                    boss->unk3C = boss->unk40;
+            if (boss->qExpansion != boss->qUnk40) {
+                boss->qUnk44 += Q(0.25);
+                boss->qExpansion += boss->qUnk44;
+                if (boss->qExpansion >= boss->qUnk40) {
+                    boss->qExpansion = boss->qUnk40;
                 }
             }
             if (boss->unkE == 0) {
@@ -848,16 +858,16 @@ void sub_8069814(EggHammerTankIII *boss)
             break;
 
         case UNK2C_STATE_P:
-            boss->unk2E = 0x78;
+            boss->delay = DELAY_STATE_Q_0;
             CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
             m4aSongNumStart(SE_549);
             boss->unk2C = UNK2C_STATE_Q;
             break;
 
         case UNK2C_STATE_Q:
-            if (--boss->unk2E == 0) {
+            if (--boss->delay == 0) {
                 boss->unk38 = 0;
-                boss->unk44 = 0;
+                boss->qUnk44 = Q(0);
                 boss->unk2C = UNK2C_STATE_R;
             }
             break;
@@ -886,25 +896,25 @@ void sub_8069814(EggHammerTankIII *boss)
             }
             break;
         case UNK2C_STATE_T:
-            boss->unk3C -= Q(2);
-            if (boss->unk3C <= 0x6000) {
-                boss->unk3C = 0x6000;
+            boss->qExpansion -= Q(2);
+            if (boss->qExpansion <= Q(96)) {
+                boss->qExpansion = Q(96);
                 boss->unk2C = UNK2C_STATE_S;
             }
             break;
         case UNK2C_STATE_S:
             boss->unkE ^= 1;
             boss->unk30 = 0;
-            boss->unk2E = 0x3C;
+            boss->delay = DELAY_STATE_K_0;
             boss->unk2C = UNK2C_STATE_K;
             break;
 
         case UNK2C_STATE_U:
-            boss->unk44 -= 0x20;
-            boss->unk3C += boss->unk44;
-            if (boss->unk3C <= 0x3800) {
-                boss->unk3C = 0x3800;
-                boss->unk2E = 0x78;
+            boss->qUnk44 -= Q(0.125);
+            boss->qExpansion += boss->qUnk44;
+            if (boss->qExpansion <= Q(56)) {
+                boss->qExpansion = Q(56);
+                boss->delay = DELAY_STATE_V;
                 CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
                 m4aSongNumStart(SE_549);
                 boss->unk2C = UNK2C_STATE_V;
@@ -912,18 +922,18 @@ void sub_8069814(EggHammerTankIII *boss)
             break;
 
         case UNK2C_STATE_V:
-            if (--boss->unk2E == 0) {
+            if (--boss->delay == 0) {
                 boss->unk2C = UNK2C_STATE_W;
             }
             break;
 
         case UNK2C_STATE_W:
-            boss->unk3C += 0x200;
-            if (boss->unk3C >= Q_2_14(1.5)) {
-                boss->unk3C = Q_2_14(1.5);
+            boss->qExpansion += Q(2);
+            if (boss->qExpansion >= Q_2_14(1.5)) {
+                boss->qExpansion = Q_2_14(1.5);
                 boss->unk12 = 0;
                 boss->unk30 = 0;
-                boss->unk2E = 0x3C;
+                boss->delay = DELAY_STATE_K_0;
                 boss->unk2C = UNK2C_STATE_K;
                 break;
             }
@@ -932,10 +942,12 @@ void sub_8069814(EggHammerTankIII *boss)
 
     {
         u16 temp_r1_2 = boss->unk34 >> 8;
-        xVal = Q_MUL_2_14(boss->unk3C, COS(temp_r1_2));
-        yVal = Q_MUL_2_14(boss->unk3C, SIN(temp_r1_2));
-        boss->unk58 = boss->unk0 + xVal;
-        boss->unk5C = boss->unk4 + yVal;
+        // TODO: From my understanding of fixed-point math,
+        // xVal and yVal should be Q2.14, but apparently they are Q24.8?
+        xVal = Q_MUL_2_14(boss->qExpansion, COS(temp_r1_2));
+        yVal = Q_MUL_2_14(boss->qExpansion, SIN(temp_r1_2));
+        boss->unk58 = boss->qWorldX + xVal;
+        boss->unk5C = boss->qWorldY + yVal;
         s->x = I(boss->unk58) - gCamera.x;
         s->y = I(boss->unk5C) - gCamera.y;
 
@@ -986,7 +998,7 @@ void sub_8069DEC(EggHammerTankIII *boss)
             break;
 
         case UNK2C_STATE_B:
-            if (boss->unk58 < boss->unk0) {
+            if (boss->unk58 < boss->qWorldX) {
                 boss->unk60 = +0x100;
             } else {
                 boss->unk60 = -0x100;
@@ -1020,10 +1032,10 @@ void sub_8069DEC(EggHammerTankIII *boss)
 
             if (boss->unk60 != 0) {
                 if (boss->unk60 < 0) {
-                    if (boss->unk58 <= boss->unk0) {
+                    if (boss->unk58 <= boss->qWorldX) {
                         boss->unk60 = 0;
                     }
-                } else if (boss->unk58 >= boss->unk0) {
+                } else if (boss->unk58 >= boss->qWorldX) {
                     boss->unk60 = 0;
                 }
             };
@@ -1068,10 +1080,10 @@ void sub_8069DEC(EggHammerTankIII *boss)
             }
             if (boss->unk60 != 0) {
                 if (boss->unk60 < 0) {
-                    if (boss->unk58 <= boss->unk0) {
+                    if (boss->unk58 <= boss->qWorldX) {
                         boss->unk60 = 0;
                     }
-                } else if (boss->unk58 >= boss->unk0) {
+                } else if (boss->unk58 >= boss->qWorldX) {
                     boss->unk60 = 0;
                 }
             };
@@ -1101,10 +1113,10 @@ void sub_8069DEC(EggHammerTankIII *boss)
 
             if (boss->unk60 != 0) {
                 if (boss->unk60 < 0) {
-                    if (boss->unk58 <= boss->unk0) {
+                    if (boss->unk58 <= boss->qWorldX) {
                         boss->unk60 = 0;
                     }
-                } else if (boss->unk58 >= boss->unk0) {
+                } else if (boss->unk58 >= boss->qWorldX) {
                     boss->unk60 = 0;
                 }
             };
@@ -1136,10 +1148,10 @@ void sub_8069DEC(EggHammerTankIII *boss)
 
             if (boss->unk60 != 0) {
                 if (boss->unk60 < 0) {
-                    if (boss->unk58 <= boss->unk0) {
+                    if (boss->unk58 <= boss->qWorldX) {
                         boss->unk60 = 0;
                     }
-                } else if (boss->unk58 >= boss->unk0) {
+                } else if (boss->unk58 >= boss->qWorldX) {
                     boss->unk60 = 0;
                 }
             }
@@ -1147,18 +1159,18 @@ void sub_8069DEC(EggHammerTankIII *boss)
             if (boss->unk5C >= 0x9E00) {
                 boss->unk5C = 0x9E00;
                 CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
-                boss->unk2E = 0xB4;
+                boss->delay = DELAY_STATE_O;
                 boss->unk2C = UNK2C_STATE_O;
                 boss->unk13 = 0;
             }
             break;
 
         case UNK2C_STATE_O:
-            if (--boss->unk2E == 0) {
-                boss->unk2E = 20;
+            if (--boss->delay == 0) {
+                boss->delay = DELAY_STATE_P;
                 boss->unk2C = UNK2C_STATE_P;
             }
-            if ((boss->unk2E > 60) && ((0x3F & boss->unk32) == 0)) {
+            if ((boss->delay > 60) && ((0x3F & boss->unk32) == 0)) {
                 m4aSongNumStart(SE_545);
             }
 
@@ -1187,35 +1199,35 @@ void sub_8069DEC(EggHammerTankIII *boss)
             break;
 
         case UNK2C_STATE_P:
-            if (1 & boss->unk2E) {
+            if (1 & boss->delay) {
                 gDispCnt &= ~0x400;
             } else {
                 gDispCnt |= 0x400;
             }
 
-            if (--boss->unk2E == 0) {
+            if (--boss->delay == 0) {
                 for (i = 0; i < SIN_PERIOD; i += 4 * TILE_SIZE_4BPP) {
                     sub_8079758(6U, I(boss->unk58), I(boss->unk5C), 0x200, i, 30, 0, boss->vram28);
                 }
                 m4aSongNumStart(SE_545);
                 gDispCnt &= ~DISPCNT_BG2_ON;
-                boss->unk2E = 0xA;
+                boss->delay = DELAY_STATE_Q_1;
                 boss->unk2C = UNK2C_STATE_Q;
             }
             break;
 
         case UNK2C_STATE_Q:
-            if (--boss->unk2E == 0) {
+            if (--boss->delay == 0) {
                 for (i = 0; i < SIN_PERIOD; i += 4 * TILE_SIZE_4BPP) {
                     sub_8079758(6U, I(boss->unk58), I(boss->unk5C), 0x200, i, 30, 0, boss->vram28);
                 }
-                boss->unk2E = 0xA;
+                boss->delay = DELAY_STATE_X;
                 boss->unk2C = UNK2C_STATE_X;
             }
             break;
 
         case UNK2C_STATE_X:
-            if (--boss->unk2E == 0) {
+            if (--boss->delay == 0) {
                 boss->unk32 = 0;
                 boss->unk2C = UNK2C_STATE_Y;
                 gCurTask->main = Task_8068D00;
@@ -1239,10 +1251,10 @@ void sub_806A5DC(EggHammerTankIII *boss)
         boss->lives--;
         if (gStageData.difficulty == DIFFICULTY_NORMAL) {
             if (boss->lives == 4) {
-                sub_80299D4(0x33);
+                sub_80299D4(MUS_VS__BOSS_PINCH);
             }
         } else if (boss->lives == 3) {
-            sub_80299D4(0x33);
+            sub_80299D4(MUS_VS__BOSS_PINCH);
         }
 
         s->anim = ANIM_BOSS_1_COCKPIT;
@@ -1255,7 +1267,7 @@ void sub_806A5DC(EggHammerTankIII *boss)
         m4aSongNumStart(SE_235);
         sub_807A468();
 
-        if (gStageData.gameMode == 5) {
+        if (gStageData.gameMode == GAME_MODE_5) {
             if (gStageData.playerIndex == 0) {
                 if (boss->lives != 0) {
                     sub_8027674(3U, boss->lives);
@@ -1287,7 +1299,7 @@ void sub_0806A69C(u8 *arg0)
             boss->partner->moveState |= MOVESTATE_IGNORE_INPUT;
             boss->unk32 = 0;
             boss->unk2C = UNK2C_STATE_A;
-            boss->unk2E = 0;
+            boss->delay = DELAY_STATE_A;
             ResolvePlayerSpriteCollision(s, boss->player);
             ResolvePlayerSpriteCollision(s, boss->partner);
             gStageData.taskBoss->main = Task_806A760;
@@ -1363,7 +1375,7 @@ void sub_806A818(EggHammerTankIII *boss)
     boss->partner->moveState |= MOVESTATE_IGNORE_INPUT;
     boss->unk32 = 0;
     boss->unk2C = UNK2C_STATE_A;
-    boss->unk2E = 0;
+    boss->delay = DELAY_STATE_A;
     ResolvePlayerSpriteCollision(s, boss->player);
     ResolvePlayerSpriteCollision(s, boss->partner);
 }

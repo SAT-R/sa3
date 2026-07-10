@@ -62,7 +62,7 @@
 #define MUS_VS__7_BOSS_PINCH     0x35
 #define MUS_VS__FINAL_BOSS       0x36
 #define MUS_VS__FINAL_BOSS_PINCH 0x37
-#define MUS_VS__EX_BOSS          0x38 // NONAGRESSION?
+#define MUS_VS__EX_BOSS          0x38
 #define MUS_VS__EX_BOSS_PINCH    0x39
 
 #define MUS_INTACT_MUSIC_2 0x3A
