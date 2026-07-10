@@ -628,6 +628,10 @@
 #define ANIM_BOSS_1_JOINT_WIDTH                     16
 #define ANIM_BOSS_1_JOINT_HEIGHT                    16
 
+// 1208
+#define ANIM_BOSS_1_COCKPIT_WIDTH                   64
+#define ANIM_BOSS_1_COCKPIT_HEIGHT                  64
+
 // 1286
 #define ANIM_GEMERL_IDLE_WIDTH                      64
 #define ANIM_GEMERL_IDLE_HEIGHT                     64

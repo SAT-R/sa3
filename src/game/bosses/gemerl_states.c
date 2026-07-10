@@ -6,6 +6,7 @@
 #include "game/sa3/bosses/gemerl_states.h"
 #include "game/bosses.h"
 #include "game/stage.h"
+#include "game/sa3/bosses/more_gemerl.h"
 #include "game/shared/stage/player_callbacks.h"
 #include "game/shared/stage/terrain_collision.h"
 #include "multi_sio_stuff.h"
@@ -53,7 +54,6 @@ extern s32 sub_807A1DC(Sprite *);
 
 extern Task *sub_8079758(s32, s16, s16, s16, s16, u8, s16, u8 *);
 extern void sub_807A574(Gemerl *, u8, u8, u8);
-void sub_8078DB0(s16 param0, s8 param1, s16 param2, s8 param3);
 
 // if gStageData.gameMode is Single Player TimeAttack,
 // then set gPseudoRandom = (gStageData.zone * 1001)
@@ -1009,7 +1009,7 @@ void sub_8067590(Gemerl *gemerl)
         gemerl->unk21 = 0x78;
         m4aSongNumStart(SE_546);
 
-        sub_8078DB0(0x518, 0, 120, 0);
+        sub_8078DB0(1304, 0, 120, 0);
 
         if (gemerl->unk20) {
             if (CURRENT_GAME_MODE == GAME_MODE_5) {
