@@ -242,10 +242,10 @@ void sub_805A8B0(Ape *enemy)
     u32 chk;
     Sprite *s2 = &enemy->s2;
 
-    const u32 rangeMax[2] = {85, 213};
+    const u32 rangeMax[2] = {84, 212};
 
     chk = enemy->unk8;
-    if (isBetween(chk, 45, rangeMax[0]) || chk, 173, rangeMax[1]) {
+    if (isBetween(chk, 45, rangeMax[0]) || isBetween(chk, 173, rangeMax[1])) {
         enemy->unk8 += 3;
     } else {
         enemy->unk8++;
@@ -288,7 +288,7 @@ bool32 sub_805A964(Ape *enemy)
         if (!p)
             break;
 
-        dir = (u16)sa2__sub_8004418(I(p->qWorldY) - worldY, I(p->qWorldX) - worldX);
+        dir = (u16)SA2_LABEL(sub_8004418)(I(p->qWorldY) - worldY, I(p->qWorldX) - worldX);
         if (((((u16)(dir + ~Q(3)) < 255) || ((u16)(dir - 1) < 255)) && (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP))
             || ((((u16)(dir + ~Q(1)) < 511)) && !(s->frameFlags & SPRITE_FLAG_MASK_X_FLIP))) {
             return TRUE;
@@ -369,7 +369,7 @@ void Task_ApeProjectileInit(void)
     worldX = TO_WORLD_POS_RAW(I(proj->qPos.x), proj->region[0]);
     worldY = TO_WORLD_POS_RAW(I(proj->qPos.y), proj->region[1]);
 
-    res = sa2__sub_801F07C(worldY, worldX, 1, +8, 0, sa2__sub_801EE64);
+    res = SA2_LABEL(sub_801F07C)(worldY, worldX, 1, +8, 0, sa2__sub_801EE64);
 
     if (res < 0) {
         proj->qPos.y += Q(res);
