@@ -28,7 +28,7 @@ typedef struct {
     /* 0x1C */ s8 unk1C;
     /* 0x1D */ u8 unk1D;
     /* 0x1E */ u8 unk1E;
-    /* 0x1F */ s8 unk1F;
+    /* 0x1F */ u8 unk1F;
     /* 0x20 */ s8 unk20;
     /* 0x21 */ s8 unk21;
     /* 0x22 */ u8 unk22;
@@ -79,6 +79,10 @@ void sub_806D01C(EggWheeler *boss);
 void sub_806D07C(EggWheeler *boss);
 void CreateBoss2Entrance(u8 *out, u8 *vram);
 void CreateBoss2Exit(u8 *out, u8 *vram);
+void sub_806B144(EggWheeler *boss, Vec2_32 *vec);
+void sub_806B23C(EggWheeler *boss, Vec2_32 *vec);
+void sub_806B2F4(EggWheeler *boss, Vec2_32 *vec);
+u8 sub_806B3A4(EggWheeler *boss, Vec2_32 *vec);
 
 extern void sub_807A4A8(void);
 extern void SetFixedRandomIfTimeAttackMode(void);
@@ -435,14 +439,13 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__Task_806AEDC.inc", void Task_806A
         } else if (boss->unk44 > 0) {
             boss->unk3C -= Q(2);
         }
-        if (boss->unk30 == 0) {
-            sub_806D01C(boss);
-            boss->unk30 = 0xFFFF;
-        }
-    } else {
+    }
+
+    if (boss->unk30 == 0) {
         sub_806D01C(boss);
         boss->unk30 = 0xFFFF;
     }
+
     sub_806CEE8(boss);
     boss->unk1F = boss->unk1E;
     sub_806D07C(boss);
@@ -473,3 +476,30 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__Task_806AEDC.inc", void Task_806A
     }
 }
 END_NONMATCH
+
+u8 sub_806B094(EggWheeler *boss)
+{
+    u8 result = 0;
+    s32 sinVal = -SIN_24_8(boss->unk1F * 4);
+    s32 cosVal = +COS_24_8(boss->unk1F * 4);
+    s32 qWorldX = boss->unk0 + sinVal * 32 + sinVal * 4 + sinVal * 2;
+    s32 qWorldY = boss->unk4 + cosVal * 32 + cosVal * 4 + cosVal * 2;
+    Vec2_32 vec;
+
+    vec.x = I(qWorldX);
+    vec.y = I(qWorldY);
+
+    if ((u8)(boss->unk1E + 0x60) <= 0x3FU) {
+        sub_806B144(boss, &vec);
+    } else if ((u8)(boss->unk1E - 0x60) <= 0x3FU) {
+        sub_806B23C(boss, &vec);
+    } else {
+        u8 temp_r0 = boss->unk1E - 32;
+        if (temp_r0 < (u8) + Q(0.25)) {
+            sub_806B2F4(boss, &vec);
+        } else if (temp_r0 >= (u8)-Q(0.25)) {
+            result = sub_806B3A4(boss, &vec);
+        }
+    }
+    return result;
+}
