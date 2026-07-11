@@ -26,12 +26,12 @@ typedef struct {
     /* 0x1A */ s8 unk1A;
     /* 0x1B */ s8 unk1B;
     /* 0x1C */ s8 unk1C;
-    /* 0x1D */ s8 unk1D;
+    /* 0x1D */ u8 unk1D;
     /* 0x1E */ u8 unk1E;
     /* 0x1F */ s8 unk1F;
     /* 0x20 */ s8 unk20;
     /* 0x21 */ s8 unk21;
-    /* 0x22 */ s8 unk22;
+    /* 0x22 */ u8 unk22;
     /* 0x23 */ s8 unk23;
     /* 0x24 */ s8 unk24;
     /* 0x25 */ s8 unk25;
@@ -70,9 +70,12 @@ void Task_CreatePlatformButton(void);
 void TaskDestructor_Boss2(struct Task *t);
 void sub_806AA40(EggWheeler *boss);
 void sub_806AAA4(EggWheeler *boss);
-void sub_806B094(EggWheeler *boss);
+u8 sub_806B094(EggWheeler *boss);
+bool32 sub_806B844(EggWheeler *boss);
 AnimCmdResult sub_806BC50(EggWheeler *boss);
+void sub_806C1C8(void);
 void sub_806CEE8(EggWheeler *boss);
+void sub_806D01C(EggWheeler *boss);
 void sub_806D07C(EggWheeler *boss);
 void CreateBoss2Entrance(u8 *out, u8 *vram);
 void CreateBoss2Exit(u8 *out, u8 *vram);
@@ -369,3 +372,104 @@ void Task_CreatePlatformButton()
     CreateEntity_BlueButton(&boss->me, regionX, regionY, 0);
     gCurTask->main = Task_806AEDC;
 }
+
+// (98.00%) https://decomp.me/scratch/UbsXG
+NONMATCH("asm/non_matching/game/bosses/boss_2__Task_806AEDC.inc", void Task_806AEDC(void))
+{
+    s16 temp_r2_3;
+    s16 temp_r3_2;
+    s16 temp_r0_4;
+    s32 temp_r1;
+    s32 temp_r2;
+    s32 temp_r2_2;
+    s32 temp_r3;
+    s32 temp_r4;
+    s16 temp_r4_2;
+    s32 var_r0;
+    s32 var_r0_2;
+    s32 var_r2;
+    u16 temp_r0;
+    u16 temp_r0_2;
+    u16 temp_r0_3;
+    u8 *var_r1;
+#ifndef NON_MATCHING
+    register s32 temp_r6 asm("r6");
+#else
+    s32 temp_r6;
+#endif
+    s32 var_r4;
+    u8 var_r0_3;
+
+    EggWheeler *boss = TASK_DATA(gCurTask);
+
+    if ((boss->unk30 == 0) || (--boss->unk30 == 0)) {
+        boss->unk38 = 0x1F4;
+        boss->unk40 = (s32)boss->unk40 >> 1;
+        boss->unk3C = 0x1F4;
+        boss->unk44 = (s32)boss->unk44 >> 1;
+    }
+    boss->unk0 += boss->unk38;
+    boss->unk4 += boss->unk3C;
+    temp_r6 = sub_806B094(boss);
+    if ((u8)boss->unk1D == 1) {
+        boss->unk38 = COS(boss->unk1E * 4) >> 7;
+        boss->unk3C = SIN(boss->unk1E * 4) >> 7;
+    } else {
+        boss->unk38 = COS(boss->unk1E * 4) >> 8;
+        boss->unk3C = SIN(boss->unk1E * 4) >> 8;
+    }
+    boss->unk3C += boss->unk44;
+    temp_r2 = boss->unk40;
+    temp_r3 = boss->unk38 + boss->unk40;
+    boss->unk38 = temp_r3;
+    temp_r0_3 = boss->unk30;
+
+    if (boss->unk30 != 0) {
+        if (boss->unk40 < 0) {
+            boss->unk38 += Q(2);
+        } else if (boss->unk40 > 0) {
+            boss->unk38 -= Q(2);
+        }
+        if (boss->unk44 < 0) {
+            boss->unk3C += Q(2);
+        } else if (boss->unk44 > 0) {
+            boss->unk3C -= Q(2);
+        }
+        if (boss->unk30 == 0) {
+            sub_806D01C(boss);
+            boss->unk30 = 0xFFFF;
+        }
+    } else {
+        sub_806D01C(boss);
+        boss->unk30 = 0xFFFF;
+    }
+    sub_806CEE8(boss);
+    boss->unk1F = boss->unk1E;
+    sub_806D07C(boss);
+    sub_806BC50(boss);
+    if (temp_r6 != 0) {
+        sub_806D01C(boss);
+    }
+    if (sub_806B844(boss) == 1) {
+        gCurTask->main = sub_806C1C8;
+        boss->me.d.sData[4] = 0xFF;
+    } else {
+        s16 worldY;
+        u16 regionX, regionY;
+        temp_r4 = boss->unk0;
+        regionX = (I(boss->unk0) >> 8);
+        regionY = (I(boss->unk4) >> 8);
+        temp_r0_4 = (s16)((boss->unk22));
+        temp_r0_4 = temp_r0_4 * 8 + ((regionX << 8));
+        worldY = TO_WORLD_POS(boss->me.y, regionY);
+        temp_r4 = Q(temp_r4);
+        temp_r3_2 = (I(boss->unk4) + 38);
+        if ((temp_r0_4 - 0x10 < (temp_r4 >> 16)) && ((s32)(temp_r0_4 + 0x10) > (temp_r4 >> 16))) {
+            temp_r2_3 = worldY;
+            if (((s32)(temp_r2_3 - 8) < (s32)temp_r3_2) && ((s32)(temp_r2_3 + 8) > (s32)temp_r3_2)) {
+                boss->me.d.sData[4] = 2;
+            }
+        }
+    }
+}
+END_NONMATCH
