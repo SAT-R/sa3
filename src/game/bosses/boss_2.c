@@ -6,6 +6,7 @@
 #include "game/save.h"
 #include "game/stage.h"
 #include "game/shared/stage/music_manager.h"
+#include "game/shared/stage/terrain_collision.h"
 #include "game/interactables/blue_red_button.h"
 #include "constants/animations.h"
 #include "constants/interactables.h"
@@ -29,7 +30,7 @@ typedef struct {
     /* 0x1D */ u8 unk1D;
     /* 0x1E */ u8 unk1E;
     /* 0x1F */ u8 unk1F;
-    /* 0x20 */ s8 unk20;
+    /* 0x20 */ u8 unk20;
     /* 0x21 */ s8 unk21;
     /* 0x22 */ u8 unk22;
     /* 0x23 */ s8 unk23;
@@ -502,4 +503,68 @@ u8 sub_806B094(EggWheeler *boss)
         }
     }
     return result;
+}
+
+// Fake-match
+void sub_806B144(EggWheeler *boss, Vec2_32 *pos)
+{
+    s32 sb = 0;
+    s32 var_r0_2;
+    s8 *var_r2_2;
+    s8 var_r0;
+    u8 *temp_r6;
+    u8 temp_r0;
+    u8 temp_r5;
+    s32 temp_r1;
+    u8 var_r2;
+    s32 var_r4;
+
+    temp_r5 = SA2_LABEL(sub_801F07C)(pos->x + 0, pos->y, 0, 8, &boss->unk1E, SA2_LABEL(sub_801ED24));
+    var_r0 = SA2_LABEL(sub_801F07C)(pos->x - 8, pos->y, 0, 8, &boss->unk1E, SA2_LABEL(sub_801ED24));
+#ifndef NON_MATCHING
+    asm("mov %0, %1" : "=r"(var_r2) : "r"(var_r0));
+#else
+    var_r2 = var_r0;
+#endif
+    if (var_r0 << 24 > temp_r5 << 24) {
+        var_r2 = temp_r5;
+    }
+    var_r4 = var_r2;
+    if (boss->unk1E == 0x80) {
+        boss->unk1E = 0;
+    }
+    if (boss->unk1E == 0) {
+        boss->unk1E = 0xA0;
+    }
+
+    sb = 1;
+    if (boss->unk20 == 0) {
+        boss->unk24 = 1;
+        boss->unk44 = 0 - boss->unk40;
+        boss->unk3C = 0 - boss->unk38;
+    } else {
+        if (boss->unk20 == 1) {
+            boss->unk24 = -1;
+            boss->unk44 = boss->unk40;
+            boss->unk3C = boss->unk38;
+        }
+    }
+    if (boss->unk1D != 1) {
+        boss->unk44 += 2;
+    }
+    if (boss->unk3C > 0) {
+        boss->unk24 = -1;
+    } else {
+        boss->unk24 = +1;
+    }
+    boss->unk38 = 0;
+    boss->unk40 = 0;
+    boss->unk20 = 3;
+    if (sb != 0) {
+        if (sb > 0) {
+            boss->unk0 += Q_8_8(var_r4);
+        } else {
+            boss->unk0 -= Q_8_8(var_r4);
+        }
+    }
 }
