@@ -813,7 +813,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806B484.inc", void sub_806B48
 }
 END_NONMATCH
 
-// (98.61%) https://decomp.me/scratch/8cBpi
+// (98.53%) https://decomp.me/scratch/8cBpi
 NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806B5A8.inc", void sub_806B5A8(EggWheeler *boss))
 {
     s32 var_r4;
@@ -882,9 +882,10 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806B5A8.inc", void sub_806B5A
 }
 END_NONMATCH
 
-s32 sub_806B6C8(EggWheeler *boss) {
+s32 sub_806B6C8(EggWheeler *boss)
+{
     Strc_806CAA4 sp0;
-    Sprite *s = (Sprite*)&boss->sprEggman;
+    Sprite *s = (Sprite *)&boss->sprEggman;
     s32 temp_ip = 0;
     s32 sx, sy;
     s32 x, y;
@@ -892,8 +893,8 @@ s32 sub_806B6C8(EggWheeler *boss) {
     sp0.unk8 = 0;
     sp0.unk4 = 0;
     sp0.unk9 = 0;
-    boss->sprEggman.hitboxes[0].b.left  += 0x11;
-    boss->sprEggman.hitboxes[0].b.top   += 0x29;
+    boss->sprEggman.hitboxes[0].b.left += 0x11;
+    boss->sprEggman.hitboxes[0].b.top += 0x29;
     boss->sprEggman.hitboxes[0].b.right += 0x11;
     boss->sprEggman.hitboxes[0].b.bottom += 0x29;
     sp0.s = s;
@@ -906,9 +907,9 @@ s32 sub_806B6C8(EggWheeler *boss) {
     sp0.unkC = 0;
     sp0.unkE = 0;
     temp_ip = sub_806CAA4(&sp0);
-    boss->sprEggman.hitboxes[0].b.left   -= 0x11;
-    boss->sprEggman.hitboxes[0].b.top    -= 0x29;
-    boss->sprEggman.hitboxes[0].b.right  -= 0x11;
+    boss->sprEggman.hitboxes[0].b.left -= 0x11;
+    boss->sprEggman.hitboxes[0].b.top -= 0x29;
+    boss->sprEggman.hitboxes[0].b.right -= 0x11;
     boss->sprEggman.hitboxes[0].b.bottom -= 0x29;
     boss->unk15 = sp0.unk9;
     boss->unk26 = sp0.unkA;
@@ -916,3 +917,34 @@ s32 sub_806B6C8(EggWheeler *boss) {
 
     return temp_ip;
 }
+
+// (83.85%) https://decomp.me/scratch/Dh15W
+NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806B788.inc", void sub_806B788(s32 *a, VoidFn fn))
+{
+    s32 points[4];
+    Player *p;
+    s32 temp_r2;
+    u16 temp_r0;
+    u8 var_r1;
+    u8 var_r2;
+    EggWheeler *boss = TASK_DATA(gCurTask);
+
+    if (boss->unk2E == 0) {
+        s32 x = (I(boss->unk0) - gCamera.x) + 10;
+        boss->unk2E++;
+        points[0] = gCamera.x + x;
+        points[1] = gCamera.maxY - 50;
+        points[2] = gCamera.x;
+        points[3] = gCamera.maxY - 27;
+        sub_8078E34(points, sub_807A37C);
+    }
+    if ((u8)boss->unk1C == 4) {
+        for (var_r2 = 0; var_r2 < 2; var_r2++) {
+            p = GET_SP_PLAYER_V0(var_r2);
+            p->layer = 1;
+        }
+
+        gCurTask->main = sub_806CEB8;
+    }
+}
+END_NONMATCH
