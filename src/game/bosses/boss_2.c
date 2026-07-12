@@ -378,8 +378,7 @@ void Task_CreatePlatformButton()
     gCurTask->main = Task_806AEDC;
 }
 
-// (98.00%) https://decomp.me/scratch/UbsXG
-NONMATCH("asm/non_matching/game/bosses/boss_2__Task_806AEDC.inc", void Task_806AEDC(void))
+void Task_806AEDC(void)
 {
     s16 temp_r2_3;
     s16 temp_r3_2;
@@ -397,11 +396,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__Task_806AEDC.inc", void Task_806A
     u16 temp_r0_2;
     u16 temp_r0_3;
     u8 *var_r1;
-#ifndef NON_MATCHING
-    register s32 temp_r6 asm("r6");
-#else
     s32 temp_r6;
-#endif
     s32 var_r4;
     u8 var_r0_3;
 
@@ -427,7 +422,6 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__Task_806AEDC.inc", void Task_806A
     temp_r2 = boss->unk40;
     temp_r3 = boss->unk38 + boss->unk40;
     boss->unk38 = temp_r3;
-    temp_r0_3 = boss->unk30;
 
     if (boss->unk30 != 0) {
         if (boss->unk40 < 0) {
@@ -476,7 +470,6 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__Task_806AEDC.inc", void Task_806A
         }
     }
 }
-END_NONMATCH
 
 u8 sub_806B094(EggWheeler *boss)
 {
