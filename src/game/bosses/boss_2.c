@@ -742,3 +742,142 @@ u8 sub_806B3A4(EggWheeler *boss, Vec2_32 *pos)
     }
     return var_r5;
 }
+
+// (98.61%) https://decomp.me/scratch/RLSBK
+NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806B484.inc", void sub_806B484(EggWheeler *boss))
+{
+    s32 var_r4;
+    s32 var_r6;
+    s32 value0;
+    s32 value;
+
+    var_r6 = 5;
+    var_r4 = 0;
+    if (boss->unk14 != 0) {
+        var_r6 = 7;
+        boss->unk14--;
+    }
+    if ((ABS(boss->unk38) >= 500 && (ABS(boss->unk38) < 800)) || (ABS(boss->unk3C) >= 500 && (ABS(boss->unk3C) < 800))) {
+        var_r4 = 2;
+    } else if ((ABS(boss->unk38) >= 800 && (ABS(boss->unk38) < 1100)) || (ABS(boss->unk3C) >= 800 && (ABS(boss->unk3C) < 1100))) {
+        var_r4 = 3;
+    } else if ((ABS(boss->unk38) >= 1100) || (ABS(boss->unk3C) >= 1100)) {
+        var_r4 = 4;
+    }
+
+    if (boss->unk20 == 0) {
+        if (boss->unk38 > -0x80) {
+            value = (var_r4 + 1) << var_r6;
+        } else if ((u32)(boss->unk38 + 0xFF) <= 0x7FU) {
+            value = (var_r4 + 2) << var_r6;
+        } else {
+            value = (var_r4 + 3) << var_r6;
+        }
+        value0 = boss->unk2C - value;
+        boss->unk2C = value0;
+    } else if (boss->unk20 == 1) {
+        if (boss->unk38 <= 0x7F) {
+            value = (var_r4 + 1) << var_r6;
+        } else if ((u32)(boss->unk38 - 0x80) <= 0x7FU) {
+            value = (var_r4 + 2) << var_r6;
+        } else {
+            value = (var_r4 + 3) << var_r6;
+        }
+        value0 = boss->unk2C - value;
+        boss->unk2C = value0;
+    } else if (boss->unk20 == 2) {
+        if (boss->unk3C > -0x80) {
+            value = (var_r4 + 1) << var_r6;
+        } else if (boss->unk3C > -0x100 && (boss->unk38 <= -0x80)) {
+            value = (var_r4 + 2) << var_r6;
+        } else {
+            value = (var_r4 + 3) << var_r6;
+        }
+        value0 = boss->unk2C - value;
+        boss->unk2C = value0;
+    } else if (boss->unk20 == 3) {
+        if (boss->unk3C < 0x80) {
+            value = (var_r4 + 1) << var_r6;
+        } else if ((boss->unk3C <= 0xFF) && (boss->unk38 > 0x7F)) {
+            value = (var_r4 + 2) << var_r6;
+        } else {
+            value = (var_r4 + 3) << var_r6;
+        }
+        value0 = boss->unk2C - value;
+        boss->unk2C = value0;
+    }
+
+    if (boss->unk2C > 0x3FF0) {
+        boss->unk2C = 0x3FF0;
+    }
+}
+END_NONMATCH
+
+// (98.61%) https://decomp.me/scratch/8cBpi
+NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806B5A8.inc", void sub_806B5A8(EggWheeler *boss))
+{
+    s32 var_r4;
+    s32 var_r6;
+    s32 value;
+
+    var_r6 = 5;
+    var_r4 = 0;
+    if (boss->unk14 != 0) {
+        var_r6 = 7;
+        boss->unk14--;
+    }
+    if ((ABS(boss->unk38) >= 500 && (ABS(boss->unk38) < 800)) || (ABS(boss->unk3C) >= 500 && (ABS(boss->unk3C) < 800))) {
+        var_r4 = 2;
+    } else if ((ABS(boss->unk38) >= 800 && (ABS(boss->unk38) < 1100)) || (ABS(boss->unk3C) >= 800 && (ABS(boss->unk3C) < 1100))) {
+        var_r4 = 3;
+    } else if ((ABS(boss->unk38) >= 1100) || (ABS(boss->unk3C) >= 1100)) {
+        var_r4 = 4;
+    }
+
+    if (boss->unk20 == 0) {
+        if (boss->unk38 < 0x80) {
+            value = (var_r4 + 1) << var_r6;
+        } else if (boss->unk38 >= 0x80 && boss->unk38 < 0x100) {
+            value = (var_r4 + 2) << var_r6;
+        } else {
+            value = (var_r4 + 3) << var_r6;
+        }
+        value += boss->unk2C;
+        boss->unk2C = value;
+    } else if (boss->unk20 == 1) {
+        if (boss->unk38 > -0x80) {
+            value = (var_r4 + 1) << var_r6;
+        } else if ((u32)(boss->unk38 + 0xFF) <= 0x7FU) {
+            value = (var_r4 + 2) << var_r6;
+        } else {
+            value = (var_r4 + 3) << var_r6;
+        }
+        value += boss->unk2C;
+        boss->unk2C = value;
+    } else if (boss->unk20 == 2) {
+        if (boss->unk3C < 0x80) {
+            value = (var_r4 + 1) << var_r6;
+        } else if (boss->unk3C >= 0x80 && boss->unk3C < 0x100) {
+            value = (var_r4 + 2) << var_r6;
+        } else {
+            value = (var_r4 + 3) << var_r6;
+        }
+        value += boss->unk2C;
+        boss->unk2C = value;
+    } else if (boss->unk20 == 3) {
+        if (boss->unk3C > -0x80) {
+            value = (var_r4 + 1) << var_r6;
+        } else if ((u32)(boss->unk3C + 0xFF) <= 0x7FU) {
+            value = (var_r4 + 2) << var_r6;
+        } else {
+            value = (var_r4 + 3) << var_r6;
+        }
+        value += boss->unk2C;
+        boss->unk2C = value;
+    }
+
+    if (boss->unk2C > 0x3FF0U) {
+        boss->unk2C = 0;
+    }
+}
+END_NONMATCH
