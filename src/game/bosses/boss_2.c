@@ -18,7 +18,7 @@ typedef struct {
     /* 0x0C */ s32 unk8;
     /* 0x0C */ s32 unkC;
     /* 0x10 */ u8 *unk10;
-    /* 0x14 */ s8 unk14;
+    /* 0x14 */ u8 unk14;
     /* 0x15 */ s8 unk15;
     /* 0x16 */ s8 unk16;
     /* 0x17 */ s8 unk17;
@@ -40,10 +40,9 @@ typedef struct {
     /* 0x27 */ s8 unk27;
     /* 0x28 */ s16 unk28;
     /* 0x2A */ s16 unk2A;
-    /* 0x2C */ s16 unk2C;
-    /* 0x2E */ s16 unk2E;
+    /* 0x2C */ u16 unk2C;
+    /* 0x2E */ u16 unk2E;
     /* 0x30 */ u16 unk30;
-    /* 0x18 */ u8 filler32[0x2];
     /* 0x34 */ u8 *vram34;
     /* 0x38 */ s32 unk38;
     /* 0x3C */ s32 unk3C;
@@ -61,6 +60,22 @@ typedef struct {
     /* 0xEC */ u8 fillerEC[0x10];
     /* 0xC4 */ Sprite sprFC;
 } EggWheeler; /* 0x124 */
+
+typedef struct {
+    /* 0x00 */ s32 unk0;
+    /* 0x04 */ s32 unk4;
+    /* 0x08 */ u8 unk8;
+    /* 0x09 */ u8 unk9;
+    /* 0x0A */ u8 unkA;
+    /* 0x0B */ u8 unkB;
+    /* 0x0C */ s16 unkC;
+    /* 0x0E */ s16 unkE;
+    /* 0x10 */ s32 unk10;
+    /* 0x10 */ s32 unk14;
+    /* 0x10 */ s32 unk18;
+    /* 0x1C */ Sprite *s;
+    /* 0x20 */ u8 unk20[8];
+} Strc_806CAA4;
 
 void Task_Boss2Init(void);
 void Task_806AC7C(void);
@@ -84,7 +99,11 @@ void sub_806B144(EggWheeler *boss, Vec2_32 *vec);
 void sub_806B23C(EggWheeler *boss, Vec2_32 *vec);
 void sub_806B2F4(EggWheeler *boss, Vec2_32 *vec);
 u8 sub_806B3A4(EggWheeler *boss, Vec2_32 *vec);
+s32 sub_806CAA4(Strc_806CAA4 *); /* extern */
+void sub_806CEB8(); /* extern */
 
+extern void sub_8078E34(s32 *, VoidFn);
+extern void sub_807A37C(void);
 extern void sub_807A4A8(void);
 extern void SetFixedRandomIfTimeAttackMode(void);
 extern const TileInfo2 gUnknown_080D5780[8];
@@ -601,9 +620,125 @@ void sub_806B23C(EggWheeler *boss, Vec2_32 *pos)
 #endif
     if (var != 0) {
         if (var > 0) {
-            boss->unk4 += (s16)(temp_r2 << 8);
+            boss->unk4 += Q_8_8(temp_r2);
         } else {
-            boss->unk4 -= (s16)(temp_r2 << 8);
+            boss->unk4 -= Q_8_8(temp_r2);
         }
     }
+}
+
+// TODO: Fake-match
+void sub_806B2F4(EggWheeler *boss, Vec2_32 *vec)
+{
+    s8 temp_r0;
+    s32 var_r0;
+    s32 var_r0_3;
+    s8 *var_r1;
+    s8 var_r0_2;
+    u8 temp_r2;
+    u8 temp_r3;
+
+    temp_r3 = (u8)sa2__sub_801F07C(vec->x, vec->y, 0, -8, &boss->unk1E, sa2__sub_801ED24);
+    if (boss->unk1E == 0) {
+        boss->unk1E = 0x40;
+    }
+    temp_r2 = (u8)boss->unk20;
+    if (temp_r2 == 0) {
+        boss->unk24 = -1;
+        boss->unk44 = +boss->unk40;
+        boss->unk3C = +boss->unk38;
+    } else if (temp_r2 == 1) {
+        boss->unk24 = +1;
+        boss->unk44 = -boss->unk40;
+        boss->unk3C = -boss->unk38;
+    }
+    if (boss->unk1D != 1) {
+        boss->unk44 += 2;
+    }
+    if (boss->unk3C > 0) {
+        boss->unk24 = 1;
+    } else {
+        boss->unk24 = -1;
+    }
+    boss->unk38 = 0;
+    boss->unk40 = 0;
+    boss->unk20 = 2;
+#ifndef NON_MATCHING
+    asm("mov %0, #0xFF" : "=r"(temp_r0));
+#else
+    temp_r0 = -1;
+#endif
+    if (temp_r0 != 0) {
+        if (temp_r0 > 0) {
+            boss->unk0 = boss->unk0 + (s16)(temp_r3 << 8);
+        } else {
+            boss->unk0 = boss->unk0 - (s16)(temp_r3 << 8);
+        }
+    }
+}
+
+// TODO: Fake-match
+u8 sub_806B3A4(EggWheeler *boss, Vec2_32 *pos)
+{
+    s32 temp_r1_2;
+    s32 var_r0;
+    s32 var_r0_2;
+    s32 var_r0_3;
+    s32 var_r0_4;
+    s32 var_r0_5;
+    u8 temp_r0;
+    u8 temp_r1;
+    u8 var_r5 = 0;
+    u8 temp_r3 = (u8)sa2__sub_801F07C(pos->y, pos->x, 0, 8, &boss->unk1E, sa2__sub_801EE64);
+    s32 r7 = 1;
+#ifndef NON_MATCHING
+    register s32 r0 asm("r0");
+#else
+    s32 r0;
+#endif
+
+    if (boss->unk1E == 0x80) {
+        boss->unk1E = 0;
+    }
+
+    if (boss->unk20 == 2) {
+        boss->unk24 = r7;
+        boss->unk40 = +boss->unk44;
+        boss->unk38 = +boss->unk3C;
+    } else if (boss->unk20 == 3) {
+        boss->unk24 = -1;
+        boss->unk40 = -boss->unk44;
+        boss->unk38 = -boss->unk3C;
+    }
+
+    if (boss->unk1D != 1) {
+        if (boss->unk24 < 0) {
+            boss->unk40 = boss->unk40 + 2;
+        } else {
+            boss->unk40 = boss->unk40 - 2;
+        }
+    }
+
+    if (ABS(boss->unk40) <= 0) {
+        if (boss->unk1D != 1) {
+            if (boss->unk24 < 0) {
+                boss->unk40 += 2;
+            } else {
+                boss->unk40 -= 2;
+            }
+        }
+        var_r5 = 1;
+    }
+    boss->unk3C = 0;
+    boss->unk44 = 0;
+    boss->unk20 = 0;
+    r0 = r7;
+    if (r0 != 0) {
+        if (r0 > 0) {
+            boss->unk4 += Q_8_8(temp_r3);
+        } else {
+            boss->unk4 -= Q_8_8(temp_r3);
+        }
+    }
+    return var_r5;
 }
