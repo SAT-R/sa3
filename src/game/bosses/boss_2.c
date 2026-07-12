@@ -279,7 +279,8 @@ void Task_806AC7C(void)
     sub_806BC50(boss);
 }
 
-void Task_806AD04(void) {
+void Task_806AD04(void)
+{
     EggWheeler *boss = TASK_DATA(gCurTask);
     Sprite *s;
 
@@ -302,12 +303,12 @@ void Task_806AD04(void) {
         boss->unk24 = -1;
         do {
             boss->unk20 = 0;
-        } while(0);
+        } while (0);
         boss->unk40 = 0x80;
         boss->unk2C = 0;
         boss->unk2E = 0;
 
-        s = (Sprite*)&boss->sprEggman;
+        s = (Sprite *)&boss->sprEggman;
         s->anim = gUnknown_080D5780[2].anim;
         s->variant = gUnknown_080D5780[2].variant;
         s->prevVariant = -1;
