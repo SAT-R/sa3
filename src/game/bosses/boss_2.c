@@ -881,3 +881,38 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806B5A8.inc", void sub_806B5A
     }
 }
 END_NONMATCH
+
+s32 sub_806B6C8(EggWheeler *boss) {
+    Strc_806CAA4 sp0;
+    Sprite *s = (Sprite*)&boss->sprEggman;
+    s32 temp_ip = 0;
+    s32 sx, sy;
+    s32 x, y;
+    sp0.unk0 = 0;
+    sp0.unk8 = 0;
+    sp0.unk4 = 0;
+    sp0.unk9 = 0;
+    boss->sprEggman.hitboxes[0].b.left  += 0x11;
+    boss->sprEggman.hitboxes[0].b.top   += 0x29;
+    boss->sprEggman.hitboxes[0].b.right += 0x11;
+    boss->sprEggman.hitboxes[0].b.bottom += 0x29;
+    sp0.s = s;
+    sx = s->x;
+    x = gCamera.x + sx;
+    sp0.unk10 = Q(x);
+    sy = s->y;
+    y = gCamera.y + sy;
+    sp0.unk14 = Q(y);
+    sp0.unkC = 0;
+    sp0.unkE = 0;
+    temp_ip = sub_806CAA4(&sp0);
+    boss->sprEggman.hitboxes[0].b.left   -= 0x11;
+    boss->sprEggman.hitboxes[0].b.top    -= 0x29;
+    boss->sprEggman.hitboxes[0].b.right  -= 0x11;
+    boss->sprEggman.hitboxes[0].b.bottom -= 0x29;
+    boss->unk15 = sp0.unk9;
+    boss->unk26 = sp0.unkA;
+    boss->unk27 = sp0.unkB;
+
+    return temp_ip;
+}
