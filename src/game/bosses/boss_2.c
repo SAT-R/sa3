@@ -561,3 +561,49 @@ void sub_806B144(EggWheeler *boss, Vec2_32 *pos)
         }
     }
 }
+
+// Fake-match
+void sub_806B23C(EggWheeler *boss, Vec2_32 *pos)
+{
+    u8 temp_r2;
+    s8 var;
+
+    temp_r2 = SA2_LABEL(sub_801F07C)(pos->y, pos->x, 0, -8, &boss->unk1E, SA2_LABEL(sub_801EE64));
+    if (boss->unk1E == 0) {
+        boss->unk1E = 160;
+    }
+
+    if (boss->unk20 == 2) {
+        boss->unk24 = -1;
+        boss->unk40 = -boss->unk44;
+        boss->unk38 = -boss->unk3C;
+    } else if (boss->unk20 == 3) {
+        boss->unk24 = +1;
+        boss->unk40 = +boss->unk44;
+        boss->unk38 = +boss->unk3C;
+    }
+
+    if (boss->unk1D != 1) {
+        if (boss->unk24 < 0) {
+            boss->unk40 -= 2;
+        } else {
+            boss->unk40 += 2;
+        }
+    }
+
+    boss->unk44 = 0;
+    boss->unk3C = 0;
+    boss->unk20 = 1;
+#ifndef NON_MATCHING
+    asm("mov %0, #0xFF" : "=r"(var));
+#else
+    var = -1;
+#endif
+    if (var != 0) {
+        if (var > 0) {
+            boss->unk4 += (s16)(temp_r2 << 8);
+        } else {
+            boss->unk4 -= (s16)(temp_r2 << 8);
+        }
+    }
+}
