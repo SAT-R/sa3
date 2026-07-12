@@ -279,9 +279,7 @@ void Task_806AC7C(void)
     sub_806BC50(boss);
 }
 
-// (99.53%) https://decomp.me/scratch/mo9Hu
-NONMATCH("asm/non_matching/game/bosses/boss_2__Task_806AD04.inc", void Task_806AD04(void))
-{
+void Task_806AD04(void) {
     EggWheeler *boss = TASK_DATA(gCurTask);
     Sprite *s;
 
@@ -302,12 +300,14 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__Task_806AD04.inc", void Task_806A
         sub_806AA40(boss);
 
         boss->unk24 = -1;
-        boss->unk20 = 0;
+        do {
+            boss->unk20 = 0;
+        } while(0);
         boss->unk40 = 0x80;
         boss->unk2C = 0;
         boss->unk2E = 0;
 
-        s = (Sprite *)&boss->sprEggman;
+        s = (Sprite*)&boss->sprEggman;
         s->anim = gUnknown_080D5780[2].anim;
         s->variant = gUnknown_080D5780[2].variant;
         s->prevVariant = -1;
@@ -315,7 +315,6 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__Task_806AD04.inc", void Task_806A
         gCurTask->main = Task_806ADDC;
     }
 }
-END_NONMATCH
 
 void Task_806ADDC(void)
 {
