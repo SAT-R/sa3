@@ -2,10 +2,13 @@
 #include "core.h"
 #include "trig.h"
 #include "malloc_vram.h"
+#include "multi_sio_stuff.h"
 #include "lib/m4a/m4a.h"
 #include "game/save.h"
 #include "game/stage.h"
+#include "game/sa3/bosses/more_gemerl.h"
 #include "game/shared/stage/music_manager.h"
+#include "game/shared/stage/player_callbacks.h"
 #include "game/shared/stage/terrain_collision.h"
 #include "game/interactables/blue_red_button.h"
 #include "constants/animations.h"
@@ -31,11 +34,11 @@ typedef struct {
     /* 0x1E */ u8 unk1E;
     /* 0x1F */ u8 unk1F;
     /* 0x20 */ u8 unk20;
-    /* 0x21 */ s8 unk21;
+    /* 0x21 */ u8 unk21;
     /* 0x22 */ u8 unk22;
     /* 0x23 */ s8 unk23;
     /* 0x24 */ s8 unk24;
-    /* 0x25 */ s8 unk25;
+    /* 0x25 */ u8 unk25;
     /* 0x26 */ s8 unk26;
     /* 0x27 */ s8 unk27;
     /* 0x28 */ s16 unk28;
@@ -89,11 +92,14 @@ void sub_806AAA4(EggWheeler *boss);
 u8 sub_806B094(EggWheeler *boss);
 bool32 sub_806B844(EggWheeler *boss);
 AnimCmdResult sub_806BC50(EggWheeler *boss);
+void sub_806C12C(void);
 void sub_806C1C8(void);
+void sub_806CA28(EggWheeler *boss);
 void sub_806CEE8(EggWheeler *boss);
 void sub_806D01C(EggWheeler *boss);
 void sub_806D07C(EggWheeler *boss);
 void CreateBoss2Entrance(u8 *out, u8 *vram);
+s32 sub_806B6C8(EggWheeler *boss);
 void CreateBoss2Exit(u8 *out, u8 *vram);
 void sub_806B144(EggWheeler *boss, Vec2_32 *vec);
 void sub_806B23C(EggWheeler *boss, Vec2_32 *vec);
@@ -948,3 +954,190 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806B788.inc", void sub_806B78
     }
 }
 END_NONMATCH
+
+bool32 sub_806B844(EggWheeler *boss)
+{
+    u8 sp0;
+    s32 sp4;
+#ifndef BUG_FIX
+    Sprite *sprEggman;
+#else
+    // Prevent potential use of uninitted var
+    Sprite *sprEggman = (Sprite *)&boss->sprEggman;
+#endif
+    PlayerSpriteInfo *temp_r0_6;
+    PlayerSpriteInfo *temp_r0_9;
+    PlayerSpriteInfo *temp_r1;
+    PlayerSpriteInfo *temp_r1_4;
+    s32 temp_r5;
+    s32 temp_r6;
+    s32 temp_r7;
+    s32 var_r4;
+    u8 temp_r4_2;
+    u8 temp_r5_5;
+    Player *p = NULL;
+    s32 r6 = 0x480;
+    s32 sb = 0x1C;
+    sp4 = 0;
+    var_r4 = 0;
+    if (boss->unk25 != 0) {
+        boss->unk25 = 0;
+        var_r4 = 1;
+    } else {
+        Sprite *sprEggmanInner = (Sprite *)&boss->sprEggman;
+        u16 eggmanX = sprEggmanInner->x;
+        sprEggman = sprEggmanInner;
+        if (eggmanX > DISPLAY_WIDTH) {
+            goto return_0;
+        }
+        if (sprEggman->y > DISPLAY_HEIGHT) {
+            goto return_0;
+        }
+        if (sprEggman->y < 0) {
+            goto return_0;
+        }
+
+        if ((boss->unk23 == 0) && (boss->unk1D != 0) && (sub_806B6C8(boss) == 1)) {
+            var_r4 = 1;
+        }
+    }
+
+    if (var_r4) {
+        boss->unk14 = 0x3C;
+        temp_r4_2 = boss->unk1E;
+        temp_r5_5 = (u8)boss->unk1F;
+        sub_806AA40(boss);
+        boss->unk1E = temp_r4_2;
+        boss->unk1F = temp_r5_5;
+
+        if (boss->unk20 == 0) {
+            if (boss->unk26 > 0) {
+                boss->unk24 = +1;
+                boss->unk40 = +r6;
+            } else {
+                boss->unk24 = -1;
+                boss->unk40 = -r6;
+            }
+        } else if (boss->unk20 == 1) {
+            if (boss->unk26 < 0) {
+                boss->unk24 = +1;
+                boss->unk40 = -r6;
+            } else {
+                boss->unk24 = -1;
+                boss->unk40 = +r6;
+            }
+        } else if (boss->unk20 == 3) {
+            if (boss->unk27 < 0) {
+                boss->unk24 = +1;
+                boss->unk44 = -r6;
+            } else {
+                boss->unk24 = -1;
+                boss->unk44 = +r6;
+            }
+        } else if (boss->unk20 == 2) {
+            if (boss->unk27 < 0) {
+                boss->unk24 = +1;
+                boss->unk44 = -r6;
+            } else {
+                boss->unk24 = -1;
+                boss->unk44 = +r6;
+            }
+        }
+
+        m4aSongNumStart(SE_143);
+        sub_807A468();
+        boss->unk1D--;
+        if (gStageData.gameMode == 5) {
+            if (gStageData.playerIndex == 0) {
+                if (boss->unk1D != 0) {
+                    sub_8027674(3U, boss->unk1D);
+                }
+            } else {
+                sub_8027674(4U, boss->unk1D);
+            }
+        }
+        if (gStageData.difficulty == 0) {
+            if ((u8)boss->unk1D == 4) {
+                sub_80299D4(0x33U);
+            }
+        } else if ((u8)boss->unk1D == 3) {
+            sub_80299D4(0x33U);
+        }
+        if ((u8)boss->unk1D == 1) {
+            boss->unk30 = 0xFFFF;
+        } else {
+            boss->unk30 = 0x3C;
+        }
+        boss->sprEggman.anim = gUnknown_080D5780[3].anim;
+        boss->sprEggman.variant = gUnknown_080D5780[3].variant;
+        boss->sprEggman.prevVariant = -1;
+
+        boss->unk23 = 0x7A;
+        sub_8078DB0(0x4BE, 0, 0x7A, 1U);
+        sub_8078DB0(0x4BF, 0, 0x7A, 0U);
+    } else {
+        if (boss->unk21 == 0) {
+            for (sp0 = 0; sp0 < NUM_SINGLE_PLAYER_CHARS; sp0++) {
+                p = GET_SP_PLAYER_V0(sp0);
+                if (sub_802C080(p) == 0) {
+                    temp_r5 = I(p->qWorldX);
+                    temp_r5 += p->spriteInfoBody->s.hitboxes[0].b.left;
+                    temp_r6 = I(p->qWorldY);
+                    temp_r6 += p->spriteInfoBody->s.hitboxes[0].b.top;
+                    if (((ABS(temp_r5 - I(boss->unk0)) < sb)) && ((ABS(temp_r6 - I(boss->unk4)) < sb))) {
+                        sp4 = 1;
+                    }
+
+                    temp_r5 = I(p->qWorldX);
+                    temp_r5 += p->spriteInfoBody->s.hitboxes[0].b.left;
+                    temp_r6 = I(p->qWorldY);
+                    temp_r6 += p->spriteInfoBody->s.hitboxes[0].b.bottom;
+                    if (((ABS(temp_r5 - I(boss->unk0)) < sb)) && ((ABS(temp_r6 - I(boss->unk4)) < sb))) {
+                        sp4 = 1;
+                    }
+
+                    temp_r5 = I(p->qWorldX);
+                    temp_r5 += p->spriteInfoBody->s.hitboxes[0].b.right;
+                    temp_r6 = I(p->qWorldY);
+                    temp_r6 += p->spriteInfoBody->s.hitboxes[0].b.top;
+                    if (((ABS(temp_r5 - I(boss->unk0)) < sb)) && ((ABS(temp_r6 - I(boss->unk4)) < sb))) {
+                        sp4 = 1;
+                    }
+
+                    temp_r5 = I(p->qWorldX);
+                    temp_r5 += p->spriteInfoBody->s.hitboxes[0].b.right;
+                    temp_r6 = I(p->qWorldY);
+                    temp_r6 += p->spriteInfoBody->s.hitboxes[0].b.bottom;
+                    if (((ABS(temp_r5 - I(boss->unk0)) < sb)) && ((ABS(temp_r6 - I(boss->unk4)) < sb))) {
+                        sp4 = 1;
+                    }
+
+                    if (sp4 != 0) {
+                        Player_8014550(p);
+                        sprEggman->anim = gUnknown_080D5780[2].anim;
+                        sprEggman->variant = gUnknown_080D5780[2].variant;
+                        sprEggman->prevVariant = -1;
+                    }
+                    sp4 = 0;
+                }
+            }
+        }
+    }
+
+    if ((u8)boss->unk1D == 0) {
+        if (CURRENT_GAME_MODE == GAME_MODE_5) {
+            if (gStageData.playerIndex != PLAYER_1) {
+                gCurTask->main = sub_806C12C;
+                return FALSE;
+            } else {
+                sub_8027674(1U, 0U);
+            }
+        }
+
+        sub_806CA28(boss);
+        return TRUE;
+    }
+
+return_0:
+    return FALSE;
+}
