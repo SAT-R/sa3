@@ -2185,24 +2185,28 @@ bool32 sub_806CF70(EggWheeler *boss)
     }
 }
 
-#if 01
-#else
-bool32 sub_806CFD4(EggWheeler *boss) {
-    s32 temp_r3;
-    s32 temp_r3_2;
 
-    temp_r3 = (((s32) boss->unk4 >> 8) - gCamera.y) << 8;
-    if ((temp_r3 <= 0xFFFF8800) || (temp_r3_2 = temp_r3 + 0xFFFFFC00, (temp_r3_2 < 0xFFFF8800))) {
-        boss->unk4 = (gCamera.y << 8) + 0xFFFF8800;
+// (87.12%) https://decomp.me/scratch/kYVcQ
+NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806CFD4.inc", bool32 sub_806CFD4(EggWheeler *boss))
+{
+    s32 y = (((s32)boss->unk4 >> 8) - gCamera.y);
+
+    y <<= 8;
+    if ((y <= -Q(120)) || (y = y - Q(4), (y < -Q(120)))) {
+        y = -Q(120);
+        boss->unk4 = Q(gCamera.y) + y;
         return 1U;
     }
-    boss->unk4 = (gCamera.y << 8) + temp_r3_2;
+    boss->unk4 = Q(gCamera.y) + y;
     return 0U;
 }
+END_NONMATCH
 
+
+#if 01
 void sub_806D01C(EggWheeler *boss) {
     if (((u32)PseudoRandom32() >> 8) & 1) {
-        boss->unk24 = 1;
+        boss->unk24 = +1;
         if ((u8) boss->unk1D == 1) {
             boss->unk40 = -0x700;
         } else {
@@ -2218,19 +2222,23 @@ void sub_806D01C(EggWheeler *boss) {
     }
 }
 
-void sub_806D07C(EggWheeler *boss) {
-    Sprite *temp_r4;
-    s32 temp_r0;
-    s32 temp_r1;
 
-    temp_r1 = ((s32) boss->unk0 >> 8) - gCamera.x;
-    temp_r0 = ((s32) boss->unk4 >> 8) - gCamera.y;
-    boss->unk48.x = temp_r1 << 8;
-    boss->unk48.y = temp_r0 << 8;
-    sa2__sub_8003EE4((u16) ((u16) boss->unk2C >> 4), 0x100, 0x100, 0x28, 0x28, (s16) (s32) temp_r1, (s16) (s32) temp_r0, gBgAffineRegs);
-    temp_r4 = (Sprite*)&boss->sprBody;
-    temp_r4->x = 0x28;
-    temp_r4->y = 0x28;
+#else
+void sub_806D07C(EggWheeler *boss)
+{
+    Sprite *temp_r4;
+    Vec2_32 pos;
+    u16 angle;
+
+    pos.x = I(boss->unk0) - gCamera.x;
+    pos.y = I(boss->unk4) - gCamera.y;
+    boss->unk48.x = pos.x << 8;
+    boss->unk48.y = pos.y << 8;
+    angle = boss->unk2C >> 4;
+    sa2__sub_8003EE4(angle, 0x100, 0x100, 0x28, 0x28, pos.x, pos.y, gBgAffineRegs);
+    temp_r4 = (Sprite *)&boss->sprBody;
+    temp_r4->x = 40;
+    temp_r4->y = 40;
     UpdateSpriteAnimation_BG(temp_r4);
     sub_80BE46C(temp_r4);
 }
