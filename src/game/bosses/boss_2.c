@@ -6,6 +6,7 @@
 #include "lib/m4a/m4a.h"
 #include "game/save.h"
 #include "game/stage.h"
+#include "game/shared/stage/screen_shake.h"
 #include "game/sa3/bosses/more_gemerl.h"
 #include "game/shared/stage/music_manager.h"
 #include "game/shared/stage/player_callbacks.h"
@@ -131,13 +132,14 @@ void sub_806B2F4(EggWheeler *boss, Vec2_32 *vec);
 u8 sub_806B3A4(EggWheeler *boss, Vec2_32 *vec);
 void sub_806B484(EggWheeler *boss);
 void sub_806B5A8(EggWheeler *boss);
+void sub_806B788(void);
 s32 sub_806CAA4(Strc_806CAA4 *); /* extern */
 void sub_806CEB8(); /* extern */
 void sub_8004D68(s32, s32);
 void sub_806C004(void);
 void sub_806C06C(Boss2Exit *strc);
 bool32 sub_806D17C(Boss2Exit *exit);
-bool8 sub_806CFD4(EggWheeler *boss);
+bool32 sub_806CFD4(EggWheeler *boss);
 void sub_806C2F8(void);
 void sub_806C370(void);
 
@@ -152,6 +154,7 @@ void sub_806C8BC(void);
 bool8 sub_807A074(void);
 bool32 sub_806CF70(EggWheeler *boss);
 
+extern const u8 gUnknown_080D57C0[];
 extern const u8 gUnknown_080D57C5[];
 extern s8 sub_80781C0(Vec2_32 *, s8 *);
 extern void sub_8078920(Sprite *s, Vec2_32 *vec, s8 *param2);
@@ -162,6 +165,13 @@ extern void sub_807A4A8(void);
 extern void SetFixedRandomIfTimeAttackMode(void);
 extern const TileInfo2 gUnknown_080D5780[8];
 extern void sub_80BE46C(Sprite *);
+
+typedef struct {
+    s32 unk0;
+    s32 unk4;
+    s32 unk8;
+    s32 unkC;
+} Unknown;
 
 // Officially called: "Egg Ball No. 2"
 Task *CreateEggWheeler(u8 *param0, s32 worldX, s32 worldY)
@@ -974,7 +984,7 @@ s32 sub_806B6C8(EggWheeler *boss)
 }
 
 // (83.85%) https://decomp.me/scratch/Dh15W
-NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806B788.inc", void sub_806B788(s32 *a, VoidFn fn))
+NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806B788.inc", void sub_806B788(void))
 {
     s32 points[4];
     Player *p;
@@ -1548,3 +1558,696 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C1C8.inc", void sub_806C1C
     temp_r1_3->moveState |= 0x08000000;
 }
 END_NONMATCH
+
+void sub_806C2F8()
+{
+    s8 temp_r0;
+    EggWheeler *boss = TASK_DATA(gCurTask);
+    u8 var_r1;
+
+    for (var_r1 = 0; var_r1 < NUM_MULTI_PLAYER_CHARS; var_r1++) {
+        gPlayers[var_r1].idleAndCamCounter = TIME(0, 6);
+    }
+
+    if (++boss->unk18 > 5U) {
+        sub_8078920((Sprite *)&boss->sprExplosion, &boss->unk48, &boss->unk16);
+        boss->unk18 = 0;
+        boss->unk19 = (u8)boss->unk19 + 1;
+    }
+    if (boss->unk19 > 5U) {
+        gCurTask->main = sub_806C370;
+    }
+}
+
+// (89.26%) https://decomp.me/scratch/BFDSd
+NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C370.inc", void sub_806C370(void))
+{
+    Vec2_32 sp10;
+    Vec2_32 sp18;
+    Vec2_32 sp20;
+    Sprite *temp_r4;
+    s32 temp_r0;
+    s32 temp_r0_2;
+    s32 temp_r1;
+    s32 temp_r1_3;
+    s32 temp_r2;
+    s32 temp_r2_2;
+    s32 temp_r3;
+    s32 temp_r3_2;
+    s32 temp_r4_2;
+    u16 temp_r0_3;
+    u8 temp_r1_2;
+    u8 var_r1;
+    void (*var_r0)();
+    EggWheeler *boss = TASK_DATA(gCurTask);
+
+    sp10.x = I(boss->unk0) - gCamera.x;
+    temp_r0 = I(boss->unk4) - gCamera.y;
+    sp10.y = temp_r0;
+    boss->unk48.x = Q(sp10.x);
+    boss->unk48.y = Q(temp_r0);
+
+    for (var_r1 = 0; var_r1 < 4; var_r1++) {
+        gPlayers[var_r1].idleAndCamCounter = TIME(0, 6);
+    }
+
+    temp_r1 = ((s32)boss->unk0 >> 8) - gCamera.x;
+    sp18.x = temp_r0_2;
+    temp_r0_2 = ((s32)boss->unk4 >> 8) - gCamera.y;
+    sp18.y = temp_r0_2;
+    boss->unk48.x = temp_r1 << 8;
+    boss->unk48.y = temp_r0_2 << 8;
+    sa2__sub_8003EE4((u16)((u16)boss->unk2C >> 4), 0x100, 0x100, 0x28, 0x28, sp18.x, sp18.y, gBgAffineRegs);
+    temp_r4 = &boss->sprBody;
+    temp_r4->x = 0x28;
+    temp_r4->y = 0x28;
+    UpdateSpriteAnimation_BG(temp_r4);
+    sub_80BE46C(temp_r4);
+    sub_806BC50(boss);
+    boss->unk2C -= 0xE0;
+    if (boss->unk2C > 0x3FF0) {
+        boss->unk2C = 0x3FF0;
+    }
+    sub_806C9C4(boss);
+
+    if (sp10.y > 10) {
+        sub_806C5D4(boss);
+    }
+    if (sub_806C6FC(boss) == 1) {
+        temp_r4_2 = boss->unk3C;
+        if (temp_r4_2 != 0) {
+            gCurTask->main = sub_806C4F8;
+        } else {
+            temp_r2 = -SIN_24_8(boss->unk1F * 4);
+            temp_r3 = +COS_24_8(boss->unk1F * 4);
+            temp_r2_2 = boss->unk0 + (temp_r2 << 5) + (temp_r2 * 4) + (temp_r2 * 2);
+            sp20.x = temp_r2_2;
+            temp_r3_2 = boss->unk4 + (temp_r3 << 5) + (temp_r3 * 4) + (temp_r3 * 2);
+            sp20.y = temp_r3_2;
+            temp_r1_3 = temp_r2_2 >> 8;
+            sp20.x = temp_r1_3;
+            boss->unk4 += (s16)(sa2__sub_801F07C(temp_r3_2 >> 8, temp_r1_3, 0, 8, (u8 *)temp_r4_2, sa2__sub_801EE64) << 8);
+            boss->unk2A = (s16)temp_r4_2;
+            gCurTask->main = sub_806C7B0;
+        }
+    }
+}
+END_NONMATCH
+
+// (90.00%) https://decomp.me/scratch/8LnyE
+NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C4F8.inc", void sub_806C4F8(void))
+{
+    Sprite *temp_r4;
+    s32 temp_r0;
+    s32 temp_r1;
+    u16 temp_r0_2;
+    EggWheeler *boss = TASK_DATA(gCurTask);
+    u8 var_r1;
+
+    for (var_r1 = 0; var_r1 < 4; var_r1++) {
+        gPlayers[var_r1].idleAndCamCounter = TIME(0, 6);
+    }
+
+    temp_r1 = ((s32)boss->unk0 >> 8) - gCamera.x;
+    temp_r0 = ((s32)boss->unk4 >> 8) - gCamera.y;
+    boss->unk48.x = temp_r1 << 8;
+    boss->unk48.y = temp_r0 << 8;
+    sa2__sub_8003EE4((u16)((u16)boss->unk2C >> 4), 0x100, 0x100, 0x28, 0x28, temp_r1, temp_r0, gBgAffineRegs);
+    temp_r4 = &boss->sprBody;
+    temp_r4->x = 0x28;
+    temp_r4->y = 0x28;
+    UpdateSpriteAnimation_BG((Sprite *)temp_r4);
+    sub_80BE46C((Sprite *)temp_r4);
+    sub_806BC50(boss);
+    boss->unk2C -= 0xE0;
+    if (boss->unk2C > 0x3FF0U) {
+        boss->unk2C = 0x3FF0;
+    }
+    sub_806C9C4(boss);
+    if (sub_806CF70(boss) == 1) {
+        gCurTask->main = sub_806C370;
+    }
+}
+END_NONMATCH
+
+// (81.96%) https://decomp.me/scratch/6YEoJ
+NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C5D4.inc", void sub_806C5D4(EggWheeler *boss))
+{
+    Unknown sp8;
+    s32 sp10;
+    s32 temp_r0;
+    s32 temp_r2;
+    s32 temp_r2_2;
+    s32 temp_r3;
+    s32 temp_r3_2;
+    s32 temp_r3_3;
+    s32 temp_r6;
+    s32 var_r0;
+    s32 var_r0_2;
+    s8 temp_sb;
+
+    sp8.unk0 = 0;
+    sp8.unk4 = 0;
+    temp_r2 = -SIN_24_8(boss->unk1F * 4);
+    temp_r3 = +COS_24_8(boss->unk1F * 4);
+    sp8.unk0 = boss->unk0 + (temp_r2 << 5) + (temp_r2 * 4) + (temp_r2 * 2);
+    sp8.unk4 = boss->unk4 + (temp_r3 << 5) + (temp_r3 * 4) + (temp_r3 * 2);
+    asm("");
+    sp8.unk0 >>= 8;
+    sp8.unk8 = sp8.unk0;
+    temp_sb = (u8)sa2__sub_801F07C(temp_r6, sp8.unk8, 0, -8, NULL, sa2__sub_801ED24);
+    sa2__sub_801F07C(temp_r6, sp8.unk8, 0, 8, NULL, sa2__sub_801ED24);
+    temp_r2_2 = boss->unk0 >> 8;
+    if ((s32)(temp_r2_2 - 30) < (s32)gCamera.x) {
+        boss->unk38 = +ABS(boss->unk38);
+        boss->unk0 += Q(temp_sb);
+        CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x51U);
+    } else if ((s32)(temp_r2_2 + 0x1E) > (s32)(gCamera.x + 0xF0)) {
+        boss->unk38 = -ABS(boss->unk38);
+        boss->unk0 += Q(-temp_sb);
+        CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x51U);
+    }
+
+    boss->unk38 += boss->unk40;
+    boss->unk0 += boss->unk38;
+}
+END_NONMATCH
+
+// (94.31%) https://decomp.me/scratch/BeEwS
+NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C6FC.inc", u32 sub_806C6FC(EggWheeler *boss))
+{
+    s32 temp_r0_3;
+    s32 temp_r1;
+    s32 temp_r4;
+    s8 temp_r0;
+    u16 temp_r0_2;
+    u8 var_r6;
+
+    var_r6 = 0;
+    if ((s32)(I(boss->unk4) - gCamera.y) > 0x14) {
+        var_r6 = gCamera.maxY - ((boss->unk4 >> 8) + 0x30);
+    }
+    temp_r0 = (s8)var_r6;
+    if ((s32)temp_r0 < -1) {
+        s32 val;
+        boss->unk4 += Q(temp_r0);
+        boss->unk24 = 1;
+        val = gUnknown_080D57C0[boss->unk2A];
+        boss->unk3C = (val << 8) - (val << 9);
+        boss->unk44 = 0;
+        temp_r0_2 = (u16)boss->unk2A;
+        if (boss->unk2A < 4) {
+            boss->unk2A++;
+        }
+        CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+        return 1U;
+    }
+    boss->unk44 += ((s8)(u8)boss->unk24 * 4);
+    boss->unk3C += boss->unk44;
+    if (boss->unk3C > 0x600) {
+        boss->unk3C = 0x600;
+    }
+    boss->unk4 += boss->unk3C;
+    return 0U;
+}
+END_NONMATCH
+
+// (94.02%) https://decomp.me/scratch/RoamL
+NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C7B0.inc", void sub_806C7B0(void))
+{
+    Vec2_32 sp10;
+    Sprite *temp_r4;
+    s32 temp_r0;
+    s32 temp_r1;
+    u8 temp_r0_2;
+    u8 var_r1;
+    EggWheeler *boss = TASK_DATA(gCurTask);
+    s32 x, y;
+
+    x = (((s32)boss->unk0 >> 8) - gCamera.x);
+    y = (((s32)boss->unk4 >> 8) - gCamera.y);
+    boss->unk48.x = Q(x);
+    boss->unk48.y = Q(y);
+
+    for (var_r1 = 0; var_r1 < 4; var_r1++) {
+        gPlayers[var_r1].idleAndCamCounter = TIME(0, 6);
+    }
+
+    sp10.x = ((s32)boss->unk0 >> 8) - gCamera.x;
+    sp10.y = ((s32)boss->unk4 >> 8) - gCamera.y;
+    boss->unk48.x = sp10.x << 8;
+    boss->unk48.y = sp10.y << 8;
+    sa2__sub_8003EE4((u16)((u16)boss->unk2C >> 4), 0x100, 0x100, 0x28, 0x28, sp10.x, sp10.y, gBgAffineRegs);
+    temp_r4 = &boss->sprBody;
+    temp_r4->x = 0x28;
+    temp_r4->y = 0x28;
+    UpdateSpriteAnimation_BG((Sprite *)temp_r4);
+    sub_80BE46C((Sprite *)temp_r4);
+    boss->unk16 = 0;
+
+    if (boss->unk17 == 0) {
+        boss->unk2A = 0;
+        boss->unk18 = 0;
+        CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x51U);
+        sub_80789EC((Sprite *)&boss->sprEggman, &boss->unk48, &boss->unk16);
+        gDispCnt &= 0xFBFF;
+        gCurTask->main = sub_806C8BC;
+    }
+}
+END_NONMATCH
+
+void sub_806C8BC(void)
+{
+    s8 temp_r0;
+    u16 temp_r0_2;
+    u8 var_r1;
+    EggWheeler *boss = TASK_DATA(gCurTask);
+    s32 x, y;
+
+    x = (((s32)boss->unk0 >> 8) - gCamera.x);
+    y = (((s32)boss->unk4 >> 8) - gCamera.y);
+    boss->unk48.x = Q(x);
+    boss->unk48.y = Q(y);
+    var_r1 = 0;
+    do {
+        gPlayers[var_r1].idleAndCamCounter = TIME(0, 6);
+        var_r1 += 1;
+    } while ((u32)var_r1 <= 3U);
+    if (++boss->unk18 > 5U) {
+        if (boss->unk2A <= 1U) {
+            boss->unk2A++;
+            sub_80789EC((Sprite *)&boss->sprExplosion, &boss->unk48, &boss->unk16);
+            boss->unk18 = 0;
+        }
+    }
+    if ((u32)(u8)boss->unk16 <= 1U) {
+        UpdateSpriteAnimation(&boss->sprExplosion);
+        return;
+    }
+    m4aSongNumStart(0x221U);
+    gCurTask->main = sub_806C970;
+}
+
+void sub_806C970(void)
+{
+    EggWheeler *boss = TASK_DATA(gCurTask);
+    u8 var_r3;
+
+    var_r3 = 0;
+    do {
+        gPlayers[var_r3].idleAndCamCounter = TIME(0, 6);
+        var_r3 += 1;
+    } while ((u32)var_r3 <= 3U);
+    boss->unk2E = 0;
+    boss->unk1B = 3;
+    boss->unk1C = 3;
+    gCurTask->main = sub_806B788;
+}
+
+void sub_806C9C4(EggWheeler *boss)
+{
+    s32 x = (I(boss->unk0) - gCamera.x);
+    s32 y = (I(boss->unk4) - gCamera.y);
+
+    boss->unk48.x = Q(x);
+    boss->unk48.y = Q(y);
+
+    if (++boss->unk2E > gUnknown_080D57C5[boss->unk17]) {
+        boss->unk2E = 0;
+        if (++boss->unk17 < 4) {
+            sub_80781C0(&boss->unk48, &boss->unk17);
+            return;
+        }
+        boss->unk17 = 3;
+    }
+}
+
+void sub_806CA28(EggWheeler *boss)
+{
+    Player *p;
+    u32 var_r1;
+    u8 var_r5;
+    Sprite *s;
+
+    p = NULL;
+    boss->unk2E = 0x12C;
+    for (var_r5 = 0; var_r5 < NUM_SINGLE_PLAYER_CHARS; var_r5++) {
+        p = GET_SP_PLAYER_V1(var_r5);
+        if (!(p->moveState & 0x100)) {
+            Player_8005380(p);
+            p->moveState |= 0x08000000;
+        }
+    }
+
+    s = (Sprite *)&boss->sprEggman;
+    s->anim = (u16)gUnknown_080D5780[4].anim;
+    s->variant = (u8)gUnknown_080D5780[4].variant;
+    s->prevVariant = -1;
+}
+
+#if 0
+s32 sub_806CAA4(Strc_806CAA4 *arg0) {
+    Sprite *temp_r8;
+    u8 var_sl;
+    Player *p = NULL;
+    s32 sp8 = 0;
+    s32 x = I(arg0->unk10);
+    s32 y = I(arg0->unk14);
+    x += Q(arg0->unkC);
+    y += Q(arg0->unkE);
+    temp_r8 = arg0->s;
+    sub_8004D68(x << 8, y << 8);
+
+    for(var_sl = 0; var_sl < 2; var_sl++)
+    {
+        p = GET_SP_PLAYER_V0(var_sl);
+        if (!(p->moveState & 0x01000000)) {
+            if (((p->charFlags.character) == CREAM) && (sub_805C510(temp_r8) == 1)) {
+                sp8 = 1;
+            }
+            if(!sub_802C080(p))
+            {
+                if (sub_8020700(temp_r8, x, y, 1, p, 0) != 0) 
+                {
+                    if (p->framesInvincible == 0) {
+                        sub_8020CE0(temp_r8, x, y, 0, p);
+                        sub_8020CE0(temp_r8, x, y, 1, p);
+                    }
+                } else {
+                    if (sub_8020700(temp_r8, x, y, 0, p, 1)) {
+                        if (I(p->qWorldX) < x) {
+                            arg0->unkA = +1;
+                        } else {
+                            arg0->unkA = -1;
+                        }
+                        if (I(p->qWorldY) < y) {
+                            arg0->unkB = +1;
+                        } else {
+                            arg0->unkB = -1;
+                        }
+        
+                        sub_806CCB0(p);
+                        arg0->playerIndex = (var_sl == 0) 
+                            ? gStageData.playerIndex
+                            : p->charFlags.partnerIndex;
+        
+                        sp8 = 1;
+                    } else if (sub_8020700(temp_r8, x, y, 0, p, 0) != 0) {
+                        if (p->framesInvincible == 0) {
+                            sub_8020CE0(temp_r8, x, y, 0, p);
+                            sub_8020CE0(temp_r8, x, y, 1, p);
+                        } else {
+                            if (I(p->qWorldX) < x) {
+                                arg0->unkA = +1;
+                            } else {
+                                arg0->unkA = -1;
+                            }
+                            if (I(p->qWorldY) < y) {
+                                arg0->unkB = +1;
+                            } else {
+                                arg0->unkB = -1;
+                            }
+                            sub_806CCB0(p);
+                            if (var_sl == 0) {
+                                arg0->playerIndex = gStageData.playerIndex;
+                            } else {
+                                arg0->playerIndex = p->charFlags.partnerIndex;
+                            }
+                            sp8 = 1;
+                        }
+                    } else if ((sub_8020700(temp_r8, x, y, 1, p, 1) != 0) && (p->framesInvincible == 0)) {
+                        sub_8020CE0(temp_r8, x, y, 0, p);
+                        sub_8020CE0(temp_r8, x, y, 1, p);
+                    }
+                }
+            }
+        }
+    }
+    return sp8;
+}
+
+void sub_806CCB0(Player *p) {
+    EggWheeler *boss = TASK_DATA(gCurTask);
+
+    if (p->moveState & 4) {
+        s32 dx = I(p->qWorldX) - I(boss->unk0);
+        s32 dy = I(p->qWorldY) - I(boss->unk4);
+        s16 angle = sa2__sub_8004418(dy, dx);
+        if (COS(angle) < 0) {
+            if (p->qSpeedGround >= 0) {
+                p->qSpeedGround = -(p->qSpeedGround >> 1);
+            }
+            if (p->qSpeedAirX >= 0) {
+                p->qSpeedAirX = -(p->qSpeedAirX >> 1);
+            }
+        } else {
+            if (p->qSpeedGround < 0) {
+                p->qSpeedGround = -(p->qSpeedGround >> 1);
+            }
+            if (p->qSpeedAirX < 0) {
+                p->qSpeedAirX = -(p->qSpeedAirX >> 1);
+            }
+        }
+
+        if (ABS(p->qSpeedGround) > 0x300) {
+            if (p->qSpeedGround >= 0) {
+                p->qSpeedGround = +0x300;
+            } else {
+                p->qSpeedGround = -0x300;
+            }
+        }
+
+        if (ABS(p->qSpeedAirX) > 0x300) {
+            if ((s32) p->qSpeedAirX >= 0) {
+                p->qSpeedAirX = +0x300;
+            } else {
+                p->qSpeedAirX = -0x300;
+            }
+        }
+        if (SIN(angle) < 0) {
+            p->qSpeedAirY = -0x300;
+        } else {
+            p->qSpeedAirY = +0x200;
+        }
+        Player_800DB30(p);
+    }
+}
+
+// TODO: Fake-match
+void sub_0806CDB8(u8 *arg0, s16 unused) {
+    EggWheeler *temp_r4 = TASK_DATA(gStageData.taskBoss);
+#ifndef NON_MATCHING
+    register s32 temp_r2 asm("r2") = arg0[2];
+#else
+    s32 temp_r2 = arg0[2];
+#endif
+    s32 temp_r1;
+    u16 uhh;
+    temp_r1 = 0x7F;
+    temp_r1 &= temp_r2;
+    uhh = (arg0[3] | (arg0[4] << 8));
+
+    switch (temp_r1) {
+        case 1: {
+            temp_r4->me.d.sData[4] = -1;
+            temp_r4->unk1D = 0U;
+            sub_806CA28(temp_r4);
+            gStageData.taskBoss->main = sub_806C1C8;
+        } break;
+
+        case 3:
+        case 4: {
+            temp_r1 = temp_r4->unk1D;
+            if (temp_r1 != (u8)uhh) {
+                temp_r4->unk25 = 1;
+            }
+        } break;
+    }
+}
+
+void Task_Boss2Init(void) {
+    EggWheeler *boss = TASK_DATA(gCurTask);
+
+    if (*boss->unk10 == 3) {
+        TaskDestroy(gCurTask);
+        return;
+    } else if (sub_8079FFC()) {
+        gCurTask->main = sub_806CE74;
+    } else {
+        gCurTask->main = Boss2_TransitionToIntro;
+    }
+}
+
+void sub_806CE74(void) {
+    EggWheeler *boss = TASK_DATA(gCurTask);
+
+    if (*boss->unk10 == 3) {
+        TaskDestroy(gCurTask);
+        return;
+    } else if(*boss->unk10 == 2) {
+        if (sub_807A074() != 0) {
+            gCurTask->main = Boss2_TransitionToIntro;
+        }
+    }
+}
+
+void sub_806CEB8(void) {
+    EggWheeler *boss = TASK_DATA(gCurTask);
+
+    VramFree(boss->sprEggman.tiles);
+    *boss->unk10 = 0;
+}
+
+void TaskDestructor_Boss2(Task *t) {
+
+}
+
+void sub_806CEE8(EggWheeler *boss) {
+    if (boss->unk20 == 1) {
+        if (boss->unk38 > 0) {
+            sub_806B484(boss);            
+        } else {
+            sub_806B5A8(boss);
+        }
+    } else if(boss->unk20 == 0) {
+        if (boss->unk38 > 0) {
+            sub_806B5A8(boss);            
+        } else {
+            sub_806B484(boss);
+        }
+    } else if(boss->unk20 == 2) {
+        if (boss->unk3C > 0) {
+            sub_806B5A8(boss);
+        } else {
+            sub_806B484(boss);            
+        }
+    } else if(boss->unk20 == 3) {
+        if (boss->unk3C > 0) {
+            sub_806B484(boss);
+        } else {
+            sub_806B5A8(boss);            
+        }
+    }
+}
+
+bool32 sub_806CF38(EggWheeler *boss) {
+    EnemyUnknownStruc0 sp0;
+    sp0.unk4 = sub_806B6C8(boss);
+    sp0.spr = (Sprite*)&boss->sprEggman;
+    sp0.posX = boss->unk48.x;
+    sp0.posY = boss->unk48.y;
+    sp0.regionX = 0;
+    sp0.regionY = 0;
+    sp0.me = 0;
+    sp0.meX = 0;
+    return sub_805C280(&sp0);
+}
+
+bool32 sub_806CF70(EggWheeler *boss) {
+    s32 temp_r1_2;
+    s32 temp_r2;
+    u8 var_r6;
+
+    var_r6 = 0;
+    if ((I(boss->unk4) - gCamera.y) > 10) {
+        var_r6 = gCamera.maxY - (I(boss->unk4) + 0x30);
+    }
+    if (I(boss->unk4) > 0xA) {
+        sub_806C5D4(boss);
+    }
+    if ((var_r6 << 0x18) < 0) {
+        return TRUE;
+    } else {
+        boss->unk44 += ((s8) (u8) boss->unk24 * 4);
+        boss->unk3C += boss->unk44;
+        boss->unk4 += boss->unk3C;
+        return 0U;
+    }
+}
+
+bool32 sub_806CFD4(EggWheeler *boss) {
+    s32 temp_r3;
+    s32 temp_r3_2;
+
+    temp_r3 = (((s32) boss->unk4 >> 8) - gCamera.y) << 8;
+    if ((temp_r3 <= 0xFFFF8800) || (temp_r3_2 = temp_r3 + 0xFFFFFC00, (temp_r3_2 < 0xFFFF8800))) {
+        boss->unk4 = (gCamera.y << 8) + 0xFFFF8800;
+        return 1U;
+    }
+    boss->unk4 = (gCamera.y << 8) + temp_r3_2;
+    return 0U;
+}
+
+void sub_806D01C(EggWheeler *boss) {
+    if (((u32)PseudoRandom32() >> 8) & 1) {
+        boss->unk24 = 1;
+        if ((u8) boss->unk1D == 1) {
+            boss->unk40 = -0x700;
+        } else {
+            boss->unk40 = -0x100;
+        }
+    } else {
+        boss->unk24 = -1;
+        if (boss->unk1D == 1) {
+            boss->unk40 = -0x700;
+        } else {
+            boss->unk40 = -0x100;
+        }
+    }
+}
+
+void sub_806D07C(EggWheeler *boss) {
+    Sprite *temp_r4;
+    s32 temp_r0;
+    s32 temp_r1;
+
+    temp_r1 = ((s32) boss->unk0 >> 8) - gCamera.x;
+    temp_r0 = ((s32) boss->unk4 >> 8) - gCamera.y;
+    boss->unk48.x = temp_r1 << 8;
+    boss->unk48.y = temp_r0 << 8;
+    sa2__sub_8003EE4((u16) ((u16) boss->unk2C >> 4), 0x100, 0x100, 0x28, 0x28, (s16) (s32) temp_r1, (s16) (s32) temp_r0, gBgAffineRegs);
+    temp_r4 = (Sprite*)&boss->sprBody;
+    temp_r4->x = 0x28;
+    temp_r4->y = 0x28;
+    UpdateSpriteAnimation_BG(temp_r4);
+    sub_80BE46C(temp_r4);
+}
+
+void sub_806D0E8(EggWheeler *boss) {
+    s32 temp_r1 = I(boss->unk0);
+    s32 temp_r0;
+    Sprite *s;
+    temp_r1 -= gCamera.x;
+    temp_r0 = I(boss->unk4);
+    temp_r0 -= gCamera.y;
+    boss->unk48.x = Q(temp_r1);
+    boss->unk48.y = Q(temp_r0);
+    sa2__sub_8003EE4((u16) ((u16) boss->unk2C >> 4), 0x100, 0x100, 0x28, 0x28,
+                     temp_r1,
+                     temp_r0, gBgAffineRegs);
+    s = &boss->sprBody;
+    s->x = 0x28;
+    s->y = 0x28;
+    UpdateSpriteAnimation_BG(s);
+    sub_80BE46C(s);
+}
+
+void TaskDestructor_Boss2Entrance(Task *t) {
+    Boss2Entrance *strc = TASK_DATA(t);
+    VramFree(strc->s.tiles);
+}
+
+void TaskDestructor_Boss2Exit(Task *t) {
+    Boss2Exit *strc = TASK_DATA(t);
+    VramFree(strc->s.tiles);
+}
+
+bool32 sub_806D17C(Boss2Exit *arg0) {
+    if (arg0->unkC > -Q(70)) {
+        arg0->unkC -= Q(1);
+        return 0; 
+    } else {
+        return 1;
+    }
+}
+#endif
