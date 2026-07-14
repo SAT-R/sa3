@@ -24,7 +24,7 @@ typedef struct {
     /* 0x14 */ u8 unk14;
     /* 0x15 */ s8 unk15;
     /* 0x16 */ s8 unk16;
-    /* 0x17 */ s8 unk17;
+    /* 0x17 */ u8 unk17;
     /* 0x18 */ s8 unk18;
     /* 0x19 */ s8 unk19;
     /* 0x1A */ s8 unk1A;
@@ -42,7 +42,7 @@ typedef struct {
     /* 0x26 */ s8 unk26;
     /* 0x27 */ s8 unk27;
     /* 0x28 */ s16 unk28;
-    /* 0x2A */ s16 unk2A;
+    /* 0x2A */ u16 unk2A;
     /* 0x2C */ u16 unk2C;
     /* 0x2E */ u16 unk2E;
     /* 0x30 */ u16 unk30;
@@ -51,8 +51,7 @@ typedef struct {
     /* 0x3C */ s32 unk3C;
     /* 0x40 */ s32 unk40;
     /* 0x44 */ s32 unk44;
-    /* 0x48 */ s32 unk48;
-    /* 0x4C */ s32 unk4C;
+    /* 0x48 */ Vec2_32 unk48;
     /* 0x50 */ Player *player;
     /* 0x54 */ Player *partner;
     /* 0x58 */ MapEntity me;
@@ -68,11 +67,11 @@ typedef struct {
     /* 0x00 */ s32 unk0;
     /* 0x04 */ s32 unk4;
     /* 0x08 */ u8 unk8;
-    /* 0x09 */ u8 unk9;
+    /* 0x09 */ u8 playerIndex;
     /* 0x0A */ u8 unkA;
     /* 0x0B */ u8 unkB;
-    /* 0x0C */ s16 unkC;
-    /* 0x0E */ s16 unkE;
+    /* 0x0C */ u16 unkC;
+    /* 0x0E */ u16 unkE;
     /* 0x10 */ s32 unk10;
     /* 0x10 */ s32 unk14;
     /* 0x10 */ s32 unk18;
@@ -80,21 +79,45 @@ typedef struct {
     /* 0x20 */ u8 unk20[8];
 } Strc_806CAA4;
 
+typedef struct {
+    /* 0x00 */ u8 *data;
+    /* 0x04 */ s32 dx;
+    /* 0x08 */ s32 unk8;
+    /* 0x0C */ s32 unkC;
+    /* 0x10 */ Sprite2 s;
+} Boss2Entrance;
+
+typedef struct {
+    /* 0x00 */ u8 *data;
+    /* 0x04 */ s32 dx;
+    /* 0x08 */ s32 unk8;
+    /* 0x0C */ s32 unkC;
+    /* 0x10 */ Sprite2 s;
+} Boss2Exit;
+
+void Task_Boss2Entrance(void);
+void TaskDestructor_Boss2Entrance(struct Task *t);
+
 void Task_Boss2Init(void);
+void Boss2_TransitionToIntro(void);
 void Task_806AC7C(void);
 void Task_806AD04(void);
 void Task_806ADDC(void);
 void Task_806AEDC(void);
 void Task_CreatePlatformButton(void);
 void TaskDestructor_Boss2(struct Task *t);
+void Task_Boss2ExitInit(void);
+void TaskDestructor_Boss2Exit(struct Task *);
 void sub_806AA40(EggWheeler *boss);
 void sub_806AAA4(EggWheeler *boss);
 u8 sub_806B094(EggWheeler *boss);
 bool32 sub_806B844(EggWheeler *boss);
 AnimCmdResult sub_806BC50(EggWheeler *boss);
+void sub_806BE5C(void);
 void sub_806C12C(void);
 void sub_806C1C8(void);
 void sub_806CA28(EggWheeler *boss);
+void sub_806CCB0(Player *);
 void sub_806CEE8(EggWheeler *boss);
 void sub_806D01C(EggWheeler *boss);
 void sub_806D07C(EggWheeler *boss);
@@ -105,14 +128,39 @@ void sub_806B144(EggWheeler *boss, Vec2_32 *vec);
 void sub_806B23C(EggWheeler *boss, Vec2_32 *vec);
 void sub_806B2F4(EggWheeler *boss, Vec2_32 *vec);
 u8 sub_806B3A4(EggWheeler *boss, Vec2_32 *vec);
+void sub_806B484(EggWheeler *boss);
+void sub_806B5A8(EggWheeler *boss);
 s32 sub_806CAA4(Strc_806CAA4 *); /* extern */
 void sub_806CEB8(); /* extern */
+void sub_8004D68(s32, s32);
+void sub_806C004(void);
+void sub_806C06C(Boss2Exit *strc);
+bool32 sub_806D17C(Boss2Exit *exit);
+bool8 sub_806CFD4(EggWheeler *boss);
+void sub_806C2F8(void);
+void sub_806C370(void);
 
+void sub_806C4F8(void);
+void sub_806C5D4(EggWheeler *boss);
+void sub_806C7B0(void);
+void sub_806C970(void);
+void sub_806C9C4(EggWheeler *boss);
+void sub_806CE74(void);
+bool32 sub_806C6FC(EggWheeler *boss);
+void sub_806C8BC(void);
+bool8 sub_807A074(void);
+bool32 sub_806CF70(EggWheeler *boss);
+
+extern const u8 gUnknown_080D57C5[];
+extern s8 sub_80781C0(Vec2_32 *, s8 *);
+extern void sub_8078920(Sprite *s, Vec2_32 *vec, s8 *param2);
+extern void sub_80789EC(Sprite *, Vec2_32 *vec, s8 *);
 extern void sub_8078E34(s32 *, VoidFn);
 extern void sub_807A37C(void);
 extern void sub_807A4A8(void);
 extern void SetFixedRandomIfTimeAttackMode(void);
 extern const TileInfo2 gUnknown_080D5780[8];
+extern void sub_80BE46C(Sprite *);
 
 // Officially called: "Egg Ball No. 2"
 Task *CreateEggWheeler(u8 *param0, s32 worldX, s32 worldY)
@@ -134,8 +182,8 @@ Task *CreateEggWheeler(u8 *param0, s32 worldX, s32 worldY)
     boss->unk27 = 0;
     boss->unk0 = 0x5DA00;
     boss->unk4 = 0xDC00;
-    boss->unk48 = Q(DISPLAY_CENTER_X);
-    boss->unk4C = Q(DISPLAY_CENTER_Y);
+    boss->unk48.x = Q(DISPLAY_CENTER_X);
+    boss->unk48.y = Q(DISPLAY_CENTER_Y);
 
     if (gStageData.difficulty == DIFFICULTY_NORMAL) {
         boss->unk1D = 8;
@@ -212,8 +260,8 @@ void sub_806AAA4(EggWheeler *boss)
     temp_r4->anim = gUnknown_080D5780[2].anim;
     temp_r4->variant = gUnknown_080D5780[2].variant;
     temp_r4->prevVariant = -1;
-    temp_r4->x = I(boss->unk48);
-    temp_r4->y = I(boss->unk4C);
+    temp_r4->x = I(boss->unk48.x);
+    temp_r4->y = I(boss->unk48.y);
     temp_r4->oamFlags = 0x640;
     temp_r4->animCursor = 0;
     temp_r4->qAnimDelay = 0;
@@ -898,7 +946,7 @@ s32 sub_806B6C8(EggWheeler *boss)
     sp0.unk0 = 0;
     sp0.unk8 = 0;
     sp0.unk4 = 0;
-    sp0.unk9 = 0;
+    sp0.playerIndex = 0;
     boss->sprEggman.hitboxes[0].b.left += 0x11;
     boss->sprEggman.hitboxes[0].b.top += 0x29;
     boss->sprEggman.hitboxes[0].b.right += 0x11;
@@ -917,7 +965,7 @@ s32 sub_806B6C8(EggWheeler *boss)
     boss->sprEggman.hitboxes[0].b.top -= 0x29;
     boss->sprEggman.hitboxes[0].b.right -= 0x11;
     boss->sprEggman.hitboxes[0].b.bottom -= 0x29;
-    boss->unk15 = sp0.unk9;
+    boss->unk15 = sp0.playerIndex;
     boss->unk26 = sp0.unkA;
     boss->unk27 = sp0.unkB;
 
@@ -1140,4 +1188,232 @@ bool32 sub_806B844(EggWheeler *boss)
 
 return_0:
     return FALSE;
+}
+
+// TODO: Fake-match, using screenX, as command result because of reg-swaps
+AnimCmdResult sub_806BC50(EggWheeler *boss)
+{
+    AnimCmdResult acmdRes;
+    Sprite *s;
+    SpriteTransform *tf;
+    u32 var_r0;
+    s32 screenX, screenY;
+    s32 sx, sy;
+    s32 x, y;
+
+    if (boss->unk23 != 0) {
+        boss->unk23--;
+    }
+
+    screenX = I(boss->unk0) - gCamera.x;
+    screenY = I(boss->unk4) - gCamera.y;
+    s = (Sprite *)&boss->sprEggman;
+    tf = &boss->tf;
+
+    if (boss->unk21 != 0) {
+        s->frameFlags |= 0x40000;
+    } else {
+        s->frameFlags &= ~0x40000;
+    }
+    s->x = screenX;
+    s->y = screenY;
+    tf->rotation = (boss->unk2C >> 4);
+    tf->x = s->x;
+    tf->y = s->y;
+    TransformSprite(s, tf);
+    sx = s->x;
+    x = gCamera.x;
+    x = Q(x + sx);
+    sy = s->y;
+    y = gCamera.y;
+    y = Q(y + sy);
+    sub_8004D68(x, y);
+    screenX = UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    if ((screenX == ACMD_RESULT__ENDED) && (s->variant != gUnknown_080D5780[1].variant)) {
+        s->anim = gUnknown_080D5780[1].anim;
+        s->variant = gUnknown_080D5780[1].variant;
+        s->prevVariant = -1;
+    }
+
+    return screenX;
+}
+
+void CreateBoss2Entrance(u8 *out, u8 *vram)
+{
+    Sprite *s;
+    s16 temp_r1;
+    s16 temp_r1_2;
+    s16 temp_r1_3;
+    Boss2Entrance *temp_r4;
+
+    temp_r4 = TASK_DATA(TaskCreate(Task_Boss2Entrance, sizeof(Boss2Entrance), 0x2100U, 0U, TaskDestructor_Boss2Entrance));
+    temp_r4->data = out;
+    temp_r4->unk8 = 0x700;
+    temp_r4->unkC = -0x3200;
+    temp_r4->dx = (gCamera.maxX - gCamera.minX);
+    s = (Sprite *)&temp_r4->s;
+    s->tiles = VramMalloc(18);
+    s->anim = ANIM_BREAKABLE_WALL_2;
+    s->variant = 3;
+    s->prevVariant = -1;
+    s->x = gCamera.minX - gCamera.x;
+    s->x += I(temp_r4->unk8);
+    s->y = gCamera.minY + ((gCamera.maxY - gCamera.minY) >> 1);
+    s->y = s->y - gCamera.y;
+    s->y += I(temp_r4->unkC);
+    s->oamFlags = 0x580;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x1400;
+    s->hitboxes[0].index = -1;
+    UpdateSpriteAnimation(s);
+}
+
+void Task_Boss2Entrance(void)
+{
+    Sprite *temp_r0_2;
+    s16 temp_r2_2;
+    s16 temp_r2_3;
+    s16 temp_r2_4;
+    s32 temp_r0;
+    u8 *temp_r2;
+    Boss2Entrance *temp_r1 = TASK_DATA(gCurTask);
+
+    if (*temp_r1->data == 1) {
+        if (temp_r1->unkC < -Q(25)) {
+            temp_r1->unkC += Q(1);
+        } else {
+            temp_r1->unkC = -Q(25);
+            *temp_r1->data = 2;
+        }
+    }
+    temp_r0_2 = (Sprite *)&temp_r1->s;
+    temp_r0_2->x = gCamera.minX - gCamera.x;
+    temp_r0_2->x += I(temp_r1->unk8);
+    temp_r0_2->y = gCamera.minY + ((gCamera.maxY - gCamera.minY) >> 1);
+    temp_r0_2->y -= gCamera.y;
+    temp_r0_2->y += I(temp_r1->unkC);
+    DisplaySprite(temp_r0_2);
+
+    if (*temp_r1->data == 3) {
+        gCurTask->main = sub_806BE5C;
+    }
+}
+
+void sub_806BE5C(void)
+{
+    Sprite *s;
+    s16 temp_r2;
+    s16 temp_r2_2;
+    s16 temp_r2_3;
+    Boss2Entrance *temp_r0 = TASK_DATA(gCurTask);
+
+    s = (Sprite *)&temp_r0->s;
+    s->x = gCamera.minX - gCamera.x;
+    s->x += I(temp_r0->unk8);
+    s->y = gCamera.minY + ((s32)(gCamera.maxY - gCamera.minY) >> 1);
+    s->y -= gCamera.y;
+    s->y += ((s32)temp_r0->unkC >> 8);
+    DisplaySprite(s);
+
+    // TODO: This is an odd compare...
+    if (temp_r0->s.x < (u32)-temp_r0->dx) {
+        TaskDestroy(gCurTask);
+    }
+}
+
+void CreateBoss2Exit(u8 *out, u8 *vram)
+{
+    Sprite *s;
+    s16 temp_r1;
+    s16 temp_r1_2;
+    s16 temp_r1_3;
+    Boss2Exit *strc = TASK_DATA(TaskCreate(Task_Boss2ExitInit, sizeof(Boss2Exit), 0x2100U, 0U, TaskDestructor_Boss2Exit));
+
+    strc->data = out;
+    strc->unk8 = -Q(8);
+    strc->unkC = -Q(50);
+    s = (Sprite *)&strc->s;
+    s->tiles = VramMalloc(18);
+    s->anim = ANIM_BREAKABLE_WALL_2;
+    s->variant = 3;
+    s->prevVariant = 0xFF;
+    s->x = gCamera.minX - gCamera.x;
+    s->x += I(strc->unk8);
+    s->y = gCamera.minY + ((s32)(gCamera.maxY - gCamera.minY) >> 1);
+    s->y = s->y - gCamera.y;
+    s->y += I(strc->unkC);
+    s->oamFlags = 0x580;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x1000;
+    s->hitboxes[0].index = -1;
+    UpdateSpriteAnimation(s);
+}
+
+void Task_Boss2ExitInit(void)
+{
+    Sprite *temp_r0_2;
+    s32 camMinY;
+    s32 camMaxY;
+    s32 temp_r2_2;
+    s32 temp_r2_3;
+    s32 temp_r2_4;
+    s32 temp_r0;
+    u8 *temp_r2;
+    Boss2Exit *strc = TASK_DATA(gCurTask);
+
+    if (*strc->data == 1) {
+        if (strc->unkC < -Q(25)) {
+            strc->unkC += Q(1);
+        } else {
+            strc->unkC = -Q(25);
+            *strc->data = 2;
+        }
+    }
+    temp_r0_2 = (Sprite *)&strc->s;
+    temp_r2_2 = gCamera.maxX - gCamera.x;
+    temp_r0_2->x = temp_r2_2;
+    temp_r0_2->x = temp_r2_2 + ((s32)strc->unk8 >> 8);
+    camMinY = gCamera.minY;
+    camMaxY = gCamera.maxY;
+    temp_r0_2->y = camMinY + ((s32)(camMaxY - camMinY) >> 1);
+    temp_r0_2->y -= gCamera.y;
+    temp_r0_2->y += I(strc->unkC);
+    DisplaySprite(temp_r0_2);
+
+    if (*strc->data == 3) {
+        gCurTask->main = sub_806C004;
+    }
+}
+
+void sub_806C004(void)
+{
+    Sprite *temp_r0_2;
+    s32 camMinY;
+    s32 camMaxY;
+    s32 temp_r2;
+    s32 temp_r2_2;
+    Boss2Exit *strc = TASK_DATA(gCurTask);
+
+    temp_r0_2 = (Sprite *)&strc->s;
+    temp_r2 = gCamera.maxX - gCamera.x;
+    temp_r0_2->x = temp_r2;
+    temp_r0_2->x = temp_r2 + ((s32)strc->unk8 >> 8);
+    camMinY = gCamera.minY;
+    camMaxY = gCamera.maxY;
+    temp_r0_2->y = camMinY + ((s32)(camMaxY - camMinY) >> 1);
+    temp_r0_2->y -= gCamera.y;
+    temp_r0_2->y += I(strc->unkC);
+    DisplaySprite(temp_r0_2);
+    if (sub_806D17C(strc) == 1) {
+        *strc->data = 4;
+        TaskDestroy(gCurTask);
+    }
 }

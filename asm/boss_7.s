@@ -7561,6 +7561,8 @@ _08078908:
 	bx r0
 	.align 2, 0
 
+
+    @ TODO: Called from Boss 2 (EggWheeler)!
 	thumb_func_start sub_8078920
 sub_8078920: @ 0x08078920
 	push {r4, r5, r6, lr}
