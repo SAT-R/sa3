@@ -14,7 +14,7 @@ CreateEggFoot: @ 0x0806D1A0
 	adds r4, r1, #0
 	ldr r0, _0806D1F8 @ =sub_806E910
 	movs r1, #0xdc
-	lsls r1, r1, #3
+	lsls r1, r1, #3     @ 0x6E0
 	movs r2, #0x84
 	lsls r2, r2, #6
 	ldr r3, _0806D1FC @ =sub_806EA14

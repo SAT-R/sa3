@@ -1492,7 +1492,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C12C.inc", void sub_806C12
     boss->unk48.x = x << 8;
     boss->unk48.y = y << 8;
     unk2C = (boss->unk2C >> 4);
-    sa2__sub_8003EE4(unk2C, 0x100, 0x100, 0x28, 0x28, sp10.x, sp10.y, gBgAffineRegs);
+    SA2_LABEL(sub_8003EE4)(unk2C, 0x100, 0x100, 0x28, 0x28, sp10.x, sp10.y, gBgAffineRegs);
     temp_r5 = (Sprite *)&boss->sprBody;
     temp_r5->x = 0x28;
     temp_r5->y = 0x28;
@@ -1522,7 +1522,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C1C8.inc", void sub_806C1C
     boss->unk48.x = Q(sp10.x);
     boss->unk48.y = Q(sp10.y);
     v = (boss->unk2C >> 4);
-    sa2__sub_8003EE4(v, 0x100, 0x100, 0x28, 0x28, sp10.x, sp10.y, gBgAffineRegs);
+    SA2_LABEL(sub_8003EE4)(v, 0x100, 0x100, 0x28, 0x28, sp10.x, sp10.y, gBgAffineRegs);
     sprBody = &boss->sprBody;
     sprBody->x = 0x28;
     sprBody->y = 0x28;
@@ -1619,7 +1619,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C370.inc", void sub_806C37
     sp18.y = temp_r0_2;
     boss->unk48.x = temp_r1 << 8;
     boss->unk48.y = temp_r0_2 << 8;
-    sa2__sub_8003EE4((u16)((u16)boss->unk2C >> 4), 0x100, 0x100, 0x28, 0x28, sp18.x, sp18.y, gBgAffineRegs);
+    SA2_LABEL(sub_8003EE4)((u16)((u16)boss->unk2C >> 4), 0x100, 0x100, 0x28, 0x28, sp18.x, sp18.y, gBgAffineRegs);
     temp_r4 = &boss->sprBody;
     temp_r4->x = 0x28;
     temp_r4->y = 0x28;
@@ -1674,7 +1674,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C4F8.inc", void sub_806C4F
     temp_r0 = ((s32)boss->unk4 >> 8) - gCamera.y;
     boss->unk48.x = temp_r1 << 8;
     boss->unk48.y = temp_r0 << 8;
-    sa2__sub_8003EE4((u16)((u16)boss->unk2C >> 4), 0x100, 0x100, 0x28, 0x28, temp_r1, temp_r0, gBgAffineRegs);
+    SA2_LABEL(sub_8003EE4)((u16)((u16)boss->unk2C >> 4), 0x100, 0x100, 0x28, 0x28, temp_r1, temp_r0, gBgAffineRegs);
     temp_r4 = &boss->sprBody;
     temp_r4->x = 0x28;
     temp_r4->y = 0x28;
@@ -1799,7 +1799,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C7B0.inc", void sub_806C7B
     sp10.y = ((s32)boss->unk4 >> 8) - gCamera.y;
     boss->unk48.x = sp10.x << 8;
     boss->unk48.y = sp10.y << 8;
-    sa2__sub_8003EE4((u16)((u16)boss->unk2C >> 4), 0x100, 0x100, 0x28, 0x28, sp10.x, sp10.y, gBgAffineRegs);
+    SA2_LABEL(sub_8003EE4)((u16)((u16)boss->unk2C >> 4), 0x100, 0x100, 0x28, 0x28, sp10.x, sp10.y, gBgAffineRegs);
     temp_r4 = &boss->sprBody;
     temp_r4->x = 0x28;
     temp_r4->y = 0x28;
@@ -2225,48 +2225,43 @@ void sub_806D01C(EggWheeler *boss)
     }
 }
 
-// (94.29%) https://decomp.me/scratch/WLbpH
-NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806D07C.inc", void sub_806D07C(EggWheeler *boss))
+void sub_806D07C(EggWheeler *boss)
 {
-    Sprite *temp_r4;
+    Sprite *s;
     Vec2_32 pos;
     u16 angle;
 
     pos.x = I(boss->unk0) - gCamera.x;
     pos.y = I(boss->unk4) - gCamera.y;
-    boss->unk48.x = pos.x << 8;
-    boss->unk48.y = pos.y << 8;
+    boss->unk48.x = pos.x * 0x100;
+    boss->unk48.y = pos.y * 0x100;
     angle = boss->unk2C >> 4;
-    sa2__sub_8003EE4(angle, 0x100, 0x100, 0x28, 0x28, pos.x, pos.y, gBgAffineRegs);
-    temp_r4 = (Sprite *)&boss->sprBody;
-    temp_r4->x = 40;
-    temp_r4->y = 40;
-    UpdateSpriteAnimation_BG(temp_r4);
-    sub_80BE46C(temp_r4);
+    SA2_LABEL(sub_8003EE4)(angle, 0x100, 0x100, 0x28, 0x28, pos.x, pos.y, gBgAffineRegs);
+    s = (Sprite *)&boss->sprBody;
+    s->x = 40;
+    s->y = 40;
+    UpdateSpriteAnimation_BG(s);
+    sub_80BE46C(s);
 }
-END_NONMATCH
 
-// (92.86%) https://decomp.me/scratch/9NNEN
-NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806D0E8.inc", void sub_806D0E8(EggWheeler *boss))
+void sub_806D0E8(EggWheeler *boss)
 {
-    s32 temp_r1 = I(boss->unk0);
-    s32 temp_r0;
+    Vec2_32 pos;
     Sprite *s;
     u16 angle;
-    temp_r1 -= gCamera.x;
-    temp_r0 = I(boss->unk4);
-    temp_r0 -= gCamera.y;
-    boss->unk48.x = Q(temp_r1);
-    boss->unk48.y = Q(temp_r0);
+
+    pos.x = I(boss->unk0) - gCamera.x;
+    pos.y = I(boss->unk4) - gCamera.y;
+    boss->unk48.x = pos.x * 0x100;
+    boss->unk48.y = pos.y * 0x100;
     angle = boss->unk2C >> 4;
-    sa2__sub_8003EE4(angle, 0x100, 0x100, 0x28, 0x28, temp_r1, temp_r0, gBgAffineRegs);
+    SA2_LABEL(sub_8003EE4)(angle, 0x100, 0x100, 0x28, 0x28, pos.x, pos.y, gBgAffineRegs);
     s = &boss->sprBody;
     s->x = 0x28;
     s->y = 0x28;
     UpdateSpriteAnimation_BG(s);
     sub_80BE46C(s);
 }
-END_NONMATCH
 
 void TaskDestructor_Boss2Entrance(Task *t)
 {
