@@ -235,12 +235,14 @@ void SetFixedRandomIfTimeAttackMode()
     }
 }
 
+void sub_80781C0() { }
+void sub_8078920() { }
+void sub_80789EC() { }
 void sub_8078E34() { }
 void sub_807A2AC() { }
 void sub_807A37C() { }
 void sub_807A468() { }
 void sub_807B498() { }
-void CreateEggWheeler() { }
 void CreateEggFoot() { }
 void CreateEggCube() { }
 void CreateEggChaserBoss() { }

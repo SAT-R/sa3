@@ -1648,7 +1648,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C370.inc", void sub_806C37
             sp20.y = temp_r3_2;
             temp_r1_3 = temp_r2_2 >> 8;
             sp20.x = temp_r1_3;
-            boss->unk4 += (s16)(sa2__sub_801F07C(temp_r3_2 >> 8, temp_r1_3, 0, 8, (u8 *)temp_r4_2, sa2__sub_801EE64) << 8);
+            boss->unk4 += (s16)(sa2__sub_801F07C(temp_r3_2 >> 8, temp_r1_3, 0, 8, NULL, sa2__sub_801EE64) << 8);
             boss->unk2A = (s16)temp_r4_2;
             gCurTask->main = sub_806C7B0;
         }
@@ -2206,7 +2206,6 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806CFD4.inc", bool32 sub_806C
 }
 END_NONMATCH
 
-#if 01
 void sub_806D01C(EggWheeler *boss)
 {
     if (((u32)PseudoRandom32() >> 8) & 1) {
@@ -2226,8 +2225,8 @@ void sub_806D01C(EggWheeler *boss)
     }
 }
 
-#else
-void sub_806D07C(EggWheeler *boss)
+// (94.29%) https://decomp.me/scratch/WLbpH
+NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806D07C.inc", void sub_806D07C(EggWheeler *boss))
 {
     Sprite *temp_r4;
     Vec2_32 pos;
@@ -2245,24 +2244,29 @@ void sub_806D07C(EggWheeler *boss)
     UpdateSpriteAnimation_BG(temp_r4);
     sub_80BE46C(temp_r4);
 }
+END_NONMATCH
 
-void sub_806D0E8(EggWheeler *boss)
+// (92.86%) https://decomp.me/scratch/9NNEN
+NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806D0E8.inc", void sub_806D0E8(EggWheeler *boss))
 {
     s32 temp_r1 = I(boss->unk0);
     s32 temp_r0;
     Sprite *s;
+    u16 angle;
     temp_r1 -= gCamera.x;
     temp_r0 = I(boss->unk4);
     temp_r0 -= gCamera.y;
     boss->unk48.x = Q(temp_r1);
     boss->unk48.y = Q(temp_r0);
-    sa2__sub_8003EE4((u16)((u16)boss->unk2C >> 4), 0x100, 0x100, 0x28, 0x28, temp_r1, temp_r0, gBgAffineRegs);
+    angle = boss->unk2C >> 4;
+    sa2__sub_8003EE4(angle, 0x100, 0x100, 0x28, 0x28, temp_r1, temp_r0, gBgAffineRegs);
     s = &boss->sprBody;
     s->x = 0x28;
     s->y = 0x28;
     UpdateSpriteAnimation_BG(s);
     sub_80BE46C(s);
 }
+END_NONMATCH
 
 void TaskDestructor_Boss2Entrance(Task *t)
 {
@@ -2285,4 +2289,3 @@ bool32 sub_806D17C(Boss2Exit *arg0)
         return 1;
     }
 }
-#endif
