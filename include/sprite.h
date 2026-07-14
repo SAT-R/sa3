@@ -341,7 +341,7 @@ AnimCmdResult UpdateSpriteAnimation_BG(Sprite *s); // NOTE: Move into background
 void sub_80C07E0(Sprite *s);
 #endif
 void DisplaySprite(Sprite *s);
-void DisplaySprites(Sprite *s, Vec2_16 *positions, u16 count);
+void DisplaySprites(Sprite *s, Vec2_16 *positions, u8 count);
 void DrawBackground(Background *);
 bool32 SA2_LABEL(sub_8002B20)(void);
 u32 SA2_LABEL(sub_80039E4)(void);

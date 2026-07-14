@@ -869,14 +869,13 @@ void DisplaySprite(Sprite *s)
 NONMATCH("asm/non_matching/engine/sub_80C07E0.inc", void sub_80C07E0(Sprite *sprite)) { }
 END_NONMATCH
 
-// (99.82%) https://decomp.me/scratch/UPXYB
-// TODO: Is param 'numPositions' u8 in SA1/SA2 but u16 in SA3?
-NONMATCH("asm/non_matching/engine/DisplaySprites.inc", void DisplaySprites(Sprite *sprite, Vec2_16 *positions, u16 numPositions))
+void DisplaySprites(Sprite *sprite, Vec2_16 *positions, u8 numPositions)
 {
     vs32 x, y;
     s32 sprWidth, sprHeight;
     u8 subframe, i;
-    s32 x1, y1, centerOffsetX, centerOffsetY;
+    u32 x1, y1, centerOffsetX, centerOffsetY;
+    s32 frameFlags;
 
     if (sprite->frameNum != -1) {
         const SpriteOffset *sprDims;
@@ -905,7 +904,8 @@ NONMATCH("asm/non_matching/engine/DisplaySprites.inc", void DisplaySprites(Sprit
                 sprHeight *= 2;
             }
         } else {
-            if (sprite->frameFlags & SPRITE_FLAG_MASK_Y_FLIP) {
+            frameFlags = sprite->frameFlags;
+            if (frameFlags & SPRITE_FLAG_MASK_Y_FLIP) {
                 y -= sprHeight - sprDims->offsetY;
             } else {
                 y -= sprDims->offsetY;
@@ -937,7 +937,8 @@ NONMATCH("asm/non_matching/engine/DisplaySprites.inc", void DisplaySprites(Sprit
                 oam->all.attr1 &= 0xFE00;
                 oam->all.attr0 &= 0xFE00;
                 oam->all.attr2 += sprite->palId << 12;
-                if (sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE_ENABLE) {
+                frameFlags = sprite->frameFlags;
+                if (frameFlags & SPRITE_FLAG_MASK_ROT_SCALE_ENABLE) {
                     oam->all.attr0 |= 0x100;
                     if (sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE_DOUBLE_SIZE) {
                         oam->all.attr0 |= 0x200;
@@ -989,7 +990,6 @@ NONMATCH("asm/non_matching/engine/DisplaySprites.inc", void DisplaySprites(Sprit
         }
     }
 }
-END_NONMATCH
 
 // The parameter to this determines the order this sprite is expected to be drawn at.
 //
