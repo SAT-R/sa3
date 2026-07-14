@@ -359,24 +359,8 @@ ProgrammableWaveData_80EB75C:
 	.global ProgrammableWaveData_80EB76C
 ProgrammableWaveData_80EB76C:
 	.incbin "sound/programmable_wave_samples/080EB76C.pcm"
-
-	mAlignWord
-	.global gMPlayTable
-gMPlayTable:	@ 0x080EB77C
-#if PLATFORM_GBA
-	music_player gMPlayInfo_BGM, 0x02000000, 16, 0
-	music_player gMPlayInfo_SE1, 0x02000500, 16, 0
-	music_player gMPlayInfo_SE2, 0x02000A00, 16, 0
-	music_player gMPlayInfo_SE3, 0x02000F00, 16, 0
-#else
-	music_player gMPlayInfo_BGM, EWRAM_START + 0x000, 16, 0
-	mAlignWord
-	music_player gMPlayInfo_SE1, EWRAM_START + 0x500, 16, 0
-	mAlignWord
-	music_player gMPlayInfo_SE2, EWRAM_START + 0xA00, 16, 0
-	mAlignWord
-	music_player gMPlayInfo_SE3, EWRAM_START + 0xF00, 16, 0
-#endif
+    
+	.include "sound/shared/music_player_table.inc"
 
 	mAlignWord
 	.global gSongTable

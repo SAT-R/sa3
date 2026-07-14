@@ -195,8 +195,6 @@ void PlayRingCollectSE(void)
     if ((gStageData.gameMode != 2)
         && (((gStageData.unk4 != 9) && (gStageData.unk4 != 4) && (gStageData.unk4 != 5) && (gStageData.unk4 != 6))
             || (gStageData.zone != 7))) {
-        // TEMP: The ring SFX crash the mixer right now...
-#ifndef BUG_FIX
         if (gStageData.rings & 1) {
             MPlayStart(&gMPlayInfo_SE2, &song117);
             m4aMPlayImmInit(&gMPlayInfo_SE2);
@@ -208,7 +206,6 @@ void PlayRingCollectSE(void)
             m4aMPlayVolumeControl(&gMPlayInfo_SE1, 0xFFFFU, 128);
             m4aMPlayPanpotControl(&gMPlayInfo_SE1, 0xFFFFU, +64);
         }
-#endif
     }
 }
 
