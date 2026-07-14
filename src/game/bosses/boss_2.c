@@ -6,6 +6,7 @@
 #include "lib/m4a/m4a.h"
 #include "game/save.h"
 #include "game/stage.h"
+#include "game/enemy_unknown.h"
 #include "game/shared/stage/screen_shake.h"
 #include "game/sa3/bosses/more_gemerl.h"
 #include "game/shared/stage/music_manager.h"
@@ -160,6 +161,7 @@ extern s8 sub_80781C0(Vec2_32 *, s8 *);
 extern void sub_8078920(Sprite *s, Vec2_32 *vec, s8 *param2);
 extern void sub_80789EC(Sprite *, Vec2_32 *vec, s8 *);
 extern void sub_8078E34(s32 *, VoidFn);
+extern bool8 sub_8079FFC(void);
 extern void sub_807A37C(void);
 extern void sub_807A4A8(void);
 extern void SetFixedRandomIfTimeAttackMode(void);
@@ -1905,8 +1907,9 @@ void sub_806CA28(EggWheeler *boss)
     s->prevVariant = -1;
 }
 
-#if 0
-s32 sub_806CAA4(Strc_806CAA4 *arg0) {
+// (98.76%) https://decomp.me/scratch/7MGp4
+NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806CAA4.inc", s32 sub_806CAA4(Strc_806CAA4 *arg0))
+{
     Sprite *temp_r8;
     u8 var_sl;
     Player *p = NULL;
@@ -1918,17 +1921,14 @@ s32 sub_806CAA4(Strc_806CAA4 *arg0) {
     temp_r8 = arg0->s;
     sub_8004D68(x << 8, y << 8);
 
-    for(var_sl = 0; var_sl < 2; var_sl++)
-    {
+    for (var_sl = 0; var_sl < 2; var_sl++) {
         p = GET_SP_PLAYER_V0(var_sl);
         if (!(p->moveState & 0x01000000)) {
             if (((p->charFlags.character) == CREAM) && (sub_805C510(temp_r8) == 1)) {
                 sp8 = 1;
             }
-            if(!sub_802C080(p))
-            {
-                if (sub_8020700(temp_r8, x, y, 1, p, 0) != 0) 
-                {
+            if (!sub_802C080(p)) {
+                if (sub_8020700(temp_r8, x, y, 1, p, 0) != 0) {
                     if (p->framesInvincible == 0) {
                         sub_8020CE0(temp_r8, x, y, 0, p);
                         sub_8020CE0(temp_r8, x, y, 1, p);
@@ -1945,12 +1945,10 @@ s32 sub_806CAA4(Strc_806CAA4 *arg0) {
                         } else {
                             arg0->unkB = -1;
                         }
-        
+
                         sub_806CCB0(p);
-                        arg0->playerIndex = (var_sl == 0) 
-                            ? gStageData.playerIndex
-                            : p->charFlags.partnerIndex;
-        
+                        arg0->playerIndex = (var_sl == 0) ? gStageData.playerIndex : p->charFlags.partnerIndex;
+
                         sp8 = 1;
                     } else if (sub_8020700(temp_r8, x, y, 0, p, 0) != 0) {
                         if (p->framesInvincible == 0) {
@@ -1985,6 +1983,7 @@ s32 sub_806CAA4(Strc_806CAA4 *arg0) {
     }
     return sp8;
 }
+END_NONMATCH
 
 void sub_806CCB0(Player *p) {
     EggWheeler *boss = TASK_DATA(gCurTask);
@@ -2143,28 +2142,51 @@ bool32 sub_806CF38(EggWheeler *boss) {
     return sub_805C280(&sp0);
 }
 
-bool32 sub_806CF70(EggWheeler *boss) {
-    s32 temp_r1_2;
-    s32 temp_r2;
-    u8 var_r6;
+// Fake-match
+bool32 sub_806CF70(EggWheeler *boss)
+{
+    s8 var_r6 = 0;
+#ifndef NON_MATCHING
+    register s32 r1 asm("r1");
+    register s32 r3 asm("r3");
+    register struct Camera *cam asm("r5");
+    r1 = boss->unk4;
+    asm("mov %0, %1" : "=r"(r3) : "r"(r1));
+#else
+    s32 r1;
+    s32 r3;
+    struct Camera *cam;
+    r1 = boss->unk4;
+    r3 = r1;
+    ;
+#endif
+    r3 >>= 8;
+    r1 >>= 8;
+    cam = &gCamera;
 
-    var_r6 = 0;
-    if ((I(boss->unk4) - gCamera.y) > 10) {
-        var_r6 = gCamera.maxY - (I(boss->unk4) + 0x30);
+    r1 -= cam->y;
+
+    if (r1 > 10) {
+        s32 r0 = cam->maxY;
+        r1 = r3;
+        r1 += 0x30;
+        var_r6 = r0 - r1;
     }
-    if (I(boss->unk4) > 0xA) {
+    if (r3 > 0xA) {
         sub_806C5D4(boss);
     }
-    if ((var_r6 << 0x18) < 0) {
+    if (var_r6 < 0) {
         return TRUE;
     } else {
-        boss->unk44 += ((s8) (u8) boss->unk24 * 4);
+        boss->unk44 += ((s8)(u8)boss->unk24 * 4);
         boss->unk3C += boss->unk44;
         boss->unk4 += boss->unk3C;
         return 0U;
     }
 }
 
+#if 01
+#else
 bool32 sub_806CFD4(EggWheeler *boss) {
     s32 temp_r3;
     s32 temp_r3_2;
