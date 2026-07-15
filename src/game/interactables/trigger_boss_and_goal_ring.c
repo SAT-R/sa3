@@ -27,10 +27,10 @@ typedef struct {
 } TriggerConsts;
 
 typedef struct {
-    /* 0x00 */ s32 unk0;
-    /* 0x04 */ s32 unk4;
-    /* 0x08 */ s32 unk8;
-    /* 0x0C */ s32 unkC;
+    /* 0x00 */ s32 qMinX;
+    /* 0x04 */ s32 qMaxX;
+    /* 0x08 */ s32 qMinY;
+    /* 0x0C */ s32 qMaxY;
     /* 0x10 */ s32 qCamX;
     /* 0x14 */ s32 qCamY;
 } TriggerCamState;
@@ -49,6 +49,9 @@ typedef struct {
     /* 0x38 */ u16 unk38;
     /* 0x3A */ u16 unk3A;
     /* 0x3C */ s32 unk3C;
+#if DEBUG
+    struct Task *triggerZoneOutlineTask;
+#endif
 } TriggerBossOrGoal; /* 0x40 */
 
 void Task_TriggerBossAndGoalRingInit(void);
@@ -62,6 +65,85 @@ void Task_DestroyTrigger(void);
 
 extern const TriggerConsts gUnknown_080CFA58[18];
 
+#if DEBUG
+typedef struct {
+    Sprite s;
+    s32 minX, maxX;
+    s32 minY, maxY;
+    float t;
+} BossTriggerZone;
+
+void Task_BossTriggerZone(void);
+void TaskDestructor_BossTriggerZone(struct Task *t);
+
+void CreateBossTriggerZoneOutline(TriggerBossOrGoal *trig)
+{
+    trig->triggerZoneOutlineTask = TaskCreate(Task_BossTriggerZone, sizeof(BossTriggerZone), 0x2000, 0, TaskDestructor_BossTriggerZone);
+    BossTriggerZone *outline = TASK_DATA(trig->triggerZoneOutlineTask);
+    TriggerCamState *camState = &trig->camState;
+    Sprite *s = &outline->s;
+
+    outline->minX = I(camState->qMinX);
+    outline->maxX = I(camState->qMaxX);
+    outline->minY = I(camState->qMinY);
+    outline->maxY = I(camState->qMaxY);
+
+    s->tiles = VramMalloc(4);
+    s->anim = ANIM_SEESAW_1;
+    s->variant = 3;
+    s->prevVariant = -1;
+    s->oamFlags = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    outline->t = 0.0f;
+}
+
+void Task_BossTriggerZone(void)
+{
+    BossTriggerZone *outline = TASK_DATA(gCurTask);
+    Sprite *s = &outline->s;
+    s32 minX = outline->minX - gCamera.x;
+    s32 maxX = outline->maxX - gCamera.x;
+    s32 minY = outline->minY - gCamera.y;
+    s32 maxY = outline->maxY - gCamera.y;
+
+    s->x = minX + (int)((maxX - minX) * outline->t);
+    s->y = minY;
+    DisplaySprite(s);
+
+    s->x = maxX;
+    s->y = minY + (int)((maxY - minY) * outline->t);
+    DisplaySprite(s);
+
+    s->x = maxX - (int)((maxX - minX) * outline->t);
+    s->y = maxY;
+    DisplaySprite(s);
+
+    s->x = minX;
+    s->y = maxY - (int)((maxY - minY) * outline->t);
+    DisplaySprite(s);
+
+    outline->t += (1. / 60.); // Assuming 60fps
+
+    float tMax = 1.0;
+    if (outline->t >= tMax) {
+        outline->t -= tMax;
+    }
+}
+
+void TaskDestructor_BossTriggerZone(struct Task *t)
+{
+    BossTriggerZone *outline = TASK_DATA(t);
+    VramFree(outline->s.tiles);
+}
+#endif // DEBUG
+
+// (99.76%) https://decomp.me/scratch/ObeDF
 NONMATCH("asm/non_matching/game/interactables/boss_trigger__CreateEntity_TriggerBossOrGoal.inc",
          void CreateEntity_TriggerBossOrGoal(MapEntity *me, u16 regionX, u16 regionY, u8 id))
 {
@@ -95,11 +177,35 @@ NONMATCH("asm/non_matching/game/interactables/boss_trigger__CreateEntity_Trigger
         trig->unk38 = gCamera.maxX;
         trig->unk3A = gCamera.maxY;
 
-        camState->unk0 = trig->qWorldX + Q(me->d.sData[0] * TILE_WIDTH);
-        camState->unk4 = camState->unk0 + Q(me->d.uData[2] * TILE_WIDTH);
-        camState->unk8 = trig->qWorldY + Q(me->d.sData[1] * TILE_WIDTH);
-        camState->unkC = camState->unk8 + Q(me->d.uData[3] * TILE_WIDTH);
+        camState->qMinX = trig->qWorldX + Q(me->d.sData[0] * TILE_WIDTH);
+        camState->qMaxX = camState->qMinX + Q(me->d.uData[2] * TILE_WIDTH);
+        camState->qMinY = trig->qWorldY + Q(me->d.sData[1] * TILE_WIDTH);
+        camState->qMaxY = camState->qMinY + Q(me->d.uData[3] * TILE_WIDTH);
 
+#if PORTABLE
+        {
+            s32 dx = camState->qMaxX - camState->qMinX;
+            s32 dy = camState->qMaxY - camState->qMinY;
+            if (dx < DISPLAY_WIDTH) {
+                camState->qMinX = trig->qWorldX - Q(DISPLAY_WIDTH / 2);
+                camState->qMaxX = trig->qWorldX + Q(DISPLAY_WIDTH / 2);
+
+                trig->unk34 = gCamera.minX = I(camState->qMinX);
+                trig->unk38 = gCamera.maxX = I(camState->qMaxX);
+            }
+
+            if (dy < DISPLAY_HEIGHT) {
+                camState->qMinY = camState->qMaxX - Q(DISPLAY_HEIGHT);
+
+                trig->unk36 = gCamera.minY = I(camState->qMinY);
+                trig->unk3A = gCamera.maxY = I(camState->qMaxY);
+            }
+        }
+#endif
+
+#if DEBUG
+        CreateBossTriggerZoneOutline(trig);
+#endif
         sub_803E900(camState);
     }
 
@@ -115,7 +221,7 @@ NONMATCH("asm/non_matching/game/interactables/boss_trigger__Task_TriggerBossAndG
 
     trig->unk3C++;
 
-    if (trig->bossTask == 0) {
+    if (trig->bossTask == NULL) {
         const TriggerConsts *tcBase = &gUnknown_080CFA58[0];
         const TriggerConsts *tc = (tcBase + trig->bossId); // For matching
 
@@ -123,79 +229,72 @@ NONMATCH("asm/non_matching/game/interactables/boss_trigger__Task_TriggerBossAndG
             trig->bossTask = tc->bossInit(&trig->unk2F, I(trig->qWorldX), I(trig->qWorldY));
         }
     }
-    // _0803E58E
 
-    if (camState->qCamX < camState->unk0) {
+    if (camState->qCamX < camState->qMinX) {
         camState->qCamX += trig->unk2C;
 
-        if (camState->qCamX > camState->unk0) {
-            camState->qCamX = camState->unk0;
+        if (camState->qCamX > camState->qMinX) {
+            camState->qCamX = camState->qMinX;
         }
-    } else if (camState->qCamX + Q(DISPLAY_WIDTH) > camState->unk4) {
-        // _0803E5B8+0xC
-
+    } else if (camState->qCamX + Q(DISPLAY_WIDTH) > camState->qMaxX) {
         camState->qCamX -= trig->unk2C;
 
-        if (camState->qCamX + Q(DISPLAY_WIDTH) < camState->unk4) {
-            camState->qCamX = camState->unk4 - Q(DISPLAY_WIDTH);
+        if (camState->qCamX + Q(DISPLAY_WIDTH) < camState->qMaxX) {
+            camState->qCamX = camState->qMaxX - Q(DISPLAY_WIDTH);
         }
     }
-    // _0803E5DC
 
-    if (camState->qCamY < camState->unk8) {
+    if (camState->qCamY < camState->qMinY) {
         camState->qCamY += trig->unk2C >> 1;
 
-        if (camState->qCamY > camState->unk8) {
-            camState->qCamY = camState->unk8;
+        if (camState->qCamY > camState->qMinY) {
+            camState->qCamY = camState->qMinY;
         }
-    } else if (camState->qCamY + Q(DISPLAY_HEIGHT) > camState->unkC) {
+    } else if (camState->qCamY + Q(DISPLAY_HEIGHT) > camState->qMaxY) {
         camState->qCamY -= trig->unk2C >> 1;
 
-        if (camState->qCamY + Q(DISPLAY_HEIGHT) < camState->unkC) {
-            camState->qCamY = camState->unkC - Q(DISPLAY_HEIGHT);
+        if (camState->qCamY + Q(DISPLAY_HEIGHT) < camState->qMaxY) {
+            camState->qCamY = camState->qMaxY - Q(DISPLAY_HEIGHT);
         }
     }
-    // _0803E622
 
-    if (camState->unk0 >= camState->qCamX) {
+    if (camState->qMinX >= camState->qCamX) {
         gCamera.minX = I(camState->qCamX);
     } else {
-        gCamera.minX = I(camState->unk0);
+        gCamera.minX = I(camState->qMinX);
     }
-    // _0803E63C
 
-    if (camState->unk4 <= camState->qCamX + Q(DISPLAY_WIDTH)) {
+    if (camState->qMaxX <= camState->qCamX + Q(DISPLAY_WIDTH)) {
         gCamera.maxX = I(camState->qCamX) + DISPLAY_WIDTH;
     } else {
-        gCamera.maxX = I(camState->unk4);
+        gCamera.maxX = I(camState->qMaxX);
     }
 
-    if (camState->unk8 >= camState->qCamY) {
+    if (camState->qMinY >= camState->qCamY) {
         gCamera.minY = I(camState->qCamY);
     } else {
-        gCamera.minY = I(camState->unk8);
+        gCamera.minY = I(camState->qMinY);
     }
 
-    if (camState->unkC <= camState->qCamY + Q(DISPLAY_HEIGHT)) {
+    if (camState->qMaxY <= camState->qCamY + Q(DISPLAY_HEIGHT)) {
         gCamera.maxY = I(camState->qCamY) + DISPLAY_HEIGHT;
     } else {
-        gCamera.maxY = I(camState->unkC);
+        gCamera.maxY = I(camState->qMaxY);
     }
-    // _0803E682
 
     {
 #ifndef NON_MATCHING
-        register s32 x asm("r5") = I(camState->unk0);
+        register s32 x asm("r5") = I(camState->qMinX);
 #else
-        s32 x = I(camState->unk0);
+        s32 x = I(camState->qMinX);
 #endif
-        if ((gCamera.x >= x) && (gCamera.y >= I(camState->unk8)) && (gCamera.x + DISPLAY_WIDTH <= I(camState->unk4))
-            && (gCamera.y + DISPLAY_HEIGHT <= I(camState->unkC))) {
+        if ((gCamera.x >= x) && (gCamera.y >= I(camState->qMinY)) && (gCamera.x + DISPLAY_WIDTH <= I(camState->qMaxX))
+            && (gCamera.y + DISPLAY_HEIGHT <= I(camState->qMaxY))) {
             if (trig->unk3C > 4) {
                 gCamera.minX = x;
-                gCamera.maxX = I(camState->unk4);
-                gCamera.minY = I(camState->unk8);
-                gCamera.maxY = I(camState->unkC);
+                gCamera.maxX = I(camState->qMaxX);
+                gCamera.minY = I(camState->qMinY);
+                gCamera.maxY = I(camState->qMaxY);
 
 #ifndef NON_MATCHING
                 if (gStageData.act == ACT_BOSS) {
@@ -203,6 +302,10 @@ NONMATCH("asm/non_matching/game/interactables/boss_trigger__Task_TriggerBossAndG
                         "\tsub r0, %0, #4\n"
                         "\tlsl r0, #24\n"
                         "\tlsr r0, #24" ::"r"(&gStageData));
+                }
+#else
+                if (gStageData.act == ACT_BOSS) {
+                    u8 unusedZone = gStageData.zone - 4;
                 }
 #endif
                 trig->unk2F = 2;
@@ -258,7 +361,14 @@ void sub_803E700()
     }
 }
 
-void TaskDestructor_TriggerBossAndGoalRing(struct Task *t) { }
+void TaskDestructor_TriggerBossAndGoalRing(struct Task *t)
+{
+#if DEBUG
+    TriggerBossOrGoal *trig = TASK_DATA(t);
+    TaskDestroy(trig->triggerZoneOutlineTask);
+    trig->triggerZoneOutlineTask = NULL;
+#endif
+}
 
 void Task_803E7DC(void)
 {
@@ -308,8 +418,8 @@ void Task_803E884()
     TriggerCamState *camState = &trig->camState;
     Player *p = &gPlayers[gStageData.playerIndex];
 
-    if ((p->qWorldX >= camState->unk0 - Q(128)) && (p->qWorldX <= camState->unk4 + Q(128)) && (p->qWorldY >= camState->unk8 - Q(128))
-        && (p->qWorldY <= camState->unkC + Q(128))) {
+    if ((p->qWorldX >= camState->qMinX - Q(128)) && (p->qWorldX <= camState->qMaxX + Q(128)) && (p->qWorldY >= camState->qMinY - Q(128))
+        && (p->qWorldY <= camState->qMaxY + Q(128))) {
         trig->unk3C = 0;
 
         sub_803E900(camState);
@@ -323,20 +433,17 @@ void sub_803E900(TriggerCamState *camState)
     camState->qCamX = Q(gCamera.x);
 
     if ((gStageData.act == ACT_BOSS) && ((gStageData.zone == ZONE_5) || (gStageData.zone == ZONE_6))) {
-#ifndef NON_MATCHING
-        // NOTE: This introduces a redundant check, already handled by the 'else'.
         if (gStageData.zone != ZONE_5) {
             camState->qCamY = Q(gCamera.y);
             return;
         }
-#endif
 
-        if (gCamera.x < 0x500) {
+        if (gCamera.x < 1280) {
             camState->qCamY = Q(gCamera.y);
-            camState->unk8 = Q(1340);
+            camState->qMinY = Q(1340);
         } else {
             camState->qCamY = Q(gCamera.y);
-            camState->unk8 = Q(1304);
+            camState->qMinY = Q(1304);
         }
     } else {
         camState->qCamY = Q(gCamera.y);

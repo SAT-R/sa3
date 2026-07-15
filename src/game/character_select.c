@@ -3177,11 +3177,8 @@ bool32 sub_809B704(CharacterSelect *cs, s16 param1)
 
 u32 sub_809B730(CharacterSelect *cs)
 {
-    u8 temp_r0;
-
-    temp_r0 = cs->createIndex;
-    if ((temp_r0 != 0) && (temp_r0 != 3)) {
-        return (u32)(0 - (gMultiSioStatusFlags & 0x80)) >> 0x1F;
+    if ((cs->createIndex != 0) && (cs->createIndex != 3)) {
+        return (u32)(-(gMultiSioStatusFlags & 0x80)) >> 0x1F;
     }
     return 1U;
 }

@@ -83,7 +83,7 @@ void CreateBoss_806EADC() { }
 void CreateBoss_8071A08() { }
 void CreateBoss_8073640() { }
 void CreateBoss_8074E88() { }
-void sub_8079FFC() { }
+bool32 sub_8079FFC() { return FALSE; }
 void sub_807A074() { }
 void sub_807B6C8() { }
 void sub_807C670() { }
