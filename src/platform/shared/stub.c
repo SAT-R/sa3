@@ -243,7 +243,6 @@ void sub_807A2AC() { }
 void sub_807A37C() { }
 void sub_807A468() { }
 void sub_807B498() { }
-void CreateEggFoot() { }
 void CreateEggCube() { }
 void CreateEggChaserBoss() { }
 void CreateEggPinball() { }
