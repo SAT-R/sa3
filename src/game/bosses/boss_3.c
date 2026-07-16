@@ -315,6 +315,87 @@ NONMATCH("asm/non_matching/game/bosses/boss_3__sub_806D568.inc", void sub_806D56
 }
 END_NONMATCH
 
+void sub_806D6C4(EggFoot *boss)
+{
+    u32 sp0;
+    ExtSprite *temp_r6;
+    Sprite *s;
+    EggFoot_3C8 *temp_r6_2;
+    AnimCmdResult acmdRes;
+    s32 temp_r0_3;
+    u8 var_r4;
+    u8 j;
+
+    if (boss->unk24[5] != 0) {
+        for (var_r4 = 0; var_r4 < SPRITE_ARR_1_COUNT; var_r4++) {
+            s32 qExtX, qExtY;
+            s = (Sprite *)&boss->sprites48[var_r4].s;
+            s->x = I(boss->sprites48[var_r4].x) - gCamera.x;
+            s->y = I(boss->sprites48[var_r4].y) - gCamera.y;
+
+            switch (var_r4) {
+                case 1:
+                case 6:
+                case 7: {
+                    UpdateSpriteAnimation(s);
+                } break;
+            }
+            DisplaySprite(s);
+        }
+    }
+
+    for (var_r4 = 0; var_r4 < SPRITE_ARR_2_COUNT; var_r4++) {
+        if (boss->sprites478[var_r4].x != ACMD_RESULT__ENDED) {
+            s = (Sprite *)&boss->sprites478[var_r4].s;
+            acmdRes = UpdateSpriteAnimation(s);
+            if (acmdRes == ACMD_RESULT__ENDED) {
+                boss->sprites478[var_r4].x = 0;
+            }
+        }
+    }
+
+    for (var_r4 = 0; var_r4 < SPRITE_ARR_2_COUNT; var_r4++) {
+        for (j = 0; j < (s32)ARRAY_COUNT(boss->unk3C8); j++) {
+            if (boss->unk3C8[j][var_r4].unk0 != 0) {
+                s = (Sprite *)&boss->sprites478[boss->unk3C8[j][var_r4].unk4].s;
+                s->x = I(boss->unk3C8[j][var_r4].unk0) - gCamera.x;
+                s->y = 192 - gCamera.y; // TODO: 192 might be (DISPLAY_HEIGHT + 32) instead?
+                DisplaySprite(s);
+                temp_r0_3 = boss->sprites478[boss->unk3C8[j][var_r4].unk4].x;
+                if (temp_r0_3 == 0) {
+                    boss->unk3C8[j][var_r4].unk0 = 0;
+                }
+            }
+        }
+    }
+}
+
+void sub_806D808(EggFoot *arg0, u8 pattern)
+{
+    Sprite *s = (Sprite *)&arg0->sprites48[1].s;
+
+    switch (pattern) {
+        case 1:
+            s->anim = ANIM_BOSS_3_EGGMAN;
+            s->variant = pattern;
+            break;
+        case 0:
+            s->anim = ANIM_BOSS_3_EGGMAN;
+            s->variant = pattern;
+            break;
+        case 2:
+            s->anim = ANIM_BOSS_3_EGGMAN;
+            s->variant = pattern;
+            break;
+        case 3:
+            s->anim = ANIM_BOSS_3_EGGMAN;
+            s->variant = pattern;
+            break;
+    }
+
+    s->prevVariant = -1;
+}
+
 #if 0
 ? SetFixedRandomIfTimeAttackMode();                 /* extern */
 ? sub_80044CC(Player *);                            /* extern */
@@ -336,160 +417,6 @@ extern ? gUnknown_080D57CC;
 extern ? gUnknown_080D584C;
 extern ? gUnknown_080D5870;
 extern ? sub_807A37C;
-
-void sub_806D568(EggFoot *boss) {
-    ExtSprite *sp0;
-    s32 *sp4;
-    ExtSprite *temp_r0_3;
-    s32 *temp_r1_3;
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r1_4;
-    s32 temp_r1_5;
-    s32 temp_r5;
-    s32 var_r0;
-    s32 var_r3;
-    s32 var_r3_2;
-    u8 var_r4;
-    u8 var_r4_2;
-
-    temp_r1 = boss->unk0;
-    boss->sprites48[0].x = temp_r1;
-    temp_r0 = boss->unk4;
-    boss->sprites48[0].y = temp_r0;
-    boss->sprites48[1].x = temp_r1;
-    boss->sprites48[1].y = temp_r0;
-    boss->sprites48[2].x = temp_r1 + 0xFFFFDB00;
-    temp_r0_2 = temp_r0 + 0x800;
-    boss->sprites48[2].y = temp_r0_2;
-    boss->sprites48[3].x = temp_r1 + 0x2500;
-    boss->sprites48[3].y = temp_r0_2;
-    boss->sprites48[4].x = boss->sprites48[2].x;
-    boss->sprites48[4].y = boss->sprites48[2].y + boss->unk10;
-    boss->sprites48[5].x = boss->sprites48[3].x;
-    boss->sprites48[5].y = boss->sprites48[3].y + boss->unk10;
-    boss->sprites48[6].x = boss->sprites48[4].x;
-    boss->sprites48[6].y = boss->sprites48[4].y;
-    boss->sprites48[7].x = boss->sprites48[5].x;
-    boss->sprites48[7].y = boss->sprites48[5].y;
-    temp_r1_2 = boss->unk10;
-    var_r0 = temp_r1_2 + 0xFFFFE400;
-    if (var_r0 < 0) {
-        var_r0 = temp_r1_2 + 0xFFFFE403;
-    }
-    temp_r5 = (var_r0 >> 2) + 1;
-    var_r3 = boss->sprites48[2].y + 0xC00;
-    var_r4 = 0;
-    sp0 = &boss->sprites48[3];
-    sp4 = &boss->sprites48[3].y;
-    temp_r0_3 = boss->sprites48;
-    temp_r1_3 = &boss->sprites48[0].y;
-    do {
-        temp_r1_4 = var_r4 + 8;
-        temp_r0_3[temp_r1_4].x = boss->sprites48[2].x;
-        *(temp_r1_3 + (temp_r1_4 * 0x38)) = var_r3;
-        var_r4 += 1;
-        var_r3 += temp_r5;
-    } while ((u32) var_r4 <= 3U);
-    var_r3_2 = *sp4 + 0xC00;
-    var_r4_2 = 0;
-    do {
-        temp_r1_5 = var_r4_2 + 0xC;
-        temp_r0_3[temp_r1_5].x = sp0->x;
-        *(temp_r1_3 + (temp_r1_5 * 0x38)) = var_r3_2;
-        var_r4_2 += 1;
-        var_r3_2 += temp_r5;
-    } while ((u32) var_r4_2 <= 3U);
-}
-
-void sub_806D6C4(EggFoot *boss) {
-    u32 sp0;
-    Sprite2 *temp_r5;
-    Sprite3 *temp_r0_2;
-    Sprite3 *temp_r6;
-    s32 *temp_r6_2;
-    s32 temp_r0;
-    s32 temp_r1;
-    s32 temp_r2;
-    s32 var_r4;
-    u32 var_r3;
-    u8 *temp_r0_3;
-    u8 var_r4_2;
-    u8 var_r4_3;
-    void *temp_r4;
-
-    if (boss->unk24[5] != 0) {
-        var_r4 = 0;
-        do {
-            temp_r5 = &boss->sprites48[var_r4].s;
-            boss->sprites48[var_r4].s.x = ((s32) boss->sprites48[var_r4].x >> 8) - gCamera.x;
-            boss->sprites48[var_r4].s.y = ((s32) *((var_r4 * 0x38) + &boss->sprites48[0].y) >> 8) - gCamera.y;
-            if ((var_r4 == 1) || ((var_r4 >= 1) && (var_r4 <= 7) && (var_r4 >= 6))) {
-                UpdateSpriteAnimation((Sprite *) temp_r5);
-            }
-            DisplaySprite((Sprite *) temp_r5);
-            var_r4 = (s32) (u8) (var_r4 + 1);
-        } while ((u32) var_r4 <= 0xFU);
-    }
-    var_r4_2 = 0;
-    do {
-        temp_r6 = &boss->sprites478[var_r4_2];
-        if (temp_r6->tiles != NULL) {
-            temp_r0 = UpdateSpriteAnimation((Sprite *) &boss->sprites478[var_r4_2].frameFlags);
-            if (temp_r0 == ACMD_RESULT__ENDED) {
-                temp_r6->tiles = (u8 *) temp_r0;
-            }
-        }
-        var_r4_2 += 1;
-    } while ((u32) var_r4_2 <= 0xAU);
-    var_r4_3 = 0;
-    do {
-        var_r3 = 0;
-loop_15:
-        temp_r1 = (var_r4_3 * 8) + (var_r3 * 0x58);
-        temp_r6_2 = boss->unk3C8[0] + temp_r1;
-        temp_r2 = *temp_r6_2;
-        if (temp_r2 != 0) {
-            temp_r4 = boss + temp_r1;
-            temp_r0_2 = &boss->sprites478[temp_r4->unk3CC];
-            temp_r0_2->prevAnim = (temp_r2 >> 8) - gCamera.x;
-            temp_r0_2->unk1A = (s16) (0xC0 - gCamera.y);
-            sp0 = var_r3;
-            DisplaySprite((Sprite *) &temp_r0_2->frameFlags);
-            temp_r0_3 = boss->sprites478[temp_r4->unk3CC].tiles;
-            if (temp_r0_3 == NULL) {
-                *temp_r6_2 = (s32) temp_r0_3;
-            }
-        }
-        var_r3 = (u32) (u8) (var_r3 + 1);
-        if (var_r3 <= 1U) {
-            goto loop_15;
-        }
-        var_r4_3 += 1;
-    } while ((u32) var_r4_3 <= 0xAU);
-}
-
-void sub_806D808(EggFoot *arg0, u8 arg1) {
-    u8 var_r1;
-    void *temp_r2;
-
-    var_r1 = arg1;
-    temp_r2 = arg0 + 0x88;
-    switch (var_r1) {                               /* irregular */
-    case 0:
-        var_r1 = 0;
-        /* fallthrough */
-    case 1:
-    case 2:
-    case 3:
-        temp_r2->unkC = 0x4C6;
-        temp_r2->unk1A = var_r1;
-        break;
-    }
-    temp_r2->unk1B = 0xFF;
-}
 
 u8 sub_806D840(EggFoot *arg0, s32 arg1) {
     Player *temp_r0;
