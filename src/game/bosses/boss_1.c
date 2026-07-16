@@ -126,7 +126,6 @@ void sub_8004D68(s32, s32);
 bool32 sub_807A1DC(Sprite *);
 
 extern void sub_80044CC(Player *);
-extern void SetFixedRandomIfTimeAttackMode(void);
 extern void sub_807A37C(void);
 extern void sub_8078E34(s32 *, VoidFn);
 

@@ -33,7 +33,7 @@ typedef struct {
     /* 0x1A */ s8 unk1A;
     /* 0x1B */ s8 unk1B;
     /* 0x1C */ s8 unk1C;
-    /* 0x1D */ u8 unk1D;
+    /* 0x1D */ u8 lives;
     /* 0x1E */ u8 unk1E;
     /* 0x1F */ u8 unk1F;
     /* 0x20 */ u8 unk20;
@@ -164,7 +164,6 @@ extern void sub_8078E34(s32 *, VoidFn);
 extern bool8 sub_8079FFC(void);
 extern void sub_807A37C(void);
 extern void sub_807A4A8(void);
-extern void SetFixedRandomIfTimeAttackMode(void);
 extern const TileInfo2 gUnknown_080D5780[8];
 extern void sub_80BE46C(Sprite *);
 
@@ -176,7 +175,7 @@ typedef struct {
 } Unknown;
 
 // Officially called: "Egg Ball No. 2"
-Task *CreateEggWheeler(u8 *param0, s32 worldX, s32 worldY)
+Task *CreateEggWheeler(u8 *data, s32 worldX, s32 worldY)
 {
     s32 sp4;
     Task *t = TaskCreate(Task_Boss2Init, sizeof(EggWheeler), 0x2100U, 0U, TaskDestructor_Boss2);
@@ -185,7 +184,7 @@ Task *CreateEggWheeler(u8 *param0, s32 worldX, s32 worldY)
     boss->unk28 = 0;
     boss->unk8 = worldX << 8;
     boss->unkC = worldY << 8;
-    boss->unk10 = param0;
+    boss->unk10 = data;
     boss->unk14 = 0;
     boss->unk17 = 0;
     boss->unk16 = 0;
@@ -199,9 +198,9 @@ Task *CreateEggWheeler(u8 *param0, s32 worldX, s32 worldY)
     boss->unk48.y = Q(DISPLAY_CENTER_Y);
 
     if (gStageData.difficulty == DIFFICULTY_NORMAL) {
-        boss->unk1D = 8;
+        boss->lives = 8;
     } else {
-        boss->unk1D = 6;
+        boss->lives = 6;
     }
 
     boss->unk24 = 1;
@@ -244,7 +243,7 @@ void sub_806AA40(EggWheeler *boss)
 void sub_806AAA4(EggWheeler *boss)
 {
     Sprite *s;
-    Sprite *temp_r4;
+    Sprite *s2;
     Sprite *s3;
     SpriteTransform *tf;
     void *temp_r8_2;
@@ -266,29 +265,29 @@ void sub_806AAA4(EggWheeler *boss)
     s->hitboxes[0].index = -1;
     UpdateSpriteAnimation_BG(s);
 
-    temp_r4 = (Sprite *)&boss->sprEggman;
+    s2 = (Sprite *)&boss->sprEggman;
     tf = &boss->tf;
-    temp_r4->tiles = vram;
+    s2->tiles = vram;
     vram += (gUnknown_080D5780[2].numTiles * TILE_SIZE_4BPP);
-    temp_r4->anim = gUnknown_080D5780[2].anim;
-    temp_r4->variant = gUnknown_080D5780[2].variant;
-    temp_r4->prevVariant = -1;
-    temp_r4->x = I(boss->unk48.x);
-    temp_r4->y = I(boss->unk48.y);
-    temp_r4->oamFlags = 0x640;
-    temp_r4->animCursor = 0;
-    temp_r4->qAnimDelay = 0;
-    temp_r4->animSpeed = 0x10;
-    temp_r4->palId = 0;
-    temp_r4->frameFlags = 0x106A;
-    temp_r4->hitboxes[0].index = -1;
+    s2->anim = gUnknown_080D5780[2].anim;
+    s2->variant = gUnknown_080D5780[2].variant;
+    s2->prevVariant = -1;
+    s2->x = I(boss->unk48.x);
+    s2->y = I(boss->unk48.y);
+    s2->oamFlags = 0x640;
+    s2->animCursor = 0;
+    s2->qAnimDelay = 0;
+    s2->animSpeed = 0x10;
+    s2->palId = 0;
+    s2->frameFlags = 0x106A;
+    s2->hitboxes[0].index = -1;
     tf->rotation = 0x100;
-    tf->x = temp_r4->x;
-    tf->y = temp_r4->y;
+    tf->x = s2->x;
+    tf->y = s2->y;
     tf->qScaleX = Q(1);
     tf->qScaleY = Q(1);
-    TransformSprite(temp_r4, tf);
-    UpdateSpriteAnimation(temp_r4);
+    TransformSprite(s2, tf);
+    UpdateSpriteAnimation(s2);
 
     s3 = &boss->sprExplosion;
     s3->tiles = vram;
@@ -497,7 +496,7 @@ void Task_806AEDC(void)
     boss->unk0 += boss->unk38;
     boss->unk4 += boss->unk3C;
     temp_r6 = sub_806B094(boss);
-    if ((u8)boss->unk1D == 1) {
+    if ((u8)boss->lives == 1) {
         boss->unk38 = COS(boss->unk1E * 4) >> 7;
         boss->unk3C = SIN(boss->unk1E * 4) >> 7;
     } else {
@@ -628,7 +627,7 @@ void sub_806B144(EggWheeler *boss, Vec2_32 *pos)
             boss->unk3C = boss->unk38;
         }
     }
-    if (boss->unk1D != 1) {
+    if (boss->lives != 1) {
         boss->unk44 += 2;
     }
     if (boss->unk3C > 0) {
@@ -669,7 +668,7 @@ void sub_806B23C(EggWheeler *boss, Vec2_32 *pos)
         boss->unk38 = +boss->unk3C;
     }
 
-    if (boss->unk1D != 1) {
+    if (boss->lives != 1) {
         if (boss->unk24 < 0) {
             boss->unk40 -= 2;
         } else {
@@ -719,7 +718,7 @@ void sub_806B2F4(EggWheeler *boss, Vec2_32 *vec)
         boss->unk44 = -boss->unk40;
         boss->unk3C = -boss->unk38;
     }
-    if (boss->unk1D != 1) {
+    if (boss->lives != 1) {
         boss->unk44 += 2;
     }
     if (boss->unk3C > 0) {
@@ -778,7 +777,7 @@ u8 sub_806B3A4(EggWheeler *boss, Vec2_32 *pos)
         boss->unk38 = -boss->unk3C;
     }
 
-    if (boss->unk1D != 1) {
+    if (boss->lives != 1) {
         if (boss->unk24 < 0) {
             boss->unk40 = boss->unk40 + 2;
         } else {
@@ -787,7 +786,7 @@ u8 sub_806B3A4(EggWheeler *boss, Vec2_32 *pos)
     }
 
     if (ABS(boss->unk40) <= 0) {
-        if (boss->unk1D != 1) {
+        if (boss->lives != 1) {
             if (boss->unk24 < 0) {
                 boss->unk40 += 2;
             } else {
@@ -1058,7 +1057,7 @@ bool32 sub_806B844(EggWheeler *boss)
             goto return_0;
         }
 
-        if ((boss->unk23 == 0) && (boss->unk1D != 0) && (sub_806B6C8(boss) == 1)) {
+        if ((boss->unk23 == 0) && (boss->lives != 0) && (sub_806B6C8(boss) == 1)) {
             var_r4 = 1;
         }
     }
@@ -1107,24 +1106,24 @@ bool32 sub_806B844(EggWheeler *boss)
 
         m4aSongNumStart(SE_143);
         sub_807A468();
-        boss->unk1D--;
+        boss->lives--;
         if (gStageData.gameMode == 5) {
             if (gStageData.playerIndex == 0) {
-                if (boss->unk1D != 0) {
-                    sub_8027674(3U, boss->unk1D);
+                if (boss->lives != 0) {
+                    sub_8027674(3U, boss->lives);
                 }
             } else {
-                sub_8027674(4U, boss->unk1D);
+                sub_8027674(4U, boss->lives);
             }
         }
         if (gStageData.difficulty == 0) {
-            if ((u8)boss->unk1D == 4) {
+            if ((u8)boss->lives == 4) {
                 sub_80299D4(0x33U);
             }
-        } else if ((u8)boss->unk1D == 3) {
+        } else if ((u8)boss->lives == 3) {
             sub_80299D4(0x33U);
         }
-        if ((u8)boss->unk1D == 1) {
+        if ((u8)boss->lives == 1) {
             boss->unk30 = 0xFFFF;
         } else {
             boss->unk30 = 0x3C;
@@ -1185,7 +1184,7 @@ bool32 sub_806B844(EggWheeler *boss)
         }
     }
 
-    if ((u8)boss->unk1D == 0) {
+    if ((u8)boss->lives == 0) {
         if (CURRENT_GAME_MODE == GAME_MODE_5) {
             if (gStageData.playerIndex != PLAYER_1) {
                 gCurTask->main = sub_806C12C;
@@ -2035,31 +2034,31 @@ void sub_806CCB0(Player *p)
 // TODO: Fake-match
 void sub_0806CDB8(u8 *arg0, s16 unused)
 {
-    EggWheeler *temp_r4 = TASK_DATA(gStageData.taskBoss);
+    EggWheeler *boss = TASK_DATA(gStageData.taskBoss);
 #ifndef NON_MATCHING
     register s32 temp_r2 asm("r2") = arg0[2];
 #else
     s32 temp_r2 = arg0[2];
 #endif
     s32 temp_r1;
-    u16 uhh;
+    u16 someLivesVal;
     temp_r1 = 0x7F;
     temp_r1 &= temp_r2;
-    uhh = (arg0[3] | (arg0[4] << 8));
+    someLivesVal = (arg0[3] | (arg0[4] << 8));
 
     switch (temp_r1) {
         case 1: {
-            temp_r4->me.d.sData[4] = -1;
-            temp_r4->unk1D = 0U;
-            sub_806CA28(temp_r4);
+            boss->me.d.sData[4] = -1;
+            boss->lives = 0U;
+            sub_806CA28(boss);
             gStageData.taskBoss->main = sub_806C1C8;
         } break;
 
         case 3:
         case 4: {
-            temp_r1 = temp_r4->unk1D;
-            if (temp_r1 != (u8)uhh) {
-                temp_r4->unk25 = 1;
+            temp_r1 = boss->lives;
+            if (temp_r1 != (u8)someLivesVal) {
+                boss->unk25 = 1;
             }
         } break;
     }
@@ -2209,14 +2208,14 @@ void sub_806D01C(EggWheeler *boss)
 {
     if (((u32)PseudoRandom32() >> 8) & 1) {
         boss->unk24 = +1;
-        if ((u8)boss->unk1D == 1) {
+        if ((u8)boss->lives == 1) {
             boss->unk40 = -0x700;
         } else {
             boss->unk40 = -0x100;
         }
     } else {
         boss->unk24 = -1;
-        if (boss->unk1D == 1) {
+        if (boss->lives == 1) {
             boss->unk40 = -0x700;
         } else {
             boss->unk40 = -0x100;

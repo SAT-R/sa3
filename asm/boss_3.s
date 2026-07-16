@@ -5,104 +5,11 @@
 .syntax unified
 .arm
 
-    @ Called on init of Boss 3
-	thumb_func_start CreateEggFoot
-CreateEggFoot: @ 0x0806D1A0
-	push {r4, r5, r6, r7, lr}
-	sub sp, #4
-	adds r5, r0, #0
-	adds r4, r1, #0
-	ldr r0, _0806D1F8 @ =sub_806E910
-	movs r1, #0xdc
-	lsls r1, r1, #3     @ 0x6E0
-	movs r2, #0x84
-	lsls r2, r2, #6
-	ldr r3, _0806D1FC @ =sub_806EA14
-	str r3, [sp]
-	movs r3, #0
-	bl TaskCreate
-	adds r7, r0, #0
-	ldrh r2, [r7, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r6, r2, r0
-	ldr r1, _0806D200 @ =gStageData
-	adds r0, r1, #0
-	adds r0, #0x88
-	str r7, [r0]
-	lsls r4, r4, #8
-	str r4, [r6]
-	ldr r0, _0806D204 @ =0xFFFF3800
-	str r0, [r6, #4]
-	ldr r0, _0806D208 @ =gPlayers
-	str r0, [r6, #0x40]
-	movs r3, #0xa8
-	lsls r3, r3, #1
-	adds r0, r0, r3
-	str r0, [r6, #0x44]
-	movs r0, #0
-	str r0, [r6, #8]
-	str r0, [r6, #0xc]
-	str r5, [r6, #0x2c]
-	ldrb r0, [r1, #1]
-	cmp r0, #0
-	bne _0806D210
-	ldr r0, _0806D20C @ =0x03000030
-	adds r1, r2, r0
-	movs r0, #8
-	b _0806D216
-	.align 2, 0
-_0806D1F8: .4byte sub_806E910
-_0806D1FC: .4byte sub_806EA14
-_0806D200: .4byte gStageData
-_0806D204: .4byte 0xFFFF3800
-_0806D208: .4byte gPlayers
-_0806D20C: .4byte 0x03000030
-_0806D210:
-	ldr r3, _0806D264 @ =0x03000030
-	adds r1, r2, r3
-	movs r0, #6
-_0806D216:
-	strb r0, [r1]
-	movs r0, #0x90
-	lsls r0, r0, #7
-	str r0, [r6, #0x10]
-	movs r2, #0
-	movs r1, #0
-	strh r1, [r6, #0x32]
-	adds r3, r6, #0
-	adds r3, #0x27
-	movs r0, #1
-	strb r0, [r3]
-	adds r0, r6, #0
-	adds r0, #0x28
-	strb r2, [r0]
-	str r1, [r6, #0x18]
-	str r1, [r6, #0x1c]
-	strh r1, [r6, #0x20]
-	subs r0, #4
-	strb r2, [r0]
-	adds r0, #1
-	strb r2, [r0]
-	movs r0, #0x7c
-	bl VramMalloc
-	str r0, [r6, #0x38]
-	movs r0, #0x74
-	bl VramMalloc
-	str r0, [r6, #0x3c]
-	adds r0, r6, #0
-	bl sub_806D404
-	bl SetFixedRandomIfTimeAttackMode
-	adds r0, r7, #0
-	add sp, #4
-	pop {r4, r5, r6, r7}
-	pop {r1}
-	bx r1
-	.align 2, 0
-_0806D264: .4byte 0x03000030
+.if 0
+.endif
 
-	thumb_func_start sub_806D268
-sub_806D268: @ 0x0806D268
+	thumb_func_start Task_806D268
+Task_806D268: @ 0x0806D268
 	push {r4, r5, lr}
 	ldr r0, _0806D288 @ =gCurTask
 	ldr r2, [r0]
@@ -406,7 +313,7 @@ _0806D496:
 _0806D4C0:
 	lsls r2, r7, #3
 	movs r3, #0xf2
-	lsls r3, r3, #2
+	lsls r3, r3, #2 @ 0x3C8
 	adds r0, r6, r3
 	adds r0, r0, r2
 	str r4, [r0]
@@ -419,7 +326,7 @@ _0806D4C0:
 	movs r3, #1
 	strb r3, [r0]
 	movs r3, #0x84
-	lsls r3, r3, #3
+	lsls r3, r3, #3 @ 0x420
 	adds r0, r6, r3
 	adds r0, r0, r2
 	str r4, [r0]
@@ -3088,8 +2995,8 @@ _0806E8F8:
 _0806E908: .4byte 0x00007FFF
 _0806E90C: .4byte 0xFFFFFE80
 
-	thumb_func_start sub_806E910
-sub_806E910: @ 0x0806E910
+	thumb_func_start Task_EggFootInit
+Task_EggFootInit: @ 0x0806E910
 	push {r4, r5, lr}
 	ldr r4, _0806E930 @ =gCurTask
 	ldr r0, [r4]
@@ -3109,7 +3016,7 @@ _0806E930: .4byte gCurTask
 _0806E934: .4byte sub_806E950
 _0806E938:
 	ldr r1, [r4]
-	ldr r0, _0806E94C @ =sub_806D268
+	ldr r0, _0806E94C @ =Task_806D268
 _0806E93C:
 	str r0, [r1, #8]
 	adds r0, r5, #0
@@ -3118,7 +3025,7 @@ _0806E93C:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0806E94C: .4byte sub_806D268
+_0806E94C: .4byte Task_806D268
 
 	thumb_func_start sub_806E950
 sub_806E950: @ 0x0806E950
@@ -3150,14 +3057,14 @@ _0806E974:
 	cmp r0, #0
 	beq _0806E992
 	ldr r1, [r5]
-	ldr r0, _0806E998 @ =sub_806D268
+	ldr r0, _0806E998 @ =Task_806D268
 	str r0, [r1, #8]
 _0806E992:
 	pop {r4, r5}
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0806E998: .4byte sub_806D268
+_0806E998: .4byte Task_806D268
 
 	thumb_func_start sub_806E99C
 sub_806E99C: @ 0x0806E99C
@@ -3222,8 +3129,8 @@ sub_806E9F0: @ 0x0806E9F0
 	.align 2, 0
 _0806EA10: .4byte gCurTask
 
-	thumb_func_start sub_806EA14
-sub_806EA14: @ 0x0806EA14
+	thumb_func_start TaskDestructor_EggFoot
+TaskDestructor_EggFoot: @ 0x0806EA14
 	push {r4, lr}
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
