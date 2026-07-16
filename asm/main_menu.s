@@ -6079,8 +6079,8 @@ _0808A24E:
 _0808A254: .4byte gCurTask
     .align 2 , 0
 
-    thumb_func_start sub_0808A258
-sub_0808A258:
+    thumb_func_start sub_808A258
+sub_808A258:
 	bx lr
     .align 2 , 0
 

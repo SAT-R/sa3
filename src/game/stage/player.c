@@ -6379,16 +6379,16 @@ void sub_800BF78(Player *p)
                 sub_800C064(p);
                 break;
             case 1:
-                sub_0800C104(p);
+                sub_800C104(p);
                 break;
             case 2:
-                sub_0800C1FC(p);
+                sub_800C1FC(p);
                 break;
             case 3:
-                sub_0800C338(p);
+                sub_800C338(p);
                 break;
             case 4:
-                sub_0800F004(p);
+                sub_800F004(p);
                 break;
         }
     } else {
@@ -6402,7 +6402,7 @@ void sub_800BF78(Player *p)
                 sub_800C064(p);
                 break;
             case 1:
-                sub_0800C104(p);
+                sub_800C104(p);
                 break;
             case 2:
                 sub_800EF50(p);
@@ -6411,7 +6411,7 @@ void sub_800BF78(Player *p)
                 sub_800EFB0(p);
                 break;
             case 4:
-                sub_0800F004(p);
+                sub_800F004(p);
                 break;
             default:
                 break;
@@ -6451,7 +6451,7 @@ void sub_800C064(Player *p)
     Player_PlaySong(p, SE_SPEED_BOOSTER);
 }
 
-void sub_0800C104(Player *p)
+void sub_800C104(Player *p)
 {
     Player *partner;
     u32 temp_r1;
@@ -6485,15 +6485,15 @@ void sub_0800C104(Player *p)
         }
         Player_PlaySong(p, SE_JUMP);
     } else {
-        sub_0800E218(p);
-        sub_0800E218(partner);
+        sub_800E218(p);
+        sub_800E218(partner);
     }
     p->unk54 = 600;
     partner->unk54 = 600;
     sub_801EBC0(0xC, p);
 }
 
-void sub_0800C1FC(Player *p)
+void sub_800C1FC(Player *p)
 {
     Player *partner;
     s32 temp_r6;
@@ -6560,7 +6560,7 @@ void sub_0800C1FC(Player *p)
     }
 }
 
-void sub_0800C338(Player *p)
+void sub_800C338(Player *p)
 {
     Player *partner = GET_SP_PLAYER_V1(PLAYER_2);
 
@@ -6657,7 +6657,7 @@ void sub_800C494(Player *p)
                 sub_8012EB8(p);
                 sub_8016E00(p);
                 if (p->qSpeedGround != 0) {
-                    p->callback = sub_0800E27C;
+                    p->callback = sub_800E27C;
                     return;
                 }
 
@@ -8144,13 +8144,13 @@ void Player_800E1E4(Player *p)
     }
 }
 
-void sub_0800E218(Player *p)
+void sub_800E218(Player *p)
 {
     p->moveState = (p->moveState | 0x02000000) & 0xDFFFFFFF;
     sub_8012FA0(p);
     p->idleAndCamCounter = 360;
     if (p->qSpeedGround != 0) {
-        sub_0800E27C(p);
+        sub_800E27C(p);
     } else {
         p->charFlags.anim0 = 0;
         p->idleAndCamCounter = 30;
@@ -8161,7 +8161,7 @@ void sub_0800E218(Player *p)
     }
 }
 
-void sub_0800E27C(Player *p)
+void sub_800E27C(Player *p)
 {
     p->moveState = (p->moveState | 0x02000000) & 0xDFFFFFFF;
     sub_8012FA0(p);
@@ -8513,7 +8513,7 @@ void sub_800E880(Player *p)
     }
 }
 
-void sub_0800E8E0(Player *p)
+void sub_800E8E0(Player *p)
 {
     PlayerSpriteInfo *temp_r3;
 
@@ -8883,7 +8883,7 @@ void sub_800EFB0(Player *p)
     sub_800CD68(p);
 }
 
-void sub_0800F004(Player *p)
+void sub_800F004(Player *p)
 {
     Player *partner;
 
@@ -8896,7 +8896,7 @@ void sub_0800F004(Player *p)
         sub_800D6EC(partner);
     } else {
         partner->charFlags.anim0 = 0x10C;
-        sub_0800E8E0(p);
+        sub_800E8E0(p);
         sub_800D424(partner);
     }
 }

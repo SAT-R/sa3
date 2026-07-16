@@ -7481,8 +7481,8 @@ _08085580:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_08085588
-sub_08085588: @ 0x08085588
+	thumb_func_start sub_8085588
+sub_8085588: @ 0x08085588
 	push {r4, lr}
 	ldr r1, _080855B8 @ =gStageData
 	adds r1, #0x88
@@ -11090,8 +11090,8 @@ _080870D0:
 	.align 2, 0
 _080870DC: .4byte gUnknown_080D5D18
 
-    thumb_func_start sub_080870E0
-sub_080870E0:
+    thumb_func_start sub_80870E0
+sub_80870E0:
     movs r0, #0
     bx lr
 	.align 2, 0

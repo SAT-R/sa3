@@ -1,10 +1,17 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_vram.h"
+#include "multi_sio_stuff.h"
+#include "game/shared/stage/music_manager.h"
 #include "game/shared/stage/player.h"
 #include "game/sa3/bosses/more_gemerl.h"
 #include "game/save.h"
 #include "game/stage.h"
+#include "constants/animations.h"
+#include "constants/move_states.h"
+
+#define SPRITE_ARR_1_COUNT 16
+#define SPRITE_ARR_2_COUNT 11
 
 typedef struct {
     s32 unk0;
@@ -19,6 +26,16 @@ typedef struct {
 } ExtSprite;
 
 typedef struct {
+    /* 0x00 */ AnimId anim;
+    /* 0x02 */ u8 pattern;
+    /* 0x03 */ u8 unk3;
+    /* 0x04 */ u8 unk4;
+    /* 0x05 */ u8 unk5;
+    /* 0x06 */ u8 unk6;
+    /* 0x07 */ u8 unk7;
+} Strc_80D57CC;
+
+typedef struct {
     /* 0x000 */ s32 unk0;
     /* 0x000 */ s32 unk4;
     /* 0x000 */ s32 unk8;
@@ -29,8 +46,8 @@ typedef struct {
     /* 0x01C */ s32 unk1C;
     /* 0x020 */ u16 unk20;
     /* 0x024 */ u8 unk24[8];
-    /* 0x02C */ s32 unk2C;
-    /* 0x030 */ u8 unk30;
+    /* 0x02C */ u8 *bossPhase;
+    /* 0x030 */ u8 lives;
     /* 0x031 */ u8 unk31;
     /* 0x032 */ u16 unk32;
     /* 0x034 */ u16 unk34;
@@ -39,16 +56,29 @@ typedef struct {
     /* 0x03C */ u8 *vram3C; // 116 tiles
     /* 0x040 */ Player *player;
     /* 0x044 */ Player *partner;
-    /* 0x048 */ ExtSprite sprites48[16];
-    /* 0x3C8 */ EggFoot_3C8 unk3C8[2][11];
-    /* 0x478 */ Sprite3 sprites478[11];
+    /* 0x048 */ ExtSprite sprites48[SPRITE_ARR_1_COUNT];
+    /* 0x3C8 */ EggFoot_3C8 unk3C8[2][SPRITE_ARR_2_COUNT];
+    /* 0x478 */ ExtSprite sprites478[SPRITE_ARR_2_COUNT];
 } EggFoot;
 
 void sub_806D404(EggFoot *boss);
+void sub_806D6C4(EggFoot *boss);
+void sub_806DA20(EggFoot *boss);
+void sub_806DB78(EggFoot *boss);
+void sub_806E330(EggFoot *boss);
+void sub_806EAA0(EggFoot *boss);
 void Task_EggFootInit(void);
+bool8 sub_806D840(EggFoot *arg0, s32 arg1);
+void sub_806E99C(void);
+void sub_806E9C0(void);
+void sub_806E9F0(void);
+void sub_807A37C(void);
 void TaskDestructor_EggFoot(struct Task *t);
+void sub_8078E34(s32 *sp0, VoidFn func);
 
-Task *CreateEggFoot(u8 *data, s32 worldX, s32 worldY)
+extern const Strc_80D57CC gUnknown_080D57CC[SPRITE_ARR_1_COUNT];
+
+Task *CreateEggFoot(u8 *bossPhase, s32 worldX, s32 worldY)
 {
     Task *t = TaskCreate(Task_EggFootInit, sizeof(EggFoot), 0x2100U, 0U, TaskDestructor_EggFoot);
     EggFoot *boss = TASK_DATA(t);
@@ -61,12 +91,12 @@ Task *CreateEggFoot(u8 *data, s32 worldX, s32 worldY)
     boss->partner = &gPlayers[1];
     boss->unk8 = 0;
     boss->unkC = 0;
-    boss->unk2C = (s32)data;
+    boss->bossPhase = bossPhase;
 
     if (gStageData.difficulty == DIFFICULTY_NORMAL) {
-        boss->unk30 = 8;
+        boss->lives = 8;
     } else {
-        boss->unk30 = 6;
+        boss->lives = 6;
     }
 
     boss->unk10 = 0x4800;
@@ -84,6 +114,163 @@ Task *CreateEggFoot(u8 *data, s32 worldX, s32 worldY)
     SetFixedRandomIfTimeAttackMode();
 
     return t;
+}
+
+void Task_806D268(void)
+{
+    EggFoot *boss = TASK_DATA(gCurTask);
+    s16 temp_r1;
+    s16 pid;
+    u16 temp_r0;
+
+    if (*boss->bossPhase == 3) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    sub_806D6C4(boss);
+
+    if (*boss->bossPhase == 2) {
+        for (pid = 0; pid < NUM_SINGLE_PLAYER_CHARS; pid++) {
+            Player *p = &gPlayers[pid];
+            if (I(p->qWorldX) <= 1248 || I(p->qWorldX) >= 1608) {
+                return;
+            }
+        }
+
+        if (pid >= NUM_SINGLE_PLAYER_CHARS) {
+            sub_80299D4(50);
+            boss->unk34 = 0;
+            boss->unk36 = 1;
+            gCurTask->main = sub_806E99C;
+        }
+    }
+}
+
+void sub_806D2F8(void)
+{
+    EggFoot *boss = TASK_DATA(gCurTask);
+    u8 temp_r4;
+
+    sub_806E330(boss);
+    sub_806DB78(boss);
+    temp_r4 = sub_806D840(boss, 0);
+    temp_r4 += sub_806D840(boss, 1);
+
+    if (temp_r4) {
+        sub_806DA20(boss);
+    }
+
+    if (boss->lives == 0) {
+        if (gStageData.gameMode == GAME_MODE_5) {
+            if (gStageData.playerIndex != PLAYER_1) {
+                gCurTask->main = sub_806E9C0;
+            } else {
+                sub_8027674(1U, 0U);
+                sub_806EAA0(boss);
+                gCurTask->main = sub_806E9F0;
+            }
+        } else {
+            sub_806EAA0(boss);
+            gCurTask->main = sub_806E9F0;
+        }
+    }
+
+    sub_806D6C4(boss);
+}
+
+void sub_806D388()
+{
+    s32 sp0[4];
+    EggFoot *boss = TASK_DATA(gCurTask);
+    Player *p = boss->player;
+
+    switch (boss->unk34) {
+        case 0:
+            if (boss->vram38 != NULL) {
+                VramFree(boss->vram38);
+                boss->vram38 = NULL;
+            }
+            sp0[0] = I(boss->unk0);
+            sp0[1] = gCamera.maxY - 50;
+            sp0[2] = I(boss->unk0);
+            sp0[3] = gCamera.maxY - 37;
+            sub_8078E34(sp0, sub_807A37C);
+            boss->unk34 = 1;
+            break;
+
+        case 1:
+            if (!(p->moveState & MOVESTATE_IGNORE_INPUT)) {
+                *boss->bossPhase = 0;
+                boss->unk34 = 100;
+            }
+            break;
+    }
+}
+
+void sub_806D404(EggFoot *boss)
+{
+    Sprite *s;
+    const Strc_80D57CC *temp_r4;
+    u8 *vram = boss->vram38;
+    u8 i;
+
+    for (i = 0; i < SPRITE_ARR_1_COUNT; i++) {
+        ExtSprite *ext = &boss->sprites48[i];
+        s = (Sprite *)&ext->s;
+        boss->sprites48[i].x = boss->unk0;
+        boss->sprites48[i].y = boss->unk4;
+        s->tiles = vram;
+        temp_r4 = &gUnknown_080D57CC[i];
+        s->oamFlags = SPRITE_OAM_ORDER(temp_r4->unk3 + 2);
+        s->anim = temp_r4->anim;
+        s->variant = temp_r4->pattern;
+        s->qAnimDelay = 0;
+        s->prevVariant = -1;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->x = 0;
+        s->y = 0;
+        s->frameFlags = 0x1000;
+
+        if (temp_r4->unk4 == 0) {
+            s->frameFlags |= 0x80000;
+        }
+
+        if (temp_r4->unk5 != 0) {
+            s->frameFlags |= 0x400;
+        }
+
+        UpdateSpriteAnimation((Sprite *)&ext->s);
+        vram += temp_r4->unk6 * TILE_SIZE_4BPP;
+    }
+
+    vram = boss->vram3C;
+    for (i = 0; i < SPRITE_ARR_2_COUNT; i++) {
+        ExtSprite *ext;
+        boss->unk3C8[0][i].unk0 = 0;
+        boss->unk3C8[0][i].unk4 = 0;
+        boss->unk3C8[0][i].unk5 = 1;
+        boss->unk3C8[1][i].unk0 = 0;
+        boss->unk3C8[1][i].unk4 = 0;
+        boss->unk3C8[1][i].unk5 = 1;
+        ext = &boss->sprites478[i];
+        s = (Sprite *)&ext->s;
+        boss->sprites478[i].x = 0;
+        boss->sprites478[i].y = 0;
+        s->tiles = vram;
+        s->oamFlags = 0x540;
+        s->anim = 0x4C5;
+        s->variant = 0;
+        s->qAnimDelay = 0;
+        s->prevVariant = 0xFF;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->x = 0;
+        s->y = 0;
+        s->frameFlags = 0x1000;
+        UpdateSpriteAnimation(s);
+        vram += 5 * TILE_SIZE_4BPP;
+    }
 }
 
 #if 0
@@ -107,160 +294,6 @@ extern ? gUnknown_080D57CC;
 extern ? gUnknown_080D584C;
 extern ? gUnknown_080D5870;
 extern ? sub_807A37C;
-
-
-void Task_806D268(EggFoot *boss) {
-    s16 temp_r1;
-    s16 var_r1;
-    u16 temp_r0;
-
-    if (*boss->unk2C == 3) {
-        TaskDestroy(gCurTask);
-        return;
-    }
-    sub_806D6C4(boss);
-    if (*boss->unk2C == 2) {
-        var_r1 = 0;
-loop_4:
-        temp_r1 = var_r1;
-        if ((u32) (((s32) gPlayers[temp_r1].qWorldX >> 8) + 0xFFFFFB1F) <= 0x166U) {
-            temp_r0 = temp_r1 + 1;
-            var_r1 = (s16) temp_r0;
-            if ((s32) (s16) temp_r0 > 1) {
-                sub_80299D4(0x32U);
-                boss->unk34 = 0;
-                boss->unk36 = 1;
-                gCurTask->main = sub_806E99C;
-            } else {
-                goto loop_4;
-            }
-        }
-    }
-}
-
-void sub_806D2F8(EggFoot *boss) {
-    u8 temp_r4;
-    void (*var_r0)();
-
-    sub_806E330(boss);
-    sub_806DB78(boss);
-    temp_r4 = sub_806D840(boss, 0);
-    if (((temp_r4 + sub_806D840(boss, 1)) << 0x18) != 0) {
-        sub_806DA20(boss);
-    }
-    if (boss->unk30 == 0) {
-        if (gStageData.gameMode == 5) {
-            if (gStageData.playerIndex != 0) {
-                var_r0 = sub_806E9C0;
-            } else {
-                sub_8027674(1U, 0U);
-                goto block_7;
-            }
-        } else {
-block_7:
-            sub_806EAA0(boss);
-            var_r0 = sub_806E9F0;
-        }
-        gCurTask->main = var_r0;
-    }
-    sub_806D6C4(boss);
-}
-
-void sub_806D388(EggFoot *boss) {
-    s8 temp_r1;
-    u16 temp_r4;
-    u16 var_r0;
-    u8 *temp_r0;
-
-    temp_r4 = boss->unk34;
-    switch (temp_r4) {                              /* irregular */
-    case 0:
-        temp_r0 = boss->vram38;
-        if (temp_r0 != NULL) {
-            VramFree(temp_r0);
-            boss->vram38 = (u8 *) temp_r4;
-        }
-        sub_8078E34(&subroutine_arg0, &sub_807A37C, (s32) boss->unk0 >> 8, gCamera.maxY - 0x32, (s32) boss->unk0 >> 8, gCamera.maxY - 0x25);
-        var_r0 = 1;
-block_8:
-        boss->unk34 = var_r0;
-        return;
-    case 1:
-        temp_r1 = boss->player->moveState & 0x08000000;
-        if (temp_r1 == 0) {
-            *boss->unk2C = temp_r1;
-            var_r0 = 0x64;
-            goto block_8;
-        }
-        break;
-    }
-}
-
-void sub_806D404(EggFoot *boss) {
-    ExtSprite *temp_r3;
-    Sprite3 *temp_r1;
-    u8 *var_r8;
-    u8 *var_r8_2;
-    u8 var_r7;
-    u8 var_r7_2;
-    void *temp_r4;
-
-    var_r8 = boss->vram38;
-    var_r7 = 0;
-    do {
-        temp_r3 = &boss->sprites48[var_r7];
-        boss->sprites48[var_r7].x = boss->unk0;
-        *(&boss->sprites48[0].y + (var_r7 * 0x38)) = boss->unk4;
-        temp_r3->s.tiles = var_r8;
-        temp_r4 = (var_r7 * 8) + &gUnknown_080D57CC;
-        temp_r3->s.oamFlags = (temp_r4->unk3 + 2) << 6;
-        temp_r3->s.anim = temp_r4->unk0;
-        temp_r3->s.variant = temp_r4->unk2;
-        temp_r3->s.qAnimDelay = 0;
-        temp_r3->s.prevVariant = 0xFF;
-        temp_r3->s.animSpeed = 0x10;
-        temp_r3->s.palId = 0;
-        temp_r3->s.x = 0;
-        temp_r3->s.y = 0;
-        temp_r3->s.frameFlags = 0x1000;
-        if (temp_r4->unk4 == 0) {
-            temp_r3->s.frameFlags = 0x81000;
-        }
-        if (temp_r4->unk5 != 0) {
-            temp_r3->s.frameFlags |= 0x400;
-        }
-        UpdateSpriteAnimation((Sprite *) &temp_r3->s);
-        var_r8 += temp_r4->unk6 << 5;
-        var_r7 += 1;
-    } while ((u32) var_r7 <= 0xFU);
-    var_r8_2 = boss->vram3C;
-    var_r7_2 = 0;
-    do {
-        boss->unk3C8[0][var_r7_2].unk0 = 0;
-        boss->unk3C8[0][var_r7_2].unk4 = 0;
-        boss->unk3C8[0][var_r7_2].unk5 = 1;
-        boss->unk3C8[1][var_r7_2].unk0 = 0;
-        boss->unk3C8[1][var_r7_2].unk4 = 0;
-        boss->unk3C8[1][var_r7_2].unk5 = 1;
-        temp_r1 = &boss->sprites478[var_r7_2];
-        boss->sprites478[var_r7_2].tiles = NULL;
-        *(&boss->sprites478[0].frameNum + (var_r7_2 * 0x38)) = 0;
-        temp_r1->frameFlags = (u32) var_r8_2;
-        temp_r1->unk1C = 0x540;
-        temp_r1->oamFlags = 0x4C5;
-        temp_r1->unk22 = 0;
-        temp_r1->unk1E = 0;
-        temp_r1->unk23 = 0xFF;
-        temp_r1->hitboxes[0].b.left = 0x10;
-        temp_r1->hitboxes[0].b.bottom = 0;
-        temp_r1->prevAnim = 0;
-        temp_r1->unk1A = 0;
-        temp_r1->unk10 = 0x1000;
-        UpdateSpriteAnimation((Sprite *) &temp_r1->frameFlags);
-        var_r8_2 += 0xA0;
-        var_r7_2 += 1;
-    } while ((u32) var_r7_2 <= 0xAU);
-}
 
 void sub_806D568(EggFoot *boss) {
     ExtSprite *sp0;
@@ -530,7 +563,7 @@ void sub_806DA20(EggFoot *arg0) {
     }
 }
 
-void sub_0806DAD4(void *arg0) {
+void sub_806DAD4(void *arg0) {
     s32 temp_r3;
     u16 temp_r5;
     u8 var_r3;
@@ -1372,12 +1405,12 @@ void Task_EggFootInit(void) {
 }
 
 void sub_806E950(EggFoot *boss) {
-    if (*boss->unk2C == 3) {
+    if (*boss->bossPhase == 3) {
         TaskDestroy(gCurTask);
         return;
     }
     sub_806D6C4(boss);
-    if ((*boss->unk2C == 2) && ((sub_807A074() << 0x18) != 0)) {
+    if ((*boss->bossPhase == 2) && ((sub_807A074() << 0x18) != 0)) {
         gCurTask->main = (void (*)()) Task_806D268;
     }
 }

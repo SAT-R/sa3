@@ -2487,8 +2487,8 @@ _0807A0E0:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_0807A0E8
-sub_0807A0E8: @ 0x0807A0E8
+	thumb_func_start sub_807A0E8
+sub_807A0E8: @ 0x0807A0E8
 	push {lr}
 	adds r2, r0, #0
 	lsls r1, r1, #0x10
@@ -2524,7 +2524,7 @@ _0807A130:
 	lsls r1, r3, #0x10
 	asrs r1, r1, #0x10
 	adds r0, r2, #0
-	bl sub_0806A69C
+	bl sub_806A69C
 	b _0807A1D8
 _0807A146:
 	ldrb r1, [r2, #2]
@@ -2535,13 +2535,13 @@ _0807A146:
 	lsls r1, r3, #0x10
 	asrs r1, r1, #0x10
 	adds r0, r2, #0
-	bl sub_0806CDB8
+	bl sub_806CDB8
 	b _0807A1D8
 _0807A15C:
 	lsls r1, r3, #0x10
 	asrs r1, r1, #0x10
 	adds r0, r2, #0
-	bl sub_0806DAD4
+	bl sub_806DAD4
 	b _0807A1D8
 _0807A168:
 	ldrb r1, [r2, #2]
@@ -2552,7 +2552,7 @@ _0807A168:
 	lsls r1, r3, #0x10
 	asrs r1, r1, #0x10
 	adds r0, r2, #0
-	bl sub_08071594
+	bl sub_8071594
 	b _0807A1D8
 _0807A17E:
 	lsls r1, r3, #0x10
@@ -2569,7 +2569,7 @@ _0807A18A:
 	lsls r1, r3, #0x10
 	asrs r1, r1, #0x10
 	adds r0, r2, #0
-	bl sub_08074BA0
+	bl sub_8074BA0
 	b _0807A1D8
 _0807A1A0:
 	lsls r1, r3, #0x10
@@ -2593,13 +2593,13 @@ _0807A1C2:
 	lsls r1, r3, #0x10
 	asrs r1, r1, #0x10
 	adds r0, r2, #0
-	bl sub_0807F4F0
+	bl sub_807F4F0
 	b _0807A1D8
 _0807A1CE:
 	lsls r1, r3, #0x10
 	asrs r1, r1, #0x10
 	adds r0, r2, #0
-	bl sub_08085588
+	bl sub_8085588
 _0807A1D8:
 	pop {r0}
 	bx r0

@@ -6752,7 +6752,7 @@ _08026EBA:
 	ldrb r1, [r4, #4]
 	lsls r1, r1, #8
 	orrs r1, r2
-	bl sub_0802790C
+	bl sub_802790C
 	ldr r1, _08026F08 @ =gStageData
 	ldrb r0, [r1, #6]
 	cmp r0, #0
@@ -7316,7 +7316,7 @@ _0802736C:
 	mov r2, sl
 	lsls r1, r2, #0x10
 	asrs r1, r1, #0x10
-	bl sub_0807A0E8
+	bl sub_807A0E8
 	b _08027470
 _0802737C:
 	ldr r0, _08027388 @ =gStageData
@@ -8093,8 +8093,8 @@ sub_8027908: @ 0x08027908
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_0802790C
-sub_0802790C: @ 0x0802790C
+	thumb_func_start sub_802790C
+sub_802790C: @ 0x0802790C
 	push {lr}
 	lsls r0, r0, #0x10
 	lsrs r3, r0, #0x10

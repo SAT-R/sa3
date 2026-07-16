@@ -23,7 +23,7 @@ typedef struct {
     /* 0x0C */ s32 unk4;
     /* 0x0C */ s32 unk8;
     /* 0x0C */ s32 unkC;
-    /* 0x10 */ u8 *unk10;
+    /* 0x10 */ u8 *bossPhase;
     /* 0x14 */ u8 unk14;
     /* 0x15 */ s8 unk15;
     /* 0x16 */ s8 unk16;
@@ -175,7 +175,7 @@ typedef struct {
 } Unknown;
 
 // Officially called: "Egg Ball No. 2"
-Task *CreateEggWheeler(u8 *data, s32 worldX, s32 worldY)
+Task *CreateEggWheeler(u8 *bossPhase, s32 worldX, s32 worldY)
 {
     s32 sp4;
     Task *t = TaskCreate(Task_Boss2Init, sizeof(EggWheeler), 0x2100U, 0U, TaskDestructor_Boss2);
@@ -184,7 +184,7 @@ Task *CreateEggWheeler(u8 *data, s32 worldX, s32 worldY)
     boss->unk28 = 0;
     boss->unk8 = worldX << 8;
     boss->unkC = worldY << 8;
-    boss->unk10 = data;
+    boss->bossPhase = bossPhase;
     boss->unk14 = 0;
     boss->unk17 = 0;
     boss->unk16 = 0;
@@ -315,10 +315,10 @@ void Boss2_TransitionToIntro()
     s16 pid;
     u8 *vram;
 
-    if (*boss->unk10 == 3) {
+    if (*boss->bossPhase == 3) {
         TaskDestroy(gCurTask);
         return;
-    } else if (*boss->unk10 == 2) {
+    } else if (*boss->bossPhase == 2) {
         for (pid = 0; pid < NUM_SINGLE_PLAYER_CHARS; pid++) {
             Player *p = &gPlayers[pid];
             if (I(p->qWorldX) < 1145 || I(p->qWorldX) >= 1545) {
@@ -348,7 +348,7 @@ void Task_806AC7C(void)
     EggWheeler *boss = TASK_DATA(gCurTask);
     u8 pid;
 
-    if (*boss->unk10 == 2) {
+    if (*boss->bossPhase == 2) {
         boss->unk1B = 1;
         boss->unk1C = 1;
 
@@ -2032,7 +2032,7 @@ void sub_806CCB0(Player *p)
 }
 
 // TODO: Fake-match
-void sub_0806CDB8(u8 *arg0, s16 unused)
+void sub_806CDB8(u8 *arg0, s16 unused)
 {
     EggWheeler *boss = TASK_DATA(gStageData.taskBoss);
 #ifndef NON_MATCHING
@@ -2068,7 +2068,7 @@ void Task_Boss2Init(void)
 {
     EggWheeler *boss = TASK_DATA(gCurTask);
 
-    if (*boss->unk10 == 3) {
+    if (*boss->bossPhase == 3) {
         TaskDestroy(gCurTask);
         return;
     } else if (sub_8079FFC()) {
@@ -2082,10 +2082,10 @@ void sub_806CE74(void)
 {
     EggWheeler *boss = TASK_DATA(gCurTask);
 
-    if (*boss->unk10 == 3) {
+    if (*boss->bossPhase == 3) {
         TaskDestroy(gCurTask);
         return;
-    } else if (*boss->unk10 == 2) {
+    } else if (*boss->bossPhase == 2) {
         if (sub_807A074() != 0) {
             gCurTask->main = Boss2_TransitionToIntro;
         }
@@ -2097,7 +2097,7 @@ void sub_806CEB8(void)
     EggWheeler *boss = TASK_DATA(gCurTask);
 
     VramFree(boss->sprEggman.tiles);
-    *boss->unk10 = 0;
+    *boss->bossPhase = 0;
 }
 
 void TaskDestructor_Boss2(Task *t) { }

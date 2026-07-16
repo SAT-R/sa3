@@ -1206,7 +1206,7 @@ void sub_80B8C70(Struc_3001150_1C *arg0, Player *partner, Player *player)
     }
 }
 
-u8 sub_080B8CA8(u8 *arg0) { return *arg0; }
+u8 sub_80B8CA8(u8 *arg0) { return *arg0; }
 
 bool32 sub_80B8CAC(struct Struc_3001150_1C *strc, s32 index, Player *partner, Player *p)
 {

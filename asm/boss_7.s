@@ -5389,12 +5389,12 @@ _080778C0:
 	bx r0
     .align 2 , 0
     
-    thumb_func_start sub_080778C8
-sub_080778C8:
+    thumb_func_start sub_80778C8
+sub_80778C8:
     bx lr
 	
-    thumb_func_start sub_080778CC
-sub_080778CC:
+    thumb_func_start sub_80778CC
+sub_80778CC:
     bx lr
 	
 	thumb_func_start sub_80778D0
@@ -5498,13 +5498,13 @@ sub_8077978: @ 0x08077978
 	bx lr
 	.align 2, 0
 
-    thumb_func_start sub_0807797C
-sub_0807797C:
+    thumb_func_start sub_807797C
+sub_807797C:
     bx lr
 	.align 2, 0
 	
-    thumb_func_start sub_08077980
-sub_08077980:
+    thumb_func_start sub_8077980
+sub_8077980:
     bx lr
 	.align 2, 0
 	
@@ -5597,8 +5597,8 @@ sub_8077A14: @ 0x08077A14
 _08077A20: .4byte 0x030000B8
 	.align 2, 0
 
-    thumb_func_start sub_08077A24
-sub_08077A24:
+    thumb_func_start sub_8077A24
+sub_8077A24:
 	bx lr
 	.align 2, 0
 

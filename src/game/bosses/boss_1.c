@@ -1278,7 +1278,7 @@ void sub_806A5DC(EggHammerTankIII *boss)
     }
 }
 
-void sub_0806A69C(u8 *arg0)
+void sub_806A69C(u8 *arg0)
 {
     EggHammerTankIII *boss = TASK_DATA(gStageData.taskBoss);
     u16 temp_r1 = arg0[2] & 0x7F;

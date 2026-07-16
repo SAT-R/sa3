@@ -1194,7 +1194,7 @@ void Task_8099200(void)
     }
 }
 
-void sub_080992A4(void) { }
+void sub_80992A4(void) { }
 
 void sub_80992A8(CharacterSelect *cs)
 {

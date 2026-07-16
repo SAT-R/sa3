@@ -2717,8 +2717,8 @@ _08074B98:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_08074BA0
-sub_08074BA0: @ 0x08074BA0
+	thumb_func_start sub_8074BA0
+sub_8074BA0: @ 0x08074BA0
 	push {r4, r5, lr}
 	ldr r1, _08074C10 @ =gStageData
 	adds r5, r1, #0
