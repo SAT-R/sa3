@@ -2,6 +2,7 @@
 #include "core.h"
 #include "malloc_vram.h"
 #include "multi_sio_stuff.h"
+#include "lib/m4a/m4a.h"
 #include "game/shared/stage/music_manager.h"
 #include "game/shared/stage/player.h"
 #include "game/sa3/bosses/more_gemerl.h"
@@ -9,6 +10,7 @@
 #include "game/stage.h"
 #include "constants/animations.h"
 #include "constants/move_states.h"
+#include "constants/songs.h"
 
 #define SPRITE_ARR_1_COUNT 16
 #define SPRITE_ARR_2_COUNT 11
@@ -49,7 +51,7 @@ typedef struct {
     /* 0x02C */ u8 *bossPhase;
     /* 0x030 */ u8 lives;
     /* 0x031 */ u8 unk31;
-    /* 0x032 */ u16 unk32;
+    /* 0x032 */ s16 unk32;
     /* 0x034 */ u16 unk34;
     /* 0x036 */ u16 unk36;
     /* 0x038 */ u8 *vram38; // 124 tiles
@@ -397,43 +399,39 @@ void sub_806D808(EggFoot *arg0, u8 pattern)
     s->prevVariant = -1;
 }
 
-bool8 sub_806D840(EggFoot *arg0, u8 pid)
+bool8 sub_806D840(EggFoot *arg0, u8 playerIndex)
 {
     Sprite *s;
     s32 temp_r0_3;
     s32 temp_r1;
     s32 temp_r2;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    s32 temp_r5;
-    s32 temp_r5_2;
+    s32 qX, qY;
     u32 temp_r0_2;
-    u8 var_r4;
+    u8 pid;
     u8 var_r5;
     u8 result = 0;
     Player *p;
 
-    p = arg0->players[pid];
+    p = arg0->players[playerIndex];
     s = (Sprite *)&arg0->sprites48[0].s;
-    temp_r4 = arg0->sprites48[0].x;
-    temp_r5 = arg0->sprites48[0].y;
+    qX = arg0->sprites48[0].x;
+    qY = arg0->sprites48[0].y;
     if ((arg0->lives == 0) || (sub_802C080(p) != 0)) {
-        return 0U;
+        return FALSE;
     }
     if (arg0->unk24[6] == 0) {
-        sub_8004D68(temp_r4, temp_r5);
+        sub_8004D68(qX, qY);
         if (((p->charFlags.character == CREAM)
              || ((gStageData.gameMode == GAME_MODE_5)
                  && ((arg0->players[0]->charFlags.character == CREAM) || (arg0->players[1]->charFlags.character == CREAM))
                  && (gStageData.playerIndex == 0)))
             && (sub_807A1DC(s) == 1)) {
-            result = 1;
+            result = TRUE;
         }
-        temp_r4_2 = temp_r4 >> 8;
-        temp_r5_2 = temp_r5 >> 8;
-        if (sub_8020E3C(s, temp_r4_2, temp_r5_2, 0, p) == 1) {
+
+        if (sub_8020E3C(s, I(qX), I(qY), 0, p) == 1) {
             result = 1;
-            temp_r0_2 = sub_8020874(s, temp_r4_2, temp_r5_2, 0, p, 1, 0U);
+            temp_r0_2 = sub_8020874(s, I(qX), I(qY), 0, p, 1, 0U);
             if (0x20000 & temp_r0_2) {
                 p->qWorldY += Q(4) + Q_8_8(temp_r0_2);
                 if (p->qWorldY >= Q(177)) {
@@ -446,17 +444,17 @@ bool8 sub_806D840(EggFoot *arg0, u8 pid)
             }
         }
     } else {
-        sub_8020CE0(s, temp_r4 >> 8, temp_r5 >> 8, 0, p);
+        sub_8020CE0(s, I(qX), I(qY), 0, p);
     }
 
     for (var_r5 = 0; var_r5 < 11; var_r5++) {
-        for (var_r4 = 0; var_r4 < 2; var_r4++) {
-            temp_r2 = arg0->unk3C8[var_r4][var_r5].unk0;
+        for (pid = 0; pid < 2; pid++) {
+            temp_r2 = arg0->unk3C8[pid][var_r5].unk0;
             if (temp_r2 != 0) {
-                s = (Sprite *)&arg0->sprites478[arg0->unk3C8[var_r4][var_r5].unk4].s;
+                s = (Sprite *)&arg0->sprites478[arg0->unk3C8[pid][var_r5].unk4].s;
                 if (sub_8020CE0(s, I(temp_r2), 0xC0, 1, p) != 0) {
-                    var_r5 = 0xB;
-                    var_r4 = 2;
+                    var_r5 = 11;
+                    pid = 2;
                 }
             }
         }
@@ -474,6 +472,36 @@ bool8 sub_806D840(EggFoot *arg0, u8 pid)
     return result;
 }
 
+void sub_806DA20(EggFoot *boss)
+{
+    if ((boss->lives != 0) && (boss->unk32 == 0)) {
+        boss->lives--;
+        if (gStageData.difficulty == 0) {
+            if (boss->lives == 4) {
+                sub_80299D4(51);
+            }
+        } else if (boss->lives == 3) {
+            sub_80299D4(51);
+        }
+        m4aSongNumStart(SE_235);
+        sub_807A468();
+        sub_806D808(boss, 2U);
+        sub_8078DB0(ANIM_PALETTE_BOSS_3_A, 0, 0x7A, 0U);
+        sub_8078DB0(ANIM_PALETTE_BOSS_3_B, 0, 0x7A, 0U);
+        boss->unk32 = 0x7A;
+
+        if (gStageData.gameMode == GAME_MODE_5) {
+            if (gStageData.playerIndex == PLAYER_1) {
+                if (boss->lives != 0) {
+                    sub_8027674(3U, boss->lives);
+                }
+            } else {
+                sub_8027674(4U, boss->lives);
+            }
+        }
+    }
+}
+
 #if 0
 ? SetFixedRandomIfTimeAttackMode();                 /* extern */
 ? sub_80044CC(Player *);                            /* extern */
@@ -483,7 +511,6 @@ bool8 sub_806D840(EggFoot *arg0, u8 pid)
 s32 sub_807A1DC(Sprite *);                          /* extern */
 ? sub_807A4A8();                                    /* extern */
 u8 sub_806D840(EggFoot *arg0, s32 arg1);            /* static */
-void sub_806DA20(EggFoot *arg0);                    /* static */
 void sub_806DB78(EggFoot *arg0, ? arg3);            /* static */
 void sub_806E330(EggFoot *arg0);                    /* static */
 void sub_806E950(EggFoot *boss);                    /* static */
@@ -495,120 +522,6 @@ extern ? gUnknown_080D57CC;
 extern ? gUnknown_080D584C;
 extern ? gUnknown_080D5870;
 extern ? sub_807A37C;
-
-u8 sub_806D840(EggFoot *arg0, s32 pid) {
-    Player *temp_r0;
-    Sprite *temp_r7;
-    s32 temp_r0_3;
-    s32 temp_r1;
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    s32 temp_r5;
-    s32 temp_r5_2;
-    u32 temp_r0_2;
-    u8 var_r4;
-    u8 var_r5;
-    u8 var_r5_2;
-    u8 var_sl;
-
-    var_sl = 0;
-    temp_r0 = *(arg0 + 0x40 + ((u32) (pid << 0x18) >> 0x16));
-    temp_r7 = arg0 + 0x50;
-    temp_r4 = arg0->sprites48[0].x;
-    temp_r5 = arg0->sprites48[0].y;
-    if ((arg0->unk30 == 0) || (sub_802C080(temp_r0) != 0)) {
-        return 0U;
-    }
-    if (arg0->unk24[6] == 0) {
-        sub_8004D68(temp_r4, temp_r5);
-        if ((((0xF & temp_r0->unk2A) == 1) || ((gStageData.gameMode == 5) && (((0xF & arg0->player->unk2A) == 1) || ((0xF & arg0->partner->unk2A) == 1)) && (gStageData.playerIndex == 0))) && (sub_807A1DC(temp_r7) == 1)) {
-            var_sl = 1;
-        }
-        temp_r4_2 = temp_r4 >> 8;
-        temp_r5_2 = temp_r5 >> 8;
-        if (sub_8020E3C(temp_r7, temp_r4_2, temp_r5_2, 0, temp_r0) == 1) {
-            var_sl = 1;
-            temp_r0_2 = sub_8020874(temp_r7, temp_r4_2, temp_r5_2, 0, temp_r0, 1, 0U);
-            if (0x20000 & temp_r0_2) {
-                temp_r0_3 = temp_r0->qWorldY + 0x400 + (s16) (temp_r0_2 << 8);
-                temp_r0->qWorldY = temp_r0_3;
-                if (temp_r0_3 > 0xB0FF) {
-                    temp_r0->qWorldY = 0xB100;
-                }
-                temp_r0->qSpeedAirY = 0;
-            }
-            if (arg0->unk32 == 0) {
-                sub_80044CC(temp_r0);
-            }
-        }
-    } else {
-        sub_8020CE0(temp_r7, temp_r4 >> 8, temp_r5 >> 8, 0, temp_r0);
-    }
-    var_r5 = 0;
-    do {
-        var_r4 = 0;
-loop_21:
-        temp_r1 = (var_r5 * 8) + (var_r4 * 0x58);
-        temp_r2 = *(arg0 + 0x3C8 + temp_r1);
-        if ((temp_r2 != 0) && (sub_8020CE0(((arg0 + temp_r1)->unk3CC * 0x38) + arg0 + 0x480, temp_r2 >> 8, 0xC0, 1, temp_r0) != 0)) {
-            var_r5 = 0xB;
-            var_r4 = 2;
-        }
-        var_r4 += 1;
-        if ((u32) var_r4 <= 1U) {
-            goto loop_21;
-        }
-        var_r5 += 1;
-    } while ((u32) var_r5 <= 0xAU);
-    var_r5_2 = 0;
-    do {
-        if (var_r5_2 != 1) {
-            temp_r2_2 = var_r5_2 * 0x38;
-            if (sub_8020CE0(temp_r2_2 + arg0 + 0x50, (s32) *(arg0 + 0x48 + temp_r2_2) >> 8, (s32) *(arg0 + 0x4C + temp_r2_2) >> 8, 1, temp_r0) != 0) {
-                var_r5_2 = 0x10;
-            }
-        }
-        var_r5_2 += 1;
-    } while ((u32) var_r5_2 <= 0xFU);
-    return var_sl;
-}
-
-void sub_806DA20(EggFoot *arg0) {
-    u8 temp_r0;
-    u8 temp_r1;
-    u8 temp_r1_2;
-
-    temp_r1 = arg0->unk30;
-    if ((temp_r1 != 0) && (arg0->unk32 == 0)) {
-        temp_r1_2 = temp_r1 - 1;
-        arg0->unk30 = temp_r1_2;
-        if (gStageData.difficulty == 0) {
-            if (temp_r1_2 == 4) {
-                sub_80299D4(0x33U);
-            }
-        } else if (temp_r1_2 == 3) {
-            sub_80299D4(0x33U);
-        }
-        m4aSongNumStart(0xEBU);
-        sub_807A468();
-        sub_806D808(arg0, 2U);
-        sub_8078DB0(0x4C7, 0, 0x7A, 0U);
-        sub_8078DB0(0x4C8, 0, 0x7A, 0U);
-        arg0->unk32 = 0x7A;
-        if (gStageData.gameMode == 5) {
-            if (gStageData.playerIndex == 0) {
-                temp_r0 = arg0->unk30;
-                if (temp_r0 != 0) {
-                    sub_8027674(3U, (u16) temp_r0);
-                }
-            } else {
-                sub_8027674(4U, (u16) arg0->unk30);
-            }
-        }
-    }
-}
 
 void sub_806DAD4(void *arg0) {
     s32 temp_r3;
