@@ -56,7 +56,7 @@ typedef struct {
     /* 0x036 */ u16 unk36;
     /* 0x038 */ u8 *vram38; // 124 tiles
     /* 0x03C */ u8 *vram3C; // 116 tiles
-    /* 0x040 */ Player *players[2];
+    /* 0x040 */ Player *players[NUM_SINGLE_PLAYER_CHARS];
     /* 0x048 */ ExtSprite sprites48[SPRITE_ARR_1_COUNT];
     /* 0x3C8 */ EggFoot_3C8 unk3C8[2][SPRITE_ARR_2_COUNT];
     /* 0x478 */ ExtSprite sprites478[SPRITE_ARR_2_COUNT];
@@ -502,6 +502,39 @@ void sub_806DA20(EggFoot *boss)
     }
 }
 
+void sub_806DAD4(u8 *arg0, s16 param1)
+{
+    EggFoot *boss = TASK_DATA(gStageData.taskBoss);
+    s32 temp_r3 = 0x7F & arg0[2];
+    u16 someLivesVal = (arg0[3] | (arg0[4] << 8));
+    u8 pid;
+
+    if (temp_r3 != 1) {
+        switch (temp_r3) {
+            case 1:
+            case 3:
+            case 4: {
+                if (boss->lives != (u8)someLivesVal) {
+                    sub_806DA20(boss);
+                }
+            } break;
+        }
+    } else {
+        boss->lives = 0;
+        boss->unk34 = 0;
+        boss->unk36 = 1;
+        boss->unk20 = 0;
+
+        for (pid = 0; pid < ARRAY_COUNT(boss->players); pid++) {
+            boss->players[pid]->moveState |= MOVESTATE_IGNORE_INPUT;
+            boss->players[pid]->qSpeedGround = 0;
+            boss->players[pid]->qSpeedAirX = 0;
+        }
+
+        gStageData.taskBoss->main = sub_806E9F0;
+    }
+}
+
 #if 0
 ? SetFixedRandomIfTimeAttackMode();                 /* extern */
 ? sub_80044CC(Player *);                            /* extern */
@@ -523,7 +556,7 @@ extern ? gUnknown_080D584C;
 extern ? gUnknown_080D5870;
 extern ? sub_807A37C;
 
-void sub_806DAD4(void *arg0) {
+void sub_806DAD4(u8 *arg0, s16 param1) {
     s32 temp_r3;
     u16 temp_r5;
     u8 var_r3;
