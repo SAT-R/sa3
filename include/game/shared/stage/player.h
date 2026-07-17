@@ -409,6 +409,8 @@ bool32 sub_802C080(Player *p); // Player_Hurt ?
 bool32 sub_802C0D4(Player *p);
 void sub_8004CC8(s16 playerId);
 void sub_8004D30(void);
+void sub_80044CC(Player *p);
+void sub_8004D68(s32 qWorldX, s32 qWorldY);
 void sub_8004DD8(s32 qWorldX, s32 qWorldY);
 
 s32 sub_8011BFC(u8, Player *p);

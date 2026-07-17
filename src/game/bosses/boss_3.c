@@ -54,8 +54,7 @@ typedef struct {
     /* 0x036 */ u16 unk36;
     /* 0x038 */ u8 *vram38; // 124 tiles
     /* 0x03C */ u8 *vram3C; // 116 tiles
-    /* 0x040 */ Player *player;
-    /* 0x044 */ Player *partner;
+    /* 0x040 */ Player *players[2];
     /* 0x048 */ ExtSprite sprites48[SPRITE_ARR_1_COUNT];
     /* 0x3C8 */ EggFoot_3C8 unk3C8[2][SPRITE_ARR_2_COUNT];
     /* 0x478 */ ExtSprite sprites478[SPRITE_ARR_2_COUNT];
@@ -68,13 +67,15 @@ void sub_806DB78(EggFoot *boss);
 void sub_806E330(EggFoot *boss);
 void sub_806EAA0(EggFoot *boss);
 void Task_EggFootInit(void);
-bool8 sub_806D840(EggFoot *arg0, s32 arg1);
+bool8 sub_806D840(EggFoot *arg0, u8 pid);
 void sub_806E99C(void);
 void sub_806E9C0(void);
 void sub_806E9F0(void);
 void sub_807A37C(void);
 void TaskDestructor_EggFoot(struct Task *t);
 void sub_8078E34(s32 *sp0, VoidFn func);
+
+extern s32 sub_807A1DC(Sprite *);
 
 extern const Strc_80D57CC gUnknown_080D57CC[SPRITE_ARR_1_COUNT];
 
@@ -87,8 +88,8 @@ Task *CreateEggFoot(u8 *bossPhase, s32 worldX, s32 worldY)
 
     boss->unk0 = worldX << 8;
     boss->unk4 = -0xC800;
-    boss->player = gPlayers;
-    boss->partner = &gPlayers[1];
+    boss->players[0] = &gPlayers[PLAYER_1];
+    boss->players[1] = &gPlayers[PLAYER_2];
     boss->unk8 = 0;
     boss->unkC = 0;
     boss->bossPhase = bossPhase;
@@ -182,7 +183,7 @@ void sub_806D388()
 {
     s32 sp0[4];
     EggFoot *boss = TASK_DATA(gCurTask);
-    Player *p = boss->player;
+    Player *p = boss->players[0];
 
     switch (boss->unk34) {
         case 0:
@@ -396,6 +397,83 @@ void sub_806D808(EggFoot *arg0, u8 pattern)
     s->prevVariant = -1;
 }
 
+bool8 sub_806D840(EggFoot *arg0, u8 pid)
+{
+    Sprite *s;
+    s32 temp_r0_3;
+    s32 temp_r1;
+    s32 temp_r2;
+    s32 temp_r4;
+    s32 temp_r4_2;
+    s32 temp_r5;
+    s32 temp_r5_2;
+    u32 temp_r0_2;
+    u8 var_r4;
+    u8 var_r5;
+    u8 result = 0;
+    Player *p;
+
+    p = arg0->players[pid];
+    s = (Sprite *)&arg0->sprites48[0].s;
+    temp_r4 = arg0->sprites48[0].x;
+    temp_r5 = arg0->sprites48[0].y;
+    if ((arg0->lives == 0) || (sub_802C080(p) != 0)) {
+        return 0U;
+    }
+    if (arg0->unk24[6] == 0) {
+        sub_8004D68(temp_r4, temp_r5);
+        if (((p->charFlags.character == CREAM)
+             || ((gStageData.gameMode == GAME_MODE_5)
+                 && ((arg0->players[0]->charFlags.character == CREAM) || (arg0->players[1]->charFlags.character == CREAM))
+                 && (gStageData.playerIndex == 0)))
+            && (sub_807A1DC(s) == 1)) {
+            result = 1;
+        }
+        temp_r4_2 = temp_r4 >> 8;
+        temp_r5_2 = temp_r5 >> 8;
+        if (sub_8020E3C(s, temp_r4_2, temp_r5_2, 0, p) == 1) {
+            result = 1;
+            temp_r0_2 = sub_8020874(s, temp_r4_2, temp_r5_2, 0, p, 1, 0U);
+            if (0x20000 & temp_r0_2) {
+                p->qWorldY += Q(4) + Q_8_8(temp_r0_2);
+                if (p->qWorldY >= Q(177)) {
+                    p->qWorldY = Q(177);
+                }
+                p->qSpeedAirY = 0;
+            }
+            if ((s16)arg0->unk32 == 0) {
+                sub_80044CC(p);
+            }
+        }
+    } else {
+        sub_8020CE0(s, temp_r4 >> 8, temp_r5 >> 8, 0, p);
+    }
+
+    for (var_r5 = 0; var_r5 < 11; var_r5++) {
+        for (var_r4 = 0; var_r4 < 2; var_r4++) {
+            temp_r2 = arg0->unk3C8[var_r4][var_r5].unk0;
+            if (temp_r2 != 0) {
+                s = (Sprite *)&arg0->sprites478[arg0->unk3C8[var_r4][var_r5].unk4].s;
+                if (sub_8020CE0(s, I(temp_r2), 0xC0, 1, p) != 0) {
+                    var_r5 = 0xB;
+                    var_r4 = 2;
+                }
+            }
+        }
+    }
+
+    for (var_r5 = 0; var_r5 < 16; var_r5++) {
+        if (var_r5 != 1) {
+            s = (Sprite *)&arg0->sprites48[var_r5].s;
+            if ((sub_8020CE0(s, I(arg0->sprites48[var_r5].x), I(arg0->sprites48[var_r5].y), 1, p) != 0)) {
+                var_r5 = 0x10;
+            }
+        }
+    }
+
+    return result;
+}
+
 #if 0
 ? SetFixedRandomIfTimeAttackMode();                 /* extern */
 ? sub_80044CC(Player *);                            /* extern */
@@ -418,7 +496,7 @@ extern ? gUnknown_080D584C;
 extern ? gUnknown_080D5870;
 extern ? sub_807A37C;
 
-u8 sub_806D840(EggFoot *arg0, s32 arg1) {
+u8 sub_806D840(EggFoot *arg0, s32 pid) {
     Player *temp_r0;
     Sprite *temp_r7;
     s32 temp_r0_3;
@@ -436,7 +514,7 @@ u8 sub_806D840(EggFoot *arg0, s32 arg1) {
     u8 var_sl;
 
     var_sl = 0;
-    temp_r0 = *(arg0 + 0x40 + ((u32) (arg1 << 0x18) >> 0x16));
+    temp_r0 = *(arg0 + 0x40 + ((u32) (pid << 0x18) >> 0x16));
     temp_r7 = arg0 + 0x50;
     temp_r4 = arg0->sprites48[0].x;
     temp_r5 = arg0->sprites48[0].y;
