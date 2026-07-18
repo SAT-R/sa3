@@ -276,17 +276,15 @@ void sub_806D404(EggFoot *boss)
     }
 }
 
-// (95.03%) https://decomp.me/scratch/tQUZm
-NONMATCH("asm/non_matching/game/bosses/boss_3__sub_806D568.inc", void sub_806D568(EggFoot *boss))
+void sub_806D568(EggFoot *boss)
 {
     s32 x;
     s32 y;
-    s32 temp_r5;
-    s32 var_r3;
+    s32 yIncr;
     u8 i;
 
-    boss->sprites48[0].x = x = boss->unk0;
-    boss->sprites48[0].y = y = boss->unk4;
+    x = boss->sprites48[0].x = boss->unk0;
+    y = boss->sprites48[0].y = boss->unk4;
     boss->sprites48[1].x = x;
     boss->sprites48[1].y = y;
     boss->sprites48[2].x = x - Q(37);
@@ -302,21 +300,19 @@ NONMATCH("asm/non_matching/game/bosses/boss_3__sub_806D568.inc", void sub_806D56
     boss->sprites48[7].x = boss->sprites48[5].x;
     boss->sprites48[7].y = boss->sprites48[5].y;
 
-    temp_r5 = ((boss->unk10 - Q(28)) / 4) + 1;
-
-    var_r3 = boss->sprites48[2].y + Q(12);
-    for (i = 0; i < 4; i++, var_r3 += temp_r5) {
+    yIncr = ((boss->unk10 - Q(28)) / 4) + 1;
+    y = boss->sprites48[2].y + Q(12);
+    for (i = 0; i < 4; i++, y += yIncr) {
         boss->sprites48[8 + i].x = boss->sprites48[2].x;
-        boss->sprites48[8 + i].y = var_r3;
+        boss->sprites48[8 + i].y = y;
     }
 
-    var_r3 = boss->sprites48[3].y + Q(12);
-    for (i = 0; i < 4; i++, var_r3 += temp_r5) {
+    y = boss->sprites48[3].y + Q(12);
+    for (i = 0; i < 4; i++, y += yIncr) {
         boss->sprites48[12 + i].x = boss->sprites48[3].x;
-        boss->sprites48[12 + i].y = var_r3;
+        boss->sprites48[12 + i].y = y;
     }
 }
-END_NONMATCH
 
 void sub_806D6C4(EggFoot *boss)
 {
