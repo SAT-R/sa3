@@ -1412,7 +1412,9 @@ void sub_806C004(void)
     }
 }
 
-// (100%) https://decomp.me/scratch/WJSVH
+// TODO: agbcc behavior: functions' assembly random getting changed)
+//       Either this matches once all other functions do, or we need to split up the module
+// (100.00%) https://decomp.me/scratch/WJSVH
 NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C06C.inc", void sub_806C06C(Boss2Exit *strc))
 {
     s32 temp_r7;
@@ -1432,8 +1434,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C06C.inc", void sub_806C06
             continue;
         }
 
-        while(sub_8020950(s, temp_r8, temp_r7, p, 0))
-        {
+        while (sub_8020950(s, temp_r8, temp_r7, p, 0)) {
             if (I(strc->unk8) == 4) {
                 p->qWorldX -= Q(1);
             } else {
@@ -1550,7 +1551,9 @@ void sub_806C2F8()
     }
 }
 
-// (100%) https://decomp.me/scratch/BFDSd
+// TODO: agbcc behavior: functions' assembly random getting changed)
+//       Either this matches once all other functions do, or we need to split up the module
+// (100.00%) https://decomp.me/scratch/BFDSd
 NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C370.inc", void sub_806C370(void))
 {
     Vec2_32 sp10;
@@ -1737,7 +1740,9 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C6FC.inc", u32 sub_806C6FC
 }
 END_NONMATCH
 
-// (100%) https://decomp.me/scratch/tatV6
+// TODO: agbcc behavior: functions' assembly random getting changed)
+//       Either this matches once all other functions do, or we need to split up the module
+// (100.00%) https://decomp.me/scratch/tatV6
 NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C7B0.inc", void sub_806C7B0(void))
 {
     Vec2_32 sp10;
