@@ -174,6 +174,11 @@ typedef struct {
     s32 unkC;
 } Unknown;
 
+static inline void sa2__sub_8003EE4_inline(u16 p0, s16 p3, s16 p4, s16 p5, s16 p6)
+{
+    sa2__sub_8003EE4(p0, 0x100, 0x100, p3, p4, p5, p6, gBgAffineRegs);
+}
+
 // Officially called: "Egg Ball No. 2"
 Task *CreateEggWheeler(u8 *bossPhase, s32 worldX, s32 worldY)
 {
@@ -809,13 +814,10 @@ u8 sub_806B3A4(EggWheeler *boss, Vec2_32 *pos)
     return var_r5;
 }
 
-// (98.61%) https://decomp.me/scratch/RLSBK
-NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806B484.inc", void sub_806B484(EggWheeler *boss))
+void sub_806B484(EggWheeler *boss)
 {
     s32 var_r4;
     s32 var_r6;
-    s32 value0;
-    s32 value;
 
     var_r6 = 5;
     var_r4 = 0;
@@ -833,58 +835,47 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806B484.inc", void sub_806B48
 
     if (boss->unk20 == 0) {
         if (boss->unk38 > -0x80) {
-            value = (var_r4 + 1) << var_r6;
+            boss->unk2C -= (var_r4 + 1) << var_r6;
         } else if ((u32)(boss->unk38 + 0xFF) <= 0x7FU) {
-            value = (var_r4 + 2) << var_r6;
+            boss->unk2C -= (var_r4 + 2) << var_r6;
         } else {
-            value = (var_r4 + 3) << var_r6;
+            boss->unk2C -= (var_r4 + 3) << var_r6;
         }
-        value0 = boss->unk2C - value;
-        boss->unk2C = value0;
     } else if (boss->unk20 == 1) {
         if (boss->unk38 <= 0x7F) {
-            value = (var_r4 + 1) << var_r6;
+            boss->unk2C -= (var_r4 + 1) << var_r6;
         } else if ((u32)(boss->unk38 - 0x80) <= 0x7FU) {
-            value = (var_r4 + 2) << var_r6;
+            boss->unk2C -= (var_r4 + 2) << var_r6;
         } else {
-            value = (var_r4 + 3) << var_r6;
+            boss->unk2C -= (var_r4 + 3) << var_r6;
         }
-        value0 = boss->unk2C - value;
-        boss->unk2C = value0;
     } else if (boss->unk20 == 2) {
         if (boss->unk3C > -0x80) {
-            value = (var_r4 + 1) << var_r6;
+            boss->unk2C -= (var_r4 + 1) << var_r6;
         } else if (boss->unk3C > -0x100 && (boss->unk38 <= -0x80)) {
-            value = (var_r4 + 2) << var_r6;
+            boss->unk2C -= (var_r4 + 2) << var_r6;
         } else {
-            value = (var_r4 + 3) << var_r6;
+            boss->unk2C -= (var_r4 + 3) << var_r6;
         }
-        value0 = boss->unk2C - value;
-        boss->unk2C = value0;
     } else if (boss->unk20 == 3) {
         if (boss->unk3C < 0x80) {
-            value = (var_r4 + 1) << var_r6;
+            boss->unk2C -= (var_r4 + 1) << var_r6;
         } else if ((boss->unk3C <= 0xFF) && (boss->unk38 > 0x7F)) {
-            value = (var_r4 + 2) << var_r6;
+            boss->unk2C -= (var_r4 + 2) << var_r6;
         } else {
-            value = (var_r4 + 3) << var_r6;
+            boss->unk2C -= (var_r4 + 3) << var_r6;
         }
-        value0 = boss->unk2C - value;
-        boss->unk2C = value0;
     }
 
     if (boss->unk2C > 0x3FF0) {
         boss->unk2C = 0x3FF0;
     }
 }
-END_NONMATCH
 
-// (98.53%) https://decomp.me/scratch/8cBpi
-NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806B5A8.inc", void sub_806B5A8(EggWheeler *boss))
+void sub_806B5A8(EggWheeler *boss)
 {
     s32 var_r4;
     s32 var_r6;
-    s32 value;
 
     var_r6 = 5;
     var_r4 = 0;
@@ -902,51 +893,42 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806B5A8.inc", void sub_806B5A
 
     if (boss->unk20 == 0) {
         if (boss->unk38 < 0x80) {
-            value = (var_r4 + 1) << var_r6;
+            boss->unk2C += (var_r4 + 1) << var_r6;
         } else if (boss->unk38 >= 0x80 && boss->unk38 < 0x100) {
-            value = (var_r4 + 2) << var_r6;
+            boss->unk2C += (var_r4 + 2) << var_r6;
         } else {
-            value = (var_r4 + 3) << var_r6;
+            boss->unk2C += (var_r4 + 3) << var_r6;
         }
-        value += boss->unk2C;
-        boss->unk2C = value;
     } else if (boss->unk20 == 1) {
         if (boss->unk38 > -0x80) {
-            value = (var_r4 + 1) << var_r6;
+            boss->unk2C += (var_r4 + 1) << var_r6;
         } else if ((u32)(boss->unk38 + 0xFF) <= 0x7FU) {
-            value = (var_r4 + 2) << var_r6;
+            boss->unk2C += (var_r4 + 2) << var_r6;
         } else {
-            value = (var_r4 + 3) << var_r6;
+            boss->unk2C += (var_r4 + 3) << var_r6;
         }
-        value += boss->unk2C;
-        boss->unk2C = value;
     } else if (boss->unk20 == 2) {
         if (boss->unk3C < 0x80) {
-            value = (var_r4 + 1) << var_r6;
+            boss->unk2C += (var_r4 + 1) << var_r6;
         } else if (boss->unk3C >= 0x80 && boss->unk3C < 0x100) {
-            value = (var_r4 + 2) << var_r6;
+            boss->unk2C += (var_r4 + 2) << var_r6;
         } else {
-            value = (var_r4 + 3) << var_r6;
+            boss->unk2C += (var_r4 + 3) << var_r6;
         }
-        value += boss->unk2C;
-        boss->unk2C = value;
     } else if (boss->unk20 == 3) {
         if (boss->unk3C > -0x80) {
-            value = (var_r4 + 1) << var_r6;
+            boss->unk2C += (var_r4 + 1) << var_r6;
         } else if ((u32)(boss->unk3C + 0xFF) <= 0x7FU) {
-            value = (var_r4 + 2) << var_r6;
+            boss->unk2C += (var_r4 + 2) << var_r6;
         } else {
-            value = (var_r4 + 3) << var_r6;
+            boss->unk2C += (var_r4 + 3) << var_r6;
         }
-        value += boss->unk2C;
-        boss->unk2C = value;
     }
 
     if (boss->unk2C > 0x3FF0U) {
         boss->unk2C = 0;
     }
 }
-END_NONMATCH
 
 s32 sub_806B6C8(EggWheeler *boss)
 {
@@ -1430,7 +1412,7 @@ void sub_806C004(void)
     }
 }
 
-// (81.69%) https://decomp.me/scratch/WJSVH
+// (100%) https://decomp.me/scratch/WJSVH
 NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C06C.inc", void sub_806C06C(Boss2Exit *strc))
 {
     s32 temp_r7;
@@ -1448,30 +1430,21 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C06C.inc", void sub_806C06
         p = GET_SP_PLAYER_V0(var_r5);
         if (sub_802C080(p) || !sub_8020950(s, temp_r8, temp_r7, p, 0)) {
             continue;
-        } else {
-            goto if2;
         }
 
-    check : {
-        if (I(strc->unk8) == 4) {
-            p->qWorldX -= Q(1);
-        } else {
-            p->qWorldX += Q(1);
-        }
-
-        continue;
-    }
-
-    if2:
-        if (!sub_8020950(s, temp_r8, temp_r7, p, 0)) {
-            goto check;
+        while(sub_8020950(s, temp_r8, temp_r7, p, 0))
+        {
+            if (I(strc->unk8) == 4) {
+                p->qWorldX -= Q(1);
+            } else {
+                p->qWorldX += Q(1);
+            }
         }
     }
 }
 END_NONMATCH
 
-// (93.64%) https://decomp.me/scratch/mnvfv
-NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C12C.inc", void sub_806C12C(void))
+void sub_806C12C(void)
 {
     Vec2_32 sp10;
     Player *temp_r1;
@@ -1479,7 +1452,6 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C12C.inc", void sub_806C12
     Sprite *temp_r5;
     s32 temp_r0;
     EggWheeler *boss = TASK_DATA(gCurTask);
-    s32 unk2C;
     s32 x, y;
 
     boss->player->moveState |= MOVESTATE_IGNORE_INPUT;
@@ -1490,8 +1462,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C12C.inc", void sub_806C12
     sp10.y = y;
     boss->unk48.x = x << 8;
     boss->unk48.y = y << 8;
-    unk2C = (boss->unk2C >> 4);
-    SA2_LABEL(sub_8003EE4)(unk2C, 0x100, 0x100, 0x28, 0x28, sp10.x, sp10.y, gBgAffineRegs);
+    sa2__sub_8003EE4_inline(boss->unk2C >> 4, 0x28, 0x28, sp10.x, sp10.y);
     temp_r5 = (Sprite *)&boss->sprBody;
     temp_r5->x = 0x28;
     temp_r5->y = 0x28;
@@ -1499,7 +1470,6 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C12C.inc", void sub_806C12
     sub_80BE46C(temp_r5);
     sub_806BC50(boss);
 }
-END_NONMATCH
 
 // (96.61%) https://decomp.me/scratch/zI0v8
 NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C1C8.inc", void sub_806C1C8(void))
@@ -1580,7 +1550,7 @@ void sub_806C2F8()
     }
 }
 
-// (89.26%) https://decomp.me/scratch/BFDSd
+// (100%) https://decomp.me/scratch/BFDSd
 NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C370.inc", void sub_806C370(void))
 {
     Vec2_32 sp10;
@@ -1590,16 +1560,12 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C370.inc", void sub_806C37
     s32 temp_r0;
     s32 temp_r0_2;
     s32 temp_r1;
-    s32 temp_r1_3;
     s32 temp_r2;
-    s32 temp_r2_2;
     s32 temp_r3;
-    s32 temp_r3_2;
     s32 temp_r4_2;
     u16 temp_r0_3;
     u8 temp_r1_2;
     u8 var_r1;
-    u16 angle;
     EggWheeler *boss = TASK_DATA(gCurTask);
 
     sp10.x = I(boss->unk0) - gCamera.x;
@@ -1612,12 +1578,13 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C370.inc", void sub_806C37
         gPlayers[var_r1].idleAndCamCounter = TIME(0, 6);
     }
 
-    sp18.x = ((s32)boss->unk0 >> 8) - gCamera.x;
-    sp18.y = ((s32)boss->unk4 >> 8) - gCamera.y;
-    boss->unk48.x = sp18.x * 0x100;
-    boss->unk48.y = sp18.y * 0x100;
-    angle = (boss->unk2C >> 4);
-    sa2__sub_8003EE4(angle, 0x100, 0x100, 0x28, 0x28, sp18.x, sp18.y, gBgAffineRegs);
+    temp_r1 = ((s32)boss->unk0 >> 8) - gCamera.x;
+    sp18.x = temp_r1;
+    temp_r0_2 = ((s32)boss->unk4 >> 8) - gCamera.y;
+    sp18.y = temp_r0_2;
+    boss->unk48.x = temp_r1 * 0x100;
+    boss->unk48.y = temp_r0_2 * 0x100;
+    sa2__sub_8003EE4_inline(boss->unk2C >> 4, 0x28, 0x28, sp18.x, sp18.y);
     temp_r4 = &boss->sprBody;
     temp_r4->x = 0x28;
     temp_r4->y = 0x28;
@@ -1640,13 +1607,11 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C370.inc", void sub_806C37
         } else {
             temp_r2 = -SIN_24_8(boss->unk1F * 4);
             temp_r3 = +COS_24_8(boss->unk1F * 4);
-            temp_r2_2 = boss->unk0 + (temp_r2 << 5) + (temp_r2 * 4) + (temp_r2 * 2);
-            sp20.x = temp_r2_2;
-            temp_r3_2 = boss->unk4 + (temp_r3 << 5) + (temp_r3 * 4) + (temp_r3 * 2);
-            sp20.y = temp_r3_2;
-            temp_r1_3 = temp_r2_2 >> 8;
-            sp20.x = temp_r1_3;
-            boss->unk4 += (s16)(sa2__sub_801F07C(temp_r3_2 >> 8, temp_r1_3, 0, 8, NULL, SA2_LABEL(sub_801EE64)) << 8);
+            sp20.x = boss->unk0 + (temp_r2 << 5) + (temp_r2 * 4) + (temp_r2 * 2);
+            sp20.y = boss->unk4 + (temp_r3 << 5) + (temp_r3 * 4) + (temp_r3 * 2);
+            sp20.x = sp20.x >> 8;
+            sp20.y = sp20.y >> 8;
+            boss->unk4 += (s16)(sa2__sub_801F07C(sp20.y, sp20.x, 0, 8, NULL, SA2_LABEL(sub_801EE64)) << 8);
             boss->unk2A = (s16)temp_r4_2;
             gCurTask->main = sub_806C7B0;
         }
@@ -1772,7 +1737,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C6FC.inc", u32 sub_806C6FC
 }
 END_NONMATCH
 
-// (96.35%) https://decomp.me/scratch/tatV6
+// (100%) https://decomp.me/scratch/tatV6
 NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C7B0.inc", void sub_806C7B0(void))
 {
     Vec2_32 sp10;
@@ -1795,9 +1760,9 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C7B0.inc", void sub_806C7B
 
     sp10.x = ((s32)boss->unk0 >> 8) - gCamera.x;
     sp10.y = ((s32)boss->unk4 >> 8) - gCamera.y;
-    boss->unk48.x = sp10.x << 8;
-    boss->unk48.y = sp10.y << 8;
-    SA2_LABEL(sub_8003EE4)((u16)((u16)boss->unk2C >> 4), 0x100, 0x100, 0x28, 0x28, sp10.x, sp10.y, gBgAffineRegs);
+    boss->unk48.x = sp10.x * 0x100;
+    boss->unk48.y = sp10.y * 0x100;
+    sa2__sub_8003EE4_inline(boss->unk2C >> 4, 0x28, 0x28, sp10.x, sp10.y);
     temp_r4 = &boss->sprBody;
     temp_r4->x = 0x28;
     temp_r4->y = 0x28;
@@ -1809,7 +1774,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C7B0.inc", void sub_806C7B
         boss->unk2A = 0;
         boss->unk18 = 0;
         CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x51U);
-        sub_80789EC((Sprite *)&boss->sprEggman, &boss->unk48, &boss->unk16);
+        sub_80789EC((Sprite *)&boss->sprExplosion, &boss->unk48, &boss->unk16);
         gDispCnt &= 0xFBFF;
         gCurTask->main = sub_806C8BC;
     }
