@@ -1929,8 +1929,8 @@ sub_806E9C0: @ 0x0806E9C0
 	.align 2, 0
 _0806E9EC: .4byte gCurTask
 
-	thumb_func_start sub_806E9F0
-sub_806E9F0: @ 0x0806E9F0
+	thumb_func_start Task_806E9F0
+Task_806E9F0: @ 0x0806E9F0
 	push {r4, lr}
 	ldr r0, _0806EA10 @ =gCurTask
 	ldr r0, [r0]

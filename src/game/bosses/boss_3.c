@@ -72,7 +72,7 @@ void Task_EggFootInit(void);
 bool8 sub_806D840(EggFoot *arg0, u8 pid);
 void sub_806E99C(void);
 void sub_806E9C0(void);
-void sub_806E9F0(void);
+void Task_806E9F0(void);
 void sub_807A37C(void);
 void TaskDestructor_EggFoot(struct Task *t);
 void sub_8078E34(s32 *sp0, VoidFn func);
@@ -170,11 +170,11 @@ void sub_806D2F8(void)
             } else {
                 sub_8027674(1U, 0U);
                 sub_806EAA0(boss);
-                gCurTask->main = sub_806E9F0;
+                gCurTask->main = Task_806E9F0;
             }
         } else {
             sub_806EAA0(boss);
-            gCurTask->main = sub_806E9F0;
+            gCurTask->main = Task_806E9F0;
         }
     }
 
@@ -531,7 +531,7 @@ void sub_806DAD4(u8 *arg0, s16 param1)
             boss->players[pid]->qSpeedAirX = 0;
         }
 
-        gStageData.taskBoss->main = sub_806E9F0;
+        gStageData.taskBoss->main = Task_806E9F0;
     }
 }
 
@@ -549,78 +549,43 @@ void sub_806E330(EggFoot *arg0);                    /* static */
 void sub_806E950(EggFoot *boss);                    /* static */
 void sub_806E99C();                                 /* static */
 void sub_806E9C0();                                 /* static */
-void sub_806E9F0();                                 /* static */
+void Task_806E9F0();                                 /* static */
 void sub_806EAA0(EggFoot *arg0);                    /* static */
 extern ? gUnknown_080D57CC;
 extern ? gUnknown_080D584C;
 extern ? gUnknown_080D5870;
 extern ? sub_807A37C;
 
-void sub_806DAD4(u8 *arg0, s16 param1) {
-    s32 temp_r3;
-    u16 temp_r5;
-    u8 var_r3;
-    void **temp_r2;
-    void *temp_r1;
 
-    temp_r5 = gStageData.taskBoss->data;
-    temp_r3 = 0x7F & arg0->unk2;
-    if (temp_r3 != 1) {
-        if ((temp_r3 >= 1) && (temp_r3 <= 4) && (temp_r3 >= 3) && (temp_r5->unk30 != (u8) (arg0->unk3 | (arg0->unk4 << 8)))) {
-            sub_806DA20((EggFoot *) temp_r5);
-        }
-    } else {
-        temp_r5->unk30 = 0U;
-        temp_r5->unk34 = 0;
-        temp_r5->unk36 = (s16) temp_r3;
-        temp_r5->unk20 = 0;
-        var_r3 = 0;
-        do {
-            temp_r2 = temp_r5 + 0x40 + (var_r3 * 4);
-            temp_r1 = *temp_r2;
-            temp_r1->unk4 = (s32) (temp_r1->unk4 | 0x08000000);
-            temp_r1->unk1C = 0;
-            (*temp_r2)->unk18 = 0;
-            var_r3 += 1;
-        } while ((u32) var_r3 <= 1U);
-        gStageData.taskBoss->main = sub_806E9F0;
-    }
-}
-
-void sub_806DB78(EggFoot *arg0, ? arg3) {
-    s32 temp_r0;
+void sub_806DB78(EggFoot *boss) {
+    ExtSprite *temp_r0;
     s32 temp_r0_2;
     s32 temp_r0_3;
     s32 temp_r0_4;
     s32 temp_r0_5;
     s32 temp_r0_6;
-    s32 temp_r0_8;
+    s32 temp_r1_2;
     s32 temp_r1_3;
-    s32 temp_r1_5;
-    s32 temp_r5;
     s32 var_r3;
     u16 temp_r0_7;
     u16 temp_r1;
     u16 var_r0;
-    u8 temp_r0_9;
+    u8 temp_r0_8;
     u8 temp_r2;
     u8 var_r2;
     u8 var_r2_2;
-    void *temp_r1_2;
-    void *temp_r1_4;
-    void *temp_r1_6;
 
-    temp_r1 = arg0->unk20;
+    temp_r1 = boss->unk20;
     switch (temp_r1) {                              /* irregular */
     case 0x3E8:
         var_r0 = 0;
 block_32:
-        arg0->unk20 = var_r0;
+        boss->unk20 = var_r0;
         return;
     case 0x0:
         var_r2 = 0;
         do {
-            *(arg0 + 0x478 + (var_r2 * 0x38)) = 0x64;
+            boss->sprites478[var_r2].x = 0x64;
             var_r2 += 1;
         } while ((u32) var_r2 <= 0xAU);
         return;
@@ -628,70 +593,65 @@ block_32:
         var_r2_2 = 0;
         var_r3 = 4;
         do {
-            temp_r0 = var_r2_2 * 0x38;
-            *(arg0 + 0x478 + temp_r0) = var_r3;
-            temp_r1_2 = arg0 + (temp_r0 + 0x478) + 8;
-            temp_r1_2->unk1B = (u8) (temp_r1_2->unk1B | 0xFF);
+            boss->sprites478[var_r2_2].x = var_r3;
+            temp_r0 = &boss->sprites478[var_r2_2];
+            temp_r0->s.prevVariant |= 0xFF;
             var_r2_2 += 1;
             var_r3 = (s32) (u8) (var_r3 + 4);
         } while ((u32) var_r2_2 <= 0xAU);
-        temp_r0_2 = arg0->unk0;
-        arg0->unk18 = temp_r0_2 + 0xFFFFDB00;
-        arg0->unk1C = temp_r0_2 + 0x2500;
-        arg0->unk24[2] = 0;
-        arg0->unk24[3] = 0;
-        arg0->unk22 = 4U;
+        temp_r0_2 = boss->unk0;
+        boss->unk18 = temp_r0_2 + 0xFFFFDB00;
+        boss->unk1C = temp_r0_2 + 0x2500;
+        boss->unk24[2] = 0;
+        boss->unk24[3] = 0;
+        boss->unk22 = 4U;
         m4aSongNumStart(0x228U);
         var_r0 = 0x64;
         goto block_32;
     case 0x64:
-        temp_r0_3 = arg0->unk18;
+        temp_r0_3 = boss->unk18;
         if (temp_r0_3 != 0) {
             temp_r0_4 = temp_r0_3 + 0xFFFFFD00;
-            arg0->unk18 = temp_r0_4;
+            boss->unk18 = temp_r0_4;
             if ((s32) (temp_r0_4 >> 8) <= (s32) gCamera.minX) {
-                arg0->unk18 = 0;
+                boss->unk18 = 0;
             }
         }
-        temp_r0_5 = arg0->unk1C;
+        temp_r0_5 = boss->unk1C;
         if (temp_r0_5 != 0) {
             temp_r0_6 = temp_r0_5 + 0x300;
-            arg0->unk1C = temp_r0_6;
+            boss->unk1C = temp_r0_6;
             if ((s32) (temp_r0_6 >> 8) >= (s32) gCamera.maxX) {
-                arg0->unk1C = 0;
+                boss->unk1C = 0;
             }
         }
-        temp_r0_7 = arg0->unk22 - 1;
-        arg0->unk22 = temp_r0_7;
+        temp_r0_7 = boss->unk22 - 1;
+        boss->unk22 = temp_r0_7;
         if ((temp_r0_7 << 0x10) == 0) {
-            temp_r2 = arg0->unk24[2];
-            temp_r5 = temp_r2 * 8;
-            temp_r0_8 = temp_r2 * 0x38;
-            *(arg0 + 0x478 + temp_r0_8) = 1;
-            (arg0 + (temp_r0_8 + 0x478) + 8)->unk1B = 0xFF;
-            temp_r1_3 = arg0->unk18;
+            temp_r2 = boss->unk24[2];
+            boss->sprites478[temp_r2].x = 1;
+            boss->sprites478[temp_r2].s.prevVariant = 0xFF;
+            temp_r1_2 = boss->unk18;
+            if (temp_r1_2 != 0) {
+                boss->unk3C8[0][temp_r2].unk0 = temp_r1_2;
+                boss->unk3C8[0][temp_r2].unk4 = boss->unk24[2];
+                boss->unk3C8[0][temp_r2].unk5 = 0x14;
+            }
+            temp_r1_3 = boss->unk1C;
             if (temp_r1_3 != 0) {
-                *(arg0 + 0x3C8 + temp_r5) = temp_r1_3;
-                temp_r1_4 = arg0 + temp_r5;
-                temp_r1_4->unk3CC = (u8) arg0->unk24[2];
-                temp_r1_4->unk3CD = 0x14;
+                boss->unk3C8[1][temp_r2].unk0 = temp_r1_3;
+                boss->unk3C8[1][temp_r2].unk4 = boss->unk24[2];
+                boss->unk3C8[1][temp_r2].unk5 = 0x14;
             }
-            temp_r1_5 = arg0->unk1C;
-            if (temp_r1_5 != 0) {
-                *(arg0 + 0x420 + temp_r5) = temp_r1_5;
-                temp_r1_6 = arg0 + temp_r5;
-                temp_r1_6->unk424 = (u8) arg0->unk24[2];
-                temp_r1_6->unk425 = 0x14;
+            temp_r0_8 = boss->unk24[2] + 1;
+            boss->unk24[2] = temp_r0_8;
+            if ((u32) (u8) (temp_r0_8 & ~0) > 0xAU) {
+                boss->unk24[2] = 0;
             }
-            temp_r0_9 = arg0->unk24[2] + 1;
-            arg0->unk24[2] = temp_r0_9;
-            if ((u32) (u8) (temp_r0_9 & ~0) > 0xAU) {
-                arg0->unk24[2] = 0;
-            }
-            arg0->unk22 = 4U;
+            boss->unk22 = 4U;
         }
         m4aSongNumStartOrContinue(0x228U);
-        if ((arg0->unk18 == 0) && (arg0->unk1C == 0)) {
+        if ((boss->unk18 == 0) && (boss->unk1C == 0)) {
             var_r0 = 0x3E8;
             goto block_32;
         }
@@ -720,7 +680,7 @@ void sub_806DD34(EggFoot *arg0) {
         temp_r0 = arg0->unk36 - 1;
         arg0->unk36 = temp_r0;
         if ((temp_r0 << 0x10) == 0) {
-            sub_806D808(arg0, 0U);
+            sub_806D808(arg0, 0);
             arg0->unk36 = 0x3C;
             arg0->unk34 = 0x3E8;
         }
@@ -729,7 +689,7 @@ void sub_806DD34(EggFoot *arg0) {
         temp_r0_2 = arg0->unk36 - 1;
         arg0->unk36 = temp_r0_2;
         if ((temp_r0_2 << 0x10) == 0) {
-            sub_806D808(arg0, 1U);
+            sub_806D808(arg0, 1);
             arg0->unk36 = 0x3C;
             arg0->unk34 = 0xD2;
         }
@@ -878,7 +838,7 @@ void sub_806DED8(EggFoot *arg0) {
 
                 } else {
                     arg0->unk34 = 0xA;
-                    sub_806D808(arg0, 3U);
+                    sub_806D808(arg0, 3);
                     var_r8 = &arg0->sprites48[1];
                     goto block_24;
                 }
@@ -1010,15 +970,16 @@ block_24:
     arg0->sprites48[0].y = arg0->unk4;
     var_r8->x = temp_r1_4;
     *var_r7 = arg0->sprites48[0].y;
-    temp_r1_5 = arg0->player;
+    temp_r1_5 = arg0->players[0];
     temp_r1_5->moveState |= 0x08000000;
-    temp_r1_6 = arg0->partner;
+    temp_r1_6 = arg0->players[1];
     temp_r1_6->moveState |= 0x08000000;
 }
 
-void sub_806E330(EggFoot *arg0) {
+void sub_806E330(EggFoot *boss) {
     s16 temp_r0_10;
     s16 temp_r0_19;
+    s16 temp_r0_25;
     s32 temp_r0;
     s32 temp_r0_12;
     s32 temp_r0_13;
@@ -1052,7 +1013,6 @@ void sub_806E330(EggFoot *arg0) {
     u16 temp_r0_16;
     u16 temp_r0_18;
     u16 temp_r0_20;
-    u16 temp_r0_25;
     u16 temp_r0_2;
     u16 temp_r0_9;
     u16 temp_r2;
@@ -1060,37 +1020,33 @@ void sub_806E330(EggFoot *arg0) {
     u16 var_r0_5;
     u32 temp_r0_4;
     u32 temp_r0_8;
-    void *temp_r3;
-    void *temp_r3_2;
-    void *temp_r3_3;
-    void *temp_r3_4;
 
-    temp_r2 = arg0->unk34;
+    temp_r2 = boss->unk34;
     switch (temp_r2) {                              /* irregular */
     case 0x203:
-        temp_r0 = arg0->unk10 + arg0->unk14;
-        arg0->unk10 = temp_r0;
+        temp_r0 = boss->unk10 + boss->unk14;
+        boss->unk10 = temp_r0;
         if (temp_r0 <= 0x4800) {
-            arg0->unk14 = -0x1C0;
-            arg0->unk34 = 0x208;
+            boss->unk14 = -0x1C0;
+            boss->unk34 = 0x208;
         }
         var_r0 = 0xAD00;
 block_147:
-        arg0->unk4 = var_r0 - arg0->unk10;
+        boss->unk4 = var_r0 - boss->unk10;
         break;
     case 0x12C:
-        temp_r0_2 = arg0->unk36 - 1;
-        arg0->unk36 = temp_r0_2;
+        temp_r0_2 = boss->unk36 - 1;
+        boss->unk36 = temp_r0_2;
         if ((temp_r0_2 << 0x10) != 0) {
 
         } else {
-            arg0->unk24[6] = 0;
-            if (arg0->unk31 != 0) {
-                var_r0_2 = *((*((arg0 + 0x31) - 1) * 4) + &gUnknown_080D584C);
+            boss->unk24[6] = 0;
+            if (boss->unk31 != 0) {
+                var_r0_2 = *((*(&boss->unk31 - 1) * 4) + &gUnknown_080D584C);
             } else {
-                var_r0_2 = 0 - *((arg0->unk30 * 4) + &gUnknown_080D584C);
+                var_r0_2 = 0 - *((boss->lives * 4) + &gUnknown_080D584C);
             }
-            arg0->unk8 = var_r0_2;
+            boss->unk8 = var_r0_2;
             temp_r0_3 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
             gPseudoRandom = temp_r0_3;
             temp_r0_4 = (u32) temp_r0_3 % 10000U;
@@ -1103,47 +1059,45 @@ block_147:
             } else {
                 var_r0_3 = 0x12C;
             }
-            arg0->unk36 = var_r0_3;
-            arg0->unk31 ^= 1;
-            arg0->unk34 = 0x136;
+            boss->unk36 = var_r0_3;
+            boss->unk31 ^= 1;
+            boss->unk34 = 0x136;
         }
         break;
     case 0xC8:
-        temp_r1 = arg0->unkC - 0x20;
-        arg0->unkC = temp_r1;
-        temp_r0_5 = arg0->unk4 + temp_r1;
-        arg0->unk4 = temp_r0_5;
+        temp_r1 = boss->unkC - 0x20;
+        boss->unkC = temp_r1;
+        temp_r0_5 = boss->unk4 + temp_r1;
+        boss->unk4 = temp_r0_5;
         if (temp_r0_5 <= 0) {
-            arg0->unk4 = 0;
+            boss->unk4 = 0;
         }
-        temp_r0_6 = arg0->unk10 + arg0->unk14;
-        arg0->unk10 = temp_r0_6;
+        temp_r0_6 = boss->unk10 + boss->unk14;
+        boss->unk10 = temp_r0_6;
         if (temp_r0_6 <= 0x4800) {
-            arg0->unk10 = 0x4800;
+            boss->unk10 = 0x4800;
         }
-        if ((s32) arg0->unk4 > 0) {
+        if ((s32) boss->unk4 > 0) {
 
-        } else if ((s32) arg0->unk10 > 0x4800) {
+        } else if ((s32) boss->unk10 > 0x4800) {
 
         } else {
-            temp_r3 = arg0 + 0x1A0;
-            temp_r3->unkC = 0x4C4;
-            temp_r3->unk1A = 1;
-            temp_r3_2 = arg0 + 0x1D8;
-            temp_r3_2->unkC = 0x4C4;
-            temp_r3_2->unk1A = 1;
-            arg0->unkC = 0;
-            arg0->unk36 = 0x3C;
-            arg0->unk34 = 0x12C;
+            boss->sprites48[6].s.anim = 0x4C4;
+            boss->sprites48[6].s.variant = 1;
+            boss->sprites48[7].s.anim = 0x4C4;
+            boss->sprites48[7].s.variant = 1;
+            boss->unkC = 0;
+            boss->unk36 = 0x3C;
+            boss->unk34 = 0x12C;
         }
         break;
     case 0x19A:
         var_r5 = 0;
         if (gStageData.difficulty == 0) {
-            if ((u32) arg0->unk30 <= 4U) {
+            if ((u32) boss->lives <= 4U) {
                 goto block_97;
             }
-        } else if ((u32) arg0->unk30 <= 3U) {
+        } else if ((u32) boss->lives <= 3U) {
 block_97:
             var_r5 = 1;
         }
@@ -1158,16 +1112,16 @@ block_97:
         }
         if (temp_r0_8 <= 0x1F3FU) {
 block_102:
-            arg0->unk34 = 0x1F4;
+            boss->unk34 = 0x1F4;
         } else {
 block_103:
-            arg0->unk34 = 0x258;
+            boss->unk34 = 0x258;
         }
         break;
     case 0x136:
-        temp_r2_2 = arg0->unk8;
-        temp_r1_2 = arg0->unk0 + temp_r2_2;
-        arg0->unk0 = temp_r1_2;
+        temp_r2_2 = boss->unk8;
+        temp_r1_2 = boss->unk0 + temp_r2_2;
+        boss->unk0 = temp_r1_2;
         if (temp_r2_2 < 0) {
             var_r0_4 = 0x52000;
             if (temp_r1_2 <= 0x52000) {
@@ -1176,213 +1130,211 @@ block_103:
         } else if (temp_r1_2 > 0x607FF) {
             var_r0_4 = 0x60800;
 block_86:
-            arg0->unk0 = var_r0_4;
-            arg0->unk8 = 0 - temp_r2_2;
+            boss->unk0 = var_r0_4;
+            boss->unk8 = 0 - temp_r2_2;
         }
-        temp_r0_9 = arg0->unk36 - 1;
-        arg0->unk36 = temp_r0_9;
+        temp_r0_9 = boss->unk36 - 1;
+        boss->unk36 = temp_r0_9;
         temp_r0_10 = (s16) temp_r0_9;
         if (temp_r0_10 != 0) {
 
         } else {
-            arg0->unk8 = (s32) temp_r0_10;
-            arg0->unk36 = 0x3C;
-            arg0->unk34 = 0x190;
+            boss->unk8 = (s32) temp_r0_10;
+            boss->unk36 = 0x3C;
+            boss->unk34 = 0x190;
         }
         break;
     case 0x190:
-        temp_r0_11 = arg0->unk36 - 1;
-        arg0->unk36 = temp_r0_11;
+        temp_r0_11 = boss->unk36 - 1;
+        boss->unk36 = temp_r0_11;
         if ((temp_r0_11 << 0x10) != 0) {
 
         } else {
-            arg0->unk34 = 0x19A;
+            boss->unk34 = 0x19A;
         }
         break;
     case 0x1F4:
-        arg0->unk8 = 0;
-        arg0->unkC = 0;
-        arg0->unk14 = 0x200;
-        arg0->unk34 = 0x1FE;
+        boss->unk8 = 0;
+        boss->unkC = 0;
+        boss->unk14 = 0x200;
+        boss->unk34 = 0x1FE;
         break;
     case 0x1FE:
-        temp_r0_12 = arg0->unkC + 0x20;
-        arg0->unkC = temp_r0_12;
+        temp_r0_12 = boss->unkC + 0x20;
+        boss->unkC = temp_r0_12;
         if (temp_r0_12 > 0x3FF) {
-            arg0->unkC = 0x400;
+            boss->unkC = 0x400;
         }
-        arg0->unk4 += arg0->unkC;
-        temp_r0_13 = arg0->unk10 + arg0->unk14;
-        arg0->unk10 = temp_r0_13;
+        boss->unk4 += boss->unkC;
+        temp_r0_13 = boss->unk10 + boss->unk14;
+        boss->unk10 = temp_r0_13;
         if (temp_r0_13 > 0x7FFF) {
-            arg0->unk10 = 0x8000;
+            boss->unk10 = 0x8000;
         }
         var_r3 = 0;
-        temp_r2_3 = arg0->unk10;
-        if ((s32) (arg0->unk4 + (temp_r2_3 + 0x800)) > 0xB4FF) {
-            arg0->unk4 = 0xAD00 - temp_r2_3;
+        temp_r2_3 = boss->unk10;
+        if ((s32) (boss->unk4 + (temp_r2_3 + 0x800)) > 0xB4FF) {
+            boss->unk4 = 0xAD00 - temp_r2_3;
             var_r3 = 1;
         }
         if (var_r3 != 1) {
 
         } else {
             CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
-            arg0->unk14 = -0x200;
-            arg0->unk34 = 0x203;
+            boss->unk14 = -0x200;
+            boss->unk34 = 0x203;
 block_135:
             m4aSongNumStart(0x227U);
         }
         break;
     case 0x26C:
-        temp_r0_14 = arg0->unkC + 0x20;
-        arg0->unkC = temp_r0_14;
+        temp_r0_14 = boss->unkC + 0x20;
+        boss->unkC = temp_r0_14;
         if (temp_r0_14 > 0x3FF) {
-            arg0->unkC = 0x400;
+            boss->unkC = 0x400;
         }
-        arg0->unk4 += arg0->unkC;
-        temp_r0_15 = arg0->unk10 + arg0->unk14;
-        arg0->unk10 = temp_r0_15;
+        boss->unk4 += boss->unkC;
+        temp_r0_15 = boss->unk10 + boss->unk14;
+        boss->unk10 = temp_r0_15;
         if (temp_r0_15 > 0x7FFF) {
-            arg0->unk10 = 0x8000;
+            boss->unk10 = 0x8000;
         }
         var_r3_2 = 0;
-        temp_r2_4 = arg0->unk10;
-        if ((s32) (arg0->unk4 + (temp_r2_4 + 0x800)) > 0xB8FF) {
-            arg0->unk4 = 0xB100 - temp_r2_4;
+        temp_r2_4 = boss->unk10;
+        if ((s32) (boss->unk4 + (temp_r2_4 + 0x800)) > 0xB8FF) {
+            boss->unk4 = 0xB100 - temp_r2_4;
             var_r3_2 = 1;
         }
         if (var_r3_2 == 1) {
             CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
-            arg0->unk14 = -0x200;
-            arg0->unk34 = 0x271;
-            arg0->unk20 = 0xA;
+            boss->unk14 = -0x200;
+            boss->unk34 = 0x271;
+            boss->unk20 = 0xA;
             goto block_135;
         }
         break;
     case 0x212:
-        temp_r0_16 = arg0->unk36 - 1;
-        arg0->unk36 = temp_r0_16;
+        temp_r0_16 = boss->unk36 - 1;
+        boss->unk36 = temp_r0_16;
         if ((temp_r0_16 << 0x10) != 0) {
 
         } else {
-            arg0->unk34 = 0x64;
+            boss->unk34 = 0x64;
         }
         break;
     case 0x208:
-        temp_r0_17 = arg0->unk14 + 0x10;
-        arg0->unk14 = temp_r0_17;
-        temp_r1_3 = arg0->unk10 + temp_r0_17;
-        arg0->unk10 = temp_r1_3;
+        temp_r0_17 = boss->unk14 + 0x10;
+        boss->unk14 = temp_r0_17;
+        temp_r1_3 = boss->unk10 + temp_r0_17;
+        boss->unk10 = temp_r1_3;
         if (temp_r1_3 > 0x47FF) {
-            arg0->unk10 = 0x4800;
-            arg0->unk36 = 0x3C;
-            arg0->unk34 = 0x212;
+            boss->unk10 = 0x4800;
+            boss->unk36 = 0x3C;
+            boss->unk34 = 0x212;
         }
         var_r0 = 0xAD00;
         goto block_147;
     case 0x258:
-        temp_r3_3 = arg0 + 0x1A0;
-        temp_r3_3->unkC = 0x4C4;
-        temp_r3_3->unk1A = 0;
-        temp_r3_4 = arg0 + 0x1D8;
-        temp_r3_4->unkC = 0x4C4;
-        temp_r3_4->unk1A = 0;
-        arg0->unk36 = 0x3C;
-        arg0->unk34 = 0x262;
+        boss->sprites48[6].s.anim = 0x4C4;
+        boss->sprites48[6].s.variant = 0;
+        boss->sprites48[7].s.anim = 0x4C4;
+        boss->sprites48[7].s.variant = 0;
+        boss->unk36 = 0x3C;
+        boss->unk34 = 0x262;
         break;
     case 0x262:
-        temp_r0_18 = arg0->unk36 - 1;
-        arg0->unk36 = temp_r0_18;
+        temp_r0_18 = boss->unk36 - 1;
+        boss->unk36 = temp_r0_18;
         temp_r0_19 = (s16) temp_r0_18;
         if (temp_r0_19 != 0) {
 
         } else {
-            arg0->unk8 = (s32) temp_r0_19;
-            arg0->unkC = (s32) temp_r0_19;
-            arg0->unk14 = 0x200;
-            arg0->unk34 = 0x26C;
+            boss->unk8 = (s32) temp_r0_19;
+            boss->unkC = (s32) temp_r0_19;
+            boss->unk14 = 0x200;
+            boss->unk34 = 0x26C;
         }
         break;
     case 0x280:
-        temp_r0_20 = arg0->unk36 - 1;
-        arg0->unk36 = temp_r0_20;
+        temp_r0_20 = boss->unk36 - 1;
+        boss->unk36 = temp_r0_20;
         if ((temp_r0_20 << 0x10) == 0) {
-            arg0->unk34 = 0x28A;
+            boss->unk34 = 0x28A;
         }
         break;
     case 0x271:
-        temp_r0_21 = arg0->unk10 + arg0->unk14;
-        arg0->unk10 = temp_r0_21;
+        temp_r0_21 = boss->unk10 + boss->unk14;
+        boss->unk10 = temp_r0_21;
         if (temp_r0_21 <= 0x4800) {
-            arg0->unk14 = -0x1C0;
+            boss->unk14 = -0x1C0;
             var_r0_5 = 0x276;
 block_145:
-            arg0->unk34 = var_r0_5;
+            boss->unk34 = var_r0_5;
         }
 block_146:
         var_r0 = 0xB100;
         goto block_147;
     case 0x276:
-        temp_r0_22 = arg0->unk14 + 0x10;
-        arg0->unk14 = temp_r0_22;
-        temp_r1_4 = arg0->unk10 + temp_r0_22;
-        arg0->unk10 = temp_r1_4;
+        temp_r0_22 = boss->unk14 + 0x10;
+        boss->unk14 = temp_r0_22;
+        temp_r1_4 = boss->unk10 + temp_r0_22;
+        boss->unk10 = temp_r1_4;
         if (temp_r1_4 > 0x47FF) {
-            arg0->unk10 = 0x4800;
-            arg0->unk36 = 0x3C;
-            arg0->unk34 = 0x280;
+            boss->unk10 = 0x4800;
+            boss->unk36 = 0x3C;
+            boss->unk34 = 0x280;
         }
         goto block_146;
     case 0x28A:
-        arg0->unk14 = -0x1C0;
-        arg0->unk34 = 0x294;
+        boss->unk14 = -0x1C0;
+        boss->unk34 = 0x294;
         break;
     case 0x294:
-        temp_r2_5 = arg0->unk14 + 0x10;
-        arg0->unk14 = temp_r2_5;
-        temp_r0_23 = arg0->unk10 + temp_r2_5;
-        arg0->unk10 = temp_r0_23;
+        temp_r2_5 = boss->unk14 + 0x10;
+        boss->unk14 = temp_r2_5;
+        temp_r0_23 = boss->unk10 + temp_r2_5;
+        boss->unk10 = temp_r0_23;
         if (temp_r0_23 > 0x7FFF) {
-            arg0->unk10 = 0x8000;
-            arg0->unkC = 0 - temp_r2_5;
-            arg0->unk14 = -0x180;
+            boss->unk10 = 0x8000;
+            boss->unkC = 0 - temp_r2_5;
+            boss->unk14 = -0x180;
             var_r0_5 = 0xC8;
             goto block_145;
         }
         goto block_146;
     case 0x0:
-        arg0->unk36 = 1;
-        arg0->unk34 = 0x64;
-        arg0->unk31 = 0;
-        arg0->unk8 = (s32) temp_r2;
-        arg0->unkC = (s32) temp_r2;
+        boss->unk36 = 1;
+        boss->unk34 = 0x64;
+        boss->unk31 = 0;
+        boss->unk8 = (s32) temp_r2;
+        boss->unkC = (s32) temp_r2;
         break;
     case 0x64:
-        arg0->unk14 = -0x1C0;
-        arg0->unk34 = 0x6E;
+        boss->unk14 = -0x1C0;
+        boss->unk34 = 0x6E;
         break;
     case 0x6E:
-        temp_r2_6 = arg0->unk14 + 0x10;
-        arg0->unk14 = temp_r2_6;
-        temp_r0_24 = arg0->unk10 + temp_r2_6;
-        arg0->unk10 = temp_r0_24;
+        temp_r2_6 = boss->unk14 + 0x10;
+        boss->unk14 = temp_r2_6;
+        temp_r0_24 = boss->unk10 + temp_r2_6;
+        boss->unk10 = temp_r0_24;
         if (temp_r0_24 > 0x7FFF) {
-            arg0->unk10 = 0x8000;
-            arg0->unkC = 0 - temp_r2_6;
-            arg0->unk14 = -0x180;
-            arg0->unk34 = 0xC8;
+            boss->unk10 = 0x8000;
+            boss->unkC = 0 - temp_r2_6;
+            boss->unk14 = -0x180;
+            boss->unk34 = 0xC8;
         }
         var_r0 = 0xAD00;
         goto block_147;
     }
-    if ((s16) arg0->unk32 != 0) {
-        temp_r0_25 = arg0->unk32 - 1;
-        arg0->unk32 = temp_r0_25;
+    if (boss->unk32 != 0) {
+        temp_r0_25 = (u16) boss->unk32 - 1;
+        boss->unk32 = temp_r0_25;
         if ((temp_r0_25 << 0x10) == 0) {
-            sub_806D808(arg0, 0U);
+            sub_806D808(boss, 0);
         }
     }
-    sub_806D568(arg0);
+    sub_806D568(boss);
 }
 
 void Task_EggFootInit(void) {
@@ -1422,14 +1374,14 @@ void sub_806E9C0(void) {
     Player *temp_r2_2;
 
     temp_r0 = M2C_ERROR(/* Read from unset register $r0 */);
-    temp_r2 = temp_r0->player;
+    temp_r2 = temp_r0->players[0];
     temp_r2->moveState |= 0x08000000;
-    temp_r2_2 = temp_r0->partner;
+    temp_r2_2 = temp_r0->players[1];
     temp_r2_2->moveState |= 0x08000000;
     sub_806D6C4(temp_r0);
 }
 
-void sub_806E9F0(void) {
+void Task_806E9F0(void) {
     EggFoot *temp_r4;
 
     temp_r4 = M2C_ERROR(/* Read from unset register $r0 */);
@@ -1481,21 +1433,21 @@ s32 sub_806EA70(void *arg0) {
     return var_r4;
 }
 
-void sub_806EAA0(EggFoot *arg0) {
+void sub_806EAA0(EggFoot *boss) {
+    Player **temp_r2;
+    Player *temp_r1;
     u8 var_r3;
-    void **temp_r2;
-    void *temp_r1;
 
-    arg0->unk34 = 0;
-    arg0->unk36 = 1;
-    arg0->unk20 = 0;
+    boss->unk34 = 0;
+    boss->unk36 = 1;
+    boss->unk20 = 0;
     var_r3 = 0;
     do {
-        temp_r2 = arg0 + 0x40 + (var_r3 * 4);
+        temp_r2 = &boss->players[var_r3];
         temp_r1 = *temp_r2;
-        temp_r1->unk4 = (s32) (temp_r1->unk4 | 0x08000000);
-        temp_r1->unk1C = 0;
-        (*temp_r2)->unk18 = 0;
+        temp_r1->moveState |= 0x08000000;
+        temp_r1->qSpeedGround = 0;
+        (*temp_r2)->qSpeedAirX = 0;
         var_r3 += 1;
     } while ((u32) var_r3 <= 1U);
 }
