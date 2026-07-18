@@ -3,6 +3,7 @@
 #include "malloc_vram.h"
 #include "multi_sio_stuff.h"
 #include "lib/m4a/m4a.h"
+#include "game/shared/stage/screen_shake.h"
 #include "game/shared/stage/music_manager.h"
 #include "game/shared/stage/player.h"
 #include "game/sa3/bosses/more_gemerl.h"
@@ -615,6 +616,98 @@ void sub_806DB78(EggFoot *boss)
     }
 }
 
+// (97.46%) https://decomp.me/scratch/cTwdX
+NONMATCH("asm/non_matching/game/bosses/boss_3__sub_806DD34.inc", void sub_806DD34(EggFoot *boss))
+{
+    s32 var_r3;
+    s32 var;
+
+    switch (boss->unk34) {
+        case 0:
+            boss->unk36 = 1;
+            boss->unk34 = 10;
+            boss->unk8 = 0;
+            boss->unkC = 0;
+            boss->unk14 = 0x200;
+            break;
+
+        case 10:
+            boss->unkC += 0x20;
+            if (boss->unkC >= 0x400) {
+                boss->unkC = 0x400;
+            }
+            boss->unk4 += boss->unkC;
+            boss->unk10 += boss->unk14;
+            if (boss->unk10 >= 0x8000) {
+                boss->unk10 = 0x8000;
+            }
+
+            // TODO: This should be able to be written with 2 conditions...
+            var_r3 = 0;
+            var = (boss->unk10 + 0x800);
+            if (boss->unk4 + var >= 0xB500) {
+                boss->unk4 = 0xAD00 - boss->unk10;
+                var_r3 = 1;
+            }
+            if (var_r3 == 1) {
+                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+                boss->unk14 = -0x200;
+                boss->unk36 = 0x3C;
+                boss->unk34 = 100;
+                m4aSongNumStart(SE_551);
+            }
+            break;
+
+        case 100:
+            boss->unk10 += boss->unk14;
+            if (boss->unk10 <= 0x4800) {
+                boss->unk14 = -0x1C0;
+                boss->unk34 = 110;
+            }
+            boss->unk4 = 0xAD00 - boss->unk10;
+            break;
+
+        case 110:
+            boss->unk14 += 0x10;
+            boss->unk10 += boss->unk14;
+
+            if (boss->unk10 >= 0x4800) {
+                boss->unk10 = 0x4800;
+                boss->unk36 = 0x3C;
+                boss->unk34 = 0xC8;
+            }
+            boss->unk4 = 0xAD00 - boss->unk10;
+            break;
+
+        case 200:
+            if (--boss->unk36 == 0) {
+                sub_806D808(boss, 1);
+                boss->unk36 = 0x3C;
+                boss->unk34 = 210;
+            }
+            break;
+
+        case 210:
+            if (--boss->unk36 == 0) {
+                sub_806D808(boss, 0);
+                boss->unk36 = 0x3C;
+                boss->unk34 = 1000;
+            }
+            break;
+
+        case 1000:
+            if (--boss->unk36 == 0) {
+                boss->unk36 = 1;
+                boss->unk34 = 0;
+                sub_807A4A8();
+                gCurTask->main = sub_806D2F8;
+            }
+            break;
+    }
+    sub_806D568(boss);
+}
+END_NONMATCH
+
 #if 0
 ? SetFixedRandomIfTimeAttackMode();                 /* extern */
 ? sub_80044CC(Player *);                            /* extern */
@@ -636,113 +729,6 @@ extern ? gUnknown_080D584C;
 extern ? gUnknown_080D5870;
 extern ? sub_807A37C;
 
-
-void sub_806DD34(EggFoot *arg0) {
-    s16 temp_r1_2;
-    s32 temp_r0_4;
-    s32 temp_r0_5;
-    s32 temp_r0_6;
-    s32 temp_r0_7;
-    s32 temp_r1_3;
-    s32 temp_r2;
-    s32 var_r3;
-    u16 temp_r0;
-    u16 temp_r0_2;
-    u16 temp_r0_3;
-    u16 temp_r1;
-    u16 var_r0;
-
-    temp_r1 = arg0->unk34;
-    switch (temp_r1) {                              /* irregular */
-    case 0xD2:
-        temp_r0 = arg0->unk36 - 1;
-        arg0->unk36 = temp_r0;
-        if ((temp_r0 << 0x10) == 0) {
-            sub_806D808(arg0, 0);
-            arg0->unk36 = 0x3C;
-            arg0->unk34 = 0x3E8;
-        }
-        break;
-    case 0xC8:
-        temp_r0_2 = arg0->unk36 - 1;
-        arg0->unk36 = temp_r0_2;
-        if ((temp_r0_2 << 0x10) == 0) {
-            sub_806D808(arg0, 1);
-            arg0->unk36 = 0x3C;
-            arg0->unk34 = 0xD2;
-        }
-        break;
-    case 0x3E8:
-        temp_r0_3 = arg0->unk36 - 1;
-        arg0->unk36 = temp_r0_3;
-        temp_r1_2 = (s16) temp_r0_3;
-        if (temp_r1_2 == 0) {
-            arg0->unk36 = 1;
-            arg0->unk34 = (u16) temp_r1_2;
-            sub_807A4A8();
-            gCurTask->main = (void (*)()) sub_806D2F8;
-        }
-        break;
-    case 0x0:
-        arg0->unk36 = 1;
-        arg0->unk34 = 0xA;
-        arg0->unk8 = (s32) temp_r1;
-        arg0->unkC = (s32) temp_r1;
-        arg0->unk14 = 0x200;
-        break;
-    case 0xA:
-        temp_r0_4 = arg0->unkC + 0x20;
-        arg0->unkC = temp_r0_4;
-        if (temp_r0_4 > 0x3FF) {
-            arg0->unkC = 0x400;
-        }
-        arg0->unk4 += arg0->unkC;
-        temp_r0_5 = arg0->unk10 + arg0->unk14;
-        arg0->unk10 = temp_r0_5;
-        if (temp_r0_5 > 0x7FFF) {
-            arg0->unk10 = 0x8000;
-        }
-        var_r3 = 0;
-        temp_r2 = arg0->unk10;
-        if ((s32) (arg0->unk4 + (temp_r2 + 0x800)) > 0xB4FF) {
-            arg0->unk4 = 0xAD00 - temp_r2;
-            var_r3 = 1;
-        }
-        if (var_r3 == 1) {
-            CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
-            arg0->unk14 = -0x200;
-            arg0->unk36 = 0x3C;
-            arg0->unk34 = 0x64;
-            m4aSongNumStart(0x227U);
-        }
-        break;
-    case 0x64:
-        temp_r0_6 = arg0->unk10 + arg0->unk14;
-        arg0->unk10 = temp_r0_6;
-        if (temp_r0_6 <= 0x4800) {
-            arg0->unk14 = -0x1C0;
-            var_r0 = 0x6E;
-block_30:
-            arg0->unk34 = var_r0;
-        }
-block_31:
-        arg0->unk4 = 0xAD00 - arg0->unk10;
-        break;
-    case 0x6E:
-        temp_r0_7 = arg0->unk14 + 0x10;
-        arg0->unk14 = temp_r0_7;
-        temp_r1_3 = arg0->unk10 + temp_r0_7;
-        arg0->unk10 = temp_r1_3;
-        if (temp_r1_3 > 0x47FF) {
-            arg0->unk10 = 0x4800;
-            arg0->unk36 = 0x3C;
-            var_r0 = 0xC8;
-            goto block_30;
-        }
-        goto block_31;
-    }
-    sub_806D568(arg0);
-}
 
 void sub_806DED8(EggFoot *arg0) {
     ? sp10;
