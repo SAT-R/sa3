@@ -55,7 +55,7 @@ typedef struct {
     /* 0x031 */ u8 unk31;
     /* 0x032 */ s16 unk32;
     /* 0x034 */ u16 unk34;
-    /* 0x036 */ u16 unk36;
+    /* 0x036 */ s16 unk36;
     /* 0x038 */ u8 *vram38; // 124 tiles
     /* 0x03C */ u8 *vram3C; // 116 tiles
     /* 0x040 */ Player *players[NUM_SINGLE_PLAYER_CHARS];
@@ -616,11 +616,23 @@ void sub_806DB78(EggFoot *boss)
     }
 }
 
-// (97.46%) https://decomp.me/scratch/cTwdX
-NONMATCH("asm/non_matching/game/bosses/boss_3__sub_806DD34.inc", void sub_806DD34(EggFoot *boss))
+static inline s32 check_range(EggFoot *boss)
+{
+    s32 var_r3 = 0;
+
+    // TODO: This should be able to be written with 2 conditions...
+    s32 var = boss->unk4 + 0x800 + boss->unk10;
+    if (var >= 0xB500) {
+        var = 0xAD00 - boss->unk10;
+        boss->unk4 = var;
+        var_r3 = 1;
+    }
+    return var_r3;
+}
+
+void sub_806DD34(EggFoot *boss)
 {
     s32 var_r3;
-    s32 var;
 
     switch (boss->unk34) {
         case 0:
@@ -642,14 +654,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_3__sub_806DD34.inc", void sub_806DD3
                 boss->unk10 = 0x8000;
             }
 
-            // TODO: This should be able to be written with 2 conditions...
-            var_r3 = 0;
-            var = (boss->unk10 + 0x800);
-            if (boss->unk4 + var >= 0xB500) {
-                boss->unk4 = 0xAD00 - boss->unk10;
-                var_r3 = 1;
-            }
-            if (var_r3 == 1) {
+            if (check_range(boss) == 1) {
                 CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
                 boss->unk14 = -0x200;
                 boss->unk36 = 0x3C;
@@ -706,7 +711,6 @@ NONMATCH("asm/non_matching/game/bosses/boss_3__sub_806DD34.inc", void sub_806DD3
     }
     sub_806D568(boss);
 }
-END_NONMATCH
 
 #if 0
 ? SetFixedRandomIfTimeAttackMode();                 /* extern */
