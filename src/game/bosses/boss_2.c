@@ -1472,27 +1472,23 @@ void sub_806C12C(void)
     sub_806BC50(boss);
 }
 
-// (96.61%) https://decomp.me/scratch/zI0v8
+// (99.79%) https://decomp.me/scratch/USFGy
 NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C1C8.inc", void sub_806C1C8(void))
 {
     Vec2_32 sp10;
-    Player *temp_r1_2;
-    Player *temp_r1_3;
     Sprite *sprBody;
     Sprite *s2;
     s32 temp_r0;
     s32 temp_r1;
     s8 temp_r0_2;
     u8 var_r1;
-    s32 v;
     EggWheeler *boss = TASK_DATA(gCurTask);
 
     sp10.x = ((s32)boss->unk0 >> 8) - gCamera.x;
     sp10.y = ((s32)boss->unk4 >> 8) - gCamera.y;
-    boss->unk48.x = Q(sp10.x);
-    boss->unk48.y = Q(sp10.y);
-    v = (boss->unk2C >> 4);
-    SA2_LABEL(sub_8003EE4)(v, 0x100, 0x100, 0x28, 0x28, sp10.x, sp10.y, gBgAffineRegs);
+    boss->unk48.x = (sp10.x) * 0x100;
+    boss->unk48.y = (sp10.y) * 0x100;
+    sa2__sub_8003EE4_inline(boss->unk2C >> 4, 0x28, 0x28, sp10.x, sp10.y);
     sprBody = &boss->sprBody;
     sprBody->x = 0x28;
     sprBody->y = 0x28;
@@ -1503,9 +1499,10 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C1C8.inc", void sub_806C1C
         gPlayers[var_r1].idleAndCamCounter = TIME(0, 6);
     }
 
-    if (sub_806CFD4(boss) == 1) {
+    temp_r1 = sub_806CFD4(boss);
+    if (temp_r1 == 1) {
         s32 x, y;
-        boss->unk0 = (gCamera.x + DISPLAY_CENTER_X) << 8;
+        boss->unk0 = Q(gCamera.x + DISPLAY_CENTER_X);
         boss->unk44 = 0;
         boss->unk40 = 0;
         boss->unk38 = 0x200;
@@ -1524,10 +1521,9 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C1C8.inc", void sub_806C1C
         s2->prevVariant = -1;
         gCurTask->main = sub_806C2F8;
     }
-    temp_r1_2 = boss->player;
-    temp_r1_2->moveState |= MOVESTATE_IGNORE_INPUT;
-    temp_r1_3 = boss->partner;
-    temp_r1_3->moveState |= MOVESTATE_IGNORE_INPUT;
+
+    boss->player->moveState |= MOVESTATE_IGNORE_INPUT;
+    boss->partner->moveState |= MOVESTATE_IGNORE_INPUT;
 }
 END_NONMATCH
 

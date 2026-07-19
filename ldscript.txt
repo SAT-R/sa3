@@ -166,6 +166,7 @@ SECTIONS {
         src/game/bosses/boss_1.o(.text);
         src/game/bosses/boss_2.o(.text);
         src/game/bosses/boss_3.o(.text);
+        src/game/bosses/boss_4.o(.text);
         asm/boss_4.o(.text);
         asm/boss_5.o(.text);
         asm/boss_6.o(.text);
