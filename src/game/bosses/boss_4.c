@@ -62,7 +62,11 @@ typedef struct {
 } EggCube; /* 0x188 */
 
 void Task_EggCubeInit(void);
+void sub_806ED00(void);
+void sub_806F5F0(Player *p);
+void sub_806FA0C(EggCube *boss);
 void sub_8070138(EggCube *boss);
+void sub_8070208(EggCube *boss);
 void sub_8071904(EggCube *boss, u16 param1);
 void sub_80719B4(EggCube *boss);
 void TaskDestructor_EggCube(struct Task *t);
@@ -143,4 +147,31 @@ Task *CreateEggCube(u8 *bossPhase, s32 worldX, s32 worldY)
     SetFixedRandomIfTimeAttackMode();
 
     return t;
+}
+
+void sub_806EC50(void)
+{
+    EggCube *boss = TASK_DATA(gCurTask);
+    Player *p, *partner;
+
+    if (*boss->bossPhase == 3) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    sub_806F5F0(boss->player);
+    sub_806F5F0(boss->partner);
+    sub_8070208(boss);
+    sub_806FA0C(boss);
+
+    p = GET_SP_PLAYER_V0(PLAYER_1);
+    partner = GET_SP_PLAYER_V0(PLAYER_2);
+
+    if ((I(p->qWorldX) < 1342) && (partner->qWorldX > p->qWorldX)) {
+        p->qWorldX = Q(1342);
+    }
+
+    if ((*boss->bossPhase == 2) && (sub_807A074() != 0)) {
+        gCurTask->main = sub_806ED00;
+    }
 }
