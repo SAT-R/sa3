@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "malloc_vram.h"
 #include "multi_sio_stuff.h"
 #include "lib/m4a/m4a.h"
@@ -71,7 +72,9 @@ void sub_806DB78(EggFoot *boss);
 void sub_806E330(EggFoot *boss);
 void sub_806EAA0(EggFoot *boss);
 void Task_EggFootInit(void);
+void sub_806D388(void);
 bool8 sub_806D840(EggFoot *arg0, u8 pid);
+void sub_806D808(EggFoot *arg0, u8 pattern);
 void sub_806E99C(void);
 void sub_806E9C0(void);
 void Task_806E9F0(void);
@@ -82,6 +85,7 @@ void sub_8078E34(s32 *sp0, VoidFn func);
 extern s32 sub_807A1DC(Sprite *);
 
 extern const Strc_80D57CC gUnknown_080D57CC[SPRITE_ARR_1_COUNT];
+extern const s32 gUnknown_080D5870[4]; // = { -8, -6, -4, -3 };
 
 Task *CreateEggFoot(u8 *bossPhase, s32 worldX, s32 worldY)
 {
@@ -679,7 +683,7 @@ void sub_806DD34(EggFoot *boss)
             if (boss->unk10 >= 0x4800) {
                 boss->unk10 = 0x4800;
                 boss->unk36 = 0x3C;
-                boss->unk34 = 0xC8;
+                boss->unk34 = 200;
             }
             boss->unk4 = 0xAD00 - boss->unk10;
             break;
@@ -712,6 +716,142 @@ void sub_806DD34(EggFoot *boss)
     sub_806D568(boss);
 }
 
+void sub_806DED8(EggFoot *arg0)
+{
+    s32 sp10[4];
+    s32 var_r5;
+    u32 temp_r0_4;
+    u32 angle;
+    u16 var_r5_2;
+    u8 var_r3;
+    s32 dirX, dirY;
+
+    // TODO: This matches by just setting sp10 directly,
+    //       but sub_806E330 (which is later in the ROM)
+    //       references gUnknown_080D584C, which is above gUnknown_080D5870.
+    //       And none of the other functions reference them... unless they're unused somewhere?
+    //       So the .rodata section would not be correct.
+    memcpy(sp10, gUnknown_080D5870, sizeof(sp10));
+
+    switch (arg0->unk34) {
+        case 0: {
+            if (arg0->unk32 == 0 || --arg0->unk32 == 0) {
+                arg0->unk34 = 10;
+                sub_806D808(arg0, 3);
+            }
+        } break;
+
+        case 10: {
+            arg0->unk36 = 0;
+            arg0->unk24[2] = 0;
+            arg0->unk8 = 0;
+            arg0->unkC = sp10[arg0->unk24[2]] << 8;
+            arg0->unk14 = -0x400;
+            m4aSongNumStart(SE_545);
+            arg0->unk34 = 100;
+        } break;
+
+        case 100: {
+            arg0->unk36++;
+            arg0->unkC += 0x20;
+            if (arg0->unkC >= 0x800) {
+                arg0->unkC = 0x800;
+            }
+            arg0->unk4 += arg0->unkC;
+            arg0->unk14 += 0x20;
+            for (var_r3 = 2, var_r5 = 0x80; var_r3 < SPRITE_ARR_1_COUNT; var_r3++) {
+                if (1 & var_r3) {
+                    arg0->sprites48[var_r3].x += var_r5;
+                    var_r5 += 0x80;
+                } else {
+                    arg0->sprites48[var_r3].x -= var_r5;
+                }
+                arg0->sprites48[var_r3].y += arg0->unk14;
+            }
+
+            if (1 & arg0->unk36) {
+                s32 r0;
+                angle = PseudoRandom32() & 0x3FF;
+                temp_r0_4 = PseudoRandom32() % 48U;
+                dirX = (((u32)(temp_r0_4 * COS(angle)) >> 6));
+                r0 = (((u32)(temp_r0_4 * SIN(angle)) >> 6));
+                dirY = r0;
+                sub_8079758(7, (arg0->unk0 + dirX) >> 8, (arg0->unk4 + dirY) >> 8, 0x400, angle, 0x14, 0x80, arg0->vram3C);
+            }
+            if ((0x3F & arg0->unk36) == 0) {
+                m4aSongNumStart(SE_545);
+            }
+            if ((arg0->unk4 + 0x1000) >= 0xB500) {
+                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+                if (++arg0->unk24[2] > 3U) {
+                    arg0->unk36 = 0xB4;
+                    arg0->unk34 = 0x6E;
+                } else {
+                    arg0->unkC = sp10[arg0->unk24[2]] << 8;
+                }
+                m4aSongNumStart(SE_551);
+            }
+        } break;
+
+        case 110: {
+            if (--arg0->unk36 == 0) {
+                arg0->unk36 = 0x19;
+                arg0->unk34 = 200;
+            }
+            if (1 & arg0->unk36) {
+                u32 sinVal;
+                angle = PseudoRandom32() % SIN_PERIOD;
+                temp_r0_4 = PseudoRandom32() % 80U;
+                dirX = (((u32)(temp_r0_4 * COS(angle)) >> 6));
+                sinVal = (temp_r0_4 * SIN(angle));
+                sub_8079758(7, (arg0->unk0 + dirX) >> 8, gCamera.y + (sinVal = ((sinVal >>= 14) + 80)), 0x200, angle, 0x1E, 0,
+                            arg0->vram3C);
+            }
+
+            if ((0x3F & arg0->unk36) == 0) {
+                m4aSongNumStart(SE_545);
+            }
+        } break;
+
+        case 200: {
+            arg0->unk24[3] ^= 1;
+            if (--arg0->unk36 == 0) {
+                for (var_r5_2 = 0; var_r5_2 < 0x400; var_r5_2 += 0x80) {
+                    sub_8079758(7, arg0->unk0 >> 8, arg0->unk4 >> 8, 0x200, var_r5_2, 30, 0, arg0->vram3C);
+                }
+                m4aSongNumStart(SE_545);
+                arg0->unk24[3] = 0;
+                arg0->unk36 = 0xA;
+                arg0->unk34 = 210;
+            }
+        } break;
+
+        case 210: {
+            if (--arg0->unk36 == 0) {
+                for (var_r5_2 = 0; var_r5_2 < 0x400; var_r5_2 += 0x80) {
+                    sub_8079758(7, arg0->unk0 >> 8, arg0->unk4 >> 8, 0x200, var_r5_2, 30, 0, arg0->vram3C);
+                }
+                arg0->unk36 = 0xA;
+                arg0->unk34 = 1000;
+            }
+        } break;
+
+        case 1000: {
+            if (--arg0->unk36 == 0) {
+                arg0->unk34 = 0;
+                gCurTask->main = sub_806D388;
+            }
+        } break;
+    }
+
+    arg0->sprites48[0].x = arg0->unk0;
+    arg0->sprites48[0].y = arg0->unk4;
+    arg0->sprites48[1].x = arg0->sprites48[0].x;
+    arg0->sprites48[1].y = arg0->sprites48[0].y;
+    arg0->players[0]->moveState |= MOVESTATE_IGNORE_INPUT;
+    arg0->players[1]->moveState |= MOVESTATE_IGNORE_INPUT;
+}
+
 #if 0
 ? SetFixedRandomIfTimeAttackMode();                 /* extern */
 ? sub_80044CC(Player *);                            /* extern */
@@ -730,219 +870,7 @@ void Task_806E9F0();                                 /* static */
 void sub_806EAA0(EggFoot *arg0);                    /* static */
 extern ? gUnknown_080D57CC;
 extern ? gUnknown_080D584C;
-extern ? gUnknown_080D5870;
 extern ? sub_807A37C;
-
-
-void sub_806DED8(EggFoot *arg0) {
-    ? sp10;
-    ExtSprite *temp_r1_2;
-    ExtSprite *temp_r1_3;
-    ExtSprite *temp_r6;
-    ExtSprite *var_r8;
-    Player *temp_r1_5;
-    Player *temp_r1_6;
-    s16 temp_r0_14;
-    s32 *temp_r2;
-    s32 *var_r7;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r0_6;
-    s32 temp_r0_7;
-    s32 temp_r0_8;
-    s32 temp_r1_4;
-    s32 var_r2;
-    s32 var_r5;
-    u16 temp_r0;
-    u16 temp_r0_11;
-    u16 temp_r0_12;
-    u16 temp_r0_13;
-    u16 temp_r0_5;
-    u16 temp_r1;
-    u32 temp_r0_4;
-    u32 temp_r0_9;
-    u32 temp_r5;
-    u32 temp_r5_2;
-    u32 var_r5_2;
-    u32 var_r5_3;
-    u8 temp_r0_10;
-    u8 var_r3;
-
-    sp10.unk0 = (s32) gUnknown_080D5870.unk0;
-    sp10.unk4 = (s32) gUnknown_080D5870.unk4;
-    sp10.unk8 = (s32) gUnknown_080D5870.unk8;
-    sp10.unkC = (s32) gUnknown_080D5870.unkC;
-    temp_r1 = arg0->unk34;
-    if (temp_r1 == 0x6E) {
-        temp_r0 = arg0->unk36 - 1;
-        arg0->unk36 = temp_r0;
-        if ((temp_r0 << 0x10) == 0) {
-            arg0->unk36 = 0x19;
-            arg0->unk34 = 0xC8;
-        }
-        if (1 & arg0->unk36) {
-            temp_r0_2 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
-            temp_r5 = 0x3FF & temp_r0_2;
-            temp_r0_3 = (0x196225 * temp_r0_2) + 0x3C6EF35F;
-            gPseudoRandom = temp_r0_3;
-            temp_r0_4 = (u32) temp_r0_3 % 80U;
-            sub_8079758(7, (s32) ((arg0->unk0 + ((u32) (temp_r0_4 * gSineTable[temp_r5 + 0x100]) >> 6)) << 8) >> 0x10, (s16) (gCamera.y + (((u32) (gSineTable[temp_r5] * temp_r0_4) >> 0xE) + 0x50)), 0x200, temp_r5, 0x1E, 0, arg0->vram3C);
-        }
-        var_r8 = arg0 + 0x80;
-        var_r7 = arg0 + 0x84;
-        if (0x3F & arg0->unk36) {
-
-        } else {
-            m4aSongNumStart(0x221U);
-        }
-    } else if ((s32) temp_r1 <= 0x6E) {
-        if (temp_r1 != 0xA) {
-            if ((s32) temp_r1 <= 0xA) {
-                if (temp_r1 != 0) {
-                    var_r8 = arg0 + 0x80;
-                    goto block_24;
-                }
-                if (((s16) arg0->unk32 != 0) && (temp_r0_5 = arg0->unk32 - 1, arg0->unk32 = temp_r0_5, var_r8 = arg0 + 0x80, var_r7 = arg0 + 0x84, ((temp_r0_5 << 0x10) != 0))) {
-
-                } else {
-                    arg0->unk34 = 0xA;
-                    sub_806D808(arg0, 3);
-                    var_r8 = &arg0->sprites48[1];
-                    goto block_24;
-                }
-            } else {
-                if (temp_r1 != 0x64) {
-                    var_r8 = &arg0->sprites48[1];
-                    goto block_24;
-                }
-                arg0->unk36 += 1;
-                temp_r0_6 = arg0->unkC + 0x20;
-                arg0->unkC = temp_r0_6;
-                if (temp_r0_6 > 0x7FF) {
-                    arg0->unkC = 0x800;
-                }
-                arg0->unk4 += arg0->unkC;
-                arg0->unk14 += 0x20;
-                var_r3 = 2;
-                var_r5 = 0x80;
-                var_r8 = &arg0->sprites48[1];
-                var_r7 = &arg0->sprites48[1].y;
-                temp_r6 = arg0->sprites48;
-                do {
-                    if (1 & var_r3) {
-                        var_r2 = var_r3 * 8;
-                        temp_r1_2 = &temp_r6[var_r3];
-                        temp_r1_2->x += var_r5;
-                        var_r5 += 0x80;
-                    } else {
-                        var_r2 = var_r3 * 8;
-                        temp_r1_3 = &temp_r6[var_r3];
-                        temp_r1_3->x -= var_r5;
-                    }
-                    temp_r2 = ((var_r2 - var_r3) * 8) + &arg0->sprites48[0].y;
-                    *temp_r2 += arg0->unk14;
-                    var_r3 += 1;
-                } while ((u32) var_r3 <= 0xFU);
-                if (1 & arg0->unk36) {
-                    temp_r0_7 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
-                    temp_r5_2 = 0x3FF & temp_r0_7;
-                    temp_r0_8 = (0x196225 * temp_r0_7) + 0x3C6EF35F;
-                    gPseudoRandom = temp_r0_8;
-                    temp_r0_9 = (u32) temp_r0_8 % 48U;
-                    sub_8079758(7, (s32) ((arg0->unk0 + ((u32) (temp_r0_9 * gSineTable[temp_r5_2 + 0x100]) >> 6)) << 8) >> 0x10, (s16) ((s32) ((arg0->unk4 + ((u32) (temp_r0_9 * gSineTable[temp_r5_2]) >> 6)) << 8) >> 0x10), 0x400, temp_r5_2, 0x14, 0x80, arg0->vram3C);
-                }
-                if (!(0x3F & arg0->unk36)) {
-                    m4aSongNumStart(0x221U);
-                }
-                if ((s32) (arg0->unk4 + 0x1000) <= 0xB4FF) {
-
-                } else {
-                    CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
-                    temp_r0_10 = arg0->unk24[4] + 1;
-                    arg0->unk24[4] = temp_r0_10;
-                    if ((u32) temp_r0_10 > 3U) {
-                        arg0->unk36 = 0xB4;
-                        arg0->unk34 = 0x6E;
-                    } else {
-                        arg0->unkC = ((arg0->unk24[4] * 4) + sp)->unk10 << 8;
-                    }
-                    m4aSongNumStart(0x227U);
-                }
-            }
-        } else {
-            arg0->unk36 = 0;
-            arg0->unk24[4] = 0;
-            arg0->unk8 = 0;
-            arg0->unkC = ((arg0->unk24[4] * 4) + sp)->unk10 << 8;
-            arg0->unk14 = -0x400;
-            m4aSongNumStart(0x221U);
-            arg0->unk34 = 0x64;
-            var_r8 = &arg0->sprites48[1];
-            goto block_24;
-        }
-    } else {
-        switch (temp_r1) {                          /* irregular */
-        case 0xD2:
-            temp_r0_11 = arg0->unk36 - 1;
-            arg0->unk36 = temp_r0_11;
-            var_r8 = &arg0->sprites48[1];
-            var_r7 = &arg0->sprites48[1].y;
-            if ((temp_r0_11 << 0x10) == 0) {
-                var_r5_2 = 0;
-                do {
-                    sub_8079758(7, (s32) (arg0->unk0 << 8) >> 0x10, (s16) ((s32) (arg0->unk4 << 8) >> 0x10), 0x200, var_r5_2, 0x1E, 0, arg0->vram3C);
-                    var_r5_2 = (u32) (u16) (var_r5_2 + 0x80);
-                } while (var_r5_2 <= 0x3FFU);
-                arg0->unk36 = 0xA;
-                arg0->unk34 = 0x3E8;
-            }
-            break;
-        case 0xC8:
-            arg0->unk24[5] ^= 1;
-            temp_r0_12 = arg0->unk36 - 1;
-            arg0->unk36 = temp_r0_12;
-            var_r8 = &arg0->sprites48[1];
-            var_r7 = &arg0->sprites48[1].y;
-            if ((temp_r0_12 << 0x10) == 0) {
-                var_r5_3 = 0;
-                do {
-                    sub_8079758(7, (s32) (arg0->unk0 << 8) >> 0x10, (s16) ((s32) (arg0->unk4 << 8) >> 0x10), 0x200, var_r5_3, 0x1E, 0, arg0->vram3C);
-                    var_r5_3 = (u32) (u16) (var_r5_3 + 0x80);
-                } while (var_r5_3 <= 0x3FFU);
-                m4aSongNumStart(0x221U);
-                arg0->unk24[5] = 0;
-                arg0->unk36 = 0xA;
-                arg0->unk34 = 0xD2;
-            }
-            break;
-        default:
-            var_r8 = &arg0->sprites48[1];
-block_24:
-            var_r7 = &arg0->sprites48[1].y;
-            break;
-        case 0x3E8:
-            temp_r0_13 = arg0->unk36 - 1;
-            arg0->unk36 = temp_r0_13;
-            temp_r0_14 = (s16) temp_r0_13;
-            var_r8 = &arg0->sprites48[1];
-            var_r7 = &arg0->sprites48[1].y;
-            if (temp_r0_14 == 0) {
-                arg0->unk34 = (u16) temp_r0_14;
-                gCurTask->main = (void (*)()) sub_806D388;
-            }
-            break;
-        }
-    }
-    temp_r1_4 = arg0->unk0;
-    arg0->sprites48[0].x = temp_r1_4;
-    arg0->sprites48[0].y = arg0->unk4;
-    var_r8->x = temp_r1_4;
-    *var_r7 = arg0->sprites48[0].y;
-    temp_r1_5 = arg0->players[0];
-    temp_r1_5->moveState |= 0x08000000;
-    temp_r1_6 = arg0->players[1];
-    temp_r1_6->moveState |= 0x08000000;
-}
 
 void sub_806E330(EggFoot *boss) {
     s16 temp_r0_10;

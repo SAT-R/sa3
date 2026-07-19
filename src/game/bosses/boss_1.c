@@ -133,7 +133,6 @@ extern u16 gUnknown_080D575C[9][2];
 
 void Task_8068D00(); /* extern */
 void sub_8068C38(); /* extern */
-extern void sub_8079758(u8, s16 x, s16 y, s16, u16 angle, u8, s16, u8 *vram);
 void sub_807A2AC(); /* extern */
 void sub_807A468(); /* extern */
 void sub_807A4A8(); /* extern */

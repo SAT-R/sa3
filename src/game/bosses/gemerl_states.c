@@ -52,7 +52,6 @@ extern void sub_80044CC(Player *);
 extern void sub_8004D68(s32 x, s32 y);
 extern s32 sub_807A1DC(Sprite *);
 
-extern Task *sub_8079758(s32, s16, s16, s16, s16, u8, s16, u8 *);
 extern void sub_807A574(Gemerl *, u8, u8, u8);
 
 // if gStageData.gameMode is Single Player TimeAttack,

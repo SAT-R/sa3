@@ -9,4 +9,6 @@ void sub_807A4A8(void);
 
 void SetFixedRandomIfTimeAttackMode(void);
 
+void sub_8079758(u8, s16 x, s16 y, s16, u16 angle, u8, s16, u8 *vram);
+
 #endif // GUARD_SA3_MORE_GEMER_H
