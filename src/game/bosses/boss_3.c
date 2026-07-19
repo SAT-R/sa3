@@ -4,6 +4,7 @@
 #include "malloc_vram.h"
 #include "multi_sio_stuff.h"
 #include "lib/m4a/m4a.h"
+#include "game/bosses.h"
 #include "game/shared/stage/screen_shake.h"
 #include "game/shared/stage/music_manager.h"
 #include "game/shared/stage/player.h"
@@ -66,15 +67,21 @@ typedef struct {
 } EggFoot;
 
 void sub_806D404(EggFoot *boss);
+void sub_806D568(EggFoot *boss);
 void sub_806D6C4(EggFoot *boss);
 void sub_806DA20(EggFoot *boss);
 void sub_806DB78(EggFoot *boss);
+void sub_806DD34(EggFoot *boss);
+void sub_806DED8(EggFoot *boss);
 void sub_806E330(EggFoot *boss);
 void sub_806EAA0(EggFoot *boss);
+
 void Task_EggFootInit(void);
+void Task_806D268(void);
 void sub_806D388(void);
 bool8 sub_806D840(EggFoot *arg0, u8 pid);
 void sub_806D808(EggFoot *arg0, u8 pattern);
+void Task_806E950(void);
 void sub_806E99C(void);
 void sub_806E9C0(void);
 void Task_806E9F0(void);
@@ -85,7 +92,36 @@ void sub_8078E34(s32 *sp0, VoidFn func);
 extern s32 sub_807A1DC(Sprite *);
 
 extern const Strc_80D57CC gUnknown_080D57CC[SPRITE_ARR_1_COUNT];
+extern const s32 gUnknown_080D584C[9];
 extern const s32 gUnknown_080D5870[4]; // = { -8, -6, -4, -3 };
+
+static inline s32 check_range_inline(EggFoot *boss)
+{
+    s32 var_r3 = 0;
+
+    // TODO: This should be able to be written with 2 conditions...
+    s32 var = boss->unk4 + 0x800 + boss->unk10;
+    if (var >= 0xB500) {
+        var = 0xAD00 - boss->unk10;
+        boss->unk4 = var;
+        var_r3 = 1;
+    }
+    return var_r3;
+}
+
+static inline s32 check_range_2_inline(EggFoot *boss)
+{
+    s32 var_r3 = 0;
+
+    // TODO: This should be able to be written with 2 conditions...
+    s32 var = boss->unk4 + 0x800 + boss->unk10;
+    if (var >= 0xB900) {
+        var = 0xB100 - boss->unk10;
+        boss->unk4 = var;
+        var_r3 = 1;
+    }
+    return var_r3;
+}
 
 Task *CreateEggFoot(u8 *bossPhase, s32 worldX, s32 worldY)
 {
@@ -620,20 +656,6 @@ void sub_806DB78(EggFoot *boss)
     }
 }
 
-static inline s32 check_range(EggFoot *boss)
-{
-    s32 var_r3 = 0;
-
-    // TODO: This should be able to be written with 2 conditions...
-    s32 var = boss->unk4 + 0x800 + boss->unk10;
-    if (var >= 0xB500) {
-        var = 0xAD00 - boss->unk10;
-        boss->unk4 = var;
-        var_r3 = 1;
-    }
-    return var_r3;
-}
-
 void sub_806DD34(EggFoot *boss)
 {
     s32 var_r3;
@@ -658,7 +680,7 @@ void sub_806DD34(EggFoot *boss)
                 boss->unk10 = 0x8000;
             }
 
-            if (check_range(boss) == 1) {
+            if (check_range_inline(boss) == 1) {
                 CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
                 boss->unk14 = -0x200;
                 boss->unk36 = 0x3C;
@@ -852,499 +874,371 @@ void sub_806DED8(EggFoot *arg0)
     arg0->players[1]->moveState |= MOVESTATE_IGNORE_INPUT;
 }
 
-#if 0
-? SetFixedRandomIfTimeAttackMode();                 /* extern */
-? sub_80044CC(Player *);                            /* extern */
-? sub_8004D68(s32, s32);                            /* extern */
-? sub_8078E34(? *, ? *, s32, s32, s32, s32);        /* extern */
-? sub_8079758(s32, s32, s16, s32, u32, s32, s32, u8 *); /* extern */
-s32 sub_807A1DC(Sprite *);                          /* extern */
-? sub_807A4A8();                                    /* extern */
-u8 sub_806D840(EggFoot *arg0, s32 arg1);            /* static */
-void sub_806DB78(EggFoot *arg0, ? arg3);            /* static */
-void sub_806E330(EggFoot *arg0);                    /* static */
-void sub_806E950(EggFoot *boss);                    /* static */
-void sub_806E99C();                                 /* static */
-void sub_806E9C0();                                 /* static */
-void Task_806E9F0();                                 /* static */
-void sub_806EAA0(EggFoot *arg0);                    /* static */
-extern ? gUnknown_080D57CC;
-extern ? gUnknown_080D584C;
-extern ? sub_807A37C;
-
-void sub_806E330(EggFoot *boss) {
-    s16 temp_r0_10;
-    s16 temp_r0_19;
-    s16 temp_r0_25;
-    s32 temp_r0;
-    s32 temp_r0_12;
-    s32 temp_r0_13;
-    s32 temp_r0_14;
-    s32 temp_r0_15;
-    s32 temp_r0_17;
-    s32 temp_r0_21;
-    s32 temp_r0_22;
-    s32 temp_r0_23;
-    s32 temp_r0_24;
-    s32 temp_r0_3;
-    s32 temp_r0_5;
-    s32 temp_r0_6;
-    s32 temp_r0_7;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
-    s32 temp_r2_2;
-    s32 temp_r2_3;
-    s32 temp_r2_4;
-    s32 temp_r2_5;
-    s32 temp_r2_6;
-    s32 var_r0;
-    s32 var_r0_2;
-    s32 var_r0_4;
-    s32 var_r3;
-    s32 var_r3_2;
+void sub_806E330(EggFoot *boss)
+{
     s32 var_r5;
-    u16 temp_r0_11;
-    u16 temp_r0_16;
-    u16 temp_r0_18;
-    u16 temp_r0_20;
-    u16 temp_r0_2;
-    u16 temp_r0_9;
-    u16 temp_r2;
-    u16 var_r0_3;
-    u16 var_r0_5;
-    u32 temp_r0_4;
-    u32 temp_r0_8;
+    u32 rnd;
+    Sprite *s;
 
-    temp_r2 = boss->unk34;
-    switch (temp_r2) {                              /* irregular */
-    case 0x203:
-        temp_r0 = boss->unk10 + boss->unk14;
-        boss->unk10 = temp_r0;
-        if (temp_r0 <= 0x4800) {
-            boss->unk14 = -0x1C0;
-            boss->unk34 = 0x208;
-        }
-        var_r0 = 0xAD00;
-block_147:
-        boss->unk4 = var_r0 - boss->unk10;
-        break;
-    case 0x12C:
-        temp_r0_2 = boss->unk36 - 1;
-        boss->unk36 = temp_r0_2;
-        if ((temp_r0_2 << 0x10) != 0) {
-
-        } else {
-            boss->unk24[6] = 0;
-            if (boss->unk31 != 0) {
-                var_r0_2 = *((*(&boss->unk31 - 1) * 4) + &gUnknown_080D584C);
-            } else {
-                var_r0_2 = 0 - *((boss->lives * 4) + &gUnknown_080D584C);
-            }
-            boss->unk8 = var_r0_2;
-            temp_r0_3 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
-            gPseudoRandom = temp_r0_3;
-            temp_r0_4 = (u32) temp_r0_3 % 10000U;
-            if (temp_r0_4 <= 0x3E7U) {
-                var_r0_3 = 0x3C;
-            } else if (temp_r0_4 <= 0xF9FU) {
-                var_r0_3 = 0xB4;
-            } else if (temp_r0_4 <= 0x1F3FU) {
-                var_r0_3 = 0xF0;
-            } else {
-                var_r0_3 = 0x12C;
-            }
-            boss->unk36 = var_r0_3;
-            boss->unk31 ^= 1;
-            boss->unk34 = 0x136;
-        }
-        break;
-    case 0xC8:
-        temp_r1 = boss->unkC - 0x20;
-        boss->unkC = temp_r1;
-        temp_r0_5 = boss->unk4 + temp_r1;
-        boss->unk4 = temp_r0_5;
-        if (temp_r0_5 <= 0) {
-            boss->unk4 = 0;
-        }
-        temp_r0_6 = boss->unk10 + boss->unk14;
-        boss->unk10 = temp_r0_6;
-        if (temp_r0_6 <= 0x4800) {
-            boss->unk10 = 0x4800;
-        }
-        if ((s32) boss->unk4 > 0) {
-
-        } else if ((s32) boss->unk10 > 0x4800) {
-
-        } else {
-            boss->sprites48[6].s.anim = 0x4C4;
-            boss->sprites48[6].s.variant = 1;
-            boss->sprites48[7].s.anim = 0x4C4;
-            boss->sprites48[7].s.variant = 1;
-            boss->unkC = 0;
-            boss->unk36 = 0x3C;
-            boss->unk34 = 0x12C;
-        }
-        break;
-    case 0x19A:
-        var_r5 = 0;
-        if (gStageData.difficulty == 0) {
-            if ((u32) boss->lives <= 4U) {
-                goto block_97;
-            }
-        } else if ((u32) boss->lives <= 3U) {
-block_97:
-            var_r5 = 1;
-        }
-        temp_r0_7 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
-        gPseudoRandom = temp_r0_7;
-        temp_r0_8 = (u32) ((u32) temp_r0_7 >> 1) % 10000U;
-        if (var_r5 != 0) {
-            if (temp_r0_8 > 0x176FU) {
-                goto block_103;
-            }
-            goto block_102;
-        }
-        if (temp_r0_8 <= 0x1F3FU) {
-block_102:
-            boss->unk34 = 0x1F4;
-        } else {
-block_103:
-            boss->unk34 = 0x258;
-        }
-        break;
-    case 0x136:
-        temp_r2_2 = boss->unk8;
-        temp_r1_2 = boss->unk0 + temp_r2_2;
-        boss->unk0 = temp_r1_2;
-        if (temp_r2_2 < 0) {
-            var_r0_4 = 0x52000;
-            if (temp_r1_2 <= 0x52000) {
-                goto block_86;
-            }
-        } else if (temp_r1_2 > 0x607FF) {
-            var_r0_4 = 0x60800;
-block_86:
-            boss->unk0 = var_r0_4;
-            boss->unk8 = 0 - temp_r2_2;
-        }
-        temp_r0_9 = boss->unk36 - 1;
-        boss->unk36 = temp_r0_9;
-        temp_r0_10 = (s16) temp_r0_9;
-        if (temp_r0_10 != 0) {
-
-        } else {
-            boss->unk8 = (s32) temp_r0_10;
-            boss->unk36 = 0x3C;
-            boss->unk34 = 0x190;
-        }
-        break;
-    case 0x190:
-        temp_r0_11 = boss->unk36 - 1;
-        boss->unk36 = temp_r0_11;
-        if ((temp_r0_11 << 0x10) != 0) {
-
-        } else {
-            boss->unk34 = 0x19A;
-        }
-        break;
-    case 0x1F4:
-        boss->unk8 = 0;
-        boss->unkC = 0;
-        boss->unk14 = 0x200;
-        boss->unk34 = 0x1FE;
-        break;
-    case 0x1FE:
-        temp_r0_12 = boss->unkC + 0x20;
-        boss->unkC = temp_r0_12;
-        if (temp_r0_12 > 0x3FF) {
-            boss->unkC = 0x400;
-        }
-        boss->unk4 += boss->unkC;
-        temp_r0_13 = boss->unk10 + boss->unk14;
-        boss->unk10 = temp_r0_13;
-        if (temp_r0_13 > 0x7FFF) {
-            boss->unk10 = 0x8000;
-        }
-        var_r3 = 0;
-        temp_r2_3 = boss->unk10;
-        if ((s32) (boss->unk4 + (temp_r2_3 + 0x800)) > 0xB4FF) {
-            boss->unk4 = 0xAD00 - temp_r2_3;
-            var_r3 = 1;
-        }
-        if (var_r3 != 1) {
-
-        } else {
-            CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
-            boss->unk14 = -0x200;
-            boss->unk34 = 0x203;
-block_135:
-            m4aSongNumStart(0x227U);
-        }
-        break;
-    case 0x26C:
-        temp_r0_14 = boss->unkC + 0x20;
-        boss->unkC = temp_r0_14;
-        if (temp_r0_14 > 0x3FF) {
-            boss->unkC = 0x400;
-        }
-        boss->unk4 += boss->unkC;
-        temp_r0_15 = boss->unk10 + boss->unk14;
-        boss->unk10 = temp_r0_15;
-        if (temp_r0_15 > 0x7FFF) {
-            boss->unk10 = 0x8000;
-        }
-        var_r3_2 = 0;
-        temp_r2_4 = boss->unk10;
-        if ((s32) (boss->unk4 + (temp_r2_4 + 0x800)) > 0xB8FF) {
-            boss->unk4 = 0xB100 - temp_r2_4;
-            var_r3_2 = 1;
-        }
-        if (var_r3_2 == 1) {
-            CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
-            boss->unk14 = -0x200;
-            boss->unk34 = 0x271;
-            boss->unk20 = 0xA;
-            goto block_135;
-        }
-        break;
-    case 0x212:
-        temp_r0_16 = boss->unk36 - 1;
-        boss->unk36 = temp_r0_16;
-        if ((temp_r0_16 << 0x10) != 0) {
-
-        } else {
+    switch (boss->unk34) {
+        case 0x0:
+            boss->unk36 = 1;
             boss->unk34 = 0x64;
-        }
-        break;
-    case 0x208:
-        temp_r0_17 = boss->unk14 + 0x10;
-        boss->unk14 = temp_r0_17;
-        temp_r1_3 = boss->unk10 + temp_r0_17;
-        boss->unk10 = temp_r1_3;
-        if (temp_r1_3 > 0x47FF) {
-            boss->unk10 = 0x4800;
-            boss->unk36 = 0x3C;
-            boss->unk34 = 0x212;
-        }
-        var_r0 = 0xAD00;
-        goto block_147;
-    case 0x258:
-        boss->sprites48[6].s.anim = 0x4C4;
-        boss->sprites48[6].s.variant = 0;
-        boss->sprites48[7].s.anim = 0x4C4;
-        boss->sprites48[7].s.variant = 0;
-        boss->unk36 = 0x3C;
-        boss->unk34 = 0x262;
-        break;
-    case 0x262:
-        temp_r0_18 = boss->unk36 - 1;
-        boss->unk36 = temp_r0_18;
-        temp_r0_19 = (s16) temp_r0_18;
-        if (temp_r0_19 != 0) {
-
-        } else {
-            boss->unk8 = (s32) temp_r0_19;
-            boss->unkC = (s32) temp_r0_19;
-            boss->unk14 = 0x200;
-            boss->unk34 = 0x26C;
-        }
-        break;
-    case 0x280:
-        temp_r0_20 = boss->unk36 - 1;
-        boss->unk36 = temp_r0_20;
-        if ((temp_r0_20 << 0x10) == 0) {
-            boss->unk34 = 0x28A;
-        }
-        break;
-    case 0x271:
-        temp_r0_21 = boss->unk10 + boss->unk14;
-        boss->unk10 = temp_r0_21;
-        if (temp_r0_21 <= 0x4800) {
+            boss->unk31 = 0;
+            boss->unk8 = 0;
+            boss->unkC = 0;
+            break;
+        case 0x64:
             boss->unk14 = -0x1C0;
-            var_r0_5 = 0x276;
-block_145:
-            boss->unk34 = var_r0_5;
-        }
-block_146:
-        var_r0 = 0xB100;
-        goto block_147;
-    case 0x276:
-        temp_r0_22 = boss->unk14 + 0x10;
-        boss->unk14 = temp_r0_22;
-        temp_r1_4 = boss->unk10 + temp_r0_22;
-        boss->unk10 = temp_r1_4;
-        if (temp_r1_4 > 0x47FF) {
-            boss->unk10 = 0x4800;
+            boss->unk34 = 0x6E;
+            break;
+        case 0x6E:
+            boss->unk14 += 0x10;
+            boss->unk10 += boss->unk14;
+
+            if (boss->unk10 >= 0x8000) {
+                boss->unk10 = 0x8000;
+                boss->unkC = -boss->unk14;
+                boss->unk14 = -0x180;
+                boss->unk34 = 0xC8;
+            }
+
+            boss->unk4 = 0xAD00 - boss->unk10;
+            break;
+        case 0xC8:
+            boss->unkC -= 0x20;
+            boss->unk4 += boss->unkC;
+            if (boss->unk4 <= 0) {
+                boss->unk4 = 0;
+            }
+            boss->unk10 += boss->unk14;
+            if (boss->unk10 <= 0x4800) {
+                boss->unk10 = 0x4800;
+            }
+
+            if ((boss->unk4 <= 0) && (boss->unk10 <= 0x4800)) {
+                s = (Sprite *)&boss->sprites48[6].s;
+                s->anim = 0x4C4;
+                s->variant = 1;
+                s = (Sprite *)&boss->sprites48[7].s;
+                s->anim = 0x4C4;
+                s->variant = 1;
+                boss->unkC = 0;
+                boss->unk36 = 0x3C;
+                boss->unk34 = 0x12C;
+            }
+            break;
+        case 0x12C:
+            if (--boss->unk36 == 0) {
+                boss->unk24[4] = 0;
+                if (boss->unk31 != 0) {
+                    boss->unk8 = +gUnknown_080D584C[boss->lives];
+                } else {
+                    boss->unk8 = -gUnknown_080D584C[boss->lives];
+                }
+
+                rnd = (u32)PseudoRandom32();
+                rnd = rnd % 10000U;
+
+                if (rnd <= 0x3E7U) {
+                    boss->unk36 = 0x3C;
+                } else if (rnd <= 0xF9FU) {
+                    boss->unk36 = 0xB4;
+                } else if (rnd <= 0x1F3FU) {
+                    boss->unk36 = 0xF0;
+                } else {
+                    boss->unk36 = 0x12C;
+                }
+                boss->unk31 ^= 1;
+                boss->unk34 = 0x136;
+            }
+            break;
+        case 0x136:
+            boss->unk0 += boss->unk8;
+            if (boss->unk8 < 0) {
+                if (boss->unk0 <= 0x52000) {
+                    boss->unk0 = 0x52000;
+                    boss->unk8 = -boss->unk8;
+                }
+            } else {
+                if (boss->unk0 >= 0x60800) {
+                    boss->unk0 = 0x60800;
+                    boss->unk8 = -boss->unk8;
+                }
+            }
+
+            if (--boss->unk36 == 0) {
+                boss->unk8 = 0;
+                boss->unk36 = 0x3C;
+                boss->unk34 = 0x190;
+            }
+            break;
+        case 0x190:
+            if (--boss->unk36 == 0) {
+                boss->unk34 = 0x19A;
+            }
+            break;
+        case 0x19A:
+            var_r5 = 0;
+            if (gStageData.difficulty == 0) {
+                if ((u32)boss->lives < 5) {
+                    var_r5 = 1;
+                }
+            } else if ((u32)boss->lives < 4) {
+                var_r5 = 1;
+            }
+
+            rnd = (u32)PseudoRandom32() >> 1;
+            rnd = rnd % 10000U;
+            if (var_r5 != 0) {
+                if (rnd < 0x1770) {
+                    boss->unk34 = 0x1F4;
+                } else {
+                    boss->unk34 = 0x258;
+                }
+            } else {
+                if (rnd < 0x1F40) {
+                    boss->unk34 = 0x1F4;
+                } else {
+                    boss->unk34 = 0x258;
+                }
+            }
+            break;
+        case 0x1F4:
+            boss->unk8 = 0;
+            boss->unkC = 0;
+            boss->unk14 = 0x200;
+            boss->unk34 = 0x1FE;
+            break;
+        case 0x1FE:
+            boss->unkC += 0x20;
+            if (boss->unkC >= 0x400) {
+                boss->unkC = 0x400;
+            }
+            boss->unk4 += boss->unkC;
+            boss->unk10 += boss->unk14;
+            if (boss->unk10 >= 0x8000) {
+                boss->unk10 = 0x8000;
+            }
+
+            if (check_range_inline(boss) == 1) {
+                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+                boss->unk14 = -0x200;
+                boss->unk34 = 0x203;
+                m4aSongNumStart(0x227U);
+            }
+            break;
+        case 0x203:
+            boss->unk10 += boss->unk14;
+            if (boss->unk10 <= 0x4800) {
+                boss->unk14 = -0x1C0;
+                boss->unk34 = 0x208;
+            }
+            boss->unk4 = 0xAD00 - boss->unk10;
+            break;
+        case 0x208:
+            boss->unk14 += 0x10;
+            boss->unk10 += boss->unk14;
+            if (boss->unk10 >= 0x4800) {
+                boss->unk10 = 0x4800;
+                boss->unk36 = 0x3C;
+                boss->unk34 = 0x212;
+            }
+            boss->unk4 = 0xAD00 - boss->unk10;
+            break;
+        case 0x212:
+            if (--boss->unk36 == 0) {
+                boss->unk34 = 100;
+            }
+            break;
+        case 0x258: {
+            s = (Sprite *)&boss->sprites48[6].s;
+            s->anim = 0x4C4;
+            s->variant = 0;
+            s = (Sprite *)&boss->sprites48[7].s;
+            s->anim = 0x4C4;
+            s->variant = 0;
             boss->unk36 = 0x3C;
-            boss->unk34 = 0x280;
-        }
-        goto block_146;
-    case 0x28A:
-        boss->unk14 = -0x1C0;
-        boss->unk34 = 0x294;
-        break;
-    case 0x294:
-        temp_r2_5 = boss->unk14 + 0x10;
-        boss->unk14 = temp_r2_5;
-        temp_r0_23 = boss->unk10 + temp_r2_5;
-        boss->unk10 = temp_r0_23;
-        if (temp_r0_23 > 0x7FFF) {
-            boss->unk10 = 0x8000;
-            boss->unkC = 0 - temp_r2_5;
-            boss->unk14 = -0x180;
-            var_r0_5 = 0xC8;
-            goto block_145;
-        }
-        goto block_146;
-    case 0x0:
-        boss->unk36 = 1;
-        boss->unk34 = 0x64;
-        boss->unk31 = 0;
-        boss->unk8 = (s32) temp_r2;
-        boss->unkC = (s32) temp_r2;
-        break;
-    case 0x64:
-        boss->unk14 = -0x1C0;
-        boss->unk34 = 0x6E;
-        break;
-    case 0x6E:
-        temp_r2_6 = boss->unk14 + 0x10;
-        boss->unk14 = temp_r2_6;
-        temp_r0_24 = boss->unk10 + temp_r2_6;
-        boss->unk10 = temp_r0_24;
-        if (temp_r0_24 > 0x7FFF) {
-            boss->unk10 = 0x8000;
-            boss->unkC = 0 - temp_r2_6;
-            boss->unk14 = -0x180;
-            boss->unk34 = 0xC8;
-        }
-        var_r0 = 0xAD00;
-        goto block_147;
+            boss->unk34 = 0x262;
+        } break;
+        case 0x262:
+            if (--boss->unk36 == 0) {
+                boss->unk8 = 0;
+                boss->unkC = 0;
+                boss->unk14 = 0x200;
+                boss->unk34 = 0x26C;
+            }
+            break;
+        case 0x26C:
+            boss->unkC += 0x20;
+            if (boss->unkC >= 0x400) {
+                boss->unkC = 0x400;
+            }
+            boss->unk4 += boss->unkC;
+            boss->unk10 += boss->unk14;
+            if (boss->unk10 >= 0x8000) {
+                boss->unk10 = 0x8000;
+            }
+
+            if (check_range_2_inline(boss) == 1) {
+                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+                boss->unk14 = -0x200;
+                boss->unk34 = 0x271;
+                boss->unk20 = 0xA;
+                m4aSongNumStart(0x227U);
+            }
+            break;
+        case 0x271:
+            boss->unk10 += boss->unk14;
+            if (boss->unk10 <= 0x4800) {
+                boss->unk14 = -0x1C0;
+                boss->unk34 = 0x276;
+            }
+            boss->unk4 = 0xB100 - boss->unk10;
+            break;
+        case 0x276:
+            boss->unk14 += 0x10;
+            boss->unk10 += boss->unk14;
+            if (boss->unk10 >= 0x4800) {
+                boss->unk10 = 0x4800;
+                boss->unk36 = 0x3C;
+                boss->unk34 = 0x280;
+            }
+            boss->unk4 = 0xB100 - boss->unk10;
+            break;
+        case 0x280:
+            if (--boss->unk36 == 0) {
+                boss->unk34 = 0x28A;
+            }
+            break;
+        case 0x28A:
+            boss->unk14 = -0x1C0;
+            boss->unk34 = 0x294;
+            break;
+        case 0x294:
+            boss->unk14 += 0x10;
+            boss->unk10 += boss->unk14;
+            if (boss->unk10 >= 0x8000) {
+                boss->unk10 = 0x8000;
+                boss->unkC = -boss->unk14;
+                boss->unk14 = -0x180;
+                boss->unk34 = 0xC8;
+            }
+            boss->unk4 = 0xB100 - boss->unk10;
+            break;
     }
     if (boss->unk32 != 0) {
-        temp_r0_25 = (u16) boss->unk32 - 1;
-        boss->unk32 = temp_r0_25;
-        if ((temp_r0_25 << 0x10) == 0) {
-            sub_806D808(boss, 0);
+        if (--boss->unk32 == 0) {
+            sub_806D808(boss, 0U);
         }
     }
     sub_806D568(boss);
 }
 
-void Task_EggFootInit(void) {
-    void (*var_r0)(EggFoot *);
+void Task_EggFootInit(void)
+{
+    EggFoot *boss = TASK_DATA(gCurTask);
 
-    if ((sub_8079FFC() << 0x18) != 0) {
-        var_r0 = sub_806E950;
+    if (sub_8079FFC() != 0) {
+        gCurTask->main = Task_806E950;
     } else {
-        var_r0 = Task_806D268;
+        gCurTask->main = Task_806D268;
     }
-    gCurTask->main = var_r0;
-    sub_806D6C4(M2C_ERROR(/* Read from unset register $r0 */));
+    sub_806D6C4(boss);
 }
 
-void sub_806E950(EggFoot *boss) {
+void Task_806E950(void)
+{
+    EggFoot *boss = TASK_DATA(gCurTask);
     if (*boss->bossPhase == 3) {
         TaskDestroy(gCurTask);
         return;
     }
     sub_806D6C4(boss);
     if ((*boss->bossPhase == 2) && ((sub_807A074() << 0x18) != 0)) {
-        gCurTask->main = (void (*)()) Task_806D268;
+        gCurTask->main = (void (*)())Task_806D268;
     }
 }
 
-void sub_806E99C(void) {
-    EggFoot *temp_r4;
+void sub_806E99C(void)
+{
+    EggFoot *boss = TASK_DATA(gCurTask);
 
-    temp_r4 = M2C_ERROR(/* Read from unset register $r0 */);
-    sub_806DD34(temp_r4);
-    sub_806D6C4(temp_r4);
+    sub_806DD34(boss);
+    sub_806D6C4(boss);
 }
 
-void sub_806E9C0(void) {
-    EggFoot *temp_r0;
-    Player *temp_r2;
-    Player *temp_r2_2;
+void sub_806E9C0(void)
+{
+    EggFoot *boss = TASK_DATA(gCurTask);
 
-    temp_r0 = M2C_ERROR(/* Read from unset register $r0 */);
-    temp_r2 = temp_r0->players[0];
-    temp_r2->moveState |= 0x08000000;
-    temp_r2_2 = temp_r0->players[1];
-    temp_r2_2->moveState |= 0x08000000;
-    sub_806D6C4(temp_r0);
+    boss->players[0]->moveState |= MOVESTATE_IGNORE_INPUT;
+    boss->players[1]->moveState |= MOVESTATE_IGNORE_INPUT;
+    sub_806D6C4(boss);
 }
 
-void Task_806E9F0(void) {
-    EggFoot *temp_r4;
+void Task_806E9F0(void)
+{
+    EggFoot *boss = TASK_DATA(gCurTask);
 
-    temp_r4 = M2C_ERROR(/* Read from unset register $r0 */);
-    sub_806DED8(temp_r4);
-    sub_806D6C4(temp_r4);
+    sub_806DED8(boss);
+    sub_806D6C4(boss);
 }
 
-void TaskDestructor_EggFoot(Task *t) {
-    u16 temp_r1;
-    void *temp_r0;
-    void *temp_r0_2;
+void TaskDestructor_EggFoot(Task *t)
+{
+    EggFoot *boss = TASK_DATA(t);
 
-    temp_r1 = t->data;
-    temp_r0 = temp_r1->unk38;
-    if (temp_r0 != NULL) {
-        VramFree(temp_r0);
-        temp_r1->unk38 = NULL;
+    if (boss->vram38 != NULL) {
+        VramFree(boss->vram38);
+        boss->vram38 = NULL;
     }
-    temp_r0_2 = temp_r1->unk3C;
-    if (temp_r0_2 != NULL) {
-        VramFree(temp_r0_2);
-        temp_r1->unk3C = NULL;
+
+    if (boss->vram3C != NULL) {
+        VramFree(boss->vram3C);
+        boss->vram3C = NULL;
     }
 }
 
-s32 sub_806EA40(void *arg0) {
-    s32 temp_r3;
-    s32 var_r4;
+s32 check_range(EggFoot *boss)
+{
+    s32 var_r3 = 0;
 
-    var_r4 = 0;
-    temp_r3 = arg0->unk10;
-    if ((s32) (arg0->unk4 + (temp_r3 + 0x800)) > 0xB4FF) {
-        arg0->unk4 = (s32) (0xAD00 - temp_r3);
-        var_r4 = 1;
+    // TODO: This should be able to be written with 2 conditions...
+    s32 var = boss->unk4 + 0x800 + boss->unk10;
+    if (var >= 0xB500) {
+        var = 0xAD00 - boss->unk10;
+        boss->unk4 = var;
+        var_r3 = 1;
     }
-    return var_r4;
+    return var_r3;
 }
 
-s32 sub_806EA70(void *arg0) {
-    s32 temp_r3;
-    s32 var_r4;
+s32 check_range_2(EggFoot *boss)
+{
+    s32 var_r3 = 0;
 
-    var_r4 = 0;
-    temp_r3 = arg0->unk10;
-    if ((s32) (arg0->unk4 + (temp_r3 + 0x800)) > 0xB8FF) {
-        arg0->unk4 = (s32) (0xB100 - temp_r3);
-        var_r4 = 1;
+    // TODO: This should be able to be written with 2 conditions...
+    s32 var = boss->unk4 + 0x800 + boss->unk10;
+    if (var >= 0xB900) {
+        var = 0xB100 - boss->unk10;
+        boss->unk4 = var;
+        var_r3 = 1;
     }
-    return var_r4;
+    return var_r3;
 }
 
-void sub_806EAA0(EggFoot *boss) {
-    Player **temp_r2;
-    Player *temp_r1;
-    u8 var_r3;
+void sub_806EAA0(EggFoot *boss)
+{
+    u8 pid;
 
     boss->unk34 = 0;
     boss->unk36 = 1;
     boss->unk20 = 0;
-    var_r3 = 0;
-    do {
-        temp_r2 = &boss->players[var_r3];
-        temp_r1 = *temp_r2;
-        temp_r1->moveState |= 0x08000000;
-        temp_r1->qSpeedGround = 0;
-        (*temp_r2)->qSpeedAirX = 0;
-        var_r3 += 1;
-    } while ((u32) var_r3 <= 1U);
+
+    for (pid = 0; pid < ARRAY_COUNT(boss->players); pid++) {
+        boss->players[pid]->moveState |= MOVESTATE_IGNORE_INPUT;
+        boss->players[pid]->qSpeedGround = 0;
+        boss->players[pid]->qSpeedAirX = 0;
+    }
 }
-#endif
