@@ -277,6 +277,8 @@
 #define SE_551                  0x227
 #define SE_552                  0x228
 
+#define SE_558 0x22E
+
 #define SE_EXTRA_BOSS_578     0x23F
 #define SE_576                0x240
 #define SE_577                0x241

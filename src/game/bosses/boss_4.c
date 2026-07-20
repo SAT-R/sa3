@@ -1,10 +1,13 @@
 #include "global.h"
 #include "core.h"
 #include "trig.h"
+#include "multi_sio_stuff.h"
+#include "lib/m4a/m4a.h"
 #include "malloc_vram.h"
 #include "game/bosses.h"
 #include "game/stage.h"
 #include "game/sa3/bosses/more_gemerl.h"
+#include "game/shared/stage/music_manager.h"
 #include "game/shared/stage/player.h"
 #include "constants/animations.h"
 #include "constants/move_states.h"
@@ -30,7 +33,7 @@ typedef struct {
     /* 0x026 */ s16 unk26;
     /* 0x028 */ s16 unk28;
     /* 0x02A */ s16 unk2A;
-    /* 0x02C */ s16 unk2C;
+    /* 0x02C */ u16 unk2C;
     /* 0x02E */ s16 unk2E;
     /* 0x030 */ s16 unk30;
     /* 0x032 */ u8 unk32;
@@ -62,14 +65,27 @@ typedef struct {
 } EggCube; /* 0x188 */
 
 void Task_EggCubeInit(void);
-void sub_806ED00(void);
-void sub_806F5F0(Player *p);
+void Task_EggCube_806ED00(void);
+void Task_EggCube_806EDE8(void);
+void Task_EggCube_806EEB8(void);
+void sub_806EFE8(EggCube *boss);
+bool32 sub_806F5F0(Player *p);
+void Task_EggCube_806F3A0(void);
+void sub_806F2B8(EggCube *boss);
 void sub_806FA0C(EggCube *boss);
+void sub_806FAFC(EggCube *boss, u8 param1);
+void SpawnGuardEnemy(EggCube *boss, u8 param1);
 void sub_8070138(EggCube *boss);
 void sub_8070208(EggCube *boss);
+void sub_8071410(EggCube *boss);
+void sub_8071664(void);
 void sub_8071904(EggCube *boss, u16 param1);
+void sub_8071968(EggCube *boss, u8 param1);
 void sub_80719B4(EggCube *boss);
+void sub_80719C8(EggCube *boss);
 void TaskDestructor_EggCube(struct Task *t);
+
+extern const u16 gUnknown_080D5880[4];
 
 Task *CreateEggCube(u8 *bossPhase, s32 worldX, s32 worldY)
 {
@@ -149,7 +165,7 @@ Task *CreateEggCube(u8 *bossPhase, s32 worldX, s32 worldY)
     return t;
 }
 
-void sub_806EC50(void)
+void Task_EggCube_806EC50(void)
 {
     EggCube *boss = TASK_DATA(gCurTask);
     Player *p, *partner;
@@ -172,6 +188,153 @@ void sub_806EC50(void)
     }
 
     if ((*boss->bossPhase == 2) && (sub_807A074() != 0)) {
-        gCurTask->main = sub_806ED00;
+        gCurTask->main = Task_EggCube_806ED00;
     }
+}
+
+void Task_EggCube_806ED00(void)
+{
+    Player *p;
+    Player *partner;
+    s16 pid;
+    EggCube *boss = TASK_DATA(gCurTask);
+
+    if (*boss->bossPhase == 3) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    sub_806F5F0(boss->player);
+    sub_806F5F0(boss->partner);
+    sub_8070208(boss);
+    sub_806FA0C(boss);
+
+    if (*boss->bossPhase == 2) {
+        for (pid = 0; pid < NUM_SINGLE_PLAYER_CHARS; pid++) {
+            Player *p = &gPlayers[pid];
+            if (I(p->qWorldX) < 1296 || I(p->qWorldX) >= 1712) {
+                return;
+            }
+        }
+
+        p = &gPlayers[gStageData.playerIndex];
+        partner = &gPlayers[p->charFlags.partnerIndex];
+        if (I(p->qWorldX) < 1342) {
+            if (partner->qWorldX > p->qWorldX) {
+                p->qWorldX = Q(1342);
+            }
+        }
+
+        sub_80299D4(50);
+        boss->unk13 = 1;
+        gCurTask->main = Task_EggCube_806EDE8;
+    }
+}
+
+void Task_EggCube_806EDE8(void)
+{
+    EggCube *boss = TASK_DATA(gCurTask);
+
+    boss->unk2C++;
+
+    sub_806F5F0(boss->player);
+    sub_806F5F0(boss->partner);
+
+    switch (boss->unk2C) {
+        case 60:
+            sub_8071968(boss, 1U);
+            m4aSongNumStart(SE_558);
+            sub_806FAFC(boss, 1U);
+            boss->unk18 = 1;
+            sub_806F2B8(boss);
+            break;
+
+        case 240:
+            sub_8071968(boss, 0U);
+            UpdateSpriteAnimation(&boss->sprD0);
+            break;
+
+        case 300:
+            sub_806FAFC(boss, 2U);
+            break;
+
+        case 400:
+            boss->unk2C = 0;
+            boss->unk18 = 1;
+            boss->unk12 = 0;
+            boss->unk13 = 0;
+            sub_806FAFC(boss, 0U);
+            sub_8071904(boss, 1U);
+            sub_807A4A8();
+            gCurTask->main = Task_EggCube_806EEB8;
+            break;
+    }
+
+    sub_8070208(boss);
+    sub_806FA0C(boss);
+}
+
+void Task_EggCube_806EEB8(void)
+{
+    s16 temp_r0;
+    s32 temp_r1;
+    s32 temp_r1_2;
+    s32 var_r2;
+    u8 temp_r4;
+    EggCube *boss = TASK_DATA(gCurTask);
+
+    boss->unk2C++;
+    temp_r1 = I(boss->qWorldX);
+    if (temp_r1 > 0x677) {
+        if (gStageData.gameMode == 5) {
+            if (gStageData.playerIndex != 0) {
+                gCurTask->main = sub_8071664;
+            } else {
+                sub_8027674(1U, (u16)temp_r1);
+                sub_80719C8(boss);
+                gCurTask->main = Task_EggCube_806F3A0;
+            }
+        } else {
+            sub_80719C8(boss);
+            gCurTask->main = Task_EggCube_806F3A0;
+        }
+        sub_806FA0C(boss);
+        return;
+    }
+    temp_r4 = sub_806F5F0(boss->player);
+    if (((temp_r4 + sub_806F5F0(boss->partner)) << 0x18) != 0) {
+        if (gStageData.gameMode == 5) {
+            if (gStageData.playerIndex == 0) {
+                sub_8071410(boss);
+            }
+        } else {
+            sub_8071410(boss);
+        }
+    }
+
+    if (boss->unk19 != 0) {
+        boss->unk19--;
+    }
+
+    sub_806EFE8(boss);
+    sub_8070208(boss);
+
+    if (--boss->unk20 == 0) {
+        temp_r1_2 = boss->qWorldX;
+        if (temp_r1_2 > 0x62FFF) {
+            var_r2 = 3;
+        } else if (temp_r1_2 > 0x611FF) {
+            var_r2 = 2;
+        } else if (temp_r1_2 > 0x5D5FF) {
+            var_r2 = 1;
+        } else {
+            var_r2 = 0;
+        }
+        boss->unk20 = gUnknown_080D5880[var_r2];
+        boss->unk1B ^= 1;
+        SpawnGuardEnemy(boss, 0U);
+        SpawnGuardEnemy(boss, 1U);
+        SpawnGuardEnemy(boss, 2U);
+    }
+    sub_806FA0C(boss);
 }
