@@ -341,3 +341,215 @@ void Task_EggCube_806EEB8(void)
     }
     sub_806FA0C(boss);
 }
+
+#if 0
+void sub_806EFE8(EggCube *boss)
+{
+    Player *temp_r2_4;
+    Player *temp_r2_5;
+    s32 temp_r0_2;
+    s32 temp_r0_3;
+    s32 temp_r0_5;
+    s32 temp_r1;
+    s32 temp_r1_2;
+    s32 temp_r1_3;
+    s32 temp_r2;
+    s32 temp_r2_2;
+    s32 temp_r2_3;
+    s32 temp_r6;
+    s32 temp_r6_2;
+    s32 var_r0_2;
+    s32 var_r0_3;
+    s32 var_r0_4;
+    s32 var_r0_5;
+    s32 var_r1_2;
+    s32 var_r3;
+    u16 temp_r0;
+    u16 temp_r0_4;
+    u16 temp_r0_6;
+    u16 temp_r0_7;
+    u16 var_r0;
+    u8 temp_r3;
+    u8 var_r1;
+
+    if ((boss->unk10 == 2 || boss->unk10 == 3) && ((I(boss->unkC) & 3) == 0)) {
+        sub_8079758(8U, (I(boss->qWorldX) - 32),
+						(I(boss->qWorldY) -  4), 0, 0U, 0x10U, 0, NULL);
+    }
+    if (boss->unk10 != 4) {
+        if (boss->unk1D == 0) {
+            if ((s32)((s32)boss->qWorldX >> 8) > 0x617) {
+                sub_80299D4(0x33);
+                boss->unk1D ^= 1;
+            }
+        } else if ((s32)((s32)boss->qWorldX >> 8) <= 0x617) {
+            sub_80299D4(0x32);
+            boss->unk1D ^= 1;
+        }
+    }
+    temp_r6 = boss->qWorldX;
+    temp_r0 = boss->unk10;
+    switch ((u32)temp_r0) { /* switch 1; irregular */
+        case 0: /* switch 1 */
+            break;
+        case 1: /* switch 1 */
+            temp_r0_2 = boss->qWorldX + boss->unk8;
+            boss->qWorldX = temp_r0_2;
+            if ((s32)(temp_r0_2 >> 8) > 0x550) {
+
+            } else {
+                boss->qWorldX = 0x55000;
+                var_r1 = boss->unk13;
+                if (var_r1 != 0) {
+
+                } else {
+                    boss->unk24 = 0x65;
+                    boss->unk13 = 1;
+                    if (boss->unk10 == 4) {
+
+                    } else {
+                        boss->unk10 = 4U;
+                        boss->unk1A = 0;
+                    block_55:
+                        var_r0_2 = 0x800;
+                    block_56:
+                        boss->unk8 = var_r0_2;
+                        boss->unkC = (s32)var_r1;
+                    }
+                }
+            }
+            break;
+        case 2: /* switch 1 */
+            temp_r2 = boss->unk8;
+            temp_r1 = boss->qWorldX + temp_r2;
+            boss->qWorldX = temp_r1;
+            var_r3 = 0x1800;
+            if (gStageData.difficulty == 0) {
+                var_r3 = 0x1000;
+            }
+            temp_r0_3 = boss->unkC + temp_r2;
+            boss->unkC = temp_r0_3;
+            if (temp_r0_3 < var_r3) {
+
+            } else if (boss->unk10 == 0) {
+
+            } else {
+                boss->unk10 = 0U;
+                temp_r0_4 = boss->unk10;
+                switch (temp_r0_4) { /* switch 2; irregular */
+                    case 0: /* switch 2 */
+                        boss->unk1A = 0;
+                        boss->unk8 = 0;
+                        boss->unkC = 0;
+                        break;
+                    case 1: /* switch 2 */
+                        var_r0_3 = -8;
+                    block_37:
+                        boss->unk8 = var_r0_3;
+                        boss->unkC = 0;
+                        break;
+                    case 2: /* switch 2 */
+                        boss->unk8 = 0x80;
+                        boss->unkC = 0;
+                        var_r1_2 = temp_r1 >> 8;
+                    block_52:
+                        if (var_r1_2 > 0x66F) {
+                            boss->unk10 = 3U;
+                        }
+                        break;
+                    case 4: /* switch 2 */
+                        boss->unk1A = 0;
+                        var_r0_3 = 0x800;
+                        goto block_37;
+                }
+            }
+            break;
+        case 3: /* switch 1 */
+            boss->qWorldX += boss->unk8;
+            temp_r0_5 = boss->unkC + boss->unk8;
+            boss->unkC = temp_r0_5;
+            if (temp_r0_5 <= 0x1FFF) {
+
+            } else if (boss->unk10 != 0) {
+                var_r1 = 0;
+                boss->unk10 = 0U;
+                switch (boss->unk10) {
+                    case 0:
+                        boss->unk1A = 0;
+                        boss->unk8 = 0;
+                        boss->unkC = 0;
+                        break;
+                    case 1:
+                        boss->unk8 = -8;
+                        boss->unkC = 0;
+                    case 2:
+                        boss->unk8 = 0x80;
+                        boss->unkC = 0;
+                        var_r1_2 = boss->qWorldX >> 8;
+                        goto block_52;
+                    case 4:
+                        boss->unk1A = 0;
+                        boss->unk8 = 0x800;
+                        boss->unkC = 0;
+                }
+            }
+            break;
+        case 4:
+            boss->qWorldX = boss->qWorldX + boss->unk8;
+            if (1 & boss->unk1A) {
+                if (I(boss->qWorldX) <= 0x550)
+                    {
+                    boss->qWorldX = Q(0x550);
+                    boss->unk8 = (s32)(0 - boss->unk8);
+                    boss->unk1A++;
+                }
+            } else if (I(boss->qWorldX) > 0x64F) {
+                boss->qWorldX = Q(0x650);
+                boss->unk8 = (s32)(0 - boss->unk8);
+                boss->unk1A++;
+            }
+            if (((s8)boss->unk1A == 10) && (I(boss->qWorldX) > 0x5CF)) {
+                boss->qWorldX = Q(0x5D0);
+                if (boss->unk10 != 0) {
+                    boss->unk10 = 0U;
+                    temp_r0_7 = boss->unk10; // Huh?	
+                    switch (temp_r0_7) {
+                        case 0:
+                            boss->unk1A = 0;
+                            boss->unk8 = 0;
+                            boss->unkC = 0;
+                            break;
+                        case 1:
+                            boss->unk8 = -8;
+                            boss->unkC = 0;
+                            break;
+                        case 2:
+                            boss->unk8 = 0x80;
+                            boss->unkC = 0;
+                            break;
+                        case 4:
+                            boss->unk1A = 0;
+                            boss->unk8 = 0x800;
+                            boss->unkC = 0;
+                            break;
+                    }
+                }
+                boss->unk12 = 1;
+                sub_806F2B8(boss);
+                boss->unk12 = 0;
+                sub_806FAFC(boss, 1U);
+                m4aSongNumStart(0x22EU);
+            }
+            break;
+    }
+    temp_r6_2 = boss->qWorldX - temp_r6;
+    temp_r2_4 = boss->player;
+    if ((temp_r2_4->moveState & 0x20) && (temp_r2_4->sprColliding == &boss->spr70)) {
+        temp_r2_4->qWorldX += temp_r6_2;
+    }
+    temp_r2_5 = boss->partner;
+    if ((temp_r2_5->moveState & 0x20) && (temp_r2_5->sprColliding == &boss->spr70)) {
+        temp_r2_5->qWorldX += temp_r6_2;
+    }
+}
+#endif

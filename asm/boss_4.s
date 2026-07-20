@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start sub_806EFE8
 sub_806EFE8: @ 0x0806EFE8
 	push {r4, r5, r6, lr}
@@ -402,6 +400,7 @@ _0806F2AC:
 	bx r0
 	.align 2, 0
 _0806F2B4: .4byte 0x0000022E
+.endif
 
 	thumb_func_start sub_806F2B8
 sub_806F2B8: @ 0x0806F2B8
