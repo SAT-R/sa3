@@ -85,7 +85,12 @@ void sub_80719B4(EggCube *boss);
 void sub_80719C8(EggCube *boss);
 void TaskDestructor_EggCube(struct Task *t);
 
-extern const u16 gUnknown_080D5880[4];
+const u16 gUnknown_080D5880[4] = {
+    0x0276,
+    0x021C,
+    0x0168,
+    0x00E1,
+};
 
 Task *CreateEggCube(u8 *bossPhase, s32 worldX, s32 worldY)
 {
@@ -276,21 +281,16 @@ void Task_EggCube_806EDE8(void)
 
 void Task_EggCube_806EEB8(void)
 {
-    s16 temp_r0;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 var_r2;
-    u8 temp_r4;
     EggCube *boss = TASK_DATA(gCurTask);
+    u8 temp_r4;
 
     boss->unk2C++;
-    temp_r1 = I(boss->qWorldX);
-    if (temp_r1 > 0x677) {
+    if (I(boss->qWorldX) > 0x677) {
         if (gStageData.gameMode == 5) {
             if (gStageData.playerIndex != 0) {
                 gCurTask->main = sub_8071664;
             } else {
-                sub_8027674(1U, (u16)temp_r1);
+                sub_8027674(1U, I(boss->qWorldX));
                 sub_80719C8(boss);
                 gCurTask->main = Task_EggCube_806F3A0;
             }
@@ -301,10 +301,12 @@ void Task_EggCube_806EEB8(void)
         sub_806FA0C(boss);
         return;
     }
+
     temp_r4 = sub_806F5F0(boss->player);
-    if (((temp_r4 + sub_806F5F0(boss->partner)) << 0x18) != 0) {
-        if (gStageData.gameMode == 5) {
-            if (gStageData.playerIndex == 0) {
+    temp_r4 += sub_806F5F0(boss->partner);
+    if (temp_r4 != 0) {
+        if (gStageData.gameMode == GAME_MODE_5) {
+            if (gStageData.playerIndex == PLAYER_1) {
                 sub_8071410(boss);
             }
         } else {
@@ -320,17 +322,18 @@ void Task_EggCube_806EEB8(void)
     sub_8070208(boss);
 
     if (--boss->unk20 == 0) {
-        temp_r1_2 = boss->qWorldX;
-        if (temp_r1_2 > 0x62FFF) {
-            var_r2 = 3;
-        } else if (temp_r1_2 > 0x611FF) {
-            var_r2 = 2;
-        } else if (temp_r1_2 > 0x5D5FF) {
-            var_r2 = 1;
+        s32 index;
+
+        if (boss->qWorldX >= Q(0x630)) {
+            index = 3;
+        } else if (boss->qWorldX >= Q(0x612)) {
+            index = 2;
+        } else if (boss->qWorldX >= Q(0x5D6)) {
+            index = 1;
         } else {
-            var_r2 = 0;
+            index = 0;
         }
-        boss->unk20 = gUnknown_080D5880[var_r2];
+        boss->unk20 = gUnknown_080D5880[index];
         boss->unk1B ^= 1;
         SpawnGuardEnemy(boss, 0U);
         SpawnGuardEnemy(boss, 1U);
