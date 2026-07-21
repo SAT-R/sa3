@@ -864,12 +864,10 @@ void sub_806FA0C(EggCube *boss)
 
     if (boss->unk32 != 0) {
         for (var_r4 = 0; var_r4 < 2; var_r4++) {
-            Player *player;
-            // TODO: screenX is NOT the correct variable name,
+            // TODO: screenX is (probably?) NOT the correct variable name,
             //       but using it, matches the code...
             screenX = 0;
 
-            player = boss->players[var_r4];
             if (boss->players[var_r4]->qWorldX >= Q(0x65F)) {
                 boss->players[var_r4]->qWorldX = Q(0x65F);
                 screenX = 1;
