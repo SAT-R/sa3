@@ -6,6 +6,7 @@
 #include "malloc_vram.h"
 #include "game/bosses.h"
 #include "game/stage.h"
+#include "game/shared/stage/player_callbacks.h"
 #include "game/shared/stage/screen_shake.h"
 #include "game/sa3/bosses/more_gemerl.h"
 #include "game/shared/stage/music_manager.h"
@@ -96,6 +97,7 @@ void sub_806F56C(void);
 void sub_807A37C(void);
 void TaskDestructor_EggCube(struct Task *t);
 extern void sub_8078E34(s32 *, VoidFn);
+extern bool32 sub_807A1DC(Sprite *);
 
 const u16 gUnknown_080D5880[4] = {
     0x0276,
@@ -656,7 +658,7 @@ void sub_806F56C()
                 VramFree(boss->vram34);
                 boss->vram34 = NULL;
             }
-            boss->qWorldY += 0xFFFFD800;
+            boss->qWorldY -= Q(40);
             sp00[0] = I(boss->qWorldX);
             sp00[1] = I(boss->qWorldY);
             sp00[2] = I(boss->qWorldX);
@@ -672,4 +674,157 @@ void sub_806F56C()
             }
             break;
     }
+}
+
+u32 sub_806F5F0(Player *p)
+{
+    Player *player;
+    Sprite *s;
+    Sprite *temp_r5;
+    u32 temp_r0;
+    u32 result = 0;
+    EggCube *boss = TASK_DATA(gCurTask);
+
+    s = &boss->sprD0;
+    if (sub_802C080(p) == 0) {
+        s32 unk98 = boss->unk98;
+        s32 unk9C = boss->unk9C;
+        if ((boss->unk22 == 0) && (boss->unk19 == 0)) {
+            sub_8004D68(unk98, unk9C);
+        }
+
+        if ((gPlayers[gStageData.playerIndex].charFlags.character == CREAM)
+            || (gPlayers[gPlayers[gStageData.playerIndex].charFlags.partnerIndex].charFlags.character == CREAM)) {
+            s->x = I(boss->unk98) - gCamera.x;
+            s->y = I(boss->unk9C) - gCamera.y;
+
+            if (sub_807A1DC(s) == 1) {
+                result = 1;
+            }
+        }
+        boss->spr70.hitboxes[0].b.left = -30;
+        boss->spr70.hitboxes[0].b.top = -53;
+        boss->spr70.hitboxes[0].b.right = +30;
+        boss->spr70.hitboxes[0].b.bottom = 0;
+        temp_r5 = &boss->spr70;
+        temp_r0 = sub_8020950(temp_r5, I(boss->qWorldX), I(boss->qWorldY), p, 0U);
+
+        if (0x10000 & temp_r0) {
+            if (((u16)boss->unk30 == 1) && (boss->unk12 == 0)) {
+                if ((p->moveState & 0x20) && (p->sprColliding == temp_r5)) {
+                    Player_8014550(p);
+                } else {
+                    Player_800E67C(p);
+                    p->qSpeedAirY -= Q(3);
+                }
+            } else {
+                Sprite *s = (Sprite *)&p->spriteInfoBody->s;
+                p->qWorldY = ((p->qWorldY + Q_8_8(temp_r0 + 1)) & 0xFFFFFF00) - 1;
+                p->qSpeedAirY = 0;
+                s->hitboxes[1].index = -1;
+            }
+        } else {
+            if (0x40000 & temp_r0) {
+                p->qWorldX += (s16)(temp_r0 & 0xFF00);
+                if ((s32)p->qSpeedAirX < 0) {
+                    p->qSpeedAirX = 0;
+                }
+                p->qSpeedGround = 0;
+                if (0x20 & p->keyInput) {
+                    p->qWorldX += 0xFFFFFF00;
+                    p->moveState |= 0x40;
+                }
+            }
+            if (0x80000 & temp_r0) {
+                p->qWorldX += (s16)(temp_r0 & 0xFF00);
+                if ((s32)p->qSpeedAirX > 0) {
+                    p->qSpeedAirX = 0;
+                }
+                p->qSpeedGround = 0;
+                if (0x10 & p->keyInput) {
+                    p->qWorldX += 0x100;
+                    p->moveState |= 0x40;
+                }
+            }
+        }
+        if (boss->unk24 || boss->unk12 || boss->unk13) {
+            if (boss->unk12 != 0) {
+                temp_r0 = sub_8020950(s, (s32)boss->unk98 >> 8, (s32)boss->unk9C >> 8, p, 0U);
+                if (0x10000 & temp_r0) {
+                    s = (Sprite *)&p->spriteInfoBody->s;
+                    p->qWorldY = ((p->qWorldY + (s16)((temp_r0 + 1) << 8)) & 0xFFFFFF00) - 1;
+                    p->qSpeedAirY = 0;
+                    s->hitboxes[1].index = -1;
+                } else {
+                    if (0x40000 & temp_r0) {
+                        p->qWorldX += (s16)(temp_r0 & 0xFF00);
+                        if ((s32)p->qSpeedAirX < 0) {
+                            p->qSpeedAirX = 0;
+                        }
+                        p->qSpeedGround = 0;
+                        if (DPAD_LEFT & p->keyInput) {
+                            p->qWorldX -= Q(1);
+                            p->moveState |= 0x40;
+                        }
+                    }
+                    if (0x80000 & temp_r0) {
+                        p->qWorldX += (s16)(temp_r0 & 0xFF00);
+                        if ((s32)p->qSpeedAirX > 0) {
+                            p->qSpeedAirX = 0;
+                        }
+                        p->qSpeedGround = 0;
+                        if (DPAD_RIGHT & p->keyInput) {
+                            p->qWorldX += Q(1);
+                            p->moveState |= 0x40;
+                        }
+                    }
+                }
+            }
+            return FALSE;
+        }
+    }
+
+    if (!sub_802C0D4(p) && ((gStageData.unk4 != 6 && gStageData.unk4 != 7 && gStageData.unk4 != 8) && (boss->unk22 == 0))) {
+        if (sub_8020E3C(s, I(boss->unk98), I(boss->unk9C), 0, p) != 0) {
+            if (p->moveState & 4) {
+                s32 qNewSpeedX = -p->qSpeedAirX;
+                s32 qNewSpeedY = -p->qSpeedAirY;
+                p->qSpeedAirX = (s16)qNewSpeedX >> 1;
+                p->qSpeedAirY = (s16)qNewSpeedY >> 1;
+
+                if (ABS(p->qSpeedAirX) < Q(1.5)) {
+                    if (p->qSpeedAirX <= 0) {
+                        p->qSpeedAirX = -Q(1.5);
+                    } else {
+                        p->qSpeedAirX = +Q(1.5);
+                    }
+                }
+
+                if (ABS(p->qSpeedAirY) < Q(1.5)) {
+                    if (p->qSpeedAirY <= 0) {
+                        p->qSpeedAirY = -Q(1.5);
+                    } else {
+                        p->qSpeedAirY = +Q(1.5);
+                    }
+                }
+                p->qWorldY += p->qSpeedAirY;
+                p->qWorldX += p->qSpeedAirX;
+            } else {
+                s32 qSpeedGround;
+                qSpeedGround = -p->qSpeedGround;
+                p->qSpeedGround = qSpeedGround;
+                p->qSpeedGround = (s16)((s32)(p->qSpeedGround + ((u32)p->qSpeedGround >> 0x1F)) >> 1);
+                p->qWorldX += p->qSpeedGround;
+            }
+
+            if (p->charFlags.anim0 == 0xD4) {
+                Player_800DB30(p);
+            }
+            result = 1;
+        } else {
+            sub_8020CE0(s, (s32)boss->unk98 >> 8, (s32)boss->unk9C >> 8, 0, p);
+        }
+    }
+
+    return result;
 }
