@@ -45,8 +45,7 @@ typedef struct {
     /* 0x033 */ u8 *vram34;
     /* 0x038 */ u8 *vram38;
     /* 0x03C */ u8 *vram3C;
-    /* 0x040 */ Player *player;
-    /* 0x044 */ Player *partner;
+    /* 0x040 */ Player *players[2];
     /* 0x048 */ Sprite spr48;
     /* 0x070 */ Sprite spr70;
     /* 0x098 */ s32 unk98;
@@ -84,6 +83,7 @@ void sub_806FE98(EggCube *boss);
 void SpawnGuardEnemy(EggCube *boss, u8 param1);
 void sub_8070138(EggCube *boss);
 void sub_8070208(EggCube *boss);
+void sub_8070370(EggCube *boss);
 void sub_8071410(EggCube *boss);
 void sub_8071664(void);
 void sub_8071904(EggCube *boss, u16 param1);
@@ -154,8 +154,8 @@ Task *CreateEggCube(u8 *bossPhase, s32 worldX, s32 worldY)
     boss->unk18 = 0;
     boss->bossPhase = bossPhase;
     boss->unk19 = 0;
-    boss->player = &gPlayers[PLAYER_1];
-    boss->partner = &gPlayers[gPlayers->charFlags.partnerIndex];
+    boss->players[0] = &gPlayers[PLAYER_1];
+    boss->players[1] = &gPlayers[gPlayers->charFlags.partnerIndex];
     boss->unk20 = 0x12C;
     boss->unk1A = 0;
     boss->unk2E = 0;
@@ -224,8 +224,8 @@ void Task_EggCube_806EC50(void)
         return;
     }
 
-    sub_806F5F0(boss->player);
-    sub_806F5F0(boss->partner);
+    sub_806F5F0(boss->players[0]);
+    sub_806F5F0(boss->players[1]);
     sub_8070208(boss);
     sub_806FA0C(boss);
 
@@ -253,8 +253,8 @@ void Task_EggCube_806ED00(void)
         return;
     }
 
-    sub_806F5F0(boss->player);
-    sub_806F5F0(boss->partner);
+    sub_806F5F0(boss->players[0]);
+    sub_806F5F0(boss->players[1]);
     sub_8070208(boss);
     sub_806FA0C(boss);
 
@@ -286,8 +286,8 @@ void Task_EggCube_806EDE8(void)
 
     boss->unk2C++;
 
-    sub_806F5F0(boss->player);
-    sub_806F5F0(boss->partner);
+    sub_806F5F0(boss->players[0]);
+    sub_806F5F0(boss->players[1]);
 
     switch (boss->unk2C) {
         case 60:
@@ -346,8 +346,8 @@ void Task_EggCube_806EEB8(void)
         return;
     }
 
-    temp_r4 = sub_806F5F0(boss->player);
-    temp_r4 += sub_806F5F0(boss->partner);
+    temp_r4 = sub_806F5F0(boss->players[0]);
+    temp_r4 += sub_806F5F0(boss->players[1]);
     if (temp_r4 != 0) {
         if (gStageData.gameMode == GAME_MODE_5) {
             if (gStageData.playerIndex == PLAYER_1) {
@@ -472,11 +472,11 @@ void sub_806EFE8(EggCube *boss)
             break;
     }
     qPrevWorldX = boss->qWorldX - qPrevWorldX;
-    if ((boss->player->moveState & MOVESTATE_COLLIDING_ENT) && (boss->player->sprColliding == &boss->spr70)) {
-        boss->player->qWorldX += qPrevWorldX;
+    if ((boss->players[0]->moveState & MOVESTATE_COLLIDING_ENT) && (boss->players[0]->sprColliding == &boss->spr70)) {
+        boss->players[0]->qWorldX += qPrevWorldX;
     }
-    if ((boss->partner->moveState & MOVESTATE_COLLIDING_ENT) && (boss->partner->sprColliding == &boss->spr70)) {
-        boss->partner->qWorldX += qPrevWorldX;
+    if ((boss->players[1]->moveState & MOVESTATE_COLLIDING_ENT) && (boss->players[1]->sprColliding == &boss->spr70)) {
+        boss->players[1]->qWorldX += qPrevWorldX;
     }
 }
 
@@ -637,9 +637,9 @@ void Task_EggCube_806F3A0(void)
             }
             break;
     }
-    temp_r1_4 = boss->player;
+    temp_r1_4 = boss->players[0];
     temp_r1_4->moveState |= MOVESTATE_IGNORE_INPUT;
-    temp_r1_5 = boss->partner;
+    temp_r1_5 = boss->players[1];
     temp_r1_5->moveState |= MOVESTATE_IGNORE_INPUT;
     sub_8070208(boss);
     sub_806FA0C(boss);
@@ -650,7 +650,7 @@ void sub_806F56C()
     s32 sp00[4];
     u16 var_r0;
     EggCube *boss = TASK_DATA(gCurTask);
-    Player *player = boss->player;
+    Player *player = boss->players[0];
 
     switch (boss->unk2C) {
         case 0:
@@ -827,4 +827,88 @@ u32 sub_806F5F0(Player *p)
     }
 
     return result;
+}
+
+// TODO: Fake-match
+// (100.00%) https://decomp.me/scratch/H3hQ7
+void sub_806FA0C(EggCube *boss)
+{
+    Sprite *s;
+    s16 screenX;
+    s16 screenY;
+    u8 var_r4;
+
+    screenX = I(boss->qWorldX) - gCamera.x;
+    screenY = I(boss->qWorldY) - gCamera.y;
+    s = &boss->spr48;
+    s->x = screenX;
+    s->y = screenY;
+
+    UpdateSpriteAnimation(s);
+
+    s->frameFlags &= ~0x400;
+    DisplaySprite(s);
+    s->frameFlags |= 0x400;
+    DisplaySprite(s);
+
+    s = &boss->spr70;
+    s->x = screenX;
+    s->y = screenY;
+    s->frameFlags &= 0xFFFFFBFF;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+    s->frameFlags |= 0x400;
+    DisplaySprite(s);
+
+    sub_8070370(boss);
+
+    if (boss->unk32 != 0) {
+        for (var_r4 = 0; var_r4 < 2; var_r4++) {
+            Player *player;
+            // TODO: screenX is NOT the correct variable name,
+            //       but using it, matches the code...
+            screenX = 0;
+
+            player = boss->players[var_r4];
+            if (boss->players[var_r4]->qWorldX >= Q(0x65F)) {
+                boss->players[var_r4]->qWorldX = Q(0x65F);
+                screenX = 1;
+            } else if (boss->players[var_r4]->qWorldX <= Q(0x541)) {
+                boss->players[var_r4]->qWorldX = Q(0x541);
+                screenX = 1;
+            }
+            if (screenX != 0) {
+                boss->players[var_r4]->qSpeedAirX = 0;
+                boss->players[var_r4]->qSpeedGround = 0;
+            }
+        }
+    }
+}
+
+void sub_806FAFC(EggCube *boss, u8 param1)
+{
+    u8 temp_r1;
+
+    switch (param1) {
+        case 0: {
+            boss->spr48.variant = 0;
+            boss->spr70.variant = 0;
+            boss->unk30 = 0;
+        } break;
+
+        case 1: {
+            boss->spr48.variant = 1;
+            boss->spr70.variant = 1;
+            boss->unk30 = 1;
+        } break;
+
+        case 2: {
+            boss->spr48.variant = 2;
+            boss->spr70.variant = 2;
+            boss->unk30 = 2;
+        } break;
+    }
+
+    boss->spr48.prevVariant = -1;
+    boss->spr70.prevVariant = -1;
 }
