@@ -910,3 +910,65 @@ void sub_806FAFC(EggCube *boss, u8 param1)
     boss->spr48.prevVariant = -1;
     boss->spr70.prevVariant = -1;
 }
+
+typedef struct {
+    /* 0x00 */ EggCube *boss;
+    /* 0x04 */ Sprite s;
+    /* 0x2C */ s32 unk2C;
+    /* 0x30 */ s32 unk30;
+    /* 0x34 */ s16 unk34;
+    /* 0x36 */ s16 unk36;
+    /* 0x38 */ u8 unk38;
+    /* 0x39 */ u8 unk39;
+    /* 0x3A */ u8 filler3a[2];
+} EggCubeGuard;
+
+void Task_Guard_806FC2C(void);
+
+void SpawnGuardEnemy(EggCube *boss, u8 param1)
+{
+    EggCubeGuard *guard = TASK_DATA(TaskCreate(Task_Guard_806FC2C, sizeof(EggCubeGuard), 0x2300U, 0U, NULL));
+    Sprite *temp_r5 = &guard->s;
+    Player *p;
+    guard->boss = boss;
+    p = boss->players[0];
+    guard->unk34 = (-Q(1) - (param1 * 0xC0));
+    if (p->qWorldX > boss->qWorldX) {
+        guard->unk34 *= -1;
+    }
+    guard->unk36 = 0xFC00;
+
+    if (guard->unk34 >= 0) {
+        if (1 & boss->unk1B) {
+            guard->unk2C = boss->qWorldX - Q(16);
+        } else {
+            guard->unk2C = boss->qWorldX;
+        }
+    } else {
+        if (1 & boss->unk1B) {
+            guard->unk2C = boss->qWorldX + Q(16);
+        } else {
+            guard->unk2C = boss->qWorldX;
+        }
+    }
+    guard->unk30 = boss->qWorldY - Q(8);
+    guard->unk38 = 0;
+    guard->unk39 = 0x18;
+
+    temp_r5->tiles = (void *)(boss->vram38 + (param1 << 9));
+    temp_r5->anim = 0x49F;
+    temp_r5->variant = 0;
+    temp_r5->oamFlags = 0x480;
+    temp_r5->animCursor = 0;
+    temp_r5->qAnimDelay = 0;
+    temp_r5->prevVariant = -1;
+    temp_r5->animSpeed = 0x10;
+    temp_r5->palId = 0;
+    temp_r5->hitboxes[0].index = -1;
+    temp_r5->frameFlags = 0x1000;
+
+    if (guard->unk34 >= 0) {
+        temp_r5->frameFlags |= 0x400;
+        temp_r5->frameFlags |= 0x1000;
+    }
+}
