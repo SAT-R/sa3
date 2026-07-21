@@ -846,18 +846,18 @@ void sub_806FA0C(EggCube *boss)
 
     UpdateSpriteAnimation(s);
 
-    s->frameFlags &= ~0x400;
+    SPRITE_FLAG_CLEAR(s, X_FLIP);
     DisplaySprite(s);
-    s->frameFlags |= 0x400;
+    SPRITE_FLAG_SET(s, X_FLIP);
     DisplaySprite(s);
 
     s = &boss->spr70;
     s->x = screenX;
     s->y = screenY;
-    s->frameFlags &= 0xFFFFFBFF;
+    SPRITE_FLAG_CLEAR(s, X_FLIP);
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
-    s->frameFlags |= 0x400;
+    SPRITE_FLAG_SET(s, X_FLIP);
     DisplaySprite(s);
 
     sub_8070370(boss);
