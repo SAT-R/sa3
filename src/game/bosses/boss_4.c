@@ -1209,7 +1209,7 @@ void sub_8070138(EggCube *boss)
     s->tiles = boss->vramC8;
     s->anim = ANIM_BOSS_4_COCKPIT;
     s->variant = 0;
-    s->oamFlags = 0x280;
+    s->oamFlags = SPRITE_OAM_ORDER(10);
     s->animCursor = 0;
     s->qAnimDelay = 0;
     s->prevVariant = -1;
@@ -1226,3 +1226,87 @@ void sub_8070138(EggCube *boss)
     tf->qScaleY = Q(1);
     UpdateSpriteAnimation(s);
 }
+
+// (97.98%) https://decomp.me/scratch/0cG9O
+NONMATCH("asm/non_matching/game/bosses/boss_4__sub_8070208.inc", void sub_8070208(EggCube *boss))
+{
+    switch (boss->unk24) {
+        case 0:
+            break;
+        case 100:
+            sub_806FAFC(boss, 1U);
+            // fallthrough
+        case 101:
+            sub_8071968(boss, 2U);
+            boss->unk26 = 30;
+            boss->unk24 = 110;
+
+            break;
+        case 110:
+            if (--boss->unk26 == 0) {
+                sub_8071968(boss, 0U);
+                boss->unk22 = 0;
+                boss->unk24 = 120;
+                sub_807A468();
+            }
+            break;
+        case 120:
+            boss->unk22 += 0x10;
+
+            if (boss->unk22 >= 0x100) {
+                boss->unk24 = 130;
+            }
+            break;
+        case 130:
+            if (boss->unk22 != 0x200) {
+                boss->unk22 += 0x10;
+            }
+
+            boss->unkA0 += Q(1);
+
+            if (boss->unkA0 >= -Q(8)) {
+                boss->unk24 = 0;
+            }
+            break;
+
+        case 200:
+            boss->unk26 = 60;
+            boss->unk24 = 210;
+            sub_806FAFC(boss, 2U);
+            break;
+        case 210:
+            if (--boss->unk26 == 0) {
+                boss->unk24 = 220;
+            }
+            break;
+        case 220:
+            boss->unk22 -= 0x10;
+            boss->unkA0 -= Q(1);
+
+            if (boss->unkA0 <= -Q(24)) {
+                boss->unk24 = 230;
+            }
+            break;
+
+        case 230:
+            boss->unk22 -= 0x10;
+
+            if (boss->unk22 == 0) {
+                sub_806FAFC(boss, 0U);
+                if (boss->unk10 != 1) {
+                    boss->unk10 = 1;
+                    boss->unk8 = -8;
+                    boss->unkC = 0;
+                }
+                boss->unk13 = 0;
+                boss->unk24 = 0;
+
+                break;
+            }
+            break;
+    }
+
+    boss->unk98 = boss->qWorldX + boss->unkA0;
+    boss->unk9C = boss->qWorldY + boss->unkA4;
+}
+END_NONMATCH
