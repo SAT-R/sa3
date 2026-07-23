@@ -1310,3 +1310,22 @@ NONMATCH("asm/non_matching/game/bosses/boss_4__sub_8070208.inc", void sub_807020
     boss->unk9C = boss->qWorldY + boss->unkA4;
 }
 END_NONMATCH
+
+void sub_8070370(EggCube *boss)
+{
+    Sprite *s = &boss->sprD0;
+    SpriteTransform *tf = &boss->tf0F8;
+
+    s->x = I(boss->unk98) - gCamera.x;
+    s->y = I(boss->unk9C) - gCamera.y;
+
+    if ((s->anim == ANIM_BOSS_4_COCKPIT) && (s->variant == 0)) {
+        tf->rotation = boss->unk22;
+        tf->x = s->x;
+        tf->y = s->y;
+        TransformSprite(s, tf);
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
