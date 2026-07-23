@@ -1191,3 +1191,38 @@ void Task_26C_806FFCC(void)
         DisplaySprite(s);
     }
 }
+
+void sub_8070138(EggCube *boss)
+{
+    Sprite *s;
+    SpriteTransform *tf;
+    boss->vramC8 = ALLOC_TILES(ANIM_BOSS_4_COCKPIT);
+    boss->unk22 = 0;
+    boss->unk24 = 0;
+    boss->unk26 = 1;
+    boss->unkA0 = -Q(24);
+    boss->unkA4 = -Q(28);
+    boss->unk98 = boss->qWorldX + boss->unkA0;
+    boss->unk9C = boss->qWorldY + boss->unkA4;
+    s = &boss->sprD0;
+    tf = &boss->tf0F8;
+    s->tiles = boss->vramC8;
+    s->anim = ANIM_BOSS_4_COCKPIT;
+    s->variant = 0;
+    s->oamFlags = 0x280;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG_MASK_ROT_SCALE_ENABLE | 30;
+    s->x = I(boss->unk98) - gCamera.x;
+    s->y = I(boss->unk9C) - gCamera.y;
+    tf->rotation = 0;
+    tf->x = s->x;
+    tf->y = s->y;
+    tf->qScaleX = Q(1);
+    tf->qScaleY = Q(1);
+    UpdateSpriteAnimation(s);
+}

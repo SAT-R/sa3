@@ -632,6 +632,10 @@
 #define ANIM_BOSS_1_COCKPIT_WIDTH                   64
 #define ANIM_BOSS_1_COCKPIT_HEIGHT                  64
 
+// 1227
+#define ANIM_BOSS_4_COCKPIT_WIDTH                   64
+#define ANIM_BOSS_4_COCKPIT_HEIGHT                  64
+
 // 1286
 #define ANIM_GEMERL_IDLE_WIDTH                      64
 #define ANIM_GEMERL_IDLE_HEIGHT                     64
