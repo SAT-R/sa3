@@ -93,6 +93,15 @@ typedef struct {
     /* 0x268 */ u8 unk268;
 } EggCubeConfetti; /* 0x26C */
 
+typedef struct {
+    /* 0x00 */ EggCube *boss;
+    /* 0x04 */ u16 unk4;
+    /* 0x04 */ s16 unk6;
+    /* 0x04 */ s16 unk8;
+    /* 0x04 */ s16 unkA;
+    /* 0x0C */ u8 unkC[8];
+} EggCube14;
+
 void Task_EggCubeInit(void);
 void Task_EggCube_806ED00(void);
 void Task_EggCube_806EDE8(void);
@@ -119,6 +128,8 @@ void sub_80719C8(EggCube *boss);
 void sub_8071720(EggCube *boss);
 void sub_8071764(EggCube *boss);
 void sub_80717A8(EggCube *boss);
+void sub_8071034(EggCube *boss);
+void sub_80711C8(EggCube *boss);
 void sub_806F56C(void);
 void sub_807A37C(void);
 void TaskDestructor_EggCube(struct Task *t);
@@ -1328,4 +1339,25 @@ void sub_8070370(EggCube *boss)
 
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
+}
+
+void Task_14_80703D4(void)
+{
+    EggCube14 *strc14 = TASK_DATA(gCurTask);
+    EggCube *boss = strc14->boss;
+    Sprite *s = &boss->spr104;
+
+    if ((strc14->unk4 == 0) || (boss->unk1C == 0)) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    sub_8071034(boss);
+
+    if (boss->unk12 == 0) {
+        sub_8020CE0(s, I(boss->unkA8), I(boss->unkAC), 0, strc14->boss->players[0]);
+        sub_8020CE0(s, I(boss->unkA8), I(boss->unkAC), 0, strc14->boss->players[1]);
+    }
+
+    sub_80711C8(strc14->boss);
 }

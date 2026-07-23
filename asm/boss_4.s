@@ -8,70 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_80703D4
-sub_80703D4: @ 0x080703D4
-	push {r4, r5, r6, r7, lr}
-	sub sp, #4
-	ldr r0, _08070400 @ =gCurTask
-	ldr r2, [r0]
-	ldrh r1, [r2, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r6, r1, r0
-	ldr r4, [r6]
-	movs r0, #0x82
-	lsls r0, r0, #1
-	adds r7, r4, r0
-	ldrh r0, [r6, #4]
-	cmp r0, #0
-	beq _080703F8
-	ldrb r0, [r4, #0x1c]
-	cmp r0, #0
-	bne _08070404
-_080703F8:
-	adds r0, r2, #0
-	bl TaskDestroy
-	b _08070448
-	.align 2, 0
-_08070400: .4byte gCurTask
-_08070404:
-	adds r0, r4, #0
-	bl sub_8071034
-	ldrb r0, [r4, #0x12]
-	cmp r0, #0
-	bne _08070442
-	adds r5, r4, #0
-	adds r5, #0xa8
-	ldr r1, [r5]
-	asrs r1, r1, #8
-	adds r4, #0xac
-	ldr r2, [r4]
-	asrs r2, r2, #8
-	ldr r0, [r6]
-	ldr r0, [r0, #0x40]
-	str r0, [sp]
-	adds r0, r7, #0
-	movs r3, #0
-	bl sub_8020CE0
-	ldr r1, [r5]
-	asrs r1, r1, #8
-	ldr r2, [r4]
-	asrs r2, r2, #8
-	ldr r0, [r6]
-	ldr r0, [r0, #0x44]
-	str r0, [sp]
-	adds r0, r7, #0
-	movs r3, #0
-	bl sub_8020CE0
-_08070442:
-	ldr r0, [r6]
-	bl sub_80711C8
-_08070448:
-	add sp, #4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-
 	thumb_func_start sub_8070450
 sub_8070450: @ 0x08070450
 	push {r4, r5, r6, r7, lr}
@@ -2569,10 +2505,10 @@ sub_8071720: @ 0x08071720
 	push {r4, lr}
 	sub sp, #4
 	adds r4, r0, #0
-	ldr r0, _0807175C @ =sub_80717EC
+	ldr r0, _0807175C @ =Task_14_80717EC
 	movs r2, #0x88
 	lsls r2, r2, #6
-	ldr r1, _08071760 @ =sub_80718DC
+	ldr r1, _08071760 @ =TaskDestructor_EggCube14
 	str r1, [sp]
 	movs r1, #0x14
 	movs r3, #0
@@ -2595,18 +2531,18 @@ sub_8071720: @ 0x08071720
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0807175C: .4byte sub_80717EC
-_08071760: .4byte sub_80718DC
+_0807175C: .4byte Task_14_80717EC
+_08071760: .4byte TaskDestructor_EggCube14
 
 	thumb_func_start sub_8071764
 sub_8071764: @ 0x08071764
 	push {r4, lr}
 	sub sp, #4
 	adds r4, r0, #0
-	ldr r0, _080717A0 @ =sub_80703D4
+	ldr r0, _080717A0 @ =Task_14_80703D4
 	movs r2, #0x88
 	lsls r2, r2, #6
-	ldr r1, _080717A4 @ =sub_80718DC
+	ldr r1, _080717A4 @ =TaskDestructor_EggCube14
 	str r1, [sp]
 	movs r1, #0x14
 	movs r3, #0
@@ -2628,18 +2564,18 @@ sub_8071764: @ 0x08071764
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080717A0: .4byte sub_80703D4
-_080717A4: .4byte sub_80718DC
+_080717A0: .4byte Task_14_80703D4
+_080717A4: .4byte TaskDestructor_EggCube14
 
 	thumb_func_start sub_80717A8
 sub_80717A8: @ 0x080717A8
 	push {r4, lr}
 	sub sp, #4
 	adds r4, r0, #0
-	ldr r0, _080717E4 @ =sub_8071864
+	ldr r0, _080717E4 @ =Task_14_8071864
 	movs r2, #0x88
 	lsls r2, r2, #6
-	ldr r1, _080717E8 @ =sub_80718DC
+	ldr r1, _080717E8 @ =TaskDestructor_EggCube14
 	str r1, [sp]
 	movs r1, #0x14
 	movs r3, #0
@@ -2662,11 +2598,11 @@ sub_80717A8: @ 0x080717A8
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080717E4: .4byte sub_8071864
-_080717E8: .4byte sub_80718DC
+_080717E4: .4byte Task_14_8071864
+_080717E8: .4byte TaskDestructor_EggCube14
 
-	thumb_func_start sub_80717EC
-sub_80717EC: @ 0x080717EC
+	thumb_func_start Task_14_80717EC
+Task_14_80717EC: @ 0x080717EC
 	push {r4, r5, r6, r7, lr}
 	sub sp, #4
 	ldr r0, _08071818 @ =gCurTask
@@ -2726,8 +2662,8 @@ _0807185C:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8071864
-sub_8071864: @ 0x08071864
+	thumb_func_start Task_14_8071864
+Task_14_8071864: @ 0x08071864
 	push {r4, r5, r6, r7, lr}
 	sub sp, #4
 	ldr r0, _08071890 @ =gCurTask
@@ -2787,8 +2723,8 @@ _080718D4:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_80718DC
-sub_80718DC: @ 0x080718DC
+	thumb_func_start TaskDestructor_EggCube14
+TaskDestructor_EggCube14: @ 0x080718DC
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
