@@ -8,6 +8,7 @@
 #include "game/stage.h"
 #include "game/shared/stage/player_callbacks.h"
 #include "game/shared/stage/screen_shake.h"
+#include "game/shared/stage/terrain_collision.h"
 #include "game/sa3/bosses/more_gemerl.h"
 #include "game/shared/stage/music_manager.h"
 #include "game/shared/stage/player.h"
@@ -69,6 +70,18 @@ typedef struct {
     /* 0x138 */ Sprite spr160;
 } EggCube; /* 0x188 */
 
+typedef struct {
+    /* 0x00 */ EggCube *boss;
+    /* 0x04 */ Sprite s;
+    /* 0x2C */ s32 unk2C;
+    /* 0x30 */ s32 unk30;
+    /* 0x34 */ s16 unk34;
+    /* 0x36 */ s16 unk36;
+    /* 0x38 */ u8 unk38;
+    /* 0x39 */ u8 unk39;
+    /* 0x3A */ u8 filler3a[2];
+} EggCubeGuard;
+
 void Task_EggCubeInit(void);
 void Task_EggCube_806ED00(void);
 void Task_EggCube_806EDE8(void);
@@ -79,6 +92,7 @@ void Task_EggCube_806F3A0(void);
 void sub_806F2B8(EggCube *boss);
 void sub_806FA0C(EggCube *boss);
 void sub_806FAFC(EggCube *boss, u8 param1);
+void Task_Guard_806FC2C(void);
 void sub_806FE98(EggCube *boss);
 void SpawnGuardEnemy(EggCube *boss, u8 param1);
 void sub_8070138(EggCube *boss);
@@ -911,20 +925,6 @@ void sub_806FAFC(EggCube *boss, u8 param1)
     boss->spr70.prevVariant = -1;
 }
 
-typedef struct {
-    /* 0x00 */ EggCube *boss;
-    /* 0x04 */ Sprite s;
-    /* 0x2C */ s32 unk2C;
-    /* 0x30 */ s32 unk30;
-    /* 0x34 */ s16 unk34;
-    /* 0x36 */ s16 unk36;
-    /* 0x38 */ u8 unk38;
-    /* 0x39 */ u8 unk39;
-    /* 0x3A */ u8 filler3a[2];
-} EggCubeGuard;
-
-void Task_Guard_806FC2C(void);
-
 void SpawnGuardEnemy(EggCube *boss, u8 param1)
 {
     EggCubeGuard *guard = TASK_DATA(TaskCreate(Task_Guard_806FC2C, sizeof(EggCubeGuard), 0x2300U, 0U, NULL));
@@ -972,3 +972,86 @@ void SpawnGuardEnemy(EggCube *boss, u8 param1)
         temp_r5->frameFlags |= 0x1000;
     }
 }
+
+// (98.43%) https://decomp.me/scratch/KCXMR
+NONMATCH("asm/non_matching/game/bosses/boss_4__Task_Guard_806FC2C.inc", void Task_Guard_806FC2C(void))
+{
+    s32 sp8 = 0;
+    s16 spC;
+    s16 temp_r0_2;
+    Player *temp_r4;
+    s32 temp_r0_4;
+    u8 var_sb;
+    EggCubeGuard *guard = TASK_DATA(gCurTask);
+    EggCube *boss = guard->boss;
+    Sprite *s = &guard->s;
+
+    if (boss->unk1C == 0) {
+        if (s->anim != ANIM_ITEM_BOX_CLOUD_EFFECT) {
+            s->anim = ANIM_ITEM_BOX_CLOUD_EFFECT;
+            s->variant = 0;
+            s->prevAnim = -1;
+            s->prevVariant = -1;
+            m4aSongNumStart(SE_POOF);
+        }
+    }
+    if (s->anim == ANIM_ITEM_BOX_CLOUD_EFFECT) {
+        if (--guard->unk39 == 0) {
+            TaskDestroy(gCurTask);
+            return;
+        }
+    } else {
+        guard->unk36 += 0x18;
+        guard->unk2C += guard->unk34;
+        guard->unk30 += guard->unk36;
+    }
+
+    temp_r0_2 = I(guard->unk2C);
+    spC = I(guard->unk30);
+    if (spC > gCamera.maxY + 32) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if ((guard->unk38 == 0) && (s->anim != ANIM_ITEM_BOX_CLOUD_EFFECT)) {
+        temp_r0_4 = SA2_LABEL(sub_801E4E4)(spC, temp_r0_2, 1, 8, NULL, SA2_LABEL(sub_801EE64));
+        if (temp_r0_4 <= 0) {
+            guard->unk30 += Q_8_8(temp_r0_4);
+            guard->unk36 = ((-(guard->unk36 * 3)) >> 3);
+            guard->unk38 = 1;
+        }
+    }
+
+    for (var_sb = 0; var_sb < 2; var_sb++) {
+        temp_r4 = boss->players[var_sb];
+        if ((sub_802C080(temp_r4) == 0) && (s->anim != ANIM_ITEM_BOX_CLOUD_EFFECT)) {
+            sub_8004D68(Q(s->x + gCamera.x), Q(s->y + gCamera.y));
+            if (((gPlayers[gStageData.playerIndex].charFlags.character == CREAM)
+                 || (gPlayers[gPlayers[gStageData.playerIndex].charFlags.partnerIndex].charFlags.character == CREAM))
+                && (sub_807A1DC(s) == 1)) {
+                sp8 = 1;
+            }
+
+            if (((sub_8020E3C(s, (s16)temp_r0_2, (s16)spC, 0, temp_r4) != 0) && !(temp_r4->moveState & 0x10)) || (sp8 == 1)) {
+                if (temp_r4->moveState & 4) {
+                    if (temp_r4->qSpeedAirY > 0) {
+                        temp_r4->qSpeedAirY = -((s32)(temp_r4->qSpeedAirY + ((u32)temp_r4->qSpeedAirY >> 0x1F)) >> 1);
+                    }
+                }
+                s->anim = ANIM_ITEM_BOX_CLOUD_EFFECT;
+                s->variant = 0;
+                s->prevAnim = -1;
+                s->prevVariant = -1;
+                m4aSongNumStart(SE_POOF);
+            } else {
+                sub_8020CE0(s, (s16)temp_r0_2, (s16)spC, 0, temp_r4);
+            }
+        }
+    }
+
+    s->x = I(guard->unk2C) - gCamera.x;
+    s->y = I(guard->unk30) - gCamera.y;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+END_NONMATCH
