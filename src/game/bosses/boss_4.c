@@ -16,7 +16,8 @@
 #include "constants/move_states.h"
 #include "constants/songs.h"
 
-#define CONFETTI_COUNT 8u
+#define CONFETTI_SPRITE_COUNT    8u
+#define CONFETTI_POSITIONS_COUNT 24u
 
 typedef struct {
     /* 0x000 */ s32 qWorldX;
@@ -86,11 +87,11 @@ typedef struct {
 
 typedef struct {
     /* 0x000 */ u8 filler0[8];
-    /* 0x008 */ Sprite sprites8[24];
-    /* 0x148 */ Vec2_32 vecs148[24];
-    /* 0x268 */ Vec2_16 vecs208[24];
+    /* 0x008 */ Sprite sprites8[8];
+    /* 0x148 */ s32 qWorldPos[24 * 2];
+    /* 0x268 */ s16 qVelocities[24 * 2];
     /* 0x268 */ u8 unk268;
-} EggCube_26C; /* 0x26C */
+} EggCubeConfetti; /* 0x26C */
 
 void Task_EggCubeInit(void);
 void Task_EggCube_806ED00(void);
@@ -198,7 +199,7 @@ Task *CreateEggCube(u8 *bossPhase, s32 worldX, s32 worldY)
     boss->vram38 = vram;
     vram += 48 * TILE_SIZE_4BPP;
     boss->vram3C = vram;
-    vram += CONFETTI_COUNT * TILE_SIZE_4BPP;
+    vram += CONFETTI_SPRITE_COUNT * TILE_SIZE_4BPP;
 
     s = &boss->spr70;
     s->tiles = vram;
@@ -1078,32 +1079,34 @@ NONMATCH("asm/non_matching/game/bosses/boss_4__sub_806FE98.inc", void sub_806FE9
     s32 temp_r2_2;
     u8 confettiSpriteIndex;
     u8 var_r5;
-    EggCube_26C *strc26C = TASK_DATA(TaskCreate(Task_26C_806FFCC, 0x26CU, 0x2300U, 0U, NULL));
+    EggCubeConfetti *confetti = TASK_DATA(TaskCreate(Task_26C_806FFCC, sizeof(EggCubeConfetti), 0x2300U, 0U, NULL));
 
-    strc26C->unk268 = 0x96;
+    confetti->unk268 = 0x96;
     sp4 = boss->qWorldX + Q(20);
     sp8 = boss->qWorldY - Q(40);
 
     for (var_r5 = 0; var_r5 < 24; var_r5++) {
         s32 r0, r1;
-        Vec2_16 *vecs208;
-        strc26C->vecs148[var_r5].x = sp4;
-        strc26C->vecs148[var_r5].y = sp8;
-        vecs208 = &strc26C->vecs208[var_r5];
+        s16 *vecs208;
+        s32 *qWorldXY = &confetti->qWorldPos[var_r5];
+        *qWorldXY++ = sp4;
+        *qWorldXY++ = sp8;
+        vecs208 = &confetti->qVelocities[var_r5];
 
         temp_r2_2 = (var_r5 - 16) * 16;
         if (1 & var_r5) {
-            vecs208->x = temp_r2_2 - 16;
+            *vecs208 = temp_r2_2 - 16;
         } else {
-            vecs208->x = temp_r2_2 + 16;
+            *vecs208 = temp_r2_2 + 16;
         }
+        vecs208++;
         r1 = -Q(2);
         r1 -= ((2 & var_r5) << 5);
         r1 -= ((1 & var_r5) << 6);
-        vecs208->y = r1;
+        *vecs208 = r1;
 
-        confettiSpriteIndex = var_r5 % CONFETTI_COUNT;
-        s = &strc26C->sprites8[confettiSpriteIndex];
+        confettiSpriteIndex = var_r5 % CONFETTI_SPRITE_COUNT;
+        s = &confetti->sprites8[confettiSpriteIndex];
         s->tiles = boss->vram3C + confettiSpriteIndex * TILE_SIZE_4BPP;
         s->anim = ANIM_BOSS_4_CONFETTI;
         s->variant = confettiSpriteIndex;
@@ -1113,7 +1116,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_4__sub_806FE98.inc", void sub_806FE9
         s->oamFlags = 0;
         s->animCursor = 0;
         s->qAnimDelay = 0;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->animSpeed = 0x10;
         s->palId = 0;
         s->hitboxes[0].index = -1;
@@ -1121,3 +1124,70 @@ NONMATCH("asm/non_matching/game/bosses/boss_4__sub_806FE98.inc", void sub_806FE9
     }
 }
 END_NONMATCH
+
+void Task_26C_806FFCC(void)
+{
+    Sprite *s;
+    s16 *qVelocityXY;
+    s32 *qWorldXY;
+    u8 temp_r1;
+    u8 i;
+    EggCubeConfetti *confetti = TASK_DATA(gCurTask);
+
+    qWorldXY = confetti->qWorldPos;
+    qVelocityXY = &confetti->qVelocities[0];
+
+    if (--confetti->unk268 == 0) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    if ((confetti->unk268 < 30) && (confetti->unk268 & 2)) {
+        return;
+    }
+
+    for (i = 0; i < (CONFETTI_POSITIONS_COUNT * 1) / 3u; i++) {
+        s = &confetti->sprites8[i];
+        *qWorldXY += *qVelocityXY; // worldX += velX
+        s->x = I(*qWorldXY) - gCamera.x;
+        qWorldXY++; // qWorldXY -> Y
+        qVelocityXY++;
+        *qVelocityXY += 7; // y += 7
+        *qWorldXY += *qVelocityXY; // worldY += velY
+        s->y = I(*qWorldXY) - gCamera.y;
+        qWorldXY++;
+        qVelocityXY++;
+
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+
+    for (; i < (CONFETTI_POSITIONS_COUNT * 2) / 3u; i++) {
+        s = &confetti->sprites8[i % CONFETTI_SPRITE_COUNT];
+        *qWorldXY += *qVelocityXY; // worldX += velX
+        s->x = I(*qWorldXY) - gCamera.x;
+        qVelocityXY++;
+        *qVelocityXY += 8; // y += 8
+        qWorldXY++; // qWorldXY -> Y
+        *qWorldXY += *qVelocityXY; // worldY += velY
+        s->y = I(*qWorldXY) - gCamera.y;
+        qWorldXY++;
+        qVelocityXY++;
+
+        DisplaySprite(s);
+    }
+
+    for (; i < (CONFETTI_POSITIONS_COUNT * 3) / 3u; i++) {
+        s = &confetti->sprites8[i % CONFETTI_SPRITE_COUNT];
+        *qWorldXY += *qVelocityXY; // worldX += velX
+        s->x = I(*qWorldXY) - gCamera.x;
+        qVelocityXY++;
+        *qVelocityXY += 7; // y += 7
+        qWorldXY++; // qWorldXY -> Y
+        *qWorldXY += *qVelocityXY; // worldY += velY
+        s->y = I(*qWorldXY) - gCamera.y;
+        qWorldXY++;
+        qVelocityXY++;
+
+        DisplaySprite(s);
+    }
+}
