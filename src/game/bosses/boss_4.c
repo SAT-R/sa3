@@ -16,6 +16,8 @@
 #include "constants/move_states.h"
 #include "constants/songs.h"
 
+#define CONFETTI_COUNT 8u
+
 typedef struct {
     /* 0x000 */ s32 qWorldX;
     /* 0x004 */ s32 qWorldY;
@@ -82,6 +84,14 @@ typedef struct {
     /* 0x3A */ u8 filler3a[2];
 } EggCubeGuard;
 
+typedef struct {
+    /* 0x000 */ u8 filler0[8];
+    /* 0x008 */ Sprite sprites8[24];
+    /* 0x148 */ Vec2_32 vecs148[24];
+    /* 0x268 */ Vec2_16 vecs208[24];
+    /* 0x268 */ u8 unk268;
+} EggCube_26C; /* 0x26C */
+
 void Task_EggCubeInit(void);
 void Task_EggCube_806ED00(void);
 void Task_EggCube_806EDE8(void);
@@ -95,6 +105,7 @@ void sub_806FAFC(EggCube *boss, u8 param1);
 void Task_Guard_806FC2C(void);
 void sub_806FE98(EggCube *boss);
 void SpawnGuardEnemy(EggCube *boss, u8 param1);
+void Task_26C_806FFCC(void);
 void sub_8070138(EggCube *boss);
 void sub_8070208(EggCube *boss);
 void sub_8070370(EggCube *boss);
@@ -187,7 +198,7 @@ Task *CreateEggCube(u8 *bossPhase, s32 worldX, s32 worldY)
     boss->vram38 = vram;
     vram += 48 * TILE_SIZE_4BPP;
     boss->vram3C = vram;
-    vram += 8 * TILE_SIZE_4BPP;
+    vram += CONFETTI_COUNT * TILE_SIZE_4BPP;
 
     s = &boss->spr70;
     s->tiles = vram;
@@ -1055,59 +1066,58 @@ void Task_Guard_806FC2C(void)
     DisplaySprite(s);
 }
 
-#if 0
-typedef struct {
-} EggCube_26C;
-
-void sub_806FE98(EggCube *boss) {
+// (81.29%) https://decomp.me/scratch/dowwf
+NONMATCH("asm/non_matching/game/bosses/boss_4__sub_806FE98.inc", void sub_806FE98(EggCube *boss))
+{
     s32 sp4;
     s32 sp8;
-    s32 spC;
+    Sprite *s;
     s16 var_r0;
     s32 temp_r1;
     s32 temp_r1_2;
     s32 temp_r2_2;
-    s8 temp_r4;
-    EggCube_26C *temp_r2;
+    u8 confettiSpriteIndex;
     u8 var_r5;
-    void *temp_r3;
+    EggCube_26C *strc26C = TASK_DATA(TaskCreate(Task_26C_806FFCC, 0x26CU, 0x2300U, 0U, NULL));
 
-    temp_r2 = TASK_DATA(TaskCreate(sub_806FFCC, 0x26CU, 0x2300U, 0U, NULL));
-    spC = (s32) temp_r2;
-    temp_r2->unk268 = 0x96;
-    sp4 = boss->qWorldX + 0x1400;
-    sp8 = boss->qWorldY + 0xFFFFD800;
-    var_r5 = 0;
-    do {
-        temp_r1 = var_r5 * 8;
-        *(temp_r2 + 0x148 + temp_r1) = sp4;
-        *(temp_r1 + (temp_r2 + 0x14C)) = sp8;
-        temp_r1_2 = var_r5 * 4;
-        temp_r2_2 = (var_r5 - 0x10) * 0x10;
+    strc26C->unk268 = 0x96;
+    sp4 = boss->qWorldX + Q(20);
+    sp8 = boss->qWorldY - Q(40);
+
+    for (var_r5 = 0; var_r5 < 24; var_r5++) {
+        s32 r0, r1;
+        Vec2_16 *vecs208;
+        strc26C->vecs148[var_r5].x = sp4;
+        strc26C->vecs148[var_r5].y = sp8;
+        vecs208 = &strc26C->vecs208[var_r5];
+
+        temp_r2_2 = (var_r5 - 16) * 16;
         if (1 & var_r5) {
-            var_r0 = temp_r2_2 - 0x10;
+            vecs208->x = temp_r2_2 - 16;
         } else {
-            var_r0 = temp_r2_2 + 0x10;
+            vecs208->x = temp_r2_2 + 16;
         }
-        *(spC + 0x208 + temp_r1_2) = var_r0;
-        *(spC + 0x20A + temp_r1_2) = (0xFFFFFE00 - ((u8) (2 & var_r5) << 5)) - ((1 & var_r5) << 6);
-        temp_r4 = 7 & var_r5;
-        temp_r3 = spC + ((temp_r4 * 0x28) + 8);
-        temp_r3->unk0 = (void *) (boss->vram3C + (temp_r4 << 5));
-        temp_r3->unkC = 0x4D4;
-        temp_r3->unk1A = temp_r4;
-        if ((u32) temp_r4 > 5U) {
-            temp_r3->unk1A = (s8) (temp_r4 - 6);
+        r1 = -Q(2);
+        r1 -= ((2 & var_r5) << 5);
+        r1 -= ((1 & var_r5) << 6);
+        vecs208->y = r1;
+
+        confettiSpriteIndex = var_r5 % CONFETTI_COUNT;
+        s = &strc26C->sprites8[confettiSpriteIndex];
+        s->tiles = boss->vram3C + confettiSpriteIndex * TILE_SIZE_4BPP;
+        s->anim = ANIM_BOSS_4_CONFETTI;
+        s->variant = confettiSpriteIndex;
+        if (confettiSpriteIndex >= ANIM_BOSS_4_CONFETTI_PATTERN_COUNT) {
+            s->variant = confettiSpriteIndex - ANIM_BOSS_4_CONFETTI_PATTERN_COUNT;
         }
-        temp_r3->unk14 = 0;
-        temp_r3->unkE = 0;
-        temp_r3->unk16 = 0;
-        temp_r3->unk1B = 0xFF;
-        temp_r3->unk1C = 0x10;
-        temp_r3->unk1F = 0;
-        temp_r3->unk20 = -1;
-        temp_r3->unk8 = 0x1000;
-        var_r5 += 1;
-    } while ((u32) var_r5 <= 0x17U);
+        s->oamFlags = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->prevVariant = 0xFF;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+        s->frameFlags = 0x1000;
+    }
 }
-#endif
+END_NONMATCH

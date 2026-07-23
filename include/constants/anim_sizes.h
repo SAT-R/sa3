@@ -660,6 +660,11 @@
 #define ANIM_ITEM_BOX_CLOUD_EFFECT_WIDTH            32
 #define ANIM_ITEM_BOX_CLOUD_EFFECT_HEIGHT           32
 
+// 1338
+#define ANIM_BOSS_4_CONFETTI_WIDTH                  8
+#define ANIM_BOSS_4_CONFETTI_HEIGHT                 8
+#define ANIM_BOSS_4_CONFETTI_PATTERN_COUNT          6
+
 // 1339
 #define ANIM_CONDOR_PROJ_EXPLOSION_WIDTH            32
 #define ANIM_CONDOR_PROJ_EXPLOSION_HEIGHT           32
