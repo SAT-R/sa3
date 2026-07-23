@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start sub_806FE98
 sub_806FE98: @ 0x0806FE98
 	push {r4, r5, r6, r7, lr}
@@ -17,9 +15,9 @@ sub_806FE98: @ 0x0806FE98
 	push {r5, r6, r7}
 	sub sp, #0x10
 	mov r8, r0
-	ldr r0, _0806FF1C @ =sub_806FFCC
+	ldr r0, _0806FF1C @ =Task_26C_806FFCC
 	movs r1, #0x9b
-	lsls r1, r1, #2
+	lsls r1, r1, #2     @ 0x26C
 	movs r2, #0x8c
 	lsls r2, r2, #6
 	movs r3, #0
@@ -77,7 +75,7 @@ _0806FEEC:
 	subs r0, #0x10
 	b _0806FF34
 	.align 2, 0
-_0806FF1C: .4byte sub_806FFCC
+_0806FF1C: .4byte Task_26C_806FFCC
 _0806FF20: .4byte 0x03000268
 _0806FF24: .4byte 0xFFFFD800
 _0806FF28: .4byte 0x03000148
@@ -161,9 +159,10 @@ _0806FF88:
 _0806FFC0: .4byte 0x0000020A
 _0806FFC4: .4byte 0xFFFFFE00
 _0806FFC8: .4byte 0x000004D4
+.endif
 
-	thumb_func_start sub_806FFCC
-sub_806FFCC: @ 0x0806FFCC
+	thumb_func_start Task_26C_806FFCC
+Task_26C_806FFCC: @ 0x0806FFCC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8

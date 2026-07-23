@@ -973,8 +973,7 @@ void SpawnGuardEnemy(EggCube *boss, u8 param1)
     }
 }
 
-// (98.43%) https://decomp.me/scratch/KCXMR
-NONMATCH("asm/non_matching/game/bosses/boss_4__Task_Guard_806FC2C.inc", void Task_Guard_806FC2C(void))
+void Task_Guard_806FC2C(void)
 {
     s32 sp8 = 0;
     s16 spC;
@@ -1025,17 +1024,18 @@ NONMATCH("asm/non_matching/game/bosses/boss_4__Task_Guard_806FC2C.inc", void Tas
     for (var_sb = 0; var_sb < 2; var_sb++) {
         temp_r4 = boss->players[var_sb];
         if ((sub_802C080(temp_r4) == 0) && (s->anim != ANIM_ITEM_BOX_CLOUD_EFFECT)) {
-            sub_8004D68(Q(s->x + gCamera.x), Q(s->y + gCamera.y));
+            s32 screenX = s->x;
+            sub_8004D68(Q(gCamera.x + screenX), Q(gCamera.y + s->y));
             if (((gPlayers[gStageData.playerIndex].charFlags.character == CREAM)
                  || (gPlayers[gPlayers[gStageData.playerIndex].charFlags.partnerIndex].charFlags.character == CREAM))
                 && (sub_807A1DC(s) == 1)) {
                 sp8 = 1;
             }
 
-            if (((sub_8020E3C(s, (s16)temp_r0_2, (s16)spC, 0, temp_r4) != 0) && !(temp_r4->moveState & 0x10)) || (sp8 == 1)) {
+            if (((sub_8020E3C(s, temp_r0_2, spC, 0, temp_r4) != 0) && !(temp_r4->moveState & 0x10)) || (sp8 == 1)) {
                 if (temp_r4->moveState & 4) {
                     if (temp_r4->qSpeedAirY > 0) {
-                        temp_r4->qSpeedAirY = -((s32)(temp_r4->qSpeedAirY + ((u32)temp_r4->qSpeedAirY >> 0x1F)) >> 1);
+                        temp_r4->qSpeedAirY = -(temp_r4->qSpeedAirY / 2);
                     }
                 }
                 s->anim = ANIM_ITEM_BOX_CLOUD_EFFECT;
@@ -1044,7 +1044,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_4__Task_Guard_806FC2C.inc", void Tas
                 s->prevVariant = -1;
                 m4aSongNumStart(SE_POOF);
             } else {
-                sub_8020CE0(s, (s16)temp_r0_2, (s16)spC, 0, temp_r4);
+                sub_8020CE0(s, temp_r0_2, spC, 0, temp_r4);
             }
         }
     }
@@ -1054,4 +1054,60 @@ NONMATCH("asm/non_matching/game/bosses/boss_4__Task_Guard_806FC2C.inc", void Tas
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
-END_NONMATCH
+
+#if 0
+typedef struct {
+} EggCube_26C;
+
+void sub_806FE98(EggCube *boss) {
+    s32 sp4;
+    s32 sp8;
+    s32 spC;
+    s16 var_r0;
+    s32 temp_r1;
+    s32 temp_r1_2;
+    s32 temp_r2_2;
+    s8 temp_r4;
+    EggCube_26C *temp_r2;
+    u8 var_r5;
+    void *temp_r3;
+
+    temp_r2 = TASK_DATA(TaskCreate(sub_806FFCC, 0x26CU, 0x2300U, 0U, NULL));
+    spC = (s32) temp_r2;
+    temp_r2->unk268 = 0x96;
+    sp4 = boss->qWorldX + 0x1400;
+    sp8 = boss->qWorldY + 0xFFFFD800;
+    var_r5 = 0;
+    do {
+        temp_r1 = var_r5 * 8;
+        *(temp_r2 + 0x148 + temp_r1) = sp4;
+        *(temp_r1 + (temp_r2 + 0x14C)) = sp8;
+        temp_r1_2 = var_r5 * 4;
+        temp_r2_2 = (var_r5 - 0x10) * 0x10;
+        if (1 & var_r5) {
+            var_r0 = temp_r2_2 - 0x10;
+        } else {
+            var_r0 = temp_r2_2 + 0x10;
+        }
+        *(spC + 0x208 + temp_r1_2) = var_r0;
+        *(spC + 0x20A + temp_r1_2) = (0xFFFFFE00 - ((u8) (2 & var_r5) << 5)) - ((1 & var_r5) << 6);
+        temp_r4 = 7 & var_r5;
+        temp_r3 = spC + ((temp_r4 * 0x28) + 8);
+        temp_r3->unk0 = (void *) (boss->vram3C + (temp_r4 << 5));
+        temp_r3->unkC = 0x4D4;
+        temp_r3->unk1A = temp_r4;
+        if ((u32) temp_r4 > 5U) {
+            temp_r3->unk1A = (s8) (temp_r4 - 6);
+        }
+        temp_r3->unk14 = 0;
+        temp_r3->unkE = 0;
+        temp_r3->unk16 = 0;
+        temp_r3->unk1B = 0xFF;
+        temp_r3->unk1C = 0x10;
+        temp_r3->unk1F = 0;
+        temp_r3->unk20 = -1;
+        temp_r3->unk8 = 0x1000;
+        var_r5 += 1;
+    } while ((u32) var_r5 <= 0x17U);
+}
+#endif
