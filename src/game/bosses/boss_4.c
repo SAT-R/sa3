@@ -1238,8 +1238,7 @@ void sub_8070138(EggCube *boss)
     UpdateSpriteAnimation(s);
 }
 
-// (97.98%) https://decomp.me/scratch/0cG9O
-NONMATCH("asm/non_matching/game/bosses/boss_4__sub_8070208.inc", void sub_8070208(EggCube *boss))
+void sub_8070208(EggCube *boss)
 {
     switch (boss->unk24) {
         case 0:
@@ -1308,6 +1307,10 @@ NONMATCH("asm/non_matching/game/bosses/boss_4__sub_8070208.inc", void sub_807020
                     boss->unk10 = 1;
                     boss->unk8 = -8;
                     boss->unkC = 0;
+                } else {
+#ifndef NON_MATCHING
+                    boss->unk22 += 0;
+#endif
                 }
                 boss->unk13 = 0;
                 boss->unk24 = 0;
@@ -1320,7 +1323,6 @@ NONMATCH("asm/non_matching/game/bosses/boss_4__sub_8070208.inc", void sub_807020
     boss->unk98 = boss->qWorldX + boss->unkA0;
     boss->unk9C = boss->qWorldY + boss->unkA4;
 }
-END_NONMATCH
 
 void sub_8070370(EggCube *boss)
 {
@@ -1360,4 +1362,159 @@ void Task_14_80703D4(void)
     }
 
     sub_80711C8(strc14->boss);
+}
+
+void sub_8070450(EggCube14 *strc14, u8 index)
+{
+    EggCube *boss;
+    Sprite *s;
+    SpriteTransform *tf;
+    u8 *vram;
+
+    boss = strc14->boss;
+    vram = boss->vramCC;
+    switch (index) {
+        case 0:
+            boss->unk28 = (s16)index;
+            boss->unkA8 = boss->qWorldX + Q(8);
+            boss->unkAC = boss->qWorldY - Q(32);
+
+            s = &boss->spr104;
+            tf = &boss->tf12C;
+            s->tiles = vram;
+            s->anim = ANIM_BOSS_4_GEMERL_MACE;
+            s->variant = 0;
+            s->oamFlags = 0x2C0;
+            s->animCursor = (u16)index;
+            s->qAnimDelay = (s16)index;
+            s->prevVariant = -1;
+            s->animSpeed = 0x10;
+            s->palId = 0;
+            s->hitboxes[0].index = -1;
+            s->frameFlags = 0x1000;
+            s->frameFlags |= 0x3F;
+            s->x = I(boss->unkA8) - gCamera.x;
+            s->y = I(boss->unkAC) - gCamera.y;
+            tf->rotation = (u16)index;
+            tf->x = s->x;
+            tf->y = s->y;
+            tf->qScaleX = 0x100;
+            tf->qScaleY = 0x100;
+            UpdateSpriteAnimation(s);
+            vram += 0x800;
+
+            s = &boss->spr138;
+            s->tiles = vram;
+            s->anim = ANIM_BOSS_4_GEMERL_MACE_NODE;
+            s->variant = 0;
+            s->oamFlags = SPRITE_OAM_ORDER(19);
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = -1;
+            s->animSpeed = 0x10;
+            s->palId = 0;
+            s->hitboxes[0].index = -1;
+            s->frameFlags = 0x1000;
+            s->x = I(boss->unkA8) - gCamera.x;
+            s->y = I(boss->unkAC) - gCamera.y;
+            UpdateSpriteAnimation(s);
+            break;
+        case 1:
+            boss->unkA8 = boss->qWorldX;
+            boss->unkAC = boss->qWorldY - Q(32);
+            s = &boss->spr104;
+            tf = &boss->tf12C;
+            s->tiles = vram;
+            s->anim = ANIM_BOSS_4_CLOWN_FACE;
+            s->variant = 4;
+            s->oamFlags = SPRITE_OAM_ORDER(11);
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = 0xFF;
+            s->animSpeed = 0x10;
+            s->palId = 0;
+            s->hitboxes[0].index = -1;
+            s->frameFlags = 0x1000;
+            s->x = I(boss->unkA8) - gCamera.x;
+            s->y = I(boss->unkAC) - gCamera.y;
+            tf->rotation = 0;
+            tf->x = (s16)(u16)s->x;
+            tf->y = (s16)(u16)s->y;
+            tf->qScaleX = 0x100;
+            tf->qScaleY = 0x100;
+            UpdateSpriteAnimation(s);
+            vram += 0x800;
+
+            s = &boss->spr138;
+            s->tiles = vram;
+            s->anim = ANIM_BOSS_4_CLOWN_COUPLING;
+            s->variant = 0;
+            s->oamFlags = 0x300;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = -1;
+            s->animSpeed = 0x10;
+            s->palId = 0;
+            s->hitboxes[0].index = -1;
+            s->frameFlags = 0x1000;
+            s->x = I(boss->unkA8) - gCamera.x;
+            s->y = I(boss->unkAC) - gCamera.y;
+            UpdateSpriteAnimation(&boss->spr138);
+            vram += 0x100;
+
+            s = &boss->spr160;
+            s->tiles = vram;
+            s->anim = ANIM_BOSS_4_CLOWN_NECK;
+            s->variant = 0;
+            s->oamFlags = 0x300;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = -1;
+            s->animSpeed = 0x10;
+            s->palId = 0;
+            s->hitboxes[0].index = -1;
+            s->frameFlags = 0x1000;
+            s->x = I(boss->unkA8) - gCamera.x;
+            s->y = I(boss->unkAC) - gCamera.y;
+            UpdateSpriteAnimation(s);
+            break;
+        case 2:
+            s = &boss->spr104;
+            boss->unkA8 = Q(500);
+            boss->unkAC = Q(0);
+            s->tiles = vram;
+            s->anim = ANIM_BOSS_4_GEMERL_MISSILE;
+            s->variant = 0;
+            s->oamFlags = 0x2C0;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = 0xFF;
+            s->animSpeed = 0x10;
+            s->palId = 0;
+            s->hitboxes[0].index = -1;
+            s->frameFlags = 0x1000;
+            s->x = I(boss->unkA8) - gCamera.x;
+            s->y = I(boss->unkAC) - gCamera.y;
+            UpdateSpriteAnimation(s);
+            vram += 0x600;
+
+            s = &boss->spr138;
+            boss->unkB8 = Q(500);
+            boss->unkBC = Q(0);
+            s->tiles = vram;
+            s->anim = ANIM_BOSS_4_ARROW;
+            s->variant = 0;
+            s->oamFlags = 0x100;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = -1;
+            s->animSpeed = 0x10;
+            s->palId = 0;
+            s->hitboxes[0].index = -1;
+            s->frameFlags = 0x1000;
+            s->x = I(boss->unkB8) - gCamera.x;
+            s->y = I(boss->unkBC) - gCamera.y;
+            UpdateSpriteAnimation(s);
+            break;
+    }
 }
