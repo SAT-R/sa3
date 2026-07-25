@@ -276,6 +276,7 @@
 #define SE_550                  0x226
 #define SE_551                  0x227
 #define SE_552                  0x228
+#define SE_553                  0x229
 
 #define SE_558 0x22E
 

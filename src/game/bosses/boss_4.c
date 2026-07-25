@@ -40,7 +40,8 @@ typedef struct {
     /* 0x024 */ u16 unk24;
     /* 0x026 */ s16 unk26;
     /* 0x028 */ s16 unk28;
-    /* 0x02A */ s16 unk2A;
+    /* 0x02A */ s8 unk2A;
+    /* 0x02A */ u8 unk2B;
     /* 0x02C */ u16 unk2C;
     /* 0x02E */ s16 unk2E;
     /* 0x030 */ s16 unk30;
@@ -69,8 +70,7 @@ typedef struct {
     /* 0x0F8 */ SpriteTransform tf0F8;
     /* 0x104 */ Sprite spr104;
     /* 0x0F8 */ SpriteTransform tf12C;
-    /* 0x138 */ Sprite spr138;
-    /* 0x138 */ Sprite spr160;
+    /* 0x138 */ Sprite spr138[2];
 } EggCube; /* 0x188 */
 
 typedef struct {
@@ -96,13 +96,16 @@ typedef struct {
 typedef struct {
     /* 0x00 */ EggCube *boss;
     /* 0x04 */ u16 unk4;
-    /* 0x04 */ s16 unk6;
+    /* 0x04 */ u16 unk6;
     /* 0x04 */ s16 unk8;
-    /* 0x04 */ s16 unkA;
-    /* 0x0C */ u8 unkC[8];
+    /* 0x04 */ u16 unkA;
+    /* 0x04 */ s32 unkC;
+    /* 0x04 */ s16 unk10;
+    /* 0x04 */ s16 unk12;
 } EggCube14;
 
 void Task_EggCubeInit(void);
+void Task_EggCube_806EC50(void);
 void Task_EggCube_806ED00(void);
 void Task_EggCube_806EDE8(void);
 void Task_EggCube_806EEB8(void);
@@ -119,8 +122,11 @@ void Task_26C_806FFCC(void);
 void sub_8070138(EggCube *boss);
 void sub_8070208(EggCube *boss);
 void sub_8070370(EggCube *boss);
+void sub_8070450(EggCube14 *strc14, u8 index);
+void sub_80707A0(EggCube14 *strc14, EggCube *boss);
+void sub_8070B08(EggCube14 *strc14, EggCube *boss);
 void sub_8071410(EggCube *boss);
-void sub_8071664(void);
+void Task_EggCube_8071664(void);
 void sub_8071904(EggCube *boss, u16 param1);
 void sub_8071968(EggCube *boss, u8 param1);
 void sub_80719B4(EggCube *boss);
@@ -130,8 +136,15 @@ void sub_8071764(EggCube *boss);
 void sub_80717A8(EggCube *boss);
 void sub_8071034(EggCube *boss);
 void sub_80711C8(EggCube *boss);
+void sub_80714C0(EggCube *boss, u8 param1);
+void Task_14_80703D4(void);
 void sub_806F56C(void);
 void sub_807A37C(void);
+
+void Task_14_80717EC(void);
+void TaskDestructor_EggCube14(struct Task *t);
+void Task_14_8071864(void);
+
 void TaskDestructor_EggCube(struct Task *t);
 extern void sub_8078E34(s32 *, VoidFn);
 extern bool32 sub_807A1DC(Sprite *);
@@ -369,7 +382,7 @@ void Task_EggCube_806EEB8(void)
     if (I(boss->qWorldX) > 0x677) {
         if (gStageData.gameMode == 5) {
             if (gStageData.playerIndex != 0) {
-                gCurTask->main = sub_8071664;
+                gCurTask->main = Task_EggCube_8071664;
             } else {
                 sub_8027674(1U, I(boss->qWorldX));
                 sub_80719C8(boss);
@@ -1375,7 +1388,7 @@ void sub_8070450(EggCube14 *strc14, u8 index)
     vram = boss->vramCC;
     switch (index) {
         case 0:
-            boss->unk28 = (s16)index;
+            boss->unk28 = 0;
             boss->unkA8 = boss->qWorldX + Q(8);
             boss->unkAC = boss->qWorldY - Q(32);
 
@@ -1384,9 +1397,9 @@ void sub_8070450(EggCube14 *strc14, u8 index)
             s->tiles = vram;
             s->anim = ANIM_BOSS_4_GEMERL_MACE;
             s->variant = 0;
-            s->oamFlags = 0x2C0;
-            s->animCursor = (u16)index;
-            s->qAnimDelay = (s16)index;
+            s->oamFlags = SPRITE_OAM_ORDER(11);
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
             s->prevVariant = -1;
             s->animSpeed = 0x10;
             s->palId = 0;
@@ -1395,7 +1408,7 @@ void sub_8070450(EggCube14 *strc14, u8 index)
             s->frameFlags |= 0x3F;
             s->x = I(boss->unkA8) - gCamera.x;
             s->y = I(boss->unkAC) - gCamera.y;
-            tf->rotation = (u16)index;
+            tf->rotation = 0;
             tf->x = s->x;
             tf->y = s->y;
             tf->qScaleX = 0x100;
@@ -1403,7 +1416,7 @@ void sub_8070450(EggCube14 *strc14, u8 index)
             UpdateSpriteAnimation(s);
             vram += 0x800;
 
-            s = &boss->spr138;
+            s = &boss->spr138[0];
             s->tiles = vram;
             s->anim = ANIM_BOSS_4_GEMERL_MACE_NODE;
             s->variant = 0;
@@ -1419,6 +1432,7 @@ void sub_8070450(EggCube14 *strc14, u8 index)
             s->y = I(boss->unkAC) - gCamera.y;
             UpdateSpriteAnimation(s);
             break;
+
         case 1:
             boss->unkA8 = boss->qWorldX;
             boss->unkAC = boss->qWorldY - Q(32);
@@ -1445,11 +1459,11 @@ void sub_8070450(EggCube14 *strc14, u8 index)
             UpdateSpriteAnimation(s);
             vram += 0x800;
 
-            s = &boss->spr138;
+            s = &boss->spr138[0];
             s->tiles = vram;
             s->anim = ANIM_BOSS_4_CLOWN_COUPLING;
             s->variant = 0;
-            s->oamFlags = 0x300;
+            s->oamFlags = SPRITE_OAM_ORDER(12);
             s->animCursor = 0;
             s->qAnimDelay = 0;
             s->prevVariant = -1;
@@ -1459,14 +1473,14 @@ void sub_8070450(EggCube14 *strc14, u8 index)
             s->frameFlags = 0x1000;
             s->x = I(boss->unkA8) - gCamera.x;
             s->y = I(boss->unkAC) - gCamera.y;
-            UpdateSpriteAnimation(&boss->spr138);
+            UpdateSpriteAnimation(&boss->spr138[0]);
             vram += 0x100;
 
-            s = &boss->spr160;
+            s = &boss->spr138[1];
             s->tiles = vram;
             s->anim = ANIM_BOSS_4_CLOWN_NECK;
             s->variant = 0;
-            s->oamFlags = 0x300;
+            s->oamFlags = SPRITE_OAM_ORDER(12);
             s->animCursor = 0;
             s->qAnimDelay = 0;
             s->prevVariant = -1;
@@ -1478,6 +1492,7 @@ void sub_8070450(EggCube14 *strc14, u8 index)
             s->y = I(boss->unkAC) - gCamera.y;
             UpdateSpriteAnimation(s);
             break;
+
         case 2:
             s = &boss->spr104;
             boss->unkA8 = Q(500);
@@ -1485,10 +1500,10 @@ void sub_8070450(EggCube14 *strc14, u8 index)
             s->tiles = vram;
             s->anim = ANIM_BOSS_4_GEMERL_MISSILE;
             s->variant = 0;
-            s->oamFlags = 0x2C0;
+            s->oamFlags = SPRITE_OAM_ORDER(11);
             s->animCursor = 0;
             s->qAnimDelay = 0;
-            s->prevVariant = 0xFF;
+            s->prevVariant = -1;
             s->animSpeed = 0x10;
             s->palId = 0;
             s->hitboxes[0].index = -1;
@@ -1498,13 +1513,13 @@ void sub_8070450(EggCube14 *strc14, u8 index)
             UpdateSpriteAnimation(s);
             vram += 0x600;
 
-            s = &boss->spr138;
+            s = &boss->spr138[0];
             boss->unkB8 = Q(500);
             boss->unkBC = Q(0);
             s->tiles = vram;
             s->anim = ANIM_BOSS_4_ARROW;
             s->variant = 0;
-            s->oamFlags = 0x100;
+            s->oamFlags = SPRITE_OAM_ORDER(4);
             s->animCursor = 0;
             s->qAnimDelay = 0;
             s->prevVariant = -1;
@@ -1518,3 +1533,936 @@ void sub_8070450(EggCube14 *strc14, u8 index)
             break;
     }
 }
+
+void sub_80707A0(EggCube14 *strc14, EggCube *boss)
+{
+    Player *temp_sl;
+    s16 temp_r0_10;
+    s16 temp_r0_3;
+    s16 temp_r0_4;
+    s16 temp_r0_5;
+    s16 temp_r0_7;
+    s16 temp_r0_9;
+    s32 *temp_r2_2;
+    s32 temp_r0;
+    s32 temp_r0_2;
+    s32 temp_r0_8;
+    s32 temp_r1_2;
+    s32 temp_r2;
+    s32 var_r0_2;
+    s32 var_r0_3;
+    u16 temp_r0_6;
+    u16 var_r0;
+    s32 r9 = 0;
+    Sprite *s = &boss->spr104;
+
+    temp_sl = boss->players[0];
+    switch (strc14->unk6) {
+        case 0x0:
+            strc14->unk8 = 0x3C;
+            var_r0 = 0xA;
+            strc14->unk6 = var_r0;
+            break;
+        case 0xA:
+            if (--strc14->unk8 == 0) {
+                strc14->unkA = 0;
+                boss->unkA8 = boss->qWorldX;
+                boss->unkAC = boss->qWorldY + 0xFFFFE400;
+                boss->unkB0 = 0;
+                boss->unkB4 = -Q(4);
+                strc14->unk6 = 0x64;
+                m4aSongNumStart(0x22AU);
+            }
+            break;
+        case 0x64:
+            boss->unkAC += boss->unkB4;
+            if (I(boss->unkAC) < -0x28) {
+                strc14->unk8 = 0xB4;
+                strc14->unk6 = 0xC8;
+            }
+            break;
+        case 0xC8:
+            if (--strc14->unk8 == 0) {
+                strc14->unk8 = 0xA;
+                strc14->unk6 = 0xD2;
+            } else {
+                r9 = 1;
+            }
+            break;
+        case 0xD2:
+            if (--strc14->unk8 == 0) {
+                s->anim = 0x4CC;
+                s->variant = 1;
+                s->prevVariant = 0xFF;
+                boss->unkA8 = boss->unkB8;
+                boss->unkB4 = 0x800;
+                boss->unkBC = 0x12C00;
+                strc14->unk6 = 0x12C;
+            }
+            break;
+        case 0x12C:
+            boss->unkAC += boss->unkB4;
+            temp_r0_2 = sa2__sub_801E4E4(I(boss->unkAC), I(boss->unkA8), 1, 8, NULL, sa2__sub_801EE64);
+            if (((temp_r0_2 < 0) || (I(boss->unkAC) > gCamera.maxY))) {
+                boss->unkAC += Q(temp_r0_2);
+                s->anim = 0x4CD;
+                s->variant = 0;
+                s->prevVariant = 0xFF;
+                s = &boss->spr138[0];
+                boss->unkB8 = boss->unkA8;
+                boss->unkBC = boss->unkAC + 0xFFFFF600;
+                s->anim = 0x506;
+                s->variant = 0;
+                s->oamFlags = 0x2C0;
+                s->prevVariant = -1;
+                s->frameFlags = 0x1400;
+                CreateScreenShake(0x800U, 0x40U, 0U, -1U, 0x91U);
+                m4aSongNumStart(0x22BU);
+                strc14->unk8 = 0x22;
+                strc14->unk6 = 0x190;
+            }
+            break;
+        case 0x190:
+            if (--strc14->unk8 == 0) {
+                boss->unkA8 = 0x1F400;
+                strc14->unk8 = 0x78;
+                strc14->unk6 = 0x19A;
+            }
+            break;
+        case 0x19A:
+            if (--strc14->unk8 == 0) {
+                s = &boss->spr138[0];
+                s->anim = 0x50B;
+                s->variant = 2;
+                s->prevVariant = 0xFF;
+                strc14->unk8 = 0x64;
+                strc14->unk6 = 0x1A4;
+            }
+            break;
+        case 0x1A4:
+            if (--strc14->unk8 == 0) {
+                s32 r0, r1;
+                s = &boss->spr138[0];
+                s->anim = 0x50A;
+                s->variant = 0;
+                s->prevVariant = 0xFF;
+                r1 = boss->qWorldX - boss->unkB8;
+                boss->unkB0 = r1 / 64;
+                boss->unkAC = boss->unkBC;
+                strc14->unkA = 0;
+                strc14->unk6 = 0x1F4;
+                m4aSongNumStart(0x74U);
+            }
+            break;
+        case 0x1F4:
+            var_r0_3 = (gSineTable[strc14->unkA] * 0x60) / 64;
+            boss->unkBC = boss->unkAC - var_r0_3;
+            boss->unkB8 += boss->unkB0;
+            strc14->unkA += 8;
+            if (strc14->unkA > 0x0200) {
+                strc14->unk6 = 0x3E8;
+            }
+            break;
+        case 0x3E8:
+            strc14->unk4 = 0;
+            strc14->unk6 = 0x3F2;
+            break;
+    }
+
+    if (r9) {
+        temp_r2 = temp_sl->qWorldX;
+        temp_r1_2 = temp_r2 >> 8;
+        if (temp_r1_2 <= 0x540) {
+            boss->unkB8 = 0x54000;
+        } else if (temp_r1_2 > 0x63F) {
+            boss->unkB8 = 0x64000;
+        } else {
+            boss->unkB8 = temp_r2;
+        }
+        boss->unkBC = 0x9600;
+    }
+}
+
+void sub_8070B08(EggCube14 *strc14, EggCube *boss)
+{
+    s16 temp_r0;
+    s16 temp_r0_11;
+    s16 temp_r0_12;
+    s16 temp_r0_16;
+    s16 temp_r0_17;
+    s16 temp_r0_19;
+    s16 temp_r0_20;
+    s16 temp_r0_2;
+    s16 temp_r0_5;
+    s16 temp_r0_6;
+    s16 temp_r0_7;
+    s16 temp_r0_8;
+    s16 temp_r1_4;
+    s16 var_r2;
+    s16 var_r2_2;
+    s32 temp_r0_21;
+    s32 temp_r0_3;
+    s32 temp_r0_4;
+    s32 temp_r1_2;
+    s32 temp_r1_3;
+    s32 temp_r1_5;
+    s32 temp_r1_6;
+    s32 temp_r2;
+    s32 temp_r2_3;
+    s32 temp_r3;
+    s32 var_r0_3;
+    s32 var_r0_6;
+    u16 temp_r0_13;
+    u16 temp_r0_18;
+    u16 temp_r0_9;
+    u16 temp_r1;
+    u16 temp_r1_7;
+    u16 var_r0;
+    u16 var_r0_2;
+    u8 temp_r0_10;
+    u8 temp_r0_14;
+    u8 temp_r0_15;
+    u8 temp_r2_2;
+    u8 temp_r2_4;
+    u8 var_r0_4;
+    u8 var_r0_5;
+    u8 var_r0_7;
+
+    switch (strc14->unk6) {
+        case 0x0:
+            strc14->unk8 = 0x3C;
+            boss->unk28 = 0;
+            strc14->unk6 = 10;
+            break;
+        case 0xA:
+            if (--strc14->unk8 == 0) {
+                boss->unkB0 = 0;
+                boss->unkB4 = -0x400;
+                strc14->unk6 = 100;
+            }
+            break;
+        case 100: {
+            boss->unkAC += boss->unkB4;
+            if (boss->unkAC <= (boss->qWorldY - Q(80))) {
+                boss->unkB0 = -0x100;
+                boss->unkB4 = -0x300;
+                strc14->unk6 = 0xC8;
+            }
+        } break;
+        case 0xC8:
+            boss->unkA8 += boss->unkB0;
+            boss->unkB4 += 0x20;
+            boss->unkAC += boss->unkB4;
+            if (boss->unkAC > 0xADFF) {
+                boss->unkAC = 0xAE00;
+                boss->unkB0 = -0x100;
+                boss->unkB4 = -0x300;
+                m4aSongNumStart(0x22CU);
+                CreateScreenShake(0x800U, 0x40U, 0U, -1U, 0x91U);
+                strc14->unk6 = 0xD2;
+            }
+            temp_r1_7 = (u16)boss->unk28;
+            if (temp_r1_7 == 0x380) {
+                return;
+            }
+            boss->unk28 = (temp_r1_7 - 2) & 0x3FF;
+            break;
+
+        case 0xD2:
+            boss->unkA8 += boss->unkB0;
+            boss->unkB4 += 0x20;
+            boss->unkAC += boss->unkB4;
+            if (boss->unkAC <= 0xADFF) {
+                return;
+            }
+            boss->unkAC = 0xAE00;
+            boss->unkB0 = -0x100;
+            boss->unkB4 = -0x200;
+            m4aSongNumStart(0x22CU);
+            CreateScreenShake(0x800U, 0x40U, 0U, -1U, 0x91U);
+            strc14->unk6 = 0xDC;
+            break;
+        case 0xDC: {
+            boss->unkA8 += boss->unkB0;
+            boss->unkB4 += 0x20;
+            boss->unkAC += boss->unkB4;
+            if (boss->unkAC >= 0xAE00) {
+                boss->unkAC = 0xAE00;
+                boss->unkB0 = 0;
+                boss->unkB4 = 0;
+                m4aSongNumStart(0x22CU);
+                CreateScreenShake(0x800U, 0x80U, 0U, -1U, 0x91U);
+                strc14->unk8 = 0x3C;
+                strc14->unk6 = 0xE6;
+            }
+        } break;
+        case 0xE6: {
+            if (--strc14->unk8 == 0) {
+                strc14->unkA = 0;
+                boss->unk2A = 0U;
+                boss->unk2B = 0U;
+                boss->unk28 = 0x380;
+                if (1 & (u16)boss->unk20) {
+                    strc14->unk6 = 0x12C;
+                } else {
+                    strc14->unk6 = 0x15E;
+                }
+                m4aSongNumStart(0x22DU);
+            }
+        } break;
+        case 0x12C:
+            boss->unkB0 = SIN(strc14->unkA) / 64;
+            boss->unkA8 += boss->unkB0;
+            switch (boss->unk2B) {
+                case 0:
+                    boss->unk28 = (boss->unk28 - 4) & 0x3FF;
+                    if (boss->unk28 == 0x300) {
+                        boss->unk2B = 1;
+                    }
+                    break;
+                case 1:
+                    boss->unk28 = ((u16)boss->unk28 + 4) & 0x3FF;
+                    if (boss->unk28 == 0x380) {
+                        boss->unk2B = 2;
+                    }
+                    break;
+            }
+            strc14->unkA = strc14->unkA + 8;
+            if (strc14->unkA > 0x01FF) {
+                strc14->unkA = 0;
+                boss->unk2B = 0U;
+                if (++boss->unk2A > 1U) {
+                    strc14->unk8 = 0x3C;
+                    strc14->unk6 = 0x190;
+                } else {
+                    m4aSongNumStart(0x22DU);
+                }
+            }
+
+            if ((0x7F & strc14->unkA) == 0) {
+                sub_8079758(8U, (s16)(I(boss->unkA8) - 16), (I(boss->qWorldY) - 4), 0, 0, 0x10U, 0, NULL);
+            }
+            break;
+        case 0x15E:
+            boss->unkB0 = SIN(strc14->unkA) / 64;
+            boss->unkA8 += boss->unkB0;
+            switch (boss->unk2B) { /* switch 3; irregular */
+                case 0: /* switch 3 */
+                    boss->unk28 = ((u16)boss->unk28 - 8) & 0x3FF;
+                    if (boss->unk28 == 0x300) {
+                        boss->unk2B = 1;
+                    }
+                    break;
+                case 1: /* switch 3 */
+                    boss->unk28 = (boss->unk28 + 8) & 0x3FF;
+                    if (boss->unk28 == 0x380) {
+                        boss->unk2B = 2;
+                    }
+                    break;
+            }
+            strc14->unkA += 0x10;
+            if (strc14->unkA > 0x01FF) {
+                strc14->unkA = 0;
+                boss->unk2B = 0U;
+                if (++boss->unk2A > 3U) {
+                    strc14->unk8 = 0x3C;
+                    strc14->unk6 = 0x190;
+                } else {
+                    m4aSongNumStart(0x22DU);
+                }
+            }
+            if ((0x7F & strc14->unkA) == 0) {
+                sub_8079758(8U, (s16)(I(boss->unkA8) - 16), (I(boss->qWorldY) - 4), 0, 0, 0x10U, 0, NULL);
+            }
+            break;
+        case 0x190:
+            if (--strc14->unk8 == 0) {
+                s32 r0, r1;
+                strc14->unkA = 0;
+                boss->unk2B = 0U;
+                r0 = boss->unkA8 - Q(8);
+                r1 = boss->qWorldX;
+                boss->unkB0 = (r1 - r0) / 64;
+                boss->unkBC = boss->unkAC;
+                strc14->unk6 = 0x19A;
+            }
+            break;
+        case 0x19A:
+            boss->unkA8 += boss->unkB0;
+            var_r0_6 = (SIN(strc14->unkA) * 0x50) / 0x40;
+            boss->unkAC = boss->unkBC - var_r0_6;
+            switch (boss->unk2B) { /* switch 4; irregular */
+                case 0: /* switch 4 */
+                    boss->unk28 = (boss->unk28 - 0x10) & 0x3FF;
+                    if (boss->unk28 == 0x280) {
+                        boss->unk2B = 2;
+                    }
+                    break;
+                case 1: /* switch 4 */
+                    if (strc14->unkA >= 0x100) {
+                        boss->unk2B = 2;
+                    }
+                    break;
+                case 2: /* switch 4 */
+                    boss->unk28 = ((u16)boss->unk28 + 0x10) & 0x3FF;
+                    if (boss->unk28 == 0) {
+                        boss->unk2B = 10;
+                    }
+                    break;
+            }
+            strc14->unkA += 8;
+            if (strc14->unkA > 0x01E0) {
+                strc14->unk6 = 0x3E8;
+            }
+            break;
+        case 0x7D0:
+            if (--strc14->unk8 == 0) {
+                strc14->unk6 = 0x3E8;
+                return;
+            }
+            break;
+        case 0x3E8:
+            strc14->unk4 = 0;
+            strc14->unk6 = 0x3F2;
+            break;
+    }
+}
+
+void sub_8071034(EggCube *boss)
+{
+    s16 temp_r0_5;
+    s32 temp_r0;
+    s32 temp_r0_3;
+    s32 var_r1;
+    u16 temp_r0_2;
+    u16 temp_r0_4;
+    u16 temp_r2;
+    u16 temp_r2_2;
+    u16 var_r0;
+    s32 var_r6 = 0;
+    EggCube14 *temp_r1 = TASK_DATA(gCurTask);
+    Sprite *s = &boss->spr104;
+
+    switch (temp_r1->unk6) {
+        case 0: {
+            temp_r1->unk8 = 0U;
+            temp_r1->unkA = 0U;
+            temp_r1->unkC = -0x2000;
+            temp_r1->unk10 = 0x18;
+            temp_r1->unk6 = 10;
+        } break;
+
+        case 10: {
+            temp_r1->unkC -= Q(8);
+            if (temp_r1->unkC <= -Q(100)) {
+                temp_r1->unkC = -Q(100);
+                temp_r1->unk6 = 100;
+            }
+        } break;
+
+        case 100: {
+            var_r6 = (SIN(temp_r1->unkA) * temp_r1->unk10) / 64;
+            temp_r1->unkA = (temp_r1->unkA - 32) & 0x3FF;
+            if (temp_r1->unkA == 0) {
+                temp_r1->unk10 -= 8;
+
+                if (temp_r1->unk10 <= 0) {
+                    temp_r1->unk6 = 0xC8U;
+                }
+            }
+            s->anim = ANIM_BOSS_4_CLOWN_FACE;
+            s->variant = 4;
+            if ((temp_r1->unkA >= 0xC0) && (temp_r1->unkA <= 0x140)) {
+                s->variant = 1;
+            } else if ((temp_r1->unkA > 0x140) && (temp_r1->unkA < 0x02C0)) {
+                s->anim = ANIM_BOSS_4_CLOWN_FACE;
+                s->variant = 2;
+            } else if ((temp_r1->unkA >= 0x2C0) && (temp_r1->unkA <= 0x340)) {
+                s->anim = ANIM_BOSS_4_CLOWN_FACE;
+                s->variant = 3;
+            }
+        } break;
+
+        case 200: {
+            s->anim = ANIM_BOSS_4_CLOWN_FACE;
+            s->variant = 0;
+            temp_r1->unk8 = 0x3CU;
+            temp_r1->unk6 = 210;
+        } break;
+
+        case 210: {
+            if (--temp_r1->unk8 == 0) {
+                temp_r1->unk6 = 0x12CU;
+            }
+        } break;
+
+        case 300: {
+            temp_r1->unkC += 0x400;
+            if (temp_r1->unkC >= -Q(32)) {
+                temp_r1->unkC = -0x2000;
+                temp_r1->unk6 = 0x3E8;
+            }
+        } break;
+
+        case 1000: {
+            temp_r1->unk4 = 0;
+            temp_r1->unk6 = 0x3F2;
+        } break;
+
+            //    case 0x3F2:
+            //        break;
+    }
+    boss->unkA8 = boss->qWorldX;
+    boss->unkAC = boss->qWorldY + temp_r1->unkC + var_r6;
+}
+
+#if 0 // m2c
+
+void sub_80711C8(EggCube *boss) {
+    s32 sp0;                                        /* compiler-managed */
+    Sprite *temp_r7;
+    Sprite *var_r7;
+    s32 temp_r1;
+    s32 temp_r2;
+    s32 temp_r2_2;
+    s32 temp_r4;
+    s32 temp_r4_2;
+    s32 temp_r5;
+    s32 temp_r6;
+    s32 temp_r6_2;
+    s32 var_r0;
+    s32 var_r0_2;
+    s32 var_r2;
+    s32 var_r8;
+    s32 var_sb;
+    struct Camera *var_r2_2;
+    u16 temp_r4_3;
+    u32 var_r4;
+    u8 temp_r0;
+    u8 var_r4_2;
+
+    var_r7 = &boss->spr104;
+    temp_r0 = boss->unk18;
+    switch (temp_r0) {                              /* irregular */
+    case 1:
+        boss->spr104.x = ((s32) boss->unkA8 >> 8) - gCamera.x;
+        boss->spr104.y = ((s32) boss->unkAC >> 8) - gCamera.y;
+        UpdateSpriteAnimation(var_r7);
+        DisplaySprite(var_r7);
+        temp_r4 = boss->unkAC;
+        temp_r6 = (s32) (boss->qWorldY - (temp_r4 + 0x3C00)) / 5;
+        var_r2 = temp_r4 + 0x1800;
+        var_r4 = 0;
+        do {
+            if (var_r4 <= 1U) {
+                var_r7 = &(&boss->spr138)[var_r4];
+                sp0 = var_r2;
+                UpdateSpriteAnimation(var_r7);
+            }
+            var_r7->x = ((s32) boss->unkA8 >> 8) - gCamera.x;
+            var_r7->y = (var_r2 >> 8) - gCamera.y;
+            sp0 = var_r2;
+            DisplaySprite(var_r7);
+            var_r4 = (u32) (u8) (var_r4 + 1);
+            var_r2 += temp_r6;
+        } while (var_r4 <= 4U);
+        return;
+    case 2:
+        boss->spr104.x = ((s32) boss->unkA8 >> 8) - gCamera.x;
+        boss->spr104.y = ((s32) boss->unkAC >> 8) - gCamera.y;
+        UpdateSpriteAnimation(var_r7);
+        DisplaySprite(var_r7);
+        temp_r7 = &boss->spr138;
+        boss->spr138.x = ((s32) boss->unkB8 >> 8) - gCamera.x;
+        boss->spr138.y = ((s32) boss->unkBC >> 8) - gCamera.y;
+        UpdateSpriteAnimation(temp_r7);
+        DisplaySprite(temp_r7);
+        return;
+    case 0:
+        boss->spr104.x = ((s32) boss->unkA8 >> 8) - gCamera.x;
+        boss->spr104.y = ((s32) boss->unkAC >> 8) - gCamera.y;
+        boss->tf12C.rotation = (u16) boss->unk28;
+        boss->tf12C.x = (s16) (u16) boss->spr104.x;
+        boss->tf12C.y = (s16) (u16) boss->spr104.y;
+        TransformSprite(var_r7, &boss->tf12C);
+        UpdateSpriteAnimation(var_r7);
+        DisplaySprite(var_r7);
+        temp_r1 = boss->qWorldY;
+        temp_r4_2 = boss->unkAC;
+        if (temp_r4_2 == (temp_r1 + 0xFFFFE000)) {
+            return;
+        }
+        var_sb = boss->qWorldX;
+        temp_r2 = temp_r1 + 0xFFFFC800;
+        var_r8 = temp_r2;
+        temp_r6_2 = boss->unkA8 - var_sb;
+        temp_r5 = temp_r4_2 - temp_r2;
+        temp_r4_3 = (u16) sa2__sub_8004418((s16) ((s32) (temp_r5 << 8) >> 0x10), (s16) ((s32) (temp_r6_2 << 8) >> 0x10));
+        temp_r2_2 = (s32) Sqrt((temp_r6_2 * temp_r6_2) + (temp_r5 * temp_r5)) >> 3;
+        var_r0 = temp_r2_2 * gSineTable[temp_r4_3 + 0x100];
+        if (var_r0 < 0) {
+            var_r0 += 0x3FFF;
+        }
+        var_r0_2 = temp_r2_2 * gSineTable[temp_r4_3];
+        if (var_r0_2 < 0) {
+            var_r0_2 += 0x3FFF;
+        }
+        var_r4_2 = 0;
+        var_r2_2 = &gCamera;
+        do {
+            boss->spr138.x = (var_sb >> 8) - var_r2_2->x;
+            boss->spr138.y = (var_r8 >> 8) - var_r2_2->y;
+            DisplaySprite(&boss->spr138);
+            var_sb += var_r0 >> 0xE;
+            var_r8 += var_r0_2 >> 0xE;
+            var_r4_2 += 1;
+        } while ((u32) var_r4_2 <= 7U);
+        return;
+    }
+}
+
+void sub_8071410(EggCube *boss) {
+    s32 var_r1;
+    s8 temp_r5;
+    u16 var_r0;
+
+    temp_r5 = boss->unk19;
+    if (temp_r5 == 0) {
+        sub_8078DB0(0x4D5, 0, 0x40, 0U);
+        boss->unk19 = 0x40;
+        boss->unk24 = 0x64;
+        sub_806F2B8(boss);
+        if (boss->unk18 == 1) {
+            var_r0 = 0x22E;
+        } else {
+            var_r0 = 0x229;
+        }
+        m4aSongNumStart(var_r0);
+
+        if (boss->unk10 != 2) {
+            boss->unk10 = 2;
+            boss->unk8 = 0x80;
+            boss->unkC = (s32) temp_r5;
+            if ((s32) ((s32) boss->qWorldX >> 8) > 0x66F) {
+                boss->unk10 = 3;
+            }
+        }
+        if (gStageData.difficulty == 0) {
+            var_r1 = 0x1000;
+        } else {
+            var_r1 = 0x1800;
+        }
+        if ((s32) (boss->qWorldX + var_r1) > 0x677FF) {
+            boss->unk32 = 1;
+        }
+        if ((gStageData.gameMode == 5) && (gStageData.playerIndex == 0)) {
+            sub_8027674(3U, (u16) boss->unk18);
+        }
+    }
+}
+
+void sub_80714C0(EggCube *boss, u8 arg1) {
+    s32 var_r1;
+    u16 var_r0;
+    u8 temp_r0;
+    s32 songId;
+    s32 r5;
+
+    if (boss->unk19 == 0) {
+        sub_8078DB0(1237, 0, 0x40, 0U);
+        boss->unk19 = 0x40;
+        boss->unk24 = 0x64;
+        boss->unk18 = arg1;
+
+        switch (boss->unk18) {
+        case 0:
+            sub_8071720(boss);
+            break;
+        case 1:
+            sub_8071764(boss);
+            sub_806FE98(boss);
+            break;
+        case 2:
+            sub_80717A8(boss);
+            break;
+        }
+        
+        boss->unk13 = 1;
+        
+        songId = (boss->unk18 != 1) ? SE_553 : SE_558;
+        
+        m4aSongNumStart(songId);
+
+        if (boss->unk10 != 2) {
+            boss->unk10 = 2;
+            boss->unk8 = 0x80;
+            boss->unkC = 0;
+            if (I(boss->qWorldX) >= 0x670) {
+                boss->unk10 = 3;
+            }
+        }
+
+        if (gStageData.difficulty == 0) {
+            if (boss->qWorldX + 0x1000 >= 0x66800) {
+                boss->unk32 = 1;
+            }
+        } else {
+            if (boss->qWorldX + 0x1800 >= 0x66800) {
+                boss->unk32 = 1;
+            }
+        }
+    }
+}
+
+void sub_8071594(u8 *arg0, s16 param1) {
+    s32 temp_r2_2;
+    EggCube *boss;
+    u16 temp_r1;
+    void *temp_r1_3;
+
+    boss = TASK_DATA(gStageData.taskBoss);
+    temp_r2_2 = 0x7F & arg0[2];
+    temp_r1 = arg0[3] | (arg0[4] << 8);
+
+    switch (temp_r2_2) {
+    case 1:
+        boss->qWorldX = Q(temp_r1);
+        boss->unk1C = 0;
+        boss->players[0]->moveState |= 0x08000000;
+        boss->players[0]->moveState &= ~0x20;
+        boss->players[0]->qSpeedGround = 0;
+        boss->players[0]->qSpeedAirX = 0;
+        boss->players[1]->moveState |= 0x08000000;
+        boss->players[1]->moveState &= ~0x20;
+        boss->players[1]->qSpeedGround = 0;
+        boss->players[1]->qSpeedAirX = 0;
+        boss->unk2C = 0;
+        gStageData.taskBoss->main = (void (*)()) Task_EggCube_806F3A0;
+        return;
+    case 3:
+        sub_80714C0(boss, temp_r1);
+        return;
+    }
+}
+
+void Task_EggCubeInit(void) {
+    EggCube *boss;
+
+    boss = TASK_DATA(gCurTask);
+    if (*boss->bossPhase == 3) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    if ((sub_8079FFC() << 0x18) != 0) {
+        gCurTask->main = Task_EggCube_806EC50;
+    } else {
+        gCurTask->main = Task_EggCube_806ED00;
+    }
+    sub_806FA0C(boss);
+}
+
+void Task_EggCube_8071664(void) {
+    EggCube *boss = TASK_DATA(gCurTask);
+    boss->players[0]->moveState |= MOVESTATE_IGNORE_INPUT;
+    boss->players[1]->moveState |= MOVESTATE_IGNORE_INPUT;
+    sub_806FA0C(boss);
+}
+
+void TaskDestructor_EggCube(Task *t) {
+    EggCube *boss = TASK_DATA(t);
+
+    if (boss->vram38 != NULL) {
+        VramFree(boss->vram38);
+    }
+
+    if (boss->vramC8 != NULL) {
+        VramFree(boss->vramC8);
+    }
+
+    if (boss->vramCC != NULL) {
+        VramFree(boss->vramCC);
+    }
+
+    if (boss->vram34 != NULL) {
+        VramFree(boss->vram34);
+    }
+}
+
+void sub_80716DC(EggCube *arg0, u8 arg1) {
+    arg0->unk18 = arg1;
+
+    switch (arg0->unk18) {
+    case 0:
+        sub_8071720(arg0);
+        break;
+    case 1:
+        sub_8071764(arg0);
+        sub_806FE98(arg0);
+        break;
+    case 2:
+        sub_80717A8(arg0);
+        break;
+    }
+
+    arg0->unk13 = 1;
+}
+
+void sub_8071720(EggCube *boss) {
+    EggCube14 *strc14 = TASK_DATA(TaskCreate(Task_14_80717EC, sizeof(EggCube14), 0x2200U, 0U, TaskDestructor_EggCube14));
+    strc14->boss = boss;
+    strc14->unk4 = 1;
+    strc14->unk6 = 0;
+    strc14->unk8 = 0;
+    strc14->unkA = 0;
+    sub_8070450(strc14, 0);
+}
+
+void sub_8071764(EggCube *boss) {
+    EggCube14 *strc14 = TASK_DATA(TaskCreate(Task_14_80703D4, sizeof(EggCube14), 0x2200U, 0U, TaskDestructor_EggCube14));
+    strc14->boss = boss;
+    strc14->unk4 = 1;
+    strc14->unk6 = 0;
+    strc14->unk8 = 0;
+    strc14->unkA = 0;
+    sub_8070450(strc14, 1);
+}
+
+void sub_80717A8(EggCube *boss) {
+    EggCube14 *strc14 = TASK_DATA(TaskCreate(Task_14_8071864, sizeof(EggCube14), 0x2200U, 0U, TaskDestructor_EggCube14));
+    strc14->boss = boss;
+    strc14->unk4 = 1;
+    strc14->unk6 = 0;
+    strc14->unk8 = 0;
+    strc14->unkA = 0;
+    sub_8070450(strc14, 2);
+}
+
+void Task_14_80717EC(void) {
+    EggCube14 *temp_r1 = TASK_DATA(gCurTask);
+    EggCube *temp_r4 = temp_r1->boss;
+    Sprite *temp_r7 = &temp_r4->spr104;
+
+    if ((temp_r1->unk4 == 0) || (temp_r4->unk1C == 0)) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    sub_8070B08(temp_r1, temp_r4);
+    sub_8020CE0(temp_r7, (s32) temp_r4->unkA8 >> 8, (s32) temp_r4->unkAC >> 8, 0, temp_r1->boss->players[0]);
+    sub_8020CE0(temp_r7, (s32) temp_r4->unkA8 >> 8, (s32) temp_r4->unkAC >> 8, 0, temp_r1->boss->players[1]);
+    sub_80711C8(temp_r1->boss);
+}
+
+void Task_14_8071864(void) {
+    EggCube14 *strc14 = TASK_DATA(gCurTask);
+    EggCube *boss = strc14->boss;
+    Sprite *s = &boss->spr104;
+    if ((strc14->unk4 == 0) || (boss->unk1C == 0)) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    sub_80707A0(strc14, boss);
+    sub_8020CE0(s, I(boss->unkA8), I(boss->unkAC), 0, strc14->boss->players[0]);
+    sub_8020CE0(s, I(boss->unkA8), I(boss->unkAC), 0, strc14->boss->players[1]);
+    sub_80711C8(strc14->boss);
+}
+
+void TaskDestructor_EggCube14(Task *t) {
+    s16 var_r0;
+    EggCube14 *strc14 = TASK_DATA(t);
+    EggCube *boss = strc14->boss;
+
+    if (boss->unk12 != 0) {
+        boss->unk24 = 0;
+    } else {
+        boss->unk24 = 0xC8;
+    }
+}
+
+void sub_80718FC(void) {
+
+}
+
+void sub_8071900(void) {
+
+}
+
+void sub_8071904(EggCube *boss, u16 param1) {
+    if (boss->unk10 != param1) {
+        boss->unk10 = param1;
+        switch (boss->unk10) {
+        case 0:
+            boss->unk1A = 0;
+            boss->unk8 = 0;
+            boss->unkC = 0;
+            break;
+        case 1:
+            boss->unk8 = -8;
+            boss->unkC = 0;
+            break;
+        case 2:
+            boss->unk8 = 0x80;
+            boss->unkC = 0;
+            if ((s32) ((s32) boss->qWorldX >> 8) > 0x66F) {
+                boss->unk10 = 3;
+                return;
+            }
+            break;
+        case 4:
+            boss->unk1A = 0;
+            boss->unk8 = 0x800;
+            boss->unkC = 0;
+            break;
+        }
+    }
+}
+
+void sub_8071968(EggCube *boss, u8 param1) {
+    Sprite *s = &boss->sprD0;
+
+    s->frameFlags = 0x1000;
+    switch (param1) {                              /* irregular */
+    case 0:
+        s->anim = 0x4CB;
+        s->variant = 0;
+        s->frameFlags = 0x1000;
+        s->frameFlags |= 0x3E;
+        s->frameFlags |= 0x1000;
+        break;
+    case 1:
+        s->anim = 0x4CB;
+        s->variant = 1;
+        break;
+    case 2:
+        s->anim = 0x4CB;
+        s->variant = 2;
+        break;
+    }
+    s->prevVariant = 0xFF;
+}
+
+void sub_80719B4(EggCube *boss) {
+    boss->vramCC = VramMalloc(0x54U);
+}
+
+void sub_80719C8(EggCube *boss) {
+    boss->unk1C = 0;
+    boss->players[0]->moveState |= 0x08000000;
+    boss->players[0]->moveState &= ~0x20;
+    boss->players[0]->qSpeedGround = 0;
+    boss->players[0]->qSpeedAirX = 0;
+    boss->players[1]->moveState |= 0x08000000;
+    boss->players[1]->moveState &= ~0x20;
+    boss->players[1]->qSpeedGround = 0;
+    boss->players[1]->qSpeedAirX = 0;
+    boss->unk2C = 0;
+}
+
+void sub_8071A00(void) {
+
+}
+
+void sub_8071A04(void) {
+
+}
+
+#endif
