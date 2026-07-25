@@ -2016,6 +2016,97 @@ void sub_8071034(EggCube *boss)
     boss->unkAC = boss->qWorldY + temp_r1->unkC + var_r6;
 }
 
+// (87.59%) https://decomp.me/scratch/1uYBK
+NONMATCH("asm/non_matching/game/bosses/boss_4__sub_80711C8.inc", void sub_80711C8(EggCube *boss))
+{
+    Sprite *s;
+    SpriteTransform *tf;
+    s32 temp_r1;
+    s32 temp_r2;
+    s16 temp_r2_2;
+    s32 temp_r4;
+    s32 temp_r5;
+    s32 temp_r6;
+    s32 var_r0;
+    s32 var_r0_2;
+    s32 var_r2;
+    s32 var_r8;
+    s32 var_sb;
+    struct Camera *var_r2_2;
+    u16 temp_r4_3;
+    u8 var_r4;
+
+    s = &boss->spr104;
+    tf = &boss->tf12C;
+    switch (boss->unk18) {
+    case 0:
+        s->x = I(boss->unkA8) - gCamera.x;
+        s->y = I(boss->unkAC) - gCamera.y;
+        tf->rotation = boss->unk28;
+        tf->x = s->x;
+        tf->y = s->y;
+        TransformSprite(s, tf);
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+
+        if (boss->unkAC != (boss->qWorldY - Q(32))) {
+            s = &boss->spr138[0];
+            var_sb = boss->qWorldX;
+            var_r8 = boss->qWorldY - Q(56);
+            var_r2 = boss->unkA8 - boss->qWorldX;
+            temp_r5 = boss->unkAC - var_r8;
+            temp_r4_3 = (u16) sa2__sub_8004418(I(temp_r5),
+                                               I(var_r2));
+            temp_r2_2 = Sqrt((var_r2 * var_r2) + (temp_r5 * temp_r5)) / 8;
+            var_r0 = (temp_r2_2 * COS(temp_r4_3)) / 0x4000;
+            var_r0_2 = (temp_r2_2 * SIN(temp_r4_3)) / 0x4000;
+            for(var_r4 = 0; var_r4 < 8; var_r4++)
+            {
+                s->x = I(var_sb) - gCamera.x;
+                s->y = I(var_r8) - gCamera.y;
+                DisplaySprite(s);
+                var_sb += var_r0;
+                var_r8 += var_r0_2;
+            }
+        }
+        break;
+    case 1: {
+        s32 r0;
+        s->x = I(boss->unkA8) - gCamera.x;
+        s->y = I(boss->unkAC) - gCamera.y;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+        r0 = (boss->unkAC + 0x3C00);
+        temp_r6 = (boss->qWorldY - r0);
+        temp_r6 /= 5;
+        var_r2 = boss->unkAC + 0x1800;
+        for(var_r4 = 0; var_r4 < 5; var_r4++, var_r2 += temp_r6)
+        {
+            if (var_r4 < 2) {
+                s = &boss->spr138[var_r4];
+                UpdateSpriteAnimation(s);
+            }
+            s->x = I(boss->unkA8) - gCamera.x;
+            s->y = I(var_r2) - gCamera.y;
+            DisplaySprite(s);
+        }
+    } break;
+    case 2:
+        s->x = I(boss->unkA8) - gCamera.x;
+        s->y = I(boss->unkAC) - gCamera.y;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+
+        s = &boss->spr138[0];
+        s->x = I(boss->unkB8) - gCamera.x;
+        s->y = I(boss->unkBC) - gCamera.y;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+        break;
+    }
+}
+END_NONMATCH
+
 #if 0 // m2c
 
 void sub_80711C8(EggCube *boss) {
