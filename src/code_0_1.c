@@ -111,7 +111,7 @@ void sub_80022E8(s16 level)
                 stageData->currentLevel = level;
             } else {
                 zone = (level - 1) / 10;
-                act = (((zone * 10) + 1));
+                act = LEVEL_INDEX(zone, ACT_SPECIAL);
                 act = (level - act);
                 act++;
                 stageData->zone = zone;
