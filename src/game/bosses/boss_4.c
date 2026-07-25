@@ -2039,186 +2039,78 @@ NONMATCH("asm/non_matching/game/bosses/boss_4__sub_80711C8.inc", void sub_80711C
     s = &boss->spr104;
     tf = &boss->tf12C;
     switch (boss->unk18) {
-    case 0:
-        s->x = I(boss->unkA8) - gCamera.x;
-        s->y = I(boss->unkAC) - gCamera.y;
-        tf->rotation = boss->unk28;
-        tf->x = s->x;
-        tf->y = s->y;
-        TransformSprite(s, tf);
-        UpdateSpriteAnimation(s);
-        DisplaySprite(s);
-
-        if (boss->unkAC != (boss->qWorldY - Q(32))) {
-            s = &boss->spr138[0];
-            var_sb = boss->qWorldX;
-            var_r8 = boss->qWorldY - Q(56);
-            var_r2 = boss->unkA8 - boss->qWorldX;
-            temp_r5 = boss->unkAC - var_r8;
-            temp_r4_3 = (u16) sa2__sub_8004418(I(temp_r5),
-                                               I(var_r2));
-            temp_r2_2 = Sqrt((var_r2 * var_r2) + (temp_r5 * temp_r5)) / 8;
-            var_r0 = (temp_r2_2 * COS(temp_r4_3)) / 0x4000;
-            var_r0_2 = (temp_r2_2 * SIN(temp_r4_3)) / 0x4000;
-            for(var_r4 = 0; var_r4 < 8; var_r4++)
-            {
-                s->x = I(var_sb) - gCamera.x;
-                s->y = I(var_r8) - gCamera.y;
-                DisplaySprite(s);
-                var_sb += var_r0;
-                var_r8 += var_r0_2;
-            }
-        }
-        break;
-    case 1: {
-        s32 r0;
-        s->x = I(boss->unkA8) - gCamera.x;
-        s->y = I(boss->unkAC) - gCamera.y;
-        UpdateSpriteAnimation(s);
-        DisplaySprite(s);
-        r0 = (boss->unkAC + 0x3C00);
-        temp_r6 = (boss->qWorldY - r0);
-        temp_r6 /= 5;
-        var_r2 = boss->unkAC + 0x1800;
-        for(var_r4 = 0; var_r4 < 5; var_r4++, var_r2 += temp_r6)
-        {
-            if (var_r4 < 2) {
-                s = &boss->spr138[var_r4];
-                UpdateSpriteAnimation(s);
-            }
+        case 0:
             s->x = I(boss->unkA8) - gCamera.x;
-            s->y = I(var_r2) - gCamera.y;
+            s->y = I(boss->unkAC) - gCamera.y;
+            tf->rotation = boss->unk28;
+            tf->x = s->x;
+            tf->y = s->y;
+            TransformSprite(s, tf);
+            UpdateSpriteAnimation(s);
             DisplaySprite(s);
-        }
-    } break;
-    case 2:
-        s->x = I(boss->unkA8) - gCamera.x;
-        s->y = I(boss->unkAC) - gCamera.y;
-        UpdateSpriteAnimation(s);
-        DisplaySprite(s);
 
-        s = &boss->spr138[0];
-        s->x = I(boss->unkB8) - gCamera.x;
-        s->y = I(boss->unkBC) - gCamera.y;
-        UpdateSpriteAnimation(s);
-        DisplaySprite(s);
-        break;
+            if (boss->unkAC != (boss->qWorldY - Q(32))) {
+                s = &boss->spr138[0];
+                var_sb = boss->qWorldX;
+                var_r8 = boss->qWorldY - Q(56);
+                var_r2 = boss->unkA8 - boss->qWorldX;
+                temp_r5 = boss->unkAC - var_r8;
+                temp_r4_3 = (u16)sa2__sub_8004418(I(temp_r5), I(var_r2));
+                temp_r2_2 = Sqrt((var_r2 * var_r2) + (temp_r5 * temp_r5)) / 8;
+                var_r0 = (temp_r2_2 * COS(temp_r4_3)) / 0x4000;
+                var_r0_2 = (temp_r2_2 * SIN(temp_r4_3)) / 0x4000;
+                for (var_r4 = 0; var_r4 < 8; var_r4++) {
+                    s->x = I(var_sb) - gCamera.x;
+                    s->y = I(var_r8) - gCamera.y;
+                    DisplaySprite(s);
+                    var_sb += var_r0;
+                    var_r8 += var_r0_2;
+                }
+            }
+            break;
+        case 1: {
+            s32 r0;
+            s->x = I(boss->unkA8) - gCamera.x;
+            s->y = I(boss->unkAC) - gCamera.y;
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+            r0 = (boss->unkAC + 0x3C00);
+            temp_r6 = (boss->qWorldY - r0);
+            temp_r6 /= 5;
+            var_r2 = boss->unkAC + 0x1800;
+            for (var_r4 = 0; var_r4 < 5; var_r4++, var_r2 += temp_r6) {
+                if (var_r4 < 2) {
+                    s = &boss->spr138[var_r4];
+                    UpdateSpriteAnimation(s);
+                }
+                s->x = I(boss->unkA8) - gCamera.x;
+                s->y = I(var_r2) - gCamera.y;
+                DisplaySprite(s);
+            }
+        } break;
+        case 2:
+            s->x = I(boss->unkA8) - gCamera.x;
+            s->y = I(boss->unkAC) - gCamera.y;
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+
+            s = &boss->spr138[0];
+            s->x = I(boss->unkB8) - gCamera.x;
+            s->y = I(boss->unkBC) - gCamera.y;
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+            break;
     }
 }
 END_NONMATCH
 
-#if 0 // m2c
-
-void sub_80711C8(EggCube *boss) {
-    s32 sp0;                                        /* compiler-managed */
-    Sprite *temp_r7;
-    Sprite *var_r7;
-    s32 temp_r1;
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    s32 temp_r5;
-    s32 temp_r6;
-    s32 temp_r6_2;
-    s32 var_r0;
-    s32 var_r0_2;
-    s32 var_r2;
-    s32 var_r8;
-    s32 var_sb;
-    struct Camera *var_r2_2;
-    u16 temp_r4_3;
-    u32 var_r4;
-    u8 temp_r0;
-    u8 var_r4_2;
-
-    var_r7 = &boss->spr104;
-    temp_r0 = boss->unk18;
-    switch (temp_r0) {                              /* irregular */
-    case 1:
-        boss->spr104.x = ((s32) boss->unkA8 >> 8) - gCamera.x;
-        boss->spr104.y = ((s32) boss->unkAC >> 8) - gCamera.y;
-        UpdateSpriteAnimation(var_r7);
-        DisplaySprite(var_r7);
-        temp_r4 = boss->unkAC;
-        temp_r6 = (s32) (boss->qWorldY - (temp_r4 + 0x3C00)) / 5;
-        var_r2 = temp_r4 + 0x1800;
-        var_r4 = 0;
-        do {
-            if (var_r4 <= 1U) {
-                var_r7 = &(&boss->spr138)[var_r4];
-                sp0 = var_r2;
-                UpdateSpriteAnimation(var_r7);
-            }
-            var_r7->x = ((s32) boss->unkA8 >> 8) - gCamera.x;
-            var_r7->y = (var_r2 >> 8) - gCamera.y;
-            sp0 = var_r2;
-            DisplaySprite(var_r7);
-            var_r4 = (u32) (u8) (var_r4 + 1);
-            var_r2 += temp_r6;
-        } while (var_r4 <= 4U);
-        return;
-    case 2:
-        boss->spr104.x = ((s32) boss->unkA8 >> 8) - gCamera.x;
-        boss->spr104.y = ((s32) boss->unkAC >> 8) - gCamera.y;
-        UpdateSpriteAnimation(var_r7);
-        DisplaySprite(var_r7);
-        temp_r7 = &boss->spr138;
-        boss->spr138.x = ((s32) boss->unkB8 >> 8) - gCamera.x;
-        boss->spr138.y = ((s32) boss->unkBC >> 8) - gCamera.y;
-        UpdateSpriteAnimation(temp_r7);
-        DisplaySprite(temp_r7);
-        return;
-    case 0:
-        boss->spr104.x = ((s32) boss->unkA8 >> 8) - gCamera.x;
-        boss->spr104.y = ((s32) boss->unkAC >> 8) - gCamera.y;
-        boss->tf12C.rotation = (u16) boss->unk28;
-        boss->tf12C.x = (s16) (u16) boss->spr104.x;
-        boss->tf12C.y = (s16) (u16) boss->spr104.y;
-        TransformSprite(var_r7, &boss->tf12C);
-        UpdateSpriteAnimation(var_r7);
-        DisplaySprite(var_r7);
-        temp_r1 = boss->qWorldY;
-        temp_r4_2 = boss->unkAC;
-        if (temp_r4_2 == (temp_r1 + 0xFFFFE000)) {
-            return;
-        }
-        var_sb = boss->qWorldX;
-        temp_r2 = temp_r1 + 0xFFFFC800;
-        var_r8 = temp_r2;
-        temp_r6_2 = boss->unkA8 - var_sb;
-        temp_r5 = temp_r4_2 - temp_r2;
-        temp_r4_3 = (u16) sa2__sub_8004418((s16) ((s32) (temp_r5 << 8) >> 0x10), (s16) ((s32) (temp_r6_2 << 8) >> 0x10));
-        temp_r2_2 = (s32) Sqrt((temp_r6_2 * temp_r6_2) + (temp_r5 * temp_r5)) >> 3;
-        var_r0 = temp_r2_2 * gSineTable[temp_r4_3 + 0x100];
-        if (var_r0 < 0) {
-            var_r0 += 0x3FFF;
-        }
-        var_r0_2 = temp_r2_2 * gSineTable[temp_r4_3];
-        if (var_r0_2 < 0) {
-            var_r0_2 += 0x3FFF;
-        }
-        var_r4_2 = 0;
-        var_r2_2 = &gCamera;
-        do {
-            boss->spr138.x = (var_sb >> 8) - var_r2_2->x;
-            boss->spr138.y = (var_r8 >> 8) - var_r2_2->y;
-            DisplaySprite(&boss->spr138);
-            var_sb += var_r0 >> 0xE;
-            var_r8 += var_r0_2 >> 0xE;
-            var_r4_2 += 1;
-        } while ((u32) var_r4_2 <= 7U);
-        return;
-    }
-}
-
-void sub_8071410(EggCube *boss) {
+// (89.29%) https://decomp.me/scratch/maKdc
+NONMATCH("asm/non_matching/game/bosses/boss_4__sub_8071410.inc", void sub_8071410(EggCube *boss))
+{
     s32 var_r1;
-    s8 temp_r5;
     u16 var_r0;
 
-    temp_r5 = boss->unk19;
-    if (temp_r5 == 0) {
+    if (boss->unk19 == 0) {
         sub_8078DB0(0x4D5, 0, 0x40, 0U);
         boss->unk19 = 0x40;
         boss->unk24 = 0x64;
@@ -2233,26 +2125,29 @@ void sub_8071410(EggCube *boss) {
         if (boss->unk10 != 2) {
             boss->unk10 = 2;
             boss->unk8 = 0x80;
-            boss->unkC = (s32) temp_r5;
-            if ((s32) ((s32) boss->qWorldX >> 8) > 0x66F) {
+            boss->unkC = 0;
+            if (I(boss->qWorldX) > 0x66F) {
                 boss->unk10 = 3;
             }
         }
         if (gStageData.difficulty == 0) {
-            var_r1 = 0x1000;
+            var_r1 = boss->qWorldX + 0x1000;
         } else {
-            var_r1 = 0x1800;
+            var_r1 = boss->qWorldX + 0x1800;
         }
-        if ((s32) (boss->qWorldX + var_r1) > 0x677FF) {
+        if (var_r1 > 0x677FF) {
             boss->unk32 = 1;
         }
         if ((gStageData.gameMode == 5) && (gStageData.playerIndex == 0)) {
-            sub_8027674(3U, (u16) boss->unk18);
+            sub_8027674(3U, (u16)boss->unk18);
         }
     }
 }
+END_NONMATCH
 
-void sub_80714C0(EggCube *boss, u8 arg1) {
+// (88.72%) https://decomp.me/scratch/j9QdP
+NONMATCH("asm/non_matching/game/bosses/boss_4__sub_80714C0.inc", void sub_80714C0(EggCube *boss, u8 arg1))
+{
     s32 var_r1;
     u16 var_r0;
     u8 temp_r0;
@@ -2266,22 +2161,22 @@ void sub_80714C0(EggCube *boss, u8 arg1) {
         boss->unk18 = arg1;
 
         switch (boss->unk18) {
-        case 0:
-            sub_8071720(boss);
-            break;
-        case 1:
-            sub_8071764(boss);
-            sub_806FE98(boss);
-            break;
-        case 2:
-            sub_80717A8(boss);
-            break;
+            case 0:
+                sub_8071720(boss);
+                break;
+            case 1:
+                sub_8071764(boss);
+                sub_806FE98(boss);
+                break;
+            case 2:
+                sub_80717A8(boss);
+                break;
         }
-        
+
         boss->unk13 = 1;
-        
+
         songId = (boss->unk18 != 1) ? SE_553 : SE_558;
-        
+
         m4aSongNumStart(songId);
 
         if (boss->unk10 != 2) {
@@ -2304,8 +2199,10 @@ void sub_80714C0(EggCube *boss, u8 arg1) {
         }
     }
 }
+END_NONMATCH
 
-void sub_8071594(u8 *arg0, s16 param1) {
+void sub_8071594(u8 *arg0, s16 param1)
+{
     s32 temp_r2_2;
     EggCube *boss;
     u16 temp_r1;
@@ -2316,27 +2213,28 @@ void sub_8071594(u8 *arg0, s16 param1) {
     temp_r1 = arg0[3] | (arg0[4] << 8);
 
     switch (temp_r2_2) {
-    case 1:
-        boss->qWorldX = Q(temp_r1);
-        boss->unk1C = 0;
-        boss->players[0]->moveState |= 0x08000000;
-        boss->players[0]->moveState &= ~0x20;
-        boss->players[0]->qSpeedGround = 0;
-        boss->players[0]->qSpeedAirX = 0;
-        boss->players[1]->moveState |= 0x08000000;
-        boss->players[1]->moveState &= ~0x20;
-        boss->players[1]->qSpeedGround = 0;
-        boss->players[1]->qSpeedAirX = 0;
-        boss->unk2C = 0;
-        gStageData.taskBoss->main = (void (*)()) Task_EggCube_806F3A0;
-        return;
-    case 3:
-        sub_80714C0(boss, temp_r1);
-        return;
+        case 1:
+            boss->qWorldX = Q(temp_r1);
+            boss->unk1C = 0;
+            boss->players[0]->moveState |= 0x08000000;
+            boss->players[0]->moveState &= ~0x20;
+            boss->players[0]->qSpeedGround = 0;
+            boss->players[0]->qSpeedAirX = 0;
+            boss->players[1]->moveState |= 0x08000000;
+            boss->players[1]->moveState &= ~0x20;
+            boss->players[1]->qSpeedGround = 0;
+            boss->players[1]->qSpeedAirX = 0;
+            boss->unk2C = 0;
+            gStageData.taskBoss->main = (void (*)())Task_EggCube_806F3A0;
+            return;
+        case 3:
+            sub_80714C0(boss, temp_r1);
+            return;
     }
 }
 
-void Task_EggCubeInit(void) {
+void Task_EggCubeInit(void)
+{
     EggCube *boss;
 
     boss = TASK_DATA(gCurTask);
@@ -2352,14 +2250,16 @@ void Task_EggCubeInit(void) {
     sub_806FA0C(boss);
 }
 
-void Task_EggCube_8071664(void) {
+void Task_EggCube_8071664(void)
+{
     EggCube *boss = TASK_DATA(gCurTask);
     boss->players[0]->moveState |= MOVESTATE_IGNORE_INPUT;
     boss->players[1]->moveState |= MOVESTATE_IGNORE_INPUT;
     sub_806FA0C(boss);
 }
 
-void TaskDestructor_EggCube(Task *t) {
+void TaskDestructor_EggCube(Task *t)
+{
     EggCube *boss = TASK_DATA(t);
 
     if (boss->vram38 != NULL) {
@@ -2379,26 +2279,28 @@ void TaskDestructor_EggCube(Task *t) {
     }
 }
 
-void sub_80716DC(EggCube *arg0, u8 arg1) {
+void sub_80716DC(EggCube *arg0, u8 arg1)
+{
     arg0->unk18 = arg1;
 
     switch (arg0->unk18) {
-    case 0:
-        sub_8071720(arg0);
-        break;
-    case 1:
-        sub_8071764(arg0);
-        sub_806FE98(arg0);
-        break;
-    case 2:
-        sub_80717A8(arg0);
-        break;
+        case 0:
+            sub_8071720(arg0);
+            break;
+        case 1:
+            sub_8071764(arg0);
+            sub_806FE98(arg0);
+            break;
+        case 2:
+            sub_80717A8(arg0);
+            break;
     }
 
     arg0->unk13 = 1;
 }
 
-void sub_8071720(EggCube *boss) {
+void sub_8071720(EggCube *boss)
+{
     EggCube14 *strc14 = TASK_DATA(TaskCreate(Task_14_80717EC, sizeof(EggCube14), 0x2200U, 0U, TaskDestructor_EggCube14));
     strc14->boss = boss;
     strc14->unk4 = 1;
@@ -2408,7 +2310,8 @@ void sub_8071720(EggCube *boss) {
     sub_8070450(strc14, 0);
 }
 
-void sub_8071764(EggCube *boss) {
+void sub_8071764(EggCube *boss)
+{
     EggCube14 *strc14 = TASK_DATA(TaskCreate(Task_14_80703D4, sizeof(EggCube14), 0x2200U, 0U, TaskDestructor_EggCube14));
     strc14->boss = boss;
     strc14->unk4 = 1;
@@ -2418,7 +2321,8 @@ void sub_8071764(EggCube *boss) {
     sub_8070450(strc14, 1);
 }
 
-void sub_80717A8(EggCube *boss) {
+void sub_80717A8(EggCube *boss)
+{
     EggCube14 *strc14 = TASK_DATA(TaskCreate(Task_14_8071864, sizeof(EggCube14), 0x2200U, 0U, TaskDestructor_EggCube14));
     strc14->boss = boss;
     strc14->unk4 = 1;
@@ -2428,7 +2332,8 @@ void sub_80717A8(EggCube *boss) {
     sub_8070450(strc14, 2);
 }
 
-void Task_14_80717EC(void) {
+void Task_14_80717EC(void)
+{
     EggCube14 *temp_r1 = TASK_DATA(gCurTask);
     EggCube *temp_r4 = temp_r1->boss;
     Sprite *temp_r7 = &temp_r4->spr104;
@@ -2438,12 +2343,13 @@ void Task_14_80717EC(void) {
         return;
     }
     sub_8070B08(temp_r1, temp_r4);
-    sub_8020CE0(temp_r7, (s32) temp_r4->unkA8 >> 8, (s32) temp_r4->unkAC >> 8, 0, temp_r1->boss->players[0]);
-    sub_8020CE0(temp_r7, (s32) temp_r4->unkA8 >> 8, (s32) temp_r4->unkAC >> 8, 0, temp_r1->boss->players[1]);
+    sub_8020CE0(temp_r7, (s32)temp_r4->unkA8 >> 8, (s32)temp_r4->unkAC >> 8, 0, temp_r1->boss->players[0]);
+    sub_8020CE0(temp_r7, (s32)temp_r4->unkA8 >> 8, (s32)temp_r4->unkAC >> 8, 0, temp_r1->boss->players[1]);
     sub_80711C8(temp_r1->boss);
 }
 
-void Task_14_8071864(void) {
+void Task_14_8071864(void)
+{
     EggCube14 *strc14 = TASK_DATA(gCurTask);
     EggCube *boss = strc14->boss;
     Sprite *s = &boss->spr104;
@@ -2457,7 +2363,8 @@ void Task_14_8071864(void) {
     sub_80711C8(strc14->boss);
 }
 
-void TaskDestructor_EggCube14(Task *t) {
+void TaskDestructor_EggCube14(Task *t)
+{
     s16 var_r0;
     EggCube14 *strc14 = TASK_DATA(t);
     EggCube *boss = strc14->boss;
@@ -2469,73 +2376,70 @@ void TaskDestructor_EggCube14(Task *t) {
     }
 }
 
-void sub_80718FC(void) {
+void sub_80718FC(void) { }
 
-}
+void sub_8071900(void) { }
 
-void sub_8071900(void) {
-
-}
-
-void sub_8071904(EggCube *boss, u16 param1) {
+void sub_8071904(EggCube *boss, u16 param1)
+{
     if (boss->unk10 != param1) {
         boss->unk10 = param1;
         switch (boss->unk10) {
-        case 0:
-            boss->unk1A = 0;
-            boss->unk8 = 0;
-            boss->unkC = 0;
-            break;
-        case 1:
-            boss->unk8 = -8;
-            boss->unkC = 0;
-            break;
-        case 2:
-            boss->unk8 = 0x80;
-            boss->unkC = 0;
-            if ((s32) ((s32) boss->qWorldX >> 8) > 0x66F) {
-                boss->unk10 = 3;
-                return;
-            }
-            break;
-        case 4:
-            boss->unk1A = 0;
-            boss->unk8 = 0x800;
-            boss->unkC = 0;
-            break;
+            case 0:
+                boss->unk1A = 0;
+                boss->unk8 = 0;
+                boss->unkC = 0;
+                break;
+            case 1:
+                boss->unk8 = -8;
+                boss->unkC = 0;
+                break;
+            case 2:
+                boss->unk8 = 0x80;
+                boss->unkC = 0;
+                if ((s32)((s32)boss->qWorldX >> 8) > 0x66F) {
+                    boss->unk10 = 3;
+                    return;
+                }
+                break;
+            case 4:
+                boss->unk1A = 0;
+                boss->unk8 = 0x800;
+                boss->unkC = 0;
+                break;
         }
     }
 }
 
-void sub_8071968(EggCube *boss, u8 param1) {
+void sub_8071968(EggCube *boss, u8 param1)
+{
     Sprite *s = &boss->sprD0;
 
     s->frameFlags = 0x1000;
-    switch (param1) {                              /* irregular */
-    case 0:
-        s->anim = 0x4CB;
-        s->variant = 0;
-        s->frameFlags = 0x1000;
-        s->frameFlags |= 0x3E;
-        s->frameFlags |= 0x1000;
-        break;
-    case 1:
-        s->anim = 0x4CB;
-        s->variant = 1;
-        break;
-    case 2:
-        s->anim = 0x4CB;
-        s->variant = 2;
-        break;
+    switch (param1) { /* irregular */
+        case 0:
+            s->anim = 0x4CB;
+            s->variant = 0;
+            s->frameFlags = 0x1000;
+            s->frameFlags |= 0x3E;
+            s->frameFlags |= 0x1000;
+            break;
+        case 1:
+            s->anim = 0x4CB;
+            s->variant = 1;
+            break;
+        case 2:
+            s->anim = 0x4CB;
+            s->variant = 2;
+            break;
     }
     s->prevVariant = 0xFF;
 }
 
-void sub_80719B4(EggCube *boss) {
-    boss->vramCC = VramMalloc(0x54U);
-}
+void sub_80719B4(EggCube *boss) { boss->vramCC = VramMalloc(0x54U); }
 
-void sub_80719C8(EggCube *boss) {
+void sub_80719C8(EggCube *boss)
+{
     boss->unk1C = 0;
     boss->players[0]->moveState |= 0x08000000;
     boss->players[0]->moveState &= ~0x20;
@@ -2548,12 +2452,6 @@ void sub_80719C8(EggCube *boss) {
     boss->unk2C = 0;
 }
 
-void sub_8071A00(void) {
+void sub_8071A00(void) { }
 
-}
-
-void sub_8071A04(void) {
-
-}
-
-#endif
+void sub_8071A04(void) { }
