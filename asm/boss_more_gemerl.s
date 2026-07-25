@@ -159,7 +159,7 @@ _08078EB8:
 	movs r1, #0x98
 	lsls r1, r1, #3
 	strh r1, [r6, #0x14]
-	adds r1, #0x38
+	adds r1, #0x38      @ r1 = ANIM_EGGMAN_SIDE
 	strh r1, [r6, #0xc]
 	movs r1, #4
 	strb r1, [r6, #0x1a]
@@ -185,7 +185,7 @@ _08078EB8:
 	movs r1, #0xa0
 	lsls r1, r1, #3
 	strh r1, [r7, #0x14]
-	subs r1, #9
+	subs r1, #9         @ ANIM_NEO_EGGMOBILE
 	strh r1, [r7, #0xc]
 	strb r4, [r7, #0x1a]
 	strh r5, [r7, #0x16]
@@ -207,7 +207,7 @@ _08078EB8:
 	mov r6, r8
 	str r0, [r6]
 	strh r1, [r6, #0x14]
-	ldr r0, _08078F70 @ =0x00000506
+	ldr r0, _08078F70 @ =0x00000506 @ ANIM_GEMERL_IDLE
 	strh r0, [r6, #0xc]
 	strb r4, [r6, #0x1a]
 	strh r5, [r6, #0x16]
@@ -1295,10 +1295,10 @@ sub_8079758: @ 0x08079758
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	mov r8, r0
-	ldr r0, _0807980C @ =sub_807989C
+	ldr r0, _0807980C @ =Task_38_807989C
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _08079810 @ =sub_807A4E4
+	ldr r1, _08079810 @ =TaskDestructor_38_807A4E4
 	str r1, [sp]
 	movs r1, #0x38
 	movs r3, #0
@@ -1355,8 +1355,8 @@ sub_8079758: @ 0x08079758
 	adds r4, r2, #0
 	b _0807983E
 	.align 2, 0
-_0807980C: .4byte sub_807989C
-_08079810: .4byte sub_807A4E4
+_0807980C: .4byte Task_38_807989C
+_08079810: .4byte TaskDestructor_38_807A4E4
 _08079814: .4byte 0x03000010
 _08079818: .4byte gSineTable
 _0807981C: .4byte 0x000003FF
@@ -1422,8 +1422,8 @@ _0807983E:
 	.align 2, 0
 _08079898: .4byte gUnknown_080D5A6C
 
-	thumb_func_start sub_807989C
-sub_807989C: @ 0x0807989C
+	thumb_func_start Task_38_807989C
+Task_38_807989C: @ 0x0807989C
 	push {r4, lr}
 	ldr r0, _080798BC @ =gCurTask
 	ldr r2, [r0]
@@ -1562,7 +1562,7 @@ _080799B8:
 	adds r4, r6, #0
 	adds r4, #0x8c
 	movs r1, #0
-	ldr r0, _080799D0 @ =0x0000050A
+	ldr r0, _080799D0 @ =0x0000050A @ ANIM_GEMERL_HOVER_AWAY
 	strh r0, [r4, #0xc]
 	strb r1, [r4, #0x1a]
 	movs r0, #0xff
@@ -1578,7 +1578,7 @@ _080799D8:
 	adds r4, r6, #0
 	adds r4, #0x8c
 	movs r1, #0
-	ldr r0, _080799FC @ =0x00000517
+	ldr r0, _080799FC @ =0x00000517 @ ANIM_GEMERL_HOVER_AWAY
 	strh r0, [r4, #0xc]
 	strb r1, [r4, #0x1a]
 	movs r0, #0xff
@@ -1609,7 +1609,7 @@ _08079A04:
 	strh r0, [r4, #0x14]
 	str r1, [r4, #8]
 	adds r4, #0x38
-	ldr r0, _08079A38 @ =0x0000050A
+	ldr r0, _08079A38 @ =0x0000050A @ ANIM_GEMERL_HOVER_AWAY
 	strh r0, [r4, #0xc]
 	strb r2, [r4, #0x1a]
 	movs r0, #0xff
@@ -1639,7 +1639,7 @@ _08079A40:
 	strh r0, [r4, #0x14]
 	str r1, [r4, #8]
 	adds r4, #0x38
-	ldr r0, _08079A74 @ =0x0000050A
+	ldr r0, _08079A74 @ =0x0000050A @ ANIM_GEMERL_HOVER_AWAY
 	strh r0, [r4, #0xc]
 	strb r2, [r4, #0x1a]
 	movs r0, #0xff
@@ -1968,7 +1968,7 @@ _08079C82:
 	orrs r0, r1
 	str r0, [r4, #8]
 	adds r4, #0x38
-	ldr r0, _08079D38 @ =0x0000050A
+	ldr r0, _08079D38 @ =0x0000050A @ ANIM_GEMERL_HOVER_AWAY
 	strh r0, [r4, #0xc]
 	movs r0, #0
 	strb r0, [r4, #0x1a]
@@ -2175,7 +2175,7 @@ _08079E1E:
 	orrs r0, r1
 	str r0, [r4, #8]
 	adds r4, #0x38
-	ldr r0, _08079ED4 @ =0x0000050A     @ ANIM_GEMERL_HOVER_AWAY
+	ldr r0, _08079ED4 @ =0x0000050A @ ANIM_GEMERL_HOVER_AWAY
 	strh r0, [r4, #0xc]
 	movs r0, #0
 	strb r0, [r4, #0x1a]
@@ -2985,7 +2985,7 @@ sub_807A4A8: @ 0x0807A4A8
 	movs r1, #0
 	strb r1, [r2]
 	adds r0, #0xb7
-	strb r1, [r0]
+	strb r1, [r0]   @ gStageData.unkB7 = .unkB6 = 0
 	bx lr
 	.align 2, 0
 _0807A4B8: .4byte gStageData
@@ -3013,8 +3013,8 @@ _0807A4D8:
 _0807A4DC: .4byte gStageData
 _0807A4E0: .4byte gPseudoRandom
 
-	thumb_func_start sub_807A4E4
-sub_807A4E4: @ 0x0807A4E4
+	thumb_func_start TaskDestructor_38_807A4E4
+TaskDestructor_38_807A4E4: @ 0x0807A4E4
 	push {lr}
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
