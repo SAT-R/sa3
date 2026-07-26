@@ -5,213 +5,7 @@
 .syntax unified
 .arm
 
-.if 01
-	thumb_func_start Task_C8_807990C
-Task_C8_807990C: @ 0x0807990C
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	ldr r2, _08079980 @ =gCurTask
-	ldr r0, [r2]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r6, r1, r0
-	movs r5, #0
-	mov r8, r2
-	adds r0, #4
-	adds r0, r0, r1
-	mov ip, r0
-	ldr r3, _08079984 @ =gCamera
-	ldr r0, _08079988 @ =0x03000008
-	adds r7, r1, r0
-_0807992E:
-	lsls r2, r5, #3
-	subs r0, r2, r5
-	lsls r0, r0, #3
-	adds r0, #0x1c
-	adds r4, r6, r0
-	mov r1, ip
-	adds r0, r1, r2
-	ldr r0, [r0]
-	ldr r1, [r3]
-	subs r0, r0, r1
-	strh r0, [r4, #0x10]
-	adds r2, r7, r2
-	ldr r0, [r2]
-	ldr r1, [r3, #4]
-	subs r0, r0, r1
-	strh r0, [r4, #0x12]
-	adds r0, r5, #1
-	lsls r0, r0, #0x18
-	lsrs r5, r0, #0x18
-	cmp r5, #2
-	bls _0807992E
-	ldrh r0, [r6]
-	adds r0, #1
-	strh r0, [r6]
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	cmp r0, #0x96
-	bhi _08079968
-	b _08079A84
-_08079968:
-	movs r0, #0
-	strh r0, [r6]
-	ldr r0, _0807998C @ =gStageData
-	ldrb r0, [r0, #9]
-	cmp r0, #8
-	bls _08079976
-	b _08079A7C
-_08079976:
-	lsls r0, r0, #2
-	ldr r1, _08079990 @ =_08079994
-	adds r0, r0, r1
-	ldr r0, [r0]
-	mov pc, r0
-	.align 2, 0
-_08079980: .4byte gCurTask
-_08079984: .4byte gCamera
-_08079988: .4byte 0x03000008
-_0807998C: .4byte gStageData
-_08079990: .4byte _08079994
-_08079994: @ jump table
-	.4byte _08079A7C @ case 0
-	.4byte _080799B8 @ case 1
-	.4byte _08079A7C @ case 2
-	.4byte _080799D8 @ case 3
-	.4byte _08079A40 @ case 4
-	.4byte _08079A04 @ case 5
-	.4byte _08079A7C @ case 6
-	.4byte _08079A7C @ case 7
-	.4byte _08079A7C @ case 8
-_080799B8:
-	adds r4, r6, #0
-	adds r4, #0x8c
-	movs r1, #0
-	ldr r0, _080799D0 @ =0x0000050A @ ANIM_GEMERL_HOVER_AWAY
-	strh r0, [r4, #0xc]
-	strb r1, [r4, #0x1a]
-	movs r0, #0xff
-	strb r0, [r4, #0x1b]
-	mov r0, r8
-	ldr r1, [r0]
-	ldr r0, _080799D4 @ =sub_8079C60
-	b _08079A82
-	.align 2, 0
-_080799D0: .4byte 0x0000050A
-_080799D4: .4byte sub_8079C60
-_080799D8:
-	adds r4, r6, #0
-	adds r4, #0x8c
-	movs r1, #0
-	ldr r0, _080799FC @ =0x00000517 @ ANIM_GEMERL_HOVER_AWAY
-	strh r0, [r4, #0xc]
-	strb r1, [r4, #0x1a]
-	movs r0, #0xff
-	strb r0, [r4, #0x1b]
-	ldr r0, [r4, #8]
-	movs r1, #0x80
-	lsls r1, r1, #3
-	orrs r0, r1
-	str r0, [r4, #8]
-	mov r0, r8
-	ldr r1, [r0]
-	ldr r0, _08079A00 @ =sub_8079B8C
-	b _08079A82
-	.align 2, 0
-_080799FC: .4byte 0x00000517
-_08079A00: .4byte sub_8079B8C
-_08079A04:
-	adds r4, r6, #0
-	adds r4, #0x1c
-	movs r2, #0
-	movs r1, #0
-	movs r0, #0xb0
-	lsls r0, r0, #2
-	strh r0, [r4, #0x14]
-	str r1, [r4, #8]
-	adds r4, #0x38
-	adds r0, #0x40
-	strh r0, [r4, #0x14]
-	str r1, [r4, #8]
-	adds r4, #0x38
-	ldr r0, _08079A38 @ =0x0000050A @ ANIM_GEMERL_HOVER_AWAY
-	strh r0, [r4, #0xc]
-	strb r2, [r4, #0x1a]
-	movs r0, #0xff
-	strb r0, [r4, #0x1b]
-	movs r0, #0xa0
-	lsls r0, r0, #2
-	strh r0, [r4, #0x14]
-	str r1, [r4, #8]
-	mov r0, r8
-	ldr r1, [r0]
-	ldr r0, _08079A3C @ =sub_8079D40
-	b _08079A82
-	.align 2, 0
-_08079A38: .4byte 0x0000050A
-_08079A3C: .4byte sub_8079D40
-_08079A40:
-	adds r4, r6, #0
-	adds r4, #0x1c
-	movs r2, #0
-	movs r1, #0
-	movs r0, #0xb0
-	lsls r0, r0, #2
-	strh r0, [r4, #0x14]
-	str r1, [r4, #8]
-	adds r4, #0x38
-	adds r0, #0x40
-	strh r0, [r4, #0x14]
-	str r1, [r4, #8]
-	adds r4, #0x38
-	ldr r0, _08079A74 @ =0x0000050A @ ANIM_GEMERL_HOVER_AWAY
-	strh r0, [r4, #0xc]
-	strb r2, [r4, #0x1a]
-	movs r0, #0xff
-	strb r0, [r4, #0x1b]
-	movs r0, #0xa0
-	lsls r0, r0, #2
-	strh r0, [r4, #0x14]
-	str r1, [r4, #8]
-	mov r0, r8
-	ldr r1, [r0]
-	ldr r0, _08079A78 @ =Task_C8_8079DFC
-	b _08079A82
-	.align 2, 0
-_08079A74: .4byte 0x0000050A
-_08079A78: .4byte Task_C8_8079DFC
-_08079A7C:
-	mov r0, r8
-	ldr r1, [r0]
-	ldr r0, _08079AB0 @ =Task_C8_8079AB4
-_08079A82:
-	str r0, [r1, #8]
-_08079A84:
-	movs r5, #0
-_08079A86:
-	lsls r0, r5, #3
-	subs r0, r0, r5
-	lsls r0, r0, #3
-	adds r0, #0x1c
-	adds r4, r6, r0
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	adds r0, r4, #0
-	bl DisplaySprite
-	adds r0, r5, #1
-	lsls r0, r0, #0x18
-	lsrs r5, r0, #0x18
-	cmp r5, #2
-	bls _08079A86
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08079AB0: .4byte Task_C8_8079AB4
+.if 0
 .endif
 
 	thumb_func_start Task_C8_8079AB4
@@ -323,8 +117,8 @@ _08079B80: .4byte gCamera
 _08079B84: .4byte 0x0000050A
 _08079B88: .4byte Task_8079EDC
 
-	thumb_func_start sub_8079B8C
-sub_8079B8C: @ 0x08079B8C
+	thumb_func_start Task_C8_8079B8C
+Task_C8_8079B8C: @ 0x08079B8C
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -429,8 +223,8 @@ _08079C54: .4byte 0x03000004
 _08079C58: .4byte 0xFFFFFBFF
 _08079C5C: .4byte Task_8079EDC
 
-	thumb_func_start sub_8079C60
-sub_8079C60: @ 0x08079C60
+	thumb_func_start Task_C8_8079C60
+Task_C8_8079C60: @ 0x08079C60
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -541,8 +335,8 @@ _08079D34: .4byte 0x03000004
 _08079D38: .4byte 0x0000050A
 _08079D3C: .4byte Task_8079EDC
 
-	thumb_func_start sub_8079D40
-sub_8079D40: @ 0x08079D40
+	thumb_func_start Task_C8_8079D40
+Task_C8_8079D40: @ 0x08079D40
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _08079DB4 @ =gCurTask
 	ldr r0, [r0]

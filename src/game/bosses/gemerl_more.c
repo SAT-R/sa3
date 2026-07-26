@@ -2,6 +2,7 @@
 #include "core.h"
 #include "trig.h"
 #include "malloc_vram.h"
+#include "game/stage.h" // gStageData
 #include "game/shared/stage/camera.h"
 #include "constants/animations.h"
 
@@ -41,11 +42,17 @@ typedef struct {
 
 
 void sub_8078E34(s32 *param0, VoidFn fn);
+void Task_2C_807A514(void);
 void Task_38_807989C(void);
 void Task_C8_807990C(void);
+void Task_C8_8079AB4(void);
+void Task_C8_8079B8C(void);
+void Task_C8_8079C60(void);
+void Task_C8_8079D40(void);
+void Task_C8_8079DFC(void);
 void TaskDestructor_38_807A4E4(struct Task *t);
 void TaskDestructor_C8_807A500(struct Task *t);
-void Task_2C_807A514(void);
+
 
 extern const Strc_80D5A6C gUnknown_080D5A6C[10];
 
@@ -215,89 +222,85 @@ void Task_38_807989C(void)
     DisplaySprite(s);
 }
 
-#if 0
 void Task_C8_807990C(void)
 {
-    Sprite *temp_r4_6;
-    s32 temp_r2;
-    u16 temp_r0;
-    u8 var_r5;
-    u8 var_r5_2;
-    void (*var_r0)();
-    void *temp_r4;
-    void *temp_r4_2;
-    void *temp_r4_3;
-    void *temp_r4_4;
-    void *temp_r4_5;
-    GemerlMore_C8 *strc38 = TASK_DATA(gCurTask);
+    Sprite *s;
+    u8 i;
 
-    for(var_r5 = 0; var_r5 < 3; var_r5++)
+	GemerlMore_C8 *strc38 = TASK_DATA(gCurTask);
+
+    for (i = 0; i < ARRAY_COUNT(strc38->sprites); i++)
 	{
-        temp_r2 = var_r5 * 8;
-        temp_r4 = strc38 + ((var_r5 * 0x38) + 0x1C);
-        temp_r4->unk10 = (s16)(*(strc38->unk4[0] + temp_r2) - gCamera.x);
-        temp_r4->unk12 = (s16)(*(&strc38->unk4[0][1] + temp_r2) - gCamera.y);
+        s = (Sprite *)&strc38->sprites[i];
+        s->x = strc38->unk4[i][0] - gCamera.x;
+        s->y = strc38->unk4[i][1] - gCamera.y;
     }
 
-    if (++strc38->unk0 > 0x96U) {
+    if (++strc38->unk0 > 150) {
         strc38->unk0 = 0;
         switch (gStageData.zone) {
             case 1:
-                strc38->sprGemerl.anim = 0x50A;
-                strc38->sprGemerl.variant = 0;
-                strc38->sprGemerl.prevVariant = 0xFF;
-                var_r0 = sub_8079C60;
+                s = (Sprite *)&strc38->sprites[2];
+                s->anim = 0x50A;
+                s->variant = 0;
+                s->prevVariant = 0xFF;
+                gCurTask->main = Task_C8_8079C60;
                 break;
             case 3:
-                strc38->sprGemerl.anim = 0x517;
-                strc38->sprGemerl.variant = 0;
-                strc38->sprGemerl.prevVariant = 0xFF;
-                strc38->sprGemerl.frameFlags |= 0x400;
-                var_r0 = sub_8079B8C;
+                s = (Sprite *)&strc38->sprites[2];
+                s->anim = 0x517;
+                s->variant = 0;
+                s->prevVariant = 0xFF;
+                s->frameFlags |= 0x400;
+                gCurTask->main = Task_C8_8079B8C;
                 break;
             case 5:
-                strc38->sprEggman.oamFlags = 0x2C0;
-                strc38->sprEggman.frameFlags = 0;
-                temp_r4_2 = &strc38->sprEggman + 0x38;
-                temp_r4_2->unk14 = 0x300;
-                temp_r4_2->unk8 = 0;
-                temp_r4_3 = temp_r4_2 + 0x38;
-                temp_r4_3->unkC = 0x50A;
-                temp_r4_3->unk1A = 0;
-                temp_r4_3->unk1B = 0xFF;
-                temp_r4_3->unk14 = 0x280;
-                temp_r4_3->unk8 = 0;
-                var_r0 = sub_8079D40;
+                s = (Sprite*)&strc38->sprites[0];
+                s->oamFlags = 0x2C0;
+                s->frameFlags = 0;
+                s = (Sprite*)&strc38->sprites[1];
+                s->oamFlags = 0x300;
+                s->frameFlags = 0;
+                s = (Sprite*)&strc38->sprites[2];
+                s->anim = 0x50A;
+                s->variant = 0;
+                s->prevVariant = -1;
+                s->oamFlags = 0x280;
+                s->frameFlags = 0;
+                gCurTask->main = Task_C8_8079D40;
                 break;
             case 4:
-                strc38->sprEggman.oamFlags = 0x2C0;
-                strc38->sprEggman.frameFlags = 0;
-                temp_r4_4 = &strc38->sprEggman + 0x38;
-                temp_r4_4->unk14 = 0x300;
-                temp_r4_4->unk8 = 0;
-                temp_r4_5 = temp_r4_4 + 0x38;
-                temp_r4_5->unkC = 0x50A;
-                temp_r4_5->unk1A = 0;
-                temp_r4_5->unk1B = 0xFF;
-                temp_r4_5->unk14 = 0x280;
-                temp_r4_5->unk8 = 0;
-                var_r0 = Task_C8_8079DFC;
+                s = (Sprite*)&strc38->sprites[0];
+                s->oamFlags = 0x2C0;
+                s->frameFlags = 0;
+                s = (Sprite*)&strc38->sprites[1];
+                s->oamFlags = 0x300;
+                s->frameFlags = 0;
+                s = (Sprite*)&strc38->sprites[2];
+                s->anim = 0x50A;
+                s->variant = 0;
+                s->prevVariant = 0xFF;
+                s->oamFlags = 0x280;
+                s->frameFlags = 0;
+                gCurTask->main = Task_C8_8079DFC;
                 break;
+            case 0:
+            case 2:
+            case 6:
+            case 7:
+            case 8:
             default:
-                var_r0 = sub_8079AB4;
+                gCurTask->main = Task_C8_8079AB4;
                 break;
         }
-        gCurTask->main = var_r0;
     }
-    var_r5_2 = 0;
-    do {
-        temp_r4_6 = strc38 + ((var_r5_2 * 0x38) + 0x1C);
-        UpdateSpriteAnimation(temp_r4_6);
-        DisplaySprite(temp_r4_6);
-        var_r5_2 += 1;
-    } while ((u32)var_r5_2 <= 2U);
+    for (i = 0; i < ARRAY_COUNT(strc38->sprites); i++)
+	{
+        s = (Sprite*)&strc38->sprites[i];
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
 }
-#endif
 
 
 
