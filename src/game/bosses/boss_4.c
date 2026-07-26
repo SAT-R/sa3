@@ -5,6 +5,7 @@
 #include "lib/m4a/m4a.h"
 #include "malloc_vram.h"
 #include "game/bosses.h"
+#include "game/save.h" // DIFFICULTY_NORMAL
 #include "game/stage.h"
 #include "game/shared/stage/player_callbacks.h"
 #include "game/shared/stage/screen_shake.h"
@@ -2183,7 +2184,7 @@ void sub_80714C0(EggCube *boss, u8 arg1)
             }
         }
 
-        if (gStageData.difficulty == 0) {
+        if (gStageData.difficulty == DIFFICULTY_NORMAL) {
             if (boss->qWorldX + Q(16) >= Q(0x678)) {
                 boss->unk32 = 1;
             }
