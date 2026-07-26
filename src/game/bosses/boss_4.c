@@ -2016,25 +2016,17 @@ void sub_8071034(EggCube *boss)
     boss->unkAC = boss->qWorldY + temp_r1->unkC + var_r6;
 }
 
-// (87.59%) https://decomp.me/scratch/1uYBK
-NONMATCH("asm/non_matching/game/bosses/boss_4__sub_80711C8.inc", void sub_80711C8(EggCube *boss))
+void sub_80711C8(EggCube *boss)
 {
     Sprite *s;
     SpriteTransform *tf;
-    s32 temp_r1;
-    s32 temp_r2;
-    s16 temp_r2_2;
-    s32 temp_r4;
-    s32 temp_r5;
     s32 temp_r6;
-    s32 var_r0;
-    s32 var_r0_2;
+    s32 temp_r5;
     s32 var_r2;
     s32 var_r8;
     s32 var_sb;
-    struct Camera *var_r2_2;
     u16 temp_r4_3;
-    u8 var_r4;
+    u8 i;
 
     s = &boss->spr104;
     tf = &boss->tf12C;
@@ -2053,34 +2045,34 @@ NONMATCH("asm/non_matching/game/bosses/boss_4__sub_80711C8.inc", void sub_80711C
                 s = &boss->spr138[0];
                 var_sb = boss->qWorldX;
                 var_r8 = boss->qWorldY - Q(56);
-                var_r2 = boss->unkA8 - boss->qWorldX;
+                temp_r6 = boss->unkA8 - var_sb;
                 temp_r5 = boss->unkAC - var_r8;
-                temp_r4_3 = (u16)sa2__sub_8004418(I(temp_r5), I(var_r2));
-                temp_r2_2 = Sqrt((var_r2 * var_r2) + (temp_r5 * temp_r5)) / 8;
-                var_r0 = (temp_r2_2 * COS(temp_r4_3)) / 0x4000;
-                var_r0_2 = (temp_r2_2 * SIN(temp_r4_3)) / 0x4000;
-                for (var_r4 = 0; var_r4 < 8; var_r4++) {
+                temp_r4_3 = sa2__sub_8004418(I(temp_r5), I(temp_r6));
+                var_r2 = (temp_r6 * temp_r6) + (temp_r5 * temp_r5);
+                temp_r6 = Sqrt(var_r2);
+                var_r2 = temp_r6 / 8;
+                temp_r6 = (var_r2 * COS(temp_r4_3)) / 0x4000;
+                temp_r5 = (var_r2 * SIN(temp_r4_3)) / 0x4000;
+                for (i = 0; i < 8; i++) {
                     s->x = I(var_sb) - gCamera.x;
                     s->y = I(var_r8) - gCamera.y;
                     DisplaySprite(s);
-                    var_sb += var_r0;
-                    var_r8 += var_r0_2;
+                    var_sb += temp_r6;
+                    var_r8 += temp_r5;
                 }
             }
             break;
         case 1: {
-            s32 r0;
             s->x = I(boss->unkA8) - gCamera.x;
             s->y = I(boss->unkAC) - gCamera.y;
             UpdateSpriteAnimation(s);
             DisplaySprite(s);
-            r0 = (boss->unkAC + 0x3C00);
-            temp_r6 = (boss->qWorldY - r0);
+            temp_r6 = -(boss->unkAC + 0x3C00) + boss->qWorldY;
             temp_r6 /= 5;
             var_r2 = boss->unkAC + 0x1800;
-            for (var_r4 = 0; var_r4 < 5; var_r4++, var_r2 += temp_r6) {
-                if (var_r4 < 2) {
-                    s = &boss->spr138[var_r4];
+            for (i = 0; i < 5; i++, var_r2 += temp_r6) {
+                if (i < 2) {
+                    s = &boss->spr138[i];
                     UpdateSpriteAnimation(s);
                 }
                 s->x = I(boss->unkA8) - gCamera.x;
@@ -2102,57 +2094,59 @@ NONMATCH("asm/non_matching/game/bosses/boss_4__sub_80711C8.inc", void sub_80711C
             break;
     }
 }
-END_NONMATCH
 
-// (89.29%) https://decomp.me/scratch/maKdc
-NONMATCH("asm/non_matching/game/bosses/boss_4__sub_8071410.inc", void sub_8071410(EggCube *boss))
+static inline u16 getSfxId_inline(EggCube *boss)
 {
-    s32 var_r1;
-    u16 var_r0;
+    if (boss->unk18 == 1)
+        return SE_558;
+    else
+        return SE_553;
+}
 
-    if (boss->unk19 == 0) {
+void sub_8071410(EggCube *boss)
+{
+    u16 var_r0;
+    u32 oldUnk19 = boss->unk19;
+
+    if (oldUnk19 == 0) {
         sub_8078DB0(0x4D5, 0, 0x40, 0U);
         boss->unk19 = 0x40;
         boss->unk24 = 0x64;
         sub_806F2B8(boss);
-        if (boss->unk18 == 1) {
-            var_r0 = 0x22E;
-        } else {
-            var_r0 = 0x229;
-        }
-        m4aSongNumStart(var_r0);
+        m4aSongNumStart(getSfxId_inline(boss));
 
         if (boss->unk10 != 2) {
             boss->unk10 = 2;
             boss->unk8 = 0x80;
-            boss->unkC = 0;
+            boss->unkC = oldUnk19;
             if (I(boss->qWorldX) > 0x66F) {
                 boss->unk10 = 3;
             }
         }
         if (gStageData.difficulty == 0) {
-            var_r1 = boss->qWorldX + 0x1000;
+            if ((boss->qWorldX + 0x1000) > 0x677FF) {
+                boss->unk32 = 1;
+            }
         } else {
-            var_r1 = boss->qWorldX + 0x1800;
+            if ((boss->qWorldX + 0x1800) > 0x677FF) {
+                boss->unk32 = 1;
+            }
         }
-        if (var_r1 > 0x677FF) {
-            boss->unk32 = 1;
-        }
+
         if ((gStageData.gameMode == 5) && (gStageData.playerIndex == 0)) {
             sub_8027674(3U, (u16)boss->unk18);
         }
     }
 }
-END_NONMATCH
 
-// (88.72%) https://decomp.me/scratch/j9QdP
-NONMATCH("asm/non_matching/game/bosses/boss_4__sub_80714C0.inc", void sub_80714C0(EggCube *boss, u8 arg1))
+void sub_80714C0(EggCube *boss, u8 arg1)
 {
     s32 var_r1;
     u16 var_r0;
     u8 temp_r0;
     s32 songId;
     s32 r5;
+    s32 zero;
 
     if (boss->unk19 == 0) {
         sub_8078DB0(1237, 0, 0x40, 0U);
@@ -2172,34 +2166,34 @@ NONMATCH("asm/non_matching/game/bosses/boss_4__sub_80714C0.inc", void sub_80714C
                 sub_80717A8(boss);
                 break;
         }
-
+        zero = 0;
+#ifndef NON_MATCHING
+        asm("" ::"r"(zero));
+#endif
         boss->unk13 = 1;
 
-        songId = (boss->unk18 != 1) ? SE_553 : SE_558;
-
-        m4aSongNumStart(songId);
+        m4aSongNumStart(getSfxId_inline(boss));
 
         if (boss->unk10 != 2) {
             boss->unk10 = 2;
             boss->unk8 = 0x80;
-            boss->unkC = 0;
+            boss->unkC = zero;
             if (I(boss->qWorldX) >= 0x670) {
                 boss->unk10 = 3;
             }
         }
 
         if (gStageData.difficulty == 0) {
-            if (boss->qWorldX + 0x1000 >= 0x66800) {
+            if (boss->qWorldX + Q(16) >= Q(0x678)) {
                 boss->unk32 = 1;
             }
         } else {
-            if (boss->qWorldX + 0x1800 >= 0x66800) {
+            if (boss->qWorldX + Q(24) >= Q(0x678)) {
                 boss->unk32 = 1;
             }
         }
     }
 }
-END_NONMATCH
 
 void sub_8071594(u8 *arg0, s16 param1)
 {
