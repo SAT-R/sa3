@@ -207,7 +207,6 @@ void sub_80275F0() { }
 void sub_8027674() { }
 void sub_8028850() { }
 void sub_809BFE8() { }
-void sub_8078DB0() { }
 void sub_8079758() { }
 void sub_807A1DC() { }
 void sub_807A4A8() { }
@@ -238,7 +237,6 @@ void SetFixedRandomIfTimeAttackMode()
 void sub_80781C0() { }
 void sub_8078920() { }
 void sub_80789EC() { }
-void sub_8078E34() { }
 void sub_807A2AC() { }
 void sub_807A37C() { }
 void sub_807A468() { }

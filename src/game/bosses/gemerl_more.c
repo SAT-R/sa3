@@ -119,3 +119,11 @@ void sub_8078E34(s32 *param0, VoidFn fn)
 //       But usually an implementation of an inlined function appears later in OG code
 NONMATCH("asm/non_matching/game/bosses/gmore__GemerlUnusedRecursiveFunc.inc", void GemerlUnusedRecursiveFunc()) { }
 END_NONMATCH
+
+// Very similar to sub_8079468
+NONMATCH("asm/non_matching/game/bosses/gmore__sub_8079194.inc", void sub_8079194(u8 *arg0, u8 arg1, u8 arg2, u8 *arg3)) { }
+END_NONMATCH
+
+// Very similar to sub_8079194
+NONMATCH("asm/non_matching/game/bosses/gmore__sub_8079468.inc", void sub_8079468(u8 *arg0, u8 arg1, u8 arg2, u8 *arg3)) { }
+END_NONMATCH
