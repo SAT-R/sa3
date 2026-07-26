@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start Task_C8_807990C
 Task_C8_807990C: @ 0x0807990C
 	push {r4, r5, r6, r7, lr}
@@ -179,15 +177,15 @@ _08079A40:
 	str r1, [r4, #8]
 	mov r0, r8
 	ldr r1, [r0]
-	ldr r0, _08079A78 @ =sub_8079DFC
+	ldr r0, _08079A78 @ =Task_C8_8079DFC
 	b _08079A82
 	.align 2, 0
 _08079A74: .4byte 0x0000050A
-_08079A78: .4byte sub_8079DFC
+_08079A78: .4byte Task_C8_8079DFC
 _08079A7C:
 	mov r0, r8
 	ldr r1, [r0]
-	ldr r0, _08079AB0 @ =sub_8079AB4
+	ldr r0, _08079AB0 @ =Task_C8_8079AB4
 _08079A82:
 	str r0, [r1, #8]
 _08079A84:
@@ -213,10 +211,11 @@ _08079A86:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08079AB0: .4byte sub_8079AB4
+_08079AB0: .4byte Task_C8_8079AB4
+.endif
 
-	thumb_func_start sub_8079AB4
-sub_8079AB4: @ 0x08079AB4
+	thumb_func_start Task_C8_8079AB4
+Task_C8_8079AB4: @ 0x08079AB4
 	push {r4, r5, r6, r7, lr}
 	ldr r2, _08079B7C @ =gCurTask
 	ldr r0, [r2]
@@ -637,8 +636,8 @@ _08079DF0:
 	.align 2, 0
 _08079DF8: .4byte 0x0000027E
 
-	thumb_func_start sub_8079DFC
-sub_8079DFC: @ 0x08079DFC
+	thumb_func_start Task_C8_8079DFC
+Task_C8_8079DFC: @ 0x08079DFC
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
