@@ -2,6 +2,7 @@
 #include "core.h"
 #include "trig.h"
 #include "malloc_vram.h"
+#include "game/shared/stage/camera.h"
 #include "constants/animations.h"
 
 typedef struct {
@@ -192,5 +193,29 @@ struct Task *sub_8079758(u8 stateIndex, s16 x, s16 y, s16 arg3, u16 angle, u8 ar
 
 	return t;
 }
+
+void Task_38_807989C(void)
+{
+    s32 temp_r1;
+    GemerlMore_38 *strc38 = TASK_DATA(gCurTask);
+    Sprite *s = &strc38->s;
+    if (strc38->unkE == 0) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    strc38->unkE--;
+    strc38->unkA += strc38->unkC;
+    strc38->unk0 += strc38->unk8;
+    strc38->unk4 += strc38->unkA;
+    s->x = I(strc38->unk0) - gCamera.x;
+    s->y = I(strc38->unk4) - gCamera.y;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+
+
+
+
 
 
