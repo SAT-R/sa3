@@ -5,72 +5,8 @@
 .syntax unified
 .arm
 
-
-	thumb_func_start sub_8078DB0
-sub_8078DB0: @ 0x08078DB0
-	push {r4, r5, r6, lr}
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6}
-	sub sp, #4
-	mov r8, r0
-	mov sb, r1
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	mov r8, r0
-	lsls r1, r1, #0x18
-	lsrs r1, r1, #0x18
-	mov sb, r1
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _08078E2C @ =Task_2C_807A514
-	movs r2, #0xf0
-	lsls r2, r2, #8
-	movs r4, #0
-	str r4, [sp]
-	movs r1, #0x2c
-	movs r3, #0
-	bl TaskCreate
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r1, r0
-	movs r2, #0
-	strh r5, [r0, #0x28]
-	ldr r3, _08078E30 @ =0x0300002A
-	adds r1, r1, r3
-	strb r6, [r1]
-	str r4, [r0]
-	strh r4, [r0, #0x14]
-	mov r1, r8
-	strh r1, [r0, #0xc]
-	mov r3, sb
-	strb r3, [r0, #0x1a]
-	strh r4, [r0, #0x16]
-	movs r1, #0xff
-	strb r1, [r0, #0x1b]
-	movs r1, #0xa
-	strb r1, [r0, #0x1c]
-	strb r2, [r0, #0x1f]
-	strh r4, [r0, #0x10]
-	strh r4, [r0, #0x12]
-	movs r1, #0x80
-	lsls r1, r1, #0xc
-	str r1, [r0, #8]
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08078E2C: .4byte Task_2C_807A514
-_08078E30: .4byte 0x0300002A
+.if 0
+.endif
 
 	thumb_func_start sub_8078E34
 sub_8078E34: @ 0x08078E34

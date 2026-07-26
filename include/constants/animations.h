@@ -348,13 +348,17 @@
 #define ANIM_BOSS_FINAL_GLASS  1266
 #define ANIM_BOSS_FINAL_EGGMAN 1267
 
-#define ANIM_EGGMAN_SIDE    1272
-#define ANIM_EXPLOSION_1273 1273
-
-#define ANIM_BOSS_EXTRA_BODY     1277 // Ultimate Gemerl
-#define ANIM_BOSS_EXTRA_CLAW     1278
-#define ANIM_BOSS_EXTRA_ARM_NODE 1279
-#define ANIM_BOSS_EXTRA_MISSILE  1280
+#define ANIM_NEO_EGGMOBILE                1271
+#define ANIM_EGGMAN_SIDE                  1272
+#define ANIM_EXPLOSION_1273               1273
+#define ANIM_BOSS_DEBRIS_A                1274
+#define ANIM_BOSS_DEBRIS_B                1275
+#define ANIM_BOSS_DEBRIS_C                1276
+#define ANIM_BOSS_EXTRA_BODY              1277 // Ultimate Gemerl
+#define ANIM_BOSS_EXTRA_CLAW              1278
+#define ANIM_BOSS_EXTRA_ARM_NODE          1279
+#define ANIM_BOSS_EXTRA_MISSILE           1280
+#define ANIM_BOSS_EXTRA_MISSILE_EXPLOSION 1281
 
 // Gemerl : 1286 - 1303
 #define ANIM_GEMERL_IDLE         1286
@@ -374,6 +378,8 @@
 // Super Sonic : 1305 - 1306
 // (1305 : a ton of variants/patterns)
 
+#define ANIM_GEMERL_BOOSTING    1302
+#define ANIM_GEMERL_HANGING     1303
 #define ANIM_PALETTE_GEMERL_HIT 1304
 
 #define ANIM_SUPER_TAG_ACTION_CHARGED  1307
