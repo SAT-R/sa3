@@ -5,6 +5,7 @@
 #include "game/stage.h" // gStageData
 #include "game/shared/stage/camera.h"
 #include "constants/animations.h"
+#include "constants/zones.h"
 
 typedef struct {
     /* 0x00 */ Sprite s;
@@ -238,62 +239,75 @@ void Task_C8_807990C(void)
 
     if (++strc38->unk0 > 150) {
         strc38->unk0 = 0;
+
         switch (gStageData.zone) {
-            case 1:
+            case ZONE_2: {
                 s = (Sprite *)&strc38->sprites[2];
                 s->anim = 0x50A;
                 s->variant = 0;
                 s->prevVariant = 0xFF;
                 gCurTask->main = Task_C8_8079C60;
-                break;
-            case 3:
+            }  break;
+
+            case ZONE_4: {
                 s = (Sprite *)&strc38->sprites[2];
                 s->anim = 0x517;
                 s->variant = 0;
                 s->prevVariant = 0xFF;
                 s->frameFlags |= 0x400;
+
                 gCurTask->main = Task_C8_8079B8C;
-                break;
-            case 5:
-                s = (Sprite*)&strc38->sprites[0];
+            } break;
+
+            case ZONE_6: {
+                s = (Sprite *)&strc38->sprites[0];
                 s->oamFlags = 0x2C0;
                 s->frameFlags = 0;
-                s = (Sprite*)&strc38->sprites[1];
+
+                s = (Sprite *)&strc38->sprites[1];
                 s->oamFlags = 0x300;
                 s->frameFlags = 0;
-                s = (Sprite*)&strc38->sprites[2];
+
+                s = (Sprite *)&strc38->sprites[2];
                 s->anim = 0x50A;
                 s->variant = 0;
                 s->prevVariant = -1;
                 s->oamFlags = 0x280;
                 s->frameFlags = 0;
+
                 gCurTask->main = Task_C8_8079D40;
-                break;
-            case 4:
-                s = (Sprite*)&strc38->sprites[0];
+            } break;
+
+            case ZONE_5: {
+                s = (Sprite *)&strc38->sprites[0];
                 s->oamFlags = 0x2C0;
                 s->frameFlags = 0;
-                s = (Sprite*)&strc38->sprites[1];
+
+                s = (Sprite *)&strc38->sprites[1];
                 s->oamFlags = 0x300;
                 s->frameFlags = 0;
-                s = (Sprite*)&strc38->sprites[2];
-                s->anim = 0x50A;
+
+                s = (Sprite *)&strc38->sprites[2];
+                s->anim = ANIM_GEMERL_HOVER_AWAY;
                 s->variant = 0;
-                s->prevVariant = 0xFF;
+                s->prevVariant = -1;
                 s->oamFlags = 0x280;
                 s->frameFlags = 0;
+
                 gCurTask->main = Task_C8_8079DFC;
-                break;
-            case 0:
-            case 2:
-            case 6:
-            case 7:
-            case 8:
-            default:
+            } break;
+
+            case ZONE_1:
+            case ZONE_3:
+            case ZONE_7:
+            case ZONE_FINAL:
+            case ZONE_UNUSED:
+            default: {
                 gCurTask->main = Task_C8_8079AB4;
-                break;
+            } break;
         }
     }
+
     for (i = 0; i < ARRAY_COUNT(strc38->sprites); i++)
 	{
         s = (Sprite*)&strc38->sprites[i];

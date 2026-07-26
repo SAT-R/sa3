@@ -89,7 +89,7 @@ _08079ADA:
 	strh r0, [r6]
 	mov r0, ip
 	ldr r1, [r0]
-	ldr r0, _08079B88 @ =Task_8079EDC
+	ldr r0, _08079B88 @ =Task_C8_8079EDC
 	str r0, [r1, #8]
 _08079B52:
 	movs r5, #0
@@ -115,7 +115,7 @@ _08079B54:
 _08079B7C: .4byte gCurTask
 _08079B80: .4byte gCamera
 _08079B84: .4byte 0x0000050A
-_08079B88: .4byte Task_8079EDC
+_08079B88: .4byte Task_C8_8079EDC
 
 	thumb_func_start Task_C8_8079B8C
 Task_C8_8079B8C: @ 0x08079B8C
@@ -192,7 +192,7 @@ _08079BAE:
 	strh r0, [r6]
 	mov r0, r8
 	ldr r1, [r0]
-	ldr r0, _08079C5C @ =Task_8079EDC
+	ldr r0, _08079C5C @ =Task_C8_8079EDC
 	str r0, [r1, #8]
 _08079C20:
 	movs r5, #0
@@ -221,7 +221,7 @@ _08079C4C: .4byte gCurTask
 _08079C50: .4byte gCamera
 _08079C54: .4byte 0x03000004
 _08079C58: .4byte 0xFFFFFBFF
-_08079C5C: .4byte Task_8079EDC
+_08079C5C: .4byte Task_C8_8079EDC
 
 	thumb_func_start Task_C8_8079C60
 Task_C8_8079C60: @ 0x08079C60
@@ -304,7 +304,7 @@ _08079C82:
 	strh r0, [r6]
 	mov r0, r8
 	ldr r1, [r0]
-	ldr r0, _08079D3C @ =Task_8079EDC
+	ldr r0, _08079D3C @ =Task_C8_8079EDC
 	str r0, [r1, #8]
 _08079D00:
 	movs r5, #0
@@ -333,7 +333,7 @@ _08079D2C: .4byte gCurTask
 _08079D30: .4byte gCamera
 _08079D34: .4byte 0x03000004
 _08079D38: .4byte 0x0000050A
-_08079D3C: .4byte Task_8079EDC
+_08079D3C: .4byte Task_C8_8079EDC
 
 	thumb_func_start Task_C8_8079D40
 Task_C8_8079D40: @ 0x08079D40
@@ -511,7 +511,7 @@ _08079E1E:
 	strh r0, [r6]
 	mov r0, r8
 	ldr r1, [r0]
-	ldr r0, _08079ED8 @ =Task_8079EDC
+	ldr r0, _08079ED8 @ =Task_C8_8079EDC
 	str r0, [r1, #8]
 _08079E9C:
 	movs r5, #0
@@ -540,10 +540,10 @@ _08079EC8: .4byte gCurTask
 _08079ECC: .4byte gCamera
 _08079ED0: .4byte 0x03000004
 _08079ED4: .4byte 0x0000050A
-_08079ED8: .4byte Task_8079EDC
+_08079ED8: .4byte Task_C8_8079EDC
 
-	thumb_func_start Task_8079EDC
-Task_8079EDC: @ 0x08079EDC
+	thumb_func_start Task_C8_8079EDC
+Task_C8_8079EDC: @ 0x08079EDC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
