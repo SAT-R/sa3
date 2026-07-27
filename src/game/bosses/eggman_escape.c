@@ -175,15 +175,15 @@ void sub_8078E34(s32 *param0, VoidFn fn)
 // TODO: This *might* be an inline function?
 //       It is unused, but there's similar structure below it.
 //       But usually an implementation of an inlined function appears later in OG code
-NONMATCH("asm/non_matching/game/bosses/gmore__GemerlUnusedRecursiveFunc.inc", void GemerlUnusedRecursiveFunc()) { }
+NONMATCH("asm/non_matching/game/bosses/eggesc__GemerlUnusedRecursiveFunc.inc", void GemerlUnusedRecursiveFunc()) { }
 END_NONMATCH
 
 // Very similar to sub_8079468
-NONMATCH("asm/non_matching/game/bosses/gmore__sub_8079194.inc", void sub_8079194(u8 *arg0, u8 arg1, u8 arg2, u8 *arg3)) { }
+NONMATCH("asm/non_matching/game/bosses/eggesc__sub_8079194.inc", void sub_8079194(u8 *arg0, u8 arg1, u8 arg2, u8 *arg3)) { }
 END_NONMATCH
 
 // Very similar to sub_8079194
-NONMATCH("asm/non_matching/game/bosses/gmore__sub_8079468.inc", void sub_8079468(u8 *arg0, u8 arg1, u8 arg2, u8 *arg3)) { }
+NONMATCH("asm/non_matching/game/bosses/eggesc__sub_8079468.inc", void sub_8079468(u8 *arg0, u8 arg1, u8 arg2, u8 *arg3)) { }
 END_NONMATCH
 
 struct Task *sub_8079758(u8 stateIndex, s16 x, s16 y, s16 arg3, u16 angle, u8 arg5, s16 arg6, u8 *vram)
@@ -740,7 +740,7 @@ void EnablePlayerMovement(void)
 }
 
 // (97.25%) https://decomp.me/scratch/QuRgf
-NONMATCH("asm/non_matching/game/bosses/gmore__sub_807A3D8.inc",
+NONMATCH("asm/non_matching/game/bosses/eggesc__sub_807A3D8.inc",
          void *sub_807A3D8(Something **arr, u8 arrCount, AnimId anim, u8 pattern, u8 *arg4))
 {
     u8 i;
@@ -754,11 +754,12 @@ NONMATCH("asm/non_matching/game/bosses/gmore__sub_807A3D8.inc",
 
     for (i = 0; i < arrCount; i++) {
         var_r1 = arr[i];
-        s = (Sprite *)var_r1->spr14;
 
         if (var_r3 != NULL) {
             break;
         }
+
+        s = (Sprite *)var_r1->spr14;
         if ((s->anim != anim) || (s->variant != pattern) || (--*arg4 != 0)) {
             if (var_r1->unk2 != 0) {
                 var_r3 = sub_807A3D8((void *)(var_r1 + 1), var_r1->unk2, anim, pattern, arg4);
