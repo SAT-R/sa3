@@ -739,14 +739,12 @@ void EnablePlayerMovement(void)
     }
 }
 
-// (97.25%) https://decomp.me/scratch/QuRgf
-NONMATCH("asm/non_matching/game/bosses/eggesc__sub_807A3D8.inc",
-         void *sub_807A3D8(Something **arr, u8 arrCount, AnimId anim, u8 pattern, u8 *arg4))
+void *sub_807A3D8(Something **arr, u8 arrCount, AnimId anim, u8 pattern, u8 *arg4)
 {
     u8 i;
     Sprite *s;
     Something *var_r1;
-    void *var_r3 = NULL;
+    void *result = NULL;
 
     if (*arg4 == 0) {
         return NULL;
@@ -755,26 +753,32 @@ NONMATCH("asm/non_matching/game/bosses/eggesc__sub_807A3D8.inc",
     for (i = 0; i < arrCount; i++) {
         var_r1 = arr[i];
 
-        if (var_r3 != NULL) {
+        if (result != NULL) {
             break;
         }
 
         s = (Sprite *)var_r1->spr14;
-        if ((s->anim != anim) || (s->variant != pattern) || (--*arg4 != 0)) {
+        if (s->anim != anim) {
             if (var_r1->unk2 != 0) {
-                var_r3 = sub_807A3D8((void *)(var_r1 + 1), var_r1->unk2, anim, pattern, arg4);
-                if (var_r3 != NULL) {
-                    return var_r3;
+                result = sub_807A3D8((void *)(var_r1 + 1), var_r1->unk2, anim, pattern, arg4);
+                if (result != NULL) {
+                    return result;
+                }
+            }
+        } else if ((s->variant != pattern) || (--*arg4 != 0)) {
+            if (var_r1->unk2 != 0) {
+                result = sub_807A3D8((void *)(var_r1 + 1), var_r1->unk2, anim, pattern, arg4);
+                if (result != NULL) {
+                    return result;
                 }
             }
         } else {
-            var_r3 = var_r1;
+            result = var_r1;
         }
     }
 
-    return var_r3;
+    return result;
 }
-END_NONMATCH
 
 void PlayVoiceEggmanHit(void)
 {
