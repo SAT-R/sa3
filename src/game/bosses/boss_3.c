@@ -85,11 +85,11 @@ void Task_806E950(void);
 void sub_806E99C(void);
 void sub_806E9C0(void);
 void Task_806E9F0(void);
-void sub_807A37C(void);
+void EnablePlayerMovement(void);
 void TaskDestructor_EggFoot(struct Task *t);
 void sub_8078E34(s32 *sp0, VoidFn func);
 
-extern s32 sub_807A1DC(Sprite *);
+extern s32 IsCollidingWithCheese(Sprite *);
 
 const Strc_80D57CC gUnknown_080D57CC[SPRITE_ARR_1_COUNT] = {
     [0] = { ANIM_BOSS_3_COCKPIT, 0x00, 0x13, 0x01, 0x00, 0x40, 0x00 }, //
@@ -259,7 +259,7 @@ void sub_806D388()
             sp0[1] = gCamera.maxY - 50;
             sp0[2] = I(boss->unk0);
             sp0[3] = gCamera.maxY - 37;
-            sub_8078E34(sp0, sub_807A37C);
+            sub_8078E34(sp0, EnablePlayerMovement);
             boss->unk34 = 1;
             break;
 
@@ -483,7 +483,7 @@ bool8 sub_806D840(EggFoot *arg0, u8 playerIndex)
              || ((gStageData.gameMode == GAME_MODE_5)
                  && ((arg0->players[0]->charFlags.character == CREAM) || (arg0->players[1]->charFlags.character == CREAM))
                  && (gStageData.playerIndex == 0)))
-            && (sub_807A1DC(s) == 1)) {
+            && (IsCollidingWithCheese(s) == 1)) {
             result = TRUE;
         }
 
@@ -542,7 +542,7 @@ void sub_806DA20(EggFoot *boss)
             sub_80299D4(51);
         }
         m4aSongNumStart(SE_235);
-        sub_807A468();
+        PlayVoiceEggmanHit();
         sub_806D808(boss, 2U);
         sub_8078DB0(ANIM_PALETTE_BOSS_3_A, 0, 0x7A, 0U);
         sub_8078DB0(ANIM_PALETTE_BOSS_3_B, 0, 0x7A, 0U);

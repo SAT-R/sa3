@@ -1393,13 +1393,13 @@ _08072510:
 	ldr r0, [r4, #4]
 	asrs r0, r0, #8
 	str r0, [sp, #0xc]
-	ldr r1, _08072538 @ =sub_807A37C
+	ldr r1, _08072538 @ =EnablePlayerMovement
 	mov r0, sp
 	bl sub_8078E34
 	movs r0, #1
 	b _0807254E
 	.align 2, 0
-_08072538: .4byte sub_807A37C
+_08072538: .4byte EnablePlayerMovement
 _0807253C:
 	ldr r1, [r0, #4]
 	movs r0, #0x80
@@ -2549,7 +2549,7 @@ _08072DDC:
 _08072DE8:
 	movs r0, #0xeb
 	bl m4aSongNumStart
-	bl sub_807A468
+	bl PlayVoiceEggmanHit
 	movs r0, #0x7a
 	strb r0, [r4, #0x13]
 	movs r0, #2

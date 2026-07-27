@@ -7907,7 +7907,7 @@ sub_807F228: @ 0x0807F228
 	bne _0807F2A6
 _0807F298:
 	mov r0, r8
-	bl sub_807A1DC
+	bl IsCollidingWithCheese
 	cmp r0, #1
 	bne _0807F2A6
 	movs r0, #1
@@ -8183,7 +8183,7 @@ _0807F4A4:
 _0807F4B2:
 	movs r0, #0xeb
 	bl m4aSongNumStart
-	bl sub_807A468
+	bl PlayVoiceEggmanHit
 	ldr r1, _0807F4DC @ =gStageData
 	ldrb r0, [r1, #3]
 	cmp r0, #5

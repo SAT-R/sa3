@@ -162,7 +162,7 @@ extern void sub_8078920(Sprite *s, Vec2_32 *vec, s8 *param2);
 extern void sub_80789EC(Sprite *, Vec2_32 *vec, s8 *);
 extern void sub_8078E34(s32 *, VoidFn);
 extern bool8 sub_8079FFC(void);
-extern void sub_807A37C(void);
+extern void EnablePlayerMovement(void);
 extern void sub_807A4A8(void);
 extern const TileInfo2 gUnknown_080D5780[8];
 extern void sub_80BE46C(Sprite *);
@@ -984,7 +984,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806B788.inc", void sub_806B78
         points[1] = gCamera.maxY - 50;
         points[2] = gCamera.x;
         points[3] = gCamera.maxY - 27;
-        sub_8078E34(points, sub_807A37C);
+        sub_8078E34(points, EnablePlayerMovement);
     }
     if ((u8)boss->unk1C == 4) {
         for (var_r2 = 0; var_r2 < 2; var_r2++) {
@@ -1087,7 +1087,7 @@ bool32 sub_806B844(EggWheeler *boss)
         }
 
         m4aSongNumStart(SE_143);
-        sub_807A468();
+        PlayVoiceEggmanHit();
         boss->lives--;
         if (gStageData.gameMode == 5) {
             if (gStageData.playerIndex == 0) {

@@ -37,7 +37,7 @@
 	str r2, [sp, #8]
 	subs r0, #0x1b
 	str r0, [sp, #0xc]
-	ldr r1, _0806B7F8 @ =sub_807A37C
+	ldr r1, _0806B7F8 @ =EnablePlayerMovement
 	mov r0, sp
 	bl sub_8078E34
 _0806B7D8:
@@ -56,7 +56,7 @@ _0806B7E4:
 	.align 2, 0
 _0806B7F0: .4byte gCurTask
 _0806B7F4: .4byte gCamera
-_0806B7F8: .4byte sub_807A37C
+_0806B7F8: .4byte EnablePlayerMovement
 _0806B7FC: .4byte sub_806CEB8
 _0806B800: .4byte gPlayers
 _0806B804: .4byte gStageData

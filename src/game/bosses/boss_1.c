@@ -123,10 +123,10 @@ void sub_806A854(EggHammerTankIII *boss);
 void sub_806A898(EggHammerTankIII *boss);
 u8 sub_8068E5C(Player *);
 void sub_8004D68(s32, s32);
-bool32 sub_807A1DC(Sprite *);
+bool32 IsCollidingWithCheese(Sprite *);
 
 extern void sub_80044CC(Player *);
-extern void sub_807A37C(void);
+extern void EnablePlayerMovement(void);
 extern void sub_8078E34(s32 *, VoidFn);
 
 extern u16 gUnknown_080D575C[9][2];
@@ -134,7 +134,7 @@ extern u16 gUnknown_080D575C[9][2];
 void Task_8068D00(); /* extern */
 void sub_8068C38(); /* extern */
 void sub_807A2AC(); /* extern */
-void sub_807A468(); /* extern */
+void PlayVoiceEggmanHit(); /* extern */
 void sub_807A4A8(); /* extern */
 void sub_80BE46C(void *); /* extern */
 void Task_806A760(); /* static */
@@ -262,7 +262,7 @@ void Task_8068D00(void)
             sp00[1] = I(boss->unk5C);
             sp00[2] = (boss->unk11 * 8) + 0x6A0;
             sp00[3] = I(boss->unkEC) - 12;
-            sub_8078E34(sp00, sub_807A37C);
+            sub_8078E34(sp00, EnablePlayerMovement);
             boss->unk32 = 1;
         } break;
 
@@ -343,7 +343,7 @@ u8 sub_8068E5C(Player *inPlayer)
     sub_8004D68(boss->unk58, boss->unk5C);
     chara = gPlayers[gStageData.playerIndex].charFlags.character;
     if (((chara == CREAM) || (gPlayers[gPlayers[gStageData.playerIndex].charFlags.partnerIndex].charFlags.character == CREAM))
-        && (sub_807A1DC((Sprite *)sprCockpit) == 1)) {
+        && (IsCollidingWithCheese((Sprite *)sprCockpit) == 1)) {
         result = 1;
     }
 
@@ -1263,7 +1263,7 @@ void sub_806A5DC(EggHammerTankIII *boss)
         sub_8078DB0(ANIM_PALETTE_BOSS_1_MACHINE_HIT, 0, 0x7A, 0); // Joints and Base
         sub_8078DB0(ANIM_PALETTE_BOSS_1_COCKPIT_HIT, 0, 0x7A, 0); // Eggman
         m4aSongNumStart(SE_235);
-        sub_807A468();
+        PlayVoiceEggmanHit();
 
         if (gStageData.gameMode == GAME_MODE_5) {
             if (gStageData.playerIndex == 0) {

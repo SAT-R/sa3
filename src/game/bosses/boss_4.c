@@ -140,7 +140,7 @@ void sub_80711C8(EggCube *boss);
 void sub_80714C0(EggCube *boss, u8 param1);
 void Task_14_80703D4(void);
 void sub_806F56C(void);
-void sub_807A37C(void);
+void EnablePlayerMovement(void);
 
 void Task_14_80717EC(void);
 void TaskDestructor_EggCube14(struct Task *t);
@@ -148,7 +148,7 @@ void Task_14_8071864(void);
 
 void TaskDestructor_EggCube(struct Task *t);
 extern void sub_8078E34(s32 *, VoidFn);
-extern bool32 sub_807A1DC(Sprite *);
+extern bool32 IsCollidingWithCheese(Sprite *);
 
 const u16 gUnknown_080D5880[4] = {
     0x0276,
@@ -714,7 +714,7 @@ void sub_806F56C()
             sp00[1] = I(boss->qWorldY);
             sp00[2] = I(boss->qWorldX);
             sp00[3] = I(boss->qWorldY) + 32;
-            sub_8078E34(sp00, sub_807A37C);
+            sub_8078E34(sp00, EnablePlayerMovement);
             boss->unk2C = 1;
             return;
         case 1:
@@ -749,7 +749,7 @@ u32 sub_806F5F0(Player *p)
             s->x = I(boss->unk98) - gCamera.x;
             s->y = I(boss->unk9C) - gCamera.y;
 
-            if (sub_807A1DC(s) == 1) {
+            if (IsCollidingWithCheese(s) == 1) {
                 result = 1;
             }
         }
@@ -1065,7 +1065,7 @@ void Task_Guard_806FC2C(void)
             sub_8004D68(Q(gCamera.x + screenX), Q(gCamera.y + s->y));
             if (((gPlayers[gStageData.playerIndex].charFlags.character == CREAM)
                  || (gPlayers[gPlayers[gStageData.playerIndex].charFlags.partnerIndex].charFlags.character == CREAM))
-                && (sub_807A1DC(s) == 1)) {
+                && (IsCollidingWithCheese(s) == 1)) {
                 sp8 = 1;
             }
 
@@ -1271,7 +1271,7 @@ void sub_8070208(EggCube *boss)
                 sub_8071968(boss, 0U);
                 boss->unk22 = 0;
                 boss->unk24 = 120;
-                sub_807A468();
+                PlayVoiceEggmanHit();
             }
             break;
         case 120:

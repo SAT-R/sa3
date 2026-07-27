@@ -1204,7 +1204,7 @@ _08075878:
 _08075884:
 	movs r0, #0xeb
 	bl m4aSongNumStart
-	bl sub_807A468
+	bl PlayVoiceEggmanHit
 	b _080759A0
 _08075890:
 	movs r2, #0
@@ -2498,7 +2498,7 @@ _080762D8:
 	str r0, [sp, #8]
 	ldr r0, _08076304 @ =0x000003B6
 	str r0, [sp, #0xc]
-	ldr r1, _08076308 @ =sub_807A37C
+	ldr r1, _08076308 @ =EnablePlayerMovement
 	mov r0, sp
 	bl sub_8078E34
 	movs r0, #1
@@ -2506,7 +2506,7 @@ _080762D8:
 	.align 2, 0
 _08076300: .4byte 0x000003AE
 _08076304: .4byte 0x000003B6
-_08076308: .4byte sub_807A37C
+_08076308: .4byte EnablePlayerMovement
 _0807630C:
 	ldr r1, [r1, #4]
 	movs r0, #0x80
@@ -2727,7 +2727,7 @@ _08076440:
 	bne _080764C4
 _080764B6:
 	adds r0, r7, #0
-	bl sub_807A1DC
+	bl IsCollidingWithCheese
 	cmp r0, #1
 	bne _080764C4
 	movs r0, #1

@@ -83,8 +83,6 @@ void CreateBoss_806EADC() { }
 void CreateBoss_8071A08() { }
 void CreateBoss_8073640() { }
 void CreateBoss_8074E88() { }
-bool8 sub_8079FFC() { return FALSE; }
-void sub_807A074() { }
 void sub_807B6C8() { }
 void sub_807C670() { }
 void sub_807C728() { }
@@ -207,9 +205,6 @@ void sub_80275F0() { }
 void sub_8027674() { }
 void sub_8028850() { }
 void sub_809BFE8() { }
-void sub_8079758() { }
-void sub_807A1DC() { }
-void sub_807A4A8() { }
 void sub_807A574() { }
 void sub_807AA04() { }
 void sub_807AA80() { }
@@ -227,19 +222,18 @@ void sub_807B1E4() { }
 void sub_807B280() { }
 void sub_807B368() { }
 void sub_8081C80() { }
-void SetFixedRandomIfTimeAttackMode()
-{
-    if (gStageData.gameMode == 5) {
-        gPseudoRandom = gStageData.zone * 101;
-    }
-}
+
+void sub_8027620(s16 screenX, s16 screenY) { }
+void sub_8027658() { }
+void sub_80732CC() { }
+void sub_8074BA0() { }
+void sub_80769C4() { }
+void sub_807F4F0() { }
+void sub_8085588() { }
 
 void sub_80781C0() { }
 void sub_8078920() { }
 void sub_80789EC() { }
-void sub_807A2AC() { }
-void sub_807A37C() { }
-void sub_807A468() { }
 void sub_807B498() { }
 void CreateEggChaserBoss() { }
 void CreateEggPinball() { }

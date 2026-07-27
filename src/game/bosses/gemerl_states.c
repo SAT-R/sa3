@@ -50,7 +50,7 @@ extern void sub_807A4A8(void);
 
 extern void sub_80044CC(Player *);
 extern void sub_8004D68(s32 x, s32 y);
-extern s32 sub_807A1DC(Sprite *);
+extern s32 IsCollidingWithCheese(Sprite *);
 
 extern void sub_807A574(Gemerl *, u8, u8, u8);
 
@@ -1309,7 +1309,7 @@ bool32 sub_8067B94(Gemerl *gemerl, s32 stateIndex)
         sub_8004D68(gemerl->qSomeX, gemerl->qSomeY);
         chara = gPlayers[gStageData.playerIndex].charFlags.character;
         if (((chara == CREAM) || (gPlayers[gPlayers[gStageData.playerIndex].charFlags.partnerIndex].charFlags.character == CREAM))
-            && (sub_807A1DC((Sprite *)s) == 1)) {
+            && (IsCollidingWithCheese((Sprite *)s) == 1)) {
             result = 1;
         }
         for (var_r6 = 0; var_r6 < 2; var_r6++) {
@@ -1353,7 +1353,7 @@ bool32 sub_8067D20(Gemerl *gemerl, s32 stateIndex)
         sub_8004D68(gemerl->qSomeX, gemerl->qSomeY);
         chara = gPlayers[gStageData.playerIndex].charFlags.character;
         if (((chara == CREAM) || (gPlayers[gPlayers[gStageData.playerIndex].charFlags.partnerIndex].charFlags.character == CREAM))
-            && (sub_807A1DC(s) == 1)) {
+            && (IsCollidingWithCheese(s) == 1)) {
             result = 1;
         }
         for (var_r6 = 0; var_r6 < 2; var_r6++) {
