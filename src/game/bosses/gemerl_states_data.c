@@ -1,6 +1,6 @@
 #include "global.h"
 #include "core.h"
-#include "game/sa3/bosses/gemerl_states.h"
+#include "game/sa3/bosses/gemerl.h"
 
 const GemerlState gGemerlStates[] = {
     {

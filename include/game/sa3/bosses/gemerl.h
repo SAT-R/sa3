@@ -1,9 +1,13 @@
 #ifndef GUARD_SA3_GEMERL_STATES_H
 #define GUARD_SA3_GEMERL_STATES_H
 
+#include "game/shared/stage/player.h" // Player
+
 struct Gemerl;
+struct GemerlAttacksCallback;
 
 typedef bool32 (*GemerlCallback)(struct Gemerl *);
+typedef bool32 (*GemerlAttacksCallback)(struct GemerlAttacksCallback *);
 
 typedef struct Gemerl {
     /* 0x00 */ GemerlCallback callback;
@@ -44,6 +48,35 @@ typedef struct {
     /* 0x0E */ AnimId anim;
     /* 0x10 */ u8 pattern;
 } GemerlState;
+
+typedef struct GemerlAttacks {
+    /* 0x00 */ GemerlAttacksCallback callback;
+    /* 0x04 */ s32 unk4; // x
+    /* 0x08 */ s32 unk8; // y
+    /* 0x0C */ u8 fillerC[0x8];
+    /* 0x14 */ s16 unk14;
+    /* 0x16 */ s16 unk16;
+    /* 0x18 */ s16 unk18;
+    /* 0x1A */ s16 unk1A;
+    /* 0x1C */ u8 *unk1C;
+    /* 0x20 */ u8 *unk20;
+    /* 0x24 */ u8 stateIndex;
+    /* 0x25 */ u8 unk25;
+    /* 0x26 */ u8 unk26;
+    /* 0x27 */ u8 unk27;
+    /* 0x27 */ u8 unk28;
+    /* 0x2C */ Player *players[2];
+    /* 0x34 */ Gemerl *gemerl;
+    /* 0x38 */ Sprite spr38;
+    /* 0x60 */ SpriteTransform tf60;
+    /* 0x6C */ Sprite spritesA0[4];
+} GemerlAttacks; /* 0x10C */
+
+typedef struct {
+    /* 0x00 */ GemerlAttacksCallback callbackA;
+    /* 0x04 */ GemerlAttacksCallback callbackB;
+    /* 0x08 */ u8 unk8;
+} GemerlFuncs;
 
 extern bool32 Gemerl_State_0(Gemerl *gemerl);
 extern bool32 Gemerl_State_1(Gemerl *gemerl);
@@ -99,6 +132,10 @@ extern bool32 Gemerl_State_54(Gemerl *gemerl);
 
 extern void sub_8068AD8(Gemerl *gemerl);
 
+extern void sub_807A574(Gemerl *gemerl, u8 param1, u8 param2, u8 param3);
+
 extern const GemerlState gGemerlStates[];
+
+extern const GemerlFuncs gUnknown_080D5B00[10];
 
 #endif // GUARD_SA3_GEMERL_STATES_H

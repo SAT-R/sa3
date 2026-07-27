@@ -3,22 +3,16 @@
 #include "trig.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
-#include "game/sa3/bosses/gemerl_states.h"
 #include "game/bosses.h"
+#include "game/sa3/bosses/gemerl.h"
+#include "game/sa3/bosses/eggman_escape.h"
 #include "game/stage.h"
-#include "game/sa3/bosses/more_gemerl.h"
 #include "game/shared/stage/player_callbacks.h"
 #include "game/shared/stage/terrain_collision.h"
 #include "multi_sio_stuff.h"
 #include "constants/animations.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"
-
-typedef struct {
-    /* 0x00 */ GemerlCallback callbackA;
-    /* 0x04 */ void *funcB;
-    /* 0x08 */ u8 unk8;
-} Strc_80D5B00;
 
 void sub_80678C0(Sprite *s0, Sprite *s1, Sprite *s2);
 AnimCmdResult sub_806799C(Gemerl *gemerl);
@@ -71,8 +65,6 @@ extern const u32 gUnknown_080D5724[2];
 extern const u32 gUnknown_080D572C[4];
 extern const u32 gUnknown_080D573C[4];
 extern const u32 gUnknown_080D574C[4];
-extern const Strc_80D5B00 gUnknown_080D5B00[];
-extern const Strc_80D5B00 gUnknown_080D5B48[];
 
 // Called on init of Gmerl (in Boss 1 and Extra Boss)
 // struct Task CreateGemerl(u8 *param0, s32 worldX, s32 worldY);
@@ -570,7 +562,7 @@ bool32 Gemerl_State_21(Gemerl *gemerl)
 
 bool32 Gemerl_State_25(Gemerl *gemerl)
 {
-    const Strc_80D5B00 *strc = &gUnknown_080D5B00[gemerl->unk2E];
+    const GemerlFuncs *strc = &gUnknown_080D5B00[gemerl->unk2E];
 
     if (--gemerl->unk18 == 0) {
         if (++gemerl->unk2F == strc->unk8) {
@@ -790,7 +782,7 @@ bool32 Gemerl_State_35(Gemerl *gemerl)
     s32 tmp = 0x1C;
     Sprite2 *s = &gemerl->spr3C;
     SpriteTransform *tf = &gemerl->tf6C;
-    const Strc_80D5B00 *sp0 = &gUnknown_080D5B00[6 + (1 & gemerl->unk30)];
+    const GemerlFuncs *sp0 = &gUnknown_080D5B00[6 + (1 & gemerl->unk30)];
     var_sl = 0;
     var_sb = 0;
     sub_8068984(gemerl, 0);
@@ -847,7 +839,7 @@ bool32 Gemerl_State_36(Gemerl *gemerl)
     s32 var_r6;
     s16 temp_r2;
     u8 var_r2;
-    const Strc_80D5B00 *temp_r5 = &gUnknown_080D5B00[6 + (gemerl->unk30 & 0x1)];
+    const GemerlFuncs *temp_r5 = &gUnknown_080D5B00[6 + (gemerl->unk30 & 0x1)];
 
     temp_r2 = (gUnknown_080D56F0[4][1] >> 4);
     var_r6 = 1;
@@ -943,7 +935,7 @@ bool32 Gemerl_State_40(Gemerl *gemerl)
 
 bool32 Gemerl_State_44(Gemerl *gemerl)
 {
-    const Strc_80D5B00 *strc = &gUnknown_080D5B00[8];
+    const GemerlFuncs *strc = &gUnknown_080D5B00[8];
     SpriteTransform *tf = &gemerl->tf6C;
     Sprite2 *s = &gemerl->spr3C;
 
@@ -974,7 +966,7 @@ bool32 Gemerl_State_44(Gemerl *gemerl)
 bool32 Gemerl_State_47(Gemerl *gemerl)
 {
     s16 temp_r2 = (-gUnknown_080D56F0[gemerl->unk20][1] >> 2);
-    const Strc_80D5B00 *temp_r5 = &gUnknown_080D5B00[8];
+    const GemerlFuncs *temp_r5 = &gUnknown_080D5B00[8];
     s32 var_r6 = 1;
     u8 i;
 
@@ -1718,7 +1710,7 @@ bool32 Gemerl_State_24(Gemerl *gemerl)
 
 bool32 Gemerl_State_26(Gemerl *gemerl)
 {
-    const Strc_80D5B00 *temp_r3 = &gUnknown_080D5B00[gemerl->unk2E];
+    const GemerlFuncs *temp_r3 = &gUnknown_080D5B00[gemerl->unk2E];
     s32 var_r6 = 1;
     u8 var_r2;
 
