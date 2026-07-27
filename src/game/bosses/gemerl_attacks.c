@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "lib/m4a/m4a.h"
 #include "game/stage.h"
 #include "game/sa3/bosses/gemerl.h"
@@ -17,7 +18,6 @@ void sub_807A84C(GemerlAttacks *strc10C);
 void sub_807A6D4(GemerlAttacks *strc10C, u8 *vram);
 
 bool32 sub_807B664(GemerlAttacks *strc10C, bool32 param1);
-
 
 void sub_807A574(Gemerl *gemerl, u8 param1, u8 param2, u8 param3)
 {
@@ -81,8 +81,8 @@ void sub_807A6D4(GemerlAttacks *strc10C, u8 *vram)
     UpdateSpriteAnimation(s);
     vram += MAX_TILES(ANIM_GEMERL_TINY_MISSILE) * TILE_SIZE_4BPP;
 
-    for (i = 0; i < (s32)ARRAY_COUNT(strc10C->spritesA0); i++) {
-        s = &strc10C->spritesA0[i];
+    for (i = 0; i < (s32)ARRAY_COUNT(strc10C->sprites6C); i++) {
+        s = &strc10C->sprites6C[i];
         s->tiles = vram;
         s->anim = ANIM_EXPLOSION_1273;
         s->variant = 1;
@@ -153,46 +153,48 @@ extern const s32 gUnknown_080D5B78[4];
 
 void sub_807A8B4(GemerlAttacks *strc10C)
 {
-    s32 sp4[4];
-    Sprite *s;
     s16 temp_r4_2;
     s16 temp_r5_2;
     s32 temp_r5, temp_r4;
-    u16 temp_r3;
     u8 var_r0;
-    u8 var_r5;
     u8 var_r7;
-
-    temp_r3 = strc10C->unk1A;
-    var_r5 = (u8)((s32)(temp_r3 << 0x10) >> 0x12);
-    sp4[0] = gUnknown_080D5B78[0];
-    sp4[1] = gUnknown_080D5B78[1];
-    sp4[2] = gUnknown_080D5B78[2];
-    sp4[3] = gUnknown_080D5B78[3];
-    if ((u32)var_r5 > 3U) {
+    Sprite *s;
+    SpriteTransform *tf;
+    s32 var_r5 = (u8)(strc10C->unk1A >> 2);
+    s16 screenX, screenY;
+#if 0
+    s32 sp4[4] = {0, 1, 2, 3};
+#else
+    s32 sp4[4];
+    memcpy(sp4, gUnknown_080D5B78, sizeof(sp4));
+#endif
+    if (var_r5 > 3U) {
         var_r5 = 3;
     }
-    if (!(3 & temp_r3) && ((s32)(s16)temp_r3 <= 0xC)) {
-        s = strc10C + ((var_r5 * 0x28) + 0x6C);
-        temp_r4 = (&subroutine_strc10C)[var_r5].unk4;
-        s->unk10
-            = (s16)((s16)(u16)(I(strc10C->unk4) - gCamera.x) + ((s32)(temp_r4 * gSineTable[strc10C->tf60.rotation]) >> 0x16));
-        s->unk12 = (s16)((s16)(u16)(((s32)strc10C->unk8 >> 8) - gCamera.y)
-                               + ((s32)(temp_r4 * gSineTable[strc10C->tf60.rotation + 0x100]) >> 0x16));
+
+    screenX = I(strc10C->unk4) - gCamera.x;
+    screenY = I(strc10C->unk8) - gCamera.y;
+
+    if (!(3 & strc10C->unk1A) && (strc10C->unk1A < 13)) {
+        s = &strc10C->sprites6C[var_r5];
+        tf = &strc10C->tf60;
+        temp_r4 = sp4[var_r5];
+        s->x = screenX + ((SIN(tf->rotation) * temp_r4) >> 0x16);
+        s->y = screenY + ((COS(tf->rotation) * temp_r4) >> 0x16);
     }
     if ((s32)(s16)strc10C->unk1A <= 0x14) {
-        var_r7 = 0;
+        var_r0 = 0;
     } else {
-        var_r7 = ((strc10C->unk1A - 20) >> 2);
+        var_r0 = ((strc10C->unk1A - 20) >> 2);
     }
+    var_r7 = var_r0;
 
-    var_r5++;
-    while (var_r7 < var_r5) {
-        s = &strc10C->spritesA0[var_r7];
-        temp_r5_2 = s->x + gCamera.x;
-        temp_r4_2 = s->y + gCamera.y;
-        sub_8020CE0(s, (s32)temp_r5_2, (s32)temp_r4_2, 0, strc10C->players[0]);
-        sub_8020CE0(s, (s32)temp_r5_2, (s32)temp_r4_2, 0, strc10C->players[1]);
+    while (var_r7 < var_r5 + 1) {
+        s = &strc10C->sprites6C[var_r7];
+        screenX = s->x + gCamera.x;
+        screenY = s->y + gCamera.y;
+        sub_8020CE0(s, screenX, screenY, 0, strc10C->players[0]);
+        sub_8020CE0(s, screenX, screenY, 0, strc10C->players[1]);
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
         var_r7 += 1;
