@@ -163,7 +163,10 @@ void sub_807A8B4(GemerlAttacks *strc10C)
     s32 var_r5 = (u8)(strc10C->unk1A >> 2);
     s16 screenX, screenY;
 #if 0
-    s32 sp4[4] = {0, 1, 2, 3};
+    s32 sp4[4] = { //
+        Q(0), -Q(4), //
+        +Q(4), Q(0)//
+    };
 #else
     s32 sp4[4];
     memcpy(sp4, gUnknown_080D5B78, sizeof(sp4));
