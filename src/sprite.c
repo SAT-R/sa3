@@ -411,127 +411,104 @@ void sub_80047A0(u16 angle, s16 p1, s16 p2, u16 affineIndex)
     affine[12] = I(COS_24_8(angle) * res);
 }
 
-// Similar to UnusedTransform and sa2__sub_8004E14
-// (39.57%) https://decomp.me/scratch/bKkIE
-NONMATCH("asm/non_matching/engine/TransformSprite.inc", void TransformSprite(Sprite *s, SpriteTransform *transform))
+#define InvScale(qScale) (s16) Q_DIV(Q(1), (qScale))
+
+void TransformSprite(Sprite *s, SpriteTransform *transform)
 {
-    // sp24 = s
-    UnkSpriteStruct big;
+    s16 *affine;
+    bool32 negativeScaleY;
+    const SpriteOffset *dimensions;
+    s16 offsetX, offsetY;
+    u32 width, height;
+    s32 qOffsetX, qOffsetY;
 
-    if (s->frameNum != -1) {
-        s16 res;
-        s16 x16, y16;
-        s16 *affine;
-        const SpriteOffset *dimensions;
-        if ((s->frameNum >> 28) == 0) {
-            dimensions = &gRefSpriteTables->dimensions[s->anim][s->frameNum];
-        } else {
-            dimensions = (const SpriteOffset *)(((u8 *)gRefSpriteTables->dimensions[s->anim]) + s->frameNum * 16);
-        }
-        big.affineIndex = s->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE;
-        affine = (void *)&gOamBuffer[big.affineIndex * 4].all.affineParam;
+    vs16 rotScaleMat00;
+    vs16 rotScaleMat01;
+    vs16 rotScaleMat10;
+    vs16 rotScaleMat11;
+    vs16 qDirX;
+    vs16 qDirY;
+    vs16 qScaleX;
+    vs16 qScaleY;
+    vs32 posX;
+    vs32 posY;
+    vs16 idMat00;
+    vs16 idMat01;
+    vs16 idMat10;
+    vs16 idMat11;
+    vu16 affineIndex;
 
-#if 0
-        sub_80047A0(transform->rotation & ONE_CYCLE, transform->qScaleX, transform->qScaleY,
-                    big.affineIndex);
-#else
-        big.qDirX = COS_24_8(transform->rotation & ONE_CYCLE);
-        big.qDirY = SIN_24_8(transform->rotation & ONE_CYCLE);
-
-        big.unkC[0] = transform->qScaleX;
-        big.unkC[1] = transform->qScaleY;
-        // __set_UnkC
-
-        res = Div(0x10000, big.unkC[0]);
-        x16 = big.qDirX;
-        affine[0] = (x16 * res) >> 8;
-
-        res = Div(0x10000, big.unkC[0]);
-        y16 = big.qDirY;
-        affine[4] = (y16 * res) >> 8;
-
-        res = Div(0x10000, big.unkC[1]);
-        y16 = big.qDirY;
-        affine[8] = (-y16 * res) >> 8;
-
-        res = Div(0x10000, big.unkC[1]);
-        x16 = big.qDirX;
-        affine[12] = (x16 * res) >> 8;
-#endif
-        // __post_Divs
-
-        if (transform->qScaleX < 0)
-            big.unkC[0] = -transform->qScaleX;
-
-        if (transform->qScaleY < 0)
-            big.unkC[1] = -transform->qScaleY;
-
-        // _0800497A
-        x16 = big.qDirX;
-        big.unk0[0] = (x16 * big.unkC[0]) >> 8;
-        // __08004990
-        y16 = big.qDirY;
-        big.unk0[1] = (-y16 * big.unkC[0]) >> 8;
-        // __080049AA
-        y16 = big.qDirY;
-        big.unk0[2] = (y16 * big.unkC[1]) >> 8;
-        // __080049C2
-        x16 = big.qDirX;
-        big.unk0[3] = (x16 * big.unkC[1]) >> 8;
-
-        big.unk18[0][0] = 0x100;
-        big.unk18[0][1] = 0;
-        big.unk18[1][0] = 0;
-        big.unk18[1][1] = 0x100;
-
-        big.posX = transform->x;
-        big.posY = transform->y;
-
-        // _08004A04
-        {
-            s32 r0;
-            s32 r1;
-            s32 r2;
-            s32 r3;
-            s32 r4;
-
-            // __08004A04
-            if (transform->qScaleX > 0) {
-                // __08004A08
-                r4 = dimensions->offsetX;
-            } else {
-                // _08004A20
-                r4 = dimensions->width - dimensions->offsetX;
-            }
-
-            // _08004A2E
-            if (transform->qScaleY > 0) {
-                r3 = dimensions->offsetY;
-            } else {
-                // _08004A3E
-                r3 = dimensions->height - dimensions->offsetY;
-            }
-
-            // _08004A4C
-            r1 = big.unk0[0] * (r4 - (dimensions->width / 2));
-            r0 = big.unk0[1] * (r3 - (dimensions->height / 2));
-            r1 += r0;
-            r1 = r1 + ((dimensions->width / 2) << 8);
-            big.posX -= (r1 >> 8);
-
-            // __080004A7E
-            r1 = big.unk0[2] * (r4 - (dimensions->width / 2));
-            r0 = big.unk0[3] * (r3 - (dimensions->height / 2));
-            r1 += r0;
-            r1 += ((dimensions->height / 2) << 8);
-            big.posY -= r1 >> 8;
-
-            s->x = big.posX;
-            s->y = big.posY;
-        }
+    if (s->frameNum == -1) {
+        return;
     }
+
+    if ((s->frameNum >> 28) == 0) {
+        dimensions = &gRefSpriteTables->dimensions[s->anim][s->frameNum];
+    } else {
+        dimensions = (const SpriteOffset *)(((u8 *)gRefSpriteTables->dimensions[s->anim]) + s->frameNum * 16);
+    }
+
+    affineIndex = s->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE;
+    affine = (s16 *)&gOamBuffer[affineIndex * 4].all.affineParam;
+
+    qDirX = COS_24_8(CLAMP_SIN_PERIOD(transform->rotation));
+    qDirY = SIN_24_8(CLAMP_SIN_PERIOD(transform->rotation));
+
+    qScaleX = transform->qScaleX;
+    qScaleY = transform->qScaleY;
+
+    affine[0 * OAM_DATA_COUNT_AFFINE] = Q_MUL(qDirX, InvScale(qScaleX));
+    affine[1 * OAM_DATA_COUNT_AFFINE] = Q_MUL(qDirY, InvScale(qScaleX));
+    affine[2 * OAM_DATA_COUNT_AFFINE] = Q_MUL(-qDirY, InvScale(qScaleY));
+    affine[3 * OAM_DATA_COUNT_AFFINE] = Q_MUL(qDirX, InvScale(qScaleY));
+
+    if (transform->qScaleX < 0) {
+        qScaleX = -transform->qScaleX;
+    }
+    if (transform->qScaleY < 0) {
+        qScaleY = -transform->qScaleY;
+    }
+
+    rotScaleMat00 = Q_MUL(qDirX, qScaleX);
+    rotScaleMat01 = Q_MUL(-qDirY, qScaleX);
+    rotScaleMat10 = Q_MUL(qDirY, qScaleY);
+    rotScaleMat11 = Q_MUL(qDirX, qScaleY);
+
+    idMat00 = Q(1);
+    idMat01 = Q(0);
+    idMat10 = Q(0);
+    idMat11 = Q(1);
+
+    posX = transform->x;
+    posY = transform->y;
+
+    if (transform->qScaleX > 0) {
+        offsetX = dimensions->offsetX;
+        width = dimensions->width;
+    } else {
+        s32 w = dimensions->width;
+        offsetX = w - dimensions->offsetX;
+        width = w;
+    }
+
+    if (transform->qScaleY > 0) {
+        offsetY = dimensions->offsetY;
+        height = dimensions->height;
+    } else {
+        s32 h = dimensions->height;
+        offsetY = h - dimensions->offsetY;
+        height = h;
+    }
+
+    qOffsetX = rotScaleMat00 * (offsetX - (width / 2)) + rotScaleMat01 * (offsetY - (height / 2)) + Q(width / 2);
+    posX -= I(qOffsetX);
+
+    qOffsetY = rotScaleMat10 * (offsetX - (width / 2)) + rotScaleMat11 * (offsetY - (height / 2)) + Q(height / 2);
+    posY -= I(qOffsetY);
+
+    s->x = posX;
+    s->y = posY;
 }
-END_NONMATCH
 
 // (0.00%)
 NONMATCH("asm/non_matching/engine/UnusedTransform.inc", void UnusedTransform(Sprite *sprite, SpriteTransform *transform))
