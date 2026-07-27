@@ -3,14 +3,21 @@
 #include "lib/m4a/m4a.h"
 #include "game/stage.h"
 #include "game/sa3/bosses/gemerl.h"
+#include "game/sa3/bosses/eggman_escape.h"
 #include "game/shared/stage/player.h"
 #include "constants/animations.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"
 
 void Task_10C_807A784(void);
+void sub_807B5E4(void);
+void sub_807A8B4(GemerlAttacks *strc10C);
+void sub_807A84C(GemerlAttacks *strc10C);
 
 void sub_807A6D4(GemerlAttacks *strc10C, u8 *vram);
+
+bool32 sub_807B664(GemerlAttacks *strc10C, bool32 param1);
+
 
 void sub_807A574(Gemerl *gemerl, u8 param1, u8 param2, u8 param3)
 {
@@ -91,4 +98,53 @@ void sub_807A6D4(GemerlAttacks *strc10C, u8 *vram)
         s->frameFlags = 0x80000;
         UpdateSpriteAnimation(s);
     }
+}
+
+void Task_10C_807A784(void)
+{
+    Gemerl *gemerl;
+    s16 temp_r5, temp_r4;
+    GemerlAttacks *strc10C = TASK_DATA(gCurTask);
+    Sprite *s = &strc10C->spr38;
+    bool32 playerHit = 0;
+    gemerl = strc10C->gemerl;
+
+    if ((gemerl != NULL) && (gemerl->unk20 <= 0)) {
+        *strc10C->unk1C = 0;
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    playerHit |= strc10C->callback((struct GemerlAttacksCallback *)strc10C);
+    temp_r5 = I(strc10C->unk4);
+    temp_r4 = I(strc10C->unk8);
+    playerHit |= sub_8020CE0(s, temp_r5, temp_r4, 0, strc10C->players[0]);
+    playerHit |= sub_8020CE0(s, temp_r5, temp_r4, 0, strc10C->players[1]);
+    playerHit |= sub_807B664(strc10C, 1);
+
+    if (playerHit) {
+        strc10C->unk1A = 0;
+        gCurTask->main = sub_807B5E4;
+        sub_807A8B4(strc10C);
+        m4aSongNumStart(SE_CAPSULE_DESTROY);
+    } else {
+        strc10C->unkC = strc10C->unk4;
+        strc10C->unk10 = strc10C->unk8;
+        sub_807A84C(strc10C);
+    }
+}
+
+void sub_807A84C(GemerlAttacks *strc10C)
+{
+    Sprite *s = &strc10C->spr38;
+    SpriteTransform *tf = &strc10C->tf60;
+
+    s->x = I(strc10C->unk4) - gCamera.x;
+    s->y = I(strc10C->unk8) - gCamera.y;
+    s->frameFlags = (s->frameFlags & ~0x7F) | (u8)(gNextFreeAffineIndex++ | 0x60);
+    tf->x = s->x;
+    tf->y = s->y;
+    UpdateSpriteAnimation(s);
+    TransformSprite(s, tf);
+    DisplaySprite(s);
 }

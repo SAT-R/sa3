@@ -53,7 +53,8 @@ typedef struct GemerlAttacks {
     /* 0x00 */ GemerlAttacksCallback callback;
     /* 0x04 */ s32 unk4; // x
     /* 0x08 */ s32 unk8; // y
-    /* 0x0C */ u8 fillerC[0x8];
+    /* 0x04 */ s32 unkC; // x
+    /* 0x08 */ s32 unk10; // y
     /* 0x14 */ s16 unk14;
     /* 0x16 */ s16 unk16;
     /* 0x18 */ s16 unk18;
