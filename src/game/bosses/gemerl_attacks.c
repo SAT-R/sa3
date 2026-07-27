@@ -148,3 +148,53 @@ void sub_807A84C(GemerlAttacks *strc10C)
     TransformSprite(s, tf);
     DisplaySprite(s);
 }
+
+extern const s32 gUnknown_080D5B78[4];
+
+void sub_807A8B4(GemerlAttacks *strc10C)
+{
+    s32 sp4[4];
+    Sprite *s;
+    s16 temp_r4_2;
+    s16 temp_r5_2;
+    s32 temp_r5, temp_r4;
+    u16 temp_r3;
+    u8 var_r0;
+    u8 var_r5;
+    u8 var_r7;
+
+    temp_r3 = strc10C->unk1A;
+    var_r5 = (u8)((s32)(temp_r3 << 0x10) >> 0x12);
+    sp4[0] = gUnknown_080D5B78[0];
+    sp4[1] = gUnknown_080D5B78[1];
+    sp4[2] = gUnknown_080D5B78[2];
+    sp4[3] = gUnknown_080D5B78[3];
+    if ((u32)var_r5 > 3U) {
+        var_r5 = 3;
+    }
+    if (!(3 & temp_r3) && ((s32)(s16)temp_r3 <= 0xC)) {
+        s = strc10C + ((var_r5 * 0x28) + 0x6C);
+        temp_r4 = (&subroutine_strc10C)[var_r5].unk4;
+        s->unk10
+            = (s16)((s16)(u16)(I(strc10C->unk4) - gCamera.x) + ((s32)(temp_r4 * gSineTable[strc10C->tf60.rotation]) >> 0x16));
+        s->unk12 = (s16)((s16)(u16)(((s32)strc10C->unk8 >> 8) - gCamera.y)
+                               + ((s32)(temp_r4 * gSineTable[strc10C->tf60.rotation + 0x100]) >> 0x16));
+    }
+    if ((s32)(s16)strc10C->unk1A <= 0x14) {
+        var_r7 = 0;
+    } else {
+        var_r7 = ((strc10C->unk1A - 20) >> 2);
+    }
+
+    var_r5++;
+    while (var_r7 < var_r5) {
+        s = &strc10C->spritesA0[var_r7];
+        temp_r5_2 = s->x + gCamera.x;
+        temp_r4_2 = s->y + gCamera.y;
+        sub_8020CE0(s, (s32)temp_r5_2, (s32)temp_r4_2, 0, strc10C->players[0]);
+        sub_8020CE0(s, (s32)temp_r5_2, (s32)temp_r4_2, 0, strc10C->players[1]);
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+        var_r7 += 1;
+    }
+}

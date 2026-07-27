@@ -70,7 +70,7 @@ typedef struct GemerlAttacks {
     /* 0x34 */ Gemerl *gemerl;
     /* 0x38 */ Sprite spr38;
     /* 0x60 */ SpriteTransform tf60;
-    /* 0x6C */ Sprite spritesA0[4];
+    /* 0x6C */ Sprite sprites6C[4];
 } GemerlAttacks; /* 0x10C */
 
 typedef struct {
