@@ -4,6 +4,8 @@
 #include "game/stage.h"
 #include "game/sa3/bosses/gemerl.h"
 #include "game/shared/stage/player.h"
+#include "constants/animations.h"
+#include "constants/move_states.h"
 #include "constants/songs.h"
 
 void Task_10C_807A784(void);
@@ -45,7 +47,48 @@ void sub_807A574(Gemerl *gemerl, u8 param1, u8 param2, u8 param3)
     tf->y = 0;
 
     sub_807A6D4(strc10C, gemerl->vram4);
+
     if (strc10C->stateIndex != 8) {
         m4aSongNumStart(SE_527);
+    }
+}
+
+void sub_807A6D4(GemerlAttacks *strc10C, u8 *vram)
+{
+    u8 i;
+    Sprite *s = &strc10C->spr38;
+
+    s->tiles = vram;
+    s->anim = ANIM_GEMERL_TINY_MISSILE;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(18);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x1000;
+    s->x = 0;
+    s->y = 0;
+    UpdateSpriteAnimation(s);
+    vram += MAX_TILES(ANIM_GEMERL_TINY_MISSILE) * TILE_SIZE_4BPP;
+
+    for (i = 0; i < (s32)ARRAY_COUNT(strc10C->spritesA0); i++) {
+        s = &strc10C->spritesA0[i];
+        s->tiles = vram;
+        s->anim = ANIM_EXPLOSION_1273;
+        s->variant = 1;
+        s->oamFlags = SPRITE_OAM_ORDER(10);
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->prevVariant = -1;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+        s->x = 0;
+        s->y = 0;
+        s->frameFlags = 0x80000;
+        UpdateSpriteAnimation(s);
     }
 }

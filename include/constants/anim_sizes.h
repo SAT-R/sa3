@@ -652,6 +652,10 @@
 #define ANIM_GEMERL_SHIELD_WIDTH                    48
 #define ANIM_GEMERL_SHIELD_HEIGHT                   48
 
+// 1298
+#define ANIM_GEMERL_TINY_MISSILE_WIDTH              16
+#define ANIM_GEMERL_TINY_MISSILE_HEIGHT             16
+
 // 1316
 #define ANIM_ITEM_BOX_WIDTH                         32
 #define ANIM_ITEM_BOX_HEIGHT                        32
