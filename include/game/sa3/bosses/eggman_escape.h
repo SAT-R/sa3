@@ -1,5 +1,5 @@
-#ifndef GUARD_SA3_MORE_GEMER_H
-#define GUARD_SA3_MORE_GEMER_H
+#ifndef GUARD_SA3_EGGMAN_ESCAPE_H
+#define GUARD_SA3_EGGMAN_ESCAPE_H
 
 // TODO: This might be multiple utility modules
 
@@ -12,4 +12,4 @@ void SetFixedRandomIfTimeAttackMode(void);
 
 void sub_8079758(u8, s16 x, s16 y, s16, u16 angle, u8, s16, u8 *vram);
 
-#endif // GUARD_SA3_MORE_GEMER_H
+#endif // GUARD_SA3_EGGMAN_ESCAPE_H
