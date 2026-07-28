@@ -339,6 +339,17 @@
 #define ANIM_BOSS_4_CLOWN_COUPLING   1234
 #define ANIM_BOSS_4_CLOWN_NECK       1235
 #define ANIM_BOSS_4_CONFETTI         1236
+#define ANIM_PALETTE_BOSS_4_A        1237
+#define ANIM_PALETTE_BOSS_4_B        1238
+#define ANIM_BOSS_5_COCKPIT          1239
+#define ANIM_BOSS_5_MACE             1240
+#define ANIM_BOSS_5_MACE_NODE        1241
+#define ANIM_BOSS_5_GEAR             1242
+#define ANIM_BOSS_5_LEG              1243
+#define ANIM_BOSS_5_EGGMAN           1244
+#define ANIM_PALETTE_BOSS_5_A        1245
+#define ANIM_PALETTE_BOSS_5_B        1246
+#define ANIM_BOSS_5_FALLING_PLATFORM 1247
 
 #define ANIM_BOSS_7_COCKPIT 1256
 #define ANIM_BOSS_7_GEMERL  1257

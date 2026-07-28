@@ -21,7 +21,7 @@ CreateEggChaserBoss: @ 0x08071A08
 	adds r6, r2, #0
 	ldr r0, _08071A60 @ =Task_EggChaserBossInit
 	movs r1, #0xee
-	lsls r1, r1, #1
+	lsls r1, r1, #1	@ 0x1DC
 	movs r2, #0x84
 	lsls r2, r2, #6
 	ldr r3, _08071A64 @ =TaskDestructor_EggChaserBoss
@@ -388,7 +388,7 @@ _08071CFA:
 	movs r2, #0x24
 	ldrsh r1, [r7, r2]
 	adds r2, r7, #0
-	bl sub_8072E50
+	bl CreateChaserPlatform
 	ldrb r0, [r7, #0x1a]
 	lsls r0, r0, #2
 	adds r0, r0, r5
@@ -425,8 +425,8 @@ _08071D5C: .4byte 0x000004DC
 _08071D60: .4byte 0x000004DB
 _08071D64: .4byte gUnknown_080D5888
 
-	thumb_func_start sub_8071D68
-sub_8071D68: @ 0x08071D68
+	thumb_func_start Task_Chaser_8071D68
+Task_Chaser_8071D68: @ 0x08071D68
 	push {r4, r5, lr}
 	ldr r0, _08071D88 @ =gCurTask
 	ldr r2, [r0]
@@ -482,7 +482,7 @@ _08071DA4:
 	str r0, [r4, #0x28]
 	ldr r0, _08071DF0 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08071DF4 @ =sub_8071DF8
+	ldr r0, _08071DF4 @ =Task_Chaser_8071DF8
 	str r0, [r1, #8]
 _08071DDE:
 	pop {r4, r5}
@@ -493,10 +493,10 @@ _08071DE4: .4byte gPlayers
 _08071DE8: .4byte 0xFFFFFB7F
 _08071DEC: .4byte gCamera
 _08071DF0: .4byte gCurTask
-_08071DF4: .4byte sub_8071DF8
+_08071DF4: .4byte Task_Chaser_8071DF8
 
-	thumb_func_start sub_8071DF8
-sub_8071DF8: @ 0x08071DF8
+	thumb_func_start Task_Chaser_8071DF8
+Task_Chaser_8071DF8: @ 0x08071DF8
 	push {r4, r5, r6, lr}
 	ldr r6, _08071E24 @ =gCurTask
 	ldr r0, [r6]
@@ -559,7 +559,7 @@ _08071E4C:
 	strb r5, [r0]
 	bl sub_807A4A8
 	ldr r1, [r6]
-	ldr r0, _08071E90 @ =sub_8071E94
+	ldr r0, _08071E90 @ =Task_Chaser_8071E94
 	str r0, [r1, #8]
 _08071E74:
 	adds r0, r4, #0
@@ -572,10 +572,10 @@ _08071E74:
 	.align 2, 0
 _08071E88: .4byte gUnknown_080D58CC
 _08071E8C: .4byte 0x0300002C
-_08071E90: .4byte sub_8071E94
+_08071E90: .4byte Task_Chaser_8071E94
 
-	thumb_func_start sub_8071E94
-sub_8071E94: @ 0x08071E94
+	thumb_func_start Task_Chaser_8071E94
+Task_Chaser_8071E94: @ 0x08071E94
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -757,13 +757,13 @@ _08071FEA:
 	beq _08072018
 	ldr r0, _08072010 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08072014 @ =sub_8073420
+	ldr r0, _08072014 @ =Task_Chaser_8073420
 	b _0807202C
 	.align 2, 0
 _08072008: .4byte gUnknown_080D58CC
 _0807200C: .4byte gStageData
 _08072010: .4byte gCurTask
-_08072014: .4byte sub_8073420
+_08072014: .4byte Task_Chaser_8073420
 _08072018:
 	movs r0, #1
 	movs r1, #0
@@ -773,7 +773,7 @@ _08072020:
 	bl sub_8072D04
 	ldr r0, _08072038 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0807203C @ =sub_80733CC
+	ldr r0, _0807203C @ =Task_Chaser_80733CC
 _0807202C:
 	str r0, [r1, #8]
 	adds r0, r4, #0
@@ -781,7 +781,7 @@ _0807202C:
 	b _080720CA
 	.align 2, 0
 _08072038: .4byte gCurTask
-_0807203C: .4byte sub_80733CC
+_0807203C: .4byte Task_Chaser_80733CC
 _08072040:
 	ldr r0, _08072080 @ =gStageData
 	ldrb r1, [r0, #6]
@@ -856,8 +856,8 @@ _080720D8: .4byte Player_HitWithoutRingsUpdate
 _080720DC: .4byte sub_800913C
 _080720E0: .4byte sub_800DF9C
 
-	thumb_func_start sub_80720E4
-sub_80720E4: @ 0x080720E4
+	thumb_func_start Task_Chaser_80720E4
+Task_Chaser_80720E4: @ 0x080720E4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1270,7 +1270,7 @@ _08072406:
 	strh r0, [r5, #0x30]
 	ldr r0, _080724D4 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080724D8 @ =sub_80724E4
+	ldr r0, _080724D8 @ =Task_Chaser_80724E4
 	str r0, [r1, #8]
 _08072424:
 	ldr r0, [r5]
@@ -1353,12 +1353,12 @@ _080724C8: .4byte 0x00000514
 _080724CC: .4byte 0x00000604
 _080724D0: .4byte 0x00000221
 _080724D4: .4byte gCurTask
-_080724D8: .4byte sub_80724E4
+_080724D8: .4byte Task_Chaser_80724E4
 _080724DC: .4byte gCamera
 _080724E0: .4byte 0xFFFFFBFF
 
-	thumb_func_start sub_80724E4
-sub_80724E4: @ 0x080724E4
+	thumb_func_start Task_Chaser_80724E4
+Task_Chaser_80724E4: @ 0x080724E4
 	push {r4, lr}
 	sub sp, #0x10
 	ldr r0, _08072508 @ =gCurTask
@@ -1418,6 +1418,8 @@ _08072550:
 	pop {r0}
 	bx r0
 
+@ Inputs:
+@ R0 = EggChaserBoss
 	thumb_func_start sub_8072558
 sub_8072558: @ 0x08072558
 	push {lr}
@@ -1502,6 +1504,7 @@ _080725F0: .4byte 0x00036100
 _080725F4: .4byte gStageData
 _080725F8: .4byte gCamera
 
+	@ Chaser
 	thumb_func_start sub_80725FC
 sub_80725FC: @ 0x080725FC
 	push {r4, r5, r6, r7, lr}
@@ -1874,6 +1877,8 @@ _0807289E:
 	.align 2, 0
 _080728B0: .4byte 0xFFFFE800
 
+@ Inputs:
+@ R0 = EggChaserBoss
 	thumb_func_start sub_80728B4
 sub_80728B4: @ 0x080728B4
 	push {r4, r5, r6, r7, lr}
@@ -2043,7 +2048,7 @@ _08072A04:
 	lsls r1, r1, #1
 	adds r0, r6, r1
 	ldr r0, [r0]
-	mov r8, r0
+	mov r8, r0 @ inline sub_80734EC ?
 	ldr r0, _08072B6C @ =gCurTask
 	ldr r0, [r0]
 	ldrh r5, [r0, #6]
@@ -2218,6 +2223,7 @@ _08072B74: .4byte 0x030000B8
 _08072B78: .4byte 0x03000048
 _08072B7C: .4byte 0xFFFFFBFF
 
+	@ Chaser
 	thumb_func_start sub_8072B80
 sub_8072B80: @ 0x08072B80
 	push {r4, r5, r6, lr}
@@ -2431,6 +2437,7 @@ _08072CFA:
 	.align 2, 0
 _08072D00: .4byte 0x000003FF
 
+	@ Chaser
 	thumb_func_start sub_8072D04
 sub_8072D04: @ 0x08072D04
 	push {r4, r5, r6, r7, lr}
@@ -2594,8 +2601,8 @@ _08072E48:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_8072E50
-sub_8072E50: @ 0x08072E50
+	thumb_func_start CreateChaserPlatform
+CreateChaserPlatform: @ 0x08072E50
 	push {r4, r5, r6, lr}
 	mov r6, r8
 	push {r6}
@@ -2603,7 +2610,7 @@ sub_8072E50: @ 0x08072E50
 	adds r4, r0, #0
 	adds r5, r1, #0
 	mov r8, r2
-	ldr r0, _08072EE4 @ =sub_8072EF0
+	ldr r0, _08072EE4 @ =Task_48_8072EF0
 	movs r2, #0x80
 	lsls r2, r2, #6
 	movs r6, #0
@@ -2642,7 +2649,7 @@ sub_8072E50: @ 0x08072E50
 	mov r2, r8
 	ldr r1, [r2, #0x20]
 	str r1, [r0]
-	ldr r1, _08072EEC @ =0x000004DF
+	ldr r1, _08072EEC @ =0x000004DF @ ANIM_BOSS_5_FALLING_PLATFORM
 	strh r1, [r0, #0xc]
 	strb r3, [r0, #0x1a]
 	movs r1, #0xc0
@@ -2668,12 +2675,12 @@ sub_8072E50: @ 0x08072E50
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08072EE4: .4byte sub_8072EF0
+_08072EE4: .4byte Task_48_8072EF0
 _08072EE8: .4byte 0x03000018
 _08072EEC: .4byte 0x000004DF
 
-	thumb_func_start sub_8072EF0
-sub_8072EF0: @ 0x08072EF0
+	thumb_func_start Task_48_8072EF0
+Task_48_8072EF0: @ 0x08072EF0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -2816,7 +2823,7 @@ _08072FF8:
 	strb r0, [r5, #0x11]
 	ldr r0, _08073038 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0807303C @ =sub_8073040
+	ldr r0, _0807303C @ =Task_48_8073040
 	str r0, [r1, #8]
 	mov r2, sb
 	ldrb r0, [r2, #0x12]
@@ -2838,10 +2845,10 @@ _08073026:
 	bx r0
 	.align 2, 0
 _08073038: .4byte gCurTask
-_0807303C: .4byte sub_8073040
+_0807303C: .4byte Task_48_8073040
 
-	thumb_func_start sub_8073040
-sub_8073040: @ 0x08073040
+	thumb_func_start Task_48_8073040
+Task_48_8073040: @ 0x08073040
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -3007,7 +3014,7 @@ _08073178:
 	strb r0, [r4, #0x12]
 	ldr r6, _080731BC @ =gCurTask
 	ldr r1, [r6]
-	ldr r0, _080731C0 @ =sub_80731DC
+	ldr r0, _080731C0 @ =Task_48_80731DC
 	str r0, [r1, #8]
 	mov r0, ip
 	adds r0, #0x2c
@@ -3036,7 +3043,7 @@ _08073196:
 	b _080731CE
 	.align 2, 0
 _080731BC: .4byte gCurTask
-_080731C0: .4byte sub_80731DC
+_080731C0: .4byte Task_48_80731DC
 _080731C4: .4byte gCamera
 _080731C8:
 	adds r0, r4, #0
@@ -3050,8 +3057,8 @@ _080731CE:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_80731DC
-sub_80731DC: @ 0x080731DC
+	thumb_func_start Task_48_80731DC
+Task_48_80731DC: @ 0x080731DC
 	push {r4, lr}
 	ldr r4, _0807323C @ =gCurTask
 	ldr r0, [r4]
@@ -3115,6 +3122,7 @@ _08073252:
 	pop {r0}
 	bx r0
 
+	@ Platforms
 	thumb_func_start sub_8073258
 sub_8073258: @ 0x08073258
 	push {r4, r5, lr}
@@ -3177,6 +3185,7 @@ _080732BE:
 _080732C4: .4byte gCamera
 _080732C8: .4byte gStageData
 
+	@ void sub_80732CC(u8 *param0, s16 param1);
 	thumb_func_start sub_80732CC
 sub_80732CC: @ 0x080732CC
 	push {r4, lr}
@@ -3202,12 +3211,12 @@ sub_80732CC: @ 0x080732CC
 	adds r0, r3, #0
 	bl sub_8072D04
 	ldr r1, [r4]
-	ldr r0, _08073308 @ =sub_80733CC
+	ldr r0, _08073308 @ =Task_Chaser_80733CC
 	str r0, [r1, #8]
 	b _08073328
 	.align 2, 0
 _08073304: .4byte gStageData
-_08073308: .4byte sub_80733CC
+_08073308: .4byte Task_Chaser_80733CC
 _0807330C:
 	cmp r1, #1
 	blt _08073328
@@ -3252,13 +3261,13 @@ _08073354:
 	cmp r0, #0
 	beq _08073368
 	ldr r1, [r4]
-	ldr r0, _08073364 @ =sub_8073380
+	ldr r0, _08073364 @ =Task_Chaser_8073380
 	b _0807336C
 	.align 2, 0
-_08073364: .4byte sub_8073380
+_08073364: .4byte Task_Chaser_8073380
 _08073368:
 	ldr r1, [r4]
-	ldr r0, _0807337C @ =sub_8071D68
+	ldr r0, _0807337C @ =Task_Chaser_8071D68
 _0807336C:
 	str r0, [r1, #8]
 	adds r0, r5, #0
@@ -3268,10 +3277,10 @@ _08073374:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0807337C: .4byte sub_8071D68
+_0807337C: .4byte Task_Chaser_8071D68
 
-	thumb_func_start sub_8073380
-sub_8073380: @ 0x08073380
+	thumb_func_start Task_Chaser_8073380
+Task_Chaser_8073380: @ 0x08073380
 	push {r4, r5, lr}
 	ldr r5, _080733A0 @ =gCurTask
 	ldr r2, [r5]
@@ -3300,17 +3309,17 @@ _080733A4:
 	cmp r0, #0
 	beq _080733C2
 	ldr r1, [r5]
-	ldr r0, _080733C8 @ =sub_8071D68
+	ldr r0, _080733C8 @ =Task_Chaser_8071D68
 	str r0, [r1, #8]
 _080733C2:
 	pop {r4, r5}
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080733C8: .4byte sub_8071D68
+_080733C8: .4byte Task_Chaser_8071D68
 
-	thumb_func_start sub_80733CC
-sub_80733CC: @ 0x080733CC
+	thumb_func_start Task_Chaser_80733CC
+Task_Chaser_80733CC: @ 0x080733CC
 	push {r4, lr}
 	ldr r0, _08073410 @ =gCurTask
 	ldr r4, [r0]
@@ -3323,7 +3332,7 @@ sub_80733CC: @ 0x080733CC
 	movs r1, #1
 	strh r1, [r0, #0x32]
 	strh r2, [r0, #0x14]
-	ldr r1, _08073414 @ =sub_80720E4
+	ldr r1, _08073414 @ =Task_Chaser_80720E4
 	str r1, [r4, #8]
 	ldr r2, _08073418 @ =0x03000130
 	adds r1, r3, r2
@@ -3345,12 +3354,12 @@ sub_80733CC: @ 0x080733CC
 	bx r0
 	.align 2, 0
 _08073410: .4byte gCurTask
-_08073414: .4byte sub_80720E4
+_08073414: .4byte Task_Chaser_80720E4
 _08073418: .4byte 0x03000130
 _0807341C: .4byte 0x03000134
 
-	thumb_func_start sub_8073420
-sub_8073420: @ 0x08073420
+	thumb_func_start Task_Chaser_8073420
+Task_Chaser_8073420: @ 0x08073420
 	push {r4, lr}
 	ldr r0, _08073454 @ =gCurTask
 	ldr r0, [r0]
@@ -3400,6 +3409,8 @@ _08073478:
 	bx r0
 	.align 2, 0
 
+@ Inputs:
+@ R0 = EggChaserBoss
 	thumb_func_start sub_8073480
 sub_8073480: @ 0x08073480
 	push {r4, r5, lr}
@@ -3454,6 +3465,8 @@ _080734E2:
 	bx r0
 	.align 2, 0
 
+@ Inputs:
+@ R0 = EggChaserBoss
 	thumb_func_start sub_80734EC
 sub_80734EC: @ 0x080734EC
 	push {r4, r5, r6, r7, lr}
@@ -3519,6 +3532,8 @@ _08073564: .4byte gCurTask
 _08073568: .4byte 0x030000B8
 _0807356C: .4byte 0x03000048
 
+@ Inputs:
+@ R0 = EggChaserBoss
 	thumb_func_start sub_8073570
 sub_8073570: @ 0x08073570
 	push {r4, r5, lr}
@@ -3536,7 +3551,7 @@ sub_8073570: @ 0x08073570
 	movs r2, #0
 	ldrsh r0, [r0, r2]
 	adds r2, r5, #0
-	bl sub_8072E50
+	bl CreateChaserPlatform
 	ldrb r0, [r5, #0x1a]
 	lsls r0, r0, #2
 	adds r4, #2
@@ -3562,6 +3577,8 @@ _080735B4:
 _080735BC: .4byte gCamera
 _080735C0: .4byte gUnknown_080D5888
 
+@ Inputs:
+@ R0 = EggChaserBoss
 	thumb_func_start sub_80735C4
 sub_80735C4: @ 0x080735C4
 	push {lr}
@@ -3599,6 +3616,8 @@ _080735FC:
 _08073600: .4byte gSineTable
 _08073604: .4byte 0x000003FF
 
+@ Inputs:
+@ R0 = EggChaserBoss
 	thumb_func_start sub_8073608
 sub_8073608: @ 0x08073608
 	push {lr}
