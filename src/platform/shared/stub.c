@@ -204,24 +204,8 @@ void sub_8026720() { }
 void sub_80275F0() { }
 void sub_8027674() { }
 void sub_8028850() { }
-void sub_809BFE8() { }
-void sub_807A574() { }
-void sub_807AA04() { }
-void sub_807AA80() { }
-void sub_807AB0C() { }
-void sub_807B52C() { }
-void sub_807B59C() { }
-void sub_807ABB8() { }
-void sub_807AC48() { }
-void sub_807AD88() { }
-void sub_807AE3C() { }
-void sub_807AFBC() { }
-void sub_807B064() { }
-void sub_807B10C() { }
-void sub_807B1E4() { }
-void sub_807B280() { }
-void sub_807B368() { }
 void sub_8081C80() { }
+void sub_809BFE8() { }
 
 void sub_8027620(s16 screenX, s16 screenY) { }
 void sub_8027658() { }
@@ -234,7 +218,6 @@ void sub_8085588() { }
 void sub_80781C0() { }
 void sub_8078920() { }
 void sub_80789EC() { }
-void sub_807B498() { }
 void CreateEggChaserBoss() { }
 void CreateEggPinball() { }
 void CreateEggGravity() { }
