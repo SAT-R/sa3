@@ -167,6 +167,7 @@ SECTIONS {
         src/game/bosses/boss_2.o(.text);
         src/game/bosses/boss_3.o(.text);
         src/game/bosses/boss_4.o(.text);
+        src/game/bosses/boss_5.o(.text);
         asm/boss_5.o(.text);
         asm/boss_6.o(.text);
         asm/boss_7.o(.text);
@@ -308,6 +309,7 @@ SECTIONS {
         data/data_bosses_0.o(.rodata);
         src/game/bosses/boss_3.o(.rodata);
         src/game/bosses/boss_4.o(.rodata);
+        src/game/bosses/boss_5.o(.rodata);
         data/data_bosses.o(.rodata);
         data/data_1_3.o(.rodata);
         src/game/math.o(.rodata);

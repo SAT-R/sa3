@@ -6,10 +6,6 @@
 
 .section .rodata
 
-    .global gUnknown_080D5888
-gUnknown_080D5888:
-    .incbin "baserom_sa3.gba", 0x000D5888, 0x44
-
     .global gUnknown_080D58CC
 gUnknown_080D58CC:
     .incbin "baserom_sa3.gba", 0x000D58CC, 0x14
