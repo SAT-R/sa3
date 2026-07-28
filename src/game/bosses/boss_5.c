@@ -28,12 +28,17 @@ typedef struct {
     /* 0x020 */ u8 *vramPlatformTiles;
     /* 0x024 */ s16 unk24;
     /* 0x026 */ s16 unk26;
-    /* 0x028 */ u8 filler28[2];
+    /* 0x028 */ s16 camMaxY;
     /* 0x02A */ u8 unk2A;
     /* 0x02B */ u8 unk2B;
     /* 0x02C */ u8 unk2C;
     /* 0x02D */ u8 unk2D;
-    /* 0x008 */ u8 filler2E[2 + 8];
+    /* 0x02D */ u8 unk2E;
+    /* 0x02D */ u8 unk2F;
+    /* 0x038 */ s16 unk30;
+    /* 0x038 */ s16 unk32;
+    /* 0x038 */ s16 unk34;
+    /* 0x038 */ s16 unk36;
     /* 0x038 */ s16 unk38;
     /* 0x038 */ s16 unk3A;
     /* 0x03C */ u8 filler3C[0x54];
@@ -48,9 +53,38 @@ typedef struct {
     /* 0x1B4 */ Sprite sprRailPiece;
 } EggChaserBoss; /* 0x1DC */
 
+typedef struct {
+    /* 0x00 */ EggChaserBoss *boss;
+} EggChaserBossPlatform; /* 0x48 */
+
 void Task_EggChaserBossInit(void);
+void Task_Chaser_8071D68(void);
+void Task_Chaser_8071DF8(void);
+void Task_Chaser_8071E94(void);
+void Task_Chaser_80720E4(void);
+void Task_Chaser_80724E4(void);
+void sub_8072558(EggChaserBoss *boss);
+void sub_80725FC(EggChaserBoss *boss);
+void sub_80728B4(EggChaserBoss *boss);
+void sub_8072B80(EggChaserBoss *boss);
+void sub_8072D04(EggChaserBoss *boss);
+void sub_8072DA4(EggChaserBoss *boss);
 void CreateChaserPlatform(s32 x, s32 y, EggChaserBoss *boss);
+void Task_48_8072EF0(void);
+void Task_48_8073040(void);
+void Task_48_80731DC(void);
+void sub_8073258(EggChaserBossPlatform *platform);
+void sub_80732CC(u8 *param0, s16 param1);
+void Task_EggChaserBossInit(void);
+void Task_Chaser_8073380(void);
+void Task_Chaser_80733CC(void);
+void Task_Chaser_8073420(void);
 void TaskDestructor_EggChaserBoss(struct Task *t);
+void sub_8072DA4(EggChaserBoss *boss, Player *inPlayer);
+void sub_80734EC(EggChaserBoss *boss);
+void sub_8073570(EggChaserBoss *boss);
+void sub_80735C4(EggChaserBoss *boss);
+void sub_8073608(EggChaserBoss *boss);
 
 // TODO: Make these editable in map editor "BriBaSA"
 const s16 sEggChaserBossPlatformPositions[CHASER_PLATFORMS_COUNT][2] = {
