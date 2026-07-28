@@ -273,3 +273,29 @@ bool32 sub_807AB0C(GemerlAttacks *strc10C)
     }
     return 0U;
 }
+
+// (96.09%) https://decomp.me/scratch/Z06eQ
+NONMATCH("asm/non_matching/game/bosses/gatk__sub_807ABB8.inc", bool32 sub_807ABB8(GemerlAttacks *strc10C))
+{
+    s32 temp_r1;
+    s32 temp_r2;
+    s32 rotation;
+    SpriteTransform *tf;
+    s32 dx, dy;
+
+    if (strc10C->unk27 != 0) {
+        strc10C->unk16 += (strc10C->unk14 >> 2) + (strc10C->unk26 * 4);
+        strc10C->unk18 += (strc10C->unk14 >> 1) + 32;
+    } else {
+        strc10C->unk16 -= (strc10C->unk14 >> 2) + (strc10C->unk26 * 4);
+        strc10C->unk18 += (strc10C->unk14 >> 1) + 32;
+    }
+    strc10C->unk4 += strc10C->unk16;
+    strc10C->unk8 += strc10C->unk18;
+    rotation = SA2_LABEL(sub_8004418)((I(strc10C->unk10 - strc10C->unk8)), (I(strc10C->unkC - strc10C->unk4)));
+    tf = &strc10C->tf60;
+    rotation -= Q(1);
+    tf->rotation = (rotation)&0x3FF;
+    return 0U;
+}
+END_NONMATCH
