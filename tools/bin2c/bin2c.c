@@ -18,6 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+// Jace (2026.07.29): Added cast to non-word-sized signed integers, so there's no overflow
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -184,9 +186,18 @@ int main(int argc, char **argv)
 
         if (isDecimal)
         {
-            if (isSigned)
+            if (isSigned) {
+                // Cast the value so it does not overflow
+                switch(size) {
+                case 1:
+                    data = (char)data;
+                    break;
+                case 2:
+                    data = (short)data;
+                    break;
+                }
                 printf("%*d, ", pad, data);
-            else
+            } else
                 printf("%*uu, ", pad, data);
         }
         else
