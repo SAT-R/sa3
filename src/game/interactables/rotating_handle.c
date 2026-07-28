@@ -165,14 +165,14 @@ void Task_RotatingHandleInit(void)
 // (83.92%) https://decomp.me/scratch/g3Lbw
 NONMATCH("asm/non_matching/game/interactables/rotating_handle__Task_80326D8.inc", void Task_80326D8(void))
 {
-    s32 sp8;
+    s32 worldX;
     u8 pid;
     Player *attachedPlayer;
     Player *temp_r2_2;
     Player *p;
     s16 *temp_r0_2;
     s16 temp_r4;
-    s32 temp_r1;
+    s32 worldY;
     s32 temp_r1_3;
     s32 var_r0;
     s32 var_r0_2;
@@ -180,28 +180,28 @@ NONMATCH("asm/non_matching/game/interactables/rotating_handle__Task_80326D8.inc"
     u32 temp_r2_3;
     u32 temp_r6;
     u8 temp_r0_4;
-    u8 var_r1;
+    u8 pattern;
     RotatingHandle *handle = TASK_DATA(gCurTask);
     Sprite *s = &handle->s;
     MapEntity *me = handle->base.me;
 
-    sp8 = (handle->base.meX * 8) + (handle->base.regionX << 8);
-    temp_r1 = (me->y * 8) + (handle->base.regionY << 8);
+    worldX = TO_WORLD_POS(handle->base.meX, handle->base.regionX);
+    worldY = TO_WORLD_POS(me->y, handle->base.regionY);
     handle->unk38 = (handle->unk38 + handle->unk3A) & 0x3FF0;
     temp_r6 = handle->unk38 >> 4;
-    s->x = sp8 - gCamera.x;
-    s->y = temp_r1 - gCamera.y;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
     for (pid = 0; pid < 2; pid++) {
         p = GET_SP_PLAYER_V1(pid);
 
-        if (((u32)gStageData.gameMode > 4U) && (p->charFlags.someIndex == 3)) {
+        if (GAME_MODE_IS_MULTI_PLAYER(gStageData.gameMode) && (p->charFlags.someIndex == 3)) {
             continue;
         }
         if (handle->unk3D != pid) {
             if (p->moveState & (MOVESTATE_1000000 | MOVESTATE_DEAD)) {
                 continue;
             }
-            if (sub_8020700(&handle->s, sp8, temp_r1, 0, p, 0) != 1) {
+            if (sub_8020700(&handle->s, worldX, worldY, 0, p, 0) != 1) {
                 continue;
             }
             attachedPlayer = handle->player;
@@ -277,17 +277,17 @@ NONMATCH("asm/non_matching/game/interactables/rotating_handle__Task_80326D8.inc"
                 s32 matchingVal = p->charFlags.anim0;
                 asm("" ::"r"(matchingVal));
 #endif
-                var_r1 = (u8)Div(temp_r6, 86);
-                if ((u32)var_r1 > 0xBU) {
-                    var_r1 = 0xB;
+                pattern = (u8)Div(temp_r6, 86);
+                if ((u32)pattern > 0xBU) {
+                    pattern = 0xB;
                 }
-                s->anim = 874;
-                s->variant = var_r1;
+                s->anim = ANIM_ROTATING_HANDLE;
+                s->variant = pattern;
                 s->prevVariant = 0xFF;
-                p->charFlags.state1 = (u16)var_r1;
+                p->charFlags.state1 = (u16)pattern;
                 p->charFlags.someFlag1 = 1;
-                p->qWorldX = sp8 << 8;
-                p->qWorldY = temp_r1 << 8;
+                p->qWorldX = Q(worldX);
+                p->qWorldY = Q(worldY);
                 p->qSpeedAirX = 0;
                 p->qSpeedAirY = 0;
             }
