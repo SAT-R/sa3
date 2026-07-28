@@ -4,10 +4,10 @@
 #include "game/shared/stage/player.h" // Player
 
 struct Gemerl;
-struct GemerlAttacksCallback;
+struct GemerlAttacks;
 
 typedef bool32 (*GemerlCallback)(struct Gemerl *);
-typedef bool32 (*GemerlAttacksCallback)(struct GemerlAttacksCallback *);
+typedef bool32 (*GemerlAttacksCallback)(struct GemerlAttacks *);
 
 typedef struct Gemerl {
     /* 0x00 */ GemerlCallback callback;

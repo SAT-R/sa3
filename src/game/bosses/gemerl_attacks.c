@@ -19,6 +19,10 @@ void sub_807A6D4(GemerlAttacks *strc10C, u8 *vram);
 
 bool32 sub_807B664(GemerlAttacks *strc10C, bool32 param1);
 
+extern const s32 gUnknown_080D5B88[10];
+extern const s32 gUnknown_080D5BB0[10];
+extern const s16 gUnknown_080D5BD8[10];
+
 void sub_807A574(Gemerl *gemerl, u8 param1, u8 param2, u8 param3)
 {
     Player *p;
@@ -115,7 +119,7 @@ void Task_10C_807A784(void)
         return;
     }
 
-    playerHit |= strc10C->callback((struct GemerlAttacksCallback *)strc10C);
+    playerHit |= strc10C->callback(strc10C);
     temp_r5 = I(strc10C->unk4);
     temp_r4 = I(strc10C->unk8);
     playerHit |= sub_8020CE0(s, temp_r5, temp_r4, 0, strc10C->players[0]);
@@ -178,21 +182,20 @@ void sub_807A8B4(GemerlAttacks *strc10C)
     screenX = I(strc10C->unk4) - gCamera.x;
     screenY = I(strc10C->unk8) - gCamera.y;
 
-    if (!(3 & strc10C->unk1A) && (strc10C->unk1A < 13)) {
+    if (((strc10C->unk1A & 0x3) == 0) && (strc10C->unk1A < 13)) {
         s = &strc10C->sprites6C[var_r5];
         tf = &strc10C->tf60;
         temp_r4 = sp4[var_r5];
         s->x = screenX + ((SIN(tf->rotation) * temp_r4) >> 0x16);
         s->y = screenY + ((COS(tf->rotation) * temp_r4) >> 0x16);
     }
-    if ((s32)(s16)strc10C->unk1A <= 0x14) {
+    if (strc10C->unk1A < 21) {
         var_r0 = 0;
     } else {
         var_r0 = ((strc10C->unk1A - 20) >> 2);
     }
-    var_r7 = var_r0;
 
-    while (var_r7 < var_r5 + 1) {
+    for (var_r7 = var_r0; var_r7 < var_r5 + 1; var_r7++) {
         s = &strc10C->sprites6C[var_r7];
         screenX = s->x + gCamera.x;
         screenY = s->y + gCamera.y;
@@ -200,6 +203,73 @@ void sub_807A8B4(GemerlAttacks *strc10C)
         sub_8020CE0(s, screenX, screenY, 0, strc10C->players[1]);
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
-        var_r7 += 1;
     }
+}
+
+bool32 sub_807AA04(GemerlAttacks *strc10C)
+{
+    const GemerlFuncs *entry = &gUnknown_080D5B00[strc10C->stateIndex];
+
+    strc10C->tf60.rotation = 0;
+    strc10C->unk16 = ((s32)(COS(0x300) * strc10C->unk14) >> 0xE) + strc10C->unk16;
+    strc10C->unk18 = ((s32)(SIN(0x300) * strc10C->unk14) >> 0xE) + strc10C->unk18;
+    strc10C->unk8 += strc10C->unk18;
+    if (strc10C->unk8 < Q(gCamera.minY)) {
+        strc10C->unk18 = 0;
+        strc10C->callback = entry->callbackB;
+    }
+    return 0U;
+}
+
+bool32 sub_807AA80(GemerlAttacks *strc10C)
+{
+    s32 sp0[10];
+    void *temp_r0;
+    void *temp_r0_2;
+    void *temp_r1;
+    void *temp_r1_2;
+    u16 angle = 0x100;
+
+    memcpy(sp0, gUnknown_080D5B88, sizeof(sp0));
+    strc10C->tf60.rotation = 0x200;
+    strc10C->unk4 = sp0[strc10C->unk25] + Q(gCamera.x);
+    strc10C->unk16 += ((COS(angle) * strc10C->unk14) >> 14);
+    strc10C->unk18 += ((SIN(angle) * strc10C->unk14) >> 14);
+    strc10C->unk8 += strc10C->unk18;
+
+    return 0U;
+}
+
+bool32 sub_807AB0C(GemerlAttacks *strc10C)
+{
+    s32 sp0[10];
+    s32 temp_r1_3;
+    u16 var_r0;
+    void *temp_r0;
+    void *temp_r0_2;
+    void *temp_r1;
+    void *temp_r1_2;
+    const GemerlFuncs *entry = &gUnknown_080D5B00[strc10C->stateIndex];
+
+    memcpy(sp0, gUnknown_080D5BB0, sizeof(sp0));
+
+    strc10C->unk18 = (u16)strc10C->unk18 - 0x40;
+    temp_r1_3 = strc10C->unk8 + strc10C->unk18;
+    strc10C->unk8 = temp_r1_3;
+    if (temp_r1_3 < (s32)(gCamera.minY << 8)) {
+        strc10C->tf60.rotation = 0x200;
+        if (strc10C->unk27 != 0) {
+            strc10C->unk4 -= Q(sp0[strc10C->unk26]);
+            strc10C->tf60.rotation = strc10C->tf60.rotation - 0x50;
+        } else {
+            strc10C->unk4 += Q(sp0[strc10C->unk26]);
+            strc10C->tf60.rotation = strc10C->tf60.rotation + 0x50;
+        }
+
+        strc10C->unk8 = 0;
+        strc10C->unk18 = 0;
+        strc10C->unk16 = 0;
+        strc10C->callback = entry->callbackB;
+    }
+    return 0U;
 }
