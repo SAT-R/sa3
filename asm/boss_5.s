@@ -5,9 +5,8 @@
 .syntax unified
 .arm
 
+.if 01
     @ Called on init of Boss 5
-    @ NOTE: There is also an enemy in the sonic universe called "Egg Chaser",
-    @       so we call it EggChaserBoss, to differentiate
 	thumb_func_start CreateEggChaserBoss
 CreateEggChaserBoss: @ 0x08071A08
 	push {r4, r5, r6, r7, lr}
@@ -424,6 +423,7 @@ _08071D58: .4byte 0x000004D7
 _08071D5C: .4byte 0x000004DC
 _08071D60: .4byte 0x000004DB
 _08071D64: .4byte gUnknown_080D5888
+.endif
 
 	thumb_func_start Task_Chaser_8071D68
 Task_Chaser_8071D68: @ 0x08071D68
