@@ -6,6 +6,8 @@
 #include "game/sa3/bosses/gemerl.h"
 #include "game/sa3/bosses/eggman_escape.h"
 #include "game/shared/stage/player.h"
+#include "game/shared/stage/screen_shake.h"
+#include "game/shared/stage/terrain_collision.h"
 #include "constants/animations.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"
@@ -22,6 +24,7 @@ bool32 sub_807B664(GemerlAttacks *strc10C, bool32 param1);
 extern const s32 gUnknown_080D5B88[10];
 extern const s32 gUnknown_080D5BB0[10];
 extern const s16 gUnknown_080D5BD8[10];
+extern const s16 gUnknown_080D5BEC[7];
 
 void sub_807A574(Gemerl *gemerl, u8 param1, u8 param2, u8 param3)
 {
@@ -483,3 +486,244 @@ bool32 sub_807AFBC(GemerlAttacks *strc10C)
     strc10C->unk8 += strc10C->unk18;
     return result;
 }
+
+bool32 sub_807B064(GemerlAttacks *strc10C)
+{
+    SpriteTransform *var_r1;
+    s32 var_r0;
+    s32 temp_r1;
+    s32 temp_r1_2;
+    const GemerlFuncs *entry = &gUnknown_080D5B00[strc10C->stateIndex];
+
+    temp_r1 = (gCamera.maxY - 0x96) << 8;
+    if (strc10C->unk8 > temp_r1) {
+        s32 unk4;
+        strc10C->unk16 = 0;
+        strc10C->unk18 = -0x3E0;
+        unk4 = strc10C->unk4;
+        strc10C->unk8 += strc10C->unk18;
+        strc10C->tf60.rotation = SA2_LABEL(sub_8004418)((s16)((s32)((strc10C->unk10 - strc10C->unk8) << 8) >> 0x10),
+                                                        (s16)((s32)((strc10C->unkC - unk4) << 8) >> 0x10));
+
+    } else {
+        strc10C->callback = entry->callbackB;
+        strc10C->unk1A = 0;
+        strc10C->unk16 = 0;
+        strc10C->unk18 = 0;
+        strc10C->unk8 = temp_r1;
+        if (strc10C->unk27 != 0) {
+            strc10C->tf60.rotation = 0x220;
+        } else {
+            strc10C->tf60.rotation = 0x3E0;
+        }
+    }
+    strc10C->tf60.rotation = (strc10C->tf60.rotation - 0x100) & 0x3FF;
+    return 0U;
+}
+
+// (95.30%) https://decomp.me/scratch/qmZ5P
+NONMATCH("asm/non_matching/game/bosses/gatk__sub_807B10C.inc", bool32 sub_807B10C(GemerlAttacks *strc10C))
+{
+    SpriteTransform *var_r2;
+    u16 temp_r4;
+    u16 angle;
+    s16 unk16;
+
+    temp_r4 = (strc10C->tf60.rotation - Q(1)) & 0x3FF;
+    unk16 = strc10C->unk16 = (u32)((COS(temp_r4) * ((strc10C->unk14 >> 1) + 0x40)) << 6) >> 16;
+    strc10C->unk18 = (s16)((SIN(temp_r4) * ((strc10C->unk14 >> 1) + 0x40)) >> 10);
+    strc10C->unk4 += strc10C->unk16;
+    strc10C->unk8 += strc10C->unk18;
+    if ((unk16 < 0) && (strc10C->unk4 < Q(gCamera.minX))) {
+        strc10C->unk4 = Q(gCamera.minX);
+        angle = 0x220;
+    } else if ((unk16 > 0) && (strc10C->unk4 > Q(gCamera.maxX))) {
+        strc10C->unk4 = Q(gCamera.maxX);
+        angle = 0x3E0;
+    } else {
+        angle = strc10C->tf60.rotation + 0x100;
+    }
+    strc10C->tf60.rotation = (angle - Q(1)) & 0x3FF;
+    return 0U;
+}
+END_NONMATCH
+
+bool32 sub_807B1E4(GemerlAttacks *strc10C)
+{
+    const GemerlFuncs *entry = &gUnknown_080D5B00[strc10C->stateIndex];
+    Player *p;
+
+    if (strc10C->unk27 != 0) {
+        strc10C->tf60.rotation = (strc10C->tf60.rotation + 0xC0) & 0x3FF;
+    } else {
+        strc10C->tf60.rotation = (strc10C->tf60.rotation - 0xC0) & 0x3FF;
+    }
+    if (strc10C->unk1A == 0) {
+        strc10C->unk8 += 0x800;
+        strc10C->unk1A = 1;
+    }
+    if (*strc10C->unk20 != 0) {
+        strc10C->callback = entry->callbackB;
+        strc10C->unk1A = 0x5A;
+        p = strc10C->players[0];
+        strc10C->tf60.rotation = (SA2_LABEL(sub_8004418)(I(strc10C->unk8 - p->qWorldY), I(strc10C->unk4 - p->qWorldX)) - Q(1)) & 0x3FF;
+    }
+    return 0U;
+}
+
+bool32 sub_807B280(GemerlAttacks *strc10C)
+{
+    s32 temp_r2;
+    u32 var_r8;
+    s16 sp0[2][7];
+    SpriteTransform *tf = &strc10C->tf60;
+    u16 angle = (tf->rotation - Q(1)) & 0x3FF;
+
+    memcpy(&sp0, &gUnknown_080D5BEC, sizeof(sp0));
+    var_r8 = 0;
+    temp_r2 = ((strc10C->stateIndex ^ 6) ? 1 : 0);
+    if (--strc10C->unk1A == 0) {
+        var_r8 = 1;
+    }
+    strc10C->unk16 += ((s32)(COS(angle) * (sp0[temp_r2][strc10C->unk26] - ({
+                                               s32 v = ((strc10C->unk28 * 4) - 0x10);
+                                               v;
+                                           })))
+                       >> 0xE);
+    strc10C->unk18 += ((s32)(SIN(angle) * (sp0[temp_r2][strc10C->unk26] - ({
+                                               s32 v = ((strc10C->unk28 * 4) - 0x10);
+                                               v;
+                                           })))
+                       >> 0xE);
+    strc10C->unk4 += strc10C->unk16;
+    strc10C->unk8 += strc10C->unk18;
+    return var_r8;
+}
+
+bool32 sub_807B368(GemerlAttacks *strc10C)
+{
+    SpriteTransform *var_r0;
+    u16 angle;
+    s32 var_r1;
+    const GemerlFuncs *entry = &gUnknown_080D5B00[strc10C->stateIndex];
+
+    if (strc10C->unk1A < 16) {
+        if (strc10C->unk1A == 0) {
+            strc10C->unk14 = ((4 - strc10C->unk28) * 4) + 0x20;
+            if (strc10C->unk27 != 0) {
+                strc10C->unk4 += 0x400;
+            } else {
+                strc10C->unk4 -= 0x400;
+            }
+            strc10C->unk8 += 0x800;
+            strc10C->tf60.rotation = 170 * strc10C->unk26;
+            strc10C->unk1A = 1;
+        }
+        strc10C->unk4 += strc10C->unk16;
+        strc10C->unk8 += strc10C->unk18;
+    }
+    if (strc10C->unk27 != 0) {
+        strc10C->tf60.rotation = (strc10C->tf60.rotation + 0x10) & 0x3FF;
+    } else {
+        strc10C->tf60.rotation = (strc10C->tf60.rotation - 0x10) & 0x3FF;
+    }
+    angle = (strc10C->tf60.rotation - Q(1)) & 0x3FF;
+    strc10C->unk16 = (s16)((s32)(COS(angle) * strc10C->unk14) >> 0xB);
+    strc10C->unk18 = (s16)((s32)(SIN(angle) * strc10C->unk14) >> 0xB);
+    strc10C->unk4 += strc10C->unk16;
+    strc10C->unk8 += strc10C->unk18;
+
+    if (*strc10C->unk20 != 0) {
+        strc10C->callback = entry->callbackB;
+        strc10C->unk1A = 0x2D;
+    }
+
+    return 0U;
+}
+
+bool32 sub_807B498(GemerlAttacks *strc10C)
+{
+    s16 temp_r0;
+    s32 var_r0;
+    u32 result;
+    u16 angle = (strc10C->tf60.rotation - Q(1)) & 0x3FF;
+    result = 0;
+    if (--strc10C->unk1A == 0) {
+        result = 1;
+    }
+    if (strc10C->unk27 != 0) {
+        strc10C->tf60.rotation = (strc10C->tf60.rotation + 8) & 0x3FF;
+    } else {
+        strc10C->tf60.rotation = (strc10C->tf60.rotation - 8) & 0x3FF;
+    }
+    strc10C->unk16 = ((COS(angle) * strc10C->unk14) >> 9);
+    strc10C->unk18 = ((SIN(angle) * strc10C->unk14) >> 9);
+    strc10C->unk4 += strc10C->unk16;
+    strc10C->unk8 += strc10C->unk18;
+
+    return result;
+}
+
+bool32 sub_807B52C(GemerlAttacks *strc10C)
+{
+    u16 angle = (strc10C->tf60.rotation - Q(1)) & 0x3FF;
+    strc10C->unk16 = ((s32)(COS(angle) * strc10C->unk14) >> 0xE) + (u16)strc10C->unk16;
+    strc10C->unk18 = ((s32)(SIN(angle) * strc10C->unk14) >> 0xE) + (u16)strc10C->unk18;
+    strc10C->unk4 += strc10C->unk16;
+    strc10C->unk8 += strc10C->unk18;
+    return 0U;
+}
+
+bool32 sub_807B59C(GemerlAttacks *strc10C)
+{
+    const GemerlFuncs *entry = &gUnknown_080D5B00[strc10C->stateIndex];
+    s32 temp_r1;
+
+    strc10C->tf60.rotation = 0;
+    strc10C->unk18 -= 0x20;
+    strc10C->unk8 += strc10C->unk18;
+    if (strc10C->unk18 < -Q(4)) {
+        strc10C->callback = entry->callbackB;
+    }
+    return 0U;
+}
+
+void sub_807B5E4(void)
+{
+    GemerlAttacks *strc10C = TASK_DATA(gCurTask);
+    s16 temp_r0_2;
+
+    if ((strc10C->gemerl != NULL) && (strc10C->gemerl->unk20 <= 0)) {
+        *strc10C->unk1C = 0;
+        TaskDestroy(gCurTask);
+        return;
+    }
+    strc10C->unk4 += strc10C->unk16;
+    strc10C->unk8 += strc10C->unk18;
+    sub_807B664(strc10C, 0U);
+    if (++strc10C->unk1A == 0x20) {
+        *strc10C->unk1C = 0;
+        TaskDestroy(gCurTask);
+        return;
+    }
+    sub_807A8B4(strc10C);
+}
+
+bool32 sub_807B664(GemerlAttacks *strc10C, u32 param1)
+{
+    s32 temp_r0;
+    u32 var_r5;
+
+    var_r5 = 0;
+    temp_r0 = sa2__sub_801E4E4((s32)(strc10C->unk8 + 0xA) >> 8, (s32)strc10C->unk4 >> 8, 1, 8, NULL, sa2__sub_801EE64);
+    if (temp_r0 <= 0) {
+        strc10C->unk8 = ((strc10C->unk8 + ((temp_r0 + 1) << 8)) & 0xFFFFFF00) - 1;
+        if (param1 != 0) {
+            CreateScreenShake(0x200U, 0x40U, 0U, -1U, 0x91U);
+        }
+        var_r5 = 1;
+    }
+    return var_r5;
+}
+#if 0
+#endif
