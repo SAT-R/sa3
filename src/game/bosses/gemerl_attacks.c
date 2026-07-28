@@ -299,3 +299,70 @@ NONMATCH("asm/non_matching/game/bosses/gatk__sub_807ABB8.inc", bool32 sub_807ABB
     return 0U;
 }
 END_NONMATCH
+
+// (98.69%) https://decomp.me/scratch/KfevY
+NONMATCH("asm/non_matching/game/bosses/gatk__sub_807AC48.inc", bool32 sub_807AC48(GemerlAttacks *strc10C))
+{
+    s16 var_r0;
+    s32 temp_r2;
+    s32 temp_r2_2;
+    s32 var_r0_2;
+    s32 var_r0_3;
+    s32 var_r7;
+    u8 *var_r5;
+    u8 temp_r1;
+    s32 rotation;
+    SpriteTransform *tf;
+    const GemerlFuncs *entry = &gUnknown_080D5B00[strc10C->stateIndex];
+
+    var_r7 = 0;
+    if ((s32)strc10C->unk18 > -Q(3)) {
+        strc10C->unk18 = (u16)strc10C->unk18 - 0x30;
+    } else {
+        if (strc10C->unk27 != 0) {
+            strc10C->unk16 = (u16)strc10C->unk16 + 0x50;
+        } else {
+            strc10C->unk16 = (u16)strc10C->unk16 - 0x50;
+        }
+    }
+    temp_r2 = strc10C->unk4 + strc10C->unk16;
+    strc10C->unk4 = temp_r2;
+    strc10C->unk8 += strc10C->unk18;
+    if (strc10C->unk27 != 0) {
+        if (temp_r2 > (s32)((gCamera.maxX + 0x14) << 8)) {
+            var_r7 = 1;
+        }
+    } else {
+        if (temp_r2 < (s32)((gCamera.minX - 0x14) << 8)) {
+            var_r7 = 1;
+        }
+    }
+
+    if (var_r7 != 0) {
+        s32 r2;
+        strc10C->callback = entry->callbackB;
+        strc10C->unk16 = 0;
+        strc10C->unk18 = 0;
+        r2 = (gCamera.maxY - 0x28);
+        strc10C->unk8 = (r2 - (0x46 * (1 & strc10C->unk26))) << 8;
+
+        if (strc10C->unk28 == 1) {
+            if (1 & strc10C->unk26) {
+                strc10C->unk8 += (strc10C->unk26 << 8);
+            } else {
+                strc10C->unk8 -= (strc10C->unk26 << 8);
+            }
+        }
+        if (strc10C->unk27 != 0) {
+            strc10C->unk4 = ((gCamera.maxX + 0x14) << 8) + ((0x32 - (strc10C->unk26 * 4)) << 0xA);
+        } else {
+            strc10C->unk4 = ((gCamera.minX - 0x14) << 8) - ((0x32 - (strc10C->unk26 * 4)) << 0xA);
+        }
+    }
+    rotation = SA2_LABEL(sub_8004418)((I(strc10C->unk10 - strc10C->unk8)), (I(strc10C->unkC - strc10C->unk4)));
+    tf = &strc10C->tf60;
+    rotation -= Q(1);
+    tf->rotation = (rotation)&0x3FF;
+    return 0U;
+}
+END_NONMATCH
