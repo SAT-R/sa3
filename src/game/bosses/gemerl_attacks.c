@@ -320,9 +320,9 @@ NONMATCH("asm/non_matching/game/bosses/gatk__sub_807AC48.inc", bool32 sub_807AC4
         strc10C->unk18 = (u16)strc10C->unk18 - 0x30;
     } else {
         if (strc10C->unk27 != 0) {
-            strc10C->unk16 = (u16)strc10C->unk16 + 0x50;
+            strc10C->unk16 += 80;
         } else {
-            strc10C->unk16 = (u16)strc10C->unk16 - 0x50;
+            strc10C->unk16 -= 80;
         }
     }
     temp_r2 = strc10C->unk4 + strc10C->unk16;
@@ -366,3 +366,120 @@ NONMATCH("asm/non_matching/game/bosses/gatk__sub_807AC48.inc", bool32 sub_807AC4
     return 0U;
 }
 END_NONMATCH
+
+// (93.86%) https://decomp.me/scratch/P8qmG
+NONMATCH("asm/non_matching/game/bosses/gatk__sub_807AD88.inc", bool32 sub_807AD88(GemerlAttacks *strc10C))
+{
+    s16 sp0[10];
+    s32 temp_r1;
+    s32 temp_r2;
+    u16 var_r0;
+    u32 var_r5;
+
+    memcpy(sp0, gUnknown_080D5BD8, sizeof(sp0));
+    var_r5 = 0;
+    if (strc10C->unk27 != 0) {
+        if (strc10C->unk4 >= (s32)((gCamera.minX + 0x28) << 8)) {
+            strc10C->unk16 = -sp0[strc10C->unk26];
+        } else {
+            var_r5 = 1;
+        }
+    } else {
+        if (strc10C->unk4 > (s32)((gCamera.maxX - 0x28) << 8)) {
+            var_r5 = 1;
+        } else {
+            strc10C->unk16 = +sp0[strc10C->unk26];
+        }
+    }
+    strc10C->unk4 += strc10C->unk16;
+    strc10C->unk8 += strc10C->unk18;
+    strc10C->tf60.rotation = (SA2_LABEL(sub_8004418)(I(strc10C->unk10 - strc10C->unk8), I(strc10C->unkC - strc10C->unk4)) - Q(1)) & 0x3FF;
+    return var_r5;
+}
+END_NONMATCH
+
+// (92.36%) https://decomp.me/scratch/zZvFM
+NONMATCH("asm/non_matching/game/bosses/gatk__sub_807AE3C.inc", bool32 sub_807AE3C(GemerlAttacks *strc10C))
+{
+    const GemerlFuncs *entry = &gUnknown_080D5B00[strc10C->stateIndex];
+    bool32 flag = 0;
+    bool32 flag2 = 0;
+    s32 minY = (gCamera.maxY - DISPLAY_HEIGHT);
+    u8 *unk26 = &strc10C->unk26;
+    minY += (*unk26 * 20);
+    if (strc10C->unk8 <= Q(minY)) {
+        if (++strc10C->unk1A >= 16) {
+            flag = 0;
+            flag2 = 0;
+        } else {
+            flag2 = 1;
+        }
+        flag = 1;
+    } else {
+        if (strc10C->unk1A == 0) {
+            if (strc10C->unk27 != 0) {
+                strc10C->unk16 = +0xD0;
+            } else {
+                strc10C->unk16 = -0xD0;
+            }
+            strc10C->unk18 = -Q(3) - ((6 - strc10C->unk26) * 0x6C);
+        }
+        strc10C->unk1A += 1;
+        strc10C->unk18 += 0x20;
+        strc10C->unk4 += strc10C->unk16;
+        strc10C->unk8 += strc10C->unk18;
+        minY = (gCamera.maxY - DISPLAY_HEIGHT);
+        minY += (*unk26 * 20);
+        if (strc10C->unk8 < Q(minY)) {
+            strc10C->unk1A = 0;
+        }
+    }
+blk:
+
+    if (flag != 0) {
+        if (flag2 == 0) {
+            Player *p;
+            strc10C->callback = entry->callbackB;
+            strc10C->unk1A = 0;
+            p = strc10C->players[0];
+            strc10C->tf60.rotation = (u16)SA2_LABEL(sub_8004418)(I(strc10C->unk8 - p->qWorldY), I(strc10C->unk4 - p->qWorldX));
+        } else {
+        temp_lbl:
+            if (strc10C->unk27 != 0) {
+                strc10C->tf60.rotation = (strc10C->tf60.rotation + 0x40) & 0x3FF;
+            } else {
+                strc10C->tf60.rotation = (strc10C->tf60.rotation - 0x40) & 0x3FF;
+            }
+        }
+
+        strc10C->unk16 = 0;
+        strc10C->unk18 = 0;
+        {
+            s32 minY = (gCamera.maxY - DISPLAY_HEIGHT);
+            strc10C->unk8 = (minY + (*unk26 * 0x14)) << 8;
+        }
+    } else {
+        strc10C->tf60.rotation = SA2_LABEL(sub_8004418)(I(strc10C->unk10 - strc10C->unk8), I(strc10C->unkC - strc10C->unk4));
+    }
+
+    strc10C->tf60.rotation = (strc10C->tf60.rotation - Q(1)) & 0x3FF;
+
+    return 0;
+}
+END_NONMATCH
+
+bool32 sub_807AFBC(GemerlAttacks *strc10C)
+{
+    u16 temp_r1;
+    u32 result = 0;
+    if (++strc10C->unk1A == 0x78) {
+        result = 1;
+    } else if ((s32)strc10C->unk1A >= (s32)(strc10C->unk28 * 0x14)) {
+        temp_r1 = (strc10C->tf60.rotation - Q(1)) & 0x3FF;
+        strc10C->unk16 = ((s32)(gSineTable[temp_r1 + 0x100] * (strc10C->unk14 + 0x40)) >> 0x10) + (u16)strc10C->unk16;
+        strc10C->unk18 = ((s32)(gSineTable[temp_r1] * (strc10C->unk14 + 0x40)) >> 0x10) + (u16)strc10C->unk18;
+    }
+    strc10C->unk4 += strc10C->unk16;
+    strc10C->unk8 += strc10C->unk18;
+    return result;
+}
