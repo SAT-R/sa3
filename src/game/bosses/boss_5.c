@@ -4,6 +4,7 @@
 #include "lib/m4a/m4a.h"
 #include "malloc_vram.h"
 #include "multi_sio_stuff.h"
+#include "game/math.h"
 #include "game/shared/stage/player.h"
 #include "game/shared/stage/player_callbacks.h"
 #include "game/sa3/bosses/eggman_escape.h"
@@ -603,5 +604,199 @@ NONMATCH("asm/non_matching/game/bosses/boss_5__Task_Chaser_80720E4.inc", void Ta
 }
 END_NONMATCH
 
-#if 0
-#endif
+void Task_Chaser_80724E4(void)
+{
+    s32 sp0[4];
+    u16 temp_r1;
+    EggChaserBoss *boss = TASK_DATA(gCurTask);
+    Player *p = boss->players[0];
+
+    temp_r1 = boss->unk14;
+    switch (temp_r1) {
+        case 0:
+            sp0[0] = I(boss->qWorldX);
+            sp0[1] = I(boss->qWorldY) - 16;
+            sp0[2] = I(boss->qWorldX);
+            sp0[3] = I(boss->qWorldY);
+
+            sub_8078E34(sp0, EnablePlayerMovement);
+            boss->unk14 = 1;
+            break;
+        case 1:
+            if (!(p->moveState & MOVESTATE_IGNORE_INPUT)) {
+                *boss->bossPhase = 0;
+                boss->unk14 = 100;
+            }
+            break;
+    }
+}
+
+void sub_8072558(EggChaserBoss *boss)
+{
+    Player *temp_r1;
+    Player *temp_r1_2;
+    s32 temp_r0;
+    Cheese *cheese;
+
+    boss->unk1B = 0;
+    if (boss->qWorldY <= Q(0x361)) {
+        boss->unk1B = 1;
+        boss->players[0]->qWorldY += Q(0x200);
+        boss->players[1]->qWorldY += Q(0x200);
+        boss->qWorldY += Q(0x200);
+        boss->unk24 = (u16)boss->unk24 + 0x200;
+        if (boss->taskCheese != NULL) {
+            cheese = TASK_DATA(gStageData.taskCheese);
+            cheese->qWorldY += Q(512);
+        }
+        gCamera.y += 0x200;
+        temp_r0 = (s32)boss->qWorldY >> 8;
+        gCamera.minY = temp_r0 - 0xB4;
+        gCamera.maxY = temp_r0 + 20;
+
+        sub_802B6D0(0, 0x200);
+    }
+}
+
+void sub_80725FC(EggChaserBoss *boss)
+{
+    u8 *sp0;
+    Player *temp_r3;
+    s16 temp_r0;
+    s16 temp_r0_2;
+    s16 var_r0;
+    s16 var_r0_2;
+    s32 temp_r0_4;
+    s32 temp_r1;
+    s32 temp_r1_3;
+    s32 temp_r1_5;
+    s32 temp_r1_6;
+    s32 temp_r2;
+    s32 temp_r3_2;
+    s32 var_r0_3;
+    s32 var_r0_4;
+    s32 var_r0_5;
+    s32 var_r0_6;
+    s32 var_r1;
+    s32 var_r2;
+    s32 var_r2_2;
+    s32 var_r5;
+    u16 temp_r1_2;
+    u16 temp_r1_4;
+    u16 temp_r1_7;
+    u16 temp_r3_3;
+    u8 *var_r6;
+    u8 var_r3;
+    Sprite *s = &boss->sprCockpit;
+    s32 x;
+    s32 y;
+
+    if (s->variant != 2) {
+        return;
+    }
+
+    switch (boss->unk30) {
+        case 0:
+            boss->unk32 = 0x3C;
+            boss->unk30 = 0xA;
+            boss->unk16 = 0x3E8;
+            boss->unk88 = 0;
+            boss->unk8C = 0x400;
+            boss->unk26 = 0;
+            boss->unk3C = 0x300U;
+            break;
+
+        case 10: {
+            u16 r1;
+            boss->unk32 -= 1;
+            if (boss->unk32 == 0) {
+                m4aSongNumStart(0x230U);
+                boss->unk32 = 10;
+                boss->unk30 = 0x64;
+            }
+            x = I(boss->qWorldX + boss->unk10);
+            y = I(boss->qWorldY) - 24;
+
+            if (boss->players[0]->qWorldY < (boss->qWorldY - Q(24))) {
+                temp_r1_4 = sa2__sub_8004418((I(boss->players[0]->qWorldY) - y), I(boss->players[0]->qWorldX) - x);
+                boss->unk3C = temp_r1_4;
+                r1 = (boss->unk3C - Q(1)) & 0x3FF;
+                if (sa2__sub_808558C(boss->unk26, r1, 10) < 0) {
+                    boss->unk26 = (boss->unk26 + 4) & 0x3FF;
+                } else {
+                    boss->unk26 = (boss->unk26 - 4) & 0x3FF;
+                }
+            }
+        } break;
+
+        case 100:
+            if (boss->unk32 != 0) {
+                boss->unk32 -= 1;
+            } else {
+                boss->unk88 += boss->unk8C;
+                if (boss->unk88 >= 0x8C00) {
+                    boss->unk32 = 0x3C;
+                    boss->unk30 = 0xC8;
+                }
+            }
+            break;
+
+        case 200:
+            boss->unk32 -= 1;
+            if (boss->unk32 == 0) {
+                boss->unk30 = 0x12C;
+            }
+            break;
+
+        case 300:
+            boss->unk88 -= boss->unk8C;
+            if (boss->unk88 <= 0) {
+                boss->unk88 = 0;
+                boss->unk8C = 0;
+                boss->unk32 = 0x3C;
+                boss->unk30 = 0x3E8;
+                boss->unk16 = 0x78;
+            }
+            break;
+
+        case 1000:
+            if (boss->unk26 != 0) {
+                if (boss->unk26 > 0x200U) {
+                    boss->unk26 = boss->unk26 + 8;
+                } else {
+                    boss->unk26 = boss->unk26 - 8;
+                }
+                if (boss->unk26 > 0x400U) {
+                    boss->unk26 = 0;
+                }
+            }
+            break;
+    }
+
+    temp_r3_2 = boss->unk88;
+    if (temp_r3_2 != 0) {
+        x = boss->qWorldX + boss->unk10;
+        y = boss->qWorldY - Q(24);
+        temp_r0_4 = (temp_r3_2 / 8);
+        var_r1 = (COS(boss->unk3C) * temp_r0_4) / 0x4000;
+        var_r0_4 = (SIN(boss->unk3C) * temp_r0_4) / 0x4000;
+
+        for (var_r3 = 0; var_r3 < 8; var_r3++) {
+            boss->unk48[var_r3].x = x;
+            boss->unk48[var_r3].y = y;
+            x += var_r1;
+            y += var_r0_4;
+        }
+
+        x = (COS(boss->unk3C) * boss->unk88) / 0x4000;
+        y = (SIN(boss->unk3C) * boss->unk88) / 0x4000;
+    } else {
+        x = 0;
+        y = 0;
+    }
+    boss->unk40 = (boss->qWorldX + boss->unk10 + x);
+    {
+        s32 dy = (y - Q(24));
+        boss->unk44 = (boss->qWorldY + dy);
+    }
+}
