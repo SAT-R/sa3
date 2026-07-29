@@ -4,6 +4,7 @@
 #include "lib/m4a/m4a.h"
 #include "malloc_vram.h"
 #include "multi_sio_stuff.h"
+#include "game/bosses.h"
 #include "game/math.h"
 #include "game/shared/stage/player.h"
 #include "game/shared/stage/player_callbacks.h"
@@ -799,4 +800,605 @@ void sub_80725FC(EggChaserBoss *boss)
         s32 dy = (y - Q(24));
         boss->unk44 = (boss->qWorldY + dy);
     }
+}
+
+// (85.61%) https://decomp.me/scratch/thhCX
+NONMATCH("asm/non_matching/game/bosses/boss_5__sub_80728B4.inc", void sub_80728B4(EggChaserBoss *boss))
+{
+    Player *p;
+    Player *partner;
+    Sprite *sprMaceNode;
+    Sprite *sprMace;
+    s32 temp_r2;
+    s32 temp_r2_2;
+    u16 temp_r4_5;
+    u16 temp_r4_6;
+    u16 temp_r5_2;
+    u8 var_r4;
+    u8 var_r4_2;
+    u8 var_r5;
+    u8 var_r5_2;
+    EggChaserBossPlatform *platform;
+    EggChaserBoss *taskBoss;
+
+    Sprite *sprCockpit = &boss->sprCockpit;
+    Sprite *sprEggman = &boss->sprEggman;
+    Sprite *sprRail = &boss->sprRail;
+    Sprite *sprRailPiece = &boss->sprRailPiece;
+    Sprite *sprGears = boss->sprGears;
+
+    sprGears->x = I(boss->qWorldX) - gCamera.x - 120;
+    sprGears->y = I(boss->qWorldY) - gCamera.y;
+    UpdateSpriteAnimation(sprGears);
+    DisplaySprite(sprGears);
+    sprGears = &boss->sprGears[1];
+    sprGears->x = I(boss->qWorldX) - gCamera.x + 120;
+    sprGears->y = I(boss->qWorldY) - gCamera.y;
+    UpdateSpriteAnimation(sprGears);
+    DisplaySprite(sprGears);
+
+    if (sprCockpit->variant == 2) {
+        sprMace = &boss->sprMace;
+        sprMace->x = I(boss->unk40) - gCamera.x;
+        sprMace->y = I(boss->unk44) - gCamera.y;
+        DisplaySprite(sprMace);
+        sprMaceNode = &boss->sprMaceNode;
+
+        for (var_r5 = 0; var_r5 < 8; var_r5++) {
+            sprMaceNode->x = I(boss->unk48[var_r5].x) - gCamera.x;
+            sprMaceNode->y = I(boss->unk48[var_r5].y) - gCamera.y;
+            DisplaySprite(sprMaceNode);
+        }
+
+        p = boss->players[0];
+        taskBoss = TASK_DATA(gCurTask);
+        sprMace = &boss->sprMace;
+        if (sub_802C080(p) == 0) {
+            sub_8020CE0(sprMace, I(taskBoss->unk40), I(taskBoss->unk44), 0, p);
+            for (var_r4 = 0; var_r4 < 8; var_r4++) {
+                sub_8020CE0(&taskBoss->sprMaceNode, I(taskBoss->unk48[var_r4].x), I(taskBoss->unk48[var_r4].y), 0, p);
+            }
+        }
+        partner = boss->players[1];
+        taskBoss = TASK_DATA(gCurTask);
+        sprMace = &taskBoss->sprMace;
+        if (sub_802C080(partner) == 0) {
+            sub_8020CE0(sprMace, I(taskBoss->unk40), I(taskBoss->unk44), 0, partner);
+
+            for (var_r4 = 0; var_r4 < 8; var_r4++) {
+                sub_8020CE0(&taskBoss->sprMaceNode, I(taskBoss->unk48[var_r4].x), I(taskBoss->unk48[var_r4].y), 0, partner);
+            }
+        }
+    }
+    sprCockpit->x = I(boss->qWorldX + boss->unk10) - gCamera.x;
+    sprCockpit->y = I(boss->qWorldY) - gCamera.y;
+    UpdateSpriteAnimation(sprCockpit);
+    sprCockpit->frameFlags |= 0x400;
+    DisplaySprite(sprCockpit);
+    sprCockpit->frameFlags &= ~0x400;
+    DisplaySprite(sprCockpit);
+
+    if (sprCockpit->variant == 0) {
+        sprEggman->x = I(boss->qWorldX + boss->unk10) - gCamera.x;
+        sprEggman->y = I(boss->qWorldY) - gCamera.y;
+        UpdateSpriteAnimation(sprEggman);
+        DisplaySprite(sprEggman);
+    }
+
+    sprRail->x = I(boss->qWorldX) - gCamera.x;
+    sprRail->y = I(boss->qWorldY) - gCamera.y;
+
+    sprRail->frameFlags |= 0x400;
+    DisplaySprite(sprRail);
+    sprRail->frameFlags &= ~0x400;
+    DisplaySprite(sprRail);
+
+    sprRailPiece->x = (I(boss->qWorldX) - gCamera.x) - 0x5C;
+    sprRailPiece->y = I(boss->qWorldY) - gCamera.y;
+    sprRailPiece->frameFlags &= 0xFFFFFBFF;
+
+    for (var_r5_2 = 0; var_r5_2 < 23; var_r5_2++) {
+        DisplaySprite(sprRailPiece);
+        sprRailPiece->x += 8;
+    }
+}
+END_NONMATCH
+
+void sub_8072B80(EggChaserBoss *boss)
+{
+    s16 temp_r0;
+    s16 temp_r0_2;
+    s16 var_r0;
+    s16 var_r0_3;
+    s32 dy;
+    u16 temp_r0_3;
+    u16 temp_r0_4;
+    u16 temp_r1;
+    u16 temp_r4;
+    Player *player = boss->players[0];
+    Sprite *s = &boss->sprCockpit;
+
+    if (!(player->moveState & 0x100)) {
+        switch (boss->unk34) {
+            case 0x0:
+                boss->unk3E = 0;
+                boss->unk38 = 0x300;
+                boss->unk3A = 0x100;
+                boss->unk36 = 0x3C;
+                boss->unk34 = 0x14;
+                break;
+            case 20:
+                if (--boss->unk36 == 0) {
+                    s = &boss->sprGears[0];
+                    s->anim = 0x4DA;
+                    s->variant = 1;
+                    s = &boss->sprGears[1];
+                    s->anim = 0x4DA;
+                    s->variant = 2;
+                    boss->unk36 = 1;
+                    boss->unk34 = 10;
+                }
+                break;
+            case 10:
+                if (--boss->unk36 == 0) {
+                    dy = I(boss->qWorldY - player->qWorldY);
+
+                    if (ABS(dy) > 0x64) {
+                        boss->unk34 = 0x96;
+                    } else {
+                        boss->unk34 = 0x64;
+                    }
+
+                    m4aSongNumStart(0x22FU);
+                    return;
+                }
+                break;
+            case 100:
+                boss->unk38 = ((u16)boss->unk38 - 0x10) & 0x3FF;
+                boss->unk3A = ((u16)boss->unk3A + 0x10) & 0x3FF;
+                boss->qWorldY -= 0x80;
+                boss->unk3E += 0x10;
+                if (boss->unk3E > 0x0154) {
+                    boss->unk3E = 0;
+                    boss->unk38 = 0x300;
+                    boss->unk3A = 0x100;
+                    boss->unk36 = 1;
+                    boss->unk34 = 10;
+                    break;
+                }
+                break;
+            case 0x96:
+                boss->unk38 = ((u16)boss->unk38 - 0x10) & 0x3FF;
+                boss->unk3A = ((u16)boss->unk3A + 0x10) & 0x3FF;
+                boss->qWorldY -= Q(1);
+                boss->unk3E += 0x10;
+
+                if (boss->unk3E > 0x0154) {
+                    boss->unk3E = 0;
+                    boss->unk38 = 0x300;
+                    boss->unk3A = 0x100;
+                    boss->unk36 = 1;
+                    boss->unk34 = 10;
+                    break;
+                }
+                break;
+            case 0xC8: {
+                if (s->variant == 0) {
+                    boss->unk36 = 30;
+                    boss->unk34 = 10;
+                }
+            } break;
+            case 0x3E8:
+                boss->unk38 = (boss->unk38 - 0x10) & 0x3FF;
+                boss->unk3A = (boss->unk3A + 0x10) & 0x3FF;
+                boss->qWorldY -= 0x80;
+                break;
+        }
+    }
+}
+
+void sub_8072D04(EggChaserBoss *boss)
+{
+    Player *temp_r4;
+    s16 temp_r0;
+    s16 temp_r0_2;
+    u32 temp_r1;
+    u8 var_r5;
+
+    boss->unk14 = 0x12C;
+    var_r5 = 0;
+    do {
+        temp_r4 = boss->players[var_r5];
+        temp_r4->moveState |= 0x08000000;
+        temp_r0 = temp_r4->qSpeedGround;
+        temp_r4->qSpeedGround = (s16)((s32)(temp_r0 + ((u32)temp_r0 >> 0x1F)) >> 1);
+        temp_r0_2 = temp_r4->qSpeedAirX;
+        temp_r4->qSpeedAirX = (s16)((s32)(temp_r0_2 + ((u32)temp_r0_2 >> 0x1F)) >> 1);
+        sub_8016F28(temp_r4);
+        SetPlayerCallback(temp_r4, Player_800E67C);
+        temp_r4->charFlags.unk2C_04 = 0;
+        temp_r1 = temp_r4->moveState & 0xFFFFFEFF;
+        temp_r4->moveState = temp_r1;
+        if (!(temp_r1 & 4)) {
+            Player_800E67C(temp_r4);
+        }
+        var_r5 += 1;
+    } while ((u32)var_r5 <= 1U);
+    CreateScreenShake(0x800U, 0x40U, 0U, -1U, 0x91U);
+}
+
+void sub_8072DA4(EggChaserBoss *boss)
+{
+    u8 temp_r0;
+    u8 temp_r0_2;
+    Sprite *sprEggman = &boss->sprEggman;
+
+    if (boss->unk13 == 0) {
+        temp_r0 = boss->unk12;
+        if (temp_r0 != 0) {
+            boss->unk12 = temp_r0 - 1;
+        }
+        if (gStageData.difficulty == 0) {
+            if (boss->unk12 == 4) {
+                sub_80299D4(0x33U);
+            }
+        } else if (boss->unk12 == 3) {
+            sub_80299D4(0x33U);
+        }
+        m4aSongNumStart(0xEBU);
+        PlayVoiceEggmanHit();
+        boss->unk13 = 0x7A;
+        sprEggman->variant = 2;
+        sprEggman->prevVariant = 0xFF;
+        sub_8078DB0(0x4DD, 0, 0x7A, 0U);
+        sub_8078DB0(0x4DE, 0, 0x7A, 0U);
+        if (gStageData.gameMode == 5) {
+            if (gStageData.playerIndex == 0) {
+                if (boss->unk12 != 0) {
+                    sub_8027674(3U, boss->unk12);
+                }
+            } else {
+                sub_8027674(4U, boss->unk12);
+            }
+        }
+    }
+}
+
+void CreateChaserPlatform(s32 x, s32 y, EggChaserBoss *boss)
+{
+    EggChaserBossPlatform *platform = TASK_DATA(TaskCreate((void (*)())Task_48_8072EF0, 0x48U, 0x2000U, 0U, NULL));
+    Sprite *s = &platform->s;
+    platform->boss = boss;
+    platform->qWorldX = x << 8;
+    platform->qWorldY = y << 8;
+    platform->unkC = 0;
+    platform->unkE = 0;
+    platform->unk10 = 0;
+    platform->unk11 = 0;
+    platform->unk13 = 0;
+    platform->players[0] = boss->players[0];
+    platform->players[1] = boss->players[1];
+    s->tiles = boss->vramPlatformTiles;
+    s->anim = 0x4DF;
+    s->variant = 0;
+    s->oamFlags = 0x600;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = 0xFF;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x1000;
+    UpdateSpriteAnimation(s);
+}
+
+void Task_48_8072EF0(void)
+{
+    EggChaserBossPlatform *platform = TASK_DATA(gCurTask);
+    EggChaserBoss *temp_r0;
+    Player *temp_r4;
+    Sprite *temp_r2;
+    u32 temp_r0_2;
+    u32 temp_r0_3;
+    u8 var_r6;
+
+    temp_r0 = platform->boss;
+    temp_r2 = &platform->s;
+    if (temp_r0->unk1B != 0) {
+        platform->qWorldY += 0x20000;
+    }
+    var_r6 = 0;
+    do {
+        temp_r4 = platform->players[var_r6];
+        temp_r0_2 = sub_802C0D4(temp_r4);
+        if (temp_r0_2 == 0) {
+            temp_r0_3 = sub_8020950(temp_r2, (s32)platform->qWorldX >> 8, (s32)platform->qWorldY >> 8, temp_r4, (u8)temp_r0_2);
+            if (0x10000 & temp_r0_3) {
+                temp_r4->qWorldY += (s16)(temp_r0_3 << 8);
+                if ((gStageData.playerIndex == var_r6)
+                    && ((temp_r4->qSpeedGround != 0) || (temp_r4->qSpeedAirX != 0) || (temp_r4->qSpeedAirY != 0))) {
+                    SetBit(platform->unk10, var_r6);
+                    platform->unk11 = 1;
+                }
+            } else if (gStageData.playerIndex == var_r6) {
+                platform->unk10 &= ~(1 << var_r6);
+            }
+        }
+        var_r6 += 1;
+    } while ((u32)var_r6 <= 1U);
+    if ((u32)(((I(platform->qWorldY) - gCamera.y) << 0x10) + 0xA00000) > 0x01680000U) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    if (((platform->unk10 == 0) && (platform->unk11 != 0)) || (temp_r0->unk12 == 0)) {
+        ResolvePlayerSpriteCollision(temp_r2, platform->players[0]);
+        ResolvePlayerSpriteCollision(temp_r2, platform->players[1]);
+        platform->unk11 = 0;
+        gCurTask->main = (void (*)())Task_48_8073040;
+        if (temp_r0->unk12 == 0) {
+            platform->unk13 = 1;
+        }
+    }
+    sub_8073258(platform);
+}
+
+void Task_48_8073040(void)
+{
+    EggChaserBossPlatform *platform = TASK_DATA(gCurTask);
+    EggChaserBoss *boss;
+    Sprite *sprCockpit;
+    Sprite *sprPlatform;
+    s16 var_r0;
+    s32 temp_r1;
+    s32 temp_r1_2;
+    s32 temp_r3_2;
+    s32 temp_r3_3;
+    s8 temp_r2_3;
+    s8 temp_r5_2;
+    s8 temp_r6;
+
+    boss = platform->boss;
+    sprCockpit = &boss->sprCockpit;
+    sprPlatform = &platform->s;
+    if (boss->unk1B != 0) {
+        platform->qWorldY += Q(0x200);
+    }
+    platform->unkE += 0x20;
+    platform->qWorldY += platform->unkE;
+
+    if ((sprCockpit->variant == 0) && (boss->unk13 == 0)) {
+        if (boss->unk12 != 0) {
+            if (HB_COLLISION(I(platform->qWorldX), I(platform->qWorldY), sprPlatform->hitboxes[0].b, I(boss->qWorldX + boss->unk10),
+                             I(boss->qWorldY), sprCockpit->hitboxes[0].b)) {
+                platform->unkE *= -1;
+                if (platform->qWorldX < (boss->qWorldX + boss->unk10)) {
+                    platform->unkC = -0x180;
+                } else {
+                    platform->unkC = +0x180;
+                }
+                platform->unk12 = 0x1E;
+                gCurTask->main = Task_48_80731DC;
+                if (boss->unk2C == 0) {
+                    sub_8072DA4(boss);
+                }
+            }
+        }
+    }
+    if ((u32)(((I(platform->qWorldY) - gCamera.y) << 0x10) + 0xA00000) > 0x01680000U) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    sub_8073258(platform);
+}
+
+void Task_48_80731DC(void)
+{
+    EggChaserBossPlatform *platform = TASK_DATA(gCurTask);
+    s16 screenY;
+
+    if (platform->boss->unk1B != 0) {
+        platform->qWorldY += Q(0x200);
+    }
+    platform->unkE += 0x20;
+    platform->qWorldX += platform->unkC;
+    platform->qWorldY += platform->unkE;
+    platform->unk12 -= 1;
+
+    screenY = I(platform->qWorldY) - gCamera.y;
+    if ((screenY < -160) || screenY > 200) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    if (!(platform->unk12 & 2)) {
+        sub_8073258(platform);
+    }
+}
+
+void sub_8073258(EggChaserBossPlatform *platform)
+{
+    Sprite *s = &platform->s;
+    s32 screenX;
+
+    if (platform->unk11 != 0) {
+        screenX = I(platform->qWorldX) - gCamera.x;
+        s->x = screenX;
+        if (gStageData.timer & 2) {
+            s->x = screenX + 1;
+        } else {
+            s->x = screenX - 1;
+        }
+    } else {
+        s->x = I(platform->qWorldX) - gCamera.x;
+    }
+    s->y = I(platform->qWorldY) - gCamera.y;
+    if ((platform->unk13 == 0) || !(gStageData.timer & 2)) {
+        DisplaySprite(s);
+    }
+}
+
+// TODO: Fake-match
+void sub_80732CC(u8 *param0, s16 param1)
+{
+    EggChaserBoss *boss = TASK_DATA(gStageData.taskBoss);
+#ifndef NON_MATCHING
+    register s32 val asm("r2") = param0[2];
+    register s32 temp_r1 asm("r1") = 0x7F & val;
+    register u32 r0 asm("r0");
+#else
+    s32 val = param0[2];
+    s32 temp_r1 = 0x7F & val;
+    u32 r0;
+#endif
+    val = (param0[3] | (param0[4] << 8));
+
+    switch (temp_r1) {
+        case 1: {
+            boss->unk12 = 0U;
+            sub_8072D04(boss);
+            gStageData.taskBoss->main = Task_Chaser_80733CC;
+        } break;
+
+        case 3:
+        case 4: {
+            temp_r1 = boss->unk12;
+            r0 = (val << 24);
+            r0 >>= 24;
+            if (temp_r1 != r0) {
+                sub_8072DA4(boss);
+            }
+        } break;
+    }
+}
+
+void Task_EggChaserBossInit(void)
+{
+    EggChaserBoss *boss = TASK_DATA(gCurTask);
+
+    if (*boss->bossPhase == 3) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (sub_8079FFC()) {
+        gCurTask->main = Task_Chaser_8073380;
+    } else {
+        gCurTask->main = Task_Chaser_8071D68;
+    }
+
+    sub_80728B4(boss);
+}
+
+void Task_Chaser_8073380(void)
+{
+    EggChaserBoss *boss = TASK_DATA(gCurTask);
+
+    if (*boss->bossPhase == 3) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    sub_80728B4(boss);
+
+    if ((*boss->bossPhase == 2) && (sub_807A074())) {
+        gCurTask->main = Task_Chaser_8071D68;
+    }
+}
+
+void Task_Chaser_80733CC(void)
+{
+    EggChaserBoss *boss = TASK_DATA(gCurTask);
+
+    boss->unk30 = 0;
+    boss->unk32 = 1;
+    boss->unk14 = 0;
+
+    gCurTask->main = Task_Chaser_80720E4;
+
+    boss->players[0]->moveState |= 0x08000000;
+    boss->players[1]->moveState |= 0x08000000;
+
+    sub_80728B4(boss);
+}
+
+void Task_Chaser_8073420(void)
+{
+    EggChaserBoss *boss = TASK_DATA(gCurTask);
+
+    boss->players[0]->moveState |= 0x08000000;
+    boss->players[1]->moveState |= 0x08000000;
+
+    sub_80728B4(boss);
+}
+
+void TaskDestructor_EggChaserBoss(Task *t)
+{
+    EggChaserBoss *boss = TASK_DATA(t);
+
+    if (boss->vramPlatformTiles != NULL) {
+        VramFree(boss->vramPlatformTiles);
+        boss->vramPlatformTiles = NULL;
+    }
+}
+
+void sub_8073480(EggChaserBoss *boss, Player *inPlayer)
+{
+    if (sub_802C080(inPlayer) == 0) {
+        Sprite *s = &boss->sprGears[0];
+        sub_8020CE0(s, I(boss->qWorldX) - 120, I(boss->qWorldY), 0, inPlayer);
+        s = &boss->sprGears[1];
+        sub_8020CE0(s, I(boss->qWorldX) + 120, I(boss->qWorldY), 0, inPlayer);
+        s = &boss->sprCockpit;
+        sub_8020CE0(s, I(boss->qWorldX + boss->unk10), I(boss->qWorldY), 0, inPlayer);
+    }
+}
+
+void sub_80734EC(Player *p)
+{
+    s32 temp_r2;
+    u16 temp_r4;
+    u8 var_r4;
+    EggChaserBoss *taskBoss = TASK_DATA(gCurTask);
+    Sprite *s = &taskBoss->sprMace;
+
+    if (sub_802C080(p) == 0) {
+        sub_8020CE0(s, I(taskBoss->unk40), I(taskBoss->unk44), 0, p);
+
+        s = &taskBoss->sprMaceNode;
+        for (var_r4 = 0; var_r4 < 8; var_r4++) {
+            sub_8020CE0(s, I(taskBoss->unk48[var_r4].x), I(taskBoss->unk48[var_r4].y), 0, p);
+        }
+    }
+}
+
+void sub_8073570(EggChaserBoss *boss)
+{
+    if (boss->unk24 > (s32)gCamera.y) {
+        CreateChaserPlatform(sEggChaserBossPlatformPositions[boss->unk1A][0], boss->unk24, boss);
+        boss->unk24 += sEggChaserBossPlatformPositions[boss->unk1A][1];
+
+        if (++boss->unk1A > 0x10U) {
+            boss->unk1A = 0;
+        }
+    }
+}
+
+void sub_80735C4(EggChaserBoss *boss)
+{
+    if (boss->sprCockpit.variant == 0) {
+        boss->unk18 = ((s32)((9 - boss->unk12) * 3) >> 1) + (u16)boss->unk18;
+        boss->unk10 = (s16)((s32)(SIN(boss->unk18 & 0x3FF) * 0x1F) >> 5);
+    }
+}
+
+void sub_8073608(EggChaserBoss *boss)
+{
+    s32 temp_r2;
+    s32 var_r0;
+
+    temp_r2 = (s32)boss->qWorldY >> 8;
+    if (temp_r2 > 0x513) {
+        gCamera.minY = temp_r2 - 0xA0;
+    } else {
+        gCamera.minY = temp_r2 - 0xB4;
+    }
+    gCamera.maxY = I(boss->qWorldY) + 0x14;
 }
