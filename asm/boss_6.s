@@ -321,18 +321,18 @@ _0807372A:
 	strh r1, [r0, #8]
 	strh r1, [r0]
 	movs r0, #0xab
-	lsls r0, r0, #3
+	lsls r0, r0, #3     @ 0x558
 	ldr r5, _08073918 @ =0x00000125
 	adds r1, r5, #0
 	mov r2, sl
 	movs r3, #0
-	bl sub_80747F4
+	bl CreateEggPinballOuterPlatform
 	movs r0, #0xc9
-	lsls r0, r0, #3
-	adds r1, r5, #0
-	mov r2, sl
-	movs r3, #1
-	bl sub_80747F4
+	lsls r0, r0, #3     @ 0x648
+	adds r1, r5, #0     @ 0x125 (293)
+	mov r2, sl          @ R2: EggPinball *boss
+	movs r3, #1         @ R3: 1
+	bl CreateEggPinballOuterPlatform
 	bl SetFixedRandomIfTimeAttackMode
 	ldr r0, [sp, #4]
 	add sp, #0xc
@@ -352,8 +352,8 @@ _08073910: .4byte 0x000004E2
 _08073914: .4byte 0x000004E5
 _08073918: .4byte 0x00000125
 
-	thumb_func_start sub_807391C
-sub_807391C: @ 0x0807391C
+	thumb_func_start Task_Boss_807391C
+Task_Boss_807391C: @ 0x0807391C
 	push {r4, r5, lr}
 	ldr r2, _0807396C @ =gCurTask
 	ldr r0, [r2]
@@ -412,7 +412,7 @@ _0807397C:
 	beq _0807399C
 	ldr r0, _080739A4 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080739A8 @ =sub_80739AC
+	ldr r0, _080739A8 @ =Task_Boss_80739AC
 	str r0, [r1, #8]
 _0807399C:
 	pop {r4, r5}
@@ -420,10 +420,10 @@ _0807399C:
 	bx r0
 	.align 2, 0
 _080739A4: .4byte gCurTask
-_080739A8: .4byte sub_80739AC
+_080739A8: .4byte Task_Boss_80739AC
 
-	thumb_func_start sub_80739AC
-sub_80739AC: @ 0x080739AC
+	thumb_func_start Task_Boss_80739AC
+Task_Boss_80739AC: @ 0x080739AC
 	push {r4, r5, lr}
 	ldr r2, _080739FC @ =gCurTask
 	ldr r0, [r2]
@@ -484,7 +484,7 @@ _08073A0C:
 	bl sub_8079FFC
 	ldr r0, _08073A38 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08073A3C @ =sub_8073A40
+	ldr r0, _08073A3C @ =Task_Boss_8073A40
 	str r0, [r1, #8]
 _08073A30:
 	pop {r4, r5}
@@ -492,10 +492,10 @@ _08073A30:
 	bx r0
 	.align 2, 0
 _08073A38: .4byte gCurTask
-_08073A3C: .4byte sub_8073A40
+_08073A3C: .4byte Task_Boss_8073A40
 
-	thumb_func_start sub_8073A40
-sub_8073A40: @ 0x08073A40
+	thumb_func_start Task_Boss_8073A40
+Task_Boss_8073A40: @ 0x08073A40
 	push {r4, r5, lr}
 	ldr r0, _08073AB8 @ =gCurTask
 	ldr r0, [r0]
@@ -552,7 +552,7 @@ _08073A94:
 	ble _08073AB2
 	ldr r0, _08073AB8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08073AC8 @ =sub_8073ACC
+	ldr r0, _08073AC8 @ =Task_Boss_8073ACC
 	str r0, [r1, #8]
 _08073AB2:
 	pop {r4, r5}
@@ -563,10 +563,10 @@ _08073AB8: .4byte gCurTask
 _08073ABC: .4byte gStageData
 _08073AC0: .4byte gPlayers
 _08073AC4: .4byte gCamera
-_08073AC8: .4byte sub_8073ACC
+_08073AC8: .4byte Task_Boss_8073ACC
 
-	thumb_func_start sub_8073ACC
-sub_8073ACC: @ 0x08073ACC
+	thumb_func_start Task_Boss_8073ACC
+Task_Boss_8073ACC: @ 0x08073ACC
 	push {r4, r5, lr}
 	ldr r0, _08073B48 @ =gCurTask
 	ldr r0, [r0]
@@ -623,7 +623,7 @@ _08073B0A:
 	bl sub_80299D4
 	ldr r0, _08073B48 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08073B58 @ =sub_8073B5C
+	ldr r0, _08073B58 @ =Task_Boss_8073B5C
 	str r0, [r1, #8]
 _08073B40:
 	pop {r4, r5}
@@ -634,10 +634,10 @@ _08073B48: .4byte gCurTask
 _08073B4C: .4byte gStageData
 _08073B50: .4byte gPlayers
 _08073B54: .4byte gCamera
-_08073B58: .4byte sub_8073B5C
+_08073B58: .4byte Task_Boss_8073B5C
 
-	thumb_func_start sub_8073B5C
-sub_8073B5C: @ 0x08073B5C
+	thumb_func_start Task_Boss_8073B5C
+Task_Boss_8073B5C: @ 0x08073B5C
 	push {r4, r5, r6, lr}
 	ldr r5, _08073B8C @ =gCurTask
 	ldr r0, [r5]
@@ -692,7 +692,7 @@ _08073BB4:
 	strb r0, [r1]
 	bl sub_807A4A8
 	ldr r1, [r5]
-	ldr r0, _08073BDC @ =sub_8073BE0
+	ldr r0, _08073BDC @ =Task_Boss_8073BE0
 	str r0, [r1, #8]
 _08073BCA:
 	adds r0, r6, #0
@@ -702,10 +702,10 @@ _08073BCA:
 	bx r0
 	.align 2, 0
 _08073BD8: .4byte 0x03000040
-_08073BDC: .4byte sub_8073BE0
+_08073BDC: .4byte Task_Boss_8073BE0
 
-	thumb_func_start sub_8073BE0
-sub_8073BE0: @ 0x08073BE0
+	thumb_func_start Task_Boss_8073BE0
+Task_Boss_8073BE0: @ 0x08073BE0
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _08073C30 @ =gCurTask
 	ldr r0, [r0]
@@ -767,7 +767,7 @@ _08073C4C:
 	bne _08073C76
 _08073C56:
 	adds r0, r5, #0
-	bl sub_8074328
+	bl CreateEggPinballBall
 	movs r0, #0x14
 	strh r0, [r7]
 	ldr r1, _08073CA0 @ =gUnknown_080D58E0
@@ -800,14 +800,14 @@ _08073C84:
 	beq _08073CB4
 	ldr r0, _08073CAC @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08073CB0 @ =sub_8074C94
+	ldr r0, _08073CB0 @ =Task_Boss_8074C94
 	b _08073CC8
 	.align 2, 0
 _08073CA0: .4byte gUnknown_080D58E0
 _08073CA4: .4byte 0x00000231
 _08073CA8: .4byte gStageData
 _08073CAC: .4byte gCurTask
-_08073CB0: .4byte sub_8074C94
+_08073CB0: .4byte Task_Boss_8074C94
 _08073CB4:
 	movs r0, #1
 	movs r1, #0
@@ -817,7 +817,7 @@ _08073CBC:
 	bl sub_8074E4C
 	ldr r0, _08073CDC @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08073CE0 @ =sub_8073CE4
+	ldr r0, _08073CE0 @ =Task_Boss_8073CE4
 _08073CC8:
 	str r0, [r1, #8]
 _08073CCA:
@@ -830,10 +830,10 @@ _08073CCA:
 	bx r0
 	.align 2, 0
 _08073CDC: .4byte gCurTask
-_08073CE0: .4byte sub_8073CE4
+_08073CE0: .4byte Task_Boss_8073CE4
 
-	thumb_func_start sub_8073CE4
-sub_8073CE4: @ 0x08073CE4
+	thumb_func_start Task_Boss_8073CE4
+Task_Boss_8073CE4: @ 0x08073CE4
 	push {r4, r5, lr}
 	ldr r5, _08073D80 @ =gCurTask
 	ldr r0, [r5]
@@ -892,7 +892,7 @@ sub_8073CE4: @ 0x08073CE4
 	ldr r0, _08073D90 @ =0x00000221
 	bl m4aSongNumStart
 	ldr r1, [r5]
-	ldr r0, _08073D94 @ =sub_8073D98
+	ldr r0, _08073D94 @ =Task_Boss_8073D98
 	str r0, [r1, #8]
 	ldr r1, [r4, #0x68]
 	ldr r0, [r1, #4]
@@ -915,10 +915,10 @@ _08073D84: .4byte 0x0300003C
 _08073D88: .4byte 0x03000044
 _08073D8C: .4byte gCamera
 _08073D90: .4byte 0x00000221
-_08073D94: .4byte sub_8073D98
+_08073D94: .4byte Task_Boss_8073D98
 
-	thumb_func_start sub_8073D98
-sub_8073D98: @ 0x08073D98
+	thumb_func_start Task_Boss_8073D98
+Task_Boss_8073D98: @ 0x08073D98
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1103,14 +1103,14 @@ _08073EE8:
 	strh r0, [r1]
 	ldr r0, _08073F14 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08073F18 @ =sub_8073F4C
+	ldr r0, _08073F18 @ =Task_Boss_8073F4C
 	str r0, [r1, #8]
 	b _08073F3C
 	.align 2, 0
 _08073F0C: .4byte 0x000003FF
 _08073F10: .4byte 0x00000221
 _08073F14: .4byte gCurTask
-_08073F18: .4byte sub_8073F4C
+_08073F18: .4byte Task_Boss_8073F4C
 _08073F1C:
 	ldr r1, [r5, #0x68]
 	ldr r0, [r1, #4]
@@ -1136,8 +1136,8 @@ _08073F3C:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8073F4C
-sub_8073F4C: @ 0x08073F4C
+	thumb_func_start Task_Boss_8073F4C
+Task_Boss_8073F4C: @ 0x08073F4C
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0x10
 	ldr r0, _08074028 @ =gCurTask
@@ -1252,7 +1252,7 @@ _08074034: .4byte 0x00196225
 _08074038: .4byte 0x3C6EF35F
 _0807403C: .4byte gSineTable
 _08074040:
-	ldr r0, _0807404C @ =sub_8074050
+	ldr r0, _0807404C @ =Task_Boss_8074050
 	str r0, [r2, #8]
 _08074044:
 	add sp, #0x10
@@ -1260,10 +1260,10 @@ _08074044:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0807404C: .4byte sub_8074050
+_0807404C: .4byte Task_Boss_8074050
 
-	thumb_func_start sub_8074050
-sub_8074050: @ 0x08074050
+	thumb_func_start Task_Boss_8074050
+Task_Boss_8074050: @ 0x08074050
 	push {r4, lr}
 	sub sp, #0x10
 	ldr r0, _08074074 @ =gCurTask
@@ -1328,6 +1328,7 @@ _080740C2:
 	bx r0
 	.align 2, 0
 
+    @ R0: EggPinball *boss
 	thumb_func_start sub_80740CC
 sub_80740CC: @ 0x080740CC
 	push {r4, r5, lr}
@@ -1391,6 +1392,7 @@ _0807413C:
 	.align 2, 0
 _08074144: .4byte gSineTable
 
+    @ R0: EggPinball *boss
 	thumb_func_start sub_8074148
 sub_8074148: @ 0x08074148
 	push {r4, r5, r6, r7, lr}
@@ -1616,8 +1618,9 @@ _0807431C: .4byte gSineTable
 _08074320: .4byte gNextFreeAffineIndex
 _08074324: .4byte 0xFFFFFBFF
 
-	thumb_func_start sub_8074328
-sub_8074328: @ 0x08074328
+    @ R0: EggPinball *boss
+	thumb_func_start CreateEggPinballBall
+CreateEggPinballBall: @ 0x08074328
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1625,7 +1628,7 @@ sub_8074328: @ 0x08074328
 	push {r5, r6, r7}
 	sub sp, #4
 	adds r6, r0, #0
-	ldr r0, _08074414 @ =sub_807442C
+	ldr r0, _08074414 @ =Task_Ball_807442C
 	movs r2, #0x80
 	lsls r2, r2, #6
 	movs r1, #0
@@ -1735,15 +1738,15 @@ sub_8074328: @ 0x08074328
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08074414: .4byte sub_807442C
+_08074414: .4byte Task_Ball_807442C
 _08074418: .4byte 0x0300001C
 _0807441C: .4byte 0xFFFFFF00
 _08074420: .4byte 0x000003FF
 _08074424: .4byte gSineTable
 _08074428: .4byte 0x000004E4
 
-	thumb_func_start sub_807442C
-sub_807442C: @ 0x0807442C
+	thumb_func_start Task_Ball_807442C
+Task_Ball_807442C: @ 0x0807442C
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -1895,13 +1898,13 @@ _08074550:
 	strb r0, [r4, #0x1b]
 	ldr r0, _08074564 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08074568 @ =sub_8074DC4
+	ldr r0, _08074568 @ =Task_Ball_8074DC4
 	str r0, [r1, #8]
 	bl _call_via_r0
 	b _08074668
 	.align 2, 0
 _08074564: .4byte gCurTask
-_08074568: .4byte sub_8074DC4
+_08074568: .4byte Task_Ball_8074DC4
 _0807456C:
 	ldr r1, [r4, #0x44]
 	adds r0, r4, #0
@@ -2003,7 +2006,7 @@ _0807461C:
 	blt _08074662
 _0807462E:
 	adds r0, r6, #0
-	bl sub_8074AF0
+	bl sub_Ball_8074AF0
 	ldr r2, _0807464C @ =0x0000FE80
 	strh r2, [r4, #0xe]
 	movs r1, #0xc
@@ -2026,7 +2029,7 @@ _08074656:
 	strb r0, [r4, #0x1b]
 	ldr r0, _08074674 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08074678 @ =sub_8074DC4
+	ldr r0, _08074678 @ =Task_Ball_8074DC4
 	str r0, [r1, #8]
 _08074662:
 	adds r0, r4, #0
@@ -2039,7 +2042,7 @@ _08074668:
 	bx r0
 	.align 2, 0
 _08074674: .4byte gCurTask
-_08074678: .4byte sub_8074DC4
+_08074678: .4byte Task_Ball_8074DC4
 
 	thumb_func_start sub_807467C
 sub_807467C: @ 0x0807467C
@@ -2234,8 +2237,12 @@ _080747E6:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_80747F4
-sub_80747F4: @ 0x080747F4
+	@ R0: 0x648
+	@ R1: 0x125 (293)
+	@ R2: EggPinball *boss
+	@ R3: bool8
+	thumb_func_start CreateEggPinballOuterPlatform
+CreateEggPinballOuterPlatform: @ 0x080747F4
 	push {r4, r5, r6, lr}
 	mov r6, sb
 	mov r5, r8
@@ -2243,16 +2250,16 @@ sub_80747F4: @ 0x080747F4
 	sub sp, #4
 	adds r6, r0, #0
 	mov r8, r1
-	adds r5, r2, #0
+	adds r5, r2, #0     @ r5 = r2 = EggPinball *boss
 	lsls r3, r3, #0x18
 	mov sb, r3
 	mov r0, sb
 	lsrs r0, r0, #0x18
 	mov sb, r0
-	ldr r0, _080748B8 @ =sub_80748D0
+	ldr r0, _080748B8 @ =Task_Platform_OuterPlat
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _080748BC @ =sub_8074D7C
+	ldr r1, _080748BC @ =TaskDestructor_EggPinballOuterPlatform
 	str r1, [sp]
 	movs r1, #0x50
 	movs r3, #0
@@ -2331,15 +2338,15 @@ sub_80747F4: @ 0x080747F4
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080748B8: .4byte sub_80748D0
-_080748BC: .4byte sub_8074D7C
+_080748B8: .4byte Task_Platform_OuterPlat
+_080748BC: .4byte TaskDestructor_EggPinballOuterPlatform
 _080748C0: .4byte 0x03000028
 _080748C4: .4byte 0x03000020
 _080748C8: .4byte 0x03000024
 _080748CC: .4byte 0x000003A9
 
-	thumb_func_start sub_80748D0
-sub_80748D0: @ 0x080748D0
+	thumb_func_start Task_Platform_OuterPlat
+Task_Platform_OuterPlat: @ 0x080748D0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -2631,8 +2638,8 @@ _08074ADA:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8074AF0
-sub_8074AF0: @ 0x08074AF0
+	thumb_func_start sub_Ball_8074AF0
+sub_Ball_8074AF0: @ 0x08074AF0
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0x88
@@ -2771,7 +2778,7 @@ sub_8074BA0: @ 0x08074BA0
 	orrs r0, r2
 	str r0, [r1, #4]
 	ldr r1, [r5]
-	ldr r0, _08074C24 @ =sub_8073CE4
+	ldr r0, _08074C24 @ =Task_Boss_8073CE4
 	str r0, [r1, #8]
 	b _08074C48
 	.align 2, 0
@@ -2780,7 +2787,7 @@ _08074C14: .4byte 0x0300003D
 _08074C18: .4byte 0x03000044
 _08074C1C: .4byte 0x0300005C
 _08074C20: .4byte 0x03000060
-_08074C24: .4byte sub_8073CE4
+_08074C24: .4byte Task_Boss_8073CE4
 _08074C28:
 	cmp r1, #1
 	blt _08074C48
@@ -2796,7 +2803,7 @@ _08074C28:
 	cmp r1, r0
 	beq _08074C48
 	adds r0, r4, #0
-	bl sub_8074AF0
+	bl sub_Ball_8074AF0
 _08074C48:
 	pop {r4, r5}
 	pop {r0}
@@ -2818,14 +2825,14 @@ Task_EggPinballInit: @ 0x08074C54
 	cmp r0, #0
 	beq _08074C7C
 	ldr r1, [r4]
-	ldr r0, _08074C78 @ =sub_807391C
+	ldr r0, _08074C78 @ =Task_Boss_807391C
 	b _08074C80
 	.align 2, 0
 _08074C74: .4byte gCurTask
-_08074C78: .4byte sub_807391C
+_08074C78: .4byte Task_Boss_807391C
 _08074C7C:
 	ldr r1, [r4]
-	ldr r0, _08074C90 @ =sub_8073ACC
+	ldr r0, _08074C90 @ =Task_Boss_8073ACC
 _08074C80:
 	str r0, [r1, #8]
 	adds r0, r5, #0
@@ -2834,10 +2841,10 @@ _08074C80:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08074C90: .4byte sub_8073ACC
+_08074C90: .4byte Task_Boss_8073ACC
 
-	thumb_func_start sub_8074C94
-sub_8074C94: @ 0x08074C94
+	thumb_func_start Task_Boss_8074C94
+Task_Boss_8074C94: @ 0x08074C94
 	push {lr}
 	ldr r0, _08074CC0 @ =gCurTask
 	ldr r0, [r0]
@@ -2883,6 +2890,7 @@ _08074CD8:
 	pop {r0}
 	bx r0
 
+    @ R0: EggPinball *boss
 	thumb_func_start sub_8074CF0
 sub_8074CF0: @ 0x08074CF0
 	push {lr}
@@ -2909,6 +2917,7 @@ _08074D18:
 	pop {r0}
 	bx r0
 
+    @ R0: EggPinball *boss
 	thumb_func_start sub_8074D1C
 sub_8074D1C: @ 0x08074D1C
 	adds r2, r0, #0
@@ -2931,6 +2940,7 @@ sub_8074D1C: @ 0x08074D1C
 _08074D3C: .4byte gSineTable
 _08074D40: .4byte 0x000003FF
 
+    @ inline?
 	thumb_func_start sub_8074D44
 sub_8074D44: @ 0x08074D44
 	push {r4, r5, r6, lr}
@@ -2961,8 +2971,8 @@ _08074D72:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_8074D7C
-sub_8074D7C: @ 0x08074D7C
+	thumb_func_start TaskDestructor_EggPinballOuterPlatform
+TaskDestructor_EggPinballOuterPlatform: @ 0x08074D7C
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
@@ -2999,8 +3009,8 @@ sub_8074D90: @ 0x08074D90
 	.align 2, 0
 _08074DC0: .4byte gCamera
 
-	thumb_func_start sub_8074DC4
-sub_8074DC4: @ 0x08074DC4
+	thumb_func_start Task_Ball_8074DC4
+Task_Ball_8074DC4: @ 0x08074DC4
 	push {lr}
 	ldr r3, _08074E00 @ =gCurTask
 	ldr r0, [r3]
@@ -3044,6 +3054,7 @@ _08074E12:
 	bx r0
 	.align 2, 0
 
+    @ R0: EggPinballBall *ball
 	thumb_func_start sub_8074E18
 sub_8074E18: @ 0x08074E18
 	push {r4, lr}
@@ -3070,6 +3081,7 @@ sub_8074E18: @ 0x08074E18
 	.align 2, 0
 _08074E48: .4byte gCamera
 
+    @ R0: EggPinball *boss
 	thumb_func_start sub_8074E4C
 sub_8074E4C: @ 0x08074E4C
 	adds r3, r0, #0

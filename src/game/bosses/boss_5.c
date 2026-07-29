@@ -953,8 +953,8 @@ void sub_8072B80(EggChaserBoss *boss)
                 }
                 break;
             case 100:
-                boss->unk38 = ((u16)boss->unk38 - 0x10) & 0x3FF;
-                boss->unk3A = ((u16)boss->unk3A + 0x10) & 0x3FF;
+                boss->unk38 = (boss->unk38 - 0x10) & 0x3FF;
+                boss->unk3A = (boss->unk3A + 0x10) & 0x3FF;
                 boss->qWorldY -= 0x80;
                 boss->unk3E += 0x10;
                 if (boss->unk3E > 0x0154) {
@@ -967,8 +967,8 @@ void sub_8072B80(EggChaserBoss *boss)
                 }
                 break;
             case 0x96:
-                boss->unk38 = ((u16)boss->unk38 - 0x10) & 0x3FF;
-                boss->unk3A = ((u16)boss->unk3A + 0x10) & 0x3FF;
+                boss->unk38 = (boss->unk38 - 0x10) & 0x3FF;
+                boss->unk3A = (boss->unk3A + 0x10) & 0x3FF;
                 boss->qWorldY -= Q(1);
                 boss->unk3E += 0x10;
 
