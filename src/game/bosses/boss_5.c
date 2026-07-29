@@ -471,8 +471,7 @@ void Task_Chaser_8071E94(void)
     sub_80728B4(boss);
 }
 
-// (97.89%) https://decomp.me/scratch/7A07F
-NONMATCH("asm/non_matching/game/bosses/boss_5__Task_Chaser_80720E4.inc", void Task_Chaser_80720E4(void))
+void Task_Chaser_80720E4(void)
 {
     EggChaserBoss *boss = TASK_DATA(gCurTask);
     Sprite *sprCockpit = &boss->sprCockpit;
@@ -538,7 +537,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_5__Task_Chaser_80720E4.inc", void Ta
             boss->unkA = (u16)(boss->unkA + 0x20);
             boss->qWorldX += boss->unk8;
             boss->qWorldY += boss->unkA;
-            if (boss->qWorldY > 0x640) {
+            if (I(boss->qWorldY) > 1600) {
                 boss->unk32 = 0x3C;
                 boss->unk30 = 0x32;
             }
@@ -565,15 +564,16 @@ NONMATCH("asm/non_matching/game/bosses/boss_5__Task_Chaser_80720E4.inc", void Ta
             break;
         case 100:
             if (1 & (u16)boss->unk32) {
-                s32 r3;
+                u16 r3;
+                s32 cosVal, sinVal;
                 temp_r7 = (PseudoRandom32() % 256u) + 0x280;
                 temp_r0 = PseudoRandom32() % 48U;
-                r3 = (temp_r0 % 4u) << 8;
+                r3 = (temp_r0 & 3);
+                r3 = r3 << 8;
                 cosVal = ((u32)(COS(temp_r7) * temp_r0));
                 sinVal = ((u32)(SIN(temp_r7) * temp_r0));
-                cosVal = ((u32)cosVal >> 14);
-                cosVal += 0x514;
-                sub_8079758(7, cosVal, (((u32)sinVal >> 14) + 0x604), r3 | 0x400, (u16)temp_r7, 0x14U, 0, boss->vram1C);
+                sub_8079758(7, ((u32)cosVal >> 14) + 0x514, (((u32)sinVal >> 14) + 0x604), r3 | 0x400, (u16)temp_r7, 0x14U, 0,
+                            boss->vram1C);
             }
             if (!(0x3F & (u16)boss->unk32)) {
                 m4aSongNumStart(0x221U);
@@ -603,7 +603,6 @@ NONMATCH("asm/non_matching/game/bosses/boss_5__Task_Chaser_80720E4.inc", void Ta
     boss->players[0]->moveState |= MOVESTATE_IGNORE_INPUT;
     boss->players[1]->moveState |= MOVESTATE_IGNORE_INPUT;
 }
-END_NONMATCH
 
 void Task_Chaser_80724E4(void)
 {
