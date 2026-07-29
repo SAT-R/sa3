@@ -510,6 +510,12 @@ void TransformSprite(Sprite *s, SpriteTransform *transform)
     s->y = posY;
 }
 
+static inline s16 GetDirAngle(SpriteTransform *transform)
+{
+    s32 r;
+    return CLAMP_SIN_PERIOD((r = transform->rotation, r + sa2__gUnknown_03001944));
+}
+
 // (0.00%)
 NONMATCH("asm/non_matching/engine/UnusedTransform.inc", void UnusedTransform(Sprite *sprite, SpriteTransform *transform))
 {
@@ -517,108 +523,108 @@ NONMATCH("asm/non_matching/engine/UnusedTransform.inc", void UnusedTransform(Spr
 }
 END_NONMATCH
 
-// VERY similar to TransformSprite and UnusedTransform
-NONMATCH("asm/non_matching/engine/sa2__sub_8004E14.inc", void sa2__sub_8004E14(Sprite *sprite, SpriteTransform *transform))
+#define Q_MUL_16(q1, q2) (s16) Q_MUL((q1), (q2))
+
+void sa2__sub_8004E14(Sprite *s, SpriteTransform *transform)
 {
-    UnkSpriteStruct us;
-    u16 *affine;
+    const SpriteOffset *dimensions;
+    s16 *affine;
+    s32 qOffsetX, qOffsetY;
+    u32 width, height;
+    s16 offsetX, offsetY;
 
-    if (sprite->frameNum != -1) {
-        const SpriteOffset *sprDims;
-        if ((sprite->frameNum >> 28) == 0) {
-            sprDims = &gRefSpriteTables->dimensions[sprite->anim][sprite->frameNum];
-        } else {
-            sprDims = (const SpriteOffset *)(((u8 *)gRefSpriteTables->dimensions[sprite->anim]) + sprite->frameNum * 16);
-        }
+    vs16 rotScaleOffsetMat00;
+    vs16 rotScaleOffsetMat01;
+    vs16 rotScaleOffsetMat10;
+    vs16 rotScaleOffsetMat11;
+    vs16 qDirX;
+    vs16 qDirY;
+    vs16 qScaleX;
+    vs16 qScaleY;
+    vs32 posX;
+    vs32 posY;
+    vs16 rotScaleTrfMat00;
+    vs16 rotScaleTrfMat01;
+    vs16 rotScaleTrfMat10;
+    vs16 rotScaleTrfMat11;
+    vu16 affineIndex;
 
-        us.affineIndex = sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE;
-        affine = (u16 *)&gOamBuffer[us.affineIndex * 4 + 3];
-
-        us.qDirX = COS_24_8((transform->rotation + sa2__gUnknown_03001944) & ONE_CYCLE);
-        us.qDirY = SIN_24_8((transform->rotation + sa2__gUnknown_03001944) & ONE_CYCLE);
-        us.unkC[0] = I(transform->qScaleX * sa2__gUnknown_030017F0);
-        us.unkC[1] = I(transform->qScaleY * sa2__gUnknown_03005394);
-
-        affine[0 * OAM_DATA_COUNT_AFFINE] = I(Div(Q(256), us.unkC[0]) * us.qDirX);
-        affine[1 * OAM_DATA_COUNT_AFFINE] = I(Div(Q(256), us.unkC[0]) * us.qDirY);
-        affine[2 * OAM_DATA_COUNT_AFFINE] = I(Div(Q(256), us.unkC[1]) * -us.qDirY);
-        affine[3 * OAM_DATA_COUNT_AFFINE] = I(Div(Q(256), us.unkC[1]) * us.qDirX);
-
-        if (transform->qScaleX < 0) {
-            us.unkC[0] = I(-transform->qScaleX * sa2__gUnknown_030017F0);
-        }
-        // _08004F48
-
-        if (transform->qScaleY < 0) {
-            us.unkC[1] = I(-transform->qScaleY * sa2__gUnknown_03005394);
-        }
-        // _08004F6A
-
-        us.unk0[0] = I(+us.qDirX * us.unkC[0]);
-        us.unk0[1] = I(-us.qDirY * us.unkC[0]);
-        us.unk0[2] = I(+us.qDirY * us.unkC[1]);
-        us.unk0[3] = I(+us.qDirX * us.unkC[1]);
-
-        // 2D Rotation matrix:
-        // { +cos(a), -sin(a) }
-        // { +sin(a), +cos(a) }
-        us.unk18[0][0]
-            = I((Q(+COS_24_8(sa2__gUnknown_03001944) * sa2__gUnknown_030017F0) >> 16) * (Q(us.unkC[0] * sa2__gUnknown_03005398) >> 16));
-        us.unk18[0][1]
-            = I((Q(-SIN_24_8(sa2__gUnknown_03001944) * sa2__gUnknown_030017F0) >> 16) * (Q(us.unkC[0] * sa2__gUnknown_03005398) >> 16));
-        us.unk18[1][0]
-            = I((Q(+SIN_24_8(sa2__gUnknown_03001944) * sa2__gUnknown_03005394) >> 16) * (Q(us.unkC[1] * sa2__gUnknown_03005398) >> 16));
-        us.unk18[1][1]
-            = I((Q(+COS_24_8(sa2__gUnknown_03001944) * sa2__gUnknown_03005394) >> 16) * (Q(us.unkC[1] * sa2__gUnknown_03005398) >> 16));
-
-        us.posX = I(transform->x * us.unk18[0][0] + transform->y * us.unk18[0][1] + Q(sa2__gUnknown_0300194C));
-        us.posY = I(transform->x * us.unk18[1][0] + transform->y * us.unk18[1][1] + Q(sa2__gUnknown_03002820));
-
-        {
-            u16 width, height;
-            u16 halfWidth, halfHeight;
-            s16 offsetX, offsetY;
-            s32 x, y;
-
-            if (transform->qScaleX > 0) {
-                offsetX = sprDims->offsetX;
-                width = sprDims->width;
-            } else {
-                offsetX = sprDims->width - sprDims->offsetX;
-                width = sprDims->width;
-            }
-            // _0800515A
-
-            if (transform->qScaleY > 0) {
-                offsetY = sprDims->offsetY;
-                height = sprDims->height;
-            } else {
-                offsetY = sprDims->height - sprDims->offsetY;
-                height = sprDims->height;
-            }
-            // _0800517A
-
-            halfWidth = width / 2;
-            offsetX -= halfWidth;
-            x = offsetX * us.unk0[0];
-
-            halfHeight = height / 2;
-            offsetY -= halfHeight;
-            x += offsetY * us.unk0[1];
-            x = (x + Q(halfWidth));
-            us.posX -= I(x);
-
-            y = offsetX * us.unk0[2];
-            y += offsetY * us.unk0[3];
-            y = (y + Q(halfHeight));
-            us.posY -= I(y);
-
-            sprite->x = us.posX;
-            sprite->y = us.posY;
-        }
+    if (s->frameNum == -1) {
+        return;
     }
+
+    if ((s->frameNum >> 28) == 0) {
+        dimensions = &gRefSpriteTables->dimensions[s->anim][s->frameNum];
+    } else {
+        dimensions = (const SpriteOffset *)(((u8 *)gRefSpriteTables->dimensions[s->anim]) + s->frameNum * 16);
+    }
+
+    affineIndex = s->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE;
+    affine = (s16 *)&gOamBuffer[affineIndex * 4].all.affineParam;
+
+    qDirX = COS_24_8(GetDirAngle(transform));
+    qDirY = SIN_24_8(GetDirAngle(transform));
+
+    qScaleX = Q_MUL(transform->qScaleX, sa2__gUnknown_030017F0);
+    qScaleY = Q_MUL(transform->qScaleY, sa2__gUnknown_03005394);
+
+    affine[0 * OAM_DATA_COUNT_AFFINE] = Q_MUL(qDirX, InvScale(qScaleX));
+    affine[1 * OAM_DATA_COUNT_AFFINE] = Q_MUL(qDirY, InvScale(qScaleX));
+    affine[2 * OAM_DATA_COUNT_AFFINE] = Q_MUL(-qDirY, InvScale(qScaleY));
+    affine[3 * OAM_DATA_COUNT_AFFINE] = Q_MUL(qDirX, InvScale(qScaleY));
+
+    if (transform->qScaleX < 0) {
+        qScaleX = Q_MUL(-transform->qScaleX, sa2__gUnknown_030017F0);
+    }
+
+    if (transform->qScaleY < 0) {
+        qScaleY = Q_MUL(-transform->qScaleY, sa2__gUnknown_03005394);
+    }
+
+    rotScaleOffsetMat00 = Q_MUL(qDirX, qScaleX);
+    rotScaleOffsetMat01 = Q_MUL(-qDirY, qScaleX);
+    rotScaleOffsetMat10 = Q_MUL(qDirY, qScaleY);
+    rotScaleOffsetMat11 = Q_MUL(qDirX, qScaleY);
+
+    rotScaleTrfMat00
+        = Q_MUL(Q_MUL_16(+COS_24_8(sa2__gUnknown_03001944), sa2__gUnknown_030017F0), Q_MUL_16(qScaleX, sa2__gUnknown_03005398));
+    rotScaleTrfMat01
+        = Q_MUL(Q_MUL_16(((-SIN(sa2__gUnknown_03001944)) >> 6), sa2__gUnknown_030017F0), Q_MUL_16(qScaleX, sa2__gUnknown_03005398));
+    rotScaleTrfMat10
+        = Q_MUL(Q_MUL_16(+SIN_24_8(sa2__gUnknown_03001944), sa2__gUnknown_03005394), Q_MUL_16(qScaleY, sa2__gUnknown_03005398));
+    rotScaleTrfMat11
+        = Q_MUL(Q_MUL_16(+COS_24_8(sa2__gUnknown_03001944), sa2__gUnknown_03005394), Q_MUL_16(qScaleY, sa2__gUnknown_03005398));
+
+    posX = I(rotScaleTrfMat00 * transform->x + rotScaleTrfMat01 * transform->y + Q(sa2__gUnknown_0300194C));
+    posY = I(rotScaleTrfMat10 * transform->x + rotScaleTrfMat11 * transform->y + Q(sa2__gUnknown_03002820));
+
+    if (transform->qScaleX > 0) {
+        offsetX = dimensions->offsetX;
+        width = dimensions->width;
+    } else {
+        s32 w = dimensions->width;
+        offsetX = w - dimensions->offsetX;
+        width = w;
+    }
+
+    if (transform->qScaleY > 0) {
+        offsetY = dimensions->offsetY;
+        height = dimensions->height;
+    } else {
+        s32 h = dimensions->height;
+        offsetY = h - dimensions->offsetY;
+        height = h;
+    }
+
+    qOffsetX = rotScaleOffsetMat00 * (offsetX - (width / 2)) + rotScaleOffsetMat01 * (offsetY - (height / 2)) + Q(width / 2);
+    posX -= I(qOffsetX);
+
+    qOffsetY = rotScaleOffsetMat10 * (offsetX - (width / 2)) + rotScaleOffsetMat11 * (offsetY - (height / 2)) + Q(height / 2);
+    posY -= I(qOffsetY);
+
+    s->x = posX;
+    s->y = posY;
 }
-END_NONMATCH
 
 void DisplaySprite(Sprite *s)
 {
