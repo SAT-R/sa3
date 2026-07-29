@@ -2301,7 +2301,7 @@ sub_80747F4: @ 0x080747F4
 	movs r0, #0x12
 	bl VramMalloc
 	str r0, [r4]
-	ldr r0, _080748CC @ =0x000003A9
+	ldr r0, _080748CC @ =0x000003A9 @ ANIM_PLATFORM_BOSS_6
 	strh r0, [r4, #0xc]
 	mov r0, r8
 	strb r0, [r4, #0x1a]

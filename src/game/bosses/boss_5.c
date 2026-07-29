@@ -530,7 +530,7 @@ void Task_Chaser_80720E4(void)
                 sub_8079758(7U, I(boss->qWorldX + (cosVal)), I(boss->qWorldY + (sinVal)), 0x400, temp_r7, 0x14U, 0x80, boss->vram1C);
             }
             if (!(0x3F & boss->unk14)) {
-                m4aSongNumStart(0x221U);
+                m4aSongNumStart(SE_545);
             }
             break;
         case 20:
@@ -543,15 +543,15 @@ void Task_Chaser_80720E4(void)
             }
             if (1 & boss->unk14) {
                 s16 ddx, ddy;
-                temp_r7 = 0x3FF & PseudoRandom32();
-                temp_r0 = 0x1F & PseudoRandom32();
+                temp_r7 = PseudoRandom32() % SIN_PERIOD;
+                temp_r0 = PseudoRandom32() % 32u;
                 cosVal = (((u32)(COS(temp_r7) * temp_r0) >> 6));
                 sinVal = (((u32)(SIN(temp_r7) * temp_r0) >> 6));
 
                 sub_8079758(7U, I(boss->qWorldX + (cosVal)), I(boss->qWorldY + (sinVal)), 0x400, temp_r7, 0x14U, 0x20, boss->vram1C);
             }
             if (!(0x3F & boss->unk14)) {
-                m4aSongNumStart(0x221U);
+                m4aSongNumStart(SE_545);
             }
             break;
         case 50:
@@ -559,7 +559,7 @@ void Task_Chaser_80720E4(void)
             if (boss->unk32 == 0) {
                 boss->unk32 = 0xB4;
                 boss->unk30 = 0x64;
-                m4aSongNumStart(0x221U);
+                m4aSongNumStart(SE_545);
             }
             break;
         case 100:
@@ -576,7 +576,7 @@ void Task_Chaser_80720E4(void)
                             boss->vram1C);
             }
             if (!(0x3F & (u16)boss->unk32)) {
-                m4aSongNumStart(0x221U);
+                m4aSongNumStart(SE_545);
             }
 
             if (--boss->unk32 == 0) {
@@ -710,7 +710,7 @@ void sub_80725FC(EggChaserBoss *boss)
             u16 r1;
             boss->unk32 -= 1;
             if (boss->unk32 == 0) {
-                m4aSongNumStart(0x230U);
+                m4aSongNumStart(SE_560);
                 boss->unk32 = 10;
                 boss->unk30 = 0x64;
             }
@@ -929,10 +929,10 @@ void sub_8072B80(EggChaserBoss *boss)
             case 20:
                 if (--boss->unk36 == 0) {
                     s = &boss->sprGears[0];
-                    s->anim = 0x4DA;
+                    s->anim = ANIM_BOSS_5_GEAR;
                     s->variant = 1;
                     s = &boss->sprGears[1];
-                    s->anim = 0x4DA;
+                    s->anim = ANIM_BOSS_5_GEAR;
                     s->variant = 2;
                     boss->unk36 = 1;
                     boss->unk34 = 10;
@@ -948,7 +948,7 @@ void sub_8072B80(EggChaserBoss *boss)
                         boss->unk34 = 0x64;
                     }
 
-                    m4aSongNumStart(0x22FU);
+                    m4aSongNumStart(SE_559);
                     return;
                 }
                 break;
@@ -1044,7 +1044,7 @@ void sub_8072DA4(EggChaserBoss *boss)
         } else if (boss->unk12 == 3) {
             sub_80299D4(0x33U);
         }
-        m4aSongNumStart(0xEBU);
+        m4aSongNumStart(SE_235);
         PlayVoiceEggmanHit();
         boss->unk13 = 0x7A;
         sprEggman->variant = 2;
@@ -1065,11 +1065,11 @@ void sub_8072DA4(EggChaserBoss *boss)
 
 void CreateChaserPlatform(s32 x, s32 y, EggChaserBoss *boss)
 {
-    EggChaserBossPlatform *platform = TASK_DATA(TaskCreate((void (*)())Task_48_8072EF0, 0x48U, 0x2000U, 0U, NULL));
+    EggChaserBossPlatform *platform = TASK_DATA(TaskCreate(Task_48_8072EF0, sizeof(EggChaserBossPlatform), 0x2000U, 0U, NULL));
     Sprite *s = &platform->s;
     platform->boss = boss;
-    platform->qWorldX = x << 8;
-    platform->qWorldY = y << 8;
+    platform->qWorldX = Q(x);
+    platform->qWorldY = Q(y);
     platform->unkC = 0;
     platform->unkE = 0;
     platform->unk10 = 0;
@@ -1078,7 +1078,7 @@ void CreateChaserPlatform(s32 x, s32 y, EggChaserBoss *boss)
     platform->players[0] = boss->players[0];
     platform->players[1] = boss->players[1];
     s->tiles = boss->vramPlatformTiles;
-    s->anim = 0x4DF;
+    s->anim = ANIM_BOSS_5_FALLING_PLATFORM;
     s->variant = 0;
     s->oamFlags = 0x600;
     s->animCursor = 0;
@@ -1395,9 +1395,9 @@ void sub_8073608(EggChaserBoss *boss)
 
     temp_r2 = (s32)boss->qWorldY >> 8;
     if (temp_r2 > 0x513) {
-        gCamera.minY = temp_r2 - 0xA0;
+        gCamera.minY = temp_r2 - 160;
     } else {
-        gCamera.minY = temp_r2 - 0xB4;
+        gCamera.minY = temp_r2 - 180;
     }
-    gCamera.maxY = I(boss->qWorldY) + 0x14;
+    gCamera.maxY = I(boss->qWorldY) + 20;
 }
