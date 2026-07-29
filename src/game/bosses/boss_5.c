@@ -3,6 +3,7 @@
 #include "malloc_vram.h"
 #include "game/shared/stage/player.h"
 #include "game/sa3/bosses/eggman_escape.h"
+#include "game/shared/stage/music_manager.h"
 #include "game/stage.h"
 #include "constants/animations.h"
 #include "constants/songs.h"
@@ -28,9 +29,7 @@ typedef struct {
     /* 0x020 */ u8 *vramPlatformTiles;
     /* 0x024 */ s16 unk24;
     /* 0x026 */ s16 unk26;
-    /* 0x028 */ s16 camMaxY;
-    /* 0x02A */ u8 unk2A;
-    /* 0x02B */ u8 unk2B;
+    /* 0x028 */ s32 camMaxY;
     /* 0x02C */ u8 unk2C;
     /* 0x02D */ u8 unk2D;
     /* 0x02D */ u8 unk2E;
@@ -68,7 +67,6 @@ void sub_80725FC(EggChaserBoss *boss);
 void sub_80728B4(EggChaserBoss *boss);
 void sub_8072B80(EggChaserBoss *boss);
 void sub_8072D04(EggChaserBoss *boss);
-void sub_8072DA4(EggChaserBoss *boss);
 void CreateChaserPlatform(s32 x, s32 y, EggChaserBoss *boss);
 void Task_48_8072EF0(void);
 void Task_48_8073040(void);
@@ -274,4 +272,31 @@ Task *CreateEggChaserBoss(u8 *bossPhase, s32 worldX, s32 worldY)
 
     SetFixedRandomIfTimeAttackMode();
     return t;
+}
+
+void Task_Chaser_8071D68(void)
+{
+    EggChaserBoss *boss = TASK_DATA(gCurTask);
+    s16 i;
+
+    if (*boss->bossPhase == 3) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    sub_80728B4(boss);
+
+    if (*boss->bossPhase == 2) {
+        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
+            Player *p = &gPlayers[i];
+            s32 worldX = I(p->qWorldX);
+            if (worldX <= 1152 || worldX >= 1448) {
+                return;
+            }
+        }
+
+        sub_80299D4(MUS_VS__BOSS);
+        boss->camMaxY = gCamera.maxY;
+        gCurTask->main = Task_Chaser_8071DF8;
+    }
 }
