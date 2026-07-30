@@ -13,8 +13,8 @@
 #include "game/shared/stage/screen_shake.h"
 #include "game/stage.h"
 #include "constants/animations.h"
-#include "constants/songs.h"
 #include "constants/move_states.h"
+#include "constants/songs.h"
 
 #define CHASER_PLATFORMS_MAX_ACTIVE 4 // total number of visible platforms
 #define CHASER_PLATFORMS_COUNT      17 // number of pre-determined platform positions

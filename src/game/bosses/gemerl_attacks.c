@@ -24,7 +24,7 @@ bool32 sub_807B664(GemerlAttacks *strc10C, bool32 param1);
 extern const s32 gUnknown_080D5B88[10];
 extern const s32 gUnknown_080D5BB0[10];
 extern const s16 gUnknown_080D5BD8[10];
-extern const s16 gUnknown_080D5BEC[7];
+extern const s16 gUnknown_080D5BEC[2][7];
 
 void sub_807A574(Gemerl *gemerl, u8 param1, u8 param2, u8 param3)
 {
@@ -579,7 +579,7 @@ bool32 sub_807B280(GemerlAttacks *strc10C)
     SpriteTransform *tf = &strc10C->tf60;
     u16 angle = (tf->rotation - Q(1)) & 0x3FF;
 
-    memcpy(&sp0, &gUnknown_080D5BEC, sizeof(sp0));
+    memcpy(sp0, &gUnknown_080D5BEC, sizeof(sp0));
     var_r8 = 0;
     temp_r2 = ((strc10C->stateIndex ^ 6) ? 1 : 0);
     if (--strc10C->unk1A == 0) {
