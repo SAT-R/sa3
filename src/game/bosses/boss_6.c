@@ -685,8 +685,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_6__sub_8074148.inc", void sub_807414
 }
 END_NONMATCH
 
-// (93.65%) https://decomp.me/scratch/4cwBW
-NONMATCH("asm/non_matching/game/bosses/boss_6__CreateEggPinballBall.inc", void CreateEggPinballBall(EggPinball *boss))
+void CreateEggPinballBall(EggPinball *boss)
 {
     u16 temp_r4;
     s32 temp_r5;
@@ -694,11 +693,9 @@ NONMATCH("asm/non_matching/game/bosses/boss_6__CreateEggPinballBall.inc", void C
     s32 temp_r5_2;
     EggPinballBall *ball = TASK_DATA(TaskCreate(Task_Ball_807442C, sizeof(EggPinballBall), 0x2000U, 0U, NULL));
     Sprite *s = &ball->s;
-    s16 a = (boss->unk5A - Q(1));
-    s32 mask = 0x3FF;
-    temp_r4 = a & mask;
-    temp_r5 = SIN(temp_r4);
-    temp_r7 = COS(temp_r4);
+    u16 a = (boss->unk5A - Q(1)) & 0x3FF;
+    temp_r5 = SIN(a);
+    temp_r7 = COS(a);
     temp_r5_2 = 65 - boss->unk3D;
     ball->boss = boss;
     ball->unk4 = boss->qWorldX + boss->unkC.x + (temp_r7 >> 1);
@@ -706,7 +703,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_6__CreateEggPinballBall.inc", void C
     ball->unkC = I(temp_r5_2 * temp_r7);
     ball->unkE = I(temp_r5_2 * temp_r5);
     ball->unk10 = temp_r5_2;
-    ball->unk14 = temp_r4;
+    ball->unk14 = a;
     ball->unk18 = 0xC;
     ball->unk19 = 0;
     ball->unk1A = 0;
@@ -726,7 +723,6 @@ NONMATCH("asm/non_matching/game/bosses/boss_6__CreateEggPinballBall.inc", void C
     s->frameFlags = 0x1000;
     UpdateSpriteAnimation(s);
 }
-END_NONMATCH
 
 void Task_Ball_807442C(void)
 {
