@@ -4,9 +4,11 @@
 #include "multi_sio_stuff.h"
 #include "lib/m4a/m4a.h"
 #include "malloc_vram.h"
+#include "game/math.h"
 #include "game/sa3/bosses/eggman_escape.h"
 #include "game/shared/stage/music_manager.h"
 #include "game/shared/stage/player.h"
+#include "game/shared/stage/player_callbacks.h"
 #include "game/shared/stage/screen_shake.h"
 #include "game/stage.h"
 #include "game/bosses.h"
@@ -612,7 +614,6 @@ void Task_Boss_8074050(void)
     }
 }
 
-#if 0
 void sub_80740CC(EggPinball *boss)
 {
     s32 temp_r1;
@@ -629,7 +630,8 @@ void sub_80740CC(EggPinball *boss)
     boss->unkC.y += SIN(boss->unk46 * 12) >> 0x4;
 }
 
-void sub_8074148(EggPinball *boss)
+// (74.68%) https://decomp.me/scratch/aYLuZ
+NONMATCH("asm/non_matching/game/bosses/boss_6__sub_8074148.inc", void sub_8074148(EggPinball *boss))
 {
     s32 sp0[2];
     s16 temp_r2;
@@ -656,7 +658,7 @@ void sub_8074148(EggPinball *boss)
     UpdateSpriteAnimation(temp_r7);
     DisplaySprite(temp_r7);
 
-    temp_r4 = ((u16)boss->unk5A + 0xFFFFFF00) & 0x3FF;
+    temp_r4 = ((u16)boss->unk5A - Q(1)) & 0x3FF;
     temp_r3 = (s32)(SIN(boss->unk46 * 0x18) << 0x10) >> 0x1B;
     temp_r7 = &boss->spr98;
     temp_r2 = ((s32)(boss->qWorldX + boss->unkC.x) >> 8) - gCamera.x;
@@ -681,10 +683,12 @@ void sub_8074148(EggPinball *boss)
     temp_r7->frameFlags |= 0x400;
     DisplaySprite(temp_r7);
 }
+END_NONMATCH
 
-void CreateEggPinballBall(EggPinball *boss)
+// (93.65%) https://decomp.me/scratch/4cwBW
+NONMATCH("asm/non_matching/game/bosses/boss_6__CreateEggPinballBall.inc", void CreateEggPinballBall(EggPinball *boss))
 {
-    s32 temp_r4;
+    u16 temp_r4;
     s32 temp_r5;
     s32 temp_r7;
     s32 temp_r5_2;
@@ -699,8 +703,8 @@ void CreateEggPinballBall(EggPinball *boss)
     ball->boss = boss;
     ball->unk4 = boss->qWorldX + boss->unkC.x + (temp_r7 >> 1);
     ball->unk8 = boss->qWorldY + boss->unkC.y + (temp_r5 >> 1);
-    ball->unkC = (s16)((s32)(temp_r5_2 * temp_r7) >> 8);
-    ball->unkE = (s16)((s32)(temp_r5_2 * temp_r5) >> 8);
+    ball->unkC = I(temp_r5_2 * temp_r7);
+    ball->unkE = I(temp_r5_2 * temp_r5);
     ball->unk10 = temp_r5_2;
     ball->unk14 = temp_r4;
     ball->unk18 = 0xC;
@@ -722,6 +726,7 @@ void CreateEggPinballBall(EggPinball *boss)
     s->frameFlags = 0x1000;
     UpdateSpriteAnimation(s);
 }
+END_NONMATCH
 
 void Task_Ball_807442C(void)
 {
@@ -804,7 +809,8 @@ void Task_Ball_807442C(void)
     sub_8074E18(ball);
 }
 
-void sub_807467C(EggPinballBall *ball, Player *inPlayer)
+// (92.39%) https://decomp.me/scratch/reR6q
+NONMATCH("asm/non_matching/game/bosses/boss_6__sub_807467C.inc", void sub_807467C(EggPinballBall *ball, Player *inPlayer))
 {
     Sprite *temp_r7;
     s32 temp_r0_2;
@@ -883,8 +889,11 @@ void sub_807467C(EggPinballBall *ball, Player *inPlayer)
         sub_8020CE0(temp_r7, (s32)ball->unk4 >> 8, (s32)ball->unk8 >> 8, 0, inPlayer);
     }
 }
+END_NONMATCH
 
-void CreateEggPinballOuterPlatform(s32 param0, s32 param1, EggPinball *boss, u8 param3)
+// (96.04%) https://decomp.me/scratch/L1LLD
+NONMATCH("asm/non_matching/game/bosses/boss_6__CreateEggPinballOuterPlatform.inc",
+         void CreateEggPinballOuterPlatform(s32 param0, s32 param1, EggPinball *boss, u8 param3))
 {
     Task *t = TaskCreate(Task_Platform_OuterPlat, sizeof(EggPinballPlatform), 0x2000U, 0U, TaskDestructor_EggPinballOuterPlatform);
     EggPinballPlatform *platform = TASK_DATA(t);
@@ -904,7 +913,7 @@ void CreateEggPinballOuterPlatform(s32 param0, s32 param1, EggPinball *boss, u8 
     platform->unk26 = 0;
     platform->players[0] = boss->players[0];
     platform->players[1] = boss->players[1];
-    boss->unk34[param3] = (s32)&platform->unk24;
+    boss->unk34[param3] = &platform->unk24;
     s->tiles = VramMalloc(18);
     s->anim = ANIM_PLATFORM_BOSS_6;
     s->variant = 0;
@@ -918,23 +927,19 @@ void CreateEggPinballOuterPlatform(s32 param0, s32 param1, EggPinball *boss, u8 
     s->frameFlags = 0x1000;
     UpdateSpriteAnimation(s);
 }
+END_NONMATCH
 
-void Task_Platform_OuterPlat(void)
+// (94.70%) https://decomp.me/scratch/KvtXM
+NONMATCH("asm/non_matching/game/bosses/boss_6__Task_Platform_OuterPlat.inc", void Task_Platform_OuterPlat(void))
 {
     EggPinballPlatform *platform = TASK_DATA(gCurTask);
     EggPinball *boss = platform->boss;
     s32 sp4;
     Sprite *sp8;
     s32 temp_r0_2;
-    s32 temp_r0_3;
     s32 temp_r1;
-    s32 temp_r2_3;
     s32 temp_r3;
     Player *p;
-    s32 temp_r4_2;
-    s32 temp_r4_3;
-    s32 temp_r4_4;
-    u16 temp_r2_2;
     u16 var_r0_2;
     u32 temp_r0;
     u8 var_r0;
@@ -979,7 +984,7 @@ void Task_Platform_OuterPlat(void)
                         platform->unk10 = platform->unk10 + 0x600;
                         for (var_r5 = 0; var_r5 < 2; var_r5++) {
                             p = platform->players[var_r5];
-                            if (((s32)platform->unk20 >> var_r5) & 1) {
+                            if (GetBit(platform->unk20, var_r5)) {
                                 p->qWorldY += Q(6);
                             }
                         }
@@ -988,7 +993,7 @@ void Task_Platform_OuterPlat(void)
                 case 1:
                     platform->unk10 -= 0x600;
                     for (var_r5 = 0; var_r5 < 2; var_r5++) {
-                        if (((s32)platform->unk20 >> var_r5) & 1) {
+                        if (GetBit(platform->unk20, var_r5)) {
                             p = platform->players[var_r5];
                             p->qWorldY -= Q(6);
                         }
@@ -1013,9 +1018,8 @@ void Task_Platform_OuterPlat(void)
     block_47:
         if (platform->unk10 != platform->unk8) {
             if (platform->unk10 > platform->unk8) {
-                temp_r0_2 = platform->unk10 - 0x600;
-                platform->unk10 = temp_r0_2;
-                if (temp_r0_2 <= platform->unk8) {
+                platform->unk10 -= 0x600;
+                if (platform->unk10 <= platform->unk8) {
                     platform->unk10 = platform->unk8;
                 }
             } else {
@@ -1030,6 +1034,7 @@ void Task_Platform_OuterPlat(void)
     }
     PlatformRender(platform);
 }
+END_NONMATCH
 
 void sub_Boss_8074AF0(EggPinball *boss)
 {
@@ -1206,11 +1211,10 @@ void sub_8074E18(EggPinballBall *ball)
 void sub_8074E4C(EggPinball *boss)
 {
     boss->unk44 = 0x12C;
-    boss->unk5C = 0;
-    boss->unk5E = 0;
-    boss->unk60 = 0x200;
-    boss->unk62 = 0x200;
+    boss->unk5C[0] = 0;
+    boss->unk5C[1] = 0;
+    boss->unk5C[2] = 0x200;
+    boss->unk5C[3] = 0x200;
     boss->players[0]->moveState |= 0x08000000;
     boss->players[1]->moveState |= 0x08000000;
 }
-#endif
