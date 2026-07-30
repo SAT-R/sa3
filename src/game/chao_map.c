@@ -38,7 +38,7 @@ void Task_80233C8(void);
 void sub_8023440(void);
 void Task_ChaoMap(void);
 
-extern u16 gTilemapIdsChaoMap;
+extern u16 gTilemapIdsChaoMap[6];
 extern u8 gUnknown_080CEECC[];
 extern u8 gUnknown_080D0410[7][10][2];
 extern const u16 sChaoIATilesInfo[3][2];
