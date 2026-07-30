@@ -5,6 +5,7 @@
 .syntax unified
 .arm
 
+.if 0
     @ Called on init of Boss 6
 	thumb_func_start CreateEggPinball
 CreateEggPinball: @ 0x08073640
@@ -703,6 +704,7 @@ _08073BCA:
 	.align 2, 0
 _08073BD8: .4byte 0x03000040
 _08073BDC: .4byte Task_Boss_8073BE0
+.endif
 
 	thumb_func_start Task_Boss_8073BE0
 Task_Boss_8073BE0: @ 0x08073BE0
@@ -2006,7 +2008,7 @@ _0807461C:
 	blt _08074662
 _0807462E:
 	adds r0, r6, #0
-	bl sub_Ball_8074AF0
+	bl sub_Boss_8074AF0
 	ldr r2, _0807464C @ =0x0000FE80
 	strh r2, [r4, #0xe]
 	movs r1, #0xc
@@ -2638,8 +2640,8 @@ _08074ADA:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_Ball_8074AF0
-sub_Ball_8074AF0: @ 0x08074AF0
+	thumb_func_start sub_Boss_8074AF0
+sub_Boss_8074AF0: @ 0x08074AF0
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	movs r0, #0x88
@@ -2803,7 +2805,7 @@ _08074C28:
 	cmp r1, r0
 	beq _08074C48
 	adds r0, r4, #0
-	bl sub_Ball_8074AF0
+	bl sub_Boss_8074AF0
 _08074C48:
 	pop {r4, r5}
 	pop {r0}
