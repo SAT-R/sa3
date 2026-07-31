@@ -36,11 +36,41 @@ s32 sub_80C65F0(u8 arg0);
 s32 sub_80C6858(void);
 void sub_80C68E0();
 
+// Called in "BATTLE" mode enable, SinglePak and MultiPak
+void sub_80C6168(void)
+{
+    DmaFill32(3, 0, &gMultiSioSend, sizeof(gMultiSioSend));
+    DmaFill32(3, 0, &gMultiSioRecv, sizeof(gMultiSioRecv));
+
+    gMultiSioStatusFlags = 0;
+    gMultiSioEnabled = FALSE;
+
+    MultiSioInit(0U);
+}
+
+void sub_80C61C0(void)
+{
+    if (gFlags & FLAGS_80000) {
+        REG_IME = 0;
+        REG_IE &= ~INTR_FLAG_TIMER3;
+        REG_IME = 1;
+
+        REG_IME = 0;
+        gIntrTable[0] = (void *)gMultiSioIntrFuncBuf;
+        REG_IME = 1;
+
+        MultiSioInit(0U);
+    }
+
+    gMultiSioEnabled = TRUE;
+}
+
 void sub_80C621C(void)
 {
     gMultiSioEnabled = FALSE;
     gFlags &= ~FLAGS_10000;
     MultiSioStop();
+
     MultiSioInit(0U);
 
     if (gFlags & FLAGS_80000) {

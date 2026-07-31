@@ -3,7 +3,10 @@
 
 #include "color.h"
 
+// Copy colors (srcPalette -> gObjPalette) and mask them using gRgbMap
 extern void CopyObjPaletteMasked(const ColorRaw *srcPalette, u8 destObjPaletteColorOffset, u16 numColors);
+// Copy colors (srcPalette -> gBgPalette) and mask them using gRgbMap
+extern void CopyBgPaletteMasked(const ColorRaw *srcPalette, u8 destBgPaletteOffset, u16 numColors);
 
 void *sub_80C4C60(void *param0, u8 param1);
 void sub_80C4E24(void *param0, u8 param1, u32 *param2);

@@ -1727,7 +1727,7 @@ void Task_2A4_8055378(void)
             gBgSpritesCount = 0;
             PAUSE_GRAPHICS_QUEUE();
 
-            WarpToMap((s16)((s32)((gStageData.zone * 0xA0000) + 0x20000) >> 0x10), gStageData.act - 2);
+            WarpToMap(LEVEL_INDEX(gStageData.zone, ACT_HUB), gStageData.act - 2);
         }
     }
 }
@@ -2566,10 +2566,8 @@ void Task_38_80566A8(void)
     partner->qWorldY = Q(1714);
     partner->moveState &= ~(MOVESTATE_10000000 | MOVESTATE_GRAVITY_SWITCHED | MOVESTATE_FACING_LEFT);
 
-    gCamera.x = 7216;
-    gCamera.SA2_LABEL(unk10) = 7216;
-    gCamera.y = 1604;
-    gCamera.SA2_LABEL(unk14) = 1604;
+    gCamera.SA2_LABEL(unk10) = gCamera.x = 7216;
+    gCamera.SA2_LABEL(unk14) = gCamera.y = 1604;
 }
 
 void Task_38_8056714(void)

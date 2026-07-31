@@ -1210,7 +1210,7 @@ sub_809BFE8: @ 0x0809BFE8
 	ldr r0, [r0]
 	movs r1, #0
 	movs r2, #0x10
-	bl sub_80C460C
+	bl CopyBgPaletteMasked
 	b _0809C0F2
 	.align 2, 0
 _0809C0A0: .4byte gDispCnt
@@ -1263,7 +1263,7 @@ _0809C0F2:
 	ldr r0, [r0]
 	movs r1, #0x10
 	movs r2, #0x10
-	bl sub_80C460C
+	bl CopyBgPaletteMasked
 	b _0809C15C
 	.align 2, 0
 _0809C120: .4byte gUnknown_08E2EF10
@@ -1311,7 +1311,7 @@ _0809C15C:
 	ldr r0, [r0]
 	movs r1, #0x20
 	movs r2, #0x10
-	bl sub_80C460C
+	bl CopyBgPaletteMasked
 	b _0809C1CA
 	.align 2, 0
 _0809C188: .4byte 0x040000D4
@@ -1360,7 +1360,7 @@ _0809C1CA:
 	ldr r0, [r0]
 	movs r1, #0x30
 	movs r2, #0x10
-	bl sub_80C460C
+	bl CopyBgPaletteMasked
 	b _0809C23A
 	.align 2, 0
 _0809C1F4: .4byte 0x040000D4
@@ -19332,7 +19332,7 @@ sub_80A5050: @ 0x080A5050
 	movs r2, #0x80
 	lsls r2, r2, #1
 	movs r1, #0
-	bl sub_80C460C
+	bl CopyBgPaletteMasked
 	b _080A509E
 	.align 2, 0
 _080A507C: .4byte gCurTask
@@ -32060,7 +32060,7 @@ _080AB40C:
 	ldr r0, _080AB460 @ =gUnknown_080DA360
 	movs r1, #0
 	movs r2, #0x50
-	bl sub_80C460C
+	bl CopyBgPaletteMasked
 	b _080AB476
 	.align 2, 0
 _080AB434: .4byte gDispCnt
@@ -39052,7 +39052,7 @@ sub_80AEA44: @ 0x080AEA44
 	ldr r0, [r1]
 	movs r1, #0x10
 	movs r2, #0x20
-	bl sub_80C460C
+	bl CopyBgPaletteMasked
 	b _080AEB9E
 	.align 2, 0
 _080AEB40: .4byte gCurTask

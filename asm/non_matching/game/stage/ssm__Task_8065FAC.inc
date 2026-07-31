@@ -104,7 +104,7 @@ _0806605C:
 	lsls r1, r2, #0x18
 	lsrs r1, r1, #0x18
 	mov r2, ip
-	bl sub_80C460C
+	bl CopyBgPaletteMasked
 	b _080660C2
 	.align 2, 0
 _0806607C: .4byte gCurTask

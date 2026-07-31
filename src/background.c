@@ -21,7 +21,7 @@ static AnimCmdResult animCmd_10_BG(void *, Sprite *);
 static AnimCmdResult animCmd_SetSpritePriority_BG(void *, Sprite *);
 static AnimCmdResult animCmd_SetOamOrder_BG(void *, Sprite *);
 
-extern void sub_80C460C(const u16 *pal, u8 paletteOffset, u16 palSize);
+extern void CopyBgPaletteMasked(const u16 *pal, u8 paletteOffset, u16 palSize);
 
 const AnimationCommandFunc animCmdTable_BG[12] = {
     animCmd_GetTiles_BG,        animCmd_GetPalette_BG, animCmd_JumpBack_BG,          animCmd_End_BG,
@@ -58,7 +58,7 @@ void DrawBackground(Background *background)
 
     if (!(background->flags & BACKGROUND_DISABLE_PALETTE_UPDATE)) {
         if (gFlags & 0x10000) {
-            sub_80C460C(pal, background->paletteOffset, palSize);
+            CopyBgPaletteMasked(pal, background->paletteOffset, palSize);
         } else {
             DmaCopy16(3, pal, gBgPalette + background->paletteOffset, palSize * sizeof(*pal));
             gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
@@ -901,7 +901,8 @@ static AnimCmdResult animCmd_GetPalette_BG(void *cursor, Sprite *s)
         s32 paletteIndex = cmd->palId;
 
         if (gFlags & FLAGS_10000) {
-            sub_80C460C(&gRefSpriteTables->palettes[paletteIndex * 16], (u8)((s->palId * 16) + (cmd->insertOffset & 0xFF)), cmd->numColors);
+            CopyBgPaletteMasked(&gRefSpriteTables->palettes[paletteIndex * 16], (u8)((s->palId * 16) + (cmd->insertOffset & 0xFF)),
+                                cmd->numColors);
         } else {
             DmaCopy16(3, &gRefSpriteTables->palettes[paletteIndex * 16], &gBgPalette[s->palId * 16 + cmd->insertOffset],
                       cmd->numColors * 2);
