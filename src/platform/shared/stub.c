@@ -139,7 +139,6 @@ void sub_80AE1C8() { }
 void sub_80AE770() { }
 void sub_80AB120(u8 param0) { }
 
-void sub_80C4B48() { }
 void sub_80C4C60() { }
 void sub_80C4E24() { }
 void sub_80C4EB0() { }

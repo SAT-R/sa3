@@ -225,46 +225,38 @@ void sub_80C4A30(ColorRaw *palette, u8 colorOffset, u16 numColors)
     }
 }
 
-#if 0
-void sub_80C4AB8(s32 arg0, u8 arg1, u16 arg2) {
-    u16 *temp_r5;
-    u16 temp_r2;
-    u16 temp_r7;
-    u16 var_r6;
-    u32 temp_r4;
+void sub_80C4AB8(ColorRaw *palette, u8 colorOffset, u16 numColors)
+{
+    u16 i;
 
-    temp_r7 = arg2;
-    var_r6 = 0;
-    if ((u32) temp_r7 > 0U) {
-        do {
-            temp_r5 = ((arg1 + var_r6) * 2) + arg0;
-            temp_r2 = *temp_r5;
-            temp_r4 = (u32) (((0x4D * (0x1F & temp_r2)) + (0x96 * ((u32) (0x3E0 & temp_r2) >> 5)) + (((u32) (temp_r2 & 0x7C00) >> 0xA) * 0x1D)) << 8) >> 0x10;
-            if (temp_r4 > 0x1FU) {
-                *temp_r5 = 0x1BF;
+    for (i = 0; i < numColors; i++) {
+        {
+            ColorRaw color;
+            color = I((77 * ((R_MASK & palette[colorOffset + i]) >> R_SHIFT)) + (150 * ((G_MASK & palette[colorOffset + i]) >> G_SHIFT))
+                      + (29 * ((B_MASK & palette[colorOffset + i]) >> B_SHIFT)));
+            if (color > COLOR_MASK) {
+                palette[colorOffset + i] = 0x1BF;
             } else {
-                *temp_r5 = temp_r4 | (((s32) (temp_r4 * 0x6D) / 255) << 5);
+                palette[colorOffset + i] = color | (((s32)(color * 109) / 255) << G_SHIFT);
             }
-            var_r6 += 1;
-        } while ((u32) var_r6 < (u32) temp_r7);
+        }
     }
 }
 
-void sub_80C4B48(void) {
-    s16 var_r3;
-    s32 temp_r1;
+void sub_80C4B48(void)
+{
+    u8 i;
 
-    var_r3 = 0;
-    do {
-        temp_r1 = var_r3 * 2;
-        *(temp_r1 + &gRgbMap) = var_r3;
-        *(temp_r1 + (&gRgbMap + 0x40)) = var_r3 << 5;
-        *(temp_r1 + (&gRgbMap + 0x80)) = var_r3 << 0xA;
-        var_r3 = (s16) (u8) (var_r3 + 1);
-    } while ((u32) var_r3 <= 0x1FU);
-    gUnknown_03003C08 = NULL;
+    for (i = 0; i < ARRAY_COUNT(gRgbMap[R_CHANNEL]); i++) {
+        gRgbMap[R_CHANNEL][i] = i << R_SHIFT;
+        gRgbMap[G_CHANNEL][i] = i << G_SHIFT;
+        gRgbMap[B_CHANNEL][i] = i << B_SHIFT;
+    }
+
+    gUnknown_03003C08 = 0;
 }
 
+#if 0
 void sub_80C4B88(s32 arg0, u8 arg1, u16 arg2) {
     u16 *temp_r4;
     u16 temp_r3;
