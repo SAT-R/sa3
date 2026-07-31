@@ -6,6 +6,7 @@
 #if USING_ABGR_1555_COLORS
 // ABGR_1555
 typedef uint16_t ColorRaw;
+typedef int16_t ColorRawSigned;
 typedef union Color {
     struct {
         uint16_t r : 5;
@@ -26,6 +27,7 @@ typedef union Color {
 #else
 // RGBA_8888
 typedef uint32_t ColorRaw;
+typedef int32_t ColorRawSigned;
 typedef union Color {
     struct {
         uint8_t r;

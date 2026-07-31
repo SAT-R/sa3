@@ -2,6 +2,7 @@
 #include "flags.h"
 #include "core.h"
 #include "color.h"
+#include "code_z_1.h"
 
 // Copy colors (srcPalette -> gObjPalette) and mask them using gRgbMap
 void CopyObjPaletteMasked(const ColorRaw *srcPalette, u8 destObjPaletteColorOffset, u16 numColors)
@@ -53,13 +54,13 @@ void InvertRgbMap(void)
     }
 }
 
-void sub_80C470C(s8 *arg0)
+void sub_80C470C(MaskingColors *arg0)
 {
     u8 i;
 
     // NOTE(Jace): For 32bit RGBA, these could just simply be set without shifts + masking!
     for (i = 0; i < ARRAY_COUNT(gRgbMap[0]); i++) {
-        s32 color = (gRgbMap[R_CHANNEL][i] >> R_SHIFT) + arg0[0];
+        s32 color = (gRgbMap[R_CHANNEL][i] >> R_SHIFT) + arg0->r;
         if (color < 0) {
             gRgbMap[R_CHANNEL][i] = 0;
         } else if (color > COLOR_MASK) {
@@ -72,7 +73,7 @@ void sub_80C470C(s8 *arg0)
 #endif
         }
 
-        color = (gRgbMap[G_CHANNEL][i] >> G_SHIFT) + arg0[1];
+        color = (gRgbMap[G_CHANNEL][i] >> G_SHIFT) + arg0->g;
         if (color < 0) {
             gRgbMap[G_CHANNEL][i] = 0;
         } else if (color > COLOR_MASK) {
@@ -81,7 +82,7 @@ void sub_80C470C(s8 *arg0)
             gRgbMap[G_CHANNEL][i] = (color << G_SHIFT) & G_MASK;
         }
 
-        color = (gRgbMap[B_CHANNEL][i] >> B_SHIFT) + arg0[2];
+        color = (gRgbMap[B_CHANNEL][i] >> B_SHIFT) + arg0->b;
         if (color < 0) {
             gRgbMap[B_CHANNEL][i] = 0;
         } else if (color > COLOR_MASK) {
@@ -92,80 +93,65 @@ void sub_80C470C(s8 *arg0)
     }
 }
 
-#if 0
-void sub_80C47C0(void *arg0) {
+void sub_80C47C0(MaskingColors *arg0)
+{
     s32 sp0;
-    s16 *temp_r7;
-    s16 temp_r4;
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r0_5;
-    s32 temp_r0_6;
-    s32 temp_r5;
-    s32 temp_r5_2;
-    s32 temp_r5_3;
-    s32 var_r0;
-    s32 var_r6;
-    u16 *temp_r6;
-    u16 *temp_r6_2;
-    u16 var_r0_2;
-    u16 var_r0_3;
-    u8 temp_r0_7;
+    ColorRawSigned signedFullColor;
+    float temp_r0;
+#if USING_ABGR_1555_COLORS
+    float color;
+#else
+    double color;
+#endif
+    float colorG;
+    float colorB;
+    s32 newColor;
+    u8 i;
 
-    sp0 = 0;
-loop_1:
-    temp_r5 = sp0 * 2;
-    temp_r7 = temp_r5 + &gRgbMap;
-    temp_r4 = *temp_r7;
-    temp_r0 = __floatsisf(temp_r4);
-    var_r6 = temp_r0;
-    if ((s32) temp_r4 < 0) {
-        var_r6 = __addsf3(temp_r0, 0x47800000);
-    }
-    temp_r0_2 = __floatsisf((s16) arg0->unk0);
-    __subsf3(__mulsf3(var_r6, __mulsf3(__addsf3(temp_r0_2, 0x41800000), 0x3D800000)), temp_r0_2);
-    var_r0 = __fixsfsi();
-    if (var_r0 < 0) {
-        var_r0 = 0;
-    } else if (var_r0 > 0x1F) {
-        var_r0 = 0x1F;
-    }
-    *temp_r7 = (s16) var_r0;
-    temp_r6 = temp_r5 + (&gRgbMap + 0x40);
-    temp_r5_2 = __floatsisf((s16) ((u16) *temp_r6 >> 5));
-    temp_r0_3 = __floatsisf((s16) arg0->unk1);
-    __subsf3(__mulsf3(temp_r5_2, __mulsf3(__addsf3(temp_r0_3, 0x41800000), 0x3D800000)), temp_r0_3);
-    temp_r0_4 = __fixsfsi();
-    if (temp_r0_4 < 0) {
-        var_r0_2 = 0;
-    } else if (temp_r0_4 > 0x1F) {
-        var_r0_2 = 0x3E0;
-    } else {
-        var_r0_2 = (temp_r0_4 << 5) & 0x3E0;
-    }
-    *temp_r6 = var_r0_2;
-    temp_r6_2 = temp_r5 + (&gRgbMap + 0x80);
-    temp_r5_3 = __floatsisf((s16) ((u16) *temp_r6_2 >> 0xA));
-    temp_r0_5 = __floatsisf((s16) arg0->unk2);
-    __subsf3(__mulsf3(temp_r5_3, __mulsf3(__addsf3(temp_r0_5, 0x41800000), 0x3D800000)), temp_r0_5);
-    temp_r0_6 = __fixsfsi();
-    if (temp_r0_6 < 0) {
-        var_r0_3 = 0;
-    } else if (temp_r0_6 > 0x1F) {
-        var_r0_3 = 0x7C00;
-    } else {
-        var_r0_3 = (temp_r0_6 << 0xA) & 0x7C00;
-    }
-    *temp_r6_2 = var_r0_3;
-    temp_r0_7 = sp0 + 1;
-    sp0 = (s32) temp_r0_7;
-    if ((u32) temp_r0_7 <= 0x1FU) {
-        goto loop_1;
+    for (i = 0; i < ARRAY_COUNT(gRgbMap[R_CHANNEL]); i++) {
+        signedFullColor = gRgbMap[R_CHANNEL][i];
+        color = signedFullColor;
+        if (signedFullColor < 0) {
+#if USING_ABGR_1555_COLORS
+            color += (float)(USHRT_MAX + 1);
+#else
+            // TODO: This should only be run on platforms using 32bit RGBA colors, to prevent overflows.
+            color = (float)((double)color + (double)(UINT_MAX + 1));
+#endif
+        }
+
+        newColor = ((color * ((arg0->r + 16.0f) / 16.f)) - (float)arg0->r);
+        if (newColor < 0) {
+            gRgbMap[R_CHANNEL][i] = 0;
+        } else if (newColor > COLOR_MASK) {
+            gRgbMap[R_CHANNEL][i] = R_MASK;
+        } else {
+            gRgbMap[R_CHANNEL][i] = newColor;
+        }
+
+        colorG = (gRgbMap[G_CHANNEL][i] >> G_SHIFT);
+        newColor = ((colorG * ((arg0->g + 16.0f) / 16.f)) - (float)arg0->g);
+        if (newColor < 0) {
+            gRgbMap[G_CHANNEL][i] = 0;
+        } else if (newColor > COLOR_MASK) {
+            gRgbMap[G_CHANNEL][i] = G_MASK;
+        } else {
+            gRgbMap[G_CHANNEL][i] = (newColor << G_SHIFT) & G_MASK;
+        }
+
+        colorB = (gRgbMap[B_CHANNEL][i] >> B_SHIFT);
+        newColor = ((colorB * ((arg0->b + 16.0f) / 16.f)) - (float)arg0->b);
+        if (newColor < 0) {
+            gRgbMap[B_CHANNEL][i] = 0;
+        } else if (newColor > COLOR_MASK) {
+            gRgbMap[B_CHANNEL][i] = B_MASK;
+        } else {
+            gRgbMap[B_CHANNEL][i] = (newColor << B_SHIFT) & B_MASK;
+        }
     }
 }
 
+#if 0
 void sub_80C492C(void *arg0) {
     s16 *temp_r6;
     s16 temp_r4;
@@ -188,9 +174,9 @@ void sub_80C492C(void *arg0) {
         temp_r4 = *temp_r6;
         var_r0 = __floatsisf(temp_r4);
         if ((s32) temp_r4 < 0) {
-            var_r0 = __addsf3(var_r0, 0x47800000);
+            var_r0 = __addsf3(var_r0, (float)(USHRT_MAX+1));
         }
-        __mulsf3(powf(__divsf3(var_r0, 0x41F80000), arg0->unk0), 0x41F80000);
+        __mulsf3(powf(__divsf3(var_r0, 31.0), arg0->unk0), 31.0);
         var_r0_2 = __fixsfsi();
         if (var_r0_2 < 0) {
             var_r0_2 = 0;
@@ -199,7 +185,7 @@ void sub_80C492C(void *arg0) {
         }
         *temp_r6 = (s16) var_r0_2;
         temp_r4_2 = temp_r5 + (&gRgbMap + 0x40);
-        __mulsf3(powf(__divsf3(__floatsisf((s16) ((u16) *temp_r4_2 >> 5)), 0x41F80000), arg0->unk4), 0x41F80000);
+        __mulsf3(powf(__divsf3(__floatsisf((s16) ((u16) *temp_r4_2 >> 5)), 31.0), arg0->unk4), 31.0);
         temp_r0_2 = __fixsfsi();
         if (temp_r0_2 < 0) {
             var_r0_3 = 0;
@@ -210,7 +196,7 @@ void sub_80C492C(void *arg0) {
         }
         *temp_r4_2 = var_r0_3;
         temp_r5_2 = temp_r5 + (&gRgbMap + 0x80);
-        __mulsf3(powf(__divsf3(__floatsisf((s16) ((u16) *temp_r5_2 >> 0xA)), 0x41F80000), arg0->unk8), 0x41F80000);
+        __mulsf3(powf(__divsf3(__floatsisf((s16) ((u16) *temp_r5_2 >> 0xA)), 31.0), arg0->unk8), 31.0);
         temp_r0_3 = __fixsfsi();
         if (temp_r0_3 < 0) {
             var_r0_4 = 0;
