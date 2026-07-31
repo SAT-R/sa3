@@ -206,33 +206,26 @@ void sub_80C492C(MaskingColorsFloat *arg0)
     }
 }
 
-#if 0
-void sub_80C4A30(s32 arg0, u8 arg1, u16 arg2) {
-    u16 *temp_r4;
-    u16 temp_r3;
-    u16 temp_r6;
-    u16 var_r0;
-    u16 var_r5;
-    u32 temp_r1;
+void sub_80C4A30(ColorRaw *palette, u8 colorOffset, u16 numColors)
+{
+    u16 i;
 
-    temp_r6 = arg2;
-    var_r5 = 0;
-    if ((u32) temp_r6 > 0U) {
-        do {
-            temp_r4 = ((arg1 + var_r5) * 2) + arg0;
-            temp_r3 = *temp_r4;
-            temp_r1 = (u32) (((0x4D * (0x1F & temp_r3)) + (0x96 * ((u32) (0x3E0 & temp_r3) >> 5)) + (((u32) (0x7C00 & temp_r3) >> 0xA) * 0x1D)) << 8) >> 0x10;
-            if (temp_r1 > 0x1FU) {
-                var_r0 = 0x7FFF;
+    for (i = 0; i < numColors; i++) {
+        {
+            ColorRaw color;
+            color = I((77 * ((R_MASK & palette[colorOffset + i]) >> R_SHIFT)) //
+                      + (150 * ((G_MASK & palette[colorOffset + i]) >> G_SHIFT)) //
+                      + (29 * ((B_MASK & palette[colorOffset + i]) >> B_SHIFT)));
+            if (color > COLOR_MASK) {
+                palette[colorOffset + i] = RGB_WHITE;
             } else {
-                var_r0 = (temp_r1 << 5) | temp_r1 | (temp_r1 << 0xA);
+                palette[colorOffset + i] = (color << R_SHIFT) | (color << G_SHIFT) | (color << B_SHIFT);
             }
-            *temp_r4 = var_r0;
-            var_r5 += 1;
-        } while ((u32) var_r5 < (u32) temp_r6);
+        }
     }
 }
 
+#if 0
 void sub_80C4AB8(s32 arg0, u8 arg1, u16 arg2) {
     u16 *temp_r5;
     u16 temp_r2;
