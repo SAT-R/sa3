@@ -207,12 +207,12 @@ bool32 sub_805EEB4(BuBu *enemy)
         for (i = 0; i < 32; i++) {
             if (strc->unk28[i].unkC != 0) {
                 mat0 = 1;
-                if (temp_sb - 8 >= I(strc->unk28[i].unk0)) {
+                if (temp_sb - 8 >= I(strc->unk28[i].qWorldX)) {
                     strc->unk28[i].unk8 += 0x40;
                     if (strc->unk28[i].unk8 > +Q(3)) {
                         strc->unk28[i].unk8 = +Q(3);
                     }
-                } else if (temp_sb + 8 <= I(strc->unk28[i].unk0)) {
+                } else if (temp_sb + 8 <= I(strc->unk28[i].qWorldX)) {
                     strc->unk28[i].unk8 -= 0x40;
                     if (strc->unk28[i].unk8 < -Q(3)) {
                         strc->unk28[i].unk8 = -Q(3);
@@ -221,12 +221,12 @@ bool32 sub_805EEB4(BuBu *enemy)
                     mat1 = 1;
                 }
 
-                if (temp_r2 - 8 >= I(strc->unk28[i].unk4)) {
+                if (temp_r2 - 8 >= I(strc->unk28[i].qWorldY)) {
                     strc->unk28[i].unkA += 0x40;
                     if (strc->unk28[i].unkA > +Q(3)) {
                         strc->unk28[i].unkA = +Q(3);
                     }
-                } else if (temp_r2 + 8 <= I(strc->unk28[i].unk4)) {
+                } else if (temp_r2 + 8 <= I(strc->unk28[i].qWorldY)) {
                     strc->unk28[i].unkA -= 0x40;
                     if (strc->unk28[i].unkA < -Q(3)) {
                         strc->unk28[i].unkA = -Q(3);
@@ -237,7 +237,7 @@ bool32 sub_805EEB4(BuBu *enemy)
 
                 if ((mat1 == 1) && (mat2 == 1)) {
                     // // NOTE: this *should* take s16 parameters, see comment inside CreateCollectRingEffect for more details!
-                    CreateCollectRingEffect(I(strc->unk28[i].unk0), I(strc->unk28[i].unk4));
+                    CreateCollectRingEffect(I(strc->unk28[i].qWorldX), I(strc->unk28[i].qWorldY));
                 }
             }
         }

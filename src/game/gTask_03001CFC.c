@@ -82,7 +82,7 @@ void Create_gTask_03001CFC(void)
 NONMATCH("asm/non_matching/game/c031__sub_802AE64.inc", void sub_802AE64(Player *p, s16 arg1))
 {
     Strc_3001CFC *temp_sb;
-    Strc_3001CFC_sub *var_r4;
+    Strc_3001CFC_sub *sub;
     s32 var_r6;
     s32 var_r7;
     s32 temp_r1;
@@ -95,7 +95,7 @@ NONMATCH("asm/non_matching/game/c031__sub_802AE64.inc", void sub_802AE64(Player 
     s32 r1;
 
     temp_sb = TASK_DATA(gTask_03001CFC);
-    var_r4 = temp_sb->unk28;
+    sub = temp_sb->unk28;
     var_r6 = 0;
     var_r7 = 0;
     if (arg1 == 0) {
@@ -126,13 +126,13 @@ NONMATCH("asm/non_matching/game/c031__sub_802AE64.inc", void sub_802AE64(Player 
 
     var_r3 = 0x488;
     temp_sb->unk2B0 = GetBit(p->moveState, 16);
-    for (var_sb = 0, var_ip = 0; var_sb < 32; var_sb++, var_r4++) {
+    for (var_sb = 0, var_ip = 0; var_sb < 32; var_sb++, sub++) {
         {
-            if (var_r4->unkC == 0) {
-                var_r4->unkC = 0xB4;
-                var_r4->unkE = (u16)p->layer;
-                var_r4->unk0 = p->qWorldX;
-                var_r4->unk4 = p->qWorldY;
+            if (sub->unkC == 0) {
+                sub->unkC = 0xB4;
+                sub->unkE = (u16)p->layer;
+                sub->qWorldX = p->qWorldX;
+                sub->qWorldY = p->qWorldY;
                 if (var_r3 >= 0) {
                     temp_r2 = var_r3 >> 8;
                     if (temp_r2 > 5) {
@@ -149,18 +149,18 @@ NONMATCH("asm/non_matching/game/c031__sub_802AE64.inc", void sub_802AE64(Player 
                     var_r3 = (var_r3 + 0x10) | 0x80;
                 }
 
-                var_r4->unk8 = var_r6;
-                var_r4->unkA = var_r7;
+                sub->unk8 = var_r6;
+                sub->unkA = var_r7;
                 if (p->moveState & 0x10000) {
-                    var_r4->unkA = -var_r4->unkA;
+                    sub->unkA = -sub->unkA;
                 }
                 var_r3 = 0 - var_r3;
                 var_r6 = 0 - var_r6;
-                var_r4->unk10 = 0;
+                sub->unk10 = 0;
                 if (!(PseudoRandom32() & 0x10000)) {
-                    var_r4->unk10 = 4;
+                    sub->unk10 = 4;
                 }
-                var_r4->unk10 |= var_ip & 3;
+                sub->unk10 |= var_ip & 3;
                 if (++var_ip >= arg1)
                     break;
             }
@@ -169,7 +169,7 @@ NONMATCH("asm/non_matching/game/c031__sub_802AE64.inc", void sub_802AE64(Player 
 }
 END_NONMATCH
 
-void sub_802AFFC(Strc_3001CFC *arg0, Strc_3001CFC_sub *arg1, s32 arg2, s32 arg3)
+void sub_802AFFC(Strc_3001CFC *arg0, Strc_3001CFC_sub *sub, s32 arg2, s32 arg3)
 {
     s16 temp_r0;
     s32 temp_r0_2;
@@ -179,59 +179,58 @@ void sub_802AFFC(Strc_3001CFC *arg0, Strc_3001CFC_sub *arg1, s32 arg2, s32 arg3)
     u16 temp_r1;
 
     temp_r7 = arg0->unk2A8;
-    temp_r0 = arg1->unkA;
+    temp_r0 = sub->unkA;
     if ((s32)temp_r0 > 0) {
-        if (!(7 & arg1->unk10)) {
-            temp_r0_2 = sa2__sub_801F100(arg3, arg2, (s32)(s16)arg1->unkE, 8, sa2__sub_801EC3C);
+        if (!(7 & sub->unk10)) {
+            temp_r0_2 = SA2_LABEL(sub_801F100)(arg3, arg2, (s32)(s16)sub->unkE, 8, SA2_LABEL(sub_801EC3C));
             if (temp_r0_2 <= 0) {
-                var_r0 = arg1->unk4 + (temp_r0_2 << 8);
-                arg1->unk4 = var_r0;
-                arg1->unkA = (arg1->unkA >> 2) - arg1->unkA; // *= -75%
+                var_r0 = sub->qWorldY + (temp_r0_2 << 8);
+                sub->qWorldY = var_r0;
+                sub->unkA = (sub->unkA >> 2) - sub->unkA; // *= -75%
             }
         }
-    } else if (((s32)temp_r0 < 0) && (1 & (u16)arg0->unk2AE) && !(7 & arg1->unk10)) {
-        temp_r0_3 = sa2__sub_801F100(arg3 - 0x10, arg2, (s32)(s16)arg1->unkE, -8, sa2__sub_801EC3C);
+    } else if (((s32)temp_r0 < 0) && (1 & (u16)arg0->unk2AE) && !(7 & sub->unk10)) {
+        temp_r0_3 = SA2_LABEL(sub_801F100)(arg3 - 0x10, arg2, (s32)(s16)sub->unkE, -8, SA2_LABEL(sub_801EC3C));
         if (temp_r0_3 <= 0) {
-            var_r0 = arg1->unk4 - (temp_r0_3 << 8);
+            var_r0 = sub->qWorldY - (temp_r0_3 << 8);
         block_9:
-            arg1->unk4 = var_r0;
-            arg1->unkA = (arg1->unkA >> 2) - arg1->unkA; // *= -75%
+            sub->qWorldY = var_r0;
+            sub->unkA = (sub->unkA >> 2) - sub->unkA; // *= -75%
         }
     }
-    arg1->unkA = (u16)arg1->unkA + temp_r7;
+    sub->unkA += temp_r7;
 }
 
-void sub_802B0A4(Strc_3001CFC *arg0, Strc_3001CFC_sub *arg1, s32 arg2, s32 arg3)
+void sub_802B0A4(Strc_3001CFC *arg0, Strc_3001CFC_sub *sub, s32 arg2, s32 arg3)
 {
     s32 temp_r0;
     s32 temp_r0_2;
-    s32 temp_r8;
     u16 temp_r1;
     u16 temp_r1_2;
+    s32 temp_r8 = arg0->unk2A8;
 
-    temp_r8 = arg0->unk2A8;
-    if (((s32)arg1->unkA < 0) && !(7 & arg1->unk10)) {
-        temp_r0 = sa2__sub_801F100(arg3 - 0x10, arg2, (s32)(s16)arg1->unkE, -8, sa2__sub_801EC3C);
+    if (((s32)sub->unkA < 0) && !(7 & sub->unk10)) {
+        temp_r0 = SA2_LABEL(sub_801F100)(arg3 - 0x10, arg2, (s32)(s16)sub->unkE, -8, SA2_LABEL(sub_801EC3C));
         if (temp_r0 <= 0) {
-            arg1->unk4 -= temp_r0 << 8;
-            temp_r1 = (u16)arg1->unkA;
-            arg1->unkA = ((s32)(temp_r1 << 0x10) >> 0x12) - temp_r1;
+            sub->qWorldY -= temp_r0 << 8;
+            temp_r1 = (u16)sub->unkA;
+            sub->unkA = ((s32)(temp_r1 << 0x10) >> 0x12) - temp_r1;
         }
     }
-    if ((1 & (u16)arg0->unk2AE) && ((s32)arg1->unkA > 0) && !(7 & arg1->unk10)) {
-        temp_r0_2 = sa2__sub_801F100(arg3, arg2, (s32)(s16)arg1->unkE, 8, sa2__sub_801EC3C);
+    if ((1 & (u16)arg0->unk2AE) && ((s32)sub->unkA > 0) && !(7 & sub->unk10)) {
+        temp_r0_2 = SA2_LABEL(sub_801F100)(arg3, arg2, (s32)(s16)sub->unkE, 8, SA2_LABEL(sub_801EC3C));
         if (temp_r0_2 <= 0) {
-            arg1->unk4 += temp_r0_2 << 8;
-            temp_r1_2 = (u16)arg1->unkA;
-            arg1->unkA = ((s32)(temp_r1_2 << 0x10) >> 0x12) - temp_r1_2;
+            sub->qWorldY += temp_r0_2 << 8;
+            temp_r1_2 = (u16)sub->unkA;
+            sub->unkA = ((s32)(temp_r1_2 << 0x10) >> 0x12) - temp_r1_2;
         }
     }
-    arg1->unkA = (u16)arg1->unkA - temp_r8;
+    sub->unkA -= temp_r8;
 }
 
-void sub_802B160(Strc_3001CFC *arg0, Strc_3001CFC_sub *arg1, s32 arg2, s32 arg3)
+void sub_802B160(Strc_3001CFC *arg0, Strc_3001CFC_sub *sub, s32 arg2, s32 arg3)
 {
-    if (((u32)(arg2 + 7) < 255) && (arg3 > -8) && (arg3 < 0xA8) && (((u32)arg1->unkC > 0x1FU) || !(gStageData.timer & 2))) {
+    if (((u32)(arg2 + 7) < 255) && (arg3 > -8) && (arg3 < 0xA8) && (((u32)sub->unkC > 0x1FU) || !(gStageData.timer & 2))) {
         arg0->s.oamBaseIndex = 0xFF;
         arg0->s.x = arg2;
         arg0->s.y = (s16)arg3;
@@ -239,7 +238,7 @@ void sub_802B160(Strc_3001CFC *arg0, Strc_3001CFC_sub *arg1, s32 arg2, s32 arg3)
     }
 }
 
-void sub_802B1A0(Strc_3001CFC *arg0, Strc_3001CFC_sub *arg1, s32 arg2, s32 arg3)
+void sub_802B1A0(Strc_3001CFC *arg0, Strc_3001CFC_sub *sub, s32 arg2, s32 arg3)
 {
     s32 sp0;
     Player *p;
@@ -258,7 +257,7 @@ void sub_802B1A0(Strc_3001CFC *arg0, Strc_3001CFC_sub *arg1, s32 arg2, s32 arg3)
     for (pid = 0; pid < 2; pid++) {
         p = GET_SP_PLAYER_V0(pid);
         temp_r4 = p->spriteInfoBody;
-        if (((p->charFlags.someIndex != 2) || !(gPlayers[p->charFlags.partnerIndex].moveState & MOVESTATE_DEAD)) && ((s32)arg1->unkC <= sp0)
+        if (((p->charFlags.someIndex != 2) || !(gPlayers[p->charFlags.partnerIndex].moveState & MOVESTATE_DEAD)) && ((s32)sub->unkC <= sp0)
             && ((p->charFlags.anim0 != 0x66) || (p->framesInvulnerable == 0)) && !(p->moveState & MOVESTATE_DEAD)) {
             Rect8 *b = &temp_r4->s.hitboxes[0].b;
             if ((arg2 - 8) <= (I(p->qWorldX) + b->left)) {
@@ -290,7 +289,7 @@ void sub_802B1A0(Strc_3001CFC *arg0, Strc_3001CFC_sub *arg1, s32 arg2, s32 arg3)
                     if ((pid == 0) || ((p->charFlags.someIndex == 2)) || (p->charFlags.someIndex == 5)) {
                         AddRings(1U);
                     }
-                    arg1->unkC = 1;
+                    sub->unkC = 1;
                     return;
                 }
             }
@@ -300,7 +299,7 @@ void sub_802B1A0(Strc_3001CFC *arg0, Strc_3001CFC_sub *arg1, s32 arg2, s32 arg3)
 
 void sub_802B2F8(void)
 {
-    Strc_3001CFC_sub *var_r7;
+    Strc_3001CFC_sub *sub;
     s32 temp_r8;
     s32 temp_r4;
     s32 temp_r4_2;
@@ -311,30 +310,30 @@ void sub_802B2F8(void)
     u16 temp_r1;
     Strc_3001CFC *strc = TASK_DATA(gCurTask);
 
-    var_r7 = strc->unk28;
+    sub = strc->unk28;
     UpdateSpriteAnimation(&strc->s);
 
-    for (var_sl = 0; var_sl < (s32)ARRAY_COUNT(strc->unk28); var_r7++, var_sl++) {
-        if (var_r7->unkC != 0) {
-            var_r7->unk0 += var_r7->unk8;
-            var_r7->unk4 += var_r7->unkA;
-            temp_r5_2 = I(var_r7->unk0);
-            temp_r4_2 = I(var_r7->unk4);
+    for (var_sl = 0; var_sl < (s32)ARRAY_COUNT(strc->unk28); sub++, var_sl++) {
+        if (sub->unkC != 0) {
+            sub->qWorldX += sub->unk8;
+            sub->qWorldY += sub->unkA;
+            temp_r5_2 = I(sub->qWorldX);
+            temp_r4_2 = I(sub->qWorldY);
             temp_r8 = temp_r5_2 - tempGetCamX();
             temp_r6 = temp_r4_2 - tempGetCamY();
-            sub_802B1A0(strc, var_r7, temp_r5_2, temp_r4_2);
-            sub_802B0A4(strc, var_r7, temp_r5_2, temp_r4_2);
-            sub_802B160(strc, var_r7, temp_r8, temp_r6);
-            temp_r1 = var_r7->unk10;
-            var_r7->unk10 = (var_r7->unk10 & ~3) | ((var_r7->unk10 + 1) & 3);
-            var_r7->unkC -= 1;
+            sub_802B1A0(strc, sub, temp_r5_2, temp_r4_2);
+            sub_802B0A4(strc, sub, temp_r5_2, temp_r4_2);
+            sub_802B160(strc, sub, temp_r8, temp_r6);
+            temp_r1 = sub->unk10;
+            sub->unk10 = (sub->unk10 & ~3) | ((sub->unk10 + 1) & 3);
+            sub->unkC -= 1;
         }
     }
 }
 
 void sub_802B3B8()
 {
-    Strc_3001CFC_sub *var_r7;
+    Strc_3001CFC_sub *sub;
     s32 temp_r8;
     s32 temp_r4;
     s32 temp_r4_2;
@@ -346,30 +345,30 @@ void sub_802B3B8()
 
     Strc_3001CFC *strc = TASK_DATA(gCurTask);
 
-    var_r7 = strc->unk28;
+    sub = strc->unk28;
     UpdateSpriteAnimation(&strc->s);
 
-    for (var_sl = 0; var_sl < (s32)ARRAY_COUNT(strc->unk28); var_sl++, var_r7++) {
-        if (var_r7->unkC != 0) {
-            var_r7->unk0 += var_r7->unk8;
-            var_r7->unk4 += var_r7->unkA;
-            temp_r5_2 = I(var_r7->unk0);
-            temp_r4_2 = I(var_r7->unk4);
+    for (var_sl = 0; var_sl < (s32)ARRAY_COUNT(strc->unk28); var_sl++, sub++) {
+        if (sub->unkC != 0) {
+            sub->qWorldX += sub->unk8;
+            sub->qWorldY += sub->unkA;
+            temp_r5_2 = I(sub->qWorldX);
+            temp_r4_2 = I(sub->qWorldY);
             temp_r8 = temp_r5_2 - tempGetCamX();
             temp_r6 = temp_r4_2 - tempGetCamY();
-            sub_802B1A0(strc, var_r7, temp_r5_2, temp_r4_2);
-            sub_802AFFC(strc, var_r7, temp_r5_2, temp_r4_2);
-            sub_802B160(strc, var_r7, temp_r8, temp_r6);
-            temp_r1 = var_r7->unk10;
-            var_r7->unk10 = (var_r7->unk10 & ~3) | ((var_r7->unk10 + 1) & 3);
-            var_r7->unkC -= 1;
+            sub_802B1A0(strc, sub, temp_r5_2, temp_r4_2);
+            sub_802AFFC(strc, sub, temp_r5_2, temp_r4_2);
+            sub_802B160(strc, sub, temp_r8, temp_r6);
+            temp_r1 = sub->unk10;
+            sub->unk10 = (sub->unk10 & ~3) | ((sub->unk10 + 1) & 3);
+            sub->unkC -= 1;
         }
     }
 }
 
 void sub_802B478()
 {
-    Strc_3001CFC_sub *var_r7;
+    Strc_3001CFC_sub *sub;
     s32 temp_r8;
     s32 temp_r4;
     s32 temp_r4_2;
@@ -380,30 +379,30 @@ void sub_802B478()
     u16 temp_r1;
     Strc_3001CFC *strc = TASK_DATA(gCurTask);
 
-    var_r7 = strc->unk28;
+    sub = strc->unk28;
     UpdateSpriteAnimation(&strc->s);
 
-    for (var_sl = 0; var_sl < (s32)ARRAY_COUNT(strc->unk28); var_r7++, var_sl++) {
-        if (var_r7->unkC != 0) {
-            var_r7->unk0 += var_r7->unk8;
-            var_r7->unk4 += var_r7->unkA;
-            temp_r5_2 = I(var_r7->unk0);
-            temp_r4_2 = I(var_r7->unk4);
+    for (var_sl = 0; var_sl < (s32)ARRAY_COUNT(strc->unk28); sub++, var_sl++) {
+        if (sub->unkC != 0) {
+            sub->qWorldX += sub->unk8;
+            sub->qWorldY += sub->unkA;
+            temp_r5_2 = I(sub->qWorldX);
+            temp_r4_2 = I(sub->qWorldY);
             temp_r8 = temp_r5_2 - tempGetCamX();
             temp_r6 = temp_r4_2 - tempGetCamY();
-            sub_802B1A0(strc, var_r7, temp_r5_2, temp_r4_2);
-            sub_802B0A4(strc, var_r7, temp_r5_2, temp_r4_2);
-            sub_802B160(strc, var_r7, temp_r8, temp_r6);
-            temp_r1 = var_r7->unk10;
-            var_r7->unk10 = (var_r7->unk10 & ~3) | ((var_r7->unk10 + 1) & 3);
-            var_r7->unkC -= 1;
+            sub_802B1A0(strc, sub, temp_r5_2, temp_r4_2);
+            sub_802B0A4(strc, sub, temp_r5_2, temp_r4_2);
+            sub_802B160(strc, sub, temp_r8, temp_r6);
+            temp_r1 = sub->unk10;
+            sub->unk10 = (sub->unk10 & ~3) | ((sub->unk10 + 1) & 3);
+            sub->unkC -= 1;
         }
     }
 }
 
 void sub_802B538(void)
 {
-    Strc_3001CFC_sub *var_r7;
+    Strc_3001CFC_sub *sub;
     s32 temp_r8;
     s32 temp_r4;
     s32 temp_r4_2;
@@ -414,30 +413,29 @@ void sub_802B538(void)
     u16 temp_r1;
     Strc_3001CFC *strc = TASK_DATA(gCurTask);
 
-    var_r7 = strc->unk28;
+    sub = strc->unk28;
     UpdateSpriteAnimation(&strc->s);
 
-    for (var_sl = 0; var_sl < (s32)ARRAY_COUNT(strc->unk28); var_r7++, var_sl++) {
-        if (var_r7->unkC != 0) {
-            var_r7->unk0 += var_r7->unk8;
-            var_r7->unk4 += var_r7->unkA;
-            temp_r5_2 = I(var_r7->unk0);
-            temp_r4_2 = I(var_r7->unk4);
+    for (var_sl = 0; var_sl < (s32)ARRAY_COUNT(strc->unk28); sub++, var_sl++) {
+        if (sub->unkC != 0) {
+            sub->qWorldX += sub->unk8;
+            sub->qWorldY += sub->unkA;
+            temp_r5_2 = I(sub->qWorldX);
+            temp_r4_2 = I(sub->qWorldY);
             temp_r8 = temp_r5_2 - tempGetCamX();
             temp_r6 = temp_r4_2 - tempGetCamY();
-            sub_802B1A0(strc, var_r7, temp_r5_2, temp_r4_2);
-            sub_802AFFC(strc, var_r7, temp_r5_2, temp_r4_2);
-            sub_802B160(strc, var_r7, temp_r8, temp_r6);
-            temp_r1 = var_r7->unk10;
-            var_r7->unk10 = (var_r7->unk10 & ~3) | ((var_r7->unk10 + 1) & 3);
-            var_r7->unkC -= 1;
+            sub_802B1A0(strc, sub, temp_r5_2, temp_r4_2);
+            sub_802AFFC(strc, sub, temp_r5_2, temp_r4_2);
+            sub_802B160(strc, sub, temp_r8, temp_r6);
+            temp_r1 = sub->unk10;
+            sub->unk10 = (sub->unk10 & ~3) | ((sub->unk10 + 1) & 3);
+            sub->unkC -= 1;
         }
     }
 }
 
 void Task_802B5F8()
 {
-    Strc_3001CFC_sub *var_r7;
     s32 temp_r8;
     s32 temp_r4_2;
     s32 temp_r5_2;
@@ -446,24 +444,24 @@ void Task_802B5F8()
     u16 temp_r1;
 
     Strc_3001CFC *strc = TASK_DATA(gCurTask);
+    Strc_3001CFC_sub *sub = strc->unk28;
 
-    var_r7 = strc->unk28;
     UpdateSpriteAnimation(&strc->s);
 
-    for (var_sl = 0; var_sl < (s32)ARRAY_COUNT(strc->unk28); var_r7++, var_sl++) {
-        if (var_r7->unkC != 0) {
-            var_r7->unk0 += var_r7->unk8;
-            var_r7->unk4 += var_r7->unkA;
-            temp_r5_2 = I(var_r7->unk0);
-            temp_r4_2 = I(var_r7->unk4);
+    for (var_sl = 0; var_sl < (s32)ARRAY_COUNT(strc->unk28); sub++, var_sl++) {
+        if (sub->unkC != 0) {
+            sub->qWorldX += sub->unk8;
+            sub->qWorldY += sub->unkA;
+            temp_r5_2 = I(sub->qWorldX);
+            temp_r4_2 = I(sub->qWorldY);
             temp_r8 = temp_r5_2 - tempGetCamX();
             temp_r6 = temp_r4_2 - tempGetCamY();
-            sub_802B1A0(strc, var_r7, temp_r5_2, temp_r4_2);
-            sub_802AFFC(strc, var_r7, temp_r5_2, temp_r4_2);
-            sub_802B160(strc, var_r7, temp_r8, temp_r6);
-            temp_r1 = var_r7->unk10;
-            var_r7->unk10 = (var_r7->unk10 & ~3) | ((var_r7->unk10 + 1) & 3);
-            var_r7->unkC -= 1;
+            sub_802B1A0(strc, sub, temp_r5_2, temp_r4_2);
+            sub_802AFFC(strc, sub, temp_r5_2, temp_r4_2);
+            sub_802B160(strc, sub, temp_r8, temp_r6);
+            temp_r1 = sub->unk10;
+            sub->unk10 = (sub->unk10 & ~3) | ((sub->unk10 + 1) & 3);
+            sub->unkC -= 1;
         }
     }
 }
@@ -476,16 +474,16 @@ void sub_802B6B8(void)
 
 void sub_802B6D0(u16 arg0, u16 arg1)
 {
-    Strc_3001CFC_sub *var_r2;
+    Strc_3001CFC_sub *sub;
     s32 var_r3;
 
     if (gTask_03001CFC != NULL) {
         Strc_3001CFC *strc = TASK_DATA(gTask_03001CFC);
-        var_r2 = strc->unk28;
-        for (var_r3 = 0; var_r3 < (s32)ARRAY_COUNT(strc->unk28); var_r3++, var_r2++) {
-            if (var_r2->unkC != 0) {
-                var_r2->unk0 += (s32)(arg0 << 0x10) >> 8;
-                var_r2->unk4 += (s32)(arg1 << 0x10) >> 8;
+        sub = strc->unk28;
+        for (var_r3 = 0; var_r3 < (s32)ARRAY_COUNT(strc->unk28); var_r3++, sub++) {
+            if (sub->unkC != 0) {
+                sub->qWorldX += (s32)(arg0 << 0x10) >> 8;
+                sub->qWorldY += (s32)(arg1 << 0x10) >> 8;
             }
         }
     }

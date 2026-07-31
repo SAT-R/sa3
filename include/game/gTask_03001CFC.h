@@ -1,7 +1,7 @@
 
 typedef struct Strc_3001CFC_sub {
-    /* 0x00 */ s32 unk0;
-    /* 0x04 */ s32 unk4;
+    /* 0x00 */ s32 qWorldX;
+    /* 0x04 */ s32 qWorldY;
     /* 0x08 */ s16 unk8;
     /* 0x0A */ s16 unkA;
     /* 0x0C */ u16 unkC;

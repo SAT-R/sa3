@@ -465,8 +465,8 @@ void Task_Boss_8073CE4(void)
     boss->qWorldY += boss->unkC.y;
     boss->unkC.x = 0;
     boss->unkC.y = 0;
-    boss->unk8 = (s16)(-((boss->unk10[boss->unk3C].x - boss->unk10[(boss->unk3C - 1) & 7].x) >> 2));
-    boss->unkA = 0xF800;
+    boss->unk8 = (-((boss->unk10[boss->unk3C].x - boss->unk10[(boss->unk3C - 1) & 7].x) >> 2));
+    boss->unkA = -Q(8);
     boss->unk44 = 0xB4;
     gCamera.maxY = boss->unk64;
     *boss->unk34[0] = 1000;
@@ -1204,13 +1204,4 @@ void sub_8074E18(EggPinballBall *ball)
     DisplaySprite(s);
 }
 
-void sub_8074E4C(EggPinball *boss)
-{
-    boss->unk44 = 0x12C;
-    boss->unk5C[0] = 0;
-    boss->unk5C[1] = 0;
-    boss->unk5C[2] = 0x200;
-    boss->unk5C[3] = 0x200;
-    boss->players[0]->moveState |= 0x08000000;
-    boss->players[1]->moveState |= 0x08000000;
-}
+void sub_8074E4C(EggPinball *boss) { sub_8074E4C_inline(boss); }
