@@ -208,12 +208,12 @@ bool32 sub_805EEB4(BuBu *enemy)
             if (strc->unk28[i].unkC != 0) {
                 mat0 = 1;
                 if (temp_sb - 8 >= I(strc->unk28[i].qWorldX)) {
-                    strc->unk28[i].unk8 += 0x40;
+                    strc->unk28[i].unk8 += Q(0.25);
                     if (strc->unk28[i].unk8 > +Q(3)) {
                         strc->unk28[i].unk8 = +Q(3);
                     }
                 } else if (temp_sb + 8 <= I(strc->unk28[i].qWorldX)) {
-                    strc->unk28[i].unk8 -= 0x40;
+                    strc->unk28[i].unk8 -= Q(0.25);
                     if (strc->unk28[i].unk8 < -Q(3)) {
                         strc->unk28[i].unk8 = -Q(3);
                     }
@@ -222,12 +222,12 @@ bool32 sub_805EEB4(BuBu *enemy)
                 }
 
                 if (temp_r2 - 8 >= I(strc->unk28[i].qWorldY)) {
-                    strc->unk28[i].unkA += 0x40;
+                    strc->unk28[i].unkA += Q(0.25);
                     if (strc->unk28[i].unkA > +Q(3)) {
                         strc->unk28[i].unkA = +Q(3);
                     }
                 } else if (temp_r2 + 8 <= I(strc->unk28[i].qWorldY)) {
-                    strc->unk28[i].unkA -= 0x40;
+                    strc->unk28[i].unkA -= Q(0.25);
                     if (strc->unk28[i].unkA < -Q(3)) {
                         strc->unk28[i].unkA = -Q(3);
                     }

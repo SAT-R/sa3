@@ -44,10 +44,10 @@ typedef struct {
     /* 0x068 */ Player *players[2];
     /* 0x070 */ Sprite spr70;
     /* 0x098 */ Sprite spr98;
-    /* 0x0C0 */ Sprite sprC0;
-    /* 0x0E8 */ Sprite sprE8;
-    /* 0x0E8 */ Sprite spr110;
-    /* 0x0E8 */ Sprite spr138;
+    /* 0x0C0 */ Sprite sprGemerlHead;
+    /* 0x0E8 */ Sprite sprShielding;
+    /* 0x0E8 */ Sprite sprEggman;
+    /* 0x0E8 */ Sprite sprEggman2;
     /* 0x160 */ SpriteTransform tf160;
 } EggPinball; /* 0x16C */
 
@@ -140,18 +140,18 @@ Task *CreateEggPinball(u8 *bossPhase, s32 worldX, s32 worldY)
     s8 var_r0;
     u8 *vram;
     u8 var_r2;
-    Task *t = TaskCreate((void (*)())Task_EggPinballInit, sizeof(EggPinball), 0x2100U, 0U, TaskDestructor_EggPinball);
+    Task *t = TaskCreate(Task_EggPinballInit, sizeof(EggPinball), 0x2100U, 0U, TaskDestructor_EggPinball);
     EggPinball *boss = TASK_DATA(t);
     Sprite *spr70;
     Sprite *spr98;
-    Sprite *sprC0;
-    Sprite *sprE8;
-    Sprite *spr110;
-    Sprite *spr138;
+    Sprite *sprGemerlHead;
+    Sprite *s;
+    Sprite *sprEggman;
+    Sprite *sprEggman2;
     SpriteTransform *tf;
     gStageData.taskBoss = t;
     boss->qWorldX = Q(worldX + 4);
-    boss->qWorldY = Q(worldY) + Q(0xB6);
+    boss->qWorldY = Q(worldY) + Q(182);
     boss->unkC.x = 0;
     boss->unkC.y = 0;
     boss->unk44 = 0;
@@ -176,93 +176,102 @@ Task *CreateEggPinball(u8 *bossPhase, s32 worldX, s32 worldY)
         boss->unk10[var_r2] = boss->unkC;
     }
 
-    boss->vram4C = VramMalloc(0x74U);
-    boss->vram50 = VramMalloc(0x14U);
-    boss->vram54 = VramMalloc(4U);
-    vram = VramMalloc(0x6CU);
-    sprE8 = &boss->spr70;
-    sprE8->tiles = vram;
-    sprE8->anim = ANIM_BOSS_6_COCKPIT;
-    sprE8->variant = 0;
-    sprE8->oamFlags = 0x440;
-    sprE8->animCursor = 0;
-    sprE8->qAnimDelay = 0;
-    sprE8->prevVariant = 0xFF;
-    sprE8->animSpeed = 0x10;
-    sprE8->palId = 0;
-    sprE8->hitboxes[0].index = -1;
-    sprE8->frameFlags = 0;
-    UpdateSpriteAnimation(sprE8);
+    boss->vram4C = VramMalloc(116);
+    boss->vram50 = VramMalloc(20);
+    boss->vram54 = VramMalloc(4);
+    vram = VramMalloc(108);
+
+    s = &boss->spr70;
+    s->tiles = vram;
+    s->anim = ANIM_BOSS_6_COCKPIT;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(17);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
     vram += 0x800;
-    sprE8 = &boss->spr98;
-    sprE8->tiles = vram;
-    sprE8->anim = ANIM_BOSS_6_HOSE;
-    sprE8->variant = 0;
-    sprE8->oamFlags = 0x480;
-    sprE8->animCursor = 0;
-    sprE8->qAnimDelay = 0;
-    sprE8->prevVariant = -1;
-    sprE8->animSpeed = 0x10;
-    sprE8->palId = 0;
-    sprE8->hitboxes[0].index = -1;
-    sprE8->frameFlags = 0x20;
-    UpdateSpriteAnimation(sprE8);
+
+    s = &boss->spr98;
+    s->tiles = vram;
+    s->anim = ANIM_BOSS_6_HOSE;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(18);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x20;
+    UpdateSpriteAnimation(s);
     vram += 0x200;
-    sprE8 = &boss->sprC0;
-    sprE8->tiles = vram;
-    sprE8->anim = ANIM_BOSS_6_GEMERL;
-    sprE8->variant = 0;
-    sprE8->oamFlags = 0x3C0;
-    sprE8->animCursor = 0;
-    sprE8->qAnimDelay = 0;
-    sprE8->prevVariant = -1;
-    sprE8->animSpeed = 0x10;
-    sprE8->palId = 0;
-    sprE8->hitboxes[0].index = -1;
-    sprE8->frameFlags = 0;
-    UpdateSpriteAnimation(sprE8);
-    sprE8 = &boss->sprE8;
+
+    s = &boss->sprGemerlHead;
+    s->tiles = vram;
+    s->anim = ANIM_BOSS_6_GEMERL;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(15);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
     vram += 0x200;
-    sprE8->tiles = vram;
-    sprE8->anim = ANIM_BOSS_6_SHIELDING;
-    sprE8->variant = 0;
-    sprE8->oamFlags = 0x380;
-    sprE8->animCursor = 0;
-    sprE8->qAnimDelay = 0;
-    sprE8->prevVariant = -1;
-    sprE8->animSpeed = 0x10;
-    sprE8->palId = 0;
-    sprE8->hitboxes[0].index = -1;
-    sprE8->frameFlags = 0;
-    UpdateSpriteAnimation(sprE8);
+
+    s = &boss->sprShielding;
+    s->tiles = vram;
+    s->anim = ANIM_BOSS_6_SHIELDING;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(14);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
     vram += 0x80;
-    sprE8 = &boss->spr110;
-    sprE8->tiles = vram;
-    sprE8->anim = ANIM_BOSS_6_EGGMAN;
-    sprE8->variant = 0;
-    sprE8->oamFlags = 0x340;
-    sprE8->animCursor = 0;
-    sprE8->qAnimDelay = 0;
-    sprE8->prevVariant = -1;
-    sprE8->animSpeed = 0x10;
-    sprE8->palId = 0;
-    sprE8->hitboxes[0].index = -1;
-    sprE8->frameFlags = 0;
-    UpdateSpriteAnimation(sprE8);
+
+    s = &boss->sprEggman;
+    s->tiles = vram;
+    s->anim = ANIM_BOSS_6_EGGMAN;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(13);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
     vram += 0x100;
-    sprE8 = &boss->spr138;
-    sprE8->tiles = vram;
-    sprE8->anim = ANIM_BOSS_6_EGGMAN;
-    sprE8->variant = 0;
-    sprE8->oamFlags = 0x340;
-    sprE8->animCursor = 0;
-    sprE8->qAnimDelay = 0;
-    sprE8->prevVariant = -1;
-    sprE8->animSpeed = 0x10;
-    sprE8->palId = 0;
-    sprE8->hitboxes[0].index = -1;
-    sprE8->frameFlags = 0;
-    UpdateSpriteAnimation(sprE8);
+
+    // TODO: This 2nd Eggman sprite seems entirely redundant?
+    s = &boss->sprEggman2;
+    s->tiles = vram;
+    s->anim = ANIM_BOSS_6_EGGMAN;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(13);
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+    vram += 0x100;
+
     tf = &boss->tf160;
     tf->qScaleX = 0x100;
     tf->qScaleY = 0x100;
@@ -378,7 +387,7 @@ void Task_Boss_8073ACC(void)
 void Task_Boss_8073B5C(void)
 {
     EggPinball *boss = TASK_DATA(gCurTask);
-    Sprite *s = &boss->spr110;
+    Sprite *s = &boss->sprEggman;
 
     boss->unk44 += 1;
 
@@ -405,7 +414,7 @@ void Task_Boss_8073B5C(void)
 NONMATCH("asm/non_matching/game/bosses/boss_6__Task_Boss_8073BE0.inc", void Task_Boss_8073BE0(void))
 {
     EggPinball *boss = TASK_DATA(gCurTask);
-    Sprite *s = &boss->spr110;
+    Sprite *s = &boss->sprEggman;
     s16 *var_r6;
     u16 temp_r0;
     u16 var_r1;
@@ -646,13 +655,13 @@ NONMATCH("asm/non_matching/game/bosses/boss_6__sub_8074148.inc", void sub_807414
     UpdateSpriteAnimation(temp_r7);
     DisplaySprite(temp_r7);
 
-    temp_r7 = &boss->sprC0;
+    temp_r7 = &boss->sprGemerlHead;
     temp_r7->x = I((boss->qWorldX + boss->unkC.x)) - gCamera.x;
     temp_r7->y = I((boss->qWorldY + boss->unkC.y)) - gCamera.y;
     UpdateSpriteAnimation(temp_r7);
     DisplaySprite(temp_r7);
 
-    temp_r7 = &boss->spr110;
+    temp_r7 = &boss->sprEggman;
     temp_r7->x = I((boss->qWorldX + boss->unkC.x)) - gCamera.x;
     temp_r7->y = I((boss->qWorldY + boss->unkC.y)) - gCamera.y;
     UpdateSpriteAnimation(temp_r7);
@@ -673,7 +682,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_6__sub_8074148.inc", void sub_807414
     TransformSprite(temp_r7, tf);
     DisplaySprite(temp_r7);
 
-    temp_r7 = &boss->sprE8;
+    temp_r7 = &boss->sprShielding;
     sp0[1] = sp0[0] * 4;
     temp_r7->x = I(boss->qWorldX + boss->unk10[sp0[0]].x) - gCamera.x;
     temp_r7->y = I(boss->qWorldY + boss->unk10[sp0[0]].y) - gCamera.y;
@@ -711,12 +720,12 @@ void CreateEggPinballBall(EggPinball *boss)
     ball->players[0] = boss->players[0];
     ball->players[1] = boss->players[1];
     s->tiles = boss->vram50;
-    s->anim = 0x4E4;
+    s->anim = ANIM_BOSS_6_BALL;
     s->variant = 0;
     s->oamFlags = 0x400;
     s->animCursor = 0;
     s->qAnimDelay = 0;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->animSpeed = 0x10;
     s->palId = 0;
     s->hitboxes[0].index = -1;
@@ -1034,7 +1043,7 @@ END_NONMATCH
 
 void sub_Boss_8074AF0(EggPinball *boss)
 {
-    Sprite *s = &boss->spr110;
+    Sprite *s = &boss->sprEggman;
 
     if (boss->unk3E == 0) {
         if (boss->unk3D != 0) {
