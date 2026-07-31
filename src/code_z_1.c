@@ -1,3 +1,5 @@
+#include <math.h> // powf
+#include <limits.h> // UINT_MAX, USHRT_MAX
 #include "global.h"
 #include "flags.h"
 #include "core.h"
@@ -151,66 +153,60 @@ void sub_80C47C0(MaskingColors *arg0)
     }
 }
 
-#if 0
-void sub_80C492C(void *arg0) {
+void sub_80C492C(MaskingColorsFloat *arg0)
+{
     s16 *temp_r6;
     s16 temp_r4;
     s32 temp_r0_2;
     s32 temp_r0_3;
-    s32 temp_r5;
-    s32 var_r0;
+    float color;
     s32 var_r0_2;
-    u16 *temp_r4_2;
-    u16 *temp_r5_2;
-    u16 var_r0_3;
-    u16 var_r0_4;
     u8 temp_r0;
-    u8 var_sb;
+    u8 i;
+    const float chanMax = (float)COLOR_MASK;
 
-    var_sb = 0;
-    do {
-        temp_r5 = var_sb * 2;
-        temp_r6 = temp_r5 + &gRgbMap;
-        temp_r4 = *temp_r6;
-        var_r0 = __floatsisf(temp_r4);
-        if ((s32) temp_r4 < 0) {
-            var_r0 = __addsf3(var_r0, (float)(USHRT_MAX+1));
+    for (i = 0; i < ARRAY_COUNT(gRgbMap[R_CHANNEL]); i++) {
+        temp_r4 = gRgbMap[R_CHANNEL][i];
+        color = (temp_r4);
+        if (temp_r4 < 0) {
+#if USING_ABGR_1555_COLORS
+            color += (float)(USHRT_MAX + 1);
+#else
+            // TODO: This should only be run on platforms using 32bit RGBA colors, to prevent overflows.
+            color = (float)((double)color + (double)(UINT_MAX + 1));
+#endif
         }
-        __mulsf3(powf(__divsf3(var_r0, 31.0), arg0->unk0), 31.0);
-        var_r0_2 = __fixsfsi();
+
+        var_r0_2 = powf((color / chanMax), arg0->r) * chanMax;
         if (var_r0_2 < 0) {
-            var_r0_2 = 0;
-        } else if (var_r0_2 > 0x1F) {
-            var_r0_2 = 0x1F;
+            gRgbMap[R_CHANNEL][i] = 0;
+        } else if (var_r0_2 > COLOR_MASK) {
+            gRgbMap[R_CHANNEL][i] = COLOR_MASK;
+        } else {
+            gRgbMap[R_CHANNEL][i] = var_r0_2;
         }
-        *temp_r6 = (s16) var_r0_2;
-        temp_r4_2 = temp_r5 + (&gRgbMap + 0x40);
-        __mulsf3(powf(__divsf3(__floatsisf((s16) ((u16) *temp_r4_2 >> 5)), 31.0), arg0->unk4), 31.0);
-        temp_r0_2 = __fixsfsi();
+
+        temp_r0_2 = powf((gRgbMap[G_CHANNEL][i] >> G_SHIFT) / chanMax, arg0->g) * chanMax;
         if (temp_r0_2 < 0) {
-            var_r0_3 = 0;
-        } else if (temp_r0_2 > 0x1F) {
-            var_r0_3 = 0x3E0;
+            gRgbMap[G_CHANNEL][i] = 0;
+        } else if (temp_r0_2 > R_MASK) {
+            gRgbMap[G_CHANNEL][i] = G_MASK;
         } else {
-            var_r0_3 = temp_r0_2 << 5;
+            gRgbMap[G_CHANNEL][i] = temp_r0_2 << G_SHIFT;
         }
-        *temp_r4_2 = var_r0_3;
-        temp_r5_2 = temp_r5 + (&gRgbMap + 0x80);
-        __mulsf3(powf(__divsf3(__floatsisf((s16) ((u16) *temp_r5_2 >> 0xA)), 31.0), arg0->unk8), 31.0);
-        temp_r0_3 = __fixsfsi();
+
+        temp_r0_3 = (powf((gRgbMap[B_CHANNEL][i] >> B_SHIFT) / chanMax, arg0->b) * chanMax);
         if (temp_r0_3 < 0) {
-            var_r0_4 = 0;
-        } else if (temp_r0_3 > 0x1F) {
-            var_r0_4 = 0x7C00;
+            gRgbMap[B_CHANNEL][i] = 0;
+        } else if (temp_r0_3 > COLOR_MASK) {
+            gRgbMap[B_CHANNEL][i] = B_MASK;
         } else {
-            var_r0_4 = temp_r0_3 << 0xA;
+            gRgbMap[B_CHANNEL][i] = temp_r0_3 << B_SHIFT;
         }
-        *temp_r5_2 = var_r0_4;
-        temp_r0 = var_sb + 1;
-        var_sb = temp_r0;
-    } while ((u32) temp_r0 <= 0x1FU);
+    }
 }
 
+#if 0
 void sub_80C4A30(s32 arg0, u8 arg1, u16 arg2) {
     u16 *temp_r4;
     u16 temp_r3;

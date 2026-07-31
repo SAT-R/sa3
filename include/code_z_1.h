@@ -22,4 +22,11 @@ typedef struct {
     s8 b;
 } MaskingColors;
 
+// TODO: Better name
+typedef struct {
+    float r;
+    float g;
+    float b;
+} MaskingColorsFloat;
+
 #endif // GUARD_CODE_Z_1_H
