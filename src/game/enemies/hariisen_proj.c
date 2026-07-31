@@ -215,20 +215,20 @@ bool32 sub_80619EC(Hariisen *enemy)
     if (++enemy->unkC[0] > gUnknown_080D20B8[enemy->unkC[1]]) {
         enemy->unkC[0] = 0;
 
-        if (gObjPalette[12 * 16 + 8] == gPalette_080D206C[8]) {
+        if (gObjPalette[12 * PALETTE_LEN_4BPP + 8] == gPalette_080D206C[8]) {
             if (FLAGS_20000 & gFlags) {
-                CopyPalette(gPalette_080D208C, 12 * 16, 16);
+                CopyObjPaletteMasked(gPalette_080D208C, 12 * PALETTE_LEN_4BPP, PALETTE_LEN_4BPP);
             } else {
-                DmaCopy16(3, gPalette_080D208C, &gObjPalette[12 * 16], sizeof(gPalette_080D208C));
+                DmaCopy16(3, gPalette_080D208C, &gObjPalette[12 * PALETTE_LEN_4BPP], sizeof(gPalette_080D208C));
                 gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
             }
             if (enemy->unkC[1] < 8) {
                 enemy->unkC[1]++;
             }
         } else if (FLAGS_20000 & gFlags) {
-            CopyPalette(gPalette_080D206C, 12 * 16, 16);
+            CopyObjPaletteMasked(gPalette_080D206C, 12 * PALETTE_LEN_4BPP, PALETTE_LEN_4BPP);
         } else {
-            DmaCopy16(3, gPalette_080D206C, &gObjPalette[12 * 16], sizeof(gPalette_080D206C));
+            DmaCopy16(3, gPalette_080D206C, &gObjPalette[12 * PALETTE_LEN_4BPP], sizeof(gPalette_080D206C));
             gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
         }
     }

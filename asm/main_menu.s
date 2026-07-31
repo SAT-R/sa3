@@ -113,7 +113,7 @@ CreateMainMenu: @ 0x0808723C
 	ldr r0, _08087358 @ =gUnknown_080D66D8
 	movs r1, #0
 	movs r2, #0x40
-	bl CopyPalette
+	bl CopyObjPaletteMasked
 	b _08087370
 	.align 2, 0
 _0808731C: .4byte gDispCnt
@@ -7813,7 +7813,7 @@ _0808AF9A:
 	movs r2, #0x80
 	lsls r2, r2, #1
 	movs r1, #0
-	bl CopyPalette
+	bl CopyObjPaletteMasked
 	b _0808B080
 	.align 2, 0
 _0808B040: .4byte gLoadedSaveGame
@@ -20670,7 +20670,7 @@ sub_8091490: @ 0x08091490
 	beq _08091518
 	ldr r0, _08091514 @ =gUnknown_080D737C
 	movs r2, #0x10
-	bl CopyPalette
+	bl CopyObjPaletteMasked
 	b _0809152E
 	.align 2, 0
 _08091508: .4byte gCurTask
@@ -20844,7 +20844,7 @@ _08091622:
 	ldr r0, _0809166C @ =gUnknown_080D737C
 	movs r1, #0
 	movs r2, #0x10
-	bl CopyPalette
+	bl CopyObjPaletteMasked
 	b _0809168A
 	.align 2, 0
 _08091664: .4byte gUnknown_080D73C0
@@ -20963,7 +20963,7 @@ _08091726:
 	ldr r0, _08091760 @ =gUnknown_080D737C
 	movs r1, #0
 	movs r2, #0x10
-	bl CopyPalette
+	bl CopyObjPaletteMasked
 	b _0809177C
 	.align 2, 0
 _0809175C: .4byte gFlags
@@ -21037,7 +21037,7 @@ _080917CA:
 	ldr r0, _080917F0 @ =gUnknown_080D737C
 	movs r1, #0
 	movs r2, #0x10
-	bl CopyPalette
+	bl CopyObjPaletteMasked
 	b _0809181E
 	.align 2, 0
 _080917EC: .4byte 0x040000D4
@@ -21150,7 +21150,7 @@ _08091896:
 	ldr r0, _080918D8 @ =gUnknown_080D737C
 	movs r1, #0
 	movs r2, #0x10
-	bl CopyPalette
+	bl CopyObjPaletteMasked
 	b _080918F6
 	.align 2, 0
 _080918D4: .4byte gFlags
@@ -21251,7 +21251,7 @@ _08091978:
 	ldr r0, _080919AC @ =gUnknown_080D737C
 	movs r1, #0
 	movs r2, #0x10
-	bl CopyPalette
+	bl CopyObjPaletteMasked
 	b _080919C6
 	.align 2, 0
 _080919A8: .4byte gFlags
@@ -21287,7 +21287,7 @@ _080919DC:
 	ldr r0, _080919FC @ =gUnknown_080D739C
 	movs r1, #0
 	movs r2, #0x10
-	bl CopyPalette
+	bl CopyObjPaletteMasked
 	b _08091A16
 	.align 2, 0
 _080919F8: .4byte gFlags
@@ -25914,7 +25914,7 @@ _08093D68:
 	movs r2, #0x80
 	lsls r2, r2, #1
 	movs r1, #0
-	bl CopyPalette
+	bl CopyObjPaletteMasked
 	b _08093DCA
 	.align 2, 0
 _08093DA4: .4byte gCurTask
@@ -26763,7 +26763,7 @@ _0809440E:
 	ldr r0, _0809443C @ =gUnknown_080D8A8C
 	movs r1, #0xf0
 	movs r2, #0x10
-	bl CopyPalette
+	bl CopyObjPaletteMasked
 	b _08094456
 	.align 2, 0
 _08094430: .4byte gCurTask

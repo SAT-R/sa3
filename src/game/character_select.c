@@ -5,7 +5,7 @@
 #include "game/character_select.h"
 #include "game/main_menu.h"
 #include "code_0_1.h"
-#include "code_z_1.h" // CopyPalette
+#include "code_z_1.h" // CopyObjPaletteMasked
 #include "lib/m4a/m4a.h"
 #include "game/save.h"
 #include "game/stage.h"
@@ -1152,13 +1152,13 @@ void sub_80990B0(CharacterSelect *cs)
     cs->unkB = 4;
     if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r5])) {
         if (FLAGS_20000 & gFlags) {
-            CopyPalette(&gUnknown_08E2EEF0[0], 0x60U, 16);
+            CopyObjPaletteMasked(&gUnknown_08E2EEF0[0], 0x60U, 16);
         } else {
             DmaCopy16(3, &gUnknown_08E2EEF0[0], &gObjPalette[3 * (16 * sizeof(u16))], 0x20U);
             gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
         }
     } else if (FLAGS_20000 & gFlags) {
-        CopyPalette(&gUnknown_08E2EE50[temp_r5][0], 3 * (16 * sizeof(u16)), ARRAY_COUNT(gUnknown_08E2EE50[temp_r5]));
+        CopyObjPaletteMasked(&gUnknown_08E2EE50[temp_r5][0], 3 * (16 * sizeof(u16)), ARRAY_COUNT(gUnknown_08E2EE50[temp_r5]));
     } else {
         DmaCopy16(3, &gUnknown_08E2EE50[temp_r5][0], &gObjPalette[3 * (16 * sizeof(u16))], (16 * sizeof(u16)));
         gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
@@ -1314,13 +1314,13 @@ NONMATCH("asm/non_matching/game/char_select__sub_809947C.inc", void Task_809947C
     cs->qUnk40 = Q(80);
     if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r5])) {
         if (FLAGS_20000 & gFlags) {
-            CopyPalette(&gUnknown_08E2EEF0[0], 0x70U, 0x10U);
+            CopyObjPaletteMasked(&gUnknown_08E2EEF0[0], 0x70U, 0x10U);
         } else {
             DmaCopy16(3, &gUnknown_08E2EEF0[0], &gObjPalette[0x70], 32);
             gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
         }
     } else if (FLAGS_20000 & gFlags) {
-        CopyPalette(&gUnknown_08E2EE50[temp_r5][0], 0x70U, 0x10U);
+        CopyObjPaletteMasked(&gUnknown_08E2EE50[temp_r5][0], 0x70U, 0x10U);
     } else {
         DmaCopy16(3, &gUnknown_08E2EE50[temp_r5], &gObjPalette[0x70], 32);
         gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
@@ -1529,13 +1529,13 @@ void Task_8099968(void)
 
         if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r5])) {
             if (FLAGS_20000 & gFlags) {
-                CopyPalette(&gUnknown_08E2EEF0[0], 0x70U, 0x10U);
+                CopyObjPaletteMasked(&gUnknown_08E2EEF0[0], 0x70U, 0x10U);
             } else {
                 DmaCopy16(3, &gUnknown_08E2EEF0[0], &gObjPalette[0x70], 32);
                 gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
             }
         } else if (FLAGS_20000 & gFlags) {
-            CopyPalette(&gUnknown_08E2EE50[temp_r5][0], 0x70U, 0x10U);
+            CopyObjPaletteMasked(&gUnknown_08E2EE50[temp_r5][0], 0x70U, 0x10U);
         } else {
             DmaCopy16(3, &gUnknown_08E2EE50[temp_r5], &gObjPalette[0x70], 32);
             gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
@@ -1972,14 +1972,14 @@ void Task_809A3BC(void)
     cs->qUnk4C = Q(120);
     temp_r4 = gUnknown_080D8F18[cs->unk5];
     if (0x20000 & gFlags) {
-        CopyPalette(gUnknown_08E2EE50[temp_r4], 0x60U, 0x10U);
+        CopyObjPaletteMasked(gUnknown_08E2EE50[temp_r4], 0x60U, 0x10U);
     } else {
         DmaCopy16(3, &gUnknown_08E2EE50[temp_r4][0], &gObjPalette[3 * (16 * sizeof(u16))], (16 * sizeof(u16)));
         gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
     }
     temp_r4 = gUnknown_080D8F18[cs->unk6];
     if (0x20000 & gFlags) {
-        CopyPalette(gUnknown_08E2EE50[temp_r4], 0x70U, 0x10U);
+        CopyObjPaletteMasked(gUnknown_08E2EE50[temp_r4], 0x70U, 0x10U);
     } else {
         DmaCopy16(3, &gUnknown_08E2EE50[temp_r4][0], &gObjPalette[7 * 16], (16 * sizeof(u16)));
         gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;

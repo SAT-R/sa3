@@ -143,7 +143,7 @@ _0809958C:
 _080995A0:
 	movs r1, #0x70
 	movs r2, #0x10
-	bl CopyPalette
+	bl CopyObjPaletteMasked
 	b _080995CE
 	.align 2, 0
 _080995AC: .4byte gFlags

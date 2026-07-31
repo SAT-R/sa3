@@ -17221,7 +17221,7 @@ void RetrieveInitialAnimationPalette(u16 animId, u16 insertOffset)
         numColors &= 0xFF;
         flags = gFlags;
         if (FLAGS_20000 & flags) {
-            CopyPalette(&gRefSpriteTables->palettes[palId * 16], destOffset, numColors);
+            CopyObjPaletteMasked(&gRefSpriteTables->palettes[palId * 16], destOffset, numColors);
             return;
         }
 
@@ -17247,7 +17247,7 @@ void RetrieveInitialAnimationPalette(u16 animId, u16 insertOffset)
         numColors = cmd->pal.numColors;
         destOffset = cmd->pal.insertOffset + insertOffset;
         if (FLAGS_20000 & gFlags) {
-            CopyPalette(&gRefSpriteTables->palettes[palId * 16], destOffset, numColors);
+            CopyObjPaletteMasked(&gRefSpriteTables->palettes[palId * 16], destOffset, numColors);
             return;
         }
 

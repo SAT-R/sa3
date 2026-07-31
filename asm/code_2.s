@@ -922,7 +922,7 @@ _0809BE0A:
 	ldr r0, _0809BE54 @ =gUnknown_080D9448
 	movs r1, #0x50
 	movs r2, #0x10
-	bl CopyPalette
+	bl CopyObjPaletteMasked
 	b _0809BE6E
 	.align 2, 0
 _0809BE44: .4byte gStageData
@@ -993,7 +993,7 @@ _0809BEC4:
 	lsls r1, r1, #0x1c
 	lsrs r1, r1, #0x18
 	movs r2, #0x10
-	bl CopyPalette
+	bl CopyObjPaletteMasked
 	b _0809BF14
 	.align 2, 0
 _0809BEE8: .4byte gFlags
@@ -10876,7 +10876,7 @@ _080A0E28:
 	adds r0, r0, r1
 	lsls r1, r5, #4
 	movs r2, #0x10
-	bl CopyPalette
+	bl CopyObjPaletteMasked
 	b _080A0E82
 	.align 2, 0
 _080A0E48: .4byte gUnknown_080D8F18
@@ -10942,7 +10942,7 @@ sub_80A0EA8: @ 0x080A0EA8
 	adds r0, r0, r1
 	movs r1, #0x70
 	movs r2, #0x10
-	bl CopyPalette
+	bl CopyObjPaletteMasked
 	b _080A0F02
 	.align 2, 0
 _080A0EDC: .4byte gUnknown_080D8F18
@@ -33275,7 +33275,7 @@ sub_80ABD44: @ 0x080ABD44
 	ldr r0, _080ABDAC @ =gUnknown_080DB824
 	movs r1, #0x70
 	movs r2, #0x10
-	bl CopyPalette
+	bl CopyObjPaletteMasked
 	b _080ABDC6
 	.align 2, 0
 _080ABD98: .4byte sub_80ABE28
@@ -33307,7 +33307,7 @@ _080ABDC6:
 	ldr r0, _080ABDF4 @ =gUnknown_080DB804
 	movs r1, #0xe0
 	movs r2, #0x10
-	bl CopyPalette
+	bl CopyObjPaletteMasked
 	b _080ABE0E
 	.align 2, 0
 _080ABDE0: .4byte 0x040000D4

@@ -1,7 +1,9 @@
 #ifndef GUARD_CODE_Z_1_H
 #define GUARD_CODE_Z_1_H
 
-extern void CopyPalette(const u16 *srcPalette, u8 destObjPaletteOffset, u16 numColors);
+#include "color.h"
+
+extern void CopyObjPaletteMasked(const ColorRaw *srcPalette, u8 destObjPaletteColorOffset, u16 numColors);
 
 void *sub_80C4C60(void *param0, u8 param1);
 void sub_80C4E24(void *param0, u8 param1, u32 *param2);

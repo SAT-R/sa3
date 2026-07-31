@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "color.h"
 #include "malloc_ewram.h"
 #include "malloc_vram.h"
 #include "multi_sio.h"
@@ -112,7 +113,7 @@ struct GraphicsData *gVramGraphicsCopyQueue[] ALIGNED(16) = {};
 #endif
 
 #if (ENGINE == ENGINE_3)
-VoidFn gUnknown_03003C08 = NULL;
+Func3003C08 gUnknown_03003C08 = NULL;
 #endif
 s16 SA2_LABEL(gUnknown_03002820) = 0;
 s16 gBgScrollRegs[][2] ALIGNED(16) = {};
@@ -125,7 +126,7 @@ void *gHBlankCopyTarget ALIGNED(4) = NULL;
 
 #if (ENGINE == ENGINE_3)
 // Name inferred from KATAM
-u16 gRgbMap[3][2 * 16] __attribute__((aligned(4))) = {};
+ColorRaw gRgbMap[RGB_CHANNEL_COUNT][2 * PALETTE_LEN_4BPP] __attribute__((aligned(4))) = {};
 #endif // (ENGINE == ENGINE_3)
 
 u8 gBackgroundsCopyQueueIndex = 0;

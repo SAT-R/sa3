@@ -139,7 +139,6 @@ void sub_80AE1C8() { }
 void sub_80AE770() { }
 void sub_80AB120(u8 param0) { }
 
-void /* 0x080C4564 */ CopyPalette() { }
 void sub_80C460C(const u16 *pal, u8 paletteOffset, u16 palSize) { }
 void sub_80C4B48() { }
 void sub_80C4C60() { }

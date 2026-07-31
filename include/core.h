@@ -6,6 +6,7 @@
 #endif
 
 #include "global.h"
+#include "color.h"
 #include "sprite.h"
 #include "task.h"
 #include "tilemap.h"
@@ -417,9 +418,17 @@ extern void *sa2__gUnknown_030022C0; // gBgOffsetsSecondary
 extern s16 gMosaicReg;
 extern u8 gUnknown_030026F4;
 #endif
+#if (ENGINE == ENGINE_3)
+typedef void (*Func3003C08)(ColorRaw *palette, u8 destObjPaletteOffset, u16 numColors);
+extern Func3003C08 gUnknown_03003C08;
+#endif
 extern s16 SA2_LABEL(gUnknown_03002820); // gSpriteTransformY
 extern u8 SA2_LABEL(gUnknown_03002874); // gVCountSetting
 extern void *gHBlankCopyTarget;
+#if (ENGINE == ENGINE_3)
+// Name inferred from KATAM
+extern ColorRaw gRgbMap[RGB_CHANNEL_COUNT][2 * PALETTE_LEN_4BPP];
+#endif
 extern u8 gBackgroundsCopyQueueIndex;
 extern u8 gHBlankCopySize;
 extern u16 SA2_LABEL(gUnknown_03002A8C);
