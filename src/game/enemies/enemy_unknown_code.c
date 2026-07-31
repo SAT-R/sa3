@@ -99,21 +99,21 @@ static inline Player *GetPlayer__inline(u8 pid)
     return p;
 }
 
-// (98.18%) https://decomp.me/scratch/8XN8s
+// (99.88%) https://decomp.me/scratch/FeRDc
 NONMATCH("asm/non_matching/game/enemies/euc__Task_14_805C03C.inc", void Task_14_805C03C(void))
 {
     s32 temp_r0_4;
-    s32 temp_r5;
     s32 var_r2_2;
-    u8 var_r0;
     s16 mask;
     Player *p;
-    u8 var_ip = 0;
     u8 i;
-    Strc_3001CFC *Strc_3001CFC = TASK_DATA(gTask_03001CFC);
-    Strc_3001CFC_sub *strcSub = &Strc_3001CFC->unk28[0];
+    s32 r1;
+    s32 temp_r5 = 0;
+    Strc3001CFC *strc3001CFC = TASK_DATA(gTask_03001CFC);
+    Strc3001CFC_sub *strcSub = &strc3001CFC->unk28[0];
     EUC_Strc14 *strc14 = TASK_DATA(gCurTask);
     s32 someNum = 0x478;
+    u8 var_ip = 0;
 
     for (i = 0; i < 32; i++, strcSub++) {
         if (strcSub->unkC != 0) {
@@ -126,7 +126,7 @@ NONMATCH("asm/non_matching/game/enemies/euc__Task_14_805C03C.inc", void Task_14_
             break;
         }
     }
-    Strc_3001CFC->unk2B0 = ((strc14->p->moveState >> 16) & 0x1);
+    strc3001CFC->unk2B0 = ((strc14->p->moveState >> 16) & 0x1);
     p = strc14->p;
 
     if (p->layer > 1U) {
@@ -136,8 +136,8 @@ NONMATCH("asm/non_matching/game/enemies/euc__Task_14_805C03C.inc", void Task_14_
     }
 
     strcSub->unkC = 0xB4U;
-    strcSub->unk0 = Q(TO_WORLD_POS_RAW(I(strc14->qWorldX), strc14->regionX));
-    strcSub->unk4 = Q(TO_WORLD_POS_RAW(I(strc14->qWorldY), strc14->regionY));
+    strcSub->unk0 = Q(I(strc14->unk8) + Q(strc14->unk2));
+    strcSub->unk4 = Q(I(strc14->unkC) + Q(strc14->unk4));
 
     if (someNum >= 0) {
         temp_r0_4 = I(someNum);
