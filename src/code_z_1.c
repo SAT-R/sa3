@@ -181,7 +181,7 @@ void sub_80C492C(MaskingColorsFloat *arg0)
         if (var_r0_2 < 0) {
             gRgbMap[R_CHANNEL][i] = 0;
         } else if (var_r0_2 > COLOR_MASK) {
-            gRgbMap[R_CHANNEL][i] = COLOR_MASK;
+            gRgbMap[R_CHANNEL][i] = R_MASK;
         } else {
             gRgbMap[R_CHANNEL][i] = var_r0_2;
         }
