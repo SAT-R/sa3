@@ -59,5 +59,4 @@ void sub_80C59E8(void *param0, u8 param1, s32 *screenPos, u8 *arr4, s16 param4);
 void sub_80C60B0(void **param0, u8 param1);
 void sub_80C610C(void *param0, u8 param1);
 
-
 #endif // GUARD_CODE_Z_1_H
