@@ -253,7 +253,7 @@ void sub_80C4B48(void)
         gRgbMap[B_CHANNEL][i] = i << B_SHIFT;
     }
 
-    gUnknown_03003C08 = 0;
+    gUnknown_03003C08 = NULL;
 }
 
 void sub_80C4B88(ColorRaw *palette, u8 colorOffset, u16 numColors)
@@ -275,120 +275,120 @@ void sub_80C4B88(ColorRaw *palette, u8 colorOffset, u16 numColors)
     }
 }
 
-ColorRaw sub_80C4C0C(ColorRaw arg0)
+ColorRaw sub_80C4C0C(ColorRaw color)
 {
+    ColorRaw outColor = color;
     if (gFlags & FLAGS_10000) {
-        arg0 = (gRgbMap[R_CHANNEL][(arg0 & R_MASK) >> R_SHIFT] //
-                | gRgbMap[G_CHANNEL][(arg0 & G_MASK) >> G_SHIFT] //
-                | gRgbMap[B_CHANNEL][(arg0 & B_MASK) >> B_SHIFT]);
+        outColor = (gRgbMap[R_CHANNEL][(color & R_MASK) >> R_SHIFT] //
+                    | gRgbMap[G_CHANNEL][(color & G_MASK) >> G_SHIFT] //
+                    | gRgbMap[B_CHANNEL][(color & B_MASK) >> B_SHIFT]);
     }
 
-    return arg0;
+    return outColor;
 }
 
 #if 0
-void *sub_80C4C60(void *param0, u8 param1) {
+// 40.41%
+void *sub_80C4C60(UnknownColorStruct **param0, u8 hitboxCount) {
+    UnknownColorStruct *temp_r1_2;
+    UnknownColorStruct *temp_r2;
+    UnknownColorStruct *temp_r5;
     s16 temp_r7;
     s32 temp_r1_3;
     s32 var_r1;
     u32 temp_r0_3;
     u32 var_r6;
-    u8 temp_r1;
     u8 var_r1_2;
     u8 var_r5_2;
-    void *temp_r0;
-    void *temp_r0_2;
-    void *temp_r1_2;
+    UnknownIwramData *iwramDat;
+    UnknownIwramDataB *iwramB;
     void *temp_r1_4;
-    void *temp_r2;
-    void *temp_r5;
     void *var_r5;
 
-    temp_r1 = param1;
     temp_r1_2 = *param0;
-    if (temp_r1_2->unk0 == 0) {
+    if (temp_r1_2->anim == 0) {
         var_r1 = temp_r1_2->unk14;
     } else {
         var_r1 = temp_r1_2->unk18;
     }
-    temp_r0 = IwramMalloc((u16) ((u32) ((var_r1 << 0x12) + 0x300000) >> 0x10));
-    temp_r0->unk8 = 0;
-    temp_r0->unk2C = 0;
+    iwramDat = IwramMalloc(((var_r1 * 4) + 0x30));
+    iwramDat->unk8 = 0;
+    iwramDat->spr14 = NULL;
     temp_r5 = *param0;
-    if (temp_r5->unk0 == 0) {
-        temp_r0->unk24 = NULL;
-        temp_r0->unk20 = NULL;
-        temp_r0->unk14 = NULL;
-        *param0 = (void *) (temp_r5 + 4);
-        var_r5 = temp_r0 + 4;
+    if (temp_r5->anim == 0 && temp_r5->variant == 0) {
+        iwramDat->spr14->x = 0;
+        iwramDat->spr14->anim = 0;
+        iwramDat->spr14 = NULL;
+        *param0 = (UnknownColorStruct *) &temp_r5->filler4;
+        var_r5 = iwramDat + 4;
         var_r6 = var_r1 << 0x18;
-    } else {
-        temp_r0_2 = IwramMalloc((u16) ((u32) ((temp_r1 << 0x13) + 0x200000) >> 0x10));
-        temp_r0->unk14 = temp_r0_2;
-        temp_r0->unk24 = temp_r5;
-        temp_r0->unk20 = temp_r5;
-        temp_r1_3 = temp_r5->unk4;
+    } else 
+    {
+        iwramB = IwramMalloc((hitboxCount * 8) + 32);
+        iwramDat->spr14->tiles = iwramB->vram0;
+        iwramDat->spr14->x = 0;
+        iwramDat->spr14->anim = 0;
+        temp_r1_3 = temp_r5->variant;
         temp_r7 = 0xF0000000 & temp_r1_3;
         if (temp_r7 != 0) {
-            temp_r0_2->unk0 = (s32) (temp_r1_3 & 0x0FFFFFFF);
-            temp_r0_2->unk14 = (s16) (((u32) (temp_r0->unk4 << 0xA) >> 0x17) << 6);
-            temp_r0->unk14->unkC = (u16) temp_r5->unk0;
-            temp_r0->unk14->unk1A = (u8) temp_r5->unk2;
-            temp_r0->unk14->unk16 = 0;
-            temp_r0->unk14->unk1B = 0xFF;
-            temp_r0->unk14->unk1C = 0x10;
-            temp_r0->unk14->unk1F = 0;
-            temp_r0->unk14->unk10 = 0;
-            temp_r0->unk14->unk12 = 0;
-            temp_r0->unk14->unk8 = (u32) (((u32) (temp_r0->unk4 & 0xC00000) >> 0xA) | ((((u32) temp_r0->unk20->unk4 >> 0x1C) - 1) << 0xF));
+#if 0
+            iwramB->unk0 = (s32) (temp_r1_3 & 0x0FFFFFFF);
+            iwramB->unk14 = (s16) (((u32) (iwramDat->unk4 << 10) >> 0x17) << 6);
+            iwramDat->spr14->anim = (u16) temp_r5->anim;
+            iwramDat->spr14->variant = (u8) temp_r5->variant;
+            iwramDat->spr14->qAnimDelay = 0;
+            iwramDat->spr14->prevVariant = 0xFF;
+            iwramDat->spr14->animSpeed = 0x10;
+            iwramDat->spr14->palId = 0;
+            iwramDat->spr14->x = 0;
+            iwramDat->spr14->y = 0;
+            iwramDat->spr14->frameFlags = (u32) (((u32) (iwramDat->unk4 & 0xC00000) >> 10) | ((((u32) iwramDat->unk20->unk4 >> 0x1C) - 1) << 0xF));
+#endif
         } else {
+#if 0
             if (temp_r1_3 == 0) {
-                temp_r1_4 = temp_r0->unk14;
+                temp_r1_4 = s;
                 temp_r1_4->unk0 = VramMalloc((u32) temp_r5->unk3);
-                temp_r1_4->unk14 = (s16) (((u32) (temp_r0->unk4 << 0xA) >> 0x17) << 6);
+                temp_r1_4->unk14 = (s16) (((u32) (iwramDat->unk4 << 10) >> 0x17) << 6);
             } else {
-                temp_r0_2->unk0 = temp_r1_3;
-                temp_r0_2->unk14 = (s16) (((u32) (temp_r0->unk4 << 0xA) >> 0x17) << 6);
+                iwramB->unk0 = temp_r1_3;
+                iwramB->unk14 = (s16) (((u32) (iwramDat->unk4 << 10) >> 0x17) << 6);
             }
-            temp_r0->unk14->unkC = (u16) temp_r5->unk0;
-            temp_r0->unk14->unk1A = (u8) temp_r5->unk2;
-            temp_r0->unk14->unk16 = temp_r7;
-            temp_r0->unk14->unk1B = 0xFF;
-            temp_r0->unk14->unk1C = 0x10;
-            temp_r0->unk14->unk1F = 0;
-            temp_r0->unk14->unk10 = temp_r7;
-            temp_r0->unk14->unk12 = temp_r7;
-            temp_r0->unk14->unk8 = (u32) ((u32) (temp_r0->unk4 & 0xC00000) >> 0xA);
+            iwramDat->spr14->anim = (u16) temp_r5->anim;
+            iwramDat->spr14->variant = (u8) temp_r5->variant;
+            iwramDat->spr14->qAnimDelay = 0;
+            iwramDat->spr14->prevVariant = 0xFF;
+            iwramDat->spr14->animSpeed = 0x10;
+            iwramDat->spr14->palId = 0;
+            iwramDat->spr14->x = 0;
+            iwramDat->spr14->y = 0;
+            iwramDat->spr14->frameFlags = (u32) ((u32) (iwramDat->unk4 & 0xC00000) >> 10);
+#endif
         }
-        var_r1_2 = 0;
-        var_r5 = temp_r0 + 4;
-        var_r6 = var_r1 << 0x18;
-        if ((u32) temp_r1 > 0U) {
-            do {
-                *(temp_r0->unk14 + 0x20 + (var_r1_2 * 8)) = -1;
-                var_r1_2 += 1;
-            } while ((u32) var_r1_2 < (u32) temp_r1);
+        for(var_r1_2 = 0; var_r1_2 < hitboxCount; var_r1_2++)
+        {
+            {
+                iwramDat->spr14->hitboxes[var_r1_2].index = -1;
+            }
         }
-        *param0 = (void *) (*param0 + 8);
+        *param0 = (void*)(((u8*)(*param0)) + 8);
     }
-    temp_r2 = *param0;
-    temp_r0->unk18 = temp_r2;
-    (void *)0x040000D4->unk0 = temp_r2;
-    (void *)0x040000D4->unk4 = var_r5;
-    (void *)0x040000D4->unk8 = 0x84000004;
-    *param0 = (void *) (temp_r2 + 0x14);
-    temp_r0->unk2 = (u8) var_r1;
-    temp_r0_3 = var_r6 >> 0x18;
-    if (temp_r0_3 != 0) {
-        var_r5_2 = 0;
-        if (temp_r0_3 > 0U) {
-            do {
-                *(temp_r0 + 0x30 + (var_r5_2 * 4)) = sub_80C4C60(param0, temp_r1);
-                var_r5_2 += 1;
-            } while ((u32) var_r5_2 < (u32) temp_r0->unk2);
+  //  temp_r2 = *param0;
+//    iwramDat->spr14.frameNum = temp_r2;
+    DmaCopy32(3, *param0, &iwramDat->unk4, 0x10);
+    *param0 = temp_r2 + 0x14;
+    iwramDat->unk2 = var_r1;
+//    if (temp_r0_3 != 0) 
+    {
+        for(var_r5_2 = 0; var_r5_2 < iwramDat->unk2; var_r5_2++)
+        {
+        
+                iwramDat->spr14->hitboxes[var_r1_2].index = -1;
+            //*(iwramDat + 0x30 + (var_r5_2 * 4)) = sub_80C4C60(param0, hitboxCount);
+        
         }
     }
-    return temp_r0;
+    return iwramDat;
 }
 
 void sub_80C4E24(void *param0, u8 param1, u32 *param2) {
