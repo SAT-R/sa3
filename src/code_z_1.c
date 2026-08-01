@@ -383,43 +383,34 @@ void *sub_80C4C60(const UnknownColorStruct **param0, u8 hitboxCount)
 }
 
 #if 0
-void sub_80C4E24(void *param0, u8 param1, u32 *param2) {
-    s16 temp_r5;
-    s16 var_r1;
-    u16 temp_r0;
+void sub_80C4E24(void **param0, u8 param1, u32 *param2) {
+    s16 i;
     u32 temp_r1;
     u32 temp_r1_2;
     u32 temp_r2;
-    u8 temp_r7;
     void *temp_r3;
 
-    temp_r7 = param1;
-    var_r1 = 0;
-    if ((s32) temp_r7 > 0) {
-        do {
-            temp_r5 = var_r1;
-            temp_r3 = *((temp_r5 * 4) + param0);
-            temp_r1 = *param2;
-            temp_r2 = temp_r1 + 4;
-            *param2 = temp_r2;
-            temp_r3->unk0 = (u8) temp_r1->unk4;
-            temp_r3->unk1 = 0;
-            temp_r1_2 = *param2 + 4;
-            *param2 = temp_r1_2;
-            temp_r3->unk1C = temp_r1_2;
-            temp_r3->unk3 = (s8) *((temp_r3->unk0 * 0x10) + temp_r1_2);
-            temp_r3->unk8 = 0xFFFF;
-            (void *)0x040000D4->unk0 = temp_r1_2;
-            (void *)0x040000D4->unk4 = (void *) (temp_r3 + 4);
-            (void *)0x040000D4->unk8 = 0x84000004;
-            *param2 = temp_r2 + (temp_r1->unk0 * 4);
-            if (temp_r3->unk2 != 0) {
-                sub_80C4E24(temp_r3 + 0x30, temp_r3->unk2, param2);
-            }
-            temp_r0 = temp_r5 + 1;
-            var_r1 = (s16) temp_r0;
-        } while ((s32) (s16) temp_r0 < (s32) temp_r7);
-    }
+    for(i = 0; i < param1; i++)
+	{
+        temp_r3 = param0[i];
+        temp_r1 = *param2;
+        temp_r2 = temp_r1 + 4;
+        *param2 = temp_r2;
+        temp_r3->unk0 = (u8) temp_r1->unk4;
+        temp_r3->unk1 = 0;
+        temp_r1_2 = *param2 + 4;
+        *param2 = temp_r1_2;
+        temp_r3->unk1C = temp_r1_2;
+        temp_r3->unk3 = (s8) *((temp_r3->unk0 * 0x10) + temp_r1_2);
+        temp_r3->unk8 = 0xFFFF;
+		DmaCopy32(3, temp_r1_2, (void *) (temp_r3 + 4), 0x10);
+
+        *param2 = temp_r2 + (temp_r1->unk0 * 4);
+
+        if (temp_r3->unk2 != 0) {
+            sub_80C4E24(temp_r3 + 0x30, temp_r3->unk2, param2);
+        }
+    }    
 }
 
 void sub_80C4EB0(void *param0, u8 param1, u32 mask) {
