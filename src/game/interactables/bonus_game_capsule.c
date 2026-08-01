@@ -143,10 +143,10 @@ extern const s16 gUnknown_080CFA3E[NUM_ANIMALS]; // Q_8_8
 // const s8 gUnknown_080CFA4E[2] = {+1, -1};
 extern const s8 gUnknown_080CFA4E[2];
 
-extern const u8 gUnknown_08E2DEF4[];
-extern const u8 gUnknown_08E2E134[];
-extern const u8 gUnknown_08E2E280[];
-extern const u8 gUnknown_08E2E550[];
+extern const UnknownColorStruct gUnknown_08E2DEF4[];
+extern const UnknownColorStruct gUnknown_08E2E134[];
+extern const UnknownColorStruct gUnknown_08E2E280[];
+extern const UnknownColorStruct gUnknown_08E2E550[];
 
 // (100.00%) https://decomp.me/scratch/aJb0e
 void CreateEntity_BonusCapsule(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -312,10 +312,10 @@ void sub_8039D60(Sprite *s, u8 i, void *inTiles)
 
 void Task_8039DC0(void)
 {
-    const u8 *sp14 = &gUnknown_08E2E280[0];
-    const u8 *sp10 = &gUnknown_08E2E550[0];
-    const u8 *sp0C = &gUnknown_08E2DEF4[0];
-    const u8 *sp08 = &gUnknown_08E2E134[0];
+    const UnknownColorStruct *sp14 = &gUnknown_08E2E280[0];
+    const UnknownColorStruct *sp10 = &gUnknown_08E2E550[0];
+    const UnknownColorStruct *sp0C = &gUnknown_08E2DEF4[0];
+    const UnknownColorStruct *sp08 = &gUnknown_08E2E134[0];
     void *fixedTiles = (OBJ_VRAM0 + 0x2800);
     Capsule *cap;
     Sprite *s;

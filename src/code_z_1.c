@@ -2,6 +2,7 @@
 #include <limits.h> // UINT_MAX, USHRT_MAX
 #include "global.h"
 #include "flags.h"
+#include "malloc_vram.h"
 #include "core.h"
 #include "color.h"
 #include "code_z_1.h"
@@ -287,110 +288,101 @@ ColorRaw sub_80C4C0C(ColorRaw color)
     return outColor;
 }
 
-#if 0
-// 40.41%
-void *sub_80C4C60(UnknownColorStruct **param0, u8 hitboxCount) {
-    UnknownColorStruct *temp_r1_2;
-    UnknownColorStruct *temp_r2;
-    UnknownColorStruct *temp_r5;
-    s16 temp_r7;
+void *sub_80C4C60(const UnknownColorStruct **param0, u8 hitboxCount)
+{
+    const UnknownColorStruct *temp_r1_2;
+    const UnknownColorStruct *temp_r5;
     s32 temp_r1_3;
-    s32 var_r1;
-    u32 temp_r0_3;
-    u32 var_r6;
+    u32 var_sl;
     u8 var_r1_2;
     u8 var_r5_2;
     UnknownIwramData *iwramDat;
     UnknownIwramDataB *iwramB;
-    void *temp_r1_4;
-    void *var_r5;
 
     temp_r1_2 = *param0;
-    if (temp_r1_2->anim == 0) {
-        var_r1 = temp_r1_2->unk14;
+    if (temp_r1_2->anim == 0 && temp_r1_2->variant == 0 && temp_r1_2->unk3 == 0) {
+        var_sl = temp_r1_2->unk14;
     } else {
-        var_r1 = temp_r1_2->unk18;
+        var_sl = temp_r1_2->unk18;
     }
-    iwramDat = IwramMalloc(((var_r1 * 4) + 0x30));
+    iwramDat = IwramMalloc(((var_sl * 4) + 0x30));
     iwramDat->unk8 = 0;
-    iwramDat->spr14 = NULL;
+    iwramDat->unk2C = 0;
     temp_r5 = *param0;
-    if (temp_r5->anim == 0 && temp_r5->variant == 0) {
-        iwramDat->spr14->x = 0;
-        iwramDat->spr14->anim = 0;
+    if (temp_r5->anim == 0 && temp_r5->variant == 0 && temp_r5->unk3 == 0) {
+        iwramDat->unk24 = NULL;
+        iwramDat->unk20 = NULL;
         iwramDat->spr14 = NULL;
-        *param0 = (UnknownColorStruct *) &temp_r5->filler4;
-        var_r5 = iwramDat + 4;
-        var_r6 = var_r1 << 0x18;
-    } else 
-    {
-        iwramB = IwramMalloc((hitboxCount * 8) + 32);
-        iwramDat->spr14->tiles = iwramB->vram0;
-        iwramDat->spr14->x = 0;
-        iwramDat->spr14->anim = 0;
-        temp_r1_3 = temp_r5->variant;
-        temp_r7 = 0xF0000000 & temp_r1_3;
-        if (temp_r7 != 0) {
-#if 0
-            iwramB->unk0 = (s32) (temp_r1_3 & 0x0FFFFFFF);
-            iwramB->unk14 = (s16) (((u32) (iwramDat->unk4 << 10) >> 0x17) << 6);
-            iwramDat->spr14->anim = (u16) temp_r5->anim;
-            iwramDat->spr14->variant = (u8) temp_r5->variant;
+        *param0 = (UnknownColorStruct *)&temp_r5->unk4;
+    } else {
+        iwramB = IwramMalloc((sizeof(Sprite) - sizeof(Hitbox)) + (hitboxCount * sizeof(Hitbox)));
+        iwramDat->spr14 = (void *)iwramB;
+        iwramDat->unk24 = (s32 *)temp_r5;
+        iwramDat->unk20 = (s32 *)temp_r5;
+        temp_r1_3 = temp_r5->unk4;
+
+        if (0xF0000000 & temp_r5->unk4) {
+            iwramB->s.tiles = (void *)(temp_r5->unk4 & 0x0FFFFFFF);
+            iwramB->s.oamFlags = (s16)(((u32)(iwramDat->unk4 << 10) >> 0x17) << 6);
+            iwramDat->spr14->anim = (u16)temp_r5->anim;
+            iwramDat->spr14->variant = (u8)temp_r5->variant;
             iwramDat->spr14->qAnimDelay = 0;
             iwramDat->spr14->prevVariant = 0xFF;
             iwramDat->spr14->animSpeed = 0x10;
             iwramDat->spr14->palId = 0;
             iwramDat->spr14->x = 0;
             iwramDat->spr14->y = 0;
-            iwramDat->spr14->frameFlags = (u32) (((u32) (iwramDat->unk4 & 0xC00000) >> 10) | ((((u32) iwramDat->unk20->unk4 >> 0x1C) - 1) << 0xF));
-#endif
+            iwramDat->spr14->frameFlags = (((u32)(iwramDat->unk4 & 0xC00000) >> 10) | ((((u32)iwramDat->unk20[1] >> 28) - 1) << 15));
         } else {
-#if 0
-            if (temp_r1_3 == 0) {
-                temp_r1_4 = s;
-                temp_r1_4->unk0 = VramMalloc((u32) temp_r5->unk3);
-                temp_r1_4->unk14 = (s16) (((u32) (iwramDat->unk4 << 10) >> 0x17) << 6);
+            if (temp_r5->unk4 == 0) {
+                iwramDat->spr14->tiles = VramMalloc(temp_r5->unk3);
+                iwramDat->spr14->oamFlags = (s16)(((u32)(iwramDat->unk4 << 10) >> 0x17) << 6);
+
+                iwramDat->spr14->anim = temp_r5->anim;
+                iwramDat->spr14->variant = temp_r5->variant;
+                iwramDat->spr14->qAnimDelay = 0;
+                iwramDat->spr14->prevVariant = 0xFF;
+                iwramDat->spr14->animSpeed = 0x10;
+                iwramDat->spr14->palId = 0;
+                iwramDat->spr14->x = 0;
+                iwramDat->spr14->y = 0;
+                iwramDat->spr14->frameFlags = (iwramDat->unk4 & 0xC00000) >> 10;
             } else {
-                iwramB->unk0 = temp_r1_3;
-                iwramB->unk14 = (s16) (((u32) (iwramDat->unk4 << 10) >> 0x17) << 6);
-            }
-            iwramDat->spr14->anim = (u16) temp_r5->anim;
-            iwramDat->spr14->variant = (u8) temp_r5->variant;
-            iwramDat->spr14->qAnimDelay = 0;
-            iwramDat->spr14->prevVariant = 0xFF;
-            iwramDat->spr14->animSpeed = 0x10;
-            iwramDat->spr14->palId = 0;
-            iwramDat->spr14->x = 0;
-            iwramDat->spr14->y = 0;
-            iwramDat->spr14->frameFlags = (u32) ((u32) (iwramDat->unk4 & 0xC00000) >> 10);
-#endif
-        }
-        for(var_r1_2 = 0; var_r1_2 < hitboxCount; var_r1_2++)
-        {
-            {
-                iwramDat->spr14->hitboxes[var_r1_2].index = -1;
+                iwramB->s.tiles = (void *)temp_r5->unk4;
+                iwramB->s.oamFlags = (s16)(((u32)(iwramDat->unk4 << 10) >> 0x17) << 6);
+
+                // TODO: Is iwramDat actually the correct base poiter here?
+                iwramDat->spr14->anim = temp_r5->anim;
+                iwramDat->spr14->variant = temp_r5->variant;
+                iwramDat->spr14->qAnimDelay = 0;
+                iwramDat->spr14->prevVariant = 0xFF;
+                iwramDat->spr14->animSpeed = 0x10;
+                iwramDat->spr14->palId = 0;
+                iwramDat->spr14->x = 0;
+                iwramDat->spr14->y = 0;
+                iwramDat->spr14->frameFlags = (iwramDat->unk4 & 0xC00000) >> 10;
             }
         }
-        *param0 = (void*)(((u8*)(*param0)) + 8);
+
+        for (var_r1_2 = 0; var_r1_2 < hitboxCount; var_r1_2++) {
+            iwramDat->spr14->hitboxes[var_r1_2].index = -1;
+        }
+        *param0 = (void *)(((u8 *)(*param0)) + 8);
     }
-  //  temp_r2 = *param0;
-//    iwramDat->spr14.frameNum = temp_r2;
-    DmaCopy32(3, *param0, &iwramDat->unk4, 0x10);
-    *param0 = temp_r2 + 0x14;
-    iwramDat->unk2 = var_r1;
-//    if (temp_r0_3 != 0) 
-    {
-        for(var_r5_2 = 0; var_r5_2 < iwramDat->unk2; var_r5_2++)
-        {
-        
-                iwramDat->spr14->hitboxes[var_r1_2].index = -1;
-            //*(iwramDat + 0x30 + (var_r5_2 * 4)) = sub_80C4C60(param0, hitboxCount);
-        
+
+    iwramDat->unk18 = *param0;
+    DmaCopy32(3, iwramDat->unk18, &iwramDat->unk4, 0x10);
+    *param0 = (void *)(((u8 *)iwramDat->unk18) + 0x14);
+    iwramDat->unk2 = var_sl;
+    if (iwramDat->unk2 != 0) {
+        for (var_r5_2 = 0; var_r5_2 < iwramDat->unk2; var_r5_2++) {
+            iwramDat->unk30[var_r5_2] = sub_80C4C60(param0, hitboxCount);
         }
     }
     return iwramDat;
 }
 
+#if 0
 void sub_80C4E24(void *param0, u8 param1, u32 *param2) {
     s16 temp_r5;
     s16 var_r1;
