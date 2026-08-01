@@ -256,41 +256,37 @@ void sub_80C4B48(void)
     gUnknown_03003C08 = 0;
 }
 
-#if 0
-void sub_80C4B88(s32 arg0, u8 arg1, u16 arg2) {
-    u16 *temp_r4;
-    u16 temp_r3;
-    u16 temp_r6;
-    u16 var_r0;
-    u16 var_r5;
+void sub_80C4B88(ColorRaw *palette, u8 colorOffset, u16 numColors)
+{
+    u16 i;
 
-    temp_r6 = arg2;
-    var_r5 = 0;
-    if ((u32) temp_r6 > 0U) {
-        do {
-            temp_r4 = ((arg1 + var_r5) * 2) + arg0;
-            temp_r3 = *temp_r4;
-            if ((u32) (u8) ((s32) ((0x4D * (0x1F & temp_r3)) + (0x96 * ((u32) (0x3E0 & temp_r3) >> 5)) + (((u32) (0x7C00 & temp_r3) >> 0xA) * 0x1D)) >> 8) <= 0xFU) {
-                var_r0 = 0;
+    for (i = 0; i < numColors; i++) {
+        {
+            s8 color;
+            color = I((77 * ((R_MASK & palette[colorOffset + i]) >> R_SHIFT)) //
+                      + (150 * ((G_MASK & palette[colorOffset + i]) >> G_SHIFT)) //
+                      + (29 * ((B_MASK & palette[colorOffset + i]) >> B_SHIFT)));
+            if (color >= 0 && color < 16) {
+                palette[colorOffset + i] = 0;
             } else {
-                var_r0 = 0x7FFF;
+                palette[colorOffset + i] = RGB_WHITE;
             }
-            *temp_r4 = var_r0;
-            var_r5 += 1;
-        } while ((u32) var_r5 < (u32) temp_r6);
+        }
     }
 }
 
-u16 sub_80C4C0C(u16 arg0) {
-    u16 var_r4;
-
-    var_r4 = arg0;
-    if (gFlags & 0x10000) {
-        var_r4 = *(((u32) (var_r4 & 0x7C00) >> 9) + (&gRgbMap + 0x80)) | (*(((0x1F & var_r4) * 2) + &gRgbMap) | *(((u32) (0x3E0 & var_r4) >> 4) + (&gRgbMap + 0x40)));
+ColorRaw sub_80C4C0C(ColorRaw arg0)
+{
+    if (gFlags & FLAGS_10000) {
+        arg0 = (gRgbMap[R_CHANNEL][(arg0 & R_MASK) >> R_SHIFT] //
+                | gRgbMap[G_CHANNEL][(arg0 & G_MASK) >> G_SHIFT] //
+                | gRgbMap[B_CHANNEL][(arg0 & B_MASK) >> B_SHIFT]);
     }
-    return var_r4;
+
+    return arg0;
 }
 
+#if 0
 void *sub_80C4C60(void *param0, u8 param1) {
     s16 temp_r7;
     s32 temp_r1_3;
