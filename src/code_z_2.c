@@ -9,6 +9,27 @@
 
 // TODO: Merge this module with code_z_1.c!
 
+bool32 sub_80C5E9C(UnknownIwramData **arg0, u8 hitboxCount, u8 arg2, Rect8 *arg3, s16 screenX, s16 screenY)
+{
+    s32 result = 0;
+    s16 i;
+
+    for (i = 0; i < hitboxCount; i++) {
+        UnknownIwramData *data = arg0[i];
+        if (data->spr14->hitboxes[arg2].index != HITBOX_STATE_INACTIVE) {
+            if (HB_COLLISION(screenX, screenY, (*arg3), data->spr14->x, data->spr14->y, data->spr14->hitboxes[arg2].b)) {
+                result = 1;
+            }
+        }
+
+        if ((data->unk2 != 0) && (sub_80C5E9C(&data->unk30[0], data->unk2, arg2, arg3, screenX, screenY) != 0)) {
+            result = 1;
+        }
+    }
+
+    return result;
+}
+
 static inline s32 getSpriteX(Sprite *s) { return s->x; }
 
 static inline s32 getSpriteY(Sprite *s) { return s->y; }
@@ -18,13 +39,13 @@ bool32 sub_80C5FCC(UnknownIwramData **param0, u8 arg1, u8 arg2, s16 arg3, s16 ar
 {
     s16 var_r2;
     u8 temp_r1;
-    UnknownIwramData *temp_r4;
+    UnknownIwramData *data;
     bool32 result = 0;
     Sprite *s;
 
     for (var_r2 = 0; var_r2 < arg1; var_r2++) {
-        temp_r4 = param0[var_r2];
-        s = temp_r4->spr14;
+        data = param0[var_r2];
+        s = data->spr14;
         if (s->hitboxes[arg2].index != -1) {
             Hitbox *hb = &s->hitboxes[arg2];
             if ((s->hitboxes[arg2].b.left <= getSpriteX(s)) && (s->hitboxes[arg2].b.right >= s->x)
@@ -32,7 +53,7 @@ bool32 sub_80C5FCC(UnknownIwramData **param0, u8 arg1, u8 arg2, s16 arg3, s16 ar
                 result = 1;
             }
         }
-        if ((temp_r4->unk2 != 0) && (sub_80C5FCC(&temp_r4->unk30[0], temp_r4->unk2, arg2, arg3, arg4) != 0)) {
+        if ((data->unk2 != 0) && (sub_80C5FCC(&data->unk30[0], data->unk2, arg2, arg3, arg4) != 0)) {
             result = 1;
         }
     }
@@ -44,35 +65,31 @@ void sub_80C60B0(UnknownIwramData **arr, u8 arrCount)
     s16 i;
 
     for (i = 0; i < arrCount; i++) {
-        UnknownIwramData *temp_r4 = arr[i];
+        UnknownIwramData *data = arr[i];
 
-        if (temp_r4->unk2 != 0) {
-            sub_80C60B0(&temp_r4->unk30[0], temp_r4->unk2);
+        if (data->unk2 != 0) {
+            sub_80C60B0(&data->unk30[0], data->unk2);
         }
 
-        if (temp_r4->spr14 != NULL) {
-            if (temp_r4->unk20[1] == 0) {
-                VramFree(temp_r4->spr14->tiles);
+        if (data->spr14 != NULL) {
+            if (data->unk20[1] == 0) {
+                VramFree(data->spr14->tiles);
             }
-            IwramFree(temp_r4->spr14);
+            IwramFree(data->spr14);
         }
 
-        IwramFree(temp_r4);
+        IwramFree(data);
     }
 }
 
 void sub_80C610C(UnknownIwramData **param0, u8 param1)
 {
-    Sprite *s;
-    s32 temp_r1;
-    u32 temp_r0;
     s16 i;
-    UnknownIwramData *temp_r4;
 
     for (i = 0; i < param1; i++) {
-        temp_r4 = param0[i];
+        UnknownIwramData *data = param0[i];
+        Sprite *s = data->spr14;
 
-        s = temp_r4->spr14;
         if (s != NULL) {
             if (SPRITE_FLAG_GET(s, BG_ID) != 0) {
                 UpdateSpriteAnimation_BG(s);
@@ -81,8 +98,8 @@ void sub_80C610C(UnknownIwramData **param0, u8 param1)
             }
         }
 
-        if (temp_r4->unk2 != 0) {
-            sub_80C610C(&temp_r4->unk30[0], temp_r4->unk2);
+        if (data->unk2 != 0) {
+            sub_80C610C(&data->unk30[0], data->unk2);
         }
     }
 }

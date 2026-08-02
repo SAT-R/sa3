@@ -425,6 +425,7 @@ void sub_80C4E24(UnknownIwramData **param0, u8 param1, s32 **param2)
 
 #if 0
 void sub_80C4EB0(UnknownIwramData **param0, u8 param1, u32 mask) {
+    s32 sp0;
     s32 spC;
     s32 sp14;
     s32 sp18;
@@ -544,12 +545,12 @@ block_18:
                 temp_r5->unk1 = temp_r0_9;
                 temp_r5->unk28 = (s32) ((temp_r5->unk0 * 0x10) + temp_r2 + (sp14 * temp_r5->unk3 * 4) + 4);
                 temp_r0_10 = sp14 + 1;
-                subroutine_arg0.unk0 = temp_r0_10;
+                sp0 = temp_r0_10;
                 if ((u32) temp_r0_10 < (u32) temp_r5->unk0) {
                     temp_r7_2 = sp14 + 3;
-                    if ((s32) subroutine_arg0.unk0 < temp_r7_2) {
+                    if ((s32) sp0 < temp_r7_2) {
 loop_23:
-                        temp_r4 = subroutine_arg0.unk0;
+                        temp_r4 = sp0;
                         temp_r2_2 = (temp_r4 * 0x10) + temp_r5->unk1C;
                         temp_r3 = temp_r2_2 - 0x10;
                         if (temp_r3->unk8 != temp_r2_2->unk8) {
@@ -562,8 +563,8 @@ loop_23:
                             var_sl |= 1;
                         }
                         temp_r0_11 = temp_r4 + 1;
-                        subroutine_arg0.unk0 = temp_r0_11;
-                        if (((u32) temp_r0_11 < (u32) temp_r5->unk0) && ((s32) subroutine_arg0.unk0 < temp_r7_2)) {
+                        sp0 = temp_r0_11;
+                        if (((u32) temp_r0_11 < (u32) temp_r5->unk0) && ((s32) sp0 < temp_r7_2)) {
                             goto loop_23;
                         }
                     }
@@ -583,7 +584,7 @@ loop_23:
                     if (1 & var_sl) {
                         temp_r5->unkA = 0U;
                     }
-                    subroutine_arg0.unk0 = (u8) subroutine_arg0.unk14;
+                    sp0 = (u8) subroutine_arg0.unk14;
                     sp38 = sp14 << 0x18;
                     if ((u32) (u8) sp14 >= (u32) temp_r5->unk0) {
 
@@ -596,10 +597,10 @@ loop_42:
                         sp34 = var_r6_2 + 1;
                         if ((u32) (sp38 >> 0x18) < (u32) temp_r5->unk0) {
 loop_44:
-                            if (subroutine_arg0.unk0 != subroutine_arg0.unk1) {
+                            if (sp0 != subroutine_arg0.unk1) {
                                 temp_r3_2 = temp_r5->unk1C;
                                 temp_r2_3 = ((subroutine_arg0.unk1 * 0x10) + temp_r3_2)->unk4;
-                                var_sb = (s16) ((u32) ((var_sb * (s16) Div((temp_r5->unk8 - temp_r2_3) << 0x10, (((subroutine_arg0.unk0 * 0x10) + temp_r3_2)->unk4 - temp_r2_3) << 8)) << 8) >> 0x10);
+                                var_sb = (s16) ((u32) ((var_sb * (s16) Div((temp_r5->unk8 - temp_r2_3) << 0x10, (((sp0 * 0x10) + temp_r3_2)->unk4 - temp_r2_3) << 8)) << 8) >> 0x10);
                             }
                             var_r7 += 1;
                             if (var_r7 != 3) {
@@ -611,7 +612,7 @@ loop_44:
                             }
                         }
                         if (1 & var_sl) {
-                            var_r2_2 = 0x3FF & ((subroutine_arg0.unk0 * 0x10) + temp_r5->unk1C)->unk6;
+                            var_r2_2 = 0x3FF & ((sp0 * 0x10) + temp_r5->unk1C)->unk6;
                             if (var_r6_2 != 0) {
                                 temp_r4_2 = var_r2_2;
                                 temp_r3_3 = (s16) sp18;
@@ -628,14 +629,14 @@ loop_44:
                         }
                         if (4 & var_sl) {
                             temp_r2_5 = var_sb;
-                            temp_r3_4 = (s32) (temp_r2_5 * ((subroutine_arg0.unk0 * 0x10) + temp_r5->unk1C)->unkC) >> 8;
+                            temp_r3_4 = (s32) (temp_r2_5 * ((sp0 * 0x10) + temp_r5->unk1C)->unkC) >> 8;
                             sp30->unk0 = (s16) temp_r3_4;
-                            sp30->unk2 = (u16) ((s32) (temp_r2_5 * ((subroutine_arg0.unk0 * 0x10) + temp_r5->unk1C)->unkE) >> 8);
+                            sp30->unk2 = (u16) ((s32) (temp_r2_5 * ((sp0 * 0x10) + temp_r5->unk1C)->unkE) >> 8);
                             temp_r5->unk10 = (u16) (temp_r5->unk10 + temp_r3_4);
                             temp_r5->unk12 = (u16) (sp30->unk2 + temp_r5->unk12);
                         }
                         if (2 & var_sl) {
-                            temp_r1 = (subroutine_arg0.unk0 * 0x10) + temp_r5->unk1C;
+                            temp_r1 = (sp0 * 0x10) + temp_r5->unk1C;
                             temp_r2_6 = var_sb;
                             temp_r0_13 = (s32) (temp_r2_6 * (temp_r1->unk8 << 8)) >> 8;
                             sp24 = temp_r0_13;
@@ -645,8 +646,8 @@ loop_44:
                         }
                         var_r6_2 = (u8) sp34;
                         if (var_r6_2 != 3) {
-                            temp_r0_14 = subroutine_arg0.unk0 + 1;
-                            subroutine_arg0.unk0 = temp_r0_14;
+                            temp_r0_14 = sp0 + 1;
+                            sp0 = temp_r0_14;
                             if ((u32) temp_r0_14 < (u32) temp_r5->unk0) {
                                 goto loop_42;
                             }
@@ -848,12 +849,12 @@ block_18:
                 temp_r5->unk1 = temp_r0_7;
                 temp_r5->unk28 = (void *) ((temp_r5->unk0 * 0x10) + temp_r8 + (sp18 * temp_r5->unk3 * 4) + 4);
                 temp_r0_8 = sp18 + 1;
-                subroutine_arg0.unk0 = temp_r0_8;
+                sp0 = temp_r0_8;
                 if ((u32) temp_r0_8 < (u32) temp_r5->unk0) {
                     temp_r7 = sp18 + 3;
-                    if ((s32) subroutine_arg0.unk0 < temp_r7) {
+                    if ((s32) sp0 < temp_r7) {
 loop_23:
-                        temp_r4_2 = subroutine_arg0.unk0;
+                        temp_r4_2 = sp0;
                         temp_r2 = (temp_r4_2 * 0x10) + temp_r5->unk1C;
                         temp_r3 = temp_r2 - 0x10;
                         if (temp_r3->unk8 != temp_r2->unk8) {
@@ -866,8 +867,8 @@ loop_23:
                             var_sl |= 1;
                         }
                         temp_r0_9 = temp_r4_2 + 1;
-                        subroutine_arg0.unk0 = temp_r0_9;
-                        if (((u32) temp_r0_9 < (u32) temp_r5->unk0) && ((s32) subroutine_arg0.unk0 < temp_r7)) {
+                        sp0 = temp_r0_9;
+                        if (((u32) temp_r0_9 < (u32) temp_r5->unk0) && ((s32) sp0 < temp_r7)) {
                             goto loop_23;
                         }
                     }
@@ -887,7 +888,7 @@ loop_23:
                     if (1 & var_sl) {
                         temp_r5->unkA = 0U;
                     }
-                    subroutine_arg0.unk0 = (u8) subroutine_arg0.unk18;
+                    sp0 = (u8) subroutine_arg0.unk18;
                     sp3C = sp18 << 0x18;
                     if ((u32) (u8) sp18 >= (u32) temp_r5->unk0) {
 
@@ -900,10 +901,10 @@ loop_42:
                         sp38 = var_r7_2 + 1;
                         if ((u32) (sp3C >> 0x18) < (u32) temp_r5->unk0) {
 loop_44:
-                            if (subroutine_arg0.unk0 != subroutine_arg0.unk1) {
+                            if (sp0 != subroutine_arg0.unk1) {
                                 temp_r3_2 = temp_r5->unk1C;
                                 temp_r2_2 = ((subroutine_arg0.unk1 * 0x10) + temp_r3_2)->unk4;
-                                var_sb = (s16) ((u32) ((var_sb * (s16) Div((temp_r5->unk8 - temp_r2_2) << 0x10, (((subroutine_arg0.unk0 * 0x10) + temp_r3_2)->unk4 - temp_r2_2) << 8)) << 8) >> 0x10);
+                                var_sb = (s16) ((u32) ((var_sb * (s16) Div((temp_r5->unk8 - temp_r2_2) << 0x10, (((sp0 * 0x10) + temp_r3_2)->unk4 - temp_r2_2) << 8)) << 8) >> 0x10);
                             }
                             var_r6 += 1;
                             if (var_r6 != 3) {
@@ -915,7 +916,7 @@ loop_44:
                             }
                         }
                         if (1 & var_sl) {
-                            var_r2_2 = 0x3FF & ((subroutine_arg0.unk0 * 0x10) + temp_r5->unk1C)->unk6;
+                            var_r2_2 = 0x3FF & ((sp0 * 0x10) + temp_r5->unk1C)->unk6;
                             if (var_r7_2 != 0) {
                                 temp_r4_3 = var_r2_2;
                                 temp_r3_3 = (s16) sp1C;
@@ -932,14 +933,14 @@ loop_44:
                         }
                         if (4 & var_sl) {
                             temp_r2_4 = var_sb;
-                            temp_r3_4 = (s32) (temp_r2_4 * ((subroutine_arg0.unk0 * 0x10) + temp_r5->unk1C)->unkC) >> 8;
+                            temp_r3_4 = (s32) (temp_r2_4 * ((sp0 * 0x10) + temp_r5->unk1C)->unkC) >> 8;
                             sp34->unk0 = (s16) temp_r3_4;
-                            sp34->unk2 = (u16) ((s32) (temp_r2_4 * ((subroutine_arg0.unk0 * 0x10) + temp_r5->unk1C)->unkE) >> 8);
+                            sp34->unk2 = (u16) ((s32) (temp_r2_4 * ((sp0 * 0x10) + temp_r5->unk1C)->unkE) >> 8);
                             temp_r5->unk10 = (u16) (temp_r5->unk10 + temp_r3_4);
                             temp_r5->unk12 = (u16) (sp34->unk2 + temp_r5->unk12);
                         }
                         if (2 & var_sl) {
-                            temp_r1 = (subroutine_arg0.unk0 * 0x10) + temp_r5->unk1C;
+                            temp_r1 = (sp0 * 0x10) + temp_r5->unk1C;
                             temp_r2_5 = var_sb;
                             temp_r0_11 = (s32) (temp_r2_5 * (temp_r1->unk8 << 8)) >> 8;
                             sp28 = temp_r0_11;
@@ -949,8 +950,8 @@ loop_44:
                         }
                         var_r7_2 = (u8) sp38;
                         if (var_r7_2 != 3) {
-                            temp_r0_12 = subroutine_arg0.unk0 + 1;
-                            subroutine_arg0.unk0 = temp_r0_12;
+                            temp_r0_12 = sp0 + 1;
+                            sp0 = temp_r0_12;
                             if ((u32) temp_r0_12 < (u32) temp_r5->unk0) {
                                 goto loop_42;
                             }
@@ -1364,7 +1365,7 @@ loop_3:
     }
 }
 
-s32 sub_80C5E9C(void *arg0, u8 arg1, u8 arg2, void *arg3, s32 arg4, s32 arg5) {
+s32 sub_80C5E9C(UnknownIwramData **arg0, u8 arg1, u8 arg2, u8 *arg3, s32 arg4, s32 arg5) {
     void *sp8;
     s32 spC;
     s32 sp10;
@@ -1432,12 +1433,11 @@ block_7:
                                     goto block_10;
                                 }
                             } else {
-                                goto block_11;
+                                sp14 = 1;
                             }
                         } else {
 block_10:
                             if ((s32) (temp_r1_2 + ((s8) temp_r4_2->unk27 - temp_r5_3)) >= temp_r2_3) {
-block_11:
                                 sp14 = 1;
                             }
                         }
@@ -1452,47 +1452,5 @@ block_11:
         } while ((s32) ((s32) temp_r0_2 >> 0x10) < spC);
     }
     return sp14;
-}
-
-s32 sub_80C5FCC(void *arg0, u8 arg1, u8 arg2, u16 arg3, s32 arg4) {
-    void *sp4;
-    s32 sp8;
-    s32 spC;
-    s32 temp_r2;
-    s32 temp_r6;
-    s32 var_sb;
-    u32 temp_r0;
-    u32 var_r2;
-    u8 temp_r1;
-    void *temp_r2_2;
-    void *temp_r3;
-    void *temp_r4;
-
-    sp4 = arg0;
-    temp_r1 = arg1;
-    spC = (s32) arg2;
-    sp8 = (s32) (u16) arg4;
-    var_sb = 0;
-    var_r2 = 0;
-    if ((s32) temp_r1 > 0) {
-        temp_r6 = spC * 8;
-        do {
-            temp_r2 = var_r2 << 0x10;
-            temp_r4 = *((temp_r2 >> 0xE) + sp4);
-            temp_r3 = temp_r4->unk14;
-            if (*(temp_r3 + 0x20 + temp_r6) != -1) {
-                temp_r2_2 = temp_r3 + temp_r6;
-                if (((s32) temp_r2_2->unk24 <= (s32) temp_r3->unk10) && ((s32) temp_r2_2->unk26 >= (s32) temp_r3->unk10) && ((s32) temp_r2_2->unk25 <= (s32) temp_r3->unk12) && ((s32) temp_r2_2->unk27 >= (s32) temp_r3->unk12)) {
-                    var_sb = 1;
-                }
-            }
-            if ((temp_r4->unk2 != 0) && (sub_80C5FCC(temp_r4 + 0x30, temp_r4->unk2, spC, (s16) arg3, (s32) (s16) sp8) != 0)) {
-                var_sb = 1;
-            }
-            temp_r0 = temp_r2 + 0x10000;
-            var_r2 = temp_r0 >> 0x10;
-        } while ((s32) ((s32) temp_r0 >> 0x10) < (s32) temp_r1);
-    }
-    return var_sb;
 }
 #endif
