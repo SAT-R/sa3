@@ -141,8 +141,6 @@ void sub_80AB120(u8 param0) { }
 
 void sub_80C4EB0() { }
 void sub_80C59E8() { }
-void sub_80C60B0() { }
-void sub_80C610C() { }
 void /* 0x080C7558 */ SoundBiasReset() { }
 void /* 0x080C7560 */ SoundBiasSet() { }
 

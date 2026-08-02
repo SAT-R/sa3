@@ -7,6 +7,8 @@
 #include "color.h"
 #include "code_z_1.h"
 
+// TODO: Merge code_z_2.c into this!
+
 // Copy colors (srcPalette -> gObjPalette) and mask them using gRgbMap
 void CopyObjPaletteMasked(const ColorRaw *srcPalette, u8 destObjPaletteColorOffset, u16 numColors)
 {
@@ -1492,69 +1494,5 @@ s32 sub_80C5FCC(void *arg0, u8 arg1, u8 arg2, u16 arg3, s32 arg4) {
         } while ((s32) ((s32) temp_r0 >> 0x10) < (s32) temp_r1);
     }
     return var_sb;
-}
-
-void sub_80C60B0(void **param0, u8 param1) {
-    s32 temp_r0_2;
-    u32 temp_r0;
-    u32 var_r1;
-    u8 temp_r1;
-    u8 temp_r6;
-    void **temp_r1_2;
-    void *temp_r4;
-
-    temp_r6 = param1;
-    var_r1 = 0;
-    if ((s32) temp_r6 > 0) {
-        do {
-            temp_r0_2 = var_r1 << 0x10;
-            temp_r4 = *((temp_r0_2 >> 0xE) + param0);
-            temp_r1 = temp_r4->unk2;
-            if (temp_r1 != 0) {
-                sub_80C60B0(temp_r4 + 0x30, temp_r1);
-            }
-            temp_r1_2 = temp_r4->unk14;
-            if (temp_r1_2 != NULL) {
-                if (temp_r4->unk20->unk4 == 0) {
-                    VramFree(*temp_r1_2);
-                }
-                IwramFree(temp_r4->unk14);
-            }
-            IwramFree(temp_r4);
-            temp_r0 = temp_r0_2 + 0x10000;
-            var_r1 = temp_r0 >> 0x10;
-        } while ((s32) ((s32) temp_r0 >> 0x10) < (s32) temp_r6);
-    }
-}
-
-void sub_80C610C(void *param0, u8 param1) {
-    Sprite *temp_r2;
-    s32 temp_r1;
-    u32 temp_r0;
-    u32 var_r1;
-    u8 temp_r6;
-    void *temp_r4;
-
-    temp_r6 = param1;
-    var_r1 = 0;
-    if ((s32) temp_r6 > 0) {
-        do {
-            temp_r1 = var_r1 << 0x10;
-            temp_r4 = *((temp_r1 >> 0xE) + param0);
-            temp_r2 = temp_r4->unk14;
-            if (temp_r2 != NULL) {
-                if (temp_r2->frameFlags & 0x18000) {
-                    UpdateSpriteAnimation_BG(temp_r2);
-                } else {
-                    UpdateSpriteAnimation(temp_r2);
-                }
-            }
-            if (temp_r4->unk2 != 0) {
-                sub_80C610C(temp_r4 + 0x30, temp_r4->unk2);
-            }
-            temp_r0 = temp_r1 + 0x10000;
-            var_r1 = temp_r0 >> 0x10;
-        } while ((s32) ((s32) temp_r0 >> 0x10) < (s32) temp_r6);
-    }
 }
 #endif

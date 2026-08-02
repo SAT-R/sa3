@@ -321,7 +321,7 @@ void Task_8039DC0(void)
     Capsule *cap;
     Sprite *s;
     Player *p1, *p2;
-    u8 arr[5];
+    u8 arr[NUM_CHARACTERS];
     s32 kind;
 
     memcpy(arr, gUnknown_080CF86B, sizeof(arr));
