@@ -321,7 +321,8 @@ void *sub_80C4C60(const UnknownColorStruct **param0, u8 hitboxCount)
         iwramDat->unk20 = (s32 *)temp_r5;
         temp_r1_3 = temp_r5->unk4;
 
-        if (0xF0000000 & temp_r5->unk4) {
+#if PLATFORM_GBA
+        if ((0xF0000000 & temp_r5->unk4)) {
             iwramB->s.tiles = (void *)(temp_r5->unk4 & 0x0FFFFFFF);
             iwramB->s.oamFlags = (s16)(((u32)(iwramDat->unk4 << 10) >> 0x17) << 6);
             iwramDat->spr14->anim = (u16)temp_r5->anim;
@@ -333,7 +334,9 @@ void *sub_80C4C60(const UnknownColorStruct **param0, u8 hitboxCount)
             iwramDat->spr14->x = 0;
             iwramDat->spr14->y = 0;
             iwramDat->spr14->frameFlags = (((u32)(iwramDat->unk4 & 0xC00000) >> 10) | ((((u32)iwramDat->unk20[1] >> 28) - 1) << 15));
-        } else {
+        } else
+#endif
+        {
             if (temp_r5->unk4 == 0) {
                 iwramDat->spr14->tiles = VramMalloc(temp_r5->unk3);
                 iwramDat->spr14->oamFlags = (s16)(((u32)(iwramDat->unk4 << 10) >> 0x17) << 6);
@@ -348,7 +351,11 @@ void *sub_80C4C60(const UnknownColorStruct **param0, u8 hitboxCount)
                 iwramDat->spr14->y = 0;
                 iwramDat->spr14->frameFlags = (iwramDat->unk4 & 0xC00000) >> 10;
             } else {
+#if PLATFORM_GBA
                 iwramB->s.tiles = (void *)temp_r5->unk4;
+#else
+                iwramDat->spr14->tiles = VramMalloc(temp_r5->unk3);
+#endif
                 iwramB->s.oamFlags = (s16)(((u32)(iwramDat->unk4 << 10) >> 0x17) << 6);
 
                 // TODO: Is iwramDat actually the correct base poiter here?
@@ -382,37 +389,39 @@ void *sub_80C4C60(const UnknownColorStruct **param0, u8 hitboxCount)
     return iwramDat;
 }
 
-#if 0
-void sub_80C4E24(void **param0, u8 param1, u32 *param2) {
+void sub_80C4E24(UnknownIwramData **param0, u8 param1, s32 **param2)
+{
+    UnknownIwramData *temp_r3;
     s16 i;
-    u32 temp_r1;
-    u32 temp_r1_2;
-    u32 temp_r2;
-    void *temp_r3;
+    u16 temp_r0;
+    u32 *temp_r1_2;
 
-    for(i = 0; i < param1; i++)
-	{
+    for (i = 0; i < param1; i++) {
+        s32 *ptr0;
+        s32 *ptr;
+        s32 val;
         temp_r3 = param0[i];
-        temp_r1 = *param2;
-        temp_r2 = temp_r1 + 4;
-        *param2 = temp_r2;
-        temp_r3->unk0 = (u8) temp_r1->unk4;
+        ptr0 = *param2;
+        val = *ptr0;
+        ptr = ptr0 + 1;
+        *param2 += 1;
+        ptr += val;
+        temp_r3->unk0 = ptr0[1];
         temp_r3->unk1 = 0;
-        temp_r1_2 = *param2 + 4;
-        *param2 = temp_r1_2;
-        temp_r3->unk1C = temp_r1_2;
-        temp_r3->unk3 = (s8) *((temp_r3->unk0 * 0x10) + temp_r1_2);
+        *param2 += 1;
+        temp_r3->unk1C = *param2;
+        temp_r3->unk3 = temp_r3->unk1C[temp_r3->unk0 * 4];
         temp_r3->unk8 = 0xFFFF;
-		DmaCopy32(3, temp_r1_2, (void *) (temp_r3 + 4), 0x10);
+        DmaCopy32(3, temp_r3->unk1C, &temp_r3->unk4, 0x10);
 
-        *param2 = temp_r2 + (temp_r1->unk0 * 4);
-
+        *param2 = ptr;
         if (temp_r3->unk2 != 0) {
-            sub_80C4E24(temp_r3 + 0x30, temp_r3->unk2, param2);
+            sub_80C4E24(temp_r3->unk30, temp_r3->unk2, param2);
         }
-    }    
+    }
 }
 
+#if 0
 void sub_80C4EB0(void *param0, u8 param1, u32 mask) {
     void *sp8;
     s32 spC;

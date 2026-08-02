@@ -1640,6 +1640,7 @@ void Task_2A4_80552C8(void)
     }
 }
 
+// TODO: Fake-match!
 void Task_2A4_8055378(void)
 {
     u32 var_r4;

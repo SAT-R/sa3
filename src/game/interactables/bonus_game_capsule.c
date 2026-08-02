@@ -20,6 +20,7 @@
 #include "constants/move_states.h"
 #include "constants/songs.h"
 #include "constants/zones.h"
+#include "code_z_1.h"
 
 #define NUM_SWITCHES 5
 #define NUM_ANIMALS  8
@@ -66,8 +67,8 @@ typedef struct {
     /* 0x038 */ s32 qUnk38[2][2];
     /* 0x048 */ s16 unk48[NUM_ANIMALS][2];
     /* 0x068 */ s32 unk68[NUM_ANIMALS][2];
-    /* 0x0A8 */ void *unkA8;
-    /* 0x0AC */ void *unkAC;
+    /* 0x0A8 */ UnknownIwramData *unkA8;
+    /* 0x0AC */ UnknownIwramData *unkAC;
     /* 0x0B0 */ Sprite s;
     /* 0x0D8 */ u8 fillerD8[0x14];
     /* 0x0EC */ CapSwitch switches[NUM_SWITCHES];

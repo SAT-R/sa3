@@ -139,8 +139,6 @@ void sub_80AE1C8() { }
 void sub_80AE770() { }
 void sub_80AB120(u8 param0) { }
 
-void sub_80C4C60() { }
-void sub_80C4E24() { }
 void sub_80C4EB0() { }
 void sub_80C59E8() { }
 void sub_80C60B0() { }
@@ -190,7 +188,6 @@ PlayerSpriteInfo gUnknown_03001B00 = {};
 
 void sub_80A5954() { }
 void sub_80A872C() { }
-ColorRaw sub_80C4C0C(ColorRaw color) { return color; }
 void sub_8029990() { }
 
 void sub_80260F0() { }
