@@ -391,7 +391,7 @@ void *sub_80C4C60(const UnknownColorStruct **param0, u8 hitboxCount)
 
 void sub_80C4E24(UnknownIwramData **param0, u8 param1, s32 **param2)
 {
-    UnknownIwramData *temp_r3;
+    UnknownIwramData *iwramDat;
     s16 i;
     u16 temp_r0;
     u32 *temp_r1_2;
@@ -400,32 +400,30 @@ void sub_80C4E24(UnknownIwramData **param0, u8 param1, s32 **param2)
         s32 *ptr0;
         s32 *ptr;
         s32 val;
-        temp_r3 = param0[i];
+        iwramDat = param0[i];
         ptr0 = *param2;
         val = *ptr0;
         ptr = ptr0 + 1;
         *param2 += 1;
         ptr += val;
-        temp_r3->unk0 = ptr0[1];
-        temp_r3->unk1 = 0;
+        iwramDat->unk0 = ptr0[1];
+        iwramDat->unk1 = 0;
         *param2 += 1;
-        temp_r3->unk1C = *param2;
-        temp_r3->unk3 = temp_r3->unk1C[temp_r3->unk0 * 4];
-        temp_r3->unk8 = 0xFFFF;
-        DmaCopy32(3, temp_r3->unk1C, &temp_r3->unk4, 0x10);
+        iwramDat->unk1C = *param2;
+        iwramDat->unk3 = iwramDat->unk1C[iwramDat->unk0 * 4];
+        iwramDat->unk8 = 0xFFFF;
+        DmaCopy32(3, iwramDat->unk1C, &iwramDat->unk4, 0x10);
 
         *param2 = ptr;
-        if (temp_r3->unk2 != 0) {
-            sub_80C4E24(temp_r3->unk30, temp_r3->unk2, param2);
+        if (iwramDat->unk2 != 0) {
+            sub_80C4E24(iwramDat->unk30, iwramDat->unk2, param2);
         }
     }
 }
 
 #if 0
-void sub_80C4EB0(void *param0, u8 param1, u32 mask) {
-    void *sp8;
+void sub_80C4EB0(UnknownIwramData **param0, u8 param1, u32 mask) {
     s32 spC;
-    u32 sp10;
     s32 sp14;
     s32 sp18;
     s32 sp1C;
@@ -459,7 +457,7 @@ void sub_80C4EB0(void *param0, u8 param1, u32 mask) {
     u16 var_r4;
     u32 temp_r0_15;
     u32 temp_r0_8;
-    u32 var_r1;
+    u16 i;
     u8 temp_r0_10;
     u8 temp_r0_11;
     u8 temp_r0_12;
@@ -476,25 +474,18 @@ void sub_80C4EB0(void *param0, u8 param1, u32 mask) {
     void *temp_r1;
     void *temp_r2_2;
     void *temp_r3;
-    void *temp_r5;
+    UnknownIwramData *temp_r5;
     void *temp_r7;
     void *var_r2;
 
-    sp8 = param0;
-    sp10 = mask;
     spC = (s32) param1;
     var_sl = 0;
-    var_r1 = 0;
     sp2C = 0;
-    if (spC <= 0) {
-
-    } else {
-loop_2:
-        temp_r0 = var_r1 << 0x10;
-        temp_r5 = *((temp_r0 >> 0xE) + sp8);
-        sp3C = temp_r0;
+    for(i = 0; i < spC; i++)
+    {
+        temp_r5 = param0[i];
         if (temp_r5->unk2 != 0) {
-            sub_80C4EB0(temp_r5 + 0x30, temp_r5->unk2, sp10);
+            sub_80C4EB0(temp_r5 + 0x30, temp_r5->unk2, mask);
         }
         temp_r2 = temp_r5->unk1C;
         temp_r0_2 = temp_r5->unk8 + 1;
@@ -511,14 +502,13 @@ loop_2:
         var_r2 = temp_r2 + (temp_r0_4 * 0x10);
         var_r6 = temp_r0_4;
         temp_r0_5 = temp_r5->unk0;
-        if ((u32) var_r6 < (u32) temp_r0_5) {
+        for (var_r6 = temp_r0_4; var_r6 < temp_r0_5; var_r6++) 
+        {
             temp_r7 = temp_r5 + 4;
 loop_10:
             temp_r0_6 = var_r2->unk4;
             if (temp_r0_6 == var_r4) {
-                (void *)0x040000D4->unk0 = var_r2;
-                (void *)0x040000D4->unk4 = temp_r7;
-                (void *)0x040000D4->unk8 = 0x84000004;
+                DmaCopy32(3, var_r2, temp_r7, 0x10);
                 temp_r5->unk1 = var_r6;
                 temp_r5->unk28 = (s32) ((temp_r5->unk0 * 0x10) + temp_r2 + (var_r6 * temp_r5->unk3 * 4) + 4);
                 if (temp_r5->unk14 == NULL) {
@@ -529,27 +519,24 @@ loop_10:
             } else {
                 if ((u32) temp_r0_6 > (u32) var_r4) {
                     if (var_r6 != 0) {
-                        (void *)0x040000D4->unk0 = (void *) (var_r2 - 0x10);
-                        (void *)0x040000D4->unk4 = temp_r7;
-                        (void *)0x040000D4->unk8 = 0x84000004;
+                        DmaCopy32(3, var_r2 - 0x10, temp_r7, 0x10);
                         temp_r5->unk8 = var_r4;
                     }
-                    goto block_18;
+                    break;
                 }
                 var_r2 += 0x10;
                 temp_r0_7 = var_r6 + 1;
                 temp_r0_8 = temp_r0_7 << 0x18;
                 var_r6 = temp_r0_7;
                 if (temp_r0_8 >= (u32) (temp_r0_5 << 0x18)) {
-                    goto block_18;
+                    break;
                 }
                 goto loop_10;
             }
-        } else {
+        } 
+        {
 block_18:
-            if (0 != 0) {
-
-            } else {
+            if (sp2C == 0) {
                 temp_r0_9 = var_r6 - 1;
                 sp14 = (s32) temp_r0_9;
                 temp_r5->unk1 = temp_r0_9;
@@ -669,7 +656,7 @@ loop_44:
                     temp_r5->unkE = (s16) (sp20 >> 8);
                 }
                 temp_r2_7 = temp_r5->unk14;
-                if ((temp_r2_7 != NULL) && !(temp_r5->unk4 & 4) && !(1 & sp10)) {
+                if ((temp_r2_7 != NULL) && !(temp_r5->unk4 & 4) && !(1 & mask)) {
                     if (temp_r2_7->frameFlags & 0x18000) {
                         UpdateSpriteAnimation_BG(temp_r2_7);
                     } else {
@@ -678,14 +665,11 @@ loop_44:
                 }
             }
         }
-        temp_r0_15 = sp3C + 0x10000;
-        var_r1 = temp_r0_15 >> 0x10;
-        if ((s32) ((s32) temp_r0_15 >> 0x10) < spC) {
-            goto loop_2;
-        }
     }
 }
+#endif
 
+#if 0
 void sub_80C5294(void *arg0) {
     s32 temp_r1_3;
     s32 temp_r1_4;

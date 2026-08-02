@@ -398,9 +398,14 @@ NONMATCH("asm/non_matching/game/interactables/bonus_game_ui__unfinished_sub_803C
     gHBlankCopySize = 2;
 
     ptr = *(u16 **)gBgOffsetsHBlankPrimary;
-    for (i = 0; i < DISPLAY_HEIGHT; i += 2) {
-        // _0803C75A
-        *ptr++ = -i;
+#ifdef BUG_FIX
+    if (ptr)
+#endif
+    {
+        for (i = 0; i < DISPLAY_HEIGHT; i += 2) {
+            // _0803C75A
+            *ptr++ = -i;
+        }
     }
 
     r0 = 72 - r3;

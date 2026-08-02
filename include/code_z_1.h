@@ -58,8 +58,8 @@ void CopyBgPaletteMasked(const ColorRaw *srcPalette, u8 destBgPaletteOffset, u16
 void *sub_80C4C60(const UnknownColorStruct **param0, u8 hitboxCount);
 void sub_80C4E24(UnknownIwramData **param0, u8 param1, s32 **param2);
 void sub_80C4EB0(UnknownIwramData **param0, u8 param1, u32 mask);
+void sub_80C5294(UnknownIwramData *);
 void sub_80C59E8(UnknownIwramData **param0, u8 param1, s32 *screenPos, u8 *arr4, s16 param4);
 void sub_80C60B0(UnknownIwramData **param0, u8 param1);
 void sub_80C610C(UnknownIwramData **param0, u8 param1);
-
 #endif // GUARD_CODE_Z_1_H
