@@ -234,7 +234,7 @@ extern u16 sub_80241AC(u8);
 extern s16 sub_8024208(void);
 extern void sub_80258D4(void);
 extern s16 sub_802610C();
-extern void sub_80961E4(u8 param0);
+extern void CreateTimeRecordScreen(u8 param0);
 
 extern u16 gUnknown_080D8CDC[];
 extern const TileInfo2 gUnknown_080D8D00[2];
@@ -943,10 +943,10 @@ bool32 sub_8098B50(CharacterSelect *cs)
         gPlayers[PLAYER_4].charFlags.someIndex = 0;
 
         sub_80003B8();
-        sub_80961E4(1);
+        CreateTimeRecordScreen(1);
     } else if (gStageData.gameMode == GAME_MODE_BOSS_TIME_ATTACK) {
         sub_80003B8();
-        sub_80961E4(2);
+        CreateTimeRecordScreen(2);
     }
 
     return FALSE;

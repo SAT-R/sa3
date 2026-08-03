@@ -122,14 +122,14 @@ void sub_808C5D4() { }
 void sub_808C704() { }
 void sub_808CE88() { }
 void sub_808ECB8() { }
-void /* 0x0808EF9C */ OptionsSlideInit_PlayerData() { }
-void /* 0x0808F664 */ OptionsSlideInit_Difficulty() { }
-void /* 0x0808FBB4 */ OptionsSlideInit_Language() { }
-void /* 0x08090390 */ OptionsSlideInit_DeleteSaveData() { }
-void /* 0x08090A1C */ OptionsSlideInit_TimeUp() { }
-void /* 0x08090F70 */ OptionsSlideInit_ButtonConfig() { }
-void /* 0x08093954 */ OptionsSlideInit_SoundTest() { }
-void sub_80961E4(u8 param0) { }
+void /* 0x0808EF9C */ Options_PlayerData() { }
+void /* 0x0808F664 */ Options_Difficulty() { }
+void /* 0x0808FBB4 */ Options_Language() { }
+void /* 0x08090390 */ Options_DeleteSaveData() { }
+void /* 0x08090A1C */ Options_TimeUp() { }
+void /* 0x08090F70 */ Options_ButtonConfig() { }
+void /* 0x08093954 */ Options_SoundTest() { }
+void CreateTimeRecordScreen(u8 param0) { }
 // returns VRAM tile pointer
 void *CreateSomeTask_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles) { return tiles; }
 void /* 0x080A209C */ CreateGameIntroState() { }

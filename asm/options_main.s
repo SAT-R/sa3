@@ -663,10 +663,10 @@ _0808B486:
 	b _0808B49A
 _0808B48E:
 	movs r0, #0
-	bl sub_80961E4
+	bl CreateTimeRecordScreen
 	b _0808B49A
 _0808B496:
-	bl sub_8096850
+	bl CreateVsRecordScreen
 _0808B49A:
 	ldr r0, [r5]
 	bl TaskDestroy

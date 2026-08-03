@@ -198,13 +198,13 @@ gUnknown_080D6C1C:
 
     .global sOptionsSlideInits
 sOptionsSlideInits:
-    mPtr OptionsSlideInit_PlayerData
-    mPtr OptionsSlideInit_Difficulty
-    mPtr OptionsSlideInit_TimeUp
-    mPtr OptionsSlideInit_Language
-    mPtr OptionsSlideInit_ButtonConfig
-    mPtr OptionsSlideInit_SoundTest
-    mPtr OptionsSlideInit_DeleteSaveData
+    mPtr Options_PlayerData
+    mPtr Options_Difficulty
+    mPtr Options_TimeUp
+    mPtr Options_Language
+    mPtr Options_ButtonConfig
+    mPtr Options_SoundTest
+    mPtr Options_DeleteSaveData
 
     .global gUnknown_080D6E38
 gUnknown_080D6E38:

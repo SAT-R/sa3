@@ -20,7 +20,7 @@ void CallCompleteSave(void);
 void sub_8001E84(void);
 void sub_8027960(u16 param0); // either no param or unused
 void DemoPlay_Init(void);
-void sub_808AF44(s16 param0);
+void CreateOptions(s16 param0);
 void sub_808ECB8(s16 param0);
 void CreateGameIntroState(u16 state);
 void sub_808ADF0(u8 param0);
@@ -32,7 +32,7 @@ void sub_8001DDC(s32 param0);
 void sub_802616C(u8 param0);
 
 // ref to this inside sOptionsSlideInits[]
-void OptionsSlideInit_Language(u16 param0, void *vram, s32 param2, s32 param3);
+void Options_Language(u16 param0, void *vram, s32 param2, s32 param3);
 
 extern u16 gMedalTimes[][2];
 
@@ -125,7 +125,7 @@ void sub_8000340(u16 arg0)
 void LaunchOptionsMenu(u16 arg0)
 {
     sub_80003B8();
-    sub_808AF44(arg0);
+    CreateOptions(arg0);
 }
 
 void sub_8000378(void) { sub_80003B8(); }
@@ -135,7 +135,7 @@ void sub_8000384(void) { sub_80003B8(); }
 void sub_8000390(void)
 {
     sub_80003B8();
-    OptionsSlideInit_Language(0, OBJ_VRAM0, 0, 0);
+    Options_Language(0, OBJ_VRAM0, 0, 0);
 }
 
 void sub_80003AC(void) { sub_80003B8(); }
