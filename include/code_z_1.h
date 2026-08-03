@@ -43,7 +43,7 @@ typedef struct UnknownIwramData {
     s32 *unk24;
     s32 unk28;
     u16 unk2C;
-    struct UnknownIwramData *unk30[2];
+    struct UnknownIwramData *unk30[0]; // array size either unk14 or unk18; allocated in sub_80C4C60
 } UnknownIwramData;
 
 typedef struct {
@@ -60,6 +60,6 @@ void sub_80C4E24(UnknownIwramData **param0, u8 param1, s32 **param2);
 void sub_80C4EB0(UnknownIwramData **param0, u8 param1, u32 mask);
 void sub_80C5294(UnknownIwramData *);
 void sub_80C59E8(UnknownIwramData **param0, u8 param1, s32 *screenPos, u8 *arr4, s16 param4);
-void sub_80C60B0(UnknownIwramData **param0, u8 param1);
+void FreeUnknownIwramDataArray(UnknownIwramData **param0, u8 param1);
 void sub_80C610C(UnknownIwramData **param0, u8 param1);
 #endif // GUARD_CODE_Z_1_H

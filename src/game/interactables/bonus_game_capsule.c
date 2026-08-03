@@ -266,8 +266,8 @@ void TaskDestructor_BonusCapsule(struct Task *t)
     if (tiles != NULL) {
         VramFree(tiles);
     } else {
-        sub_80C60B0(&cap->unkA8, 1);
-        sub_80C60B0(&cap->unkAC, 1);
+        FreeUnknownIwramDataArray(&cap->unkA8, 1);
+        FreeUnknownIwramDataArray(&cap->unkAC, 1);
     }
 
     for (i = 0; i < (s32)ARRAY_COUNT(cap->switches); i++) {

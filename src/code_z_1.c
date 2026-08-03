@@ -307,7 +307,7 @@ void *sub_80C4C60(const UnknownColorStruct **param0, u8 hitboxCount)
     } else {
         var_sl = temp_r1_2->unk18;
     }
-    iwramDat = IwramMalloc(((var_sl * 4) + 0x30));
+    iwramDat = IwramMalloc((sizeof(UnknownIwramData) + (var_sl * sizeof(uintptr_t))));
     iwramDat->unk8 = 0;
     iwramDat->unk2C = 0;
     temp_r5 = *param0;

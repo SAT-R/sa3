@@ -37,30 +37,27 @@ static inline s32 getSpriteY(Sprite *s) { return s->y; }
 // TODO: Fake-match!
 bool32 sub_80C5FCC(UnknownIwramData **param0, u8 arg1, u8 arg2, s16 arg3, s16 arg4)
 {
-    s16 var_r2;
-    u8 temp_r1;
-    UnknownIwramData *data;
-    bool32 result = 0;
-    Sprite *s;
+    bool32 result = FALSE;
+    s16 i;
 
-    for (var_r2 = 0; var_r2 < arg1; var_r2++) {
-        data = param0[var_r2];
-        s = data->spr14;
+    for (i = 0; i < arg1; i++) {
+        UnknownIwramData *data = param0[i];
+        Sprite *s = data->spr14;
         if (s->hitboxes[arg2].index != -1) {
             Hitbox *hb = &s->hitboxes[arg2];
             if ((s->hitboxes[arg2].b.left <= getSpriteX(s)) && (s->hitboxes[arg2].b.right >= s->x)
                 && (s->hitboxes[arg2].b.top <= getSpriteY(s)) && (s->hitboxes[arg2].b.bottom >= s->y)) {
-                result = 1;
+                result = TRUE;
             }
         }
         if ((data->unk2 != 0) && (sub_80C5FCC(&data->unk30[0], data->unk2, arg2, arg3, arg4) != 0)) {
-            result = 1;
+            result = TRUE;
         }
     }
     return result;
 }
 
-void sub_80C60B0(UnknownIwramData **arr, u8 arrCount)
+void FreeUnknownIwramDataArray(UnknownIwramData **arr, u8 arrCount)
 {
     s16 i;
 
@@ -68,7 +65,7 @@ void sub_80C60B0(UnknownIwramData **arr, u8 arrCount)
         UnknownIwramData *data = arr[i];
 
         if (data->unk2 != 0) {
-            sub_80C60B0(&data->unk30[0], data->unk2);
+            FreeUnknownIwramDataArray(&data->unk30[0], data->unk2);
         }
 
         if (data->spr14 != NULL) {
