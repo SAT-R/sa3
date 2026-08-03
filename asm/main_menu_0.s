@@ -1447,7 +1447,7 @@ _08087DD8:
 	cmp r1, r0
 	bne _08087DF8
 	movs r0, #2
-	bl sub_8091D14
+	bl CreateNameEntryScreen
 	b _08087EFE
 	.align 2, 0
 _08087DF0: .4byte gLoadedSaveGame
