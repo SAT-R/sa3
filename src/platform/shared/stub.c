@@ -114,7 +114,7 @@ void sub_8088440() { }
 void sub_80885CC() { }
 void sub_8088770() { }
 void sub_808ADF0() { }
-void sub_808AF44() { }
+void CreateOptions() { }
 void sub_808C390() { }
 void sub_808C424() { }
 void sub_808C514() { }
