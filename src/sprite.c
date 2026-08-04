@@ -729,8 +729,8 @@ void DisplaySprite(Sprite *s)
     u16 sp14;
     s32 sp18;
     u32 sp1C;
-    s32 sp20;
-    s32 sp24;
+    s32 yFlip;
+    s32 xFlip;
     u32 sp28;
     const SpriteOffset2 *dimensions;
     u8 shapeAndSize;
@@ -748,8 +748,8 @@ void DisplaySprite(Sprite *s)
     sp14 = 0;
     sp18 = 0;
     sp1C = 0;
-    sp20 = 0;
-    sp24 = 0;
+    yFlip = 0;
+    xFlip = 0;
     if (s->frameNum == -1) {
         return;
     }
@@ -771,19 +771,19 @@ void DisplaySprite(Sprite *s)
     s->numSubFrames = (u8)dimensions->base.numSubframes;
     x = s->x;
     y = s->y;
-    if (0x20000 & s->frameFlags) {
+    if (s->frameFlags & SPRITE_FLAG_MASK_17) {
         x -= gSpriteOffset.x;
         y -= gSpriteOffset.y;
     }
     sprWidth = dimensions->base.width;
     sprHeight = dimensions->base.height;
-    if (s->frameFlags & 0x200) {
+    if (s->frameFlags & SPRITE_FLAG_MASK_MOSAIC) {
         sp14 |= 0x1000;
     }
-    if (0x20 & s->frameFlags) {
+    if (s->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE_ENABLE) {
         sp14 |= 0x100;
-        sp18 |= (0x1F & s->frameFlags) << 9;
-        if (0x40 & s->frameFlags) {
+        sp18 |= (s->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE) << 9;
+        if (s->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE_DOUBLE_SIZE) {
             u16 w16 = sprWidth;
             u16 h16;
             x -= w16 / 2;
@@ -794,14 +794,14 @@ void DisplaySprite(Sprite *s)
             sp14 |= 0x200;
         }
     } else {
-        if (0x800 & s->frameFlags) {
+        if (s->frameFlags & SPRITE_FLAG_MASK_Y_FLIP) {
             s32 offsetY = dimensions->base.offsetY;
             y -= sprHeight - offsetY;
         } else {
             s32 offsetY = dimensions->base.offsetY;
             y -= offsetY;
         }
-        if (0x400 & s->frameFlags) {
+        if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
             s32 offsetX = dimensions->base.offsetX;
             x -= sprWidth - offsetX;
         } else {
@@ -809,15 +809,15 @@ void DisplaySprite(Sprite *s)
             x -= offsetX;
         }
 
-        if (((s->frameFlags >> 11) & 1) != (dimensions->base.oamIndex >> 15)) {
-            sp20 = 1;
+        if (((s->frameFlags >> SPRITE_FLAG_SHIFT_Y_FLIP) & 1) != (dimensions->base.oamIndex >> 15)) {
+            yFlip = 1;
         }
         {
-            u32 checkA = (s->frameFlags >> 10);
+            u32 checkA = (s->frameFlags >> SPRITE_FLAG_SHIFT_X_FLIP);
             u32 check = (dimensions->base.oamIndex >> 14);
             check = checkA ^ check;
             if (check & 1) {
-                sp24 = 1;
+                xFlip = 1;
             }
         }
     }
@@ -848,16 +848,16 @@ void DisplaySprite(Sprite *s)
             sprY = oam->all.attr0 & 0xFF;
             oam->all.attr1 &= 0xFE00;
             oam->all.attr0 &= 0xFE00;
-            if ((sp20 | sp24) != 0) {
+            if ((yFlip | xFlip) != 0) {
                 new_var = (oam->all.attr0 & 0xC000) >> 12;
                 shapeAndSize = new_var;
                 shapeAndSize |= ((oam->all.attr1 & 0xC000) >> 14);
 
-                if (sp20 != 0) {
+                if (yFlip != 0) {
                     oam->all.attr1 = oam->all.attr1 ^ 0x2000;
                     sprY = (sprHeight - gOamShapesSizes[shapeAndSize][1]) - sprY;
                 }
-                if (sp24 != 0) {
+                if (xFlip != 0) {
                     oam->all.attr1 ^= 0x1000;
                     sprX = (sprWidth - gOamShapesSizes[shapeAndSize][0]) - sprX;
                 }
@@ -878,15 +878,15 @@ void DisplaySprite(Sprite *s)
             sprX = oam->split.x;
             sprY = oam->split.y;
 
-            if ((sp20 | sp24) != 0) {
+            if ((yFlip | xFlip) != 0) {
                 shapeAndSize = (oam->split.shape << 2);
                 shapeAndSize |= oam->split.size;
 
-                if (sp20 != 0) {
+                if (yFlip != 0) {
                     oam->split.matrixNum ^= 0x10; // v-flip
                     sprY = (sprHeight - gOamShapesSizes[shapeAndSize][1]) - sprY;
                 }
-                if (sp24 != 0) {
+                if (xFlip != 0) {
                     oam->split.matrixNum ^= 0x08; // h-flip
                     sprX = (sprWidth - gOamShapesSizes[shapeAndSize][0]) - sprX;
                 }
