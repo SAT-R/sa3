@@ -180,7 +180,6 @@ SECTIONS {
         asm/sio_debug_code_maybe.o(.text);
         asm/options_player_data.o(.text);
         src/game/sa3/options/options_difficulty.o(.text);
-        asm/options_difficulty.o(.text);
         asm/options_language.o(.text);
         asm/options_delete_save_data.o(.text);
         asm/options_time_up.o(.text);

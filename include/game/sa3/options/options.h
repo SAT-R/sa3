@@ -1,6 +1,4 @@
 #ifndef GUARD_SA3_OPTIONS_H
 #define GUARD_SA3_OPTIONS_H
 
-
-
 #endif // GUARD_SA3_OPTIONS_H
