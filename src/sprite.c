@@ -413,29 +413,38 @@ void sub_80047A0(u16 angle, s16 p1, s16 p2, u16 affineIndex)
 
 #define InvScale(qScale) (s16) Q_DIV(Q(1), (qScale))
 
+// Using strictly the parameters of a SpriteTransform, compute the screen position for a Sprite by applying this affine transformation:
+// rotate the sprite around its reference point at transform->(x,y) by transform->rotation (clockwise when angle is positive), then apply
+// scaling.
+// Also write OAM affine parameters for this transformation.
+// NOTE: this function can only work for a Sprite the size of an hardware sprite with a single subframe, with its OamDataShort's x and y
+// both at zero.
 void TransformSprite(Sprite *s, SpriteTransform *transform)
 {
-    s16 *affine;
-    bool32 negativeScaleY;
+    u16 *affine;
     const SpriteOffset *dimensions;
     s16 offsetX, offsetY;
     u32 width, height;
     s32 qOffsetX, qOffsetY;
 
-    vs16 rotScaleMat00;
-    vs16 rotScaleMat01;
-    vs16 rotScaleMat10;
-    vs16 rotScaleMat11;
+    // These local variables below are volatile, which is necessary for matching, but useless semantically.
+
+    // A matrix to compute the rotated-then-scaled offset from the sprite's center to the reference point on screen.
+    // It is the inverse of the affine OAM matrix in pa,pb,pc,pd (or P⁻¹ from the coronac link below)
+    vs16 rotScaleOffsetMat00;
+    vs16 rotScaleOffsetMat01;
+    vs16 rotScaleOffsetMat10;
+    vs16 rotScaleOffsetMat11;
     vs16 qDirX;
     vs16 qDirY;
     vs16 qScaleX;
     vs16 qScaleY;
     vs32 posX;
     vs32 posY;
-    vs16 idMat00;
-    vs16 idMat01;
-    vs16 idMat10;
-    vs16 idMat11;
+    vs16 rotScaleRefPointMat00;
+    vs16 rotScaleRefPointMat01;
+    vs16 rotScaleRefPointMat10;
+    vs16 rotScaleRefPointMat11;
     vu16 affineIndex;
 
     if (s->frameNum == -1) {
@@ -449,7 +458,7 @@ void TransformSprite(Sprite *s, SpriteTransform *transform)
     }
 
     affineIndex = s->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE;
-    affine = (s16 *)&gOamBuffer[affineIndex * 4].all.affineParam;
+    affine = &gOamBuffer[affineIndex * OAM_DATA_COUNT_AFFINE].all.affineParam;
 
     qDirX = COS_24_8(CLAMP_SIN_PERIOD(transform->rotation));
     qDirY = SIN_24_8(CLAMP_SIN_PERIOD(transform->rotation));
@@ -457,10 +466,10 @@ void TransformSprite(Sprite *s, SpriteTransform *transform)
     qScaleX = transform->qScaleX;
     qScaleY = transform->qScaleY;
 
-    affine[0 * OAM_DATA_COUNT_AFFINE] = Q_MUL(qDirX, InvScale(qScaleX));
-    affine[1 * OAM_DATA_COUNT_AFFINE] = Q_MUL(qDirY, InvScale(qScaleX));
-    affine[2 * OAM_DATA_COUNT_AFFINE] = Q_MUL(-qDirY, InvScale(qScaleY));
-    affine[3 * OAM_DATA_COUNT_AFFINE] = Q_MUL(qDirX, InvScale(qScaleY));
+    affine[0 * OAM_DATA_COUNT_AFFINE] = Q_MUL(+qDirX, InvScale(qScaleX)); // pa
+    affine[1 * OAM_DATA_COUNT_AFFINE] = Q_MUL(+qDirY, InvScale(qScaleX)); // pb
+    affine[2 * OAM_DATA_COUNT_AFFINE] = Q_MUL(-qDirY, InvScale(qScaleY)); // pc
+    affine[3 * OAM_DATA_COUNT_AFFINE] = Q_MUL(+qDirX, InvScale(qScaleY)); // pd
 
     if (transform->qScaleX < 0) {
         qScaleX = -transform->qScaleX;
@@ -469,17 +478,17 @@ void TransformSprite(Sprite *s, SpriteTransform *transform)
         qScaleY = -transform->qScaleY;
     }
 
-    rotScaleMat00 = Q_MUL(qDirX, qScaleX);
-    rotScaleMat01 = Q_MUL(-qDirY, qScaleX);
-    rotScaleMat10 = Q_MUL(qDirY, qScaleY);
-    rotScaleMat11 = Q_MUL(qDirX, qScaleY);
+    rotScaleOffsetMat00 = Q_MUL(+qDirX, qScaleX);
+    rotScaleOffsetMat01 = Q_MUL(-qDirY, qScaleX);
+    rotScaleOffsetMat10 = Q_MUL(+qDirY, qScaleY);
+    rotScaleOffsetMat11 = Q_MUL(+qDirX, qScaleY);
 
-    idMat00 = Q(1);
-    idMat01 = Q(0);
-    idMat10 = Q(0);
-    idMat11 = Q(1);
+    rotScaleRefPointMat00 = Q(1);
+    rotScaleRefPointMat01 = Q(0);
+    rotScaleRefPointMat10 = Q(0);
+    rotScaleRefPointMat11 = Q(1);
 
-    posX = transform->x;
+    posX = transform->x; // Implicitly: rotScaleRefPointMat00 * transform->x + rotScaleRefPointMat01 * transform->y + 0
     posY = transform->y;
 
     if (transform->qScaleX > 0) {
@@ -500,10 +509,14 @@ void TransformSprite(Sprite *s, SpriteTransform *transform)
         height = h;
     }
 
-    qOffsetX = rotScaleMat00 * (offsetX - (width / 2)) + rotScaleMat01 * (offsetY - (height / 2)) + Q(width / 2);
+    // Compute the offset from the sprite's top-left point to the reference point (or anchor), on screen.
+    // Full rundown at [https://www.coranac.com/tonc/text/affobj.htm#sec-combo]: we apply most of formula (11.3) here
+    // (the reference point q₀ is already written to posX/posY above, and -m*s, when m is equal to 1, is handled in DisplaySprite (when
+    // the double size flag is enabled).
+    qOffsetX = rotScaleOffsetMat00 * (offsetX - (width / 2)) + rotScaleOffsetMat01 * (offsetY - (height / 2)) + Q(width / 2);
     posX -= I(qOffsetX);
 
-    qOffsetY = rotScaleMat10 * (offsetX - (width / 2)) + rotScaleMat11 * (offsetY - (height / 2)) + Q(height / 2);
+    qOffsetY = rotScaleOffsetMat10 * (offsetX - (width / 2)) + rotScaleOffsetMat11 * (offsetY - (height / 2)) + Q(height / 2);
     posY -= I(qOffsetY);
 
     s->x = posX;
@@ -516,10 +529,12 @@ static inline s16 GetDirAngle(SpriteTransform *transform)
     return CLAMP_SIN_PERIOD((r = transform->rotation, r + gSpriteTransformRotation));
 }
 
+// A variant of TransformSprite that also makes use of global parameters (these cause the sprite to also be rotated around a point on
+// screen, then scaled).
 void UnusedTransform(Sprite *s, SpriteTransform *transform)
 {
     const SpriteOffset *dimensions;
-    s16 *affine;
+    u16 *affine;
     s32 qOffsetX, qOffsetY;
     u32 width, height;
     s16 offsetX, offsetY;
@@ -534,10 +549,10 @@ void UnusedTransform(Sprite *s, SpriteTransform *transform)
     vs16 qScaleY;
     vs32 posX;
     vs32 posY;
-    vs16 rotScaleTrfMat00;
-    vs16 rotScaleTrfMat01;
-    vs16 rotScaleTrfMat10;
-    vs16 rotScaleTrfMat11;
+    vs16 rotScaleRefPointMat00;
+    vs16 rotScaleRefPointMat01;
+    vs16 rotScaleRefPointMat10;
+    vs16 rotScaleRefPointMat11;
     vu16 affineIndex;
 
     if (s->frameNum == -1) {
@@ -551,7 +566,7 @@ void UnusedTransform(Sprite *s, SpriteTransform *transform)
     }
 
     affineIndex = s->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE;
-    affine = (s16 *)&gOamBuffer[affineIndex * 4].all.affineParam;
+    affine = &gOamBuffer[affineIndex * OAM_DATA_COUNT_AFFINE].all.affineParam;
 
     qDirX = COS_24_8(GetDirAngle(transform));
     qDirY = SIN_24_8(GetDirAngle(transform));
@@ -559,10 +574,10 @@ void UnusedTransform(Sprite *s, SpriteTransform *transform)
     qScaleX = Q_MUL(transform->qScaleX, gSpriteTransformScaleX);
     qScaleY = Q_MUL(transform->qScaleY, gSpriteTransformScaleY);
 
-    affine[0 * OAM_DATA_COUNT_AFFINE] = Q_MUL(qDirX, InvScale(qScaleX));
-    affine[1 * OAM_DATA_COUNT_AFFINE] = Q_MUL(qDirY, InvScale(qScaleX));
+    affine[0 * OAM_DATA_COUNT_AFFINE] = Q_MUL(+qDirX, InvScale(qScaleX));
+    affine[1 * OAM_DATA_COUNT_AFFINE] = Q_MUL(+qDirY, InvScale(qScaleX));
     affine[2 * OAM_DATA_COUNT_AFFINE] = Q_MUL(-qDirY, InvScale(qScaleY));
-    affine[3 * OAM_DATA_COUNT_AFFINE] = Q_MUL(qDirX, InvScale(qScaleY));
+    affine[3 * OAM_DATA_COUNT_AFFINE] = Q_MUL(+qDirX, InvScale(qScaleY));
 
     if (transform->qScaleX < 0) {
         qScaleX = Q_MUL(-transform->qScaleX, gSpriteTransformScaleX);
@@ -572,18 +587,18 @@ void UnusedTransform(Sprite *s, SpriteTransform *transform)
         qScaleY = Q_MUL(-transform->qScaleY, gSpriteTransformScaleY);
     }
 
-    rotScaleOffsetMat00 = Q_MUL(qDirX, qScaleX);
+    rotScaleOffsetMat00 = Q_MUL(+qDirX, qScaleX);
     rotScaleOffsetMat01 = Q_MUL(-qDirY, qScaleX);
-    rotScaleOffsetMat10 = Q_MUL(qDirY, qScaleY);
-    rotScaleOffsetMat11 = Q_MUL(qDirX, qScaleY);
+    rotScaleOffsetMat10 = Q_MUL(+qDirY, qScaleY);
+    rotScaleOffsetMat11 = Q_MUL(+qDirX, qScaleY);
 
-    rotScaleTrfMat00 = Q_MUL(+COS_24_8(gSpriteTransformRotation), gSpriteTransformScaleX);
-    rotScaleTrfMat01 = Q_MUL(((-SIN(gSpriteTransformRotation)) >> 6), gSpriteTransformScaleX);
-    rotScaleTrfMat10 = Q_MUL(+SIN_24_8(gSpriteTransformRotation), gSpriteTransformScaleY);
-    rotScaleTrfMat11 = Q_MUL(+COS_24_8(gSpriteTransformRotation), gSpriteTransformScaleY);
+    rotScaleRefPointMat00 = Q_MUL(Q_2_14_TO_Q_24_8(+COS(gSpriteTransformRotation)), gSpriteTransformScaleX);
+    rotScaleRefPointMat01 = Q_MUL(Q_2_14_TO_Q_24_8(-SIN(gSpriteTransformRotation)), gSpriteTransformScaleX);
+    rotScaleRefPointMat10 = Q_MUL(Q_2_14_TO_Q_24_8(+SIN(gSpriteTransformRotation)), gSpriteTransformScaleY);
+    rotScaleRefPointMat11 = Q_MUL(Q_2_14_TO_Q_24_8(+COS(gSpriteTransformRotation)), gSpriteTransformScaleY);
 
-    posX = I(rotScaleTrfMat00 * transform->x + rotScaleTrfMat01 * transform->y + Q(gSpriteTransformX));
-    posY = I(rotScaleTrfMat10 * transform->x + rotScaleTrfMat11 * transform->y + Q(gSpriteTransformY));
+    posX = I(rotScaleRefPointMat00 * transform->x + rotScaleRefPointMat01 * transform->y + Q(gSpriteTransformX));
+    posY = I(rotScaleRefPointMat10 * transform->x + rotScaleRefPointMat11 * transform->y + Q(gSpriteTransformY));
 
     if (transform->qScaleX > 0) {
         offsetX = dimensions->offsetX;
@@ -615,10 +630,11 @@ void UnusedTransform(Sprite *s, SpriteTransform *transform)
 
 #define Q_MUL_16(q1, q2) (s16) Q_MUL((q1), (q2))
 
+// A variant of UnusedTransform that applies extra scaling when transforming the reference point
 void sa2__sub_8004E14(Sprite *s, SpriteTransform *transform)
 {
     const SpriteOffset *dimensions;
-    s16 *affine;
+    u16 *affine;
     s32 qOffsetX, qOffsetY;
     u32 width, height;
     s16 offsetX, offsetY;
@@ -633,10 +649,10 @@ void sa2__sub_8004E14(Sprite *s, SpriteTransform *transform)
     vs16 qScaleY;
     vs32 posX;
     vs32 posY;
-    vs16 rotScaleTrfMat00;
-    vs16 rotScaleTrfMat01;
-    vs16 rotScaleTrfMat10;
-    vs16 rotScaleTrfMat11;
+    vs16 rotScaleRefPointMat00;
+    vs16 rotScaleRefPointMat01;
+    vs16 rotScaleRefPointMat10;
+    vs16 rotScaleRefPointMat11;
     vu16 affineIndex;
 
     if (s->frameNum == -1) {
@@ -650,7 +666,7 @@ void sa2__sub_8004E14(Sprite *s, SpriteTransform *transform)
     }
 
     affineIndex = s->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE;
-    affine = (s16 *)&gOamBuffer[affineIndex * 4].all.affineParam;
+    affine = &gOamBuffer[affineIndex * OAM_DATA_COUNT_AFFINE].all.affineParam;
 
     qDirX = COS_24_8(GetDirAngle(transform));
     qDirY = SIN_24_8(GetDirAngle(transform));
@@ -658,10 +674,10 @@ void sa2__sub_8004E14(Sprite *s, SpriteTransform *transform)
     qScaleX = Q_MUL(transform->qScaleX, gSpriteTransformScaleX);
     qScaleY = Q_MUL(transform->qScaleY, gSpriteTransformScaleY);
 
-    affine[0 * OAM_DATA_COUNT_AFFINE] = Q_MUL(qDirX, InvScale(qScaleX));
-    affine[1 * OAM_DATA_COUNT_AFFINE] = Q_MUL(qDirY, InvScale(qScaleX));
+    affine[0 * OAM_DATA_COUNT_AFFINE] = Q_MUL(+qDirX, InvScale(qScaleX));
+    affine[1 * OAM_DATA_COUNT_AFFINE] = Q_MUL(+qDirY, InvScale(qScaleX));
     affine[2 * OAM_DATA_COUNT_AFFINE] = Q_MUL(-qDirY, InvScale(qScaleY));
-    affine[3 * OAM_DATA_COUNT_AFFINE] = Q_MUL(qDirX, InvScale(qScaleY));
+    affine[3 * OAM_DATA_COUNT_AFFINE] = Q_MUL(+qDirX, InvScale(qScaleY));
 
     if (transform->qScaleX < 0) {
         qScaleX = Q_MUL(-transform->qScaleX, gSpriteTransformScaleX);
@@ -671,22 +687,22 @@ void sa2__sub_8004E14(Sprite *s, SpriteTransform *transform)
         qScaleY = Q_MUL(-transform->qScaleY, gSpriteTransformScaleY);
     }
 
-    rotScaleOffsetMat00 = Q_MUL(qDirX, qScaleX);
+    rotScaleOffsetMat00 = Q_MUL(+qDirX, qScaleX);
     rotScaleOffsetMat01 = Q_MUL(-qDirY, qScaleX);
-    rotScaleOffsetMat10 = Q_MUL(qDirY, qScaleY);
-    rotScaleOffsetMat11 = Q_MUL(qDirX, qScaleY);
+    rotScaleOffsetMat10 = Q_MUL(+qDirY, qScaleY);
+    rotScaleOffsetMat11 = Q_MUL(+qDirX, qScaleY);
 
-    rotScaleTrfMat00
-        = Q_MUL(Q_MUL_16(+COS_24_8(gSpriteTransformRotation), gSpriteTransformScaleX), Q_MUL_16(qScaleX, gSpriteTransformScaleUnknown));
-    rotScaleTrfMat01
-        = Q_MUL(Q_MUL_16(((-SIN(gSpriteTransformRotation)) >> 6), gSpriteTransformScaleX), Q_MUL_16(qScaleX, gSpriteTransformScaleUnknown));
-    rotScaleTrfMat10
-        = Q_MUL(Q_MUL_16(+SIN_24_8(gSpriteTransformRotation), gSpriteTransformScaleY), Q_MUL_16(qScaleY, gSpriteTransformScaleUnknown));
-    rotScaleTrfMat11
-        = Q_MUL(Q_MUL_16(+COS_24_8(gSpriteTransformRotation), gSpriteTransformScaleY), Q_MUL_16(qScaleY, gSpriteTransformScaleUnknown));
+    rotScaleRefPointMat00 = Q_MUL(Q_MUL_16(Q_2_14_TO_Q_24_8(+COS(gSpriteTransformRotation)), gSpriteTransformScaleX),
+                                  Q_MUL_16(qScaleX, gSpriteTransformScaleUnknown));
+    rotScaleRefPointMat01 = Q_MUL(Q_MUL_16(Q_2_14_TO_Q_24_8(-SIN(gSpriteTransformRotation)), gSpriteTransformScaleX),
+                                  Q_MUL_16(qScaleX, gSpriteTransformScaleUnknown));
+    rotScaleRefPointMat10 = Q_MUL(Q_MUL_16(Q_2_14_TO_Q_24_8(+SIN(gSpriteTransformRotation)), gSpriteTransformScaleY),
+                                  Q_MUL_16(qScaleY, gSpriteTransformScaleUnknown));
+    rotScaleRefPointMat11 = Q_MUL(Q_MUL_16(Q_2_14_TO_Q_24_8(+COS(gSpriteTransformRotation)), gSpriteTransformScaleY),
+                                  Q_MUL_16(qScaleY, gSpriteTransformScaleUnknown));
 
-    posX = I(rotScaleTrfMat00 * transform->x + rotScaleTrfMat01 * transform->y + Q(gSpriteTransformX));
-    posY = I(rotScaleTrfMat10 * transform->x + rotScaleTrfMat11 * transform->y + Q(gSpriteTransformY));
+    posX = I(rotScaleRefPointMat00 * transform->x + rotScaleRefPointMat01 * transform->y + Q(gSpriteTransformX));
+    posY = I(rotScaleRefPointMat10 * transform->x + rotScaleRefPointMat11 * transform->y + Q(gSpriteTransformY));
 
     if (transform->qScaleX > 0) {
         offsetX = dimensions->offsetX;
