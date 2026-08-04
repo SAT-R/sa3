@@ -4,16 +4,12 @@
 
 typedef struct {
     /* 0x00 */ u8 unk0;
-    /* 0x04 */ u8 *unk4;
+    /* 0x04 */ u8 *initArg3;
     /* 0x08 */ s16 difficultyValue;
-    /* 0x0A */ s16 unkA;
     /* 0x0C */ Vec2_32 unkC[2];
-    /* 0x1C */ s32 unk1C;
-    /* 0x20 */ s32 unk20;
-    /* 0x24 */ s32 unk24;
-    /* 0x28 */ s32 unk28;
-    /* 0x2C */ s32 unk2C;
-    /* 0x30 */ s32 unk30;
+    /* 0x1C */ Vec2_32 posControls;
+    /* 0x24 */ Vec2_32 unk24;
+    /* 0x2C */ Vec2_32 unk2C;
     /* 0x38 */ u16 unk34;
     /* 0x38 */ u16 unk36;
     /* 0x38 */ u8 *vram38; // <- param1 on creation
@@ -49,19 +45,19 @@ void Options_Difficulty(s16 difficultyValue, u8 *vramBase, s32 unused, u8 *arg3)
     OptionsDifficulty *difficulty = TASK_DATA(t);
 
     difficulty->difficultyValue = difficultyValue;
-    difficulty->unk4 = arg3;
+    difficulty->initArg3 = arg3;
 
     for (i = 0; i < ARRAY_COUNT(difficulty->unkC); i++) {
         difficulty->unkC[i].x = 55 - gBgScrollRegs[1][0];
         difficulty->unkC[i].y = 70 - gBgScrollRegs[1][1];
     }
 
-    difficulty->unk1C = -gBgScrollRegs[1][0];
-    difficulty->unk20 = -gBgScrollRegs[1][1];
+    difficulty->posControls.x = -gBgScrollRegs[1][0];
+    difficulty->posControls.y = -gBgScrollRegs[1][1];
     difficulty->unk34 = -gBgScrollRegs[1][0] + 100;
     difficulty->unk36 = -gBgScrollRegs[1][1];
-    difficulty->unk24 = -gBgScrollRegs[1][0];
-    difficulty->unk28 = -gBgScrollRegs[1][1];
+    difficulty->unk24.x = -gBgScrollRegs[1][0];
+    difficulty->unk24.y = -gBgScrollRegs[1][1];
     difficulty->vram38 = vramBase;
     difficulty->unk0 = LOADED_SAVE->language;
 
@@ -115,8 +111,8 @@ static void InitSprites(OptionsDifficulty *difficulty)
         s->anim = gUnknown_080D7024[difficulty->unk0].anim;
         s->variant = gUnknown_080D7024[difficulty->unk0].variant;
         s->prevVariant = -1;
-        s->x = I(difficulty->unk1C);
-        s->y = I(difficulty->unk20);
+        s->x = I(difficulty->posControls.x);
+        s->y = I(difficulty->posControls.y);
         s->oamFlags = SPRITE_OAM_ORDER(0);
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -134,8 +130,8 @@ static void InitSprites(OptionsDifficulty *difficulty)
         s->anim = gUnknown_080D70B4[0].anim;
         s->variant = gUnknown_080D70B4[0].variant;
         s->prevVariant = -1;
-        s->x = I(difficulty->unk2C);
-        s->y = I(difficulty->unk30);
+        s->x = I(difficulty->unk2C.x);
+        s->y = I(difficulty->unk2C.y);
         s->oamFlags = SPRITE_OAM_ORDER(0);
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -168,12 +164,13 @@ static void Task_Options_Difficulty(void)
                 break;
         }
     } else {
-        if ((gBgScrollRegs[1][0] <= -200) && (difficulty->unk24 <= -gBgScrollRegs[1][0])) {
-            *difficulty->unk4 = 0;
+        if ((gBgScrollRegs[1][0] <= -200) && (difficulty->unk24.x <= -gBgScrollRegs[1][0])) {
+            *difficulty->initArg3 = 0;
             TaskDestroy(gCurTask);
             return;
         }
-        difficulty->unk24 = -gBgScrollRegs[1][0];
+
+        difficulty->unk24.x = -gBgScrollRegs[1][0];
 
         if ((gBgScrollRegs[1][0] == 0) && (DPAD_SIDEWAYS & gRepeatedKeys)) {
             if (DPAD_RIGHT & gRepeatedKeys) {
@@ -225,8 +222,8 @@ static void UpdateUiPositions(OptionsDifficulty *difficulty)
         difficulty->unkC[i].y = 70 - gBgScrollRegs[1][1];
     }
 
-    difficulty->unk1C = 120 - gBgScrollRegs[1][0];
-    difficulty->unk20 = 135 - gBgScrollRegs[1][1];
+    difficulty->posControls.x= 120 - gBgScrollRegs[1][0];
+    difficulty->posControls.y = 135 - gBgScrollRegs[1][1];
     difficulty->unk34 = 120 - gBgScrollRegs[1][0];
     difficulty->unk36 = 30 - gBgScrollRegs[1][1];
 }
@@ -246,8 +243,8 @@ static void RenderControls(OptionsDifficulty *difficulty)
     Sprite *s = &difficulty->controls;
     s->anim = gUnknown_080D7024[difficulty->unk0].anim;
     s->variant = gUnknown_080D7024[difficulty->unk0].variant;
-    s->x = (s16)difficulty->unk1C;
-    s->y = (s16)difficulty->unk20;
+    s->x = difficulty->posControls.x;
+    s->y = difficulty->posControls.y;
     DisplaySprite(s);
 }
 
