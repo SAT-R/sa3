@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start sub_808F070
 sub_808F070: @ 0x0808F070
 	push {r4, r5, r6, r7, lr}
@@ -256,6 +254,7 @@ _0808F258: .4byte gUnknown_080D7054
 _0808F25C: .4byte gUnknown_080D6F5C
 _0808F260: .4byte gUnknown_080D7024
 _0808F264: .4byte gUnknown_080D701C
+.endif
 
 	thumb_func_start Task_Options_PlayerData
 Task_Options_PlayerData: @ 0x0808F268
