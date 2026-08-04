@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start sub_808F748
 sub_808F748: @ 0x0808F748
 	push {r4, r5, r6, r7, lr}
@@ -226,6 +224,7 @@ _0808F8F4: .4byte gUnknown_080D7084
 _0808F8F8: .4byte gUnknown_080D6AE8
 _0808F8FC: .4byte gUnknown_080D7024
 _0808F900: .4byte gUnknown_080D70B4
+.endif
 
 	thumb_func_start Task_Options_Difficulty_Init
 Task_Options_Difficulty_Init: @ 0x0808F904
