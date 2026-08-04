@@ -19,7 +19,7 @@ typedef bool32 (*VBlankProcessFunc)(void);
 IntrFunc gIntrTable[] = {};
 u32 gIntrMainBuf[] = {};
 struct Task gTasks[] = {};
-u16 gSpriteTransformScaleX ALIGNED(4) = 0;
+u16 gSpriteTransformScaleX ALIGNED(4) = Q(0);
 Vec2_16 gSpriteOffset ALIGNED(4) = {};
 Background *gBackgroundsCopyQueue[] ALIGNED(16) = {};
 u32 gFlags = 0;
@@ -162,8 +162,8 @@ u8 gBgSprites_Unknown1[] = {};
 OamData gOamBuffer[] ALIGNED(16) = {};
 u16 gVramHeapState[] = {};
 u8 gBgSpritesCount ALIGNED(4) = 0;
-u16 gSpriteTransformScaleY ALIGNED(4) = 0;
-s16 gSpriteTransformScaleUnknown ALIGNED(4) = 0;
+u16 gSpriteTransformScaleY ALIGNED(4) = Q(0);
+s16 gSpriteTransformScaleUnknown ALIGNED(4) = Q(0);
 IntrFunc gVBlankIntrs[] ALIGNED(16) = {};
 const u8 *gInputPlaybackData = NULL;
 bool8 gExecSoundMain ALIGNED(4) = FALSE;
@@ -390,13 +390,13 @@ void EngineInit(void)
     gNextFreeAffineIndex = 0;
 #endif
     gSpriteTransformRotation = 0;
-    gSpriteTransformScaleX = 0x100;
-    gSpriteTransformScaleY = 0x100;
+    gSpriteTransformScaleX = Q(1);
+    gSpriteTransformScaleY = Q(1);
     SA2_LABEL(gUnknown_03002A8C) = 0;
     SA2_LABEL(gUnknown_03004D58) = 0;
     gSpriteTransformX = 0;
     gSpriteTransformY = 0;
-    gSpriteTransformScaleUnknown = 0x100;
+    gSpriteTransformScaleUnknown = Q(1);
 
     gWinRegs[WINREG_WIN0H] = 0;
     gWinRegs[WINREG_WIN1H] = 0;
