@@ -122,8 +122,6 @@ void sub_808C5D4() { }
 void sub_808C704() { }
 void sub_808CE88() { }
 void sub_808ECB8() { }
-void /* 0x0808EF9C */ Options_PlayerData() { }
-void /* 0x0808F664 */ Options_Difficulty() { }
 void /* 0x0808FBB4 */ Options_Language() { }
 void /* 0x08090390 */ Options_DeleteSaveData() { }
 void /* 0x08090A1C */ Options_TimeUp() { }
