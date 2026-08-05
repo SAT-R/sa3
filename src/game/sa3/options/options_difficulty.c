@@ -222,7 +222,7 @@ static void UpdateUiPositions(OptionsDifficulty *difficulty)
         difficulty->unkC[i].y = 70 - gBgScrollRegs[1][1];
     }
 
-    difficulty->posControls.x= 120 - gBgScrollRegs[1][0];
+    difficulty->posControls.x = 120 - gBgScrollRegs[1][0];
     difficulty->posControls.y = 135 - gBgScrollRegs[1][1];
     difficulty->unk34 = 120 - gBgScrollRegs[1][0];
     difficulty->unk36 = 30 - gBgScrollRegs[1][1];

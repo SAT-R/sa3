@@ -5,7 +5,7 @@
 typedef struct {
     /* 0x000 */ u8 language;
     /* 0x004 */ u8 *initArg3;
-    /* 0x008 */ s32 initArg2;
+    /* 0x008 */ s16 *initArg2;
     /* 0x00C */ u8 fillerC[8];
     /* 0x014 */ Vec2_32 unk14[4];
     /* 0x034 */ s32 unk34;
@@ -25,11 +25,12 @@ void Task_Options_PlayerData(void);
 void sub_808F070(OptionsPlayerData *pd);
 void TaskDestructor_Options_PlayerData(struct Task *t);
 
+extern const TileInfo2 gUnknown_080D6F5C[NUM_LANGUAGES];
 extern const TileInfo2 gUnknown_080D701C[1];
-extern const TileInfo2 gUnknown_080D7054[];
-extern const TileInfo2 gUnknown_080D7054[];
+extern const TileInfo2 gUnknown_080D7024[6];
+extern const TileInfo2 gUnknown_080D7054[1];
 
-void Options_PlayerData(s16 difficultyValue, u8 *vramBase, s32 arg2, u8 *arg3)
+void Options_PlayerData(s16 difficultyValue, u8 *vramBase, s16 *arg2, u8 *arg3)
 {
     u8 i;
     OptionsPlayerData *pd
@@ -55,21 +56,17 @@ void Options_PlayerData(s16 difficultyValue, u8 *vramBase, s32 arg2, u8 *arg3)
     sub_808F070(pd);
 }
 
-#if 0
-void sub_808F070(OptionsPlayerData *pd)
+// (99.04%) https://decomp.me/scratch/Psvoq
+NONMATCH("asm/non_matching/game/sa3/options/opt__sub_808F070.inc", void sub_808F070(OptionsPlayerData *pd))
 {
-    Vec2_32 *sp0;
-    s32 *sp4;
-    Sprite *s;
-    s32 temp_r3;
-    u8 var_r4;
+    u8 i;
 
-	{
+    {
         Sprite *s = &pd->spr114;
         s->tiles = pd->vram48;
-        pd->vram48 += gUnknown_080D7054.numTiles * TILE_SIZE_4BPP;
-        s->anim    = gUnknown_080D7054.anim;
-        s->variant = gUnknown_080D7054.variant;
+        pd->vram48 += gUnknown_080D7054[pd->language].numTiles * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080D7054[pd->language].anim;
+        s->variant = gUnknown_080D7054[pd->language].variant;
         s->prevVariant = -1;
         s->x = I(pd->unk44);
         s->y = I(pd->unk46);
@@ -83,38 +80,34 @@ void sub_808F070(OptionsPlayerData *pd)
         UpdateSpriteAnimation(s);
     }
 
-    var_r4 = 0;
-    sp0 = pd->unk14;
-    sp4 = &pd->unk14[0].y;
-    do {
-        s = &pd->spr4C[var_r4];
+    for (i = 0; i < ARRAY_COUNT(pd->spr4C); i++) {
+        Sprite *s = &pd->spr4C[i];
         s->tiles = pd->vram48;
-        pd->vram48 += gUnknown_080D6F5C[pd->language].numTiles * TILE_SIZE_4BPP;
-        s->anim = gUnknown_080D6F5C[pd->language].anim;
-        s->variant = gUnknown_080D6F5C[pd->language].variant;
+        pd->vram48 += gUnknown_080D6F5C[i + pd->language * 4].numTiles * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080D6F5C[i + pd->language * 4].anim;
+        s->variant = gUnknown_080D6F5C[i + pd->language * 4].variant;
         s->prevVariant = -1;
-        s->x = I(pd->unk14[var_r4].x);
-        s->y = I(pd->unk14[var_r4].y);
-        temp_r0->oamFlags = 0x40;
-        temp_r0->animCursor = 0;
-        temp_r0->qAnimDelay = 0;
-        temp_r0->animSpeed = 0x10;
-        temp_r0->palId = 0;
-        temp_r0->frameFlags = 0;
-        temp_r0->hitboxes[0].index = -1;
-        UpdateSpriteAnimation(temp_r0);
-        var_r4 += 1;
-    } while ((u32)var_r4 <= 3U);
+        s->x = I(pd->unk14[i].x);
+        s->y = I(pd->unk14[i].y);
+        s->oamFlags = 0x40;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        s->hitboxes[0].index = -1;
+        UpdateSpriteAnimation(s);
+    }
 
-	{
+    {
         Sprite *s = &pd->sprEC;
         s->tiles = pd->vram48;
-        pd->vram48 += gUnknown_080D7024.numTiles * TILE_SIZE_4BPP;
-        s->anim    = gUnknown_080D7024.anim;
-        s->variant = gUnknown_080D7024.variant;
-        s->prevVariant |= ~0;
-        s->x = (s16)((s32)pd->unk34 >> 8);
-        s->y = (s16)((s32)pd->unk38 >> 8);
+        pd->vram48 += gUnknown_080D7024[pd->language].numTiles * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080D7024[pd->language].anim;
+        s->variant = gUnknown_080D7024[pd->language].variant;
+        s->prevVariant = -1;
+        s->x = I(pd->unk34);
+        s->y = I(pd->unk38);
         s->oamFlags = 0;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -125,16 +118,15 @@ void sub_808F070(OptionsPlayerData *pd)
         UpdateSpriteAnimation(s);
     }
 
-	{
+    {
         Sprite *s = &pd->spr13C;
         s->tiles = pd->vram48;
-        pd->vram48 += gUnknown_080D701C.numTiles * TILE_SIZE_4BPP;
-        s->anim = gUnknown_080D701C.anim;
-        s->variant = gUnknown_080D701C.variant;
+        pd->vram48 += gUnknown_080D701C[0].numTiles * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080D701C[0].anim;
+        s->variant = gUnknown_080D701C[0].variant;
         s->prevVariant |= ~0;
-        s->x = sp0[*pd->initArg2].x - 1;
-        temp_r3 = pd->initArg2;
-        s->y = *(sp4 + (*temp_r3 * 8)) + ((u16)*temp_r3 * 0x10) + 1;
+        s->x = pd->unk14[*pd->initArg2].x - 1;
+        s->y = pd->unk14[*pd->initArg2].y + (u16)*pd->initArg2 * 16 + 1;
         s->oamFlags = 0;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -145,4 +137,7 @@ void sub_808F070(OptionsPlayerData *pd)
         UpdateSpriteAnimation(s);
     }
 }
+END_NONMATCH
+
+#if 0
 #endif
