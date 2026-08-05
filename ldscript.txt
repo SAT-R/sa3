@@ -182,7 +182,7 @@ SECTIONS {
         src/game/sa3/options/options_difficulty.o(.text);
         asm/options_language.o(.text);
         asm/options_delete_save_data.o(.text);
-        asm/options_time_up.o(.text);
+        src/game/sa3/options/options_time_up.o(.text);
         asm/options_button_config.o(.text);
         asm/name_entry_screen.o(.text);
         asm/options_sound_test.o(.text);

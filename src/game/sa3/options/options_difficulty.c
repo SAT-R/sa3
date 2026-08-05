@@ -2,6 +2,8 @@
 #include "core.h"
 #include "game/save.h"
 
+/* NOTE: Module basically identical to options_time_up */
+
 typedef struct {
     /* 0x00 */ u8 unk0;
     /* 0x04 */ u8 *initArg3;
