@@ -393,25 +393,17 @@ static AnimCmdResult animCmd_AddHitbox(void *cursor, Sprite *s)
     return 1;
 }
 
-void sub_80047A0(u16 angle, s16 p1, s16 p2, u16 affineIndex)
-{
-    u16 *affine = &gOamBuffer[affineIndex * 4].all.affineParam;
-    s16 res;
-
-    res = Div(0x10000, p1);
-    affine[0] = I(COS_24_8(angle) * res);
-
-    res = Div(0x10000, p1);
-    affine[4] = I(SIN_24_8(angle) * res);
-
-    res = Div(0x10000, p2);
-    affine[8] = I((-(SIN(angle)) >> 6) * res);
-
-    res = Div(0x10000, p2);
-    affine[12] = I(COS_24_8(angle) * res);
-}
-
 #define InvScale(qScale) (s16) Q_DIV(Q(1), (qScale))
+
+void OAMWriteAffineTransformationMatrix(u16 angle, s16 qScaleX, s16 qScaleY, u16 affineIndex)
+{
+    u16 *affine = &gOamBuffer[affineIndex * OAM_DATA_COUNT_AFFINE].all.affineParam;
+
+    affine[0 * OAM_DATA_COUNT_AFFINE] = Q_MUL(Q_2_14_TO_Q_24_8(+COS(angle)), InvScale(qScaleX));
+    affine[1 * OAM_DATA_COUNT_AFFINE] = Q_MUL(Q_2_14_TO_Q_24_8(+SIN(angle)), InvScale(qScaleX));
+    affine[2 * OAM_DATA_COUNT_AFFINE] = Q_MUL(Q_2_14_TO_Q_24_8(-SIN(angle)), InvScale(qScaleY));
+    affine[3 * OAM_DATA_COUNT_AFFINE] = Q_MUL(Q_2_14_TO_Q_24_8(+COS(angle)), InvScale(qScaleY));
+}
 
 // Using strictly the parameters of a SpriteTransform, compute the screen position for a Sprite by applying this affine transformation:
 // rotate the sprite around its reference point at transform->(x,y) by transform->rotation (clockwise when angle is positive), then apply
