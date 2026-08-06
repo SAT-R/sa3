@@ -49,11 +49,9 @@ void Options_DeleteSaveData(s16 highlitButton, u8 *vramBase, s16 *arg2, u8 *arg3
 
 void Options_DeleteSaveData(s16 highlitButton, u8 *vramBase, s16 *arg2, u8 *arg3)
 {
-    u8 *sp4;
-    s32 temp_r1;
-    u8 i;
     Task *t = TaskCreate(Task_Options_DeleteSaveData, sizeof(OptionsDeleteSave), 0x100U, 0U, TaskDestructor_Options_DeleteSaveData);
     OptionsDeleteSave *ds = TASK_DATA(t);
+    u8 i;
 
     ds->initArg3 = arg3;
     ds->highlitButton = highlitButton;
