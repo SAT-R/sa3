@@ -271,20 +271,6 @@ typedef struct {
 } SpriteTransform; /* size 0xA */
 
 typedef struct {
-    /* 0x00 */ s16 unk0[4];
-    /* 0x08 */ s16 qDirX;
-    /* 0x0A */ s16 qDirY;
-
-    /* 0x0C */ s16 unkC[2];
-
-    /* 0x10 */ s32 posX;
-    /* 0x14 */ s32 posY;
-
-    /* 0x18 */ s16 unk18[2][2];
-    /* 0x20 */ u16 affineIndex;
-} UnkSpriteStruct;
-
-typedef struct {
     /* 0x00 */ u32 numTiles;
     /* 0x04 */ AnimId anim;
     /* 0x06 */ u8 variant;
@@ -341,7 +327,7 @@ AnimCmdResult UpdateSpriteAnimation_BG(Sprite *s); // NOTE: Move into background
 void sub_80C07E0(Sprite *s);
 #endif
 void DisplaySprite(Sprite *s);
-void DisplaySprites(Sprite *s, Vec2_16 *positions, u16 count);
+void DisplaySprites(Sprite *s, Vec2_16 *positions, u8 count);
 void DrawBackground(Background *);
 bool32 SA2_LABEL(sub_8002B20)(void);
 u32 SA2_LABEL(sub_80039E4)(void);
