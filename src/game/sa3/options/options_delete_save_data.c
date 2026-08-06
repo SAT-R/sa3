@@ -2,6 +2,7 @@
 #include "core.h"
 #include "lib/m4a/m4a.h"
 #include "game/save.h"
+#include "constants/songs.h"
 
 typedef struct {
     /* 0x00 */ u8 unk0;
@@ -23,7 +24,7 @@ typedef struct {
     /* 0x9C */ Sprite controls;
     /* 0xC4 */ Sprite outline;
     /* 0xEC */ Sprite headline;
-    /* 0x114 */ Sprite spr114;
+    /* 0x114 */ Sprite headlineConfirm;
 } OptionsDeleteSave; /* 0x13C */
 
 static void Task_Options_DeleteSaveData(void);
@@ -104,7 +105,7 @@ static void InitSprites(OptionsDeleteSave *ds)
     }
 
     {
-        Sprite *s = &ds->spr114;
+        Sprite *s = &ds->headlineConfirm;
         s->tiles = ds->vram48;
         ds->vram48 += gUnknown_080D71C4[ds->unk0].numTiles * TILE_SIZE_4BPP;
         s->anim = gUnknown_080D71C4[ds->unk0].anim;
@@ -323,7 +324,7 @@ extern const TileInfo2 gUnknown_080D71C4[6];
 
 static void RenderAreYouSureHeadline(OptionsDeleteSave *ds)
 {
-    Sprite *s = &ds->spr114;
+    Sprite *s = &ds->headlineConfirm;
     s->anim = gUnknown_080D71C4[ds->unk0].anim;
     s->variant = gUnknown_080D71C4[ds->unk0].variant;
     s->x = ds->unk40.x;

@@ -20,7 +20,7 @@ Options_Language: @ 0x0808FBB4
 	lsrs r5, r0, #0x10
 	ldr r0, _0808FCC8 @ =Task_Options_Language_Init
 	movs r1, #0x93
-	lsls r1, r1, #2
+	lsls r1, r1, #2     @ 0x24C
 	movs r2, #0x80
 	lsls r2, r2, #1
 	ldr r3, _0808FCCC @ =TaskDestructor_Options_Language
