@@ -14,9 +14,9 @@ typedef struct {
     /* 0x14 */ u16 unk14;
     /* 0x18 */ Vec2_32 unk18[2];
     /* 0x28 */ Vec2_32 posControls;
-    /* 0x38 */ Vec2_32 unk30;
+    /* 0x30 */ Vec2_32 unk30;
     /* 0x38 */ Vec2_32 unk38;
-    /* 0x44 */ Vec2_u16 unk40;
+    /* 0x40 */ Vec2_u16 unk40;
     /* 0x44 */ Vec2_u16 unk44;
     /* 0x48 */ u8 *vram48; // <- param1 on creation
     /* 0x4C */ Sprite buttons[2];
@@ -35,7 +35,7 @@ static void RenderButtons(OptionsDeleteSave *ds);
 static void RenderHeadline(OptionsDeleteSave *ds);
 static void RenderControls(OptionsDeleteSave *ds);
 static void RenderButtonsOutline(OptionsDeleteSave *ds);
-static void sub_80909DC(OptionsDeleteSave *ds);
+static void RenderAreYouSureHeadline(OptionsDeleteSave *ds);
 
 extern const TileInfo2 gUnknown_080D7134[12];
 extern const TileInfo2 gUnknown_080D7024[6];
@@ -189,7 +189,7 @@ void Task_Options_DeleteSaveData()
     RenderButtonsOutline(ds);
 
     if ((ds->unk1 != 0) || (RenderHeadline(ds), (ds->unk1 != 0))) {
-        sub_80909DC(ds);
+        RenderAreYouSureHeadline(ds);
     }
 
     if ((gBgScrollRegs[1][0] <= -200) && (ds->unk30.x <= -gBgScrollRegs[1][0])) {
@@ -205,8 +205,8 @@ void Task_Options_DeleteSaveData()
         }
     } else if (gBldRegs.bldY == 0) {
         if (gBgScrollRegs[1][0] == 0) {
-            if (1 & gPressedKeys) {
-                m4aSongNumStart(0x6AU);
+            if (A_BUTTON & gPressedKeys) {
+                m4aSongNumStart(SE_SELECT);
 
                 if (ds->unk1 == 0) {
                     switch (*ds->unkC) {
@@ -229,15 +229,16 @@ void Task_Options_DeleteSaveData()
                     }
                 }
             }
-            if ((gBgScrollRegs[1][0] == 0) && (0x30 & gRepeatedKeys)) {
-                m4aSongNumStart(0x6CU);
-                if (0x10 & gRepeatedKeys) {
+            if ((gBgScrollRegs[1][0] == 0) && (DPAD_SIDEWAYS & gRepeatedKeys)) {
+                m4aSongNumStart(SE_DPAD_SELECT);
+
+                if (DPAD_RIGHT & gRepeatedKeys) {
                     if (*ds->unkC == 0) {
                         *ds->unkC = 1;
                     } else {
-                        *ds->unkC = *ds->unkC - 1;
+                        *ds->unkC -= 1;
                     }
-                } else if (0x20 & gRepeatedKeys) {
+                } else if (DPAD_LEFT & gRepeatedKeys) {
                     if (*ds->unkC == 1) {
                         *ds->unkC = 0;
                         return;
@@ -320,7 +321,7 @@ static void RenderButtonsOutline(OptionsDeleteSave *ds)
 
 extern const TileInfo2 gUnknown_080D71C4[6];
 
-static void sub_80909DC(OptionsDeleteSave *ds)
+static void RenderAreYouSureHeadline(OptionsDeleteSave *ds)
 {
     Sprite *s = &ds->spr114;
     s->anim = gUnknown_080D71C4[ds->unk0].anim;
