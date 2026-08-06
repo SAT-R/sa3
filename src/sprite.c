@@ -523,12 +523,6 @@ void TransformSprite(Sprite *s, SpriteTransform *transform)
     s->y = posY;
 }
 
-static inline s16 GetDirAngle(SpriteTransform *transform)
-{
-    s32 r;
-    return CLAMP_SIN_PERIOD((r = transform->rotation, r + gSpriteTransformRotation));
-}
-
 // A variant of TransformSprite that also makes use of global parameters (these cause the sprite to also be rotated around a point on
 // screen, then scaled).
 void UnusedTransform(Sprite *s, SpriteTransform *transform)
@@ -568,8 +562,8 @@ void UnusedTransform(Sprite *s, SpriteTransform *transform)
     affineIndex = s->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE;
     affine = &gOamBuffer[affineIndex * OAM_DATA_COUNT_AFFINE].all.affineParam;
 
-    qDirX = COS_24_8(GetDirAngle(transform));
-    qDirY = SIN_24_8(GetDirAngle(transform));
+    qDirX = COS_24_8((transform->rotation + gSpriteTransformRotation) & ONE_CYCLE);
+    qDirY = SIN_24_8((transform->rotation + gSpriteTransformRotation) & ONE_CYCLE);
 
     qScaleX = Q_MUL(transform->qScaleX, gSpriteTransformScaleX);
     qScaleY = Q_MUL(transform->qScaleY, gSpriteTransformScaleY);
@@ -668,8 +662,8 @@ void sa2__sub_8004E14(Sprite *s, SpriteTransform *transform)
     affineIndex = s->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE;
     affine = &gOamBuffer[affineIndex * OAM_DATA_COUNT_AFFINE].all.affineParam;
 
-    qDirX = COS_24_8(GetDirAngle(transform));
-    qDirY = SIN_24_8(GetDirAngle(transform));
+    qDirX = COS_24_8((transform->rotation + gSpriteTransformRotation) & ONE_CYCLE);
+    qDirY = SIN_24_8((transform->rotation + gSpriteTransformRotation) & ONE_CYCLE);
 
     qScaleX = Q_MUL(transform->qScaleX, gSpriteTransformScaleX);
     qScaleY = Q_MUL(transform->qScaleY, gSpriteTransformScaleY);
