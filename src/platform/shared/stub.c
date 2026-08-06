@@ -123,7 +123,6 @@ void sub_808C704() { }
 void sub_808CE88() { }
 void sub_808ECB8() { }
 void /* 0x0808FBB4 */ Options_Language() { }
-void /* 0x08090390 */ Options_DeleteSaveData() { }
 void /* 0x08090F70 */ Options_ButtonConfig() { }
 void /* 0x08093954 */ Options_SoundTest() { }
 void CreateTimeRecordScreen(u8 param0) { }
