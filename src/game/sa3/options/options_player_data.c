@@ -65,8 +65,7 @@ void Options_PlayerData(s16 difficultyValue, u8 *vramBase, s16 *arg2, u8 *arg3)
     sub_808F070(pd);
 }
 
-// (99.04%) https://decomp.me/scratch/Psvoq
-NONMATCH("asm/non_matching/game/sa3/options/opt__sub_808F070.inc", void sub_808F070(OptionsPlayerData *pd))
+void sub_808F070(OptionsPlayerData *pd)
 {
     u8 i;
 
@@ -146,7 +145,6 @@ NONMATCH("asm/non_matching/game/sa3/options/opt__sub_808F070.inc", void sub_808F
         UpdateSpriteAnimation(s);
     }
 }
-END_NONMATCH
 
 void Task_Options_PlayerData(void)
 {
