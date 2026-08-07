@@ -415,44 +415,37 @@ void sub_8093FDC(OptionsSoundTest *st)
     }
 }
 
-#if 0
-void sub_80940B4(OptionsSoundTest *st) {
-    Sprite *temp_r4;
-    s16 temp_r1;
-    s16 temp_r1_2;
-    s16 temp_r3;
-    s32 temp_r2;
-    u8 var_r5;
+void sub_80940B4(OptionsSoundTest *st)
+{
+    Sprite *s = &st->spr1BC;
+    u8 i;
 
-    temp_r4 = &st->spr1BC;
-    var_r5 = 0;
-    do {
-        temp_r2 = 0 - (u16) gBgScrollRegs[1][0];
-        temp_r3 = temp_r2 + 0x38;
-        st->spr1BC.x = temp_r3;
-        temp_r1 = (0 - (u16) gBgScrollRegs[1][1]) + 0x5A;
-        st->spr1BC.y = temp_r1;
-        st->spr1BC.y = temp_r1 + ((s32) st->unk8C >> 8);
-        if (var_r5 != 0) {
-            st->spr1BC.frameFlags &= 0xFFFFFBFF;
-            temp_r1_2 = temp_r2 + 0x68;
-            st->spr1BC.x = temp_r1_2;
-            st->spr1BC.x = temp_r1_2 + ((s32) st->unk88 >> 8);
+    for (i = 0; i < 2; i++) {
+        s->x = -gBgScrollRegs[1][0] + 56;
+        s->y = -gBgScrollRegs[1][1] + 90;
+
+        s->y += I(st->unk8C);
+
+        if (i != 0) {
+            s->frameFlags &= ~0x400;
+            s->x += 48;
+            s->x += I(st->unk88);
         } else {
-            st->spr1BC.frameFlags |= 0x400;
-            st->spr1BC.x = temp_r3 - ((s32) st->unk88 >> 8);
+            s->frameFlags |= 0x400;
+            s->x -= I(st->unk88);
         }
-        UpdateSpriteAnimation(temp_r4);
-        DisplaySprite(temp_r4);
-        var_r5 += 1;
-    } while ((u32) var_r5 <= 1U);
+
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
 }
 
+#if 0
 void sub_8094144(OptionsSoundTest *st) {
     s32 sp0;
-    u16 *sp8;
+    TileInfo2 *sp8;
     Sprite *temp_r0;
-    u16 *var_r2;
+    TileInfo2 *var_r2;
     u8 var_r4;
 
     st->sprF4.tiles = st->vramA0;
@@ -473,8 +466,8 @@ void sub_8094144(OptionsSoundTest *st) {
     UpdateSpriteAnimation(&st->sprF4);
     st->sprA4.tiles = st->vramA0;
     st->vramA0 += 0x280;
-    st->sprA4.anim = *((st->unk4 * 8) + &gUnknown_080D7628);
-    st->sprA4.variant = ((st->unk4 * 8) + &gUnknown_080D7628)->unk2;
+    st->sprA4.anim = gUnknown_080D7628[st->unk4].anim;
+    st->sprA4.variant = gUnknown_080D7628[st->unk4].variant;
     st->sprA4.prevVariant = -1U;
     st->sprA4.x = (s16) st->unk60;
     st->sprA4.y = (s16) st->unk64;
@@ -488,8 +481,8 @@ void sub_8094144(OptionsSoundTest *st) {
     UpdateSpriteAnimation(&st->sprA4);
     st->sprCC.tiles = st->vramA0;
     st->vramA0 += 0x180;
-    st->sprCC.anim = *((((st->unk4 * 2) + st->unk6) * 8) + &gUnknown_080D7658);
-    st->sprCC.variant = ((((st->unk4 * 2) + st->unk6) * 8) + &gUnknown_080D7658)->unk2;
+    st->sprCC.anim = gUnknown_080D7658[(st->unk4 * 2) + st->unk6].anim;
+    st->sprCC.variant = gUnknown_080D7658[(st->unk4 * 2) + st->unk6].variant;
     st->sprCC.prevVariant = -1U;
     st->sprCC.x = st->unk60 + 0x40;
     st->sprCC.y = (s16) st->unk64;
@@ -501,14 +494,14 @@ void sub_8094144(OptionsSoundTest *st) {
     st->sprCC.frameFlags = 0;
     st->sprCC.hitboxes[0].index = -1;
     UpdateSpriteAnimation(&st->sprCC);
-    var_r2 = &gUnknown_080D76F0;
-    sp0.unk4 = (u8) gUnknown_080D76F0.unk2;
-    sp0 = gUnknown_080D76F0.unk4 << 5;
+    var_r2 = gUnknown_080D76F0;
+    sp0.unk4 = (u8) gUnknown_080D76F0->variant;
+    sp0 = gUnknown_080D76F0->numTiles << 5;
     do {
         temp_r0 = &st->spr11C[var_r4];
         temp_r0->tiles = st->vramA0;
         st->vramA0 = &st->vramA0[sp0];
-        temp_r0->anim = *var_r2;
+        temp_r0->anim = var_r2->anim;
         temp_r0->variant = sp0.unk4;
         temp_r0->prevVariant = 0xFF;
         temp_r0->x = (s16) st->unk90;
@@ -638,48 +631,45 @@ void Task_SoundTest(void) {
     }
 }
 
-void sub_80945A0(OptionsSoundTest *arg0) {
-    arg0->unk60 = 0x18 - gBgScrollRegs[1][0];
-    arg0->unk64 = 0x87 - gBgScrollRegs[1][1];
-    arg0->unk68 = 0x19 - gBgScrollRegs[1][0];
-    arg0->unk6C = 0x19 - gBgScrollRegs[1][1];
-    arg0->unk78 = (0 - gBgScrollRegs[1][0]) + 0x50;
-    arg0->unk7C = (0 - gBgScrollRegs[1][1]) + 0x5C;
-    arg0->unk90 = (0 - gBgScrollRegs[1][0]) + 0x50;
-    arg0->unk94 = (0 - gBgScrollRegs[1][1]) + 0x5C;
+void sub_80945A0(OptionsSoundTest *st) {
+    st->unk60 = 0x18 - gBgScrollRegs[1][0];
+    st->unk64 = 0x87 - gBgScrollRegs[1][1];
+    st->unk68 = 0x19 - gBgScrollRegs[1][0];
+    st->unk6C = 0x19 - gBgScrollRegs[1][1];
+    st->unk78 = (0 - gBgScrollRegs[1][0]) + 0x50;
+    st->unk7C = (0 - gBgScrollRegs[1][1]) + 0x5C;
+    st->unk90 = (0 - gBgScrollRegs[1][0]) + 0x50;
+    st->unk94 = (0 - gBgScrollRegs[1][1]) + 0x5C;
 }
 
-void sub_8094604(OptionsSoundTest *arg0) {
+void sub_8094604(OptionsSoundTest *st) {
     s32 temp_r0;
     s32 temp_r0_2;
 
-    temp_r0 = arg0->unk88;
+    temp_r0 = st->unk88;
     if (temp_r0 <= 0x9FF) {
         temp_r0_2 = temp_r0 + 0x60;
-        arg0->unk88 = temp_r0_2;
+        st->unk88 = temp_r0_2;
         if (temp_r0_2 > 0x9FF) {
-            arg0->unk88 = 0;
+            st->unk88 = 0;
         }
     }
-    arg0->unk8C = 0;
+    st->unk8C = 0;
 }
 
-void sub_8094630(OptionsSoundTest *arg0) {
-    Sprite *temp_r2;
-
-    temp_r2 = arg0 + 0xF4;
-    temp_r2->anim = *((arg0->unk4 * 8) + &gUnknown_080D76C0);
-    temp_r2->variant = ((arg0->unk4 * 8) + &gUnknown_080D76C0)->unk2;
-    temp_r2->x = (s16) arg0->unk68;
-    temp_r2->y = (s16) arg0->unk6C;
-    DisplaySprite(temp_r2);
+void sub_8094630(OptionsSoundTest *st) {
+    st->sprF4.anim = *((st->unk4 * 8) + &gUnknown_080D76C0);
+    st->sprF4.variant = ((st->unk4 * 8) + &gUnknown_080D76C0)->unk2;
+    st->sprF4.x = (s16) st->unk68;
+    st->sprF4.y = (s16) st->unk6C;
+    DisplaySprite(&st->sprF4);
 }
 
-void sub_8094664(OptionsSoundTest *arg0) {
+void sub_8094664(OptionsSoundTest *st) {
     s16 temp_r2;
 
-    temp_r2 = arg0->unk26;
-    sa2__sub_8003EE4(0U, temp_r2, temp_r2, 0x40, 0x40, (s16) (s32) (s16) arg0->unk78, (s16) (s32) (s16) arg0->unk7C, gBgAffineRegs);
+    temp_r2 = st->unk26;
+    sa2__sub_8003EE4(0U, temp_r2, temp_r2, 0x40, 0x40, (s16) (s32) (s16) st->unk78, (s16) (s32) (s16) st->unk7C, gBgAffineRegs);
 }
 
 void TaskDestructor_SoundTest(Task *t) {
