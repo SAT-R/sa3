@@ -2,6 +2,7 @@
 #include "core.h"
 #include "flags.h"
 #include "lib/m4a/m4a.h"
+#include "code_z_1.h"
 #include "game/save.h"
 #include "constants/songs.h"
 
@@ -20,7 +21,7 @@ typedef struct {
     /* 0x018 */ s16 unk18;
     /* 0x01A */ s16 unk1A[4];
     /* 0x022 */ s16 unk22;
-    /* 0x024 */ s16 unk24;
+    /* 0x024 */ u16 unk24;
     /* 0x026 */ s16 unk26;
     /* 0x028 */ s32 unk28[12];
     /* 0x058 */ s32 unk58;
@@ -66,7 +67,9 @@ void sub_8094604(OptionsSoundTest *st);
 void sub_8094630(OptionsSoundTest *st);
 void sub_8094664(OptionsSoundTest *st);
 
-extern u16 gUnknown_080D7530[124];
+extern u16 sSoundTestSongIds[124];
+
+extern const ColorRaw gOptionsBgPalette[256];
 
 void Options_SoundTest(s16 highlitButton, u8 *vramBase, s16 *arg2, u8 *arg3)
 {
@@ -124,7 +127,6 @@ void Options_SoundTest(s16 highlitButton, u8 *vramBase, s16 *arg2, u8 *arg3)
 
 void Task_8093AB0(void)
 {
-    u8 temp_r5_2;
     u8 i;
     OptionsSoundTest *st = TASK_DATA(gCurTask);
     struct SoundMixerState *soundInfo = &gSoundInfo;
@@ -134,31 +136,36 @@ void Task_8093AB0(void)
     sub_8094630(st);
     sub_8094664(st);
     sub_8093FDC(st);
+
     if (st->unk6 != 0) {
         sub_8093DF4(st);
     } else {
         st->unk26 = 0x100;
     }
+
     sub_8094604(st);
     sub_80940B4(st);
+
     if ((gBgScrollRegs[1][0] <= -200) && (st->unk70 <= -gBgScrollRegs[1][0])) {
         *st->initArg3 = 0;
         st->unk5 = 0;
         gCurTask->main = Task_8093D30;
         return;
     }
-    st->unk70 = 0 - gBgScrollRegs[1][0];
+
+    st->unk70 = -gBgScrollRegs[1][0];
+
     if (B_BUTTON & gPressedKeys) {
         if (st->unk6 == 1) {
             st->unk6 = 0;
             st->unk88 = 0;
             st->unk8C = 0;
-            m4aSongNumStop(gUnknown_080D7530[st->unk12]);
+            m4aSongNumStop(sSoundTestSongIds[st->unk12]);
         } else {
             m4aSongNumStart(0x6BU);
             m4aSongNumStart(6U);
             *st->initArg2 = 0x7B;
-            m4aSongNumStop(gUnknown_080D7530[st->unk12]);
+            m4aSongNumStop(sSoundTestSongIds[st->unk12]);
 
             gCurTask->main = Task_8093D30;
             return;
@@ -166,7 +173,7 @@ void Task_8093AB0(void)
     } else if (A_BUTTON & gPressedKeys) {
         if (gBgScrollRegs[1][0] == 0) {
             m4aMPlayAllStop();
-            m4aSongNumStop(gUnknown_080D7530[st->unk12]);
+            m4aSongNumStop(sSoundTestSongIds[st->unk12]);
             st->unk24 = 0;
             st->unk26 = 0x100;
             st->unk5C = 0;
@@ -184,14 +191,14 @@ void Task_8093AB0(void)
 
             soundInfo->pcmBuffer[0] = 0;
             st->unk6 = 1;
-            m4aSongNumStart(gUnknown_080D7530[st->unk18]);
+            m4aSongNumStart(sSoundTestSongIds[st->unk18]);
             st->unk12 = st->unk18;
             return;
         }
     }
 
-    if ((gBgScrollRegs[1][0] == 0) && (0x30 & gRepeatedKeys)) {
-        temp_r5_2 = 0;
+    if ((gBgScrollRegs[1][0] == 0) && (DPAD_SIDEWAYS & gRepeatedKeys)) {
+        u8 temp_r5_2 = 0;
         if (DPAD_RIGHT & gRepeatedKeys) {
             if (st->unk18 == 0x7A) {
                 st->unk18 = 0;
@@ -206,20 +213,20 @@ void Task_8093AB0(void)
             }
         }
         temp_r5_2 = ((st->unk18 + 1) / 10);
-        st->unk9 = (temp_r5_2 / 10U);
-        st->unk8 = temp_r5_2 - (st->unk9 * 0xA);
-        st->unk7 = (st->unk18 + 1) - (temp_r5_2 * 0xA);
+        st->unk9 = (temp_r5_2 / 10);
+        st->unk8 = temp_r5_2 - (st->unk9 * 10);
+        st->unk7 = (st->unk18 + 1) - (temp_r5_2 * 10);
     }
 
     if (st->unk6 == 1) {
         if ((st->unk58 == 0) && (st->unk22 == 0)) {
             if (soundInfo->pcmBuffer[0] == 0) {
-                if (++st->unk24 > 0x77U) {
+                if (++st->unk24 >= 120u) {
                     st->unk24 = 0;
                     st->unk6 = 0;
                     st->unk88 = 0;
                     st->unk8C = 0;
-                    m4aSongNumStop(gUnknown_080D7530[st->unk12]);
+                    m4aSongNumStop(sSoundTestSongIds[st->unk12]);
                 }
             }
         } else {
@@ -228,32 +235,37 @@ void Task_8093AB0(void)
     }
 }
 
-#if 0
-void Task_8093D30(OptionsSoundTest *st) {
+void Task_8093D30(void)
+{
+    OptionsSoundTest *st = TASK_DATA(gCurTask);
+
     sub_80945A0(st);
     sub_8093F64(st);
     sub_8094630(st);
     sub_8094664(st);
     sub_8093FDC(st);
+
     if (st->unk6 != 0) {
         sub_8093DF4(st);
     }
+
     sub_8094604(st);
     sub_80940B4(st);
-    if (((s32) gBgScrollRegs[1][0] <= -0xC8) && ((s64) (st->unk70 + gBgScrollRegs[1][0]) <= 0)) {
-        if (0x20000 & gFlags) {
-            CopyObjPaletteMasked(&gUnknown_080D6C1C, 0U, 0x100U);
+
+    if ((gBgScrollRegs[1][0] <= -200) && (st->unk70 <= -gBgScrollRegs[1][0])) {
+        if (FLAGS_20000 & gFlags) {
+            CopyObjPaletteMasked(gOptionsBgPalette, 0U, 256);
         } else {
-            (void *)0x040000D4->unk0 = &gUnknown_080D6C1C;
-            (void *)0x040000D4->unk4 = gObjPalette;
-            (void *)0x040000D4->unk8 = 0x80000100;
-            gFlags |= 2;
+            DmaCopy16(3, gOptionsBgPalette, gObjPalette, 256 * sizeof(ColorRaw));
+            gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
         }
+
         *st->initArg3 = 0;
         TaskDestroy(gCurTask);
     }
 }
 
+#if 0
 void sub_8093DF4(OptionsSoundTest *st) {
     s16 *temp_r0;
     s16 *temp_r3;

@@ -192,8 +192,8 @@ gUnknown_080D6BD8:
 gUnknown_080D6C08:
     .incbin "baserom_sa3.gba", 0x000D6C08, 0x14
 
-    .global gUnknown_080D6C1C
-gUnknown_080D6C1C:
+    .global gOptionsBgPalette
+gOptionsBgPalette:
     .incbin "baserom_sa3.gba", 0x000D6C1C, 0x200
 
     .global sOptionsSlideInits
@@ -415,8 +415,8 @@ gUnknown_080D74B8:
 gUnknown_080D74CE:
     .incbin "baserom_sa3.gba", 0x000D74CE, 0x62
 
-    .global gUnknown_080D7530
-gUnknown_080D7530:
+    .global sSoundTestSongIds
+sSoundTestSongIds:
     .incbin "baserom_sa3.gba", 0x000D7530, 0xF8
 
     .global gUnknown_080D7628

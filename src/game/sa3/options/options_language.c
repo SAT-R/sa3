@@ -36,7 +36,7 @@ void sub_8090244(OptionsLanguage *lang);
 void sub_8090290(OptionsLanguage *lang);
 void TaskDestructor_Options_Language(struct Task *t);
 
-extern const ColorRaw gUnknown_080D6C1C[256];
+extern const ColorRaw gOptionsBgPalette[256];
 
 extern const TileInfo2 gUnknown_080D701C;
 extern const TileInfo2 gUnknown_080D7024[6];
@@ -86,7 +86,7 @@ void Options_Language(s16 highlitButton, u8 *vramBase, s16 *arg2, u8 *arg3)
 
     if (arg2 == NULL) {
         sub_808FCF4(lang);
-        CpuFastCopy(gUnknown_080D6C1C, gObjPalette, sizeof(gUnknown_080D6C1C));
+        CpuFastCopy(gOptionsBgPalette, gObjPalette, sizeof(gOptionsBgPalette));
         gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
     }
 }

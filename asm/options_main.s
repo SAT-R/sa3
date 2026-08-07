@@ -119,7 +119,7 @@ _0808AF9A:
 	ands r0, r1
 	cmp r0, #0
 	beq _0808B06C
-	ldr r0, _0808B068 @ =gUnknown_080D6C1C
+	ldr r0, _0808B068 @ =gOptionsBgPalette
 	movs r2, #0x80
 	lsls r2, r2, #1
 	movs r1, #0
@@ -136,9 +136,9 @@ _0808B058: .4byte 0x85000010
 _0808B05C: .4byte gBgSprites_Unknown1
 _0808B060: .4byte gBgSprites_Unknown2
 _0808B064: .4byte gFlags
-_0808B068: .4byte gUnknown_080D6C1C
+_0808B068: .4byte gOptionsBgPalette
 _0808B06C:
-	ldr r0, _0808B094 @ =gUnknown_080D6C1C
+	ldr r0, _0808B094 @ =gOptionsBgPalette
 	str r0, [r6]
 	ldr r0, _0808B098 @ =gObjPalette
 	str r0, [r6, #4]
@@ -159,7 +159,7 @@ _0808B080:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0808B094: .4byte gUnknown_080D6C1C
+_0808B094: .4byte gOptionsBgPalette
 _0808B098: .4byte gObjPalette
 _0808B09C: .4byte 0x80000100
 _0808B0A0: .4byte gStageData
