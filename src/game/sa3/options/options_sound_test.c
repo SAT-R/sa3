@@ -266,8 +266,7 @@ void Task_8093D30(void)
     }
 }
 
-// (98.38%) https://decomp.me/scratch/EKJwg
-NONMATCH("asm/non_matching/game/sa3/options/opt__sub_8093DF4.inc", void sub_8093DF4(OptionsSoundTest *st))
+void sub_8093DF4(OptionsSoundTest *st)
 {
     u16 temp_r0_3;
     s16 temp_r0_4;
@@ -284,7 +283,7 @@ NONMATCH("asm/non_matching/game/sa3/options/opt__sub_8093DF4.inc", void sub_8093
 
     s16 sp0[4] = { 0 };
     sp0[0] = (REG_SOUND1CNT_H >> 12);
-    sp0[1] = 0;
+    sp0[1] = sp0[0] >> 12; // fake, should be setting equal to 0
     sp0[2] = (REG_SOUND3CNT_H >> 12);
     sp0[3] = (REG_SOUND4CNT_L >> 12);
 
@@ -334,12 +333,11 @@ NONMATCH("asm/non_matching/game/sa3/options/opt__sub_8093DF4.inc", void sub_8093
         st->unk5C = soundInfo->pcmBuffer[0];
     }
 
-    st->unk26 = (var_r4 + 0x100) + var_r3 + var_r8;
+    st->unk26 = var_r3 + 0x100 + var_r4 + var_r8;
     if (st->unk26 > 0x180) {
         st->unk26 = 0x180;
     }
 }
-END_NONMATCH
 
 void sub_8093F64(OptionsSoundTest *st)
 {
