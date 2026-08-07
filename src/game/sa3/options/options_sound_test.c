@@ -11,9 +11,7 @@ typedef struct {
     /* 0x004 */ u8 unk4;
     /* 0x005 */ u8 unk5;
     /* 0x006 */ u8 unk6;
-    /* 0x007 */ u8 unk7;
-    /* 0x008 */ u8 unk8;
-    /* 0x009 */ u8 unk9;
+    /* 0x007 */ u8 unk7[3];
     /* 0x00C */ u8 *initArg3;
     /* 0x010 */ s16 unk10;
     /* 0x012 */ u16 unk12;
@@ -70,6 +68,7 @@ void sub_8094664(OptionsSoundTest *st);
 extern u16 sSoundTestSongIds[124];
 extern const TileInfo2 gUnknown_080D7628[6];
 extern const TileInfo2 gUnknown_080D7658[12];
+extern const TileInfo2 gUnknown_080D76F0[10];
 
 extern const ColorRaw gOptionsBgPalette[256];
 
@@ -118,9 +117,9 @@ void Options_SoundTest(s16 highlitButton, u8 *vramBase, s16 *arg2, u8 *arg3)
     st->unk88 = 0;
     st->unk8C = 0;
     st->unk26 = 0x100;
-    st->unk9 = 0;
-    st->unk8 = 0;
-    st->unk7 = 1;
+    st->unk7[2] = 0;
+    st->unk7[1] = 0;
+    st->unk7[0] = 1;
     st->unk0 = 0;
     sub_8094144(st); // InitSprites(st);
 
@@ -215,9 +214,9 @@ void Task_8093AB0(void)
             }
         }
         temp_r5_2 = ((st->unk18 + 1) / 10);
-        st->unk9 = (temp_r5_2 / 10);
-        st->unk8 = temp_r5_2 - (st->unk9 * 10);
-        st->unk7 = (st->unk18 + 1) - (temp_r5_2 * 10);
+        st->unk7[2] = (temp_r5_2 / 10);
+        st->unk7[1] = temp_r5_2 - (st->unk7[2] * 10);
+        st->unk7[0] = (st->unk18 + 1) - (temp_r5_2 * 10);
     }
 
     if (st->unk6 == 1) {
@@ -364,62 +363,59 @@ void sub_8093F64(OptionsSoundTest *st)
     }
 }
 
-#if 0
-void sub_8093FDC(OptionsSoundTest *st) {
-    Sprite *temp_r4;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    u8 *temp_r1;
-    u8 var_r6;
+void sub_8093FDC(OptionsSoundTest *st)
+{
+    Sprite *s;
+    u8 i;
 
-    var_r6 = 0;
-    do {
-        temp_r4 = &st->spr11C[var_r6];
-        temp_r1 = &(&st->unk7)[var_r6];
-        temp_r4->anim = *((*temp_r1 * 8) + &gUnknown_080D76F0);
-        temp_r4->variant = ((*temp_r1 * 8) + &gUnknown_080D76F0)->unk2;
-        switch (var_r6) {                           /* irregular */
-        case 0:
-            temp_r1_2 = st->unk90;
-            temp_r4->x = (s16) temp_r1_2;
-            temp_r4->y = (s16) st->unk94;
-            if (st->unk8 != 0) {
-                temp_r4->x = temp_r1_2 + 6;
+    for (i = 0; i < ARRAY_COUNT(st->unk7); i++) {
+        s = &st->spr11C[i];
+        s->anim = gUnknown_080D76F0[st->unk7[i]].anim;
+        s->variant = gUnknown_080D76F0[st->unk7[i]].variant;
+
+        if (i == 0) {
+            s->x = st->unk90;
+            s->y = st->unk94;
+
+            if (st->unk7[1] != 0) {
+                s->x += 6;
             }
-            if (st->unk9 != 0) {
-                if (st->unk8 != 0) {
-                    temp_r4->x = (u16) temp_r4->x - 6;
+
+            if (st->unk7[2] != 0) {
+                if (st->unk7[1] != 0) {
+                    s->x -= 6;
                 }
-                temp_r4->x = (u16) temp_r4->x + 0xC;
+
+                s->x += 12;
             }
-block_12:
-            UpdateSpriteAnimation(temp_r4);
-            DisplaySprite(temp_r4);
-            break;
-        case 1:
-            temp_r1_3 = st->unk90;
-            temp_r4->x = temp_r1_3 - 6;
-            temp_r4->y = (s16) st->unk94;
-            if (st->unk9 != 0) {
-                temp_r4->x = (s16) temp_r1_3;
+
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+        } else if (i == 1) {
+            s->x = st->unk90 - 6;
+            s->y = st->unk94;
+
+            if (st->unk7[2]) {
+                s->x += 6;
             }
-            if ((u16) st->unk8 != 0) {
-                goto block_12;
+
+            if (st->unk7[1] || st->unk7[2]) {
+                UpdateSpriteAnimation(s);
+                DisplaySprite(s);
             }
-            break;
-        case 2:
-            temp_r4->x = st->unk90 - 0xC;
-            temp_r4->y = (s16) st->unk94;
-            if (st->unk9 != 0) {
-                UpdateSpriteAnimation(temp_r4);
-                DisplaySprite(temp_r4);
+        } else if (i == 2) {
+            s->x = st->unk90 - 12;
+            s->y = (s16)st->unk94;
+
+            if (st->unk7[2]) {
+                UpdateSpriteAnimation(s);
+                DisplaySprite(s);
             }
-            break;
         }
-        var_r6 += 1;
-    } while ((u32) var_r6 <= 2U);
+    }
 }
 
+#if 0
 void sub_80940B4(OptionsSoundTest *st) {
     Sprite *temp_r4;
     s16 temp_r1;
