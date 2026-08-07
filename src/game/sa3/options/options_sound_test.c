@@ -20,10 +20,10 @@ typedef struct {
     /* 0x01A */ s16 unk1A[4];
     /* 0x022 */ s16 unk22;
     /* 0x024 */ u16 unk24;
-    /* 0x026 */ s16 unk26;
+    /* 0x026 */ u16 unk26;
     /* 0x028 */ s32 unk28[12];
-    /* 0x058 */ s32 unk58;
-    /* 0x05C */ s32 unk5C;
+    /* 0x058 */ u32 unk58;
+    /* 0x05C */ u32 unk5C;
     /* 0x060 */ s32 unk60;
     /* 0x064 */ s32 unk64;
     /* 0x068 */ s32 unk68;
@@ -276,7 +276,7 @@ void sub_8093DF4(OptionsSoundTest *st)
     s16 temp_r3_2;
     s16 var_r4;
     u32 var_r3;
-    u8 var_r5;
+    u8 i;
     s32 unk26;
     struct SoundMixerState *soundInfo = &gSoundInfo;
     s16 var_r8 = 0;
@@ -290,23 +290,23 @@ void sub_8093DF4(OptionsSoundTest *st)
     st->unk22 = 0;
     st->unk58 = 0;
 
-    for (var_r5 = 0; var_r5 < 4; var_r5++) {
-        temp_r3_2 = ABS(st->unk1A[var_r5] - sp0[var_r5]);
+    for (i = 0; i < ARRAY_COUNT(sp0); i++) {
+        temp_r3_2 = ABS(st->unk1A[i] - sp0[i]);
 
         if (st->unk22 < temp_r3_2) {
             st->unk22 = temp_r3_2;
         }
 
-        st->unk1A[var_r5] = sp0[var_r5];
+        st->unk1A[i] = sp0[i];
     }
 
-    for (var_r5 = 0; var_r5 < ARRAY_COUNT(soundInfo->chans); var_r5++) {
-        freq = soundInfo->chans[var_r5].data.cgb.freq;
-        var_r1_2 = ABS(st->unk28[var_r5] - freq);
+    for (i = 0; i < ARRAY_COUNT(soundInfo->chans); i++) {
+        freq = soundInfo->chans[i].data.cgb.freq;
+        var_r1_2 = ABS(st->unk28[i] - freq);
         if (st->unk58 < var_r1_2) {
             st->unk58 = var_r1_2;
         }
-        st->unk28[var_r5] = soundInfo->chans[var_r5].data.cgb.freq;
+        st->unk28[i] = soundInfo->chans[i].data.cgb.freq;
     }
 
     var_r3 = st->unk58 >> 7;
