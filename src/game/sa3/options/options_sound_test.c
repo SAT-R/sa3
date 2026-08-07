@@ -68,6 +68,8 @@ void sub_8094630(OptionsSoundTest *st);
 void sub_8094664(OptionsSoundTest *st);
 
 extern u16 sSoundTestSongIds[124];
+extern const TileInfo2 gUnknown_080D7628[6];
+extern const TileInfo2 gUnknown_080D7658[12];
 
 extern const ColorRaw gOptionsBgPalette[256];
 
@@ -340,25 +342,29 @@ NONMATCH("asm/non_matching/game/sa3/options/opt__sub_8093DF4.inc", void sub_8093
 }
 END_NONMATCH
 
-#if 0
-void sub_8093F64(OptionsSoundTest *st) {
-    Sprite *temp_r4;
-
-    st->sprA4.anim = *((st->unk4 * 8) + &gUnknown_080D7628);
-    st->sprA4.variant = ((st->unk4 * 8) + &gUnknown_080D7628)->unk2;
-    st->sprA4.x = (s16) st->unk60;
-    st->sprA4.y = (s16) st->unk64;
-    DisplaySprite(&st->sprA4);
-    temp_r4 = &st->sprCC;
-    st->sprCC.anim = *((((st->unk4 * 2) + st->unk6) * 8) + &gUnknown_080D7658);
-    st->sprCC.variant = ((((st->unk4 * 2) + st->unk6) * 8) + &gUnknown_080D7658)->unk2;
-    st->sprCC.prevVariant = 0xFF;
-    st->sprCC.x = st->unk60 + 0x50;
-    st->sprCC.y = (s16) st->unk64;
-    UpdateSpriteAnimation(temp_r4);
-    DisplaySprite(temp_r4);
+void sub_8093F64(OptionsSoundTest *st)
+{
+    {
+        Sprite *s = &st->sprA4;
+        s->anim = gUnknown_080D7628[st->unk4].anim;
+        s->variant = gUnknown_080D7628[st->unk4].variant;
+        s->x = st->unk60;
+        s->y = st->unk64;
+        DisplaySprite(s);
+    }
+    {
+        Sprite *s = &st->sprCC;
+        s->anim = gUnknown_080D7658[(st->unk4 * 2) + st->unk6].anim;
+        s->variant = gUnknown_080D7658[(st->unk4 * 2) + st->unk6].variant;
+        s->prevVariant = -1;
+        s->x = st->unk60 + 80;
+        s->y = st->unk64;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
 }
 
+#if 0
 void sub_8093FDC(OptionsSoundTest *st) {
     Sprite *temp_r4;
     s32 temp_r1_2;

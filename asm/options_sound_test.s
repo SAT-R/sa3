@@ -8,64 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_8093F64
-sub_8093F64: @ 0x08093F64
-	push {r4, r5, lr}
-	adds r5, r0, #0
-	adds r0, #0xa4
-	ldr r2, _08093FD4 @ =gUnknown_080D7628
-	ldrb r1, [r5, #4]
-	lsls r1, r1, #3
-	adds r1, r1, r2
-	ldrh r1, [r1]
-	strh r1, [r0, #0xc]
-	ldrb r1, [r5, #4]
-	lsls r1, r1, #3
-	adds r1, r1, r2
-	ldrb r1, [r1, #2]
-	strb r1, [r0, #0x1a]
-	ldr r1, [r5, #0x60]
-	strh r1, [r0, #0x10]
-	ldr r1, [r5, #0x64]
-	strh r1, [r0, #0x12]
-	bl DisplaySprite
-	adds r4, r5, #0
-	adds r4, #0xcc
-	ldr r1, _08093FD8 @ =gUnknown_080D7658
-	ldrb r0, [r5, #4]
-	lsls r0, r0, #1
-	ldrb r2, [r5, #6]
-	adds r0, r0, r2
-	lsls r0, r0, #3
-	adds r0, r0, r1
-	ldrh r0, [r0]
-	strh r0, [r4, #0xc]
-	ldrb r0, [r5, #4]
-	lsls r0, r0, #1
-	ldrb r2, [r5, #6]
-	adds r0, r0, r2
-	lsls r0, r0, #3
-	adds r0, r0, r1
-	ldrb r0, [r0, #2]
-	strb r0, [r4, #0x1a]
-	movs r0, #0xff
-	strb r0, [r4, #0x1b]
-	ldr r0, [r5, #0x60]
-	adds r0, #0x50
-	strh r0, [r4, #0x10]
-	ldr r0, [r5, #0x64]
-	strh r0, [r4, #0x12]
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	adds r0, r4, #0
-	bl DisplaySprite
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08093FD4: .4byte gUnknown_080D7628
-_08093FD8: .4byte gUnknown_080D7658
-
 	thumb_func_start sub_8093FDC
 sub_8093FDC: @ 0x08093FDC
 	push {r4, r5, r6, r7, lr}
