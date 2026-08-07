@@ -265,110 +265,82 @@ void Task_8093D30(void)
     }
 }
 
-#if 0
-void sub_8093DF4(OptionsSoundTest *st) {
-    s16 *temp_r0;
-    s16 *temp_r3;
-    s16 *temp_r4;
-    s16 temp_r0_4;
-    s16 temp_r0_5;
-    s16 temp_r1_2;
-    s32 *temp_r3_3;
-    s32 *temp_r4_2;
-    s32 temp_r0_2;
-    s32 temp_r1;
-    s32 temp_r2;
-    s32 var_r0_2;
-    s32 var_r1_2;
+// (98.38%) https://decomp.me/scratch/EKJwg
+NONMATCH("asm/non_matching/game/sa3/options/opt__sub_8093DF4.inc", void sub_8093DF4(OptionsSoundTest *st))
+{
     u16 temp_r0_3;
-    u16 temp_r3_2;
-    u16 var_r0;
-    u16 var_r1;
-    u16 var_r4;
-    u32 var_r0_3;
+    s16 temp_r0_4;
+    s16 unk5C;
+    s32 freq;
+    u32 var_r1_2;
+    s16 temp_r3_2;
+    s16 var_r4;
     u32 var_r3;
-    u32 var_r8;
     u8 var_r5;
-    u8 var_r5_2;
+    s32 unk26;
+    struct SoundMixerState *soundInfo = &gSoundInfo;
+    s16 var_r8 = 0;
 
-    var_r8 = 0;
-    memset(&subroutine_arg0, 0, 8);
-    subroutine_arg0.unk0 = (s16) ((u16) *(u16 *)0x04000062 >> 0xC);
-    subroutine_arg0.unk2 = 0;
-    subroutine_arg0.unk4 = (s16) ((u16) *(u16 *)0x04000072 >> 0xC);
-    subroutine_arg0.unk6 = (s16) ((u16) *(u16 *)0x04000078 >> 0xC);
+    s16 sp0[4] = { 0 };
+    sp0[0] = (REG_SOUND1CNT_H >> 12);
+    sp0[1] = 0;
+    sp0[2] = (REG_SOUND3CNT_H >> 12);
+    sp0[3] = (REG_SOUND4CNT_L >> 12);
+
     st->unk22 = 0;
     st->unk58 = 0;
-    var_r5 = 0;
-    temp_r0 = st->unk1A;
-    do {
-        temp_r4 = &temp_r0[var_r5];
-        temp_r3 = &(&subroutine_arg0)[var_r5];
-        if ((s32) (*temp_r4 - *temp_r3) >= 0) {
-            var_r0 = (u16) *temp_r4;
-            var_r1 = (u16) *temp_r3;
-        } else {
-            var_r0 = (u16) *temp_r3;
-            var_r1 = (u16) *temp_r4;
+
+    for (var_r5 = 0; var_r5 < 4; var_r5++) {
+        temp_r3_2 = ABS(st->unk1A[var_r5] - sp0[var_r5]);
+
+        if (st->unk22 < temp_r3_2) {
+            st->unk22 = temp_r3_2;
         }
-        temp_r3_2 = var_r0 - var_r1;
-        if ((s32) st->unk22 < (s32) (s16) temp_r3_2) {
-            st->unk22 = (s16) temp_r3_2;
-        }
-        temp_r0[var_r5] = (s16) (&subroutine_arg0)[var_r5];
-        var_r5 += 1;
-    } while ((u32) var_r5 <= 3U);
-    var_r5_2 = 0;
-    do {
-        temp_r4_2 = &gSoundInfo.chans[0].data.cgb.freq + (var_r5_2 << 6);
-        temp_r1 = *temp_r4_2;
-        temp_r3_3 = &st->unk28[var_r5_2];
-        temp_r0_2 = *temp_r3_3;
-        temp_r2 = temp_r0_2 - temp_r1;
-        var_r1_2 = temp_r1 - temp_r0_2;
-        if (temp_r2 >= 0) {
-            var_r1_2 = temp_r2;
-        }
-        if ((u32) st->unk58 < (u32) var_r1_2) {
+
+        st->unk1A[var_r5] = sp0[var_r5];
+    }
+
+    for (var_r5 = 0; var_r5 < ARRAY_COUNT(soundInfo->chans); var_r5++) {
+        freq = soundInfo->chans[var_r5].data.cgb.freq;
+        var_r1_2 = ABS(st->unk28[var_r5] - freq);
+        if (st->unk58 < var_r1_2) {
             st->unk58 = var_r1_2;
         }
-        *temp_r3_3 = *temp_r4_2;
-        var_r5_2 += 1;
-    } while ((u32) var_r5_2 <= 0xBU);
-    var_r3 = (u32) st->unk58 >> 7;
-    if (var_r3 > 0x20U) {
+        st->unk28[var_r5] = soundInfo->chans[var_r5].data.cgb.freq;
+    }
+
+    var_r3 = st->unk58 >> 7;
+    if (var_r3 > 0x20) {
         var_r3 = 0x20;
     }
-    temp_r0_3 = (u16) st->unk22;
+    temp_r0_3 = (u16)st->unk22;
     var_r4 = temp_r0_3 * 8;
-    if ((s32) (s16) (temp_r0_3 * 8) > 0x20) {
+    if ((s32)(s16)(temp_r0_3 * 8) > 0x20) {
         var_r4 = 0x20;
     }
-    if (gSoundInfo.pcmBuffer[0] != 0) {
-        temp_r1_2 = (s16) st->unk5C;
-        var_r0_2 = gSoundInfo.pcmBuffer[0] - temp_r1_2;
-        if (var_r0_2 < 0) {
-            var_r0_2 = temp_r1_2 - gSoundInfo.pcmBuffer[0];
-        }
-        temp_r0_4 = (s16) (u16) var_r0_2;
-        if ((s32) temp_r0_4 > 0) {
-            var_r0_3 = temp_r0_4 << 0x12;
+
+    if (soundInfo->pcmBuffer[0] != 0) {
+        unk5C = st->unk5C;
+        temp_r0_4 = ABS(soundInfo->pcmBuffer[0] - unk5C);
+        if (temp_r0_4 > 0) {
+            var_r8 = temp_r0_4 * 4;
         } else {
-            var_r0_3 = temp_r0_4 << 0x11;
+            var_r8 = temp_r0_4 * 2;
         }
-        var_r8 = var_r0_3 >> 0x10;
-        if ((s32) (s16) var_r8 > 0x30) {
+        if (var_r8 > 0x30) {
             var_r8 = 0x30;
         }
-        st->unk5C = (s32) (s8) (u8) gSoundInfo.pcmBuffer[0];
+        st->unk5C = soundInfo->pcmBuffer[0];
     }
-    temp_r0_5 = var_r3 + (var_r4 + 0x100) + var_r8;
-    st->unk26 = temp_r0_5;
-    if ((u32) (u16) temp_r0_5 > 0x180U) {
+
+    st->unk26 = (var_r4 + 0x100) + var_r3 + var_r8;
+    if (st->unk26 > 0x180) {
         st->unk26 = 0x180;
     }
 }
+END_NONMATCH
 
+#if 0
 void sub_8093F64(OptionsSoundTest *st) {
     Sprite *temp_r4;
 
