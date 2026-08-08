@@ -445,7 +445,8 @@ gUnknown_080D7740:
 
     .global sSongNames
 sSongNames:
-    .incbin "baserom_sa3.gba", 0x000D7748, 0x133C
+    .incbin "baserom_sa3.gba", 0x000D7748, 123 * 0x28
+    .int 123 @ String count
 
     .global gUnknown_080D8A84
 gUnknown_080D8A84:

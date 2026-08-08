@@ -48,8 +48,20 @@ typedef struct {
     /* 0x194 */ Sprite spr194;
     /* 0x1BC */ Sprite spr1BC;
     /* 0x1E4 */ Sprite spr1E4;
-    /* 0x20C */ u8 filler20C[0x44];
+    /* 0x20C */ u8 filler20C[0x40];
+    /* 0x24C */ struct Task *taskNames;
 } OptionsSoundTest; /* 0x250 */
+
+typedef struct {
+    u8 *initArg1;
+    u8 unk4;
+    s16 *initArg0;
+    u16 unkC;
+    s32 unk10;
+    s32 unk14;
+    u8 *vram18;
+    Sprite sprites[24];
+} OptionsSoundTestSongName; /* 0x3DC */
 
 void Task_SoundTest(void);
 void Task_8093D30(void);
@@ -64,11 +76,22 @@ void sub_80945A0(OptionsSoundTest *st);
 void sub_8094604(OptionsSoundTest *st);
 void sub_8094630(OptionsSoundTest *st);
 void sub_8094664(OptionsSoundTest *st);
+void sub_809473C(OptionsSoundTestSongName *name);
+void TaskDestructor_SoundTestUI(Task *t);
+void Task_3DC_80946F0(void);
+extern ColorRaw gUnknown_080D8A8C[16];
+extern const TileInfo2 gUnknown_080D8A84;
+
+void Task_8093AB0(void);
+struct Task *CreateSoundTestUI(s16 *arg0, u8 *arg1, u8 *vramBase);
 
 extern u16 sSoundTestSongIds[124];
 extern const TileInfo2 gUnknown_080D7628[6];
 extern const TileInfo2 gUnknown_080D7658[12];
+extern const TileInfo2 gUnknown_080D76C0[6];
 extern const TileInfo2 gUnknown_080D76F0[10];
+extern const TileInfo2 gUnknown_080D76B8;
+extern const TileInfo2 gUnknown_080D7740;
 
 extern const ColorRaw gOptionsBgPalette[256];
 
@@ -438,132 +461,140 @@ void sub_80940B4(OptionsSoundTest *st)
     }
 }
 
-#if 0
-void sub_8094144(OptionsSoundTest *st) {
-    s32 sp0;
+void sub_8094144(OptionsSoundTest *st)
+{
     TileInfo2 *sp8;
-    Sprite *temp_r0;
-    TileInfo2 *var_r2;
+    Sprite *s;
     u8 var_r4;
 
     st->sprF4.tiles = st->vramA0;
-    st->vramA0 += *((st->unk4 * 8) + (&gUnknown_080D76C0 + 4)) << 5;
-    var_r4 = 0;
-    st->sprF4.anim = *((st->unk4 * 8) + &gUnknown_080D76C0);
-    st->sprF4.variant = ((st->unk4 * 8) + &gUnknown_080D76C0)->unk2;
-    st->sprF4.prevVariant = 0xFF;
-    st->sprF4.x = (s16) st->unk68;
-    st->sprF4.y = (s16) st->unk6C;
-    st->sprF4.oamFlags = 0;
-    st->sprF4.animCursor = 0;
-    st->sprF4.qAnimDelay = 0;
-    st->sprF4.animSpeed = 0x10;
-    st->sprF4.palId = 0;
-    st->sprF4.frameFlags = 0;
-    st->sprF4.hitboxes[0].index = -1;
-    UpdateSpriteAnimation(&st->sprF4);
-    st->sprA4.tiles = st->vramA0;
-    st->vramA0 += 0x280;
-    st->sprA4.anim = gUnknown_080D7628[st->unk4].anim;
-    st->sprA4.variant = gUnknown_080D7628[st->unk4].variant;
-    st->sprA4.prevVariant = -1U;
-    st->sprA4.x = (s16) st->unk60;
-    st->sprA4.y = (s16) st->unk64;
-    st->sprA4.oamFlags = 0;
-    st->sprA4.animCursor = 0;
-    st->sprA4.qAnimDelay = 0;
-    st->sprA4.animSpeed = 0x10;
-    st->sprA4.palId = 0;
-    st->sprA4.frameFlags = 0;
-    st->sprA4.hitboxes[0].index = -1;
-    UpdateSpriteAnimation(&st->sprA4);
-    st->sprCC.tiles = st->vramA0;
-    st->vramA0 += 0x180;
-    st->sprCC.anim = gUnknown_080D7658[(st->unk4 * 2) + st->unk6].anim;
-    st->sprCC.variant = gUnknown_080D7658[(st->unk4 * 2) + st->unk6].variant;
-    st->sprCC.prevVariant = -1U;
-    st->sprCC.x = st->unk60 + 0x40;
-    st->sprCC.y = (s16) st->unk64;
-    st->sprCC.oamFlags = 0;
-    st->sprCC.animCursor = 0;
-    st->sprCC.qAnimDelay = 0;
-    st->sprCC.animSpeed = 0x10;
-    st->sprCC.palId = 0;
-    st->sprCC.frameFlags = 0;
-    st->sprCC.hitboxes[0].index = -1;
-    UpdateSpriteAnimation(&st->sprCC);
-    var_r2 = gUnknown_080D76F0;
-    sp0.unk4 = (u8) gUnknown_080D76F0->variant;
-    sp0 = gUnknown_080D76F0->numTiles << 5;
-    do {
-        temp_r0 = &st->spr11C[var_r4];
-        temp_r0->tiles = st->vramA0;
-        st->vramA0 = &st->vramA0[sp0];
-        temp_r0->anim = var_r2->anim;
-        temp_r0->variant = sp0.unk4;
-        temp_r0->prevVariant = 0xFF;
-        temp_r0->x = (s16) st->unk90;
-        temp_r0->y = (s16) st->unk94;
-        temp_r0->oamFlags = 0;
-        temp_r0->animCursor = 0;
-        temp_r0->qAnimDelay = 0;
-        temp_r0->animSpeed = 0x10;
-        temp_r0->palId = 0;
-        temp_r0->frameFlags = 0;
-        temp_r0->hitboxes[0].index = -1;
-        sp8 = var_r2;
-        UpdateSpriteAnimation(temp_r0);
-        var_r4 += 1;
-    } while ((u32) var_r4 <= 2U);
-    st->spr1E4.tiles = st->vramA0;
-    st->vramA0 += gUnknown_080D76B8.unk4 << 5;
-    st->spr1E4.anim = gUnknown_080D76B8.unk0;
-    st->spr1E4.variant = gUnknown_080D76B8.unk2;
-    st->spr1E4.prevVariant |= ~0;
-    st->spr1E4.x = (s16) st->unk80;
-    st->spr1E4.y = (s16) st->unk84;
-    st->spr1E4.oamFlags = 0;
-    st->spr1E4.animCursor = 0;
-    st->spr1E4.qAnimDelay = 0;
-    st->spr1E4.animSpeed = 0x10;
-    st->spr1E4.palId = 0;
-    st->spr1E4.frameFlags = 0;
-    st->spr1E4.hitboxes[0].index = -1;
-    UpdateSpriteAnimation(&st->spr1E4);
-    st->spr1BC.tiles = st->vramA0;
-    st->vramA0 += gUnknown_080D7740.unk4 << 5;
-    st->spr1BC.anim = gUnknown_080D7740.unk0;
-    st->spr1BC.variant = gUnknown_080D7740.unk2;
-    st->spr1BC.prevVariant |= ~0;
-    st->spr1BC.x = (s16) ((s32) st->unk88 >> 8);
-    st->spr1BC.y = (s16) ((s32) st->unk8C >> 8);
-    st->spr1BC.oamFlags = 0;
-    st->spr1BC.animCursor = 0;
-    st->spr1BC.qAnimDelay = 0;
-    st->spr1BC.animSpeed = 0x10;
-    st->spr1BC.palId = 0;
-    st->spr1BC.frameFlags = 0;
-    st->spr1BC.hitboxes[0].index = -1;
-    UpdateSpriteAnimation(&st->spr1BC);
+    st->vramA0 += gUnknown_080D76C0[st->unk4].numTiles * TILE_SIZE_4BPP;
+    {
+        Sprite *s = &st->sprF4;
+        s->anim = gUnknown_080D76C0[st->unk4].anim;
+        s->variant = gUnknown_080D76C0[st->unk4].variant;
+        s->prevVariant = 0xFF;
+        s->x = (s16)st->unk68;
+        s->y = (s16)st->unk6C;
+        s->oamFlags = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        s->hitboxes[0].index = -1;
+        UpdateSpriteAnimation(s);
+    }
+    {
+        Sprite *s = &st->sprA4;
+        s->tiles = st->vramA0;
+        st->vramA0 += 0x280;
+        s->anim = gUnknown_080D7628[st->unk4].anim;
+        s->variant = gUnknown_080D7628[st->unk4].variant;
+        s->prevVariant = -1;
+        s->x = (s16)st->unk60;
+        s->y = (s16)st->unk64;
+        s->oamFlags = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        s->hitboxes[0].index = -1;
+        UpdateSpriteAnimation(s);
+    }
+    {
+        Sprite *s = &st->sprCC;
+        s->tiles = st->vramA0;
+        st->vramA0 += 0x180;
+        s->anim = gUnknown_080D7658[(st->unk4 * 2) + st->unk6].anim;
+        s->variant = gUnknown_080D7658[(st->unk4 * 2) + st->unk6].variant;
+        s->prevVariant = -1;
+        s->x = st->unk60 + 0x40;
+        s->y = (s16)st->unk64;
+        s->oamFlags = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        s->hitboxes[0].index = -1;
+        UpdateSpriteAnimation(s);
+    }
+
+    for (var_r4 = 0; var_r4 < 3; var_r4++) {
+        Sprite *s = &st->spr11C[var_r4];
+        s->tiles = st->vramA0;
+        st->vramA0 += gUnknown_080D76F0[0].numTiles * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080D76F0[0].anim;
+        s->variant = gUnknown_080D76F0[0].variant;
+        s->prevVariant = -1;
+        s->x = st->unk90;
+        s->y = st->unk94;
+        s->oamFlags = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        s->hitboxes[0].index = -1;
+        UpdateSpriteAnimation(s);
+    }
+
+    {
+        Sprite *s = &st->spr1E4;
+        s->tiles = st->vramA0;
+        st->vramA0 += gUnknown_080D76B8.numTiles * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080D76B8.anim;
+        s->variant = gUnknown_080D76B8.variant;
+        s->prevVariant |= ~0;
+        s->x = st->unk80;
+        s->y = st->unk84;
+        s->oamFlags = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        s->hitboxes[0].index = -1;
+        UpdateSpriteAnimation(s);
+    }
+    {
+        Sprite *s = &st->spr1BC;
+        s->tiles = st->vramA0;
+        st->vramA0 += gUnknown_080D7740.numTiles << 5;
+        s->anim = gUnknown_080D7740.anim;
+        s->variant = gUnknown_080D7740.variant;
+        s->prevVariant |= ~0;
+        s->x = I(st->unk88);
+        s->y = I(st->unk8C);
+        s->oamFlags = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        s->hitboxes[0].index = -1;
+        UpdateSpriteAnimation(s);
+    }
 }
 
-void Task_3DC_SoundTestUI_Init(void) {
+void Task_3DC_SoundTestUI_Init(void)
+{
+    OptionsSoundTestSongName *name = TASK_DATA(gCurTask);
     Sprite *temp_r0;
     s32 temp_r0_2;
-    u16 temp_r1;
     u8 temp_r8;
     u8 var_r4;
 
-    temp_r1 = gCurTask->data;
-    var_r4 = temp_r1->unk4;
-    if ((s32) var_r4 < (s32) (var_r4 + 8)) {
-        temp_r8 = gUnknown_080D8A84.unk2;
+    var_r4 = name->unk4;
+    if ((s32)var_r4 < (s32)(var_r4 + 8)) {
         do {
-            temp_r0 = temp_r1 + ((var_r4 * 0x28) + 0x1C);
-            temp_r0->tiles = temp_r1->unk18;
-            temp_r1->unk18 = (u8 *) (temp_r1->unk18 + 0x80);
-            temp_r0->anim = gUnknown_080D8A84.unk0;
-            temp_r0->variant = temp_r8;
+            temp_r0 = &name->sprites[var_r4];
+            temp_r0->tiles = name->vram18;
+            name->vram18 += 0x80;
+            temp_r0->anim = gUnknown_080D8A84.anim;
+            temp_r0->variant = gUnknown_080D8A84.variant;
             temp_r0->prevVariant = 0xFF;
             temp_r0->x = 0;
             temp_r0->y = 0;
@@ -575,72 +606,79 @@ void Task_3DC_SoundTestUI_Init(void) {
             temp_r0->frameFlags = 0x40000;
             UpdateSpriteAnimation(temp_r0);
             var_r4 += 1;
-        } while ((s32) var_r4 < (s32) (temp_r1->unk4 + 8));
+        } while ((s32)var_r4 < (s32)(name->unk4 + 8));
     }
-    temp_r0_2 = temp_r1->unk4 + 8;
+    temp_r0_2 = name->unk4 + 8;
     if (temp_r0_2 > 0x17) {
         if (0x20000 & gFlags) {
-            CopyObjPaletteMasked(&gUnknown_080D8A8C, 0xF0U, 0x10U);
+            CopyObjPaletteMasked(gUnknown_080D8A8C, 0xF0U, 0x10U);
         } else {
-            (void *)0x040000D4->unk0 = &gUnknown_080D8A8C;
-            (void *)0x040000D4->unk4 = &gObjPalette[0xF0];
-            (void *)0x040000D4->unk8 = 0x80000010;
-            gFlags |= 2;
+            DmaCopy16(3, gUnknown_080D8A8C, &gObjPalette[0xF0], 0x20);
+            gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
         }
-        temp_r1->unk4 = 0U;
+        name->unk4 = 0U;
         gCurTask->main = Task_3DC_80946F0;
         return;
     }
-    temp_r1->unk4 = (u8) temp_r0_2;
+    name->unk4 = (u8)temp_r0_2;
 }
 
-void SoundTest_DrawSongName(void *arg0) {
-    Sprite *temp_r4;
-    u8 var_r5;
+typedef struct {
+    /* 0x00 */ u8 nameSize;
+    /* 0x01 */ u8 name[32];
+    /* 0x21 */ u8 filler21[7];
+} SongName;
+extern const SongName sSongNames[123];
+
+void SoundTest_DrawSongName(OptionsSoundTestSongName *arg0)
+{
+    Sprite *s;
     void *temp_r1;
+    u8 nameSize;
+    u8 i;
 
-    var_r5 = 0;
-    if ((u32) *((*arg0->unk8 * 0x28) + &sSongNames) > 0U) {
-        temp_r1 = &sSongNames + 1;
-        do {
-            temp_r4 = arg0 + ((var_r5 * 0x28) + 0x1C);
-            if (*(var_r5 + (*arg0->unk8 * 0x28) + temp_r1) != 0x30) {
-                temp_r4->anim = gUnknown_080D8A84.unk0;
-                temp_r4->variant = (*(var_r5 + (*arg0->unk8 * 0x28) + temp_r1) + gUnknown_080D8A84.unk2) - 0x20;
-                temp_r4->prevVariant = 0xFF;
-                temp_r4->x = (((s32) arg0->unk10 >> 8) - (u16) gBgScrollRegs[1][0]) + (var_r5 * 8);
-                temp_r4->y = (s16) ((s32) arg0->unk14 >> 8);
-                UpdateSpriteAnimation(temp_r4);
-                DisplaySprite(temp_r4);
+    for (i = 0; i < sSongNames[*arg0->initArg0].nameSize; i++) {
+        {
+            s = &arg0->sprites[i];
+            if (sSongNames[*arg0->initArg0].name[i] != 0x30) {
+                s->anim = gUnknown_080D8A84.anim;
+                s->variant = (gUnknown_080D8A84.variant + sSongNames[*arg0->initArg0].name[i]) - 0x20;
+                s->prevVariant = -1;
+                s->x = -gBgScrollRegs[1][0] + I(arg0->unk10) + (i * 8);
+                s->y = I(arg0->unk14);
+                UpdateSpriteAnimation(s);
+                DisplaySprite(s);
             }
-            var_r5 += 1;
-        } while ((u32) var_r5 < (u32) *((*arg0->unk8 * 0x28) + &sSongNames));
+        }
     }
 }
 
-void Task_SoundTest(void) {
-    u16 temp_r4;
+void Task_SoundTest(void)
+{
+    OptionsSoundTest *temp_r4;
 
-    temp_r4 = gCurTask->data;
-    if ((s32) gBgScrollRegs[1][0] > -0x1E) {
-        temp_r4->unk24C = CreateSoundTestUI(temp_r4 + 0x18, temp_r4->unkC, temp_r4->unkA0);
+    temp_r4 = TASK_DATA(gCurTask);
+    if (gBgScrollRegs[1][0] > -30) {
+        temp_r4->taskNames = CreateSoundTestUI(&temp_r4->unk18, temp_r4->initArg3, temp_r4->vramA0);
         temp_r4->unk0 = 1;
-        gCurTask->main = (void (*)()) Task_8093AB0;
+        gCurTask->main = Task_8093AB0;
     }
 }
 
-void sub_80945A0(OptionsSoundTest *st) {
-    st->unk60 = 0x18 - gBgScrollRegs[1][0];
-    st->unk64 = 0x87 - gBgScrollRegs[1][1];
-    st->unk68 = 0x19 - gBgScrollRegs[1][0];
-    st->unk6C = 0x19 - gBgScrollRegs[1][1];
-    st->unk78 = (0 - gBgScrollRegs[1][0]) + 0x50;
-    st->unk7C = (0 - gBgScrollRegs[1][1]) + 0x5C;
-    st->unk90 = (0 - gBgScrollRegs[1][0]) + 0x50;
-    st->unk94 = (0 - gBgScrollRegs[1][1]) + 0x5C;
+void sub_80945A0(OptionsSoundTest *st)
+{
+    st->unk60 = 24 - gBgScrollRegs[1][0];
+    st->unk64 = 135 - gBgScrollRegs[1][1];
+    st->unk68 = 25 - gBgScrollRegs[1][0];
+    st->unk6C = 25 - gBgScrollRegs[1][1];
+    st->unk78 = -gBgScrollRegs[1][0] + 80;
+    st->unk7C = -gBgScrollRegs[1][1] + 92;
+    st->unk90 = -gBgScrollRegs[1][0] + 80;
+    st->unk94 = -gBgScrollRegs[1][1] + 92;
 }
 
-void sub_8094604(OptionsSoundTest *st) {
+void sub_8094604(OptionsSoundTest *st)
+{
     s32 temp_r0;
     s32 temp_r0_2;
 
@@ -655,58 +693,56 @@ void sub_8094604(OptionsSoundTest *st) {
     st->unk8C = 0;
 }
 
-void sub_8094630(OptionsSoundTest *st) {
-    st->sprF4.anim = *((st->unk4 * 8) + &gUnknown_080D76C0);
-    st->sprF4.variant = ((st->unk4 * 8) + &gUnknown_080D76C0)->unk2;
-    st->sprF4.x = (s16) st->unk68;
-    st->sprF4.y = (s16) st->unk6C;
-    DisplaySprite(&st->sprF4);
+void sub_8094630(OptionsSoundTest *st)
+{
+    Sprite *s = &st->sprF4;
+    s->anim = gUnknown_080D76C0[st->unk4].anim;
+    s->variant = gUnknown_080D76C0[st->unk4].variant;
+    s->x = st->unk68;
+    s->y = st->unk6C;
+    DisplaySprite(s);
 }
 
-void sub_8094664(OptionsSoundTest *st) {
+void sub_8094664(OptionsSoundTest *st)
+{
     s16 temp_r2;
 
-    temp_r2 = st->unk26;
-    sa2__sub_8003EE4(0U, temp_r2, temp_r2, 0x40, 0x40, (s16) (s32) (s16) st->unk78, (s16) (s32) (s16) st->unk7C, gBgAffineRegs);
+    temp_r2 = (s16)st->unk26;
+    sa2__sub_8003EE4(0U, temp_r2, temp_r2, 0x40, 0x40, (s16)(s32)(s16)st->unk78, (s16)(s32)(s16)st->unk7C, gBgAffineRegs);
 }
 
-void TaskDestructor_SoundTest(Task *t) {
+void TaskDestructor_SoundTest(Task *t) { }
 
+struct Task *CreateSoundTestUI(s16 *arg0, u8 *arg1, u8 *vramBase)
+{
+    struct Task *t = TaskCreate(Task_3DC_SoundTestUI_Init, sizeof(OptionsSoundTestSongName), 0x100U, 0U, TaskDestructor_SoundTestUI);
+    OptionsSoundTestSongName *name = TASK_DATA(t);
+
+    name->initArg1 = arg1;
+    name->initArg0 = arg0;
+    name->unk4 = 0;
+    name->unkC = 0;
+    name->unk10 = 0x2300;
+    name->unk14 = 0x3C00;
+    name->vram18 = vramBase;
+
+    return t;
 }
 
-void CreateSoundTestUI(s32 arg0, s32 arg1, s32 arg2) {
-    u16 temp_r1;
+void TaskDestructor_SoundTestUI(Task *arg0) { }
 
-    temp_r1 = TaskCreate(Task_3DC_SoundTestUI_Init, 0x3DCU, 0x100U, 0U, TaskDestructor_SoundTestUI)->data;
-    temp_r1->unk0 = arg1;
-    temp_r1->unk8 = arg0;
-    temp_r1->unk4 = 0;
-    temp_r1->unkC = 0;
-    temp_r1->unk10 = 0x2300;
-    temp_r1->unk14 = 0x3C00;
-    temp_r1->unk18 = arg2;
-}
-
-void TaskDestructor_SoundTestUI(Task *arg0) {
-
-}
-
-void Task_3DC_80946F0(void) {
-    u16 temp_r1;
-
-    temp_r1 = gCurTask->data;
-    if ((s32) gBgScrollRegs[1][0] >= -0x14) {
-        temp_r1->unk4 = 1U;
-        SoundTest_DrawSongName((void *) temp_r1);
-        sub_809473C(temp_r1);
+void Task_3DC_80946F0(void)
+{
+    OptionsSoundTestSongName *name = TASK_DATA(gCurTask);
+    if ((s32)gBgScrollRegs[1][0] >= -0x14) {
+        name->unk4 = 1U;
+        SoundTest_DrawSongName(name);
+        sub_809473C(name);
         return;
     }
-    if (temp_r1->unk4 != 0) {
+    if (name->unk4 != 0) {
         TaskDestroy(gCurTask);
     }
 }
 
-void sub_809473C(void) {
-
-}
-#endif
+void sub_809473C(OptionsSoundTestSongName *name) { }

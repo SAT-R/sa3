@@ -124,7 +124,6 @@ void sub_808CE88() { }
 void sub_808ECB8() { }
 void CreateNameEntryScreen() { }
 void /* 0x08090F70 */ Options_ButtonConfig() { }
-void /* 0x08093954 */ Options_SoundTest() { }
 void CreateTimeRecordScreen(u8 param0) { }
 // returns VRAM tile pointer
 void *CreateSomeTask_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles) { return tiles; }
