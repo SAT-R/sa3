@@ -50,7 +50,7 @@ Options_ButtonConfig: @ 0x08090F70
 	bl memcpy
 	ldr r0, _08091024 @ =Task_Options_ButtonConfig_Init
 	movs r1, #0x93
-	lsls r1, r1, #2
+	lsls r1, r1, #2     @ 0x24C
 	movs r2, #0x80
 	lsls r2, r2, #1
 	ldr r3, _08091028 @ =TaskDestructor_Options_ButtonConfig
