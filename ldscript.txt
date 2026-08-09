@@ -188,7 +188,8 @@ SECTIONS {
         src/game/sa3/options/options_sound_test.o(.text);
         asm/name_entry_screen.o(.text);
         asm/options_time_record_screen.o(.text);
-        asm/vs_record_screen.o(.text);
+        src/game/sa3/options/options_vs_record_screen.o(.text);
+        asm/options_vs_record_screen.o(.text);
         src/game/character_select.o(.text);
         asm/code_2.o(.text);
         src/game/math.o(.text);
