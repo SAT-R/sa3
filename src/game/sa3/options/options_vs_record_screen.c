@@ -1,5 +1,7 @@
 #include "global.h"
 #include "core.h"
+#include "game/shared/stage/player.h" // MAX_PLAYER_NAME_LENGTH
+#include "game/save.h"
 
 typedef struct {
     /* 0x000 */ u8 language;
@@ -22,16 +24,16 @@ typedef struct {
     /* 0x028 */ u16 unk26;
     /* 0x028 */ u16 unk28;
     /* 0x02A */ u16 unk2A;
-    /* 0x02C */ u8 filler2C[0xC];
+    /* 0x02C */ u16 playerName[MAX_PLAYER_NAME_LENGTH];
     /* 0x038 */ u8 vsWinsTens;
     /* 0x039 */ u8 vsWinsOnes;
     /* 0x03A */ u8 vsLossesTens;
     /* 0x03B */ u8 vsLossesOnes;
     /* 0x03C */ u8 vsDrawsTens;
     /* 0x03D */ u8 vsDrawsOnes;
-    /* 0x03E */ u8 filler3E[0x84];
+    /* 0x03E */ u16 nameList[11][MAX_PLAYER_NAME_LENGTH];
     // Used for rendering digits. [player_count][vsRecordType][tens/ones]
-    /* 0x0C2 */ u8 recordsOtherPlayers[11][3][2];
+    /* 0x0C2 */ u8 recordsRivals[11][3][2];
     /* 0x104 */ s32 vram104;
     /* 0x108 */ u8 filler108[0x8];
     /* 0x110 */ s32 qUnk110;
@@ -122,88 +124,70 @@ void CreateVsRecordScreen(void)
     gBgPalette[0] = sub_80C4C0C(RGB_BLACK);
 }
 
-#if 0
-void sub_8096918(OptionsVsRecordScreen *vsRecScreen) {
-    s32 sp0;
-    u8 *sp4;
-    u8 *sp8;
-    u8 *spC;
-    u8 *sp10;
-    u8 *sp14;
-    s32 temp_r0_2;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r4_2;
-    u16 temp_r0_3;
-    u8 *temp_r0;
-    u8 *temp_r1;
-    u8 *temp_r4;
-    u8 *temp_r6;
-    u8 var_r3;
-    u8 var_r5;
+void sub_8096918(OptionsVsRecordScreen *vsRecScreen)
+{
+    u16 nameChar;
+    u8 nameCharIndex;
+    u8 rivalIndex;
 
-    for(var_r3 = 0; var_r3 < 11; var_r3++)
-    {
-        if (gLoadedSaveGame.vsRecords[var_r3].slotFilled != 0) {
-            vsRecScreen->vsRecordPlayerCount += 1;
+    for (rivalIndex = 0; rivalIndex < ARRAY_COUNT(vsRecScreen->nameList); rivalIndex++) {
+#ifdef BUG_FIX
+        // BUG:  Missing array bounds check. It's 10 slots in LOADED_SAVE->vsRecords!
+        // TOOD: It's a bit stupid to effectively do this check 11 times,
+        //       but it's just once every time the VsRecords get opened (which most players don't constantly do, I think?).
+        //       Alternatively, we could move the code into the proc's lowest else-block and check [rivalIndex-1].slotFilled
+        if (rivalIndex < ARRAY_COUNT(LOADED_SAVE->vsRecords))
+#endif
+        {
+            if (LOADED_SAVE->vsRecords[rivalIndex].slotFilled) {
+                vsRecScreen->vsRecordPlayerCount += 1;
+            }
         }
-        var_r5 = 0;
-        temp_r0 = &vsRecScreen->recordsOtherPlayers[0][0][1];
-        sp4 = temp_r0;
-        temp_r1 = &vsRecScreen->recordsOtherPlayers[0][1][0];
-        sp8 = temp_r1;
-        spC = &vsRecScreen->recordsOtherPlayers[0][1][1];
-        sp10 = temp_r0 + 3;
-        sp14 = temp_r1 + 3;
-        temp_r6 = vsRecScreen->filler3E;
-        temp_r4 = &vsRecScreen->unkD[var_r3];
-        do {
-            if (var_r3 == 0) {
-                temp_r1_2 = var_r5 * 2;
-                *(vsRecScreen->filler2C + temp_r1_2) = gLoadedSaveGame.playerName[var_r5];
-                *(temp_r6 + temp_r1_2) = gLoadedSaveGame.vsRecords[0].playerName[var_r5];
+
+        for (nameCharIndex = 0; nameCharIndex < MAX_PLAYER_NAME_LENGTH; nameCharIndex++) {
+            if (rivalIndex == 0) {
+                vsRecScreen->playerName[nameCharIndex] = LOADED_SAVE->playerName[nameCharIndex];
+                vsRecScreen->nameList[0][nameCharIndex] = LOADED_SAVE->vsRecords[0].playerName[nameCharIndex];
             } else {
-                temp_r0_2 = var_r5 * 2;
-                temp_r0_3 = *(temp_r0_2 + ((var_r3 - 1) * 0x14) + gLoadedSaveGame.vsRecords[0].playerName);
-                temp_r6[temp_r0_2 + (var_r3 * 0xC)] = temp_r0_3;
-                if (temp_r0_3 != 0xFFFF) {
-                    *temp_r4 += 1;
+                vsRecScreen->nameList[rivalIndex][nameCharIndex] = LOADED_SAVE->vsRecords[rivalIndex - 1].playerName[nameCharIndex];
+
+                if (vsRecScreen->nameList[rivalIndex][nameCharIndex] != 0xFFFF) {
+                    vsRecScreen->unkD[rivalIndex] += 1;
                 }
             }
-            var_r5 += 1;
-        } while ((u32) var_r5 <= 5U);
-        if (var_r3 == 0) {
-            vsRecScreen->recordsOtherPlayers[0][0][0] = (u8) ((u8) gLoadedSaveGame.vsRecords[0].wins / 10U);
-            vsRecScreen->recordsOtherPlayers[0][0][1] = (u8) ((u8) gLoadedSaveGame.vsRecords[0].wins % 10U);
-            *sp8 = (u8) ((u8) gLoadedSaveGame.vsRecords[0].losses / 10U);
-            *spC = (u8) ((u8) gLoadedSaveGame.vsRecords[0].losses % 10U);
-            *sp10 = (u8) ((u8) gLoadedSaveGame.vsRecords[0].draws / 10U);
-            *sp14 = (u8) ((u8) gLoadedSaveGame.vsRecords[0].draws % 10U);
-            vsRecScreen->vsWinsTens = (u8) ((u8) gLoadedSaveGame.vsWins / 10U);
-            vsRecScreen->vsWinsOnes = (u8) ((u8) gLoadedSaveGame.vsWins % 10U);
-            vsRecScreen->vsLossesTens = (u8) ((u8) gLoadedSaveGame.vsLosses / 10U);
-            vsRecScreen->vsLossesOnes = (u8) ((u8) gLoadedSaveGame.vsLosses % 10U);
-            vsRecScreen->vsDrawsTens = (u8) ((u8) gLoadedSaveGame.vsDraws / 10U);
-            vsRecScreen->vsDrawsOnes = (u8) ((u8) gLoadedSaveGame.vsDraws % 10U);
+        }
+
+        if (rivalIndex == 0) {
+            vsRecScreen->recordsRivals[0][0][0] = LOADED_SAVE->vsRecords[0].wins / 10U;
+            vsRecScreen->recordsRivals[0][0][1] = LOADED_SAVE->vsRecords[0].wins % 10U;
+            vsRecScreen->recordsRivals[0][1][0] = LOADED_SAVE->vsRecords[0].losses / 10U;
+            vsRecScreen->recordsRivals[0][1][1] = LOADED_SAVE->vsRecords[0].losses % 10U;
+            vsRecScreen->recordsRivals[0][2][0] = LOADED_SAVE->vsRecords[0].draws / 10U;
+            vsRecScreen->recordsRivals[0][2][1] = LOADED_SAVE->vsRecords[0].draws % 10U;
+            vsRecScreen->vsWinsTens = LOADED_SAVE->vsWins / 10U;
+            vsRecScreen->vsWinsOnes = LOADED_SAVE->vsWins % 10U;
+            vsRecScreen->vsLossesTens = LOADED_SAVE->vsLosses / 10U;
+            vsRecScreen->vsLossesOnes = LOADED_SAVE->vsLosses % 10U;
+            vsRecScreen->vsDrawsTens = LOADED_SAVE->vsDraws / 10U;
+            vsRecScreen->vsDrawsOnes = LOADED_SAVE->vsDraws % 10U;
         } else {
-            temp_r4_2 = var_r3 * 6;
-            temp_r1_3 = var_r3 - 1;
-            vsRecScreen->recordsOtherPlayers[var_r3][0][0] = (s8) ((u8) gLoadedSaveGame.vsRecords[temp_r1_3].wins / 10U);
-            vsRecScreen->recordsOtherPlayers[var_r3][0][1] = (s8) ((u8) gLoadedSaveGame.vsRecords[temp_r1_3].wins % 10U);
-            *(sp8 + temp_r4_2) = (s8) ((u8) gLoadedSaveGame.vsRecords[temp_r1_3].losses / 10U);
-            *(spC + temp_r4_2) = (s8) ((u8) gLoadedSaveGame.vsRecords[temp_r1_3].losses % 10U);
-            *(sp10 + temp_r4_2) = (s8) ((u8) gLoadedSaveGame.vsRecords[temp_r1_3].draws / 10U);
-            *(sp14 + temp_r4_2) = (s8) ((u8) gLoadedSaveGame.vsRecords[temp_r1_3].draws % 10U);
+            vsRecScreen->recordsRivals[rivalIndex][0][0] = LOADED_SAVE->vsRecords[rivalIndex - 1].wins / 10U;
+            vsRecScreen->recordsRivals[rivalIndex][0][1] = LOADED_SAVE->vsRecords[rivalIndex - 1].wins % 10U;
+            vsRecScreen->recordsRivals[rivalIndex][1][0] = LOADED_SAVE->vsRecords[rivalIndex - 1].losses / 10U;
+            vsRecScreen->recordsRivals[rivalIndex][1][1] = LOADED_SAVE->vsRecords[rivalIndex - 1].losses % 10U;
+            vsRecScreen->recordsRivals[rivalIndex][2][0] = LOADED_SAVE->vsRecords[rivalIndex - 1].draws / 10U;
+            vsRecScreen->recordsRivals[rivalIndex][2][1] = LOADED_SAVE->vsRecords[rivalIndex - 1].draws % 10U;
         }
     }
 }
 
+#if 0
 void sub_8096B30(OptionsVsRecordScreen *vsRecScreen) {
     u8 var_r1;
     u8 var_r1_2;
 
     var_r1 = 0;
-    vsRecScreen->language = gLoadedSaveGame.unk366;
+    vsRecScreen->language = LOADED_SAVE->unk366;
     vsRecScreen->unk1C = 0;
     vsRecScreen->unk28 = 0;
     vsRecScreen->unk2A = 0;
@@ -320,7 +304,7 @@ void sub_8096C60(OptionsVsRecordScreen *vsRecScreen) {
         temp_r7_2 = &vsRecScreen->spr268[var_r4];
         temp_r7_2->tiles = (u8 *) vsRecScreen->vram104;
         vsRecScreen->vram104 += temp_r8;
-        temp_r1 = *(vsRecScreen->filler2C + (var_r4 * 2));
+        temp_r1 = *(vsRecScreen->playerName + (var_r4 * 2));
         if (temp_r1 != 0xFFFF) {
             if ((u32) temp_r1 > 0xFFU) {
                 temp_r7_2->variant = (u8) temp_r1;
@@ -432,7 +416,7 @@ void Task_VsRecordScreen(OptionsVsRecordScreen *vsRecScreen) {
     var_r3 = vsRecScreen;
     var_r4 = var_r3->unk19;
     if ((s32) var_r4 < (s32) (var_r4 + 3)) {
-        sp0 = vsRecScreen->filler3E;
+        sp0 = vsRecScreen->nameList;
         sp8 = &vsRecScreen->vram104;
         do {
             var_r5 = 0;
@@ -493,7 +477,7 @@ void sub_80970DC(OptionsVsRecordScreen *vsRecScreen) {
 
     var_r4 = vsRecScreen->unk19;
     if ((s32) var_r4 < (s32) (var_r4 + 3)) {
-        sp4 = vsRecScreen->recordsOtherPlayers[0][0];
+        sp4 = vsRecScreen->recordsRivals[0][0];
         sp10 = &vsRecScreen->vram104;
         subroutine_arg0 = gUnknown_080D8C54.unk2;
         do {
@@ -765,7 +749,7 @@ void sub_8097608(OptionsVsRecordScreen *vsRecScreen, u8 arg1) {
         if ((u32) (temp_r1_3 + temp_r0) <= 0xBU) {
             temp_r5 = temp_r1_3 + (temp_r0 + 0xFF);
             temp_r4 = vsRecScreen + ((sp0 * 0xF0) + 0x8F8) + (var_r7 * 0x28);
-            temp_r1_4 = &vsRecScreen->filler3E[(var_r7 * 2) + (temp_r5 * 0xC)];
+            temp_r1_4 = &vsRecScreen->nameList[(var_r7 * 2) + (temp_r5 * 0xC)];
             temp_r0_2 = *temp_r1_4;
             if (temp_r0_2 != 0xFFFF) {
                 if ((u32) temp_r0_2 > 0xFFU) {
@@ -780,7 +764,7 @@ void sub_8097608(OptionsVsRecordScreen *vsRecScreen, u8 arg1) {
                 UpdateSpriteAnimation(temp_r4);
             }
             temp_r4_2 = vsRecScreen + ((sp0 * 0xF0) + 0x358) + (var_r7 * 0x28);
-            temp_r4_2->variant = vsRecScreen->recordsOtherPlayers[0][0][var_r7 + (temp_r5 * 6)] + gUnknown_080D8C54.unk2;
+            temp_r4_2->variant = vsRecScreen->recordsRivals[0][0][var_r7 + (temp_r5 * 6)] + gUnknown_080D8C54.unk2;
             UpdateSpriteAnimation(temp_r4_2);
         }
         var_r7 += 1;
@@ -954,7 +938,7 @@ void sub_8097958(OptionsVsRecordScreen *vsRecScreen, s32 arg1) {
 loop_15:
     if (var_sb < sp0) {
         if (var_sb != 0) {
-            temp_r1 = gLoadedSaveGame.vsRecords[var_sb - 1].slotFilled;
+            temp_r1 = LOADED_SAVE->vsRecords[var_sb - 1].slotFilled;
             var_r0 = (u32) ((0 - temp_r1) | temp_r1) >> 0x1F;
         } else {
             var_r0 = 1;
