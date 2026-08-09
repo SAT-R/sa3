@@ -88,9 +88,6 @@ void TaskDestructor_VsRecordScreen(struct Task *t);
 
 extern ColorRaw sub_80C4C0C(ColorRaw color);
 
-// TEMP
-void Task_VsRecordScreen(OptionsVsRecordScreen *vsRecScreen);
-
 void CreateVsRecordScreen(void)
 {
     OptionsVsRecordScreen *vsRecScreen;
@@ -100,6 +97,7 @@ void CreateVsRecordScreen(void)
     vsRecScreen = TASK_DATA(TaskCreate(Task_VsRecordScreen, sizeof(OptionsVsRecordScreen), 0x101, 0U, TaskDestructor_VsRecordScreen));
     sub_8096B30(vsRecScreen);
     sub_8096918(vsRecScreen);
+
     DmaFill32(3, 0, BG_CHAR_ADDR_FROM_BGCNT(2), 0x40);
 
     gBgSprites_Unknown1[0] = 0;
@@ -144,63 +142,59 @@ void sub_8096918(OptionsVsRecordScreen *vsRecScreen) {
     u8 var_r3;
     u8 var_r5;
 
-    var_r3 = 0;
-loop_1:
-    if (gLoadedSaveGame.vsRecords[var_r3].slotFilled != 0) {
-        vsRecScreen->vsRecordPlayerCount += 1;
-    }
-    var_r5 = 0;
-    temp_r0 = &vsRecScreen->recordsOtherPlayers[0][0][1];
-    sp4 = temp_r0;
-    temp_r1 = vsRecScreen->recordsOtherPlayers[0][1];
-    sp8 = temp_r1;
-    spC = &vsRecScreen->recordsOtherPlayers[0][1][1];
-    sp10 = temp_r0 + 3;
-    sp14 = temp_r1 + 3;
-    sp0 = var_r3 + 1;
-    temp_r6 = vsRecScreen->filler3E;
-    temp_r4 = &vsRecScreen->unkD[var_r3];
-    do {
-        if (var_r3 == 0) {
-            temp_r1_2 = var_r5 * 2;
-            *(vsRecScreen->filler2C + temp_r1_2) = gLoadedSaveGame.playerName[var_r5];
-            *(temp_r6 + temp_r1_2) = gLoadedSaveGame.vsRecords[0].playerName[var_r5];
-        } else {
-            temp_r0_2 = var_r5 * 2;
-            temp_r0_3 = *(temp_r0_2 + ((var_r3 - 1) * 0x14) + gLoadedSaveGame.vsRecords[0].playerName);
-            temp_r6[temp_r0_2 + (var_r3 * 0xC)] = temp_r0_3;
-            if (temp_r0_3 != 0xFFFF) {
-                *temp_r4 += 1;
-            }
+    for(var_r3 = 0; var_r3 < 11; var_r3++)
+    {
+        if (gLoadedSaveGame.vsRecords[var_r3].slotFilled != 0) {
+            vsRecScreen->vsRecordPlayerCount += 1;
         }
-        var_r5 += 1;
-    } while ((u32) var_r5 <= 5U);
-    if (var_r3 == 0) {
-        vsRecScreen->recordsOtherPlayers[0][0][0] = (u8) ((u8) gLoadedSaveGame.vsRecords[0].wins / 10U);
-        *sp4 = (u8) ((u8) gLoadedSaveGame.vsRecords[0].wins % 10U);
-        *sp8 = (u8) ((u8) gLoadedSaveGame.vsRecords[0].losses / 10U);
-        *spC = (u8) ((u8) gLoadedSaveGame.vsRecords[0].losses % 10U);
-        *sp10 = (u8) ((u8) gLoadedSaveGame.vsRecords[0].draws / 10U);
-        *sp14 = (u8) ((u8) gLoadedSaveGame.vsRecords[0].draws % 10U);
-        vsRecScreen->vsWinsTens = (u8) ((u8) gLoadedSaveGame.vsWins / 10U);
-        vsRecScreen->vsWinsOnes = (u8) ((u8) gLoadedSaveGame.vsWins % 10U);
-        vsRecScreen->vsLossesTens = (u8) ((u8) gLoadedSaveGame.vsLosses / 10U);
-        vsRecScreen->vsLossesOnes = (u8) ((u8) gLoadedSaveGame.vsLosses % 10U);
-        vsRecScreen->vsDrawsTens = (u8) ((u8) gLoadedSaveGame.vsDraws / 10U);
-        vsRecScreen->vsDrawsOnes = (u8) ((u8) gLoadedSaveGame.vsDraws % 10U);
-    } else {
-        temp_r4_2 = var_r3 * 6;
-        temp_r1_3 = var_r3 - 1;
-        *(vsRecScreen->recordsOtherPlayers[0][0] + temp_r4_2) = (s8) ((u8) gLoadedSaveGame.vsRecords[temp_r1_3].wins / 10U);
-        *(sp4 + temp_r4_2) = (s8) ((u8) gLoadedSaveGame.vsRecords[temp_r1_3].wins % 10U);
-        *(sp8 + temp_r4_2) = (s8) ((u8) gLoadedSaveGame.vsRecords[temp_r1_3].losses / 10U);
-        *(spC + temp_r4_2) = (s8) ((u8) gLoadedSaveGame.vsRecords[temp_r1_3].losses % 10U);
-        *(sp10 + temp_r4_2) = (s8) ((u8) gLoadedSaveGame.vsRecords[temp_r1_3].draws / 10U);
-        *(sp14 + temp_r4_2) = (s8) ((u8) gLoadedSaveGame.vsRecords[temp_r1_3].draws % 10U);
-    }
-    var_r3 = (u8) sp0;
-    if ((u32) var_r3 <= 0xAU) {
-        goto loop_1;
+        var_r5 = 0;
+        temp_r0 = &vsRecScreen->recordsOtherPlayers[0][0][1];
+        sp4 = temp_r0;
+        temp_r1 = &vsRecScreen->recordsOtherPlayers[0][1][0];
+        sp8 = temp_r1;
+        spC = &vsRecScreen->recordsOtherPlayers[0][1][1];
+        sp10 = temp_r0 + 3;
+        sp14 = temp_r1 + 3;
+        temp_r6 = vsRecScreen->filler3E;
+        temp_r4 = &vsRecScreen->unkD[var_r3];
+        do {
+            if (var_r3 == 0) {
+                temp_r1_2 = var_r5 * 2;
+                *(vsRecScreen->filler2C + temp_r1_2) = gLoadedSaveGame.playerName[var_r5];
+                *(temp_r6 + temp_r1_2) = gLoadedSaveGame.vsRecords[0].playerName[var_r5];
+            } else {
+                temp_r0_2 = var_r5 * 2;
+                temp_r0_3 = *(temp_r0_2 + ((var_r3 - 1) * 0x14) + gLoadedSaveGame.vsRecords[0].playerName);
+                temp_r6[temp_r0_2 + (var_r3 * 0xC)] = temp_r0_3;
+                if (temp_r0_3 != 0xFFFF) {
+                    *temp_r4 += 1;
+                }
+            }
+            var_r5 += 1;
+        } while ((u32) var_r5 <= 5U);
+        if (var_r3 == 0) {
+            vsRecScreen->recordsOtherPlayers[0][0][0] = (u8) ((u8) gLoadedSaveGame.vsRecords[0].wins / 10U);
+            vsRecScreen->recordsOtherPlayers[0][0][1] = (u8) ((u8) gLoadedSaveGame.vsRecords[0].wins % 10U);
+            *sp8 = (u8) ((u8) gLoadedSaveGame.vsRecords[0].losses / 10U);
+            *spC = (u8) ((u8) gLoadedSaveGame.vsRecords[0].losses % 10U);
+            *sp10 = (u8) ((u8) gLoadedSaveGame.vsRecords[0].draws / 10U);
+            *sp14 = (u8) ((u8) gLoadedSaveGame.vsRecords[0].draws % 10U);
+            vsRecScreen->vsWinsTens = (u8) ((u8) gLoadedSaveGame.vsWins / 10U);
+            vsRecScreen->vsWinsOnes = (u8) ((u8) gLoadedSaveGame.vsWins % 10U);
+            vsRecScreen->vsLossesTens = (u8) ((u8) gLoadedSaveGame.vsLosses / 10U);
+            vsRecScreen->vsLossesOnes = (u8) ((u8) gLoadedSaveGame.vsLosses % 10U);
+            vsRecScreen->vsDrawsTens = (u8) ((u8) gLoadedSaveGame.vsDraws / 10U);
+            vsRecScreen->vsDrawsOnes = (u8) ((u8) gLoadedSaveGame.vsDraws % 10U);
+        } else {
+            temp_r4_2 = var_r3 * 6;
+            temp_r1_3 = var_r3 - 1;
+            vsRecScreen->recordsOtherPlayers[var_r3][0][0] = (s8) ((u8) gLoadedSaveGame.vsRecords[temp_r1_3].wins / 10U);
+            vsRecScreen->recordsOtherPlayers[var_r3][0][1] = (s8) ((u8) gLoadedSaveGame.vsRecords[temp_r1_3].wins % 10U);
+            *(sp8 + temp_r4_2) = (s8) ((u8) gLoadedSaveGame.vsRecords[temp_r1_3].losses / 10U);
+            *(spC + temp_r4_2) = (s8) ((u8) gLoadedSaveGame.vsRecords[temp_r1_3].losses % 10U);
+            *(sp10 + temp_r4_2) = (s8) ((u8) gLoadedSaveGame.vsRecords[temp_r1_3].draws / 10U);
+            *(sp14 + temp_r4_2) = (s8) ((u8) gLoadedSaveGame.vsRecords[temp_r1_3].draws % 10U);
+        }
     }
 }
 
