@@ -1,7 +1,11 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
+#include "lib/m4a/m4a.h"
 #include "game/player_controls.h"
 #include "game/save.h"
+#include "code_z_1.h"
+#include "constants/songs.h"
 
 typedef struct {
     u8 unk0;
@@ -12,7 +16,7 @@ typedef struct {
     u8 *initArg3;
     u16 unkC[3][3]; // TODO: Not sure whether this is a 2D array of three [3]-arrays
     s16 highlitButton;
-    u16 unk20;
+    s16 unk20;
     u16 unk22;
     Vec2_32 unk24[2][3];
     s32 unk54;
@@ -53,9 +57,12 @@ extern const TileInfo2 gUnknown_080D7364;
 extern ColorRaw gUnknown_080D737C[16];
 extern ColorRaw gUnknown_080D739C[16];
 extern const ButtonConfigPacked gUnknown_080D73BC;
+extern u16 gUnknown_080D73C0[3];
+extern const TileInfo2 gUnknown_080D73C8;
 
 // (99.44%) https://decomp.me/scratch/tWAor
-NONMATCH("asm/non_matching/game/sa3/options/opt__Options_ButtonConfig.inc", void Options_ButtonConfig(s16 highlitButton, u8 *vramBase, s16 *arg2, u8 *arg3))
+NONMATCH("asm/non_matching/game/sa3/options/opt__Options_ButtonConfig.inc",
+         void Options_ButtonConfig(s16 highlitButton, u8 *vramBase, s16 *arg2, u8 *arg3))
 {
     u16 sp4[3] = { LOADED_SAVE->buttonConfig.jump, LOADED_SAVE->buttonConfig.attack, LOADED_SAVE->buttonConfig.trick };
     u8 spC[3] = { 0, 1, 2 };
@@ -114,7 +121,8 @@ NONMATCH("asm/non_matching/game/sa3/options/opt__Options_ButtonConfig.inc", void
 }
 END_NONMATCH
 
-void sub_8091150(OptionsButtonConfig *config) {
+void sub_8091150(OptionsButtonConfig *config)
+{
     Vec2_32 *sp0;
     s32 *sp4;
     Sprite *temp_r0;
@@ -133,8 +141,8 @@ void sub_8091150(OptionsButtonConfig *config) {
         s->anim = gUnknown_080D7334[config->unk0].anim;
         s->variant = gUnknown_080D7334[config->unk0].variant;
         s->prevVariant = 0xFF;
-        s->x = (s16) ((u16) config->unk64 >> 8);
-        s->y = (s16) ((u16) config->unk66 >> 8);
+        s->x = (s16)((u16)config->unk64 >> 8);
+        s->y = (s16)((u16)config->unk66 >> 8);
         s->oamFlags = 0;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -145,8 +153,7 @@ void sub_8091150(OptionsButtonConfig *config) {
         UpdateSpriteAnimation(s);
     }
 
-    for (var_r7 = 0; var_r7 < ARRAY_COUNT(config->spr6C); var_r7++)
-    {
+    for (var_r7 = 0; var_r7 < ARRAY_COUNT(config->spr6C); var_r7++) {
         {
             Sprite *s = &config->spr6C[var_r7];
             s->tiles = config->vram68;
@@ -186,8 +193,7 @@ void sub_8091150(OptionsButtonConfig *config) {
         }
     }
 
-    for (var_r7 = 0; var_r7 < ARRAY_COUNT(config->spr1AC); var_r7++)
-    {
+    for (var_r7 = 0; var_r7 < ARRAY_COUNT(config->spr1AC); var_r7++) {
         Sprite *s = &config->spr1AC[var_r7];
         s->tiles = config->vram68;
         temp_r3 = var_r7 * 8;
@@ -196,7 +202,7 @@ void sub_8091150(OptionsButtonConfig *config) {
         s->variant = gUnknown_080D736C[var_r7].variant;
         s->prevVariant = -1;
         s->x = config->unk24[0][config->highlitButton].x - 8;
-        s->y = config->unk24[0][config->highlitButton].y + ((u16) config->highlitButton * 0x10) - 4;
+        s->y = config->unk24[0][config->highlitButton].y + ((u16)config->highlitButton * 0x10) - 4;
         s->oamFlags = 0;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -215,7 +221,7 @@ void sub_8091150(OptionsButtonConfig *config) {
         s->variant = gUnknown_080D7364.variant;
         s->prevVariant |= ~0;
         s->x = config->unk24[0][config->highlitButton].x - 8;
-        s->y = config->unk24[0][config->highlitButton].y + ((u16) config->highlitButton * 0x10) - 4;
+        s->y = config->unk24[0][config->highlitButton].y + ((u16)config->highlitButton * 0x10) - 4;
         s->oamFlags = 0;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -226,8 +232,7 @@ void sub_8091150(OptionsButtonConfig *config) {
         UpdateSpriteAnimation(s);
     }
 
-    for (var_r7 = 0; var_r7 < ARRAY_COUNT(config->spr15C); var_r7++)
-    {
+    for (var_r7 = 0; var_r7 < ARRAY_COUNT(config->spr15C); var_r7++) {
         Sprite *s = &config->spr15C[var_r7];
         s->tiles = config->vram68;
         if (var_r7 == 0) {
@@ -253,35 +258,10 @@ void sub_8091150(OptionsButtonConfig *config) {
     }
 }
 
-#if 0
-void Task_Options_ButtonConfig_Init(OptionsButtonConfig *config) {
-    ButtonConfig *var_r7;
-    s16 temp_r2;
-    s16 var_r0_2;
-    s32 temp_r1_3;
-    s32 temp_r2_3;
-    u16 *temp_r1;
-    u16 *temp_r1_2;
-    u16 *temp_r1_4;
-    u16 *temp_r2_2;
-    u16 *temp_r2_4;
-    u16 *temp_r6;
-    u16 *temp_r6_2;
-    u16 *temp_r6_3;
-    u16 *temp_r6_4;
-    u16 temp_r0;
-    u16 temp_r0_2;
-    u16 temp_r0_3;
-    u16 temp_r0_4;
-    u16 temp_r2_5;
-    u16 temp_r2_6;
-    u16 var_r0;
-    u16 var_r4_3;
-    u8 var_r0_3;
-    u8 var_r4;
-    u8 var_r4_2;
-    u8 var_r4_4;
-    u8 var_r4_5;
+void Task_Options_ButtonConfig_Init(void)
+{
+    OptionsButtonConfig *config = TASK_DATA(gCurTask);
+    u8 i;
 
     sub_8091A44(config);
     sub_8091AE0(config);
@@ -290,187 +270,149 @@ void Task_Options_ButtonConfig_Init(OptionsButtonConfig *config) {
     sub_8091CDC(config);
     sub_8091B78(config);
     sub_8091C38(config);
-    if (((s32) gBgScrollRegs[1][0] <= -0xC8) && ((s64) (config->unk5C + gBgScrollRegs[1][0]) <= 0)) {
+
+    if (((s32)gBgScrollRegs[1][0] <= -200) && ((s64)(config->unk5C) <= -gBgScrollRegs[1][0])) {
         config->unk4 = 1;
         *config->initArg3 = 0;
         if (0x20000 & gFlags) {
             CopyObjPaletteMasked(gUnknown_080D737C, 0U, 0x10U);
         } else {
-            (void *)0x040000D4->unk0 = gUnknown_080D737C;
-            (void *)0x040000D4->unk4 = gObjPalette;
-            (void *)0x040000D4->unk8 = 0x80000010;
-            gFlags |= 2;
+            DmaCopy16(3, gUnknown_080D737C, gObjPalette, 0x20);
+            gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
         }
         TaskDestroy(gCurTask);
         return;
     }
-    config->unk5C = 0 - gBgScrollRegs[1][0];
-    if (gBgScrollRegs[1][0] != 0) {
 
-    } else {
-        if (!(1 & gPressedKeys)) {
+    config->unk5C = -gBgScrollRegs[1][0];
 
-        } else {
-            temp_r1 = config->unkC[1];
-            var_r4 = 0;
-            temp_r6 = config->unkC[2];
-            do {
-                temp_r2 = config->highlitButton;
-                if (var_r4 != temp_r2) {
-                    temp_r1_2 = &temp_r1[var_r4];
-                    if (temp_r1[config->highlitButton] == *temp_r1_2) {
-                        *temp_r1_2 = temp_r6[temp_r2];
+    if (gBgScrollRegs[1][0] == 0) {
+        if (A_BUTTON & gPressedKeys) {
+            u8 a = config->unkC[1][config->highlitButton];
+
+            for (i = 0; i < 3; i++) {
+                if (i != config->highlitButton) {
+                    if (a == config->unkC[1][i]) {
+                        config->unkC[1][i] = config->unkC[2][config->highlitButton];
                     }
                 }
-                var_r4 += 1;
-            } while ((u32) var_r4 <= 2U);
-            var_r4_2 = 0;
-            do {
-                temp_r1_3 = var_r4_2 * 2;
-                temp_r2_2 = &temp_r6[var_r4_2];
-                *temp_r2_2 = temp_r1[var_r4_2];
-                temp_r0 = *temp_r2_2;
-                switch (temp_r0) {                  /* switch 1; irregular */
-                case 0:                             /* switch 1 */
-                    var_r0 = *(temp_r1_3 + &gUnknown_080D73C0);
-                    var_r7 = &gLoadedSaveGame.buttonConfig;
-block_25:
-                    var_r7->jump = var_r0;
-                    break;
-                case 1:                             /* switch 1 */
-                    var_r0 = *(temp_r1_3 + &gUnknown_080D73C0);
-                    var_r7 = (ButtonConfig *) &gLoadedSaveGame.buttonConfig.attack;
-                    goto block_25;
-                case 2:                             /* switch 1 */
-                    var_r0 = *(temp_r1_3 + &gUnknown_080D73C0);
-                    var_r7 = (ButtonConfig *) &gLoadedSaveGame.buttonConfig.trick;
-                    goto block_25;
+            }
+
+            for (i = 0; i < 3; i++) {
+                config->unkC[2][i] = config->unkC[1][i];
+
+                switch (config->unkC[2][i]) {
+                    case 0:
+                        LOADED_SAVE->buttonConfig.jump = gUnknown_080D73C0[i];
+                        break;
+                    case 1:
+                        LOADED_SAVE->buttonConfig.attack = gUnknown_080D73C0[i];
+                        break;
+                    case 2:
+                        LOADED_SAVE->buttonConfig.trick = gUnknown_080D73C0[i];
+                        break;
                 }
-                config->unkC[0][var_r4_2] = temp_r6[var_r4_2];
-                var_r4_2 += 1;
-            } while ((u32) var_r4_2 <= 2U);
-            config->unk20 = temp_r6[config->highlitButton];
+
+                config->unkC[0][i] = config->unkC[2][i];
+            }
+
+            config->unk20 = config->unkC[2][config->highlitButton];
             config->unk1 = 0;
             config->unk4 = 1;
             if (gFlags & 0x20000) {
                 CopyObjPaletteMasked(gUnknown_080D737C, 0U, 0x10U);
             } else {
-                (void *)0x040000D4->unk0 = gUnknown_080D737C;
-                (void *)0x040000D4->unk4 = gObjPalette;
-                (void *)0x040000D4->unk8 = 0x80000010;
-                gFlags |= 2;
+                DmaCopy16(3, gUnknown_080D737C, gObjPalette, 0x20);
+                gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
             }
         }
-        if ((gBgScrollRegs[1][0] == 0) && (4 & gPressedKeys)) {
-            m4aSongNumStart(0x6BU);
-            var_r4_3 = 0;
-            temp_r6_2 = config->unkC[2];
-            do {
-                temp_r2_3 = var_r4_3 * 2;
-                temp_r1_4 = &temp_r6_2[var_r4_3];
-                *temp_r1_4 = var_r4_3;
-                config->unkC[1][var_r4_3] = var_r4_3;
-                temp_r0_2 = *temp_r1_4;
-                switch (temp_r0_2) {                /* switch 2; irregular */
-                case 0:                             /* switch 2 */
-                    gLoadedSaveGame.buttonConfig.jump = *(temp_r2_3 + &gUnknown_080D73C0);
-                    break;
-                case 1:                             /* switch 2 */
-                    gLoadedSaveGame.buttonConfig.attack = *(temp_r2_3 + &gUnknown_080D73C0);
-                    break;
-                case 2:                             /* switch 2 */
-                    gLoadedSaveGame.buttonConfig.trick = *(temp_r2_3 + &gUnknown_080D73C0);
-                    break;
+        if ((gBgScrollRegs[1][0] == 0) && (SELECT_BUTTON & gPressedKeys)) {
+            m4aSongNumStart(SE_ABORT);
+
+            for (i = 0; i < 3; i++) {
+                config->unkC[2][i] = i;
+                config->unkC[1][i] = i;
+
+                switch (config->unkC[2][i]) {
+                    case 0:
+                        LOADED_SAVE->buttonConfig.jump = gUnknown_080D73C0[i];
+                        break;
+                    case 1:
+                        LOADED_SAVE->buttonConfig.attack = gUnknown_080D73C0[i];
+                        break;
+                    case 2:
+                        LOADED_SAVE->buttonConfig.trick = gUnknown_080D73C0[i];
+                        break;
                 }
-                var_r4_3 = (u16) (u8) (var_r4_3 + 1);
-            } while ((u32) var_r4_3 <= 2U);
+            }
+
             config->unk4 = 1;
-            config->unk20 = temp_r6_2[config->highlitButton];
+            config->unk20 = config->unkC[2][config->highlitButton];
             if (0x20000 & gFlags) {
                 CopyObjPaletteMasked(gUnknown_080D737C, 0U, 0x10U);
             } else {
-                (void *)0x040000D4->unk0 = gUnknown_080D737C;
-                (void *)0x040000D4->unk4 = gObjPalette;
-                (void *)0x040000D4->unk8 = 0x80000010;
-                gFlags |= 2;
+                DmaCopy16(3, gUnknown_080D737C, gObjPalette, 0x20);
+                gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
             }
         }
     }
     if (2 & gPressedKeys) {
         if (config->unk1 != 0) {
-            var_r4_4 = 0;
-            temp_r6_3 = config->unkC[2];
-            do {
-                temp_r2_4 = &config->unkC[0][var_r4_4];
-                temp_r6_3[var_r4_4] = *temp_r2_4;
-                config->unkC[1][var_r4_4] = *temp_r2_4;
-                var_r4_4 += 1;
-            } while ((u32) var_r4_4 <= 2U);
-            config->unk20 = temp_r6_3[config->highlitButton];
+            for (i = 0; i < 3; i++) {
+                config->unkC[2][i] = config->unkC[0][i];
+                config->unkC[1][i] = config->unkC[0][i];
+            }
+
+            config->unk20 = config->unkC[2][config->highlitButton];
         }
         config->unk1 = 0;
         config->unk4 = 1;
+
         if (gFlags & 0x20000) {
             CopyObjPaletteMasked(gUnknown_080D737C, 0U, 0x10U);
         } else {
-            (void *)0x040000D4->unk0 = gUnknown_080D737C;
-            (void *)0x040000D4->unk4 = gObjPalette;
-            (void *)0x040000D4->unk8 = 0x80000010;
-            gFlags |= 2;
+            DmaCopy16(3, gUnknown_080D737C, gObjPalette, 0x20);
+            gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
         }
     }
-    if (gBgScrollRegs[1][0] != 0) {
 
-    } else {
+    if (gBgScrollRegs[1][0] == 0) {
         if (0xC0 & gRepeatedKeys) {
-            temp_r2_5 = 0x40 & gRepeatedKeys;
-            if (temp_r2_5 != 0) {
+            if (0x40 & gRepeatedKeys) {
                 if (config->highlitButton == 0) {
-                    var_r0_2 = 2;
+                    config->highlitButton = 2;
                 } else {
-                    var_r0_2 = (u16) config->highlitButton - 1;
+                    config->highlitButton -= 1;
                 }
-                goto block_65;
-            }
-            if (0x80 & gRepeatedKeys) {
+            } else if (0x80 & gRepeatedKeys) {
                 if (config->highlitButton == 2) {
-                    config->highlitButton = (s16) temp_r2_5;
+                    config->highlitButton = 0;
                 } else {
-                    var_r0_2 = (u16) config->highlitButton + 1;
-block_65:
-                    config->highlitButton = var_r0_2;
+                    config->highlitButton += 1;
                 }
             }
-            var_r4_5 = 0;
-            temp_r6_4 = config->unkC[2];
-            do {
-                config->unkC[1][var_r4_5] = temp_r6_4[var_r4_5];
-                var_r4_5 += 1;
-            } while ((u32) var_r4_5 <= 2U);
-            config->unk20 = temp_r6_4[config->highlitButton];
+
+            for (i = 0; i < 3; i++) {
+                config->unkC[1][i] = config->unkC[2][i];
+            }
+
+            config->unk20 = config->unkC[2][config->highlitButton];
             config->unk4 = 1;
             if (gFlags & 0x20000) {
                 CopyObjPaletteMasked(gUnknown_080D737C, 0U, 0x10U);
             } else {
-                (void *)0x040000D4->unk0 = gUnknown_080D737C;
-                (void *)0x040000D4->unk4 = gObjPalette;
-                (void *)0x040000D4->unk8 = 0x80000010;
-                gFlags |= 2;
+                DmaCopy16(3, gUnknown_080D737C, gObjPalette, 0x20);
+                gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
             }
         }
         if ((gBgScrollRegs[1][0] == 0) && (0x30 & gRepeatedKeys)) {
-            temp_r2_6 = 0x20 & gRepeatedKeys;
-            if (temp_r2_6 != 0) {
-                temp_r0_3 = config->unk20 - 1;
-                config->unk20 = temp_r0_3;
-                if ((s32) (temp_r0_3 << 0x10) < 0) {
+            if (0x20 & gRepeatedKeys) {
+                if (--config->unk20 < 0) {
                     config->unk20 = 2;
                 }
             } else if (0x10 & gRepeatedKeys) {
-                temp_r0_4 = config->unk20 + 1;
-                config->unk20 = temp_r0_4;
-                if ((s32) (s16) temp_r0_4 > 2) {
-                    config->unk20 = temp_r2_6;
+                if (++config->unk20 > 2) {
+                    config->unk20 = 0;
                 }
             }
             config->unkC[1][config->highlitButton] = config->unk20;
@@ -479,156 +421,137 @@ block_65:
         }
     }
     if (config->unk4 == 0) {
-        if ((u32) config->unk22 >= (u32) config->unk3) {
+        if (config->unk22 >= config->unk3) {
             if (config->unk2 == 0) {
                 if (0x20000 & gFlags) {
                     CopyObjPaletteMasked(gUnknown_080D737C, 0U, 0x10U);
                 } else {
-                    (void *)0x040000D4->unk0 = gUnknown_080D737C;
-                    (void *)0x040000D4->unk4 = gObjPalette;
-                    (void *)0x040000D4->unk8 = 0x80000010;
-                    gFlags |= 2;
+                    DmaCopy16(3, gUnknown_080D737C, gObjPalette, 0x20);
+                    gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
                 }
-                var_r0_3 = 1;
+                config->unk2 = 1;
             } else {
                 if (0x20000 & gFlags) {
-                    CopyObjPaletteMasked(&gUnknown_080D739C, 0U, 0x10U);
+                    CopyObjPaletteMasked(gUnknown_080D739C, 0U, 0x10U);
                 } else {
-                    (void *)0x040000D4->unk0 = &gUnknown_080D739C;
-                    (void *)0x040000D4->unk4 = gObjPalette;
-                    (void *)0x040000D4->unk8 = 0x80000010;
-                    gFlags |= 2;
+                    DmaCopy16(3, gUnknown_080D739C, gObjPalette, 0x20);
+                    gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
                 }
-                var_r0_3 = 0;
+                config->unk2 = 0;
             }
-            config->unk2 = var_r0_3;
+
             config->unk22 = 0;
         }
         config->unk22 += 1;
     }
 }
 
-void sub_8091A44(OptionsButtonConfig *config) {
-    Vec2_32 *temp_r4;
-    s32 *temp_r3;
-    s32 temp_r2;
-    u8 var_r5;
+void sub_8091A44(OptionsButtonConfig *config)
+{
+    u8 i;
 
-    var_r5 = 0;
-    do {
-        temp_r2 = var_r5 * 8;
-        temp_r4 = &config->unk24[0][var_r5];
-        temp_r4->x = 0x70 - gBgScrollRegs[1][0];
-        temp_r3 = &config->unk24[0][0].y + temp_r2;
-        *temp_r3 = (((var_r5 * 0x10) + 0x2D) - gBgScrollRegs[1][1]) + temp_r2;
-        config->unk24[1][var_r5].x = temp_r4->x - 0x46;
-        *(&config->unk24[1][0].y + temp_r2) = *temp_r3;
-        var_r5 += 1;
-    } while ((u32) var_r5 <= 2U);
-    config->unk54 = 0x78 - gBgScrollRegs[1][0];
-    config->unk58 = 0x7B - gBgScrollRegs[1][1];
-    config->unk64 = 0x78 - (u16) gBgScrollRegs[1][0];
-    config->unk66 = 0x1E - (u16) gBgScrollRegs[1][1];
+    for (i = 0; i < 3; i++) {
+        s32 var0;
+        config->unk24[0][i].x = 112 - gBgScrollRegs[1][0];
+        config->unk24[0][i].y = 45 - gBgScrollRegs[1][1] + (i * 0x10) + i * 8;
+        config->unk24[1][i].x = config->unk24[0][i].x - 70;
+        config->unk24[1][i].y = config->unk24[0][i].y;
+    }
+
+    config->unk54 = 120 - gBgScrollRegs[1][0];
+    config->unk58 = 123 - gBgScrollRegs[1][1];
+    config->unk64 = 120 - gBgScrollRegs[1][0];
+    config->unk66 = 30 - gBgScrollRegs[1][1];
 }
 
-void sub_8091AE0(OptionsButtonConfig *config) {
-    Sprite *temp_r4;
+void sub_8091AE0(OptionsButtonConfig *config)
+{
     u8 temp_r1;
-    u8 var_r0;
     u8 var_r6;
 
-    var_r6 = 0;
-    do {
-        temp_r4 = &config->spr6C[var_r6];
+    for (var_r6 = 0; var_r6 < 3; var_r6++) {
+        Sprite *s;
+        s = &config->spr6C[var_r6];
         temp_r1 = config->unkC[1][var_r6];
-        temp_r4->anim = gUnknown_080D7264[temp_r1 + (config->unk0 * 4)].anim;
-        temp_r4->variant = gUnknown_080D7264[temp_r1 + (config->unk0 * 4)].variant;
-        temp_r4->x = (s16) config->unk24[0][var_r6].x;
-        temp_r4->y = (s16) *(&config->unk24[0][0].y + (var_r6 * 8));
+        s->anim = gUnknown_080D7264[temp_r1 + (config->unk0 * 4)].anim;
+        s->variant = gUnknown_080D7264[temp_r1 + (config->unk0 * 4)].variant;
+        s->x = config->unk24[0][var_r6].x;
+        s->y = config->unk24[0][var_r6].y;
+
         if (var_r6 == config->highlitButton) {
-            var_r0 = 0;
+            s->palId = 0;
         } else {
-            var_r0 = 1;
+            s->palId = 1;
         }
-        temp_r4->palId = var_r0;
-        temp_r4->frameFlags |= 0x40000;
-        UpdateSpriteAnimation(temp_r4);
-        DisplaySprite(temp_r4);
-        var_r6 += 1;
-    } while ((u32) var_r6 <= 2U);
+        s->frameFlags |= 0x40000;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
 }
 
-void sub_8091B78(OptionsButtonConfig *config) {
-    Sprite *temp_r0;
-    TileInfo2 *temp_r2;
-    u8 var_r4;
+void sub_8091B78(OptionsButtonConfig *config)
+{
+    u8 i;
 
-    var_r4 = 0;
-    do {
-        temp_r0 = &config->sprE4[var_r4];
-        temp_r2 = &gUnknown_080D731C[var_r4];
-        temp_r0->anim = temp_r2->anim;
-        temp_r0->variant = temp_r2->variant;
-        temp_r0->x = (s16) config->unk24[1][var_r4].x;
-        temp_r0->y = (s16) *(&config->unk24[1][0].y + (var_r4 * 8));
-        DisplaySprite(temp_r0);
-        var_r4 += 1;
-    } while ((u32) var_r4 <= 2U);
+    for (i = 0; i < 3; i++) {
+        Sprite *s = &config->sprE4[i];
+        s->anim = gUnknown_080D731C[i].anim;
+        s->variant = gUnknown_080D731C[i].variant;
+        s->x = config->unk24[1][i].x;
+        s->y = config->unk24[1][i].y;
+        DisplaySprite(s);
+    }
 }
 
-void sub_8091BC4(OptionsButtonConfig *config) {
-    Sprite *temp_r2;
+void sub_8091BC4(OptionsButtonConfig *config)
+{
     TileInfo2 *var_r0;
     u8 var_r5;
 
-    var_r5 = 0;
-    do {
-        temp_r2 = &config->spr15C[var_r5];
+    for (var_r5 = 0; var_r5 < 2; var_r5++) {
+        Sprite *s = &config->spr15C[var_r5];
         if (var_r5 == 0) {
-            temp_r2->anim = gUnknown_080D7024[config->unk0].anim;
-            var_r0 = &gUnknown_080D7024[config->unk0];
+            s->anim = gUnknown_080D7024[config->unk0].anim;
+            s->variant = gUnknown_080D7024[config->unk0].variant;
         } else {
-            temp_r2->anim = gUnknown_080D7234[config->unk0].anim;
-            var_r0 = &gUnknown_080D7234[config->unk0];
+            s->anim = gUnknown_080D7234[config->unk0].anim;
+            s->variant = gUnknown_080D7234[config->unk0].variant;
         }
-        temp_r2->variant = var_r0->variant;
-        temp_r2->x = config->unk54 + (var_r5 * 2);
-        temp_r2->y = config->unk58 + (var_r5 * 8) + (var_r5 * 4);
-        DisplaySprite(temp_r2);
-        var_r5 += 1;
-    } while ((u32) var_r5 <= 1U);
+        s->x = config->unk54 + (var_r5 * 2);
+        s->y = config->unk58 + (var_r5 * 8) + (var_r5 * 4);
+        DisplaySprite(s);
+    }
 }
 
-void sub_8091C38(OptionsButtonConfig *config) {
-    Sprite *temp_r4;
+void sub_8091C38(OptionsButtonConfig *config)
+{
     u8 var_r5;
 
-    var_r5 = 0;
-    do {
-        temp_r4 = &config->spr1AC[var_r5];
-        temp_r4->x = config->unk24[0][config->highlitButton].x + ((var_r5 << 6) - 0x12) + (var_r5 * 0x10) + (var_r5 * 8) + (var_r5 * 4);
-        temp_r4->y = *(&config->unk24[0][0].y + (config->highlitButton * 8)) + 4;
-        UpdateSpriteAnimation(temp_r4);
-        DisplaySprite(temp_r4);
-        var_r5 += 1;
-    } while ((u32) var_r5 <= 1U);
+    for (var_r5 = 0; var_r5 < ARRAY_COUNT(config->spr1AC); var_r5++) {
+        Sprite *s = &config->spr1AC[var_r5];
+        s->x = config->unk24[0][config->highlitButton].x - 0x12 + (var_r5 * 64) + (var_r5 * 0x10) + (var_r5 * 8) + (var_r5 * 4);
+        s->y = config->unk24[0][config->highlitButton].y + 4;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
 }
 
-void TaskDestructor_Options_ButtonConfig(Task *t) {
+void TaskDestructor_Options_ButtonConfig(Task *t) { }
 
+void sub_8091CA0(OptionsButtonConfig *config)
+{
+    Sprite *s = &config->spr224;
+    s->anim = gUnknown_080D7334[config->unk0].anim;
+    s->variant = gUnknown_080D7334[config->unk0].variant;
+    s->x = (s16)config->unk64;
+    s->y = (s16)config->unk66;
+    DisplaySprite(s);
 }
 
-void sub_8091CA0(OptionsButtonConfig *config) {
-    config->spr224.anim = gUnknown_080D7334[config->unk0].anim;
-    config->spr224.variant = gUnknown_080D7334[config->unk0].variant;
-    config->spr224.x = (s16) config->unk64;
-    config->spr224.y = (s16) config->unk66;
-    DisplaySprite(&config->spr224);
+void sub_8091CDC(OptionsButtonConfig *config)
+{
+    Sprite *s = &config->spr1FC;
+    s->x = config->unk24[1][config->highlitButton].x - 8;
+    s->y = config->unk24[1][config->highlitButton].y - 4;
+    DisplaySprite(s);
 }
-
-void sub_8091CDC(OptionsButtonConfig *config) {
-    config->spr1FC.x = config->unk24[1][config->highlitButton].x - 8;
-    config->spr1FC.y = *(&config->unk24[1][0].y + (config->highlitButton * 8)) - 4;
-    DisplaySprite(&config->spr1FC);
-}
-#endif

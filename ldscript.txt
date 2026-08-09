@@ -184,7 +184,6 @@ SECTIONS {
         src/game/sa3/options/options_delete_save_data.o(.text);
         src/game/sa3/options/options_time_up.o(.text);
         src/game/sa3/options/options_button_config.o(.text);
-        asm/options_button_config.o(.text);
         asm/name_entry_screen.o(.text);
         src/game/sa3/options/options_sound_test.o(.text);
         asm/name_entry_screen.o(.text);
