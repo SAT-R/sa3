@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
 #include "game/shared/stage/player.h" // MAX_PLAYER_NAME_LENGTH
 #include "game/save.h"
 #include "constants/tilemaps.h"
@@ -732,8 +733,9 @@ NONMATCH("asm/non_matching/game/sa3/options/opt__sub_8097608.inc", void sub_8097
 }
 END_NONMATCH
 
-#if 0
-void sub_8097710(OptionsVsRecordScreen *vsRecScreen) {
+// (69.42%) https://decomp.me/scratch/Q4CJB
+NONMATCH("asm/non_matching/game/sa3/options/opt__sub_8097710.inc", void sub_8097710(OptionsVsRecordScreen *vsRecScreen))
+{
     u32 sp0;
     u32 sp4;
     s32 temp_r1_2;
@@ -781,7 +783,9 @@ void sub_8097710(OptionsVsRecordScreen *vsRecScreen) {
         var_r7++;
     }
 }
+END_NONMATCH
 
+#if 0
 u32 sub_8097830(OptionsVsRecordScreen *vsRecScreen) {
     u8 unk5 = vsRecScreen->unk5;
     vsRecScreen->qUnk138 += gUnknown_080D6ED4[vsRecScreen->unk5];
