@@ -692,27 +692,25 @@ void sub_8097530(void)
     }
 }
 
-// (91.72%) https://decomp.me/scratch/5uOfx
-NONMATCH("asm/non_matching/game/sa3/options/opt__sub_8097608.inc", void sub_8097608(OptionsVsRecordScreen *vsRecScreen, u8 arg1))
+void sub_8097608(OptionsVsRecordScreen *vsRecScreen, u8 arg1)
 {
-    Sprite *s;
+    Sprite *s = NULL;
     u8 temp_r5;
     u8 i;
     u8 var_r5;
-    u32 var_r4 = 0;
     u8 unk18 = vsRecScreen->unk18;
     if ((u32)(vsRecScreen->unk2 + vsRecScreen->unk18) < 12) {
-        var_r5 = vsRecScreen->unk2 + (vsRecScreen->unk18 - 1);
+        var_r5 = vsRecScreen->unk2 - 1 + vsRecScreen->unk18;
     } else {
 #ifdef BUG_FIX
         var_r5 = 0;
 #endif
     }
-    vsRecScreen->unkD[var_r5] = var_r4;
+    vsRecScreen->unkD[var_r5] = 0;
 
-    for (i = 0; i < 6; i++) {
+    for (i = 0; i < MAX_PLAYER_NAME_LENGTH; i++) {
         if ((u32)(vsRecScreen->unk2 + unk18) < 12) {
-            var_r5 = vsRecScreen->unk2 + (unk18 - 1);
+            var_r5 = vsRecScreen->unk2 - 1 + unk18;
             s = &vsRecScreen->spr8F8[arg1][i];
             if (vsRecScreen->nameList[var_r5][i] != 0xFFFF) {
                 if (vsRecScreen->nameList[var_r5][i] > 0xFFU) {
@@ -731,86 +729,68 @@ NONMATCH("asm/non_matching/game/sa3/options/opt__sub_8097608.inc", void sub_8097
         }
     }
 }
-END_NONMATCH
 
-// (69.42%) https://decomp.me/scratch/Q4CJB
-NONMATCH("asm/non_matching/game/sa3/options/opt__sub_8097710.inc", void sub_8097710(OptionsVsRecordScreen *vsRecScreen))
+// TODO(Jace): These need more macros than WIN_RANGE()!
+void sub_8097710(OptionsVsRecordScreen *vsRecScreen)
 {
-    u32 sp0;
-    u32 sp4;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    u16 var_r2;
-    u16 temp_r4;
-    u32 var_r0;
-    u32 var_r1;
-    u8 temp_r0;
+    u8 sp0;
+    u16 min;
+    u16 max;
+    u8 var_ip;
     u8 temp_r1;
     int_vcount line;
-    int_vcount temp_r5;
-    u16 *var_r7;
+    int_vcount var_r5;
+    winreg_t winReg;
+    winreg_t *var_r7;
+    u32 tmp0;
+    u32 tmp1;
 
-    temp_r1 = ((u16)vsRecScreen->unk1E >> 8);
+    tmp0 = 0;
+    tmp1 = 1;
+    temp_r1 = vsRecScreen->unk1E >> 8;
     gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
-    temp_r5 = (u8)((s32)vsRecScreen->qUnk134 >> 8);
-    temp_r0 = temp_r5 + temp_r1;
-    sp0 = (u32)(temp_r1 + 0xE8);
-    temp_r4 = (u32)(vsRecScreen->qUnk130 << 8) >> 0x10;
-    gHBlankCopyTarget = (void *)0x04000040;
+    var_r5 = vsRecScreen->qUnk134 >> 8;
+    var_ip = var_r5 + temp_r1;
+    sp0 = var_ip + 0xE8;
+    winReg = WIN_RANGE(0, (vsRecScreen->qUnk130 >> 8));
+    gHBlankCopyTarget = (void *)&REG_WIN0H;
     gHBlankCopySize = 2;
     var_r7 = gBgOffsetsHBlankPrimary;
     for (line = 0; line < DISPLAY_HEIGHT; line++) {
         if (line >= 30 && line < 34) {
-            var_r2 = 120;
-            var_r1 = 121;
+            min = 120;
+            max = 121;
+        } else if ((line >= var_r5) && (line < (var_r5 + 12))) {
+            min = winReg + gUnknown_080D8C74[line - var_r5][tmp0];
+            max = winReg + gUnknown_080D8C74[line - var_r5][tmp1] + 0x2B;
+        } else if ((line >= (var_ip - 12)) && (line < var_ip)) {
+            min = winReg + gUnknown_080D8C74[line - sp0][tmp0];
+            max = winReg + gUnknown_080D8C74[line - sp0][tmp1] + 0x2B;
         } else {
-            if ((line >= (u32)temp_r5) && (line < (temp_r5 + 12))) {
-                temp_r1_2 = line - temp_r5;
-                var_r2 = temp_r4 + gUnknown_080D8C74[temp_r1_2][0];
-                var_r1 = (temp_r4 + gUnknown_080D8C74[temp_r1_2][1] + 0x2B);
-            } else if (((s32)line >= (s32)(temp_r0 - 12)) && (line < temp_r0)) {
-                temp_r1_3 = line - sp0;
-                var_r2 = temp_r4 + gUnknown_080D8C74[temp_r1_3][0];
-                var_r1 = (temp_r4 + gUnknown_080D8C74[temp_r1_3][1] + 0x2B);
-            } else {
-                var_r2 = (temp_r4 + 30);
-                var_r1 = (temp_r4 + 0xFE);
-            }
+            min = winReg + 30;
+            max = winReg + (u8)-2;
         }
-        *var_r7 = (s16)(var_r1 + (var_r2 << 8));
+        *var_r7 = (min << 8) + max;
         var_r7++;
     }
 }
-END_NONMATCH
 
-// (54.61%) https://decomp.me/scratch/X6XSg
-NONMATCH("asm/non_matching/game/sa3/options/opt__sub_8097830.inc", u32 sub_8097830(OptionsVsRecordScreen *vsRecScreen))
+bool32 sub_8097830(OptionsVsRecordScreen *vsRecScreen)
 {
-    u8 unk5 = vsRecScreen->unk5;
-    vsRecScreen->qUnk138 += gUnknown_080D6ED4[vsRecScreen->unk5];
-    switch (unk5) {
-        case 0: {
-            if (vsRecScreen->qUnk138 >= Q(10)) {
-                vsRecScreen->unk5 += 1;
-                break;
-            }
-        } // fallthrough
-        case 1: {
-            if (vsRecScreen->qUnk138 <= -Q(10)) {
-                vsRecScreen->unk5 += 1;
-            }
-        } break;
-        case 2: {
-            if (vsRecScreen->qUnk138 > 0) {
-                vsRecScreen->qUnk138 = 0;
-                return 1U;
-            }
-        } break;
+    u32 unk5 = vsRecScreen->unk5;
+    vsRecScreen->qUnk138 += gUnknown_080D6ED4[unk5];
+
+    if ((unk5 == 0) && (vsRecScreen->qUnk138 >= Q(10))) {
+        vsRecScreen->unk5 += 1;
+    } else if ((unk5 == 1) && (vsRecScreen->qUnk138 <= -Q(10))) {
+        vsRecScreen->unk5 += 1;
+    } else if ((unk5 == 2) && (vsRecScreen->qUnk138 > 0)) {
+        vsRecScreen->qUnk138 = 0;
+        return 1;
     }
-    return 0U;
+    return 0;
 }
-END_NONMATCH
 
 u32 sub_809789C(OptionsVsRecordScreen *vsRecScreen, u8 arg1)
 {
