@@ -94,6 +94,9 @@ extern const TileInfo2 gUnknown_080D8C5C;
 extern const TileInfo2 gUnknown_080D8C64;
 extern const TileInfo2 gUnknown_080D8C6C;
 
+extern u16 gUnknown_080D8C74[][2];
+extern s32 gUnknown_080D6ED4[3];
+
 void CreateVsRecordScreen(void)
 {
     OptionsVsRecordScreen *vsRecScreen;
@@ -688,16 +691,16 @@ void sub_8097530(void)
     }
 }
 
-#if 0
-void sub_8097608(OptionsVsRecordScreen *vsRecScreen, u8 arg1) {
+// (91.72%) https://decomp.me/scratch/5uOfx
+NONMATCH("asm/non_matching/game/sa3/options/opt__sub_8097608.inc", void sub_8097608(OptionsVsRecordScreen *vsRecScreen, u8 arg1))
+{
     Sprite *s;
     u8 temp_r5;
     u8 i;
     u8 var_r5;
-    register u32 var_r4 asm("r4") = 0;
+    u32 var_r4 = 0;
     u8 unk18 = vsRecScreen->unk18;
-    asm("" :: "r"(var_r4));
-    if ((u32) (vsRecScreen->unk18 + vsRecScreen->unk2) < 12) {
+    if ((u32)(vsRecScreen->unk2 + vsRecScreen->unk18) < 12) {
         var_r5 = vsRecScreen->unk2 + (vsRecScreen->unk18 - 1);
     } else {
 #ifdef BUG_FIX
@@ -706,9 +709,8 @@ void sub_8097608(OptionsVsRecordScreen *vsRecScreen, u8 arg1) {
     }
     vsRecScreen->unkD[var_r5] = var_r4;
 
-    for(i = 0; i < 6; i++)
-    {
-        if ((u32) (vsRecScreen->unk2 + unk18) < 12) {
+    for (i = 0; i < 6; i++) {
+        if ((u32)(vsRecScreen->unk2 + unk18) < 12) {
             var_r5 = vsRecScreen->unk2 + (unk18 - 1);
             s = &vsRecScreen->spr8F8[arg1][i];
             if (vsRecScreen->nameList[var_r5][i] != 0xFFFF) {
@@ -728,10 +730,9 @@ void sub_8097608(OptionsVsRecordScreen *vsRecScreen, u8 arg1) {
         }
     }
 }
+END_NONMATCH
 
-extern u16 gUnknown_080D8C74[][2];
-extern s32 gUnknown_080D6ED4[3];
-
+#if 0
 void sub_8097710(OptionsVsRecordScreen *vsRecScreen) {
     u32 sp0;
     u32 sp4;
