@@ -34,7 +34,7 @@ typedef struct {
     /* 0x03E */ u16 nameList[11][MAX_PLAYER_NAME_LENGTH];
     // Used for rendering digits. [player_count][vsRecordType][tens/ones]
     /* 0x0C2 */ u8 recordsRivals[11][3][2];
-    /* 0x104 */ s32 vram104;
+    /* 0x104 */ u8 *vram104;
     /* 0x108 */ u8 filler108[0x8];
     /* 0x110 */ s32 qUnk110;
     /* 0x114 */ s32 qUnk114;
@@ -181,13 +181,11 @@ void sub_8096918(OptionsVsRecordScreen *vsRecScreen)
     }
 }
 
-#if 0
-void sub_8096B30(OptionsVsRecordScreen *vsRecScreen) {
-    u8 var_r1;
-    u8 var_r1_2;
+void sub_8096B30(OptionsVsRecordScreen *vsRecScreen)
+{
+    u8 i;
 
-    var_r1 = 0;
-    vsRecScreen->language = LOADED_SAVE->unk366;
+    vsRecScreen->language = LOADED_SAVE->language;
     vsRecScreen->unk1C = 0;
     vsRecScreen->unk28 = 0;
     vsRecScreen->unk2A = 0;
@@ -201,15 +199,15 @@ void sub_8096B30(OptionsVsRecordScreen *vsRecScreen) {
     vsRecScreen->unk1A = 0;
     vsRecScreen->unkC = 0;
     vsRecScreen->vsRecordPlayerCount = 0;
-    do {
-        vsRecScreen->unk6[var_r1] = var_r1;
-        var_r1 += 1;
-    } while ((u32) var_r1 <= 5U);
-    var_r1_2 = 0;
-    do {
-        vsRecScreen->unkD[var_r1_2] = 0;
-        var_r1_2 += 1;
-    } while ((u32) var_r1_2 <= 0xAU);
+
+    for (i = 0; i < 6; i++) {
+        vsRecScreen->unk6[i] = i;
+    }
+
+    for (i = 0; i < 11; i++) {
+        vsRecScreen->unkD[i] = 0;
+    }
+
     vsRecScreen->qUnk118 = 0x6400;
     vsRecScreen->qUnk11C = 0x4B00;
     vsRecScreen->qUnk110 = 0x5B00;
@@ -228,9 +226,10 @@ void sub_8096B30(OptionsVsRecordScreen *vsRecScreen) {
     vsRecScreen->qUnk144 = 0x8E00;
     vsRecScreen->qUnk148 = 0x7800;
     vsRecScreen->qUnk14C = 0x2E00;
-    vsRecScreen->vram104 = 0x06010000;
+    vsRecScreen->vram104 = (void *)OBJ_VRAM0;
 }
 
+#if 0
 void sub_8096C60(OptionsVsRecordScreen *vsRecScreen) {
     u8 *sp0;
     u16 *sp4;
