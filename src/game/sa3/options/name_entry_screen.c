@@ -64,8 +64,30 @@ void CreateNameEntryScreen(u8 arg0);
 void Task_NameEntryScreen(void);
 void sub_8091DD0(NameEntryScreen *nes);
 void sub_8091E84(NameEntryScreen *nes);
+void sub_8092274(NameEntryScreen *nes);
 void sub_8092320(NameEntryScreen *nes);
+bool32 sub_8093784(NameEntryScreen *nes);
+void Task_8093710(void);
+void sub_80937DC(NameEntryScreen *nes);
+void sub_809380C(NameEntryScreen *nes);
+void sub_809382C(NameEntryScreen *nes);
+void sub_809384C(NameEntryScreen *nes);
+void sub_809386C(NameEntryScreen *nes);
+void sub_80938B4(NameEntryScreen *nes);
+void sub_8093904(NameEntryScreen *nes);
 void TaskDestructor_NameEntryScreen(struct Task *t);
+
+
+extern TileInfo2 gUnknown_080D73C8;
+extern TileInfo2 gUnknown_080D73D0[12];
+extern TileInfo2 gUnknown_080D7430;
+extern TileInfo2 gUnknown_080D7438;
+extern TileInfo2 gUnknown_080D7440;
+extern TileInfo2 gUnknown_080D7448;
+extern TileInfo2 gUnknown_080D7450;
+extern TileInfo2 gUnknown_080D7458;
+extern TileInfo2 gUnknown_080D7460;
+extern TileInfo2 gUnknown_080D7468;
 
 void CreateNameEntryScreen(u8 arg0) {
     NameEntryScreen *nes;
@@ -99,260 +121,278 @@ void CreateNameEntryScreen(u8 arg0) {
     sub_8091E84(nes);
 }
 
-void sub_8091DD0(NameEntryScreen *arg0) {
-    arg0->language = LOADED_SAVE->language;
-    arg0->unkE = 0;
-    arg0->unkA = 0;
-    arg0->unk20 = 0;
-    arg0->unk22 = 0;
-    arg0->unk2 = 0;
-    arg0->unk3 = 0;
-    arg0->unkC = 0;
-    arg0->unk4 = 0;
-    arg0->unk5 = 0;
-    arg0->unk6 = 0;
-    arg0->unk14 = 0x100;
-    arg0->unk16 = 0x100;
-    arg0->unk24 = 0x800;
-    arg0->unk26 = 0x800;
-    arg0->unk7 = 0;
-    arg0->unk1C = 0;
-    arg0->unk1E = 0;
-    arg0->unk10 = 0;
-    arg0->unk2C = -0xE00;
-    arg0->unk30 = 0x6000;
-    arg0->unk5C = 0x9600;
-    arg0->unk60 = 0x1800;
-    arg0->unk3C = 0x1A;
-    arg0->unk40 = 0x34;
-    arg0->unk12 = 0x90;
-    arg0->unk44 = arg0->unk5C + Q(10);
-    arg0->unk48 = arg0->unk60 + Q(1);
-    arg0->unk4C = -0x8C00;
-    arg0->unk50 = 0x1000;
-    arg0->unk54 = 0xD900;
-    arg0->unk58 = 0x8C00;
-    arg0->unk34 = 0xD900;
-    arg0->unk38 = 0x8C00;
-    arg0->unk64 = 0xD900;
-    arg0->unk68 = 0x8C00;
-    arg0->unk6C = 0x500;
-    arg0->unk70 = 0x2A00;
-    arg0->vram28 = (u8 *)OBJ_VRAM0;
+void sub_8091DD0(NameEntryScreen *nes) {
+    nes->language = LOADED_SAVE->language;
+    nes->unkE = 0;
+    nes->unkA = 0;
+    nes->unk20 = 0;
+    nes->unk22 = 0;
+    nes->unk2 = 0;
+    nes->unk3 = 0;
+    nes->unkC = 0;
+    nes->unk4 = 0;
+    nes->unk5 = 0;
+    nes->unk6 = 0;
+    nes->unk14 = 0x100;
+    nes->unk16 = 0x100;
+    nes->unk24 = 0x800;
+    nes->unk26 = 0x800;
+    nes->unk7 = 0;
+    nes->unk1C = 0;
+    nes->unk1E = 0;
+    nes->unk10 = 0;
+    nes->unk2C = -0xE00;
+    nes->unk30 = 0x6000;
+    nes->unk5C = 0x9600;
+    nes->unk60 = 0x1800;
+    nes->unk3C = 0x1A;
+    nes->unk40 = 0x34;
+    nes->unk12 = 0x90;
+    nes->unk44 = nes->unk5C + Q(10);
+    nes->unk48 = nes->unk60 + Q(1);
+    nes->unk4C = -0x8C00;
+    nes->unk50 = 0x1000;
+    nes->unk54 = 0xD900;
+    nes->unk58 = 0x8C00;
+    nes->unk34 = 0xD900;
+    nes->unk38 = 0x8C00;
+    nes->unk64 = 0xD900;
+    nes->unk68 = 0x8C00;
+    nes->unk6C = 0x500;
+    nes->unk70 = 0x2A00;
+    nes->vram28 = (u8 *)OBJ_VRAM0;
 }
 
 #if 0
-void sub_8091E84(NameEntryScreen *nes) {
+void sub_8091E84(NameEntryScreen *nes)
+{
     s32 sp0;
-    Sprite *sp8;
+    Sprite *s;
     s32 spC;
-    u32 sp10;
-    Sprite *temp_r7;
-    Sprite *temp_r7_2;
     s32 temp_r2;
     s32 temp_r5;
     s32 temp_sb;
-    s32 var_r1;
     u16 *temp_r1_2;
     u16 temp_r2_3;
     u16 var_r0;
-    u32 var_r3;
-    u32 var_r3_2;
+    u8 var_r3;
     u8 *temp_r1;
     u8 temp_sl;
     void *temp_r2_2;
+    s32 var_r1 = 0;
+    u8 lang = nes->language;
+    SpriteTransform *tf;
+    s32 numTilesDelta;
 
-    var_r1 = 0;
     if (nes->initArg0 == 1) {
         var_r1 = 1;
     }
-    nes->spr114.tiles = nes->vram28;
-    temp_r2 = (var_r1 + (nes->language * 2)) * 8;
-    nes->vram28 += *(temp_r2 + (&gUnknown_080D73D0 + 4)) << 5;
-    temp_r2_2 = temp_r2 + &gUnknown_080D73D0;
-    nes->spr114.anim = temp_r2_2->unk0;
-    nes->spr114.variant = temp_r2_2->unk2;
-    nes->spr114.prevVariant = 0xFF;
-    nes->spr114.x = (s16) ((s32) nes->unk4C >> 8);
-    nes->spr114.y = (s16) ((s32) nes->unk50 >> 8);
-    nes->spr114.oamFlags = 0xC0;
-    nes->spr114.animCursor = 0;
-    nes->spr114.qAnimDelay = 0;
-    nes->spr114.animSpeed = 0x10;
-    nes->spr114.palId = 0;
-    nes->spr114.frameFlags = 0;
-    UpdateSpriteAnimation(&nes->spr114);
-    nes->spr18C.tiles = nes->vram28;
-    nes->vram28 += gUnknown_080D7430.unk4 << 5;
-    nes->spr18C.anim = gUnknown_080D7430.unk0;
-    nes->spr18C.variant = gUnknown_080D7430.unk2;
-    nes->spr18C.prevVariant = -1U;
-    nes->spr18C.x = (s16) ((s32) nes->unk64 >> 8);
-    nes->spr18C.y = (s16) ((s32) nes->unk68 >> 8);
-    nes->spr18C.oamFlags = 0xC0;
-    nes->spr18C.animCursor = 0;
-    nes->spr18C.qAnimDelay = 0;
-    nes->spr18C.animSpeed = 0x10;
-    nes->spr18C.palId = 0;
-    nes->spr18C.frameFlags = 0;
-    UpdateSpriteAnimation(&nes->spr18C);
-    nes->spr13C.tiles = nes->vram28;
-    nes->vram28 += gUnknown_080D7438.unk4 << 5;
-    nes->spr13C.anim = gUnknown_080D7438.unk0;
-    nes->spr13C.variant = gUnknown_080D7438.unk2;
-    nes->spr13C.prevVariant = -1U;
-    nes->spr13C.x = (s16) ((s32) nes->unk54 >> 8);
-    nes->spr13C.y = (s16) ((s32) nes->unk58 >> 8);
-    nes->spr13C.oamFlags = 0xC0;
-    nes->spr13C.animCursor = 0;
-    nes->spr13C.qAnimDelay = 0;
-    nes->spr13C.animSpeed = 0x10;
-    nes->spr13C.palId = 0;
-    nes->spr13C.frameFlags = 0;
-    UpdateSpriteAnimation(&nes->spr13C);
-    temp_r1 = nes->vram28;
-    nes->spr74.tiles = temp_r1;
-    nes->vram28 = temp_r1 + (gUnknown_080D7440.unk4 << 5);
-    nes->spr74.anim = gUnknown_080D7440.unk0;
-    nes->spr74.variant = gUnknown_080D7440.unk2;
-    nes->spr74.prevVariant = -1U;
-    nes->spr74.x = (s16) ((s32) nes->unk34 >> 8);
-    nes->spr74.y = (s16) ((s32) nes->unk38 >> 8);
-    nes->spr74.oamFlags = 0x80;
-    nes->spr74.animCursor = 0;
-    nes->spr74.qAnimDelay = 0;
-    nes->spr74.animSpeed = 0x10;
-    nes->spr74.palId = 0;
-    nes->spr74.frameFlags = 0;
-    UpdateSpriteAnimation(&nes->spr74);
-    nes->spr164.tiles = nes->vram28;
-    nes->vram28 += gUnknown_080D73C8.unk4 << 5;
-    nes->spr164.anim = gUnknown_080D73C8.unk0;
-    nes->spr164.variant = gUnknown_080D73C8.unk2;
-    nes->spr164.prevVariant = -1U;
-    nes->spr164.x = (s16) ((s32) nes->unk5C >> 8);
-    nes->spr164.y = (s16) ((s32) nes->unk60 >> 8);
-    nes->spr164.oamFlags = 0xC0;
-    nes->spr164.animCursor = 0;
-    nes->spr164.qAnimDelay = 0;
-    nes->spr164.animSpeed = 0x10;
-    nes->spr164.palId = 0;
-    nes->spr164.frameFlags = 0;
-    UpdateSpriteAnimation(&nes->spr164);
-    var_r3 = 0;
-    sp8 = &nes->sprEC;
-    temp_sl = gUnknown_080D7448.unk2;
-    temp_sb = gUnknown_080D7448.unk4 << 5;
-    do {
-        temp_r7 = &nes->spr9C[var_r3];
-        temp_r7->tiles = nes->vram28;
-        nes->vram28 = &nes->vram28[temp_sb];
-        temp_r7->anim = gUnknown_080D7448.unk0;
-        temp_r7->variant = temp_sl;
-        temp_r7->prevVariant = 0xFF;
-        temp_r7->x = (s16) ((s32) nes->unk3C >> 8);
-        temp_r7->y = (s16) ((s32) nes->unk40 >> 8);
-        temp_r7->oamFlags = 0x80;
-        temp_r7->animCursor = 0;
-        temp_r7->qAnimDelay = 0;
-        temp_r7->animSpeed = 0x10;
-        temp_r7->palId = 0;
+
+    {
+        s = &nes->spr114;
+        s->tiles = nes->vram28;
+        nes->vram28 += gUnknown_080D73D0[var_r1 + (lang * 2)].numTiles * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080D73D0[var_r1 + (lang * 2)].anim;
+        s->variant = gUnknown_080D73D0[var_r1 + (lang * 2)].variant;
+        s->prevVariant = 0xFF;
+        s->x = I(nes->unk4C);
+        s->y = I(nes->unk50);
+        s->oamFlags = 0xC0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    {
+        s = &nes->spr18C;
+        s->tiles = nes->vram28;
+        nes->vram28 += gUnknown_080D7430.numTiles * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080D7430.anim;
+        s->variant = gUnknown_080D7430.variant;
+        s->prevVariant = -1;
+        s->x = I(nes->unk64);
+        s->y = I(nes->unk68);
+        s->oamFlags = 0xC0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    {
+        s = &nes->spr13C;
+        s->tiles = nes->vram28;
+        nes->vram28 += gUnknown_080D7438.numTiles << 5;
+        s->anim = gUnknown_080D7438.anim;
+        s->variant = gUnknown_080D7438.variant;
+        s->prevVariant = -1;
+        s->x = (s16)((s32)nes->unk54 >> 8);
+        s->y = (s16)((s32)nes->unk58 >> 8);
+        s->oamFlags = 0xC0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    {
+        s = &nes->spr74;
+        temp_r1 = nes->vram28;
+        s->tiles = temp_r1;
+        nes->vram28 = temp_r1 + (gUnknown_080D7440.numTiles << 5);
+        s->anim = gUnknown_080D7440.anim;
+        s->variant = gUnknown_080D7440.variant;
+        s->prevVariant = -1;
+        s->x = (s16)((s32)nes->unk34 >> 8);
+        s->y = (s16)((s32)nes->unk38 >> 8);
+        s->oamFlags = 0x80;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    {
+        s = &nes->spr164;
+        s->tiles = nes->vram28;
+        nes->vram28 += gUnknown_080D73C8.numTiles << 5;
+        s->anim = gUnknown_080D73C8.anim;
+        s->variant = gUnknown_080D73C8.variant;
+        s->prevVariant = -1;
+        s->x = I(nes->unk5C);
+        s->y = I(nes->unk60);
+        s->oamFlags = 0xC0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    tf = &nes->tf2F4;
+    for (var_r3 = 0; var_r3 < 2; var_r3++) {
+        s = &nes->spr9C[var_r3];
+        s->tiles = nes->vram28;
+        nes->vram28 += gUnknown_080D7448.numTiles << 5;
+        s->anim = gUnknown_080D7448.anim;
+        s->variant = gUnknown_080D7448.variant;
+        s->prevVariant = -1;
+        s->x = I(nes->unk3C);
+        s->y = I(nes->unk40);
+        s->oamFlags = 0x80;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
         if (var_r3 != 0) {
-            temp_r7->frameFlags = 0xE1;
-            nes->tf2F4.rotation = 0;
-            nes->tf2F4.qScaleX = (s16) nes->unk14;
-            nes->tf2F4.qScaleY = (s16) nes->unk16;
-            nes->tf2F4.x = (s16) (u16) temp_r7->x;
-            nes->tf2F4.y = (s16) (u16) temp_r7->y;
-            sp10 = var_r3;
-            TransformSprite(temp_r7, &nes->tf2F4);
+            s->frameFlags = 0xE1;
+            tf->rotation = 0;
+            tf->qScaleX = nes->unk14;
+            tf->qScaleY = nes->unk16;
+            tf->x = s->x;
+            tf->y = s->y;
+            TransformSprite(s, tf);
         } else {
-            temp_r7->frameFlags = var_r3;
+            s->frameFlags = var_r3;
         }
-        sp10 = var_r3;
-        UpdateSpriteAnimation(temp_r7);
-        var_r3 = (u32) (u8) (var_r3 + 1);
-    } while (var_r3 <= 1U);
-    sp8->tiles = nes->vram28;
-    nes->vram28 += gUnknown_080D7450.unk4 << 5;
-    sp8->anim = gUnknown_080D7450.unk0;
-    sp8->variant = gUnknown_080D7450.unk2;
-    sp8->prevVariant = 0xFF;
-    sp8->x = (s16) ((s32) nes->unk44 >> 8);
-    sp8->y = (s16) ((s32) nes->unk48 >> 8);
-    sp8->oamFlags = 0x80;
-    sp8->animCursor = 0;
-    sp8->qAnimDelay = 0;
-    sp8->animSpeed = 0x10;
-    sp8->palId = 0;
-    sp8->frameFlags = 0;
-    spC = 0;
-    UpdateSpriteAnimation(sp8);
-    nes->spr1B4.tiles = nes->vram28;
-    temp_r5 = gUnknown_080D7458.unk4 << 5;
-    nes->vram28 += temp_r5;
-    nes->spr1B4.anim = gUnknown_080D7458.unk0;
-    nes->spr1B4.variant = nes->unk2 + gUnknown_080D7458.unk2;
-    nes->spr1B4.prevVariant = -1U;
-    nes->spr1B4.x = (s16) ((s32) nes->unk3C >> 8);
-    nes->spr1B4.y = (s16) ((s32) nes->unk40 >> 8);
-    nes->spr1B4.oamFlags = 0x40;
-    nes->spr1B4.animCursor = 0;
-    nes->spr1B4.qAnimDelay = 0;
-    nes->spr1B4.animSpeed = 0x10;
-    nes->spr1B4.palId = 0;
-    nes->spr1B4.frameFlags = 0;
-    UpdateSpriteAnimation(&nes->spr1B4);
-    var_r3_2 = 0;
-    sp0 = temp_r5;
-    do {
-        temp_r7_2 = &nes->spr1DC[var_r3_2];
-        temp_r7_2->tiles = nes->vram28;
-        nes->vram28 = &nes->vram28[sp0];
-        temp_r1_2 = &gLoadedSaveGame.playerName[var_r3_2];
-        temp_r2_3 = *temp_r1_2;
-        if (temp_r2_3 != 0xFFFF) {
-            temp_r7_2->variant = (u8) temp_r2_3;
-            if ((u32) *temp_r1_2 > 0xFFU) {
-                var_r0 = gUnknown_080D7460;
+        UpdateSpriteAnimation(s);
+    }
+
+    {
+        s = &nes->sprEC;
+        s->tiles = nes->vram28;
+        nes->vram28 += gUnknown_080D7450.numTiles << 5;
+        s->anim = gUnknown_080D7450.anim;
+        s->variant = gUnknown_080D7450.variant;
+        s->prevVariant = 0xFF;
+        s->x = (s16)((s32)nes->unk44 >> 8);
+        s->y = (s16)((s32)nes->unk48 >> 8);
+        s->oamFlags = 0x80;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        spC = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    {
+        s = &nes->spr1B4;
+        s->tiles = nes->vram28;
+        nes->vram28 += gUnknown_080D7458.numTiles << 5;
+        s->anim = gUnknown_080D7458.anim;
+        s->variant = nes->unk2 + gUnknown_080D7458.variant;
+        s->prevVariant = -1;
+        s->x = (s16)((s32)nes->unk3C >> 8);
+        s->y = (s16)((s32)nes->unk40 >> 8);
+        s->oamFlags = 0x40;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    for (var_r3 = 0; var_r3 < 6; var_r3++) {
+        s = &nes->spr1DC[var_r3];
+        s->tiles = nes->vram28;
+        nes->vram28 += gUnknown_080D7458.numTiles * TILE_SIZE_4BPP;
+
+        if (LOADED_SAVE->playerName[var_r3] != 0xFFFF) {
+            s->variant = LOADED_SAVE->playerName[var_r3];
+            if (LOADED_SAVE->playerName[var_r3] > 0xFFU) {
+                s->anim = gUnknown_080D7460.anim;
             } else {
-                var_r0 = gUnknown_080D7458.unk0;
+                s->anim = gUnknown_080D7458.anim;
             }
-            temp_r7_2->anim = var_r0;
             nes->unk5 += 1;
         } else {
-            temp_r7_2->anim = gUnknown_080D7458.unk0;
-            temp_r7_2->variant = 0;
+            s->anim = gUnknown_080D7458.anim;
+            s->variant = 0;
         }
-        sp0.unk4 = -1U;
-        temp_r7_2->prevVariant = 0xFF;
-        temp_r7_2->x = (s16) ((s32) nes->unk44 >> 8);
-        temp_r7_2->y = (s16) ((s32) nes->unk48 >> 8);
-        temp_r7_2->oamFlags = 0x40;
-        temp_r7_2->animCursor = 0;
-        temp_r7_2->qAnimDelay = 0;
-        temp_r7_2->animSpeed = 0x10;
-        temp_r7_2->palId = 0;
-        temp_r7_2->frameFlags = 0;
-        sp10 = var_r3_2;
-        UpdateSpriteAnimation(temp_r7_2);
-        var_r3_2 = (u32) (u8) (var_r3_2 + 1);
-    } while (var_r3_2 <= 5U);
+        s->prevVariant = -1;
+        s->x = I(nes->unk44);
+        s->y = I(nes->unk48);
+        s->oamFlags = 0x40;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
     nes->unk6 = nes->unk5;
-    nes->spr2CC.tiles = nes->vram28;
-    nes->vram28 += gUnknown_080D7468.unk4 << 5;
-    nes->spr2CC.anim = gUnknown_080D7468.unk0;
-    nes->spr2CC.variant = gUnknown_080D7468.unk2;
-    nes->spr2CC.prevVariant |= sp0.unk4;
-    nes->spr2CC.x = (s16) ((s32) nes->unk6C >> 8);
-    nes->spr2CC.y = (s16) ((s32) nes->unk70 >> 8);
-    nes->spr2CC.oamFlags = 0x40;
-    nes->spr2CC.animCursor = 0;
-    nes->spr2CC.qAnimDelay = 0;
-    nes->spr2CC.animSpeed = 0x10;
-    nes->spr2CC.palId = 0;
-    nes->spr2CC.frameFlags = 0;
-    UpdateSpriteAnimation(&nes->spr2CC);
+
+    {
+        s = &nes->spr2CC;
+        s->tiles = nes->vram28;
+        nes->vram28 += gUnknown_080D7468.numTiles << 5;
+        s->anim = gUnknown_080D7468.anim;
+        s->variant = gUnknown_080D7468.variant;
+        s->prevVariant = -1;
+        s->x = I(nes->unk6C);
+        s->y = I(nes->unk70);
+        s->oamFlags = 0x40;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
 }
 
 void sub_8092274(NameEntryScreen *nes) {
@@ -994,7 +1034,7 @@ block_13:
     }
 }
 
-void sub_8092CC8(NameEntryScreen *arg0) {
+void sub_8092CC8(NameEntryScreen *nes) {
     u8 temp_r0;
     u8 temp_r1;
     u8 temp_r1_2;
@@ -1020,7 +1060,7 @@ void sub_8092CC8(NameEntryScreen *arg0) {
     temp_r3->unk1A = (s8) (arg0->unk2 + gUnknown_080D7458.unk2);
 }
 
-void sub_8092D1C(NameEntryScreen *arg0) {
+void sub_8092D1C(NameEntryScreen *nes) {
     Sprite *temp_r0_2;
     s32 temp_r1_2;
     u8 temp_r0;
@@ -1064,7 +1104,7 @@ block_4:
     }
 }
 
-void sub_8092D94(NameEntryScreen *arg0) {
+void sub_8092D94(NameEntryScreen *nes) {
     s32 var_r5;
     u16 temp_r4;
     u8 temp_r2;
@@ -1122,7 +1162,7 @@ block_18:
     }
 }
 
-void sub_8092EBC(NameEntryScreen *arg0) {
+void sub_8092EBC(NameEntryScreen *nes) {
     s32 var_r5;
     u16 temp_r1;
     u8 temp_r2;
@@ -1149,7 +1189,7 @@ block_7:
     }
 }
 
-s32 sub_8092F60(NameEntryScreen *arg0) {
+s32 sub_8092F60(NameEntryScreen *nes) {
     s32 temp_r1;
     s32 temp_r1_3;
     s32 temp_r1_4;
@@ -1251,7 +1291,7 @@ block_32:
     return 0;
 }
 
-s32 sub_80930B8(NameEntryScreen *arg0) {
+s32 sub_80930B8(NameEntryScreen *nes) {
     s32 temp_r1;
     s32 temp_r1_2;
     s32 temp_r1_3;
@@ -1373,7 +1413,7 @@ loop_38:
     return 0;
 }
 
-void sub_80932E0(NameEntryScreen *arg0, u8 arg1) {
+void sub_80932E0(NameEntryScreen *nes, u8 arg1) {
     s32 temp_r0;
     s32 temp_r0_2;
     s32 temp_r1;
@@ -1432,7 +1472,7 @@ loop_15:
     } while (var_r0 == 0);
 }
 
-void sub_80933B0(NameEntryScreen *arg0) {
+void sub_80933B0(NameEntryScreen *nes) {
     u32 sp0;
     u32 sp4;
     s32 temp_r1_2;
@@ -1476,7 +1516,7 @@ void sub_80933B0(NameEntryScreen *arg0) {
     } while (var_r4 <= 0x9FU);
 }
 
-void sub_80934B0(NameEntryScreen *arg0) {
+void sub_80934B0(NameEntryScreen *nes) {
     u16 temp_r1;
     u16 temp_r2;
 
@@ -1490,7 +1530,7 @@ void sub_80934B0(NameEntryScreen *arg0) {
     gBgScrollRegs[1][1] = arg0->unk12 + 0x24;
 }
 
-s32 sub_80934F0(NameEntryScreen *arg0, s32 arg1) {
+s32 sub_80934F0(NameEntryScreen *nes, s32 arg1) {
     s32 temp_r0_3;
     s32 temp_r0_6;
     s32 temp_r1;
@@ -1552,7 +1592,7 @@ block_15:
     return 0;
 }
 
-void sub_80935A4(NameEntryScreen *arg0) {
+void sub_80935A4(NameEntryScreen *nes) {
     Sprite *temp_r4;
     SpriteTransform *temp_r1;
 
@@ -1570,7 +1610,7 @@ void sub_80935A4(NameEntryScreen *arg0) {
     DisplaySprite(temp_r4);
 }
 
-void sub_80935E4(NameEntryScreen *arg0) {
+void sub_80935E4(NameEntryScreen *nes) {
     Sprite *temp_r1;
     s32 var_r0;
     u8 temp_r2;
@@ -1596,7 +1636,7 @@ block_9:
     DisplaySprite(temp_r1);
 }
 
-void sub_8093640(NameEntryScreen *arg0) {
+void sub_8093640(NameEntryScreen *nes) {
     Sprite *temp_r5;
     u16 temp_r0_2;
     u32 var_r6;
@@ -1624,7 +1664,7 @@ void sub_8093640(NameEntryScreen *arg0) {
     }
 }
 
-void sub_80936A0(NameEntryScreen *arg0) {
+void sub_80936A0(NameEntryScreen *nes) {
     Sprite *temp_r4;
     s32 var_r2;
 
@@ -1731,50 +1771,54 @@ block_5:
 }
 
 void sub_809380C(NameEntryScreen *nes) {
-    nes->spr114.x = (s16) ((s32) nes->unk4C >> 8);
-    nes->spr114.y = (s16) ((s32) nes->unk50 >> 8);
-    DisplaySprite(&nes->spr114);
+	Sprite *s = &nes->spr114;
+    s->x = (s16) ((s32) nes->unk4C >> 8);
+    s->y = (s16) ((s32) nes->unk50 >> 8);
+    DisplaySprite(s);
 }
 
 void sub_809382C(NameEntryScreen *nes) {
-    nes->spr164.x = (s16) ((s32) nes->unk5C >> 8);
-    nes->spr164.y = (s16) ((s32) nes->unk60 >> 8);
-    DisplaySprite(&nes->spr164);
+	Sprite *s = &nes->spr114;
+    s->x = (s16) ((s32) nes->unk5C >> 8);
+    s->y = (s16) ((s32) nes->unk60 >> 8);
+    DisplaySprite(s);
 }
 
 void sub_809384C(NameEntryScreen *nes) {
-    nes->spr13C.x = (s16) ((s32) nes->unk54 >> 8);
-    nes->spr13C.y = (s16) ((s32) nes->unk58 >> 8);
-    DisplaySprite(&nes->spr13C);
+	Sprite *s = &nes->spr13C;
+    s->x = (s16) ((s32) nes->unk54 >> 8);
+    s->y = (s16) ((s32) nes->unk58 >> 8);
+    DisplaySprite(s);
 }
 
 void sub_809386C(NameEntryScreen *nes) {
-    Sprite *temp_r4;
+    Sprite *s = &nes->spr9C[0];
 
-    nes->spr9C[0].x = (s16) nes->unk3C;
-    nes->spr9C[0].y = (s16) nes->unk40;
-    DisplaySprite(nes->spr9C);
-    temp_r4 = &nes->spr1B4;
-    nes->spr1B4.x = (s16) nes->unk3C;
-    nes->spr1B4.y = (s16) nes->unk40;
-    nes->spr1B4.variant = nes->unk2 + gUnknown_080D7458.unk2;
-    nes->spr1B4.prevVariant = 0xFF;
-    UpdateSpriteAnimation(temp_r4);
-    DisplaySprite(temp_r4);
+    s->x = (s16) nes->unk3C;
+    s->y = (s16) nes->unk40;
+    DisplaySprite(s);
+
+    s = &nes->spr1B4;
+    s->x = (s16) nes->unk3C;
+    s->y = (s16) nes->unk40;
+    s->variant = nes->unk2 + gUnknown_080D7458.unk2;
+    s->prevVariant = -1;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
 
 void sub_80938B4(NameEntryScreen *nes) {
-    Sprite *temp_r4;
+    Sprite *s;
 
-    temp_r4 = &nes->spr18C;
-    nes->spr18C.x = (s16) ((s32) nes->unk64 >> 8);
-    nes->spr18C.y = ((s32) nes->unk68 >> 8) - 0xF;
-    nes->spr18C.frameFlags |= 0x400;
-    DisplaySprite(temp_r4);
-    nes->spr18C.x = (s16) ((s32) nes->unk64 >> 8);
-    nes->spr18C.y = ((s32) nes->unk68 >> 8) - 0x1E;
-    nes->spr18C.frameFlags &= 0xFFFFFBFF;
-    DisplaySprite(temp_r4);
+    s = &nes->spr18C;
+    s->x = (s16) ((s32) nes->unk64 >> 8);
+    s->y = ((s32) nes->unk68 >> 8) - 0xF;
+    s->frameFlags |= 0x400;
+    DisplaySprite(s);
+    s->x = (s16) ((s32) nes->unk64 >> 8);
+    s->y = ((s32) nes->unk68 >> 8) - 0x1E;
+    s->frameFlags &= 0xFFFFFBFF;
+    DisplaySprite(s);
 }
 
 void sub_8093904(NameEntryScreen *nes) {
