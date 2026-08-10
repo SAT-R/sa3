@@ -750,27 +750,26 @@ NONMATCH("asm/non_matching/game/sa3/options/opt__sub_8097710.inc", void sub_8097
     int_vcount temp_r5;
     u16 *var_r7;
 
-    temp_r1 = ((u16) vsRecScreen->unk1E >> 8);
+    temp_r1 = ((u16)vsRecScreen->unk1E >> 8);
     gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
-    temp_r5 = (u8) ((s32) vsRecScreen->qUnk134 >> 8);
+    temp_r5 = (u8)((s32)vsRecScreen->qUnk134 >> 8);
     temp_r0 = temp_r5 + temp_r1;
-    sp0 = (u32) (temp_r1 + 0xE8);
-    temp_r4 = (u32) (vsRecScreen->qUnk130 << 8) >> 0x10;
+    sp0 = (u32)(temp_r1 + 0xE8);
+    temp_r4 = (u32)(vsRecScreen->qUnk130 << 8) >> 0x10;
     gHBlankCopyTarget = (void *)0x04000040;
     gHBlankCopySize = 2;
     var_r7 = gBgOffsetsHBlankPrimary;
-    for(line = 0; line < DISPLAY_HEIGHT; line++)
-    {
+    for (line = 0; line < DISPLAY_HEIGHT; line++) {
         if (line >= 30 && line < 34) {
             var_r2 = 120;
             var_r1 = 121;
         } else {
-            if ((line >= (u32) temp_r5) && (line < (temp_r5 + 12))) {
+            if ((line >= (u32)temp_r5) && (line < (temp_r5 + 12))) {
                 temp_r1_2 = line - temp_r5;
                 var_r2 = temp_r4 + gUnknown_080D8C74[temp_r1_2][0];
                 var_r1 = (temp_r4 + gUnknown_080D8C74[temp_r1_2][1] + 0x2B);
-            } else if (((s32) line >= (s32) (temp_r0 - 12)) && (line < temp_r0)) {
+            } else if (((s32)line >= (s32)(temp_r0 - 12)) && (line < temp_r0)) {
                 temp_r1_3 = line - sp0;
                 var_r2 = temp_r4 + gUnknown_080D8C74[temp_r1_3][0];
                 var_r1 = (temp_r4 + gUnknown_080D8C74[temp_r1_3][1] + 0x2B);
@@ -779,7 +778,7 @@ NONMATCH("asm/non_matching/game/sa3/options/opt__sub_8097710.inc", void sub_8097
                 var_r1 = (temp_r4 + 0xFE);
             }
         }
-        *var_r7 = (s16) (var_r1 + (var_r2 << 8));
+        *var_r7 = (s16)(var_r1 + (var_r2 << 8));
         var_r7++;
     }
 }
@@ -790,24 +789,22 @@ NONMATCH("asm/non_matching/game/sa3/options/opt__sub_8097830.inc", u32 sub_80978
 {
     u8 unk5 = vsRecScreen->unk5;
     vsRecScreen->qUnk138 += gUnknown_080D6ED4[vsRecScreen->unk5];
-    switch(unk5)
-    {
+    switch (unk5) {
         case 0: {
-            if(vsRecScreen->qUnk138 >= Q(10)) {
+            if (vsRecScreen->qUnk138 >= Q(10)) {
                 vsRecScreen->unk5 += 1;
                 break;
             }
         } // fallthrough
-        case 1:
-        {
-            if(vsRecScreen->qUnk138 <= -Q(10)) {
-                vsRecScreen->unk5 += 1;                    
-            }        
+        case 1: {
+            if (vsRecScreen->qUnk138 <= -Q(10)) {
+                vsRecScreen->unk5 += 1;
+            }
         } break;
         case 2: {
-            if(vsRecScreen->qUnk138 > 0) {
+            if (vsRecScreen->qUnk138 > 0) {
                 vsRecScreen->qUnk138 = 0;
-                return 1U;                    
+                return 1U;
             }
         } break;
     }
@@ -815,8 +812,8 @@ NONMATCH("asm/non_matching/game/sa3/options/opt__sub_8097830.inc", u32 sub_80978
 }
 END_NONMATCH
 
-#if 0
-u32 sub_809789C(OptionsVsRecordScreen *vsRecScreen, u8 arg1) {
+u32 sub_809789C(OptionsVsRecordScreen *vsRecScreen, u8 arg1)
+{
     u8 var_r3 = 0;
     s32 shift = 11;
 
@@ -866,7 +863,8 @@ u32 sub_809789C(OptionsVsRecordScreen *vsRecScreen, u8 arg1) {
 
 extern u8 gUnknown_080D8CD4[6];
 
-void sub_8097958(OptionsVsRecordScreen *vsRecScreen, u8 arg1) {
+void sub_8097958(OptionsVsRecordScreen *vsRecScreen, u8 arg1)
+{
     u32 sp0;
     Sprite *s;
     u32 var_r0;
@@ -878,18 +876,15 @@ void sub_8097958(OptionsVsRecordScreen *vsRecScreen, u8 arg1) {
     if (arg1 != 0) {
         sp0 = 6;
     }
-    for(var_sb = 0; var_sb < sp0; var_sb++)
-    {
+    for (var_sb = 0; var_sb < sp0; var_sb++) {
         if (var_sb != 0) {
             temp_r1 = LOADED_SAVE->vsRecords[var_sb - 1].slotFilled;
-            var_r0 = (u32) ((0 - temp_r1) | temp_r1) >> 0x1F;
+            var_r0 = (u32)((0 - temp_r1) | temp_r1) >> 0x1F;
         } else {
             var_r0 = 1;
         }
-        if (var_r0 != 0) 
-        {
-            for(var_r7 = 0; var_r7 < 6; var_r7++)
-            {
+        if (var_r0 != 0) {
+            for (var_r7 = 0; var_r7 < 6; var_r7++) {
                 if (var_sb == 0) {
                     s = &vsRecScreen->spr178[var_r7];
                     s->y = 0x4B;
@@ -919,11 +914,12 @@ void sub_8097958(OptionsVsRecordScreen *vsRecScreen, u8 arg1) {
     }
 }
 
-void sub_8097ACC(OptionsVsRecordScreen *vsRecScreen) {
+void sub_8097ACC(OptionsVsRecordScreen *vsRecScreen)
+{
     s32 var_r2 = 0;
     Sprite *s = &vsRecScreen->sprE98;
 
-    if (((s32) (vsRecScreen->vsRecordPlayerCount - vsRecScreen->unk2) > 5) && (vsRecScreen->unk2 < 6)) {
+    if (((s32)(vsRecScreen->vsRecordPlayerCount - vsRecScreen->unk2) > 5) && (vsRecScreen->unk2 < 6)) {
         s->x = I(vsRecScreen->qUnk140);
         s->y = I(vsRecScreen->qUnk144);
         s->frameFlags |= 0x800;
@@ -931,10 +927,12 @@ void sub_8097ACC(OptionsVsRecordScreen *vsRecScreen) {
         DisplaySprite(s);
         var_r2 = 1;
     }
+
     if (vsRecScreen->unk2 != 0) {
         s->x = I(vsRecScreen->qUnk148);
         s->y = I(vsRecScreen->qUnk14C);
-        s->frameFlags &= 0xFFFFF7FF;
+        s->frameFlags &= ~0x800;
+
         if (var_r2 == 0) {
             UpdateSpriteAnimation(s);
         }
@@ -942,7 +940,8 @@ void sub_8097ACC(OptionsVsRecordScreen *vsRecScreen) {
     }
 }
 
-u32 sub_8097B54(OptionsVsRecordScreen *vsRecScreen, u8 unused) {
+u32 sub_8097B54(OptionsVsRecordScreen *vsRecScreen, u8 unused)
+{
     s32 unk1 = vsRecScreen->unk1;
     if (unk1 == 1) {
         if (vsRecScreen->unk2 <= 6U) {
@@ -951,10 +950,10 @@ u32 sub_8097B54(OptionsVsRecordScreen *vsRecScreen, u8 unused) {
             if (vsRecScreen->qUnk11C < 0x3B00) {
                 vsRecScreen->qUnk11C = 0x4B00;
             } else {
-                return 0U;                
+                return 0U;
             }
         }
-    } else if(unk1 == 2) {
+    } else if (unk1 == 2) {
         if (vsRecScreen->unk2 <= 6U) {
             vsRecScreen->qUnk11C += Q(unk1);
             if (vsRecScreen->qUnk11C <= 0x5B00) {
@@ -963,11 +962,12 @@ u32 sub_8097B54(OptionsVsRecordScreen *vsRecScreen, u8 unused) {
             vsRecScreen->qUnk11C = 0x4B00;
         }
     }
-    
+
     return 1U;
 }
 
-void sub_8097BB4(OptionsVsRecordScreen *vsRecScreen) {
+void sub_8097BB4(OptionsVsRecordScreen *vsRecScreen)
+{
     vsRecScreen->unk24 -= Q(1);
     vsRecScreen->unk26 += Q(1);
 
@@ -975,7 +975,8 @@ void sub_8097BB4(OptionsVsRecordScreen *vsRecScreen) {
     gBgScrollRegs[0][1] = -I(vsRecScreen->unk26);
 }
 
-void sub_8097BE8(OptionsVsRecordScreen *vsRecScreen) {
+void sub_8097BE8(OptionsVsRecordScreen *vsRecScreen)
+{
     vsRecScreen->qUnk144 += Q(0.25);
     if (vsRecScreen->qUnk144 > Q(147)) {
         vsRecScreen->qUnk144 = Q(142);
@@ -987,14 +988,12 @@ void sub_8097BE8(OptionsVsRecordScreen *vsRecScreen) {
     }
 }
 
-void sub_8097C28(OptionsVsRecordScreen *vsRecScreen) {
+void sub_8097C28(OptionsVsRecordScreen *vsRecScreen)
+{
     Sprite *s = &vsRecScreen->spr150;
     s->x = I(vsRecScreen->qUnk138);
     s->y = I(vsRecScreen->qUnk13C);
     DisplaySprite(s);
 }
 
-void TaskDestructor_VsRecordScreen(Task *t) {
-
-}
-#endif
+void TaskDestructor_VsRecordScreen(Task *t) { }
