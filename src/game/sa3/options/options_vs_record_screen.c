@@ -785,8 +785,9 @@ NONMATCH("asm/non_matching/game/sa3/options/opt__sub_8097710.inc", void sub_8097
 }
 END_NONMATCH
 
-#if 0
-u32 sub_8097830(OptionsVsRecordScreen *vsRecScreen) {
+// (54.61%) https://decomp.me/scratch/X6XSg
+NONMATCH("asm/non_matching/game/sa3/options/opt__sub_8097830.inc", u32 sub_8097830(OptionsVsRecordScreen *vsRecScreen))
+{
     u8 unk5 = vsRecScreen->unk5;
     vsRecScreen->qUnk138 += gUnknown_080D6ED4[vsRecScreen->unk5];
     switch(unk5)
@@ -812,7 +813,9 @@ u32 sub_8097830(OptionsVsRecordScreen *vsRecScreen) {
     }
     return 0U;
 }
+END_NONMATCH
 
+#if 0
 u32 sub_809789C(OptionsVsRecordScreen *vsRecScreen, u8 arg1) {
     u8 var_r3 = 0;
     s32 shift = 11;
