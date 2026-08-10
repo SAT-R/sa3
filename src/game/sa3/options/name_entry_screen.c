@@ -77,7 +77,6 @@ void sub_80938B4(NameEntryScreen *nes);
 void sub_8093904(NameEntryScreen *nes);
 void TaskDestructor_NameEntryScreen(struct Task *t);
 
-
 extern TileInfo2 gUnknown_080D73C8;
 extern TileInfo2 gUnknown_080D73D0[12];
 extern TileInfo2 gUnknown_080D7430;
@@ -89,7 +88,8 @@ extern TileInfo2 gUnknown_080D7458;
 extern TileInfo2 gUnknown_080D7460;
 extern TileInfo2 gUnknown_080D7468;
 
-void CreateNameEntryScreen(u8 arg0) {
+void CreateNameEntryScreen(u8 arg0)
+{
     NameEntryScreen *nes;
 
     gDispCnt = DISPCNT_BG0_ON | DISPCNT_BG1_ON | DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_0;
@@ -121,7 +121,8 @@ void CreateNameEntryScreen(u8 arg0) {
     sub_8091E84(nes);
 }
 
-void sub_8091DD0(NameEntryScreen *nes) {
+void sub_8091DD0(NameEntryScreen *nes)
+{
     nes->language = LOADED_SAVE->language;
     nes->unkE = 0;
     nes->unkA = 0;
