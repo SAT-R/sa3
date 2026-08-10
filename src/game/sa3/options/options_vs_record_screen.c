@@ -65,20 +65,20 @@ void sub_8096918(OptionsVsRecordScreen *vsRecScreen);
 void sub_8096B30(OptionsVsRecordScreen *vsRecScreen);
 void sub_8096C60(OptionsVsRecordScreen *vsRecScreen);
 void sub_8096EB8(OptionsVsRecordScreen *vsRecScreen);
-void sub_80970DC(OptionsVsRecordScreen *vsRecScreen);
-void sub_80971FC(OptionsVsRecordScreen *vsRecScreen);
-void sub_80972EC(OptionsVsRecordScreen *vsRecScreen);
-void sub_809738C(OptionsVsRecordScreen *vsRecScreen);
-void sub_8097408(OptionsVsRecordScreen *vsRecScreen);
-void sub_8097474(OptionsVsRecordScreen *vsRecScreen);
-void sub_8097530(OptionsVsRecordScreen *vsRecScreen);
+void Task_80970DC(void);
+void sub_80971FC(void);
+void sub_80972EC(void);
+void sub_809738C(void);
+void sub_8097408(void);
+void sub_8097474(void);
+void sub_8097530(void);
 void sub_8097608(OptionsVsRecordScreen *vsRecScreen, u8 arg1);
 void sub_8097710(OptionsVsRecordScreen *vsRecScreen);
 bool32 sub_8097830(OptionsVsRecordScreen *vsRecScreen);
-bool32 sub_809789C(OptionsVsRecordScreen *vsRecScreen, s32 arg1);
-void sub_8097958(OptionsVsRecordScreen *vsRecScreen, s32 arg1);
+bool32 sub_809789C(OptionsVsRecordScreen *vsRecScreen, u8 arg1);
+void sub_8097958(OptionsVsRecordScreen *vsRecScreen, u8 arg1);
 void sub_8097ACC(OptionsVsRecordScreen *vsRecScreen);
-bool32 sub_8097B54(OptionsVsRecordScreen *vsRecScreen);
+bool32 sub_8097B54(OptionsVsRecordScreen *vsRecScreen, u8 arg1);
 void sub_8097BB4(OptionsVsRecordScreen *vsRecScreen);
 void sub_8097BE8(OptionsVsRecordScreen *vsRecScreen);
 void sub_8097C28(OptionsVsRecordScreen *vsRecScreen);
@@ -86,6 +86,7 @@ void TaskDestructor_VsRecordScreen(struct Task *t);
 
 extern void sub_80BE46C(Sprite *s);
 extern ColorRaw sub_80C4C0C(ColorRaw color);
+extern void LaunchOptionsMenu(u16 arg0);
 extern const TileInfo2 gUnknown_080D8BF4[NUM_LANGUAGES];
 extern const TileInfo2 gUnknown_080D8C24[NUM_LANGUAGES];
 extern const TileInfo2 gUnknown_080D8C54;
@@ -403,74 +404,63 @@ void sub_8096EB8(OptionsVsRecordScreen *vsRecScreen)
     gWinRegs[WINREG_WIN0V] = WIN_RANGE(60, 60) + WIN_RANGE(0, I(vsRecScreen->unk1E));
 }
 
-#if 0
-void Task_VsRecordScreen(OptionsVsRecordScreen *vsRecScreen) {
-    u8 *sp0;
+void Task_VsRecordScreen(void)
+{
+    OptionsVsRecordScreen *vsRecScreen = TASK_DATA(gCurTask);
+    u16 *sp0;
     OptionsVsRecordScreen *sp4;
     s32 *sp8;
-    OptionsVsRecordScreen *var_r3;
-    Sprite *temp_r2;
+    Sprite *s;
     u16 temp_r1;
     u8 temp_r0;
     u8 var_r4;
     u8 var_r5;
     void *temp_r8;
 
-    var_r3 = vsRecScreen;
-    var_r4 = var_r3->unk19;
-    if ((s32) var_r4 < (s32) (var_r4 + 3)) {
-        sp0 = vsRecScreen->nameList;
-        sp8 = &vsRecScreen->vram104;
-        do {
-            var_r5 = 0;
-            temp_r8 = (var_r4 * 0xF0) + 0x8F8 + var_r3;
-loop_3:
-            temp_r2 = temp_r8 + (var_r5 * 0x28);
-            temp_r2->tiles = *sp8;
-            *sp8 += gUnknown_080D8C5C.unk4 << 5;
-            temp_r1 = sp0[(var_r5 * 2) + (var_r4 * 0xC)];
-            if (temp_r1 != 0xFFFF) {
-                if ((u32) temp_r1 > 0xFFU) {
-                    temp_r2->variant = temp_r1 + gUnknown_080D8C5C.unk2;
-                    temp_r2->anim = gUnknown_080D8C64;
+    for (var_r4 = vsRecScreen->unk19; var_r4 < (vsRecScreen->unk19 + 3); var_r4++) {
+        {
+            for (var_r5 = 0; var_r5 < 6; var_r5++) {
+                s = &vsRecScreen->spr8F8[var_r4][var_r5];
+                s->tiles = vsRecScreen->vram104;
+                vsRecScreen->vram104 += gUnknown_080D8C5C.numTiles << 5;
+                if (vsRecScreen->nameList[var_r4][var_r5] != 0xFFFF) {
+                    if (vsRecScreen->nameList[var_r4][var_r5] > 0xFFU) {
+                        s->variant = gUnknown_080D8C5C.variant + vsRecScreen->nameList[var_r4][var_r5];
+                        s->anim = gUnknown_080D8C64.anim;
+                    } else {
+                        s->variant = gUnknown_080D8C5C.variant + vsRecScreen->nameList[var_r4][var_r5];
+                        s->anim = gUnknown_080D8C5C.anim;
+                    }
                 } else {
-                    temp_r2->variant = temp_r1 + gUnknown_080D8C5C.unk2;
-                    temp_r2->anim = gUnknown_080D8C5C.unk0;
+                    s->anim = gUnknown_080D8C5C.anim;
+                    s->variant = 0;
                 }
-            } else {
-                temp_r2->anim = gUnknown_080D8C5C.unk0;
-                temp_r2->variant = 0;
+                s->prevVariant = 0xFF;
+                s->x = (var_r5 * 8) + 0x12;
+                s->y = 0x45;
+                s->animCursor = 0;
+                s->qAnimDelay = 0;
+                s->animSpeed = 0x10;
+                s->palId = 0;
+                s->oamFlags = 0x40;
+                s->frameFlags = 0x2080;
+                UpdateSpriteAnimation(s);
             }
-            temp_r2->prevVariant = 0xFF;
-            temp_r2->x = (var_r5 * 8) + 0x12;
-            temp_r2->y = 0x45;
-            temp_r2->animCursor = 0;
-            temp_r2->qAnimDelay = 0;
-            temp_r2->animSpeed = 0x10;
-            temp_r2->palId = 0;
-            temp_r2->oamFlags = 0x40;
-            temp_r2->frameFlags = 0x2080;
-            sp4 = var_r3;
-            UpdateSpriteAnimation(temp_r2);
-            var_r5 += 1;
-            if ((u32) var_r5 <= 5U) {
-                goto loop_3;
-            }
-            var_r4 += 1;
-        } while ((s32) var_r4 < (s32) (var_r3->unk19 + 3));
+        }
     }
-    temp_r0 = var_r4 + var_r3->unk19;
-    var_r3->unk19 = temp_r0;
-    if ((u32) temp_r0 > 5U) {
-        var_r3->unk19 = 0;
-        gCurTask->main = (void (*)()) sub_80970DC;
+
+    vsRecScreen->unk19 += var_r4;
+    if (vsRecScreen->unk19 > 5U) {
+        vsRecScreen->unk19 = 0;
+        gCurTask->main = Task_80970DC;
     }
 }
 
-void sub_80970DC(OptionsVsRecordScreen *vsRecScreen) {
+void Task_80970DC(void)
+{
+    OptionsVsRecordScreen *vsRecScreen = TASK_DATA(gCurTask);
     u8 *sp4;
     s32 sp8;
-    s32 spC;
     s32 *sp10;
     Sprite *temp_r0;
     s32 var_r3;
@@ -478,57 +468,45 @@ void sub_80970DC(OptionsVsRecordScreen *vsRecScreen) {
     u8 var_r4;
     u8 var_r5;
 
-    var_r4 = vsRecScreen->unk19;
-    if ((s32) var_r4 < (s32) (var_r4 + 3)) {
-        sp4 = vsRecScreen->recordsRivals[0][0];
-        sp10 = &vsRecScreen->vram104;
-        subroutine_arg0 = gUnknown_080D8C54.unk2;
-        do {
-            var_r5 = 0;
-            sp8 = var_r4 + 1;
-            var_r3 = var_r4 * 0x10;
-loop_3:
-            temp_r0 = (var_r5 * 0x28) + ((var_r4 * 0xF0) + 0x358 + vsRecScreen);
-            temp_r0->tiles = *sp10;
-            *sp10 += gUnknown_080D8C54.unk4 << 5;
-            temp_r0->anim = gUnknown_080D8C54.unk0;
-            temp_r0->variant = subroutine_arg0 + sp4[var_r5 + (var_r4 * 6)];
+    for (var_r4 = vsRecScreen->unk19; var_r4 < vsRecScreen->unk19 + 3; var_r4++) {
+        for (var_r5 = 0; var_r5 < 6; var_r5++) {
+            temp_r0 = &vsRecScreen->spr358[var_r4][var_r5];
+            temp_r0->tiles = vsRecScreen->vram104;
+            vsRecScreen->vram104 += gUnknown_080D8C54.numTiles << 5;
+            temp_r0->anim = gUnknown_080D8C54.anim;
+            temp_r0->variant = gUnknown_080D8C54.variant + vsRecScreen->recordsRivals[0][0][var_r5 + (var_r4 * 6)];
             temp_r0->prevVariant = 0xFF;
-            temp_r0->x = ((s32) vsRecScreen->qUnk110 >> 8) + (var_r5 * 8);
-            temp_r0->y = ((s32) vsRecScreen->qUnk114 >> 8) + var_r3;
+            temp_r0->x = ((s32)vsRecScreen->qUnk110 >> 8) + (var_r5 * 8);
+            temp_r0->y = ((s32)vsRecScreen->qUnk114 >> 8) + (var_r4 * 0x10);
             temp_r0->animCursor = 0;
             temp_r0->qAnimDelay = 0;
             temp_r0->animSpeed = 0x10;
             temp_r0->palId = 0;
             temp_r0->oamFlags = 0x40;
             temp_r0->frameFlags = 0x2080;
-            spC = var_r3;
             UpdateSpriteAnimation(temp_r0);
-            var_r5 += 1;
-            if ((u32) var_r5 <= 5U) {
-                goto loop_3;
-            }
-            var_r4 = (u8) sp8;
-        } while ((s32) var_r4 < (s32) (vsRecScreen->unk19 + 3));
+        }
     }
-    temp_r0_2 = var_r4 + vsRecScreen->unk19;
-    vsRecScreen->unk19 = temp_r0_2;
-    if ((u32) temp_r0_2 > 5U) {
-        gCurTask->main = (void (*)()) sub_80971FC;
+
+    vsRecScreen->unk19 += var_r4;
+    if (vsRecScreen->unk19 > 5U) {
+        gCurTask->main = sub_80971FC;
     }
 }
 
-void sub_80971FC(OptionsVsRecordScreen *vsRecScreen) {
+void sub_80971FC(void)
+{
+    OptionsVsRecordScreen *vsRecScreen = TASK_DATA(gCurTask);
     u16 temp_r5;
 
     temp_r5 = vsRecScreen->unk2A;
     if (temp_r5 == 0) {
         gBldRegs.bldCnt = 0x3FFF;
         gDispCnt |= 0x6000;
-        gWinRegs[1] = 0xFF;
-        gWinRegs[3] = 0xFF;
-        gWinRegs[4] = 0x3336;
-        gWinRegs[5] = temp_r5;
+        gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, (int_vcount)-1);
+        gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, (int_vcount)-1);
+        gWinRegs[WINREG_WININ] = 0x3336;
+        gWinRegs[WINREG_WINOUT] = 0;
         gBldRegs.bldY = 0x10;
         vsRecScreen->unk28 = 0x1000;
         vsRecScreen->unk2A = 1;
@@ -537,30 +515,33 @@ void sub_80971FC(OptionsVsRecordScreen *vsRecScreen) {
     sub_8097BB4(vsRecScreen);
     sub_8097BE8(vsRecScreen);
     sub_8097C28(vsRecScreen);
-    gWinRegs[2] = vsRecScreen->unk1E + 0x3C3C;
+    gWinRegs[WINREG_WIN0V] = WIN_RANGE(60, 60) + WIN_RANGE(0, vsRecScreen->unk1E);
+
     if (gBldRegs.bldY != 0) {
-        gBldRegs.bldY = (u16) ((u16) vsRecScreen->unk28 >> 8);
-        vsRecScreen->unk28 += 0xFFFFFF00;
-        gBgScrollRegs[1][0] = -0x64;
-        gBgScrollRegs[1][1] = -0x2E;
-        return;
+        gBldRegs.bldY = I(vsRecScreen->unk28);
+        vsRecScreen->unk28 -= Q(1);
+        gBgScrollRegs[1][0] = -100;
+        gBgScrollRegs[1][1] = -46;
+    } else {
+        gBldRegs.bldY = gBldRegs.bldY;
+        gWinRegs[WINREG_WININ] = 0x3316;
+        gBldRegs.bldAlpha = 0x1F00;
+        gBldRegs.bldCnt = 0x140;
+        gDispCnt |= 0x400;
+        gCurTask->main = sub_809738C;
     }
-    gBldRegs.bldY = gBldRegs.bldY;
-    gWinRegs[4] = 0x3316;
-    gBldRegs.bldAlpha = 0x1F00;
-    gBldRegs.bldCnt = 0x140;
-    gDispCnt |= 0x400;
-    gCurTask->main = (void (*)()) sub_809738C;
 }
 
-void sub_80972EC(OptionsVsRecordScreen *vsRecScreen) {
+void sub_80972EC(void)
+{
+    OptionsVsRecordScreen *vsRecScreen = TASK_DATA(gCurTask);
     if (vsRecScreen->unk2A != 0) {
         gBldRegs.bldCnt = 0x3FFF;
         gDispCnt |= 0x6000;
-        gWinRegs[1] = 0xFF;
-        gWinRegs[3] = 0xFF;
-        gWinRegs[4] = 0x3332;
-        gWinRegs[5] = 0;
+        gWinRegs[WINREG_WIN1H] = 0xFF;
+        gWinRegs[WINREG_WIN1V] = 0xFF;
+        gWinRegs[WINREG_WININ] = 0x3332;
+        gWinRegs[WINREG_WINOUT] = 0;
         vsRecScreen->unk28 = 0;
         vsRecScreen->unk2A = 0;
     }
@@ -568,21 +549,22 @@ void sub_80972EC(OptionsVsRecordScreen *vsRecScreen) {
     sub_8097BB4(vsRecScreen);
     sub_8097BE8(vsRecScreen);
     sub_8097C28(vsRecScreen);
-    if ((u32) gBldRegs.bldY <= 0xFU) {
-        gBldRegs.bldY = (u16) ((u16) vsRecScreen->unk28 >> 8);
+    if ((u32)gBldRegs.bldY <= 0xFU) {
+        gBldRegs.bldY = (u16)((u16)vsRecScreen->unk28 >> 8);
         vsRecScreen->unk28 += 0x100;
         return;
     }
     gBldRegs.bldY = 0x10;
-    LaunchOptionsMenu(0xA);
+    LaunchOptionsMenu(10);
     TaskDestroy(gCurTask);
 }
 
-void sub_809738C(OptionsVsRecordScreen *vsRecScreen) {
+void sub_809738C(void)
+{
+    u8 var_r5 = 0;
+    OptionsVsRecordScreen *vsRecScreen = TASK_DATA(gCurTask);
     s32 temp_r1;
-    u8 var_r5;
 
-    var_r5 = 0;
     sub_8097710(vsRecScreen);
     sub_8097BB4(vsRecScreen);
     if (sub_8097830(vsRecScreen) == 1) {
@@ -593,33 +575,36 @@ void sub_809738C(OptionsVsRecordScreen *vsRecScreen) {
     }
     sub_8097C28(vsRecScreen);
     sub_8097958(vsRecScreen, 0);
-    temp_r1 = vsRecScreen->qUnk134;
-    gWinRegs[2] = temp_r1 + (temp_r1 >> 8) + ((u16) vsRecScreen->unk1E >> 8);
+
+    gWinRegs[WINREG_WIN0V] = vsRecScreen->qUnk134 + WIN_RANGE(0, (vsRecScreen->qUnk134 >> 8)) + WIN_RANGE(0, (vsRecScreen->unk1E >> 8));
     if (var_r5 == 2) {
-        gCurTask->main = (void (*)()) sub_8097474;
+        gCurTask->main = sub_8097474;
     }
 }
 
-void sub_8097408(OptionsVsRecordScreen *vsRecScreen) {
+void sub_8097408(void)
+{
+    s32 var_r6 = 0;
+    OptionsVsRecordScreen *vsRecScreen = TASK_DATA(gCurTask);
     s32 temp_r1;
-    s32 var_r6;
 
-    var_r6 = 0;
     sub_8097710(vsRecScreen);
     sub_8097BB4(vsRecScreen);
+
     if (sub_809789C(vsRecScreen, 1) == 1) {
         var_r6 = 1;
     }
     sub_8097C28(vsRecScreen);
-    temp_r1 = vsRecScreen->qUnk134;
-    gWinRegs[2] = temp_r1 + (temp_r1 >> 8) + ((u16) vsRecScreen->unk1E >> 8);
+    gWinRegs[WINREG_WIN0V] = vsRecScreen->qUnk134 + (vsRecScreen->qUnk134 >> 8) + ((u16)vsRecScreen->unk1E >> 8);
     if (var_r6 != 0) {
-        gWinRegs[4] = 0x3332;
-        gCurTask->main = (void (*)()) sub_80972EC;
+        gWinRegs[WINREG_WININ] = 0x3332;
+        gCurTask->main = sub_80972EC;
     }
 }
 
-void sub_8097474(OptionsVsRecordScreen *vsRecScreen) {
+void sub_8097474(void)
+{
+    OptionsVsRecordScreen *vsRecScreen = TASK_DATA(gCurTask);
     u16 temp_r2;
     u8 temp_r1;
     void (*var_r0)(OptionsVsRecordScreen *);
@@ -630,34 +615,29 @@ void sub_8097474(OptionsVsRecordScreen *vsRecScreen) {
     sub_8097C28(vsRecScreen);
     sub_8097958(vsRecScreen, 0);
     sub_8097ACC(vsRecScreen);
-    temp_r2 = 2 & gPressedKeys;
-    if (temp_r2 != 0) {
-        var_r0 = sub_8097408;
-        goto block_11;
-    }
-    if (0xC0 & gRepeatedKeys) {
+
+    if (B_BUTTON & gPressedKeys) {
+        gCurTask->main = sub_8097408;
+    } else if (0xC0 & gRepeatedKeys) {
         if ((0x40 & gRepeatedKeys) && (vsRecScreen->unk2 != 0)) {
             vsRecScreen->unk1 = 2;
-            vsRecScreen->unk19 = (u8) temp_r2;
-            vsRecScreen->unk1A = (u8) temp_r2;
-            goto block_10;
-        }
-        if (0x80 & gRepeatedKeys) {
-            temp_r1 = vsRecScreen->unk2;
-            if (((s32) (vsRecScreen->vsRecordPlayerCount - temp_r1) > 5) && ((u32) temp_r1 <= 5U)) {
+            vsRecScreen->unk19 = 0;
+            vsRecScreen->unk1A = 0;
+            gCurTask->main = sub_8097530;
+        } else if (0x80 & gRepeatedKeys) {
+            if (((vsRecScreen->vsRecordPlayerCount - vsRecScreen->unk2) > 5) && (vsRecScreen->unk2 < 6)) {
                 vsRecScreen->unk1 = 1;
                 vsRecScreen->unk19 = 0;
                 vsRecScreen->unk1A = 0;
-block_10:
-                var_r0 = sub_8097530;
-block_11:
-                gCurTask->main = var_r0;
+                gCurTask->main = sub_8097530;
             }
         }
     }
 }
 
-void sub_8097530(OptionsVsRecordScreen *vsRecScreen) {
+void sub_8097530(void)
+{
+    OptionsVsRecordScreen *vsRecScreen = TASK_DATA(gCurTask);
     u8 *temp_r3;
     u8 *temp_r3_2;
     u8 temp_r0;
@@ -669,110 +649,88 @@ void sub_8097530(OptionsVsRecordScreen *vsRecScreen) {
     u8 var_r1_2;
     u8 var_r5;
 
-    var_r5 = saved_reg_r5;
     sub_8097710(vsRecScreen);
     sub_8097BB4(vsRecScreen);
     sub_8097BE8(vsRecScreen);
     sub_8097ACC(vsRecScreen);
     sub_8097C28(vsRecScreen);
     sub_8097958(vsRecScreen, 1);
-    if (sub_8097B54(vsRecScreen) == 1) {
+
+    if (sub_8097B54(vsRecScreen, vsRecScreen->unk1) == 1) {
         temp_r0 = vsRecScreen->unk1;
         if (temp_r0 == 1) {
-            temp_r0_2 = vsRecScreen->unk2 + 1;
-            vsRecScreen->unk2 = temp_r0_2;
-            if ((u32) temp_r0_2 > 6U) {
+            vsRecScreen->unk2 += 1;
+            if (vsRecScreen->unk2 > 6U) {
                 vsRecScreen->unk2 = 6;
             }
+
             var_r5 = vsRecScreen->unk6[0];
-            var_r1 = 0;
-            temp_r3 = vsRecScreen->unk6;
-            do {
-                temp_r3[var_r1].unk0 = temp_r3[var_r1].unk1;
-                var_r1 += 1;
-            } while ((u32) var_r1 <= 4U);
+            for (var_r1 = 0; var_r1 < 5; var_r1++) {
+                vsRecScreen->unk6[var_r1 + 0] = vsRecScreen->unk6[var_r1 + 1];
+            }
             vsRecScreen->unk6[5] = var_r5;
-            var_r0 = 6;
-            goto block_13;
-        }
-        if (temp_r0 == 2) {
-            temp_r0_3 = vsRecScreen->unk2 - 1;
-            vsRecScreen->unk2 = temp_r0_3;
-            if ((u32) temp_r0_3 > 6U) {
+
+            vsRecScreen->unk18 = 6;
+        } else if (temp_r0 == 2) {
+            vsRecScreen->unk2 -= 1;
+            if (vsRecScreen->unk2 > 6U) {
                 vsRecScreen->unk2 = 0;
             }
             var_r5 = vsRecScreen->unk6[5];
-            var_r1_2 = 5;
-            temp_r3_2 = vsRecScreen->unk6;
-            do {
-                temp_r1 = var_r1_2 - 1;
-                temp_r3_2[var_r1_2] = temp_r3_2[temp_r1];
-                var_r1_2 = temp_r1;
-            } while (var_r1_2 != 0);
+            for (var_r1 = 6 - 1; var_r1 > 0; var_r1--) {
+                vsRecScreen->unk6[var_r1] = vsRecScreen->unk6[var_r1 - 1];
+            }
             vsRecScreen->unk6[0] = var_r5;
-            var_r0 = 1;
-block_13:
-            vsRecScreen->unk18 = var_r0;
+            vsRecScreen->unk18 = 1;
         }
         sub_8097608(vsRecScreen, var_r5);
-        gCurTask->main = (void (*)()) sub_8097474;
+        gCurTask->main = sub_8097474;
     }
 }
 
+#if 0
 void sub_8097608(OptionsVsRecordScreen *vsRecScreen, u8 arg1) {
-    s32 sp0;
-    u8 *sp4;
-    Sprite *temp_r4;
-    Sprite *temp_r4_2;
-    u16 *var_r0;
-    u16 temp_r0_2;
-    u8 *temp_r1_2;
-    u8 *temp_r1_4;
-    u8 *temp_r1_5;
-    u8 temp_r0;
-    u8 temp_r1;
-    u8 temp_r1_3;
+    Sprite *s;
     u8 temp_r5;
+    u8 i;
     u8 var_r5;
-    u8 var_r7;
-
-    var_r5 = saved_reg_r8;
-    sp0 = (s32) arg1;
-    temp_r0 = vsRecScreen->unk18;
-    temp_r1 = vsRecScreen->unk2;
-    if ((u32) (temp_r1 + temp_r0) <= 0xBU) {
-        var_r5 = temp_r1 + (temp_r0 + 0xFF);
+    register u32 var_r4 asm("r4") = 0;
+    u8 unk18 = vsRecScreen->unk18;
+    asm("" :: "r"(var_r4));
+    if ((u32) (vsRecScreen->unk18 + vsRecScreen->unk2) < 12) {
+        var_r5 = vsRecScreen->unk2 + (vsRecScreen->unk18 - 1);
+    } else {
+#ifdef BUG_FIX
+        var_r5 = 0;
+#endif
     }
-    temp_r1_2 = vsRecScreen->unkD;
-    temp_r1_2[var_r5] = 0;
-    var_r7 = 0;
-    sp4 = temp_r1_2;
-    do {
-        temp_r1_3 = vsRecScreen->unk2;
-        if ((u32) (temp_r1_3 + temp_r0) <= 0xBU) {
-            temp_r5 = temp_r1_3 + (temp_r0 + 0xFF);
-            temp_r4 = vsRecScreen + ((sp0 * 0xF0) + 0x8F8) + (var_r7 * 0x28);
-            temp_r1_4 = &vsRecScreen->nameList[(var_r7 * 2) + (temp_r5 * 0xC)];
-            temp_r0_2 = *temp_r1_4;
-            if (temp_r0_2 != 0xFFFF) {
-                if ((u32) temp_r0_2 > 0xFFU) {
-                    var_r0 = &gUnknown_080D8C64;
+    vsRecScreen->unkD[var_r5] = var_r4;
+
+    for(i = 0; i < 6; i++)
+    {
+        if ((u32) (vsRecScreen->unk2 + unk18) < 12) {
+            var_r5 = vsRecScreen->unk2 + (unk18 - 1);
+            s = &vsRecScreen->spr8F8[arg1][i];
+            if (vsRecScreen->nameList[var_r5][i] != 0xFFFF) {
+                if (vsRecScreen->nameList[var_r5][i] > 0xFFU) {
+                    s->anim = gUnknown_080D8C64.anim;
+                    s->variant = vsRecScreen->nameList[var_r5][i];
                 } else {
-                    var_r0 = &gUnknown_080D8C5C;
+                    s->anim = gUnknown_080D8C5C.anim;
+                    s->variant = vsRecScreen->nameList[var_r5][i];
                 }
-                temp_r4->anim = *var_r0;
-                temp_r4->variant = (u8) *temp_r1_4;
-                temp_r1_5 = &sp4[temp_r5];
-                *temp_r1_5 += 1;
-                UpdateSpriteAnimation(temp_r4);
+                vsRecScreen->unkD[var_r5] += 1;
+                UpdateSpriteAnimation(s);
             }
-            temp_r4_2 = vsRecScreen + ((sp0 * 0xF0) + 0x358) + (var_r7 * 0x28);
-            temp_r4_2->variant = vsRecScreen->recordsRivals[0][0][var_r7 + (temp_r5 * 6)] + gUnknown_080D8C54.unk2;
-            UpdateSpriteAnimation(temp_r4_2);
+            s = &vsRecScreen->spr358[arg1][i];
+            s->variant = gUnknown_080D8C54.variant + vsRecScreen->recordsRivals[0][0][i + (var_r5 * 6)];
+            UpdateSpriteAnimation(s);
         }
-        var_r7 += 1;
-    } while ((u32) var_r7 <= 5U);
+    }
 }
+
+extern u16 gUnknown_080D8C74[][2];
+extern s32 gUnknown_080D6ED4[3];
 
 void sub_8097710(OptionsVsRecordScreen *vsRecScreen) {
     u32 sp0;
@@ -780,308 +738,252 @@ void sub_8097710(OptionsVsRecordScreen *vsRecScreen) {
     s32 temp_r1_2;
     s32 temp_r1_3;
     u16 var_r2;
-    u32 temp_r4;
+    u16 temp_r4;
     u32 var_r0;
     u32 var_r1;
-    u32 var_r3;
     u8 temp_r0;
     u8 temp_r1;
-    u8 temp_r5;
-    void *var_r7;
+    int_vcount line;
+    int_vcount temp_r5;
+    u16 *var_r7;
 
-    gFlags |= 4;
+    temp_r1 = ((u16) vsRecScreen->unk1E >> 8);
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
+
     temp_r5 = (u8) ((s32) vsRecScreen->qUnk134 >> 8);
-    temp_r1 = temp_r5 + ((u16) vsRecScreen->unk1E >> 8);
-    temp_r0 = temp_r1;
-    sp0 = (u32) ((temp_r1 << 0x18) + 0xE8000000) >> 0x18;
+    temp_r0 = temp_r5 + temp_r1;
+    sp0 = (u32) (temp_r1 + 0xE8);
     temp_r4 = (u32) (vsRecScreen->qUnk130 << 8) >> 0x10;
     gHBlankCopyTarget = (void *)0x04000040;
     gHBlankCopySize = 2;
     var_r7 = gBgOffsetsHBlankPrimary;
-    var_r3 = 0;
-    sp4 = (temp_r4 + 0x1E) << 0x10;
-    do {
-        if ((u32) (u8) (var_r3 - 0x1E) <= 3U) {
-            var_r2 = 0x78;
-            var_r1 = 0x79;
+    for(line = 0; line < DISPLAY_HEIGHT; line++)
+    {
+        if (line >= 30 && line < 34) {
+            var_r2 = 120;
+            var_r1 = 121;
         } else {
-            if ((var_r3 >= (u32) temp_r5) && ((s32) var_r3 < (s32) (temp_r5 + 0xC))) {
-                temp_r1_2 = var_r3 - temp_r5;
-                var_r2 = temp_r4 + *((temp_r1_2 * 4) + &gUnknown_080D8C74);
-                var_r0 = (temp_r4 + *((temp_r1_2 * 4) + 2 + &gUnknown_080D8C74) + 0x2B) << 0x10;
-            } else if (((s32) var_r3 >= (s32) (temp_r0 - 0xC)) && (var_r3 < (u32) temp_r0)) {
-                temp_r1_3 = var_r3 - sp0;
-                var_r2 = temp_r4 + *((temp_r1_3 * 4) + &gUnknown_080D8C74);
-                var_r0 = (temp_r4 + *((temp_r1_3 * 4) + 2 + &gUnknown_080D8C74) + 0x2B) << 0x10;
+            if ((line >= (u32) temp_r5) && (line < (temp_r5 + 12))) {
+                temp_r1_2 = line - temp_r5;
+                var_r2 = temp_r4 + gUnknown_080D8C74[temp_r1_2][0];
+                var_r1 = (temp_r4 + gUnknown_080D8C74[temp_r1_2][1] + 0x2B);
+            } else if (((s32) line >= (s32) (temp_r0 - 12)) && (line < temp_r0)) {
+                temp_r1_3 = line - sp0;
+                var_r2 = temp_r4 + gUnknown_080D8C74[temp_r1_3][0];
+                var_r1 = (temp_r4 + gUnknown_080D8C74[temp_r1_3][1] + 0x2B);
             } else {
-                var_r2 = (u16) (sp4 >> 0x10);
-                var_r0 = (temp_r4 + 0xFE) << 0x10;
+                var_r2 = (temp_r4 + 30);
+                var_r1 = (temp_r4 + 0xFE);
             }
-            var_r1 = var_r0 >> 0x10;
         }
         *var_r7 = (s16) (var_r1 + (var_r2 << 8));
-        var_r7 += 2;
-        var_r3 = (u32) (u8) (var_r3 + 1);
-    } while (var_r3 <= 0x9FU);
-}
-
-u32 sub_8097830(OptionsVsRecordScreen *vsRecScreen) {
-    s32 temp_r1;
-    u8 temp_r4;
-
-    temp_r4 = vsRecScreen->unk5;
-    temp_r1 = vsRecScreen->qUnk138 + *((temp_r4 * 4) + &gUnknown_080D6ED4);
-    vsRecScreen->qUnk138 = temp_r1;
-    switch (temp_r4) {                              /* irregular */
-    case 0:
-        if (temp_r1 <= 0x9FF) {
-            if ((temp_r4 == 1) && ((s32) vsRecScreen->qUnk138 <= 0xFFFFF600)) {
-                goto block_4;
-            }
-            if ((temp_r4 == 2) && ((s32) vsRecScreen->qUnk138 > 0)) {
-                vsRecScreen->qUnk138 = 0;
-                return 1U;
-            }
-            goto block_8;
-        }
-block_4:
-        vsRecScreen->unk5 += 1;
-block_8:
-    default:
-        return 0U;
+        var_r7++;
     }
 }
 
-u32 sub_809789C(OptionsVsRecordScreen *vsRecScreen, s32 arg1) {
-    s32 temp_r0_3;
-    s32 temp_r0_6;
-    s32 temp_r1;
-    s32 temp_r2;
-    u16 temp_r0;
-    u16 temp_r0_2;
-    u16 temp_r0_4;
-    u16 temp_r0_5;
-    u8 var_r3;
+u32 sub_8097830(OptionsVsRecordScreen *vsRecScreen) {
+    u8 unk5 = vsRecScreen->unk5;
+    vsRecScreen->qUnk138 += gUnknown_080D6ED4[vsRecScreen->unk5];
+    switch(unk5)
+    {
+        case 0: {
+            if(vsRecScreen->qUnk138 >= Q(10)) {
+                vsRecScreen->unk5 += 1;
+                break;
+            }
+        } // fallthrough
+        case 1:
+        {
+            if(vsRecScreen->qUnk138 <= -Q(10)) {
+                vsRecScreen->unk5 += 1;                    
+            }        
+        } break;
+        case 2: {
+            if(vsRecScreen->qUnk138 > 0) {
+                vsRecScreen->qUnk138 = 0;
+                return 1U;                    
+            }
+        } break;
+    }
+    return 0U;
+}
 
-    var_r3 = 0;
-    if ((arg1 << 0x18) == 0) {
-        temp_r0 = vsRecScreen->unk1E;
-        if ((u32) temp_r0 <= 0x4FFFU) {
-            temp_r0_2 = temp_r0 + 0x1000;
-            vsRecScreen->unk1E = temp_r0_2;
-            if ((u32) temp_r0_2 > 0x4FFFU) {
+u32 sub_809789C(OptionsVsRecordScreen *vsRecScreen, u8 arg1) {
+    u8 var_r3 = 0;
+    s32 shift = 11;
+
+    if (arg1 == 0) {
+        if (vsRecScreen->unk1E < 0x5000) {
+            vsRecScreen->unk1E += 0x1000;
+            if (vsRecScreen->unk1E >= 0x5000) {
                 vsRecScreen->unk1E = 0x5000;
             }
         } else {
             var_r3 = 1;
         }
-        temp_r1 = vsRecScreen->qUnk134;
-        if (temp_r1 > 0x3C00) {
-            temp_r0_3 = temp_r1 - 0x800;
-            vsRecScreen->qUnk134 = temp_r0_3;
-            if (temp_r0_3 <= 0x3BFF) {
+        if (vsRecScreen->qUnk134 > 0x3C00) {
+            vsRecScreen->qUnk134 -= (1 << shift);
+            if (vsRecScreen->qUnk134 < 0x3C00) {
                 vsRecScreen->qUnk134 = 0x3C00;
             }
         } else {
-            goto block_15;
+            var_r3 += 1;
         }
     } else {
-        temp_r0_4 = vsRecScreen->unk1E;
-        if (temp_r0_4 != 0) {
-            temp_r0_5 = temp_r0_4 + 0xFFFFF000;
-            vsRecScreen->unk1E = temp_r0_5;
-            if ((u32) (temp_r0_5 << 0x10) > 0x4FFF0000U) {
+        if (vsRecScreen->unk1E != 0) {
+            vsRecScreen->unk1E -= Q(16);
+            if (vsRecScreen->unk1E >= 0x5000) {
                 vsRecScreen->unk1E = 0;
             }
         } else {
             var_r3 = 1;
         }
-        temp_r2 = vsRecScreen->qUnk134;
-        if (temp_r2 <= 0x63FF) {
-            temp_r0_6 = temp_r2 + 0x800;
-            vsRecScreen->qUnk134 = temp_r0_6;
-            if (temp_r0_6 > 0x6400) {
+
+        if (vsRecScreen->qUnk134 < 0x6400) {
+            vsRecScreen->qUnk134 += (1 << shift);
+            if (vsRecScreen->qUnk134 > 0x6400) {
                 vsRecScreen->qUnk134 = 0x6400;
             }
         } else {
-block_15:
             var_r3 += 1;
         }
     }
-    if (var_r3 == 2) {
-        return 1U;
+
+    if (var_r3 != 2) {
+        return 0U;
     }
-    return 0U;
+
+    return 1U;
 }
 
-void sub_8097958(OptionsVsRecordScreen *vsRecScreen, s32 arg1) {
+extern u8 gUnknown_080D8CD4[6];
+
+void sub_8097958(OptionsVsRecordScreen *vsRecScreen, u8 arg1) {
     u32 sp0;
-    u8 *sp4;
-    s32 sp8;
-    u8 *spC;
-    s32 sp10;
-    u8 *sp14;
-    Sprite *temp_r4;
-    Sprite *temp_r4_2;
-    Sprite *temp_r4_3;
-    Sprite *temp_r4_4;
-    s32 temp_r1_2;
-    s32 temp_r2;
+    Sprite *s;
     u32 var_r0;
-    u32 var_r7;
-    u32 var_sb;
-    u8 *temp_r3;
+    u8 var_r7;
+    u8 var_sb;
     u8 temp_r1;
 
     sp0 = 5;
-    if ((arg1 << 0x18) != 0) {
+    if (arg1 != 0) {
         sp0 = 6;
     }
-    var_sb = 0;
-loop_15:
-    if (var_sb < sp0) {
+    for(var_sb = 0; var_sb < sp0; var_sb++)
+    {
         if (var_sb != 0) {
             temp_r1 = LOADED_SAVE->vsRecords[var_sb - 1].slotFilled;
             var_r0 = (u32) ((0 - temp_r1) | temp_r1) >> 0x1F;
         } else {
             var_r0 = 1;
         }
-        sp8 = var_sb + 1;
-        if (var_r0 != 0) {
-            var_r7 = 0;
-            sp4 = vsRecScreen->unk6;
-            temp_r1_2 = var_sb * 0x10;
-            spC = vsRecScreen->unkD;
-            do {
+        if (var_r0 != 0) 
+        {
+            for(var_r7 = 0; var_r7 < 6; var_r7++)
+            {
                 if (var_sb == 0) {
-                    temp_r4 = &vsRecScreen->spr178[var_r7];
-                    temp_r4->y = 0x4B;
-                    temp_r4->x = ((s32) vsRecScreen->qUnk118 >> 8) + *(var_r7 + &gUnknown_080D8CD4);
-                    UpdateSpriteAnimation(temp_r4);
-                    DisplaySprite(temp_r4);
-                    if (var_r7 < (u32) vsRecScreen->unkC) {
-                        temp_r4_2 = &vsRecScreen->spr268[var_r7];
-                        temp_r4_2->x = (var_r7 * 8) + ((var_r7 * 2) + 0x12);
-                        temp_r4_2->y = 0x45;
-                        DisplaySprite(temp_r4_2);
+                    s = &vsRecScreen->spr178[var_r7];
+                    s->y = 0x4B;
+                    s->x = I(vsRecScreen->qUnk118) + gUnknown_080D8CD4[var_r7];
+                    UpdateSpriteAnimation(s);
+                    DisplaySprite(s);
+
+                    if (var_r7 < vsRecScreen->unkC) {
+                        s = &vsRecScreen->spr268[var_r7];
+                        s->x = 0x12 + (var_r7 * 8) + (var_r7 * 2);
+                        s->y = 0x45;
+                        DisplaySprite(s);
                     }
                 }
-                temp_r3 = &sp4[var_sb];
-                temp_r2 = var_r7 * 0x28;
-                temp_r4_3 = vsRecScreen + ((*temp_r3 * 0xF0) + 0x358) + temp_r2;
-                temp_r4_3->x = ((s32) vsRecScreen->qUnk118 >> 8) + *(var_r7 + &gUnknown_080D8CD4);
-                temp_r4_3->y = ((s32) vsRecScreen->qUnk11C >> 8) + temp_r1_2;
-                sp10 = temp_r2;
-                sp14 = temp_r3;
-                DisplaySprite(temp_r4_3);
-                if (var_r7 < (u32) spC[vsRecScreen->unk2 + var_sb]) {
-                    temp_r4_4 = vsRecScreen + ((*temp_r3 * 0xF0) + 0x8F8) + temp_r2;
-                    temp_r4_4->x = (var_r7 * 8) + ((var_r7 * 2) + 0x12);
-                    temp_r4_4->y = (((s32) vsRecScreen->qUnk11C >> 8) + temp_r1_2) - 6;
-                    DisplaySprite(temp_r4_4);
+                s = &vsRecScreen->spr358[vsRecScreen->unk6[var_sb]][var_r7];
+                s->x = I(vsRecScreen->qUnk118) + gUnknown_080D8CD4[var_r7];
+                s->y = I(vsRecScreen->qUnk11C) + (var_sb * 0x10);
+                DisplaySprite(s);
+                if (var_r7 < vsRecScreen->unkD[vsRecScreen->unk2 + var_sb]) {
+                    s = &vsRecScreen->spr8F8[vsRecScreen->unk6[var_sb]][var_r7];
+                    s->x = 0x12 + (var_r7 * 8) + (var_r7 * 2);
+                    s->y = (I(vsRecScreen->qUnk11C) + (var_sb * 0x10)) - 6;
+                    DisplaySprite(s);
                 }
-                var_r7 = (u32) (u8) (var_r7 + 1);
-            } while (var_r7 <= 5U);
+            }
         }
-        var_sb = (u32) (u8) sp8;
-        goto loop_15;
     }
 }
 
 void sub_8097ACC(OptionsVsRecordScreen *vsRecScreen) {
-    Sprite *temp_r4;
-    s32 var_r2;
-    u8 temp_r1;
+    s32 var_r2 = 0;
+    Sprite *s = &vsRecScreen->sprE98;
 
-    var_r2 = 0;
-    temp_r4 = &vsRecScreen->sprE98;
-    temp_r1 = vsRecScreen->unk2;
-    if (((s32) (vsRecScreen->vsRecordPlayerCount - temp_r1) > 5) && ((u32) temp_r1 <= 5U)) {
-        vsRecScreen->sprE98.x = (s16) ((s32) vsRecScreen->qUnk140 >> 8);
-        vsRecScreen->sprE98.y = (s16) ((s32) vsRecScreen->qUnk144 >> 8);
-        vsRecScreen->sprE98.frameFlags |= 0x800;
-        UpdateSpriteAnimation(temp_r4);
-        DisplaySprite(temp_r4);
+    if (((s32) (vsRecScreen->vsRecordPlayerCount - vsRecScreen->unk2) > 5) && (vsRecScreen->unk2 < 6)) {
+        s->x = I(vsRecScreen->qUnk140);
+        s->y = I(vsRecScreen->qUnk144);
+        s->frameFlags |= 0x800;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
         var_r2 = 1;
     }
     if (vsRecScreen->unk2 != 0) {
-        vsRecScreen->sprE98.x = (s16) ((s32) vsRecScreen->qUnk148 >> 8);
-        vsRecScreen->sprE98.y = (s16) ((s32) vsRecScreen->qUnk14C >> 8);
-        vsRecScreen->sprE98.frameFlags &= 0xFFFFF7FF;
+        s->x = I(vsRecScreen->qUnk148);
+        s->y = I(vsRecScreen->qUnk14C);
+        s->frameFlags &= 0xFFFFF7FF;
         if (var_r2 == 0) {
-            UpdateSpriteAnimation(temp_r4);
+            UpdateSpriteAnimation(s);
         }
-        DisplaySprite(temp_r4);
+        DisplaySprite(s);
     }
 }
 
-u32 sub_8097B54(OptionsVsRecordScreen *vsRecScreen) {
-    s32 temp_r0;
-    s32 temp_r1_2;
-    u8 temp_r1;
+u32 sub_8097B54(OptionsVsRecordScreen *vsRecScreen, u8 unused) {
+    s32 unk1 = vsRecScreen->unk1;
+    if (unk1 == 1) {
+        if (vsRecScreen->unk2 <= 6U) {
+            vsRecScreen->qUnk11C -= Q(2);
 
-    temp_r1 = vsRecScreen->unk1;
-    switch (temp_r1) {                              /* irregular */
-    case 1:
-        if ((u32) vsRecScreen->unk2 <= 6U) {
-            temp_r0 = vsRecScreen->qUnk11C + 0xFFFFFE00;
-            vsRecScreen->qUnk11C = temp_r0;
-            if (temp_r0 > 0x3AFF) {
-block_7:
+            if (vsRecScreen->qUnk11C < 0x3B00) {
+                vsRecScreen->qUnk11C = 0x4B00;
+            } else {
+                return 0U;                
+            }
+        }
+    } else if(unk1 == 2) {
+        if (vsRecScreen->unk2 <= 6U) {
+            vsRecScreen->qUnk11C += Q(unk1);
+            if (vsRecScreen->qUnk11C <= 0x5B00) {
                 return 0U;
             }
-block_8:
             vsRecScreen->qUnk11C = 0x4B00;
-            goto block_9;
         }
-block_9:
-    default:
-        return 1U;
-    case 2:
-        if ((u32) vsRecScreen->unk2 <= 6U) {
-            temp_r1_2 = vsRecScreen->qUnk11C + (temp_r1 << 8);
-            vsRecScreen->qUnk11C = temp_r1_2;
-            if (temp_r1_2 <= 0x5B00) {
-                goto block_7;
-            }
-            goto block_8;
-        }
-        goto block_9;
     }
+    
+    return 1U;
 }
 
 void sub_8097BB4(OptionsVsRecordScreen *vsRecScreen) {
-    u16 temp_r1;
-    u16 temp_r2;
+    vsRecScreen->unk24 -= Q(1);
+    vsRecScreen->unk26 += Q(1);
 
-    temp_r1 = vsRecScreen->unk24 + 0xFFFFFF00;
-    vsRecScreen->unk24 = temp_r1;
-    temp_r2 = vsRecScreen->unk26 + 0x100;
-    vsRecScreen->unk26 = temp_r2;
-    gBgScrollRegs[0][0] = 0 - ((u32) (temp_r1 << 0x10) >> 0x18);
-    gBgScrollRegs[0][1] = 0 - ((u32) (temp_r2 << 0x10) >> 0x18);
+    gBgScrollRegs[0][0] = -I(vsRecScreen->unk24);
+    gBgScrollRegs[0][1] = -I(vsRecScreen->unk26);
 }
 
 void sub_8097BE8(OptionsVsRecordScreen *vsRecScreen) {
-    s32 temp_r0;
-    s32 temp_r0_2;
-
-    temp_r0 = vsRecScreen->qUnk144 + 0x40;
-    vsRecScreen->qUnk144 = temp_r0;
-    if (temp_r0 > 0x9300) {
-        vsRecScreen->qUnk144 = 0x8E00;
+    vsRecScreen->qUnk144 += Q(0.25);
+    if (vsRecScreen->qUnk144 > Q(147)) {
+        vsRecScreen->qUnk144 = Q(142);
     }
-    temp_r0_2 = vsRecScreen->qUnk14C - 0x40;
-    vsRecScreen->qUnk14C = temp_r0_2;
-    if (temp_r0_2 <= 0x28FF) {
-        vsRecScreen->qUnk14C = 0x2E00;
+
+    vsRecScreen->qUnk14C -= Q(0.25);
+    if (vsRecScreen->qUnk14C < Q(41)) {
+        vsRecScreen->qUnk14C = Q(46);
     }
 }
 
 void sub_8097C28(OptionsVsRecordScreen *vsRecScreen) {
-    vsRecScreen->spr150.x = (s16) ((s32) vsRecScreen->qUnk138 >> 8);
-    vsRecScreen->spr150.y = (s16) ((s32) vsRecScreen->qUnk13C >> 8);
-    DisplaySprite(&vsRecScreen->spr150);
+    Sprite *s = &vsRecScreen->spr150;
+    s->x = I(vsRecScreen->qUnk138);
+    s->y = I(vsRecScreen->qUnk13C);
+    DisplaySprite(s);
 }
 
 void TaskDestructor_VsRecordScreen(Task *t) {
