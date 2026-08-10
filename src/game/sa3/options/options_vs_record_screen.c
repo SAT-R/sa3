@@ -2,6 +2,7 @@
 #include "core.h"
 #include "game/shared/stage/player.h" // MAX_PLAYER_NAME_LENGTH
 #include "game/save.h"
+#include "constants/tilemaps.h"
 
 typedef struct {
     /* 0x000 */ u8 language;
@@ -349,50 +350,60 @@ void sub_8096C60(OptionsVsRecordScreen *vsRecScreen)
     }
 }
 
-#if 0
-void sub_8096EB8(OptionsVsRecordScreen *vsRecScreen) {
-    gBgCntRegs->unk0 = 0x602;
+void sub_8096EB8(OptionsVsRecordScreen *vsRecScreen)
+{
+    Background *bg0, *bg2;
+
+    gBgCntRegs[0] = BGCNT_SCREENBASE(6) | BGCNT_TXT256x256 | BGCNT_16COLOR | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(2);
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
-    vsRecScreen->bgF38.graphics.dest = (void *)0x06000000;
-    vsRecScreen->bgF38.graphics.anim = 0;
-    vsRecScreen->bgF38.layoutVram = (u16 *)0x06003000;
-    vsRecScreen->bgF38.unk18 = 0;
-    vsRecScreen->bgF38.unk1A = 0;
-    vsRecScreen->bgF38.tilemapId = 0x15F;
-    vsRecScreen->bgF38.unk1E = 0;
-    vsRecScreen->bgF38.unk20 = 0;
-    vsRecScreen->bgF38.unk22 = 0;
-    vsRecScreen->bgF38.unk24 = 0;
-    vsRecScreen->bgF38.targetTilesX = 0x20;
-    vsRecScreen->bgF38.targetTilesY = 0x20;
-    vsRecScreen->bgF38.paletteOffset = 0;
-    vsRecScreen->bgF38.flags = 0;
-    DrawBackground(&vsRecScreen->bgF38);
-    gBgCntRegs[1] = 0x1007;
+
+    bg0 = &vsRecScreen->bgF38;
+    bg0->graphics.dest = (void *)BG_CHAR_ADDR(0);
+    bg0->graphics.anim = 0;
+    bg0->layoutVram = (u16 *)BG_SCREEN_ADDR(6);
+    bg0->unk18 = 0;
+    bg0->unk1A = 0;
+    bg0->tilemapId = TM_UNKNOWN_351;
+    bg0->unk1E = 0;
+    bg0->unk20 = 0;
+    bg0->unk22 = 0;
+    bg0->unk24 = 0;
+    bg0->targetTilesX = 256 / 8;
+    bg0->targetTilesY = 256 / 8;
+    bg0->paletteOffset = 0;
+    bg0->flags = 0;
+    DrawBackground(bg0);
+
+    gBgCntRegs[1] = BGCNT_SCREENBASE(16) | BGCNT_TXT256x256 | BGCNT_16COLOR | BGCNT_CHARBASE(1) | BGCNT_PRIORITY(3);
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = 0;
-    gBgCntRegs[2] = 0x1E0D;
+
+    gBgCntRegs[2] = BGCNT_SCREENBASE(30) | BGCNT_TXT256x256 | BGCNT_16COLOR | BGCNT_CHARBASE(3) | BGCNT_PRIORITY(1);
     gBgScrollRegs[2][0] = 0;
     gBgScrollRegs[2][1] = 0;
-    vsRecScreen->bgF78.graphics.dest = (void *)0x0600C000;
-    vsRecScreen->bgF78.graphics.anim = 0;
-    vsRecScreen->bgF78.layoutVram = (u16 *)0x0600F000;
-    vsRecScreen->bgF78.unk18 = 0;
-    vsRecScreen->bgF78.unk1A = 0;
-    vsRecScreen->bgF78.tilemapId = 0x164;
-    vsRecScreen->bgF78.unk1E = 0;
-    vsRecScreen->bgF78.unk20 = 0;
-    vsRecScreen->bgF78.unk22 = 0;
-    vsRecScreen->bgF78.unk24 = 0;
-    vsRecScreen->bgF78.targetTilesX = 0x1E;
-    vsRecScreen->bgF78.targetTilesY = 0x14;
-    vsRecScreen->bgF78.paletteOffset = 0;
-    vsRecScreen->bgF78.flags = 2;
-    DrawBackground(&vsRecScreen->bgF78);
-    gWinRegs[2] = ((u16) vsRecScreen->unk1E >> 8) + 0x3C3C;
+
+    bg2 = &vsRecScreen->bgF78;
+    bg2->graphics.dest = (void *)BG_CHAR_ADDR(3);
+    bg2->graphics.anim = 0;
+    bg2->layoutVram = (u16 *)BG_SCREEN_ADDR(30);
+    bg2->unk18 = 0;
+    bg2->unk1A = 0;
+    bg2->tilemapId = TM_UNKNOWN_356;
+    bg2->unk1E = 0;
+    bg2->unk20 = 0;
+    bg2->unk22 = 0;
+    bg2->unk24 = 0;
+    bg2->targetTilesX = 240 / 8;
+    bg2->targetTilesY = 160 / 8;
+    bg2->paletteOffset = 0;
+    bg2->flags = 2;
+    DrawBackground(bg2);
+
+    gWinRegs[WINREG_WIN0V] = WIN_RANGE(60, 60) + WIN_RANGE(0, I(vsRecScreen->unk1E));
 }
 
+#if 0
 void Task_VsRecordScreen(OptionsVsRecordScreen *vsRecScreen) {
     u8 *sp0;
     OptionsVsRecordScreen *sp4;
