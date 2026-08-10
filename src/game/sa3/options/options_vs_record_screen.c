@@ -25,12 +25,7 @@ typedef struct {
     /* 0x028 */ u16 unk28;
     /* 0x02A */ u16 unk2A;
     /* 0x02C */ u16 playerName[MAX_PLAYER_NAME_LENGTH];
-    /* 0x038 */ u8 vsWinsTens;
-    /* 0x039 */ u8 vsWinsOnes;
-    /* 0x03A */ u8 vsLossesTens;
-    /* 0x03B */ u8 vsLossesOnes;
-    /* 0x03C */ u8 vsDrawsTens;
-    /* 0x03D */ u8 vsDrawsOnes;
+    /* 0x038 */ u8 playerRecord[6]; // [vsRecordType * [tens/ones]]
     /* 0x03E */ u16 nameList[11][MAX_PLAYER_NAME_LENGTH];
     // Used for rendering digits. [player_count][vsRecordType][tens/ones]
     /* 0x0C2 */ u8 recordsRivals[11][3][2];
@@ -88,7 +83,14 @@ void sub_8097BE8(OptionsVsRecordScreen *vsRecScreen);
 void sub_8097C28(OptionsVsRecordScreen *vsRecScreen);
 void TaskDestructor_VsRecordScreen(struct Task *t);
 
+extern void sub_80BE46C(Sprite *s);
 extern ColorRaw sub_80C4C0C(ColorRaw color);
+extern const TileInfo2 gUnknown_080D8BF4[NUM_LANGUAGES];
+extern const TileInfo2 gUnknown_080D8C24[NUM_LANGUAGES];
+extern const TileInfo2 gUnknown_080D8C54;
+extern const TileInfo2 gUnknown_080D8C5C;
+extern const TileInfo2 gUnknown_080D8C64;
+extern const TileInfo2 gUnknown_080D8C6C;
 
 void CreateVsRecordScreen(void)
 {
@@ -164,12 +166,12 @@ void sub_8096918(OptionsVsRecordScreen *vsRecScreen)
             vsRecScreen->recordsRivals[0][1][1] = LOADED_SAVE->vsRecords[0].losses % 10U;
             vsRecScreen->recordsRivals[0][2][0] = LOADED_SAVE->vsRecords[0].draws / 10U;
             vsRecScreen->recordsRivals[0][2][1] = LOADED_SAVE->vsRecords[0].draws % 10U;
-            vsRecScreen->vsWinsTens = LOADED_SAVE->vsWins / 10U;
-            vsRecScreen->vsWinsOnes = LOADED_SAVE->vsWins % 10U;
-            vsRecScreen->vsLossesTens = LOADED_SAVE->vsLosses / 10U;
-            vsRecScreen->vsLossesOnes = LOADED_SAVE->vsLosses % 10U;
-            vsRecScreen->vsDrawsTens = LOADED_SAVE->vsDraws / 10U;
-            vsRecScreen->vsDrawsOnes = LOADED_SAVE->vsDraws % 10U;
+            vsRecScreen->playerRecord[0] = LOADED_SAVE->vsWins / 10U;
+            vsRecScreen->playerRecord[1] = LOADED_SAVE->vsWins % 10U;
+            vsRecScreen->playerRecord[2] = LOADED_SAVE->vsLosses / 10U;
+            vsRecScreen->playerRecord[3] = LOADED_SAVE->vsLosses % 10U;
+            vsRecScreen->playerRecord[4] = LOADED_SAVE->vsDraws / 10U;
+            vsRecScreen->playerRecord[5] = LOADED_SAVE->vsDraws % 10U;
         } else {
             vsRecScreen->recordsRivals[rivalIndex][0][0] = LOADED_SAVE->vsRecords[rivalIndex - 1].wins / 10U;
             vsRecScreen->recordsRivals[rivalIndex][0][1] = LOADED_SAVE->vsRecords[rivalIndex - 1].wins % 10U;
@@ -229,15 +231,12 @@ void sub_8096B30(OptionsVsRecordScreen *vsRecScreen)
     vsRecScreen->vram104 = (void *)OBJ_VRAM0;
 }
 
-#if 0
-void sub_8096C60(OptionsVsRecordScreen *vsRecScreen) {
+void sub_8096C60(OptionsVsRecordScreen *vsRecScreen)
+{
     u8 *sp0;
     u16 *sp4;
     u16 *sp8;
-    Sprite *temp_r7;
-    Sprite *temp_r7_2;
-    Sprite *temp_r7_3;
-    s32 temp_r5;
+    Sprite *s;
     s32 temp_r8;
     s32 temp_r8_2;
     u16 *var_r2;
@@ -245,118 +244,112 @@ void sub_8096C60(OptionsVsRecordScreen *vsRecScreen) {
     u16 temp_r1;
     u16 var_r0;
     u8 temp_sb;
-    u8 var_r4;
+    u8 i;
     u8 var_r4_2;
     void *temp_r2;
     void *temp_r5_2;
+    u8 lang = vsRecScreen->language;
+    const TileInfo2 *tileInfo;
 
-    vsRecScreen->spr150.tiles = (u8 *) vsRecScreen->vram104;
-    temp_r5 = vsRecScreen->language * 8;
-    vsRecScreen->vram104 += *(temp_r5 + (&gUnknown_080D8BF4 + 4)) << 5;
-    temp_r2 = temp_r5 + &gUnknown_080D8BF4;
-    var_r4 = 0;
-    vsRecScreen->spr150.anim = temp_r2->unk0;
-    vsRecScreen->spr150.variant = temp_r2->unk2;
-    vsRecScreen->spr150.prevVariant = 0xFF;
-    vsRecScreen->spr150.x = (s16) ((s32) vsRecScreen->qUnk138 >> 8);
-    vsRecScreen->spr150.y = (s16) ((s32) vsRecScreen->qUnk13C >> 8);
-    vsRecScreen->spr150.oamFlags = 0xC0;
-    vsRecScreen->spr150.animCursor = 0;
-    vsRecScreen->spr150.qAnimDelay = 0;
-    vsRecScreen->spr150.animSpeed = 0x10;
-    vsRecScreen->spr150.palId = 0;
-    vsRecScreen->spr150.frameFlags = 0;
-    UpdateSpriteAnimation(&vsRecScreen->spr150);
-    vsRecScreen->sprE98.tiles = (u8 *) vsRecScreen->vram104;
-    vsRecScreen->vram104 += gUnknown_080D8C6C.unk4 << 5;
-    vsRecScreen->sprE98.anim = gUnknown_080D8C6C.unk0;
-    vsRecScreen->sprE98.variant = gUnknown_080D8C6C.unk2;
-    vsRecScreen->sprE98.prevVariant = -1U;
-    vsRecScreen->sprE98.x = (s16) ((s32) vsRecScreen->qUnk140 >> 8);
-    vsRecScreen->sprE98.y = (s16) ((s32) vsRecScreen->qUnk144 >> 8);
-    vsRecScreen->sprE98.oamFlags = 0;
-    vsRecScreen->sprE98.animCursor = 0;
-    vsRecScreen->sprE98.qAnimDelay = 0;
-    vsRecScreen->sprE98.animSpeed = 0x10;
-    vsRecScreen->sprE98.palId = 0;
-    vsRecScreen->sprE98.frameFlags = 0;
-    UpdateSpriteAnimation(&vsRecScreen->sprE98);
-    temp_r7 = &vsRecScreen->sprEC0;
-    vsRecScreen->sprEC0.tiles = (u8 *)0x06004000;
-    temp_r5_2 = temp_r5 + &gUnknown_080D8C24;
-    vsRecScreen->sprEC0.anim = temp_r5_2->unk0;
-    vsRecScreen->sprEC0.variant = temp_r5_2->unk2;
-    vsRecScreen->sprEC0.prevVariant = -1U;
-    vsRecScreen->sprEC0.x = 0;
-    vsRecScreen->sprEC0.y = 8;
-    vsRecScreen->sprEC0.oamFlags = 0;
-    vsRecScreen->sprEC0.animCursor = 0;
-    vsRecScreen->sprEC0.qAnimDelay = 0;
-    vsRecScreen->sprEC0.animSpeed = 0x10;
-    vsRecScreen->sprEC0.palId = 0;
-    vsRecScreen->sprEC0.frameFlags = 0x8000;
-    UpdateSpriteAnimation_BG(temp_r7);
-    sub_80BE46C(temp_r7);
-    var_r3 = &gUnknown_080D8C5C;
-    temp_r8 = gUnknown_080D8C5C.unk4 << 5;
-    do {
-        temp_r7_2 = &vsRecScreen->spr268[var_r4];
-        temp_r7_2->tiles = (u8 *) vsRecScreen->vram104;
-        vsRecScreen->vram104 += temp_r8;
-        temp_r1 = *(vsRecScreen->playerName + (var_r4 * 2));
-        if (temp_r1 != 0xFFFF) {
-            if ((u32) temp_r1 > 0xFFU) {
-                temp_r7_2->variant = (u8) temp_r1;
-                var_r0 = gUnknown_080D8C64;
+    s = &vsRecScreen->spr150;
+    s->tiles = vsRecScreen->vram104;
+    vsRecScreen->vram104 += gUnknown_080D8BF4[lang].numTiles * TILE_SIZE_4BPP;
+    s->anim = gUnknown_080D8BF4[lang].anim;
+    s->variant = gUnknown_080D8BF4[lang].variant;
+    s->prevVariant = 0xFF;
+    s->x = I(vsRecScreen->qUnk138);
+    s->y = I(vsRecScreen->qUnk13C);
+    s->oamFlags = 0xC0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    s = &vsRecScreen->sprE98;
+    s->tiles = (u8 *)vsRecScreen->vram104;
+    vsRecScreen->vram104 += gUnknown_080D8C6C.numTiles * TILE_SIZE_4BPP;
+    s->anim = gUnknown_080D8C6C.anim;
+    s->variant = gUnknown_080D8C6C.variant;
+    s->prevVariant = -1;
+    s->x = (s16)((s32)vsRecScreen->qUnk140 >> 8);
+    s->y = (s16)((s32)vsRecScreen->qUnk144 >> 8);
+    s->oamFlags = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    s = &vsRecScreen->sprEC0;
+    s->tiles = (u8 *)0x06004000;
+    s->anim = gUnknown_080D8C24[lang].anim;
+    s->variant = gUnknown_080D8C24[lang].variant;
+    s->prevVariant = -1;
+    s->x = 0;
+    s->y = 8;
+    s->oamFlags = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x8000;
+    UpdateSpriteAnimation_BG(s);
+
+    sub_80BE46C(s);
+
+    for (i = 0; i < 6; i++) {
+        s = &vsRecScreen->spr268[i];
+        s->tiles = (u8 *)vsRecScreen->vram104;
+        vsRecScreen->vram104 += gUnknown_080D8C5C.numTiles * TILE_SIZE_4BPP;
+        if (vsRecScreen->playerName[i] != 0xFFFF) {
+            if (vsRecScreen->playerName[i] >= 0x100) {
+                s->variant = (u8)vsRecScreen->playerName[i];
+                s->anim = gUnknown_080D8C64.anim;
             } else {
-                temp_r7_2->variant = (u8) temp_r1;
-                var_r0 = *var_r3;
+                s->variant = (u8)vsRecScreen->playerName[i];
+                s->anim = gUnknown_080D8C5C.anim;
             }
-            temp_r7_2->anim = var_r0;
+
             vsRecScreen->unkC += 1;
         } else {
-            temp_r7_2->variant = 0;
-            temp_r7_2->anim = *var_r3;
+            s->variant = 0;
+            s->anim = gUnknown_080D8C5C.anim;
         }
-        temp_r7_2->prevVariant = 0xFF;
-        temp_r7_2->x = (var_r4 * 8) + 0x12;
-        temp_r7_2->y = 0x45;
-        temp_r7_2->animCursor = 0;
-        temp_r7_2->qAnimDelay = 0;
-        temp_r7_2->animSpeed = 0x10;
-        temp_r7_2->palId = 0;
-        temp_r7_2->oamFlags = 0;
-        temp_r7_2->frameFlags = 0x80;
-        sp8 = var_r3;
-        UpdateSpriteAnimation(temp_r7_2);
-        var_r4 += 1;
-    } while ((u32) var_r4 <= 5U);
-    var_r4_2 = 0;
-    sp0 = &vsRecScreen->vsWinsTens;
-    var_r2 = &gUnknown_080D8C54;
-    temp_sb = gUnknown_080D8C54.unk2;
-    temp_r8_2 = gUnknown_080D8C54.unk4 << 5;
-    do {
-        temp_r7_3 = &vsRecScreen->spr178[var_r4_2];
-        temp_r7_3->tiles = (u8 *) vsRecScreen->vram104;
-        vsRecScreen->vram104 += temp_r8_2;
-        temp_r7_3->anim = *var_r2;
-        temp_r7_3->variant = sp0[var_r4_2] + temp_sb;
-        temp_r7_3->prevVariant = 0xFF;
-        temp_r7_3->x = ((s32) vsRecScreen->qUnk110 >> 8) + (var_r4_2 * 8);
-        temp_r7_3->y = (s16) ((s32) vsRecScreen->qUnk114 >> 8);
-        temp_r7_3->animCursor = 0;
-        temp_r7_3->qAnimDelay = 0;
-        temp_r7_3->animSpeed = 0x10;
-        temp_r7_3->palId = 0;
-        temp_r7_3->oamFlags = 0;
-        temp_r7_3->frameFlags = 0x80;
-        sp4 = var_r2;
-        UpdateSpriteAnimation(temp_r7_3);
-        var_r4_2 += 1;
-    } while ((u32) var_r4_2 <= 5U);
+        s->prevVariant = 0xFF;
+        s->x = (i * 8) + 18;
+        s->y = 69;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->oamFlags = 0;
+        s->frameFlags = 0x80;
+        UpdateSpriteAnimation(s);
+    }
+
+    for (i = 0; i < 6; i++) {
+        s = &vsRecScreen->spr178[i];
+        s->tiles = (u8 *)vsRecScreen->vram104;
+        vsRecScreen->vram104 += gUnknown_080D8C54.numTiles * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080D8C54.anim;
+        s->variant = gUnknown_080D8C54.variant + vsRecScreen->playerRecord[i];
+        s->prevVariant = -1;
+        s->x = ((s32)vsRecScreen->qUnk110 >> 8) + (i * 8);
+        s->y = (s16)((s32)vsRecScreen->qUnk114 >> 8);
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->oamFlags = 0;
+        s->frameFlags = 0x80;
+        UpdateSpriteAnimation(s);
+    }
 }
 
+#if 0
 void sub_8096EB8(OptionsVsRecordScreen *vsRecScreen) {
     gBgCntRegs->unk0 = 0x602;
     gBgScrollRegs[0][0] = 0;
