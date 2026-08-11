@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "lib/m4a/m4a.h"
 #include "game/save.h"
 #include "game/stage.h"
 #include "code_0_1.h" // sub_8001E58
@@ -14,7 +15,8 @@ typedef struct {
     /* 0x005 */ u8 unk5;
     /* 0x006 */ u8 unk6;
     /* 0x007 */ u8 unk7;
-    /* 0x008 */ u8 filler8[0x2];
+    /* 0x007 */ u8 unk8;
+    /* 0x007 */ u8 unk9;
     /* 0x00A */ u16 unkA;
     /* 0x00C */ winreg_t unkC;
     /* 0x00E */ u16 unkE;
@@ -616,8 +618,9 @@ void sub_8092604(void)
     }
 }
 
-#if 0
-void Task_8092690(void) {
+// (74.72%) https://decomp.me/scratch/n4vSg
+NONMATCH("asm/non_matching/game/sa3/options/nes__Task_8092690.inc", void Task_8092690(void))
+{
     NameEntryScreen *nes = TASK_DATA(gCurTask);
     s32 sp0;
     s32 sp4;
@@ -702,11 +705,11 @@ block_10:
         goto block_32;
     }
     m4aSongNumStart(0x6AU);
-    temp_r0 = (s16) nes->unkE;
+    temp_r0 = (s16)nes->unkE;
     if (temp_r0 == 1) {
         goto block_26;
     }
-    if ((s32) temp_r0 > 1) {
+    if ((s32)temp_r0 > 1) {
         goto block_15;
     }
     if (temp_r0 == 0) {
@@ -722,7 +725,7 @@ block_17:
     var_r3_2 = 0;
     var_r2 = 0;
     temp_r0_2 = nes->unk5;
-    if ((u32) temp_r0_2 <= 0U) {
+    if ((u32)temp_r0_2 <= 0U) {
         goto block_23;
     }
 loop_19:
@@ -736,14 +739,14 @@ loop_19:
     var_r3_2 += 1;
 block_22:
     var_r2 += 1;
-    if ((u32) var_r2 < (u32) temp_r0_2) {
+    if ((u32)var_r2 < (u32)temp_r0_2) {
         goto loop_19;
     }
 block_23:
     if (temp_r0_2 == 0) {
         goto block_32;
     }
-    if ((u32) var_r3_2 >= (u32) temp_r0_2) {
+    if ((u32)var_r3_2 >= (u32)temp_r0_2) {
         goto block_32;
     }
     gCurTask->main = Task_8092A0C;
@@ -779,7 +782,7 @@ block_34:
     if (!(0x40 & gRepeatedKeys)) {
         goto block_39;
     }
-    if ((s16) nes->unkE != 2) {
+    if ((s16)nes->unkE != 2) {
         goto block_37;
     }
     var_r0_2 = 0;
@@ -792,7 +795,7 @@ block_39:
     if (!(0x80 & gRepeatedKeys)) {
         goto block_44;
     }
-    if ((s16) nes->unkE != 0) {
+    if ((s16)nes->unkE != 0) {
         goto block_42;
     }
     var_r0_3 = 2;
@@ -806,14 +809,14 @@ block_44:
         goto block_63;
     }
     nes->unk3C = 0xBA;
-    if (nes->filler8[0] != 0) {
+    if (nes->unk8 != 0) {
         goto block_51;
     }
     temp_r0_5 = nes->unk40;
     if (temp_r0_5 != 0x34) {
         goto block_50;
     }
-    if ((s16) nes->unk12 != 0) {
+    if ((s16)nes->unk12 != 0) {
         goto block_49;
     }
     nes->unk40 = 0x84;
@@ -830,10 +833,10 @@ block_51:
     }
     goto block_81;
 block_53:
-    temp_r6 = ((s32) (nes->unk12 << 0x10) >> 0x14) + ((s32) (nes->unk40 - 0x34) >> 4);
+    temp_r6 = ((s32)(nes->unk12 << 0x10) >> 0x14) + ((s32)(nes->unk40 - 0x34) >> 4);
 loop_54:
     temp_r1_2 = nes->unk3C;
-    temp_r5_2 = (u8) ((s32) (temp_r1_2 - 0x1A) >> 4);
+    temp_r5_2 = (u8)((s32)(temp_r1_2 - 0x1A) >> 4);
     var_r3_3 = 0;
     if (gUnknown_080D7470[var_r3_3][0] != temp_r5_2) {
         goto loop_56;
@@ -843,14 +846,14 @@ loop_54:
     }
 loop_56:
     var_r3_3 += 1;
-    if ((u32) var_r3_3 > 0xDU) {
+    if ((u32)var_r3_3 > 0xDU) {
         goto block_59;
     }
     temp_r2 = var_r3_3 * 4;
-    if ( gUnknown_080D7470[var_r3_3][0] != temp_r5_2) {
+    if (gUnknown_080D7470[var_r3_3][0] != temp_r5_2) {
         goto loop_56;
     }
-    if ( gUnknown_080D7470[var_r3_3][1] != temp_r6) {
+    if (gUnknown_080D7470[var_r3_3][1] != temp_r6) {
         goto loop_56;
     }
 block_59:
@@ -870,14 +873,14 @@ block_63:
         goto block_82;
     }
     nes->unk3C = 0x1A;
-    if (nes->filler8[0] != 1) {
+    if (nes->unk8 != 1) {
         goto block_70;
     }
     temp_r0_6 = nes->unk40;
     if (temp_r0_6 != 0x84) {
         goto block_69;
     }
-    if ((s16) nes->unk12 != 0x100) {
+    if ((s16)nes->unk12 != 0x100) {
         goto block_68;
     }
     nes->unk40 = 0x34;
@@ -892,10 +895,10 @@ block_70:
     if (0 != 0) {
         goto block_81;
     }
-    sp4 = (s32) (u8) (((s32) (nes->unk12 << 0x10) >> 0x14) + ((s32) (nes->unk40 - 0x34) >> 4));
+    sp4 = (s32)(u8)(((s32)(nes->unk12 << 0x10) >> 0x14) + ((s32)(nes->unk40 - 0x34) >> 4));
 loop_72:
     temp_r1_3 = nes->unk3C;
-    temp_r5_3 = (u8) ((s32) (temp_r1_3 - 0x1A) >> 4);
+    temp_r5_3 = (u8)((s32)(temp_r1_3 - 0x1A) >> 4);
     var_r3_4 = 0;
     if (gUnknown_080D7470[var_r3_4][0] != temp_r5_3) {
         goto loop_74;
@@ -904,11 +907,11 @@ loop_72:
     goto block_77;
 loop_74:
     var_r3_4 += 1;
-    if ((u32) var_r3_4 > 0xDU) {
+    if ((u32)var_r3_4 > 0xDU) {
         goto block_78;
     }
     temp_r2_2 = var_r3_4 * 4;
-    if ( gUnknown_080D7470[var_r3_4][0] != temp_r5_3) {
+    if (gUnknown_080D7470[var_r3_4][0] != temp_r5_3) {
         goto loop_74;
     }
     var_r0_4 = gUnknown_080D7470[var_r3_4][1];
@@ -932,10 +935,12 @@ block_81:
     gCurTask->main = Task_8092AC8;
     return;
 block_82:
-    nes->unk3 = (u8) nes->unkE;
+    nes->unk3 = (u8)nes->unkE;
     return;
 }
+END_NONMATCH
 
+#if 0
 void Task_8092A0C(void) {
     NameEntryScreen *nes = TASK_DATA(gCurTask);
     u8 var_r3;
