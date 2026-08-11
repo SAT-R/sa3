@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start Task_8094740
-Task_8094740: @ 0x08094740
+	thumb_func_start Task_TimeRecordScreenInit
+Task_TimeRecordScreenInit: @ 0x08094740
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	ldr r6, _080947C8 @ =gCurTask
@@ -1295,7 +1295,7 @@ sub_809514C: @ 0x0809514C
 	adds r0, #0x18
 	strh r0, [r2, #4]
 	ldr r1, [r4]
-	ldr r0, _080951AC @ =sub_8095210
+	ldr r0, _080951AC @ =Task_8095210
 	str r0, [r1, #8]
 	pop {r4}
 	pop {r0}
@@ -1304,7 +1304,7 @@ sub_809514C: @ 0x0809514C
 _080951A0: .4byte gCurTask
 _080951A4: .4byte 0xFFFFF400
 _080951A8: .4byte gWinRegs
-_080951AC: .4byte sub_8095210
+_080951AC: .4byte Task_8095210
 
 	thumb_func_start sub_80951B0
 sub_80951B0: @ 0x080951B0
@@ -1346,16 +1346,16 @@ sub_80951B0: @ 0x080951B0
 	adds r0, #0x18
 	strh r0, [r2, #4]
 	ldr r1, [r3]
-	ldr r0, _0809520C @ =sub_8095210
+	ldr r0, _0809520C @ =Task_8095210
 	str r0, [r1, #8]
 	bx lr
 	.align 2, 0
 _08095204: .4byte gCurTask
 _08095208: .4byte gWinRegs
-_0809520C: .4byte sub_8095210
+_0809520C: .4byte Task_8095210
 
-	thumb_func_start sub_8095210
-sub_8095210: @ 0x08095210
+	thumb_func_start Task_8095210
+Task_8095210: @ 0x08095210
 	push {r4, r5, r6, lr}
 	ldr r0, _08095254 @ =gCurTask
 	ldr r0, [r0]
@@ -1505,7 +1505,7 @@ _08095324:
 	strh r0, [r4, #0x26]
 	ldr r0, _08095368 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0809536C @ =sub_8095840
+	ldr r0, _0809536C @ =Task_8095840
 	str r0, [r1, #8]
 _08095350:
 	pop {r4, r5, r6}
@@ -1517,7 +1517,7 @@ _0809535C: .4byte gDispCnt
 _08095360: .4byte gWinRegs
 _08095364: .4byte 0x00003532
 _08095368: .4byte gCurTask
-_0809536C: .4byte sub_8095840
+_0809536C: .4byte Task_8095840
 
 	thumb_func_start Task_8095370
 Task_8095370: @ 0x08095370
@@ -1947,7 +1947,7 @@ _080956C6:
 	strb r0, [r4, #1]
 	ldr r0, _080956DC @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080956E0 @ =sub_8095764
+	ldr r0, _080956E0 @ =Task_8095764
 	str r0, [r1, #8]
 _080956D6:
 	pop {r4, r5}
@@ -1955,7 +1955,7 @@ _080956D6:
 	bx r0
 	.align 2, 0
 _080956DC: .4byte gCurTask
-_080956E0: .4byte sub_8095764
+_080956E0: .4byte Task_8095764
 
 	thumb_func_start Task_80956E4
 Task_80956E4: @ 0x080956E4
@@ -2022,8 +2022,8 @@ _08095758: .4byte gWinRegs
 _0809575C: .4byte gCurTask
 _08095760: .4byte Task_80954A8
 
-	thumb_func_start sub_8095764
-sub_8095764: @ 0x08095764
+	thumb_func_start Task_8095764
+Task_8095764: @ 0x08095764
 	push {r4, r5, lr}
 	ldr r5, _080957B0 @ =gCurTask
 	ldr r0, [r5]
@@ -2070,11 +2070,11 @@ _080957BC:
 	movs r0, #4
 	strb r0, [r4, #1]
 	ldr r1, [r5]
-	ldr r0, _080957D8 @ =sub_809624C
+	ldr r0, _080957D8 @ =Task_809624C
 	str r0, [r1, #8]
 	b _08095830
 	.align 2, 0
-_080957D8: .4byte sub_809624C
+_080957D8: .4byte Task_809624C
 _080957DC:
 	movs r0, #0xc0
 	ands r0, r1
@@ -2126,8 +2126,8 @@ _08095830:
 _08095838: .4byte gPressedKeys
 _0809583C: .4byte 0xFFFFF800
 
-	thumb_func_start sub_8095840
-sub_8095840: @ 0x08095840
+	thumb_func_start Task_8095840
+Task_8095840: @ 0x08095840
 	push {r4, r5, lr}
 	ldr r0, _080958AC @ =gCurTask
 	ldr r0, [r0]
@@ -2261,7 +2261,7 @@ _08095910:
 	str r1, [r4, #0x74]
 	ldr r0, _08095978 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0809597C @ =sub_809630C
+	ldr r0, _0809597C @ =Task_809630C
 	str r0, [r1, #8]
 _0809595A:
 	pop {r4, r5}
@@ -2275,7 +2275,7 @@ _0809596C: .4byte gWinRegs
 _08095970: .4byte 0x00003532
 _08095974: .4byte gBgScrollRegs
 _08095978: .4byte gCurTask
-_0809597C: .4byte sub_809630C
+_0809597C: .4byte Task_809630C
 
 	thumb_func_start sub_8095980
 sub_8095980: @ 0x08095980
@@ -2452,13 +2452,13 @@ _08095AA2:
 	bls _08095AA2
 	ldr r0, _08095ADC @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08095AE0 @ =sub_8095840
+	ldr r0, _08095AE0 @ =Task_8095840
 	str r0, [r1, #8]
 	b _08095C00
 	.align 2, 0
 _08095AD8: .4byte gRepeatedKeys
 _08095ADC: .4byte gCurTask
-_08095AE0: .4byte sub_8095840
+_08095AE0: .4byte Task_8095840
 _08095AE4:
 	ldrh r1, [r5]
 	movs r0, #0x30
@@ -2576,7 +2576,7 @@ _08095BB8:
 	movs r3, #0
 	ldr r7, _08095C0C @ =gCurTask
 	mov r8, r7
-	ldr r0, _08095C10 @ =sub_8095840
+	ldr r0, _08095C10 @ =Task_8095840
 	mov ip, r0
 	adds r6, r4, #0
 	adds r6, #0x78
@@ -2619,7 +2619,7 @@ _08095C00:
 	bx r0
 	.align 2, 0
 _08095C0C: .4byte gCurTask
-_08095C10: .4byte sub_8095840
+_08095C10: .4byte Task_8095840
 
 	thumb_func_start sub_8095C14
 sub_8095C14: @ 0x08095C14
@@ -3403,7 +3403,7 @@ CreateTimeRecordScreen: @ 0x080961E4
 	lsls r2, r2, #5
 	adds r0, r2, #0
 	strh r0, [r1]
-	ldr r0, _0809623C @ =Task_8094740
+	ldr r0, _0809623C @ =Task_TimeRecordScreenInit
 	ldr r1, _08096240 @ =0x00000BDC
 	ldr r2, _08096244 @ =0x00000101
 	ldr r3, _08096248 @ =TaskDestructor_TimeRecordScreen
@@ -3432,13 +3432,13 @@ _0809622E:
 	bx r0
 	.align 2, 0
 _08096238: .4byte gDispCnt
-_0809623C: .4byte Task_8094740
+_0809623C: .4byte Task_TimeRecordScreenInit
 _08096240: .4byte 0x00000BDC
 _08096244: .4byte 0x00000101
 _08096248: .4byte TaskDestructor_TimeRecordScreen
 
-	thumb_func_start sub_809624C
-sub_809624C: @ 0x0809624C
+	thumb_func_start Task_809624C
+Task_809624C: @ 0x0809624C
 	push {r4, lr}
 	ldr r0, _0809626C @ =gCurTask
 	ldr r0, [r0]
@@ -3478,7 +3478,7 @@ _08096276:
 _0809629C:
 	ldr r0, _080962AC @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080962B0 @ =sub_8095210
+	ldr r0, _080962B0 @ =Task_8095210
 	str r0, [r1, #8]
 _080962A4:
 	pop {r4}
@@ -3486,7 +3486,7 @@ _080962A4:
 	bx r0
 	.align 2, 0
 _080962AC: .4byte gCurTask
-_080962B0: .4byte sub_8095210
+_080962B0: .4byte Task_8095210
 
 	thumb_func_start sub_80962B4
 sub_80962B4: @ 0x080962B4
@@ -3520,7 +3520,7 @@ _080962DE:
 	bl sub_8096714
 	ldr r0, _08096304 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08096308 @ =sub_8095764
+	ldr r0, _08096308 @ =Task_8095764
 	str r0, [r1, #8]
 _080962FC:
 	pop {r4}
@@ -3528,10 +3528,10 @@ _080962FC:
 	bx r0
 	.align 2, 0
 _08096304: .4byte gCurTask
-_08096308: .4byte sub_8095764
+_08096308: .4byte Task_8095764
 
-	thumb_func_start sub_809630C
-sub_809630C: @ 0x0809630C
+	thumb_func_start Task_809630C
+Task_809630C: @ 0x0809630C
 	push {r4, r5, lr}
 	ldr r0, _0809634C @ =gCurTask
 	ldr r0, [r0]
@@ -3584,7 +3584,7 @@ _0809635A:
 	adds r0, r4, #0
 	bl sub_8095EF4
 	adds r0, r4, #0
-	adds r1, r5, #0
+	adds r1, r5, #0  @@@ UNUSED VAR!!!!!
 	bl sub_8095980
 	pop {r4, r5}
 	pop {r0}
@@ -4255,7 +4255,7 @@ sub_8096814: @ 0x08096814
 	bx r0
 	.align 2, 0
 _08096848: .4byte sAnimsTimeAttackDigits
-    
+
 	thumb_func_start TaskDestructor_TimeRecordScreen
 TaskDestructor_TimeRecordScreen: @ 0x0809684C
 	bx lr
