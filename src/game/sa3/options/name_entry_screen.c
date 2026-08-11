@@ -164,33 +164,21 @@ void sub_8091DD0(NameEntryScreen *nes)
     nes->vram28 = (u8 *)OBJ_VRAM0;
 }
 
-#if 0
-void sub_8091E84(NameEntryScreen *nes)
+// (90.57%) https://decomp.me/scratch/559LU
+NONMATCH("asm/non_matching/game/sa3/options/nes__sub_8091E84.inc", void sub_8091E84(NameEntryScreen *nes))
 {
-    s32 sp0;
-    Sprite *s;
-    s32 spC;
-    s32 temp_r2;
-    s32 temp_r5;
-    s32 temp_sb;
-    u16 *temp_r1_2;
-    u16 temp_r2_3;
-    u16 var_r0;
-    u8 var_r3;
-    u8 *temp_r1;
-    u8 temp_sl;
-    void *temp_r2_2;
     s32 var_r1 = 0;
     u8 lang = nes->language;
+    Sprite *s;
     SpriteTransform *tf;
-    s32 numTilesDelta;
+    u8 i, i2;
 
     if (nes->initArg0 == 1) {
         var_r1 = 1;
     }
 
     {
-        s = &nes->spr114;
+    	s = &nes->spr114;
         s->tiles = nes->vram28;
         nes->vram28 += gUnknown_080D73D0[var_r1 + (lang * 2)].numTiles * TILE_SIZE_4BPP;
         s->anim = gUnknown_080D73D0[var_r1 + (lang * 2)].anim;
@@ -208,7 +196,7 @@ void sub_8091E84(NameEntryScreen *nes)
     }
 
     {
-        s = &nes->spr18C;
+    	s = &nes->spr18C;
         s->tiles = nes->vram28;
         nes->vram28 += gUnknown_080D7430.numTiles * TILE_SIZE_4BPP;
         s->anim = gUnknown_080D7430.anim;
@@ -226,14 +214,14 @@ void sub_8091E84(NameEntryScreen *nes)
     }
 
     {
-        s = &nes->spr13C;
+    	s = &nes->spr13C;
         s->tiles = nes->vram28;
-        nes->vram28 += gUnknown_080D7438.numTiles << 5;
+        nes->vram28 += gUnknown_080D7438.numTiles * TILE_SIZE_4BPP;
         s->anim = gUnknown_080D7438.anim;
         s->variant = gUnknown_080D7438.variant;
         s->prevVariant = -1;
-        s->x = (s16)((s32)nes->unk54 >> 8);
-        s->y = (s16)((s32)nes->unk58 >> 8);
+        s->x = (s16) ((s32) nes->unk54 >> 8);
+        s->y = (s16) ((s32) nes->unk58 >> 8);
         s->oamFlags = 0xC0;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -244,15 +232,14 @@ void sub_8091E84(NameEntryScreen *nes)
     }
 
     {
-        s = &nes->spr74;
-        temp_r1 = nes->vram28;
-        s->tiles = temp_r1;
-        nes->vram28 = temp_r1 + (gUnknown_080D7440.numTiles << 5);
+    	s = &nes->spr74;
+        s->tiles = nes->vram28;
+        nes->vram28 += (gUnknown_080D7440.numTiles * TILE_SIZE_4BPP);
         s->anim = gUnknown_080D7440.anim;
         s->variant = gUnknown_080D7440.variant;
         s->prevVariant = -1;
-        s->x = (s16)((s32)nes->unk34 >> 8);
-        s->y = (s16)((s32)nes->unk38 >> 8);
+        s->x = (s16) ((s32) nes->unk34 >> 8);
+        s->y = (s16) ((s32) nes->unk38 >> 8);
         s->oamFlags = 0x80;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -263,9 +250,9 @@ void sub_8091E84(NameEntryScreen *nes)
     }
 
     {
-        s = &nes->spr164;
+    	s = &nes->spr164;
         s->tiles = nes->vram28;
-        nes->vram28 += gUnknown_080D73C8.numTiles << 5;
+        nes->vram28 += gUnknown_080D73C8.numTiles * TILE_SIZE_4BPP;
         s->anim = gUnknown_080D73C8.anim;
         s->variant = gUnknown_080D73C8.variant;
         s->prevVariant = -1;
@@ -281,13 +268,14 @@ void sub_8091E84(NameEntryScreen *nes)
     }
 
     tf = &nes->tf2F4;
-    for (var_r3 = 0; var_r3 < 2; var_r3++) {
-        s = &nes->spr9C[var_r3];
+    for(i = 0; i < 2; i++)
+    {
+        s = &nes->spr9C[i];
         s->tiles = nes->vram28;
-        nes->vram28 += gUnknown_080D7448.numTiles << 5;
+        nes->vram28 += gUnknown_080D7448.numTiles * TILE_SIZE_4BPP;
         s->anim = gUnknown_080D7448.anim;
         s->variant = gUnknown_080D7448.variant;
-        s->prevVariant = -1;
+        s->prevVariant = 0xFF;
         s->x = I(nes->unk3C);
         s->y = I(nes->unk40);
         s->oamFlags = 0x80;
@@ -295,7 +283,8 @@ void sub_8091E84(NameEntryScreen *nes)
         s->qAnimDelay = 0;
         s->animSpeed = 0x10;
         s->palId = 0;
-        if (var_r3 != 0) {
+
+        if (i != 0) {
             s->frameFlags = 0xE1;
             tf->rotation = 0;
             tf->qScaleX = nes->unk14;
@@ -304,7 +293,7 @@ void sub_8091E84(NameEntryScreen *nes)
             tf->y = s->y;
             TransformSprite(s, tf);
         } else {
-            s->frameFlags = var_r3;
+            s->frameFlags = 0;
         }
         UpdateSpriteAnimation(s);
     }
@@ -312,31 +301,30 @@ void sub_8091E84(NameEntryScreen *nes)
     {
         s = &nes->sprEC;
         s->tiles = nes->vram28;
-        nes->vram28 += gUnknown_080D7450.numTiles << 5;
+        nes->vram28 += gUnknown_080D7450.numTiles * TILE_SIZE_4BPP;
         s->anim = gUnknown_080D7450.anim;
         s->variant = gUnknown_080D7450.variant;
         s->prevVariant = 0xFF;
-        s->x = (s16)((s32)nes->unk44 >> 8);
-        s->y = (s16)((s32)nes->unk48 >> 8);
+        s->x = (s16) ((s32) nes->unk44 >> 8);
+        s->y = (s16) ((s32) nes->unk48 >> 8);
         s->oamFlags = 0x80;
         s->animCursor = 0;
         s->qAnimDelay = 0;
         s->animSpeed = 0x10;
         s->palId = 0;
         s->frameFlags = 0;
-        spC = 0;
         UpdateSpriteAnimation(s);
     }
 
     {
-        s = &nes->spr1B4;
+    	s = &nes->spr1B4;
         s->tiles = nes->vram28;
-        nes->vram28 += gUnknown_080D7458.numTiles << 5;
+        nes->vram28 += gUnknown_080D7458.numTiles * TILE_SIZE_4BPP;
         s->anim = gUnknown_080D7458.anim;
         s->variant = nes->unk2 + gUnknown_080D7458.variant;
         s->prevVariant = -1;
-        s->x = (s16)((s32)nes->unk3C >> 8);
-        s->y = (s16)((s32)nes->unk40 >> 8);
+        s->x = (s16) ((s32) nes->unk3C >> 8);
+        s->y = (s16) ((s32) nes->unk40 >> 8);
         s->oamFlags = 0x40;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -346,14 +334,15 @@ void sub_8091E84(NameEntryScreen *nes)
         UpdateSpriteAnimation(s);
     }
 
-    for (var_r3 = 0; var_r3 < 6; var_r3++) {
-        s = &nes->spr1DC[var_r3];
+    for(i2 = 0; i2 < 6; i2++)
+    {
+        s = &nes->spr1DC[i2];
         s->tiles = nes->vram28;
         nes->vram28 += gUnknown_080D7458.numTiles * TILE_SIZE_4BPP;
-
-        if (LOADED_SAVE->playerName[var_r3] != 0xFFFF) {
-            s->variant = LOADED_SAVE->playerName[var_r3];
-            if (LOADED_SAVE->playerName[var_r3] > 0xFFU) {
+        
+        if (LOADED_SAVE->playerName[i2] != 0xFFFF) {
+            s->variant = LOADED_SAVE->playerName[i2];
+            if (LOADED_SAVE->playerName[i2] > 0xFFU) {
                 s->anim = gUnknown_080D7460.anim;
             } else {
                 s->anim = gUnknown_080D7458.anim;
@@ -378,9 +367,9 @@ void sub_8091E84(NameEntryScreen *nes)
     nes->unk6 = nes->unk5;
 
     {
-        s = &nes->spr2CC;
+    	s = &nes->spr2CC;
         s->tiles = nes->vram28;
-        nes->vram28 += gUnknown_080D7468.numTiles << 5;
+        nes->vram28 += gUnknown_080D7468.numTiles * TILE_SIZE_4BPP;
         s->anim = gUnknown_080D7468.anim;
         s->variant = gUnknown_080D7468.variant;
         s->prevVariant = -1;
@@ -395,7 +384,9 @@ void sub_8091E84(NameEntryScreen *nes)
         UpdateSpriteAnimation(s);
     }
 }
+END_NONMATCH
 
+#if 0
 void sub_8092274(NameEntryScreen *nes) {
     u16 temp_r2;
     u16 temp_r2_2;
