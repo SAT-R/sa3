@@ -1,6 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "game/save.h"
+#include "constants/tilemaps.h"
 
 typedef struct {
     /* 0x000 */ u8 language;
@@ -13,7 +14,7 @@ typedef struct {
     /* 0x007 */ u8 unk7;
     /* 0x008 */ u8 filler8[0x2];
     /* 0x00A */ u16 unkA;
-    /* 0x00C */ u16 unkC;
+    /* 0x00C */ winreg_t unkC;
     /* 0x00E */ u16 unkE;
     /* 0x010 */ u16 unk10;
     /* 0x012 */ u16 unk12;
@@ -66,8 +67,12 @@ void sub_8091DD0(NameEntryScreen *nes);
 void sub_8091E84(NameEntryScreen *nes);
 void sub_8092274(NameEntryScreen *nes);
 void sub_8092320(NameEntryScreen *nes);
+void sub_80933B0(NameEntryScreen *nes);
+void sub_80934B0(NameEntryScreen *nes);
+void sub_8093640(NameEntryScreen *nes);
 bool32 sub_8093784(NameEntryScreen *nes);
 void Task_8093710(void);
+void sub_8092604(void);
 void sub_80937DC(NameEntryScreen *nes);
 void sub_809380C(NameEntryScreen *nes);
 void sub_809382C(NameEntryScreen *nes);
@@ -179,7 +184,7 @@ NONMATCH("asm/non_matching/game/sa3/options/nes__sub_8091E84.inc", void sub_8091
     }
 
     {
-    	s = &nes->spr114;
+        s = &nes->spr114;
         s->tiles = nes->vram28;
         nes->vram28 += gUnknown_080D73D0[var_r1 + (lang * 2)].numTiles * TILE_SIZE_4BPP;
         s->anim = gUnknown_080D73D0[var_r1 + (lang * 2)].anim;
@@ -197,7 +202,7 @@ NONMATCH("asm/non_matching/game/sa3/options/nes__sub_8091E84.inc", void sub_8091
     }
 
     {
-    	s = &nes->spr18C;
+        s = &nes->spr18C;
         s->tiles = nes->vram28;
         nes->vram28 += gUnknown_080D7430.numTiles * TILE_SIZE_4BPP;
         s->anim = gUnknown_080D7430.anim;
@@ -215,14 +220,14 @@ NONMATCH("asm/non_matching/game/sa3/options/nes__sub_8091E84.inc", void sub_8091
     }
 
     {
-    	s = &nes->spr13C;
+        s = &nes->spr13C;
         s->tiles = nes->vram28;
         nes->vram28 += gUnknown_080D7438.numTiles * TILE_SIZE_4BPP;
         s->anim = gUnknown_080D7438.anim;
         s->variant = gUnknown_080D7438.variant;
         s->prevVariant = -1;
-        s->x = (s16) ((s32) nes->unk54 >> 8);
-        s->y = (s16) ((s32) nes->unk58 >> 8);
+        s->x = (s16)((s32)nes->unk54 >> 8);
+        s->y = (s16)((s32)nes->unk58 >> 8);
         s->oamFlags = 0xC0;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -233,14 +238,14 @@ NONMATCH("asm/non_matching/game/sa3/options/nes__sub_8091E84.inc", void sub_8091
     }
 
     {
-    	s = &nes->spr74;
+        s = &nes->spr74;
         s->tiles = nes->vram28;
         nes->vram28 += (gUnknown_080D7440.numTiles * TILE_SIZE_4BPP);
         s->anim = gUnknown_080D7440.anim;
         s->variant = gUnknown_080D7440.variant;
         s->prevVariant = -1;
-        s->x = (s16) ((s32) nes->unk34 >> 8);
-        s->y = (s16) ((s32) nes->unk38 >> 8);
+        s->x = (s16)((s32)nes->unk34 >> 8);
+        s->y = (s16)((s32)nes->unk38 >> 8);
         s->oamFlags = 0x80;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -251,7 +256,7 @@ NONMATCH("asm/non_matching/game/sa3/options/nes__sub_8091E84.inc", void sub_8091
     }
 
     {
-    	s = &nes->spr164;
+        s = &nes->spr164;
         s->tiles = nes->vram28;
         nes->vram28 += gUnknown_080D73C8.numTiles * TILE_SIZE_4BPP;
         s->anim = gUnknown_080D73C8.anim;
@@ -269,8 +274,7 @@ NONMATCH("asm/non_matching/game/sa3/options/nes__sub_8091E84.inc", void sub_8091
     }
 
     tf = &nes->tf2F4;
-    for(i = 0; i < 2; i++)
-    {
+    for (i = 0; i < 2; i++) {
         s = &nes->spr9C[i];
         s->tiles = nes->vram28;
         nes->vram28 += gUnknown_080D7448.numTiles * TILE_SIZE_4BPP;
@@ -306,8 +310,8 @@ NONMATCH("asm/non_matching/game/sa3/options/nes__sub_8091E84.inc", void sub_8091
         s->anim = gUnknown_080D7450.anim;
         s->variant = gUnknown_080D7450.variant;
         s->prevVariant = 0xFF;
-        s->x = (s16) ((s32) nes->unk44 >> 8);
-        s->y = (s16) ((s32) nes->unk48 >> 8);
+        s->x = (s16)((s32)nes->unk44 >> 8);
+        s->y = (s16)((s32)nes->unk48 >> 8);
         s->oamFlags = 0x80;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -318,14 +322,14 @@ NONMATCH("asm/non_matching/game/sa3/options/nes__sub_8091E84.inc", void sub_8091
     }
 
     {
-    	s = &nes->spr1B4;
+        s = &nes->spr1B4;
         s->tiles = nes->vram28;
         nes->vram28 += gUnknown_080D7458.numTiles * TILE_SIZE_4BPP;
         s->anim = gUnknown_080D7458.anim;
         s->variant = nes->unk2 + gUnknown_080D7458.variant;
         s->prevVariant = -1;
-        s->x = (s16) ((s32) nes->unk3C >> 8);
-        s->y = (s16) ((s32) nes->unk40 >> 8);
+        s->x = (s16)((s32)nes->unk3C >> 8);
+        s->y = (s16)((s32)nes->unk40 >> 8);
         s->oamFlags = 0x40;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -335,12 +339,11 @@ NONMATCH("asm/non_matching/game/sa3/options/nes__sub_8091E84.inc", void sub_8091
         UpdateSpriteAnimation(s);
     }
 
-    for(i2 = 0; i2 < 6; i2++)
-    {
+    for (i2 = 0; i2 < 6; i2++) {
         s = &nes->spr1DC[i2];
         s->tiles = nes->vram28;
         nes->vram28 += gUnknown_080D7458.numTiles * TILE_SIZE_4BPP;
-        
+
         if (LOADED_SAVE->playerName[i2] != 0xFFFF) {
             s->variant = LOADED_SAVE->playerName[i2];
             if (LOADED_SAVE->playerName[i2] > 0xFFU) {
@@ -368,7 +371,7 @@ NONMATCH("asm/non_matching/game/sa3/options/nes__sub_8091E84.inc", void sub_8091
     nes->unk6 = nes->unk5;
 
     {
-    	s = &nes->spr2CC;
+        s = &nes->spr2CC;
         s->tiles = nes->vram28;
         nes->vram28 += gUnknown_080D7468.numTiles * TILE_SIZE_4BPP;
         s->anim = gUnknown_080D7468.anim;
@@ -388,7 +391,8 @@ NONMATCH("asm/non_matching/game/sa3/options/nes__sub_8091E84.inc", void sub_8091
 END_NONMATCH
 
 // TODO: Very fake-matchy
-void sub_8092274(NameEntryScreen *nes) {
+void sub_8092274(NameEntryScreen *nes)
+{
     u16 temp_r2;
     u16 temp_r2_2;
     u16 var_r0;
@@ -424,68 +428,72 @@ void sub_8092274(NameEntryScreen *nes) {
     }
 }
 
-#if 0
-void sub_8092320(NameEntryScreen *nes) {
-    gBgCntRegs->unk0 = 0x602;
+void sub_8092320(NameEntryScreen *nes)
+{
+    Background *bg0, *bg1;
+    gBgCntRegs[0] = BGCNT_SCREENBASE(6) | BGCNT_TXT256x256 | BGCNT_16COLOR | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(2);
 
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
 
-    nes->bg300.graphics.dest = (void *)0x06000000;
-    nes->bg300.graphics.anim = 0;
-    nes->bg300.layoutVram = (u16 *)0x06003000;
-    nes->bg300.unk18 = 0;
-    nes->bg300.unk1A = 0;
-    nes->bg300.tilemapId = 0x15F;
-    nes->bg300.unk1E = 0;
-    nes->bg300.unk20 = 0;
-    nes->bg300.unk22 = 0;
-    nes->bg300.unk24 = 0;
-    nes->bg300.targetTilesX = 0x20;
-    nes->bg300.targetTilesY = 0x20;
-    nes->bg300.paletteOffset = 0;
-    nes->bg300.flags = 0;
-    DrawBackground(nes + 0x300);
+    bg0 = &nes->bg300;
+    bg0->graphics.dest = (void *)BG_CHAR_ADDR(0);
+    bg0->graphics.anim = 0;
+    bg0->layoutVram = (u16 *)BG_SCREEN_ADDR(6);
+    bg0->unk18 = 0;
+    bg0->unk1A = 0;
+    bg0->tilemapId = TM_UNKNOWN_351;
+    bg0->unk1E = 0;
+    bg0->unk20 = 0;
+    bg0->unk22 = 0;
+    bg0->unk24 = 0;
+    bg0->targetTilesX = 256 / 8;
+    bg0->targetTilesY = 256 / 8;
+    bg0->paletteOffset = 0;
+    bg0->flags = 0;
+    DrawBackground(bg0);
 
-    gBgCntRegs[1] = 0x9007;
+    gBgCntRegs[1] = BGCNT_SCREENBASE(16) | BGCNT_TXT256x512 | BGCNT_16COLOR | BGCNT_CHARBASE(1) | BGCNT_PRIORITY(3);
 
-    gBgScrollRegs[1][0] = 0x16;
-    gBgScrollRegs[1][1] = 0x24;
+    gBgScrollRegs[1][0] = 22;
+    gBgScrollRegs[1][1] = 36;
 
-    nes->bg340.graphics.dest = (void *)0x06004000;
-    nes->bg340.graphics.anim = 0;
-    nes->bg340.layoutVram = (u16 *)0x06008000;
-    nes->bg340.unk18 = 0;
-    nes->bg340.unk1A = 0;
-    nes->bg340.tilemapId = 0x160;
-    nes->bg340.unk1E = 0;
-    nes->bg340.unk20 = 0;
-    nes->bg340.unk22 = 0;
-    nes->bg340.unk24 = 0;
-    nes->bg340.targetTilesX = 0x20;
-    nes->bg340.targetTilesY = 0x40;
-    nes->bg340.paletteOffset = 0;
-    nes->bg340.flags = 1;
-    DrawBackground(&nes->bg340);
+    bg1 = &nes->bg340;
+    bg1->graphics.dest = (void *)BG_CHAR_ADDR(1);
+    bg1->graphics.anim = 0;
+    bg1->layoutVram = (u16 *)BG_SCREEN_ADDR(16);
+    bg1->unk18 = 0;
+    bg1->unk1A = 0;
+    bg1->tilemapId = TM_UNKNOWN_352;
+    bg1->unk1E = 0;
+    bg1->unk20 = 0;
+    bg1->unk22 = 0;
+    bg1->unk24 = 0;
+    bg1->targetTilesX = 256 / 8;
+    bg1->targetTilesY = 512 / 8;
+    bg1->paletteOffset = 0;
+    bg1->flags = 1;
+    DrawBackground(bg1);
 
-    gWinRegs[2] = ((u16) nes->unkC >> 8) + 0x2A2A;
+    gWinRegs[WINREG_WIN0V] = WIN_RANGE(42, 42) + WIN_RANGE(0, (nes->unkC >> 8));
 }
 
-void Task_NameEntryScreen(NameEntryScreen *nes) {
-    u16 temp_r5;
+void Task_NameEntryScreen(void)
+{
+    NameEntryScreen *nes = TASK_DATA(gCurTask);
 
-    temp_r5 = nes->unk22;
-    if (temp_r5 == 0) {
+    if (nes->unk22 == 0) {
         gBldRegs.bldCnt = 0x3FFF;
-        gDispCnt |= 0x6000;
-        gWinRegs[1] = 0xFF;
-        gWinRegs[3] = 0xFF;
-        gWinRegs[4] = 0x3D32;
-        gWinRegs[5] = temp_r5;
+        gDispCnt |= DISPCNT_WIN0_ON | DISPCNT_WIN1_ON;
+        gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, WIN_GET_HIGHER(-1)); // TODO: Do this more elegantly...
+        gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, WIN_GET_HIGHER(-1)); // TODO: Do this more elegantly...
+        gWinRegs[WINREG_WININ] = (WININ_WIN1_ALL & ~WININ_WIN1_BG1) | WININ_WIN0_CLR | WININ_WIN0_OBJ | WININ_WIN0_BG1;
+        gWinRegs[WINREG_WINOUT] = 0;
         gBldRegs.bldY = 0x10;
         nes->unk20 = 0x1000;
         nes->unk22 = 1;
     }
+
     sub_80933B0(nes);
     sub_80934B0(nes);
     sub_809380C(nes);
@@ -494,16 +502,18 @@ void Task_NameEntryScreen(NameEntryScreen *nes) {
     sub_8093640(nes);
     sub_80938B4(nes);
     sub_8093904(nes);
-    gWinRegs[2] = nes->unkC + 0x2A2A;
+
+    gWinRegs[WINREG_WIN0V] = WIN_RANGE(42, 42) + nes->unkC;
     if (gBldRegs.bldY != 0) {
-        gBldRegs.bldY = (u16) ((u16) nes->unk20 >> 8);
-        nes->unk20 += 0xFFFFFF00;
+        gBldRegs.bldY = (u16)((u16)nes->unk20 >> 8);
+        nes->unk20 -= Q(1);
         return;
     }
     gBldRegs.bldY = gBldRegs.bldY;
     gCurTask->main = sub_8092604;
 }
 
+#if 0
 void Task_80924DC(NameEntryScreen *nes) {
     s32 temp_r0;
     u8 temp_r0_2;
