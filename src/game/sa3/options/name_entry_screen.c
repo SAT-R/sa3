@@ -17,8 +17,8 @@ typedef struct {
     /* 0x00E */ u16 unkE;
     /* 0x010 */ u16 unk10;
     /* 0x012 */ u16 unk12;
-    /* 0x014 */ u16 unk14;
-    /* 0x016 */ u16 unk16;
+    /* 0x014 */ s16 unk14; // TODO: unsure about signedness
+    /* 0x016 */ s16 unk16; // TODO: unsure about signedness
     /* 0x018 */ u8 filler18[0x4];
     /* 0x020 */ u16 unk1C;
     /* 0x020 */ u16 unk1E;
@@ -87,6 +87,7 @@ extern TileInfo2 gUnknown_080D7450;
 extern TileInfo2 gUnknown_080D7458;
 extern TileInfo2 gUnknown_080D7460;
 extern TileInfo2 gUnknown_080D7468;
+extern const u16 gUnknown_080D74A8[8];
 
 void CreateNameEntryScreen(u8 arg0)
 {
@@ -386,52 +387,50 @@ NONMATCH("asm/non_matching/game/sa3/options/nes__sub_8091E84.inc", void sub_8091
 }
 END_NONMATCH
 
-#if 0
+// TODO: Very fake-matchy
 void sub_8092274(NameEntryScreen *nes) {
     u16 temp_r2;
     u16 temp_r2_2;
     u16 var_r0;
     u16 var_r0_2;
-    u32 var_r4;
+    u8 var_r4;
+    u16 temp;
 
     var_r4 = 0;
-    temp_r2 = nes->unk14;
-    if ((u32) ((temp_r2 - 1) << 0x10) <= 0x018F0000U) {
-        var_r0 = temp_r2 + 8;
-        goto block_4;
+    temp = nes->unk14;
+    if ((u16)(temp - 1) < 0x0190) {
+        nes->unk14 = temp + 8;
+    } else if ((s16)temp > 0x0190) {
+        nes->unk14 = temp + 0x10;
     }
-    if ((s32) (temp_r2 << 0x10) > 0x01900000) {
-        var_r0 = temp_r2 + 0x10;
-block_4:
-        nes->unk14 = var_r0;
-    }
-    if ((s32) (s16) nes->unk14 > 0x1FF) {
+    if ((s16)nes->unk14 >= 0x200) {
         nes->unk14 = 0x100;
-        var_r4 = 0x01000000U >> 0x18;
+        var_r4 += 0x01;
     }
-    temp_r2_2 = nes->unk16;
-    if ((u32) ((temp_r2_2 - 1) << 0x10) <= 0x018F0000U) {
-        var_r0_2 = temp_r2_2 + 8;
-        goto block_11;
+
+    temp = nes->unk16;
+    if ((u16)(temp - 1) << 16 <= (0x018FU << 16)) {
+        nes->unk16 = temp + 8;
+    } else if (nes->unk16 > 0x0190) {
+        nes->unk16 = temp + 0x10;
     }
-    if ((s32) (temp_r2_2 << 0x10) > 0x01900000) {
-        var_r0_2 = temp_r2_2 + 0x10;
-block_11:
-        nes->unk16 = var_r0_2;
-    }
-    if ((s32) (s16) nes->unk16 > 0x1FF) {
+
+    if (nes->unk16 >= 0x200) {
         nes->unk16 = 0x100;
-        var_r4 = (u32) (u8) (var_r4 + 1);
+        var_r4 += 1;
     }
     if (var_r4 == 0) {
-        gBldRegs.bldAlpha = *(((((s32) (nes->unk16 << 0x10) >> 0x15) - 8) * 2) + &gUnknown_080D74A8);
+        gBldRegs.bldAlpha = gUnknown_080D74A8[(nes->unk16 >> 5) - 8];
     }
 }
 
+#if 0
 void sub_8092320(NameEntryScreen *nes) {
     gBgCntRegs->unk0 = 0x602;
+
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
+
     nes->bg300.graphics.dest = (void *)0x06000000;
     nes->bg300.graphics.anim = 0;
     nes->bg300.layoutVram = (u16 *)0x06003000;
@@ -447,9 +446,12 @@ void sub_8092320(NameEntryScreen *nes) {
     nes->bg300.paletteOffset = 0;
     nes->bg300.flags = 0;
     DrawBackground(nes + 0x300);
+
     gBgCntRegs[1] = 0x9007;
+
     gBgScrollRegs[1][0] = 0x16;
     gBgScrollRegs[1][1] = 0x24;
+
     nes->bg340.graphics.dest = (void *)0x06004000;
     nes->bg340.graphics.anim = 0;
     nes->bg340.layoutVram = (u16 *)0x06008000;
@@ -465,6 +467,7 @@ void sub_8092320(NameEntryScreen *nes) {
     nes->bg340.paletteOffset = 0;
     nes->bg340.flags = 1;
     DrawBackground(&nes->bg340);
+
     gWinRegs[2] = ((u16) nes->unkC >> 8) + 0x2A2A;
 }
 
