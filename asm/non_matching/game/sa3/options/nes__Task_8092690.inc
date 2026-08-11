@@ -167,13 +167,13 @@ _080927E0:
 	bhs _0809281C
 	ldr r0, _080927F8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080927FC @ =sub_8092A0C
+	ldr r0, _080927FC @ =Task_8092A0C
 	str r0, [r1, #8]
 	b _080929FC
 	.align 2, 0
 _080927F4: .4byte 0x00000404
 _080927F8: .4byte gCurTask
-_080927FC: .4byte sub_8092A0C
+_080927FC: .4byte Task_8092A0C
 _08092800:
 	ldrb r0, [r4, #6]
 	adds r1, r0, #0

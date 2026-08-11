@@ -4,6 +4,7 @@
 #include "game/save.h"
 #include "game/stage.h"
 #include "code_0_1.h" // sub_8001E58
+#include "constants/songs.h"
 #include "constants/tilemaps.h"
 
 typedef struct {
@@ -88,6 +89,7 @@ void sub_8093640(NameEntryScreen *nes);
 bool32 sub_8093784(NameEntryScreen *nes);
 void Task_8093710(void);
 void sub_8092604(void);
+void Task_8092690(void);
 void Task_8092AC8(void);
 void Task_8092A0C(void);
 
@@ -940,8 +942,9 @@ block_82:
 }
 END_NONMATCH
 
-#if 0
-void Task_8092A0C(void) {
+// (85.55%) https://decomp.me/scratch/P1NFT
+NONMATCH("asm/non_matching/game/sa3/options/nes__Task_8092A0C.inc", void Task_8092A0C(void))
+{
     NameEntryScreen *nes = TASK_DATA(gCurTask);
     u8 var_r3;
     u8 var_r3_2;
@@ -954,23 +957,24 @@ void Task_8092A0C(void) {
     sub_80938B4(nes);
     sub_8093904(nes);
 
-    for(var_r3 = 0; var_r3 < nes->unk5; var_r3++)
-    {
+    for (var_r3 = 0; var_r3 < nes->unk5; var_r3++) {
         AnimId arrAnim = gUnknown_080D7458.anim;
         Sprite *s = &nes->spr1DC[var_r3];
         LOADED_SAVE->playerName[var_r3] = s->variant;
         if (s->anim != arrAnim) {
             LOADED_SAVE->playerName[var_r3] += 0x100;
-        }    
+        }
     }
-    for(var_r3_2 = nes->unk5; var_r3_2 < 6; var_r3_2++)
-    {
-        LOADED_SAVE->playerName[var_r3_2] |= 0xFFFF;    
+    for (var_r3_2 = nes->unk5; var_r3_2 < 6; var_r3_2++) {
+        LOADED_SAVE->playerName[var_r3_2] |= 0xFFFF;
     }
     gCurTask->main = Task_8093710;
 }
+END_NONMATCH
 
-void Task_8092AC8(void) {
+// (82.03%) https://decomp.me/scratch/bOETy
+NONMATCH("asm/non_matching/game/sa3/options/nes__Task_8092AC8.inc", void Task_8092AC8(void))
+{
     NameEntryScreen *nes = TASK_DATA(gCurTask);
     s32 sp0;
     s32 temp_r2;
@@ -980,7 +984,6 @@ void Task_8092AC8(void) {
     s32 var_r3_2;
     u8 temp_r0;
 
-    
     sp0 = var_r3 = PseudoRandom32();
     var_r1 = (sp0 & 0xF) << 0x10;
     if (var_r1 != 0) {
@@ -1017,9 +1020,8 @@ void Task_8092AC8(void) {
         }
     }
 
-    if (var_r0 != 1)
-    {
-        nes->unk2 = ((s32) (nes->unk3C - 0x1A) >> 4) + gUnknown_080D74B8[((nes->unk12 >> 4) + ((nes->unk40 - 0x34) >> 4))];
+    if (var_r0 != 1) {
+        nes->unk2 = ((s32)(nes->unk3C - 0x1A) >> 4) + gUnknown_080D74B8[((nes->unk12 >> 4) + ((nes->unk40 - 0x34) >> 4))];
         if (0x200 & gPressedKeys) {
             nes->unk3 = 1;
             sub_80937DC(nes);
@@ -1031,14 +1033,15 @@ void Task_8092AC8(void) {
         sub_809386C(nes);
         sub_80935A4(nes);
         sub_8092274(nes);
-        if ((1 & gPressedKeys) && ((u32) nes->unk6 <= 6U)) {
+
+        if ((1 & gPressedKeys) && ((u32)nes->unk6 <= 6U)) {
             m4aSongNumStart(SE_SELECT);
             temp_r0 = nes->unk2;
             if (temp_r0 == 0xA) {
                 sub_8092D94(nes);
             } else if (temp_r0 == 0x15) {
                 sub_8092EBC(nes);
-            } else if ((u32) nes->unk6 <= 5U) {
+            } else if ((u32)nes->unk6 <= 5U) {
                 sub_8092CC8(nes);
             }
         }
@@ -1054,8 +1057,10 @@ void Task_8092AC8(void) {
         }
     }
 }
+END_NONMATCH
 
-void sub_8092CC8(NameEntryScreen *nes) {
+void sub_8092CC8(NameEntryScreen *nes)
+{
     u8 temp_r0;
     u8 temp_r1_3;
     Sprite *s;
@@ -1066,7 +1071,7 @@ void sub_8092CC8(NameEntryScreen *nes) {
         nes->unk6 = 6;
     }
 
-    if ((u32) nes->unk6 > (u32) nes->unk5) {
+    if ((u32)nes->unk6 > (u32)nes->unk5) {
         nes->unk5 += 1;
         if (nes->unk5 > 6U) {
             nes->unk5 = 6;
@@ -1076,33 +1081,25 @@ void sub_8092CC8(NameEntryScreen *nes) {
     s->variant = gUnknown_080D7458.variant + nes->unk2;
 }
 
-void sub_8092D1C(NameEntryScreen *nes) {
-    Sprite *temp_r0_2;
-    s32 temp_r1_2;
-    u8 temp_r0;
-    u8 temp_r0_3;
-    u8 temp_r0_4;
-    u8 temp_r1;
+void sub_8092D1C(NameEntryScreen *nes)
+{
+    Sprite *s;
     u8 var_r4;
-    Sprite *temp_r2;
+    Sprite *s2;
 
     nes->unkA = 0;
+
     if (nes->unk6 != nes->unk5) {
-        var_r4 = nes->unk6;
-        if (nes->unk6 < (u32) nes->unk5) {
-            do {
-                temp_r0_2 = &nes->spr1DC[var_r4];
-                temp_r2 = &nes->spr1DC[var_r4 + 1];
-                temp_r0_2->anim = temp_r2->anim;
-                temp_r0_2->variant = temp_r2->variant;
-                UpdateSpriteAnimation(temp_r0_2);
-                var_r4 += 1;
-            } while ((u32) var_r4 < (u32) nes->unk5);
+        for (var_r4 = nes->unk6; var_r4 < nes->unk5; var_r4++) {
+            s = &nes->spr1DC[var_r4];
+            s2 = &nes->spr1DC[var_r4 + 1];
+            s->anim = s2->anim;
+            s->variant = s2->variant;
+            UpdateSpriteAnimation(s);
         }
     }
-    
-    if (nes->unk6 == nes->unk5)
-    {
+
+    if (nes->unk6 == nes->unk5) {
         if (--nes->unk6 > 6U) {
             nes->unk6 = 0;
         }
@@ -1113,6 +1110,7 @@ void sub_8092D1C(NameEntryScreen *nes) {
     }
 }
 
+#if 0
 void sub_8092D94(NameEntryScreen *nes) {
     s32 temp_r1;
     s32 var_r5;
@@ -1652,7 +1650,7 @@ void sub_80936A0(NameEntryScreen *nes) {
     }
 }
 
-void sub_8093710(void) {
+void Task_8093710(void) {
     u8 var_r5 = 0;
     NameEntryScreen *arg0 = TASK_DATA(gCurTask);
     sub_80933B0(arg0);
