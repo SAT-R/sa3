@@ -1,0 +1,2 @@
+game/save.h:    ((LOADED_SAVE->unlockedStages[zone] & (ACT_COMPLETE_BIT__ACT_1 | ACT_COMPLETE_BIT__ACT_2 | ACT_COMPLETE_BIT__ACT_3)) == 0x7)
+game/save.h:#define IS_ACT_COMPLETE(zone, act) (LOADED_SAVE->unlockedStages[zone] & ACT_COMPLETE_BIT__##act)

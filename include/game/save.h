@@ -18,7 +18,11 @@
 #define NUM_MULTIPLAYER_SCORES 10
 #define MAX_MULTIPLAYER_SCORE  99
 
+#if ((GAME == GAME_SA1) || (GAME == GAME_SA2))
 #define TIME_RECORDS_PER_COURSE 3
+#else
+#define TIME_RECORDS_PER_COURSE 5
+#endif
 
 #define CHAO_COUNT_PER_ZONE 10
 
@@ -82,6 +86,7 @@ typedef struct {
 typedef struct TimeRecords {
     u16 table[NUM_COURSE_ZONES][ACTS_PER_ZONE][TIME_RECORDS_PER_COURSE];
 } TimeRecords;
+#define NUM_TIME_RECORD_ROWS (NUM_COURSE_ZONES * ACTS_PER_ZONE * NUM_CHARACTERS * TIME_RECORDS_PER_COURSE)
 #elif (GAME == GAME_SA3)
 typedef struct TimeRecord {
     u8 character1; // 0x00 | Main Character
@@ -92,8 +97,6 @@ typedef struct TimeRecords {
     TimeRecord table[NUM_COURSE_ZONES][4][5]; // [Zone][Act][Rank]
 } TimeRecords;
 #endif
-
-#define NUM_TIME_RECORD_ROWS (NUM_COURSE_ZONES * ACTS_PER_ZONE * NUM_CHARACTERS * TIME_RECORDS_PER_COURSE)
 
 // TODO: There are multiple kinds of SaveGame structs, figure out their use cases
 //       Maybe struc_3000CF0 is the equivalent of struct SaveSectorData ?

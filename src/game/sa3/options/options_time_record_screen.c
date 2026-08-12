@@ -3,8 +3,8 @@
 #include "game/save.h"
 
 typedef struct {
-    u8 chars[5][2];
-    u16 rankTimes[5];
+    u8 chars[TIME_RECORDS_PER_COURSE][2];
+    u16 rankTimes[TIME_RECORDS_PER_COURSE][5];
 } RecordData;
 
 typedef struct {
@@ -54,7 +54,7 @@ typedef struct {
     /* 0x48C */ Background bg48C;
     /* 0x4CC */ Background bg4CC;
     /* 0x50C */ Background bg50C;
-    /* 0x54C */ RecordData recordData[7][12];
+    /* 0x54C */ RecordData recordData[NUM_COURSE_ZONES][4];
 } TimeRecordScreen; /* 0xBDC */
 
 void CreateTimeRecordScreen(u8 arg0);
@@ -178,57 +178,41 @@ NONMATCH("asm/non_matching/game/sa3/options/trs__sub_80947EC.inc", void sub_8094
 }
 END_NONMATCH
 
-#if 0
-void sub_8094924(TimeRecordScreen *trs) {
-    s32 sp0;
-    s32 sp4;
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-    s32 sp14;
-    s32 temp_r0;
-    s32 temp_r2;
-    s32 temp_r5_2;
-    s32 temp_r6;
-    u16 allFrames;
-    u16 secs;
-    s16 digitSecs;
-    u32 temp_r4_5;
-    u8 temp_r0_2;
-    u8 mins;
-    u8 temp_r0_4;
-    u8 temp_r0_5;
-    u8 digitFrames;
+// (99.82%) https://decomp.me/scratch/sBH4x
+NONMATCH("asm/non_matching/game/sa3/options/trs__sub_8094924.inc", void sub_8094924(TimeRecordScreen *trs))
+{
     u8 rank;
     u8 act;
-    TimeRecord *record;
+    u8 zone;
 
-	for (zone = 0; zone < 7; zone++)
-	{
-		for (act = 0; act < 4; act++)
-		{
-			for (rank = 0; rank < 5; rank++)
-			{
-				temp_r2 = (rank * 2) + (act * 60) + (zone * 0xF0);
-				record = &LOADED_SAVE->timeRecords.table[zone][act][rank];
-				trs->recordData[temp_r2 + 0] = record->character1;
-				trs->recordData[temp_r2 + 1] = record->character2;
-				allFrames = record->time;
-				digitFrames = (u8)Mod(allFrames, 60);
-				secs = (u16)Div(allFrames, 60);
-				mins = (u8)Div(secs, 60);
-				digitSecs = (secs - (mins * 60));
-				temp_r6 = (rank * 10) + (act * 60) + (zone * 0xF0);
-				(&trs->recordData[0x12])[temp_r6] = gUnknown_080CE4B2[digitFrames][1];
-				(&trs->recordData[0x10])[temp_r6] = gUnknown_080CE4B2[digitFrames][0];
-				(&trs->recordData[0xE])[temp_r6] = gUnknown_080CE438[digitSecs][1];
-				(&trs->recordData[0xC])[temp_r6] = gUnknown_080CE438[digitSecs][0];
-				(&trs->recordData[0xA])[temp_r6] = mins;
-			}
-		}
-	}
+    for (zone = 0; zone < ARRAY_COUNT(LOADED_SAVE->timeRecords.table); zone++) {
+        for (act = 0; act < ARRAY_COUNT(LOADED_SAVE->timeRecords.table[0]); act++) {
+            for (rank = 0; rank < ARRAY_COUNT(LOADED_SAVE->timeRecords.table[0][0]); rank++) {
+                u16 allFrames;
+                u8 digitFrames;
+                u16 digitSecs;
+                u16 secs;
+                u8 mins;
+                trs->recordData[zone][act].chars[rank][0] = LOADED_SAVE->timeRecords.table[zone][act][rank].character1;
+                trs->recordData[zone][act].chars[rank][1] = LOADED_SAVE->timeRecords.table[zone][act][rank].character2;
+                allFrames = LOADED_SAVE->timeRecords.table[zone][act][rank].time;
+                digitFrames = Mod(allFrames, 60);
+                secs = Div(allFrames, 60);
+                mins = Div(secs, 60);
+                digitSecs = (secs - (mins * 60));
+
+                trs->recordData[zone][act].rankTimes[rank][4] = gUnknown_080CE4B2[digitFrames][1];
+                trs->recordData[zone][act].rankTimes[rank][3] = gUnknown_080CE4B2[digitFrames][0];
+                trs->recordData[zone][act].rankTimes[rank][2] = gUnknown_080CE438[digitSecs][1];
+                trs->recordData[zone][act].rankTimes[rank][1] = gUnknown_080CE438[digitSecs][0];
+                trs->recordData[zone][act].rankTimes[rank][0] = mins;
+            }
+        }
+    }
 }
+END_NONMATCH
 
+#if 0
 void sub_8094A98(TimeRecordScreen *trs) {
     s32 sp4;
     Sprite *sp14;
