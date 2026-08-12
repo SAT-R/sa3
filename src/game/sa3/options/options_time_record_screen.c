@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "game/save.h"
 
 typedef struct {
     u8 chars[5][2];
@@ -12,7 +13,10 @@ typedef struct {
     /* 0x002 */ u8 unk2;
     /* 0x003 */ u8 unk3;
     /* 0x004 */ u8 unk4;
-    /* 0x005 */ u8 filler5[0x16];
+    /* 0x005 */ u8 filler5[0xA];
+    /* 0x01C */ s8 unkF[5];
+    /* 0x01C */ u8 unk14;
+    /* 0x01C */ s8 unk15[7];
     /* 0x01C */ u8 unk1C;
     /* 0x01D */ u8 unk1D;
     /* 0x01E */ u8 unk1E;
@@ -22,11 +26,23 @@ typedef struct {
     /* 0x024 */ u16 unk24;
     /* 0x026 */ u16 unk26;
     /* 0x028 */ u16 unk28;
-    /* 0x005 */ u8 filler2A[0x6];
+    /* 0x005 */ u8 filler2A[0x2];
+    /* 0x02C */ s32 unk2C;
     /* 0x028 */ s32 unk30;
     /* 0x028 */ s32 unk34;
     /* 0x028 */ s32 unk38;
-    /* 0x005 */ u8 filler3C[0x68];
+    /* 0x005 */ u8 filler3C[0x18];
+    /* 0x028 */ s32 unk54;
+    /* 0x028 */ s32 unk58;
+    /* 0x028 */ s32 unk5C;
+    /* 0x028 */ s32 unk60;
+    /* 0x028 */ s32 unk64;
+    /* 0x028 */ s32 unk68;
+    /* 0x028 */ s32 unk6C;
+    /* 0x028 */ s32 unk70;
+    /* 0x028 */ s32 unk74;
+    /* 0x078 */ Vec2_32 unk78[5];
+    /* 0x0A0 */ u8 *vramA0;
     /* 0x0A4 */ Sprite sprA4[3]; // TODO: arr count unknown!
     /* 0x11C */ Sprite spr11C;
     /* 0x144 */ Sprite spr144;
@@ -97,66 +113,54 @@ void Task_TimeRecordScreenInit(void)
     gCurTask->main = gUnknown_080D8B4C[trs->unk3];
 }
 
-#if 0
-void sub_80947EC(TimeRecordScreen *trs) {
-    s32 temp_r1;
-    u8 *temp_r1_3;
-    u8 *temp_r2;
-    u8 temp_r0;
-    u8 temp_r0_2;
-    u8 temp_r1_2;
-    u8 var_r4;
-    u8 var_r4_2;
+// (89.54%) https://decomp.me/scratch/AVVy9
+NONMATCH("asm/non_matching/game/sa3/options/trs__sub_80947EC.inc", void sub_80947EC(TimeRecordScreen *trs))
+{
+    u8 i;
 
-    trs->language = gLoadedSaveGame.unk366;
+    trs->language = LOADED_SAVE->language;
     trs->unk1 = 1;
     trs->unk2 = 1;
     trs->unk22 = 0;
+    trs->unk1C = 0;
     trs->unk1D = 0;
-    trs->unk1E = 0;
     trs->unk26 = 0;
     trs->unk28 = 0;
     trs->unk20 = 0xA;
     trs->unk24 = 0;
-    trs->unk1F = 0;
+    trs->unk1E = 0;
     trs->unk1F = 0;
     trs->unk4 = 0;
-    var_r4 = 0;
-    do {
-        temp_r1 = var_r4 * 8;
-        *(&trs->filler3C[0x3C] + temp_r1) = (var_r4 << 0xE) + 0xF000;
-        *(&trs->filler3C[0x40] + temp_r1) = (var_r4 << 0xC) + 0x1000;
-        (&trs->filler5[0xA])[var_r4] = 0;
-        var_r4 += 1;
-    } while ((u32) var_r4 <= 4U);
-    if (trs->unk3 == 0) {
-        trs->filler5[0xF] = 7;
-    } else if ((u32) gLoadedSaveGame.unlockedZones > 7U) {
-        trs->filler5[0xF] = 7;
-    } else {
-        trs->filler5[0xF] = gLoadedSaveGame.unlockedZones;
+
+    for (i = 0; i < ARRAY_COUNT(trs->unk78); i++) {
+        trs->unk78[i].x = (i * 0x4000) + 0xF000;
+        trs->unk78[i].y = (i * 0x1000) + (0x80 << 5);
+        trs->unkF[i] = 0;
     }
-    var_r4_2 = 0;
-    temp_r2 = &trs->filler5[0x10];
-    do {
+
+    if (trs->unk3 == 0) {
+        trs->unk14 = 7;
+    } else if (LOADED_SAVE->unlockedZones > 7U) {
+        trs->unk14 = 7;
+    } else {
+        trs->unk14 = LOADED_SAVE->unlockedZones;
+    }
+
+    for (i = 0; i < ARRAY_COUNT(trs->unk15); i++) {
         if (trs->unk3 == 0) {
-            temp_r2[var_r4_2] = 3;
+            trs->unk15[i] = 3;
         } else {
-            temp_r0 = gLoadedSaveGame.unlockedStages[var_r4_2];
-            temp_r1_2 = temp_r0;
-            if (temp_r1_2 != 0) {
-                temp_r1_3 = &temp_r2[var_r4_2];
-                temp_r0_2 = ((u32) (temp_r0 << 0x18) >> 0x19) + 1;
-                *temp_r1_3 = temp_r0_2;
-                if ((s32) (s8) temp_r0_2 > 3) {
-                    *temp_r1_3 = 3;
+            if (LOADED_SAVE->unlockedStages[i]) {
+                trs->unk15[i] = (LOADED_SAVE->unlockedStages[i] >> 1) + 1;
+                if (trs->unk15[i] > 3) {
+                    trs->unk15[i] = 3;
                 }
             } else {
-                temp_r2[var_r4_2] = temp_r1_2;
+                trs->unk15[i] = 0;
             }
         }
-        var_r4_2 += 1;
-    } while ((u32) var_r4_2 <= 6U);
+    }
+
     trs->unk30 = -0x3200;
     trs->unk34 = 0x5000;
     trs->unk68 = 0x8400;
@@ -169,9 +173,12 @@ void sub_80947EC(TimeRecordScreen *trs) {
     trs->unk2C = 0xA000;
     trs->unk60 = 0x7800;
     trs->unk64 = 0x2000;
-    trs->unkA0 = 0x06010000;
-}
 
+    trs->vramA0 = OBJ_VRAM0;
+}
+END_NONMATCH
+
+#if 0
 void sub_8094924(TimeRecordScreen *trs) {
     s32 sp0;
     s32 sp4;
@@ -263,9 +270,9 @@ void sub_8094A98(TimeRecordScreen *trs) {
             if (var_r3 == 0) {
                 var_r7 -= 0x28;
             }
-            var_r7->tiles = trs->unkA0;
+            var_r7->tiles = trs->vramA0;
             temp_r2 = (var_r3 + (temp_r5 * 2)) * 8;
-            trs->unkA0 = (u8 *) (trs->unkA0 + (*(temp_r2 + (&gUnknown_080D8AAC + 4)) << 5));
+            trs->vramA0 = (u8 *) (trs->vramA0 + (*(temp_r2 + (&gUnknown_080D8AAC + 4)) << 5));
             temp_r2_2 = temp_r2 + &gUnknown_080D8AAC;
             var_r7->anim = temp_r2_2->unk0;
             var_r7->variant = temp_r2_2->unk2;
@@ -283,8 +290,8 @@ void sub_8094A98(TimeRecordScreen *trs) {
             var_r3 = (u32) (u8) (var_r3 + 1);
         } while (var_r3 <= (u32) trs->unk2);
     }
-    trs->spr11C.tiles = trs->unkA0;
-    trs->unkA0 = (u8 *) (trs->unkA0 + (gUnknown_080D8AE4.unk4 << 5));
+    trs->spr11C.tiles = trs->vramA0;
+    trs->vramA0 = (u8 *) (trs->vramA0 + (gUnknown_080D8AE4.unk4 << 5));
     trs->spr11C.anim = gUnknown_080D8AE4.unk0;
     trs->spr11C.variant = gUnknown_080D8AE4.unk2;
     trs->spr11C.prevVariant = 0xFF;
@@ -297,8 +304,8 @@ void sub_8094A98(TimeRecordScreen *trs) {
     trs->spr11C.palId = 0;
     trs->spr11C.frameFlags = 0x80;
     UpdateSpriteAnimation(&trs->spr11C);
-    trs->spr144.tiles = trs->unkA0;
-    trs->unkA0 = (u8 *) (trs->unkA0 + (gUnknown_080D8AEC.unk4 << 5));
+    trs->spr144.tiles = trs->vramA0;
+    trs->vramA0 = (u8 *) (trs->vramA0 + (gUnknown_080D8AEC.unk4 << 5));
     trs->spr144.anim = gUnknown_080D8AEC.unk0;
     trs->spr144.variant = gUnknown_080D8AEC.unk2;
     trs->spr144.prevVariant = -1;
@@ -311,8 +318,8 @@ void sub_8094A98(TimeRecordScreen *trs) {
     trs->spr144.palId = 0;
     trs->spr144.frameFlags = 0;
     UpdateSpriteAnimation(&trs->spr144);
-    trs->spr16C.tiles = trs->unkA0;
-    trs->unkA0 = (u8 *) (trs->unkA0 + (sAnimsTimeAttackDigits.unk4 << 5));
+    trs->spr16C.tiles = trs->vramA0;
+    trs->vramA0 = (u8 *) (trs->vramA0 + (sAnimsTimeAttackDigits.unk4 << 5));
     subroutine_arg0.unk0 = (u16) sAnimsTimeAttackDigits.unk0;
     trs->spr16C.anim = sAnimsTimeAttackDigits.unk0;
     temp_r8 = sAnimsTimeAttackDigits.unk2;
@@ -327,8 +334,8 @@ void sub_8094A98(TimeRecordScreen *trs) {
     trs->spr16C.palId = 0;
     trs->spr16C.frameFlags = 0;
     UpdateSpriteAnimation(&trs->spr16C);
-    trs->spr194[0].tiles = trs->unkA0;
-    trs->unkA0 = (u8 *) (trs->unkA0 + 0x80);
+    trs->spr194[0].tiles = trs->vramA0;
+    trs->vramA0 = (u8 *) (trs->vramA0 + 0x80);
     trs->spr194[0].anim = subroutine_arg0.unk0;
     trs->spr194[0].variant = temp_r8;
     trs->spr194[0].prevVariant = -1;
@@ -346,14 +353,14 @@ void sub_8094A98(TimeRecordScreen *trs) {
         var_r5 = 0;
     }
     var_r3_2 = 0;
-    sp18 = &trs->filler3C[0x3C];
-    sp1C = &trs->filler3C[0x40];
+    sp18 = &trs->unk78;
+    sp1C = &trs->unk7C;
     sp14 = &trs->sprA4[2];
     do {
         temp_r7 = &trs->spr34C[var_r3_2];
-        temp_r7->tiles = trs->unkA0;
+        temp_r7->tiles = trs->vramA0;
         temp_r2_3 = (var_r3_2 + var_r5) * 8;
-        trs->unkA0 = (u8 *) (trs->unkA0 + (*(temp_r2_3 + (&gUnknown_080D8AF4 + 4)) << 5));
+        trs->vramA0 = (u8 *) (trs->vramA0 + (*(temp_r2_3 + (&gUnknown_080D8AF4 + 4)) << 5));
         temp_r2_4 = temp_r2_3 + &gUnknown_080D8AF4;
         temp_r7->anim = temp_r2_4->unk0;
         temp_r7->variant = temp_r2_4->unk2;
@@ -376,8 +383,8 @@ void sub_8094A98(TimeRecordScreen *trs) {
     sp4 = gUnknown_080D8B44.unk4 << 5;
     do {
         temp_r7_2 = &trs->spr194[var_r3_3];
-        temp_r7_2->tiles = trs->unkA0;
-        trs->unkA0 = &trs->unkA0[sp4];
+        temp_r7_2->tiles = trs->vramA0;
+        trs->vramA0 = &trs->vramA0[sp4];
         temp_r7_2->anim = var_r1->unk0;
         temp_r7_2->variant = var_r3_3 + var_r1->unk2;
         subroutine_arg0.unk8 = -1;
@@ -395,9 +402,9 @@ void sub_8094A98(TimeRecordScreen *trs) {
         UpdateSpriteAnimation(temp_r7_2);
         var_r3_3 = (u32) (u8) (var_r3_3 + 1);
     } while (var_r3_3 <= 0xAU);
-    trs->spr414.tiles = trs->unkA0;
+    trs->spr414.tiles = trs->vramA0;
     temp_r5_2 = gUnknown_080D8B44.unk4 << 5;
-    trs->unkA0 = (u8 *) (trs->unkA0 + temp_r5_2);
+    trs->vramA0 = (u8 *) (trs->vramA0 + temp_r5_2);
     trs->spr414.anim = gUnknown_080D8B44.unk0;
     subroutine_arg0.unkC = (u8) gUnknown_080D8B44.unk2;
     trs->spr414.variant = gUnknown_080D8B44.unk2;
@@ -436,9 +443,9 @@ void sub_8094A98(TimeRecordScreen *trs) {
         var_r3_4 = (u32) (u8) (var_r3_4 + 1);
     } while (var_r3_4 <= 1U);
     temp_r1_3 = trs->language;
-    sp14->tiles = trs->unkA0;
+    sp14->tiles = trs->vramA0;
     temp_r2_5 = ((u32) ((0 - temp_r1_3) | temp_r1_3) >> 0x1F) * 8;
-    trs->unkA0 = (u8 *) (trs->unkA0 + (*(temp_r2_5 + (&gUnknown_080D8ACC + 4)) << 5));
+    trs->vramA0 = (u8 *) (trs->vramA0 + (*(temp_r2_5 + (&gUnknown_080D8ACC + 4)) << 5));
     temp_r2_6 = temp_r2_5 + &gUnknown_080D8ACC;
     sp14->anim = temp_r2_6->unk0;
     sp14->variant = temp_r2_6->unk2;
@@ -452,8 +459,8 @@ void sub_8094A98(TimeRecordScreen *trs) {
     sp14->palId = 0;
     sp14->frameFlags = 0;
     UpdateSpriteAnimation(sp14);
-    trs->spr16C.tiles = trs->unkA0;
-    trs->unkA0 = (u8 *) (trs->unkA0 + 0x80);
+    trs->spr16C.tiles = trs->vramA0;
+    trs->vramA0 = (u8 *) (trs->vramA0 + 0x80);
     trs->spr16C.anim = sAnimsTimeAttackDigits.unk0;
     trs->spr16C.variant = sAnimsTimeAttackDigits.unk2;
     trs->spr16C.prevVariant |= ~0;
@@ -1027,8 +1034,8 @@ block_15:
                 var_r3 = 0;
                 do {
                     temp_r1 = var_r3 * 8;
-                    *(&trs->filler3C[0x3C] + temp_r1) = (var_r3 << 0xE) + 0xF000;
-                    *(&trs->filler3C[0x40] + temp_r1) = (var_r3 << 0xC) + 0x1000;
+                    *(&trs->unk78 + temp_r1) = (var_r3 << 0xE) + 0xF000;
+                    *(&trs->unk7C + temp_r1) = (var_r3 << 0xC) + 0x1000;
                     (&trs->filler5[0xA])[var_r3] = 0;
                     var_r3 += 1;
                 } while ((u32) var_r3 <= 4U);
@@ -1092,8 +1099,8 @@ block_43:
             var_r3_2 = 0;
             do {
                 temp_r1_2 = var_r3_2 * 8;
-                *(&trs->filler3C[0x3C] + temp_r1_2) = (var_r3_2 << 0xE) + 0xF000;
-                *(&trs->filler3C[0x40] + temp_r1_2) = (var_r3_2 << 0xC) + 0x1000;
+                *(&trs->unk78 + temp_r1_2) = (var_r3_2 << 0xE) + 0xF000;
+                *(&trs->unk7C + temp_r1_2) = (var_r3_2 << 0xC) + 0x1000;
                 (&trs->filler5[0xA])[var_r3_2] = 0;
                 var_r3_2 += 1;
             } while ((u32) var_r3_2 <= 4U);
@@ -1189,11 +1196,11 @@ s32 sub_8095D24(TimeRecordScreen *trs) {
     var_r8 = 0;
     var_r5 = 0;
     temp_r7 = &trs->filler5[0xA];
-    temp_r6 = &trs->filler3C[0x3C];
+    temp_r6 = &trs->unk78;
     do {
         var_r3 = temp_r7[var_r5];
         temp_r2 = var_r5 * 8;
-        *(&trs->filler3C[0x40] + temp_r2) = *((var_r5 * 4) + &gUnknown_080D8B9C) << 8;
+        *(&trs->unk7C + temp_r2) = *((var_r5 * 4) + &gUnknown_080D8B9C) << 8;
         if (var_r3 == 6) {
             temp_r2_2 = temp_r6 + temp_r2;
             if ((s32) *temp_r2_2 >= 0) {
@@ -1204,12 +1211,12 @@ s32 sub_8095D24(TimeRecordScreen *trs) {
             }
         } else {
             if ((u32) var_r3 <= 5U) {
-                var_r4 = &trs->filler3C[0x3C];
+                var_r4 = &trs->unk78;
                 if ((s32) ((s32) *(temp_r6 + temp_r2) >> 8) <= (s32) *((var_r3 * 4) + &gUnknown_080D8BB0)) {
                     goto block_9;
                 }
             } else {
-                var_r4 = &trs->filler3C[0x3C];
+                var_r4 = &trs->unk78;
                 if ((s32) ((s32) *(temp_r6 + temp_r2) >> 8) >= (s32) *((var_r3 * 4) + &gUnknown_080D8BB0)) {
 block_9:
                     var_r3 += 1;
@@ -1310,9 +1317,9 @@ loop_1:
         sp10 = 1;
         var_r4 = 0;
         var_r7 = var_r3 * 8;
-        var_r5 = &trs->filler3C[0x3C];
+        var_r5 = &trs->unk78;
         sp24 = var_r3 + 1;
-        sp2C = &trs->filler3C[0x40] + var_r7;
+        sp2C = &trs->unk7C + var_r7;
         do {
             if ((var_r4 == 1) || (var_r4 == 3)) {
                 var_r8 += 1;
@@ -1326,7 +1333,7 @@ loop_1:
     } else {
         var_r4_2 = 0;
         var_r7 = var_r3 * 8;
-        var_r5 = &trs->filler3C[0x3C];
+        var_r5 = &trs->unk78;
         sp20 = &subroutine_arg0 + 8;
         sp24 = var_r3 + 1;
         sp1C = var_r7;
@@ -1339,14 +1346,14 @@ loop_1:
                 var_r8 += 1;
             }
             temp_r2_3->x = ((s32) var_r5[sp1C] >> 8) + 0xAA + (var_r4_2 * 8) + var_r4_2 + (var_r8 * 8);
-            temp_r2_3->y = (s16) ((s32) *(&trs->filler3C[0x40] + var_r7) >> 8);
+            temp_r2_3->y = (s16) ((s32) *(&trs->unk7C + var_r7) >> 8);
             DisplaySprite(temp_r2_3);
             var_r4_2 += 1;
         } while ((u32) var_r4_2 <= 4U);
     }
     temp_r5 = &var_r5[var_r7];
     trs->spr43C[0].x = ((s32) *temp_r5 >> 8) + 0xB3;
-    temp_r4 = &trs->filler3C[0x40] + var_r7;
+    temp_r4 = &trs->unk7C + var_r7;
     trs->spr43C[0].y = (s16) ((s32) *temp_r4 >> 8);
     DisplaySprite(trs->spr43C);
     trs->spr43C[1].x = ((s32) *temp_r5 >> 8) + 0xCE;
@@ -1387,9 +1394,9 @@ loop_1:
     if ((u32) temp_r0 <= 4U) {
         temp_r2 = &trs->spr34C[temp_r0];
         temp_r1_3 = var_sb * 8;
-        temp_r4 = ((s32) *(&trs->filler3C[0x3C] + temp_r1_3) >> 8) + 0x20;
+        temp_r4 = ((s32) *(&trs->unk78 + temp_r1_3) >> 8) + 0x20;
         temp_r2->x = (s16) temp_r4;
-        temp_r5 = &trs->filler3C[0x40] + temp_r1_3;
+        temp_r5 = &trs->unk7C + temp_r1_3;
         temp_r2->y = (s16) ((s32) *temp_r5 >> 8);
         temp_r2->frameFlags &= ~0x80;
         DisplaySprite(temp_r2);
@@ -1664,7 +1671,7 @@ s32 sub_8096590(TimeRecordScreen *trs) {
     gHBlankCopySize = 2;
     var_r2 = gBgOffsetsHBlankPrimary;
     do {
-        var_r0 = ((s32) *(&trs->filler3C[0x3C] + (var_r5 * 8)) >> 8) - 0xF;
+        var_r0 = ((s32) *(&trs->unk78 + (var_r5 * 8)) >> 8) - 0xF;
         if (var_r0 > 0xF0) {
             var_r0 = 0xF0;
         }
