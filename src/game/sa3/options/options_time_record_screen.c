@@ -49,6 +49,7 @@ void Task_809630C(void);
 void Task_80956E4(void);
 void Task_8095764(void);
 void Task_8095840(void);
+void sub_8094A98(TimeRecordScreen *trs);
 void sub_8094F3C(TimeRecordScreen *trs); // InitializeBackgrounds
 s32 sub_8096590(TimeRecordScreen *trs);
 s32 sub_809660C(TimeRecordScreen *trs);
@@ -61,15 +62,19 @@ void sub_8096790(TimeRecordScreen *trs);
 void sub_80967DC(TimeRecordScreen *trs);
 void sub_8096814(TimeRecordScreen *trs);
 
+extern ColorRaw sub_80C4C0C(ColorRaw color);
+
 extern const u8 gUnknown_080CE438[][2];
 extern const u8 gUnknown_080CE4B2[][2];
+extern const TaskMain gUnknown_080D8B4C[5];
 
-#if 0
-void Task_TimeRecordScreenInit(TimeRecordScreen *trs) {
-    (void *)0x040000D4->unk0 = &subroutine_arg0;
-    (void *)0x040000D4->unk4 = (s32) (((0xC & gBgCntRegs[2]) << 0xC) + 0x06000000);
-    (void *)0x040000D4->unk8 = 0x85000010;
-    gBgSprites_Unknown1->unk0 = 0;
+void Task_TimeRecordScreenInit(void)
+{
+    TimeRecordScreen *trs = TASK_DATA(gCurTask);
+
+    DmaFill32(3, 0, (void *)BG_CHAR_ADDR_FROM_BGCNT(2), 0x40);
+
+    gBgSprites_Unknown1[0] = 0;
     gBgSprites_Unknown2[0][0] = 0;
     gBgSprites_Unknown2[0][1] = 0;
     gBgSprites_Unknown2[0][2] = 0xFF;
@@ -77,19 +82,22 @@ void Task_TimeRecordScreenInit(TimeRecordScreen *trs) {
     gBgSprites_Unknown1[1] = 0;
     gBgSprites_Unknown2[1][0] = 0;
     gBgSprites_Unknown2[1][1] = 0;
-    gBgSprites_Unknown2[1][2] = -1U;
+    gBgSprites_Unknown2[1][2] = -1;
     gBgSprites_Unknown2[1][3] = 0x40;
     gBgSprites_Unknown1[2] = 0;
     gBgSprites_Unknown2[2][0] = 0;
     gBgSprites_Unknown2[2][1] = 0;
-    gBgSprites_Unknown2[2][2] = -1U;
+    gBgSprites_Unknown2[2][2] = -1;
     gBgSprites_Unknown2[2][3] = 0x40;
-    sub_8094F3C(trs, /* extra? */ 0);
+
+    sub_8094F3C(trs);
     sub_8094A98(trs);
-    *gBgPalette = sub_80C4C0C(0xFFFF);
-    gCurTask->main = *((trs->unk3 * 4) + &gUnknown_080D8B4C);
+
+    gBgPalette[0] = sub_80C4C0C(0xFFFF);
+    gCurTask->main = gUnknown_080D8B4C[trs->unk3];
 }
 
+#if 0
 void sub_80947EC(TimeRecordScreen *trs) {
     s32 temp_r1;
     u8 *temp_r1_3;
@@ -293,7 +301,7 @@ void sub_8094A98(TimeRecordScreen *trs) {
     trs->unkA0 = (u8 *) (trs->unkA0 + (gUnknown_080D8AEC.unk4 << 5));
     trs->spr144.anim = gUnknown_080D8AEC.unk0;
     trs->spr144.variant = gUnknown_080D8AEC.unk2;
-    trs->spr144.prevVariant = -1U;
+    trs->spr144.prevVariant = -1;
     trs->spr144.x = (s16) ((s32) trs->unk68 >> 8);
     trs->spr144.y = (s16) ((s32) trs->unk6C >> 8);
     trs->spr144.oamFlags = 0xC0;
@@ -309,7 +317,7 @@ void sub_8094A98(TimeRecordScreen *trs) {
     trs->spr16C.anim = sAnimsTimeAttackDigits.unk0;
     temp_r8 = sAnimsTimeAttackDigits.unk2;
     trs->spr16C.variant = sAnimsTimeAttackDigits.unk2;
-    trs->spr16C.prevVariant = -1U;
+    trs->spr16C.prevVariant = -1;
     trs->spr16C.x = (s16) ((s32) trs->unk30 >> 8);
     trs->spr16C.y = (s16) ((s32) trs->unk34 >> 8);
     trs->spr16C.oamFlags = 0xC0;
@@ -323,7 +331,7 @@ void sub_8094A98(TimeRecordScreen *trs) {
     trs->unkA0 = (u8 *) (trs->unkA0 + 0x80);
     trs->spr194[0].anim = subroutine_arg0.unk0;
     trs->spr194[0].variant = temp_r8;
-    trs->spr194[0].prevVariant = -1U;
+    trs->spr194[0].prevVariant = -1;
     trs->spr194[0].x = (s16) ((s32) trs->unk30 >> 8);
     trs->spr194[0].y = (s16) ((s32) trs->unk34 >> 8);
     trs->spr194[0].oamFlags = 0xC0;
@@ -372,7 +380,7 @@ void sub_8094A98(TimeRecordScreen *trs) {
         trs->unkA0 = &trs->unkA0[sp4];
         temp_r7_2->anim = var_r1->unk0;
         temp_r7_2->variant = var_r3_3 + var_r1->unk2;
-        subroutine_arg0.unk8 = -1U;
+        subroutine_arg0.unk8 = -1;
         temp_r7_2->prevVariant = 0xFF;
         temp_r7_2->x = (s16) ((s32) trs->unk78 >> 8);
         temp_r7_2->y = (s16) ((s32) trs->unk7C >> 8);

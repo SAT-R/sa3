@@ -5,83 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start Task_TimeRecordScreenInit
-Task_TimeRecordScreenInit: @ 0x08094740
-	push {r4, r5, r6, lr}
-	sub sp, #4
-	ldr r6, _080947C8 @ =gCurTask
-	ldr r0, [r6]
-	ldrh r5, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r5, r5, r0
-	movs r2, #0
-	str r2, [sp]
-	ldr r3, _080947CC @ =0x040000D4
-	mov r0, sp
-	str r0, [r3]
-	ldr r0, _080947D0 @ =gBgCntRegs
-	ldrh r1, [r0, #4]
-	movs r0, #0xc
-	ands r0, r1
-	lsls r0, r0, #0xc
-	movs r1, #0xc0
-	lsls r1, r1, #0x13
-	adds r0, r0, r1
-	str r0, [r3, #4]
-	ldr r0, _080947D4 @ =0x85000010
-	str r0, [r3, #8]
-	ldr r0, [r3, #8]
-	ldr r4, _080947D8 @ =gBgSprites_Unknown1
-	strb r2, [r4]
-	ldr r0, _080947DC @ =gBgSprites_Unknown2
-	strb r2, [r0]
-	strb r2, [r0, #1]
-	movs r1, #0xff
-	strb r1, [r0, #2]
-	movs r3, #0x40
-	strb r3, [r0, #3]
-	strb r2, [r4, #1]
-	strb r2, [r0, #4]
-	strb r2, [r0, #5]
-	movs r1, #1
-	rsbs r1, r1, #0
-	strb r1, [r0, #6]
-	strb r3, [r0, #7]
-	strb r2, [r4, #2]
-	strb r2, [r0, #8]
-	strb r2, [r0, #9]
-	strb r1, [r0, #0xa]
-	strb r3, [r0, #0xb]
-	adds r0, r5, #0
-	bl sub_8094F3C
-	adds r0, r5, #0
-	bl sub_8094A98
-	ldr r0, _080947E0 @ =0x0000FFFF
-	bl sub_80C4C0C
-	ldr r1, _080947E4 @ =gBgPalette
-	strh r0, [r1]
-	ldr r2, [r6]
-	ldr r1, _080947E8 @ =gUnknown_080D8B4C
-	ldrb r0, [r5, #3]
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	ldr r0, [r0]
-	str r0, [r2, #8]
-	add sp, #4
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080947C8: .4byte gCurTask
-_080947CC: .4byte 0x040000D4
-_080947D0: .4byte gBgCntRegs
-_080947D4: .4byte 0x85000010
-_080947D8: .4byte gBgSprites_Unknown1
-_080947DC: .4byte gBgSprites_Unknown2
-_080947E0: .4byte 0x0000FFFF
-_080947E4: .4byte gBgPalette
-_080947E8: .4byte gUnknown_080D8B4C
+.if 0
+.endif
 
 	thumb_func_start sub_80947EC
 sub_80947EC: @ 0x080947EC

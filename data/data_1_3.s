@@ -488,7 +488,15 @@ gUnknown_080D8B44:
 
     .global gUnknown_080D8B4C
 gUnknown_080D8B4C:
-    .incbin "baserom_sa3.gba", 0x000D8B4C, 0x50
+    mPtr sub_809508C
+    mPtr sub_809514C
+    mPtr sub_80951B0
+    mPtr sub_809514C
+    mPtr sub_80951B0
+
+    .global gUnknown_080D8B60
+gUnknown_080D8B60:
+    .incbin "baserom_sa3.gba", 0x000D8B60, 0x3C
 
     .global gUnknown_080D8B9C
 gUnknown_080D8B9C:
