@@ -1,6 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "game/save.h"
+#include "constants/tilemaps.h"
 
 typedef struct {
     u8 chars[5][2];
@@ -248,11 +249,9 @@ END_NONMATCH
 
 void sub_8094A98(TimeRecordScreen *trs)
 {
-    u8 i;
+    u32 langOffset = (trs->language) ? 1 : 0;
     Sprite *s;
-    u32 langOffset;
-
-    langOffset = (trs->language) ? 1 : 0;
+    u8 i;
 
     for (i = 0; i <= trs->unk2; i++) {
         s = &trs->sprA4[1];
@@ -315,8 +314,8 @@ void sub_8094A98(TimeRecordScreen *trs)
     s->anim = sAnimsTimeAttackDigits.anim;
     s->variant = sAnimsTimeAttackDigits.variant;
     s->prevVariant = -1;
-    s->x = (s16)((s32)trs->unk30 >> 8);
-    s->y = (s16)((s32)trs->unk34 >> 8);
+    s->x = I(trs->unk30);
+    s->y = I(trs->unk34);
     s->oamFlags = 0xC0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -331,8 +330,8 @@ void sub_8094A98(TimeRecordScreen *trs)
     s->anim = sAnimsTimeAttackDigits.anim;
     s->variant = sAnimsTimeAttackDigits.variant;
     s->prevVariant = -1;
-    s->x = (s16)((s32)trs->unk30 >> 8);
-    s->y = (s16)((s32)trs->unk34 >> 8);
+    s->x = I(trs->unk30);
+    s->y = I(trs->unk34);
     s->oamFlags = 0xC0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -347,7 +346,7 @@ void sub_8094A98(TimeRecordScreen *trs)
         langOffset = 5;
     }
 
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < ARRAY_COUNT(trs->spr34C); i++) {
         s = &trs->spr34C[i];
         s->tiles = trs->vramA0;
         trs->vramA0 += gUnknown_080D8AF4[i + langOffset].numTiles << 5;
@@ -370,15 +369,15 @@ void sub_8094A98(TimeRecordScreen *trs)
     s = &trs->sprA4[2];
 #endif
 
-    for (i = 1; i < 11; i++) {
+    for (i = 1; i < ARRAY_COUNT(trs->spr194); i++) {
         s = &trs->spr194[i];
         s->tiles = trs->vramA0;
         trs->vramA0 += gUnknown_080D8B44.numTiles * TILE_SIZE_4BPP;
         s->anim = gUnknown_080D8B44.anim;
         s->variant = i + gUnknown_080D8B44.variant;
         s->prevVariant = -1;
-        s->x = (s16)((s32)trs->unk78[0].x >> 8);
-        s->y = (s16)((s32)trs->unk78[0].y >> 8);
+        s->x = I(trs->unk78[0].x);
+        s->y = I(trs->unk78[0].y);
         s->oamFlags = 0xC0;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -394,8 +393,8 @@ void sub_8094A98(TimeRecordScreen *trs)
     s->anim = gUnknown_080D8B44.anim;
     s->variant = gUnknown_080D8B44.variant;
     s->prevVariant = -1;
-    s->x = (s16)((s32)trs->unk78[0].x >> 8);
-    s->y = (s16)((s32)trs->unk78[0].y >> 8);
+    s->x = I(trs->unk78[0].x);
+    s->y = I(trs->unk78[0].y);
     s->oamFlags = 0xC0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -404,7 +403,7 @@ void sub_8094A98(TimeRecordScreen *trs)
     s->frameFlags = 0;
     UpdateSpriteAnimation(s);
 
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < ARRAY_COUNT(trs->spr43C); i++) {
         s = &trs->spr43C[i];
         s->tiles = trs->vramA0;
         trs->vramA0 += gUnknown_080D8B44.numTiles * TILE_SIZE_4BPP;
@@ -438,6 +437,7 @@ void sub_8094A98(TimeRecordScreen *trs)
     s->palId = 0;
     s->frameFlags = 0;
     UpdateSpriteAnimation(s);
+
     s = &trs->spr16C;
     s->tiles = trs->vramA0;
     trs->vramA0 += 0x80;
@@ -445,7 +445,7 @@ void sub_8094A98(TimeRecordScreen *trs)
     s->variant = sAnimsTimeAttackDigits.variant;
     s->prevVariant |= ~0;
     s->x = ((s32)trs->unk30 >> 8) + 0x2000;
-    s->y = (s16)((s32)trs->unk34 >> 8);
+    s->y = I(trs->unk34);
     s->oamFlags = 0xC0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -455,66 +455,79 @@ void sub_8094A98(TimeRecordScreen *trs)
     UpdateSpriteAnimation(s);
 }
 
-#if 0
 void sub_8094F3C(TimeRecordScreen *trs) {
-    gDispCnt |= 0x100;
-    gBgCntRegs->unk0 = 0x603;
+    Background *bg0, *bg1, *bg2;
+    gDispCnt |= DISPCNT_BG0_ON;
+
+    gBgCntRegs[0] = BGCNT_SCREENBASE(6) | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(3) | BGCNT_16COLOR | BGCNT_TXT256x256;
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
-    trs->bg50C.graphics.dest = (void *)0x06000000;
-    trs->bg50C.graphics.anim = 0;
-    trs->bg50C.layoutVram = (u16 *)0x06003000;
-    trs->bg50C.unk18 = 0;
-    trs->bg50C.unk1A = 0;
-    trs->bg50C.tilemapId = 0x161;
-    trs->bg50C.unk1E = 0;
-    trs->bg50C.unk20 = 0;
-    trs->bg50C.unk22 = 0;
-    trs->bg50C.unk24 = 0;
-    trs->bg50C.targetTilesX = 0x20;
-    trs->bg50C.targetTilesY = 0x20;
-    trs->bg50C.paletteOffset = 0;
-    trs->bg50C.flags = 2;
-    DrawBackground(&trs->bg50C);
-    gBgCntRegs[1] = 0x4E06;
+
+    bg0 = &trs->bg50C;
+    bg0->graphics.dest = (void *)BG_CHAR_ADDR(0);
+    bg0->graphics.anim = 0;
+    bg0->layoutVram = (u16 *)BG_SCREEN_ADDR(6);
+    bg0->unk18 = 0;
+    bg0->unk1A = 0;
+    bg0->tilemapId = TM_UNKNOWN_353;
+    bg0->unk1E = 0;
+    bg0->unk20 = 0;
+    bg0->unk22 = 0;
+    bg0->unk24 = 0;
+    bg0->targetTilesX = 32;
+    bg0->targetTilesY = 32;
+    bg0->paletteOffset = 0;
+    bg0->flags = BACKGROUND_FLAGS_BG_ID(2);
+    DrawBackground(bg0);
+
+
+    gBgCntRegs[1] = BGCNT_SCREENBASE(14) | BGCNT_CHARBASE(1) | BGCNT_PRIORITY(2) | BGCNT_16COLOR | BGCNT_TXT512x256;
+    // gDispCnt |= DISPCNT_BG1_ON; // NOTE: BG1 is NOT enabled here!!!
     gBgScrollRegs[1][0] = 0;
-    gBgScrollRegs[1][1] = 0x80;
-    trs->bg4CC.graphics.dest = (void *)0x06004000;
-    trs->bg4CC.graphics.anim = 0;
-    trs->bg4CC.layoutVram = (u16 *)0x06007000;
-    trs->bg4CC.unk18 = 0;
-    trs->bg4CC.unk1A = 0;
-    trs->bg4CC.tilemapId = 0x162;
-    trs->bg4CC.unk1E = 0;
-    trs->bg4CC.unk20 = 0;
-    trs->bg4CC.unk22 = 0;
-    trs->bg4CC.unk24 = 0;
-    trs->bg4CC.targetTilesX = 0x20;
-    trs->bg4CC.targetTilesY = 0x20;
-    trs->bg4CC.paletteOffset = 0;
-    trs->bg4CC.flags = 1;
-    DrawBackground(&trs->bg4CC);
-    gBgCntRegs[2] = 0x5609;
-    gDispCnt |= 0x400;
-    gBgScrollRegs[2][0] = -0xFA;
+    gBgScrollRegs[1][1] = 128;
+    
+    bg1 = &trs->bg4CC;
+    bg1->graphics.dest = (void *)BG_CHAR_ADDR(1);
+    bg1->graphics.anim = 0;
+    bg1->layoutVram = (u16 *)BG_SCREEN_ADDR(14);
+    bg1->unk18 = 0;
+    bg1->unk1A = 0;
+    bg1->tilemapId = TM_UNKNOWN_354;
+    bg1->unk1E = 0;
+    bg1->unk20 = 0;
+    bg1->unk22 = 0;
+    bg1->unk24 = 0;
+    bg1->targetTilesX = 32;
+    bg1->targetTilesY = 32;
+    bg1->paletteOffset = 0;
+    bg1->flags = BACKGROUND_FLAGS_BG_ID(1);
+    DrawBackground(bg1);
+
+
+    gBgCntRegs[2] = BGCNT_SCREENBASE(22) | BGCNT_CHARBASE(2) | BGCNT_PRIORITY(1) | BGCNT_16COLOR | BGCNT_TXT512x256;
+    gDispCnt |= DISPCNT_BG2_ON;
+    gBgScrollRegs[2][0] = -250;
     gBgScrollRegs[2][1] = 0;
-    trs->bg48C.graphics.dest = (void *)0x06008000;
-    trs->bg48C.graphics.anim = 0;
-    trs->bg48C.layoutVram = (u16 *)0x0600B000;
-    trs->bg48C.unk18 = 0;
-    trs->bg48C.unk1A = 0;
-    trs->bg48C.tilemapId = 0x163;
-    trs->bg48C.unk1E = 0;
-    trs->bg48C.unk20 = 0;
-    trs->bg48C.unk22 = 0;
-    trs->bg48C.unk24 = 0;
-    trs->bg48C.targetTilesX = 0x20;
-    trs->bg48C.targetTilesY = 0x20;
-    trs->bg48C.paletteOffset = 0;
-    trs->bg48C.flags = 0;
-    DrawBackground(&trs->bg48C);
+
+    bg2 = &trs->bg48C;
+    bg2->graphics.dest = (void *)BG_CHAR_ADDR(2);
+    bg2->graphics.anim = 0;
+    bg2->layoutVram = (u16 *)BG_SCREEN_ADDR(22);
+    bg2->unk18 = 0;
+    bg2->unk1A = 0;
+    bg2->tilemapId = TM_UNKNOWN_355;
+    bg2->unk1E = 0;
+    bg2->unk20 = 0;
+    bg2->unk22 = 0;
+    bg2->unk24 = 0;
+    bg2->targetTilesX = 32;
+    bg2->targetTilesY = 32;
+    bg2->paletteOffset = 0;
+    bg2->flags = BACKGROUND_FLAGS_BG_ID(0);
+    DrawBackground(bg2);
 }
 
+#if 0
 void sub_809508C(TimeRecordScreen *trs) {
     u16 temp_r0;
     u16 temp_r5;
