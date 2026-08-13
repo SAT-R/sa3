@@ -507,8 +507,8 @@ void sub_80971FC(void)
     if (temp_r5 == 0) {
         gBldRegs.bldCnt = 0x3FFF;
         gDispCnt |= 0x6000;
-        gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, (int_vcount)-1);
-        gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, (int_vcount)-1);
+        gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, (int_vcount)-1); // TODO: Do the range set properly!
+        gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, (int_vcount)-1); // TODO: Do the range set properly!
         gWinRegs[WINREG_WININ] = 0x3336;
         gWinRegs[WINREG_WINOUT] = 0;
         gBldRegs.bldY = 0x10;

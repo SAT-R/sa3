@@ -32,7 +32,8 @@ typedef struct {
     /* 0x030 */ s32 unk30;
     /* 0x034 */ s32 unk34;
     /* 0x038 */ s32 unk38;
-    /* 0x03C */ u8 filler3C[0xC];
+    /* 0x038 */ s32 qUnk3C;
+    /* 0x03C */ u8 filler40[0x8];
     /* 0x038 */ s32 qUnk48;
     /* 0x038 */ s32 qUnk4C;
     /* 0x03C */ u8 filler50[0x4];
@@ -455,7 +456,8 @@ void sub_8094A98(TimeRecordScreen *trs)
     UpdateSpriteAnimation(s);
 }
 
-void sub_8094F3C(TimeRecordScreen *trs) {
+void sub_8094F3C(TimeRecordScreen *trs)
+{
     Background *bg0, *bg1, *bg2;
     gDispCnt |= DISPCNT_BG0_ON;
 
@@ -480,12 +482,11 @@ void sub_8094F3C(TimeRecordScreen *trs) {
     bg0->flags = BACKGROUND_FLAGS_BG_ID(2);
     DrawBackground(bg0);
 
-
     gBgCntRegs[1] = BGCNT_SCREENBASE(14) | BGCNT_CHARBASE(1) | BGCNT_PRIORITY(2) | BGCNT_16COLOR | BGCNT_TXT512x256;
     // gDispCnt |= DISPCNT_BG1_ON; // NOTE: BG1 is NOT enabled here!!!
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = 128;
-    
+
     bg1 = &trs->bg4CC;
     bg1->graphics.dest = (void *)BG_CHAR_ADDR(1);
     bg1->graphics.anim = 0;
@@ -502,7 +503,6 @@ void sub_8094F3C(TimeRecordScreen *trs) {
     bg1->paletteOffset = 0;
     bg1->flags = BACKGROUND_FLAGS_BG_ID(1);
     DrawBackground(bg1);
-
 
     gBgCntRegs[2] = BGCNT_SCREENBASE(22) | BGCNT_CHARBASE(2) | BGCNT_PRIORITY(1) | BGCNT_16COLOR | BGCNT_TXT512x256;
     gDispCnt |= DISPCNT_BG2_ON;
@@ -527,30 +527,30 @@ void sub_8094F3C(TimeRecordScreen *trs) {
     DrawBackground(bg2);
 }
 
-#if 0
-void sub_809508C(TimeRecordScreen *trs) {
+void sub_809508C(void)
+{
+    TimeRecordScreen *trs = TASK_DATA(gCurTask);
     u16 temp_r0;
-    u16 temp_r5;
 
-    temp_r5 = trs->unk28;
-    if (temp_r5 == 0) {
-        gBldRegs.bldCnt = 0x3FFF;
-        gDispCnt |= 0x6000;
-        gWinRegs->unk0 = 0xFF;
-        gWinRegs[1] = 0xFF;
-        gWinRegs[3] = 0xFF;
-        gWinRegs[4] = 0x3130;
-        gWinRegs[5] = temp_r5;
+    if (trs->unk28 == 0) {
+        gBldRegs.bldCnt = BLDCNT_EFFECT_DARKEN | BLDCNT_TGT1_ALL | BLDCNT_TGT2_ALL;
+        gDispCnt |= DISPCNT_WIN0_ON | DISPCNT_WIN1_ON;
+        gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, WIN_GET_HIGHER(-1));
+        gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, WIN_GET_HIGHER(-1));
+        gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, WIN_GET_HIGHER(-1));
+        gWinRegs[WINREG_WININ] = 0x3130;
+        gWinRegs[WINREG_WINOUT] = 0;
         gBldRegs.bldY = 0x10;
         trs->unk26 = 0x1000;
         trs->unk28 = 1;
     }
-    gWinRegs[2] = (((s32) trs->unk54 >> 8) * 0x101) + ((s32) trs->unk2C >> 8);
+
+    gWinRegs[2] = (((s32)trs->unk54 >> 8) * 0x101) + ((s32)trs->unk2C >> 8);
+
     if (gBldRegs.bldY != 0) {
-        gBldRegs.bldY = (u16) ((u16) trs->unk26 >> 8);
-        temp_r0 = trs->unk26 + 0xFFFFFE00;
-        trs->unk26 = temp_r0;
-        if ((u32) (temp_r0 << 0x10) > 0x0FFF0000U) {
+        gBldRegs.bldY = (u16)((u16)trs->unk26 >> 8);
+        trs->unk26 -= Q(2);
+        if (trs->unk26 > 0x0FFF) {
             trs->unk26 = 0;
         }
     } else {
@@ -558,48 +558,57 @@ void sub_809508C(TimeRecordScreen *trs) {
         gWinRegs[4] = 0x3110;
         gBldRegs.bldAlpha = 0x1F;
         gBldRegs.bldY = 0x10;
-        gCurTask->main = (void (*)()) sub_8095674;
+        gCurTask->main = sub_8095674;
     }
 }
 
-void sub_809514C(TimeRecordScreen *trs) {
+void sub_809514C(void)
+{
+    TimeRecordScreen *trs = TASK_DATA(gCurTask);
     s32 temp_r1;
-    s32 temp_r1_2;
-    u8 temp_r3;
-
-    temp_r3 = trs->unk4;
+    u8 prevUnk4 = trs->unk4;
     trs->unk4 = 0;
     trs->unk24 = 0;
     trs->unk26 = 0;
     trs->unk28 = 0;
     trs->unk1 = 4;
-    trs->unk30 = 0x11800;
-    temp_r1 = (0x8C - temp_r3) << 8;
-    trs->unk34 = temp_r1;
-    trs->unk2C = 0x1800;
-    temp_r1_2 = temp_r1 + (temp_r3 << 8) + 0xFFFFF400;
-    trs->unk54 = temp_r1_2;
-    gWinRegs[2] = (temp_r1_2 >> 8) + temp_r1_2 + 0x18;
-    gCurTask->main = (void (*)()) Task_8095210;
+    trs->unk30 = Q(280);
+    trs->unk34 = Q(140 - prevUnk4);
+    trs->unk2C = Q(24);
+    temp_r1 = trs->unk34 + Q(prevUnk4) - Q(12);
+    trs->unk54 = temp_r1;
+    gWinRegs[2] = (temp_r1 >> 8) + temp_r1 + 24;
+    gCurTask->main = Task_8095210;
 }
 
-void sub_80951B0(TimeRecordScreen *trs) {
+void sub_80951B0(void)
+{
+    TimeRecordScreen *trs = TASK_DATA(gCurTask);
+#ifndef NON_MATCHING
+    register u32 temp_r1 asm("r1");
+#else
+    u32 temp_r1;
+#endif
+
     trs->unk4 = 0x20;
     trs->unk24 = 1;
     trs->unk26 = 0;
     trs->unk28 = 0;
     trs->unk1 = 4;
-    trs->unk30 = 0x11800;
-    trs->unk34 = 0x6C00;
-    trs->unk38 = 0x11800;
-    trs->unk3C = 0x6C00;
+    trs->unk30 = Q(280);
+    trs->unk34 = Q(0x6C);
+    trs->unk38 = trs->unk30;
+    temp_r1 = Q(0x6C);
+    trs->qUnk3C = temp_r1;
     trs->unk2C = 0x1800;
-    trs->unk54 = 0x8000;
+    temp_r1 += Q(20);
+    trs->unk54 = temp_r1;
     trs->unk1E = 3;
-    gWinRegs[2] = ((0x8000U >> 8) | 0x8000) + 0x18;
-    gCurTask->main = (void (*)()) Task_8095210;
+    gWinRegs[2] = (temp_r1 | (temp_r1 >> 8)) + 24;
+    gCurTask->main = Task_8095210;
 }
 
+#if 0
 void Task_8095210(TimeRecordScreen *trs) {
     u16 temp_r5;
     u16 var_r0;
@@ -652,7 +661,7 @@ void Task_8095210(TimeRecordScreen *trs) {
     gBldRegs.bldY = 0x10;
     trs->unk28 = temp_r5;
     trs->unk26 = gBldRegs.bldY << 8;
-    gCurTask->main = (void (*)()) Task_8095840;
+    gCurTask->main = Task_8095840;
 }
 
 void Task_8095370(TimeRecordScreen *trs) {
@@ -693,7 +702,7 @@ void Task_8095370(TimeRecordScreen *trs) {
     trs->unk1F = 0;
     trs->unk1E = 0;
     gBgScrollRegs[1][1] = 0x80;
-    gCurTask->main = (void (*)()) sub_80962B4;
+    gCurTask->main = sub_80962B4;
 }
 
 void Task_80954A8(TimeRecordScreen *trs) {
@@ -814,7 +823,7 @@ void sub_8095674(TimeRecordScreen *trs) {
     }
     if (var_r5 == 2) {
         trs->unk1 = 3;
-        gCurTask->main = (void (*)()) Task_8095764;
+        gCurTask->main = Task_8095764;
     }
 }
 
@@ -838,7 +847,7 @@ void Task_80956E4(TimeRecordScreen *trs) {
     gWinRegs[2] = (((s32) temp_r1->unk54 >> 8) * 0x101) + ((s32) temp_r1->unk2C >> 8);
     if (var_r5 == 2) {
         temp_r1->unk1 = 3;
-        gCurTask->main = (void (*)()) Task_80954A8;
+        gCurTask->main = Task_80954A8;
     }
 }
 
@@ -856,14 +865,14 @@ void Task_8095764(TimeRecordScreen *trs) {
         m4aSongNumStart(0x6BU);
         temp_r1->unk1 = 1;
         temp_r1->unk28 = 1;
-        gCurTask->main = (void (*)()) Task_80956E4;
+        gCurTask->main = Task_80956E4;
         return;
     }
     temp_r2 = 1 & gPressedKeys;
     if (temp_r2 != 0) {
         m4aSongNumStart(0x6AU);
         temp_r1->unk1 = 4;
-        gCurTask->main = (void (*)()) Task_809624C;
+        gCurTask->main = Task_809624C;
         return;
     }
     if (0xC0 & gPressedKeys) {
@@ -936,7 +945,7 @@ void Task_8095840(TimeRecordScreen *trs) {
         temp_r1->unk6C = temp_r1_2;
         temp_r1->unk70 = 0x7C00;
         temp_r1->unk74 = temp_r1_2;
-        gCurTask->main = (void (*)()) Task_809630C;
+        gCurTask->main = Task_809630C;
     }
 }
 
@@ -982,7 +991,7 @@ void sub_8095980(TimeRecordScreen *trs, s32 unused) {
                 trs->unk34 = trs->unk3C + 0xFFFFE000;
             }
             trs->unk1 = 3;
-            gCurTask->main = (void (*)()) Task_8095370;
+            gCurTask->main = Task_8095370;
             return;
         }
     } else {
@@ -990,7 +999,7 @@ void sub_8095980(TimeRecordScreen *trs, s32 unused) {
             m4aSongNumStart(0x6AU);
             trs->unk28 = 1;
 block_15:
-            gCurTask->main = (void (*)()) Task_80954A8;
+            gCurTask->main = Task_80954A8;
             return;
         }
         if (0xC0 & gRepeatedKeys) {
@@ -1021,7 +1030,7 @@ block_15:
                     trs->unkF[var_r3] = 0;
                     var_r3 += 1;
                 } while ((u32) var_r3 <= 4U);
-                gCurTask->main = (void (*)()) Task_8095840;
+                gCurTask->main = Task_8095840;
                 return;
             }
             goto block_29;
@@ -1085,7 +1094,7 @@ block_43:
                 trs->unkF[var_r3_2] = 0;
                 var_r3_2 += 1;
             } while ((u32) var_r3_2 <= 4U);
-            gCurTask->main = (void (*)()) Task_8095840;
+            gCurTask->main = Task_8095840;
         }
     }
 }
@@ -1114,7 +1123,7 @@ void sub_8095C14(TimeRecordScreen *trs) {
         trs->unk2C = 0xA000;
         gWinRegs->unk0 = 0xFF;
         gWinRegs[2] = 0xA0;
-        gCurTask->main = (void (*)()) sub_8095674;
+        gCurTask->main = sub_8095674;
         return;
     }
     if (0x200 & gPressedKeys) {
@@ -1401,7 +1410,7 @@ void CreateTimeRecordScreen(u8 arg0) {
     u16 temp_r4;
 
     gDispCnt = 0x1040;
-    temp_r4 = TaskCreate((void (*)()) Task_TimeRecordScreenInit, 0xBDCU, 0x101U, 0U, TaskDestructor_TimeRecordScreen)->data;
+    temp_r4 = TaskCreate(Task_TimeRecordScreenInit, 0xBDCU, 0x101U, 0U, TaskDestructor_TimeRecordScreen)->data;
     temp_r4->unk3 = arg0;
     sub_80947EC(temp_r4);
     sub_8094924(temp_r4);
@@ -1424,7 +1433,7 @@ void Task_809624C(TimeRecordScreen *trs) {
         if ((s16) trs->unk24 != 0) {
             trs->unk1E = 3;
         }
-        gCurTask->main = (void (*)()) Task_8095210;
+        gCurTask->main = Task_8095210;
     }
 }
 
@@ -1437,7 +1446,7 @@ void sub_80962B4(TimeRecordScreen *trs) {
     sub_8096714(trs);
     if (sub_8096490(trs) == 1) {
         sub_8096714(trs);
-        gCurTask->main = (void (*)()) Task_8095764;
+        gCurTask->main = Task_8095764;
     }
 }
 
