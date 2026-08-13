@@ -31,7 +31,10 @@ typedef struct {
     /* 0x030 */ s32 unk30;
     /* 0x034 */ s32 unk34;
     /* 0x038 */ s32 unk38;
-    /* 0x03C */ u8 filler3C[0x18];
+    /* 0x03C */ u8 filler3C[0xC];
+    /* 0x038 */ s32 qUnk48;
+    /* 0x038 */ s32 qUnk4C;
+    /* 0x03C */ u8 filler50[0x4];
     /* 0x054 */ s32 unk54;
     /* 0x058 */ s32 unk58;
     /* 0x05C */ s32 unk5C;
@@ -106,7 +109,14 @@ extern ColorRaw sub_80C4C0C(ColorRaw color);
 
 extern const u8 gUnknown_080CE438[][2];
 extern const u8 gUnknown_080CE4B2[][2];
+extern const TileInfo2 gUnknown_080D8AAC[4];
+extern const TileInfo2 gUnknown_080D8ACC[2];
+extern const TileInfo2 sAnimsTimeAttackDigits;
+extern const TileInfo2 gUnknown_080D8AE4;
+extern const TileInfo2 gUnknown_080D8AEC;
+extern const TileInfo2 gUnknown_080D8B44;
 extern const TaskMain gUnknown_080D8B4C[5];
+extern const TileInfo2 gUnknown_080D8AF4[10];
 
 void Task_TimeRecordScreenInit(void)
 {
@@ -236,251 +246,216 @@ NONMATCH("asm/non_matching/game/sa3/options/trs__sub_8094924.inc", void sub_8094
 }
 END_NONMATCH
 
-#if 0
-void sub_8094A98(TimeRecordScreen *trs) {
-    s32 sp4;
-    Sprite *sp14;
-    Vec2_32 *sp18;
-    s32 *sp1C;
-    u8 **sp20;
-    u32 sp24;
-    s32 sp28;
-    Sprite *temp_r7;
-    Sprite *temp_r7_2;
-    Sprite *temp_r7_3;
-    Sprite *var_r7;
-    s32 temp_r2;
-    s32 temp_r2_3;
-    s32 temp_r2_5;
-    s32 temp_r5_2;
-    s32 var_r5;
-    u32 temp_r5;
-    u32 var_r3;
-    u32 var_r3_2;
-    u32 var_r3_3;
-    u32 var_r3_4;
-    u8 **var_r1;
-    u8 **var_r1_2;
-    u8 temp_r1;
-    u8 temp_r1_2;
-    u8 temp_r8;
-    void *temp_r2_2;
-    void *temp_r2_4;
-    void *temp_r2_6;
+void sub_8094A98(TimeRecordScreen *trs)
+{
+    u8 i;
+    Sprite *s;
+    u32 langOffset;
 
-    temp_r1 = trs->language;
-    temp_r5 = (u32) ((0 - temp_r1) | temp_r1) >> 0x1F;
-    var_r3 = 0;
-    if ((u32) trs->unk2 >= 0U) {
-        do {
-            var_r7 = &trs->sprA4[1];
-            if (var_r3 == 0) {
-                var_r7 -= 0x28;
-            }
-            var_r7->tiles = trs->vramA0;
-            temp_r2 = (var_r3 + (temp_r5 * 2)) * 8;
-            trs->vramA0 += *(temp_r2 + (&gUnknown_080D8AAC + 4)) << 5;
-            temp_r2_2 = temp_r2 + &gUnknown_080D8AAC;
-            var_r7->anim = temp_r2_2->unk0;
-            var_r7->variant = temp_r2_2->unk2;
-            var_r7->prevVariant = 0xFF;
-            var_r7->x = (s16) ((s32) trs->unk30 >> 8);
-            var_r7->y = (s16) ((s32) trs->unk34 >> 8);
-            var_r7->oamFlags = 0xC0;
-            var_r7->animCursor = 0;
-            var_r7->qAnimDelay = 0;
-            var_r7->animSpeed = 0x10;
-            var_r7->palId = 0;
-            var_r7->frameFlags = 0;
-            sp24 = var_r3;
-            UpdateSpriteAnimation(var_r7);
-            var_r3 = (u32) (u8) (var_r3 + 1);
-        } while (var_r3 <= (u32) trs->unk2);
+    langOffset = (trs->language) ? 1 : 0;
+
+    for (i = 0; i <= trs->unk2; i++) {
+        s = &trs->sprA4[1];
+
+        if (i == 0) {
+            s = &trs->sprA4[0];
+        }
+
+        s->tiles = trs->vramA0;
+        trs->vramA0 += gUnknown_080D8AAC[i + (langOffset * 2)].numTiles * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080D8AAC[i + (langOffset * 2)].anim;
+        s->variant = gUnknown_080D8AAC[i + (langOffset * 2)].variant;
+        s->prevVariant = -1;
+        s->x = I(trs->unk30);
+        s->y = I(trs->unk34);
+        s->oamFlags = 0xC0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
     }
-    trs->spr11C.tiles = trs->vramA0;
-    trs->vramA0 += gUnknown_080D8AE4.unk4 << 5;
-    trs->spr11C.anim = gUnknown_080D8AE4.unk0;
-    trs->spr11C.variant = gUnknown_080D8AE4.unk2;
-    trs->spr11C.prevVariant = 0xFF;
-    trs->spr11C.x = (s16) ((s32) trs->unk60 >> 8);
-    trs->spr11C.y = (s16) ((s32) trs->unk64 >> 8);
-    trs->spr11C.oamFlags = 0x80;
-    trs->spr11C.animCursor = 0;
-    trs->spr11C.qAnimDelay = 0;
-    trs->spr11C.animSpeed = 0x10;
-    trs->spr11C.palId = 0;
-    trs->spr11C.frameFlags = 0x80;
-    UpdateSpriteAnimation(&trs->spr11C);
-    trs->spr144.tiles = trs->vramA0;
-    trs->vramA0 += gUnknown_080D8AEC.unk4 << 5;
-    trs->spr144.anim = gUnknown_080D8AEC.unk0;
-    trs->spr144.variant = gUnknown_080D8AEC.unk2;
-    trs->spr144.prevVariant = -1U;
-    trs->spr144.x = (s16) ((s32) trs->unk68 >> 8);
-    trs->spr144.y = (s16) ((s32) trs->unk6C >> 8);
-    trs->spr144.oamFlags = 0xC0;
-    trs->spr144.animCursor = 0;
-    trs->spr144.qAnimDelay = 0;
-    trs->spr144.animSpeed = 0x10;
-    trs->spr144.palId = 0;
-    trs->spr144.frameFlags = 0;
-    UpdateSpriteAnimation(&trs->spr144);
-    trs->spr16C.tiles = trs->vramA0;
-    trs->vramA0 += sAnimsTimeAttackDigits.unk4 << 5;
-    subroutine_arg0.unk0 = (u16) sAnimsTimeAttackDigits.unk0;
-    trs->spr16C.anim = sAnimsTimeAttackDigits.unk0;
-    temp_r8 = sAnimsTimeAttackDigits.unk2;
-    trs->spr16C.variant = sAnimsTimeAttackDigits.unk2;
-    trs->spr16C.prevVariant = -1U;
-    trs->spr16C.x = (s16) ((s32) trs->unk30 >> 8);
-    trs->spr16C.y = (s16) ((s32) trs->unk34 >> 8);
-    trs->spr16C.oamFlags = 0xC0;
-    trs->spr16C.animCursor = 0;
-    trs->spr16C.qAnimDelay = 0;
-    trs->spr16C.animSpeed = 0x10;
-    trs->spr16C.palId = 0;
-    trs->spr16C.frameFlags = 0;
-    UpdateSpriteAnimation(&trs->spr16C);
-    trs->spr194[0].tiles = trs->vramA0;
+
+    s = &trs->spr11C;
+    s->tiles = trs->vramA0;
+    trs->vramA0 += gUnknown_080D8AE4.numTiles << 5;
+    s->anim = gUnknown_080D8AE4.anim;
+    s->variant = gUnknown_080D8AE4.variant;
+    s->prevVariant = 0xFF;
+    s->x = (s16)((s32)trs->unk60 >> 8);
+    s->y = (s16)((s32)trs->unk64 >> 8);
+    s->oamFlags = 0x80;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x80;
+    UpdateSpriteAnimation(s);
+
+    s = &trs->spr144;
+    s->tiles = trs->vramA0;
+    trs->vramA0 += gUnknown_080D8AEC.numTiles << 5;
+    s->anim = gUnknown_080D8AEC.anim;
+    s->variant = gUnknown_080D8AEC.variant;
+    s->prevVariant = -1;
+    s->x = (s16)((s32)trs->unk68 >> 8);
+    s->y = (s16)((s32)trs->unk6C >> 8);
+    s->oamFlags = 0xC0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    s = &trs->spr16C;
+    s->tiles = trs->vramA0;
+    trs->vramA0 += sAnimsTimeAttackDigits.numTiles * TILE_SIZE_4BPP;
+    s->anim = sAnimsTimeAttackDigits.anim;
+    s->variant = sAnimsTimeAttackDigits.variant;
+    s->prevVariant = -1;
+    s->x = (s16)((s32)trs->unk30 >> 8);
+    s->y = (s16)((s32)trs->unk34 >> 8);
+    s->oamFlags = 0xC0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    s = &trs->spr194[0];
+    s->tiles = trs->vramA0;
     trs->vramA0 += 0x80;
-    trs->spr194[0].anim = subroutine_arg0.unk0;
-    trs->spr194[0].variant = temp_r8;
-    trs->spr194[0].prevVariant = -1U;
-    trs->spr194[0].x = (s16) ((s32) trs->unk30 >> 8);
-    trs->spr194[0].y = (s16) ((s32) trs->unk34 >> 8);
-    trs->spr194[0].oamFlags = 0xC0;
-    trs->spr194[0].animCursor = 0;
-    trs->spr194[0].qAnimDelay = 0;
-    trs->spr194[0].animSpeed = 0x10;
-    trs->spr194[0].palId = 0;
-    trs->spr194[0].frameFlags = 0;
-    UpdateSpriteAnimation(trs->spr194);
-    var_r5 = 5;
+    s->anim = sAnimsTimeAttackDigits.anim;
+    s->variant = sAnimsTimeAttackDigits.variant;
+    s->prevVariant = -1;
+    s->x = (s16)((s32)trs->unk30 >> 8);
+    s->y = (s16)((s32)trs->unk34 >> 8);
+    s->oamFlags = 0xC0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
     if (trs->language == 0) {
-        var_r5 = 0;
+        langOffset = 0;
+    } else {
+        langOffset = 5;
     }
-    var_r3_2 = 0;
-    sp18 = trs->unk78;
-    sp1C = &trs->unk78[0].y;
-    sp14 = &trs->sprA4[2];
-    do {
-        temp_r7 = &trs->spr34C[var_r3_2];
-        temp_r7->tiles = trs->vramA0;
-        temp_r2_3 = (var_r3_2 + var_r5) * 8;
-        trs->vramA0 += *(temp_r2_3 + (&gUnknown_080D8AF4 + 4)) << 5;
-        temp_r2_4 = temp_r2_3 + &gUnknown_080D8AF4;
-        temp_r7->anim = temp_r2_4->unk0;
-        temp_r7->variant = temp_r2_4->unk2;
-        temp_r7->prevVariant = 0xFF;
-        temp_r7->x = (s16) ((s32) sp18[var_r3_2].x >> 8);
-        temp_r7->y = (s16) ((s32) *(sp1C + (var_r3_2 * 8)) >> 8);
-        temp_r7->oamFlags = 0xC0;
-        temp_r7->animCursor = 0;
-        temp_r7->qAnimDelay = 0;
-        temp_r7->animSpeed = 0x10;
-        temp_r7->palId = 0;
-        temp_r7->frameFlags = 0;
-        sp24 = var_r3_2;
-        UpdateSpriteAnimation(temp_r7);
-        var_r3_2 = (u32) (u8) (var_r3_2 + 1);
-    } while (var_r3_2 <= 4U);
-    var_r3_3 = 1;
-    var_r1 = &gUnknown_080D8B44;
-    sp4 = gUnknown_080D8B44.unk4 << 5;
-    do {
-        temp_r7_2 = &trs->spr194[var_r3_3];
-        temp_r7_2->tiles = trs->vramA0;
-        trs->vramA0 = &trs->vramA0[sp4];
-        temp_r7_2->anim = var_r1->unk0;
-        temp_r7_2->variant = var_r3_3 + var_r1->unk2;
-        subroutine_arg0.unk8 = -1U;
-        temp_r7_2->prevVariant = 0xFF;
-        temp_r7_2->x = (s16) ((s32) trs->unk78[0].x >> 8);
-        temp_r7_2->y = (s16) ((s32) trs->unk78[0].y >> 8);
-        temp_r7_2->oamFlags = 0xC0;
-        temp_r7_2->animCursor = 0;
-        temp_r7_2->qAnimDelay = 0;
-        temp_r7_2->animSpeed = 0x10;
-        temp_r7_2->palId = 0;
-        temp_r7_2->frameFlags = 0;
-        sp20 = var_r1;
-        sp24 = var_r3_3;
-        UpdateSpriteAnimation(temp_r7_2);
-        var_r3_3 = (u32) (u8) (var_r3_3 + 1);
-    } while (var_r3_3 <= 0xAU);
-    trs->spr414.tiles = trs->vramA0;
-    temp_r5_2 = gUnknown_080D8B44.unk4 << 5;
-    trs->vramA0 += temp_r5_2;
-    trs->spr414.anim = gUnknown_080D8B44.unk0;
-    subroutine_arg0.unkC = (u8) gUnknown_080D8B44.unk2;
-    trs->spr414.variant = gUnknown_080D8B44.unk2;
-    trs->spr414.prevVariant |= subroutine_arg0.unk8;
-    trs->spr414.x = (s16) ((s32) trs->unk78[0].x >> 8);
-    trs->spr414.y = (s16) ((s32) trs->unk78[0].y >> 8);
-    trs->spr414.oamFlags = 0xC0;
-    trs->spr414.animCursor = 0;
-    trs->spr414.qAnimDelay = 0;
-    trs->spr414.animSpeed = 0x10;
-    trs->spr414.palId = 0;
-    trs->spr414.frameFlags = 0;
-    UpdateSpriteAnimation(&trs->spr414);
-    var_r3_4 = 0;
-    var_r1_2 = &trs->vramA0;
-    subroutine_arg0.unk10 = (u8) subroutine_arg0.unkC;
-    sp28 = temp_r5_2;
-    do {
-        temp_r7_3 = &trs->spr43C[var_r3_4];
-        temp_r7_3->tiles = *var_r1_2;
-        *var_r1_2 = &(*var_r1_2)[sp28];
-        temp_r7_3->anim = gUnknown_080D8B44.unk0;
-        temp_r7_3->variant = subroutine_arg0.unk10 + (var_r3_4 + 0xB);
-        temp_r7_3->prevVariant = 0xFF;
-        temp_r7_3->x = (s16) ((s32) trs->unk78[0].x >> 8);
-        temp_r7_3->y = (s16) ((s32) trs->unk78[0].y >> 8);
-        temp_r7_3->oamFlags = 0xC0;
-        temp_r7_3->animCursor = 0;
-        temp_r7_3->qAnimDelay = 0;
-        temp_r7_3->animSpeed = 0x10;
-        temp_r7_3->palId = 0;
-        temp_r7_3->frameFlags = 0;
-        sp20 = var_r1_2;
-        sp24 = var_r3_4;
-        UpdateSpriteAnimation(temp_r7_3);
-        var_r3_4 = (u32) (u8) (var_r3_4 + 1);
-    } while (var_r3_4 <= 1U);
-    temp_r1_2 = trs->language;
-    sp14->tiles = trs->vramA0;
-    temp_r2_5 = ((u32) ((0 - temp_r1_2) | temp_r1_2) >> 0x1F) * 8;
-    trs->vramA0 += *(temp_r2_5 + (&gUnknown_080D8ACC + 4)) << 5;
-    temp_r2_6 = temp_r2_5 + &gUnknown_080D8ACC;
-    sp14->anim = temp_r2_6->unk0;
-    sp14->variant = temp_r2_6->unk2;
-    sp14->prevVariant |= ~0;
-    sp14->x = (s16) ((s32) trs->unk48 >> 8);
-    sp14->y = (s16) ((s32) trs->unk4C >> 8);
-    sp14->oamFlags = 0xC0;
-    sp14->animCursor = 0;
-    sp14->qAnimDelay = 0;
-    sp14->animSpeed = 0x10;
-    sp14->palId = 0;
-    sp14->frameFlags = 0;
-    UpdateSpriteAnimation(sp14);
-    trs->spr16C.tiles = trs->vramA0;
+
+    for (i = 0; i < 5; i++) {
+        s = &trs->spr34C[i];
+        s->tiles = trs->vramA0;
+        trs->vramA0 += gUnknown_080D8AF4[i + langOffset].numTiles << 5;
+        s->anim = gUnknown_080D8AF4[i + langOffset].anim;
+        s->variant = gUnknown_080D8AF4[i + langOffset].variant;
+        s->prevVariant = -1;
+        s->x = I(trs->unk78[i].x);
+        s->y = I(trs->unk78[i].y);
+        s->oamFlags = 0xC0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+#ifndef NON_MATCHING
+    // NOTE(Jace): No idea why it is needed here to match... but it is needed (for now?).
+    s = &trs->sprA4[2];
+#endif
+
+    for (i = 1; i < 11; i++) {
+        s = &trs->spr194[i];
+        s->tiles = trs->vramA0;
+        trs->vramA0 += gUnknown_080D8B44.numTiles * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080D8B44.anim;
+        s->variant = i + gUnknown_080D8B44.variant;
+        s->prevVariant = -1;
+        s->x = (s16)((s32)trs->unk78[0].x >> 8);
+        s->y = (s16)((s32)trs->unk78[0].y >> 8);
+        s->oamFlags = 0xC0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    s = &trs->spr414;
+    s->tiles = trs->vramA0;
+    trs->vramA0 += gUnknown_080D8B44.numTiles * TILE_SIZE_4BPP;
+    s->anim = gUnknown_080D8B44.anim;
+    s->variant = gUnknown_080D8B44.variant;
+    s->prevVariant = -1;
+    s->x = (s16)((s32)trs->unk78[0].x >> 8);
+    s->y = (s16)((s32)trs->unk78[0].y >> 8);
+    s->oamFlags = 0xC0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    for (i = 0; i < 2; i++) {
+        s = &trs->spr43C[i];
+        s->tiles = trs->vramA0;
+        trs->vramA0 += gUnknown_080D8B44.numTiles * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080D8B44.anim;
+        s->variant = 11 + gUnknown_080D8B44.variant + i;
+        s->prevVariant = -1;
+        s->x = I(trs->unk78[0].x);
+        s->y = I(trs->unk78[0].y);
+        s->oamFlags = 0xC0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    langOffset = (trs->language) ? 1 : 0;
+    s = &trs->sprA4[2];
+    s->tiles = trs->vramA0;
+    trs->vramA0 += gUnknown_080D8ACC[langOffset].numTiles << 5;
+    s->anim = gUnknown_080D8ACC[langOffset].anim;
+    s->variant = gUnknown_080D8ACC[langOffset].variant;
+    s->prevVariant = -1;
+    s->x = I(trs->qUnk48);
+    s->y = I(trs->qUnk4C);
+    s->oamFlags = 0xC0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+    s = &trs->spr16C;
+    s->tiles = trs->vramA0;
     trs->vramA0 += 0x80;
-    trs->spr16C.anim = sAnimsTimeAttackDigits.unk0;
-    trs->spr16C.variant = sAnimsTimeAttackDigits.unk2;
-    trs->spr16C.prevVariant |= ~0;
-    trs->spr16C.x = ((s32) trs->unk30 >> 8) + 0x2000;
-    trs->spr16C.y = (s16) ((s32) trs->unk34 >> 8);
-    trs->spr16C.oamFlags = 0xC0;
-    trs->spr16C.animCursor = 0;
-    trs->spr16C.qAnimDelay = 0;
-    trs->spr16C.animSpeed = 0x10;
-    trs->spr16C.palId = 0;
-    trs->spr16C.frameFlags = 0;
-    UpdateSpriteAnimation(&trs->spr16C);
+    s->anim = sAnimsTimeAttackDigits.anim;
+    s->variant = sAnimsTimeAttackDigits.variant;
+    s->prevVariant |= ~0;
+    s->x = ((s32)trs->unk30 >> 8) + 0x2000;
+    s->y = (s16)((s32)trs->unk34 >> 8);
+    s->oamFlags = 0xC0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
 }
 
+#if 0
 void sub_8094F3C(TimeRecordScreen *trs) {
     gDispCnt |= 0x100;
     gBgCntRegs->unk0 = 0x603;
