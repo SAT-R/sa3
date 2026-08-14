@@ -1278,11 +1278,9 @@ void sub_8095E8C(TimeRecordScreen *trs)
     DisplaySprite(s);
 }
 
-// (95.77%) https://decomp.me/scratch/XwLnr
-NONMATCH("asm/non_matching/game/sa3/options/trs__sub_8095EF4.inc", void sub_8095EF4(TimeRecordScreen *trs))
+void sub_8095EF4(TimeRecordScreen *trs)
 {
     u8 sp00[5];
-    u8 sp5[3];
     u8 sp8[5];
     Sprite *s;
     u8 unk1E, unk1F;
@@ -1309,8 +1307,8 @@ NONMATCH("asm/non_matching/game/sa3/options/trs__sub_8095EF4.inc", void sub_8095
             }
         } else {
             for (var_r4 = 0; var_r4 < 5; var_r4++) {
-                // sp8[var_r4] = var_r4;
-                s = &trs->spr194[1 + trs->recordData[unk1F][unk1E].rankTimes[var_r3][var_r4]];
+                sp8[var_r4] = trs->recordData[unk1F][unk1E].rankTimes[var_r3][var_r4];
+                s = &trs->spr194[1 + sp8[var_r4]];
                 if ((var_r4 == 1) || (var_r4 == 3)) {
                     var_r8 += 1;
                 }
@@ -1330,7 +1328,6 @@ NONMATCH("asm/non_matching/game/sa3/options/trs__sub_8095EF4.inc", void sub_8095
         DisplaySprite(s);
     }
 }
-END_NONMATCH
 
 // (59.54%) https://decomp.me/scratch/oBXl0
 NONMATCH("asm/non_matching/game/sa3/options/trs__sub_80960B8.inc", void sub_80960B8(TimeRecordScreen *trs))
