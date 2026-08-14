@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "lib/m4a/m4a.h"
 #include "game/save.h"
 #include "game/stage.h"
 #include "game/character_select.h"
@@ -813,14 +814,14 @@ void Task_80954A8(void)
     return;
 }
 
-#if 0
-void sub_8095674(void) {
+void sub_8095674(void)
+{
     TimeRecordScreen *trs = TASK_DATA(gCurTask);
     u8 var_r5;
     u8 temp_r0;
 
     var_r5 = 0;
-    if ((s16) trs->unk24 == 0) {
+    if ((s16)trs->unk24 == 0) {
         sub_809673C(trs);
     } else {
         sub_8096758(trs);
@@ -831,7 +832,7 @@ void sub_8095674(void) {
         trs->unk1 = 1;
     }
     if (sub_8096678(trs) == 1) {
-        var_r5 = (u32) (u8) (var_r5 + 1);
+        var_r5 = (u32)(u8)(var_r5 + 1);
         trs->unk1 = 2;
     }
     if (var_r5 == 2) {
@@ -840,10 +841,12 @@ void sub_8095674(void) {
     }
 }
 
-void Task_80956E4(void) {
+void Task_80956E4(void)
+{
     TimeRecordScreen *trs = TASK_DATA(gCurTask);
     u8 var_r5 = 0;
-    if ((s16) trs->unk24 == 0) {
+
+    if (trs->unk24 == 0) {
         sub_809673C(trs);
     } else {
         sub_8096758(trs);
@@ -854,8 +857,7 @@ void Task_80956E4(void) {
     if (sub_80966C4(trs) == 1) {
         var_r5 += 1;
     }
-    gWinRegs[WINREG_WIN0V] = (I(trs->unk54) * WIN_RANGE(1, 1))
-        + WIN_RANGE(0, I(trs->unk2C));
+    gWinRegs[WINREG_WIN0V] = (I(trs->unk54) * WIN_RANGE(1, 1)) + WIN_RANGE(0, I(trs->unk2C));
 
     if (var_r5 == 2) {
         trs->unk1 = 3;
@@ -863,7 +865,8 @@ void Task_80956E4(void) {
     }
 }
 
-void Task_8095764(void) {
+void Task_8095764(void)
+{
     TimeRecordScreen *trs = TASK_DATA(gCurTask);
     u8 temp_r2;
 
@@ -887,13 +890,13 @@ void Task_8095764(void) {
         return;
     }
     if (0xC0 & gPressedKeys) {
-        if ((0x40 & gPressedKeys) && ((s16) trs->unk24 != 0)) {
+        if ((0x40 & gPressedKeys) && ((s16)trs->unk24 != 0)) {
             trs->unk4 = temp_r2;
-            trs->unk24 = (u16) temp_r2;
+            trs->unk24 = (u16)temp_r2;
             trs->unk64 = 0x2000;
             m4aSongNumStart(0x6CU);
         }
-        if ((0x80 & gPressedKeys) && ((s16) trs->unk24 == 0)) {
+        if ((0x80 & gPressedKeys) && ((s16)trs->unk24 == 0)) {
             trs->unk4 = 0x20;
             trs->unk24 = 1;
             trs->unk64 = -0x800;
@@ -903,7 +906,8 @@ void Task_8095764(void) {
     }
 }
 
-void Task_8095840(void) {
+void Task_8095840(void)
+{
     TimeRecordScreen *trs = TASK_DATA(gCurTask);
     s32 temp_r1;
     u16 temp_r0;
@@ -922,7 +926,7 @@ void Task_8095840(void) {
         var_r5 |= 4;
     }
     sub_80967DC(trs);
-    if ((s16) trs->unk24 == 0) {
+    if ((s16)trs->unk24 == 0) {
         sub_809673C(trs);
         sub_8096774(trs);
         sub_8096814(trs);
@@ -961,7 +965,23 @@ void Task_8095840(void) {
     }
 }
 
-void sub_8095980(TimeRecordScreen *trs, s32 unused) {
+static inline void sub_8095980_subinline(TimeRecordScreen *trs)
+{
+    u8 var_r3;
+
+    for (var_r3 = 0; var_r3 < ARRAY_COUNT(trs->unk78); var_r3++) {
+        const int x = 0xF000;
+        const int y = 0x1000;
+        trs->unk78[var_r3].x = (var_r3 << 14) + x;
+        trs->unk78[var_r3].y = (var_r3 << 12) + y;
+        trs->unkF[var_r3] = 0;
+    }
+
+    gCurTask->main = Task_8095840;
+}
+
+void sub_8095980(TimeRecordScreen *trs, s32 unused)
+{
     s16 temp_r2;
     s32 var_r6;
     u8 temp_r0;
@@ -987,20 +1007,20 @@ void sub_8095980(TimeRecordScreen *trs, s32 unused) {
             trs->unk3 = 5;
             gCurTask->main = Task_80954A8;
             return;
-        } else if(trs->unk3 == 2) {
+        } else if (trs->unk3 == 2) {
             trs->unk3 = 6;
             gCurTask->main = Task_80954A8;
             return;
-        } else if(trs->unk3 == 3) {
+        } else if (trs->unk3 == 3) {
             trs->unk3 = 7;
             gCurTask->main = Task_80954A8;
             return;
-        } else if(trs->unk3 == 4) {
+        } else if (trs->unk3 == 4) {
             trs->unk3 = 8;
             gCurTask->main = Task_80954A8;
             return;
         } else {
-            if ((s16) trs->unk24 != 0) {
+            if ((s16)trs->unk24 != 0) {
                 trs->unk30 = trs->unk38;
                 trs->unk34 = trs->qUnk3C + 0xFFFFE000;
             }
@@ -1017,7 +1037,7 @@ void sub_8095980(TimeRecordScreen *trs, s32 unused) {
         }
         if (0xC0 & gRepeatedKeys) {
             if (0x40 & gRepeatedKeys) {
-                if (++trs->unk1F >= (s32) trs->unk14) {
+                if (++trs->unk1F >= (s32)trs->unk14) {
                     trs->unk1F = 0;
                 }
             }
@@ -1032,13 +1052,9 @@ void sub_8095980(TimeRecordScreen *trs, s32 unused) {
             if (var_r6 != 0) {
                 m4aSongNumStart(0x6CU);
                 trs->unk28 = 2;
-                for(var_r3 = 0; var_r3 < 5; var_r3++)
-                {
-                    trs->unk78[var_r3].x = (var_r3 << 14) + 0xF000;
-                    trs->unk78[var_r3].y = (var_r3 << 12) + (1 << 12);
-                    trs->unkF[var_r3] = 0;
-                }
-                gCurTask->main = Task_8095840;
+
+                sub_8095980_subinline(trs);
+
                 return;
             }
         }
@@ -1052,20 +1068,20 @@ void sub_8095980(TimeRecordScreen *trs, s32 unused) {
                 if (++trs->unk1E > 2) {
                     trs->unk1E = 0;
 
-                    if (++trs->unk1F >= (s32) trs->unk14) {
+                    if (++trs->unk1F >= (s32)trs->unk14) {
                         trs->unk1F = 0;
                     }
                 }
             } else {
                 trs->unk1E = 3;
                 trs->unk1F += 1;
-                if ((s32) trs->unk1F > (s32) (trs->unk14 - 1)) {
+                if ((s32)trs->unk1F > (s32)(trs->unk14 - 1)) {
                     trs->unk1F = 0;
                 }
             }
         }
         if (0x20 & gRepeatedKeys) {
-            if ((s16) trs->unk24 == 0) {
+            if ((s16)trs->unk24 == 0) {
                 if (--trs->unk1E < 0) {
                     trs->unk1E = 2;
                     if (--trs->unk1F < 0) {
@@ -1074,12 +1090,12 @@ void sub_8095980(TimeRecordScreen *trs, s32 unused) {
                 }
             } else {
                 trs->unk1E = 3;
-                    if (--trs->unk1F < 0) {
-                        trs->unk1F = trs->unk14 - 1;
-                    }
+                if (--trs->unk1F < 0) {
+                    trs->unk1F = trs->unk14 - 1;
+                }
             }
         }
-        if ((trs->unk1F != (s8) temp_r7) || (trs->unk1E != (s8) temp_r8)) {
+        if ((trs->unk1F != (s8)temp_r7) || (trs->unk1E != (s8)temp_r8)) {
             var_r6 = 1;
         }
         if (var_r6 != 0) {
@@ -1087,19 +1103,13 @@ void sub_8095980(TimeRecordScreen *trs, s32 unused) {
                 trs->unk28 = 2;
             }
 
-            for(var_r3 = 0; var_r3 < 5; var_r3++)
-            {
-                trs->unk78[var_r3].x = (var_r3 << 14) + 0xF000;
-                trs->unk78[var_r3].y = (var_r3 << 12) + 0x1000;
-                trs->unkF[var_r3] = 0;
-            }
-
-            gCurTask->main = Task_8095840;
+            sub_8095980_subinline(trs);
         }
     }
 }
 
-void sub_8095C14(TimeRecordScreen *trs) {
+void sub_8095C14(TimeRecordScreen *trs)
+{
     u8 var_r0;
 
     if (SELECT_BUTTON & gPressedKeys) {
@@ -1110,10 +1120,9 @@ void sub_8095C14(TimeRecordScreen *trs) {
         trs->unk4 = 0;
 
         var_r0 = 0;
-        if(var_r0 <= trs->unk2)
-        {
-            while(var_r0 <= trs->unk2) {
-                var_r0++;                
+        if (var_r0 <= trs->unk2) {
+            while (var_r0 <= trs->unk2) {
+                var_r0++;
             }
 
             trs->unk34 = +Q(80);
@@ -1138,7 +1147,8 @@ void sub_8095C14(TimeRecordScreen *trs) {
     }
 }
 
-s32 sub_8095CB4(TimeRecordScreen *trs) {
+s32 sub_8095CB4(TimeRecordScreen *trs)
+{
     s32 temp_r1;
     s32 temp_r1_2;
     s32 temp_r1_3;
@@ -1152,7 +1162,7 @@ s32 sub_8095CB4(TimeRecordScreen *trs) {
         temp_r1_2 = trs->unk34 + ((trs->unk20 - 1) << 8);
         trs->unk34 = temp_r1_2;
         trs->unk30 = 0x7800;
-        if (((s16) trs->unk24 != 0) && (temp_r1_2 >= temp_r3)) {
+        if (((s16)trs->unk24 != 0) && (temp_r1_2 >= temp_r3)) {
             trs->unk34 = temp_r3;
         }
     } else {
@@ -1173,16 +1183,16 @@ s32 sub_8095CB4(TimeRecordScreen *trs) {
     return 0;
 }
 
-s32 sub_8095D24(TimeRecordScreen *trs) {
+s32 sub_8095D24(TimeRecordScreen *trs)
+{
     u8 var_r3;
     u8 var_r5;
     u8 someCount;
 
     someCount = 0;
     {
-        for(var_r5 = 0; var_r5 < 5; var_r5++)
-        {
-            var_r3 = (u8) trs->unkF[var_r5];
+        for (var_r5 = 0; var_r5 < 5; var_r5++) {
+            var_r3 = (u8)trs->unkF[var_r5];
             trs->unk78[var_r5].y = gUnknown_080D8B9C[var_r5] << 8;
             if (var_r3 == 6) {
                 if (trs->unk78[var_r5].x >= 0) {
@@ -1203,18 +1213,19 @@ s32 sub_8095D24(TimeRecordScreen *trs) {
                 }
                 trs->unk78[var_r5].x -= gUnknown_080D8BD8[var_r3] << 8;
             }
-            trs->unkF[var_r5] = (s8) var_r3;
+            trs->unkF[var_r5] = (s8)var_r3;
         }
     }
 
-    if(someCount < 5) {
-        return 0;
+    if (someCount >= 5) {
+        return 1;
     } else {
-        return 1;        
+        return 0;
     }
 }
 
-s32 sub_8095DF8(TimeRecordScreen *trs) {
+s32 sub_8095DF8(TimeRecordScreen *trs)
+{
     u16 temp_r0;
     u16 temp_r0_2;
     u8 unk1F = trs->unk1F;
@@ -1239,7 +1250,7 @@ s32 sub_8095DF8(TimeRecordScreen *trs) {
             trs->unk26 -= Q(1);
             gBldRegs.bldY = (trs->unk26 >> 8);
         }
-        if ((u32) (u16) (gBldRegs.bldY - 1) > 0xFU) {
+        if ((u32)(u16)(gBldRegs.bldY - 1) > 0xFU) {
             gBldRegs.bldY = 0;
             trs->unk28 = 0;
         }
@@ -1247,7 +1258,8 @@ s32 sub_8095DF8(TimeRecordScreen *trs) {
     return 0;
 }
 
-void sub_8095E8C(TimeRecordScreen *trs) {
+void sub_8095E8C(TimeRecordScreen *trs)
+{
     Sprite *s = &trs->spr144;
 
     s->x = I(trs->unk68) - 0x20;
@@ -1266,75 +1278,63 @@ void sub_8095E8C(TimeRecordScreen *trs) {
     DisplaySprite(s);
 }
 
-void sub_8095EF4(TimeRecordScreen *trs) {
+// (95.77%) https://decomp.me/scratch/XwLnr
+NONMATCH("asm/non_matching/game/sa3/options/trs__sub_8095EF4.inc", void sub_8095EF4(TimeRecordScreen *trs))
+{
     u8 sp00[5];
     u8 sp5[3];
     u8 sp8[5];
-    s32 sp10;
-    s32 sp14;
-    s32 sp18;
-    s32 sp1C;
-    void *sp20;
-    s32 sp24;
-    s32 sp2C;
     Sprite *s;
-    Vec2_32 *var_r5;
-    s32 *temp_r4;
-    s32 *temp_r5;
-    s32 var_r7;
-    u8 *temp_r2_2;
-    u8 var_r3;
+    u8 unk1E, unk1F;
     u8 var_r4;
     u8 var_r8;
+    s32 sp10 = 0;
+    u8 var_r3;
+    memcpy(sp00, &gUnknown_080D8BE2, sizeof(sp00));
+    unk1E = trs->unk1E;
+    unk1F = trs->unk1F;
 
-    sp10 = 0;
-    memcpy(sp00, &gUnknown_080D8BE2, 5);
-    var_r3 = 0;
-    sp14 = (trs->unk1E * 60);
-    sp18 = trs->unk1F * 0xF0;
-loop_1:
-    var_r8 = 0;
-    if (((u32) trs->recordData[trs->unk1F][trs->unk1E].chars[0][var_r3] > 4U) || (sp10 != 0)) {
-        sp10 = 1;
-        for(var_r4 = 0; var_r4 < 5; var_r4++)
-        {
-            if ((var_r4 == 1) || (var_r4 == 3)) {
-                var_r8 += 1;
+    for (var_r3 = 0; var_r3 < 5; var_r3++) {
+        var_r8 = 0;
+        if (((u32)trs->recordData[unk1F][unk1E].chars[var_r3][0] > 4U) || (sp10 != 0)) {
+            sp10 = 1;
+            for (var_r4 = 0; var_r4 < 5; var_r4++) {
+                if ((var_r4 == 1) || (var_r4 == 3)) {
+                    var_r8 += 1;
+                }
+                s = &trs->spr194[1 + sp00[var_r4]];
+                s->x = ((s32)trs->unk78[var_r3].x >> 8) + 0xAA + (var_r4 * 8) + var_r4 + (var_r8 * 8);
+                s->y = (s16)(trs->unk78[var_r3].y >> 8);
+                DisplaySprite(s);
             }
-            s = &trs->spr194[1 + sp00[var_r4]];
-            s->x = ((s32) trs->unk78[var_r3].x >> 8) + 0xAA + (var_r4 * 8) + var_r4 + (var_r8 * 8);
-            s->y = (s16) (trs->unk78[var_r3].y >> 8);
-            DisplaySprite(s);
-        }
-    } else {
-        for(var_r4 = 0; var_r4 < 5; var_r4++)
-        {
-            s = &trs->spr194[1 + trs->recordData[trs->unk1F][trs->unk1E].rankTimes[var_r3][var_r4]];
-            if ((var_r4 == 1) || (var_r4 == 3)) {
-                var_r8 += 1;
+        } else {
+            for (var_r4 = 0; var_r4 < 5; var_r4++) {
+                // sp8[var_r4] = var_r4;
+                s = &trs->spr194[1 + trs->recordData[unk1F][unk1E].rankTimes[var_r3][var_r4]];
+                if ((var_r4 == 1) || (var_r4 == 3)) {
+                    var_r8 += 1;
+                }
+                s->x = I(trs->unk78[var_r3].x) + 170 + (var_r4 * 8) + var_r4 + (var_r8 * 8);
+                s->y = I(trs->unk78[var_r3].y);
+                DisplaySprite(s);
             }
-            s->x = I(trs->unk78[var_r3].x) + 170 + (var_r4 * 8) + var_r4 + (var_r8 * 8);
-            s->y = I(trs->unk78[var_r3].y);
-            DisplaySprite(s);
         }
-    }
 
-    s = &trs->spr43C[0];
-    s->x = I(trs->unk78[var_r3].x) + 0xB3;
-    s->y = I(trs->unk78[var_r3].y);
-    DisplaySprite(s);
-    s = &trs->spr43C[1];
-    s->x = I(trs->unk78[var_r3].x) + 0xCE;
-    s->y = I(trs->unk78[var_r3].y);
-    DisplaySprite(s);
-
-    var_r3 += 1;
-    if ((u32) var_r3 <= 4U) {
-        goto loop_1;
+        s = &trs->spr43C[0];
+        s->x = I(trs->unk78[var_r3].x) + 0xB3;
+        s->y = I(trs->unk78[var_r3].y);
+        DisplaySprite(s);
+        s = &trs->spr43C[1];
+        s->x = I(trs->unk78[var_r3].x) + 0xCE;
+        s->y = I(trs->unk78[var_r3].y);
+        DisplaySprite(s);
     }
 }
+END_NONMATCH
 
-void sub_80960B8(TimeRecordScreen *trs) {
+// (59.54%) https://decomp.me/scratch/oBXl0
+NONMATCH("asm/non_matching/game/sa3/options/trs__sub_80960B8.inc", void sub_80960B8(TimeRecordScreen *trs))
+{
     s32 sp0;
     u32 sp4;
     Sprite *temp_r2;
@@ -1352,16 +1352,15 @@ void sub_80960B8(TimeRecordScreen *trs) {
     Sprite *s;
 
     sp4 = (language == 0) ? 0 : 1;
-    for(var_sb = 0; var_sb < 5; var_sb++)
-    {
+    for (var_sb = 0; var_sb < 5; var_sb++) {
         temp_r7 = &trs->recordData[trs->unk1F][trs->unk1E].chars[var_sb][0];
         temp_r0 = trs->recordData[trs->unk1F][trs->unk1E].chars[var_sb][0];
         if (temp_r0 < NUM_CHARACTERS) {
             temp_r2 = &trs->spr34C[temp_r0];
-            temp_r4 = ((s32) trs->unk78[var_sb].x >> 8) + 0x20;
-            temp_r2->x = (s16) temp_r4;
+            temp_r4 = ((s32)trs->unk78[var_sb].x >> 8) + 0x20;
+            temp_r2->x = (s16)temp_r4;
             temp_r5 = &trs->unk78[0].y + (var_sb * 8);
-            temp_r2->y = (s16) ((s32) *temp_r5 >> 8);
+            temp_r2->y = (s16)((s32)*temp_r5 >> 8);
             temp_r2->frameFlags &= ~0x80;
             DisplaySprite(temp_r2);
 
@@ -1369,14 +1368,14 @@ void sub_80960B8(TimeRecordScreen *trs) {
             temp_r2->anim = gUnknown_080D8B44.anim;
             temp_r2->variant = gUnknown_080D8B44.variant;
             temp_r4_2 = temp_r4 + gUnknown_080D8BE7[((sp4 * 4) | sp4) + temp_r7[0]];
-            temp_r2->x = (s16) temp_r4_2;
-            temp_r2->y = (s16) ((s32) *temp_r5 >> 8);
+            temp_r2->x = (s16)temp_r4_2;
+            temp_r2->y = (s16)((s32)*temp_r5 >> 8);
             temp_r2->frameFlags &= ~0x80;
             DisplaySprite(temp_r2);
 
             temp_r2 = &trs->spr34C[trs->recordData[trs->unk1F][trs->unk1E].chars[var_sb][1]];
             temp_r2->x = temp_r4_2 + 0x10;
-            temp_r2->y = (s16) ((s32) *temp_r5 >> 8);
+            temp_r2->y = (s16)((s32)*temp_r5 >> 8);
             temp_r2->frameFlags &= ~0x80;
             DisplaySprite(temp_r2);
         } else {
@@ -1384,13 +1383,15 @@ void sub_80960B8(TimeRecordScreen *trs) {
         }
     }
 }
+END_NONMATCH
 
-void CreateTimeRecordScreen(u8 arg0) {
+void CreateTimeRecordScreen(u8 arg0)
+{
     TimeRecordScreen *trs;
 
     gDispCnt = DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP;
 
-    trs = TASK_DATA(TaskCreate(Task_TimeRecordScreenInit, sizeof(TimeRecordScreen), 0x101U, 0U, TaskDestructor_TimeRecordScreen));
+    trs = TASK_DATA(TaskCreate(Task_TimeRecordScreenInit, sizeof(TimeRecordScreen), 0x101, 0U, TaskDestructor_TimeRecordScreen));
     trs->unk3 = arg0;
 
     sub_80947EC(trs);
@@ -1402,10 +1403,11 @@ void CreateTimeRecordScreen(u8 arg0) {
     }
 }
 
-void Task_809624C(void) {
+void Task_809624C(void)
+{
     TimeRecordScreen *trs = TASK_DATA(gCurTask);
 
-    if ((s16) trs->unk24 == 0) {
+    if ((s16)trs->unk24 == 0) {
         sub_809673C(trs);
     } else {
         sub_8096758(trs);
@@ -1414,17 +1416,18 @@ void Task_809624C(void) {
     if (sub_8095CB4(trs) == 1) {
         trs->unk28 = 0;
         sub_8096714(trs);
-        if ((s16) trs->unk24 != 0) {
+        if ((s16)trs->unk24 != 0) {
             trs->unk1E = 3;
         }
         gCurTask->main = Task_8095210;
     }
 }
 
-void sub_80962B4(void) {
+void sub_80962B4(void)
+{
     TimeRecordScreen *trs = TASK_DATA(gCurTask);
 
-    if ((s16) trs->unk24 == 0) {
+    if ((s16)trs->unk24 == 0) {
         sub_809673C(trs);
     } else {
         sub_8096758(trs);
@@ -1436,7 +1439,8 @@ void sub_80962B4(void) {
     }
 }
 
-void Task_809630C(void) {
+void Task_809630C(void)
+{
 #ifndef BUG_FIX
     s32 undeclared;
 #else
@@ -1444,10 +1448,10 @@ void Task_809630C(void) {
 #endif
     TimeRecordScreen *trs = TASK_DATA(gCurTask);
 
-    if (((s32) trs->unk30 > 0x7BFF) && (trs->unk28 != 0)) {
+    if (((s32)trs->unk30 > 0x7BFF) && (trs->unk28 != 0)) {
         sub_8095DF8(trs);
     }
-    if ((s16) trs->unk24 == 0) {
+    if ((s16)trs->unk24 == 0) {
         sub_809673C(trs);
         sub_8096814(trs);
         sub_8096774(trs);
@@ -1465,7 +1469,8 @@ void Task_809630C(void) {
     sub_8095980(trs, undeclared);
 }
 
-bool32 sub_8096398(TimeRecordScreen *trs) {
+bool32 sub_8096398(TimeRecordScreen *trs)
+{
     s32 temp_r0;
     s32 temp_r1;
 
@@ -1482,15 +1487,16 @@ bool32 sub_8096398(TimeRecordScreen *trs) {
     } else {
         return 0;
     }
-    
-    if (trs->unk38 == Q(120)) {
+
+    if (trs->unk30 == Q(120)) {
         return 1;
     } else {
         return 0;
     }
 }
 
-s32 sub_80963E0(TimeRecordScreen *trs) {
+s32 sub_80963E0(TimeRecordScreen *trs)
+{
     s32 temp_r1;
     s32 temp_r1_2;
     u8 unk4 = trs->unk4;
@@ -1506,7 +1512,7 @@ s32 sub_80963E0(TimeRecordScreen *trs) {
 
         trs->unk38 = trs->unk30;
     } else {
-        return 0;        
+        return 0;
     }
 
     if (trs->unk38 == -Q(50)) {
@@ -1516,7 +1522,8 @@ s32 sub_80963E0(TimeRecordScreen *trs) {
     }
 }
 
-void sub_8096428(TimeRecordScreen *trs) {
+void sub_8096428(TimeRecordScreen *trs)
+{
     s32 temp_r0;
     s32 temp_r0_2;
     s32 temp_r1;
@@ -1525,7 +1532,7 @@ void sub_8096428(TimeRecordScreen *trs) {
     u8 unk4 = trs->unk4;
 
     if (trs->unk30 == 0x7800) {
-        if ((s16) trs->unk24 != 0) {
+        if ((s16)trs->unk24 != 0) {
             temp_r1 = (0x50 - unk4) << 8;
             temp_r3 = trs->unk34;
             if (temp_r3 > temp_r1) {
@@ -1550,7 +1557,8 @@ void sub_8096428(TimeRecordScreen *trs) {
     trs->qUnk3C = trs->unk34 + 0x2000;
 }
 
-s32 sub_8096490(TimeRecordScreen *trs) {
+s32 sub_8096490(TimeRecordScreen *trs)
+{
     s32 temp_r0;
     s32 temp_r0_2;
     s32 temp_r1;
@@ -1586,7 +1594,8 @@ s32 sub_8096490(TimeRecordScreen *trs) {
     return 0;
 }
 
-void sub_80964F8(TimeRecordScreen *trs) {
+void sub_80964F8(TimeRecordScreen *trs)
+{
     s32 temp_r1;
     s32 temp_r2;
 
@@ -1594,11 +1603,12 @@ void sub_80964F8(TimeRecordScreen *trs) {
     trs->unk58 = temp_r2;
     temp_r1 = trs->unk5C + 0xFFFFFE80;
     trs->unk5C = temp_r1;
-    gBgScrollRegs[0][0] = (s16) (temp_r2 >> 8);
-    gBgScrollRegs[0][1] = (s16) (temp_r1 >> 8);
+    gBgScrollRegs[0][0] = (s16)(temp_r2 >> 8);
+    gBgScrollRegs[0][1] = (s16)(temp_r1 >> 8);
 }
 
-void sub_8096520(TimeRecordScreen *trs) {
+void sub_8096520(TimeRecordScreen *trs)
+{
     s32 temp_r0;
     s32 temp_r0_2;
 
@@ -1614,21 +1624,24 @@ void sub_8096520(TimeRecordScreen *trs) {
     }
 }
 
-void sub_8096554(TimeRecordScreen *trs) {
+void sub_8096554(TimeRecordScreen *trs)
+{
     if (trs->unk24 == 0) {
         trs->unk64 += 0x80;
         if (trs->unk64 > 0x2500) {
             trs->unk64 = 0x2000;
         }
     } else {
-        trs->unk64 -= 0x80;;
+        trs->unk64 -= 0x80;
+        ;
         if (trs->unk64 < -0xD00) {
             trs->unk64 = -0x800;
         }
     }
 }
 
-s32 sub_8096590(TimeRecordScreen *trs) {
+s32 sub_8096590(TimeRecordScreen *trs)
+{
     s32 var_r0;
     u16 var_r3;
     u16 var_r5;
@@ -1661,7 +1674,8 @@ s32 sub_8096590(TimeRecordScreen *trs) {
     return 0;
 }
 
-s32 sub_809660C(TimeRecordScreen *trs) {
+s32 sub_809660C(TimeRecordScreen *trs)
+{
     s32 temp_r0;
     s32 temp_r1;
     s32 temp_r2;
@@ -1673,7 +1687,7 @@ s32 sub_809660C(TimeRecordScreen *trs) {
     if (trs->unk24 == 0) {
         var_r1 = 0x7C;
     } else {
-        var_r1 = 0x8C;        
+        var_r1 = 0x8C;
     }
 
     temp_r4 = Q(var_r1);
@@ -1700,7 +1714,8 @@ s32 sub_809660C(TimeRecordScreen *trs) {
     return 0;
 }
 
-s32 sub_8096678(TimeRecordScreen *trs) {
+s32 sub_8096678(TimeRecordScreen *trs)
+{
     u8 unk4 = trs->unk4;
     s32 temp_r0;
     s32 temp_r0_2;
@@ -1718,7 +1733,8 @@ s32 sub_8096678(TimeRecordScreen *trs) {
     return 1;
 }
 
-s32 sub_80966C4(TimeRecordScreen *trs) {
+s32 sub_80966C4(TimeRecordScreen *trs)
+{
     s32 temp_r0;
     s32 temp_r0_2;
     u8 unk4 = trs->unk4;
@@ -1736,35 +1752,40 @@ s32 sub_80966C4(TimeRecordScreen *trs) {
     return 1;
 }
 
-void sub_8096714(TimeRecordScreen *trs) {
+void sub_8096714(TimeRecordScreen *trs)
+{
     trs->unk54 = trs->unk34 + (trs->unk4 << 8) + 0xFFFFF400;
-    gWinRegs[2] = ((trs->unk54 >> 8) * WIN_RANGE(1, 1)) + ((s32) trs->unk2C >> 8);
+    gWinRegs[2] = ((trs->unk54 >> 8) * WIN_RANGE(1, 1)) + ((s32)trs->unk2C >> 8);
 }
 
-void sub_809673C(TimeRecordScreen *trs) {
+void sub_809673C(TimeRecordScreen *trs)
+{
     Sprite *s = &trs->sprA4[0];
     s->x = I(trs->unk30);
     s->y = I(trs->unk34);
     DisplaySprite(s);
 }
 
-void sub_8096758(TimeRecordScreen *trs) {
+void sub_8096758(TimeRecordScreen *trs)
+{
     Sprite *s = &trs->sprA4[1];
     s->x = I(trs->unk38);
     s->y = I(trs->qUnk3C);
     DisplaySprite(&trs->sprA4[1]);
 }
 
-void sub_8096774(TimeRecordScreen *trs) {
+void sub_8096774(TimeRecordScreen *trs)
+{
     Sprite *s = &trs->sprA4[2];
     s->x = I(trs->qUnk48);
     s->y = I(trs->qUnk4C);
     DisplaySprite(&trs->sprA4[2]);
 }
 
-void sub_8096790(TimeRecordScreen *trs) {
+void sub_8096790(TimeRecordScreen *trs)
+{
     Sprite *s = &trs->spr11C;
-    s->x = (s16) ((s32) trs->unk60 >> 8);
+    s->x = (s16)((s32)trs->unk60 >> 8);
     s->y = I(trs->unk64);
     s->y += I(trs->unk54);
 
@@ -1778,7 +1799,8 @@ void sub_8096790(TimeRecordScreen *trs) {
     DisplaySprite(s);
 }
 
-void sub_80967DC(TimeRecordScreen *trs) {
+void sub_80967DC(TimeRecordScreen *trs)
+{
     Sprite *s = &trs->spr16C;
     s->x = I(trs->unk30) + 25;
     s->y = I(trs->unk34);
@@ -1787,7 +1809,8 @@ void sub_80967DC(TimeRecordScreen *trs) {
     DisplaySprite(s);
 }
 
-void sub_8096814(TimeRecordScreen *trs) {
+void sub_8096814(TimeRecordScreen *trs)
+{
     u8 unk1E = trs->unk1E;
     Sprite *s = trs->spr194;
     s->x = I(trs->qUnk48) + 0x2D;
@@ -1797,7 +1820,4 @@ void sub_8096814(TimeRecordScreen *trs) {
     DisplaySprite(s);
 }
 
-void TaskDestructor_TimeRecordScreen(Task *t) {
-
-}
-#endif
+void TaskDestructor_TimeRecordScreen(Task *t) { }
