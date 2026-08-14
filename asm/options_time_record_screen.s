@@ -5,7 +5,7 @@
 .syntax unified
 .arm
 
-.if 01
+.if 0
 	thumb_func_start Task_8095370
 Task_8095370: @ 0x08095370
 	push {r4, r5, r6, r7, lr}

@@ -657,7 +657,7 @@ void Task_8095210(void)
     }
     trs->unk26 = gBldRegs.bldY << 8;
     trs->unk30 = -0x3200;
-    gDispCnt |= 0x200;
+    gDispCnt |= DISPCNT_BG1_ON;
     if ((s16)trs->unk24 != 0) {
         trs->unk34 += 0x2000;
     }
@@ -671,11 +671,28 @@ void Task_8095210(void)
     gCurTask->main = Task_8095840;
 }
 
-#if 0
-void Task_8095370(void) {
+static inline void Task_8095370_subinline(TimeRecordScreen *trs)
+{
+    u8 var_r3 = 0;
+    struct Task *t = gCurTask;
+
+    for (; var_r3 < ARRAY_COUNT(trs->unk78); var_r3++) {
+        const int x = 0xF000;
+        const int y = 0x1000;
+        trs->unk78[var_r3].x = (var_r3 << 14) + x;
+        trs->unk78[var_r3].y = (var_r3 << 12) + y;
+        trs->unkF[var_r3] = 0;
+    }
+
+    trs->unk1E = trs->unk1F = 0;
+    gBgScrollRegs[1][1] = 128;
+    gCurTask->main = sub_80962B4;
+}
+
+void Task_8095370(void)
+{
     TimeRecordScreen *trs = TASK_DATA(gCurTask);
     Vec2_32 *sp0;
-    u8 var_r3;
 
     if (trs->unk28 != 0) {
         gBldRegs.bldCnt = 0x3FFF;
@@ -685,7 +702,7 @@ void Task_8095370(void) {
         trs->unk26 = 0;
         trs->unk28 = 0;
     }
-    if ((s16) trs->unk24 == 0) {
+    if ((s16)trs->unk24 == 0) {
         sub_809673C(trs);
     } else {
         sub_8096758(trs);
@@ -696,24 +713,17 @@ void Task_8095370(void) {
 
     gWinRegs[WINREG_WIN0V] = (I(trs->unk54) * WIN_RANGE(1, 1)) + WIN_RANGE(0, I(trs->unk2C));
     if (gBldRegs.bldY < 0x10) {
-        gBldRegs.bldY = (u16) ((u16) trs->unk26 >> 8);
+        gBldRegs.bldY = (u16)((u16)trs->unk26 >> 8);
         trs->unk26 += 0x100;
         return;
     }
-    trs->unk26 = gBldRegs.bldY << 8;
-    for(var_r3 = 0; var_r3 < ARRAY_COUNT(trs->unk78); var_r3++)
-    {
-        trs->unk78[var_r3].x = (var_r3 << 14) + 0xF000;
-        trs->unk78[var_r3].y = (var_r3 << 12) + 0x1000;
-        trs->unkF[var_r3] = 0;
-    }
 
-    
-    trs->unk1E = trs->unk1F = 0;
-    gBgScrollRegs[1][1] = 128;
-    gCurTask->main = sub_80962B4;
+    trs->unk26 = gBldRegs.bldY << 8;
+
+    Task_8095370_subinline(trs);
 }
 
+#if 0
 void Task_80954A8(void) {
     TimeRecordScreen *trs = TASK_DATA(gCurTask);
     s32 var_r0;
