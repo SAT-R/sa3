@@ -1,6 +1,9 @@
 #include "global.h"
 #include "core.h"
 #include "game/save.h"
+#include "game/stage.h"
+#include "game/character_select.h"
+#include "code_0_1.h"
 #include "constants/tilemaps.h"
 
 typedef struct {
@@ -552,7 +555,7 @@ void sub_809508C(void)
         trs->unk28 = 1;
     }
 
-    gWinRegs[2] = (((s32)trs->unk54 >> 8) * 0x101) + ((s32)trs->unk2C >> 8);
+    gWinRegs[2] = (((s32)trs->unk54 >> 8) * WIN_RANGE(1, 1)) + ((s32)trs->unk2C >> 8);
 
     if (gBldRegs.bldY != 0) {
         gBldRegs.bldY = (u16)((u16)trs->unk26 >> 8);
@@ -611,7 +614,7 @@ void sub_80951B0(void)
     temp_r1 += Q(20);
     trs->unk54 = temp_r1;
     trs->unk1E = 3;
-    gWinRegs[2] = (temp_r1 | (temp_r1 >> 8)) + 24;
+    gWinRegs[2] = (temp_r1 | (temp_r1 >> 8)) + WIN_RANGE(0, 24);
     gCurTask->main = Task_8095210;
 }
 
@@ -637,7 +640,7 @@ void Task_8095210(void)
         trs->unk26 = 0x1000;
         trs->unk28 = 1;
     }
-    gWinRegs[2] = (((s32)trs->unk54 >> 8) * 0x101) + ((s32)trs->unk2C >> 8);
+    gWinRegs[2] = (((s32)trs->unk54 >> 8) * WIN_RANGE(1, 1)) + ((s32)trs->unk2C >> 8);
     sub_80964F8(trs);
     sub_8096590(trs);
     sub_8095D24(trs);
@@ -723,38 +726,30 @@ void Task_8095370(void)
     Task_8095370_subinline(trs);
 }
 
-#if 0
-void Task_80954A8(void) {
+void Task_80954A8(void)
+{
     TimeRecordScreen *trs = TASK_DATA(gCurTask);
-    s32 var_r0;
-    u8 temp_r0;
-    u8 temp_r0_2;
-    u8 var_r1;
 
     if (trs->unk28 != 0) {
         gBldRegs.bldCnt = 0x3FFF;
         gDispCnt |= 0x6000;
         if (trs->unk3 == 0) {
-            gWinRegs[0] = 0xFF;
-            gWinRegs[2] = 0xFF;
-            gWinRegs[1] = 0xFF;
-            gWinRegs[3] = 0xFF;
-            gWinRegs[4] = 0x3130;
-            gWinRegs[5] = 0;
+            gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, WIN_GET_HIGHER(-1));
+            gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, WIN_GET_HIGHER(-1));
+            gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, WIN_GET_HIGHER(-1));
+            gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, WIN_GET_HIGHER(-1));
+            gWinRegs[WINREG_WININ] = 0x3130;
+            gWinRegs[WINREG_WINOUT] = 0;
         } else {
-            gWinRegs[4] = 0x3532;
-            gWinRegs[5] = 0;
+            gWinRegs[WINREG_WININ] = 0x3532;
+            gWinRegs[WINREG_WINOUT] = 0;
         }
         trs->unk26 = 0;
         trs->unk28 = 0;
         gBldRegs.bldY = 0;
     }
-    temp_r0 = trs->unk3;
-    switch (temp_r0) {
-    case 1:
-    case 3:
-    case 5:
-    case 7:
+
+    if (trs->unk3 == 1 || trs->unk3 == 5 || trs->unk3 == 7 || trs->unk3 == 3) {
         sub_809673C(trs);
         sub_8096814(trs);
         sub_8096774(trs);
@@ -763,25 +758,19 @@ void Task_80954A8(void) {
         sub_80960B8(trs);
         sub_80967DC(trs);
         sub_8095EF4(trs);
-        break;
-    case 2:
-    case 6:
-    case 8:
-    case 4:
+    } else if (trs->unk3 == 2 || trs->unk3 == 6 || trs->unk3 == 8 || trs->unk3 == 4) {
         sub_8096758(trs);
         sub_809673C(trs);
         sub_8095E8C(trs);
         sub_80960B8(trs);
         sub_80967DC(trs);
         sub_8095EF4(trs);
-        break;
-    default:                                        /* switch 1 */
+    } else {
         if (trs->unk24 == 0) {
             sub_809673C(trs);
         } else {
             sub_8096758(trs);
         }
-        break;
     }
     if (gBldRegs.bldY < 0x10) {
         gBldRegs.bldY = I(trs->unk26);
@@ -796,34 +785,35 @@ void Task_80954A8(void) {
             WarpToMap(LEVEL_INDEX(trs->unk1F, trs->unk1E) + 3, 0);
             gStageData.difficulty = 0;
             return;
-        } else if(unk3 == 2 || unk3 == 4) {
+        } else if (unk3 == 2 || unk3 == 4) {
             gStageData.gameMode = GAME_MODE_BOSS_TIME_ATTACK;
             WarpToMap(LEVEL_INDEX(trs->unk1F, 7), 0);
             gStageData.difficulty = 0;
             return;
-        } else if(unk3 == 5) {
+        } else if (unk3 == 5) {
             gStageData.gameMode = GAME_MODE_TIME_ATTACK;
             gStageData.playerIndex = PLAYER_1;
             CreateCharacterSelect(0U);
-        } else if(unk3 == 6) {
+        } else if (unk3 == 6) {
             gStageData.gameMode = GAME_MODE_BOSS_TIME_ATTACK;
             gStageData.playerIndex = PLAYER_1;
             CreateCharacterSelect(0U);
-        } else if(unk3 == 7) {
+        } else if (unk3 == 7) {
             gStageData.playerIndex = PLAYER_1;
             CreateCharacterSelect(3);
-        } else if(unk3 == 8) {
+        } else if (unk3 == 8) {
             gStageData.playerIndex = PLAYER_1;
             CreateCharacterSelect(3);
         } else {
             LaunchOptionsMenu(9);
         }
     }
-    
+
     TaskDestroy(gCurTask);
     return;
 }
 
+#if 0
 void sub_8095674(void) {
     TimeRecordScreen *trs = TASK_DATA(gCurTask);
     u8 var_r5;
@@ -1722,7 +1712,7 @@ s32 sub_8096678(TimeRecordScreen *trs) {
         }
 
         trs->unk54 = (trs->unk34 + Q(unk4)) - (trs->unk2C >> 1);
-        gWinRegs[2] = ((trs->unk54 >> 8) * 0x101) + (trs->unk2C >> 8);
+        gWinRegs[2] = ((trs->unk54 >> 8) * WIN_RANGE(1, 1)) + (trs->unk2C >> 8);
         return 0;
     }
     return 1;
@@ -1740,7 +1730,7 @@ s32 sub_80966C4(TimeRecordScreen *trs) {
         }
 
         trs->unk54 = (trs->unk34 + (unk4 << 8)) - (trs->unk2C >> 1);
-        gWinRegs[2] = ((trs->unk54 >> 8) * 0x101) + (trs->unk2C >> 8);
+        gWinRegs[2] = ((trs->unk54 >> 8) * WIN_RANGE(1, 1)) + (trs->unk2C >> 8);
         return 0;
     }
     return 1;
@@ -1748,7 +1738,7 @@ s32 sub_80966C4(TimeRecordScreen *trs) {
 
 void sub_8096714(TimeRecordScreen *trs) {
     trs->unk54 = trs->unk34 + (trs->unk4 << 8) + 0xFFFFF400;
-    gWinRegs[2] = ((trs->unk54 >> 8) * 0x101) + ((s32) trs->unk2C >> 8);
+    gWinRegs[2] = ((trs->unk54 >> 8) * WIN_RANGE(1, 1)) + ((s32) trs->unk2C >> 8);
 }
 
 void sub_809673C(TimeRecordScreen *trs) {
