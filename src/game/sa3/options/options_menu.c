@@ -9,7 +9,7 @@
 
 typedef struct {
     /* 0x000 */ u8 lang0;
-    /* 0x000 */ u8 unk1;
+    /* 0x000 */ u8 initArg0;
     /* 0x000 */ u8 unk2;
     /* 0x003 */ u8 unk3;
     /* 0x004 */ u8 unk4;
@@ -95,17 +95,17 @@ extern const ColorRaw gOptionsBgPalette[256];
 void CreateOptions(u16 arg0)
 {
     OptionsMenu *options;
-    s32 sp4;
-    u16 temp_r4;
 
-    gDispCnt = 0x1341;
+    gDispCnt = DISPCNT_OBJ_ON | DISPCNT_BG0_ON | DISPCNT_BG1_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_1;
     options = TASK_DATA(TaskCreate(Task_OptionsInit, sizeof(OptionsMenu), 0x100U, 0U, TaskDestructor_Options));
-    options->unk1 = arg0;
+    options->initArg0 = arg0;
+
     if (arg0 == 0) {
         sub_808B1B0(options);
     } else {
         sub_808B0A4(options);
     }
+
     options->lang0 = LOADED_SAVE->language;
     options->unk5 = 0;
     options->unk4 = 0;
@@ -113,11 +113,13 @@ void CreateOptions(u16 arg0)
     options->unk6 = 0;
     options->unk3 = 0;
     options->unk14[6] = 1;
-    options->unk14[1] = (u32)LOADED_SAVE->difficulty;
-    options->unk14[2] = (u32)LOADED_SAVE->disableTimeLimit;
-    options->unk14[3] = (u32)LOADED_SAVE->language;
-    options->vramA8 = (u8 *)0x06010000;
+    options->unk14[1] = LOADED_SAVE->difficulty;
+    options->unk14[2] = LOADED_SAVE->disableTimeLimit;
+    options->unk14[3] = LOADED_SAVE->language;
+    options->vramA8 = OBJ_VRAM0;
+
     DmaFill32(3, 0, (void *)BG_CHAR_ADDR_FROM_BGCNT(2), 0x40);
+
     gBgSprites_Unknown1[0] = 0;
     gBgSprites_Unknown2[0][0] = 0;
     gBgSprites_Unknown2[0][1] = 0;
@@ -141,59 +143,56 @@ void CreateOptions(u16 arg0)
         DmaCopy16(3, gOptionsBgPalette, gObjPalette, sizeof(gOptionsBgPalette));
         gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
     }
+	
     m4aSongNumStart(MUS_OPTIONS_COPY);
-    gStageData.playerIndex = 0;
+    gStageData.playerIndex = PLAYER_1;
 }
 
-#if 0
-void sub_808B0A4(OptionsMenu *options) {
-    Vec2_32 *sp0;
-    s32 *sp4;
-    u32 *temp_r1;
+static inline void sub_808B0A4_subinline(OptionsMenu *options)
+{
     u8 var_r2;
-    u8 var_r2_2;
-    u8 var_r2_3;
 
+    for (var_r2 = 0; var_r2 < ARRAY_COUNT(options->unk14); var_r2++) {
+        options->unk14[var_r2] = 0;
+    }
+    options->unk14[options->unk8] = (u32)options->unkA;
+
+    for (var_r2 = 0; var_r2 < ARRAY_COUNT(options->unk38); var_r2++) {
+        if (var_r2 == 0) {
+            options->unk38[0].x = -0xB400;
+        } else {
+            options->unk38[var_r2].x = 0x2B00;
+        }
+        options->unk38[var_r2].y = (var_r2 << 12) + 0x1D00;
+    }
+
+    options->unk12 = 0;
+    for (var_r2 = 0; var_r2 < ARRAY_COUNT(options->unk78); var_r2++) {
+        options->unk78[var_r2].x = Q(165);
+        options->unk78[var_r2].y = Q(29);
+    }
+}
+
+void sub_808B0A4(OptionsMenu *options)
+{
     options->unk8 = 0;
     options->unk10 = 0;
     options->unkE = 0;
     options->unkC = 2;
-    options->unkA = options->unk1 - 8;
+    options->unkA = options->initArg0 - 8;
     options->unk2 = 2;
-    var_r2 = 0;
-    temp_r1 = options->unk14;
-    do {
-        temp_r1[var_r2] = 0;
-        var_r2 += 1;
-    } while ((u32) var_r2 <= 6U);
-    temp_r1[options->unk8] = (u32) options->unkA;
-    var_r2_2 = 0;
-    sp0 = &options->unkA0;
-    sp4 = &options->unkA0.y;
-    do {
-        if (var_r2_2 == 0) {
-            options->unk38[0].x = -0xB400;
-        } else {
-            options->unk38[var_r2_2].x = 0x2B00;
-        }
-        *(&options->unk38[0].y + (var_r2_2 * 8)) = (var_r2_2 << 0xC) + 0x1D00;
-        var_r2_2 += 1;
-    } while ((u32) var_r2_2 <= 7U);
-    options->unk12 = 0;
-    var_r2_3 = 0;
-    do {
-        options->unk78[var_r2_3].x = 0xA500;
-        *(&options->unk78[0].y + (var_r2_3 * 8)) = 0x1D00;
-        var_r2_3 += 1;
-    } while ((u32) var_r2_3 <= 2U);
+
+    sub_808B0A4_subinline(options);
+
     options->unk90.x = options->unk38[0].x + 0x6B00;
     options->unk90.y = 0x1D00;
-    sp0->x = 0;
-    *sp4 = 0x1000;
+    options->unkA0.x = 0;
+    options->unkA0.y = 0x1000;
     options->unk30.x = 0;
     options->unk30.y = 0xA00;
 }
 
+#if 0
 void sub_808B1B0(OptionsMenu *options) {
     Vec2_32 *sp0;
     s32 *sp4;
@@ -251,7 +250,7 @@ void Task_808B294(OptionsMenu *options) {
     }
     gBldRegs.bldCnt = 0x3EFF;
     sub_808BEEC(options);
-    if (options->unk1 == 0) {
+    if (options->initArg0 == 0) {
         sub_808C008(options);
     }
     sub_808CED0(options);
@@ -273,7 +272,7 @@ void Task_808B294(OptionsMenu *options) {
     }
     gBldRegs.bldY = gBldRegs.bldY;
     gBldRegs.bldCnt = 0x3FFF;
-    if (options->unk1 == 0) {
+    if (options->initArg0 == 0) {
         var_r0 = Task_808BAA8;
     } else {
         var_r0 = Task_808BCD8;
@@ -605,7 +604,7 @@ void Task_808B9B4(OptionsMenu *options) {
         var_r5 += 1;
     } while ((u32) var_r5 <= 5U);
     sub_808B664(options, 0U);
-    if (options->unk1 != 0) {
+    if (options->initArg0 != 0) {
         Options_LoadSelectedMenu(options);
     }
     gCurTask->main = Task_808B294;
