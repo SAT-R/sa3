@@ -4,9 +4,10 @@
 #include "lib/m4a/m4a.h"
 #include "game/save.h"
 #include "game/stage.h"
-#include "constants/songs.h"
 #include "code_0_1.h" // sub_8001E58
 #include "code_z_1.h"
+#include "constants/songs.h"
+#include "constants/tilemaps.h"
 
 typedef struct {
     /* 0x000 */ u8 lang0;
@@ -337,47 +338,52 @@ void Task_808B398(void) {
     }
 }
 
-#if 0
 void sub_808B4EC(OptionsMenu *options) {
-    gBgCntRegs->unk0 = 0x603;
+	Background *bg0, *bg1;
+    gBgCntRegs[0] = BGCNT_SCREENBASE(6) | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(3) | BGCNT_16COLOR | BGCNT_TXT256x256;
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
-    options->bg12C.graphics.dest = (void *)0x06000000;
-    options->bg12C.graphics.anim = 0;
-    options->bg12C.layoutVram = (u16 *)0x06003000;
-    options->bg12C.unk18 = 0;
-    options->bg12C.unk1A = 0;
-    options->bg12C.tilemapId = 0x15D;
-    options->bg12C.unk1E = 0;
-    options->bg12C.unk20 = 0;
-    options->bg12C.unk22 = 0;
-    options->bg12C.unk24 = 0;
-    options->bg12C.targetTilesX = 0x20;
-    options->bg12C.targetTilesY = 0x20;
-    options->bg12C.paletteOffset = 0;
-    options->bg12C.flags = 0;
-    DrawBackground(&options->bg12C);
 
-    gBgCntRegs[1] = 0x5E06;
-    gBgScrollRegs[1][0] = 0 - ((s32) options->unk30.x >> 8);
-    gBgScrollRegs[1][1] = 0 - ((s32) options->unk30.y >> 8);
-    options->bgEC.graphics.dest = (void *)0x06004000;
-    options->bgEC.graphics.anim = 0;
-    options->bgEC.layoutVram = (u16 *)0x0600F000;
-    options->bgEC.unk18 = 0;
-    options->bgEC.unk1A = 0;
-    options->bgEC.tilemapId = 0x15E;
-    options->bgEC.unk1E = 0;
-    options->bgEC.unk20 = 0;
-    options->bgEC.unk22 = 0;
-    options->bgEC.unk24 = 0;
-    options->bgEC.targetTilesX = 0x1E;
-    options->bgEC.targetTilesY = 0x14;
-    options->bgEC.paletteOffset = 0;
-    options->bgEC.flags = 1;
-    DrawBackground(&options->bgEC);
+	bg0 = &options->bg12C;
+    bg0->graphics.dest = (void *)BG_CHAR_ADDR(0);
+    bg0->graphics.anim = 0;
+    bg0->layoutVram = (u16 *)BG_SCREEN_ADDR(6);
+    bg0 = &options->bg12C;
+	bg0->unk18 = 0;
+    bg0->unk1A = 0;
+    bg0->tilemapId = TM_UNKNOWN_349;
+    bg0->unk1E = 0;
+    bg0->unk20 = 0;
+    bg0->unk22 = 0;
+    bg0->unk24 = 0;
+    bg0->targetTilesX = 256 / 8;
+    bg0->targetTilesY = 256 / 8;
+    bg0->paletteOffset = 0;
+    bg0->flags = BACKGROUND_FLAGS_BG_ID(0);
+    DrawBackground(bg0);
+
+    gBgCntRegs[1] = BGCNT_TXT512x256 | BGCNT_SCREENBASE(30) | BGCNT_CHARBASE(1) | BGCNT_PRIORITY(2);
+    gBgScrollRegs[1][0] = -I(options->unk30.x);
+    gBgScrollRegs[1][1] = -I(options->unk30.y);
+    bg1 = &options->bgEC;
+	bg1->graphics.dest = (void *)BG_CHAR_ADDR(1);
+    bg1->graphics.anim = 0;
+    bg1->layoutVram = (u16 *)BG_SCREEN_ADDR(30);
+    bg1->unk18 = 0;
+    bg1->unk1A = 0;
+    bg1->tilemapId = TM_UNKNOWN_350;
+    bg1->unk1E = 0;
+    bg1->unk20 = 0;
+    bg1->unk22 = 0;
+    bg1->unk24 = 0;
+    bg1->targetTilesX = DISPLAY_WIDTH / 8;
+    bg1->targetTilesY = DISPLAY_HEIGHT / 8;
+    bg1->paletteOffset = 0;
+    bg1->flags = BACKGROUND_FLAGS_BG_ID(1);
+    DrawBackground(bg1);
 }
 
+#if 0
 void Task_OptionsInit(OptionsMenu *options) {
     gBgCntRegs[2] = 0x1C8D;
     options->bgAC.graphics.dest = (void *)0x0600C000;
