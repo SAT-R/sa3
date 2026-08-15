@@ -192,13 +192,8 @@ void sub_808B0A4(OptionsMenu *options)
     options->unk30.y = 0xA00;
 }
 
-#if 0
 void sub_808B1B0(OptionsMenu *options) {
-    Vec2_32 *sp0;
-    s32 *sp4;
-    u8 var_r2;
-    u8 var_r2_2;
-    u8 var_r2_3;
+    u8 i;
 
     options->unk8 = 0;
     options->unk10 = 0;
@@ -206,34 +201,31 @@ void sub_808B1B0(OptionsMenu *options) {
     options->unkC = 0;
     options->unkA = 0;
     options->unk2 = 0;
-    var_r2 = 0;
-    do {
-        options->unk14[var_r2] = 0;
-        var_r2 += 1;
-    } while ((u32) var_r2 <= 6U);
-    var_r2_2 = 0;
-    sp0 = &options->unkA0;
-    sp4 = &options->unkA0.y;
-    do {
-        options->unk38[var_r2_2].x = 0xAC00;
-        *(&options->unk38[0].y + (var_r2_2 * 8)) = 0x1D00;
-        var_r2_2 += 1;
-    } while ((u32) var_r2_2 <= 7U);
+
+    for (i = 0; i < ARRAY_COUNT(options->unk14); i++) {
+        options->unk14[i] = 0;
+    }
+
+    for (i = 0; i < ARRAY_COUNT(options->unk38); i++) {
+        options->unk38[i].x = 0xAC00;
+        options->unk38[i].y = 0x1D00;
+    }
+
     options->unk12 = 0;
-    var_r2_3 = 0;
-    do {
-        options->unk78[var_r2_3].x = 0xA500;
-        *(&options->unk78[0].y + (var_r2_3 * 8)) = 0x1D00;
-        var_r2_3 += 1;
-    } while ((u32) var_r2_3 <= 2U);
+    for (i = 0; i < ARRAY_COUNT(options->unk78); i++) {
+        options->unk78[i].x = Q(165);
+        options->unk78[i].y = Q(29);
+    }
+
     options->unk90.x = 0xA500;
     options->unk90.y = 0x1D00;
-    sp0->x = -0x7800;
-    *sp4 = 0x1000;
+    options->unkA0.x = -0x7800;
+    options->unkA0.y = 0x1000;
     options->unk30.x = 0xDF00;
     options->unk30.y = 0xA00;
 }
 
+#if 0
 void Task_808B294(OptionsMenu *options) {
     s32 temp_r0;
     void (*var_r0)(OptionsMenu *);
