@@ -225,17 +225,17 @@ void sub_808B1B0(OptionsMenu *options) {
     options->unk30.y = 0xA00;
 }
 
-#if 0
-void Task_808B294(OptionsMenu *options) {
+void Task_808B294(void) {
+	OptionsMenu *options = TASK_DATA(gCurTask);
     s32 temp_r0;
     void (*var_r0)(OptionsMenu *);
 
     if (options->unk10 == 0) {
-        gDispCnt |= 0x2000;
-        gWinRegs->unk0 = 0xF0;
-        gWinRegs[2] = 0xA0;
-        gWinRegs[4] |= 0x3F;
-        gWinRegs[5] |= 0x1F;
+        gDispCnt |= DISPCNT_WIN0_ON;
+        gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+        gWinRegs[WINREG_WININ] |= 0x3F;
+        gWinRegs[WINREG_WINOUT] |= 0x1F;
         gBldRegs.bldY = 0x10;
         options->unkE = 0x1000;
         options->unk10 = 1;
@@ -245,6 +245,7 @@ void Task_808B294(OptionsMenu *options) {
     if (options->initArg0 == 0) {
         sub_808C008(options);
     }
+
     sub_808CED0(options);
     sub_808CB74(options);
     sub_808CF4C(options);
@@ -253,25 +254,27 @@ void Task_808B294(OptionsMenu *options) {
     sub_808CCA0(options);
     sub_808CD14(options);
     sub_808CD88(options);
-    temp_r0 = (s32) options->unk30.x >> 8;
+
+    temp_r0 = I(options->unk30.x);
     if (temp_r0 > 0x59) {
         gBgScrollRegs[1][0] = 0 - temp_r0;
     }
     if (gBldRegs.bldY != 0) {
-        gBldRegs.bldY = (u16) ((u16) options->unkE >> 8);
-        options->unkE += 0xFFFFFF00;
-        return;
-    }
-    gBldRegs.bldY = gBldRegs.bldY;
-    gBldRegs.bldCnt = 0x3FFF;
-    if (options->initArg0 == 0) {
-        var_r0 = Task_808BAA8;
+        gBldRegs.bldY = I(options->unkE);
+        options->unkE -= Q(1);
     } else {
-        var_r0 = Task_808BCD8;
-    }
-    gCurTask->main = var_r0;
+		gBldRegs.bldY = gBldRegs.bldY;
+		gBldRegs.bldCnt = 0x3FFF;
+
+		if (options->initArg0 == 0) {
+			gCurTask->main = Task_808BAA8;
+		} else {
+			gCurTask->main = Task_808BCD8;
+		}
+	}
 }
 
+#if 0
 void Task_808B398(OptionsMenu *options) {
     u32 temp_r0;
 
