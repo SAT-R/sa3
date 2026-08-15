@@ -1,6 +1,11 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
+#include "lib/m4a/m4a.h"
+#include "game/save.h"
+#include "game/stage.h"
 #include "constants/songs.h"
+#include "code_z_1.h"
 
 typedef struct {
     /* 0x000 */ u8 lang0;
@@ -37,7 +42,7 @@ typedef struct {
     /* 0x12C */ Sprite spr374[6];
 } OptionsMenu; /* 0x464 */
 
-void CreateOptions(u16 arg0, OptionsMenu *options);
+void CreateOptions(u16 arg0);
 void sub_808B0A4(OptionsMenu *options);
 void sub_808B1B0(OptionsMenu *options);
 void Task_808B294(void);
@@ -83,17 +88,20 @@ extern const TileInfo2 gUnknown_080D6BD8[6];
 extern const TileInfo2 gUnknown_080D6AE8[12];
 extern const TileInfo2 gUnknown_080D6B48[12];
 extern const TileInfo2 gUnknown_080D6BA8[6];
+extern const TileInfo2 gUnknown_080D6BD8[6];
+extern const u16 gUnknown_080D6C08[10];
+extern const ColorRaw gOptionsBgPalette[256];
 
-#if 0
-void CreateOptions(u16 arg0, OptionsMenu *options) {
+void CreateOptions(u16 arg0)
+{
+    OptionsMenu *options;
     s32 sp4;
     u16 temp_r4;
 
-    temp_r4 = arg0;
     gDispCnt = 0x1341;
-    TaskCreate(Task_OptionsInit, 0x464U, 0x100U, 0U, TaskDestructor_Options);
-    options->unk1 = (u8) temp_r4;
-    if (temp_r4 == 0) {
+    options = TASK_DATA(TaskCreate(Task_OptionsInit, sizeof(OptionsMenu), 0x100U, 0U, TaskDestructor_Options));
+    options->unk1 = arg0;
+    if (arg0 == 0) {
         sub_808B1B0(options);
     } else {
         sub_808B0A4(options);
@@ -105,12 +113,12 @@ void CreateOptions(u16 arg0, OptionsMenu *options) {
     options->unk6 = 0;
     options->unk3 = 0;
     options->unk14[6] = 1;
-    options->unk14[1] = (u32) LOADED_SAVE->difficulty;
-    options->unk14[2] = (u32) LOADED_SAVE->disableTimeLimit;
-    options->unk14[3] = (u32) LOADED_SAVE->language;
+    options->unk14[1] = (u32)LOADED_SAVE->difficulty;
+    options->unk14[2] = (u32)LOADED_SAVE->disableTimeLimit;
+    options->unk14[3] = (u32)LOADED_SAVE->language;
     options->vramA8 = (u8 *)0x06010000;
-	DmaFill32(3, 0, (void*)BG_CHAR_ADDR_FROM_BGCNT(2), 0x40);
-    gBgSprites_Unknown1->unk0 = 0;
+    DmaFill32(3, 0, (void *)BG_CHAR_ADDR_FROM_BGCNT(2), 0x40);
+    gBgSprites_Unknown1[0] = 0;
     gBgSprites_Unknown2[0][0] = 0;
     gBgSprites_Unknown2[0][1] = 0;
     gBgSprites_Unknown2[0][2] = 0xFF;
@@ -118,24 +126,26 @@ void CreateOptions(u16 arg0, OptionsMenu *options) {
     gBgSprites_Unknown1[1] = 0;
     gBgSprites_Unknown2[1][0] = 0;
     gBgSprites_Unknown2[1][1] = 0;
-    gBgSprites_Unknown2[1][2] = -1U;
+    gBgSprites_Unknown2[1][2] = -1;
     gBgSprites_Unknown2[1][3] = 0x40;
     gBgSprites_Unknown1[2] = 0;
     gBgSprites_Unknown2[2][0] = 0;
     gBgSprites_Unknown2[2][1] = 0;
-    gBgSprites_Unknown2[2][2] = -1U;
+    gBgSprites_Unknown2[2][2] = -1;
     gBgSprites_Unknown2[2][3] = 0x40;
     sub_808B4EC(options);
+
     if (FLAGS_20000 & gFlags) {
-        CopyObjPaletteMasked(&gOptionsBgPalette, 0U, 0x100U);
+        CopyObjPaletteMasked(gOptionsBgPalette, 0U, ARRAY_COUNT(gOptionsBgPalette));
     } else {
-		DmaCopy16(3, gOptionsBgPalette, gObjPalette, 0x100 * sizeof(ColorRaw));
+        DmaCopy16(3, gOptionsBgPalette, gObjPalette, sizeof(gOptionsBgPalette));
         gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
     }
     m4aSongNumStart(MUS_OPTIONS_COPY);
     gStageData.playerIndex = 0;
 }
 
+#if 0
 void sub_808B0A4(OptionsMenu *options) {
     Vec2_32 *sp0;
     s32 *sp4;
