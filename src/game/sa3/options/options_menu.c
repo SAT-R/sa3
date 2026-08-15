@@ -150,7 +150,7 @@ void CreateOptions(u16 arg0)
         DmaCopy16(3, gOptionsBgPalette, gObjPalette, sizeof(gOptionsBgPalette));
         gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
     }
-	
+
     m4aSongNumStart(MUS_OPTIONS_COPY);
     gStageData.playerIndex = PLAYER_1;
 }
@@ -199,7 +199,8 @@ void sub_808B0A4(OptionsMenu *options)
     options->unk30.y = 0xA00;
 }
 
-void sub_808B1B0(OptionsMenu *options) {
+void sub_808B1B0(OptionsMenu *options)
+{
     u8 i;
 
     options->unk8 = 0;
@@ -232,8 +233,9 @@ void sub_808B1B0(OptionsMenu *options) {
     options->unk30.y = 0xA00;
 }
 
-void Task_808B294(void) {
-	OptionsMenu *options = TASK_DATA(gCurTask);
+void Task_808B294(void)
+{
+    OptionsMenu *options = TASK_DATA(gCurTask);
     s32 temp_r0;
     void (*var_r0)(OptionsMenu *);
 
@@ -270,18 +272,19 @@ void Task_808B294(void) {
         gBldRegs.bldY = I(options->unkE);
         options->unkE -= Q(1);
     } else {
-		gBldRegs.bldY = gBldRegs.bldY;
-		gBldRegs.bldCnt = 0x3FFF;
+        gBldRegs.bldY = gBldRegs.bldY;
+        gBldRegs.bldCnt = 0x3FFF;
 
-		if (options->initArg0 == 0) {
-			gCurTask->main = Task_808BAA8;
-		} else {
-			gCurTask->main = Task_808BCD8;
-		}
-	}
+        if (options->initArg0 == 0) {
+            gCurTask->main = Task_808BAA8;
+        } else {
+            gCurTask->main = Task_808BCD8;
+        }
+    }
 }
 
-void Task_808B398(void) {
+void Task_808B398(void)
+{
     OptionsMenu *options = TASK_DATA(gCurTask);
     s32 temp_r0;
 
@@ -306,8 +309,8 @@ void Task_808B398(void) {
     sub_808CCA0(options);
     sub_808CD14(options);
     sub_808CD88(options);
-    if ((u32) gBldRegs.bldY <= 0xFU) {
-        gBldRegs.bldY = (u16) ((u16) options->unkE >> 8);
+    if ((u32)gBldRegs.bldY <= 0xFU) {
+        gBldRegs.bldY = (u16)((u16)options->unkE >> 8);
         options->unkE += 0x100;
         return;
     }
@@ -315,18 +318,18 @@ void Task_808B398(void) {
     gBldRegs.bldCnt = 0x3FFF;
     if (options->unk3 != 0) {
         switch (options->unk14[options->unk8]) {
-        case 0:
-            CreateNameEntryScreen(1);
-            TaskDestroy(gCurTask);
-            return;
-        case 1:
-            CreateTimeRecordScreen(0);
-            TaskDestroy(gCurTask);
-            return;
-        case 2:
-            CreateVsRecordScreen();
-            TaskDestroy(gCurTask);
-            return;
+            case 0:
+                CreateNameEntryScreen(1);
+                TaskDestroy(gCurTask);
+                return;
+            case 1:
+                CreateTimeRecordScreen(0);
+                TaskDestroy(gCurTask);
+                return;
+            case 2:
+                CreateVsRecordScreen();
+                TaskDestroy(gCurTask);
+                return;
         }
     } else {
         sub_8001E58();
@@ -338,18 +341,19 @@ void Task_808B398(void) {
     }
 }
 
-void sub_808B4EC(OptionsMenu *options) {
-	Background *bg0, *bg1;
+void sub_808B4EC(OptionsMenu *options)
+{
+    Background *bg0, *bg1;
     gBgCntRegs[0] = BGCNT_SCREENBASE(6) | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(3) | BGCNT_16COLOR | BGCNT_TXT256x256;
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
 
-	bg0 = &options->bg12C;
+    bg0 = &options->bg12C;
     bg0->graphics.dest = (void *)BG_CHAR_ADDR(0);
     bg0->graphics.anim = 0;
     bg0->layoutVram = (u16 *)BG_SCREEN_ADDR(6);
     bg0 = &options->bg12C;
-	bg0->unk18 = 0;
+    bg0->unk18 = 0;
     bg0->unk1A = 0;
     bg0->tilemapId = TM_UNKNOWN_349;
     bg0->unk1E = 0;
@@ -366,7 +370,7 @@ void sub_808B4EC(OptionsMenu *options) {
     gBgScrollRegs[1][0] = -I(options->unk30.x);
     gBgScrollRegs[1][1] = -I(options->unk30.y);
     bg1 = &options->bgEC;
-	bg1->graphics.dest = (void *)BG_CHAR_ADDR(1);
+    bg1->graphics.dest = (void *)BG_CHAR_ADDR(1);
     bg1->graphics.anim = 0;
     bg1->layoutVram = (u16 *)BG_SCREEN_ADDR(30);
     bg1->unk18 = 0;
@@ -383,28 +387,33 @@ void sub_808B4EC(OptionsMenu *options) {
     DrawBackground(bg1);
 }
 
-#if 0
-void Task_OptionsInit(OptionsMenu *options) {
-    gBgCntRegs[2] = 0x1C8D;
-    options->bgAC.graphics.dest = (void *)0x0600C000;
-    options->bgAC.graphics.anim = 0;
-    options->bgAC.layoutVram = (u16 *)0x0600E000;
-    options->bgAC.unk18 = 0;
-    options->bgAC.unk1A = 0;
-    options->bgAC.tilemapId = 0x166;
-    options->bgAC.unk1E = 0;
-    options->bgAC.unk20 = 0;
-    options->bgAC.unk22 = 0;
-    options->bgAC.unk24 = 0;
-    options->bgAC.targetTilesX = 0x10;
-    options->bgAC.targetTilesY = 0x10;
-    options->bgAC.paletteOffset = 0;
-    options->bgAC.flags = 6;
-    DrawBackground(&options->bgAC);
-    sa2__sub_8003EE4(0U, 0x100, 0x100, 0x40, 0x40, 0x2150, (s16) (s32) (s16) ((0 - (u16) gBgScrollRegs[1][1]) + 0x5C), gBgAffineRegs);
+void Task_OptionsInit(void)
+{
+    OptionsMenu *options = TASK_DATA(gCurTask);
+    Background *bg2 = &options->bgAC;
+    gBgCntRegs[2] = BGCNT_SCREENBASE(28) | BGCNT_256COLOR | BGCNT_CHARBASE(3) | BGCNT_PRIORITY(1);
+
+    bg2->graphics.dest = (void *)BG_CHAR_ADDR(3);
+    bg2->graphics.anim = 0;
+    bg2->layoutVram = (u16 *)BG_SCREEN_ADDR(28);
+    bg2->unk18 = 0;
+    bg2->unk1A = 0;
+    bg2->tilemapId = TM_UNKNOWN_358;
+    bg2->unk1E = 0;
+    bg2->unk20 = 0;
+    bg2->unk22 = 0;
+    bg2->unk24 = 0;
+    bg2->targetTilesX = 128 / TILE_WIDTH;
+    bg2->targetTilesY = 128 / TILE_WIDTH;
+    bg2->paletteOffset = 0;
+    bg2->flags = 6;
+    DrawBackground(bg2);
+
+    SA2_LABEL(sub_8003EE4)(0U, 0x100, 0x100, 0x40, 0x40, 0x2150, -gBgScrollRegs[1][1] + 92, gBgAffineRegs);
     gCurTask->main = Task_808B9B4;
 }
 
+#if 0
 void sub_808B664(OptionsMenu *options, u8 arg1) {
     s32 *sp0;
     s32 *sp4;
