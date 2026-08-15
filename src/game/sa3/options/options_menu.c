@@ -5,6 +5,7 @@
 #include "game/save.h"
 #include "game/stage.h"
 #include "constants/songs.h"
+#include "code_0_1.h" // sub_8001E58
 #include "code_z_1.h"
 
 typedef struct {
@@ -22,7 +23,7 @@ typedef struct {
     /* 0x00E */ u16 unkE;
     /* 0x010 */ u16 unk10;
     /* 0x010 */ u16 unk12;
-    /* 0x012 */ bool32 unk14[7];
+    /* 0x012 */ s32 unk14[7];
     /* 0x090 */ Vec2_32 unk30;
     /* 0x038 */ Vec2_32 unk38[8];
     /* 0x078 */ Vec2_32 unk78[3];
@@ -83,6 +84,11 @@ void sub_808CF4C(OptionsMenu *options);
 void Task_808CF74(void);
 void sub_808CFC4(OptionsMenu *options);
 void TaskDestructor_Options(Task *t);
+
+extern void CreateNameEntryScreen(u8 arg0);
+extern void CreateTimeRecordScreen(u8 arg0);
+extern void CreateVsRecordScreen(void);
+extern void LaunchChaoMenu(s16 arg0, u8 arg1);
 
 extern const TileInfo2 gUnknown_080D6BD8[6];
 extern const TileInfo2 gUnknown_080D6AE8[12];
@@ -274,16 +280,16 @@ void Task_808B294(void) {
 	}
 }
 
-#if 0
-void Task_808B398(OptionsMenu *options) {
-    u32 temp_r0;
+void Task_808B398(void) {
+    OptionsMenu *options = TASK_DATA(gCurTask);
+    s32 temp_r0;
 
     if (options->unk10 != 0) {
-        gDispCnt |= 0x2000;
-        gWinRegs->unk0 = 0xF0;
-        gWinRegs[2] = 0xA0;
-        gWinRegs[4] |= 0x3F;
-        gWinRegs[5] |= 0x1F;
+        gDispCnt |= DISPCNT_WIN0_ON;
+        gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+        gWinRegs[WINREG_WININ] |= 0x3F;
+        gWinRegs[WINREG_WINOUT] |= 0x1F;
         gBldRegs.bldCnt = 0x3EFF;
         options->unkE = 0;
         options->unk10 = 0;
@@ -307,19 +313,19 @@ void Task_808B398(OptionsMenu *options) {
     gBldRegs.bldY = 0x10;
     gBldRegs.bldCnt = 0x3FFF;
     if (options->unk3 != 0) {
-        temp_r0 = options->unk14[options->unk8];
-        switch (temp_r0) {                          /* irregular */
+        switch (options->unk14[options->unk8]) {
         case 0:
             CreateNameEntryScreen(1);
-block_16:
             TaskDestroy(gCurTask);
             return;
         case 1:
             CreateTimeRecordScreen(0);
-            goto block_16;
+            TaskDestroy(gCurTask);
+            return;
         case 2:
             CreateVsRecordScreen();
-            goto block_16;
+            TaskDestroy(gCurTask);
+            return;
         }
     } else {
         sub_8001E58();
@@ -331,6 +337,7 @@ block_16:
     }
 }
 
+#if 0
 void sub_808B4EC(OptionsMenu *options) {
     gBgCntRegs->unk0 = 0x603;
     gBgScrollRegs[0][0] = 0;
@@ -350,6 +357,7 @@ void sub_808B4EC(OptionsMenu *options) {
     options->bg12C.paletteOffset = 0;
     options->bg12C.flags = 0;
     DrawBackground(&options->bg12C);
+
     gBgCntRegs[1] = 0x5E06;
     gBgScrollRegs[1][0] = 0 - ((s32) options->unk30.x >> 8);
     gBgScrollRegs[1][1] = 0 - ((s32) options->unk30.y >> 8);
