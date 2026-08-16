@@ -114,13 +114,6 @@ void sub_8088440() { }
 void sub_80885CC() { }
 void sub_8088770() { }
 void sub_808ADF0() { }
-void CreateOptions() { }
-void sub_808C390() { }
-void sub_808C424() { }
-void sub_808C514() { }
-void sub_808C5D4() { }
-void sub_808C704() { }
-void sub_808CE88() { }
 void sub_808D0F0() { }
 void sub_808ECB8() { }
 // returns VRAM tile pointer
