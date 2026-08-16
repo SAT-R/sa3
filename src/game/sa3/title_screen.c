@@ -92,70 +92,65 @@ void CreateTitleScreen(u8 fadeMode)
 
 #if 0
 void sub_808A3D8(TitleScreenSA3 *title) {
-    Sprite *temp_r0;
-    Sprite *temp_r0_2;
-    Sprite *temp_r0_3;
+    Sprite *s;
     u8 *temp_r1_2;
     u8 *temp_r2;
-    u8 *temp_r3;
-    u8 temp_r1;
+    u8 lang;
     void *temp_r2_2;
 
-    temp_r0 = arg0 + 0x28;
-    temp_r3 = arg0->unk20;
-    arg0->spr28.tiles = temp_r3;
-    arg0->unk20 = (u8 *) (temp_r3 + (*((arg0->unk0 * 8) + (&gUnknown_080D6898 + 4)) << 5));
-    temp_r0->anim = *((arg0->unk0 * 8) + &gUnknown_080D6898);
-    temp_r0->variant = ((arg0->unk0 * 8) + &gUnknown_080D6898)->unk2;
-    temp_r0->prevVariant = 0xFF;
-    temp_r0->x = (s16) ((u16) arg0->unk12 >> 8);
-    temp_r0->y = (s16) ((u16) arg0->unk14 >> 8);
-    temp_r0->oamFlags = 0;
-    temp_r0->animCursor = 0;
-    temp_r0->qAnimDelay = 0;
-    temp_r0->animSpeed = 0x10;
-    temp_r0->palId = 0;
-    temp_r0->frameFlags = 0x1000;
-    temp_r0->hitboxes[0].index = -1;
-    UpdateSpriteAnimation(temp_r0);
+    s = title->spr28;
+    title->spr28.tiles = title->vram20;
+    title->vram20 += gUnknown_080D6898[title->language].numTiles * TILE_SIZE_4BPP;
+    s->anim = gUnknown_080D6898[title->language].anim;
+    s->variant = gUnknown_080D6898[title->language].variant;
+    s->prevVariant = 0xFF;
+    s->x = (s16) ((u16) title->unk12 >> 8);
+    s->y = (s16) ((u16) title->unk14 >> 8);
+    s->oamFlags = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x1000;
+    s->hitboxes[0].index = -1;
+    UpdateSpriteAnimation(s);
 
-    temp_r0_2 = arg0 + 0x78;
-    temp_r2 = arg0->unk20;
-    arg0->spr78.tiles = temp_r2;
-    arg0->unk20 = (u8 *) (temp_r2 + (gUnknown_080D68C8.unk4 << 5));
-    temp_r0_2->anim = gUnknown_080D68C8.unk0;
-    temp_r0_2->variant = gUnknown_080D68C8.unk2;
-    temp_r0_2->prevVariant = -1;
-    temp_r0_2->x = (s16) ((u16) arg0->unk1A >> 8);
-    temp_r0_2->y = (s16) ((u16) arg0->unk1C >> 8);
-    temp_r0_2->oamFlags = 0;
-    temp_r0_2->animCursor = 0;
-    temp_r0_2->qAnimDelay = 0;
-    temp_r0_2->animSpeed = 0x10;
-    temp_r0_2->palId = 0;
-    temp_r0_2->frameFlags = 0x1000;
-    temp_r0_2->hitboxes[0].index = -1;
-    UpdateSpriteAnimation(temp_r0_2);
+    s = title->spr78;
+    temp_r2 = title->vram20;
+    title->spr78.tiles = temp_r2;
+    title->vram20 = (u8 *) (temp_r2 + (gUnknown_080D68C8.unk4 << 5));
+    s->anim = gUnknown_080D68C8.unk0;
+    s->variant = gUnknown_080D68C8.unk2;
+    s->prevVariant = -1;
+    s->x = (s16) ((u16) title->unk1A >> 8);
+    s->y = (s16) ((u16) title->unk1C >> 8);
+    s->oamFlags = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x1000;
+    s->hitboxes[0].index = -1;
+    UpdateSpriteAnimation(s);
 
-    temp_r0_3 = arg0 + 0x50;
-    temp_r1 = arg0->unk0;
-    temp_r1_2 = arg0->unk20;
-    arg0->spr50.tiles = temp_r1_2;
-    arg0->unk20 = (u8 *) (temp_r1_2 + 0x1C0);
-    temp_r2_2 = (((u32) ((0 - temp_r1) | temp_r1) >> 0x1F) << 5) + &gUnknown_080D6858;
-    temp_r0_3->anim = temp_r2_2->unk0;
-    temp_r0_3->variant = temp_r2_2->unk2;
-    temp_r0_3->prevVariant = -1;
-    temp_r0_3->x = (s16) ((u16) arg0->unk16 >> 8);
-    temp_r0_3->y = (s16) ((u16) arg0->unk18 >> 8);
-    temp_r0_3->oamFlags = 0;
-    temp_r0_3->animCursor = 0;
-    temp_r0_3->qAnimDelay = 0;
-    temp_r0_3->animSpeed = 0x10;
-    temp_r0_3->palId = 0;
-    temp_r0_3->frameFlags = 0x1000;
-    temp_r0_3->hitboxes[0].index = -1;
-    UpdateSpriteAnimation(temp_r0_3);
+    s = title->spr50;
+    lang = title->language;
+    s->tiles = title->vram20;
+    title->vram20 += 14 * TILE_SIZE_4BPP;
+    temp_r2_2 = ((lang) ? 1 : 0) << 5) + gUnknown_080D6858;
+    s->anim = temp_r2_2->unk0;
+    s->variant = temp_r2_2->unk2;
+    s->prevVariant = -1;
+    s->x = (s16) ((u16) title->unk16 >> 8);
+    s->y = (s16) ((u16) title->unk18 >> 8);
+    s->oamFlags = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x1000;
+    s->hitboxes[0].index = -1;
+    UpdateSpriteAnimation(s);
 }
 
 void sub_808A4EC(TitleScreenSA3 *title) {
@@ -165,13 +160,13 @@ void sub_808A4EC(TitleScreenSA3 *title) {
     u32 temp_r6;
     u8 temp_r0;
 
-    temp_r0 = arg0->unk0;
+    temp_r0 = title->language;
     temp_r6 = (u32) ((0 - temp_r0) | temp_r0) >> 0x1F;
     gDispCnt |= 0x100;
     gBgCntRegs->unk0 = 0x1783;
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
-    temp_r0_2 = arg0 + 0xA0;
+    temp_r0_2 = title + 0xA0;
     temp_r0_2->graphics.dest = (void *)0x06000000;
     temp_r0_2->graphics.anim = 0;
     temp_r0_2->layoutVram = (u16 *)0x0600B800;
@@ -184,7 +179,7 @@ void sub_808A4EC(TitleScreenSA3 *title) {
     temp_r0_2->unk24 = 0;
     temp_r0_2->targetTilesX = 0x1E;
     temp_r0_2->targetTilesY = 0x14;
-    arg0->bgA0.paletteOffset = 0;
+    title->bgA0.paletteOffset = 0;
     temp_r0_2->flags = 4;
     DrawBackground(temp_r0_2);
 
@@ -192,7 +187,7 @@ void sub_808A4EC(TitleScreenSA3 *title) {
     gBgCntRegs[1] = 0x1F8A;
     gBgScrollRegs[1][0] = -0x14;
     gBgScrollRegs[1][1] = -8;
-    temp_r0_3 = arg0 + 0xE0;
+    temp_r0_3 = title + 0xE0;
     temp_r0_3->graphics.dest = (void *)0x06008000;
     temp_r0_3->graphics.anim = 0;
     temp_r0_3->layoutVram = (u16 *)0x0600F800;
@@ -205,7 +200,7 @@ void sub_808A4EC(TitleScreenSA3 *title) {
     temp_r0_3->unk24 = 0;
     temp_r0_3->targetTilesX = 0x19;
     temp_r0_3->targetTilesY = 0xA;
-    arg0->bgE0.paletteOffset = 0;
+    title->bgE0.paletteOffset = 0;
     temp_r0_3->flags = 5;
     DrawBackground(temp_r0_3);
 
@@ -213,7 +208,7 @@ void sub_808A4EC(TitleScreenSA3 *title) {
     gBgCntRegs[2] = 0x5D8D;
     gBgScrollRegs[2][0] = 0;
     gBgScrollRegs[2][1] = 0;
-    temp_r0_4 = arg0 + 0x120;
+    temp_r0_4 = title + 0x120;
     temp_r0_4->graphics.dest = (void *)0x0600C000;
     temp_r0_4->graphics.anim = 0;
     temp_r0_4->layoutVram = (u16 *)0x0600E800;
@@ -226,7 +221,7 @@ void sub_808A4EC(TitleScreenSA3 *title) {
     temp_r0_4->unk24 = 0;
     temp_r0_4->targetTilesX = 8;
     temp_r0_4->targetTilesY = 0xA;
-    arg0->bg120.paletteOffset = 0;
+    title->bg120.paletteOffset = 0;
     temp_r0_4->flags = 6;
     DrawBackground(temp_r0_4);
 }
@@ -508,13 +503,13 @@ void sub_808ACC0(TitleScreenSA3 *title) {
     s32 temp_r2;
     u8 temp_r1;
 
-    temp_r1 = arg0->unk0;
-    temp_r4 = arg0 + 0x50;
+    temp_r1 = title->language;
+    temp_r4 = title + 0x50;
     temp_r2 = ((u32) ((0 - temp_r1) | temp_r1) >> 0x1F) * 4;
     temp_r4->anim = *(((gStageData.unk8 + temp_r2) * 8) + &gUnknown_080D6858);
     temp_r4->variant = (((gStageData.unk8 + temp_r2) * 8) + &gUnknown_080D6858)->unk2;
-    temp_r4->x = (s16) ((u16) arg0->unk16 >> 8);
-    temp_r4->y = (s16) ((u16) arg0->unk18 >> 8);
+    temp_r4->x = (s16) ((u16) title->unk16 >> 8);
+    temp_r4->y = (s16) ((u16) title->unk18 >> 8);
     UpdateSpriteAnimation(temp_r4);
     DisplaySprite(temp_r4);
 }
@@ -537,7 +532,7 @@ void sub_808AD14(TitleScreenSA3 *title) {
     sub_80C47C0(&subroutine_arg0);
     sub_80C470C(&sp4);
     sub_80C492C(&sp8);
-    temp_r6 = arg0 + 0xA0;
+    temp_r6 = title + 0xA0;
     temp_r6->flags = 0xC;
     DrawBackground(temp_r6);
     gFlags |= 0x30000;
@@ -596,25 +591,25 @@ void Task_808AE4C(TitleScreenSA3 *title) {
 void sub_808AEA4(TitleScreenSA3 *title) {
     Sprite *temp_r2;
 
-    temp_r2 = arg0 + 0x28;
-    temp_r2->x = (s16) ((u16) arg0->unk12 >> 8);
-    temp_r2->y = (s16) ((u16) arg0->unk14 >> 8);
+    temp_r2 = title + 0x28;
+    temp_r2->x = (s16) ((u16) title->unk12 >> 8);
+    temp_r2->y = (s16) ((u16) title->unk14 >> 8);
     DisplaySprite(temp_r2);
 }
 
 void sub_808AEC0(TitleScreenSA3 *title) {
     Sprite *temp_r2;
 
-    temp_r2 = arg0 + 0x78;
-    temp_r2->x = (s16) ((u16) arg0->unk1A >> 8);
-    temp_r2->y = (s16) ((u16) arg0->unk1C >> 8);
+    temp_r2 = title + 0x78;
+    temp_r2->x = (s16) ((u16) title->unk1A >> 8);
+    temp_r2->y = (s16) ((u16) title->unk1C >> 8);
     DisplaySprite(temp_r2);
 }
 
 void sub_808AEDC(TitleScreenSA3 *title) {
     s32 temp_r2;
 
-    temp_r2 = (s32) (arg0->unk24 << 8) >> 0x10;
+    temp_r2 = (s32) (title->unk24 << 8) >> 0x10;
     sa2__sub_8003EE4(0U, (s16) temp_r2, (s16) temp_r2, 0x20, 0x28, 0xB4, 0x30, gBgAffineRegs);
 }
 
