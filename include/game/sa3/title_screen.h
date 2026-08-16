@@ -1,7 +1,6 @@
 #ifndef GUARD_SA3_TITLE_SCREEN_H
 #define GUARD_SA3_TITLE_SCREEN_H
 
-
 // TODO(Jace): I just found out that agbcc has -fshort-enums,
 //             so once enabled, we should be able to use enums directly, instead of using u8's or u16's in their stead.
 //             That way, assuming Dimps also used that option, we should be able to simplify code a tiny bit.
@@ -23,7 +22,7 @@ typedef struct {
     u16 unk8;
     u16 unkA;
     u16 fadeMode;
-    u16 qUnkE;  // probably fade-value
+    u16 qUnkE; // probably fade-value
     u16 unk10;
     u16 unk12;
     u16 unk14;
@@ -44,6 +43,5 @@ typedef struct {
 } TitleScreenSA3; /* 0x164 */
 
 void CreateTitleScreen(u8 fadeMode);
-
 
 #endif // GUARD_SA3_TITLE_SCREEN_H
