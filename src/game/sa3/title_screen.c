@@ -279,9 +279,10 @@ void Task_TitleScreenMainWithFade(void)
     sub_808AEDC(title);
 
     if (gBldRegs.bldY) {
-        gBldRegs.bldY = (u16)((u16)title->unkA >> 8);
+        gBldRegs.bldY = I(title->unkA);
         title->unkA -= title->qUnkE;
-        if (8 & gPressedKeys) {
+
+        if (START_BUTTON & gPressedKeys) {
             gBldRegs.bldY = 0;
             title->qUnkE = 0x100;
             gCurTask->main = Task_TitleScreenMainFadeless;
@@ -318,7 +319,7 @@ void Task_808A768(void)
     sub_808AEC0(title);
     title->unk8 -= 1;
     title->unk1E += 1;
-    if ((u32)gBldRegs.bldY < 0xF) {
+    if (gBldRegs.bldY < 0xF) {
         gBldRegs.bldY = (u16)((u16)title->unkA >> 8);
         title->unkA += 0x100;
     } else {
@@ -356,7 +357,7 @@ void Task_808A854(void)
     var_r5 = 0;
     temp_r0 = title->unk24 - Q(32);
     title->unk24 = temp_r0;
-    if (temp_r0 <= 0xFFFF) {
+    if (temp_r0 < 0x10000) {
         title->unk24 = 0x10000;
         var_r5 = 1;
     }
@@ -481,7 +482,7 @@ void Task_TitleAnnouncer(void)
     if (title->unkA > Q(15)) {
         title->unkA = 0;
     }
-    if (8 & gPressedKeys) {
+    if (START_BUTTON & gPressedKeys) {
         title->unk8 = 0x3C;
         title->fadeMode = 0;
         gCurTask->main = Task_808A7F0;
@@ -503,23 +504,24 @@ void Task_808ABD0(void)
         sub_808AEA4(title);
     }
     sub_808AEC0(title);
-    temp_r3 = 8 & gPressedKeys;
-    if (temp_r3 != 0) {
+
+    if (START_BUTTON & gPressedKeys) {
         m4aSongNumStart(SE_SELECT);
-        title->unk6 = 0x19;
+        title->unk6 = 25;
         title->unk1E = 2;
         gCurTask->main = Task_808AE4C;
         return;
     }
-    temp_r1 = title->unk6;
-    if ((u32)temp_r1 > 0x257U) {
+
+    if (title->unk6 >= TIME(0, 10)) {
         LaunchDemoPlay();
         return;
     }
-    if (((u32)temp_r1 > 0x3CU) && (0x100 & gPressedKeys)) {
+
+    if ((title->unk6 > TIME(0, 1)) && (R_BUTTON & gPressedKeys)) {
         if ((u32)title->unk4 <= 0xB3U) {
             if (++gStageData.unk8 > 2U) {
-                gStageData.unk8 = (u8)temp_r3;
+                gStageData.unk8 = 0;
             }
         }
         title->unk4 = 0;
@@ -529,6 +531,7 @@ void Task_808ABD0(void)
         m4aSongNumStop(VOICE__ANNOUNCER__SONIC_ADVANCE_3);
         m4aSongNumStart(SE_SELECT);
     }
+
     if ((u32)title->unk4 <= 0xB3U) {
         sub_808ACC0(title);
         title->unk4 += 1;
@@ -644,10 +647,8 @@ void sub_808AEC0(TitleScreenSA3 *title)
 
 void sub_808AEDC(TitleScreenSA3 *title)
 {
-    s32 temp_r2;
-
-    temp_r2 = (s32)(title->unk24 << 8) >> 0x10;
-    sa2__sub_8003EE4(0U, (s16)temp_r2, (s16)temp_r2, 0x20, 0x28, 0xB4, 0x30, gBgAffineRegs);
+    s32 temp_r2 = I(title->unk24);
+    sa2__sub_8003EE4(0U, temp_r2, temp_r2, 0x20, 0x28, 0xB4, 0x30, gBgAffineRegs);
 }
 
 void TaskDestructor_TitleScreen(Task *t)
