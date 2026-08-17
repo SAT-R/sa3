@@ -78,10 +78,11 @@ void TaskDestructor_BossTriggerZone(struct Task *t);
 
 void CreateBossTriggerZoneOutline(TriggerBossOrGoal *trig)
 {
-    trig->triggerZoneOutlineTask = TaskCreate(Task_BossTriggerZone, sizeof(BossTriggerZone), 0x2000, 0, TaskDestructor_BossTriggerZone);
-    BossTriggerZone *outline = TASK_DATA(trig->triggerZoneOutlineTask);
+    struct Task *t = TaskCreate(Task_BossTriggerZone, sizeof(BossTriggerZone), 0x2000, 0, TaskDestructor_BossTriggerZone);
+    BossTriggerZone *outline = TASK_DATA(t);
     TriggerCamState *camState = &trig->camState;
     Sprite *s = &outline->s;
+    trig->triggerZoneOutlineTask = t;
 
     outline->minX = I(camState->qMinX);
     outline->maxX = I(camState->qMaxX);
@@ -111,6 +112,7 @@ void Task_BossTriggerZone(void)
     s32 maxX = outline->maxX - gCamera.x;
     s32 minY = outline->minY - gCamera.y;
     s32 maxY = outline->maxY - gCamera.y;
+    float tMax = 1.0;
 
     s->x = minX + (int)((maxX - minX) * outline->t);
     s->y = minY;
@@ -130,7 +132,6 @@ void Task_BossTriggerZone(void)
 
     outline->t += (1. / 60.); // Assuming 60fps
 
-    float tMax = 1.0;
     if (outline->t >= tMax) {
         outline->t -= tMax;
     }

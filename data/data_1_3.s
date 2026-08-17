@@ -93,12 +93,12 @@ gUnknown_080D66D8:
 
     .global gUnknown_080D6758
 gUnknown_080D6758:
-    mPtr sub_8088770
-    mPtr sub_8087B80
-    mPtr sub_8087B80
-    mPtr sub_8087B80
-    mPtr sub_8088440
-    mPtr sub_80885CC
+    mPtr Task_3F0_8088770
+    mPtr Task_3F0_8087B80
+    mPtr Task_3F0_8087B80
+    mPtr Task_3F0_8087B80
+    mPtr Task_3F0_8088440
+    mPtr Task_3F0_80885CC
 
     .global gUnknown_080D6770
 gUnknown_080D6770:
