@@ -307,8 +307,8 @@ void sub_8087590(MainMenu *menu)
         s->anim = gUnknown_080D6114[i + menu->language * 2].anim;
         s->variant = gUnknown_080D6114[i + menu->language * 2].variant;
         s->prevVariant = -1;
-        s->x = (s16)((s32)menu->unk18 >> 8);
-        s->y = (s16)((s32)menu->unk1C >> 8);
+        s->x = I(menu->unk18);
+        s->y = I(menu->unk1C);
         s->oamFlags = 0;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -325,8 +325,8 @@ void sub_8087590(MainMenu *menu)
         s->anim = gUnknown_080D6174[i + menu->language * 2].anim;
         s->variant = gUnknown_080D6174[i + menu->language * 2].variant;
         s->prevVariant = -1;
-        s->x = (s16)((s32)menu->unk20 >> 8);
-        s->y = (s16)((s32)menu->unk24 >> 8);
+        s->x = I(menu->unk20);
+        s->y = I(menu->unk24);
         s->oamFlags = 0x40;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -343,8 +343,8 @@ void sub_8087590(MainMenu *menu)
         s->anim = gUnknown_080D61D4[i + menu->language * 2].anim;
         s->variant = gUnknown_080D61D4[i + menu->language * 2].variant;
         s->prevVariant = -1;
-        s->x = (s16)((s32)menu->unk28 >> 8);
-        s->y = (s16)((s32)menu->unk2C >> 8);
+        s->x = I(menu->unk28);
+        s->y = I(menu->unk2C);
         s->oamFlags = 0x80;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -361,8 +361,8 @@ void sub_8087590(MainMenu *menu)
         s->anim = gUnknown_080D6234[i + menu->language * 2].anim;
         s->variant = gUnknown_080D6234[i + menu->language * 2].variant;
         s->prevVariant = -1;
-        s->x = (s16)((s32)menu->unk30 >> 8);
-        s->y = (s16)((s32)menu->unk34 >> 8);
+        s->x = I(menu->unk30);
+        s->y = I(menu->unk34);
         s->oamFlags = 0xC0;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -379,8 +379,8 @@ void sub_8087590(MainMenu *menu)
         s->anim = gUnknown_080D6354[i + menu->language * 2].anim;
         s->variant = gUnknown_080D6354[i + menu->language * 2].variant;
         s->prevVariant = -1;
-        s->x = (s16)((s32)menu->unk48 >> 8);
-        s->y = (s16)((s32)menu->unk4C >> 8);
+        s->x = I(menu->unk48);
+        s->y = I(menu->unk4C);
         s->oamFlags = 0xC0;
         s->animCursor = 0;
         s->qAnimDelay = 0;
