@@ -1,5 +1,7 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
+#include "code_z_1.h" // CopyObjPaletteMasked
 #include "game/save.h"
 
 typedef struct {
@@ -17,7 +19,7 @@ typedef struct {
 
 typedef struct {
     /* 0x000 */ u8 language;
-    /* 0x001 */ u8 unk1;
+    /* 0x001 */ u8 initArg1;
     /* 0x002 */ u8 unk2;
     /* 0x003 */ u8 unk3;
     /* 0x004 */ u8 unk4;
@@ -32,7 +34,8 @@ typedef struct {
     /* 0x00B */ u8 unkD;
     /* 0x00B */ u8 unkE;
     /* 0x00B */ u8 unkF;
-    /* 0x00C */ u8 filler10[0x5E];
+    /* 0x00B */ u16 highlitButton;
+    /* 0x00C */ u8 filler12[0x5C];
     /* 0x070 */ u16 unk6E;
     /* 0x070 */ u16 unk70;
     /* 0x072 */ u16 unk72;
@@ -52,7 +55,6 @@ typedef struct {
     /* 0x330 */ Background bg330;
     /* 0x370 */ Background bg370;
     /* 0x3A0 */ Background bg3A0;
-    /* 0x3E0 */ u8 filler3E0[0x10];
 } MainMenu; /* 0x3F0 */
 
 void sub_808738C(MainMenu *menu);
@@ -101,8 +103,11 @@ void Task_3F0_808A060(void);
 void Task_3F0_808A0D8(void);
 void Task_3F0_808A144(void);
 void Task_94_808A22C(void);
+void TaskDestructor_MainMenu(Task *t);
 
 void sub_808A1B0(u8 arg0, s32 arg1, u8 *vram, u16 arg3, s32 arg4);
+
+extern ColorRaw gUnknown_080D66D8[0x40];
 
 #if 0 // TEMP - for M2C
 
@@ -134,51 +139,51 @@ void Task_94_808A22C(MMChaoMessage *msg);
 
 #endif
 
-#if 0
-void CreateMainMenu(s16 param0, u8 param1) {
-    s32 sp4;
-    u16 temp_r0;
+void CreateMainMenu(s16 highlitButton, u8 arg1)
+{
+    MainMenu *menu;
 
     gDispCnt = 0x1741;
-    temp_r0 = TaskCreate(Task_3F0_MainMenuInit, 0x3F0U, 0x100U, 0U, TaskDestructor_MainMenu)->data;
-    gPseudoRandom = (s32) gFrameCount;
-    temp_r0->unk10 = (u16) param0;
-    temp_r0->unk1 = param1;
-    sub_808738C((MainMenu *) temp_r0);
-    sp4 = 0;
-    (void *)0x040000D4->unk0 = &sp4;
-    (void *)0x040000D4->unk4 = (u16 *) (((0xC & gBgCntRegs[2]) << 0xC) + 0x06000000);
-    (void *)0x040000D4->unk8 = 0x85000010;
+    menu = TASK_DATA(TaskCreate(Task_3F0_MainMenuInit, sizeof(MainMenu), 0x100U, 0U, TaskDestructor_MainMenu));
+    gPseudoRandom = gFrameCount;
+    menu->highlitButton = highlitButton;
+    menu->initArg1 = arg1;
+    sub_808738C(menu);
+
+    DmaFill32(3, 0, BG_CHAR_ADDR_FROM_BGCNT(2), 0x40);
+
     gBgSprites_Unknown1[2] = 0;
     gBgSprites_Unknown2[2][0] = 0;
     gBgSprites_Unknown2[2][1] = 0;
-    gBgSprites_Unknown2[2][2] = 0xFF;
+    gBgSprites_Unknown2[2][2] = -1;
     gBgSprites_Unknown2[2][3] = 0x40;
     gBgSprites_Unknown1[1] = 0;
     gBgSprites_Unknown2[1][0] = 0;
     gBgSprites_Unknown2[1][1] = 0;
-    gBgSprites_Unknown2[1][2] = -1U;
+    gBgSprites_Unknown2[1][2] = -1;
     gBgSprites_Unknown2[1][3] = 0x40;
-    gBgSprites_Unknown1->unk0 = 0;
+    gBgSprites_Unknown1[0] = 0;
     gBgSprites_Unknown2[0][0] = 0;
     gBgSprites_Unknown2[0][1] = 0;
-    gBgSprites_Unknown2[0][2] = -1U;
+    gBgSprites_Unknown2[0][2] = -1;
     gBgSprites_Unknown2[0][3] = 0x40;
-    gDispCnt |= 0x2000;
-    gWinRegs->unk0 = 0xF0;
-    gWinRegs[2] = 0xA0;
+
+    gDispCnt |= DISPCNT_WIN0_ON;
+    gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
+    gWinRegs[2] = WIN_RANGE(0, DISPLAY_HEIGHT);
     gBldRegs.bldCnt = 0x3FFF;
     gBldRegs.bldY = 0x10;
-    if (0x20000 & gFlags) {
-        CopyObjPaletteMasked(&gUnknown_080D66D8, 0U, 0x40U);
+
+    if (FLAGS_20000 & gFlags) {
+        CopyObjPaletteMasked(gUnknown_080D66D8, 0U, ARRAY_COUNT(gUnknown_080D66D8));
         return;
     }
-    (void *)0x040000D4->unk0 = (s32 *) &gUnknown_080D66D8;
-    (void *)0x040000D4->unk4 = gObjPalette;
-    (void *)0x040000D4->unk8 = 0x80000040;
-    gFlags |= 2;
+
+	DmaCopy16(3, gUnknown_080D66D8, gObjPalette, sizeof(gUnknown_080D66D8));
+    gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
 }
 
+#if 0
 void sub_808738C(MainMenu *menu) {
     u16 *var_r1_2;
     u16 var_r0;
@@ -2527,10 +2532,11 @@ void TaskDestructor_MainMenu(Task *arg0) {
 
 }
 
-void sub_808A1B0(u8 arg0, s32 arg1, u8 *vram, u16 arg3, s32 arg4, MMChaoMessage *msg) {
-    TaskCreate(Task_94_808A22C, 0x94U, 0x100U, 0U, TaskDestructor_MainMenu);
+void sub_808A1B0(u8 arg0, void *arg1, u8 *vram, s16 arg3, s32 arg4, MMChaoMessage *msg) 
+{
+    MMChaoMessage *msg = TASK_DATA(TaskCreate(Task_94_808A22C, 0x94U, 0x100U, 0U, TaskDestructor_MainMenu));
     msg->language = LOADED_SAVE->language;
-    msg->initArg1 = (void *) arg1;
+    msg->initArg1 = arg1;
     msg->initArg0 = arg0;
     msg->qUnkC = arg3 << 8;
     msg->qUnk10 = (u16) arg4 << 8;
