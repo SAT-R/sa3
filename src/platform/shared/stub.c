@@ -113,7 +113,6 @@ void sub_8087B80() { }
 void sub_8088440() { }
 void sub_80885CC() { }
 void sub_8088770() { }
-void sub_808ADF0() { }
 void sub_808D0F0() { }
 void sub_808ECB8() { }
 // returns VRAM tile pointer

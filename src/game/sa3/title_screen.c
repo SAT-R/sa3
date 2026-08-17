@@ -3,6 +3,8 @@
 #include "lib/m4a/m4a.h"
 #include "game/sa3/title_screen.h"
 #include "game/save.h"
+#include "game/stage.h"
+#include "code_z_1.h" // MaskingColors
 #include "constants/tilemaps.h"
 #include "constants/songs.h"
 
@@ -14,16 +16,39 @@ void Task_808A7F0(void);
 void Task_808A854(void);
 void Task_808A8E4(void);
 void Task_808A9D8(void);
+void sub_808AEA4(TitleScreenSA3 *title);
 void Task_TitleScreenMainFadeless(void);
 void Task_TitleAnnouncer(void);
 void Task_808ABD0(void);
+void sub_808ACC0(TitleScreenSA3 *title);
+void sub_808AD14(TitleScreenSA3 *title);
+void sub_808AE28(void);
+void sub_808AE34(void);
+void sub_808AE40(void);
 void Task_808AE4C(void);
+void sub_808AEC0(TitleScreenSA3 *title);
+void sub_808AEDC(TitleScreenSA3 *title);
 void TaskDestructor_TitleScreen(Task *t);
+extern void LaunchChaoMenu(s16 arg0, u8 arg1);
+extern void LaunchDemoPlay(void);
+void sub_80C470C(MaskingColors *arg0);
+void sub_80C47C0(MaskingColors *arg0);
+void sub_80C492C(MaskingColors *arg0);
 
-extern TileInfo2 gUnknown_080D6858[2][4];
+extern void sub_8001D58(VoidFn voidFn, u16 color);
+
+extern TileInfo2 gUnknown_080D6858[2 * 4];
 extern TileInfo2 gUnknown_080D6898[6];
 extern TileInfo2 gUnknown_080D68C8;
 extern u16 gUnknown_080D68D0[8]; // TODO: Could be a Tilemap-ID enum, instead of u16, with -fshort-enums compiler flag!
+extern u16 gUnknown_080D68E0[0x11];
+extern s8 gUnknown_080D694C[10];
+extern s8 gUnknown_080D6956[10];
+
+extern void sub_80C4B48(void);
+extern u8 gUnknown_080D6902[][3];
+extern u8 gUnknown_080D690E[][3];
+extern u8 gUnknown_080D691C[];
 
 void CreateTitleScreen(u8 fadeMode)
 {
@@ -139,8 +164,8 @@ void sub_808A3D8(TitleScreenSA3 *title)
         u32 index = (title->language == JAPANESE) ? 0 : 1;
         s->tiles = title->vram20;
         title->vram20 += 14 * TILE_SIZE_4BPP;
-        s->anim = gUnknown_080D6858[index][0].anim;
-        s->variant = gUnknown_080D6858[index][0].variant;
+        s->anim = gUnknown_080D6858[index * 4].anim;
+        s->variant = gUnknown_080D6858[index * 4].variant;
         s->prevVariant = -1;
         s->x = I(title->unk16);
         s->y = I(title->unk18);
@@ -228,97 +253,89 @@ void sub_808A4EC(TitleScreenSA3 *title)
     DrawBackground(bg2);
 }
 
-#if 0
-void Task_TitleScreenMainWithFade(TitleScreenSA3 *title) {
-    u16 *var_r1;
-    u16 temp_r0;
-    u16 temp_r2;
-    u16 var_r0;
-    void (*var_r0_2)(TitleScreenSA3 *);
+#if 01
+void Task_TitleScreenMainWithFade(void)
+{
+    TitleScreenSA3 *title = TASK_DATA(gCurTask);
 
     gDispCnt |= 0x2000;
-    var_r1 = gWinRegs;
-    gWinRegs->unk0 = 0xF0;
-    gWinRegs[2] = 0xA0;
+    gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
+    gWinRegs[2] = WIN_RANGE(0, DISPLAY_HEIGHT);
     gWinRegs[4] = 0x22;
     gWinRegs[5] = 0;
-    temp_r0 = title->fadeMode;
-    switch (temp_r0) {                              /* irregular */
-    case 0:
-    case 2:
-        var_r1 = &gBldRegs.bldCnt;
-        var_r0 = 0x3FBF;
-block_5:
-        gBldRegs.bldCnt = var_r0;
+    if (title->fadeMode == TFM_UNKNOWN || title->fadeMode == TFM_FADEIN) {
+        gBldRegs.bldCnt = 0x3FBF;
         gBldRegs.bldY = 0x10;
         title->fadeMode = 3;
         title->unkA = 0x1000;
         title->unk24 = 0x40000;
-        break;
-    case 1:
-        var_r1 = &gBldRegs.bldCnt;
-        var_r0 = 0x3FFF;
-        goto block_5;
+    } else if (title->fadeMode == TFM_NO_FADE) {
+        gBldRegs.bldCnt = 0x3FFF;
+        gBldRegs.bldY = 0x10;
+        title->fadeMode = 3;
+        title->unkA = 0x1000;
+        title->unk24 = 0x40000;
     }
-    sub_808AEDC(title, (struct BlendRegs *) var_r1, 0, 0);
-    temp_r2 = gBldRegs.bldY;
-    if (temp_r2 != 0) {
-        gBldRegs.bldY = (u16) ((u16) title->unkA >> 8);
+    sub_808AEDC(title);
+
+    if (gBldRegs.bldY) {
+        gBldRegs.bldY = (u16)((u16)title->unkA >> 8);
         title->unkA -= title->qUnkE;
         if (8 & gPressedKeys) {
             gBldRegs.bldY = 0;
             title->qUnkE = 0x100;
-            var_r0_2 = Task_TitleScreenMainFadeless;
-            goto block_12;
+            gCurTask->main = Task_TitleScreenMainFadeless;
         }
     } else {
-        gBldRegs.bldY = temp_r2;
-        if ((u32) title->qUnkE > 0xFFU) {
-            var_r0_2 = Task_808ABD0;
+        gBldRegs.bldY = 0;
+        if ((u32)title->qUnkE > 0xFFU) {
+            gCurTask->main = Task_808ABD0;
         } else {
             gWinRegs[4] = 0x26;
             gBldRegs.bldCnt = 0x2244;
-            title->unk10 = temp_r2;
-            gBldRegs.bldAlpha = gUnknown_080D68E0;
-            var_r0_2 = Task_808A854;
+            title->unk10 = 0;
+            gBldRegs.bldAlpha = gUnknown_080D68E0[0];
+            gCurTask->main = Task_808A854;
         }
-block_12:
-        gCurTask->main = var_r0_2;
     }
 }
 
-void Task_808A768(TitleScreenSA3 *title) {
+void Task_808A768(void)
+{
+    TitleScreenSA3 *title = TASK_DATA(gCurTask);
     gBldRegs.bldCnt = 0x3FFF;
     if (title->fadeMode == 0) {
         gBldRegs.bldY = 0;
         title->fadeMode = 2;
         title->unkA = 0;
     }
-    if ((s32) (s16) title->unk1E > 7) {
+    if ((s32)(s16)title->unk1E > 7) {
         title->unk1E = 0;
     }
-    if ((s32) (s16) title->unk1E > 1) {
+    if ((s32)(s16)title->unk1E > 1) {
         sub_808AEA4(title);
     }
     sub_808AEC0(title);
     title->unk8 -= 1;
     title->unk1E += 1;
-    if ((u32) gBldRegs.bldY <= 0xEU) {
-        gBldRegs.bldY = (u16) ((u16) title->unkA >> 8);
+    if ((u32)gBldRegs.bldY < 0xF) {
+        gBldRegs.bldY = (u16)((u16)title->unkA >> 8);
         title->unkA += 0x100;
-        return;
+    } else {
+        LaunchChaoMenu(0, 1);
+        TaskDestroy(gCurTask);
     }
-    LaunchChaoMenu(0, 1);
-    TaskDestroy(gCurTask);
 }
 
-void Task_808A7F0(TitleScreenSA3 *title) {
+void Task_808A7F0(void)
+{
+    TitleScreenSA3 *title = TASK_DATA(gCurTask);
     u16 temp_r0;
 
     sub_808AEC0(title);
     if ((title->fadeMode == 0) && (gBldRegs.bldY != 0)) {
-        gBldRegs.bldY = (u16) ((u16) title->unkA >> 8);
-        title->unkA += 0xFFFFFF00;
+        gBldRegs.bldY = (u16)((u16)title->unkA >> 8);
+        title->unkA -= Q(1);
     }
     temp_r0 = title->unk8;
     if (temp_r0 != 0) {
@@ -328,45 +345,54 @@ void Task_808A7F0(TitleScreenSA3 *title) {
     gCurTask->main = Task_808ABD0;
 }
 
-void Task_808A854(TitleScreenSA3 *title) {
+void Task_808A854(void)
+{
+    TitleScreenSA3 *title = TASK_DATA(gCurTask);
     s32 temp_r0;
     u16 temp_r0_2;
     u16 temp_r1;
     u8 var_r5;
 
     var_r5 = 0;
-    temp_r0 = title->unk24 + 0xFFFFE000;
+    temp_r0 = title->unk24 - Q(32);
     title->unk24 = temp_r0;
     if (temp_r0 <= 0xFFFF) {
         title->unk24 = 0x10000;
         var_r5 = 1;
     }
-    temp_r1 = title->unk10;
-    if (((u32) (temp_r1 >> 8) > 0xFU) || (temp_r0_2 = temp_r1 + 0x100, title->unk10 = temp_r0_2, ((u32) ((u32) (temp_r0_2 << 0x10) >> 0x18) > 0x10U))) {
+    if (((u32)(title->unk10 >> 8) > 0xFU)) {
         title->unk10 = 0x1000;
         var_r5 += 1;
+    } else {
+        title->unk10 += 0x100;
+        if (I(title->unk10) > 0x10U) {
+            title->unk10 = 0x1000;
+            var_r5 += 1;
+        }
     }
-    gBldRegs.bldAlpha = (&gUnknown_080D68E0)[(u16) title->unk10 >> 8];
+    gBldRegs.bldAlpha = gUnknown_080D68E0[I(title->unk10)];
     sub_808AEDC(title);
-    if ((u32) var_r5 > 1) {
+    if ((u32)var_r5 > 1) {
         title->unk1 = 0;
         gCurTask->main = Task_808A8E4;
     }
 }
 
-void Task_808A8E4(TitleScreenSA3 *title) {
+void Task_808A8E4(void)
+{
+    TitleScreenSA3 *title = TASK_DATA(gCurTask);
     s32 temp_r2;
     u8 temp_r0;
 
-    gBgScrollRegs[1][0] = -0x14 - *(title->unk1 + &gUnknown_080D694C);
-    gBgScrollRegs[1][1] = -8 - *(title->unk1 + &gUnknown_080D6956);
-    temp_r2 = (s32) (title->unk24 << 8) >> 0x10;
-    sa2__sub_8003EE4(0U, (s16) temp_r2, (s16) temp_r2, 0x20, 0x28, (s16) ((s8) *(title->unk1 + &gUnknown_080D694C) + 0xB4), (s16) ((s8) *(title->unk1 + &gUnknown_080D6956) + 0x30), gBgAffineRegs);
-    temp_r0 = title->unk1 + 1;
-    title->unk1 = temp_r0;
-    if ((u32) temp_r0 > 9U) {
+    gBgScrollRegs[1][0] = -20 - gUnknown_080D694C[title->unk1];
+    gBgScrollRegs[1][1] = -8 - gUnknown_080D6956[title->unk1];
+    temp_r2 = (s32)(title->unk24 << 8) >> 0x10;
+    sa2__sub_8003EE4(0U, (s16)temp_r2, (s16)temp_r2, 0x20, 0x28, (s16)(gUnknown_080D694C[title->unk1] + 0xB4),
+                     (s16)(gUnknown_080D6956[title->unk1] + 0x30), gBgAffineRegs);
+
+    if (++title->unk1 > 9U) {
         gDispCnt |= 0x2000;
-        gWinRegs->unk0 = 0xF0;
+        gWinRegs[0] = 0xF0;
         gWinRegs[2] = 0xA0;
         gWinRegs[4] |= 0x26;
         gBldRegs.bldCnt = 0x3FBF;
@@ -378,10 +404,12 @@ void Task_808A8E4(TitleScreenSA3 *title) {
     }
 }
 
-void Task_808A9D8(TitleScreenSA3 *title) {
+void Task_808A9D8(void)
+{
+    TitleScreenSA3 *title = TASK_DATA(gCurTask);
     sub_808AEDC(title);
-    if ((u32) gBldRegs.bldY <= 0xEU) {
-        gBldRegs.bldY = (u16) ((u16) title->unkA >> 8);
+    if ((u32)gBldRegs.bldY <= 0xEU) {
+        gBldRegs.bldY = (u16)((u16)title->unkA >> 8);
         title->unkA += title->qUnkE;
         return;
     }
@@ -391,29 +419,36 @@ void Task_808A9D8(TitleScreenSA3 *title) {
     gCurTask->main = Task_TitleScreenMainFadeless;
 }
 
-void Task_TitleScreenMainFadeless(TitleScreenSA3 *title) {
+void Task_TitleScreenMainFadeless(void)
+{
+    TitleScreenSA3 *title = TASK_DATA(gCurTask);
     u8 lang = title->language;
+    u32 index = (lang == JAPANESE) ? 0 : 1;
+    Background *bg1;
     gDispCnt = (0xFBFF & gDispCnt) | 0x200;
     gBgCntRegs[1] = 0x1F8A;
     gBgScrollRegs[1][0] = -0x14;
     gBgScrollRegs[1][1] = -8;
-    title->bgE0.graphics.dest = (void *)0x06008000;
-    title->bgE0.graphics.anim = 0;
-    title->bgE0.layoutVram = (u16 *)0x0600F800;
-    title->bgE0.unk18 = 0;
-    title->bgE0.unk1A = 0;
-    title->bgE0.tilemapId = *((((((u32) ((0 - lang) | lang) >> 0x1F) * 4) + 2) * 2) + &gUnknown_080D68D0);
-    title->bgE0.unk1E = 0;
-    title->bgE0.unk20 = 0;
-    title->bgE0.unk22 = 0;
-    title->bgE0.unk24 = 0;
-    title->bgE0.targetTilesX = 0x19;
-    title->bgE0.targetTilesY = 0xA;
-    title->bgE0.paletteOffset = 0;
-    title->bgE0.flags = 5;
-    DrawBackground(&title->bgE0);
+
+    bg1 = &title->bgE0;
+    bg1->graphics.dest = (void *)0x06008000;
+    bg1->graphics.anim = 0;
+    bg1->layoutVram = (u16 *)0x0600F800;
+    bg1->unk18 = 0;
+    bg1->unk1A = 0;
+    bg1->tilemapId = gUnknown_080D68D0[index * 4 + 2];
+    bg1->unk1E = 0;
+    bg1->unk20 = 0;
+    bg1->unk22 = 0;
+    bg1->unk24 = 0;
+    bg1->targetTilesX = 200 / TILE_WIDTH;
+    bg1->targetTilesY = 80 / TILE_WIDTH;
+    bg1->paletteOffset = 0;
+    bg1->flags = 5;
+    DrawBackground(bg1);
+
     gDispCnt |= 0x2000;
-    gWinRegs->unk0 = 0xF0;
+    gWinRegs[0] = 0xF0;
     gWinRegs[2] = 0xA0;
     gWinRegs[4] |= 0x26;
     gBldRegs.bldCnt = 0x3FBF;
@@ -423,11 +458,13 @@ void Task_TitleScreenMainFadeless(TitleScreenSA3 *title) {
     gCurTask->main = Task_TitleAnnouncer;
 }
 
-void Task_TitleAnnouncer(TitleScreenSA3 *title) {
+void Task_TitleAnnouncer(void)
+{
+    TitleScreenSA3 *title = TASK_DATA(gCurTask);
     u16 temp_r0;
     u16 temp_r1;
 
-    if ((u32) title->qUnkE > 0xFFU) {
+    if ((u32)title->qUnkE > 0xFFU) {
         sub_808AEC0(title);
     }
     temp_r1 = gBldRegs.bldY;
@@ -439,10 +476,9 @@ void Task_TitleAnnouncer(TitleScreenSA3 *title) {
         m4aSongNumStart(VOICE__ANNOUNCER__SONIC_ADVANCE_3);
         return;
     }
-    gBldRegs.bldY = (u16) ((u16) title->unkA >> 8);
-    temp_r0 = title->unkA - title->qUnkE;
-    title->unkA = temp_r0;
-    if ((u32) (temp_r0 << 0x10) > 0x0F000000U) {
+    gBldRegs.bldY = (u16)((u16)title->unkA >> 8);
+    title->unkA -= title->qUnkE;
+    if (title->unkA > Q(15)) {
         title->unkA = 0;
     }
     if (8 & gPressedKeys) {
@@ -452,16 +488,18 @@ void Task_TitleAnnouncer(TitleScreenSA3 *title) {
     }
 }
 
-void Task_808ABD0(TitleScreenSA3 *title) {
+void Task_808ABD0(void)
+{
+    TitleScreenSA3 *title = TASK_DATA(gCurTask);
     u16 temp_r1;
     u16 temp_r3;
     u8 temp_r0;
 
     sub_808AEC0(title);
-    if ((s32) (s16) title->unk1E > 0x5A) {
+    if ((s32)(s16)title->unk1E > 0x5A) {
         title->unk1E = 0;
     }
-    if ((s32) (s16) title->unk1E > 0x1D) {
+    if ((s32)(s16)title->unk1E > 0x1D) {
         sub_808AEA4(title);
     }
     sub_808AEC0(title);
@@ -474,16 +512,14 @@ void Task_808ABD0(TitleScreenSA3 *title) {
         return;
     }
     temp_r1 = title->unk6;
-    if ((u32) temp_r1 > 0x257U) {
+    if ((u32)temp_r1 > 0x257U) {
         LaunchDemoPlay();
         return;
     }
-    if (((u32) temp_r1 > 0x3CU) && (0x100 & gPressedKeys)) {
-        if ((u32) title->unk4 <= 0xB3U) {
-            temp_r0 = gStageData.unk8 + 1;
-            gStageData.unk8 = temp_r0;
-            if ((u32) temp_r0 > 2U) {
-                gStageData.unk8 = (u8) temp_r3;
+    if (((u32)temp_r1 > 0x3CU) && (0x100 & gPressedKeys)) {
+        if ((u32)title->unk4 <= 0xB3U) {
+            if (++gStageData.unk8 > 2U) {
+                gStageData.unk8 = (u8)temp_r3;
             }
         }
         title->unk4 = 0;
@@ -493,7 +529,7 @@ void Task_808ABD0(TitleScreenSA3 *title) {
         m4aSongNumStop(VOICE__ANNOUNCER__SONIC_ADVANCE_3);
         m4aSongNumStart(SE_SELECT);
     }
-    if ((u32) title->unk4 <= 0xB3U) {
+    if ((u32)title->unk4 <= 0xB3U) {
         sub_808ACC0(title);
         title->unk4 += 1;
     }
@@ -501,122 +537,121 @@ void Task_808ABD0(TitleScreenSA3 *title) {
     title->unk1E += 1;
 }
 
-void sub_808ACC0(TitleScreenSA3 *title) {
-    Sprite *temp_r4;
-    s32 temp_r2;
-    u8 temp_r1;
+void sub_808ACC0(TitleScreenSA3 *title)
+{
+    u32 index = (title->language == JAPANESE) ? 0 : 1;
+    Sprite *s = &title->spr50;
 
-    temp_r1 = title->language;
-    temp_r4 = title + 0x50;
-    temp_r2 = ((u32) ((0 - temp_r1) | temp_r1) >> 0x1F) * 4;
-    temp_r4->anim = *(((gStageData.unk8 + temp_r2) * 8) + &gUnknown_080D6858);
-    temp_r4->variant = (((gStageData.unk8 + temp_r2) * 8) + &gUnknown_080D6858)->unk2;
-    temp_r4->x = (s16) ((u16) title->unk16 >> 8);
-    temp_r4->y = (s16) ((u16) title->unk18 >> 8);
-    UpdateSpriteAnimation(temp_r4);
-    DisplaySprite(temp_r4);
+    s->anim = gUnknown_080D6858[gStageData.unk8 + index * 0x4].anim;
+    s->variant = gUnknown_080D6858[gStageData.unk8 + index * 0x4].variant;
+    s->x = I(title->unk16);
+    s->y = I(title->unk18);
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
 
-void sub_808AD14(TitleScreenSA3 *title) {
-    ? sp4;
+// TODO: Cleanup!
+void sub_808AD14(TitleScreenSA3 *title)
+{
+    MaskingColors rgbVals[5];
+    MaskingColors *rgb = &rgbVals[0];
+    MaskingColors *rgbB;
+    MaskingColors *pRgb1;
+    MaskingColors *pRgb2;
+    u8 *src;
     s32 sp8;
-    Background *temp_r6;
-
-    subroutine_arg0.unk0 = (u8) *((gStageData.unk8 * 3) + &gUnknown_080D6902);
-    subroutine_arg0.unk1 = (u8) *((gStageData.unk8 * 3) + (&gUnknown_080D6902 + 1));
-    subroutine_arg0.unk2 = (u8) *((gStageData.unk8 * 3) + (&gUnknown_080D6902 + 2));
-    sp4.unk0 = (u8) *((gStageData.unk8 * 3) + &gUnknown_080D690E);
-    sp4.unk1 = (u8) *((gStageData.unk8 * 3) + (&gUnknown_080D690E + 1));
-    sp4.unk2 = (u8) *((gStageData.unk8 * 3) + (&gUnknown_080D690E + 2));
-    sp8 = *((gStageData.unk8 * 0xC) + &gUnknown_080D691C);
-    sp8.unk4 = (s32) *((gStageData.unk8 * 0xC) + (&gUnknown_080D691C + 4));
-    sp8.unk8 = (s32) *((gStageData.unk8 * 0xC) + (&gUnknown_080D691C + 8));
+    Background *bg;
+    rgb->r = gUnknown_080D6902[gStageData.unk8][0];
+    rgb->g = gUnknown_080D6902[gStageData.unk8][1];
+    rgb->b = gUnknown_080D6902[gStageData.unk8][2];
+    pRgb1 = &rgbVals[1];
+    pRgb1->r = gUnknown_080D690E[gStageData.unk8][0];
+    pRgb1->g = gUnknown_080D690E[gStageData.unk8][1];
+    pRgb1->b = gUnknown_080D690E[gStageData.unk8][2];
+    pRgb2 = &rgbVals[2];
+    src = gUnknown_080D691C;
+    pRgb2[0] = *(MaskingColors *)&src[gStageData.unk8 * 12 + 0];
+    pRgb2[1] = *(MaskingColors *)&gUnknown_080D691C[gStageData.unk8 * 12 + 4];
+    pRgb2[2] = *(MaskingColors *)&gUnknown_080D691C[gStageData.unk8 * 12 + 8];
     sub_80C4B48();
-    sub_80C47C0(&subroutine_arg0);
-    sub_80C470C(&sp4);
-    sub_80C492C(&sp8);
-    temp_r6 = title + 0xA0;
-    temp_r6->flags = 0xC;
-    DrawBackground(temp_r6);
+    sub_80C47C0(&rgbVals[0]);
+    sub_80C470C(pRgb1);
+    sub_80C492C(pRgb2);
+    bg = &title->bgA0;
+    bg->flags = 0xC;
+    DrawBackground(bg);
     gFlags |= 0x30000;
 }
 
-void sub_808ADF0(u8 param0) {
-    u8 temp_r0;
-    void (*var_r0)(TitleScreenSA3 *);
-
-    temp_r0 = param0;
-    if (temp_r0 == 0) {
-		sub_8001D58(sub_808AE28, 0);
-		return;
-    } else if (temp_r0 == 2) {
+void sub_808ADF0(u8 param0)
+{
+    if (param0 == 0) {
+        sub_8001D58(sub_808AE28, 0);
+        return;
+    } else if (param0 == 2) {
         sub_8001D58(sub_808AE40, 0);
         return;
-	} else {
-		sub_8001D58(sub_808AE34, 0);
-	}
-
+    } else {
+        sub_8001D58(sub_808AE34, 0);
+    }
 }
 
-void sub_808AE28(void) {
-    CreateTitleScreen(TFM_UNKNOWN);
-}
+void sub_808AE28(void) { CreateTitleScreen(TFM_UNKNOWN); }
 
-void sub_808AE34(void) {
-    CreateTitleScreen(TFM_NO_FADE);
-}
+void sub_808AE34(void) { CreateTitleScreen(TFM_NO_FADE); }
 
-void sub_808AE40(void) {
-    CreateTitleScreen(TFM_FADEIN);
-}
+void sub_808AE40(void) { CreateTitleScreen(TFM_FADEIN); }
 
-void Task_808AE4C(TitleScreenSA3 *title) {
+void Task_808AE4C(void)
+{
+    TitleScreenSA3 *title = TASK_DATA(gCurTask);
     u16 temp_r1;
     u16 temp_r1_2;
 
     sub_808AEC0(title);
-    if ((s32) (s16) title->unk1E > 7) {
+    if ((s32)(s16)title->unk1E > 7) {
         title->unk1E = 0;
     }
-    if ((s32) (s16) title->unk1E > 1) {
+    if ((s32)(s16)title->unk1E > 1) {
         sub_808AEA4(title);
     }
-    temp_r1 = title->unk6 - 1;
-    title->unk6 = temp_r1;
-    title->unk1E += 1;
-    temp_r1_2 = temp_r1;
-    if (temp_r1_2 == 0) {
-        title->fadeMode = temp_r1_2;
+
+    title->unk6--;
+    title->unk1E++;
+
+    if (title->unk6 == 0) {
+        title->fadeMode = 0;
         gCurTask->main = Task_808A768;
     }
 }
 
-void sub_808AEA4(TitleScreenSA3 *title) {
-    Sprite *temp_r2;
-
-    temp_r2 = title + 0x28;
-    temp_r2->x = (s16) ((u16) title->unk12 >> 8);
-    temp_r2->y = (s16) ((u16) title->unk14 >> 8);
-    DisplaySprite(temp_r2);
+void sub_808AEA4(TitleScreenSA3 *title)
+{
+    Sprite *s = &title->spr28;
+    s->x = I(title->unk12);
+    s->y = I(title->unk14);
+    DisplaySprite(s);
 }
 
-void sub_808AEC0(TitleScreenSA3 *title) {
-    Sprite *temp_r2;
-
-    temp_r2 = title + 0x78;
-    temp_r2->x = (s16) ((u16) title->unk1A >> 8);
-    temp_r2->y = (s16) ((u16) title->unk1C >> 8);
-    DisplaySprite(temp_r2);
+void sub_808AEC0(TitleScreenSA3 *title)
+{
+    Sprite *s = &title->spr78;
+    s->x = I(title->unk1A);
+    s->y = I(title->unk1C);
+    DisplaySprite(s);
 }
 
-void sub_808AEDC(TitleScreenSA3 *title) {
+void sub_808AEDC(TitleScreenSA3 *title)
+{
     s32 temp_r2;
 
-    temp_r2 = (s32) (title->unk24 << 8) >> 0x10;
-    sa2__sub_8003EE4(0U, (s16) temp_r2, (s16) temp_r2, 0x20, 0x28, 0xB4, 0x30, gBgAffineRegs);
+    temp_r2 = (s32)(title->unk24 << 8) >> 0x10;
+    sa2__sub_8003EE4(0U, (s16)temp_r2, (s16)temp_r2, 0x20, 0x28, 0xB4, 0x30, gBgAffineRegs);
 }
 
-void TaskDestructor_TitleScreen(Task *t) {
+void TaskDestructor_TitleScreen(Task *t)
+{
     if (gStageData.unk8) {
         gFlags |= 0x30000;
     } else {
