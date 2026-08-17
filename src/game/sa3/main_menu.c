@@ -25,22 +25,43 @@ typedef struct {
     /* 0x004 */ u8 unk4;
     /* 0x005 */ u8 unk5;
     /* 0x006 */ u8 unk6;
-    /* 0x007 */ u8 unk7;
-    /* 0x008 */ u8 unk8;
-    /* 0x009 */ u8 unk9;
-    /* 0x00A */ u8 unkA;
+    /* 0x007 */ u8 unk7[4];
     /* 0x00B */ u8 unkB;
     /* 0x00B */ u8 unkC;
     /* 0x00B */ u8 unkD;
     /* 0x00B */ u8 unkE;
     /* 0x00B */ u8 unkF;
     /* 0x00B */ u16 highlitButton;
-    /* 0x00C */ u8 filler12[0x5C];
-    /* 0x070 */ u16 unk6E;
+    /* 0x070 */ s16 unk12;
+    /* 0x070 */ s16 unk14;
+    /* 0x030 */ s32 unk18;
+    /* 0x030 */ s32 unk1C;
+    /* 0x030 */ s32 unk20;
+    /* 0x030 */ s32 unk24;
+    /* 0x030 */ s32 unk28;
+    /* 0x030 */ s32 unk2C;
+    /* 0x030 */ s32 unk30;
+    /* 0x034 */ s32 unk34;
+    /* 0x038 */ s32 unk38;
+    /* 0x03C */ s32 unk3C;
+    /* 0x040 */ s32 unk40;
+    /* 0x044 */ s32 unk44;
+    /* 0x048 */ s32 unk48;
+    /* 0x04C */ s32 unk4C;
+    /* 0x050 */ s32 unk50;
+    /* 0x054 */ s32 unk54;
+    /* 0x058 */ s32 unk58;
+    /* 0x05C */ s32 unk5C;
+    /* 0x060 */ s32 unk60;
+    /* 0x064 */ s32 unk64;
+    /* 0x068 */ s16 unk68;
+    /* 0x06A */ s16 unk6A;
+    /* 0x06C */ u16 unk6C;
+    /* 0x06E */ u16 unk6E;
     /* 0x070 */ u16 unk70;
     /* 0x072 */ u16 unk72;
     /* 0x074 */ u16 unk74;
-    /* 0x076 */ u8 filler76[0x6];
+    /* 0x074 */ u8 *vram78;
     /* 0x07C */ Sprite spr7C[2];
     /* 0x0CC */ Sprite sprCC[2];
     /* 0x11C */ Sprite spr11C[2];
@@ -109,41 +130,11 @@ void sub_808A1B0(u8 arg0, s32 arg1, u8 *vram, u16 arg3, s32 arg4);
 
 extern ColorRaw gUnknown_080D66D8[0x40];
 
-#if 0 // TEMP - for M2C
-
-void Task_3F0_8087B80(MainMenu *menu);
-void Task_3F0_8087C74(MainMenu *menu);
-void Task_3F0_8087D54(MainMenu *menu);
-void Task_3F0_8087F18(MainMenu *menu);
-void Task_3F0_8088088(MainMenu *menu);
-void Task_3F0_808819C(MainMenu *menu);
-void Task_3F0_8088440(MainMenu *menu);
-void Task_3F0_80885CC(MainMenu *menu);
-void Task_3F0_8088770(MainMenu *menu);
-void Task_3F0_80888E8(MainMenu *menu);
-void Task_3F0_80889CC(MainMenu *menu);
-void Task_3F0_8088B48(MainMenu *menu);
-void Task_3F0_8088BD0(MainMenu *menu);
-void Task_3F0_8088E74(MainMenu *menu);
-void Task_3F0_80897BC(MainMenu *menu);
-void Task_3F0_8089970(MainMenu *menu);
-// Calls the correct music playback depending on whether you are in the regular main menu or just lost the Time Attack
-// Called once whenever a "Main Menu sub-menu" is created.
-void Task_3F0_MainMenuInit(MainMenu *menu);
-void Task_3F0_8089FCC(MainMenu *menu);
-void Task_3F0_808A060(MainMenu *menu);
-void Task_3F0_808A0D8(MainMenu *menu);
-void Task_3F0_808A144(MainMenu *menu);
-void sub_808A1B0(u8 arg0, s32 arg1, u8 *vram, u16 arg3, s32 arg4, MMChaoMessage *msg);
-void Task_94_808A22C(MMChaoMessage *msg);
-
-#endif
-
 void CreateMainMenu(s16 highlitButton, u8 arg1)
 {
     MainMenu *menu;
 
-    gDispCnt = 0x1741;
+    gDispCnt = DISPCNT_MODE_1 | DISPCNT_BG0_ON | DISPCNT_BG1_ON | DISPCNT_BG2_ON | DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP;
     menu = TASK_DATA(TaskCreate(Task_3F0_MainMenuInit, sizeof(MainMenu), 0x100U, 0U, TaskDestructor_MainMenu));
     gPseudoRandom = gFrameCount;
     menu->highlitButton = highlitButton;
@@ -176,38 +167,32 @@ void CreateMainMenu(s16 highlitButton, u8 arg1)
 
     if (FLAGS_20000 & gFlags) {
         CopyObjPaletteMasked(gUnknown_080D66D8, 0U, ARRAY_COUNT(gUnknown_080D66D8));
-        return;
+    } else {
+        DmaCopy16(3, gUnknown_080D66D8, gObjPalette, sizeof(gUnknown_080D66D8));
+        gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
     }
-
-	DmaCopy16(3, gUnknown_080D66D8, gObjPalette, sizeof(gUnknown_080D66D8));
-    gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
 }
 
-#if 0
-void sub_808738C(MainMenu *menu) {
-    u16 *var_r1_2;
-    u16 var_r0;
-    u8 temp_r0;
-    u8 var_r1;
+// (98.09%) https://decomp.me/scratch/V4Nme
+NONMATCH("asm/non_matching/game/sa3/mm__sub_808738C.inc", void sub_808738C(MainMenu *menu))
+{
+    u32 lang;
+    u8 i;
 
-    var_r1 = 0;
-    do {
-        (&menu->unk7)[var_r1] = 0xC;
-        var_r1 += 1;
-    } while ((u32) var_r1 <= 3U);
-    temp_r0 = menu->unk1;
-    if ((temp_r0 == 0) || (temp_r0 == 4) || (temp_r0 == 5)) {
-        var_r1_2 = &menu->unk6E;
-        var_r0 = 0;
-    } else {
-        var_r1_2 = &menu->unk6E;
-        var_r0 = 1;
+    for (i = 0; i < ARRAY_COUNT(menu->unk7); i++) {
+        menu->unk7[i] = 0xC;
     }
-    *var_r1_2 = var_r0;
+
+    if ((menu->initArg1 == 0) || (menu->initArg1 == 4) || (menu->initArg1 == 5)) {
+        menu->unk6E = 0;
+    } else {
+        menu->unk6E = 1;
+    }
+
     menu->unk70 = 0;
     menu->unkC = 0;
     menu->unkD = 0;
-    menu->unk12 = 0xFF10;
+    menu->unk12 = -240;
     menu->unkB = 2;
     menu->unk6C = 0;
     menu->unk4 = 0;
@@ -220,31 +205,33 @@ void sub_808738C(MainMenu *menu) {
     menu->unk18 = 0x12C00;
     menu->unk1C = 0x2000;
     menu->unk20 = 0x15C00;
-    menu->unk24 = 0x4000;
+    menu->unk24 = menu->unk1C + menu->unk1C;
     menu->unk28 = 0x18C00;
-    menu->unk2C = 0x6000;
+    menu->unk2C = menu->unk24 + menu->unk1C;
     menu->unk30 = 0x1BC00;
-    menu->unk34 = 0x8000;
-    menu->unk58 = 0xFFFFD800;
+    menu->unk34 = menu->unk2C + menu->unk1C;
+    menu->unk58 = -Q(40);
     menu->unk5C = 0x5600;
-    menu->unk60 = 0xFFFFD800;
+    menu->unk60 = -Q(40);
     menu->unk64 = 0x5600;
     menu->unk38 = 0x18C00;
-    menu->unk3C = 0x3A00;
+    menu->unk3C = 0x1A00 + menu->unk1C;
     menu->unk40 = 0x18C00;
-    menu->unk44 = 0x6600;
+    menu->unk44 = 0x4600 + menu->unk1C;
     menu->unk48 = 0x3C00;
-    menu->unk4C = 0x2000;
+    menu->unk4C = menu->unk1C;
     menu->unk6 = 0;
     menu->unk50 = 0;
     menu->unk54 = 0;
     menu->unk68 = 0x100;
     menu->unk6A = 0x100;
     menu->language = LOADED_SAVE->language;
-    menu->unk14 = 0xFFFF;
-    menu->unk78 = 0x06010000;
+    menu->unk14 = -1;
+    menu->vram78 = OBJ_VRAM0;
 }
+END_NONMATCH
 
+#if 0
 void sub_8087498(MainMenu *menu) {
     menu->spr2D4.tiles = menu->unk78;
     menu->unk78 = (u8 *) (menu->unk78 + (sAnimsMenuChao.unk4 << 5));
@@ -469,7 +456,7 @@ void sub_80877F4(MainMenu *menu) {
     do {
         temp_r1_3 = &menu->spr11C[var_r5_3];
         temp_r1_3->tiles = menu->unk78;
-        temp_r0 = menu->unk1;
+        temp_r0 = menu->initArg1;
         if (temp_r0 == 2) {
             menu->unk78 = (u8 *) (menu->unk78 + 0x800);
             temp_r1_3->anim = *(((var_r5_3 + (menu->language * 2)) * 8) + var_r2);
@@ -571,7 +558,7 @@ void sub_8087A48(MainMenu *menu) {
     menu->bg370.layoutVram = (u16 *)0x0600C000;
     menu->bg370.unk18 = 0;
     menu->bg370.unk1A = 0;
-    if ((u32) (u8) (menu->unk1 - 2) <= 1U) {
+    if ((u32) (u8) (menu->initArg1 - 2) <= 1U) {
         var_r0 = gUnknown_080D66C4.unk4;
     } else {
         var_r0 = (&gUnknown_080D66C4)[menu->unk10];
@@ -807,7 +794,7 @@ void Task_3F0_8088088(MainMenu *menu) {
     sub_8089F08(menu);
     sub_8089704(menu);
     if (sub_8089DF4(menu) == 4) {
-        if ((u32) (u8) (menu->unk1 - 2) <= 1U) {
+        if ((u32) (u8) (menu->initArg1 - 2) <= 1U) {
             var_r0 = Task_3F0_8087F18;
         } else {
             temp_r0 = menu->unk10;
@@ -867,7 +854,7 @@ void Task_3F0_808819C(MainMenu *menu) {
             return;
         }
     }
-    if ((u32) (u8) (menu->unk1 - 2) > 1U) {
+    if ((u32) (u8) (menu->initArg1 - 2) > 1U) {
         temp_r0 = sub_808927C(menu);
         if (temp_r0 == 1) {
             sub_8089670(menu);
@@ -894,7 +881,7 @@ void Task_3F0_808819C(MainMenu *menu) {
                 }
             }
         }
-        if (((u32) (u8) (menu->unk1 - 2) > 1U) && (2 & gPressedKeys)) {
+        if (((u32) (u8) (menu->initArg1 - 2) > 1U) && (2 & gPressedKeys)) {
             m4aSongNumStart(0x6BU);
             menu->unk12 = 0;
             menu->unk6E = 1;
@@ -939,7 +926,7 @@ block_33:
         menu->tf324.qScaleY = 0x100;
         menu->unk2 = 0;
         menu->unk4 = 0x40;
-        if ((u32) (u8) (menu->unk1 - 2) > 1U) {
+        if ((u32) (u8) (menu->initArg1 - 2) > 1U) {
             menu->bg370.tilemapId = (&gUnknown_080D66C4)[menu->unk10];
             menu->bg370.flags = 6;
             DrawBackground(&menu->bg370);
@@ -2442,20 +2429,20 @@ void sub_8089F40(MainMenu *menu) {
 
 void Task_3F0_MainMenuInit(MainMenu *menu) {
     sub_8087A48(menu);
-    if ((u32) (u8) (menu->unk1 - 2) <= 1U) {
+    if ((u32) (u8) (menu->initArg1 - 2) <= 1U) {
         sub_80877F4(menu);
     } else {
         sub_8087590(menu);
     }
     sub_8087498(menu);
-    if ((u32) (u8) (menu->unk1 - 2) <= 1U) {
+    if ((u32) (u8) (menu->initArg1 - 2) <= 1U) {
         m4aMPlayAllStop();
         m4aSongNumStart(0x48U);
     } else {
         m4aMPlayAllStop();
         m4aSongNumStart(2U);
     }
-    gCurTask->main = *((menu->unk1 * 4) + &gUnknown_080D6758);
+    gCurTask->main = *((menu->initArg1 * 4) + &gUnknown_080D6758);
 }
 
 void Task_3F0_8089FCC(MainMenu *menu) {
