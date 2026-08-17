@@ -3,6 +3,7 @@
 #include "lib/m4a/m4a.h"
 #include "game/sa3/title_screen.h"
 #include "game/save.h"
+#include "constants/tilemaps.h"
 #include "constants/songs.h"
 
 void Task_TitleScreenMainWithFade(void);
@@ -19,14 +20,17 @@ void Task_808ABD0(void);
 void Task_808AE4C(void);
 void TaskDestructor_TitleScreen(Task *t);
 
+extern TileInfo2 gUnknown_080D6858[2][4];
 extern TileInfo2 gUnknown_080D6898[6];
+extern TileInfo2 gUnknown_080D68C8;
+extern u16 gUnknown_080D68D0[8]; // TODO: Could be a Tilemap-ID enum, instead of u16, with -fshort-enums compiler flag!
 
 void CreateTitleScreen(u8 fadeMode)
 {
     Task *t;
     TitleScreenSA3 *title;
 
-    gDispCnt = DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_1;
+    gDispCnt = DISPCNT_MODE_1 | DISPCNT_OBJ_1D_MAP | DISPCNT_OBJ_ON;
 
     if (fadeMode == 2) {
         t = TaskCreate(Task_TitleScreenMainWithFade, sizeof(TitleScreenSA3), 0x100U, 0U, TaskDestructor_TitleScreen);
@@ -90,142 +94,141 @@ void CreateTitleScreen(u8 fadeMode)
     m4aSongNumStart(MUS_TITLE_SCREEN);
 }
 
-#if 0
-void sub_808A3D8(TitleScreenSA3 *title) {
-    Sprite *s;
-    u8 *temp_r1_2;
-    u8 *temp_r2;
-    u8 lang;
-    void *temp_r2_2;
+void sub_808A3D8(TitleScreenSA3 *title)
+{
+    {
+        Sprite *s = &title->spr28;
+        s->tiles = title->vram20;
+        title->vram20 += gUnknown_080D6898[title->language].numTiles * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080D6898[title->language].anim;
+        s->variant = gUnknown_080D6898[title->language].variant;
+        s->prevVariant = -1;
+        s->x = I(title->unk12);
+        s->y = I(title->unk14);
+        s->oamFlags = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0x1000;
+        s->hitboxes[0].index = -1;
+        UpdateSpriteAnimation(s);
+    }
 
-    s = title->spr28;
-    title->spr28.tiles = title->vram20;
-    title->vram20 += gUnknown_080D6898[title->language].numTiles * TILE_SIZE_4BPP;
-    s->anim = gUnknown_080D6898[title->language].anim;
-    s->variant = gUnknown_080D6898[title->language].variant;
-    s->prevVariant = 0xFF;
-    s->x = (s16) ((u16) title->unk12 >> 8);
-    s->y = (s16) ((u16) title->unk14 >> 8);
-    s->oamFlags = 0;
-    s->animCursor = 0;
-    s->qAnimDelay = 0;
-    s->animSpeed = 0x10;
-    s->palId = 0;
-    s->frameFlags = 0x1000;
-    s->hitboxes[0].index = -1;
-    UpdateSpriteAnimation(s);
+    {
+        Sprite *s = &title->spr78;
+        s->tiles = title->vram20;
+        title->vram20 += gUnknown_080D68C8.numTiles * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080D68C8.anim;
+        s->variant = gUnknown_080D68C8.variant;
+        s->prevVariant = -1;
+        s->x = I(title->unk1A);
+        s->y = I(title->unk1C);
+        s->oamFlags = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0x1000;
+        s->hitboxes[0].index = -1;
+        UpdateSpriteAnimation(s);
+    }
 
-    s = title->spr78;
-    temp_r2 = title->vram20;
-    title->spr78.tiles = temp_r2;
-    title->vram20 = (u8 *) (temp_r2 + (gUnknown_080D68C8.unk4 << 5));
-    s->anim = gUnknown_080D68C8.unk0;
-    s->variant = gUnknown_080D68C8.unk2;
-    s->prevVariant = -1;
-    s->x = (s16) ((u16) title->unk1A >> 8);
-    s->y = (s16) ((u16) title->unk1C >> 8);
-    s->oamFlags = 0;
-    s->animCursor = 0;
-    s->qAnimDelay = 0;
-    s->animSpeed = 0x10;
-    s->palId = 0;
-    s->frameFlags = 0x1000;
-    s->hitboxes[0].index = -1;
-    UpdateSpriteAnimation(s);
-
-    s = title->spr50;
-    lang = title->language;
-    s->tiles = title->vram20;
-    title->vram20 += 14 * TILE_SIZE_4BPP;
-    temp_r2_2 = ((lang) ? 1 : 0) << 5) + gUnknown_080D6858;
-    s->anim = temp_r2_2->unk0;
-    s->variant = temp_r2_2->unk2;
-    s->prevVariant = -1;
-    s->x = (s16) ((u16) title->unk16 >> 8);
-    s->y = (s16) ((u16) title->unk18 >> 8);
-    s->oamFlags = 0;
-    s->animCursor = 0;
-    s->qAnimDelay = 0;
-    s->animSpeed = 0x10;
-    s->palId = 0;
-    s->frameFlags = 0x1000;
-    s->hitboxes[0].index = -1;
-    UpdateSpriteAnimation(s);
+    {
+        Sprite *s = &title->spr50;
+        u32 index = (title->language == JAPANESE) ? 0 : 1;
+        s->tiles = title->vram20;
+        title->vram20 += 14 * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080D6858[index][0].anim;
+        s->variant = gUnknown_080D6858[index][0].variant;
+        s->prevVariant = -1;
+        s->x = I(title->unk16);
+        s->y = I(title->unk18);
+        s->oamFlags = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0x1000;
+        s->hitboxes[0].index = -1;
+        UpdateSpriteAnimation(s);
+    }
 }
 
-void sub_808A4EC(TitleScreenSA3 *title) {
-    Background *temp_r0_2;
-    Background *temp_r0_3;
-    Background *temp_r0_4;
-    u32 temp_r6;
-    u8 temp_r0;
+void sub_808A4EC(TitleScreenSA3 *title)
+{
+    Background *bg0;
+    Background *bg1;
+    Background *bg2;
+    u32 index = (title->language == JAPANESE) ? 0 : 1;
+    u32 index2;
 
-    temp_r0 = title->language;
-    temp_r6 = (u32) ((0 - temp_r0) | temp_r0) >> 0x1F;
-    gDispCnt |= 0x100;
-    gBgCntRegs->unk0 = 0x1783;
+    gDispCnt |= DISPCNT_BG0_ON;
+    gBgCntRegs[0] = BGCNT_SCREENBASE(23) | BGCNT_CHARBASE(0) | BGCNT_256COLOR | BGCNT_PRIORITY(3);
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
-    temp_r0_2 = title + 0xA0;
-    temp_r0_2->graphics.dest = (void *)0x06000000;
-    temp_r0_2->graphics.anim = 0;
-    temp_r0_2->layoutVram = (u16 *)0x0600B800;
-    temp_r0_2->unk18 = 0;
-    temp_r0_2->unk1A = 0;
-    temp_r0_2->tilemapId = 0x124;
-    temp_r0_2->unk1E = 0;
-    temp_r0_2->unk20 = 0;
-    temp_r0_2->unk22 = 0;
-    temp_r0_2->unk24 = 0;
-    temp_r0_2->targetTilesX = 0x1E;
-    temp_r0_2->targetTilesY = 0x14;
-    title->bgA0.paletteOffset = 0;
-    temp_r0_2->flags = 4;
-    DrawBackground(temp_r0_2);
+    bg0 = &title->bgA0;
+    bg0->graphics.dest = (void *)BG_CHAR_ADDR(0);
+    bg0->graphics.anim = 0;
+    bg0->layoutVram = (u16 *)BG_SCREEN_ADDR(23);
+    bg0->unk18 = 0;
+    bg0->unk1A = 0;
+    bg0->tilemapId = TM_UNKNOWN_292;
+    bg0->unk1E = 0;
+    bg0->unk20 = 0;
+    bg0->unk22 = 0;
+    bg0->unk24 = 0;
+    bg0->targetTilesX = 240 / TILE_WIDTH;
+    bg0->targetTilesY = 160 / TILE_WIDTH;
+    bg0->paletteOffset = 0;
+    bg0->flags = BACKGROUND_FLAG_4 | BACKGROUND_FLAGS_BG_ID(0);
+    DrawBackground(bg0);
 
-    gDispCnt |= 0x200;
-    gBgCntRegs[1] = 0x1F8A;
-    gBgScrollRegs[1][0] = -0x14;
+    gDispCnt |= DISPCNT_BG1_ON;
+    gBgCntRegs[1] = BGCNT_SCREENBASE(31) | BGCNT_CHARBASE(2) | BGCNT_256COLOR | BGCNT_PRIORITY(2);
+    gBgScrollRegs[1][0] = -20;
     gBgScrollRegs[1][1] = -8;
-    temp_r0_3 = title + 0xE0;
-    temp_r0_3->graphics.dest = (void *)0x06008000;
-    temp_r0_3->graphics.anim = 0;
-    temp_r0_3->layoutVram = (u16 *)0x0600F800;
-    temp_r0_3->unk18 = 0;
-    temp_r0_3->unk1A = 0;
-    temp_r0_3->tilemapId = *((temp_r6 * 8) + &gUnknown_080D68D0);
-    temp_r0_3->unk1E = 0;
-    temp_r0_3->unk20 = 0;
-    temp_r0_3->unk22 = 0;
-    temp_r0_3->unk24 = 0;
-    temp_r0_3->targetTilesX = 0x19;
-    temp_r0_3->targetTilesY = 0xA;
-    title->bgE0.paletteOffset = 0;
-    temp_r0_3->flags = 5;
-    DrawBackground(temp_r0_3);
+    bg1 = &title->bgE0;
+    bg1->graphics.dest = (void *)BG_CHAR_ADDR(2);
+    bg1->graphics.anim = 0;
+    bg1->layoutVram = (u16 *)BG_SCREEN_ADDR(31);
+    bg1->unk18 = 0;
+    bg1->unk1A = 0;
+    bg1->tilemapId = gUnknown_080D68D0[(index2 = index * 4) + 0]; // TODO: This has got to be fake-matched!
+    bg1->unk1E = 0;
+    bg1->unk20 = 0;
+    bg1->unk22 = 0;
+    bg1->unk24 = 0;
+    bg1->targetTilesX = 200 / TILE_WIDTH;
+    bg1->targetTilesY = 80 / TILE_WIDTH;
+    bg1->paletteOffset = 0;
+    bg1->flags = BACKGROUND_FLAG_4 | BACKGROUND_FLAGS_BG_ID(1);
+    DrawBackground(bg1);
 
+    // In DISPCNT_MODE_1 -> BG2 is affine background
     gDispCnt |= DISPCNT_BG2_ON;
-    gBgCntRegs[2] = 0x5D8D;
+    gBgCntRegs[2] = BGCNT_SCREENBASE(29) | BGCNT_CHARBASE(3) | BGCNT_AFF256x256 | BGCNT_256COLOR | 0xD | BGCNT_PRIORITY(1);
     gBgScrollRegs[2][0] = 0;
     gBgScrollRegs[2][1] = 0;
-    temp_r0_4 = title + 0x120;
-    temp_r0_4->graphics.dest = (void *)0x0600C000;
-    temp_r0_4->graphics.anim = 0;
-    temp_r0_4->layoutVram = (u16 *)0x0600E800;
-    temp_r0_4->unk18 = 0;
-    temp_r0_4->unk1A = 0;
-    temp_r0_4->tilemapId = *((((temp_r6 * 4) + 1) * 2) + &gUnknown_080D68D0);
-    temp_r0_4->unk1E = 0;
-    temp_r0_4->unk20 = 0;
-    temp_r0_4->unk22 = 0;
-    temp_r0_4->unk24 = 0;
-    temp_r0_4->targetTilesX = 8;
-    temp_r0_4->targetTilesY = 0xA;
-    title->bg120.paletteOffset = 0;
-    temp_r0_4->flags = 6;
-    DrawBackground(temp_r0_4);
+    bg2 = &title->bg120;
+    bg2->graphics.dest = (void *)BG_CHAR_ADDR(3);
+    bg2->graphics.anim = 0;
+    bg2->layoutVram = (u16 *)BG_SCREEN_ADDR(29);
+    bg2->unk18 = 0;
+    bg2->unk1A = 0;
+    bg2->tilemapId = gUnknown_080D68D0[index * 4 + 1];
+    bg2->unk1E = 0;
+    bg2->unk20 = 0;
+    bg2->unk22 = 0;
+    bg2->unk24 = 0;
+    bg2->targetTilesX = 64 / TILE_WIDTH;
+    bg2->targetTilesY = 80 / TILE_WIDTH;
+    bg2->paletteOffset = 0;
+    bg2->flags = BACKGROUND_FLAG_4 | BACKGROUND_FLAGS_BG_ID(2);
+    DrawBackground(bg2);
 }
 
+#if 0
 void Task_TitleScreenMainWithFade(TitleScreenSA3 *title) {
     u16 *var_r1;
     u16 temp_r0;
