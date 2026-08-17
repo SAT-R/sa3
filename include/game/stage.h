@@ -46,6 +46,13 @@ typedef struct WaterRange {
     u16 maxX, maxY;
 } WaterRange;
 
+// Used by StageData.colorSetting
+typedef enum {
+    CS_GBA = 0,
+    CS_GBA_SP = 1,
+    CS_GB_PLAYER = 2,
+} EColorSetting;
+
 /*                0x030008A0                */
 typedef struct {
     /* 0x00 */ u8 language; // @NOTE: unk0 and unk1 referenced as single u16 before; union?
@@ -57,7 +64,7 @@ typedef struct {
     /* 0x05 */ u8 unk5; // This appears to be flag with layout 0b01010101 (see IA goal_ring)
     /* 0x06 */ u8 playerIndex; // Index of the controlled Player in gPlayers[] | 0x2B
     /* 0x07 */ u8 unk7;
-    /* 0x08 */ u8 unk8;
+    /* 0x08 */ u8 colorSetting; // TODO: Use enum type with -fshort-enums ?
     /* 0x09 */ u8 zone; // Currently visited Zone
     /* 0x0A */ u8 act; // Currently visited Act
     /* 0x0B */ u8 warpId; // Map entrance number index

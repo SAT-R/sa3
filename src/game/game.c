@@ -53,7 +53,7 @@ void sub_80001EC(void)
     gStageData.unk7 = 0;
     gStageData.levelTimer = 0;
     gStageData.timer = 0;
-    gStageData.unk8 = 0;
+    gStageData.colorSetting = CS_GBA;
     gTask_03001CFC = NULL;
     maxTileSlots = &gVramHeapMaxTileSlots;
     vram = OBJ_VRAM0 + (620 * TILE_SIZE_4BPP);

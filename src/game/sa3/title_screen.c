@@ -520,8 +520,8 @@ void Task_808ABD0(void)
 
     if ((title->unk6 > TIME(0, 1)) && (R_BUTTON & gPressedKeys)) {
         if ((u32)title->unk4 <= 0xB3U) {
-            if (++gStageData.unk8 > 2U) {
-                gStageData.unk8 = 0;
+            if (++gStageData.colorSetting > CS_GB_PLAYER) {
+                gStageData.colorSetting = CS_GBA;
             }
         }
         title->unk4 = 0;
@@ -545,8 +545,8 @@ void sub_808ACC0(TitleScreenSA3 *title)
     u32 index = (title->language == JAPANESE) ? 0 : 1;
     Sprite *s = &title->spr50;
 
-    s->anim = gUnknown_080D6858[gStageData.unk8 + index * 0x4].anim;
-    s->variant = gUnknown_080D6858[gStageData.unk8 + index * 0x4].variant;
+    s->anim = gUnknown_080D6858[gStageData.colorSetting + index * 0x4].anim;
+    s->variant = gUnknown_080D6858[gStageData.colorSetting + index * 0x4].variant;
     s->x = I(title->unk16);
     s->y = I(title->unk18);
 
@@ -565,18 +565,18 @@ void sub_808AD14(TitleScreenSA3 *title)
     u8 *src;
     s32 sp8;
     Background *bg;
-    rgb->r = gUnknown_080D6902[gStageData.unk8][0];
-    rgb->g = gUnknown_080D6902[gStageData.unk8][1];
-    rgb->b = gUnknown_080D6902[gStageData.unk8][2];
+    rgb->r = gUnknown_080D6902[gStageData.colorSetting][0];
+    rgb->g = gUnknown_080D6902[gStageData.colorSetting][1];
+    rgb->b = gUnknown_080D6902[gStageData.colorSetting][2];
     pRgb1 = &rgbVals[1];
-    pRgb1->r = gUnknown_080D690E[gStageData.unk8][0];
-    pRgb1->g = gUnknown_080D690E[gStageData.unk8][1];
-    pRgb1->b = gUnknown_080D690E[gStageData.unk8][2];
+    pRgb1->r = gUnknown_080D690E[gStageData.colorSetting][0];
+    pRgb1->g = gUnknown_080D690E[gStageData.colorSetting][1];
+    pRgb1->b = gUnknown_080D690E[gStageData.colorSetting][2];
     pRgb2 = &rgbVals[2];
     src = gUnknown_080D691C;
-    pRgb2[0] = *(MaskingColors *)&src[gStageData.unk8 * 12 + 0];
-    pRgb2[1] = *(MaskingColors *)&gUnknown_080D691C[gStageData.unk8 * 12 + 4];
-    pRgb2[2] = *(MaskingColors *)&gUnknown_080D691C[gStageData.unk8 * 12 + 8];
+    pRgb2[0] = *(MaskingColors *)&src[gStageData.colorSetting * 12 + 0];
+    pRgb2[1] = *(MaskingColors *)&gUnknown_080D691C[gStageData.colorSetting * 12 + 4];
+    pRgb2[2] = *(MaskingColors *)&gUnknown_080D691C[gStageData.colorSetting * 12 + 8];
     sub_80C4B48();
     sub_80C47C0(&rgbVals[0]);
     sub_80C470C(pRgb1);
@@ -653,7 +653,7 @@ void sub_808AEDC(TitleScreenSA3 *title)
 
 void TaskDestructor_TitleScreen(Task *t)
 {
-    if (gStageData.unk8) {
+    if (gStageData.colorSetting != CS_GBA) {
         gFlags |= 0x30000;
     } else {
         gFlags &= ~0x30000;
