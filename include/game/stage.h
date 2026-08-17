@@ -46,6 +46,7 @@ typedef struct WaterRange {
     u16 maxX, maxY;
 } WaterRange;
 
+// The various Color Setting modes selectable in the Title Screen via pressing the R-Button repeatedly.
 // Used by StageData.colorSetting
 typedef enum {
     CS_GBA = 0,
