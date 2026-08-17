@@ -136,6 +136,12 @@ extern TileInfo2 gUnknown_080D6174[NUM_LANGUAGES * 2];
 extern TileInfo2 gUnknown_080D61D4[NUM_LANGUAGES * 2];
 extern TileInfo2 gUnknown_080D6234[NUM_LANGUAGES * 2];
 extern TileInfo2 gUnknown_080D6354[NUM_LANGUAGES * 2];
+extern TileInfo2 gUnknown_080D63B4[NUM_LANGUAGES * 2];
+extern TileInfo2 gUnknown_080D6414[NUM_LANGUAGES * 2];
+extern TileInfo2 gUnknown_080D6474[NUM_LANGUAGES * 2];
+extern TileInfo2 gUnknown_080D64D4[NUM_LANGUAGES * 2];
+extern TileInfo2 gUnknown_080D6534[NUM_LANGUAGES * 2];
+
 
 void CreateMainMenu(s16 highlitButton, u8 arg1)
 {
@@ -391,130 +397,108 @@ void sub_8087590(MainMenu *menu)
     }
 }
 
-#if 0
 void sub_80877F4(MainMenu *menu) {
-    ? *sp0;
-    ? *var_r2;
-    Sprite *temp_r1;
-    Sprite *temp_r1_2;
-    Sprite *temp_r1_3;
-    Sprite *temp_r1_4;
-    u8 *var_r0;
-    u8 *var_r0_2;
-    u8 *var_r0_4;
-    u8 temp_r0;
-    u8 var_r5;
-    u8 var_r5_2;
-    u8 var_r5_3;
-    u8 var_r5_4;
-    void *var_r0_3;
+    Sprite *s;
+    u8 i;
 
-    var_r5 = 0;
-    do {
-        temp_r1 = &menu->spr7C[var_r5];
-        temp_r1->tiles = menu->vram78;
-        if (var_r5 == 0) {
-            var_r0 = menu->vram78 + 0x800;
+    for(i = 0; i < ARRAY_COUNT(menu->spr7C); i++)
+	{
+        s = &menu->spr7C[i];
+        s->tiles = menu->vram78;
+
+        if (i == 0) {
+            menu->vram78 += 0x800;
         } else {
-            var_r0 = menu->vram78 + 0x800;
+            menu->vram78 += 0x800;
         }
-        menu->vram78 = var_r0;
-        temp_r1->anim = *(((var_r5 + (menu->language * 2)) * 8) + &gUnknown_080D63B4);
-        temp_r1->variant = (((var_r5 + (menu->language * 2)) * 8) + &gUnknown_080D63B4)->unk2;
-        temp_r1->prevVariant = 0xFF;
-        temp_r1->x = (s16) ((s32) menu->unk18 >> 8);
-        temp_r1->y = (s16) ((s32) menu->unk1C >> 8);
-        temp_r1->oamFlags = 0;
-        temp_r1->animCursor = 0;
-        temp_r1->qAnimDelay = 0;
-        temp_r1->animSpeed = 0x10;
-        temp_r1->palId = 0;
-        temp_r1->frameFlags = 0x20;
-        UpdateSpriteAnimation(temp_r1);
-        var_r5 += 1;
-    } while ((u32) var_r5 <= 1U);
-    var_r5_2 = 0;
-    do {
-        temp_r1_2 = &menu->sprCC[var_r5_2];
-        temp_r1_2->tiles = menu->vram78;
-        if (var_r5_2 == 0) {
-            var_r0_2 = menu->vram78 + 0x800;
+
+        s->anim    = gUnknown_080D63B4[i + menu->language * 2].anim;
+        s->variant = gUnknown_080D63B4[i + menu->language * 2].variant;
+        s->prevVariant = -1;
+        s->x = (s16) ((s32) menu->unk18 >> 8);
+        s->y = (s16) ((s32) menu->unk1C >> 8);
+        s->oamFlags = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0x20;
+        UpdateSpriteAnimation(s);
+    }
+
+    for(i = 0; i < 2; i++)
+    {
+        s = &menu->sprCC[i];
+        s->tiles = menu->vram78;
+        if (i == 0) {
+            menu->vram78 = menu->vram78 + 0x800;
         } else {
-            var_r0_2 = menu->vram78 + 0x800;
+            menu->vram78 = menu->vram78 + 0x800;
         }
-        menu->vram78 = var_r0_2;
-        temp_r1_2->anim = *(((var_r5_2 + (menu->language * 2)) * 8) + &gUnknown_080D6414);
-        temp_r1_2->variant = (((var_r5_2 + (menu->language * 2)) * 8) + &gUnknown_080D6414)->unk2;
-        temp_r1_2->prevVariant = 0xFF;
-        temp_r1_2->x = (s16) ((s32) menu->unk20 >> 8);
-        temp_r1_2->y = (s16) ((s32) menu->unk24 >> 8);
-        temp_r1_2->oamFlags = 0x40;
-        temp_r1_2->animCursor = 0;
-        temp_r1_2->qAnimDelay = 0;
-        temp_r1_2->animSpeed = 0x10;
-        temp_r1_2->palId = 0;
-        temp_r1_2->frameFlags = 0;
-        UpdateSpriteAnimation(temp_r1_2);
-        var_r5_2 += 1;
-    } while ((u32) var_r5_2 <= 1U);
-    var_r5_3 = 0;
-    var_r2 = &gUnknown_080D6474;
-    do {
-        temp_r1_3 = &menu->spr11C[var_r5_3];
-        temp_r1_3->tiles = menu->vram78;
-        temp_r0 = menu->initArg1;
-        if (temp_r0 == 2) {
-            menu->vram78 = (u8 *) (menu->vram78 + 0x800);
-            temp_r1_3->anim = *(((var_r5_3 + (menu->language * 2)) * 8) + var_r2);
-            var_r0_3 = ((var_r5_3 + (menu->language * 2)) * 8) + var_r2;
-            goto block_15;
+		s->anim    = gUnknown_080D6414[i + menu->language * 2].anim;
+        s->variant = gUnknown_080D6414[i + menu->language * 2].variant;
+        s->prevVariant = -1;
+        s->x = I(menu->unk20);
+        s->y = I(menu->unk24);
+        s->oamFlags = 0x40;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    for(i = 0; i < 2; i++)
+	{
+        s = &menu->spr11C[i];
+        s->tiles = menu->vram78;
+        if (menu->initArg1 == 2) {
+            menu->vram78 += 0x800;
+			s->anim    = gUnknown_080D6474[i + menu->language * 2].anim;
+			s->variant = gUnknown_080D6474[i + menu->language * 2].variant;
+        } else if (menu->initArg1 == 3) {
+            menu->vram78 += 0x800;
+			s->anim    = gUnknown_080D64D4[i + menu->language * 2].anim;
+			s->variant = gUnknown_080D64D4[i + menu->language * 2].variant;
         }
-        if (temp_r0 == 3) {
-            menu->vram78 = (u8 *) (menu->vram78 + 0x800);
-            temp_r1_3->anim = *(((var_r5_3 + (menu->language * 2)) * 8) + &gUnknown_080D64D4);
-            var_r0_3 = ((var_r5_3 + (menu->language * 2)) * 8) + &gUnknown_080D64D4;
-block_15:
-            temp_r1_3->variant = var_r0_3->unk2;
-        }
-        temp_r1_3->prevVariant = 0xFF;
-        temp_r1_3->x = (s16) ((s32) menu->unk28 >> 8);
-        temp_r1_3->y = (s16) ((s32) menu->unk2C >> 8);
-        temp_r1_3->oamFlags = 0x80;
-        temp_r1_3->animCursor = 0;
-        temp_r1_3->qAnimDelay = 0;
-        temp_r1_3->animSpeed = 0x10;
-        temp_r1_3->palId = 0;
-        temp_r1_3->frameFlags = 0;
-        sp0 = var_r2;
-        UpdateSpriteAnimation(temp_r1_3);
-        var_r5_3 += 1;
-    } while ((u32) var_r5_3 <= 1U);
-    var_r5_4 = 0;
-    do {
-        temp_r1_4 = &menu->spr16C[var_r5_4];
-        temp_r1_4->tiles = menu->vram78;
-        if (var_r5_4 == 0) {
-            var_r0_4 = menu->vram78 + 0x800;
+        s->prevVariant = -1;
+        s->x = I(menu->unk28);
+        s->y = I(menu->unk2C);
+        s->oamFlags = 0x80;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    for(i = 0; i < 2; i++)
+	{
+        s = &menu->spr16C[i];
+        s->tiles = menu->vram78;
+        if (i == 0) {
+            menu->vram78 += 0x800;
         } else {
-            var_r0_4 = menu->vram78 + 0x800;
+            menu->vram78 += 0x800;
         }
-        menu->vram78 = var_r0_4;
-        temp_r1_4->anim = *(((var_r5_4 + (menu->language * 2)) * 8) + &gUnknown_080D6534);
-        temp_r1_4->variant = (((var_r5_4 + (menu->language * 2)) * 8) + &gUnknown_080D6534)->unk2;
-        temp_r1_4->prevVariant = 0xFF;
-        temp_r1_4->x = (s16) ((s32) menu->unk30 >> 8);
-        temp_r1_4->y = (s16) ((s32) menu->unk34 >> 8);
-        temp_r1_4->oamFlags = 0xC0;
-        temp_r1_4->animCursor = 0;
-        temp_r1_4->qAnimDelay = 0;
-        temp_r1_4->animSpeed = 0x10;
-        temp_r1_4->palId = 0;
-        temp_r1_4->frameFlags = 0;
-        UpdateSpriteAnimation(temp_r1_4);
-        var_r5_4 += 1;
-    } while ((u32) var_r5_4 <= 1U);
+        s->anim = gUnknown_080D6534[i + menu->language * 2].anim;
+        s->variant = gUnknown_080D6534[i + menu->language * 2].variant;
+        s->prevVariant = -1;
+        s->x = (s16) ((s32) menu->unk30 >> 8);
+        s->y = (s16) ((s32) menu->unk34 >> 8);
+        s->oamFlags = 0xC0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
 }
 
+#if 0
 void sub_8087A48(MainMenu *menu) {
     Background *temp_r2;
     u16 var_r0;
@@ -978,7 +962,7 @@ void Task_3F0_8088440(MainMenu *menu) {
         var_r6 += 0x800;
         temp_r1->anim = *(((var_r5 + (menu->language * 2)) * 8) + var_r2);
         temp_r1->variant = (((var_r5 + (menu->language * 2)) * 8) + var_r2)->unk2;
-        temp_r1->prevVariant = 0xFF;
+        temp_r1->prevVariant = -1;
         temp_r1->x = (s16) ((s32) menu->unk38 >> 8);
         temp_r1->y = (s16) ((s32) menu->unk3C >> 8);
         temp_r1->oamFlags = 0xC0;
@@ -999,7 +983,7 @@ void Task_3F0_8088440(MainMenu *menu) {
         var_r6 += 0x800;
         temp_r1_2->anim = *(((var_r5_2 + (menu->language * 2)) * 8) + var_r2_2);
         temp_r1_2->variant = (((var_r5_2 + (menu->language * 2)) * 8) + var_r2_2)->unk2;
-        temp_r1_2->prevVariant = 0xFF;
+        temp_r1_2->prevVariant = -1;
         temp_r1_2->x = (s16) ((s32) menu->unk40 >> 8);
         temp_r1_2->y = (s16) ((s32) menu->unk44 >> 8);
         temp_r1_2->oamFlags = 0xC0;
@@ -1058,7 +1042,7 @@ void Task_3F0_80885CC(MainMenu *menu) {
         temp_r0_2 = ((var_r6 + (temp_r0 * 2)) * 8) + &gUnknown_080D6654;
         temp_r2->anim = temp_r0_2->unk0;
         temp_r2->variant = temp_r0_2->unk2;
-        temp_r2->prevVariant = 0xFF;
+        temp_r2->prevVariant = -1;
         temp_r2->x = (s16) ((s32) menu->unk38 >> 8);
         temp_r2->y = (s16) ((s32) menu->unk3C >> 8);
         temp_r2->oamFlags = 0xC0;
@@ -1082,7 +1066,7 @@ void Task_3F0_80885CC(MainMenu *menu) {
         temp_r0_3 = ((var_r6_2 + sp4) * 8) + &gUnknown_080D6674;
         temp_r2_2->anim = temp_r0_3->unk0;
         temp_r2_2->variant = temp_r0_3->unk2;
-        temp_r2_2->prevVariant = 0xFF;
+        temp_r2_2->prevVariant = -1;
         temp_r2_2->x = (s16) ((s32) menu->unk40 >> 8);
         temp_r2_2->y = (s16) ((s32) menu->unk44 >> 8);
         temp_r2_2->oamFlags = 0xC0;
@@ -1135,7 +1119,7 @@ void Task_3F0_8088770(MainMenu *menu) {
         var_r6 += 0x800;
         temp_r1->anim = *(((var_r5 + (menu->language * 2)) * 8) + var_r2);
         temp_r1->variant = (((var_r5 + (menu->language * 2)) * 8) + var_r2)->unk2;
-        temp_r1->prevVariant = 0xFF;
+        temp_r1->prevVariant = -1;
         temp_r1->x = (s16) ((s32) menu->unk38 >> 8);
         temp_r1->y = (s16) ((s32) menu->unk3C >> 8);
         temp_r1->oamFlags = 0xC0;
@@ -1156,7 +1140,7 @@ void Task_3F0_8088770(MainMenu *menu) {
         var_r6 += 0x800;
         temp_r1_2->anim = *(((var_r5_2 + (menu->language * 2)) * 8) + var_r2_2);
         temp_r1_2->variant = (((var_r5_2 + (menu->language * 2)) * 8) + var_r2_2)->unk2;
-        temp_r1_2->prevVariant = 0xFF;
+        temp_r1_2->prevVariant = -1;
         temp_r1_2->x = (s16) ((s32) menu->unk40 >> 8);
         temp_r1_2->y = (s16) ((s32) menu->unk44 >> 8);
         temp_r1_2->oamFlags = 0xC0;
@@ -1341,7 +1325,7 @@ void Task_3F0_8088BD0(MainMenu *menu) {
         var_r6 += 0x800;
         temp_r1->anim = *(((var_r5 + (menu->language * 2)) * 8) + var_r2);
         temp_r1->variant = (((var_r5 + (menu->language * 2)) * 8) + var_r2)->unk2;
-        temp_r1->prevVariant = 0xFF;
+        temp_r1->prevVariant = -1;
         temp_r1->x = (s16) ((s32) menu->unk18 >> 8);
         temp_r1->y = (s16) ((s32) menu->unk1C >> 8);
         temp_r1->oamFlags = 0;
@@ -1362,7 +1346,7 @@ void Task_3F0_8088BD0(MainMenu *menu) {
         var_r6 += 0x800;
         temp_r1_2->anim = *(((var_r5_2 + (menu->language * 2)) * 8) + var_r2_2);
         temp_r1_2->variant = (((var_r5_2 + (menu->language * 2)) * 8) + var_r2_2)->unk2;
-        temp_r1_2->prevVariant = 0xFF;
+        temp_r1_2->prevVariant = -1;
         temp_r1_2->x = (s16) ((s32) menu->unk20 >> 8);
         temp_r1_2->y = (s16) ((s32) menu->unk24 >> 8);
         temp_r1_2->oamFlags = 0x40;
@@ -1383,7 +1367,7 @@ void Task_3F0_8088BD0(MainMenu *menu) {
         var_r6 += 0x800;
         temp_r1_3->anim = *(((var_r5_3 + (menu->language * 2)) * 8) + var_r2_3);
         temp_r1_3->variant = (((var_r5_3 + (menu->language * 2)) * 8) + var_r2_3)->unk2;
-        temp_r1_3->prevVariant = 0xFF;
+        temp_r1_3->prevVariant = -1;
         temp_r1_3->x = (s16) ((s32) menu->unk28 >> 8);
         temp_r1_3->y = (s16) ((s32) menu->unk2C >> 8);
         temp_r1_3->oamFlags = 0x80;
@@ -1404,7 +1388,7 @@ void Task_3F0_8088BD0(MainMenu *menu) {
         var_r6 += 0x800;
         temp_r1_4->anim = *(((var_r5_4 + (menu->language * 2)) * 8) + var_r2_4);
         temp_r1_4->variant = (((var_r5_4 + (menu->language * 2)) * 8) + var_r2_4)->unk2;
-        temp_r1_4->prevVariant = 0xFF;
+        temp_r1_4->prevVariant = -1;
         temp_r1_4->x = (s16) ((s32) menu->unk30 >> 8);
         temp_r1_4->y = (s16) ((s32) menu->unk34 >> 8);
         temp_r1_4->oamFlags = 0xC0;
@@ -1425,7 +1409,7 @@ void Task_3F0_8088BD0(MainMenu *menu) {
         var_r6 += 0x800;
         temp_r1_5->anim = *(((var_r5_5 + (menu->language * 2)) * 8) + var_r2_5);
         temp_r1_5->variant = (((var_r5_5 + (menu->language * 2)) * 8) + var_r2_5)->unk2;
-        temp_r1_5->prevVariant = 0xFF;
+        temp_r1_5->prevVariant = -1;
         temp_r1_5->x = (s16) ((s32) menu->unk48 >> 8);
         temp_r1_5->y = (s16) ((s32) menu->unk4C >> 8);
         temp_r1_5->oamFlags = 0xC0;
@@ -1469,7 +1453,7 @@ void Task_3F0_8088E74(MainMenu *menu) {
         var_r5 += 0x800;
         temp_r1->anim = *(((var_r6 + (menu->language * 2)) * 8) + var_r2);
         temp_r1->variant = (((var_r6 + (menu->language * 2)) * 8) + var_r2)->unk2;
-        temp_r1->prevVariant = 0xFF;
+        temp_r1->prevVariant = -1;
         temp_r1->x = (s16) ((s32) menu->unk38 >> 8);
         temp_r1->y = (s16) ((s32) menu->unk3C >> 8);
         temp_r1->oamFlags = 0xC0;
@@ -1490,7 +1474,7 @@ void Task_3F0_8088E74(MainMenu *menu) {
         var_r5 += 0x800;
         temp_r1_2->anim = *(((var_r6_2 + (menu->language * 2)) * 8) + var_r2_2);
         temp_r1_2->variant = (((var_r6_2 + (menu->language * 2)) * 8) + var_r2_2)->unk2;
-        temp_r1_2->prevVariant = 0xFF;
+        temp_r1_2->prevVariant = -1;
         temp_r1_2->x = (s16) ((s32) menu->unk40 >> 8);
         temp_r1_2->y = (s16) ((s32) menu->unk44 >> 8);
         temp_r1_2->oamFlags = 0xC0;
@@ -1991,7 +1975,7 @@ void sub_8089704(MainMenu *menu) {
     temp_r4 = &menu->spr2AC;
     menu->spr2AC.anim = *((menu->unkB * 8) + &gUnknown_080D6694);
     menu->spr2AC.variant = ((menu->unkB * 8) + &gUnknown_080D6694)->unk2;
-    menu->spr2AC.prevVariant = 0xFF;
+    menu->spr2AC.prevVariant = -1;
     menu->spr2AC.x = (s16) ((s32) menu->unk58 >> 8);
     menu->spr2AC.y = (s16) ((s32) menu->unk5C >> 8);
     temp_r0_2 = menu->unk6;
@@ -2038,7 +2022,7 @@ void Task_3F0_80897BC(MainMenu *menu) {
         var_r7 += 0x800;
         temp_r1->anim = *(((var_r6 + (menu->language * 2)) * 8) + var_r2);
         temp_r1->variant = (((var_r6 + (menu->language * 2)) * 8) + var_r2)->unk2;
-        temp_r1->prevVariant = 0xFF;
+        temp_r1->prevVariant = -1;
         temp_r1->x = (s16) ((s32) menu->unk38 >> 8);
         temp_r1->y = (s16) ((s32) menu->unk3C >> 8);
         temp_r1->oamFlags = 0xC0;
@@ -2059,7 +2043,7 @@ void Task_3F0_80897BC(MainMenu *menu) {
         var_r7 += 0x800;
         temp_r1_2->anim = *(((var_r6_2 + (menu->language * 2)) * 8) + var_r2_2);
         temp_r1_2->variant = (((var_r6_2 + (menu->language * 2)) * 8) + var_r2_2)->unk2;
-        temp_r1_2->prevVariant = 0xFF;
+        temp_r1_2->prevVariant = -1;
         temp_r1_2->x = (s16) ((s32) menu->unk40 >> 8);
         temp_r1_2->y = (s16) ((s32) menu->unk44 >> 8);
         temp_r1_2->oamFlags = 0xC0;
@@ -2122,7 +2106,7 @@ void Task_3F0_8089970(MainMenu *menu) {
         temp_r0 = ((var_r7 + (temp_r4 * 2)) * 8) + &gUnknown_080D6654;
         temp_r2_2->anim = temp_r0->unk0;
         temp_r2_2->variant = temp_r0->unk2;
-        temp_r2_2->prevVariant = 0xFF;
+        temp_r2_2->prevVariant = -1;
         temp_r2_2->x = (s16) ((s32) menu->unk38 >> 8);
         temp_r2_2->y = (s16) ((s32) menu->unk3C >> 8);
         temp_r2_2->oamFlags = 0xC0;
@@ -2147,7 +2131,7 @@ void Task_3F0_8089970(MainMenu *menu) {
         temp_r0_2 = ((var_r7_2 + sp10) * 8) + &gUnknown_080D6674;
         temp_r2_3->anim = temp_r0_2->unk0;
         temp_r2_3->variant = temp_r0_2->unk2;
-        temp_r2_3->prevVariant = 0xFF;
+        temp_r2_3->prevVariant = -1;
         temp_r2_3->x = (s16) ((s32) menu->unk40 >> 8);
         temp_r2_3->y = (s16) ((s32) menu->unk44 >> 8);
         temp_r2_3->oamFlags = 0xC0;
@@ -2185,7 +2169,7 @@ void sub_8089B38(MMChaoMessage *msg, u8 *vram) {
     temp_r1_2 = temp_r1 + &gUnknown_080D6780;
     msg->spr1C.anim = temp_r1_2->unk0;
     msg->spr1C.variant = temp_r1_2->unk2;
-    msg->spr1C.prevVariant = 0xFF;
+    msg->spr1C.prevVariant = -1;
     msg->spr1C.x = (s16) ((s32) msg->qUnkC >> 8);
     msg->spr1C.y = (s16) ((s32) msg->qUnk10 >> 8);
     msg->spr1C.oamFlags = 0x40;
@@ -2221,7 +2205,7 @@ block_7:
         msg->spr44.anim = *((msg->language * 8) + var_r1_2);
         msg->spr44.variant = ((msg->language * 8) + var_r1_2)->unk2;
     }
-    msg->spr44.prevVariant = 0xFF;
+    msg->spr44.prevVariant = -1;
     msg->spr44.x = (s16) ((s32) msg->qUnkC >> 8);
     msg->spr44.y = (s16) ((s32) msg->qUnk10 >> 8);
     msg->spr44.oamFlags = 0x40;
@@ -2261,7 +2245,7 @@ void sub_8089C48(MMChaoMessage *msg) {
         temp_r1 = (var_r7 * 8) + &gUnknown_080D6780;
         msg->spr1C.anim = temp_r1->unk0;
         msg->spr1C.variant = temp_r1->unk2;
-        msg->spr1C.prevVariant = 0xFF;
+        msg->spr1C.prevVariant = -1;
         msg->spr1C.x = (s16) ((s32) msg->qUnkC >> 8);
         msg->spr1C.y = (s16) ((s32) msg->qUnk10 >> 8);
         switch (var_r6) {                           /* irregular */
@@ -2321,7 +2305,7 @@ block_29:
         msg->spr44.anim = *((msg->language * 8) + var_r1);
         msg->spr44.variant = ((msg->language * 8) + var_r1)->unk2;
     }
-    msg->spr44.prevVariant = 0xFF;
+    msg->spr44.prevVariant = -1;
     msg->spr44.x = (s16) ((s32) msg->qUnkC >> 8);
     msg->spr44.y = (s16) ((s32) msg->qUnk10 >> 8);
     UpdateSpriteAnimation(temp_r4_3);
