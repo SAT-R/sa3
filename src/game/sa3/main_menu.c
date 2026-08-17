@@ -142,7 +142,6 @@ extern TileInfo2 gUnknown_080D6474[NUM_LANGUAGES * 2];
 extern TileInfo2 gUnknown_080D64D4[NUM_LANGUAGES * 2];
 extern TileInfo2 gUnknown_080D6534[NUM_LANGUAGES * 2];
 
-
 void CreateMainMenu(s16 highlitButton, u8 arg1)
 {
     MainMenu *menu;
@@ -397,12 +396,12 @@ void sub_8087590(MainMenu *menu)
     }
 }
 
-void sub_80877F4(MainMenu *menu) {
+void sub_80877F4(MainMenu *menu)
+{
     Sprite *s;
     u8 i;
 
-    for(i = 0; i < ARRAY_COUNT(menu->spr7C); i++)
-	{
+    for (i = 0; i < ARRAY_COUNT(menu->spr7C); i++) {
         s = &menu->spr7C[i];
         s->tiles = menu->vram78;
 
@@ -412,11 +411,11 @@ void sub_80877F4(MainMenu *menu) {
             menu->vram78 += 0x800;
         }
 
-        s->anim    = gUnknown_080D63B4[i + menu->language * 2].anim;
+        s->anim = gUnknown_080D63B4[i + menu->language * 2].anim;
         s->variant = gUnknown_080D63B4[i + menu->language * 2].variant;
         s->prevVariant = -1;
-        s->x = (s16) ((s32) menu->unk18 >> 8);
-        s->y = (s16) ((s32) menu->unk1C >> 8);
+        s->x = I(menu->unk18);
+        s->y = I(menu->unk1C);
         s->oamFlags = 0;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -426,8 +425,7 @@ void sub_80877F4(MainMenu *menu) {
         UpdateSpriteAnimation(s);
     }
 
-    for(i = 0; i < 2; i++)
-    {
+    for (i = 0; i < 2; i++) {
         s = &menu->sprCC[i];
         s->tiles = menu->vram78;
         if (i == 0) {
@@ -435,7 +433,7 @@ void sub_80877F4(MainMenu *menu) {
         } else {
             menu->vram78 = menu->vram78 + 0x800;
         }
-		s->anim    = gUnknown_080D6414[i + menu->language * 2].anim;
+        s->anim = gUnknown_080D6414[i + menu->language * 2].anim;
         s->variant = gUnknown_080D6414[i + menu->language * 2].variant;
         s->prevVariant = -1;
         s->x = I(menu->unk20);
@@ -449,18 +447,17 @@ void sub_80877F4(MainMenu *menu) {
         UpdateSpriteAnimation(s);
     }
 
-    for(i = 0; i < 2; i++)
-	{
+    for (i = 0; i < 2; i++) {
         s = &menu->spr11C[i];
         s->tiles = menu->vram78;
         if (menu->initArg1 == 2) {
             menu->vram78 += 0x800;
-			s->anim    = gUnknown_080D6474[i + menu->language * 2].anim;
-			s->variant = gUnknown_080D6474[i + menu->language * 2].variant;
+            s->anim = gUnknown_080D6474[i + menu->language * 2].anim;
+            s->variant = gUnknown_080D6474[i + menu->language * 2].variant;
         } else if (menu->initArg1 == 3) {
             menu->vram78 += 0x800;
-			s->anim    = gUnknown_080D64D4[i + menu->language * 2].anim;
-			s->variant = gUnknown_080D64D4[i + menu->language * 2].variant;
+            s->anim = gUnknown_080D64D4[i + menu->language * 2].anim;
+            s->variant = gUnknown_080D64D4[i + menu->language * 2].variant;
         }
         s->prevVariant = -1;
         s->x = I(menu->unk28);
@@ -474,8 +471,7 @@ void sub_80877F4(MainMenu *menu) {
         UpdateSpriteAnimation(s);
     }
 
-    for(i = 0; i < 2; i++)
-	{
+    for (i = 0; i < 2; i++) {
         s = &menu->spr16C[i];
         s->tiles = menu->vram78;
         if (i == 0) {
@@ -486,8 +482,8 @@ void sub_80877F4(MainMenu *menu) {
         s->anim = gUnknown_080D6534[i + menu->language * 2].anim;
         s->variant = gUnknown_080D6534[i + menu->language * 2].variant;
         s->prevVariant = -1;
-        s->x = (s16) ((s32) menu->unk30 >> 8);
-        s->y = (s16) ((s32) menu->unk34 >> 8);
+        s->x = (s16)((s32)menu->unk30 >> 8);
+        s->y = (s16)((s32)menu->unk34 >> 8);
         s->oamFlags = 0xC0;
         s->animCursor = 0;
         s->qAnimDelay = 0;
