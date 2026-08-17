@@ -129,6 +129,8 @@ void TaskDestructor_MainMenu(Task *t);
 void sub_808A1B0(u8 arg0, s32 arg1, u8 *vram, u16 arg3, s32 arg4);
 
 extern ColorRaw gUnknown_080D66D8[0x40];
+extern TileInfo2 sAnimsMenuChao[2];
+extern TileInfo2 gUnknown_080D6694[4];
 
 void CreateMainMenu(s16 highlitButton, u8 arg1)
 {
@@ -231,52 +233,64 @@ NONMATCH("asm/non_matching/game/sa3/mm__sub_808738C.inc", void sub_808738C(MainM
 }
 END_NONMATCH
 
-#if 0
-void sub_8087498(MainMenu *menu) {
-    menu->spr2D4.tiles = menu->unk78;
-    menu->unk78 = (u8 *) (menu->unk78 + (sAnimsMenuChao.unk4 << 5));
-    menu->spr2D4.anim = sAnimsMenuChao.unk0;
-    menu->spr2D4.variant = sAnimsMenuChao.unk2;
-    menu->spr2D4.prevVariant = 0xFF;
-    menu->spr2D4.x = (s16) ((s32) menu->unk58 >> 8);
-    menu->spr2D4.y = (s16) ((s32) menu->unk5C >> 8);
-    menu->spr2D4.oamFlags = 0x140;
-    menu->spr2D4.animCursor = 0;
-    menu->spr2D4.qAnimDelay = 0;
-    menu->spr2D4.animSpeed = 0x10;
-    menu->spr2D4.palId = 0;
-    menu->spr2D4.frameFlags = 0;
-    UpdateSpriteAnimation(&menu->spr2D4);
-    menu->spr2FC.tiles = menu->unk78;
-    menu->unk78 = (u8 *) (menu->unk78 + (sAnimsMenuChao.unkC << 5));
-    menu->spr2FC.anim = sAnimsMenuChao.unk8;
-    menu->spr2FC.variant = sAnimsMenuChao.unkA;
-    menu->spr2FC.prevVariant = -1U;
-    menu->spr2FC.x = (s16) ((s32) menu->unk60 >> 8);
-    menu->spr2FC.y = (s16) ((s32) menu->unk64 >> 8);
-    menu->spr2FC.oamFlags = 0x140;
-    menu->spr2FC.animCursor = 0;
-    menu->spr2FC.qAnimDelay = 0;
-    menu->spr2FC.animSpeed = 0x10;
-    menu->spr2FC.palId = 0;
-    menu->spr2FC.frameFlags = 0;
-    UpdateSpriteAnimation(&menu->spr2FC);
-    menu->spr2AC.tiles = menu->unk78;
-    menu->unk78 = (u8 *) (menu->unk78 + (gUnknown_080D6694.unk4 << 5));
-    menu->spr2AC.anim = gUnknown_080D6694.unk0;
-    menu->spr2AC.variant = gUnknown_080D6694.unk2;
-    menu->spr2AC.prevVariant = -1U;
-    menu->spr2AC.x = (s16) ((s32) menu->unk58 >> 8);
-    menu->spr2AC.y = (s16) ((s32) menu->unk5C >> 8);
-    menu->spr2AC.oamFlags = 0x100;
-    menu->spr2AC.animCursor = 0;
-    menu->spr2AC.qAnimDelay = 0;
-    menu->spr2AC.animSpeed = 0x10;
-    menu->spr2AC.palId = 0;
-    menu->spr2AC.frameFlags = 0;
-    UpdateSpriteAnimation(&menu->spr2AC);
+void sub_8087498(MainMenu *menu)
+{
+    {
+        Sprite *s = &menu->spr2D4;
+        s->tiles = menu->vram78;
+        menu->vram78 += sAnimsMenuChao[0].numTiles * TILE_SIZE_4BPP;
+        s->anim = sAnimsMenuChao[0].anim;
+        s->variant = sAnimsMenuChao[0].variant;
+        s->prevVariant = -1;
+        s->x = (s16)((s32)menu->unk58 >> 8);
+        s->y = (s16)((s32)menu->unk5C >> 8);
+        s->oamFlags = 0x140;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    {
+        Sprite *s = &menu->spr2FC;
+        s->tiles = menu->vram78;
+        menu->vram78 += sAnimsMenuChao[1].numTiles * TILE_SIZE_4BPP;
+        s->anim = sAnimsMenuChao[1].anim;
+        s->variant = sAnimsMenuChao[1].variant;
+        s->prevVariant = -1;
+        s->x = I(menu->unk60);
+        s->y = I(menu->unk64);
+        s->oamFlags = 0x140;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    {
+        Sprite *s = &menu->spr2AC;
+        s->tiles = menu->vram78;
+        menu->vram78 += gUnknown_080D6694[0].numTiles * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080D6694[0].anim;
+        s->variant = gUnknown_080D6694[0].variant;
+        s->prevVariant = -1;
+        s->x = (s16)((s32)menu->unk58 >> 8);
+        s->y = (s16)((s32)menu->unk5C >> 8);
+        s->oamFlags = 0x100;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
 }
 
+#if 0
 void sub_8087590(MainMenu *menu) {
     Sprite *temp_r1;
     Sprite *temp_r1_2;
@@ -292,8 +306,8 @@ void sub_8087590(MainMenu *menu) {
     var_r5 = 0;
     do {
         temp_r1 = &menu->spr7C[var_r5];
-        temp_r1->tiles = menu->unk78;
-        menu->unk78 = (u8 *) (menu->unk78 + 0x800);
+        temp_r1->tiles = menu->vram78;
+        menu->vram78 = (u8 *) (menu->vram78 + 0x800);
         temp_r1->anim = *(((var_r5 + (menu->language * 2)) * 8) + &gUnknown_080D6114);
         temp_r1->variant = (((var_r5 + (menu->language * 2)) * 8) + &gUnknown_080D6114)->unk2;
         temp_r1->prevVariant = 0xFF;
@@ -311,8 +325,8 @@ void sub_8087590(MainMenu *menu) {
     var_r5_2 = 0;
     do {
         temp_r1_2 = &menu->sprCC[var_r5_2];
-        temp_r1_2->tiles = menu->unk78;
-        menu->unk78 = (u8 *) (menu->unk78 + 0x800);
+        temp_r1_2->tiles = menu->vram78;
+        menu->vram78 = (u8 *) (menu->vram78 + 0x800);
         temp_r1_2->anim = *(((var_r5_2 + (menu->language * 2)) * 8) + &gUnknown_080D6174);
         temp_r1_2->variant = (((var_r5_2 + (menu->language * 2)) * 8) + &gUnknown_080D6174)->unk2;
         temp_r1_2->prevVariant = 0xFF;
@@ -330,8 +344,8 @@ void sub_8087590(MainMenu *menu) {
     var_r5_3 = 0;
     do {
         temp_r1_3 = &menu->spr11C[var_r5_3];
-        temp_r1_3->tiles = menu->unk78;
-        menu->unk78 = (u8 *) (menu->unk78 + 0x800);
+        temp_r1_3->tiles = menu->vram78;
+        menu->vram78 = (u8 *) (menu->vram78 + 0x800);
         temp_r1_3->anim = *(((var_r5_3 + (menu->language * 2)) * 8) + &gUnknown_080D61D4);
         temp_r1_3->variant = (((var_r5_3 + (menu->language * 2)) * 8) + &gUnknown_080D61D4)->unk2;
         temp_r1_3->prevVariant = 0xFF;
@@ -349,8 +363,8 @@ void sub_8087590(MainMenu *menu) {
     var_r5_4 = 0;
     do {
         temp_r1_4 = &menu->spr16C[var_r5_4];
-        temp_r1_4->tiles = menu->unk78;
-        menu->unk78 = (u8 *) (menu->unk78 + 0x800);
+        temp_r1_4->tiles = menu->vram78;
+        menu->vram78 = (u8 *) (menu->vram78 + 0x800);
         temp_r1_4->anim = *(((var_r5_4 + (menu->language * 2)) * 8) + &gUnknown_080D6234);
         temp_r1_4->variant = (((var_r5_4 + (menu->language * 2)) * 8) + &gUnknown_080D6234)->unk2;
         temp_r1_4->prevVariant = 0xFF;
@@ -368,8 +382,8 @@ void sub_8087590(MainMenu *menu) {
     var_r5_5 = 0;
     do {
         temp_r1_5 = &menu->spr25C[var_r5_5];
-        temp_r1_5->tiles = menu->unk78;
-        menu->unk78 = (u8 *) (menu->unk78 + 0x800);
+        temp_r1_5->tiles = menu->vram78;
+        menu->vram78 = (u8 *) (menu->vram78 + 0x800);
         temp_r1_5->anim = *(((var_r5_5 + (menu->language * 2)) * 8) + &gUnknown_080D6354);
         temp_r1_5->variant = (((var_r5_5 + (menu->language * 2)) * 8) + &gUnknown_080D6354)->unk2;
         temp_r1_5->prevVariant = 0xFF;
@@ -406,13 +420,13 @@ void sub_80877F4(MainMenu *menu) {
     var_r5 = 0;
     do {
         temp_r1 = &menu->spr7C[var_r5];
-        temp_r1->tiles = menu->unk78;
+        temp_r1->tiles = menu->vram78;
         if (var_r5 == 0) {
-            var_r0 = menu->unk78 + 0x800;
+            var_r0 = menu->vram78 + 0x800;
         } else {
-            var_r0 = menu->unk78 + 0x800;
+            var_r0 = menu->vram78 + 0x800;
         }
-        menu->unk78 = var_r0;
+        menu->vram78 = var_r0;
         temp_r1->anim = *(((var_r5 + (menu->language * 2)) * 8) + &gUnknown_080D63B4);
         temp_r1->variant = (((var_r5 + (menu->language * 2)) * 8) + &gUnknown_080D63B4)->unk2;
         temp_r1->prevVariant = 0xFF;
@@ -430,13 +444,13 @@ void sub_80877F4(MainMenu *menu) {
     var_r5_2 = 0;
     do {
         temp_r1_2 = &menu->sprCC[var_r5_2];
-        temp_r1_2->tiles = menu->unk78;
+        temp_r1_2->tiles = menu->vram78;
         if (var_r5_2 == 0) {
-            var_r0_2 = menu->unk78 + 0x800;
+            var_r0_2 = menu->vram78 + 0x800;
         } else {
-            var_r0_2 = menu->unk78 + 0x800;
+            var_r0_2 = menu->vram78 + 0x800;
         }
-        menu->unk78 = var_r0_2;
+        menu->vram78 = var_r0_2;
         temp_r1_2->anim = *(((var_r5_2 + (menu->language * 2)) * 8) + &gUnknown_080D6414);
         temp_r1_2->variant = (((var_r5_2 + (menu->language * 2)) * 8) + &gUnknown_080D6414)->unk2;
         temp_r1_2->prevVariant = 0xFF;
@@ -455,16 +469,16 @@ void sub_80877F4(MainMenu *menu) {
     var_r2 = &gUnknown_080D6474;
     do {
         temp_r1_3 = &menu->spr11C[var_r5_3];
-        temp_r1_3->tiles = menu->unk78;
+        temp_r1_3->tiles = menu->vram78;
         temp_r0 = menu->initArg1;
         if (temp_r0 == 2) {
-            menu->unk78 = (u8 *) (menu->unk78 + 0x800);
+            menu->vram78 = (u8 *) (menu->vram78 + 0x800);
             temp_r1_3->anim = *(((var_r5_3 + (menu->language * 2)) * 8) + var_r2);
             var_r0_3 = ((var_r5_3 + (menu->language * 2)) * 8) + var_r2;
             goto block_15;
         }
         if (temp_r0 == 3) {
-            menu->unk78 = (u8 *) (menu->unk78 + 0x800);
+            menu->vram78 = (u8 *) (menu->vram78 + 0x800);
             temp_r1_3->anim = *(((var_r5_3 + (menu->language * 2)) * 8) + &gUnknown_080D64D4);
             var_r0_3 = ((var_r5_3 + (menu->language * 2)) * 8) + &gUnknown_080D64D4;
 block_15:
@@ -486,13 +500,13 @@ block_15:
     var_r5_4 = 0;
     do {
         temp_r1_4 = &menu->spr16C[var_r5_4];
-        temp_r1_4->tiles = menu->unk78;
+        temp_r1_4->tiles = menu->vram78;
         if (var_r5_4 == 0) {
-            var_r0_4 = menu->unk78 + 0x800;
+            var_r0_4 = menu->vram78 + 0x800;
         } else {
-            var_r0_4 = menu->unk78 + 0x800;
+            var_r0_4 = menu->vram78 + 0x800;
         }
-        menu->unk78 = var_r0_4;
+        menu->vram78 = var_r0_4;
         temp_r1_4->anim = *(((var_r5_4 + (menu->language * 2)) * 8) + &gUnknown_080D6534);
         temp_r1_4->variant = (((var_r5_4 + (menu->language * 2)) * 8) + &gUnknown_080D6534)->unk2;
         temp_r1_4->prevVariant = 0xFF;
@@ -2193,7 +2207,7 @@ void sub_8089B38(MMChaoMessage *msg, u8 *vram) {
     temp_r6_2 = temp_r6 + (gUnknown_080D6780.unk14 << 5);
     msg->spr6C.anim = gUnknown_080D6780.unk10;
     msg->spr6C.variant = gUnknown_080D6780.unk12;
-    msg->spr6C.prevVariant = -1U;
+    msg->spr6C.prevVariant = -1;
     msg->spr6C.x = (s16) ((s32) msg->unk14 >> 8);
     msg->spr6C.y = (s16) ((s32) msg->unk18 >> 8);
     msg->spr6C.oamFlags = 0;
