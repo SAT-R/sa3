@@ -9,6 +9,7 @@
 #include "game/character_select.h"
 #include "game/main_menu.h"
 #include "game/save.h"
+#include "game/sa3/title_screen.h"
 #include "game/stage.h"
 #include "game/shared/stage/tilemap_table.h"
 
@@ -91,7 +92,7 @@ void Task_8000284(void)
     if (!(REG_KEYINPUT & SELECT_BUTTON)) {
         CreateAnimationEd();
     } else {
-        CreateCharacterSelect(0);
+        CreateTitleScreen(TFM_FADEIN);
     }
 #else
     CreateGameIntroState(1);

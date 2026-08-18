@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
 #include "lib/m4a/m4a.h"
 #include "game/sa3/title_screen.h"
 #include "game/save.h"
@@ -253,12 +254,11 @@ void sub_808A4EC(TitleScreenSA3 *title)
     DrawBackground(bg2);
 }
 
-#if 01
 void Task_TitleScreenMainWithFade(void)
 {
     TitleScreenSA3 *title = TASK_DATA(gCurTask);
 
-    gDispCnt |= 0x2000;
+    gDispCnt |= DISPCNT_WIN0_ON;
     gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
     gWinRegs[2] = WIN_RANGE(0, DISPLAY_HEIGHT);
     gWinRegs[4] = 0x22;
@@ -392,9 +392,9 @@ void Task_808A8E4(void)
                      (s16)(gUnknown_080D6956[title->unk1] + 0x30), gBgAffineRegs);
 
     if (++title->unk1 > 9U) {
-        gDispCnt |= 0x2000;
-        gWinRegs[0] = 0xF0;
-        gWinRegs[2] = 0xA0;
+        gDispCnt |= DISPCNT_WIN0_ON;
+        gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[2] = WIN_RANGE(0, DISPLAY_HEIGHT);
         gWinRegs[4] |= 0x26;
         gBldRegs.bldCnt = 0x3FBF;
         gBldRegs.bldY = 0;
@@ -426,15 +426,16 @@ void Task_TitleScreenMainFadeless(void)
     u8 lang = title->language;
     u32 index = (lang == JAPANESE) ? 0 : 1;
     Background *bg1;
-    gDispCnt = (0xFBFF & gDispCnt) | 0x200;
-    gBgCntRegs[1] = 0x1F8A;
+    gDispCnt &= ~DISPCNT_BG2_ON;
+    gDispCnt |= DISPCNT_BG1_ON;
+    gBgCntRegs[1] = BGCNT_SCREENBASE(31) | BGCNT_256COLOR | BGCNT_CHARBASE(2) | BGCNT_PRIORITY(2);
     gBgScrollRegs[1][0] = -0x14;
     gBgScrollRegs[1][1] = -8;
 
     bg1 = &title->bgE0;
-    bg1->graphics.dest = (void *)0x06008000;
+    bg1->graphics.dest = (void *)BG_CHAR_ADDR(2);
     bg1->graphics.anim = 0;
-    bg1->layoutVram = (u16 *)0x0600F800;
+    bg1->layoutVram = (u16 *)BG_SCREEN_ADDR(31);
     bg1->unk18 = 0;
     bg1->unk1A = 0;
     bg1->tilemapId = gUnknown_080D68D0[index * 4 + 2];
@@ -448,9 +449,9 @@ void Task_TitleScreenMainFadeless(void)
     bg1->flags = 5;
     DrawBackground(bg1);
 
-    gDispCnt |= 0x2000;
-    gWinRegs[0] = 0xF0;
-    gWinRegs[2] = 0xA0;
+    gDispCnt |= DISPCNT_WIN0_ON;
+    gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
+    gWinRegs[2] = WIN_RANGE(0, DISPLAY_HEIGHT);
     gWinRegs[4] |= 0x26;
     gBldRegs.bldCnt = 0x3FBF;
     gBldRegs.bldY = 0xF;
@@ -654,9 +655,8 @@ void sub_808AEDC(TitleScreenSA3 *title)
 void TaskDestructor_TitleScreen(Task *t)
 {
     if (gStageData.colorSetting != CS_GBA) {
-        gFlags |= 0x30000;
+        gFlags |= (FLAGS_10000 | FLAGS_20000);
     } else {
-        gFlags &= ~0x30000;
+        gFlags &= ~(FLAGS_10000 | FLAGS_20000);
     }
 }
-#endif
