@@ -1,15 +1,21 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "flags.h"
 #include "lib/m4a/m4a.h"
 #include "code_z_1.h" // CopyObjPaletteMasked
+#include "game/character_select.h"
+#include "game/sa3/title_screen.h"
 #include "game/save.h"
+#include "game/special_stage.h"
+#include "game/stage.h"
+#include "code_0_1.h" // WarpToMap
 #include "constants/songs.h"
 #include "constants/tilemaps.h"
 
 typedef struct {
     /* 0x00 */ u8 language;
-    /* 0x04 */ void *initArg1;
+    /* 0x04 */ u8 *initArg1;
     /* 0x08 */ u8 initArg0;
     /* 0x0C */ s32 qUnkC;
     /* 0x10 */ s32 qUnk10;
@@ -37,18 +43,8 @@ typedef struct {
     /* 0x010 */ s16 highlitButton;
     /* 0x012 */ s16 unk12;
     /* 0x014 */ s16 unk14;
-    /* 0x018 */ s32 unk18;
-    /* 0x01C */ s32 unk1C;
-    /* 0x020 */ s32 unk20;
-    /* 0x024 */ s32 unk24;
-    /* 0x028 */ s32 unk28;
-    /* 0x02C */ s32 unk2C;
-    /* 0x030 */ s32 unk30;
-    /* 0x034 */ s32 unk34;
-    /* 0x038 */ s32 unk38;
-    /* 0x03C */ s32 unk3C;
-    /* 0x040 */ s32 unk40;
-    /* 0x044 */ s32 unk44;
+    /* 0x038 */ Vec2_32 unk18[4];
+    /* 0x038 */ Vec2_32 unk38[2];
     /* 0x048 */ s32 unk48;
     /* 0x04C */ s32 unk4C;
     /* 0x050 */ s32 unk50;
@@ -87,11 +83,14 @@ void sub_8087590(MainMenu *menu);
 void sub_80877F4(MainMenu *menu);
 void sub_8087A48(MainMenu *menu);
 void sub_8088FD4(MainMenu *menu);
-s32 sub_8089028(MainMenu *menu);
+u8 sub_8089028(MainMenu *menu);
 void sub_80890F8(MainMenu *menu);
 void sub_8089150(MainMenu *menu);
 void sub_80891E4(MainMenu *menu);
-s16 sub_808927C(MainMenu *menu);
+bool32 sub_808927C(MainMenu *menu);
+u8 sub_8089E50(MainMenu *menu);
+u8 sub_8089DA0(MainMenu *menu);
+u8 sub_8089EA0(MainMenu *menu);
 void sub_8089308(MainMenu *menu);
 void sub_8089398(MainMenu *menu);
 void sub_8089428(MainMenu *menu);
@@ -102,6 +101,7 @@ void sub_8089670(MainMenu *menu);
 void sub_8089704(MainMenu *menu);
 void sub_8089B38(MMChaoMessage *msg, u8 *vram);
 void sub_8089C48(MMChaoMessage *msg);
+u8 sub_8089DF4(MainMenu *menu);
 void sub_8089EF8(MainMenu *menu);
 void sub_8089F08(MainMenu *menu);
 void sub_8089F40(MainMenu *menu);
@@ -129,22 +129,43 @@ void Task_3F0_808A144(void);
 void Task_94_808A22C(void);
 void TaskDestructor_MainMenu(Task *t);
 
-void sub_808A1B0(u8 arg0, s32 arg1, u8 *vram, u16 arg3, s32 arg4);
+void sub_808A1B0(u8 arg0, void *arg1, u8 *vram, s16 arg3, s16 arg4);
 
-extern ColorRaw gUnknown_080D66D8[0x40];
-extern TileInfo2 sAnimsMenuChao[2];
-extern TileInfo2 gUnknown_080D6694[4];
-extern TileInfo2 gUnknown_080D6114[NUM_LANGUAGES * 2];
-extern TileInfo2 gUnknown_080D6174[NUM_LANGUAGES * 2];
-extern TileInfo2 gUnknown_080D61D4[NUM_LANGUAGES * 2];
-extern TileInfo2 gUnknown_080D6234[NUM_LANGUAGES * 2];
-extern TileInfo2 gUnknown_080D6354[NUM_LANGUAGES * 2];
-extern TileInfo2 gUnknown_080D63B4[NUM_LANGUAGES * 2];
-extern TileInfo2 gUnknown_080D6414[NUM_LANGUAGES * 2];
-extern TileInfo2 gUnknown_080D6474[NUM_LANGUAGES * 2];
-extern TileInfo2 gUnknown_080D64D4[NUM_LANGUAGES * 2];
-extern TileInfo2 gUnknown_080D6534[NUM_LANGUAGES * 2];
-extern u16 gUnknown_080D66C4[4];
+extern void CreateNameEntryScreen(u8);
+extern void sub_80A1A4C(u8 param0);
+extern void sub_808D0F0(u8 param0);
+extern void sub_8000340(u16 arg0);
+extern void LaunchOptionsMenu(u16 arg0);
+extern void CreateTimeRecordScreen(u8 param0);
+extern TileInfo2 gUnknown_080D6654[4];
+extern TileInfo2 gUnknown_080D6674[4];
+
+extern const TileInfo2 gUnknown_080D6594[12];
+extern const TileInfo2 gUnknown_080D65F4[12];
+extern const ColorRaw gUnknown_080D66D8[0x40];
+extern const TileInfo2 sAnimsMenuChao[2];
+extern const TileInfo2 gUnknown_080D6694[4];
+extern const TileInfo2 gUnknown_080D6114[NUM_LANGUAGES * 2];
+extern const TileInfo2 gUnknown_080D6174[NUM_LANGUAGES * 2];
+extern const TileInfo2 gUnknown_080D61D4[NUM_LANGUAGES * 2];
+extern const TileInfo2 gUnknown_080D6234[NUM_LANGUAGES * 2];
+extern const TileInfo2 gUnknown_080D6294[NUM_LANGUAGES * 6];
+extern const TileInfo2 gUnknown_080D62F4[NUM_LANGUAGES * 6];
+extern const TileInfo2 gUnknown_080D6354[NUM_LANGUAGES * 2];
+extern const TileInfo2 gUnknown_080D63B4[NUM_LANGUAGES * 2];
+extern const TileInfo2 gUnknown_080D6414[NUM_LANGUAGES * 2];
+extern const TileInfo2 gUnknown_080D6474[NUM_LANGUAGES * 2];
+extern const TileInfo2 gUnknown_080D64D4[NUM_LANGUAGES * 2];
+extern const TileInfo2 gUnknown_080D6534[NUM_LANGUAGES * 2];
+extern const u16 gUnknown_080D66C4[4];
+extern const s16 gUnknown_080D6770[4][2];
+extern const u16 gUnknown_080D66CC[6];
+extern const TaskMain gUnknown_080D6758[6];
+extern const TileInfo2 gUnknown_080D6780[3];
+extern const TileInfo2 gUnknown_080D6798[NUM_LANGUAGES];
+extern const TileInfo2 gUnknown_080D67C8[];
+extern const TileInfo2 gUnknown_080D67F8[NUM_LANGUAGES];
+extern const TileInfo2 gUnknown_080D6828[];
 
 void CreateMainMenu(s16 highlitButton, u8 arg1)
 {
@@ -218,24 +239,24 @@ NONMATCH("asm/non_matching/game/sa3/mm__sub_808738C.inc", void sub_808738C(MainM
     menu->unk72 = 0;
     menu->unk74 = 0x400;
     menu->unkF = 1;
-    menu->unk18 = 0x12C00;
-    menu->unk1C = 0x2000;
-    menu->unk20 = 0x15C00;
-    menu->unk24 = menu->unk1C + menu->unk1C;
-    menu->unk28 = 0x18C00;
-    menu->unk2C = menu->unk24 + menu->unk1C;
-    menu->unk30 = 0x1BC00;
-    menu->unk34 = menu->unk2C + menu->unk1C;
+    menu->unk18[0].x = 0x12C00;
+    menu->unk18[0].y = 0x2000;
+    menu->unk18[1].x = 0x15C00;
+    menu->unk18[1].y = menu->unk18[0].y + menu->unk18[0].y;
+    menu->unk18[2].x = 0x18C00;
+    menu->unk18[2].y = menu->unk18[1].y + menu->unk18[0].y;
+    menu->unk18[3].x = 0x1BC00;
+    menu->unk18[3].y = menu->unk18[2].y + menu->unk18[0].y;
     menu->unk58 = -Q(40);
     menu->unk5C = 0x5600;
     menu->unk60 = -Q(40);
     menu->unk64 = 0x5600;
-    menu->unk38 = 0x18C00;
-    menu->unk3C = 0x1A00 + menu->unk1C;
-    menu->unk40 = 0x18C00;
-    menu->unk44 = 0x4600 + menu->unk1C;
+    menu->unk38[0].x = 0x18C00;
+    menu->unk38[0].y = 0x1A00 + menu->unk18[0].y;
+    menu->unk38[1].x = 0x18C00;
+    menu->unk38[1].y = 0x4600 + menu->unk18[0].y;
     menu->unk48 = 0x3C00;
-    menu->unk4C = menu->unk1C;
+    menu->unk4C = menu->unk18[0].y;
     menu->unk6 = 0;
     menu->unk50 = 0;
     menu->unk54 = 0;
@@ -316,8 +337,8 @@ void sub_8087590(MainMenu *menu)
         s->anim = gUnknown_080D6114[i + menu->language * 2].anim;
         s->variant = gUnknown_080D6114[i + menu->language * 2].variant;
         s->prevVariant = -1;
-        s->x = I(menu->unk18);
-        s->y = I(menu->unk1C);
+        s->x = I(menu->unk18[0].x);
+        s->y = I(menu->unk18[0].y);
         s->oamFlags = 0;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -334,8 +355,8 @@ void sub_8087590(MainMenu *menu)
         s->anim = gUnknown_080D6174[i + menu->language * 2].anim;
         s->variant = gUnknown_080D6174[i + menu->language * 2].variant;
         s->prevVariant = -1;
-        s->x = I(menu->unk20);
-        s->y = I(menu->unk24);
+        s->x = I(menu->unk18[1].x);
+        s->y = I(menu->unk18[1].y);
         s->oamFlags = 0x40;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -352,8 +373,8 @@ void sub_8087590(MainMenu *menu)
         s->anim = gUnknown_080D61D4[i + menu->language * 2].anim;
         s->variant = gUnknown_080D61D4[i + menu->language * 2].variant;
         s->prevVariant = -1;
-        s->x = I(menu->unk28);
-        s->y = I(menu->unk2C);
+        s->x = I(menu->unk18[2].x);
+        s->y = I(menu->unk18[2].y);
         s->oamFlags = 0x80;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -370,8 +391,8 @@ void sub_8087590(MainMenu *menu)
         s->anim = gUnknown_080D6234[i + menu->language * 2].anim;
         s->variant = gUnknown_080D6234[i + menu->language * 2].variant;
         s->prevVariant = -1;
-        s->x = I(menu->unk30);
-        s->y = I(menu->unk34);
+        s->x = I(menu->unk18[3].x);
+        s->y = I(menu->unk18[3].y);
         s->oamFlags = 0xC0;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -418,8 +439,8 @@ void sub_80877F4(MainMenu *menu)
         s->anim = gUnknown_080D63B4[i + menu->language * 2].anim;
         s->variant = gUnknown_080D63B4[i + menu->language * 2].variant;
         s->prevVariant = -1;
-        s->x = I(menu->unk18);
-        s->y = I(menu->unk1C);
+        s->x = I(menu->unk18[0].x);
+        s->y = I(menu->unk18[0].y);
         s->oamFlags = 0;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -440,8 +461,8 @@ void sub_80877F4(MainMenu *menu)
         s->anim = gUnknown_080D6414[i + menu->language * 2].anim;
         s->variant = gUnknown_080D6414[i + menu->language * 2].variant;
         s->prevVariant = -1;
-        s->x = I(menu->unk20);
-        s->y = I(menu->unk24);
+        s->x = I(menu->unk18[1].x);
+        s->y = I(menu->unk18[1].y);
         s->oamFlags = 0x40;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -464,8 +485,8 @@ void sub_80877F4(MainMenu *menu)
             s->variant = gUnknown_080D64D4[i + menu->language * 2].variant;
         }
         s->prevVariant = -1;
-        s->x = I(menu->unk28);
-        s->y = I(menu->unk2C);
+        s->x = I(menu->unk18[2].x);
+        s->y = I(menu->unk18[2].y);
         s->oamFlags = 0x80;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -486,8 +507,8 @@ void sub_80877F4(MainMenu *menu)
         s->anim = gUnknown_080D6534[i + menu->language * 2].anim;
         s->variant = gUnknown_080D6534[i + menu->language * 2].variant;
         s->prevVariant = -1;
-        s->x = (s16)((s32)menu->unk30 >> 8);
-        s->y = (s16)((s32)menu->unk34 >> 8);
+        s->x = (s16)((s32)menu->unk18[3].x >> 8);
+        s->y = (s16)((s32)menu->unk18[3].y >> 8);
         s->oamFlags = 0xC0;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -567,12 +588,13 @@ void sub_8087A48(MainMenu *menu)
     DrawBackground(bg2);
 }
 
-#if 0
-void Task_3F0_8087B80(MainMenu *menu) {
+#if 01
+void Task_3F0_8087B80(void) {
+    MainMenu *menu = TASK_DATA(gCurTask);
     if (menu->unk6E != 0) {
-        gDispCnt |= 0x2000;
-        gWinRegs->unk0 = 0xF0;
-        gWinRegs[2] = 0xA0;
+        gDispCnt |= DISPCNT_WIN0_ON;
+        gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[2] = WIN_RANGE(0, DISPLAY_HEIGHT);
         gWinRegs[4] |= 0x3F;
         gWinRegs[5] |= 0x1F;
         gBldRegs.bldCnt = 0x3FFF;
@@ -595,18 +617,19 @@ void Task_3F0_8087B80(MainMenu *menu) {
     sub_808927C(menu);
     if (gBldRegs.bldY != 0) {
         gBldRegs.bldY = (u16) ((u16) menu->unk70 >> 8);
-        menu->unk70 += 0xFFFFFF00;
-        return;
+        menu->unk70 -= Q(1);
+    } else {    
+        gBldRegs.bldY = gBldRegs.bldY;
+        gCurTask->main = Task_3F0_8089FCC;
     }
-    gBldRegs.bldY = gBldRegs.bldY;
-    gCurTask->main = Task_3F0_8089FCC;
 }
 
-void Task_3F0_8087C74(MainMenu *menu) {
+void Task_3F0_8087C74(void) {
+    MainMenu *menu = TASK_DATA(gCurTask);
     if (menu->unk6E != 0) {
-        gDispCnt |= 0x2000;
-        gWinRegs->unk0 = 0xF0;
-        gWinRegs[2] = 0xA0;
+        gDispCnt |= DISPCNT_WIN0_ON;
+        gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[2] = WIN_RANGE(0, DISPLAY_HEIGHT);
         gWinRegs[4] |= 0x3F;
         gWinRegs[5] |= 0x1F;
         gBldRegs.bldCnt = 0x3FFF;
@@ -634,20 +657,20 @@ void Task_3F0_8087C74(MainMenu *menu) {
     gCurTask->main = Task_3F0_8087D54;
 }
 
-void Task_3F0_8087D54(MainMenu *menu) {
+
+void Task_3F0_8087D54(void) {
+    MainMenu *menu = TASK_DATA(gCurTask);
     s16 temp_r0;
     u8 temp_r1;
     u8 var_r0;
     u8 var_r1;
 
     temp_r0 = menu->highlitButton;
-    switch ((u32) temp_r0) {                        /* irregular */
+    switch ((u32) temp_r0) {
     case 0:
-        temp_r1 = menu->unkC;
-        if (temp_r1 == 0) {
-            gStageData.gameMode = temp_r1;
-            gStageData.playerIndex = temp_r1;
-block_15:
+        if (menu->unkC == 0) {
+            gStageData.gameMode = 0;
+            gStageData.playerIndex = 0;
             CreateCharacterSelect(0U);
         } else {
             gStageData.gameMode = 5;
@@ -668,20 +691,22 @@ block_15:
             sub_8000340(0);
         }
         break;
-    case 2:
-        var_r1 = menu->unkC;
-        if (var_r1 == 0) {
-            var_r0 = 3;
+    case 2: {
+        StageData *stgData; // for matching
+        if (menu->unkC == 0) {
+            stgData = &gStageData;
+            stgData->gameMode = 3;
+            stgData->playerIndex = 0;
         } else {
-            var_r1 = 0;
-            var_r0 = 4;
+            stgData = &gStageData;
+            stgData->gameMode = 4;
+            stgData->playerIndex = 0;
         }
-        gStageData.gameMode = var_r0;
-        gStageData.playerIndex = var_r1;
         gStageData.buttonConfig.jump = LOADED_SAVE->buttonConfig.jump;
         gStageData.buttonConfig.attack = LOADED_SAVE->buttonConfig.attack;
         gStageData.buttonConfig.trick = LOADED_SAVE->buttonConfig.trick;
-        goto block_15;
+        CreateCharacterSelect(0U);
+    } break;
     case 3:
         LaunchOptionsMenu(0);
         break;
@@ -690,15 +715,15 @@ block_15:
         break;
     case 10:
         TasksDestroyInPriorityRange(0U, 0xFFFFU);
-        gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
+        PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
-        gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+        PAUSE_GRAPHICS_QUEUE();
         gStageData.buttonConfig.jump = LOADED_SAVE->buttonConfig.jump;
         gStageData.buttonConfig.attack = LOADED_SAVE->buttonConfig.attack;
         gStageData.buttonConfig.trick = LOADED_SAVE->buttonConfig.trick;
         gStageData.gameMode = 0;
         gStageData.unkD = 1;
-        sub_80B1AF4(0, 0, 0U);
+        sub_80B1AF4(0, 0, 0);
         break;
     case 11:
         sub_80AB120(3U);
@@ -709,13 +734,14 @@ block_15:
     }
 }
 
-void Task_3F0_8087F18(MainMenu *menu) {
+void Task_3F0_8087F18(void) {
+    MainMenu *menu = TASK_DATA(gCurTask);
     s16 temp_r0;
 
     if (menu->unk6E != 0) {
-        gDispCnt |= 0x2000;
-        gWinRegs->unk0 = 0xF0;
-        gWinRegs[2] = 0xA0;
+        gDispCnt |= DISPCNT_WIN0_ON;
+        gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[2] = WIN_RANGE(0, DISPLAY_HEIGHT);
         gWinRegs[4] |= 0x3F;
         gWinRegs[5] |= 0x1F;
         gBldRegs.bldCnt = 0x3FFF;
@@ -747,10 +773,7 @@ void Task_3F0_8087F18(MainMenu *menu) {
     case 1:
         gStageData.playerIndex = 0;
         CreateCharacterSelect(3U);
-    default:
-block_14:
-        TaskDestroy(gCurTask);
-        return;
+        break;
     case 2:
         if (gStageData.gameMode == 3) {
             sub_80003B8();
@@ -759,19 +782,23 @@ block_14:
             sub_80003B8();
             CreateTimeRecordScreen(4);
         } else {
-        case 3:
             CreateTitleScreen(1U);
         }
-        goto block_14;
+        break;
+    case 3:
+        CreateTitleScreen(1U);
+        break;
     case 4:
         CreateTitleScreen(1U);
-        goto block_14;
+        break;
     }
+    TaskDestroy(gCurTask);
+    return;
 }
 
-void Task_3F0_8088088(MainMenu *menu) {
+void Task_3F0_8088088(void) {
+    MainMenu *menu = TASK_DATA(gCurTask);
     s16 temp_r0;
-    void (*var_r0)(MainMenu *);
 
     sub_8089028(menu);
     sub_80890F8(menu);
@@ -786,40 +813,36 @@ void Task_3F0_8088088(MainMenu *menu) {
     sub_8089F40(menu);
     sub_8089F08(menu);
     sub_8089704(menu);
+
     if (sub_8089DF4(menu) == 4) {
-        if ((u32) (u8) (menu->initArg1 - 2) <= 1U) {
-            var_r0 = Task_3F0_8087F18;
+        if (menu->initArg1 == 2 || menu->initArg1 == 3)
+        {
+            gCurTask->main = Task_3F0_8087F18;
         } else {
-            temp_r0 = menu->highlitButton;
-            switch (temp_r0) {                      /* irregular */
-            case 0:
-                menu->unk4 = (u8) temp_r0;
-                menu->unk68 = 0x100;
-                menu->unk6A = 0x100;
-                var_r0 = Task_3F0_8088E74;
-                break;
-            case 1:
+            if (menu->highlitButton == 0) {
                 menu->unk4 = 0;
                 menu->unk68 = 0x100;
                 menu->unk6A = 0x100;
-                var_r0 = Task_3F0_80897BC;
-                break;
-            case 2:
+                gCurTask->main = Task_3F0_8088E74;
+            } else if(menu->highlitButton == 1) {
                 menu->unk4 = 0;
                 menu->unk68 = 0x100;
                 menu->unk6A = 0x100;
-                var_r0 = Task_3F0_8089970;
-                break;
-            default:
-                var_r0 = Task_3F0_8087C74;
-                break;
+                gCurTask->main = Task_3F0_80897BC;
+            } else if(menu->highlitButton == 2) {
+                menu->unk4 = 0;
+                menu->unk68 = 0x100;
+                menu->unk6A = 0x100;
+                gCurTask->main = Task_3F0_8089970;
+            } else {
+                gCurTask->main = Task_3F0_8087C74;
             }
         }
-        gCurTask->main = var_r0;
     }
 }
 
-void Task_3F0_808819C(MainMenu *menu) {
+void Task_3F0_808819C(void) {
+    MainMenu *menu = TASK_DATA(gCurTask);
     s16 temp_r0;
     s16 temp_r1_2;
     s16 var_r0;
@@ -838,8 +861,9 @@ void Task_3F0_808819C(MainMenu *menu) {
     sub_8089F08(menu);
     sub_8089704(menu);
     if ((menu->unk14 != 4) && (0x20 & gPressedKeys) && (4 & LOADED_SAVE->unlockFlags) && (menu->highlitButton == 3)) {
-        temp_r1 = (menu->language * 0x10) + &gUnknown_080D6234;
-        if ((menu->spr16C[0].anim == temp_r1->unk0) && (menu->spr16C[0].variant == temp_r1->unk2)) {
+        if ((menu->spr16C[0].anim == gUnknown_080D6234[menu->language * 2].anim)
+            && (menu->spr16C[0].variant == gUnknown_080D6234[menu->language * 2].variant)) 
+        {
             m4aSongNumStart(0x6CU);
             menu->highlitButton = 0xB;
             menu->unk6E = 1;
@@ -847,15 +871,14 @@ void Task_3F0_808819C(MainMenu *menu) {
             return;
         }
     }
-    if ((u32) (u8) (menu->initArg1 - 2) > 1U) {
-        temp_r0 = sub_808927C(menu);
-        if (temp_r0 == 1) {
+    if (menu->initArg1 != 2 && menu->initArg1 != 3)
+    {
+        if (sub_808927C(menu) == 1) {
             sub_8089670(menu);
-            temp_r1_2 = menu->unk14;
-            if (temp_r1_2 == 0xA) {
+            if (menu->unk14 == 10) {
                 menu->unk4 = 0;
-                menu->unk68 = temp_r0;
-                menu->highlitButton = temp_r1_2;
+                menu->unk68 = 1;
+                menu->highlitButton = 10;
                 menu->unk14 = (s16) ((u16) menu->unk14 + 1);
             } else {
                 if ((0x20 & gPressedKeys) && (menu->highlitButton == 0)) {
@@ -898,19 +921,15 @@ block_22:
         temp_r2 = 0x40 & gRepeatedKeys;
         if (temp_r2 != 0) {
             if ((s32) menu->highlitButton <= 0) {
-                var_r0 = 3;
+                menu->highlitButton = 3;
             } else {
-                var_r0 = (u16) menu->highlitButton - 1;
+                menu->highlitButton = (u16) menu->highlitButton - 1;
             }
-            goto block_33;
-        }
-        if (0x80 & gRepeatedKeys) {
+        } else if (0x80 & gRepeatedKeys) {
             if ((s32) menu->highlitButton > 2) {
                 menu->highlitButton = (s16) temp_r2;
             } else {
-                var_r0 = (u16) menu->highlitButton + 1;
-block_33:
-                menu->highlitButton = var_r0;
+                menu->highlitButton = (u16) menu->highlitButton + 1;
             }
         }
         menu->unk68 = 0x100;
@@ -920,9 +939,10 @@ block_33:
         menu->unk2 = 0;
         menu->unk4 = 0x40;
         if ((u32) (u8) (menu->initArg1 - 2) > 1U) {
-            menu->bg370.tilemapId = (&gUnknown_080D66C4)[menu->highlitButton];
-            menu->bg370.flags = 6;
-            DrawBackground(&menu->bg370);
+            Background *bg = &menu->bg370;
+            bg->tilemapId = gUnknown_080D66C4[menu->highlitButton];
+            bg->flags = 6;
+            DrawBackground(bg);
         }
     }
     sub_80890F8(menu);
@@ -933,12 +953,9 @@ block_33:
     menu->unkB = 0;
 }
 
-void Task_3F0_8088440(MainMenu *menu) {
-    ? *sp4;
-    ? *var_r2;
-    ? *var_r2_2;
-    Sprite *temp_r1;
-    Sprite *temp_r1_2;
+void Task_3F0_8088440(void) {
+    MainMenu *menu = TASK_DATA(gCurTask);
+    Sprite *s;
     u16 temp_r0;
     u8 *var_r6;
     u8 var_r5;
@@ -946,8 +963,8 @@ void Task_3F0_8088440(MainMenu *menu) {
 
     var_r5 = 0;
     var_r6 = menu->spr7C[0].tiles;
-    menu->unk38 = 0xAA00;
-    menu->unk40 = 0xAA00;
+    menu->unk38[0].x = 0xAA00;
+    menu->unk38[1].x = 0xAA00;
     menu->unk58 = 0x5000;
     menu->unk6 = 1;
     menu->unk74 = 0x180;
@@ -956,60 +973,62 @@ void Task_3F0_8088440(MainMenu *menu) {
     menu->unkC = (u8) temp_r0;
     menu->highlitButton = 1U;
     menu->unkD = (u8) temp_r0;
-    menu->unk3C = 0x6400;
-    menu->unk44 = 0x8200;
-    var_r2 = &gUnknown_080D6594;
-    do {
-        temp_r1 = &menu->spr1BC[var_r5];
-        temp_r1->tiles = var_r6;
+    menu->unk38[0].y = 0x6400;
+    menu->unk38[1].y = 0x8200;
+    
+    for(var_r5 = 0; var_r5 < 2; var_r5++)
+    {
+        s = &menu->spr1BC[var_r5];
+        s->tiles = var_r6;
         var_r6 += 0x800;
-        temp_r1->anim = *(((var_r5 + (menu->language * 2)) * 8) + var_r2);
-        temp_r1->variant = (((var_r5 + (menu->language * 2)) * 8) + var_r2)->unk2;
-        temp_r1->prevVariant = -1;
-        temp_r1->x = (s16) ((s32) menu->unk38 >> 8);
-        temp_r1->y = (s16) ((s32) menu->unk3C >> 8);
-        temp_r1->oamFlags = 0xC0;
-        temp_r1->animCursor = 0;
-        temp_r1->qAnimDelay = 0;
-        temp_r1->animSpeed = 0x10;
-        temp_r1->palId = 0;
-        temp_r1->frameFlags = 0;
-        sp4 = var_r2;
-        UpdateSpriteAnimation(temp_r1);
-        var_r5 += 1;
-    } while ((u32) var_r5 <= 1U);
-    var_r5_2 = 0;
-    var_r2_2 = &gUnknown_080D65F4;
-    do {
-        temp_r1_2 = &menu->spr20C[var_r5_2];
-        temp_r1_2->tiles = var_r6;
+        s->anim    = gUnknown_080D6594[var_r5 + (menu->language * 2)].anim;
+        s->variant = gUnknown_080D6594[var_r5 + (menu->language * 2)].variant;
+        s->prevVariant = -1;
+        s->x = I(menu->unk38[0].x);
+        s->y = I(menu->unk38[0].y);
+        s->oamFlags = 0xC0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    for(var_r5 = 0; var_r5 < 2; var_r5++)
+    {
+        s = &menu->spr20C[var_r5];
+        s->tiles = var_r6;
         var_r6 += 0x800;
-        temp_r1_2->anim = *(((var_r5_2 + (menu->language * 2)) * 8) + var_r2_2);
-        temp_r1_2->variant = (((var_r5_2 + (menu->language * 2)) * 8) + var_r2_2)->unk2;
-        temp_r1_2->prevVariant = -1;
-        temp_r1_2->x = (s16) ((s32) menu->unk40 >> 8);
-        temp_r1_2->y = (s16) ((s32) menu->unk44 >> 8);
-        temp_r1_2->oamFlags = 0xC0;
-        temp_r1_2->animCursor = 0;
-        temp_r1_2->qAnimDelay = 0;
-        temp_r1_2->animSpeed = 0x10;
-        temp_r1_2->palId = 0;
-        temp_r1_2->frameFlags = 0;
-        sp4 = var_r2_2;
-        UpdateSpriteAnimation(temp_r1_2);
-        var_r5_2 += 1;
-    } while ((u32) var_r5_2 <= 1U);
-    sub_808A1B0(0U, (s32) &menu->unkD, var_r6, 0x64U, 0x26, M2C_ERROR(/* Unable to find stack arg 0x4 in block */));
+        s->anim    = gUnknown_080D65F4[var_r5 + (menu->language * 2)].anim;
+        s->variant = gUnknown_080D65F4[var_r5 + (menu->language * 2)].variant;
+        s->prevVariant = -1;
+        s->x = (s16) ((s32) menu->unk38[1].x >> 8);
+        s->y = (s16) ((s32) menu->unk38[1].y >> 8);
+        s->oamFlags = 0xC0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    sub_808A1B0(0U, &menu->unkD, var_r6, 0x64U, 0x26);
     menu->unkB = 2;
-    menu->bg370.tilemapId = gUnknown_080D66C4.unk2;
-    menu->bg370.flags = 6;
-    DrawBackground(&menu->bg370);
+    {
+        Background *bg = &menu->bg370;
+        bg->tilemapId = gUnknown_080D66C4[1];
+        bg->flags = 6;
+        DrawBackground(bg);
+    }
     gCurTask->main = Task_3F0_80888E8;
 }
 
-void Task_3F0_80885CC(MainMenu *menu) {
+void Task_3F0_80885CC(void) {
+    MainMenu *menu = TASK_DATA(gCurTask);
     s32 sp4;
-    Sprite *temp_r2;
+    Sprite *s;
     Sprite *temp_r2_2;
     u32 temp_r0;
     u8 *var_r5;
@@ -1023,88 +1042,87 @@ void Task_3F0_80885CC(MainMenu *menu) {
     temp_r1 = menu->language;
     temp_r0 = (u32) ((0 - temp_r1) | temp_r1) >> 0x1F;
     var_r5 = menu->spr7C[0].tiles;
-    menu->unk38 = 0xAA00;
-    menu->unk40 = 0xAA00;
+    menu->unk38[0].x = 0xAA00;
+    menu->unk38[1].x = 0xAA00;
     menu->unk58 = 0x5000;
     menu->unk6 = 1;
     menu->unk74 = 0x180;
     menu->unk3 = 1;
     menu->unkC = (u8) menu->highlitButton;
     menu->highlitButton = 2U;
-    menu->unk3C = 0x6400;
-    menu->unk44 = 0x8200;
-    sp4 = temp_r0 * 2;
-    do {
-        temp_r2 = &menu->spr1BC[var_r6];
-        temp_r2->tiles = var_r5;
+    menu->unk38[0].y = 0x6400;
+    menu->unk38[1].y = 0x8200;
+
+    for(var_r6 = 0; var_r6 < 2; var_r6++)
+    {
+        s = &menu->spr1BC[var_r6];
+        s->tiles = var_r5;
         if (var_r6 == 0) {
             var_r5 += 0x800;
         } else {
             var_r5 += 0x800;
         }
-        temp_r0_2 = ((var_r6 + (temp_r0 * 2)) * 8) + &gUnknown_080D6654;
-        temp_r2->anim = temp_r0_2->unk0;
-        temp_r2->variant = temp_r0_2->unk2;
-        temp_r2->prevVariant = -1;
-        temp_r2->x = (s16) ((s32) menu->unk38 >> 8);
-        temp_r2->y = (s16) ((s32) menu->unk3C >> 8);
-        temp_r2->oamFlags = 0xC0;
-        temp_r2->animCursor = 0;
-        temp_r2->qAnimDelay = 0;
-        temp_r2->animSpeed = 0x10;
-        temp_r2->palId = 0;
-        temp_r2->frameFlags = 0;
-        UpdateSpriteAnimation(temp_r2);
-        var_r6 += 1;
-    } while ((u32) var_r6 <= 1U);
-    var_r6_2 = 0;
-    do {
-        temp_r2_2 = &menu->spr20C[var_r6_2];
-        temp_r2_2->tiles = var_r5;
-        if (var_r6_2 == 0) {
+        s->anim    = gUnknown_080D6654[var_r6 + (temp_r0 * 2)].anim;
+        s->variant = gUnknown_080D6654[var_r6 + (temp_r0 * 2)].variant;
+        s->prevVariant = -1;
+        s->x = (s16) ((s32) menu->unk38[0].x >> 8);
+        s->y = (s16) ((s32) menu->unk38[0].y >> 8);
+        s->oamFlags = 0xC0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    for(var_r6 = 0; var_r6 < 2; var_r6++)
+    {
+        s = &menu->spr20C[var_r6];
+        s->tiles = var_r5;
+        if (var_r6 == 0) {
             var_r5 += 0x800;
         } else {
             var_r5 += 0x800;
         }
-        temp_r0_3 = ((var_r6_2 + sp4) * 8) + &gUnknown_080D6674;
-        temp_r2_2->anim = temp_r0_3->unk0;
-        temp_r2_2->variant = temp_r0_3->unk2;
-        temp_r2_2->prevVariant = -1;
-        temp_r2_2->x = (s16) ((s32) menu->unk40 >> 8);
-        temp_r2_2->y = (s16) ((s32) menu->unk44 >> 8);
-        temp_r2_2->oamFlags = 0xC0;
-        temp_r2_2->animCursor = 0;
-        temp_r2_2->qAnimDelay = 0;
-        temp_r2_2->animSpeed = 0x10;
-        temp_r2_2->palId = 0;
-        temp_r2_2->frameFlags = 0;
-        UpdateSpriteAnimation(temp_r2_2);
-        var_r6_2 += 1;
-    } while ((u32) var_r6_2 <= 1U);
+        s->anim    = gUnknown_080D6674[var_r6 + (temp_r0 * 2)].anim;
+        s->variant = gUnknown_080D6674[var_r6 + (temp_r0 * 2)].variant;
+        s->prevVariant = -1;
+        s->x = (s16) ((s32) menu->unk38[1].x >> 8);
+        s->y = (s16) ((s32) menu->unk38[1].y >> 8);
+        s->oamFlags = 0xC0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
     menu->unkD = 0;
-    sub_808A1B0(1U, (s32) &menu->unkD, var_r5, 0x58U, 0x22, M2C_ERROR(/* Unable to find stack arg 0x4 in block */));
+    sub_808A1B0(1U, &menu->unkD, var_r5, 0x58U, 0x22);
     menu->unkB = 2;
-    menu->bg370.tilemapId = gUnknown_080D66C4.unk4;
-    menu->bg370.flags = 6;
-    DrawBackground(&menu->bg370);
+
+    {
+        Background *bg = &menu->bg370;
+        bg->tilemapId = gUnknown_080D66C4[2];
+        bg->flags = 6;
+        DrawBackground(bg);
+    }
     gCurTask->main = Task_3F0_80888E8;
 }
 
-void Task_3F0_8088770(MainMenu *menu) {
-    ? *sp0;
-    ? *var_r2;
-    ? *var_r2_2;
-    Sprite *temp_r1;
-    Sprite *temp_r1_2;
+void Task_3F0_8088770(void) {
+    MainMenu *menu = TASK_DATA(gCurTask);
+    Sprite *s;
     u16 temp_r0;
     u8 *var_r6;
-    u8 var_r5;
-    u8 var_r5_2;
+    u8 i;
 
-    var_r5 = 0;
+    i = 0;
     var_r6 = menu->spr7C[0].tiles;
-    menu->unk38 = 0xAA00;
-    menu->unk40 = 0xAA00;
+    menu->unk38[0].x = 0xAA00;
+    menu->unk38[1].x = 0xAA00;
     menu->unk58 = 0x5000;
     menu->unk6 = 1;
     menu->unk74 = 0x180;
@@ -1113,59 +1131,61 @@ void Task_3F0_8088770(MainMenu *menu) {
     menu->unkC = (u8) temp_r0;
     menu->unkB = temp_r0 + 1;
     menu->highlitButton = 0U;
-    menu->unk3C = (s32) (menu->unk1C + 0x1A00);
-    menu->unk44 = (s32) (menu->unk2C + 0x600);
-    var_r2 = &gUnknown_080D6294;
-    do {
-        temp_r1 = &menu->spr1BC[var_r5];
-        temp_r1->tiles = var_r6;
+    menu->unk38[0].y = (s32) (menu->unk18[0].y + 0x1A00);
+    menu->unk38[1].y = (s32) (menu->unk18[2].y + 0x600);
+
+    for(i = 0; i < 2; i++)
+    {
+        s = &menu->spr1BC[i];
+        s->tiles = var_r6;
         var_r6 += 0x800;
-        temp_r1->anim = *(((var_r5 + (menu->language * 2)) * 8) + var_r2);
-        temp_r1->variant = (((var_r5 + (menu->language * 2)) * 8) + var_r2)->unk2;
-        temp_r1->prevVariant = -1;
-        temp_r1->x = (s16) ((s32) menu->unk38 >> 8);
-        temp_r1->y = (s16) ((s32) menu->unk3C >> 8);
-        temp_r1->oamFlags = 0xC0;
-        temp_r1->animCursor = 0;
-        temp_r1->qAnimDelay = 0;
-        temp_r1->animSpeed = 0x10;
-        temp_r1->palId = 0;
-        temp_r1->frameFlags = 0;
-        sp0 = var_r2;
-        UpdateSpriteAnimation(temp_r1);
-        var_r5 += 1;
-    } while ((u32) var_r5 <= 1U);
-    var_r5_2 = 0;
-    var_r2_2 = &gUnknown_080D62F4;
-    do {
-        temp_r1_2 = &menu->spr20C[var_r5_2];
-        temp_r1_2->tiles = var_r6;
+        s->anim    = gUnknown_080D6294[i + (menu->language * 2)].anim;
+        s->variant = gUnknown_080D6294[i + (menu->language * 2)].variant;
+        s->prevVariant = -1;
+        s->x = (s16) ((s32) menu->unk38[0].x >> 8);
+        s->y = (s16) ((s32) menu->unk38[0].y >> 8);
+        s->oamFlags = 0xC0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    for(i = 0; i < 2; i++)
+    {
+        s = &menu->spr20C[i];
+        s->tiles = var_r6;
         var_r6 += 0x800;
-        temp_r1_2->anim = *(((var_r5_2 + (menu->language * 2)) * 8) + var_r2_2);
-        temp_r1_2->variant = (((var_r5_2 + (menu->language * 2)) * 8) + var_r2_2)->unk2;
-        temp_r1_2->prevVariant = -1;
-        temp_r1_2->x = (s16) ((s32) menu->unk40 >> 8);
-        temp_r1_2->y = (s16) ((s32) menu->unk44 >> 8);
-        temp_r1_2->oamFlags = 0xC0;
-        temp_r1_2->animCursor = 0;
-        temp_r1_2->qAnimDelay = 0;
-        temp_r1_2->animSpeed = 0x10;
-        temp_r1_2->palId = 0;
-        temp_r1_2->frameFlags = 0;
-        sp0 = var_r2_2;
-        UpdateSpriteAnimation(temp_r1_2);
-        var_r5_2 += 1;
-    } while ((u32) var_r5_2 <= 1U);
-    menu->bg370.tilemapId = gUnknown_080D66C4;
-    menu->bg370.flags = 6;
-    DrawBackground(&menu->bg370);
+        s->anim    = gUnknown_080D62F4[i + (menu->language * 2)].anim;
+        s->variant = gUnknown_080D62F4[i + (menu->language * 2)].variant;
+        s->prevVariant = -1;
+        s->x = (s16) ((s32) menu->unk38[1].x >> 8);
+        s->y = (s16) ((s32) menu->unk38[1].y >> 8);
+        s->oamFlags = 0xC0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    {
+        Background *bg = &menu->bg370;
+        bg->tilemapId = gUnknown_080D66C4[0];
+        bg->flags = 6;
+        DrawBackground(bg);
+    }
     gCurTask->main = Task_3F0_80888E8;
 }
 
-void Task_3F0_80888E8(MainMenu *menu) {
+void Task_3F0_80888E8(void) {
+    MainMenu *menu = TASK_DATA(gCurTask);
     if (menu->unk6E != 0) {
         gDispCnt |= 0x2000;
-        gWinRegs->unk0 = 0xF0;
+        gWinRegs[0] = 0xF0;
         gWinRegs[2] = 0xA0;
         gWinRegs[4] |= 0x3F;
         gWinRegs[5] |= 0x1F;
@@ -1186,14 +1206,15 @@ void Task_3F0_80888E8(MainMenu *menu) {
     sub_8089704(menu);
     if (gBldRegs.bldY != 0) {
         gBldRegs.bldY = (u16) ((u16) menu->unk70 >> 8);
-        menu->unk70 += 0xFFFFFF00;
+        menu->unk70 -= Q(1);
         return;
     }
     gBldRegs.bldY = gBldRegs.bldY;
     gCurTask->main = Task_3F0_80889CC;
 }
 
-void Task_3F0_80889CC(MainMenu *menu) {
+void Task_3F0_80889CC(void) {
+    MainMenu *menu = TASK_DATA(gCurTask);
     s16 temp_r1;
     s16 temp_r1_3;
     u16 temp_r5;
@@ -1210,71 +1231,63 @@ void Task_3F0_80889CC(MainMenu *menu) {
     sub_8089F40(menu);
     sub_8089F08(menu);
     sub_8089704(menu);
-    temp_r5 = 2 & gPressedKeys;
-    if (temp_r5 != 0) {
+
+    if (2 & gPressedKeys) {
         m4aSongNumStart(0x6BU);
         menu->unk12 = 0;
         menu->unk6E = 1;
         menu->unk6 = 2;
         menu->unkC = 0;
         menu->unkD = 0xB;
-        var_r0 = Task_3F0_8088B48;
-        goto block_22;
-    }
-    if (0xC0 & gRepeatedKeys) {
-        m4aSongNumStart(0x6CU);
-        if (menu->unkC == 1) {
-            menu->unkC = (u8) temp_r5;
-        } else {
-            menu->unkC = 1;
-        }
-        temp_r1 = menu->highlitButton;
-        switch (temp_r1) {                          /* irregular */
-        case 0:
-            menu->unkB = menu->unkC + 1;
-            break;
-        case 1:
-            temp_r1_2 = menu->unkC;
-            menu->unkB = temp_r1_2 + 2;
-            menu->unkD = temp_r1_2;
-            break;
-        case 2:
-            temp_r2 = menu->unkC;
-            menu->unkB = temp_r2 + 2;
-            if (!(temp_r1 & LOADED_SAVE->unlockFlags)) {
-                menu->unkD = temp_r2;
+        gCurTask->main = Task_3F0_8088B48;
+    } else {
+        if (0xC0 & gRepeatedKeys) {
+            m4aSongNumStart(0x6CU);
+            if (menu->unkC == 1) {
+                menu->unkC = 0;
+            } else {
+                menu->unkC = 1;
             }
-            break;
-        }
-        menu->unk68 = 0x100;
-        menu->unk6A = 0x100;
-        menu->tf324.qScaleX = 0x100;
-        menu->tf324.qScaleY = 0x100;
-        menu->unk2 = 0;
-        menu->unk4 = 0x40;
-    }
-    sub_80890F8(menu);
-    if (1 & gPressedKeys) {
-        temp_r1_3 = menu->highlitButton;
-        if (temp_r1_3 == 2) {
-            if (!(temp_r1_3 & LOADED_SAVE->unlockFlags) && (menu->unkC == 1)) {
-                m4aSongNumStart(0x69U);
-                return;
+        
+            if (menu->highlitButton == 0) {
+                menu->unkB = menu->unkC + 1;
+            } else if(menu->highlitButton == 1) {
+                menu->unkB = menu->unkC + 2;
+                menu->unkD = menu->unkC;
+            } else if(menu->highlitButton == 2) {
+                menu->unkB = menu->unkC + 2;
+                if (!(2 & LOADED_SAVE->unlockFlags)) {
+                    menu->unkD = menu->unkC;
+                }
             }
-            m4aSongNumStart(0x6AU);
-            menu->unk6E = 1;
-            goto block_21;
-        }
-        m4aSongNumStart(0x6AU);
-        menu->unk6E = 1;
-block_21:
-        var_r0 = Task_3F0_808A144;
-block_22:
-        gCurTask->main = var_r0;
+            menu->unk68 = 0x100;
+            menu->unk6A = 0x100;
+            menu->tf324.qScaleX = 0x100;
+            menu->tf324.qScaleY = 0x100;
+            menu->unk2 = 0;
+            menu->unk4 = 0x40;
+        } 
+        
+        sub_80890F8(menu);
+        if (1 & gPressedKeys) {
+            if (menu->highlitButton == 2) {
+                if (!(2 & LOADED_SAVE->unlockFlags) && (menu->unkC == 1)) {
+                    m4aSongNumStart(0x69U);
+                    return;
+                }
+                m4aSongNumStart(0x6AU);
+                menu->unk6E = 1;
+            } else {
+                m4aSongNumStart(0x6AU);
+                menu->unk6E = 1;
+            }
+            gCurTask->main = Task_3F0_808A144;
+        }    
     }
 }
 
-void Task_3F0_8088B48(MainMenu *menu) {
+void Task_3F0_8088B48(void) {
+    MainMenu *menu = TASK_DATA(gCurTask);
     sub_80890F8(menu);
     sub_8088FD4(menu);
     sub_8089EF8(menu);
@@ -1293,26 +1306,12 @@ void Task_3F0_8088B48(MainMenu *menu) {
     }
 }
 
-void Task_3F0_8088BD0(MainMenu *menu) {
-    ? *sp0;
-    ? *var_r2;
-    ? *var_r2_2;
-    ? *var_r2_3;
-    ? *var_r2_4;
-    ? *var_r2_5;
-    Sprite *temp_r1;
-    Sprite *temp_r1_2;
-    Sprite *temp_r1_3;
-    Sprite *temp_r1_4;
-    Sprite *temp_r1_5;
+void Task_3F0_8088BD0(void) {
+    MainMenu *menu = TASK_DATA(gCurTask);
+    Sprite *s;
     u8 *var_r6;
-    u8 var_r5;
-    u8 var_r5_2;
-    u8 var_r5_3;
-    u8 var_r5_4;
-    u8 var_r5_5;
+    u8 i = 0;
 
-    var_r5 = 0;
     sub_8088FD4(menu);
     sub_8089EF8(menu);
     sub_8089150(menu);
@@ -1320,127 +1319,121 @@ void Task_3F0_8088BD0(MainMenu *menu) {
     sub_8089F40(menu);
     sub_8089F08(menu);
     sub_8089704(menu);
+
     var_r6 = menu->spr7C[0].tiles;
-    var_r2 = &gUnknown_080D6114;
-    do {
-        temp_r1 = &menu->spr7C[var_r5];
-        temp_r1->tiles = var_r6;
+
+    for(i = 0; i < 2; i++)
+    {
+        s = &menu->spr7C[i];
+        s->tiles = var_r6;
         var_r6 += 0x800;
-        temp_r1->anim = *(((var_r5 + (menu->language * 2)) * 8) + var_r2);
-        temp_r1->variant = (((var_r5 + (menu->language * 2)) * 8) + var_r2)->unk2;
-        temp_r1->prevVariant = -1;
-        temp_r1->x = (s16) ((s32) menu->unk18 >> 8);
-        temp_r1->y = (s16) ((s32) menu->unk1C >> 8);
-        temp_r1->oamFlags = 0;
-        temp_r1->animCursor = 0;
-        temp_r1->qAnimDelay = 0;
-        temp_r1->animSpeed = 0x10;
-        temp_r1->palId = 0;
-        temp_r1->frameFlags = 0x20;
-        sp0 = var_r2;
-        UpdateSpriteAnimation(temp_r1);
-        var_r5 += 1;
-    } while ((u32) var_r5 <= 1U);
-    var_r5_2 = 0;
-    var_r2_2 = &gUnknown_080D6174;
-    do {
-        temp_r1_2 = &menu->sprCC[var_r5_2];
-        temp_r1_2->tiles = var_r6;
+        s->anim    = gUnknown_080D6114[i + (menu->language * 2)].anim;
+        s->variant = gUnknown_080D6114[i + (menu->language * 2)].variant;
+        s->prevVariant = -1;
+        s->x = (s16) ((s32) menu->unk18[0].x >> 8);
+        s->y = (s16) ((s32) menu->unk18[0].y >> 8);
+        s->oamFlags = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0x20;
+        UpdateSpriteAnimation(s);
+    }
+
+    for(i = 0; i < 2; i++)
+    {
+        s = &menu->sprCC[i];
+        s->tiles = var_r6;
         var_r6 += 0x800;
-        temp_r1_2->anim = *(((var_r5_2 + (menu->language * 2)) * 8) + var_r2_2);
-        temp_r1_2->variant = (((var_r5_2 + (menu->language * 2)) * 8) + var_r2_2)->unk2;
-        temp_r1_2->prevVariant = -1;
-        temp_r1_2->x = (s16) ((s32) menu->unk20 >> 8);
-        temp_r1_2->y = (s16) ((s32) menu->unk24 >> 8);
-        temp_r1_2->oamFlags = 0x40;
-        temp_r1_2->animCursor = 0;
-        temp_r1_2->qAnimDelay = 0;
-        temp_r1_2->animSpeed = 0x10;
-        temp_r1_2->palId = 0;
-        temp_r1_2->frameFlags = 0;
-        sp0 = var_r2_2;
-        UpdateSpriteAnimation(temp_r1_2);
-        var_r5_2 += 1;
-    } while ((u32) var_r5_2 <= 1U);
-    var_r5_3 = 0;
-    var_r2_3 = &gUnknown_080D61D4;
-    do {
-        temp_r1_3 = &menu->spr11C[var_r5_3];
-        temp_r1_3->tiles = var_r6;
+        s->anim    = gUnknown_080D6174[i + (menu->language * 2)].anim;
+        s->variant = gUnknown_080D6174[i + (menu->language * 2)].variant;
+        s->prevVariant = -1;
+        s->x = (s16) ((s32) menu->unk18[1].x >> 8);
+        s->y = (s16) ((s32) menu->unk18[1].y >> 8);
+        s->oamFlags = 0x40;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+    
+    for(i = 0; i < 2; i++) {
+        s = &menu->spr11C[i];
+        s->tiles = var_r6;
         var_r6 += 0x800;
-        temp_r1_3->anim = *(((var_r5_3 + (menu->language * 2)) * 8) + var_r2_3);
-        temp_r1_3->variant = (((var_r5_3 + (menu->language * 2)) * 8) + var_r2_3)->unk2;
-        temp_r1_3->prevVariant = -1;
-        temp_r1_3->x = (s16) ((s32) menu->unk28 >> 8);
-        temp_r1_3->y = (s16) ((s32) menu->unk2C >> 8);
-        temp_r1_3->oamFlags = 0x80;
-        temp_r1_3->animCursor = 0;
-        temp_r1_3->qAnimDelay = 0;
-        temp_r1_3->animSpeed = 0x10;
-        temp_r1_3->palId = 0;
-        temp_r1_3->frameFlags = 0;
-        sp0 = var_r2_3;
-        UpdateSpriteAnimation(temp_r1_3);
-        var_r5_3 += 1;
-    } while ((u32) var_r5_3 <= 1U);
-    var_r5_4 = 0;
-    var_r2_4 = &gUnknown_080D6234;
-    do {
-        temp_r1_4 = &menu->spr16C[var_r5_4];
-        temp_r1_4->tiles = var_r6;
+        s->anim    = gUnknown_080D61D4[i + (menu->language * 2)].anim;
+        s->variant = gUnknown_080D61D4[i + (menu->language * 2)].variant;
+        s->prevVariant = -1;
+        s->x = (s16) ((s32) menu->unk18[2].x >> 8);
+        s->y = (s16) ((s32) menu->unk18[2].y >> 8);
+        s->oamFlags = 0x80;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    
+    for(i = 0; i < 2; i++)
+    {
+        s = &menu->spr16C[i];
+        s->tiles = var_r6;
         var_r6 += 0x800;
-        temp_r1_4->anim = *(((var_r5_4 + (menu->language * 2)) * 8) + var_r2_4);
-        temp_r1_4->variant = (((var_r5_4 + (menu->language * 2)) * 8) + var_r2_4)->unk2;
-        temp_r1_4->prevVariant = -1;
-        temp_r1_4->x = (s16) ((s32) menu->unk30 >> 8);
-        temp_r1_4->y = (s16) ((s32) menu->unk34 >> 8);
-        temp_r1_4->oamFlags = 0xC0;
-        temp_r1_4->animCursor = 0;
-        temp_r1_4->qAnimDelay = 0;
-        temp_r1_4->animSpeed = 0x10;
-        temp_r1_4->palId = 0;
-        temp_r1_4->frameFlags = 0;
-        sp0 = var_r2_4;
-        UpdateSpriteAnimation(temp_r1_4);
-        var_r5_4 += 1;
-    } while ((u32) var_r5_4 <= 1U);
-    var_r5_5 = 0;
-    var_r2_5 = &gUnknown_080D6354;
-    do {
-        temp_r1_5 = &menu->spr25C[var_r5_5];
-        temp_r1_5->tiles = var_r6;
+        s->anim    = gUnknown_080D6234[i + (menu->language * 2)].anim;
+        s->variant = gUnknown_080D6234[i + (menu->language * 2)].variant;
+        s->prevVariant = -1;
+        s->x = (s16) ((s32) menu->unk18[3].x >> 8);
+        s->y = (s16) ((s32) menu->unk18[3].y >> 8);
+        s->oamFlags = 0xC0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    
+    for(i = 0; i < 2; i++)
+    {
+        s = &menu->spr25C[i];
+        s->tiles = var_r6;
         var_r6 += 0x800;
-        temp_r1_5->anim = *(((var_r5_5 + (menu->language * 2)) * 8) + var_r2_5);
-        temp_r1_5->variant = (((var_r5_5 + (menu->language * 2)) * 8) + var_r2_5)->unk2;
-        temp_r1_5->prevVariant = -1;
-        temp_r1_5->x = (s16) ((s32) menu->unk48 >> 8);
-        temp_r1_5->y = (s16) ((s32) menu->unk4C >> 8);
-        temp_r1_5->oamFlags = 0xC0;
-        temp_r1_5->animCursor = 0;
-        temp_r1_5->qAnimDelay = 0;
-        temp_r1_5->animSpeed = 0x10;
-        temp_r1_5->palId = 0;
-        temp_r1_5->frameFlags = 0;
-        sp0 = var_r2_5;
-        UpdateSpriteAnimation(temp_r1_5);
-        var_r5_5 += 1;
-    } while ((u32) var_r5_5 <= 1U);
+        s->anim    = gUnknown_080D6354[i + (menu->language * 2)].anim;
+        s->variant = gUnknown_080D6354[i + (menu->language * 2)].variant;
+        s->prevVariant = -1;
+        s->x = (s16) ((s32) menu->unk48 >> 8);
+        s->y = (s16) ((s32) menu->unk4C >> 8);
+        s->oamFlags = 0xC0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
     gCurTask->main = Task_3F0_808A060;
 }
 
-void Task_3F0_8088E74(MainMenu *menu) {
-    ? *sp0;
-    ? *var_r2;
-    ? *var_r2_2;
-    Sprite *temp_r1;
-    Sprite *temp_r1_2;
-    u8 *var_r5;
+void Task_3F0_8088E74(void) {
+    MainMenu *menu = TASK_DATA(gCurTask);
+    Sprite *s;
+#ifndef NON_MATCHING
+    register u8 *vram asm("r5");
+#else
+    u8 *vram;
+#endif
     u8 var_r6;
-    u8 var_r6_2;
 
     var_r6 = 0;
-    menu->unk3C = (s32) (menu->unk1C + 0x1A00);
-    menu->unk44 = (s32) (menu->unk2C + 0x600);
+    menu->unk38[0].y = (s32) (menu->unk18[0].y + 0x1A00);
+    menu->unk38[1].y = (s32) (menu->unk18[2].y + 0x600);
     sub_8088FD4(menu);
     sub_8089EF8(menu);
     sub_8089150(menu);
@@ -1448,48 +1441,45 @@ void Task_3F0_8088E74(MainMenu *menu) {
     sub_8089F40(menu);
     sub_8089F08(menu);
     sub_8089704(menu);
-    var_r5 = menu->spr7C[0].tiles;
-    var_r2 = &gUnknown_080D6294;
-    do {
-        temp_r1 = &menu->spr1BC[var_r6];
-        temp_r1->tiles = var_r5;
-        var_r5 += 0x800;
-        temp_r1->anim = *(((var_r6 + (menu->language * 2)) * 8) + var_r2);
-        temp_r1->variant = (((var_r6 + (menu->language * 2)) * 8) + var_r2)->unk2;
-        temp_r1->prevVariant = -1;
-        temp_r1->x = (s16) ((s32) menu->unk38 >> 8);
-        temp_r1->y = (s16) ((s32) menu->unk3C >> 8);
-        temp_r1->oamFlags = 0xC0;
-        temp_r1->animCursor = 0;
-        temp_r1->qAnimDelay = 0;
-        temp_r1->animSpeed = 0x10;
-        temp_r1->palId = 0;
-        temp_r1->frameFlags = 0;
-        sp0 = var_r2;
-        UpdateSpriteAnimation(temp_r1);
-        var_r6 += 1;
-    } while ((u32) var_r6 <= 1U);
-    var_r6_2 = 0;
-    var_r2_2 = &gUnknown_080D62F4;
-    do {
-        temp_r1_2 = &menu->spr20C[var_r6_2];
-        temp_r1_2->tiles = var_r5;
-        var_r5 += 0x800;
-        temp_r1_2->anim = *(((var_r6_2 + (menu->language * 2)) * 8) + var_r2_2);
-        temp_r1_2->variant = (((var_r6_2 + (menu->language * 2)) * 8) + var_r2_2)->unk2;
-        temp_r1_2->prevVariant = -1;
-        temp_r1_2->x = (s16) ((s32) menu->unk40 >> 8);
-        temp_r1_2->y = (s16) ((s32) menu->unk44 >> 8);
-        temp_r1_2->oamFlags = 0xC0;
-        temp_r1_2->animCursor = 0;
-        temp_r1_2->qAnimDelay = 0;
-        temp_r1_2->animSpeed = 0x10;
-        temp_r1_2->palId = 0;
-        temp_r1_2->frameFlags = 0;
-        sp0 = var_r2_2;
-        UpdateSpriteAnimation(temp_r1_2);
-        var_r6_2 += 1;
-    } while ((u32) var_r6_2 <= 1U);
+    vram = menu->spr7C[0].tiles;
+
+    for(var_r6 = 0; var_r6 < 2; var_r6++)
+    {
+        s = &menu->spr1BC[var_r6];
+        s->tiles = vram;
+        vram += 0x800;
+        s->anim = gUnknown_080D6294[var_r6 + (menu->language * 2)].anim;
+        s->variant = gUnknown_080D6294[var_r6 + (menu->language * 2)].variant;
+        s->prevVariant = -1;
+        s->x = (s16) ((s32) menu->unk38[0].x >> 8);
+        s->y = (s16) ((s32) menu->unk38[0].y >> 8);
+        s->oamFlags = 0xC0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    for(var_r6 = 0; var_r6 < 2; var_r6++)
+    {
+        s = &menu->spr20C[var_r6];
+        s->tiles = vram;
+        vram += 0x800;
+        s->anim = gUnknown_080D62F4[var_r6 + (menu->language * 2)].anim;
+        s->variant = gUnknown_080D62F4[var_r6 + (menu->language * 2)].variant;
+        s->prevVariant = -1;
+        s->x = (s16) ((s32) menu->unk38[1].x >> 8);
+        s->y = (s16) ((s32) menu->unk38[1].y >> 8);
+        s->oamFlags = 0xC0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
     menu->unkB = 1;
     gCurTask->main = Task_3F0_808A0D8;
 }
@@ -1501,18 +1491,14 @@ void sub_8088FD4(MainMenu *menu) {
     u16 temp_r0_2;
 
     if (menu->unk3 == 0) {
-        var_r1 = &menu->unk72;
-        var_r2 = 0xFFFFFC00;
+        menu->unk72 -= Q(4);
     } else {
-        var_r1 = &menu->unk72;
-        var_r2 = 0xFFFFFF00;
+        menu->unk72 -= Q(1);
     }
-    *var_r1 += var_r2;
-    temp_r0 = menu->unk74;
-    if ((u32) temp_r0 > 0x180U) {
-        temp_r0_2 = temp_r0 - 0x20;
-        menu->unk74 = temp_r0_2;
-        if ((u32) temp_r0_2 <= 0x180U) {
+
+    if ((u32) menu->unk74 > 0x180U) {
+        menu->unk74 -= 0x20;
+        if (menu->unk74 <= 0x180U) {
             menu->unk3 = 1;
         }
     } else {
@@ -1520,17 +1506,18 @@ void sub_8088FD4(MainMenu *menu) {
     }
 }
 
-s32 sub_8089028(MainMenu *menu) {
+u8 sub_8089028(MainMenu *menu) {
     u16 temp_r2;
     u16 var_r0;
     u16 var_r3;
     u16 var_r5;
-    void *var_r1;
+    u16 *var_r1;
+    s32 offset = 10;
 
     var_r3 = 0;
     var_r5 = 0;
     gFlags |= 4;
-    gHBlankCopyTarget = (void *)0x04000010;
+    gHBlankCopyTarget = (void *)&REG_BG0HOFS;
     gHBlankCopySize = 2;
     var_r1 = gBgOffsetsHBlankPrimary;
     temp_r2 = menu->unk12;
@@ -1541,17 +1528,19 @@ s32 sub_8089028(MainMenu *menu) {
             } else {
                 *var_r1 = temp_r2;
             }
-            var_r1 += 2;
+            var_r1 += 1;
             if ((7 & var_r3) == 7) {
                 var_r5 += 1;
             }
             var_r3 += 1;
-        } while ((u32) var_r3 <= 0x9FU);
+        } while ((u32) var_r3 < DISPLAY_HEIGHT);
         if ((s32) (s16) menu->unk12 < 0) {
-            var_r0 = menu->unk12 + 0xA;
-            goto block_20;
+            menu->unk12 += offset;
+            return 0;
+        } else {
+            // TODO: Remove goto!
+            goto block_18;            
         }
-        goto block_18;
     }
     do {
         if (var_r5 & 1) {
@@ -1559,34 +1548,27 @@ s32 sub_8089028(MainMenu *menu) {
         } else {
             *var_r1 = temp_r2;
         }
-        var_r1 += 2;
+        var_r1 += 1;
         if ((7 & var_r3) == 7) {
             var_r5 += 1;
         }
         var_r3 += 1;
-    } while ((u32) var_r3 <= 0x9FU);
-    if ((s32) (s16) menu->unk12 <= 0xFFFFFEFC) {
+    } while ((u32) var_r3 < 160);
+    if ((s32) (s16) menu->unk12 <= -260) {
 block_18:
         return 1;
     }
-    var_r0 = menu->unk12 - 0xA;
-block_20:
-    menu->unk12 = var_r0;
+    menu->unk12 -= offset;
     return 0;
 }
 
 void sub_80890F8(MainMenu *menu) {
-    s16 temp_r0_2;
     s32 temp_r0;
-    s32 temp_r0_3;
 
     menu->unk4 += 2;
-    temp_r0 = (s32) (*((menu->unk4 * 8) + gSineTable) << 0x10) >> 0x16;
-    temp_r0_2 = temp_r0 + (temp_r0 >> 1);
-    menu->unk68 = temp_r0_2;
-    if ((temp_r0_2 == 0) || (temp_r0_2 == 0xFF)) {
-        temp_r0_3 = (s32) (*(((u8) (menu->unk4 + 3) * 8) + gSineTable) << 0x10) >> 0x16;
-        menu->unk68 = (s16) (temp_r0_3 + (temp_r0_3 >> 1));
+    menu->unk68 = SIN_24_8(menu->unk4 * 4) + (SIN_24_8(menu->unk4 * 4) >> 1);
+    if ((menu->unk68 == 0) || (menu->unk68 == 0xFF)) {
+        menu->unk68 = SIN_24_8(((menu->unk4+3) & 0xFF) * 4) + (SIN_24_8(((menu->unk4+3) & 0xFF) * 4) >> 1);
     }
     menu->unk6A = 0x180;
 }
@@ -1604,132 +1586,112 @@ void sub_8089150(MainMenu *menu) {
         temp_r1_2 = temp_r1 + 0x400;
         menu->unk58 = temp_r1_2;
         if (temp_r1_2 > 0x4FFF) {
-            goto block_8;
+            menu->unk6 = 2;
         }
     } else {
-        temp_r1_3 = menu->unk58;
-        temp_r3 = menu->unk6;
-        if ((temp_r1_3 > 0x4FFF) && (temp_r3 == 1)) {
-            temp_r0 = temp_r1_3 + 0xFFFFFD00;
+        if ((menu->unk58 > 0x4FFF) && (menu->unk6 == 1)) {
+            temp_r0 = menu->unk58 - Q(3);
             menu->unk58 = temp_r0;
             if (temp_r0 <= 0x5000) {
                 menu->unk58 = 0x5000;
-block_8:
                 menu->unk6 = 2;
             }
-        } else if (temp_r3 == 3) {
-            menu->unk58 = (s32) (temp_r1_3 + 0xFFFFFC00);
+        } else if (menu->unk6 == 3) {
+            menu->unk58 = (s32) (menu->unk58 - Q(4));
         }
     }
-    menu->unk5C = (s32) ((((s32) (*((menu->unk5 * 8) + 0x200 + gSineTable) << 0x10) >> 0x16) * 4) + 0x5600);
+    menu->unk5C = (( COS_24_8(menu->unk5 * 4) * 4) + Q(86));
 }
 
 void sub_80891E4(MainMenu *menu) {
     s32 var_r0;
     s32 var_r1;
-    u8 temp_r0;
 
     menu->unk5 += 3;
-    temp_r0 = menu->unk6;
-    switch (temp_r0) {                              /* irregular */
-    case 0:
-        menu->unk60 = (s32) (menu->unk58 + 0xFFFFFD00);
-        var_r0 = menu->unk5C + 0xFFFFCA00;
-block_8:
-        menu->unk64 = var_r0;
-        break;
-    case 2:
-        menu->unk60 = (s32) (menu->unk58 - (*((menu->unkB * 4) + &gUnknown_080D6770) << 8));
-        var_r1 = *((menu->unkB * 4) + (&gUnknown_080D6770 + 2)) << 8;
-block_7:
-        var_r0 = menu->unk5C + var_r1;
-        goto block_8;
-    case 1:
-    case 3:
-        menu->unk60 = (s32) (menu->unk58 + 0x300);
-        var_r1 = 0xFFFFCA00;
-        goto block_7;
+    if (menu->unk6 == 0) {
+        menu->unk60 = (s32) (menu->unk58 -Q(3));
+        menu->unk64 = menu->unk5C - Q(54);
+    } else if(menu->unk6 == 1) {
+        menu->unk60 = menu->unk58 + Q(3);
+        menu->unk64 = menu->unk5C - Q(54);
+    } else if(menu->unk6 == 2) {
+        menu->unk60 = menu->unk58 - Q(gUnknown_080D6770[menu->unkB][0]);
+        menu->unk64 = menu->unk5C + Q(gUnknown_080D6770[menu->unkB][1]);
+    } else if(menu->unk6 == 3) {
+        menu->unk60 = menu->unk58 + Q(3);
+        menu->unk64 = menu->unk5C - Q(54);
     }
-    menu->unk64 = (s32) (menu->unk64 + (((s32) (*((menu->unk5 * 8) + gSineTable) << 0x10) >> 0x16) * 2));
+    menu->unk64 += SIN_24_8(menu->unk5 * 4) * 2;
 }
 
-s16 sub_808927C(MainMenu *menu) {
+bool32 sub_808927C(MainMenu *menu) {
     s16 temp_r0;
     u16 temp_r0_2;
     u16 temp_r1;
     u16 temp_r5;
 
     if ((0x7F & LOADED_SAVE->collectedEmeralds) == 0x7F) {
-        temp_r5 = menu->unk14;
-        temp_r0 = (s16) menu->unk14;
-        if ((s32) temp_r0 <= 9) {
-            temp_r1 = (&gUnknown_080D66CC)[temp_r0 + 1] & gPressedKeys;
-            if (temp_r1 != 0) {
-                temp_r0_2 = temp_r5 + 1;
-                menu->unk14 = temp_r0_2;
-                if ((s16) temp_r0_2 == 5) {
+        if (menu->unk14 <= 9) {
+            if (gPressedKeys & gUnknown_080D66CC[menu->unk14 + 1]) {
+                if (++menu->unk14 == 5) {
                     m4aSongNumStart(0x6CU);
                     menu->unk14 = 0xAU;
-                    goto block_5;
+                    return 1;
                 }
-                goto block_12;
-            }
-            if (gUnknown_080D66CC & gPressedKeys) {
-                menu->unk14 = temp_r1;
+            } else if (gPressedKeys & gUnknown_080D66CC[0]) {
+                menu->unk14 = 0;
             } else {
-                if ((gPressedKeys << 0x10) != 0) {
-                    menu->unk14 = (u16) (0xFFFF | temp_r5);
+                if (gPressedKeys) {
+                    menu->unk14 = -1;
                 }
-                if (gUnknown_080D66CC & gPressedKeys) {
-                    menu->unk14 = 1U;
+                if (gPressedKeys & gUnknown_080D66CC[0]) {
+                    menu->unk14 = +1;
                 }
             }
-            goto block_12;
+        } else {
+            return 1;
         }
-block_5:
-        return 1;
     }
-block_12:
     return 0;
 }
 
 void sub_8089308(MainMenu *menu) {
     Sprite *temp_r4;
+    SpriteTransform *tf = &menu->tf324;
     u8 var_r0;
     u8 var_r7;
 
-    var_r7 = 0;
-    do {
+    for(var_r7 = 0; var_r7 < 2; var_r7++)
+    {
         temp_r4 = &menu->spr7C[var_r7];
         if (menu->highlitButton == 0) {
             if ((s32) menu->unk68 <= 0) {
-                var_r0 = 3;
+                temp_r4->palId = 3;
             } else {
-                var_r0 = 1;
+                temp_r4->palId = 1;
             }
         } else {
-            var_r0 = 0;
+            temp_r4->palId = 0;
         }
-        temp_r4->palId = var_r0;
-        temp_r4->x = (s16) ((s32) menu->unk18 >> 8);
-        temp_r4->y = (s16) ((s32) menu->unk1C >> 8);
+        temp_r4->x = (s16) ((s32) menu->unk18[0].x >> 8);
+        temp_r4->y = (s16) ((s32) menu->unk18[0].y >> 8);
         if (menu->highlitButton == 0) {
             temp_r4->frameFlags |= 0x61;
-            menu->tf324.rotation = 0;
-            menu->tf324.qScaleX = (s16) (u16) menu->unk68;
-            menu->tf324.qScaleY = (s16) menu->unk6A;
-            menu->tf324.x = (s16) (u16) temp_r4->x;
-            menu->tf324.y = (s16) (u16) temp_r4->y;
-            TransformSprite(temp_r4, &menu->tf324);
+            tf->rotation = 0;
+            tf->qScaleX = menu->unk68;
+            tf->qScaleY = menu->unk6A;
+            tf->x       = temp_r4->x;
+            tf->y       = temp_r4->y;
+            TransformSprite(temp_r4, tf);
         } else {
             temp_r4->frameFlags = 0;
         }
         DisplaySprite(temp_r4);
-        var_r7 += 1;
-    } while ((u32) var_r7 <= 1U);
+    }
 }
 
 void sub_8089398(MainMenu *menu) {
+    SpriteTransform *tf = &menu->tf324;
     Sprite *temp_r4;
     s16 temp_r1;
     u8 var_r0;
@@ -1738,28 +1700,25 @@ void sub_8089398(MainMenu *menu) {
     var_r7 = 0;
     do {
         temp_r4 = &menu->sprCC[var_r7];
-        temp_r1 = menu->highlitButton;
-        if (temp_r1 == 1) {
+        if (menu->highlitButton == 1) {
             if ((s32) menu->unk68 <= 0) {
-                var_r0 = 3;
-                goto block_6;
+                temp_r4->palId = 3;
+            } else {
+                temp_r4->palId = 1;                
             }
-            temp_r4->palId = (u8) temp_r1;
         } else {
-            var_r0 = 0;
-block_6:
-            temp_r4->palId = var_r0;
+            temp_r4->palId = 0;
         }
-        temp_r4->x = (s16) ((s32) menu->unk20 >> 8);
-        temp_r4->y = (s16) ((s32) menu->unk24 >> 8);
+        temp_r4->x = (s16) ((s32) menu->unk18[1].x >> 8);
+        temp_r4->y = (s16) ((s32) menu->unk18[1].y >> 8);
         if (menu->highlitButton == 1) {
             temp_r4->frameFlags |= 0x61;
-            menu->tf324.rotation = 0;
-            menu->tf324.qScaleX = (s16) (u16) menu->unk68;
-            menu->tf324.qScaleY = (s16) menu->unk6A;
-            menu->tf324.x = (s16) (u16) temp_r4->x;
-            menu->tf324.y = (s16) (u16) temp_r4->y;
-            TransformSprite(temp_r4, &menu->tf324);
+            tf->rotation = 0;
+            tf->qScaleX = menu->unk68;
+            tf->qScaleY = menu->unk6A;
+            tf->x       = temp_r4->x;
+            tf->y       = temp_r4->y;
+            TransformSprite(temp_r4, tf);
         } else {
             temp_r4->frameFlags = 0;
         }
@@ -1769,42 +1728,42 @@ block_6:
 }
 
 void sub_8089428(MainMenu *menu) {
+    SpriteTransform *tf = &menu->tf324;
     Sprite *temp_r4;
     u8 var_r0;
     u8 var_r7;
 
-    var_r7 = 0;
-    do {
+    for(var_r7 = 0; var_r7 < 2; var_r7++)
+    {
         temp_r4 = &menu->spr11C[var_r7];
         if (menu->highlitButton == 2) {
             if ((s32) menu->unk68 <= 0) {
-                var_r0 = 3;
+                temp_r4->palId = 3;
             } else {
-                var_r0 = 1;
+                temp_r4->palId = 1;
             }
         } else {
-            var_r0 = 0;
+            temp_r4->palId = 0;
         }
-        temp_r4->palId = var_r0;
-        temp_r4->x = (s16) ((s32) menu->unk28 >> 8);
-        temp_r4->y = (s16) ((s32) menu->unk2C >> 8);
+        temp_r4->x = (s16) ((s32) menu->unk18[2].x >> 8);
+        temp_r4->y = (s16) ((s32) menu->unk18[2].y >> 8);
         if (menu->highlitButton == 2) {
             temp_r4->frameFlags |= 0x61;
-            menu->tf324.rotation = 0;
-            menu->tf324.qScaleX = (s16) (u16) menu->unk68;
-            menu->tf324.qScaleY = (s16) menu->unk6A;
-            menu->tf324.x = (s16) (u16) temp_r4->x;
-            menu->tf324.y = (s16) (u16) temp_r4->y;
-            TransformSprite(temp_r4, &menu->tf324);
+            tf->rotation = 0;
+            tf->qScaleX = menu->unk68;
+            tf->qScaleY = menu->unk6A;
+            tf->x       = temp_r4->x;
+            tf->y       = temp_r4->y;
+            TransformSprite(temp_r4, tf);
         } else {
             temp_r4->frameFlags = 0;
         }
         DisplaySprite(temp_r4);
-        var_r7 += 1;
-    } while ((u32) var_r7 <= 1U);
+    }
 }
 
 void sub_80894BC(MainMenu *menu) {
+    SpriteTransform *tf = &menu->tf324;
     Sprite *temp_r4;
     s16 temp_r1;
     u8 var_r0;
@@ -1816,26 +1775,23 @@ void sub_80894BC(MainMenu *menu) {
         temp_r1 = menu->highlitButton;
         if (temp_r1 == 3) {
             if ((s32) menu->unk68 <= 0) {
-                temp_r4->palId = (u8) temp_r1;
+                temp_r4->palId = 3;
             } else {
-                var_r0 = 1;
-                goto block_6;
+                temp_r4->palId = 1;
             }
         } else {
-            var_r0 = 0;
-block_6:
-            temp_r4->palId = var_r0;
+            temp_r4->palId = 0;
         }
-        temp_r4->x = (s16) ((s32) menu->unk30 >> 8);
-        temp_r4->y = (s16) ((s32) menu->unk34 >> 8);
+        temp_r4->x = (s16) ((s32) menu->unk18[3].x >> 8);
+        temp_r4->y = (s16) ((s32) menu->unk18[3].y >> 8);
         if (menu->highlitButton == 3) {
             temp_r4->frameFlags |= 0x61;
-            menu->tf324.rotation = 0;
-            menu->tf324.qScaleX = (s16) (u16) menu->unk68;
-            menu->tf324.qScaleY = (s16) menu->unk6A;
-            menu->tf324.x = (s16) (u16) temp_r4->x;
-            menu->tf324.y = (s16) (u16) temp_r4->y;
-            TransformSprite(temp_r4, &menu->tf324);
+            tf->rotation = 0;
+            tf->qScaleX = menu->unk68;
+            tf->qScaleY = menu->unk6A;
+            tf->x       = temp_r4->x;
+            tf->y       = temp_r4->y;
+            TransformSprite(temp_r4, tf);
         } else {
             temp_r4->frameFlags = 0;
         }
@@ -1845,226 +1801,220 @@ block_6:
 }
 
 void sub_8089550(MainMenu *menu) {
-    Sprite *temp_r4;
+    SpriteTransform *tf = &menu->tf324;
+    Sprite *s;
     u8 var_r0;
     u8 var_r7;
 
-    var_r7 = 0;
-    do {
-        temp_r4 = &menu->spr1BC[var_r7];
+    for(var_r7 = 0; var_r7 < 2; var_r7++)
+    {
+        s = &menu->spr1BC[var_r7];
         if (menu->unkC == 0) {
             if ((s32) menu->unk68 <= 0) {
-                var_r0 = 3;
+                s->palId = 3;
             } else {
-                var_r0 = 1;
+                s->palId = 1;
             }
         } else {
-            var_r0 = 0;
+            s->palId = 0;
         }
-        temp_r4->palId = var_r0;
-        temp_r4->x = (s16) ((s32) menu->unk38 >> 8);
-        temp_r4->y = (s16) ((s32) menu->unk3C >> 8);
+        s->x = (s16) ((s32) menu->unk38[0].x >> 8);
+        s->y = (s16) ((s32) menu->unk38[0].y >> 8);
         if (menu->unkC == 0) {
-            temp_r4->frameFlags |= 0x61;
-            menu->tf324.rotation = 0;
-            menu->tf324.qScaleX = (s16) (u16) menu->unk68;
-            menu->tf324.qScaleY = (s16) menu->unk6A;
-            menu->tf324.x = (s16) (u16) temp_r4->x;
-            menu->tf324.y = (s16) (u16) temp_r4->y;
-            TransformSprite(temp_r4, &menu->tf324);
+            s->frameFlags |= 0x61;
+            tf->rotation = 0;
+            tf->qScaleX = menu->unk68;
+            tf->qScaleY = menu->unk6A;
+            tf->x       = s->x;
+            tf->y       = s->y;
+            TransformSprite(s, tf);
         } else {
-            temp_r4->frameFlags = 0;
+            s->frameFlags = 0;
         }
-        DisplaySprite(temp_r4);
-        var_r7 += 1;
-    } while ((u32) var_r7 <= 1U);
+        DisplaySprite(s);
+    }
 }
 
 void sub_80895E0(MainMenu *menu) {
-    Sprite *temp_r4;
+    SpriteTransform *tf = &menu->tf324;
+    Sprite *s;
     u8 temp_r1;
     u8 var_r0;
     u8 var_r7;
 
     var_r7 = 0;
     do {
-        temp_r4 = &menu->spr20C[var_r7];
+        s = &menu->spr20C[var_r7];
         temp_r1 = menu->unkC;
         if (temp_r1 == 1) {
             if ((s32) menu->unk68 <= 0) {
-                var_r0 = 3;
-                goto block_6;
+                s->palId = 3;
+            } else {
+                s->palId = 1;                
             }
-            temp_r4->palId = temp_r1;
         } else {
-            var_r0 = 0;
-block_6:
-            temp_r4->palId = var_r0;
+            s->palId = 0;
         }
-        temp_r4->x = (s16) ((s32) menu->unk40 >> 8);
-        temp_r4->y = (s16) ((s32) menu->unk44 >> 8);
+        s->x = (s16) ((s32) menu->unk38[1].x >> 8);
+        s->y = (s16) ((s32) menu->unk38[1].y >> 8);
         if (menu->unkC == 1) {
-            temp_r4->frameFlags |= 0x61;
-            menu->tf324.rotation = 0;
-            menu->tf324.qScaleX = (s16) (u16) menu->unk68;
-            menu->tf324.qScaleY = (s16) menu->unk6A;
-            menu->tf324.x = (s16) (u16) temp_r4->x;
-            menu->tf324.y = (s16) (u16) temp_r4->y;
-            TransformSprite(temp_r4, &menu->tf324);
+            s->frameFlags |= 0x61;
+            tf->rotation = 0;
+            tf->qScaleX = menu->unk68;
+            tf->qScaleY = menu->unk6A;
+            tf->x       = s->x;
+            tf->y       = s->y;
+            TransformSprite(s, tf);
         } else {
-            temp_r4->frameFlags = 0;
+            s->frameFlags = 0;
         }
-        DisplaySprite(temp_r4);
+        DisplaySprite(s);
         var_r7 += 1;
     } while ((u32) var_r7 <= 1U);
 }
 
 void sub_8089670(MainMenu *menu) {
-    Sprite *temp_r4;
+    SpriteTransform *tf = &menu->tf324;
+    Sprite *s;
     u8 var_r0;
     u8 var_r7;
 
     var_r7 = 0;
     do {
-        temp_r4 = &menu->spr25C[var_r7];
+        s = &menu->spr25C[var_r7];
         if ((s32) menu->highlitButton > 9) {
             if ((s32) menu->unk68 <= 0) {
-                var_r0 = 3;
+                s->palId = 3;
             } else {
-                var_r0 = 1;
+                s->palId = 1;
             }
         } else {
-            var_r0 = 0;
+            s->palId = 0;
         }
-        temp_r4->palId = var_r0;
-        temp_r4->x = (s16) ((s32) menu->unk48 >> 8);
-        temp_r4->y = (s16) ((s32) menu->unk4C >> 8);
+        s->x = (s16) ((s32) menu->unk48 >> 8);
+        s->y = (s16) ((s32) menu->unk4C >> 8);
         if ((s32) menu->highlitButton > 9) {
-            temp_r4->frameFlags |= 0x61;
-            menu->tf324.rotation = 0;
-            menu->tf324.qScaleX = (s16) (u16) menu->unk68;
-            menu->tf324.qScaleY = (s16) menu->unk6A;
-            menu->tf324.x = (s16) (u16) temp_r4->x;
-            menu->tf324.y = (s16) (u16) temp_r4->y;
-            TransformSprite(temp_r4, &menu->tf324);
+            s->frameFlags |= 0x61;
+            tf->rotation = 0;
+            tf->qScaleX = menu->unk68;
+            tf->qScaleY = menu->unk6A;
+            tf->x       = s->x;
+            tf->y       = s->y;
+            TransformSprite(s, tf);
         } else {
-            temp_r4->frameFlags = 0;
+            s->frameFlags = 0;
         }
-        DisplaySprite(temp_r4);
+        DisplaySprite(s);
         var_r7 += 1;
     } while ((u32) var_r7 <= 1U);
 }
 
 void sub_8089704(MainMenu *menu) {
-    Sprite *temp_r4;
+    Sprite *s = &menu->spr2D4;
     u32 var_r0;
     u32 var_r0_2;
     u8 temp_r0;
     u8 temp_r0_2;
 
-    menu->spr2D4.x = (s16) ((s32) menu->unk58 >> 8);
-    menu->spr2D4.y = (s16) ((s32) menu->unk5C >> 8);
+    s->x = (s16) ((s32) menu->unk58 >> 8);
+    s->y = (s16) ((s32) menu->unk5C >> 8);
     temp_r0 = menu->unk6;
     if ((temp_r0 == 1) || (temp_r0 == 3)) {
-        var_r0 = menu->spr2D4.frameFlags | 0x400;
+        s->frameFlags = s->frameFlags | 0x400;
     } else {
-        var_r0 = menu->spr2D4.frameFlags & 0xFFFFFBFF;
+        s->frameFlags = s->frameFlags & 0xFFFFFBFF;
     }
-    menu->spr2D4.frameFlags = var_r0;
-    DisplaySprite(&menu->spr2D4);
-    menu->spr2FC.x = (s16) ((s32) menu->unk60 >> 8);
-    menu->spr2FC.y = (s16) ((s32) menu->unk64 >> 8);
-    DisplaySprite(&menu->spr2FC);
-    temp_r4 = &menu->spr2AC;
-    menu->spr2AC.anim = *((menu->unkB * 8) + &gUnknown_080D6694);
-    menu->spr2AC.variant = ((menu->unkB * 8) + &gUnknown_080D6694)->unk2;
-    menu->spr2AC.prevVariant = -1;
-    menu->spr2AC.x = (s16) ((s32) menu->unk58 >> 8);
-    menu->spr2AC.y = (s16) ((s32) menu->unk5C >> 8);
+    DisplaySprite(s);
+    s = &menu->spr2FC;
+    s->x = (s16) ((s32) menu->unk60 >> 8);
+    s->y = (s16) ((s32) menu->unk64 >> 8);
+    DisplaySprite(s);
+    s = &menu->spr2AC;
+    s->anim = gUnknown_080D6694[menu->unkB].anim;
+    s->variant = gUnknown_080D6694[menu->unkB].variant;
+    s->prevVariant = 0xFF;
+    s->x = (s16) ((s32) menu->unk58 >> 8);
+    s->y = (s16) ((s32) menu->unk5C >> 8);
     temp_r0_2 = menu->unk6;
     if ((temp_r0_2 == 1) || (temp_r0_2 == 3)) {
-        var_r0_2 = menu->spr2AC.frameFlags | 0x400;
+        s->frameFlags = s->frameFlags | 0x400;
     } else {
-        var_r0_2 = menu->spr2AC.frameFlags & 0xFFFFFBFF;
+        s->frameFlags = s->frameFlags & 0xFFFFFBFF;
     }
-    menu->spr2AC.frameFlags = var_r0_2;
-    UpdateSpriteAnimation(temp_r4);
-    DisplaySprite(temp_r4);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
 
-void Task_3F0_80897BC(MainMenu *menu) {
-    ? *sp10;
-    ? *var_r2;
-    ? *var_r2_2;
+void Task_3F0_80897BC(void) {
+    MainMenu *menu = TASK_DATA(gCurTask);
+    TileInfo2 *sp10;
     Sprite *temp_r1;
-    Sprite *temp_r1_2;
+    TileInfo2 *var_r2;
+    TileInfo2 *var_r2_2;
     s16 temp_r2;
-    u8 *var_r7;
-    u8 var_r6;
+    u8 var_r6 = 0;
+    u8 *var_r7 = NULL;
     u8 var_r6_2;
 
-    var_r6 = 0;
-    menu->unk3C = 0x6400;
-    menu->unk44 = 0x8200;
+    menu->unk38[0].y = 0x6400;
+    menu->unk38[1].y = 0x8200;
     menu->unkD = 0;
     sub_8088FD4(menu);
     menu->unk50 = 0;
-    menu->unk54 = (s32) (menu->unk54 + 0x100);
+    menu->unk54 += 0x100;
     sub_8089150(menu);
     sub_80891E4(menu);
     gBgScrollRegs[1][0] = (s16) ((s32) menu->unk50 >> 8);
     gBgScrollRegs[1][1] = (s16) ((s32) menu->unk54 >> 8);
-    temp_r2 = (s16) menu->unk74;
-    sa2__sub_8003EE4((u16) ((u16) menu->unk72 >> 6), temp_r2, temp_r2, 0x40, 0x40, 0x48, 0x50, gBgAffineRegs);
+    sa2__sub_8003EE4((u16) ((u16) menu->unk72 >> 6), menu->unk74, menu->unk74, 0x40, 0x40, 0x48, 0x50, gBgAffineRegs);
     sub_8089704(menu);
+
     var_r7 = menu->spr7C[0].tiles;
-    var_r2 = &gUnknown_080D6594;
-    do {
+    for(var_r6 = 0; var_r6 < 2; var_r6++)
+    {
         temp_r1 = &menu->spr1BC[var_r6];
         temp_r1->tiles = var_r7;
         var_r7 += 0x800;
-        temp_r1->anim = *(((var_r6 + (menu->language * 2)) * 8) + var_r2);
-        temp_r1->variant = (((var_r6 + (menu->language * 2)) * 8) + var_r2)->unk2;
-        temp_r1->prevVariant = -1;
-        temp_r1->x = (s16) ((s32) menu->unk38 >> 8);
-        temp_r1->y = (s16) ((s32) menu->unk3C >> 8);
+        temp_r1->anim = gUnknown_080D6594[var_r6 + (menu->language * 2)].anim;
+        temp_r1->variant = gUnknown_080D6594[var_r6 + (menu->language * 2)].variant;
+        temp_r1->prevVariant = 0xFF;
+        temp_r1->x = (s16) ((s32) menu->unk38[0].x >> 8);
+        temp_r1->y = (s16) ((s32) menu->unk38[0].y >> 8);
         temp_r1->oamFlags = 0xC0;
         temp_r1->animCursor = 0;
         temp_r1->qAnimDelay = 0;
         temp_r1->animSpeed = 0x10;
         temp_r1->palId = 0;
         temp_r1->frameFlags = 0;
-        sp10 = var_r2;
         UpdateSpriteAnimation(temp_r1);
-        var_r6 += 1;
-    } while ((u32) var_r6 <= 1U);
-    var_r6_2 = 0;
-    var_r2_2 = &gUnknown_080D65F4;
-    do {
-        temp_r1_2 = &menu->spr20C[var_r6_2];
-        temp_r1_2->tiles = var_r7;
+    }
+
+    for(var_r6 = 0; var_r6 < 2; var_r6++)
+    {
+        temp_r1 = &menu->spr20C[var_r6];
+        temp_r1->tiles = var_r7;
         var_r7 += 0x800;
-        temp_r1_2->anim = *(((var_r6_2 + (menu->language * 2)) * 8) + var_r2_2);
-        temp_r1_2->variant = (((var_r6_2 + (menu->language * 2)) * 8) + var_r2_2)->unk2;
-        temp_r1_2->prevVariant = -1;
-        temp_r1_2->x = (s16) ((s32) menu->unk40 >> 8);
-        temp_r1_2->y = (s16) ((s32) menu->unk44 >> 8);
-        temp_r1_2->oamFlags = 0xC0;
-        temp_r1_2->animCursor = 0;
-        temp_r1_2->qAnimDelay = 0;
-        temp_r1_2->animSpeed = 0x10;
-        temp_r1_2->palId = 0;
-        temp_r1_2->frameFlags = 0;
-        sp10 = var_r2_2;
-        UpdateSpriteAnimation(temp_r1_2);
-        var_r6_2 += 1;
-    } while ((u32) var_r6_2 <= 1U);
-    sub_808A1B0(0U, (s32) &menu->unkD, var_r7, 0x64U, 0x26, M2C_ERROR(/* Unable to find stack arg 0x4 in block */));
+        temp_r1->anim = gUnknown_080D65F4[var_r6 + (menu->language * 2)].anim;
+        temp_r1->variant = gUnknown_080D65F4[var_r6 + (menu->language * 2)].variant;
+        temp_r1->prevVariant = 0xFF;
+        temp_r1->x = (s16) ((s32) menu->unk38[1].x >> 8);
+        temp_r1->y = (s16) ((s32) menu->unk38[1].y >> 8);
+        temp_r1->oamFlags = 0xC0;
+        temp_r1->animCursor = 0;
+        temp_r1->qAnimDelay = 0;
+        temp_r1->animSpeed = 0x10;
+        temp_r1->palId = 0;
+        temp_r1->frameFlags = 0;
+        UpdateSpriteAnimation(temp_r1);
+    }
+
+    sub_808A1B0(0U, &menu->unkD, var_r7, 0x64, 0x26);
     menu->unkB = 2;
     gCurTask->main = Task_3F0_808A0D8;
 }
 
-void Task_3F0_8089970(MainMenu *menu) {
+void Task_3F0_8089970(void) {
+    MainMenu *menu = TASK_DATA(gCurTask);
     s32 sp10;
     s32 sp14;
     Sprite *temp_r2_2;
@@ -2072,16 +2022,15 @@ void Task_3F0_8089970(MainMenu *menu) {
     s16 temp_r2;
     u16 var_r3;
     u32 temp_r4;
-    u8 *var_r6;
+    u8 var_r7 = 0;
+    u8 *var_r6 = 0;
     u8 temp_r1;
-    u8 var_r7;
     u8 var_r7_2;
     void *temp_r0;
     void *temp_r0_2;
 
-    var_r7 = 0;
-    menu->unk3C = 0x6400;
-    menu->unk44 = 0x8200;
+    menu->unk38[0].y = 0x6400;
+    menu->unk38[1].y = 0x8200;
     menu->unkD = 0;
     sub_8088FD4(menu);
     menu->unk50 = 0;
@@ -2090,15 +2039,11 @@ void Task_3F0_8089970(MainMenu *menu) {
     sub_80891E4(menu);
     gBgScrollRegs[1][0] = (s16) ((s32) menu->unk50 >> 8);
     gBgScrollRegs[1][1] = (s16) ((s32) menu->unk54 >> 8);
-    temp_r2 = (s16) menu->unk74;
-    sa2__sub_8003EE4((u16) ((u16) menu->unk72 >> 6), temp_r2, temp_r2, 0x40, 0x40, 0x48, 0x50, gBgAffineRegs);
+    sa2__sub_8003EE4((u16) ((u16) menu->unk72 >> 6), menu->unk74, menu->unk74, 0x40, 0x40, 0x48, 0x50, gBgAffineRegs);
     sub_8089704(menu);
     var_r6 = menu->spr7C[0].tiles;
-    temp_r1 = menu->language;
-    temp_r4 = (u32) ((0 - temp_r1) | temp_r1) >> 0x1F;
-    var_r3 = 0;
-    sp10 = temp_r4 * 2;
-    do {
+    temp_r4 = (menu->language == JAPANESE) ? 0 : 1;
+    for(var_r7 = 0; var_r7 < 2; var_r7++) {
         temp_r2_2 = &menu->spr1BC[var_r7];
         temp_r2_2->tiles = var_r6;
         if (var_r7 == 0) {
@@ -2106,125 +2051,117 @@ void Task_3F0_8089970(MainMenu *menu) {
         } else {
             var_r6 += 0x200;
         }
-        temp_r0 = ((var_r7 + (temp_r4 * 2)) * 8) + &gUnknown_080D6654;
-        temp_r2_2->anim = temp_r0->unk0;
-        temp_r2_2->variant = temp_r0->unk2;
+        temp_r2_2->anim = gUnknown_080D6654[var_r7 + (temp_r4 * 2)].anim;
+        temp_r2_2->variant = gUnknown_080D6654[var_r7 + (temp_r4 * 2)].variant;
         temp_r2_2->prevVariant = -1;
-        temp_r2_2->x = (s16) ((s32) menu->unk38 >> 8);
-        temp_r2_2->y = (s16) ((s32) menu->unk3C >> 8);
+        temp_r2_2->x = (s16) ((s32) menu->unk38[0].x >> 8);
+        temp_r2_2->y = (s16) ((s32) menu->unk38[0].y >> 8);
         temp_r2_2->oamFlags = 0xC0;
-        temp_r2_2->animCursor = var_r3;
-        temp_r2_2->qAnimDelay = (s16) var_r3;
+        temp_r2_2->animCursor = 0;
+        temp_r2_2->qAnimDelay = (s16) 0;
         temp_r2_2->animSpeed = 0x10;
         temp_r2_2->palId = 0;
-        temp_r2_2->frameFlags = (u32) var_r3;
-        sp14 = (s32) var_r3;
+        temp_r2_2->frameFlags = (u32) 0;
         UpdateSpriteAnimation(temp_r2_2);
-        var_r7 += 1;
-    } while ((u32) var_r7 <= 1U);
-    var_r7_2 = 0;
-    do {
-        temp_r2_3 = &menu->spr20C[var_r7_2];
-        temp_r2_3->tiles = var_r6;
-        if (var_r7_2 == 0) {
+    }
+
+    for(var_r7 = 0; var_r7 < 2; var_r7++)
+    {
+        temp_r2_2 = &menu->spr20C[var_r7];
+        temp_r2_2->tiles = var_r6;
+        if (var_r7 == 0) {
             var_r6 += 0x200;
         } else {
             var_r6 += 0x200;
         }
-        temp_r0_2 = ((var_r7_2 + sp10) * 8) + &gUnknown_080D6674;
-        temp_r2_3->anim = temp_r0_2->unk0;
-        temp_r2_3->variant = temp_r0_2->unk2;
-        temp_r2_3->prevVariant = -1;
-        temp_r2_3->x = (s16) ((s32) menu->unk40 >> 8);
-        temp_r2_3->y = (s16) ((s32) menu->unk44 >> 8);
-        temp_r2_3->oamFlags = 0xC0;
-        temp_r2_3->animCursor = 0;
-        temp_r2_3->qAnimDelay = 0;
-        temp_r2_3->animSpeed = 0x10;
-        temp_r2_3->palId = 0;
-        temp_r2_3->frameFlags = 0;
-        UpdateSpriteAnimation(temp_r2_3);
-        var_r7_2 += 1;
-    } while ((u32) var_r7_2 <= 1U);
-    sub_808A1B0(1U, (s32) &menu->unkD, var_r6, 0x58U, 0x22, M2C_ERROR(/* Unable to find stack arg 0x4 in block */));
+        temp_r2_2->anim = gUnknown_080D6674[var_r7 + (temp_r4 * 2)].anim;
+        temp_r2_2->variant = gUnknown_080D6674[var_r7 + (temp_r4 * 2)].variant;
+        temp_r2_2->prevVariant = -1;
+        temp_r2_2->x = (s16) ((s32) menu->unk38[1].x >> 8);
+        temp_r2_2->y = (s16) ((s32) menu->unk38[1].y >> 8);
+        temp_r2_2->oamFlags = 0xC0;
+        temp_r2_2->animCursor = 0;
+        temp_r2_2->qAnimDelay = 0;
+        temp_r2_2->animSpeed = 0x10;
+        temp_r2_2->palId = 0;
+        temp_r2_2->frameFlags = 0;
+        UpdateSpriteAnimation(temp_r2_2);
+    }
+
+    sub_808A1B0(1U, &menu->unkD, var_r6, 0x58U, 0x22);
     menu->unkB = 2;
     gCurTask->main = Task_3F0_808A0D8;
 }
 
 void sub_8089B38(MMChaoMessage *msg, u8 *vram) {
-    ? *var_r1_2;
-    s32 temp_r1;
-    s32 var_r1;
-    u8 *temp_r6;
-    u8 *temp_r6_2;
     u8 temp_r0;
     u8 temp_r0_2;
-    void *temp_r1_2;
-
-    var_r1 = 0;
-    msg->spr1C.tiles = vram;
+    s32 var_r1 = 0;
+    Sprite *s = &msg->spr1C;
+    Sprite *spr6C;
+    s->tiles = vram;
     temp_r0 = msg->initArg0;
-    if ((temp_r0 != 0) && (temp_r0 == 1)) {
-        var_r1 = 1;
+    if (msg->initArg0 != 0) {
+        if(temp_r0 == 1) {
+            var_r1 = 1;            
+        }
     }
-    temp_r1 = var_r1 * 8;
-    temp_r6 = vram + (*(temp_r1 + (&gUnknown_080D6780 + 4)) << 5);
-    temp_r1_2 = temp_r1 + &gUnknown_080D6780;
-    msg->spr1C.anim = temp_r1_2->unk0;
-    msg->spr1C.variant = temp_r1_2->unk2;
-    msg->spr1C.prevVariant = -1;
-    msg->spr1C.x = (s16) ((s32) msg->qUnkC >> 8);
-    msg->spr1C.y = (s16) ((s32) msg->qUnk10 >> 8);
-    msg->spr1C.oamFlags = 0x40;
-    msg->spr1C.animCursor = 0;
-    msg->spr1C.qAnimDelay = 0;
-    msg->spr1C.animSpeed = 0x10;
-    msg->spr1C.palId = 0;
-    msg->spr1C.frameFlags = 0;
-    UpdateSpriteAnimation(&msg->spr1C);
-    msg->spr6C.tiles = temp_r6;
-    temp_r6_2 = temp_r6 + (gUnknown_080D6780.unk14 << 5);
-    msg->spr6C.anim = gUnknown_080D6780.unk10;
-    msg->spr6C.variant = gUnknown_080D6780.unk12;
-    msg->spr6C.prevVariant = -1;
-    msg->spr6C.x = (s16) ((s32) msg->unk14 >> 8);
-    msg->spr6C.y = (s16) ((s32) msg->unk18 >> 8);
-    msg->spr6C.oamFlags = 0;
-    msg->spr6C.animCursor = 0;
-    msg->spr6C.qAnimDelay = 0;
-    msg->spr6C.animSpeed = 0x10;
-    msg->spr6C.palId = 0;
-    msg->spr6C.frameFlags = 0;
-    UpdateSpriteAnimation(&msg->spr6C);
-    msg->spr44.tiles = temp_r6_2;
-    temp_r0_2 = msg->initArg0;
-    if (temp_r0_2 == 0) {
-        var_r1_2 = &gUnknown_080D67F8;
-        goto block_7;
+    vram += gUnknown_080D6780[var_r1].numTiles * TILE_SIZE_4BPP;
+    s->anim = gUnknown_080D6780[var_r1].anim;
+    s->variant = gUnknown_080D6780[var_r1].variant;
+    s->prevVariant = -1;
+    s->x = (s16) ((s32) msg->qUnkC >> 8);
+    s->y = (s16) ((s32) msg->qUnk10 >> 8);
+    s->oamFlags = 0x40;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    spr6C = &msg->spr6C;
+    spr6C->tiles = vram;
+    vram += (gUnknown_080D6780[2].numTiles * TILE_SIZE_4BPP);
+    spr6C->anim = gUnknown_080D6780[2].anim;
+    spr6C->variant = gUnknown_080D6780[2].variant;
+    spr6C->prevVariant = -1;
+    spr6C->x = (s16) ((s32) msg->unk14 >> 8);
+    spr6C->y = (s16) ((s32) msg->unk18 >> 8);
+    spr6C->oamFlags = 0;
+    spr6C->animCursor = 0;
+    spr6C->qAnimDelay = 0;
+    spr6C->animSpeed = 0x10;
+    spr6C->palId = 0;
+    spr6C->frameFlags = 0;
+    UpdateSpriteAnimation(spr6C);
+
+    {
+        Sprite *s = &msg->spr44;
+        s->tiles = vram;
+        if (msg->initArg0 == 0) {
+            s->anim    = gUnknown_080D67F8[msg->language].anim;
+            s->variant = gUnknown_080D67F8[msg->language].variant;
+        } else if (msg->initArg0 == 1) {
+            s->anim    = gUnknown_080D6798[msg->language].anim;
+            s->variant = gUnknown_080D6798[msg->language].variant;
+        }
+        s->prevVariant = -1;
+        s->x = (s16) ((s32) msg->qUnkC >> 8);
+        s->y = (s16) ((s32) msg->qUnk10 >> 8);
+        s->oamFlags = 0x40;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
     }
-    if (temp_r0_2 == 1) {
-        var_r1_2 = &gUnknown_080D6798;
-block_7:
-        msg->spr44.anim = *((msg->language * 8) + var_r1_2);
-        msg->spr44.variant = ((msg->language * 8) + var_r1_2)->unk2;
-    }
-    msg->spr44.prevVariant = -1;
-    msg->spr44.x = (s16) ((s32) msg->qUnkC >> 8);
-    msg->spr44.y = (s16) ((s32) msg->qUnk10 >> 8);
-    msg->spr44.oamFlags = 0x40;
-    msg->spr44.animCursor = 0;
-    msg->spr44.qAnimDelay = 0;
-    msg->spr44.animSpeed = 0x10;
-    msg->spr44.palId = 0;
-    msg->spr44.frameFlags = 0;
-    UpdateSpriteAnimation(&msg->spr44);
 }
 
+
 void sub_8089C48(MMChaoMessage *msg) {
-    ? *var_r1;
-    Sprite *temp_r4;
-    Sprite *temp_r4_2;
-    Sprite *temp_r4_3;
+    Sprite *s;
     s16 var_r0_3;
     s32 var_r0_2;
     s32 var_r7;
@@ -2233,174 +2170,164 @@ void sub_8089C48(MMChaoMessage *msg) {
     u8 temp_r0_2;
     u8 temp_r0_3;
     u8 var_r6;
-    void *temp_r1;
 
     var_r6 = 0;
     var_r7 = 0;
-    temp_r4 = &msg->spr1C;
-    do {
+    s = &msg->spr1C;
+    for(var_r6 = 0; var_r6 < 4; var_r6++)
+    {
         temp_r0 = msg->initArg0;
         if (temp_r0 == 0) {
             var_r7 = 0;
         } else if (temp_r0 == 1) {
             var_r7 = 1;
         }
-        temp_r1 = (var_r7 * 8) + &gUnknown_080D6780;
-        msg->spr1C.anim = temp_r1->unk0;
-        msg->spr1C.variant = temp_r1->unk2;
-        msg->spr1C.prevVariant = -1;
-        msg->spr1C.x = (s16) ((s32) msg->qUnkC >> 8);
-        msg->spr1C.y = (s16) ((s32) msg->qUnk10 >> 8);
-        switch (var_r6) {                           /* irregular */
-        case 0:
-            var_r0 = msg->spr1C.frameFlags & 0xFFFFFBFF & 0xFFFFF7FF;
-block_14:
-            msg->spr1C.frameFlags = var_r0;
-            break;
-        case 1:
-            var_r0 = (msg->spr1C.frameFlags | 0x400) & 0xFFFFF7FF;
-            goto block_14;
-        case 2:
-            var_r0_2 = msg->spr1C.frameFlags & 0xFFFFFBFF;
-block_13:
-            var_r0 = var_r0_2 | 0x800;
-            goto block_14;
-        case 3:
-            var_r0_2 = msg->spr1C.frameFlags | 0x400;
-            goto block_13;
+        s->anim = gUnknown_080D6780[var_r7].anim;
+        s->variant = gUnknown_080D6780[var_r7].variant;
+        s->prevVariant = -1;
+        s->x = (s16) ((s32) msg->qUnkC >> 8);
+        s->y = (s16) ((s32) msg->qUnk10 >> 8);
+        if (var_r6 == 0) {
+            s->frameFlags &= 0xFFFFFBFF;
+            s->frameFlags &= 0xFFFFF7FF;
+        } else if(var_r6 == 1) {
+            s->frameFlags |= 0x400;
+            s->frameFlags &= 0xFFFFF7FF;
+        } else if(var_r6 == 2) {
+            s->frameFlags &= 0xFFFFFBFF;
+            s->frameFlags |= 0x800;
+        } else if(var_r6 == 3) {
+            s->frameFlags |= 0x400;
+            s->frameFlags |= 0x800;
         }
-        UpdateSpriteAnimation(temp_r4);
-        DisplaySprite(temp_r4);
-        var_r6 += 1;
-    } while ((u32) var_r6 <= 3U);
-    temp_r4_2 = &msg->spr6C;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+
+    s = &msg->spr6C;
     temp_r0_2 = msg->initArg0;
     if (temp_r0_2 == 0) {
-        msg->spr6C.x = ((s32) msg->qUnkC >> 8) - 0x41;
+        s->x = ((s32) msg->qUnkC >> 8) - 0x41;
         var_r0_3 = ((s32) msg->qUnk10 >> 8) + 0xC;
-        goto block_20;
-    }
-    if (temp_r0_2 == 1) {
-        msg->spr6C.x = ((s32) msg->qUnkC >> 8) - 0x2D;
+        s->y = var_r0_3;
+    } else if (temp_r0_2 == 1) {
+        s->x = ((s32) msg->qUnkC >> 8) - 0x2D;
         var_r0_3 = ((s32) msg->qUnk10 >> 8) + 8;
-block_20:
-        msg->spr6C.y = var_r0_3;
+        s->y = var_r0_3;
     }
-    UpdateSpriteAnimation(temp_r4_2);
-    DisplaySprite(temp_r4_2);
-    temp_r4_3 = &msg->spr44;
-    temp_r0_3 = msg->initArg0;
-    if (temp_r0_3 == 0) {
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+    s = &msg->spr44;
+    if (msg->initArg0 == 0) {
         if (*msg->initArg1 == 0) {
-            var_r1 = &gUnknown_080D67F8;
+            s->anim = gUnknown_080D67F8[msg->language].anim;
+            s->variant = gUnknown_080D67F8[msg->language].variant;
         } else {
-            var_r1 = &gUnknown_080D6828;
+            s->anim = gUnknown_080D6828[msg->language].anim;
+            s->variant = gUnknown_080D6828[msg->language].variant;
         }
-        goto block_29;
-    }
-    if (temp_r0_3 == 1) {
+    } else if (msg->initArg0 == 1) {
         if (*msg->initArg1 == 0) {
-            var_r1 = &gUnknown_080D6798;
+            s->anim = gUnknown_080D6798[msg->language].anim;
+            s->variant = gUnknown_080D6798[msg->language].variant;
         } else {
-            var_r1 = &gUnknown_080D67C8;
+            s->anim = gUnknown_080D67C8[msg->language].anim;
+            s->variant = gUnknown_080D67C8[msg->language].variant;
         }
-block_29:
-        msg->spr44.anim = *((msg->language * 8) + var_r1);
-        msg->spr44.variant = ((msg->language * 8) + var_r1)->unk2;
     }
-    msg->spr44.prevVariant = -1;
-    msg->spr44.x = (s16) ((s32) msg->qUnkC >> 8);
-    msg->spr44.y = (s16) ((s32) msg->qUnk10 >> 8);
-    UpdateSpriteAnimation(temp_r4_3);
-    DisplaySprite(temp_r4_3);
+    s->prevVariant = -1;
+    s->x = (s16) ((s32) msg->qUnkC >> 8);
+    s->y = (s16) ((s32) msg->qUnk10 >> 8);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
 
-u8 sub_8089DA0(MainMenu *arg0) {
-    s32 *temp_r1;
-    s32 temp_r2;
-    u8 var_r3;
-    u8 var_r5;
+u8 sub_8089DA0(MainMenu *menu){
+    s32 *sp0[4];
+    u8 i;
+    u8 result;
 
-    var_r5 = 0;
-    var_r3 = 0;
-    do {
-        temp_r1 = *((var_r3 * 4) + sp);
-        temp_r2 = *temp_r1;
-        if (temp_r2 <= 0xAA00) {
-            *temp_r1 = 0xAA00;
-            var_r5 += 1;
+    result = 0;
+    sp0[0] = &menu->unk18[0].x;
+    sp0[1] = &menu->unk18[1].x;
+    sp0[2] = &menu->unk18[2].x;
+    sp0[3] = &menu->unk18[3].x;
+    for(i = 0; i < 4; i++)
+    {
+        if (*sp0[i] <= 0xAA00) {
+            *sp0[i] = 0xAA00;
+            result += 1;
         } else {
-            *temp_r1 = temp_r2 - (*(arg0 + 7 + var_r3) << 8);
+            *sp0[i] -= (menu->unk7[i] << 8);
         }
-        var_r3 += 1;
-    } while ((u32) var_r3 <= 3U);
-    return var_r5;
+    }
+
+    return result;
 }
 
-u8 sub_8089DF4(MainMenu *arg0) {
-    s32 *temp_r1;
-    s32 temp_r2;
-    u8 var_r3;
-    u8 var_r4;
+u8 sub_8089DF4(MainMenu *menu) {
+    s32 *sp0[4];
+    u8 i;
+    u8 result;
 
-    var_r4 = 0;
-    var_r3 = 0;
-    do {
-        temp_r1 = *((var_r3 * 4) + sp);
-        temp_r2 = *temp_r1;
-        if (temp_r2 > 0x12BFF) {
-            *temp_r1 = 0x12C00;
-            var_r4 += 1;
+    result = 0;
+    sp0[0] = &menu->unk18[0].x;
+    sp0[1] = &menu->unk18[1].x;
+    sp0[2] = &menu->unk18[2].x;
+    sp0[3] = &menu->unk18[3].x;
+    for(i = 0; i < 4; i++)
+    {
+        if (*sp0[i] >= 0x12C00) {
+            *sp0[i] = 0x12C00;
+            result += 1;
         } else {
-            *temp_r1 = temp_r2 + (*(arg0 + 7 + var_r3) << 9);
+            *sp0[i] += (menu->unk7[i] << 9);
         }
-        var_r3 += 1;
-    } while ((u32) var_r3 <= 3U);
-    return var_r4;
+    }
+
+    return result;
 }
 
-u8 sub_8089E50(MainMenu *arg0) {
-    s32 *temp_r1;
-    s32 temp_r2;
-    u8 var_r3;
-    u8 var_r5;
+u8 sub_8089E50(MainMenu *menu) {
+    s32 *sp0[2];
+    u8 i;
+    u8 result;
 
-    var_r5 = 0;
-    var_r3 = 0;
-    do {
-        temp_r1 = *((var_r3 * 4) + sp);
-        temp_r2 = *temp_r1;
-        if (temp_r2 <= 0xAA00) {
-            *temp_r1 = 0xAA00;
-            var_r5 += 1;
+    result = 0;
+    sp0[0] = &menu->unk38[0].x;
+    sp0[1] = &menu->unk38[1].x;
+    for(i = 0; i < 2; i++)
+    {
+        if (*sp0[i] <= 0xAA00) {
+            *sp0[i] = 0xAA00;
+            result += 1;
         } else {
-            *temp_r1 = temp_r2 - (*(arg0 + 7 + var_r3) << 8);
+            *sp0[i] -= (menu->unk7[i] << 8);
         }
-        var_r3 += 1;
-    } while ((u32) var_r3 <= 1U);
-    return var_r5;
+    }
+
+    return result;
 }
 
-u8 sub_8089EA0(MainMenu *arg0) {
-    s32 *temp_r1;
-    s32 temp_r2;
-    u8 var_r3;
-    u8 var_r4;
+u8 sub_8089EA0(MainMenu *menu) {
+    s32 *sp0[2];
+    u8 i;
+    u8 result;
 
-    var_r4 = 0;
-    var_r3 = 0;
-    do {
-        temp_r1 = (&subroutine_arg0)[var_r3];
-        temp_r2 = *temp_r1;
-        if (temp_r2 > 0x12BFF) {
-            *temp_r1 = 0x12C00;
-            var_r4 += 1;
+    result = 0;
+    sp0[0] = &menu->unk38[0].x;
+    sp0[1] = &menu->unk38[1].x;
+    for(i = 0; i < 2; i++)
+    {
+        if (*sp0[i] >= 0x12C00) {
+            *sp0[i] = 0x12C00;
+            result += 1;
         } else {
-            *temp_r1 = temp_r2 + (*(arg0 + 7 + var_r3) << 9);
+            *sp0[i] += (menu->unk7[i] << 9);
         }
-        var_r3 += 1;
-    } while ((u32) var_r3 <= 1U);
-    return var_r4;
+    }
+
+    return result;
 }
 
 void sub_8089EF8(MainMenu *menu) {
@@ -2409,10 +2336,7 @@ void sub_8089EF8(MainMenu *menu) {
 }
 
 void sub_8089F08(MainMenu *menu) {
-    s16 temp_r2;
-
-    temp_r2 = (s16) menu->unk74;
-    sa2__sub_8003EE4((u16) ((u16) menu->unk72 >> 6), temp_r2, temp_r2, 0x40, 0x40, 0x48, 0x50, gBgAffineRegs);
+    sa2__sub_8003EE4((u16) ((u16) menu->unk72 >> 6), menu->unk74, menu->unk74, 0x40, 0x40, 0x48, 0x50, gBgAffineRegs);
 }
 
 void sub_8089F40(MainMenu *menu) {
@@ -2420,7 +2344,8 @@ void sub_8089F40(MainMenu *menu) {
     gBgScrollRegs[1][1] = (s16) ((s32) menu->unk54 >> 8);
 }
 
-void Task_3F0_MainMenuInit(MainMenu *menu) {
+void Task_3F0_MainMenuInit(void) {
+    MainMenu *menu = TASK_DATA(gCurTask);
     sub_8087A48(menu);
     if ((u32) (u8) (menu->initArg1 - 2) <= 1U) {
         sub_80877F4(menu);
@@ -2435,10 +2360,11 @@ void Task_3F0_MainMenuInit(MainMenu *menu) {
         m4aMPlayAllStop();
         m4aSongNumStart(2U);
     }
-    gCurTask->main = *((menu->initArg1 * 4) + &gUnknown_080D6758);
+    gCurTask->main = gUnknown_080D6758[menu->initArg1];
 }
 
-void Task_3F0_8089FCC(MainMenu *menu) {
+void Task_3F0_8089FCC(void) {
+    MainMenu *menu = TASK_DATA(gCurTask);
     sub_8089028(menu);
     sub_80890F8(menu);
     sub_8088FD4(menu);
@@ -2453,13 +2379,14 @@ void Task_3F0_8089FCC(MainMenu *menu) {
     sub_8089F08(menu);
     sub_8089704(menu);
     sub_808927C(menu);
-    if ((sub_8089DA0(menu) == 4) && ((sub_8089028(menu) << 0x18) != 0)) {
+    if ((sub_8089DA0(menu) == 4) && (sub_8089028(menu) != 0)) {
         menu->unk2 = 1;
         gCurTask->main = Task_3F0_808819C;
     }
 }
 
-void Task_3F0_808A060(MainMenu *menu) {
+void Task_3F0_808A060(void) {
+    MainMenu *menu = TASK_DATA(gCurTask);
     sub_80890F8(menu);
     sub_8088FD4(menu);
     sub_8089EF8(menu);
@@ -2477,7 +2404,8 @@ void Task_3F0_808A060(MainMenu *menu) {
     }
 }
 
-void Task_3F0_808A0D8(MainMenu *menu) {
+void Task_3F0_808A0D8(void) {
+    MainMenu *menu = TASK_DATA(gCurTask);
     sub_80890F8(menu);
     sub_8088FD4(menu);
     sub_8089EF8(menu);
@@ -2488,12 +2416,14 @@ void Task_3F0_808A0D8(MainMenu *menu) {
     sub_8089F40(menu);
     sub_8089F08(menu);
     sub_8089704(menu);
+
     if (sub_8089E50(menu) == 2) {
         gCurTask->main = Task_3F0_80889CC;
     }
 }
 
-void Task_3F0_808A144(MainMenu *menu) {
+void Task_3F0_808A144(void) {
+    MainMenu *menu = TASK_DATA(gCurTask);
     sub_8088FD4(menu);
     sub_8089EF8(menu);
     sub_8089150(menu);
@@ -2503,6 +2433,7 @@ void Task_3F0_808A144(MainMenu *menu) {
     sub_8089F40(menu);
     sub_8089F08(menu);
     sub_8089704(menu);
+
     if (sub_8089EA0(menu) == 2) {
         gCurTask->main = Task_3F0_8087C74;
     }
@@ -2512,20 +2443,21 @@ void TaskDestructor_MainMenu(Task *arg0) {
 
 }
 
-void sub_808A1B0(u8 arg0, void *arg1, u8 *vram, s16 arg3, s32 arg4, MMChaoMessage *msg) 
+void sub_808A1B0(u8 arg0, void *arg1, u8 *vram, s16 arg3, s16 arg4)
 {
-    MMChaoMessage *msg = TASK_DATA(TaskCreate(Task_94_808A22C, 0x94U, 0x100U, 0U, TaskDestructor_MainMenu));
+    MMChaoMessage *msg = TASK_DATA(TaskCreate(Task_94_808A22C, sizeof(MMChaoMessage), 0x100U, 0U, TaskDestructor_MainMenu));
     msg->language = LOADED_SAVE->language;
     msg->initArg1 = arg1;
     msg->initArg0 = arg0;
-    msg->qUnkC = arg3 << 8;
-    msg->qUnk10 = (u16) arg4 << 8;
+    msg->qUnkC = Q(arg3 & 0xFFFF);
+    msg->qUnk10 = Q(arg4 & 0xFFFF);
     msg->unk14 = 0;
     msg->unk18 = 0;
     sub_8089B38(msg, vram);
 }
 
-void Task_94_808A22C(MMChaoMessage *msg) {
+void Task_94_808A22C(void) {
+    MMChaoMessage *msg = TASK_DATA(gCurTask);
     sub_8089C48(msg);
     if (*msg->initArg1 == 0xB) {
         TaskDestroy(gCurTask);

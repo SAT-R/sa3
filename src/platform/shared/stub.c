@@ -108,7 +108,6 @@ void sub_8084B2C() { }
 void sub_8084BEC() { }
 void sub_8084C50() { }
 void sub_80870B0() { }
-void CreateMainMenu() { }
 void sub_8087B80() { }
 void sub_8088440() { }
 void sub_80885CC() { }
@@ -117,6 +116,7 @@ void sub_808D0F0() { }
 void sub_808ECB8() { }
 // returns VRAM tile pointer
 void *CreateSomeTask_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles) { return tiles; }
+void sub_80A1A4C() { }
 void /* 0x080A209C */ CreateGameIntroState() { }
 void sub_80AD824() { }
 void sub_80AE174() { }

@@ -175,7 +175,6 @@ SECTIONS {
         asm/boss_final.o(.text);
         asm/boss_extra.o(.text);
         src/game/sa3/main_menu.o(.text);
-        asm/main_menu.o(.text);
         src/game/sa3/title_screen.o(.text);
         src/game/sa3/options/options_menu.o(.text);
         asm/sio_debug_code_maybe.o(.text);
