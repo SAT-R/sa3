@@ -35,7 +35,6 @@ src/lib/agb_flash/agb_flash.o(.bss);
 . = 0x00000970; gUnknown_03000970 = .;
 . = 0x00000980; gUnknown_03000980 = .;
 . = 0x00000CF0; gSaveSectorData = .;
-. = 0x00000FC0; gUnknown_03000FC0 = .;
 . = 0x00001060; gUnknown_03001060 = .;
 . = 0x0000106C; gUnknown_0300106C = .;
 . = 0x0000107C; gUnknown_0300107C = .;

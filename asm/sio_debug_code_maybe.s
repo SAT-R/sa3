@@ -18,8 +18,8 @@ Task_808D00C: @ 0x0808D00C
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r5, r1, r0
-	ldr r2, _0808D058 @ =gUnknown_03000FC0
-	adds r4, r1, r2
+	ldr r2, _0808D058 @ =0x03000FC0
+	adds r4, r1, r2		@ r4 = (ScreenFade *)
 	ldr r0, _0808D05C @ =gPressedKeys
 	ldrh r1, [r0]
 	movs r6, #9
@@ -44,7 +44,7 @@ Task_808D00C: @ 0x0808D00C
 	b _0808D090
 	.align 2, 0
 _0808D054: .4byte gCurTask
-_0808D058: .4byte gUnknown_03000FC0
+_0808D058: .4byte 0x03000FC0
 _0808D05C: .4byte gPressedKeys
 _0808D060:
 	movs r7, #2
@@ -123,6 +123,7 @@ _0808D0E6:
 	pop {r0}
 	bx r0
 
+	@ CreateMultiPakConnectionCheck ???
 	thumb_func_start sub_808D0F0
 sub_808D0F0: @ 0x0808D0F0
 	push {r4, r5, r6, r7, lr}
@@ -156,7 +157,7 @@ sub_808D0F0: @ 0x0808D0F0
 	movs r0, #0xff
 	strh r0, [r6, #8]
 	strh r4, [r6, #0xa]
-	adds r0, r6, #0
+	adds r0, r6, #0		@ r0 = r6 = (ScreenFade *)
 	bl ScreenFadeUpdateValues
 	movs r1, #0
 	ldr r0, _0808D188 @ =0x0300000E
@@ -676,7 +677,7 @@ sub_808D548: @ 0x0808D548
 	strh r3, [r0, #4]
 	strh r3, [r0, #6]
 	adds r0, r5, #0
-	adds r0, #0x5c
+	adds r0, #0x5c			@ r0 = (Background *)
 	movs r2, #0xc0
 	lsls r2, r2, #0x13
 	str r2, [r0, #4]
@@ -737,7 +738,7 @@ sub_808D5CC: @ 0x0808D5CC
 	strh r3, [r0]
 	strh r3, [r0, #2]
 	adds r0, r5, #0
-	adds r0, #0x1c
+	adds r0, #0x1c		@ r0 = (Background *)
 	ldr r2, _0808D63C @ =0x06004000
 	str r2, [r0, #4]
 	strh r3, [r0, #0xa]
@@ -3662,8 +3663,8 @@ sub_808ECC4: @ 0x0808ECC4
 	ldr r4, _0808ECE8 @ =gCurTask
 	ldr r0, [r4]
 	ldrh r0, [r0, #6]
-	ldr r1, _0808ECEC @ =gUnknown_03000FC0
-	adds r0, r0, r1
+	ldr r1, _0808ECEC @ =0x03000FC0
+	adds r0, r0, r1		@ r0 = (ScreenFade *)
 	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
@@ -3677,7 +3678,7 @@ _0808ECE0:
 	bx r0
 	.align 2, 0
 _0808ECE8: .4byte gCurTask
-_0808ECEC: .4byte gUnknown_03000FC0
+_0808ECEC: .4byte 0x03000FC0
 _0808ECF0: .4byte Task_808D00C
 
 	thumb_func_start Task_808ECF4
@@ -3689,8 +3690,8 @@ Task_808ECF4: @ 0x0808ECF4
 	movs r1, #0xc0
 	lsls r1, r1, #0x12
 	adds r4, r0, r1
-	ldr r1, _0808ED28 @ =gUnknown_03000FC0
-	adds r0, r0, r1
+	ldr r1, _0808ED28 @ =0x03000FC0
+	adds r0, r0, r1		@ r0 = (ScreenFade *)
 	bl UpdateScreenFade
 	lsls r0, r0, #0x18
 	cmp r0, #0
@@ -3706,7 +3707,7 @@ Task_808ECF4: @ 0x0808ECF4
 	b _0808ED48
 	.align 2, 0
 _0808ED24: .4byte gCurTask
-_0808ED28: .4byte gUnknown_03000FC0
+_0808ED28: .4byte 0x03000FC0
 _0808ED2C:
 	cmp r0, #2
 	beq _0808ED40

@@ -9,11 +9,11 @@
 sub_8081C80: @ 0x08081C80
 	push {r4, r5, lr}
 	sub sp, #4
-	ldr r0, _08081CB0 @ =Task_8081E74
+	ldr r0, _08081CB0 @ =Task_878_2_8081E74
 	ldr r1, _08081CB4 @ =0x00000878
 	movs r2, #0xc4
 	lsls r2, r2, #6
-	ldr r3, _08081CB8 @ =TaskDestructor_8081D64
+	ldr r3, _08081CB8 @ =TaskDestructor_878_8081D64
 	str r3, [sp]
 	movs r3, #0
 	bl TaskCreate
@@ -31,9 +31,9 @@ sub_8081C80: @ 0x08081C80
 	movs r0, #0xc
 	b _08081CC2
 	.align 2, 0
-_08081CB0: .4byte Task_8081E74
+_08081CB0: .4byte Task_878_2_8081E74
 _08081CB4: .4byte 0x00000878
-_08081CB8: .4byte TaskDestructor_8081D64
+_08081CB8: .4byte TaskDestructor_878_8081D64
 _08081CBC: .4byte gStageData
 _08081CC0:
 	movs r0, #0xa
@@ -114,8 +114,8 @@ _08081D58: .4byte gCamera
 _08081D5C: .4byte 0x00000814
 _08081D60: .4byte gPlayers
 
-	thumb_func_start TaskDestructor_8081D64
-TaskDestructor_8081D64: @ 0x08081D64
+	thumb_func_start TaskDestructor_878_8081D64
+TaskDestructor_878_8081D64: @ 0x08081D64
 	push {r4, r5, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0
@@ -191,11 +191,11 @@ sub_8081DF4: @ 0x08081DF4
 	push {r4, r5, lr}
 	sub sp, #4
 	adds r5, r0, #0
-	ldr r0, _08081E5C @ =sub_8086FA4
+	ldr r0, _08081E5C @ =Task_878_2_8086FA4
 	ldr r1, _08081E60 @ =0x00000878
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r3, _08081E64 @ =sub_8086ED8
+	ldr r3, _08081E64 @ =TaskDestructor_878_2_8086ED8
 	str r3, [sp]
 	movs r3, #0
 	bl TaskCreate
@@ -238,15 +238,15 @@ sub_8081DF4: @ 0x08081DF4
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08081E5C: .4byte sub_8086FA4
+_08081E5C: .4byte Task_878_2_8086FA4
 _08081E60: .4byte 0x00000878
-_08081E64: .4byte sub_8086ED8
+_08081E64: .4byte TaskDestructor_878_2_8086ED8
 _08081E68: .4byte gPlayers
 _08081E6C: .4byte 0x0300038C
 _08081E70: .4byte 0x03000454
 
-	thumb_func_start Task_8081E74
-Task_8081E74: @ 0x08081E74
+	thumb_func_start Task_878_2_8081E74
+Task_878_2_8081E74: @ 0x08081E74
 	push {r4, r5, r6, lr}
 	ldr r6, _08081EDC @ =gCurTask
 	ldr r0, [r6]
@@ -10240,10 +10240,10 @@ sub_8086A40: @ 0x08086A40
 	bne _08086A58
 	b _08086B84
 _08086A58:
-	ldr r0, _08086A94 @ =sub_8086B94
+	ldr r0, _08086A94 @ =Task_50_8086B94
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _08086A98 @ =sub_80870AC
+	ldr r1, _08086A98 @ =TaskDestructor_50_80870AC
 	str r1, [sp]
 	movs r1, #0x50
 	movs r3, #0
@@ -10269,8 +10269,8 @@ _08086A58:
 	lsls r0, r0, #2
 	b _08086AAC
 	.align 2, 0
-_08086A94: .4byte sub_8086B94
-_08086A98: .4byte sub_80870AC
+_08086A94: .4byte Task_50_8086B94
+_08086A98: .4byte TaskDestructor_50_80870AC
 _08086A9C: .4byte gPseudoRandom
 _08086AA0: .4byte 0x00196225
 _08086AA4: .4byte 0x3C6EF35F
@@ -10399,8 +10399,8 @@ _08086B84:
 	.align 2, 0
 _08086B90: .4byte gCamera
 
-	thumb_func_start sub_8086B94
-sub_8086B94: @ 0x08086B94
+	thumb_func_start Task_50_8086B94
+Task_50_8086B94: @ 0x08086B94
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -10664,10 +10664,10 @@ sub_8086D64: @ 0x08086D64
 	mov sb, r0
 	lsls r5, r5, #0x18
 	lsrs r5, r5, #0x18
-	ldr r0, _08086E40 @ =Task_8086E58
+	ldr r0, _08086E40 @ =Task_38_8086E58
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _08086E44 @ =TaskDestructor_8087234
+	ldr r1, _08086E44 @ =TaskDestructor_38_8087234
 	str r1, [sp]
 	movs r1, #0x38
 	movs r3, #0
@@ -10747,15 +10747,15 @@ sub_8086D64: @ 0x08086D64
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08086E40: .4byte Task_8086E58
-_08086E44: .4byte TaskDestructor_8087234
+_08086E40: .4byte Task_38_8086E58
+_08086E44: .4byte TaskDestructor_38_8087234
 _08086E48: .4byte 0x03000010
 _08086E4C: .4byte gSineTable
 _08086E50: .4byte 0x000003FF
 _08086E54: .4byte 0x000004F9
 
-	thumb_func_start Task_8086E58
-Task_8086E58: @ 0x08086E58
+	thumb_func_start Task_38_8086E58
+Task_38_8086E58: @ 0x08086E58
 	push {r4, r5, lr}
 	ldr r2, _08086E80 @ =gCurTask
 	ldr r0, [r2]
@@ -10818,8 +10818,8 @@ _08086ECC:
 	.align 2, 0
 _08086ED4: .4byte gCamera
 
-	thumb_func_start sub_8086ED8
-sub_8086ED8: @ 0x08086ED8
+	thumb_func_start TaskDestructor_878_2_8086ED8
+TaskDestructor_878_2_8086ED8: @ 0x08086ED8
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	ldr r1, _08086F00 @ =0x0300038C
@@ -10910,8 +10910,8 @@ sub_8086F48: @ 0x08086F48
 _08086F9C: .4byte gCurTask
 _08086FA0: .4byte gUnknown_08E2ED50
 
-	thumb_func_start sub_8086FA4
-sub_8086FA4: @ 0x08086FA4
+	thumb_func_start Task_878_2_8086FA4
+Task_878_2_8086FA4: @ 0x08086FA4
 	push {r4, lr}
 	ldr r0, _08086FDC @ =gCurTask
 	ldr r0, [r0]
@@ -11058,8 +11058,8 @@ _0808709C:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_80870AC
-sub_80870AC: @ 0x080870AC
+	thumb_func_start TaskDestructor_50_80870AC
+TaskDestructor_50_80870AC: @ 0x080870AC
 	bx lr
 	.align 2, 0
 
@@ -11282,8 +11282,8 @@ _08087224:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start TaskDestructor_8087234
-TaskDestructor_8087234: @ 0x08087234
+	thumb_func_start TaskDestructor_38_8087234
+TaskDestructor_38_8087234: @ 0x08087234
 	bx lr
 	.align 2, 0
 

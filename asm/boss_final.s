@@ -10892,7 +10892,7 @@ sub_80808E8: @ 0x080808E8
 	adds r4, r0, #0
 	lsls r4, r4, #0x18
 	lsrs r4, r4, #0x18
-	ldr r0, _0808099C @ =Task_8080AD4
+	ldr r0, _0808099C @ =Task_11C_8080AD4
 	movs r1, #0x8e
 	lsls r1, r1, #1     @ 0x11C
 	movs r2, #0x84
@@ -10974,7 +10974,7 @@ _0808096A:
 	str r0, [r1]
 	b _080809C0
 	.align 2, 0
-_0808099C: .4byte Task_8080AD4
+_0808099C: .4byte Task_11C_8080AD4
 _080809A0: .4byte TaskDestructor_8081C4C
 _080809A4: .4byte 0x03000068
 _080809A8: .4byte gCamera
@@ -11040,7 +11040,7 @@ _08080A0A:
 	movs r0, #0xa8
 	lsls r0, r0, #3
 	strh r0, [r5, #0x14]
-	subs r0, #0x48
+	subs r0, #0x48		@ r0 = ANIM_EGGMAN_SIDE
 	strh r0, [r5, #0xc]
 	movs r0, #4
 	strb r0, [r5, #0x1a]
@@ -11104,7 +11104,7 @@ _08080A0A:
 	lsls r0, r0, #3
 	mov r1, r8
 	strh r0, [r1, #0x14]
-	adds r0, #0xa
+	adds r0, #0xa		@ r0 = ANIM_GEMERL_HOVER_AWAY
 	strh r0, [r1, #0xc]
 	ldr r2, [sp, #0x10]
 	strb r2, [r1, #0x1a]
@@ -11129,8 +11129,8 @@ _08080A0A:
 	pop {r1}
 	bx r1
 
-	thumb_func_start Task_8080AD4
-Task_8080AD4: @ 0x08080AD4
+	thumb_func_start Task_11C_8080AD4
+Task_11C_8080AD4: @ 0x08080AD4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -11253,6 +11253,7 @@ _08080BC0:
 	bx r0
 	.align 2, 0
 
+	@ struct 0x11C
 	thumb_func_start sub_8080BD0
 sub_8080BD0: @ 0x08080BD0
 	push {r4, r5, r6, r7, lr}
@@ -12079,6 +12080,7 @@ _080811C6:
 	bx r0
 	.align 2, 0
 
+	@ struct 0x11C
 	thumb_func_start sub_80811E0
 sub_80811E0: @ 0x080811E0
 	push {r4, r5, r6, lr}
