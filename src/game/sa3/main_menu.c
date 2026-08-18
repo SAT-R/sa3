@@ -1,8 +1,11 @@
 #include "global.h"
 #include "core.h"
 #include "flags.h"
+#include "lib/m4a/m4a.h"
 #include "code_z_1.h" // CopyObjPaletteMasked
 #include "game/save.h"
+#include "constants/songs.h"
+#include "constants/tilemaps.h"
 
 typedef struct {
     /* 0x00 */ u8 language;
@@ -27,19 +30,19 @@ typedef struct {
     /* 0x006 */ u8 unk6;
     /* 0x007 */ u8 unk7[4];
     /* 0x00B */ u8 unkB;
-    /* 0x00B */ u8 unkC;
-    /* 0x00B */ u8 unkD;
-    /* 0x00B */ u8 unkE;
-    /* 0x00B */ u8 unkF;
-    /* 0x00B */ u16 highlitButton;
-    /* 0x070 */ s16 unk12;
-    /* 0x070 */ s16 unk14;
-    /* 0x030 */ s32 unk18;
-    /* 0x030 */ s32 unk1C;
-    /* 0x030 */ s32 unk20;
-    /* 0x030 */ s32 unk24;
-    /* 0x030 */ s32 unk28;
-    /* 0x030 */ s32 unk2C;
+    /* 0x00C */ u8 unkC;
+    /* 0x00D */ u8 unkD;
+    /* 0x00E */ u8 unkE;
+    /* 0x00F */ u8 unkF;
+    /* 0x010 */ s16 highlitButton;
+    /* 0x012 */ s16 unk12;
+    /* 0x014 */ s16 unk14;
+    /* 0x018 */ s32 unk18;
+    /* 0x01C */ s32 unk1C;
+    /* 0x020 */ s32 unk20;
+    /* 0x024 */ s32 unk24;
+    /* 0x028 */ s32 unk28;
+    /* 0x02C */ s32 unk2C;
     /* 0x030 */ s32 unk30;
     /* 0x034 */ s32 unk34;
     /* 0x038 */ s32 unk38;
@@ -141,6 +144,7 @@ extern TileInfo2 gUnknown_080D6414[NUM_LANGUAGES * 2];
 extern TileInfo2 gUnknown_080D6474[NUM_LANGUAGES * 2];
 extern TileInfo2 gUnknown_080D64D4[NUM_LANGUAGES * 2];
 extern TileInfo2 gUnknown_080D6534[NUM_LANGUAGES * 2];
+extern u16 gUnknown_080D66C4[4];
 
 void CreateMainMenu(s16 highlitButton, u8 arg1)
 {
@@ -494,73 +498,76 @@ void sub_80877F4(MainMenu *menu)
     }
 }
 
-#if 0
-void sub_8087A48(MainMenu *menu) {
-    Background *temp_r2;
-    u16 var_r0;
+void sub_8087A48(MainMenu *menu)
+{
+    Background *bg0, *bg1, *bg2;
 
-    gBgCntRegs->unk0 = 0x4E07;
+    gBgCntRegs[0] = BGCNT_SCREENBASE(14) | BGCNT_CHARBASE(1) | BGCNT_PRIORITY(3) | BGCNT_16COLOR | BGCNT_TXT512x256;
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
-    menu->bg330.graphics.dest = (void *)0x06004000;
-    menu->bg330.graphics.anim = 0;
-    menu->bg330.layoutVram = (u16 *)0x06007000;
-    menu->bg330.unk18 = 0;
-    menu->bg330.unk1A = 0;
-    menu->bg330.tilemapId = 0x157;
-    menu->bg330.unk1E = 0;
-    menu->bg330.unk20 = 0;
-    menu->bg330.unk22 = 0;
-    menu->bg330.unk24 = 0;
-    menu->bg330.targetTilesX = 0x40;
-    menu->bg330.targetTilesY = 0x14;
-    menu->bg330.paletteOffset = 0;
-    menu->bg330.flags = 0;
-    DrawBackground(&menu->bg330);
-    gBgCntRegs[1] = 0x601;
+    bg0 = &menu->bg330;
+    bg0->graphics.dest = (void *)BG_CHAR_ADDR(1);
+    bg0->graphics.anim = 0;
+    bg0->layoutVram = (u16 *)BG_SCREEN_ADDR(14);
+    bg0->unk18 = 0;
+    bg0->unk1A = 0;
+    bg0->tilemapId = TM_UNKNOWN_343;
+    bg0->unk1E = 0;
+    bg0->unk20 = 0;
+    bg0->unk22 = 0;
+    bg0->unk24 = 0;
+    bg0->targetTilesX = 0x40;
+    bg0->targetTilesY = 0x14;
+    bg0->paletteOffset = 0;
+    bg0->flags = 0;
+    DrawBackground(bg0);
+
+    gBgCntRegs[1] = BGCNT_SCREENBASE(6) | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(1) | BGCNT_16COLOR | BGCNT_TXT256x256;
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = 0;
-    menu->bg3A0.graphics.dest = (void *)0x06000000;
-    menu->bg3A0.graphics.anim = 0;
-    menu->bg3A0.layoutVram = (u16 *)0x06003000;
-    menu->bg3A0.unk18 = 0;
-    menu->bg3A0.unk1A = 0;
-    menu->bg3A0.tilemapId = 0x158;
-    menu->bg3A0.unk1E = 0;
-    menu->bg3A0.unk20 = 0;
-    menu->bg3A0.unk22 = 0;
-    menu->bg3A0.unk24 = 0;
-    menu->bg3A0.targetTilesX = 0x20;
-    menu->bg3A0.targetTilesY = 0x20;
-    menu->bg3A0.paletteOffset = 0;
-    menu->bg3A0.flags = 1;
-    DrawBackground(&menu->bg3A0);
-    gBgCntRegs[2] = 0x188A;
+    bg1 = &menu->bg3A0;
+    bg1->graphics.dest = (void *)BG_CHAR_ADDR(0);
+    bg1->graphics.anim = 0;
+    bg1->layoutVram = (u16 *)BG_SCREEN_ADDR(6);
+    bg1->unk18 = 0;
+    bg1->unk1A = 0;
+    bg1->tilemapId = TM_UNKNOWN_344;
+    bg1->unk1E = 0;
+    bg1->unk20 = 0;
+    bg1->unk22 = 0;
+    bg1->unk24 = 0;
+    bg1->targetTilesX = 0x20;
+    bg1->targetTilesY = 0x20;
+    bg1->paletteOffset = 0;
+    bg1->flags = 1;
+    DrawBackground(bg1);
+
+    gBgCntRegs[2] = BGCNT_SCREENBASE(24) | BGCNT_CHARBASE(2) | BGCNT_PRIORITY(2) | BGCNT_256COLOR | BGCNT_AFF128x128;
     gBgScrollRegs[2][0] = 0;
     gBgScrollRegs[2][1] = 0;
-    temp_r2 = &menu->bg370;
-    menu->bg370.graphics.dest = (void *)0x06008000;
-    menu->bg370.graphics.anim = 0;
-    menu->bg370.layoutVram = (u16 *)0x0600C000;
-    menu->bg370.unk18 = 0;
-    menu->bg370.unk1A = 0;
-    if ((u32) (u8) (menu->initArg1 - 2) <= 1U) {
-        var_r0 = gUnknown_080D66C4.unk4;
+    bg2 = &menu->bg370;
+    bg2->graphics.dest = (void *)BG_CHAR_ADDR(2);
+    bg2->graphics.anim = 0;
+    bg2->layoutVram = (u16 *)BG_SCREEN_ADDR(24);
+    bg2->unk18 = 0;
+    bg2->unk1A = 0;
+    if (menu->initArg1 == 2 || menu->initArg1 == 3) {
+        bg2->tilemapId = gUnknown_080D66C4[2];
     } else {
-        var_r0 = (&gUnknown_080D66C4)[menu->unk10];
+        bg2->tilemapId = gUnknown_080D66C4[menu->highlitButton];
     }
-    menu->bg370.tilemapId = var_r0;
-    menu->bg370.unk1E = 0;
-    menu->bg370.unk20 = 0;
-    menu->bg370.unk22 = 0;
-    menu->bg370.unk24 = 0;
-    menu->bg370.targetTilesX = 0x10;
-    menu->bg370.targetTilesY = 0x10;
-    temp_r2->paletteOffset = 0;
-    menu->bg370.flags = 6;
-    DrawBackground(temp_r2);
+    bg2->unk1E = 0;
+    bg2->unk20 = 0;
+    bg2->unk22 = 0;
+    bg2->unk24 = 0;
+    bg2->targetTilesX = 0x10;
+    bg2->targetTilesY = 0x10;
+    bg2->paletteOffset = 0;
+    bg2->flags = 6;
+    DrawBackground(bg2);
 }
 
+#if 0
 void Task_3F0_8087B80(MainMenu *menu) {
     if (menu->unk6E != 0) {
         gDispCnt |= 0x2000;
@@ -606,7 +613,7 @@ void Task_3F0_8087C74(MainMenu *menu) {
         menu->unk70 = 0;
         menu->unk6E = 0;
     }
-    if (menu->unk10 == 4) {
+    if (menu->highlitButton == 4) {
         sub_8089028(menu);
     }
     sub_80890F8(menu);
@@ -633,7 +640,7 @@ void Task_3F0_8087D54(MainMenu *menu) {
     u8 var_r0;
     u8 var_r1;
 
-    temp_r0 = menu->unk10;
+    temp_r0 = menu->highlitButton;
     switch ((u32) temp_r0) {                        /* irregular */
     case 0:
         temp_r1 = menu->unkC;
@@ -697,7 +704,7 @@ block_15:
         sub_80AB120(3U);
         break;
     }
-    if (menu->unk10 != 0xA) {
+    if (menu->highlitButton != 0xA) {
         TaskDestroy(gCurTask);
     }
 }
@@ -730,7 +737,7 @@ void Task_3F0_8087F18(MainMenu *menu) {
         return;
     }
     gBldRegs.bldY = 0x10;
-    temp_r0 = menu->unk10;
+    temp_r0 = menu->highlitButton;
     switch (temp_r0) {
     case 0:
         sub_80003B8();
@@ -783,7 +790,7 @@ void Task_3F0_8088088(MainMenu *menu) {
         if ((u32) (u8) (menu->initArg1 - 2) <= 1U) {
             var_r0 = Task_3F0_8087F18;
         } else {
-            temp_r0 = menu->unk10;
+            temp_r0 = menu->highlitButton;
             switch (temp_r0) {                      /* irregular */
             case 0:
                 menu->unk4 = (u8) temp_r0;
@@ -830,11 +837,11 @@ void Task_3F0_808819C(MainMenu *menu) {
     sub_8089F40(menu);
     sub_8089F08(menu);
     sub_8089704(menu);
-    if ((menu->unk14 != 4) && (0x20 & gPressedKeys) && (4 & LOADED_SAVE->unlockFlags) && (menu->unk10 == 3)) {
+    if ((menu->unk14 != 4) && (0x20 & gPressedKeys) && (4 & LOADED_SAVE->unlockFlags) && (menu->highlitButton == 3)) {
         temp_r1 = (menu->language * 0x10) + &gUnknown_080D6234;
         if ((menu->spr16C[0].anim == temp_r1->unk0) && (menu->spr16C[0].variant == temp_r1->unk2)) {
             m4aSongNumStart(0x6CU);
-            menu->unk10 = 0xB;
+            menu->highlitButton = 0xB;
             menu->unk6E = 1;
             gCurTask->main = Task_3F0_8087C74;
             return;
@@ -848,19 +855,19 @@ void Task_3F0_808819C(MainMenu *menu) {
             if (temp_r1_2 == 0xA) {
                 menu->unk4 = 0;
                 menu->unk68 = temp_r0;
-                menu->unk10 = temp_r1_2;
+                menu->highlitButton = temp_r1_2;
                 menu->unk14 = (s16) ((u16) menu->unk14 + 1);
             } else {
-                if ((0x20 & gPressedKeys) && (menu->unk10 == 0)) {
+                if ((0x20 & gPressedKeys) && (menu->highlitButton == 0)) {
                     m4aSongNumStart(0x6CU);
-                    menu->unk10 = 0xA;
+                    menu->highlitButton = 0xA;
                     menu->unk4 = 0;
                     menu->unk68 = 0x100;
                     menu->unk6A = 0x100;
                 }
-                if ((0x10 & gPressedKeys) && (menu->unk10 == 0xA)) {
+                if ((0x10 & gPressedKeys) && (menu->highlitButton == 0xA)) {
                     m4aSongNumStart(0x6CU);
-                    menu->unk10 = 0;
+                    menu->highlitButton = 0;
                     menu->unk4 = 0;
                     menu->unk68 = 0x100;
                     menu->unk6A = 0x100;
@@ -871,7 +878,7 @@ void Task_3F0_808819C(MainMenu *menu) {
             m4aSongNumStart(0x6BU);
             menu->unk12 = 0;
             menu->unk6E = 1;
-            menu->unk10 = 4;
+            menu->highlitButton = 4;
             menu->unk6 = 3;
             menu->unkB = 2;
             goto block_22;
@@ -886,24 +893,24 @@ block_22:
         gCurTask->main = Task_3F0_8088088;
         return;
     }
-    if (((s32) menu->unk10 <= 9) && (0xC0 & gRepeatedKeys)) {
+    if (((s32) menu->highlitButton <= 9) && (0xC0 & gRepeatedKeys)) {
         m4aSongNumStart(0x6CU);
         temp_r2 = 0x40 & gRepeatedKeys;
         if (temp_r2 != 0) {
-            if ((s32) menu->unk10 <= 0) {
+            if ((s32) menu->highlitButton <= 0) {
                 var_r0 = 3;
             } else {
-                var_r0 = (u16) menu->unk10 - 1;
+                var_r0 = (u16) menu->highlitButton - 1;
             }
             goto block_33;
         }
         if (0x80 & gRepeatedKeys) {
-            if ((s32) menu->unk10 > 2) {
-                menu->unk10 = (s16) temp_r2;
+            if ((s32) menu->highlitButton > 2) {
+                menu->highlitButton = (s16) temp_r2;
             } else {
-                var_r0 = (u16) menu->unk10 + 1;
+                var_r0 = (u16) menu->highlitButton + 1;
 block_33:
-                menu->unk10 = var_r0;
+                menu->highlitButton = var_r0;
             }
         }
         menu->unk68 = 0x100;
@@ -913,14 +920,14 @@ block_33:
         menu->unk2 = 0;
         menu->unk4 = 0x40;
         if ((u32) (u8) (menu->initArg1 - 2) > 1U) {
-            menu->bg370.tilemapId = (&gUnknown_080D66C4)[menu->unk10];
+            menu->bg370.tilemapId = (&gUnknown_080D66C4)[menu->highlitButton];
             menu->bg370.flags = 6;
             DrawBackground(&menu->bg370);
         }
     }
     sub_80890F8(menu);
-    if ((s32) menu->unk10 <= 9) {
-        menu->unkB = (u8) (u16) menu->unk10;
+    if ((s32) menu->highlitButton <= 9) {
+        menu->unkB = (u8) (u16) menu->highlitButton;
         return;
     }
     menu->unkB = 0;
@@ -945,9 +952,9 @@ void Task_3F0_8088440(MainMenu *menu) {
     menu->unk6 = 1;
     menu->unk74 = 0x180;
     menu->unk3 = 1;
-    temp_r0 = menu->unk10;
+    temp_r0 = menu->highlitButton;
     menu->unkC = (u8) temp_r0;
-    menu->unk10 = 1U;
+    menu->highlitButton = 1U;
     menu->unkD = (u8) temp_r0;
     menu->unk3C = 0x6400;
     menu->unk44 = 0x8200;
@@ -1022,8 +1029,8 @@ void Task_3F0_80885CC(MainMenu *menu) {
     menu->unk6 = 1;
     menu->unk74 = 0x180;
     menu->unk3 = 1;
-    menu->unkC = (u8) menu->unk10;
-    menu->unk10 = 2U;
+    menu->unkC = (u8) menu->highlitButton;
+    menu->highlitButton = 2U;
     menu->unk3C = 0x6400;
     menu->unk44 = 0x8200;
     sp4 = temp_r0 * 2;
@@ -1102,10 +1109,10 @@ void Task_3F0_8088770(MainMenu *menu) {
     menu->unk6 = 1;
     menu->unk74 = 0x180;
     menu->unk3 = 1;
-    temp_r0 = menu->unk10;
+    temp_r0 = menu->highlitButton;
     menu->unkC = (u8) temp_r0;
     menu->unkB = temp_r0 + 1;
-    menu->unk10 = 0U;
+    menu->highlitButton = 0U;
     menu->unk3C = (s32) (menu->unk1C + 0x1A00);
     menu->unk44 = (s32) (menu->unk2C + 0x600);
     var_r2 = &gUnknown_080D6294;
@@ -1221,7 +1228,7 @@ void Task_3F0_80889CC(MainMenu *menu) {
         } else {
             menu->unkC = 1;
         }
-        temp_r1 = menu->unk10;
+        temp_r1 = menu->highlitButton;
         switch (temp_r1) {                          /* irregular */
         case 0:
             menu->unkB = menu->unkC + 1;
@@ -1248,7 +1255,7 @@ void Task_3F0_80889CC(MainMenu *menu) {
     }
     sub_80890F8(menu);
     if (1 & gPressedKeys) {
-        temp_r1_3 = menu->unk10;
+        temp_r1_3 = menu->highlitButton;
         if (temp_r1_3 == 2) {
             if (!(temp_r1_3 & LOADED_SAVE->unlockFlags) && (menu->unkC == 1)) {
                 m4aSongNumStart(0x69U);
@@ -1694,7 +1701,7 @@ void sub_8089308(MainMenu *menu) {
     var_r7 = 0;
     do {
         temp_r4 = &menu->spr7C[var_r7];
-        if (menu->unk10 == 0) {
+        if (menu->highlitButton == 0) {
             if ((s32) menu->unk68 <= 0) {
                 var_r0 = 3;
             } else {
@@ -1706,7 +1713,7 @@ void sub_8089308(MainMenu *menu) {
         temp_r4->palId = var_r0;
         temp_r4->x = (s16) ((s32) menu->unk18 >> 8);
         temp_r4->y = (s16) ((s32) menu->unk1C >> 8);
-        if (menu->unk10 == 0) {
+        if (menu->highlitButton == 0) {
             temp_r4->frameFlags |= 0x61;
             menu->tf324.rotation = 0;
             menu->tf324.qScaleX = (s16) (u16) menu->unk68;
@@ -1731,7 +1738,7 @@ void sub_8089398(MainMenu *menu) {
     var_r7 = 0;
     do {
         temp_r4 = &menu->sprCC[var_r7];
-        temp_r1 = menu->unk10;
+        temp_r1 = menu->highlitButton;
         if (temp_r1 == 1) {
             if ((s32) menu->unk68 <= 0) {
                 var_r0 = 3;
@@ -1745,7 +1752,7 @@ block_6:
         }
         temp_r4->x = (s16) ((s32) menu->unk20 >> 8);
         temp_r4->y = (s16) ((s32) menu->unk24 >> 8);
-        if (menu->unk10 == 1) {
+        if (menu->highlitButton == 1) {
             temp_r4->frameFlags |= 0x61;
             menu->tf324.rotation = 0;
             menu->tf324.qScaleX = (s16) (u16) menu->unk68;
@@ -1769,7 +1776,7 @@ void sub_8089428(MainMenu *menu) {
     var_r7 = 0;
     do {
         temp_r4 = &menu->spr11C[var_r7];
-        if (menu->unk10 == 2) {
+        if (menu->highlitButton == 2) {
             if ((s32) menu->unk68 <= 0) {
                 var_r0 = 3;
             } else {
@@ -1781,7 +1788,7 @@ void sub_8089428(MainMenu *menu) {
         temp_r4->palId = var_r0;
         temp_r4->x = (s16) ((s32) menu->unk28 >> 8);
         temp_r4->y = (s16) ((s32) menu->unk2C >> 8);
-        if (menu->unk10 == 2) {
+        if (menu->highlitButton == 2) {
             temp_r4->frameFlags |= 0x61;
             menu->tf324.rotation = 0;
             menu->tf324.qScaleX = (s16) (u16) menu->unk68;
@@ -1806,7 +1813,7 @@ void sub_80894BC(MainMenu *menu) {
     var_r7 = 0;
     do {
         temp_r4 = &menu->spr16C[var_r7];
-        temp_r1 = menu->unk10;
+        temp_r1 = menu->highlitButton;
         if (temp_r1 == 3) {
             if ((s32) menu->unk68 <= 0) {
                 temp_r4->palId = (u8) temp_r1;
@@ -1821,7 +1828,7 @@ block_6:
         }
         temp_r4->x = (s16) ((s32) menu->unk30 >> 8);
         temp_r4->y = (s16) ((s32) menu->unk34 >> 8);
-        if (menu->unk10 == 3) {
+        if (menu->highlitButton == 3) {
             temp_r4->frameFlags |= 0x61;
             menu->tf324.rotation = 0;
             menu->tf324.qScaleX = (s16) (u16) menu->unk68;
@@ -1920,7 +1927,7 @@ void sub_8089670(MainMenu *menu) {
     var_r7 = 0;
     do {
         temp_r4 = &menu->spr25C[var_r7];
-        if ((s32) menu->unk10 > 9) {
+        if ((s32) menu->highlitButton > 9) {
             if ((s32) menu->unk68 <= 0) {
                 var_r0 = 3;
             } else {
@@ -1932,7 +1939,7 @@ void sub_8089670(MainMenu *menu) {
         temp_r4->palId = var_r0;
         temp_r4->x = (s16) ((s32) menu->unk48 >> 8);
         temp_r4->y = (s16) ((s32) menu->unk4C >> 8);
-        if ((s32) menu->unk10 > 9) {
+        if ((s32) menu->highlitButton > 9) {
             temp_r4->frameFlags |= 0x61;
             menu->tf324.rotation = 0;
             menu->tf324.qScaleX = (s16) (u16) menu->unk68;
