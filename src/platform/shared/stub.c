@@ -112,7 +112,7 @@ void sub_8087B80() { }
 void sub_8088440() { }
 void sub_80885CC() { }
 void sub_8088770() { }
-void sub_808D0F0() { }
+void CreateMultiPakConnectionCheck() { }
 void sub_808ECB8() { }
 // returns VRAM tile pointer
 void *CreateSomeTask_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles) { return tiles; }

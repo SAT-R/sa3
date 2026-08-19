@@ -6083,7 +6083,7 @@ _0809E7B8:
 	movs r1, #6
 	strb r1, [r0, #3]
 	movs r0, #0xff
-	bl sub_808D0F0
+	bl CreateMultiPakConnectionCheck
 	ldr r0, [r4]
 	bl TaskDestroy
 _0809E7D0:

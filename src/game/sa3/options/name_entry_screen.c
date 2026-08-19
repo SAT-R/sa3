@@ -103,7 +103,7 @@ void sub_80938B4(NameEntryScreen *nes);
 void sub_8093904(NameEntryScreen *nes);
 void TaskDestructor_NameEntryScreen(struct Task *t);
 
-extern void sub_808D0F0(u8);
+extern void CreateMultiPakConnectionCheck(u8);
 extern void sub_8000340(u16 arg0);
 extern void LaunchOptionsMenu(u16 arg0);
 extern void LaunchGameIntro(void);
@@ -581,7 +581,7 @@ void Task_80924DC(void)
     if (nes->initArg0 == 2) {
         gStageData.gameMode = 6;
         sub_80003B8();
-        sub_808D0F0(0);
+        CreateMultiPakConnectionCheck(0);
     } else if (nes->initArg0 == 3) {
         gStageData.gameMode = 7;
         sub_80003B8();

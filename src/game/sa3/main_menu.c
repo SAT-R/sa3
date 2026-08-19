@@ -133,7 +133,7 @@ void sub_808A1B0(u8 arg0, void *arg1, u8 *vram, s16 arg3, s16 arg4);
 
 extern void CreateNameEntryScreen(u8);
 extern void sub_80A1A4C(u8 param0);
-extern void sub_808D0F0(u8 param0);
+extern void CreateMultiPakConnectionCheck(u8 param0);
 extern void sub_8000340(u16 arg0);
 extern void LaunchOptionsMenu(u16 arg0);
 extern void CreateTimeRecordScreen(u8 param0);
@@ -685,7 +685,7 @@ void Task_3F0_8087D54(void)
                     CreateNameEntryScreen(2);
                 } else {
                     gStageData.gameMode = 6;
-                    sub_808D0F0(0);
+                    CreateMultiPakConnectionCheck(0);
                 }
             } else {
                 gStageData.gameMode = 7;
