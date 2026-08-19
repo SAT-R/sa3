@@ -23,15 +23,14 @@ void sub_8027674(u8 param0, u16 param1);
 // Multiplayer-related (used in IA item_box_mp.c)
 typedef struct {
     /* 0x00 */ u8 filler0[7];
-    /* 0x4C */ u8 unk7;
-    /* 0x4C */ u8 unk8;
-    /* 0x4C */ u8 unk9;
-    /* 0x00 */ u8 fillerA[0x2];
-    /* 0x4C */ u32 unkC[4];
-    /* 0x00 */ u16 unk1C[4][6];
-    /* 0x4C */ u8 unk4C;
-    /* 0x4D */ u8 unk4D;
-    /* 0x4E */ u8 filler4E[0x4];
+    /* 0x07 */ u8 unk7;
+    /* 0x08 */ u8 unk8;
+    /* 0x09 */ u8 unk9;
+    /* 0x0A */ u8 fillerA[0x2];
+    /* 0x0C */ u32 unkC[4];
+    /* 0x1C */ u16 unk1C[4][6];
+    /* 0x4C */ u8 unk4C[NUM_MULTI_PLAYER_CHARS];
+    /* 0x52 */ u16 unk50;
     /* 0x52 */ u16 unk52;
     /* 0x54 */ u8 unk54;
     /* 0x55 */ u8 unk55; // used to determine item type in MP itemboxes (15 + (unk55 & 0x1))

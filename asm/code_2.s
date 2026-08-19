@@ -8184,6 +8184,8 @@ TaskDestructor_809F84C: @ 0x0809F84C
 @ ----------
 
 @ Probably VERY similar to the Singleplayer Character Select
+@ Called as follows in Task_EC_808D718();
+@ extern void CreateCharacterSelectMultiplayer(SDC_EC *strcEC);
 	thumb_func_start CreateCharacterSelectMultiplayer
 CreateCharacterSelectMultiplayer: @ 0x0809F850
 	push {r4, r5, lr}

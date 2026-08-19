@@ -211,11 +211,11 @@ void CreateStageIntro(void)
             var_r4 = sp4[gPlayers[PLAYER_2].charFlags.character];
         } else if (gStageData.gameMode == 6) {
             if ((playerIndex == 0) || (playerIndex == 2)) {
-                var_r5 = sp4[gUnknown_03001060.unk4C];
-                var_r4 = sp4[gUnknown_03001060.filler4E[0]];
+                var_r5 = sp4[gUnknown_03001060.unk4C[0]];
+                var_r4 = sp4[gUnknown_03001060.unk4C[2]];
             } else {
-                var_r5 = sp4[gUnknown_03001060.unk4D];
-                var_r4 = sp4[gUnknown_03001060.filler4E[1]];
+                var_r5 = sp4[gUnknown_03001060.unk4C[1]];
+                var_r4 = sp4[gUnknown_03001060.unk4C[3]];
             }
         } else {
             var_r5 = sp4[gPlayers[gStageData.playerIndex].charFlags.character];
