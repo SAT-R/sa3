@@ -399,9 +399,10 @@ void Task_EC_808D270(void)
     }
 }
 
-#if 0
-void Task_EC_808D45C(void) {
+void Task_EC_808D45C(void)
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
+    ScreenFade *fade = &strcEC->fade;
     s16 temp_r5;
     u16 var_r0;
     u8 temp_r7;
@@ -412,29 +413,31 @@ void Task_EC_808D45C(void) {
     } else {
         var_r0 = sub_80246B4();
     }
-    temp_r5 = (s16) var_r0;
-    if ((s32) temp_r5 < 0) {
+    temp_r5 = (s16)var_r0;
+    if ((s32)temp_r5 < 0) {
         sub_802613C();
         return;
     }
-    if ((s32) (s16) strcEC->unkC <= 0x77) {
+    if ((s32)(s16)strcEC->unkC <= 0x77) {
         strcEC->unkC += 1;
         return;
     }
-    if (((UpdateScreenFade(&strcEC->fade) << 0x18) != 0) && (0x10 & temp_r5)) {
+    if (((UpdateScreenFade(fade) << 0x18) != 0) && (0x10 & temp_r5)) {
         if (temp_r7 == 0) {
             sub_80258FC();
         } else {
             sub_80259EC();
         }
-        strcEC->fade.window = 0;
-        strcEC->fade.flags = 2;
-        strcEC->fade.brightness = 0;
-        strcEC->fade.speed = 0x200;
-        strcEC->fade.bldCnt = 0xFF;
-        strcEC->fade.bldAlpha = 0;
-        ScreenFadeUpdateValues(&strcEC->fade);
+        fade->window = 0;
+        fade->flags = 2;
+        fade->brightness = 0;
+        fade->speed = 0x200;
+        fade->bldCnt = 0xFF;
+        fade->bldAlpha = 0;
+
+        ScreenFadeUpdateValues(fade);
         DmaFill32(3, 0, BG_CHAR_ADDR_FROM_BGCNT(2), 0x40);
+
         gBgSprites_Unknown1[2] = 0;
         gBgSprites_Unknown2[2][0] = 0;
         gBgSprites_Unknown2[2][1] = 0;
@@ -444,65 +447,72 @@ void Task_EC_808D45C(void) {
     }
 }
 
-void sub_808D548(SDC_EC *strcEC, u8 arg1) {
-    gBgCntRegs[1] = 0x602;
+void sub_808D548(SDC_EC *strcEC, u8 arg1)
+{
+    gBgCntRegs[1] = BGCNT_SCREENBASE(6) | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(2);
     gDispCnt |= 0x200;
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = 0;
-    strcEC->bg5C.graphics.dest = (void *)0x06000000;
-    strcEC->bg5C.graphics.anim = 0;
-    strcEC->bg5C.layoutVram = (u16 *)0x06003000;
-    strcEC->bg5C.unk18 = 0;
-    strcEC->bg5C.unk1A = 0;
-    strcEC->bg5C.tilemapId = gTilemapIdsConnectionStatus[arg1 + (strcEC->unk18 * 4)];
-    strcEC->bg5C.unk1E = 0;
-    strcEC->bg5C.unk20 = 0;
-    strcEC->bg5C.unk22 = 0;
-    strcEC->bg5C.unk24 = 0;
-    strcEC->bg5C.targetTilesX = 0x20;
-    strcEC->bg5C.targetTilesY = 0x20;
-    strcEC->bg5C.paletteOffset = 0;
-    strcEC->bg5C.flags = 1;
-    DrawBackground(&strcEC->bg5C);
+    {
+        Background *bg = &strcEC->bg5C;
+        bg->graphics.dest = (void *)BG_CHAR_ADDR(0);
+        bg->graphics.anim = 0;
+        bg->layoutVram = (u16 *)BG_SCREEN_ADDR(6);
+        bg->unk18 = 0;
+        bg->unk1A = 0;
+        bg->tilemapId = gTilemapIdsConnectionStatus[arg1 + (strcEC->unk18 * 4)];
+        bg->unk1E = 0;
+        bg->unk20 = 0;
+        bg->unk22 = 0;
+        bg->unk24 = 0;
+        bg->targetTilesX = 0x20;
+        bg->targetTilesY = 0x20;
+        bg->paletteOffset = 0;
+        bg->flags = 1;
+        DrawBackground(bg);
+    }
 }
 
-void sub_808D5CC(SDC_EC *arg0, u8 arg1) {
-    Background *bg;
+void sub_808D5CC(SDC_EC *arg0, u8 arg1)
+{
 
-    *gBgCntRegs = 0xE07;
-    gDispCnt |= 0x100;
+    gBgCntRegs[0] = BGCNT_SCREENBASE(14) | BGCNT_CHARBASE(1) | BGCNT_PRIORITY(3) | BGCNT_TXT256x256;
+    gDispCnt |= DISPCNT_BG0_ON;
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
-    bg = &arg0->bg1C;
-    bg->graphics.dest = (void *)0x06004000;
-    bg->graphics.anim = 0;
-    bg->layoutVram = (u16 *)0x06007000;
-    bg->unk18 = 0;
-    bg->unk1A = 0;
-    bg->tilemapId = gTilemapIdsConnectionStatus[arg1];
-    bg->unk1E = 0;
-    bg->unk20 = 0;
-    bg->unk22 = 0;
-    bg->unk24 = 0;
-    bg->targetTilesX = 0x20;
-    bg->targetTilesY = 0x20;
-    bg->paletteOffset = 0;
-    bg->flags = 0;
-    DrawBackground(bg);
+    {
+        Background *bg = &arg0->bg1C;
+        bg->graphics.dest = (void *)BG_CHAR_ADDR(1);
+        bg->graphics.anim = 0;
+        bg->layoutVram = (u16 *)BG_SCREEN_ADDR(14);
+        bg->unk18 = 0;
+        bg->unk1A = 0;
+        bg->tilemapId = gTilemapIdsConnectionStatus[arg1];
+        bg->unk1E = 0;
+        bg->unk20 = 0;
+        bg->unk22 = 0;
+        bg->unk24 = 0;
+        bg->targetTilesX = 256 / TILE_WIDTH;
+        bg->targetTilesY = 256 / TILE_WIDTH;
+        bg->paletteOffset = 0;
+        bg->flags = 0;
+        DrawBackground(bg);
+    }
 }
 
-void sub_808D648(SDC_EC *arg0, s8 arg1) {
+void sub_808D648(SDC_EC *arg0, s8 arg1)
+{
     Sprite *s;
     void *temp_r0;
 
     if (arg1 > 0) {
         s = &arg0->sprC4;
         arg0->sprC4.tiles = OBJ_VRAM0 + (gUnknown_080D6898[arg0->unk18].numTiles << 5);
-        s->anim    = gUnknown_080D6EE8[arg1 - 1].anim;
+        s->anim = gUnknown_080D6EE8[arg1 - 1].anim;
         s->variant = gUnknown_080D6EE8[arg1 - 1].variant;
         s->prevVariant = 0xFF;
-        s->x = 0x71;
-        s->y = 0x67;
+        s->x = 113;
+        s->y = 103;
         s->oamFlags = 0;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -515,10 +525,11 @@ void sub_808D648(SDC_EC *arg0, s8 arg1) {
     }
 }
 
-void sub_808D6BC(SDC_EC *arg0) {
+void sub_808D6BC(SDC_EC *arg0)
+{
     Sprite *s = &arg0->spr9C;
     s->tiles = (u8 *)OBJ_VRAM0;
-    s->anim    = gUnknown_080D6898[arg0->unk18].anim;
+    s->anim = gUnknown_080D6898[arg0->unk18].anim;
     s->variant = gUnknown_080D6898[arg0->unk18].variant;
     s->prevVariant = 0xFF;
     s->x = 120;
@@ -534,6 +545,7 @@ void sub_808D6BC(SDC_EC *arg0) {
     DisplaySprite(s);
 }
 
+#if 0
 void Task_EC_808D718(void) {
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     u8 *temp_r0;
