@@ -140,6 +140,12 @@ struct MultiSioData_0_5 {
     u8 unk13;
 };
 
+struct MultiSioData_3_0 {
+    u8 filler0[0xF];
+    u8 unkF[4];
+    u8 unk13;
+};
+
 struct MultiSioData_Unknown {
     u16 unk0;
     s16 x;
@@ -160,6 +166,7 @@ union MultiSioData {
     struct MultiSioData_0_3 pat3;
     struct MultiSioData_0_4 pat4;
     struct MultiSioData_0_5 pat5;
+    struct MultiSioData_3_0 pat3_0;
     struct MultiSioData_Unknown patU;
 
     u8 raw[MULTI_SIO_BLOCK_SIZE];

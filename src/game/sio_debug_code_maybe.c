@@ -75,7 +75,7 @@ s16 sub_8025908(u8 arg0);
 
 extern s16 sub_80244E4(void);
 extern s16 sub_80246B4(void);
-extern bool32 sub_8024AC0(u16);
+extern s16 sub_8024AC0(u16);
 extern void sub_80258FC();
 extern void sub_80259EC();
 extern void sub_80260F0(void);
@@ -101,16 +101,16 @@ extern s16 sub_8024E1C(s16);
 extern s16 sub_8024F1C(s16);
 extern s16 sub_80250EC(s16);
 extern s16 sub_80251F8(s16);
-extern s16 sub_8025A90(s16);
-extern s16 sub_80253CC(s16);
-extern s16 sub_8025534(s16);
-extern s16 sub_8025614(s16);
-extern s16 sub_8025A38(s16);
+extern s16 sub_8025A90(void);
+extern s16 sub_80253CC(void);
+extern s16 sub_8025534(void);
+extern s16 sub_8025614(void);
+extern s16 sub_8025A38(void);
 extern void sub_8027960(void);
-extern s16 sub_8025360(s16);
+extern s16 sub_8025360(void);
 extern s16 sub_8025460(s16);
-extern s16 sub_80255B0(s16);
-extern s16 sub_8025AA8(s16);
+extern s16 sub_80255B0(void);
+extern s16 sub_8025AA8(void);
 extern void sub_808EBBC(void);
 void LaunchChaoMenu(s16 arg0, u8 arg1);
 
@@ -545,38 +545,36 @@ void sub_808D6BC(SDC_EC *arg0)
     DisplaySprite(s);
 }
 
-#if 0
-void Task_EC_808D718(void) {
+void Task_EC_808D718(void)
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     u8 *temp_r0;
     u8 *temp_r0_3;
     u8 temp_r4;
-    u8 temp_r5;
+    u16 temp_r5;
     u8 var_r1;
     u8 var_r2;
     u8 var_r2_2;
     union MultiSioData *temp_r0_2;
     void (*var_r0)(SDC_EC *);
+    union MultiSioData *send = &gMultiSioSend;
 
     temp_r5 = gStageData.playerIndex;
     CreateCharacterSelectMultiplayer(strcEC);
-    gMultiSioSend.pat0.unk0 = 0;
-    gMultiSioSend.pat0.unk2 = 0;
-    gMultiSioSend.pat0.unk3 = 0;
-    gMultiSioSend.raw[4] = 0;
-    gMultiSioSend.raw[5] = 0;
-    gMultiSioSend.pat1.unk6 = 0;
-    gMultiSioSend.pat3.unk8 = 0;
-    gMultiSioSend.pat0.unk8[2] = 0;
-    gMultiSioSend.pat0.unkE = 0;
-    var_r2 = 0;
-    do {
-        temp_r0 = &(&gMultiSioSend.pat0.unkF)[var_r2];
-        *temp_r0 |= 0xFF;
-        var_r2 += 1;
-    } while ((u32) var_r2 <= 3U);
-    var_r1 = 0;
-    do {
+    send->pat0.unk0 = 0;
+    send->pat0.unk2 = 0;
+    send->pat0.unk3 = 0;
+    send->raw[4] = 0;
+    send->raw[5] = 0;
+    send->pat1.unk6 = 0;
+    send->pat3.unk8 = 0;
+    send->pat0.unk8[2] = 0;
+    send->pat0.unkE = 0;
+    for (var_r2 = 0; var_r2 < 4; var_r2++) {
+        send->pat3_0.unkF[var_r2] = -1;
+    }
+
+    for (var_r1 = 0; var_r1 < 4; var_r1++) {
         temp_r0_2 = &gMultiSioRecv[var_r1];
         temp_r0_2->pat0.unk0 = 0;
         temp_r0_2->pat0.unk2 = 0;
@@ -587,24 +585,19 @@ void Task_EC_808D718(void) {
         temp_r0_2->pat3.unk8 = 0;
         temp_r0_2->pat0.unk8[2] = 0;
         temp_r0_2->pat0.unkE = 0;
-        var_r2_2 = 0;
-        temp_r4 = var_r1 + 1;
-loop_4:
-        temp_r0_3 = &(&temp_r0_2->pat0.unkF)[var_r2_2];
-        *temp_r0_3 |= 0xFF;
-        var_r2_2 += 1;
-        if ((u32) var_r2_2 <= 3U) {
-            goto loop_4;
+        for (var_r2 = 0; var_r2 < 4; var_r2++) {
+            temp_r0_2->pat3_0.unkF[var_r2] = -1;
         }
-        var_r1 = temp_r4;
-    } while ((u32) var_r1 <= 3U);
-    if ((s32) (s16) temp_r5 <= 1) {
+    }
+
+    if ((s32)(s16)temp_r5 <= 1) {
         gCurTask->main = Task_EC_808D7F0;
     } else {
         gCurTask->main = Task_EC_808DA44;
     }
 }
 
+#if 0
 void Task_EC_808D7F0(void) {
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     s16 temp_r1_2;
@@ -629,52 +622,49 @@ void Task_EC_808D7F0(void) {
         sub_802613C();
         return;
     }
-    var_r2 = 0;
-    do {
-        temp_r1_2 = var_r2;
-        temp_r0 = &gMultiSioRecv[temp_r1_2];
-        strcEC->unkE[temp_r1_2] = temp_r0->raw[4];
-        gUnknown_03001060.unk4C[temp_r1_2] = (&temp_r0->pat0.unkF)[temp_r1_2];
-        temp_r1 = temp_r1_2 + 1;
-        var_r2 = (s16) temp_r1;
-    } while ((s32) (s16) temp_r1 <= 3);
+
+    for(var_r2 = 0; var_r2 < 4; var_r2++)
+    {
+        temp_r0 = &gMultiSioRecv[var_r2];
+        strcEC->unkE[var_r2] = temp_r0->raw[4];
+        gUnknown_03001060.unk4C[var_r2] = temp_r0->pat3_0.unkF[var_r2];
+    }
+
     if (((UpdateScreenFade(&strcEC->fade) << 0x18) != 0) && (strcEC->unk16 != 0)) {
         if (1 & gPressedKeys) {
-            var_r2_2 = 0;
-            temp_r3 = strcEC->unk13;
-loop_11:
-            if (gUnknown_03001060.unk4C[var_r2_2] != gUnknown_080D8F18[temp_r3]) {
-                temp_r0_2 = var_r2_2 + 1;
-                var_r2_2 = (s16) temp_r0_2;
-                if ((s32) (s16) temp_r0_2 > 3) {
-                    if (temp_sb == 0) {
-                        gUnknown_03001060.unk4C[0] = gUnknown_080D8F18[temp_r3];
-                        strcEC->unk17 = 0xC;
-                        gCurTask->main = Task_EC_808DA44;
-                        return;
+            for(var_r2 = 0; var_r2 < 4; var_r2++)
+            {
+                if (gUnknown_03001060.unk4C[var_r2] != gUnknown_080D8F18[strcEC->unk13]) {
+                    temp_r0_2 = var_r2 + 1;
+                    var_r2 = temp_r0_2;
+                    if (temp_r0_2 > 3) 
+                    {
+                        if (temp_sb != 0) {
+                            gUnknown_03001060.unk4C[temp_sb] = gUnknown_080D8F18[strcEC->unk13];
+                            strcEC->unk17 = 0xC;
+                            gCurTask->main = Task_EC_808D988;
+                        } else {
+                            gUnknown_03001060.unk4C[0] = gUnknown_080D8F18[strcEC->unk13];
+                            strcEC->unk17 = 0xC;
+                            gCurTask->main = Task_EC_808DA44;
+                        }
                     }
-                    gUnknown_03001060.unk4C[temp_sb] = gUnknown_080D8F18[temp_r3];
-                    strcEC->unk17 = 0xC;
-                    gCurTask->main = Task_EC_808D988;
-                    return;
                 }
-                goto loop_11;
             }
         } else {
-            temp_r5 = 0x20 & gPressedKeys;
-            if (temp_r5 != 0) {
+            if (0x20 & gPressedKeys) {
                 m4aSongNumStart(SE_CHARSELECT_SLIDE);
-                if ((s32) strcEC->unk13 > 0) {
-                    strcEC->unk13 = (u8) strcEC->unk13 - 1;
+                if (strcEC->unk13 > 0) {
+                    strcEC->unk13 -= 1;
                 } else {
                     strcEC->unk13 = 4;
                 }
             } else if (0x10 & gPressedKeys) {
                 m4aSongNumStart(SE_CHARSELECT_SLIDE);
-                if ((s32) strcEC->unk13 <= 3) {
-                    strcEC->unk13 = (u8) strcEC->unk13 + 1;
+                if (strcEC->unk13 < 4) {
+                    strcEC->unk13 += 1;
                 } else {
-                    strcEC->unk13 = (s8) temp_r5;
+                    strcEC->unk13 = 0;
                 }
             }
             strcEC->unk12 = (u8) strcEC->unk13;
@@ -684,18 +674,14 @@ loop_11:
 
 void Task_EC_808D988(void) {
     SDC_EC *strcEC = TASK_DATA(gCurTask);
-    s16 temp_r0;
+    s32 temp_r0;
     s16 temp_r1_2;
     s16 var_r0_2;
     u16 temp_r1;
-    u8 temp_r5;
-    u8 temp_r6;
-    void (*var_r0)(SDC_EC *);
-
-    temp_r5 = gStageData.playerIndex;
-    temp_r6 = temp_r5;
+    u8 temp_r5 = gStageData.playerIndex;
+    u32 temp_r6 = temp_r5;
     temp_r0 = sub_8024AC0(gUnknown_080D8F18[strcEC->unk13]);
-    if ((s32) temp_r0 < 0) {
+    if (temp_r0 < 0) {
         sub_802613C();
         return;
     }
@@ -703,13 +689,15 @@ void Task_EC_808D988(void) {
         gUnknown_03001060.unk4C[temp_r5] = gUnknown_080D8F18[strcEC->unk13];
         gCurTask->main = Task_EC_808DA44;
     } else if (temp_r0 == 2) {
-        strcEC->unk17 = (u8) temp_r0;
+        strcEC->unk17 = 2;
         gUnknown_03001060.unk4C[temp_r6] = 0xFF;
         gCurTask->main = Task_EC_808D7F0;
     }
     for(var_r0_2 = 0; var_r0_2 < 4; var_r0_2++)
     {
-        strcEC->unkE[var_r0_2] = gMultiSioRecv[var_r0_2].raw[4];
+        union MultiSioData *recv = gMultiSioRecv;
+        u8 *src = &recv[var_r0_2].raw[4];
+        strcEC->unkE[var_r0_2] = *src;
     }
 }
 
@@ -1400,47 +1388,41 @@ void sub_808E6B4(SDC_EC *strcEC) {
     } else if (temp_r0 == 2) {
         gCurTask->main = Task_EC_808E430;
     }
-    var_r1 = 0;
-    do {
-        temp_r2 = var_r1;
-        if ((4 << temp_r2) & temp_r6) {
-            var_r2 = &(&gMultiSioRecv[2])[temp_r2];
+
+    for(var_r1 = 0; var_r1 < 2; var_r1++)
+    {
+        if ((4 << var_r1) & temp_r6) {
+            var_r2 = &(&gMultiSioRecv[2])[var_r1];
         } else {
-            var_r2 = (temp_r2 * 0x18) + (&gMultiSioRecv[2] - 0x30);
+            var_r2 = (var_r1 * 0x18) + (&gMultiSioRecv[2] - 0x30);
         }
-        temp_r0_3 = var_r1;
-        strcEC->unkE[temp_r0_3 + 2] = (u8) var_r2->raw[4];
-        temp_r0_2 = temp_r0_3 + 1;
-        var_r1 = (s16) temp_r0_2;
-    } while ((s32) (s16) temp_r0_2 <= 1);
+        strcEC->unkE[var_r1 + 2] = (u8) var_r2->raw[4];
+    }
 }
 
 void Task_EC_808E7B0(void) {
     SDC_EC *strcEC = TASK_DATA(gCurTask);
+    s16 playerIndex = gStageData.playerIndex;
     Player *temp_r1;
     s16 temp_r0_2;
-    s32 temp_r0;
-    u16 var_r0;
+    s16 var_r0;
     u8 var_r4;
 
-    var_r4 = 0;
-    do {
-        temp_r1 = &gPlayers[var_r4];
-        temp_r1->charFlags.character = gUnknown_030010AC[var_r4];
-        var_r4 += 1;
-    } while ((u32) var_r4 <= 3U);
-    temp_r0 = gStageData.playerIndex << 0x10;
-    if (temp_r0 == 0) {
-        var_r0 = sub_8025A90(gStageData.playerIndex);
-    } else {
-        var_r0 = sub_80253CC(gStageData.playerIndex);
+    for(var_r4 = 0; var_r4 < 4; var_r4++)
+    {
+        gPlayers[var_r4].charFlags.character = gUnknown_030010AC[var_r4];
     }
-    temp_r0_2 = (s16) var_r0;
-    if ((s32) temp_r0_2 < 0) {
+
+    if (playerIndex == 0) {
+        var_r0 = sub_8025A90();
+    } else {
+        var_r0 = sub_80253CC();
+    }
+    if ((s32) var_r0 < 0) {
         sub_802613C();
         return;
     }
-    if ((temp_r0_2 == 1) || (temp_r0 == 0)) {
+    if ((var_r0 == 1) || (playerIndex == 0)) {
         strcEC->unk17 = 0x14;
         gCurTask->main = Task_EC_808EDE4;
     }
@@ -1448,16 +1430,15 @@ void Task_EC_808E7B0(void) {
 
 void Task_EC_808E864(void) {
     SDC_EC *strcEC = TASK_DATA(gCurTask);
+    ScreenFade *fade = &strcEC->fade;
     s16 temp_r5;
     u16 temp_r0;
     u16 var_r0;
-    u8 temp_r7;
-
-    temp_r7 = gStageData.playerIndex;
-    if (temp_r7 == 0) {
-        var_r0 = sub_8025A90(gStageData.playerIndex);
+    u8 playerIndex = gStageData.playerIndex;
+    if (playerIndex == 0) {
+        var_r0 = sub_8025A90();
     } else {
-        var_r0 = sub_80253CC(gStageData.playerIndex);
+        var_r0 = sub_80253CC();
     }
     temp_r5 = (s16) var_r0;
     if ((s32) temp_r5 < 0) {
@@ -1465,16 +1446,13 @@ void Task_EC_808E864(void) {
         return;
     }
     nullsub_808EF98();
-    if ((UpdateScreenFade(&strcEC->fade) << 0x18) != 0) {
-        temp_r0 = strcEC->unkC - 1;
-        strcEC->unkC = temp_r0;
-        if ((s32) (s16) temp_r0 <= 0x3C) {
-            if (temp_r7 == 0) {
-                if (1 & gPressedKeys) {
-                    goto block_11;
+    if ((UpdateScreenFade(fade) << 0x18) != 0) {
+        if (--strcEC->unkC <= 60) {
+            if (playerIndex == 0) {
+                if (A_BUTTON & gPressedKeys) {
+                    strcEC->unkC = 0;
                 }
             } else if (temp_r5 == 1) {
-block_11:
                 strcEC->unkC = 0;
             }
             if ((s32) (s16) strcEC->unkC <= 0) {
@@ -1490,9 +1468,9 @@ void Task_EC_808E8FC(void) {
     u16 var_r0;
 
     if (gStageData.playerIndex == 0) {
-        var_r0 = sub_8025360(gStageData.playerIndex);
+        var_r0 = sub_8025360();
     } else {
-        var_r0 = sub_8025AA8(gStageData.playerIndex);
+        var_r0 = sub_8025AA8();
     }
     temp_r4 = (s16) var_r0;
     if ((s32) temp_r4 < 0) {
@@ -1513,6 +1491,7 @@ void Task_EC_808E8FC(void) {
 void Task_EC_808E9AC(void) {
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     u16 var_r0;
+    u8 playerIndex = gStageData.playerIndex;
 
     strcEC->unk13 = 0;
     strcEC->unk15 = 0;
@@ -1537,98 +1516,95 @@ void Task_EC_808E9AC(void) {
     gBgSprites_Unknown2[3][1] = 0;
     gBgSprites_Unknown2[3][2] = -1;
     gBgSprites_Unknown2[3][3] = 0x20;
-    if (gStageData.playerIndex == 0) {
+    if (playerIndex == 0) {
         var_r0 = sub_8025460(strcEC->unk15);
     } else {
-        var_r0 = sub_8025AA8(strcEC->unk15);
+        var_r0 = sub_8025AA8();
     }
     if ((s32) (var_r0 << 0x10) < 0) {
         sub_802613C();
         return;
     }
-    strcEC->fade.window = 0;
-    strcEC->fade.flags = 2;
-    strcEC->fade.brightness = 0;
-    strcEC->fade.speed = 0x200;
-    strcEC->fade.bldCnt = 0xFF;
-    strcEC->fade.bldAlpha = 0;
-    ScreenFadeUpdateValues(&strcEC->fade);
+    {
+        ScreenFade *fade = &strcEC->fade;
+        fade->window = 0;
+        fade->flags = 2;
+        fade->brightness = 0;
+        fade->speed = 0x200;
+        fade->bldCnt = 0xFF;
+        fade->bldAlpha = 0;
+        ScreenFadeUpdateValues(fade);
+    }
     gCurTask->main = Task_EC_808EA6C;
 }
+    
 void Task_EC_808EA6C(void) {
     u8 sp[0x15];
     SDC_EC *strcEC = TASK_DATA(gCurTask);
+    ScreenFade *fade = &strcEC->fade;
     s16 temp_r5;
-    s8 temp_r2;
-    s8 var_r0_2;
     s16 var_r0;
-    u8 temp_r6;
-
-    temp_r6 = gStageData.playerIndex;
+    u8 playerIndex = gStageData.playerIndex;
     memcpy(sp, &gUnknown_080D6F0C, sizeof(sp));
     strcEC->unk15 = *(strcEC->unk13 + sp);
-    if (temp_r6 == 0) {
+    if (playerIndex == 0) {
         var_r0 = sub_8025460(strcEC->unk15);
     } else {
-        var_r0 = sub_80255B0(strcEC->unk15);
+        var_r0 = sub_80255B0();
     }
-    temp_r5 = (s16) var_r0;
-    if ((s32) temp_r5 < 0) {
+    if (var_r0 < 0) {
         sub_802613C();
         return;
     }
     sub_808EBBC();
-    if ((UpdateScreenFade(&strcEC->fade) << 0x18) != 0) {
-        if (temp_r5 == 1) {
+    if ((UpdateScreenFade(fade) << 0x18) != 0) {
+        if (var_r0 == 1) {
             gCurTask->main = Task_EC_808EB50;
             return;
         }
-        if (temp_r6 == 0) {
-            temp_r2 = 1 & gPressedKeys;
-            if (temp_r2 != 0) {
+        if (playerIndex == 0) {
+            if (A_BUTTON & gPressedKeys) {
                 gCurTask->main = Task_EC_808EE8C;
                 return;
-            }
-            if (0x10 & gPressedKeys) {
-                if ((s32) strcEC->unk13 > 0x13) {
-                    strcEC->unk13 = temp_r2;
-                    return;
-                }
-                var_r0_2 = (u8) strcEC->unk13 + 1;
-                goto block_19;
-            }
-            if (0x20 & gPressedKeys) {
-                if ((s32) strcEC->unk13 <= 0) {
-                    var_r0_2 = 0x14;
+            } else if (DPAD_RIGHT & gPressedKeys) {
+                if (strcEC->unk13 > 0x13) {
+                    strcEC->unk13 = 0;
                 } else {
-                    var_r0_2 = (u8) strcEC->unk13 - 1;
+                    strcEC->unk13 += 1;                    
                 }
-block_19:
-                strcEC->unk13 = var_r0_2;
+            } else if (DPAD_LEFT & gPressedKeys) {
+                if (strcEC->unk13 <= 0) {
+                    strcEC->unk13 = 0x14;
+                } else {
+                    strcEC->unk13 -= 1;
+                }
             }
         }
     }
 }
 void Task_EC_808EB50(void) {
     SDC_EC *strcEC = TASK_DATA(gCurTask);
-    u16 var_r0;
+    s16 var_r0;
 
     if (gStageData.playerIndex == 0) {
-        var_r0 = sub_8025534(gStageData.playerIndex);
+        var_r0 = sub_8025534();
     } else {
-        var_r0 = sub_8025614(gStageData.playerIndex);
+        var_r0 = sub_8025614();
     }
-    if ((s32) (var_r0 << 0x10) < 0) {
+    if (var_r0 < 0) {
         sub_802613C();
         return;
     }
-    strcEC->fade.window = 0;
-    strcEC->fade.flags = 1;
-    strcEC->fade.brightness = 0;
-    strcEC->fade.speed = 0x200;
-    strcEC->fade.bldCnt = 0xFF;
-    strcEC->fade.bldAlpha = 0;
-    ScreenFadeUpdateValues(&strcEC->fade);
+    {
+        ScreenFade *fade = &strcEC->fade;
+        fade->window = 0;
+        fade->flags = 1;
+        fade->brightness = 0;
+        fade->speed = 0x200;
+        fade->bldCnt = 0xFF;
+        fade->bldAlpha = 0;
+        ScreenFadeUpdateValues(fade);
+    }
     gCurTask->main = Task_EC_808EEB8;
 }
 
@@ -1637,22 +1613,23 @@ void sub_808EBBC(void) {
     s16 temp_r4;
     u16 temp_r4_2;
     u16 temp_r5;
-    u8 temp_sl;
-
-    temp_sl = gStageData.playerIndex;
+    u8 temp_sl = gStageData.playerIndex;
+    u8 *vram = (void *)BG_VRAM + 0x40;
     temp_r4 = gUnknown_03001060.unk50;
     temp_r5 = Div((s32) temp_r4, 10) + 1;
     temp_r4_2 = Mod((s32) temp_r4, 10) - 1;
     sprintf(buffer, gStringSelectStage);
-    RenderText((void *)BG_VRAM + 0x40, gUnknown_082B5344, 0xAU, 6U, 2U, buffer, 0U);
+    RenderText(vram, gUnknown_082B5344, 0xAU, 6U, 2U, buffer, 0U);
+    vram += 12 * TILE_SIZE_4BPP;
     sprintf(buffer, gStringZoneNActN, (s16) temp_r5, (s16) temp_r4_2);
-    RenderText((void *)BG_VRAM + 0x1C0, gUnknown_082B5344, 0xAU, 8U, 2U, buffer, 0U);
+    RenderText(vram, gUnknown_082B5344, 0xAU, 8U, 2U, buffer, 0U);
+    vram += 13 * TILE_SIZE_4BPP;
     if (temp_sl == 0) {
         sprintf(buffer, gStringPressABtn);
     } else {
         sprintf(buffer, gStringPleaseWait);
     }
-    RenderText((void *)BG_VRAM + 0x360, gUnknown_082B5344, 0xAU, 0x10U, 2U, buffer, 0U);
+    RenderText(vram, gUnknown_082B5344, 0xAU, 0x10U, 2U, buffer, 0U);
 }
 
 void sub_808ECB8(void) {
@@ -1661,7 +1638,7 @@ void sub_808ECB8(void) {
 
 void Task_FCC_808ECC4(void) {
     SDC_FCC *strcFCC = TASK_DATA(gCurTask);
-    if ((UpdateScreenFade((ScreenFade *) ((s32) strcFCC * 2)) << 0x18) != 0) {
+    if (UpdateScreenFade(&strcFCC->fade) != 0) {
         gCurTask->main = Task_FCC_808D00C;
     }
 }
@@ -1670,9 +1647,8 @@ void Task_FCC_808ECF4(void) {
     SDC_FCC *strcFCC = TASK_DATA(gCurTask);
     s16 temp_r0;
 
-    if ((UpdateScreenFade(&strcFCC->fade) << 0x18) != 0) {
-        temp_r0 = (strcFCC + ((s32) strcFCC << 0x12))->unk10;
-        switch (temp_r0) {                          /* irregular */
+    if (UpdateScreenFade(&strcFCC->fade) != 0) {
+        switch (strcFCC->unk10) {
         case 0:
             CreateMultiPakConnectionCheck(0U);
             break;
@@ -1707,9 +1683,7 @@ void Task_EC_808ED60(void) {
 
 void Task_EC_808EDA8(void) {
     SDC_EC *strcEC = TASK_DATA(gCurTask);
-    s16 temp_r0;
-
-    temp_r0 = sub_8025A38(gStageData.playerIndex);
+    s16 temp_r0 = sub_8025A38();
     if (temp_r0 < 0) {
         sub_802613C();
     } else if (temp_r0 == 1) {
@@ -1723,9 +1697,9 @@ void Task_EC_808EDE4(void) {
     s16 var_r0;
 
     if (gStageData.playerIndex == 0) {
-        var_r0 = sub_8025A90(gStageData.playerIndex);
+        var_r0 = sub_8025A90();
     } else {
-        var_r0 = sub_80253CC(gStageData.playerIndex);
+        var_r0 = sub_80253CC();
     }
     if (var_r0 < 0) {
         sub_802613C();
@@ -1741,9 +1715,9 @@ void Task_EC_808EE34(void) {
     u16 var_r0;
 
     if (gStageData.playerIndex == 0) {
-        var_r0 = sub_8025A90(gStageData.playerIndex);
+        var_r0 = sub_8025A90();
     } else {
-        var_r0 = sub_80253CC(gStageData.playerIndex);
+        var_r0 = sub_80253CC();
     }
     if ((s32) (var_r0 << 0x10) < 0) {
         sub_802613C();
@@ -1755,29 +1729,25 @@ void Task_EC_808EE34(void) {
 }
 
 void Task_EC_808EE8C(void) {
-    SDC_EC *strcEC = TASK_DATA(gCurTask);
-    s16 temp_r0;
-
-    temp_r0 = (s16) sub_8025534(gStageData.playerIndex);
-    if ((s32) temp_r0 < 0) {
+    s16 temp_r0 = sub_8025534();
+    if (temp_r0 < 0) {
         sub_802613C();
-        return;
-    }
-    if (temp_r0 == 1) {
+    } else if (temp_r0 == 1) {
         gCurTask->main = Task_EC_808EB50;
     }
 }
 
 void Task_EC_808EEB8(void) {
     SDC_EC *strcEC = TASK_DATA(gCurTask);
-    u16 var_r0;
+    s16 var_r0;
+    u8 playerIndex = gStageData.playerIndex;
 
-    if (gStageData.playerIndex == 0) {
-        var_r0 = sub_8025534(gStageData.playerIndex);
+    if (playerIndex == 0) {
+        var_r0 = sub_8025534();
     } else {
-        var_r0 = sub_8025614(gStageData.playerIndex);
+        var_r0 = sub_8025614();
     }
-    if ((s32) (var_r0 << 0x10) < 0) {
+    if (var_r0 < 0) {
         sub_802613C();
         return;
     }
