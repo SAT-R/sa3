@@ -3,6 +3,7 @@
 #include "lib/m4a/m4a.h"
 #include "game/save.h"
 #include "game/screen_fade.h"
+#include "game/stage.h" // gStageData
 #include "constants/characters.h"
 #include "constants/songs.h"
 
@@ -186,8 +187,8 @@ void Task_FCC_808D00C(void)
         ScreenFadeUpdateValues(fade);
 
         gCurTask->main = Task_FCC_808ECF4;
-    } else if (2 & gPressedKeys) {
-        m4aSongNumStart(0x6BU);
+    } else if (B_BUTTON & gPressedKeys) {
+        m4aSongNumStart(SE_ABORT);
         strcFCC->unk10 = 2;
         fade->window = 0;
         fade->flags = 1;
@@ -276,7 +277,7 @@ void CreateMultiPakConnectionCheck(u8 arg0)
     gBgSprites_Unknown2[0][3] = 0x40;
     sub_808D548(strcEC, 3);
     m4aMPlayAllStop();
-    m4aSongNumStart(0x44U);
+    m4aSongNumStart(MUS_VS_MUSIC_1);
 }
 
 void Task_EC_808D214(void)
@@ -301,128 +302,104 @@ void Task_EC_808D214(void)
     }
 }
 
-#if 0
-void Task_EC_808D270(void) {
+void Task_EC_808D270(void)
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
-    s16 temp_r0_3;
-    s16 temp_r1;
-    s16 temp_r2;
-    s16 temp_r2_2;
-    s16 var_r1;
-    s16 var_r1_2;
-    s16 var_r4_2;
-    u16 temp_r0;
-    u16 temp_r0_2;
-    u16 var_r0;
+    s16 var_r0;
     u16 var_r4;
-    u32 temp_r0_4;
-    u8 temp_r8;
+    u8 playerIndex;
     void (*var_r0_2)(SDC_EC *);
+    ScreenFade *fade = &strcEC->fade;
+    s16 i;
 
-    temp_r8 = gStageData.playerIndex;
+    playerIndex = gStageData.playerIndex;
     var_r4 = 0;
     if (gStageData.playerIndex == 0) {
         var_r0 = sub_802440C();
     } else {
         var_r0 = sub_8024584();
     }
-    temp_r0 = var_r0;
-    temp_r2 = (s16) temp_r0;
-    if ((s32) temp_r2 < 0) {
+    if (var_r0 < 0) {
         sub_802613C();
         return;
     }
-    var_r1 = 0;
-    do {
-        temp_r1 = var_r1;
-        if ((temp_r2 >> temp_r1) & 1) {
+
+    for (i = 0; i < 4; i++) {
+        if (GetBit(var_r0, i)) {
             var_r4 += 1;
         }
-        temp_r0_2 = temp_r1 + 1;
-        var_r1 = (s16) temp_r0_2;
-    } while ((s32) (s16) temp_r0_2 <= 3);
-    sub_808D648(strcEC, (s8) (var_r4 - 1));
-    if ((UpdateScreenFade(&strcEC->fade) << 0x18) == 0) {
+    }
+
+    sub_808D648(strcEC, (s8)(var_r4 - 1));
+    if (UpdateScreenFade(fade) == 0) {
         return;
     }
-    if (temp_r8 == 0) {
-        temp_r0_3 = (s16) temp_r0;
-        switch (temp_r0_3) {                        /* irregular */
-        case 3:
-            if (var_r4 != 2) {
-                if (((temp_r0_3 == 7) && (var_r4 == 3)) || ((temp_r0_3 == 0xF) && (var_r4 == 4))) {
-                    goto block_18;
+    if (playerIndex == 0) {
+        if ((var_r0 == 3 && var_r4 == 2) || (var_r0 == 7 && var_r4 == 3) || (var_r0 == 15 && var_r4 == 4)) {
+            var_r4 = 0;
+            for (i = 0; i < 4; i++) {
+                if (!GetBit(var_r0, i) && (((vu16 *)&REG_SIODATA32)[i] == 0)) {
+                    var_r4 = 1;
+#ifdef BUG_FIX
+                    // NOTE: Just a small performance bug, but a bug none-the-less
+                    break;
+#endif
                 }
-                goto block_28;
             }
-block_18:
-            var_r4_2 = 0;
-            var_r1_2 = 0;
-            do {
-                temp_r2_2 = var_r1_2;
-//                if (!(((s16) temp_r0 >> temp_r2_2) & 1) && ((temp_r2_2 * 2)->unk4000120 == 0)) 
-                {
-                    var_r4_2 = 1;
-                }
-                temp_r0_4 = (var_r1_2 << 0x10) + 0x10000;
-                var_r1_2 = (s16) (temp_r0_4 >> 0x10);
-            } while ((s32) ((s32) temp_r0_4 >> 0x10) <= 3);
-            if (var_r4_2 == 0) {
+
+            if (var_r4 == 0) {
                 sub_808D6BC(strcEC);
                 if (8 & gPressedKeys) {
                     sub_80244E4();
-                    m4aSongNumStart(0x63U);
-                    strcEC->fade.window = 0;
-                    strcEC->fade.flags = 1;
-                    strcEC->fade.brightness = 0;
-                    strcEC->fade.speed = 0x200;
-                    strcEC->fade.bldCnt = 0xFF;
-                    strcEC->fade.bldAlpha = 0;
-                    ScreenFadeUpdateValues(&strcEC->fade);
-                    sub_808D548( strcEC, 4U);
+                    m4aSongNumStart(MUS_VS_SUCCESS);
+                    fade->window = 0;
+                    fade->flags = 1;
+                    fade->brightness = 0;
+                    fade->speed = 0x200;
+                    fade->bldCnt = 0xFF;
+                    fade->bldAlpha = 0;
+                    ScreenFadeUpdateValues(fade);
+                    sub_808D548(strcEC, 4U);
                     sub_808D5CC(strcEC, 2);
-                    strcEC->unkC = (u16) 0;
+                    strcEC->unkC = (u16)0;
                     gCurTask->main = Task_EC_808D45C;
                     return;
                 }
             }
-            goto block_28;
         }
-    } else {
-        if ((s16) temp_r0 & 0x10) {
-            sub_80246B4();
-            strcEC->fade.window = 0;
-            strcEC->fade.flags = 1;
-            strcEC->fade.brightness = 0;
-            strcEC->fade.speed = 0x200;
-            strcEC->fade.bldCnt = 0xFF;
-            strcEC->fade.bldAlpha = 0;
-            ScreenFadeUpdateValues(&strcEC->fade);
-            m4aSongNumStart(0x63U);
-            sub_808D548( strcEC, 4U);
-            sub_808D5CC(strcEC, 2);
-            strcEC->unkC = 0;
-            gCurTask->main = Task_EC_808D45C;
-            return;
-        }
-        
-block_28:
-        if ((2 & gPressedKeys) && (strcEC->unk19 != 0xFF)) {
-            m4aSongNumStart(0x6BU);
-            sub_80260F0();
-            strcEC->fade.window = 0;
-            strcEC->fade.flags = 1;
-            strcEC->fade.brightness = 0;
-            strcEC->fade.speed = 0x200;
-            strcEC->fade.bldCnt = 0xFF;
-            strcEC->fade.bldAlpha = 0;
-            ScreenFadeUpdateValues(&strcEC->fade);
-            strcEC->unk17 = 0x26;
-            gCurTask->main = Task_EC_808ED60;
-        }
+    } else if (var_r0 & 0x10) {
+        sub_80246B4();
+        fade->window = 0;
+        fade->flags = 1;
+        fade->brightness = 0;
+        fade->speed = 0x200;
+        fade->bldCnt = 0xFF;
+        fade->bldAlpha = 0;
+        ScreenFadeUpdateValues(fade);
+        m4aSongNumStart(MUS_VS_SUCCESS);
+        sub_808D548(strcEC, 4U);
+        sub_808D5CC(strcEC, 2);
+        strcEC->unkC = 0;
+        gCurTask->main = Task_EC_808D45C;
+        return;
+    }
+
+    if ((B_BUTTON & gPressedKeys) && (strcEC->unk19 != 0xFF)) {
+        m4aSongNumStart(SE_ABORT);
+        sub_80260F0();
+        fade->window = 0;
+        fade->flags = 1;
+        fade->brightness = 0;
+        fade->speed = 0x200;
+        fade->bldCnt = 0xFF;
+        fade->bldAlpha = 0;
+        ScreenFadeUpdateValues(fade);
+        strcEC->unk17 = 0x26;
+        gCurTask->main = Task_EC_808ED60;
     }
 }
 
+#if 0
 void Task_EC_808D45C(void) {
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     s16 temp_r5;
@@ -674,14 +651,14 @@ loop_11:
         } else {
             temp_r5 = 0x20 & gPressedKeys;
             if (temp_r5 != 0) {
-                m4aSongNumStart(0x67U);
+                m4aSongNumStart(SE_CHARSELECT_SLIDE);
                 if ((s32) strcEC->unk13 > 0) {
                     strcEC->unk13 = (u8) strcEC->unk13 - 1;
                 } else {
                     strcEC->unk13 = 4;
                 }
             } else if (0x10 & gPressedKeys) {
-                m4aSongNumStart(0x67U);
+                m4aSongNumStart(SE_CHARSELECT_SLIDE);
                 if ((s32) strcEC->unk13 <= 3) {
                     strcEC->unk13 = (u8) strcEC->unk13 + 1;
                 } else {
@@ -1115,7 +1092,7 @@ loop_16:
         goto loop_16;
     }
     if (0x20 & gPressedKeys) {
-        m4aSongNumStart(0x67U);
+        m4aSongNumStart(SE_CHARSELECT_SLIDE);
         do {
 loop_30:
             var_r6_2 = 0;
@@ -1143,7 +1120,7 @@ loop_35:
             }
         } while (var_r6_2 != 0);
     } else if (0x10 & gPressedKeys) {
-        m4aSongNumStart(0x67U);
+        m4aSongNumStart(SE_CHARSELECT_SLIDE);
         do {
 loop_42:
             var_r6_3 = 0;
