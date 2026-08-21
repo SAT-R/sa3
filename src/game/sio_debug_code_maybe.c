@@ -1,9 +1,12 @@
+#include <stdio.h>
 #include "global.h"
 #include "core.h"
 #include "lib/m4a/m4a.h"
 #include "game/save.h"
 #include "game/screen_fade.h"
 #include "game/stage.h" // gStageData
+#include "animation_commands_bg.h" // RenderText
+#include "multi_sio_stuff.h"
 #include "constants/characters.h"
 #include "constants/songs.h"
 
@@ -17,10 +20,10 @@ typedef struct {
 typedef struct {
     /* 0x00 */ ScreenFade fade;
     /* 0x12 */ s16 unkC;
-    /* 0x0E */ u8 unkE[4];
+    /* 0x0E */ s8 unkE[4];
     /* 0x12 */ u8 unk12;
     /* 0x13 */ s8 unk13;
-    /* 0x14 */ u8 unk14;
+    /* 0x14 */ s8 unk14;
     /* 0x15 */ u8 unk15;
     /* 0x16 */ u8 unk16;
     /* 0x17 */ u8 unk17;
@@ -32,6 +35,7 @@ typedef struct {
     /* 0xC4 */ Sprite sprC4;
 } SDC_EC; /* 0xEC */
 
+void CreateMultiPakConnectionCheck(u8);
 void Task_FCC_808D00C(void);
 void Task_EC_808D214(void);
 void Task_EC_808D270(void);
@@ -115,7 +119,7 @@ extern void sub_808EBBC(void);
 void LaunchChaoMenu(s16 arg0, u8 arg1);
 
 extern u8 gUnknown_030010AC[4];
-extern u8 gUnknown_080D6F00[12];
+extern u8 gUnknown_080D6F00[3][4];
 extern const char gStringSelectStage[];
 extern const char gStringZoneNActN[];
 extern const char gStringPressABtn[];
@@ -597,23 +601,15 @@ void Task_EC_808D718(void)
     }
 }
 
-#if 0
-void Task_EC_808D7F0(void) {
+void Task_EC_808D7F0(void)
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
-    s16 temp_r1_2;
-    s16 temp_r1_3;
-    s16 var_r2;
-    s16 var_r2_2;
-    s8 temp_r3;
-    u16 temp_r0_2;
-    u16 temp_r1;
-    u16 temp_r5;
+    ScreenFade *fade = &strcEC->fade;
+    s16 i;
     s16 var_r0;
-    u8 temp_sb;
     union MultiSioData *temp_r0;
-
-    temp_sb = gStageData.playerIndex;
-    if (gStageData.playerIndex == 0) {
+    s16 playerIndex = gStageData.playerIndex;
+    if (playerIndex == 0) {
         var_r0 = sub_8025908(gUnknown_080D8F18[strcEC->unk13]);
     } else {
         var_r0 = sub_8024A4C(gUnknown_080D8F18[strcEC->unk13]);
@@ -623,63 +619,58 @@ void Task_EC_808D7F0(void) {
         return;
     }
 
-    for(var_r2 = 0; var_r2 < 4; var_r2++)
-    {
-        temp_r0 = &gMultiSioRecv[var_r2];
-        strcEC->unkE[var_r2] = temp_r0->raw[4];
-        gUnknown_03001060.unk4C[var_r2] = temp_r0->pat3_0.unkF[var_r2];
+    for (i = 0; i < MULTI_SIO_PLAYERS_MAX; i++) {
+        temp_r0 = &gMultiSioRecv[i];
+        strcEC->unkE[i] = temp_r0->raw[4];
+        gUnknown_03001060.unk4C[i] = temp_r0->pat3_0.unkF[i];
     }
 
-    if (((UpdateScreenFade(&strcEC->fade) << 0x18) != 0) && (strcEC->unk16 != 0)) {
-        if (1 & gPressedKeys) {
-            for(var_r2 = 0; var_r2 < 4; var_r2++)
-            {
-                if (gUnknown_03001060.unk4C[var_r2] != gUnknown_080D8F18[strcEC->unk13]) {
-                    temp_r0_2 = var_r2 + 1;
-                    var_r2 = temp_r0_2;
-                    if (temp_r0_2 > 3) 
-                    {
-                        if (temp_sb != 0) {
-                            gUnknown_03001060.unk4C[temp_sb] = gUnknown_080D8F18[strcEC->unk13];
-                            strcEC->unk17 = 0xC;
-                            gCurTask->main = Task_EC_808D988;
-                        } else {
-                            gUnknown_03001060.unk4C[0] = gUnknown_080D8F18[strcEC->unk13];
-                            strcEC->unk17 = 0xC;
-                            gCurTask->main = Task_EC_808DA44;
-                        }
-                    }
+    if ((UpdateScreenFade(fade) != 0) && (strcEC->unk16 != 0)) {
+        if (A_BUTTON & gPressedKeys) {
+            for (i = 0; i < MULTI_SIO_PLAYERS_MAX; i++) {
+                if (gUnknown_03001060.unk4C[i] == gUnknown_080D8F18[strcEC->unk13]) {
+                    return;
                 }
             }
-        } else {
-            if (0x20 & gPressedKeys) {
-                m4aSongNumStart(SE_CHARSELECT_SLIDE);
-                if (strcEC->unk13 > 0) {
-                    strcEC->unk13 -= 1;
+            if (i >= MULTI_SIO_PLAYERS_MAX) {
+                if (playerIndex == 0) {
+                    gUnknown_03001060.unk4C[playerIndex] = gUnknown_080D8F18[strcEC->unk13];
+                    strcEC->unk17 = 0xC;
+                    gCurTask->main = Task_EC_808DA44;
                 } else {
-                    strcEC->unk13 = 4;
+                    gUnknown_03001060.unk4C[playerIndex] = gUnknown_080D8F18[strcEC->unk13];
+                    strcEC->unk17 = 0xC;
+                    gCurTask->main = Task_EC_808D988;
                 }
-            } else if (0x10 & gPressedKeys) {
-                m4aSongNumStart(SE_CHARSELECT_SLIDE);
-                if (strcEC->unk13 < 4) {
-                    strcEC->unk13 += 1;
-                } else {
-                    strcEC->unk13 = 0;
-                }
+                return;
             }
-            strcEC->unk12 = (u8) strcEC->unk13;
+        } else if (DPAD_LEFT & gPressedKeys) {
+            m4aSongNumStart(SE_CHARSELECT_SLIDE);
+            if (strcEC->unk13 > 0) {
+                strcEC->unk13 -= 1;
+            } else {
+                strcEC->unk13 = 4;
+            }
+        } else if (DPAD_RIGHT & gPressedKeys) {
+            m4aSongNumStart(SE_CHARSELECT_SLIDE);
+            if (strcEC->unk13 < 4) {
+                strcEC->unk13 += 1;
+            } else {
+                strcEC->unk13 = 0;
+            }
         }
+        strcEC->unk12 = (u8)strcEC->unk13;
     }
 }
 
-void Task_EC_808D988(void) {
+void Task_EC_808D988(void)
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     s32 temp_r0;
     s16 temp_r1_2;
     s16 var_r0_2;
     u16 temp_r1;
-    u8 temp_r5 = gStageData.playerIndex;
-    u32 temp_r6 = temp_r5;
+    s16 temp_r5 = gStageData.playerIndex;
     temp_r0 = sub_8024AC0(gUnknown_080D8F18[strcEC->unk13]);
     if (temp_r0 < 0) {
         sub_802613C();
@@ -690,18 +681,19 @@ void Task_EC_808D988(void) {
         gCurTask->main = Task_EC_808DA44;
     } else if (temp_r0 == 2) {
         strcEC->unk17 = 2;
-        gUnknown_03001060.unk4C[temp_r6] = 0xFF;
+        gUnknown_03001060.unk4C[temp_r5] = 0xFF;
         gCurTask->main = Task_EC_808D7F0;
     }
-    for(var_r0_2 = 0; var_r0_2 < 4; var_r0_2++)
-    {
+    for (var_r0_2 = 0; var_r0_2 < 4; var_r0_2++) {
         union MultiSioData *recv = gMultiSioRecv;
         u8 *src = &recv[var_r0_2].raw[4];
         strcEC->unkE[var_r0_2] = *src;
     }
 }
 
-void Task_EC_808DA44(void) {
+// (77.57%) https://decomp.me/scratch/jdWlT
+NONMATCH("asm/non_matching/game/siodbg__Task_EC_808DA44.inc", void Task_EC_808DA44(void))
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     s16 temp_r0_2;
     s16 temp_r1_3;
@@ -710,300 +702,264 @@ void Task_EC_808DA44(void) {
     s16 temp_r2;
     s16 var_r2;
     s16 var_r2_2;
+    s16 var_r0;
     const u16 *var_r0_2;
     u16 temp_r0;
     u16 temp_r1_2;
-    u16 var_r0;
     u8 *temp_r1;
-    u8 temp_r6;
+    s16 temp_r6 = gStageData.playerIndex;
     u8 var_r1;
 
-    temp_r6 = gStageData.playerIndex;
     if (temp_r6 == 0) {
         var_r0 = sub_8024984(gUnknown_080D8F18[strcEC->unk13]);
     } else {
         var_r0 = sub_8024C68(gUnknown_080D8F18[strcEC->unk13]);
     }
-    var_r2 = 0;
-    temp_r1 = strcEC->unkE;
-    do {
-        temp_r1_3 = var_r2;
-        temp_r1[temp_r1_3] = gMultiSioRecv[temp_r1_3].raw[4];
-        temp_r1_2 = temp_r1_3 + 1;
-        var_r2 = (s16) temp_r1_2;
-    } while ((s32) (s16) temp_r1_2 <= 3);
-    temp_r2 = (s16) var_r0;
-    if ((s32) temp_r2 < 0) {
+    for (var_r2 = 0; var_r2 < 4; var_r2++) {
+        strcEC->unkE[var_r2] = gMultiSioRecv[var_r2].pat3_0.unk4;
+    }
+
+    if (var_r0 < 0) {
         sub_802613C();
         return;
     }
-    if (temp_r2 != 2) {
-        temp_r1_4 = (s16) temp_r6;
-        if (temp_r1_4 == 2) {
-            var_r1 = gMultiSioRecv->raw[4];
-            goto block_23;
-        }
-        if (temp_r1_4 == 3) {
-            var_r1 = gMultiSioRecv[1].raw[4];
-block_23:
-            strcEC->unk12 = gUnknown_080D6EE0[var_r1];
-        }
-        if ((s32) (s16) temp_r6 > 1) {
-            UpdateScreenFade(&strcEC->fade);
-        }
-        return;
-    }
-    strcEC->unkC = 0x3C;
-    temp_r1_5 = (s16) temp_r6;
-    if (temp_r1_5 == 0) {
-        m4aSongNumStart(gCharacterSelectedVoices[gUnknown_080D6EE0[gUnknown_03001060.unk4C[0]]]);
-        gCurTask->main = Task_EC_808DCFC;
-        return;
-    }
-    if (temp_r1_5 == 1) {
-        if (gUnknown_03001060.unk4C[1] == gMultiSioRecv->raw[4]) {
-            strcEC->unk17 = (u8) temp_r2;
-            gUnknown_03001060.unk4C[1] = 0xFF;
-            gCurTask->main = Task_EC_808D7F0;
+    if (var_r0 == 2) {
+        strcEC->unkC = 0x3C;
+        if (temp_r6 == 0) {
+            u8 index = gUnknown_03001060.unk4C[0];
+            m4aSongNumStart(gCharacterSelectedVoices[gUnknown_080D6EE0[index]]);
+            gCurTask->main = Task_EC_808DCFC;
             return;
         }
-        gUnknown_03001060.unk4C[1] = gUnknown_080D8F18[strcEC->unk13];
-        gUnknown_03001060.unk4C[0] = strcEC->unkE[0];
-        var_r0_2 = &gCharacterSelectedVoices[gUnknown_080D6EE0[gUnknown_03001060.unk4C[1]]];
+        if (temp_r6 == 1) {
+            if (gUnknown_03001060.unk4C[1] == gMultiSioRecv->pat3_0.unk4) {
+                strcEC->unk17 = 2;
+                gUnknown_03001060.unk4C[1] = 0xFF;
+                gCurTask->main = Task_EC_808D7F0;
+                return;
+            }
+            gUnknown_03001060.unk4C[1] = gUnknown_080D8F18[strcEC->unk13];
+            gUnknown_03001060.unk4C[0] = strcEC->unkE[0];
+            var_r0_2 = &gCharacterSelectedVoices[gUnknown_080D6EE0[gUnknown_03001060.unk4C[1]]];
+        } else {
+            for (var_r2 = 0; var_r2 < 4; var_r2++) {
+                gUnknown_03001060.unk4C[var_r2] = temp_r1[var_r2];
+            }
+            var_r0_2 = &gCharacterSelectedVoices[gUnknown_080D6EE0[(u8)gUnknown_03001060.unk1C[3][5]]];
+        }
+        m4aSongNumStart(*var_r0_2);
+        strcEC->unk17 = 0xC;
+        gCurTask->main = Task_EC_808DD6C;
     } else {
-        var_r2_2 = 0;
-        do {
-            gUnknown_03001060.unk4C[var_r2_2] = temp_r1[var_r2_2];
-            temp_r0 = temp_r0_2 + 1;
-            var_r2_2 = (s16) temp_r0;
-        } while ((s32) (s16) temp_r0 <= 3);
-        var_r0_2 = &gCharacterSelectedVoices[gUnknown_080D6EE0[gUnknown_03001060.unk1C[3][5]]];
+        if (temp_r6 == 2) {
+            var_r1 = gMultiSioRecv->pat3_0.unk4;
+            strcEC->unk12 = gUnknown_080D6EE0[var_r1];
+        } else if (temp_r6 == 3) {
+            var_r1 = gMultiSioRecv[1].pat3_0.unk4;
+            strcEC->unk12 = gUnknown_080D6EE0[var_r1];
+        }
+        if (temp_r6 > 1) {
+            UpdateScreenFade(&strcEC->fade);
+        }
     }
-    m4aSongNumStart(*var_r0_2);
-    strcEC->unk17 = 0xC;
-    gCurTask->main = Task_EC_808DD6C;
 }
+END_NONMATCH
 
-void Task_EC_808DC38(void) {
+void Task_EC_808DC38(void)
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     s16 temp_r0;
     s16 temp_r1_2;
     s16 var_r0_3;
     u16 temp_r1;
-    u16 var_r0;
-    u8 temp_r5;
-    void (*var_r0_2)(SDC_EC *);
+    s16 var_r0;
+    s16 playerIndex = gStageData.playerIndex;
 
-    temp_r5 = gStageData.playerIndex;
-    if (temp_r5 == 0) {
+    if (playerIndex == 0) {
         var_r0 = sub_8025948(gUnknown_080D8F18[strcEC->unk13]);
     } else {
         var_r0 = sub_8024B84(gUnknown_080D8F18[strcEC->unk13]);
     }
-    temp_r0 = (s16) var_r0;
-    if ((s32) temp_r0 < 0) {
+
+    if (var_r0 < 0) {
         sub_802613C();
         return;
     }
-    if (temp_r0 == 1) {
+    if (var_r0 == 1) {
         strcEC->unk17 = 2;
-        gUnknown_03001060.unk4C[temp_r5] = 0xFF;
+        gUnknown_03001060.unk4C[playerIndex] = 0xFF;
         gCurTask->main = Task_EC_808D7F0;
-    } else if (temp_r0 == 2) {
+    } else if (var_r0 == 2) {
         gCurTask->main = Task_EC_808DA44;
     }
-    var_r0_3 = 0;
-    do {
-        temp_r1_2 = var_r0_3;
-        strcEC->unkE[temp_r1_2] = gMultiSioRecv[temp_r1_2].raw[4];
-        temp_r1 = temp_r1_2 + 1;
-        var_r0_3 = (s16) temp_r1;
-    } while ((s32) (s16) temp_r1 <= 3);
+
+    for (var_r0_3 = 0; var_r0_3 < 4; var_r0_3++) {
+        union MultiSioData *recv = gMultiSioRecv;
+        u8 *src = &recv[var_r0_3].raw[4];
+        u8 *dst = strcEC->unkE;
+        dst[var_r0_3] = *src;
+    }
 }
 
-
-void Task_EC_808DCFC(void) {
+void Task_EC_808DCFC(void)
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
-    s16 temp_r0_2;
-    s16 temp_r0_3;
-    s16 var_r1;
-    u16 temp_r0;
-    u16 temp_r3;
+    s16 i;
+    s16 temp_r3;
 
     temp_r3 = sub_8025998();
-    var_r1 = 0;
-    do {
-        strcEC->unkE[var_r1] = gUnknown_030010AC[var_r1];
-        temp_r0 = var_r1 + 1;
-        var_r1 = (s16) temp_r0;
-    } while ((s32) (s16) temp_r0 <= 3);
-    temp_r0_3 = (s16) temp_r3;
-    if ((s32) temp_r0_3 < 0) {
+    for (i = 0; i < 4; i++) {
+        strcEC->unkE[i] = gUnknown_030010AC[i];
+    }
+
+    if (temp_r3 < 0) {
         sub_802613C();
         return;
     }
-    if (temp_r0_3 == 1) {
+    if (temp_r3 == 1) {
         strcEC->unkC = 0;
         gCurTask->main = Task_EC_808DD6C;
     }
 }
 
-void Task_EC_808DD6C(void) {
+void Task_EC_808DD6C(void)
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     Player *p;
     s16 temp_r2;
     s16 var_r7;
     s32 temp_r0_3;
-    u16 temp_r0;
-    u16 var_r0;
-    u32 temp_r0_2;
-    u32 temp_r0_4;
-    u32 var_r3;
-    u8 temp_r4;
-
-    temp_r4 = gStageData.playerIndex;
-    if (temp_r4 == 0) {
+    s16 var_r0;
+    s16 var_r3;
+    s16 playerIndex = gStageData.playerIndex;
+    if (playerIndex == 0) {
         var_r0 = sub_80259F8(gUnknown_080D8F18[strcEC->unk13]);
     } else {
         var_r0 = sub_8024F84(gUnknown_080D8F18[strcEC->unk13]);
     }
-    if ((s32) (var_r0 << 0x10) < 0) {
+    if (var_r0 < 0) {
         sub_802613C();
         return;
     }
-    temp_r0 = strcEC->unkC + 1;
-    strcEC->unkC = temp_r0;
-    if ((s32) (s16) temp_r0 > 0x3B) {
-        if ((s32) temp_r4 <= 1) {
-            p = &gPlayers[temp_r4];
+
+    if (++strcEC->unkC > 0x3B) {
+        if (playerIndex < 2) {
+            gPlayers[playerIndex].charFlags.character = gUnknown_080D8F18[strcEC->unk13];
+            ;
         } else {
-            p = &gPlayers[1 & temp_r4];
+            gPlayers[playerIndex % 2u].charFlags.character = gUnknown_080D8F18[strcEC->unk13];
+            ;
         }
-        p->charFlags.character = ((p->charFlags.character == SONIC) | (0xF & gUnknown_080D8F18[strcEC->unk13]));
-        var_r7 = 0;
-loop_11:
-        var_r3 = 0;
-        temp_r2 = var_r7;
-        if (gUnknown_03001060.unk4C != *(temp_r2 + &gUnknown_080D8F18)) {
-loop_13:
-            temp_r0_2 = (var_r3 << 0x10) + 0x10000;
-            var_r3 = temp_r0_2 >> 0x10;
-            temp_r0_3 = (s32) temp_r0_2 >> 0x10;
-            if (temp_r0_3 <= 1) {
-                if ((&gUnknown_030010AC)[temp_r0_3] != *(temp_r2 + &gUnknown_080D8F18)) {
-                    goto loop_13;
+
+        for (var_r7 = 0; var_r7 < 5; var_r7++) {
+            for (var_r3 = 0; var_r3 < 2; var_r3++) {
+                if (gUnknown_03001060.unk4C[var_r3] == gUnknown_080D8F18[var_r7]) {
+                    break;
                 }
             }
-        }
-        if (var_r3 != 2) {
-            temp_r0_4 = (var_r7 << 0x10) + 0x10000;
-            var_r7 = (s16) (temp_r0_4 >> 0x10);
-            if ((s32) ((s32) temp_r0_4 >> 0x10) <= 4) {
-                goto loop_11;
+            if (var_r3 == 2) {
+                strcEC->unk13 = var_r7;
+                break;
             }
-        } else {
-            strcEC->unk13 = (s8) var_r7;
         }
-        gUnknown_03001060.unk4C[2] = (u8) strcEC->unk13;
-        strcEC->unk12 = (u8) strcEC->unk13;
+        gUnknown_03001060.unk4C[2] = strcEC->unk13;
+        strcEC->unk12 = strcEC->unk13;
         gCurTask->main = Task_EC_808DEB8;
     }
 }
 
-void Task_EC_808DEB8(void) {
+// (78.77%) https://decomp.me/scratch/OqzVF
+NONMATCH("asm/non_matching/game/siodbg__Task_EC_808DEB8.inc", void Task_EC_808DEB8(void))
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     s32 sp0;
     s16 temp_r2_2;
     s16 var_r1;
     s32 var_r2;
     s32 var_r2_2;
-    u16 var_r0;
+    s16 var_r0;
     u32 temp_r0;
     u8 temp_r0_2;
     u8 temp_r2;
-    u8 temp_r6;
-    u8 var_r0_2;
-    u8 var_r5;
+    s8 var_r0_2;
     u8 var_r6;
-    void (*var_r0_3)(SDC_EC *);
-
-    temp_r6 = gStageData.playerIndex;
-    var_r5 = 0;
-    if (temp_r6 == 0) {
+    u8 playerIndex = gStageData.playerIndex;
+    u8 var_r5 = 0;
+    if (playerIndex == 0) {
         var_r0 = sub_80259F8(gUnknown_080D8F18[strcEC->unk13]);
     } else {
         var_r0 = sub_8024F84(gUnknown_080D8F18[strcEC->unk13]);
     }
-    if ((s32) (var_r0 << 0x10) < 0) {
+    if (var_r0 < 0) {
         sub_802613C();
         return;
     }
-    if ((temp_r6 << 0x10) == 0) {
+    if ((playerIndex << 0x10) == 0) {
         var_r6 = gUnknown_080D8F18[strcEC->unk13];
     } else {
         var_r6 = gMultiSioRecv->raw[4];
     }
-    switch (gUnknown_03001060.unk7) {               /* irregular */
-    case 3:
-        var_r2 = 0;
-block_17:
-        var_r1 = 0;
-        sp0 = (s32) (s8) var_r6;
-        do {
-            temp_r2 = gUnknown_080D6F00[var_r1 + (var_r2 * 4)];
-            if ((temp_r2 == (s16) temp_r6)
-                || ((temp_r0_2 = gMultiSioRecv[temp_r2].raw[4], (temp_r0_2 == sp0))
-                    && (temp_r0_2 != gUnknown_030010AC[0]) 
-                    && (temp_r0_2 != gUnknown_03001060.unk4C[1]))) 
-            {
-                var_r5 += 1;
-            }
-            temp_r0 = (var_r1 << 0x10) + 0x10000;
-            var_r1 = (s16) (temp_r0 >> 0x10);
-        } while ((s32) ((s32) temp_r0 >> 0x10) <= 3);
-        if (var_r5 == 4) {
-            if ((u32) strcEC->unk17 <= 0xCU) {
-                strcEC->unk17 = 0xD;
-            }
-            if ((u32) strcEC->unk17 > 0xDU) {
-                temp_r2_2 = (s16) temp_r6;
-                if ((temp_r2_2 == 0) || (temp_r2_2 == 2)) {
-                    if ((var_r5 & gUnknown_03001060.unk7) && (temp_r2_2 == 0)) {
-                        var_r2_2 = 0;
-                        var_r0_2 = 0xFF;
-                    } else {
-                        var_r2_2 = 1;
-                        var_r0_2 = 2;
-                    }
-                } else if ((8 & gUnknown_03001060.unk7) && (temp_r2_2 == 1)) {
+    switch (gUnknown_03001060.unk7) { /* irregular */
+        case 3:
+            var_r2 = 0;
+            break;
+        case 7:
+            var_r2 = 1;
+            break;
+        case 15:
+            var_r2 = 2;
+            break;
+        default:
+            sub_802613C();
+            return;
+    }
+
+    for (var_r1 = 0; var_r1 < 4; var_r1++) {
+        temp_r2 = gUnknown_080D6F00[var_r2][var_r1];
+        if ((temp_r2 == (s16)playerIndex)
+            || ((temp_r0_2 = gMultiSioRecv[temp_r2].raw[4], (temp_r0_2 == var_r6)) && (temp_r0_2 != gUnknown_030010AC[0])
+                && (temp_r0_2 != gUnknown_03001060.unk4C[1]))) {
+            var_r5 += 1;
+        }
+    }
+
+    if (var_r5 == 4) {
+        if (strcEC->unk17 < 0xD) {
+            strcEC->unk17 = 0xD;
+        }
+        if ((u32)strcEC->unk17 > 0xDU) {
+            if ((playerIndex == 0) || (playerIndex == 2)) {
+                if ((var_r5 & gUnknown_03001060.unk7) && (playerIndex == 0)) {
                     var_r2_2 = 0;
-                    var_r0_2 = 0xFF;
+                    var_r0_2 = -1;
                 } else {
                     var_r2_2 = 1;
-                    var_r0_2 = 3;
+                    var_r0_2 = 2;
                 }
-                strcEC->unk14 = var_r0_2;
-                gUnknown_03001060.unk4C[2] = strcEC->unkE[2];
-                gUnknown_03001060.unk4C[3] = strcEC->unkE[3];
-                if (var_r2_2 != 0) {
-                    strcEC->unk12 = 0xFF;
-                    gCurTask->main = Task_EC_808E068;
-                } else {
-                    gCurTask->main = Task_EC_808E430;
-                }
+            } else if ((8 & gUnknown_03001060.unk7) && (playerIndex == 1)) {
+                var_r2_2 = 0;
+                var_r0_2 = -1;
+            } else {
+                var_r2_2 = 1;
+                var_r0_2 = 3;
+            }
+            strcEC->unk14 = var_r0_2;
+            gUnknown_03001060.unk4C[2] = strcEC->unkE[2];
+            gUnknown_03001060.unk4C[3] = strcEC->unkE[3];
+            if (var_r2_2 != 0) {
+                strcEC->unk12 = 0xFF;
+                gCurTask->main = Task_EC_808E068;
+            } else {
+                gCurTask->main = Task_EC_808E430;
             }
         }
-        return;
-    case 7:
-        var_r2 = 1;
-        goto block_17;
-    case 15:
-        var_r2 = 2;
-        goto block_17;
     }
 }
+END_NONMATCH
 
-void Task_EC_808E068(void) {
+// (72.90%) https://decomp.me/scratch/LYB57
+NONMATCH("asm/non_matching/game/siodbg__Task_EC_808E068.inc", void Task_EC_808E068(void))
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     s16 temp_r0_2;
     s16 temp_r1;
@@ -1020,7 +976,7 @@ void Task_EC_808E068(void) {
     s32 var_r6_3;
     s8 temp_r0_4;
     s8 temp_r0_7;
-    s8 var_r0_4;
+    s32 var_r0_4;
     u16 temp_r0;
     u16 temp_r0_3;
     u16 var_r0;
@@ -1029,18 +985,16 @@ void Task_EC_808E068(void) {
     u32 var_r4_3;
     u32 var_r4_4;
     u8 temp_r7;
-    u8 var_r6;
     union MultiSioData *var_r1;
     void (*var_r0_3)(SDC_EC *);
-
-    var_r6 = gStageData.playerIndex;
+    s16 playerIndex = gStageData.playerIndex;
     temp_r7 = gUnknown_03001060.unk7;
-    if (var_r6 == 0) {
+    if (playerIndex == 0) {
         var_r0 = sub_80259F8(gUnknown_080D8F18[strcEC->unk13]);
     } else {
         var_r0 = sub_8024F84(gUnknown_080D8F18[strcEC->unk13]);
     }
-    if ((s32) (var_r0 << 0x10) < 0) {
+    if ((s32)(var_r0 << 0x10) < 0) {
         sub_802613C();
         return;
     }
@@ -1054,65 +1008,60 @@ void Task_EC_808E068(void) {
             strcEC->unkE[var_r4 + 2] = gMultiSioRecv[temp_r2].pat0.unk4;
         }
         temp_r0 = temp_r0_2 + 1;
-        var_r4 = (s16) temp_r0;
-    } while ((s32) (s16) temp_r0 <= 1);
-    if ((s8) strcEC->unk14 == -1) {
+        var_r4 = (s16)temp_r0;
+    } while ((s32)(s16)temp_r0 <= 1);
+    if (strcEC->unk14 == -1) {
         return;
     }
     if (strcEC->unk16 == 0) {
         return;
     }
     if (1 & gPressedKeys) {
-        var_r4_2 = 0;
-loop_16:
-        temp_r1 = var_r4_2;
-        if ((&gUnknown_03001060.unk4C)[temp_r1] == *(strcEC->unk13 + &gUnknown_080D8F18)) {
-            return;
-        }
-        temp_r0_3 = temp_r1 + 1;
-        var_r4_2 = (s16) temp_r0_3;
-        if ((s32) (s16) temp_r0_3 > 3) {
-            if ((u32) (u16) var_r6 <= 1U) {
-                var_r6 = (u8) ((u32) ((var_r6 << 0x10) + 0x20000) >> 0x10);
+        for (var_r4_2 = 0; var_r4_2 < 4; var_r4_2++) {
+            if (gUnknown_03001060.unk4C[var_r4_2] == gUnknown_080D8F18[strcEC->unk13]) {
+                return;
             }
-            gUnknown_03001060.unk4C[var_r6] = gUnknown_080D8F18[strcEC->unk13];
-            if (!(1 & var_r6)) {
+        }
+
+        if (var_r4_2 > 3) {
+            if ((u32)(u16)playerIndex <= 1U) {
+                playerIndex += 2;
+            }
+            gUnknown_03001060.unk4C[playerIndex] = gUnknown_080D8F18[strcEC->unk13];
+            if (!(A_BUTTON & playerIndex)) {
                 strcEC->unk17 = 0x15;
                 gCurTask->main = Task_EC_808E430;
             } else {
                 strcEC->unk17 = 0x15;
                 gCurTask->main = Task_EC_808E2E8;
             }
-            if (((s32) var_r6 <= 1) && !(gUnknown_03001060.unk7 & (4 << var_r6))) {
-                var_r6 += 2;
+            if (((s32)playerIndex <= 1) && !(gUnknown_03001060.unk7 & (4 << playerIndex))) {
+                playerIndex += 2;
             }
-            gUnknown_03001060.unk4C[var_r6] = gUnknown_080D8F18[strcEC->unk13];
+            gUnknown_03001060.unk4C[playerIndex] = gUnknown_080D8F18[strcEC->unk13];
             return;
         }
-        goto loop_16;
-    }
-    if (0x20 & gPressedKeys) {
+    } else if (0x20 & gPressedKeys) {
         m4aSongNumStart(SE_CHARSELECT_SLIDE);
         do {
-loop_30:
+            s32 unk13;
             var_r6_2 = 0;
-            if ((s32) strcEC->unk13 > 0) {
-                var_r0_4 = (u8) strcEC->unk13 - 1;
+            if (strcEC->unk13 > 0) {
+                var_r0_4 = (u8)strcEC->unk13 - 1;
             } else {
                 var_r0_4 = 4;
             }
             strcEC->unk13 = var_r0_4;
             var_r4_3 = 0;
-            temp_r0_4 = strcEC->unk13;
-            if (gUnknown_030010AC == *(temp_r0_4 + &gUnknown_080D8F18)) {
-                goto loop_30;
+            if (gUnknown_030010AC[var_r4_3] == gUnknown_080D8F18[strcEC->unk13]) {
+                continue;
             }
-loop_35:
+        loop_35:
             temp_r0_5 = (var_r4_3 << 0x10) + 0x10000;
             var_r4_3 = temp_r0_5 >> 0x10;
-            temp_r0_6 = (s32) temp_r0_5 >> 0x10;
+            temp_r0_6 = (s32)temp_r0_5 >> 0x10;
             if (temp_r0_6 <= 1) {
-                if ((&gUnknown_030010AC)[temp_r0_6] == *(temp_r0_4 + &gUnknown_080D8F18)) {
+                if (gUnknown_030010AC[temp_r0_6] == gUnknown_080D8F18[var_r0_4]) {
                     var_r6_2 = 1;
                 } else {
                     goto loop_35;
@@ -1122,22 +1071,22 @@ loop_35:
     } else if (0x10 & gPressedKeys) {
         m4aSongNumStart(SE_CHARSELECT_SLIDE);
         do {
-loop_42:
+        loop_42:
             var_r6_3 = 0;
-            if ((s32) strcEC->unk13 <= 3) {
-                strcEC->unk13 = (u8) strcEC->unk13 + 1;
+            if ((s32)strcEC->unk13 <= 3) {
+                strcEC->unk13 = (u8)strcEC->unk13 + 1;
             } else {
                 strcEC->unk13 = 0;
             }
             var_r4_4 = 0;
             temp_r0_7 = strcEC->unk13;
             if (gUnknown_030010AC == *(temp_r0_7 + &gUnknown_080D8F18)) {
-                goto loop_42;
+                continue;
             }
-loop_47:
+        loop_47:
             temp_r0_8 = (var_r4_4 << 0x10) + 0x10000;
             var_r4_4 = temp_r0_8 >> 0x10;
-            temp_r0_9 = (s32) temp_r0_8 >> 0x10;
+            temp_r0_9 = (s32)temp_r0_8 >> 0x10;
             if (temp_r0_9 <= 1) {
                 if ((&gUnknown_030010AC)[temp_r0_9] == *(temp_r0_7 + &gUnknown_080D8F18)) {
                     var_r6_3 = 1;
@@ -1147,81 +1096,66 @@ loop_47:
             }
         } while (var_r6_3 != 0);
     }
-    strcEC->unk12 = (u8) strcEC->unk13;
+    strcEC->unk12 = (u8)strcEC->unk13;
 }
+END_NONMATCH
 
-void Task_EC_808E2E8(void) {
+void Task_EC_808E2E8(void)
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
-    s16 temp_r0_2;
-    s16 temp_r0_4;
-    s16 temp_r2;
-    s16 var_r1;
-    s32 temp_r5_2;
-    s32 var_r0;
-    u16 temp_sb;
-    u32 temp_r0;
-    u8 temp_r0_3;
-    u8 temp_r1;
-    u8 temp_r5;
-    u8 var_r6;
+    s16 i;
+    s16 temp_sb;
     union MultiSioData *var_r1_2;
     void (*var_r0_2)(SDC_EC *);
-    void *temp_r3;
+    union MultiSioData *temp_r3;
+    s16 temp_r5 = gUnknown_03001060.unk7;
+    s16 var_r6 = gStageData.playerIndex;
 
-    temp_r5 = gUnknown_03001060.unk7;
-    var_r6 = gStageData.playerIndex;
     temp_sb = sub_8025024(gUnknown_080D8F18[strcEC->unk13]);
-    var_r1 = 0;
-    do {
-        temp_r2 = var_r1;
-        temp_r5_2 = var_r1 << 0x10;
-        if ((4 << temp_r2) & temp_r5) {
-            strcEC->unkE[var_r1 + 2] = gMultiSioRecv[temp_r2 + 2].pat0.unk4;
+    for (i = 0; i < 2; i++) {
+        if ((4 << i) & temp_r5) {
+            temp_r3 = &gMultiSioRecv[i + 2];
         } else {
-            strcEC->unkE[var_r1 + 2] = gMultiSioRecv[temp_r2].pat0.unk4;
+            temp_r3 = &gMultiSioRecv[i + 0];
         }
-#if 0
-        if (gUnknown_03001060.unk4C[temp_r0_2 + 2] == 0xFF) {
-            temp_r1 = temp_r3->unk4;
-            temp_r0_3 = *(temp_r3 + 0xF + (temp_r0_2 + 2));
-            if (temp_r1 == temp_r0_3) {
-                gUnknown_03001060.unk4C[temp_r0_2 + 2] = temp_r1;
+        strcEC->unkE[i + 2] = (u8)temp_r3->pat3_0.unk4;
+        if (gUnknown_03001060.unk4C[i + 2] == 0xFF) {
+            if (temp_r3->pat3_0.unk4 == temp_r3->pat3_0.unkF[i + 2]) {
+                gUnknown_03001060.unk4C[i + 2] = temp_r3->pat3_0.unk4;
             } else {
-                gUnknown_03001060.unk4C[temp_r0_2 + 2] = temp_r0_3;
+                gUnknown_03001060.unk4C[i + 2] = temp_r3->pat3_0.unkF[i + 2];
             }
         }
-#endif
-        temp_r0 = temp_r5_2 + 0x10000;
-        var_r1 = (s16) (temp_r0 >> 0x10);
-    } while ((s32) ((s32) temp_r0 >> 0x10) <= 1);
-    temp_r0_4 = (s16) temp_sb;
-    switch ((s32) temp_r0_4) {                      /* irregular */
-    default:
+    }
+
+    if (temp_sb < 0) {
         sub_802613C();
-        return;
-    case 1:
-        if ((u32) (u16) var_r6 <= 1U) {
-            var_r6 = (u8) ((u32) ((var_r6 << 0x10) + 0x20000) >> 0x10);
-        }
-        if (var_r6 == 3) {
-            if ((gUnknown_03001060.unk4C[2] != 0xFF)
-                && (gUnknown_03001060.unk4C[2] == gUnknown_03001060.unk4C[3])) {
-                strcEC->unk17 = 0x13;
-                gUnknown_03001060.unk4C[3] = 0xFF;
-            case 2:
-                gCurTask->main = Task_EC_808E068;
+    } else {
+        if (temp_sb == 1) {
+            if (var_r6 == 0 || var_r6 == 1) {
+                var_r6 += 2;
+            }
+            if (var_r6 == 3) {
+                if ((gUnknown_03001060.unk4C[2] != 0xFF) && (gUnknown_03001060.unk4C[2] == gUnknown_03001060.unk4C[3])) {
+                    strcEC->unk17 = 0x13;
+                    gUnknown_03001060.unk4C[3] = 0xFF;
+                    gCurTask->main = Task_EC_808E068;
+                } else {
+                    gCurTask->main = Task_EC_808E430;
+                }
             } else {
                 gCurTask->main = Task_EC_808E430;
             }
-        } else {
-            gCurTask->main = Task_EC_808E430;
+            return;
+        } else if (temp_sb == 2) {
+            gCurTask->main = Task_EC_808E068;
         }
-        return;
     }
 }
 
-
-void Task_EC_808E430(void) {
+// (58.99%) https://decomp.me/scratch/DdTQa
+NONMATCH("asm/non_matching/game/siodbg__Task_EC_808E430.inc", void Task_EC_808E430(void))
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     s16 temp_r0;
     s16 temp_r0_3;
@@ -1234,9 +1168,7 @@ void Task_EC_808E430(void) {
     s16 temp_r2;
     s16 var_r1;
     s16 var_r1_4;
-    s16 var_r1_5;
     s16 var_r1_6;
-    s16 var_r1_7;
     s32 var_r0_2;
     s8 var_r1_3;
     u16 temp_r0_10;
@@ -1247,7 +1179,7 @@ void Task_EC_808E430(void) {
     u16 var_r0;
     u16 var_r0_3;
     u8 *temp_r7;
-    u8 temp_r4;
+    s16 temp_r4;
     u8 temp_r6;
     union MultiSioData *var_r1_2;
 
@@ -1258,159 +1190,136 @@ void Task_EC_808E430(void) {
     } else {
         var_r0 = sub_80250EC(gUnknown_080D8F18[strcEC->unk13]);
     }
-    temp_r0 = (s16) var_r0;
-    if ((s32) temp_r0 < 0) {
+    temp_r0 = (s16)var_r0;
+    if ((s32)temp_r0 < 0) {
         sub_802613C();
         return;
     }
     if (temp_r0 == 1) {
-        var_r1_4 = 0;
-        temp_r7 = strcEC->unkE;
-        do {
-            temp_r0_6 = var_r1_4;
-            gUnknown_03001060.unk4C[temp_r0_6] = temp_r7[temp_r0_6];
-            temp_r0_5 = temp_r0_6 + 1;
-            var_r1_4 = (s16) temp_r0_5;
-        } while ((s32) (s16) temp_r0_5 <= 3);
-        temp_r1 = (s16) temp_r4;
-        if (((s32) temp_r1 <= 1) && !(temp_r6 & (4 << temp_r1))) {
-            var_r0_3 = temp_r1 + 2;
-        } else {
-            var_r0_3 = (u16) temp_r4;
+        for (var_r1_4 = 0; var_r1_4 < 4; var_r1_4++) {
+            gUnknown_03001060.unk4C[var_r1_4] = strcEC->unkE[var_r1_4];
         }
-        if (((s16) var_r0_3 == 2) || ((s16) temp_r4 == 2)) {
+        if ((temp_r4 < 2) && !(temp_r6 & (4 << temp_r4))) {
+            var_r0_3 = temp_r4 + 2;
+        } else {
+            var_r0_3 = temp_r4 + 0;
+        }
+        if (((s16)var_r0_3 == 2) || ((s16)temp_r4 == 2)) {
             if ((gUnknown_03001060.unk4C[3] != 0xFF) && (gUnknown_03001060.unk4C[2] == gUnknown_03001060.unk4C[3])) {
                 strcEC->unk17 = 0x13;
                 gUnknown_03001060.unk4C[2] = 0xFF;
                 gCurTask->main = Task_EC_808E068;
                 return;
             }
-            var_r1_5 = 0;
-loop_19:
-            temp_r1_2 = var_r1_5;
-            if ((u32) (&gUnknown_030010AC)[temp_r1_2] > 4U) {
-                return;
-            }
-            temp_r0_7 = temp_r1_2 + 1;
-            var_r1_5 = (s16) temp_r0_7;
-            if ((s32) (s16) temp_r0_7 > 3) {
-                if (((s8) strcEC->unk14 == -1) && ((u32) (u16) temp_r4 <= 1U)) {
-                    var_r1_6 = 0;
-                    do {
-                        temp_r0_9 = var_r1_6;
-                        gUnknown_030010AC[temp_r0_9] = temp_r7[temp_r0_9];
-                        temp_r0_8 = temp_r0_9 + 1;
-                        var_r1_6 = (s16) temp_r0_8;
-                    } while ((s32) (s16) temp_r0_8 <= 3);
-                    if ((s16) var_r0_3 != 2) {
-                        m4aSongNumStart(gCharacterSelectedVoices[gUnknown_080D6EE0[gUnknown_03001060.unk4C[temp_r4 + 2]]]);
+
+            for (var_r1_4 = 0; var_r1_4 < 4; var_r1_4++) {
+                if (gUnknown_030010AC[var_r1_4] > 4U) {
+                    break;
+                }
+
+                if (var_r1_4 + 1 > 3) {
+                    if ((strcEC->unk14 == -1) && ((u32)(u16)temp_r4 <= 1U)) {
+                        for (var_r1_6 = 0; var_r1_6 < 4; var_r1_6++) {
+                            gUnknown_030010AC[var_r1_6] = temp_r7[var_r1_6];
+                        }
+
+                        if ((s16)var_r0_3 != 2) {
+                            m4aSongNumStart(gCharacterSelectedVoices[gUnknown_080D6EE0[gUnknown_03001060.unk4C[temp_r4 + 2]]]);
+                        }
+                    } else {
+                        m4aSongNumStart(gCharacterSelectedVoices[gUnknown_080D6EE0[gUnknown_03001060.unk4C[var_r0_3]]]);
                     }
+                    gCurTask->main = Task_EC_808EDA8;
+                    return;
+                }
+            }
+        } else {
+            for (var_r1_4 = 0; var_r1_4 < 4; var_r1_4++) {
+                if (gUnknown_030010AC[var_r1_4] < 5) {
+                    if ((s16)temp_r4 == 3) {
+                        m4aSongNumStart(gCharacterSelectedVoices[gUnknown_080D6EE0[gUnknown_03001060.unk4C[var_r0_3]]]);
+                    }
+                    strcEC->unkC = 0;
+                    gCurTask->main = Task_EC_808E7B0;
                 } else {
-                    m4aSongNumStart(gCharacterSelectedVoices[gUnknown_080D6EE0[gUnknown_03001060.unk4C[var_r0_3]]]);
+                    break;
                 }
-                gCurTask->main = Task_EC_808EDA8;
-                return;
             }
-            goto loop_19;
-        }
-        var_r1_7 = 0;
-loop_31:
-        temp_r1_3 = var_r1_7;
-        if ((u32) (&gUnknown_030010AC)[temp_r1_3] <= 4U) {
-            temp_r0_10 = temp_r1_3 + 1;
-            var_r1_7 = (s16) temp_r0_10;
-            if ((s32) (s16) temp_r0_10 > 3) {
-                if ((s16) temp_r4 == 3) {
-                    m4aSongNumStart(gCharacterSelectedVoices[gUnknown_080D6EE0[gUnknown_03001060.unk4C[var_r0_3]]]);
-                }
-                strcEC->unkC = 0;
-                gCurTask->main = Task_EC_808E7B0;
-                return;
-            }
-            goto loop_31;
         }
     } else {
-        var_r1 = 0;
-        do {
-            temp_r2 = var_r1;
-            if ((4 << temp_r2) & temp_r6) {
-                strcEC->unkE[var_r1 + 2] = gMultiSioRecv[temp_r2 + 2].pat0.unk4;
+        for (var_r1_4 = 0; var_r1_4 < 2; var_r1_4++) {
+            if ((4 << var_r1_4) & temp_r6) {
+                strcEC->unkE[var_r1 + 2] = gMultiSioRecv[var_r1_4 + 2].pat0.unk4;
             } else {
-                strcEC->unkE[var_r1 + 2] = gMultiSioRecv[temp_r2].pat0.unk4;
+                strcEC->unkE[var_r1 + 2] = gMultiSioRecv[var_r1_4 + 0].pat0.unk4;
             }
-            temp_r0_2 = var_r1 + 1;
-            var_r1 = (s16) temp_r0_2;
-        } while ((s32) (s16) temp_r0_2 <= 1);
-        temp_r0_4 = (s16) temp_r4;
-        if (temp_r0_4 == 0) {
-            var_r1_3 = (s8) strcEC->unkE[2];
-            goto block_45;
         }
-        if (temp_r0_4 == 1) {
-            var_r1_3 = (s8) strcEC->unkE[3];
-block_45:
-            strcEC->unk12 = gUnknown_080D6EE0[var_r1_3];
+
+        if (temp_r4 == 0) {
+            strcEC->unk12 = gUnknown_080D6EE0[strcEC->unkE[2]];
+        } else if (temp_r4 == 1) {
+            strcEC->unk12 = gUnknown_080D6EE0[strcEC->unkE[3]];
         }
     }
 }
+END_NONMATCH
 
-void sub_808E6B4(SDC_EC *strcEC) {
+// Unused?
+void sub_808E6B4(void)
+{
+    SDC_EC *strcEC = TASK_DATA(gCurTask);
     s16 temp_r0;
     s16 temp_r0_3;
     s16 temp_r2;
     s16 var_r1;
     u16 temp_r0_2;
-    u16 var_r0;
-    u8 temp_r6;
-    u8 var_r4;
-    union MultiSioData *var_r2;
-    void (*var_r0_2)(SDC_EC *);
-
-    var_r4 = gStageData.playerIndex;
-    temp_r6 = gUnknown_03001060.unk7;
+    s16 var_r0;
+    s16 var_r4 = gStageData.playerIndex;
+    s16 temp_r6 = gUnknown_03001060.unk7;
     if (var_r4 == 0) {
         var_r0 = sub_8024F1C(gUnknown_080D8F18[strcEC->unk13]);
     } else {
         var_r0 = sub_80251F8(gUnknown_080D8F18[strcEC->unk13]);
     }
-    temp_r0 = (s16) var_r0;
-    if ((s32) temp_r0 < 0) {
+    if (var_r0 < 0) {
         sub_802613C();
         return;
     }
-    if (temp_r0 == 1) {
+    if (var_r0 == 1) {
         strcEC->unk17 = 0x13;
-        if ((u32) (u16) var_r4 <= 1U) {
-            var_r4 = (u8) ((u32) ((var_r4 << 0x10) + 0x20000) >> 0x10);
+        if ((u32)(u16)var_r4 <= 1U) {
+            var_r4 += 2;
         }
         gUnknown_03001060.unk4C[var_r4] = 0xFF;
         gCurTask->main = Task_EC_808E068;
-    } else if (temp_r0 == 2) {
+    } else if (var_r0 == 2) {
         gCurTask->main = Task_EC_808E430;
     }
 
-    for(var_r1 = 0; var_r1 < 2; var_r1++)
-    {
+    for (var_r1 = 0; var_r1 < 2; var_r1++) {
+        union MultiSioData *recv;
         if ((4 << var_r1) & temp_r6) {
-            var_r2 = &(&gMultiSioRecv[2])[var_r1];
+            recv = &gMultiSioRecv[var_r1 + 2];
         } else {
-            var_r2 = (var_r1 * 0x18) + (&gMultiSioRecv[2] - 0x30);
+            recv = &gMultiSioRecv[var_r1 + 0];
         }
-        strcEC->unkE[var_r1 + 2] = (u8) var_r2->raw[4];
+        strcEC->unkE[var_r1 + 2] = recv->pat3_0.unk4;
     }
 }
 
-void Task_EC_808E7B0(void) {
+void Task_EC_808E7B0(void)
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     s16 playerIndex = gStageData.playerIndex;
-    Player *temp_r1;
+    Player *p;
     s16 temp_r0_2;
     s16 var_r0;
     u8 var_r4;
 
-    for(var_r4 = 0; var_r4 < 4; var_r4++)
-    {
-        gPlayers[var_r4].charFlags.character = gUnknown_030010AC[var_r4];
+    for (var_r4 = 0; var_r4 < 4; var_r4++) {
+        Player *players = gPlayers;
+        u8 *src = gUnknown_030010AC;
+        players[var_r4].charFlags.character = src[var_r4];
     }
 
     if (playerIndex == 0) {
@@ -1418,7 +1327,7 @@ void Task_EC_808E7B0(void) {
     } else {
         var_r0 = sub_80253CC();
     }
-    if ((s32) var_r0 < 0) {
+    if ((s32)var_r0 < 0) {
         sub_802613C();
         return;
     }
@@ -1428,7 +1337,8 @@ void Task_EC_808E7B0(void) {
     }
 }
 
-void Task_EC_808E864(void) {
+void Task_EC_808E864(void)
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     ScreenFade *fade = &strcEC->fade;
     s16 temp_r5;
@@ -1440,8 +1350,8 @@ void Task_EC_808E864(void) {
     } else {
         var_r0 = sub_80253CC();
     }
-    temp_r5 = (s16) var_r0;
-    if ((s32) temp_r5 < 0) {
+    temp_r5 = (s16)var_r0;
+    if ((s32)temp_r5 < 0) {
         sub_802613C();
         return;
     }
@@ -1455,14 +1365,15 @@ void Task_EC_808E864(void) {
             } else if (temp_r5 == 1) {
                 strcEC->unkC = 0;
             }
-            if ((s32) (s16) strcEC->unkC <= 0) {
+            if ((s32)(s16)strcEC->unkC <= 0) {
                 gCurTask->main = Task_EC_808E8FC;
             }
         }
     }
 }
 
-void Task_EC_808E8FC(void) {
+void Task_EC_808E8FC(void)
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     s16 temp_r4;
     u16 var_r0;
@@ -1472,8 +1383,8 @@ void Task_EC_808E8FC(void) {
     } else {
         var_r0 = sub_8025AA8();
     }
-    temp_r4 = (s16) var_r0;
-    if ((s32) temp_r4 < 0) {
+    temp_r4 = (s16)var_r0;
+    if ((s32)temp_r4 < 0) {
         sub_802613C();
         return;
     }
@@ -1488,7 +1399,8 @@ void Task_EC_808E8FC(void) {
     }
 }
 
-void Task_EC_808E9AC(void) {
+void Task_EC_808E9AC(void)
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     u16 var_r0;
     u8 playerIndex = gStageData.playerIndex;
@@ -1521,7 +1433,7 @@ void Task_EC_808E9AC(void) {
     } else {
         var_r0 = sub_8025AA8();
     }
-    if ((s32) (var_r0 << 0x10) < 0) {
+    if ((s32)(var_r0 << 0x10) < 0) {
         sub_802613C();
         return;
     }
@@ -1537,8 +1449,9 @@ void Task_EC_808E9AC(void) {
     }
     gCurTask->main = Task_EC_808EA6C;
 }
-    
-void Task_EC_808EA6C(void) {
+
+void Task_EC_808EA6C(void)
+{
     u8 sp[0x15];
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     ScreenFade *fade = &strcEC->fade;
@@ -1570,7 +1483,7 @@ void Task_EC_808EA6C(void) {
                 if (strcEC->unk13 > 0x13) {
                     strcEC->unk13 = 0;
                 } else {
-                    strcEC->unk13 += 1;                    
+                    strcEC->unk13 += 1;
                 }
             } else if (DPAD_LEFT & gPressedKeys) {
                 if (strcEC->unk13 <= 0) {
@@ -1582,7 +1495,8 @@ void Task_EC_808EA6C(void) {
         }
     }
 }
-void Task_EC_808EB50(void) {
+void Task_EC_808EB50(void)
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     s16 var_r0;
 
@@ -1608,7 +1522,8 @@ void Task_EC_808EB50(void) {
     gCurTask->main = Task_EC_808EEB8;
 }
 
-void sub_808EBBC(void) {
+void sub_808EBBC(void)
+{
     char buffer[0x20];
     s16 temp_r4;
     u16 temp_r4_2;
@@ -1616,12 +1531,12 @@ void sub_808EBBC(void) {
     u8 temp_sl = gStageData.playerIndex;
     u8 *vram = (void *)BG_VRAM + 0x40;
     temp_r4 = gUnknown_03001060.unk50;
-    temp_r5 = Div((s32) temp_r4, 10) + 1;
-    temp_r4_2 = Mod((s32) temp_r4, 10) - 1;
+    temp_r5 = Div((s32)temp_r4, 10) + 1;
+    temp_r4_2 = Mod((s32)temp_r4, 10) - 1;
     sprintf(buffer, gStringSelectStage);
     RenderText(vram, gUnknown_082B5344, 0xAU, 6U, 2U, buffer, 0U);
     vram += 12 * TILE_SIZE_4BPP;
-    sprintf(buffer, gStringZoneNActN, (s16) temp_r5, (s16) temp_r4_2);
+    sprintf(buffer, gStringZoneNActN, (s16)temp_r5, (s16)temp_r4_2);
     RenderText(vram, gUnknown_082B5344, 0xAU, 8U, 2U, buffer, 0U);
     vram += 13 * TILE_SIZE_4BPP;
     if (temp_sl == 0) {
@@ -1632,45 +1547,44 @@ void sub_808EBBC(void) {
     RenderText(vram, gUnknown_082B5344, 0xAU, 0x10U, 2U, buffer, 0U);
 }
 
-void sub_808ECB8(void) {
-    sub_8027960();
-}
+void sub_808ECB8(void) { sub_8027960(); }
 
-void Task_FCC_808ECC4(void) {
+void Task_FCC_808ECC4(void)
+{
     SDC_FCC *strcFCC = TASK_DATA(gCurTask);
     if (UpdateScreenFade(&strcFCC->fade) != 0) {
         gCurTask->main = Task_FCC_808D00C;
     }
 }
 
-void Task_FCC_808ECF4(void) {
+void Task_FCC_808ECF4(void)
+{
     SDC_FCC *strcFCC = TASK_DATA(gCurTask);
     s16 temp_r0;
 
     if (UpdateScreenFade(&strcFCC->fade) != 0) {
         switch (strcFCC->unk10) {
-        case 0:
-            CreateMultiPakConnectionCheck(0U);
-            break;
-        case 1:
-            sub_8027960();
-            break;
-        case 2:
-            LaunchChaoMenu(0, 0);
-            break;
+            case 0:
+                CreateMultiPakConnectionCheck(0U);
+                break;
+            case 1:
+                sub_8027960();
+                break;
+            case 2:
+                LaunchChaoMenu(0, 0);
+                break;
         }
         TaskDestroy(gCurTask);
     }
 }
 
-void sub_808ED5C(void) {
+void sub_808ED5C(void) { }
 
-}
-
-void Task_EC_808ED60(void) {
+void Task_EC_808ED60(void)
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     if (UpdateScreenFade(&strcEC->fade) != 0) {
-        if ((u32) strcEC->unk17 <= 0x22U) {
+        if ((u32)strcEC->unk17 <= 0x22U) {
             strcEC->unk17 = 0x23;
         }
         if (strcEC->unk17 == 0x26) {
@@ -1681,7 +1595,8 @@ void Task_EC_808ED60(void) {
     }
 }
 
-void Task_EC_808EDA8(void) {
+void Task_EC_808EDA8(void)
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     s16 temp_r0 = sub_8025A38();
     if (temp_r0 < 0) {
@@ -1692,7 +1607,8 @@ void Task_EC_808EDA8(void) {
     }
 }
 
-void Task_EC_808EDE4(void) {
+void Task_EC_808EDE4(void)
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     s16 var_r0;
 
@@ -1710,7 +1626,8 @@ void Task_EC_808EDE4(void) {
     }
 }
 
-void Task_EC_808EE34(void) {
+void Task_EC_808EE34(void)
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     u16 var_r0;
 
@@ -1719,7 +1636,7 @@ void Task_EC_808EE34(void) {
     } else {
         var_r0 = sub_80253CC();
     }
-    if ((s32) (var_r0 << 0x10) < 0) {
+    if ((s32)(var_r0 << 0x10) < 0) {
         sub_802613C();
         return;
     }
@@ -1728,7 +1645,8 @@ void Task_EC_808EE34(void) {
     gCurTask->main = Task_EC_808E864;
 }
 
-void Task_EC_808EE8C(void) {
+void Task_EC_808EE8C(void)
+{
     s16 temp_r0 = sub_8025534();
     if (temp_r0 < 0) {
         sub_802613C();
@@ -1737,7 +1655,8 @@ void Task_EC_808EE8C(void) {
     }
 }
 
-void Task_EC_808EEB8(void) {
+void Task_EC_808EEB8(void)
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     s16 var_r0;
     u8 playerIndex = gStageData.playerIndex;
@@ -1756,7 +1675,8 @@ void Task_EC_808EEB8(void) {
     }
 }
 
-void Task_EC_808EF14(void) {
+void Task_EC_808EF14(void)
+{
     SDC_EC *strcEC = TASK_DATA(gCurTask);
     s16 temp_r0;
     s16 var_r0;
@@ -1777,11 +1697,6 @@ void Task_EC_808EF14(void) {
     }
 }
 
-void nullsub_808EF94(void) {
+void nullsub_808EF94(void) { }
 
-}
-
-void nullsub_808EF98(void) {
-
-}
-#endif
+void nullsub_808EF98(void) { }

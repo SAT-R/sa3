@@ -21,6 +21,8 @@ typedef struct {
     /* 0x56 */ u8 unk56;
 } Struct_03001060; /* size: ??? */
 
+u8 gUnknown_030010AC[4] = { 0 };
+
 void *ewram_end = 0;
 void *iwram_end = 0;
 char gNumMusicPlayers = 4;
@@ -70,6 +72,42 @@ void sub_802C7B0() { }
 void sub_8027538() { }
 bool32 sub_802CE4C() { return FALSE; }
 
+void CreateCharacterSelectMultiplayer() { }
+void MultiSio_SendPlayerName() { }
+void sub_802440C() { }
+void sub_8024584() { }
+void sub_80244E4() { }
+void sub_80246B4() { }
+void sub_80258FC() { }
+void sub_8025908() { }
+void sub_80259EC() { }
+void sub_8024A4C() { }
+void sub_8024AC0() { }
+void sub_8024984() { }
+void sub_8024C68() { }
+void sub_8025948() { }
+void sub_8024B84() { }
+void sub_8024E1C() { }
+void sub_8024F84() { }
+void sub_8025024() { }
+void sub_80250EC() { }
+void sub_8024F1C() { }
+void sub_80251F8() { }
+void sub_8025998() { }
+void sub_80259F8() { }
+void sub_8025360() { }
+void sub_80253CC() { }
+void sub_8025460() { }
+void sub_8025A90() { }
+void sub_8025AA8() { }
+void sub_80255B0() { }
+void sub_8025534() { }
+void sub_8025614() { }
+void sub_8027960() { }
+void sub_8025A38() { }
+void sub_8025674() { }
+void sub_8025B48() { }
+
 void sub_8052D8C() { }
 void sub_8054514() { }
 void sub_8054E38() { }
@@ -112,8 +150,6 @@ void sub_8087B80() { }
 void sub_8088440() { }
 void sub_80885CC() { }
 void sub_8088770() { }
-void CreateMultiPakConnectionCheck() { }
-void sub_808ECB8() { }
 // returns VRAM tile pointer
 void *CreateSomeTask_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles) { return tiles; }
 void sub_80A1A4C() { }

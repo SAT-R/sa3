@@ -141,7 +141,9 @@ struct MultiSioData_0_5 {
 };
 
 struct MultiSioData_3_0 {
-    u8 filler0[0xF];
+    u8 filler0[0x4];
+    u8 unk4;
+    u8 filler5[0xA];
     u8 unkF[4];
     u8 unk13;
 };

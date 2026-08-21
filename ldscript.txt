@@ -178,7 +178,6 @@ SECTIONS {
         src/game/sa3/title_screen.o(.text);
         src/game/sa3/options/options_menu.o(.text);
         src/game/sio_debug_code_maybe.o(.text);
-        asm/sio_debug_code_maybe.o(.text);
         src/game/sa3/options/player_data.o(.text);
         src/game/sa3/options/difficulty.o(.text);
         src/game/sa3/options/language.o(.text);
