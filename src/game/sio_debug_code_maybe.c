@@ -353,9 +353,11 @@ void Task_EC_808D270(void)
 
             if (var_r4 == 0) {
                 sub_808D6BC(strcEC);
-                if (8 & gPressedKeys) {
+
+                if (START_BUTTON & gPressedKeys) {
                     sub_80244E4();
                     m4aSongNumStart(MUS_VS_SUCCESS);
+
                     fade->window = 0;
                     fade->flags = 1;
                     fade->brightness = 0;
@@ -363,9 +365,10 @@ void Task_EC_808D270(void)
                     fade->bldCnt = 0xFF;
                     fade->bldAlpha = 0;
                     ScreenFadeUpdateValues(fade);
+
                     sub_808D548(strcEC, 4U);
                     sub_808D5CC(strcEC, 2);
-                    strcEC->unkC = (u16)0;
+                    strcEC->unkC = 0;
                     gCurTask->main = Task_EC_808D45C;
                     return;
                 }

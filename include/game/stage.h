@@ -117,7 +117,7 @@ typedef struct {
     /* 0x9C */ struct Task *taskAfterImages; // -> AfterImages *
     /* 0xA0 */ struct Task *taskA0;
     /* 0xA4 */ struct Task *taskA4;
-    /* 0xA8 */ u32 unkA8;
+    /* 0xA8 */ struct Task *taskA8; // -> 0x4
     /* 0xAC */ u16 rings;
     /* 0xAE */ u16 levelTimer; // Timer that constantly increases in a level
     /* 0xB0 */ u16 stageFlags;
@@ -142,6 +142,12 @@ typedef struct AfterImages {
     /* 0x0C */ Sprite2 s;
     /* 0x3C */ u8 unk3C;
 } AfterImages;
+
+typedef struct TaskA8 {
+    /* 0x00 */ u16 unk0;
+    /* 0x02 */ u8 unk2;
+    /* 0x03 */ u8 unk3;
+} TaskA8;
 
 typedef enum {
     ACT_TYPE_ACT_1 = 0x01,
