@@ -11305,7 +11305,8 @@ _080293B4:
 	pop {r1}
 	bx r1
 	.align 2, 0
-
+    
+.if 0
 	thumb_func_start sub_80293BC
 sub_80293BC: @ 0x080293BC
 	push {lr}
@@ -11331,5 +11332,4 @@ _080293DC:
 	.align 2, 0
 _080293E4: .4byte gStageData
 
-.if 0
 .endif

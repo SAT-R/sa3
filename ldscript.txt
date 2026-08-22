@@ -31,7 +31,8 @@ SECTIONS {
         src/game/stage/stage_ui_singlepak.o(.text);
         src/game/chao_map.o(.text);
         src/game/sa3/stage_notifications.o(.text);
-        asm/sio_stuff.o(.text);
+        asm/sio_stuff_x.o(.text);
+        src/sio_stuff_x.o(.text);
         asm/game__mp_collect_chao__chao.o(.text);
         src/sio_stuff_z.o(.text);
         src/game/shared/stage/music_manager.o(.text);

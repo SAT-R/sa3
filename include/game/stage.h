@@ -117,7 +117,7 @@ typedef struct {
     /* 0x9C */ struct Task *taskAfterImages; // -> AfterImages *
     /* 0xA0 */ struct Task *taskA0;
     /* 0xA4 */ struct Task *taskA4;
-    /* 0xA8 */ struct Task *taskA8; // -> 0x4
+    /* 0xA8 */ struct Task *taskA8; // -> TaskA8 *
     /* 0xAC */ u16 rings;
     /* 0xAE */ u16 levelTimer; // Timer that constantly increases in a level
     /* 0xB0 */ u16 stageFlags;
