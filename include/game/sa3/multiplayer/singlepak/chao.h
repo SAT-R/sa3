@@ -15,5 +15,4 @@ typedef struct {
     /* 0x3C */ Player *player;
 } MPChao; /* 0x40 */
 
-
 #endif // GUARD_SA3_MP_SINGLEPAK_CHAO_H
