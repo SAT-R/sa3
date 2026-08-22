@@ -113,7 +113,7 @@ typedef struct {
     /* 0x8F */ u8 unk8F;
     /* 0x90 */ struct Task *task90;
     /* 0x94 */ struct Task *taskEntitiesManager;
-    /* 0x98 */ struct Task *taskCheese; // -> Cheese *, set to NULL in TaskDestructor
+    /* 0x98 */ struct Task *taskCheese; // -> Cheese *, set to NULL in TaskDestructor | MPChao * in "Scramble for Chao" Singlepak mode!
     /* 0x9C */ struct Task *taskAfterImages; // -> AfterImages *
     /* 0xA0 */ struct Task *taskA0;
     /* 0xA4 */ struct Task *taskA4;

@@ -59,15 +59,11 @@ s16 sub_802610C() { return 0; }
 void sub_802613C() { }
 void sub_802616C() { }
 void sub_80274F4() { }
-void sub_80293E8() { }
 void sub_8027578(MapEntity *me) { }
 void sub_80276A8() { }
 void sub_80276F4() { }
-void sub_80296F8() { }
 void sub_802789C() { }
-void sub_802954C() { }
 void sub_80275B8(u32 level, u8 param1, u8 param2) { }
-void TaskDestructor_8029774(struct Task *t) { }
 void sub_802C7B0() { }
 void sub_8027538() { }
 bool32 sub_802CE4C() { return FALSE; }

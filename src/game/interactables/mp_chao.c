@@ -2,6 +2,7 @@
 #include "task.h"
 #include "malloc_vram.h"
 #include "multi_sio_stuff.h"
+#include "game/sa3/multiplayer/singlepak/chao.h"
 #include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
 #include "game/shared/stage/player.h"
@@ -27,7 +28,7 @@ void CreateEntity_MultiplayerChao(MapEntity *me, u16 regionX, u16 regionY, u8 id
 {
     u32 uData = me->d.uData[4];
 
-    if (gStageData.taskCheese == 0) {
+    if (gStageData.taskCheese == NULL) {
         u32 unk56 = gUnknown_03001060.unk56;
 
         if (unk56 == uData) {
@@ -57,7 +58,7 @@ void CreateEntity_MultiplayerChao(MapEntity *me, u16 regionX, u16 regionY, u8 id
 
 static void Task_MultiplayerChao(void)
 {
-    bool32 r7 = FALSE;
+    bool32 chaoExists = FALSE;
     IA_MP024 *ia = TASK_DATA(gCurTask);
     Sprite *s = &ia->s;
     Player *p = &gPlayers[gStageData.playerIndex];
@@ -67,18 +68,18 @@ static void Task_MultiplayerChao(void)
     worldX = ia->worldX;
     worldY = ia->worldY;
 
-    if (sub_8020700(s, worldX, worldY, 0, p, r7)) {
+    if (sub_8020700(s, worldX, worldY, 0, p, 0)) {
         sub_80276A8(gStageData.playerIndex);
 
-        sub_802954C(p, worldX, worldY);
-        r7 = TRUE;
+        CreateNewMPChao(p, worldX, worldY);
+        chaoExists = TRUE;
     }
 
-    if (gStageData.taskCheese != 0) {
-        r7 = TRUE;
+    if (gStageData.taskCheese != NULL) {
+        chaoExists = TRUE;
     }
 
-    if (r7) {
+    if (chaoExists) {
         TaskDestroy(gCurTask);
         return;
     } else {
