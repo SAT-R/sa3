@@ -8310,8 +8310,8 @@ _08027AD0: .4byte 0x030000E8
 _08027AD4: .4byte 0x030000EC
 _08027AD8: .4byte gUnknown_03001060
 
-	thumb_func_start sub_8027ADC
-sub_8027ADC: @ 0x08027ADC
+	thumb_func_start Task_F4_8027ADC
+Task_F4_8027ADC: @ 0x08027ADC
 	push {r4, r5, r6, lr}
 	ldr r6, _08027B24 @ =gCurTask
 	ldr r0, [r6]
@@ -8341,7 +8341,7 @@ sub_8027ADC: @ 0x08027ADC
 	adds r0, r5, #0
 	bl ScreenFadeUpdateValues
 	ldr r1, [r6]
-	ldr r0, _08027B30 @ =sub_8028418
+	ldr r0, _08027B30 @ =Task_F4_8028418
 	str r0, [r1, #8]
 	pop {r4, r5, r6}
 	pop {r0}
@@ -8350,10 +8350,10 @@ sub_8027ADC: @ 0x08027ADC
 _08027B24: .4byte gCurTask
 _08027B28: .4byte gUnknown_03001060
 _08027B2C: .4byte gMultiSioEnabled
-_08027B30: .4byte sub_8028418
+_08027B30: .4byte Task_F4_8028418
 
-	thumb_func_start Task_F4_8027B34
-Task_F4_8027B34: @ 0x08027B34
+	thumb_func_start sa2__sub_8081604
+sa2__sub_8081604: @ 0x08027B34
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -8364,7 +8364,7 @@ Task_F4_8027B34: @ 0x08027B34
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r7, r6, r0
-	bl sub_802855C
+	bl sa2__sub_8081D70
 	lsls r0, r0, #0x18
 	asrs r0, r0, #8
 	lsrs r0, r0, #0x10
@@ -8519,7 +8519,7 @@ _08027C80:
 	bl m4aSongNumStart
 	ldr r0, _08027CB8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08027CBC @ =sub_8027ADC
+	ldr r0, _08027CBC @ =Task_F4_8027ADC
 	b _08027D16
 	.align 2, 0
 _08027CA4: .4byte 0x030000DD
@@ -8528,7 +8528,7 @@ _08027CAC: .4byte 0xFFFFBFFF
 _08027CB0: .4byte 0xFFFF7FFF
 _08027CB4: .4byte gPressedKeys
 _08027CB8: .4byte gCurTask
-_08027CBC: .4byte sub_8027ADC
+_08027CBC: .4byte Task_F4_8027ADC
 _08027CC0:
 	bl sub_8028530
 	lsls r0, r0, #0x10
@@ -8655,7 +8655,7 @@ _08027DBC:
 _08027DD2:
 	ldr r0, _08027DEC @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08027DF0 @ =sub_8027DF4
+	ldr r0, _08027DF0 @ =sa2__sub_8081A5C
 	str r0, [r1, #8]
 	bl sub_8028338
 	pop {r4}
@@ -8665,10 +8665,10 @@ _08027DD2:
 _08027DE4: .4byte gMultiSioStatusFlags
 _08027DE8: .4byte gUnknown_080CEF08
 _08027DEC: .4byte gCurTask
-_08027DF0: .4byte sub_8027DF4
+_08027DF0: .4byte sa2__sub_8081A5C
 
-	thumb_func_start sub_8027DF4
-sub_8027DF4: @ 0x08027DF4
+	thumb_func_start sa2__sub_8081A5C
+sa2__sub_8081A5C: @ 0x08027DF4
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	ldr r5, _08027E30 @ =gCurTask
@@ -8721,7 +8721,7 @@ _08027E52:
 	str r0, [r5]
 _08027E5A:
 	adds r0, r6, #0
-	bl sub_8028644
+	bl sa2__sub_8081E90
 	bl sub_8028338
 	add sp, #4
 	pop {r4, r5, r6}
@@ -8730,8 +8730,8 @@ _08027E5A:
 	.align 2, 0
 _08027E6C: .4byte 0x030000E8
 
-	thumb_func_start sub_8027E70
-sub_8027E70: @ 0x08027E70
+	thumb_func_start Task_F4_8027E70
+Task_F4_8027E70: @ 0x08027E70
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _08027EFC @ =gCurTask
 	ldr r4, [r0]
@@ -8797,7 +8797,7 @@ _08027EE8:
 	lsls r4, r4, #0x10
 	lsrs r1, r4, #0x10
 	adds r0, r5, #0
-	bl sub_80285EC
+	bl sa2__sub_8081E38
 	cmp r0, #0
 	bne _08027F20
 	bl sub_802613C
@@ -8878,7 +8878,7 @@ _08027FA0:
 	cmp r0, #3
 	ble _08027EE8
 	adds r0, r5, #0
-	bl sub_8028644
+	bl sa2__sub_8081E90
 	adds r2, r5, #0
 	adds r2, #0xde
 	ldr r0, _08027FD0 @ =gMultiSioRecv
@@ -9383,7 +9383,7 @@ Task_F4_80283CC: @ 0x080283CC
 	strb r1, [r2]
 	bl MultiBootInit
 	ldr r1, [r5]
-	ldr r0, _08028414 @ =Task_F4_8027B34
+	ldr r0, _08028414 @ =sa2__sub_8081604
 	str r0, [r1, #8]
 _08028400:
 	pop {r4, r5}
@@ -9393,10 +9393,10 @@ _08028400:
 _08028408: .4byte gCurTask
 _0802840C: .4byte gMultiBootParam
 _08028410: .4byte 0x030000E0
-_08028414: .4byte Task_F4_8027B34
+_08028414: .4byte sa2__sub_8081604
 
-	thumb_func_start sub_8028418
-sub_8028418: @ 0x08028418
+	thumb_func_start Task_F4_8028418
+Task_F4_8028418: @ 0x08028418
 	push {r4, lr}
 	ldr r4, _08028444 @ =gCurTask
 	ldr r0, [r4]
@@ -9431,7 +9431,7 @@ sub_8028448: @ 0x08028448
 	adds r0, r0, r1
 	bl sub_80284E8
 	ldr r1, [r4]
-	ldr r0, _08028474 @ =sub_8027E70
+	ldr r0, _08028474 @ =Task_F4_8027E70
 	str r0, [r1, #8]
 	bl MultiSioStart
 	bl sub_8028338
@@ -9440,7 +9440,7 @@ sub_8028448: @ 0x08028448
 	bx r0
 	.align 2, 0
 _08028470: .4byte gCurTask
-_08028474: .4byte sub_8027E70
+_08028474: .4byte Task_F4_8027E70
 
 	thumb_func_start sub_8028478
 sub_8028478: @ 0x08028478
@@ -9453,7 +9453,7 @@ sub_8028478: @ 0x08028478
 	adds r0, r0, r1
 	bl sub_80284E8
 	ldr r1, [r4]
-	ldr r0, _080284A0 @ =sub_80284A4
+	ldr r0, _080284A0 @ =Task_F4_80284A4
 	str r0, [r1, #8]
 	bl sub_8028338
 	pop {r4}
@@ -9461,10 +9461,10 @@ sub_8028478: @ 0x08028478
 	bx r0
 	.align 2, 0
 _0802849C: .4byte gCurTask
-_080284A0: .4byte sub_80284A4
+_080284A0: .4byte Task_F4_80284A4
 
-	thumb_func_start sub_80284A4
-sub_80284A4: @ 0x080284A4
+	thumb_func_start Task_F4_80284A4
+Task_F4_80284A4: @ 0x080284A4
 	push {lr}
 	ldr r0, _080284D8 @ =gMultiSioStatusFlags
 	ldr r1, [r0]
@@ -9483,10 +9483,10 @@ sub_80284A4: @ 0x080284A4
 _080284C2:
 	ldr r0, _080284E0 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080284E4 @ =sub_8027E70
+	ldr r0, _080284E4 @ =Task_F4_8027E70
 	str r0, [r1, #8]
 _080284CA:
-	bl sub_8027E70
+	bl Task_F4_8027E70
 	bl sub_8028338
 	pop {r0}
 	bx r0
@@ -9494,7 +9494,7 @@ _080284CA:
 _080284D8: .4byte gMultiSioStatusFlags
 _080284DC: .4byte gMultiSioSend
 _080284E0: .4byte gCurTask
-_080284E4: .4byte sub_8027E70
+_080284E4: .4byte Task_F4_8027E70
 
 	thumb_func_start sub_80284E8
 sub_80284E8: @ 0x080284E8
@@ -9557,8 +9557,8 @@ _08028556:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_802855C
-sub_802855C: @ 0x0802855C
+	thumb_func_start sa2__sub_8081D70
+sa2__sub_8081D70: @ 0x0802855C
 	push {r4, r5, lr}
 	movs r2, #1
 	movs r1, #1
@@ -9629,8 +9629,8 @@ _080285E0: .4byte 0x0300008C
 _080285E4: .4byte 0x030000B4
 _080285E8: .4byte 0x00000596
 
-	thumb_func_start sub_80285EC
-sub_80285EC: @ 0x080285EC
+	thumb_func_start sa2__sub_8081E38
+sa2__sub_8081E38: @ 0x080285EC
 	push {r4, lr}
 	lsls r1, r1, #0x10
 	lsrs r2, r1, #0x10
@@ -9678,8 +9678,8 @@ _0802863A:
 	.align 2, 0
 _08028640: .4byte gUnknown_03001060
 
-	thumb_func_start sub_8028644
-sub_8028644: @ 0x08028644
+	thumb_func_start sa2__sub_8081E90
+sa2__sub_8081E90: @ 0x08028644
 	push {lr}
 	movs r1, #0x90
 	adds r0, #0xe8
@@ -9713,6 +9713,8 @@ _08028660:
 	.align 2, 0
 _08028680: .4byte gWinRegs
 _08028684: .4byte 0x0000B8D0
+
+@ --- End of singlepak_connections.c in SA2 ---
 
 	thumb_func_start sub_8028688
 sub_8028688: @ 0x08028688
@@ -11307,29 +11309,4 @@ _080293B4:
 	.align 2, 0
     
 .if 0
-	thumb_func_start sub_80293BC
-sub_80293BC: @ 0x080293BC
-	push {lr}
-	ldr r0, _080293E4 @ =gStageData
-	adds r1, r0, #0
-	adds r1, #0x8e
-	ldrb r0, [r1]
-	movs r2, #0xaa
-	cmp r0, #0xff
-	beq _080293DC
-	movs r2, #0x55
-	adds r1, r0, #0
-	lsls r1, r1, #1
-	movs r0, #1
-	lsls r0, r1
-	subs r0, r2, r0
-	lsls r0, r0, #0x18
-	lsrs r2, r0, #0x18
-_080293DC:
-	adds r0, r2, #0
-	pop {r1}
-	bx r1
-	.align 2, 0
-_080293E4: .4byte gStageData
-
 .endif
