@@ -1,7 +1,10 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_vram.h"
+#include "game/bosses.h"
 #include "game/stage.h"
+#include "game/shared/stage/music_manager.h"
+#include "game/shared/stage/player_callbacks.h"
 #include "game/shared/stage/player.h"
 #include "game/sa3/bosses/eggman_escape.h"
 #include "constants/animations.h"
@@ -91,6 +94,7 @@ Task *sub_8076A54(EggGravity *boss);
 void Task_100_8076B58(void);
 void Task_D8_EggGravityInit(void);
 void sub_80769C4(u8 *param0, s16 param1);
+void Task_D8_80777AC(void);
 void sub_8077918(EggGravity *boss);
 void TaskDestructor_EggGravity(Task *t);
 
@@ -210,64 +214,58 @@ Task *CreateEggGravity(u8 *bossPhase, s32 worldX, s32 worldY)
     return t;
 }
 
-#if 0
-void Task_D8_8075064(EggGravity *boss) {
-    Player *temp_r4;
-    Player *temp_r4_2;
-    Player *temp_r5;
-    u32 temp_r0;
-    u32 temp_r1;
-    u32 temp_r2;
-    u8 var_r5;
+void Task_D8_8075064(void)
+{
+    Player *player;
+    Player *partner;
+    u8 i;
+    EggGravity *boss = TASK_DATA(gCurTask);
 
-    var_r5 = 0;
-    do {
-        temp_r4 = boss->players[var_r5];
-        if (!(0x08000100 & temp_r4->moveState)) {
-            if ((s32) temp_r4->qWorldY >= 0xD700) {
-                temp_r0 = 0x08000000 | temp_r4->moveState;
-                temp_r4->moveState = temp_r0;
-                if (temp_r0 & 0x800000) {
-                    sub_8016F28(temp_r4);
+    for (i = 0; i < ARRAY_COUNT(boss->players); i++) {
+        player = boss->players[i];
+
+        if (!(0x08000100 & player->moveState)) {
+            if (player->qWorldY >= 0xD700) {
+                player->moveState |= 0x8000000;
+                if (player->moveState & 0x800000) {
+                    sub_8016F28(player);
                 }
-                temp_r1 = temp_r4->moveState;
-                if (0x01000000 & temp_r1) {
-                    temp_r4->moveState = temp_r1 & 0xFEFFFFFF;
+                if (player->moveState & 0x01000000) {
+                    player->moveState &= ~0x01000000;
                 }
-                Player_800E67C(temp_r4);
+                Player_800E67C(player);
             }
-        } else if ((0x08000000 & temp_r4->moveState) && (temp_r4->qWorldY < 0xD700)) {
-            temp_r4->moveState = temp_r4->moveState & 0xF7FFFFFF;
+        } else if ((0x08000000 & player->moveState) && (player->qWorldY < 0xD700)) {
+            player->moveState = player->moveState & 0xF7FFFFFF;
         }
-        if ((s32) temp_r4->qWorldX > 0x4A5FF) {
-            temp_r4->qWorldX = 0x4A600;
-            temp_r4->qSpeedAirX = 0;
-            temp_r4->qSpeedGround = 0;
+        if ((s32)player->qWorldX > 0x4A5FF) {
+            player->qWorldX = 0x4A600;
+            player->qSpeedAirX = 0;
+            player->qSpeedGround = 0;
         }
-        var_r5 += 1;
-    } while ((u32) var_r5 <= 1U);
+    }
 
-    temp_r4_2 = &gPlayers[gStageData.playerIndex];
-    temp_r5 = &gPlayers[(u32) (temp_r4_2->unk2B << 0x1E) >> 0x1E];
-    if ((s32) temp_r4_2->qWorldY > 0x225FF) {
+    player = &gPlayers[gStageData.playerIndex];
+    partner = &gPlayers[player->charFlags.partnerIndex];
+    if ((s32)player->qWorldY > 0x225FF) {
         gCamera.minY = 0x1B8;
         gCamera.maxY = 0x2D8;
         boss->unk30 = 0;
         if (gStageData.gameMode != 5) {
             sub_80299D4(0x34U);
-            gCurTask->main = (void (*)()) Task_D8_8075204;
-            if (((s32) temp_r5->qWorldY > 0x289FF) && ((0x1C & temp_r5->unk2B) == 8)) {
-                temp_r5->qSpeedGround = 0;
-                temp_r5->qSpeedAirY = 0;
-                temp_r5->qSpeedAirX = 0;
-                temp_r5->qWorldX = temp_r4_2->qWorldX;
-                temp_r5->qWorldY = temp_r4_2->qWorldY;
-                temp_r5->layer = temp_r4_2->layer;
-                temp_r5->framesInvulnerable = 0x78;
-                temp_r5->unk56 = 0xE;
-                (&temp_r5->framesInvulnerable + 0xC)->unk1 = 0x3C;
-                temp_r5->moveState &= 0xFFFFFEFF;
-                SetPlayerCallback(temp_r5, Player_8005380);
+            gCurTask->main = (void (*)())Task_D8_8075204;
+            if ((partner->qWorldY >= 0x28A00) && (partner->charFlags.someIndex == 2)) {
+                partner->qSpeedGround = 0;
+                partner->qSpeedAirY = 0;
+                partner->qSpeedAirX = 0;
+                partner->qWorldX = player->qWorldX;
+                partner->qWorldY = player->qWorldY;
+                partner->layer = player->layer;
+                partner->framesInvulnerable = 0x78;
+                partner->unk56 = 0xE;
+                partner->unk57 = 0x3C;
+                partner->moveState &= 0xFFFFFEFF;
+                SetPlayerCallback(partner, Player_8005380);
             }
         } else {
             sub_8079FFC();
@@ -277,6 +275,7 @@ void Task_D8_8075064(EggGravity *boss) {
     sub_8076328(boss);
 }
 
+#if 0
 void Task_D8_8075204(EggGravity *boss) {
     EggGravity *temp_r4;
     Player *temp_r1_2;
