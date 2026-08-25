@@ -43,9 +43,9 @@ typedef struct {
     /* 0x48 */ u8 *vram48;
     /* 0x4C */ u8 *vram4C;
     /* 0x50 */ Player *players[2];
-    /* 0x58 */ Sprite spr58;
+    /* 0x58 */ Sprite sprCockpit;
     /* 0x80 */ Sprite spr80;
-    /* 0xA8 */ Sprite sprA8;
+    /* 0xA8 */ Sprite sprGemerlAnchor;
     /* 0xD0 */ Task *taskD0;
     /* 0xD4 */ u8 unkD4;
 } EggGravity; /* 0xD8 */
@@ -169,7 +169,7 @@ Task *CreateEggGravity(u8 *bossPhase, s32 worldX, s32 worldY)
     boss->vram48 = VramMalloc(116);
     boss->vram4C = VramMalloc(30);
     vram = VramMalloc(0x41U);
-    s = &boss->spr58;
+    s = &boss->sprCockpit;
     s->tiles = vram;
     s->anim = ANIM_BOSS_7_COCKPIT;
     s->variant = 0;
@@ -186,7 +186,7 @@ Task *CreateEggGravity(u8 *bossPhase, s32 worldX, s32 worldY)
 
     s = &boss->spr80;
     s->tiles = vram;
-    s->anim = 0x4EB;
+    s->anim = ANIM_BOSS_7_EGGMAN_ROTATED;
     s->variant = 0;
     s->oamFlags = 0x500;
     s->animCursor = 0;
@@ -199,9 +199,9 @@ Task *CreateEggGravity(u8 *bossPhase, s32 worldX, s32 worldY)
     UpdateSpriteAnimation(s);
     vram += 0x120;
 
-    s = &boss->sprA8;
+    s = &boss->sprGemerlAnchor;
     s->tiles = vram;
-    s->anim = 0x4E9;
+    s->anim = ANIM_BOSS_7_GEMERL;
     s->variant = 0;
     s->oamFlags = 0x580;
     s->animCursor = 0;
@@ -352,8 +352,8 @@ void Task_D8_8075324(EggGravity *boss) {
     u8 temp_r1_2;
     u8 var_r2_2;
 
-    sp0 = &boss->spr58;
-    sp4 = &boss->sprA8;
+    sp0 = &boss->sprCockpit;
+    sp4 = &boss->sprGemerlAnchor;
     temp_r6 = boss->players[0];
     boss->unk30 = (u16) (boss->unk30 + 1);
     boss->unk26 = 0;
@@ -377,14 +377,11 @@ void Task_D8_8075324(EggGravity *boss) {
             sp8 = &boss->unk21;
         }
     } else {
-        temp_r0 = boss->unk24;
-        if ((temp_r0 != 0) && (temp_r0_2 = temp_r0 - 1, boss->unk24 = temp_r0_2, sp8 = &boss->unk21, ((temp_r0_2 << 0x18) != 0))) {
-
-        } else {
+        if ((boss->unk24 == 0) || (--boss->unk24 == 0)) {
             boss->unk24 = (u8) *((boss->unk21 * 2) + &gUnknown_080D5940);
             var_r2 = 0;
             if (boss->unk23 == 0) {
-                var_r2 = (u32) (0 - (temp_r6->moveState & 0x10000)) >> 0x1F;
+                var_r2 = (temp_r6->moveState & 0x10000) ? 1 : 0;
             } else if (!(temp_r6->moveState & 0x10000)) {
                 var_r2 = 1;
             }
@@ -419,11 +416,11 @@ loop_18:
                     }
                 }
             }
-            temp_r1_2 = boss->unk25;
-            switch (temp_r1_2) {                    /* irregular */
+
+            switch (boss->unk25) {                    /* irregular */
             case 1:
                 boss->unk2B = 0;
-                boss->unk2C = (s16) temp_r1_2;
+                boss->unk2C = 1;
                 gCurTask->main =  Task_D8_8075C40;
                 break;
             case 2:
@@ -462,7 +459,8 @@ loop_18:
             }
         }
     }
-    if (*sp8 == 0) {
+
+    if (boss->unk24 == 0) {
         if (gStageData.gameMode == 5) {
             if (boss->unkD4 == 0) {
                 sub_8027674(1U, (u16) ((u32) (boss->unk14 << 8) >> 0x10));
@@ -494,15 +492,15 @@ void Task_D8_8075674(EggGravity *boss) {
     switch ((u32) temp_r0) {                        /* irregular */
     case 0:
         boss->unk26 = 3;
-        boss->sprA8.anim = gUnknown_080D592C.unk10;
-        boss->sprA8.variant = (u8) gUnknown_080D592C.unk12;
-        boss->sprA8.prevAnim = 0xFFFF;
-        boss->sprA8.prevVariant = 0xFF;
+        boss->sprGemerlAnchor.anim = gUnknown_080D592C.unk10;
+        boss->sprGemerlAnchor.variant = (u8) gUnknown_080D592C.unk12;
+        boss->sprGemerlAnchor.prevAnim = 0xFFFF;
+        boss->sprGemerlAnchor.prevVariant = 0xFF;
         if (boss->unk23 != 0) {
             boss->unk32 = 0x600;
         } else {
             boss->unk32 = -0x600;
-            boss->sprA8.frameFlags |= 0x800;
+            boss->sprGemerlAnchor.frameFlags |= 0x800;
         }
         sub_8077A04(strc100, 1);
         m4aSongNumStart(0x234U);
@@ -529,14 +527,14 @@ block_14:
             sub_8078DB0(0x4EF, 0, 0x3A, 0U);
             boss->unk32 = 0;
             boss->unk2B = 0xB;
-            boss->sprA8.anim = *((boss->unk23 * 4) + &gUnknown_080D592C);
-            boss->sprA8.variant = (u8) ((boss->unk23 * 4) + &gUnknown_080D592C)->unk2;
-            boss->sprA8.prevAnim = 0xFFFF;
-            boss->sprA8.prevVariant = 0xFF;
+            boss->sprGemerlAnchor.anim = *((boss->unk23 * 4) + &gUnknown_080D592C);
+            boss->sprGemerlAnchor.variant = (u8) ((boss->unk23 * 4) + &gUnknown_080D592C)->unk2;
+            boss->sprGemerlAnchor.prevAnim = 0xFFFF;
+            boss->sprGemerlAnchor.prevVariant = 0xFF;
             if (boss->unk23 != 0) {
                 sub_8077954(boss, 8);
             } else {
-                boss->sprA8.frameFlags &= 0xFFFFF7FF;
+                boss->sprGemerlAnchor.frameFlags &= 0xFFFFF7FF;
                 sub_8077954(boss, 5);
             }
             temp_r0_2 = boss->unk21;
@@ -623,7 +621,7 @@ void Task_D8_80759B4(EggGravity *boss) {
     u8 temp_r0_4;
     u8 temp_r0_5;
 
-    temp_r3 = &boss->sprA8;
+    temp_r3 = &boss->sprGemerlAnchor;
     boss->unk30 = (u16) (boss->unk30 + 1);
     boss->unk26 = 4;
     sp0 = temp_r3;
@@ -663,26 +661,26 @@ void Task_D8_80759B4(EggGravity *boss) {
                     boss->spr80.variant = (u8) gUnknown_080D5904.unkA;
                     boss->spr80.prevAnim = 0xFFFF;
                     boss->spr80.prevVariant |= 0xFF;
-                    boss->spr58.anim = sBoss7AnimsCockpit.unk8;
-                    boss->spr58.variant = (u8) sBoss7AnimsCockpit.unkA;
-                    boss->spr58.prevAnim = -1;
-                    boss->spr58.prevVariant |= 0xFF;
-                    boss->sprA8.anim = gUnknown_080D592C.unk8;
-                    boss->sprA8.variant = (u8) gUnknown_080D592C.unkA;
-                    boss->sprA8.prevAnim = -1;
+                    boss->sprCockpit.anim = sBoss7AnimsCockpit.unk8;
+                    boss->sprCockpit.variant = (u8) sBoss7AnimsCockpit.unkA;
+                    boss->sprCockpit.prevAnim = -1;
+                    boss->sprCockpit.prevVariant |= 0xFF;
+                    boss->sprGemerlAnchor.anim = gUnknown_080D592C.unk8;
+                    boss->sprGemerlAnchor.variant = (u8) gUnknown_080D592C.unkA;
+                    boss->sprGemerlAnchor.prevAnim = -1;
                 } else {
                     boss->unk23 = 1;
                     boss->spr80.anim = gUnknown_080D5904.unkC;
                     boss->spr80.variant = (u8) gUnknown_080D5904.unkE;
                     boss->spr80.prevAnim = 0xFFFF;
                     boss->spr80.prevVariant |= 0xFF;
-                    boss->spr58.anim = sBoss7AnimsCockpit.unkC;
-                    boss->spr58.variant = (u8) sBoss7AnimsCockpit.unkE;
-                    boss->spr58.prevAnim = -1;
-                    boss->spr58.prevVariant |= 0xFF;
-                    boss->sprA8.anim = gUnknown_080D592C.unkC;
-                    boss->sprA8.variant = (u8) gUnknown_080D592C.unkE;
-                    boss->sprA8.prevAnim = -1;
+                    boss->sprCockpit.anim = sBoss7AnimsCockpit.unkC;
+                    boss->sprCockpit.variant = (u8) sBoss7AnimsCockpit.unkE;
+                    boss->sprCockpit.prevAnim = -1;
+                    boss->sprCockpit.prevVariant |= 0xFF;
+                    boss->sprGemerlAnchor.anim = gUnknown_080D592C.unkC;
+                    boss->sprGemerlAnchor.variant = (u8) gUnknown_080D592C.unkE;
+                    boss->sprGemerlAnchor.prevAnim = -1;
                 }
             } else {
                 boss->unk29 = 4;
@@ -690,15 +688,15 @@ void Task_D8_80759B4(EggGravity *boss) {
                 boss->spr80.variant = (u8) ((boss->unk23 * 4) + &gUnknown_080D5904)->unk2;
                 boss->spr80.prevAnim = 0xFFFF;
                 boss->spr80.prevVariant |= 0xFF;
-                boss->spr58.anim = *((boss->unk23 * 4) + &sBoss7AnimsCockpit);
-                boss->spr58.variant = (u8) ((boss->unk23 * 4) + &sBoss7AnimsCockpit)->unk2;
-                boss->spr58.prevAnim = -1;
-                boss->spr58.prevVariant |= 0xFF;
-                boss->sprA8.anim = *((boss->unk23 * 4) + &gUnknown_080D592C);
-                boss->sprA8.variant = (u8) ((boss->unk23 * 4) + &gUnknown_080D592C)->unk2;
-                boss->sprA8.prevAnim = -1;
+                boss->sprCockpit.anim = *((boss->unk23 * 4) + &sBoss7AnimsCockpit);
+                boss->sprCockpit.variant = (u8) ((boss->unk23 * 4) + &sBoss7AnimsCockpit)->unk2;
+                boss->sprCockpit.prevAnim = -1;
+                boss->sprCockpit.prevVariant |= 0xFF;
+                boss->sprGemerlAnchor.anim = *((boss->unk23 * 4) + &gUnknown_080D592C);
+                boss->sprGemerlAnchor.variant = (u8) ((boss->unk23 * 4) + &gUnknown_080D592C)->unk2;
+                boss->sprGemerlAnchor.prevAnim = -1;
             }
-            boss->sprA8.prevVariant |= 0xFF;
+            boss->sprGemerlAnchor.prevVariant |= 0xFF;
             temp_r0_5 = boss->unk2A + 1;
             boss->unk2A = temp_r0_5;
             if ((u32) temp_r0_5 > 0x14U) {
@@ -795,14 +793,14 @@ void Task_D8_8075DA4(EggGravity *boss) {
         boss->spr80.variant = (u8) ((boss->unk23 * 4) + &gUnknown_080D5904)->unk2;
         boss->spr80.prevAnim = 0xFFFF;
         boss->spr80.prevVariant |= 0xFF;
-        boss->spr58.anim = *((boss->unk23 * 4) + &sBoss7AnimsCockpit);
-        boss->spr58.variant = (u8) ((boss->unk23 * 4) + &sBoss7AnimsCockpit)->unk2;
-        boss->spr58.prevAnim = -1;
-        boss->spr58.prevVariant |= 0xFF;
-        boss->sprA8.anim = *((boss->unk23 * 4) + &gUnknown_080D592C);
-        boss->sprA8.variant = (u8) ((boss->unk23 * 4) + &gUnknown_080D592C)->unk2;
-        boss->sprA8.prevAnim = -1;
-        boss->sprA8.prevVariant |= 0xFF;
+        boss->sprCockpit.anim = *((boss->unk23 * 4) + &sBoss7AnimsCockpit);
+        boss->sprCockpit.variant = (u8) ((boss->unk23 * 4) + &sBoss7AnimsCockpit)->unk2;
+        boss->sprCockpit.prevAnim = -1;
+        boss->sprCockpit.prevVariant |= 0xFF;
+        boss->sprGemerlAnchor.anim = *((boss->unk23 * 4) + &gUnknown_080D592C);
+        boss->sprGemerlAnchor.variant = (u8) ((boss->unk23 * 4) + &gUnknown_080D592C)->unk2;
+        boss->sprGemerlAnchor.prevAnim = -1;
+        boss->sprGemerlAnchor.prevVariant |= 0xFF;
         temp_r0_2 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
         gPseudoRandom = temp_r0_2;
         if ((u32) ((u32) temp_r0_2 % 10000U) <= 0xBB7U) {
@@ -839,14 +837,14 @@ void Task_D8_8075EE8(EggGravity *boss) {
             boss->spr80.variant = (u8) gUnknown_080D5904.unkA;
             boss->spr80.prevAnim = 0xFFFF;
             boss->spr80.prevVariant = 0xFF;
-            boss->spr58.anim = sBoss7AnimsCockpit.unk8;
-            boss->spr58.variant = (u8) sBoss7AnimsCockpit.unkA;
-            boss->spr58.prevAnim = -1;
-            boss->spr58.prevVariant = -1;
-            boss->sprA8.anim = gUnknown_080D592C.unk8;
-            boss->sprA8.variant = (u8) gUnknown_080D592C.unkA;
-            boss->sprA8.prevAnim = -1;
-            boss->sprA8.prevVariant = -1;
+            boss->sprCockpit.anim = sBoss7AnimsCockpit.unk8;
+            boss->sprCockpit.variant = (u8) sBoss7AnimsCockpit.unkA;
+            boss->sprCockpit.prevAnim = -1;
+            boss->sprCockpit.prevVariant = -1;
+            boss->sprGemerlAnchor.anim = gUnknown_080D592C.unk8;
+            boss->sprGemerlAnchor.variant = (u8) gUnknown_080D592C.unkA;
+            boss->sprGemerlAnchor.prevAnim = -1;
+            boss->sprGemerlAnchor.prevVariant = -1;
         }
         break;
     case 0xA:
@@ -1019,7 +1017,7 @@ void sub_8076328(EggGravity *boss) {
     u8 var_r1;
 
     temp_r1 = boss->taskD0->data;
-    temp_r7 = &boss->spr58;
+    temp_r7 = &boss->sprCockpit;
     temp_r0 = (boss->qUnk0 + boss->unk14) << 8;
     temp_r1_2 = (s32) temp_r0 >> 0x10;
     var_r0 = temp_r1_2 + 0xFFFFFCA0;
@@ -1035,9 +1033,9 @@ void sub_8076328(EggGravity *boss) {
         var_r1 = 0x14;
     }
     temp_r5 = (s16) (temp_r0 >> 0x10);
-    boss->spr58.x = temp_r5 - gCamera.x;
+    boss->sprCockpit.x = temp_r5 - gCamera.x;
     temp_r4 = (s32) ((temp_r1->unkC8 + *(temp_r1 + 4 + ((s32) (var_r1 << 0x18) >> 0x16))) << 8) >> 0x10;
-    boss->spr58.y = ((temp_r4 + ((s32) boss->unk3C >> 8)) - gCamera.y) + ((s32) boss->unk44 >> 8);
+    boss->sprCockpit.y = ((temp_r4 + ((s32) boss->unk3C >> 8)) - gCamera.y) + ((s32) boss->unk44 >> 8);
     UpdateSpriteAnimation(temp_r7);
     DisplaySprite(temp_r7);
     boss->qUnk4 = (temp_r4 + ((s32) boss->unk3C >> 8)) << 8;
@@ -1061,7 +1059,7 @@ void sub_8076420(EggGravity *boss) {
     u8 var_r6;
     u8 var_r8;
 
-    temp_r7 = &boss->sprA8;
+    temp_r7 = &boss->sprGemerlAnchor;
     var_r8 = 0;
     if (boss->unk21 == 0) {
         return;
@@ -1076,7 +1074,7 @@ void sub_8076420(EggGravity *boss) {
         var_r6 = 0;
         do {
             temp_r4 = temp_r2[var_r6];
-            if ((sub_802C080(temp_r4) == 0) && (boss->sprA8.hitboxes[0].index != -1)) {
+            if ((sub_802C080(temp_r4) == 0) && (boss->sprGemerlAnchor.hitboxes[0].index != -1)) {
                 if (sub_8020E3C(temp_r7, (s32) (boss->qUnk0 + boss->unk14) >> 8, (s32) boss->qUnk4 >> 8, 0, temp_r4) == 1) {
                     var_r8 = 1;
                     sub_80044CC(temp_r4);
