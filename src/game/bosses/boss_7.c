@@ -277,6 +277,7 @@ void Task_D8_8075064(void)
             gCurTask->main = Task_D8_80777AC;
         }
     }
+
     sub_8076328(boss);
 }
 
@@ -288,7 +289,7 @@ void Task_D8_8075204(void)
     u16 temp_r0;
     u16 temp_r2;
     u16 var_r1;
-    u8 var_r2;
+    u8 i;
     EggGravity *boss = TASK_DATA(gCurTask);
     EggGravity100 *strc100 = TASK_DATA(boss->taskD0);
 
@@ -321,9 +322,9 @@ void Task_D8_8075204(void)
             break;
     }
 
-    for (var_r2 = 0; var_r2 < 2; var_r2++) {
-        Player *p = boss->players[var_r2];
-        if ((p->moveState & 0x08000000) && ((s32)p->qWorldX > 0x4A5FF)) {
+    for (i = 0; i < 2; i++) {
+        Player *p = boss->players[i];
+        if ((p->moveState & 0x08000000) && ((s32)p->qWorldX >= 0x4A600)) {
             p->qWorldX = 0x4A600;
             p->qSpeedAirX = 0;
             p->qSpeedGround = 0;
