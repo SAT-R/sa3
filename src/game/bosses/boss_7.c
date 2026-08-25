@@ -32,7 +32,7 @@ typedef struct {
     /* 0x2B */ u8 unk2B;
     /* 0x2C */ u8 filler2C[2];
     /* 0x2E */ u8 unk2E[2];
-    /* 0x2B */ s16 unk30;
+    /* 0x2B */ u16 unk30;
     /* 0x2B */ s16 unk32;
     /* 0x2B */ s16 unk34;
     /* 0x2B */ s16 unk36;
@@ -53,9 +53,13 @@ typedef struct {
 typedef struct {
     /* 0x00 */ EggGravity *boss;
     /* 0x04 */ s32 unk4[21];
-    /* 0x04 */ s32 unk58[21];
-    /* 0x04 */ s32 unkB0;
-    /* 0x02 */ u8 fillerB4[0x10];
+    /* 0x58 */ s32 unk58[21];
+    /* 0xB0 */ s32 unkAC;
+    /* 0xB0 */ u8 unkB0;
+    /* 0xB1 */ u8 unkB1;
+    /* 0xB2 */ u8 unkB2;
+    /* 0xB3 */ u8 unkB3;
+    /* 0xB4	 */ u8 fillerB4[0x10];
     /* 0xC4 */ s32 qUnkC4;
     /* 0xC8 */ s32 qUnkC8;
     /* 0xCC */ Sprite sprCC;
@@ -96,6 +100,7 @@ void Task_D8_EggGravityInit(void);
 void sub_80769C4(u8 *param0, s16 param1);
 void Task_D8_80777AC(void);
 void sub_8077918(EggGravity *boss);
+void sub_8077954(EggGravity *boss, u8 arg1);
 void TaskDestructor_EggGravity(Task *t);
 
 // TEMP
@@ -253,7 +258,7 @@ void Task_D8_8075064(void)
         boss->unk30 = 0;
         if (gStageData.gameMode != 5) {
             sub_80299D4(0x34U);
-            gCurTask->main = (void (*)())Task_D8_8075204;
+            gCurTask->main = Task_D8_8075204;
             if ((partner->qWorldY >= 0x28A00) && (partner->charFlags.someIndex == 2)) {
                 partner->qSpeedGround = 0;
                 partner->qSpeedAirY = 0;
@@ -275,61 +280,60 @@ void Task_D8_8075064(void)
     sub_8076328(boss);
 }
 
-#if 0
-void Task_D8_8075204(EggGravity *boss) {
-    EggGravity *temp_r4;
-    Player *temp_r1_2;
-    Player *temp_r1_3;
-    Player *temp_r1_4;
+void Task_D8_8075204(void)
+{
+    Player *player;
+    Player *partner;
     s32 temp_r1;
     u16 temp_r0;
     u16 temp_r2;
     u16 var_r1;
     u8 var_r2;
+    EggGravity *boss = TASK_DATA(gCurTask);
+    EggGravity100 *strc100 = TASK_DATA(boss->taskD0);
 
-    temp_r1 = (s32) boss << 0x12;
-    temp_r4 = boss + temp_r1;
-    temp_r2 = temp_r4->unk30 + 1;
-    temp_r4->unk30 = temp_r2;
-    if (!(temp_r4->players[0]->moveState & 0x100) && !(temp_r2 & 2)) {
-        var_r1 = 0x100 | gDispCnt;
-    } else {
-        var_r1 = 0xFEFF & gDispCnt;
-    }
-    gDispCnt = var_r1;
-    temp_r0 = temp_r4->unk30;
-    switch (temp_r0) {                              /* irregular */
-    case 0x1E:
-        temp_r1_2 = temp_r4->players[0];
-        temp_r1_2->moveState &= 0xF7FFFFFF;
-        temp_r1_3 = temp_r4->players[1];
-        temp_r1_3->moveState &= 0xF7FFFFFF;
-        break;
-    case 0x43:
-        sub_8077954(temp_r4, 4);
-        break;
-    case 0x7F:
-        (boss->taskD0->data + temp_r1)->unkB1 = 1;
+    boss->unk30 += 1;
+    if (!(boss->players[0]->moveState & 0x100) && !(boss->unk30 & 2)) {
         gDispCnt |= 0x100;
-        temp_r4->unk30 = 0U;
-        sub_8077954(temp_r4, 0);
-        sub_807A4A8();
-        gCurTask->main = (void (*)()) Task_D8_8075324;
-        break;
+    } else {
+        gDispCnt &= ~0x100;
     }
-    var_r2 = 0;
-    do {
-        temp_r1_4 = temp_r4->players[var_r2];
-        if ((temp_r1_4->moveState & 0x08000000) && ((s32) temp_r1_4->qWorldX > 0x4A5FF)) {
-            temp_r1_4->qWorldX = 0x4A600;
-            temp_r1_4->qSpeedAirX = 0;
-            temp_r1_4->qSpeedGround = 0;
+
+    switch (boss->unk30) {
+        case 30:
+            player = boss->players[0];
+            player->moveState &= ~0x8000000;
+            partner = boss->players[1];
+            partner->moveState &= ~0x8000000;
+            break;
+
+        case 67:
+            sub_8077954(boss, 4);
+            break;
+
+        case 127:
+            strc100->unkB1 = 1;
+            gDispCnt |= 0x100;
+            boss->unk30 = 0U;
+            sub_8077954(boss, 0);
+            sub_807A4A8();
+            gCurTask->main = Task_D8_8075324;
+            break;
+    }
+
+    for (var_r2 = 0; var_r2 < 2; var_r2++) {
+        Player *p = boss->players[var_r2];
+        if ((p->moveState & 0x08000000) && ((s32)p->qWorldX > 0x4A5FF)) {
+            p->qWorldX = 0x4A600;
+            p->qSpeedAirX = 0;
+            p->qSpeedGround = 0;
         }
-        var_r2 += 1;
-    } while ((u32) var_r2 <= 1U);
-    sub_8076328(temp_r4);
+    }
+
+    sub_8076328(boss);
 }
 
+#if 0
 void Task_D8_8075324(EggGravity *boss) {
     Sprite *sp0;
     Sprite *sp4;
@@ -360,7 +364,7 @@ void Task_D8_8075324(EggGravity *boss) {
         boss->unk27 = 0;
         boss->unk2B = 0;
         boss->unk2C = 1;
-        gCurTask->main = (void (*)()) Task_D8_8075674;
+        gCurTask->main =  Task_D8_8075674;
         sp8 = &boss->unk21;
         if (gStageData.gameMode != 5) {
 
@@ -419,11 +423,11 @@ loop_18:
             case 1:
                 boss->unk2B = 0;
                 boss->unk2C = (s16) temp_r1_2;
-                gCurTask->main = (void (*)()) Task_D8_8075C40;
+                gCurTask->main =  Task_D8_8075C40;
                 break;
             case 2:
                 boss->unk29 = 0xC;
-                gCurTask->main = (void (*)()) Task_D8_8075DA4;
+                gCurTask->main =  Task_D8_8075DA4;
                 if (boss->unk23 != 0) {
                     boss->unk23 = 0;
                     boss->spr80.anim = gUnknown_080D5904.unk8;
@@ -466,7 +470,7 @@ loop_18:
         } else if (boss->unkD4 == 0) {
 block_36:
             sub_8077A28(boss);
-            gCurTask->main = (void (*)()) Task_D8_8075EE8;
+            gCurTask->main =  Task_D8_8075EE8;
         }
     }
     sub_8076328(boss);
@@ -499,7 +503,7 @@ void Task_D8_8075674(EggGravity *boss) {
             boss->unk32 = -0x600;
             boss->sprA8.frameFlags |= 0x800;
         }
-        sub_8077A04(boss->taskD0, 1);
+        sub_8077A04(strc100, 1);
         m4aSongNumStart(0x234U);
         boss->unk2B = 0xA;
         break;
@@ -698,7 +702,7 @@ void Task_D8_80759B4(EggGravity *boss) {
             boss->unk2A = temp_r0_5;
             if ((u32) temp_r0_5 > 0x14U) {
                 sub_8077918(boss);
-                gCurTask->main = (void (*)()) Task_D8_8075324;
+                gCurTask->main =  Task_D8_8075324;
             }
         }
     }
@@ -766,7 +770,7 @@ block_17:
     case 30:
         if ((sub_8077174(boss->taskD0) << 0x18) != 0) {
             boss->unk2B = 0;
-            gCurTask->main = (void (*)()) Task_D8_8075324;
+            gCurTask->main =  Task_D8_8075324;
             sub_8077A04(boss->taskD0, 0);
         }
         break;
@@ -785,7 +789,7 @@ void Task_D8_8075DA4(EggGravity *boss) {
     temp_r0 = boss->unk29 - 1;
     boss->unk29 = temp_r0;
     if ((temp_r0 << 0x18) == 0) {
-        gCurTask->main = (void (*)()) Task_D8_8075324;
+        gCurTask->main =  Task_D8_8075324;
         boss->spr80.anim = *((boss->unk23 * 4) + &gUnknown_080D5904);
         boss->spr80.variant = (u8) ((boss->unk23 * 4) + &gUnknown_080D5904)->unk2;
         boss->spr80.prevAnim = 0xFFFF;
@@ -860,7 +864,7 @@ void Task_D8_8075EE8(EggGravity *boss) {
         boss->unk2B = 0;
         boss->unk30 = 0xB4;
         m4aSongNumStart(0x221U);
-        gCurTask->main = (void (*)()) Task_D8_8076050;
+        gCurTask->main =  Task_D8_8076050;
         break;
     }
     temp_r1_2 = boss->players[0];
@@ -894,7 +898,7 @@ void Task_D8_8076050(EggGravity *boss) {
         boss->unk2C = 0U;
         boss->unk30 = 0x78;
         m4aSongNumStart(0x221U);
-        gCurTask->main = (void (*)()) Task_D8_8076218;
+        gCurTask->main =  Task_D8_8076218;
         break;
     case 0x0:
         boss->unk32 = 0xFA00U;
@@ -971,7 +975,7 @@ void Task_D8_8076218(EggGravity *boss) {
         (boss->taskD0->data + temp_r1)->unkB2 = 1;
         temp_r3->unk28 = 1;
         temp_r3->unk30 = temp_r2;
-        gCurTask->main = (void (*)()) Task_D8_80762B4;
+        gCurTask->main =  Task_D8_80762B4;
     }
 }
 
@@ -1328,7 +1332,7 @@ void sub_80769C4(u8 *param0, s16 param1) {
             temp_r3->unk2B = temp_r1;
             temp_r3->unk2C = temp_r4;
             temp_r3->unkD4 = 1U;
-            gStageData.taskBoss->main = (void (*)()) Task_D8_8075EE8;
+            gStageData.taskBoss->main =  Task_D8_8075EE8;
         }
     } else if (((s32) temp_r4 >= 1) && ((s32) temp_r4 <= 4) && ((s32) temp_r4 >= 3) && (temp_r3->unk26 == 0)) {
         temp_r3->unk27 = 1;
@@ -2114,7 +2118,7 @@ void Task_D8_8077718(EggGravity *boss) {
     }
     sub_8076328(boss);
     if ((*boss->bossPhase == 2) && ((sub_807A074() << 0x18) != 0)) {
-        gCurTask->main = (void (*)()) Task_D8_8077764;
+        gCurTask->main =  Task_D8_8077764;
     }
 }
 
@@ -2126,7 +2130,7 @@ void Task_D8_8077764(EggGravity *boss) {
     sub_8076328(boss);
     if (*boss->bossPhase == 2) {
         boss->unk30 = 0;
-        gCurTask->main = (void (*)()) Task_D8_8075064;
+        gCurTask->main =  Task_D8_8075064;
     }
 }
 
@@ -2144,7 +2148,7 @@ loop_2:
             var_r1 = (s16) temp_r0;
             if ((s32) (s16) temp_r0 > 1) {
                 sub_80299D4(0x34U);
-                gCurTask->main = (void (*)()) Task_D8_8075204;
+                gCurTask->main =  Task_D8_8075204;
                 goto block_5;
             }
             goto loop_2;
@@ -2237,11 +2241,11 @@ void sub_8077918(EggGravity *arg0) {
     arg0->unk8 = var_r0;
 }
 
-void sub_8077954(EggGravity *arg0, s32 arg1) {
+void sub_8077954(EggGravity *boss, u8 arg1) {
     void *temp_r0;
     void *temp_r1;
 
-    temp_r0 = arg0 + 0x80;
+    temp_r0 = boss + 0x80;
     temp_r1 = ((u32) (arg1 << 0x18) >> 0x16) + &gUnknown_080D5904;
     temp_r0->unkC = (u16) temp_r1->unk0;
     temp_r0->unk1A = (s8) temp_r1->unk2;
