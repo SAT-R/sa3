@@ -223,10 +223,9 @@ void Task_D8_8075064(EggGravity *boss) {
     var_r5 = 0;
     do {
         temp_r4 = boss->players[var_r5];
-        temp_r2 = temp_r4->moveState;
-        if (!(0x08000100 & temp_r2)) {
-            if ((s32) temp_r4->qWorldY > 0xD6FF) {
-                temp_r0 = 0x08000000 | temp_r2;
+        if (!(0x08000100 & temp_r4->moveState)) {
+            if ((s32) temp_r4->qWorldY >= 0xD700) {
+                temp_r0 = 0x08000000 | temp_r4->moveState;
                 temp_r4->moveState = temp_r0;
                 if (temp_r0 & 0x800000) {
                     sub_8016F28(temp_r4);
@@ -237,8 +236,8 @@ void Task_D8_8075064(EggGravity *boss) {
                 }
                 Player_800E67C(temp_r4);
             }
-        } else if ((0x08000000 & temp_r2) && ((s32) temp_r4->qWorldY <= 0xD6FF)) {
-            temp_r4->moveState = temp_r2 & 0xF7FFFFFF;
+        } else if ((0x08000000 & temp_r4->moveState) && (temp_r4->qWorldY < 0xD700)) {
+            temp_r4->moveState = temp_r4->moveState & 0xF7FFFFFF;
         }
         if ((s32) temp_r4->qWorldX > 0x4A5FF) {
             temp_r4->qWorldX = 0x4A600;
@@ -247,6 +246,7 @@ void Task_D8_8075064(EggGravity *boss) {
         }
         var_r5 += 1;
     } while ((u32) var_r5 <= 1U);
+
     temp_r4_2 = &gPlayers[gStageData.playerIndex];
     temp_r5 = &gPlayers[(u32) (temp_r4_2->unk2B << 0x1E) >> 0x1E];
     if ((s32) temp_r4_2->qWorldY > 0x225FF) {
