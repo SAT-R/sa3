@@ -282,6 +282,11 @@
 #define SE_559 0x22F
 #define SE_560 0x230
 #define SE_561 0x231
+#define SE_562 0x232
+#define SE_563 0x233
+#define SE_564 0x234
+#define SE_565 0x235
+#define SE_566 0x236
 
 #define SE_EXTRA_BOSS_578     0x23F
 #define SE_576                0x240

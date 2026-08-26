@@ -11,6 +11,7 @@
 #include "game/sa3/bosses/eggman_escape.h"
 #include "constants/animations.h"
 #include "constants/move_states.h"
+#include "constants/songs.h"
 
 typedef struct {
     /* 0x00 */ s32 qUnk0;
@@ -615,7 +616,7 @@ void Task_D8_8075674(void)
                 gemerlAnchor->frameFlags |= 0x800;
             }
             sub_8077A04(boss->taskStrc100, 1);
-            m4aSongNumStart(0x234U);
+            m4aSongNumStart(SE_564);
             boss->unk2B = 0xA;
             break;
         case 10:
@@ -655,7 +656,7 @@ void Task_D8_8075674(void)
                 } else if (boss->lives == 3) {
                     sub_80299D4(0x35U);
                 }
-                m4aSongNumStart(0xEBU);
+                m4aSongNumStart(SE_235);
                 PlayVoiceEggmanHit();
             }
             break;
@@ -692,7 +693,7 @@ void Task_D8_8075674(void)
             break;
         case 20:
             if (sub_8077174(boss->taskStrc100) != 0) {
-                m4aSongNumStart(0x235U);
+                m4aSongNumStart(SE_565);
                 sub_8077238(boss->taskStrc100, 1 ^ boss->unk23, boss->qUnk0 + boss->unk14, 0x800);
                 sub_8077A14(boss->taskStrc100, 3);
                 boss->unk2C = 0x3C;
@@ -806,77 +807,73 @@ void Task_D8_80759B4(void)
     sub_8076328(boss);
 }
 
-#if 0
-void Task_D8_8075C40(void) {
+void Task_D8_8075C40(void)
+{
     EggGravity *boss = TASK_DATA(gCurTask);
-    s32 temp_r0_2;
-    s32 temp_r0_3;
     s32 var_r2;
-    u16 var_r0;
-    u8 temp_r0;
 
-    boss->unk30 = (u16) (boss->unk30 + 1);
+    boss->unk30 = (u16)(boss->unk30 + 1);
     sub_8077874(boss, boss->players[0]);
     sub_8077874(boss, boss->players[1]);
-    temp_r0 = boss->unk2B;
-    switch (temp_r0) {                              /* irregular */
-    case 0:
-        boss->unk26 = 2;
-        if (boss->unk23 != 0) {
-            var_r0 = 0x600;
-        } else {
-            var_r0 = 0xFA00;
-        }
-        boss->unk32 = var_r0;
-        sub_8077A04(boss->taskStrc100, 1);
-        m4aSongNumStart(0x234U);
-        boss->unk2B = 0xA;
-        break;
-    case 10:
-        var_r2 = 0;
-        if (boss->unk23 != 0) {
-            boss->unk32 = (u16) (boss->unk32 - 0x40);
-            temp_r0_2 = boss->unk3C + (s16) boss->unk32;
-            boss->unk3C = temp_r0_2;
-            if (temp_r0_2 < 0) {
-                boss->unk3C = 0;
-                goto block_17;
+
+    switch (boss->unk2B) {
+        case 0: {
+            boss->unk26 = 2;
+            if (boss->unk23 != 0) {
+                boss->unk32 = +0x600;
+            } else {
+                boss->unk32 = -0x600;
             }
-            goto block_16;
-        }
-        boss->unk32 = (u16) (boss->unk32 + 0x40);
-        temp_r0_3 = boss->unk3C + (s16) boss->unk32;
-        boss->unk3C = temp_r0_3;
-        if (temp_r0_3 > 0) {
-            boss->unk3C = 0;
-            var_r2 = 1;
-        }
-block_16:
-        if (var_r2 != 0) {
-block_17:
-            boss->unk32 = 0U;
-            boss->unk2B = 0x14;
-        }
-        break;
-    case 20:
-        if ((sub_8077174(boss->taskStrc100) << 0x18) != 0) {
-            m4aSongNumStart(0x235U);
-            sub_8077238(boss->taskStrc100, 1 ^ boss->unk23, boss->qUnk0 + boss->unk14, 0x800);
-            sub_8077A14(boss->taskStrc100, 3);
-            boss->unk2B = 0x1E;
-        }
-        break;
-    case 30:
-        if ((sub_8077174(boss->taskStrc100) << 0x18) != 0) {
-            boss->unk2B = 0;
-            gCurTask->main =  Task_D8_8075324;
-            sub_8077A04(boss->taskStrc100, 0);
-        }
-        break;
+            sub_8077A04(boss->taskStrc100, 1);
+            m4aSongNumStart(0x234U);
+            boss->unk2B = 0xA;
+        } break;
+
+        case 10: {
+            var_r2 = 0;
+            if (boss->unk23 != 0) {
+                boss->unk32 -= 0x40;
+                boss->unk3C += boss->unk32;
+                if (boss->unk3C < 0) {
+                    boss->unk3C = 0;
+                    var_r2 = 1;
+                }
+            } else {
+                boss->unk32 += 0x40;
+                boss->unk3C += boss->unk32;
+                if (boss->unk3C > 0) {
+                    boss->unk3C = 0;
+                    var_r2 = 1;
+                }
+            }
+
+            if (var_r2 != 0) {
+                boss->unk32 = 0U;
+                boss->unk2B = 0x14;
+            }
+        } break;
+
+        case 20: {
+            if (sub_8077174(boss->taskStrc100) != 0) {
+                m4aSongNumStart(SE_565);
+                sub_8077238(boss->taskStrc100, 1 ^ boss->unk23, boss->qUnk0 + boss->unk14, 0x800);
+                sub_8077A14(boss->taskStrc100, 3);
+                boss->unk2B = 30;
+            }
+        } break;
+
+        case 30: {
+            if (sub_8077174(boss->taskStrc100) != 0) {
+                boss->unk2B = 0;
+                gCurTask->main = Task_D8_8075324;
+                sub_8077A04(boss->taskStrc100, 0);
+            }
+        } break;
     }
     sub_8076328(boss);
 }
 
+#if 0
 void Task_D8_8075DA4(void) {
     EggGravity *boss = TASK_DATA(gCurTask);
     s32 temp_r0_2;
@@ -964,7 +961,7 @@ void Task_D8_8075EE8(void) {
     case 0x64:
         boss->unk2B = 0;
         boss->unk30 = 0xB4;
-        m4aSongNumStart(0x221U);
+        m4aSongNumStart(SE_545);
         gCurTask->main =  Task_D8_8076050;
         break;
     }
@@ -999,7 +996,7 @@ void Task_D8_8076050(void) {
         boss->unk2B = 0;
         boss->unk2C = 0U;
         boss->unk30 = 0x78;
-        m4aSongNumStart(0x221U);
+        m4aSongNumStart(SE_545);
         gCurTask->main =  Task_D8_8076218;
         break;
     case 0x0:
@@ -1043,7 +1040,7 @@ void Task_D8_8076050(void) {
             var_r8 = temp_r0_2;
         } while ((u32) temp_r0_2 <= 3U);
         if (!(0x3F & boss->unk2C)) {
-            m4aSongNumStart(0x221U);
+            m4aSongNumStart(SE_545);
         }
         if ((s32) ((s32) boss->unk44 >> 8) > 0x12C) {
             boss->unk2B = 0xC8;
@@ -1571,7 +1568,7 @@ void Task_100_8076B58(void) {
             temp_r4->qSpeedAirX = 0;
             var_r5 += 1;
         } while ((u32) var_r5 <= 1U);
-        m4aSongNumStart(0x236U);
+        m4aSongNumStart(SE_566);
         TaskDestroy(gCurTask);
         return;
     }
