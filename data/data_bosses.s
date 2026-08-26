@@ -36,11 +36,7 @@ gUnknown_080D5954:
 
     .global gUnknown_080D5978
 gUnknown_080D5978:
-    .incbin "baserom_sa3.gba", 0x000D5978, 0x4
-
-    .global gUnknown_080D597C
-gUnknown_080D597C:
-    .incbin "baserom_sa3.gba", 0x000D597C, 0x1C
+    .incbin "baserom_sa3.gba", 0x000D5978, 0x20
 
     .global gUnknown_080D5998
 gUnknown_080D5998:

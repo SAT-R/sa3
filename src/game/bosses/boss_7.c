@@ -1,6 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_vram.h"
+#include "multi_sio_stuff.h"
 #include "game/bosses.h"
 #include "game/stage.h"
 #include "game/shared/stage/music_manager.h"
@@ -8,6 +9,7 @@
 #include "game/shared/stage/player.h"
 #include "game/sa3/bosses/eggman_escape.h"
 #include "constants/animations.h"
+#include "constants/move_states.h"
 
 typedef struct {
     /* 0x00 */ s32 qUnk0;
@@ -30,7 +32,7 @@ typedef struct {
     /* 0x29 */ u8 unk29;
     /* 0x2A */ u8 unk2A;
     /* 0x2B */ u8 unk2B;
-    /* 0x2C */ u8 filler2C[2];
+    /* 0x2B */ u16 unk2C;
     /* 0x2E */ u8 unk2E[2];
     /* 0x2B */ u16 unk30;
     /* 0x2B */ s16 unk32;
@@ -94,13 +96,16 @@ void Task_4C_8076618(void);
 void sub_8076328(EggGravity *boss);
 void sub_8076420(EggGravity *boss);
 void sub_8076550(EggGravity *boss);
+void sub_80769C4(u8 *param0, s16 param1);
 Task *sub_8076A54(EggGravity *boss);
+void sub_8077874(EggGravity *boss, Player *p);
 void Task_100_8076B58(void);
 void Task_D8_EggGravityInit(void);
-void sub_80769C4(u8 *param0, s16 param1);
 void Task_D8_80777AC(void);
+void sub_80778D0(EggGravity *arg0);
 void sub_8077918(EggGravity *boss);
 void sub_8077954(EggGravity *boss, u8 arg1);
+void sub_8077A28(EggGravity *boss);
 void TaskDestructor_EggGravity(Task *t);
 
 // TEMP
@@ -125,6 +130,11 @@ void Task_100_8076B58(EggGravity100 *strc100);
 #endif
 
 extern const u16 gUnknown_080D59EC[4][2];
+extern const u16 gUnknown_080D5904[4][2];
+extern const u16 gUnknown_080D5940[8];
+extern const u16 gUnknown_080D5978[4][4];
+extern const u16 sBoss7AnimsCockpit[4][2];
+extern const u16 gUnknown_080D592C[5][2];
 
 Task *CreateEggGravity(u8 *bossPhase, s32 worldX, s32 worldY)
 {
@@ -334,147 +344,143 @@ void Task_D8_8075204(void)
     sub_8076328(boss);
 }
 
-#if 0
-void Task_D8_8075324(EggGravity *boss) {
-    Sprite *sp0;
-    Sprite *sp4;
-    u8 *sp8;
-    ? *spC;
-    Player *temp_r6;
-    s32 temp_r0_3;
-    s32 temp_r1;
-    s32 temp_r4;
-    s32 temp_r5;
-    s32 var_r0;
+void Task_D8_8075324(void)
+{
     u32 var_r2;
-    u8 temp_r0;
-    u8 temp_r0_2;
-    u8 temp_r1_2;
-    u8 var_r2_2;
+    u8 i;
+    EggGravity *boss = TASK_DATA(gCurTask);
+    Sprite *spr80 = &boss->spr80;
+    Sprite *cockpit = &boss->sprCockpit;
+    Sprite *gemerlAnchor = &boss->sprGemerlAnchor;
+    Player *p = boss->players[PLAYER_1];
 
-    sp0 = &boss->sprCockpit;
-    sp4 = &boss->sprGemerlAnchor;
-    temp_r6 = boss->players[0];
-    boss->unk30 = (u16) (boss->unk30 + 1);
+    boss->unk30 = (u16)(boss->unk30 + 1);
     boss->unk26 = 0;
     sub_80778D0(boss);
-    sub_8077874(boss, boss->players[0]);
-    sub_8077874(boss, boss->players[1]);
+    sub_8077874(boss, boss->players[PLAYER_1]);
+    sub_8077874(boss, boss->players[PLAYER_2]);
     sub_8076420(boss);
+
     if (boss->unk27 != 0) {
         boss->unk27 = 0;
         boss->unk2B = 0;
         boss->unk2C = 1;
-        gCurTask->main =  Task_D8_8075674;
-        sp8 = &boss->unk21;
+        gCurTask->main = Task_D8_8075674;
         if (gStageData.gameMode != 5) {
 
         } else if (gStageData.playerIndex == 0) {
             sub_8027674(3U, 0U);
-            sp8 = &boss->unk21;
         } else {
             sub_8027674(4U, 0U);
-            sp8 = &boss->unk21;
         }
     } else {
         if ((boss->unk24 == 0) || (--boss->unk24 == 0)) {
-            boss->unk24 = (u8) *((boss->unk21 * 2) + &gUnknown_080D5940);
+            boss->unk24 = gUnknown_080D5940[boss->lives];
             var_r2 = 0;
             if (boss->unk23 == 0) {
-                var_r2 = (temp_r6->moveState & 0x10000) ? 1 : 0;
-            } else if (!(temp_r6->moveState & 0x10000)) {
+                if (p->moveState & 0x10000) {
+                    var_r2 = 1;
+                } else {
+                    var_r2 = 0;
+                }
+            } else if (!(p->moveState & 0x10000)) {
                 var_r2 = 1;
             }
             boss->unk25 = 0;
-            sp8 = &boss->unk21;
             if (var_r2 != 0) {
-                temp_r1 = temp_r6->qWorldX - (boss->qUnk0 + boss->unk14);
-                var_r0 = temp_r1;
-                if (temp_r1 < 0) {
-                    var_r0 = 0 - temp_r1;
+                // TODO: Fake-match!
+#ifndef NON_MATCHING
+                register s32 var_r0 asm("r0");
+                register s32 var_r1 asm("r1");
+#else
+                s32 var_r0;
+                s32 var_r1;
+#endif
+                var_r0 = boss->qUnk0;
+                var_r0 += boss->unk14;
+                var_r1 = p->qWorldX;
+                var_r1 -= var_r0;
+                // TODO: Use ABS() macro!
+                var_r0 = var_r1;
+                if (var_r1 < 0) {
+                    var_r0 = -var_r1;
                 }
-                var_r2_2 = 0;
-loop_18:
-                temp_r5 = var_r2_2 * 8;
-                if ((s32) (var_r0 >> 8) <= (s32) *(temp_r5 + &gUnknown_080D5978)) {
-                    temp_r4 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
-                    gPseudoRandom = temp_r4;
-                    spC = &gUnknown_080D5978;
-                    if ((u32) ((u32) temp_r4 % 10000U) <= (u32) *(temp_r5 + (&gUnknown_080D5978 + 2))) {
-                        temp_r0_3 = (0x196225 * temp_r4) + 0x3C6EF35F;
-                        gPseudoRandom = temp_r0_3;
-                        if ((u32) ((u32) temp_r0_3 % 10000U) > (u32) *(temp_r5 + &gUnknown_080D597C)) {
-                            boss->unk25 = 2;
-                        } else {
-                            boss->unk25 = 1;
+                var_r1 = I(var_r0);
+                for (i = 0; i < 4; i++) {
+                    if ((var_r1) <= gUnknown_080D5978[i][0]) {
+                        if ((PseudoRandom32() % 10000U) <= gUnknown_080D5978[i][1]) {
+                            if ((PseudoRandom32() % 10000U) <= gUnknown_080D5978[i][2]) {
+                                boss->unk25 = 1;
+                            } else {
+                                boss->unk25 = 2;
+                            }
                         }
-                    }
-                } else {
-                    var_r2_2 += 1;
-                    if ((u32) var_r2_2 <= 3U) {
-                        goto loop_18;
+                        break;
                     }
                 }
             }
 
-            switch (boss->unk25) {                    /* irregular */
-            case 1:
-                boss->unk2B = 0;
-                boss->unk2C = 1;
-                gCurTask->main =  Task_D8_8075C40;
-                break;
-            case 2:
-                boss->unk29 = 0xC;
-                gCurTask->main =  Task_D8_8075DA4;
-                if (boss->unk23 != 0) {
-                    boss->unk23 = 0;
-                    boss->spr80.anim = gUnknown_080D5904.unk8;
-                    boss->spr80.variant = (u8) gUnknown_080D5904.unkA;
-                    boss->spr80.prevAnim = 0xFFFF;
-                    boss->spr80.prevVariant = 0xFF;
-                    sp0->anim = sBoss7AnimsCockpit.unk8;
-                    sp0->variant = (u8) sBoss7AnimsCockpit.unkA;
-                    sp0->prevAnim = -1;
-                    sp0->prevVariant = -1;
-                    sp4->anim = gUnknown_080D592C.unk8;
-                    sp4->variant = (u8) gUnknown_080D592C.unkA;
-                    sp4->prevAnim = -1;
-                    sp4->prevVariant = -1;
-                } else {
-                    boss->unk23 = 1;
-                    boss->spr80.anim = gUnknown_080D5904.unkC;
-                    boss->spr80.variant = (u8) gUnknown_080D5904.unkE;
-                    boss->spr80.prevAnim = 0xFFFF;
-                    boss->spr80.prevVariant = 0xFF;
-                    sp0->anim = sBoss7AnimsCockpit.unkC;
-                    sp0->variant = (u8) sBoss7AnimsCockpit.unkE;
-                    sp0->prevAnim = -1;
-                    sp0->prevVariant = -1;
-                    sp4->anim = gUnknown_080D592C.unkC;
-                    sp4->variant = (u8) gUnknown_080D592C.unkE;
-                    sp4->prevAnim = -1;
-                    sp4->prevVariant = -1;
-                }
-                break;
+            switch (boss->unk25) {
+                case 0:
+                    break;
+                case 1:
+                    boss->unk2B = 0;
+                    boss->unk2C = 1;
+                    gCurTask->main = Task_D8_8075C40;
+                    break;
+                case 2:
+                    boss->unk29 = 0xC;
+                    gCurTask->main = Task_D8_8075DA4;
+                    if (boss->unk23 != 0) {
+                        boss->unk23 = 0;
+                        spr80->anim = gUnknown_080D5904[2][0];
+                        spr80->variant = (u8)gUnknown_080D5904[2][1];
+                        spr80->prevAnim = -1;
+                        spr80->prevVariant = -1;
+                        cockpit->anim = sBoss7AnimsCockpit[2][0];
+                        cockpit->variant = (u8)sBoss7AnimsCockpit[2][1];
+                        cockpit->prevAnim = -1;
+                        cockpit->prevVariant = -1;
+                        gemerlAnchor->anim = gUnknown_080D592C[2][0];
+                        gemerlAnchor->variant = (u8)gUnknown_080D592C[2][1];
+                        gemerlAnchor->prevAnim = -1;
+                        gemerlAnchor->prevVariant = -1;
+                    } else {
+                        boss->unk23 = 1;
+                        spr80->anim = gUnknown_080D5904[3][0];
+                        spr80->variant = gUnknown_080D5904[3][1];
+                        spr80->prevAnim = -1;
+                        spr80->prevVariant = -1;
+                        cockpit->anim = sBoss7AnimsCockpit[3][0];
+                        cockpit->variant = (u8)sBoss7AnimsCockpit[3][1];
+                        cockpit->prevAnim = -1;
+                        cockpit->prevVariant = -1;
+                        gemerlAnchor->anim = gUnknown_080D592C[3][0];
+                        gemerlAnchor->variant = gUnknown_080D592C[3][1];
+                        gemerlAnchor->prevAnim = -1;
+                        gemerlAnchor->prevVariant = -1;
+                    }
+                    break;
             }
         }
     }
 
-    if (boss->unk24 == 0) {
+    if (boss->lives == 0) {
         if (gStageData.gameMode == 5) {
             if (boss->unkD4 == 0) {
-                sub_8027674(1U, (u16) ((u32) (boss->unk14 << 8) >> 0x10));
+                sub_8027674(1U, (u16)((boss->unk14 << 8) >> 0x10));
                 goto block_36;
             }
         } else if (boss->unkD4 == 0) {
-block_36:
+        block_36:
             sub_8077A28(boss);
-            gCurTask->main =  Task_D8_8075EE8;
+            gCurTask->main = Task_D8_8075EE8;
         }
     }
     sub_8076328(boss);
 }
 
+#if 0
 void Task_D8_8075674(EggGravity *boss) {
     s32 temp_r0_3;
     s32 temp_r0_4;
@@ -537,15 +543,15 @@ block_14:
                 boss->sprGemerlAnchor.frameFlags &= 0xFFFFF7FF;
                 sub_8077954(boss, 5);
             }
-            temp_r0_2 = boss->unk21;
+            temp_r0_2 = boss->lives;
             if (temp_r0_2 != 0) {
-                boss->unk21 = temp_r0_2 - 1;
+                boss->lives = temp_r0_2 - 1;
             }
             if (gStageData.difficulty == 0) {
-                if (boss->unk21 == 4) {
+                if (boss->lives == 4) {
                     sub_80299D4(0x35U);
                 }
-            } else if (boss->unk21 == 3) {
+            } else if (boss->lives == 3) {
                 sub_80299D4(0x35U);
             }
             m4aSongNumStart(0xEBU);
@@ -597,7 +603,7 @@ block_31:
             sub_8077A04(boss->taskD0, 0);
             boss->unk2B = 0;
             sub_8077918(boss);
-            temp_r0_5 = boss->unk21;
+            temp_r0_5 = boss->lives;
             if ((temp_r0_5 != 0) && ((u32) temp_r0_5 <= 4U)) {
                 boss->unk29 = 0x1E;
                 boss->unk2A = 0;
@@ -639,7 +645,7 @@ void Task_D8_80759B4(EggGravity *boss) {
         } else {
             boss->unk8 = 0x400U;
         }
-        if ((u32) boss->unk21 <= 1U) {
+        if ((u32) boss->lives <= 1U) {
 
         } else {
             temp_r0_3 = boss->unk8;
@@ -1061,7 +1067,7 @@ void sub_8076420(EggGravity *boss) {
 
     temp_r7 = &boss->sprGemerlAnchor;
     var_r8 = 0;
-    if (boss->unk21 == 0) {
+    if (boss->lives == 0) {
         return;
     }
     temp_r2 = boss->players;
