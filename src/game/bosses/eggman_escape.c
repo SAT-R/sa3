@@ -6,6 +6,7 @@
 #include "game/stage.h" // gStageData
 #include "game/shared/stage/camera.h"
 #include "game/shared/stage/player_callbacks.h"
+#include "game/sa3/bosses/eggman_escape.h"
 #include "constants/animations.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"
@@ -67,15 +68,6 @@ void Task_C8_8079DFC(void);
 void Task_C8_8079EDC(void);
 void TaskDestructor_38_807A4E4(struct Task *t);
 void TaskDestructor_C8_807A500(struct Task *t);
-
-typedef struct {
-    u8 filler0[2];
-    u8 unk2;
-    u8 unk3;
-    u8 filler4[0x10];
-    Sprite2 *spr14;
-    u8 filler18[0x18];
-} Something;
 
 extern void sub_8027658();
 extern void sub_8027620(s16 screenX, s16 screenY);
