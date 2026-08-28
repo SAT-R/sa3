@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "malloc_vram.h"
 #include "multi_sio_stuff.h"
 #include "lib/m4a/m4a.h"
@@ -1017,79 +1018,85 @@ void Task_D8_8075EE8(void)
     sub_8076328(boss);
 }
 
-#if 0
-void Task_D8_8076050(void) {
+// (99.63%) https://decomp.me/scratch/ajcOT
+NONMATCH("asm/non_matching/game/bosses/boss_7__Task_D8_8076050.inc", void Task_D8_8076050(void))
+{
     EggGravity *boss = TASK_DATA(gCurTask);
     s16 sp10;
     s16 sp14;
-    s32 temp_r1_2;
-    s32 temp_r2;
     s32 temp_r3_3;
     s32 var_r1;
-    u16 *temp_r3;
-    u16 temp_r2_2;
     s16 temp_r5;
     s16 temp_r3_2;
-    u16 temp_r4;
-    u16 *temp_r0;
-    u8 temp_r0_2;
-    u8 temp_r1;
+    u16 angle;
     u8 i;
 
-    temp_r1 = boss->unk2B;
-    switch (temp_r1) {
-    case 0x0:
-        boss->unk32 = 0xFA00U;
-        boss->unk2C = 0;
-        boss->unk2B = 0xA;
-        break;
-    case 0xA:
-        boss->unk32 += 0x40;
-        boss->unk44 += boss->unk32;
-        boss->unk2C += 1;
-        sp10 = (u32) ((boss->qUnk0 + boss->unk14) << 8) >> 0x10;
-        sp14 = (u32) ((boss->qUnk4 + boss->unk44) << 8) >> 0x10;
-        for(i = 0; i < 8; i++)
-        {
-            if (1 & i) {
-                var_r1 = (boss->unk34[i] - 0x40) & 0x3FF;
-            } else {
-                var_r1 = (boss->unk34[i] + 0x40);
-            }
-            boss->unk34[i] = var_r1 & 0x3FF;
-            temp_r4 = boss->unk34[i];
-            temp_r5   = sp10 + ((COS(temp_r4) * 5) >> 12);
-            temp_r3_2 = sp14 + ((SIN(temp_r4) * 5) >> 12);
-            if (1 & boss->unk2C) {
-                if (i & 1) {
-                    sub_8079758(7U, temp_r5, temp_r3_2, 0x200, temp_r4, 0x14U, 0, boss->vram48);
-                }
-            } else {
-                temp_r3_3 = i & 1;
-                if (temp_r3_3 == 0) {
-                    sub_8079758(7U, temp_r5, temp_r3_2, 0x200, temp_r4, 0x14U, 0, boss->vram48);
-                }
-            }
-        }
+    switch (boss->unk2B) {
+        case 0x0:
+            boss->unk32 = -Q(6);
+            boss->unk2C = 0;
+            boss->unk2B = 0xA;
+            break;
+        case 0xA:
+            boss->unk32 += 0x40;
+            boss->unk44 += boss->unk32;
+            boss->unk2C += 1;
+            sp10 = I(boss->qUnk0 + boss->unk14);
+            sp14 = I(boss->qUnk4 + boss->unk44);
 
-        if (!(0x3F & boss->unk2C)) {
+            for (i = 0; i < ARRAY_COUNT(boss->unk34); i++) {
+                s32 sinVal, cosVal;
+                u16 baseAngle = boss->unk34[i];
+#if 0
+            boss->unk34[i] = (i & 1)
+                ? (baseAngle - 0x40) & 0x3FF
+                : (baseAngle + 0x40) & 0x3FF;
+            angle = boss->unk34[i];
+#else
+                if (i & 1) {
+                    boss->unk34[i] = (baseAngle - 0x40) % 1024u;
+                } else {
+                    boss->unk34[i] = (baseAngle + 0x40) % 1024u;
+                }
+                angle = boss->unk34[i];
+#endif
+
+                sinVal = ((SIN(angle) * 5) >> 12);
+                cosVal = ((COS(angle) * 5) >> 12);
+                temp_r5 = sp10 + cosVal;
+                temp_r3_2 = sp14 + sinVal;
+                if (1 & boss->unk2C) {
+                    if (i & 1) {
+                        sub_8079758(7U, temp_r5, temp_r3_2, 0x200, angle, 0x14U, 0, boss->vram48);
+                    }
+                } else {
+                    temp_r3_3 = i & 1;
+                    if (temp_r3_3 == 0) {
+                        sub_8079758(7U, temp_r5, temp_r3_2, 0x200, angle, 0x14U, 0, boss->vram48);
+                    }
+                }
+            }
+
+            if (!(0x3F & boss->unk2C)) {
+                m4aSongNumStart(SE_545);
+            }
+            if (I(boss->unk44) > 0x12C) {
+                boss->unk2B = 0xC8;
+            }
+            break;
+        case 0xC8:
+            boss->unk2B = 0;
+            boss->unk2C = 0U;
+            boss->unk30 = 0x78;
             m4aSongNumStart(SE_545);
-        }
-        if (I(boss->unk44) > 0x12C) {
-            boss->unk2B = 0xC8;
-        }
-        break;
-    case 0xC8:
-        boss->unk2B = 0;
-        boss->unk2C = 0U;
-        boss->unk30 = 0x78;
-        m4aSongNumStart(SE_545);
-        gCurTask->main =  Task_D8_8076218;
-        break;
+            gCurTask->main = Task_D8_8076218;
+            break;
     }
     sub_8076328(boss);
 }
+END_NONMATCH
 
+#if 0
 void Task_D8_8076218(void) {
     EggGravity *boss = TASK_DATA(gCurTask);
     EggGravity100 *strc100 = TASK_DATA(boss->taskStrc100);
