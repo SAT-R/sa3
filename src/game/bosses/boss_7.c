@@ -1412,39 +1412,35 @@ void Task_4C_A_8076618(void)
     }
 }
 
-#if 0
-void sub_80769C4(u8 *param0, s16 param1) {
-    u8 temp_r1;
+// (95.777%) https://decomp.me/scratch/gB7kj
+NONMATCH("asm/non_matching/game/bosses/boss_7__sub_80769C4.inc", void sub_80769C4(u8 *param0, s16 param1))
+{
     EggGravity *boss = TASK_DATA(gStageData.taskBoss);
-    s16 temp_r4 = param0[2] & 0x7F;
-    register s32 r1 asm("r1") = temp_r4;
+    s32 temp_r4 = param0[2] & 0x7F;
     u16 val = (param0[3] | (param0[4] << 8));
 
-    // TODO: This is probably  a switch-case instead?
-    if (temp_r4 == 1) {
-        boss->lives = 0;
-        if (boss->unkD4 == 0) {
-            boss->unk14 = (s32) Q(val);
-            boss->unk2B = 0;
-            boss->unk2C = 1;
-            boss->unkD4 = 1U;
-            gStageData.taskBoss->main =  Task_D8_8075EE8;
-        }
-    } else {
-        switch(r1)
-        {
-            case 0:
+    switch (temp_r4) {
+        case 1:
+            boss->lives = 0;
+            if (boss->unkD4 == 0) {
+                boss->unk14 = (s32)Q(val);
+                boss->unk2B = 0;
+                boss->unk2C = 1;
+                boss->unkD4 = 1U;
+                gStageData.taskBoss->main = Task_D8_8075EE8;
+            }
             break;
-            case 3:
-            case 4: {
-                if(boss->unk26 == 0) {
-                    boss->unk27 = 1;
-                }
-            } break;
-        }
+        case 3:
+        case 4: {
+            if (boss->unk26 == 0) {
+                boss->unk27 = 1;
+            }
+        } break;
     }
 }
+END_NONMATCH
 
+#if 0
 Task *sub_8076A54(EggGravity *boss) {
     s32 *temp_r0;
     u8 *temp_r0_3;
