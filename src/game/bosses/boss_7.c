@@ -1498,12 +1498,11 @@ Task *sub_8076A54(EggGravity *boss)
     return t;
 }
 
-#if 0
-void Task_100_8076B58(void) {
+void Task_100_8076B58(void)
+{
     EggGravity100 *strc100 = TASK_DATA(gCurTask);
     Sprite *sp0;
     Player *temp_r0_2;
-    Player *temp_r1_3;
     Player *player;
     Player *partner;
     Player *temp_r4;
@@ -1519,24 +1518,23 @@ void Task_100_8076B58(void) {
     sp0 = &strc100->sprCC;
     strc100->unkB3 = (strc100->unkB3 + 1) & 3;
     if ((strc100->bossFC->lives != 0) && (strc100->unkB1 != 0)) {
-        for(var_sb = 0; var_sb < 2; var_sb++)
-        {
+        for (var_sb = 0; var_sb < 2; var_sb++) {
             temp_r5 = strc100->players[var_sb];
             if (sub_802C080(temp_r5) == 0) {
                 var_r2 = 0;
                 if ((I(temp_r5->qWorldY) > 0x2C8)) {
                     var_r2 = 1;
-                } else if(I(temp_r5->qWorldY) < 0x1C8) {
-                    var_r2 = 1;                    
+                } else if (I(temp_r5->qWorldY) < 0x1C8) {
+                    var_r2 = 1;
                 }
-                if (((s32) temp_r5->framesInvulnerable > 0) || ((s32) temp_r5->framesInvincible > 0)) {
+                if (((s32)temp_r5->framesInvulnerable > 0) || ((s32)temp_r5->framesInvincible > 0)) {
                     var_r2 = 0;
                 }
                 if (var_r2 != 0) {
                     player = strc100->players[0];
                     if (player->moveState & 0xC00000) {
                         sub_8016F28(player);
-                        strc100->players[0]->charFlags.unk2C_04 =0;
+                        strc100->players[0]->charFlags.unk2C_04 = 0;
                     }
                     partner = strc100->players[1];
                     if (partner->moveState & 0xC00000) {
@@ -1551,8 +1549,7 @@ void Task_100_8076B58(void) {
         }
     }
     if (strc100->unkB2 != 0) {
-        for(i = 0; i < 2; i++)
-        {
+        for (i = 0; i < 2; i++) {
             temp_r4 = strc100->players[i];
             temp_r4->moveState &= 0xFFFEFFFF;
             ResolvePlayerSpriteCollision(sp0, temp_r4);
@@ -1587,9 +1584,8 @@ void Task_100_8076B58(void) {
         strc100->unk4[0x14] = 0;
         if (!(2 & strc100->unkB3) || (strc100->bossFC->lives != 0)) {
             Sprite *s = &strc100->sprCC;
-            s16 var_r4 = (((s32) strc100->qUnkC4.x >> 8) - gCamera.x) - 160;
-            for(i = 0; i < ARRAY_COUNT(strc100->unk4); i++, var_r4+=16)
-            {
+            s16 var_r4 = (((s32)strc100->qUnkC4.x >> 8) - gCamera.x) - 160;
+            for (i = 0; i < ARRAY_COUNT(strc100->unk4); i++, var_r4 += 16) {
                 s->x = var_r4;
                 s->y = I(strc100->qUnkC4.y + strc100->unk4[i]) - gCamera.y;
                 DisplaySprite(s);
@@ -1598,6 +1594,7 @@ void Task_100_8076B58(void) {
     }
 }
 
+#if 0
 void sub_8076DD4(EggGravity100 *strc100) {
     s32 sp0;
     u8 *sp4;
