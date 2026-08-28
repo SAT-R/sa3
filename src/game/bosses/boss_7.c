@@ -64,10 +64,10 @@ typedef struct {
     /* 0xB1 */ u8 unkB1;
     /* 0xB2 */ u8 unkB2;
     /* 0xB3 */ u8 unkB3;
-    /* 0xB3 */ u8 unkB4;
+    /* 0xB3 */ s8 unkB4;
     /* 0xB3 */ u8 unkB5;
     /* 0xB3 */ u8 unkB6;
-    /* 0xB3 */ u8 unkB7;
+    /* 0xB3 */ s8 unkB7;
     /* 0xB3 */ u8 unkB8;
     /* 0xB3 */ u8 unkB9;
     /* 0xB3 */ u8 unkBA;
@@ -88,12 +88,10 @@ typedef struct {
     /* 0x0C */ s32 unkC;
     /* 0x0C */ s32 unk10;
     /* 0x14 */ Vec2_32 qUnk14;
-    /* 0x1C */ Sprite spr1C;
-    /* 0x24 */ Sprite *pSpr24;
-    /* 0x28 */ u8 filler28[0x14];
-    /* 0x0C */ s16 unk2C;
-    /* 0x0C */ s16 unk2E;
-    /* 0x28 */ u8 filler30[0xC];
+    /* 0x28 */ u8 filler1C[0x8];
+    /* 0x24 */ s32 qUnk24[2][2];
+    /* 0x24 */ s32 qUnk34;
+    /* 0x24 */ s32 qUnk38;
     /* 0x08 */ s32 unk3C;
     /* 0x08 */ Something *unk40;
     /* 0x28 */ u8 filler44[0xC0];
@@ -137,7 +135,7 @@ typedef struct {
 
 typedef struct {
     /* 0x08 */ u8 *unk0;
-    /* 0x08 */ u16 unk4;
+    /* 0x08 */ u8 unk4;
     /* 0x08 */ u16 unk6;
     /* 0x08 */ s32 *unk8;
     /* 0x0C */ s32 *unkC;
@@ -254,7 +252,7 @@ extern Something *sub_807A3D8(Something **spriteArray, u8 spriteCount, AnimId an
 
 // TEMP
 
-#if 0 // M2C
+#if M2C
 Task *CreateEggGravity(u8 *bossPhase, s32 worldX, s32 worldY, EggGravity *boss);
 void Task_D8_8075064(EggGravity *boss);
 void Task_D8_8075204(EggGravity *boss);
@@ -1018,7 +1016,8 @@ void Task_D8_8075EE8(void)
     sub_8076328(boss);
 }
 
-void Task_D8_8076050(void) {
+void Task_D8_8076050(void)
+{
     EggGravity *boss = TASK_DATA(gCurTask);
     s16 sp10;
     s16 sp14;
@@ -1030,57 +1029,56 @@ void Task_D8_8076050(void) {
     u8 i;
 
     switch (boss->unk2B) {
-    case 0:
-        boss->unk32 = -Q(6);
-        boss->unk2C = 0;
-        boss->unk2B = 0xA;
-        break;
+        case 0:
+            boss->unk32 = -Q(6);
+            boss->unk2C = 0;
+            boss->unk2B = 0xA;
+            break;
 
-    case 10:
-        boss->unk32 += 0x40;
-        boss->unk44 += boss->unk32;
-        boss->unk2C += 1;
-        sp10 = I(boss->qUnk0 + boss->unk14);
-        sp14 = I(boss->qUnk4 + boss->unk44);
+        case 10:
+            boss->unk32 += 0x40;
+            boss->unk44 += boss->unk32;
+            boss->unk2C += 1;
+            sp10 = I(boss->qUnk0 + boss->unk14);
+            sp14 = I(boss->qUnk4 + boss->unk44);
 
-        for(i = 0; i < ARRAY_COUNT(boss->unk34); i++)
-        {
-            s32 sinVal, cosVal;
+            for (i = 0; i < ARRAY_COUNT(boss->unk34); i++) {
+                s32 sinVal, cosVal;
 
-            boss->unk34[i] = (boss->unk34[i] + (((i & 1)) ? -0x40 : 0x40)) % 1024u;
-            angle = boss->unk34[i];
+                boss->unk34[i] = (boss->unk34[i] + (((i & 1)) ? -0x40 : 0x40)) % 1024u;
+                angle = boss->unk34[i];
 
-            sinVal = ((SIN(angle) * 5) >> 12);
-            cosVal = ((COS(angle) * 5) >> 12);
-            temp_r5   = sp10 + cosVal;
-            temp_r3_2 = sp14 + sinVal;
-            if (1 & boss->unk2C) {
-                if (i & 1) {
-                    sub_8079758(7U, temp_r5, temp_r3_2, 0x200, angle, 0x14U, 0, boss->vram48);
-                }
-            } else {
-                temp_r3_3 = i & 1;
-                if (temp_r3_3 == 0) {
-                    sub_8079758(7U, temp_r5, temp_r3_2, 0x200, angle, 0x14U, 0, boss->vram48);
+                sinVal = ((SIN(angle) * 5) >> 12);
+                cosVal = ((COS(angle) * 5) >> 12);
+                temp_r5 = sp10 + cosVal;
+                temp_r3_2 = sp14 + sinVal;
+                if (1 & boss->unk2C) {
+                    if (i & 1) {
+                        sub_8079758(7U, temp_r5, temp_r3_2, 0x200, angle, 0x14U, 0, boss->vram48);
+                    }
+                } else {
+                    temp_r3_3 = i & 1;
+                    if (temp_r3_3 == 0) {
+                        sub_8079758(7U, temp_r5, temp_r3_2, 0x200, angle, 0x14U, 0, boss->vram48);
+                    }
                 }
             }
-        }
 
-        if (!(0x3F & boss->unk2C)) {
+            if (!(0x3F & boss->unk2C)) {
+                m4aSongNumStart(SE_545);
+            }
+            if (I(boss->unk44) > 0x12C) {
+                boss->unk2B = 0xC8;
+            }
+            break;
+
+        case 200:
+            boss->unk2B = 0;
+            boss->unk2C = 0U;
+            boss->unk30 = 0x78;
             m4aSongNumStart(SE_545);
-        }
-        if (I(boss->unk44) > 0x12C) {
-            boss->unk2B = 0xC8;
-        }
-        break;
-
-    case 200:
-        boss->unk2B = 0;
-        boss->unk2C = 0U;
-        boss->unk30 = 0x78;
-        m4aSongNumStart(SE_545);
-        gCurTask->main =  Task_D8_8076218;
-        break;
+            gCurTask->main = Task_D8_8076218;
+            break;
     }
     sub_8076328(boss);
 }
@@ -1635,112 +1633,97 @@ void sub_8076DD4(EggGravity100 *strc100) {
     u8 var_r2_6;
     u8 var_r3;
 
-    var_r2 = 0;
-    if (strc100->unk58[0] != 0) {
-        sp0 = 0;
-    } else {
-loop_2:
-        var_r2 += 1;
-        if ((u32) var_r2 <= 0x14U) {
-            if (strc100->unk58[var_r2] != 0) {
-                sp0 = (s32) var_r2;
-            } else {
-                goto loop_2;
-            }
+    for(var_r2 = 0; var_r2 < 21; var_r2++)
+    {
+        if (strc100->unk58[var_r2] != 0) {
+            sp0 = var_r2;
+            break;
         }
     }
-    if ((u32) (u8) (var_r2 - 1) > 0x12U) {
-        var_r3 = 0;
-        do {
+
+    if ((u8) (var_r2 - 1) > 18) {
+        for(var_r3 = 0; var_r3 < 21; var_r3++)
+        {
             strc100->unk4[var_r3] = 0;
-            var_r3 += 1;
-        } while ((u32) var_r3 <= 0x14U);
+        }
         return;
     }
-    temp_r1 = strc100->unk4;
-    strc100->unkBC = temp_r1[sp0];
-    temp_r5 = strc100->unk58;
-    sp14 = temp_r1;
-    spC = &strc100->unkBC;
-    sp4 = &strc100->unkB5 + 2;
-    sp8 = temp_r1 + 0xB4;
+
+    strc100->unkBC = strc100->unk4[sp0];
+    sp8 = strc100->unk4 + 0xB4;
     sp10 = sp0 - 1;
     sp18 = sp0 + 1;
     if (strc100->unkB5 != 0) {
         var_r5 = 0;
 loop_11:
         temp_r2 = strc100->unkC0;
-        if (temp_r2 < 0) {
-            temp_r0 = strc100->unkB5;
-            var_r1 = temp_r0 * 4;
-            if (var_r5 < (s32) sp14[temp_r0]) {
-                goto block_15;
+        if (strc100->unkC0 < 0) {
+            if (var_r5 < (s32) strc100->unk4[strc100->unkB5]) {
+                strc100->unk58[strc100->unkB5] += strc100->unkC0;
+                var_r5 += strc100->unk58[strc100->unkB5];
+                if (var_r5 != 0) {
+                    goto loop_11;
+                }
             }
         } else {
-            temp_r0_2 = strc100->unkB5;
-            var_r1 = temp_r0_2 * 4;
-            if (var_r5 > (s32) sp14[temp_r0_2]) {
-block_15:
-                temp_r1_2 = temp_r5 + var_r1;
-                *temp_r1_2 += temp_r2;
-                var_r5 += temp_r5[strc100->unkB5];
-                if (1 != 0) {
+            if (var_r5 > strc100->unk4[strc100->unkB5]) {
+                strc100->unk58[strc100->unkB5] += strc100->unkC0;
+                var_r5 += strc100->unk58[strc100->unkB5];
+                if (var_r5 != 0) {
                     goto loop_11;
                 }
             }
         }
         strc100->unkB5 = 0;
     }
-    temp_r2_2 = &temp_r5[sp0];
-    temp_r1_3 = *temp_r2_2 + strc100->unkC0;
-    *temp_r2_2 = temp_r1_3;
-    temp_r2_3 = &sp14[sp0];
-    *temp_r2_3 += temp_r1_3;
-    if ((s8) *sp4 != 0) {
+
+    strc100->unk58[sp0] += strc100->unkC0;
+    strc100->unk4[sp0]  += strc100->unk58[sp0];
+    if (strc100->unkB7 != 0) {
         if ((s32) strc100->unkC0 < 0) {
-            if ((s32) temp_r5[(s8) *sp4] < 0) {
-                *sp4 = 0;
+            if ((s32) strc100->unk58[strc100->unkB7] < 0) {
+                strc100->unkB7 = 0;
             }
-        } else if ((s32) temp_r5[(s8) *sp4] > 0) {
-            *sp4 = 0;
+        } else if ((s32) strc100->unk58[strc100->unkB7] > 0) {
+            strc100->unkB7 = 0;
         }
     }
     temp_r1_4 = *sp8;
     if (temp_r1_4 != 0) {
-        temp_r0_3 = *spC;
+        temp_r0_3 = strc100->unkBC;
         if (temp_r0_3 < 0) {
-            if ((s32) sp14[sp0] >= 0) {
-                temp_r2_4 = &temp_r5[sp0];
+            if ((s32) strc100->unk4[sp0] >= 0) {
+                temp_r2_4 = &strc100->unk58[sp0];
                 temp_r0_4 = *temp_r2_4;
                 *temp_r2_4 = (s32) (temp_r0_4 + ((u32) temp_r0_4 >> 0x1F)) >> 1;
                 strc100->unkC0 = 0 - strc100->unkC0;
                 *sp8 = (u8) (*sp8 - 1);
             }
-        } else if ((temp_r0_3 != 0) && ((s32) sp14[sp0] < 0)) {
-            temp_r2_5 = &temp_r5[sp0];
+        } else if ((temp_r0_3 != 0) && ((s32) strc100->unk4[sp0] < 0)) {
+            temp_r2_5 = &strc100->unk58[sp0];
             temp_r0_5 = *temp_r2_5;
             *temp_r2_5 = (s32) (temp_r0_5 + ((u32) temp_r0_5 >> 0x1F)) >> 1;
             strc100->unkC0 = 0 - strc100->unkC0;
             *sp8 = (u8) (*sp8 - 1);
         }
     } else {
-        temp_r0_6 = *spC;
+        temp_r0_6 = strc100->unkBC;
         if (temp_r0_6 < 0) {
-            var_r2_2 = &sp14[sp0];
+            var_r2_2 = &strc100->unk4[sp0];
             if ((s32) *var_r2_2 >= 0) {
                 goto block_35;
             }
         } else if (temp_r0_6 != 0) {
-            var_r2_2 = &sp14[sp0];
+            var_r2_2 = &strc100->unk4[sp0];
             if ((s32) *var_r2_2 < 0) {
 block_35:
-                temp_r5[sp0] = (s32) temp_r1_4;
+                strc100->unk58[sp0] = (s32) temp_r1_4;
                 *var_r2_2 = (s32) temp_r1_4;
             }
         }
     }
-    temp_r4 = &sp14[sp0];
-    *spC -= *temp_r4;
+    temp_r4 = &strc100->unk4[sp0];
+    strc100->unkBC -= *temp_r4;
     if ((s32) strc100->unkC0 < 0) {
         temp_r3 = (u16) (0x200 / sp0);
         temp_r0_7 = *temp_r4;
@@ -1757,7 +1740,7 @@ block_35:
                 if (var_r0 < 0) {
                     var_r0 += 0x3FFF;
                 }
-                sp14[var_r2_3] = temp_r5_2 + (var_r0 >> 0xE);
+                strc100->unk4[var_r2_3] = temp_r5_2 + (var_r0 >> 0xE);
                 var_r2_3 -= 1;
                 var_r4 += temp_r3;
             } while (var_r2_3 != 0);
@@ -1773,7 +1756,7 @@ block_35:
             if (var_r0_2 < 0) {
                 var_r0_2 += 0x3FFF;
             }
-            sp14[var_r2_4] = temp_r5_2 + (var_r0_2 >> 0xE);
+            strc100->unk4[var_r2_4] = temp_r5_2 + (var_r0_2 >> 0xE);
             var_r2_4 += 1;
             var_r4_2 += temp_r3_2;
         } while ((u32) var_r2_4 <= 0x13U);
@@ -1794,7 +1777,7 @@ block_35:
             if (var_r0_3 < 0) {
                 var_r0_3 += 0x3FFF;
             }
-            sp14[var_r2_5] = temp_r5_3 + (var_r0_3 >> 0xE);
+            strc100->unk4[var_r2_5] = temp_r5_3 + (var_r0_3 >> 0xE);
             var_r2_5 -= 1;
             var_r4_3 -= temp_r3_3;
         } while (var_r2_5 != 0);
@@ -1808,7 +1791,7 @@ block_35:
             if (var_r0_4 < 0) {
                 var_r0_4 += 0x3FFF;
             }
-            sp14[var_r2_6] = temp_r5_3 + (var_r0_4 >> 0xE);
+            strc100->unk4[var_r2_6] = temp_r5_3 + (var_r0_4 >> 0xE);
             var_r2_6 += 1;
             var_r4_4 -= temp_r3_4;
         } while ((u32) var_r2_6 <= 0x13U);
@@ -3212,7 +3195,7 @@ void TaskDestructor_104_8078A68(Task *arg0) {
     *strc104->unk4 = 0;
 }
 
-void sub_8078A78(EggGravity104 *strc104, Vec2_32 *pos) {
+s32 sub_8078A78(EggGravity104 *strc104, Vec2_32 *pos) {
     s32 *temp_r2;
     s32 *temp_r3;
     s32 temp_r1;
@@ -3220,15 +3203,14 @@ void sub_8078A78(EggGravity104 *strc104, Vec2_32 *pos) {
 
     for(var_r4 = 0; var_r4 < 2; var_r4++)
     {
-#if 0
-        if ((pos->y + I(strc104->qUnk2CY[var_r4])) <= 0xB3) {
-            strc104->qUnk24X[var_r4] += strc104->unk34;
-            temp_r1 = strc104->unk38 + 0x20;
-            strc104->unk38 = temp_r1;
-            strc104->qUnk2CY[var_r4] += temp_r1;
+        if ((pos->y + I(strc104->qUnk24[1][0])) < 0xB4) {
+            strc104->qUnk24[0][0] += strc104->qUnk34;
+            strc104->qUnk38 += 0x20;;
+            strc104->qUnk24[1][var_r4] += strc104->qUnk38;
         }
-#endif
     }
+
+    return 0;
 }
 
 void TaskDestructor_8078AC0(Task *strc30) {
