@@ -41,7 +41,7 @@ typedef struct {
     /* 0x2E */ u8 unk2E[2];
     /* 0x2B */ u16 unk30;
     /* 0x2B */ s16 unk32;
-    /* 0x2B */ s16 unk34[4];
+    /* 0x2B */ u16 unk34[4];
     /* 0x2B */ s32 unk3C;
     /* 0x30 */ u8 filler40[0x4];
     /* 0x2B */ s32 unk44;
