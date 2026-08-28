@@ -1412,11 +1412,10 @@ void Task_4C_A_8076618(void)
     }
 }
 
-// (95.777%) https://decomp.me/scratch/gB7kj
-NONMATCH("asm/non_matching/game/bosses/boss_7__sub_80769C4.inc", void sub_80769C4(u8 *param0, s16 param1))
+void sub_80769C4(u8 *param0, s16 param1)
 {
     EggGravity *boss = TASK_DATA(gStageData.taskBoss);
-    s32 temp_r4 = param0[2] & 0x7F;
+    u16 temp_r4 = param0[2] & 0x7F;
     u16 val = (param0[3] | (param0[4] << 8));
 
     switch (temp_r4) {
@@ -1438,7 +1437,6 @@ NONMATCH("asm/non_matching/game/bosses/boss_7__sub_80769C4.inc", void sub_80769C
         } break;
     }
 }
-END_NONMATCH
 
 Task *sub_8076A54(EggGravity *boss)
 {
