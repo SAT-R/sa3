@@ -1440,18 +1440,19 @@ NONMATCH("asm/non_matching/game/bosses/boss_7__sub_80769C4.inc", void sub_80769C
 }
 END_NONMATCH
 
-#if 0
-Task *sub_8076A54(EggGravity *boss) {
-    s32 *temp_r0;
-    u8 *temp_r0_3;
-    u8 var_r2;
-    void *temp_r0_2;
-    void *temp_r0_4;
+Task *sub_8076A54(EggGravity *boss)
+{
     Task *t = TaskCreate(Task_100_8076B58, sizeof(EggGravity100), 0x2200U, 0U, TaskDestructor_100_80779EC);
     EggGravity100 *strc100 = TASK_DATA(t);
     Sprite *sprCC;
-    Vec2_32 *pos;
     s32 qX, qY;
+#ifndef NON_MATCHING
+    register Vec2_32 *pos asm("r2");
+#else
+    Vec2_32 *pos;
+#endif
+    u8 i;
+
     strc100->bossFC = boss;
     pos = &strc100->qUnkC4;
     qX = boss->qUnk0;
@@ -1460,10 +1461,9 @@ Task *sub_8076A54(EggGravity *boss) {
     pos->y = qY;
     strc100->boss = NULL;
 
-    for(var_r2 = 0; var_r2 < ARRAY_COUNT(strc100->unk4); var_r2++)
-    {
-        strc100->unk4[var_r2] = 0;
-        strc100->unk58[var_r2] = 0;
+    for (i = 0; i < ARRAY_COUNT(strc100->unk4); i++) {
+        strc100->unk4[i] = 0;
+        strc100->unk58[i] = 0;
     }
 
     strc100->players[0] = boss->players[0];
@@ -1480,6 +1480,7 @@ Task *sub_8076A54(EggGravity *boss) {
     strc100->unkC0 = 0;
     strc100->unkB8 = 0;
     strc100->unkBC = 0;
+
     sprCC = &strc100->sprCC;
     sprCC->tiles = VramMalloc(4U);
     sprCC->anim = 0x4EA;
@@ -1493,9 +1494,11 @@ Task *sub_8076A54(EggGravity *boss) {
     sprCC->hitboxes[0].index = -1;
     sprCC->frameFlags = 0x1000;
     UpdateSpriteAnimation(sprCC);
+
     return t;
 }
 
+#if 0
 void Task_100_8076B58(void) {
     EggGravity100 *strc100 = TASK_DATA(gCurTask);
     Sprite *sp0;
@@ -2016,7 +2019,7 @@ void sub_80772F0(EggGravity100 *strc100, u8 pid) {
     temp_r2 = strc100->unk4;
     sp14 = (s32) (strc100->qUnkC4.y + temp_r2[temp_r5]) >> 8;
     temp_r1_3 = temp_r4->moveState;
-    if ((0x20 & temp_r1_3) && (temp_r4->sprColliding == temp_r0) && ((s8) strc100->unkB4 == temp_r5)) {
+    if ((0x20 & temp_r1_3) && (temp_r4->sprColliding == temp_r0) && (strc100->unkB4 == temp_r5)) {
         if (temp_r1_3 & 0x10000) {
             var_r0_2 = temp_r4->qWorldY + 0xFFFFFC00;
         } else {
@@ -2066,61 +2069,29 @@ void sub_80772F0(EggGravity100 *strc100, u8 pid) {
     } else if ((temp_r4->moveState & 0x20) && (temp_r4->sprColliding == temp_r0)) {
         sp10 = 1;
     }
-    if (sp10 == 0) {
-        var_r7 = &strc100->unkB4;
-        if (((s8) strc100->unkB4 != -1) && (temp_r2[(s8) strc100->unkB4] != 0)) {
-            var_r1_2 = 0;
-            temp_r3_3 = strc100->unk58;
-            do {
-                temp_r1_5 = var_r1_2;
-                if (temp_r1_5 != (s8) strc100->unkB4) {
-                    temp_r3_3[temp_r1_5] = 0;
-                }
-                temp_r0_6 = temp_r1_5 + 1;
-                var_r1_2 = (s8) temp_r0_6;
-            } while ((s32) (s8) temp_r0_6 <= 0x14);
-            temp_r2_4 = &temp_r3_3[(s8) strc100->unkB4];
-            if (*temp_r2_4 == 0) {
-                if (temp_r4->moveState & 0x10000) {
-                    var_r0_3 = -0x20;
-                } else {
-                    var_r0_3 = 0x20;
-                }
-                *temp_r2_4 = var_r0_3;
-            }
-        }
-        var_r0_4 = 0xFF;
-    } else {
+    if (sp10 == 0) {        
         temp_r0_7 = &strc100->unkB4;
-        temp_r2_5 = (s8) strc100->unkB4;
+        temp_r2_5 = strc100->unkB4;
         var_r7 = temp_r0_7;
         if (temp_r2_5 == (s8) sp8) {
             if ((temp_r2_5 != 0) && (temp_r2_5 != 0x14)) {
-                var_r3_2 = (strc100->unk58) + (temp_r2_5 * 4);
-                var_r0_5 = *var_r3_2;
+                var_r0_5 = strc100->unk58[temp_r2_5];
                 if (var_r0_5 < 0) {
                     var_r0_5 = 0 - var_r0_5;
                 }
                 if (var_r0_5 > 0x80) {
 
                 } else {
-                    temp_r2_6 = &temp_r2[temp_r2_5];
-                    var_r1_3 = *temp_r2_6;
-                    if (var_r1_3 < 0) {
-                        var_r1_3 = 0 - var_r1_3;
-                    }
-                    if (var_r1_3 > 0xE00) {
-
-                    } else {
-                        if (*temp_r2_6 != 0) {
+                    var_r1_3 = ABS(temp_r2[temp_r2_5]);
+                    if (var_r1_3 <= 0xE00) {
+                        if (temp_r2[temp_r2_5] != 0) {
                             var_r0_6 = 0 - strc100->unkC0;
-                            goto block_80;
-                        }
-                        if (temp_r4->moveState & 0x10000) {
-                            *var_r3_2 = -0x400;
+                            strc100->unk58[temp_r2_5] = var_r0_6;
+                        } else if (temp_r4->moveState & 0x10000) {
+                            strc100->unk58[temp_r2_5] = -0x400;
                             strc100->unkC0 = 0x80;
                         } else {
-                            *var_r3_2 = 0x400;
+                            strc100->unk58[temp_r2_5] = 0x400;
                             strc100->unkC0 = -0x80;
                         }
                     }
@@ -2128,62 +2099,67 @@ void sub_80772F0(EggGravity100 *strc100, u8 pid) {
             }
         } else {
             if (temp_r2_5 != -1) {
-                var_r1_4 = temp_r2[(s8) strc100->unkB4];
+                var_r1_4 = temp_r2[strc100->unkB4];
                 if (var_r1_4 < 0) {
                     var_r1_4 = 0 - var_r1_4;
                 }
                 if (var_r1_4 > 0xE00) {
-                    goto block_64;
+                    spC = 0;
+                } else {
+                    spC = 1;                    
                 }
-                goto block_65;
             }
-block_64:
+
             if (spC != 0) {
-block_65:
-                temp_r0_8 = (s8) sp8;
-                if ((temp_r0_8 != 0) && (temp_r0_8 != 0x14)) {
-                    var_r1_5 = 0;
-                    temp_r3_4 = strc100->unk58;
-                    do {
-                        temp_r1_6 = var_r1_5;
-                        if (temp_r1_6 != temp_r0_8) {
-                            temp_r3_4[temp_r1_6] = 0;
+                if ((sp8 != 0) && (sp8 != 0x14)) {
+                    for(var_r1_5 = 0; var_r1_5 < 21; var_r1_5++)
+                    {
+                        if (var_r1_5 != sp8) {
+                            strc100->unk58[temp_r1_6] = 0;
                         }
-                        temp_r0_9 = temp_r1_6 + 1;
-                        var_r1_5 = (s8) temp_r0_9;
-                    } while ((s32) (s8) temp_r0_9 <= 0x14);
+                    }
                     if (spC == 0) {
-                        temp_r1_7 = (sp8 << 0x18) >> 0x16;
-                        var_r2 = *(temp_r2 + temp_r1_7);
-                        if (var_r2 < 0) {
-                            var_r2 = 0 - var_r2;
+                        var_r2 = ABS(strc100->unk4[sp8]);
+                        if (var_r2 >= 0xE00) {
+                            strc100->unk58[sp8] = gUnknown_080D5998[sp8] + 1;
+                        } else {
+                            strc100->unk58[sp8] = 0x400;                            
                         }
-                        if (var_r2 > 0xDFF) {
-                            goto block_75;
-                        }
-                        *(temp_r3_4 + temp_r1_7) = 0x400;
                     } else {
-block_75:
-                        temp_r0_10 = (sp8 << 0x18) >> 0x16;
                         strc100->unk58[sp8] = gUnknown_080D5998[sp8] + 1;
                     }
                     strc100->unkB5 = 0;//subroutine_arg0.unk8;
                     if (temp_r4->moveState & 0x10000) {
-                        temp_r0_11 = temp_r3_4 + ((sp8 << 0x18) >> 0x16);
+                        temp_r0_11 = strc100->unk58 + ((sp8 << 0x18) >> 0x16);
                         *temp_r0_11 = 0 - *temp_r0_11;
                         strc100->unkC0 = 0x80;
                     } else {
-                        var_r0_6 = -0x80;
-                        var_r3_2 = &strc100->unkC0;
-block_80:
-                        *var_r3_2 = var_r0_6;
+                        strc100->unkC0 = -0x80;
                     }
                 }
             }
         }
         var_r0_4 = 0;//subroutine_arg0.unk8;
+    
+    } else {
+        if ((strc100->unkB4 != -1) && (temp_r2[strc100->unkB4] != 0)) {
+            for(var_r1_2 = 0; var_r1_2 < 21; var_r1_2++)
+            {
+                if (var_r1_2 != strc100->unkB4) {
+                    strc100->unk58[var_r1_2] = 0;
+                }
+            }
+            if (strc100->unk58[strc100->unkB4] == 0) {
+                if (temp_r4->moveState & 0x10000) {
+                    strc100->unk58[strc100->unkB4] = -0x20;
+                } else {
+                    strc100->unk58[strc100->unkB4] = +0x20;
+                }
+            }
+        }
+        var_r0_4 = 0xFF;
     }
-    *var_r7 = var_r0_4;
+    strc100->unkB4 = var_r0_4;
 }
 
 void Task_D8_EggGravityInit(void) {
