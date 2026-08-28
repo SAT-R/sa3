@@ -1018,9 +1018,7 @@ void Task_D8_8075EE8(void)
     sub_8076328(boss);
 }
 
-// (99.63%) https://decomp.me/scratch/ajcOT
-NONMATCH("asm/non_matching/game/bosses/boss_7__Task_D8_8076050.inc", void Task_D8_8076050(void))
-{
+void Task_D8_8076050(void) {
     EggGravity *boss = TASK_DATA(gCurTask);
     s16 sp10;
     s16 sp14;
@@ -1032,69 +1030,60 @@ NONMATCH("asm/non_matching/game/bosses/boss_7__Task_D8_8076050.inc", void Task_D
     u8 i;
 
     switch (boss->unk2B) {
-        case 0x0:
-            boss->unk32 = -Q(6);
-            boss->unk2C = 0;
-            boss->unk2B = 0xA;
-            break;
-        case 0xA:
-            boss->unk32 += 0x40;
-            boss->unk44 += boss->unk32;
-            boss->unk2C += 1;
-            sp10 = I(boss->qUnk0 + boss->unk14);
-            sp14 = I(boss->qUnk4 + boss->unk44);
+    case 0:
+        boss->unk32 = -Q(6);
+        boss->unk2C = 0;
+        boss->unk2B = 0xA;
+        break;
 
-            for (i = 0; i < ARRAY_COUNT(boss->unk34); i++) {
-                s32 sinVal, cosVal;
-                u16 baseAngle = boss->unk34[i];
-#if 0
-            boss->unk34[i] = (i & 1)
-                ? (baseAngle - 0x40) & 0x3FF
-                : (baseAngle + 0x40) & 0x3FF;
+    case 10:
+        boss->unk32 += 0x40;
+        boss->unk44 += boss->unk32;
+        boss->unk2C += 1;
+        sp10 = I(boss->qUnk0 + boss->unk14);
+        sp14 = I(boss->qUnk4 + boss->unk44);
+
+        for(i = 0; i < ARRAY_COUNT(boss->unk34); i++)
+        {
+            s32 sinVal, cosVal;
+
+            boss->unk34[i] = (boss->unk34[i] + (((i & 1)) ? -0x40 : 0x40)) % 1024u;
             angle = boss->unk34[i];
-#else
+
+            sinVal = ((SIN(angle) * 5) >> 12);
+            cosVal = ((COS(angle) * 5) >> 12);
+            temp_r5   = sp10 + cosVal;
+            temp_r3_2 = sp14 + sinVal;
+            if (1 & boss->unk2C) {
                 if (i & 1) {
-                    boss->unk34[i] = (baseAngle - 0x40) % 1024u;
-                } else {
-                    boss->unk34[i] = (baseAngle + 0x40) % 1024u;
+                    sub_8079758(7U, temp_r5, temp_r3_2, 0x200, angle, 0x14U, 0, boss->vram48);
                 }
-                angle = boss->unk34[i];
-#endif
-
-                sinVal = ((SIN(angle) * 5) >> 12);
-                cosVal = ((COS(angle) * 5) >> 12);
-                temp_r5 = sp10 + cosVal;
-                temp_r3_2 = sp14 + sinVal;
-                if (1 & boss->unk2C) {
-                    if (i & 1) {
-                        sub_8079758(7U, temp_r5, temp_r3_2, 0x200, angle, 0x14U, 0, boss->vram48);
-                    }
-                } else {
-                    temp_r3_3 = i & 1;
-                    if (temp_r3_3 == 0) {
-                        sub_8079758(7U, temp_r5, temp_r3_2, 0x200, angle, 0x14U, 0, boss->vram48);
-                    }
+            } else {
+                temp_r3_3 = i & 1;
+                if (temp_r3_3 == 0) {
+                    sub_8079758(7U, temp_r5, temp_r3_2, 0x200, angle, 0x14U, 0, boss->vram48);
                 }
             }
+        }
 
-            if (!(0x3F & boss->unk2C)) {
-                m4aSongNumStart(SE_545);
-            }
-            if (I(boss->unk44) > 0x12C) {
-                boss->unk2B = 0xC8;
-            }
-            break;
-        case 0xC8:
-            boss->unk2B = 0;
-            boss->unk2C = 0U;
-            boss->unk30 = 0x78;
+        if (!(0x3F & boss->unk2C)) {
             m4aSongNumStart(SE_545);
-            gCurTask->main = Task_D8_8076218;
-            break;
+        }
+        if (I(boss->unk44) > 0x12C) {
+            boss->unk2B = 0xC8;
+        }
+        break;
+
+    case 200:
+        boss->unk2B = 0;
+        boss->unk2C = 0U;
+        boss->unk30 = 0x78;
+        m4aSongNumStart(SE_545);
+        gCurTask->main =  Task_D8_8076218;
+        break;
     }
     sub_8076328(boss);
 }
-END_NONMATCH
 
 void Task_D8_8076218(void)
 {
