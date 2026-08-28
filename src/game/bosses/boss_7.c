@@ -1021,8 +1021,6 @@ void Task_D8_8076050(void)
     EggGravity *boss = TASK_DATA(gCurTask);
     s16 sp10;
     s16 sp14;
-    s32 temp_r3_3;
-    s32 var_r1;
     s16 temp_r5;
     s16 temp_r3_2;
     u16 angle;
@@ -1045,7 +1043,7 @@ void Task_D8_8076050(void)
             for (i = 0; i < ARRAY_COUNT(boss->unk34); i++) {
                 s32 sinVal, cosVal;
 
-                boss->unk34[i] = (boss->unk34[i] + (((i & 1)) ? -0x40 : 0x40)) % 1024u;
+                boss->unk34[i] = (boss->unk34[i] + (((i & 1)) ? -0x40 : +0x40)) % 1024u;
                 angle = boss->unk34[i];
 
                 sinVal = ((SIN(angle) * 5) >> 12);
@@ -1057,8 +1055,7 @@ void Task_D8_8076050(void)
                         sub_8079758(7U, temp_r5, temp_r3_2, 0x200, angle, 0x14U, 0, boss->vram48);
                     }
                 } else {
-                    temp_r3_3 = i & 1;
-                    if (temp_r3_3 == 0) {
+                    if (!(i & 1)) {
                         sub_8079758(7U, temp_r5, temp_r3_2, 0x200, angle, 0x14U, 0, boss->vram48);
                     }
                 }
@@ -1583,7 +1580,7 @@ void Task_100_8076B58(void)
 void sub_8076DD4(EggGravity100 *strc100) {
     s32 sp0;
     u8 *sp4;
-    s32 *sp8;
+    u8 *sp8;
     s32 *spC;
     s32 sp10;
     s32 *sp14;
@@ -1636,7 +1633,7 @@ void sub_8076DD4(EggGravity100 *strc100) {
     for(var_r2 = 0; var_r2 < 21; var_r2++)
     {
         if (strc100->unk58[var_r2] != 0) {
-            sp0 = var_r2;
+            sp0 = 0;
             break;
         }
     }
@@ -1650,15 +1647,13 @@ void sub_8076DD4(EggGravity100 *strc100) {
     }
 
     strc100->unkBC = strc100->unk4[sp0];
-    sp8 = strc100->unk4 + 0xB4;
-    sp10 = sp0 - 1;
-    sp18 = sp0 + 1;
+    sp18 = (sp0 + 1);
     if (strc100->unkB5 != 0) {
         var_r5 = 0;
 loop_11:
         temp_r2 = strc100->unkC0;
         if (strc100->unkC0 < 0) {
-            if (var_r5 < (s32) strc100->unk4[strc100->unkB5]) {
+            if (var_r5 < strc100->unk4[strc100->unkB5]) {
                 strc100->unk58[strc100->unkB5] += strc100->unkC0;
                 var_r5 += strc100->unk58[strc100->unkB5];
                 if (var_r5 != 0) {
@@ -1688,23 +1683,22 @@ loop_11:
             strc100->unkB7 = 0;
         }
     }
-    temp_r1_4 = *sp8;
+    temp_r1_4 = strc100->unkB8;
     if (temp_r1_4 != 0) {
         temp_r0_3 = strc100->unkBC;
         if (temp_r0_3 < 0) {
             if ((s32) strc100->unk4[sp0] >= 0) {
                 temp_r2_4 = &strc100->unk58[sp0];
-                temp_r0_4 = *temp_r2_4;
-                *temp_r2_4 = (s32) (temp_r0_4 + ((u32) temp_r0_4 >> 0x1F)) >> 1;
-                strc100->unkC0 = 0 - strc100->unkC0;
-                *sp8 = (u8) (*sp8 - 1);
+                strc100->unk58[sp0] = (s32) (strc100->unk58[sp0] + ((u32) strc100->unk58[sp0] >> 0x1F)) >> 1;
+                strc100->unkC0 = -strc100->unkC0;
+                strc100->unkB8 -= 1;
             }
         } else if ((temp_r0_3 != 0) && ((s32) strc100->unk4[sp0] < 0)) {
             temp_r2_5 = &strc100->unk58[sp0];
-            temp_r0_5 = *temp_r2_5;
-            *temp_r2_5 = (s32) (temp_r0_5 + ((u32) temp_r0_5 >> 0x1F)) >> 1;
-            strc100->unkC0 = 0 - strc100->unkC0;
-            *sp8 = (u8) (*sp8 - 1);
+            temp_r0_5 = strc100->unk58[sp0];
+            strc100->unk58[sp0] = (s32) (temp_r0_5 + ((u32) temp_r0_5 >> 0x1F)) >> 1;
+            strc100->unkC0 = -strc100->unkC0;
+            strc100->unkB8 -= 1;
         }
     } else {
         temp_r0_6 = strc100->unkBC;
@@ -1732,7 +1726,7 @@ block_35:
         if (temp_r5_2 < 0) {
             var_r6 = 0 - temp_r5_2;
         }
-        var_r2_3 = (u8) sp10;
+        var_r2_3 = (u8) (sp0 - 1);
         var_r4 = temp_r3;
         if (var_r2_3 != 0) {
             do {
@@ -1746,7 +1740,7 @@ block_35:
             } while (var_r2_3 != 0);
         }
         temp_r3_2 = (u16) (0x200 / (s32) (u8) (0x14 - sp0));
-        var_r2_4 = (u8) sp18;
+        var_r2_4 = (u8) (sp0 + 1);
         var_r4_2 = temp_r3_2;
         if ((u32) var_r2_4 > 0x13U) {
             return;
@@ -1765,33 +1759,22 @@ block_35:
     temp_r3_3 = (u16) (0x200 / sp0);
     temp_r0_8 = *temp_r4;
     temp_r5_3 = (s32) (temp_r0_8 + ((u32) temp_r0_8 >> 0x1F)) >> 1;
-    var_r6_2 = temp_r5_3;
-    if (temp_r5_3 < 0) {
-        var_r6_2 = 0 - temp_r5_3;
-    }
-    var_r2_5 = (u8) sp10;
+    var_r6_2 = ABS(temp_r5_3);
+    var_r2_5 = (u8) (sp0 - 1);
     var_r4_3 = 0x200 - temp_r3_3;
-    if (var_r2_5 != 0) {
-        do {
-            var_r0_3 = var_r6_2 * gSineTable[var_r4_3 + 0x100];
-            if (var_r0_3 < 0) {
-                var_r0_3 += 0x3FFF;
-            }
-            strc100->unk4[var_r2_5] = temp_r5_3 + (var_r0_3 >> 0xE);
-            var_r2_5 -= 1;
-            var_r4_3 -= temp_r3_3;
-        } while (var_r2_5 != 0);
+    while (--sp0 != 0) {
+        {
+            var_r0_3 = (var_r6_2 * COS(var_r4_3)) / 0x4000;
+            strc100->unk4[sp0] = temp_r5_3 + var_r0_3;
+        }
     }
     temp_r3_4 = (u16) (0x200 / (s32) (u8) (0x14 - sp0));
-    var_r2_6 = (u8) sp18;
+    var_r2_6 = (u8) (sp0 + 1);
     var_r4_4 = 0x200 - temp_r3_4;
     if ((u32) var_r2_6 <= 0x13U) {
         do {
-            var_r0_4 = var_r6_2 * gSineTable[var_r4_4 + 0x100];
-            if (var_r0_4 < 0) {
-                var_r0_4 += 0x3FFF;
-            }
-            strc100->unk4[var_r2_6] = temp_r5_3 + (var_r0_4 >> 0xE);
+            var_r0_4 = var_r6_2 * COS(var_r4_4) / 0x4000;
+            strc100->unk4[var_r2_6] = temp_r5_3 + (var_r0_4);
             var_r2_6 += 1;
             var_r4_4 -= temp_r3_4;
         } while ((u32) var_r2_6 <= 0x13U);
