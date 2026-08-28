@@ -136,7 +136,7 @@ typedef struct {
 } EggGravity68;
 
 typedef struct {
-    /* 0x08 */ s8 *unk0;
+    /* 0x08 */ u8 *unk0;
     /* 0x08 */ u16 unk4;
     /* 0x08 */ u16 unk6;
     /* 0x08 */ s32 *unk8;
@@ -222,7 +222,7 @@ void TaskDestructor_EggGravity(Task *t);
 void sub_8077A04(Task *arg0, s8 arg1);
 void sub_8077238(Task *task_EggGravity100, u8 arg1, s32 arg2, s32 arg3);
 void sub_8077A14(Task *arg0, s8 arg1);
-u8 sub_80787D8(EggGravity68 *strc68);
+s32 sub_80787D8(EggGravity68 *strc68);
 void TaskDestructor_100_80779EC(struct Task *t);
 void sub_80772F0(EggGravity100 *strc100, u8 pid);
 extern u8 sub_8078D6C(EggGravity68 *strc68);
@@ -3112,7 +3112,7 @@ void Task_4C_8078764(void) {
     }
 }
 
-u8 sub_80787D8(EggGravity68 *strc68) {
+s32 sub_80787D8(EggGravity68 *strc68) {
     Vec2_32 *temp_r4;
     s32 *temp_r3;
     u16 *temp_r6;
