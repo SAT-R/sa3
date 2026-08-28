@@ -1096,8 +1096,8 @@ NONMATCH("asm/non_matching/game/bosses/boss_7__Task_D8_8076050.inc", void Task_D
 }
 END_NONMATCH
 
-#if 0
-void Task_D8_8076218(void) {
+void Task_D8_8076218(void)
+{
     EggGravity *boss = TASK_DATA(gCurTask);
     EggGravity100 *strc100 = TASK_DATA(boss->taskStrc100);
 
@@ -1113,36 +1113,38 @@ void Task_D8_8076218(void) {
         strc100->unkB2 = 1;
         boss->unk28 = 1;
         boss->unk30 = 0;
-        gCurTask->main =  Task_D8_80762B4;
+        gCurTask->main = Task_D8_80762B4;
     }
 }
 
-void Task_D8_80762B4(void) {
+void Task_D8_80762B4(void)
+{
     s32 sp00[4];
     EggGravity *boss = TASK_DATA(gCurTask);
     Player *player = boss->players[0];
 
     switch (boss->unk30) {
-    case 0: {
-        sp00[0] = I(boss->qUnk0 + boss->unk14);
-        sp00[1] = 0x3AE;
-        sp00[2] = I(boss->qUnk0 + boss->unk14);
-        sp00[3] = 0x3B6;
-        sub_8078E34(sp00, &EnablePlayerMovement);
-        boss->unk30 = 1;
-    } break;
+        case 0: {
+            sp00[0] = I(boss->qUnk0 + boss->unk14);
+            sp00[1] = 0x3AE;
+            sp00[2] = I(boss->qUnk0 + boss->unk14);
+            sp00[3] = 0x3B6;
+            sub_8078E34(sp00, &EnablePlayerMovement);
+            boss->unk30 = 1;
+        } break;
 
-    case 1:
-        if (!(player->moveState & MOVESTATE_IGNORE_INPUT)) {
-            *boss->bossPhase = 0;
-            boss->unk30 = 100;
+        case 1:
+            if (!(player->moveState & MOVESTATE_IGNORE_INPUT)) {
+                *boss->bossPhase = 0;
+                boss->unk30 = 100;
+                break;
+            }
             break;
-        }
-        break;
     }
 }
 
-void sub_8076328(EggGravity *boss) {
+void sub_8076328(EggGravity *boss)
+{
     s32 temp_r0_2;
     s16 temp_r4;
     s8 temp_r0_3;
@@ -1152,11 +1154,11 @@ void sub_8076328(EggGravity *boss) {
     s16 temp_r0 = I(boss->qUnk0 + boss->unk14);
     s32 var_r0 = temp_r0 - 0x360;
     if (var_r0 < 0) {
-        var_r0 = temp_r0 -849;
+        var_r0 = temp_r0 - 849;
     }
     temp_r0_2 = var_r0 >> 4;
-    var_r1 = (u8) temp_r0_2;
-    temp_r0_3 = (s8) temp_r0_2;
+    var_r1 = (u8)temp_r0_2;
+    temp_r0_3 = (s8)temp_r0_2;
     if (temp_r0_3 < 0) {
         var_r1 = 0;
     } else if (temp_r0_3 > 0x14) {
@@ -1164,25 +1166,26 @@ void sub_8076328(EggGravity *boss) {
     }
     temp_r4 = I(strc100->qUnkC4.y + strc100->unk4[var_r1]);
     s->x = temp_r0 - gCamera.x;
-    s->y = ((temp_r4 + ((s32) boss->unk3C >> 8)) - gCamera.y) + I(boss->unk44);
+    s->y = ((temp_r4 + ((s32)boss->unk3C >> 8)) - gCamera.y) + I(boss->unk44);
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
-    boss->qUnk4 = (temp_r4 + ((s32) boss->unk3C >> 8)) << 8;
+    boss->qUnk4 = (temp_r4 + ((s32)boss->unk3C >> 8)) << 8;
 
     s = &boss->spr80;
     s->x = temp_r0 - gCamera.x;
-    s->y = ((temp_r4 + ((s32) boss->unk3C >> 8)) - gCamera.y) + I(boss->unk44);
+    s->y = ((temp_r4 + ((s32)boss->unk3C >> 8)) - gCamera.y) + I(boss->unk44);
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
     s = &boss->sprGemerlAnchor;
     s->x = temp_r0 - gCamera.x;
-    s->y = (temp_r4 - gCamera.y) + ((s32) boss->unk44 >> 8);
+    s->y = (temp_r4 - gCamera.y) + ((s32)boss->unk44 >> 8);
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
 
-void sub_8076420(EggGravity *boss) {
+void sub_8076420(EggGravity *boss)
+{
     Player *p;
     u8 i;
     Sprite *sprGemerlAnchor = &boss->sprGemerlAnchor;
@@ -1200,23 +1203,19 @@ void sub_8076420(EggGravity *boss) {
         players = gPlayers;
         p = &players[gStageData.playerIndex];
         // NOTE(Jace): The cast is necessary to match... but it's a 4-bit unsigned value!?
-        if ( ( ((s8)p->charFlags.character == CREAM)
-              || (gPlayers[p->charFlags.partnerIndex].charFlags.character == CREAM))
+        if ((((s8)p->charFlags.character == CREAM) || (gPlayers[p->charFlags.partnerIndex].charFlags.character == CREAM))
             && (IsCollidingWithCheese(sprGemerlAnchor) == 1)) {
             var_r8 = 1;
         }
 
-        for(i = 0; i < ARRAY_COUNT(boss->players); i++)
-        {
+        for (i = 0; i < ARRAY_COUNT(boss->players); i++) {
             Player *p = boss->players[i];
             if ((sub_802C080(p) == 0) && (sprGemerlAnchor->hitboxes[0].index != -1)) {
-                if (sub_8020E3C(sprGemerlAnchor, (s32) (boss->qUnk0 + boss->unk14) >> 8,
-                                (s32) boss->qUnk4 >> 8, 0, p) == 1) {
+                if (sub_8020E3C(sprGemerlAnchor, (s32)(boss->qUnk0 + boss->unk14) >> 8, (s32)boss->qUnk4 >> 8, 0, p) == 1) {
                     var_r8 = 1;
                     sub_80044CC(p);
                 } else {
-                    sub_8020CE0(sprGemerlAnchor, (s32) (boss->qUnk0 + boss->unk14) >> 8,
-                                (s32) boss->qUnk4 >> 8, 0, p);
+                    sub_8020CE0(sprGemerlAnchor, (s32)(boss->qUnk0 + boss->unk14) >> 8, (s32)boss->qUnk4 >> 8, 0, p);
                 }
             }
         }
@@ -1227,20 +1226,19 @@ void sub_8076420(EggGravity *boss) {
     }
 }
 
-void sub_8076550(EggGravity *boss) {
+void sub_8076550(EggGravity *boss)
+{
     EggGravity4C_A *strc4C = TASK_DATA(TaskCreate(Task_4C_A_8076618, sizeof(EggGravity4C_A), 0x2200U, 0U, NULL));
     u8 i;
 
     strc4C->boss = boss;
-    for(i = 0; i < 2; i++)
-    {
+    for (i = 0; i < 2; i++) {
         strc4C->unk0[i] = 0;
         strc4C->players[i] = boss->players[i];
         strc4C->unk4[i] = 1;
     }
 
-    for(i = 0; i < ARRAY_COUNT(strc4C->unk8); i++)
-    {
+    for (i = 0; i < ARRAY_COUNT(strc4C->unk8); i++) {
         strc4C->unk8[i].x = gUnknown_080D59EC[i][0];
         strc4C->unk8[i].y = gUnknown_080D59EC[i][1];
     }
@@ -1262,6 +1260,7 @@ void sub_8076550(EggGravity *boss) {
     }
 }
 
+#if 0
 void Task_4C_A_8076618(void) {
     EggGravity *temp_r1_3;
     Player *player;
