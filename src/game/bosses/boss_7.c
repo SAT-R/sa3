@@ -47,7 +47,7 @@ typedef struct {
     /* 0x2B */ s32 unk44;
     /* 0x48 */ u8 *vram48;
     /* 0x4C */ u8 *vram4C;
-    /* 0x50 */ Player *players[2];
+    /* 0x50 */ Player *players[NUM_SINGLE_PLAYER_CHARS];
     /* 0x58 */ Sprite sprCockpit;
     /* 0x80 */ Sprite spr80;
     /* 0xA8 */ Sprite sprGemerlAnchor;
@@ -76,7 +76,7 @@ typedef struct {
     /* 0xB3 */ s32 unkC0;
     /* 0xC4 */ Vec2_32 qUnkC4;
     /* 0xCC */ Sprite sprCC;
-    /* 0xF4 */ Player *players[2];
+    /* 0xF4 */ Player *players[NUM_SINGLE_PLAYER_CHARS];
     /* 0xFC */ EggGravity *bossFC;
 } EggGravity100; /* 0x100 */
 
@@ -105,7 +105,7 @@ typedef struct {
     /* 0x04 */ u16 unk4[2];
     /* 0x08 */ Vec2_16 unk8[4];
     /* 0x18 */ Sprite s;
-    /* 0x40 */ Player *players[2];
+    /* 0x40 */ Player *players[NUM_SINGLE_PLAYER_CHARS];
     /* 0x48 */ EggGravity *boss;
 } EggGravity4C_A; /* 0x4C */
 
@@ -1260,179 +1260,159 @@ void sub_8076550(EggGravity *boss)
     }
 }
 
-#if 0
-void Task_4C_A_8076618(void) {
-    EggGravity *temp_r1_3;
-    Player *player;
-    Player *partner;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r3;
-    s32 var_r0_2;
-    s32 var_r1;
-    s32 var_r1_2;
-    s32 var_r2;
-    s32 var_r2_2;
-    s32 var_r7;
-    u16 *temp_r1_2;
-    u16 temp_r0_2;
-    u32 temp_r1_4;
-    u32 temp_r2;
-    u32 var_r0;
-    u8 *temp_r0;
-    u8 temp_r0_5;
-    u8 temp_r1;
-    u8 var_r7_2;
+void Task_4C_A_8076618(void)
+{
     EggGravity4C_A *strc4C = TASK_DATA(gCurTask);
     EggGravity100 *strc100 = TASK_DATA(strc4C->boss->taskStrc100);
     Sprite *s = &strc4C->s;
-    u8 var_sl;
-    for(var_sl = 0; var_sl < 2; var_sl++)
-    {
-        player = strc4C->players[var_sl];
+    u8 pid, i;
+    Player *player;
+    Player *partner;
+    s32 var_r1;
+    s32 qDx;
+    bool32 enteredTube;
+
+    for (pid = 0; pid < ARRAY_COUNT(strc4C->players); pid++) {
+        player = strc4C->players[pid];
         partner = &gPlayers[player->charFlags.partnerIndex];
+
         if (sub_802C080(player) == 0) {
-            switch (strc4C->unk0[var_sl]) {
-            case 0: {
-                if (!(0x08000000 & player->moveState)) {
-                    if (I(player->qWorldY) > 0x1B7) {
-                        if (I(player->qWorldX) <= 0x407) {
-                            if (I(player->qWorldY) <= 0x247) {
-                                var_r7 = 0;
+            switch (strc4C->unk0[pid]) {
+                case 0: {
+                    if (!(MOVESTATE_IGNORE_INPUT & player->moveState)) {
+                        if (I(player->qWorldY) >= 440) {
+                            if (I(player->qWorldX) < 1032) {
+                                if (I(player->qWorldY) < 584) {
+                                    i = 0;
+                                } else {
+                                    i = 1;
+                                }
                             } else {
-                                var_r7 = 1;                                
+                                if (I(player->qWorldY) < 584) {
+                                    i = 2;
+                                } else {
+                                    i = 3;
+                                }
                             }
-                        } else {
-                            if (I(player->qWorldY) <= 0x247) {
-                                var_r7 = 2;
-                            } else {
-                                var_r7 = 3;                                
-                            }
-                        }
-                        var_r2 = 0;
-                        switch (var_r7) {
-                        case 0:
-                            if ((I(player->qWorldX) <= 0x360) && ((s32) (player->qWorldY >> 8) < 0x248)) {
-                                player->qWorldX = Q(864);
-                                player->moveState |= 0x10000;
-                                player->moveState &= ~1;
-                                var_r2 = 1;
-                            } break;
-                        case 1:
-                            if ((I(player->qWorldX) <= 0x360) && ((s32) (player->qWorldY >> 8) > 0x248)) {
-                                player->qWorldX = Q(864);
-                                player->moveState &= ~0x10000;
-                                player->moveState &= ~1;
-                                var_r2 = 1;
-                            }
-                            break;
-                        case 2:
-                            if ((I(player->qWorldX) > 0x4AE) && ((s32) (player->qWorldY >> 8) < 0x248)) {
-                                player->qWorldX = Q(1199);
-                                player->moveState |= 0x10001;
-                                var_r2 = 1;
-                            }
-                            break;
-                        case 3:
-                            if ((I(player->qWorldX) > 0x4AE) && ((s32) (player->qWorldY >> 8) > 0x248)) {
-                                player->qWorldX = Q(1199);
-                                player->moveState &= ~0x10000;
-                                player->moveState |= 1;
-                                var_r2 = 1;
-                            }
-                            break;
-                        }
-                    }
+                            enteredTube = 0;
+                            switch (i) {
+                                case 0: {
+                                    if ((I(player->qWorldX) <= 864) && (I(player->qWorldY) < 584)) {
+                                        player->qWorldX = Q(864);
+                                        player->moveState |= MOVESTATE_GRAVITY_SWITCHED;
+                                        player->moveState &= ~MOVESTATE_FACING_LEFT;
+                                        enteredTube = 1;
+                                    }
+                                } break;
 
-                    if (var_r2 != 0) {
-                        strc4C->unk0[var_sl] = 0xA;
-                        strc4C->unk4[var_sl] = 4;
-                        player->qSpeedAirY = 0;
-                        var_r1_2 = 0x24800 - player->qWorldY;
-                        var_r2_2 = var_r1_2;
-                        if (var_r1_2 < 0) {
-                            var_r2_2 = 0 - var_r1_2;
-                        }
-                        if (var_r2_2 > 0x1FFF) {
-                            if (var_r1_2 < 0) {
-                                var_r1_2 = -0x2000;
-                            } else {
-                                var_r1_2 = 0x2000;
+                                case 1: {
+                                    if ((I(player->qWorldX) <= 864) && (I(player->qWorldY) > 584)) {
+                                        player->qWorldX = Q(864);
+                                        player->moveState &= ~MOVESTATE_GRAVITY_SWITCHED;
+                                        player->moveState &= ~MOVESTATE_FACING_LEFT;
+                                        enteredTube = 1;
+                                    }
+                                } break;
+
+                                case 2: {
+                                    if ((I(player->qWorldX) >= 1199) && (I(player->qWorldY) < 584)) {
+                                        player->qWorldX = Q(1199);
+                                        player->moveState |= MOVESTATE_GRAVITY_SWITCHED;
+                                        player->moveState |= MOVESTATE_FACING_LEFT;
+                                        enteredTube = 1;
+                                    }
+                                } break;
+
+                                case 3: {
+                                    if ((I(player->qWorldX) >= 1199) && (I(player->qWorldY) > 584)) {
+                                        player->qWorldX = Q(1199);
+                                        player->moveState &= ~MOVESTATE_GRAVITY_SWITCHED;
+                                        player->moveState |= MOVESTATE_FACING_LEFT;
+                                        enteredTube = 1;
+                                    }
+                                } break;
+                            }
+
+                            if (enteredTube != 0) {
+                                strc4C->unk0[pid] = 0xA;
+                                strc4C->unk4[pid] = 4;
+                                player->qSpeedAirY = 0;
+                                qDx = Q(584) - player->qWorldY;
+                                if (ABS(qDx) >= Q(32)) {
+                                    if (qDx < 0) {
+                                        qDx = -Q(32);
+                                    } else {
+                                        qDx = +Q(32);
+                                    }
+                                }
+                                player->qWorldY = qDx + Q(584);
+                                player->moveState |= MOVESTATE_IGNORE_INPUT;
+
+                                if (i < 2) {
+                                    strc100->unkB4 = 20;
+                                    player->qSpeedAirX = +Q(2);
+                                    player->qSpeedGround = +Q(2);
+                                    player->qWorldX = Q(player->spriteOffsetX + 864);
+                                } else {
+                                    strc100->unkB4 = 0;
+                                    player->qSpeedAirX = -Q(2);
+                                    player->qSpeedGround = -Q(2);
+                                    player->qWorldX = Q(1199 - player->spriteOffsetX);
+                                }
+
+                                if (player->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
+                                    sub_8016F28(player);
+                                    player->charFlags.unk2C_04 = 0;
+                                    Player_8005528(player);
+                                    partner->qSpeedAirX = player->qSpeedAirX;
+                                    partner->qSpeedAirY = player->qSpeedAirY;
+                                    partner->qSpeedGround = player->qSpeedGround;
+                                    partner->qWorldX = player->qWorldX;
+                                    partner->qWorldY = player->qWorldY;
+                                    partner->moveState &= ~MOVESTATE_GRAVITY_SWITCHED;
+                                    partner->moveState |= (player->moveState & MOVESTATE_GRAVITY_SWITCHED);
+                                    Player_8005528(partner);
+                                }
+                                if (player->charFlags.anim2 == 514 || player->charFlags.anim2 == 515) {
+                                    player->unk148.arr_u8[0] = 0x80 - player->unk148.arr_u8[0];
+                                    player->qSpeedAirX *= -1;
+                                    Player_8005528(player);
+                                }
                             }
                         }
-                        player->qWorldY = var_r1_2 + 0x24800;
-                        player->moveState |= 0x08000000;
-                        if ((u32) var_r7 <= 1U) {
-                            strc100->unkB4 = 0x14;
-                            player->qSpeedAirX = 0x200;
-                            player->qSpeedGround = 0x200;
-                            var_r0_2 = (s8) (u8) player->spriteOffsetX + 0x360;
-                        } else {
-                            strc100->unkB4 = 0;
-                            player->qSpeedAirX = -0x200;
-                            player->qSpeedGround = -0x200;
-                            var_r0_2 = 0x4AF - player->spriteOffsetX;
-                        }
-                        player->qWorldX = var_r0_2 << 8;
-                        if (player->moveState & 0x800000) {
-                            sub_8016F28(player);
-                            player->charFlags.unk2C_04 = 0;
-                            Player_8005528(player);
-                            partner->qSpeedAirX   = player->qSpeedAirX;
-                            partner->qSpeedAirY   = player->qSpeedAirY;
-                            partner->qSpeedGround = player->qSpeedGround;
-                            partner->qWorldX = player->qWorldX;
-                            partner->qWorldY = player->qWorldY;
-                            temp_r2 = partner->moveState & 0xFFFEFFFF;
-                            partner->moveState = temp_r2;
-                            partner->moveState = temp_r2 | (player->moveState & 0x10000);
-                            Player_8005528(partner);
-                        }
-                        if ((u32) (u16) (player->charFlags.anim2 + 0xFFFFFDFE) <= 1U) {
-                            player->unk148.arr_u8[0] = 0x80 - player->unk148.arr_u8[0];
-                            player->qSpeedAirX = 0 - player->qSpeedAirX;
-                            Player_8005528(player);
-                        }
                     }
-                }
-            } break;
+                } break;
 
-            case 10: {
-                temp_r1_2 = &strc4C->unk4[var_sl];
-                temp_r0_2 = *temp_r1_2 - 1;
-                *temp_r1_2 = temp_r0_2;
-                if ((temp_r0_2 << 0x10) == 0) {
-                    strc4C->unk0[var_sl] = 0;
-                    temp_r1_3 = strc4C->boss;
-                    if (temp_r1_3->lives != 0) {
-                        var_r0 = player->moveState;
-                        goto block_56;
+                case 10: {
+                    strc4C->unk4[pid] -= 1;
+                    if (strc4C->unk4[pid] == 0) {
+                        strc4C->unk0[pid] = 0;
+                        if (strc4C->boss->lives != 0) {
+                            player->moveState &= ~MOVESTATE_IGNORE_INPUT;
+                        } else if (strc4C->boss->unk28 != 0) {
+                            player->moveState &= ~MOVESTATE_GRAVITY_SWITCHED;
+                            player->moveState &= ~MOVESTATE_IGNORE_INPUT;
+                        }
                     }
-                    if (temp_r1_3->unk28 != 0) {
-                        var_r0 = player->moveState & 0xFFFEFFFF;
-    block_56:
-                        player->moveState = var_r0 & 0xF7FFFFFF;
-                    }
-                }
-            } break;
+                } break;
             }
-            strc4C->boss->unk2E[var_sl] = strc4C->unk0[var_sl];
-            
+
+            strc4C->boss->unk2E[pid] = strc4C->unk0[pid];
         }
     }
     player = strc4C->players[0];
-    if (((s32) ((s32) player->qWorldY >> 8) > 0x384) && !(player->moveState & 0x100)) {
+
+    if ((I(player->qWorldY) > 900) && !(player->moveState & MOVESTATE_DEAD)) {
         TaskDestroy(gCurTask);
     }
-    var_r7_2 = 0;
-    do {
-        s->x = (u16) strc4C->unk8[var_r7_2].x - gCamera.x;
-        s->y = (u16) strc4C->unk8[var_r7_2].y - gCamera.y;
+    for (i = 0; i < ARRAY_COUNT(strc4C->unk8); i++) {
+        s->x = strc4C->unk8[i].x - gCamera.x;
+        s->y = strc4C->unk8[i].y - gCamera.y;
         DisplaySprite(s);
-        var_r7_2 += 1;
-    } while ((u32) var_r7_2 <= 3U);
+    }
 }
 
+#if 0
 void sub_80769C4(u8 *param0, s16 param1) {
     u8 temp_r1;
     EggGravity *boss = TASK_DATA(gStageData.taskBoss);
