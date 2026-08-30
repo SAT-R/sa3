@@ -2196,49 +2196,51 @@ void sub_807797C(void) { }
 
 void sub_8077980(void) { }
 
-#if 0
-void sub_8077984(EggGravity100 *strc100) {
+void sub_8077984(EggGravity100 *strc100)
+{
     Sprite *s = &strc100->sprCC;
-    s16 var_r4 = (((s32) strc100->qUnkC4.x >> 8) - gCamera.x) - 0xA0;
+    s16 var_r4 = (((s32)strc100->qUnkC4.x >> 8) - gCamera.x) - 0xA0;
     u8 var_r5;
-    for(var_r5 = 0; var_r5 < 21; var_r5++, var_r4 += 0x10)
-    {
+    for (var_r5 = 0; var_r5 < 21; var_r5++, var_r4 += 0x10) {
         s32 *ptr = &strc100->qUnkC4.y;
         s32 *ptr2;
+        s32 *ptr3;
         s32 y;
         s->x = var_r4;
-        ptr2 = &strc100->unk4[var_r5];
-        y = *ptr + *ptr2;
+        y = *ptr + strc100->unk4[var_r5];
         s->y = I(y) - gCamera.y;
         DisplaySprite(s);
     }
 }
 
-void TaskDestructor_100_80779EC(Task *t) {
+void TaskDestructor_100_80779EC(Task *t)
+{
     EggGravity100 *strc100 = TASK_DATA(t);
     VramFree(strc100->sprCC.tiles);
 }
 
-void sub_8077A04(Task *t, s8 arg1) {
+void sub_8077A04(Task *t, s8 arg1)
+{
     EggGravity100 *strc100 = TASK_DATA(t);
     strc100->unkB6 = arg1;
 }
 
-void sub_8077A14(Task *t, s8 arg1) {
+void sub_8077A14(Task *t, s8 arg1)
+{
     EggGravity100 *strc100 = TASK_DATA(t);
     strc100->unkB8 = arg1;
 }
 
-void sub_8077A24(void) {
+void sub_8077A24(void) { }
 
-}
-
-void sub_8077A28(EggGravity *boss) {
+void sub_8077A28(EggGravity *boss)
+{
     boss->unk2B = 0;
     boss->unk2C = 1;
     boss->unkD4 = 1;
 }
 
+#if 0
 #if 0
 void sub_8077A3C(u8 *arg0, s32 arg1, s32 arg2, u8 *vram, s32 arg4, EggGravity8C *strc8C) {
     u8 sp4;
