@@ -1724,8 +1724,8 @@ NONMATCH("asm/non_matching/game/bosses/boss_7__sub_8076DD4.inc", void sub_8076DD
 }
 END_NONMATCH
 
-#if 0
-u8 sub_8077174(Task *task_EggGravity100) {
+u8 sub_8077174(Task *task_EggGravity100)
+{
     s32 *temp_r2_2;
     s32 *var_r1_2;
     s32 temp_r0;
@@ -1758,7 +1758,7 @@ u8 sub_8077174(Task *task_EggGravity100) {
             var_r5 += 1;
         }
         var_r3 += 1;
-    } while ((u32) var_r3 <= 0x14U);
+    } while ((u32)var_r3 <= 0x14U);
     if (var_r4 == 0x15) {
         strc100->unkB7 = 0;
         var_sb = 1;
@@ -1767,19 +1767,12 @@ u8 sub_8077174(Task *task_EggGravity100) {
         var_r3_2 = 0;
         var_r4_2 = 0;
         do {
-            var_r0 = strc100->unk4[var_r3_2];
-            if (var_r0 < 0) {
-                var_r0 = 0 - var_r0;
-            }
-            if (var_r0 > var_r1) {
-                var_r1 = strc100->unk4[var_r3_2];
-                if (var_r1 < 0) {
-                    var_r1 = 0 - var_r1;
-                }
+            if (ABS(strc100->unk4[var_r3_2]) > var_r1) {
+                var_r1 = ABS(strc100->unk4[var_r3_2]);
                 var_r4_2 = var_r3_2;
             }
             var_r3_2 += 1;
-        } while ((u32) var_r3_2 <= 0x14U);
+        } while ((u32)var_r3_2 <= 0x14U);
         temp_r1_2 = var_r4_2 * 4;
         if (strc100->unk4[var_r4_2] < 0) {
             strc100->unk58[var_r4_2] = +0x20;
@@ -1790,7 +1783,8 @@ u8 sub_8077174(Task *task_EggGravity100) {
     return var_sb;
 }
 
-void sub_8077238(Task *task_EggGravity100, u8 arg1, s32 arg2, s32 arg3) {
+void sub_8077238(Task *task_EggGravity100, u8 arg1, s32 arg2, s32 arg3)
+{
     s32 temp_r0;
     s32 temp_r2;
     s32 var_r0;
@@ -1798,7 +1792,7 @@ void sub_8077238(Task *task_EggGravity100, u8 arg1, s32 arg2, s32 arg3) {
     s8 temp_r1_2;
     s8 var_r1;
     u8 temp_r0_3;
-    u8 var_r4;
+    s8 var_r4;
     EggGravity100 *strc100 = TASK_DATA(task_EggGravity100);
 
     temp_r2 = arg2 >> 8;
@@ -1806,33 +1800,33 @@ void sub_8077238(Task *task_EggGravity100, u8 arg1, s32 arg2, s32 arg3) {
     if (var_r0 < 0) {
         var_r0 = temp_r2 + 0xFFFFFCAF;
     }
-    temp_r0 = var_r0 >> 4;
-    var_r4 = (u8) temp_r0;
-    temp_r0_2 = (s8) temp_r0;
-    if ((s32) temp_r0_2 < 0) {
+    var_r0 >>= 4;
+    var_r4 = var_r0;
+    temp_r0_2 = var_r0;
+    if (temp_r0_2 < 0) {
         var_r4 = 0;
-    } else if ((s32) temp_r0_2 > 0x14) {
+    } else if (temp_r0_2 > 0x14) {
         var_r4 = 0x14;
     }
-    var_r1 = 0;
-    do {
-        temp_r1_2 = var_r1;
-        if (temp_r1_2 != (s8) var_r4) {
+
+    for (var_r1 = 0; var_r1 < 21; var_r1++) {
+        if (var_r1 != var_r4) {
             strc100->unk58[var_r1] = 0;
         }
-        temp_r0_3 = temp_r1_2 + 1;
-        var_r1 = (s8) temp_r0_3;
-    } while ((s32) (s8) temp_r0_3 <= 0x14);
+    }
+
     if (arg1 != 0) {
-        strc100->unk58[var_r4 * 4] = +arg3 + 1;
+        strc100->unk58[var_r4] = +arg3 + 1;
         strc100->unkC0 = -0x80;
     } else {
-        strc100->unk58[var_r4 * 4] = -arg3 + 1;
+        strc100->unk58[var_r4] = -arg3 + 1;
         strc100->unkC0 = +0x80;
     }
+
     strc100->unkB7 = var_r4;
 }
 
+#if 0
 extern const u32 gUnknown_080D5998[];
 
 void sub_80772F0(EggGravity100 *strc100, u8 pid) {
