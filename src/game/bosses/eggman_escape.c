@@ -731,6 +731,11 @@ void EnablePlayerMovement(void)
     }
 }
 
+typedef struct {
+    u8 filler0[0x30];
+    Something sth30;
+} SomethingElse;
+
 void *sub_807A3D8(Something **arr, u8 arrCount, AnimId anim, u8 pattern, u8 *arg4)
 {
     u8 i;

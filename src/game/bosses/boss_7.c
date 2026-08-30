@@ -136,8 +136,8 @@ typedef struct {
 typedef struct {
     /* 0x08 */ s32 unk0;
     /* 0x08 */ u8 unk4[2];
-    /* 0x08 */ s32 unk8;
-    /* 0x0C */ s32 unkC;
+    /* 0x08 */ s16 *unk8;
+    /* 0x0C */ s16 *unkC;
     /* 0x10 */ s32 unk10[2];
     /* 0x18 */ s32 unk18[2];
     Something *unk20;
@@ -2255,7 +2255,7 @@ void sub_8077A28(EggGravity *boss)
     boss->unkD4 = 1;
 }
 
-void sub_8077A3C(Something *arg0, s32 arg1, s32 arg2, u8 *vram, s32 arg4)
+void sub_8077A3C(Something *arg0, s16 *arg1, s16 *arg2, u8 *vram, s32 arg4)
 {
     Sprite *sp10;
     u8 *sp14;
@@ -2279,9 +2279,8 @@ void sub_8077A3C(Something *arg0, s32 arg1, s32 arg2, u8 *vram, s32 arg4)
     strc84->unk20 = arg0;
     if (arg0 != NULL) {
         Something *sth = sub_807A3D8(&arg0, 1, 0x4C0, 0, &sp4);
-        s32 unk14 = sth->unk14;
-        strc84->unk8 = unk14 + 0x10;
-        strc84->unkC = unk14 + 0x12;
+        strc84->unk8 = &sth->spr14->x;
+        strc84->unkC = &sth->spr14->y;
     } else {
         strc84->unk8 = arg1;
         strc84->unkC = arg2;
@@ -2329,100 +2328,6 @@ void sub_8077A3C(Something *arg0, s32 arg1, s32 arg2, u8 *vram, s32 arg4)
 
 #if 0
 #if 0
-void sub_8077A3C(u8 *arg0, s32 arg1, s32 arg2, u8 *vram, s32 arg4, EggGravity8C *strc8C) {
-    u8 sp4;
-    u8 *sp8;
-    u8 *spC;
-    Sprite2 *sp10;
-    u8 *sp14;
-    u8 *sp18;
-    Sprite2 *var_r1;
-    TileInfo2 *temp_r7;
-    s32 *temp_r1;
-    s32 *temp_r1_2;
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_4;
-    s32 temp_r0_5;
-    s32 temp_r0_6;
-    s32 temp_r2;
-    s8 temp_r5;
-    s8 var_r3;
-    u8 *temp_r4;
-    u8 temp_r0_3;
-    u8 temp_r0_7;
-
-    sp8 = arg0;
-    spC = vram;
-    sp4 = 1;
-    TaskCreate(Task_84_8077C08, 0x84U, 0x2100U, 0U, TaskDestructor_8078A64);
-    strc8C->unk20 = arg0;
-    if (arg0 != NULL) {
-        temp_r0 = sub_807A3D8(&sp8, 1, 0x4C0, 0, &sp4)->unk14;
-        strc8C->unk8 = (s32) (temp_r0 + 0x10);
-        strc8C->unkC = (s32) (temp_r0 + 0x12);
-    } else {
-        strc8C->unk8 = arg1;
-        strc8C->unkC = arg2;
-    }
-    temp_r0_2 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
-    gPseudoRandom = temp_r0_2;
-    var_r3 = 1;
-    if ((u32) (((u32) temp_r0_2 >> 8) & 0x7F) <= 0x3BU) {
-        var_r3 = -1;
-    }
-    sp4 = 0;
-    sp10 = &strc8C->spr54;
-    sp14 = &strc8C->filler0[4];
-    sp18 = &strc8C->filler0[0x10];
-    temp_r5 = var_r3;
-    temp_r4 = &strc8C->filler0[0x18];
-    do {
-        temp_r2 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
-        gPseudoRandom = temp_r2;
-        *(sp18 + (sp4 * 4)) = temp_r5 * (((u32) temp_r2 >> 8) & 0x1F);
-        temp_r0_4 = (temp_r2 * 0x196225) + 0x3C6EF35F;
-        gPseudoRandom = temp_r0_4;
-        *(temp_r4 + (sp4 * 4)) = temp_r5 * (((u32) temp_r0_4 >> 8) & 0x1F);
-        temp_r1 = sp18 + (sp4 * 4);
-        *temp_r1 <<= 8;
-        temp_r1_2 = temp_r4 + (sp4 * 4);
-        *temp_r1_2 <<= 8;
-        temp_r0_3 = sp4 + 1;
-        sp4 = temp_r0_3;
-    } while ((u32) temp_r0_3 <= 1U);
-    strc8C->unk0 = arg4;
-    temp_r0_5 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
-    gPseudoRandom = temp_r0_5;
-    temp_r0_6 = ((u32) temp_r0_5 >> 8) & 3;
-    sp4 = 0;
-    temp_r7 = &gUnknown_080D59FC[temp_r0_6];
-    do {
-        var_r1 = sp10;
-        if (sp4 != 0) {
-            var_r1 = &strc8C->spr24;
-        }
-        var_r1->tiles = spC;
-        spC += *((temp_r0_6 * 8) + &gUnknown_080D59FC->numTiles) << 5;
-        var_r1->anim = temp_r7->anim;
-        var_r1->variant = temp_r7->variant;
-        var_r1->prevVariant = 0xFF;
-        var_r1->x = 0;
-        var_r1->y = 0;
-        var_r1->oamFlags = 0x480;
-        var_r1->animCursor = 0;
-        var_r1->qAnimDelay = 0;
-        var_r1->animSpeed = 0x10;
-        var_r1->palId = 0;
-        var_r1->frameFlags = 0x1000;
-        var_r1->hitboxes[0].index = -1;
-        UpdateSpriteAnimation((Sprite *) var_r1);
-        sp14[sp4] = 1;
-        temp_r0_7 = sp4 + 1;
-        sp4 = temp_r0_7;
-    } while ((u32) temp_r0_7 <= 1U);
-}
-
 void Task_84_8077C08(EggGravity8C *strc8C) {
     u8 sp4;
     s32 sp8;
