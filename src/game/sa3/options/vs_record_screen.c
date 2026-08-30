@@ -290,7 +290,7 @@ void sub_8096C60(OptionsVsRecordScreen *vsRecScreen)
     UpdateSpriteAnimation(s);
 
     s = &vsRecScreen->sprEC0;
-    s->tiles = (u8 *)0x06004000;
+    s->tiles = (u8 *)(BG_VRAM + 0x4000);
     s->anim = gUnknown_080D8C24[lang].anim;
     s->variant = gUnknown_080D8C24[lang].variant;
     s->prevVariant = -1;
