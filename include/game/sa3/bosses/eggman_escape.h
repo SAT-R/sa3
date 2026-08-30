@@ -8,7 +8,7 @@ typedef struct {
     u8 unk2;
     u8 unk3;
     u8 filler4[0x10];
-    Sprite2 *spr14;
+    s32 unk14;
     u8 filler18[0x18];
 } Something;
 

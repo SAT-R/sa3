@@ -134,6 +134,18 @@ typedef struct {
 } EggGravity68;
 
 typedef struct {
+    /* 0x08 */ s32 unk0;
+    /* 0x08 */ u8 unk4[2];
+    /* 0x08 */ s32 unk8;
+    /* 0x0C */ s32 unkC;
+    /* 0x10 */ s32 unk10[2];
+    /* 0x18 */ s32 unk18[2];
+    Something *unk20;
+    Sprite2 spr24;
+    Sprite2 spr54;
+} EggGravity84;
+
+typedef struct {
     /* 0x08 */ u8 *unk0;
     /* 0x08 */ u8 unk4;
     /* 0x08 */ u16 unk6;
@@ -285,7 +297,10 @@ extern const AnimPattern gUnknown_080D592C[5];
 extern const s32 gUnknown_080D5954[];
 extern const u32 gUnknown_080D5998[];
 extern const TileInfo2 gUnknown_080D5A44[4];
+extern const TileInfo2 gUnknown_080D59FC[4];
 extern const u8 gUnknown_080D5A64[ARRAY_COUNT(((EggGravity68 *)NULL)->unk8)];
+void Task_84_8077C08(void);
+void TaskDestructor_8078A64(Task *t);
 
 Task *CreateEggGravity(u8 *bossPhase, s32 worldX, s32 worldY)
 {
@@ -2238,6 +2253,78 @@ void sub_8077A28(EggGravity *boss)
     boss->unk2B = 0;
     boss->unk2C = 1;
     boss->unkD4 = 1;
+}
+
+void sub_8077A3C(Something *arg0, s32 arg1, s32 arg2, u8 *vram, s32 arg4)
+{
+    Sprite *sp10;
+    u8 *sp14;
+    u8 *sp18;
+    Sprite *s;
+    TileInfo2 *temp_r7;
+    s32 *temp_r1;
+    s32 *temp_r1_2;
+    s32 temp_r0_2;
+    s32 temp_r0_4;
+    s32 temp_r0_6;
+    u32 temp_r2;
+    s8 temp_r5;
+    s8 dir = 1;
+    u8 *temp_r4;
+    u8 temp_r0_3;
+    u8 temp_r0_7;
+    u32 rand;
+    u8 sp4 = 1;
+    EggGravity84 *strc84 = TASK_DATA(TaskCreate(Task_84_8077C08, sizeof(EggGravity84), 0x2100U, 0U, TaskDestructor_8078A64));
+    strc84->unk20 = arg0;
+    if (arg0 != NULL) {
+        Something *sth = sub_807A3D8(&arg0, 1, 0x4C0, 0, &sp4);
+        s32 unk14 = sth->unk14;
+        strc84->unk8 = unk14 + 0x10;
+        strc84->unkC = unk14 + 0x12;
+    } else {
+        strc84->unk8 = arg1;
+        strc84->unkC = arg2;
+    }
+
+    if ((((u32)PseudoRandom32() >> 8) & 0x7F) < 60) {
+        dir = -1;
+    } else {
+        dir = +1;
+    }
+
+    for (sp4 = 0; sp4 < 2; sp4++) {
+        strc84->unk10[sp4] = (((u32)PseudoRandom32() >> 8) & 0x1F) * dir;
+        strc84->unk18[sp4] = (((u32)PseudoRandom32() >> 8) & 0x1F) * dir;
+        strc84->unk10[sp4] <<= 8;
+        strc84->unk18[sp4] <<= 8;
+    }
+
+    strc84->unk0 = arg4;
+    temp_r0_6 = ((u32)PseudoRandom32() >> 8) % ARRAY_COUNT(gUnknown_080D59FC);
+    for (sp4 = 0; sp4 < 2; sp4++) {
+        if (sp4 != 0) {
+            s = (Sprite *)&strc84->spr24;
+        } else {
+            s = (Sprite *)&strc84->spr54;
+        }
+        s->tiles = vram;
+        vram += gUnknown_080D59FC[temp_r0_6].numTiles << 5;
+        s->anim = gUnknown_080D59FC[temp_r0_6].anim;
+        s->variant = gUnknown_080D59FC[temp_r0_6].variant;
+        s->prevVariant = 0xFF;
+        s->x = 0;
+        s->y = 0;
+        s->oamFlags = 0x480;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0x1000;
+        s->hitboxes[0].index = -1;
+        UpdateSpriteAnimation(s);
+        strc84->unk4[sp4] = 1;
+    }
 }
 
 #if 0
