@@ -158,7 +158,7 @@ bool32 sub_806CF70(EggWheeler *boss);
 
 extern const u8 gUnknown_080D57C0[];
 extern const u8 gUnknown_080D57C5[];
-extern s8 sub_80781C0(Vec2_32 *, s8 *);
+extern void sub_80781C0(Vec2_32 *, s8 *);
 extern void sub_8078920(Sprite *s, Vec2_32 *vec, s8 *param2);
 extern void sub_80789EC(Sprite *, Vec2_32 *vec, s8 *);
 extern void sub_8078E34(s32 *, VoidFn);
