@@ -7,127 +7,6 @@
 
 .if 0
 .else
-	thumb_func_start sub_8077F80
-sub_8077F80: @ 0x08077F80
-	push {r4, r5, r6, r7, lr}
-	sub sp, #0x10
-	movs r1, #1
-	add r0, sp, #4
-	strb r1, [r0]
-	movs r7, #0
-	ldr r0, _08077FC8 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	ldr r0, [r4, #0x40]
-	cmp r0, #0
-	beq _08077FD0
-	ldr r2, _08077FCC @ =0x03000040
-	adds r0, r1, r2
-	movs r2, #0x98
-	lsls r2, r2, #3
-	add r1, sp, #4
-	str r1, [sp]
-	movs r1, #1
-	movs r3, #0
-	bl sub_807A3D8
-	ldr r1, [r0, #0x14]
-	movs r2, #0x10
-	ldrsh r1, [r1, r2]
-	str r1, [sp, #8]
-	ldr r0, [r0, #0x14]
-	movs r1, #0x12
-	ldrsh r0, [r0, r1]
-	adds r0, #0x20
-	add r1, sp, #8
-	b _08077FE8
-	.align 2, 0
-_08077FC8: .4byte gCurTask
-_08077FCC: .4byte 0x03000040
-_08077FD0:
-	ldr r0, [r4, #0xc]
-	ldr r0, [r0]
-	str r0, [sp, #8]
-	ldr r0, [r4, #0x10]
-	ldr r0, [r0]
-	add r1, sp, #8
-	str r0, [r1, #4]
-	ldr r0, [sp, #8]
-	asrs r0, r0, #8
-	str r0, [sp, #8]
-	ldr r0, [r1, #4]
-	asrs r0, r0, #8
-_08077FE8:
-	str r0, [r1, #4]
-	adds r5, r1, #0
-	adds r0, r4, #0
-	adds r1, r5, #0
-	bl sub_8078A78
-	adds r0, r4, #0
-	adds r1, r5, #0
-	bl sub_8078070
-	ldrb r0, [r4, #8]
-	cmp r0, #0
-	beq _08078050
-	add r1, sp, #4
-	movs r0, #0
-	strb r0, [r1]
-	adds r6, r5, #0
-	adds r3, r1, #0
-	adds r5, r4, #0
-	adds r5, #0x2c
-_08078010:
-	ldrb r2, [r3]
-	lsls r0, r2, #2
-	adds r0, r5, r0
-	ldr r1, [r0]
-	asrs r1, r1, #8
-	ldr r0, [r6, #4]
-	adds r0, r0, r1
-	cmp r0, #0xb3
-	ble _08078028
-	adds r0, r7, #1
-	lsls r0, r0, #0x18
-	lsrs r7, r0, #0x18
-_08078028:
-	adds r0, r2, #1
-	strb r0, [r3]
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #1
-	bls _08078010
-	ldr r1, [r4]
-	cmp r1, #0
-	bne _08078062
-	cmp r7, #2
-	bne _08078062
-	ldr r0, [r4, #4]
-	strb r1, [r0]
-	ldr r0, _0807804C @ =gCurTask
-	ldr r0, [r0]
-	bl TaskDestroy
-	b _08078062
-	.align 2, 0
-_0807804C: .4byte gCurTask
-_08078050:
-	ldr r1, [r4]
-	cmp r1, #0
-	bne _08078062
-	ldr r0, [r4, #4]
-	strb r1, [r0]
-	ldr r0, _0807806C @ =gCurTask
-	ldr r0, [r0]
-	bl TaskDestroy
-_08078062:
-	add sp, #0x10
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0807806C: .4byte gCurTask
-
 	thumb_func_start sub_8078070
 sub_8078070: @ 0x08078070
 	push {r4, r5, r6, r7, lr}
@@ -1218,7 +1097,7 @@ sub_80788A4: @ 0x080788A4
 	movs r1, #1
 	add r0, sp, #4
 	strb r1, [r0]
-	ldr r0, _080788FC @ =sub_8077F80
+	ldr r0, _080788FC @ =Task_104_8077F80
 	movs r1, #0x82
 	lsls r1, r1, #1
 	movs r2, #0x84
@@ -1252,7 +1131,7 @@ sub_80788A4: @ 0x080788A4
 	str r0, [r5, #0x10]
 	b _08078908
 	.align 2, 0
-_080788FC: .4byte sub_8077F80
+_080788FC: .4byte Task_104_8077F80
 _08078900: .4byte sub_8078A68
 _08078904:
 	str r6, [r5, #0xc]

@@ -85,8 +85,8 @@ typedef struct {
     /* 0x08 */ u8 *unk4;
     /* 0x08 */ u8 unk8;
     /* 0x08 */ u8 unk9;
-    /* 0x0C */ s32 unkC;
-    /* 0x0C */ s32 unk10;
+    /* 0x0C */ s32 *unkC;
+    /* 0x0C */ s32 *unk10;
     /* 0x14 */ s32 qUnk14[2];
     /* 0x14 */ s32 qUnk1C[2];
     /* 0x24 */ s32 qUnk24[2][2];
@@ -259,6 +259,7 @@ void Task_104_8077F80(void);
 void TaskDestructor_104_8078A68(Task *t);
 void sub_8077D40(EggGravity104 *strc104);
 void Task_4C_8078764(void);
+void sub_8078380(EggGravityBC *strcBC);
 void TaskDestructor_4C_B_8078D18(Task *t);
 extern Something *sub_807A3D8(Something **spriteArray, u8 spriteCount, AnimId anim, u8 pattern, u8 *arg4);
 
@@ -277,6 +278,7 @@ void Task_D8_8075EE8(EggGravity *boss);
 void Task_D8_8076050(EggGravity *boss);
 void Task_D8_8076218(EggGravity *boss);
 void Task_D8_80762B4(EggGravity *boss);
+void Task_104_8077F80(EggGravity104 *strc104);
 void sub_8076550(EggGravity *boss, EggGravity4C_A *strc4C);
 Task *sub_8076A54(EggGravity *boss, EggGravity100 *strc100);
 void Task_4C_A_8076618(EggGravity4C_A *strc4C);
@@ -287,6 +289,8 @@ extern void EnablePlayerMovement(void);
 extern void sub_8078E34(s32 *, VoidFn);
 extern bool32 IsCollidingWithCheese(Sprite *);
 extern s8 sub_80781C0(Vec2_32 *, s8 *);
+s32 sub_8078A78(EggGravity104 *strc104, Vec2_32 *pos);
+void sub_8078070(EggGravity104 *strc104, Vec2_32 *pos);
 
 extern const u16 gUnknown_080D59EC[4][2];
 extern const AnimPattern gUnknown_080D5904[4];
@@ -2485,138 +2489,138 @@ void sub_8077D40(EggGravity104 *strc104)
     }
 }
 
-#if 0
-void Task_104_8077F80(EggGravity104 *arg0) {
-    u8 sp4;
-    s32 sp8;
+void Task_104_8077F80(void)
+{
+    u8 sp4 = 1;
+    u8 var_r7 = 0;
+    EggGravity104 *strc104 = TASK_DATA(gCurTask);
+    Vec2_32 sp8;
+    Something *temp_r0;
     s32 temp_r0_2;
-    s32 temp_r1;
-    s32 temp_r1_2;
     s32 var_r0;
+    u8 *temp_r1;
+    u8 *temp_r1_2;
     u8 temp_r0_3;
     u8 temp_r2;
-    u8 var_r7;
-    void *temp_r0;
 
-    sp4 = 1;
-    var_r7 = 0;
-    if (arg0->unk40 != 0) {
-        temp_r0 = sub_807A3D8((u8 **) &arg0->filler34[0xC], 1, 0x4C0, 0, &sp4);
-        sp8 = (s32) temp_r0->unk14->unk10;
-        var_r0 = temp_r0->unk14->unk12 + 0x20;
+    if (strc104->unk40 != NULL) {
+        temp_r0 = sub_807A3D8(&strc104->unk40, 1U, 0x4C0U, 0U, &sp4);
+        sp8.x = temp_r0->spr14->x;
+        sp8.y = temp_r0->spr14->y + 0x20;
     } else {
-        temp_r0_2 = *arg0->unkC;
-        sp8 = temp_r0_2;
-        sp8.unk4 = (s32) *arg0->unk10;
-        sp8 = temp_r0_2 >> 8;
-        var_r0 = (s32) sp8.unk4 >> 8;
+        temp_r0_2 = *strc104->unkC;
+        sp8.x = temp_r0_2;
+        sp8.y = (s32)*strc104->unk10;
+        sp8.x >>= 8;
+        sp8.y >>= 8;
     }
-    ((Vec2_32 *) &sp8)->y = var_r0;
-    sub_8078A78(arg0, (Vec2_32 *) &sp8);
-    sub_8078070(arg0, (Vec2_32 *) &sp8);
-    if (arg0->filler0[8] != 0) {
-        sp4 = 0;
-        do {
-            temp_r2 = sp4;
-            if ((s32) (((Vec2_32 *) &sp8)->y + ((s32) arg0->qUnk2CY[temp_r2] >> 8)) > 0xB3) {
+
+    sub_8078A78(strc104, &sp8);
+    sub_8078070(strc104, &sp8);
+
+    if (strc104->unk8 != 0) {
+        for (sp4 = 0; sp4 < 2; sp4++) {
+            if ((sp8.y + I(strc104->qUnk24[1][sp4])) > 0xB3) {
                 var_r7 += 1;
             }
-            temp_r0_3 = temp_r2 + 1;
-            sp4 = temp_r0_3;
-        } while ((u32) temp_r0_3 <= 1U);
-        temp_r1 = arg0->unk0;
-        if ((temp_r1 == 0) && (var_r7 == 2)) {
-            *arg0->unk4 = (s8) temp_r1;
+        }
+
+        if ((strc104->unk0 == NULL) && (var_r7 == 2)) {
+            *strc104->unk4 = 0;
             TaskDestroy(gCurTask);
         }
     } else {
-        temp_r1_2 = arg0->unk0;
-        if (temp_r1_2 == 0) {
-            *arg0->unk4 = (s8) temp_r1_2;
+        if (strc104->unk0 == NULL) {
+            *strc104->unk4 = 0;
             TaskDestroy(gCurTask);
         }
     }
 }
 
-void sub_8078070(EggGravity104 *strc104, Vec2_32 *pos) {
-    Sprite2 *var_r4;
-    Sprite2 *var_r4_2;
+#if 0
+void sub_8078070(EggGravity104 *arg0, s32 *arg1) {
+    Sprite *var_r4;
+    Sprite *var_r4_2;
+    s32 temp_r2;
+    s32 temp_r2_2;
     u8 var_r7;
 
     var_r7 = 0;
     do {
-        if (strc104->unk40 == 0) {
-            var_r4 = &strc104->sprD4;
+        if (arg0->unk40 == NULL) {
+            var_r4 = arg0 + 0xD4;
             if (var_r7 != 0) {
                 var_r4 -= 0x30;
             }
         } else {
-            var_r4 = &strc104->sprA4;
+            var_r4 = arg0 + 0xA4;
         }
         gPseudoRandom = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
-        if (strc104->unk0 == ACMD_RESULT__RUNNING) {
-            var_r4->x = pos->x + ((s32) strc104->qUnk14X[var_r7] >> 8);
-            var_r4->y = pos->y + ((s32) strc104->qUnk1CY[var_r7] >> 8);
-            strc104->unk0 = UpdateSpriteAnimation((Sprite *) var_r4);
-            DisplaySprite((Sprite *) var_r4);
+        if (arg0->unk0 == ACMD_RESULT__RUNNING) {
+            temp_r2 = var_r7 * 4;
+            var_r4->x = arg1->unk0 + ((s32) *(arg0 + 0x14 + temp_r2) >> 8);
+            var_r4->y = arg1->unk4 + ((s32) *(arg0 + 0x1C + temp_r2) >> 8);
+            arg0->unk0 = UpdateSpriteAnimation(var_r4);
+            DisplaySprite(var_r4);
         }
-        if (strc104->filler0[8] != 0) {
-            if (strc104->unk40 == 0) {
-                var_r4_2 = &strc104->spr74;
+        if (arg0->unk8 != 0) {
+            if (arg0->unk40 == NULL) {
+                var_r4_2 = arg0 + 0x74;
                 if (var_r7 != 0) {
                     var_r4_2 -= 0x30;
                 }
             } else {
-                var_r4_2 = &strc104->spr44;
+                var_r4_2 = arg0 + 0x44;
             }
-            var_r4_2->x = pos->x + ((s32) strc104->qUnk24X[var_r7] >> 8);
-            var_r4_2->y = pos->y + ((s32) strc104->qUnk2CY[var_r7] >> 8);
-            UpdateSpriteAnimation((Sprite *) var_r4_2);
-            DisplaySprite((Sprite *) var_r4_2);
+            temp_r2_2 = var_r7 * 4;
+            var_r4_2->x = arg1->unk0 + ((s32) *(arg0 + 0x24 + temp_r2_2) >> 8);
+            var_r4_2->y = arg1->unk4 + ((s32) *(arg0 + 0x2C + temp_r2_2) >> 8);
+            UpdateSpriteAnimation(var_r4_2);
+            DisplaySprite(var_r4_2);
         }
         var_r7 += 1;
     } while ((u32) var_r7 <= 1U);
 }
 
-void sub_807813C(EggGravity104 *arg0) {
+void sub_807813C(EggGravity30 *strc30) {
     s32 temp_r0;
     s32 temp_r0_2;
     s32 temp_r0_3;
     s32 temp_r3;
     s32 temp_r5;
-    u8 var_r0;
-    u8 var_r0_2;
+    s8 var_r0;
+    s8 var_r0_2;
 
-    temp_r3 = arg0->unkC;
-    temp_r0 = arg0->qUnk1CY[1] + temp_r3;
-    arg0->qUnk1CY[1] = temp_r0;
+    temp_r3 = strc30->unkC;
+    temp_r0 = strc30->unk20 + temp_r3;
+    strc30->unk20 = temp_r0;
     temp_r5 = (temp_r0 >> 8) + gCamera.x;
     if (temp_r5 > (s32) gCamera.maxX) {
-        var_r0 = 0xFF;
+        var_r0 = -1;
         goto block_4;
     }
     if (temp_r5 < (s32) gCamera.minX) {
         var_r0 = 1;
 block_4:
-        arg0->filler0[5] = var_r0;
-        arg0->unkC = (s32) (0 - temp_r3);
+        strc30->unk5 = var_r0;
+        strc30->unkC = 0 - temp_r3;
     }
-    temp_r0_2 = arg0->qUnk24X[0] + arg0->unk10;
-    arg0->qUnk24X[0] = temp_r0_2;
+    temp_r0_2 = strc30->unk24 + strc30->unk10;
+    strc30->unk24 = temp_r0_2;
     temp_r0_3 = (temp_r0_2 >> 8) + gCamera.y;
-    if ((s32) (sa2__sub_801F07C(temp_r0_3, ((s32) arg0->qUnk1CY[1] >> 8) + gCamera.x, 1, 8, NULL, sa2__sub_801EE64) << 0x18) < 0) {
-        var_r0_2 = 0xFF;
+    if ((s32) (sa2__sub_801F07C(temp_r0_3, ((s32) strc30->unk20 >> 8) + gCamera.x, 1, 8, NULL, sa2__sub_801EE64) << 0x18) < 0) {
+        var_r0_2 = -1;
         goto block_9;
     }
     if (temp_r0_3 < (s32) gCamera.minY) {
         var_r0_2 = 1;
 block_9:
-        arg0->filler0[6] = var_r0_2;
-        arg0->unk10 = (s32) (0 - arg0->unk10);
+        strc30->unk6 = var_r0_2;
+        strc30->unk10 = 0 - strc30->unk10;
     }
 }
 
-void sub_80781C0(void *arg0, s8 arg1) {
+s8 sub_80781C0(Vec2_32 *arg0, s8 *arg1) {
     s32 sp4;
     s32 sp8;
     s32 spC;
@@ -2638,7 +2642,7 @@ void sub_80781C0(void *arg0, s8 arg1) {
     u8 var_r7_3;
     u8 var_r7_4;
 
-    temp_r0 = TaskCreate(Task_BC_8078C3C, sizeof(EggGravityBC), 0x2100U, 0U, TaskDestructor_8078C28)->data;
+    temp_r0 = TaskCreate(Task_BC_8078C3C, 0xBCU, 0x2100U, 0U, TaskDestructor_8078C28)->data;
     temp_r0->unk0 = arg1;
     temp_r0_2 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
     gPseudoRandom = temp_r0_2;
@@ -2650,9 +2654,9 @@ void sub_80781C0(void *arg0, s8 arg1) {
     temp_r0->unk20 = 0;
     temp_r0->unk4 = 1;
     temp_r0->unk10 = arg0;
-    temp_r0->unk14 = (s32) (arg0 + 4);
-    temp_r0->unk18 = (s32) arg0->unk0;
-    temp_r0->unk1C = (s32) arg0->unk4;
+    temp_r0->unk14 = &arg0->y;
+    temp_r0->unk18 = (s32) arg0->x;
+    temp_r0->unk1C = (s32) arg0->y;
     temp_r0->unkA = (s16) gCamera.x;
     temp_r0->unkC = (s16) gCamera.y;
     var_r7 = 0;
@@ -2699,48 +2703,44 @@ void sub_80781C0(void *arg0, s8 arg1) {
         var_r7_4 += 1;
     } while ((u32) var_r7_4 <= 2U);
     m4aSongNumStart(0x90U);
-    sub_8078380(temp_r0);
+    return sub_8078380(temp_r0);
 }
 
-void sub_8078380(void *arg0) {
-    Sprite *temp_r0_2;
-    Sprite *temp_r0_3;
+void sub_8078380(EggGravityBC *strcBC) {
+    s32 temp_r0;
     u16 temp_r4;
-    void *temp_r0;
 
-    temp_r4 = *((arg0->unk5 * 8) + (&gUnknown_080D5A44 + 4));
-    temp_r0 = VramMalloc(temp_r4 + *((arg0->unk6 * 8) + (&gUnknown_080D5A14 + 4)));
-    temp_r0_2 = arg0 + 0x6C;
-    arg0->unk6C = temp_r0;
-    temp_r0_2->anim = *((arg0->unk5 * 8) + &gUnknown_080D5A44);
-    temp_r0_2->variant = ((arg0->unk5 * 8) + &gUnknown_080D5A44)->unk2;
-    temp_r0_2->prevVariant = 0xFF;
-    temp_r0_2->x = (s16) ((s32) arg0->unk24 >> 8);
-    temp_r0_2->y = (s16) ((s32) arg0->unk28 >> 8);
-    temp_r0_2->oamFlags = 0x40;
-    temp_r0_2->animCursor = 0;
-    temp_r0_2->qAnimDelay = 0;
-    temp_r0_2->animSpeed = 0x10;
-    temp_r0_2->palId = 0;
-    temp_r0_2->frameFlags = 0;
-    temp_r0_2->hitboxes[0].index = -1;
-    UpdateSpriteAnimation(temp_r0_2);
-    if (arg0->unk6 != 7) {
-        temp_r0_3 = arg0 + 0x94;
-        arg0->unk94 = (void *) (temp_r0 + (temp_r4 << 5));
-        temp_r0_3->anim = *((arg0->unk6 * 8) + &gUnknown_080D5A14);
-        temp_r0_3->variant = ((arg0->unk6 * 8) + &gUnknown_080D5A14)->unk2;
-        temp_r0_3->prevVariant |= ~0;
-        temp_r0_3->x = (s16) ((s32) arg0->unk3C >> 8);
-        temp_r0_3->y = (s16) ((s32) arg0->unk40 >> 8);
-        temp_r0_3->oamFlags = 0;
-        temp_r0_3->animCursor = 0;
-        temp_r0_3->qAnimDelay = 0;
-        temp_r0_3->animSpeed = 0x10;
-        temp_r0_3->palId = 0;
-        temp_r0_3->frameFlags = 0;
-        temp_r0_3->hitboxes[0].index = -1;
-        UpdateSpriteAnimation(temp_r0_3);
+    temp_r4 = *((strcBC->unk5 * 8) + &gUnknown_080D5A44->numTiles);
+    temp_r0 = (s32) VramMalloc(temp_r4 + *((strcBC->unk6 * 8) + &gUnknown_080D5A14->numTiles));
+    strcBC->filler14[0x14] = temp_r0;
+    strcBC->unk78 = (u16) gUnknown_080D5A44[strcBC->unk5].anim;
+    strcBC->unk86 = (u8) gUnknown_080D5A44[strcBC->unk5].variant;
+    strcBC->unk87 = 0xFF;
+    strcBC->unk7C = (s16) ((s32) strcBC->filler14[2] >> 8);
+    strcBC->unk7E = (s16) ((s32) strcBC->filler14[3] >> 8);
+    strcBC->unk80 = 0x40;
+    strcBC->unk7A = 0;
+    strcBC->unk82 = 0;
+    strcBC->unk88 = 0x10;
+    strcBC->unk8B = 0;
+    strcBC->filler14[0x16] = 0;
+    strcBC->filler14[0x1C] = -1;
+    UpdateSpriteAnimation((Sprite *) &strcBC->filler14[0x14]);
+    if (strcBC->unk6 != 7) {
+        strcBC->filler14[0x1E] = temp_r0 + (temp_r4 << 5);
+        strcBC->unkA0 = (u16) gUnknown_080D5A14[strcBC->unk6].anim;
+        strcBC->unkAE = (u8) gUnknown_080D5A14[strcBC->unk6].variant;
+        strcBC->unkAF = (u8) (strcBC->unkAF | ~0);
+        strcBC->unkA4 = (s16) ((s32) strcBC->filler14[8] >> 8);
+        strcBC->unkA6 = (s16) ((s32) strcBC->filler14[9] >> 8);
+        strcBC->unkA8 = 0;
+        strcBC->unkA2 = 0;
+        strcBC->unkAA = 0;
+        strcBC->unkB0 = 0x10;
+        strcBC->unkB3 = 0;
+        strcBC->filler14[0x20] = 0;
+        strcBC->filler14[0x26] = -1;
+        UpdateSpriteAnimation((Sprite *) &strcBC->filler14[0x1E]);
     }
 }
 
