@@ -134,7 +134,7 @@ typedef struct {
 } EggGravity68;
 
 typedef struct {
-    /* 0x08 */ s32 unk0;
+    /* 0x08 */ u8 *unk0;
     /* 0x08 */ u8 unk4[2];
     /* 0x08 */ s16 *unk8;
     /* 0x0C */ s16 *unkC;
@@ -264,7 +264,7 @@ extern Something *sub_807A3D8(Something **spriteArray, u8 spriteCount, AnimId an
 
 // TEMP
 
-#if M2C
+#if 0 // M2C
 Task *CreateEggGravity(u8 *bossPhase, s32 worldX, s32 worldY, EggGravity *boss);
 void Task_D8_8075064(EggGravity *boss);
 void Task_D8_8075204(EggGravity *boss);
@@ -2255,7 +2255,7 @@ void sub_8077A28(EggGravity *boss)
     boss->unkD4 = 1;
 }
 
-void sub_8077A3C(Something *arg0, s16 *arg1, s16 *arg2, u8 *vram, s32 arg4)
+void sub_8077A3C(Something *arg0, s16 *arg1, s16 *arg2, u8 *vram, u8 *arg4)
 {
     Sprite *sp10;
     u8 *sp14;
@@ -2326,66 +2326,59 @@ void sub_8077A3C(Something *arg0, s16 *arg1, s16 *arg2, u8 *vram, s32 arg4)
     }
 }
 
-#if 0
-#if 0
-void Task_84_8077C08(EggGravity8C *strc8C) {
-    u8 sp4;
-    s32 sp8;
-    Sprite2 *sp10;
-    Sprite2 *var_r4_2;
-    s16 var_r4;
-    s32 temp_r6;
+// (80.28%) https://decomp.me/scratch/DCy2M
+NONMATCH("asm/non_matching/game/bosses/boss_7__Task_84_8077C08.inc", void Task_84_8077C08(void))
+{
+#ifndef NON_MATCHING
+    register s32 var_r4 asm("r4");
+    register s32 var_r5 asm("r5");
+#else
+    s32 var_r4;
     s32 var_r5;
+#endif
+    s32 temp_r6;
     u8 *temp_r1;
     u8 temp_r0_2;
     u8 temp_r0_3;
-    void *temp_r0;
-
-    sp4 = 1;
-    sp8 = 0;
-    if (strc8C->unk20 != 0) {
-        temp_r0 = sub_807A3D8((u8 **) &strc8C->filler0[0x20], 1, 0x4C0, 0, &sp4)->unk14;
-        var_r4 = temp_r0->unk10;
-        var_r5 = temp_r0->unk12 + 0x20;
+    u8 sp4 = 1;
+    u8 sp8 = 0;
+    EggGravity84 *strc84 = TASK_DATA(gCurTask);
+    if (strc84->unk20 != NULL) {
+        Sprite2 *s = sub_807A3D8(&strc84->unk20, 1U, 0x4C0U, 0U, &sp4)->spr14;
+        var_r4 = s->x;
+        var_r5 = s->y + 32;
     } else {
-        var_r4 = (s16) ((s32) *strc8C->unk8 >> 8);
-        var_r5 = (s32) *strc8C->unkC >> 8;
+        var_r4 = (*(s32 *)strc84->unk8);
+        var_r5 = (*(s32 *)strc84->unkC);
+        var_r4 >>= 8;
+        var_r5 >>= 8;
     }
-    sp4 = 0;
-    sp10 = &strc8C->spr54;
-    temp_r1 = &strc8C->filler0[4];
-    subroutine_arg0.unkC = var_r4;
-loop_4:
-    var_r4_2 = sp10;
-loop_10:
-    if (temp_r1[sp4] != 0) {
-        gPseudoRandom = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
-        var_r4_2->x = (u16) subroutine_arg0.unkC + ((s32) *(&strc8C->filler0[0x10] + (sp4 * 4)) >> 8);
-        var_r4_2->y = var_r5 + ((s32) *(&strc8C->filler0[0x18] + (sp4 * 4)) >> 8);
-        temp_r6 = UpdateSpriteAnimation((Sprite *) var_r4_2);
-        DisplaySprite((Sprite *) var_r4_2);
-        if (temp_r6 == ACMD_RESULT__ENDED) {
-            sp8 = (s32) (u8) (sp8 + 1);
-        }
-        temp_r1[sp4] = (u8) temp_r6;
-        temp_r0_2 = sp4 + 1;
-        sp4 = temp_r0_2;
-        temp_r0_3 = temp_r0_2;
-        if ((u32) temp_r0_3 <= 1U) {
-            if (temp_r0_3 != 0) {
-                var_r4_2 = &strc8C->spr24;
-            } else {
-                goto loop_4;
+
+    for (sp4 = 0; sp4 < ARRAY_COUNT(strc84->unk4); sp4++) {
+        Sprite2 *s = (sp4 != 0) ? &strc84->spr24 : &strc84->spr54;
+        if (strc84->unk4[sp4] != 0) {
+            PseudoRandom32();
+            s->x = var_r4 + I(strc84->unk10[sp4]);
+            s->y = var_r5 + I(strc84->unk18[sp4]);
+            temp_r6 = UpdateSpriteAnimation((Sprite *)s);
+            DisplaySprite((Sprite *)s);
+            if (temp_r6 == ACMD_RESULT__ENDED) {
+                sp8 += 1;
             }
-            goto loop_10;
+            strc84->unk4[sp4] = (u8)temp_r6;
+        } else {
+            break;
         }
     }
     if (sp8 == 2) {
-        *strc8C->unk0 = 0;
+        *strc84->unk0 = 0;
         TaskDestroy(gCurTask);
     }
 }
+END_NONMATCH
 
+#if 0
+#if 0
 void sub_8077D40(EggGravity104 *strc104) {
     s32 *sp0;
     s32 *sp4;
