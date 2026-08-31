@@ -87,14 +87,14 @@ typedef struct {
     /* 0x08 */ u8 unk9;
     /* 0x0C */ s32 unkC;
     /* 0x0C */ s32 unk10;
-    /* 0x14 */ Vec2_32 qUnk14;
-    /* 0x28 */ u8 filler1C[0x8];
+    /* 0x14 */ s32 qUnk14[2];
+    /* 0x14 */ s32 qUnk1C[2];
     /* 0x24 */ s32 qUnk24[2][2];
     /* 0x24 */ s32 qUnk34;
     /* 0x24 */ s32 qUnk38;
-    /* 0x08 */ s32 unk3C;
+    /* 0x08 */ u8 *vram3C;
     /* 0x08 */ Something *unk40;
-    /* 0x28 */ u8 filler44[0xC0];
+    /* 0x28 */ Sprite2 sprites44[4];
 } EggGravity104; /* 0x104 */
 
 typedef struct {
@@ -298,6 +298,7 @@ extern const s32 gUnknown_080D5954[];
 extern const u32 gUnknown_080D5998[];
 extern const TileInfo2 gUnknown_080D5A44[4];
 extern const TileInfo2 gUnknown_080D59FC[4];
+extern const TileInfo2 gUnknown_080D5A14[6];
 extern const u8 gUnknown_080D5A64[ARRAY_COUNT(((EggGravity68 *)NULL)->unk8)];
 void Task_84_8077C08(void);
 void TaskDestructor_8078A64(Task *t);
@@ -2377,158 +2378,114 @@ NONMATCH("asm/non_matching/game/bosses/boss_7__Task_84_8077C08.inc", void Task_8
 }
 END_NONMATCH
 
-#if 0
-#if 0
-void sub_8077D40(EggGravity104 *strc104) {
-    s32 *sp0;
-    s32 *sp4;
-    s32 *sp8;
-    s32 spC;
-    s32 *sp10;
-    Sprite2 *var_r3;
-    Sprite2 *var_r3_2;
-    s32 *temp_r0_2;
-    s32 *temp_r1;
-    s32 *temp_r2;
-    s32 *temp_r4;
-    s32 temp_r0;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r0_5;
-    s32 temp_r0_6;
-    s32 temp_r2_3;
-    s32 temp_r2_5;
-    s32 temp_r5;
-    s32 var_r1;
-    u32 temp_r1_2;
-    u32 temp_r2_2;
+void sub_8077D40(EggGravity104 *strc104)
+{
+    Sprite2 *s;
+    s8 dirX;
     u32 var_r2;
-    u32 var_r2_2;
-    u8 var_r6;
-    u8 var_r6_2;
-    u8 var_r6_3;
-    void *temp_r2_4;
-    void *temp_r2_6;
+    u8 i;
+    u32 randX, randY;
 
-    strc104->filler0[8] = 0;
-    strc104->unk0 = 1;
-    temp_r0 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
-    gPseudoRandom = temp_r0;
-    var_r1 = 1;
-    if ((u32) (((u32) temp_r0 >> 8) & 0x7F) <= 0x3BU) {
-        var_r1 = 0xFF;
+    strc104->unk8 = 0;
+    strc104->unk0 = (u8 *)1;
+
+    if ((((u32)PseudoRandom32() >> 8) % 128u) < 60) {
+        dirX = -1;
+    } else {
+        dirX = +1;
     }
-    var_r6 = 0;
-    temp_r0_2 = strc104->qUnk14X;
-    sp0 = temp_r0_2;
-    spC = var_r1 << 0x18;
-    temp_r1 = strc104->qUnk1CY;
-    sp4 = temp_r1;
-    sp8 = temp_r0_2 + 0x10;
-    sp10 = temp_r1 + 0x10;
-    temp_r5 = spC >> 0x18;
-    do {
-        temp_r4 = &sp0[var_r6];
-        temp_r1_2 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
-        *temp_r4 = temp_r5 * ((temp_r1_2 >> 8) & 0x1F);
-        temp_r2 = &sp4[var_r6];
-        temp_r0_3 = (temp_r1_2 * 0x196225) + 0x3C6EF35F;
-        gPseudoRandom = temp_r0_3;
-        *temp_r2 = temp_r5 * (((u32) temp_r0_3 >> 8) & 0x1F);
-        *temp_r4 <<= 8;
-        *temp_r2 <<= 8;
-        sp8[var_r6] = *temp_r4;
-        sp10[var_r6] = *temp_r2;
-        var_r6 += 1;
-    } while ((u32) var_r6 <= 1U);
-    temp_r2_2 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
-    temp_r0_4 = (0x196225 * temp_r2_2) + 0x3C6EF35F;
-    gPseudoRandom = temp_r0_4;
-    strc104->unk34 = (s32) (((spC >> 0x18) * ((temp_r2_2 >> 8) & 0xF)) << 5);
-    strc104->unk38 = (s32) ((0 - (((u32) temp_r0_4 >> 8) & 0x3F)) << 5);
-    var_r6_2 = 0;
-loop_5:
-    temp_r0_5 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
-    gPseudoRandom = temp_r0_5;
-    var_r2 = ((u32) temp_r0_5 >> 8) & 3;
-    if (var_r2 > 2U) {
-        var_r2 = 2;
+
+    for (i = 0; i < 2; i++) {
+        strc104->qUnk14[i] = (((u32)PseudoRandom32() >> 8) % 32u) * dirX;
+        strc104->qUnk1C[i] = (((u32)PseudoRandom32() >> 8) % 32u) * dirX;
+        strc104->qUnk14[i] <<= 8;
+        strc104->qUnk1C[i] <<= 8;
+        strc104->qUnk24[0][i] = strc104->qUnk14[i];
+        strc104->qUnk24[1][i] = strc104->qUnk1C[i];
     }
-    if (strc104->unk40 == 0) {
-        var_r3 = &strc104->sprD4;
-        if (var_r6_2 != 0) {
-            var_r3 -= 0x30;
+
+    randX = (+(((u32)PseudoRandom32() >> 8) % 16u) * dirX);
+    randY = (-(((u32)PseudoRandom32() >> 8) % 64u));
+    strc104->qUnk34 = randX << 5;
+    strc104->qUnk38 = randY << 5;
+
+    for (i = 0; i < 2; i++) {
+        var_r2 = ((u32)PseudoRandom32() >> 8) % 4u;
+        if (var_r2 > 2U) {
+            var_r2 = 2;
         }
-        goto block_11;
-    }
-    var_r3 = &strc104->sprA4;
-    if (var_r6_2 == 0) {
-block_11:
-        var_r3->tiles = strc104->unk3C;
-        temp_r2_3 = var_r2 * 8;
-        strc104->unk3C = (u8 *) (strc104->unk3C + (*(temp_r2_3 + (&gUnknown_080D5A44 + 4)) << 5));
-        temp_r2_4 = temp_r2_3 + &gUnknown_080D5A44;
-        var_r3->anim = temp_r2_4->unk0;
-        var_r3->variant = temp_r2_4->unk2;
-        var_r3->prevVariant = 0xFF;
-        var_r3->x = 0;
-        var_r3->y = 0;
-        var_r3->oamFlags = 0x40;
-        var_r3->animCursor = 0;
-        var_r3->qAnimDelay = 0;
-        var_r3->animSpeed = 0x10;
-        var_r3->palId = 0;
-        var_r3->frameFlags = 0x1000;
-        var_r3->hitboxes[0].index = -1;
-        UpdateSpriteAnimation((Sprite *) var_r3);
-        var_r6_2 += 1;
-        if ((u32) var_r6_2 <= 1U) {
-            goto loop_5;
+        if (strc104->unk40 == NULL) {
+            if (i != 0) {
+                s = &strc104->sprites44[2];
+            } else {
+                s = &strc104->sprites44[3];
+            }
+        } else {
+            s = &strc104->sprites44[2];
+
+            if (i != 0)
+                break;
+        }
+
+        {
+            s->tiles = (u8 *)strc104->vram3C;
+            strc104->vram3C += gUnknown_080D5A44[var_r2].numTiles << 5;
+            s->anim = gUnknown_080D5A44[var_r2].anim;
+            s->variant = gUnknown_080D5A44[var_r2].variant;
+            s->prevVariant = 0xFF;
+            s->x = 0;
+            s->y = 0;
+            s->oamFlags = 0x40;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->animSpeed = 0x10;
+            s->palId = 0;
+            s->frameFlags = 0x1000;
+            s->hitboxes[0].index = -1;
+            UpdateSpriteAnimation((Sprite *)s);
         }
     }
-    var_r6_3 = 0;
-loop_13:
-    temp_r0_6 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
-    gPseudoRandom = temp_r0_6;
-    var_r2_2 = ((u32) temp_r0_6 >> 8) & 7;
-    if (var_r2_2 > 5U) {
-        var_r2_2 = 5;
-    }
-    if (strc104->unk40 == 0) {
-        var_r3_2 = &strc104->spr74;
-        if (var_r6_3 != 0) {
-            var_r3_2 -= 0x30;
+
+    for (i = 0; i < 2; i++) {
+        var_r2 = ((u32)PseudoRandom32() >> 8) % 8u;
+        if (var_r2 > 5U) {
+            var_r2 = 5;
         }
-        goto block_19;
-    }
-    var_r3_2 = &strc104->spr44;
-    if (var_r6_3 == 0) {
-block_19:
-        var_r3_2->tiles = strc104->unk3C;
-        temp_r2_5 = var_r2_2 * 8;
-        strc104->unk3C = (u8 *) (strc104->unk3C + (*(temp_r2_5 + (&gUnknown_080D5A14 + 4)) << 5));
-        temp_r2_6 = temp_r2_5 + &gUnknown_080D5A14;
-        var_r3_2->anim = temp_r2_6->unk0;
-        var_r3_2->variant = temp_r2_6->unk2;
-        var_r3_2->prevVariant = 0xFF;
-        var_r3_2->x = 0;
-        var_r3_2->y = 0;
-        var_r3_2->oamFlags = 0;
-        var_r3_2->animCursor = 0;
-        var_r3_2->qAnimDelay = 0;
-        var_r3_2->animSpeed = 0x10;
-        var_r3_2->palId = 0;
-        var_r3_2->frameFlags = 0x1000;
-        var_r3_2->hitboxes[0].index = -1;
-        UpdateSpriteAnimation((Sprite *) var_r3_2);
-        strc104->filler0[8] = 1;
-        var_r6_3 += 1;
-        if ((u32) var_r6_3 <= 1U) {
-            goto loop_13;
+        if (strc104->unk40 == NULL) {
+            if (i != 0) {
+                s = &strc104->sprites44[0];
+            } else {
+                s = &strc104->sprites44[1];
+            }
+        } else {
+            s = &strc104->sprites44[0];
+
+            if (i != 0)
+                break;
+        }
+
+        {
+            s->tiles = (u8 *)strc104->vram3C;
+            strc104->vram3C += gUnknown_080D5A14[var_r2].numTiles << 5;
+            s->anim = gUnknown_080D5A14[var_r2].anim;
+            s->variant = gUnknown_080D5A14[var_r2].variant;
+            s->prevVariant = -1;
+            s->x = 0;
+            s->y = 0;
+            s->oamFlags = 0;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->animSpeed = 0x10;
+            s->palId = 0;
+            s->frameFlags = 0x1000;
+            s->hitboxes[0].index = -1;
+            UpdateSpriteAnimation((Sprite *)s);
+            strc104->unk8 = 1;
         }
     }
 }
 
+#if 0
 void Task_104_8077F80(EggGravity104 *arg0) {
     u8 sp4;
     s32 sp8;
@@ -2914,6 +2871,7 @@ void sub_8078570(EggGravityBC *strcBC) {
 }
 #endif
 
+#if 0
 s32 sub_8078650(EggGravity28 *strc28) {
     s32 temp_r0;
     s16 temp_r0_2;
