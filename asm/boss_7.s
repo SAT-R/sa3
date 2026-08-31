@@ -228,7 +228,6 @@ _08078370: .4byte 0x3C6EF35F
 _08078374: .4byte gCamera
 _08078378: .4byte 0x03000024
 _0807837C: .4byte 0xFFFFF000
-
 	thumb_func_start sub_8078380
 sub_8078380: @ 0x08078380
 	push {r4, r5, r6, r7, lr}

@@ -187,12 +187,16 @@ typedef struct {
     /* 0x09 */ u16 unkA;
     /* 0x09 */ u16 unkC;
     /* 0x0A */ s32 fillerE[0x2];
-    /* 0x11 */ u8 unk10;
-    /* 0x11 */ u8 unk11;
-    /* 0x12 */ u8 unk12;
-    /* 0x13 */ u8 unk13;
-    /* 0x0A */ s32 filler14[0x58];
-    /* 0x00 */ Sprite spr6C;
+    /* 0x10 */ s32 *unk10;
+    /* 0x14 */ s32 *unk14;
+    /* 0x20 */ s32 unk18;
+    /* 0x20 */ s32 unk1C;
+    /* 0x20 */ s32 unk20;
+    /* 0x24 */ Vec2_32 unk24[3];
+    /* 0x3C */ Vec2_32 unk3C[3];
+    /* 0x54 */ s32 unk54[3];
+    /* 0x60 */ s32 unk60[3];
+    /* 0x6C */ Sprite spr6C;
     /* 0x94 */ Sprite spr94;
 } EggGravityBC; /* 0xBC */
 
@@ -2622,91 +2626,56 @@ NONMATCH("asm/non_matching/game/bosses/boss_7__sub_807813C.inc", void sub_807813
 }
 END_NONMATCH
 
+void Task_BC_8078C3C(void);
+void TaskDestructor_8078C28(Task *t);
+
 #if 0
 s8 sub_80781C0(Vec2_32 *arg0, s8 *arg1) {
-    s32 sp4;
-    s32 sp8;
+    s32 *sp8;
     s32 spC;
-    s32 *temp_r4;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r0_5;
-    s32 temp_r0_6;
-    s32 temp_r1;
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s32 temp_r3;
-    s32 temp_r3_2;
-    s32 temp_r3_3;
-    u16 temp_r0;
     u8 var_r7;
-    u8 var_r7_2;
-    u8 var_r7_3;
-    u8 var_r7_4;
+	EggGravityBC *strcBC = TASK_DATA(TaskCreate(Task_BC_8078C3C, sizeof(EggGravityBC), 0x2100U, 0U, TaskDestructor_8078C28));
+    strcBC->unk0 = arg1;
+    strcBC->unk5 = (s8) (((u32)PseudoRandom32() >> 8) % 2u);
+    strcBC->unk6 = (s8) (((u32)PseudoRandom32() >> 8) % 6u);
+    strcBC->unk8 = 0;
+    strcBC->unk20 = 0;
+    strcBC->unk4 = 1;
+    strcBC->unk10 = &arg0->x;
+    strcBC->unk14 = &arg0->y;
+    strcBC->unk18 = (s32) arg0->x;
+    strcBC->unk1C = (s32) arg0->y;
+    strcBC->unkA = (s16) gCamera.x;
+    strcBC->unkC = (s16) gCamera.y;
 
-    temp_r0 = TaskCreate(Task_BC_8078C3C, 0xBCU, 0x2100U, 0U, TaskDestructor_8078C28)->data;
-    temp_r0->unk0 = arg1;
-    temp_r0_2 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
-    gPseudoRandom = temp_r0_2;
-    temp_r0->unk5 = (s8) (((u32) temp_r0_2 >> 8) & 1);
-    temp_r0_3 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
-    gPseudoRandom = temp_r0_3;
-    temp_r0->unk6 = (s8) (((u32) temp_r0_3 >> 8) & 5);
-    temp_r0->unk8 = 0;
-    temp_r0->unk20 = 0;
-    temp_r0->unk4 = 1;
-    temp_r0->unk10 = arg0;
-    temp_r0->unk14 = &arg0->y;
-    temp_r0->unk18 = (s32) arg0->x;
-    temp_r0->unk1C = (s32) arg0->y;
-    temp_r0->unkA = (s16) gCamera.x;
-    temp_r0->unkC = (s16) gCamera.y;
-    var_r7 = 0;
-    spC = temp_r0 + 0x24;
-    do {
-        temp_r0_4 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
-        gPseudoRandom = temp_r0_4;
-        *(temp_r0 + 0x24 + (var_r7 * 8)) = ((((u32) temp_r0_4 >> 8) & 0x1F) << 8) + 0xFFFFF000;
-        var_r7 += 1;
-    } while ((u32) var_r7 <= 2U);
-    var_r7_2 = 0;
-    temp_r3 = temp_r0 + 0x28;
-    sp8 = temp_r0 + 0x60;
-    sp4 = temp_r0 + 0x54;
-    do {
-        temp_r0_5 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
-        gPseudoRandom = temp_r0_5;
-        *(temp_r3 + (var_r7_2 * 8)) = ((((u32) temp_r0_5 >> 8) & 0x1F) << 8) + 0xFFFFF000;
-        var_r7_2 += 1;
-    } while ((u32) var_r7_2 <= 2U);
-    var_r7_3 = 0;
-    do {
-        temp_r1 = var_r7_3 * 8;
-        *(temp_r0 + 0x3C + temp_r1) = *(spC + temp_r1);
-        *(temp_r0 + 0x40 + temp_r1) = *(temp_r3 + temp_r1);
-        var_r7_3 += 1;
-    } while ((u32) var_r7_3 <= 2U);
-    var_r7_4 = 0;
-    do {
-        temp_r3_2 = var_r7_4 * 4;
-        temp_r2 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
-        gPseudoRandom = temp_r2;
-        *(sp8 + temp_r3_2) = 0 - (((((u32) temp_r2 >> 8) & 7) + 5) << 7);
-        temp_r4 = sp4 + temp_r3_2;
-        temp_r2_2 = (temp_r2 * 0x196225) + 0x3C6EF35F;
-        gPseudoRandom = temp_r2_2;
-        temp_r3_3 = (((u32) temp_r2_2 >> 8) & 5) * 0x10;
-        *temp_r4 = temp_r3_3;
-        temp_r0_6 = (temp_r2_2 * 0x196225) + 0x3C6EF35F;
-        gPseudoRandom = temp_r0_6;
-        if (((u32) temp_r0_6 >> 8) & 1) {
-            *temp_r4 = 0 - temp_r3_3;
+    for (var_r7 = 0; var_r7 < ARRAY_COUNT(strcBC->unk24); var_r7++)
+	{
+        strcBC->unk24[var_r7].x = Q(((u32)PseudoRandom32() >> 8) % 32u) - Q(16);
+    }
+
+    for (var_r7 = 0; var_r7 < ARRAY_COUNT(strcBC->unk24); var_r7++)
+	{
+        strcBC->unk24[var_r7].y = Q(((u32)PseudoRandom32() >> 8) % 32u) - Q(16);
+    }
+
+    for (var_r7 = 0; var_r7 < ARRAY_COUNT(strcBC->unk3C); var_r7++)
+	{
+        strcBC->unk3C[var_r7].x = strcBC->unk24[var_r7].x;
+        strcBC->unk3C[var_r7].y = strcBC->unk24[var_r7].y;
+    }
+
+    for (var_r7 = 0; var_r7 < ARRAY_COUNT(strcBC->unk60); var_r7++)
+	{
+        strcBC->unk60[var_r7] = -(((((u32)PseudoRandom32() >> 8) & 7) + 5) << 7);
+        strcBC->unk54[var_r7] = +(((((u32)PseudoRandom32() >> 8) & 5) * 0x10));
+        if (((u32)PseudoRandom32() >> 8) & 1) {
+            strcBC->unk54[var_r7] = -strcBC->unk54[var_r7];
         }
-        var_r7_4 += 1;
-    } while ((u32) var_r7_4 <= 2U);
-    m4aSongNumStart(0x90U);
-    return sub_8078380(temp_r0);
+    }
+
+    m4aSongNumStart(SE_CAPSULE_DESTROY);
+
+    sub_8078380(strcBC);
 }
 
 void sub_8078380(EggGravityBC *strcBC) {
