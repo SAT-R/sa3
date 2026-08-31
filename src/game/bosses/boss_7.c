@@ -11,6 +11,7 @@
 #include "game/shared/stage/player_callbacks.h"
 #include "game/shared/stage/player.h"
 #include "game/shared/stage/screen_shake.h"
+#include "game/shared/stage/terrain_collision.h"
 #include "game/sa3/bosses/eggman_escape.h"
 #include "constants/animations.h"
 #include "constants/move_states.h"
@@ -2537,89 +2538,91 @@ void Task_104_8077F80(void)
     }
 }
 
-#if 0
-void sub_8078070(EggGravity104 *arg0, s32 *arg1) {
+void sub_8078070(EggGravity104 *strc104, Vec2_32 *pos)
+{
     Sprite *var_r4;
-    Sprite *var_r4_2;
-    s32 temp_r2;
-    s32 temp_r2_2;
     u8 var_r7;
 
-    var_r7 = 0;
-    do {
-        if (arg0->unk40 == NULL) {
-            var_r4 = arg0 + 0xD4;
+    for (var_r7 = 0; var_r7 < 2; var_r7++) {
+        if (strc104->unk40 == NULL) {
             if (var_r7 != 0) {
-                var_r4 -= 0x30;
+                var_r4 = (Sprite *)&strc104->sprites44[2];
+            } else {
+                var_r4 = (Sprite *)&strc104->sprites44[3];
             }
         } else {
-            var_r4 = arg0 + 0xA4;
+            var_r4 = (Sprite *)&strc104->sprites44[2];
         }
-        gPseudoRandom = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
-        if (arg0->unk0 == ACMD_RESULT__RUNNING) {
-            temp_r2 = var_r7 * 4;
-            var_r4->x = arg1->unk0 + ((s32) *(arg0 + 0x14 + temp_r2) >> 8);
-            var_r4->y = arg1->unk4 + ((s32) *(arg0 + 0x1C + temp_r2) >> 8);
-            arg0->unk0 = UpdateSpriteAnimation(var_r4);
+
+        PseudoRandom32();
+
+        if (strc104->unk0 == (u8 *)1) {
+            var_r4->x = pos->x + I(strc104->qUnk14[var_r7]);
+            var_r4->y = pos->y + I(strc104->qUnk1C[var_r7]);
+            strc104->unk0 = (u8 *)UpdateSpriteAnimation(var_r4);
             DisplaySprite(var_r4);
         }
-        if (arg0->unk8 != 0) {
-            if (arg0->unk40 == NULL) {
-                var_r4_2 = arg0 + 0x74;
+        if (strc104->unk8 != 0) {
+            if (strc104->unk40 == NULL) {
                 if (var_r7 != 0) {
-                    var_r4_2 -= 0x30;
+                    var_r4 = (Sprite *)&strc104->sprites44[0];
+                } else {
+                    var_r4 = (Sprite *)&strc104->sprites44[1];
                 }
             } else {
-                var_r4_2 = arg0 + 0x44;
+                var_r4 = (Sprite *)&strc104->sprites44[0];
             }
-            temp_r2_2 = var_r7 * 4;
-            var_r4_2->x = arg1->unk0 + ((s32) *(arg0 + 0x24 + temp_r2_2) >> 8);
-            var_r4_2->y = arg1->unk4 + ((s32) *(arg0 + 0x2C + temp_r2_2) >> 8);
-            UpdateSpriteAnimation(var_r4_2);
-            DisplaySprite(var_r4_2);
+            var_r4->x = pos->x + ((s32)strc104->qUnk24[0][var_r7] >> 8);
+            var_r4->y = pos->y + ((s32)strc104->qUnk24[1][var_r7] >> 8);
+            UpdateSpriteAnimation((Sprite *)var_r4);
+            DisplaySprite((Sprite *)var_r4);
         }
-        var_r7 += 1;
-    } while ((u32) var_r7 <= 1U);
-}
-
-void sub_807813C(EggGravity30 *strc30) {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r3;
-    s32 temp_r5;
-    s8 var_r0;
-    s8 var_r0_2;
-
-    temp_r3 = strc30->unkC;
-    temp_r0 = strc30->unk20 + temp_r3;
-    strc30->unk20 = temp_r0;
-    temp_r5 = (temp_r0 >> 8) + gCamera.x;
-    if (temp_r5 > (s32) gCamera.maxX) {
-        var_r0 = -1;
-        goto block_4;
-    }
-    if (temp_r5 < (s32) gCamera.minX) {
-        var_r0 = 1;
-block_4:
-        strc30->unk5 = var_r0;
-        strc30->unkC = 0 - temp_r3;
-    }
-    temp_r0_2 = strc30->unk24 + strc30->unk10;
-    strc30->unk24 = temp_r0_2;
-    temp_r0_3 = (temp_r0_2 >> 8) + gCamera.y;
-    if ((s32) (sa2__sub_801F07C(temp_r0_3, ((s32) strc30->unk20 >> 8) + gCamera.x, 1, 8, NULL, sa2__sub_801EE64) << 0x18) < 0) {
-        var_r0_2 = -1;
-        goto block_9;
-    }
-    if (temp_r0_3 < (s32) gCamera.minY) {
-        var_r0_2 = 1;
-block_9:
-        strc30->unk6 = var_r0_2;
-        strc30->unk10 = 0 - strc30->unk10;
     }
 }
 
+// (98.57%) https://decomp.me/scratch/8NhQO
+NONMATCH("asm/non_matching/game/bosses/boss_7__sub_807813C.inc", void sub_807813C(EggGravity30 *strc30))
+{
+#ifndef NON_MATCHING
+    register s32 worldX asm("r5");
+    register s32 worldX2 asm("r1");
+    register s32 worldY asm("r0");
+    register s32 worldY2 asm("r6");
+#else
+    s32 worldX;
+    s32 worldX2;
+    s32 worldY;
+    s32 worldY2;
+#endif
+
+    strc30->unk20 += strc30->unkC;
+    worldX = I(strc30->unk20) + gCamera.x;
+    if (worldX > gCamera.maxX) {
+        strc30->unk5 = -1;
+        strc30->unkC = -strc30->unkC;
+    } else if (worldX < gCamera.minX) {
+        strc30->unk5 = +1;
+        strc30->unkC = -strc30->unkC;
+    }
+    strc30->unk24 += strc30->unk10;
+
+    worldX2 = I(strc30->unk20);
+    worldX2 += gCamera.x;
+    worldY = I(strc30->unk24);
+    worldY += gCamera.y;
+    worldY2 = worldY;
+
+    if (SA2_LABEL(sub_801F07C)(worldY, worldX2, 1, 8, NULL, sa2__sub_801EE64) < 0) {
+        strc30->unk6 = -1;
+        strc30->unk10 = -strc30->unk10;
+    } else if (worldY2 < gCamera.minY) {
+        strc30->unk6 = +1;
+        strc30->unk10 = -strc30->unk10;
+    }
+}
+END_NONMATCH
+
+#if 0
 s8 sub_80781C0(Vec2_32 *arg0, s8 *arg1) {
     s32 sp4;
     s32 sp8;
