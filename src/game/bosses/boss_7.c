@@ -239,7 +239,7 @@ void TaskDestructor_EggGravity(Task *t);
 void sub_8077A04(Task *arg0, s8 arg1);
 void sub_8077238(Task *task_EggGravity100, u8 arg1, s32 arg2, s32 arg3);
 void sub_8077A14(Task *arg0, s8 arg1);
-s32 sub_80787D8(EggGravity68 *strc68);
+bool32 sub_80787D8(EggGravity68 *strc68);
 void TaskDestructor_100_80779EC(struct Task *t);
 void sub_80772F0(EggGravity100 *strc100, u8 pid);
 extern u8 sub_8078D6C(EggGravity68 *strc68);
@@ -2868,52 +2868,57 @@ void sub_80786B4(Arg0_80786B4 *arg0, s32 *arg1, s32 *arg2, u8 *arg3)
     UpdateSpriteAnimation(s);
 }
 
-#if 0
-void Task_4C_8078764(void) {
+void Task_4C_8078764(void)
+{
     EggGravity4C_B *strc4C = TASK_DATA(gCurTask);
-    s32 *temp_r5;
     AnimCmdResult acmdRes;
-    Sprite *s;
-    strc4C->s.x = I(strc4C->qUnk14.x + *strc4C->unk0 + strc4C->qUnk4Xs[0]);
-    strc4C->s.y = I(strc4C->qUnk14.y + *strc4C->unk0 + strc4C->qUnkCYs[0]);
-    s = &strc4C->s;
-    DisplaySprite(s);
-    s->x = I(strc4C->qUnk14.x + strc4C->qUnk4Xs[1]);
-    s->y = I(strc4C->qUnk14.y + strc4C->qUnkCYs[1]);
-    acmdRes = UpdateSpriteAnimation(s);
-    DisplaySprite(s);
+
+    strc4C->s.x = I(*strc4C->qUnk14 + strc4C->qUnk4Xs[0]);
+    strc4C->s.y = I(*strc4C->qUnk18 + strc4C->qUnkCYs[0]);
+    DisplaySprite(&strc4C->s);
+
+    strc4C->s.x = I(*strc4C->qUnk14 + strc4C->qUnk4Xs[1]);
+    strc4C->s.y = I(*strc4C->qUnk18 + strc4C->qUnkCYs[1]);
+    acmdRes = UpdateSpriteAnimation(&strc4C->s);
+    DisplaySprite(&strc4C->s);
+
     if (acmdRes == ACMD_RESULT__ENDED) {
         *strc4C->unk0 = 0;
         TaskDestroy(gCurTask);
     }
 }
 
-s32 sub_80787D8(EggGravity68 *strc68) {
-    Vec2_32 *temp_r4;
-    s32 *temp_r3;
-    u16 *temp_r6;
-    u16 temp_r1_2;
+// (96.95%) https://decomp.me/scratch/erChc
+NONMATCH("asm/non_matching/game/bosses/boss_7__sub_80787D8.inc", bool32 sub_80787D8(EggGravity68 *strc68))
+{
+    s32 sp[4];
     u8 temp_r1;
-    u8 var_r7;
+    u8 i;
+    u32 unk8;
 
-    for(var_r7 = 0; var_r7 < ARRAY_COUNT(strc68->unk8); var_r7++)
-    {
-        temp_r1 = gUnknown_080D5A64[var_r7];
-        strc68->unk24[var_r7].y = 0;
-        temp_r4 = &strc68->unk24[var_r7];
-        temp_r4->x = 0;
-        strc68->unk24[var_r7].y   += (strc68->unk8[var_r7] >> 6) * ((s32) ( COS_24_8(temp_r1 * 4) * 0xC) >> 6) * 0x10;
-        temp_r4->x += (strc68->unk8[var_r7] >> 6) * ((s32) ( SIN_24_8(temp_r1 * 4) * 0xC) >> 6) * 0x10;
-        temp_r1_2 = strc68->unk8[var_r7];
-        if ((u32) (temp_r1_2 >> 6) >= 0x10U) {
+    for (i = 0; i < ARRAY_COUNT(strc68->unk8); i++) {
+        sp[0] = 0;
+        sp[1] = 0;
+        temp_r1 = gUnknown_080D5A64[i];
+        sp[2] = (SIN_24_8(temp_r1 * 4) << 3) + (SIN_24_8(temp_r1 * 4) << 2);
+        sp[3] = (COS_24_8(temp_r1 * 4) << 3) + (COS_24_8(temp_r1 * 4) << 2);
+        strc68->unk24[i].y = 0;
+        strc68->unk24[i].x = 0;
+        strc68->unk24[i].y += ((sp[3] >> 6) * (strc68->unk8[i] >> 6)) * 0x10;
+        strc68->unk24[i].x += ((sp[2] >> 6) * (strc68->unk8[i] >> 6)) * 0x10;
+
+        if (strc68->unk8[i] / 0x40u >= 0x10u) {
             return 1U;
+        } else {
+            strc68->unk8[i] += 0x80;
         }
-        strc68->unk8[var_r7] = temp_r1_2 + 0x80;
     }
 
     return 0U;
 }
+END_NONMATCH
 
+#if 0
 void sub_80788A4(Something *sth, s32 screenX, s32 screenY, s32 arg3, u8 *arg4) {
     u8 sp4 = 1;
     EggGravity104 *temp_r1 = TASK_DATA(TaskCreate(Task_104_8077F80, sizeof(EggGravity104), 0x2100U, 0U, TaskDestructor_104_8078A68));
