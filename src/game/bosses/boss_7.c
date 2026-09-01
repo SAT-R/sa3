@@ -119,8 +119,9 @@ typedef struct {
     /* 0x00 */ u8 *unk0;
     // TODO: qUnk4 / qUnkC are not Vec2's apparently?
     /* 0x04 */ s32 qUnk4Xs[2];
-    /* 0x04 */ s32 qUnkCYs[2];
-    /* 0x04 */ Vec2_32 qUnk14;
+    /* 0x0C */ s32 qUnkCYs[2];
+    /* 0x14 */ s32 *qUnk14;
+    /* 0x18 */ s32 *qUnk18;
     /* 0x1C */ Sprite s;
     /* 0x44 */ u8 filler44[0x8];
 } EggGravity4C_B; /* 0x4C */
@@ -243,7 +244,7 @@ void TaskDestructor_100_80779EC(struct Task *t);
 void sub_80772F0(EggGravity100 *strc100, u8 pid);
 extern u8 sub_8078D6C(EggGravity68 *strc68);
 s32 sub_8078CC4(EggGravity28 *arg0);
-s32 sub_8078650(EggGravity28 *arg0);
+bool32 sub_8078650(EggGravity28 *arg0);
 AnimCmdResult sub_8078504(EggGravityBC *strcBC);
 void sub_8078570(EggGravityBC *strcBC);
 s32 sub_8078468(EggGravityBC *strcBC);
@@ -2809,41 +2810,49 @@ void sub_8078570(EggGravityBC *strcBC)
     }
 }
 
-#if 0
-s32 sub_8078650(EggGravity28 *strc28) {
+bool32 sub_8078650(EggGravity28 *strc28)
+{
     s32 temp_r0;
     s16 temp_r0_2;
     s32 temp_r1;
 
     strc28->unk10 += Q(10);
-    temp_r0_2 = SIN_24_8((u8) (strc28->unk10 >> 7) * 8);
+    temp_r0_2 = SIN_24_8(((strc28->unk10 >> 7) & 0xFF) * 4);
     strc28->qUnk14[0][0] = +temp_r0_2 * 0x10;
     strc28->qUnk14[1][0] = -temp_r0_2 * 0x10;
     strc28->qUnk14[0][1] -= Q(4);
     strc28->qUnk14[1][1] -= Q(4);
-    if (temp_r1 >= -Q(60)) {
+
+    if (strc28->qUnk14[0][1] < -Q(60)) {
+        strc28->pSpr24->prevVariant = -1;
+        strc28->qUnk14[0][1] = 0;
+        strc28->qUnk14[1][1] = 0;
+        strc28->unk10 = 0;
+        return 1;
+    } else {
         return 0;
     }
-    strc28->pSpr24->prevVariant = -1;
-    strc28->qUnk14[0][1] = 0;
-    strc28->qUnk14[1][1] = 0;
-    strc28->unk10 = 0;
-    return 1;
 }
 
-void sub_80786B4(Arg0_80786B4 *arg0, s32 arg1, s32 arg2, u8 *arg3) {
+void Task_4C_8078764(void);
+void TaskDestructor_4C_B_8078D18(Task *t);
+
+void sub_80786B4(Arg0_80786B4 *arg0, s32 *arg1, s32 *arg2, u8 *arg3)
+{
     EggGravity4C_B *temp_r4 = TASK_DATA(TaskCreate(Task_4C_8078764, sizeof(EggGravity4C_B), 0x2100U, 0U, TaskDestructor_4C_B_8078D18));
     Sprite *s;
+    u8 *vram;
     temp_r4->qUnk4Xs[0] = arg0->x0;
     temp_r4->qUnkCYs[0] = arg0->y0;
     temp_r4->qUnk4Xs[1] = arg0->x1;
     temp_r4->qUnkCYs[1] = arg0->y1;
-    temp_r4->qUnk14.x = arg1;
-    temp_r4->qUnk14.y = arg2;
+    temp_r4->qUnk14 = arg1;
+    temp_r4->qUnk18 = arg2;
     temp_r4->unk0 = arg3;
 
+    vram = VramMalloc(gUnknown_080D5A44[1].numTiles);
     s = &temp_r4->s;
-    s->tiles = VramMalloc(gUnknown_080D5A44[1].numTiles);
+    s->tiles = vram;
     s->anim = gUnknown_080D5A44[1].anim;
     s->variant = gUnknown_080D5A44[1].variant;
     s->prevVariant = 0xFF;
@@ -2859,17 +2868,18 @@ void sub_80786B4(Arg0_80786B4 *arg0, s32 arg1, s32 arg2, u8 *arg3) {
     UpdateSpriteAnimation(s);
 }
 
+#if 0
 void Task_4C_8078764(void) {
     EggGravity4C_B *strc4C = TASK_DATA(gCurTask);
     s32 *temp_r5;
     AnimCmdResult acmdRes;
-    Sprite *s = &strc4C->s;
-
-    s->x = I(strc4C->qUnk14.x + strc4C->qUnk4Xs[0]);
-    s->y = I(strc4C->qUnk14.y + strc4C->qUnkCYs[0]);
+    Sprite *s;
+    strc4C->s.x = I(strc4C->qUnk14.x + *strc4C->unk0 + strc4C->qUnk4Xs[0]);
+    strc4C->s.y = I(strc4C->qUnk14.y + *strc4C->unk0 + strc4C->qUnkCYs[0]);
+    s = &strc4C->s;
     DisplaySprite(s);
-    s->x = (s16) ((s32) (strc4C->qUnk14.x + strc4C->qUnk4Xs[1]) >> 8);
-    s->y = (s16) ((s32) (strc4C->qUnk14.y + strc4C->qUnkCYs[1]) >> 8);
+    s->x = I(strc4C->qUnk14.x + strc4C->qUnk4Xs[1]);
+    s->y = I(strc4C->qUnk14.y + strc4C->qUnkCYs[1]);
     acmdRes = UpdateSpriteAnimation(s);
     DisplaySprite(s);
     if (acmdRes == ACMD_RESULT__ENDED) {
