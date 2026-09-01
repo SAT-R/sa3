@@ -17,6 +17,8 @@
 #include "constants/move_states.h"
 #include "constants/songs.h"
 
+#define STRC_BC__ARR_SIZE 3
+
 typedef struct {
     /* 0x00 */ s32 qUnk0;
     /* 0x04 */ s32 qUnk4;
@@ -191,10 +193,10 @@ typedef struct {
     /* 0x20 */ s32 unk18;
     /* 0x20 */ s32 unk1C;
     /* 0x20 */ s32 unk20;
-    /* 0x24 */ Vec2_32 unk24[3];
-    /* 0x3C */ Vec2_32 unk3C[3];
-    /* 0x54 */ s32 unk54[3];
-    /* 0x60 */ s32 unk60[3];
+    /* 0x24 */ Vec2_32 unk24[STRC_BC__ARR_SIZE];
+    /* 0x3C */ Vec2_32 unk3C[STRC_BC__ARR_SIZE];
+    /* 0x54 */ s32 unk54[STRC_BC__ARR_SIZE];
+    /* 0x60 */ s32 unk60[STRC_BC__ARR_SIZE];
     /* 0x6C */ Sprite spr6C;
     /* 0x94 */ Sprite spr94;
 } EggGravityBC; /* 0xBC */
@@ -2719,133 +2721,93 @@ static void InitSpritesStructBC(EggGravityBC *strcBC)
     }
 }
 
-#if 0
-s32 sub_8078468(EggGravity104 *arg0) {
-    s32 *temp_r0_2;
-    s32 *temp_r2_3;
-    s32 *temp_r2_4;
-    s32 *temp_r3;
-    s32 temp_r0;
-    s32 temp_r1_2;
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s32 temp_r7;
-    s32 var_r0;
-    u8 var_r6;
-    u8 var_r8;
-    void *temp_r1;
+s32 sub_8078468(EggGravityBC *strcBC)
+{
+    u8 var_r8 = 0;
+    u8 i;
 
-    var_r8 = 0;
-    var_r6 = 0;
-    temp_r7 = arg0 + 0x40;
-    do {
-        temp_r2 = var_r6 * 8;
-        if ((s32) (arg0->qUnk1CY[0] + *(temp_r7 + temp_r2)) <= 0xB3FF) {
-            temp_r0 = var_r6 * 4;
-            temp_r1 = arg0 + 0x54;
-            temp_r3 = temp_r1 + temp_r0;
-            temp_r2_2 = *temp_r3;
-            if (temp_r2_2 > 0) {
-                var_r0 = temp_r2_2 + 0x10;
+    for (i = 0; i < ARRAY_COUNT(strcBC->unk3C); i++) {
+        if ((s32)(strcBC->unk1C + strcBC->unk3C[i].y) < Q(180)) {
+            if (strcBC->unk54[i] > 0) {
+                strcBC->unk54[i] += 0x10;
             } else {
-                var_r0 = temp_r2_2 - 0x10;
+                strcBC->unk54[i] -= 0x10;
             }
-            *temp_r3 = var_r0;
-            temp_r2_3 = arg0 + 0x3C + temp_r2;
-            *temp_r2_3 += *(temp_r1 + temp_r0);
-            temp_r0_2 = arg0 + 0x60 + temp_r0;
-            temp_r1_2 = *temp_r0_2 + 0x40;
-            *temp_r0_2 = temp_r1_2;
-            temp_r2_4 = temp_r7 + temp_r2;
-            *temp_r2_4 += temp_r1_2;
+            strcBC->unk3C[i].x += strcBC->unk54[i];
+            strcBC->unk60[i] += 0x40;
+            strcBC->unk3C[i].y += strcBC->unk60[i];
         } else {
             var_r8 += 1;
         }
-        var_r6 += 1;
-    } while ((u32) var_r6 <= 2U);
-    if (var_r8 != 3) {
-        return 0;
     }
-    return 1;
+
+    if (var_r8 == 3) {
+        return 1;
+    }
+    return 0;
 }
 
-ACmdRes sub_8078504(EggGravityBC *strcBC) {
-    Sprite *temp_r4;
-    s32 *temp_r2_2;
-    s32 *temp_r6;
-    s32 temp_r1;
-    s32 temp_r2;
-    s32 temp_r3;
-    s32 temp_r8;
-    u8 var_r7;
+AnimCmdResult sub_8078504(EggGravityBC *strcBC)
+{
+    Sprite *s;
+    AnimCmdResult animState;
+    u8 i;
 
-    temp_r4 = arg0 + 0x6C;
-    temp_r8 = UpdateSpriteAnimation(temp_r4);
-    var_r7 = 0;
-    do {
-        temp_r2 = var_r7 * 8;
-        temp_r6 = arg0 + 0x24 + temp_r2;
-        temp_r3 = (s32) (*arg0->unk10 + *temp_r6) >> 8;
-        temp_r4->x = (s16) temp_r3;
-        temp_r2_2 = arg0 + 0x28 + temp_r2;
-        temp_r1 = (s32) (*arg0->qUnk14X[0] + *temp_r2_2) >> 8;
-        temp_r4->y = (s16) temp_r1;
-        if (var_r7 != 0) {
-            temp_r4->x = temp_r3 + ((s32) *temp_r6 >> 8);
-            temp_r4->y = temp_r1 + ((s32) *temp_r2_2 >> 8);
+    s = &strcBC->spr6C;
+    animState = UpdateSpriteAnimation(s);
+    for (i = 0; i < 3; i++) {
+        s->x = I(*strcBC->unk10 + strcBC->unk24[i].x);
+        s->y = I(*strcBC->unk14 + strcBC->unk24[i].y);
+
+        if (i != 0) {
+            s->x += I(strcBC->unk24[i].x);
+            s->y += I(strcBC->unk24[i].y);
         }
-        DisplaySprite(temp_r4);
-        var_r7 += 1;
-    } while ((u32) var_r7 <= 2U);
-    return temp_r8;
+
+        DisplaySprite(s);
+    }
+
+    return animState;
 }
 
-void sub_8078570(EggGravityBC *strcBC) {
+void sub_8078570(EggGravityBC *strcBC)
+{
 #ifndef NON_MATCHING
     // BUG: How did this even work?
     s16 sp[0];
 #else
     s16 sp[2];
 #endif
-    s32 *var_r2;
-    s32 temp_r0_2;
-    s32 temp_r1;
-    s32 temp_r2;
-    s32 temp_r6;
-    s32 var_r3;
-    u8 temp_r0;
-    u8 var_r8;
+    u8 i;
 
-    for(var_r8 = 0; var_r8< 3; var_r8++)
-    {
+    for (i = 0; i < STRC_BC__ARR_SIZE; i++) {
         if (strcBC->unk6 != 7) {
-            Sprite *s = &strcBC->spr94;
-            temp_r0_2 = strcBC->unk6;
-            temp_r6 = strcBC->unk8;
-            if ((strcBC->unk6 != temp_r6) && (strcBC->unk7 != strcBC->unk9)) {
+            Sprite *spr94 = &strcBC->spr94;
+            if ((strcBC->unk10[0] != strcBC->unk18) && (*strcBC->unk14 != strcBC->unk1C)) {
                 sp[0] = gCamera.x - strcBC->unkA;
                 sp[1] = gCamera.y - strcBC->unkC;
-                var_r3 = var_r8 * 8;
-                s->x = (u16) ((s32) (temp_r6 + sp[0] + *(&strcBC->unk11 + var_r3)) >> 8);
-                var_r2 = &strcBC->unk12;
-                strcBC->unkA6 = (s16) ((s32) (strcBC->unk9 + sp[1] + *(var_r2 + var_r3)) >> 8);
+                spr94->x = I(strcBC->unk18 + sp[0] + strcBC->unk3C[i].x);
+                spr94->y = I(strcBC->unk1C + sp[1] + strcBC->unk3C[i].y);
             } else {
-                temp_r2 = var_r8 * 8;
-                s->x = (u16) ((s32) (strcBC->unk6 + *(&strcBC->unk11 + temp_r2)) >> 8);
-                var_r3 = temp_r2;
-                var_r2 = &strcBC->unk12;
+                spr94->x = I(strcBC->unk10[0] + strcBC->unk3C[i].x);
+#ifdef NON_MATCHING
+                spr94->y = I(strcBC->unk14[0] + strcBC->unk3C[i].y);
+#endif
             }
-            temp_r1 = (s32) (*strcBC->unk7 + *(var_r2 + var_r3)) >> 8;
-            strcBC->unkA6 = (s16) temp_r1;
-            if (var_r8 != 0) {
-                s->x += (u16) (((s32) *(&strcBC->unkB + var_r3) >> 8));
-                strcBC->unkA6 = (s16) (temp_r1 + ((s32) *(&strcBC->unkC + var_r3) >> 8));
+#ifndef NON_MATCHING
+            // NOTE/TODO: This function only matches like this, but it has got to be a bug, right?
+            spr94->y = I(strcBC->unk14[0] + strcBC->unk3C[i].y);
+#endif
+
+            if (i != 0) {
+                spr94->x += I(strcBC->unk24[i].x);
+                spr94->y += I(strcBC->unk24[i].y);
             }
-            DisplaySprite(s);
+
+            DisplaySprite(spr94);
         }
     }
 }
-#endif
 
 #if 0
 s32 sub_8078650(EggGravity28 *strc28) {
