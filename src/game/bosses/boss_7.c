@@ -2888,13 +2888,13 @@ void Task_4C_8078764(void)
     }
 }
 
-// (96.95%) https://decomp.me/scratch/erChc
-NONMATCH("asm/non_matching/game/bosses/boss_7__sub_80787D8.inc", bool32 sub_80787D8(EggGravity68 *strc68))
+bool32 sub_80787D8(EggGravity68 *strc68)
 {
     s32 sp[4];
     u8 temp_r1;
     u8 i;
     u32 unk8;
+    u32 max = 0x10;
 
     for (i = 0; i < ARRAY_COUNT(strc68->unk8); i++) {
         sp[0] = 0;
@@ -2907,7 +2907,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_7__sub_80787D8.inc", bool32 sub_8078
         strc68->unk24[i].y += ((sp[3] >> 6) * (strc68->unk8[i] >> 6)) * 0x10;
         strc68->unk24[i].x += ((sp[2] >> 6) * (strc68->unk8[i] >> 6)) * 0x10;
 
-        if (strc68->unk8[i] / 0x40u >= 0x10u) {
+        if (strc68->unk8[i] / 0x40u >= max) {
             return 1U;
         } else {
             strc68->unk8[i] += 0x80;
@@ -2916,7 +2916,6 @@ NONMATCH("asm/non_matching/game/bosses/boss_7__sub_80787D8.inc", bool32 sub_8078
 
     return 0U;
 }
-END_NONMATCH
 
 #if 0
 void sub_80788A4(Something *sth, s32 screenX, s32 screenY, s32 arg3, u8 *arg4) {
