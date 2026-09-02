@@ -1167,7 +1167,6 @@ u16 sub_80B8B24(Struc_3001150_1C *strc, Player *partner, Player *p)
         if (temp_r2 > 0) {
             if (!(p->moveState & MOVESTATE_IN_AIR)) {
                 var_r3 &= ~gStageData.buttonConfig.jump;
-                asm("");
             } else if (temp_r2 > 0x1000) {
                 var_r3 &= ~gStageData.buttonConfig.jump;
             }
