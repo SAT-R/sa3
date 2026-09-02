@@ -218,12 +218,7 @@ void sub_809BFE8() { }
 
 void sub_8027620(s16 screenX, s16 screenY) { }
 void sub_8027658() { }
-void sub_80769C4() { }
 void sub_807F4F0() { }
 void sub_8085588() { }
 
-void sub_80781C0() { }
-void sub_8078920() { }
-void sub_80789EC() { }
-void CreateEggGravity() { }
 void CreateHyperEggRobo() { }

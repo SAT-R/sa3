@@ -88,8 +88,8 @@ typedef struct {
     /* 0x08 */ u8 *unk4;
     /* 0x08 */ u8 unk8;
     /* 0x08 */ u8 unk9;
-    /* 0x0C */ s32 *unkC;
-    /* 0x0C */ s32 *unk10;
+    /* 0x0C */ s32 *unkC; // BUG: These pointers get used as s32, but sometimes set to be a Sprite's x/y, which are s16 values.
+    /* 0x0C */ s32 *unk10; // BUG: These pointers get used as s32, but sometimes set to be a Sprite's x/y, which are s16 values.
     /* 0x14 */ s32 qUnk14[2];
     /* 0x14 */ s32 qUnk1C[2];
     /* 0x24 */ s32 qUnk24[2][2];
@@ -128,7 +128,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8 *bossPhase;
-    /* 0x04 */ u16 unk4[2];
+    /* 0x04 */ u8 unk4;
+    /* 0x04 */ u16 unk6;
     /* 0x04 */ u16 unk8[8];
     /* 0x00 */ s32 *unk18Xs;
     /* 0x00 */ s32 *unk1CYs;
@@ -2917,20 +2918,20 @@ bool32 sub_80787D8(EggGravity68 *strc68)
     return 0U;
 }
 
-#if 0
-void sub_80788A4(Something *sth, s32 screenX, s32 screenY, s32 arg3, u8 *arg4) {
+void sub_80788A4(Something *sth, s32 *screenX, s32 *screenY, u8 *vram, u8 *arg4)
+{
     u8 sp4 = 1;
     EggGravity104 *temp_r1 = TASK_DATA(TaskCreate(Task_104_8077F80, sizeof(EggGravity104), 0x2100U, 0U, TaskDestructor_104_8078A68));
     temp_r1->unk40 = sth;
-    temp_r1->unk3C = arg3;
+    temp_r1->vram3C = vram;
 
     if (sth != NULL) {
-        Something *sth = sub_807A3D8(&sth, 1, 0x4C0, 0, &sp4);
-        Sprite *s = (Sprite*)sth->spr14;
-        temp_r1->unkC  = s->x;
-        temp_r1->unk10 = s->y;
+        Sprite *s = (Sprite *)sub_807A3D8(&sth, 1, 0x4C0, 0, &sp4)->spr14;
+        // BUG:
+        temp_r1->unkC = (s32 *)&s->x;
+        temp_r1->unk10 = (s32 *)&s->y;
     } else {
-        temp_r1->unkC  = screenX;
+        temp_r1->unkC = screenX;
         temp_r1->unk10 = screenY;
     }
 
@@ -2955,7 +2956,8 @@ void sub_8078920(Sprite *s, Vec2_32 *vec, s8 *param2)
     temp_r0->pSpr24 = s;
 }
 
-void sub_8078970(Sprite *s, void *arg1, Vec2_32 *arg2, u8 arg3, u8 *arg4) {
+void sub_8078970(Sprite *s, void *arg1, Vec2_32 *arg2, u8 arg3, u8 *arg4)
+{
     EggGravity30 *temp_r0 = TASK_DATA(TaskCreate(Task_30_8078AC4, sizeof(EggGravity30), 0x2100U, 0U, TaskDestructor_8078AC0));
     temp_r0->unk8 = 0;
     temp_r0->unk1C = 0;
@@ -2965,67 +2967,62 @@ void sub_8078970(Sprite *s, void *arg1, Vec2_32 *arg2, u8 arg3, u8 *arg4) {
     temp_r0->unk0 = arg4;
     temp_r0->unk20 = arg2->x;
     temp_r0->unk24 = arg2->y;
-    temp_r0->unkC  = +0x400;
+    temp_r0->unkC = +0x400;
     temp_r0->unk10 = -0x400;
     temp_r0->unk14 = 0;
     temp_r0->unk18 = 0;
     temp_r0->pSpr28 = s;
     temp_r0->unk2C = arg1;
 }
-    
-void sub_80789EC(Sprite *s, Vec2_32 *vec, u8 *bossPhase) {
+
+void sub_80789EC(Sprite *s, Vec2_32 *vec, u8 *bossPhase)
+{
     s32 temp_r1;
-    u8 var_r2;
+    u8 i;
     EggGravity68 *strc68 = TASK_DATA(TaskCreate(Task_68_8078D34, sizeof(EggGravity68), 0x2100U, 0U, TaskDestructor_8078D30));
+
     strc68->bossPhase = bossPhase;
     strc68->unk18Xs = &vec->x;
     strc68->unk1CYs = &vec->y;
     strc68->unk20 = 0;
-    strc68->unk8[0] = 0;
-    strc68->unk4[0] = 0;
+    strc68->unk6 = strc68->unk20;
+    strc68->unk4 = 0;
     strc68->spr64 = s;
-    var_r2 = 0;
-    do {
-        temp_r1 = var_r2 * 8;
-        strc68->unk24[var_r2].x = 0;
-        strc68->unk24[var_r2].y = 0;
-        strc68->unk4[2 + var_r2] = 0;
-        var_r2 += 1;
-    } while ((u32) var_r2 <= 7U);
+
+    for (i = 0; i < ARRAY_COUNT(strc68->unk8); i++) {
+        strc68->unk24[i].x = 0;
+        strc68->unk24[i].y = 0;
+        strc68->unk8[i] = 0;
+    }
 }
 
-void TaskDestructor_8078A64(Task *arg0) {
+void TaskDestructor_8078A64(Task *arg0) { }
 
-}
-
-void TaskDestructor_104_8078A68(Task *arg0) {
-    EggGravity104 *strc104 = TASK_DATA(gCurTask);
+void TaskDestructor_104_8078A68(Task *t)
+{
+    EggGravity104 *strc104 = TASK_DATA(t);
     *strc104->unk4 = 0;
 }
 
-s32 sub_8078A78(EggGravity104 *strc104, Vec2_32 *pos) {
-    s32 *temp_r2;
-    s32 *temp_r3;
-    s32 temp_r1;
-    u8 var_r4;
+s32 sub_8078A78(EggGravity104 *strc104, Vec2_32 *pos)
+{
+    u8 i;
 
-    for(var_r4 = 0; var_r4 < 2; var_r4++)
-    {
-        if ((pos->y + I(strc104->qUnk24[1][0])) < 0xB4) {
-            strc104->qUnk24[0][0] += strc104->qUnk34;
-            strc104->qUnk38 += 0x20;;
-            strc104->qUnk24[1][var_r4] += strc104->qUnk38;
+    for (i = 0; i < 2; i++) {
+        if ((pos->y + (strc104->qUnk24[1][i] >> 8)) < 180) {
+            strc104->qUnk24[0][i] += strc104->qUnk34;
+            strc104->qUnk38 += 0x20;
+            strc104->qUnk24[1][i] += strc104->qUnk38;
         }
     }
 
     return 0;
 }
 
-void TaskDestructor_8078AC0(Task *strc30) {
+void TaskDestructor_8078AC0(Task *strc30) { }
 
-}
-
-void Task_30_8078AC4(void) {
+void Task_30_8078AC4(void)
+{
     EggGravity30 *strc30 = TASK_DATA(gCurTask);
     sub_8078B74(strc30);
     sub_807813C(strc30);
@@ -3034,14 +3031,16 @@ void Task_30_8078AC4(void) {
     }
 }
 
-void sub_8078AF8(void) {
+void sub_8078AF8(void)
+{
     EggGravity30 *strc30 = TASK_DATA(gCurTask);
     if (sub_8078BAC(strc30) == 1) {
         gCurTask->main = sub_8078B24;
     }
 }
 
-void sub_8078B24(void) {
+void sub_8078B24(void)
+{
     EggGravity30 *strc30 = TASK_DATA(gCurTask);
 
     if (strc30->unk8 > 0xB3U) {
@@ -3050,34 +3049,46 @@ void sub_8078B24(void) {
     }
 }
 
-void sub_8078B50(void) {
+void sub_8078B50(void)
+{
     EggGravity30 *strc30 = TASK_DATA(gCurTask);
     *strc30->unk0 = 2;
     TaskDestroy(gCurTask);
 }
 
-void sub_8078B74(EggGravity30 *strc30) {
-    Sprite *temp_r6;
+void sub_8078B74(EggGravity30 *strc30)
+{
     u8 temp_r0;
     u8 var_r5;
+    u32 cmpVal = 0;
+    Sprite *s = strc30->pSpr28;
 
-//    temp_r6 = strc30->qUnk24X[1];
-//    temp_r0 = strc30->filler0[4];
-    if (temp_r0 != 0) {
-        for(var_r5 = 0; var_r5 < strc30->unk4; var_r5++)
-        {
-            {
-//                temp_r6->x = I(strc30->qUnk1C.x);
-//                temp_r6->y = I(strc30->qUnk24.y);
-                DisplaySprite(temp_r6);
-            }
+    if (strc30->unk4 != 0) {
+        for (var_r5 = 0; var_r5 < strc30->unk4; var_r5++) {
+            s->x = (s16)((s32)strc30->unk20 >> 8);
+            s->y = (s16)((s32)strc30->unk24 >> 8);
+            DisplaySprite(s);
         }
     }
 }
 
-s32 sub_8078BAC(EggGravity30 *strc30) {
-    s8 temp_r0 = sa2__sub_801F07C(strc30->pSpr28->y + gCamera.y, 0, 0, 8,
-                                  NULL, sa2__sub_801EE64);
+static inline s8 someFunc(s32 x, s32 y, u8 *r4) { return SA2_LABEL(sub_801F07C)(y, x, 0, 8, r4, SA2_LABEL(sub_801EE64)); }
+
+// (99.22%) https://decomp.me/scratch/s1tQ5
+NONMATCH("asm/non_matching/game/bosses/boss_7__sub_8078BAC.inc", s32 sub_8078BAC(EggGravity30 *strc30))
+{
+    s8 temp_r0;
+#ifndef NON_MATCHING
+    register void *r4 asm("r4") = NULL;
+    register u32 r1 asm("r1") = 0;
+    register u32 r2 asm("r2") = 0;
+    asm("" ::"r"(r1), "r"(r2));
+#else
+    void *r4 = NULL;
+    u32 r1 = 0;
+    u32 r2 = 0;
+#endif
+    temp_r0 = someFunc(0, strc30->pSpr28->y + gCamera.y, r4);
     if (temp_r0 < 0) {
         strc30->unk24 += Q(temp_r0);
         strc30->unk6 = -1;
@@ -3087,18 +3098,23 @@ s32 sub_8078BAC(EggGravity30 *strc30) {
     strc30->unk18 -= Q(strc30->unk6);
     strc30->unk10 += strc30->unk18;
     strc30->unk24 += strc30->unk10;
-    if (strc30->unk10 != 0) {
+
+    if (strc30->unk10 == 0) {
+        return 1;
+    } else {
         return 0;
     }
-    return 1;
 }
+END_NONMATCH
 
-void TaskDestructor_8078C28(Task *t) {
+void TaskDestructor_8078C28(Task *t)
+{
     EggGravityBC *strcBC = TASK_DATA(t);
     VramFree(strcBC->spr6C.tiles);
 }
 
-void Task_BC_8078C3C(void) {
+void Task_BC_8078C3C(void)
+{
     EggGravityBC *strcBC = TASK_DATA(gCurTask);
     u8 *temp_r0;
     u8 *temp_r1;
@@ -3116,11 +3132,10 @@ void Task_BC_8078C3C(void) {
     }
 }
 
-void TaskDestructor_28_8078C8C(Task *t) {
+void TaskDestructor_28_8078C8C(Task *t) { }
 
-}
-
-void Task_28_8078C90(void) {
+void Task_28_8078C90(void)
+{
     EggGravity28 *strc28 = TASK_DATA(gCurTask);
 
     sub_8078650(strc28);
@@ -3132,7 +3147,8 @@ void Task_28_8078C90(void) {
     sub_8078CC4(strc28);
 }
 
-s32 sub_8078CC4(EggGravity28 *strc28) {
+s32 sub_8078CC4(EggGravity28 *strc28)
+{
     s32 temp_r4;
     Sprite *s;
 
@@ -3149,20 +3165,18 @@ s32 sub_8078CC4(EggGravity28 *strc28) {
     return temp_r4;
 }
 
-void TaskDestructor_4C_B_8078D18(Task *t) {
+void TaskDestructor_4C_B_8078D18(Task *t)
+{
     EggGravity4C_B *strc4C = TASK_DATA(t);
     VramFree(strc4C->s.tiles);
 }
 
-void sub_8078D2C(void) {
+void sub_8078D2C(void) { }
 
-}
+void TaskDestructor_8078D30(Task *arg0) { }
 
-void TaskDestructor_8078D30(Task *arg0) {
-
-}
-
-void Task_68_8078D34(void) {
+void Task_68_8078D34(void)
+{
     EggGravity68 *strc68 = TASK_DATA(gCurTask);
     sub_8078D6C(strc68);
 
@@ -3172,12 +3186,12 @@ void Task_68_8078D34(void) {
     }
 }
 
-u8 sub_8078D6C(EggGravity68 *strc68) {
+u8 sub_8078D6C(EggGravity68 *strc68)
+{
     Sprite *s;
     u8 i;
 
-    for(i = 0; i < 8; i++)
-    {
+    for (i = 0; i < 8; i++) {
         s = strc68->spr64;
         s->x = I(strc68->unk18Xs[0] + strc68->unk24[i].x);
         s->y = I(strc68->unk1CYs[0] + strc68->unk24[i].y);
@@ -3186,4 +3200,3 @@ u8 sub_8078D6C(EggGravity68 *strc68) {
 
     return 1U;
 }
-#endif

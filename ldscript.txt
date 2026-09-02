@@ -173,7 +173,6 @@ SECTIONS {
         src/game/bosses/boss_5.o(.text);
         src/game/bosses/boss_6.o(.text);
         src/game/bosses/boss_7.o(.text);
-        asm/boss_7.o(.text);
         src/game/bosses/eggman_escape.o(.text);
         src/game/bosses/gemerl_attacks.o(.text);
         asm/boss_final.o(.text);
