@@ -129,7 +129,7 @@ void sub_80B75E4(Struc_3001150 *strc, Player *partner, Player *player)
     if ((gStageData.act != 7) && (gStageData.act != 9) && (gStageData.zone != 7) && (sub_80B8E5C(unk1C) != 0)) {
         sub_80B8DA8(unk1C, unk1C->unk2C, unk1C->unk30);
     } else {
-        if (player->moveState & 1) {
+        if (player->moveState & MOVESTATE_FACING_LEFT) {
             var_r2 = +Q(12);
         } else {
             var_r2 = -Q(12);
@@ -170,11 +170,6 @@ void sub_80B75E4(Struc_3001150 *strc, Player *partner, Player *player)
 
 void sub_80B77D0(Struc_3001150 *strc, Player *partner, Player *player)
 {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r2;
-    s32 partnerChar;
-    s32 var_r1;
     u32 var_r0;
 
     if ((strc->unkC & 0x3F) == 0x3F) {
@@ -1790,18 +1785,18 @@ u32 sub_80B9548(Struc_3001150_1C *strc, Player *partner, Player *p)
 {
     u16 attackBtn;
     s32 temp_r1;
-    u32 var_r2;
+    u32 input;
 
-    var_r2 = strc->inputBuffer[strc->inputBufferIndex];
+    input = strc->inputBuffer[strc->inputBufferIndex];
     attackBtn = gStageData.buttonConfig.attack;
     temp_r1 = attackBtn | (DPAD_ANY & ~DPAD_UP);
-    if ((var_r2 & temp_r1) || !(DPAD_UP & var_r2)) {
-        var_r2 = (u16)((var_r2 & ~temp_r1) | DPAD_UP);
+    if ((input & temp_r1) || !(DPAD_UP & input)) {
+        input = (u16)((input & ~temp_r1) | DPAD_UP);
     } else {
-        var_r2 = var_r2 | gStageData.buttonConfig.attack;
+        input = input | gStageData.buttonConfig.attack;
         strc->func = sub_80B8980;
     }
-    return var_r2;
+    return input;
 }
 
 u16 sub_80B95A0(Struc_3001150_1C *strc, Player *partner, Player *p)

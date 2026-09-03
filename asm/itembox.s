@@ -5,6 +5,7 @@
 .syntax unified
 .arm
 
+@ Matched in itembox.c
 	thumb_func_start CreateEntity_ItemBox
 CreateEntity_ItemBox: @ 0x0802C21C
 	push {r4, r5, r6, r7, lr}
@@ -162,6 +163,7 @@ _0802C350: .4byte 0x0300001C
 _0802C354: .4byte 0x00000524
 _0802C358: .4byte 0x03000044
 
+@ (Fake-)Matched in itembox.c
 	thumb_func_start sub_802C35C
 sub_802C35C: @ 0x0802C35C
 	push {r4, r5, lr}
@@ -403,6 +405,7 @@ _0802C528: .4byte gUnknown_080CF44E
 _0802C52C: .4byte gUnknown_080CF3B8
 _0802C530: .4byte gUnknown_080CF3C0
 
+@ Matched in itembox.c
 	thumb_func_start Task_ItemBoxInit
 Task_ItemBoxInit: @ 0x0802C534
 	push {r4, r5, r6, r7, lr}
@@ -515,7 +518,8 @@ _0802C60C:
 	pop {r0}
 	bx r0
 	.align 2, 0
-
+    
+@ Matched in itembox.c
 	thumb_func_start sub_802C618
 sub_802C618: @ 0x0802C618
 	push {r4, r5, r6, lr}
