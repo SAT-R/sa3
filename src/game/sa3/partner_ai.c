@@ -1840,7 +1840,7 @@ s32 sub_80B9650(Player *partner, Player *player, Struc_3001150_164 *strc164, s32
     s32 qDY;
 
     max = (strc164->unk0Index + 1) % ARRAY_COUNT(strc164->unk0);
-    if (!(partner->moveState & (MOVESTATE_80000000 | MOVESTATE_10000000 | MOVESTATE_40000 | MOVESTATE_20000))) {
+    if (!(partner->moveState & (MOVESTATE_80000000 | MOVESTATE_10000000 | MOVESTATE_40000 | MOVESTATE_GRINDING))) {
         index = strc164->unk0Index;
         while (index != max) {
             temp_r6 = &strc164->unk0[index];
@@ -1885,7 +1885,7 @@ void nullsub_80B9770(Struc_3001150_164 *strc164) { }
 
 void sub_80B9774(Struc_3001150_164 *strc, Player *player)
 {
-    if (!(player->moveState & (MOVESTATE_80000000 | MOVESTATE_10000000 | MOVESTATE_40000 | MOVESTATE_20000 | MOVESTATE_IN_AIR))
+    if (!(player->moveState & (MOVESTATE_80000000 | MOVESTATE_10000000 | MOVESTATE_40000 | MOVESTATE_GRINDING | MOVESTATE_IN_AIR))
         && !sub_80B97A4(strc, player)) {
         sub_80B9604(strc, player);
     }

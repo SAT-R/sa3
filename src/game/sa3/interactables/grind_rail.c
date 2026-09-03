@@ -304,7 +304,7 @@ void Task_Interactable073Main(void)
                 && !(p->moveState & (MOVESTATE_1000000 | MOVESTATE_DEAD)) && (p->qWorldX > qLeft) && (p->qWorldX < qRight)
                 && (p->qWorldY > qTop) && (p->qWorldY < qBottom)) {
 
-                if (p->moveState & MOVESTATE_20000) {
+                if (p->moveState & MOVESTATE_GRINDING) {
                     SetPlayerCallback(p, Player_800D978);
                 }
 
@@ -343,7 +343,7 @@ void Task_Interactable074Main(void)
 
             if (((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4))
                 && !(p->moveState & (MOVESTATE_1000000 | MOVESTATE_DEAD))
-                && ((p->moveState & MOVESTATE_20000) && (p->qWorldX > qLeft) && (p->qWorldX < qRight) && (p->qWorldY > qTop)
+                && ((p->moveState & MOVESTATE_GRINDING) && (p->qWorldX > qLeft) && (p->qWorldX < qRight) && (p->qWorldY > qTop)
                     && (p->qWorldY < qBottom))) {
                 {
                     Player_800D9B4(p);
