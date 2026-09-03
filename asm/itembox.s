@@ -726,6 +726,7 @@ _0802C7A4: .4byte gStageData
 _0802C7A8: .4byte gCurTask
 _0802C7AC: .4byte Task_802D61C
 
+@ Matched in itembox.c
 	thumb_func_start sub_802C7B0
 sub_802C7B0: @ 0x0802C7B0
 	push {r4, r5, r6, r7, lr}
@@ -1391,7 +1392,7 @@ _0802CCC0:
 	.align 2, 0
 _0802CCD0: .4byte gStageData
 _0802CCD4:
-	ldr r3, _0802CD78 @ =gUnknown_080CF43E
+	ldr r3, _0802CD78 @ =ItemBox_ringAmountTable
 	ldr r2, _0802CD7C @ =gPseudoRandom
 	ldr r1, [r2]
 	ldr r0, _0802CD80 @ =0x00196225
@@ -1477,13 +1478,13 @@ _0802CD6C:
 	bl sub_8003DF0
 	b _0802CE1A
 	.align 2, 0
-_0802CD78: .4byte gUnknown_080CF43E
+_0802CD78: .4byte ItemBox_ringAmountTable
 _0802CD7C: .4byte gPseudoRandom
 _0802CD80: .4byte 0x00196225
 _0802CD84: .4byte 0x3C6EF35F
 _0802CD88: .4byte gPlayers
 _0802CD8C:
-	ldr r3, _0802CE30 @ =gUnknown_080CF43E
+	ldr r3, _0802CE30 @ =ItemBox_ringAmountTable
 	ldr r2, _0802CE34 @ =gPseudoRandom
 	ldr r1, [r2]
 	ldr r0, _0802CE38 @ =0x00196225
@@ -1569,7 +1570,7 @@ _0802CE26:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0802CE30: .4byte gUnknown_080CF43E
+_0802CE30: .4byte ItemBox_ringAmountTable
 _0802CE34: .4byte gPseudoRandom
 _0802CE38: .4byte 0x00196225
 _0802CE3C: .4byte 0x3C6EF35F

@@ -6,6 +6,7 @@
 #include "game/stage.h"
 #include "constants/animations.h"
 #include "constants/move_states.h"
+#include "constants/songs.h"
 
 typedef struct ItemBox {
     /* 0x00 */ MapEntity *me;
@@ -34,16 +35,16 @@ void sub_8017A58(Player *); /* extern */
 void sub_80267E8(); /* extern */
 void sub_8027538(MapEntity *me); /* extern */
 void sub_802773C(u16, u16); /* extern */
-void sub_8027768(u32, s32); /* extern */
-void sub_80277AC(u32, s32); /* extern */
-void sub_80277F0(u32, s32); /* extern */
+void sub_8027768(u16, u16); /* extern */
+void sub_80277AC(u16, u16); /* extern */
+void sub_80277F0(u16, u16); /* extern */
 void sub_8027834(); /* extern */
 void sub_805CEBC(s32, s32, s32, s32, s32, s32); /* extern */
 void TaskDestructor_ItemBox(Task *); /* static */
 extern u16 gUnknown_080CF3B8[2][2];
 extern u16 gUnknown_080CF3C0[][3];
 extern u16 gUnknown_080CF420[][3];
-extern u16 gUnknown_080CF43E[];
+extern u8 ItemBox_ringAmountTable[16];
 extern u16 gUnknown_080CF44E[][2];
 
 void sub_802C35C(ItemBox *itembox, s32 param1);
@@ -57,7 +58,9 @@ void sub_802D6CC(ItemBox *itembox, s32 arg1);
 bool32 sub_802D694(s32 x, s32 y);
 
 void Task_ItemBoxInit(void);
-void sub_802C7B0(ItemBox *arg0);
+void Task_802D660(void);
+void sub_802C7B0(ItemBox *itembox);
+extern void AddLives(u16 count);
 
 #if defined(NON_MATCHING)
 // OK
@@ -287,429 +290,228 @@ void sub_802C618(ItemBox *itembox)
 }
 #endif
 
-#if 00
-
 #if 0
-void sub_802C7B0(ItemBox *arg0) {
-    Player *temp_r0;
-    Player *temp_r0_12;
-    Player *temp_r0_13;
-    Player *temp_r0_16;
-    Player *temp_r0_19;
-    Player *temp_r0_23;
-    Player *temp_r0_27;
-    Player *temp_r0_3;
-    Player *temp_r0_6;
-    Player *temp_r0_7;
-    Player *temp_r1;
-    Player *temp_r1_10;
-    Player *temp_r1_2;
-    Player *temp_r1_3;
-    Player *temp_r1_4;
-    Player *temp_r1_5;
-    Player *temp_r1_6;
-    Player *temp_r1_7;
-    Player *temp_r1_8;
-    Player *temp_r1_9;
-    s16 *temp_r0_9;
-    s16 temp_r2;
-    s16 temp_r2_2;
-    s16 temp_r4_13;
-    s16 temp_r4_9;
-    s16 temp_r5;
-    s16 temp_r5_2;
-    s16 temp_r5_3;
-    s16 var_r0_2;
+// OK
+void sub_802C7B0(ItemBox *itembox)
+{
+    Player *player;
+    Player *partner;
     s16 var_r1_2;
-    s16 var_r1_3;
-    s16 var_r1_4;
-    s16 var_r1_5;
-    s16 var_r6_2;
-    s16 var_r6_5;
-    s16 var_r6_9;
-    s32 temp_r0_22;
-    s32 temp_r0_26;
-    s32 temp_r4;
-    s32 temp_r4_10;
-    s32 temp_r4_12;
-    s32 temp_r4_2;
-    s32 temp_r4_3;
-    s32 temp_r4_4;
-    s32 temp_r4_5;
-    s32 temp_r4_6;
-    s32 temp_r4_8;
-    s32 var_r0;
-    s8 *var_r1;
-    u16 temp_r0_18;
-    u16 temp_r0_21;
-    u16 temp_r0_25;
-    u16 temp_r0_29;
-    u16 temp_r4_11;
-    u16 temp_r4_7;
-    u32 temp_r0_10;
-    u32 temp_r0_11;
-    u32 temp_r0_14;
-    u32 temp_r0_15;
-    u32 temp_r0_17;
-    u32 temp_r0_20;
-    u32 temp_r0_24;
-    u32 temp_r0_28;
-    u32 temp_r0_4;
-    u32 temp_r0_5;
-    u32 temp_r0_8;
-    u32 var_r6;
-    u32 var_r6_10;
-    u32 var_r6_11;
-    u32 var_r6_12;
-    u32 var_r6_3;
-    u32 var_r6_4;
-    u32 var_r6_6;
-    u32 var_r6_7;
-    u32 var_r6_8;
-    u8 temp_r0_2;
-    u8 var_r2;
-    u8 var_r2_2;
-    u8 var_r2_3;
+    u8 pid;
+    s16 var_r6;
+    s16 rings;
 
-    temp_r0 = arg0->unk6C;
-    if (temp_r0 == NULL) {
-        goto block_109;
-    }
-    if (temp_r0->moveState & 0x100) {
-        goto block_109;
-    }
-    temp_r0_2 = arg0->meIndex;
-    switch ((u32) temp_r0_2) {                      /* irregular */
-    case 0:
-        AddLives(1);
-        if (gStageData.gameMode != 5) {
-
-        } else {
-            sub_8027834();
-        }
-block_109:
-        arg0->unk7 = 0;
-        gCurTask->main = (void (*)()) Task_802D660;
-        return;
-    case 6:
-        temp_r1 = arg0->unk6C;
-        temp_r1->unk13C &= 0xDF;
-        temp_r1_2 = arg0->unk6C;
-        var_r1 = temp_r1_2 + 0x13C;
-        var_r2 = temp_r1_2->unk13C;
-        var_r0 = 0x10;
-block_13:
-        *var_r1 = var_r0 | var_r2;
-        goto block_109;
-    case 7:
-        temp_r1_3 = arg0->unk6C;
-        temp_r1_3->unk13C &= 0xEF;
-        temp_r1_4 = arg0->unk6C;
-        var_r1 = temp_r1_4 + 0x13C;
-        var_r2 = temp_r1_4->unk13C;
-        var_r0 = 0x20;
-        goto block_13;
-    case 5:
-        arg0->unk6C->framesInvincible = 0x4B0;
-        temp_r1_5 = arg0->unk6C;
-        var_r1 = temp_r1_5 + 0x13C;
-        var_r2 = temp_r1_5->unk13C;
-        var_r0 = 0x40;
-        goto block_13;
-    case 4:
-        arg0->unk6C->timerSpeedup = 0x4B0;
-        arg0->unk6C->timerSlowItem = 0;
-        arg0->unk6C->unk62 = 0;
-        if (gStageData.gameMode != 6) {
-
-        } else {
-            var_r6 = 0;
-            temp_r0_3 = arg0->unk6C;
-            if (gPlayers != temp_r0_3) {
-loop_18:
-                temp_r0_4 = (var_r6 << 0x10) + 0x10000;
-                var_r6 = temp_r0_4 >> 0x10;
-                temp_r4 = (s32) temp_r0_4 >> 0x10;
-                if (temp_r4 <= 3) {
-                    if (&gPlayers[temp_r4] != temp_r0_3) {
-                        goto loop_18;
+    if ((itembox->p != NULL) && !(itembox->p->moveState & 0x100)) {
+        switch (itembox->meIndex) {
+            case 0:
+                AddLives(1);
+                if (gStageData.gameMode == GAME_MODE_5) {
+                    sub_8027834();
+                }
+                break;
+            case 6:
+                itembox->p->unk13C &= ~0x20;
+                itembox->p->unk13C |= 0x10;
+                break;
+            case 7:
+                itembox->p->unk13C &= ~0x10;
+                itembox->p->unk13C |= 0x20;
+                break;
+            case 5:
+                itembox->p->framesInvincible = 0x4B0;
+                itembox->p->unk13C |= 0x40;
+                break;
+            case 4:
+                itembox->p->timerSpeedup = 0x4B0;
+                itembox->p->timerSlowItem = 0;
+                itembox->p->unk62 = 0;
+                if (gStageData.gameMode == 6) {
+                    for (var_r6 = 0; var_r6 < NUM_MULTI_PLAYER_CHARS; var_r6++) {
+                        if (&gPlayers[var_r6] == itembox->p) {
+                            break;
+                        }
+                    }
+                    sub_80277AC(var_r6, 0);
+                }
+                break;
+            case 2:
+                AddRings(10);
+                sub_8003DF0(SE_RING_OLD_2);
+                break;
+            case 15: {
+                gUnknown_03001060.unk8 = 0;
+                gUnknown_03001060.unk9 = 0;
+                sub_80267E8();
+                for (pid = 0; pid < 4; pid++) {
+#ifdef BUG_FIX
+                    player = &gPlayers[pid];
+#endif
+                    if (&gPlayers[pid] == itembox->p) {
+                        break;
                     }
                 }
-            }
-            sub_80277AC(var_r6, 0);
-        }
-        goto block_109;
-    case 2:
-        var_r0_2 = 0xA;
-block_99:
-        AddRings((u16) var_r0_2);
-        sub_8003DF0(0x75U);
-        goto block_109;
-    case 15:
-        gUnknown_03001060.unk8 = 0;
-        gUnknown_03001060.unk9 = 0;
-        sub_80267E8();
-        var_r2_2 = 0;
-        if (gPlayers != arg0->unk6C) {
-loop_24:
-            var_r2_2 += 1;
-            if ((u32) var_r2_2 <= 3U) {
-                if (&gPlayers[var_r2_2] != arg0->unk6C) {
-                    goto loop_24;
+                if (GetBit(gUnknown_03001060.unk9, (pid + 4))) {
+                    if (!(player->moveState & 0x01000000)) { // TODO/BUG: 'player' not set here?
+                        sub_800ED50(itembox->p);
+                    }
                 }
-            }
-        }
-        if (!(((s32) gUnknown_03001060.unk9 >> (var_r2_2 + 4)) & 1)) {
-
-        } else if (saved_reg_r5->unk4 & 0x01000000) {
-
-        } else {
-            sub_800ED50(arg0->unk6C);
-        }
-        goto block_109;
-    case 11:
-        var_r6_2 = 0;
-        do {
-            temp_r2 = var_r6_2;
-            temp_r1_6 = &gPlayers[temp_r2];
-            temp_r0_6 = arg0->unk6C;
-            if ((temp_r1_6 != temp_r0_6) && (temp_r2 != ((u32) (temp_r0_6->unk2B << 0x1E) >> 0x1E))) {
-                temp_r1_6->unk62 = 0x258;
-                temp_r1_6->timerSlowItem = 0;
-                *(&temp_r1_6->timerSlowItem - 2) = 0;
-                sub_80179BC(temp_r1_6);
-            }
-            temp_r0_5 = (var_r6_2 << 0x10) + 0x10000;
-            var_r6_2 = (s16) (temp_r0_5 >> 0x10);
-        } while ((s32) ((s32) temp_r0_5 >> 0x10) <= 3);
-        var_r6_3 = 0;
-        temp_r0_7 = arg0->unk6C;
-        if (gPlayers != temp_r0_7) {
-loop_38:
-            temp_r0_8 = (var_r6_3 << 0x10) + 0x10000;
-            var_r6_3 = temp_r0_8 >> 0x10;
-            temp_r4_2 = (s32) temp_r0_8 >> 0x10;
-            if (temp_r4_2 <= 3) {
-                if (&gPlayers[temp_r4_2] != temp_r0_7) {
-                    goto loop_38;
+            } break;
+            case 11:
+                for (var_r6 = 0; var_r6 < 4; var_r6++) {
+                    if ((&gPlayers[var_r6] != itembox->p) && (var_r6 != itembox->p->charFlags.partnerIndex)) {
+                        player = &gPlayers[var_r6];
+                        player->unk62 = 600;
+                        player->timerSlowItem = 0;
+                        player->timerSpeedup = 0;
+                        sub_80179BC(player);
+                    }
                 }
-            }
-        }
-        sub_80277F0(var_r6_3, 0);
-        goto block_109;
-    case 12:
-        arg0->unk6C->unk62 = 0x258;
-        arg0->unk6C->timerSlowItem = 0;
-        arg0->unk6C->timerSpeedup = 0;
-        sub_80179BC(arg0->unk6C);
-        temp_r1_7 = &gPlayers[(u32) (arg0->unk6C->unk2B << 0x1E) >> 0x1E];
-        temp_r1_7->unk62 = 0x258;
-        temp_r0_9 = &temp_r1_7->unk62 - 2;
-        *temp_r0_9 = 0;
-        *(temp_r0_9 - 2) = 0;
-        sub_80179BC(temp_r1_7);
-        var_r6_4 = 0;
-        if (gPlayers != arg0->unk6C) {
-loop_43:
-            temp_r0_10 = (var_r6_4 << 0x10) + 0x10000;
-            var_r6_4 = temp_r0_10 >> 0x10;
-            temp_r4_3 = (s32) temp_r0_10 >> 0x10;
-            if (temp_r4_3 <= 3) {
-                if (&gPlayers[temp_r4_3] != arg0->unk6C) {
-                    goto loop_43;
+                for (var_r6 = 0; var_r6 < 4; var_r6++) {
+                    if (&gPlayers[var_r6] == itembox->p) {
+                        break;
+                    }
                 }
-            }
-        }
-        sub_80277F0(var_r6_4, 1);
-        goto block_109;
-    case 13:
-        var_r6_5 = 0;
-        do {
-            temp_r2_2 = var_r6_5;
-            temp_r1_8 = &gPlayers[temp_r2_2];
-            temp_r0_12 = arg0->unk6C;
-            if ((temp_r1_8 != temp_r0_12) && (temp_r2_2 != ((u32) (temp_r0_12->unk2B << 0x1E) >> 0x1E))) {
-                temp_r1_8->timerSlowItem = 0x258;
-                temp_r1_8->unk62 = 0;
-                *(&temp_r1_8->unk62 - 4) = 0;
-                sub_80179BC(temp_r1_8);
-            }
-            temp_r0_11 = (var_r6_5 << 0x10) + 0x10000;
-            var_r6_5 = (s16) (temp_r0_11 >> 0x10);
-        } while ((s32) ((s32) temp_r0_11 >> 0x10) <= 3);
-        var_r6_6 = 0;
-        temp_r0_13 = arg0->unk6C;
-        if (gPlayers != temp_r0_13) {
-loop_53:
-            temp_r0_14 = (var_r6_6 << 0x10) + 0x10000;
-            var_r6_6 = temp_r0_14 >> 0x10;
-            temp_r4_4 = (s32) temp_r0_14 >> 0x10;
-            if (temp_r4_4 <= 3) {
-                if (&gPlayers[temp_r4_4] != temp_r0_13) {
-                    goto loop_53;
+                sub_80277F0(var_r6, 0);
+                break;
+            case 12:
+                itembox->p->unk62 = 600;
+                itembox->p->timerSlowItem = 0;
+                itembox->p->timerSpeedup = 0;
+                sub_80179BC(itembox->p);
+                {
+                    partner = &gPlayers[itembox->p->charFlags.partnerIndex];
+                    partner->unk62 = 600;
+                    partner->timerSlowItem = 0;
+                    partner->timerSpeedup = 0;
+                    sub_80179BC(partner);
                 }
-            }
-        }
-        sub_8027768(var_r6_6, 0);
-        goto block_109;
-    case 14:
-        arg0->unk6C->timerSlowItem = 0x258;
-        arg0->unk6C->unk62 = 0;
-        arg0->unk6C->timerSpeedup = 0;
-        sub_80179BC(arg0->unk6C);
-        temp_r1_9 = &gPlayers[(u32) (arg0->unk6C->unk2B << 0x1E) >> 0x1E];
-        temp_r1_9->timerSlowItem = 0x258;
-        temp_r1_9->unk62 = 0;
-        *((&temp_r1_9->timerSlowItem + 2) - 4) = 0;
-        sub_80179BC(temp_r1_9);
-        var_r6_7 = 0;
-        if (gPlayers != arg0->unk6C) {
-loop_58:
-            temp_r0_15 = (var_r6_7 << 0x10) + 0x10000;
-            var_r6_7 = temp_r0_15 >> 0x10;
-            temp_r4_5 = (s32) temp_r0_15 >> 0x10;
-            if (temp_r4_5 <= 3) {
-                if (&gPlayers[temp_r4_5] != arg0->unk6C) {
-                    goto loop_58;
+                for (var_r6 = 0; var_r6 < 4; var_r6++) {
+                    if (&gPlayers[var_r6] == itembox->p) {
+                        break;
+                    }
                 }
-            }
-        }
-        sub_8027768(var_r6_7, 1);
-        goto block_109;
-    case 10:
-        var_r6_8 = 0;
-        temp_r0_16 = arg0->unk6C;
-        if (gPlayers != temp_r0_16) {
-loop_63:
-            temp_r0_17 = (var_r6_8 << 0x10) + 0x10000;
-            var_r6_8 = temp_r0_17 >> 0x10;
-            temp_r4_6 = (s32) temp_r0_17 >> 0x10;
-            if (temp_r4_6 <= 3) {
-                if (&gPlayers[temp_r4_6] != temp_r0_16) {
-                    goto loop_63;
+                sub_80277F0(var_r6, 1);
+                break;
+            case 13:
+                for (var_r6 = 0; var_r6 < 4; var_r6++) {
+                    if ((&gPlayers[var_r6] != itembox->p) && (var_r6 != itembox->p->charFlags.partnerIndex)) {
+                        player = &gPlayers[var_r6];
+                        player->timerSlowItem = 600;
+                        player->unk62 = 0;
+                        player->timerSpeedup = 0;
+                        sub_80179BC(player);
+                    }
                 }
-            }
-        }
-        sub_80277AC(var_r6_8, 1);
-        goto block_109;
-    case 1:
-        if (gStageData.gameMode == 6) {
-            var_r6_9 = 0;
-loop_69:
-            temp_r5 = var_r6_9;
-            if ((s32) temp_r5 <= 3) {
-                temp_r1_10 = &gPlayers[temp_r5];
-                if (temp_r1_10 == arg0->unk6C) {
-                    sub_8017A58(temp_r1_10);
+                for (var_r6 = 0; var_r6 < 4; var_r6++) {
+                    if (&gPlayers[var_r6] == itembox->p) {
+                        break;
+                    }
+                }
+                sub_8027768(var_r6, 0);
+                break;
+            case 14:
+                itembox->p->timerSlowItem = 600;
+                itembox->p->unk62 = 0;
+                itembox->p->timerSpeedup = 0;
+                sub_80179BC(itembox->p);
+                {
+                    partner = &gPlayers[itembox->p->charFlags.partnerIndex];
+                    partner->timerSlowItem = 600;
+                    partner->unk62 = 0;
+                    partner->timerSpeedup = 0;
+                    sub_80179BC(partner);
+                }
+                for (var_r6 = 0; var_r6 < 4; var_r6++) {
+                    if (&gPlayers[var_r6] == itembox->p) {
+                        break;
+                    }
+                }
+                sub_8027768(var_r6, 1);
+                break;
+            case 10:
+                for (var_r6 = 0; var_r6 < 4; var_r6++) {
+                    if (&gPlayers[var_r6] == itembox->p) {
+                        break;
+                    }
+                }
+                sub_80277AC(var_r6, 1);
+                break;
+            case 1: {
+                if (gStageData.gameMode == GAME_MODE_MP_MULTI_PACK) {
+                    for (var_r6 = 0; var_r6 < 4; var_r6++) {
+                        Player *player = &gPlayers[var_r6];
+                        if (player == itembox->p) {
+                            sub_8017A58(player);
+                            break;
+                        }
+                    }
+                    sub_802773C(1 & var_r6, 5U);
+                    for (var_r1_2 = 0; var_r1_2 < 4; var_r1_2++) {
+                        if ((var_r1_2 & 1) == (1 & var_r6)) {
+                            sub_8017A58(&gPlayers[var_r1_2]);
+                        }
+                    }
+                }
+                AddRings(5);
+                sub_8003DF0(SE_RING_OLD_2);
+            } break;
+            case 8:
+                for (var_r6 = 0; var_r6 < 4; var_r6++) {
+                    if (&gPlayers[var_r6] == itembox->p) {
+                        break;
+                    }
+                }
+                sub_802773C(~var_r6 & 1, 5U);
+                for (var_r1_2 = 0; var_r1_2 < 4; var_r1_2++) {
+                    if ((var_r1_2 & 1) != (var_r6 & 1)) {
+                        sub_8017A58(&gPlayers[var_r1_2]);
+                    }
+                }
+                break;
+            case 3:
+                if (gStageData.gameMode == 3) {
+                    rings = 10;
                 } else {
-                    var_r6_9 = (s16) (u16) (temp_r5 + 1);
-                    goto loop_69;
+                    rings = ItemBox_ringAmountTable[PseudoRandom32() % ARRAY_COUNT(ItemBox_ringAmountTable)];
                 }
-            }
-            temp_r4_7 = 1 & temp_r5;
-            sub_802773C(temp_r4_7, 5U);
-            var_r1_2 = 0;
-            do {
-                temp_r5_2 = var_r1_2;
-                if ((temp_r5_2 & 1) == (s16) temp_r4_7) {
-                    sub_8017A58(&gPlayers[temp_r5_2]);
-                }
-                temp_r0_18 = temp_r5_2 + 1;
-                var_r1_2 = (s16) temp_r0_18;
-            } while ((s32) (s16) temp_r0_18 <= 3);
-        }
-        var_r0_2 = 5;
-        goto block_99;
-    case 8:
-        var_r6_10 = 0;
-        temp_r0_19 = arg0->unk6C;
-        if (gPlayers != temp_r0_19) {
-loop_79:
-            temp_r0_20 = (var_r6_10 << 0x10) + 0x10000;
-            var_r6_10 = temp_r0_20 >> 0x10;
-            temp_r4_8 = (s32) temp_r0_20 >> 0x10;
-            if (temp_r4_8 <= 3) {
-                if (&gPlayers[temp_r4_8] != temp_r0_19) {
-                    goto loop_79;
-                }
-            }
-        }
-        sub_802773C(~var_r6_10 & 1, 5U);
-        var_r1_3 = 0;
-        do {
-            temp_r4_9 = var_r1_3;
-            if ((temp_r4_9 & 1) != ((s32) (0x10000 & (var_r6_10 << 0x10)) >> 0x10)) {
-                sub_8017A58(&gPlayers[temp_r4_9]);
-            }
-            temp_r0_21 = temp_r4_9 + 1;
-            var_r1_3 = (s16) temp_r0_21;
-        } while ((s32) (s16) temp_r0_21 <= 3);
-        goto block_109;
-    case 3:
-        if (gStageData.gameMode == 3) {
-            var_r2_3 = 0xA;
-        } else {
-            temp_r0_22 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
-            gPseudoRandom = temp_r0_22;
-            var_r2_3 = *((temp_r0_22 & 0xF) + gUnknown_080CF43E);
-        }
-        if (gStageData.gameMode == 6) {
-            var_r6_11 = 0;
-            temp_r0_23 = arg0->unk6C;
-            if (gPlayers != temp_r0_23) {
-loop_92:
-                temp_r0_24 = (var_r6_11 << 0x10) + 0x10000;
-                var_r6_11 = temp_r0_24 >> 0x10;
-                temp_r4_10 = (s32) temp_r0_24 >> 0x10;
-                if (temp_r4_10 <= 3) {
-                    if (&gPlayers[temp_r4_10] != temp_r0_23) {
-                        goto loop_92;
+                if (gStageData.gameMode == GAME_MODE_MP_MULTI_PACK) {
+                    for (var_r6 = 0; var_r6 < 4; var_r6++) {
+                        if (&gPlayers[var_r6] == itembox->p) {
+                            break;
+                        }
+                    }
+                    sub_802773C(var_r6 & 1, (u16)rings);
+                    for (var_r1_2 = 0; var_r1_2 < 4; var_r1_2++) {
+                        if ((var_r1_2 & 1) == (var_r6 & 1)) {
+                            sub_8017A58(&gPlayers[var_r1_2]);
+                        }
                     }
                 }
-            }
-            temp_r4_11 = (s16) var_r6_11 & 1;
-            sub_802773C(temp_r4_11, (u16) var_r2_3);
-            var_r1_4 = 0;
-            do {
-                temp_r5_3 = var_r1_4;
-                if ((temp_r5_3 & 1) == (s16) temp_r4_11) {
-                    sub_8017A58(&gPlayers[temp_r5_3]);
+                AddRings(rings);
+                sub_8003DF0(SE_RING_OLD_2);
+                break;
+            case 9:
+                rings = ItemBox_ringAmountTable[PseudoRandom32() % ARRAY_COUNT(ItemBox_ringAmountTable)];
+                for (var_r6 = 0; var_r6 < 4; var_r6++) {
+                    if (&gPlayers[var_r6] == itembox->p) {
+                        break;
+                    }
                 }
-                temp_r0_25 = temp_r5_3 + 1;
-                var_r1_4 = (s16) temp_r0_25;
-            } while ((s32) (s16) temp_r0_25 <= 3);
-        }
-        var_r0_2 = (s16) var_r2_3;
-        goto block_99;
-    case 9:
-        temp_r0_26 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
-        gPseudoRandom = temp_r0_26;
-        var_r6_12 = 0;
-        temp_r0_27 = arg0->unk6C;
-        if (gPlayers != temp_r0_27) {
-loop_102:
-            temp_r0_28 = (var_r6_12 << 0x10) + 0x10000;
-            var_r6_12 = temp_r0_28 >> 0x10;
-            temp_r4_12 = (s32) temp_r0_28 >> 0x10;
-            if (temp_r4_12 <= 3) {
-                if (&gPlayers[temp_r4_12] != temp_r0_27) {
-                    goto loop_102;
+                sub_802773C(~var_r6 & 1, rings);
+                for (var_r1_2 = 0; var_r1_2 < 4; var_r1_2++) {
+                    if ((var_r1_2 & 1) != (var_r6 & 1)) {
+                        sub_8017A58(&gPlayers[var_r1_2]);
+                    }
                 }
-            }
+                sub_8003DF0(SE_RING_OLD_2);
+                break;
+            default:
+                return;
         }
-        sub_802773C(~var_r6_12 & 1, (u16) *((temp_r0_26 & 0xF) + gUnknown_080CF43E));
-        var_r1_5 = 0;
-        do {
-            temp_r4_13 = var_r1_5;
-            if ((temp_r4_13 & 1) != ((s32) (0x10000 & (var_r6_12 << 0x10)) >> 0x10)) {
-                sub_8017A58(&gPlayers[temp_r4_13]);
-            }
-            temp_r0_29 = temp_r4_13 + 1;
-            var_r1_5 = (s16) temp_r0_29;
-        } while ((s32) (s16) temp_r0_29 <= 3);
-        sub_8003DF0(0x75U);
-        goto block_109;
     }
+
+    itembox->unk7 = 0;
+    gCurTask->main = Task_802D660;
 }
 
 s32 sub_802CE4C(ItemBox *itembox) {
@@ -902,7 +704,6 @@ block_83:
         return var_sl;
     }
 }
-#endif
 #endif
 
 // (84.34%) https://decomp.me/scratch/GzKFl

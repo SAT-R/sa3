@@ -18,13 +18,16 @@ gUnknown_080CF3C0:
 gUnknown_080CF420:
     .incbin "baserom_sa3.gba", 0x000CF420, 0x1E
 
-    .global gUnknown_080CF43E
-gUnknown_080CF43E:
-    .incbin "baserom_sa3.gba", 0x000CF43E, 0x10
+    .global ItemBox_ringAmountTable
+ItemBox_ringAmountTable:
+    .byte 1, 5, 10, 30, 50
+    .byte 1, 5, 10, 30, 50
+    .byte 1, 5, 10, 30, 50
+    .byte 1
 
     .global gUnknown_080CF44E
 gUnknown_080CF44E:
-    .incbin "baserom_sa3.gba", 0x000CF44E, 0x1A
+    .short 3, 9, 13, 14, 4, 10, 11, 12, 1, 8, 15, 15, 0
 
     .global gUnknown_080CF468
 gUnknown_080CF468:

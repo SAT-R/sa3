@@ -214,7 +214,7 @@ void sub_8002508(void)
     }
 }
 
-void AddRings(u16 count)
+void AddRings(s16 count)
 {
     s32 oldLives, newLives;
     u16 oldRings;
