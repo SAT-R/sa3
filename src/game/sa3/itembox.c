@@ -514,195 +514,167 @@ void sub_802C7B0(ItemBox *itembox)
     gCurTask->main = Task_802D660;
 }
 
-s32 sub_802CE4C(ItemBox *itembox) {
-    Player *p;
-    Sprite *temp_r1;
-    s16 temp_r0_2;
-    s16 temp_r1_4;
-    s32 temp_r0;
+// Almost OK, just the ASM-hack does not match.
+s32 sub_802CE4C(ItemBox* itembox) {
+    Player* playerCheese;
+    Player* p;
+    Sprite* sprItembox;
     s32 temp_r1_7;
-    s32 temp_r2_4;
-    s32 temp_r3_2;
-    s32 var_r0;
-    s32 var_r0_2;
     s32 var_sl;
-    u16 temp_r1_3;
-    u32 temp_r0_3;
-    u32 temp_r0_4;
-    u32 temp_r0_5;
-    u32 temp_r0_6;
-    u32 temp_r1_5;
-    u32 temp_r1_6;
-    u32 temp_r2_2;
-    u32 temp_r2_3;
-    u32 temp_r3;
-    u32 var_r1;
+    s16 var_r1;
     u8 temp_r1_2;
     u8 temp_r2;
     u8 var_r1_2;
-    void *temp_r4;
+    u32 coll;
 
-    p = saved_reg_r4;
     var_sl = 0;
-    temp_r1 = &itembox->s;
-    var_r1 = 0;
-loop_1:
-    temp_r0 = var_r1 << 0x10;
-    if (temp_r0 == 0) {
-        var_r1_2 = gStageData.playerIndex;
-    } else {
-        var_r1_2 = (u8) ((u32) (p->unk2B << 0x1E) >> 0x1E);
-    }
-    p = &gPlayers[var_r1_2];
-    if (sub_802C080(p) != 0) {
-        goto block_77;
-    }
-    temp_r2 = p->unk2B;
-    if (((0x1C & temp_r2) != 4) && ((0xF & p->unk2A) != 3)) {
-        goto block_60;
-    }
-    if (((0x1C0F & (u16) p->unk2A) == 0x803) && ((u32) (u16) ((u16) p->charFlags.anim0 - 0xE7) <= 2U) && ((temp_r2_2 = temp_r2 << 0x1E, ((u32) (u16) ((u16) gPlayers[temp_r2_2 >> 0x1E].charFlags.anim0 - 0xAF) <= 1U)) || (gPlayers[temp_r2_2 >> 0x1E].charFlags.anim0 == 0xE0) || (gPlayers[temp_r2_2 >> 0x1E].charFlags.anim0 == 0xE1) || (gPlayers[temp_r2_2 >> 0x1E].charFlags.anim0 == 0xC8) || (gPlayers[temp_r2_2 >> 0x1E].charFlags.anim0 == 0xC9) || (gPlayers[temp_r2_2 >> 0x1E].charFlags.anim0 == 0x10A) || (gPlayers[temp_r2_2 >> 0x1E].charFlags.anim0 == 0x10B))) {
-        if (Itembox_CollisionPlayer((ItemBox *) &itembox->s, itembox->unk14, itembox->unk18, 0U, p, 1) != 0) {
-            itembox->unk6C = &gPlayers[(u32) (p->unk2B << 0x1E) >> 0x1E];
-            itembox->unk8 = 1;
-            return 1;
+    sprItembox = &itembox->s;
+    for(var_r1 = 0; var_r1 < 2; var_r1++)
+    {
+        p = GET_SP_PLAYER_V0(var_r1);
+        if (sub_802C080(p) != 0) {
+            continue;
         }
-        goto block_27;
-    }
-    if ((0xF & p->unk2A) == 3) {
-        temp_r1_2 = p->unk2B;
-        if ((0x1C & temp_r1_2) != 4) {
-            temp_r2_3 = temp_r1_2 << 0x1E;
-            if ((gPlayers[temp_r2_3 >> 0x1E].charFlags.anim2 != 0x60) && (gPlayers[temp_r2_3 >> 0x1E].charFlags.anim2 != 0x1A6) && (gPlayers[temp_r2_3 >> 0x1E].charFlags.anim2 != 0x103) && (gPlayers[temp_r2_3 >> 0x1E].charFlags.anim2 != 0x2EC)) {
-                goto block_77;
-            }
-        }
-    }
-block_27:
-    if (Itembox_CollisionPlayer((ItemBox *) &itembox->s, itembox->unk14, itembox->unk18, 0U, p, 1) == 0) {
-        goto block_60;
-    }
-    if (0x10000 & sub_8020950(temp_r1, itembox->unk14, itembox->unk18, p, 0U)) {
-        temp_r1_3 = (u16) p->charFlags.anim0;
-        if ((u32) (u16) (temp_r1_3 - 0xE2) <= 1U) {
-            goto block_77;
-        }
-        temp_r0_2 = (s16) temp_r1_3;
-        switch (temp_r0_2) {                        /* irregular */
-        case 0xF7:
-            goto block_77;
-        case 0xA:
-            goto block_77;
-        case 0xB:
-            goto block_77;
-        }
-    } else {
-        if ((p->moveState & 6) != 6) {
-            itembox->unk8 = 1;
-            p->moveState |= 0x4000;
-            var_sl = 1;
-            temp_r1_4 = p->charFlags.anim0;
-            if ((temp_r1_4 == 0xAA) || (temp_r1_4 == 0xBB) || (temp_r1_4 == 0x100)) {
-                p->moveState |= 4;
-                SetPlayerCallback(p, Player_80069E4);
-            }
-            if ((0xF & p->unk2A) != 3) {
-                goto block_55;
-            }
-            temp_r3 = p->unk2B << 0x1E;
-            temp_r1_5 = temp_r3 >> 0x1E;
-            if ((gPlayers[temp_r1_5].charFlags.anim2 == 0x60) || (gPlayers[temp_r1_5].charFlags.anim2 == 0x1A6) || (gPlayers[temp_r3 >> 0x1E].charFlags.anim2 == 0x103) || (gPlayers[temp_r3 >> 0x1E].charFlags.anim2 == 0x2EC)) {
-                itembox->unk6C = &gPlayers[(u32) (p->unk2B << 0x1E) >> 0x1E];
-            } else {
-                goto block_55;
-            }
-            goto block_83;
-        }
-        temp_r0_3 = sub_802C0D4(p);
-        if (temp_r0_3 == 0) {
-            if (0x30000 & sub_8020950(temp_r1, itembox->unk14, itembox->unk18, p, (u8) temp_r0_3)) {
-                itembox->unk8 = 1;
-                var_sl = 1;
-                p->moveState |= 0x4004;
-                SetPlayerCallback(p, Player_80069E4);
-                if (((0xF & p->unk2A) == 3) && (temp_r1_6 = (u32) (p->unk2B << 0x1E) >> 0x1E, (gPlayers[temp_r1_6].charFlags.anim2 == 0x60))) {
-                    itembox->unk6C = &gPlayers[temp_r1_6];
-                } else {
-block_55:
-                    itembox->unk6C = p;
-                }
-                goto block_83;
-            }
-            if (p->charFlags.anim2 == 0x208) {
-                temp_r2_4 = 0x1C & p->unk2B;
-                if (temp_r2_4 == 4) {
+        if (!((p->charFlags.someIndex != 1) && (p->charFlags.character != KNUCKLES))) {
+            if (((p->charFlags.someIndex == 2) && p->charFlags.character == KNUCKLES)
+                && (p->charFlags.anim0 == 0xE7 || p->charFlags.anim0 == 0xE8 || p->charFlags.anim0 == 0xE9)
+                && ((gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0xAF)
+                 || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0xB0)
+                 || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0xE0)
+                 || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0xE1) 
+                 || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0xC8) 
+                 || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0xC9) 
+                 || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0x10A) 
+                 || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0x10B)))
+            {
+                if (Itembox_CollisionPlayer(&itembox->s, itembox->unk14, 0, p, 1U) != 0) {
+                    itembox->p = &gPlayers[p->charFlags.partnerIndex];
                     itembox->unk8 = 1;
-                    p->moveState = p->moveState | 0x4000 | temp_r2_4;
-                    SetPlayerCallback(p, Player_80069E4);
-                    itembox->unk6C = p;
                     return 1;
                 }
+            } else if (p->charFlags.character == KNUCKLES) {
+                temp_r1_2 = p->charFlags.someIndex;
+                if (p->charFlags.someIndex != 1) {
+                    if ((gPlayers[p->charFlags.partnerIndex].charFlags.anim2 != 0x60)
+                     && (gPlayers[p->charFlags.partnerIndex].charFlags.anim2 != 0x1A6) 
+                     && (gPlayers[p->charFlags.partnerIndex].charFlags.anim2 != 0x103) 
+                     && (gPlayers[p->charFlags.partnerIndex].charFlags.anim2 != 0x2EC)) {
+                        continue;
+                    }
+                }
             }
-            itembox->unk8 = 1;
-            itembox->unk6C = p;
-            return 1;
-        }
-block_60:
-        temp_r0_4 = sub_802C0D4(p);
-        if (temp_r0_4 == 0) {
-            temp_r0_5 = sub_8020950(temp_r1, itembox->unk14, itembox->unk18, p, (u8) temp_r0_4);
-            if (temp_r0_5 & 0x10000) {
+
+            if (Itembox_CollisionPlayer(&itembox->s, itembox->unk14, 0, p, 1U) != 0) {
+                coll = sub_8020950(sprItembox, itembox->unk14.x, itembox->unk14.y, p, 0U);
+                if ((0x10000 & coll) &&
+                 (p->charFlags.anim0 == 0xE2 || p->charFlags.anim0 == 0xE3 || p->charFlags.anim0 == 0xF7 || p->charFlags.anim0 == 10 || p->charFlags.anim0 == 11))
+                {
+                    continue;
+                } else {
+                    if ((p->moveState & 6) != 6) {
+                        itembox->unk8 = 1;;
+                        p->moveState |= 0x4000;
+                        var_sl = 1;
+                        if ((p->charFlags.anim0 == 0xAA) || (p->charFlags.anim0 == 0xBB) || (p->charFlags.anim0 == 0x100)) {
+                            p->moveState |= 4;
+                            SetPlayerCallback(p, Player_80069E4);
+                        }
+                        if (p->charFlags.character == 3) {
+                            if ((gPlayers[p->charFlags.partnerIndex].charFlags.anim2 == 0x60)
+                            || (gPlayers[p->charFlags.partnerIndex].charFlags.anim2 == 0x1A6)
+                            || (gPlayers[p->charFlags.partnerIndex].charFlags.anim2 == 0x103)
+                            || (gPlayers[p->charFlags.partnerIndex].charFlags.anim2 == 0x2EC))
+                            {
+                                itembox->p = &gPlayers[p->charFlags.partnerIndex];
+                            } else {
+                                itembox->p = p;
+                            }
+                        } else {
+                            itembox->p = p;                        
+                        }
+                            goto lbl_return;
+                    } else if (sub_802C0D4(p) == 0) {
+                        coll = sub_8020950(sprItembox, itembox->unk14.x, itembox->unk14.y, p, 0);
+                        if (0x30000 & coll) {
+                            itembox->unk8 = 1;
+                            p->moveState |= 0x4000;
+                            var_sl = 1;
+                            p->moveState |= 4;
+                            SetPlayerCallback(p, Player_80069E4);
+                            if ((p->charFlags.character == KNUCKLES) && (gPlayers[p->charFlags.partnerIndex].charFlags.anim2 == 0x60))
+                            {
+                                itembox->p = &gPlayers[p->charFlags.partnerIndex];
+                            } else {
+                                itembox->p = p;
+                            }
+                            goto lbl_return;
+                        } else {
+                            if (p->charFlags.anim2 == 0x208) {
+                                if (p->charFlags.someIndex == 1) {
+                                    itembox->unk8 = 1;
+                                    p->moveState |= 0x4000;
+                                    p->moveState |= 4;
+                                    SetPlayerCallback(p, Player_80069E4);
+                                    itembox->p = p;
+                                    return 1;
+                                }
+                            }
+                            itembox->unk8 = 1;
+                            itembox->p = p;
+                            return 1;
+                        }
+                    }
+                }
+            }
+        } 
+        if (sub_802C0D4(p) == 0) {
+            coll = sub_8020950(sprItembox, itembox->unk14.x, itembox->unk14.y, p, 0);
+            if (coll & 0x10000) {
                 if (!(p->moveState & 0x10000)) {
-                    var_r0 = p->qWorldY + (s16) (temp_r0_5 << 8);
+                    p->qWorldY += Q_8_8(coll);
                 } else {
-                    goto block_67;
+                    p->qWorldY -= Q_8_8(coll);
                 }
-                goto block_68;
-            }
-            if (0x20000 & temp_r0_5) {
+                p->qSpeedAirY = 0;
+            } else if (0x20000 & coll) {
                 if (p->moveState & 0x10000) {
-                    var_r0 = p->qWorldY + (s16) (temp_r0_5 << 8);
+                    p->qWorldY += Q_8_8(coll);
                 } else {
-block_67:
-                    var_r0 = p->qWorldY - (s16) (temp_r0_5 << 8);
+                    p->qWorldY -= Q_8_8(coll);
                 }
-block_68:
-                p->qWorldY = var_r0;
                 p->qSpeedAirY = 0;
             }
-            if (0xC0000 & temp_r0_5) {
-                temp_r3_2 = p->qWorldX + (((s32) (temp_r0_5 << 0x10) >> 0x18) << 8);
-                p->qWorldX = temp_r3_2;
+            if (0xC0000 & coll) {
+                if(p->moveState & 2) {
+                    // TODO: ASM-hack
+                    asm("");
+                }
+                p->qWorldX += Q((s16)coll >> 8);
                 p->qSpeedAirX = 0;
                 p->qSpeedGround = 0;
-                if ((0x40000 & temp_r0_5) && (0x20 & p->keyInput)) {
-                    var_r0_2 = temp_r3_2 + 0xFFFFFF00;
-                    goto block_76;
-                }
-                if ((0x80000 & temp_r0_5) && (0x10 & p->keyInput)) {
-                    var_r0_2 = p->qWorldX + 0x100;
-block_76:
-                    p->qWorldX = var_r0_2;
+                if ((0x40000 & coll) && (0x20 & p->keyInput)) {
+                    p->qWorldX -= Q(1);
+                    p->moveState |= 0x40;
+                } else if ((0x80000 & coll) && (0x10 & p->keyInput)) {
+                    p->qWorldX += Q(1);
                     p->moveState |= 0x40;
                 }
             }
         }
-block_77:
-        temp_r0_6 = temp_r0 + 0x10000;
-        var_r1 = temp_r0_6 >> 0x10;
-        if ((s32) ((s32) temp_r0_6 >> 0x10) <= 1) {
-            goto loop_1;
-        }
-        temp_r4 = gStageData.taskCheese->data->unk50;
-        temp_r1_7 = 0x1C & temp_r4->unk2B;
-        if (((temp_r1_7 == 4) || (temp_r1_7 == 0x10)) && (Itembox_CollisionCheese(&itembox->s, itembox->unk14, itembox->unk18, 0U) != 0)) {
+    }
+    {
+        Cheese *cheese = TASK_DATA(gStageData.taskCheese);
+        playerCheese = cheese->player;
+        temp_r1_7 = 0x1C & playerCheese->charFlags.someIndex;
+        if (((playerCheese->charFlags.someIndex == 1) || (playerCheese->charFlags.someIndex == 4)) && (Itembox_CollisionCheese(&itembox->s, itembox->unk14.x, itembox->unk14.y, 0U) != 0)) {
             itembox->unk8 = 2;
-            itembox->unk6C = temp_r4;
+            itembox->p = playerCheese;
             var_sl = 1;
         }
-block_83:
-        return var_sl;
     }
+
+lbl_return:
+    return var_sl;
 }
 #endif
 
