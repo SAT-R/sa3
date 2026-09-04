@@ -39,7 +39,6 @@ SECTIONS {
         src/game/shared/rings_manager.o(.text);
         src/game/gTask_03001CFC.o(.text);
         src/game/stage/entities_manager.o(.text);
-        asm/itembox.o(.text);
         src/game/sa3/itembox.o(.text);
         src/game/sa3/interactables/zone_warp.o(.text);
         src/game/sa3/interactables/spring.o(.text);

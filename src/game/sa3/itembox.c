@@ -1,12 +1,15 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_vram.h"
+#include "game/game_over.h"
+#include "game/shared/rings_manager.h"
 #include "game/shared/stage/player.h"
 #include "game/shared/stage/player_callbacks.h"
 #include "game/stage.h"
 #include "constants/animations.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"
+#include "multi_sio_stuff.h"
 
 typedef struct ItemBox {
     /* 0x00 */ MapEntity *me;
@@ -21,8 +24,7 @@ typedef struct ItemBox {
     /* 0x0E */ u8 fillerE[0x2];
     /* 0x10 */ s16 unk10;
     /* 0x10 */ s16 unk12;
-    /* 0x14 */ s32 unk14;
-    /* 0x18 */ s32 unk18;
+    /* 0x14 */ Vec2_32 world;
     /* 0x1C */ Sprite s;
     /* 0x44 */ Sprite s2;
     /* 0x6C */ Player *p;
@@ -62,7 +64,6 @@ void Task_802D660(void);
 void sub_802C7B0(ItemBox *itembox);
 extern void AddLives(u16 count);
 
-#if defined(NON_MATCHING)
 // OK
 void CreateEntity_ItemBox(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -85,8 +86,8 @@ void CreateEntity_ItemBox(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     itembox = TASK_DATA(t);
     itembox->meIndex = me->index;
     itembox->unk10 = 0;
-    itembox->unk14 = TO_WORLD_POS(me->x, regionX);
-    itembox->unk18 = TO_WORLD_POS(me->y, regionY);
+    itembox->world.x = TO_WORLD_POS(me->x, regionX);
+    itembox->world.y = TO_WORLD_POS(me->y, regionY);
     itembox->regionX = regionX;
     itembox->regionY = regionY;
     itembox->me = me;
@@ -236,7 +237,7 @@ void Task_ItemBoxInit()
         sub_802C35C(itembox, 0);
     }
 
-    if (sub_802D694(itembox->unk14, itembox->unk18) != 0) {
+    if (sub_802D694(itembox->world.x, itembox->world.y) != 0) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             p = GET_SP_PLAYER_V1(i);
             ResolvePlayerSpriteCollision(&itembox->s, p);
@@ -245,7 +246,7 @@ void Task_ItemBoxInit()
         TaskDestroy(gCurTask);
         return;
     } else {
-        sub_8004428(Q(itembox->unk14), Q(itembox->unk18));
+        sub_8004428(Q(itembox->world.x), Q(itembox->world.y));
         sub_802D6CC(itembox, 0);
     }
 }
@@ -257,11 +258,11 @@ void sub_802C618(ItemBox *itembox)
     Player *boxPlayer;
     s16 i;
 
-    sub_805CEBC(itembox->unk14 << 8, itembox->unk18 << 8, 0, 0, 1, 0);
+    sub_805CEBC(Q(itembox->world.x), Q(itembox->world.y), 0, 0, 1, 0);
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         p = GET_SP_PLAYER_V0(i);
         CpuFill16(0, &itembox->s.hitboxes[0].b, sizeof(itembox->s.hitboxes[0].b));
-        sub_8020950(&itembox->s, itembox->unk14, itembox->unk18, p, 0U);
+        sub_8020950(&itembox->s, itembox->world.x, itembox->world.y, p, 0U);
     }
 
     boxPlayer = itembox->p;
@@ -288,9 +289,7 @@ void sub_802C618(ItemBox *itembox)
     }
     gCurTask->main = Task_802D61C;
 }
-#endif
 
-#if 0
 // OK
 void sub_802C7B0(ItemBox *itembox)
 {
@@ -514,24 +513,20 @@ void sub_802C7B0(ItemBox *itembox)
     gCurTask->main = Task_802D660;
 }
 
-// Almost OK, just the ASM-hack does not match.
-s32 sub_802CE4C(ItemBox* itembox) {
-    Player* playerCheese;
-    Player* p;
-    Sprite* sprItembox;
-    s32 temp_r1_7;
-    s32 var_sl;
-    s16 var_r1;
-    u8 temp_r1_2;
-    u8 temp_r2;
-    u8 var_r1_2;
+// (99.68%) https://decomp.me/scratch/7Sp3m
+NONMATCH("asm/non_matching/game/itembox__sub_802CE4C.inc", s32 sub_802CE4C(ItemBox *itembox))
+{
+    Player *playerCheese;
+    Player *p;
+    Sprite *sprItembox;
+    s32 colliding;
+    s16 i;
     u32 coll;
 
-    var_sl = 0;
+    colliding = 0;
     sprItembox = &itembox->s;
-    for(var_r1 = 0; var_r1 < 2; var_r1++)
-    {
-        p = GET_SP_PLAYER_V0(var_r1);
+    for (i = 0; i < 2; i++) {
+        p = GET_SP_PLAYER_V0(i);
         if (sub_802C080(p) != 0) {
             continue;
         }
@@ -539,70 +534,67 @@ s32 sub_802CE4C(ItemBox* itembox) {
             if (((p->charFlags.someIndex == 2) && p->charFlags.character == KNUCKLES)
                 && (p->charFlags.anim0 == 0xE7 || p->charFlags.anim0 == 0xE8 || p->charFlags.anim0 == 0xE9)
                 && ((gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0xAF)
-                 || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0xB0)
-                 || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0xE0)
-                 || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0xE1) 
-                 || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0xC8) 
-                 || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0xC9) 
-                 || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0x10A) 
-                 || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0x10B)))
-            {
-                if (Itembox_CollisionPlayer(&itembox->s, itembox->unk14, 0, p, 1U) != 0) {
+                    || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0xB0)
+                    || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0xE0)
+                    || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0xE1)
+                    || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0xC8)
+                    || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0xC9)
+                    || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0x10A)
+                    || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0x10B))) {
+                if (Itembox_CollisionPlayer(&itembox->s, itembox->world, 0, p, 1U) != 0) {
                     itembox->p = &gPlayers[p->charFlags.partnerIndex];
                     itembox->unk8 = 1;
                     return 1;
                 }
             } else if (p->charFlags.character == KNUCKLES) {
-                temp_r1_2 = p->charFlags.someIndex;
                 if (p->charFlags.someIndex != 1) {
                     if ((gPlayers[p->charFlags.partnerIndex].charFlags.anim2 != 0x60)
-                     && (gPlayers[p->charFlags.partnerIndex].charFlags.anim2 != 0x1A6) 
-                     && (gPlayers[p->charFlags.partnerIndex].charFlags.anim2 != 0x103) 
-                     && (gPlayers[p->charFlags.partnerIndex].charFlags.anim2 != 0x2EC)) {
+                        && (gPlayers[p->charFlags.partnerIndex].charFlags.anim2 != 0x1A6)
+                        && (gPlayers[p->charFlags.partnerIndex].charFlags.anim2 != 0x103)
+                        && (gPlayers[p->charFlags.partnerIndex].charFlags.anim2 != 0x2EC)) {
                         continue;
                     }
                 }
             }
 
-            if (Itembox_CollisionPlayer(&itembox->s, itembox->unk14, 0, p, 1U) != 0) {
-                coll = sub_8020950(sprItembox, itembox->unk14.x, itembox->unk14.y, p, 0U);
-                if ((0x10000 & coll) &&
-                 (p->charFlags.anim0 == 0xE2 || p->charFlags.anim0 == 0xE3 || p->charFlags.anim0 == 0xF7 || p->charFlags.anim0 == 10 || p->charFlags.anim0 == 11))
-                {
+            if (Itembox_CollisionPlayer(&itembox->s, itembox->world, 0, p, 1U) != 0) {
+                coll = sub_8020950(sprItembox, itembox->world.x, itembox->world.y, p, 0U);
+                if ((0x10000 & coll)
+                    && (p->charFlags.anim0 == 0xE2 || p->charFlags.anim0 == 0xE3 || p->charFlags.anim0 == 0xF7 || p->charFlags.anim0 == 10
+                        || p->charFlags.anim0 == 11)) {
                     continue;
                 } else {
                     if ((p->moveState & 6) != 6) {
-                        itembox->unk8 = 1;;
+                        itembox->unk8 = 1;
+                        ;
                         p->moveState |= 0x4000;
-                        var_sl = 1;
+                        colliding = 1;
                         if ((p->charFlags.anim0 == 0xAA) || (p->charFlags.anim0 == 0xBB) || (p->charFlags.anim0 == 0x100)) {
                             p->moveState |= 4;
                             SetPlayerCallback(p, Player_80069E4);
                         }
                         if (p->charFlags.character == 3) {
                             if ((gPlayers[p->charFlags.partnerIndex].charFlags.anim2 == 0x60)
-                            || (gPlayers[p->charFlags.partnerIndex].charFlags.anim2 == 0x1A6)
-                            || (gPlayers[p->charFlags.partnerIndex].charFlags.anim2 == 0x103)
-                            || (gPlayers[p->charFlags.partnerIndex].charFlags.anim2 == 0x2EC))
-                            {
+                                || (gPlayers[p->charFlags.partnerIndex].charFlags.anim2 == 0x1A6)
+                                || (gPlayers[p->charFlags.partnerIndex].charFlags.anim2 == 0x103)
+                                || (gPlayers[p->charFlags.partnerIndex].charFlags.anim2 == 0x2EC)) {
                                 itembox->p = &gPlayers[p->charFlags.partnerIndex];
                             } else {
                                 itembox->p = p;
                             }
                         } else {
-                            itembox->p = p;                        
+                            itembox->p = p;
                         }
-                            goto lbl_return;
+                        goto lbl_return;
                     } else if (sub_802C0D4(p) == 0) {
-                        coll = sub_8020950(sprItembox, itembox->unk14.x, itembox->unk14.y, p, 0);
+                        coll = sub_8020950(sprItembox, itembox->world.x, itembox->world.y, p, 0);
                         if (0x30000 & coll) {
                             itembox->unk8 = 1;
                             p->moveState |= 0x4000;
-                            var_sl = 1;
+                            colliding = 1;
                             p->moveState |= 4;
                             SetPlayerCallback(p, Player_80069E4);
-                            if ((p->charFlags.character == KNUCKLES) && (gPlayers[p->charFlags.partnerIndex].charFlags.anim2 == 0x60))
-                            {
+                            if ((p->charFlags.character == KNUCKLES) && (gPlayers[p->charFlags.partnerIndex].charFlags.anim2 == 0x60)) {
                                 itembox->p = &gPlayers[p->charFlags.partnerIndex];
                             } else {
                                 itembox->p = p;
@@ -626,9 +618,9 @@ s32 sub_802CE4C(ItemBox* itembox) {
                     }
                 }
             }
-        } 
+        }
         if (sub_802C0D4(p) == 0) {
-            coll = sub_8020950(sprItembox, itembox->unk14.x, itembox->unk14.y, p, 0);
+            coll = sub_8020950(sprItembox, itembox->world.x, itembox->world.y, p, 0);
             if (coll & 0x10000) {
                 if (!(p->moveState & 0x10000)) {
                     p->qWorldY += Q_8_8(coll);
@@ -645,7 +637,7 @@ s32 sub_802CE4C(ItemBox* itembox) {
                 p->qSpeedAirY = 0;
             }
             if (0xC0000 & coll) {
-                if(p->moveState & 2) {
+                if (p->moveState & 2) {
                     // TODO: ASM-hack
                     asm("");
                 }
@@ -662,21 +654,25 @@ s32 sub_802CE4C(ItemBox* itembox) {
             }
         }
     }
+
+#ifdef BUG_FIX
+    if (gStageData.taskCheese)
+#endif
     {
         Cheese *cheese = TASK_DATA(gStageData.taskCheese);
         playerCheese = cheese->player;
-        temp_r1_7 = 0x1C & playerCheese->charFlags.someIndex;
-        if (((playerCheese->charFlags.someIndex == 1) || (playerCheese->charFlags.someIndex == 4)) && (Itembox_CollisionCheese(&itembox->s, itembox->unk14.x, itembox->unk14.y, 0U) != 0)) {
+        if (((playerCheese->charFlags.someIndex == 1) || (playerCheese->charFlags.someIndex == 4))
+            && (Itembox_CollisionCheese(&itembox->s, itembox->world.x, itembox->world.y, 0U) != 0)) {
             itembox->unk8 = 2;
             itembox->p = playerCheese;
-            var_sl = 1;
+            colliding = 1;
         }
     }
 
 lbl_return:
-    return var_sl;
+    return colliding;
 }
-#endif
+END_NONMATCH
 
 // (84.34%) https://decomp.me/scratch/GzKFl
 NONMATCH("asm/non_matching/game/Itembox_CollisionPlayer.inc",
@@ -770,9 +766,9 @@ bool32 sub_802D694(s32 x, s32 y)
 
 void sub_802D6CC(ItemBox *itembox, s32 arg1)
 {
-    itembox->s.x = itembox->unk14 - gCamera.x;
-    itembox->s.y = itembox->unk18 - gCamera.y;
-    itembox->s2.x = itembox->unk14 - gCamera.x;
+    itembox->s.x = itembox->world.x - gCamera.x;
+    itembox->s.y = itembox->world.y - gCamera.y;
+    itembox->s2.x = itembox->world.x - gCamera.x;
     itembox->s2.y = I(itembox->unk10) + itembox->s.y;
     if (arg1 == 0) {
         DisplaySprite(&itembox->s);

@@ -64,9 +64,7 @@ void sub_80276A8() { }
 void sub_80276F4() { }
 void sub_802789C() { }
 void sub_80275B8(u32 level, u8 param1, u8 param2) { }
-void sub_802C7B0() { }
 void sub_8027538() { }
-bool32 sub_802CE4C() { return FALSE; }
 
 void CreateCharacterSelectMultiplayer() { }
 void MultiSio_SendPlayerName() { }
@@ -103,6 +101,13 @@ void sub_8027960() { }
 void sub_8025A38() { }
 void sub_8025674() { }
 void sub_8025B48() { }
+
+void sub_802773C() { }
+void sub_8027768() { }
+void sub_80277AC() { }
+void sub_80267E8() { }
+void sub_80277F0() { }
+void sub_8027834() { }
 
 void sub_8052D8C() { }
 void sub_8054514() { }
