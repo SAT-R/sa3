@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_809B770
-sub_809B770: @ 0x0809B770
+	thumb_func_start LoadCharacterSelectSprites
+LoadCharacterSelectSprites: @ 0x0809B770
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -1069,7 +1069,7 @@ CreateSomeTask_809BF3C: @ 0x0809BF3C
 	str r0, [r4, #0x14]
 	str r7, [r4, #0xc]
 	adds r0, r4, #0
-	bl sub_809B770
+	bl LoadCharacterSelectSprites
 	ldr r0, [r4, #0xc]
 	add sp, #4
 	pop {r3, r4}
