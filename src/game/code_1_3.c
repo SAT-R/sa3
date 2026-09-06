@@ -142,7 +142,7 @@ void Task_10_8056A58(void);
 void Task_38_8056758(void);
 extern void sub_8001EEC(u8 param0);
 extern void sub_80AE174(void);
-extern void sub_80AE1C8(void);
+extern void CreateUnkTask9C(void);
 extern void sub_80AE770(void);
 extern void sub_80B1AF4(s16 character, s16 zone, u8 collectedEmeralds);
 
@@ -151,7 +151,7 @@ extern void sub_8000414(u16 stageId);
 extern void sub_8000538(u16 stageId);
 extern s16 sub_802610C(void);
 extern void sub_802613C(void);
-extern void sub_80A5954(u8);
+extern void CreatePreCreditsCutscene(u8);
 extern void sub_80A872C(u8);
 extern ColorRaw sub_80C4C0C(ColorRaw color);
 
@@ -1712,7 +1712,7 @@ void Task_2A4_8055378(void)
                 gBgSpritesCount = 0;
                 PAUSE_GRAPHICS_QUEUE();
 
-                sub_80A5954(0);
+                CreatePreCreditsCutscene(0);
             }
         } else if ((gPlayers[PLAYER_1].charFlags.character == SONIC)
                    && (((gStageData.currentLevel == LEVEL_INDEX(ZONE_2, ACT_3)) && !(LOADED_SAVE->unlockedCharacters & (1 << KNUCKLES)))
@@ -2683,7 +2683,7 @@ void Task_38_8056934(void)
     ScreenFade *fade = &strc->fade;
 
     if (strc->unk34 == 120) {
-        sub_80AE1C8();
+        CreateUnkTask9C();
         strc->unk34--;
     }
 

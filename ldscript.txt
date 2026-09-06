@@ -192,6 +192,8 @@ SECTIONS {
         src/game/sa3/options/vs_record_screen.o(.text);
         src/game/sa3/character_select.o(.text);
         asm/code_2.o(.text);
+        asm/game__credits_related.o(.text);
+        asm/game__new_game_opening.o(.text);
         src/game/math.o(.text);
         src/game/sa3/special_stage.o(.text);
         src/game/sa3/partner_ai.o(.text);

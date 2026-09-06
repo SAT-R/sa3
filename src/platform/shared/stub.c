@@ -155,9 +155,9 @@ void sub_8088770() { }
 void *CreateSomeTask_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles) { return tiles; }
 void sub_80A1A4C() { }
 void /* 0x080A209C */ CreateGameIntroState() { }
-void sub_80AD824() { }
+void CreateNewGamesaveOpening() { }
 void sub_80AE174() { }
-void sub_80AE1C8() { }
+void CreateUnkTask9C() { }
 void sub_80AE770() { }
 void sub_80AB120(u8 param0) { }
 
@@ -206,7 +206,7 @@ PlayerSpriteInfo gUnknown_030010D0 = {};
 PlayerSpriteInfo gUnknown_0300110C = {};
 PlayerSpriteInfo gUnknown_03001B00 = {};
 
-void sub_80A5954() { }
+void CreatePreCreditsCutscene() { }
 void sub_80A872C() { }
 void sub_8029990() { }
 

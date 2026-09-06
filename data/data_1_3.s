@@ -917,6 +917,7 @@ gUnknown_080D9ADC:
 gUnknown_080D9B1C:
     .incbin "baserom_sa3.gba", 0x000D9B1C, 0x40
 
+    @ Array of pointers to anim-IDs, per character (+ Cheese)
     .global gUnknown_080D9B5C
 gUnknown_080D9B5C:
     mPtr gUnknown_080D99DC

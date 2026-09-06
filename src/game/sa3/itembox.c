@@ -736,7 +736,7 @@ void Task_802D61C()
     if (itembox->unk7++ >= 60) {
         sub_802C7B0(itembox);
     } else {
-        itembox->unk10 = (u16)(itembox->unk10 - Q(1));
+        itembox->unk10 -= Q(1);
     }
     sub_802D6CC(itembox, 1);
 }

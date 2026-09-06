@@ -202,7 +202,7 @@ s16 sub_80240B4(u8);
 s16 sub_80240F4();
 void sub_802613C(void);
 void CharSelect_InitBackgrounds(CharacterSelect *cs);
-void sub_80AD824(void);
+void CreateNewGamesaveOpening(void);
 bool32 sub_809B1B4(CharacterSelect *cs);
 bool32 sub_809B25C(CharacterSelect *cs);
 bool32 sub_809B41C(CharacterSelect *cs);
@@ -850,7 +850,7 @@ bool32 sub_80988B0(CharacterSelect *cs)
         WarpToMap(LEVEL_INDEX(LOADED_SAVE->continueZone, ACT_HUB), 0U);
         return TRUE;
     } else {
-        sub_80AD824();
+        CreateNewGamesaveOpening();
         return FALSE;
     }
 }
