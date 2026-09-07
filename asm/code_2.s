@@ -1137,7 +1137,7 @@ sub_809BFE8: @ 0x0809BFE8
 	strh r0, [r1]
 	ldr r0, _0809C0A8 @ =Task_809C44C
 	movs r1, #0xae
-	lsls r1, r1, #3
+	lsls r1, r1, #3     @ 0x570
 	movs r2, #0x84
 	lsls r2, r2, #6
 	ldr r3, _0809C0AC @ =TaskDestructor_809E280
