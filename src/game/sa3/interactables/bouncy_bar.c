@@ -145,7 +145,6 @@ static void Task_BouncyBarLaunch(void)
         bar->unk35 = 0;
         gCurTask->main = Task_BouncyBarIdle;
     } else {
-        // _08034560
         worldX = TO_WORLD_POS(bar->base.meX, bar->base.regionX);
         worldY = TO_WORLD_POS(me->y, bar->base.regionY);
 
