@@ -192,8 +192,9 @@ void Task_80A1BEC(void)
     }
 }
 
-void Task_80A1CE4(void) {
-	StrcCode3 *strc = TASK_DATA(gCurTask);
+void Task_80A1CE4(void)
+{
+    StrcCode3 *strc = TASK_DATA(gCurTask);
 
     if (strc->unk6 != 0) {
         gDispCnt |= DISPCNT_WIN0_ON;
