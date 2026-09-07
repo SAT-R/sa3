@@ -1,8 +1,10 @@
 #include "global.h"
 #include "core.h"
 #include "lib/m4a/m4a.h"
+#include "game/main_menu.h"
 #include "game/save.h"
 #include "game/stage.h"
+#include "game/character_select.h"
 #include "constants/songs.h"
 
 typedef struct {
@@ -31,8 +33,10 @@ void sub_80A2024(StrcCode3 *strc, u8 param1);
 void sub_80A208C(StrcCode3 *strc);
 void TaskDestructor_80A2098(Task *t);
 
-s16 sub_8023A88(void);
-s16 sub_8023C5C(void);
+extern s16 sub_8023A88(void);
+extern void sub_8023BB0();
+extern s16 sub_8023C5C(void);
+extern void sub_8023D60();
 s16 sub_802440C(void);
 s16 sub_8024584(void);
 
@@ -188,9 +192,8 @@ void Task_80A1BEC(void)
     }
 }
 
-#if 0
-void Task_80A1CE4(StrcCode3 *strc) {
-    u8 temp_r1;
+void Task_80A1CE4(void) {
+	StrcCode3 *strc = TASK_DATA(gCurTask);
 
     if (strc->unk6 != 0) {
         gDispCnt |= DISPCNT_WIN0_ON;
@@ -209,19 +212,21 @@ void Task_80A1CE4(StrcCode3 *strc) {
             sub_8023D60();
         }
     }
-    if ((u32) gBldRegs.bldY <= 0xFU) {
-        gBldRegs.bldY = (u16) ((u16) strc->qBlend >> 8);
+
+    if (gBldRegs.bldY < 0x10) {
+        gBldRegs.bldY = (strc->qBlend >> 8);
         strc->qBlend += Q(1);
         return;
     }
+
     gBldRegs.bldY = 0x10;
+
     if (strc->unk3 == 2) {
         CreateCharacterSelect(1U);
     } else {
-        temp_r1 = strc->errorCode;
-        if (temp_r1 == 2) {
+        if (strc->errorCode == 2) {
             CreateMainMenu(1, 0U);
-        } else if (temp_r1 == 3) {
+        } else if (strc->errorCode == 3) {
             CreateMainMenu(0, 4U);
         } else {
             CreateMainMenu(0, 0U);
@@ -230,6 +235,7 @@ void Task_80A1CE4(StrcCode3 *strc) {
     TaskDestroy(gCurTask);
 }
 
+#if 0
 void Task_80A1DC8(StrcCode3 *strc) {
     s16 temp_r1;
     s32 temp_r0_2;
