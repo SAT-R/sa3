@@ -2,6 +2,7 @@
 #include "core.h"
 #include "lib/m4a/m4a.h"
 #include "game/save.h"
+#include "game/stage.h"
 #include "constants/songs.h"
 
 typedef struct {
@@ -11,7 +12,7 @@ typedef struct {
     u8 unk3;
     u16 unk4;
     u16 unk6;
-    u16 unk8;
+    u16 qBlend;
     s32 unkC;
     s32 unk10;
     Background bg14;
@@ -30,12 +31,18 @@ void sub_80A2024(StrcCode3 *strc, u8 param1);
 void sub_80A208C(StrcCode3 *strc);
 void TaskDestructor_80A2098(Task *t);
 
+s16 sub_8023A88(void);
+s16 sub_8023C5C(void);
+s16 sub_802440C(void);
+s16 sub_8024584(void);
+
 extern TileInfo2 gUnknown_080D6898[6];
 extern u16 gTilemapIdsConnectionStatus[28];
 
 extern void sub_8024040(void);
 extern void sub_80258D4(void);
 extern void sub_80260F0(void);
+extern void sub_802613C(void);
 
 void sub_80A1A4C(u8 errorCode)
 {
@@ -70,7 +77,7 @@ void sub_80A1A4C(u8 errorCode)
     strc->unkC = 0;
     strc->unk10 = 0;
     strc->unk6 = 1;
-    strc->unk8 = 0;
+    strc->qBlend = 0;
     strc->unk4 = 0;
     sub_80A1B68(strc);
 
@@ -128,68 +135,72 @@ void sub_80A1B68(StrcCode3 *strc)
     UpdateSpriteAnimation(s);
 }
 
-#if 0
-void Task_80A1BEC(StrcCode3 *strc) {
-    u16 var_r0;
-    u8 temp_r0;
+void Task_80A1BEC(void)
+{
+    StrcCode3 *strc = TASK_DATA(gCurTask);
 
     if (strc->unk6 != 0) {
-        gDispCnt |= 0x2000;
-        gWinRegs->unk0 = 0xF0;
-        gWinRegs[2] = 0xA0;
+        gDispCnt |= DISPCNT_WIN0_ON;
+        gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[2] = WIN_RANGE(0, DISPLAY_HEIGHT);
         gWinRegs[4] |= 0x3F;
         gWinRegs[5] |= 0x1F;
         gBldRegs.bldCnt = 0x3FFF;
         gBldRegs.bldY = 0x10;
-        strc->unk8 = 0x1000;
+        strc->qBlend = 0x1000;
         strc->unk6 = 0;
     }
-    temp_r0 = strc->unk2;
-    if ((u32) temp_r0 <= 1U) {
-        if (temp_r0 == 0) {
-            if (gStageData.playerIndex == 0) {
+
+    if (strc->errorCode == 0 || strc->errorCode == 1) {
+        s16 var_r0;
+        if (strc->errorCode == 0) {
+            if (gStageData.playerIndex == PLAYER_1) {
                 var_r0 = sub_8023A88();
             } else {
                 var_r0 = sub_8023C5C();
             }
-        } else if (gStageData.playerIndex == 0) {
-            var_r0 = sub_802440C();
         } else {
-            var_r0 = sub_8024584();
+            if (gStageData.playerIndex == PLAYER_1) {
+                var_r0 = sub_802440C();
+            } else {
+                var_r0 = sub_8024584();
+            }
         }
-        if ((s32) (var_r0 << 0x10) >= 0) {
-            goto block_11;
+
+        if (var_r0 < 0) {
+            sub_802613C();
+            return;
         }
-        goto block_14;
     }
-block_11:
+
     if (gBldRegs.bldY != 0) {
-        gBldRegs.bldY = (u16) ((u16) strc->unk8 >> 8);
-        strc->unk8 += 0xFFFFFF00;
-        return;
+        gBldRegs.bldY = (strc->qBlend >> 8);
+        strc->qBlend -= Q(1);
+    } else {
+        strc->unk6 = 1;
+        gBldRegs.bldY = 0;
+
+        if (strc->errorCode == 2 || strc->errorCode == 3) {
+            sub_802613C();
+        } else {
+            gCurTask->main = Task_80A1DC8;
+        }
     }
-    strc->unk6 = 1;
-    gBldRegs.bldY = gBldRegs.bldY;
-    if ((u32) (u8) (strc->unk2 - 2) <= 1U) {
-block_14:
-        sub_802613C();
-        return;
-    }
-    gCurTask->main = (void (*)()) Task_80A1DC8;
 }
 
+#if 0
 void Task_80A1CE4(StrcCode3 *strc) {
     u8 temp_r1;
 
     if (strc->unk6 != 0) {
-        gDispCnt |= 0x2000;
-        gWinRegs->unk0 = 0xF0;
-        gWinRegs[2] = 0xA0;
+        gDispCnt |= DISPCNT_WIN0_ON;
+        gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[2] = WIN_RANGE(0, DISPLAY_HEIGHT);
         gWinRegs[4] |= 0x3F;
         gWinRegs[5] |= 0x1F;
         gBldRegs.bldCnt = 0x3FFF;
         strc->unk6 = 0;
-        strc->unk8 = 0;
+        strc->qBlend = 0;
     }
     if (strc->unk3 != 1) {
         if (gStageData.playerIndex == 0) {
@@ -199,15 +210,15 @@ void Task_80A1CE4(StrcCode3 *strc) {
         }
     }
     if ((u32) gBldRegs.bldY <= 0xFU) {
-        gBldRegs.bldY = (u16) ((u16) strc->unk8 >> 8);
-        strc->unk8 += 0x100;
+        gBldRegs.bldY = (u16) ((u16) strc->qBlend >> 8);
+        strc->qBlend += Q(1);
         return;
     }
     gBldRegs.bldY = 0x10;
     if (strc->unk3 == 2) {
         CreateCharacterSelect(1U);
     } else {
-        temp_r1 = strc->unk2;
+        temp_r1 = strc->errorCode;
         if (temp_r1 == 2) {
             CreateMainMenu(1, 0U);
         } else if (temp_r1 == 3) {
@@ -228,7 +239,7 @@ void Task_80A1DC8(StrcCode3 *strc) {
     u8 temp_r4;
     void (*var_r0_2)(StrcCode3 *);
 
-    if (strc->unk2 == 0) {
+    if (strc->errorCode == 0) {
         if (gStageData.playerIndex == 0) {
             if (strc->unk3 == 2) {
                 var_r0 = sub_8023BB0();
@@ -253,7 +264,7 @@ void Task_80A1DC8(StrcCode3 *strc) {
         sub_802613C();
         return;
     }
-    temp_r2 = strc->unk2;
+    temp_r2 = strc->errorCode;
     if (((temp_r2 == 0) && ((0xF & temp_r1) == 3)) || ((temp_r2 == 1) && ((temp_r0_2 = 0xF & temp_r1, (temp_r0_2 == 3)) || (temp_r0_2 == 7) || (temp_r0_2 == 0xF)))) {
         temp_r4 = gStageData.playerIndex;
         if (temp_r4 == 0) {
@@ -293,7 +304,7 @@ void Task_80A1F10(StrcCode3 *strc) {
     u16 temp_r0;
     u16 var_r0;
 
-    if (strc->unk2 == 0) {
+    if (strc->errorCode == 0) {
         if (gStageData.playerIndex == 0) {
             if (strc->unk3 == 2) {
                 var_r0 = sub_8023BB0();
@@ -322,7 +333,7 @@ void Task_80A1F10(StrcCode3 *strc) {
     temp_r0 = strc->unk4 + 1;
     strc->unk4 = temp_r0;
     if ((u32) temp_r0 > 0x77U) {
-        gCurTask->main = (void (*)()) Task_80A1CE4;
+        gCurTask->main = Task_80A1CE4;
     }
 }
 
