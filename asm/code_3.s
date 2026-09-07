@@ -5,198 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_80A1A4C
-sub_80A1A4C: @ 0x080A1A4C
-	push {r4, r5, r6, lr}
-	sub sp, #8
-	lsls r0, r0, #0x18
-	lsrs r6, r0, #0x18
-	ldr r1, _080A1B14 @ =gDispCnt
-	movs r2, #0x9a
-	lsls r2, r2, #5
-	adds r0, r2, #0
-	strh r0, [r1]
-	ldr r0, _080A1B18 @ =Task_80A1BEC
-	movs r2, #0x80
-	lsls r2, r2, #1
-	ldr r1, _080A1B1C @ =TaskDestructor_80A2098
-	str r1, [sp]
-	movs r1, #0xbc
-	movs r3, #0
-	bl TaskCreate
-	movs r3, #0
-	str r3, [sp, #4]
-	ldr r4, _080A1B20 @ =0x040000D4
-	add r1, sp, #4
-	str r1, [r4]
-	ldr r1, _080A1B24 @ =gBgCntRegs
-	ldrh r2, [r1, #4]
-	movs r1, #0xc
-	ands r1, r2
-	lsls r1, r1, #0xc
-	movs r2, #0xc0
-	lsls r2, r2, #0x13
-	adds r1, r1, r2
-	str r1, [r4, #4]
-	ldr r1, _080A1B28 @ =0x85000010
-	str r1, [r4, #8]
-	ldr r1, [r4, #8]
-	ldr r5, _080A1B2C @ =gBgSprites_Unknown1
-	strb r3, [r5, #2]
-	ldr r1, _080A1B30 @ =gBgSprites_Unknown2
-	strb r3, [r1, #8]
-	strb r3, [r1, #9]
-	movs r2, #0xff
-	strb r2, [r1, #0xa]
-	movs r4, #0x40
-	strb r4, [r1, #0xb]
-	strb r3, [r5, #1]
-	strb r3, [r1, #4]
-	strb r3, [r1, #5]
-	movs r2, #1
-	rsbs r2, r2, #0
-	strb r2, [r1, #6]
-	strb r4, [r1, #7]
-	strb r3, [r5]
-	strb r3, [r1]
-	strb r3, [r1, #1]
-	strb r2, [r1, #2]
-	strb r4, [r1, #3]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	ldr r0, _080A1B34 @ =gLoadedSaveGame
-	ldr r2, _080A1B38 @ =0x00000366
-	adds r0, r0, r2
-	ldrb r0, [r0]
-	strb r0, [r4, #1]
-	strb r6, [r4, #2]
-	strb r3, [r4, #3]
-	strb r3, [r4]
-	str r3, [r4, #0xc]
-	str r3, [r4, #0x10]
-	movs r0, #1
-	strh r0, [r4, #6]
-	strh r3, [r4, #8]
-	strh r3, [r4, #4]
-	adds r0, r4, #0
-	bl sub_80A1B68
-	ldrb r0, [r4, #2]
-	subs r0, #2
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #1
-	bhi _080A1B3C
-	adds r0, r4, #0
-	movs r1, #5
-	bl sub_80A1FB0
-	adds r0, r4, #0
-	movs r1, #1
-	bl sub_80A2024
-	bl sub_80260F0
-	bl m4aMPlayAllStop
-	movs r0, #0x64      @ MUS_VS_MISS
-	bl m4aSongNumStart
-	b _080A1B60
-	.align 2, 0
-_080A1B14: .4byte gDispCnt
-_080A1B18: .4byte Task_80A1BEC
-_080A1B1C: .4byte TaskDestructor_80A2098
-_080A1B20: .4byte 0x040000D4
-_080A1B24: .4byte gBgCntRegs
-_080A1B28: .4byte 0x85000010
-_080A1B2C: .4byte gBgSprites_Unknown1
-_080A1B30: .4byte gBgSprites_Unknown2
-_080A1B34: .4byte gLoadedSaveGame
-_080A1B38: .4byte 0x00000366
-_080A1B3C:
-	adds r0, r4, #0
-	movs r1, #3
-	bl sub_80A1FB0
-	adds r0, r4, #0
-	movs r1, #0
-	bl sub_80A2024
-	cmp r6, #0
-	bne _080A1B56
-	bl sub_8024040
-	b _080A1B5A
-_080A1B56:
-	bl sub_80258D4
-_080A1B5A:
-	movs r0, #0x44      @ MUS_VS_MUSIC_1
-	bl m4aSongNumStart
-_080A1B60:
-	add sp, #8
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-
-	thumb_func_start sub_80A1B68
-sub_80A1B68: @ 0x080A1B68
-	push {r4, r5, r6, lr}
-	mov r6, r8
-	push {r6}
-	sub sp, #4
-	adds r4, r0, #0
-	ldr r0, _080A1BE4 @ =0x06010000
-	mov r8, r0
-	ldr r6, _080A1BE8 @ =gUnknown_080D6898
-	ldrb r0, [r4, #1]
-	lsls r0, r0, #3
-	adds r1, r6, #4
-	adds r0, r0, r1
-	ldr r2, [r0]
-	lsls r2, r2, #0x1d
-	movs r5, #0
-	str r5, [sp]
-	lsrs r2, r2, #0x1a
-	movs r0, #0x80
-	lsls r0, r0, #0x11
-	orrs r2, r0
-	mov r0, sp
-	mov r1, r8
-	bl CpuFastSet
-	adds r0, r4, #0
-	adds r0, #0x94
-	mov r1, r8
-	str r1, [r0]
-	ldrb r1, [r4, #1]
-	lsls r1, r1, #3
-	adds r1, r1, r6
-	ldrh r1, [r1]
-	movs r2, #0
-	strh r1, [r0, #0xc]
-	ldrb r1, [r4, #1]
-	lsls r1, r1, #3
-	adds r1, r1, r6
-	ldrb r1, [r1, #2]
-	strb r1, [r0, #0x1a]
-	movs r1, #0xff
-	strb r1, [r0, #0x1b]
-	movs r1, #0x78
-	strh r1, [r0, #0x10]
-	movs r1, #0x8c
-	strh r1, [r0, #0x12]
-	strh r5, [r0, #0x14]
-	strh r5, [r0, #0xe]
-	strh r5, [r0, #0x16]
-	movs r1, #0x10
-	strb r1, [r0, #0x1c]
-	strb r2, [r0, #0x1f]
-	str r5, [r0, #8]
-	subs r1, #0x11
-	str r1, [r0, #0x20]
-	bl UpdateSpriteAnimation
-	add sp, #4
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080A1BE4: .4byte 0x06010000
-_080A1BE8: .4byte gUnknown_080D6898
+.if 0
+.endif
 
 	thumb_func_start Task_80A1BEC
 Task_80A1BEC: @ 0x080A1BEC
@@ -312,7 +122,7 @@ _080A1CC6:
 _080A1CCC:
 	ldr r0, _080A1CDC @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080A1CE0 @ =sub_80A1DC8
+	ldr r0, _080A1CE0 @ =Task_80A1DC8
 	str r0, [r1, #8]
 _080A1CD4:
 	pop {r4}
@@ -320,10 +130,10 @@ _080A1CD4:
 	bx r0
 	.align 2, 0
 _080A1CDC: .4byte gCurTask
-_080A1CE0: .4byte sub_80A1DC8
+_080A1CE0: .4byte Task_80A1DC8
 
-	thumb_func_start sub_80A1CE4
-sub_80A1CE4: @ 0x080A1CE4
+	thumb_func_start Task_80A1CE4
+Task_80A1CE4: @ 0x080A1CE4
 	push {r4, lr}
 	ldr r0, _080A1D40 @ =gCurTask
 	ldr r0, [r0]
@@ -435,8 +245,8 @@ _080A1DBC:
 	.align 2, 0
 _080A1DC4: .4byte gCurTask
 
-	thumb_func_start sub_80A1DC8
-sub_80A1DC8: @ 0x080A1DC8
+	thumb_func_start Task_80A1DC8
+Task_80A1DC8: @ 0x080A1DC8
 	push {r4, r5, r6, lr}
 	ldr r0, _080A1DF0 @ =gCurTask
 	ldr r0, [r0]
@@ -537,13 +347,13 @@ _080A1E5C:
 	strh r4, [r5, #4]
 	ldr r0, _080A1EA0 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080A1EA4 @ =sub_80A1F10
+	ldr r0, _080A1EA4 @ =Task_80A1F10
 	b _080A1EFC
 	.align 2, 0
 _080A1E98: .4byte gStageData
 _080A1E9C: .4byte gPressedKeys
 _080A1EA0: .4byte gCurTask
-_080A1EA4: .4byte sub_80A1F10
+_080A1EA4: .4byte Task_80A1F10
 _080A1EA8:
 	asrs r0, r6, #0x10
 	movs r1, #0x10
@@ -562,11 +372,11 @@ _080A1EA8:
 	strh r4, [r5, #4]
 	ldr r0, _080A1ED4 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080A1ED8 @ =sub_80A1F10
+	ldr r0, _080A1ED8 @ =Task_80A1F10
 	b _080A1EFC
 	.align 2, 0
 _080A1ED4: .4byte gCurTask
-_080A1ED8: .4byte sub_80A1F10
+_080A1ED8: .4byte Task_80A1F10
 _080A1EDC:
 	ldr r0, _080A1F04 @ =gPressedKeys
 	ldrh r1, [r0]
@@ -581,7 +391,7 @@ _080A1EDC:
 	strb r0, [r5, #3]
 	ldr r0, _080A1F08 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080A1F0C @ =sub_80A1CE4
+	ldr r0, _080A1F0C @ =Task_80A1CE4
 _080A1EFC:
 	str r0, [r1, #8]
 _080A1EFE:
@@ -591,10 +401,10 @@ _080A1EFE:
 	.align 2, 0
 _080A1F04: .4byte gPressedKeys
 _080A1F08: .4byte gCurTask
-_080A1F0C: .4byte sub_80A1CE4
+_080A1F0C: .4byte Task_80A1CE4
 
-	thumb_func_start sub_80A1F10
-sub_80A1F10: @ 0x080A1F10
+	thumb_func_start Task_80A1F10
+Task_80A1F10: @ 0x080A1F10
 	push {r4, lr}
 	ldr r0, _080A1F38 @ =gCurTask
 	ldr r0, [r0]
@@ -664,7 +474,7 @@ _080A1F8A:
 	bls _080A1FA0
 	ldr r0, _080A1FA8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080A1FAC @ =sub_80A1CE4
+	ldr r0, _080A1FAC @ =Task_80A1CE4
 	str r0, [r1, #8]
 _080A1FA0:
 	pop {r4}
@@ -672,7 +482,7 @@ _080A1FA0:
 	bx r0
 	.align 2, 0
 _080A1FA8: .4byte gCurTask
-_080A1FAC: .4byte sub_80A1CE4
+_080A1FAC: .4byte Task_80A1CE4
 
 	thumb_func_start sub_80A1FB0
 sub_80A1FB0: @ 0x080A1FB0
