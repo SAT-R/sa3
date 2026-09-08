@@ -114,12 +114,12 @@ _080C6404:
 	cmp r0, #3
 	bhi _080C6418
 	lsls r0, r0, #1
-	ldr r1, _080C6414 @ =gUnknown_082B533C
+	ldr r1, _080C6414 @ =sIdent
 	adds r0, r0, r1
 	ldrh r0, [r0]
 	b _080C641C
 	.align 2, 0
-_080C6414: .4byte gUnknown_082B533C
+_080C6414: .4byte sIdent
 _080C6418:
 	movs r0, #0x80
 	lsls r0, r0, #8

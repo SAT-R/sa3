@@ -23,7 +23,7 @@ extern void GetInput(void);
 extern u8 gUnknown_03002C60;
 extern u8 gUnknown_0300620C;
 extern u8 gUnknown_03006C20;
-extern const u16 gUnknown_082B533C[8];
+static const u16 sIdent[4] ALIGNED(4) = { 0x494E, 0x544E, 0x4E45, 0x4F44 }; // string identifier encoded as u16
 extern const ColorRaw gUnknown_082B5344[16 * PALETTE_LEN_4BPP];
 extern const u8 gUnknown_082B5544[0x4000];
 extern const u8 gUnknown_082B9544[0x500];
@@ -158,8 +158,8 @@ NONMATCH("asm/non_matching/cz2__sub_80C6318.inc", void sub_80C6318(void))
             }
             {
                 u16 unk2 = gUnknown_3000428.unk2;
-                if (unk2 < 4) {
-                    gUnknown_3000428.unk4 = gUnknown_082B533C[unk2];
+                if (unk2 < ARRAY_COUNT(sIdent)) {
+                    gUnknown_3000428.unk4 = sIdent[unk2];
                 } else {
                     gUnknown_3000428.unk4 = 0x8000;
                 }
