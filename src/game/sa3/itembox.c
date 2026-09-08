@@ -509,13 +509,12 @@ void sub_802C7B0(ItemBox *itembox)
     gCurTask->main = Task_802D660;
 }
 
-// (99.68%) https://decomp.me/scratch/7Sp3m
-NONMATCH("asm/non_matching/game/itembox__sub_802CE4C.inc", s32 sub_802CE4C(ItemBox *itembox))
+bool32 sub_802CE4C(ItemBox *itembox)
 {
     Player *playerCheese;
     Player *p;
     Sprite *sprItembox;
-    s32 colliding;
+    bool32 colliding;
     s16 i;
     u32 coll;
 
@@ -581,7 +580,7 @@ NONMATCH("asm/non_matching/game/itembox__sub_802CE4C.inc", s32 sub_802CE4C(ItemB
                         } else {
                             itembox->p = p;
                         }
-                        goto lbl_return;
+                        return colliding;
                     } else if (sub_802C0D4(p) == 0) {
                         coll = sub_8020950(sprItembox, itembox->world.x, itembox->world.y, p, 0);
                         if (0x30000 & coll) {
@@ -595,7 +594,7 @@ NONMATCH("asm/non_matching/game/itembox__sub_802CE4C.inc", s32 sub_802CE4C(ItemB
                             } else {
                                 itembox->p = p;
                             }
-                            goto lbl_return;
+                            return colliding;
                         } else {
                             if (p->charFlags.anim2 == 0x208) {
                                 if (p->charFlags.someIndex == 1) {
@@ -633,9 +632,13 @@ NONMATCH("asm/non_matching/game/itembox__sub_802CE4C.inc", s32 sub_802CE4C(ItemB
                 p->qSpeedAirY = 0;
             }
             if (0xC0000 & coll) {
-                if (p->moveState & 2) {
-                    // TODO: ASM-hack
-                    asm("");
+                {
+                    s32 ms = p->moveState;
+                    if (p->moveState & MOVESTATE_2) {
+                        // Dead store: maybe ms was previously used in the code below?
+                        ms |= MOVESTATE_2000
+                            | MOVESTATE_4000; // Dummy flags: code matches when assigning any other value than p->moveState.
+                    }
                 }
                 p->qWorldX += Q((s16)coll >> 8);
                 p->qSpeedAirX = 0;
@@ -650,7 +653,6 @@ NONMATCH("asm/non_matching/game/itembox__sub_802CE4C.inc", s32 sub_802CE4C(ItemB
             }
         }
     }
-
 #ifdef BUG_FIX
     if (gStageData.taskCheese)
 #endif
@@ -665,10 +667,8 @@ NONMATCH("asm/non_matching/game/itembox__sub_802CE4C.inc", s32 sub_802CE4C(ItemB
         }
     }
 
-lbl_return:
     return colliding;
 }
-END_NONMATCH
 
 // (84.34%) https://decomp.me/scratch/GzKFl
 NONMATCH("asm/non_matching/game/Itembox_CollisionPlayer.inc",
