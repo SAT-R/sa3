@@ -52,7 +52,7 @@ extern u16 gUnknown_080CF44E[][2];
 void sub_802C35C(ItemBox *itembox, s32 param1);
 void sub_802C618(ItemBox *itembox);
 void Task_802D61C(void);
-s32 sub_802CE4C(ItemBox *itembox);
+bool32 sub_802CE4C(ItemBox *itembox);
 bool32 Itembox_CollisionPlayer(Sprite *s, Vec2_32 world, u8 hbIndexSpr, Player *p, u8 hbIndexPlayer);
 bool32 Itembox_CollisionCheese(Sprite *s, s32 worldX, s32 worldY, u8 hbIndex);
 void sub_802D6CC(ItemBox *itembox, s32 arg1);
@@ -64,7 +64,6 @@ void Task_802D660(void);
 void sub_802C7B0(ItemBox *itembox);
 extern void AddLives(u16 count);
 
-// OK
 void CreateEntity_ItemBox(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     Task *t;
@@ -124,7 +123,6 @@ void CreateEntity_ItemBox(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     SET_MAP_ENTITY_INITIALIZED(me);
 }
 
-// OK
 void sub_802C35C(ItemBox *itembox, s32 param1)
 {
     u16 temp_r5;
@@ -218,7 +216,6 @@ void sub_802C35C(ItemBox *itembox, s32 param1)
     UpdateSpriteAnimation(&itembox->s2);
 }
 
-// OK
 void Task_ItemBoxInit()
 {
     Player *p;
@@ -251,7 +248,6 @@ void Task_ItemBoxInit()
     }
 }
 
-// OK
 void sub_802C618(ItemBox *itembox)
 {
     Player *p;
@@ -290,7 +286,6 @@ void sub_802C618(ItemBox *itembox)
     gCurTask->main = Task_802D61C;
 }
 
-// OK
 void sub_802C7B0(ItemBox *itembox)
 {
     Player *player;
@@ -343,6 +338,7 @@ void sub_802C7B0(ItemBox *itembox)
                 sub_80267E8();
                 for (pid = 0; pid < 4; pid++) {
 #ifdef BUG_FIX
+                    // TODO: Is this correct or should this be gPlayers[PLAYER_1] and only set just before it's (supposed to be) used below?
                     player = &gPlayers[pid];
 #endif
                     if (&gPlayers[pid] == itembox->p) {
