@@ -34,10 +34,11 @@ void sub_80A208C(StrcCode3 *strc);
 void TaskDestructor_80A2098(Task *t);
 
 extern s16 sub_8023A88(void);
-extern void sub_8023BB0();
+extern s16 sub_8023BB0();
 extern s16 sub_8023C5C(void);
 extern void sub_8023D60();
 s16 sub_802440C(void);
+s16 sub_80244E4(void);
 s16 sub_8024584(void);
 
 extern TileInfo2 gUnknown_080D6898[6];
@@ -236,15 +237,12 @@ void Task_80A1CE4(void)
     TaskDestroy(gCurTask);
 }
 
-#if 0
-void Task_80A1DC8(StrcCode3 *strc) {
+void Task_80A1DC8(void)
+{
+    StrcCode3 *strc = TASK_DATA(gCurTask);
     s16 temp_r1;
-    s32 temp_r0_2;
-    u16 temp_r0;
-    u16 var_r0;
+    s16 var_r0;
     u8 temp_r2;
-    u8 temp_r4;
-    void (*var_r0_2)(StrcCode3 *);
 
     if (strc->errorCode == 0) {
         if (gStageData.playerIndex == 0) {
@@ -265,51 +263,47 @@ void Task_80A1DC8(StrcCode3 *strc) {
     } else {
         var_r0 = sub_8024584();
     }
-    temp_r0 = var_r0;
-    temp_r1 = (s16) temp_r0;
-    if ((s32) temp_r1 < 0) {
+    temp_r1 = (s16)var_r0;
+    if (temp_r1 < 0) {
         sub_802613C();
         return;
     }
-    temp_r2 = strc->errorCode;
-    if (((temp_r2 == 0) && ((0xF & temp_r1) == 3)) || ((temp_r2 == 1) && ((temp_r0_2 = 0xF & temp_r1, (temp_r0_2 == 3)) || (temp_r0_2 == 7) || (temp_r0_2 == 0xF)))) {
-        temp_r4 = gStageData.playerIndex;
-        if (temp_r4 == 0) {
+
+    if (((strc->errorCode == 0) && ((temp_r1 & 0xF) == 3))
+        || ((strc->errorCode == 1) && ((((temp_r1 & 0xF) == 3)) || ((temp_r1 & 0xF) == 7) || ((temp_r1 & 0xF) == 0xF)))) {
+        if (gStageData.playerIndex == 0) {
             sub_80A208C(strc);
             if (8 & gPressedKeys) {
                 sub_80A1FB0(strc, 4U);
                 sub_80A2024(strc, 2U);
                 strc->unk0 = 1;
                 strc->unk3 = 2;
-                strc->unk4 = (u16) temp_r4;
-                var_r0_2 = Task_80A1F10;
-                goto block_26;
+                strc->unk4 = 0;
+                gCurTask->main = Task_80A1F10;
+                return;
             }
         }
-        if ((s16) temp_r0 & 0x10) {
+        if (var_r0 & 0x10) {
             strc->unk3 = 2;
             sub_80A1FB0(strc, 4U);
             sub_80A2024(strc, 2U);
             strc->unk4 = 0;
-            var_r0_2 = Task_80A1F10;
-            goto block_26;
+            gCurTask->main = Task_80A1F10;
+            return;
         }
-        goto block_24;
     }
-block_24:
-    if (2 & gPressedKeys) {
+    if (B_BUTTON & gPressedKeys) {
         sub_80260F0();
         m4aSongNumStart(0x6BU);
         strc->unk3 = 1;
-        var_r0_2 = Task_80A1CE4;
-block_26:
-        gCurTask->main = var_r0_2;
+        gCurTask->main = Task_80A1CE4;
     }
 }
 
-void Task_80A1F10(StrcCode3 *strc) {
-    u16 temp_r0;
-    u16 var_r0;
+void Task_80A1F10(void)
+{
+    StrcCode3 *strc = TASK_DATA(gCurTask);
+    s16 var_r0;
 
     if (strc->errorCode == 0) {
         if (gStageData.playerIndex == 0) {
@@ -330,67 +324,69 @@ void Task_80A1F10(StrcCode3 *strc) {
     } else {
         var_r0 = sub_8024584();
     }
-    if ((s32) (var_r0 << 0x10) < 0) {
+    if (var_r0 < 0) {
         sub_802613C();
-        return;
-    }
-    if (strc->unk4 == 0) {
-        m4aSongNumStart(0x63U);
-    }
-    temp_r0 = strc->unk4 + 1;
-    strc->unk4 = temp_r0;
-    if ((u32) temp_r0 > 0x77U) {
-        gCurTask->main = Task_80A1CE4;
+    } else {
+        if (strc->unk4 == 0) {
+            m4aSongNumStart(0x63U);
+        }
+
+        if (++strc->unk4 >= 120) {
+            gCurTask->main = Task_80A1CE4;
+        }
     }
 }
 
-void sub_80A1FB0(StrcCode3 *strc, u8 param1) {
-    gBgCntRegs[1] = 0xE04;
+void sub_80A1FB0(StrcCode3 *strc, u8 param1)
+{
+    gBgCntRegs[1] = BGCNT_SCREENBASE(14) | BGCNT_CHARBASE(1) | BGCNT_TXT256x256 | BGCNT_16COLOR | BGCNT_PRIORITY(0);
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = 0;
-    strc->bg54.graphics.dest = (void *)0x06004000;
-    strc->bg54.graphics.anim = 0;
-    strc->bg54.layoutVram = (u16 *)0x06007000;
-    strc->bg54.unk18 = 0;
-    strc->bg54.unk1A = 0;
-    strc->bg54.tilemapId = gTilemapIdsConnectionStatus[param1 + (strc->unk1 * 4)];
-    strc->bg54.unk1E = 0;
-    strc->bg54.unk20 = 0;
-    strc->bg54.unk22 = 0;
-    strc->bg54.unk24 = 0;
-    strc->bg54.targetTilesX = 0x20;
-    strc->bg54.targetTilesY = 0x20;
-    strc->bg54.paletteOffset = 0;
-    strc->bg54.flags = 1;
-    DrawBackground(&strc->bg54);
+    {
+        Background *bg = &strc->bg54;
+        bg->graphics.dest = (void *)BG_CHAR_ADDR(1);
+        bg->graphics.anim = 0;
+        bg->layoutVram = (u16 *)BG_SCREEN_ADDR(14);
+        bg->unk18 = 0;
+        bg->unk1A = 0;
+        bg->tilemapId = gTilemapIdsConnectionStatus[param1 + (strc->unk1 * 4)];
+        bg->unk1E = 0;
+        bg->unk20 = 0;
+        bg->unk22 = 0;
+        bg->unk24 = 0;
+        bg->targetTilesX = 256 / TILE_WIDTH;
+        bg->targetTilesY = 256 / TILE_WIDTH;
+        bg->paletteOffset = 0;
+        bg->flags = 1;
+        DrawBackground(bg);
+    }
 }
 
-void sub_80A2024(StrcCode3 *strc, u8 param1) {
-    *gBgCntRegs = 0x601;
+void sub_80A2024(StrcCode3 *strc, u8 param1)
+{
+    gBgCntRegs[0] = BGCNT_SCREENBASE(6) | BGCNT_CHARBASE(0) | BGCNT_TXT256x256 | BGCNT_16COLOR | BGCNT_PRIORITY(1);
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
-    strc->bg14.graphics.dest = NULL;
-    strc->bg14.graphics.anim = 0;
-    strc->bg14.layoutVram = (u16 *)0x06003000;
-    strc->bg14.unk18 = 0;
-    strc->bg14.unk1A = 0;
-    strc->bg14.tilemapId = *(((u32) (param1 << 0x18) >> 0x17) + gTilemapIdsConnectionStatus);
-    strc->bg14.unk1E = 0;
-    strc->bg14.unk20 = 0;
-    strc->bg14.unk22 = 0;
-    strc->bg14.unk24 = 0;
-    strc->bg14.targetTilesX = 0x20;
-    strc->bg14.targetTilesY = 0x20;
-    strc->bg14.paletteOffset = 0;
-    strc->bg14.flags = 0;
-    DrawBackground(&strc->bg14);
+    {
+        Background *bg = &strc->bg14;
+        bg->graphics.dest = (void *)BG_CHAR_ADDR(0);
+        bg->graphics.anim = 0;
+        bg->layoutVram = (u16 *)BG_SCREEN_ADDR(6);
+        bg->unk18 = 0;
+        bg->unk1A = 0;
+        bg->tilemapId = gTilemapIdsConnectionStatus[param1];
+        bg->unk1E = 0;
+        bg->unk20 = 0;
+        bg->unk22 = 0;
+        bg->unk24 = 0;
+        bg->targetTilesX = 256 / TILE_WIDTH;
+        bg->targetTilesY = 256 / TILE_WIDTH;
+        bg->paletteOffset = 0;
+        bg->flags = 0;
+        DrawBackground(bg);
+    }
 }
 
-void sub_80A208C(StrcCode3 *strc) {
-    DisplaySprite(&strc->spr94);
-}
+void sub_80A208C(StrcCode3 *strc) { DisplaySprite(&strc->spr94); }
 
-void TaskDestructor_80A2098(Task *t) {
-
-}
-#endif
+void TaskDestructor_80A2098(Task *t) { }
