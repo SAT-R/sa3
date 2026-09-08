@@ -864,7 +864,11 @@ gUnknown_080D9898:
 
     .global gUnknown_080D98D8
 gUnknown_080D98D8:
-    .incbin "baserom_sa3.gba", 0x000D98D8, 0x30
+    .incbin "baserom_sa3.gba", 0x000D98D8, 0x18
+
+    .global gUnknown_080D98F0
+gUnknown_080D98F0:
+    .incbin "baserom_sa3.gba", 0x000D98F0, 0x18
 
     .global gTilemapIdsConnectionStatus
 gTilemapIdsConnectionStatus:
