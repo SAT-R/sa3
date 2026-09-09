@@ -194,7 +194,6 @@ SECTIONS {
         asm/game__code_2_0.o(.text);
         asm/game__code_2_1.o(.text);
         src/game/code_2_2.o(.text);
-        asm/game__code_2_2.o(.text);
         asm/game__mp_char_select.o(.text);
         src/game/code_3.o(.text);
         asm/game__opening.o(.text);
