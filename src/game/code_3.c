@@ -9,7 +9,7 @@
 
 typedef struct {
     u8 unk0;
-    u8 unk1;
+    u8 language;
     u8 errorCode;
     u8 unk3;
     u16 unk4;
@@ -42,7 +42,7 @@ s16 sub_80244E4(void);
 s16 sub_8024584(void);
 
 extern TileInfo2 gUnknown_080D6898[6];
-extern u16 gTilemapIdsConnectionStatus[28];
+extern u16 gTilemapIdsConnectionStatus[(NUM_LANGUAGES + 1) * 4];
 
 extern void sub_8024040(void);
 extern void sub_80258D4(void);
@@ -75,7 +75,7 @@ void sub_80A1A4C(u8 errorCode)
     gBgSprites_Unknown2[0][3] = 0x40;
 
     strc = TASK_DATA(t);
-    strc->unk1 = LOADED_SAVE->language;
+    strc->language = LOADED_SAVE->language;
     strc->errorCode = errorCode;
     strc->unk3 = 0;
     strc->unk0 = 0;
@@ -119,14 +119,14 @@ void sub_80A1B68(StrcCode3 *strc)
 
     // BUG: This will overflow, in all cases, with gUnknown_080D6898's entries.
     //      That is why numtiles_t was added, to increase numTiles size to 32bit.
-    numtiles_t numTiles = gUnknown_080D6898[strc->unk1].numTiles * TILE_SIZE_4BPP;
+    numtiles_t numTiles = gUnknown_080D6898[strc->language].numTiles * TILE_SIZE_4BPP;
 
     CpuFastFill(0, vram, numTiles);
 
     s = &strc->spr94;
     s->tiles = vram;
-    s->anim = gUnknown_080D6898[strc->unk1].anim;
-    s->variant = gUnknown_080D6898[strc->unk1].variant;
+    s->anim = gUnknown_080D6898[strc->language].anim;
+    s->variant = gUnknown_080D6898[strc->language].variant;
     s->prevVariant = -1;
     s->x = 120;
     s->y = 140;
@@ -208,7 +208,7 @@ void Task_80A1CE4(void)
         strc->qBlend = 0;
     }
     if (strc->unk3 != 1) {
-        if (gStageData.playerIndex == 0) {
+        if (gStageData.playerIndex == PLAYER_1) {
             sub_8023BB0();
         } else {
             sub_8023D60();
@@ -245,7 +245,7 @@ void Task_80A1DC8(void)
     u8 temp_r2;
 
     if (strc->errorCode == 0) {
-        if (gStageData.playerIndex == 0) {
+        if (gStageData.playerIndex == PLAYER_1) {
             if (strc->unk3 == 2) {
                 var_r0 = sub_8023BB0();
             } else {
@@ -254,7 +254,7 @@ void Task_80A1DC8(void)
         } else {
             var_r0 = sub_8023C5C();
         }
-    } else if (gStageData.playerIndex == 0) {
+    } else if (gStageData.playerIndex == PLAYER_1) {
         if (strc->unk3 == 2) {
             var_r0 = sub_80244E4();
         } else {
@@ -271,7 +271,7 @@ void Task_80A1DC8(void)
 
     if (((strc->errorCode == 0) && ((temp_r1 & 0xF) == 3))
         || ((strc->errorCode == 1) && ((((temp_r1 & 0xF) == 3)) || ((temp_r1 & 0xF) == 7) || ((temp_r1 & 0xF) == 0xF)))) {
-        if (gStageData.playerIndex == 0) {
+        if (gStageData.playerIndex == PLAYER_1) {
             sub_80A208C(strc);
             if (8 & gPressedKeys) {
                 sub_80A1FB0(strc, 4U);
@@ -306,7 +306,7 @@ void Task_80A1F10(void)
     s16 var_r0;
 
     if (strc->errorCode == 0) {
-        if (gStageData.playerIndex == 0) {
+        if (gStageData.playerIndex == PLAYER_1) {
             if (strc->unk3 == 2) {
                 var_r0 = sub_8023BB0();
             } else {
@@ -315,7 +315,7 @@ void Task_80A1F10(void)
         } else {
             var_r0 = sub_8023C5C();
         }
-    } else if (gStageData.playerIndex == 0) {
+    } else if (gStageData.playerIndex == PLAYER_1) {
         if (strc->unk3 == 2) {
             var_r0 = sub_80244E4();
         } else {
@@ -328,7 +328,7 @@ void Task_80A1F10(void)
         sub_802613C();
     } else {
         if (strc->unk4 == 0) {
-            m4aSongNumStart(0x63U);
+            m4aSongNumStart(MUS_VS_SUCCESS);
         }
 
         if (++strc->unk4 >= 120) {
@@ -349,7 +349,7 @@ void sub_80A1FB0(StrcCode3 *strc, u8 param1)
         bg->layoutVram = (u16 *)BG_SCREEN_ADDR(14);
         bg->unk18 = 0;
         bg->unk1A = 0;
-        bg->tilemapId = gTilemapIdsConnectionStatus[param1 + (strc->unk1 * 4)];
+        bg->tilemapId = gTilemapIdsConnectionStatus[param1 + (strc->language * 4)];
         bg->unk1E = 0;
         bg->unk20 = 0;
         bg->unk22 = 0;
