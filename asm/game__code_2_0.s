@@ -1137,7 +1137,7 @@ sub_809BFE8: @ 0x0809BFE8
 	ldr r2, _0809C0A4 @ =0x00001141
 	adds r0, r2, #0
 	strh r0, [r1]
-	ldr r0, _0809C0A8 @ =Task_809C44C
+	ldr r0, _0809C0A8 @ =Task_570_809C44C
 	movs r1, #0xae
 	lsls r1, r1, #3     @ 0x570
 	movs r2, #0x84
@@ -1217,7 +1217,7 @@ sub_809BFE8: @ 0x0809BFE8
 	.align 2, 0
 _0809C0A0: .4byte gDispCnt
 _0809C0A4: .4byte 0x00001141
-_0809C0A8: .4byte Task_809C44C
+_0809C0A8: .4byte Task_570_809C44C
 _0809C0AC: .4byte TaskDestructor_809E280
 _0809C0B0: .4byte 0x040000D4
 _0809C0B4: .4byte gBgCntRegs
@@ -1651,8 +1651,8 @@ _0809C440: .4byte 0x06010000
 _0809C444: .4byte gUnknown_080D9618
 _0809C448: .4byte gUnknown_080D9564
 
-	thumb_func_start Task_809C44C
-Task_809C44C: @ 0x0809C44C
+	thumb_func_start Task_570_809C44C
+Task_570_809C44C: @ 0x0809C44C
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _0809C484 @ =gStageData
 	ldrb r4, [r0, #6]
@@ -1863,17 +1863,17 @@ _0809C60C:
 	strh r0, [r4, #6]
 	strh r0, [r1, #4]
 	ldr r1, [r5]
-	ldr r0, _0809C61C @ =sub_809E0D4
+	ldr r0, _0809C61C @ =Task_570_809E0D4
 	str r0, [r1, #8]
 _0809C616:
 	pop {r4, r5}
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0809C61C: .4byte sub_809E0D4
+_0809C61C: .4byte Task_570_809E0D4
 
-	thumb_func_start sub_809C620
-sub_809C620: @ 0x0809C620
+	thumb_func_start Task_570_809C620
+Task_570_809C620: @ 0x0809C620
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _0809C660 @ =gCurTask
 	ldr r0, [r0]
@@ -1947,7 +1947,7 @@ _0809C6B0:
 	strb r0, [r4, #4]
 	movs r2, #0
 	ldr r6, _0809C708 @ =gCurTask
-	ldr r7, _0809C70C @ =sub_809E0D4
+	ldr r7, _0809C70C @ =Task_570_809E0D4
 	ldr r5, _0809C710 @ =gUnknown_030010AC
 	ldr r3, _0809C714 @ =gUnknown_080D961D
 _0809C6CA:
@@ -1985,7 +1985,7 @@ _0809C702:
 	bx r0
 	.align 2, 0
 _0809C708: .4byte gCurTask
-_0809C70C: .4byte sub_809E0D4
+_0809C70C: .4byte Task_570_809E0D4
 _0809C710: .4byte gUnknown_030010AC
 _0809C714: .4byte gUnknown_080D961D
 _0809C718: .4byte 0xFFFF7E00
@@ -3018,7 +3018,7 @@ sub_809CF04: @ 0x0809CF04
 	sub sp, #4
 	adds r5, r0, #0
 	adds r6, r1, #0
-	ldr r0, _0809CF94 @ =Task_809E4E0
+	ldr r0, _0809CF94 @ =Task_3C_809E4E0
 	movs r2, #0x84
 	lsls r2, r2, #6
 	ldr r1, _0809CF98 @ =TaskDestructor_809E630
@@ -3082,7 +3082,7 @@ sub_809CF04: @ 0x0809CF04
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0809CF94: .4byte Task_809E4E0
+_0809CF94: .4byte Task_3C_809E4E0
 _0809CF98: .4byte TaskDestructor_809E630
 _0809CF9C: .4byte 0xFFFF8800
 _0809CFA0: .4byte 0x03000014
@@ -3440,7 +3440,7 @@ sub_809D27C: @ 0x0809D27C
 	adds r4, r1, #0
 	movs r0, #0
 	str r0, [sp, #4]
-	ldr r0, _0809D2E0 @ =Task_809D3C4
+	ldr r0, _0809D2E0 @ =Task_64_809D3C4
 	movs r2, #0x84
 	lsls r2, r2, #6
 	ldr r1, _0809D2E4 @ =TaskDestructor_809E774
@@ -3479,7 +3479,7 @@ sub_809D27C: @ 0x0809D27C
 	str r3, [sp, #4]
 	b _0809D302
 	.align 2, 0
-_0809D2E0: .4byte Task_809D3C4
+_0809D2E0: .4byte Task_64_809D3C4
 _0809D2E4: .4byte TaskDestructor_809E774
 _0809D2E8: .4byte gLoadedSaveGame
 _0809D2EC: .4byte 0x00000366
@@ -3588,8 +3588,8 @@ _0809D302:
 	.align 2, 0
 _0809D3C0: .4byte gUnknown_080D9678
 
-	thumb_func_start Task_809D3C4
-Task_809D3C4: @ 0x0809D3C4
+	thumb_func_start Task_64_809D3C4
+Task_64_809D3C4: @ 0x0809D3C4
 	push {r4, r5, r6, r7, lr}
 	ldr r6, _0809D408 @ =gMultiSioSend
 	ldr r0, _0809D40C @ =gStageData
@@ -3670,7 +3670,7 @@ _0809D464:
 	ldr r1, [r4, #8]
 	bl sub_809D5B8
 	ldr r1, [r7]
-	ldr r0, _0809D494 @ =Task_809E68C
+	ldr r0, _0809D494 @ =Task_64_809E68C
 _0809D480:
 	str r0, [r1, #8]
 _0809D482:
@@ -3681,7 +3681,7 @@ _0809D482:
 _0809D488: .4byte gMultiSioRecv
 _0809D48C: .4byte 0x00006610
 _0809D490: .4byte 0x00006611
-_0809D494: .4byte Task_809E68C
+_0809D494: .4byte Task_64_809E68C
 
 	thumb_func_start sub_809D498
 sub_809D498: @ 0x0809D498
@@ -3803,7 +3803,7 @@ _0809D576:
 	bl sub_809D5B8
 	ldr r0, _0809D5B0 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0809D5B4 @ =Task_809E68C
+	ldr r0, _0809D5B4 @ =Task_64_809E68C
 	str r0, [r1, #8]
 _0809D596:
 	add sp, #8
@@ -3818,4 +3818,4 @@ _0809D5A4: .4byte gPlayers
 _0809D5A8: .4byte 0x00006611
 _0809D5AC: .4byte gMultiSioRecv
 _0809D5B0: .4byte gCurTask
-_0809D5B4: .4byte Task_809E68C
+_0809D5B4: .4byte Task_64_809E68C
