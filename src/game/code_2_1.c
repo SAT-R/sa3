@@ -2,8 +2,10 @@
 #include "core.h"
 #include "flags.h"
 #include "color.h"
+#include "lib/m4a/m4a.h"
 #include "game/save.h"
 #include "game/stage.h"
+#include "constants/songs.h"
 
 typedef struct {
     /* 0x00 */ s32 unk0;
@@ -273,6 +275,7 @@ void Task_D4_809D960(void)
         sub_80A1A4C(3);
         return;
     }
+
     if (playerIndex != 0) {
         send->pat0.unk0 = 0x6611;
     }
@@ -296,75 +299,76 @@ void Task_D4_809D960(void)
 }
 
 #if 01
-#else
-void Task_D4_809DA18(Code_2_1 *strc)
+void Task_D4_809DA18(void)
 {
-    u8 temp_r5;
-    void (*var_r0)(Code_2_1 *);
+    union MultiSioData *send = &gMultiSioSend;
+    s16 playerIndex = gStageData.playerIndex;
 
-    temp_r5 = gStageData.playerIndex;
-    if ((s32)(sub_802610C() << 0x10) < 0) {
-        TasksDestroyInPriorityRange(0U, 0xFFFFU);
+    if (sub_802610C() < 0) {
+        TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
         sub_80A1A4C(3);
         return;
     }
-    sub_809E7DC(strc);
-    sub_809DFAC(strc);
-    sub_809E018(strc);
-    if (temp_r5 != 0) {
-        if (gMultiSioRecv->pat0.unk0 == 0x6612) {
+    {
+        Code_2_1 *strc = TASK_DATA(gCurTask);
+        sub_809E7DC(strc);
+        sub_809DFAC(strc);
+        sub_809E018(strc);
+
+        if (playerIndex != 0) {
+            union MultiSioData *recv = gMultiSioRecv;
+            if (recv->pat0.unk0 == 0x6612) {
+                if (strc->unk5 == 1) {
+                    m4aMPlayAllStop();
+                    m4aSongNumStart(MUS_VS_BGM_5);
+                }
+
+                gCurTask->main = Task_D4_809DCA4;
+            } else if (recv->pat0.unk0 != 0x6611) {
+                if ((u8)recv->pat0.unk0 > 1U) {
+                    strc->unk5 = 0;
+                }
+                strc->unk5 = (u8)recv->pat0.unk0;
+                if (strc->unk5 > 1U) {
+                    strc->unk5 = 0;
+                }
+                send->pat0.unk0 = (u16)strc->unk5;
+            } else {
+                send->pat0.unk0 = 0x6611;
+            }
+        } else {
+            if (DPAD_LEFT & gRepeatedKeys) {
+                m4aSongNumStart(SE_DPAD_SELECT);
+                strc->unk5 = 0;
+            }
+            if (DPAD_RIGHT & gRepeatedKeys) {
+                m4aSongNumStart(SE_DPAD_SELECT);
+                strc->unk5 = 1;
+            }
+            send->pat0.unk0 = (u16)strc->unk5;
+            if (!(B_BUTTON & gPressedKeys)) {
+                if (!(A_BUTTON & gPressedKeys))
+                    return;
+            } else {
+                strc->unk5 = 1;
+            }
+
             if (strc->unk5 == 1) {
                 m4aMPlayAllStop();
-                m4aSongNumStart(0x62U);
+                m4aSongNumStart(MUS_VS_BGM_5);
+            } else {
+                m4aSongNumStart(SE_SELECT);
             }
-            var_r0 = Task_D4_809DCA4;
-            goto block_26;
+
+            gCurTask->main = Task_D4_809DB74;
         }
-        if (gMultiSioRecv->pat0.unk0 != 0x6611) {
-            if ((u32)(u8)gMultiSioRecv->pat0.unk0 > 1U) {
-                strc->unk5 = 0;
-            }
-            strc->unk5 = (u8)gMultiSioRecv->pat0.unk0;
-            if ((u32)(u8)gMultiSioRecv->pat0.unk0 > 1U) {
-                strc->unk5 = 0;
-            }
-            gMultiSioSend.pat0.unk0 = (u16)strc->unk5;
-            return;
-        }
-        gMultiSioSend.pat0.unk0 = gMultiSioRecv->pat0.unk0;
-        return;
-    }
-    if (0x20 & gRepeatedKeys) {
-        m4aSongNumStart(0x6CU);
-        strc->unk5 = temp_r5;
-    }
-    if (0x10 & gRepeatedKeys) {
-        m4aSongNumStart(0x6CU);
-        strc->unk5 = 1;
-    }
-    gMultiSioSend.pat0.unk0 = (u16)strc->unk5;
-    if (!(2 & gPressedKeys)) {
-        if (1 & gPressedKeys) {
-            goto block_22;
-        }
-    } else {
-        strc->unk5 = 1;
-    block_22:
-        if (strc->unk5 == 1) {
-            m4aMPlayAllStop();
-            m4aSongNumStart(0x62U);
-        } else {
-            m4aSongNumStart(0x6AU);
-        }
-        var_r0 = Task_D4_809DB74;
-    block_26:
-        gCurTask->main = var_r0;
     }
 }
 
+#else
 void Task_D4_809DB74(Code_2_1 *strc)
 {
     ? sp4;
