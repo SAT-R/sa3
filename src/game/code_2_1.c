@@ -3,6 +3,7 @@
 #include "flags.h"
 #include "color.h"
 #include "game/save.h"
+#include "game/stage.h"
 
 typedef struct {
     /* 0x00 */ s32 unk0;
@@ -56,8 +57,10 @@ void sub_809DFAC(Code_2_1 *strc);
 void sub_809E018(Code_2_1 *strc);
 void sub_809E078(Code_2_1 *strc);
 void Task_809E0D4(Code_2_0__570 *strc570);
+void sub_809E7DC(Code_2_1 *strc);
 s32 sub_809E7F8(Code_2_1 *strc);
 void TaskDestructor_809E858(Task *t);
+void sub_80A1A4C(u8 errorCode);
 
 #if M2C
 void sub_809D5B8(void *someStruct, u8 *vram, Code_2_1 *strc);
@@ -67,6 +70,8 @@ void Task_D4_809DA18(Code_2_1 *strc);
 void Task_D4_809DB74(Code_2_1 *strc);
 void Task_D4_809DCA4(Code_2_1 *strc);
 #endif
+
+extern s16 sub_802610C();
 
 extern const ColorRaw gUnknown_080D97F8[10 * PALETTE_LEN_4BPP];
 extern const ColorRaw gUnknown_080D9898[4 * PALETTE_LEN_4BPP];
@@ -182,8 +187,8 @@ void sub_809D6A0(Code_2_1 *strc)
 }
 
 #if 01
-#else
-void Task_D4_809D810(Code_2_1 *strc)
+
+void Task_D4_809D810(void)
 {
     s32 temp_r0;
     s32 temp_r1;
@@ -191,10 +196,12 @@ void Task_D4_809D810(Code_2_1 *strc)
     s32 temp_r1_3;
     u8 temp_r5;
     u8 var_r6;
+    Code_2_1 *strc;
+    union MultiSioData *sio = &gMultiSioSend;
 
     temp_r5 = gStageData.playerIndex;
     var_r6 = 0;
-    if ((s32)(sub_802610C() << 0x10) < 0) {
+    if (sub_802610C() < 0) {
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
@@ -202,52 +209,57 @@ void Task_D4_809D810(Code_2_1 *strc)
         sub_80A1A4C(3);
         return;
     }
+
+    strc = TASK_DATA(gCurTask);
+
     if (temp_r5 != 0) {
-        gMultiSioSend.pat0.unk0 = 0x6611;
+        sio->pat0.unk0 = 0x6611;
     }
+
     sub_809E7DC(strc);
+
     if (strc->unkA == 0) {
         gBldRegs.bldCnt = 0x3FFF;
-        gDispCnt |= 0x6000;
-        gWinRegs->unk0 = 0xFF;
-        gWinRegs[1] = 0xFF;
-        gWinRegs[3] = 0xFF;
-        gWinRegs[4] = 0x3112;
-        gWinRegs[5] = 0;
+        gDispCnt |= DISPCNT_WIN0_ON | DISPCNT_WIN1_ON;
+        gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, WIN_GET_HIGHER(-1));
+        gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, WIN_GET_HIGHER(-1));
+        gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, WIN_GET_HIGHER(-1));
+        gWinRegs[WINREG_WININ] = 0x3112;
+        gWinRegs[WINREG_WINOUT] = 0;
         gBldRegs.bldAlpha = 0x1F;
         gBldRegs.bldY = 6;
         strc->unk8 = 0x600;
         strc->unkA = 1;
     }
-    temp_r1 = strc->unk18;
-    if (temp_r1 <= 0x4400) {
-        temp_r1_2 = temp_r1 + 0x400;
-        strc->unk18 = temp_r1_2;
-        if (temp_r1_2 > 0x43FF) {
-            strc->unk18 = 0x4400;
-            var_r6 = 1;
-        }
-    }
-    temp_r1_3 = strc->unk10;
-    if (temp_r1_3 > 0x17FF) {
-        temp_r0 = temp_r1_3 + 0xFFFFF800;
-        strc->unk10 = temp_r0;
-        if (temp_r0 <= 0x1800) {
-            strc->unk10 = 0x1800;
+
+    if (strc->unk18 <= Q(68)) {
+        strc->unk18 += Q(4);
+        if (strc->unk18 >= Q(68)) {
+            strc->unk18 = Q(68);
             var_r6 += 1;
         }
     }
-    gWinRegs[2] = (((s32)strc->unk18 >> 8) * 0x101) + ((s32)strc->unk10 >> 8);
+
+    if (strc->unk10 >= Q(24)) {
+        strc->unk10 -= Q(8);
+        if (strc->unk10 <= Q(24)) {
+            strc->unk10 = Q(24);
+            var_r6 += 1;
+        }
+    }
+
+    gWinRegs[WINREG_WIN0V] = (I(strc->unk18) * WIN_RANGE(1, 1)) + WIN_RANGE(0, I(strc->unk10));
+
     if (var_r6 == 2) {
         gBldRegs.bldCnt = 0x3FFF;
-        gWinRegs[4] = 0x3112;
+        gWinRegs[WINREG_WININ] = 0x3112;
         gBldRegs.bldAlpha = 0x1F;
         gBldRegs.bldY = 6;
         strc->unkA = 0;
-        gCurTask->main = (void (*)())Task_D4_809D960;
+        gCurTask->main = Task_D4_809D960;
     }
 }
-
+#else
 void Task_D4_809D960(Code_2_1 *strc)
 {
     u8 temp_r4;
@@ -276,7 +288,7 @@ void Task_D4_809D960(Code_2_1 *strc)
         var_r5 += 1;
     }
     if (var_r5 == 2) {
-        gCurTask->main = (void (*)())Task_D4_809DA18;
+        gCurTask->main = Task_D4_809DA18;
     }
 }
 
@@ -394,7 +406,7 @@ void Task_D4_809DB74(Code_2_1 *strc)
     } while ((u32)var_r3 <= 2U);
     if (var_r7 == var_r8) {
         gMultiSioSend.pat0.unk0 = 0x6612;
-        gCurTask->main = (void (*)())Task_D4_809DCA4;
+        gCurTask->main = Task_D4_809DCA4;
     }
 }
 
