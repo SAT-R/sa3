@@ -1706,7 +1706,7 @@ _0809C4A0:
 	movs r6, #0
 	ldr r0, _0809C4F8 @ =gCurTask
 	mov ip, r0
-	ldr r7, _0809C4FC @ =sub_809C534
+	ldr r7, _0809C4FC @ =Task_570_809C534
 _0809C4CA:
 	cmp r3, r6
 	beq _0809C51E
@@ -1732,7 +1732,7 @@ _0809C4CA:
 	.align 2, 0
 _0809C4F4: .4byte gPlayers
 _0809C4F8: .4byte gCurTask
-_0809C4FC: .4byte sub_809C534
+_0809C4FC: .4byte Task_570_809C534
 _0809C500: .4byte gUnknown_03001060
 _0809C504:
 	lsls r0, r6, #2
@@ -1763,8 +1763,8 @@ _0809C52E:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_809C534
-sub_809C534: @ 0x0809C534
+	thumb_func_start Task_570_809C534
+Task_570_809C534: @ 0x0809C534
 	push {r4, r5, lr}
 	ldr r5, _0809C574 @ =gCurTask
 	ldr r0, [r5]

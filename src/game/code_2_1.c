@@ -5,8 +5,30 @@
 #include "multi_sio_stuff.h"
 #include "lib/m4a/m4a.h"
 #include "game/save.h"
+#include "game/special_stage.h"
 #include "game/stage.h"
 #include "constants/songs.h"
+
+typedef struct {
+    /* 0x00 */ u8 *unk0;
+    /* 0x00 */ u8 unk4;
+    /* 0x00 */ u16 unk6;
+    /* 0x00 */ u8 *vram8;
+    /* 0x00 */ s32 qUnkC;
+    /* 0x00 */ s32 qUnk10;
+    /* 0x14 */ Sprite spr14;
+} Code_2_0__3C;
+
+typedef struct {
+    /* 0x00 */ u8 *unk0;
+    /* 0x04 */ u8 unk4;
+    /* 0x05 */ u8 unk5;
+    /* 0x05 */ u16 unk6;
+    /* 0x00 */ s32 unk8;
+    /* 0x05 */ s32 qUnkC;
+    /* 0x10 */ Sprite spr10;
+    /* 0x38 */ Sprite spr38;
+} Code_2_0__60; /* 0x60 */
 
 typedef struct {
     /* 0x00 */ u8 *unk0;
@@ -14,19 +36,27 @@ typedef struct {
     /* 0x05 */ u8 unk5;
     /* 0x05 */ u16 unk6;
     /* 0x00 */ u8 filler8[0x4];
-    /* 0x00 */ s32 unkC;
-    /* 0x00 */ s32 unk10;
+    /* 0x00 */ s32 qUnkC;
+    /* 0x00 */ s32 qUnk10;
     /* 0x14 */ Sprite spr14;
     /* 0x14 */ Sprite spr3C;
 } Code_2_0__64; /* 0x64 */
 
 typedef struct {
+    /* 0x00 */ u8 *unk0;
+    /* 0x00 */ u8 unk4;
+    /* 0x00 */ u8 *vram8;
+    /* 0x00 */ u8 fillerC[0xE8];
+} Code_2_0__F4;
+
+typedef struct {
     /* 0x00 */ u8 unk0[4];
     /* 0x04 */ u8 unk4;
+    /* 0x04 */ u8 unk5;
     /* 0x04 */ s16 unk6;
     /* 0x04 */ s16 unk8;
     /* 0x04 */ s16 unkA;
-    /* 0x0C */ u8 fillerC[0x4];
+    /* 0x0C */ u8 *vramC;
     /* 0x10 */ Vec2_32 unk10;
     /* 0x10 */ Vec2_32 unk18;
     /* 0x10 */ Vec2_32 unk20;
@@ -57,9 +87,14 @@ typedef struct {
     /* 0xAC */ Sprite sprAC;
 } Code_2_1; /* 0xD4 */
 
-void sub_809D5B8(u8 *someData, u8 *vram); // prev. void sub_809D5B8(Code_2_0__64 *someStruct, u8 *vram);
+void sub_809C970(u8 *vram, void *param2);
+bool32 sub_809CDC8(Code_2_0__F4 *strc);
+void sub_809CE58(Code_2_0__F4 *strc);
+void sub_809CF04(u8 *vram, void *param2);
 void sub_809D27C(u8 *vram, void *someStruct);
+void sub_809D5B8(u8 *someData, u8 *vram); // prev. void sub_809D5B8(Code_2_0__64 *someStruct, u8 *vram);
 void sub_809D6A0(Code_2_1 *strc);
+void Task_809E458(void);
 void Task_D4_809D810(void);
 void Task_D4_809D960(void);
 void Task_D4_809DA18(void);
@@ -72,10 +107,17 @@ void sub_809E018(Code_2_1 *strc);
 void sub_809E078(Code_2_0__570 *strc);
 void Task_809E0D4(Code_2_0__570 *strc570);
 void sub_809E7DC(Code_2_1 *strc);
-s32 sub_809E7F8(Code_2_1 *strc);
+bool32 sub_809E7F8(Code_2_1 *strc);
 void TaskDestructor_809E858(Task *t);
 void sub_80A1A4C(u8 errorCode);
 bool32 sub_809E828(Code_2_1 *strc);
+void Task_570_809C620(void);
+void Task_60_809CA64(void);
+bool32 sub_809E354();
+void sub_809E5E4(Code_2_0__3C *strc);
+bool32 sub_809E5AC(Code_2_0__3C *strc);
+void sub_809CFA8(u8 *vram, void *param2);
+void Task_809E574(void);
 
 #if 0 // M2C
 void sub_809D5B8(u8 *someData, u8 *vram, Code_2_1 *strc);
@@ -87,14 +129,26 @@ void Task_D4_809DCA4(Code_2_1 *strc);
 void Task_D4_809E778(Code_2_1 *strc);
 #endif
 
+extern void sub_809C8C4(Code_2_0__570 *strc);
+extern bool32 sub_809C810(Code_2_0__570 *strc);
+extern void sub_809E85C(u8 arg0);
+extern s16 sub_8025360();
+extern s16 sub_80253CC();
+extern s16 sub_8025A90();
+extern s16 sub_8025AA8();
 extern s16 sub_802610C();
 extern VsRecords *sub_8001C30(u32 param0, u16 *param1);
+extern void sub_80AD9E4(void);
+extern void CreateMultiPakConnectionCheck(u8 param0);
+
 extern const u8 gUnknown_030010AC[4];
 
 extern const ColorRaw gUnknown_080D97F8[10 * PALETTE_LEN_4BPP];
 extern const ColorRaw gUnknown_080D9898[4 * PALETTE_LEN_4BPP];
 extern const TileInfo2 gUnknown_080D9738[48];
 extern const u8 gUnknown_080D961D[NUM_CHARACTERS];
+extern void sub_809CC80(u8 *vram, u8 *param1, u8 param2);
+extern void sub_809E384(Code_2_0__60 *strc);
 
 void sub_809D5B8(u8 *someData, u8 *vram)
 {
@@ -664,17 +718,13 @@ void sub_809E078(Code_2_0__570 *strc)
     strc->unk28.y = +Q(160); // TODO: Q(DISPLAY_HEIGHT) ?
 }
 
-#if 01
-#else
 void Task_570_809E0D4(void)
 {
     s8 temp_r0;
     u16 temp_r4;
-    u16 temp_r5;
+    Code_2_0__570 *strc = TASK_DATA(gCurTask);
 
-    temp_r5 = gCurTask->data;
-    temp_r4 = temp_r5;
-    if ((s32)(sub_802610C() << 0x10) < 0) {
+    if (sub_802610C() < 0) {
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
@@ -682,20 +732,18 @@ void Task_570_809E0D4(void)
         sub_80A1A4C(3);
         return;
     }
-    sub_809C8C4(temp_r4);
-    temp_r0 = sub_809C810(temp_r4);
-    if (temp_r0 == 1) {
-        temp_r4->unk4 = temp_r0;
-        sub_809CC80(temp_r4->unkC, temp_r5 + 4, temp_r4->unk5);
+    sub_809C8C4(strc);
+
+    if (sub_809C810(strc) == 1) {
+        strc->unk4 = 1;
+        sub_809CC80(strc->vramC, &strc->unk4, strc->unk5);
         gCurTask->main = Task_570_809C620;
     }
 }
 
 void Task_570_809E164(void)
 {
-    u16 temp_r4;
-
-    temp_r4 = gCurTask->data;
+    Code_2_0__570 *strc = TASK_DATA(gCurTask);
     if ((s32)(sub_802610C() << 0x10) < 0) {
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
@@ -704,11 +752,12 @@ void Task_570_809E164(void)
         sub_80A1A4C(3);
         return;
     }
-    if (temp_r4->unk4 == 0xA) {
-        if (temp_r4->unk5 != 0) {
+    if (strc->unk4 == 10) {
+        if (strc->unk5 != 0) {
             TaskDestroy(gCurTask);
             return;
         }
+
         sub_809E85C(0);
         TaskDestroy(gCurTask);
     }
@@ -717,13 +766,10 @@ void Task_570_809E164(void)
 void Task_60_809E1E8(void)
 {
     s16 temp_r0;
-    u16 temp_r1;
     u16 var_r0;
-    u8 temp_r4;
-
-    temp_r4 = gStageData.playerIndex;
-    temp_r1 = gCurTask->data;
-    sub_809E384(temp_r1);
+    s16 temp_r4 = gStageData.playerIndex;
+    Code_2_0__60 *strc = TASK_DATA(gCurTask);
+    sub_809E384(strc);
     if (temp_r4 == 0) {
         var_r0 = sub_8025360();
     } else {
@@ -739,7 +785,7 @@ void Task_60_809E1E8(void)
         return;
     }
     if (temp_r0 == 1) {
-        **temp_r1 = 0xA;
+        *strc->unk0 = 0xA;
         TaskDestroy(gCurTask);
     }
 }
@@ -748,13 +794,11 @@ void TaskDestructor_809E280(void) { }
 
 void Task_60_809E284(void)
 {
-    u16 temp_r1;
     u16 var_r0;
-    u8 temp_r4;
+    s16 temp_r4 = gStageData.playerIndex;
+    Code_2_0__60 *strc = TASK_DATA(gCurTask);
 
-    temp_r4 = gStageData.playerIndex;
-    temp_r1 = gCurTask->data;
-    sub_809E384(temp_r1);
+    sub_809E384(strc);
     if (temp_r4 == 0) {
         var_r0 = sub_8025A90();
     } else {
@@ -768,63 +812,58 @@ void Task_60_809E284(void)
         sub_80A1A4C(3);
         return;
     }
-    if (sub_809E354(temp_r1) == 1) {
+    if (sub_809E354(strc) == 1) {
         gCurTask->main = Task_60_809CA64;
     }
 }
 
 void Task_809E31C(void)
 {
-    u16 temp_r0;
-    u16 temp_r1;
-
-    temp_r1 = gCurTask->data;
-    temp_r0 = temp_r1->unk6 - 1;
-    temp_r1->unk6 = temp_r0;
-    if ((temp_r0 << 0x10) == 0) {
+    // TODO: type of strc only a guess
+    Code_2_0__60 *temp_r1 = TASK_DATA(gCurTask);
+    if (--temp_r1->unk6 == 0) {
         *temp_r1->unk0 = 0xA;
         sub_808ADF0(1U);
         TaskDestroy(gCurTask);
     }
 }
 
-s32 sub_809E354(void *arg0)
+bool32 sub_809E354(Code_2_0__60 *strc)
 {
-    s32 temp_r0;
-    s32 temp_r0_2;
-
-    temp_r0 = arg0->unkC;
-    if ((temp_r0 > 0x4FFF) || (temp_r0_2 = temp_r0 + 0x1000, arg0->unkC = temp_r0_2, (temp_r0_2 > 0x4FFF))) {
-        arg0->unkC = 0x5000;
+    if (strc->qUnkC >= Q(80) || (strc->qUnkC += Q(16)) >= Q(80)) {
+        strc->qUnkC = Q(80);
         return 1;
     }
+
     return 0;
 }
 
-void sub_809E384(void *arg0)
+void sub_809E384(Code_2_0__60 *strc)
 {
-    Sprite *temp_r0;
-    Sprite *temp_r0_2;
+    {
+        Sprite *s = &strc->spr10;
+        s->x = I(strc->unk8);
+        s->y = I(strc->qUnkC);
+        DisplaySprite(s);
+    }
+    {
+        Sprite *s = &strc->spr10;
 
-    temp_r0 = arg0 + 0x10;
-    temp_r0->x = (s16)((s32)arg0->unk8 >> 8);
-    temp_r0->y = (s16)((s32)arg0->unkC >> 8);
-    DisplaySprite(temp_r0);
-    temp_r0_2 = arg0 + 0x38;
-    temp_r0_2->x = (s16)((s32)arg0->unk8 >> 8);
-    temp_r0_2->y = (s16)((s32)arg0->unkC >> 8);
-    DisplaySprite(temp_r0_2);
+        s = &strc->spr38;
+        s->x = I(strc->unk8);
+        s->y = I(strc->qUnkC);
+        DisplaySprite(s);
+    }
 }
 
 void TaskDestructor_809E3B4(void) { }
 
 void Task_F4_809E3B8(void)
 {
-    u16 temp_r4;
     u8 temp_r0;
+    Code_2_0__F4 *strc = TASK_DATA(gCurTask);
 
-    temp_r4 = gCurTask->data;
-    if ((s32)(sub_802610C() << 0x10) < 0) {
+    if (sub_802610C() < 0) {
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
@@ -832,13 +871,14 @@ void Task_F4_809E3B8(void)
         sub_80A1A4C(3);
         return;
     }
-    sub_809CE58(temp_r4);
-    if (sub_809CDC8(temp_r4) == 1) {
-        temp_r0 = temp_r4->unk4;
-        if (temp_r0 == 0) {
-            sub_809C970(temp_r4->unk8, temp_r4->unk0);
-        } else if (temp_r0 == 1) {
-            sub_809CF04(temp_r4->unk8, temp_r4->unk0);
+
+    sub_809CE58(strc);
+
+    if (sub_809CDC8(strc) == 1) {
+        if (strc->unk4 == 0) {
+            sub_809C970(strc->vram8, strc->unk0);
+        } else if (strc->unk4 == 1) {
+            sub_809CF04(strc->vram8, strc->unk0);
         }
         gCurTask->main = Task_809E458;
     }
@@ -846,11 +886,10 @@ void Task_F4_809E3B8(void)
 
 void Task_809E458(void)
 {
-    u16 temp_r4;
+    Code_2_0__F4 *strc = TASK_DATA(gCurTask);
     u8 temp_r0;
 
-    temp_r4 = gCurTask->data;
-    if ((s32)(sub_802610C() << 0x10) < 0) {
+    if (sub_802610C() < 0) {
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
@@ -858,25 +897,22 @@ void Task_809E458(void)
         sub_80A1A4C(3);
         return;
     }
-    sub_809CE58(temp_r4);
-    temp_r0 = **temp_r4;
-    switch (temp_r0) { /* irregular */
-        case 10:
-            TaskDestroy(gCurTask);
-            return;
-        case 0:
-            TaskDestroy(gCurTask);
-            return;
+    sub_809CE58(strc);
+
+    if (*strc->unk0 == 10) {
+        TaskDestroy(gCurTask);
+        return;
+    } else if (*strc->unk0 == 0) {
+        TaskDestroy(gCurTask);
+        return;
     }
 }
 
 void TaskDestructor_809E4DC(void) { }
 
-void Task_809E4E0(void)
+void Task_3C_809E4E0(void)
 {
-    u16 temp_r4;
-
-    temp_r4 = gCurTask->data;
+    Code_2_0__3C *strc = TASK_DATA(gCurTask);
     if ((s32)(sub_802610C() << 0x10) < 0) {
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
@@ -885,108 +921,93 @@ void Task_809E4E0(void)
         sub_80A1A4C(3);
         return;
     }
-    sub_809E5E4(temp_r4);
-    if (sub_809E5AC(temp_r4) == 1) {
-        if (temp_r4->unk4 == 1) {
-            sub_809CFA8(temp_r4->unk8, temp_r4->unk0);
+    sub_809E5E4(strc);
+    if (sub_809E5AC(strc) == 1) {
+        if (strc->unk4 == 1) {
+            sub_809CFA8(strc->vram8, strc->unk0);
+            gCurTask->main = Task_809E574;
         } else {
-            sub_809D27C(temp_r4->unk8, temp_r4->unk0);
+            sub_809D27C(strc->vram8, strc->unk0);
+            gCurTask->main = Task_809E574;
         }
-        gCurTask->main = Task_809E574;
     }
 }
 
 void Task_809E574(void)
 {
-    u16 temp_r4;
-    u8 temp_r0;
+    Code_2_0__3C *strc = TASK_DATA(gCurTask);
+    sub_809E5E4(strc);
 
-    temp_r4 = gCurTask->data;
-    sub_809E5E4(temp_r4);
-    temp_r0 = **temp_r4;
-    switch (temp_r0) { /* irregular */
-        case 10:
-            TaskDestroy(gCurTask);
-            return;
-        case 0:
-            TaskDestroy(gCurTask);
-            return;
+    if (*strc->unk0 == 10) {
+        TaskDestroy(gCurTask);
+        return;
+    } else if (*strc->unk0 == 0) {
+        TaskDestroy(gCurTask);
+        return;
     }
 }
 
-s32 sub_809E5AC(void *arg0)
+bool32 sub_809E5AC(Code_2_0__3C *strc)
 {
-    s32 temp_r0;
-    s32 temp_r2;
-
-    temp_r2 = arg0->unkC;
-    if (temp_r2 <= 0x77FF) {
-        temp_r0 = temp_r2 + 0x1000;
-        arg0->unkC = temp_r0;
-        if (temp_r0 > 0x7800) {
-            arg0->unkC = 0x7800;
-            return 1;
+    if (strc->qUnkC < Q(120)) {
+        strc->qUnkC += Q(16);
+        if (strc->qUnkC > Q(120)) {
+            strc->qUnkC = Q(120);
+            return TRUE;
         }
-        return 0;
+    } else {
+        strc->qUnkC = Q(120);
+        return TRUE;
     }
-    arg0->unkC = 0x7800;
-    return 1;
+
+    return FALSE;
 }
 
-void sub_809E5E4(void *arg0)
+void sub_809E5E4(Code_2_0__3C *strc)
 {
-    Sprite *temp_r4;
+    Sprite *s = &strc->spr14;
+    s->x = I(strc->qUnkC);
+    s->y = I(strc->qUnk10);
+    s->frameFlags &= ~0x400;
+    DisplaySprite(s);
 
-    temp_r4 = arg0 + 0x14;
-    temp_r4->x = (s16)((s32)arg0->unkC >> 8);
-    temp_r4->y = (s16)((s32)arg0->unk10 >> 8);
-    temp_r4->frameFlags &= 0xFFFFFBFF;
-    DisplaySprite(temp_r4);
-    temp_r4->x = 0xF0 - ((s32)arg0->unkC >> 8);
-    temp_r4->y = (s16)((s32)arg0->unk10 >> 8);
-    temp_r4->frameFlags |= 0x400;
-    DisplaySprite(temp_r4);
+    s->x = DISPLAY_WIDTH - I(strc->qUnkC);
+    s->y = I(strc->qUnk10);
+    s->frameFlags |= 0x400;
+    DisplaySprite(s);
 }
 
 void TaskDestructor_809E630(void) { }
 
-s32 sub_809E634(void *arg0)
+s32 sub_809E634(Code_2_0__3C *strc)
 {
-    s32 temp_r0;
-    s32 temp_r2;
-
-    temp_r2 = arg0->unkC;
-    if (temp_r2 <= 0x77FF) {
-        temp_r0 = temp_r2 + 0x800;
-        arg0->unkC = temp_r0;
-        if (temp_r0 > 0x7800) {
-            arg0->unkC = 0x7800;
+    if (strc->qUnkC < Q(120)) {
+        strc->qUnkC += Q(8);
+        if (strc->qUnkC > Q(120)) {
+            strc->qUnkC = Q(120);
             return 1;
         }
-        return 0;
+    } else {
+        strc->qUnkC = Q(120);
+        return 1;
     }
-    arg0->unkC = 0x7800;
-    return 1;
+
+    return 0;
 }
 
-void sub_809E66C(void *arg0)
+void sub_809E66C(Code_2_0__3C *strc)
 {
-    Sprite *temp_r2;
-
-    temp_r2 = arg0 + 0x14;
-    temp_r2->x = (s16)((s32)arg0->unkC >> 8);
-    temp_r2->y = (s16)((s32)arg0->unk10 >> 8);
-    DisplaySprite(temp_r2);
+    Sprite *s = &strc->spr14;
+    s->x = I(strc->qUnkC);
+    s->y = I(strc->qUnk10);
+    DisplaySprite(s);
 }
 
 void TaskDestructor_809E688(void) { }
 
-void Task_809E68C(void)
+void Task_64_809E68C(void)
 {
-    u16 temp_r4;
-    u8 temp_r0;
-
-    temp_r4 = gCurTask->data;
+    Code_2_0__64 *temp_r4 = TASK_DATA(gCurTask);
     if ((s32)(sub_802610C() << 0x10) < 0) {
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
@@ -995,55 +1016,54 @@ void Task_809E68C(void)
         sub_80A1A4C(3);
         return;
     }
-    temp_r0 = **temp_r4;
-    switch (temp_r0) { /* irregular */
-        case 10:
-            TaskDestroy(gCurTask);
-            return;
-        case 0:
-            TaskDestroy(gCurTask);
-            return;
+
+    if (*temp_r4->unk0 == 10) {
+        TaskDestroy(gCurTask);
+        return;
+    } else if (*temp_r4->unk0 == 0) {
+        TaskDestroy(gCurTask);
+        return;
     }
 }
 
-s32 sub_809E708(void *arg0)
+s32 sub_809E708(Code_2_0__64 *strc)
 {
-    s32 temp_r0;
-    s32 temp_r2;
-
-    temp_r2 = arg0->unkC;
-    if (temp_r2 <= 0x27FF) {
-        temp_r0 = temp_r2 + 0x800;
-        arg0->unkC = temp_r0;
-        if (temp_r0 > 0x2800) {
-            arg0->unkC = 0x2800;
+    if (strc->qUnkC < 0x2800) {
+        strc->qUnkC += Q(8);
+        if (strc->qUnkC > 0x2800) {
+            strc->qUnkC = 0x2800;
             return 1;
         }
-        return 0;
+    } else {
+        strc->qUnkC = 0x2800;
+        return 1;
     }
-    arg0->unkC = 0x2800;
-    return 1;
+
+    return 0;
 }
 
-void sub_809E740(void *arg0)
+void sub_809E740(Code_2_0__64 *strc)
 {
-    Sprite *temp_r0;
-    Sprite *temp_r0_2;
-
-    temp_r0 = arg0 + 0x14;
-    temp_r0->x = (s16)((s32)arg0->unkC >> 8);
-    temp_r0->y = (s16)((s32)arg0->unk10 >> 8);
-    DisplaySprite(temp_r0);
-    temp_r0_2 = arg0 + 0x3C;
-    temp_r0_2->x = 0xF0 - ((s32)arg0->unkC >> 8);
-    temp_r0_2->y = (s16)((s32)arg0->unk10 >> 8);
-    DisplaySprite(temp_r0_2);
+    {
+        Sprite *s = &strc->spr14;
+        s->x = I(strc->qUnkC);
+        s->y = I(strc->qUnk10);
+        DisplaySprite(s);
+    }
+    {
+        Sprite *s = &strc->spr3C;
+        ;
+        s->x = DISPLAY_WIDTH - I(strc->qUnkC);
+        s->y = I(strc->qUnk10);
+        DisplaySprite(s);
+    }
 }
 
 void TaskDestructor_809E774(void) { }
 
-void Task_D4_809E778(Code_2_1 *strc)
+void Task_D4_809E778(void)
 {
+    Code_2_1 *strc = TASK_DATA(gCurTask);
     if (*strc->unk0 == 0xA) {
         if (strc->unk5 != 0) {
             gDispCnt &= 0x9FFF;
@@ -1058,24 +1078,22 @@ void Task_D4_809E778(Code_2_1 *strc)
     }
 }
 
-void sub_809E7DC(Code_2_1 *arg0)
+void sub_809E7DC(Code_2_1 *strc)
 {
-    Sprite *temp_r2;
-
-    temp_r2 = arg0 + 0x34;
-    temp_r2->x = (s16)((s32)arg0->unk1C >> 8);
-    temp_r2->y = (s16)((s32)arg0->unk20 >> 8);
-    DisplaySprite(temp_r2);
+    Sprite *s = &strc->spr34;
+    s->x = I(strc->unk1C);
+    s->y = I(strc->unk20);
+    DisplaySprite(s);
 }
 
-s32 sub_809E7F8(Code_2_1 *strc)
+bool32 sub_809E7F8(Code_2_1 *strc)
 {
     s32 temp_r0;
     s32 temp_r0_2;
 
     temp_r0 = strc->unk20;
-    if ((temp_r0 > 0x31FF) || (temp_r0_2 = temp_r0 + 0x1000, strc->unk20 = temp_r0_2, (temp_r0_2 > 0x31FF))) {
-        strc->unk20 = 0x3200;
+    if ((strc->unk20 >= Q(50)) || ((strc->unk20 += Q(16)) >= Q(50))) {
+        strc->unk20 = Q(50);
         return 1;
     }
     return 0;
@@ -1083,16 +1101,12 @@ s32 sub_809E7F8(Code_2_1 *strc)
 
 bool32 sub_809E828(Code_2_1 *strc)
 {
-    s32 temp_r0;
-    s32 temp_r0_2;
-
-    temp_r0 = strc->unk24;
-    if ((temp_r0 > 0x3BFF) || (temp_r0_2 = temp_r0 + 0x1000, strc->unk24 = temp_r0_2, (temp_r0_2 > 0x3BFF))) {
-        strc->unk24 = 0x3C00;
+    if ((strc->unk24 >= Q(60)) || (strc->unk24 += Q(16)) >= Q(60)) {
+        strc->unk24 = Q(60);
         return 1;
     }
+
     return 0;
 }
 
 void TaskDestructor_809E858(Task *t) { }
-#endif
