@@ -21,7 +21,17 @@ typedef struct {
 } Code_2_0__64; /* 0x64 */
 
 typedef struct {
-    /* 0x00 */ u8 filler0[0x570];
+    /* 0x00 */ u8 unk0[4];
+    /* 0x04 */ u8 unk4;
+    /* 0x04 */ s16 unk6;
+    /* 0x04 */ s16 unk8;
+    /* 0x04 */ s16 unkA;
+    /* 0x0C */ u8 fillerC[0x4];
+    /* 0x10 */ Vec2_32 unk10;
+    /* 0x10 */ Vec2_32 unk18;
+    /* 0x10 */ Vec2_32 unk20;
+    /* 0x10 */ Vec2_32 unk28;
+    /* 0x04 */ u8 filler30[0x540];
 } Code_2_0__570; /* 0x570 */
 
 typedef struct {
@@ -59,7 +69,7 @@ void Task_D4_809E778(void);
 void sub_809DE9C(Code_2_1 *unused);
 void sub_809DFAC(Code_2_1 *strc);
 void sub_809E018(Code_2_1 *strc);
-void sub_809E078(Code_2_1 *strc);
+void sub_809E078(Code_2_0__570 *strc);
 void Task_809E0D4(Code_2_0__570 *strc570);
 void sub_809E7DC(Code_2_1 *strc);
 s32 sub_809E7F8(Code_2_1 *strc);
@@ -79,10 +89,12 @@ void Task_D4_809E778(Code_2_1 *strc);
 
 extern s16 sub_802610C();
 extern VsRecords *sub_8001C30(u32 param0, u16 *param1);
+extern const u8 gUnknown_030010AC[4];
 
 extern const ColorRaw gUnknown_080D97F8[10 * PALETTE_LEN_4BPP];
 extern const ColorRaw gUnknown_080D9898[4 * PALETTE_LEN_4BPP];
 extern const TileInfo2 gUnknown_080D9738[48];
+extern const u8 gUnknown_080D961D[NUM_CHARACTERS];
 
 void sub_809D5B8(u8 *someData, u8 *vram)
 {
@@ -577,7 +589,7 @@ void sub_809DFAC(Code_2_1 *strc)
     Sprite *s = &strc->sprAC;
     s->x = 100;
     s->y = 80;
-    s->frameFlags &= ~0x400;
+    SPRITE_FLAG_CLEAR(s, X_FLIP);
     if (strc->unk5 == 0) {
         s->palId = 4;
     } else {
@@ -588,7 +600,7 @@ void sub_809DFAC(Code_2_1 *strc)
 
     s->x = 140;
     s->y = 80;
-    s->frameFlags |= 0x400;
+    SPRITE_FLAG_SET(s, X_FLIP);
     if (strc->unk5 == 0) {
         s->palId = 0;
     } else {
@@ -598,36 +610,37 @@ void sub_809DFAC(Code_2_1 *strc)
     DisplaySprite(s);
 }
 
-#if 01
-#else
 void sub_809E018(Code_2_1 *strc)
 {
-    u8 var_r0;
-    u8 var_r0_2;
+    {
+        Sprite *s = &strc->spr5C;
 
-    strc->spr5C.x = (s16)((s32)strc->unk24 >> 8);
-    strc->spr5C.y = (s16)((s32)strc->unk28 >> 8);
-    if (strc->unk5 == 0) {
-        var_r0 = 0;
-    } else {
-        var_r0 = 2;
+        s->x = I(strc->unk24);
+        s->y = I(strc->unk28);
+        if (strc->unk5 == 0) {
+            s->palId = 0;
+        } else {
+            s->palId = 2;
+        }
+        s->frameFlags = 0;
+        DisplaySprite(s);
     }
-    strc->spr5C.palId = var_r0;
-    strc->spr5C.frameFlags = 0;
-    DisplaySprite(&strc->spr5C);
-    strc->spr84.x = 0xF0 - ((s32)strc->unk24 >> 8);
-    strc->spr84.y = (s16)((s32)strc->unk28 >> 8);
-    if (strc->unk5 == 0) {
-        var_r0_2 = 2;
-    } else {
-        var_r0_2 = 0;
+
+    {
+        Sprite *s = &strc->spr84;
+        s->x = DISPLAY_WIDTH - I(strc->unk24);
+        s->y = I(strc->unk28);
+        if (strc->unk5 == 0) {
+            s->palId = 2;
+        } else {
+            s->palId = 0;
+        }
+        s->frameFlags = 0;
+        DisplaySprite(s);
     }
-    strc->spr84.palId = var_r0_2;
-    strc->spr84.frameFlags = 0;
-    DisplaySprite(&strc->spr84);
 }
 
-void sub_809E078(Code_2_1 *strc)
+void sub_809E078(Code_2_0__570 *strc)
 {
     u8 var_r2;
 
@@ -635,21 +648,24 @@ void sub_809E078(Code_2_1 *strc)
     strc->unk6 = 0;
     strc->unk8 = 0;
     strc->unk4 = 0;
-    var_r2 = 0;
-    do {
-        *(strc + var_r2) = *(*(var_r2 + &gUnknown_030010AC) + &gUnknown_080D961D);
-        var_r2 += 1;
-    } while ((u32)var_r2 <= 3U);
-    strc->unk10 = -0x8200;
-    strc->unk14 = 0x5000;
-    strc->unk20 = -0x8200;
-    strc->unk24 = 0xA000;
-    strc->unk18 = 0x17200;
-    strc->unk1C = 0x5000;
-    strc->unk28 = 0x17200;
-    strc->unk2C = 0xA000;
+
+    for (var_r2 = 0; var_r2 < ARRAY_COUNT(strc->unk0); var_r2++) {
+        s32 index = gUnknown_030010AC[var_r2];
+        strc->unk0[var_r2] = gUnknown_080D961D[index];
+    }
+
+    strc->unk10.x = -Q(130);
+    strc->unk10.y = +Q(80);
+    strc->unk20.x = -Q(130);
+    strc->unk20.y = +Q(160);
+    strc->unk18.x = +Q(370); // TODO: Q(DISPLAY_WIDTH + 130) ?
+    strc->unk18.y = +Q(80);
+    strc->unk28.x = +Q(370);
+    strc->unk28.y = +Q(160); // TODO: Q(DISPLAY_HEIGHT) ?
 }
 
+#if 01
+#else
 void Task_570_809E0D4(void)
 {
     s8 temp_r0;
@@ -675,7 +691,7 @@ void Task_570_809E0D4(void)
     }
 }
 
-void sub_809E164(void)
+void Task_570_809E164(void)
 {
     u16 temp_r4;
 
@@ -698,7 +714,7 @@ void sub_809E164(void)
     }
 }
 
-void sub_809E1E8(void)
+void Task_60_809E1E8(void)
 {
     s16 temp_r0;
     u16 temp_r1;
@@ -730,7 +746,7 @@ void sub_809E1E8(void)
 
 void TaskDestructor_809E280(void) { }
 
-void Task_809E284(void)
+void Task_60_809E284(void)
 {
     u16 temp_r1;
     u16 var_r0;
@@ -753,7 +769,7 @@ void Task_809E284(void)
         return;
     }
     if (sub_809E354(temp_r1) == 1) {
-        gCurTask->main = Task_809CA64;
+        gCurTask->main = Task_60_809CA64;
     }
 }
 
