@@ -108,13 +108,31 @@ void sub_8025674() { }
 void sub_8025A38() { }
 void sub_8025B48() { }
 
+void sub_80260F0() { }
+void sub_80261B0() { }
+void sub_8026254() { }
+void sub_8026478() { }
+void sub_80264F0() { }
+void sub_80268B8() { }
+void sub_8026720() { }
 void sub_80267E8() { }
+void sub_80274AC() { }
+void sub_80275F0() { }
+void sub_8027620(s16 screenX, s16 screenY) { }
+void sub_8027674() { }
+void sub_8027658() { }
 void sub_802773C() { }
 void sub_8027768() { }
 void sub_80277AC() { }
 void sub_80277F0() { }
 void sub_8027834() { }
+void sub_802785C() { }
+void sub_8027878() { }
+void sub_80278DC() { }
 void sub_8027960() { }
+void sub_8028850() { }
+void sub_8029990() { }
+
 
 void sub_8052D8C() { }
 void sub_8054514() { }
@@ -160,6 +178,16 @@ void sub_80885CC() { }
 void sub_8088770() { }
 // returns VRAM tile pointer
 void *CreateSomeTask_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles) { return tiles; }
+
+void sub_809C970(unsigned char *vram, void *param2) { }
+bool32 sub_809CDC8() { }
+void Task_570_809C620() { }
+void Task_60_809CA64() { }
+void sub_809CE58() { }
+void sub_809CF04(unsigned char *vram, void *param2) { }
+void sub_809CFA8(unsigned char *vram, void *param2) { }
+void sub_809D27C(unsigned char *vram, void *param2) { }
+void sub_80AD9E4() { }
 void /* 0x080A209C */ CreateGameIntroState() { }
 void CreateNewGamesaveOpening() { }
 void sub_80AE174() { }
@@ -169,6 +197,7 @@ void sub_80AB120(u8 param0) { }
 
 void sub_80C4EB0() { }
 void sub_80C59E8() { }
+
 void /* 0x080C7558 */ SoundBiasReset() { }
 void /* 0x080C7560 */ SoundBiasSet() { }
 
@@ -183,13 +212,6 @@ typedef struct MusicManagerState {
 } MusicManagerState; /* size: 8 */
 
 MusicManagerState gMusicManagerState;
-
-void sub_80268B8() { }
-void sub_8026254() { }
-void sub_8027878() { }
-void sub_80278DC() { }
-void sub_802785C() { }
-void sub_80274AC() { }
 
 typedef struct SomeSubStruct_3001BF0 {
     /* 0x00 */ s32 qWorldX;
@@ -214,21 +236,13 @@ PlayerSpriteInfo gUnknown_03001B00 = {};
 
 void CreatePreCreditsCutscene() { }
 void sub_80A872C() { }
-void sub_8029990() { }
 
-void sub_80260F0() { }
-void sub_80261B0() { }
-void sub_8026478() { }
-void sub_80264F0() { }
-void sub_8026720() { }
-void sub_80275F0() { }
-void sub_8027674() { }
-void sub_8028850() { }
 void sub_8081C80() { }
 void sub_809BFE8() { }
+bool32 sub_809C810() { return FALSE; }
+void sub_809C8C4() { }
+void sub_809CC80() { }
 
-void sub_8027620(s16 screenX, s16 screenY) { }
-void sub_8027658() { }
 void sub_807F4F0() { }
 void sub_8085588() { }
 
