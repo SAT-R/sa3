@@ -8,7 +8,7 @@
 #include "constants/songs.h"
 
 typedef struct {
-    /* 0x00 */ s32 unk0;
+    /* 0x00 */ u8 *unk0;
     /* 0x04 */ u8 unk4;
     /* 0x05 */ u8 unk5;
     /* 0x05 */ u16 unk6;
@@ -24,7 +24,7 @@ typedef struct {
 } Code_2_0__570; /* 0x570 */
 
 typedef struct {
-    /* 0x00 */ Code_2_0__64 *unk0;
+    /* 0x00 */ u8 *unk0; // TODO: previously set as (Code_2_0__64 *), but changed for matching
     /* 0x04 */ u8 unk4;
     /* 0x05 */ u8 unk5;
     /* 0x06 */ u16 unk6;
@@ -46,7 +46,7 @@ typedef struct {
     /* 0xAC */ Sprite sprAC;
 } Code_2_1; /* 0xD4 */
 
-void sub_809D5B8(void *someStruct, u8 *vram);
+void sub_809D5B8(u8 *someData, u8 *vram); // prev. void sub_809D5B8(Code_2_0__64 *someStruct, u8 *vram);
 void sub_809D27C(u8 *vram, void *someStruct);
 void sub_809D6A0(Code_2_1 *strc);
 void Task_D4_809D810(void);
@@ -54,6 +54,7 @@ void Task_D4_809D960(void);
 void Task_D4_809DA18(void);
 void Task_D4_809DB74(void);
 void Task_D4_809DCA4(void);
+void Task_D4_809E778(void);
 void sub_809DE9C(Code_2_1 *unused);
 void sub_809DFAC(Code_2_1 *strc);
 void sub_809E018(Code_2_1 *strc);
@@ -65,13 +66,14 @@ void TaskDestructor_809E858(Task *t);
 void sub_80A1A4C(u8 errorCode);
 bool32 sub_809E828(Code_2_1 *strc);
 
-#if M2C
-void sub_809D5B8(void *someStruct, u8 *vram, Code_2_1 *strc);
+#if 0 // M2C
+void sub_809D5B8(u8 *someData, u8 *vram, Code_2_1 *strc);
 void Task_D4_809D810(Code_2_1 *strc);
 void Task_D4_809D960(Code_2_1 *strc);
 void Task_D4_809DA18(Code_2_1 *strc);
 void Task_D4_809DB74(Code_2_1 *strc);
 void Task_D4_809DCA4(Code_2_1 *strc);
+void Task_D4_809E778(Code_2_1 *strc);
 #endif
 
 extern s16 sub_802610C();
@@ -80,11 +82,11 @@ extern const ColorRaw gUnknown_080D97F8[10 * PALETTE_LEN_4BPP];
 extern const ColorRaw gUnknown_080D9898[4 * PALETTE_LEN_4BPP];
 extern const TileInfo2 gUnknown_080D9738[48];
 
-void sub_809D5B8(void *someStruct, u8 *vram)
+void sub_809D5B8(u8 *someData, u8 *vram)
 {
     Code_2_1 *strc = TASK_DATA(TaskCreate(Task_D4_809D810, sizeof(Code_2_1), 0x2100U, 0U, TaskDestructor_809E858));
     strc->vramC = vram;
-    strc->unk0 = someStruct;
+    strc->unk0 = someData;
     strc->unk5 = 0;
     strc->unk6 = 0;
     strc->unk8 = 0;
@@ -298,7 +300,6 @@ void Task_D4_809D960(void)
     }
 }
 
-#if 01
 void Task_D4_809DA18(void)
 {
     union MultiSioData *send = &gMultiSioSend;
@@ -368,83 +369,67 @@ void Task_D4_809DA18(void)
     }
 }
 
-#else
-void Task_D4_809DB74(Code_2_1 *strc)
+void Task_D4_809DB74(void)
 {
-    ? sp4;
-    u8 *temp_r2;
-    u8 temp_r0;
-    u8 temp_r1;
-    u8 temp_r4;
-    u8 var_r3;
-    u8 var_r7;
-    u8 var_r8;
+    union MultiSioData *send = &gMultiSioSend;
+    u8 sp0[3] = { 0 };
+    u8 sp4[ARRAY_COUNT(sp0)] = { 0 };
+    u8 var_r7 = 0;
+    u8 var_r8 = 0;
+    Code_2_1 *strc = TASK_DATA(gCurTask);
+    u8 i;
 
-    memset(&subroutine_arg0, 0, 3);
-    memset(&sp4, 0, 3);
-    var_r7 = 0;
-    var_r8 = 0;
-    if ((s32)(sub_802610C() << 0x10) < 0) {
-        TasksDestroyInPriorityRange(0U, 0xFFFFU);
+    if (sub_802610C() < 0) {
+        TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
         sub_80A1A4C(3);
         return;
     }
-    gMultiSioSend.pat0.unk0 = (u16)strc->unk5;
-    var_r3 = 0;
-    do {
-        temp_r2 = &subroutine_arg0 + var_r3;
-        if (((u32)(gPlayers[var_r3].unk2B << 0x1B) >> 0x1D) == 3) {
-            *temp_r2 = 1;
+    send->pat0.unk0 = strc->unk5;
+
+    for (i = 0; i < ARRAY_COUNT(sp0); i++) {
+        if (gPlayers[i].charFlags.someIndex == 3) {
+            sp0[i] = 1;
             var_r8 += 1;
         }
-        temp_r4 = *temp_r2;
-        if ((temp_r4 == 1) && (gMultiSioRecv[var_r3].pat0.unk0 == strc->unk5)) {
-            *(&sp4 + var_r3) = temp_r4;
+
+        if (sp0[i] == 1) {
+            union MultiSioData *recv = &gMultiSioRecv[i];
+            if (recv->pat0.unk0 == strc->unk5) {
+                sp4[i] = 1;
+            }
         }
-        temp_r1 = *temp_r2;
-        if (temp_r1 != 0) {
-            temp_r0 = *(&sp4 + var_r3);
-            if ((temp_r0 != 0) && (temp_r1 == temp_r0)) {
+
+        if (sp0[i] != 0) {
+            if ((sp4[i] != 0) && (sp0[i] == sp4[i])) {
                 var_r7 += 1;
             }
         }
-        var_r3 += 1;
-    } while ((u32)var_r3 <= 2U);
+    }
+
     if (var_r7 == var_r8) {
-        gMultiSioSend.pat0.unk0 = 0x6612;
+        send->pat0.unk0 = 0x6612;
         gCurTask->main = Task_D4_809DCA4;
     }
 }
 
-void Task_D4_809DCA4(Code_2_1 *strc)
+void Task_D4_809DCA4(void)
 {
-    ? sp4;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 var_r0;
-    s32 var_r0_2;
-    s8 var_r0_3;
-    u8 *temp_r2;
-    u8 temp_r0;
-    u8 temp_r1;
-    u8 temp_r3;
-    u8 temp_r4;
-    u8 var_r4;
-    u8 var_r7;
-    u8 var_r8;
-    u8 var_sb;
+    union MultiSioData *send = &gMultiSioSend;
+    s16 temp_r4 = gStageData.playerIndex;
+    u8 var_r7 = 0;
+    u8 sp0[3] = { 0 };
+    u8 sp4[ARRAY_COUNT(sp0)] = { 0 };
+    u8 var_sb = 0;
+    u8 var_r8 = 0;
+    Code_2_1 *strc = TASK_DATA(gCurTask);
+    union MultiSioData *recv;
+    u8 i;
 
-    temp_r4 = gStageData.playerIndex;
-    var_r7 = 0;
-    memset(&subroutine_arg0, 0, 3);
-    memset(&sp4, 0, 3);
-    var_sb = 0;
-    var_r8 = 0;
-    if ((s32)(sub_802610C() << 0x10) < 0) {
-        TasksDestroyInPriorityRange(0U, 0xFFFFU);
+    if (sub_802610C() < 0) {
+        TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
@@ -452,79 +437,76 @@ void Task_D4_809DCA4(Code_2_1 *strc)
         return;
     }
     if (temp_r4 == 0) {
-        var_r4 = 0;
-        do {
-            temp_r2 = &subroutine_arg0 + var_r4;
-            if (((u32)(gPlayers[var_r4].unk2B << 0x1B) >> 0x1D) == 3) {
-                *temp_r2 = 1;
+        for (i = 0; i < ARRAY_COUNT(sp0); i++) {
+            if (gPlayers[i].charFlags.someIndex == 3) {
+                sp0[i] = 1;
                 var_r8 += 1;
             }
-            temp_r3 = *temp_r2;
-            if ((temp_r3 == 1) && (gMultiSioRecv[var_r4].pat0.unk0 == 0x6612)) {
-                *(&sp4 + var_r4) = temp_r3;
+
+            if (sp0[i] == 1) {
+                recv = &gMultiSioRecv[i];
+                if (recv->pat0.unk0 == 0x6612) {
+                    sp4[i] = 1;
+                }
             }
-            temp_r1 = *temp_r2;
-            if (temp_r1 != 0) {
-                temp_r0 = *(&sp4 + var_r4);
-                if ((temp_r0 != 0) && (temp_r1 == temp_r0)) {
+
+            if (sp0[i] != 0) {
+                if ((sp4[i] != 0) && (sp0[i] == sp4[i])) {
                     var_sb += 1;
                 }
             }
-            var_r4 += 1;
-        } while ((u32)var_r4 <= 2U);
+        }
+
         if (var_sb == var_r8) {
             var_r7 = 1;
-            goto block_19;
         }
-        goto block_18;
+    } else {
+        send->pat0.unk0 = 0x6612;
+        recv = &gMultiSioRecv[0];
+        if (recv->pat0.unk0 == 0x6612) {
+            var_r7 = 1;
+        }
     }
-    gMultiSioSend.pat0.unk0 = 0x6612;
-    if (gMultiSioRecv->pat0.unk0 == 0x6612) {
-        var_r7 = 1;
-    }
-block_18:
+
     if (var_r7 != 0) {
-    block_19:
-        temp_r1_2 = strc->unk18;
-        if (temp_r1_2 <= 0x5000) {
+        if (strc->unk18 <= 0x5000) {
             if (strc->unk5 == 1) {
-                var_r0 = temp_r1_2 + 0x40;
+                strc->unk18 += Q(0.25);
             } else {
-                var_r0 = temp_r1_2 + 0x100;
+                strc->unk18 += Q(1.00);
             }
-            strc->unk18 = var_r0;
-            if ((s32)strc->unk18 > 0x4FFF) {
+            if (strc->unk18 >= 0x5000) {
                 strc->unk18 = 0x5000;
                 var_r7 += 1;
             }
         }
-        temp_r1_3 = strc->unk10;
-        if (temp_r1_3 >= 0) {
+
+        if (strc->unk10 >= 0) {
             if (strc->unk5 == 1) {
-                var_r0_2 = temp_r1_3 - 0x80;
+                strc->unk10 -= Q(0.5);
             } else {
-                var_r0_2 = temp_r1_3 + 0xFFFFFE00;
+                strc->unk10 -= Q(2);
             }
-            strc->unk10 = var_r0_2;
             if ((s32)strc->unk10 <= 0) {
                 strc->unk10 = 0;
                 var_r7 += 1;
             }
         }
-        gWinRegs[2] = (((s32)strc->unk18 >> 8) * 0x101) + ((s32)strc->unk10 >> 8);
+        gWinRegs[2] = (I(strc->unk18) * WIN_RANGE(1, 1)) + WIN_RANGE(0, I(strc->unk10));
         if (var_r7 == 3) {
             if (strc->unk5 == 1) {
-                var_r0_3 = 0xB;
+                *strc->unk0 = 0xB;
             } else {
-                var_r0_3 = 9;
+                *strc->unk0 = 9;
             }
-            *strc->unk0 = var_r0_3;
-            gDispCnt &= 0xFDFF;
+            gDispCnt &= ~0x200;
             gCurTask->main = Task_D4_809E778;
         }
     }
 }
 
+#if 01
+#else
 void sub_809DE9C(Code_2_1 *unused)
 {
     s32 sp0;
@@ -691,7 +673,7 @@ void Task_570_809E0D4(void)
     temp_r5 = gCurTask->data;
     temp_r4 = temp_r5;
     if ((s32)(sub_802610C() << 0x10) < 0) {
-        TasksDestroyInPriorityRange(0U, 0xFFFFU);
+        TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
@@ -713,7 +695,7 @@ void sub_809E164(void)
 
     temp_r4 = gCurTask->data;
     if ((s32)(sub_802610C() << 0x10) < 0) {
-        TasksDestroyInPriorityRange(0U, 0xFFFFU);
+        TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
@@ -747,7 +729,7 @@ void sub_809E1E8(void)
     }
     temp_r0 = (s16)var_r0;
     if ((s32)temp_r0 < 0) {
-        TasksDestroyInPriorityRange(0U, 0xFFFFU);
+        TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
@@ -777,7 +759,7 @@ void Task_809E284(void)
         var_r0 = sub_80253CC();
     }
     if ((s32)(var_r0 << 0x10) < 0) {
-        TasksDestroyInPriorityRange(0U, 0xFFFFU);
+        TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
@@ -841,7 +823,7 @@ void Task_F4_809E3B8(void)
 
     temp_r4 = gCurTask->data;
     if ((s32)(sub_802610C() << 0x10) < 0) {
-        TasksDestroyInPriorityRange(0U, 0xFFFFU);
+        TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
@@ -867,7 +849,7 @@ void Task_809E458(void)
 
     temp_r4 = gCurTask->data;
     if ((s32)(sub_802610C() << 0x10) < 0) {
-        TasksDestroyInPriorityRange(0U, 0xFFFFU);
+        TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
@@ -894,7 +876,7 @@ void Task_809E4E0(void)
 
     temp_r4 = gCurTask->data;
     if ((s32)(sub_802610C() << 0x10) < 0) {
-        TasksDestroyInPriorityRange(0U, 0xFFFFU);
+        TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
@@ -1004,7 +986,7 @@ void Task_809E68C(void)
 
     temp_r4 = gCurTask->data;
     if ((s32)(sub_802610C() << 0x10) < 0) {
-        TasksDestroyInPriorityRange(0U, 0xFFFFU);
+        TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
@@ -1058,19 +1040,16 @@ void sub_809E740(void *arg0)
 
 void TaskDestructor_809E774(void) { }
 
-void Task_D4_809E778(void)
+void Task_D4_809E778(Code_2_1 *strc)
 {
-    u16 temp_r1;
-
-    temp_r1 = gCurTask->data;
-    if (*temp_r1->unk0 == 0xA) {
-        if (temp_r1->unk5 != 0) {
+    if (*strc->unk0 == 0xA) {
+        if (strc->unk5 != 0) {
             gDispCnt &= 0x9FFF;
             sub_80AD9E4();
             TaskDestroy(gCurTask);
             return;
         }
-        sub_809DE9C((Code_2_1 *)temp_r1);
+        sub_809DE9C(strc);
         gStageData.gameMode = 6;
         CreateMultiPakConnectionCheck(0xFF);
         TaskDestroy(gCurTask);
