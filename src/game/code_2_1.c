@@ -2,6 +2,7 @@
 #include "core.h"
 #include "flags.h"
 #include "color.h"
+#include "multi_sio_stuff.h"
 #include "lib/m4a/m4a.h"
 #include "game/save.h"
 #include "game/stage.h"
@@ -77,6 +78,7 @@ void Task_D4_809E778(Code_2_1 *strc);
 #endif
 
 extern s16 sub_802610C();
+extern VsRecords *sub_8001C30(u32 param0, u16 *param1);
 
 extern const ColorRaw gUnknown_080D97F8[10 * PALETTE_LEN_4BPP];
 extern const ColorRaw gUnknown_080D9898[4 * PALETTE_LEN_4BPP];
@@ -505,84 +507,73 @@ void Task_D4_809DCA4(void)
     }
 }
 
-#if 01
-#else
 void sub_809DE9C(Code_2_1 *unused)
 {
-    s32 sp0;
     s32 var_r4;
-    s8 temp_r2;
-    s8 var_r1_2;
-    u32 temp_r0_2;
-    u8 *var_r1;
-    u8 temp_r0;
-    u8 temp_r0_3;
-    u8 temp_r0_4;
-    u8 temp_r0_5;
-    u8 var_r3;
-    void *temp_r1;
+    s8 i;
+    VsRecords *vsrec;
+    s16 playerIndex = gStageData.playerIndex;
 
-    var_r3 = gStageData.playerIndex;
-    switch (gStageData.unkB8) { /* switch 1; irregular */
-        case 0: /* switch 1 */
-            var_r4 = 1 & var_r3;
-        block_9:
-            switch (var_r4) { /* switch 2; irregular */
-                case 0: /* switch 2 */
-                    var_r1 = &LOADED_SAVE->vsWins;
-                block_18:
-                    temp_r0 = *var_r1;
-                    if ((u32)temp_r0 <= 0x62U) {
-                        *var_r1 = temp_r0 + 1;
-                    }
-                    var_r1_2 = 3;
-                    do {
-                        temp_r2 = var_r1_2;
-                        if ((((s32)gUnknown_03001060.unk7 >> temp_r2) & 1) && ((var_r3 & 1) != (temp_r2 & 1))) {
-                            sp0 = (s32)var_r3;
-                            temp_r1 = sub_8001C30(gUnknown_03001060.unkC[temp_r2], (temp_r2 * 0xC) + gUnknown_03001060.unk1C[0]);
-                            switch (var_r4) { /* switch 3; irregular */
-                                case 0: /* switch 3 */
-                                    temp_r0_3 = temp_r1->unk12;
-                                    if ((u32)temp_r0_3 <= 0x62U) {
-                                        temp_r1->unk12 = (u8)(temp_r0_3 + 1);
-                                    }
-                                    break;
-                                case 1: /* switch 3 */
-                                    temp_r0_4 = temp_r1->unk11;
-                                    if ((u32)temp_r0_4 <= 0x62U) {
-                                        temp_r1->unk11 = (u8)(temp_r0_4 + 1);
-                                    }
-                                    break;
-                                case 2: /* switch 3 */
-                                    temp_r0_5 = temp_r1->unk13;
-                                    if ((u32)temp_r0_5 <= 0x62U) {
-                                        temp_r1->unk13 = (u8)(temp_r0_5 + 1);
-                                    }
-                                    break;
-                            }
-                        }
-                        temp_r0_2 = (var_r1_2 << 0x18) + 0xFF000000;
-                        var_r1_2 = (s8)(temp_r0_2 >> 0x18);
-                    } while ((s32)temp_r0_2 >= 0);
-                    return;
-                case 1: /* switch 2 */
-                    var_r1 = &LOADED_SAVE->vsLosses;
-                    goto block_18;
-                case 2: /* switch 2 */
-                    var_r1 = &LOADED_SAVE->vsDraws;
-                    goto block_18;
+    switch (gStageData.unkB8) {
+        case 0:
+            var_r4 = playerIndex % 2u;
+            break;
+        case 1:
+            var_r4 = gStageData.unkB8 & ~playerIndex;
+            break;
+        case 2:
+            var_r4 = 2;
+            break;
+        default:
+            return;
+    }
+
+    switch (var_r4) {
+        case 0:
+            if (LOADED_SAVE->vsWins < 99) {
+                LOADED_SAVE->vsWins += 1;
             }
             break;
-        case 1: /* switch 1 */
-            var_r4 = gStageData.unkB8 & ~var_r3;
-            goto block_9;
-        case 2: /* switch 1 */
-            var_r4 = 2;
-            goto block_9;
+        case 1:
+            if (LOADED_SAVE->vsLosses < 99) {
+                LOADED_SAVE->vsLosses += 1;
+            }
+            break;
+        case 2:
+            if (LOADED_SAVE->vsDraws < 99) {
+                LOADED_SAVE->vsDraws += 1;
+            }
+            break;
+        default:
+            return;
+    }
+
+    for (i = 3; i >= 0; i--) {
+        if (GetBit(gUnknown_03001060.unk7, i) && ((playerIndex % 2u) != (i % 2u))) {
+            vsrec = sub_8001C30(gUnknown_03001060.unkC[i], gUnknown_03001060.unk1C[i]);
+            switch (var_r4) {
+                case 0:
+                    if (vsrec->losses < 99) {
+                        vsrec->losses += 1;
+                    }
+                    break;
+                case 1:
+                    if (vsrec->wins < 99) {
+                        vsrec->wins += 1;
+                    }
+                    break;
+                case 2:
+                    if (vsrec->draws < 99) {
+                        vsrec->draws += 1;
+                    }
+                    break;
+            }
+        }
     }
 }
 
+#if 01
+#else
 void sub_809DFAC(Code_2_1 *strc)
 {
     Sprite *temp_r4;
