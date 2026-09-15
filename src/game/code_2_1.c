@@ -530,17 +530,17 @@ void sub_809DE9C(Code_2_1 *unused)
 
     switch (var_r4) {
         case 0:
-            if (LOADED_SAVE->vsWins < 99) {
+            if (LOADED_SAVE->vsWins < MAX_MULTIPLAYER_SCORE) {
                 LOADED_SAVE->vsWins += 1;
             }
             break;
         case 1:
-            if (LOADED_SAVE->vsLosses < 99) {
+            if (LOADED_SAVE->vsLosses < MAX_MULTIPLAYER_SCORE) {
                 LOADED_SAVE->vsLosses += 1;
             }
             break;
         case 2:
-            if (LOADED_SAVE->vsDraws < 99) {
+            if (LOADED_SAVE->vsDraws < MAX_MULTIPLAYER_SCORE) {
                 LOADED_SAVE->vsDraws += 1;
             }
             break;
@@ -553,17 +553,17 @@ void sub_809DE9C(Code_2_1 *unused)
             vsrec = sub_8001C30(gUnknown_03001060.unkC[i], gUnknown_03001060.unk1C[i]);
             switch (var_r4) {
                 case 0:
-                    if (vsrec->losses < 99) {
+                    if (vsrec->losses < MAX_MULTIPLAYER_SCORE) {
                         vsrec->losses += 1;
                     }
                     break;
                 case 1:
-                    if (vsrec->wins < 99) {
+                    if (vsrec->wins < MAX_MULTIPLAYER_SCORE) {
                         vsrec->wins += 1;
                     }
                     break;
                 case 2:
-                    if (vsrec->draws < 99) {
+                    if (vsrec->draws < MAX_MULTIPLAYER_SCORE) {
                         vsrec->draws += 1;
                     }
                     break;
@@ -572,39 +572,34 @@ void sub_809DE9C(Code_2_1 *unused)
     }
 }
 
-#if 01
-#else
 void sub_809DFAC(Code_2_1 *strc)
 {
-    Sprite *temp_r4;
-    u8 var_r0;
-    u8 var_r0_2;
+    Sprite *s = &strc->sprAC;
+    s->x = 100;
+    s->y = 80;
+    s->frameFlags &= ~0x400;
+    if (strc->unk5 == 0) {
+        s->palId = 4;
+    } else {
+        s->palId = 0;
+    }
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 
-    temp_r4 = &strc->sprAC;
-    strc->sprAC.x = 0x64;
-    strc->sprAC.y = 0x50;
-    strc->sprAC.frameFlags &= 0xFFFFFBFF;
+    s->x = 140;
+    s->y = 80;
+    s->frameFlags |= 0x400;
     if (strc->unk5 == 0) {
-        var_r0 = 4;
+        s->palId = 0;
     } else {
-        var_r0 = 0;
+        s->palId = 4;
     }
-    strc->sprAC.palId = var_r0;
-    UpdateSpriteAnimation(temp_r4);
-    DisplaySprite(temp_r4);
-    strc->sprAC.x = 0x8C;
-    strc->sprAC.y = 0x50;
-    strc->sprAC.frameFlags |= 0x400;
-    if (strc->unk5 == 0) {
-        var_r0_2 = 0;
-    } else {
-        var_r0_2 = 4;
-    }
-    strc->sprAC.palId = var_r0_2;
-    UpdateSpriteAnimation(temp_r4);
-    DisplaySprite(temp_r4);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
 
+#if 01
+#else
 void sub_809E018(Code_2_1 *strc)
 {
     u8 var_r0;

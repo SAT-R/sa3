@@ -9,61 +9,6 @@
 
 .if 0
 .else
-	thumb_func_start sub_809DFAC
-sub_809DFAC: @ 0x0809DFAC
-	push {r4, r5, lr}
-	adds r5, r0, #0
-	adds r4, r5, #0
-	adds r4, #0xac
-	movs r0, #0x64
-	strh r0, [r4, #0x10]
-	movs r0, #0x50
-	strh r0, [r4, #0x12]
-	ldr r0, [r4, #8]
-	ldr r1, _0809DFD0 @ =0xFFFFFBFF
-	ands r0, r1
-	str r0, [r4, #8]
-	ldrb r0, [r5, #5]
-	cmp r0, #0
-	bne _0809DFD4
-	movs r0, #4
-	b _0809DFD6
-	.align 2, 0
-_0809DFD0: .4byte 0xFFFFFBFF
-_0809DFD4:
-	movs r0, #0
-_0809DFD6:
-	strb r0, [r4, #0x1f]
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	adds r0, r4, #0
-	bl DisplaySprite
-	movs r0, #0x8c
-	strh r0, [r4, #0x10]
-	movs r0, #0x50
-	strh r0, [r4, #0x12]
-	ldr r0, [r4, #8]
-	movs r1, #0x80
-	lsls r1, r1, #3
-	orrs r0, r1
-	str r0, [r4, #8]
-	ldrb r0, [r5, #5]
-	cmp r0, #0
-	bne _0809E000
-	movs r0, #0
-	b _0809E002
-_0809E000:
-	movs r0, #4
-_0809E002:
-	strb r0, [r4, #0x1f]
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	adds r0, r4, #0
-	bl DisplaySprite
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
 
 	thumb_func_start sub_809E018
 sub_809E018: @ 0x0809E018
