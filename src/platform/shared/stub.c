@@ -133,7 +133,6 @@ void sub_8027960() { }
 void sub_8028850() { }
 void sub_8029990() { }
 
-
 void sub_8052D8C() { }
 void sub_8054514() { }
 void sub_8054E38() { }
