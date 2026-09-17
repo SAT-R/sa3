@@ -178,14 +178,7 @@ void sub_8088770() { }
 // returns VRAM tile pointer
 void *CreateSomeTask_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles) { return tiles; }
 
-void sub_809C970(unsigned char *vram, void *param2) { }
-bool32 sub_809CDC8() { }
 void Task_570_809C620() { }
-void Task_60_809CA64() { }
-void sub_809CE58() { }
-void sub_809CF04(unsigned char *vram, void *param2) { }
-void sub_809CFA8(unsigned char *vram, void *param2) { }
-void sub_809D27C(unsigned char *vram, void *param2) { }
 void sub_80AD9E4() { }
 void /* 0x080A209C */ CreateGameIntroState() { }
 void CreateNewGamesaveOpening() { }
@@ -240,7 +233,6 @@ void sub_8081C80() { }
 void sub_809BFE8() { }
 bool32 sub_809C810() { return FALSE; }
 void sub_809C8C4() { }
-void sub_809CC80() { }
 
 void sub_807F4F0() { }
 void sub_8085588() { }

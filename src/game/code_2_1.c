@@ -24,7 +24,7 @@ typedef struct {
     /* 0x04 */ u8 unk4;
     /* 0x05 */ u8 unk5;
     /* 0x05 */ u16 unk6;
-    /* 0x00 */ s32 unk8;
+    /* 0x08 */ s32 qUnk8;
     /* 0x05 */ s32 qUnkC;
     /* 0x10 */ Sprite spr10;
     /* 0x38 */ Sprite spr38;
@@ -91,7 +91,8 @@ typedef struct {
     /* 0xAC */ Sprite sprAC;
 } Code_2_1; /* 0xD4 */
 
-void sub_809C970(u8 *vram, void *param2);
+void sub_809C970(u8 *vram, u8 *someData);
+void Task_60_809CB30(void);
 bool32 sub_809CDC8(Code_2_0__F4 *strc);
 void sub_809CE58(Code_2_0__F4 *strc);
 void sub_809CF04(u8 *vram, u8 *someData);
@@ -140,6 +141,8 @@ void TaskDestructor_809E688(Task *t);
 void Task_64_809E68C(void);
 void TaskDestructor_809E774(Task *t);
 void TaskDestructor_809E4DC(Task *t);
+void Task_60_809E284(void);
+void TaskDestructor_809E3B4(Task *t);
 
 #if 0 // M2C
 void sub_809CC80(u8 *vram, u8 *param1, u8 param2, Code_2_0__F4 *strc);
@@ -172,8 +175,9 @@ extern const ColorRaw gUnknown_080D97F8[10 * PALETTE_LEN_4BPP];
 extern const ColorRaw gUnknown_080D9898[4 * PALETTE_LEN_4BPP];
 extern const TileInfo2 gUnknown_080D9738[48];
 extern const u8 gUnknown_080D961D[NUM_CHARACTERS];
+extern TileInfo2 gUnknown_080D9624[2];
+extern const u8 gUnknown_080D9634[12];
 extern const TileInfo2 gUnknown_080D9640[5];
-
 extern TileInfo2 gUnknown_080D9668[2];
 extern TileInfo2 gUnknown_080D9678[24];
 
@@ -214,7 +218,7 @@ void LoadCharacterSelectSprites(Code_2_0__270 *strc) {
             temp_r0 = &strc->spr18[var_r4];
             temp_r0->tiles = (u8 *) var_r6;
             temp_r2_2 = (var_r4 * 8) + temp_r8;
-            var_r6 += temp_r2_2->unk4 << 5;
+            var_r6 += temp_r2_2->unk4 * TILE_SIZE_4BPP;
             temp_r0->anim = temp_r2_2->unk0;
             temp_r0->variant = temp_r2_2->unk2;
             temp_r0->prevVariant = 0xFF;
@@ -246,7 +250,7 @@ void LoadCharacterSelectSprites(Code_2_0__270 *strc) {
             temp_r0_2 = &strc->spr1A8[var_r4_2];
             temp_r0_2->tiles = (u8 *) var_r6;
             temp_r2_3 = (var_r4_2 * 8) + temp_r8_2;
-            var_r6 += temp_r2_3->unk4 << 5;
+            var_r6 += temp_r2_3->unk4 * TILE_SIZE_4BPP;
             temp_r0_2->anim = temp_r2_3->unk0;
             temp_r0_2->variant = temp_r2_3->unk2;
             temp_r0_2->prevVariant = 0xFF;
@@ -322,7 +326,7 @@ block_9:
         var_r0 = (u8) ((u32) (*var_r0_2 << 0x1C) >> 0x1C);
         break;
     case 6:
-        if ((gStageData.playerIndex == 0) || (gStageData.playerIndex == 2)) {
+        if ((gStageData.playerIndex == PLAYER_1) || (gStageData.playerIndex == PLAYER_3)) {
             var_r5 = (u32) gUnknown_03001060.unk4C[0];
             var_r0 = gUnknown_03001060.unk4C[2];
         } else {
@@ -484,7 +488,7 @@ block_39:
             temp_r4 = &strc->spr18[var_r5];
             temp_r4->tiles = var_r7;
             temp_r1_2 = (var_r5 * 8) + var_sl;
-            var_r7 += temp_r1_2->unk4 << 5;
+            var_r7 += temp_r1_2->unk4 * TILE_SIZE_4BPP;
             temp_r4->anim = temp_r1_2->unk0;
             temp_r4->variant = temp_r1_2->unk2;
             temp_r4->prevVariant = 0xFF;
@@ -520,7 +524,7 @@ block_39:
             temp_r4_2 = &strc->spr1A8[var_r5_2];
             temp_r4_2->tiles = var_r7;
             temp_r1_3 = (var_r5_2 * 8) + spC;
-            var_r7 += temp_r1_3->unk4 << 5;
+            var_r7 += temp_r1_3->unk4 * TILE_SIZE_4BPP;
             temp_r4_2->anim = temp_r1_3->unk0;
             temp_r4_2->variant = temp_r1_3->unk2;
             temp_r4_2->prevVariant = 0xFF;
@@ -758,7 +762,7 @@ void sub_809C354(Code_2_0__570 *strc) {
                 temp_r2 = strc + ((var_r5 * 0x140) + 0x30) + (var_r4 * 0x28);
                 temp_r2->tiles = var_r8;
                 temp_r1_2 = (var_r4 * 8) + *((*var_r3 * 4) + &gUnknown_080D9564);
-                var_r8 += temp_r1_2->unk4 << 5;
+                var_r8 += temp_r1_2->unk4 * TILE_SIZE_4BPP;
                 temp_r2->anim = temp_r1_2->unk0;
                 temp_r2->variant = temp_r1_2->unk2;
                 temp_r2->prevVariant = 0xFF;
@@ -1033,64 +1037,70 @@ void sub_809C8C4(Code_2_0__570 *strc) {
         var_r5 += 1;
     } while ((u32) var_r5 <= 3U);
 }
+#endif
 
-void sub_809C970(u8 *vram, void *param2, Code_2_0__60 *strc) {
-    ? *sp4;
-    u8 *temp_r8;
-
-    TaskCreate(Task_60_809E284, 0x60U, 0x2100U, 0U, TaskDestructor_809E3B4);
+void sub_809C970(u8 *vram, u8 *someData)
+{
+    Code_2_0__60 *strc = TASK_DATA(TaskCreate(Task_60_809E284, sizeof(Code_2_0__60), 0x2100U, 0U, TaskDestructor_809E3B4));
     strc->unk6 = 0;
     strc->unk4 = 0;
-    strc->unk0 = (u8 *) param2;
-    strc->unk8 = 0x7800;
-    strc->qUnkC = -0x3C00;
-    strc->spr38.tiles = vram;
-    temp_r8 = vram + (gUnknown_080D9624.unk4 << 5);
-    strc->spr38.anim = gUnknown_080D9624.unk0;
-    strc->spr38.variant = gUnknown_080D9624.unk2;
-    strc->spr38.prevVariant = 0xFF;
-    strc->spr38.x = (s16) ((s32) strc->unk8 >> 8);
-    strc->spr38.y = (s16) ((s32) strc->qUnkC >> 8);
-    strc->spr38.oamFlags = 0x200;
-    strc->spr38.animCursor = 0;
-    strc->spr38.qAnimDelay = 0;
-    strc->spr38.animSpeed = 0x10;
-    strc->spr38.palId = 0;
-    strc->spr38.frameFlags = 0;
-    strc->spr38.hitboxes[0].index = -1;
-    sp4 = &gUnknown_080D9624;
-    UpdateSpriteAnimation(&strc->spr38);
-    strc->spr10.tiles = temp_r8;
-    strc->spr10.anim = gUnknown_080D9624.unk8;
-    strc->spr10.variant = gUnknown_080D9624.unkA;
-    strc->spr10.prevVariant = -1U;
-    strc->spr10.x = (s16) ((s32) strc->unk8 >> 8);
-    strc->spr10.y = (s16) ((s32) strc->qUnkC >> 8);
-    strc->spr10.oamFlags = 0x200;
-    strc->spr10.animCursor = 0;
-    strc->spr10.qAnimDelay = 0;
-    strc->spr10.animSpeed = 0x10;
-    strc->spr10.palId = 0;
-    strc->spr10.frameFlags = 0;
-    strc->spr10.hitboxes[0].index = -1;
-    UpdateSpriteAnimation(&strc->spr10);
+    strc->unk0 = someData;
+    strc->qUnk8 = +Q(120);
+    strc->qUnkC = -Q(60);
+
+    {
+        Sprite *s = &strc->spr38;
+        s->tiles = vram;
+        vram += (gUnknown_080D9624[0].numTiles * TILE_SIZE_4BPP);
+        s->anim = gUnknown_080D9624[0].anim;
+        s->variant = gUnknown_080D9624[0].variant;
+        s->prevVariant = -1;
+        s->x = I(strc->qUnk8);
+        s->y = I(strc->qUnkC);
+        s->oamFlags = 0x200;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        s->hitboxes[0].index = -1;
+        UpdateSpriteAnimation(s);
+    }
+
+    {
+        Sprite *s = &strc->spr10;
+        s->tiles = vram;
+        s->anim = gUnknown_080D9624[1].anim;
+        s->variant = gUnknown_080D9624[1].variant;
+        s->prevVariant = -1;
+        s->x = I(strc->qUnk8);
+        s->y = I(strc->qUnkC);
+        s->oamFlags = 0x200;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        s->hitboxes[0].index = -1;
+        UpdateSpriteAnimation(s);
+    }
 }
 
-void Task_60_809CA64(Code_2_0__60 *strc) {
+void Task_60_809CA64(void)
+{
+    s16 playerIndex = gStageData.playerIndex;
+    Code_2_0__60 *strc = TASK_DATA(gCurTask);
     s16 var_r0;
-    u8 temp_r0;
-    u8 temp_r5;
-    u8 var_r0_2;
-    void (*var_r0_3)(Code_2_0__60 *);
 
-    temp_r5 = gStageData.playerIndex;
     sub_809E384(strc);
-    if (temp_r5 == 0) {
+
+    if (playerIndex == PLAYER_1) {
         var_r0 = sub_8025A90();
     } else {
         var_r0 = sub_80253CC();
     }
-    if ((s32) ((u16) var_r0 << 0x10) < 0) {
+
+    if (var_r0 < 0) {
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
@@ -1098,25 +1108,24 @@ void Task_60_809CA64(Code_2_0__60 *strc) {
         sub_80A1A4C(3U);
         return;
     }
-    temp_r0 = strc->unk4;
-    if ((u32) temp_r0 <= 8U) {
-        var_r0_2 = temp_r0 + 1;
+
+    if (strc->unk4 < 9) {
+        strc->unk4++;
     } else {
-        var_r0_2 = 9;
+        strc->unk4 = 9;
     }
-    strc->unk4 = var_r0_2;
-    strc->qUnkC = *(strc->unk4 + &gUnknown_080D9634) << 8;
+
+    strc->qUnkC = Q(gUnknown_080D9634[strc->unk4]);
+
     if (strc->unk4 == 9) {
-        if (temp_r5 == 0) {
-            strc->unk6 = (u16) temp_r5;
-            var_r0_3 = Task_60_809CB30;
+        if (playerIndex == PLAYER_1) {
+            strc->unk6 = 0;
+            gCurTask->main = Task_60_809CB30;
         } else {
-            var_r0_3 = Task_60_809E1E8;
+            gCurTask->main = Task_60_809E1E8;
         }
-        gCurTask->main = var_r0_3;
     }
 }
-#endif
 
 void Task_60_809CB30(void)
 {
@@ -1199,7 +1208,7 @@ void sub_809CC80(u8 *vram, u8 *param1, u8 param2)
     for (i = 0; i < 4; i++) {
         Sprite *s = &strc->spr2C[i];
         s->tiles = vram;
-        vram += gUnknown_080D9640[i].numTiles << 5;
+        vram += gUnknown_080D9640[i].numTiles * TILE_SIZE_4BPP;
         s->anim = gUnknown_080D9640[i].anim;
         s->variant = gUnknown_080D9640[i].variant;
         s->prevVariant = 0xFF;
@@ -1218,7 +1227,7 @@ void sub_809CC80(u8 *vram, u8 *param1, u8 param2)
     {
         Sprite *s = &strc->sprCC;
         s->tiles = vram;
-        vram += (gUnknown_080D9640[4].numTiles << 5);
+        vram += (gUnknown_080D9640[4].numTiles * TILE_SIZE_4BPP);
         s->anim = gUnknown_080D9640[4].anim;
         s->variant = gUnknown_080D9640[4].variant;
         s->prevVariant = -1;
@@ -1327,7 +1336,7 @@ void sub_809CF04(u8 *vram, u8 *someData)
 
     s = &strc->spr14;
     s->tiles = vram;
-    vram += (gUnknown_080D9668[0].numTiles << 5);
+    vram += (gUnknown_080D9668[0].numTiles * TILE_SIZE_4BPP);
 
     s->anim = gUnknown_080D9668[0].anim;
     s->variant = gUnknown_080D9668[0].variant;
@@ -1356,7 +1365,7 @@ void sub_809CFA8(u8 *vram, u8 *someData)
 
     s = &strc->spr14;
     s->tiles = vram;
-    vram += (gUnknown_080D9678[3].numTiles << 5);
+    vram += (gUnknown_080D9678[3].numTiles * TILE_SIZE_4BPP);
 
     s->anim = gUnknown_080D9678[3].anim;
     s->variant = gUnknown_080D9678[3].variant;
@@ -1391,7 +1400,7 @@ void Task_3C_809D04C(void)
     sub_809E66C(strc);
 
     if (sub_809E634(strc) == 1) {
-        if (playerIndex == 0) {
+        if (playerIndex == PLAYER_1) {
             if (1 & gPressedKeys) {
                 send->pat0.unk0 = 0x6613;
                 gCurTask->main = Task_3C_809D148;
@@ -1555,7 +1564,7 @@ void Task_64_809D3C4(void)
     sub_809E740(strc);
 
     if (sub_809E708(strc) == 1) {
-        if (playerIndex == 0) {
+        if (playerIndex == PLAYER_1) {
             if (++strc->unk6 >= 90) {
                 strc->unk6 = 0;
                 send->pat0.unk0 = 0x6611;
@@ -2309,21 +2318,19 @@ void sub_809E384(Code_2_0__60 *strc)
 {
     {
         Sprite *s = &strc->spr10;
-        s->x = I(strc->unk8);
+        s->x = I(strc->qUnk8);
         s->y = I(strc->qUnkC);
         DisplaySprite(s);
     }
     {
-        Sprite *s = &strc->spr10;
-
-        s = &strc->spr38;
-        s->x = I(strc->unk8);
+        Sprite *s = &strc->spr38;
+        s->x = I(strc->qUnk8);
         s->y = I(strc->qUnkC);
         DisplaySprite(s);
     }
 }
 
-void TaskDestructor_809E3B4(void) { }
+void TaskDestructor_809E3B4(Task *t) { }
 
 void Task_F4_809E3B8(void)
 {
