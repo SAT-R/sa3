@@ -836,11 +836,7 @@ gUnknown_080D9634:
 
     .global gUnknown_080D9640
 gUnknown_080D9640:
-    .incbin "baserom_sa3.gba", 0x000D9640, 0x4
-
-    .global gUnknown_080D9644
-gUnknown_080D9644:
-    .incbin "baserom_sa3.gba", 0x000D9644, 0x24
+    .incbin "baserom_sa3.gba", 0x000D9640, 0x28
 
     .global gUnknown_080D9668
 gUnknown_080D9668:
