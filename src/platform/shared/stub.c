@@ -175,10 +175,8 @@ void sub_8087B80() { }
 void sub_8088440() { }
 void sub_80885CC() { }
 void sub_8088770() { }
-// returns VRAM tile pointer
-void *CreateSomeTask_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles) { return tiles; }
-
-void Task_570_809C620() { }
+void sub_809BA58() { }
+void Task_270_809B8C8() { }
 void sub_80AD9E4() { }
 void /* 0x080A209C */ CreateGameIntroState() { }
 void CreateNewGamesaveOpening() { }
@@ -230,9 +228,6 @@ void CreatePreCreditsCutscene() { }
 void sub_80A872C() { }
 
 void sub_8081C80() { }
-void sub_809BFE8() { }
-bool32 sub_809C810() { return FALSE; }
-void sub_809C8C4() { }
 
 void sub_807F4F0() { }
 void sub_8085588() { }
