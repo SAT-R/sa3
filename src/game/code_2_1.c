@@ -224,7 +224,6 @@ extern const TileInfo2 *gUnknown_080D93D4[];
 extern const TileInfo2 *gUnknown_080D93EC[];
 extern const TileInfo2 *gUnknown_080D9404[];
 
-#if 0
 void LoadCharacterSelectSprites(Code_2_0__270 *strc)
 {
     const TileInfo2 *var_r0;
@@ -290,17 +289,17 @@ void LoadCharacterSelectSprites(Code_2_0__270 *strc)
     }
     strc->vramC += 0xD40;
 }
-#endif
 
 // (80.59%) https://decomp.me/scratch/7VgAJ
-NONMATCH("asm/non_matching/game/sa3/c21__Task_270_809B8C8.inc", void Task_270_809B8C8(void)) {
+NONMATCH("asm/non_matching/game/sa3/c21__Task_270_809B8C8.inc", void Task_270_809B8C8(void))
+{
     Code_2_0__270 *strc = TASK_DATA(gCurTask);
     u8 *out;
 
     if (sub_809BA58(strc) != 0) {
         u32 a, b;
         u32 *unk10;
-        
+
         if (*strc->unk4 >= 22 && *strc->unk4 <= 28) {
             sub_809B970(strc);
         }
@@ -311,32 +310,29 @@ NONMATCH("asm/non_matching/game/sa3/c21__Task_270_809B8C8.inc", void Task_270_80
         unk10 = strc->unk10;
         if (a > b) {
             switch (*out) {
-            case 29:
-                *out = 36;
-                TaskDestroy(gCurTask);
-                return;
+                case 29:
+                    *out = 36;
+                    TaskDestroy(gCurTask);
+                    return;
 
-            case 36:
-                *out = 37;
-                TaskDestroy(gCurTask);
-                return;
+                case 36:
+                    *out = 37;
+                    TaskDestroy(gCurTask);
+                    return;
 
-
-            case 4: 
-                gCurTask->main = Task_270_809BF9C;
-                return;
+                case 4:
+                    gCurTask->main = Task_270_809BF9C;
+                    return;
             }
         }
         {
-            if ((*out == 0x1F))
-            {
-                if((u32) (*unk10 + 0x3C00) > 0x16800U) {
+            if ((*out == 0x1F)) {
+                if ((u32)(*unk10 + 0x3C00) > 0x16800U) {
                     TaskDestroy(gCurTask);
                     return;
                 }
                 gCurTask->main = Task_270_809BF9C;
             }
-
         }
     }
 }
