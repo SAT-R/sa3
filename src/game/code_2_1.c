@@ -290,9 +290,10 @@ void LoadCharacterSelectSprites(Code_2_0__270 *strc)
     }
     strc->vramC += 0xD40;
 }
+#endif
 
 // (80.59%) https://decomp.me/scratch/7VgAJ
-void Task_270_809B8C8(void) {
+NONMATCH("asm/non_matching/game/sa3/c21__Task_270_809B8C8.inc", void Task_270_809B8C8(void)) {
     Code_2_0__270 *strc = TASK_DATA(gCurTask);
     u8 *out;
 
@@ -339,7 +340,7 @@ void Task_270_809B8C8(void) {
         }
     }
 }
-#endif
+END_NONMATCH
 
 void sub_809B970(Code_2_0__270 *strc)
 {
