@@ -224,20 +224,14 @@ extern const TileInfo2 *gUnknown_080D93D4[];
 extern const TileInfo2 *gUnknown_080D93EC[];
 extern const TileInfo2 *gUnknown_080D9404[];
 
-#ifdef NON_MATCHING
+#if 0
 void LoadCharacterSelectSprites(Code_2_0__270 *strc)
 {
-    s32 sp0;
     const TileInfo2 *var_r0;
-    s32 temp_r8_2;
     s8 *var_r6;
-    u16 var_r3;
-    u16 var_r3_2;
     u8 temp_r2;
     u8 var_r4;
-    u8 var_r4_2;
     u8 var_r7;
-    u8 var_r7_2;
     const TileInfo2 *temp_r8;
     const TileInfo2 *temp_r2_2;
     const TileInfo2 *temp_r2_3;
@@ -269,14 +263,14 @@ void LoadCharacterSelectSprites(Code_2_0__270 *strc)
         UpdateSpriteAnimation(temp_r0);
     }
     if ((u32)*strc->unk4 > 0x15U) {
-        var_r7_2 = gUnknown_080D9438[5];
+        var_r7 = gUnknown_080D9438[5];
         var_r0 = gUnknown_080D93EC[5];
     } else {
-        var_r7_2 = gUnknown_080D9432[5];
+        var_r7 = gUnknown_080D9432[5];
         var_r0 = gUnknown_080D93D4[5];
     }
 
-    for (var_r4 = 0; var_r4 < var_r7_2; var_r4++) {
+    for (var_r4 = 0; var_r4 < var_r7; var_r4++) {
         Sprite *temp_r0 = &strc->spr1A8[var_r4];
         temp_r0->tiles = (u8 *)var_r6;
         temp_r2_3 = &var_r0[var_r4];
@@ -296,46 +290,46 @@ void LoadCharacterSelectSprites(Code_2_0__270 *strc)
     }
     strc->vramC += 0xD40;
 }
-#endif
 
-#if 0
+// (80.59%) https://decomp.me/scratch/7VgAJ
 void Task_270_809B8C8(void) {
     Code_2_0__270 *strc = TASK_DATA(gCurTask);
-    s32 *temp_r0;
-    u8 *temp_r3;
-    u8 temp_r0_2;
-    u8 var_r0;
     u8 *out;
 
     if (sub_809BA58(strc) != 0) {
+        u32 a, b;
+        u32 *unk10;
+        
         if (*strc->unk4 >= 22 && *strc->unk4 <= 28) {
             sub_809B970(strc);
         }
 
-        if ((u32) (*strc->unk10 + 0x3C00) > 0x16800U) {
-            out = strc->unk4;
+        a = (*strc->unk10 + 0x3C00);
+        b = 0x16800U;
+        out = strc->unk4;
+        unk10 = strc->unk10;
+        if (a > b) {
             switch (*out) {
             case 29:
-            case 31:
-                *out = 37;
-                break;
+                *out = 36;
+                TaskDestroy(gCurTask);
+                return;
+
             case 36:
                 *out = 37;
                 TaskDestroy(gCurTask);
                 return;
-            case 4:
+
+
+            case 4: 
                 gCurTask->main = Task_270_809BF9C;
-                return;
-            default:
-                *out = 36;
-                TaskDestroy(gCurTask);
                 return;
             }
         }
         {
             if ((*out == 0x1F))
             {
-                if((u32) (*strc->unk10 + 0x3C00) > 0x16800U) {
+                if((u32) (*unk10 + 0x3C00) > 0x16800U) {
                     TaskDestroy(gCurTask);
                     return;
                 }
@@ -345,8 +339,10 @@ void Task_270_809B8C8(void) {
         }
     }
 }
+#endif
 
-void sub_809B970(Code_2_0__270 *strc) {
+void sub_809B970(Code_2_0__270 *strc)
+{
     u32 var_r5;
     u8 *var_r0_2;
     u8 var_r0;
@@ -354,21 +350,21 @@ void sub_809B970(Code_2_0__270 *strc) {
 
     var_r5 = 0;
     var_r0 = 0;
-    if (gStageData.gameMode == 0 || gStageData.gameMode == 1 || gStageData.gameMode == 2 || gStageData.gameMode == 3 || gStageData.gameMode == 4)
-    {
+    if (gStageData.gameMode == 0 || gStageData.gameMode == 1 || gStageData.gameMode == 2 || gStageData.gameMode == 3
+        || gStageData.gameMode == 4) {
         var_r5 = gPlayers[PLAYER_1].charFlags.character;
         var_r0 = gPlayers[PLAYER_2].charFlags.character;
-    } else if(gStageData.gameMode == 6) {
+    } else if (gStageData.gameMode == 6) {
         if ((gStageData.playerIndex == PLAYER_1) || (gStageData.playerIndex == PLAYER_3)) {
-            var_r5 = (u32) gUnknown_03001060.unk4C[0];
+            var_r5 = (u32)gUnknown_03001060.unk4C[0];
             var_r0 = gUnknown_03001060.unk4C[2];
         } else {
-            var_r5 = (u32) gUnknown_03001060.unk4C[1];
+            var_r5 = (u32)gUnknown_03001060.unk4C[1];
             var_r0 = gUnknown_03001060.unk4C[3];
         }
-    } else if(gStageData.gameMode == GAME_MODE_5) {
-        s16 playerIndex  = gStageData.playerIndex;
-        s16 partnerIndex  = (gStageData.playerIndex + 1) & 1;
+    } else if (gStageData.gameMode == GAME_MODE_5) {
+        s16 playerIndex = gStageData.playerIndex;
+        s16 partnerIndex = (gStageData.playerIndex + 1) & 1;
         var_r5 = gPlayers[playerIndex].charFlags.character;
         var_r0 = gPlayers[partnerIndex].charFlags.character;
     }
@@ -381,7 +377,7 @@ void sub_809B970(Code_2_0__270 *strc) {
         } else if ((var_r5 == 4) || (var_r0 == 4)) {
             var_r0_3 = 4;
         } else {
-        var_r0_3 = 1;
+            var_r0_3 = 1;
         }
     } else if (((var_r5 == 4) && (var_r0 == 1)) || ((var_r5 == 1) && (var_r0 == 4))) {
         var_r0_3 = 5;
@@ -391,7 +387,9 @@ void sub_809B970(Code_2_0__270 *strc) {
     strc->unk9 = var_r0_3;
 }
 
-bool32 sub_809BA58(Code_2_0__270 *strc) {
+// (80.72%) https://decomp.me/scratch/aYSXB
+NONMATCH("asm/non_matching/game/sa3/c21__sub_809BA58.inc", bool32 sub_809BA58(Code_2_0__270 *strc))
+{
     Sprite *s;
     s16 var_r0_2;
     s16 var_r0_3;
@@ -403,7 +401,6 @@ bool32 sub_809BA58(Code_2_0__270 *strc) {
     u8 temp_r2;
     u8 temp_r2_2;
     u8 var_r5;
-    u8 var_r5_2;
     TileInfo2 *temp_r1_2;
     TileInfo2 *temp_r1_3;
     u8 var_r8 = gUnknown_080D8F18[*strc->unk0];
@@ -414,38 +411,37 @@ bool32 sub_809BA58(Code_2_0__270 *strc) {
     s16 playerIndex = gStageData.playerIndex;
     const TileInfo2 *var_sl = 0;
     const TileInfo2 *spC = 0;
-    if ((s32) playerIndex < 2) {
-        if ((((u32) (u8) (*strc->unk4 - 0xC) < 8) && (I(*strc->unk10) > 0x78))
-            || (((u32) *strc->unk4 > 0x13U) && (*strc->unk4 != 0x1C) && ((var_r8 != gPlayers[playerIndex].charFlags.character)))) {
+    if ((s32)playerIndex < 2) {
+        if ((((u32)(u8)(*strc->unk4 - 0xC) < 8) && (I(*strc->unk10) > 0x78))
+            || (((u32)*strc->unk4 > 0x13U) && (*strc->unk4 != 0x1C) && ((var_r8 != gPlayers[playerIndex].charFlags.character)))) {
             sp8 = 1;
         }
     } else {
-        temp_r2_2 = *strc->unk4;
-        if ((((u32) (u8) (temp_r2_2 - 0xC) < 8) && (I(*strc->unk10) > 0x78))
-            || (((u32) temp_r2_2 > 0x13U) && (temp_r2_2 != 0x1C) && (var_r8 != (gPlayers[1 & playerIndex].charFlags.character)))) {
+        if ((((u32)(u8)(*strc->unk4 - 0xC) < 8) && (I(*strc->unk10) > 0x78))
+            || (((u32)*strc->unk4 > 0x13U) && (*strc->unk4 != 0x1C) && (var_r8 != (gPlayers[1 & playerIndex].charFlags.character)))) {
             sp8 = 1;
         }
     }
-    temp_r1 = *strc->unk4;
-    if ((u32) (u8) (temp_r1 - 0x16) > 6U) {
-        if ((u32) (u8) (temp_r1 - 0x19) <= 2U) {
+
+    if ((u32)(u8)(*strc->unk4 - 0x16) > 6U) {
+        if ((u32)(u8)(*strc->unk4 - 0x19) <= 2U) {
             goto block_41;
         }
-        if (temp_r1 == 0x1C) {
+        if (*strc->unk4 == 0x1C) {
             sp8 = 0;
             goto block_45;
         }
         goto block_46;
     }
-    if ((u32) (u8) (temp_r1 - 0x19) <= 2U) {
-block_41:
+    if ((u32)(u8)(*strc->unk4 - 0x19) <= 2U) {
+    block_41:
         strc->unk9 = 0;
         sp8 = 0;
         if (*strc->unk4 == 0x1B) {
-block_45:
+        block_45:
             strc->unk9 = 1;
         }
-block_46:
+    block_46:
         if (strc->unk9 == 1) {
             goto block_47;
         }
@@ -455,69 +451,68 @@ block_46:
         spC = gUnknown_080D93D4[5];
         strc->unk9 = 0;
     } else if (strc->unk9 == 1) {
-block_47:
+    block_47:
         sp0 = gUnknown_080D9438[var_r8];
-        sp4 = (u32) gUnknown_080D9438[5];
+        sp4 = (u32)gUnknown_080D9438[5];
         var_sl = gUnknown_080D93EC[var_r8];
         spC = gUnknown_080D93EC[5];
     } else {
-        temp_r0_2 = strc->unk9;
-        switch (temp_r0_2) {                        /* irregular */
-        case 2:
-            if (var_r8 == 0) {
-                sp0 = (u32) gUnknown_080D943E[0];
-                var_sl = gUnknown_080D9404[0];
-            } else {
-                sp0 = (u32) gUnknown_080D9441[0];
-                var_sl = gUnknown_080D9404[1];
-            }
+        switch (strc->unk9) { /* irregular */
+            case 2:
+                if (var_r8 == 0) {
+                    sp0 = (u32)gUnknown_080D943E[0];
+                    var_sl = gUnknown_080D9404[0];
+                } else {
+                    sp0 = (u32)gUnknown_080D9441[0];
+                    var_sl = gUnknown_080D9404[1];
+                }
 
-            *strc->unk10 = 0x7800;
-            *strc->unk14 = 0x5000;
-            break;
-        case 3:
-            if (var_r8 == 0) {
-                sp0 = (u32) gUnknown_080D943E[1];
-                var_sl = gUnknown_080D9404[4];
-            } else {
-                sp0 = (u32) gUnknown_080D9441[1];
-                var_sl = gUnknown_080D9404[5];
-            }
-            *strc->unk10 = 0x7800;
-            *strc->unk14 = 0x5000;
-            break;
-        case 4:
-            if (var_r8 == 0) {
-                sp0 = (u32) gUnknown_080D943E[2];
-                var_sl = gUnknown_080D9404[2];
-            } else {
-                sp0 = (u32) gUnknown_080D9441[2];
-                var_sl = gUnknown_080D9404[3];
-            }
-            *strc->unk10 = 0x7800;
-            *strc->unk14 = 0x5000;
-            break;
-        case 5:
-            if (var_r8 == 1) {
-                sp0 = (u32) gUnknown_080D9444[0];
-                sp4 = (u32) gUnknown_080D9444[2];
-                var_sl = gUnknown_080D9404[7];
-                spC = gUnknown_080D9404[8];
-            } else {
-                sp0 = (u32) gUnknown_080D9444[1];
-                var_sl = gUnknown_080D9404[6];
                 *strc->unk10 = 0x7800;
                 *strc->unk14 = 0x5000;
                 break;
-            }
-            *strc->unk10 = 0x7800;
-            *strc->unk14 = 0x5000;
-            break;
+            case 3:
+                if (var_r8 == 0) {
+                    sp0 = (u32)gUnknown_080D943E[1];
+                    var_sl = gUnknown_080D9404[4];
+                } else {
+                    sp0 = (u32)gUnknown_080D9441[1];
+                    var_sl = gUnknown_080D9404[5];
+                }
+                *strc->unk10 = 0x7800;
+                *strc->unk14 = 0x5000;
+                break;
+            case 4:
+                if (var_r8 == 0) {
+                    sp0 = (u32)gUnknown_080D943E[2];
+                    var_sl = gUnknown_080D9404[2];
+                } else {
+                    sp0 = (u32)gUnknown_080D9441[2];
+                    var_sl = gUnknown_080D9404[3];
+                }
+                *strc->unk10 = 0x7800;
+                *strc->unk14 = 0x5000;
+                break;
+            case 5:
+                if (var_r8 == 1) {
+                    sp0 = (u32)gUnknown_080D9444[0];
+                    sp4 = (u32)gUnknown_080D9444[2];
+                    var_sl = gUnknown_080D9404[7];
+                    spC = gUnknown_080D9404[8];
+                } else {
+                    sp0 = (u32)gUnknown_080D9444[1];
+                    var_sl = gUnknown_080D9404[6];
+                    *strc->unk10 = 0x7800;
+                    *strc->unk14 = 0x5000;
+                    break;
+                }
+                *strc->unk10 = 0x7800;
+                *strc->unk14 = 0x5000;
+                break;
         }
     }
+
     var_r7 = strc->spr18[0].tiles;
-    for(var_r5 = 0; var_r5 < sp0; var_r5++)
-    {
+    for (var_r5 = 0; var_r5 < sp0; var_r5++) {
         {
             s = &strc->spr18[var_r5];
             s->tiles = var_r7;
@@ -525,8 +520,8 @@ block_47:
             s->anim = var_sl[var_r5].anim;
             s->variant = var_sl[var_r5].variant;
             s->prevVariant = -1;
-            s->x = (s16) ((s32) *strc->unk10 >> 8);
-            s->y = (s16) ((s32) *strc->unk14 >> 8);
+            s->x = (s16)((s32)*strc->unk10 >> 8);
+            s->y = (s16)((s32)*strc->unk14 >> 8);
             if (var_r8 != gPlayers[PLAYER_1].charFlags.character) {
                 s->oamFlags = SPRITE_OAM_ORDER(2);
             } else {
@@ -547,17 +542,18 @@ block_47:
         }
     }
     if (var_r8 == 1) {
-        for(var_r5_2 = 0; var_r5_2 < sp4; var_r5_2++)
-        {
-            s = &strc->spr1A8[var_r5_2];
+        for (var_r5 = 0; var_r5 < sp4; var_r5++) {
+            u8 chara;
+            s = &strc->spr1A8[var_r5];
             s->tiles = var_r7;
-            var_r7 += spC[var_r5_2].numTiles * TILE_SIZE_4BPP;
-            s->anim = spC[var_r5_2].anim;
-            s->variant = spC[var_r5_2].variant;
+            var_r7 += spC[var_r5].numTiles * TILE_SIZE_4BPP;
+            s->anim = spC[var_r5].anim;
+            s->variant = spC[var_r5].variant;
             s->prevVariant = -1;
             s->x = I(*strc->unk10);
             s->y = I(*strc->unk14);
-            if (gPlayers[PLAYER_1].charFlags.character != CREAM) {
+            chara = gPlayers[PLAYER_1].charFlags.character;
+            if (var_r8 != chara) {
                 s->oamFlags = SPRITE_OAM_ORDER(2);
             } else {
                 s->oamFlags = SPRITE_OAM_ORDER(1);
@@ -573,13 +569,10 @@ block_47:
                 s->frameFlags = 0;
             }
             UpdateSpriteAnimation(s);
-            DisplaySprite(s);        
+            DisplaySprite(s);
         }
-        if (gStageData.gameMode <= GAME_MODE_5)
-        {
-            if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[var_r8])
-                && ((u32) (u8) (*strc->unk4 - 0x19) > 2U))
-            {
+        if (gStageData.gameMode <= GAME_MODE_5) {
+            if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[var_r8]) && ((u32)(u8)(*strc->unk4 - 0x19) > 2U)) {
                 if (FLAGS_20000 & gFlags) {
                     CopyObjPaletteMasked(gUnknown_080D9448, 0x50U, 0x10U);
                 } else {
@@ -590,13 +583,13 @@ block_47:
         } else {
             goto ret_1;
         }
-    } 
+    }
     {
         u8 gameMode = gStageData.gameMode;
-        if (((u32) gameMode <= 5U) && !(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[var_r8])) {
+        if (((u32)gameMode <= 5U) && !(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[var_r8])) {
             temp_r1_4 = *strc->unk4;
-            if ((u32) (u8) (temp_r1_4 - 25) > 2U) {
-                if (((u32) temp_r1_4 > 19) && (gameMode == 5)) {
+            if ((u32)(u8)(temp_r1_4 - 25) > 2U) {
+                if (((u32)temp_r1_4 > 19) && (gameMode == 5)) {
                     sub_802613C();
                     return 0U;
                 }
@@ -613,7 +606,7 @@ ret_1:
 
     return 1U;
 }
-#endif
+END_NONMATCH
 
 // returns VRAM tile pointer
 void *CreateSomeTask_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles)
@@ -1469,7 +1462,7 @@ void sub_809D27C(u8 *vram, void *someData)
     s32 sp4 = 0;
     s32 sp8;
     s32 var_r2;
-    Code_2_0__64 *strc = TASK_DATA(TaskCreate(Task_64_809D3C4, 0x64U, 0x2100U, 0U, TaskDestructor_809E774));
+    Code_2_0__64 *strc = TASK_DATA(TaskCreate(Task_64_809D3C4, sizeof(Code_2_0__64), 0x2100U, 0U, TaskDestructor_809E774));
     s32 language = LOADED_SAVE->language;
     s32 index;
 
