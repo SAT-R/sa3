@@ -191,7 +191,7 @@ SECTIONS {
         src/game/sa3/options/time_record_screen.o(.text);
         src/game/sa3/options/vs_record_screen.o(.text);
         src/game/sa3/character_select.o(.text);
-        src/game/code_2.o(.text);
+        src/game/sa3/code_2.o(.text);
         asm/game__mp_char_select.o(.text);
         src/game/code_3.o(.text);
         asm/game__opening.o(.text);

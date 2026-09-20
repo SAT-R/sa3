@@ -10,6 +10,7 @@
 #include "game/special_stage.h"
 #include "game/stage.h"
 #include "constants/songs.h"
+#include "constants/tilemaps.h"
 
 typedef struct {
     /* 0x00 */ u8 *unk0;
@@ -783,7 +784,7 @@ void sub_809C274(Code_2_0__570 *arg0)
     bg->layoutVram = (u16 *)BG_SCREEN_ADDR(24);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    bg->tilemapId = 373;
+    bg->tilemapId = TM_MULTI_VS_BACKDROP;
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 0;
@@ -802,7 +803,7 @@ void sub_809C274(Code_2_0__570 *arg0)
     bg->layoutVram = (u16 *)BG_SCREEN_ADDR(24);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    bg->tilemapId = 373;
+    bg->tilemapId = TM_MULTI_VS_BACKDROP;
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 0;
@@ -1201,7 +1202,7 @@ void Task_60_809CB30(void)
 
     if (playerIndex == PLAYER_1) {
         if (++strc->unk6 > 60 && (1 & gPressedKeys)) {
-            m4aSongNumStart(0x6AU);
+            m4aSongNumStart(SE_SELECT);
             gCurTask->main = Task_60_809E1E8;
         } else if (strc->unk6 > 120) {
             gCurTask->main = Task_60_809E1E8;
@@ -2716,8 +2717,8 @@ void sub_809E978(Code_2_2 *strc)
     s->anim = gUnknown_080D98D8[temp_r5].anim;
     s->variant = gUnknown_080D98D8[temp_r5].variant;
     s->prevVariant = 0xFF;
-    s->x = (s16)((s32)strc->unk20 >> 8);
-    s->y = (s16)((s32)strc->unk24 >> 8);
+    s->x = I(strc->unk20);
+    s->y = I(strc->unk24);
     s->oamFlags = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -2732,8 +2733,8 @@ void sub_809E978(Code_2_2 *strc)
     s->anim = gUnknown_080D98D8[2].anim;
     s->variant = gUnknown_080D98D8[2].variant;
     s->prevVariant = -1;
-    s->x = (s16)((s32)strc->unk28 >> 8);
-    s->y = (s16)((s32)strc->unk2C >> 8);
+    s->x = I(strc->unk28);
+    s->y = I(strc->unk2C);
     s->oamFlags = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -2748,8 +2749,8 @@ void sub_809E978(Code_2_2 *strc)
     s->anim = gUnknown_080D8AAC[temp_r5][0].anim;
     s->variant = gUnknown_080D8AAC[temp_r5][0].variant;
     s->prevVariant = -1;
-    s->x = (s16)((s32)strc->unk20 >> 8);
-    s->y = (s16)((s32)strc->unk24 >> 8);
+    s->x = I(strc->unk20);
+    s->y = I(strc->unk24);
     s->oamFlags = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -2764,8 +2765,8 @@ void sub_809E978(Code_2_2 *strc)
     s->anim = gUnknown_080D8ACC[temp_r5].anim;
     s->variant = gUnknown_080D8ACC[temp_r5].variant;
     s->prevVariant = -1;
-    s->x = (s16)((s32)strc->unk20 >> 8);
-    s->y = (s16)((s32)strc->unk24 >> 8);
+    s->x = I(strc->unk20);
+    s->y = I(strc->unk24);
     s->oamFlags = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -2781,8 +2782,8 @@ void sub_809E978(Code_2_2 *strc)
     s->anim = tileInfo->anim;
     s->variant = tileInfo->variant;
     s->prevVariant = -1;
-    s->x = (s16)((s32)strc->unk20 >> 8);
-    s->y = (s16)((s32)strc->unk24 >> 8);
+    s->x = I(strc->unk20);
+    s->y = I(strc->unk24);
     s->oamFlags = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -2797,8 +2798,8 @@ void sub_809E978(Code_2_2 *strc)
     s->anim = tileInfo->anim;
     s->variant = tileInfo->variant;
     s->prevVariant = -1;
-    s->x = (s16)((s32)strc->unk20 >> 8);
-    s->y = (s16)((s32)strc->unk24 >> 8);
+    s->x = I(strc->unk20);
+    s->y = I(strc->unk24);
     s->oamFlags = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -2812,8 +2813,8 @@ void sub_809E978(Code_2_2 *strc)
     s->anim = gUnknown_080D8AEC.anim;
     s->variant = gUnknown_080D8AEC.variant;
     s->prevVariant = -1;
-    s->x = (s16)((s32)strc->unk20 >> 8);
-    s->y = (s16)((s32)strc->unk24 >> 8);
+    s->x = I(strc->unk20);
+    s->y = I(strc->unk24);
     s->oamFlags = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -2827,7 +2828,7 @@ void sub_809EB74(Code_2_2 *strc)
 {
     Background *bg;
     gDispCnt |= DISPCNT_BG1_ON;
-    gBgCntRegs[1] = 0x1808;
+    gBgCntRegs[1] = BGCNT_TXT256x256 | BGCNT_SCREENBASE(24) | BGCNT_CHARBASE(2) | BGCNT_16COLOR | BGCNT_PRIORITY(0);
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = -0x78;
     bg = &strc->bg1A0;
@@ -2836,13 +2837,13 @@ void sub_809EB74(Code_2_2 *strc)
     bg->layoutVram = (u16 *)BG_SCREEN_ADDR(24);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    bg->tilemapId = 0x162;
+    bg->tilemapId = TM_UNKNOWN_354;
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 0;
     bg->unk24 = 0;
-    bg->targetTilesX = 0x1E;
-    bg->targetTilesY = 0x28;
+    bg->targetTilesX = 240 / TILE_WIDTH;
+    bg->targetTilesY = 320 / TILE_WIDTH;
     bg->paletteOffset = 0;
     bg->flags = 1;
     DrawBackground(bg);
@@ -2855,7 +2856,7 @@ void Task_809EBF4()
 
     strc = TASK_DATA(gCurTask);
     gDispCnt |= DISPCNT_BG0_ON;
-    gBgCntRegs[0] = 0xE83;
+    gBgCntRegs[0] = BGCNT_TXT256x256 | BGCNT_SCREENBASE(14) | BGCNT_CHARBASE(0) | BGCNT_256COLOR | BGCNT_PRIORITY(3);
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
     bg = &strc->bg160;
@@ -2864,13 +2865,13 @@ void Task_809EBF4()
     bg->layoutVram = (u16 *)BG_SCREEN_ADDR(14);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    bg->tilemapId = 374;
+    bg->tilemapId = TM_UNKNOWN_374;
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 0;
     bg->unk24 = 0;
-    bg->targetTilesX = 0x1E;
-    bg->targetTilesY = 0x14;
+    bg->targetTilesX = 240 / TILE_WIDTH;
+    bg->targetTilesY = 160 / TILE_WIDTH;
     bg->paletteOffset = 0;
     bg->flags = 4;
     DrawBackground(bg);
@@ -3316,17 +3317,16 @@ block_19:
 
 void sub_809F550(Code_2_2 *strc)
 {
-    const TileInfo2 *tileInfo;
     {
         Sprite *s = &strc->spr48;
-        s->x = (s16)((s32)strc->unk20 >> 8);
-        s->y = (s16)((s32)strc->unk24 >> 8);
+        s->x = I(strc->unk20);
+        s->y = I(strc->unk24);
         DisplaySprite(s);
     }
 
     {
         Sprite *s = &strc->spr98;
-        tileInfo = &sAnimsTimeAttackDigits;
+        const TileInfo2 *tileInfo = &sAnimsTimeAttackDigits;
         s->anim = tileInfo->anim;
         s->variant = tileInfo->variant + strc->unk3;
         s->prevVariant = -1;
@@ -3345,6 +3345,7 @@ void sub_809F550(Code_2_2 *strc)
 
     {
         Sprite *s = &strc->sprC0;
+        const TileInfo2 *tileInfo = &sAnimsTimeAttackDigits;
         s->anim = tileInfo->anim;
         s->variant = tileInfo->variant + strc->unk4;
         s->prevVariant = -1;
