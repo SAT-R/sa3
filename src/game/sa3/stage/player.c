@@ -10663,30 +10663,19 @@ s32 sub_8011024(s16 arg0, Player *p, u8 *arg2, u32 *arg3)
     return temp_r2;
 }
 
-// (88.55%) https://decomp.me/scratch/X0l5n
-NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(u16 arg0, Player *p, u8 *arg2, u32 *arg3))
+s32 sub_80110E8(u16 arg0, Player *p, u8 *arg2, u32 *arg3)
 {
     u8 sp08;
     u8 sp09;
     u8 sp0A;
     u32 sp0C;
     s32 sp18;
-    s16 temp_r7;
-    s32 temp_r0_4;
-    s32 var_r0;
     s32 var_r1;
-    s32 var_r1_2;
-    s32 var_r3;
-    s32 var_r3_2;
-    s32 var_r5;
     s32 var_r8;
-    u16 temp_r1;
+    s32 var_r5;
     s16 worldX;
     s16 worldY;
     u32 var_r2;
-    u8 var_r2_2;
-    s32 px;
-    s32 py;
 
     if (arg2 == NULL) {
         arg2 = &sp08;
@@ -10697,9 +10686,10 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
     worldX = I(p->qWorldX);
     worldY = I(p->qWorldY);
     switch (arg0) {
-        case 0:
-            px = worldX - 2;
-            px -= p->spriteOffsetX;
+        case 0: {
+            s32 px, px2, py, py2;
+            s32 tempX = worldX - 2;
+            px = tempX - p->spriteOffsetX;
             py = worldY - p->spriteOffsetY;
             var_r2 = p->layer;
             if (p->qSpeedAirY < Q(3)) {
@@ -10707,33 +10697,37 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
             }
             var_r8 = SA2_LABEL(sub_801E4E4)(px, py, var_r2, -8, &sp09, SA2_LABEL(sub_801ED24));
 
-            px = worldX - 2;
-            px -= p->spriteOffsetX;
-            py = worldY + p->spriteOffsetY;
-            var_r2_2 = p->layer;
-            if (p->qSpeedAirY < Q(3)) {
-                var_r2_2 |= 0x80;
-            }
-            var_r5 = SA2_LABEL(sub_801E4E4)(px, py, var_r2_2, -8, &sp0A, SA2_LABEL(sub_801ED24));
-            break;
-        case 1:
-            temp_r0_4 = worldX + 2;
-            px = temp_r0_4 + p->spriteOffsetX;
-            py = worldY - p->spriteOffsetY;
-            var_r2_2 = p->layer;
-            if (p->qSpeedAirY < Q(3)) {
-                var_r2_2 |= 0x80;
-            }
-            var_r8 = SA2_LABEL(sub_801E4E4)(py, px, var_r2_2, +8, &sp09, SA2_LABEL(sub_801ED24));
-            px = temp_r0_4 + p->spriteOffsetX;
-            py = worldY + p->spriteOffsetY;
+            px2 = tempX - p->spriteOffsetX;
+            py2 = worldY + p->spriteOffsetY;
             var_r2 = p->layer;
             if (p->qSpeedAirY < Q(3)) {
                 var_r2 |= 0x80;
             }
-            var_r5 = SA2_LABEL(sub_801E4E4)(px, py, var_r2, +8, &sp0A, SA2_LABEL(sub_801EE64));
+            var_r5 = SA2_LABEL(sub_801E4E4)(px2, py2, var_r2, -8, &sp0A, SA2_LABEL(sub_801ED24));
             break;
-        case 2:
+        }
+        case 1: {
+            s32 py, px, py2, px2;
+            s32 tempX = worldX + 2;
+            px = tempX + p->spriteOffsetX;
+            py = worldY - p->spriteOffsetY;
+            var_r2 = p->layer;
+            if (p->qSpeedAirY < Q(3)) {
+                var_r2 |= 0x80;
+            }
+            var_r8 = SA2_LABEL(sub_801E4E4)(px, py, var_r2, +8, &sp09, SA2_LABEL(sub_801ED24));
+
+            px2 = tempX + p->spriteOffsetX;
+            py2 = worldY + p->spriteOffsetY;
+            var_r2 = p->layer;
+            if (p->qSpeedAirY < Q(3)) {
+                var_r2 |= 0x80;
+            }
+            var_r5 = SA2_LABEL(sub_801E4E4)(px2, py2, var_r2, +8, &sp0A, SA2_LABEL(sub_801ED24));
+            break;
+        }
+        case 2: {
+            s32 py, px, py2, px2;
             py = worldY - p->spriteOffsetY;
             px = (worldX - 2);
             px -= p->spriteOffsetX;
@@ -10742,35 +10736,39 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
                 var_r2 |= 0x80;
             }
             var_r8 = SA2_LABEL(sub_801E4E4)(py, px, var_r2, -8, &sp09, SA2_LABEL(sub_801EE64));
-            py = worldY - p->spriteOffsetY;
-            px = worldX + 2;
-            px += p->spriteOffsetX;
+
+            py2 = worldY - p->spriteOffsetY;
+            px2 = worldX + 2;
+            px2 += p->spriteOffsetX;
             var_r2 = p->layer;
             if (p->qSpeedAirY < Q(3)) {
                 var_r2 |= 0x80;
             }
-            var_r5 = SA2_LABEL(sub_801E4E4)(py, px, var_r2, -8, &sp0A, SA2_LABEL(sub_801EE64));
+            var_r5 = SA2_LABEL(sub_801E4E4)(py2, px2, var_r2, -8, &sp0A, SA2_LABEL(sub_801EE64));
             break;
-        case 3:
+        }
+        case 3: {
+            s32 py, px, py2, px2;
             py = worldY + p->spriteOffsetY;
-            px = worldX;
-            px = (px - 2);
+            px = (worldX - 2);
             px -= p->spriteOffsetX;
             var_r2 = p->layer;
             if (p->qSpeedAirY < 0) {
                 var_r2 |= 0x80;
             }
             var_r8 = SA2_LABEL(sub_801E4E4)(py, px, var_r2, +8, &sp09, SA2_LABEL(sub_801EE64));
-            py = worldY + p->spriteOffsetY;
-            px = worldX + 2;
-            px += p->spriteOffsetX;
+
+            py2 = worldY + p->spriteOffsetY;
+            px2 = worldX + 2;
+            px2 += p->spriteOffsetX;
             var_r2 = p->layer;
             if (p->qSpeedAirY < 0) {
                 var_r2 |= 0x80;
             }
 
-            var_r5 = SA2_LABEL(sub_801E4E4)(py, px, var_r2, +8, &sp0A, SA2_LABEL(sub_801EE64));
+            var_r5 = SA2_LABEL(sub_801E4E4)(py2, px2, var_r2, +8, &sp0A, SA2_LABEL(sub_801EE64));
             break;
+        }
     }
     if (var_r8 < var_r5) {
         var_r1 = var_r8;
@@ -10783,7 +10781,6 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80110E8.inc", s32 sub_80110E8(
     }
     return var_r1;
 }
-END_NONMATCH
 
 // NOTE: Basically identical to sub_8011434()!
 s16 sub_801139C(Player *p)
