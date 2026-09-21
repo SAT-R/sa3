@@ -184,174 +184,144 @@ NONMATCH("asm/non_matching/game/interactables/rocket__Task_RocketMain.inc", void
 }
 END_NONMATCH
 
-// (91.18%) https://decomp.me/scratch/KKcmK
+// (74.21%) https://decomp.me/scratch/NmSzO
+// There is an old scratch that "matches more" but its code logic is wrong
 NONMATCH("asm/non_matching/game/interactables/rocket__Task_8045F48.inc", void Task_8045F48(void))
 {
-    Rocket *rocket = TASK_DATA(gCurTask);
-    MapEntity *me = rocket->base.me;
-    Sprite *s = &rocket->sprites[0];
+    MapEntity *sp8;
+    Sprite *spC;
+    s32 sp10;
+    u8 sp14;
+    s32 sp18;
+    Player **sp1C;
     Player *p;
-    s32 worldPos; // sp10
-    s32 worldX, worldY;
-#ifndef NON_MATCHING
-    register s32 sb asm("sb");
-    register s32 sl asm("sl");
-    register s32 qWorldX asm("r5");
-    register s32 qWorldY asm("r6");
-#else
-    s32 sb;
-    s32 sl;
-    s32 qWorldX;
-    s32 qWorldY;
-#endif
-    u8 i;
+    s32 temp_r2;
+    s32 temp_r2_2;
+    s32 temp_r3;
+    s32 temp_r5;
+    s32 temp_r6;
+    s32 var_r0;
+    s32 var_r2;
+    s32 var_sb;
+    s32 var_sl;
+    u32 temp_r1;
+    u8 temp_r0;
+    u8 temp_r0_2;
+    u8 temp_r0_3;
+    u8 temp_r0_4;
+    void (*temp_r1_2)(Player *);
+    Rocket *rocket = TASK_DATA(gCurTask);
 
-    qWorldX = rocket->qWorldX;
-    qWorldY = rocket->qWorldY;
-    worldPos = *(s32 *)&rocket->worldX;
-    qWorldY -= Q(6);
-    rocket->qWorldX = qWorldX;
-    rocket->qWorldY = qWorldY;
-
-    for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        p = rocket->players[i];
-
-        if (p->moveState & (MOVESTATE_1000000 | MOVESTATE_DEAD)) {
-            rocket->base.unkA &= ~(1 << i * 2);
-            rocket->base.unkA |= (2 << i * 2);
+    sp8 = rocket->base.me;
+    spC = &rocket->sprites[0];
+    temp_r5 = rocket->qWorldX;
+    sp10 = *(s32 *)&rocket->worldX;
+    temp_r6 = rocket->qWorldY - Q(6);
+    rocket->qWorldX = temp_r5;
+    rocket->qWorldY = temp_r6;
+    for (sp14 = 0; sp14 < 2; sp14++) {
+        p = rocket->players[sp14];
+        if (p->moveState & 0x01000100) {
+            rocket->base.unkA = (rocket->base.unkA & ~(1 << (sp14 * 2))) | (2 << (sp14 * 2));
         }
-        // _08045FB4
+        temp_r3 = rocket->base.unkA & (3 << sp14 * 2);
+        if (temp_r3 == 0) {
+            temp_r1 = p->moveState;
+            var_sl = temp_r5 >> 8;
+            temp_r2 = temp_r6 >> 8;
+            var_sb = temp_r2;
+            if (temp_r1 & 0x01000100) {
 
-        if (!(rocket->base.unkA & (3 << i * 2))) {
-            u32 msMask = (p->moveState & (MOVESTATE_1000000 | MOVESTATE_DEAD));
-            sl = I(qWorldX);
-            sb = I(qWorldY);
+            } else if (!(temp_r1 & 4)) {
 
-            if (!msMask) {
+            } else if ((s32)p->qSpeedAirY <= 0) {
 
-                if ((p->moveState & MOVESTATE_IN_AIR) && (p->qSpeedAirY > 0)) {
-                    // _08045FEC
+            } else if (sub_8020700(spC, var_sl, temp_r2, 0, p, (s16)temp_r3) == 0) {
 
-                    if (sub_8020700(s, sl, sb, 0, p, 0)) {
-                        // _08046000
-
-                        sub_8016F28(p);
-                        Player_800BE60(p);
-                        p->moveState |= MOVESTATE_COLLIDING_ENT;
-                        p->sprColliding = s;
-                        rocket->base.unkA |= (1 << i * 2);
-                    }
-                }
+            } else {
+                sub_8016F28(p);
+                Player_800BE60(p);
+                p->moveState |= MOVESTATE_COLLIDING_ENT;
+                p->sprColliding = spC;
+                rocket->base.unkA |= 1 << (sp14 * 2);
             }
         } else {
-            // _0804603C ^ else if
-            sl = I(qWorldX);
-            sb = I(qWorldY);
-
-            if (!(rocket->base.unkA & (1 << i * 2))) {
-                rocket->qWorldY -= Q(6);
-
-                if (!(p->moveState & MOVESTATE_COLLIDING_ENT) || (p->sprColliding != s)) {
-                    // _0804606A
-                    rocket->base.unkA &= ~(1 << i * 2);
-                    rocket->base.unkA |= (2 << i * 2);
+            temp_r2_2 = (1 << (sp14 * 2));
+            var_sl = temp_r5 >> 8;
+            var_sb = temp_r6 >> 8;
+            if (temp_r3 == (rocket->base.unkA & temp_r2_2)) {
+                p->qWorldY -= Q(6);
+                if (!(p->moveState & MOVESTATE_COLLIDING_ENT) || (p->sprColliding != spC)) {
+                    rocket->base.unkA = (rocket->base.unkA & ~temp_r2_2) | (2 << (sp14 * 2));
                 }
-                // _0804607A
-
-                if ((p->callback == Player_800D944) || (p->callback != Player_800EB58)) {
-                    // _08046088
+                temp_r1_2 = p->callback;
+                if ((temp_r1_2 == Player_800D944) || (temp_r1_2 != Player_800EB58)) {
                     p->moveState &= ~(MOVESTATE_10000000 | MOVESTATE_COLLIDING_ENT);
                     p->sprColliding = NULL;
-                    rocket->base.unkA &= ~(1 << i * 2);
-                    rocket->base.unkA |= (2 << i * 2);
-                } else if (p->keyInput2 & gStageData.buttonConfig.jump) {
-                    // _080460B8+0xA
-                    rocket->base.unkA &= ~(1 << i * 2);
-                    rocket->base.unkA |= (2 << i * 2);
-                    p->moveState &= ~(MOVESTATE_10000000 | MOVESTATE_COLLIDING_ENT);
+                    rocket->base.unkA = (rocket->base.unkA & ~(1 << (sp14 * 2))) | (2 << (sp14 * 2));
+                    var_sl = temp_r5 >> 8;
+                    var_sb = temp_r6 >> 8;
+                } else if (gStageData.buttonConfig.jump & p->keyInput2) {
+                    rocket->base.unkA = (rocket->base.unkA & ~(1 << (sp14 * 2))) | (2 << (sp14 * 2));
+                    p->moveState &= ~(MOVESTATE_10000000 | MOVESTATE_COLLIDING_ENT | MOVESTATE_8);
                     p->sprColliding = NULL;
                     p->qSpeedAirY = 0;
                     p->qSpeedAirX = 0;
-
                     if (p->unkC & 0x40) {
                         SetPlayerCallback(p, Player_8006250);
-                        sl = I(qWorldX);
-                        sb = I(qWorldY);
-
-                        asm("" ::"r"(qWorldX), "r"(qWorldY));
+                        var_sl = temp_r5 >> 8;
+                        var_sb = temp_r6 >> 8;
                     } else {
                         SetPlayerCallback(p, Player_8006310);
-                        sl = I(qWorldX);
-                        sb = I(qWorldY);
-
-                        asm("" ::"r"(qWorldX), "r"(qWorldY));
+                        var_sl = temp_r5 >> 8;
+                        var_sb = temp_r6 >> 8;
                     }
                 } else {
-                    // _08046128
-                    rocket->qWorldY += Q(IA_ROCKET_SPEED);
-
+                    p->qWorldY = rocket->qWorldY + 0x2700;
                     if (!(p->moveState & MOVESTATE_FACING_LEFT)) {
-                        p->qWorldX -= Q(4);
+                        p->qWorldX = rocket->qWorldX - Q(4);
                     } else {
-                        // _0804614C
-                        p->qWorldX += Q(4);
+                        p->qWorldX = rocket->qWorldX + Q(4);
                     }
-                    sl = I(qWorldX);
-                    sb = I(qWorldY);
+                    var_sl = temp_r5 >> 8;
+                    var_sb = temp_r6 >> 8;
                 }
             }
         }
     }
-    // _08046170
-
-    {
-        s32 qTop = rocket->qTop;
-        ;
-        worldX = (s16)worldPos;
-        worldY = (worldPos >> 16);
-
-        if (qWorldY < qTop) {
-            for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-                p = rocket->players[i];
-
-                if (GetBit(rocket->base.unkA, i * 2)) {
-                    Player_8009E8C(p);
-
-                    p->moveState &= ~MOVESTATE_10000000;
-                    p->moveState &= ~MOVESTATE_COLLIDING_ENT;
-                    p->sprColliding = NULL;
-                    p->qSpeedAirY = -Q(4);
-                    p->qSpeedAirX = +Q(0);
-                }
-            }
-
-            rocket->unkC = TIME(0, 1.5);
-            gCurTask->main = Task_UpdateStarParticles;
-            sub_8003E28(SE_ROCKET_ACCELERATING);
-            sub_8003DF0(SE_ROCKET_EXPLODING);
-        }
-    }
-    // _080461E8
-
-    if (!sub_802C140((s16)worldPos, worldPos >> 16, sl - gCamera.x, sb - gCamera.y)) {
-        for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-            p = rocket->players[i];
-
-            if (GetBit(rocket->base.unkA, i * 2)) {
+    sp18 = sp10 >> 0x10;
+    if (temp_r6 < (s32)rocket->qTop) {
+        for (sp14 = 0; sp14 < 2; sp14++) {
+            p = rocket->players[sp14];
+            if (((s32)rocket->base.unkA >> (sp14 * 2)) & 1) {
                 Player_8009E8C(p);
-
                 p->moveState &= ~MOVESTATE_10000000;
                 p->moveState &= ~MOVESTATE_COLLIDING_ENT;
                 p->sprColliding = NULL;
                 p->qSpeedAirY = -Q(4);
-                p->qSpeedAirX = +Q(0);
+                p->qSpeedAirX = 0;
             }
         }
-
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, rocket->base.meX);
+        rocket->unkC = 90;
+        gCurTask->main = Task_UpdateStarParticles;
+        sub_8003E28(0x256U);
+        sub_8003DF0(0x299U);
+    }
+    if (sub_802C140((s32)(s16)sp10, sp18, var_sl - gCamera.x, var_sb - gCamera.y) == 0) {
+        for (sp14 = 0; sp14 < 2; sp14++) {
+            p = rocket->players[sp14];
+            if (GetBit(rocket->base.unkA, sp14 * 2)) {
+                Player_8009E8C(p);
+                p->moveState &= ~MOVESTATE_10000000;
+                p->moveState &= ~MOVESTATE_COLLIDING_ENT;
+                p->sprColliding = NULL;
+                p->qSpeedAirY = -Q(4);
+                p->qSpeedAirX = 0;
+            }
+        }
+        sp8->x = rocket->base.meX;
         TaskDestroy(gCurTask);
-        sub_8003E28(SE_ROCKET_ACCELERATING);
-        return;
+        sub_8003E28(0x256U);
     } else {
         sub_8046438(rocket);
     }

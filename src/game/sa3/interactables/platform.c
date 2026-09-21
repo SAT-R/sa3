@@ -375,7 +375,7 @@ bool16 sub_802F1B8(Sprite *s)
 
     if (k >= 2) {
         for (j = 0; j < NUM_SINGLE_PLAYER_CHARS; j++) {
-            Player *p = (j != 0) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.playerIndex];
+            Player *p = GET_SP_PLAYER_V1(j);
 
             ResolvePlayerSpriteCollision(s, p);
         }

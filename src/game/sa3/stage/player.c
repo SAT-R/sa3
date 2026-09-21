@@ -4113,7 +4113,7 @@ void Player_HitWithoutRingsUpdate(Player *p)
     p->qCamOffsetY = 0;
 
     p->moveState &= ~(MOVESTATE_COLLIDING_ENT | MOVESTATE_FACING_LEFT);
-    p->moveState &= 0xEFFFFFFF;
+    p->moveState &= ~MOVESTATE_10000000;
     p->moveState |= MOVESTATE_DEAD;
     Player_8012FE0(p);
     p->charFlags.anim0 = 0x67;
@@ -11754,7 +11754,8 @@ NONMATCH("asm/non_matching/game/stage/player__sub_801246C.inc", s32 sub_801246C(
     sp10 = (s32)p->qSpeedAirX;
     sp14 = (s32)p->qSpeedAirY;
 
-#if 01
+#if 0
+    // TODO: Something is inaccurate with the inlines...
     test(p, Q(3), layer, TRUE);
     test(p, Q(0), layer, FALSE);
 #else
