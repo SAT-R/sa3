@@ -829,8 +829,8 @@ void Task_802ACF0(void)
 {
     RingsMgrUnk2C *strc2C = TASK_DATA(gCurTask);
     Sprite *s = &strc2C->s;
-    s16 temp_r5 = s->x;
-    s16 temp_r6 = s->y;
+    s16 tempX = s->x;
+    s16 tempY = s->y;
 
     s->x -= gCamera.x;
     s->y -= gCamera.y;
@@ -841,8 +841,8 @@ void Task_802ACF0(void)
         return;
     }
     DisplaySprite(s);
-    s->x = (s16)temp_r5;
-    s->y = (s16)temp_r6;
+    s->x = tempX;
+    s->y = tempY;
 }
 
 void TaskDestructor_RingsMgr(Task *t)

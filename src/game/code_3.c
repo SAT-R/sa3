@@ -2,6 +2,7 @@
 #include "core.h"
 #include "lib/m4a/m4a.h"
 #include "game/main_menu.h"
+#include "game/sa3/code_3.h"
 #include "game/save.h"
 #include "game/stage.h"
 #include "game/character_select.h"
@@ -22,7 +23,6 @@ typedef struct {
     Sprite spr94;
 } StrcCode3;
 
-void sub_80A1A4C(u8 param0);
 void sub_80A1B68(StrcCode3 *strc);
 void Task_80A1BEC(void);
 void Task_80A1CE4(void);
@@ -315,14 +315,16 @@ void Task_80A1F10(void)
         } else {
             var_r0 = sub_8023C5C();
         }
-    } else if (gStageData.playerIndex == PLAYER_1) {
-        if (strc->unk3 == 2) {
-            var_r0 = sub_80244E4();
-        } else {
-            var_r0 = sub_802440C();
-        }
     } else {
-        var_r0 = sub_8024584();
+        if (gStageData.playerIndex == PLAYER_1) {
+            if (strc->unk3 == 2) {
+                var_r0 = sub_80244E4();
+            } else {
+                var_r0 = sub_802440C();
+            }
+        } else {
+            var_r0 = sub_8024584();
+        }
     }
     if (var_r0 < 0) {
         sub_802613C();

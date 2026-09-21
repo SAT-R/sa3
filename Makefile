@@ -213,7 +213,7 @@ endif
 ifeq ($(PLATFORM),gba)
 	INCLUDE_SCANINC_ARGS += -I tools/agbcc/include
 	CPPFLAGS += -D PLATFORM_GBA=1 -D PLATFORM_SDL=0 -D PLATFORM_WIN32=0 -D CPU_ARCH_X86=0 -D CPU_ARCH_ARM=1 -nostdinc -I tools/agbcc/include
-	CC1FLAGS += -fhex-asm
+	CC1FLAGS += -fhex-asm -fshort-enums
 
 ifeq ($(BUILD_NAME), sa1)
     # It seems this bug was introduced to GCC after SA1 released.

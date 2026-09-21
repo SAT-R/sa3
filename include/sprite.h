@@ -318,6 +318,9 @@ typedef enum {
     ACMD_RESULT__ANIM_CHANGED = -1,
     ACMD_RESULT__ENDED = 0,
     ACMD_RESULT__RUNNING = +1,
+
+    // Necessary to make -fshort-enums match
+    ACMD_RESULT__S32_MATCH = 0x7FFFFFFF
 } AnimCmdResult;
 
 AnimCmdResult UpdateSpriteAnimation(Sprite *s);

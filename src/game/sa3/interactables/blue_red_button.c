@@ -276,7 +276,8 @@ void sub_80303B4(void)
     Sprite *s = &button->s;
     MapEntity *me = button->base.me;
     s16 worldX, worldY;
-    AnimCmdResult acmdRes;
+    // TODO: acmdRes should be AnimCmdResult, but u16 required for matching.
+    u16 acmdRes;
     s16 i;
     u8 unk35 = button->unk35 - 1;
 
@@ -297,8 +298,7 @@ void sub_80303B4(void)
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
 
-    // TODO: This cast is weird, but required for matching.
-    acmdRes = (u16)UpdateSpriteAnimation(s);
+    acmdRes = UpdateSpriteAnimation(s);
 
     if (button->kind == BUTTON_KIND_BLUE) {
         if (unk35 & 0x2) {

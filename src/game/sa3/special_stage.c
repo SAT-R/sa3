@@ -20,7 +20,6 @@ extern void WarpToMap(s32 level, s16 warpId);
 // declare sub_8001E58() here because of the WarpToMap issue
 bool32 sub_8001E58(void);
 
-extern s32 UpdateSpriteAnimation_BG(Sprite *);
 extern void sub_80BE46C(Sprite *s);
 
 void *gUnknown_03001E9C = NULL, *gUnknown_03001EA0 = NULL; // VRAM Pointers referencing eachother

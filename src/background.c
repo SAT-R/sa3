@@ -704,25 +704,25 @@ END_NONMATCH
 // Differences to UpdateSpriteAnimation:
 // - SPRITE_INIT_ANIM_IF_CHANGED gets executed *after* the if, in SA1|SA2.
 // - Uses animCmdTable_BG instead of animCmdTable
-s32 UpdateSpriteAnimation_BG(Sprite *s)
+AnimCmdResult UpdateSpriteAnimation_BG(Sprite *s)
 {
 #if (ENGINE >= ENGINE_1 && ENGINE <= ENGINE_2)
     if (s->frameFlags & SPRITE_FLAG_MASK_ANIM_OVER)
-        return 0;
+        return ACMD_RESULT__ENDED;
 
     SPRITE_INIT_ANIM_IF_CHANGED(s);
 #elif (ENGINE == ENGINE_3)
     SPRITE_INIT_ANIM_IF_CHANGED(s);
 
     if (s->frameFlags & SPRITE_FLAG_MASK_ANIM_OVER) {
-        return 0;
+        return ACMD_RESULT__ENDED;
     }
 #endif
 
     if (s->qAnimDelay > 0)
         s->qAnimDelay -= s->animSpeed * 16;
     else {
-        s32 ret;
+        AnimCmdResult ret;
         const ACmd *cmd;
         const ACmd *script;
         const ACmd **variants;
@@ -779,7 +779,7 @@ s32 UpdateSpriteAnimation_BG(Sprite *s)
 #endif
         s->animCursor += 2;
     }
-    return 1;
+    return ACMD_RESULT__RUNNING;
 }
 
 // (88.98%) https://decomp.me/scratch/zClIO

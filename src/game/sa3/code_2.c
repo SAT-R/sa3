@@ -6,6 +6,7 @@
 #include "code_z_1.h"
 #include "multi_sio_stuff.h"
 #include "lib/m4a/m4a.h"
+#include "game/sa3/code_3.h"
 #include "game/save.h"
 #include "game/special_stage.h"
 #include "game/stage.h"
@@ -168,7 +169,6 @@ void Task_809E0D4(Code_2_0__570 *strc570);
 void sub_809E7DC(Code_2_1 *strc);
 bool32 sub_809E7F8(Code_2_1 *strc);
 void TaskDestructor_809E858(Task *t);
-void sub_80A1A4C(u8 errorCode);
 bool32 sub_809E828(Code_2_1 *strc);
 void Task_570_809C620(void);
 void Task_60_809CA64(void);
@@ -222,7 +222,7 @@ void Task_809F768(void);
 void sub_809F7A4(Code_2_2 *strc);
 void sub_809F7B8(Code_2_2 *strc);
 s32 sub_809F7D8(Code_2_2 *strc);
-s32 sub_809F810(Code_2_2 *strc);
+bool32 sub_809F810(Code_2_2 *strc);
 void TaskDestructor_809F84C(Task *t);
 
 void LoadCharacterSelectSprites(Code_2_0__270 *strc);
@@ -878,7 +878,7 @@ void Task_570_809C44C(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3U);
+        sub_80A1A4C(C3EC_3);
         return;
     }
 
@@ -905,7 +905,7 @@ void Task_570_809C534(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3U);
+        sub_80A1A4C(C3EC_3);
         return;
     }
     if (strc->unk6 == 0) {
@@ -942,7 +942,7 @@ void Task_570_809C620(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3U);
+        sub_80A1A4C(C3EC_3);
         return;
     }
 
@@ -986,7 +986,7 @@ void Task_570_809C71C(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3U);
+        sub_80A1A4C(C3EC_3);
         return;
     }
 
@@ -1158,7 +1158,7 @@ void Task_60_809CA64(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3U);
+        sub_80A1A4C(C3EC_3);
         return;
     }
 
@@ -1203,7 +1203,7 @@ void Task_60_809CB30(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3U);
+        sub_80A1A4C(C3EC_3);
         return;
     }
 
@@ -1446,7 +1446,7 @@ void Task_3C_809D04C(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3U);
+        sub_80A1A4C(C3EC_3);
         return;
     }
 
@@ -1497,7 +1497,7 @@ void Task_3C_809D148(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3U);
+        sub_80A1A4C(C3EC_3);
         return;
     }
 
@@ -1606,14 +1606,15 @@ void Task_64_809D3C4(void)
     s16 playerIndex = gStageData.playerIndex;
     Code_2_0__64 *strc = TASK_DATA(gCurTask);
 
-    if ((s32)(sub_802610C() << 0x10) < 0) {
-        TasksDestroyInPriorityRange(0U, 0xFFFFU);
-        gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
+    if (sub_802610C() < 0) {
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
-        gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
-        sub_80A1A4C(3U);
+        PAUSE_GRAPHICS_QUEUE();
+        sub_80A1A4C(C3EC_3);
         return;
     }
+
     sub_809E740(strc);
 
     if (sub_809E708(strc) == 1) {
@@ -1649,7 +1650,7 @@ void Task_64_809D498(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3U);
+        sub_80A1A4C(C3EC_3);
         return;
     }
 
@@ -1806,7 +1807,7 @@ void Task_D4_809D810(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3);
+        sub_80A1A4C(C3EC_3);
         return;
     }
 
@@ -1871,7 +1872,7 @@ void Task_D4_809D960(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3);
+        sub_80A1A4C(C3EC_3);
         return;
     }
 
@@ -1907,7 +1908,7 @@ void Task_D4_809DA18(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3);
+        sub_80A1A4C(C3EC_3);
         return;
     }
     {
@@ -1981,7 +1982,7 @@ void Task_D4_809DB74(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3);
+        sub_80A1A4C(C3EC_3);
         return;
     }
     send->pat0.unk0 = strc->unk5;
@@ -2030,7 +2031,7 @@ void Task_D4_809DCA4(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3);
+        sub_80A1A4C(C3EC_3);
         return;
     }
     if (temp_r4 == 0) {
@@ -2258,7 +2259,7 @@ void Task_570_809E0D4(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3);
+        sub_80A1A4C(C3EC_3);
         return;
     }
     sub_809C8C4(strc);
@@ -2278,7 +2279,7 @@ void Task_570_809E164(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3);
+        sub_80A1A4C(C3EC_3);
         return;
     }
     if (strc->unk4 == 10) {
@@ -2310,7 +2311,7 @@ void Task_60_809E1E8(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3);
+        sub_80A1A4C(C3EC_3);
         return;
     }
     if (temp_r0 == 1) {
@@ -2338,7 +2339,7 @@ void Task_60_809E284(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3);
+        sub_80A1A4C(C3EC_3);
         return;
     }
     if (sub_809E354(strc) == 1) {
@@ -2395,7 +2396,7 @@ void Task_F4_809E3B8(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3);
+        sub_80A1A4C(C3EC_3);
         return;
     }
 
@@ -2421,7 +2422,7 @@ void Task_809E458(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3);
+        sub_80A1A4C(C3EC_3);
         return;
     }
     sub_809CE58(strc);
@@ -2445,7 +2446,7 @@ void Task_3C_809E4E0(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3);
+        sub_80A1A4C(C3EC_3);
         return;
     }
     sub_809E5E4(strc);
@@ -2540,7 +2541,7 @@ void Task_64_809E68C(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A1A4C(3);
+        sub_80A1A4C(C3EC_3);
         return;
     }
 
@@ -3368,7 +3369,7 @@ void sub_809F5E4(Code_2_2 *strc)
     Sprite *s = &strc->spr138;
     s->x = I(strc->qUnk38) - 32;
     s->y = I(strc->qUnk3C);
-    s->frameFlags &= 0xFFFFFBFF;
+    s->frameFlags &= ~0x400;
     DisplaySprite(s);
 
     s->x = I(strc->qUnk40) + 0x69;
@@ -3408,7 +3409,7 @@ void Task_809F6D0(void)
     PAUSE_BACKGROUNDS_QUEUE();
     gBgSpritesCount = 0;
     PAUSE_GRAPHICS_QUEUE();
-    sub_80A1A4C(3);
+    sub_80A1A4C(C3EC_3);
 }
 
 void Task_809F718(void)
@@ -3448,42 +3449,44 @@ void sub_809F7A4(Code_2_2 *strc)
 void sub_809F7B8(Code_2_2 *strc)
 {
     Sprite *s = &strc->spr110;
-    s->x = (s16)((s32)strc->unk30 >> 8);
-    s->y = (s16)((s32)strc->unk34 >> 8);
+    s->x = I(strc->unk30);
+    s->y = I(strc->unk34);
     DisplaySprite(s);
 }
 
 s32 sub_809F7D8(Code_2_2 *strc)
 {
-    strc->unk34 = 0x1400;
-    if (strc->unk30 > 0x7600) {
+    strc->unk34 = Q(20);
+    if (strc->unk30 > Q(118)) {
         strc->unk30 -= Q(16);
 
-        if (strc->unk30 < 0x7600) {
-            strc->unk30 = 0x7600;
+        if (strc->unk30 < Q(118)) {
+            strc->unk30 = Q(118);
             return 1;
         }
     } else {
-        strc->unk30 = 0x7600;
+        strc->unk30 = Q(118);
         return 1;
     }
     return 0;
 }
 
-s32 sub_809F810(Code_2_2 *strc)
+bool32 sub_809F810(Code_2_2 *strc)
 {
-    strc->unk24 = 0x8400;
-    if (strc->unk20 < 0x7D00) {
-        strc->unk20 += 0x1000;
-        if (strc->unk20 > 0x7D00) {
-            strc->unk20 = 0x7D00;
-            return 1;
+    strc->unk24 = Q(132);
+
+    if (strc->unk20 < Q(125)) {
+        strc->unk20 += Q(16);
+        if (strc->unk20 > Q(125)) {
+            strc->unk20 = Q(125);
+            return TRUE;
         }
     } else {
-        strc->unk20 = 0x7D00;
-        return 1;
+        strc->unk20 = Q(125);
+        return TRUE;
     }
-    return 0;
+
+    return FALSE;
 }
 
 void TaskDestructor_809F84C(Task *t) { }

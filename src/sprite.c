@@ -168,13 +168,13 @@ AnimCmdResult UpdateSpriteAnimation(Sprite *s)
     SPRITE_INIT_ANIM_IF_CHANGED(s);
 
     if (s->frameFlags & SPRITE_FLAG_MASK_ANIM_OVER)
-        return 0;
+        return ACMD_RESULT__ENDED;
 
     if (s->qAnimDelay > 0)
         s->qAnimDelay -= s->animSpeed * 16;
     else {
         /* Call all commands for the new frame */
-        s32 ret;
+        AnimCmdResult ret;
         const ACmd *cmd;
         const ACmd *script;
         const ACmd **variants;
@@ -231,7 +231,7 @@ AnimCmdResult UpdateSpriteAnimation(Sprite *s)
 
         s->animCursor += 2;
     }
-    return 1;
+    return ACMD_RESULT__RUNNING;
 }
 
 #if (GAME == GAME_SA3)

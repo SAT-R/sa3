@@ -1,0 +1,4 @@
+#ifndef GUARD_SA3_CODE_2_H
+#define GUARD_SA3_CODE_2_H
+
+#endif // GUARD_SA3_CODE_2_H
