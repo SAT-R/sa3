@@ -23059,10 +23059,7 @@ s32 sub_80210BC(Player *playerA, s16 hbIndexA, Player *playerB, s16 hbIndexB)
 
 void ResolvePlayerSpriteCollision(Sprite *s, Player *p)
 {
-    s32 temp_r3;
-    u32 temp_r1;
-
-    if (s->hitboxes[0].index != -1) {
+    if (s->hitboxes[0].index != HITBOX_STATE_INACTIVE) {
         if (!(MOVESTATE_DEAD & p->moveState)) {
             if ((MOVESTATE_COLLIDING_ENT & p->moveState) && (p->sprColliding == s)) {
                 p->moveState &= ~MOVESTATE_COLLIDING_ENT;

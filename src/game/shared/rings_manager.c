@@ -451,7 +451,7 @@ NONMATCH("asm/non_matching/game/shared/rm__Task_RingsMgrStage.inc", void Task_Ri
                 if (p == GET_SP_PLAYER_V0(PLAYER_1) || p == GET_SP_PLAYER_V0(PLAYER_2)) {
                     sp28 = 1;
                 }
-                if (!(p->moveState & 0x100) && (p->charFlags.anim0 != 0x66) && (p->unk48 == 0)) {
+                if (!(p->moveState & MOVESTATE_DEAD) && (p->charFlags.anim0 != 0x66) && (p->unk48 == 0)) {
                     rect[0] = -p->spriteOffsetX;
                     rect[1] = -p->spriteOffsetY;
                     rect[2] = +p->spriteOffsetX;
@@ -778,11 +778,8 @@ void Task_802AB8C(void)
     RingsMgrUnk30 *strc30;
     s16 temp_r0_2;
     s32 sxMinus8;
-    s32 temp_r5_2;
-    s8 temp_r3_2;
-    s8 temp_r6;
-    s16 syTemp;
-    s16 sxTemp;
+    s16 tempY;
+    s16 tempX;
     PlayerSpriteInfo *temp_r0_5;
     PlayerSpriteInfo *psiPlayer;
     Player *p;
@@ -798,20 +795,20 @@ void Task_802AB8C(void)
     strc30->magnitude += 64;
     s->x += (strc30->magnitude * COS(temp_r0_2)) >> 0x16;
     s->y += (strc30->magnitude * SIN(temp_r0_2)) >> 0x16;
-    syTemp = s->y;
-    sxTemp = s->x;
+    tempY = s->y;
+    tempX = s->x;
 
     if (((((s->x - 8) <= HB_LEFT(I(p->qWorldX), p->spriteInfoBody->s.hitboxes[0].b))
           && ((s->x + 8) >= HB_LEFT(I(p->qWorldX), p->spriteInfoBody->s.hitboxes[0].b)))
          || (((s->x - 8) >= HB_LEFT(I(p->qWorldX), p->spriteInfoBody->s.hitboxes[0].b))
              && (HB_RIGHT(I(p->qWorldX), p->spriteInfoBody->s.hitboxes[0].b) >= (s->x - 8))))
-        && (((syTemp - 16 <= HB_TOP(I(p->qWorldY), p->spriteInfoBody->s.hitboxes[0].b))
-             && (syTemp >= HB_TOP(I(p->qWorldY), p->spriteInfoBody->s.hitboxes[0].b)))
-            || ((syTemp - 16 >= HB_TOP(I(p->qWorldY), p->spriteInfoBody->s.hitboxes[0].b))
-                && (HB_BOTTOM(I(p->qWorldY), p->spriteInfoBody->s.hitboxes[0].b) >= syTemp - 16)))) {
+        && (((tempY - 16 <= HB_TOP(I(p->qWorldY), p->spriteInfoBody->s.hitboxes[0].b))
+             && (tempY >= HB_TOP(I(p->qWorldY), p->spriteInfoBody->s.hitboxes[0].b)))
+            || ((tempY - 16 >= HB_TOP(I(p->qWorldY), p->spriteInfoBody->s.hitboxes[0].b))
+                && (HB_BOTTOM(I(p->qWorldY), p->spriteInfoBody->s.hitboxes[0].b) >= tempY - 16)))) {
         if (!(p->moveState & MOVESTATE_DEAD)) {
             AddRings(1);
-            CreateCollectRingEffect(sxTemp, syTemp);
+            CreateCollectRingEffect(tempX, tempY);
         }
         TaskDestroy(gCurTask);
         return;
@@ -821,8 +818,8 @@ void Task_802AB8C(void)
     s->y -= gCamera.y;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
-    s->x = sxTemp;
-    s->y = syTemp;
+    s->x = tempX;
+    s->y = tempY;
 }
 
 void Task_802ACF0(void)
