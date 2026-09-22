@@ -319,6 +319,9 @@ SECTIONS {
         src/game/shared/rings_manager.o(.rodata);
         src/game/stage/entities_manager.o(.rodata);
         data/data_0_1.o(.rodata);
+        src/game/sa3/interactables/rocket.o(.rodata);
+        src/game/sa3/interactables/panda_cart.o(.rodata);
+        data/data_0_1_1.o(.rodata);
         src/game/stage/camera.o(.rodata);
         src/data/tilemap_table.o(.rodata);
         data/data_1_1.o(.rodata);

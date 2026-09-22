@@ -415,43 +415,14 @@ gUnknown_080D014C:
 gUnknown_080D030C:
     .incbin "baserom_sa3.gba", 0x000D030C, 0x1C
 
-    .global gUnknown_080D0328
-gUnknown_080D0328:
-    .incbin "baserom_sa3.gba", 0x000D0328, 0x8
-
-    .global gUnknown_080D0330
-gUnknown_080D0330:
-    .incbin "baserom_sa3.gba", 0x000D0330, 0x80
-
-    .global gUnknown_080D03B0
-gUnknown_080D03B0:
-    .byte 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1
-
-    .global gUnknown_080D03C0
-gUnknown_080D03C0:
-    .byte 1, 2, 2, 1, 3, 1, 0, 0
-
-    .global gUnknown_080D03C8
-gUnknown_080D03C8:
-    .incbin "baserom_sa3.gba", 0x000D03C8, 0x10
-
-    .global gUnknown_080D03D8
-gUnknown_080D03D8:
-    .incbin "baserom_sa3.gba", 0x000D03D8, 0x10
-
-    .global gUnknown_080D03E8
-gUnknown_080D03E8:
-    .incbin "baserom_sa3.gba", 0x000D03E8, 0x10
-
-    .global sChaoIATilesInfo
-sChaoIATilesInfo:
-    .incbin "baserom_sa3.gba", 0x000D03F8, 0x18
-
-@ u8 gUnknown_080D0410[7][10][2];
-    .global gUnknown_080D0410
-gUnknown_080D0410:
-    .incbin "baserom_sa3.gba", 0x000D0410, 0x8C
-
-    .global gUnknown_080D049C
-gUnknown_080D049C:
-    .incbin "baserom_sa3.gba", 0x000D049C, 0xC
+@    .global gUnknown_080D0328
+@gUnknown_080D0328:
+@    .incbin "baserom_sa3.gba", 0x000D0328, 0x8
+@
+@    .global gUnknown_080D0330
+@gUnknown_080D0330:
+@    .incbin "baserom_sa3.gba", 0x000D0330, 0x80
+@
+@    .global gUnknown_080D03B0
+@gUnknown_080D03B0:
+@    .byte 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1

@@ -209,20 +209,14 @@
 // 915
 #define ANIM_ROCKET_WIDTH                           48
 #define ANIM_ROCKET_HEIGHT                          48
-#define ANIM_ROCKET_VAR0_WIDTH                      16
-#define ANIM_ROCKET_VAR0_HEIGHT                     8
+#define ANIM_ROCKET_VAR0_WIDTH                      48
+#define ANIM_ROCKET_VAR0_HEIGHT                     48
 #define ANIM_ROCKET_VAR1_WIDTH                      16
 #define ANIM_ROCKET_VAR1_HEIGHT                     8
 #define ANIM_ROCKET_VAR2_WIDTH                      8
 #define ANIM_ROCKET_VAR2_HEIGHT                     8
 #define ANIM_ROCKET_VAR3_WIDTH                      8
 #define ANIM_ROCKET_VAR3_HEIGHT                     8
-#define ANIM_ROCKET_VAR4_WIDTH                      8
-#define ANIM_ROCKET_VAR4_HEIGHT                     8
-#define ANIM_ROCKET_VAR5_WIDTH                      8
-#define ANIM_ROCKET_VAR5_HEIGHT                     8
-#define ANIM_ROCKET_VAR6_WIDTH                      8
-#define ANIM_ROCKET_VAR6_HEIGHT                     8
 
 // 916
 #define ANIM_FERRIS_WHEEL_HEIGHT                    8

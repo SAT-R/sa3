@@ -47,9 +47,6 @@ void sub_8048D98(PandaCart *);
 void sub_8048F70(PandaCart *);
 void sub_8048FF8(Sprite *);
 
-// u8 gUnknown_080D03C0[4][2] = {{1, 2}, {2, 1}, {3, 1}, {0, 0}};
-extern u8 gUnknown_080D03C0[4][2];
-
 void CreateEntity_PandaCart(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_PandaCartInit, sizeof(PandaCart), 0x2100, 0, TaskDestructor_PandaCart);
@@ -398,11 +395,9 @@ void Task_8048D0C(void)
 
 void sub_8048D98(PandaCart *cart)
 {
-    u8 sp00[4][2];
+    u8 sp00[4][2] = { { 1, 2 }, { 2, 1 }, { 3, 1 }, { 0, 0 } };
     u8 i;
     void *tiles;
-
-    memcpy(sp00, gUnknown_080D03C0, sizeof(sp00));
 
     for (i = 0; i < 8; i++) {
         cart->qUnk58[i].x = 0;
@@ -436,30 +431,27 @@ void sub_8048D98(PandaCart *cart)
     }
 }
 
-// (91.80%) https://decomp.me/scratch/rNgds
+// (98.61%) https://decomp.me/scratch/isIWl
 NONMATCH("asm/non_matching/game/interactables/panda_cart__sub_8048E74.inc", void sub_8048E74(PandaCart *cart, u8 param1))
 {
     u8 i;
 
     if (param1 == 0) {
         for (i = 0; i < 8; i++) {
-            s32 r5 = (PseudoRandom32() % 256u) + Q(2.5);
-            s32 r2 = ((i & 0x1) + 3);
-
-            s32 v = COS(r5) * r2;
-            s32 v2;
-
-            if (v < 0) {
-                v += 0x3F;
-            }
-            cart->qUnk58[i].x = (v) >> 6;
-
-            v2 = SIN(r5) * r2;
-
-            if (v2 < 0) {
-                v2 += 0x3F;
-            }
-            cart->qUnk58[i].y = (v2 >> 6);
+            s32 r0 = (PseudoRandom32() % 256u) + Q(2.5);
+            s32 r5;
+            s32 index;
+#ifndef NON_MATCHING
+            asm("mov r5, r0" : "=r"(r5) : "r"(r0));
+#else
+            r5 = r0;
+#endif
+            r0 = i;
+            r0 = (r0 & 0x1);
+            r0 += 3;
+            index = r0;
+            cart->qUnk58[i].x = ((COS(r5) * index) / 64);
+            cart->qUnk58[i].y = ((SIN(r5) * index) / 64);
             cart->qUnk78[i].x = cart->qWorldX;
             cart->qUnk78[i].y = cart->qWorldY;
         }

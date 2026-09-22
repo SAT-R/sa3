@@ -33,6 +33,22 @@ typedef struct {
     /* 0xE8 */ Sprite sprites[4];
 } Rocket; /* 0x188 */
 
+enum {
+    STARPART_OFFX = 0,
+    STARPART_OFFY = 1,
+    STARPART_VELX = 2,
+    STARPART_VELY = 3,
+
+    STARPART_COUNT
+} EStarParticle;
+
+typedef enum {
+    SPTI_PATTERN = 0,
+    SPTI_NUM_TILES = 1,
+
+    SPTI_COUNT
+} EStarParticleTileInfo;
+
 void Task_RocketMain(void);
 void Task_8045F48(void);
 void Task_UpdateStarParticles(void);
@@ -40,26 +56,37 @@ void TaskDestructor_RocketMain(struct Task *t);
 void sub_8046358(Rocket *rocket);
 void sub_8046438(Rocket *rocket);
 
-// const u8 gUnknown_080D0328[0x8] = {0, 24, 1, 2, 2, 1, 3, 1};
-extern const u8 gUnknown_080D0328[4][2];
-extern const s16 gUnknown_080D0330[16][4];
-extern const u8 gUnknown_080D03B0[0x10];
-
 void CreateEntity_Rocket(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t;
-    Rocket *rocket;
+    // TODO(Jace): Maybe this can be matched as struct arrays, but I wasn't successful with that.
+    u8 tileInfo[4][SPTI_COUNT] = { { 0, MAX_TILES_VARIANT(ANIM_ROCKET, 0) },
+                                   { 1, MAX_TILES_VARIANT(ANIM_ROCKET, 1) },
+                                   { 2, MAX_TILES_VARIANT(ANIM_ROCKET, 2) },
+                                   { 3, MAX_TILES_VARIANT(ANIM_ROCKET, 3) } };
+    s16 qStar[16][STARPART_COUNT] = {
+        // STARPART_OFFX, STARPART_OFFY, STARPART_VELX, STARPART_VELY
+        { +Q(2.00), +Q(16.0), +Q(1.000), -Q(1.750) }, //
+        { +Q(4.00), +Q(4.00), -Q(1.125), +Q(2.000) }, //
+        { +Q(10.0), +Q(10.0), +Q(1.250), +Q(1.750) }, //
+        { -Q(14.0), -Q(8.00), -Q(1.375), -Q(2.000) }, //
+        { -Q(8.00), -Q(0.00), +Q(1.500), -Q(1.750) }, //
+        { -Q(6.00), -Q(18.0), -Q(1.625), +Q(1.500) }, //
+        { -Q(0.00), -Q(10.0), +Q(1.750), +Q(2.000) }, //
+        { -Q(2.00), -Q(8.00), -Q(1.875), -Q(2.000) }, //
+        { -Q(10.0), -Q(12.0), +Q(2.000), -Q(1.750) }, //
+        { +Q(12.0), -Q(0.00), -Q(2.125), +Q(2.000) }, //
+        { +Q(16.0), +Q(8.00), +Q(2.250), +Q(2.000) }, //
+        { +Q(18.0), +Q(6.00), -Q(2.375), -Q(1.750) }, //
+        { -Q(4.00), -Q(4.00), +Q(2.500), -Q(2.250) }, //
+        { -Q(8.00), -Q(10.0), -Q(2.625), +Q(2.250) }, //
+        { -Q(12.0), -Q(16.0), +Q(2.750), +Q(1.750) }, //
+        { -Q(10.0), -Q(18.0), -Q(2.875), -Q(2.6875) }, //
+    };
+    struct Task *t = TaskCreate(Task_RocketMain, sizeof(Rocket), 0x2100, 0, TaskDestructor_RocketMain);
+    Rocket *rocket = TASK_DATA(t);
     Player *p;
     void *tiles;
     u8 i;
-    u8 sp04[4][2];
-    s16 sp0C[16][4];
-
-    memcpy(sp04, gUnknown_080D0328, sizeof(sp04));
-    memcpy(sp0C, gUnknown_080D0330, sizeof(sp0C));
-
-    t = TaskCreate(Task_RocketMain, sizeof(Rocket), 0x2100, 0, TaskDestructor_RocketMain);
-    rocket = TASK_DATA(t);
 
     rocket->base.regionX = regionX;
     rocket->base.regionY = regionY;
@@ -77,23 +104,23 @@ void CreateEntity_Rocket(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     rocket->base.unkA = 0;
     rocket->qTop = rocket->qWorldY + Q(me->d.sData[1] * TILE_WIDTH);
 
-    for (i = 0; i < 16; i++) {
-        rocket->qStarWorldPos[i].x = sp0C[i][0] + rocket->qWorldX;
-        rocket->qStarWorldPos[i].y = sp0C[i][1] + rocket->qTop;
-        rocket->qStarSpeeds[i].x = sp0C[i][2] >> 1;
-        rocket->qStarSpeeds[i].y = sp0C[i][3] >> 1;
+    for (i = 0; i < ARRAY_COUNT(qStar); i++) {
+        rocket->qStarWorldPos[i].x = qStar[i][STARPART_OFFX] + rocket->qWorldX;
+        rocket->qStarWorldPos[i].y = qStar[i][STARPART_OFFY] + rocket->qTop;
+        rocket->qStarSpeeds[i].x = qStar[i][STARPART_VELX] >> 1;
+        rocket->qStarSpeeds[i].y = qStar[i][STARPART_VELY] >> 1;
     }
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
-    tiles = VramMalloc(sp04[0][1]);
+    tiles = VramMalloc(tileInfo[0][SPTI_NUM_TILES]);
 
     for (i = 0; i < 4; i++) {
         Sprite *s = &rocket->sprites[i];
 
         s->tiles = tiles;
         s->anim = ANIM_ROCKET;
-        s->variant = sp04[i][0];
+        s->variant = tileInfo[i][SPTI_PATTERN];
 
         s->oamFlags = (i == 0) ? (SPRITE_FLAG(X_FLIP, 1) | SPRITE_FLAG(MOSAIC, 1)) : SPRITE_FLAG_MASK_MOSAIC;
         s->animCursor = 0;
@@ -110,7 +137,7 @@ void CreateEntity_Rocket(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         }
 
         if (i != 0) {
-            tiles += sp04[i][1] * TILE_SIZE_4BPP;
+            tiles += tileInfo[i][SPTI_NUM_TILES] * TILE_SIZE_4BPP;
         } else {
             UpdateSpriteAnimation(s);
         }
@@ -184,8 +211,8 @@ NONMATCH("asm/non_matching/game/interactables/rocket__Task_RocketMain.inc", void
 }
 END_NONMATCH
 
-// (74.21%) https://decomp.me/scratch/NmSzO
 // There is an old scratch that "matches more" but its code logic is wrong
+// (74.21%) https://decomp.me/scratch/NmSzO
 NONMATCH("asm/non_matching/game/interactables/rocket__Task_8045F48.inc", void Task_8045F48(void))
 {
     MapEntity *sp8;
@@ -302,10 +329,10 @@ NONMATCH("asm/non_matching/game/interactables/rocket__Task_8045F48.inc", void Ta
                 p->qSpeedAirX = 0;
             }
         }
-        rocket->unkC = 90;
+        rocket->unkC = TIME(0, 1.5);
         gCurTask->main = Task_UpdateStarParticles;
-        sub_8003E28(0x256U);
-        sub_8003DF0(0x299U);
+        sub_8003E28(SE_ROCKET_ACCELERATING);
+        sub_8003DF0(SE_ROCKET_EXPLODING);
     }
     if (sub_802C140((s32)(s16)sp10, sp18, var_sl - gCamera.x, var_sb - gCamera.y) == 0) {
         for (sp14 = 0; sp14 < 2; sp14++) {
@@ -321,7 +348,7 @@ NONMATCH("asm/non_matching/game/interactables/rocket__Task_8045F48.inc", void Ta
         }
         sp8->x = rocket->base.meX;
         TaskDestroy(gCurTask);
-        sub_8003E28(0x256U);
+        sub_8003E28(SE_ROCKET_ACCELERATING);
     } else {
         sub_8046438(rocket);
     }
@@ -332,10 +359,9 @@ void Task_UpdateStarParticles(void)
 {
     Rocket *rocket = TASK_DATA(gCurTask);
     MapEntity *me = rocket->base.me;
-    u8 arr[0x10];
+    u8 arr[0x10] = { 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1 };
     u8 i;
     Vec2_32 *qPoint;
-    memcpy(arr, gUnknown_080D03B0, sizeof(arr));
 
     if (--rocket->unkC == 0) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, rocket->base.meX);
