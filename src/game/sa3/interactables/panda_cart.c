@@ -431,27 +431,16 @@ void sub_8048D98(PandaCart *cart)
     }
 }
 
-// (98.61%) https://decomp.me/scratch/isIWl
-NONMATCH("asm/non_matching/game/interactables/panda_cart__sub_8048E74.inc", void sub_8048E74(PandaCart *cart, u8 param1))
+void sub_8048E74(PandaCart *cart, u8 param1)
 {
     u8 i;
 
     if (param1 == 0) {
         for (i = 0; i < 8; i++) {
-            s32 r0 = (PseudoRandom32() % 256u) + Q(2.5);
-            s32 r5;
-            s32 index;
-#ifndef NON_MATCHING
-            asm("mov r5, r0" : "=r"(r5) : "r"(r0));
-#else
-            r5 = r0;
-#endif
-            r0 = i;
-            r0 = (r0 & 0x1);
-            r0 += 3;
-            index = r0;
-            cart->qUnk58[i].x = ((COS(r5) * index) / 64);
-            cart->qUnk58[i].y = ((SIN(r5) * index) / 64);
+            u16 theta = (PseudoRandom32() % 256u) + Q(2.5);
+            u16 index = (i % 2u) + 3;
+            cart->qUnk58[i].x = ((COS(theta) * index) / 64);
+            cart->qUnk58[i].y = ((SIN(theta) * index) / 64);
             cart->qUnk78[i].x = cart->qWorldX;
             cart->qUnk78[i].y = cart->qWorldY;
         }
@@ -464,7 +453,6 @@ NONMATCH("asm/non_matching/game/interactables/panda_cart__sub_8048E74.inc", void
         }
     }
 }
-END_NONMATCH
 
 void sub_8048F70(PandaCart *cart)
 {
