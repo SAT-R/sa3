@@ -8629,9 +8629,6 @@ void sub_800EAEC(Player *p)
 
 void sub_800EB14(Player *p)
 {
-    s16 *temp_r1;
-    s16 temp_r0;
-
     p->charFlags.unk2C_40 = 1;
     if (--p->idleAndCamCounter == 0) {
         sub_8056120((s16)p->unkA4);
@@ -8697,8 +8694,6 @@ void sub_800EC20(Player *p)
 
 void sub_800EC68(Player *p)
 {
-    u8 *temp_r1;
-
     SongStopCheck_inline(p, SE_281);
 
     p->moveState &= ~(MOVESTATE_20000000 | MOVESTATE_2000000 | MOVESTATE_1000000 | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_200000
@@ -8754,9 +8749,6 @@ void sub_800ED50(Player *p)
 
 void Player_800ED80(Player *p)
 {
-    s16 *temp_r1;
-    s16 temp_r0;
-
     if (((p->idleAndCamCounter & 7) == 0) && (p->charFlags.someIndex == 1)) {
         sub_802785C();
     }
@@ -8769,16 +8761,14 @@ void Player_800ED80(Player *p)
 
 void sub_800EDC8(Player *p)
 {
-    s16 var_r5;
-
-    var_r5 = -Q(3);
+    s16 qSpeed = -Q(3);
     if (p->moveState & MOVESTATE_80) {
-        var_r5 = -Q(1.5);
+        qSpeed = -Q(1.5);
     }
 
-    if (!sub_8017058(p) && ((sub_8014BC4(p) << 0x10) == 0)) {
-        if (((s32)p->qSpeedAirY < (s32)var_r5) && !(p->keyInput & gStageData.buttonConfig.jump)) {
-            p->qSpeedAirY = var_r5;
+    if (!sub_8017058(p) && (sub_8014BC4(p) == 0)) {
+        if ((p->qSpeedAirY < qSpeed) && !(p->keyInput & gStageData.buttonConfig.jump)) {
+            p->qSpeedAirY = qSpeed;
             p->callback = sub_800EE38;
         } else if (p->qSpeedAirY > 0) {
             p->callback = sub_800EE38;

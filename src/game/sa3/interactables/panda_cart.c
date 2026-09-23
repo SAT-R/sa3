@@ -16,6 +16,15 @@
 #include "constants/songs.h"
 #include "constants/zones.h"
 
+typedef enum {
+    SPTI_PATTERN = 0,
+    SPTI_NUM_TILES = 1,
+
+    SPTI_COUNT
+} EStarParticleTileInfo;
+
+#define PANDA_STARPART_COUNT 8
+
 typedef struct {
     /* 0x00 */ SpriteBase2 base;
     /* 0x0C */ Sprite s;
@@ -26,12 +35,12 @@ typedef struct {
     /* 0x48 */ s32 unk48;
     /* 0x4C */ s32 unk4C;
     /* 0x50 */ Player *player;
-    /* 0x54 */ u8 unk54;
+    /* 0x54 */ bool8 moveLeftwards;
     /* 0x55 */ u8 unk55;
     /* 0x56 */ u8 unk56;
     /* 0x57 */ u8 unk57;
-    /* 0x58 */ Vec2_16 qUnk58[8];
-    /* 0x78 */ Vec2_32 qUnk78[8];
+    /* 0x58 */ Vec2_16 qStarPartAccel[PANDA_STARPART_COUNT];
+    /* 0x78 */ Vec2_32 qStarPartSpeed[PANDA_STARPART_COUNT];
     /* 0xB8 */ Sprite sprB8[3];
 } PandaCart; /* 0x6C */
 
@@ -66,7 +75,7 @@ void CreateEntity_PandaCart(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     cart->unk48 = 0;
     cart->unk4C = 0;
     cart->player = NULL;
-    cart->unk54 = me->d.uData[4] & 0x1;
+    cart->moveLeftwards = me->d.uData[4] & 0x1;
     cart->unk55 = 0;
     cart->unk56 = 0;
     cart->unk57 = 0;
@@ -112,9 +121,9 @@ void Task_PandaCartInit(void)
                     }
                 }
 
-                cart->unk44 = Q(3);
+                cart->unk44 = Q(IA_PANDA_CART_START_SPEED);
 
-                if (cart->unk54 != 0) {
+                if (cart->moveLeftwards) {
                     NEGATE(cart->unk44);
                 }
 
@@ -281,9 +290,9 @@ void sub_8048A50(void)
             cart->unk56 = 3;
 
             if (cart->unk57 == 0) {
-                cart->unk48 = Q(3);
+                cart->unk48 = Q(IA_PANDA_CART_START_SPEED);
 
-                if (cart->unk54 != 0) {
+                if (cart->moveLeftwards) {
                     NEGATE(cart->unk48);
                 }
 
@@ -395,15 +404,18 @@ void Task_8048D0C(void)
 
 void sub_8048D98(PandaCart *cart)
 {
-    u8 sp00[4][2] = { { 1, 2 }, { 2, 1 }, { 3, 1 }, { 0, 0 } };
+    u8 tileInfo[4][SPTI_COUNT] = { { 1, MAX_TILES_VARIANT(ANIM_ROCKET, 1) },
+                                   { 2, MAX_TILES_VARIANT(ANIM_ROCKET, 2) },
+                                   { 3, MAX_TILES_VARIANT(ANIM_ROCKET, 3) },
+                                   { 0, 0 } };
     u8 i;
     void *tiles;
 
-    for (i = 0; i < 8; i++) {
-        cart->qUnk58[i].x = 0;
-        cart->qUnk58[i].y = 0;
-        cart->qUnk78[i].x = cart->qWorldX;
-        cart->qUnk78[i].y = cart->qWorldY;
+    for (i = 0; i < PANDA_STARPART_COUNT; i++) {
+        cart->qStarPartAccel[i].x = 0;
+        cart->qStarPartAccel[i].y = 0;
+        cart->qStarPartSpeed[i].x = cart->qWorldX;
+        cart->qStarPartSpeed[i].y = cart->qWorldY;
     }
 
     tiles = cart->s.tiles;
@@ -413,7 +425,7 @@ void sub_8048D98(PandaCart *cart)
 
         s->tiles = tiles;
         s->anim = ANIM_ROCKET;
-        s->variant = sp00[i][0];
+        s->variant = tileInfo[i][SPTI_PATTERN];
         s->oamFlags = SPRITE_OAM_ORDER(8);
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -427,7 +439,7 @@ void sub_8048D98(PandaCart *cart)
         s->y = I(cart->qWorldY) - gCamera.y;
         UpdateSpriteAnimation(s);
 
-        tiles += sp00[i][1] * TILE_SIZE_4BPP;
+        tiles += tileInfo[i][SPTI_NUM_TILES] * TILE_SIZE_4BPP;
     }
 }
 
@@ -436,20 +448,20 @@ void sub_8048E74(PandaCart *cart, u8 param1)
     u8 i;
 
     if (param1 == 0) {
-        for (i = 0; i < 8; i++) {
-            u16 theta = (PseudoRandom32() % 256u) + Q(2.5);
+        for (i = 0; i < PANDA_STARPART_COUNT; i++) {
+            u16 theta = (PseudoRandom32() % 256u) + (s32)(0.625 * SIN_PERIOD);
             u16 index = (i % 2u) + 3;
-            cart->qUnk58[i].x = ((COS(theta) * index) / 64);
-            cart->qUnk58[i].y = ((SIN(theta) * index) / 64);
-            cart->qUnk78[i].x = cart->qWorldX;
-            cart->qUnk78[i].y = cart->qWorldY;
+            cart->qStarPartAccel[i].x = ((COS(theta) * index) / 64);
+            cart->qStarPartAccel[i].y = ((SIN(theta) * index) / 64);
+            cart->qStarPartSpeed[i].x = cart->qWorldX;
+            cart->qStarPartSpeed[i].y = cart->qWorldY;
         }
     } else {
-        for (i = 0; i < 8; i++) {
-            cart->qUnk58[i].y += Q(32. / 256.);
+        for (i = 0; i < PANDA_STARPART_COUNT; i++) {
+            cart->qStarPartAccel[i].y += Q(32. / 256.);
 
-            cart->qUnk78[i].x += cart->qUnk58[i].x;
-            cart->qUnk78[i].y += cart->qUnk58[i].y;
+            cart->qStarPartSpeed[i].x += cart->qStarPartAccel[i].x;
+            cart->qStarPartSpeed[i].y += cart->qStarPartAccel[i].y;
         }
     }
 }
@@ -459,18 +471,18 @@ void sub_8048F70(PandaCart *cart)
     u8 ip;
     u8 is;
 
-    for (ip = 0, is = 0; ip < (s32)ARRAY_COUNT(cart->qUnk58); ip++) {
+    for (ip = 0, is = 0; ip < (s32)ARRAY_COUNT(cart->qStarPartSpeed); ip++) {
         Sprite *s = &cart->sprB8[is];
 
-        s->x = I(cart->qUnk78[ip].x) - gCamera.x;
-        s->y = I(cart->qUnk78[ip].y) - gCamera.y;
+        s->x = I(cart->qStarPartSpeed[ip].x) - gCamera.x;
+        s->y = I(cart->qStarPartSpeed[ip].y) - gCamera.y;
 
         if (ip < 3) {
             UpdateSpriteAnimation(s);
         }
         DisplaySprite(s);
 
-        if (++is > 2)
+        if (++is >= ARRAY_COUNT(cart->sprB8))
             is = 0;
     }
 }
