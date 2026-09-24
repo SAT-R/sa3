@@ -106,7 +106,7 @@ void TaskDestructor_80194C8(struct Task *t);
 void TaskDestructor_8019504(struct Task *t);
 
 void sub_801320C(Player *p, PlayerSpriteInfo *spriteInfoBody);
-void sub_80136DC(s16 param0);
+void Player_AnimateAndDisplay(s16 playerID);
 void sub_8013A68(s16 param0);
 bool16 sub_8014A60(Player *p);
 bool16 sub_8014D70(Player *p);
@@ -1101,7 +1101,7 @@ void Task_8005068(void)
 
     if (p->charFlags.someIndex != 5) {
         sub_801320C(p, p->spriteInfoBody);
-        sub_80136DC(temp_r1->playerId);
+        Player_AnimateAndDisplay(temp_r1->playerId);
         if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
             sub_8013A68(temp_r1->playerId);
         }
@@ -13108,177 +13108,141 @@ void sub_801350C(Player *p)
     }
 }
 
-// (99.81%) https://decomp.me/scratch/7XgDy
-NONMATCH("asm/non_matching/game/stage/player__sub_80136DC.inc", void sub_80136DC(s16 playerId))
+void Player_AnimateAndDisplay(s16 playerId)
 {
     Player *p;
-    PlayerSpriteInfo *temp_r0;
-    Sprite2 *s;
-    s16 temp_r0_3;
-    s16 temp_r1_2;
-    s16 var_r0_2;
-#ifndef NON_MATCHING
-    register s32 r0 asm("r0");
-    register u32 temp_r2 asm("r2");
-    register u32 temp_r3 asm("r3");
-    register s32 var_r7 asm("r7");
-#else
-    s32 r0;
-    u32 temp_r2;
-    u32 temp_r3;
-    s32 var_r7;
-#endif
-    u16 var_ip;
-    u16 var_r1;
-    u32 temp_r1_4;
-    u32 temp_r2_2;
-    u32 var_r0;
-    u32 var_r0_3;
-    u32 var_r0_4;
-    u16 var_sb;
+    Sprite *s;
+    s8 display;
+    bool32 transform;
     SpriteTransform *tf;
-    CamCoord camX, camY;
+    s16 camX, camY;
+    s32 moveState;
+    bool32 playerDead;
 
     p = &gPlayers[playerId];
-    temp_r0 = p->spriteInfoBody;
-    s = &temp_r0->s;
-    tf = &temp_r0->tf;
+    s = (Sprite *)&p->spriteInfoBody->s;
+    tf = &p->spriteInfoBody->tf;
     camX = gCamera.x;
     camY = gCamera.y;
-    var_ip = 0;
+    transform = FALSE;
     s->x = I(p->qWorldX) - camX;
     s->y = I(p->qWorldY) - camY;
     tf->x = I(p->qWorldX) - camX;
     tf->y = I(p->qWorldY) - camY;
     if (gStageData.gameMode == 7) {
         if (gStageData.playerIndex != playerId) {
-            s->frameFlags = s->frameFlags | 0x200;
+            SPRITE_FLAG_SET(s, MOSAIC);
         } else {
-            s->frameFlags = s->frameFlags & 0xFFFFFDFF;
+            SPRITE_FLAG_CLEAR(s, MOSAIC);
         }
     }
     if (p->charFlags.someIndex == 3) {
-        var_r1 = p->charFlags.anim2;
-        var_sb = p->charFlags.state1;
-        if (var_r1 - gPlayerCharacterIdleAnims[p->charFlags.character] <= 0xA4) {
-            var_r1 -= gPlayerCharacterIdleAnims[p->charFlags.character];
+        u16 anim = p->charFlags.anim2;
+        u16 state = p->charFlags.state1;
+        if (anim - gPlayerCharacterIdleAnims[p->charFlags.character] <= 0xA4) {
+            anim -= gPlayerCharacterIdleAnims[p->charFlags.character];
         }
-        if ((var_r1 != 8) && (var_r1 != 0x6F) && (var_r1 != 0x8C) && (var_r1 != 0x8D) && (var_r1 != 0x2BD) && (var_r1 != 0x73)
-            && (var_r1 != 0x2BD)) {
-            if ((var_r1 == 0x519) && (var_sb == 0)) {
-                var_ip = 1;
+        if ((anim != 8) && (anim != 0x6F) && (anim != 0x8C) && (anim != 0x8D) && (anim != 0x2BD) && (anim != 0x73) && (anim != 0x2BD)) {
+            if ((anim == 0x519) && (state == 0)) {
+                transform = TRUE;
             }
         } else {
-            var_ip = 1;
+            transform = TRUE;
         }
     } else if ((p->charFlags.anim0 == 8) || (p->charFlags.anim0 == 0x6F) || (p->charFlags.anim0 == 0x8C) || (p->charFlags.anim0 == 0x8D)
                || (p->charFlags.anim0 == 0xFA) || (p->charFlags.anim0 == 0xB1) || (p->charFlags.anim0 == 0xB2)
                || (p->charFlags.anim0 == 0x111)) {
-        var_ip = 1;
+        transform = TRUE;
     }
 
-    if (var_ip != 0) {
-        s32 tfX, tfY;
+    if (transform) {
+        s32 qScaleX, qScaleY;
         tf->rotation = p->unk26 * 4;
-        s->frameFlags &= ~(0xC00);
-        s->frameFlags &= ~0x1F;
-        s->frameFlags |= ((s16)playerId | 0x20);
+        s->frameFlags &= ~(SPRITE_FLAG_MASK_X_FLIP | SPRITE_FLAG_MASK_Y_FLIP);
+        SPRITE_FLAG_CLEAR(s, ROT_SCALE);
+        s->frameFlags |= (playerId | SPRITE_FLAG_MASK_ROT_SCALE_ENABLE);
         if (!(p->moveState & MOVESTATE_FACING_LEFT)) {
-            tf->qScaleX = -Q(1);
+            tf->qScaleX = Q(-1);
         } else {
-            tf->qScaleX = +Q(1);
+            tf->qScaleX = Q(+1);
         }
 
         if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
-            tf->qScaleX = 0 - (u16)tf->qScaleX;
+            tf->qScaleX = Q(0) - (u16)tf->qScaleX;
         }
-        if (tf->qScaleX < 0) {
+        if (tf->qScaleX < Q(0)) {
             tf->x--;
         }
         if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
-            s32 rot;
             tf->qScaleY = Q(1);
-            rot = tf->rotation;
-            rot += 0x100;
-            temp_r2 = -0x100;
-#ifndef NON_MATCHING
-            asm("mov %0, %1\n" : "=r"(r0) : "r"(temp_r2));
-#else
-            r0 = temp_r2;
-#endif
-            r0 -= rot;
-            r0 &= 0x3FF;
-            tf->rotation = r0;
+            tf->rotation = (-(tf->rotation + DEG_TO_SIN(90)) - DEG_TO_SIN(90));
+            tf->rotation = CLAMP_SIN_PERIOD(tf->rotation);
         } else {
             tf->qScaleY = Q(1);
         }
-        tfX = I(tf->qScaleX * p->unkA0);
-        tfY = I(tf->qScaleY * p->unkA2);
-        tf->qScaleX = tfX;
-        tf->qScaleY = tfY;
-        s->frameFlags &= 0xFFFFCFFF;
+        qScaleX = Q_MUL(tf->qScaleX, p->unkA0);
+        qScaleY = Q_MUL(tf->qScaleY, p->unkA2);
+        tf->qScaleX = qScaleX;
+        tf->qScaleY = qScaleY;
+        SPRITE_FLAG_CLEAR(s, PRIORITY);
         if ((p->charFlags.anim0 != 0x6F) && (p->charFlags.anim0 != 0xB1) && (p->charFlags.anim0 != 0xB2)) {
-            s->frameFlags |= 0x1000;
+            SPRITE_FLAG_SET_VALUE(s, PRIORITY, 1);
         }
-        UpdateSpriteAnimation((Sprite *)s);
-        TransformSprite((Sprite *)s, tf);
+        UpdateSpriteAnimation(s);
+        TransformSprite(s, tf);
     } else {
         tf->rotation = 0;
-        s->frameFlags &= ~0x3F;
+        s->frameFlags &= ~(SPRITE_FLAG_MASK_ROT_SCALE | SPRITE_FLAG_MASK_ROT_SCALE_ENABLE);
 
         if (!(p->moveState & MOVESTATE_FACING_LEFT)) {
-            s->frameFlags |= Q(4);
+            SPRITE_FLAG_SET(s, X_FLIP);
         } else {
-            s->frameFlags &= ~Q(4);
+            SPRITE_FLAG_CLEAR(s, X_FLIP);
             s->x++;
         }
         if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
-            s->frameFlags |= 0x800;
+            SPRITE_FLAG_SET(s, Y_FLIP);
         } else {
-            s->frameFlags &= ~0x800;
+            SPRITE_FLAG_CLEAR(s, Y_FLIP);
         }
 
         if (p->charFlags.anim0 == 0x67) {
-            s->frameFlags &= 0xFFFFCFFF;
+            SPRITE_FLAG_CLEAR(s, PRIORITY);
         } else if ((p->charFlags.anim2 - gPlayerCharacterIdleAnims[p->charFlags.character]) != 0x8E) {
-            s->frameFlags &= 0xFFFFCFFF;
-            s->frameFlags |= 0x1000;
+            SPRITE_FLAG_CLEAR(s, PRIORITY);
+            SPRITE_FLAG_SET_VALUE(s, PRIORITY, 1);
         }
-        UpdateSpriteAnimation((Sprite *)s);
+        UpdateSpriteAnimation(s);
     }
-    var_r7 = 1;
-    {
-        u32 ms_r2 = p->moveState;
-        u32 ms = (0x100 & ms_r2);
-        temp_r3 = ms_r2;
-        if (!ms) {
-            if ((gStageData.gameMode != 7) || (gStageData.levelTimer != 0)) {
-                temp_r3 &= MOVESTATE_4000000;
-                if ((temp_r3)) {
-                    var_r7 = 0;
-                } else {
-                    ms_r2 &= 0x200;
-                    if (!ms_r2) {
-                        if ((p->framesInvulnerable != 0) && (gStageData.timer & 2)) {
-                            var_r7 = 0;
-                        }
+    display = TRUE;
+    playerDead = p->moveState & MOVESTATE_DEAD;
+    moveState = p->moveState;
+    if (!playerDead) {
+        if ((gStageData.gameMode != 7) || (gStageData.levelTimer != 0)) {
+            if (moveState & MOVESTATE_4000000) {
+                display = FALSE;
+            } else {
+                moveState = p->moveState;
+                if (!(moveState & MOVESTATE_200)) {
+                    if ((p->framesInvulnerable != 0) && (gStageData.timer & 2)) {
+                        display = FALSE;
+                    }
 
-                        if (p->unk66 != 0) {
-                            if ((p != &gPlayers[gStageData.playerIndex]) || (gStageData.timer & 2)) {
-                                var_r7 = 0;
-                            }
+                    if (p->unk66 != 0) {
+                        if ((p != &gPlayers[gStageData.playerIndex]) || (gStageData.timer & 2)) {
+                            display = FALSE;
                         }
                     }
-                    if (gStageData.unk4 == 5) {
-                        var_r7 = 1;
-                    }
+                }
+                if (gStageData.unk4 == 5) {
+                    display = TRUE;
                 }
             }
         }
     }
 
-    if (var_r7 != 0) {
-        DisplaySprite((Sprite *)s);
+    if (display) {
+        DisplaySprite(s);
     }
 
     if (gStageData.gameMode != 7) {
@@ -13287,7 +13251,6 @@ NONMATCH("asm/non_matching/game/stage/player__sub_80136DC.inc", void sub_80136DC
         }
     }
 }
-END_NONMATCH
 
 // (98.49%) https://decomp.me/scratch/wyHoT
 NONMATCH("asm/non_matching/game/stage/player__sub_8013A68.inc", void sub_8013A68(s16 arg0))
