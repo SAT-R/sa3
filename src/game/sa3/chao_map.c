@@ -7,6 +7,7 @@
 #include "game/save.h"
 #include "game/stage.h"
 #include "constants/animations.h"
+#include "constants/tilemaps.h"
 
 typedef struct {
     u8 unk0;
@@ -45,17 +46,15 @@ extern const u16 sChaoIATilesInfo[3][2];
 
 void sub_802304C(ChaoMap *chaomap)
 {
-    u16 sp00[6];
+    u16 notificationTilemapIndices[6]
+        = { [JAPANESE] = TM_NOTIFICATION_CHAO_MAP_JP, [ENGLISH] = TM_NOTIFICATION_CHAO_MAP_EN, [GERMAN] = TM_NOTIFICATION_CHAO_MAP_DE,
+            [FRENCH] = TM_NOTIFICATION_CHAO_MAP_FR,   [SPANISH] = TM_NOTIFICATION_CHAO_MAP_ES, [ITALIAN] = TM_NOTIFICATION_CHAO_MAP_IT };
     Background *bg;
-    void *temp_r0;
-    void *temp_r0_2;
-    void *temp_r0_3;
 
-    memcpy(&sp00, &gTilemapIdsChaoMap, sizeof(sp00));
-    gDispCnt = 0x1740;
-    gBgCntRegs[0] = 0x0700;
-    gBgCntRegs[1] = 0x8E06;
-    gBgCntRegs[2] = 0x970B;
+    gDispCnt = DISPCNT_OBJ_ON | DISPCNT_BG0_ON | DISPCNT_BG1_ON | DISPCNT_BG2_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_0;
+    gBgCntRegs[0] = BGCNT_CHARBASE(0) | BGCNT_SCREENBASE(7) | BGCNT_16COLOR | BGCNT_TXT256x256 | BGCNT_PRIORITY(0);
+    gBgCntRegs[1] = BGCNT_CHARBASE(1) | BGCNT_SCREENBASE(14) | BGCNT_16COLOR | BGCNT_TXT256x512 | BGCNT_PRIORITY(2);
+    gBgCntRegs[2] = BGCNT_CHARBASE(2) | BGCNT_SCREENBASE(23) | BGCNT_16COLOR | BGCNT_TXT256x512 | BGCNT_PRIORITY(3);
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
     gBgScrollRegs[1][0] = 0;
@@ -64,12 +63,12 @@ void sub_802304C(ChaoMap *chaomap)
     gBgScrollRegs[2][1] = 0;
 
     bg = &chaomap->bg8;
-    bg->graphics.dest = (void *)BG_VRAM;
+    bg->graphics.dest = (void *)BG_CHAR_ADDR(0);
     bg->graphics.anim = 0;
-    bg->layoutVram = (u16 *)(BG_VRAM + 0x3800);
+    bg->layoutVram = (u16 *)BG_SCREEN_ADDR(7);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    bg->tilemapId = sp00[gStageData.language];
+    bg->tilemapId = notificationTilemapIndices[gStageData.language];
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 0;
@@ -85,12 +84,12 @@ void sub_802304C(ChaoMap *chaomap)
     DrawBackground(bg);
 
     bg = &chaomap->bg48;
-    bg->graphics.dest = (void *)(BG_VRAM + 0x4000);
+    bg->graphics.dest = (void *)BG_CHAR_ADDR(1);
     bg->graphics.anim = 0;
-    bg->layoutVram = (u16 *)(BG_VRAM + 0x7000);
+    bg->layoutVram = (u16 *)BG_SCREEN_ADDR(14);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    bg->tilemapId = 453;
+    bg->tilemapId = TM_CHAO_MAP_LIST;
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 0;
@@ -106,12 +105,12 @@ void sub_802304C(ChaoMap *chaomap)
     DrawBackground(bg);
 
     bg = &chaomap->bg88;
-    bg->graphics.dest = (void *)(BG_VRAM + 0x8000);
+    bg->graphics.dest = (void *)BG_CHAR_ADDR(2);
     bg->graphics.anim = 0;
-    bg->layoutVram = (u16 *)(BG_VRAM + 0xB800);
+    bg->layoutVram = (u16 *)BG_SCREEN_ADDR(23);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    bg->tilemapId = 454;
+    bg->tilemapId = TM_CHAO_MAP_BG;
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 0;
@@ -129,7 +128,7 @@ void sub_802304C(ChaoMap *chaomap)
 
 void ChaoMap_InitSprites(ChaoMap *chaomap)
 {
-    u8 chaoIds[10];
+    u8 chaoIds[10] = { 0, 2, 4, 6, 8, 1, 3, 5, 7, 9 };
     s32 sp10;
     s32 sp14;
     s32 var_r1;
@@ -139,9 +138,6 @@ void ChaoMap_InitSprites(ChaoMap *chaomap)
     Sprite *s;
     Sprite *s2;
     ChaoMapPos *pos;
-
-    // TODO: Remove memcpy!
-    memcpy(chaoIds, gUnknown_080CEECC, sizeof(chaoIds));
 
     // TODO: If possible, match without this two-step declaration of s!
     s2 = &chaomap->spritesC8[0];

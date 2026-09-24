@@ -318,7 +318,8 @@ SECTIONS {
         src/game/sa3/stage/player.o(.rodata);
         src/game/stage/stage_ui.o(.rodata);
         src/game/stage/stage_ui_singlepak.o(.rodata);
-        data/data_0.o(.rodata);
+        src/game/sa3/chao_map.o(.rodata);
+        data/data__sio_stuff_x.o(.rodata);
         src/game/shared/rings_manager.o(.rodata);
         src/game/stage/entities_manager.o(.rodata);
         data/data_0_1.o(.rodata);
