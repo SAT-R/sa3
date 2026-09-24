@@ -19949,14 +19949,12 @@ void sub_801CB68(Player *p)
         case 1:
             p->charFlags.anim0 = 0xF0;
 
-            goto def;
             break;
         case 2:
             sub_801DEE4(p);
-            break;
+            return;
         case 3:
             p->charFlags.anim0 = 0xF1;
-            goto def;
             break;
         case 4:
             p->moveState = (p->moveState | MOVESTATE_IN_AIR) & 0xFFFBFFFF;
@@ -19965,13 +19963,10 @@ void sub_801CB68(Player *p)
             p->qSpeedAirY = 0;
             p->charFlags.anim0 = 0x18;
             Player_800DAF4(p);
-            break;
-        default:
-        def:
-            if (!sub_8015064(p)) {
-                sub_8017004(p);
-            }
-            break;
+            return;
+    }
+    if (!sub_8015064(p)) {
+        sub_8017004(p);
     }
 }
 
