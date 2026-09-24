@@ -404,22 +404,22 @@
 // Super Sonic : 1305 - 1306
 // (1305 : a ton of variants/patterns)
 
-#define ANIM_GEMERL_BOOSTING    1302
-#define ANIM_GEMERL_HANGING     1303
-#define ANIM_PALETTE_GEMERL_HIT 1304
-#define ANIM_SUPER_SONIC_MOVES  1305
-#define ANIM_SUPER_SONIC_TAG_ACTION_HOLD 1306
-#define ANIM_SUPER_TAG_ACTION_CHARGED  1307
-#define ANIM_SONIC_TO_SUPER_SONIC      1308
-#define ANIM_CHAOS_EMERALDS 1309
-#define ANIM_SUPER_SONIC_SPARKLE 1310
-#define ANIM_SUPER_SONIC_BLASTOFF_DUST 1311
-#define ANIM_SUPER_SONIC_PARALYSED 1312
+#define ANIM_GEMERL_BOOSTING                 1302
+#define ANIM_GEMERL_HANGING                  1303
+#define ANIM_PALETTE_GEMERL_HIT              1304
+#define ANIM_SUPER_SONIC_MOVES               1305
+#define ANIM_SUPER_SONIC_TAG_ACTION_HOLD     1306
+#define ANIM_SUPER_TAG_ACTION_CHARGED        1307
+#define ANIM_SONIC_TO_SUPER_SONIC            1308
+#define ANIM_CHAOS_EMERALDS                  1309
+#define ANIM_SUPER_SONIC_SPARKLE             1310
+#define ANIM_SUPER_SONIC_BLASTOFF_DUST       1311
+#define ANIM_SUPER_SONIC_PARALYSED           1312
 #define ANIM_PALETTE_SUPER_SONIC_AFTER_IMAGE 1313
-#define ANIM_SUPER_TAG_ACTION_CHARGING 1314
-#define ANIM_ITEM_BOX_TYPE             1315
-#define ANIM_ITEM_BOX                  1316
-#define ANIM_HEART                     1317
+#define ANIM_SUPER_TAG_ACTION_CHARGING       1314
+#define ANIM_ITEM_BOX_TYPE                   1315
+#define ANIM_ITEM_BOX                        1316
+#define ANIM_HEART                           1317
 
 #define ANIM_GRINDING                 1329
 #define ANIM_SPINDASH_DUST_EFFECT     1330

@@ -419,7 +419,7 @@ void Task_00_8002988(void)
     Player *p;
     s16 pid;
     StageData *sd = &gStageData;
-    u8 characters[MULTI_SIO_PLAYERS_MAX] = {SONIC, TAILS, KNUCKLES, AMY};
+    u8 characters[MULTI_SIO_PLAYERS_MAX] = { SONIC, TAILS, KNUCKLES, AMY };
 
     SA2_LABEL(sub_801F044)();
     CreateStageEntitiesManager();
@@ -850,32 +850,30 @@ void Task_80033B8(void)
     }
 }
 
-static const u16 gUnknown_080CE54C[3][NUM_LANGUAGES][3] = {
-    {
-        [JAPANESE] = { 40, ANIM_PAUSE_MENU, 2 },
-        [ENGLISH]  = { 40, ANIM_PAUSE_MENU, 3 },
-        [GERMAN]   = { 40, ANIM_PAUSE_MENU, 4 },
-        [FRENCH]   = { 40, ANIM_PAUSE_MENU, 5 },
-        [SPANISH]  = { 40, ANIM_PAUSE_MENU, 6 },
-        [ITALIAN]  = { 40, ANIM_PAUSE_MENU, 7 },
-    },
-    {
-        [JAPANESE] = { 40, ANIM_PAUSE_MENU_CONT, 0 },
-        [ENGLISH]  = { 40, ANIM_PAUSE_MENU_CONT, 1 },
-        [GERMAN]   = { 40, ANIM_PAUSE_MENU_CONT, 2 },
-        [FRENCH]   = { 40, ANIM_PAUSE_MENU_CONT, 3 },
-        [SPANISH]  = { 40, ANIM_PAUSE_MENU_CONT, 4 },
-        [ITALIAN]  = { 40, ANIM_PAUSE_MENU_CONT, 5 },
-    },
-    {
-        [JAPANESE] = { 16, ANIM_PAUSE_MENU, 0 },
-        [ENGLISH]  = { 16, ANIM_PAUSE_MENU, 0 },
-        [GERMAN]   = { 16, ANIM_PAUSE_MENU, 0 },
-        [FRENCH]   = { 16, ANIM_PAUSE_MENU, 0 },
-        [SPANISH]  = { 16, ANIM_PAUSE_MENU, 1 },
-        [ITALIAN]  = { 16, ANIM_PAUSE_MENU, 1 },
-    }
-};
+static const u16 gUnknown_080CE54C[3][NUM_LANGUAGES][3] = { {
+                                                                [JAPANESE] = { 40, ANIM_PAUSE_MENU, 2 },
+                                                                [ENGLISH] = { 40, ANIM_PAUSE_MENU, 3 },
+                                                                [GERMAN] = { 40, ANIM_PAUSE_MENU, 4 },
+                                                                [FRENCH] = { 40, ANIM_PAUSE_MENU, 5 },
+                                                                [SPANISH] = { 40, ANIM_PAUSE_MENU, 6 },
+                                                                [ITALIAN] = { 40, ANIM_PAUSE_MENU, 7 },
+                                                            },
+                                                            {
+                                                                [JAPANESE] = { 40, ANIM_PAUSE_MENU_CONT, 0 },
+                                                                [ENGLISH] = { 40, ANIM_PAUSE_MENU_CONT, 1 },
+                                                                [GERMAN] = { 40, ANIM_PAUSE_MENU_CONT, 2 },
+                                                                [FRENCH] = { 40, ANIM_PAUSE_MENU_CONT, 3 },
+                                                                [SPANISH] = { 40, ANIM_PAUSE_MENU_CONT, 4 },
+                                                                [ITALIAN] = { 40, ANIM_PAUSE_MENU_CONT, 5 },
+                                                            },
+                                                            {
+                                                                [JAPANESE] = { 16, ANIM_PAUSE_MENU, 0 },
+                                                                [ENGLISH] = { 16, ANIM_PAUSE_MENU, 0 },
+                                                                [GERMAN] = { 16, ANIM_PAUSE_MENU, 0 },
+                                                                [FRENCH] = { 16, ANIM_PAUSE_MENU, 0 },
+                                                                [SPANISH] = { 16, ANIM_PAUSE_MENU, 1 },
+                                                                [ITALIAN] = { 16, ANIM_PAUSE_MENU, 1 },
+                                                            } };
 
 void sub_800341C(void)
 {

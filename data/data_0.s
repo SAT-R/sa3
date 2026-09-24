@@ -6,18 +6,6 @@
 
 .section .rodata
 
-    .global gUnknown_080CE5FC
-gUnknown_080CE5FC:
-    .incbin "baserom_sa3.gba", 0x000CE5FC, 0x10
-
-    .global gUnknown_080CE60C
-gUnknown_080CE60C:
-    .incbin "baserom_sa3.gba", 0x000CE60C, 0x10
-
-    .global gUnknown_080CE61C
-gUnknown_080CE61C:
-    .incbin "baserom_sa3.gba", 0x000CE61C, 0x20
-
     .global gUnknown_080CE63C
 gUnknown_080CE63C:
     .incbin "baserom_sa3.gba", 0x000CE63C, 0x8
