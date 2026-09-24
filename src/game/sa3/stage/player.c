@@ -12545,7 +12545,6 @@ void sub_801310C(s16 playerIndex)
             s->anim = ANIM_CREAM_IDLE + CHAR_ANIM_SPIN_NEUTRAL;
             s->variant = 1;
             s->frameFlags = SPRITE_FLAG(ROT_SCALE, 2);
-            goto block_15;
             break;
         case TAILS:
             if ((u32)gStageData.gameMode < 6) {
@@ -12556,31 +12555,32 @@ void sub_801310C(s16 playerIndex)
             s->anim = ANIM_TAILS_IDLE + CHAR_ANIM_SPIN_NEUTRAL;
             s->variant = 1;
             s->frameFlags = SPRITE_FLAG(ROT_SCALE, 3);
-        block_15:
-            s->frameFlags |= MOVESTATE_1000;
-            s->frameFlags |= (MOVESTATE_40000 | MOVESTATE_COLLIDING_ENT);
-            s->x = I(p->qWorldX);
-            s->y = I(p->qWorldY);
-            if (gStageData.playerIndex == playerIndex) {
-                prio = 16;
-            } else {
-                prio = 17 + playerIndex;
-            }
-            s->oamFlags = SPRITE_OAM_ORDER(prio);
-            s->qAnimDelay = 0;
-            s->prevVariant = 0xFF;
-            s->animSpeed = SPRITE_ANIM_SPEED(1.0);
-            s->palId = (s8)playerIndex;
-            s->hitboxes[0].index = -1;
-            s->hitboxes[1].index = -1;
-
-            temp_r3->tf.rotation = 0;
-            temp_r3->tf.qScaleX = Q(1);
-            temp_r3->tf.qScaleY = Q(1);
-            temp_r3->tf.x = 0;
-            temp_r3->tf.y = 0;
             break;
+        default:
+            return;
     }
+    s->frameFlags |= MOVESTATE_1000;
+    s->frameFlags |= (MOVESTATE_40000 | MOVESTATE_COLLIDING_ENT);
+    s->x = I(p->qWorldX);
+    s->y = I(p->qWorldY);
+    if (gStageData.playerIndex == playerIndex) {
+        prio = 16;
+    } else {
+        prio = 17 + playerIndex;
+    }
+    s->oamFlags = SPRITE_OAM_ORDER(prio);
+    s->qAnimDelay = 0;
+    s->prevVariant = 0xFF;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = (s8)playerIndex;
+    s->hitboxes[0].index = -1;
+    s->hitboxes[1].index = -1;
+
+    temp_r3->tf.rotation = 0;
+    temp_r3->tf.qScaleX = Q(1);
+    temp_r3->tf.qScaleY = Q(1);
+    temp_r3->tf.x = 0;
+    temp_r3->tf.y = 0;
 }
 
 extern const u16 gUnknown_080CE7E2[][2];
