@@ -6,11 +6,6 @@
 
 .section .rodata
 
-.align 2 , 0
-    .global gUnknown_080CEE40
-gUnknown_080CEE40:
-    .incbin "baserom_sa3.gba", 0x000CEE40, 0x80
-
     .global gTilemapIdsChaoMap
 gTilemapIdsChaoMap:
     .short 0x1BF, 0x01C0, 0x01C1, 0x01C2, 0x01C3, 0x01C4

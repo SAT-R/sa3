@@ -317,6 +317,7 @@ SECTIONS {
         src/game/sa3/game_over.o(.rodata);
         src/game/sa3/stage/player.o(.rodata);
         src/game/stage/stage_ui.o(.rodata);
+        src/game/stage/stage_ui_singlepak.o(.rodata);
         data/data_0.o(.rodata);
         src/game/shared/rings_manager.o(.rodata);
         src/game/stage/entities_manager.o(.rodata);

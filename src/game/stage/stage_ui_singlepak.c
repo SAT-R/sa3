@@ -34,7 +34,13 @@ void sub_8022B30(StageUiSinglePak *strc);
 
 extern const u8 gUnknown_080CE438[][2];
 extern const u8 gUnknown_080CE4B2[][2];
-extern const u16 gUnknown_080CEE40[4][16];
+// TODO: These palettes are probably identical to their idle animations, so maybe take from those directly in the future instead?
+ALIGNED(4) static const ColorRaw sCharacterPalettes[4][16] = {
+    [PLAYER_1] = INCPAL("graphics/stg_ui_singlepak_sonic.pal"),
+    [PLAYER_2] = INCPAL("graphics/stg_ui_singlepak_tails.pal"),
+    [PLAYER_3] = INCPAL("graphics/stg_ui_singlepak_knuckles.pal"),
+    [PLAYER_4] = INCPAL("graphics/stg_ui_singlepak_amy.pal")
+};
 
 #define VRAM_BASE_SINGLEPAK_UI (u8 *)(OBJ_VRAM0 + 0x2000)
 
@@ -101,7 +107,7 @@ void sub_8022A24(void)
         for (i = 0, local_var = var_r0; i < (s32)ARRAY_COUNT(strc->palette214); i++) {
             ColorRaw r, g, b;
 
-            temp_r3 = gUnknown_080CEE40[gStageData.mpOpponentPlayerIndex][i];
+            temp_r3 = sCharacterPalettes[gStageData.mpOpponentPlayerIndex][i];
 
             temp_r0 = (31 * (32 - local_var)) >> 5;
             r = ((((temp_r3 & 0x1F) * local_var) >> 5) + temp_r0) & 0x1F;
