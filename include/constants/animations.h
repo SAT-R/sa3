@@ -29,6 +29,7 @@
 #define ANIM_CHAOS_EMERALD_BIG 854
 #define ANIM_ARROWUP           855
 
+#define ANIM_856             856
 #define ANIM_857             857
 #define ANIM_CHAOMAP_EMERALD 858
 

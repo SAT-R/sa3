@@ -16,6 +16,8 @@
 #define UI_RINGS_X (48)
 #define UI_RINGS_Y (18)
 
+#define UI_ASCII_CHARS_COUNT 12
+
 // Timer layout  :  TIME M'SS"FF
 #define UI_TIMER_TIME_TEXT_X    (DISPLAY_CENTER_X - 32)
 #define UI_TIMER_TIME_TEXT_Y    (7)
@@ -46,15 +48,29 @@
 
 Task *sub_80215A0(void);
 void sub_8021A64(void);
-Task *sub_8021EE8(); /* extern */
-void TaskDestructor_80227A4(Task *); /* extern */
-void Task_34C_8022868(); /* extern */
-extern TileInfo gUnknown_080CECF8[12];
-extern TileInfo sEmeraldOverviewZoneNums[];
-extern TileInfo sEmeraldOverviewEmeraldNums[];
-extern TileInfo sEmeraldOverviewEmeraldGotIcons[];
-extern u8 gUnknown_080CEE20[NUM_CHARACTERS];
-extern u8 gUnknown_080CEE25[NUM_CHARACTERS][NUM_CHARACTERS];
+Task *sub_8021EE8();
+void TaskDestructor_80227A4(Task *);
+void Task_34C_8022868();
+
+static const TileInfo sAsciiDigits[UI_ASCII_CHARS_COUNT] = {
+    { 2, ANIM_ASCII, ANIM_ASCII_CHAR('0') }, { 2, ANIM_ASCII, ANIM_ASCII_CHAR('1') },  { 2, ANIM_ASCII, ANIM_ASCII_CHAR('2') },
+    { 2, ANIM_ASCII, ANIM_ASCII_CHAR('3') }, { 2, ANIM_ASCII, ANIM_ASCII_CHAR('4') },  { 2, ANIM_ASCII, ANIM_ASCII_CHAR('5') },
+    { 2, ANIM_ASCII, ANIM_ASCII_CHAR('6') }, { 2, ANIM_ASCII, ANIM_ASCII_CHAR('7') },  { 2, ANIM_ASCII, ANIM_ASCII_CHAR('8') },
+    { 2, ANIM_ASCII, ANIM_ASCII_CHAR('9') }, { 1, ANIM_ASCII, ANIM_ASCII_CHAR('\'') }, { 1, ANIM_ASCII, ANIM_ASCII_CHAR('\"') },
+};
+static const TileInfo sEmeraldOverviewZoneNums[] = {
+    { 2, ANIM_857, 0 }, { 4, ANIM_857, 1 }, { 4, ANIM_857, 2 }, { 4, ANIM_857, 3 },
+    { 4, ANIM_857, 4 }, { 4, ANIM_857, 5 }, { 4, ANIM_857, 6 },
+};
+static const TileInfo sEmeraldOverviewEmeraldNums[] = {
+    { 2, ANIM_857, 0x07 }, { 2, ANIM_857, 0x08 }, { 2, ANIM_857, 0x09 }, { 2, ANIM_857, 0x0A },
+    { 4, ANIM_857, 0x0B }, { 2, ANIM_857, 0x0C }, { 2, ANIM_857, 0x0D }, { 2, ANIM_857, 0x0E },
+    { 4, ANIM_857, 0x0F }, { 2, ANIM_857, 0x10 }, { 8, ANIM_857, 0x11 },
+};
+static const TileInfo sEmeraldOverviewEmeraldGotIcons[] = {
+    { 4, ANIM_856, 0 }, { 4, ANIM_856, 1 }, { 4, ANIM_856, 2 }, { 4, ANIM_856, 3 },
+    { 4, ANIM_856, 4 }, { 4, ANIM_856, 5 }, { 4, ANIM_856, 6 },
+};
 
 extern const u8 gUnknown_080CF8BC[61][2];
 extern const s16 sFrameCountPerSecond[61];
@@ -70,10 +86,16 @@ typedef struct {
 
 extern const Strc_80D1874 *gUnknown_080D191C[NUM_LEVEL_IDS];
 
+typedef enum {
+    EXT_NONE = 0,
+    EXT_1 = 1,
+    EXT_2 = 2,
+} ExtType;
+
 typedef struct {
     /* 0x000 */ u8 unk0;
-    /* 0x001 */ bool8 extensionType;
-    /* 0x004 */ Sprite sprites4[12];
+    /* 0x001 */ ExtType extensionType;
+    /* 0x004 */ Sprite sprites4[UI_ASCII_CHARS_COUNT];
     /* 0x1E4 */ Sprite sprites1E4[4];
     /* 0x284 */ Sprite sprites284[2];
 } StageUiBase; /* 0x2D4 */
@@ -103,23 +125,46 @@ void Task_80228F0();
 void sub_8022664(s16 pid, Sprite *s);
 u8 sub_8022934(s16 arg0);
 
-typedef enum {
-    EXT_NONE = 0,
-    EXT_1 = 1,
-    EXT_2 = 2,
-} ExtType;
-
-typedef struct {
-    /* 0x000 */ u8 unk0;
-    /* 0x001 */ bool8 extensionType;
-    /* 0x004 */ Sprite sprites[12];
-    /* 0x1E4 */ u8 filler1[0x174];
-} UiStrc_358;
-
 Task *sub_80215A0(void)
 {
-    u8 sp4[NUM_CHARACTERS];
-    u8 spC[NUM_CHARACTERS][NUM_CHARACTERS];
+    u8 patternsLifeIcon[NUM_CHARACTERS] = { 0, 4, 2, 1, 3 };
+    u8 patternsCharType[NUM_CHARACTERS][NUM_CHARACTERS] = {
+        [SONIC]    = {
+            [SONIC]    = (u8)-1, //
+            [CREAM]    = 0,      //
+            [TAILS]    = 0,      //
+            [KNUCKLES] = 0,      //
+            [AMY]      = 0       //
+        },
+        [CREAM]    = {
+            [SONIC]    = 00, //
+            [CREAM]    = (u8)-1, //
+            [TAILS]    = 02, //
+            [KNUCKLES] = 01, //
+            [AMY]      = 02 //
+        },
+        [TAILS]    = {
+            [SONIC]    = 00, //
+            [CREAM]    = 02, //
+            [TAILS]    = (u8)-1, //
+            [KNUCKLES] = 01, //
+            [AMY]      = 02 //
+        },
+        [KNUCKLES] = {
+            [SONIC]    = 00, //
+            [CREAM]    = 01, //
+            [TAILS]    = 01, //
+            [KNUCKLES] = (u8)-1, //
+            [AMY]      = 01 //
+        },
+        [AMY]      = {
+            [SONIC]    = 00, //
+            [CREAM]    = 02, //
+            [TAILS]    = 02, //
+            [KNUCKLES] = 01, //
+            [AMY]      = (u8)-1 //
+        }
+    };
     Task *resultTask;
     Player *p;
     Player *partner;
@@ -128,8 +173,6 @@ Task *sub_80215A0(void)
     StageUi *strc;
     void *tiles;
 
-    memcpy(&sp4, &gUnknown_080CEE20, sizeof(sp4));
-    memcpy(&spC, &gUnknown_080CEE25, sizeof(spC));
     if (gStageData.act == ACT_BONUS_CAPSULE || gStageData.act == ACT_BONUS_ENEMIES) {
         return NULL;
     }
@@ -147,11 +190,11 @@ Task *sub_80215A0(void)
     }
     strc->base.unk0 = 0x10;
     tiles = (OBJ_VRAM0 + 0x3800);
-    for (i = 0; i < (s32)ARRAY_COUNT(strc->base.sprites4); i++) {
+    for (i = 0; i < (s32)ARRAY_COUNT(sAsciiDigits); i++) {
         s = &strc->base.sprites4[i];
         s->tiles = tiles + ((i * 2) * TILE_SIZE_4BPP);
-        s->anim = gUnknown_080CECF8[i].anim;
-        s->variant = gUnknown_080CECF8[i].variant;
+        s->anim = sAsciiDigits[i].anim;
+        s->variant = sAsciiDigits[i].variant;
         s->oamFlags = SPRITE_OAM_ORDER(6);
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -168,7 +211,7 @@ Task *sub_80215A0(void)
     s = &strc->base.sprites1E4[0];
     s->tiles = tiles;
     s->anim = ANIM_LIFE_ICONS;
-    s->variant = sp4[p->charFlags.character];
+    s->variant = patternsLifeIcon[p->charFlags.character];
     s->oamFlags = SPRITE_OAM_ORDER(5);
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -187,7 +230,7 @@ Task *sub_80215A0(void)
     s = &strc->base.sprites1E4[1];
     s->tiles = tiles;
     s->anim = ANIM_LIFE_ICONS;
-    s->variant = sp4[partner->charFlags.character];
+    s->variant = patternsLifeIcon[partner->charFlags.character];
     s->oamFlags = 0x180;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -206,7 +249,7 @@ Task *sub_80215A0(void)
     if (gStageData.gameMode != 5) {
         s = &strc->base.sprites1E4[2];
         s->tiles = tiles;
-        s->anim = 0x58E;
+        s->anim = ANIM_UI_SPECIAL_KEY;
         s->variant = 0;
         s->oamFlags = 0x180;
         s->animCursor = 0;
@@ -222,8 +265,8 @@ Task *sub_80215A0(void)
 
     s = &strc->base.sprites1E4[3];
     s->tiles = tiles;
-    s->anim = 0x58C;
-    s->variant = spC[p->charFlags.character][partner->charFlags.character];
+    s->anim = ANIM_UI_CHARACTER_TYPE;
+    s->variant = patternsCharType[p->charFlags.character][partner->charFlags.character];
     s->oamFlags = 0x180;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -278,7 +321,7 @@ Task *sub_80215A0(void)
         s->oamFlags = SPRITE_OAM_ORDER(3);
         s->animCursor = 0;
         s->qAnimDelay = 0;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->animSpeed = 0x10;
         s->palId = 0;
         s->hitboxes[0].index = -1;
@@ -585,8 +628,44 @@ END_NONMATCH
 
 Task *sub_8021EE8(void)
 {
-    u8 sp4[NUM_CHARACTERS];
-    u8 spC[NUM_CHARACTERS][NUM_CHARACTERS];
+    u8 patternsLifeIcon[NUM_CHARACTERS] = { 0, 4, 2, 1, 3 };
+    u8 patternsCharType[NUM_CHARACTERS][NUM_CHARACTERS] = {
+        [SONIC]    = {
+            [SONIC]    = (u8)-1, //
+            [CREAM]    = 0,      //
+            [TAILS]    = 0,      //
+            [KNUCKLES] = 0,      //
+            [AMY]      = 0       //
+        },
+        [CREAM]    = {
+            [SONIC]    = 00, //
+            [CREAM]    = (u8)-1, //
+            [TAILS]    = 02, //
+            [KNUCKLES] = 01, //
+            [AMY]      = 02 //
+        },
+        [TAILS]    = {
+            [SONIC]    = 00, //
+            [CREAM]    = 02, //
+            [TAILS]    = (u8)-1, //
+            [KNUCKLES] = 01, //
+            [AMY]      = 02 //
+        },
+        [KNUCKLES] = {
+            [SONIC]    = 00, //
+            [CREAM]    = 01, //
+            [TAILS]    = 01, //
+            [KNUCKLES] = (u8)-1, //
+            [AMY]      = 01 //
+        },
+        [AMY]      = {
+            [SONIC]    = 00, //
+            [CREAM]    = 02, //
+            [TAILS]    = 02, //
+            [KNUCKLES] = 01, //
+            [AMY]      = (u8)-1 //
+        }
+    };
     Task *resultTask;
     Player *p;
     Player *partner;
@@ -595,8 +674,6 @@ Task *sub_8021EE8(void)
     StageUi2 *strc;
     void *tiles;
 
-    memcpy(&sp4, gUnknown_080CEE20, sizeof(sp4));
-    memcpy(&spC, *gUnknown_080CEE25, sizeof(spC));
     resultTask = TaskCreate(Task_8022898, sizeof(StageUi2), 0x2100U, 0U, NULL);
 #if !defined(BUG_FIX)
     // BUG: Assignment to uninitialized pointer
@@ -612,8 +689,8 @@ Task *sub_8021EE8(void)
     for (i = 0; i < (s32)ARRAY_COUNT(strc->base.sprites4); i++) {
         s = &strc->base.sprites4[i];
         s->tiles = tiles + ((i * 2) * TILE_SIZE_4BPP);
-        s->anim = gUnknown_080CECF8[i].anim;
-        s->variant = gUnknown_080CECF8[i].variant;
+        s->anim = sAsciiDigits[i].anim;
+        s->variant = sAsciiDigits[i].variant;
         s->oamFlags = SPRITE_OAM_ORDER(6);
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -630,7 +707,7 @@ Task *sub_8021EE8(void)
         s = &strc->base.sprites1E4[i];
         s->tiles = tiles;
         s->anim = ANIM_LIFE_ICONS;
-        s->variant = sp4[p->charFlags.character];
+        s->variant = patternsLifeIcon[p->charFlags.character];
         s->oamFlags = SPRITE_OAM_ORDER(5);
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -681,7 +758,7 @@ Task *sub_8021EE8(void)
     s = &strc->sprite2E0;
     s->tiles = tiles;
     s->anim = 0x58C;
-    s->variant = spC[p->charFlags.character][partner->charFlags.character];
+    s->variant = patternsCharType[p->charFlags.character][partner->charFlags.character];
     s->oamFlags = 0x180;
     s->animCursor = 0;
     s->qAnimDelay = 0;

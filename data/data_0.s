@@ -6,30 +6,7 @@
 
 .section .rodata
 
-    .global gUnknown_080CECF8
-gUnknown_080CECF8:
-    .incbin "baserom_sa3.gba", 0x000CECF8, 0x60
-
-    .global sEmeraldOverviewZoneNums
-sEmeraldOverviewZoneNums:
-    .incbin "baserom_sa3.gba", 0x000CED58, 0x38
-
-    .global sEmeraldOverviewEmeraldNums
-sEmeraldOverviewEmeraldNums:
-    .incbin "baserom_sa3.gba", 0x000CED90, 0x58
-
-    .global sEmeraldOverviewEmeraldGotIcons
-sEmeraldOverviewEmeraldGotIcons:
-    .incbin "baserom_sa3.gba", 0x000CEDE8, 0x38
-
-    .global gUnknown_080CEE20
-gUnknown_080CEE20:
-    .incbin "baserom_sa3.gba", 0x000CEE20, 0x5
-
-    .global gUnknown_080CEE25
-gUnknown_080CEE25:
-    .incbin "baserom_sa3.gba", 0x000CEE25, 0x1B
-
+.align 2 , 0
     .global gUnknown_080CEE40
 gUnknown_080CEE40:
     .incbin "baserom_sa3.gba", 0x000CEE40, 0x80
