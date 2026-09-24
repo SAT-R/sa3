@@ -18,6 +18,7 @@
 #include "game/shared/entities_manager.h"
 #include "game/shared/rings_manager.h"
 
+#include "constants/animations.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"
 #include "constants/zones.h"
@@ -58,7 +59,6 @@ void CreateStageWaterTask(s32, s32); /* extern */
 extern ScreenFade gUnknown_030010C0;
 extern u8 gUnknown_080CE548[4];
 extern void *gUnknown_08E2EC78[8];
-extern u16 gUnknown_080CE54C[][NUM_LANGUAGES][3];
 
 void sub_8001D58(VoidFn proc, ColorRaw color);
 void Task_60_8003FEC(void);
@@ -105,7 +105,7 @@ extern void sub_80261B0();
 extern void sub_80275F0(u8, u8, u8);
 extern void sub_8027878(u8 lives);
 extern void InitCamera(u16, u8);
-extern void sa2__sub_801F044();
+extern void SA2_LABEL(sub_801F044)();
 extern void sub_8056090(s32, u8, s32);
 extern void CreateStageIntroScreenFade();
 extern void sub_8056AFC(u8);
@@ -416,21 +416,23 @@ void sub_8002838(s16 level)
 
 void Task_00_8002988(void)
 {
-    u8 characters[MULTI_SIO_PLAYERS_MAX];
     Player *p;
     s16 pid;
     StageData *sd = &gStageData;
+    u8 characters[MULTI_SIO_PLAYERS_MAX] = {SONIC, TAILS, KNUCKLES, AMY};
 
-    memcpy(&characters, &gUnknown_080CE548, MULTI_SIO_PLAYERS_MAX);
-    sa2__sub_801F044();
+    SA2_LABEL(sub_801F044)();
     CreateStageEntitiesManager();
-    if (sd->gameMode != 7) {
+
+    if (sd->gameMode != GAME_MODE_MP_SINGLE_PACK) {
         CreateStageRingsManager();
     }
+
     gCamera.x = 0;
     gCamera.y = 0;
     InitCamera(sd->currentLevel, sd->warpId);
-    if (sd->gameMode != 7) {
+
+    if (sd->gameMode != GAME_MODE_MP_SINGLE_PACK) {
         if (sd->gameMode < GAME_MODE_MP_MULTI_PACK) {
             u8 playerIndex = sd->playerIndex;
             InitializePlayer(playerIndex);
@@ -847,6 +849,33 @@ void Task_80033B8(void)
         }
     }
 }
+
+static const u16 gUnknown_080CE54C[3][NUM_LANGUAGES][3] = {
+    {
+        [JAPANESE] = { 40, ANIM_PAUSE_MENU, 2 },
+        [ENGLISH]  = { 40, ANIM_PAUSE_MENU, 3 },
+        [GERMAN]   = { 40, ANIM_PAUSE_MENU, 4 },
+        [FRENCH]   = { 40, ANIM_PAUSE_MENU, 5 },
+        [SPANISH]  = { 40, ANIM_PAUSE_MENU, 6 },
+        [ITALIAN]  = { 40, ANIM_PAUSE_MENU, 7 },
+    },
+    {
+        [JAPANESE] = { 40, ANIM_PAUSE_MENU_CONT, 0 },
+        [ENGLISH]  = { 40, ANIM_PAUSE_MENU_CONT, 1 },
+        [GERMAN]   = { 40, ANIM_PAUSE_MENU_CONT, 2 },
+        [FRENCH]   = { 40, ANIM_PAUSE_MENU_CONT, 3 },
+        [SPANISH]  = { 40, ANIM_PAUSE_MENU_CONT, 4 },
+        [ITALIAN]  = { 40, ANIM_PAUSE_MENU_CONT, 5 },
+    },
+    {
+        [JAPANESE] = { 16, ANIM_PAUSE_MENU, 0 },
+        [ENGLISH]  = { 16, ANIM_PAUSE_MENU, 0 },
+        [GERMAN]   = { 16, ANIM_PAUSE_MENU, 0 },
+        [FRENCH]   = { 16, ANIM_PAUSE_MENU, 0 },
+        [SPANISH]  = { 16, ANIM_PAUSE_MENU, 1 },
+        [ITALIAN]  = { 16, ANIM_PAUSE_MENU, 1 },
+    }
+};
 
 void sub_800341C(void)
 {

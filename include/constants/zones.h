@@ -9,7 +9,7 @@
 #define ZONE_6      5
 #define ZONE_7      6
 #define ZONE_FINAL  7
-#define ZONE_UNUSED 8
+#define ZONE_UNUSED 8 // TODO: for SA3, rename ZONE_EXTRA
 
 #if (GAME == GAME_SA1)
 #define ACT_X_ZONE      ACT_1

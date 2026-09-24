@@ -6,34 +6,6 @@
 
 .section .rodata
 
-    .global gUnknown_080CE548
-gUnknown_080CE548:
-    .incbin "baserom_sa3.gba", 0x000CE548, 0x4
-
-    .global gUnknown_080CE54C
-gUnknown_080CE54C:
-    .incbin "baserom_sa3.gba", 0x000CE54C, 0x6C
-
-    .global gUnknown_080CE5B8
-gUnknown_080CE5B8:
-    .incbin "baserom_sa3.gba", 0x000CE5B8, 0x12
-
-    .global gUnknown_080CE5CA
-gUnknown_080CE5CA:
-    .incbin "baserom_sa3.gba", 0x000CE5CA, 0x14
-
-    .global gCharVoicesLifeLost
-gCharVoicesLifeLost:
-    .short 0x267, 0x27A, 0x26B, 0x270, 0x276
-
-    .global gUnknown_080CE5E8
-gUnknown_080CE5E8:
-    .incbin "baserom_sa3.gba", 0x000CE5E8, 0xA
-
-    .global gUnknown_080CE5F2
-gUnknown_080CE5F2:
-    .incbin "baserom_sa3.gba", 0x000CE5F2, 0xA
-
     .global gUnknown_080CE5FC
 gUnknown_080CE5FC:
     .incbin "baserom_sa3.gba", 0x000CE5FC, 0x10
