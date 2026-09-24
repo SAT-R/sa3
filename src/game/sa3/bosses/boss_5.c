@@ -459,7 +459,7 @@ void Task_Chaser_8071E94(void)
             SetPlayerCallback(temp_r3, Player_HitWithoutRingsUpdate);
         } else {
             temp_r2_2 = temp_r3->callback;
-            if ((temp_r2_2 != Player_HitWithoutRingsUpdate) && (temp_r2_2 != sub_800913C) && (temp_r2_2 != sub_800DF9C)) {
+            if ((temp_r2_2 != Player_HitWithoutRingsUpdate) && (temp_r2_2 != Player_800913C) && (temp_r2_2 != Player_800DF9C)) {
                 temp_r3->qWorldY = Q(gCamera.maxY - 8);
                 SetPlayerCallback(temp_r3, Player_HitWithoutRingsUpdate);
             }

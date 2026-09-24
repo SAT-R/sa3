@@ -5763,11 +5763,11 @@ _080266A4:
 	beq _080265E8
 	bl sub_8002414
 	adds r0, r5, #0
-	ldr r1, _080266B8 @ =sub_800DF9C
+	ldr r1, _080266B8 @ =Player_800DF9C
 	bl SetPlayerCallback
 	b _080265E8
 	.align 2, 0
-_080266B8: .4byte sub_800DF9C
+_080266B8: .4byte Player_800DF9C
 _080266BC:
 	ldr r1, _080266E4 @ =gStageData
 	ldrb r0, [r1, #4]
@@ -6947,7 +6947,7 @@ _08027074:
 	b _08027470
 _0802709A:
 	adds r0, r2, #0
-	bl sub_8009518
+	bl Player_8009518
 	b _08027470
 	.align 2, 0
 _080270A4: .4byte gPlayers

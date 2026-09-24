@@ -739,10 +739,10 @@ _0807BC98:
 	ldr r5, _0807BCC0 @ =Player_HitWithoutRingsUpdate
 	cmp r1, r5
 	beq _0807BCBA
-	ldr r0, _0807BCC4 @ =sub_800913C
+	ldr r0, _0807BCC4 @ =Player_800913C
 	cmp r1, r0
 	beq _0807BCBA
-	ldr r0, _0807BCC8 @ =sub_800DF9C
+	ldr r0, _0807BCC8 @ =Player_800DF9C
 	cmp r1, r0
 	beq _0807BCBA
 	movs r0, #0xa0
@@ -756,8 +756,8 @@ _0807BCBA:
 	bx r0
 	.align 2, 0
 _0807BCC0: .4byte Player_HitWithoutRingsUpdate
-_0807BCC4: .4byte sub_800913C
-_0807BCC8: .4byte sub_800DF9C
+_0807BCC4: .4byte Player_800913C
+_0807BCC8: .4byte Player_800DF9C
 
 	thumb_func_start sub_807BCCC
 sub_807BCCC: @ 0x0807BCCC

@@ -54,7 +54,7 @@ void sub_80063B4(Player *p, s32 param1);
 void sub_801300C(s16 playerId);
 void sub_801310C(s16 playerId);
 void sub_8013F4C(Player *p);
-void sub_80141EC(Player *p, u8 param1, u8 param2);
+void sub_80141EC(Player *p, u8 charIndexPlayer, u8 charIndexPartner);
 bool16 sub_8016D88(Player *p);
 void sub_80B7914(Struc_3001150 *strc);
 void sub_80B794C(Struc_3001150 *strc);
@@ -255,19 +255,8 @@ const s16 gUnknown_080CE5B8[9] = {
     Q(6.00), Q(6.375), Q(6.75), Q(7.125), Q(7.50), Q(7.875), Q(8.25), Q(8.625), Q(9.00),
 }; // Spindash accel related
 
-extern s16 gUnknown_080CE63C[4];
-extern s32 gUnknown_080CE644[25];
-extern s16 gUnknown_080CE6A8[4][2];
-extern s16 gUnknown_080CE6B8[RSF_COUNT][2];
-extern PlayerCallback gUnknown_080CE6CC[54];
-extern u8 gUnknown_080CE7A4[4];
-extern s8 gUnknown_080CE7A8[][2];
-extern s8 gUnknown_080CE7B0[][2];
-extern s8 gUnknown_080CE7B8[][2];
-extern s8 gUnknown_080CE7C0[][2];
-extern s8 gUnknown_080CE7C8[][2];
-extern s16 gUnknown_080CECB2[RSF_COUNT][2];
-extern s16 gUnknown_080CECC6[RSF_COUNT];
+extern const s16 gUnknown_080CECB2[RSF_COUNT][2];
+extern const s16 gUnknown_080CECC6[RSF_COUNT];
 extern s16 gUnknown_080CECD0[NUM_CHARACTERS][2];
 extern s16 gUnknown_080CECE4[NUM_CHARACTERS][2];
 extern u16 gCameraMaxCoords[][2];
@@ -1770,8 +1759,8 @@ void Player_8005DAC(Player *p)
     gStageData.unk4 = 5;
     p->unk5C = 0x78;
     sub_8012FA0(p);
-    p->callback = sub_800D8DC;
-    sub_800D8DC(p);
+    p->callback = Player_800D8DC;
+    Player_800D8DC(p);
 }
 
 void Player_8005E80(Player *p)
@@ -4138,7 +4127,7 @@ void Player_HitWithoutRingsUpdate(Player *p)
         if (p->charFlags.someIndex == 1) {
             partner = &gPlayers[p->charFlags.partnerIndex];
             if (!(partner->moveState & MOVESTATE_DEAD)) {
-                sub_8009518(partner);
+                Player_8009518(partner);
             }
             sub_80278DC();
             if (gStageData.gameMode == 5) {
@@ -4146,8 +4135,8 @@ void Player_HitWithoutRingsUpdate(Player *p)
             }
         }
     }
-    p->callback = sub_800913C;
-    sub_800913C(p);
+    p->callback = Player_800913C;
+    Player_800913C(p);
 }
 
 void Player_HitWithoutRings(Player *p)
@@ -4191,7 +4180,7 @@ void Player_HitWithoutRings(Player *p)
         if (p->charFlags.someIndex == 1) {
             partner = &gPlayers[p->charFlags.partnerIndex];
             if (!(partner->moveState & MOVESTATE_DEAD)) {
-                sub_8009518(partner);
+                Player_8009518(partner);
             }
             sub_80278DC();
             if (gStageData.gameMode == 5) {
@@ -4199,11 +4188,11 @@ void Player_HitWithoutRings(Player *p)
             }
         }
     }
-    p->callback = sub_800913C;
-    sub_800913C(p);
+    p->callback = Player_800913C;
+    Player_800913C(p);
 }
 
-#define SUB_800913C_PSET(_player)                                                                                                          \
+#define Player_800913C_PSET(_player)                                                                                                       \
     (_player)->moveState = MOVESTATE_IGNORE_INPUT;                                                                                         \
     (_player)->qWorldX = Q(gStageData.respawnX);                                                                                           \
     (_player)->qWorldY = Q(gStageData.respawnY);                                                                                           \
@@ -4234,7 +4223,7 @@ void Player_HitWithoutRings(Player *p)
     (_player)->unk66 = 0;                                                                                                                  \
     (_player)->unk68 = 0;
 
-void sub_800913C(Player *p)
+void Player_800913C(Player *p)
 {
     Player *partner;
     u32 temp_r0;
@@ -4301,7 +4290,7 @@ void sub_800913C(Player *p)
             goto block_22;
         } else if (gStageData.act == 9) {
         block_22:
-            p->callback = sub_800DF9C;
+            p->callback = Player_800DF9C;
             return;
         }
         gStageData.lives--;
@@ -4320,7 +4309,7 @@ void sub_800913C(Player *p)
         return;
     }
 
-    SUB_800913C_PSET(p);
+    Player_800913C_PSET(p);
     p->unk56 = 14;
     p->unk57 = 60;
 
@@ -4335,7 +4324,7 @@ void sub_800913C(Player *p)
     MPlayStop(&gMPlayInfo_SE3);
     partner = &gPlayers[p->charFlags.partnerIndex];
     if (partner->charFlags.someIndex == 2) {
-        SUB_800913C_PSET(partner);
+        Player_800913C_PSET(partner);
         p->unk56 = 14; // TODO: Should these not be set to partner->?
         p->unk57 = 60;
         partner->callback = Player_800522C;
@@ -4344,7 +4333,7 @@ void sub_800913C(Player *p)
     gCamera.y = gCamera.SA2_LABEL(unk14) = gStageData.respawnY - DISPLAY_CENTER_Y;
 }
 
-void sub_8009518(Player *p)
+void Player_8009518(Player *p)
 {
     Player *partner;
 
@@ -4377,11 +4366,11 @@ void sub_8009518(Player *p)
         p->framesInvulnerable = TIME(0, 2);
     }
 
-    p->callback = sub_80095E8;
-    sub_80095E8(p);
+    p->callback = Player_80095E8;
+    Player_80095E8(p);
 }
 
-void sub_80095E8(Player *p)
+void Player_80095E8(Player *p)
 {
     Player *partner;
     u32 temp_r0;
@@ -4405,7 +4394,7 @@ void sub_80095E8(Player *p)
     if (gStageData.gameMode != 6) {
         if ((gStageData.lives == 0) && (gStageData.act != 9)) {
             sub_8002414();
-            p->callback = sub_800DF9C;
+            p->callback = Player_800DF9C;
             return;
         } else {
             gStageData.lives--;
@@ -4424,7 +4413,7 @@ void sub_80095E8(Player *p)
 
     gStageData.unkBB = 7;
 
-    SUB_800913C_PSET(p);
+    Player_800913C_PSET(p);
 
     p->unk56 = 14;
     p->unk57 = 60;
@@ -4900,8 +4889,8 @@ void Player_800A168(Player *p)
     p->charFlags.unk2C_04 = 0;
     temp_r2_2 = p->spriteInfoBody;
     temp_r2_2->s.frameFlags &= ~0x4000;
-    p->callback = sub_800DF9C;
-    sub_800DF9C(p);
+    p->callback = Player_800DF9C;
+    Player_800DF9C(p);
 }
 
 void Player_800A218(Player *p)
@@ -5540,7 +5529,7 @@ void Player_800AEF4(Player *p)
     sub_800EB14(p);
 }
 
-void sub_800AF98(Player *p)
+void Player_800AF98(Player *p)
 {
     PlayerSpriteInfo *temp_r2;
     u8 *temp_r2_2;
@@ -7680,7 +7669,7 @@ void Player_800D880(Player *p)
     p->qCamOffsetY = 0;
 }
 
-void sub_800D8DC(Player *p)
+void Player_800D8DC(Player *p)
 {
     if (!(MOVESTATE_10000000 & p->moveState)) {
         if (!(p->moveState & MOVESTATE_IN_AIR)) {
@@ -7846,11 +7835,11 @@ void Player_800DBE8(Player *p)
     p->charFlags.unk2C_04 = 0;
     p->charFlags.anim0 = 0x8D;
     Player_PlaySong(p, SE_MINECART_ROLL);
-    p->callback = sub_800DC50;
-    sub_800DC50(p);
+    p->callback = Player_800DC50;
+    Player_800DC50(p);
 }
 
-void sub_800DC50(Player *p)
+void Player_800DC50(Player *p)
 {
     if ((sub_801480C(p) << 0x10) != 0) {
         Player_StopSong(p, 0x25EU);
@@ -8019,7 +8008,7 @@ void sub_800DF5C(Player *p)
     }
 }
 
-void sub_800DF9C(Player *p) { }
+void Player_800DF9C(Player *p) { }
 
 void sub_800DFA0(Player *p)
 {
@@ -8194,7 +8183,7 @@ void sub_800E2C8(Player *p)
 
 void Player_800E348(Player *p)
 {
-    sub_800AF98(p);
+    Player_800AF98(p);
     p->qSpeedAirX = 0;
     p->qSpeedAirY = -0xC00;
     p->callback = Player_800E3EC;
@@ -8203,7 +8192,7 @@ void Player_800E348(Player *p)
 
 void Player_800E370(Player *p)
 {
-    sub_800AF98(p);
+    Player_800AF98(p);
     p->qSpeedAirX = 0;
     p->qSpeedAirY = 0xC00;
     p->callback = Player_800E3EC;
@@ -8212,7 +8201,7 @@ void Player_800E370(Player *p)
 
 void Player_800E398(Player *p)
 {
-    sub_800AF98(p);
+    Player_800AF98(p);
     p->qSpeedAirX = -0xC00;
     p->qSpeedAirY = -0x80;
     p->callback = Player_800E3EC;
@@ -8221,7 +8210,7 @@ void Player_800E398(Player *p)
 
 void Player_800E3C4(Player *p)
 {
-    sub_800AF98(p);
+    Player_800AF98(p);
     p->qSpeedAirX = 0xC00;
     p->qSpeedAirY = 0x80;
     p->callback = Player_800E3EC;
@@ -9045,7 +9034,8 @@ void sub_800F2B0(Player *p)
 }
 
 // TODO: anim0 indices
-// TODO: Maybe gUnknown_080CE5FC and gUnknown_080CE60C are one 2D array?
+// NOTE: gUnknown_080CE5FC and gUnknown_080CE60C look similar, but making them a 2D array
+//       does not match, unless there are some code changes needed to be made?
 const s16 gUnknown_080CE5FC[8] = {
     0x112, 0x117, 0x115, 0x119, 0x113, 0x118, 0x114, 0x116,
 };
@@ -9416,17 +9406,10 @@ block_15:
 
 void sub_800F920(Player *p)
 {
-    s16 sp[4];
-    PlayerUnk148 *temp_r5;
-    PlayerUnk148 *temp_r6;
-    u16 temp_r0_2;
-    u16 temp_r2;
-    u8 temp_r0;
-    void (*var_r1)(Player *);
+    s16 sp[4] = { 60, 120, 240, 0 };
+    PlayerUnk148 *temp_r5 = gPlayers->unk148.ptr;
+    PlayerUnk148 *temp_r6 = p->unk148.ptr;
 
-    memcpy(&sp[0], &gUnknown_080CE63C, 8);
-    temp_r5 = gPlayers->unk148.ptr;
-    temp_r6 = p->unk148.ptr;
     sub_8010E04(p);
     sub_8010E94(p);
     sub_800FABC(p);
@@ -10139,7 +10122,7 @@ void sub_80106E0(Player *p)
     if (p->framesInvulnerable <= 0) {
         if (gStageData.lives == 0) {
             sub_8002414();
-            SetPlayerCallback(p, sub_800DF9C);
+            SetPlayerCallback(p, Player_800DF9C);
             temp_r5->a.unk7 = 1;
         } else {
             gStageData.lives--;
@@ -12612,320 +12595,7 @@ void sub_801310C(s16 playerIndex)
     }
 }
 
-#if 1
 extern const u16 gUnknown_080CE7E2[][2];
-#else
-const u16 gUnknown_080CE7E2[][2] = {
-    { ANIM_SONIC_IDLE, 0 },
-    { 0x1, 0 },
-    { 0x2, 0 },
-    { 0x3, 0 },
-    { 0x4, 0 },
-    { 0x5, 0 },
-    { 0x6, 0 },
-    { 0x7, 0 },
-    { 0x8, 0 },
-    { 0x9, 0 },
-    { 0xa, 0 },
-    { 0xb, 0 },
-    { 0xc, 0 },
-    { 0xd, 0 },
-    { 0xe, 0 },
-    { 0xf, 0 },
-    { 0x10, 0 },
-    { 0x11, 0 },
-    { 0x12, 0 },
-    { 0x13, 0 },
-    { 0x14, 0 },
-    { 0x15, 0 },
-    { 0x16, 0 },
-    { 0x17, 0 },
-    { 0x18, 0 },
-    { 0x19, 0 },
-    { 0x1a, 0 },
-    { 0x1b, 0 },
-    { 0x1c, 0 },
-    { 0x1d, 0 },
-    { 0x1e, 0 },
-    { 0x1f, 0 },
-    { 0x20, 0 },
-    { 0x21, 0 },
-    { 0x22, 0 },
-    { 0x23, 0 },
-    { 0x24, 0 },
-    { 0x25, 0 },
-    { 0x26, 0 },
-    { 0x27, 0 },
-    { 0x28, 0 },
-    { 0x29, 0 },
-    { 0x2a, 0 },
-    { 0x2b, 0 },
-    { 0x2c, 0 },
-    { 0x2d, 0 },
-    { 0x2e, 0 },
-    { 0x2f, 0 },
-    { 0x30, 0 },
-    { 0x31, 0 },
-    { 0x32, 0 },
-    { 0x33, 0 },
-    { 0x34, 0 },
-    { 0x35, 0 },
-    { 0x36, 0 },
-    { 0x37, 0 },
-    { 0x38, 0 },
-    { 0x38, 0 },
-    { 0x3a, 0 },
-    { 0x3b, 0 },
-    { 0x3c, 0 },
-    { 0x3d, 0 },
-    { 0x3e, 0 },
-    { 0x3f, 0 },
-    { 0x40, 0 },
-    { 0x41, 0 },
-    { 0x42, 0 },
-    { 0x43, 0 },
-    { 0x44, 0 },
-    { 0x45, 0 },
-    { 0x46, 0 },
-    { 0x47, 0 },
-    { 0x48, 0 },
-    { 0x49, 0 },
-    { 0x4a, 0 },
-    { 0x4b, 0 },
-    { 0x4c, 0 },
-    { 0x4d, 0 },
-    { 0x4e, 0 },
-    { 0x4f, 0 },
-    { 0x50, 0 },
-    { 0x51, 0 },
-    { 0x52, 0 },
-    { 0x53, 0 },
-    { 0x54, 0 },
-    { 0x55, 0 },
-    { 0x56, 0 },
-    { 0x57, 0 },
-    { 0x58, 0 },
-    { 0x59, 0 },
-    { 0x5a, 0 },
-    { 0x5b, 0 },
-    { 0x5c, 0 },
-    { 0x5d, 0 },
-    { 0x5e, 0 },
-    { 0x5f, 0 },
-    { 0x60, 0 },
-    { 0x61, 0 },
-    { 0x62, 0 },
-    { 0x63, 0 },
-    { 0x64, 0 },
-    { 0x65, 0 },
-    { 0x66, 0 },
-    { 0x67, 0 },
-    { 0x68, 0 },
-    { 0x69, 0 },
-    { 0x6a, 0 },
-    { 0x6b, 0 },
-    { 0x6c, 0 },
-    { 0x6d, 0 },
-    { 0x59, 0 },
-    { 0x6f, 0 },
-    { 0x6d, 0 },
-    { 0x71, 0 },
-    { 0x72, 0 },
-    { 0x73, 0 },
-    { 0x74, 0 },
-    { 0x75, 0 },
-    { 0x76, 0 },
-    { 0x77, 0 },
-    { 0x78, 0 },
-    { 0x79, 0 },
-    { 0x7a, 0 },
-    { 0x7b, 0 },
-    { 0x7c, 0 },
-    { 0x7d, 0 },
-    { 0x7e, 0 },
-    { 0x7f, 0 },
-    { 0x80, 0 },
-    { 0x81, 0 },
-    { 0x82, 0 },
-    { 0x83, 0 },
-    { 0x84, 0 },
-    { 0x85, 0 },
-    { 0x86, 0 },
-    { 0x87, 0 },
-    { 0x88, 0 },
-    { 0x89, 0 },
-    { 0x8a, 0 },
-    { 0x8b, 0 },
-    { 0x8c, 0 },
-    { 0x8d, 0 },
-    { 0x8e, 0 },
-    { 0x8f, 0 },
-    { 0x90, 0 },
-    { 0x91, 0 },
-    { 0x92, 0 },
-    { 0x93, 0 },
-    { 0x94, 0 },
-    { 0x95, 0 },
-    { 0x96, 0 },
-    { 0x97, 0 },
-    { 0x98, 0 },
-    { 0x99, 0 },
-    { 0x9a, 0 },
-    { 0x9b, 0 },
-    { 0x9c, 0 },
-    { 0x9d, 0 },
-    { 0x9e, 0 },
-    { 0x9f, 0 },
-    { 0xa0, 0 },
-    { 0xa1, 0 },
-    { 0xa2, 0 },
-    { 0x39, 0 },
-    { 0x39, 1 },
-    { 0x25, 0 },
-    { 0x26, 0 },
-    { 0x2b, 0 },
-    { 0x2a, 0 },
-    { 0x69, 0 },
-    { 0x6b, 0 },
-    { 0x19, 0 },
-    { 0x50, 0 },
-    { 0x68, 0 },
-    { 0x60, 0 },
-    { 0x5e, 0 },
-    { 0x5f, -1 },
-    { 0x73, 0 },
-    { 0x73, 1 },
-    { 0x75, 0 },
-    { 0xc8, 0 },
-    { 0xc9, 0 },
-    { 0xcb, 0 },
-    { 0xcc, 0 },
-    { 0xcd, 0 },
-    { 0xce, 0 },
-    { 0xd2, 0 },
-    { 0xf4, 0 },
-    { 0xbc, 0 },
-    { 0xbc, 1 },
-    { 0xbd, 0 },
-    { 0xbe, 0 },
-    { 0xc0, 0 },
-    { 0xee, 0 },
-    { 0xef, 0 },
-    { 0xf0, 0 },
-    { 0xf1, 0 },
-    { 0x10b, 0 },
-    { 0x10c, 0 },
-    { 0x103, 0 },
-    { 0x101, 0 },
-    { 0x102, -1 },
-    { 0x16b, 0 },
-    { 0x16c, 0 },
-    { 0x170, 0 },
-    { 0x171, 0 },
-    { 0x15f, 0 },
-    { 0x19d, 0 },
-    { 0x160, 0 },
-    { 0x163, 0 },
-    { 0x163, 1 },
-    { 0x164, 0 },
-    { 0x165, 0 },
-    { 0x166, 0 },
-    { 0x189, 0 },
-    { 0x18a, 0 },
-    { 0x18b, 0 },
-    { 0x18c, 0 },
-    { 0x18d, 0 },
-    { 0x1ae, 0 },
-    { 0x1af, 0 },
-    { 0x1b1, 0 },
-    { 0x19b, 0 },
-    { 0x1a6, 0 },
-    { 0x1a4, 0 },
-    { 0x1a5, -1 },
-    { 0x20e, 0 },
-    { 0x20f, 0 },
-    { 0x239, 0 },
-    { 0x23a, 0 },
-    { 0x213, 0 },
-    { 0x202, 0 },
-    { 0x203, -1 },
-    { 0x204, 0 },
-    { 0x205, 0 },
-    { 0x206, 1 },
-    { 0x206, 0 },
-    { 0x208, 0 },
-    { 0x23b, 0 },
-    { 0x23c, 2 },
-    { 0x234, 0 },
-    { 0x235, 0 },
-    { 0x236, 0 },
-    { 0x237, 0 },
-    { 0x21f, 0 },
-    { 0x23c, 3 },
-    { 0x5f3, 0 },
-    { 0x296, 0 },
-    { 0x2c0, 0 },
-    { 0x2bc, 0 },
-    { 0x2bd, 0 },
-    { 0x2be, 0 },
-    { 0x2f8, 0 },
-    { 0x2a5, 0 },
-    { 0x2b1, 0 },
-    { 0x2b2, 0 },
-    { 0x2f7, 0 },
-    { 0x2d5, 0 },
-    { 0x2d6, 0 },
-    { 0x2b7, 0 },
-    { 0x2b8, 0 },
-    { 0x2a9, 0 },
-    { 0x2ab, 0 },
-    { 0x2f4, 0 },
-    { 0x2f5, 0 },
-    { 0x2ec, 0 },
-    { 0x2ea, 0 },
-    { 0x2eb, -1 },
-    { 0x2b1, 0 },
-    { 0x2e2, 0 },
-    { ANIM_SUPER_SONIC_MOVES, 2 },
-    { ANIM_SUPER_SONIC_MOVES, 1 },
-    { ANIM_SUPER_SONIC_MOVES, 3 },
-    { ANIM_SUPER_SONIC_MOVES, 0 },
-    { ANIM_SUPER_SONIC_MOVES, 6 },
-    { ANIM_SUPER_SONIC_MOVES, 14 },
-    { ANIM_SUPER_SONIC_MOVES, 18 },
-    { ANIM_SUPER_SONIC_MOVES, 10 },
-    { ANIM_SUPER_SONIC_MOVES, 4 },
-    { ANIM_SUPER_SONIC_MOVES, 8 },
-    { ANIM_SUPER_SONIC_MOVES, 16 },
-    { ANIM_SUPER_SONIC_MOVES, 12 },
-    { ANIM_SUPER_SONIC_MOVES, 7 },
-    { ANIM_SUPER_SONIC_MOVES, 15 },
-    { ANIM_SUPER_SONIC_MOVES, 19 },
-    { ANIM_SUPER_SONIC_MOVES, 11 },
-    { ANIM_SUPER_SONIC_MOVES, 5 },
-    { ANIM_SUPER_SONIC_MOVES, 9 },
-    { ANIM_SUPER_SONIC_MOVES, 17 },
-    { ANIM_SUPER_SONIC_MOVES, 13 },
-    { ANIM_SUPER_SONIC_TAG_ACTION_HOLD, 0 },
-    { ANIM_SUPER_SONIC_TAG_ACTION_HOLD, 1 },
-    { ANIM_SUPER_SONIC_PARALYSED, 0 },
-    { ANIM_SONIC_TO_SUPER_SONIC_TRANSITION, 0 },
-    { ANIM_SONIC_TO_SUPER_SONIC_TRANSITION, 1 },
-    { ANIM_SONIC_TO_SUPER_SONIC_TRANSITION, 2 },
-    { ANIM_SONIC_TO_SUPER_SONIC_TRANSITION, 3 },
-    { ANIM_SONIC_TO_SUPER_SONIC_TRANSITION, 4 },
-    { ANIM_SONIC_TO_SUPER_SONIC_TRANSITION, 5 },
-    { ANIM_SONIC_TO_SUPER_SONIC_TRANSITION, 6 },
-    { ANIM_NEO_EGGMOBILE, 0 },
-    { ANIM_NEO_EGGMOBILE, 2 },
-    { ANIM_NEO_EGGMOBILE, 3 },
-    { ANIM_NEO_EGGMOBILE, 1 },
-    { ANIM_NEO_EGGMOBILE, 4 },
-    { ANIM_NEO_EGGMOBILE, 0 },
-    { ANIM_NEO_EGGMOBILE, 5 },
-    { ANIM_NEO_EGGMOBILE, 0 },
-};
-#endif
 
 void sub_801320C(Player *p, PlayerSpriteInfo *spriteInfoBody)
 {
@@ -13394,9 +13064,9 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8013A68.inc", void sub_8013A68
 }
 END_NONMATCH
 
+extern const s16 gUnknown_080CE6A8[4][2]; // TODO: const data order
 void SetPlayerSpawnPosition(s32 levelIndex, s32 pid)
 {
-    s16 sp00[ARRAY_COUNT(gUnknown_080CE6A8)][2];
     Player *p;
     u8 warpId;
 
@@ -13405,14 +13075,17 @@ void SetPlayerSpawnPosition(s32 levelIndex, s32 pid)
     if (GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode) || gStageData.gameMode == GAME_MODE_5) {
         gStageData.respawnX = gRespawnPositions[levelIndex][warpId].x;
         gStageData.respawnY = gRespawnPositions[levelIndex][warpId].y;
-    } else if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
-        gStageData.respawnX = gRespawnPositions[levelIndex][warpId].x;
-        gStageData.respawnY = gRespawnPositions[levelIndex][warpId].y;
     } else {
-        memcpy(sp00, &gUnknown_080CE6A8, sizeof(gUnknown_080CE6A8));
-        if (gStageData.playerIndex == pid) {
-            gStageData.respawnX = sp00[warpId][0];
-            gStageData.respawnY = sp00[warpId][1];
+        if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+            gStageData.respawnX = gRespawnPositions[levelIndex][warpId].x;
+            gStageData.respawnY = gRespawnPositions[levelIndex][warpId].y;
+        } else {
+            s16 sp00[4][2]; // TODO: const data order
+            memcpy(sp00, gUnknown_080CE6A8, sizeof(sp00));
+            if (gStageData.playerIndex == pid) {
+                gStageData.respawnX = sp00[warpId][0];
+                gStageData.respawnY = sp00[warpId][1];
+            }
         }
     }
     gStageData.unk24 = 0;
@@ -13587,19 +13260,60 @@ void sub_801409C(Player *p)
     }
 }
 
-void sub_80141EC(Player *p, u8 param1, u8 param2)
+void sub_80141EC(Player *p, u8 charIndexPlayer, u8 charIndexPartner)
 {
-    s32 sp[25];
-    u32 var_r0;
+    s32 sp[NUM_CHARACTERS][NUM_CHARACTERS] = {
+        [SONIC] = {
+             [SONIC] = 0,   
+             [CREAM] = 0x40343,   
+             [TAILS] = 0x800043,    
+             [KNUCKLES] = 0x3804b,     
+             [AMY] = 0x601b,
+        },
+        [CREAM] = {
+            [SONIC] = 0x8814b,          
+            [CREAM] = 0,     
+            [TAILS] = 0x40c2,     
+            [KNUCKLES] = 0xc1d2,   
+            [AMY] = 0x82611au
+        },
+        [TAILS] = {
+            [SONIC] = 0xa00043,   
+            [CREAM] = 0x200342,          
+            [TAILS] = 0,   
+            [KNUCKLES] = 0x4080ca,   
+            [AMY] = 0x20619a,
+        },
+        [KNUCKLES] = {
+            [SONIC] = 0x100943,   
+            [CREAM] = 0x100cc2,   
+            [TAILS] = 0x1009ca,          
+            [KNUCKLES] = 0,   
+            [AMY] = 0x12709a,
+        },
+        [AMY] =  {
+            [SONIC] = 0x2615b,   
+            [CREAM] = 0x80619c,     
+            [TAILS] = 0xa19c,    
+            [KNUCKLES] = 0x26026,          
+            [AMY] = 0,
+        }
+    };
 
-    memcpy(sp, &gUnknown_080CE644, 100);
-
-    if (gStageData.gameMode != 7) {
-        p->unkC = sp[(param1 * 5) + param2];
+    if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+        p->unkC = sp[charIndexPlayer][charIndexPartner];
     } else {
         p->unkC = 0x42;
     }
 }
+
+// TODO: const data order
+const s16 gUnknown_080CE6A8[4][2] = {
+    { 0x14A, 0x351 },
+    { 0x640, 0x411 },
+    { 0x0F0, 0x261 },
+    { 0x4B8, 0x141 },
+};
 
 void sub_8014230(Player *p, Sprite2 *s)
 {
@@ -13608,7 +13322,7 @@ void sub_8014230(Player *p, Sprite2 *s)
     speed = p->qSpeedGround;
     speed = (speed >> 5) + (speed >> 6);
     speed = ABS(speed);
-    if (speed > 7) {
+    if (speed >= 8) {
         if (speed > SPRITE_ANIM_SPEED(8)) {
             speed = SPRITE_ANIM_SPEED(8);
         }
@@ -13670,8 +13384,8 @@ void sub_80142CC(Player *p)
             p->unk94 >>= 1;
         }
     } else {
-        p->unk8C = 0x780;
-        p->unk88 = 0x980;
+        p->unk8C = Q(7.5);
+        p->unk88 = Q(9.5);
         p->unk90 = 0xC;
         p->unk94 = 0x40;
     }
@@ -14855,6 +14569,11 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015A44.inc", void sub_8015A44
 }
 END_NONMATCH
 
+const s16 gUnknown_080CE6B8[NUM_CHARACTERS][2] = {
+    [SONIC] = { 0x0160, 0x02C0 },    [CREAM] = { 0x01C0, 0x0380 }, [TAILS] = { 0x01A0, 0x0340 },
+    [KNUCKLES] = { 0x0140, 0x0280 }, [AMY] = { 0x0180, 0x0300 },
+};
+
 // (96.29%) https://decomp.me/scratch/Hbq4u
 NONMATCH("asm/non_matching/game/stage/player__sub_8015C90.inc", void sub_8015C90(Player *p, u32 param2))
 {
@@ -14912,7 +14631,6 @@ END_NONMATCH
 
 s32 Player_8015D7C(Player *p)
 {
-    PlayerCallback callbacks[ARRAY_COUNT(gUnknown_080CE6CC)];
     s16 i;
 
     if ((gStageData.gameMode != GAME_MODE_MP_MULTI_PACK) || (gStageData.unk4 != 3)
@@ -14920,12 +14638,66 @@ s32 Player_8015D7C(Player *p)
         || (gCamera.maxX != gCameraMaxCoords[gStageData.currentLevel][0])
         || (gCamera.maxY != gCameraMaxCoords[gStageData.currentLevel][1])) {
         return FALSE;
-    }
-    memcpy(&callbacks, &gUnknown_080CE6CC, sizeof(callbacks));
+    } else {
+        PlayerCallback callbacks[] = { Player_8005BD4,
+                                       Player_8005CB8,
+                                       Player_8005DAC,
+                                       Player_800D8DC,
+                                       Player_8005E80,
+                                       Player_800D944,
+                                       Player_800613C,
+                                       Player_80061D8,
+                                       Player_800A168,
+                                       Player_800DF9C,
+                                       Player_HitWithoutRingsUpdate,
+                                       Player_800913C,
+                                       Player_8009518,
+                                       Player_80095E8,
+                                       Player_800AAC0,
+                                       Player_800AB48,
+                                       Player_800E348,
+                                       Player_800E370,
+                                       Player_800E398,
+                                       Player_800E3C4,
+                                       Player_800AF98,
+                                       Player_800E3EC,
+                                       Player_800B004,
+                                       Player_800E468,
+                                       Player_800E490,
+                                       Player_800E4B8,
+                                       Player_800E4E0,
+                                       Player_800B128,
+                                       Player_800E564,
+                                       Player_800ED14,
+                                       Player_800ED34,
+                                       Player_800ED4C,
+                                       Player_800DD0C,
+                                       Player_800DD28,
+                                       Player_800B5A4,
+                                       Player_800DD44,
+                                       Player_800DDB4,
+                                       Player_800B628,
+                                       Player_800DDD0,
+                                       Player_800DE48,
+                                       Player_800B6C4,
+                                       Player_800B748,
+                                       Player_IceLauncherLaunch,
+                                       Player_800B920,
+                                       Player_800DEC4,
+                                       Player_CollideGroundAfterIceLauncher,
+                                       Player_800B81C,
+                                       Player_nullsub_800EAA8,
+                                       Player_800E604,
+                                       Player_800DB7C,
+                                       Player_800DCB4,
+                                       Player_800DBE8,
+                                       Player_800DC50,
+                                       NULL };
 
-    for (i = 0; callbacks[i] != NULL; i++) {
-        if (p->callback == callbacks[i]) {
-            return FALSE;
+        for (i = 0; callbacks[i] != NULL; i++) {
+            if (p->callback == callbacks[i]) {
+                return FALSE;
+            }
         }
     }
 
@@ -16447,13 +16219,11 @@ void Task_80184F8(void)
 
 void Task_8018550(void)
 {
-    u8 sp[ARRAY_COUNT(gUnknown_080CE7A4)];
+    u8 sp[] = { 7, 3, 5, 1 };
     s32 index, index0;
     Strc_PlayerStrc50 *strc;
     Sprite *s;
     Player *p;
-
-    memcpy(sp, gUnknown_080CE7A4, sizeof(sp));
 
     strc = TASK_DATA(gCurTask);
     s = &strc->s;
@@ -16504,6 +16274,13 @@ void sub_801862C(void)
     DisplaySprite(s);
 }
 
+// TODO: const data order
+const s8 gUnknown_080CE7A8[][2] = { { +18, -20 }, { +00, -24 }, { -16, -14 }, { -24, +00 } };
+const s8 gUnknown_080CE7B0[][2] = { { -19, +21 }, { -23, +12 }, { -23, +05 }, { -23, -05 } };
+const s8 gUnknown_080CE7B8[][2] = { { -16, -14 }, { -22, +00 }, { -16, +14 }, { +00, +22 } };
+const s8 gUnknown_080CE7C0[][2] = { { -26, -02 }, { -02, +8 }, { +25, -2 }, { +16, -6 } };
+const s8 gUnknown_080CE7C8[][2] = { { +5, +0 }, { -5, +0 }, { +0, +5 }, { +0, -5 }, { +4, +4 }, { +4, -4 }, { -4, +4 }, { -4, -4 } };
+
 void Task_80186A0_CC()
 {
     Player *p;
@@ -16530,7 +16307,7 @@ void Task_80186A0_CC()
         temp_r2->worldX = I(p->qWorldX);
         temp_r2->worldY = I(p->qWorldY);
 
-        if (p->moveState & 1) {
+        if (p->moveState & MOVESTATE_FACING_LEFT) {
             temp_r2->worldX += gUnknown_080CE7A8[spriteIndex][0];
         } else {
             temp_r2->worldX -= gUnknown_080CE7A8[spriteIndex][0];
@@ -17292,6 +17069,327 @@ void TaskDestructor_8019704(struct Task *t)
     Strc_PlayerUnkE0 *strc = TASK_DATA(t);
     VramFree(strc->vram);
 }
+
+// TODO: const data order
+const s16 gPlayerCharacterIdleAnims[NUM_CHARACTERS] = {
+    [SONIC] = ANIM_SONIC_IDLE, [CREAM] = ANIM_CREAM_IDLE, [TAILS] = ANIM_TAILS_IDLE, [KNUCKLES] = ANIM_KNUCKLES_IDLE, [AMY] = ANIM_AMY_IDLE,
+};
+const u16 gUnknown_080CE7E2[][2] = {
+    { ANIM_SONIC_IDLE, 0 },
+    { 0x1, 0 },
+    { 0x2, 0 },
+    { 0x3, 0 },
+    { 0x4, 0 },
+    { 0x5, 0 },
+    { 0x6, 0 },
+    { 0x7, 0 },
+    { 0x8, 0 },
+    { 0x9, 0 },
+    { 0xa, 0 },
+    { 0xb, 0 },
+    { 0xc, 0 },
+    { 0xd, 0 },
+    { 0xe, 0 },
+    { 0xf, 0 },
+    { 0x10, 0 },
+    { 0x11, 0 },
+    { 0x12, 0 },
+    { 0x13, 0 },
+    { 0x14, 0 },
+    { 0x15, 0 },
+    { 0x16, 0 },
+    { 0x17, 0 },
+    { 0x18, 0 },
+    { 0x19, 0 },
+    { 0x1a, 0 },
+    { 0x1b, 0 },
+    { 0x1c, 0 },
+    { 0x1d, 0 },
+    { 0x1e, 0 },
+    { 0x1f, 0 },
+    { 0x20, 0 },
+    { 0x21, 0 },
+    { 0x22, 0 },
+    { 0x23, 0 },
+    { 0x24, 0 },
+    { 0x25, 0 },
+    { 0x26, 0 },
+    { 0x27, 0 },
+    { 0x28, 0 },
+    { 0x29, 0 },
+    { 0x2a, 0 },
+    { 0x2b, 0 },
+    { 0x2c, 0 },
+    { 0x2d, 0 },
+    { 0x2e, 0 },
+    { 0x2f, 0 },
+    { 0x30, 0 },
+    { 0x31, 0 },
+    { 0x32, 0 },
+    { 0x33, 0 },
+    { 0x34, 0 },
+    { 0x35, 0 },
+    { 0x36, 0 },
+    { 0x37, 0 },
+    { 0x38, 0 },
+    { 0x38, 0 },
+    { 0x3a, 0 },
+    { 0x3b, 0 },
+    { 0x3c, 0 },
+    { 0x3d, 0 },
+    { 0x3e, 0 },
+    { 0x3f, 0 },
+    { 0x40, 0 },
+    { 0x41, 0 },
+    { 0x42, 0 },
+    { 0x43, 0 },
+    { 0x44, 0 },
+    { 0x45, 0 },
+    { 0x46, 0 },
+    { 0x47, 0 },
+    { 0x48, 0 },
+    { 0x49, 0 },
+    { 0x4a, 0 },
+    { 0x4b, 0 },
+    { 0x4c, 0 },
+    { 0x4d, 0 },
+    { 0x4e, 0 },
+    { 0x4f, 0 },
+    { 0x50, 0 },
+    { 0x51, 0 },
+    { 0x52, 0 },
+    { 0x53, 0 },
+    { 0x54, 0 },
+    { 0x55, 0 },
+    { 0x56, 0 },
+    { 0x57, 0 },
+    { 0x58, 0 },
+    { 0x59, 0 },
+    { 0x5a, 0 },
+    { 0x5b, 0 },
+    { 0x5c, 0 },
+    { 0x5d, 0 },
+    { 0x5e, 0 },
+    { 0x5f, 0 },
+    { 0x60, 0 },
+    { 0x61, 0 },
+    { 0x62, 0 },
+    { 0x63, 0 },
+    { 0x64, 0 },
+    { 0x65, 0 },
+    { 0x66, 0 },
+    { 0x67, 0 },
+    { 0x68, 0 },
+    { 0x69, 0 },
+    { 0x6a, 0 },
+    { 0x6b, 0 },
+    { 0x6c, 0 },
+    { 0x6d, 0 },
+    { 0x59, 0 },
+    { 0x6f, 0 },
+    { 0x6d, 0 },
+    { 0x71, 0 },
+    { 0x72, 0 },
+    { 0x73, 0 },
+    { 0x74, 0 },
+    { 0x75, 0 },
+    { 0x76, 0 },
+    { 0x77, 0 },
+    { 0x78, 0 },
+    { 0x79, 0 },
+    { 0x7a, 0 },
+    { 0x7b, 0 },
+    { 0x7c, 0 },
+    { 0x7d, 0 },
+    { 0x7e, 0 },
+    { 0x7f, 0 },
+    { 0x80, 0 },
+    { 0x81, 0 },
+    { 0x82, 0 },
+    { 0x83, 0 },
+    { 0x84, 0 },
+    { 0x85, 0 },
+    { 0x86, 0 },
+    { 0x87, 0 },
+    { 0x88, 0 },
+    { 0x89, 0 },
+    { 0x8a, 0 },
+    { 0x8b, 0 },
+    { 0x8c, 0 },
+    { 0x8d, 0 },
+    { 0x8e, 0 },
+    { 0x8f, 0 },
+    { 0x90, 0 },
+    { 0x91, 0 },
+    { 0x92, 0 },
+    { 0x93, 0 },
+    { 0x94, 0 },
+    { 0x95, 0 },
+    { 0x96, 0 },
+    { 0x97, 0 },
+    { 0x98, 0 },
+    { 0x99, 0 },
+    { 0x9a, 0 },
+    { 0x9b, 0 },
+    { 0x9c, 0 },
+    { 0x9d, 0 },
+    { 0x9e, 0 },
+    { 0x9f, 0 },
+    { 0xa0, 0 },
+    { 0xa1, 0 },
+    { 0xa2, 0 },
+    { 0x39, 0 },
+    { 0x39, 1 },
+    { 0x25, 0 },
+    { 0x26, 0 },
+    { 0x2b, 0 },
+    { 0x2a, 0 },
+    { 0x69, 0 },
+    { 0x6b, 0 },
+    { 0x19, 0 },
+    { 0x50, 0 },
+    { 0x68, 0 },
+    { 0x60, 0 },
+    { 0x5e, 0 },
+    { 0x5f, -1 },
+    { 0x73, 0 },
+    { 0x73, 1 },
+    { 0x75, 0 },
+    { 0xc8, 0 },
+    { 0xc9, 0 },
+    { 0xcb, 0 },
+    { 0xcc, 0 },
+    { 0xcd, 0 },
+    { 0xce, 0 },
+    { 0xd2, 0 },
+    { 0xf4, 0 },
+    { 0xbc, 0 },
+    { 0xbc, 1 },
+    { 0xbd, 0 },
+    { 0xbe, 0 },
+    { 0xc0, 0 },
+    { 0xee, 0 },
+    { 0xef, 0 },
+    { 0xf0, 0 },
+    { 0xf1, 0 },
+    { 0x10b, 0 },
+    { 0x10c, 0 },
+    { 0x103, 0 },
+    { 0x101, 0 },
+    { 0x102, -1 },
+    { 0x16b, 0 },
+    { 0x16c, 0 },
+    { 0x170, 0 },
+    { 0x171, 0 },
+    { 0x15f, 0 },
+    { 0x19d, 0 },
+    { 0x160, 0 },
+    { 0x163, 0 },
+    { 0x163, 1 },
+    { 0x164, 0 },
+    { 0x165, 0 },
+    { 0x166, 0 },
+    { 0x189, 0 },
+    { 0x18a, 0 },
+    { 0x18b, 0 },
+    { 0x18c, 0 },
+    { 0x18d, 0 },
+    { 0x1ae, 0 },
+    { 0x1af, 0 },
+    { 0x1b1, 0 },
+    { 0x19b, 0 },
+    { 0x1a6, 0 },
+    { 0x1a4, 0 },
+    { 0x1a5, -1 },
+    { 0x20e, 0 },
+    { 0x20f, 0 },
+    { 0x239, 0 },
+    { 0x23a, 0 },
+    { 0x213, 0 },
+    { 0x202, 0 },
+    { 0x203, -1 },
+    { 0x204, 0 },
+    { 0x205, 0 },
+    { 0x206, 1 },
+    { 0x206, 0 },
+    { 0x208, 0 },
+    { 0x23b, 0 },
+    { 0x23c, 2 },
+    { 0x234, 0 },
+    { 0x235, 0 },
+    { 0x236, 0 },
+    { 0x237, 0 },
+    { 0x21f, 0 },
+    { 0x23c, 3 },
+    { 0x5f3, 0 },
+    { 0x296, 0 },
+    { 0x2c0, 0 },
+    { 0x2bc, 0 },
+    { 0x2bd, 0 },
+    { 0x2be, 0 },
+    { 0x2f8, 0 },
+    { 0x2a5, 0 },
+    { 0x2b1, 0 },
+    { 0x2b2, 0 },
+    { 0x2f7, 0 },
+    { 0x2d5, 0 },
+    { 0x2d6, 0 },
+    { 0x2b7, 0 },
+    { 0x2b8, 0 },
+    { 0x2a9, 0 },
+    { 0x2ab, 0 },
+    { 0x2f4, 0 },
+    { 0x2f5, 0 },
+    { 0x2ec, 0 },
+    { 0x2ea, 0 },
+    { 0x2eb, -1 },
+    { 0x2b1, 0 },
+    { 0x2e2, 0 },
+    { ANIM_SUPER_SONIC_MOVES, 2 },
+    { ANIM_SUPER_SONIC_MOVES, 1 },
+    { ANIM_SUPER_SONIC_MOVES, 3 },
+    { ANIM_SUPER_SONIC_MOVES, 0 },
+    { ANIM_SUPER_SONIC_MOVES, 6 },
+    { ANIM_SUPER_SONIC_MOVES, 14 },
+    { ANIM_SUPER_SONIC_MOVES, 18 },
+    { ANIM_SUPER_SONIC_MOVES, 10 },
+    { ANIM_SUPER_SONIC_MOVES, 4 },
+    { ANIM_SUPER_SONIC_MOVES, 8 },
+    { ANIM_SUPER_SONIC_MOVES, 16 },
+    { ANIM_SUPER_SONIC_MOVES, 12 },
+    { ANIM_SUPER_SONIC_MOVES, 7 },
+    { ANIM_SUPER_SONIC_MOVES, 15 },
+    { ANIM_SUPER_SONIC_MOVES, 19 },
+    { ANIM_SUPER_SONIC_MOVES, 11 },
+    { ANIM_SUPER_SONIC_MOVES, 5 },
+    { ANIM_SUPER_SONIC_MOVES, 9 },
+    { ANIM_SUPER_SONIC_MOVES, 17 },
+    { ANIM_SUPER_SONIC_MOVES, 13 },
+    { ANIM_SUPER_SONIC_TAG_ACTION_HOLD, 0 },
+    { ANIM_SUPER_SONIC_TAG_ACTION_HOLD, 1 },
+    { ANIM_SUPER_SONIC_PARALYSED, 0 },
+    { ANIM_SONIC_TO_SUPER_SONIC, 0 },
+    { ANIM_SONIC_TO_SUPER_SONIC, 1 },
+    { ANIM_SONIC_TO_SUPER_SONIC, 2 },
+    { ANIM_SONIC_TO_SUPER_SONIC, 3 },
+    { ANIM_SONIC_TO_SUPER_SONIC, 4 },
+    { ANIM_SONIC_TO_SUPER_SONIC, 5 },
+    { ANIM_SONIC_TO_SUPER_SONIC, 6 },
+    { ANIM_NEO_EGGMOBILE, 0 },
+    { ANIM_NEO_EGGMOBILE, 2 },
+    { ANIM_NEO_EGGMOBILE, 3 },
+    { ANIM_NEO_EGGMOBILE, 1 },
+    { ANIM_NEO_EGGMOBILE, 4 },
+    { ANIM_NEO_EGGMOBILE, 0 },
+    { ANIM_NEO_EGGMOBILE, 5 },
+    { ANIM_NEO_EGGMOBILE, 0 },
+};
+const s16 gUnknown_080CECB2[RSF_COUNT][2] = {
+    { 8, Q(0.25) }, { 12, Q(0.25) }, { 14, Q(0.25) }, { 16, Q(0.25) }, { 18, Q(0.25) },
+};
+const s16 gUnknown_080CECC6[RSF_COUNT] = {
+    Q(8.00), Q(7.96875), Q(6.5625), Q(5.625), Q(4.21875),
+};
 
 void Player_InitializeAfterImagesTask(Player *p)
 {
@@ -19959,13 +20057,17 @@ void sub_801CCB4(Player *p)
 // TODO: Fake-match!
 void sub_801CD50(Player *p)
 {
-    u16 sp00[5][2];
-    u16 sp14[5][2];
-    Player *partner;
     s32 var_r7 = 0;
+    u16 sp00[NUM_CHARACTERS][2] = {
+        [SONIC] = { 0x00AF, 0x00B0 },    [CREAM] = { 0x00C8, 0x00C9 }, [TAILS] = { 0x00E0, 0x00E1 },
+        [KNUCKLES] = { 0x0000, 0x0000 }, [AMY] = { 0x010A, 0x010B },
+    };
+    u16 sp14[NUM_CHARACTERS][2] = {
+        [SONIC] = { 0x005E, 0x005F },    [CREAM] = { 0x0101, 0x0102 }, [TAILS] = { 0x01A4, 0x01A5 },
+        [KNUCKLES] = { 0x0000, 0x0000 }, [AMY] = { 0x02EA, 0x02EB },
+    };
+    Player *partner;
 
-    memcpy(&sp00, &gUnknown_080CECD0, 0x14);
-    memcpy(&sp14, &gUnknown_080CECE4, 0x14);
     Player_801D1D0(p);
     if (!sub_801D2FC(p)) {
         sub_801CE94(p);
