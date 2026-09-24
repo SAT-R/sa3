@@ -6602,14 +6602,14 @@ void sub_800C338(Player *p)
 
 void sub_800C3AC(Player *p)
 {
-    u16 sp[NUM_CHARACTERS] = { VOICE__SONIC__YEAH, VOICE__CREAM__YEAH, VOICE__TAILS__YEAH, 0, VOICE__AMY__HEY };
+    u16 trickVoices[NUM_CHARACTERS] = { VOICE__SONIC__YEAH, VOICE__CREAM__YEAH, VOICE__TAILS__YEAH, 0, VOICE__AMY__HEY };
     u16 temp_r1;
     s32 character;
     u8 temp_r2;
 
     if ((p->charFlags.character != KNUCKLES) && (p->moveState & MOVESTATE_IN_AIR) && (p->unkC & 0x800000)) {
         character = p->charFlags.character;
-        Player_PlaySong(p, sp[character]);
+        Player_PlaySong(p, trickVoices[character]);
         if (DPAD_UP & p->keyInput) {
             switch (character) {
                 case CREAM:
