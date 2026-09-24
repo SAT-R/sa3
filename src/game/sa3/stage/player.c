@@ -9351,10 +9351,7 @@ void Player_800F7C0(Player *p)
 void sub_800F838(Player *p)
 {
     PlayerUnk148 *temp_r4;
-    s16 temp_r1_2;
     s32 temp_r1;
-    u16 temp_r0;
-    u16 temp_r2;
     u32 var_r6;
     u8 var_r7;
 
@@ -9375,29 +9372,20 @@ void sub_800F838(Player *p)
         if (++temp_r4->a.unk0 > 0x01E0) {
             temp_r4->a.unk0--;
         }
-        goto block_15;
-    }
-    temp_r1_2 = (s16)temp_r4->a.unk0;
-    if ((s32)temp_r1_2 <= 0x77) {
+    } else if (temp_r4->a.unk0 <= 0x77) {
         temp_r4->a.unk2 = (s16)var_r6;
         SetPlayerCallback(p, Player_80108FC);
-        goto block_15;
-    }
-    if ((s32)temp_r1_2 <= 0xEF) {
+    } else if (temp_r4->a.unk0 <= 0xEF) {
         temp_r4->a.unk2 = 0x3C;
         var_r7 = 2;
-        goto block_16;
-    }
-    if ((s32)temp_r1_2 <= 0x167) {
+    } else if (temp_r4->a.unk0 <= 0x167) {
         temp_r4->a.unk2 = 0x78;
         var_r7 = 3;
-        goto block_16;
+    } else {
+        temp_r4->a.unk2 = 0xF0;
+        var_r7 = 4;
     }
-    temp_r4->a.unk2 = 0xF0;
-    var_r7 = 4;
-block_15:
     if (var_r7 != 0) {
-    block_16:
         p->unk26 = var_r7;
         SetPlayerCallback(p, Player_8010AA0);
     }
