@@ -6,8 +6,15 @@
 .section .rodata
 
     mAlignWord
+
+	@ Used as font for RenderText,
+	@ but the data was removed in production builds
     .global gUnknown_082B5344
 gUnknown_082B5344:
+	.space 0
+
+    .global sPalette_082B5344
+sPalette_082B5344:
     .incbin "baserom_sa3.gba", 0x002B5344, 0x200
 
     .global gUnknown_082B5544

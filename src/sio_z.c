@@ -24,7 +24,7 @@ extern u8 gUnknown_03002C60;
 extern u8 gUnknown_0300620C;
 extern u8 gUnknown_03006C20;
 static const u16 sIdent[4] ALIGNED(4) = { 0x494E, 0x544E, 0x4E45, 0x4F44 }; // string identifier encoded as u16
-extern const ColorRaw gUnknown_082B5344[16 * PALETTE_LEN_4BPP];
+extern const ColorRaw sPalette_082B5344[16 * PALETTE_LEN_4BPP];
 extern const u8 gUnknown_082B5544[0x4000];
 extern const u8 gUnknown_082B9544[0x500];
 
@@ -373,59 +373,54 @@ void sub_80C66DC(void)
 
 void sub_80C6738(void)
 {
-    s32 temp_r0;
-    s32 state;
-    s32 var_r8;
-    u16 var_r4;
-    u32 var_r7;
     u16 *pBlendY;
+    s32 var_r8 = 0;
+    s8 var_r7 = 0;
+    s32 state = 0;
+    u16 var_r4 = 0x20;
 
-    var_r8 = 0;
-    var_r7 = 0;
-    state = 0;
-    var_r4 = 0x20;
-    DmaCopy16(3, &gUnknown_082B5544, BG_VRAM + 0x8000, sizeof(gUnknown_082B5544));
-    DmaCopy16(3, &gUnknown_082B5344, BG_PLTT, sizeof(gUnknown_082B5344));
-    DmaCopy16(3, &gUnknown_082B9544, BG_VRAM + 0x0000, sizeof(gUnknown_082B9544));
-    REG_BG0CNT = 0x88;
-    REG_DISPCNT = 0x1100;
-    REG_BLDCNT = 0x81;
+    DmaCopy16(3, &gUnknown_082B5544, BG_CHAR_ADDR(2), sizeof(gUnknown_082B5544));
+    DmaCopy16(3, &sPalette_082B5344, BG_PLTT, sizeof(sPalette_082B5344));
+    DmaCopy16(3, &gUnknown_082B9544, BG_SCREEN_ADDR(0), sizeof(gUnknown_082B9544));
+    REG_BG0CNT = BGCNT_SCREENBASE(0) | BGCNT_CHARBASE(2) | BGCNT_256COLOR | BGCNT_TXT256x256 | BGCNT_PRIORITY(0);
+    REG_DISPCNT = DISPCNT_OBJ_ON | DISPCNT_BG0_ON | DISPCNT_MODE_0;
+    REG_BLDCNT = BLDCNT_EFFECT_LIGHTEN | BLDCNT_TGT1_BG0;
     REG_BLDY = 0x10;
     REG_BG0HOFS = 0;
     REG_BG0VOFS = 0;
 
     pBlendY = (u16 *)&REG_BLDY;
 
-loop_1:
-    GetInput();
-    switch (state) {
-        case 0:
-            *pBlendY = (s16)(var_r4 >> 1);
-            var_r4 -= 1;
-            if (var_r4 == 0) {
-                state = 1;
-            }
+    for (;;) {
+        GetInput();
+        switch (state) {
+            case 0:
+                *pBlendY = (s16)(var_r4 >> 1);
+                var_r4 -= 1;
+                if (var_r4 == 0) {
+                    state = 1;
+                }
+                break;
+            case 1:
+                *pBlendY = 0;
+
+                if (var_r8++ < 120) {
+                    state = 2;
+                }
+                break;
+            case 2:
+                *pBlendY = (s16)(var_r4 >> 1);
+                var_r4 += 1;
+                break;
+        }
+        if ((DPAD_ANY & gPressedKeys) == DPAD_ANY) {
+            var_r7++;
+        }
+        if ((var_r4 != 0x20) || (state != 2)) {
+            VBlankIntrWait();
+        } else {
             break;
-        case 1:
-            *pBlendY = 0;
-            temp_r0 = var_r8;
-            var_r8 += 1;
-            if (temp_r0 < 120) {
-                state = 2;
-            }
-            break;
-        case 2:
-            *pBlendY = (s16)(var_r4 >> 1);
-            var_r4 += 1;
-            break;
-    }
-    if ((DPAD_ANY & gPressedKeys) == DPAD_ANY) {
-        var_r7 = (u32)((var_r7 << 0x18) + 0x01000000) >> 0x18;
-    }
-    if ((var_r4 != 0x20) || (state != 2)) {
-    block_16:
-        VBlankIntrWait();
-        goto loop_1;
+        }
     }
 
     if ((s32)(s8)var_r7 > 1) {

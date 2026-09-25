@@ -124,8 +124,8 @@ extern const char gStringSelectStage[];
 extern const char gStringZoneNActN[];
 extern const char gStringPressABtn[];
 extern const char gStringPleaseWait[];
-extern u8 gUnknown_082B5344[]; // NOTE: Not the actual pointer. Like SA1/SA2 the font was only included in debug builds.
 extern const u8 gUnknown_080D6F0C[0x15];
+extern u8 gUnknown_082B5344[]; // NOTE: Not the actual pointer. Like SA1/SA2 the font was only included in debug builds.
 
 extern const u16 gTilemapIdsConnectionStatus[];
 
