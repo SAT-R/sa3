@@ -52,9 +52,103 @@ void sub_804E5CC(void);
 void Task_804E66C(void);
 void TaskDestructor_IAChao(struct Task *);
 
-extern u8 gUnknown_080D0410[7][NUM_CHAO_PER_ZONE][2];
-extern u8 gUnknown_080D049C[NUM_CHAO_PER_ZONE];
-extern const u16 sChaoIATilesInfo[3][2];
+const u16 sChaoIATilesInfo[6][2] = { 
+    { ANIM_CHAO_NEUTRAL, 0 },
+    { ANIM_CHAO_UNSURE, 0 },
+    { ANIM_CHAO_LOOK_OUT, 0 },
+	{ ANIM_CHAO_SITTING, 0 },
+	{ ANIM_CHAO_STANDING, 0 },
+	{ ANIM_CHAO_WALKING, 0 },
+};
+const u8 gUnknown_080D0410[NUM_COURSE_ZONES][NUM_CHAO_PER_ZONE][2] = {
+    [ZONE_1] = {
+        { 3, 0 },
+        { 4, 0 },
+        { 5, 0 },
+        { 0, 16 },
+        { 1, 24 },
+        { 2, 16 },
+        { 0, 28 },
+        { 4, 0 },
+        { 3, 0 },
+        { 5, 0 },
+    },
+    [ZONE_2] = {
+        { 3, 0 },
+        { 4, 0 },
+        { 0, 16 },
+        { 1, 24 },
+        { 5, 0 },
+        { 3, 0 },
+        { 4, 0 },
+        { 2, 24 },
+        { 3, 0 },
+        { 1, 16 },
+    },
+    [ZONE_3] = {
+        { 0, 16 },
+        { 0, 24 },
+        { 1, 20 },
+        { 4, 0 },
+        { 3, 0 },
+        { 1, 16 },
+        { 2, 24 },
+        { 4, 0 },
+        { 1, 20 },
+        { 5, 0 },
+    },
+    [ZONE_4] = {
+		{ 3, 0 },
+		{ 4, 0 },
+		{ 2, 16 },
+		{ 0, 24 },
+		{ 5, 0 },
+		{ 1, 16 },
+		{ 4, 0 },
+		{ 2, 16 },
+		{ 0, 24 },
+		{ 3, 0 },
+	},
+    [ZONE_5] = {
+        { 3, 0 },
+        { 4, 0 },
+        { 0, 16 },
+        { 1, 24 },
+        { 2, 28 },
+        { 5, 0 },
+        { 2, 24 },
+        { 1, 16 },
+        { 5, 0 },
+        { 4, 0 },
+    },
+    [ZONE_6] = {
+        { 1, 16 },
+        { 3, 0 },
+        { 4, 0 },
+        { 0, 16 },
+        { 2, 24 },
+        { 4, 0 },
+        { 0, 16 },
+        { 5, 0 },
+        { 3, 0 },
+        { 5, 0 },
+    },
+	[ZONE_7] = {
+		{ 0, 16 },
+		{ 3, 0 },
+		{ 4, 0 },
+		{ 3, 0 },
+		{ 2, 16 },
+		{ 1, 24 },
+		{ 5, 0 },
+		{ 3, 0 },
+		{ 4, 0 },
+		{ 4, 0 },
+	}
+};
+const u8 gUnknown_080D049C[NUM_CHAO_PER_ZONE] = {
+	52, 53, 54, 55, 56, 57, 58, 59, 60, 51
+};
 
 #define CHAOKIND_PLAYGROUND 0xFF
 
@@ -139,7 +233,7 @@ void CreateEntity_ChaoInPlayground(MapEntity *me, u16 regionX, u16 regionY, u8 i
     chao->worldY = worldY - gUnknown_080D0410[gStageData.zone][chaoKind][1];
 
     chao->unk70 = gUnknown_080D0410[gStageData.zone][chaoKind][0];
-    ;
+
     chao->chaoKind = 0xFF;
     chao->notifText = 0;
 

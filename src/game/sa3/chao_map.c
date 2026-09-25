@@ -42,7 +42,7 @@ void Task_ChaoMap(void);
 extern u16 gTilemapIdsChaoMap[6];
 extern u8 gUnknown_080CEECC[10];
 extern u8 gUnknown_080D0410[NUM_COURSE_ZONES][10][2];
-extern const u16 sChaoIATilesInfo[3][2];
+extern const u16 sChaoIATilesInfo[6][2];
 
 void sub_802304C(ChaoMap *chaomap)
 {

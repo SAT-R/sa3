@@ -328,7 +328,7 @@ SECTIONS {
         src/game/sa3/interactables/boulder.o(.rodata);
         src/game/sa3/interactables/ice_launcher.o(.rodata);
         src/game/sa3/interactables/platform_chaos_angel.o(.rodata);
-        data/data_0_1_1.o(.rodata);
+        src/game/sa3/interactables/chao.o(.rodata);
         src/game/stage/camera.o(.rodata);
         src/data/tilemap_table.o(.rodata);
         data/data_1_1.o(.rodata);

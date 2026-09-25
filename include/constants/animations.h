@@ -202,6 +202,9 @@
 // ANIM_MUD_FX with lighter colors, only used in Chaos Angel
 #define ANIM_MUD_FX_CHAOS_ANGEL 999
 
+#define ANIM_CHAO_NEUTRAL  1001
+#define ANIM_CHAO_UNSURE   1002
+#define ANIM_CHAO_LOOK_OUT 1003
 #define ANIM_CHAO_SITTING  1004
 #define ANIM_CHAO_STANDING 1005
 #define ANIM_CHAO_WALKING  1006
