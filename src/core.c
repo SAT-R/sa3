@@ -186,7 +186,7 @@ static void Dma0Intr(void);
 static void Dma1Intr(void);
 static void Dma2Intr(void);
 #if (GAME == GAME_SA3)
-void sub_80C66DC(void);
+void Timer3IntrExt(void);
 #endif
 static void Dma3Intr(void);
 static void KeypadIntr(void);
@@ -195,7 +195,8 @@ static void GamepakIntr(void);
 extern void IntrMain(void);
 
 // Warning: array contains an empty slot which would have
-// been used for a Timer3Intr function
+// been used for a Timer3Intr function, except for SA3.
+// But in SA3, instead of using Timer3Intr() below, extern Timer3IntrExt() gets set.
 IntrFunc const gIntrTableTemplate[] = {
 #ifdef MULTI_SIO_DI_FUNC_FAST
     (void *)gMultiSioIntrFuncBuf,
@@ -209,7 +210,7 @@ IntrFunc const gIntrTableTemplate[] = {
     Timer1Intr,
     Timer2Intr,
 #if (GAME == GAME_SA3)
-    sub_80C66DC,
+    Timer3IntrExt,
 #endif
     Dma0Intr,
     Dma1Intr,

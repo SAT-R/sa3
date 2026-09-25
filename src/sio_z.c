@@ -358,7 +358,7 @@ s32 sub_80C65F0(u8 arg0)
     return result;
 }
 
-void sub_80C66DC(void)
+void Timer3IntrExt(void)
 {
     REG_IME = 0;
     REG_IE &= ~INTR_FLAG_TIMER3;
