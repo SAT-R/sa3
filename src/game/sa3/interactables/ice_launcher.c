@@ -42,9 +42,6 @@ void TaskDestructor_IceLauncher(struct Task *t);
 void TaskDestructor_IceShiver(struct Task *t);
 void sub_804B0F8(Sprite *s, s16 param1);
 
-// const u8 gUnknown_080D03D8 = {0x40, 0x05, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x48, 0x60, 0x78, 0x90, 0xA8, 0xC0, 0xC0, 0xC0};
-extern const u8 gUnknown_080D03D8[];
-
 void CreateEntity_IceLauncher(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_IceLauncher, sizeof(IceLauncher), 0x2100, 0, TaskDestructor_IceLauncher);
@@ -238,8 +235,7 @@ void CreateIceShiver(s16 param0, s16 param1, s16 param2, u16 param3, u8 param4)
     struct Task *t;
     IceShiver *ice;
     Sprite *s;
-    u8 array[6];
-    memcpy(array, &gUnknown_080D03D8[0], sizeof(array));
+    u8 array[6] = { 0x40, 0x05, 0x00, 0x00, 0x04, 0x00 };
 
     t = TaskCreate(Task_IceShiver, sizeof(IceShiver), 0x2100, 0, TaskDestructor_IceShiver);
     ice = TASK_DATA(t);
@@ -267,6 +263,8 @@ void CreateIceShiver(s16 param0, s16 param1, s16 param2, u16 param3, u8 param4)
     ice->qWorldY = Q(param1);
     UpdateSpriteAnimation(s);
 }
+
+static const u8 unused[] = { 0x00, 0x00, 0x48, 0x60, 0x78, 0x90, 0xA8, 0xC0, 0xC0, 0xC0 }; // TODO: probably from a different module
 
 void TaskDestructor_IceLauncher(struct Task *t)
 {

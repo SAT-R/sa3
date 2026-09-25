@@ -6,18 +6,6 @@
 
 .section .rodata
 
-    .global gUnknown_080D03C8
-gUnknown_080D03C8:
-    .incbin "baserom_sa3.gba", 0x000D03C8, 0x10
-
-    .global gUnknown_080D03D8
-gUnknown_080D03D8:
-    .incbin "baserom_sa3.gba", 0x000D03D8, 0x10
-
-    .global gUnknown_080D03E8
-gUnknown_080D03E8:
-    .incbin "baserom_sa3.gba", 0x000D03E8, 0x10
-
     .global sChaoIATilesInfo
 sChaoIATilesInfo:
     .incbin "baserom_sa3.gba", 0x000D03F8, 0x18

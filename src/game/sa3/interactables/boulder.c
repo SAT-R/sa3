@@ -378,9 +378,7 @@ void InitDebrisSprites(Boulder *boulder)
     Sprite *s;
     s16 i, j;
 
-    // const s8 arr[4][4] = {{-10, -8, -6, -6}, {10, -2, 6, -4}, {-10, 0, 3, -8}, {-2, 0, -2, -3}};
-    s8 arr[4][4];
-    memcpy(arr, gUnknown_080D03C8, sizeof(arr));
+    const s8 arr[4][4] = { { -10, -8, -6, -6 }, { 10, -2, 6, -4 }, { -10, 0, 3, -8 }, { -2, 0, -2, -3 } };
 
     s = &boulder->s;
     s->tiles = boulder->tiles;

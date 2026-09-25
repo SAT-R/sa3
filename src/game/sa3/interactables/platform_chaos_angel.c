@@ -19,7 +19,7 @@ typedef struct {
     /* 0x36 */ s16 worldY;
     /* 0x38 */ s32 qWorldX;
     /* 0x3C */ s32 qWorldY;
-    /* 0x40 */ u16 unk40;
+    /* 0x40 */ s16 unk40;
     /* 0x42 */ u8 unk42;
     /* 0x43 */ u8 unk43;
 } PlatformCA; /* size: 0x44 */
@@ -29,7 +29,10 @@ void sub_804DB08(void);
 void TaskDestructor_PlatformChaosAngel(struct Task *);
 static void InitSprite(Sprite *s);
 
-extern u8 gUnknown_080D03E8[8][2];
+// TODO: Is this s8[] ?
+const s8 gUnknown_080D03E8[8][2] = {
+    { 0, 0 }, { 2, 1 }, { -1, 2 }, { -3, -2 }, { 1, 1 }, { 3, 0 }, { 2, -3 }, { -1, -1 },
+};
 
 void CreateEntity_PlatformChaosAngel(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -62,19 +65,22 @@ void CreateEntity_PlatformChaosAngel(MapEntity *me, u16 regionX, u16 regionY, u8
     InitSprite(s);
 }
 
-// (85.26%) https://decomp.me/scratch/K73NL
-NONMATCH("asm/non_matching/game/interactables/platform_ca__Task_PlatformChaosAngel.inc", void Task_PlatformChaosAngel(void))
+void Task_PlatformChaosAngel(void)
 {
-    PlatformCA *platform = TASK_DATA(gCurTask);
-    Sprite *s = &platform->s;
-    s16 r9 = 0;
-    s32 qWorldX, qWorldY;
-    s32 qWorldX32, qWorldY32;
-    s32 qLeft, qTop;
+    PlatformCA *platform;
+    Sprite *s;
+    s16 r9;
     s16 i;
-    s16 temp, temp2;
 
-    if ((gStageData.unk4 == 4) || (platform->unk42 & 0x10)) {
+    platform = TASK_DATA(gCurTask);
+    s = &platform->s;
+    r9 = 0;
+
+    if ((gStageData.unk4 != 4) && (platform->unk42 & 0x10)) {
+        s32 u4316;
+        s32 unk_42_first;
+        s16 temp1;
+        s16 temp2;
         MapEntity *me = platform->base.me;
         u8 unk42 = (platform->unk42 & 0x7);
 
@@ -90,42 +96,35 @@ NONMATCH("asm/non_matching/game/interactables/platform_ca__Task_PlatformChaosAng
 
         platform->unk40 += platform->unk43 / 4;
 
-        temp = gUnknown_080D03E8[unk42][0];
-        temp2 = (platform->unk43 * 16);
-        temp *= temp2;
+        unk_42_first = gUnknown_080D03E8[unk42][0];
+        u4316 = (platform->unk43 * 16);
+        temp1 = (unk_42_first * u4316);
+        temp2 = (gUnknown_080D03E8[unk42][1] * u4316);
 
-        platform->unk40 = gUnknown_080D03E8[unk42][1] * temp2;
-        qLeft += qWorldX;
-        platform->qWorldX = qLeft;
+        r9 += (temp2 + platform->unk40);
 
-        qTop = Q(platform->worldX) + temp;
-        platform->qWorldX = qTop;
-        r9 = platform->unk43 * 16;
-        platform->qWorldY += temp;
+        platform->qWorldX = (Q(platform->worldX) + temp1);
+        platform->qWorldY += r9;
     }
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        Player *p = GET_SP_PLAYER_V0(i);
+        Player *p = (i == 0) ? &gPlayers[gStageData.playerIndex] : &gPlayers[p->charFlags.partnerIndex];
+        s32 res;
 
         if (!sub_802C0D4(p)) {
-            s32 res;
-
             if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s)) {
-
-                res = sub_80110E8(3, p, NULL, NULL);
+                s32 res = sub_80110E8(3, p, NULL, NULL);
                 if (res > 0) {
-                    p->qWorldY += Q(4) + r9;
-                    asm("");
+                    s32 q4 = Q(4);
+                    p->qWorldY = p->qWorldY + q4 + r9;
                 } else {
                     p->qWorldY += Q(res);
                 }
             }
 
             res = sub_8020950(s, I(platform->qWorldX), I(platform->qWorldY), p, 0);
-
             if (res & 0x10000) {
-                s16 res16 = Q(res);
-                p->qWorldY += res16;
+                p->qWorldY += (s16)Q(res);
                 p->qSpeedAirY = 0;
                 platform->unk42 |= 0x10;
             }
@@ -134,7 +133,6 @@ NONMATCH("asm/non_matching/game/interactables/platform_ca__Task_PlatformChaosAng
 
     sub_804DB08();
 }
-END_NONMATCH
 
 void sub_804DB08(void)
 {
