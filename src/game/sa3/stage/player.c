@@ -9351,10 +9351,7 @@ void Player_800F7C0(Player *p)
 void sub_800F838(Player *p)
 {
     PlayerUnk148 *temp_r4;
-    s16 temp_r1_2;
     s32 temp_r1;
-    u16 temp_r0;
-    u16 temp_r2;
     u32 var_r6;
     u8 var_r7;
 
@@ -9375,29 +9372,20 @@ void sub_800F838(Player *p)
         if (++temp_r4->a.unk0 > 0x01E0) {
             temp_r4->a.unk0--;
         }
-        goto block_15;
-    }
-    temp_r1_2 = (s16)temp_r4->a.unk0;
-    if ((s32)temp_r1_2 <= 0x77) {
+    } else if (temp_r4->a.unk0 < 0x78) {
         temp_r4->a.unk2 = (s16)var_r6;
         SetPlayerCallback(p, Player_80108FC);
-        goto block_15;
-    }
-    if ((s32)temp_r1_2 <= 0xEF) {
+    } else if (temp_r4->a.unk0 < 0xF0) {
         temp_r4->a.unk2 = 0x3C;
         var_r7 = 2;
-        goto block_16;
-    }
-    if ((s32)temp_r1_2 <= 0x167) {
+    } else if (temp_r4->a.unk0 < 0x168) {
         temp_r4->a.unk2 = 0x78;
         var_r7 = 3;
-        goto block_16;
+    } else {
+        temp_r4->a.unk2 = 0xF0;
+        var_r7 = 4;
     }
-    temp_r4->a.unk2 = 0xF0;
-    var_r7 = 4;
-block_15:
     if (var_r7 != 0) {
-    block_16:
         p->unk26 = var_r7;
         SetPlayerCallback(p, Player_8010AA0);
     }
@@ -12557,7 +12545,6 @@ void sub_801310C(s16 playerIndex)
             s->anim = ANIM_CREAM_IDLE + CHAR_ANIM_SPIN_NEUTRAL;
             s->variant = 1;
             s->frameFlags = SPRITE_FLAG(ROT_SCALE, 2);
-            goto block_15;
             break;
         case TAILS:
             if ((u32)gStageData.gameMode < 6) {
@@ -12568,31 +12555,32 @@ void sub_801310C(s16 playerIndex)
             s->anim = ANIM_TAILS_IDLE + CHAR_ANIM_SPIN_NEUTRAL;
             s->variant = 1;
             s->frameFlags = SPRITE_FLAG(ROT_SCALE, 3);
-        block_15:
-            s->frameFlags |= MOVESTATE_1000;
-            s->frameFlags |= (MOVESTATE_40000 | MOVESTATE_COLLIDING_ENT);
-            s->x = I(p->qWorldX);
-            s->y = I(p->qWorldY);
-            if (gStageData.playerIndex == playerIndex) {
-                prio = 16;
-            } else {
-                prio = 17 + playerIndex;
-            }
-            s->oamFlags = SPRITE_OAM_ORDER(prio);
-            s->qAnimDelay = 0;
-            s->prevVariant = 0xFF;
-            s->animSpeed = SPRITE_ANIM_SPEED(1.0);
-            s->palId = (s8)playerIndex;
-            s->hitboxes[0].index = -1;
-            s->hitboxes[1].index = -1;
-
-            temp_r3->tf.rotation = 0;
-            temp_r3->tf.qScaleX = Q(1);
-            temp_r3->tf.qScaleY = Q(1);
-            temp_r3->tf.x = 0;
-            temp_r3->tf.y = 0;
             break;
+        default:
+            return;
     }
+    s->frameFlags |= MOVESTATE_1000;
+    s->frameFlags |= (MOVESTATE_40000 | MOVESTATE_COLLIDING_ENT);
+    s->x = I(p->qWorldX);
+    s->y = I(p->qWorldY);
+    if (gStageData.playerIndex == playerIndex) {
+        prio = 16;
+    } else {
+        prio = 17 + playerIndex;
+    }
+    s->oamFlags = SPRITE_OAM_ORDER(prio);
+    s->qAnimDelay = 0;
+    s->prevVariant = 0xFF;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = (s8)playerIndex;
+    s->hitboxes[0].index = -1;
+    s->hitboxes[1].index = -1;
+
+    temp_r3->tf.rotation = 0;
+    temp_r3->tf.qScaleX = Q(1);
+    temp_r3->tf.qScaleY = Q(1);
+    temp_r3->tf.x = 0;
+    temp_r3->tf.y = 0;
 }
 
 extern const u16 gUnknown_080CE7E2[][2];
@@ -19961,14 +19949,12 @@ void sub_801CB68(Player *p)
         case 1:
             p->charFlags.anim0 = 0xF0;
 
-            goto def;
             break;
         case 2:
             sub_801DEE4(p);
-            break;
+            return;
         case 3:
             p->charFlags.anim0 = 0xF1;
-            goto def;
             break;
         case 4:
             p->moveState = (p->moveState | MOVESTATE_IN_AIR) & 0xFFFBFFFF;
@@ -19977,13 +19963,10 @@ void sub_801CB68(Player *p)
             p->qSpeedAirY = 0;
             p->charFlags.anim0 = 0x18;
             Player_800DAF4(p);
-            break;
-        default:
-        def:
-            if (!sub_8015064(p)) {
-                sub_8017004(p);
-            }
-            break;
+            return;
+    }
+    if (!sub_8015064(p)) {
+        sub_8017004(p);
     }
 }
 
