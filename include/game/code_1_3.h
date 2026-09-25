@@ -20,12 +20,18 @@ typedef struct {
     /* 0x0e */ s16 bg2y_h;
 } DmaIoData;
 
+typedef enum {
+    CSI_NONE,
+    CSI_PLAYER_IS_CREAM,
+    CSI_PARTNER_IS_CREAM,
+} ECheeseSpriteIndex;
+
 typedef struct {
     /* 0x000 */ Sprite sprite0;
     /* 0x028 */ Sprite2 sprite28;
     /* 0x058 */ u8 filler58[0x78];
     /* 0x0D0 */ SpriteTransform tf[2];
-    /* 0x0E8 */ Sprite spriteE8;
+    /* 0x0E8 */ Sprite sprCheese;
     /* 0x110 */ Background bg110;
     /* 0x150 */ ScreenFade fade;
     /* 0x15C */ DmaIoData *data15C;
@@ -41,10 +47,13 @@ typedef struct {
     /* 0x174 */ s16 unk174;
     /* 0x176 */ s16 unk176;
     /* 0x178 */ s16 unk178;
-    /* 0x17A */ u8 unk17A;
-    /* 0x17B */ u8 unk17B;
+    /* 0x17A */ u8 playerAnimIndex;
+    /* 0x17B */ u8 partnerAnimIndex;
     /* 0x17C */ Sprite sprites17C[4];
-    /* 0x21C */ u8 unk21C;
+    // 0: None of the characters is Cream, so there's no Cheese
+    // 1: Player character is Cream
+    // 2: Partner character is Cream
+    /* 0x21C */ ECheeseSpriteIndex cheeseSpriteIndex;
 } Strc_220_sub_8053128;
 
 typedef struct {
@@ -106,7 +115,6 @@ typedef struct {
 
 void sub_8053128(s16 character1, s16 character2);
 void sub_80533F4(u16 character); // related to Special Springs
-void sub_8053440(Strc_220_sub_8053128 *strc220);
 void sub_80534DC(Strc_220_sub_8053128 *strc220, s16, s16);
 void sub_805365C(Strc_220_sub_8053128 *strc220);
 void sub_80536F0(Strc_220_sub_8053128 *strc220);

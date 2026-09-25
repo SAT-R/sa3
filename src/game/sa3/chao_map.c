@@ -41,7 +41,7 @@ void Task_ChaoMap(void);
 
 extern u16 gTilemapIdsChaoMap[6];
 extern u8 gUnknown_080CEECC[10];
-extern u8 gUnknown_080D0410[7][10][2];
+extern u8 gUnknown_080D0410[NUM_COURSE_ZONES][10][2];
 extern const u16 sChaoIATilesInfo[3][2];
 
 void sub_802304C(ChaoMap *chaomap)
@@ -174,7 +174,7 @@ void ChaoMap_InitSprites(ChaoMap *chaomap)
             var_r0_2 = i - 5;
         }
 
-        for (zone = 0; zone < 7; zone++) {
+        for (zone = 0; zone < NUM_COURSE_ZONES; zone++) {
             if (GetChaoFlag(zone, chaoIds[i])) {
                 s32 val;
                 s32 val2;

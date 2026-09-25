@@ -22,6 +22,8 @@
 
 #define CHAR_ANIM_POLE_DANCE 133
 
+#define ANIM_CHEESE_BOSS_DEFEAT 825
+
 // Rescued animals
 #define ANIM_ANIMAL 840
 

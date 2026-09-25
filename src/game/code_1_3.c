@@ -20,23 +20,24 @@
 #include "constants/animations.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"
+#include "constants/tilemaps.h"
 
 /* TODO: Cleanup declarations and *possibly* split this module.
          (but not before documenting what all this is!) */
 
 void TaskDestructor_805332C(Task *t);
-void Task_2A4_8054EB8(void);
-void sub_8055614(Strc_2A4_8053284 *strc);
-void Task_10_8055DA8(void);
+void sub_8053440(Strc_220_sub_8053128 *strc220);
 void Task_220_805374C(void);
 void Task_220_8053B28(void);
 void Task_220_8053BAC(void);
 void Task_220_8053C70(void);
 void Task_220_8053DEC(void);
-void Task_220_8054514(void);
-void Task_220_8053DEC(void);
 void Task_220_8053EA4(void);
 void Task_220_8053FB8(void);
+void Task_220_8054514(void);
+void Task_2A4_8054EB8(void);
+void sub_8055614(Strc_2A4_8053284 *strc);
+void Task_10_8055DA8(void);
 void Task_220_80540EC(void);
 void Task_220_8054208(void);
 void Task_220_805429C(void);
@@ -155,35 +156,82 @@ extern void CreatePreCreditsCutscene(u8);
 extern void sub_80A872C(u8);
 extern ColorRaw sub_80C4C0C(ColorRaw color);
 
-extern u16 gUnknown_080D1C48[][4][2];
+typedef enum {
+    INDEX_SONIC = SONIC,
+    INDEX_CREAM = CREAM,
+    INDEX_TAILS = TAILS,
+    INDEX_KNUCKLES = KNUCKLES,
+    INDEX_AMY = AMY,
+    INDEX_CHEESE,
+
+    INDEX_COUNT
+} EAnimIndices;
+
+// NOTE: Includes Cheese, that's why it is [NUM_CHARACTERS + 1]
+const u16 gUnknown_080D1C48[INDEX_COUNT][4][2] = {
+    [INDEX_SONIC] = {
+        { ANIM_SONIC_IDLE + 161, 0 },
+        { ANIM_SONIC_IDLE + 161, 1 },
+        { ANIM_SONIC_IDLE + 161, 2 },
+        { ANIM_SONIC_IDLE + 161, 3 },
+    },
+    [INDEX_CREAM] = {
+        { ANIM_CREAM_IDLE + 161, 0 },
+        { ANIM_CREAM_IDLE + 161, 1 },
+        { ANIM_CREAM_IDLE + 161, 2 },
+        { ANIM_CREAM_IDLE + 161, 3 },
+    },
+    [INDEX_TAILS] = {
+        { ANIM_TAILS_IDLE + 161, 0 },
+        { ANIM_TAILS_IDLE + 161, 1 },
+        { ANIM_TAILS_IDLE + 161, 2 },
+        { ANIM_TAILS_IDLE + 161, 3 },
+    },
+    [INDEX_KNUCKLES] = {
+        { ANIM_KNUCKLES_IDLE + 161, 0 },
+        { ANIM_KNUCKLES_IDLE + 161, 1 },
+        { ANIM_KNUCKLES_IDLE + 161, 2 },
+        { ANIM_KNUCKLES_IDLE + 161, 3 },
+    },
+    [INDEX_AMY] = {
+        { ANIM_AMY_IDLE + 161, 0 },
+        { ANIM_AMY_IDLE + 161, 1 },
+        { ANIM_AMY_IDLE + 161, 2 },
+        { ANIM_AMY_IDLE + 161, 3 },
+    },
+    [INDEX_CHEESE] = {
+        { ANIM_CHEESE_BOSS_DEFEAT, 0 },
+        { ANIM_CHEESE_BOSS_DEFEAT, 1 },
+        { ANIM_CHEESE_BOSS_DEFEAT, 2 },
+        { ANIM_CHEESE_BOSS_DEFEAT, 3 },
+    }
+};
 
 extern u8 gUnknown_080CE438[][2];
 extern u8 gUnknown_080CE4B2[][2];
 extern u8 gUnknown_080D1CA8[NUM_CHARACTERS];
-extern u16 gUnknown_080D1CAE[NUM_CHARACTERS][3];
+extern u16 gUnknown_080D1CAE[NUM_CHARACTERS + 1][3];
 extern u16 gUnknown_080D1CD2[3][3];
 extern const u16 gUnknown_080D1CE4[NUM_LANGUAGES][3][3];
 extern const u8 gUnknown_080D1D50[];
 
-extern u16 gUnknown_080D1C48[][4][2];
-
-void sub_8053128(s16 arg0, s16 arg1)
+void sub_8053128(s16 character1, s16 character2)
 {
     Strc_220_sub_8053128 *strc220;
     ScreenFade *fade;
 
     strc220 = TASK_DATA(TaskCreate(Task_220_8053904, sizeof(Strc_220_sub_8053128), 0x100U, 0U, NULL));
 
-    if (arg0 == 1) {
-        strc220->unk21C = 1;
-    } else if (arg1 == 1) {
-        strc220->unk21C = 2;
+    if (character1 == CREAM) {
+        strc220->cheeseSpriteIndex = CSI_PLAYER_IS_CREAM;
+    } else if (character2 == CREAM) {
+        strc220->cheeseSpriteIndex = CSI_PARTNER_IS_CREAM;
     } else {
-        strc220->unk21C = 0;
+        strc220->cheeseSpriteIndex = CSI_NONE;
     }
 
     sub_8053440(strc220);
-    sub_80534DC(strc220, arg0, arg1);
+    sub_80534DC(strc220, character1, character2);
     sub_805365C(strc220);
 
     strc220->unk164 = 0;
@@ -197,8 +245,8 @@ void sub_8053128(s16 arg0, s16 arg1)
     strc220->unk174 = 0xFFF0;
     strc220->unk176 = 0;
     strc220->unk178 = 0;
-    strc220->unk17A = arg0;
-    strc220->unk17B = arg1;
+    strc220->playerAnimIndex = character1;
+    strc220->partnerAnimIndex = character2;
 
     strc220->fade.window = 0;
     strc220->fade.flags = 2;
@@ -256,7 +304,7 @@ void TaskDestructor_805332C(Task *t)
     VramFree(strc2A4->sprite214.tiles);
     VramFree(strc2A4->sprite23C.tiles);
 
-    if (gStageData.gameMode == GAME_MODE_TIME_ATTACK || gStageData.gameMode == GAME_MODE_BOSS_TIME_ATTACK) {
+    if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK || CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
         VramFree(strc2A4->sprite264.tiles);
     }
 }
@@ -278,24 +326,25 @@ void sub_8053440(Strc_220_sub_8053128 *strc220)
 {
     Background *bg = &strc220->bg110;
 
-    gDispCnt = 0x42;
-    gBgCntRegs[1] = 0xF06;
-    gBgCntRegs[2] = 0x6381;
+    gDispCnt = DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_2;
+    gBgCntRegs[1] = BGCNT_SCREENBASE(15) | BGCNT_CHARBASE(1) | BGCNT_PRIORITY(2);
+    gBgCntRegs[2] = BGCNT_SCREENBASE(3) | BGCNT_CHARBASE(0) | BGCNT_WRAP | BGCNT_AFF256x256 | BGCNT_256COLOR | BGCNT_PRIORITY(1);
+
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
-    gBgScrollRegs[1][0] = 0x10;
-    gBgScrollRegs[1][1] = 0x74;
+    gBgScrollRegs[1][0] = 16;
+    gBgScrollRegs[1][1] = 116;
     gBgScrollRegs[2][0] = 0;
     gBgScrollRegs[2][1] = 0;
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
 
-    bg->graphics.dest = (void *)BG_VRAM;
+    bg->graphics.dest = (void *)BG_CHAR_ADDR(0);
     bg->graphics.anim = 0;
-    bg->layoutVram = (u16 *)(BG_VRAM + 0x1800);
+    bg->layoutVram = (u16 *)BG_SCREEN_ADDR(3);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    bg->tilemapId = 422;
+    bg->tilemapId = TM_UNKNOWN_422;
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 0;
@@ -305,13 +354,13 @@ void sub_8053440(Strc_220_sub_8053128 *strc220)
     bg->paletteOffset = 0;
     bg->animFrameCounter = 0;
     bg->animDelayCounter = 0;
-    bg->flags = 6;
+    bg->flags = BACKGROUND_FLAGS_BG_ID(2) | BACKGROUND_FLAG_4;
     bg->scrollX = 0;
     bg->scrollY = 0;
     DrawBackground(bg);
 }
 
-void sub_80534DC(Strc_220_sub_8053128 *strc220, s16 arg1, s16 arg2)
+void sub_80534DC(Strc_220_sub_8053128 *strc220, s16 character1, s16 character2)
 {
     s16 var_r1;
     s32 temp_r2;
@@ -323,13 +372,13 @@ void sub_80534DC(Strc_220_sub_8053128 *strc220, s16 arg1, s16 arg2)
     s->tiles = (u8 *)OBJ_VRAM0;
     s->frameFlags = 0x1000;
     s->frameFlags |= 0x20;
-    s->anim = gUnknown_080D1C48[arg1][0][0];
+    s->anim = gUnknown_080D1C48[character1][0][0];
     s->x = 66;
     s->y = 140;
     s->oamFlags = 0x400;
     s->qAnimDelay = 0;
     s->prevAnim = -1;
-    s->variant = gUnknown_080D1C48[arg1][0][1];
+    s->variant = gUnknown_080D1C48[character1][0][1];
     s->prevVariant = 0xFF;
     s->animSpeed = 0x10;
     s->palId = 0;
@@ -351,13 +400,13 @@ void sub_80534DC(Strc_220_sub_8053128 *strc220, s16 arg1, s16 arg2)
     s->tiles = (u8 *)(OBJ_VRAM0 + 0x800);
     s->frameFlags = 0x1000;
     s->frameFlags |= 0x21;
-    s->anim = gUnknown_080D1C48[arg2][0][0];
+    s->anim = gUnknown_080D1C48[character2][0][0];
     s->x = 48;
     s->y = 140;
-    s->oamFlags = 0x440;
+    s->oamFlags = SPRITE_OAM_ORDER(17);
     s->qAnimDelay = 0;
     s->prevAnim = -1;
-    s->variant = gUnknown_080D1C48[arg2][0][1];
+    s->variant = gUnknown_080D1C48[character2][0][1];
     s->prevVariant = -1;
     s->animSpeed = 0x10;
     s->palId = 1;
@@ -369,18 +418,18 @@ void sub_80534DC(Strc_220_sub_8053128 *strc220, s16 arg1, s16 arg2)
     tf->x = s->x;
     tf->y = s->y;
 
-    if (strc220->unk21C != 0) {
-        s = &strc220->spriteE8;
+    if (strc220->cheeseSpriteIndex != CSI_NONE) {
+        s = &strc220->sprCheese;
         s->tiles = (u8 *)OBJ_VRAM1;
         s->frameFlags = 0x1000;
-        s->frameFlags |= (strc220->unk21C - 1) | 0x20;
-        s->anim = gUnknown_080D1C48[5][0][0];
-        s->x = (strc220->unk21C != 1) ? 48 : 66;
+        s->frameFlags |= (strc220->cheeseSpriteIndex - 1) | 0x20;
+        s->anim = gUnknown_080D1C48[INDEX_CHEESE][0][0];
+        s->x = (strc220->cheeseSpriteIndex != CSI_PLAYER_IS_CREAM) ? 48 : 66;
         s->y = 140;
         s->oamFlags = 0x400;
         s->qAnimDelay = 0;
         s->prevAnim = -1;
-        s->variant = gUnknown_080D1C48[5][0][1];
+        s->variant = gUnknown_080D1C48[INDEX_CHEESE][0][1];
         s->prevVariant = -1;
         s->animSpeed = 0x10;
         s->palId = 0;
@@ -398,7 +447,7 @@ void sub_805365C(Strc_220_sub_8053128 *strc220)
     void *temp_r0;
     void *var_r4;
     DmaIoData sp00 = { 0x100, 0, 0, 0x100, 0, 0, 0, 0 };
-    const s32 countA = 160;
+    const s32 countA = DISPLAY_HEIGHT;
     const s32 countB = 256;
 
     strc220->data15C = EwramMalloc(countA * sizeof(sp00));
@@ -464,11 +513,11 @@ void Task_220_805374C(void)
 
     Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
 
-    gHBlankCopySize = 0x10;
+    gHBlankCopySize = sizeof(DmaIoData);
     gHBlankCopyTarget = (void *)&REG_BG2PA;
 
     gBgOffsetsHBlankPrimary = ioData = strc->data15C;
-    gFlags |= 4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
     strc->unk168 += strc->unk16E;
     strc->unk168 &= 0xFFF;
     strc->unk16A += strc->unk170;
@@ -514,8 +563,8 @@ void Task_220_8053904(void)
 
     Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
 
-    gDispCnt = 0x1441;
-    if ((gStageData.gameMode > 4U) && (sub_802610C() != 0)) {
+    gDispCnt = DISPCNT_OBJ_ON | DISPCNT_BG2_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_1;
+    if (GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE) && (sub_802610C() != 0)) {
         sub_802613C();
         return;
     }
@@ -539,28 +588,28 @@ void Task_220_8053904(void)
         strc->unk16E = 0;
         strc->unk164 = 0;
         strc->unk166 = 0x8C;
-        strc->sprite0.anim = gUnknown_080D1C48[strc->unk17A][0][0];
-        strc->sprite0.variant = gUnknown_080D1C48[strc->unk17A][0][1];
+        strc->sprite0.anim = gUnknown_080D1C48[strc->playerAnimIndex][0][0];
+        strc->sprite0.variant = gUnknown_080D1C48[strc->playerAnimIndex][0][1];
         strc->sprite0.frameFlags |= SPRITE_FLAG_MASK_ROT_SCALE_ENABLE | SPRITE_FLAG(ROT_SCALE, 0);
         strc->tf[0].qScaleX = -Q(1);
         strc->tf[0].qScaleY = +Q(1);
         strc->tf[0].x = 130;
         strc->tf[0].y = 150;
-        strc->sprite28.anim = gUnknown_080D1C48[strc->unk17B][0][0];
-        strc->sprite28.variant = gUnknown_080D1C48[strc->unk17B][0][1];
+        strc->sprite28.anim = gUnknown_080D1C48[strc->partnerAnimIndex][0][0];
+        strc->sprite28.variant = gUnknown_080D1C48[strc->partnerAnimIndex][0][1];
         strc->sprite28.frameFlags |= SPRITE_FLAG_MASK_ROT_SCALE_ENABLE | SPRITE_FLAG(ROT_SCALE, 1);
         strc->tf[1].qScaleX = -Q(0.875);
         strc->tf[1].qScaleY = +Q(0.875);
         strc->tf[1].x = 96;
         strc->tf[1].y = 150;
 
-        if (strc->unk21C != 0) {
+        if (strc->cheeseSpriteIndex != CSI_NONE) {
             u32 flags;
-            strc->spriteE8.anim = gUnknown_080D1C48[5][0][0];
-            strc->spriteE8.variant = gUnknown_080D1C48[5][0][1];
-            flags = strc->spriteE8.frameFlags;
+            strc->sprCheese.anim = gUnknown_080D1C48[INDEX_CHEESE][0][0];
+            strc->sprCheese.variant = gUnknown_080D1C48[INDEX_CHEESE][0][1];
+            flags = strc->sprCheese.frameFlags;
             flags |= SPRITE_FLAG_MASK_ROT_SCALE_ENABLE;
-            strc->spriteE8.frameFlags = flags | (strc->unk21C - 1);
+            strc->sprCheese.frameFlags = flags | (strc->cheeseSpriteIndex - 1);
         }
 
         gBldRegs.bldCnt = 0x244;
@@ -574,7 +623,7 @@ void Task_220_8053B28(void)
 {
     Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
 
-    if ((gStageData.gameMode > 4U) && (sub_802610C() != 0)) {
+    if ((GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) && (sub_802610C() != 0)) {
         sub_802613C();
         return;
     }
@@ -597,7 +646,7 @@ void Task_220_8053BAC(void)
     s16 temp_r0_3;
     Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
 
-    if (((u32)gStageData.gameMode > 4U) && (sub_802610C() != 0)) {
+    if (((u32)GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) && (sub_802610C() != 0)) {
         sub_802613C();
         return;
     }
@@ -622,7 +671,7 @@ void Task_220_8053C70(void)
 {
     Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
 
-    if (((u32)gStageData.gameMode > 4U) && ((sub_802610C() << 0x10) != 0)) {
+    if (((u32)GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) && (sub_802610C() != 0)) {
         sub_802613C();
         return;
     }
@@ -638,23 +687,23 @@ void Task_220_8053C70(void)
     Task_220_8054514();
 
     if (strc->unk16C >= 128) {
-        strc->sprite0.anim = gUnknown_080D1C48[strc->unk17A][1][0];
-        strc->sprite0.variant = gUnknown_080D1C48[strc->unk17A][1][1];
+        strc->sprite0.anim = gUnknown_080D1C48[strc->playerAnimIndex][1][0];
+        strc->sprite0.variant = gUnknown_080D1C48[strc->playerAnimIndex][1][1];
         strc->sprite0.frameFlags &= ~0x20;
         strc->sprite0.frameFlags |= 0x400;
         strc->sprite0.x = 0x82;
         strc->sprite0.y = 0x96;
-        strc->sprite28.anim = gUnknown_080D1C48[strc->unk17B][1][0];
-        strc->sprite28.variant = gUnknown_080D1C48[strc->unk17B][1][1];
+        strc->sprite28.anim = gUnknown_080D1C48[strc->partnerAnimIndex][1][0];
+        strc->sprite28.variant = gUnknown_080D1C48[strc->partnerAnimIndex][1][1];
         strc->sprite28.frameFlags = (strc->sprite28.frameFlags & ~0x21) | 0x400;
         strc->sprite28.x = 0x50;
         strc->sprite28.y = 0x96;
 
-        if (strc->unk21C != 0) {
-            strc->spriteE8.anim = gUnknown_080D1C48[5][1][0];
-            strc->spriteE8.variant = gUnknown_080D1C48[5][1][1];
-            strc->spriteE8.frameFlags &= ~((strc->unk21C - 1) | 0x20);
-            strc->spriteE8.frameFlags |= 0x400;
+        if (strc->cheeseSpriteIndex != CSI_NONE) {
+            strc->sprCheese.anim = gUnknown_080D1C48[INDEX_CHEESE][1][0];
+            strc->sprCheese.variant = gUnknown_080D1C48[INDEX_CHEESE][1][1];
+            strc->sprCheese.frameFlags &= ~((strc->cheeseSpriteIndex - 1) | 0x20);
+            strc->sprCheese.frameFlags |= 0x400;
         }
 
         strc->unk16E = 0x40;
@@ -662,20 +711,13 @@ void Task_220_8053C70(void)
         gCurTask->main = Task_220_8053DEC;
     }
 }
-void Task_8053EA4(); /* static */
-void sub_8053FB8(); /* static */
-void sub_80540EC(); /* static */
-void sub_8054208(); /* static */
-void sub_805429C(); /* static */
-void sub_80543F8(); /* static */
-void sub_805448C(); /* static */
 
 void Task_220_8053DEC(void)
 {
     Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
     s16 temp_r0;
 
-    if (((u32)gStageData.gameMode > 4U) && ((sub_802610C() << 0x10) != 0)) {
+    if (((u32)GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) && (sub_802610C() != 0)) {
         sub_802613C();
         return;
     }
@@ -703,7 +745,7 @@ void Task_220_8053EA4(void)
     s16 temp_r0;
     s16 temp_r0_2;
 
-    if (((u32)gStageData.gameMode > 4U) && ((sub_802610C() << 0x10) != 0)) {
+    if (((u32)GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) && (sub_802610C() != 0)) {
         sub_802613C();
         return;
     }
@@ -714,17 +756,17 @@ void Task_220_8053EA4(void)
     strc->sprite28.y = strc->unk166 + 10;
     Task_220_805448C();
     if (strc->unk16C == 0x50) {
-        sub_80545E0(strc->unk17A, strc->unk17B);
+        sub_80545E0(strc->playerAnimIndex, strc->partnerAnimIndex);
     }
 
-    if (++strc->unk16C >= 0x78) {
-        strc->sprite0.anim = gUnknown_080D1C48[strc->unk17A][2][0];
-        strc->sprite0.variant = gUnknown_080D1C48[strc->unk17A][2][1];
-        strc->sprite28.anim = gUnknown_080D1C48[strc->unk17B][2][0];
-        strc->sprite28.variant = gUnknown_080D1C48[strc->unk17B][2][1];
-        if (strc->unk21C != 0) {
-            strc->spriteE8.anim = gUnknown_080D1C48[5][2][0];
-            strc->spriteE8.variant = gUnknown_080D1C48[5][2][1];
+    if (++strc->unk16C >= 120) {
+        strc->sprite0.anim = gUnknown_080D1C48[strc->playerAnimIndex][2][0];
+        strc->sprite0.variant = gUnknown_080D1C48[strc->playerAnimIndex][2][1];
+        strc->sprite28.anim = gUnknown_080D1C48[strc->partnerAnimIndex][2][0];
+        strc->sprite28.variant = gUnknown_080D1C48[strc->partnerAnimIndex][2][1];
+        if (strc->cheeseSpriteIndex != CSI_NONE) {
+            strc->sprCheese.anim = gUnknown_080D1C48[INDEX_CHEESE][2][0];
+            strc->sprCheese.variant = gUnknown_080D1C48[INDEX_CHEESE][2][1];
         }
         strc->unk16C = 0;
         gCurTask->main = Task_220_8053FB8;
@@ -734,19 +776,16 @@ void Task_220_8053EA4(void)
 void Task_220_8053FB8(void)
 {
     Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
-    s16 temp_r0;
-    s16 temp_r0_2;
 
-    if (((u32)gStageData.gameMode > 4U) && ((sub_802610C() << 0x10) != 0)) {
+    if (((u32)GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) && (sub_802610C() != 0)) {
         sub_802613C();
         return;
     }
     Task_220_805374C();
     strc->unk172 = 0x20;
     strc->unk174 = 0;
-    strc->sprite0.y = (u16)strc->unk166 + 0xA;
-    temp_r0 = (u16)strc->unk166 + 0xA;
-    strc->sprite28.y = temp_r0;
+    strc->sprite0.y = strc->unk166 + 10;
+    strc->sprite28.y = strc->unk166 + 10;
     Task_220_805448C();
     if (strc->unk164 > -240) {
         strc->unk164--;
@@ -754,16 +793,16 @@ void Task_220_8053FB8(void)
 
     if (++strc->unk16C > 0x01A3) {
         strc->unk16C = 0;
-        strc->sprite0.anim = gUnknown_080D1C48[strc->unk17A][3][0];
-        strc->sprite0.variant = gUnknown_080D1C48[strc->unk17A][3][1];
+        strc->sprite0.anim = gUnknown_080D1C48[strc->playerAnimIndex][3][0];
+        strc->sprite0.variant = gUnknown_080D1C48[strc->playerAnimIndex][3][1];
         strc->sprite0.frameFlags |= 0x20;
-        strc->sprite28.anim = gUnknown_080D1C48[strc->unk17B][3][0];
-        strc->sprite28.variant = gUnknown_080D1C48[strc->unk17B][3][1];
+        strc->sprite28.anim = gUnknown_080D1C48[strc->partnerAnimIndex][3][0];
+        strc->sprite28.variant = gUnknown_080D1C48[strc->partnerAnimIndex][3][1];
         strc->sprite28.frameFlags |= 0x21;
-        if (strc->unk21C != 0) {
-            strc->spriteE8.anim = gUnknown_080D1C48[5][3][0];
-            strc->spriteE8.variant = gUnknown_080D1C48[5][3][1];
-            strc->spriteE8.frameFlags |= 0x20 | (strc->unk21C - 1);
+        if (strc->cheeseSpriteIndex != CSI_NONE) {
+            strc->sprCheese.anim = gUnknown_080D1C48[INDEX_CHEESE][3][0];
+            strc->sprCheese.variant = gUnknown_080D1C48[INDEX_CHEESE][3][1];
+            strc->sprCheese.frameFlags |= 0x20 | (strc->cheeseSpriteIndex - 1);
         }
         gCurTask->main = (void (*)())Task_220_80540EC;
     }
@@ -772,15 +811,10 @@ void Task_220_8053FB8(void)
 void Task_220_80540EC(void)
 {
     Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
-    s16 temp_r0_2;
-    s16 temp_r0_3;
-    s16 temp_r0_4;
-    s16 temp_r0_5;
-    s16 temp_r1;
     s16 *unk166;
     s32 var;
 
-    if (((u32)gStageData.gameMode > 4U) && ((sub_802610C() << 0x10) != 0)) {
+    if (((u32)GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) && (sub_802610C() != 0)) {
         sub_802613C();
         return;
     }
@@ -820,7 +854,7 @@ void Task_220_8054208(void)
     s16 temp_r0_2;
     s16 temp_r0_3;
 
-    if (((u32)gStageData.gameMode > 4U) && ((sub_802610C() << 0x10) != 0)) {
+    if (((u32)GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) && (sub_802610C() != 0)) {
         sub_802613C();
         return;
     }
@@ -852,7 +886,7 @@ void Task_220_805429C(void)
     s32 temp_r0_2;
     s16 *unk166;
 
-    if (((u32)gStageData.gameMode > 4U) && ((sub_802610C() << 0x10) != 0)) {
+    if (((u32)GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) && (sub_802610C() != 0)) {
         sub_802613C();
         return;
     }
@@ -863,14 +897,14 @@ void Task_220_805429C(void)
     if (temp_r0 < 10) {
         s32 var;
         unk166 = &strc->unk166;
-        var = (temp_r0 - 0xA);
+        var = (temp_r0 - 10);
         strc->tf[0].y = strc->sprite0.y = *unk166 - var;
     }
-    temp_r0 = (s32)((u16)strc->unk16C << 0x10) >> 0x13;
+    temp_r0 = strc->unk16C >> 3;
     if (temp_r0 < 10) {
         s32 var;
         unk166 = &strc->unk166;
-        var = (temp_r0 - 0xA);
+        var = (temp_r0 - 10);
         strc->tf[1].y = strc->sprite28.y = (u16)*unk166 - var;
     }
 
@@ -905,7 +939,7 @@ void Task_220_80543F8(void)
     Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
     s16 temp_r0;
 
-    if (((u32)gStageData.gameMode > 4U) && ((sub_802610C() << 0x10) != 0)) {
+    if (GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE) && sub_802610C()) {
         sub_802613C();
         return;
     }
@@ -913,7 +947,7 @@ void Task_220_80543F8(void)
     strc->unk172 = 0x10;
     strc->unk174 = 0x10;
 
-    if (++strc->unk16C > 0x3B) {
+    if (++strc->unk16C >= 60) {
         sub_8000414(gStageData.currentLevel);
         if (gStageData.zone != 6) {
             StageIntro_ShowZoneName(gStageData.zone + 1, 0U, 0U);
@@ -927,25 +961,25 @@ void Task_220_80543F8(void)
 void Task_220_805448C(void)
 {
     Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
-    Sprite2 *s;
+    Sprite *s;
     u16 var_r1;
 
     UpdateSpriteAnimation(&strc->sprite0);
     DisplaySprite(&strc->sprite0);
-    s = &strc->sprite28;
-    UpdateSpriteAnimation((Sprite *)s);
-    DisplaySprite((Sprite *)s);
+    s = (Sprite *)&strc->sprite28;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 
-    if (strc->unk21C != 0) {
-        UpdateSpriteAnimation(&strc->spriteE8);
-        if (strc->unk21C == 1) {
-            strc->spriteE8.x = (s16)(u16)strc->sprite0.x;
-            strc->spriteE8.y = (u16)strc->sprite0.y;
+    if (strc->cheeseSpriteIndex != CSI_NONE) {
+        UpdateSpriteAnimation(&strc->sprCheese);
+        if (strc->cheeseSpriteIndex == CSI_PLAYER_IS_CREAM) {
+            strc->sprCheese.x = (s16)(u16)strc->sprite0.x;
+            strc->sprCheese.y = (u16)strc->sprite0.y;
         } else {
-            strc->spriteE8.x = (s16)(u16)strc->sprite28.x;
-            strc->spriteE8.y = (u16)strc->sprite28.y;
+            strc->sprCheese.x = (s16)(u16)strc->sprite28.x;
+            strc->sprCheese.y = (u16)strc->sprite28.y;
         }
-        DisplaySprite(&strc->spriteE8);
+        DisplaySprite(&strc->sprCheese);
     }
 }
 
@@ -953,32 +987,30 @@ void Task_220_8054514(void)
 {
     Strc_220_sub_8053128 *strc = TASK_DATA(gCurTask);
     Sprite *s;
-    Sprite2 *s2;
-    SpriteTransform *temp_r0;
-    SpriteTransform *temp_r0_2;
+    Sprite *s2;
 
     UpdateSpriteAnimation(&strc->sprite0);
-    temp_r0 = strc->tf;
-    TransformSprite(&strc->sprite0, temp_r0);
+    TransformSprite(&strc->sprite0, &strc->tf[0]);
     DisplaySprite(&strc->sprite0);
-    s2 = &strc->sprite28;
-    UpdateSpriteAnimation((Sprite *)s2);
-    temp_r0_2 = &strc->tf[1];
-    TransformSprite((Sprite *)s2, temp_r0_2);
-    DisplaySprite((Sprite *)s2);
-    if (strc->unk21C != 0) {
-        s = &strc->spriteE8;
+
+    s2 = (Sprite *)&strc->sprite28;
+    UpdateSpriteAnimation(s2);
+    TransformSprite(s2, &strc->tf[1]);
+    DisplaySprite(s2);
+
+    if (strc->cheeseSpriteIndex != CSI_NONE) {
+        s = &strc->sprCheese;
         UpdateSpriteAnimation(s);
-        if (strc->unk21C == 1) {
-            strc->spriteE8.x = (s16)(u16)strc->sprite0.x;
-            strc->spriteE8.y = (s16)(u16)strc->sprite0.y;
-            TransformSprite(s, temp_r0);
+        if (strc->cheeseSpriteIndex == CSI_PLAYER_IS_CREAM) {
+            strc->sprCheese.x = (s16)(u16)strc->sprite0.x;
+            strc->sprCheese.y = (s16)(u16)strc->sprite0.y;
+            TransformSprite(s, &strc->tf[0]);
         } else {
-            strc->spriteE8.x = (s16)(u16)strc->sprite28.x;
-            strc->spriteE8.y = (s16)(u16)strc->sprite28.y;
-            TransformSprite(s, temp_r0_2);
+            strc->sprCheese.x = (s16)(u16)strc->sprite28.x;
+            strc->sprCheese.y = (s16)(u16)strc->sprite28.y;
+            TransformSprite(s, &strc->tf[1]);
         }
-        DisplaySprite(&strc->spriteE8);
+        DisplaySprite(&strc->sprCheese);
     }
 }
 
@@ -1114,7 +1146,7 @@ void Task_274_8054878(void)
     Strc274_SetWindowRange();
 
     if (strc->unk7 >= strc->unk9) {
-        gDispCnt &= 0xDFFF;
+        gDispCnt &= ~DISPCNT_WIN0_ON;
         TaskDestroy(gCurTask);
     }
 }
@@ -1150,7 +1182,7 @@ void Task_274_80548E0(Strc_274_8053284 *strc)
     var_r0 += gUnknown_080D1CA8[charPartner];
     temp_r1_2 = var_r0 + 0x10;
     levelTimer = (s32)gStageData.levelTimer;
-    if (gStageData.gameMode == GAME_MODE_5) {
+    if (CURRENT_GAME_MODE == GAME_MODE_5) {
         charPlayer = gPlayers[PLAYER_1].charFlags.character;
         charPartner = gPlayers[PLAYER_2].charFlags.character;
     }
@@ -1179,7 +1211,7 @@ void Task_274_80548E0(Strc_274_8053284 *strc)
 
     s = &strc->sprite44;
     s->tiles = VramMalloc(4U);
-    s->anim = 1430;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     s->variant = 5;
     s->oamFlags = 0x80;
     s->frameFlags = matchingZero;
@@ -1209,7 +1241,7 @@ void Task_274_80548E0(Strc_274_8053284 *strc)
 
     s = &strc->sprite94;
     s->tiles = VramMalloc(14);
-    s->anim = 1430;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     s->variant = 0xA;
     strc->unk17 = 0x3A;
     s->oamFlags = 0x80;
@@ -1225,7 +1257,7 @@ void Task_274_80548E0(Strc_274_8053284 *strc)
 
     s = &strc->spriteBC;
     s->tiles = VramMalloc(12);
-    s->anim = 1430;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     s->variant = 0x17;
     s->oamFlags = 0x80;
     s->frameFlags = matchingZero;
@@ -1240,7 +1272,7 @@ void Task_274_80548E0(Strc_274_8053284 *strc)
 
     s = &strc->spriteE4;
     s->tiles = VramMalloc(16);
-    s->anim = 1430;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     s->variant = 11;
     s->oamFlags = 0x80;
     s->frameFlags = matchingZero;
@@ -1265,7 +1297,7 @@ void Task_274_80548E0(Strc_274_8053284 *strc)
 
     s = &strc->sprites10C[0];
     s->tiles = VramMalloc(4U);
-    s->anim = 1430;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     s->variant = sp00[0] + 0xD;
     s->oamFlags = 0x80;
     s->frameFlags = matchingZero;
@@ -1280,7 +1312,7 @@ void Task_274_80548E0(Strc_274_8053284 *strc)
 
     s = &strc->sprites10C[1];
     s->tiles = VramMalloc(4U);
-    s->anim = 1430;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     s->variant = sp00[1] + 0xD;
     s->oamFlags = 0x80;
     s->frameFlags = matchingZero;
@@ -1295,7 +1327,7 @@ void Task_274_80548E0(Strc_274_8053284 *strc)
 
     s = &strc->sprites10C[2];
     s->tiles = VramMalloc(2U);
-    s->anim = 1430;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     s->variant = 0xC;
     s->oamFlags = 0x80;
     s->frameFlags = matchingZero;
@@ -1310,7 +1342,7 @@ void Task_274_80548E0(Strc_274_8053284 *strc)
 
     s = &strc->sprites10C[3];
     s->tiles = VramMalloc(4U);
-    s->anim = 1430;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     s->variant = sp00[2] + 0xD;
     s->oamFlags = 0x80;
     s->frameFlags = matchingZero;
@@ -1325,7 +1357,7 @@ void Task_274_80548E0(Strc_274_8053284 *strc)
 
     s = &strc->sprites10C[4];
     s->tiles = VramMalloc(4U);
-    s->anim = 1430;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     s->variant = sp00[3] + 0xD;
     s->oamFlags = 0x80;
     s->frameFlags = matchingZero;
@@ -1340,7 +1372,7 @@ void Task_274_80548E0(Strc_274_8053284 *strc)
 
     s = &strc->sprites10C[5];
     s->tiles = VramMalloc(2U);
-    s->anim = 1430;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     s->variant = 12;
     s->oamFlags = 0x80;
     s->frameFlags = matchingZero;
@@ -1355,7 +1387,7 @@ void Task_274_80548E0(Strc_274_8053284 *strc)
 
     s = &strc->sprites10C[6];
     s->tiles = VramMalloc(4U);
-    s->anim = 1430;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     s->variant = sp00[4] + 0xD;
     s->oamFlags = 0x80;
     s->frameFlags = matchingZero;
@@ -1756,7 +1788,7 @@ void sub_8055614(Strc_2A4_8053284 *strc)
     temp_r1_2 = var_r0 + 0x10;
     levelTimer = gStageData.levelTimer;
 
-    if (gStageData.gameMode == 5) {
+    if (CURRENT_GAME_MODE == 5) {
         charPlayer = gPlayers[PLAYER_1].charFlags.character;
         charPartner = gPlayers[PLAYER_2].charFlags.character;
     }
@@ -1783,7 +1815,7 @@ void sub_8055614(Strc_2A4_8053284 *strc)
 
     s = &strc->spritesC[1];
     s->tiles = VramMalloc(4U);
-    s->anim = 0x596;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     s->variant = 5;
     s->oamFlags = 0x80;
     s->frameFlags = 0;
@@ -1815,7 +1847,7 @@ void sub_8055614(Strc_2A4_8053284 *strc)
 
     s = &strc->sprites84[0];
     s->tiles = VramMalloc(0xEU);
-    s->anim = 0x596;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     if (gStageData.zone == 7) {
         s->variant = 9;
         strc->unk29F = 0x3A;
@@ -1841,7 +1873,7 @@ void sub_8055614(Strc_2A4_8053284 *strc)
     s->hitboxes[0].index = -1;
     s = &strc->sprites84[1];
     s->tiles = VramMalloc(0xCU);
-    s->anim = 0x596;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     s->variant = 0x17;
     s->oamFlags = 0x80;
     s->frameFlags = 0;
@@ -1856,7 +1888,7 @@ void sub_8055614(Strc_2A4_8053284 *strc)
 
     s = &strc->spriteD4;
     s->tiles = VramMalloc(0x10U);
-    s->anim = 0x596;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     s->variant = 0xB;
     s->oamFlags = 0x80;
     s->frameFlags = 0;
@@ -1881,7 +1913,7 @@ void sub_8055614(Strc_2A4_8053284 *strc)
 
     s = &strc->spritesFC[0];
     s->tiles = VramMalloc(4U);
-    s->anim = 0x596;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     s->variant = sp00[0] + 0xD;
     s->oamFlags = 0x80;
     s->frameFlags = 0;
@@ -1896,7 +1928,7 @@ void sub_8055614(Strc_2A4_8053284 *strc)
 
     s = &strc->spritesFC[1];
     s->tiles = VramMalloc(4U);
-    s->anim = 0x596;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     s->variant = sp00[1] + 0xD;
     s->oamFlags = 0x80;
     s->frameFlags = 0;
@@ -1911,7 +1943,7 @@ void sub_8055614(Strc_2A4_8053284 *strc)
 
     s = &strc->spritesFC[2];
     s->tiles = VramMalloc(2U);
-    s->anim = 0x596;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     s->variant = 0xC;
     s->oamFlags = 0x80;
     s->frameFlags = 0;
@@ -1926,7 +1958,7 @@ void sub_8055614(Strc_2A4_8053284 *strc)
 
     s = &strc->spritesFC[3];
     s->tiles = VramMalloc(4U);
-    s->anim = 0x596;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     s->variant = sp00[2] + 0xD;
     s->oamFlags = 0x80;
     s->frameFlags = 0;
@@ -1941,7 +1973,7 @@ void sub_8055614(Strc_2A4_8053284 *strc)
 
     s = &strc->spritesFC[4];
     s->tiles = VramMalloc(4U);
-    s->anim = 0x596;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     s->variant = sp00[3] + 0xD;
     s->oamFlags = 0x80;
     s->frameFlags = 0;
@@ -1956,7 +1988,7 @@ void sub_8055614(Strc_2A4_8053284 *strc)
 
     s = &strc->spritesFC[5];
     s->tiles = VramMalloc(2U);
-    s->anim = 0x596;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     s->variant = 0xC;
     s->oamFlags = 0x80;
     s->frameFlags = 0;
@@ -1971,7 +2003,7 @@ void sub_8055614(Strc_2A4_8053284 *strc)
 
     s = &strc->spritesFC[6];
     s->tiles = VramMalloc(4U);
-    s->anim = 0x596;
+    s->anim = ANIM_MP_TXT_CHARS_AND_ACTS;
     s->variant = sp00[4] + 0xD;
     s->oamFlags = 0x80;
     s->frameFlags = 0;
