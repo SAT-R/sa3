@@ -207,13 +207,50 @@ const u16 gUnknown_080D1C48[INDEX_COUNT][4][2] = {
     }
 };
 
+const u8 gUnknown_080D1CA8[NUM_CHARACTERS] = { 48, 48, 48, 56, 45 };
+const u16 gUnknown_080D1CAE[NUM_CHARACTERS + 1][3] = {
+    { ANIM_MP_TXT_CHARS_AND_ACTS, 0x00, 12 }, { ANIM_MP_TXT_CHARS_AND_ACTS, 0x04, 12 }, { ANIM_MP_TXT_CHARS_AND_ACTS, 0x01, 12 },
+    { ANIM_MP_TXT_CHARS_AND_ACTS, 0x02, 14 }, { ANIM_MP_TXT_CHARS_AND_ACTS, 0x03, 12 }, { ANIM_MP_TXT_CHARS_AND_ACTS, 0x1A, 14 },
+};
+const u16 gUnknown_080D1CD2[3][3] = {
+    { ANIM_GOAL_RING, 5, 9 },
+    { ANIM_GOAL_RING, 6, 9 },
+    { ANIM_GOAL_RING, 7, 9 },
+};
+const u16 gUnknown_080D1CE4[NUM_LANGUAGES][3][3] = {
+    [JAPANESE] = {
+        { ANIM_MP_RESULT_JP, 0, 0x8 },
+        { ANIM_MP_RESULT_JP, 1, 0x8 },
+        { ANIM_MP_RESULT_JP, 2, 0xC },
+    },
+    [ENGLISH] = {
+        { ANIM_MP_RESULT_EN, 0, 0x6 },
+        { ANIM_MP_RESULT_EN, 1, 0xA },
+        { ANIM_MP_RESULT_EN, 2, 0xA },
+    },
+    [GERMAN] = {
+        { ANIM_MP_RESULT_DE, 0, 0x8 },
+        { ANIM_MP_RESULT_DE, 1, 0xA },
+        { ANIM_MP_RESULT_DE, 2, 0xC },
+    },
+    [FRENCH] = {
+        { ANIM_MP_RESULT_FR, 0, 0xC },
+        { ANIM_MP_RESULT_FR, 1, 0xC },
+        { ANIM_MP_RESULT_FR, 2, 0x8 },
+    },
+    [SPANISH] = {
+        { ANIM_MP_RESULT_ES, 0, 0xC },
+        { ANIM_MP_RESULT_ES, 1, 0xC },
+        { ANIM_MP_RESULT_ES, 2, 0xA },
+    },
+    [ITALIAN] = {
+        { ANIM_MP_RESULT_IT, 0, 0xA },
+        { ANIM_MP_RESULT_IT, 1, 0xA },
+        { ANIM_MP_RESULT_IT, 2, 0x8 },
+    } };
+
 extern u8 gUnknown_080CE438[][2];
 extern u8 gUnknown_080CE4B2[][2];
-extern u8 gUnknown_080D1CA8[NUM_CHARACTERS];
-extern u16 gUnknown_080D1CAE[NUM_CHARACTERS + 1][3];
-extern u16 gUnknown_080D1CD2[3][3];
-extern const u16 gUnknown_080D1CE4[NUM_LANGUAGES][3][3];
-extern const u8 gUnknown_080D1D50[];
 
 void sub_8053128(s16 character1, s16 character2)
 {
@@ -2123,16 +2160,13 @@ void Task_2A4_8055CA8(void)
 
 void sub_2A4_8055D44(void)
 {
-    u8 sp00[7];
-    s16 var_r0;
-    Sprite *s;
     Strc_2A4_8053284 *strc = TASK_DATA(gCurTask);
+    u8 sp00[7] = { 84, 68, 58, 42, 26, 16, 0 };
+    s16 i;
 
-    memcpy(&sp00[0], &gUnknown_080D1D50, sizeof(sp00));
-
-    for (var_r0 = 0; var_r0 < 7; var_r0++) {
-        s = &strc->spritesFC[var_r0];
-        s->x = strc->unk2A0 + sp00[var_r0];
+    for (i = 0; i < 7; i++) {
+        Sprite *s = &strc->spritesFC[i];
+        s->x = strc->unk2A0 + sp00[i];
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
     }
@@ -2460,11 +2494,8 @@ void sub_8056408(void)
 void sub_8056430(void)
 {
     Strc_274_8053284 *strc = TASK_DATA(gCurTask);
-    u8 sp00[7];
+    u8 sp00[7] = { 84, 68, 58, 42, 26, 16, 0 };
     s16 i;
-
-    // TODO: Remove memcpy
-    memcpy(sp00, gUnknown_080D1D50, sizeof(sp00));
 
     for (i = 0; i < (s32)ARRAY_COUNT(sp00); i++) {
         Sprite *s = &strc->sprites10C[i];

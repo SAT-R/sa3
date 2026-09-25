@@ -331,7 +331,6 @@ SECTIONS {
         data/data_1_1.o(.rodata);
         src/game/shared/demo_manager.o(.rodata);
         src/game/code_1_3.o(.rodata);
-        data/data_1_2.o(.rodata);
         src/game/sa3/stage/intro.o(.rodata);
         data/data_1_2_2.o(.rodata);
         src/game/sa3/bosses/gemerl_states_data.o(.rodata);

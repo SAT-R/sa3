@@ -458,6 +458,20 @@
 #define ANIM_PALETTE_1432 1432
 #define ANIM_PRESS_START  1433
 
+#define ANIM_MP_PLAYER_AVATAR_AMY              1434
+#define ANIM_MP_PLAYER_AVATAR_KNUCKLES         1435
+#define ANIM_MP_PLAYER_AVATAR_SONIC            1436
+#define ANIM_MP_PLAYER_AVATAR_TAILS            1437
+#define ANIM_MP_RESULT_EN                      1443
+#define ANIM_MP_RESULT_FR                      1444
+#define ANIM_MP_RESULT_DE                      1445
+#define ANIM_MP_RESULT_IT                      1446
+#define ANIM_MP_RESULT_JP                      1447
+#define ANIM_MP_RESULT_ES                      1448
+#define ANIM_MP_PLAYER_ID                      1449
+#define ANIM_MP_SELECT_A_ZONE                  1450
+#define ANIM_MP_WAIT                           1451
+#define ANIM_MP_PLAYER_AVATAR_CREAM            1452
 #define ANIM_MP_SINGLEPAK_TRANSFER_SCREEN_CHAO 1453
 
 #define ANIM_INDICATOR_AMY                 1508
