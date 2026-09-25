@@ -9372,13 +9372,13 @@ void sub_800F838(Player *p)
         if (++temp_r4->a.unk0 > 0x01E0) {
             temp_r4->a.unk0--;
         }
-    } else if (temp_r4->a.unk0 <= 0x77) {
+    } else if (temp_r4->a.unk0 < 0x78) {
         temp_r4->a.unk2 = (s16)var_r6;
         SetPlayerCallback(p, Player_80108FC);
-    } else if (temp_r4->a.unk0 <= 0xEF) {
+    } else if (temp_r4->a.unk0 < 0xF0) {
         temp_r4->a.unk2 = 0x3C;
         var_r7 = 2;
-    } else if (temp_r4->a.unk0 <= 0x167) {
+    } else if (temp_r4->a.unk0 < 0x168) {
         temp_r4->a.unk2 = 0x78;
         var_r7 = 3;
     } else {
