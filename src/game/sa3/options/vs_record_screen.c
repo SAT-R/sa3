@@ -30,7 +30,7 @@ typedef struct {
     /* 0x038 */ u8 playerRecord[6]; // [vsRecordType * [tens/ones]]
     /* 0x03E */ u16 nameList[11][MAX_PLAYER_NAME_LENGTH];
     // Used for rendering digits. [player_count][vsRecordType][tens/ones]
-    /* 0x0C2 */ u8 recordsRivals[11][3][2];
+    /* 0x0C2 */ u8 recordsRivals[11][6];
     /* 0x104 */ u8 *vram104;
     /* 0x108 */ u8 filler108[0x8];
     /* 0x110 */ s32 qUnk110;
@@ -166,12 +166,12 @@ void sub_8096918(OptionsVsRecordScreen *vsRecScreen)
         }
 
         if (rivalIndex == 0) {
-            vsRecScreen->recordsRivals[0][0][0] = LOADED_SAVE->vsRecords[0].wins / 10U;
-            vsRecScreen->recordsRivals[0][0][1] = LOADED_SAVE->vsRecords[0].wins % 10U;
-            vsRecScreen->recordsRivals[0][1][0] = LOADED_SAVE->vsRecords[0].losses / 10U;
-            vsRecScreen->recordsRivals[0][1][1] = LOADED_SAVE->vsRecords[0].losses % 10U;
-            vsRecScreen->recordsRivals[0][2][0] = LOADED_SAVE->vsRecords[0].draws / 10U;
-            vsRecScreen->recordsRivals[0][2][1] = LOADED_SAVE->vsRecords[0].draws % 10U;
+            vsRecScreen->recordsRivals[0][0] = LOADED_SAVE->vsRecords[0].wins / 10U;
+            vsRecScreen->recordsRivals[0][1] = LOADED_SAVE->vsRecords[0].wins % 10U;
+            vsRecScreen->recordsRivals[0][2] = LOADED_SAVE->vsRecords[0].losses / 10U;
+            vsRecScreen->recordsRivals[0][3] = LOADED_SAVE->vsRecords[0].losses % 10U;
+            vsRecScreen->recordsRivals[0][4] = LOADED_SAVE->vsRecords[0].draws / 10U;
+            vsRecScreen->recordsRivals[0][5] = LOADED_SAVE->vsRecords[0].draws % 10U;
             vsRecScreen->playerRecord[0] = LOADED_SAVE->vsWins / 10U;
             vsRecScreen->playerRecord[1] = LOADED_SAVE->vsWins % 10U;
             vsRecScreen->playerRecord[2] = LOADED_SAVE->vsLosses / 10U;
@@ -179,12 +179,12 @@ void sub_8096918(OptionsVsRecordScreen *vsRecScreen)
             vsRecScreen->playerRecord[4] = LOADED_SAVE->vsDraws / 10U;
             vsRecScreen->playerRecord[5] = LOADED_SAVE->vsDraws % 10U;
         } else {
-            vsRecScreen->recordsRivals[rivalIndex][0][0] = LOADED_SAVE->vsRecords[rivalIndex - 1].wins / 10U;
-            vsRecScreen->recordsRivals[rivalIndex][0][1] = LOADED_SAVE->vsRecords[rivalIndex - 1].wins % 10U;
-            vsRecScreen->recordsRivals[rivalIndex][1][0] = LOADED_SAVE->vsRecords[rivalIndex - 1].losses / 10U;
-            vsRecScreen->recordsRivals[rivalIndex][1][1] = LOADED_SAVE->vsRecords[rivalIndex - 1].losses % 10U;
-            vsRecScreen->recordsRivals[rivalIndex][2][0] = LOADED_SAVE->vsRecords[rivalIndex - 1].draws / 10U;
-            vsRecScreen->recordsRivals[rivalIndex][2][1] = LOADED_SAVE->vsRecords[rivalIndex - 1].draws % 10U;
+            vsRecScreen->recordsRivals[rivalIndex][0] = LOADED_SAVE->vsRecords[rivalIndex - 1].wins / 10U;
+            vsRecScreen->recordsRivals[rivalIndex][1] = LOADED_SAVE->vsRecords[rivalIndex - 1].wins % 10U;
+            vsRecScreen->recordsRivals[rivalIndex][2] = LOADED_SAVE->vsRecords[rivalIndex - 1].losses / 10U;
+            vsRecScreen->recordsRivals[rivalIndex][3] = LOADED_SAVE->vsRecords[rivalIndex - 1].losses % 10U;
+            vsRecScreen->recordsRivals[rivalIndex][4] = LOADED_SAVE->vsRecords[rivalIndex - 1].draws / 10U;
+            vsRecScreen->recordsRivals[rivalIndex][5] = LOADED_SAVE->vsRecords[rivalIndex - 1].draws % 10U;
         }
     }
 }
@@ -478,7 +478,7 @@ void Task_80970DC(void)
             temp_r0->tiles = vsRecScreen->vram104;
             vsRecScreen->vram104 += gUnknown_080D8C54.numTiles << 5;
             temp_r0->anim = gUnknown_080D8C54.anim;
-            temp_r0->variant = gUnknown_080D8C54.variant + vsRecScreen->recordsRivals[0][0][var_r5 + (var_r4 * 6)];
+            temp_r0->variant = gUnknown_080D8C54.variant + vsRecScreen->recordsRivals[var_r4][var_r5];
             temp_r0->prevVariant = 0xFF;
             temp_r0->x = ((s32)vsRecScreen->qUnk110 >> 8) + (var_r5 * 8);
             temp_r0->y = ((s32)vsRecScreen->qUnk114 >> 8) + (var_r4 * 0x10);
@@ -724,7 +724,7 @@ void sub_8097608(OptionsVsRecordScreen *vsRecScreen, u8 arg1)
                 UpdateSpriteAnimation(s);
             }
             s = &vsRecScreen->spr358[arg1][i];
-            s->variant = gUnknown_080D8C54.variant + vsRecScreen->recordsRivals[0][0][i + (var_r5 * 6)];
+            s->variant = gUnknown_080D8C54.variant + vsRecScreen->recordsRivals[var_r5][i];
             UpdateSpriteAnimation(s);
         }
     }

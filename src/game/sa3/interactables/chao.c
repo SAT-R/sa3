@@ -146,9 +146,6 @@ const u8 gUnknown_080D0410[NUM_COURSE_ZONES][NUM_CHAO_PER_ZONE][2] = {
 		{ 4, 0 },
 	}
 };
-const u8 gUnknown_080D049C[NUM_CHAO_PER_ZONE] = {
-	52, 53, 54, 55, 56, 57, 58, 59, 60, 51
-};
 
 #define CHAOKIND_PLAYGROUND 0xFF
 
@@ -325,15 +322,9 @@ void Task_804E1AC(void)
 void sub_804E210(void)
 {
     Player *p;
-    IAChao *chao;
-    u8 array[NUM_CHAO_PER_ZONE];
-    u8 lastChaoId;
-
-    // TODO: This might be an implicit memcpy
-    memcpy(array, gUnknown_080D049C, sizeof(array));
-
-    chao = TASK_DATA(gCurTask);
-    lastChaoId = GetChaoCount(gStageData.zone) - 1;
+    u8 array[NUM_CHAO_PER_ZONE] = { 52, 53, 54, 55, 56, 57, 58, 59, 60, 51 };
+    IAChao *chao = TASK_DATA(gCurTask);
+    u8 lastChaoId = GetChaoCount(gStageData.zone) - 1;
 
     // TODO: Could this be the scruct (size) for a message box prompt?
     chao->notifText = EwramMalloc(sizeof(NotificationText));

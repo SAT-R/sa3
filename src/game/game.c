@@ -87,7 +87,7 @@ void Task_8000284(void)
     gBgScrollRegs[2][1] = 0;
     gStageData.timer = 0;
     sub_80003B8();
-#if DEBUG
+#if !PLATFORM_GBA || DEBUG
     // REG_KEYINPUT = KEYS_MASK ^ input, so we need to invert here to create the editor on SELECT.
     if (!(REG_KEYINPUT & SELECT_BUTTON)) {
         CreateAnimationEd();
