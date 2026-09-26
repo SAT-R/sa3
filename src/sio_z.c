@@ -28,7 +28,7 @@ static const u16 sIdent[4] ALIGNED(4) = { 0x494E, 0x544E, 0x4E45, 0x4F44 }; // s
 // Used as font for RenderText,
 // but the data was removed in production builds
 // It is curious that it is located here...
-const u8 Tileset_DebugAscii[] = { };
+const u8 Tileset_DebugAscii[] = {};
 
 // NOTE(Jace): The palette is using the high-bit in some places, so we cannot (yet) use .pal files directly for those.
 //             (But also we kind of don't need to, since other platforms do not need these for features the GB Player provides.)
@@ -346,8 +346,7 @@ s32 sub_80C65F0(u8 arg0)
 #else
             var_r3 = (u8)var_r0;
 #endif
-            for(var_r2 = 6; var_r2 != 0; var_r2--)
-            {
+            for (var_r2 = 6; var_r2 != 0; var_r2--) {
                 var_r3 ^= (var_r4 >> (var_r2 * 4)) & 0xF;
             }
             result = (0xF & var_r3) | var_r4;
@@ -356,8 +355,7 @@ s32 sub_80C65F0(u8 arg0)
         case 5:
             var_r4 = 0x10000010U;
             var_r3 = 1;
-            for(var_r2 = 6; var_r2 != 0; var_r2--)
-            {
+            for (var_r2 = 6; var_r2 != 0; var_r2--) {
                 var_r3 ^= (var_r4 >> (var_r2 * 4)) & 0xF;
             }
             result = (0xF & var_r3) | var_r4;
