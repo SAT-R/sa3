@@ -64,7 +64,7 @@ void sub_80C61C0(void)
         REG_IME = 1;
 
         REG_IME = 0;
-        gIntrTable[0] = (void *)gMultiSioIntrFuncBuf;
+        gIntrTable[INTR_INDEX_SIO] = (void *)gMultiSioIntrFuncBuf;
         REG_IME = 1;
 
         MultiSioInit(0U);
