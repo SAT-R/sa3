@@ -666,7 +666,6 @@ SECTIONS {
         src/multi_sio.o(.rodata);
         src/sio32_multi_load.o(.rodata);
         src/sio_z.o(.rodata);
-        data/data_2_0.o(.rodata);
 
         src/lib/agb_flash/agb_flash.o(.rodata)
         src/lib/agb_flash/agb_flash_1m.o(.rodata)

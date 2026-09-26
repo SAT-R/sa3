@@ -22,7 +22,7 @@
 #define FLAGS_10000                      0x10000
 #define FLAGS_20000                      0x20000 // Disable DMA?
 #define FLAGS_40000                      0x40000
-#define FLAGS_80000                      0x80000
+#define FLAGS_RUNNING_ON_GB_PLAYER       0x80000
 
 extern u32 gFlags;
 

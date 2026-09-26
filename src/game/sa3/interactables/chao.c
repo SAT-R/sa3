@@ -52,13 +52,9 @@ void sub_804E5CC(void);
 void Task_804E66C(void);
 void TaskDestructor_IAChao(struct Task *);
 
-const u16 sChaoIATilesInfo[6][2] = { 
-    { ANIM_CHAO_NEUTRAL, 0 },
-    { ANIM_CHAO_UNSURE, 0 },
-    { ANIM_CHAO_LOOK_OUT, 0 },
-	{ ANIM_CHAO_SITTING, 0 },
-	{ ANIM_CHAO_STANDING, 0 },
-	{ ANIM_CHAO_WALKING, 0 },
+const u16 sChaoIATilesInfo[6][2] = {
+    { ANIM_CHAO_NEUTRAL, 0 }, { ANIM_CHAO_UNSURE, 0 },   { ANIM_CHAO_LOOK_OUT, 0 },
+    { ANIM_CHAO_SITTING, 0 }, { ANIM_CHAO_STANDING, 0 }, { ANIM_CHAO_WALKING, 0 },
 };
 const u8 gUnknown_080D0410[NUM_COURSE_ZONES][NUM_CHAO_PER_ZONE][2] = {
     [ZONE_1] = {

@@ -569,7 +569,7 @@ void EngineMainLoop(void)
                 gMultiSioStatusFlags = MultiSioMain(&gMultiSioSend, gMultiSioRecv, 0);
             }
 #if (ENGINE == ENGINE_3)
-            else if ((gFlags & (FLAGS_80000 | FLAGS_10000)) == FLAGS_80000) {
+            else if ((gFlags & (FLAGS_RUNNING_ON_GB_PLAYER | FLAGS_10000)) == FLAGS_RUNNING_ON_GB_PLAYER) {
                 sub_80C6908();
             }
 #endif
@@ -1040,8 +1040,8 @@ void sub_80BCB84(void)
     REG_IME = 0;
     REG_DISPSTAT = 0;
     sp2 = REG_IE;
-    REG_IE = 0x1000;
-    REG_IE |= 0x2000;
+    REG_IE = INTR_FLAG_KEYPAD;
+    REG_IE |= INTR_FLAG_GAMEPAK;
     REG_IME = 1;
     SoundBiasReset();
     Stop();

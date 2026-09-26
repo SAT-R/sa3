@@ -247,7 +247,7 @@ extern const u8 gUnknown_080D8F18[NUM_CHARACTERS];
 extern const u8 gUnknown_080D8F1D[NUM_CHARACTERS * 8][3];
 extern const u8 gUnknown_080D8F95[NUM_CHARACTERS * 8][3];
 extern u8 gUnknown_080D946D[NUM_CHARACTERS];
-extern const u8 gUnknown_082B5344[0x140];
+extern const u8 Tileset_DebugAscii[0x140];
 extern const u16 gCharacterSelectedVoices[NUM_CHARACTERS];
 extern const u16 gUnknown_08E2EE50[10][16];
 extern const u16 gUnknown_08E2EEF0[16];
@@ -842,7 +842,9 @@ bool32 sub_80988B0(CharacterSelect *cs)
     gPlayers[PLAYER_4].callback = NULL;
     gPlayers[PLAYER_4].charFlags.someIndex = 0;
 
-    DmaCopy16(3, &gUnknown_082B5344, OBJ_VRAM0 + 0x7EC0, sizeof(gUnknown_082B5344));
+    // TODO: This referencing Tileset_DebugAscii does not make much sense.
+    //       Seems like there were multiple different pieces of removed debug data at that place?
+    DmaCopy16(3, &Tileset_DebugAscii, OBJ_VRAM0 + 0x7EC0, sizeof(Tileset_DebugAscii));
 
     sub_80003B8();
 

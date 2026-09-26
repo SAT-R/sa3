@@ -14,27 +14,35 @@ typedef struct Strc3000428 {
     u16 unkA;
 } Strc3000428;
 
-Strc3000428 gUnknown_3000428 = { 0 };
-s32 gUnknown_3000434 = 0;
-u32 gUnknown_3000438 = 0;
-u32 gUnknown_300043C = 0;
+static Strc3000428 gUnknown_3000428 = { 0 };
+static s32 gUnknown_3000434 = 0;
+static u32 gUnknown_3000438 = 0;
+static u32 gUnknown_300043C = 0;
 
 extern void GetInput(void);
 extern u8 gUnknown_03002C60;
 extern u8 gUnknown_0300620C;
 extern u8 gUnknown_03006C20;
 static const u16 sIdent[4] ALIGNED(4) = { 0x494E, 0x544E, 0x4E45, 0x4F44 }; // string identifier encoded as u16
-extern const ColorRaw sPalette_082B5344[16 * PALETTE_LEN_4BPP];
-extern const u8 gUnknown_082B5544[0x4000];
-extern const u8 gUnknown_082B9544[0x500];
+
+// Used as font for RenderText,
+// but the data was removed in production builds
+// It is curious that it is located here...
+const u8 Tileset_DebugAscii[] = { };
+
+// NOTE(Jace): The palette is using the high-bit in some places, so we cannot (yet) use .pal files directly for those.
+//             (But also we kind of don't need to, since other platforms do not need these for features the GB Player provides.)
+const ColorRaw sPalette_082B5344[] = INCBIN_U16("graphics/tilemaps/gb_player/palette.gbapal.bin");
+const u8 gUnknown_082B5544[0x4000] = INCBIN_U8("graphics/tilemaps/gb_player/tileset.8bpp");
+const u16 gUnknown_082B9544[0x280] = INCBIN_U16("graphics/tilemaps/gb_player/tilemap.tilemap2");
 
 void sub_80C625C(void);
-void sub_80C6318();
+void GBPlayerSioInterrupt();
 s32 sub_80C6548(u8 arg0);
 bool8 sub_80C65B4();
 s32 sub_80C65F0(u8 arg0);
 s32 sub_80C6858(void);
-void sub_80C68E0();
+static void SetupInterrupt();
 
 // Called in "BATTLE" mode enable, SinglePak and MultiPak
 void sub_80C6168(void)
@@ -50,7 +58,7 @@ void sub_80C6168(void)
 
 void sub_80C61C0(void)
 {
-    if (gFlags & FLAGS_80000) {
+    if (gFlags & FLAGS_RUNNING_ON_GB_PLAYER) {
         REG_IME = 0;
         REG_IE &= ~INTR_FLAG_TIMER3;
         REG_IME = 1;
@@ -73,8 +81,8 @@ void sub_80C621C(void)
 
     MultiSioInit(0U);
 
-    if (gFlags & FLAGS_80000) {
-        sub_80C68E0();
+    if (gFlags & FLAGS_RUNNING_ON_GB_PLAYER) {
+        SetupInterrupt();
     }
 }
 
@@ -86,7 +94,7 @@ void sub_80C625C(void)
     REG_IE &= ~(INTR_FLAG_TIMER3 | INTR_FLAG_SERIAL);
     REG_IME = 1;
     REG_RCNT = 0;
-    REG_SIOCNT = SIO_32BIT_MODE | 0x8;
+    REG_SIOCNT = SIO_32BIT_MODE | SIO_ACK_SEND;
     REG_SIOCNT |= SIO_INTR_ENABLE;
     REG_IF = (INTR_FLAG_TIMER3 | INTR_FLAG_SERIAL);
     REG_IME = 0;
@@ -105,19 +113,21 @@ void sub_80C625C(void)
     REG_TM3CNT_H = TIMER_ENABLE | TIMER_INTR_ENABLE | TIMER_64CLK;
 }
 
-// (97.69%) https://decomp.me/scratch/lJi2D
-NONMATCH("asm/non_matching/cz2__sub_80C6318.inc", void sub_80C6318(void))
+// TODO: Fake-match
+// (100.00%) https://decomp.me/scratch/jPYr4
+void GBPlayerSioInterrupt(void)
 {
-    s32 sp4;
-    s32 sp8;
     s32 temp_r0_2;
     s32 temp_r6;
-    u16 temp_r0_3;
     u16 temp_r2;
-    u16 temp_r3;
-    u16 temp_r5;
     u16 var_r0;
-    u32 temp_r0;
+#ifndef NON_MATCHING
+    register u32 r0 asm("r0");
+    register u32 r1 asm("r1");
+#else
+    u32 r0;
+    u32 r1;
+#endif
     u8 temp_r1;
     s32 sioCntValue;
 
@@ -128,14 +138,15 @@ NONMATCH("asm/non_matching/cz2__sub_80C6318.inc", void sub_80C6318(void))
         case 0:
             temp_r6 = REG_SIODATA32;
             temp_r1 = gUnknown_3000428.unk0;
-            temp_r0 = (u32)(temp_r6 << (temp_r1 * 0x10)) >> 0x10;
+            r0 = (u32)(temp_r6 << (temp_r1 * 0x10)) >> 0x10;
             temp_r6 = (u32)(temp_r6 << ((1 - temp_r1) * 0x10)) >> 0x10;
 
             if (gUnknown_3000428.unkA == 0) {
                 temp_r2 = gUnknown_3000428.unk6;
-                if (temp_r0 == temp_r2) {
+                r1 = r0;
+                if (r1 == temp_r2) {
                     if (gUnknown_3000428.unk2 < 4) {
-                        if ((temp_r0 == (u16)~gUnknown_3000428.unk4) && (temp_r6 == (u16)~temp_r2)) {
+                        if ((r1 == (u16)~gUnknown_3000428.unk4) && (temp_r6 == (u16)~temp_r2)) {
                             gUnknown_3000428.unk2++;
                         }
                     } else {
@@ -159,6 +170,7 @@ NONMATCH("asm/non_matching/cz2__sub_80C6318.inc", void sub_80C6318(void))
             {
                 u16 unk2 = gUnknown_3000428.unk2;
                 if (unk2 < ARRAY_COUNT(sIdent)) {
+                    s32 forMatching = unk2 * 2;
                     gUnknown_3000428.unk4 = sIdent[unk2];
                 } else {
                     gUnknown_3000428.unk4 = 0x8000;
@@ -210,7 +222,6 @@ NONMATCH("asm/non_matching/cz2__sub_80C6318.inc", void sub_80C6318(void))
         case 4:
         case 5:
         default:
-        block_def:
             REG_IME = 0;
             REG_IE &= ~INTR_FLAG_SERIAL;
             REG_IME = 1;
@@ -220,7 +231,6 @@ NONMATCH("asm/non_matching/cz2__sub_80C6318.inc", void sub_80C6318(void))
     REG_SIOCNT |= SIO_START;
     REG_TM3CNT_H = TIMER_ENABLE | TIMER_INTR_ENABLE | TIMER_64CLK;
 }
-END_NONMATCH
 
 s32 sub_80C6548(u8 arg0)
 {
@@ -336,22 +346,20 @@ s32 sub_80C65F0(u8 arg0)
 #else
             var_r3 = (u8)var_r0;
 #endif
-            var_r2 = 6;
-            do {
+            for(var_r2 = 6; var_r2 != 0; var_r2--)
+            {
                 var_r3 ^= (var_r4 >> (var_r2 * 4)) & 0xF;
-                var_r2 -= 1;
-            } while (var_r2 != 0);
+            }
             result = (0xF & var_r3) | var_r4;
             break;
         case 4:
         case 5:
             var_r4 = 0x10000010U;
             var_r3 = 1;
-            var_r2 = 6;
-            do {
+            for(var_r2 = 6; var_r2 != 0; var_r2--)
+            {
                 var_r3 ^= (var_r4 >> (var_r2 * 4)) & 0xF;
-                var_r2 -= 1;
-            } while (var_r2 != 0);
+            }
             result = (0xF & var_r3) | var_r4;
             break;
     }
@@ -371,13 +379,12 @@ void Timer3IntrExt(void)
     gUnknown_03006C20 = 5;
 }
 
-void sub_80C6738(void)
+void GBPlayerCheck(void)
 {
-    u16 *pBlendY;
-    s32 var_r8 = 0;
-    s8 var_r7 = 0;
+    s32 delayFrames = 0;
+    s8 dpadAllDownFrameCount = 0;
     s32 state = 0;
-    u16 var_r4 = 0x20;
+    u16 blendFrames = 0x20;
 
     DmaCopy16(3, &gUnknown_082B5544, BG_CHAR_ADDR(2), sizeof(gUnknown_082B5544));
     DmaCopy16(3, &sPalette_082B5344, BG_PLTT, sizeof(sPalette_082B5344));
@@ -389,62 +396,55 @@ void sub_80C6738(void)
     REG_BG0HOFS = 0;
     REG_BG0VOFS = 0;
 
-    pBlendY = (u16 *)&REG_BLDY;
-
     for (;;) {
         GetInput();
         switch (state) {
             case 0:
-                *pBlendY = (s16)(var_r4 >> 1);
-                var_r4 -= 1;
-                if (var_r4 == 0) {
+                REG_BLDY = (s16)(blendFrames >> 1);
+                blendFrames -= 1;
+                if (blendFrames == 0) {
                     state = 1;
                 }
                 break;
             case 1:
-                *pBlendY = 0;
+                REG_BLDY = 0;
 
-                if (var_r8++ < 120) {
+                if (delayFrames++ < 120) {
                     state = 2;
                 }
                 break;
             case 2:
-                *pBlendY = (s16)(var_r4 >> 1);
-                var_r4 += 1;
+                REG_BLDY = (s16)(blendFrames >> 1);
+                blendFrames += 1;
                 break;
         }
         if ((DPAD_ANY & gPressedKeys) == DPAD_ANY) {
-            var_r7++;
+            // NOTE: On a real GBA it's basically physically impossible to push down on
+            // all DPAD-directions simultaneously, so the GB Player uses it to identify itself.
+            dpadAllDownFrameCount++;
         }
-        if ((var_r4 != 0x20) || (state != 2)) {
+        if ((blendFrames != 32) || (state != 2)) {
             VBlankIntrWait();
         } else {
             break;
         }
     }
 
-    if ((s32)(s8)var_r7 > 1) {
-        gFlags |= FLAGS_80000;
-        sub_80C68E0();
+    if (dpadAllDownFrameCount >= 2) {
+        gFlags |= FLAGS_RUNNING_ON_GB_PLAYER;
+        SetupInterrupt();
     }
 }
 
 s32 sub_80C6858(void)
 {
-    u32 temp_r1;
-    u32 temp_r3;
-    u8 *var_r0;
-    u8 *var_r4 = gUnknown_03002BF0;
-    u8 temp_r0;
-    u8 temp_r0_2;
-
-    if (var_r4 != 0) {
-        temp_r0 = *var_r4;
-        temp_r3 = temp_r0 >> 6;
+    if (gUnknown_03002BF0 != 0) {
+        u8 temp_r0 = *gUnknown_03002BF0;
+        u32 temp_r3 = temp_r0 >> 6;
         if (temp_r3 != 3) {
             if (gUnknown_03002C60 == 0) {
                 gUnknown_0300620C = temp_r3 | (temp_r3 << 2) | (temp_r3 << 4) | (temp_r3 << 6);
-                gUnknown_03002C60 = 0x3F & *var_r4;
+                gUnknown_03002C60 = *gUnknown_03002BF0 & 0x3F;
                 return 1;
             } else {
                 gUnknown_0300620C = temp_r3 | (temp_r3 << 2) | (temp_r3 << 4) | (temp_r3 << 6);
@@ -454,7 +454,7 @@ s32 sub_80C6858(void)
                 }
             }
         } else {
-            temp_r1 = 0x3F & temp_r0;
+            u32 temp_r1 = temp_r0 % 64u;
             if (temp_r1 == 0) {
                 gUnknown_03002BF0 = 0;
                 gUnknown_0300620C = 0;
@@ -468,10 +468,10 @@ s32 sub_80C6858(void)
     return 1;
 }
 
-void sub_80C68E0(void)
+static void SetupInterrupt(void)
 {
     REG_IME = 0;
-    gIntrTable[INTR_INDEX_SIO] = sub_80C6318;
+    gIntrTable[INTR_INDEX_SIO] = GBPlayerSioInterrupt;
     REG_IME = 1;
     sub_80C625C();
 }
@@ -483,7 +483,7 @@ void sub_80C6908(void)
         if (v > 4) {
             if (v == 5) {
                 REG_IME = 0;
-                gIntrTable[INTR_INDEX_SIO] = sub_80C6318;
+                gIntrTable[INTR_INDEX_SIO] = GBPlayerSioInterrupt;
                 REG_IME = 1;
                 sub_80C625C();
             }
@@ -491,7 +491,7 @@ void sub_80C6908(void)
     }
 
     if (gFlags & FLAGS_800) {
-        gUnknown_0300620C = 0x55;
+        gUnknown_0300620C = 1 | (1 << 2) | (1 << 4) | (1 << 6);
         return;
     }
     sub_80C6858();

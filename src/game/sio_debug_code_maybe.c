@@ -125,7 +125,7 @@ extern const char gStringZoneNActN[];
 extern const char gStringPressABtn[];
 extern const char gStringPleaseWait[];
 extern const u8 gUnknown_080D6F0C[0x15];
-extern u8 gUnknown_082B5344[]; // NOTE: Not the actual pointer. Like SA1/SA2 the font was only included in debug builds.
+extern u8 Tileset_DebugAscii[]; // NOTE: Not the actual pointer. Like SA1/SA2 the font was only included in debug builds.
 
 extern const u16 gTilemapIdsConnectionStatus[];
 
@@ -1537,17 +1537,17 @@ void sub_808EBBC(void)
     temp_r5 = Div((s32)temp_r4, 10) + 1;
     temp_r4_2 = Mod((s32)temp_r4, 10) - 1;
     sprintf(buffer, gStringSelectStage);
-    RenderText(vram, gUnknown_082B5344, 0xAU, 6U, 2U, buffer, 0U);
+    RenderText(vram, Tileset_DebugAscii, 0xAU, 6U, 2U, buffer, 0U);
     vram += 12 * TILE_SIZE_4BPP;
     sprintf(buffer, gStringZoneNActN, (s16)temp_r5, (s16)temp_r4_2);
-    RenderText(vram, gUnknown_082B5344, 0xAU, 8U, 2U, buffer, 0U);
+    RenderText(vram, Tileset_DebugAscii, 0xAU, 8U, 2U, buffer, 0U);
     vram += 13 * TILE_SIZE_4BPP;
     if (temp_sl == 0) {
         sprintf(buffer, gStringPressABtn);
     } else {
         sprintf(buffer, gStringPleaseWait);
     }
-    RenderText(vram, gUnknown_082B5344, 0xAU, 0x10U, 2U, buffer, 0U);
+    RenderText(vram, Tileset_DebugAscii, 0xAU, 0x10U, 2U, buffer, 0U);
 }
 
 void sub_808ECB8(void) { sub_8027960(); }
