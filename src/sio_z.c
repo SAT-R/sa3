@@ -9,14 +9,14 @@ typedef struct Strc3000428 {
     u8 unk1;
     u16 unk2;
     u16 unk4;
-    u16 unk6;
+    u16 prevChecksum; // TODO: Name | It is the bitwise NOT of the previous message, not a sum
     u16 unk8;
     u16 unkA;
 } Strc3000428;
 
 static Strc3000428 gUnknown_3000428 = { 0 };
-static s32 gUnknown_3000434 = 0;
-static u32 gUnknown_3000438 = 0;
+static s32 sMsgResponse = 0;
+static u32 sMsgReceived = 0;
 static u32 gUnknown_300043C = 0;
 
 extern void GetInput(void);
@@ -38,7 +38,7 @@ const u16 gUnknown_082B9544[0x280] = INCBIN_U16("graphics/tilemaps/gb_player/til
 
 void sub_80C625C(void);
 void GBPlayerSioInterrupt();
-s32 sub_80C6548(u8 arg0);
+bool32 sub_80C6548(u8 arg0);
 bool8 sub_80C65B4();
 s32 sub_80C65F0(u8 arg0);
 s32 sub_80C6858(void);
@@ -118,7 +118,7 @@ void sub_80C625C(void)
 void GBPlayerSioInterrupt(void)
 {
     s32 temp_r0_2;
-    s32 temp_r6;
+    s32 prevRecvLo;
     u16 temp_r2;
     u16 var_r0;
 #ifndef NON_MATCHING
@@ -128,35 +128,35 @@ void GBPlayerSioInterrupt(void)
     u32 r0;
     u32 r1;
 #endif
-    u8 temp_r1;
+    u8 unused_unk0;
     s32 sioCntValue;
 
-    gUnknown_3000438 = REG_SIODATA32;
+    sMsgReceived = REG_SIODATA32;
     REG_TM3CNT_H = 0;
     REG_TM3CNT_L = 0x8000;
     switch (gUnknown_03006C20) {
-        case 0:
-            temp_r6 = REG_SIODATA32;
-            temp_r1 = gUnknown_3000428.unk0;
-            r0 = (u32)(temp_r6 << (temp_r1 * 0x10)) >> 0x10;
-            temp_r6 = (u32)(temp_r6 << ((1 - temp_r1) * 0x10)) >> 0x10;
+        case 0: {
+            prevRecvLo = REG_SIODATA32;
+            unused_unk0 = gUnknown_3000428.unk0;
+            r0 = (u32)(prevRecvLo << (unused_unk0 * 0x10)) >> 0x10;
+            prevRecvLo = (u32)(prevRecvLo << ((1 - unused_unk0) * 0x10)) >> 0x10;
 
             if (gUnknown_3000428.unkA == 0) {
-                temp_r2 = gUnknown_3000428.unk6;
+                temp_r2 = gUnknown_3000428.prevChecksum;
                 r1 = r0;
                 if (r1 == temp_r2) {
                     if (gUnknown_3000428.unk2 < 4) {
-                        if ((r1 == (u16)~gUnknown_3000428.unk4) && (temp_r6 == (u16)~temp_r2)) {
+                        if ((r1 == (u16)~gUnknown_3000428.unk4) && (prevRecvLo == (u16)~temp_r2)) {
                             gUnknown_3000428.unk2++;
                         }
                     } else {
-                        gUnknown_3000428.unkA = temp_r6;
-                        if (temp_r6 == 0x8002) {
+                        gUnknown_3000428.unkA = prevRecvLo;
+                        if (prevRecvLo == 0x8002) {
                             gUnknown_03006C20 = 1;
-                            temp_r0_2 = sub_80C65F0(1U);
-                            gUnknown_3000434 = temp_r0_2;
-                            REG_SIODATA32 = temp_r0_2;
+                            sMsgResponse = sub_80C65F0(1U);
+                            REG_SIODATA32 = sMsgResponse;
                             gUnknown_3000428.unk2 = 0;
+
                             break;
                         } else {
                             gUnknown_3000428.unkA = 0;
@@ -176,49 +176,50 @@ void GBPlayerSioInterrupt(void)
                     gUnknown_3000428.unk4 = 0x8000;
                 }
 
-                gUnknown_3000428.unk6 = (u16)~temp_r6;
-                REG_SIODATA32 = ((gUnknown_3000428.unk4 << ((1 - gUnknown_3000428.unk0) * 0x10))
-                                 + (gUnknown_3000428.unk6 << (gUnknown_3000428.unk0 * 0x10)));
+                gUnknown_3000428.prevChecksum = (u16)~prevRecvLo;
+                REG_SIODATA32 = ((gUnknown_3000428.unk4 << ((1 - gUnknown_3000428.unk0) << 4))
+                                 + (gUnknown_3000428.prevChecksum << (gUnknown_3000428.unk0 << 4)));
             }
 
-            break;
-        case 1:
-            if (sub_80C6548(gUnknown_03006C20) != 0) {
+        } break;
+
+        case 1: {
+            if (sub_80C6548(gUnknown_03006C20)) {
                 gUnknown_3000428.unk2 = 0U;
-                CpuFill32(0, &gUnknown_3000428, 12);
+                CpuFill32(0, &gUnknown_3000428, sizeof(gUnknown_3000428));
                 gUnknown_03006C20 = 0;
             } else {
                 gUnknown_03006C20 = 2;
             }
 
-            gUnknown_3000434 = sub_80C65F0(gUnknown_03006C20);
-            ;
-            REG_SIODATA32 = gUnknown_3000434;
-            break;
-        case 2:
-            if (sub_80C6548(gUnknown_03006C20) != 0) {
+            sMsgResponse = sub_80C65F0(gUnknown_03006C20);
+            REG_SIODATA32 = sMsgResponse;
+        } break;
+
+        case 2: {
+            if (sub_80C6548(gUnknown_03006C20)) {
                 gUnknown_3000428.unk2 = 0U;
-                CpuFill32(0, &gUnknown_3000428, 12);
+                CpuFill32(0, &gUnknown_3000428, sizeof(gUnknown_3000428));
                 gUnknown_03006C20 = 0;
             } else {
                 gUnknown_03006C20 = 3;
             }
 
-            gUnknown_3000434 = sub_80C65F0(gUnknown_03006C20);
-            ;
-            REG_SIODATA32 = gUnknown_3000434;
-            break;
-        case 3:
-            if (sub_80C6548(gUnknown_03006C20) != 0) {
+            sMsgResponse = sub_80C65F0(gUnknown_03006C20);
+            REG_SIODATA32 = sMsgResponse;
+        } break;
+
+        case 3: {
+            if (sub_80C6548(gUnknown_03006C20)) {
                 gUnknown_3000428.unk2 = 0U;
-                CpuFill32(0, &gUnknown_3000428, 12);
+                CpuFill32(0, &gUnknown_3000428, sizeof(gUnknown_3000428));
                 gUnknown_03006C20 = 0;
             }
 
-            gUnknown_3000434 = sub_80C65F0(gUnknown_03006C20);
-            ;
-            REG_SIODATA32 = gUnknown_3000434;
-            break;
+            sMsgResponse = sub_80C65F0(gUnknown_03006C20);
+            REG_SIODATA32 = sMsgResponse;
+        } break;
+
         case 4:
         case 5:
         default:
@@ -232,36 +233,35 @@ void GBPlayerSioInterrupt(void)
     REG_TM3CNT_H = TIMER_ENABLE | TIMER_INTR_ENABLE | TIMER_64CLK;
 }
 
-s32 sub_80C6548(u8 arg0)
+bool32 sub_80C6548(u8 arg0)
 {
-    u32 temp_r5;
+    u32 highDigit = sMsgReceived >> 28;
 
-    temp_r5 = gUnknown_3000438 >> 0x1C;
     if (!sub_80C65B4()) {
         switch (arg0) {
-            case 1:
-                gUnknown_300043C = ((gUnknown_3000438 * 0x10) >> 8) & arg0;
-                if (temp_r5 == 1) {
-                    break;
-                } else {
+            case 1: {
+                gUnknown_300043C = ((sMsgReceived << 4) >> 8) & 0x1;
+                if (highDigit != 1) {
                     return 1;
                 }
-                {
-                block_8:
-                default:
-                    return 1;
-                }
+            } break;
+
+            default:
+                return 1;
+
             case 2:
-                if (temp_r5 == 2) {
-                    if (gUnknown_300043C == ((gUnknown_3000438 * 0x10) >> 8)) {
+                if (highDigit == 2) {
+                    if (gUnknown_300043C == ((sMsgReceived << 4) >> 8)) {
                         break;
                     }
                 }
                 return 1;
+
             case 3:
-                if (temp_r5 != 3) {
+                if (highDigit != 3) {
                     return 1;
                 }
+                break;
         }
     } else {
         return 1;
@@ -277,8 +277,8 @@ bool8 sub_80C65B4(void)
     s32 var_r5;
     u8 var_r0;
 
-    temp_r0 = gUnknown_3000438;
-    temp_r4 = gUnknown_3000438 >> 4;
+    temp_r0 = sMsgReceived;
+    temp_r4 = sMsgReceived >> 4;
     var_r5 = 0xF;
     var_r5 &= temp_r0;
     var_r3 = temp_r4 >> 24;
@@ -288,9 +288,9 @@ bool8 sub_80C65B4(void)
     }
 
     if (var_r3 == var_r5) {
-        return 0;
+        return FALSE;
     }
-    return 1;
+    return TRUE;
 }
 
 // (100.00%) https://decomp.me/scratch/dqnxU
@@ -311,11 +311,9 @@ s32 sub_80C65F0(u8 arg0)
         case 1:
             var_r4 = 0x10000010U;
             var_r3 = 1;
-            var_r2 = 6;
-            do {
+            for (var_r2 = 6; var_r2 != 0; var_r2--) {
                 var_r3 ^= (var_r4 >> (var_r2 * 4)) & 0xF;
-                var_r2 -= 1;
-            } while (var_r2 != 0);
+            }
 
             result = (0xF & var_r3) | var_r4;
             break;
@@ -452,7 +450,7 @@ s32 sub_80C6858(void)
                 }
             }
         } else {
-            u32 temp_r1 = temp_r0 % 64u;
+            u32 temp_r1 = temp_r0 & 0x3F;
             if (temp_r1 == 0) {
                 gUnknown_03002BF0 = 0;
                 gUnknown_0300620C = 0;
