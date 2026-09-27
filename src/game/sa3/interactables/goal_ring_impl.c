@@ -56,9 +56,10 @@ void Task_GoalRingImplInit(void)
     p = GET_SP_PLAYER_V0(PLAYER_1);
     p2 = GET_SP_PLAYER_V0(PLAYER_2);
 
-    if (gStageData.gameMode == GAME_MODE_5) {
+    if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
         if ((!(p->moveState & MOVESTATE_DEAD) && sub_8020700(s, worldX, worldY, 0, p, 0))
-            || (!(p2->moveState & MOVESTATE_DEAD) && sub_8020700(s, worldX, worldY, 0, p2, 0)) || (gStageData.unk4 == GAME_MODE_5)) {
+            || (!(p2->moveState & MOVESTATE_DEAD) && sub_8020700(s, worldX, worldY, 0, p2, 0))
+            || (gStageData.unk4 == GAME_MODE_MP_STORY_COOP)) {
             Player_PlaySong(p, SE_GOAL_RING);
             sub_8016F28(p);
 
@@ -215,7 +216,7 @@ struct Task *CreateGoalRing(u8 *param0, s32 worldX, s32 worldY)
 
     sub_8046760(&ring->sprites[0]);
 
-    if (gStageData.gameMode == GAME_MODE_5) {
+    if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
         t->main = Task_8046900;
     }
 

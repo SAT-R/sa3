@@ -1068,7 +1068,7 @@ void sub_Boss_8074AF0(EggPinball *boss)
         sub_8078DB0(ANIM_PALETTE_BOSS_6_A, 0, 0xB4, 0U);
         sub_8078DB0(ANIM_PALETTE_BOSS_6_B, 0, 0xB4, 0U);
 
-        if (CURRENT_GAME_MODE == GAME_MODE_5) {
+        if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
             if (gStageData.playerIndex == PLAYER_1) {
                 if (boss->unk3D != 0) {
                     sub_8027674(3U, boss->unk3D);

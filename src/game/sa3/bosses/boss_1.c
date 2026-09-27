@@ -1266,7 +1266,7 @@ void sub_806A5DC(EggHammerTankIII *boss)
         m4aSongNumStart(SE_235);
         PlayVoiceEggmanHit();
 
-        if (gStageData.gameMode == GAME_MODE_5) {
+        if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
             if (gStageData.playerIndex == 0) {
                 if (boss->lives != 0) {
                     sub_8027674(3U, boss->lives);

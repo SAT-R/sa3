@@ -567,7 +567,7 @@ void Task_C8_8079EDC(void)
 u8 sub_8079FFC(void)
 {
 
-    if (gStageData.gameMode == GAME_MODE_5) {
+    if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
         if (gStageData.unkB7 == 0) {
             Player *p = &gPlayers[gStageData.playerIndex];
             gStageData.unkB6 = gStageData.unkB7;

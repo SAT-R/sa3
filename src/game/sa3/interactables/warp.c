@@ -203,7 +203,7 @@ void sub_802E87C(void)
             WarpToMap(11, 0);
         } break;
 
-        case GAME_MODE_5: {
+        case GAME_MODE_MP_STORY_COOP: {
             WarpToMap(11, 0);
         } break;
     }
@@ -216,7 +216,7 @@ void sub_802E8A8(void)
             CreateCharacterSelect(4);
         } break;
 
-        case GAME_MODE_5: {
+        case GAME_MODE_MP_STORY_COOP: {
             sub_8004D30();
             TaskDestroy(gCurTask);
             return;

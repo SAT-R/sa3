@@ -549,7 +549,7 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
             s->palId = 0;
         }
     } else {
-        if (gStageData.gameMode != GAME_MODE_5) {
+        if (gStageData.gameMode != GAME_MODE_MP_STORY_COOP) {
             s8 keyCount;
             sp4 = 1;
             keyCount = LOADED_SAVE->specialKeys[gStageData.zone];

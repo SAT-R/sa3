@@ -71,7 +71,7 @@ void Task_GoalRing(void)
     p1 = &gPlayers[gStageData.playerIndex];
     p2 = &gPlayers[p1->charFlags.partnerIndex];
 
-    if (gStageData.gameMode == GAME_MODE_5) {
+    if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
         if ((!(p1->moveState & MOVESTATE_DEAD) && sub_8020700(s, worldX, worldY, 0, p1, 0))
             || (!(p2->moveState & MOVESTATE_DEAD) && sub_8020700(s, worldX, worldY, 0, p2, 0)) || (gStageData.unk4 == 5)) {
             Player_PlaySong(p1, SE_GOAL_RING);
@@ -86,7 +86,7 @@ void Task_GoalRing(void)
         Player_PlaySong(p1, SE_GOAL_RING);
         SetPlayerCallback(p1, Player_8005BD4);
 
-        if (GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode) || gStageData.gameMode == GAME_MODE_5) {
+        if (GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode) || gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
             p2 = &gPlayers[p1->charFlags.partnerIndex];
 
             if (p2->charFlags.someIndex == 2) {

@@ -323,7 +323,7 @@ NONMATCH("asm/non_matching/game/shared/rm__Task_RingsMgrStage.inc", void Task_Ri
     h_regionCount = (u16)*rings++;
     v_regionCount = (u16)*rings++;
 
-    if ((GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode) || (gStageData.gameMode == GAME_MODE_5))) {
+    if ((GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode) || (gStageData.gameMode == GAME_MODE_MP_STORY_COOP))) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             p = GET_SP_PLAYER_V0(i);
 

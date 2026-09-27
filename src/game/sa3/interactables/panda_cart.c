@@ -209,7 +209,7 @@ void Task_804891C(void)
             cart->player = NULL;
         } else {
             if ((gStageData.unk4 == 0x5) || (gStageData.unk4 == 0x6)) {
-                if (gStageData.gameMode == GAME_MODE_5) {
+                if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
                     // TODO: Remove goto
                     goto lbl;
                 }

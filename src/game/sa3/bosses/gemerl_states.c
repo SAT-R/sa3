@@ -1003,7 +1003,7 @@ void sub_8067590(Gemerl *gemerl)
         sub_8078DB0(1304, 0, 120, 0);
 
         if (gemerl->unk20) {
-            if (CURRENT_GAME_MODE == GAME_MODE_5) {
+            if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
                 if (gStageData.playerIndex == PLAYER_1) {
                     s32 a = gemerl->unk20;
                     sub_8027674(0x83, a);

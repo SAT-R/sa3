@@ -299,7 +299,7 @@ void sub_802C7B0(ItemBox *itembox)
         switch (itembox->meIndex) {
             case 0:
                 AddLives(1);
-                if (gStageData.gameMode == GAME_MODE_5) {
+                if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
                     sub_8027834();
                 }
                 break;

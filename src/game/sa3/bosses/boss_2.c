@@ -1168,7 +1168,7 @@ bool32 sub_806B844(EggWheeler *boss)
     }
 
     if ((u8)boss->lives == 0) {
-        if (CURRENT_GAME_MODE == GAME_MODE_5) {
+        if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
             if (gStageData.playerIndex != PLAYER_1) {
                 gCurTask->main = sub_806C12C;
                 return FALSE;

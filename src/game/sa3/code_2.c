@@ -427,7 +427,7 @@ void sub_809B970(Code_2_0__270 *strc)
             var_r5 = (u32)gUnknown_03001060.unk4C[1];
             var_r0 = gUnknown_03001060.unk4C[3];
         }
-    } else if (gStageData.gameMode == GAME_MODE_5) {
+    } else if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
         s16 playerIndex = gStageData.playerIndex;
         s16 partnerIndex = (gStageData.playerIndex + 1) & 1;
         var_r5 = gPlayers[playerIndex].charFlags.character;
@@ -643,7 +643,7 @@ NONMATCH("asm/non_matching/game/sa3/c21__sub_809BA58.inc", bool32 sub_809BA58(Co
             UpdateSpriteAnimation(s);
             DisplaySprite(s);
         }
-        if (gStageData.gameMode <= GAME_MODE_5) {
+        if (gStageData.gameMode <= GAME_MODE_MP_STORY_COOP) {
             if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[var_r8]) && ((u32)(u8)(*strc->unk4 - 0x19) > 2U)) {
                 if (FLAGS_20000 & gFlags) {
                     CopyObjPaletteMasked(gUnknown_080D9448, 0x50U, 0x10U);

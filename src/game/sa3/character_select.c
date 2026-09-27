@@ -778,7 +778,7 @@ void sub_80986AC(CharacterSelect *cs)
 
     sub_80003B8();
 
-    if (gStageData.gameMode == GAME_MODE_5) {
+    if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
         s16 playerIndex = gStageData.playerIndex;
         s16 partnerIndex = (playerIndex + 1);
         partnerIndex &= 1;

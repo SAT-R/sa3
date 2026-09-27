@@ -225,7 +225,7 @@ void AddRings(s16 count)
         newLives = Div(RING_COUNT, 100);
         oldLives = Div(oldRings, 100);
 
-        if ((newLives != oldLives) && ((CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER) || (CURRENT_GAME_MODE == GAME_MODE_5))) {
+        if ((newLives != oldLives) && ((CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER) || (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP))) {
             AddLives(1);
         }
     }
@@ -494,10 +494,10 @@ void Task_00_8002988(void)
     if (gStageData.gameMode > 4U) {
         sub_80261B0();
 
-        if ((gStageData.gameMode == GAME_MODE_5) && (gStageData.playerIndex == 0)) {
+        if ((gStageData.gameMode == GAME_MODE_MP_STORY_COOP) && (gStageData.playerIndex == 0)) {
             sub_80275F0(gStageData.currentLevel, gStageData.zone, gStageData.warpId);
 
-            if (gStageData.gameMode == GAME_MODE_5) {
+            if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
                 sub_8027878(gStageData.lives);
             }
         }

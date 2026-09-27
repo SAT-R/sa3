@@ -1219,7 +1219,7 @@ void Task_274_80548E0(Strc_274_8053284 *strc)
     var_r0 += gUnknown_080D1CA8[charPartner];
     temp_r1_2 = var_r0 + 0x10;
     levelTimer = (s32)gStageData.levelTimer;
-    if (CURRENT_GAME_MODE == GAME_MODE_5) {
+    if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
         charPlayer = gPlayers[PLAYER_1].charFlags.character;
         charPartner = gPlayers[PLAYER_2].charFlags.character;
     }

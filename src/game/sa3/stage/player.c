@@ -9705,7 +9705,7 @@ void Player_800FE44(Player *p)
         } else {
             temp_r2->a.unkB = 0;
         }
-    } else if (gStageData.gameMode != GAME_MODE_5) {
+    } else if (gStageData.gameMode != GAME_MODE_MP_STORY_COOP) {
         if (gPlayers->charFlags.anim0 == 0x122) {
             SetPlayerCallback(p, sub_80109FC);
         }
@@ -13059,7 +13059,7 @@ void SetPlayerSpawnPosition(s32 levelIndex, s32 pid)
 
     p = &gPlayers[pid];
     warpId = gStageData.warpId;
-    if (GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode) || gStageData.gameMode == GAME_MODE_5) {
+    if (GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode) || gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
         gStageData.respawnX = gRespawnPositions[levelIndex][warpId].x;
         gStageData.respawnY = gRespawnPositions[levelIndex][warpId].y;
     } else {

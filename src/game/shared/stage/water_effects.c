@@ -196,7 +196,7 @@ void Task_StageWaterTask(void)
 
     {
         s16 someY = (water->currentWaterLevel - gCamera.y);
-        if (gStageData.gameMode < GAME_MODE_5) {
+        if (gStageData.gameMode < GAME_MODE_MP_STORY_COOP) {
             u32 timer = ((u32)(gStageData.timer & 0x1FF) >> 1);
             gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
             gHBlankCopyTarget = (void *)&REG_BG3HOFS;

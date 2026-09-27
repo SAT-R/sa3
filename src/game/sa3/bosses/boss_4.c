@@ -401,7 +401,7 @@ void Task_EggCube_806EEB8(void)
     temp_r4 = sub_806F5F0(boss->players[0]);
     temp_r4 += sub_806F5F0(boss->players[1]);
     if (temp_r4 != 0) {
-        if (gStageData.gameMode == GAME_MODE_5) {
+        if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
             if (gStageData.playerIndex == PLAYER_1) {
                 sub_8071410(boss);
             }
