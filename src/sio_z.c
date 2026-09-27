@@ -34,7 +34,7 @@
 #define GBP_HANDSHAKE_FINAL_RESPONSE_IDENT 0x8000
 
 typedef struct GBPCommunication {
-    bool8 applyHwordShift;
+    bool8 applyHwordShift; // always 0
     u8 unk1;
     u16 identIndex;
     u16 prevIdent;
@@ -52,7 +52,7 @@ typedef enum {
     GBPIS_5,
 } EGBPInterruptState;
 
-GBPCommunication sGbPlayerComm = { 0 };
+static GBPCommunication sGbPlayerComm = { 0 };
 static s32 sMsgResponse = 0;
 static u32 sMsgReceived = 0;
 static u32 gUnknown_300043C = 0;
