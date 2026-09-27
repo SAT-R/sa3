@@ -5916,23 +5916,23 @@ sub_80A735C: @ 0x080A735C
 	lsrs r6, r3, #0x18
 	cmp r4, #0
 	bne _080A7390
-	ldr r0, _080A7388 @ =sub_80A74F8
+	ldr r0, _080A7388 @ =Task_80A74F8
 	movs r2, #0x80
 	lsls r2, r2, #1
-	ldr r1, _080A738C @ =sub_80A84D8
+	ldr r1, _080A738C @ =TaskDestructor_80A84D8
 	str r1, [sp]
 	movs r1, #0x28
 	movs r3, #0
 	bl TaskCreate
 	b _080A73A2
 	.align 2, 0
-_080A7388: .4byte sub_80A74F8
-_080A738C: .4byte sub_80A84D8
+_080A7388: .4byte Task_80A74F8
+_080A738C: .4byte TaskDestructor_80A84D8
 _080A7390:
-	ldr r0, _080A73E8 @ =sub_80A7578
+	ldr r0, _080A73E8 @ =Task_80A7578
 	movs r2, #0x80
 	lsls r2, r2, #1
-	ldr r1, _080A73EC @ =sub_80A84D8
+	ldr r1, _080A73EC @ =TaskDestructor_80A84D8
 	str r1, [sp]
 	movs r1, #0x28
 	movs r3, #0
@@ -5973,8 +5973,8 @@ _080A73A2:
 	movs r1, #0x3c
 	b _080A73FC
 	.align 2, 0
-_080A73E8: .4byte sub_80A7578
-_080A73EC: .4byte sub_80A84D8
+_080A73E8: .4byte Task_80A7578
+_080A73EC: .4byte TaskDestructor_80A84D8
 _080A73F0: .4byte gDispCnt
 _080A73F4: .4byte gWinRegs
 _080A73F8:
@@ -6105,8 +6105,8 @@ _080A74EC: .4byte gDispCnt
 _080A74F0: .4byte gWinRegs + 0x2
 _080A74F4: .4byte gBldRegs
 
-	thumb_func_start sub_80A74F8
-sub_80A74F8: @ 0x080A74F8
+	thumb_func_start Task_80A74F8
+Task_80A74F8: @ 0x080A74F8
 	push {r4, r5, lr}
 	ldr r5, _080A7548 @ =gCurTask
 	ldr r0, [r5]
@@ -6172,8 +6172,8 @@ _080A7570:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_80A7578
-sub_80A7578: @ 0x080A7578
+	thumb_func_start Task_80A7578
+Task_80A7578: @ 0x080A7578
 	push {r4, lr}
 	ldr r4, _080A75CC @ =gCurTask
 	ldr r0, [r4]
@@ -8132,8 +8132,8 @@ _080A84D2:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_80A84D8
-sub_80A84D8: @ 0x080A84D8
+	thumb_func_start TaskDestructor_80A84D8
+TaskDestructor_80A84D8: @ 0x080A84D8
 	bx lr
 	.align 2, 0
 
