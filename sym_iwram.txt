@@ -76,7 +76,7 @@ src/sio32_multi_load.o(.data);
 . = 0x00006C10;
 src/input_recorder.o(.data);
 
-. = 0x00006C20; gUnknown_03006C20 = .; . += 0x1;
+. = 0x00006C20; sGBPInterruptState = .; . += 0x1;
 
 src/lib/agb_flash/agb_flash.o(.data);
 

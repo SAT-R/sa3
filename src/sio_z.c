@@ -4,17 +4,55 @@
 #include "color.h"
 #include "multi_sio.h"
 
-typedef struct Strc3000428 {
-    u8 unk0;
+// (Data from GBATEK: https://problemkaputt.de/gbatek.htm#gbagameboyplayer )
+// This is the usual handshaking values:
+// Received Response
+//    ||       ||
+// 0000494E 494EB6B1
+// xxxx494E 494EB6B1
+// B6B1494E 544EB6B1
+// B6B1544E 544EABB1
+// ABB1544E 4E45ABB1
+// ABB14E45 4E45B1BA
+// B1BA4E45 4F44B1BA
+// B1BA4F44 4F44B0BB
+// B0BB4F44 8000B0BB
+// B0BB8002 10000010
+// 10000010 20000013
+// 20000013 40000004
+// 30000003 40000004
+// 30000003 40000004
+// 30000003 40000004
+// 30000003 400000yy
+// 30000003 40000004
+//
+// yy =
+// Rumble Off : 0x04
+// Rumble On  : 0x2A (0b00101010)
+
+#define GBP_HANDSHAKE_FINAL_MESSAGE_IDENT  0x8002
+#define GBP_HANDSHAKE_FINAL_RESPONSE_IDENT 0x8000
+
+typedef struct GBPCommunication {
+    bool8 applyHwordShift;
     u8 unk1;
-    u16 unk2;
-    u16 unk4;
+    u16 identIndex;
+    u16 prevIdent;
     u16 prevChecksum; // TODO: Name | It is the bitwise NOT of the previous message, not a sum
     u16 unk8;
     u16 unkA;
-} Strc3000428;
+} GBPCommunication;
 
-static Strc3000428 gUnknown_3000428 = { 0 };
+typedef enum {
+    GBPIS_HANDSHAKE,
+    GBPIS_1,
+    GBPIS_2,
+    GBPIS_3,
+    GBPIS_4,
+    GBPIS_5,
+} EGBPInterruptState;
+
+GBPCommunication sGbPlayerComm = { 0 };
 static s32 sMsgResponse = 0;
 static u32 sMsgReceived = 0;
 static u32 gUnknown_300043C = 0;
@@ -22,7 +60,7 @@ static u32 gUnknown_300043C = 0;
 extern void GetInput(void);
 extern u8 gUnknown_03002C60;
 extern u8 gUnknown_0300620C;
-extern u8 gUnknown_03006C20;
+extern EGBPInterruptState sGBPInterruptState;
 static const u16 sIdent[4] ALIGNED(4) = { 0x494E, 0x544E, 0x4E45, 0x4F44 }; // string identifier encoded as u16
 
 // Used as font for RenderText,
@@ -38,11 +76,17 @@ const u16 gUnknown_082B9544[0x280] = INCBIN_U16("graphics/tilemaps/gb_player/til
 
 void sub_80C625C(void);
 void GBPlayerSioInterrupt();
-bool32 sub_80C6548(u8 arg0);
+static bool32 GotUnexpectedMessage(EGBPInterruptState stateIndex);
 bool8 sub_80C65B4();
-s32 sub_80C65F0(u8 arg0);
+s32 GBPReponseFromStateIndex(EGBPInterruptState state_index);
 s32 sub_80C6858(void);
 static void SetupInterrupt();
+
+static inline void GBPSendResponse(EGBPInterruptState state_index)
+{
+    sMsgResponse = GBPReponseFromStateIndex(state_index);
+    REG_SIODATA32 = sMsgResponse;
+}
 
 // Called in "BATTLE" mode enable, SinglePak and MultiPak
 void sub_80C6168(void)
@@ -104,8 +148,8 @@ void sub_80C625C(void)
     siocnt = *(vu8 *)&REG_SIOCNT;
     mask = ~1;
     *(vu8 *)&REG_SIOCNT = siocnt & mask;
-    gUnknown_03006C20 = 0;
-    CpuFill32(0, &gUnknown_3000428, sizeof(gUnknown_3000428));
+    sGBPInterruptState = 0;
+    CpuFill32(0, &sGbPlayerComm, sizeof(sGbPlayerComm));
     REG_IME = 0;
     REG_SIOCNT |= SIO_START;
     REG_IME = 1;
@@ -128,100 +172,96 @@ void GBPlayerSioInterrupt(void)
     u32 r0;
     u32 r1;
 #endif
-    u8 unused_unk0;
+    bool8 applyHwordShift; // always 0
     s32 sioCntValue;
 
     sMsgReceived = REG_SIODATA32;
     REG_TM3CNT_H = 0;
     REG_TM3CNT_L = 0x8000;
-    switch (gUnknown_03006C20) {
-        case 0: {
+    switch (sGBPInterruptState) {
+        case GBPIS_HANDSHAKE: {
             prevRecvLo = REG_SIODATA32;
-            unused_unk0 = gUnknown_3000428.unk0;
-            r0 = (u32)(prevRecvLo << (unused_unk0 * 0x10)) >> 0x10;
-            prevRecvLo = (u32)(prevRecvLo << ((1 - unused_unk0) * 0x10)) >> 0x10;
+            applyHwordShift = sGbPlayerComm.applyHwordShift;
+            r0 = (u32)(prevRecvLo << (applyHwordShift * 0x10)) >> 0x10;
+            prevRecvLo = (u32)(prevRecvLo << ((1 - applyHwordShift) * 0x10)) >> 0x10;
 
-            if (gUnknown_3000428.unkA == 0) {
-                temp_r2 = gUnknown_3000428.prevChecksum;
+            if (sGbPlayerComm.unkA == 0) {
+                temp_r2 = sGbPlayerComm.prevChecksum;
                 r1 = r0;
                 if (r1 == temp_r2) {
-                    if (gUnknown_3000428.unk2 < 4) {
-                        if ((r1 == (u16)~gUnknown_3000428.unk4) && (prevRecvLo == (u16)~temp_r2)) {
-                            gUnknown_3000428.unk2++;
+                    if (sGbPlayerComm.identIndex < ARRAY_COUNT(sIdent)) {
+                        if ((r1 == (u16)~sGbPlayerComm.prevIdent) && (prevRecvLo == (u16)~temp_r2)) {
+                            sGbPlayerComm.identIndex++;
                         }
                     } else {
-                        gUnknown_3000428.unkA = prevRecvLo;
-                        if (prevRecvLo == 0x8002) {
-                            gUnknown_03006C20 = 1;
-                            sMsgResponse = sub_80C65F0(1U);
-                            REG_SIODATA32 = sMsgResponse;
-                            gUnknown_3000428.unk2 = 0;
+                        sGbPlayerComm.unkA = prevRecvLo;
+                        if (prevRecvLo == GBP_HANDSHAKE_FINAL_MESSAGE_IDENT) {
+                            sGBPInterruptState = GBPIS_1;
+                            GBPSendResponse(sGBPInterruptState);
+                            sGbPlayerComm.identIndex = 0;
 
                             break;
                         } else {
-                            gUnknown_3000428.unkA = 0;
-                            gUnknown_3000428.unk2 = 0;
+                            sGbPlayerComm.unkA = 0;
+                            sGbPlayerComm.identIndex = 0;
                         }
                     }
                 } else {
-                    gUnknown_3000428.unk2 = 0;
+                    sGbPlayerComm.identIndex = 0;
                 }
             }
             {
-                u16 unk2 = gUnknown_3000428.unk2;
-                if (unk2 < ARRAY_COUNT(sIdent)) {
-                    s32 forMatching = unk2 * 2;
-                    gUnknown_3000428.unk4 = sIdent[unk2];
+                u16 identIndex = sGbPlayerComm.identIndex;
+                if (sGbPlayerComm.identIndex < ARRAY_COUNT(sIdent)) {
+                    s32 forMatching = identIndex * 2;
+                    sGbPlayerComm.prevIdent = sIdent[identIndex];
                 } else {
-                    gUnknown_3000428.unk4 = 0x8000;
+                    sGbPlayerComm.prevIdent = GBP_HANDSHAKE_FINAL_RESPONSE_IDENT;
                 }
 
-                gUnknown_3000428.prevChecksum = (u16)~prevRecvLo;
-                REG_SIODATA32 = ((gUnknown_3000428.unk4 << ((1 - gUnknown_3000428.unk0) << 4))
-                                 + (gUnknown_3000428.prevChecksum << (gUnknown_3000428.unk0 << 4)));
+                sGbPlayerComm.prevChecksum = (u16)~prevRecvLo;
+                REG_SIODATA32 = ((sGbPlayerComm.prevIdent << ((1 - sGbPlayerComm.applyHwordShift) << 4))
+                                 + (sGbPlayerComm.prevChecksum << (sGbPlayerComm.applyHwordShift << 4)));
             }
 
         } break;
 
-        case 1: {
-            if (sub_80C6548(gUnknown_03006C20)) {
-                gUnknown_3000428.unk2 = 0U;
-                CpuFill32(0, &gUnknown_3000428, sizeof(gUnknown_3000428));
-                gUnknown_03006C20 = 0;
+        case GBPIS_1: {
+            if (GotUnexpectedMessage(sGBPInterruptState)) {
+                sGbPlayerComm.identIndex = 0U;
+                CpuFill32(0, &sGbPlayerComm, sizeof(sGbPlayerComm));
+                sGBPInterruptState = GBPIS_HANDSHAKE;
             } else {
-                gUnknown_03006C20 = 2;
+                sGBPInterruptState = GBPIS_2;
             }
 
-            sMsgResponse = sub_80C65F0(gUnknown_03006C20);
-            REG_SIODATA32 = sMsgResponse;
+            GBPSendResponse(sGBPInterruptState);
         } break;
 
-        case 2: {
-            if (sub_80C6548(gUnknown_03006C20)) {
-                gUnknown_3000428.unk2 = 0U;
-                CpuFill32(0, &gUnknown_3000428, sizeof(gUnknown_3000428));
-                gUnknown_03006C20 = 0;
+        case GBPIS_2: {
+            if (GotUnexpectedMessage(sGBPInterruptState)) {
+                sGbPlayerComm.identIndex = 0U;
+                CpuFill32(0, &sGbPlayerComm, sizeof(sGbPlayerComm));
+                sGBPInterruptState = GBPIS_HANDSHAKE;
             } else {
-                gUnknown_03006C20 = 3;
+                sGBPInterruptState = GBPIS_3;
             }
 
-            sMsgResponse = sub_80C65F0(gUnknown_03006C20);
-            REG_SIODATA32 = sMsgResponse;
+            GBPSendResponse(sGBPInterruptState);
         } break;
 
-        case 3: {
-            if (sub_80C6548(gUnknown_03006C20)) {
-                gUnknown_3000428.unk2 = 0U;
-                CpuFill32(0, &gUnknown_3000428, sizeof(gUnknown_3000428));
-                gUnknown_03006C20 = 0;
+        case GBPIS_3: {
+            if (GotUnexpectedMessage(sGBPInterruptState)) {
+                sGbPlayerComm.identIndex = 0U;
+                CpuFill32(0, &sGbPlayerComm, sizeof(sGbPlayerComm));
+                sGBPInterruptState = GBPIS_HANDSHAKE;
             }
 
-            sMsgResponse = sub_80C65F0(gUnknown_03006C20);
-            REG_SIODATA32 = sMsgResponse;
+            GBPSendResponse(sGBPInterruptState);
         } break;
 
-        case 4:
-        case 5:
+        case GBPIS_4:
+        case GBPIS_5:
         default:
             REG_IME = 0;
             REG_IE &= ~INTR_FLAG_SERIAL;
@@ -233,40 +273,41 @@ void GBPlayerSioInterrupt(void)
     REG_TM3CNT_H = TIMER_ENABLE | TIMER_INTR_ENABLE | TIMER_64CLK;
 }
 
-bool32 sub_80C6548(u8 arg0)
+static bool32 GotUnexpectedMessage(EGBPInterruptState stateIndex)
 {
     u32 highDigit = sMsgReceived >> 28;
 
     if (!sub_80C65B4()) {
-        switch (arg0) {
-            case 1: {
+        switch (stateIndex) {
+            case GBPIS_1: {
                 gUnknown_300043C = ((sMsgReceived << 4) >> 8) & 0x1;
                 if (highDigit != 1) {
-                    return 1;
+                    return TRUE;
                 }
             } break;
 
             default:
-                return 1;
+                return TRUE;
 
-            case 2:
+            case GBPIS_2:
                 if (highDigit == 2) {
                     if (gUnknown_300043C == ((sMsgReceived << 4) >> 8)) {
                         break;
                     }
                 }
-                return 1;
+                return TRUE;
 
-            case 3:
+            case GBPIS_3:
                 if (highDigit != 3) {
-                    return 1;
+                    return TRUE;
                 }
                 break;
         }
     } else {
-        return 1;
+        return TRUE;
     }
-    return 0;
+
+    return FALSE;
 }
 
 bool8 sub_80C65B4(void)
@@ -294,7 +335,7 @@ bool8 sub_80C65B4(void)
 }
 
 // (100.00%) https://decomp.me/scratch/dqnxU
-s32 sub_80C65F0(u8 arg0)
+s32 GBPReponseFromStateIndex(EGBPInterruptState stateIndex)
 {
     u8 var_r2;
     u32 var_r0;
@@ -307,8 +348,8 @@ s32 sub_80C65F0(u8 arg0)
     s32 result = 0;
 #endif
 
-    switch (arg0) {
-        case 1:
+    switch (stateIndex) {
+        case GBPIS_1:
             var_r4 = 0x10000010U;
             var_r3 = 1;
             for (var_r2 = 6; var_r2 != 0; var_r2--) {
@@ -317,7 +358,7 @@ s32 sub_80C65F0(u8 arg0)
 
             result = (0xF & var_r3) | var_r4;
             break;
-        case 2:
+        case GBPIS_2:
             var_r4 = ((gUnknown_300043C & 0xFFFFFF) << 4) | 0x20000000;
             var_r0 = (var_r4 >> 28);
 #ifndef NON_MATCHING
@@ -333,7 +374,7 @@ s32 sub_80C65F0(u8 arg0)
             }
             result = (0xF & var_r3) | var_r4;
             break;
-        case 3:
+        case GBPIS_3:
             var_r4 = (gUnknown_0300620C << 4) | 0x40000000;
             var_r0 = var_r4 >> 28;
 #ifndef NON_MATCHING
@@ -349,8 +390,8 @@ s32 sub_80C65F0(u8 arg0)
             }
             result = (0xF & var_r3) | var_r4;
             break;
-        case 4:
-        case 5:
+        case GBPIS_4:
+        case GBPIS_5:
             var_r4 = 0x10000010U;
             var_r3 = 1;
             for (var_r2 = 6; var_r2 != 0; var_r2--) {
@@ -372,7 +413,7 @@ void Timer3IntrExt(void)
     REG_IME = 1;
     REG_TM3CNT_H = 0;
     REG_TM3CNT_L = 0x8000;
-    gUnknown_03006C20 = 5;
+    sGBPInterruptState = 5;
 }
 
 void GBPlayerCheck(void)
@@ -434,7 +475,7 @@ void GBPlayerCheck(void)
 
 s32 sub_80C6858(void)
 {
-    if (gUnknown_03002BF0 != 0) {
+    if (gUnknown_03002BF0 != NULL) {
         u8 temp_r0 = *gUnknown_03002BF0;
         u32 temp_r3 = temp_r0 >> 6;
         if (temp_r3 != 3) {
@@ -474,10 +515,10 @@ static void SetupInterrupt(void)
 
 void sub_80C6908(void)
 {
-    s32 v = (u8)gUnknown_03006C20;
-    if ((v >= 0)) {
-        if (v > 4) {
-            if (v == 5) {
+    s32 v = (u8)sGBPInterruptState;
+    if ((v >= GBPIS_HANDSHAKE)) {
+        if (v > GBPIS_4) {
+            if (v == GBPIS_5) {
                 REG_IME = 0;
                 gIntrTable[INTR_INDEX_SIO] = GBPlayerSioInterrupt;
                 REG_IME = 1;
@@ -490,5 +531,6 @@ void sub_80C6908(void)
         gUnknown_0300620C = 1 | (1 << 2) | (1 << 4) | (1 << 6);
         return;
     }
+
     sub_80C6858();
 }
