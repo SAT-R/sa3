@@ -5,6 +5,1412 @@
 .syntax unified
 .arm
 
+.if 0
+.endif
+
+	thumb_func_start sub_80ACD10
+sub_80ACD10: @ 0x080ACD10
+	push {r4, r5, r6, r7, lr}
+	mov r7, sl
+	mov r6, sb
+	mov r5, r8
+	push {r5, r6, r7}
+	adds r7, r0, #0
+	movs r0, #0x36
+	bl VramMalloc
+	adds r6, r0, #0
+	adds r0, r7, #0
+	adds r0, #0x5c
+	str r6, [r7, #0x5c]
+	ldr r4, _080ACDB4 @ =gUnknown_080DBA94
+	ldr r1, [r4, #0xc]
+	lsls r1, r1, #5
+	adds r6, r6, r1
+	ldrh r1, [r4, #8]
+	movs r2, #0
+	mov sl, r2
+	movs r5, #0
+	strh r1, [r0, #0xc]
+	ldrb r1, [r4, #0xa]
+	strb r1, [r0, #0x1a]
+	movs r1, #0xff
+	strb r1, [r0, #0x1b]
+	ldr r1, [r7, #0x20]
+	asrs r1, r1, #8
+	strh r1, [r0, #0x10]
+	ldr r1, [r7, #0x24]
+	asrs r1, r1, #8
+	strh r1, [r0, #0x12]
+	movs r1, #0xa0
+	lsls r1, r1, #1
+	mov sb, r1
+	mov r2, sb
+	strh r2, [r0, #0x14]
+	strh r5, [r0, #0xe]
+	strh r5, [r0, #0x16]
+	movs r1, #0x10
+	mov r8, r1
+	mov r2, r8
+	strb r2, [r0, #0x1c]
+	mov r1, sl
+	strb r1, [r0, #0x1f]
+	str r5, [r0, #8]
+	bl UpdateSpriteAnimation
+	adds r0, r7, #0
+	adds r0, #0x84
+	str r6, [r0]
+	ldrh r1, [r4]
+	strh r1, [r0, #0xc]
+	ldrb r1, [r4, #2]
+	strb r1, [r0, #0x1a]
+	movs r1, #1
+	rsbs r1, r1, #0
+	strb r1, [r0, #0x1b]
+	ldr r1, [r7, #0x20]
+	asrs r1, r1, #8
+	strh r1, [r0, #0x10]
+	ldr r1, [r7, #0x24]
+	asrs r1, r1, #8
+	strh r1, [r0, #0x12]
+	mov r2, sb
+	strh r2, [r0, #0x14]
+	strh r5, [r0, #0xe]
+	strh r5, [r0, #0x16]
+	mov r1, r8
+	strb r1, [r0, #0x1c]
+	mov r2, sl
+	strb r2, [r0, #0x1f]
+	str r5, [r0, #8]
+	bl UpdateSpriteAnimation
+	pop {r3, r4, r5}
+	mov r8, r3
+	mov sb, r4
+	mov sl, r5
+	pop {r4, r5, r6, r7}
+	pop {r0}
+	bx r0
+	.align 2, 0
+_080ACDB4: .4byte gUnknown_080DBA94
+
+	thumb_func_start Task_B8_80ACDB8
+Task_B8_80ACDB8: @ 0x080ACDB8
+	push {r4, r5, r6, r7, lr}
+	sub sp, #4
+	ldr r0, _080ACDE0 @ =gCurTask
+	ldr r0, [r0]
+	ldrh r7, [r0, #6]
+	movs r0, #0xc0
+	lsls r0, r0, #0x12
+	adds r5, r7, r0
+	adds r0, r5, #0
+	bl sub_80AD030
+	adds r0, r5, #0
+	bl sub_80AE2C4
+	cmp r0, #0
+	bne _080ACDE4
+	adds r0, r5, #0
+	bl sub_80AE2E8
+	b _080ACE92
+	.align 2, 0
+_080ACDE0: .4byte gCurTask
+_080ACDE4:
+	ldr r2, _080ACE40 @ =gUnknown_080DBC93
+	ldrb r1, [r5, #0x18]
+	lsls r0, r1, #3
+	adds r0, r0, r1
+	ldrb r1, [r5, #0x10]
+	adds r0, r0, r1
+	adds r0, r0, r2
+	ldrb r0, [r0]
+	strb r0, [r5, #0x1a]
+	ldr r4, [r5, #8]
+	ldrb r6, [r5, #0x10]
+	ldrb r2, [r5, #0x18]
+	cmp r4, #0
+	bne _080ACE54
+	ldr r3, [r5]
+	cmp r3, #1
+	bne _080ACE54
+	ldr r1, _080ACE44 @ =gUnknown_080DBC78
+	lsls r0, r2, #3
+	adds r0, r0, r2
+	adds r0, r6, r0
+	adds r0, r0, r1
+	ldrb r0, [r0]
+	adds r1, r0, #0
+	cmp r1, #0
+	beq _080ACE4C
+	cmp r1, #0xfe
+	beq _080ACE4E
+	strb r0, [r5, #0x19]
+	ldr r0, _080ACE48 @ =0x030000B4
+	adds r2, r7, r0
+	ldr r1, [r2]
+	ldr r0, [r1, #0x28]
+	str r0, [r1, #0x24]
+	ldr r0, [r2]
+	ldrb r1, [r5, #0x19]
+	ldr r2, [r0, #0x28]
+	str r2, [sp]
+	movs r2, #0x48
+	movs r3, #0x28
+	bl sub_80AD7B4
+	str r4, [r5]
+	str r4, [r5, #8]
+	b _080ACE4E
+	.align 2, 0
+_080ACE40: .4byte gUnknown_080DBC93
+_080ACE44: .4byte gUnknown_080DBC78
+_080ACE48: .4byte 0x030000B4
+_080ACE4C:
+	str r3, [r5, #8]
+_080ACE4E:
+	ldrb r0, [r5, #0x10]
+	adds r0, #1
+	strb r0, [r5, #0x10]
+_080ACE54:
+	ldr r0, [r5]
+	cmp r0, #0
+	bne _080ACE6C
+	adds r4, r5, #0
+	adds r4, #0xb4
+	ldr r0, [r4]
+	bl sub_8023734
+	str r0, [r5]
+	ldr r0, [r4]
+	bl sub_80239A8
+_080ACE6C:
+	ldr r4, [r5]
+	cmp r4, #1
+	bne _080ACE92
+	adds r0, r5, #0
+	adds r0, #0xb4
+	ldr r1, [r0]
+	ldrb r0, [r1, #6]
+	cmp r0, #0
+	beq _080ACE84
+	adds r0, r1, #0
+	bl sub_80239A8
+_080ACE84:
+	movs r0, #0
+	strh r0, [r5, #0x1e]
+	str r4, [r5, #8]
+	ldr r0, _080ACE9C @ =gCurTask
+	ldr r1, [r0]
+	ldr r0, _080ACEA0 @ =Task_B8_80ACEA4
+	str r0, [r1, #8]
+_080ACE92:
+	add sp, #4
+	pop {r4, r5, r6, r7}
+	pop {r0}
+	bx r0
+	.align 2, 0
+_080ACE9C: .4byte gCurTask
+_080ACEA0: .4byte Task_B8_80ACEA4
+
+	thumb_func_start Task_B8_80ACEA4
+Task_B8_80ACEA4: @ 0x080ACEA4
+	push {r4, r5, lr}
+	ldr r0, _080ACEE0 @ =gCurTask
+	ldr r0, [r0]
+	ldrh r5, [r0, #6]
+	movs r0, #0xc0
+	lsls r0, r0, #0x12
+	adds r4, r5, r0
+	ldrh r0, [r4, #0x1e]
+	adds r0, #1
+	strh r0, [r4, #0x1e]
+	adds r0, r4, #0
+	bl sub_80AD030
+	ldr r2, _080ACEE4 @ =gUnknown_080DBC78
+	ldrb r1, [r4, #0x18]
+	lsls r0, r1, #3
+	adds r0, r0, r1
+	ldrb r1, [r4, #0x10]
+	adds r0, r0, r1
+	adds r0, r0, r2
+	ldrb r0, [r0]
+	cmp r0, #0xfe
+	beq _080ACEEC
+	ldr r1, _080ACEE8 @ =0x030000B4
+	adds r0, r5, r1
+	ldr r0, [r0]
+	bl sub_80239A8
+	b _080ACEF6
+	.align 2, 0
+_080ACEE0: .4byte gCurTask
+_080ACEE4: .4byte gUnknown_080DBC78
+_080ACEE8: .4byte 0x030000B4
+_080ACEEC:
+	ldr r1, _080ACF20 @ =0x030000B4
+	adds r0, r5, r1
+	ldr r1, [r0]
+	movs r0, #0
+	strb r0, [r1, #6]
+_080ACEF6:
+	ldr r0, [r4, #8]
+	cmp r0, #0
+	bne _080ACF38
+	movs r3, #1
+	str r3, [r4]
+	ldr r2, _080ACF24 @ =gUnknown_080DBC78
+	ldrb r1, [r4, #0x18]
+	lsls r0, r1, #3
+	adds r0, r0, r1
+	ldrb r1, [r4, #0x10]
+	adds r0, r0, r1
+	adds r0, r0, r2
+	ldrb r0, [r0]
+	cmp r0, #0xff
+	bne _080ACF30
+	str r3, [r4, #8]
+	ldr r0, _080ACF28 @ =gCurTask
+	ldr r1, [r0]
+	ldr r0, _080ACF2C @ =Task_B8_80ACF48
+	b _080ACF36
+	.align 2, 0
+_080ACF20: .4byte 0x030000B4
+_080ACF24: .4byte gUnknown_080DBC78
+_080ACF28: .4byte gCurTask
+_080ACF2C: .4byte Task_B8_80ACF48
+_080ACF30:
+	ldr r0, _080ACF40 @ =gCurTask
+	ldr r1, [r0]
+	ldr r0, _080ACF44 @ =Task_B8_80ACDB8
+_080ACF36:
+	str r0, [r1, #8]
+_080ACF38:
+	pop {r4, r5}
+	pop {r0}
+	bx r0
+	.align 2, 0
+_080ACF40: .4byte gCurTask
+_080ACF44: .4byte Task_B8_80ACDB8
+
+	thumb_func_start Task_B8_80ACF48
+Task_B8_80ACF48: @ 0x080ACF48
+	push {r4, r5, r6, lr}
+	ldr r0, _080ACFC8 @ =gCurTask
+	ldr r0, [r0]
+	ldrh r4, [r0, #6]
+	movs r0, #0xc0
+	lsls r0, r0, #0x12
+	adds r5, r4, r0
+	movs r0, #1
+	str r0, [r5, #8]
+	adds r0, r5, #0
+	bl sub_80AD030
+	ldr r0, _080ACFCC @ =0x030000B4
+	adds r4, r4, r0
+	ldr r0, [r4]
+	bl sub_80239A8
+	ldr r0, _080ACFD0 @ =gStageData
+	ldrb r4, [r0, #6]
+	cmp r4, #0
+	bne _080AD010
+	ldrb r0, [r5, #0x1b]
+	ldr r6, _080ACFD4 @ =gBldRegs
+	cmp r0, #0
+	beq _080ACFAC
+	ldr r2, _080ACFD8 @ =gDispCnt
+	ldrh r0, [r2]
+	movs r3, #0x80
+	lsls r3, r3, #6
+	adds r1, r3, #0
+	orrs r0, r1
+	strh r0, [r2]
+	ldr r1, _080ACFDC @ =gWinRegs
+	movs r0, #0xf0
+	strh r0, [r1]
+	movs r0, #0xa0
+	strh r0, [r1, #4]
+	ldrh r2, [r1, #8]
+	movs r0, #0x3f
+	orrs r0, r2
+	strh r0, [r1, #8]
+	ldrh r2, [r1, #0xa]
+	movs r0, #0x1f
+	movs r3, #0
+	orrs r0, r2
+	strh r0, [r1, #0xa]
+	ldr r0, _080ACFE0 @ =0x00003FFF
+	strh r0, [r6]
+	strh r4, [r5, #0x1c]
+	strb r3, [r5, #0x1b]
+_080ACFAC:
+	ldrh r0, [r6, #4]
+	cmp r0, #0xf
+	bhi _080ACFE4
+	ldrh r0, [r5, #0x1c]
+	lsrs r0, r0, #8
+	strh r0, [r6, #4]
+	movs r1, #0x80
+	lsls r1, r1, #1
+	adds r0, r1, #0
+	ldrh r3, [r5, #0x1c]
+	adds r0, r0, r3
+	strh r0, [r5, #0x1c]
+	b _080AD010
+	.align 2, 0
+_080ACFC8: .4byte gCurTask
+_080ACFCC: .4byte 0x030000B4
+_080ACFD0: .4byte gStageData
+_080ACFD4: .4byte gBldRegs
+_080ACFD8: .4byte gDispCnt
+_080ACFDC: .4byte gWinRegs
+_080ACFE0: .4byte 0x00003FFF
+_080ACFE4:
+	movs r4, #0
+	movs r0, #0x10
+	strh r0, [r6, #4]
+	bl sub_8003D2C
+	ldr r1, _080AD018 @ =0x0000FFFF
+	movs r0, #0
+	bl TasksDestroyInPriorityRange
+	ldr r1, _080AD01C @ =gBackgroundsCopyQueueCursor
+	ldr r0, _080AD020 @ =gBackgroundsCopyQueueIndex
+	ldrb r0, [r0]
+	strb r0, [r1]
+	ldr r0, _080AD024 @ =gBgSpritesCount
+	strb r4, [r0]
+	ldr r1, _080AD028 @ =gVramGraphicsCopyCursor
+	ldr r0, _080AD02C @ =gVramGraphicsCopyQueueIndex
+	ldrb r0, [r0]
+	strb r0, [r1]
+	ldrb r0, [r5, #0x18]
+	bl sub_80AE95C
+_080AD010:
+	pop {r4, r5, r6}
+	pop {r0}
+	bx r0
+	.align 2, 0
+_080AD018: .4byte 0x0000FFFF
+_080AD01C: .4byte gBackgroundsCopyQueueCursor
+_080AD020: .4byte gBackgroundsCopyQueueIndex
+_080AD024: .4byte gBgSpritesCount
+_080AD028: .4byte gVramGraphicsCopyCursor
+_080AD02C: .4byte gVramGraphicsCopyQueueIndex
+
+	thumb_func_start sub_80AD030
+sub_80AD030: @ 0x080AD030
+	push {r4, r5, r6, r7, lr}
+	mov r7, r8
+	push {r7}
+	sub sp, #4
+	adds r5, r0, #0
+	movs r6, #0
+	movs r7, #0
+	adds r4, r5, #0
+	adds r4, #0x84
+	movs r0, #0
+	mov r8, r0
+_080AD046:
+	ldr r1, [r5, #0x20]
+	asrs r1, r1, #8
+	strh r1, [r4, #0x10]
+	ldr r0, [r5, #0x24]
+	asrs r0, r0, #8
+	strh r0, [r4, #0x12]
+	adds r1, r6, r1
+	strh r1, [r4, #0x10]
+	ldr r0, [r4, #8]
+	ldr r3, _080AD0AC @ =0xFFFFFBFF
+	ands r0, r3
+	str r0, [r4, #8]
+	mov r0, r8
+	strb r0, [r4, #0x1f]
+	adds r0, r4, #0
+	str r3, [sp]
+	bl DisplaySprite
+	adds r0, r6, #0
+	adds r0, #0x40
+	lsls r0, r0, #0x10
+	lsrs r6, r0, #0x10
+	adds r0, r7, #1
+	lsls r0, r0, #0x18
+	lsrs r7, r0, #0x18
+	ldr r3, [sp]
+	cmp r7, #2
+	bls _080AD046
+	adds r0, r5, #0
+	adds r0, #0x5c
+	ldr r2, [r5, #0x20]
+	asrs r2, r2, #8
+	movs r4, #0
+	strh r2, [r0, #0x10]
+	ldr r1, [r5, #0x24]
+	asrs r1, r1, #8
+	strh r1, [r0, #0x12]
+	adds r2, r6, r2
+	strh r2, [r0, #0x10]
+	ldr r1, [r0, #8]
+	ands r1, r3
+	str r1, [r0, #8]
+	strb r4, [r0, #0x1f]
+	bl DisplaySprite
+	add sp, #4
+	pop {r3}
+	mov r8, r3
+	pop {r4, r5, r6, r7}
+	pop {r0}
+	bx r0
+	.align 2, 0
+_080AD0AC: .4byte 0xFFFFFBFF
+
+	thumb_func_start sub_80AD0B0
+sub_80AD0B0: @ 0x080AD0B0
+	push {r4, r5, r6, r7, lr}
+	mov r7, sl
+	mov r6, sb
+	mov r5, r8
+	push {r5, r6, r7}
+	sub sp, #4
+	adds r5, r0, #0
+	adds r4, r1, #0
+	movs r7, #0
+	ldr r0, _080AD180 @ =Task_B4_80AE3E8
+	movs r2, #0x80
+	lsls r2, r2, #1
+	ldr r1, _080AD184 @ =TaskDestructor_B4_80AE3D4
+	str r1, [sp]
+	movs r1, #0xb4
+	movs r3, #0
+	bl TaskCreate
+	ldrh r1, [r0, #6]
+	movs r0, #0xc0
+	lsls r0, r0, #0x12
+	adds r6, r1, r0
+	str r5, [r6]
+	str r4, [r6, #4]
+	adds r4, #4
+	str r4, [r6, #8]
+	str r7, [r6, #0xc]
+	str r7, [r6, #0x10]
+	movs r0, #0x49
+	bl VramMalloc
+	adds r7, r0, #0
+	movs r0, #1
+	mov sl, r0
+	movs r4, #0
+	ldr r0, _080AD188 @ =gUnknown_080DBCAE
+	ldrb r0, [r0, #1]
+	cmp r4, r0
+	bhs _080AD16E
+	ldr r0, _080AD18C @ =gUnknown_080DBAA4
+	adds r0, #4
+	mov r8, r0
+	movs r1, #0
+	mov sb, r1
+	movs r5, #0
+_080AD10A:
+	lsls r0, r4, #2
+	adds r0, r0, r4
+	lsls r0, r0, #3
+	adds r0, #0x14
+	adds r0, r6, r0
+	str r7, [r0]
+	mov r1, r8
+	ldr r2, [r1]
+	lsls r3, r4, #3
+	adds r2, r3, r2
+	ldr r1, [r2, #4]
+	lsls r1, r1, #5
+	adds r7, r7, r1
+	ldrh r1, [r2]
+	strh r1, [r0, #0xc]
+	mov r2, r8
+	ldr r1, [r2]
+	adds r3, r3, r1
+	ldrb r1, [r3, #2]
+	strb r1, [r0, #0x1a]
+	movs r1, #0xff
+	strb r1, [r0, #0x1b]
+	ldr r1, [r6, #4]
+	ldr r1, [r1]
+	asrs r1, r1, #8
+	strh r1, [r0, #0x10]
+	ldr r1, [r6, #8]
+	ldr r1, [r1]
+	asrs r1, r1, #8
+	strh r1, [r0, #0x12]
+	strh r5, [r0, #0x14]
+	strh r5, [r0, #0xe]
+	strh r5, [r0, #0x16]
+	movs r1, #0x10
+	strb r1, [r0, #0x1c]
+	mov r1, sb
+	strb r1, [r0, #0x1f]
+	movs r1, #0x80
+	lsls r1, r1, #3
+	str r1, [r0, #8]
+	bl UpdateSpriteAnimation
+	adds r0, r4, #1
+	lsls r0, r0, #0x18
+	lsrs r4, r0, #0x18
+	ldr r0, _080AD188 @ =gUnknown_080DBCAE
+	add r0, sl
+	ldrb r0, [r0]
+	cmp r4, r0
+	blo _080AD10A
+_080AD16E:
+	add sp, #4
+	pop {r3, r4, r5}
+	mov r8, r3
+	mov sb, r4
+	mov sl, r5
+	pop {r4, r5, r6, r7}
+	pop {r0}
+	bx r0
+	.align 2, 0
+_080AD180: .4byte Task_B4_80AE3E8
+_080AD184: .4byte TaskDestructor_B4_80AE3D4
+_080AD188: .4byte gUnknown_080DBCAE
+_080AD18C: .4byte gUnknown_080DBAA4
+
+@ Input:
+@ R0: (NewGameOpeningB4 *)
+	thumb_func_start sub_80AD190
+sub_80AD190: @ 0x080AD190
+	push {r4, r5, r6, r7, lr}
+	mov r7, sb
+	mov r6, r8
+	push {r6, r7}
+	adds r5, r0, #0
+	ldr r1, [r5]
+	ldrb r0, [r1]
+	movs r3, #0
+	cmp r0, #0xff
+	beq _080AD1A6
+	adds r3, r0, #0
+_080AD1A6:
+	ldr r7, [r5, #0x14]
+	movs r6, #0
+	ldr r0, _080AD22C @ =gUnknown_080DBCAE
+	adds r0, r3, r0
+	ldrb r2, [r0]
+	cmp r6, r2
+	bhs _080AD220
+	ldr r1, _080AD230 @ =gUnknown_080DBAA4
+	lsls r0, r3, #2
+	adds r0, r0, r1
+	mov r8, r0
+	mov sb, r2
+_080AD1BE:
+	lsls r4, r6, #2
+	adds r4, r4, r6
+	lsls r4, r4, #3
+	adds r4, #0x14
+	adds r4, r5, r4
+	str r7, [r4]
+	mov r0, r8
+	ldr r1, [r0]
+	lsls r2, r6, #3
+	adds r1, r2, r1
+	ldr r0, [r1, #4]
+	lsls r0, r0, #5
+	adds r7, r7, r0
+	ldrh r0, [r1]
+	strh r0, [r4, #0xc]
+	mov r1, r8
+	ldr r0, [r1]
+	adds r2, r2, r0
+	ldrb r0, [r2, #2]
+	strb r0, [r4, #0x1a]
+	movs r0, #0xff
+	strb r0, [r4, #0x1b]
+	ldr r0, [r5, #4]
+	ldr r1, [r0]
+	asrs r1, r1, #8
+	strh r1, [r4, #0x10]
+	ldr r0, [r5, #8]
+	ldr r2, [r0]
+	asrs r2, r2, #8
+	strh r2, [r4, #0x12]
+	ldr r0, [r5, #0xc]
+	asrs r0, r0, #8
+	adds r1, r1, r0
+	strh r1, [r4, #0x10]
+	ldr r0, [r5, #0x10]
+	asrs r0, r0, #8
+	adds r2, r2, r0
+	strh r2, [r4, #0x12]
+	adds r0, r4, #0
+	bl UpdateSpriteAnimation
+	adds r0, r4, #0
+	bl DisplaySprite
+	adds r0, r6, #1
+	lsls r0, r0, #0x18
+	lsrs r6, r0, #0x18
+	cmp r6, sb
+	blo _080AD1BE
+_080AD220:
+	pop {r3, r4}
+	mov r8, r3
+	mov sb, r4
+	pop {r4, r5, r6, r7}
+	pop {r0}
+	bx r0
+	.align 2, 0
+_080AD22C: .4byte gUnknown_080DBCAE
+_080AD230: .4byte gUnknown_080DBAA4
+
+	thumb_func_start sub_80AD234
+sub_80AD234: @ 0x080AD234
+	push {r4, r5, r6, r7, lr}
+	mov r7, sl
+	mov r6, sb
+	mov r5, r8
+	push {r5, r6, r7}
+	sub sp, #8
+	adds r6, r0, #0
+	adds r5, r1, #0
+	lsls r4, r2, #0x18
+	lsrs r4, r4, #0x18
+	movs r0, #0
+	mov sb, r0
+	ldr r0, _080AD3E8 @ =Task_134_80AE45C
+	movs r1, #0x9a
+	lsls r1, r1, #1
+	movs r2, #0x80
+	lsls r2, r2, #1
+	ldr r3, _080AD3EC @ =TaskDestructor_80AE448
+	str r3, [sp]
+	movs r3, #0
+	bl TaskCreate
+	ldrh r1, [r0, #6]
+	movs r0, #0xc0
+	lsls r0, r0, #0x12
+	adds r7, r1, r0
+	strb r4, [r7]
+	str r6, [r7, #4]
+	str r5, [r7, #0xc]
+	adds r5, #4
+	str r5, [r7, #0x10]
+	movs r0, #0xa0
+	lsls r0, r0, #5
+	str r0, [r7, #0x14]
+	ldr r0, _080AD3F0 @ =0xFFFFD800
+	str r0, [r7, #0x18]
+	mov r1, sb
+	strh r1, [r7, #8]
+	ldrb r4, [r7]
+	ldr r1, _080AD3F4 @ =gUnknown_080DB994
+	lsls r0, r4, #1
+	adds r0, r0, r1
+	ldrh r0, [r0]
+	bl VramMalloc
+	mov sb, r0
+	ldr r0, _080AD3F8 @ =gUnknown_080DBCBB
+	adds r0, r4, r0
+	ldrb r0, [r0]
+	str r0, [sp, #4]
+	movs r6, #0
+	ldr r0, _080AD3FC @ =gUnknown_08E2EF44
+	lsls r4, r4, #2
+	mov r8, r4
+	add r0, r8
+	ldr r0, [r0]
+	ldr r1, [sp, #4]
+	adds r0, r0, r1
+	ldrb r0, [r0]
+	cmp r6, r0
+	bhs _080AD32A
+	lsls r1, r1, #2
+	mov sl, r1
+_080AD2B2:
+	lsls r0, r6, #2
+	adds r0, r0, r6
+	lsls r0, r0, #3
+	adds r0, #0x1c
+	adds r0, r7, r0
+	mov r1, sb
+	str r1, [r0]
+	ldr r4, _080AD400 @ =gUnknown_08E2EF54
+	mov r5, r8
+	add r4, r8
+	ldr r1, [r4]
+	add r1, sl
+	ldr r2, [r1]
+	lsls r3, r6, #3
+	adds r2, r3, r2
+	ldr r1, [r2, #4]
+	lsls r1, r1, #5
+	add sb, r1
+	ldrh r1, [r2]
+	strh r1, [r0, #0xc]
+	ldr r1, [r4]
+	add r1, sl
+	ldr r1, [r1]
+	adds r3, r3, r1
+	ldrb r1, [r3, #2]
+	strb r1, [r0, #0x1a]
+	movs r1, #0xff
+	strb r1, [r0, #0x1b]
+	ldr r1, [r7, #0xc]
+	ldr r1, [r1]
+	asrs r1, r1, #8
+	strh r1, [r0, #0x10]
+	ldr r1, [r7, #0x10]
+	ldr r1, [r1]
+	asrs r1, r1, #8
+	strh r1, [r0, #0x12]
+	movs r1, #0x40
+	strh r1, [r0, #0x14]
+	movs r1, #0
+	strh r1, [r0, #0xe]
+	strh r1, [r0, #0x16]
+	movs r1, #0x10
+	strb r1, [r0, #0x1c]
+	movs r1, #0
+	strb r1, [r0, #0x1f]
+	movs r1, #0
+	str r1, [r0, #8]
+	bl UpdateSpriteAnimation
+	adds r0, r6, #1
+	lsls r0, r0, #0x18
+	lsrs r6, r0, #0x18
+	ldr r0, _080AD3FC @ =gUnknown_08E2EF44
+	adds r5, r5, r0
+	ldr r0, [r5]
+	ldr r1, [sp, #4]
+	adds r0, r0, r1
+	ldrb r0, [r0]
+	cmp r6, r0
+	blo _080AD2B2
+_080AD32A:
+	ldrb r0, [r7]
+	cmp r0, #1
+	bne _080AD396
+	movs r6, #0
+	ldr r5, _080AD400 @ =gUnknown_08E2EF54
+	movs r0, #0
+	mov r8, r0
+	movs r4, #0
+_080AD33A:
+	lsls r0, r6, #2
+	adds r0, r0, r6
+	lsls r0, r0, #3
+	adds r0, #0xbc
+	adds r0, r7, r0
+	mov r1, sb
+	str r1, [r0]
+	ldr r1, [r5, #0xc]
+	ldr r2, [r1]
+	lsls r3, r6, #3
+	adds r2, r3, r2
+	ldr r1, [r2, #4]
+	lsls r1, r1, #5
+	add sb, r1
+	ldrh r1, [r2]
+	strh r1, [r0, #0xc]
+	ldr r1, [r5, #0xc]
+	ldr r1, [r1]
+	adds r3, r3, r1
+	ldrb r1, [r3, #2]
+	strb r1, [r0, #0x1a]
+	movs r1, #0xff
+	strb r1, [r0, #0x1b]
+	ldr r1, [r7, #0xc]
+	ldr r1, [r1]
+	asrs r1, r1, #8
+	strh r1, [r0, #0x10]
+	ldr r1, [r7, #0x10]
+	ldr r1, [r1]
+	asrs r1, r1, #8
+	strh r1, [r0, #0x12]
+	strh r4, [r0, #0x14]
+	strh r4, [r0, #0xe]
+	strh r4, [r0, #0x16]
+	movs r1, #0x10
+	strb r1, [r0, #0x1c]
+	mov r1, r8
+	strb r1, [r0, #0x1f]
+	str r4, [r0, #8]
+	bl UpdateSpriteAnimation
+	adds r0, r6, #1
+	lsls r0, r0, #0x18
+	lsrs r6, r0, #0x18
+	cmp r6, #1
+	bls _080AD33A
+_080AD396:
+	ldrb r4, [r7]
+	cmp r4, #0
+	bne _080AD3D8
+	movs r1, #0x86
+	lsls r1, r1, #1
+	adds r0, r7, r1
+	mov r1, sb
+	str r1, [r0]
+	ldr r2, _080AD404 @ =gUnknown_080DBA8C
+	ldrh r1, [r2]
+	movs r3, #0
+	strh r1, [r0, #0xc]
+	ldrb r1, [r2, #2]
+	strb r1, [r0, #0x1a]
+	movs r1, #0xff
+	strb r1, [r0, #0x1b]
+	ldr r1, [r7, #0xc]
+	ldr r1, [r1]
+	asrs r1, r1, #8
+	strh r1, [r0, #0x10]
+	ldr r1, [r7, #0x10]
+	ldr r1, [r1]
+	asrs r1, r1, #8
+	strh r1, [r0, #0x12]
+	strh r4, [r0, #0x14]
+	strh r4, [r0, #0xe]
+	strh r4, [r0, #0x16]
+	movs r1, #0x10
+	strb r1, [r0, #0x1c]
+	strb r3, [r0, #0x1f]
+	str r4, [r0, #8]
+	bl UpdateSpriteAnimation
+_080AD3D8:
+	add sp, #8
+	pop {r3, r4, r5}
+	mov r8, r3
+	mov sb, r4
+	mov sl, r5
+	pop {r4, r5, r6, r7}
+	pop {r0}
+	bx r0
+	.align 2, 0
+_080AD3E8: .4byte Task_134_80AE45C
+_080AD3EC: .4byte TaskDestructor_80AE448
+_080AD3F0: .4byte 0xFFFFD800
+_080AD3F4: .4byte gUnknown_080DB994
+_080AD3F8: .4byte gUnknown_080DBCBB
+_080AD3FC: .4byte gUnknown_08E2EF44
+_080AD400: .4byte gUnknown_08E2EF54
+_080AD404: .4byte gUnknown_080DBA8C
+
+	thumb_func_start sub_80AD408
+sub_80AD408: @ 0x080AD408
+	push {r4, r5, r6, r7, lr}
+	mov r7, sl
+	mov r6, sb
+	mov r5, r8
+	push {r5, r6, r7}
+	adds r6, r0, #0
+	ldrb r1, [r6]
+	ldr r0, [r6, #0x1c]
+	mov sb, r0
+	movs r0, #0
+	mov r8, r0
+	ldr r0, _080AD578 @ =gUnknown_08E2EF44
+	lsls r7, r1, #2
+	adds r0, r7, r0
+	ldr r2, [r6, #4]
+	ldrb r1, [r2]
+	ldr r0, [r0]
+	adds r0, r0, r1
+	ldrb r0, [r0]
+	cmp r8, r0
+	bhs _080AD4CA
+	movs r0, #0
+	mov sl, r0
+_080AD436:
+	mov r0, r8
+	lsls r4, r0, #2
+	add r4, r8
+	lsls r4, r4, #3
+	adds r4, #0x1c
+	adds r4, r6, r4
+	mov r0, sb
+	str r0, [r4]
+	ldr r3, _080AD57C @ =gUnknown_08E2EF54
+	adds r5, r7, #0
+	adds r3, r7, r3
+	ldrb r0, [r2]
+	ldr r1, [r3]
+	lsls r0, r0, #2
+	adds r0, r0, r1
+	ldr r1, [r0]
+	mov r0, r8
+	lsls r2, r0, #3
+	adds r1, r2, r1
+	ldr r0, [r1, #4]
+	lsls r0, r0, #5
+	add sb, r0
+	ldrh r0, [r1]
+	strh r0, [r4, #0xc]
+	ldr r0, [r6, #4]
+	ldrb r0, [r0]
+	ldr r1, [r3]
+	lsls r0, r0, #2
+	adds r0, r0, r1
+	ldr r0, [r0]
+	adds r2, r2, r0
+	ldrb r0, [r2, #2]
+	strb r0, [r4, #0x1a]
+	movs r0, #0xff
+	strb r0, [r4, #0x1b]
+	ldr r0, [r6, #0xc]
+	ldr r0, [r0]
+	asrs r0, r0, #8
+	strh r0, [r4, #0x10]
+	ldr r0, [r6, #0x10]
+	ldr r0, [r0]
+	asrs r0, r0, #8
+	strh r0, [r4, #0x12]
+	movs r0, #0x40
+	strh r0, [r4, #0x14]
+	mov r0, sl
+	strh r0, [r4, #0xe]
+	strh r0, [r4, #0x16]
+	movs r0, #0x10
+	strb r0, [r4, #0x1c]
+	movs r0, #0
+	strb r0, [r4, #0x1f]
+	mov r0, sl
+	str r0, [r4, #8]
+	adds r0, r4, #0
+	bl UpdateSpriteAnimation
+	adds r0, r4, #0
+	bl DisplaySprite
+	mov r0, r8
+	adds r0, #1
+	lsls r0, r0, #0x18
+	lsrs r0, r0, #0x18
+	mov r8, r0
+	ldr r0, _080AD578 @ =gUnknown_08E2EF44
+	adds r5, r5, r0
+	ldr r2, [r6, #4]
+	ldrb r1, [r2]
+	ldr r0, [r5]
+	adds r0, r0, r1
+	ldrb r0, [r0]
+	cmp r8, r0
+	blo _080AD436
+_080AD4CA:
+	ldrb r0, [r6]
+	cmp r0, #1
+	bne _080AD568
+	movs r0, #0
+	mov r8, r0
+	ldr r1, _080AD580 @ =gUnknown_080DBCB9
+	ldr r2, [r6, #4]
+	ldrb r0, [r2]
+	adds r0, r0, r1
+	ldrb r0, [r0]
+	cmp r8, r0
+	bhs _080AD568
+	movs r7, #0
+	movs r5, #0
+_080AD4E6:
+	mov r0, r8
+	lsls r4, r0, #2
+	add r4, r8
+	lsls r4, r4, #3
+	adds r4, #0xbc
+	adds r4, r6, r4
+	mov r0, sb
+	str r0, [r4]
+	ldr r1, _080AD57C @ =gUnknown_08E2EF54
+	ldrb r0, [r2]
+	ldr r3, [r1, #0xc]
+	lsls r0, r0, #2
+	adds r0, r0, r3
+	ldr r1, [r0]
+	mov r0, r8
+	lsls r2, r0, #3
+	adds r1, r2, r1
+	ldr r0, [r1, #4]
+	lsls r0, r0, #5
+	add sb, r0
+	ldrh r0, [r1]
+	strh r0, [r4, #0xc]
+	ldr r0, [r6, #4]
+	ldrb r0, [r0]
+	lsls r0, r0, #2
+	adds r0, r0, r3
+	ldr r0, [r0]
+	adds r2, r2, r0
+	ldrb r0, [r2, #2]
+	strb r0, [r4, #0x1a]
+	movs r0, #0xff
+	strb r0, [r4, #0x1b]
+	ldr r0, [r6, #0xc]
+	ldr r0, [r0]
+	asrs r0, r0, #8
+	strh r0, [r4, #0x10]
+	ldr r0, [r6, #0x10]
+	ldr r0, [r0]
+	asrs r0, r0, #8
+	strh r0, [r4, #0x12]
+	strh r5, [r4, #0x14]
+	strh r5, [r4, #0xe]
+	strh r5, [r4, #0x16]
+	movs r0, #0x10
+	strb r0, [r4, #0x1c]
+	strb r7, [r4, #0x1f]
+	str r5, [r4, #8]
+	adds r0, r4, #0
+	bl UpdateSpriteAnimation
+	adds r0, r4, #0
+	bl DisplaySprite
+	mov r0, r8
+	adds r0, #1
+	lsls r0, r0, #0x18
+	lsrs r0, r0, #0x18
+	mov r8, r0
+	ldr r1, _080AD580 @ =gUnknown_080DBCB9
+	ldr r2, [r6, #4]
+	ldrb r0, [r2]
+	adds r0, r0, r1
+	ldrb r0, [r0]
+	cmp r8, r0
+	blo _080AD4E6
+_080AD568:
+	pop {r3, r4, r5}
+	mov r8, r3
+	mov sb, r4
+	mov sl, r5
+	pop {r4, r5, r6, r7}
+	pop {r0}
+	bx r0
+	.align 2, 0
+_080AD578: .4byte gUnknown_08E2EF44
+_080AD57C: .4byte gUnknown_08E2EF54
+_080AD580: .4byte gUnknown_080DBCB9
+
+	thumb_func_start sub_80AD584
+sub_80AD584: @ 0x080AD584
+	push {r4, r5, r6, r7, lr}
+	mov r7, sl
+	mov r6, sb
+	mov r5, r8
+	push {r5, r6, r7}
+	adds r7, r0, #0
+	movs r0, #0x36
+	bl VramMalloc
+	adds r5, r0, #0
+	adds r0, r7, #0
+	adds r0, #0x5c
+	str r5, [r7, #0x5c]
+	ldr r4, _080AD630 @ =gUnknown_080DBA94
+	ldr r1, [r4, #0x1c]
+	lsls r1, r1, #5
+	adds r5, r5, r1
+	ldrh r1, [r4, #0x18]
+	movs r6, #0
+	strh r1, [r0, #0xc]
+	ldrb r1, [r4, #0x1a]
+	strb r1, [r0, #0x1a]
+	movs r1, #0xff
+	strb r1, [r0, #0x1b]
+	ldr r1, [r7, #0x20]
+	asrs r1, r1, #8
+	strh r1, [r0, #0x10]
+	ldr r1, [r7, #0x24]
+	asrs r1, r1, #8
+	strh r1, [r0, #0x12]
+	movs r1, #0xa0
+	lsls r1, r1, #1
+	strh r1, [r0, #0x14]
+	strh r6, [r0, #0xe]
+	strh r6, [r0, #0x16]
+	movs r1, #0x10
+	mov sl, r1
+	mov r1, sl
+	strb r1, [r0, #0x1c]
+	movs r1, #1
+	mov sb, r1
+	mov r1, sb
+	strb r1, [r0, #0x1f]
+	movs r1, #0x80
+	lsls r1, r1, #0xb
+	mov r8, r1
+	str r1, [r0, #8]
+	bl UpdateSpriteAnimation
+	adds r0, r7, #0
+	adds r0, #0x84
+	str r5, [r0]
+	ldrh r1, [r4, #0x10]
+	strh r1, [r0, #0xc]
+	ldrb r1, [r4, #0x12]
+	strb r1, [r0, #0x1a]
+	movs r1, #1
+	rsbs r1, r1, #0
+	strb r1, [r0, #0x1b]
+	ldr r1, [r7, #0x20]
+	asrs r1, r1, #8
+	strh r1, [r0, #0x10]
+	ldr r1, [r7, #0x24]
+	asrs r1, r1, #8
+	strh r1, [r0, #0x12]
+	movs r1, #0xa0
+	lsls r1, r1, #1
+	strh r1, [r0, #0x14]
+	strh r6, [r0, #0xe]
+	strh r6, [r0, #0x16]
+	mov r1, sl
+	strb r1, [r0, #0x1c]
+	mov r1, sb
+	strb r1, [r0, #0x1f]
+	mov r1, r8
+	str r1, [r0, #8]
+	bl UpdateSpriteAnimation
+	pop {r3, r4, r5}
+	mov r8, r3
+	mov sb, r4
+	mov sl, r5
+	pop {r4, r5, r6, r7}
+	pop {r0}
+	bx r0
+	.align 2, 0
+_080AD630: .4byte gUnknown_080DBA94
+
+	thumb_func_start Task_B8_80AD634
+Task_B8_80AD634: @ 0x080AD634
+	push {r4, r5, r6, lr}
+	sub sp, #4
+	ldr r0, _080AD65C @ =gCurTask
+	ldr r0, [r0]
+	ldrh r6, [r0, #6]
+	movs r0, #0xc0
+	lsls r0, r0, #0x12
+	adds r5, r6, r0
+	adds r0, r5, #0
+	bl sub_80AD72C
+	adds r0, r5, #0
+	bl sub_80AE63C
+	cmp r0, #0
+	bne _080AD660
+	adds r0, r5, #0
+	bl sub_80AE66C
+	b _080AD71A
+	.align 2, 0
+_080AD65C: .4byte gCurTask
+_080AD660:
+	ldr r2, _080AD6B8 @ =gUnknown_080DBCD9
+	ldrb r1, [r5, #0x18]
+	lsls r0, r1, #3
+	adds r0, r0, r1
+	ldrb r1, [r5, #0x10]
+	adds r0, r0, r1
+	adds r0, r0, r2
+	ldrb r0, [r0]
+	strb r0, [r5, #0x1a]
+	ldr r4, [r5, #0xc]
+	ldr r0, [r4]
+	ldrb r3, [r5, #0x10]
+	ldrb r2, [r5, #0x18]
+	cmp r0, #1
+	bne _080AD71A
+	ldr r0, [r5]
+	cmp r0, #1
+	bne _080AD6CC
+	ldr r1, _080AD6BC @ =gUnknown_080DBCBE
+	lsls r0, r2, #3
+	adds r0, r0, r2
+	adds r0, r3, r0
+	adds r0, r0, r1
+	ldrb r0, [r0]
+	adds r1, r0, #0
+	cmp r1, #0
+	beq _080AD6C4
+	strb r0, [r5, #0x19]
+	ldr r0, _080AD6C0 @ =0x030000B4
+	adds r2, r6, r0
+	ldr r1, [r2]
+	ldr r0, [r1, #0x28]
+	str r0, [r1, #0x24]
+	ldr r0, [r2]
+	ldrb r1, [r5, #0x19]
+	ldr r2, [r0, #0x28]
+	str r2, [sp]
+	movs r2, #0x30
+	movs r3, #0x6e
+	bl sub_80AD7B4
+	movs r0, #0
+	str r0, [r5]
+	b _080AD6C6
+	.align 2, 0
+_080AD6B8: .4byte gUnknown_080DBCD9
+_080AD6BC: .4byte gUnknown_080DBCBE
+_080AD6C0: .4byte 0x030000B4
+_080AD6C4:
+	str r1, [r4]
+_080AD6C6:
+	ldrb r0, [r5, #0x10]
+	adds r0, #1
+	strb r0, [r5, #0x10]
+_080AD6CC:
+	ldr r0, [r5]
+	cmp r0, #0
+	bne _080AD6E4
+	adds r4, r5, #0
+	adds r4, #0xb4
+	ldr r0, [r4]
+	bl sub_8023734
+	str r0, [r5]
+	ldr r0, [r4]
+	bl sub_80239A8
+_080AD6E4:
+	ldr r0, [r5]
+	cmp r0, #1
+	bne _080AD71A
+	adds r0, r5, #0
+	adds r0, #0xb4
+	ldr r1, [r0]
+	ldrb r0, [r1, #6]
+	cmp r0, #0
+	beq _080AD6FC
+	adds r0, r1, #0
+	bl sub_80239A8
+_080AD6FC:
+	ldrb r0, [r5, #0x10]
+	cmp r0, #5
+	bne _080AD706
+	movs r0, #0x78
+	b _080AD708
+_080AD706:
+	movs r0, #0
+_080AD708:
+	strh r0, [r5, #0x1e]
+	ldr r1, [r5, #0xc]
+	movs r0, #0
+	str r0, [r1]
+	str r0, [r5]
+	ldr r0, _080AD724 @ =gCurTask
+	ldr r1, [r0]
+	ldr r0, _080AD728 @ =Task_B8_80AE5C4
+	str r0, [r1, #8]
+_080AD71A:
+	add sp, #4
+	pop {r4, r5, r6}
+	pop {r0}
+	bx r0
+	.align 2, 0
+_080AD724: .4byte gCurTask
+_080AD728: .4byte Task_B8_80AE5C4
+
+	thumb_func_start sub_80AD72C
+sub_80AD72C: @ 0x080AD72C
+	push {r4, r5, r6, r7, lr}
+	mov r7, r8
+	push {r7}
+	adds r6, r0, #0
+	movs r2, #0
+	movs r7, #0
+_080AD738:
+	adds r0, r6, #0
+	adds r0, #0xb0
+	ldr r5, [r0]
+	ldr r1, [r6, #0x20]
+	asrs r1, r1, #8
+	strh r1, [r5, #0x10]
+	ldr r0, [r6, #0x24]
+	asrs r0, r0, #8
+	strh r0, [r5, #0x12]
+	lsls r4, r2, #0x10
+	asrs r4, r4, #0x10
+	adds r1, r4, r1
+	strh r1, [r5, #0x10]
+	ldr r0, [r5, #8]
+	movs r1, #0x80
+	lsls r1, r1, #3
+	mov r8, r1
+	orrs r0, r1
+	str r0, [r5, #8]
+	adds r0, r5, #0
+	bl UpdateSpriteAnimation
+	adds r0, r5, #0
+	bl DisplaySprite
+	subs r4, #0x40
+	lsls r4, r4, #0x10
+	lsrs r2, r4, #0x10
+	adds r0, r7, #1
+	lsls r0, r0, #0x18
+	lsrs r7, r0, #0x18
+	cmp r7, #2
+	bls _080AD738
+	adds r0, r6, #0
+	adds r0, #0xac
+	ldr r4, [r0]
+	ldr r1, [r6, #0x20]
+	asrs r1, r1, #8
+	strh r1, [r4, #0x10]
+	ldr r0, [r6, #0x24]
+	asrs r0, r0, #8
+	strh r0, [r4, #0x12]
+	lsls r0, r2, #0x10
+	asrs r0, r0, #0x10
+	adds r0, r0, r1
+	strh r0, [r4, #0x10]
+	ldr r0, [r4, #8]
+	mov r1, r8
+	orrs r0, r1
+	str r0, [r4, #8]
+	adds r0, r4, #0
+	bl UpdateSpriteAnimation
+	adds r0, r4, #0
+	bl DisplaySprite
+	pop {r3}
+	mov r8, r3
+	pop {r4, r5, r6, r7}
+	pop {r0}
+	bx r0
+	.align 2, 0
+
+	thumb_func_start sub_80AD7B4
+sub_80AD7B4: @ 0x080AD7B4
+	push {r4, r5, r6, r7, lr}
+	adds r6, r0, #0
+	ldr r5, [sp, #0x14]
+	lsls r1, r1, #0x18
+	lsrs r7, r1, #0x18
+	lsls r2, r2, #0x10
+	lsrs r2, r2, #0x10
+	lsls r3, r3, #0x10
+	lsrs r3, r3, #0x10
+	movs r4, #0
+	str r4, [r6]
+	movs r1, #0
+	movs r0, #8
+	strh r0, [r6, #0xa]
+	strh r2, [r6, #0x12]
+	strh r3, [r6, #0x14]
+	strb r2, [r6, #0xf]
+	strb r3, [r6, #0x10]
+	strb r1, [r6, #0xd]
+	strb r1, [r6, #0xe]
+	strb r1, [r6, #5]
+	strb r1, [r6, #6]
+	strh r4, [r6, #8]
+	strb r1, [r6, #0xc]
+	strb r1, [r6, #0x1c]
+	strh r4, [r6, #0x1a]
+	strb r1, [r6, #0x1d]
+	strb r1, [r6, #0x1e]
+	str r5, [r6, #0x24]
+	movs r0, #1
+	strb r0, [r6, #0x1f]
+	ldr r0, _080AD818 @ =gLoadedSaveGame
+	ldr r1, _080AD81C @ =0x00000366
+	adds r0, r0, r1
+	ldrb r0, [r0]
+	cmp r0, #5
+	bls _080AD800
+	movs r0, #5
+_080AD800:
+	ldr r1, _080AD820 @ =gNotificationTexts
+	lsls r0, r0, #2
+	adds r0, r0, r1
+	ldr r1, [r0]
+	lsls r0, r7, #2
+	adds r0, r0, r1
+	ldr r0, [r0]
+	str r0, [r6, #0x20]
+	pop {r4, r5, r6, r7}
+	pop {r0}
+	bx r0
+	.align 2, 0
+_080AD818: .4byte gLoadedSaveGame
+_080AD81C: .4byte 0x00000366
+_080AD820: .4byte gNotificationTexts
+
 	thumb_func_start CreateNewGamesaveOpening
 CreateNewGamesaveOpening: @ 0x080AD824
 	push {r4, r5, r6, r7, lr}
@@ -698,7 +2104,7 @@ Task_9C_80ADCF8: @ 0x080ADCF8
 	bl UpdateSpriteAnimation
 	ldr r2, _080ADDFC @ =gCurTask
 	ldr r1, [r2]
-	ldr r0, _080ADE14 @ =sub_80ADE18
+	ldr r0, _080ADE14 @ =Task_9C_80ADE18
 	str r0, [r1, #8]
 	pop {r3, r4, r5}
 	mov r8, r3
@@ -714,10 +2120,10 @@ _080ADE04: .4byte gUnknown_080DBD1C
 _080ADE08: .4byte 0x0300000C
 _080ADE0C: .4byte gUnknown_080DBD34
 _080ADE10: .4byte 0x0300006C
-_080ADE14: .4byte sub_80ADE18
+_080ADE14: .4byte Task_9C_80ADE18
 
-	thumb_func_start sub_80ADE18
-sub_80ADE18: @ 0x080ADE18
+	thumb_func_start Task_9C_80ADE18
+Task_9C_80ADE18: @ 0x080ADE18
 	push {r4, r5, lr}
 	ldr r0, _080ADE5C @ =gCurTask
 	ldr r0, [r0]
@@ -770,12 +2176,12 @@ _080ADE68:
 	strh r1, [r4, #2]
 	ldr r0, _080ADE8C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080ADE90 @ =sub_80AE884
+	ldr r0, _080ADE90 @ =Task_9C_80AE884
 	str r0, [r1, #8]
 	b _080ADE9A
 	.align 2, 0
 _080ADE8C: .4byte gCurTask
-_080ADE90: .4byte sub_80AE884
+_080ADE90: .4byte Task_9C_80AE884
 _080ADE94:
 	adds r0, r4, #0
 	bl sub_80ADEA0
@@ -960,7 +2366,7 @@ Task_9C_80ADF10: @ 0x080ADF10
 	bl UpdateSpriteAnimation
 	ldr r3, _080AE018 @ =gCurTask
 	ldr r1, [r3]
-	ldr r0, _080AE030 @ =sub_80AE034
+	ldr r0, _080AE030 @ =Task_9C_80AE034
 	str r0, [r1, #8]
 	add sp, #4
 	pop {r3, r4, r5}
@@ -977,10 +2383,10 @@ _080AE020: .4byte gUnknown_080DBD3C
 _080AE024: .4byte 0x0300000C
 _080AE028: .4byte gUnknown_080DBD54
 _080AE02C: .4byte 0x0300006C
-_080AE030: .4byte sub_80AE034
+_080AE030: .4byte Task_9C_80AE034
 
-	thumb_func_start sub_80AE034
-sub_80AE034: @ 0x080AE034
+	thumb_func_start Task_9C_80AE034
+Task_9C_80AE034: @ 0x080AE034
 	push {r4, r5, lr}
 	ldr r5, _080AE080 @ =gCurTask
 	ldr r0, [r5]
@@ -1014,14 +2420,14 @@ _080AE060:
 	adds r0, #1
 	strb r0, [r4]
 	ldr r1, [r5]
-	ldr r0, _080AE08C @ =sub_80AE90C
+	ldr r0, _080AE08C @ =Task_9C_80AE90C
 	str r0, [r1, #8]
 	b _080AE096
 	.align 2, 0
 _080AE080: .4byte gCurTask
 _080AE084: .4byte 0x0300003C
 _080AE088: .4byte gUnknown_080DBD3C
-_080AE08C: .4byte sub_80AE90C
+_080AE08C: .4byte Task_9C_80AE90C
 _080AE090:
 	adds r0, r4, #0
 	bl sub_80AE110
@@ -1237,8 +2643,8 @@ TaskDestructor_80AE208: @ 0x080AE208
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_80AE224
-sub_80AE224: @ 0x080AE224
+	thumb_func_start TaskDestructor_80AE224
+TaskDestructor_80AE224: @ 0x080AE224
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0
@@ -1256,8 +2662,8 @@ sub_80AE224: @ 0x080AE224
 	.align 2, 0
 _080AE244: .4byte 0x030000B4
 
-	thumb_func_start sub_80AE248
-sub_80AE248: @ 0x080AE248
+	thumb_func_start Task_B8_80AE248
+Task_B8_80AE248: @ 0x080AE248
 	push {r4, r5, r6, r7, lr}
 	sub sp, #8
 	ldr r6, _080AE274 @ =gCurTask
@@ -1302,7 +2708,7 @@ _080AE280:
 	str r4, [sp, #4]
 	bl sub_80AE300
 	ldr r1, [r6]
-	ldr r0, _080AE2C0 @ =sub_80ACDB8
+	ldr r0, _080AE2C0 @ =Task_B8_80ACDB8
 	str r0, [r1, #8]
 _080AE2AC:
 	add sp, #8
@@ -1313,7 +2719,7 @@ _080AE2AC:
 _080AE2B4: .4byte 0x030000B4
 _080AE2B8: .4byte 0x03000008
 _080AE2BC: .4byte 0x03000010
-_080AE2C0: .4byte sub_80ACDB8
+_080AE2C0: .4byte Task_B8_80ACDB8
 
 	thumb_func_start sub_80AE2C4
 sub_80AE2C4: @ 0x080AE2C4
@@ -1452,8 +2858,8 @@ _080AE3C8: .4byte 0x030000B4
 _080AE3CC: .4byte 0x06012F00
 _080AE3D0: .4byte 0x010003C0
 
-	thumb_func_start sub_80AE3D4
-sub_80AE3D4: @ 0x080AE3D4
+	thumb_func_start TaskDestructor_B4_80AE3D4
+TaskDestructor_B4_80AE3D4: @ 0x080AE3D4
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
@@ -1464,8 +2870,8 @@ sub_80AE3D4: @ 0x080AE3D4
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_80AE3E8
-sub_80AE3E8: @ 0x080AE3E8
+	thumb_func_start Task_B4_80AE3E8
+Task_B4_80AE3E8: @ 0x080AE3E8
 	push {r4, r5, lr}
 	ldr r5, _080AE420 @ =gCurTask
 	ldr r0, [r5]
@@ -1514,8 +2920,8 @@ _080AE43A:
 _080AE440: .4byte 0xFFFFBA00
 _080AE444: .4byte 0xFFFFFF00
 
-	thumb_func_start sub_80AE448
-sub_80AE448: @ 0x080AE448
+	thumb_func_start TaskDestructor_80AE448
+TaskDestructor_80AE448: @ 0x080AE448
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
@@ -1526,8 +2932,8 @@ sub_80AE448: @ 0x080AE448
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_80AE45C
-sub_80AE45C: @ 0x080AE45C
+	thumb_func_start Task_134_80AE45C
+Task_134_80AE45C: @ 0x080AE45C
 	push {r4, r5, lr}
 	ldr r5, _080AE480 @ =gCurTask
 	ldr r0, [r5]
@@ -1685,8 +3091,8 @@ _080AE57A:
 	.align 2, 0
 _080AE580: .4byte Task_B8_80AD634
 
-	thumb_func_start sub_80AE584
-sub_80AE584: @ 0x080AE584
+	thumb_func_start Task_B8_80AE584
+Task_B8_80AE584: @ 0x080AE584
 	push {r4, r5, lr}
 	ldr r5, _080AE5B8 @ =gCurTask
 	ldr r0, [r5]
@@ -1716,8 +3122,8 @@ _080AE5B8: .4byte gCurTask
 _080AE5BC: .4byte 0x030000B4
 _080AE5C0: .4byte gBldRegs
 
-	thumb_func_start sub_80AE5C4
-sub_80AE5C4: @ 0x080AE5C4
+	thumb_func_start Task_B8_80AE5C4
+Task_B8_80AE5C4: @ 0x080AE5C4
 	push {r4, r5, r6, lr}
 	ldr r6, _080AE5F4 @ =gCurTask
 	ldr r0, [r6]
@@ -1760,11 +3166,11 @@ _080AE5FC:
 	cmp r0, #0xff
 	bne _080AE628
 	ldr r1, [r6]
-	ldr r0, _080AE624 @ =sub_80AE584
+	ldr r0, _080AE624 @ =Task_B8_80AE584
 	b _080AE62E
 	.align 2, 0
 _080AE620: .4byte gUnknown_080DBCBE
-_080AE624: .4byte sub_80AE584
+_080AE624: .4byte Task_B8_80AE584
 _080AE628:
 	str r3, [r4]
 	ldr r1, [r6]
@@ -2089,8 +3495,8 @@ _080AE860:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_80AE884
-sub_80AE884: @ 0x080AE884
+	thumb_func_start Task_9C_80AE884
+Task_9C_80AE884: @ 0x080AE884
 	push {r4, lr}
 	ldr r0, _080AE8CC @ =gCurTask
 	ldr r0, [r0]
@@ -2162,8 +3568,8 @@ _080AE908:
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_80AE90C
-sub_80AE90C: @ 0x080AE90C
+	thumb_func_start Task_9C_80AE90C
+Task_9C_80AE90C: @ 0x080AE90C
 	push {r4, lr}
 	ldr r0, _080AE954 @ =gCurTask
 	ldr r0, [r0]

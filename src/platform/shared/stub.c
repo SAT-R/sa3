@@ -39,7 +39,7 @@ StageData gStageData = {};
 SaveGame gLoadedSaveGame = {};
 SaveGame gUnknown_03000980 = {};
 SaveSectorData gSaveSectorData = {};
-u8 sInterruptState = 0;
+u8 sGBPInterruptState = 0;
 
 void Stop() { }
 

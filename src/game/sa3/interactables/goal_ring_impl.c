@@ -112,7 +112,7 @@ void Task_80465F4(void)
             sub_8003D2C();
             TasksDestroyAll();
 
-            gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
+            PAUSE_BACKGROUNDS_QUEUE();
             gBgSpritesCount = 0;
             PAUSE_GRAPHICS_QUEUE();
 

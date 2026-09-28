@@ -196,6 +196,7 @@ SECTIONS {
         src/game/code_3.o(.text);
         asm/game__opening.o(.text);
         asm/game__credits_related.o(.text);
+        src/game/sa3/cutscenes/new_game_opening.o(.text);
         asm/game__new_game_opening.o(.text);
         src/game/math.o(.text);
         src/game/sa3/special_stage.o(.text);
