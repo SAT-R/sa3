@@ -491,7 +491,7 @@ void Task_00_8002988(void)
         gStageData.levelTimer = TIME(3, 0);
     }
     REG_MOSAIC = 0;
-    if (CURRENT_GAME_MODE > 4U) {
+    if (GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) {
         sub_80261B0();
 
         if ((CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) && (gStageData.playerIndex == 0)) {
@@ -687,7 +687,7 @@ void Task_8002BBC(void)
             sub_800341C();
         }
     }
-    if (CURRENT_GAME_MODE > 4U) {
+    if (GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) {
         sub_8026478();
         sub_80264F0();
     }
@@ -898,7 +898,7 @@ void sub_800341C(void)
         }
     }
 
-    if (CURRENT_GAME_MODE < 5) {
+    if (GAME_MODE_IS_SINGLE_PLAYER(CURRENT_GAME_MODE)) {
         if (gStageData.act == 0xA) {
             if (((((u32)(((gLoadedSaveGame.collectedEmeralds) >> (gStageData.zone)) << 24) >> 24) & 1) || (gStageData.unkD == 1))) {
                 var_r7 = 0;
@@ -996,7 +996,7 @@ void Task_800368C(void)
     temp_r4 = TASK_DATA(gCurTask);
     s = &temp_r4->s;
     var_r6 = 0;
-    if (CURRENT_GAME_MODE > 4U) {
+    if (GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) {
         sub_8026720();
         temp_r1_2 = sub_80264F0();
         if (temp_r1_2 == -1) {
@@ -1046,7 +1046,7 @@ void Task_800368C(void)
             }
         }
     }
-    if (CURRENT_GAME_MODE > 4U) {
+    if (GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) {
         var_r5_2 = 0;
         if (gStageData.unkB9 == (1 << gStageData.playerIndex)) {
             var_r5_2 = (u32)(0 - (u16)(START_BUTTON & gPressedKeys)) >> 0x1F;
@@ -1378,7 +1378,7 @@ void sub_8003E44(s16 level)
 
     if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         vramBase = OBJ_VRAM0 + 0x4D80;
-        if (CURRENT_GAME_MODE > 5U) {
+        if (GAME_MODE_IS_MULTI_PLAYER_NO_COOP(CURRENT_GAME_MODE)) {
             if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
                 vramBase = OBJ_VRAM0 + 0x4DA0;
             }

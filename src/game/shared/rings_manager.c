@@ -170,7 +170,7 @@ void CreateStageRingsManager(void)
     temp_r0_2 = TASK_DATA(t);
     temp_r0_2->rings = var_r5;
     s = &temp_r0_2->s;
-    if (CURRENT_GAME_MODE < 6) {
+    if (GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(CURRENT_GAME_MODE)) {
         s->tiles = OBJ_VRAM0 + 0x4180;
     } else if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
         s->tiles = OBJ_VRAM0 + 0x41A0;
@@ -232,7 +232,7 @@ void CreateCollectRingEffect(s32 inWorldX, s32 inWorldY)
         strc->unk29 = 0;
         strc->unk28 = (s8)(1 & gStageData.rings);
         s = &strc->s;
-        if (CURRENT_GAME_MODE < 6) {
+        if (GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(CURRENT_GAME_MODE)) {
             s->tiles = OBJ_VRAM0 + 0x4380;
         } else if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
             s->tiles = OBJ_VRAM0 + 0x43A0;
@@ -268,7 +268,7 @@ void CreateCollectRingEffectNoSfx(s16 worldX, s16 worldY)
         strc->unk29 = 0;
         strc->unk28 = (s8)(1 & gStageData.rings);
         s = &strc->s;
-        if (CURRENT_GAME_MODE < 6) {
+        if (GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(CURRENT_GAME_MODE)) {
             s->tiles = OBJ_VRAM0 + 0x4380;
         } else if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
             s->tiles = OBJ_VRAM0 + 0x43A0;

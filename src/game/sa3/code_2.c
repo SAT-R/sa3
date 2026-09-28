@@ -643,7 +643,7 @@ NONMATCH("asm/non_matching/game/sa3/c21__sub_809BA58.inc", bool32 sub_809BA58(Co
             UpdateSpriteAnimation(s);
             DisplaySprite(s);
         }
-        if (CURRENT_GAME_MODE <= GAME_MODE_MP_STORY_COOP) {
+        if (GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(CURRENT_GAME_MODE)) {
             if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[var_r8]) && ((u32)(u8)(*strc->unk4 - 0x19) > 2U)) {
                 if (FLAGS_20000 & gFlags) {
                     CopyObjPaletteMasked(gUnknown_080D9448, 0x50U, 0x10U);

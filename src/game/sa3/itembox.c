@@ -279,7 +279,7 @@ void sub_802C618(ItemBox *itembox)
     }
     Player_PlaySong(boxPlayer, SE_ITEMBOX);
     itembox->unk7 = 0;
-    if ((CURRENT_GAME_MODE > 4U) && (boxPlayer != NULL)
+    if ((GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) && (boxPlayer != NULL)
         && (((boxPlayer->charFlags.someIndex == 1)) || (boxPlayer->charFlags.someIndex == 2))) {
         sub_8027538(itembox->me);
     }

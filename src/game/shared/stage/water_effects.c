@@ -196,7 +196,7 @@ void Task_StageWaterTask(void)
 
     {
         s16 someY = (water->currentWaterLevel - gCamera.y);
-        if (CURRENT_GAME_MODE < GAME_MODE_MP_STORY_COOP) {
+        if (GAME_MODE_IS_SINGLE_PLAYER(CURRENT_GAME_MODE)) {
             u32 timer = ((u32)(gStageData.timer & 0x1FF) >> 1);
             gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
             gHBlankCopyTarget = (void *)&REG_BG3HOFS;
@@ -231,7 +231,7 @@ void Task_StageWaterTask(void)
         CopyNColorsFromAnimPalette(&water->wd.pal[i][0], gUnknown_080D1BC4[gPlayers[i].charFlags.character][zone], PALETTE_LEN_4BPP);
     }
 
-    if (CURRENT_GAME_MODE < 6) {
+    if (GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(CURRENT_GAME_MODE)) {
         CopyNColorsFromAnimPalette(&water->wd.pal[2][0], gUnknown_080D1BEC[gPlayers[gStageData.playerIndex].charFlags.character], 0x10U);
     }
 

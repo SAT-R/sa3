@@ -253,7 +253,7 @@ NONMATCH("asm/non_matching/game/enemies/euc__sub_805C280.inc", bool32 sub_805C28
             qWorldY = Q(s->y + gCamera.y);
             sub_805CEBC__inline(qWorldX, qWorldY, zero, zero, 0, arg0->p);
         }
-        if (CURRENT_GAME_MODE > 4U) {
+        if (GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) {
             sub_8027578(arg0->me);
         }
 
@@ -265,7 +265,7 @@ NONMATCH("asm/non_matching/game/enemies/euc__sub_805C280.inc", bool32 sub_805C28
 #endif
     {
         meX = arg0->me->x;
-        if ((CURRENT_GAME_MODE > 4U) && (meX >= -6 && meX <= -3)) {
+        if ((GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) && (meX >= -6 && meX <= -3)) {
             if (gStageData.act != 9) {
                 temp_r4_3 = arg0->regionX;
                 temp_r5_3 = arg0->regionY;

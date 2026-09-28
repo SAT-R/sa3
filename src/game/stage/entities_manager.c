@@ -894,7 +894,7 @@ void CreateStageEntitiesManager(void)
     struct Task *t;
     EntitiesManager *em;
 #if (GAME <= GAME_SA2)
-    if (&&CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         t = TaskCreate(Task_EntitiesManagerInit, sizeof(EntitiesManager), 0x2000, 0, TaskDestructor_EntitiesManager);
     } else
 #endif

@@ -500,7 +500,7 @@ void Task_70_80572CC()
     strc70->unk3 -= 1;
     gBldRegs.bldY = strc70->unk3;
     if (strc70->unk3 == 0) {
-        if ((CURRENT_GAME_MODE > 4U) && (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK)) {
+        if ((GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) && (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK)) {
             gStageData.unk4 = 2;
         } else {
             gStageData.unk4 = 3;

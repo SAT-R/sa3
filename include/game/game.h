@@ -48,7 +48,13 @@ extern const s16 gPlayerCharacterIdleAnims[NUM_CHARACTERS];
     ((mode == GAME_MODE_SINGLE_PLAYER) || (mode == GAME_MODE_DEMO) || (mode == GAME_MODE_2) || (mode == GAME_MODE_TIME_ATTACK)             \
      || (mode == GAME_MODE_BOSS_TIME_ATTACK))
 
+#define GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(mode) (GAME_MODE_IS_SINGLE_PLAYER(mode) || (mode == GAME_MODE_MP_STORY_COOP))
+
 #define GAME_MODE_IS_MULTI_PLAYER(mode) !GAME_MODE_IS_SINGLE_PLAYER(mode)
+
+#define GAME_MODE_IS_MULTI_PLAYER_NO_COOP(mode) !GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(mode)
+
+#define GAME_MODE_IS_SINGLE_PAK(mode) (!GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(mode) && ((mode) != GAME_MODE_MP_MULTI_PACK))
 
 #if (GAME == GAME_SA1) && !defined(BUG_FIX)
 // NOTE: LIFE_COUNT is u8, so without the bounds-check,

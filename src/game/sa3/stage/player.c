@@ -368,7 +368,7 @@ void InitializePlayer(s16 playerId)
         CreateCheeseIfPlayerIsCream(player);
         sub_80B7914(&gUnknown_03001150);
 
-        if (CURRENT_GAME_MODE < GAME_MODE_MP_MULTI_PACK) {
+        if (GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(CURRENT_GAME_MODE)) {
             Player_InitializeShieldSprite(player);
         }
     }
@@ -669,7 +669,7 @@ void Task_80045EC(void)
                     p->callback(p);
                 }
                 if (gStageData.unk4 == 3) {
-                    if ((u32)CURRENT_GAME_MODE > 5U) {
+                    if ((u32)GAME_MODE_IS_MULTI_PLAYER_NO_COOP(CURRENT_GAME_MODE)) {
                         sub_8015A44(p);
                     }
                 }
@@ -1097,7 +1097,7 @@ void Task_80050E0(void)
     p = &gPlayers[temp_r1->playerId];
     p->moveState2 = p->moveState;
 
-    if (CURRENT_GAME_MODE > GAME_MODE_BOSS_TIME_ATTACK) {
+    if (GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) {
         if (p->charFlags.someIndex == 1) {
             sub_8026254(p);
         }
@@ -4123,7 +4123,7 @@ void Player_HitWithoutRingsUpdate(Player *p)
     p->moveState &= ~(MOVESTATE_2000000);
     Player_PlaySong(p, SE_HIT_WITH_NO_RINGS);
     Player_PlaySong(p, sp00[p->charFlags.character]);
-    if (CURRENT_GAME_MODE > 4U) {
+    if (GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) {
         if (p->charFlags.someIndex == 1) {
             partner = &gPlayers[p->charFlags.partnerIndex];
             if (!(partner->moveState & MOVESTATE_DEAD)) {
@@ -4176,7 +4176,7 @@ void Player_HitWithoutRings(Player *p)
     p->moveState &= ~MOVESTATE_2000000;
     Player_PlaySong(p, SE_HIT_WITH_NO_RINGS);
     Player_PlaySong(p, charDeadSongIDs[p->charFlags.character]);
-    if (CURRENT_GAME_MODE > 4U) {
+    if (GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) {
         if (p->charFlags.someIndex == 1) {
             partner = &gPlayers[p->charFlags.partnerIndex];
             if (!(partner->moveState & MOVESTATE_DEAD)) {
@@ -4282,7 +4282,7 @@ void Player_800913C(Player *p)
         return;
     }
 
-    if ((u32)CURRENT_GAME_MODE <= 5U) {
+    if (GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(CURRENT_GAME_MODE)) {
         if (gStageData.lives == 0) {
             if (gStageData.act != 9) {
                 sub_8002414();
@@ -6921,7 +6921,7 @@ void sub_800C9C4(Player *p)
         p->qWorldY += -Q(32);
     }
 
-    if ((CURRENT_GAME_MODE < 5) || (p->charFlags.someIndex == 2) || (partner->charFlags.someIndex == 2)) {
+    if ((GAME_MODE_IS_SINGLE_PLAYER(CURRENT_GAME_MODE)) || (p->charFlags.someIndex == 2) || (partner->charFlags.someIndex == 2)) {
         if (partner->charFlags.anim0 == 206 || partner->charFlags.anim0 == 207 || partner->charFlags.anim0 == 208) {
             return;
         } else {
@@ -7181,7 +7181,7 @@ void sub_800CF60(Player *p)
     temp_r2 = p->moveState & 0xFFFEFFFF;
     p->moveState = temp_r2;
     p->moveState = temp_r2 | (partner->moveState & MOVESTATE_GRAVITY_SWITCHED);
-    if ((u32)CURRENT_GAME_MODE <= 4U) {
+    if (GAME_MODE_IS_SINGLE_PLAYER(CURRENT_GAME_MODE)) {
         if (partner->charFlags.anim0 == 0xE8) {
             var_r2 = 1;
         } else {
@@ -7232,7 +7232,7 @@ void sub_800CF60(Player *p)
                 break;
         }
     }
-    if (((u32)CURRENT_GAME_MODE < 5) || ((p->charFlags.someIndex) == 2) || (partner->charFlags.someIndex == 2)) {
+    if (((u32)GAME_MODE_IS_SINGLE_PLAYER(CURRENT_GAME_MODE)) || ((p->charFlags.someIndex) == 2) || (partner->charFlags.someIndex == 2)) {
         if (partner->charFlags.anim0 != 231 && partner->charFlags.anim0 != 232) {
 #ifndef NON_MATCHING
             // NOTE: Weirdly the fake-match compile only matches with var_r5 as input, not as output variable.
@@ -7698,7 +7698,7 @@ void Player_800D944(Player *p)
     if (p->idleAndCamCounter != -1) {
         p->idleAndCamCounter--;
     }
-    if ((p->idleAndCamCounter == 0) && ((u32)CURRENT_GAME_MODE < 6)) {
+    if ((p->idleAndCamCounter == 0) && (GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(CURRENT_GAME_MODE))) {
         sub_8002508();
     }
 }
@@ -12467,7 +12467,7 @@ void sub_801300C(s16 playerId)
     playerSprite = p->spriteInfoBody;
     s = &playerSprite->s;
 
-    if (CURRENT_GAME_MODE < 6) {
+    if (GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(CURRENT_GAME_MODE)) {
         if (playerId == 0) {
             playerSprite->s.tiles = (u8 *)OBJ_VRAM0;
         } else {
@@ -12537,7 +12537,7 @@ void sub_801310C(s16 playerIndex)
 
     switch (p->charFlags.character) {
         case CREAM:
-            if (CURRENT_GAME_MODE < 6) {
+            if (GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(CURRENT_GAME_MODE)) {
                 s->tiles = OBJ_VRAM0 + 0x1800;
             } else if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
                 s->tiles = OBJ_VRAM0 + 0x3000;
@@ -12548,7 +12548,7 @@ void sub_801310C(s16 playerIndex)
             s->frameFlags = SPRITE_FLAG(ROT_SCALE, 2);
             break;
         case TAILS:
-            if ((u32)CURRENT_GAME_MODE < 6) {
+            if (GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(CURRENT_GAME_MODE)) {
                 s->tiles = OBJ_VRAM0 + 0x1000;
             } else if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
                 s->tiles = OBJ_VRAM0 + 0x2800;
@@ -13457,7 +13457,7 @@ void Player_8014550(Player *p)
                     rings = gStageData.rings;
                     gStageData.rings = 0;
                     sub_802AE64(p, rings);
-                    if ((CURRENT_GAME_MODE > 4) && (p->charFlags.someIndex == 1)) {
+                    if ((GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) && (p->charFlags.someIndex == 1)) {
                         sub_80274AC(rings, gStageData.rings);
                     }
                 }
@@ -13728,7 +13728,8 @@ bool32 sub_8014AF8(Player *p)
             } else {
                 if (unkC4->playerId == 0) {
                     p->charFlags.anim0 = 6;
-                } else if ((CURRENT_GAME_MODE < 5) && (p->charFlags.character == AMY) && (partner->charFlags.character == SONIC)) {
+                } else if ((GAME_MODE_IS_SINGLE_PLAYER(CURRENT_GAME_MODE)) && (p->charFlags.character == AMY)
+                           && (partner->charFlags.character == SONIC)) {
                     p->charFlags.anim0 = 251;
                 } else {
                     p->charFlags.anim0 = 7;
@@ -15401,7 +15402,7 @@ void Player_InitializeShieldSprite(Player *p)
 {
     Sprite *s;
 
-    if ((gStageData.act != 7) && ((u32)CURRENT_GAME_MODE <= 5U)) {
+    if ((gStageData.act != 7) && (GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(CURRENT_GAME_MODE))) {
         if (p == gPlayers) {
             p->sprShield.tiles = OBJ_VRAM0 + 0x2800;
         } else {
@@ -15437,7 +15438,7 @@ void sub_8017618(Player *p)
     Sprite *s;
 
     shouldRender = FALSE;
-    if (CURRENT_GAME_MODE > 5U) {
+    if (GAME_MODE_IS_MULTI_PLAYER_NO_COOP(CURRENT_GAME_MODE)) {
         return;
     }
     if (gStageData.unk4 == 5 || gStageData.unk4 == 6) {
@@ -15670,7 +15671,7 @@ void sub_8017A58(Player *p)
         strc->p = p;
         strc->someY = 30;
         s = &strc->s;
-        if (CURRENT_GAME_MODE < 6) {
+        if (GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(CURRENT_GAME_MODE)) {
             s->tiles = OBJ_VRAM0 + 0x4180;
         } else if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
             s->tiles = OBJ_VRAM0 + 0x41A0;
@@ -16030,7 +16031,7 @@ void Player_InitializeTagAction(Player *p)
         strc = TASK_DATA(p->taskTagAction);
         strc->p = p;
         s = &strc->s;
-        if (CURRENT_GAME_MODE < 6) {
+        if (GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(CURRENT_GAME_MODE)) {
             s->tiles = OBJ_VRAM0 + 0x4580;
         } else {
             s->tiles = OBJ_VRAM0 + 0x45A0;
@@ -16673,7 +16674,7 @@ void Task_TagActionInit(void)
         gCurTask->main = sub_80190C8;
         partner = GET_SP_PLAYER_V1(PLAYER_2);
         partnerChar = partner->charFlags.character;
-        if (CURRENT_GAME_MODE < 6) {
+        if (GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(CURRENT_GAME_MODE)) {
             s->tiles = OBJ_VRAM0 + 0x4580;
         } else {
             s->tiles = OBJ_VRAM0 + 0x45A0;
@@ -17399,7 +17400,7 @@ void Player_InitializeAfterImagesTask(Player *p)
             gStageData.taskAfterImages = TaskCreate(Task_AfterImages, sizeof(AfterImages), 0x4000U, 0U, TaskDestructor_AfterImages);
             strc = TASK_DATA(gStageData.taskAfterImages);
             s = &strc->s;
-            if ((CURRENT_GAME_MODE <= 5U)) {
+            if ((GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(CURRENT_GAME_MODE))) {
                 s->tiles = OBJ_VRAM0 + 0x2000;
             } else if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
                 s->tiles = OBJ_VRAM0 + 0x2000;
@@ -18796,7 +18797,8 @@ void sub_801B2E4(Player *p)
         }
         if (temp_r1 & 0x02000000) {
             partner = GET_SP_PLAYER_V1(PLAYER_2);
-            if ((CURRENT_GAME_MODE < 5) || ((p->charFlags.someIndex) == 2) || ((partner->charFlags.someIndex) == 2)) {
+            if ((GAME_MODE_IS_SINGLE_PLAYER(CURRENT_GAME_MODE)) || ((p->charFlags.someIndex) == 2)
+                || ((partner->charFlags.someIndex) == 2)) {
                 if ((partner->charFlags.anim0 != 92) && (partner->charFlags.anim0 != 93)) {
                     var_r6 = 1;
                 }
@@ -20058,7 +20060,7 @@ void sub_801CD50(Player *p)
 
     if (MOVESTATE_2000000 & p->moveState) {
         partner = GET_SP_PLAYER_V1(PLAYER_2);
-        if ((CURRENT_GAME_MODE < 5) || ((p->charFlags.someIndex) == 2) || ((partner->charFlags.someIndex) == 2)) {
+        if ((GAME_MODE_IS_SINGLE_PLAYER(CURRENT_GAME_MODE)) || ((p->charFlags.someIndex) == 2) || ((partner->charFlags.someIndex) == 2)) {
             if ((partner->charFlags.anim0 != sp00[partner->charFlags.character][0])
                 && (partner->charFlags.anim0 != sp00[partner->charFlags.character][1])) {
                 var_r7 = 1;
@@ -21666,7 +21668,7 @@ void sub_801ECAC(Player *p)
             temp_r3->unk1C = 0;
         }
         temp_r3->unk1D = p->unk26;
-        if (CURRENT_GAME_MODE > 4U) {
+        if (GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) {
             for (i = 0; i < 4; i++) {
                 if (&gPlayers[i] == p) {
                     break;
@@ -21697,7 +21699,7 @@ void Task_CheeseInit(void)
     cheese->unk1B = 0;
     cheese->unk19 = 0;
     s = &cheese->s;
-    if (CURRENT_GAME_MODE < 6) {
+    if (GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(CURRENT_GAME_MODE)) {
         s->tiles = VRAM_RESERVED_CHEESE;
     } else if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
         s->tiles = VRAM_RESERVED_CHEESE_GAME_MODE_6;

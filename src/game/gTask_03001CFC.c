@@ -40,7 +40,7 @@ void Create_gTask_03001CFC(void)
 
     // NOTE: The way this is written is necesary for matching... might've been a macro?
     if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
-        if (CURRENT_GAME_MODE < 6) {
+        if (GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(CURRENT_GAME_MODE)) {
             pt = &gTask_03001CFC;
             *pt = t = TaskCreate(Task_802B71C, sizeof(Strc_3001CFC), 0x2001U, 0U, TaskDestructor_802B778);
         } else {
@@ -55,7 +55,7 @@ void Create_gTask_03001CFC(void)
     s = &strc->s;
     s->x = 0;
     s->y = 0;
-    if ((u32)CURRENT_GAME_MODE <= 5U) {
+    if (GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(CURRENT_GAME_MODE)) {
         s->tiles = OBJ_VRAM1 + 0x180;
     } else {
         s->tiles = OBJ_VRAM1 + 0x1A0;
@@ -109,7 +109,7 @@ NONMATCH("asm/non_matching/game/c031__sub_802AE64.inc", void sub_802AE64(Player 
         gStageData.rings = 0;
     }
 
-    if (CURRENT_GAME_MODE > 5U) {
+    if (GAME_MODE_IS_MULTI_PLAYER_NO_COOP(CURRENT_GAME_MODE)) {
         r1 = arg1;
         if (arg1 > 0x10) {
             r1 = 0x10;
