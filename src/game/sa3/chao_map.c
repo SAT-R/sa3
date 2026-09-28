@@ -63,9 +63,9 @@ void sub_802304C(ChaoMap *chaomap)
     gBgScrollRegs[2][1] = 0;
 
     bg = &chaomap->bg8;
-    bg->graphics.dest = (void *)BG_CHAR_ADDR(0);
+    bg->graphics.dest = BG_CHAR_ADDR(0);
     bg->graphics.anim = 0;
-    bg->layoutVram = (u16 *)BG_SCREEN_ADDR(7);
+    bg->layoutVram = BG_SCREEN_ADDR(7);
     bg->unk18 = 0;
     bg->unk1A = 0;
     bg->tilemapId = notificationTilemapIndices[gStageData.language];
@@ -84,9 +84,9 @@ void sub_802304C(ChaoMap *chaomap)
     DrawBackground(bg);
 
     bg = &chaomap->bg48;
-    bg->graphics.dest = (void *)BG_CHAR_ADDR(1);
+    bg->graphics.dest = BG_CHAR_ADDR(1);
     bg->graphics.anim = 0;
-    bg->layoutVram = (u16 *)BG_SCREEN_ADDR(14);
+    bg->layoutVram = BG_SCREEN_ADDR(14);
     bg->unk18 = 0;
     bg->unk1A = 0;
     bg->tilemapId = TM_CHAO_MAP_LIST;
@@ -105,9 +105,9 @@ void sub_802304C(ChaoMap *chaomap)
     DrawBackground(bg);
 
     bg = &chaomap->bg88;
-    bg->graphics.dest = (void *)BG_CHAR_ADDR(2);
+    bg->graphics.dest = BG_CHAR_ADDR(2);
     bg->graphics.anim = 0;
-    bg->layoutVram = (u16 *)BG_SCREEN_ADDR(23);
+    bg->layoutVram = BG_SCREEN_ADDR(23);
     bg->unk18 = 0;
     bg->unk1A = 0;
     bg->tilemapId = TM_CHAO_MAP_BG;

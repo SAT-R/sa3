@@ -184,7 +184,7 @@ void CreateStageRingsManager(void)
     s->qAnimDelay = 0;
     s->prevAnim = 0xFFFF;
     s->variant = 0;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->animSpeed = 0x10;
     s->palId = 0;
     s->hitboxes[0].index = -1;
@@ -246,7 +246,7 @@ void CreateCollectRingEffect(s32 inWorldX, s32 inWorldY)
         s->qAnimDelay = 0;
         s->prevAnim = 0xFFFF;
         s->variant = 0;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->animSpeed = 0x10;
         s->palId = 0;
         s->hitboxes[0].index = -1;
@@ -282,7 +282,7 @@ void CreateCollectRingEffectNoSfx(s16 worldX, s16 worldY)
         s->qAnimDelay = 0;
         s->prevAnim = 0xFFFF;
         s->variant = 0;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->animSpeed = 0x10;
         s->palId = 0;
         s->hitboxes[0].index = -1;
@@ -767,7 +767,7 @@ void sub_802AB10(s16 worldX, s16 worldY, Player *p)
     s->variant = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->animSpeed = 0x10;
     s->palId = 0;
     s->frameFlags = 0x41200;

@@ -233,7 +233,7 @@ Task *CreateEggCube(u8 *bossPhase, s32 worldX, s32 worldY)
     s->anim = 0x4C9;
     s->variant = 1;
     s->qAnimDelay = 0;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->animSpeed = 0x10;
     s->palId = 0;
     s->x = 0;
@@ -1446,7 +1446,7 @@ void sub_8070450(EggCube14 *strc14, u8 index)
             s->oamFlags = SPRITE_OAM_ORDER(11);
             s->animCursor = 0;
             s->qAnimDelay = 0;
-            s->prevVariant = 0xFF;
+            s->prevVariant = -1;
             s->animSpeed = 0x10;
             s->palId = 0;
             s->hitboxes[0].index = -1;
@@ -1595,7 +1595,7 @@ void sub_80707A0(EggCube14 *strc14, EggCube *boss)
             if (--strc14->unk8 == 0) {
                 s->anim = 0x4CC;
                 s->variant = 1;
-                s->prevVariant = 0xFF;
+                s->prevVariant = -1;
                 boss->unkA8 = boss->unkB8;
                 boss->unkB4 = 0x800;
                 boss->unkBC = 0x12C00;
@@ -1609,7 +1609,7 @@ void sub_80707A0(EggCube14 *strc14, EggCube *boss)
                 boss->unkAC += Q(temp_r0_2);
                 s->anim = 0x4CD;
                 s->variant = 0;
-                s->prevVariant = 0xFF;
+                s->prevVariant = -1;
                 s = &boss->spr138[0];
                 boss->unkB8 = boss->unkA8;
                 boss->unkBC = boss->unkAC + 0xFFFFF600;
@@ -1636,7 +1636,7 @@ void sub_80707A0(EggCube14 *strc14, EggCube *boss)
                 s = &boss->spr138[0];
                 s->anim = 0x50B;
                 s->variant = 2;
-                s->prevVariant = 0xFF;
+                s->prevVariant = -1;
                 strc14->unk8 = 0x64;
                 strc14->unk6 = 0x1A4;
             }
@@ -1647,7 +1647,7 @@ void sub_80707A0(EggCube14 *strc14, EggCube *boss)
                 s = &boss->spr138[0];
                 s->anim = 0x50A;
                 s->variant = 0;
-                s->prevVariant = 0xFF;
+                s->prevVariant = -1;
                 r1 = boss->qWorldX - boss->unkB8;
                 boss->unkB0 = r1 / 64;
                 boss->unkAC = boss->unkBC;
@@ -2429,7 +2429,7 @@ void sub_8071968(EggCube *boss, u8 param1)
             s->variant = 2;
             break;
     }
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
 }
 
 void sub_80719B4(EggCube *boss) { boss->vramCC = VramMalloc(0x54U); }

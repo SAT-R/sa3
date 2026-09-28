@@ -269,7 +269,7 @@ void EngineInit(void)
 #if (ENGINE != ENGINE_3)
         DmaCopy16(3, (void *)OBJ_VRAM0, EWRAM_START + 0x3B000, 0x5000);
 #else
-        DmaCopy16(3, (void *)BG_SCREEN_ADDR(24), gUnknown_02035000, sizeof(gUnknown_02035000));
+        DmaCopy16(3, BG_SCREEN_ADDR(24), gUnknown_02035000, sizeof(gUnknown_02035000));
         DmaWait(3);
 #endif
     }

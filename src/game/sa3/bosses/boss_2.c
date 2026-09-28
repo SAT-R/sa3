@@ -1336,7 +1336,7 @@ void CreateBoss2Exit(u8 *out, u8 *vram)
     s->tiles = VramMalloc(18);
     s->anim = ANIM_BREAKABLE_WALL_2;
     s->variant = 3;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->x = gCamera.minX - gCamera.x;
     s->x += I(strc->unk8);
     s->y = gCamera.minY + ((s32)(gCamera.maxY - gCamera.minY) >> 1);

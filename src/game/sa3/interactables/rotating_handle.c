@@ -283,7 +283,7 @@ NONMATCH("asm/non_matching/game/interactables/rotating_handle__Task_80326D8.inc"
                 }
                 s->anim = ANIM_ROTATING_HANDLE;
                 s->variant = pattern;
-                s->prevVariant = 0xFF;
+                s->prevVariant = -1;
                 p->charFlags.state1 = (u16)pattern;
                 p->charFlags.someFlag1 = 1;
                 p->qWorldX = Q(worldX);

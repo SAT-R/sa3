@@ -328,7 +328,7 @@ void sub_806D404(EggFoot *boss)
         s->anim = ANIM_BOSS_3_PROJ;
         s->variant = 0;
         s->qAnimDelay = 0;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->animSpeed = 0x10;
         s->palId = 0;
         s->x = 0;

@@ -96,7 +96,7 @@ void CreateTitleScreen(u8 fadeMode)
     title->vram20 = OBJ_VRAM0;
     title->unk24 = 0;
 
-    DmaFill32(3, 0, (void *)BG_CHAR_ADDR_FROM_BGCNT(2), 0x40);
+    DmaFill32(3, 0, BG_CHAR_ADDR_FROM_BGCNT(2), 0x40);
 
     gBgSprites_Unknown1[2] = 0;
     gBgSprites_Unknown2[2][0] = 0;
@@ -194,9 +194,9 @@ void sub_808A4EC(TitleScreenSA3 *title)
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
     bg0 = &title->bgA0;
-    bg0->graphics.dest = (void *)BG_CHAR_ADDR(0);
+    bg0->graphics.dest = BG_CHAR_ADDR(0);
     bg0->graphics.anim = 0;
-    bg0->layoutVram = (u16 *)BG_SCREEN_ADDR(23);
+    bg0->layoutVram = BG_SCREEN_ADDR(23);
     bg0->unk18 = 0;
     bg0->unk1A = 0;
     bg0->tilemapId = TM_UNKNOWN_292;
@@ -215,9 +215,9 @@ void sub_808A4EC(TitleScreenSA3 *title)
     gBgScrollRegs[1][0] = -20;
     gBgScrollRegs[1][1] = -8;
     bg1 = &title->bgE0;
-    bg1->graphics.dest = (void *)BG_CHAR_ADDR(2);
+    bg1->graphics.dest = BG_CHAR_ADDR(2);
     bg1->graphics.anim = 0;
-    bg1->layoutVram = (u16 *)BG_SCREEN_ADDR(31);
+    bg1->layoutVram = BG_SCREEN_ADDR(31);
     bg1->unk18 = 0;
     bg1->unk1A = 0;
     bg1->tilemapId = gUnknown_080D68D0[(index2 = index * 4) + 0]; // TODO: This has got to be fake-matched!
@@ -237,9 +237,9 @@ void sub_808A4EC(TitleScreenSA3 *title)
     gBgScrollRegs[2][0] = 0;
     gBgScrollRegs[2][1] = 0;
     bg2 = &title->bg120;
-    bg2->graphics.dest = (void *)BG_CHAR_ADDR(3);
+    bg2->graphics.dest = BG_CHAR_ADDR(3);
     bg2->graphics.anim = 0;
-    bg2->layoutVram = (u16 *)BG_SCREEN_ADDR(29);
+    bg2->layoutVram = BG_SCREEN_ADDR(29);
     bg2->unk18 = 0;
     bg2->unk1A = 0;
     bg2->tilemapId = gUnknown_080D68D0[index * 4 + 1];
@@ -433,9 +433,9 @@ void Task_TitleScreenMainFadeless(void)
     gBgScrollRegs[1][1] = -8;
 
     bg1 = &title->bgE0;
-    bg1->graphics.dest = (void *)BG_CHAR_ADDR(2);
+    bg1->graphics.dest = BG_CHAR_ADDR(2);
     bg1->graphics.anim = 0;
-    bg1->layoutVram = (u16 *)BG_SCREEN_ADDR(31);
+    bg1->layoutVram = BG_SCREEN_ADDR(31);
     bg1->unk18 = 0;
     bg1->unk1A = 0;
     bg1->tilemapId = gUnknown_080D68D0[index * 4 + 2];

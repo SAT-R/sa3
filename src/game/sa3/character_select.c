@@ -385,7 +385,7 @@ NONMATCH("asm/non_matching/game/char_select__sub_8097E5C.inc", void sub_8097E5C(
     vram += 0x5A0;
     s->anim = gUnknown_080D8D00[0].anim;
     s->variant = gUnknown_080D8D00[0].variant;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->x = (s16)((s32)cs->qUnk2C >> 8);
     s->y = (s16)((s32)cs->qUnk30 >> 8);
     s->oamFlags = 0x40;
@@ -488,7 +488,7 @@ NONMATCH("asm/non_matching/game/char_select__sub_8097E5C.inc", void sub_8097E5C(
     s->prevVariant = -1;
     s->x = I(cs->qUnk64);
     s->y = I(cs->qUnk68);
-    s->oamFlags = 0x40;
+    s->oamFlags = SPRITE_OAM_ORDER(1);
     s->animCursor = 0;
     s->qAnimDelay = 0;
     s->animSpeed = 0x10;
@@ -506,13 +506,15 @@ void CharSelect_InitBackgrounds(CharacterSelect *cs)
     Background *bgB;
     Background *bgC;
 
-    gBgCntRegs[0] = 0x4E07;
+    // NOTE: gDispCnt set to DISPCNT_MODE_1
+
+    gBgCntRegs[0] = BGCNT_SCREENBASE(14) | BGCNT_CHARBASE(1) | BGCNT_16COLOR | BGCNT_TXT512x256 | BGCNT_PRIORITY(3);
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
     bgA = &cs->bg1B4;
-    bgA->graphics.dest = (void *)BG_SCREEN_ADDR(8);
+    bgA->graphics.dest = BG_CHAR_ADDR(1);
     bgA->graphics.anim = 0;
-    bgA->layoutVram = (void *)BG_SCREEN_ADDR(14);
+    bgA->layoutVram = BG_SCREEN_ADDR(14);
     bgA->unk18 = 0;
     bgA->unk1A = 0;
     bgA->tilemapId = gUnknown_080D8CDC[0];
@@ -520,19 +522,19 @@ void CharSelect_InitBackgrounds(CharacterSelect *cs)
     bgA->unk20 = 0;
     bgA->unk22 = 0;
     bgA->unk24 = 0;
-    bgA->targetTilesX = 45;
-    bgA->targetTilesY = 20;
+    bgA->targetTilesX = 360 / TILE_WIDTH;
+    bgA->targetTilesY = 160 / TILE_WIDTH;
     cs->bg1B4.paletteOffset = 0;
-    bgA->flags = 0;
+    bgA->flags = BACKGROUND_FLAGS_BG_ID(0);
     DrawBackground(bgA);
 
-    gBgCntRegs[1] = 0x30E;
+    gBgCntRegs[1] = BGCNT_SCREENBASE(3) | BGCNT_CHARBASE(3) | BGCNT_16COLOR | BGCNT_TXT256x256 | BGCNT_PRIORITY(2);
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = 0;
     bgB = &cs->bg1F4;
-    bgB->graphics.dest = (void *)BG_SCREEN_ADDR(24);
+    bgB->graphics.dest = BG_CHAR_ADDR(3);
     bgB->graphics.anim = 0;
-    bgB->layoutVram = (void *)BG_SCREEN_ADDR(3);
+    bgB->layoutVram = BG_SCREEN_ADDR(3);
     bgB->unk18 = 0;
     bgB->unk1A = 0;
     bgB->tilemapId = gUnknown_080D8CDC[11];
@@ -540,19 +542,19 @@ void CharSelect_InitBackgrounds(CharacterSelect *cs)
     bgB->unk20 = 0;
     bgB->unk22 = 0;
     bgB->unk24 = 0;
-    bgB->targetTilesX = 16;
-    bgB->targetTilesY = 16;
+    bgB->targetTilesX = 128 / TILE_WIDTH;
+    bgB->targetTilesY = 128 / TILE_WIDTH;
     cs->bg1F4.paletteOffset = 0;
-    bgB->flags = 1;
+    bgB->flags = BACKGROUND_FLAGS_BG_ID(1);
     DrawBackground(bgB);
 
-    gBgCntRegs[2] = 0x1B89;
+    gBgCntRegs[2] = BGCNT_SCREENBASE(27) | BGCNT_CHARBASE(2) | BGCNT_256COLOR | BGCNT_AFF128x128 | BGCNT_PRIORITY(1);
     gBgScrollRegs[2][0] = 0;
     gBgScrollRegs[2][1] = 0;
     bgC = &cs->bg234;
-    bgC->graphics.dest = (void *)BG_SCREEN_ADDR(16);
+    bgC->graphics.dest = BG_CHAR_ADDR(2);
     bgC->graphics.anim = 0;
-    bgC->layoutVram = (void *)BG_SCREEN_ADDR(27);
+    bgC->layoutVram = BG_SCREEN_ADDR(27);
     bgC->unk18 = 0;
     bgC->unk1A = 0;
     bgC->tilemapId = gUnknown_080D8CDC[cs->unk5 + 5];
@@ -560,10 +562,10 @@ void CharSelect_InitBackgrounds(CharacterSelect *cs)
     bgC->unk20 = 0;
     bgC->unk22 = 0;
     bgC->unk24 = 0;
-    bgC->targetTilesX = 16;
-    bgC->targetTilesY = 16;
+    bgC->targetTilesX = 128 / TILE_WIDTH;
+    bgC->targetTilesY = 128 / TILE_WIDTH;
     bgC->paletteOffset = 0;
-    bgC->flags = 6;
+    bgC->flags = BACKGROUND_FLAG_4 | BACKGROUND_FLAGS_BG_ID(2);
     DrawBackground(bgC);
 }
 
@@ -1121,38 +1123,31 @@ void Task_8098FF0()
 
 void sub_80990B0(CharacterSelect *cs)
 {
-    Background *bg;
-    u16 *var_r0_2;
-    u16 var_r0;
-    u8 temp_r5;
-
-    bg = &cs->bg234;
-    temp_r5 = gUnknown_080D8F18[cs->unk5];
-    bg->graphics.dest = (void *)(BG_VRAM + 0x8000);
+    Background *bg = &cs->bg234;
+    u8 character = gUnknown_080D8F18[cs->unk5];
+    bg->graphics.dest = BG_CHAR_ADDR(2);
     bg->graphics.anim = 0;
-    bg->layoutVram = (void *)(BG_VRAM + 0xD800);
+    bg->layoutVram = BG_SCREEN_ADDR(27);
     bg->unk18 = 0;
     bg->unk1A = 0;
-
-    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r5])) {
+    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
         bg->tilemapId = gUnknown_080D8CDC[16];
     } else {
-        bg->tilemapId = gUnknown_080D8CDC[temp_r5 + 5];
+        bg->tilemapId = gUnknown_080D8CDC[character + 5];
     }
-
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 0;
     bg->unk24 = 0;
-    bg->targetTilesX = 16;
-    bg->targetTilesY = 16;
+    bg->targetTilesX = 128 / TILE_WIDTH;
+    bg->targetTilesY = 128 / TILE_WIDTH;
     bg->paletteOffset = 0;
-    bg->flags = 6;
+    bg->flags = BACKGROUND_FLAG_4 | BACKGROUND_FLAGS_BG_ID(2);
     DrawBackground(bg);
 
     cs->qUnk40 = 0x5000;
     cs->unkB = 4;
-    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r5])) {
+    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
         if (FLAGS_20000 & gFlags) {
             CopyObjPaletteMasked(&gUnknown_08E2EEF0[0], 0x60U, 16);
         } else {
@@ -1160,9 +1155,9 @@ void sub_80990B0(CharacterSelect *cs)
             gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
         }
     } else if (FLAGS_20000 & gFlags) {
-        CopyObjPaletteMasked(&gUnknown_08E2EE50[temp_r5][0], 3 * (16 * sizeof(u16)), ARRAY_COUNT(gUnknown_08E2EE50[temp_r5]));
+        CopyObjPaletteMasked(&gUnknown_08E2EE50[character][0], 3 * (16 * sizeof(u16)), ARRAY_COUNT(gUnknown_08E2EE50[character]));
     } else {
-        DmaCopy16(3, &gUnknown_08E2EE50[temp_r5][0], &gObjPalette[3 * (16 * sizeof(u16))], (16 * sizeof(u16)));
+        DmaCopy16(3, &gUnknown_08E2EE50[character][0], &gObjPalette[3 * (16 * sizeof(u16))], (16 * sizeof(u16)));
         gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
     }
     gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
@@ -1251,14 +1246,15 @@ void Task_8099300()
     sub_809B6C0(cs);
 
     if (cs->unkB < 13) {
-        gDispCnt |= 0x200;
+        gDispCnt |= DISPCNT_BG1_ON;
+
         if (cs->unkB < 13) {
             cs->unkB = 0xC;
             cs->qUnk34 = cs->qUnk3C;
             cs->qUnk38 = cs->qUnk40;
             cs->unk5 = cs->unk3;
             CreateSomeTask_809BF3C(&cs->unk5, &cs->unkB, &cs->qUnk34, &cs->qUnk38, cs->tilesCharacters[CS_CHARID_CHOSEN]);
-            cs->qUnk4C = 0x12C00;
+            cs->qUnk4C = Q(300);
         }
     }
     s = &cs->spr9C;
@@ -1329,11 +1325,11 @@ NONMATCH("asm/non_matching/game/char_select__sub_809947C.inc", void Task_809947C
         gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
     }
     gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
-    cs->spr13C.prevVariant = 0xFF;
+    cs->spr13C.prevVariant = -1;
     bg = &cs->bg234;
-    bg->graphics.dest = (void *)(VRAM + 0x8000);
+    bg->graphics.dest = BG_CHAR_ADDR(2);
     bg->graphics.anim = 0;
-    bg->layoutVram = (u16 *)(VRAM + 0xD800);
+    bg->layoutVram = BG_SCREEN_ADDR(27);
     bg->unk18 = 0;
     bg->unk1A = 0;
     if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r5])) {
@@ -1345,10 +1341,10 @@ NONMATCH("asm/non_matching/game/char_select__sub_809947C.inc", void Task_809947C
     bg->unk20 = 0;
     bg->unk22 = 0;
     bg->unk24 = 0;
-    bg->targetTilesX = 0x10;
-    bg->targetTilesY = 0x10;
+    bg->targetTilesX = 128 / TILE_WIDTH;
+    bg->targetTilesY = 128 / TILE_WIDTH;
     bg->paletteOffset = 0;
-    bg->flags = 6;
+    bg->flags = BACKGROUND_FLAG_4 | BACKGROUND_FLAGS_BG_ID(2);
     DrawBackground(bg);
     gCurTask->main = Task_8099680;
 }
@@ -1545,10 +1541,11 @@ void Task_8099968(void)
         }
         gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
         cs->unkB = 14;
+
         bg = &cs->bg234;
-        bg->graphics.dest = (void *)(VRAM + 0x8000);
+        bg->graphics.dest = BG_CHAR_ADDR(2);
         bg->graphics.anim = 0;
-        bg->layoutVram = (u16 *)(VRAM + 0xD800);
+        bg->layoutVram = BG_SCREEN_ADDR(27);
         bg->unk18 = 0;
         bg->unk1A = 0;
         if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r5])) {
@@ -1560,11 +1557,12 @@ void Task_8099968(void)
         bg->unk20 = 0;
         bg->unk22 = 0;
         bg->unk24 = 0;
-        bg->targetTilesX = 0x10;
-        bg->targetTilesY = 0x10;
+        bg->targetTilesX = 128 / TILE_WIDTH;
+        bg->targetTilesY = 128 / TILE_WIDTH;
         bg->paletteOffset = 0;
-        bg->flags = 6;
+        bg->flags = BACKGROUND_FLAG_4 | BACKGROUND_FLAGS_BG_ID(2);
         DrawBackground(bg);
+
         gCurTask->main = Task_8099B78;
     }
 }
@@ -1664,15 +1662,16 @@ void Task_8099C9C()
     gBgSprites_Unknown2[2][3] = 0x40;
     cs->qUnk4C = Q(142);
     cs->qUnk50 = Q(22);
-    gBgScrollRegs[2][0] = 0x8E;
-    gBgScrollRegs[2][1] = -0x16;
-    gDispCnt = 0x1740;
-    gBgCntRegs[2] = 0x1B09;
+    gBgScrollRegs[2][0] = +142;
+    gBgScrollRegs[2][1] = -22;
+
+    gDispCnt = DISPCNT_OBJ_ON | DISPCNT_BG0_ON | DISPCNT_BG1_ON | DISPCNT_BG2_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_0;
+    gBgCntRegs[2] = BGCNT_SCREENBASE(27) | BGCNT_TXT256x256 | BGCNT_16COLOR | BGCNT_CHARBASE(2) | BGCNT_PRIORITY(1);
     bg = &cs->bg234;
     character = gUnknown_080D8F18[cs->unk6];
-    bg->graphics.dest = (void *)(BG_VRAM + 0x8000);
+    bg->graphics.dest = BG_CHAR_ADDR(2);
     bg->graphics.anim = 0;
-    bg->layoutVram = (u16 *)(BG_VRAM + 0xD800);
+    bg->layoutVram = BG_SCREEN_ADDR(27);
     bg->unk18 = 0;
     bg->unk1A = 0;
     bg->tilemapId = gUnknown_080D8CDC[character + 10];
@@ -1680,10 +1679,10 @@ void Task_8099C9C()
     bg->unk20 = 0;
     bg->unk22 = 0;
     bg->unk24 = 0;
-    bg->targetTilesX = 0x10;
-    bg->targetTilesY = 0x10;
+    bg->targetTilesX = 128 / TILE_WIDTH;
+    bg->targetTilesY = 128 / TILE_WIDTH;
     cs->bg234.paletteOffset = 0;
-    bg->flags = 2;
+    bg->flags = BACKGROUND_FLAGS_BG_ID(2);
     DrawBackground(bg);
     sub_809B69C(cs);
     sub_809B6C0(cs);
@@ -1994,51 +1993,52 @@ void Task_809A3BC(void)
 void sub_809A50C(CharacterSelect *cs)
 {
     Background *bg;
-    Background *temp_r3;
+    Background *bg1F4;
     u16 var_r0;
     u8 temp_r4;
     s32 tid;
 
-    gDispCnt = 0x1741;
+    gDispCnt = DISPCNT_OBJ_ON | DISPCNT_BG0_ON | DISPCNT_BG1_ON | DISPCNT_BG2_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_1;
+
     gBgSprites_Unknown1[1] = 0;
     gBgSprites_Unknown2[1][0] = 0;
     gBgSprites_Unknown2[1][1] = 0;
     gBgSprites_Unknown2[1][2] = 0xFF;
     gBgSprites_Unknown2[1][3] = 0x40;
-    gBgCntRegs[1] = 0x30E;
+    gBgCntRegs[1] = BGCNT_SCREENBASE(3) | BGCNT_CHARBASE(3) | BGCNT_PRIORITY(2);
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = 0;
-    temp_r3 = &cs->bg1F4;
+    bg1F4 = &cs->bg1F4;
     temp_r4 = gUnknown_080D8F18[cs->unk5];
-    temp_r3->graphics.dest = (void *)BG_VRAM + 0xC000;
-    temp_r3->graphics.anim = 0;
-    temp_r3->layoutVram = (u16 *)BG_SCREEN_ADDR(3);
-    temp_r3->unk18 = 0;
-    temp_r3->unk1A = 0;
+    bg1F4->graphics.dest = BG_CHAR_ADDR(3);
+    bg1F4->graphics.anim = 0;
+    bg1F4->layoutVram = BG_SCREEN_ADDR(3);
+    bg1F4->unk18 = 0;
+    bg1F4->unk1A = 0;
     if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r4])) {
-        temp_r3->tilemapId = gUnknown_080D8CDC[16];
+        bg1F4->tilemapId = gUnknown_080D8CDC[16];
     } else {
-        temp_r3->tilemapId = gUnknown_080D8CDC[temp_r4 + 0xA];
+        bg1F4->tilemapId = gUnknown_080D8CDC[temp_r4 + 0xA];
     }
+    bg1F4->unk1E = 0;
+    bg1F4->unk20 = 0;
+    bg1F4->unk22 = 0;
+    bg1F4->unk24 = 0;
+    bg1F4->targetTilesX = 128 / TILE_WIDTH;
+    bg1F4->targetTilesY = 128 / TILE_WIDTH;
+    bg1F4->paletteOffset = 0;
+    bg1F4->flags = BACKGROUND_FLAGS_BG_ID(1);
+    DrawBackground(bg1F4);
 
-    temp_r3->unk1E = 0;
-    temp_r3->unk20 = 0;
-    temp_r3->unk22 = 0;
-    temp_r3->unk24 = 0;
-    temp_r3->targetTilesX = 0x10;
-    temp_r3->targetTilesY = 0x10;
-    temp_r3->paletteOffset = 0;
-    temp_r3->flags = 1;
-    DrawBackground(temp_r3);
-    gBgCntRegs[2] = 0x1B89;
+    gBgCntRegs[2] = BGCNT_SCREENBASE(27) | BGCNT_CHARBASE(2) | BGCNT_256COLOR | BGCNT_AFF128x128 | BGCNT_PRIORITY(1);
     gBgScrollRegs[2][0] = 0;
     gBgScrollRegs[2][1] = 0;
 
     bg = &cs->bg234;
     tid = gUnknown_080D8F18[cs->unk6];
-    bg->graphics.dest = (void *)BG_VRAM + 0x8000;
+    bg->graphics.dest = BG_CHAR_ADDR(2);
     bg->graphics.anim = 0;
-    bg->layoutVram = (u16 *)BG_SCREEN_ADDR(27);
+    bg->layoutVram = BG_SCREEN_ADDR(27);
     bg->unk18 = 0;
     bg->unk1A = 0;
     bg->tilemapId = gUnknown_080D8CDC[tid + 5];
@@ -2046,10 +2046,10 @@ void sub_809A50C(CharacterSelect *cs)
     bg->unk20 = 0;
     bg->unk22 = 0;
     bg->unk24 = 0;
-    bg->targetTilesX = 0x10;
-    bg->targetTilesY = 0x10;
+    bg->targetTilesX = 128 / TILE_WIDTH;
+    bg->targetTilesY = 128 / TILE_WIDTH;
     bg->paletteOffset = 0;
-    bg->flags = 6;
+    bg->flags = BACKGROUND_FLAG_4 | BACKGROUND_FLAGS_BG_ID(2);
     DrawBackground(bg);
 }
 
@@ -2062,7 +2062,7 @@ void sub_809A644(CharacterSelect *cs)
     s = &cs->spr114;
     s->anim = gUnknown_080D8EF8.anim;
     s->variant = gUnknown_080D8EF8.variant;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->x = I(cs->qUnk64);
     s->y = I(cs->qUnk68);
     s->oamFlags = 0x40;
@@ -2088,7 +2088,7 @@ void Task_809A6C0(void)
     u16 temp_r7;
 
     if (cs->unkE != 0) {
-        gDispCnt |= 0x2000;
+        gDispCnt |= DISPCNT_WIN0_ON;
         gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
         gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
         gWinRegs[WINREG_WININ] |= 0x3F;
@@ -2143,14 +2143,11 @@ void Task_809A6C0(void)
 void sub_809A808(CharacterSelect *cs)
 {
     Sprite *temp_r0_2;
-    Sprite *temp_r3;
+    Sprite *spr9C = &cs->spr9C;
     s32 var_r2;
-    u8 temp_r0;
-    u8 temp_r2;
+    u8 temp_r2 = gUnknown_080D8F18[cs->unk5];
+    u8 temp_r0 = gUnknown_080D8F18[cs->unk6];
 
-    temp_r3 = &cs->spr9C;
-    temp_r2 = gUnknown_080D8F18[cs->unk5];
-    temp_r0 = gUnknown_080D8F18[cs->unk6];
     if ((temp_r2 == 0) || (temp_r0 == 0)) {
         if ((temp_r2 == 2) || (temp_r0 == 2)) {
             var_r2 = 4;
@@ -2166,23 +2163,25 @@ void sub_809A808(CharacterSelect *cs)
     } else {
         var_r2 = 2;
     }
-    temp_r3->anim = gUnknown_080D8D08[var_r2 + (cs->language * 8)].anim;
-    temp_r3->variant = gUnknown_080D8D08[var_r2 + (cs->language * 8)].variant;
-    UpdateSpriteAnimation(temp_r3);
+    spr9C->anim = gUnknown_080D8D08[var_r2 + (cs->language * 8)].anim;
+    spr9C->variant = gUnknown_080D8D08[var_r2 + (cs->language * 8)].variant;
+    UpdateSpriteAnimation(spr9C);
 
-    temp_r0_2 = &cs->spr114;
-    temp_r0_2->anim = gUnknown_080D8F00.anim;
-    temp_r0_2->variant = gUnknown_080D8F00.variant;
-    temp_r0_2->prevVariant = 0xFF;
-    temp_r0_2->x = (s16)((s32)cs->qUnk64 >> 8);
-    temp_r0_2->y = (s16)((s32)cs->qUnk68 >> 8);
-    temp_r0_2->oamFlags = 0x40;
-    temp_r0_2->animCursor = 0;
-    temp_r0_2->qAnimDelay = 0;
-    temp_r0_2->animSpeed = 0x10;
-    temp_r0_2->palId = 0;
-    temp_r0_2->frameFlags = 0;
-    UpdateSpriteAnimation(temp_r0_2);
+    {
+        Sprite *s = &cs->spr114;
+        s->anim = gUnknown_080D8F00.anim;
+        s->variant = gUnknown_080D8F00.variant;
+        s->prevVariant = -1;
+        s->x = I(cs->qUnk64);
+        s->y = I(cs->qUnk68);
+        s->oamFlags = 0x40;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
 }
 
 void sub_809A8D0(CharacterSelect *cs, u8 param1)
@@ -2190,13 +2189,14 @@ void sub_809A8D0(CharacterSelect *cs, u8 param1)
     Background *bg;
 
     gDispCnt |= DISPCNT_BG1_ON;
-    gBgCntRegs[1] = 0x38C;
+
+    gBgCntRegs[1] = BGCNT_SCREENBASE(3) | BGCNT_CHARBASE(3) | BGCNT_256COLOR | BGCNT_PRIORITY(0);
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = 0;
     bg = &cs->bg1F4;
-    bg->graphics.dest = (void *)BG_VRAM + 0xC000;
+    bg->graphics.dest = BG_CHAR_ADDR(3);
     bg->graphics.anim = 0;
-    bg->layoutVram = (u16 *)BG_SCREEN_ADDR(3);
+    bg->layoutVram = BG_SCREEN_ADDR(3);
     bg->unk18 = 0;
     bg->unk1A = 0;
     bg->tilemapId = gUnknown_080D8CDC[param1 - 2];
@@ -2204,8 +2204,8 @@ void sub_809A8D0(CharacterSelect *cs, u8 param1)
     bg->unk20 = 0;
     bg->unk22 = 0;
     bg->unk24 = 0;
-    bg->targetTilesX = 0x10;
-    bg->targetTilesY = 0x10;
+    bg->targetTilesX = 128 / TILE_WIDTH;
+    bg->targetTilesY = 128 / TILE_WIDTH;
     bg->paletteOffset = 0;
     bg->flags = 5;
     DrawBackground(bg);
@@ -2231,16 +2231,17 @@ void sub_809A9A0(CharacterSelect *cs)
 {
     Background *bg;
 
-    gDispCnt = 0x1541;
-    gBgCntRegs[2] = 0x1B89;
+    gDispCnt = DISPCNT_OBJ_ON | DISPCNT_BG0_ON | DISPCNT_BG2_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_1;
+
+    gBgCntRegs[2] = BGCNT_SCREENBASE(27) | BGCNT_CHARBASE(2) | BGCNT_256COLOR | BGCNT_PRIORITY(1);
     gBgScrollRegs[2][0] = 0;
     gBgScrollRegs[2][1] = 0;
     cs->qUnk4C = Q(120);
     cs->qUnk50 = Q(85);
     bg = &cs->bg234;
-    bg->graphics.dest = (void *)BG_VRAM + 0x8000;
+    bg->graphics.dest = BG_CHAR_ADDR(2);
     bg->graphics.anim = 0;
-    bg->layoutVram = (u16 *)BG_SCREEN_ADDR(27);
+    bg->layoutVram = BG_SCREEN_ADDR(27);
     bg->unk18 = 0;
     bg->unk1A = 0;
     bg->tilemapId = gUnknown_080D8CDC[15];
@@ -2248,17 +2249,16 @@ void sub_809A9A0(CharacterSelect *cs)
     bg->unk20 = 0;
     bg->unk22 = 0;
     bg->unk24 = 0;
-    bg->targetTilesX = 0x10;
-    bg->targetTilesY = 0x10;
+    bg->targetTilesX = 128 / TILE_WIDTH;
+    bg->targetTilesY = 128 / TILE_WIDTH;
     bg->paletteOffset = 0;
-    bg->flags = 6;
+    bg->flags = BACKGROUND_FLAG_4 | BACKGROUND_FLAGS_BG_ID(2);
     DrawBackground(bg);
 }
 
 void Task_809AA28(void)
 {
     CharacterSelect *cs = TASK_DATA(gCurTask);
-    Sprite *temp_r0;
 
     sub_809ADF0(cs);
     sub_809AE50(cs);
@@ -2272,14 +2272,18 @@ void Task_809AA28(void)
         cs->qUnk40 = Q(DISPLAY_CENTER_Y);
         cs->unk3 = cs->unk5;
     }
-    temp_r0 = &cs->spr9C;
-    temp_r0->anim = gUnknown_080D8D08[cs->language * 8].anim;
-    temp_r0->variant = gUnknown_080D8D08[cs->language * 8].variant;
-    UpdateSpriteAnimation(temp_r0);
+
+    {
+        Sprite *s = &cs->spr9C;
+        s->anim = gUnknown_080D8D08[cs->language * 8].anim;
+        s->variant = gUnknown_080D8D08[cs->language * 8].variant;
+        UpdateSpriteAnimation(s);
+    }
+
     cs->unkB = 4;
     cs->unk12 = 0;
     cs->qUnk4C = Q(120);
-    cs->qUnk50 = 0x5500;
+    cs->qUnk50 = Q(85);
     gCurTask->main = Task_8098DE4;
 }
 
@@ -2287,7 +2291,6 @@ void Task_809AABC(void)
 {
     CharacterSelect *cs = TASK_DATA(gCurTask);
     Background *temp_r3;
-    u16 var_r0;
     u8 var_r0_2;
     u32 temp_r2;
     u8 temp_r5;
@@ -2303,34 +2306,33 @@ void Task_809AABC(void)
     sub_809B41C(cs);
 
     if (sub_809AC44(cs, 1U) == 1) {
-        cs->qUnk34 = 0x14000;
+        cs->qUnk34 = Q(320);
         cs->unk3 = cs->unk5;
         cs->unkB = 0x1F;
         cs->qUnk3C = Q(DISPLAY_CENTER_X);
         cs->qUnk40 = Q(DISPLAY_CENTER_Y);
         temp_r3 = &cs->bg234;
         temp_r5 = gUnknown_080D8F18[cs->unk5];
-        temp_r3->graphics.dest = (void *)(BG_VRAM + 0x8000);
+        temp_r3->graphics.dest = BG_CHAR_ADDR(2);
         temp_r3->graphics.anim = 0;
-        temp_r3->layoutVram = (u16 *)BG_SCREEN_ADDR(27);
+        temp_r3->layoutVram = BG_SCREEN_ADDR(27);
         temp_r3->unk18 = 0;
         temp_r3->unk1A = 0;
-
         if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r5])) {
             temp_r3->tilemapId = gUnknown_080D8CDC[16];
         } else {
             temp_r3->tilemapId = gUnknown_080D8CDC[temp_r5 + 5];
         }
-
         temp_r3->unk1E = 0;
         temp_r3->unk20 = 0;
         temp_r3->unk22 = 0;
         temp_r3->unk24 = 0;
-        temp_r3->targetTilesX = 0x10;
-        temp_r3->targetTilesY = 0x10;
+        temp_r3->targetTilesX = 128 / TILE_WIDTH;
+        temp_r3->targetTilesY = 128 / TILE_WIDTH;
         temp_r3->paletteOffset = 0;
         temp_r3->flags = 6;
         DrawBackground(temp_r3);
+
         cs->qUnk70 = 0x9100;
         gCurTask->main = Task_809AA28;
     } else if ((cs->createIndex == 1) && (sub_809AD08(cs) == 0)) {
@@ -3095,17 +3097,16 @@ u32 sub_809B548(CharacterSelect *cs, u8 param1)
 
 void sub_809B5D0(CharacterSelect *cs)
 {
-    Background *temp_r0;
-    s16 character;
+    Background *bg = &cs->bg1F4;
+    s16 character = gUnknown_080D8F18[cs->unk5];
 
-    temp_r0 = &cs->bg1F4;
-    character = gUnknown_080D8F18[cs->unk5];
-    gDispCnt |= 0x200;
-    temp_r0->graphics.dest = (void *)(BG_VRAM + 0xC000);
-    temp_r0->layoutVram = (u16 *)(BG_VRAM + 0x1800);
-    temp_r0->tilemapId = gUnknown_080D8CDC[character + 0xA];
-    temp_r0->flags = 1;
-    DrawBackground(temp_r0);
+    gDispCnt |= DISPCNT_BG1_ON;
+
+    bg->graphics.dest = BG_CHAR_ADDR(3);
+    bg->layoutVram = BG_SCREEN_ADDR(3);
+    bg->tilemapId = gUnknown_080D8CDC[character + 10];
+    bg->flags = 1;
+    DrawBackground(bg);
     cs->unkB = 3;
     if (cs->createIndex == 1) {
         sub_809B700(cs);

@@ -135,7 +135,7 @@ void Task_TimeRecordScreenInit(void)
 {
     TimeRecordScreen *trs = TASK_DATA(gCurTask);
 
-    DmaFill32(3, 0, (void *)BG_CHAR_ADDR_FROM_BGCNT(2), 0x40);
+    DmaFill32(3, 0, BG_CHAR_ADDR_FROM_BGCNT(2), 0x40);
 
     gBgSprites_Unknown1[0] = 0;
     gBgSprites_Unknown2[0][0] = 0;
@@ -293,7 +293,7 @@ void sub_8094A98(TimeRecordScreen *trs)
     trs->vramA0 += gUnknown_080D8AE4.numTiles << 5;
     s->anim = gUnknown_080D8AE4.anim;
     s->variant = gUnknown_080D8AE4.variant;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->x = (s16)((s32)trs->unk60 >> 8);
     s->y = (s16)((s32)trs->unk64 >> 8);
     s->oamFlags = 0x80;
@@ -477,9 +477,9 @@ void sub_8094F3C(TimeRecordScreen *trs)
     gBgScrollRegs[0][1] = 0;
 
     bg0 = &trs->bg50C;
-    bg0->graphics.dest = (void *)BG_CHAR_ADDR(0);
+    bg0->graphics.dest = BG_CHAR_ADDR(0);
     bg0->graphics.anim = 0;
-    bg0->layoutVram = (u16 *)BG_SCREEN_ADDR(6);
+    bg0->layoutVram = BG_SCREEN_ADDR(6);
     bg0->unk18 = 0;
     bg0->unk1A = 0;
     bg0->tilemapId = TM_UNKNOWN_353;
@@ -499,9 +499,9 @@ void sub_8094F3C(TimeRecordScreen *trs)
     gBgScrollRegs[1][1] = 128;
 
     bg1 = &trs->bg4CC;
-    bg1->graphics.dest = (void *)BG_CHAR_ADDR(1);
+    bg1->graphics.dest = BG_CHAR_ADDR(1);
     bg1->graphics.anim = 0;
-    bg1->layoutVram = (u16 *)BG_SCREEN_ADDR(14);
+    bg1->layoutVram = BG_SCREEN_ADDR(14);
     bg1->unk18 = 0;
     bg1->unk1A = 0;
     bg1->tilemapId = TM_UNKNOWN_354;
@@ -521,9 +521,9 @@ void sub_8094F3C(TimeRecordScreen *trs)
     gBgScrollRegs[2][1] = 0;
 
     bg2 = &trs->bg48C;
-    bg2->graphics.dest = (void *)BG_CHAR_ADDR(2);
+    bg2->graphics.dest = BG_CHAR_ADDR(2);
     bg2->graphics.anim = 0;
-    bg2->layoutVram = (u16 *)BG_SCREEN_ADDR(22);
+    bg2->layoutVram = BG_SCREEN_ADDR(22);
     bg2->unk18 = 0;
     bg2->unk1A = 0;
     bg2->tilemapId = TM_UNKNOWN_355;

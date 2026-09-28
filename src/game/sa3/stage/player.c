@@ -9768,7 +9768,7 @@ void sub_800FF68(Player *p)
     s->oamFlags = 0x2C0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->animSpeed = 0x10;
     s->palId = 0;
     s->hitboxes[0].index = -1;
@@ -12508,7 +12508,7 @@ void sub_801300C(s16 playerId)
     s->qAnimDelay = 0;
     s->prevAnim = 0xFFFF;
     s->variant = p->charFlags.state1;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->animSpeed = 0x10;
     s->palId = playerId;
     s->hitboxes[0].index = -1;
@@ -12571,7 +12571,7 @@ void sub_801310C(s16 playerIndex)
     }
     s->oamFlags = SPRITE_OAM_ORDER(prio);
     s->qAnimDelay = 0;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = (s8)playerIndex;
     s->hitboxes[0].index = -1;
@@ -15362,7 +15362,7 @@ void sub_80173F0(Player *p)
     s->qAnimDelay = 0;
     s->prevAnim = 0xFFFF;
     s->variant = 1;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->animSpeed = 0x10;
     s->palId = 0;
     s->hitboxes[0].index = -1;
@@ -15769,7 +15769,7 @@ void sub_8017BFC(Player *p)
     strc->s.qAnimDelay = 0;
     strc->s.prevAnim = 0xFFFF;
     strc->s.variant = 3;
-    strc->s.prevVariant = 0xFF;
+    strc->s.prevVariant = -1;
     strc->s.animSpeed = 0x10;
     strc->s.palId = 0;
     strc->s.hitboxes[0].index = -1;
@@ -15833,7 +15833,7 @@ void Player_8017D18(Player *p)
         s->qAnimDelay = 0;
         s->prevAnim = 0xFFFF;
         s->variant = 0;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->animSpeed = 0x10;
         s->palId = 0;
         s->hitboxes[0].index = -1;
@@ -15868,7 +15868,7 @@ void sub_8017DB4(Player *p)
         s->qAnimDelay = 0;
         s->prevAnim = 0xFFFF;
         s->variant = 0;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->animSpeed = 0x10;
         s->palId = 0;
         s->hitboxes[0].index = -1;
@@ -15904,7 +15904,7 @@ void Player_8017E50(Player *p)
         s->qAnimDelay = 0;
         s->prevAnim = 0xFFFF;
         s->variant = 0;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->animSpeed = 0x10;
         s->palId = 0;
         s->hitboxes[0].index = -1;
@@ -15940,7 +15940,7 @@ void sub_8017EF4(Player *p)
         s->qAnimDelay = 0;
         s->prevAnim = 0xFFFF;
         s->variant = 0;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->animSpeed = 0x10;
         s->palId = 0;
         s->hitboxes[0].index = -1;
@@ -15975,7 +15975,7 @@ void sub_8017F98(Player *p)
         s->qAnimDelay = 0;
         s->prevAnim = 0xFFFF;
         s->variant = 0;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->animSpeed = 0x10;
         s->palId = 0;
         s->hitboxes[0].index = -1;
@@ -16011,7 +16011,7 @@ void sub_8018034(Player *p)
         s->qAnimDelay = 0;
         s->prevAnim = 0xFFFF;
         s->variant = 0;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->animSpeed = 0x10;
         s->palId = 0;
         s->hitboxes[0].index = -1;
@@ -21877,7 +21877,7 @@ void Task_801F0DC(void)
     s->variant = variant;
     s->qAnimDelay = 0;
     s->prevAnim = 0xFFFF;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->hitboxes[0].index = -1;
     s->hitboxes[1].index = -1;
     gCurTask->main = Task_801F184;

@@ -367,7 +367,7 @@ Task *CreateEggGravity(u8 *bossPhase, s32 worldX, s32 worldY)
     s->oamFlags = 0x540;
     s->animCursor = 0;
     s->qAnimDelay = 0;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->animSpeed = 0x10;
     s->palId = 0;
     s->hitboxes[0].index = -1;
@@ -684,7 +684,7 @@ void Task_D8_8075674(void)
             gemerlAnchor->anim = gUnknown_080D592C[4].anim;
             gemerlAnchor->variant = gUnknown_080D592C[4].pattern;
             gemerlAnchor->prevAnim = 0xFFFF;
-            gemerlAnchor->prevVariant = 0xFF;
+            gemerlAnchor->prevVariant = -1;
             if (boss->unk23 != 0) {
                 boss->unk32 = 0x600;
             } else {
@@ -714,7 +714,7 @@ void Task_D8_8075674(void)
                 gemerlAnchor->anim = gUnknown_080D592C[boss->unk23].anim;
                 gemerlAnchor->variant = gUnknown_080D592C[boss->unk23].pattern;
                 gemerlAnchor->prevAnim = 0xFFFF;
-                gemerlAnchor->prevVariant = 0xFF;
+                gemerlAnchor->prevVariant = -1;
                 if (boss->unk23 != 0) {
                     sub_8077954(boss, 8);
                 } else {
@@ -1012,7 +1012,7 @@ void Task_D8_8075EE8(void)
                 spr80->anim = gUnknown_080D5904[2].anim;
                 spr80->variant = (u8)gUnknown_080D5904[2].pattern;
                 spr80->prevAnim = 0xFFFF;
-                spr80->prevVariant = 0xFF;
+                spr80->prevVariant = -1;
                 sprCockpit->anim = sBoss7AnimsCockpit[2].anim;
                 sprCockpit->variant = (u8)sBoss7AnimsCockpit[2].pattern;
                 sprCockpit->prevAnim = -1;
@@ -2326,7 +2326,7 @@ void sub_8077A3C(Something *arg0, s16 *arg1, s16 *arg2, u8 *vram, u8 *arg4)
         vram += gUnknown_080D59FC[temp_r0_6].numTiles << 5;
         s->anim = gUnknown_080D59FC[temp_r0_6].anim;
         s->variant = gUnknown_080D59FC[temp_r0_6].variant;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->x = 0;
         s->y = 0;
         s->oamFlags = 0x480;
@@ -2446,7 +2446,7 @@ void sub_8077D40(EggGravity104 *strc104)
             strc104->vram3C += gUnknown_080D5A44[var_r2].numTiles << 5;
             s->anim = gUnknown_080D5A44[var_r2].anim;
             s->variant = gUnknown_080D5A44[var_r2].variant;
-            s->prevVariant = 0xFF;
+            s->prevVariant = -1;
             s->x = 0;
             s->y = 0;
             s->oamFlags = 0x40;
@@ -2856,7 +2856,7 @@ void sub_80786B4(Arg0_80786B4 *arg0, s32 *arg1, s32 *arg2, u8 *arg3)
     s->tiles = vram;
     s->anim = gUnknown_080D5A44[1].anim;
     s->variant = gUnknown_080D5A44[1].variant;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->x = I(temp_r4->qUnk4Xs[0]);
     s->y = I(temp_r4->qUnkCYs[0]);
     s->oamFlags = 0x80;

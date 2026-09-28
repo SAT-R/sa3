@@ -527,9 +527,9 @@ void sub_8087A48(MainMenu *menu)
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
     bg0 = &menu->bg330;
-    bg0->graphics.dest = (void *)BG_CHAR_ADDR(1);
+    bg0->graphics.dest = BG_CHAR_ADDR(1);
     bg0->graphics.anim = 0;
-    bg0->layoutVram = (u16 *)BG_SCREEN_ADDR(14);
+    bg0->layoutVram = BG_SCREEN_ADDR(14);
     bg0->unk18 = 0;
     bg0->unk1A = 0;
     bg0->tilemapId = TM_UNKNOWN_343;
@@ -547,9 +547,9 @@ void sub_8087A48(MainMenu *menu)
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = 0;
     bg1 = &menu->bg3A0;
-    bg1->graphics.dest = (void *)BG_CHAR_ADDR(0);
+    bg1->graphics.dest = BG_CHAR_ADDR(0);
     bg1->graphics.anim = 0;
-    bg1->layoutVram = (u16 *)BG_SCREEN_ADDR(6);
+    bg1->layoutVram = BG_SCREEN_ADDR(6);
     bg1->unk18 = 0;
     bg1->unk1A = 0;
     bg1->tilemapId = TM_UNKNOWN_344;
@@ -567,9 +567,9 @@ void sub_8087A48(MainMenu *menu)
     gBgScrollRegs[2][0] = 0;
     gBgScrollRegs[2][1] = 0;
     bg2 = &menu->bg370;
-    bg2->graphics.dest = (void *)BG_CHAR_ADDR(2);
+    bg2->graphics.dest = BG_CHAR_ADDR(2);
     bg2->graphics.anim = 0;
-    bg2->layoutVram = (u16 *)BG_SCREEN_ADDR(24);
+    bg2->layoutVram = BG_SCREEN_ADDR(24);
     bg2->unk18 = 0;
     bg2->unk1A = 0;
     if (menu->initArg1 == 2 || menu->initArg1 == 3) {
@@ -1934,7 +1934,7 @@ void sub_8089704(MainMenu *menu)
     s = &menu->spr2AC;
     s->anim = gUnknown_080D6694[menu->unkB].anim;
     s->variant = gUnknown_080D6694[menu->unkB].variant;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->x = (s16)((s32)menu->unk58 >> 8);
     s->y = (s16)((s32)menu->unk5C >> 8);
     temp_r0_2 = menu->unk6;
@@ -1979,7 +1979,7 @@ void Task_3F0_80897BC(void)
         var_r7 += 0x800;
         temp_r1->anim = gUnknown_080D6594[var_r6 + (menu->language * 2)].anim;
         temp_r1->variant = gUnknown_080D6594[var_r6 + (menu->language * 2)].variant;
-        temp_r1->prevVariant = 0xFF;
+        temp_r1->prevVariant = -1;
         temp_r1->x = (s16)((s32)menu->unk38[0].x >> 8);
         temp_r1->y = (s16)((s32)menu->unk38[0].y >> 8);
         temp_r1->oamFlags = 0xC0;
@@ -1997,7 +1997,7 @@ void Task_3F0_80897BC(void)
         var_r7 += 0x800;
         temp_r1->anim = gUnknown_080D65F4[var_r6 + (menu->language * 2)].anim;
         temp_r1->variant = gUnknown_080D65F4[var_r6 + (menu->language * 2)].variant;
-        temp_r1->prevVariant = 0xFF;
+        temp_r1->prevVariant = -1;
         temp_r1->x = (s16)((s32)menu->unk38[1].x >> 8);
         temp_r1->y = (s16)((s32)menu->unk38[1].y >> 8);
         temp_r1->oamFlags = 0xC0;

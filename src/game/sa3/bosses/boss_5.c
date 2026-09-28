@@ -188,7 +188,7 @@ Task *CreateEggChaserBoss(u8 *bossPhase, s32 worldX, s32 worldY)
         s->oamFlags = 0x280;
         s->animCursor = 0;
         s->qAnimDelay = 0;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->animSpeed = 0x10;
         s->palId = 0;
         s->hitboxes[0].index = -1;
@@ -433,7 +433,7 @@ void Task_Chaser_8071E94(void)
                     sprCockpit->variant = 0;
                     break;
             }
-            sprCockpit->prevVariant = 0xFF;
+            sprCockpit->prevVariant = -1;
         }
         sub_80735C4(boss);
     }
@@ -1048,7 +1048,7 @@ void sub_8072DA4(EggChaserBoss *boss)
         PlayVoiceEggmanHit();
         boss->unk13 = 0x7A;
         sprEggman->variant = 2;
-        sprEggman->prevVariant = 0xFF;
+        sprEggman->prevVariant = -1;
         sub_8078DB0(0x4DD, 0, 0x7A, 0U);
         sub_8078DB0(0x4DE, 0, 0x7A, 0U);
         if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
@@ -1083,7 +1083,7 @@ void CreateChaserPlatform(s32 x, s32 y, EggChaserBoss *boss)
     s->oamFlags = 0x600;
     s->animCursor = 0;
     s->qAnimDelay = 0;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->animSpeed = 0x10;
     s->palId = 0;
     s->hitboxes[0].index = -1;

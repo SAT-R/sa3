@@ -951,7 +951,7 @@ void sub_800341C(void)
         s->qAnimDelay = 0;
         s->prevAnim = 0xFFFF;
         s->variant = temp_r5;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->animSpeed = 0x10;
         s->palId = 0;
         s->hitboxes[0].index = -1;

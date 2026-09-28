@@ -376,9 +376,9 @@ void sub_8053440(Strc_220_sub_8053128 *strc220)
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
 
-    bg->graphics.dest = (void *)BG_CHAR_ADDR(0);
+    bg->graphics.dest = BG_CHAR_ADDR(0);
     bg->graphics.anim = 0;
-    bg->layoutVram = (u16 *)BG_SCREEN_ADDR(3);
+    bg->layoutVram = BG_SCREEN_ADDR(3);
     bg->unk18 = 0;
     bg->unk1A = 0;
     bg->tilemapId = TM_UNKNOWN_422;
@@ -416,7 +416,7 @@ void sub_80534DC(Strc_220_sub_8053128 *strc220, s16 character1, s16 character2)
     s->qAnimDelay = 0;
     s->prevAnim = -1;
     s->variant = gUnknown_080D1C48[character1][0][1];
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->animSpeed = 0x10;
     s->palId = 0;
     s->hitboxes[0].index = -1;
@@ -1241,7 +1241,7 @@ void Task_274_80548E0(Strc_274_8053284 *strc)
     s->x = strc->someXA + strc->someX2;
     s->y = strc->someX0 - 8;
     s->qAnimDelay = matchingZero;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->animSpeed = 0x10;
     s->palId = matchingZero;
     s->hitboxes[0].index = -1;
@@ -1465,7 +1465,7 @@ void Task_274_80548E0(Strc_274_8053284 *strc)
     s->x = DISPLAY_CENTER_X;
     s->y = -0x10;
     s->qAnimDelay = 0;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->animSpeed = 0x40;
     s->palId = 0;
     s->hitboxes[0].index = -1;
@@ -2084,7 +2084,7 @@ void sub_8055614(Strc_2A4_8053284 *strc)
     s->x = 0x78;
     s->y = -0x10;
     s->qAnimDelay = 0;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->animSpeed = 0x40;
     s->palId = 0;
     s->hitboxes[0].index = -1;
@@ -2128,7 +2128,7 @@ void sub_8055614(Strc_2A4_8053284 *strc)
         s->x = 0x68;
         s->y = 0x5A;
         s->qAnimDelay = 0;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->animSpeed = 0x10;
         s->palId = 0;
         s->hitboxes[0].index = -1;
@@ -2222,7 +2222,7 @@ void sub_8055E50(Strc_64_8056090 *strc)
     s->x = DISPLAY_CENTER_X;
     s->y = DISPLAY_CENTER_Y;
     s->qAnimDelay = 0;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->animSpeed = 0x10;
     s->palId = 0;
     s->hitboxes[0].index = -1;

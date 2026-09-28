@@ -65,7 +65,7 @@ void Create_gTask_03001CFC(void)
     s->variant = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->animSpeed = 0x20;
     s->palId = 0;
     s->frameFlags = 0x41200;

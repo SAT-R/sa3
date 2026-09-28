@@ -462,9 +462,9 @@ void sub_808D548(SDC_EC *strcEC, u8 arg1)
     gBgScrollRegs[1][1] = 0;
     {
         Background *bg = &strcEC->bg5C;
-        bg->graphics.dest = (void *)BG_CHAR_ADDR(0);
+        bg->graphics.dest = BG_CHAR_ADDR(0);
         bg->graphics.anim = 0;
-        bg->layoutVram = (u16 *)BG_SCREEN_ADDR(6);
+        bg->layoutVram = BG_SCREEN_ADDR(6);
         bg->unk18 = 0;
         bg->unk1A = 0;
         bg->tilemapId = gTilemapIdsConnectionStatus[arg1 + (strcEC->unk18 * 4)];
@@ -489,9 +489,9 @@ void sub_808D5CC(SDC_EC *arg0, u8 arg1)
     gBgScrollRegs[0][1] = 0;
     {
         Background *bg = &arg0->bg1C;
-        bg->graphics.dest = (void *)BG_CHAR_ADDR(1);
+        bg->graphics.dest = BG_CHAR_ADDR(1);
         bg->graphics.anim = 0;
-        bg->layoutVram = (u16 *)BG_SCREEN_ADDR(14);
+        bg->layoutVram = BG_SCREEN_ADDR(14);
         bg->unk18 = 0;
         bg->unk1A = 0;
         bg->tilemapId = gTilemapIdsConnectionStatus[arg1];
@@ -517,7 +517,7 @@ void sub_808D648(SDC_EC *arg0, s8 arg1)
         arg0->sprC4.tiles = OBJ_VRAM0 + (gUnknown_080D6898[arg0->unk18].numTiles << 5);
         s->anim = gUnknown_080D6EE8[arg1 - 1].anim;
         s->variant = gUnknown_080D6EE8[arg1 - 1].variant;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->x = 113;
         s->y = 103;
         s->oamFlags = 0;
@@ -538,7 +538,7 @@ void sub_808D6BC(SDC_EC *arg0)
     s->tiles = (u8 *)OBJ_VRAM0;
     s->anim = gUnknown_080D6898[arg0->unk18].anim;
     s->variant = gUnknown_080D6898[arg0->unk18].variant;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->x = 120;
     s->y = 0x8C;
     s->oamFlags = 0;

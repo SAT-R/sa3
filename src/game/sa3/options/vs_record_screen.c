@@ -364,9 +364,9 @@ void sub_8096EB8(OptionsVsRecordScreen *vsRecScreen)
     gBgScrollRegs[0][1] = 0;
 
     bg0 = &vsRecScreen->bgF38;
-    bg0->graphics.dest = (void *)BG_CHAR_ADDR(0);
+    bg0->graphics.dest = BG_CHAR_ADDR(0);
     bg0->graphics.anim = 0;
-    bg0->layoutVram = (u16 *)BG_SCREEN_ADDR(6);
+    bg0->layoutVram = BG_SCREEN_ADDR(6);
     bg0->unk18 = 0;
     bg0->unk1A = 0;
     bg0->tilemapId = TM_UNKNOWN_351;
@@ -389,9 +389,9 @@ void sub_8096EB8(OptionsVsRecordScreen *vsRecScreen)
     gBgScrollRegs[2][1] = 0;
 
     bg2 = &vsRecScreen->bgF78;
-    bg2->graphics.dest = (void *)BG_CHAR_ADDR(3);
+    bg2->graphics.dest = BG_CHAR_ADDR(3);
     bg2->graphics.anim = 0;
-    bg2->layoutVram = (u16 *)BG_SCREEN_ADDR(30);
+    bg2->layoutVram = BG_SCREEN_ADDR(30);
     bg2->unk18 = 0;
     bg2->unk1A = 0;
     bg2->tilemapId = TM_UNKNOWN_356;
@@ -506,7 +506,7 @@ void sub_80971FC(void)
     temp_r5 = vsRecScreen->unk2A;
     if (temp_r5 == 0) {
         gBldRegs.bldCnt = 0x3FFF;
-        gDispCnt |= 0x6000;
+        gDispCnt |= DISPCNT_WIN0_ON | DISPCNT_WIN1_ON;
         gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, (int_vcount)-1); // TODO: Do the range set properly!
         gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, (int_vcount)-1); // TODO: Do the range set properly!
         gWinRegs[WINREG_WININ] = 0x3336;

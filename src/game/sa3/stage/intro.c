@@ -314,7 +314,7 @@ void CreateStageIntro(void)
         s->anim = ANIM_ACT_MEDALS;
         s->variant = var_r4;
         s->qAnimDelay = 0;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->animSpeed = 0x10;
         s->palId = 0;
         s->x = 0;
@@ -416,9 +416,9 @@ void Task_70_8057054(void)
     gWinRegs[WINREG_WIN1V] = WIN_RANGE(strc70->unk1, strc70->unk2);
     zone = gStageData.zone;
     bg = &strc70->bg;
-    bg->graphics.dest = (void *)(BG_VRAM + 0x8000);
+    bg->graphics.dest = BG_CHAR_ADDR(2);
     bg->graphics.anim = 0;
-    bg->layoutVram = (void *)(BG_VRAM + 0xA000);
+    bg->layoutVram = BG_SCREEN_ADDR(20);
     bg->unk18 = 0;
     bg->unk1A = 0;
     bg->tilemapId = 354;
@@ -927,9 +927,9 @@ void Task_84_8057B70()
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = (temp_r6 * 24) - 68;
     bg = &strc84->bg;
-    bg->graphics.dest = (void *)(BG_VRAM + 0x8000);
+    bg->graphics.dest = BG_CHAR_ADDR(2);
     bg->graphics.anim = 0;
-    bg->layoutVram = (void *)(BG_VRAM + 0xA000);
+    bg->layoutVram = BG_SCREEN_ADDR(20);
     bg->unk18 = 0;
     bg->unk1A = 0;
     bg->tilemapId = 354;

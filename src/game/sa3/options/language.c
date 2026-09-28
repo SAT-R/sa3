@@ -103,7 +103,7 @@ void sub_808FCF4(OptionsLanguage *lang)
         Background *bg = &lang->bg20C;
         bg->graphics.dest = (void *)BG_VRAM;
         bg->graphics.anim = 0;
-        bg->layoutVram = (u16 *)BG_SCREEN_ADDR(6);
+        bg->layoutVram = BG_SCREEN_ADDR(6);
         bg->unk18 = 0;
         bg->unk1A = 0;
         bg->tilemapId = 349;
@@ -125,9 +125,9 @@ void sub_808FCF4(OptionsLanguage *lang)
     {
         Background *bg;
         bg = &lang->bg1CC;
-        bg->graphics.dest = (void *)(BG_VRAM + 0x4000);
+        bg->graphics.dest = BG_CHAR_ADDR(1);
         bg->graphics.anim = 0;
-        bg->layoutVram = (u16 *)BG_SCREEN_ADDR(30);
+        bg->layoutVram = BG_SCREEN_ADDR(30);
         bg->unk18 = 0;
         bg->unk1A = 0;
         bg->tilemapId = 350;

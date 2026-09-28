@@ -87,8 +87,8 @@ extern uint8_t OAM[OAM_SIZE];
 #define BG_VRAM           &VRAM[0]
 #define BG_CHAR_ADDR(n)   (((u8*)BG_VRAM) + (0x4000 * (n)))
 #define BG_CHAR_ADDR_FROM_BGCNT(bg)   (BG_VRAM + ((gBgCntRegs[bg] & BGCNT_CHARBASE(0x3)) << 12))
-#define BG_SCREEN_ADDR(n) (((u8*)BG_VRAM) + (0x800 * (n)))
-#define BG_TILE_ADDR(n)   (((u8*)BG_VRAM) + (0x80 * (n)))
+#define BG_SCREEN_ADDR(n) (void*)(((u8*)BG_VRAM) + (0x800 * (n)))
+#define BG_TILE_ADDR(n)   (void*)(((u8*)BG_VRAM) + (0x80 * (n)))
 
 #define OBJ_VRAM0         &VRAM[0x10000]
 #define OBJ_VRAM1         &VRAM[0x14000]
@@ -115,11 +115,11 @@ extern uint8_t OAM[OAM_SIZE];
 #define VRAM      0x6000000
 
 #define BG_VRAM           VRAM
-#define BG_CHAR_ADDR(n)   (BG_VRAM + ((n) << 14))
+#define BG_CHAR_ADDR(n)   (void*)(BG_VRAM + ((n) << 14))
 #define BG_CHAR_ADDR_FROM_BGCNT(bg)   ((u8*)BG_VRAM + ((gBgCntRegs[bg] & BGCNT_CHARBASE(0x3)) << 12))
 // TODO: Maybe rename BG_SCREEN_ADDR
-#define BG_SCREEN_ADDR(n) (((u8*)BG_VRAM) + (0x800 * (n)))
-#define BG_TILE_ADDR(n)   (((u8*)BG_VRAM) + (0x80 * (n)))
+#define BG_SCREEN_ADDR(n) (void*)(((u8*)BG_VRAM) + (0x800 * (n)))
+#define BG_TILE_ADDR(n)   (void*)(((u8*)BG_VRAM) + (0x80 * (n)))
 
 // text-mode BG
 #define OBJ_VRAM0      (u8*)(VRAM + 0x10000)

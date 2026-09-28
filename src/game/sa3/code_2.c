@@ -786,9 +786,9 @@ void sub_809C274(Code_2_0__570 *arg0)
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
     bg = &arg0->bg530;
-    bg->graphics.dest = (void *)BG_CHAR_ADDR(0);
+    bg->graphics.dest = BG_CHAR_ADDR(0);
     bg->graphics.anim = 0;
-    bg->layoutVram = (u16 *)BG_SCREEN_ADDR(24);
+    bg->layoutVram = BG_SCREEN_ADDR(24);
     bg->unk18 = 0;
     bg->unk1A = 0;
     bg->tilemapId = TM_MULTI_VS_BACKDROP;
@@ -805,9 +805,9 @@ void sub_809C274(Code_2_0__570 *arg0)
     gBgCntRegs[1] = BGCNT_TXT256x512 | BGCNT_SCREENBASE(24) | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(0);
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = DISPLAY_HEIGHT;
-    bg->graphics.dest = (void *)BG_CHAR_ADDR(0);
+    bg->graphics.dest = BG_CHAR_ADDR(0);
     bg->graphics.anim = 0;
-    bg->layoutVram = (u16 *)BG_SCREEN_ADDR(24);
+    bg->layoutVram = BG_SCREEN_ADDR(24);
     bg->unk18 = 0;
     bg->unk1A = 0;
     bg->tilemapId = TM_MULTI_VS_BACKDROP;
@@ -1264,7 +1264,7 @@ void sub_809CC80(u8 *vram, u8 *param1, u8 param2)
         vram += gUnknown_080D9640[i].numTiles * TILE_SIZE_4BPP;
         s->anim = gUnknown_080D9640[i].anim;
         s->variant = gUnknown_080D9640[i].variant;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->x = I(strc->unkC[i].x);
         s->y = I(strc->unkC[i].y);
         s->oamFlags = 0x200;
@@ -1422,7 +1422,7 @@ void sub_809CFA8(u8 *vram, u8 *someData)
 
     s->anim = gUnknown_080D9678[3].anim;
     s->variant = gUnknown_080D9678[3].variant;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->x = I(strc->qUnkC);
     s->y = I(strc->qUnk10);
     s->oamFlags = 0x1C0;
@@ -2724,7 +2724,7 @@ void sub_809E978(Code_2_2 *strc)
     vram += gUnknown_080D98D8[temp_r5].numTiles * TILE_SIZE_4BPP;
     s->anim = gUnknown_080D98D8[temp_r5].anim;
     s->variant = gUnknown_080D98D8[temp_r5].variant;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->x = I(strc->unk20);
     s->y = I(strc->unk24);
     s->oamFlags = 0;
@@ -2840,9 +2840,9 @@ void sub_809EB74(Code_2_2 *strc)
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = -0x78;
     bg = &strc->bg1A0;
-    bg->graphics.dest = (void *)BG_CHAR_ADDR(2);
+    bg->graphics.dest = BG_CHAR_ADDR(2);
     bg->graphics.anim = 0;
-    bg->layoutVram = (u16 *)BG_SCREEN_ADDR(24);
+    bg->layoutVram = BG_SCREEN_ADDR(24);
     bg->unk18 = 0;
     bg->unk1A = 0;
     bg->tilemapId = TM_UNKNOWN_354;
@@ -2868,9 +2868,9 @@ void Task_809EBF4()
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
     bg = &strc->bg160;
-    bg->graphics.dest = (void *)BG_CHAR_ADDR(0);
+    bg->graphics.dest = BG_CHAR_ADDR(0);
     bg->graphics.anim = 0;
-    bg->layoutVram = (u16 *)BG_SCREEN_ADDR(14);
+    bg->layoutVram = BG_SCREEN_ADDR(14);
     bg->unk18 = 0;
     bg->unk1A = 0;
     bg->tilemapId = TM_UNKNOWN_374;

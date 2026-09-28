@@ -425,7 +425,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_6__Task_Boss_8073BE0.inc", void Task
     if (boss->unk3E != 0) {
         if (--boss->unk3E == 0) {
             s->variant = 0;
-            s->prevVariant = 0xFF;
+            s->prevVariant = -1;
         }
     }
 
@@ -882,7 +882,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_6__sub_807467C.inc", void sub_807467
     temp_r7->tiles = boss->vram54;
     temp_r7->anim = ANIM_BOSS_6_BALL;
     temp_r7->variant = 1;
-    temp_r7->prevVariant = 0xFF;
+    temp_r7->prevVariant = -1;
 
     if (inPlayer->charFlags.anim0 == 0xD4) {
         Player_800DB30(inPlayer);

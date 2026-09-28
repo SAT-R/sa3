@@ -329,158 +329,160 @@ const Background gStageCameraBgTemplates[4] = {
 
 const u16 gCameraMaxCoords[NUM_LEVEL_IDS][2] = {
     /*        maxX,   maxY */
-    [0] = { 0x0000, 0x0000 }, //
-    [1] = { 0x0240, 0x0120 }, //
-    [2] = { 0x0B40, 0x0360 }, //
-    [3] = { 0x3300, 0x0CC0 }, //
-    [4] = { 0x3660, 0x0B40 }, //
-    [5] = { 0x3420, 0x0D20 }, //
-    [6] = { 0x0000, 0x0000 }, //
-    [7] = { 0x0960, 0x0120 }, //
-    [8] = { 0x0120, 0x00C0 }, //
-    [9] = { 0x0420, 0x03C0 }, //
-    [10] = { 0x0000, 0x0000 }, //
-    [11] = { 0x02A0, 0x0120 }, //
-    [12] = { 0x0660, 0x0480 }, //
-    [13] = { 0x3A20, 0x0960 }, //
-    [14] = { 0x2340, 0x0A20 }, //
-    [15] = { 0x1D40, 0x0C60 }, //
-    [16] = { 0x0000, 0x0000 }, //
-    [17] = { 0x0840, 0x01E0 }, //
-    [18] = { 0x0120, 0x00C0 }, //
-    [19] = { 0x0420, 0x03C0 }, //
-    [20] = { 0x0000, 0x0000 }, //
-    [21] = { 0x0000, 0x0000 }, //
-    [22] = { 0x05A0, 0x06C0 }, //
-    [23] = { 0x14A0, 0x1860 }, //
-    [24] = { 0x1680, 0x1860 }, //
-    [25] = { 0x1860, 0x0F60 }, //
-    [26] = { 0x0000, 0x0000 }, //
-    [27] = { 0x0840, 0x0120 }, //
-    [28] = { 0x0120, 0x00C0 }, //
-    [29] = { 0x0360, 0x0480 }, //
-    [30] = { 0x0000, 0x0000 }, //
-    [31] = { 0x0000, 0x0000 }, //
-    [32] = { 0x0660, 0x0600 }, //
-    [33] = { 0x3420, 0x0D80 }, //
-    [34] = { 0x37E0, 0x0C60 }, //
-    [35] = { 0x1FE0, 0x0B40 }, //
-    [36] = { 0x0000, 0x0000 }, //
-    [37] = { 0x08A0, 0x0120 }, //
-    [38] = { 0x0120, 0x00C0 }, //
-    [39] = { 0x0300, 0x0420 }, //
-    [40] = { 0x0000, 0x0000 }, //
-    [41] = { 0x0000, 0x0000 }, //
-    [42] = { 0x0600, 0x0540 }, //
-    [43] = { 0x3480, 0x0D80 }, //
-    [44] = { 0x33C0, 0x0F60 }, //
-    [45] = { 0x4B00, 0x0BA0 }, //
-    [46] = { 0x0000, 0x0000 }, //
-    [47] = { 0x07E0, 0x0660 }, //
-    [48] = { 0x0120, 0x00C0 }, //
-    [49] = { 0x04E0, 0x0300 }, //
-    [50] = { 0x0000, 0x0000 }, //
-    [51] = { 0x0000, 0x0000 }, //
-    [52] = { 0x0720, 0x0600 }, //
-    [53] = { 0x3CC0, 0x0A80 }, //
-    [54] = { 0x3240, 0x0960 }, //
-    [55] = { 0x32A0, 0x0660 }, //
-    [56] = { 0x0000, 0x0000 }, //
-    [57] = { 0x09C0, 0x01E0 }, //
-    [58] = { 0x0120, 0x00C0 }, //
-    [59] = { 0x0420, 0x03C0 }, //
-    [60] = { 0x0000, 0x0000 }, //
-    [61] = { 0x0000, 0x0000 }, //
-    [62] = { 0x0780, 0x0600 }, //
-    [63] = { 0x4380, 0x0F00 }, //
-    [64] = { 0x5520, 0x1020 }, //
-    [65] = { 0x2EE0, 0x0780 }, //
-    [66] = { 0x0000, 0x0000 }, //
-    [67] = { 0x06C0, 0x0420 }, //
-    [68] = { 0x0120, 0x00C0 }, //
-    [69] = { 0x0420, 0x0420 }, //
-    [70] = { 0x0000, 0x0000 }, //
-    [71] = { 0x0960, 0x0120 }, //
-    [72] = { 0x0B40, 0x00F0 }, //
+    [LEVEL_INDEX(ZONE_1, ACT_DUMMY)] = { 0x0000, 0x0000 }, //
+    [LEVEL_INDEX(ZONE_1, ACT_SPECIAL)] = { 0x0240, 0x0120 }, //
+    [LEVEL_INDEX(ZONE_1, ACT_HUB)] = { 0x0B40, 0x0360 }, //
+    [LEVEL_INDEX(ZONE_1, ACT_1)] = { 0x3300, 0x0CC0 }, //
+    [LEVEL_INDEX(ZONE_1, ACT_2)] = { 0x3660, 0x0B40 }, //
+    [LEVEL_INDEX(ZONE_1, ACT_3)] = { 0x3420, 0x0D20 }, //
+    [LEVEL_INDEX(ZONE_1, ACT_4)] = { 0x0000, 0x0000 }, //
+    [LEVEL_INDEX(ZONE_1, ACT_BOSS)] = { 0x0960, 0x0120 }, //
+    [LEVEL_INDEX(ZONE_1, ACT_BONUS_CAPSULE)] = { 0x0120, 0x00C0 }, //
+    [LEVEL_INDEX(ZONE_1, ACT_BONUS_ENEMIES)] = { 0x0420, 0x03C0 }, //
+    [LEVEL_INDEX(ZONE_2, ACT_DUMMY)] = { 0x0000, 0x0000 }, //
+    [LEVEL_INDEX(ZONE_2, ACT_SPECIAL)] = { 0x02A0, 0x0120 }, //
+    [LEVEL_INDEX(ZONE_2, ACT_HUB)] = { 0x0660, 0x0480 }, //
+    [LEVEL_INDEX(ZONE_2, ACT_1)] = { 0x3A20, 0x0960 }, //
+    [LEVEL_INDEX(ZONE_2, ACT_2)] = { 0x2340, 0x0A20 }, //
+    [LEVEL_INDEX(ZONE_2, ACT_3)] = { 0x1D40, 0x0C60 }, //
+    [LEVEL_INDEX(ZONE_2, ACT_4)] = { 0x0000, 0x0000 }, //
+    [LEVEL_INDEX(ZONE_2, ACT_BOSS)] = { 0x0840, 0x01E0 }, //
+    [LEVEL_INDEX(ZONE_2, ACT_BONUS_CAPSULE)] = { 0x0120, 0x00C0 }, //
+    [LEVEL_INDEX(ZONE_2, ACT_BONUS_ENEMIES)] = { 0x0420, 0x03C0 }, //
+    [LEVEL_INDEX(ZONE_3, ACT_DUMMY)] = { 0x0000, 0x0000 }, //
+    [LEVEL_INDEX(ZONE_3, ACT_SPECIAL)] = { 0x0000, 0x0000 }, //
+    [LEVEL_INDEX(ZONE_3, ACT_HUB)] = { 0x05A0, 0x06C0 }, //
+    [LEVEL_INDEX(ZONE_3, ACT_1)] = { 0x14A0, 0x1860 }, //
+    [LEVEL_INDEX(ZONE_3, ACT_2)] = { 0x1680, 0x1860 }, //
+    [LEVEL_INDEX(ZONE_3, ACT_3)] = { 0x1860, 0x0F60 }, //
+    [LEVEL_INDEX(ZONE_3, ACT_4)] = { 0x0000, 0x0000 }, //
+    [LEVEL_INDEX(ZONE_3, ACT_BOSS)] = { 0x0840, 0x0120 }, //
+    [LEVEL_INDEX(ZONE_3, ACT_BONUS_CAPSULE)] = { 0x0120, 0x00C0 }, //
+    [LEVEL_INDEX(ZONE_3, ACT_BONUS_ENEMIES)] = { 0x0360, 0x0480 }, //
+    [LEVEL_INDEX(ZONE_4, ACT_DUMMY)] = { 0x0000, 0x0000 }, //
+    [LEVEL_INDEX(ZONE_4, ACT_SPECIAL)] = { 0x0000, 0x0000 }, //
+    [LEVEL_INDEX(ZONE_4, ACT_HUB)] = { 0x0660, 0x0600 }, //
+    [LEVEL_INDEX(ZONE_4, ACT_1)] = { 0x3420, 0x0D80 }, //
+    [LEVEL_INDEX(ZONE_4, ACT_2)] = { 0x37E0, 0x0C60 }, //
+    [LEVEL_INDEX(ZONE_4, ACT_3)] = { 0x1FE0, 0x0B40 }, //
+    [LEVEL_INDEX(ZONE_4, ACT_4)] = { 0x0000, 0x0000 }, //
+    [LEVEL_INDEX(ZONE_4, ACT_BOSS)] = { 0x08A0, 0x0120 }, //
+    [LEVEL_INDEX(ZONE_4, ACT_BONUS_CAPSULE)] = { 0x0120, 0x00C0 }, //
+    [LEVEL_INDEX(ZONE_4, ACT_BONUS_ENEMIES)] = { 0x0300, 0x0420 }, //
+    [LEVEL_INDEX(ZONE_5, ACT_DUMMY)] = { 0x0000, 0x0000 }, //
+    [LEVEL_INDEX(ZONE_5, ACT_SPECIAL)] = { 0x0000, 0x0000 }, //
+    [LEVEL_INDEX(ZONE_5, ACT_HUB)] = { 0x0600, 0x0540 }, //
+    [LEVEL_INDEX(ZONE_5, ACT_1)] = { 0x3480, 0x0D80 }, //
+    [LEVEL_INDEX(ZONE_5, ACT_2)] = { 0x33C0, 0x0F60 }, //
+    [LEVEL_INDEX(ZONE_5, ACT_3)] = { 0x4B00, 0x0BA0 }, //
+    [LEVEL_INDEX(ZONE_5, ACT_4)] = { 0x0000, 0x0000 }, //
+    [LEVEL_INDEX(ZONE_5, ACT_BOSS)] = { 0x07E0, 0x0660 }, //
+    [LEVEL_INDEX(ZONE_5, ACT_BONUS_CAPSULE)] = { 0x0120, 0x00C0 }, //
+    [LEVEL_INDEX(ZONE_5, ACT_BONUS_ENEMIES)] = { 0x04E0, 0x0300 }, //
+    [LEVEL_INDEX(ZONE_6, ACT_DUMMY)] = { 0x0000, 0x0000 }, //
+    [LEVEL_INDEX(ZONE_6, ACT_SPECIAL)] = { 0x0000, 0x0000 }, //
+    [LEVEL_INDEX(ZONE_6, ACT_HUB)] = { 0x0720, 0x0600 }, //
+    [LEVEL_INDEX(ZONE_6, ACT_1)] = { 0x3CC0, 0x0A80 }, //
+    [LEVEL_INDEX(ZONE_6, ACT_2)] = { 0x3240, 0x0960 }, //
+    [LEVEL_INDEX(ZONE_6, ACT_3)] = { 0x32A0, 0x0660 }, //
+    [LEVEL_INDEX(ZONE_6, ACT_4)] = { 0x0000, 0x0000 }, //
+    [LEVEL_INDEX(ZONE_6, ACT_BOSS)] = { 0x09C0, 0x01E0 }, //
+    [LEVEL_INDEX(ZONE_6, ACT_BONUS_CAPSULE)] = { 0x0120, 0x00C0 }, //
+    [LEVEL_INDEX(ZONE_6, ACT_BONUS_ENEMIES)] = { 0x0420, 0x03C0 }, //
+    [LEVEL_INDEX(ZONE_7, ACT_DUMMY)] = { 0x0000, 0x0000 }, //
+    [LEVEL_INDEX(ZONE_7, ACT_SPECIAL)] = { 0x0000, 0x0000 }, //
+    [LEVEL_INDEX(ZONE_7, ACT_HUB)] = { 0x0780, 0x0600 }, //
+    [LEVEL_INDEX(ZONE_7, ACT_1)] = { 0x4380, 0x0F00 }, //
+    [LEVEL_INDEX(ZONE_7, ACT_2)] = { 0x5520, 0x1020 }, //
+    [LEVEL_INDEX(ZONE_7, ACT_3)] = { 0x2EE0, 0x0780 }, //
+    [LEVEL_INDEX(ZONE_7, ACT_4)] = { 0x0000, 0x0000 }, //
+    [LEVEL_INDEX(ZONE_7, ACT_BOSS)] = { 0x06C0, 0x0420 }, //
+    [LEVEL_INDEX(ZONE_7, ACT_BONUS_CAPSULE)] = { 0x0120, 0x00C0 }, //
+    [LEVEL_INDEX(ZONE_7, ACT_BONUS_ENEMIES)] = { 0x0420, 0x0420 }, //
+    [LEVEL_INDEX(ZONE_FINAL, ACT_DUMMY)] = { 0x0000, 0x0000 }, //
+    [LEVEL_INDEX(ZONE_FINAL, ACT_ALTAR_EMERALD)] = { 0x0960, 0x0120 }, //
+    [LEVEL_INDEX(ZONE_FINAL, ACT_NONAGGRESSION)] = { 0x0B40, 0x00F0 }, //
 };
 
 const CamBgFuncs sBackgroundProcs[NUM_LEVEL_IDS] = {
-    [0] = { NULL, NULL }, //
-    [1] = { sub_805068C, sub_80512D8 }, //
-    [2] = { sub_8050628, sub_805130C }, //
-    [3] = { sub_805068C, sub_80506E8 }, //
-    [4] = { sub_805068C, sub_80506E8 }, //
-    [5] = { sub_805068C, sub_80506E8 }, //
-    [6] = { NULL, NULL }, //
-    [7] = { sub_805146C, sub_80514A0 }, //
-    [8] = { sub_8050570, sub_805129C }, //
-    [9] = { sub_80505CC, sub_80512AC }, //
-    [10] = { NULL, NULL }, //
-    [11] = { sub_8050440, sub_80512F4 }, //
-    [12] = { sub_8050628, sub_8051344 }, //
-    [13] = { sub_8050804, sub_80514C0 }, //
-    [14] = { sub_8050804, sub_80514C0 }, //
-    [15] = { sub_8050804, sub_80514C0 }, //
-    [16] = { NULL, NULL }, //
-    [17] = { NULL, NULL }, //
-    [18] = { sub_8050570, sub_805129C }, //
-    [19] = { sub_80505CC, sub_80512AC }, //
-    [20] = { NULL, NULL }, //
-    [21] = { NULL, NULL }, //
-    [22] = { sub_8050628, sub_805137C }, //
-    [23] = { sub_8050864, sub_80508D4 }, //
-    [24] = { sub_8050864, sub_80508D4 }, //
-    [25] = { sub_8050864, sub_80508D4 }, //
-    [26] = { NULL, NULL }, //
-    [27] = { NULL, NULL }, //
-    [28] = { sub_8050570, sub_805129C }, //
-    [29] = { sub_80505CC, sub_80512AC }, //
-    [30] = { NULL, NULL }, //
-    [31] = { NULL, NULL }, //
-    [32] = { sub_8050628, sub_80513B4 }, //
-    [33] = { sub_80509B4, sub_8050A0C }, //
-    [34] = { sub_80509B4, sub_8050A0C }, //
-    [35] = { sub_80509B4, sub_8050A0C }, //
-    [36] = { NULL, NULL }, //
-    [37] = { sub_80511E4, sub_8051514 }, //
-    [38] = { sub_8050570, sub_805129C }, //
-    [39] = { sub_80505CC, sub_80512AC }, //
-    [40] = { NULL, NULL }, //
-    [41] = { NULL, NULL }, //
-    [42] = { sub_8050628, sub_80513EC }, //
-    [43] = { sub_8050B14, sub_8050B84 }, //
-    [44] = { sub_8050B14, sub_8050B84 }, //
-    [45] = { sub_8050B14, sub_8050B84 }, //
-    [46] = { NULL, NULL }, //
-    [47] = { sub_8050CA4, sub_8051534 }, //
-    [48] = { sub_8050570, sub_805129C }, //
-    [49] = { sub_80505CC, sub_80512AC }, //
-    [50] = { NULL, NULL }, //
-    [51] = { NULL, NULL }, //
-    [52] = { sub_8050628, sub_80513FC }, //
-    [53] = { sub_805120C, sub_8050D40 }, //
-    [54] = { sub_805120C, sub_8050D40 }, //
-    [55] = { sub_805120C, sub_8050D40 }, //
-    [56] = { NULL, NULL }, //
-    [57] = { NULL, NULL }, //
-    [58] = { sub_8050570, sub_805129C }, //
-    [59] = { sub_80505CC, sub_80512AC }, //
-    [60] = { NULL, NULL }, //
-    [61] = { NULL, NULL }, //
-    [62] = { sub_8050628, sub_8051418 }, //
-    [63] = { sub_8050E18, sub_8051558 }, //
-    [64] = { sub_8050E18, sub_80515A0 }, //
-    [65] = { sub_8050E18, sub_8050E78 }, //
-    [66] = { NULL, NULL }, //
-    [67] = { sub_8051250, sub_80515FC }, //
-    [68] = { sub_8050570, sub_805129C }, //
-    [69] = { sub_80505CC, sub_80512AC }, //
-    [70] = { NULL, NULL }, //
-    [71] = { sub_8051634, sub_8051660 }, //
-    [72] = { sub_8051094, sub_8051664 }, //
+    [LEVEL_INDEX(ZONE_1, ACT_DUMMY)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_1, ACT_SPECIAL)] = { sub_805068C, sub_80512D8 }, //
+    [LEVEL_INDEX(ZONE_1, ACT_HUB)] = { sub_8050628, sub_805130C }, //
+    [LEVEL_INDEX(ZONE_1, ACT_1)] = { sub_805068C, sub_80506E8 }, //
+    [LEVEL_INDEX(ZONE_1, ACT_2)] = { sub_805068C, sub_80506E8 }, //
+    [LEVEL_INDEX(ZONE_1, ACT_3)] = { sub_805068C, sub_80506E8 }, //
+    [LEVEL_INDEX(ZONE_1, ACT_4)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_1, ACT_BOSS)] = { sub_805146C, sub_80514A0 }, //
+    [LEVEL_INDEX(ZONE_1, ACT_BONUS_CAPSULE)] = { sub_8050570, sub_805129C }, //
+    [LEVEL_INDEX(ZONE_1, ACT_BONUS_ENEMIES)] = { sub_80505CC, sub_80512AC }, //
+    [LEVEL_INDEX(ZONE_2, ACT_DUMMY)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_2, ACT_SPECIAL)] = { sub_8050440, sub_80512F4 }, //
+    [LEVEL_INDEX(ZONE_2, ACT_HUB)] = { sub_8050628, sub_8051344 }, //
+    [LEVEL_INDEX(ZONE_2, ACT_1)] = { sub_8050804, sub_80514C0 }, //
+    [LEVEL_INDEX(ZONE_2, ACT_2)] = { sub_8050804, sub_80514C0 }, //
+    [LEVEL_INDEX(ZONE_2, ACT_3)] = { sub_8050804, sub_80514C0 }, //
+    [LEVEL_INDEX(ZONE_2, ACT_4)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_2, ACT_BOSS)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_2, ACT_BONUS_CAPSULE)] = { sub_8050570, sub_805129C }, //
+    [LEVEL_INDEX(ZONE_2, ACT_BONUS_ENEMIES)] = { sub_80505CC, sub_80512AC }, //
+    [LEVEL_INDEX(ZONE_3, ACT_DUMMY)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_3, ACT_SPECIAL)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_3, ACT_HUB)] = { sub_8050628, sub_805137C }, //
+    [LEVEL_INDEX(ZONE_3, ACT_1)] = { sub_8050864, sub_80508D4 }, //
+    [LEVEL_INDEX(ZONE_3, ACT_2)] = { sub_8050864, sub_80508D4 }, //
+    [LEVEL_INDEX(ZONE_3, ACT_3)] = { sub_8050864, sub_80508D4 }, //
+    [LEVEL_INDEX(ZONE_3, ACT_4)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_3, ACT_BOSS)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_3, ACT_BONUS_CAPSULE)] = { sub_8050570, sub_805129C }, //
+    [LEVEL_INDEX(ZONE_3, ACT_BONUS_ENEMIES)] = { sub_80505CC, sub_80512AC }, //
+    [LEVEL_INDEX(ZONE_4, ACT_DUMMY)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_4, ACT_SPECIAL)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_4, ACT_HUB)] = { sub_8050628, sub_80513B4 }, //
+    [LEVEL_INDEX(ZONE_4, ACT_1)] = { sub_80509B4, sub_8050A0C }, //
+    [LEVEL_INDEX(ZONE_4, ACT_2)] = { sub_80509B4, sub_8050A0C }, //
+    [LEVEL_INDEX(ZONE_4, ACT_3)] = { sub_80509B4, sub_8050A0C }, //
+    [LEVEL_INDEX(ZONE_4, ACT_4)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_4, ACT_BOSS)] = { sub_80511E4, sub_8051514 }, //
+    [LEVEL_INDEX(ZONE_4, ACT_BONUS_CAPSULE)] = { sub_8050570, sub_805129C }, //
+    [LEVEL_INDEX(ZONE_4, ACT_BONUS_ENEMIES)] = { sub_80505CC, sub_80512AC }, //
+    [LEVEL_INDEX(ZONE_5, ACT_DUMMY)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_5, ACT_SPECIAL)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_5, ACT_HUB)] = { sub_8050628, sub_80513EC }, //
+    [LEVEL_INDEX(ZONE_5, ACT_1)] = { sub_8050B14, sub_8050B84 }, //
+    [LEVEL_INDEX(ZONE_5, ACT_2)] = { sub_8050B14, sub_8050B84 }, //
+    [LEVEL_INDEX(ZONE_5, ACT_3)] = { sub_8050B14, sub_8050B84 }, //
+    [LEVEL_INDEX(ZONE_5, ACT_4)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_5, ACT_BOSS)] = { sub_8050CA4, sub_8051534 }, //
+    [LEVEL_INDEX(ZONE_5, ACT_BONUS_CAPSULE)] = { sub_8050570, sub_805129C }, //
+    [LEVEL_INDEX(ZONE_5, ACT_BONUS_ENEMIES)] = { sub_80505CC, sub_80512AC }, //
+    [LEVEL_INDEX(ZONE_6, ACT_DUMMY)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_6, ACT_SPECIAL)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_6, ACT_HUB)] = { sub_8050628, sub_80513FC }, //
+    [LEVEL_INDEX(ZONE_6, ACT_1)] = { sub_805120C, sub_8050D40 }, //
+    [LEVEL_INDEX(ZONE_6, ACT_2)] = { sub_805120C, sub_8050D40 }, //
+    [LEVEL_INDEX(ZONE_6, ACT_3)] = { sub_805120C, sub_8050D40 }, //
+    [LEVEL_INDEX(ZONE_6, ACT_4)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_6, ACT_BOSS)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_6, ACT_BONUS_CAPSULE)] = { sub_8050570, sub_805129C }, //
+    [LEVEL_INDEX(ZONE_6, ACT_BONUS_ENEMIES)] = { sub_80505CC, sub_80512AC }, //
+    [LEVEL_INDEX(ZONE_7, ACT_DUMMY)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_7, ACT_SPECIAL)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_7, ACT_HUB)] = { sub_8050628, sub_8051418 }, //
+    [LEVEL_INDEX(ZONE_7, ACT_1)] = { sub_8050E18, sub_8051558 }, //
+    [LEVEL_INDEX(ZONE_7, ACT_2)] = { sub_8050E18, sub_80515A0 }, //
+    [LEVEL_INDEX(ZONE_7, ACT_3)] = { sub_8050E18, sub_8050E78 }, //
+    [LEVEL_INDEX(ZONE_7, ACT_4)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_7, ACT_BOSS)] = { sub_8051250, sub_80515FC }, //
+    [LEVEL_INDEX(ZONE_7, ACT_BONUS_CAPSULE)] = { sub_8050570, sub_805129C }, //
+    [LEVEL_INDEX(ZONE_7, ACT_BONUS_ENEMIES)] = { sub_80505CC, sub_80512AC }, //
+    [LEVEL_INDEX(ZONE_FINAL, ACT_DUMMY)] = { NULL, NULL }, //
+    [LEVEL_INDEX(ZONE_FINAL, ACT_ALTAR_EMERALD)] = { sub_8051634, sub_8051660 }, //
+    [LEVEL_INDEX(ZONE_FINAL, ACT_NONAGGRESSION)] = { sub_8051094, sub_8051664 }, //
 };
-const u16 gUnknown_080D0914[] = { 455, 456, 457, 458, 459, 460 };
-const u16 gUnknown_080D0920[] = { 461, 462, 463, 464, 465, 466 };
+const u16 gUnknown_080D0914[] = { TM_INSTRUCTIONS_BONUS_CAPSULE_JP, TM_INSTRUCTIONS_BONUS_CAPSULE_EN, TM_INSTRUCTIONS_BONUS_CAPSULE_DE,
+                                  TM_INSTRUCTIONS_BONUS_CAPSULE_FR, TM_INSTRUCTIONS_BONUS_CAPSULE_ES, TM_INSTRUCTIONS_BONUS_CAPSULE_IT };
+const u16 gUnknown_080D0920[] = { TM_INSTRUCTIONS_BONUS_ENEMIES_JP, TM_INSTRUCTIONS_BONUS_ENEMIES_EN, TM_INSTRUCTIONS_BONUS_ENEMIES_DE,
+                                  TM_INSTRUCTIONS_BONUS_ENEMIES_FR, TM_INSTRUCTIONS_BONUS_ENEMIES_ES, TM_INSTRUCTIONS_BONUS_ENEMIES_IT };
 const s8 gUnknown_080D092C[] = { 0x01, 0x01, 0x02, 0x03, 0x03, 0x03, 0x02, 0x03, 0x03, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04,
                                  0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04 };
 const s8 gUnknown_080D094C[] = { 0x02, 0x02, 0x02, 0x02, 0x02, 0xFE, 0xFE, 0xFE, 0xFE, 0xFE, 0x01, 0x01, 0x01, 0x01, 0x01, 0xFF,
@@ -498,7 +500,7 @@ void InitCamera(s32 level, u8 UNUSED entryIndex)
     struct Camera *cam = &gCamera;
     StageData *sd = &gStageData;
 
-    gDispCnt = DISPCNT_OBJ_1D_MAP;
+    gDispCnt = DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_0;
     sd->unk10 = 0x1600;
     if (gStageData.act != ACT_BOSS) {
         /* Regular stages (non-boss) */
@@ -616,13 +618,13 @@ void InitCamera(s32 level, u8 UNUSED entryIndex)
                 gBgSprites_Unknown2[2][1] = 0;
                 gBgSprites_Unknown2[2][2] = -1;
                 gBgSprites_Unknown2[2][3] = 0x20;
-                DmaFill32(3, 0, BG_VRAM + 0x4000, 0x40);
+                DmaFill32(3, 0, BG_CHAR_ADDR(1), 2 * TILE_SIZE_4BPP);
 
                 gStageBackgroundsRam[0] = gStageCameraBgTemplates[2];
                 gStageBackgroundsRam[1] = gStageCameraBgTemplates[1];
                 gStageBackgroundsRam[2] = gStageCameraBgTemplates[0];
-                gStageBackgroundsRam[2].graphics.dest = (void *)BG_CHAR_ADDR(1);
-                gStageBackgroundsRam[2].layoutVram = (void *)BG_SCREEN_ADDR(26);
+                gStageBackgroundsRam[2].graphics.dest = BG_CHAR_ADDR(1);
+                gStageBackgroundsRam[2].layoutVram = BG_SCREEN_ADDR(26);
                 gStageBackgroundsRam[0].flags = 0x10;
                 gStageBackgroundsRam[1].flags = 0x61;
                 gStageBackgroundsRam[2].flags = 0x16;
@@ -630,6 +632,7 @@ void InitCamera(s32 level, u8 UNUSED entryIndex)
                 DrawBackground(&gStageBackgroundsRam[0]);
                 gStageBackgroundsRam[1].tilemapId = TM_LEVEL_METATILES_1(level);
                 DrawBackground(&gStageBackgroundsRam[1]);
+
                 cam->task50 = NULL;
                 gBgScrollRegs[0][0] = 0;
                 gBgScrollRegs[0][1] = 0;
@@ -1101,42 +1104,47 @@ void sub_8050440(void)
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
     bg0 = &gStageBackgroundsRam[0];
-    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0xC000);
-    gStageBackgroundsRam[3].layoutVram = (void *)(BG_VRAM + 0xE800);
-    gBgCntRegs[3] = 0x1D0E;
-    bg0->graphics.dest = (void *)(BG_VRAM + 0x8000);
-    bg0->layoutVram = (u16 *)(BG_VRAM + 0xE000);
-    gStageBackgroundsRam[0].tilemapId = 441 + gStageData.language;
-    gBgCntRegs[0] = 0x1C08;
+
+    gStageBackgroundsRam[3].graphics.dest = BG_CHAR_ADDR(3);
+    gStageBackgroundsRam[3].layoutVram = BG_SCREEN_ADDR(29);
+    gBgCntRegs[3] = BGCNT_SCREENBASE(29) | BGCNT_CHARBASE(3) | BGCNT_PRIORITY(2);
+
+    bg0->graphics.dest = BG_CHAR_ADDR(2);
+    bg0->layoutVram = BG_SCREEN_ADDR(28);
+    gStageBackgroundsRam[0].tilemapId = TM_UNKNOWN_441 + gStageData.language;
+    gBgCntRegs[0] = BGCNT_SCREENBASE(28) | BGCNT_CHARBASE(2) | BGCNT_PRIORITY(0);
     DrawBackground(&gStageBackgroundsRam[0]);
+
     gStageData.unk10 |= 0x100;
 }
 
 void sub_80504C0(void)
 {
-    gStageBackgroundsRam[0].graphics.dest = (void *)BG_VRAM + 0x8000;
-    gStageBackgroundsRam[0].layoutVram = (void *)(BG_VRAM + 0xA000);
-    gStageBackgroundsRam[0].targetTilesX = 30;
-    gStageBackgroundsRam[0].targetTilesY = 20;
-    gBgCntRegs[0] = 0x1408;
-    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0xC000);
-    gStageBackgroundsRam[3].layoutVram = (void *)(BG_VRAM + 0x9000);
-    gStageBackgroundsRam[3].targetTilesX = 32;
-    gStageBackgroundsRam[3].targetTilesY = 32;
-    gBgCntRegs[3] = 0xD20F;
+    gStageBackgroundsRam[0].graphics.dest = BG_CHAR_ADDR(2);
+    gStageBackgroundsRam[0].layoutVram = BG_SCREEN_ADDR(20);
+    gStageBackgroundsRam[0].targetTilesX = DISPLAY_WIDTH / TILE_WIDTH;
+    gStageBackgroundsRam[0].targetTilesY = DISPLAY_HEIGHT / TILE_WIDTH;
+    gBgCntRegs[0] = BGCNT_SCREENBASE(20) | BGCNT_CHARBASE(2) | BGCNT_PRIORITY(0);
+
+    gStageBackgroundsRam[3].graphics.dest = BG_CHAR_ADDR(3);
+    gStageBackgroundsRam[3].layoutVram = BG_SCREEN_ADDR(18);
+    gStageBackgroundsRam[3].targetTilesX = 256 / TILE_WIDTH;
+    gStageBackgroundsRam[3].targetTilesY = 256 / TILE_WIDTH;
+    gBgCntRegs[3] = BGCNT_SCREENBASE(18) | BGCNT_CHARBASE(3) | BGCNT_TXT512x512 | BGCNT_PRIORITY(3);
 }
 
 void sub_8050518(void)
 {
-    gStageBackgroundsRam[0].graphics.dest = (void *)(BG_VRAM + 0x8000);
-    gStageBackgroundsRam[0].layoutVram = (u16 *)(BG_VRAM + 0xA000);
-    gStageBackgroundsRam[0].targetTilesX = 30;
-    gStageBackgroundsRam[0].targetTilesY = 8;
-    gBgCntRegs[0] = 0x1408;
-    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0xC000);
-    gStageBackgroundsRam[3].layoutVram = (void *)(BG_VRAM + 0x9000);
-    gStageBackgroundsRam[3].targetTilesX = 32;
-    gStageBackgroundsRam[3].targetTilesY = 32;
+    gStageBackgroundsRam[0].graphics.dest = BG_CHAR_ADDR(2);
+    gStageBackgroundsRam[0].layoutVram = BG_SCREEN_ADDR(20);
+    gStageBackgroundsRam[0].targetTilesX = DISPLAY_WIDTH / TILE_WIDTH;
+    gStageBackgroundsRam[0].targetTilesY = 64 / TILE_WIDTH;
+    gBgCntRegs[0] = BGCNT_SCREENBASE(20) | BGCNT_CHARBASE(2) | BGCNT_PRIORITY(0);
+
+    gStageBackgroundsRam[3].graphics.dest = BG_CHAR_ADDR(3);
+    gStageBackgroundsRam[3].layoutVram = BG_SCREEN_ADDR(18);
+    gStageBackgroundsRam[3].targetTilesX = 256 / TILE_WIDTH;
+    gStageBackgroundsRam[3].targetTilesY = 256 / TILE_WIDTH;
     gBgCntRegs[3] = 0xD20E;
 }
 
@@ -1172,11 +1180,11 @@ void sub_8050628(void)
 {
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
-    gStageBackgroundsRam[0].graphics.dest = (void *)(BG_VRAM + 0x8000);
-    gStageBackgroundsRam[0].layoutVram = (u16 *)(BG_VRAM + 0xE000);
+    gStageBackgroundsRam[0].graphics.dest = BG_CHAR_ADDR(2);
+    gStageBackgroundsRam[0].layoutVram = BG_SCREEN_ADDR(28);
     gBgCntRegs[0] = 0x1C0A;
-    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0xC000);
-    gStageBackgroundsRam[3].layoutVram = (u16 *)(BG_VRAM + 0xE800);
+    gStageBackgroundsRam[3].graphics.dest = BG_CHAR_ADDR(3);
+    gStageBackgroundsRam[3].layoutVram = BG_SCREEN_ADDR(29);
     gStageBackgroundsRam[3].targetTilesX = 32;
     gStageBackgroundsRam[3].targetTilesY = 32;
     gStageBackgroundsRam[3].flags = 3;
@@ -1189,11 +1197,11 @@ void sub_805068C(void)
     gBgScrollRegs[0][1] = 0;
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
-    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0xC000);
-    gStageBackgroundsRam[3].layoutVram = (void *)(BG_VRAM + 0xE800);
+    gStageBackgroundsRam[3].graphics.dest = BG_CHAR_ADDR(3);
+    gStageBackgroundsRam[3].layoutVram = BG_SCREEN_ADDR(29);
     gBgCntRegs[3] = 0x1D0E;
-    gStageBackgroundsRam[0].graphics.dest = (void *)(BG_VRAM + 0x8000);
-    gStageBackgroundsRam[0].layoutVram = (u16 *)(BG_VRAM + 0xA000);
+    gStageBackgroundsRam[0].graphics.dest = BG_CHAR_ADDR(2);
+    gStageBackgroundsRam[0].layoutVram = BG_SCREEN_ADDR(20);
     gStageBackgroundsRam[0].targetTilesX = 64;
     gStageBackgroundsRam[0].targetTilesY = 64;
     gBgCntRegs[0] = 0x940A;
@@ -1257,13 +1265,13 @@ void sub_8050748(void)
 
 void sub_8050804(void)
 {
-    gStageBackgroundsRam[0].graphics.dest = (void *)(BG_VRAM + 0xC000);
-    gStageBackgroundsRam[0].layoutVram = (u16 *)(BG_VRAM + 0xD000);
+    gStageBackgroundsRam[0].graphics.dest = BG_CHAR_ADDR(3);
+    gStageBackgroundsRam[0].layoutVram = BG_SCREEN_ADDR(26);
     gStageBackgroundsRam[0].targetTilesX = 30;
     gStageBackgroundsRam[0].targetTilesY = 20;
     gBgCntRegs[0] = 0x1A0E;
-    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0x8000);
-    gStageBackgroundsRam[3].layoutVram = (u16 *)(BG_VRAM + 0xE000);
+    gStageBackgroundsRam[3].graphics.dest = BG_CHAR_ADDR(2);
+    gStageBackgroundsRam[3].layoutVram = BG_SCREEN_ADDR(28);
     gStageBackgroundsRam[3].targetTilesX = 30;
     gStageBackgroundsRam[3].targetTilesY = 20;
     gBgCntRegs[3] = 0x1C0A;
@@ -1275,13 +1283,13 @@ void sub_8050864(void)
     gBgScrollRegs[0][1] = 0;
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
-    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0x8000);
-    gStageBackgroundsRam[3].layoutVram = (void *)(BG_VRAM + 0xB000);
+    gStageBackgroundsRam[3].graphics.dest = BG_CHAR_ADDR(2);
+    gStageBackgroundsRam[3].layoutVram = BG_SCREEN_ADDR(22);
     gStageBackgroundsRam[3].targetTilesX = 32;
     gStageBackgroundsRam[3].targetTilesY = 64;
     gBgCntRegs[3] = 0x960A;
-    gStageBackgroundsRam[0].graphics.dest = (void *)(BG_VRAM + 0xC000);
-    gStageBackgroundsRam[0].layoutVram = (u16 *)(BG_VRAM + 0xE000);
+    gStageBackgroundsRam[0].graphics.dest = BG_CHAR_ADDR(3);
+    gStageBackgroundsRam[0].layoutVram = BG_SCREEN_ADDR(28);
     gStageBackgroundsRam[0].targetTilesX = 32;
     gStageBackgroundsRam[0].targetTilesY = 64;
     gBgCntRegs[0] = 0x9C0E;
@@ -1326,14 +1334,14 @@ void sub_8050920(void)
 
 void sub_80509B4(void)
 {
-    gStageBackgroundsRam[0].graphics.dest = (void *)BG_CHAR_ADDR(3);
-    gStageBackgroundsRam[0].layoutVram = (u16 *)BG_SCREEN_ADDR(28);
+    gStageBackgroundsRam[0].graphics.dest = BG_CHAR_ADDR(3);
+    gStageBackgroundsRam[0].layoutVram = BG_SCREEN_ADDR(28);
     gStageBackgroundsRam[0].targetTilesX = 32;
     gStageBackgroundsRam[0].targetTilesY = 32;
     gBgCntRegs[0] = BGCNT_SCREENBASE(28) | BGCNT_CHARBASE(3) | BGCNT_TXT256x256 | BGCNT_16COLOR | BGCNT_PRIORITY(2);
 
-    gStageBackgroundsRam[3].graphics.dest = (void *)BG_CHAR_ADDR(2);
-    gStageBackgroundsRam[3].layoutVram = (u16 *)BG_SCREEN_ADDR(26);
+    gStageBackgroundsRam[3].graphics.dest = BG_CHAR_ADDR(2);
+    gStageBackgroundsRam[3].layoutVram = BG_SCREEN_ADDR(26);
     gStageBackgroundsRam[3].targetTilesX = 32;
     gStageBackgroundsRam[3].targetTilesY = 20;
     gBgCntRegs[3] = BGCNT_SCREENBASE(26) | BGCNT_CHARBASE(2) | BGCNT_TXT256x256 | BGCNT_16COLOR | BGCNT_PRIORITY(2);
@@ -1393,14 +1401,14 @@ void sub_8050B14(void)
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
 
-    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0x8000);
-    gStageBackgroundsRam[3].layoutVram = (u16 *)(BG_VRAM + 0xA000);
+    gStageBackgroundsRam[3].graphics.dest = BG_CHAR_ADDR(2);
+    gStageBackgroundsRam[3].layoutVram = BG_SCREEN_ADDR(20);
     gStageBackgroundsRam[3].targetTilesX = 32;
     gStageBackgroundsRam[3].targetTilesY = 64;
     gBgCntRegs[3] = 0x940A;
 
-    gStageBackgroundsRam[0].graphics.dest = (void *)(BG_VRAM + 0xC000);
-    gStageBackgroundsRam[0].layoutVram = (u16 *)(BG_VRAM + 0xE000);
+    gStageBackgroundsRam[0].graphics.dest = BG_CHAR_ADDR(3);
+    gStageBackgroundsRam[0].layoutVram = BG_SCREEN_ADDR(28);
     gStageBackgroundsRam[0].targetTilesX = 32;
     gStageBackgroundsRam[0].targetTilesY = 64;
     gBgCntRegs[0] = 0x9C0E;
@@ -1459,8 +1467,8 @@ void sub_8050CA4(void)
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
 
-    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0x8000);
-    gStageBackgroundsRam[3].layoutVram = (void *)(BG_VRAM + 0xA000);
+    gStageBackgroundsRam[3].graphics.dest = BG_CHAR_ADDR(2);
+    gStageBackgroundsRam[3].layoutVram = BG_SCREEN_ADDR(20);
     gStageBackgroundsRam[3].targetTilesX = 64;
     gStageBackgroundsRam[3].targetTilesY = 32;
     gBgCntRegs[3] = 0x540A;
@@ -1473,11 +1481,11 @@ void sub_8050CEC(void)
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
 
-    gStageBackgroundsRam[0].graphics.dest = (void *)(BG_VRAM + 0xC000);
-    gStageBackgroundsRam[0].layoutVram = (void *)(BG_VRAM + 0xD000);
+    gStageBackgroundsRam[0].graphics.dest = BG_CHAR_ADDR(3);
+    gStageBackgroundsRam[0].layoutVram = BG_SCREEN_ADDR(26);
     gBgCntRegs[0] = 0x9A0E;
-    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0x8000);
-    gStageBackgroundsRam[3].layoutVram = (void *)(BG_VRAM + 0xE800);
+    gStageBackgroundsRam[3].graphics.dest = BG_CHAR_ADDR(2);
+    gStageBackgroundsRam[3].layoutVram = BG_SCREEN_ADDR(29);
     gBgCntRegs[3] = 0x1D0A;
 }
 
@@ -1530,14 +1538,14 @@ END_NONMATCH
 
 void sub_8050E18(void)
 {
-    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0x8000);
-    gStageBackgroundsRam[3].layoutVram = (void *)(BG_VRAM + 0xB000);
+    gStageBackgroundsRam[3].graphics.dest = BG_CHAR_ADDR(2);
+    gStageBackgroundsRam[3].layoutVram = BG_SCREEN_ADDR(22);
     gStageBackgroundsRam[3].targetTilesX = 32;
     gStageBackgroundsRam[3].targetTilesY = 64;
     gBgCntRegs[3] = 0x960A;
 
-    gStageBackgroundsRam[0].graphics.dest = (void *)(BG_VRAM + 0xC000);
-    gStageBackgroundsRam[0].layoutVram = (u16 *)(BG_VRAM + 0xE000);
+    gStageBackgroundsRam[0].graphics.dest = BG_CHAR_ADDR(3);
+    gStageBackgroundsRam[0].layoutVram = BG_SCREEN_ADDR(28);
     gStageBackgroundsRam[0].targetTilesX = 32;
     gStageBackgroundsRam[0].targetTilesY = 64;
     gBgCntRegs[0] = 0x9C0E;
@@ -1636,13 +1644,13 @@ void sub_8050FF0(void)
 
 void sub_8051094(void)
 {
-    gStageBackgroundsRam[0].graphics.dest = (void *)(BG_VRAM + 0xC000);
-    gStageBackgroundsRam[0].layoutVram = (u16 *)(BG_VRAM + 0xD800);
+    gStageBackgroundsRam[0].graphics.dest = BG_CHAR_ADDR(3);
+    gStageBackgroundsRam[0].layoutVram = BG_SCREEN_ADDR(27);
     gStageBackgroundsRam[0].targetTilesX = 64;
     gStageBackgroundsRam[0].targetTilesY = 32;
     gBgCntRegs[0] = 0x5B0C;
-    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0x4000);
-    gStageBackgroundsRam[3].layoutVram = (void *)(BG_VRAM + 0xE800);
+    gStageBackgroundsRam[3].graphics.dest = BG_CHAR_ADDR(1);
+    gStageBackgroundsRam[3].layoutVram = BG_SCREEN_ADDR(29);
     gStageBackgroundsRam[3].targetTilesX = 32;
     gStageBackgroundsRam[3].targetTilesY = 32;
     gBgCntRegs[3] = 0x1D06;
@@ -1656,8 +1664,8 @@ void sub_80510F8(void)
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
 
-    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0x8000);
-    gStageBackgroundsRam[3].layoutVram = (void *)(BG_VRAM + 0xE800);
+    gStageBackgroundsRam[3].graphics.dest = BG_CHAR_ADDR(2);
+    gStageBackgroundsRam[3].layoutVram = BG_SCREEN_ADDR(29);
     gStageBackgroundsRam[3].targetTilesX = 32;
     gStageBackgroundsRam[3].targetTilesY = 20;
 
@@ -1703,37 +1711,37 @@ void TaskDestructor_80511A4(struct Task *t)
 
 void sub_80511BC(void)
 {
-    gStageBackgroundsRam[1].graphics.dest = (void *)(BG_VRAM + 0xC000);
-    gStageBackgroundsRam[1].layoutVram = (void *)(BG_VRAM + 0xE800);
+    gStageBackgroundsRam[1].graphics.dest = BG_CHAR_ADDR(3);
+    gStageBackgroundsRam[1].layoutVram = BG_SCREEN_ADDR(29);
     gBgCntRegs[1] = 0x1D0E;
 }
 
 void sub_80511E4(void)
 {
-    gStageBackgroundsRam[1].graphics.dest = (void *)(BG_VRAM + 0xC000);
-    gStageBackgroundsRam[1].layoutVram = (void *)(BG_VRAM + 0xE800);
+    gStageBackgroundsRam[1].graphics.dest = BG_CHAR_ADDR(3);
+    gStageBackgroundsRam[1].layoutVram = BG_SCREEN_ADDR(29);
     gBgCntRegs[1] = 0x1D0E;
 }
 
 void sub_805120C(void)
 {
-    gStageBackgroundsRam[0].graphics.dest = (void *)(BG_VRAM + 0xC000);
-    gStageBackgroundsRam[0].layoutVram = (u16 *)(BG_VRAM + 0xD000);
+    gStageBackgroundsRam[0].graphics.dest = BG_CHAR_ADDR(3);
+    gStageBackgroundsRam[0].layoutVram = BG_SCREEN_ADDR(26);
     gBgCntRegs[0] = 0x9A0E;
-    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0x8000);
-    gStageBackgroundsRam[3].layoutVram = (void *)(BG_VRAM + 0xE800);
+    gStageBackgroundsRam[3].graphics.dest = BG_CHAR_ADDR(2);
+    gStageBackgroundsRam[3].layoutVram = BG_SCREEN_ADDR(29);
     gBgCntRegs[3] = 0x1D0A;
 }
 
 void sub_8051250(void)
 {
-    gStageBackgroundsRam[0].graphics.dest = (void *)(BG_VRAM + 0xC000);
-    gStageBackgroundsRam[0].layoutVram = (u16 *)(BG_VRAM + 0xC800);
-    gStageBackgroundsRam[0].targetTilesX = 0x40;
-    gStageBackgroundsRam[0].targetTilesY = 0x40;
+    gStageBackgroundsRam[0].graphics.dest = BG_CHAR_ADDR(3);
+    gStageBackgroundsRam[0].layoutVram = BG_SCREEN_ADDR(25);
+    gStageBackgroundsRam[0].targetTilesX = 512 / TILE_WIDTH;
+    gStageBackgroundsRam[0].targetTilesY = 512 / TILE_WIDTH;
     gBgCntRegs[0] = 0x990D;
-    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0x8000);
-    gStageBackgroundsRam[3].layoutVram = (void *)(BG_VRAM + 0xE800);
+    gStageBackgroundsRam[3].graphics.dest = BG_CHAR_ADDR(2);
+    gStageBackgroundsRam[3].layoutVram = BG_SCREEN_ADDR(29);
     gBgCntRegs[3] = 0x1D0A;
 }
 
@@ -1855,8 +1863,8 @@ void sub_805146C(void)
 {
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
-    gStageBackgroundsRam[1].graphics.dest = (void *)(BG_VRAM + 0xC000);
-    gStageBackgroundsRam[1].layoutVram = (void *)(BG_VRAM + 0xE800);
+    gStageBackgroundsRam[1].graphics.dest = BG_CHAR_ADDR(3);
+    gStageBackgroundsRam[1].layoutVram = BG_SCREEN_ADDR(29);
     gBgCntRegs[1] = 0x1D0E;
 }
 
@@ -1878,8 +1886,8 @@ void sub_80514E0(void)
 {
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
-    gStageBackgroundsRam[1].graphics.dest = (void *)(BG_VRAM + 0xC000);
-    gStageBackgroundsRam[1].layoutVram = (void *)(BG_VRAM + 0xE800);
+    gStageBackgroundsRam[1].graphics.dest = BG_CHAR_ADDR(3);
+    gStageBackgroundsRam[1].layoutVram = BG_SCREEN_ADDR(29);
     gBgCntRegs[1] = 0x1D0E;
 }
 
@@ -1970,8 +1978,8 @@ void sub_80515FC(void)
 
 void sub_8051634(void)
 {
-    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0x8000);
-    gStageBackgroundsRam[3].layoutVram = (void *)(BG_VRAM + 0xE800);
+    gStageBackgroundsRam[3].graphics.dest = BG_CHAR_ADDR(2);
+    gStageBackgroundsRam[3].layoutVram = BG_SCREEN_ADDR(29);
     gBgCntRegs[3] = 0x9D0A;
 }
 

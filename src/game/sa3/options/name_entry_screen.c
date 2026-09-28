@@ -219,7 +219,7 @@ NONMATCH("asm/non_matching/game/sa3/options/nes__sub_8091E84.inc", void sub_8091
         nes->vram28 += gUnknown_080D73D0[var_r1 + (lang * 2)].numTiles * TILE_SIZE_4BPP;
         s->anim = gUnknown_080D73D0[var_r1 + (lang * 2)].anim;
         s->variant = gUnknown_080D73D0[var_r1 + (lang * 2)].variant;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->x = I(nes->qUnk4C);
         s->y = I(nes->qUnk50);
         s->oamFlags = 0xC0;
@@ -310,7 +310,7 @@ NONMATCH("asm/non_matching/game/sa3/options/nes__sub_8091E84.inc", void sub_8091
         nes->vram28 += gUnknown_080D7448.numTiles * TILE_SIZE_4BPP;
         s->anim = gUnknown_080D7448.anim;
         s->variant = gUnknown_080D7448.variant;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->x = I(nes->unk3C);
         s->y = I(nes->unk40);
         s->oamFlags = 0x80;
@@ -339,7 +339,7 @@ NONMATCH("asm/non_matching/game/sa3/options/nes__sub_8091E84.inc", void sub_8091
         nes->vram28 += gUnknown_080D7450.numTiles * TILE_SIZE_4BPP;
         s->anim = gUnknown_080D7450.anim;
         s->variant = gUnknown_080D7450.variant;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->x = (s16)((s32)nes->qUnk44 >> 8);
         s->y = (s16)((s32)nes->qUnk48 >> 8);
         s->oamFlags = 0x80;
@@ -467,9 +467,9 @@ void sub_8092320(NameEntryScreen *nes)
     gBgScrollRegs[0][1] = 0;
 
     bg0 = &nes->bg300;
-    bg0->graphics.dest = (void *)BG_CHAR_ADDR(0);
+    bg0->graphics.dest = BG_CHAR_ADDR(0);
     bg0->graphics.anim = 0;
-    bg0->layoutVram = (u16 *)BG_SCREEN_ADDR(6);
+    bg0->layoutVram = BG_SCREEN_ADDR(6);
     bg0->unk18 = 0;
     bg0->unk1A = 0;
     bg0->tilemapId = TM_UNKNOWN_351;
@@ -489,9 +489,9 @@ void sub_8092320(NameEntryScreen *nes)
     gBgScrollRegs[1][1] = 36;
 
     bg1 = &nes->bg340;
-    bg1->graphics.dest = (void *)BG_CHAR_ADDR(1);
+    bg1->graphics.dest = BG_CHAR_ADDR(1);
     bg1->graphics.anim = 0;
-    bg1->layoutVram = (u16 *)BG_SCREEN_ADDR(16);
+    bg1->layoutVram = BG_SCREEN_ADDR(16);
     bg1->unk18 = 0;
     bg1->unk1A = 0;
     bg1->tilemapId = TM_UNKNOWN_352;
@@ -1736,7 +1736,7 @@ void sub_809386C(NameEntryScreen *nes)
     s->x = nes->unk3C;
     s->y = nes->unk40;
     s->variant = gUnknown_080D7458.variant + nes->unk2;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
@@ -1763,7 +1763,7 @@ void sub_8093904(NameEntryScreen *nes)
         s = &nes->spr1DC[i];
         s->x = I(nes->qUnk44) + (i * 8) + (i * 4);
         s->y = I(nes->qUnk48) - 1;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
     }

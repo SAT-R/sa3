@@ -53,9 +53,9 @@ void CreateAnimationEd(void)
     gBgCntRegs[0] = BGCNT_256COLOR | BGCNT_AFF256x256 | BGCNT_SCREENBASE(14) | BGCNT_CHARBASE(1) | BGCNT_PRIORITY(3);
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
-    bgA->graphics.dest = (void *)BG_SCREEN_ADDR(8);
+    bgA->graphics.dest = BG_CHAR_ADDR(1);
     bgA->graphics.anim = 0;
-    bgA->layoutVram = (void *)BG_SCREEN_ADDR(14);
+    bgA->layoutVram = BG_SCREEN_ADDR(14);
     bgA->unk18 = 0;
     bgA->unk1A = 0;
     bgA->tilemapId = 434;

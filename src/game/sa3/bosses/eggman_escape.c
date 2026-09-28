@@ -128,7 +128,7 @@ void sub_8078E34(s32 *param0, VoidFn fn)
     s->anim = ANIM_EGGMAN_SIDE;
     s->variant = 4;
     s->qAnimDelay = 0;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->animSpeed = 0x10;
     s->palId = 0;
     s->x = param0[0];
@@ -263,7 +263,7 @@ void Task_C8_807990C(void)
                 s = (Sprite *)&strcC8->sprites[2];
                 s->anim = ANIM_GEMERL_HOVER_AWAY;
                 s->variant = 0;
-                s->prevVariant = 0xFF;
+                s->prevVariant = -1;
                 gCurTask->main = Task_C8_8079C60;
             } break;
 
@@ -271,7 +271,7 @@ void Task_C8_807990C(void)
                 s = (Sprite *)&strcC8->sprites[2];
                 s->anim = ANIM_GEMERL_HANGING;
                 s->variant = 0;
-                s->prevVariant = 0xFF;
+                s->prevVariant = -1;
                 s->frameFlags |= 0x400;
 
                 gCurTask->main = Task_C8_8079B8C;
@@ -394,7 +394,7 @@ void Task_C8_8079B8C(void)
     if (++strcC8->unk0 > 140) {
         s = (Sprite *)&strcC8->sprites[0];
         s->variant = 8;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->frameFlags |= 0x400;
         s = (Sprite *)&strcC8->sprites[1];
         s->frameFlags |= 0x400;
@@ -429,7 +429,7 @@ void Task_C8_8079C60(void)
     if (++strcC8->unk0 > 100) {
         s = (Sprite *)&strcC8->sprites[0];
         s->variant = 8;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->frameFlags |= 0x400;
         s = (Sprite *)&strcC8->sprites[1];
         s->frameFlags |= 0x400;
@@ -500,7 +500,7 @@ void Task_C8_8079DFC(void)
     if (++strcC8->unk0 > 0xB4U) {
         s = (Sprite *)&strcC8->sprites[0];
         s->variant = 8;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->frameFlags |= 0x400;
         s = (Sprite *)&strcC8->sprites[1];
         s->frameFlags |= 0x400;

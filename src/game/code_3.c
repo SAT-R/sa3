@@ -346,9 +346,9 @@ void sub_80A1FB0(StrcCode3 *strc, u8 param1)
     gBgScrollRegs[1][1] = 0;
     {
         Background *bg = &strc->bg54;
-        bg->graphics.dest = (void *)BG_CHAR_ADDR(1);
+        bg->graphics.dest = BG_CHAR_ADDR(1);
         bg->graphics.anim = 0;
-        bg->layoutVram = (u16 *)BG_SCREEN_ADDR(14);
+        bg->layoutVram = BG_SCREEN_ADDR(14);
         bg->unk18 = 0;
         bg->unk1A = 0;
         bg->tilemapId = gTilemapIdsConnectionStatus[param1 + (strc->language * 4)];
@@ -371,9 +371,9 @@ void sub_80A2024(StrcCode3 *strc, u8 param1)
     gBgScrollRegs[0][1] = 0;
     {
         Background *bg = &strc->bg14;
-        bg->graphics.dest = (void *)BG_CHAR_ADDR(0);
+        bg->graphics.dest = BG_CHAR_ADDR(0);
         bg->graphics.anim = 0;
-        bg->layoutVram = (u16 *)BG_SCREEN_ADDR(6);
+        bg->layoutVram = BG_SCREEN_ADDR(6);
         bg->unk18 = 0;
         bg->unk1A = 0;
         bg->tilemapId = gTilemapIdsConnectionStatus[param1];

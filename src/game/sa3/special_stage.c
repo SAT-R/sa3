@@ -1300,7 +1300,7 @@ void sub_80B39B8(void)
 
     if (task8->unkB7 != 0) {
         task8->unkB4 = 120;
-        task8->sprite8.prevVariant = 0xFF;
+        task8->sprite8.prevVariant = -1;
         task8->unk94 = 0;
         task8->unkB5 = 0;
         task8->unkB6 = 0;
@@ -1309,7 +1309,7 @@ void sub_80B39B8(void)
         task8->unkB4 = 120;
         task8->unk9C = -0x400;
         task8->unkAC = 4;
-        task8->sprite8.prevVariant = 0xFF;
+        task8->sprite8.prevVariant = -1;
         task8->unk94 = 0;
         task8->unkB5 = 0;
         task8->unkB6 = 0;
@@ -1371,11 +1371,11 @@ void sub_80B3B1C(void)
         taskC->unk64 = 0;
         if (temp_r5->unk8C0 >= temp_r5->unk8C2) {
             task8->unkAC = 0xA;
-            task8->sprite8.prevVariant = 0xFF;
+            task8->sprite8.prevVariant = -1;
         } else {
             var_r4 = -Q(4);
             task8->unkAC = 0xC;
-            task8->sprite8.prevVariant = 0xFF;
+            task8->sprite8.prevVariant = -1;
         }
     }
     task8->unk90 = var_r6;
@@ -1464,12 +1464,12 @@ void sub_80B3D4C()
         temp_r2->unk64 = 0;
         if (temp_r5->unk8C0 >= temp_r5->unk8C2) {
             task8->unkAC = 0xF;
-            task8->sprite8.prevVariant = 0xFF;
+            task8->sprite8.prevVariant = -1;
             m4aSongNumStart(MUS_SPECIAL_STAGE_CLEAR);
         } else {
             var_r4 = -0x400;
             task8->unkAC = 0x13;
-            task8->sprite8.prevVariant = 0xFF;
+            task8->sprite8.prevVariant = -1;
         }
     }
     task8->unk90 = var_r6;
@@ -1667,25 +1667,25 @@ void sub_80B41B0(void)
         if (task8->unkB3 == 0) {
             if (0x20 & gInput) {
                 var_r5 = 1;
-                task8->sprite8.prevVariant = 0xFF;
+                task8->sprite8.prevVariant = -1;
             } else if (0x10 & gInput) {
                 var_r5 = 2;
-                task8->sprite8.prevVariant = 0xFF;
+                task8->sprite8.prevVariant = -1;
             }
         } else if (task8->unk88 <= 0x01E50000) {
             if (0x20 & gInput) {
                 var_r5 = 1;
-                task8->sprite8.prevVariant = 0xFF;
+                task8->sprite8.prevVariant = -1;
             }
         } else if (task8->unk88 >= 0x021B0000) {
             if (0x10 & gInput) {
                 var_r5 = 2;
-                task8->sprite8.prevVariant = 0xFF;
+                task8->sprite8.prevVariant = -1;
             }
         }
         if (gPressedKeys & gStageData.buttonConfig.jump) {
             var_r5 = 3;
-            task8->sprite8.prevVariant = 0xFF;
+            task8->sprite8.prevVariant = -1;
             task8->unk9C = -0x400;
             temp_r0->unk64 = 0x300;
             m4aSongNumStart(SE_JUMP);
@@ -1726,7 +1726,7 @@ void sub_80B4294(void)
     }
     if ((var_r1 <= 0x4FE) && !(0x30 & gInput)) {
         var_r5 = 0;
-        task8->sprite8.prevVariant = 0xFF;
+        task8->sprite8.prevVariant = -1;
         task8->unk94 = 0;
     } else {
         temp_r0_2 = task8->unk94;
@@ -1739,7 +1739,7 @@ void sub_80B4294(void)
 
     if (gPressedKeys & gStageData.buttonConfig.jump) {
         var_r5 = 3;
-        task8->sprite8.prevVariant = 0xFF;
+        task8->sprite8.prevVariant = -1;
         task8->unk9C = -0x400;
         taskC->unk64 = 0x300;
         m4aSongNumStart(SE_JUMP);
@@ -1926,7 +1926,7 @@ void sub_80B46E0()
     if (var_r3 >= taskC->unk54) {
         var_r3 = taskC->unk54;
         var_r2 = 0;
-        task8->sprite8.prevVariant = 0xFF;
+        task8->sprite8.prevVariant = -1;
         var_r1 = 0;
     }
 
@@ -3471,7 +3471,7 @@ void sub_80B6B20(void)
 
 void sub_80B6B3C(Background *bg, s32 arg1, s32 arg2, u16 arg3, u16 arg4, u16 arg5, u8 arg6, u8 arg7, u16 arg8, u16 arg9)
 {
-    bg->graphics.dest = (void *)BG_CHAR_ADDR(arg1);
+    bg->graphics.dest = BG_CHAR_ADDR(arg1);
     bg->graphics.anim = 0;
     bg->layoutVram = ((void *)BG_VRAM + (arg2 << 11));
     bg->unk18 = 0;

@@ -171,7 +171,7 @@ Task *CreateGemerl(u8 *param0, s32 worldX, s32 worldY)
     s->oamFlags = 0x280;
     s->animCursor = 0;
     s->qAnimDelay = 0;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->animSpeed = 0x10;
     s->palId = 0;
     s->hitboxes[0].index = -1;

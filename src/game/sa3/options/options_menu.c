@@ -145,7 +145,7 @@ void CreateOptions(u16 arg0)
     options->unk14[3] = LOADED_SAVE->language;
     options->vramA8 = OBJ_VRAM0;
 
-    DmaFill32(3, 0, (void *)BG_CHAR_ADDR_FROM_BGCNT(2), 0x40);
+    DmaFill32(3, 0, BG_CHAR_ADDR_FROM_BGCNT(2), 0x40);
 
     gBgSprites_Unknown1[0] = 0;
     gBgSprites_Unknown2[0][0] = 0;
@@ -369,9 +369,9 @@ void sub_808B4EC(OptionsMenu *options)
     gBgScrollRegs[0][1] = 0;
 
     bg0 = &options->bg12C;
-    bg0->graphics.dest = (void *)BG_CHAR_ADDR(0);
+    bg0->graphics.dest = BG_CHAR_ADDR(0);
     bg0->graphics.anim = 0;
-    bg0->layoutVram = (u16 *)BG_SCREEN_ADDR(6);
+    bg0->layoutVram = BG_SCREEN_ADDR(6);
     bg0 = &options->bg12C;
     bg0->unk18 = 0;
     bg0->unk1A = 0;
@@ -390,9 +390,9 @@ void sub_808B4EC(OptionsMenu *options)
     gBgScrollRegs[1][0] = -I(options->unk30.x);
     gBgScrollRegs[1][1] = -I(options->unk30.y);
     bg1 = &options->bgEC;
-    bg1->graphics.dest = (void *)BG_CHAR_ADDR(1);
+    bg1->graphics.dest = BG_CHAR_ADDR(1);
     bg1->graphics.anim = 0;
-    bg1->layoutVram = (u16 *)BG_SCREEN_ADDR(30);
+    bg1->layoutVram = BG_SCREEN_ADDR(30);
     bg1->unk18 = 0;
     bg1->unk1A = 0;
     bg1->tilemapId = TM_UNKNOWN_350;
@@ -413,9 +413,9 @@ void Task_OptionsInit(void)
     Background *bg2 = &options->bgAC;
     gBgCntRegs[2] = BGCNT_SCREENBASE(28) | BGCNT_256COLOR | BGCNT_CHARBASE(3) | BGCNT_PRIORITY(1);
 
-    bg2->graphics.dest = (void *)BG_CHAR_ADDR(3);
+    bg2->graphics.dest = BG_CHAR_ADDR(3);
     bg2->graphics.anim = 0;
-    bg2->layoutVram = (u16 *)BG_SCREEN_ADDR(28);
+    bg2->layoutVram = BG_SCREEN_ADDR(28);
     bg2->unk18 = 0;
     bg2->unk1A = 0;
     bg2->tilemapId = TM_UNKNOWN_358;
@@ -720,9 +720,9 @@ void Task_808BBBC(void)
             Background *bg1 = &options->bgEC;
             gDispCnt &= ~DISPCNT_BG2_ON;
             gBgCntRegs[1] = BGCNT_SCREENBASE(30) | BGCNT_CHARBASE(1) | BGCNT_PRIORITY(2) | BGCNT_16COLOR | BGCNT_TXT512x256;
-            bg1->graphics.dest = (void *)BG_CHAR_ADDR(1);
+            bg1->graphics.dest = BG_CHAR_ADDR(1);
             bg1->graphics.anim = 0;
-            bg1->layoutVram = (u16 *)BG_SCREEN_ADDR(30);
+            bg1->layoutVram = BG_SCREEN_ADDR(30);
             bg1->unk18 = 0;
             bg1->unk1A = 0;
             bg1->tilemapId = TM_UNKNOWN_350;
@@ -1286,9 +1286,9 @@ void Options_LoadSelectedMenu(OptionsMenu *options)
                 Background *bg1 = &options->bgEC;
                 gDispCnt |= DISPCNT_BG2_ON;
                 gBgCntRegs[1] = BGCNT_SCREENBASE(30) | BGCNT_CHARBASE(1) | BGCNT_PRIORITY(2) | BGCNT_256COLOR | BGCNT_TXT512x256;
-                bg1->graphics.dest = (void *)BG_CHAR_ADDR(1);
+                bg1->graphics.dest = BG_CHAR_ADDR(1);
                 bg1->graphics.anim = 0;
-                bg1->layoutVram = (u16 *)BG_SCREEN_ADDR(30);
+                bg1->layoutVram = BG_SCREEN_ADDR(30);
                 bg1->unk18 = 0;
                 bg1->unk1A = 0;
                 bg1->tilemapId = TM_UNKNOWN_357;

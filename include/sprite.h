@@ -24,7 +24,7 @@ struct GraphicsData {
 
 #define BACKGROUND_FLAGS_BG_ID(id)        (id)
 #define BACKGROUND_FLAGS_MASK_BG_ID       0x3
-#define BACKGROUND_FLAG_4                 0x4
+#define BACKGROUND_FLAG_4                 0x4 // maybe signifying an affine background?
 #define BACKGROUND_DISABLE_TILESET_UPDATE 0x8
 #define BACKGROUND_DISABLE_PALETTE_UPDATE 0x10
 #define BACKGROUND_FLAG_20                0x20
