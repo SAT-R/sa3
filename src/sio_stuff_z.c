@@ -48,7 +48,8 @@ void Task_8029648(void)
 
 void sub_80296F8(u8 arg0)
 {
-    if (gStageData.gameMode > 6) {
+    // TODO: This check can probably be done more gracefully, via a macro?
+    if (CURRENT_GAME_MODE >= GAME_MODE_MP_SINGLE_PACK) {
         TaskA8 *strc;
         if (gStageData.taskA8 != NULL) {
             strc = TASK_DATA(gStageData.taskA8);

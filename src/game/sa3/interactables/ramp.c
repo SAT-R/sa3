@@ -50,7 +50,7 @@ void CreateEntity_Ramp(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     ramp->worldX = TO_WORLD_POS(me->x, regionX);
     ramp->worldY = TO_WORLD_POS(me->y, regionY);
 
-    if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         ramp->unk38 = me->d.uData[4] & 0x1;
     } else {
         ramp->unk38 = 0;
@@ -105,7 +105,7 @@ NONMATCH("asm/non_matching/game/interactables/ramp__sub_8031C10.inc", void sub_8
 
     // TODO: WHAT THE .... is that condition!?!?!?
     for (i = 0; (i == 0); i++) {
-        if ((gStageData.gameMode == GAME_MODE_MP_SINGLE_PACK) && (i != 0)) {
+        if ((CURRENT_GAME_MODE == GAME_MODE_MP_SINGLE_PACK) && (i != 0)) {
             continue;
         }
 
@@ -340,7 +340,7 @@ void sub_803213C(u8 unk38, u8 unk39, Sprite *s)
 {
     u32 mask = (unk39 & 0x1) ? SPRITE_FLAG(X_FLIP, 1) : 0;
 
-    if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         if (unk38 != 0) {
             s->tiles = ALLOC_TILES(ANIM_RAMP);
             s->anim = ANIM_RAMP;

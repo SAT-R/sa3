@@ -445,7 +445,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_6__Task_Boss_8073BE0.inc", void Task
     }
 
     if (boss->unk3D == 0) {
-        if (CURRENT_GAME_MODE == 5) {
+        if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
             if (gStageData.playerIndex != 0) {
                 gCurTask->main = Task_Boss_8074C94;
             } else {

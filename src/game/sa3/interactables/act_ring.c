@@ -96,7 +96,7 @@ void Task_ActRingMain(void)
                     SetPlayerCallback(partner, Player_800AD24);
                 }
 
-                if (GAME_MODE_IS_MULTI_PLAYER(gStageData.gameMode)) {
+                if (GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) {
                     sub_80275B8((u8)gStageData.nextMapIndex, 0, gStageData.unkC);
                 }
 

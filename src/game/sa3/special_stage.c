@@ -229,7 +229,7 @@ void Task_8E8_80B1F4C(void)
             return;
     }
 
-    if ((START_BUTTON & gPressedKeys) && (gStageData.gameMode != GAME_MODE_DEMO)) {
+    if ((START_BUTTON & gPressedKeys) && (CURRENT_GAME_MODE != GAME_MODE_DEMO)) {
         sub_800341C();
     }
 }

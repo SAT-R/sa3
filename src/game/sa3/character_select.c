@@ -284,11 +284,11 @@ void CreateCharacterSelect(u8 createIndex)
     cs = TASK_DATA(t);
     if (createIndex == 4) {
         cs->unk8 = 1;
-        if (gStageData.gameMode == 0) {
+        if (CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER) {
             cs->createIndex = 0U;
-        } else if (gStageData.gameMode == 5) {
+        } else if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
             cs->createIndex = 1U;
-        } else if (gStageData.gameMode == 3 || gStageData.gameMode == 4) {
+        } else if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK || CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
             cs->createIndex = 3U;
         }
     } else {
@@ -740,11 +740,11 @@ void Task_8098600(void)
                 sub_80986AC(cs);
                 return;
             }
-            if (gStageData.gameMode == 0) {
+            if (CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER) {
                 var_r0 = sub_80988B0(cs);
-            } else if (gStageData.gameMode == 5) {
+            } else if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
                 var_r0 = sub_8098A00(cs);
-            } else if (gStageData.gameMode == 3 || gStageData.gameMode == 4) {
+            } else if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK || CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
                 var_r0 = sub_8098B50(cs);
             } else {
                 case 3:
@@ -778,7 +778,7 @@ void sub_80986AC(CharacterSelect *cs)
 
     sub_80003B8();
 
-    if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
+    if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
         s16 playerIndex = gStageData.playerIndex;
         s16 partnerIndex = (playerIndex + 1);
         partnerIndex &= 1;
@@ -926,7 +926,7 @@ bool32 sub_8098B50(CharacterSelect *cs)
     gPlayers[PLAYER_4].callback = NULL;
     gPlayers[PLAYER_4].charFlags.someIndex = 0;
 
-    if (gStageData.gameMode == GAME_MODE_TIME_ATTACK) {
+    if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK) {
         sub_800214C();
 
         // TODO:
@@ -946,7 +946,7 @@ bool32 sub_8098B50(CharacterSelect *cs)
 
         sub_80003B8();
         CreateTimeRecordScreen(1);
-    } else if (gStageData.gameMode == GAME_MODE_BOSS_TIME_ATTACK) {
+    } else if (CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
         sub_80003B8();
         CreateTimeRecordScreen(2);
     }
@@ -970,9 +970,9 @@ bool32 sub_8098CFC(CharacterSelect *cs)
     }
 
     if (cs->createIndex == 0) {
-        if (gStageData.gameMode == GAME_MODE_TIME_ATTACK) {
+        if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK) {
             CreateMainMenu(0, 5U);
-        } else if (gStageData.gameMode == GAME_MODE_BOSS_TIME_ATTACK) {
+        } else if (CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
             CreateMainMenu(1, 5U);
         } else {
             CreateMainMenu(0, 0U);
@@ -1267,10 +1267,11 @@ void Task_8099300()
     s->variant = gUnknown_080D8D08[temp_r2 + cs->language * 8].variant;
     UpdateSpriteAnimation(s);
 
-    if (gStageData.gameMode == 0 || gStageData.gameMode == 3 || gStageData.gameMode == 4) {
+    if (CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER || CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK
+        || CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
         gPlayers->charFlags.character = gUnknown_080D8F18[cs->unk5];
         gCurTask->main = Task_809947C;
-    } else if (gStageData.gameMode == 5) {
+    } else if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
         gPlayers[gStageData.playerIndex].charFlags.character = gUnknown_080D8F18[cs->unk5];
         gCurTask->main = Task_809947C;
     }
@@ -1687,10 +1688,11 @@ void Task_8099C9C()
     sub_809B69C(cs);
     sub_809B6C0(cs);
 
-    if (gStageData.gameMode == 0 || gStageData.gameMode == 3 || gStageData.gameMode == 4) {
+    if (CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER || CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK
+        || CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
         gPlayers[PLAYER_2].charFlags.character = gUnknown_080D8F18[cs->unk6];
         gCurTask->main = Task_8099EC8;
-    } else if (gStageData.gameMode == 5) {
+    } else if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
         s16 playerIndex = (gStageData.playerIndex + 1) % 2u;
         gPlayers[playerIndex].charFlags.character = gUnknown_080D8F18[cs->unk6];
         gCurTask->main = Task_8099EC8;

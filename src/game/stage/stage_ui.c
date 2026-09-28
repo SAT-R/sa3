@@ -176,7 +176,7 @@ Task *sub_80215A0(void)
     if (gStageData.act == ACT_BONUS_CAPSULE || gStageData.act == ACT_BONUS_ENEMIES) {
         return NULL;
     }
-    if (gStageData.gameMode == 6) {
+    if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
         return sub_8021EE8();
     }
     if (gStageData.currentLevel == 11) {
@@ -246,7 +246,7 @@ Task *sub_80215A0(void)
     UpdateSpriteAnimation(s);
 
     tiles += 6 * TILE_SIZE_4BPP;
-    if (gStageData.gameMode != 5) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_STORY_COOP) {
         s = &strc->base.sprites1E4[2];
         s->tiles = tiles;
         s->anim = ANIM_UI_SPECIAL_KEY;
@@ -549,7 +549,7 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
             s->palId = 0;
         }
     } else {
-        if (gStageData.gameMode != GAME_MODE_MP_STORY_COOP) {
+        if (CURRENT_GAME_MODE != GAME_MODE_MP_STORY_COOP) {
             s8 keyCount;
             sp4 = 1;
             keyCount = LOADED_SAVE->specialKeys[gStageData.zone];
@@ -585,7 +585,7 @@ NONMATCH("asm/non_matching/game/stgui__sub_8021A64.inc", void sub_8021A64(void))
             }
         }
     }
-    if ((u32)(u8)(gStageData.gameMode - 3) > 1U) {
+    if ((u32)(u8)(CURRENT_GAME_MODE - 3) > 1U) {
         lives = gStageData.lives;
         if (lives > 9) {
             lives = 9;

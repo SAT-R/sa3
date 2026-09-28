@@ -782,21 +782,21 @@ void Task_80954A8(void)
     {
         u32 unk3 = trs->unk3;
         if (unk3 == 1 || unk3 == 3) {
-            gStageData.gameMode = GAME_MODE_TIME_ATTACK;
+            CURRENT_GAME_MODE = GAME_MODE_TIME_ATTACK;
             WarpToMap(LEVEL_INDEX(trs->unk1F, trs->unk1E) + 3, 0);
             gStageData.difficulty = 0;
             return;
         } else if (unk3 == 2 || unk3 == 4) {
-            gStageData.gameMode = GAME_MODE_BOSS_TIME_ATTACK;
+            CURRENT_GAME_MODE = GAME_MODE_BOSS_TIME_ATTACK;
             WarpToMap(LEVEL_INDEX(trs->unk1F, 7), 0);
             gStageData.difficulty = 0;
             return;
         } else if (unk3 == 5) {
-            gStageData.gameMode = GAME_MODE_TIME_ATTACK;
+            CURRENT_GAME_MODE = GAME_MODE_TIME_ATTACK;
             gStageData.playerIndex = PLAYER_1;
             CreateCharacterSelect(0U);
         } else if (unk3 == 6) {
-            gStageData.gameMode = GAME_MODE_BOSS_TIME_ATTACK;
+            CURRENT_GAME_MODE = GAME_MODE_BOSS_TIME_ATTACK;
             gStageData.playerIndex = PLAYER_1;
             CreateCharacterSelect(0U);
         } else if (unk3 == 7) {

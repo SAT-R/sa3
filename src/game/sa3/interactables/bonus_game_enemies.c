@@ -645,7 +645,7 @@ void Task_803CA28(void)
 
         gStageData.unk4 = 6;
         return;
-    } else if (gStageData.gameMode != GAME_MODE_MP_STORY_COOP) {
+    } else if (CURRENT_GAME_MODE != GAME_MODE_MP_STORY_COOP) {
         p = &gPlayers[gStageData.playerIndex];
 
         if (p->moveState & MOVESTATE_DEAD) {

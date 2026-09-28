@@ -102,7 +102,7 @@ void Task_RotatingHandleInit(void)
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         Player *p = GET_SP_PLAYER_V1(i);
 
-        if ((p->charFlags.someIndex != 2) && (GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode) || p->charFlags.someIndex != 3) && !sp08
+        if ((p->charFlags.someIndex != 2) && (GAME_MODE_IS_SINGLE_PLAYER(CURRENT_GAME_MODE) || p->charFlags.someIndex != 3) && !sp08
             && !sub_802C0D4(p) && (sub_8020700(s, worldX, worldY, 0, p, 0) == 1)) {
             s32 speedSum;
             sp08 = 1;
@@ -194,7 +194,7 @@ NONMATCH("asm/non_matching/game/interactables/rotating_handle__Task_80326D8.inc"
     for (pid = 0; pid < 2; pid++) {
         p = GET_SP_PLAYER_V1(pid);
 
-        if (GAME_MODE_IS_MULTI_PLAYER(gStageData.gameMode) && (p->charFlags.someIndex == 3)) {
+        if (GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE) && (p->charFlags.someIndex == 3)) {
             continue;
         }
         if (handle->unk3D != pid) {

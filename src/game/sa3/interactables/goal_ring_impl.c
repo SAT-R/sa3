@@ -56,7 +56,7 @@ void Task_GoalRingImplInit(void)
     p = GET_SP_PLAYER_V0(PLAYER_1);
     p2 = GET_SP_PLAYER_V0(PLAYER_2);
 
-    if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
+    if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
         if ((!(p->moveState & MOVESTATE_DEAD) && sub_8020700(s, worldX, worldY, 0, p, 0))
             || (!(p2->moveState & MOVESTATE_DEAD) && sub_8020700(s, worldX, worldY, 0, p2, 0))
             || (gStageData.unk4 == GAME_MODE_MP_STORY_COOP)) {
@@ -75,7 +75,7 @@ void Task_GoalRingImplInit(void)
 
             gStageData.unk4 = 5;
 
-            if (gStageData.gameMode != GAME_MODE_BOSS_TIME_ATTACK) {
+            if (CURRENT_GAME_MODE != GAME_MODE_BOSS_TIME_ATTACK) {
                 SetPlayerCallback(p, Player_800613C);
                 SetPlayerCallback(p2, Player_800613C);
             } else {
@@ -95,7 +95,7 @@ void Task_80465F4(void)
     s16 i;
 
     if (ring->unk60++ >= 120) {
-        if (gStageData.gameMode == GAME_MODE_BOSS_TIME_ATTACK) {
+        if (CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
             for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
                 p = GET_SP_PLAYER_V0(i);
                 SetPlayerCallback(p, Player_8005E80);
@@ -216,7 +216,7 @@ struct Task *CreateGoalRing(u8 *param0, s32 worldX, s32 worldY)
 
     sub_8046760(&ring->sprites[0]);
 
-    if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
+    if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
         t->main = Task_8046900;
     }
 

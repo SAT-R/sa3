@@ -1227,7 +1227,7 @@ void InitEntityBlock_Enemies(u16 param0, EntitiesStruct *es)
                 && (es->worldY <= range->yHigh)) {
 
                 // TODO: Use difficulty macros!
-                if ((CURRENT_GAME_MODE == 0 || CURRENT_GAME_MODE == 5)
+                if ((CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER || CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP)
                     && (gStageData.act == ACT_1 || gStageData.act == ACT_2 || gStageData.act == ACT_3)
                     && (gStageData.difficulty == DIFFICULTY_EASY) && (gUnknown_080CF104[gStageData.zone] == es->me2->index)) {
                     SET_MAP_ENTITY_INITIALIZED(es->me2);

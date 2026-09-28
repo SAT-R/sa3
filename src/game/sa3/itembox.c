@@ -71,14 +71,14 @@ void CreateEntity_ItemBox(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     Sprite *s;
     u32 itemIndex;
 
-    if (gStageData.gameMode == GAME_MODE_TIME_ATTACK || gStageData.gameMode == GAME_MODE_BOSS_TIME_ATTACK) {
+    if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK || CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
         if (me->index == 0) {
             SET_MAP_ENTITY_INITIALIZED(me);
             return;
         } else if (me->index == 3) {
             me->index = 2;
         }
-    } else if ((u8)gStageData.gameMode == GAME_MODE_MP_MULTI_PACK) {
+    } else if ((u8)CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
         me->index = 17;
     }
     t = TaskCreate(Task_ItemBoxInit, sizeof(ItemBox), 0x2000U, 0U, TaskDestructor_ItemBox);
@@ -129,7 +129,7 @@ void sub_802C35C(ItemBox *itembox, s32 param1)
     u32 var_r0;
     u32 var_r3;
 
-    if (gStageData.gameMode != GAME_MODE_MP_MULTI_PACK) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_MULTI_PACK) {
         if (param1 == 0) {
             return;
         }
@@ -223,7 +223,7 @@ void Task_ItemBoxInit()
 
     ItemBox *itembox = TASK_DATA(gCurTask);
 
-    if (!GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode) && ((s8)itembox->me->x == -3)) {
+    if (!GAME_MODE_IS_SINGLE_PLAYER(CURRENT_GAME_MODE) && ((s8)itembox->me->x == -3)) {
         itembox->p = NULL;
         sub_802C618(itembox);
         return;
@@ -279,7 +279,7 @@ void sub_802C618(ItemBox *itembox)
     }
     Player_PlaySong(boxPlayer, SE_ITEMBOX);
     itembox->unk7 = 0;
-    if ((gStageData.gameMode > 4U) && (boxPlayer != NULL)
+    if ((CURRENT_GAME_MODE > 4U) && (boxPlayer != NULL)
         && (((boxPlayer->charFlags.someIndex == 1)) || (boxPlayer->charFlags.someIndex == 2))) {
         sub_8027538(itembox->me);
     }
@@ -299,7 +299,7 @@ void sub_802C7B0(ItemBox *itembox)
         switch (itembox->meIndex) {
             case 0:
                 AddLives(1);
-                if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
+                if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
                     sub_8027834();
                 }
                 break;
@@ -319,7 +319,7 @@ void sub_802C7B0(ItemBox *itembox)
                 itembox->p->timerSpeedup = 0x4B0;
                 itembox->p->timerSlowItem = 0;
                 itembox->p->unk62 = 0;
-                if (gStageData.gameMode == 6) {
+                if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
                     for (var_r6 = 0; var_r6 < NUM_MULTI_PLAYER_CHARS; var_r6++) {
                         if (&gPlayers[var_r6] == itembox->p) {
                             break;
@@ -432,7 +432,7 @@ void sub_802C7B0(ItemBox *itembox)
                 sub_80277AC(var_r6, 1);
                 break;
             case 1: {
-                if (gStageData.gameMode == GAME_MODE_MP_MULTI_PACK) {
+                if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
                     for (var_r6 = 0; var_r6 < 4; var_r6++) {
                         Player *player = &gPlayers[var_r6];
                         if (player == itembox->p) {
@@ -464,12 +464,12 @@ void sub_802C7B0(ItemBox *itembox)
                 }
                 break;
             case 3:
-                if (gStageData.gameMode == 3) {
+                if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK) {
                     rings = 10;
                 } else {
                     rings = ItemBox_ringAmountTable[PseudoRandom32() % ARRAY_COUNT(ItemBox_ringAmountTable)];
                 }
-                if (gStageData.gameMode == GAME_MODE_MP_MULTI_PACK) {
+                if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
                     for (var_r6 = 0; var_r6 < 4; var_r6++) {
                         if (&gPlayers[var_r6] == itembox->p) {
                             break;

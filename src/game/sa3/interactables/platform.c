@@ -163,7 +163,7 @@ void Task_Platform()
     qInitialWorldY = qWorldY -= shared->qWorldY;
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        if ((gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) || (i == 0)) {
+        if ((CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) || (i == 0)) {
             Player *p = GET_SP_PLAYER_V0(i);
 
             if (!sub_802C0D4(p)) {
@@ -197,7 +197,7 @@ void Task_Platform()
                     p->qSpeedAirY = Q(0);
                     p->unk26 = 0;
 
-                    if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+                    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
                         if (((sp10 == +1) && (qInitialWorldY > Q(2))) || ((sp10 != +1) && (qInitialWorldY > Q(0)))) {
                             if (sub_801226C(p) < 0) {
                                 if (!sub_802C080(p)) {
@@ -260,7 +260,7 @@ void Task_Platform()
                     }
 
                     if (!sub_802C080(p)) {
-                        if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+                        if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
                             if (sub_8012368(p) < 0) {
                                 Player_HitWithoutRingsUpdate(p);
                             } else if (!(p->moveState & MOVESTATE_IN_AIR)) {
@@ -469,7 +469,7 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F368.inc", void 
                 }
                 p->qSpeedAirY = 0;
 
-                if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+                if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
                     if (sub_8012368(p) < 0) {
                         if (!sub_802C080(p)) {
                             Player_HitWithoutRingsUpdate(p);
@@ -600,7 +600,7 @@ NONMATCH("asm/non_matching/game/interactables/platform__Task_802F698.inc", void 
                 }
                 p->qSpeedAirY = 0;
 
-                if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+                if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
                     if (sub_8012368(p) < 0) {
                         if (!sub_802C080(p)) {
                             Player_HitWithoutRingsUpdate(p);
@@ -684,7 +684,7 @@ static void InitSprite(u16 kindA, u16 flag5, Sprite *s)
     memcpy(array1, sPlatformAnimsHubworld, sizeof(array1));
     memcpy(array2, gUnknown_080CF4F2, sizeof(array2));
 
-    if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         if (kindA == 2) {
             if (gStageData.act == ACT_BONUS_ENEMIES) {
                 anim = ANIM_PLATFORM_BONUS;

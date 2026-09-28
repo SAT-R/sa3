@@ -550,10 +550,10 @@ void Task_80924DC(void)
 
     if (nes->unk22 != 0) {
         gBldRegs.bldCnt = 0x3FFF;
-        gDispCnt |= 0x6000;
-        gWinRegs[1] = 0xFF;
-        gWinRegs[3] = 0xFF;
-        gWinRegs[4] = 0x3D32;
+        gDispCnt |= DISPCNT_WIN0_ON | DISPCNT_WIN1_ON;
+        gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, WIN_GET_HIGHER(-1)); // TODO: Do this more elegantly...
+        gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, WIN_GET_HIGHER(-1)); // TODO: Do this more elegantly...
+        gWinRegs[WINREG_WININ] = (WININ_WIN1_ALL & ~WININ_WIN1_BG1) | WININ_WIN0_CLR | WININ_WIN0_OBJ | WININ_WIN0_BG1;
         gWinRegs[5] = 0;
         nes->unk20 = 0;
         nes->unk22 = 0;
@@ -579,11 +579,11 @@ void Task_80924DC(void)
     sub_8001E58();
 
     if (nes->initArg0 == 2) {
-        gStageData.gameMode = 6;
+        CURRENT_GAME_MODE = GAME_MODE_MP_MULTI_PACK;
         sub_80003B8();
         CreateMultiPakConnectionCheck(0);
     } else if (nes->initArg0 == 3) {
-        gStageData.gameMode = 7;
+        CURRENT_GAME_MODE = GAME_MODE_MP_SINGLE_PACK;
         sub_80003B8();
         sub_8000340(0);
     } else if (nes->initArg0 == 1) {

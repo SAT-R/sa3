@@ -1090,7 +1090,7 @@ bool32 sub_806B844(EggWheeler *boss)
         m4aSongNumStart(SE_143);
         PlayVoiceEggmanHit();
         boss->lives--;
-        if (gStageData.gameMode == 5) {
+        if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
             if (gStageData.playerIndex == 0) {
                 if (boss->lives != 0) {
                     sub_8027674(3U, boss->lives);

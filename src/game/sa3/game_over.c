@@ -491,13 +491,13 @@ void Task_00_8002988(void)
         gStageData.levelTimer = TIME(3, 0);
     }
     REG_MOSAIC = 0;
-    if (gStageData.gameMode > 4U) {
+    if (CURRENT_GAME_MODE > 4U) {
         sub_80261B0();
 
-        if ((gStageData.gameMode == GAME_MODE_MP_STORY_COOP) && (gStageData.playerIndex == 0)) {
+        if ((CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) && (gStageData.playerIndex == 0)) {
             sub_80275F0(gStageData.currentLevel, gStageData.zone, gStageData.warpId);
 
-            if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
+            if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
                 sub_8027878(gStageData.lives);
             }
         }
@@ -532,18 +532,18 @@ void Task_8002BBC(void)
         sd->timer += 1;
         var_sl = 1;
     }
-    if (gStageData.gameMode != 7) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         if (sd->unk4 == 3) {
             sd->levelTimer += var_sl;
             if (sd->levelTimer > MAX_COURSE_TIME - 1) {
                 sd->levelTimer = MAX_COURSE_TIME - 1;
-                if ((gStageData.unk2 == 0) || (gStageData.gameMode == 6)) {
+                if ((gStageData.unk2 == 0) || (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK)) {
                     temp_r4 = &gPlayers[gStageData.playerIndex];
                     temp_r5 = &gPlayers[temp_r4->charFlags.partnerIndex];
                     if (!(temp_r4->moveState & 0x100)) {
                         sub_8003A14();
 
-                        if (gStageData.gameMode == 5) {
+                        if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
                             sub_802789C();
                             sub_8027878(gStageData.lives);
                         }
@@ -591,7 +591,7 @@ void Task_8002BBC(void)
             gUnknown_03001060.unk55 = (gUnknown_03001060.unk55 + 1) & 1;
         }
     }
-    if (gStageData.gameMode == 7) {
+    if (CURRENT_GAME_MODE == GAME_MODE_MP_SINGLE_PACK) {
 
     } else {
         if (gStageData.platformTimerEnableBits != 0) {
@@ -682,12 +682,12 @@ void Task_8002BBC(void)
 
         sub_80043B8();
 
-        if ((gStageData.gameMode != 7) && (START_BUTTON & gPressedKeys) && (gStageData.gameMode != 1) && (gStageData.gameMode != 2)
-            && ((gStageData.currentLevel != 1) || (gStageData.gameMode != 5))) {
+        if ((CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) && (START_BUTTON & gPressedKeys) && (CURRENT_GAME_MODE != GAME_MODE_DEMO)
+            && (CURRENT_GAME_MODE != GAME_MODE_2) && ((gStageData.currentLevel != 1) || (CURRENT_GAME_MODE != GAME_MODE_MP_STORY_COOP))) {
             sub_800341C();
         }
     }
-    if (gStageData.gameMode > 4U) {
+    if (CURRENT_GAME_MODE > 4U) {
         sub_8026478();
         sub_80264F0();
     }
@@ -898,7 +898,7 @@ void sub_800341C(void)
         }
     }
 
-    if (gStageData.gameMode < 5) {
+    if (CURRENT_GAME_MODE < 5) {
         if (gStageData.act == 0xA) {
             if (((((u32)(((gLoadedSaveGame.collectedEmeralds) >> (gStageData.zone)) << 24) >> 24) & 1) || (gStageData.unkD == 1))) {
                 var_r7 = 0;
@@ -911,7 +911,7 @@ void sub_800341C(void)
             var_r7 = 2;
         } else {
             GetZoneAndActTypeFromStageID(gStageData.currentLevel, &zone, &actType);
-            if (gStageData.gameMode == 3 || gStageData.gameMode == 4) {
+            if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK || CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
                 var_r7 = 1;
             } else {
                 if (gLoadedSaveGame.unlockedStages[zone] & actType) {
@@ -996,7 +996,7 @@ void Task_800368C(void)
     temp_r4 = TASK_DATA(gCurTask);
     s = &temp_r4->s;
     var_r6 = 0;
-    if (gStageData.gameMode > 4U) {
+    if (CURRENT_GAME_MODE > 4U) {
         sub_8026720();
         temp_r1_2 = sub_80264F0();
         if (temp_r1_2 == -1) {
@@ -1046,7 +1046,7 @@ void Task_800368C(void)
             }
         }
     }
-    if (gStageData.gameMode > 4U) {
+    if (CURRENT_GAME_MODE > 4U) {
         var_r5_2 = 0;
         if (gStageData.unkB9 == (1 << gStageData.playerIndex)) {
             var_r5_2 = (u32)(0 - (u16)(START_BUTTON & gPressedKeys)) >> 0x1F;
@@ -1119,9 +1119,9 @@ void Task_800368C(void)
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
 
-        if (gStageData.gameMode == 3) {
+        if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK) {
             CreateMainMenu(0, 2U);
-        } else if (gStageData.gameMode == 4) {
+        } else if (CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
             CreateMainMenu(0, 3U);
         } else if (((u32)gStageData.zone <= 6U) && ((u32)gStageData.act > 2U)) {
             if (gStageData.act == 10) {
@@ -1266,7 +1266,7 @@ void Task_8003C38(void)
     partner = GET_SP_PLAYER_V0(PLAYER_2);
     p->framesInvulnerable = 0;
     partner->framesInvulnerable = 0;
-    if (gStageData.gameMode == 6) {
+    if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
         gStageData.unk4 = 5;
         gStageData.unk5 = 0xAA;
         gStageData.task90->main = Task_800303C;
@@ -1353,21 +1353,21 @@ void sub_8003DC4(u16 count)
 
 void sub_8003DF0(u16 song)
 {
-    if (gStageData.gameMode != 2) {
+    if (CURRENT_GAME_MODE != GAME_MODE_2) {
         m4aSongNumStart(song);
     }
 }
 
 void sub_8003E0C(u16 song)
 {
-    if (gStageData.gameMode != 2) {
+    if (CURRENT_GAME_MODE != GAME_MODE_2) {
         m4aSongNumStartOrContinue(song);
     }
 }
 
 void sub_8003E28(u16 song)
 {
-    if (gStageData.gameMode != 2) {
+    if (CURRENT_GAME_MODE != GAME_MODE_2) {
         m4aSongNumStop(song);
     }
 }
@@ -1376,10 +1376,10 @@ void sub_8003E44(s16 level)
 {
     void *vramBase;
 
-    if (gStageData.gameMode != 7) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         vramBase = OBJ_VRAM0 + 0x4D80;
-        if (gStageData.gameMode > 5U) {
-            if (gStageData.gameMode == 6) {
+        if (CURRENT_GAME_MODE > 5U) {
+            if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
                 vramBase = OBJ_VRAM0 + 0x4DA0;
             }
         }
@@ -1413,7 +1413,7 @@ void sub_8003F40(void)
     ClearPlayerDataAndSetSpawnPos(level, PLAYER_3);
     ClearPlayerDataAndSetSpawnPos(level, PLAYER_4);
 
-    if (gStageData.gameMode != GAME_MODE_2) {
+    if (CURRENT_GAME_MODE != GAME_MODE_2) {
         m4aMPlayAllStop();
     }
 

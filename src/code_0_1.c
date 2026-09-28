@@ -15,7 +15,7 @@ void sub_800214C(void)
     Player *players = &gPlayers[0];
     s16 i;
 
-    if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         gStageData.lives = 2;
 
         for (i = 0; i < (s32)ARRAY_COUNT(gStageData.unkBE); i++) {
@@ -37,7 +37,7 @@ void sub_800214C(void)
         }
     }
 
-    if (gStageData.gameMode == GAME_MODE_DEMO || gStageData.gameMode == GAME_MODE_2) {
+    if (CURRENT_GAME_MODE == GAME_MODE_DEMO || CURRENT_GAME_MODE == GAME_MODE_2) {
         gStageData.buttonConfig.jump = A_BUTTON;
         gStageData.buttonConfig.attack = B_BUTTON;
         gStageData.buttonConfig.trick = R_BUTTON;

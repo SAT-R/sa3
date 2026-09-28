@@ -107,7 +107,7 @@ void sub_8089F08(MainMenu *menu);
 void sub_8089F40(MainMenu *menu);
 void Task_3F0_8087B80(void);
 void Task_3F0_8087C74(void);
-void Task_3F0_8087D54(void);
+void Task_TransitionToSelectedMode(void);
 void Task_3F0_8087F18(void);
 void Task_3F0_8088088(void);
 void Task_3F0_808819C(void);
@@ -656,26 +656,21 @@ void Task_3F0_8087C74(void)
     }
     gBldRegs.bldY = 0x10;
     menu->unkD = 0xB;
-    gCurTask->main = Task_3F0_8087D54;
+    gCurTask->main = Task_TransitionToSelectedMode;
 }
 
-void Task_3F0_8087D54(void)
+void Task_TransitionToSelectedMode(void)
 {
     MainMenu *menu = TASK_DATA(gCurTask);
-    s16 temp_r0;
-    u8 temp_r1;
-    u8 var_r0;
-    u8 var_r1;
 
-    temp_r0 = menu->highlitButton;
-    switch ((u32)temp_r0) {
+    switch (menu->highlitButton) {
         case 0:
             if (menu->unkC == 0) {
-                gStageData.gameMode = 0;
-                gStageData.playerIndex = 0;
+                CURRENT_GAME_MODE = GAME_MODE_SINGLE_PLAYER;
+                gStageData.playerIndex = PLAYER_1;
                 CreateCharacterSelect(0U);
             } else {
-                gStageData.gameMode = 5;
+                CURRENT_GAME_MODE = GAME_MODE_MP_STORY_COOP;
                 sub_80A1A4C(0);
             }
             break;
@@ -684,11 +679,11 @@ void Task_3F0_8087D54(void)
                 if (LOADED_SAVE->playerName[0] == 0xFFFF) {
                     CreateNameEntryScreen(2);
                 } else {
-                    gStageData.gameMode = 6;
+                    CURRENT_GAME_MODE = GAME_MODE_MP_MULTI_PACK;
                     CreateMultiPakConnectionCheck(0);
                 }
             } else {
-                gStageData.gameMode = 7;
+                CURRENT_GAME_MODE = GAME_MODE_MP_SINGLE_PACK;
                 sub_80003B8();
                 sub_8000340(0);
             }
@@ -697,12 +692,12 @@ void Task_3F0_8087D54(void)
             StageData *stgData; // for matching
             if (menu->unkC == 0) {
                 stgData = &gStageData;
-                stgData->gameMode = 3;
-                stgData->playerIndex = 0;
+                stgData->gameMode = GAME_MODE_TIME_ATTACK;
+                stgData->playerIndex = PLAYER_1;
             } else {
                 stgData = &gStageData;
-                stgData->gameMode = 4;
-                stgData->playerIndex = 0;
+                stgData->gameMode = GAME_MODE_BOSS_TIME_ATTACK;
+                stgData->playerIndex = PLAYER_1;
             }
             gStageData.buttonConfig.jump = LOADED_SAVE->buttonConfig.jump;
             gStageData.buttonConfig.attack = LOADED_SAVE->buttonConfig.attack;
@@ -716,14 +711,14 @@ void Task_3F0_8087D54(void)
             CreateTitleScreen(1U);
             break;
         case 10:
-            TasksDestroyInPriorityRange(0U, 0xFFFFU);
+            TasksDestroyAll();
             PAUSE_BACKGROUNDS_QUEUE();
             gBgSpritesCount = 0;
             PAUSE_GRAPHICS_QUEUE();
             gStageData.buttonConfig.jump = LOADED_SAVE->buttonConfig.jump;
             gStageData.buttonConfig.attack = LOADED_SAVE->buttonConfig.attack;
             gStageData.buttonConfig.trick = LOADED_SAVE->buttonConfig.trick;
-            gStageData.gameMode = 0;
+            CURRENT_GAME_MODE = GAME_MODE_SINGLE_PLAYER;
             gStageData.unkD = 1;
             sub_80B1AF4(0, 0, 0);
             break;
@@ -778,10 +773,10 @@ void Task_3F0_8087F18(void)
             CreateCharacterSelect(3U);
             break;
         case 2:
-            if (gStageData.gameMode == 3) {
+            if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK) {
                 sub_80003B8();
                 CreateTimeRecordScreen(3);
-            } else if (gStageData.gameMode == 4) {
+            } else if (CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
                 sub_80003B8();
                 CreateTimeRecordScreen(4);
             } else {

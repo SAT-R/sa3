@@ -41,9 +41,9 @@ typedef struct {
 // NOTE: It checks for the GAME_MODE twice, making the entire last condition redundant!
 //       Modern compilers optimize that out.
 #define SHOULD_SPAWN(_id)                                                                                                                  \
-    ((gStageData.gameMode == GAME_MODE_SINGLE_PLAYER)                                                                                      \
+    ((CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER)                                                                                        \
      && (((_id != 44) || (LOADED_SAVE->unlockedZones > ZONE_FINAL))                                                                        \
-         && ((me->d.uData[4] != 3 && me->d.uData[4] != 8 && me->d.uData[4] != 9) || (gStageData.gameMode == GAME_MODE_SINGLE_PLAYER))))
+         && ((me->d.uData[4] != 3 && me->d.uData[4] != 8 && me->d.uData[4] != 9) || (CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER))))
 
 void Task_OmochaoInit(void);
 void Task_8037F8C(void);

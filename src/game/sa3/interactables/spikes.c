@@ -36,7 +36,7 @@ void CreateSpikes(u8 kind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
     Spikes *spikes;
     Sprite *s;
 
-    if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         if (kind < 4) {
             t = TaskCreate(Task_Spikes7, sizeof(Spikes), 0x2100, 0, TaskDestructor_Spikes);
         } else {
@@ -62,7 +62,7 @@ void CreateSpikes(u8 kind, MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
-    if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         if (kind < 4) {
             sub_8030D30(spikes->kind, s);
         } else {
@@ -229,7 +229,7 @@ void Task_Spikes_4_6(void)
 
     for (i = 0, sp14 = timer - 60; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         u32 res;
-        if ((gStageData.gameMode == 7) && (i != 0)) {
+        if ((CURRENT_GAME_MODE == GAME_MODE_MP_SINGLE_PACK) && (i != 0)) {
             continue;
         }
 
@@ -316,7 +316,7 @@ void sub_8030D30(s16 kind, Sprite *s)
     s->palId = 0;
     s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
 
-    if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         if (kind < 2) {
             s->anim = (gStageData.zone == ZONE_4) ? ANIM_SPIKES_4 : ANIM_SPIKES;
             s->variant = 0;

@@ -154,7 +154,7 @@ void CreateEntity_ChaoInStage(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s32 worldX, worldY;
     u16 chaoFlag;
 
-    if (gStageData.gameMode != GAME_MODE_SINGLE_PLAYER) {
+    if (CURRENT_GAME_MODE != GAME_MODE_SINGLE_PLAYER) {
         SET_MAP_ENTITY_INITIALIZED(me);
         return;
     }
@@ -200,7 +200,7 @@ void CreateEntity_ChaoInPlayground(MapEntity *me, u16 regionX, u16 regionY, u8 i
     u32 chaoKind;
     s32 worldX, worldY;
 
-    if ((gStageData.gameMode != GAME_MODE_SINGLE_PLAYER) && (gStageData.gameMode != GAME_MODE_MP_STORY_COOP)) {
+    if ((CURRENT_GAME_MODE != GAME_MODE_SINGLE_PLAYER) && (CURRENT_GAME_MODE != GAME_MODE_MP_STORY_COOP)) {
         SET_MAP_ENTITY_INITIALIZED(me);
         return;
     }

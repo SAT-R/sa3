@@ -78,7 +78,7 @@ void Task_SpringMain(void)
         u32 sb;
         s16 anim;
 
-        if ((gStageData.gameMode == GAME_MODE_MP_SINGLE_PACK) && (i != 0)) {
+        if ((CURRENT_GAME_MODE == GAME_MODE_MP_SINGLE_PACK) && (i != 0)) {
             continue;
         }
 
@@ -203,7 +203,7 @@ void sub_802DFC8(s16 direction, Sprite *s)
         }
     }
 
-    if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         if ((gStageData.act >= ACT_1) && (gStageData.act <= ACT_BONUS_CAPSULE)) {
             if (gStageData.zone == ZONE_6) {
                 s->tiles = ALLOC_TILES(ANIM_SPRING_6);

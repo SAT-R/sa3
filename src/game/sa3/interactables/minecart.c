@@ -197,7 +197,7 @@ void sub_8047D60(void)
         if ((p->callback == Player_8008A8C) || (p->callback == Player_800ED80)) {
             Player_StopSong(p, SE_MINECART_ROLL);
             cart->player = NULL;
-        } else if (((gStageData.unk4 == 5) || (gStageData.unk4 == 6)) && (gStageData.gameMode == GAME_MODE_MP_STORY_COOP)) {
+        } else if (((gStageData.unk4 == 5) || (gStageData.unk4 == 6)) && (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP)) {
             Player_StopSong(p, SE_MINECART_ROLL);
             cart->player = NULL;
         } else if ((p->moveState & MOVESTATE_COLLIDING_ENT) && p->sprColliding == &cart->s) {

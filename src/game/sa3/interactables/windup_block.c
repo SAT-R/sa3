@@ -126,7 +126,7 @@ NONMATCH("asm/non_matching/game/interactables/windup_block__Task_WindupBlock.inc
                 if ((p->moveState & MOVESTATE_COLLIDING_ENT) && (p->sprColliding == s2)) {
                     s32 r2 = 0;
 
-                    if (GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode)) {
+                    if (GAME_MODE_IS_SINGLE_PLAYER(CURRENT_GAME_MODE)) {
 
                     } else {
                         // _08047218

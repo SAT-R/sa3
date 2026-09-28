@@ -53,7 +53,7 @@ void Task_FactoryRingMain(void)
                         SetPlayerCallback(partner, Player_800AE14);
                     }
 
-                    if (!GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode)) {
+                    if (!GAME_MODE_IS_SINGLE_PLAYER(CURRENT_GAME_MODE)) {
                         sub_80275B8(1, gStageData.zone, 1);
                     }
 

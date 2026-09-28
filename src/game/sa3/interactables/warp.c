@@ -134,7 +134,7 @@ void Task_802E6F8(void)
 
     u8 id = warp->base.id;
 
-    if ((id != 2) || (gStageData.gameMode == GAME_MODE_SINGLE_PLAYER)) {
+    if ((id != 2) || (CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER)) {
         sub_8003D2C();
         TasksDestroyAll();
         gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
@@ -144,7 +144,7 @@ void Task_802E6F8(void)
 
     switch (id) {
         case 0: {
-            if (!GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode)) {
+            if (!GAME_MODE_IS_SINGLE_PLAYER(CURRENT_GAME_MODE)) {
                 sub_80275B8(gStageData.zone * 10 + 2, 0, 0);
             }
 
@@ -181,7 +181,7 @@ void CreateEntity_Warp(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     GetFirstSetBitIndexExt(me->d.uData[4], 4, i);
 
-    if ((i != 1) || (gStageData.gameMode == GAME_MODE_SINGLE_PLAYER)) {
+    if ((i != 1) || (CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER)) {
         struct Task *t = TaskCreate(Task_WarpMain, sizeof(Warp), 0x2000, 0, NULL);
         Warp *warp = TASK_DATA(t);
 
@@ -198,7 +198,7 @@ void CreateEntity_Warp(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
 void sub_802E87C(void)
 {
-    switch (gStageData.gameMode) {
+    switch (CURRENT_GAME_MODE) {
         case GAME_MODE_SINGLE_PLAYER: {
             WarpToMap(11, 0);
         } break;
@@ -211,7 +211,7 @@ void sub_802E87C(void)
 
 void sub_802E8A8(void)
 {
-    switch (gStageData.gameMode) {
+    switch (CURRENT_GAME_MODE) {
         case GAME_MODE_SINGLE_PLAYER: {
             CreateCharacterSelect(4);
         } break;

@@ -86,7 +86,7 @@ NONMATCH("asm/non_matching/game/interactables/grind_rail__Task_8039230.inc", voi
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         Player *p;
 
-        if ((gStageData.gameMode == GAME_MODE_MP_SINGLE_PACK) && (i != 0)) {
+        if ((CURRENT_GAME_MODE == GAME_MODE_MP_SINGLE_PACK) && (i != 0)) {
             continue;
         }
 
@@ -297,7 +297,7 @@ void Task_Interactable073Main(void)
     qRight = qLeft + Q(me->d.uData[2] * TILE_WIDTH);
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        if ((gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) || (i == 0)) {
+        if ((CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) || (i == 0)) {
             Player *p = GET_SP_PLAYER_V1(i);
 
             if (((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4))
@@ -338,7 +338,7 @@ void Task_Interactable074Main(void)
     qRight = qLeft + Q(me->d.uData[2] * TILE_WIDTH);
 
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
-        if ((gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) || (i == 0)) {
+        if ((CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) || (i == 0)) {
             Player *p = GET_SP_PLAYER_V1(i);
 
             if (((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4))

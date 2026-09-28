@@ -74,7 +74,7 @@ void Task_FinalZoneRing(void)
 
                 Player_PlaySong(p, SE_BIG_WARP_RING);
 
-                if (gStageData.gameMode > GAME_MODE_BOSS_TIME_ATTACK) {
+                if (CURRENT_GAME_MODE > GAME_MODE_BOSS_TIME_ATTACK) {
                     if (p->charFlags.someIndex == 0x1) {
                         u8 maybeStageId = 71;
                         sub_80275B8(maybeStageId, 0, gStageData.unkC);

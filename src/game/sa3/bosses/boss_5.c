@@ -438,7 +438,7 @@ void Task_Chaser_8071E94(void)
         sub_80735C4(boss);
     }
     if (boss->unk12 == 0) {
-        if (gStageData.gameMode == 5) {
+        if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
             if (gStageData.playerIndex != 0) {
                 gCurTask->main = Task_Chaser_8073420;
             } else {
@@ -1051,7 +1051,7 @@ void sub_8072DA4(EggChaserBoss *boss)
         sprEggman->prevVariant = 0xFF;
         sub_8078DB0(0x4DD, 0, 0x7A, 0U);
         sub_8078DB0(0x4DE, 0, 0x7A, 0U);
-        if (gStageData.gameMode == 5) {
+        if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
             if (gStageData.playerIndex == 0) {
                 if (boss->unk12 != 0) {
                     sub_8027674(3U, boss->unk12);

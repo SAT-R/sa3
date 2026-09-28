@@ -154,7 +154,7 @@ void CreateStageRingsManager(void)
     void *var_r5;
     Sprite *s;
 
-    if (gStageData.gameMode != 7) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         if (mapIndex != 72) {
             t = TaskCreate(Task_RingsMgrStage, sizeof(RingsManager), 0x2800U, 0U, TaskDestructor_RingsMgr);
         } else {
@@ -170,9 +170,9 @@ void CreateStageRingsManager(void)
     temp_r0_2 = TASK_DATA(t);
     temp_r0_2->rings = var_r5;
     s = &temp_r0_2->s;
-    if (gStageData.gameMode < 6) {
+    if (CURRENT_GAME_MODE < 6) {
         s->tiles = OBJ_VRAM0 + 0x4180;
-    } else if (gStageData.gameMode == 6) {
+    } else if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
         s->tiles = OBJ_VRAM0 + 0x41A0;
     }
 
@@ -192,7 +192,7 @@ void CreateStageRingsManager(void)
 
 void PlayRingCollectSE(void)
 {
-    if ((gStageData.gameMode != 2)
+    if ((CURRENT_GAME_MODE != GAME_MODE_2)
         && (((gStageData.unk4 != 9) && (gStageData.unk4 != 4) && (gStageData.unk4 != 5) && (gStageData.unk4 != 6))
             || (gStageData.zone != 7))) {
         if (gStageData.rings & 1) {
@@ -232,9 +232,9 @@ void CreateCollectRingEffect(s32 inWorldX, s32 inWorldY)
         strc->unk29 = 0;
         strc->unk28 = (s8)(1 & gStageData.rings);
         s = &strc->s;
-        if (gStageData.gameMode < 6) {
+        if (CURRENT_GAME_MODE < 6) {
             s->tiles = OBJ_VRAM0 + 0x4380;
-        } else if (gStageData.gameMode == 6) {
+        } else if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
             s->tiles = OBJ_VRAM0 + 0x43A0;
         }
         s->frameFlags = 0x41200;
@@ -268,9 +268,9 @@ void CreateCollectRingEffectNoSfx(s16 worldX, s16 worldY)
         strc->unk29 = 0;
         strc->unk28 = (s8)(1 & gStageData.rings);
         s = &strc->s;
-        if (gStageData.gameMode < 6) {
+        if (CURRENT_GAME_MODE < 6) {
             s->tiles = OBJ_VRAM0 + 0x4380;
-        } else if (gStageData.gameMode == 6) {
+        } else if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
             s->tiles = OBJ_VRAM0 + 0x43A0;
         }
         s->frameFlags = 0x41200;
@@ -323,7 +323,7 @@ NONMATCH("asm/non_matching/game/shared/rm__Task_RingsMgrStage.inc", void Task_Ri
     h_regionCount = (u16)*rings++;
     v_regionCount = (u16)*rings++;
 
-    if ((GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode) || (gStageData.gameMode == GAME_MODE_MP_STORY_COOP))) {
+    if ((GAME_MODE_IS_SINGLE_PLAYER(CURRENT_GAME_MODE) || (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP))) {
         for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
             p = GET_SP_PLAYER_V0(i);
 

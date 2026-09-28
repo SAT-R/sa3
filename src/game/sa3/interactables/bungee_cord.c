@@ -147,7 +147,7 @@ s16 sub_803FD5C(Vec2_16 *inPositions)
                 cord->tetheredPlayer[i] = NULL;
             }
 
-            if ((gStageData.unk4 == 5 || gStageData.unk4 == 6) && gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
+            if ((gStageData.unk4 == 5 || gStageData.unk4 == 6) && CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
                 cord->tetheredPlayer[i] = NULL;
             }
         }

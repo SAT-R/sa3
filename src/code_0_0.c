@@ -869,7 +869,7 @@ void CallCompleteSave(void) { CompleteSave(LOADED_SAVE); }
 
 s32 sub_8001E58()
 {
-    if (gStageData.gameMode != GAME_MODE_MP_STORY_COOP || gStageData.playerIndex == PLAYER_1) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_STORY_COOP || gStageData.playerIndex == PLAYER_1) {
         if (sub_80020F0()) {
             return sub_8001FD4();
         }
@@ -906,7 +906,7 @@ void sub_8001EEC(u8 param0)
 
     sub_802616C(60);
 
-    if ((gStageData.gameMode == GAME_MODE_MP_STORY_COOP) && (gStageData.playerIndex != PLAYER_1)) {
+    if ((CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) && (gStageData.playerIndex != PLAYER_1)) {
         return;
     }
 

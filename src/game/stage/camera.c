@@ -513,7 +513,7 @@ void InitCamera(s32 level, u8 UNUSED entryIndex)
         gBgCntRegs[2]
             = BGCNT_TXT512x512 | BGCNT_PRIORITY(1) | BGCNT_SCREENBASE(CAM_SCREENBASE_MAP_BACK) | BGCNT_16COLOR | BGCNT_CHARBASE(0);
 #endif
-        if (CURRENT_GAME_MODE != 7) {
+        if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
             gBgSprites_Unknown1[0] = 0;
             gBgSprites_Unknown2[0][0] = 0;
             gBgSprites_Unknown2[0][1] = 0;
@@ -546,7 +546,7 @@ void InitCamera(s32 level, u8 UNUSED entryIndex)
             DrawBackground(&gStageBackgroundsRam[layer + BGID_STAGE_HI]);
         }
 
-        if (CURRENT_GAME_MODE != 7) {
+        if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
             if (sBackgroundProcs[level].init) {
                 sBackgroundProcs[level].init();
             }
@@ -758,7 +758,7 @@ void InitCamera(s32 level, u8 UNUSED entryIndex)
         }
     }
 
-    if (CURRENT_GAME_MODE != 7) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         gRefCollision = gCollisionTable[level];
     } else {
         gRefCollision = &CollHeader_85D8C64_fg;
@@ -773,7 +773,7 @@ void InitCamera(s32 level, u8 UNUSED entryIndex)
     if (cam->y < 0) {
         cam->y = 0;
     }
-    if (CURRENT_GAME_MODE != 7) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         cam->maxY = gCameraMaxCoords[level][1];
         cam->maxX = gCameraMaxCoords[level][0];
     } else {
@@ -787,7 +787,7 @@ void InitCamera(s32 level, u8 UNUSED entryIndex)
     cam->SA2_LABEL(unk44) = 8;
     cam->SA2_LABEL(unk64) = 0xFFFC;
 
-    if (CURRENT_GAME_MODE != 7) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         if (gStageData.zone == ZONE_UNUSED) {
             cam->task48 = TaskCreate(Task_80516CC, 0U, 0x1000U, 0U, NULL);
         } else if ((gStageData.act == ACT_BOSS) && (gStageData.zone == ZONE_5 || gStageData.zone == ZONE_6)
@@ -1294,7 +1294,7 @@ void sub_80508D4(void)
     gBgScrollRegs[0][0] = (gCamera.x >> 2) & 0xFF;
     gBgScrollRegs[0][1] = (gCamera.y >> 2) & 0x1FF;
 
-    if (gStageData.gameMode < 5) {
+    if (GAME_MODE_IS_SINGLE_PLAYER(CURRENT_GAME_MODE)) {
         sub_8050920();
     }
 }
@@ -1326,17 +1326,17 @@ void sub_8050920(void)
 
 void sub_80509B4(void)
 {
-    gStageBackgroundsRam[0].graphics.dest = (void *)(BG_VRAM + 0xC000);
-    gStageBackgroundsRam[0].layoutVram = (u16 *)(BG_VRAM + 0xE000);
+    gStageBackgroundsRam[0].graphics.dest = (void *)BG_CHAR_ADDR(3);
+    gStageBackgroundsRam[0].layoutVram = (u16 *)BG_SCREEN_ADDR(28);
     gStageBackgroundsRam[0].targetTilesX = 32;
     gStageBackgroundsRam[0].targetTilesY = 32;
-    gBgCntRegs[0] = 0x1C0E;
+    gBgCntRegs[0] = BGCNT_SCREENBASE(28) | BGCNT_CHARBASE(3) | BGCNT_TXT256x256 | BGCNT_16COLOR | BGCNT_PRIORITY(2);
 
-    gStageBackgroundsRam[3].graphics.dest = (void *)(BG_VRAM + 0x8000);
-    gStageBackgroundsRam[3].layoutVram = (u16 *)(BG_VRAM + 0xD000);
+    gStageBackgroundsRam[3].graphics.dest = (void *)BG_CHAR_ADDR(2);
+    gStageBackgroundsRam[3].layoutVram = (u16 *)BG_SCREEN_ADDR(26);
     gStageBackgroundsRam[3].targetTilesX = 32;
     gStageBackgroundsRam[3].targetTilesY = 20;
-    gBgCntRegs[3] = 0x1A0A;
+    gBgCntRegs[3] = BGCNT_SCREENBASE(26) | BGCNT_CHARBASE(2) | BGCNT_TXT256x256 | BGCNT_16COLOR | BGCNT_PRIORITY(2);
 }
 
 void sub_8050A0C(void)

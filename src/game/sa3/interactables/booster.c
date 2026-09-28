@@ -73,7 +73,7 @@ void Task_Booster(void)
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         Player *p;
 
-        if ((gStageData.gameMode == GAME_MODE_MP_SINGLE_PACK) && (i != 0)) {
+        if ((CURRENT_GAME_MODE == GAME_MODE_MP_SINGLE_PACK) && (i != 0)) {
             continue;
         }
 
@@ -94,8 +94,7 @@ void Task_Booster(void)
                 p->unk99 = 0;
                 p->qCamOffsetY = Q(0);
 
-                if ((gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) && (p->unkC & 0x1)
-                    && !(p->moveState & MOVESTATE_TAG_ACTION_CHARGED)) {
+                if ((CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) && (p->unkC & 0x1) && !(p->moveState & MOVESTATE_TAG_ACTION_CHARGED)) {
                     Player_BoostModeEngage(p);
 
                     qGroundSpeed = Q(12);
@@ -165,7 +164,7 @@ static void InitSprite(u8 kind, u8 xFlip, u8 yFlip, Sprite *s)
     s->tiles = VramMalloc(20);
     s->anim = ANIM_BOOSTER;
 
-    if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         s->variant = kind;
     } else {
         s->variant = 0;

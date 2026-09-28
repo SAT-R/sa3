@@ -78,7 +78,7 @@ void Task_SpecialSpring(void)
         if (mask) {
             if (mask & 0x10000) {
                 u8 spKeys = LOADED_SAVE->specialKeys[gStageData.zone];
-                if ((spKeys > 0) && (gStageData.gameMode == GAME_MODE_SINGLE_PLAYER)) {
+                if ((spKeys > 0) && (CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER)) {
                     LOADED_SAVE->specialKeys[gStageData.zone] = spKeys - 1;
                     SetPlayerCallback(p, Player_UseSpecialSpringWithKey);
 

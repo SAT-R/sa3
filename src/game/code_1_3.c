@@ -1825,7 +1825,7 @@ void sub_8055614(Strc_2A4_8053284 *strc)
     temp_r1_2 = var_r0 + 0x10;
     levelTimer = gStageData.levelTimer;
 
-    if (CURRENT_GAME_MODE == 5) {
+    if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
         charPlayer = gPlayers[PLAYER_1].charFlags.character;
         charPartner = gPlayers[PLAYER_2].charFlags.character;
     }

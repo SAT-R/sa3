@@ -225,7 +225,7 @@ NONMATCH("asm/non_matching/engine/sub_8000414.inc", void sub_8000414(u16 stageId
         }
         sub_802616C(60);
 
-        if ((gStageData.gameMode != 5) || (gStageData.playerIndex == 0)) {
+        if ((CURRENT_GAME_MODE != GAME_MODE_MP_STORY_COOP) || (gStageData.playerIndex == 0)) {
             if (sub_80020F0()) {
                 sub_8001FD4();
             }
@@ -303,7 +303,7 @@ NONMATCH("asm/non_matching/engine/sub_8000538.inc", void sub_8000538(u16 stageId
 
     sub_802616C(60);
 
-    if (((gStageData.gameMode != 5) || (gStageData.playerIndex == 0))) {
+    if (((CURRENT_GAME_MODE != GAME_MODE_MP_STORY_COOP) || (gStageData.playerIndex == 0))) {
         if (sub_80020F0()) {
             sub_8001FD4();
         }

@@ -193,7 +193,7 @@ void Task_802DA3C(void)
     gStageData.nextMapIndex = LEVEL_INDEX(warp->targetZone, ACT_HUB);
     gStageData.unkC = 0;
 
-    if (GAME_MODE_IS_MULTI_PLAYER(gStageData.gameMode)) {
+    if (GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) {
         sub_80275B8(LEVEL_INDEX(gStageData.zone, gStageData.act), 0, 0);
     }
 

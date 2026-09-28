@@ -80,7 +80,7 @@ void Task_Checkpoint(void)
                     gStageData.respawnX = worldX - 16;
                     gStageData.respawnY = worldY - 12;
 
-                    if (gStageData.gameMode >= GAME_MODE_MP_STORY_COOP) {
+                    if (CURRENT_GAME_MODE >= GAME_MODE_MP_STORY_COOP) {
                         if (p->charFlags.someIndex == 1) {
                             sub_80274F4(checkpoint->unk34 & 0x7, gStageData.respawnX, gStageData.respawnY);
                         }

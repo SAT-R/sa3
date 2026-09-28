@@ -48,7 +48,7 @@ extern s32 IsCollidingWithCheese(Sprite *);
 
 extern void sub_807A574(Gemerl *, u8, u8, u8);
 
-// if gStageData.gameMode is Single Player TimeAttack,
+// if CURRENT_GAME_MODE is Single Player TimeAttack,
 // then set gPseudoRandom = (gStageData.zone * 1001)
 extern void SetFixedRandomIfTimeAttackMode(void);
 
@@ -1026,7 +1026,7 @@ void sub_8067590(Gemerl *gemerl)
 
             s->animSpeed = SPRITE_ANIM_SPEED(1.0);
             gemerl->tf6C.rotation = 0;
-            if (gStageData.gameMode == 5) {
+            if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
                 gemerl->unk1A = 0;
                 gemerl->qSomeY = gemerl->unk10;
                 if (gStageData.playerIndex == 0) {

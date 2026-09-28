@@ -273,7 +273,7 @@ extern u16 gCheeseTileInfo[][2];
 
 static inline void SongStopCheck_inline(Player *p, u16 song)
 {
-    if (gStageData.gameMode != 7) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         if (p->moveState & MOVESTATE_1000) {
             Player_StopSong(p, song);
         }
@@ -355,7 +355,7 @@ void InitializePlayer(s16 playerId)
     }
 
     sub_801300C(playerId);
-    if (gStageData.gameMode != 7) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         sub_801310C(playerId);
         if (playerId == gStageData.playerIndex) {
             if (gStageData.currentLevel != 72) {
@@ -368,7 +368,7 @@ void InitializePlayer(s16 playerId)
         CreateCheeseIfPlayerIsCream(player);
         sub_80B7914(&gUnknown_03001150);
 
-        if (gStageData.gameMode < GAME_MODE_MP_MULTI_PACK) {
+        if (CURRENT_GAME_MODE < GAME_MODE_MP_MULTI_PACK) {
             Player_InitializeShieldSprite(player);
         }
     }
@@ -534,7 +534,7 @@ void Task_80045EC(void)
 
     p = &gPlayers[strc->playerId];
 
-    if (gStageData.gameMode != 7) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         sub_8014258(p);
         sub_80143E0(p);
     }
@@ -587,7 +587,7 @@ void Task_80045EC(void)
                     return;
                 }
 
-                if (gStageData.gameMode != 1 && gStageData.gameMode != 2) {
+                if (CURRENT_GAME_MODE != GAME_MODE_DEMO && CURRENT_GAME_MODE != GAME_MODE_2) {
                     if (p->charFlags.partnerIndex != gStageData.playerIndex) {
                         p->charFlags.someIndex = 5;
                         return;
@@ -661,7 +661,7 @@ void Task_80045EC(void)
             return;
     }
 
-    if (gStageData.gameMode != 7) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         sub_80153BC(p);
         if (gStageData.zone != 8) {
             if ((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) {
@@ -669,7 +669,7 @@ void Task_80045EC(void)
                     p->callback(p);
                 }
                 if (gStageData.unk4 == 3) {
-                    if ((u32)gStageData.gameMode > 5U) {
+                    if ((u32)CURRENT_GAME_MODE > 5U) {
                         sub_8015A44(p);
                     }
                 }
@@ -783,7 +783,7 @@ void sub_8004B14(void)
             }
             input = gInput;
             p->keyInput = input;
-            if ((gStageData.gameMode == 6) && (p->unk62 != 0)) {
+            if ((CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) && (p->unk62 != 0)) {
                 u32 dpadAny;
                 u32 dpad;
 #ifndef NON_MATCHING
@@ -985,7 +985,7 @@ bool16 IsInWater(CamCoord worldX, CamCoord worldY, s16 *outYPos)
 
 bool32 Player_PlaySong(Player *p, u16 song)
 {
-    if ((&gPlayers[gStageData.playerIndex] == p) && (gStageData.gameMode != 2)) {
+    if ((&gPlayers[gStageData.playerIndex] == p) && (CURRENT_GAME_MODE != GAME_MODE_2)) {
         m4aSongNumStart(song);
         return TRUE;
     }
@@ -994,7 +994,7 @@ bool32 Player_PlaySong(Player *p, u16 song)
 
 s32 Player_PlayOrContinueSong(Player *p, u16 arg1)
 {
-    if ((&gPlayers[gStageData.playerIndex] == p) && (gStageData.gameMode != 2)) {
+    if ((&gPlayers[gStageData.playerIndex] == p) && (CURRENT_GAME_MODE != GAME_MODE_2)) {
         m4aSongNumStartOrContinue(arg1);
         return TRUE;
     }
@@ -1003,7 +1003,7 @@ s32 Player_PlayOrContinueSong(Player *p, u16 arg1)
 
 void Player_StopSong(Player *p, u16 song)
 {
-    if ((&gPlayers[gStageData.playerIndex] == p) && (gStageData.gameMode != 2)) {
+    if ((&gPlayers[gStageData.playerIndex] == p) && (CURRENT_GAME_MODE != GAME_MODE_2)) {
         m4aSongNumStop(song);
     }
 }
@@ -1058,13 +1058,13 @@ void Player_Flyer_SoundStop(Player *p)
 {
     switch (p->charFlags.character) {
         case TAILS:
-            if ((&gPlayers[gStageData.playerIndex] == p) && (gStageData.gameMode != 2)) {
+            if ((&gPlayers[gStageData.playerIndex] == p) && (CURRENT_GAME_MODE != GAME_MODE_2)) {
                 m4aSongNumStop(SE_TAILS__FLYING);
                 return;
             }
             return;
         case CREAM:
-            if ((&gPlayers[gStageData.playerIndex] == p) && (gStageData.gameMode != 2)) {
+            if ((&gPlayers[gStageData.playerIndex] == p) && (CURRENT_GAME_MODE != GAME_MODE_2)) {
                 m4aSongNumStop(SE_CREAM__FLYING);
             }
             break;
@@ -1079,11 +1079,11 @@ void Task_8005068(void)
     if (p->charFlags.someIndex != 5) {
         sub_801320C(p, p->spriteInfoBody);
         Player_AnimateAndDisplay(temp_r1->playerId);
-        if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+        if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
             Player_RollingAnimateAndDisplayLimbs(temp_r1->playerId);
         }
         sub_8014670(p);
-        if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+        if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
             sub_8017618(p);
         }
     }
@@ -1097,7 +1097,7 @@ void Task_80050E0(void)
     p = &gPlayers[temp_r1->playerId];
     p->moveState2 = p->moveState;
 
-    if (gStageData.gameMode > GAME_MODE_BOSS_TIME_ATTACK) {
+    if (CURRENT_GAME_MODE > GAME_MODE_BOSS_TIME_ATTACK) {
         if (p->charFlags.someIndex == 1) {
             sub_8026254(p);
         }
@@ -1212,7 +1212,7 @@ void Player_80052C8(Player *p)
         if ((gStageData.unk4 == 1) || (gStageData.unk4 == 8) || (gStageData.unk4 == 2)) {
             p->callback = Player_80052C8;
         } else {
-            if (gStageData.gameMode == 6) {
+            if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
                 p->framesInvulnerable = 120;
             } else {
                 p->framesInvulnerable = 0;
@@ -1348,7 +1348,7 @@ void Player_80055B8(Player *p)
                     p->idleAndCamCounter = 0;
                 }
 
-                if (gStageData.gameMode != 7) {
+                if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
                     if (((p->charFlags.someIndex == 2) && (p->charFlags.character == AMY))
                         && ((partner->charFlags.character == SONIC) && (p->charFlags.anim0 == 8))) {
                         p->charFlags.anim0 = 250;
@@ -1438,7 +1438,7 @@ void sub_8005800(Player *p)
     } else {
         var_r5 = sub_8005B04(p);
     }
-    if (gStageData.gameMode != 7) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         if (MOVESTATE_TAG_ACTION_CHARGED & p->moveState) {
             if (p->charFlags.state0_subCount > 3U) {
                 p->qSpeedGround = Q(7);
@@ -1467,7 +1467,7 @@ void sub_8005800(Player *p)
         }
     }
     sub_8014E70(p);
-    if (gStageData.gameMode != 7) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         if (((0x44 & p->moveState) == 0x40) && !((p->unk26 + 0x20) & 0xC0)) {
             if (((DPAD_RIGHT & p->keyInput) && !(DPAD_RIGHT & p->keyInput2))
                 || ((DPAD_LEFT & p->keyInput) && !(DPAD_LEFT & p->keyInput2))) {
@@ -1578,7 +1578,7 @@ s8 sub_8005A24(Player *p, s32 unused)
 
     if (var_r6 > 0 && var_r6 < 512) {
         if ((((p->qSpeedGround < 0)) && (1 & p->moveState)) || ((p->qSpeedGround > 0) && !(MOVESTATE_FACING_LEFT & p->moveState))) {
-            if ((gStageData.gameMode != 7) && (MOVESTATE_TAG_ACTION_CHARGED & p->moveState)) {
+            if ((CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) && (MOVESTATE_TAG_ACTION_CHARGED & p->moveState)) {
                 p->callback = Player_800E084;
             } else {
                 p->callback = Player_800D9F4;
@@ -1808,7 +1808,7 @@ void Player_8005E80(Player *p)
         p->layer = gPlayers[p->charFlags.partnerIndex].layer;
     }
 
-    gameMode = gStageData.gameMode;
+    gameMode = CURRENT_GAME_MODE;
     if (gameMode == 6) {
         r1 = gStageData.unk5;
         r1 >>= (gStageData.playerIndex * 2);
@@ -1826,8 +1826,8 @@ void Player_8005E80(Player *p)
         Player_PlaySong(p, sp00[p->charFlags.character][0]);
     }
 
-    if ((gStageData.gameMode != 7) && (p->charFlags.character == CREAM)) {
-        if ((gStageData.gameMode != 6) || (p->charFlags.anim0 == 0x9E)) {
+    if ((CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) && (p->charFlags.character == CREAM)) {
+        if ((CURRENT_GAME_MODE != GAME_MODE_MP_MULTI_PACK) || (p->charFlags.anim0 == 0x9E)) {
             p->moveState &= ~1;
             if (p->charFlags.anim0 == 0x9D) {
                 sub_801EBC0(6U, p);
@@ -1836,14 +1836,14 @@ void Player_8005E80(Player *p)
             }
         }
     }
-    if (gStageData.gameMode == 6) {
+    if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
         p->idleAndCamCounter = 0x1E;
         p->callback = Player_800D944;
         Player_800D944(p);
         return;
     }
     sub_80299FC();
-    if (gStageData.gameMode == 3 || gStageData.gameMode == 4) {
+    if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK || CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
         u8 zone = gStageData.zone;
         if (gStageData.act == 7) {
             var_r0 = 3;
@@ -4113,7 +4113,7 @@ void Player_HitWithoutRingsUpdate(Player *p)
     if ((gStageData.levelTimer == (MAX_COURSE_TIME - 1)) && (gStageData.unk2 == 0)) {
         // TODO: You get longer invulnerability when you reached the max timer?
         p->framesInvulnerable = TIME(0, 10);
-    } else if ((p->moveState & MOVESTATE_80) && (gStageData.gameMode == 0)) {
+    } else if ((p->moveState & MOVESTATE_80) && (CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER)) {
         p->framesInvulnerable = TIME(0, 3);
     } else {
         p->framesInvulnerable = TIME(0, 2);
@@ -4123,14 +4123,14 @@ void Player_HitWithoutRingsUpdate(Player *p)
     p->moveState &= ~(MOVESTATE_2000000);
     Player_PlaySong(p, SE_HIT_WITH_NO_RINGS);
     Player_PlaySong(p, sp00[p->charFlags.character]);
-    if (gStageData.gameMode > 4U) {
+    if (CURRENT_GAME_MODE > 4U) {
         if (p->charFlags.someIndex == 1) {
             partner = &gPlayers[p->charFlags.partnerIndex];
             if (!(partner->moveState & MOVESTATE_DEAD)) {
                 Player_8009518(partner);
             }
             sub_80278DC();
-            if (gStageData.gameMode == 5) {
+            if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
                 sub_8027878(gStageData.lives);
             }
         }
@@ -4176,14 +4176,14 @@ void Player_HitWithoutRings(Player *p)
     p->moveState &= ~MOVESTATE_2000000;
     Player_PlaySong(p, SE_HIT_WITH_NO_RINGS);
     Player_PlaySong(p, charDeadSongIDs[p->charFlags.character]);
-    if (gStageData.gameMode > 4U) {
+    if (CURRENT_GAME_MODE > 4U) {
         if (p->charFlags.someIndex == 1) {
             partner = &gPlayers[p->charFlags.partnerIndex];
             if (!(partner->moveState & MOVESTATE_DEAD)) {
                 Player_8009518(partner);
             }
             sub_80278DC();
-            if (gStageData.gameMode == 5) {
+            if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
                 sub_8027878(gStageData.lives);
             }
         }
@@ -4240,10 +4240,10 @@ void Player_800913C(Player *p)
 
     partner = &gPlayers[p->charFlags.partnerIndex];
     if (p->charFlags.someIndex == 2) {
-        if (((s32)partner->framesInvulnerable > 0) && (gStageData.gameMode == 0)) {
+        if (((s32)partner->framesInvulnerable > 0) && (CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER)) {
             return;
         }
-        if ((gStageData.gameMode == 0) && (gStageData.lives == 0) && (partner->moveState & MOVESTATE_DEAD)) {
+        if ((CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER) && (gStageData.lives == 0) && (partner->moveState & MOVESTATE_DEAD)) {
             return;
         }
         p->qSpeedGround = 0;
@@ -4262,7 +4262,7 @@ void Player_800913C(Player *p)
         return;
     }
 
-    if (gStageData.gameMode == 3) {
+    if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK) {
         sub_8003D2C();
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
@@ -4272,7 +4272,7 @@ void Player_800913C(Player *p)
         return;
     }
 
-    if (gStageData.gameMode == 4) {
+    if (CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
         sub_8003D2C();
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
@@ -4282,7 +4282,7 @@ void Player_800913C(Player *p)
         return;
     }
 
-    if ((u32)gStageData.gameMode <= 5U) {
+    if ((u32)CURRENT_GAME_MODE <= 5U) {
         if (gStageData.lives == 0) {
             if (gStageData.act != 9) {
                 sub_8002414();
@@ -4381,7 +4381,7 @@ void Player_80095E8(Player *p)
 
     // partner = &gPlayers[p->charFlags.partnerIndex];
 
-    if (gStageData.gameMode == GAME_MODE_TIME_ATTACK || gStageData.gameMode == GAME_MODE_BOSS_TIME_ATTACK) {
+    if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK || CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
         sub_8003D2C();
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
@@ -4391,7 +4391,7 @@ void Player_80095E8(Player *p)
         return;
     }
 
-    if (gStageData.gameMode != 6) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_MULTI_PACK) {
         if ((gStageData.lives == 0) && (gStageData.act != 9)) {
             sub_8002414();
             p->callback = Player_800DF9C;
@@ -6921,7 +6921,7 @@ void sub_800C9C4(Player *p)
         p->qWorldY += -Q(32);
     }
 
-    if ((gStageData.gameMode < 5) || (p->charFlags.someIndex == 2) || (partner->charFlags.someIndex == 2)) {
+    if ((CURRENT_GAME_MODE < 5) || (p->charFlags.someIndex == 2) || (partner->charFlags.someIndex == 2)) {
         if (partner->charFlags.anim0 == 206 || partner->charFlags.anim0 == 207 || partner->charFlags.anim0 == 208) {
             return;
         } else {
@@ -7181,7 +7181,7 @@ void sub_800CF60(Player *p)
     temp_r2 = p->moveState & 0xFFFEFFFF;
     p->moveState = temp_r2;
     p->moveState = temp_r2 | (partner->moveState & MOVESTATE_GRAVITY_SWITCHED);
-    if ((u32)gStageData.gameMode <= 4U) {
+    if ((u32)CURRENT_GAME_MODE <= 4U) {
         if (partner->charFlags.anim0 == 0xE8) {
             var_r2 = 1;
         } else {
@@ -7232,7 +7232,7 @@ void sub_800CF60(Player *p)
                 break;
         }
     }
-    if (((u32)gStageData.gameMode < 5) || ((p->charFlags.someIndex) == 2) || (partner->charFlags.someIndex == 2)) {
+    if (((u32)CURRENT_GAME_MODE < 5) || ((p->charFlags.someIndex) == 2) || (partner->charFlags.someIndex == 2)) {
         if (partner->charFlags.anim0 != 231 && partner->charFlags.anim0 != 232) {
 #ifndef NON_MATCHING
             // NOTE: Weirdly the fake-match compile only matches with var_r5 as input, not as output variable.
@@ -7601,7 +7601,8 @@ void sub_800D7C8(Player *p)
     u8 *temp_r2;
     u8 temp_r0;
 
-    if ((gStageData.gameMode != 7) && (((p->charFlags.someIndex == 1)) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4))
+    if ((CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK)
+        && (((p->charFlags.someIndex == 1)) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4))
         && ((u32)(u16)((u16)p->charFlags.anim0 - 0x10) <= 2U)) {
         s32 r0, r1;
         r0 = p->unk5A = (p->unk5A + 1) % 16u;
@@ -7653,7 +7654,7 @@ void Player_800D880(Player *p)
     u8 *temp_r1;
 
     // NOTE: This only matches without call to SongStopCheck_inline().
-    if (gStageData.gameMode != 7) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         if (p->moveState & MOVESTATE_1000) {
             Player_StopSong(p, SE_281);
         }
@@ -7697,7 +7698,7 @@ void Player_800D944(Player *p)
     if (p->idleAndCamCounter != -1) {
         p->idleAndCamCounter--;
     }
-    if ((p->idleAndCamCounter == 0) && ((u32)gStageData.gameMode < 6)) {
+    if ((p->idleAndCamCounter == 0) && ((u32)CURRENT_GAME_MODE < 6)) {
         sub_8002508();
     }
 }
@@ -9009,7 +9010,7 @@ void sub_800F2B0(Player *p)
     p->qSpeedAirY = 0;
     p->unk26 = 0;
     p->unk48 = 0;
-    if ((gStageData.gameMode == 5) && (gStageData.playerIndex != 0)) {
+    if ((CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) && (gStageData.playerIndex != 0)) {
         SetPlayerCallback(p, sub_8010F38);
         sub_8010E04(p);
         sub_8010E94(p);
@@ -9362,7 +9363,7 @@ void sub_800F838(Player *p)
     sub_800FD60(p);
     sub_8010E94(p);
     sub_800FABC(p);
-    if ((gStageData.gameMode == 5) && (gStageData.playerIndex != 0)) {
+    if ((CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) && (gStageData.playerIndex != 0)) {
         temp_r1 = (gStageData.buttonConfig.jump | gStageData.buttonConfig.attack | gStageData.buttonConfig.trick) & p->keyInput;
         var_r6 = (u32)((0 - temp_r1) | temp_r1) >> 0x1F;
     } else if ((gStageData.buttonConfig.jump | gStageData.buttonConfig.attack) & p->keyInput) {
@@ -9491,7 +9492,7 @@ void sub_800FABC(Player *p)
     s32 var_r0;
     s16 var_r3;
 
-    if (gStageData.gameMode == 5) {
+    if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
         if ((gStageData.playerIndex == 0) && (p->charFlags.character != SONIC)) {
             p->qWorldX += 0x1000;
             return;
@@ -9503,7 +9504,7 @@ void sub_800FABC(Player *p)
     block_6:
         temp_r4 = p->qWorldX;
         var_r3 = (temp_r4 >> 8) - gCamera.x;
-        if (gStageData.gameMode == 5) {
+        if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
             if (ABS(var_r3) > 0x1E0) {
                 temp_r0 = temp_r4 + 0xFFF5B000;
                 p->qWorldX = temp_r0;
@@ -9534,7 +9535,7 @@ void sub_800FABC(Player *p)
 void sub_800FB94(Player *p, u8 arg1)
 {
     s16 temp_r0;
-    if ((gStageData.gameMode != 5)
+    if ((CURRENT_GAME_MODE != GAME_MODE_MP_STORY_COOP)
         || (((gStageData.playerIndex != PLAYER_1) || (p->charFlags.character == SONIC))
             && ((gStageData.playerIndex != PLAYER_2) || (p->charFlags.character != SONIC)))) {
         if (arg1 == 0) {
@@ -9697,7 +9698,7 @@ void Player_800FE44(Player *p)
 
     if (p->charFlags.character == SONIC) {
         temp_r2 = p->unk148.ptr;
-        if (gStageData.gameMode != 5) {
+        if (CURRENT_GAME_MODE != GAME_MODE_MP_STORY_COOP) {
             if ((p->keyInput2 & gStageData.buttonConfig.trick) || (temp_r2->a.unkB != 0)) {
                 temp_r2->a.unkB = 0;
                 SetPlayerCallback(p, sub_801098C);
@@ -9705,7 +9706,7 @@ void Player_800FE44(Player *p)
         } else {
             temp_r2->a.unkB = 0;
         }
-    } else if (gStageData.gameMode != GAME_MODE_MP_STORY_COOP) {
+    } else if (CURRENT_GAME_MODE != GAME_MODE_MP_STORY_COOP) {
         if (gPlayers->charFlags.anim0 == 0x122) {
             SetPlayerCallback(p, sub_80109FC);
         }
@@ -9837,7 +9838,7 @@ NONMATCH("asm/non_matching/game/stage/player__Task_SuperSonic_TagActionAnimUpdat
     strc->qWorldX = p->qWorldX;
     strc->qWorldY = p->qWorldY;
 
-    if (gStageData.gameMode != 5) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_STORY_COOP) {
         if (gPlayers->charFlags.anim0 != 290) {
             TaskDestroy(*t);
             return;
@@ -9940,7 +9941,7 @@ void sub_8010430(Player *p)
     temp_r5 = p->unk148.ptr;
     s = &temp_r5->d.s;
     var_r8 = 0;
-    if ((gStageData.gameMode == 5) && (gStageData.playerIndex == PLAYER_1)) {
+    if ((CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) && (gStageData.playerIndex == PLAYER_1)) {
         switch (p->charFlags.state1) {
             case 0:
                 s->anim = ANIM_EGGMAN_SIDE;
@@ -10200,7 +10201,7 @@ void Player_80108FC(Player *p)
     p->unk26 = 0;
     p->unk48 = 0;
 
-    if ((gStageData.gameMode == 5) && (gStageData.playerIndex == PLAYER_1)) {
+    if ((CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) && (gStageData.playerIndex == PLAYER_1)) {
         SetPlayerCallback(p, Player_8010F88);
         Player_8010F88(p);
         return;
@@ -12466,13 +12467,13 @@ void sub_801300C(s16 playerId)
     playerSprite = p->spriteInfoBody;
     s = &playerSprite->s;
 
-    if (gStageData.gameMode < 6) {
+    if (CURRENT_GAME_MODE < 6) {
         if (playerId == 0) {
             playerSprite->s.tiles = (u8 *)OBJ_VRAM0;
         } else {
             playerSprite->s.tiles = (u8 *)(OBJ_VRAM0 + 0x800);
         }
-    } else if (gStageData.gameMode == 6) {
+    } else if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
         switch (playerId) {
             case 0:
                 playerSprite->s.tiles = OBJ_VRAM0;
@@ -12536,9 +12537,9 @@ void sub_801310C(s16 playerIndex)
 
     switch (p->charFlags.character) {
         case CREAM:
-            if (gStageData.gameMode < 6) {
+            if (CURRENT_GAME_MODE < 6) {
                 s->tiles = OBJ_VRAM0 + 0x1800;
-            } else if (gStageData.gameMode == 6) {
+            } else if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
                 s->tiles = OBJ_VRAM0 + 0x3000;
             }
 
@@ -12547,9 +12548,9 @@ void sub_801310C(s16 playerIndex)
             s->frameFlags = SPRITE_FLAG(ROT_SCALE, 2);
             break;
         case TAILS:
-            if ((u32)gStageData.gameMode < 6) {
+            if ((u32)CURRENT_GAME_MODE < 6) {
                 s->tiles = OBJ_VRAM0 + 0x1000;
-            } else if (gStageData.gameMode == 6) {
+            } else if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
                 s->tiles = OBJ_VRAM0 + 0x2800;
             }
             s->anim = ANIM_TAILS_IDLE + CHAR_ANIM_SPIN_NEUTRAL;
@@ -12784,7 +12785,7 @@ void Player_AnimateAndDisplay(s16 playerId)
     s->y = I(p->qWorldY) - camY;
     tf->x = I(p->qWorldX) - camX;
     tf->y = I(p->qWorldY) - camY;
-    if (gStageData.gameMode == 7) {
+    if (CURRENT_GAME_MODE == GAME_MODE_MP_SINGLE_PACK) {
         if (gStageData.playerIndex != playerId) {
             SPRITE_FLAG_SET(s, MOSAIC);
         } else {
@@ -12873,7 +12874,7 @@ void Player_AnimateAndDisplay(s16 playerId)
     playerDead = p->moveState & MOVESTATE_DEAD;
     moveState = p->moveState;
     if (!playerDead) {
-        if ((gStageData.gameMode != 7) || (gStageData.levelTimer != 0)) {
+        if ((CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) || (gStageData.levelTimer != 0)) {
             if (moveState & MOVESTATE_4000000) {
                 display = FALSE;
             } else {
@@ -12900,7 +12901,7 @@ void Player_AnimateAndDisplay(s16 playerId)
         DisplaySprite(s);
     }
 
-    if (gStageData.gameMode != 7) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         if ((((playerId == gStageData.playerIndex)) && (gStageData.zone != 8)) || ((gStageData.zone == 8) && (playerId == 0))) {
             Player_8019858(p);
         }
@@ -13059,11 +13060,11 @@ void SetPlayerSpawnPosition(s32 levelIndex, s32 pid)
 
     p = &gPlayers[pid];
     warpId = gStageData.warpId;
-    if (GAME_MODE_IS_SINGLE_PLAYER(gStageData.gameMode) || gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
+    if (GAME_MODE_IS_SINGLE_PLAYER(CURRENT_GAME_MODE) || CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
         gStageData.respawnX = gRespawnPositions[levelIndex][warpId].x;
         gStageData.respawnY = gRespawnPositions[levelIndex][warpId].y;
     } else {
-        if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+        if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
             gStageData.respawnX = gRespawnPositions[levelIndex][warpId].x;
             gStageData.respawnY = gRespawnPositions[levelIndex][warpId].y;
         } else {
@@ -13078,7 +13079,7 @@ void SetPlayerSpawnPosition(s32 levelIndex, s32 pid)
     gStageData.unk24 = 0;
     gStageData.unk20 = 0;
     p->qSpeedGround = 0;
-    if ((gStageData.gameMode == 2) && (pid == 0)) {
+    if ((CURRENT_GAME_MODE == GAME_MODE_2) && (pid == 0)) {
         switch (levelIndex) {
             case 13:
             case 24:
@@ -13092,7 +13093,7 @@ void SetPlayerSpawnPosition(s32 levelIndex, s32 pid)
     p->qWorldX = -1;
     p->qWorldY = -1;
     p->spriteInfoBody = &gUnknown_03001B00[pid];
-    if (gStageData.gameMode != 7) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         switch (p->charFlags.character) {
             case TAILS:
                 p->spriteInfoLimbs = &gUnknown_030010D0;
@@ -13117,7 +13118,7 @@ void sub_8013F4C(Player *p)
 
     p->qWorldX = gStageData.respawnX << 8;
     p->qWorldY = gStageData.respawnY << 8;
-    if ((gStageData.gameMode != 7) && (gStageData.zone == 8)) {
+    if ((CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) && (gStageData.zone == 8)) {
         if (p == &gPlayers[PLAYER_1]) {
             callback = Player_800F22C;
         } else {
@@ -13168,7 +13169,7 @@ void sub_8013F4C(Player *p)
     p->unkA0 = 0x100;
     p->unkA2 = 0x100;
 
-    if (gStageData.gameMode != 7) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         sub_8014258(p);
     }
 
@@ -13287,7 +13288,7 @@ void sub_80141EC(Player *p, u8 charIndexPlayer, u8 charIndexPartner)
         }
     };
 
-    if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         p->unkC = sp[charIndexPlayer][charIndexPartner];
     } else {
         p->unkC = 0x42;
@@ -13344,7 +13345,7 @@ void sub_80142CC(Player *p)
 {
     u8 ringSpeedFactor = p->charFlags.ringSpeedFactor;
 
-    if (gStageData.gameMode != 7) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         if ((p->charFlags.boostIsActive) && (p->unkC & 1) && !(MOVESTATE_TAG_ACTION_CHARGED & p->moveState)) {
             p->unk8C = Q(10);
             p->unk88 = Q(12);
@@ -13364,7 +13365,7 @@ void sub_80142CC(Player *p)
             p->unk94 *= 2;
             return;
         }
-        if ((gStageData.gameMode == 6) && (p->timerSlowItem != 0)) {
+        if ((CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) && (p->timerSlowItem != 0)) {
             p->unk8C >>= 2;
             p->unk88 >>= 2;
             p->unk90 >>= 1;
@@ -13442,7 +13443,7 @@ void Player_8014550(Player *p)
 
         p->qCamOffsetY = 0;
 
-        if (gStageData.gameMode != 7) {
+        if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
             Player_BoostModeDisengage(p);
 
             if ((p->charFlags.someIndex != 2) && (gStageData.act != ACT_SPECIAL && gStageData.act != ACT_OVERWORLD)
@@ -13456,7 +13457,7 @@ void Player_8014550(Player *p)
                     rings = gStageData.rings;
                     gStageData.rings = 0;
                     sub_802AE64(p, rings);
-                    if ((gStageData.gameMode > 4) && (p->charFlags.someIndex == 1)) {
+                    if ((CURRENT_GAME_MODE > 4) && (p->charFlags.someIndex == 1)) {
                         sub_80274AC(rings, gStageData.rings);
                     }
                 }
@@ -13576,7 +13577,7 @@ s16 sub_801480C(Player *p)
                 var_r5 = var_r5 - 0x40;
             }
             if (sub_8012E54((u8)(var_r5 + 0x80), p) > 3) {
-                if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+                if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
                     if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
                         if (temp_r6 != 0) {
                             p->qWorldY -= Q(2);
@@ -13717,7 +13718,7 @@ bool32 sub_8014AF8(Player *p)
     PlayerUnkC4 *unkC4 = TASK_DATA(gCurTask);
     Player *partner = GET_SP_PLAYER_V1(PLAYER_2);
 
-    if (gStageData.gameMode != 7) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         if ((p->qSpeedGround == 0) && !((p->unk26 + 0x20) & 0xC0) && !(p->keyInput & gStageData.buttonConfig.trick)
             && !(p->moveState
                  & (MOVESTATE_IGNORE_INPUT | MOVESTATE_TAG_ACTION_CHARGED | MOVESTATE_GRINDING | MOVESTATE_40 | MOVESTATE_JUMPING))) {
@@ -13727,7 +13728,7 @@ bool32 sub_8014AF8(Player *p)
             } else {
                 if (unkC4->playerId == 0) {
                     p->charFlags.anim0 = 6;
-                } else if ((gStageData.gameMode < 5) && (p->charFlags.character == AMY) && (partner->charFlags.character == SONIC)) {
+                } else if ((CURRENT_GAME_MODE < 5) && (p->charFlags.character == AMY) && (partner->charFlags.character == SONIC)) {
                     p->charFlags.anim0 = 251;
                 } else {
                     p->charFlags.anim0 = 7;
@@ -13745,7 +13746,7 @@ bool32 sub_8014AF8(Player *p)
 
 s16 sub_8014BC4(Player *p)
 {
-    if (gStageData.gameMode == 7) {
+    if (CURRENT_GAME_MODE == GAME_MODE_MP_SINGLE_PACK) {
         return FALSE;
     }
     if (gStageData.currentLevel == 1) {
@@ -14139,7 +14140,7 @@ void sub_8015228(Player *p)
 
     worldX = I(p->qWorldX);
     worldY = I(p->qWorldY);
-    if (gStageData.gameMode == 7) {
+    if (CURRENT_GAME_MODE == GAME_MODE_MP_SINGLE_PACK) {
         return;
     }
 
@@ -14295,7 +14296,7 @@ bool32 sub_8015568(Player *p)
     u32 var_r1;
     void (*var_r1_2)(Player *);
 
-    if (gStageData.gameMode == 7) {
+    if (CURRENT_GAME_MODE == GAME_MODE_MP_SINGLE_PACK) {
         return 0;
     }
     if ((s32)((p->unk26 + 0x40) << 0x18) <= 0) {
@@ -14480,7 +14481,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015A44.inc", void sub_8015A44
             continue;
         }
         if ((param2 = sub_80210BC(playerLoop, 1, p, 1))) {
-            if (gStageData.gameMode != 7) {
+            if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
                 sub_8015C90(p, param2);
                 break;
             } else if (p->charFlags.anim0 != 0xA) {
@@ -14488,7 +14489,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015A44.inc", void sub_8015A44
                     sub_8015C90(p, param2);
                     playerLoop->framesInvulnerable = 120;
 
-                    if (gStageData.gameMode == 7) {
+                    if (CURRENT_GAME_MODE == GAME_MODE_MP_SINGLE_PACK) {
 
 #if 01
                         goto line158;
@@ -14521,7 +14522,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015A44.inc", void sub_8015A44
                 break;
             }
         } else if ((param2 = sub_80210BC(playerLoop, 1, p, 0))) {
-            if (gStageData.gameMode != 7) {
+            if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
                 if (playerLoop != partner) {
                     Player_8014550(p);
                 } else {
@@ -14539,7 +14540,7 @@ NONMATCH("asm/non_matching/game/stage/player__sub_8015A44.inc", void sub_8015A44
         } else if ((param2 = sub_80210BC(playerLoop, 0, p, 1))) {
             sub_8015C90(p, param2);
             playerLoop->framesInvulnerable = 120;
-            if (gStageData.gameMode == 7) {
+            if (CURRENT_GAME_MODE == GAME_MODE_MP_SINGLE_PACK) {
                 if ((gStageData.mpOpponentPlayerIndex == i) || (gStageData.mpOpponentPlayerIndex == gStageData.playerIndex)) {
                 blk:
                     sub_80276A8(gStageData.playerIndex);
@@ -14620,7 +14621,7 @@ s32 Player_8015D7C(Player *p)
 {
     s16 i;
 
-    if ((gStageData.gameMode != GAME_MODE_MP_MULTI_PACK) || (gStageData.unk4 != 3)
+    if ((CURRENT_GAME_MODE != GAME_MODE_MP_MULTI_PACK) || (gStageData.unk4 != 3)
         || (p->moveState & (MOVESTATE_40000000 | MOVESTATE_10000000 | MOVESTATE_IGNORE_INPUT | MOVESTATE_1000000 | MOVESTATE_200))
         || (gCamera.maxX != gCameraMaxCoords[gStageData.currentLevel][0])
         || (gCamera.maxY != gCameraMaxCoords[gStageData.currentLevel][1])) {
@@ -15003,7 +15004,7 @@ bool16 sub_8016D88(Player *p)
         return FALSE;
     }
 
-    if (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         switch (p->unkC & 6) {
             case 2:
                 SetPlayerCallback(p, Player_800872C);
@@ -15136,7 +15137,7 @@ u32 sub_8016FA8(Player *p)
 void sub_8017004(Player *p)
 {
     if (((MOVESTATE_COLLIDING_ENT | MOVESTATE_IN_AIR) & p->moveState) == MOVESTATE_COLLIDING_ENT) {
-        if ((gStageData.gameMode != 7) && (p->moveState & MOVESTATE_TAG_ACTION_CHARGED)) {
+        if ((CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) && (p->moveState & MOVESTATE_TAG_ACTION_CHARGED)) {
             SetPlayerCallback(p, Player_80077CC);
         } else {
             SetPlayerCallback(p, Player_8005380);
@@ -15150,8 +15151,8 @@ bool32 sub_8017058(Player *p)
 {
     s32 moveState;
 
-    if ((gStageData.gameMode == 7) || (moveState = p->moveState, (p->moveState & 0x8000)) || (p->moveState & MOVESTATE_TAG_ACTION_CHARGED)
-        || (!sub_8015E0C(p) && !sub_80167A4(p))) {
+    if ((CURRENT_GAME_MODE == GAME_MODE_MP_SINGLE_PACK) || (moveState = p->moveState, (p->moveState & 0x8000))
+        || (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) || (!sub_8015E0C(p) && !sub_80167A4(p))) {
         return 0;
     }
     return 1;
@@ -15400,7 +15401,7 @@ void Player_InitializeShieldSprite(Player *p)
 {
     Sprite *s;
 
-    if ((gStageData.act != 7) && ((u32)gStageData.gameMode <= 5U)) {
+    if ((gStageData.act != 7) && ((u32)CURRENT_GAME_MODE <= 5U)) {
         if (p == gPlayers) {
             p->sprShield.tiles = OBJ_VRAM0 + 0x2800;
         } else {
@@ -15436,7 +15437,7 @@ void sub_8017618(Player *p)
     Sprite *s;
 
     shouldRender = FALSE;
-    if (gStageData.gameMode > 5U) {
+    if (CURRENT_GAME_MODE > 5U) {
         return;
     }
     if (gStageData.unk4 == 5 || gStageData.unk4 == 6) {
@@ -15669,9 +15670,9 @@ void sub_8017A58(Player *p)
         strc->p = p;
         strc->someY = 30;
         s = &strc->s;
-        if (gStageData.gameMode < 6) {
+        if (CURRENT_GAME_MODE < 6) {
             s->tiles = OBJ_VRAM0 + 0x4180;
-        } else if (gStageData.gameMode == 6) {
+        } else if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
             s->tiles = OBJ_VRAM0 + 0x41A0;
         }
         s->oamFlags = 0x280;
@@ -16029,7 +16030,7 @@ void Player_InitializeTagAction(Player *p)
         strc = TASK_DATA(p->taskTagAction);
         strc->p = p;
         s = &strc->s;
-        if (gStageData.gameMode < 6) {
+        if (CURRENT_GAME_MODE < 6) {
             s->tiles = OBJ_VRAM0 + 0x4580;
         } else {
             s->tiles = OBJ_VRAM0 + 0x45A0;
@@ -16672,7 +16673,7 @@ void Task_TagActionInit(void)
         gCurTask->main = sub_80190C8;
         partner = GET_SP_PLAYER_V1(PLAYER_2);
         partnerChar = partner->charFlags.character;
-        if (gStageData.gameMode < 6) {
+        if (CURRENT_GAME_MODE < 6) {
             s->tiles = OBJ_VRAM0 + 0x4580;
         } else {
             s->tiles = OBJ_VRAM0 + 0x45A0;
@@ -17385,7 +17386,7 @@ void Player_InitializeAfterImagesTask(Player *p)
     Sprite2 *s;
     SpriteTransform *tf;
 
-    if (gStageData.gameMode == 6) {
+    if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
         gStageData.taskAfterImages = NULL;
         return;
     }
@@ -17398,9 +17399,9 @@ void Player_InitializeAfterImagesTask(Player *p)
             gStageData.taskAfterImages = TaskCreate(Task_AfterImages, sizeof(AfterImages), 0x4000U, 0U, TaskDestructor_AfterImages);
             strc = TASK_DATA(gStageData.taskAfterImages);
             s = &strc->s;
-            if ((gStageData.gameMode <= 5U)) {
+            if ((CURRENT_GAME_MODE <= 5U)) {
                 s->tiles = OBJ_VRAM0 + 0x2000;
-            } else if (gStageData.gameMode == 6) {
+            } else if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
                 s->tiles = OBJ_VRAM0 + 0x2000;
             }
             s->frameFlags = 0x2000;
@@ -18795,7 +18796,7 @@ void sub_801B2E4(Player *p)
         }
         if (temp_r1 & 0x02000000) {
             partner = GET_SP_PLAYER_V1(PLAYER_2);
-            if ((gStageData.gameMode < 5) || ((p->charFlags.someIndex) == 2) || ((partner->charFlags.someIndex) == 2)) {
+            if ((CURRENT_GAME_MODE < 5) || ((p->charFlags.someIndex) == 2) || ((partner->charFlags.someIndex) == 2)) {
                 if ((partner->charFlags.anim0 != 92) && (partner->charFlags.anim0 != 93)) {
                     var_r6 = 1;
                 }
@@ -20057,7 +20058,7 @@ void sub_801CD50(Player *p)
 
     if (MOVESTATE_2000000 & p->moveState) {
         partner = GET_SP_PLAYER_V1(PLAYER_2);
-        if ((gStageData.gameMode < 5) || ((p->charFlags.someIndex) == 2) || ((partner->charFlags.someIndex) == 2)) {
+        if ((CURRENT_GAME_MODE < 5) || ((p->charFlags.someIndex) == 2) || ((partner->charFlags.someIndex) == 2)) {
             if ((partner->charFlags.anim0 != sp00[partner->charFlags.character][0])
                 && (partner->charFlags.anim0 != sp00[partner->charFlags.character][1])) {
                 var_r7 = 1;
@@ -21665,7 +21666,7 @@ void sub_801ECAC(Player *p)
             temp_r3->unk1C = 0;
         }
         temp_r3->unk1D = p->unk26;
-        if (gStageData.gameMode > 4U) {
+        if (CURRENT_GAME_MODE > 4U) {
             for (i = 0; i < 4; i++) {
                 if (&gPlayers[i] == p) {
                     break;
@@ -21696,9 +21697,9 @@ void Task_CheeseInit(void)
     cheese->unk1B = 0;
     cheese->unk19 = 0;
     s = &cheese->s;
-    if (gStageData.gameMode < 6) {
+    if (CURRENT_GAME_MODE < 6) {
         s->tiles = VRAM_RESERVED_CHEESE;
-    } else if (gStageData.gameMode == 6) {
+    } else if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
         s->tiles = VRAM_RESERVED_CHEESE_GAME_MODE_6;
     }
     s->frameFlags = 0x1000;
@@ -23225,7 +23226,7 @@ s32 sub_80210BC(Player *playerA, s16 hbIndexA, Player *playerB, s16 hbIndexB)
         return result;
     }
 
-    if (gStageData.gameMode != 7) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
         if (hbIndexB == 0) {
             rectB[0] = -playerB->spriteOffsetX;
             rectB[1] = -playerB->spriteOffsetY;

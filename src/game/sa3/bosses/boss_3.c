@@ -227,7 +227,7 @@ void sub_806D2F8(void)
     }
 
     if (boss->lives == 0) {
-        if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
+        if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
             if (gStageData.playerIndex != PLAYER_1) {
                 gCurTask->main = sub_806E9C0;
             } else {
@@ -481,7 +481,7 @@ bool8 sub_806D840(EggFoot *arg0, u8 playerIndex)
     if (arg0->unk24[4] == 0) {
         sub_8004D68(qX, qY);
         if (((p->charFlags.character == CREAM)
-             || ((gStageData.gameMode == GAME_MODE_MP_STORY_COOP)
+             || ((CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP)
                  && ((arg0->players[0]->charFlags.character == CREAM) || (arg0->players[1]->charFlags.character == CREAM))
                  && (gStageData.playerIndex == 0)))
             && (IsCollidingWithCheese(s) == 1)) {
@@ -549,7 +549,7 @@ void sub_806DA20(EggFoot *boss)
         sub_8078DB0(ANIM_PALETTE_BOSS_3_B, 0, 0x7A, 0U);
         boss->unk32 = 0x7A;
 
-        if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
+        if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
             if (gStageData.playerIndex == PLAYER_1) {
                 if (boss->lives != 0) {
                     sub_8027674(3U, boss->lives);

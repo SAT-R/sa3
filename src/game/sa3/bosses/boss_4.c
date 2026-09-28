@@ -382,7 +382,7 @@ void Task_EggCube_806EEB8(void)
 
     boss->unk2C++;
     if (I(boss->qWorldX) > 0x677) {
-        if (gStageData.gameMode == 5) {
+        if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
             if (gStageData.playerIndex != 0) {
                 gCurTask->main = Task_EggCube_8071664;
             } else {
@@ -401,7 +401,7 @@ void Task_EggCube_806EEB8(void)
     temp_r4 = sub_806F5F0(boss->players[0]);
     temp_r4 += sub_806F5F0(boss->players[1]);
     if (temp_r4 != 0) {
-        if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
+        if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
             if (gStageData.playerIndex == PLAYER_1) {
                 sub_8071410(boss);
             }
@@ -2135,7 +2135,7 @@ void sub_8071410(EggCube *boss)
             }
         }
 
-        if ((gStageData.gameMode == 5) && (gStageData.playerIndex == 0)) {
+        if ((CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) && (gStageData.playerIndex == 0)) {
             sub_8027674(3U, (u16)boss->unk18);
         }
     }

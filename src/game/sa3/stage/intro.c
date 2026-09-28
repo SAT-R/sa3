@@ -176,7 +176,7 @@ void CreateStageIntro(void)
     memcpy(&sp4, &gUnknown_080D1E18, sizeof(sp4));
     playerIndex = gStageData.playerIndex;
     if (gStageData.zone == 7) {
-        gameMode = gStageData.gameMode;
+        gameMode = CURRENT_GAME_MODE;
         if (gameMode != 0) {
             if (gameMode == 5) {
                 var_r5 = sp4[gPlayers[PLAYER_1].charFlags.character];
@@ -203,13 +203,13 @@ void CreateStageIntro(void)
         if (gStageData.act == 0 || gStageData.act == 1 || gStageData.act == 2 || gStageData.act >= 8) {
             return;
         }
-        if (gStageData.gameMode == 0) {
+        if (CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER) {
             var_r5 = sp4[gPlayers[playerIndex].charFlags.character];
             var_r4 = sp4[gPlayers[gPlayers[gStageData.playerIndex].charFlags.partnerIndex].charFlags.character];
-        } else if (gStageData.gameMode == 5) {
+        } else if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
             var_r5 = sp4[gPlayers[PLAYER_1].charFlags.character];
             var_r4 = sp4[gPlayers[PLAYER_2].charFlags.character];
-        } else if (gStageData.gameMode == 6) {
+        } else if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
             if ((playerIndex == 0) || (playerIndex == 2)) {
                 var_r5 = sp4[gUnknown_03001060.unk4C[0]];
                 var_r4 = sp4[gUnknown_03001060.unk4C[2]];
@@ -265,7 +265,7 @@ void CreateStageIntro(void)
         }
     }
 
-    if (gStageData.gameMode == GAME_MODE_DEMO) {
+    if (CURRENT_GAME_MODE == GAME_MODE_DEMO) {
         strc->unk7[0] = 1;
         strc->unk7[1] = 1;
         strc->unk7[2] = 1;
@@ -500,7 +500,7 @@ void Task_70_80572CC()
     strc70->unk3 -= 1;
     gBldRegs.bldY = strc70->unk3;
     if (strc70->unk3 == 0) {
-        if ((gStageData.gameMode > 4U) && (gStageData.gameMode != 7)) {
+        if ((CURRENT_GAME_MODE > 4U) && (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK)) {
             gStageData.unk4 = 2;
         } else {
             gStageData.unk4 = 3;
@@ -661,7 +661,7 @@ void Task_170_80575F0()
     strc170->unkA++;
     temp_r5 = (strc170->unkA * 0x14);
     if (strc170->unkA == 0xC) {
-        if ((gStageData.zone == 8) && (gStageData.unkBA == 0) && (gStageData.gameMode != 5)) {
+        if ((gStageData.zone == 8) && (gStageData.unkBA == 0) && (CURRENT_GAME_MODE != GAME_MODE_MP_STORY_COOP)) {
             strc170->notifText = (NotificationText *)EwramMalloc(sizeof(NotificationText));
             sub_80236C8(NULL, 0x2DU, strc170->notifText);
             strc170->notifText->unk1F = 1;
@@ -669,7 +669,7 @@ void Task_170_80575F0()
             gStageData.unkBA = 1;
             gCurTask->main = Task_170_80577D4;
         } else {
-            if (GAME_MODE_IS_MULTI_PLAYER(gStageData.gameMode) && (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK)) {
+            if (GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE) && (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK)) {
                 gStageData.unk4 = 2;
             } else {
                 gStageData.unk4 = 3;
@@ -736,7 +736,7 @@ void Task_170_80577D4()
         gCamera.SA2_LABEL(unk50) &= ~1;
         gStageData.unk85 = 0;
 
-        if (GAME_MODE_IS_MULTI_PLAYER(gStageData.gameMode) && (gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK)) {
+        if (GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE) && (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK)) {
             gStageData.unk4 = 2;
         } else {
             gStageData.unk4 = 3;
@@ -1050,7 +1050,7 @@ void Task_C_8057F0C(void)
     ScreenFade *fade = TASK_DATA(gCurTask);
 
     if ((UpdateScreenFade(fade) << 0x18) != 0) {
-        if ((GAME_MODE_IS_MULTI_PLAYER(gStageData.gameMode)) && (gStageData.gameMode != 7)) {
+        if ((GAME_MODE_IS_MULTI_PLAYER(CURRENT_GAME_MODE)) && (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK)) {
             gStageData.unk4 = 2;
         } else {
             gStageData.unk4 = 3;

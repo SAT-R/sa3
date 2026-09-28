@@ -6,6 +6,7 @@
 #include "code_z_1.h"
 #include "multi_sio_stuff.h"
 #include "lib/m4a/m4a.h"
+#include "game/game.h"
 #include "game/sa3/code_3.h"
 #include "game/save.h"
 #include "game/special_stage.h"
@@ -415,11 +416,10 @@ void sub_809B970(Code_2_0__270 *strc)
 
     var_r5 = 0;
     var_r0 = 0;
-    if (gStageData.gameMode == 0 || gStageData.gameMode == 1 || gStageData.gameMode == 2 || gStageData.gameMode == 3
-        || gStageData.gameMode == 4) {
+    if (GAME_MODE_IS_SINGLE_PLAYER(CURRENT_GAME_MODE)) {
         var_r5 = gPlayers[PLAYER_1].charFlags.character;
         var_r0 = gPlayers[PLAYER_2].charFlags.character;
-    } else if (gStageData.gameMode == 6) {
+    } else if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
         if ((gStageData.playerIndex == PLAYER_1) || (gStageData.playerIndex == PLAYER_3)) {
             var_r5 = (u32)gUnknown_03001060.unk4C[0];
             var_r0 = gUnknown_03001060.unk4C[2];
@@ -427,7 +427,7 @@ void sub_809B970(Code_2_0__270 *strc)
             var_r5 = (u32)gUnknown_03001060.unk4C[1];
             var_r0 = gUnknown_03001060.unk4C[3];
         }
-    } else if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
+    } else if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
         s16 playerIndex = gStageData.playerIndex;
         s16 partnerIndex = (gStageData.playerIndex + 1) & 1;
         var_r5 = gPlayers[playerIndex].charFlags.character;
@@ -643,7 +643,7 @@ NONMATCH("asm/non_matching/game/sa3/c21__sub_809BA58.inc", bool32 sub_809BA58(Co
             UpdateSpriteAnimation(s);
             DisplaySprite(s);
         }
-        if (gStageData.gameMode <= GAME_MODE_MP_STORY_COOP) {
+        if (CURRENT_GAME_MODE <= GAME_MODE_MP_STORY_COOP) {
             if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[var_r8]) && ((u32)(u8)(*strc->unk4 - 0x19) > 2U)) {
                 if (FLAGS_20000 & gFlags) {
                     CopyObjPaletteMasked(gUnknown_080D9448, 0x50U, 0x10U);
@@ -657,7 +657,7 @@ NONMATCH("asm/non_matching/game/sa3/c21__sub_809BA58.inc", bool32 sub_809BA58(Co
         }
     }
     {
-        u8 gameMode = gStageData.gameMode;
+        u8 gameMode = CURRENT_GAME_MODE;
         if (((u32)gameMode <= 5U) && !(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[var_r8])) {
             temp_r1_4 = *strc->unk4;
             if ((u32)(u8)(temp_r1_4 - 25) > 2U) {
@@ -2600,7 +2600,7 @@ void Task_D4_809E778(void)
             return;
         }
         sub_809DE9C(strc);
-        gStageData.gameMode = 6;
+        CURRENT_GAME_MODE = GAME_MODE_MP_MULTI_PACK;
         CreateMultiPakConnectionCheck(0xFF);
         TaskDestroy(gCurTask);
     }

@@ -66,10 +66,10 @@ extern void sub_80A872C(u8);
 void DemoPlay_Init(void)
 {
     gStageData.playerIndex = PLAYER_1;
-    gStageData.gameMode = GAME_MODE_DEMO;
+    CURRENT_GAME_MODE = GAME_MODE_DEMO;
     gStageData.zone = ZONE_1;
     gStageData.act = ACT_1;
-    gStageData.currentLevel = LEVEL_INDEX(ZONE_1, ACT_1);
+    CURRENT_LEVEL = LEVEL_INDEX(ZONE_1, ACT_1);
     sub_800214C();
 
     gPlayers[PLAYER_1].charFlags.partnerIndex = PLAYER_2;
@@ -81,7 +81,7 @@ void DemoPlay_Init(void)
     gPlayers[PLAYER_3].charFlags.someIndex = 0;
     gPlayers[PLAYER_4].charFlags.someIndex = 0;
 
-    WarpToMap(gStageData.currentLevel, 0);
+    WarpToMap(CURRENT_LEVEL, 0);
 }
 
 void DemoPlay_InitSprites(void)

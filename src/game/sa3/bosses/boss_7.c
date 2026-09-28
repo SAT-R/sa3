@@ -447,7 +447,7 @@ void Task_D8_8075064(void)
         gCamera.minY = 0x1B8;
         gCamera.maxY = 0x2D8;
         boss->unk30 = 0;
-        if (gStageData.gameMode != 5) {
+        if (CURRENT_GAME_MODE != GAME_MODE_MP_STORY_COOP) {
             sub_80299D4(0x34U);
             gCurTask->main = Task_D8_8075204;
             if ((partner->qWorldY >= 0x28A00) && (partner->charFlags.someIndex == 2)) {
@@ -547,7 +547,7 @@ void Task_D8_8075324(void)
         boss->unk2B = 0;
         boss->unk2C = 1;
         gCurTask->main = Task_D8_8075674;
-        if (gStageData.gameMode != 5) {
+        if (CURRENT_GAME_MODE != GAME_MODE_MP_STORY_COOP) {
 
         } else if (gStageData.playerIndex == 0) {
             sub_8027674(3U, 0U);
@@ -647,7 +647,7 @@ void Task_D8_8075324(void)
     }
 
     if (boss->lives == 0) {
-        if (gStageData.gameMode == 5) {
+        if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
             if (boss->unkD4 == 0) {
                 sub_8027674(1U, (u16)((boss->unk14 << 8) >> 0x10));
                 goto block_36;
@@ -1589,7 +1589,7 @@ void Task_100_8076B58(void)
     } else {
         sub_8076DD4(strc100);
         sub_80772F0(strc100, gStageData.playerIndex);
-        if (gStageData.gameMode != 5) {
+        if (CURRENT_GAME_MODE != GAME_MODE_MP_STORY_COOP) {
             temp_r5 = &gPlayers[gStageData.playerIndex];
             sub_80772F0(strc100, temp_r5->charFlags.partnerIndex);
         }

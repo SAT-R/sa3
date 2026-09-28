@@ -150,7 +150,7 @@ NONMATCH("asm/non_matching/game/interactables/boss_trigger__CreateEntity_Trigger
 {
     u32 bossId = me->d.uData[4] & 0x1F;
 
-    if ((gStageData.gameMode != GAME_MODE_MP_MULTI_PACK) || (bossId > 3)) {
+    if ((CURRENT_GAME_MODE != GAME_MODE_MP_MULTI_PACK) || (bossId > 3)) {
         struct Task *t
             = TaskCreate(Task_TriggerBossAndGoalRingInit, sizeof(TriggerBossOrGoal), 0x0FFF, 0, TaskDestructor_TriggerBossAndGoalRing);
         TriggerBossOrGoal *trig = TASK_DATA(t);

@@ -222,7 +222,7 @@ void sub_8068C38(void)
     }
 
     if (boss->lives == 0) {
-        if (CURRENT_GAME_MODE == 5) {
+        if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
             if (gStageData.playerIndex != 0) {
                 gCurTask->main = sub_806A7A4;
             } else {
@@ -1266,7 +1266,7 @@ void sub_806A5DC(EggHammerTankIII *boss)
         m4aSongNumStart(SE_235);
         PlayVoiceEggmanHit();
 
-        if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
+        if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
             if (gStageData.playerIndex == 0) {
                 if (boss->lives != 0) {
                     sub_8027674(3U, boss->lives);

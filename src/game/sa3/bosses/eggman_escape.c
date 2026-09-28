@@ -567,7 +567,7 @@ void Task_C8_8079EDC(void)
 u8 sub_8079FFC(void)
 {
 
-    if (gStageData.gameMode == GAME_MODE_MP_STORY_COOP) {
+    if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
         if (gStageData.unkB7 == 0) {
             Player *p = &gPlayers[gStageData.playerIndex];
             gStageData.unkB6 = gStageData.unkB7;
@@ -701,7 +701,7 @@ bool32 sub_807A2AC(void)
     s16 sp0[4]; // = { 8, 8, 224, 144 };
     memcpy(sp0, &gUnknown_080D5AF6, sizeof(sp0));
 
-    if (gStageData.gameMode == GAME_MODE_SINGLE_PLAYER) {
+    if (CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER) {
         Player *player = &gPlayers[PLAYER_1];
         Player *partner = &gPlayers[PLAYER_2];
 
@@ -794,7 +794,7 @@ void sub_807A4A8(void)
 
 void SetFixedRandomIfTimeAttackMode(void)
 {
-    if (gStageData.gameMode == 5) {
+    if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
         u32 zone = gStageData.zone;
         // NOTE: (zone * 1001) does not match, results in a mul instead!
         u32 fixedRng = (zone * 1000) + zone;

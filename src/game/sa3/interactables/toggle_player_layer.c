@@ -45,7 +45,7 @@ void Task_Toggle_PlayerLayer(void)
     }
 
     for (i = 0; i < 2; i++) {
-        if ((gStageData.gameMode != GAME_MODE_MP_SINGLE_PACK) || (i == 0)) {
+        if ((CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) || (i == 0)) {
             p = GET_SP_PLAYER_V0(i);
 
             if (p->charFlags.someIndex == 1 || p->charFlags.someIndex == 2 || p->charFlags.someIndex == 4) {
