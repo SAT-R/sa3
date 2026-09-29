@@ -1,4 +1,5 @@
 #include "global.h"
+#include "game/save.h" // NUM_LANGUAGES
 
 extern const u16 NTXT_00_JP[];
 extern const u16 NTXT_01_JP[];
@@ -3096,7 +3097,7 @@ const u16 *sNotificationTexts_IT[] = {
     NTXT_FF_IT,
 };
 
-const u16 *(*gNotificationTexts[])[] = {
+const u16 *(*gNotificationTexts[NUM_LANGUAGES])[] = {
     (void*)sNotificationTexts_JP,
     (void*)sNotificationTexts_EN,
     (void*)sNotificationTexts_DE,

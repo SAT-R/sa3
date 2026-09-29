@@ -175,12 +175,7 @@ void sub_8087B80() { }
 void sub_8088440() { }
 void sub_80885CC() { }
 void sub_8088770() { }
-void sub_80AD9E4() { }
 void /* 0x080A209C */ CreateGameIntroState() { }
-void CreateNewGamesaveOpening() { }
-void sub_80AE174() { }
-void CreateUnkTask9C() { }
-void sub_80AE770() { }
 void sub_80AB120(u8 param0) { }
 
 void sub_80C4EB0() { }
