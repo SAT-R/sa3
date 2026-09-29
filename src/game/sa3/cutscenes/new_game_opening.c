@@ -560,7 +560,7 @@ void sub_80AD234(u8 *arg0, Vec2_32 *arg1, u8 arg2)
     temp_r4 = strc134->unk0;
     var_sb = VramMalloc(gUnknown_080DB994[temp_r4]);
     sp4 = gUnknown_080DBCBB[temp_r4];
-    for (var_r6 = 0; var_r6 < (gUnknown_08E2EF44[temp_r4][sp4]); var_r6++) {
+    for (var_r6 = 0; var_r6 < gUnknown_08E2EF44[temp_r4][sp4]; var_r6++) {
         const TileInfo2 **ti;
         temp_r0 = &strc134->spr1C[var_r6];
         temp_r0->tiles = var_sb;
@@ -582,9 +582,9 @@ void sub_80AD234(u8 *arg0, Vec2_32 *arg1, u8 arg2)
         for (var_r6 = 0; var_r6 < 2; var_r6++) {
             temp_r0_2 = &strc134->sprBC[var_r6];
             temp_r0_2->tiles = var_sb;
-            var_sb += (*gUnknown_08E2EF54[3])[var_r6].numTiles << 5;
-            temp_r0_2->anim = (*gUnknown_08E2EF54[3])[var_r6].anim;
-            temp_r0_2->variant = (*gUnknown_08E2EF54[3])[var_r6].variant;
+            var_sb += gUnknown_08E2EF54[3][0][var_r6].numTiles << 5;
+            temp_r0_2->anim = gUnknown_08E2EF54[3][0][var_r6].anim;
+            temp_r0_2->variant = gUnknown_08E2EF54[3][0][var_r6].variant;
             temp_r0_2->prevVariant = -1;
             temp_r0_2->x = I(*strc134->unkC);
             temp_r0_2->y = I(*strc134->unk10);
@@ -634,7 +634,7 @@ void sub_80AD408(NewGameOpening134 *strc134)
 
     temp_r1 = strc134->unk0;
     var_sb = strc134->spr1C[0].tiles;
-    for (var_r8 = 0; var_r8 < (gUnknown_08E2EF44[temp_r1])[*(pIndex = strc134->unk4)]; var_r8++) {
+    for (var_r8 = 0; var_r8 < gUnknown_08E2EF44[temp_r1][*(pIndex = strc134->unk4)]; var_r8++) {
         {
             temp_r4 = &strc134->spr1C[var_r8];
             temp_r4->tiles = var_sb;
