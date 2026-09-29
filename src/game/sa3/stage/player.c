@@ -837,16 +837,18 @@ void sub_8004BD0(Player *p, s32 qWorldX, s32 qWorldY)
             } else {
                 return;
             }
-        } else if (qPlayerY <= qWorldY) {
-            if (p->moveState & MOVESTATE_FACING_LEFT) {
-                if (qPlayerX < qWorldX) {
+        } else {
+            if (qPlayerY <= qWorldY) {
+                if (p->moveState & MOVESTATE_FACING_LEFT) {
+                    if (qPlayerX < qWorldX) {
+                        return;
+                    }
+                } else if (qPlayerX > qWorldX) {
                     return;
                 }
-            } else if (qPlayerX > qWorldX) {
+            } else {
                 return;
             }
-        } else {
-            return;
         }
         qPlayerX = p->qWorldX; // duplicate assignment for matching
         dx = I(qWorldX - qPlayerX);
