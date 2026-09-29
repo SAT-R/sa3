@@ -180,43 +180,19 @@ extern void CreateGameIntroState(u16 state);
 extern void sub_8000804(u16 arg3);
 extern void sub_80C621C(void);
 
+AnimCmdResult sub_80AE850(NewGameOpening6C *strc6C);
+void TaskDestructor_80AE524(Task *t);
+void TaskDestructor_6C_80AE7B0(Task *t);
+void Task_A4_80AEA44(void);
+void TaskDestructor_80AED7C(Task *t);
+
+extern void *CreateSomeTask_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles);
 extern ColorRaw sub_80C4C0C(ColorRaw color);
 
-// TEMP
-#if 0 // M2C
-void sub_80ACC40(u8 arg0, NewGameOpeningB8 *strcB8);
-void Task_B8_80ACDB8(NewGameOpeningB8 *strcB8);
-void Task_B8_80ACEA4(NewGameOpeningB8 *strcB8);
-void Task_B8_80ACF48(NewGameOpeningB8 *strcB8);
-void sub_80AD234(u8 *arg0, Vec2_32 *arg1, u8 arg2, NewGameOpening134 *strc134);
-void Task_B8_80AD634(NewGameOpeningB8 *strcB8);
-void Task_14_A_80AD968(NewGameOpening14 *strc14);
-void Task_14_B_80ADB20(NewGameOpening14 *strc14);
-void Task_6C_80ADBA0(NewGameOpening6C *strc6C);
-void Task_6C_80ADC74(NewGameOpening6C *strc6C);
-void Task_9C_80ADCF8(NewGameOpening9C *strc9C);
-void Task_9C_80ADE18(NewGameOpening9C *strc9C);
-AnimCmdResult sub_80ADEA0(NewGameOpening9C *strc9C);
-void Task_9C_80ADF10(NewGameOpening9C *strc9C);
-bool32 sub_80AE09C(NewGameOpening9C *strc9C);
-AnimCmdResult sub_80AE110(NewGameOpening9C *strc9C);
-void Task_9C_80AE034(NewGameOpening9C *strc9C);
-void Task_B8_80AE248(NewGameOpeningB8 *strcB8);
-void Task_B4_80AE3E8(NewGameOpeningB4 *strcB4);
-void Task_134_80AE45C(NewGameOpening134 *strc134);
-void Task_B8_80AE53C(NewGameOpeningB8 *strcB8);
-void Task_B8_80AE5C4(NewGameOpeningB8 *strcB8);
-void Task_14_B_80AE720(NewGameOpening14 *strc14);
-void Task_6C_80AE7C4(NewGameOpening6C *strc6C);
-void Task_9C_80AE884(NewGameOpening9C *strc9C);
-void Task_9C_80AE90C(NewGameOpening9C *strc9C);
-void CreateNewGamesaveOpening(NewGameOpening14 *strc14);
-void sub_80AE95C(u8 arg0);
-void Task_A4_80AEA44(NewGameOpeningA4 *strcA4);
-void Task_A4_80AEBF0(NewGameOpeningA4 *strcA4);
-void Task_A4_80AED80(NewGameOpeningA4 *strcA4);
-void sub_80AD9E4(NewGameOpening14 *strc14);
-#endif
+extern const u16 gUnknown_080DBD88[4];
+extern const u16 gUnknown_080DBD64[3][6];
+extern const u8 gUnknown_080DBE50[3];
+extern const ColorRaw *gUnknown_08E2EF64[3];
 
 extern TileInfo2 gUnknown_080DBA8C;
 extern const u8 gUnknown_080DBCBE[3][9];
@@ -925,7 +901,7 @@ void CreateNewGamesaveOpening(void)
     *gBgPalette = sub_80C4C0C(0);
     gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
     m4aMPlayAllStop();
-    m4aSongNumStart(8U);
+    m4aSongNumStart(MUS_NEWGAME_INTRO);
 }
 
 void Task_14_A_80AD968(void)
@@ -1010,6 +986,7 @@ void sub_80AD9E4(void)
     gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
     m4aMPlayAllStop();
 }
+
 void Task_14_B_80ADB20(void)
 {
     NewGameOpening14 *strc14 = TASK_DATA(gCurTask);
@@ -1079,7 +1056,7 @@ void Task_6C_80ADBA0(void)
 
     gCurTask->main = Task_6C_80ADC74;
 }
-AnimCmdResult sub_80AE850(NewGameOpening6C *strc6C);
+
 void Task_6C_80ADC74(void)
 {
     NewGameOpening6C *strc6C = TASK_DATA(gCurTask);
@@ -1435,7 +1412,7 @@ s32 sub_80AE2E8(NewGameOpeningB8 *arg0)
     arg0->qUnk28.y = arg0->qUnk20.y + 0x2C00;
     return 0;
 }
-void TaskDestructor_80AE524(Task *t);
+
 void sub_80AE300(u8 arg0, void **arg1, s32 *arg2, u8 *arg3, Sprite *arg4, Sprite *arg5)
 {
     s32 sp4;
@@ -1641,6 +1618,7 @@ void TaskDestructor_14_A_80AE688(Task *t)
     NewGameOpening14 *strc14 = TASK_DATA(t);
     EwramFree(strc14->ewramData10);
 }
+
 void Task_80AE69C(void)
 {
     NewGameOpening14 *strc14 = TASK_DATA(gCurTask);
@@ -1684,7 +1662,7 @@ void Task_14_B_80AE760(void)
     sub_80C621C();
     sub_808ADF0(1U);
 }
-void TaskDestructor_6C_80AE7B0(Task *t);
+
 void sub_80AE770(void)
 {
     NewGameOpening6C *strc6C = TASK_DATA(TaskCreate(Task_6C_80ADBA0, sizeof(NewGameOpening6C), 0x100U, 0U, TaskDestructor_6C_80AE7B0));
@@ -1796,8 +1774,8 @@ void Task_9C_80AE90C(void)
 
     sub_80AE110(strc9C);
 
-    if (strc9C->unk2 <= 0x78) {
-        if (++strc9C->unk2 == 0x78) {
+    if (strc9C->unk2 <= 120) {
+        if (++strc9C->unk2 == 120) {
             sub_80ACC40(2U);
         }
     }
@@ -1805,18 +1783,12 @@ void Task_9C_80AE90C(void)
         TaskDestroy(gCurTask);
     }
 }
-void Task_A4_80AEA44(void);
-void TaskDestructor_80AED7C(Task *t);
-extern void *CreateSomeTask_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles);
-extern const u16 gUnknown_080DBD88[4];
-extern const u16 gUnknown_080DBD64[3][6];
-extern const u8 gUnknown_080DBE50[3];
-extern const ColorRaw *gUnknown_08E2EF64[3];
+
 void sub_80AE95C(u8 arg0)
 {
     NewGameOpeningA4 *strcA4;
 
-    gDispCnt = 0x1041;
+    gDispCnt = DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_1;
     strcA4 = TASK_DATA(TaskCreate(Task_A4_80AEA44, sizeof(NewGameOpeningA4), 0x100U, 0U, TaskDestructor_80AED7C));
     strcA4->unk0 = LOADED_SAVE->language;
     strcA4->unk1 = arg0;
@@ -1914,7 +1886,7 @@ void Task_A4_80AEBF0(void)
 {
     NewGameOpeningA4 *strcA4 = TASK_DATA(gCurTask);
     if (strcA4->unk3 != 0) {
-        gDispCnt |= 0x2000;
+        gDispCnt |= DISPCNT_WIN0_ON;
         gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
         gWinRegs[2] = WIN_RANGE(0, DISPLAY_HEIGHT);
         gWinRegs[4] |= 0x3F;
@@ -1932,7 +1904,7 @@ void Task_A4_80AEBF0(void)
     }
     gBldRegs.bldY = gBldRegs.bldY;
     m4aMPlayAllStop();
-    m4aSongNumStart(0x63U);
+    m4aSongNumStart(MUS_VS_SUCCESS);
     gCurTask->main = Task_A4_80AED80;
 }
 
@@ -1941,7 +1913,7 @@ void sub_80AEC94(void)
     NewGameOpeningA4 *strcA4 = TASK_DATA(gCurTask);
 
     if (strcA4->unk3 != 0) {
-        gDispCnt |= 0x2000;
+        gDispCnt |= DISPCNT_WIN0_ON;
         gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
         gWinRegs[2] = WIN_RANGE(0, DISPLAY_HEIGHT);
         gWinRegs[4] |= 0x3F;
@@ -1956,14 +1928,16 @@ void sub_80AEC94(void)
         strcA4->unk4 += Q(1);
         return;
     }
-    strcA4->unkC.x = Q(0x136);
+    strcA4->unkC.x = Q(310);
     strcA4->unk2 = 0x1D;
     gBldRegs.bldY = 0x10;
-    TasksDestroyInPriorityRange(0U, 0xFFFFU);
-    gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
+
+    TasksDestroyAll();
+    PAUSE_BACKGROUNDS_QUEUE();
     gBgSpritesCount = 0;
-    gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
-    WarpToMap((s16)((s32)((gStageData.zone * 0xA0000) + 0x20000) >> 0x10), gStageData.act - 2);
+    PAUSE_GRAPHICS_QUEUE();
+
+    WarpToMap(LEVEL_INDEX(gStageData.zone, ACT_HUB), gStageData.act - 2);
 }
 
 void TaskDestructor_80AED7C(Task *t) { }
@@ -1972,7 +1946,8 @@ void Task_A4_80AED80(void)
 {
     NewGameOpeningA4 *strcA4 = TASK_DATA(gCurTask);
     sub_80AEDB8(strcA4);
-    if (1 & gPressedKeys) {
+
+    if (A_BUTTON & gPressedKeys) {
         gCurTask->main = sub_80AEC94;
     }
 }
