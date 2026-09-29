@@ -868,12 +868,12 @@ void CreateNewGamesaveOpening(void)
     temp_r0_2->s = NULL;
     temp_r0_2->vram28 = (void *)(OBJ_VRAM0 + 0x2000);
     CpuFastFill(0, (OBJ_VRAM0 + 0x2000), 0xF00);
-    temp_r1 = strc14->ewramData10;
-    temp_r1->vram24 = temp_r1->vram28;
+
+    strc14->ewramData10->vram24 = strc14->ewramData10->vram28;
     {
         // For matching...
         u16 *pDispCnt = &gDispCnt;
-        u32 value = 0x3040;
+        u32 value = DISPCNT_OBJ_ON | DISPCNT_WIN0_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_0;
         *pDispCnt = value;
     }
     gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
@@ -958,7 +958,7 @@ void sub_80AD9E4(void)
     {
         // For matching...
         u16 *pDispCnt = &gDispCnt;
-        u32 value = 0x3040;
+        u32 value = DISPCNT_OBJ_ON | DISPCNT_WIN0_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_0;
         *pDispCnt = value;
     }
     gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
@@ -966,6 +966,7 @@ void sub_80AD9E4(void)
     gWinRegs[4] |= 0x3F;
     gWinRegs[5] |= 0x1F;
     gBldRegs.bldCnt = 0x3FFF;
+
     DmaFill32(3, 0, BG_CHAR_ADDR_FROM_BGCNT(2), 0x40);
     gBgSprites_Unknown1[2] = 0;
     gBgSprites_Unknown2[2][0] = 0;
