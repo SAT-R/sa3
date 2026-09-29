@@ -812,68 +812,62 @@ void sub_8004B14(void)
     }
 }
 
-// Fake-match
-// (100.0%) https://decomp.me/scratch/hKyWu
 void sub_8004BD0(Player *p, s32 qWorldX, s32 qWorldY)
 {
-    s32 partnerChar;
-    s32 qPlayerX;
-    s32 dx;
-    s32 qPlayerY;
-    s32 distance;
-    s32 dy;
-    s16 var_r1;
-    s32 new_var;
-    s32 forMatch;
-    u32 temp_r1;
+    s32 qPlayerX, qPlayerY;
+    s32 dx, dy;
+    s32 squaredDistance;
+    s32 maxSquaredDistance;
+    s16 angle;
+    Player *partner;
 
-    if ((gPlayers + p->charFlags.partnerIndex)->charFlags.character == CREAM) {
+    partner = &gPlayers[p->charFlags.partnerIndex];
+    if (partner->charFlags.character == CREAM) {
         qPlayerX = p->qWorldX;
         qPlayerY = p->qWorldY;
-        if (MOVESTATE_GRAVITY_SWITCHED & p->moveState) {
+        if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
             if (qPlayerY >= qWorldY) {
-                if (MOVESTATE_FACING_LEFT & p->moveState) {
-                    goto block_9;
-                } else {
-                    goto block_7;
-                }
-            }
-        } else if (qPlayerY <= qWorldY) {
-            if (MOVESTATE_FACING_LEFT & p->moveState) {
-            block_7:
-                if (qPlayerX < qWorldX) {
-                    return;
-                } else {
-                    goto block_10;
-                }
-            }
-            {
-            block_9:
-                if (qPlayerX <= qWorldX) {
-                block_10:
-                    dx = I(qWorldX - p->qWorldX);
-                    dy = I(qWorldY - qPlayerY);
-
-                    forMatch = 256;
-                    new_var = (SQUARE(5) * forMatch); // <- SQUARE(80)
-                    distance = SQUARE(dx) + SQUARE(dy);
-                    if (new_var >= distance) {
-                        if (p->unkB8 >= distance) {
-                            if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
-                                dy = -dy;
-                            }
-                            var_r1 = (u16)SA2_LABEL(sub_8004418)(dy, dx);
-                            if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
-                                var_r1 = (0x400 - var_r1) & 0x3FF;
-                            }
-                            p->unkA8 = qWorldX;
-                            p->unkAC = (dy = qWorldY);
-                            p->unkB8 = distance;
-                            p->unkC0 = var_r1;
-                        }
+                if (p->moveState & MOVESTATE_FACING_LEFT) {
+                    if (qPlayerX > qWorldX) {
+                        return;
                     }
+                } else if (qPlayerX < qWorldX) {
+                    return;
                 }
+            } else {
+                return;
             }
+        } else {
+            if (qPlayerY <= qWorldY) {
+                if (p->moveState & MOVESTATE_FACING_LEFT) {
+                    if (qPlayerX < qWorldX) {
+                        return;
+                    }
+                } else if (qPlayerX > qWorldX) {
+                    return;
+                }
+            } else {
+                return;
+            }
+        }
+        qPlayerX = p->qWorldX; // duplicate assignment for matching
+        dx = I(qWorldX - qPlayerX);
+        dy = I(qWorldY - qPlayerY);
+
+        maxSquaredDistance = SQUARE(80);
+        squaredDistance = SQUARE(dx) + SQUARE(dy);
+        if ((maxSquaredDistance >= squaredDistance) && (p->unkB8 >= squaredDistance)) {
+            if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
+                dy = -dy;
+            }
+            angle = SA2_LABEL(sub_8004418)(dy, dx);
+            if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
+                angle = CLAMP_SIN_PERIOD((s32)SIN_PERIOD - angle);
+            }
+            p->unkA8 = qWorldX;
+            p->unkAC = qWorldY;
+            p->unkB8 = squaredDistance;
+            p->unkC0 = angle;
         }
     }
 }
