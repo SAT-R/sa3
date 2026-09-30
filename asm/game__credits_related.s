@@ -5,6 +5,9 @@
 .syntax unified
 .arm
 
+@ Input:
+@ R0: void *parma0
+@ R1: u8 *vram
 	thumb_func_start sub_80A45B4
 sub_80A45B4: @ 0x080A45B4
 	push {r4, r5, r6, r7, lr}
