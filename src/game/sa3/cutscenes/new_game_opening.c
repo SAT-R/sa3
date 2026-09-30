@@ -301,6 +301,8 @@ void sub_80ACD10(NewGameOpeningB8 *strcB8)
 }
 
 // TODO: Fake-match!
+// Probably due to NewGameOpeningB8 maybe being a different 0xB8-sized struct
+// than is used further down below in the file?
 void Task_B8_80ACDB8(void)
 {
     NewGameOpeningB8 *strcB8 = TASK_DATA(gCurTask);
@@ -348,7 +350,7 @@ void Task_B8_80ACDB8(void)
                     strcB8->qY = 0;
                 }
             } else {
-                strcB8->qY = temp_r3;
+                strcB8->qY = 1;
             }
             strcB8->unk10 += 1;
         }
@@ -357,14 +359,14 @@ void Task_B8_80ACDB8(void)
         strcB8->unk0 = sub_8023734(strcB8->ewramDataB4);
         sub_80239A8(strcB8->ewramDataB4);
     }
-    temp_r4_2 = strcB8->unk0;
-    if (temp_r4_2 == 1) {
+
+    if (strcB8->unk0 == 1) {
         temp_r1_2 = strcB8->ewramDataB4;
         if (temp_r1_2->unk6 != 0) {
             sub_80239A8(temp_r1_2);
         }
         strcB8->unk1E = 0;
-        strcB8->qY = temp_r4_2;
+        strcB8->qY = 1;
         gCurTask->main = Task_B8_80ACEA4;
     }
 }
@@ -521,12 +523,12 @@ void sub_80AD190(NewGameOpeningB4 *strcB4)
             temp_r4->anim = gUnknown_080DBAA4[var_r3][var_r6].anim;
             temp_r4->variant = gUnknown_080DBAA4[var_r3][var_r6].variant;
             temp_r4->prevVariant = -1;
-            temp_r1_2 = (s32)*strcB4->unk4 >> 8;
+            temp_r1_2 = I(*strcB4->unk4);
             temp_r4->x = (s16)temp_r1_2;
-            temp_r2_3 = (s32)*strcB4->unk8 >> 8;
+            temp_r2_3 = I(*strcB4->unk8);
             temp_r4->y = (s16)temp_r2_3;
-            temp_r4->x = temp_r1_2 + ((s32)strcB4->unkC >> 8);
-            temp_r4->y = temp_r2_3 + ((s32)strcB4->unk10 >> 8);
+            temp_r4->x = temp_r1_2 + I(strcB4->unkC);
+            temp_r4->y = temp_r2_3 + I(strcB4->unk10);
             UpdateSpriteAnimation(temp_r4);
             DisplaySprite(temp_r4);
         }
@@ -604,8 +606,8 @@ void sub_80AD234(u8 *arg0, Vec2_32 *arg1, u8 arg2)
         s->anim = gUnknown_080DBA8C.anim;
         s->variant = gUnknown_080DBA8C.variant;
         s->prevVariant = -1;
-        s->x = (s16)((s32)*strc134->unkC >> 8);
-        s->y = (s16)((s32)*strc134->unk10 >> 8);
+        s->x = I(*strc134->unkC);
+        s->y = I(*strc134->unk10);
         s->oamFlags = 0;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -642,8 +644,8 @@ void sub_80AD408(NewGameOpening134 *strc134)
             temp_r4->anim = ((gUnknown_08E2EF54[temp_r1])[*pIndex])[var_r8].anim;
             temp_r4->variant = ((gUnknown_08E2EF54[temp_r1])[*strc134->unk4])[var_r8].variant;
             temp_r4->prevVariant = -1;
-            temp_r4->x = (s16)((s32)*strc134->unkC >> 8);
-            temp_r4->y = (s16)((s32)*strc134->unk10 >> 8);
+            temp_r4->x = I(*strc134->unkC);
+            temp_r4->y = I(*strc134->unk10);
             temp_r4->oamFlags = 0x40;
             temp_r4->animCursor = 0;
             temp_r4->qAnimDelay = 0;
@@ -665,8 +667,8 @@ void sub_80AD408(NewGameOpening134 *strc134)
                 temp_r4_2->anim = gUnknown_08E2EF54[3][*pIndex][var_r8].anim;
                 temp_r4_2->variant = gUnknown_08E2EF54[3][*strc134->unk4][var_r8].variant;
                 temp_r4_2->prevVariant = -1;
-                temp_r4_2->x = (s16)((s32)*strc134->unkC >> 8);
-                temp_r4_2->y = (s16)((s32)*strc134->unk10 >> 8);
+                temp_r4_2->x = I(*strc134->unkC);
+                temp_r4_2->y = I(*strc134->unk10);
                 temp_r4_2->oamFlags = 0;
                 temp_r4_2->animCursor = 0;
                 temp_r4_2->qAnimDelay = 0;
