@@ -5608,7 +5608,7 @@ _080A70F4:
 	strb r3, [r0, #0x1f]
 	bl UpdateSpriteAnimation
 	ldr r1, [r6]
-	ldr r0, _080A7138 @ =sub_80A714C
+	ldr r0, _080A7138 @ =Task_12C_80A714C
 	str r0, [r1, #8]
 	b _080A7144
 	.align 2, 0
@@ -5618,7 +5618,7 @@ _080A7128: .4byte 0x00009620
 _080A712C: .4byte gBgScrollRegs
 _080A7130: .4byte 0x03000024
 _080A7134: .4byte gUnknown_080D9F08
-_080A7138: .4byte sub_80A714C
+_080A7138: .4byte Task_12C_80A714C
 _080A713C:
 	adds r0, r4, #0
 	mov r1, sp
@@ -5629,8 +5629,8 @@ _080A7144:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_80A714C
-sub_80A714C: @ 0x080A714C
+	thumb_func_start Task_12C_80A714C
+Task_12C_80A714C: @ 0x080A714C
 	push {r4, lr}
 	sub sp, #4
 	ldr r0, _080A7194 @ =gCurTask
